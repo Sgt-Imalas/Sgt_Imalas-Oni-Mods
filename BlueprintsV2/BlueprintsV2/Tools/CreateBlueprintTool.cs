@@ -141,7 +141,7 @@ namespace BlueprintsV2.Tools
                         UnlockCam();
                     };
                     SpeedControlScreen.Instance.Pause(false);
-                    FileNameDialog blueprintNameDialog = DialogUtil.CreateTextInputDialog(STRINGS.UI.DIALOGUE.NAMEBLUEPRINT_TITLE, blueprint.Folder, true, OnConfirmDelegate, OnCancelDelegate);
+                    FileNameDialog blueprintNameDialog = DialogUtil.CreateTextInputDialog(STRINGS.UI.DIALOGUE.NAMEBLUEPRINT_TITLE, blueprint.Folder, null,true, OnConfirmDelegate, OnCancelDelegate);
 
                     blueprintNameDialog.Activate();
                 }

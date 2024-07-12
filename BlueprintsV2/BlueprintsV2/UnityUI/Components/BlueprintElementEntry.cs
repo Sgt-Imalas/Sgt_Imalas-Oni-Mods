@@ -38,7 +38,7 @@ namespace BlueprintsV2.UnityUI.Components
             if (!init)
             {
                 init = true;
-                UIUtils.ListAllChildren(this.transform);
+                //UIUtils.ListAllChildren(this.transform);
             }
 
             base.OnPrefabInit();

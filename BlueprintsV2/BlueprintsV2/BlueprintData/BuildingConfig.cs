@@ -15,7 +15,7 @@ namespace BlueprintsV2.BlueprintData
     /// <summary>
     /// Describes an individual building inside of a blueprint.
     /// </summary>
-    public sealed class BuildingConfig : System.IEquatable<BuildingConfig>
+    public sealed class BuildingConfig : IEquatable<BuildingConfig>
     {
         /// <summary>
         /// The offset from the bottom left of a blueprint.
@@ -37,13 +37,10 @@ namespace BlueprintsV2.BlueprintData
         /// </summary>
         public Orientation Orientation { get; set; } = 0;
 
-        ///// <summary>
-        ///// Multi use flags for describing more complex elements of the building, such as pipe connections.
-        ///// </summary>
-        //public int Flags { get; set; }
 
         /// <summary>
-        /// Replaces Flags in V2 BPss for better versatility
+        /// Replaces Flags in V2 BPss for better versatility,
+        /// any custom data stored for that building, inluding conduit directions
         /// </summary>
         public Dictionary<string, JObject> AdditionalBuildingData = null;
 
@@ -53,34 +50,35 @@ namespace BlueprintsV2.BlueprintData
             return AdditionalBuildingData != null && AdditionalBuildingData.TryGetValue(id, out data);
         }
 
-        /// <summary>
-        /// Appends the building config to the given binary writer.
-        /// </summary>
-        /// <param name="binaryWriter">The <see cref="BinaryWriter"/> encsapsulating the stream to write to</param>
-        [Obsolete]
-        public void WriteBinary(BinaryWriter binaryWriter)
-        {
-            //To prevent crashes. Should never actually happen, though,
-            if (BuildingDef == null)
-            {
-                Debug.Log("Error when writing building config: No building definition.");
-                return;
-            }
+        //old binary method, not compatible with new data format
+        ///// <summary>
+        ///// Appends the building config to the given binary writer.
+        ///// </summary>
+        ///// <param name="binaryWriter">The <see cref="BinaryWriter"/> encsapsulating the stream to write to</param>
+        //[Obsolete]
+        //public void WriteBinary(BinaryWriter binaryWriter)
+        //{
+        //    //To prevent crashes. Should never actually happen, though,
+        //    if (BuildingDef == null)
+        //    {
+        //        Debug.Log("Error when writing building config: No building definition.");
+        //        return;
+        //    }
 
-            binaryWriter.Write(Offset.X);
-            binaryWriter.Write(Offset.y);
-            binaryWriter.Write(BuildingDef.PrefabID);
-            binaryWriter.Write(SelectedElements.Count);
-            SelectedElements.ForEach(selectedElement => binaryWriter.Write(selectedElement.GetHash()));
-            binaryWriter.Write((int)Orientation);
-            binaryWriter.Write(-1);
-            binaryWriter.Write(AdditionalBuildingData.Count);
-            AdditionalBuildingData.ToList().ForEach(entry =>
-            {
-                binaryWriter.Write(entry.Key);
-                binaryWriter.Write(entry.Value.ToString());
-            });
-        }
+        //    binaryWriter.Write(Offset.X);
+        //    binaryWriter.Write(Offset.y);
+        //    binaryWriter.Write(BuildingDef.PrefabID);
+        //    binaryWriter.Write(SelectedElements.Count);
+        //    SelectedElements.ForEach(selectedElement => binaryWriter.Write(selectedElement.GetHash()));
+        //    binaryWriter.Write((int)Orientation);
+        //    binaryWriter.Write(-1);
+        //    binaryWriter.Write(AdditionalBuildingData.Count);
+        //    AdditionalBuildingData.ToList().ForEach(entry =>
+        //    {
+        //        binaryWriter.Write(entry.Key);
+        //        binaryWriter.Write(entry.Value.ToString());
+        //    });
+        //}
 
         /// <summary>
         /// Writes the building config to the given JSON writer.
@@ -160,7 +158,7 @@ namespace BlueprintsV2.BlueprintData
 
         /// <summary>
         /// Reads a portion of a binary stream to populate this building config.
-        /// OBSOLETE!
+        /// OBSOLETE!, kept in for compatibility with old binary blueprints
         /// </summary>
         /// <param name="binaryReader">The <see cref="BinaryReader"/> encapsulating the binary information to read</param>
         /// <returns>True if the read succeeded, false otherwise</returns>
@@ -191,15 +189,6 @@ namespace BlueprintsV2.BlueprintData
                     SetConduitFlags(oldFlagSystemValue);
                 }
                 return true;
-                int buildingDataCount = binaryReader.ReadInt32();
-                string id, value;
-                for (int i = 0; i < buildingDataCount; ++i)
-                {
-                    id = binaryReader.ReadString();
-                    value = binaryReader.ReadString();
-                }
-                return true;
-
             }
 
             catch (System.Exception e)

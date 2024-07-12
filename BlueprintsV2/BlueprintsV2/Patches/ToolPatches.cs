@@ -18,14 +18,15 @@ namespace BlueprintsV2.Patches
         [HarmonyPatch(typeof(FileNameDialog), "OnSpawn")]
         public static class FileNameDialogOnSpawn
         {
+            //TODO!!!!!
             public static void Postfix(FileNameDialog __instance, TMP_InputField ___inputField)
             {
-                if (__instance.name.StartsWith("BlueprintsMod_"))
+                if (__instance.name.StartsWith("BlueprintsV2_"))
                 {
                     ___inputField.onValueChanged.RemoveAllListeners();
                     ___inputField.onEndEdit.RemoveAllListeners();
 
-                    if (__instance.name.StartsWith("BlueprintsMod_FolderDialog_"))
+                    if (__instance.name.StartsWith("BlueprintsV2_FolderDialog_"))
                     {
                         ___inputField.onValueChanged.AddListener(delegate (string text) {
                             for (int i = text.Length - 1; i >= 0; --i)

@@ -20,7 +20,7 @@ namespace BlueprintsV2.BlueprintData
     /// A blueprint.
     /// Provides facilities to save to and read from disk as well as comfort methods for renaming the blueprint and for interacting with folders.
     /// </summary>
-    public class Blueprint
+    public class Blueprint : IEquatable<Blueprint>
     {
         /// <summary>
         /// The name of the blueprint.
@@ -213,7 +213,7 @@ namespace BlueprintsV2.BlueprintData
                     return true;
                 }
 
-                catch (Exception exception)
+                catch
                 {
                     //Debug.Log("Error when loading blueprint: " + FilePath + ",\n" + nameof(exception) + ": " + exception.Message);
                 }
@@ -323,19 +323,19 @@ namespace BlueprintsV2.BlueprintData
         /// Writes the blueprint to a file using binary formatting.
         /// retired for good
         /// </summary>
-        [Obsolete]
-        public void WriteBinary()
-        {
-            using BinaryWriter binaryWriter = new BinaryWriter(File.Open(FilePath, FileMode.OpenOrCreate));
+        //[Obsolete]
+        //public void WriteBinary()
+        //{
+        //    using BinaryWriter binaryWriter = new BinaryWriter(File.Open(FilePath, FileMode.OpenOrCreate));
 
-            binaryWriter.Write(FriendlyName);
+        //    binaryWriter.Write(FriendlyName);
 
-            binaryWriter.Write(BuildingConfigurations.Count);
-            BuildingConfigurations.ForEach(buildingConfig => buildingConfig.WriteBinary(binaryWriter));
+        //    binaryWriter.Write(BuildingConfigurations.Count);
+        //    BuildingConfigurations.ForEach(buildingConfig => buildingConfig.WriteBinary(binaryWriter));
 
-            binaryWriter.Write(DigLocations.Count);
-            DigLocations.ForEach(digLocation => { binaryWriter.Write(digLocation.x); binaryWriter.Write(digLocation.y); });
-        }
+        //    binaryWriter.Write(DigLocations.Count);
+        //    DigLocations.ForEach(digLocation => { binaryWriter.Write(digLocation.x); binaryWriter.Write(digLocation.y); });
+        //}
 
 
         /// <summary>
@@ -560,6 +560,19 @@ namespace BlueprintsV2.BlueprintData
                     }
                 }
             }
+        }
+
+        public bool Equals(Blueprint other)
+        {
+            return other.FilePath == this.FilePath;
+        }
+        public override bool Equals(object obj) => obj is Blueprint other && Equals(other);
+
+        public static bool operator ==(Blueprint a, Blueprint b) => a?.FilePath == b?.FilePath;
+        public static bool operator !=(Blueprint a, Blueprint b) => !(a == b);
+        public override int GetHashCode()
+        {
+            return FilePath.GetHashCode();
         }
 
         //public bool CanAffordToPlace(out Dictionary<Tuple<Tag,Tag>, float> remaining)
