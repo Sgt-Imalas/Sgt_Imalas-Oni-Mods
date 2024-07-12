@@ -4,6 +4,10 @@
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 		<Configurations>Debug;Release;Release2</Configurations>
 	</PropertyGroup>
+	<PropertyGroup>
+		<LangVersion>preview</LangVersion>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+	</PropertyGroup>
 	<ItemGroup>
 	  <Compile Remove="Properties\**" />
 	  <EmbeddedResource Remove="Properties\**" />

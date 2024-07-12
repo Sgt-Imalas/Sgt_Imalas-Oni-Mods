@@ -54,5 +54,28 @@ namespace UtilLibs
             return modName;
         }
 
+        public static string GetSanitizedNamePath(string source)
+        {
+            //SgtLogger.l("Sanitizing...");
+            //SgtLogger.l(source, "1");
+            source = Path.GetFileName(source);
+            //SgtLogger.l(source, "2");
+            source = ReplaceInvalidChars(source);
+            //SgtLogger.l(source, "3");
+
+            if (ForbiddenNames.Contains(source.ToUpperInvariant()))
+            {
+                SgtLogger.l("file name was one of the forbidden ones, replacing..");
+                source = Path.GetRandomFileName();
+                //SgtLogger.l(source, "4");
+            }
+
+            return source;
+        }
+
+        public static string ReplaceInvalidChars(string filename)
+        {
+            return string.Join("_", filename.Split(Path.GetInvalidFileNameChars()));
+        }
     }
 }
