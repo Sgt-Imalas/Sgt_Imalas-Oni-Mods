@@ -20,6 +20,8 @@ namespace ModProfileManager_Addon.UnityUI.Components
 
         public System.Action<bool> OnDialogueToggled;
         public System.Action RefreshUI;
+        public System.Action<ModPresetEntry> OnDeleted;
+
         FButton deleteButton, renameButton, exportButton
             ;
         FToggleButton selectButton; 
@@ -111,7 +113,7 @@ namespace ModProfileManager_Addon.UnityUI.Components
             if(OnDialogueToggled!=null)
                 OnDialogueToggled(state);
         }
-        string FriendlyName => ModProfile.ModList.SavePoints.Count == 1 ? ModProfile.ModList.ModlistPath : ModProfile.ModList.ModlistPath + ModProfile.Path;
+        string FriendlyName => ModProfile.ModList.SavePoints.Count < 2 ? ModProfile.ModList.ModlistPath : ModProfile.ModList.ModlistPath + ModProfile.Path;
         void OpenRenameDialogue()
         {
             SetDialogueState(true);
@@ -140,6 +142,8 @@ namespace ModProfileManager_Addon.UnityUI.Components
         void DeletePreset()
         {
             ModAssets.HandleDeletion(ModProfile);
+            if (OnDeleted != null)
+                OnDeleted(ModProfile);
             if (RefreshUI != null)
                 RefreshUI();
         }

@@ -1,4 +1,5 @@
-﻿using Klei.AI;
+﻿using Delaunay;
+using Klei.AI;
 using KMod;
 using ModProfileManager_Addon.IO;
 using ModProfileManager_Addon.ModProfileData;
@@ -9,11 +10,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 using UtilLibs.ModSyncing;
+using static KInputController;
 
 namespace ModProfileManager_Addon
 {
@@ -95,9 +99,9 @@ namespace ModProfileManager_Addon
                 SgtLogger.l(import, "ToImport");
 
                 string decompressed = StringCompression.DecompressString(import);
-
                 SaveGameModList modlist = JsonConvert.DeserializeObject<SaveGameModList>(decompressed);
-                if (modlist.SavePoints.Count == 0 || modlist.SavePoints.Count == 1 && modlist.SavePoints.First().Value.Count == 0)
+
+                if (modlist.SavePoints.Count == 0 || modlist.SavePoints.Count == 1 && modlist.SavePoints.Last().Value.Count == 0)
                 {
                     DialogUtil.CreateConfirmDialogFrontend(STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.TITLE_ERROR, STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.EMPTY);
 
@@ -113,7 +117,20 @@ namespace ModProfileManager_Addon
                 else
                 {
                     modlist.WriteModlistToFile();
-                    DialogUtil.CreateConfirmDialogFrontend(STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.TITLE, string.Format(STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.SUCCESS, modlist.ModlistPath));
+                    int missingSteamMods = ModAssets.GetMissingSteamModCount(modlist,out List<ulong> missings);
+                    if(missingSteamMods > 0)
+                    {
+                        System.Action onConfirm = () => ModAssets.SubToAllDelayed(missings);
+                        DialogUtil.CreateConfirmDialogFrontend(STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.TITLE, 
+                            string.Format(STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.MISSING.SUCCESS, modlist.ModlistPath, missingSteamMods),
+                            STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.MISSING.SUBTOALL, onConfirm,
+                            STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.MISSING.CONTINUE, () => { });
+
+                    }
+                    else
+                    {
+                        DialogUtil.CreateConfirmDialogFrontend(STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.TITLE, string.Format(STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.SUCCESS, modlist.ModlistPath));
+                    }
                 }
             }
             catch (Exception e)
@@ -124,6 +141,49 @@ namespace ModProfileManager_Addon
 
         }
 
+        private static void SubToAllDelayed(List<ulong> missings)
+        {
+            foreach(var entry in missings)
+                ModAssets.SubToMissingMod(entry);
+        }
+
+        private static int GetMissingSteamModCount(SaveGameModList modlist, out List<ulong> missings)
+        {
+            missings = new List<ulong>();
+            SgtLogger.l("getting steam missing count");
+            if(modlist == null || modlist.SavePoints.Count == 0 || modlist.SavePoints.Last().Value == null ||modlist.SavePoints.Last().Value.Count == 0)
+                return 0;
+            var allMods = Global.Instance.modManager.mods;
+
+            var modsInPreset = modlist.SavePoints.Last().Value;
+
+            HashSet<string> toFilter = new (modsInPreset.Select(e => e.defaultStaticID));
+
+            foreach(var mod in allMods)
+            {
+                if (mod.status == KMod.Mod.Status.UninstallPending || mod.status == KMod.Mod.Status.NotInstalled)
+                    continue;
+
+                string defaultStaticID = mod.label.defaultStaticID;
+                if (toFilter.Contains(defaultStaticID))
+                {
+                    toFilter.Remove(defaultStaticID);
+                }
+            }
+            if (toFilter.Count == 0)
+                return 0;
+            var allMissingSteamMods = modsInPreset.Where(m => toFilter.Contains(m.defaultStaticID) && m.distribution_platform == Label.DistributionPlatform.Steam).ToList();
+            if (allMissingSteamMods.Count == 0)
+                return 0;
+
+            foreach(var item in allMissingSteamMods)
+            {
+                if (ulong.TryParse(item.id, out ulong steamId))
+                    missings.Add(steamId);
+            }
+            SgtLogger.l("missing count: " + missings.Count());
+            return missings.Count();
+        }
 
         public static void ExportToClipboard(SaveGameModList ModList)
         {
@@ -188,13 +248,13 @@ namespace ModProfileManager_Addon
 
         }
 
-        public static void SyncMods()
+        public static void SyncMods(bool dontDisableActives = false)
         {
             if ((SelectedModPack.ModList.TryGetModListEntry(SelectedModPack.Path, out var mods)))
             {
                 if (SelectedModPack.ModList.TryGetPlibOptionsEntry(SelectedModPack.Path, out var configs))
                     SaveGameModList.WritePlibOptions(configs);
-                SyncMods(mods);
+                SyncMods(mods, dontDisableActives: dontDisableActives);
             }
         }
         internal static void SyncMods(List<Label> modsState, bool? enableAll = null, bool restartAfter = false, bool dontDisableActives = false)

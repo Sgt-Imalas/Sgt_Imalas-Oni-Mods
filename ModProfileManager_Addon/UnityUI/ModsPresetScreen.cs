@@ -24,6 +24,8 @@ using static ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW;
 using System.Data.SqlClient;
 using static ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.FILEHIERARCHY;
 using System.Collections;
+using static ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.FILEHIERARCHY.BUTTONS;
+using static ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.MODENTRYVIEW.BUTTONS;
 
 namespace ModProfileManager_Addon.UnityUI
 {
@@ -40,14 +42,13 @@ namespace ModProfileManager_Addon.UnityUI
         //Main Areas
         public FButton CloseBtn;
 
-        public FButton NewPreset, ApplyPreset;
+        public FButton NewPreset, ImportPreset, ApplyPreset, EnableAllFromPreset;
 
 
         //ProfileListing
         public FInputField2 ModProfileSearchbar;
         public FButton ClearModProfileSearchBar;
         public FButton OpenPresetFolder;
-        public FButton ImportPreset;
 
         public GameObject HierarchyContainer;
         public FileHierarchyEntry HierarchyEntryPrefab;
@@ -82,40 +83,16 @@ namespace ModProfileManager_Addon.UnityUI
             ModProfileSearchbar.Text = string.Empty;
 
             OpenPresetFolder = transform.Find("FileHierarchy/SearchBar/FolderButton").FindOrAddComponent<FButton>();
-            ImportPreset = Util.KInstantiateUI(OpenPresetFolder.gameObject, OpenPresetFolder.transform.parent.gameObject, true).FindOrAddComponent<FButton>();
-            var img = ImportPreset.transform.Find("Image").GetComponent<Image>();
-            img.sprite = ModAssets.ImportSprite;
-            var imgRec = img.rectTransform();
-            imgRec.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, imgRec.sizeDelta.x);
-
-            Action<string> onConfirmImport = (importString) =>
-            {
-                ModAssets.ImportPresetFromImportString(importString);
-                UpdatePresetButtons();
-            };
-
-            ImportPreset.OnClick += () => DialogUtil.CreateTextInputDialog(IMPORT_POPUP.TITLE, parent: FrontEndManager.Instance.gameObject, frontEnd: true, onConfirm: onConfirmImport, maxCharCount: 0, fillerText: UIUtils.ColorText(IMPORT_POPUP.FILLER, Color.grey), high: true, undoStripping: true);
             OpenPresetFolder.OnClick += () => Process.Start(new ProcessStartInfo(ModAssets.ModPacksPath) { UseShellExecute = true });
             UIUtils.AddSimpleTooltipToObject(OpenPresetFolder.gameObject, FOLDERBUTTON.TOOLTIP);
-            UIUtils.AddSimpleTooltipToObject(ImportPreset.gameObject, IMPORTBUTTON.TOOLTIP);
 
             ClearModProfileSearchBar = transform.Find("FileHierarchy/SearchBar/DeleteButton").FindOrAddComponent<FButton>();
             ClearModProfileSearchBar.OnClick += () => ModProfileSearchbar.Text = string.Empty;
-
-            ModProfileSearchbar.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 3, 280);
-            OpenPresetFolder.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 42, 35);
-            ClearModProfileSearchBar.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 82, 35);
-
             HierarchyContainer = transform.Find("FileHierarchy/ScrollArea/Content").gameObject;
 
             var hierarchyEntryGO = transform.Find("FileHierarchy/ScrollArea/Content/BlueprintEntryPrefab").gameObject;
             hierarchyEntryGO.SetActive(false);
             HierarchyEntryPrefab = hierarchyEntryGO.AddOrGet<FileHierarchyEntry>();
-            var export = Util.KInstantiateUI(HierarchyEntryPrefab.transform.Find("RenameButton").gameObject, hierarchyEntryGO, true);
-            export.name = "ExportButton";
-            export.transform.Find("Image").gameObject.GetComponent<Image>().sprite = ModAssets.ExportSprite;
-            int index = export.transform.GetSiblingIndex();
-            export.transform.SetSiblingIndex(index - 1);
 
             var hierarchyFolderGO = transform.Find("FileHierarchy/ScrollArea/Content/FolderPrefab").gameObject;
             hierarchyFolderGO.SetActive(false);
@@ -142,13 +119,31 @@ namespace ModProfileManager_Addon.UnityUI
             modEntryPrefabGO.SetActive(false);
             ModEntryPrefab = modEntryPrefabGO.AddComponent<ModScreenEntry>();
 
-            var savePresetButtonGO = transform.Find("FileHierarchy/SaveButton").gameObject;
+            var savePresetButtonGO = transform.Find("FileHierarchy/Buttons/SaveButton").gameObject;
             NewPreset = savePresetButtonGO.AddComponent<FButton>();
             NewPreset.OnClick += CreateNewNameDialog;
+            UIUtils.AddSimpleTooltipToObject(NewPreset.gameObject, SAVEBUTTON.TOOLTIP);
 
-            var applyPresetButtonGO = transform.Find("ModEntryView/ApplyPreset").gameObject;
+            var importButtonGO = transform.Find("FileHierarchy/Buttons/ImportButton").gameObject;
+            ImportPreset = importButtonGO.AddComponent<FButton>();
+            Action<string> onConfirmImport = (importString) =>
+            {
+                ModAssets.ImportPresetFromImportString(importString);
+                UpdatePresetButtons();
+            };
+            ImportPreset.OnClick += () => DialogUtil.CreateTextInputDialog(IMPORT_POPUP.TITLE, parent: FrontEndManager.Instance.gameObject, frontEnd: true, onConfirm: onConfirmImport, maxCharCount: 0, fillerText: UIUtils.ColorText(IMPORT_POPUP.FILLER, Color.grey), high: true, undoStripping: true);
+            UIUtils.AddSimpleTooltipToObject(ImportPreset.gameObject, IMPORTBUTTON.TOOLTIP);
+
+
+            var applyPresetButtonGO = transform.Find("ModEntryView/Buttons/ApplyPreset").gameObject;
             ApplyPreset = applyPresetButtonGO.AddComponent<FButton>();
             ApplyPreset.OnClick += ApplyCurrentPreset;
+            UIUtils.AddSimpleTooltipToObject(ApplyPreset.gameObject, APPLYPRESET.TOOLTIP);
+
+            var enableAllButtonGO = transform.Find("ModEntryView/Buttons/ActivateAll").gameObject;
+            EnableAllFromPreset = enableAllButtonGO.AddComponent<FButton>();
+            EnableAllFromPreset.OnClick += EnableAll;
+            UIUtils.AddSimpleTooltipToObject(EnableAllFromPreset.gameObject, ACTIVATEALL.TOOLTIP);
 
             scroll = ModEntrysContainer.AddOrGet<VirtualScroll>();
             scroll.freezeLayout = true;
@@ -167,9 +162,12 @@ namespace ModProfileManager_Addon.UnityUI
             DialogUtil.CreateTextInputDialog(CREATE_POPUP.TITLE, "", null, false, NameAction, null, FrontEndManager.Instance.gameObject, false, false, true);
 
         }
-        void ApplyCurrentPreset()
+        void ApplyCurrentPreset() => ApplyCurrentPreset(false);
+        void EnableAll() => ApplyCurrentPreset(true);
+
+        void ApplyCurrentPreset(bool dontDisableActives)
         {
-            ModAssets.SyncMods();
+            ModAssets.SyncMods(dontDisableActives);
             var mm = Global.Instance.modManager;
             mm.events.Add(new Event() { event_type = EventType.RestartRequested });
 
@@ -210,7 +208,7 @@ namespace ModProfileManager_Addon.UnityUI
             TMP.IsModPack = true;
             TMP.ModlistPath = ModAssets.TMP_PRESET;
             TMP.ReferencedColonySaveName = ModAssets.TMP_PRESET;
-            TMP.AddOrUpdateEntryToModList(ModAssets.TMP_PRESET, currentMods,true);
+            TMP.AddOrUpdateEntryToModList(ModAssets.TMP_PRESET, currentMods, true);
 
             ModAssets.SelectedModPack = new ModPresetEntry(TMP, ModAssets.TMP_PRESET);
         }
@@ -284,7 +282,7 @@ namespace ModProfileManager_Addon.UnityUI
             foreach (var mod in mods)
             {
                 ModAssets.RegisterModMapping(mod);
-                if(mod.status == KMod.Mod.Status.NotInstalled || mod.status == KMod.Mod.Status.UninstallPending)
+                if (mod.status == KMod.Mod.Status.NotInstalled || mod.status == KMod.Mod.Status.UninstallPending)
                 {
                     RemoveUIMod(mod.label);
                     continue;
@@ -309,7 +307,7 @@ namespace ModProfileManager_Addon.UnityUI
                 if (activeMods.Contains(mod.label.defaultStaticID))
                     activeMods.Remove(mod.label.defaultStaticID);
             }
-            for ( int i = presetMods.Count-1; i>0; i--)
+            for (int i = presetMods.Count - 1; i > 0; i--)
             {
                 Label potentiallyMissing = presetMods[i];
                 if (activeMods.Contains(potentiallyMissing.defaultStaticID))
@@ -355,11 +353,23 @@ namespace ModProfileManager_Addon.UnityUI
                 bpEntry.ModProfile = entry;
                 bpEntry.RefreshUI = RebuildUI;
                 bpEntry.OnDialogueToggled = DialogueOpen;
+                bpEntry.OnDeleted = DeletePresetCallback;
                 //bpEntry.OnApplyPreset = OnSelectBlueprint;
 
                 ModPresetEntries[entry] = bpEntry;
             }
             return ModPresetEntries[entry];
+        }
+
+        private void DeletePresetCallback(ModPresetEntry obj)
+        {
+            if (ModPresetEntries.TryGetValue(obj, out var go))
+            { 
+                ModPresetEntries.Remove(obj);
+                go.gameObject.SetActive(false);
+                UnityEngine.Object.Destroy(go.gameObject);
+            }
+            CreateTempPreset();
         }
 
         //void OnPlaceBlueprint()
@@ -381,7 +391,7 @@ namespace ModProfileManager_Addon.UnityUI
         }
         public void RemoveUIEntryForMod(KMod.Label label)
         {
-            if(CurrentlyActive)
+            if (CurrentlyActive)
                 StartCoroutine(RemoveUICoroutine(label));
         }
         private IEnumerator RemoveUICoroutine(KMod.Label label)
@@ -493,7 +503,7 @@ namespace ModProfileManager_Addon.UnityUI
                     onCloseAction();
 
             }
-            if(CurrentlyActive)
+            if (CurrentlyActive)
             {
                 RebuildModsScreen();
             }

@@ -72,7 +72,7 @@ namespace ModProfileManager_Addon.IO
             List<string> ToRemove = new();
             foreach(var entry in ModAssets.ClonePresets)
             {
-                if(entry.Value.SavePoints.Count == 0 || entry.Value.SavePoints.First().Value.Count == 0)
+                if(entry.Value.SavePoints.Count == 0 || entry.Value.SavePoints.Last().Value.Count == 0)
                 {
                     ToRemove.Add(entry.Key);
                 }

@@ -47,6 +47,12 @@ namespace ModProfileManager_Addon
                     public static LocString DUPLICATE_KEEP = "Keep both (rename import to {0}_1)";
                     public static LocString ERROR = "There was an error while importing the preset.";
                     public static LocString SUCCESS = "Success!\nThe Preset \"{0}\" got successfully imported";
+                    public class MISSING
+                    {
+                        public static LocString SUCCESS = "Success!\nThe Preset \"{0}\" got successfully imported.\n There were however {1} steam mods missing.\nDo you want to subscribe to all missing mods?";
+                        public static LocString SUBTOALL = "Subscribe to missing mods";
+                        public static LocString CONTINUE = "Continue without subscribing";
+                    }
                 }
 
                 public class DELETE_POPUP
@@ -64,13 +70,18 @@ namespace ModProfileManager_Addon
                 }
                 public class FILEHIERARCHY
                 {
-                    public class SAVEBUTTON
+                    public class BUTTONS
                     {
-                        public static LocString TEXT = "Create New Preset";
-                    }
-                    public class IMPORTBUTTON
-                    {
-                        public static LocString TOOLTIP = "Import Preset string";
+                        public class SAVEBUTTON
+                        {
+                            public static LocString TEXT = "Create new Preset";
+                            public static LocString TOOLTIP = "Creates a new preset from your current mod selection (including mod configurations)";
+                        }
+                        public class IMPORTBUTTON
+                        {
+                            public static LocString TEXT = "Import Preset String";
+                            public static LocString TOOLTIP = "Import a new preset from a preset string.\nYou can generate a preset string by clicking the blue button on a preset entry.";
+                        }
                     }
                     public class FOLDERBUTTON
                     {
@@ -92,9 +103,18 @@ namespace ModProfileManager_Addon
                 }
                 public class MODENTRYVIEW
                 {
-                    public class APPLYPRESET
+                    public class BUTTONS
                     {
-                        public static LocString TEXT = "Apply Preset";
+                        public class APPLYPRESET
+                        {
+                            public static LocString TEXT = "Apply Preset";
+                            public static LocString TOOLTIP = "Load the mods configuration from the currently selected preset, including load order and mod options.\nThis will disable mods not present in the preset.";
+                        }
+                        public class ACTIVATEALL
+                        {
+                            public static LocString TEXT = "Apply without disabling";
+                            public static LocString TOOLTIP = "Enable all mods stored in the preset and apply their mod configurations.\nMods that are not present in the preset will be kept enabled.";
+                        }
                     }
                     internal class SEARCHBAR
                     {

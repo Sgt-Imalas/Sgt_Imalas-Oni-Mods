@@ -111,6 +111,7 @@ namespace ModProfileManager_Addon
 
             if (SavePoints.Count == 0 || forceDelete)
             {
+                SgtLogger.l("deleting profile: " + ModlistPath);
                 if (File.Exists(path))
                     File.Delete(path);
                 return true;
