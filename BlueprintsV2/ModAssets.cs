@@ -347,6 +347,8 @@ namespace BlueprintsV2
                 STRINGS.UI.ACTIONS.SELECT_DIFFERENT_TITLE, new PKeyBinding(KKeyCode.E, Modifier.Shift));
             Actions.BlueprintsSwapAnchorAction = new PActionManager().CreateAction(ActionKeys.ACTION_SWAP_ANCHOR_KEY,
                 STRINGS.UI.ACTIONS.CHANGE_ANCHOR_TITLE, new PKeyBinding(KKeyCode.R, Modifier.Shift));
+            Actions.BlueprintsSwapAnchorAction = new PActionManager().CreateAction(ActionKeys.ACTION_SWAP_ANCHOR_KEY,
+                STRINGS.UI.ACTIONS.ROTATE_BLUEPRINT_TITLE, new PKeyBinding(KKeyCode.E, Modifier.Shift));
         }
 
         internal static bool IsStaticTag(BlueprintSelectedMaterial tagMaterial, out string name, out string desc, out Sprite icon)
@@ -424,8 +426,9 @@ namespace BlueprintsV2
             public static string ACTION_CREATE_KEY = "Blueprints.create.opentool";
             public static string ACTION_USE_KEY = "Blueprints.use.opentool";
             public static string ACTION_SNAPSHOT_KEY = "Blueprints.snapshot.opentool";
-            public static string ACTION_RESELECT_KEY = "Blueprints.reselect.opentool";
-            public static string ACTION_SWAP_ANCHOR_KEY = "Blueprints.anchorswap.opentool";
+            public static string ACTION_RESELECT_KEY = "Blueprints.reselect";
+            public static string ACTION_SWAP_ANCHOR_KEY = "Blueprints.anchorswap";
+            public static string ACTION_ROTATE_BLUEPRINT_KEY = "Blueprints.rotate";
         }
         public static class Actions
         {
