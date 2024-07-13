@@ -47,7 +47,7 @@ namespace ModProfileManager_Addon.ModProfileData
         public static bool operator !=(ModPresetEntry a, ModPresetEntry b) => !(a == b);
         public override int GetHashCode()
         {
-            return Path.GetHashCode() + ModList.ModlistPath.GetHashCode() + ModList.IsClone().GetHashCode();
+            return Path.GetHashCode() ^ ModList.ModlistPath.GetHashCode() + ModList.IsClone().GetHashCode();
         }
     }
 }
