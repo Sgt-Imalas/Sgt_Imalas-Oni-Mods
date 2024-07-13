@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Instead of modifying this file, create a copy named Directory.Build.props.user and modify it to match the paths in your installation -->
+<Project>
+	<PropertyGroup>
+		<!--Gamedata Folder, adjust to your own ONI installation-->
+		<GameLibsFolder>X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed</GameLibsFolder>
+		<!--OutputModFolder, adjust it to your own dev folder-->
+		<ModFolder>E:\Documents\Klei\OxygenNotIncluded\mods\dev</ModFolder>
+		<!--Default for dev folder: -->
+		<!--<ModFolder>$(UserProfile)\Documents\Klei\OxygenNotIncluded\mods\dev</ModFolder>-->
+	</PropertyGroup>
+</Project>
