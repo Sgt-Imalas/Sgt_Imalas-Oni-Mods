@@ -10,7 +10,6 @@ using System.Text;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
-using static STRINGS.UI.TOOLS;
 
 namespace UtilLibs
 {

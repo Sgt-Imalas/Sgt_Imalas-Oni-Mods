@@ -14,7 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		ModThatBroke.txt = ModThatBroke.txt
 		ModVersionData.json = ModVersionData.json
 		README.md = README.md
-		TODOs.txt = TODOs.txt
 		UpdatedOniTemplate.zip = UpdatedOniTemplate.zip
 	EndProjectSection
 EndProject
@@ -164,9 +163,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogicRoomMassSensor", "Logi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkinEffects", "SkinEffects\SkinEffects.csproj", "{2E65D336-3245-4B56-A1A1-769BADAEBDD0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModPresetManager_Addon", "ModProfileManager_Addon\ModPresetManager_Addon.csproj", "{50BAD491-4EE4-41F1-B93E-E6BA2785EBB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModPresetManager_Addon", "ModProfileManager_Addon\ModPresetManager_Addon.csproj", "{50BAD491-4EE4-41F1-B93E-E6BA2785EBB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeteorShield", "MeteorShield\MeteorShield.csproj", "{6DD6EE93-9AC0-4011-8CA3-35C1E02D938E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeteorShield", "MeteorShield\MeteorShield.csproj", "{6DD6EE93-9AC0-4011-8CA3-35C1E02D938E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
