@@ -18,7 +18,6 @@ namespace DupeStations
 
         public override BuildingDef CreateBuildingDef()
         {
-            SoundUtils.CopySoundsToAnim("bathtub_kanim", "hottub_kanim");
             float[] construction_mass = new float[2] { 500f, 200f };
             string[] construction_materials = new string[2]
             {

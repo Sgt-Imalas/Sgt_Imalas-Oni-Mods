@@ -19,6 +19,11 @@ namespace SetStartDupes
         public static LocString MISSINGSKILLGROUPDESC = "This Attribute could not be found: {0}";
         public class UI
         {
+            public class STARTAGAIN
+            {
+                public static LocString SIDESCREEN_TEXT = "Reselect start duplicants";
+                public static LocString SIDESCREEN_TOOLTIP = "Restart Light";
+            }
 
             public class DUPEEDITING
             {
