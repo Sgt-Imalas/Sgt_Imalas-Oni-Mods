@@ -60,6 +60,7 @@ namespace OniRetroEdition.BuildingDefModification
                         {
                             HeightOverride = 2,
                             WidthOverride = 2,
+                            
                         }
                     }
                     ,{
@@ -254,6 +255,6 @@ namespace OniRetroEdition.BuildingDefModification
         public bool? placeBefore;
 
         public bool? requiresMinionWorker;
-        public string workableAnimOverride;
+        public Dictionary<string,string> WorkableAnimOverrides;
     }
 }

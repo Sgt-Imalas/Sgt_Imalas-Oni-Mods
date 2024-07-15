@@ -568,6 +568,39 @@
 	  <None Update="ModAssets\translations\zh.po">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\true_tiles_addon\RTB_AlloyTiles\icon.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\true_tiles_addon\RTB_AlloyTiles\metadata.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\true_tiles_addon\RTB_AlloyTiles\textures\neutronium_alloy_airflow_main.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\true_tiles_addon\RTB_AlloyTiles\textures\neutronium_alloy_airflow_top.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\true_tiles_addon\RTB_AlloyTiles\textures\neutronium_alloy_mesh_main.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\true_tiles_addon\RTB_AlloyTiles\textures\neutronium_alloy_mesh_spec.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\true_tiles_addon\RTB_AlloyTiles\textures\neutronium_alloy_mesh_top.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\true_tiles_addon\RTB_AlloyTiles\textures\neutronium_alloy_metal_main.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\true_tiles_addon\RTB_AlloyTiles\textures\neutronium_alloy_metal_spec.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\true_tiles_addon\RTB_AlloyTiles\textures\neutronium_alloy_metal_top.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\true_tiles_addon\RTB_AlloyTiles\tiles.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\worldgen\storytraits\RTB_CrashedUFOStoryTrait.yaml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>

@@ -100,7 +100,7 @@ namespace UtilLibs.UIcmp //Source: Aki
                 //PlaySound(UISoundHelper.ClickOpen);
                 if (!eventData.IsPointerMoving())
                 {
-                    button.OnDeselect(null);
+                    button?.OnDeselect(null);
                     if (OnClick != null && OnRightClick != null)
                     {
                         if (eventData.button == PointerEventData.InputButton.Right)

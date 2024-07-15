@@ -270,6 +270,29 @@ namespace ClusterTraitGenerationManager.ClusterData
         [JsonIgnore] public int maxRing => placement != null ? placement.allowedRings.max : placementPOI != null ? placementPOI.allowedRings.max : -1;
         [JsonIgnore] public int buffer => placement != null ? placement.buffer : -1;
 
+        [JsonIgnore] public bool SupportsGeyserOverride
+        {
+            get
+            {
+                if(_geyserOverrideCount == -1)
+                {
+                    if(world != null)
+                    {
+                        _geyserOverrideCount = 0;
+                        foreach (var poiRule in world.worldTemplateRules)
+                        {
+                            if(poiRule.names!=null && poiRule.names.Count == 1 && poiRule.names.First()== "geysers/generic")
+                            {
+                                _geyserOverrideCount += poiRule.times;
+                            }
+                        }
+                    }
+                }
+                return _geyserOverrideCount > 0;
+            }
+        }
+
+        private int _geyserOverrideCount = -1;
 
         #region SetterMethods
 

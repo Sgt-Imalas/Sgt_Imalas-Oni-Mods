@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace OniRetroEdition.Foods
+namespace OniRetroEdition.Entities.Foods
 {
     internal class SushiConfig : IEntityConfig
     {

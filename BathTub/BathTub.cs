@@ -22,7 +22,6 @@ namespace BathTub
             new CellOffset(-1, 0),
             new CellOffset(1, 0),
             new CellOffset(0, 0),
-            //new CellOffset(2, 0)
         };
         private BathTubWorkable[] workables;
         private Chore[] chores;

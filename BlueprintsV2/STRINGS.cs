@@ -145,6 +145,7 @@ namespace BlueprintsV2
                 public static LocString SNAPSHOT_TITLE = "Take Snapshot";
                 public static LocString SELECT_DIFFERENT_TITLE = "Select different Blueprint";
                 public static LocString CHANGE_ANCHOR_TITLE = "Change Blueprint Anchor";
+                public static LocString ROTATE_BLUEPRINT_TITLE = "Rotate Blueprint";
             }
             public class TOOLS
             {

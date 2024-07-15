@@ -1,0 +1,60 @@
+﻿[h1]Mod Preset Manager [MPM][/h1]
+
+A lightweight way of switching out different mod loadouts on the fly, easily accessible on the main menu.
+Store different mod configs and load them later to have different configurations of mod options, changable with 3 clicks.
+This mod works both independent and as a supplimentary addition to Mod Profile Manager.
+
+[img]https://i.imgur.com/GbFtLZ2.png[/img]
+
+[h1]Current latest Version: 1.3.0[/h1]
+
+[hr][/hr]
+[h1]Features[/h1][list]
+[*] Create, Rename, Edit, Delete your mod presets
+[*] Save and apply the mod load order 
+[*] Save and apply mod options
+[*] Subscribe to missing mods in presets
+[*] when selecting presets; preview stored mod options on the mod entries
+[*] Share Preset files with your friends easily via shareable strings or files
+[*] Auto subscribe to missing mods on importing presets 
+[*] Compatible with existing presets (/profiles) from Mod Profile Manager
+[*] Compatible with the frosty planet pack (beta)
+[*] Allows viewing and applying presets created in the clone mod (Mods Presets Organizer). Due to the limitations of that mod, these won't have any mod configs stored
+[/list] 
+
+[img]https://i.imgur.com/kB6V3mk.gif[/img]
+
+
+[h1]For Mod Authors:[/h1]
+This mod will automatically detect plib based mod options and store them. If your mod uses something custom, you can still make them saveable:
+to do that, you will have to add two static methods somewhere inside your mod:
+[code]static void ModOptions_SetData(JObject data)[/code]
+[code]static JObject ModOptions_GetData()[/code]
+implementing those will allow to backup and restore your custom options, stored inside the JObject.
+How you implement that settings application is up to you.
+If you have any questions, feel free to ask ;)
+
+
+[h1]Complimentary Mods:[/h1]
+[list]
+[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2018291283]Mod Updater[/url]: Fixes 99% of all mod updating issues.
+[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2854869130]Mod Profile Manager[/url]: Better Mod Screen, automatic mod sync for save games. Presets from this mod are two-way compatible
+[/list] 
+
+
+[h1]Credits[/h1]
+Virtual Scroll Code for a performant mod list scroll copied from FastTrack by Stephen under MIT License
+
+[hr][/hr]
+
+[h1]Bug Reports & Local Download[/h1]
+You can find direct downloads for my mods [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases]here[/url] (please notify me if I forgot to release new versions).
+
+Please post bug reports and issues on [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url] or on my [url=https://discord.gg/5n7peBCnWZ]Discord Server[/url]. 
+[b]Always include the full player.log in a report: [/b] https://github.com/aki-art/ONI-Mods/wiki/How-to-send-a-log
+
+[b]Make sure you do NOT have the mod "Debug Console" enabled as it completely breaks the game's logging and makes the log useless for debugging![/b]
+[hr][/hr]
+
+Do you like the mods I made? If you want, you can support me on [url=https://www.buymeacoffee.com/sgtimalas]Buy me a coffe[/url] or [url=https://ko-fi.com/sgtimalas]Kofi[/url] :D.
+

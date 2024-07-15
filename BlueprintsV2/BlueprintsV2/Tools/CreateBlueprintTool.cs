@@ -4,6 +4,7 @@ using BlueprintsV2.BlueprintData;
 using HarmonyLib;
 using PeterHan.PLib.Options;
 using System.Reflection;
+using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 
@@ -22,14 +23,25 @@ namespace BlueprintsV2.Tools
         {
             Instance = null;
         }
-
+        bool toolActive=false;
+        public override void OnDeactivateTool(InterfaceTool newTool)
+        {
+            toolActive = false;
+            UnlockCam();
+            base.OnDeactivateTool(newTool); 
+        }
+        public override void OnActivateTool()
+        {
+            toolActive = true;
+            base.OnActivateTool();
+        }
         public override void OnPrefabInit()
         {
             base.OnPrefabInit();
 
             visualizer = new GameObject("CreateBlueprintVisualizer");
             visualizer.SetActive(false);
-
+            
             GameObject offsetObject = new GameObject();
             SpriteRenderer spriteRenderer = offsetObject.AddComponent<SpriteRenderer>();
             spriteRenderer.color = ModAssets.BLUEPRINTS_COLOR_BLUEPRINT_DRAG;
@@ -62,6 +74,25 @@ namespace BlueprintsV2.Tools
             areaVisualizerField.SetValue(this, areaVisualizer);
 
             gameObject.AddComponent<CreateBlueprintToolHoverCard>();
+        }
+        public void LockCam()
+        {
+            Task.Run(() =>
+            {
+                Task.Delay(25);
+                if (Instance.toolActive)
+                {
+                    CameraController.Instance.DisableUserCameraControl = true;
+                }
+            });
+        }
+        public void UnlockCam()
+        {
+            Task.Run(() =>
+            {
+                Task.Delay(30);
+                CameraController.Instance.DisableUserCameraControl = false;
+            });
         }
 
         public override void OnDragComplete(Vector3 cursorDown, Vector3 cursorUp)
@@ -98,16 +129,19 @@ namespace BlueprintsV2.Tools
 
                         SpeedControlScreen.Instance.Unpause(false);
 
+                        CameraController.Instance.DisableUserCameraControl = false;
                         PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE, STRINGS.UI.TOOLS.CREATE_TOOL.CREATED, null, PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);
+                        UnlockCam();
                     }
                     void OnCancelDelegate()
                     {
                         SpeedControlScreen.Instance.Unpause(false);
 
                         PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE, STRINGS.UI.TOOLS.CREATE_TOOL.CANCELLED, null, PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);
+                        UnlockCam();
                     };
                     SpeedControlScreen.Instance.Pause(false);
-                    FileNameDialog blueprintNameDialog = DialogUtil.CreateTextInputDialog(STRINGS.UI.DIALOGUE.NAMEBLUEPRINT_TITLE, blueprint.Folder, true, OnConfirmDelegate, OnCancelDelegate);
+                    FileNameDialog blueprintNameDialog = DialogUtil.CreateTextInputDialog(STRINGS.UI.DIALOGUE.NAMEBLUEPRINT_TITLE, blueprint.Folder, null,true, OnConfirmDelegate, OnCancelDelegate);
 
                     blueprintNameDialog.Activate();
                 }

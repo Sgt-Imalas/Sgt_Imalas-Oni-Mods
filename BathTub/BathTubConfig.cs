@@ -18,6 +18,7 @@ namespace BathTub
 
         public override BuildingDef CreateBuildingDef()
         {
+
             SoundUtils.CopySoundsToAnim("bathtub_kanim", "hottub_kanim");
             SoundUtils.CopySoundsToAnim("bathtub_handy_kanim", "hottub_kanim");
             float[] construction_mass = new float[2] { 500f, 200f };
@@ -50,9 +51,14 @@ namespace BathTub
 
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
         {
+            Tag RoomsExpanded_ShowerRoom = "BathroomTag".ToTag();
             go.AddOrGet<LoopingSounds>();
-            go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.WashStation);
-            go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.AdvancedWashStation);
+            if(go.TryGetComponent<KPrefabID>(out var kPrefabID))
+            {
+                kPrefabID.AddTag(RoomConstraints.ConstraintTags.WashStation);
+                kPrefabID.AddTag(RoomConstraints.ConstraintTags.AdvancedWashStation);
+                kPrefabID.AddTag(RoomsExpanded_ShowerRoom);
+            }
 
 
             //Shower shower = go.AddComponent<Shower>();

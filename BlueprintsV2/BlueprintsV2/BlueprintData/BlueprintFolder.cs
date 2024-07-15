@@ -14,7 +14,7 @@ namespace BlueprintsV2.BlueprintData
     /// Represents a folder of unsorted blueprints. 
     /// Abstracts away the actual backing list, providing comfort methods to add, remove and cycle (next/previous) blueprints.
     /// </summary>
-    public sealed class BlueprintFolder
+    public sealed class BlueprintFolder:IEquatable<BlueprintFolder>
     {
         /// <summary>
         /// The name of the folder.
@@ -26,11 +26,13 @@ namespace BlueprintsV2.BlueprintData
         /// </summary>
         public int BlueprintCount => contents.Count;
 
-
+        /// <summary>
+        /// Are there an blueprints inside this folder?
+        /// </summary>
         public bool HasBlueprints => contents.Count>0;
 
 
-        //Backing list storing the contents of the folder.
+        ///Backing list storing the contents of the folder.
         private HashSet<Blueprint> contents = new ();
         public HashSet<Blueprint> Blueprints => contents;
 
@@ -82,5 +84,18 @@ namespace BlueprintsV2.BlueprintData
         }
 
         public bool ContainsBlueprint(Blueprint blueprint) => contents.Contains(blueprint);
+
+        public bool Equals(BlueprintFolder other)
+        {
+            return other.Name == Name;
+        }
+        public override bool Equals(object obj) => obj is BlueprintFolder other && Equals(other);
+
+        public static bool operator ==(BlueprintFolder a, BlueprintFolder b) => a?.Name == b?.Name;
+        public static bool operator !=(BlueprintFolder a, BlueprintFolder b) => !(a == b);
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode();
+        }
     }
 }

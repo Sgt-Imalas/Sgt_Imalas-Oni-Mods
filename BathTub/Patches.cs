@@ -32,6 +32,12 @@ namespace BathTub
             public static void Postfix()
             {
                 InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Liquids.Sanitation, BathTubConfig.ID);
+
+                //SgtLogger.l("grabbing sparkle streaker fx for foam:");
+                //ModAssets.FoamFX = Util.KInstantiateUI(EffectPrefabs.Instance.SparkleStreakFX);
+                //ModAssets.InitFoam();
+
+                //UIUtils.ListAllChildrenWithComponents(EffectPrefabs.Instance.SparkleStreakFX.transform);
             }
         }
         /// <summary>

@@ -19,7 +19,7 @@ namespace UtilLibs
             ///Gets all types + namespace 
             var q = AppDomain.CurrentDomain.GetAssemblies()
                    .SelectMany(t => t.GetTypes());
-            q.ToList().ForEach(t => SgtLogger.l(t.Name, t.Namespace));
+            q.ToList().ForEach(t => SgtLogger.l(t.Name+", AQN: "+t.AssemblyQualifiedName, t.Namespace));
         }
         public static void ListAllPropertyValues(object s)
         {

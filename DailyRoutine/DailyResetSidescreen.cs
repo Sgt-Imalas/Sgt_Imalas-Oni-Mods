@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using UtilLibs;
+using static DailyRoutine.STRINGS.UISTRINGS;
 
 namespace DailyRoutine
 {
@@ -87,7 +88,7 @@ namespace DailyRoutine
             //ActiveRecipesCountInfo = transform.Find("Contents/TimeLeftText").GetComponent<LocText>();
 
             timeResetInfo= transform.Find("Contents/GreenDurationLabel").GetComponent<LocText>();
-            timeResetInfo.text = STRINGS.UISTRINGS.TimeLeftText;
+            timeResetInfo.text = TIMELEFTTEXT;
 
 
             TimeInput = transform.Find("Contents/GreenDurationSliderContainer/NumberInputField").GetComponent<KNumberInputField>();
@@ -145,8 +146,8 @@ namespace DailyRoutine
                 UpdateUI(targetComponent.UseCustomTime);
                 UpdateButtons();
             };
-            UIUtils.TryChangeText(transform, "Contents/Buttons/ModeButton/Label", "Toggle Custom Time");
-            UIUtils.AddSimpleTooltipToObject(bt1Toggle.transform, "By default, the recipes reset at\nthe start of each cycle.\nToggle to adjust the time of that reset.");
+            UIUtils.TryChangeText(transform, "Contents/Buttons/ModeButton/Label", TOGGLECUSTOMTIME.LABEL);
+            UIUtils.AddSimpleTooltipToObject(bt1Toggle.transform, TOGGLECUSTOMTIME.TOOLTIP);
 
 
 
@@ -184,8 +185,8 @@ namespace DailyRoutine
             {
                 targetComponent.QueueRecipes = !targetComponent.QueueRecipes;
             };
-            UIUtils.TryChangeText(buttonContainer.transform, "ModeButton/Label", "Toggle Recipe Queueing");
-            UIUtils.AddSimpleTooltipToObject(RecipeMode.transform, "When disabled, the recipe count for each recipe will be set to the stored value regardless of remaining recipe count.\nEnabling this option instead adds the amount to the existing count instead.");
+            UIUtils.TryChangeText(buttonContainer.transform, "ModeButton/Label", TOGGLEQUEUEING.LABEL);
+            UIUtils.AddSimpleTooltipToObject(RecipeMode.transform, TOGGLEQUEUEING.TOOLTIP);
 
 
 
@@ -205,11 +206,11 @@ namespace DailyRoutine
         }
         void UpdateButtons()
         {
-            UIUtils.TryChangeText(transform, "Contents/Buttons/ResetButton/Label", targetComponent.IsActive ? "Disable Daily Routine" : "Enable Daily Routine");
+            UIUtils.TryChangeText(transform, "Contents/Buttons/ResetButton/Label", targetComponent.IsActive ? STRINGS.UISTRINGS.DISABLE : STRINGS.UISTRINGS.ENABLE);
 
             bool enabled = targetComponent.IsActive;
             //ActiveRecipesCountInfo.gameObject.GetComponent<KButton>().isInteractable = enabled;
-            UIUtils.TryChangeText(ActiveRecipesCountInfo.transform, "", "Update Daily Tasks\n(Hover to see current)");
+            UIUtils.TryChangeText(ActiveRecipesCountInfo.transform, "", REFRESHDAILYTASKS.LABEL);
             UIUtils.AddSimpleTooltipToObject(ActiveRecipesCountInfo.transform, targetComponent.GetFormattedRecipes());
 
             //Debug.Log("isactive: "+ enabled + ", toggleison: "+ bt1Toggle.isOn)
@@ -229,7 +230,6 @@ namespace DailyRoutine
 
                 UpdateUI(false);
             }
-            Debug.Log("hide? " + RecipeMode.isOn);
             RecipeMode.interactable = enabled;
             bt1Toggle.interactable = enabled;
 

@@ -60,9 +60,9 @@ namespace Rockets_TinyYetBig.Buildings
             buildingDef.Entombable = false;
 
             buildingDef.SceneLayer = Grid.SceneLayer.BuildingFront;
-            buildingDef.ObjectLayer = ObjectLayer.Backwall;
+            buildingDef.ObjectLayer = ObjectLayer.AttachableBuilding;
             buildingDef.PermittedRotations = PermittedRotations.Unrotatable;
-
+            buildingDef.ContinuouslyCheckFoundation = false;
 
             //buildingDef.OnePerWorld = true;
 
@@ -93,7 +93,7 @@ namespace Rockets_TinyYetBig.Buildings
             FakeFloorAdder fakeFloorAdder = go.AddOrGet<FakeFloorAdder>();
             fakeFloorAdder.floorOffsets =  new CellOffset[]
             {
-                new CellOffset(1, -1)
+                new CellOffset(0, -1)
             };
             fakeFloorAdder.initiallyActive = true;
         }

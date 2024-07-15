@@ -20,6 +20,7 @@ namespace BlueprintsV2.ModAPI
     /// <summary>
     /// The following type is an example on how to easily add additional data to blueprints for your modded buildings:
     /// if you implement two static Methods "Blueprints_SetData" and "Blueprints_GetData" with the same parameters as shown here, the blueprints will automatically store and apply them
+    /// Optionally, you can implement "Blueprints_ID" to put the data under a specific key, otherwise it will use {AssemblyName_TypeName} as data key
     /// </summary>
     class IntegrationExample : KMonoBehaviour
     {
@@ -69,6 +70,16 @@ namespace BlueprintsV2.ModAPI
                 };
             }
             return null;
+        }
+        /// <summary>
+        /// Optional Method!
+        /// Allows you to register data under a specific key
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static string Blueprints_ID()
+        {
+            return "Blueprints_ExampleDataKey";
         }
     }
 
@@ -146,7 +157,7 @@ namespace BlueprintsV2.ModAPI
             return true;
         }
 
-        public static bool BuildableStateValid (BuildingDef buildingDef, out PlanScreen.RequirementsState buildableState)
+        public static bool BuildableStateValid(BuildingDef buildingDef, out PlanScreen.RequirementsState buildableState)
         {
             buildableState = PlanScreen.Instance.GetBuildableStateForDef(buildingDef);
             //SgtLogger.l(buildableState.ToString(), "buildablestate");
@@ -154,7 +165,7 @@ namespace BlueprintsV2.ModAPI
         }
         public static bool IsBuildable(BuildingDef buildingDef)
         {
-            if(!AllowedByRules(buildingDef))
+            if (!AllowedByRules(buildingDef))
                 return false;
             return BuildableStateValid(buildingDef, out _);
         }
@@ -164,9 +175,9 @@ namespace BlueprintsV2.ModAPI
             //unique data storage ID
             public string Id;
             //returns (if applicable to the given Gameobject)
-            //called when storing the data, takes in GameObject and returns the data as a string
+            //called when storing the data, takes in GameObject and returns the data as a jobject
             public GetBlueprintDataDelegate GetDataToStore;
-            //called when applying the data, takes in GameObject and the data value as a string
+            //called when applying the data, takes in GameObject and the data value as a jobject
             public SetBlueprintDataDelegate ApplyStoredData;
             //override priority of this data storage rule
             public int OverridePriority = 0;
@@ -245,7 +256,7 @@ namespace BlueprintsV2.ModAPI
                 {
                     if (data == null)
                     {
-                        SgtLogger.l("data was null for " + key); 
+                        SgtLogger.l("data was null for " + key);
                         return;
                     }
 
@@ -304,6 +315,8 @@ namespace BlueprintsV2.ModAPI
             RegisterInternally(nameof(LimitValve), DataTransfer_LimitValve.TryGetData, DataTransfer_LimitValve.TryApplyData);
             RegisterInternally(nameof(AccessControl), DataTransfer_AccessControl.TryGetData, DataTransfer_AccessControl.TryApplyData);
 
+            
+            RegisterInternally(nameof(Switch), DataTransfer_Switch.TryGetData, DataTransfer_Switch.TryApplyData);
             RegisterInternally(nameof(LogicCritterCountSensor), DataTransfer_LogicCritterCountSensor.TryGetData, DataTransfer_LogicCritterCountSensor.TryApplyData);
             RegisterInternally(nameof(LogicTimeOfDaySensor), DataTransfer_LogicTimeOfDaySensor.TryGetData, DataTransfer_LogicTimeOfDaySensor.TryApplyData);
             RegisterInternally(nameof(LogicTimerSensor), DataTransfer_LogicTimerSensor.TryGetData, DataTransfer_LogicTimerSensor.TryApplyData);
@@ -328,7 +341,7 @@ namespace BlueprintsV2.ModAPI
             RegisterInternally(nameof(HEPBattery), DataTransfer_HEPBattery.TryGetData, DataTransfer_HEPBattery.TryApplyData);
 
         }
-        public static bool 
+        public static bool
             Aki_DecorPackA_API_Integrated = false,
             Aki_Backwalls_API_Integrated = false
                 ;
@@ -339,7 +352,7 @@ namespace BlueprintsV2.ModAPI
             var q = AppDomain.CurrentDomain.GetAssemblies()
                    .SelectMany(t => t.GetTypes());
 
-            
+
 
             foreach (var type in q)
             {
@@ -357,21 +370,30 @@ namespace BlueprintsV2.ModAPI
                     typeof(GameObject)
                     , typeof(JObject)
                 });
-                string typeName = type.Assembly.FullName +"_" + type.Name;
-                
-                
+                string registrationID = type.Assembly.GetName().Name + "_" + type.Name;
+
+                var idOverrideMethod = AccessTools.Method(type, "Blueprints_ID");
+                if (idOverrideMethod != null)
+                {
+                    object idOverrideObj = idOverrideMethod.Invoke(null, null);
+                    if (idOverrideObj != null && idOverrideObj is string @override)
+                    {
+                        registrationID = @override;
+                    }
+                }
+
                 if (DataGetter != null && DataApplier != null)
                 {
-                    SgtLogger.l("trying to register additional blueprint data for type " + typeName);
+                    SgtLogger.l("trying to register additional blueprint data for type " + type.Name + " with the id ");
                     var getterDelegate = (GetBlueprintDataDelegate)Delegate.CreateDelegate(typeof(GetBlueprintDataDelegate), DataGetter);
                     var setterDelegate = (SetBlueprintDataDelegate)Delegate.CreateDelegate(typeof(SetBlueprintDataDelegate), DataApplier);
                     if (getterDelegate != null && setterDelegate != null)
                     {
-                        RegisterAdditionalStorableBuildingData(typeName, getterDelegate, setterDelegate);
+                        RegisterAdditionalStorableBuildingData(registrationID, getterDelegate, setterDelegate);
                     }
                     else
                     {
-                        SgtLogger.warning("failed to create delegates for " + typeName);
+                        SgtLogger.warning("failed to create delegates for " + type.Name);
                     }
                 }
             }
@@ -384,10 +406,6 @@ namespace BlueprintsV2.ModAPI
             {
                 RegisterInternally("Backwalls_Backwall", SkinHelper.TryStoreBackwall, SkinHelper.TryApplyBackwall, -10);
             }
-            //if (!false)
-            //{
-            //    RegisterInternally("SignsTagsAndRibbons_SelectableSign", SkinHelper.TryStoreSelectableSign, SkinHelper.TryApplySelectableSign, -10);
-            //}
         }
 
     }

@@ -192,6 +192,11 @@ namespace SetStartDupes
                     public static LocString NAME = "Presets override Reactions";
                     public static LocString TOOLTIP = "If enabled, applying presets to duplicants also overrides their inherited stress reaction and overjoyed response.";
                 }
+                public class PRESETSOVERRIDENAME
+                {
+                    public static LocString NAME = "Presets override Name";
+                    public static LocString TOOLTIP = "If enabled, applying presets to duplicants also sets their name to that of the preset";
+                }
 
                 public class PRINTINGPODRECHARGETIME
                 {

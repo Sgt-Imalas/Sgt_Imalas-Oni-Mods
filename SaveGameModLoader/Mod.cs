@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using UtilLibs;
+using UtilLibs.ModSyncing;
 using static SaveGameModLoader.AllPatches;
 using Directory = System.IO.Directory;
 
@@ -20,7 +21,6 @@ namespace SaveGameModLoader
     public class Mod : UserMod2
     {
         public static Harmony harmonyInstance;
-        public static UserMod2 ThisMod;
         public override void OnLoad(Harmony harmony)
         {
 
@@ -30,7 +30,7 @@ namespace SaveGameModLoader
             SgtLogger.LogVersion(this, harmony);
 
             harmonyInstance = harmony;
-            ThisMod = this;
+            //ThisMod = this;
             var LegacyModPath = FileSystem.Normalize(Path.Combine(Manager.GetDirectory(), "[ModSync]StoredModConfigs"));
             var LegacyModPacksPath = FileSystem.Normalize(Path.Combine(LegacyModPath, "[StandAloneModLists]"));
 
@@ -111,9 +111,11 @@ namespace SaveGameModLoader
             ModlistManager.Instance.GetAllStoredModlists();
             ModlistManager.Instance.GetAllModPacks();
 
+            ModSyncUtils.RegisterModAsSyncMod(this.mod);
             ModAssets.ReadOrRegisterBrowserSetting();
             base.OnLoad(harmony);
             Steam_MakeMod.TryPatchingSteam(harmony);
+
         }
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
         {

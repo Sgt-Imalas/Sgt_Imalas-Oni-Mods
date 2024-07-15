@@ -65,6 +65,13 @@ namespace BathTub
             this.faceLeft = UnityEngine.Random.value > 0.5f;
             worker.GetComponent<Effects>().Add("HotTubRelaxing", false);
             this.WorkTimeRemaining = this.workTime * worker.GetSMI<HygieneMonitor.Instance>().GetDirtiness();
+            if (ModAssets.RoomsExpandedActive)
+            {
+                if (ModIntegration.Rooms_Expanded.BathroomBonusActive(this))
+                {
+                    this.WorkTimeRemaining = (1f - ModIntegration.Rooms_Expanded.BathRoomBonus) * WorkTimeRemaining;
+                }
+            }
             this.accumulatedDisease = SimUtil.DiseaseInfo.Invalid;
         }
 

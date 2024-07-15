@@ -15,52 +15,8 @@ using static STRINGS.UI.BUILDCATEGORIES;
 namespace BlueprintsV2.BlueprintData
 {
     internal class SkinHelper
-    {
-        ///checks for both SignsTagsAndRibbons and WoodenSetFurniture
-        internal static void TryApplySelectableSign(GameObject arg1, JObject arg2)
-        {
-            var SelectableSignCmp = arg1.GetComponent("SignsTagsAndRibbons.SelectableSign"); 
-
-            if(SelectableSignCmp == null)
-            {
-                SelectableSignCmp = arg1.GetComponent("WoodenSetFurniture.SelectableSign");                
-            }
-
-            if (SelectableSignCmp != null)
-            {
-                string variant = arg2.GetValue("variant").Value<string>();
-
-                Traverse.Create(SelectableSignCmp).Method("SetVariant", new[] { typeof(string) }).GetValue(variant);
-            }
-        }
-
-        internal static JObject TryStoreSelectableSign(GameObject arg)
-        {
-            JObject data = null;
-            var SelectableSignCmp = arg.GetComponent("SignsTagsAndRibbons.SelectableSign");
-
-            if (SelectableSignCmp == null)
-            {
-                SelectableSignCmp = arg.GetComponent("WoodenSetFurniture.SelectableSign");
-            }
-
-            if (SelectableSignCmp != null)
-            {
-                var selectedIndex = (int)Traverse.Create(SelectableSignCmp).Field("selectedIndex").GetValue();
-                var AnimationNames = (List<string>)Traverse.Create(SelectableSignCmp).Field("AnimationNames").GetValue();
-
-                SgtLogger.l(selectedIndex.ToString(), "index");
-                if (selectedIndex >= 0 && selectedIndex < AnimationNames.Count)
-                {
-                    data = new JObject()
-                    {
-                        {"variant", AnimationNames[selectedIndex]}
-                    };
-                }
-            }
-            return data;
-        }
-
+    {   
+        //Akis Backwalls
         internal static void TryApplyBackwall(GameObject arg1, JObject arg2)
         {
             var backwallCmp = arg1.GetComponent("Backwall");
@@ -100,6 +56,7 @@ namespace BlueprintsV2.BlueprintData
             return data;
         }
 
+        //Akis DecorPackI moodlamp
         internal static void TryApplyMoodLamp(GameObject arg1, JObject arg2)
         {
             var moodLampCmp = arg1.GetComponent("MoodLamp");
@@ -156,6 +113,7 @@ namespace BlueprintsV2.BlueprintData
             return data;
         }
 
+        //Artable (painting, statue)
         internal static JObject TryStoreArtableSkin(GameObject arg)
         {
             string skinId = string.Empty;
@@ -209,6 +167,7 @@ namespace BlueprintsV2.BlueprintData
                 }
             }
         }
+        //Facade (building skin)
         internal static JObject TryStoreBuildingSkin(GameObject arg)
         {
             string skinId = string.Empty;
@@ -255,14 +214,12 @@ namespace BlueprintsV2.BlueprintData
         static bool ValidFacadeId(string facadeID)
         {
             return !facadeID.IsNullOrWhiteSpace() && facadeID != "DEFAULT_FACADE" && Db.GetBuildingFacades().TryGet(facadeID) != null
-                // && Db.GetBuildingFacades().Get(facadeID).IsUnlocked()
-                ;
+                 && Db.GetBuildingFacades().Get(facadeID).IsUnlocked();
         }
         static bool ValidArtableId(string artableID)
         {
             return !artableID.IsNullOrWhiteSpace() && artableID != "Default" && Db.GetArtableStages().TryGet(artableID) != null
-                // && Db.GetBuildingFacades().Get(facadeID).IsUnlocked()
-                ;
+                 && Db.GetArtableStages().Get(artableID).IsUnlocked();
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using UtilLibs;
@@ -22,37 +23,52 @@ namespace OniRetroEdition.BuildingDefModification
             SgtLogger.l("init Patch 2");
             var targetType = AccessTools.TypeByName("Database.BuildingFacades");
             var target = AccessTools.Constructor(targetType, new[] { typeof(ResourceSet) });
-            var postfix = AccessTools.Method(typeof(InitFacadePatchForDrywalls), "PostfixPatch");
+            var postfix = AccessTools.Method(typeof(RetroOni_SkinAddPatch), "PostfixPatch");
 
 
             harmony.Patch(target, postfix: new HarmonyMethod(postfix));
         }
 
-        public class InitFacadePatchForDrywalls
+        public class RetroOni_SkinAddPatch
         {
             public static void PostfixPatch(object __instance)
             {
                 SgtLogger.l("Start Skin Patch");
                 var resource = (ResourceSet<BuildingFacadeResource>)__instance;
+                SgtLogger.l("cleaning...");
                 SkinsAdder.Instance.TargetIDWithAnimnameForSoundCopy.Clear();
                 //AddFacade(resource, "RetroReservoirSkin_TEST", "Retro Reservoir", "", PermitRarity.Universal, LiquidReservoirConfig.ID, "old_liquidreservoir_kanim");
 
-                foreach (var entry in SkinsAdder.Instance.newSkins)
+                if (SkinsAdder.Instance == null)
+                { 
+                    SgtLogger.l("Skins File was not read properly");
+                    return;
+                }
+
+                foreach (SkinToAdd entry in SkinsAdder.Instance.newSkins)
                 {
+                    if(entry ==null)
+                    {
+                        SgtLogger.warning("entry was null");
+                        continue;
+                    }
+                    if(entry.BuildingId == null)
+                    {
+                        SgtLogger.warning("buildingID was not a valid anim, skipping");
+                    }
+
+
                     if(Assets.GetAnim(entry.Anim) == null)
                     {
                         SgtLogger.warning(entry.Anim + " was not a valid anim, skipping");
                         continue;
                            
                     }
-                    //if (Assets.GetBuildingDef(entry.BuildingId) == null)
-                    //{
-                    //    SgtLogger.warning(entry.BuildingId + " was not a valid buildingID, skipping");
-                    //    continue;
-                    //}
                     SkinsAdder.Instance.AddAnimForSoundCopy(entry.BuildingId,entry.Anim);
-                    SgtLogger.l("adding skin: "+entry.SkinName);
-                    AddFacade(resource, entry.SkinId, entry.SkinName, entry.SkinDescription, PermitRarity.Universal, entry.BuildingId, entry.Anim);
+                    SgtLogger.l("adding skin: "+entry.SkinName+"(id: "+ entry.SkinId+")");
+                    if(entry.WorkableAnimOverrides!=null)
+                        entry.WorkableAnimOverrides.ToList().ForEach(x=> SgtLogger.l(x.Value,"workable override for: "+x.Key));
+                    AddFacade(resource, entry.SkinId, entry.SkinName, entry.SkinDescription, PermitRarity.Universal, entry.BuildingId, entry.Anim, entry.WorkableAnimOverrides);
 
                 }
 
@@ -87,7 +103,7 @@ namespace OniRetroEdition.BuildingDefModification
         }
         public static void PostfixMethod()
         {
-            SupplyClosetUtils.AddSubcategory(InventoryPermitCategories.BUILDINGS, "BUILDING_ONI_RETRO", Assets.GetSprite("conveyor_box_retro"), 132, SkinsAdder.Instance.SkinIDs);
+            SupplyClosetUtils.AddSubcategory(InventoryPermitCategories.BUILDINGS, "BUILDING_ONI_RETRO", Assets.GetSprite("BUILDING_ONI_RETRO"), 132, SkinsAdder.Instance.SkinIDs);
         }
     }
 
@@ -101,6 +117,35 @@ namespace OniRetroEdition.BuildingDefModification
         }
     }
 
+    [HarmonyPatch(typeof(Workable), "GetAnim")]
+    public class Workable_GetAnim_Patch
+    {
+        public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
+        {
+            var codes = orig.ToList();
+
+            // find injection point
+            var index = codes.FindIndex(ci => ci.Calls(AccessTools.Method(typeof(UnityEngine.Object),"get_name")));
+
+            if (index == -1)
+            {
+                SgtLogger.error("WORKABLE ANIM FIXER TRANSPILER BROKE!");
+                return codes;
+            }
+
+            var m_InjectedMethod = AccessTools.DeclaredMethod(typeof(Workable_GetAnim_Patch), "get_name_type");
+
+            // inject right after the found index
+            codes[index].operand = m_InjectedMethod;
+            return codes;
+        }
+
+        private static string get_name_type(object instance)
+        {
+            SgtLogger.l(instance.GetType().Name, "fixing workable anim getter");
+            return instance.GetType().Name;
+        }
+    }
 
     internal class SkinsAdder
     {
@@ -146,20 +191,26 @@ namespace OniRetroEdition.BuildingDefModification
                         SkinId = "SkinID",
                         SkinName = "SkinName",
                         SkinDescription = "SkinDescription",
-                        Anim = "skin_anim_kanim"
+                        Anim = "skin_anim_kanim",
+                        WorkableAnimOverrides = new Dictionary<string, string>()
+                        {
+                            { nameof(NuclearResearchCenterWorkable),"RetroWorkableSkin"},
+                            { "OtherWorkableName","someWorkableAnimOverride"}
+                        }
+                        
                     }
 
                 };
-                IO_Utils.WriteToFile<SkinsAdder>(tmp, BuildingConfigPath);
+                IO_Utils.WriteToFile(tmp, BuildingConfigPath);
             }
 
             try
             {
-                IO_Utils.ReadFromFile<SkinsAdder>(BuildingConfigPath, out Instance);
+                IO_Utils.ReadFromFile(BuildingConfigPath, out Instance);
             }
             catch (Exception e)
             {
-                SgtLogger.error("Could not create folder, Exception:\n" + e);
+                SgtLogger.error("Could not read skins file, Exception:\n" + e);
             }
             SgtLogger.log("Folders succesfully initialized");
         }
@@ -171,5 +222,6 @@ namespace OniRetroEdition.BuildingDefModification
         public string SkinName;
         public string SkinDescription;
         public string Anim;
+        public Dictionary<string,string> WorkableAnimOverrides;
     }
 }

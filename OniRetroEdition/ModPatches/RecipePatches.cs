@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
-using OniRetroEdition.Foods;
+using OniRetroEdition.Entities;
+using OniRetroEdition.Entities.Foods;
 using System;
 using System.Collections.Generic;
 using System.Linq;

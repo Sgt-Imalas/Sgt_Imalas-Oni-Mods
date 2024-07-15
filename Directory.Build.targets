@@ -68,7 +68,7 @@
   </Target>
 
   <!--Creates publicized dlls from the game dlls-->
-  <Target Name="Publicise" AfterTargets="Clean">
+  <Target Name="Publicise" AfterTargets="Clean" Condition="'$(AssemblyName)' == 'CycleComma'">
     <ItemGroup>
       <PubliciseInputAssemblies
 			   Include="

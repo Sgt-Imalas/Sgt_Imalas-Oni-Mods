@@ -553,7 +553,35 @@ namespace BlueprintsV2.BlueprintData
                 }
             }
         }
+        internal class DataTransfer_Switch
+        {
+            internal static JObject TryGetData(GameObject arg)
+            {
+                if (arg.TryGetComponent<Switch>(out var component))
+                {
+                    return new JObject()
+                    {
+                        { "switchedOn", component.switchedOn}
+                    };
+                }
+                return null;
+            }
+            public static void TryApplyData(GameObject building, JObject jObject)
+            {
+                if (jObject == null)
+                    return;
+                if (building.TryGetComponent<Switch>(out var targetComponent))
+                {
+                    var t1 = jObject.GetValue("switchedOn");
+                    if (t1 == null)
+                        return;
+                    var switchedOn = t1.Value<bool>();
 
+                    //applying values
+                    targetComponent.SetState(switchedOn);
+                }
+            }
+        }
         internal class DataTransfer_LogicCritterCountSensor
         {
             internal static JObject TryGetData(GameObject arg)

@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using UtilLibs.ModSyncing;
 using YamlDotNet.Core.Events;
 using static KMod.Label;
 using static SaveGameModLoader.STRINGS.UI.FRONTEND;
@@ -20,25 +21,6 @@ namespace SaveGameModLoader
 {
     public class ModlistManager
     {
-        //public struct ModLabelName
-        //{
-        //    public string id, title;
-        //    public ModLabelName(string id, string name)
-        //    {
-        //        this.id = id;
-        //        this.title = name;
-        //    }
-        //    public ModLabelName(KMod.Mod mod)
-        //    {
-        //        new ModLabelName(mod.label);
-        //    }
-        //    public ModLabelName(KMod.Label label)
-        //    {
-        //        this.id = label.id;
-        //        this.title = label.title;
-        //    }
-        //}
-
         public Dictionary<string, SaveGameModList> Modlists = new();
         public Dictionary<string, SaveGameModList> ModPacks = new();
         private static readonly Lazy<ModlistManager> _instance = new Lazy<ModlistManager>(() => new ModlistManager());
@@ -46,7 +28,7 @@ namespace SaveGameModLoader
         public static ModlistManager Instance { get { return _instance.Value; } }
 
         public GameObject ParentObjectRef;
-
+        
         HashSet<string> ActiveModlistModIds = new HashSet<string>();
         private List<string> _activeModListIdOrder = new();
 
@@ -67,7 +49,7 @@ namespace SaveGameModLoader
         public bool ModIsNotInSync(KMod.Mod mod)
         {
 
-            if (mod == Mod.ThisMod.mod)
+            if (ModSyncUtils.IsModSyncMod(mod))
                 return false;
 
             return (mod.IsEnabledForActiveDlc() && !ActiveModlistModIds.Contains(mod.label.defaultStaticID))
@@ -87,11 +69,13 @@ namespace SaveGameModLoader
             InstantiateModView(mods, "", parent, false);
         }
 
+        Tuple<SaveGameModList, string> PlibConfigSource = null;
+
         /// <summary>
         /// Create a modified Modview for syncing
         /// </summary>
         /// <param name="mods"></param>
-        public void InstantiateModView(List<KMod.Label> mods, string activeSaveToLoad = "", GameObject parent = null, bool LoadOnCLose = true, System.Action AutoResumeOnSync =null)
+        public void InstantiateModView(List<KMod.Label> mods,  string activeSaveToLoad = "", GameObject parent = null, bool LoadOnCLose = true, System.Action AutoResumeOnSync =null, Tuple<SaveGameModList, string> _plibConfigSource = null)
         {
             ActiveSave = activeSaveToLoad;
             IsSyncing = true;
@@ -102,7 +86,7 @@ namespace SaveGameModLoader
             {
                 AutoResumeOnSync();
             }
-
+            PlibConfigSource = _plibConfigSource;
 
             var assignAction = () => { AssignModDifferences(mods); };
 
@@ -444,6 +428,16 @@ namespace SaveGameModLoader
             HashSet<int> positionReplacementIndicies = new HashSet<int>();
             List<KMod.Mod> toSortMods = new List<KMod.Mod>();
 
+            if (PlibConfigSource != null)
+            {
+                var file = PlibConfigSource.first;
+                var path = PlibConfigSource.second;
+                if(file.TryGetPlibOptionsEntry(path, out var entries))
+                {
+                    SaveGameModList.WritePlibOptions(entries);
+                }
+            }
+
 
             for (int index = 0; index < mm.mods.Count; index++)
             {
@@ -452,7 +446,7 @@ namespace SaveGameModLoader
                 bool shouldBeEnabled = enableAll.HasValue ? enableAll.Value : ActiveModlistModIds.Contains(modID);
                 bool isEnabled = modToEdit.IsEnabledForActiveDlc();
 
-                if (modToEdit == Mod.ThisMod.mod)
+                if (ModSyncUtils.IsModSyncMod(modToEdit))
                     shouldBeEnabled = true;
 
                 if (shouldBeEnabled == false && dontDisableActives && isEnabled)
@@ -512,61 +506,7 @@ namespace SaveGameModLoader
 
             if (restartAfter)
                 AutoRestart();
-
-
-            //ModListDifferences.Clear();
-            //MissingMods.Clear();
-
-            //foreach (var modLabel in this.ModListDifferences.Keys)
-            //{
-
-
-
-            //    if (mod == null )
-            //    {
-            //        SgtLogger.warning("Mod not found: " + modLabel.title);
-            //        continue;
-            //    }
-
-            //    bool enabled = enableAll.HasValue ? enableAll.Value : ModListDifferences[modLabel];
-            //    if (modLabel.id == ModAssets.ModID)
-            //        enabled = true;
-
-            //    //KMod.Mod mod = GameModDictionary[modLabel];
-
-
-            //    bool ChangedModState = mod.IsEnabledForActiveDlc() != enabled;
-
-            //    mod.SetEnabledForActiveDlc(enabled);
-
-
-            //    //Global.Instance.modManager.EnableMod(mod.label, enabled,this);
-
-            //    if (enabled)
-            //    {
-            //        mod.Load((Content)0);
-            //    }
-            //    else
-            //    {
-            //        mod.Unload((Content)0);
-            //    }
-            //    //Global.Instance.modManager.EnableMod(modLabel, enabled, null);
-            //    if (ChangedModState)
-            //    {
-            //        SgtLogger.l(enabled ? "enabled Mod: " + modLabel.title : "disabled Mod: " + modLabel.title);
-            //    }
-            //    else
-            //    {
-            //        SgtLogger.l("No change for " + modLabel.title+", was already "+ (enabled?"enabled":"disabled"));
-            //    }
-            //}
-
-
-            //Global.Instance.modManager.dirty = true;
-            //Global.Instance.modManager.Update(Global.Instance.modManager);
-
-            //if (restartAfter)
-            //    AutoRestart();
+            
         }
         public void AssignModDifferences(List<KMod.Label> modList)
         {
@@ -658,14 +598,13 @@ namespace SaveGameModLoader
                 SgtLogger.logError("No Modlist found for " + SaveGameModList.GetModListFileName(referencedPath));
                 return;
             }
-            var list = mods.TryGetModListEntry(referencedPath);
 
-            if (list == null)
+            if (!mods.TryGetModListEntry(referencedPath, out var list))
             {
                 SgtLogger.logError("No ModConfig found for " + referencedPath);
                 return;
             }
-            InstantiateModView(list, referencedPath, AutoResumeOnSync: autoResumeAction);
+            InstantiateModView(list, referencedPath, AutoResumeOnSync: autoResumeAction, _plibConfigSource: new(mods,referencedPath));
         }
 
         public void GetAllStoredModlists()

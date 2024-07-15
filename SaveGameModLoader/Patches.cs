@@ -19,6 +19,7 @@ using Steamworks;
 using PeterHan.PLib.UI;
 using SaveGameModLoader.Patches;
 using static SaveGameModLoader.STRINGS.UI.FRONTEND.MODTAGS;
+using UtilLibs.ModSyncing;
 
 namespace SaveGameModLoader
 {
@@ -51,9 +52,8 @@ namespace SaveGameModLoader
                 if (btn != null)
                 {
                     var colonyList = ModlistManager.Instance.TryGetColonyModlist(baseName);
-                    var saveGameEntry = colonyList != null ? colonyList.TryGetModListEntry(fileName) : null;
 
-                    btn.isInteractable = colonyList != null && saveGameEntry != null && App.GetCurrentSceneName() == "frontend";
+                    btn.isInteractable = colonyList != null && colonyList.TryGetModListEntry(fileName , out _) && App.GetCurrentSceneName() == "frontend";
                     btn.onClick += (() =>
                     {
                         ModlistManager.Instance.InstantiateModViewForPathOnly(fileName);
@@ -649,7 +649,7 @@ namespace SaveGameModLoader
                 string colonyName = SaveGameModList.GetModListFileName(path);
 
                 var colony = ModlistManager.Instance.TryGetColonyModlist(colonyName);
-                bool interactable = colony != null ? colony.TryGetModListEntry(path) != null : false;
+                bool interactable = colony != null && colony.TryGetModListEntry(path, out _);
 
                 var button = bt.GetComponent<KButton>();
                 bt.name = "SyncAndContinue";
@@ -805,11 +805,8 @@ namespace SaveGameModLoader
             public static bool Prepare() => Config.Instance.NeverDisable;
             public static bool Prefix(KMod.Mod __instance)
             {
-                return __instance != Mod.ThisMod.mod;
+                return !ModSyncUtils.IsModSyncMod(__instance);
             }
         }
-
-
-
     }
 }

@@ -5,6 +5,11 @@ namespace SaveGameModLoader
     {
         public class MPM_CONFIG
         {
+            public class APPLYPLIBCONFIG
+            {
+                public static LocString NAME = "Profiles apply Mod Options";
+                public static LocString TOOLTIP = "Store and apply mod options. Only works for mods that use PLib Options";
+            }
             public class USECUSTOMFOLDERPATH
             {
                 public static LocString NAME = "Use Custom Folder";
