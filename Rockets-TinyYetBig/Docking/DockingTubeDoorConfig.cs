@@ -60,7 +60,7 @@ namespace Rockets_TinyYetBig.Buildings
             buildingDef.Entombable = false;
 
             buildingDef.SceneLayer = Grid.SceneLayer.BuildingFront;
-            buildingDef.ObjectLayer = ObjectLayer.Backwall;
+            buildingDef.ObjectLayer = ObjectLayer.AttachableBuilding;
             buildingDef.PermittedRotations = PermittedRotations.Unrotatable;
 
 
