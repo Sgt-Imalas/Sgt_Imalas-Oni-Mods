@@ -11,13 +11,15 @@ using UnityEngine;
 using UtilLibs;
 using static Cryopod.ModAssets;
 using static PropertyTextures;
+using static STRINGS.UI;
 
 namespace Cryopod.Buildings
 {
     class CryopodReusable : StateMachineComponent<CryopodReusable.StatesInstance>, ISaveLoadable, ISidescreenButtonControl
-	//, IGameObjectEffectDescriptor
-	{
-		[MyCmpReq]
+    //, IGameObjectEffectDescriptor
+    {
+        public static HashedString PORT_ID = "CRY_ThawOnLogicInputTriggered";
+        [MyCmpReq]
 		public Assignable assignable;
 		[MyCmpGet]
 		private LogicPorts ports;
@@ -29,8 +31,9 @@ namespace Cryopod.Buildings
 		private OpenCryopodWorkable WorkableOpen;
 		[MyCmpReq]
 		private CryopodFreezeWorkable Workable;
-		//[MyCmpReq] protected Operational operational;
-		[MyCmpReq] private KSelectable selectable;
+
+        //[MyCmpReq] protected Operational operational;
+        [MyCmpReq] private KSelectable selectable;
 		[MyCmpReq] private MinionStorage DupeStorage;
 		[Serialize] private float ForceThawed; //amount of damage done on thawing based on forced process (no power f.e.)
 
@@ -46,7 +49,27 @@ namespace Cryopod.Buildings
 		public float powerSaverEnergyUsage = 50f;
 
 		private Chore AnimationChore;
-		public float GetDamage()
+
+        private static readonly EventSystem.IntraObjectHandler<CryopodReusable> OnLogicValueChangedDelegate = new EventSystem.IntraObjectHandler<CryopodReusable>((component, data) => component.OnLogicValueChanged(data));
+        private void OnLogicValueChanged(object data)
+        {
+			if (data is not LogicValueChanged logicData)
+				return;
+
+            if (logicData.portID != PORT_ID)
+                return;
+
+            var inputBitsInt = ports.GetInputValue(PORT_ID);
+
+            bool shouldUnthaw = LogicCircuitNetwork.IsBitActive(0, inputBitsInt);
+			if(shouldUnthaw && CanUnthaw())
+			{
+				OpenChoreDone();
+            }
+        }
+        private LogicCircuitNetwork GetNetwork() => Game.Instance.logicCircuitManager.GetNetworkForCell(ports.GetPortCell(PORT_ID));
+
+        public float GetDamage()
         {
 			return ForceThawed;
         }
@@ -111,12 +134,15 @@ namespace Cryopod.Buildings
 		{
 			base.OnSpawn();
 			this.smi.StartSM();
-			ModAssets.CryoPods.Add(this); 
-		}
+			ModAssets.CryoPods.Add(this);
+
+            this.Subscribe(-801688580, OnLogicValueChangedDelegate);
+        }
 
 		public override void OnCleanUp()
-		{
-			ModAssets.CryoPods.Remove(this);
+        {
+            this.Unsubscribe(-801688580, OnLogicValueChangedDelegate);
+            ModAssets.CryoPods.Remove(this);
 			if (this.HoldingDupe())
 			{
 				ForceThawed += (InternalTemperatureKelvinUpperLimit- InternalTemperatureKelvin);
@@ -157,8 +183,9 @@ namespace Cryopod.Buildings
 
 		public bool SidescreenEnabled() => true;
 
-		public bool SidescreenButtonInteractable() => this.HoldingDupe() &&
-			!this.smi.IsInsideState(this.smi.sm.HoldingDuplicant.Working.Thawing);
+		public bool SidescreenButtonInteractable() => CanUnthaw() && GetNetwork() == null;
+
+		private bool CanUnthaw() => this.HoldingDupe() && !this.smi.IsInsideState(this.smi.sm.HoldingDuplicant.Working.Thawing);
 
         public void SetButtonTextOverride(ButtonMenuTextOverride text) => throw new NotImplementedException();
 

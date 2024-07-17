@@ -9,10 +9,17 @@ namespace Cryopod
 {
     class STRINGS
     {
+
+        public class CRYOPODRESEARCHTYPE
+        {
+            public static LocString NAME = "Cryopod Analysis";
+            public static LocString RECIPEDESC = "Analyzing gravitas cryopods yields new knowledge.";
+        }
+
         public class DUPLICANTS
         {
-            public class STATUSITEMS 
-            { 
+            public class STATUSITEMS
+            {
                 public class FORCETHAWED
                 {
                     public static LocString NAME = UI.FormatAsLink("Cryo Sickness", nameof(FORCETHAWED));
@@ -45,6 +52,10 @@ namespace Cryopod
                     public static LocString DEFROSTBUTTON = (LocString)"Defrost stored Friend";
                     public static LocString DEFROSTBUTTONCANCEL = (LocString)"Cancel Defrosting";
                     public static LocString DEFROSTBUTTONTOOLTIP = (LocString)"Unfreeze the duplicant stored here.";
+
+                    public static LocString INPUT_LOGIC_PORT = "Thaw Duplicant";
+                    public static LocString INPUT_LOGIC_PORT_ACTIVE = (UI.FormatAsAutomationState("Green Signal", UI.AutomationState.Active) + ": Triggers the thawing process.");
+                    public static LocString INPUT_LOGIC_PORT_INACTIVE = (UI.FormatAsAutomationState("Red Signal", UI.AutomationState.Standby) + ": Does nothing");
                 }
                 public class CRY_BUILDABLECRYOTANKLIQUID
                 {
@@ -54,7 +65,7 @@ namespace Cryopod
                 }
             }
         }
-        
+
         public class BUILDING
         {
             public class STATUSITEMS
@@ -64,7 +75,7 @@ namespace Cryopod
                     public static LocString NAME = "The Dupe is at {InternalTemperature}.";
                     public static LocString TOOLTIP = "Cryogenic process cools down the body for preservation.";
                 }
-                
+
                 public class CRY_DUPLICANTNAMESTATUS
                 {
                     public static LocString NAME = "Duplicant in cryogenic sleep: {DupeName}";

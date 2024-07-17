@@ -85,12 +85,33 @@ namespace Cryopod
             {
                 if (__instance.artifactType == ArtifactType.Space)
                 {
-                    int chance = DlcManager.IsExpansion1Active() ? 33 : 100;
-                    ModAssets.UnlockCryopod(chance);
+                       ///dlc always active.
+                    //int chance = DlcManager.IsExpansion1Active() ? 33 : 100;
+                    ModAssets.UnlockCryopod(33);
                 }
             }
         }
-
+        [HarmonyPatch(typeof(ResearchTypes))]
+        [HarmonyPatch(MethodType.Constructor)]
+        [HarmonyPatch(new Type[] { })]
+        public class ResearchTypes_Constructor_Patch
+        {
+            public static void Postfix(ResearchTypes __instance)
+            {
+                __instance.Types.Add(new ResearchType(
+                    ModAssets.CryopodResearchTypeID,
+                    STRINGS.CRYOPODRESEARCHTYPE.NAME,
+                    STRINGS.CRYOPODRESEARCHTYPE.RECIPEDESC,
+                    Assets.GetSprite("DistressSignal"),
+                    UIUtils.rgb(173, 139, 83),
+                    null,
+                    2400f,
+                    (HashedString)"research_center_kanim",
+                    new string[] { },
+                    STRINGS.CRYOPODRESEARCHTYPE.RECIPEDESC
+                ));
+            }
+        }
         /// Basegame Compatibility - cryopod is dlc asset so.. . nope, dont want legal [anything] 
 
         //[HarmonyPatch(typeof(ArtifactFinder))]
@@ -205,7 +226,7 @@ namespace Cryopod
 
                 CryoTech.costsByResearchTypeID.Clear();
                 CryoTech.costsByResearchTypeID.Add("basic", 0f);
-                CryoTech.costsByResearchTypeID.Add("space", 1f);
+                CryoTech.costsByResearchTypeID.Add(ModAssets.CryopodResearchTypeID,1f);
             }
         }
 

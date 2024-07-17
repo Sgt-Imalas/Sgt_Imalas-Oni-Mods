@@ -45,6 +45,13 @@ namespace Cryopod.Buildings
                 LogicPorts.Port.OutputPort(FilteredStorage.FULL_PORT_ID, new CellOffset(0, 1), (string) global::STRINGS.BUILDINGS.PREFABS.REFRIGERATOR.LOGIC_PORT, (string) global::STRINGS.BUILDINGS.PREFABS.REFRIGERATOR.LOGIC_PORT_ACTIVE, (string) global::STRINGS.BUILDINGS.PREFABS.REFRIGERATOR.LOGIC_PORT_INACTIVE)
             };
 
+            buildingDef.LogicInputPorts = new List<LogicPorts.Port>()
+            {
+                LogicPorts.Port.InputPort(CryopodReusable.PORT_ID, new CellOffset(0, 0), 
+                (string) STRINGS.BUILDINGS.PREFABS.CRY_BUILDABLECRYOTANK.INPUT_LOGIC_PORT, 
+                (string) STRINGS.BUILDINGS.PREFABS.CRY_BUILDABLECRYOTANK.INPUT_LOGIC_PORT_ACTIVE, 
+                (string) STRINGS.BUILDINGS.PREFABS.CRY_BUILDABLECRYOTANK.INPUT_LOGIC_PORT_INACTIVE)
+            };
             buildingDef.InputConduitType = ConduitType.Liquid;
             buildingDef.OutputConduitType = ConduitType.Liquid;
             buildingDef.UtilityInputOffset = new CellOffset(2, 2);

@@ -12,6 +12,8 @@ namespace Cryopod
 {
     internal class ModAssets
     {
+        public static string CryopodResearchTypeID = "CRY_CryopodResearchType";
+
         public static Components.Cmps<CryopodReusable> CryoPods = new Components.Cmps<CryopodReusable>();
         public const string ForcedCryoThawedID = "CRY_ForcedCryoThawed";
         public class StatusItems

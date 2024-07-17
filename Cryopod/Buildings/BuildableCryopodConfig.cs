@@ -46,6 +46,13 @@ namespace Cryopod.Buildings
                 (string) global::STRINGS.BUILDINGS.PREFABS.REFRIGERATOR.LOGIC_PORT_ACTIVE, 
                 (string) global::STRINGS.BUILDINGS.PREFABS.REFRIGERATOR.LOGIC_PORT_INACTIVE)
             };
+            buildingDef.LogicInputPorts = new List<LogicPorts.Port>()
+            {
+                LogicPorts.Port.InputPort(CryopodReusable.PORT_ID, new CellOffset(0, 0),
+                (string) STRINGS.BUILDINGS.PREFABS.CRY_BUILDABLECRYOTANK.INPUT_LOGIC_PORT,
+                (string) STRINGS.BUILDINGS.PREFABS.CRY_BUILDABLECRYOTANK.INPUT_LOGIC_PORT_ACTIVE,
+                (string) STRINGS.BUILDINGS.PREFABS.CRY_BUILDABLECRYOTANK.INPUT_LOGIC_PORT_INACTIVE)
+            };
             return buildingDef;
         }
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
