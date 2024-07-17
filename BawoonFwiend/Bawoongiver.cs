@@ -142,9 +142,10 @@ namespace BawoonFwiend
         {
             if(skin.modID == string.Empty || skin.modID == null)
             {
-                if (skin.animationIndex >= BalloonArtistFacades.Infos_All.Length)
+                var allFacadeIDs = ModAssets.GetAllBalloonArtistFacadeIDs(); 
+                if (skin.animationIndex >= allFacadeIDs.Count())
                     return default(BalloonOverrideSymbol);
-                var Anim = Db.Get().Permits.BalloonArtistFacades.Get(BalloonArtistFacades.Infos_All[skin.animationIndex].id);
+                var Anim = Db.Get().Permits.BalloonArtistFacades.Get(allFacadeIDs[skin.animationIndex]);
                 if (Anim == null)
                     return default(BalloonOverrideSymbol);
                 if (skin.slotIndex >= Anim.balloonOverrideSymbolIDs.Length)
@@ -273,10 +274,10 @@ namespace BawoonFwiend
         {
             var db = Db.Get();
 
-            var AllSkins = BalloonArtistFacades.Infos_All;
+            var AllSkins = ModAssets.GetAllBalloonArtistFacadeIDs();
             for (int animIndex = 0; animIndex < AllSkins.Count(); ++animIndex)
             {
-                var SkinAllowed = db.Permits.BalloonArtistFacades.Get(AllSkins[animIndex].id);
+                var SkinAllowed = db.Permits.BalloonArtistFacades.Get(AllSkins[animIndex]);
                 if (SkinAllowed.IsUnlocked()) ///yes that check is required
                 {
                     var symbolOverrides = SkinAllowed.GetBalloonOverrideSymbolIDs();

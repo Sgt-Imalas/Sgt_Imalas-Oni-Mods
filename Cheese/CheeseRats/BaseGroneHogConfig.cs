@@ -83,7 +83,7 @@ namespace Cheese.CheeseRats
             Diet diet = new Diet(diet_infos.ToArray());
             CreatureCalorieMonitor.Def def = prefab.AddOrGetDef<CreatureCalorieMonitor.Def>();
             def.diet = diet;
-            def.minPoopSizeInCalories = referenceCaloriesPerKg * minPoopSizeInKg;
+            def.minConsumedCaloriesBeforePooping = referenceCaloriesPerKg * minPoopSizeInKg;
             prefab.AddOrGetDef<SolidConsumerMonitor.Def>().diet = diet;
             return prefab;
         }

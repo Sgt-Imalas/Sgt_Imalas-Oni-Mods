@@ -156,7 +156,10 @@ namespace Cheese.Buildings
                         decor,
                         true,
                         level.ToString(),
-                        buildingId);
+                        buildingId,
+                        "ui",
+                        DlcManager.AVAILABLE_ALL_VERSIONS
+                        );
                     return skinID;
                 }
             }

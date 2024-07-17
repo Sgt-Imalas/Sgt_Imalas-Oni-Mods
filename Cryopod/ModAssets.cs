@@ -152,15 +152,24 @@ namespace Cryopod
             //}
             public static void HandleDupeThawing(ref GameObject dupe, ref List<string> storedSicknesses, ref float storedDamage, ref float cryoDamage)
             {
+                //SicknessExposureInfo cold = new SicknessExposureInfo(ColdBrain.ID, "Frozen within self made cryopod.");
+                //dupeModifiers.sicknesses.Infect(cold);
+                //var coldMonitor = dupe.GetSMI<ColdImmunityMonitor.Instance>();
+                //if (coldMonitor != null)
+                //{
+                //    coldMonitor.sm.coldCountdown.Set(0, coldMonitor);
+                //    coldMonitor.GoTo(coldMonitor.sm.cold);
+                //}
+
+
                 var dupeModifiers = dupe.GetComponent<MinionModifiers>();
-                SicknessExposureInfo cold = new SicknessExposureInfo(ColdBrain.ID, "Frozen within self made cryopod.");
-                dupeModifiers.sicknesses.Infect(cold);
 
                 if (storedSicknesses.Count > 0)
                 {
                     foreach (var sickness in storedSicknesses)
                     {
-                        dupe.GetComponent<MinionModifiers>().sicknesses.Infect(new SicknessExposureInfo(sickness, "Got frozen with the disease"));
+                        if(Db.Get().Sicknesses.Get(sickness)!=null)
+                            dupe.GetComponent<MinionModifiers>().sicknesses.Infect(new SicknessExposureInfo(sickness, "Got frozen with the disease"));
                     }
                     storedSicknesses.Clear();
                 }

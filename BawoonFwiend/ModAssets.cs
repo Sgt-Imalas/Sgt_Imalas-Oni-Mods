@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI.Extensions;
 using UtilLibs;
 using static ModInfo;
 
@@ -52,6 +53,24 @@ namespace BawoonFwiend
             RenderTexture.ReleaseTemporary(renderTex);
             Copies[source] = readableText;
             return readableText;
+        }
+
+
+        private static List<string> _balloonFacadeIDs = null;
+        public static List<string> GetAllBalloonArtistFacadeIDs()
+        {
+            if(_balloonFacadeIDs == null)
+            {
+                _balloonFacadeIDs = new List<string>();
+                var db = Db.Get().Permits.BalloonArtistFacades;
+                foreach(var facade in db.resources)
+                {
+                    _balloonFacadeIDs.Add(facade.Id);
+                }
+            }
+
+            return _balloonFacadeIDs;
+
         }
 
         static Dictionary<Sprite, Texture2D> Copies2 = new Dictionary<Sprite, Texture2D>();

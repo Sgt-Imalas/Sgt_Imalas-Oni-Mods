@@ -19,8 +19,8 @@ namespace LogicSatellites
             PUtil.InitLibrary(false);
             new POptions().RegisterOptions(this, typeof(Config));
             base.OnLoad(harmony);
-            var lightManager = new PLightManager();
-            LaserBeam = lightManager.Register("LS_SolarSatelliteBeam", LaserBeamHandler);
+            //var lightManager = new PLightManager();
+            //LaserBeam = lightManager.Register("LS_SolarSatelliteBeam", LaserBeamHandler);
             SgtLogger.LogVersion(this, harmony);
         }
         public static void LaserBeamHandler(LightingArgs arg)

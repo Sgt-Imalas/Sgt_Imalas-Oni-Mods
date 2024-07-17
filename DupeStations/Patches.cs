@@ -29,7 +29,7 @@ namespace DupeStations
             {
                 GameTags.MaterialBuildingElements.Add(PajamasDispenserConfig.PajamasMaterialTag);
                 InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Stations,PajamasDispenserConfig.ID,SuitMarkerConfig.ID);
-                InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Stations,TubeCrossConfig.ID,SuitMarkerConfig.ID);
+                //InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Stations,TubeCrossConfig.ID,SuitMarkerConfig.ID);
                 //ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.XXXX, XXXX.ID);
             }
         }
