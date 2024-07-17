@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
 namespace Rockets_TinyYetBig.Science
@@ -37,6 +38,14 @@ namespace Rockets_TinyYetBig.Science
                     {
                         int pointsToAdd = (int)Math.Min((techInstance.tech.costsByResearchTypeID[ModAssets.DeepSpaceScienceID] - techInstance.progressInventory.PointsByTypeID[ModAssets.DeepSpaceScienceID]), i);
                         techInstance.progressInventory.AddResearchPoints(ModAssets.DeepSpaceScienceID, pointsToAdd);
+                        if(Mathf.Approximately(1, techInstance.GetTotalPercentageComplete()))
+                        {
+                            if (!techInstance.IsComplete())
+                            {
+                                techInstance.Purchased();
+                                Game.Instance.Trigger((int)GameHashes.ResearchComplete, techInstance.tech);
+                            }
+                        }
                         CurrentScienceValue -= pointsToAdd;
                     }
                 }
