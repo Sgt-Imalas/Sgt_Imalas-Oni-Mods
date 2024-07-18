@@ -1,16 +1,18 @@
-﻿using ClusterTraitGenerationManager.ClusterData;
+﻿using Database;
 using HarmonyLib;
-using ProcGen;
+using Klei.AI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
-namespace ClusterTraitGenerationManager
+namespace DontCrashMyMods
 {
-    internal class DlcBetaCompatibilityPatch
+    internal class Patches
     {
+        //Dont crash for no reason
         [HarmonyPatch(typeof(DlcManager))]
         [HarmonyPatch(nameof(DlcManager.IsContentActive))]
         public static class ApplyMultipliersToWeights
@@ -29,4 +31,3 @@ namespace ClusterTraitGenerationManager
         }
     }
 }
-

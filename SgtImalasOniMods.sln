@@ -167,7 +167,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModPresetManager_Addon", "M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeteorShield", "MeteorShield\MeteorShield.csproj", "{6DD6EE93-9AC0-4011-8CA3-35C1E02D938E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DlcSwapButton", "DlcSwapButton\DlcSwapButton.csproj", "{19E3E492-032E-4228-AF52-078ACE32AF5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DlcSwapButton", "DlcSwapButton\DlcSwapButton.csproj", "{19E3E492-032E-4228-AF52-078ACE32AF5C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DontCrashMyMods", "DontCrashMyMods\DontCrashMyMods.csproj", "{036BB435-8148-41B5-BFAF-B70A903B3770}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -487,6 +489,10 @@ Global
 		{19E3E492-032E-4228-AF52-078ACE32AF5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19E3E492-032E-4228-AF52-078ACE32AF5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19E3E492-032E-4228-AF52-078ACE32AF5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{036BB435-8148-41B5-BFAF-B70A903B3770}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{036BB435-8148-41B5-BFAF-B70A903B3770}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{036BB435-8148-41B5-BFAF-B70A903B3770}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{036BB435-8148-41B5-BFAF-B70A903B3770}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
