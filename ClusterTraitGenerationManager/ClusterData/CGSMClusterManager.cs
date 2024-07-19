@@ -1014,9 +1014,9 @@ namespace ClusterTraitGenerationManager.ClusterData
                             SgtLogger.l(planet.world + " will disable story traits");
                             starmapItem.DisablesStoryTraits = true;
                         }
-                        else                            
-                            SgtLogger.warning("Tried to add disabling story traits to a planet that does not exist: " + planet.world);
                     }
+                    else
+                        SgtLogger.warning("Tried to add disabling story traits to a planet that does not exist: " + planet.world);
                 }
 
 

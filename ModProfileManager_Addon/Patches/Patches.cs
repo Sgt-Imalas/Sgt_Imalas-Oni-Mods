@@ -42,7 +42,7 @@ namespace ModProfileManager_Addon.Patches
 
                     presetButton.gameObject.SetActive(true);
                 }
-                SgtLogger.l(__instance.transform.parent.gameObject.name, "Parent");
+                //SgtLogger.l(__instance.transform.parent.gameObject.name, "Parent");
             }
         }
         /// <summary>
