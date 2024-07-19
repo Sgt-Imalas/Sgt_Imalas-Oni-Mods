@@ -44,13 +44,13 @@ namespace BlueprintsV2.Tools
 
             var allButton = new PButton
             {
-                Text = "All",
+                Text = STRINGS.UI.TOOLS.FILTERLAYERS.ALL,
                 OnClick = (_) => SetAll(ToolParameterMenu.ToggleState.On)
             }.SetKleiPinkStyle();
 
             var noneButton = new PButton
             {
-                Text = "None"
+                Text = STRINGS.UI.TOOLS.FILTERLAYERS.NONE
             };
 
             noneButton.OnClick += source =>
@@ -60,7 +60,7 @@ namespace BlueprintsV2.Tools
 
             PCheckBox syncCheckBox = new PCheckBox
             {
-                Text = "Auto. Sync"
+                Text = STRINGS.UI.TOOLS.FILTERLAYERS.AUTOSYNC
             };
 
             syncCheckBox.SetKleiPinkStyle();
@@ -109,7 +109,8 @@ namespace BlueprintsV2.Tools
             foreach (KeyValuePair<string, ToolParameterMenu.ToggleState> parameter in inputParameters)
             {
                 GameObject widetPrefab = Util.KInstantiateUI(ToolMenu.Instance.toolParameterMenu.widgetPrefab, widgetContainer, true);
-                widetPrefab.GetComponentInChildren<LocText>().text = Strings.Get("STRINGS.UI.TOOLS.FILTERLAYERS." + parameter.Key);
+                widetPrefab.GetComponentInChildren<LocText>().text = Strings.Get("STRINGS.UI.TOOLS.FILTERLAYERS." + parameter.Key+".NAME");
+                
 
                 MultiToggle toggle = widetPrefab.GetComponentInChildren<MultiToggle>();
                 switch (parameter.Value)

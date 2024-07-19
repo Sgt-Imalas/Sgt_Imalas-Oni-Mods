@@ -190,7 +190,12 @@ namespace BlueprintsV2
                 {
                     public static LocString ALL = "All";
                     public static LocString NONE = "None";
-                    public static LocString BLUEPRINTV2_PRESERVEAIRTILES = "Air Pockets";
+                    public static LocString AUTOSYNC = "Auto. Sync"; 
+                    public class BLUEPRINTV2_PRESERVEAIRTILES
+                    {
+                        public static LocString NAME = "Air Pockets";
+                        public static LocString TOOLTIP = "Dig commands on tiles that are not solid";
+                    }
                 }
             }
         }
