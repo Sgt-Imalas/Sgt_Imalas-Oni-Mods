@@ -42,9 +42,9 @@ namespace SetStartDupes
         {
             public static void Postfix(Traits __instance)
             {
-                if(__instance.HasTrait("StickerBomber")
+                if (__instance.HasTrait("StickerBomber")
                     && __instance.TryGetComponent<MinionIdentity>(out var identity)
-                    && (identity.stickerType==null||identity.stickerType.Length==0))
+                    && (identity.stickerType == null || identity.stickerType.Length == 0))
                 {
                     SgtLogger.l("fixing stickerType");
                     identity.stickerType = ModAssets.GetRandomStickerType();
@@ -221,13 +221,13 @@ namespace SetStartDupes
                     other != null && other != __instance.identity)
             {
 
-                
-                    // Cannot talk to yourself (self)
-                    if (other.TryGetComponent(out StateMachineController smc))
-                        smc.GetSMI<JoyBehaviourMonitor.Instance>()?.GoToOverjoyed();
-                    if (__instance.TryGetComponent(out smc))
-                        smc.GetSMI<JoyBehaviourMonitor.Instance>()?.GoToOverjoyed();
-                
+
+                // Cannot talk to yourself (self)
+                if (other.TryGetComponent(out StateMachineController smc))
+                    smc.GetSMI<JoyBehaviourMonitor.Instance>()?.GoToOverjoyed();
+                if (__instance.TryGetComponent(out smc))
+                    smc.GetSMI<JoyBehaviourMonitor.Instance>()?.GoToOverjoyed();
+
 
             }
             __instance.conversationPartners.Clear();
@@ -594,7 +594,7 @@ namespace SetStartDupes
 
                     EditButton.onClick += () =>
                     {
-                        DuplicityMainScreen.ShowWindow(__instance.target, () => { } );
+                        DuplicityMainScreen.ShowWindow(__instance.target, () => { });
                     };
                     DupeStatEditingButtonGO = EditButton.gameObject;
                     DupeStatEditingButtonGO.SetActive(false);
@@ -618,7 +618,7 @@ namespace SetStartDupes
 
                 bool ShowDupeEditing = Config.Instance.DuplicityDupeEditor || debugActive;
                 bool ShowSkinEditing = Config.Instance.LiveDupeSkins || debugActive;
-                
+
                 AddSkinButtonToDetailScreen.SkinButtonGO?.SetActive(ShowSkinEditing);
                 AddSkinButtonToDetailScreen.DupeStatEditingButtonGO?.SetActive(ShowDupeEditing);
             }
@@ -858,6 +858,7 @@ namespace SetStartDupes
                 SgtLogger.l("Manually patching CharacterSelectionController..");
                 CharacterSelectionController_Patch2.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
                 CharacterSelectionController_Patch.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
+                MinionSelectScreen_SetDefaultMinionsRoutine.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
             }
         }
 
@@ -899,7 +900,10 @@ namespace SetStartDupes
             public static void CarePackagesOnly()
             {
                 if (instance is MinionSelectScreen)
+                {
+                    SgtLogger.l("skipping care package only for start screen");
                     return;
+                }
 
                 if (Config.Instance.CarePackagesOnly && Components.LiveMinionIdentities.Count >= Config.Instance.CarePackagesOnlyDupeCap)
                 {
@@ -1304,43 +1308,101 @@ namespace SetStartDupes
             //}
         }
 
+        public class MinionSelectScreen_SetDefaultMinionsRoutine
+        {
+            public static void AssetOnPrefabInitPostfix(Harmony harmony)
+            {
+                var m_TargetMethod = AccessTools.Method("MinionSelectScreen, Assembly-CSharp:SetDefaultMinionsRoutine");
+                //var m_Transpiler = AccessTools.Method(typeof(CharacterSelectionController_Patch), "Transpiler");
+                var m_Postfix = AccessTools.Method(typeof(MinionSelectScreen_SetDefaultMinionsRoutine), "Postfix");
+
+                harmony.Patch(m_TargetMethod, null, new HarmonyMethod(m_Postfix)
+                    // , new HarmonyMethod(m_Transpiler)
+                    );
+            }
+
+            private static System.Collections.IEnumerator MinionNumberAdustmentRoutine(MinionSelectScreen __instance)
+            {
+
+                yield return (object)SequenceUtil.WaitForNextFrame;
+                yield return (object)SequenceUtil.WaitForNextFrame;
+                yield return (object)SequenceUtil.WaitForNextFrame;
+                yield return (object)SequenceUtil.WaitForNextFrame;
+
+                int currentCount = __instance.containers.Count;
+                int targetCount = Math.Max(1, Config.Instance.DuplicantStartAmount);
+                if (currentCount == targetCount)
+                {
+                    yield break;
+                }
+                else if (currentCount < targetCount)
+                {
+                    for (int i = 0; i < targetCount - currentCount; i++)
+                    {
+                        CharacterContainer characterContainer = Util.KInstantiateUI<CharacterContainer>(__instance.containerPrefab.gameObject, __instance.containerParent);
+                        characterContainer.SetController(__instance);
+                        __instance.containers.Add(characterContainer);
+                    }
+                }
+                else if (currentCount > targetCount)
+                {
+                    for (int i = 0; i < currentCount - targetCount; i++)
+                    {
+                        if (__instance.containers.Count > 1)
+                        {
+                            var container = __instance.containers[0];
+                            __instance.containers.Remove(container);
+                            UnityEngine.Object.Destroy(container.GetGameObject());
+                        }
+                    }
+                }
+            }
+
+            public static void Postfix(MinionSelectScreen __instance)
+            {
+                SgtLogger.l("MinionSelectScreen postfix");
+                __instance.StartCoroutine(MinionNumberAdustmentRoutine(__instance));
+            }
+        }
         //[HarmonyPatch(typeof(CharacterSelectionController), nameof(CharacterSelectionController.InitializeContainers))]
         public class CharacterSelectionController_Patch
         {
             public static void AssetOnPrefabInitPostfix(Harmony harmony)
             {
                 var m_TargetMethod = AccessTools.Method("CharacterSelectionController, Assembly-CSharp:InitializeContainers");
-                var m_Transpiler = AccessTools.Method(typeof(CharacterSelectionController_Patch), "Transpiler");
+                //var m_Transpiler = AccessTools.Method(typeof(CharacterSelectionController_Patch), "Transpiler");
                 var m_Prefix = AccessTools.Method(typeof(CharacterSelectionController_Patch), "Prefix");
                 var m_Postfix = AccessTools.Method(typeof(CharacterSelectionController_Patch), "Postfix");
 
-                harmony.Patch(m_TargetMethod, new HarmonyMethod(m_Prefix), new HarmonyMethod(m_Postfix), new HarmonyMethod(m_Transpiler));
+                harmony.Patch(m_TargetMethod, new HarmonyMethod(m_Prefix), new HarmonyMethod(m_Postfix)
+                    // , new HarmonyMethod(m_Transpiler)
+                    );
             }
 
-            public static int CustomStartingDupeCount(int dupeCount) ///int requirement to consume previous "3" on stack
-            {
-                if (dupeCount == 3 && CharacterSelectionController_Patch2.instance is MinionSelectScreen)
-                    return Config.Instance.DuplicantStartAmount; ///push new value to the stack
-                else return dupeCount;
-            }
+            //public static int CustomStartingDupeCount(int dupeCount) ///int requirement to consume previous "3" on stack
+            //{
+            //    if (dupeCount == 3 && CharacterSelectionController_Patch2.instance is MinionSelectScreen)
+            //        return Config.Instance.DuplicantStartAmount; ///push new value to the stack
+            //    else return dupeCount;
+            //}
 
-            public static readonly MethodInfo AdjustNumber = AccessTools.Method(
-               typeof(CharacterSelectionController_Patch),
-               nameof(CustomStartingDupeCount));
+            //public static readonly MethodInfo AdjustNumber = AccessTools.Method(
+            //   typeof(CharacterSelectionController_Patch),
+            //   nameof(CustomStartingDupeCount));
 
-            [HarmonyPriority(Priority.VeryLow)]
-            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
-            {
-                var code = instructions.ToList();
-                var insertionIndex = code.FindIndex(ci => ci.opcode == OpCodes.Ldc_I4_3);
+            //[HarmonyPriority(Priority.VeryLow)]
+            //static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
+            //{
+            //    var code = instructions.ToList();
+            //    var insertionIndex = code.FindIndex(ci => ci.opcode == OpCodes.Ldc_I4_3);
 
-                //foreach (var v in code) { Debug.Log(v.opcode + " -> " + v.operand); };
-                if (insertionIndex != -1)
-                {
-                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, AdjustNumber));
-                }
-                return code;
-            }
+            //    //foreach (var v in code) { Debug.Log(v.opcode + " -> " + v.operand); };
+            //    if (insertionIndex != -1)
+            //    {
+            //        code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, AdjustNumber));
+            //    }
+            //    return code;
+            //}
 
             /// <summary>
             /// Size Adjustment
@@ -1369,7 +1431,7 @@ namespace SetStartDupes
                             var scroll = layout.transform.parent.parent.FindOrAddComponent<ScrollRect>();
                             scroll.content = layout.transform.parent.rectTransform();
                             scroll.horizontal = false;
-                            scroll.scrollSensitivity = 100;
+                            scroll.scrollSensitivity = 150;
                             scroll.movementType = ScrollRect.MovementType.Clamped;
                             scroll.inertia = false;
                             ///setting start pos
