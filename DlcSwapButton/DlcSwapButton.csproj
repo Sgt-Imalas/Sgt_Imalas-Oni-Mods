@@ -26,7 +26,7 @@
 		<ModName>Old Dlc Toggle</ModName>
 		<ModDescription></ModDescription>
 		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
-    <MinimumSupportedBuild>$(FrostyPlanetBeta)</MinimumSupportedBuild>
+    <MinimumSupportedBuild>$(FrostyPlanetRelease)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 

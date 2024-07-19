@@ -898,6 +898,9 @@ namespace SetStartDupes
             //}
             public static void CarePackagesOnly()
             {
+                if (instance is MinionSelectScreen)
+                    return;
+
                 if (Config.Instance.CarePackagesOnly && Components.LiveMinionIdentities.Count >= Config.Instance.CarePackagesOnlyDupeCap)
                 {
                     instance.numberOfCarePackageOptions = Config.Instance.CarePackagesOnlyPackageCount;
