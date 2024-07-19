@@ -90,10 +90,6 @@ namespace UtilLibs.UIcmp //Source: Aki
             {
                 return;
             }
-
-            if (!allowRightClick && eventData.button != PointerEventData.InputButton.Left)
-                return;
-
             if (KInputManager.isFocused)
             {
                 KInputManager.SetUserActive();
@@ -101,7 +97,7 @@ namespace UtilLibs.UIcmp //Source: Aki
                 if (!eventData.IsPointerMoving())
                 {
                     button?.OnDeselect(null);
-                    if (OnClick != null && OnRightClick != null)
+                    if (OnRightClick != null)
                     {
                         if (eventData.button == PointerEventData.InputButton.Right)
                         {
@@ -109,7 +105,12 @@ namespace UtilLibs.UIcmp //Source: Aki
                             return;
                         }
                     }
-                    OnClick?.Invoke();
+                    if(OnClick != null)
+                    {
+
+                        if (eventData.button == PointerEventData.InputButton.Left || allowRightClick)
+                            OnClick?.Invoke();
+                    }
                 }          
             }
         }
@@ -160,6 +161,10 @@ namespace UtilLibs.UIcmp //Source: Aki
             if (KInputManager.isFocused)
             {
                 KInputManager.SetUserActive();
+                
+                if ((OnClick != null && (eventData.button == PointerEventData.InputButton.Left || allowRightClick))
+                    ||(OnRightClick !=null && eventData.button == PointerEventData.InputButton.Right)
+                    )
                 PlaySound(UISoundHelper.ClickOpen);
             }
         }
