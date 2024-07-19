@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UtilLibs;
 using static Klei.SimUtil;
 
 namespace CritterTraitsReborn.Components
@@ -82,7 +83,13 @@ namespace CritterTraitsReborn.Components
             }
 
             int gameCell = Grid.PosToCell(gameObject.transform.GetPosition());
-            float temp = Db.Get().Amounts.Temperature.Lookup(this).value;
+            float temp = UtilMethods.GetKelvinFromC(10);
+            if (gameObject.TryGetComponent<PrimaryElement>(out var ele))
+            {
+                temp = ele.Temperature;
+            }
+            else
+                SgtLogger.l("no primary elemenet found");
             SimMessages.AddRemoveSubstance(gameCell, SimHashes.ContaminatedOxygen, CellEventLogger.Instance.ElementConsumerSimUpdate, 0.0025f, temp, DiseaseInfo.Invalid.idx, DiseaseInfo.Invalid.count);
             KFMOD.PlayOneShot(GlobalAssets.GetSound("Dupe_Flatulence"), base.transform.GetPosition());
         }
