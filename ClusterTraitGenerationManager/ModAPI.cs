@@ -129,6 +129,8 @@ namespace ClusterTraitGenerationManager
         public const string DefaultForestStartBiome = "expansion1::subworlds/forest/med_ForestStart";
         public const string DefaultForestWarpBiome = "expansion1::subworlds/forest/ForestWarpStart";
 
+        public const string DefaultCeresStartBiome = "dlc2::subworlds/icecaves/IceCavesStart";
+
         public enum StartAreaType
         {
             Undefined = 0,
@@ -253,6 +255,10 @@ namespace ClusterTraitGenerationManager
         {
             if (world != null)
             {
+                if (world.worldTags!=null && world.worldTags.Contains("Ceres"))
+                    return DefaultCeresStartBiome;
+
+
                 if (world.defaultsOverrides != null && world.defaultsOverrides.data != null && world.defaultsOverrides.data.Count > 0)
                 {
                     if (!Warp)
@@ -304,10 +310,16 @@ namespace ClusterTraitGenerationManager
         public const string DefaultSwampWater = "expansion1::subworlds/swamp/SwampMini";
         public const string DefaultForestWater = "subworlds/forest/ForestMiniWater";
 
+        public const string DefaultCeresWater = "dlc2::subworlds/icecaves/IceCavesMiniWater";
+
         public static string GetStartAreaWaterSubworld(ProcGen.World world)
         {
             if (world != null)
             {
+                if (world.worldTags!=null && world.worldTags.Contains("Ceres"))
+                    return DefaultCeresWater;
+
+
                 if (world.defaultsOverrides != null && world.defaultsOverrides.data != null && world.defaultsOverrides.data.Count > 0)
                 {
                     if (world.defaultsOverrides.data.TryGetValue(StartWorld_StartingAreaWaterSubworld_Key, out var SubworldOverride) && SubworldOverride is string)
@@ -349,10 +361,16 @@ namespace ClusterTraitGenerationManager
         public const string DefaultForestStartBase = "bases/forestBase";
         public const string DefaultForestWarpBase = "expansion1::bases/warpworldForestBase";
 
+        public const string DefaultCeresStartBase = "dlc2::bases/ceresBase";
+
         public static string GetStarterBaseTemplate(ProcGen.World world, bool Warp)
         {
             if (world != null)
             {
+                if (world.worldTags!=null && world.worldTags.Contains("Ceres"))
+                    return DefaultCeresStartBase;
+
+
                 if (world.defaultsOverrides != null && world.defaultsOverrides.data != null && world.defaultsOverrides.data.Count > 0)
                 {
                     if (!Warp)

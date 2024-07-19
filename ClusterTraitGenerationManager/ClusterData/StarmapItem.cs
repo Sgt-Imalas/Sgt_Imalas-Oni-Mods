@@ -24,8 +24,7 @@ namespace ClusterTraitGenerationManager.ClusterData
         [JsonIgnore] public ProcGen.World world;
         [JsonIgnore] public Vector2I originalWorldDimensions;
         [JsonIgnore] public string ModName = string.Empty;
-
-
+        
         public WorldPlacement placement;
 
         public SpaceMapPOIPlacement placementPOI;

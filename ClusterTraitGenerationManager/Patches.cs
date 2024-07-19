@@ -115,8 +115,35 @@ namespace ClusterTraitGenerationManager
                 }
             }
         }
-
-
+        [HarmonyPatch(typeof(RetiredColonyInfoScreen), nameof(RetiredColonyInfoScreen.IsAchievementValidForDLCContext))]
+        public static class Fix_existing_games_with_ceres
+        {
+            public static void Postfix(RetiredColonyInfoScreen __instance, ref bool __result, string[] dlcid, string clusterTag)
+            {
+                if (__result == false
+                    && clusterTag != null
+                    && Game.clusterId == CustomClusterID
+                    && DlcManager.IsContentSubscribed(DlcManager.DLC2_ID)
+                    && SaveLoader.Instance.IsDlcListActiveForCurrentSave(dlcid)
+                    && SaveGameData.Instance != null
+                    )
+                {
+                    __result = SaveGameData.Instance.IsCeresAsteroidInCluster(clusterTag);
+                }
+            }
+        }
+        public class SaveGamePatch
+        {
+            [HarmonyPatch(typeof(SaveGame), "OnPrefabInit")]
+            public class SaveGame_OnPrefabInit_Patch
+            {
+                public static void Postfix(SaveGame __instance)
+                {
+                    SgtLogger.l("Savegame_OnPrefabInit");
+                    __instance.gameObject.AddOrGet<SaveGameData>();
+                }
+            }
+        }
 
 
         /// <summary>
@@ -128,6 +155,7 @@ namespace ClusterTraitGenerationManager
         {
             public static void Prefix(ColonyDestinationSelectScreen __instance)
             {
+
                 InitExtraWorlds.InitWorlds();
                 OverrideWorldSizeOnDataGetting.ResetCustomSizes();
 
@@ -1494,6 +1522,20 @@ namespace ClusterTraitGenerationManager
         {
             public static void Postfix(MinionSelectScreen __instance)
             {
+                if (CGSMClusterManager.LoadCustomCluster && CGSMClusterManager.CustomCluster != null)
+                {
+                    if (SaveGameData.Instance != null)
+                    {
+                        SgtLogger.l("writing custom cluster tags");
+                        SaveGameData.WriteCustomClusterTags(CGSMClusterManager.GeneratedLayout.clusterTags);
+                    }
+                }
+                
+                if (SettingsCache.clusterLayouts.clusterCache.ContainsKey(CustomClusterID))
+                {
+                    SettingsCache.clusterLayouts.clusterCache.Remove(CustomClusterID);
+                }
+
                 if (Config.Instance.AutomatedClusterPresets)
                     return;
 

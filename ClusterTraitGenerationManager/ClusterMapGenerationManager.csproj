@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>ClusterTraitGenerationManager</PackageId>
-		<Version>4.1.5.1</Version>
+		<Version>4.1.7.0</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>$(AssemblyCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
@@ -26,7 +26,7 @@
 		<ModName>Cluster Generation Manager [CGM]</ModName>
 		<ModDescription></ModDescription>
 		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
-		<MinimumSupportedBuild>$(FrostyPlanetBeta)</MinimumSupportedBuild>
+		<MinimumSupportedBuild>$(FrostyPlanetRelease)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 
