@@ -107,10 +107,12 @@ namespace MineralizerReborn
 
             ConduitDispenser conduitDispenser = go.AddOrGet<ConduitDispenser>();
             conduitDispenser.conduitType = ConduitType.Liquid;
-            conduitDispenser.elementFilter = new SimHashes[] { SimHashes.SaltWater, SimHashes.Brine };
+            conduitDispenser.elementFilter = new SimHashes[] { SimHashes.SaltWater, SimHashes.Brine, SimHashes.SugarWater };
             conduitDispenser.storage = SaltStorage;
             Prioritizable.AddRef(go);
-            go.AddOrGet<Mineralizer>().saltStorage = SaltStorage;
+            var mineralizer = go.AddOrGet<Mineralizer>();
+            mineralizer.saltStorage = SaltStorage;
+            mineralizer.mineral = SimHashes.SaltWater.CreateTag();
         }
 
         public override void DoPostConfigurePreview(BuildingDef def, GameObject go)
