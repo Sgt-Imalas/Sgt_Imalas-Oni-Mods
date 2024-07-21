@@ -643,8 +643,12 @@ namespace ClusterTraitGenerationManager
             {
                 reciever.SetPlanetRatioToPreset(item.ratioPreset);
             }
-            reciever.CustomX = item.customX;
-            reciever.CustomY = item.customY;
+            if(item.customX>0)
+                reciever.ApplyCustomDimension(item.customX,false);
+
+            if (item.customY > 0)
+                reciever.ApplyCustomDimension(item.customY, true);
+
             if (reciever.world != null)
             {
                 reciever.world.seasons = item.meteorSeasons;
