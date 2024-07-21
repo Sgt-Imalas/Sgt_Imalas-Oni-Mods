@@ -180,8 +180,14 @@ namespace SaveGameModLoader.ModFilter
                     symbolTr.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 28);
                     symbolTr.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 28);
 
+                    var inputField = trans.Find("LocTextInputField");
+
+                    var image = inputField.GetComponent<Image>();
+                    if (image != null)
+                        image.color = Color.white;
+
                     _filterManager = new FilterManager(
-                        trans.Find("LocTextInputField").GetComponent<TMP_InputField>(),
+                        inputField.GetComponent<TMP_InputField>(),
                         trans.Find("ClearButton").GetComponent<KButton>()
                     );
 

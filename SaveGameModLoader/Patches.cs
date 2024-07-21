@@ -20,6 +20,8 @@ using PeterHan.PLib.UI;
 using SaveGameModLoader.Patches;
 using static SaveGameModLoader.STRINGS.UI.FRONTEND.MODTAGS;
 using UtilLibs.ModSyncing;
+using SaveGameModLoader.UIComponents;
+using UtilLibs.UIcmp;
 
 namespace SaveGameModLoader
 {
@@ -158,6 +160,7 @@ namespace SaveGameModLoader
 
             internal static void Prefix(ModsScreen __instance)
             {
+                __instance.canBackoutWithRightClick = false;
                 var transf = __instance.entryPrefab.transform;
                 if (blue == null)
                 {
@@ -172,7 +175,8 @@ namespace SaveGameModLoader
                 }
                 if (!__instance.entryPrefab.transform.Find("PinBtn") && __instance.entryPrefab.TryGetComponent<HierarchyReferences>(out var hr))
                 {
-
+                    var rightclickButton = __instance.entryPrefab.gameObject.AddComponent<FButton>();
+                    rightclickButton.normalColor = Color.black;
                     SgtLogger.l("preparing prefab");
 
 
@@ -191,6 +195,7 @@ namespace SaveGameModLoader
                     tagBg.ClearOnClick();
                     var cmp_tagBgnTT = UIUtils.AddSimpleTooltipToObject(flatTransform, TAGEDITWINDOW.NOTAGS);
 
+                    ElementReference er_rightclickBt = new() { behaviour = rightclickButton, Name = rightClickBtn };
                     ElementReference er_tagBg = new() { behaviour = tagBg, Name = tagBgn };
                     ElementReference er_flagtt = new() { behaviour = cmp_tagBgnTT, Name = tagBgnText };
                     ElementReference er_flagimg = new() { behaviour = tagImg, Name = tagBgnImg };
@@ -223,6 +228,7 @@ namespace SaveGameModLoader
 
                     ElementReference[] refs = new ElementReference[]
                     {
+                        er_rightclickBt,
                         buttonImageBg,
                         backgroundImage,
                         pinButton,
@@ -245,6 +251,7 @@ namespace SaveGameModLoader
                 PinTransform = "MPM_PinTransform",
                 tagBgnTransform = "MPM_tagBgnTransform",
                 tagBgn = "MPM_tagBgn",
+                rightClickBtn = "MPM_rightclickbutton",
                 tagBgnImg = "MPM_tagBgnImage",
                 tagBgnText = "MPM_FlagText"
                 ;
@@ -275,7 +282,13 @@ namespace SaveGameModLoader
                             modButtonBg.colorStyleSetting = blue;
                             modButtonBg.ApplyColorStyleSetting();
                         }
-
+                        var contextButton = hier.GetReference<FButton>(rightClickBtn);
+                        contextButton.OnRightClick += () =>
+                        {
+                            //SgtLogger.l("rightclicked mod " + displayedMod.mod_index);
+                            //modStateConfig.TogglePinnedMod(staticModId);
+                            //__instance.RebuildDisplay("pinned mod changed");
+                        };
 
                         var pinButton = hier.GetReference<KButton>(PinButton);
                         pinButton.onClick += () =>
