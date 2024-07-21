@@ -111,6 +111,7 @@ namespace SetStartDupes
         public static CarePackageInfo[] GetAdditionalCarePackages()
         {
             bool Dlc1Active = DlcManager.IsExpansion1Active();
+            bool Dlc2ActiveForSave = SaveLoader.Instance.GameInfo.dlcIds.Contains(DlcManager.DLC2_ID);
 
             var carePackages = new List<CarePackageInfo>()
             {          
@@ -151,6 +152,16 @@ namespace SetStartDupes
 
                 });
             }
+
+            if (Dlc2ActiveForSave)
+            {
+                carePackages.AddRange(new List<CarePackageInfo>()
+                {
+                    ///carved lumen quartz
+                    new CarePackageInfo(PinkRockCarvedConfig.ID, 1f, () => Immigration.CycleCondition(48) || Immigration.CycleCondition(500))                    
+                });
+            }
+
             return carePackages.ToArray();
         }
         public static void LoadAssets()

@@ -93,7 +93,7 @@ namespace MeteorShield
                     .EventTransition(GameHashes.OperationalChanged, Off, smi => !smi.master.operational.IsOperational);
                 On.ShieldActive
                     .ParamTransition(ShieldStrength,On.ShieldCollapse, (smi,strenght) => strenght >= 0f)
-                    .Update((smi,dt)=>smi.master.DefendAgainstMeteors(smi,dt))
+                    //.Update((smi,dt)=>smi.master.DefendAgainstMeteors(smi,dt))
                     ;
                 On.ShieldActive.BubbleBuilding
                    .ParamTransition(ShieldStrength, On.ShieldActive.BubbleBuilding, (smi, strength) => strength >= smi.master.MaxShieldStrength)

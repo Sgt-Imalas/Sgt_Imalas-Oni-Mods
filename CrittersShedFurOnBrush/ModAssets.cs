@@ -41,12 +41,18 @@ namespace CrittersShedFurOnBrush
 
             if (Config.Instance.PlugSlug)
                 AddFluffyCritter((Tag)StaterpillarConfig.ID, 1f / 6f, UIUtils.rgb(31, 113, 121));
+
+
+            if (Config.Instance.Flox)
+                AddFluffyCritter((Tag)WoodDeerConfig.ID, 1f / 7f, UIUtils.rgb(162, 223, 205));
+            if (Config.Instance.Bammoth)
+                AddFluffyCritter((Tag)IceBellyConfig.ID, 1f / 6f, Color.white);
         }
         public static void AddFluffyCritter(Tag critterId, float floofPerCycle) => AddFluffyCritter(critterId, floofPerCycle, Color.white);
         public static void AddFluffyCritter(Tag critterId, float floofPerCycle, Color floofColour)
         {
             var FloofInfo = new FloofCarrier(critterId, floofPerCycle, floofColour);
-            SheddableCritters.Add(critterId,FloofInfo);
+            SheddableCritters[critterId] = FloofInfo;
 
         }
         public struct FloofCarrier

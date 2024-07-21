@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>CannedFoods</PackageId>
-		<Version>3.0.4</Version>
+		<Version>3.0.5</Version>
 		<Authors>Sgt_Imalas</Authors>
 		     <Copyright>$(AssemblyCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
