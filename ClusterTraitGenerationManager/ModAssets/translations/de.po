@@ -11,7 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Application: Oxygen Not IncludedPOT Version: 2.0\n"
-"X-Generator: Poedit 3.4.1\n"
+"X-Generator: Poedit 3.4.4\n"
 
 #. ClusterTraitGenerationManager.STRINGS.CLUSTER_NAMES.CGM.DESCRIPTION
 msgctxt "ClusterTraitGenerationManager.STRINGS.CLUSTER_NAMES.CGM.DESCRIPTION"
@@ -44,6 +44,26 @@ msgstr ""
 "Fehler bei Sternenkartengenerierung!\n"
 "{0} konnte nicht auf der Sternenkarte platziert werden. Erhöhe die maximale "
 "Distanz dieses Asteroiden um das Problem zu beheben."
+
+#. ClusterTraitGenerationManager.STRINGS.MODCONFIG.MANUALCLUSTERPRESETS.NAME
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.MODCONFIG.MANUALCLUSTERPRESETS.NAME"
+msgid "Automated Cluster Preset"
+msgstr "Automatische Preset-Erstellung"
+
+#. ClusterTraitGenerationManager.STRINGS.MODCONFIG.MANUALCLUSTERPRESETS.TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.MODCONFIG.MANUALCLUSTERPRESETS.TOOLTIP"
+msgid ""
+"Each time you start a new CGM cluster, a cluster preset will be created "
+"automatically.\n"
+"if deactivated, there will be a button for manual creation on the start "
+"screen instead."
+msgstr ""
+"Jedes mal, wenn ein neues CGM-Cluster gestartet wird, wird automatisch ein "
+"Preset generiert.}n\n"
+"Wenn diese Option deaktiviert ist, gibt es stattdesen einen Knopf dafür auf "
+"dem Startbildschirm."
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CATEGORYENUM.OUTER
 msgctxt "ClusterTraitGenerationManager.STRINGS.UI.CATEGORYENUM.OUTER"
@@ -187,12 +207,15 @@ msgctxt ""
 "CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.BIOMEMISSINGWARNING"
 msgid ""
 "Warning!\n"
-"The selected planet dimensions are very low, this can lead to not all biomes "
-"generating!"
+"The selected planet dimensions are too small, making it very likely to fail "
+"worldgen.\n"
+"Increase them to avoid that!"
 msgstr ""
 "Achtung!\n"
 "Die gewählten Planetendimensionen sind sehr gering, das kann dazu führen, "
-"dass nicht alle Biome generiert werden!"
+"dass nicht alle Biome generiert werden\n"
+"und die Weltgenerierung in einen Fehler läuft.\n"
+"Erhöhe sie um dies zu vermeiden!"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.CONTENT.INFO.HEIGHTLABEL.LABEL
 msgctxt ""
@@ -475,7 +498,7 @@ msgid ""
 "Warning!\n"
 "The planet size you have selected has {0}% more area than a normal vanilla "
 "size asteroid.\n"
-"This might lead to a low game performance!"
+"This might lead to low game performance!"
 msgstr ""
 "Warnung!\n"
 "Die gewählte Planetengröße hat {0}% mehr Fläche als ein normaler Asteroid in "
@@ -1676,6 +1699,18 @@ msgctxt ""
 "NAME"
 msgid "Random Teleporter Asteroid"
 msgstr "Zufälliger Teleporterasteroid"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.MODDEDPLANET
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.MODDEDPLANET"
+msgid "(Modded)"
+msgstr "(Mod)"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.MODDEDPLANETDESC
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.MODDEDPLANETDESC"
+msgid "Added by the mod \"{0}\""
+msgstr "Hinzugefügt von \"{0}\""
 
 #. ClusterTraitGenerationManager.STRINGS.UI.STARMAPITEMDESCRIPTOR.ASTEROID
 msgctxt ""
