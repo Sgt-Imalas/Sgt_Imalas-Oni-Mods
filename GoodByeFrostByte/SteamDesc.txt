@@ -1,0 +1,39 @@
+﻿[h1]Goodbye Frostbite![/h1]
+
+Don't like the new Frostbite (and Heat) mechanics for critters and duplicants?
+This mod allows you to adjust them to your liking!
+
+[img]https://i.imgur.com/GbFtLZ2.png[/img]
+
+[h1]Current latest Version: 1.0.0/h1]
+
+[hr][/hr]
+
+[h1]Features[/h1]
+This mod is highly modular, allowing you to toggle each of the following features individually:
+[list][*] Disable heat debuffs - duplicants no longer get an athletics and stamina debuff when in hot areas
+[*] Disable cold debuffs - duplicants no longer get an athletics and stamina debuff when in cold areas
+[*] Disable frostbite damage - completely removes frostbite damage for duplicants (disabled by default)
+[*] Disable cold sleep interrupt - duplicants won't wake up in cold areas (disabled by default since it is included in "disable cold debuffs", use it if you only want this part disabled)
+[*] Logarithmic Athletics debuff scaling - reduces the athletics penalty per point the higher the penalty gets (disabled by default)
+[*] Old critter temperature detection - critters only check their own temperature for tempeature related behavior (like before the update)
+[*] Disable critter temperature glum effects - critters no longer get -1 happiness when in uncomfortable temperatures
+
+[/list]
+
+[hr][/hr]
+[h1]Credits[/h1]
+Mod Options created with PLib by PeterHan, available under MIT license
+
+[h1]Bug Reports & Local Download[/h1]
+You can find direct downloads for my mods [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases]here[/url] (please notify me if I forgot to release new versions).
+
+Please post bug reports and issues on [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url] or on my [url=https://discord.gg/5n7peBCnWZ]Discord Server[/url]. 
+[b]Always include the full player.log in a report: [/b] https://github.com/aki-art/ONI-Mods/wiki/How-to-send-a-log
+
+[b]Make sure you do NOT have the mod "Debug Console" enabled as it breaks the game's logging and makes the log useless for fixing bugs![/b] 
+
+[hr][/hr]
+
+Do you like the mods I made? If you want, you can support me on [url=https://www.buymeacoffee.com/sgtimalas]Buy me a coffe[/url] or [url=https://ko-fi.com/sgtimalas]Kofi[/url] :D.
+Do u like 3GuB's art and animations? you can support him on [url=https://ko-fi.com/03gub]Kofi[/url].

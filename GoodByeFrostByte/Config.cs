@@ -23,18 +23,18 @@ namespace GoodByeFrostByte
 
         [Option("STRINGS.MODCONFIG_GOODBYEFROSTBITE.DISABLECOLDDEBUFF.NAME", "STRINGS.MODCONFIG_GOODBYEFROSTBITE.DISABLECOLDDEBUFF.TOOLTIP")]
         [JsonProperty]
-        public bool DisableDupeColdDebuff { get; set; } = false;
+        public bool DisableDupeColdDebuff { get; set; } = true;
         [Option("STRINGS.MODCONFIG_GOODBYEFROSTBITE.DISABLECOLDDAMAGE.NAME", "STRINGS.MODCONFIG_GOODBYEFROSTBITE.DISABLECOLDDAMAGE.TOOLTIP")]
         [JsonProperty]
         public bool DisableDupeColdDamage { get; set; } = false;
 
         [Option("STRINGS.MODCONFIG_GOODBYEFROSTBITE.DISABLECOLDSLEEP.NAME", "STRINGS.MODCONFIG_GOODBYEFROSTBITE.DISABLECOLDSLEEP.TOOLTIP")]
         [JsonProperty]
-        public bool DisableDupeColdSleep { get; set; } = true;
+        public bool DisableDupeColdSleep { get; set; } = false;
 
         [Option("STRINGS.MODCONFIG_GOODBYEFROSTBITE.LOGARITHMICSPEEDDEBUFF.NAME", "STRINGS.MODCONFIG_GOODBYEFROSTBITE.LOGARITHMICSPEEDDEBUFF.TOOLTIP")]
         [JsonProperty]
-        public bool LogarithmicSpeedDebuff { get; set; } = true;
+        public bool LogarithmicSpeedDebuff { get; set; } = false;
 
         [Option("STRINGS.MODCONFIG_GOODBYEFROSTBITE.OLDCRITTERTEMPDETECTION.NAME", "STRINGS.MODCONFIG_GOODBYEFROSTBITE.OLDCRITTERTEMPDETECTION.TOOLTIP")]
         [JsonProperty]

@@ -13,13 +13,13 @@ namespace GoodByeFrostByte
         {
             public class DISABLECOLDSLEEP
             {
-                public static LocString NAME = "Disable cold sleep interupt";
-                public static LocString TOOLTIP = "Dupes no longer wake up from being too cold.\nAlso included in \"Disable cold debuffs\"";
+                public static LocString NAME = "Disable cold sleep interrupt";
+                public static LocString TOOLTIP = "Dupes no longer wake up from being too cold.\nAlso included in \"Disable cold debuffs\"\nUse this option if you still want the cold debuff without the waking up part.";
             }
             public class DISABLECOLDDEBUFF
             {
                 public static LocString NAME = "Disable cold debuffs";
-                public static LocString TOOLTIP = "Dupes don't get a athletics and stamina debuff in cold areas\nAlso includes " + DISABLECOLDSLEEP.NAME;
+                public static LocString TOOLTIP = "Dupes don't get a athletics and stamina debuff in cold areas\nAlso includes the feature of \"Disable cold sleep interupt\"" ;
             }
             public class DISABLECOLDDAMAGE
             {
@@ -33,7 +33,7 @@ namespace GoodByeFrostByte
             }
             public class OLDCRITTERTEMPDETECTION
             {
-                public static LocString NAME = "Critter temperature detection uses internal temperature";
+                public static LocString NAME = "Old critter temperature detection";
                 public static LocString TOOLTIP = "Critters will only check their own temperature for any heat or cold related effects";
             }
             public class OLDCRITTERTEMPHAPPINESS
