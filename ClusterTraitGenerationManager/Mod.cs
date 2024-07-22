@@ -36,17 +36,12 @@ namespace ClusterTraitGenerationManager
                 SgtLogger.error("Could not create folder, Exception:\n" + e);
             }
             SgtLogger.log("Folders succesfully initialized");
-
             SgtLogger.LogVersion(this, harmony);
-#if DEBUG
-            //Debug.LogError("Error THIS IS NOT RELEASE");
-#endif
         }
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
         {
             base.OnAllModsLoaded(harmony, mods);
-            CompatibilityNotifications.FlagLoggingPrevention(mods);
-            
+            CompatibilityNotifications.FlagLoggingPrevention(mods);            
             CompatibilityNotifications.RemoveCrashingIncompatibility(harmony,mods,"CGSMMerged");
             CompatibilityNotifications.RemoveCrashingIncompatibility(harmony,mods, "WGSM");
         }

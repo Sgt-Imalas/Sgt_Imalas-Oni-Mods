@@ -14,6 +14,10 @@ namespace ClusterTraitGenerationManager.UI.ItemEntryTypes
 
         public void Initialize(StarmapItem planet)
         {
+            if(planet == null)
+            {
+                SgtLogger.error("gallery item planet was null!");
+            }
 
             Image itemIconImage = transform.Find("Image").GetComponent<Image>();
             ItemNumber = transform.Find("AmountLabel").GetComponent<LocText>();
@@ -35,7 +39,7 @@ namespace ClusterTraitGenerationManager.UI.ItemEntryTypes
 
 
 
-            UIUtils.AddSimpleTooltipToObject(this.transform, planet.DisplayName + "\n\n" + planet.DisplayDescription, true, 300, true);
+            UIUtils.AddSimpleTooltipToObject(this.transform,"("+ planet.id+")\n"+ planet.DisplayName + "\n\n" + planet.DisplayDescription, true, 300, true);
             Refresh(planet, true);
         }
         public void Refresh(StarmapItem planet, bool inCluster, bool currentlySelected = false)

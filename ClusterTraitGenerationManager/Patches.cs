@@ -73,6 +73,8 @@ namespace ClusterTraitGenerationManager
         [HarmonyPatch(typeof(LoadScreen), "ShowColonySave")]
         public static class LoadScreen_NameFix
         {
+            public static void Prefix() => RemoveFromCache();
+
             public static void Postfix(LoadScreen.SaveGameFileDetails save, LoadScreen __instance)
             {
                 if (save.FileInfo.clusterId == CustomClusterID)
@@ -115,23 +117,6 @@ namespace ClusterTraitGenerationManager
                 }
             }
         }
-        [HarmonyPatch(typeof(RetiredColonyInfoScreen), nameof(RetiredColonyInfoScreen.IsAchievementValidForDLCContext))]
-        public static class Fix_existing_games_with_ceres
-        {
-            public static void Postfix(RetiredColonyInfoScreen __instance, ref bool __result, string[] dlcid, string clusterTag)
-            {
-                if (__result == false
-                    && clusterTag != null
-                    && Game.clusterId == CustomClusterID
-                    && DlcManager.IsContentSubscribed(DlcManager.DLC2_ID)
-                    && SaveLoader.Instance.IsDlcListActiveForCurrentSave(dlcid)
-                    && SaveGameData.Instance != null
-                    )
-                {
-                    __result = SaveGameData.Instance.IsCeresAsteroidInCluster(clusterTag);
-                }
-            }
-        }
         public class SaveGamePatch
         {
             [HarmonyPatch(typeof(SaveGame), "OnPrefabInit")]
@@ -158,11 +143,7 @@ namespace ClusterTraitGenerationManager
 
                 InitExtraWorlds.InitWorlds();
                 OverrideWorldSizeOnDataGetting.ResetCustomSizes();
-
-                if (SettingsCache.clusterLayouts.clusterCache.ContainsKey(CustomClusterID))
-                {
-                    SettingsCache.clusterLayouts.clusterCache.Remove(CustomClusterID);
-                }
+                
                 CGSMClusterManager.selectScreen = __instance;
             }
             public static void Postfix(ColonyDestinationSelectScreen __instance)
@@ -503,12 +484,12 @@ namespace ClusterTraitGenerationManager
                 List<KeyValuePair<string, ProcGen.World>> toAdd = new List<KeyValuePair<string, ProcGen.World>>();
                 foreach (var sourceWorld in __instance.worldCache)
                 {
-                    ///Moonlets already exist in all 3 configurations
 
                     if ((int)sourceWorld.Value.skip >= 99 || sourceWorld.Value.moduleInterior)
                         continue;
 
-                    if (CGSMClusterManager.SkipWorldForDlcReasons(sourceWorld.Key, sourceWorld.Value))
+                    ///Moonlets already exist in all 3 configurations
+                    if (CGSMClusterManager.SkipWorldForDlcReasons(sourceWorld.Key, sourceWorld.Value) ||ModAssets.Moonlets.Contains(sourceWorld.Key))
                     {
                         continue;
                     }
@@ -1530,11 +1511,6 @@ namespace ClusterTraitGenerationManager
                         SaveGameData.WriteCustomClusterTags(CGSMClusterManager.GeneratedLayout.clusterTags);
                     }
                 }
-                
-                if (SettingsCache.clusterLayouts.clusterCache.ContainsKey(CustomClusterID))
-                {
-                    SettingsCache.clusterLayouts.clusterCache.Remove(CustomClusterID);
-                }
 
                 if (Config.Instance.AutomatedClusterPresets)
                     return;
@@ -1597,6 +1573,7 @@ namespace ClusterTraitGenerationManager
                 WorldSizeMultiplier = 1f;
                 LoadCustomCluster = false;
                 StillLoading = false;
+                CGSMClusterManager.RemoveFromCache();
             }
         }
         public static bool StillLoading = true;

@@ -4,11 +4,13 @@ using ProcGen;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Security.Cryptography;
 using System.Text;
 using UnityEngine;
 using UtilLibs;
 using static ClusterTraitGenerationManager.STRINGS.UI;
+using static ProcGen.ClusterLayout;
 using static ProcGen.WorldPlacement;
 
 namespace ClusterTraitGenerationManager.ClusterData
@@ -260,6 +262,29 @@ namespace ClusterTraitGenerationManager.ClusterData
         }
 
         ///Random Asteroids stay random in preview
+
+        public static ClusterLayout GenerateDummyCluster(bool spacedOut, bool ceres)
+        {
+            ClusterLayout clusterLayout = new ClusterLayout();
+            clusterLayout.filePath = CustomClusterID;
+            clusterLayout.name = "STRINGS.CLUSTER_NAMES.CGM.NAME";
+            clusterLayout.description = "STRINGS.CLUSTER_NAMES.CGM.DESCRIPTION";
+            clusterLayout.worldPlacements = new List<WorldPlacement>();
+            clusterLayout.coordinatePrefix = CustomClusterIDCoordinate;
+            if (ceres)
+            {
+                clusterLayout.clusterTags.Add("CeresCluster");
+                clusterLayout.clusterTags.Add("GeothermalImperative");
+                clusterLayout.clusterAudio = new ClusterAudioSettings()
+                {
+                    musicWelcome = "Music_WattsonMessage_DLC2",
+                    musicFirst = "Ice_Planet",
+                    stingerDay = "Stinger_Day_DLC2",
+                    stingerNight = "Stinger_Loop_Night_DLC2"
+                };
+            }
+            return clusterLayout;
+        }
 
         public static ClusterLayout GenerateClusterLayoutFromCustomData(bool log)
         {
@@ -533,6 +558,13 @@ namespace ClusterTraitGenerationManager.ClusterData
                 {
                     layout.clusterTags.Add("CeresCluster");
                     layout.clusterTags.Add("GeothermalImperative");
+                    layout.clusterAudio = new ClusterAudioSettings()
+                    {
+                        musicWelcome = "Music_WattsonMessage_DLC2",
+                        musicFirst =  "Ice_Planet",
+                        stingerDay = "Stinger_Day_DLC2",
+                        stingerNight = "Stinger_Loop_Night_DLC2"
+                    };
                 }
             }
 
@@ -1245,17 +1277,6 @@ namespace ClusterTraitGenerationManager.ClusterData
                         string KeyUpper = WorldFromCache.Key.ToUpperInvariant();
                         bool SkipWorld = SkipWorldForDlcReasons(WorldFromCache.Key, WorldFromCache.Value);
 
-                        ///Hardcoded checks due to other mods not having the correct folder structure
-                        if (!SkipWorld && world.isModded)
-                        {
-                            SgtLogger.l("checking if pholith mod: " + KeyUpper);
-                            SkipWorld =
-                               (KeyUpper.Contains("EMPTERA") && (DlcManager.IsExpansion1Active() ? !KeyUpper.Contains("DLC") : KeyUpper.Contains("DLC")))
-                            || (KeyUpper.Contains("ISLANDS") && (DlcManager.IsExpansion1Active() ? !KeyUpper.Contains("DLC") : KeyUpper.Contains("DLC")))
-                            || (KeyUpper.Contains("FULERIA") && (DlcManager.IsExpansion1Active() ? !KeyUpper.Contains("DLC") : KeyUpper.Contains("DLC")));
-                        }
-
-
 
                         if (!SkipWorld)
                         {
@@ -1373,8 +1394,37 @@ namespace ClusterTraitGenerationManager.ClusterData
             "OilyMoonlet",
             //basegame:
             "TinySurface",
+            "BigEmpty"
 
         };
+
+        internal static bool SkipModdedWorld(string world, KMod.Mod mod)
+        {
+            if (mod == null)
+                return false;
+
+            string rewrittenPath = world;// SettingsCache.RewriteWorldgenPathYaml(world);
+
+            string staticModID = mod.staticID;
+            //RollerSnakes Check
+            if (staticModID == "test447.RollerSnake")
+            {
+                bool isBaseGameWorld = rewrittenPath == "worlds/Tetrament";
+
+                bool exclude = DlcManager.IsExpansion1Active() ? isBaseGameWorld : !isBaseGameWorld;
+                return exclude;
+            }
+            //Empty Worlds, Fuleria, ILoveSlicksters Check
+            if (staticModID == "EmptyWorlds" || staticModID == "AllBiomesWorld" || staticModID == "ILoveSlicksters")
+            {
+                SgtLogger.l("found "+ staticModID + " world: " + rewrittenPath);
+                bool isBaseGameWorld = !rewrittenPath.Contains("DLC");
+
+                bool exclude = DlcManager.IsExpansion1Active() ? isBaseGameWorld : !isBaseGameWorld;
+                return exclude;
+            }
+            return false;
+        }
 
         internal static bool SkipWorldForDlcReasons(string world, ProcGen.World worldItem)
         {
@@ -1384,20 +1434,21 @@ namespace ClusterTraitGenerationManager.ClusterData
             //hardcoded list due to skip being broken on current dev build:
             if (DevWorlds.Contains(fileName))
             {
-                SgtLogger.l("skipping dev world manually: " + world);
+                SgtLogger.l("skipping dev rewrittenPath manually: " + world);
                 return true;
             }
 
             string sourcePath = SettingsCache.RewriteWorldgenPathYaml(world);
+            if (ModAssets.ModPlanetOriginPaths.TryGetValue(world, out var moddedPath))
+            {
+                world = moddedPath;
+                sourcePath = SettingsCache.RewriteWorldgenPathYaml(moddedPath);
+            }
 
-            if (ModAssets.ModPlanetOriginPaths.ContainsKey(sourcePath))
-                sourcePath = ModAssets.ModPlanetOriginPaths[sourcePath];
-
-
-            if (ModAssets.IsModdedAsteroid(sourcePath, out _) || worldItem.isModded)
+            if (ModAssets.IsModdedAsteroid(sourcePath, out var mod) || worldItem.isModded)
             {
                 SgtLogger.l(world + " is modded");
-                return false;
+                return SkipModdedWorld(world, mod);
             }
 
             SettingsCache.GetDlcIdAndPath(world, out var dlcId, out var path);
@@ -1422,68 +1473,12 @@ namespace ClusterTraitGenerationManager.ClusterData
             return skip;
         }
 
-        //public class PlanetDlcData
-        //{
-        //    public List<string> requiredDlcIds = new(4);
-        //    public List<string> forbiddenDlcIds = new(4);
-        //    public bool SkipCluster;
-        //}
-
-        //private static Dictionary<string, PlanetDlcData> dlcInfoData;
-
-        //public static bool WorldAllowedByDlcSelection(string sourcePath)
-        //{
-        //    string planetID = sourcePath.Replace("Start", "").Replace("Outer", "").Replace("Warp", "");
-        //    if (dlcInfoData == null)
-        //    {
-        //        dlcInfoData = new();
-
-        //        foreach (var clusterData in SettingsCache.clusterLayouts.clusterCache.ToList())
-        //        {
-        //            var cluster = clusterData.Value;
-        //            if (cluster.requiredDlcIds == null && cluster.forbiddenDlcIds == null)
-        //                continue;
-
-        //            SgtLogger.l(cluster.skip.ToString(), "SKIP");
-
-        //            foreach (WorldPlacement planetPlacement in cluster.worldPlacements)
-        //            {
-        //                string sourceId = SettingsCache.RewriteWorldgenPathYaml(planetPlacement.world); ;
-        //                string worldID = sourceId.Replace("Start", "").Replace("Outer", "").Replace("Warp", "");
-        //                if (!dlcInfoData.TryGetValue(worldID, out var data))
-        //                {
-        //                    data = new();
-        //                }
-        //                if (cluster.requiredDlcIds != null)
-        //                {
-        //                    foreach (var forbidden in cluster.requiredDlcIds)
-        //                        if (!data.requiredDlcIds.Contains(forbidden))
-        //                            data.requiredDlcIds.Add(forbidden);
-        //                }
-        //                if (cluster.forbiddenDlcIds != null)
-        //                {
-        //                    foreach (var forbidden in cluster.forbiddenDlcIds)
-        //                        if (!data.forbiddenDlcIds.Contains(forbidden))
-        //                            data.forbiddenDlcIds.Add(forbidden);
-        //                }
-        //                data.SkipCluster = ((int)cluster.skip) >= 99;
-        //                dlcInfoData[worldID] = data;
-        //            }
-        //        }
-        //    }
-        //    if (dlcInfoData.TryGetValue(planetID, out var info))
-        //    {
-        //        bool requiredsEnabled = info.requiredDlcIds.All(DlcManager.IsContentSubscribed);
-        //        bool forbiddenEnabled = info.forbiddenDlcIds.Any(DlcManager.IsContentSubscribed);
-        //        //SgtLogger.l($" {planetID}: all requireds enabled: {requiredsEnabled}, no forbiddenEnabled: {!forbiddenEnabled}");
-        //        return requiredsEnabled && !forbiddenEnabled && !info.SkipCluster;
-        //    }
-        //    else
-        //    {
-        //        SgtLogger.l($"planet {sourcePath} not in cluster dictionary");
-        //        ///cluster that has not been loaded due to not being enabled in current dlc combo
-        //        return false;
-        //    }
-        //}
+        public static void RemoveFromCache()
+        {
+            if (SettingsCache.clusterLayouts.clusterCache.ContainsKey(CustomClusterID))
+            {
+                SettingsCache.clusterLayouts.clusterCache.Remove(CustomClusterID);
+            }
+        }
     }
 }

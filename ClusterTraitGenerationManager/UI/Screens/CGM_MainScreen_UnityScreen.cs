@@ -2381,7 +2381,6 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
             categoryToggles.Clear();
 
-
             foreach (var Planet in PlanetoidDict)
             {
                 AddItemToGallery(Planet.Value);
@@ -2798,7 +2797,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
             // PermitPresentationInfo presentationInfo = permit.GetPermitPresentationInfo();
             GameObject availableGridButton = Util.KInstantiateUI(PlanetoidEntryPrefab, galleryGridContainer);
-            var itemLogic = availableGridButton.AddComponent<GalleryItem>();
+            var itemLogic = availableGridButton.AddOrGet<GalleryItem>();
             itemLogic.Initialize(planet);
 
 
@@ -2820,8 +2819,6 @@ namespace ClusterTraitGenerationManager.UI.Screens
                         ResetSOStarmap(true);
                 }
             };
-
-
             planetoidGridButtons[planet] = itemLogic;
             //this.SetItemClickUISound(planet, component2);
             availableGridButton.SetActive(true);

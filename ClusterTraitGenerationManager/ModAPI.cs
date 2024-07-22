@@ -367,7 +367,7 @@ namespace ClusterTraitGenerationManager
         {
             if (world != null)
             {
-                if (world.worldTags!=null && world.worldTags.Contains("Ceres"))
+                if (world.worldTags!=null && world.worldTags.Contains("Ceres") && !Warp)
                     return DefaultCeresStartBase;
 
 
