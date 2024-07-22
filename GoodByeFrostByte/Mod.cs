@@ -11,8 +11,8 @@ namespace GoodByeFrostByte
     {
         public override void OnLoad(Harmony harmony)
         {
-            //PUtil.InitLibrary(false);
-            //new POptions().RegisterOptions(this, typeof(Config));
+            PUtil.InitLibrary(false);
+            new POptions().RegisterOptions(this, typeof(Config));
             SgtLogger.LogVersion(this, harmony);
             base.OnLoad(harmony);
         }
