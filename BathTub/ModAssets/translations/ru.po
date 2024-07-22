@@ -1,0 +1,64 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: DarkEviL <darkevilx17@gmail.com>\n"
+"Language-Team: \n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.4.4\n"
+
+#. BathTub.STRINGS.BUILDING.STATUSITEMS.BT_BATHTUBFILLING.NAME
+msgctxt "BathTub.STRINGS.BUILDING.STATUSITEMS.BT_BATHTUBFILLING.NAME"
+msgid "Filling Up: ({fullness})"
+msgstr "Наполнение: ({fullness})"
+
+#. BathTub.STRINGS.BUILDING.STATUSITEMS.BT_BATHTUBFILLING.TOOLTIP
+msgctxt "BathTub.STRINGS.BUILDING.STATUSITEMS.BT_BATHTUBFILLING.TOOLTIP"
+msgid ""
+"This bathtub is currently filling with <style=\"KKeyword\">Water</style>\n"
+"\n"
+"It will be available to use when the <style=\"KKeyword\">Water</style> level "
+"reaches <b>100%</b>"
+msgstr ""
+"В настоящее время эта ванна наполняется <style=\"KKeyword\">водой</style>\n"
+"\n"
+"Её можно будет использовать, когда уровень <style=\"KKeyword\">воды</style> "
+"достигнет <b>100%</b>"
+
+#. BathTub.STRINGS.BUILDINGS.PREFABS.SGTIMALAS_BATHTUB.DESC
+msgctxt "BathTub.STRINGS.BUILDINGS.PREFABS.SGTIMALAS_BATHTUB.DESC"
+msgid "When showers aren't enough!"
+msgstr "Когда душа недостаточно!"
+
+#. BathTub.STRINGS.BUILDINGS.PREFABS.SGTIMALAS_BATHTUB.EFFECT
+msgctxt "BathTub.STRINGS.BUILDINGS.PREFABS.SGTIMALAS_BATHTUB.EFFECT"
+msgid ""
+"Повышает уровень <link=\"MORALE\">морального духа</link> дубликанта и "
+"удаляет <link=\"DISEASE\">микробов</link> с поверхности."
+msgstr ""
+"Повышает уровень <link=\"MORALE\">морального духа</link> дубликанта и "
+"удаляет <link=\"DISEASE\">микробов</link> с поверхности."
+
+#. BathTub.STRINGS.BUILDINGS.PREFABS.SGTIMALAS_BATHTUB.FACADES.HANDY_RETRO_TUB.DESC
+msgctxt ""
+"BathTub.STRINGS.BUILDINGS.PREFABS.SGTIMALAS_BATHTUB.FACADES.HANDY_RETRO_TUB."
+"DESC"
+msgid "No, there are no duplicants buried beneath that hold it..."
+msgstr "Нет, под ней не закопаны дубликанты..."
+
+#. BathTub.STRINGS.BUILDINGS.PREFABS.SGTIMALAS_BATHTUB.FACADES.HANDY_RETRO_TUB.NAME
+msgctxt ""
+"BathTub.STRINGS.BUILDINGS.PREFABS.SGTIMALAS_BATHTUB.FACADES.HANDY_RETRO_TUB."
+"NAME"
+msgid "Handy Retro Tub"
+msgstr "Удобная ретро-ванна"
+
+#. BathTub.STRINGS.BUILDINGS.PREFABS.SGTIMALAS_BATHTUB.NAME
+msgctxt "BathTub.STRINGS.BUILDINGS.PREFABS.SGTIMALAS_BATHTUB.NAME"
+msgid "Bathtub"
+msgstr "Ванна"
