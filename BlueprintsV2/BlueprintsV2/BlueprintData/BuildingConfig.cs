@@ -193,7 +193,7 @@ namespace BlueprintsV2.BlueprintData
 
             catch (System.Exception e)
             {
-                SgtLogger.error(e.Message);
+                //SgtLogger.error(e.Message);
                 return false;
             }
         }

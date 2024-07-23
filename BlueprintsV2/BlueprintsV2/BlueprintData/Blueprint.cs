@@ -23,7 +23,7 @@ namespace BlueprintsV2.BlueprintData
     public class Blueprint : IEquatable<Blueprint>
     {
         /// <summary>
-        /// The name of the blueprint.
+        /// The internal name of the blueprint.
         /// </summary>
         public string FriendlyName { get; set; } = "unnamed";
 
@@ -290,7 +290,7 @@ namespace BlueprintsV2.BlueprintData
 
                 catch (Exception exception)
                 {
-                    Debug.Log("Error when loading blueprint: " + FilePath + ",\n" + nameof(exception) + ": " + exception.Message);
+                    //Debug.Log("Error when loading blueprint: " + FilePath + ",\n" + nameof(exception) + ": " + exception.Message);
                 }
             }
         }
