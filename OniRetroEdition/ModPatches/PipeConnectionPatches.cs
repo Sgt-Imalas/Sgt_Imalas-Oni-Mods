@@ -64,8 +64,8 @@ namespace OniRetroEdition.ModPatches
         }
         [HarmonyPatch(typeof(BuildingCellVisualizer),
             nameof(BuildingCellVisualizer.DrawUtilityIcon),
-            new Type[] { typeof(int), typeof(Sprite), typeof(GameObject), typeof(Color), typeof(Color), typeof(float), typeof(bool) },
-            new ArgumentType[] { ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Ref, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal })]
+            new Type[] { typeof(int), typeof(Sprite), typeof(GameObject), typeof(Color), typeof(float), typeof(bool) },
+            new ArgumentType[] { ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Ref, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal })]
         public class BuildingCellVisualizerResources_Init
         {
             [HarmonyPrepare]
