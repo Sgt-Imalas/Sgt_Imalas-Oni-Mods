@@ -37,6 +37,9 @@ namespace ClusterTraitGenerationManager
         {
             public static void Postfix(ref ClusterLayout __result)
             {
+                if (Patches.StillLoading || Patches.ApplyCustomGen.IsGenerating)
+                    return;
+
                 SettingLevel currentQualitySetting = CustomGameSettings.Instance.GetCurrentQualitySetting((SettingConfig)CustomGameSettingConfigs.ClusterLayout);
                 if (currentQualitySetting.id == CGSMClusterManager.CustomClusterID)
                 {
@@ -60,6 +63,8 @@ namespace ClusterTraitGenerationManager
         {
             public static void Postfix(string name, ref ClusterLayout __result)
             {
+                if (Patches.StillLoading || Patches.ApplyCustomGen.IsGenerating)
+                    return;
                 //SgtLogger.l(name, "currentQualitySetting");
                 if (name == CGSMClusterManager.CustomClusterID)
                 {

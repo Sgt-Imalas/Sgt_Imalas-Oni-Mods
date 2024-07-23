@@ -410,22 +410,22 @@ namespace ClusterTraitGenerationManager
 
 
 
-        /// <summary>
-        /// make WorldMixing (not subworld mixing!) disable with cgm cluster
-        /// </summary>
-        [HarmonyPatch(typeof(SettingsCache))]
-        [HarmonyPatch(nameof(SettingsCache.LoadWorldMixingSettings))]
-        public static class LoadWorldMixingSettings_Postfix_Exclusion
-        {
-            public static void Postfix()
-            {
-                foreach(var worldMixingSetting in SettingsCache.worldMixingSettings.Values)
-                {
-                    if (worldMixingSetting != null && worldMixingSetting.forbiddenClusterTags != null && !worldMixingSetting.forbiddenClusterTags.Contains(CustomClusterClusterTag))
-                        worldMixingSetting.forbiddenClusterTags.Add(CustomClusterClusterTag);
-                }
-            }
-        }
+        ///// <summary>
+        ///// make WorldMixing (not subworld mixing!) disable with cgm cluster
+        ///// </summary>
+        //[HarmonyPatch(typeof(SettingsCache))]
+        //[HarmonyPatch(nameof(SettingsCache.LoadWorldMixingSettings))]
+        //public static class LoadWorldMixingSettings_Postfix_Exclusion
+        //{
+        //    public static void Postfix()
+        //    {
+        //        foreach(var worldMixingSetting in SettingsCache.worldMixingSettings.Values)
+        //        {
+        //            if (worldMixingSetting != null && worldMixingSetting.forbiddenClusterTags != null && !worldMixingSetting.forbiddenClusterTags.Contains(CustomClusterClusterTag))
+        //                worldMixingSetting.forbiddenClusterTags.Add(CustomClusterClusterTag);
+        //        }
+        //    }
+        //}
 
         /// <summary>
         /// Prevents the normal cluster menu from closing when the custom cluster menu is open
@@ -1222,7 +1222,7 @@ namespace ClusterTraitGenerationManager
 
             if (worldgen != null && worldgen.world != null && worldgen.world.filePath != null &&
                 CGSMClusterManager.CustomCluster.HasStarmapItem(worldgen.world.filePath, out var item)
-                && (item.CurrentSizeMultiplier < 1)
+                && (item.CurrentSizeMultiplier < 1 && !item.DefaultDimensions)
                 )
             {
                 if (Mathf.Approximately(item.CurrentSizeMultiplier, 1))
@@ -1239,7 +1239,7 @@ namespace ClusterTraitGenerationManager
 
             if (worldgen != null && worldgen.world != null && worldgen.world.filePath != null &&
                 CGSMClusterManager.CustomCluster.HasStarmapItem(worldgen.world.filePath, out var item)
-                && (item.CurrentSizeMultiplier < 1)
+                && (item.CurrentSizeMultiplier < 1 && !item.DefaultDimensions)
                 )
             {
 
@@ -1288,7 +1288,7 @@ namespace ClusterTraitGenerationManager
                     if (!OriginalWorldTraitScales.ContainsKey(name))
                         OriginalWorldTraitScales.Add(name, __result.worldTraitScale);
 
-                    if (CGSMClusterManager.CustomCluster != null && CGSMClusterManager.CustomCluster.HasStarmapItem(name, out var item))
+                    if (CGSMClusterManager.CustomCluster != null && CGSMClusterManager.CustomCluster.HasStarmapItem(name, out var item) && !item.DefaultDimensions)
                     {
                         if (__result.worldsize != item.CustomPlanetDimensions)
                         {
@@ -1337,7 +1337,7 @@ namespace ClusterTraitGenerationManager
                     if (!OriginalGeyserAmounts.ContainsKey(settings.world.filePath))
                         OriginalGeyserAmounts[settings.world.filePath] = new Dictionary<List<string>, int>();
 
-                    if (CGSMClusterManager.CustomCluster.HasStarmapItem(settings.world.filePath, out var item) && !Mathf.Approximately(item.CurrentSizeMultiplier, 1))
+                    if (CGSMClusterManager.CustomCluster.HasStarmapItem(settings.world.filePath, out var item) && !item.DefaultDimensions && !Mathf.Approximately(item.CurrentSizeMultiplier, 1))
                     {
                         float SizeModifier = item.CurrentSizeMultiplier;
 
@@ -1573,7 +1573,7 @@ namespace ClusterTraitGenerationManager
                     IsGenerating = true;
 
                     //doesnt work, gotta do it manually
-                    CustomGameSettings.Instance.RemoveInvalidMixingSettings();
+                    //CustomGameSettings.Instance.RemoveInvalidMixingSettings();
 
                     //foreach (var worldMixingSetting in SettingsCache.worldMixingSettings.Values)
                     //{
@@ -1604,6 +1604,7 @@ namespace ClusterTraitGenerationManager
                     //    CGSMClusterManager.AddCustomClusterAndInitializeClusterGen();
                     //}
                     clusterName = CGSMClusterManager.CustomClusterID;
+                    IsGenerating = true;
                 }
             }
 
