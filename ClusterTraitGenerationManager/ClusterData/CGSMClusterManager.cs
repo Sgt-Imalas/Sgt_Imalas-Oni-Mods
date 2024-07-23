@@ -17,6 +17,12 @@ namespace ClusterTraitGenerationManager.ClusterData
 {
     public class CGSMClusterManager
     {
+
+        public const string CustomClusterIDCoordinate = "CGM";
+        public const string CustomClusterID = "expansion1::clusters/CGMCluster";
+        public const string CustomClusterClusterTag = "CGM_CustomCluster";
+
+
         public const float MaxAmountPOI = 5f;
         public const float MaxAmountRandomPOI = 32f; //TODO: dynamic scale with map size
         public const float MaxAmountRandomPlanet = 6f;
@@ -189,9 +195,6 @@ namespace ClusterTraitGenerationManager.ClusterData
         }
 
 
-
-        public const string CustomClusterIDCoordinate = "CGM";
-        public const string CustomClusterID = "expansion1::clusters/CGMCluster";
         public static ClusterLayout GeneratedLayout => GenerateClusterLayoutFromCustomData(false);
         public static CustomClusterData CustomCluster;
 
@@ -271,6 +274,7 @@ namespace ClusterTraitGenerationManager.ClusterData
             clusterLayout.description = "STRINGS.CLUSTER_NAMES.CGM.DESCRIPTION";
             clusterLayout.worldPlacements = new List<WorldPlacement>();
             clusterLayout.coordinatePrefix = CustomClusterIDCoordinate;
+            clusterLayout.clusterTags.Add(CustomClusterClusterTag);
             if (ceres)
             {
                 clusterLayout.clusterTags.Add("CeresCluster");

@@ -198,7 +198,7 @@ namespace ClusterTraitGenerationManager
         }
         public static void RegenerateCGM(CustomGameSettings __instance, string changedConfigID)
         {
-            if (StillLoading)
+            if (StillLoading || ApplyCustomGen.IsGenerating)
                 return;
 
             if (CGSMClusterManager.LastGenFailed)
@@ -377,7 +377,7 @@ namespace ClusterTraitGenerationManager
             public static void Postfix()
             {
                 string coreKey = string.Empty;
-                string cryoVolcano = string.Empty;
+                string cryoVolcano = string.Empty; 
 
 
                 foreach (var trait in SettingsCache.GetCachedWorldTraitNames())
@@ -408,6 +408,24 @@ namespace ClusterTraitGenerationManager
             }
         }
 
+
+
+        /// <summary>
+        /// make WorldMixing (not subworld mixing!) disable with cgm cluster
+        /// </summary>
+        [HarmonyPatch(typeof(SettingsCache))]
+        [HarmonyPatch(nameof(SettingsCache.LoadWorldMixingSettings))]
+        public static class LoadWorldMixingSettings_Postfix_Exclusion
+        {
+            public static void Postfix()
+            {
+                foreach(var worldMixingSetting in SettingsCache.worldMixingSettings.Values)
+                {
+                    if (worldMixingSetting != null && worldMixingSetting.forbiddenClusterTags != null && !worldMixingSetting.forbiddenClusterTags.Contains(CustomClusterClusterTag))
+                        worldMixingSetting.forbiddenClusterTags.Add(CustomClusterClusterTag);
+                }
+            }
+        }
 
         /// <summary>
         /// Prevents the normal cluster menu from closing when the custom cluster menu is open
@@ -1551,18 +1569,60 @@ namespace ClusterTraitGenerationManager
                 if (CGSMClusterManager.LoadCustomCluster)
                 {
                     SgtLogger.l("Custom ClusterConstructor has started");
+
+                    IsGenerating = true;
+
+                    //doesnt work, gotta do it manually
+                    CustomGameSettings.Instance.RemoveInvalidMixingSettings();
+
+                    //foreach (var worldMixingSetting in SettingsCache.worldMixingSettings.Values)
+                    //{
+                    //    if (worldMixingSetting != null && worldMixingSetting.forbiddenClusterTags != null && !worldMixingSetting.forbiddenClusterTags.Contains(CustomClusterClusterTag))
+                    //        worldMixingSetting.forbiddenClusterTags.Add(CustomClusterClusterTag);
+                    //}
+                    //List<string> ToDisableMixings = new();
+                    //foreach(var mix in CustomGameSettings.Instance.CurrentMixingLevelsBySetting)
+                    //{
+                    //    var mixingSetting = SettingsCache.TryGetCachedWorldMixingSetting(mix.Key);
+                    //    if (mixingSetting != null)
+                    //    {
+                    //        SgtLogger.l("disabling " + mix.Key);
+                    //        ToDisableMixings.Add(mix.Key);
+                    //    }
+
+                    //    SgtLogger.l(mix.Key+": " + mix.Value, "current mixing setting");
+                    //}
+                    //foreach(var todisable in ToDisableMixings)
+                    //{
+                    //}
+
+                    //dirty manual exclusion to fix crash
+                    CustomGameSettings.Instance.CurrentMixingLevelsBySetting["CeresAsteroidMixing"] = WorldMixingSettingConfig.DisabledLevelId;
                     //if (CGSMClusterManager.CustomCluster == null)
                     //{
                     //    ///Generating custom cluster if null
                     //    CGSMClusterManager.AddCustomClusterAndInitializeClusterGen();
                     //}
                     clusterName = CGSMClusterManager.CustomClusterID;
-                    IsGenerating = true;
                 }
             }
 
 
         }
+        //[HarmonyPatch(typeof(WorldgenMixing), nameof(WorldgenMixing.DoWorldMixingInternal))]
+        //public static class Worldmixing_Patch
+        //{
+        //    public static void Prefix(MutatedClusterLayout mutatedClusterLayout, int seed)
+        //    {
+        //        var layout = mutatedClusterLayout.layout;
+        //        SgtLogger.l(layout.name, "DoMixingInternal");
+        //        SgtLogger.l(layout.clusterTags.Count()+"", "TagCount");
+        //        foreach(var tag in layout.clusterTags)
+        //        {
+        //            SgtLogger.l(tag, "clusterTag");
+        //        }
+        //    }
+        //}
         [HarmonyPatch(typeof(MainMenu), nameof(MainMenu.OnSpawn))]
         public static class MainMenu_Initialize_Patch
         {

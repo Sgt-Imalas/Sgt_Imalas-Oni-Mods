@@ -60,7 +60,7 @@ namespace ClusterTraitGenerationManager
         {
             public static void Postfix(string name, ref ClusterLayout __result)
             {
-                SgtLogger.l(name, "currentQualitySetting");
+                //SgtLogger.l(name, "currentQualitySetting");
                 if (name == CGSMClusterManager.CustomClusterID)
                 {
                     bool ceres = false;
@@ -73,7 +73,7 @@ namespace ClusterTraitGenerationManager
                         SgtLogger.warning("savegamedata was null!");
                     }
 
-                    __result = CGSMClusterManager.GenerateDummyCluster(DlcManager.IsExpansion1Active(),ceres);
+                    __result = CGSMClusterManager.GenerateDummyCluster(DlcManager.IsExpansion1Active(), ceres);
                 }
             }
         }
