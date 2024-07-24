@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using UtilLibs;
+using static SetStartDupes.Patches;
 
 namespace SetStartDupes
 {
@@ -47,12 +48,14 @@ namespace SetStartDupes
 
             SgtLogger.LogVersion(this, harmony);
             base.OnLoad(harmony);
+            //.ManualTranslationPatch(harmony, typeof(STRINGS));
+            //OnAssetPrefabPatch.InitiatePatch(harmony);
         }
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
         {
             base.OnAllModsLoaded(harmony, mods);
             CompatibilityNotifications.FlagLoggingPrevention(mods);
-            CompatibilityNotifications.CheckAndAddIncompatibles("DGSM2", "Duplicant Stat Selector","DGSM - Duplicants Generation Settings Manager");
+            //CompatibilityNotifications.CheckAndAddIncompatibles("DGSM2", "Duplicant Stat Selector","DGSM - Duplicants Generation Settings Manager");
             CompatibilityNotifications.CheckAndAddIncompatibles("RePrint", "Duplicant Stat Selector","Reprint");
             ModAssets.RemoveCrashingIncompatibility(mods);
             //CheckAndAddIncompatibles(".Mod.WGSM", "WGSM");

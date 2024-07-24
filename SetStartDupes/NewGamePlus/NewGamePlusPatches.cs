@@ -13,8 +13,7 @@ namespace SetStartDupes.NewGamePlus
         /// <summary>
         /// collect Spaced Out Temporal Tear dupes
         /// </summary>
-        [HarmonyPatch(typeof(TemporalTear))]
-        [HarmonyPatch(nameof(TemporalTear.ConsumeCraft))]
+        [HarmonyPatch(typeof(TemporalTear), nameof(TemporalTear.ConsumeCraft))]
         public class RegisterTearDupeDLC
         {
             public static void Prefix(Clustercraft craft, TemporalTear __instance)
@@ -39,8 +38,7 @@ namespace SetStartDupes.NewGamePlus
         /// <summary>
         /// collect base game Temporal Tear dupe
         /// </summary>
-        [HarmonyPatch(typeof(Spacecraft))]
-        [HarmonyPatch(nameof(Spacecraft.TemporallyTear))]
+        [HarmonyPatch(typeof(Spacecraft), nameof(Spacecraft.TemporallyTear))]
         public class RegisterTearDupe
         {
             public static void Prefix(Spacecraft __instance)

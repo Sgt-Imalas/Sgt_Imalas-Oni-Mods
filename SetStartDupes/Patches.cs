@@ -36,6 +36,39 @@ namespace SetStartDupes
 {
     class Patches
     {
+        /// <summary>
+        /// These Patches have to run manually or they break translations!
+        /// </summary>
+        [HarmonyPatch(typeof(Assets), nameof(Assets.OnPrefabInit))]
+        public static class OnAssetPrefabPatch
+        {
+            //public static void InitiatePatch(Harmony harmony)
+            //{
+            //    var m_TargetMethod = AccessTools.Method("Assets, Assembly-CSharp:OnPrefabInit");
+            //    var m_Prefix = AccessTools.Method(typeof(OnAssetPrefabPatch), "Postfix");
+            //    harmony.Patch(m_TargetMethod, postfix: new HarmonyMethod(m_Prefix));
+            //}
+            public static void Postfix()
+            {
+                //Mod.harmonyInstance.PatchAll();
+                SgtLogger.l("Manually patching CharacterSelectionController..");
+                //CharacterSelectionController
+                CharacterSelectionController_InitializeContainers_Patch.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
+                CharacterSelectionController_InitializeContainers_Patch2.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
+                CharacterSelectionController_AddDeliverable_Patch.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
+
+                //Minionselectscreen
+                MinionSelectScreen_SetDefaultMinionsRoutine_Patch.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
+                MinionSelectScreen_OnSpawn_Patch.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
+
+                //immigrantScreen
+                ImmigrantScreen_Initialize_Patch.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
+                ImmigrantScreen_OnPressBack_Patch.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
+                ImmigrantScreen_Initialize_Patch2.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
+                ImmigrantScreen_OnProceed_Patch.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
+            }
+        }
+
         [HarmonyPatch(typeof(Traits))]
         [HarmonyPatch(nameof(Traits.OnSpawn))]
         public class FixDupesWithoutDupeTrait
@@ -67,14 +100,7 @@ namespace SetStartDupes
                 }
             }
         }
-        //[HarmonyPatch(typeof(CarePackageInfo), nameof(CarePackageInfo.Deliver))]
-        //public class AdditionalCarePackages_DLC
-        //{
-        //    public static void Postfix(GameObject __result, CarePackageInfo __instance)
-        //    {
-        //        if(__instance.id)
-        //    }
-        //}
+
         [HarmonyPatch(typeof(Immigration), nameof(Immigration.ConfigureCarePackages))]
         public class AdditionalCarePackages
         {
@@ -87,8 +113,7 @@ namespace SetStartDupes
         }
 
 
-        [HarmonyPatch(typeof(CryoTank))]
-        [HarmonyPatch(nameof(CryoTank.DropContents))]
+        [HarmonyPatch(typeof(CryoTank), nameof(CryoTank.DropContents))]
         public class AddToCryoTank
         {
             public static void Prefix()
@@ -108,6 +133,7 @@ namespace SetStartDupes
                 }
             }
         }
+        
         [HarmonyPatch(typeof(CharacterContainer), nameof(CharacterContainer.GenerateCharacter))]
         public class OverwriteRngGeneration
         {
@@ -170,8 +196,8 @@ namespace SetStartDupes
                 }
             }
         }
-        [HarmonyPatch(typeof(MinionStartingStats))]
-        [HarmonyPatch(nameof(MinionStartingStats.GenerateStats))]
+
+        [HarmonyPatch(typeof(MinionStartingStats), nameof(MinionStartingStats.GenerateStats))]
         public class RecalculateStatBoni
         {
             [HarmonyPriority(Priority.LowerThanNormal)]
@@ -184,31 +210,7 @@ namespace SetStartDupes
                 //SgtLogger.warning("no mng for " + __instance + " found!");
             }
         }
-        //[HarmonyPatch(typeof(Chatty))]
-        //[HarmonyPatch(nameof(Chatty.OnStartedTalking))]
-        //public class chattytest
-        //{
-        //    [HarmonyPriority(Priority.HigherThanNormal)]
 
-        //    public static void Prefix(object data, Chatty __instance)
-        //    {
-        //        if(data is MinionIdentity other)
-        //        {
-        //            SgtLogger.l("smc other");
-        //            other.TryGetComponent(out StateMachineController smc);
-
-        //        }
-        //        if(data is ConversationManager.StartedTalkingEvent evt)
-        //        {
-        //            SgtLogger.Assert("talker",evt.talker);
-        //            SgtLogger.Assert("talker go",evt.talker.gameObject);
-        //            SgtLogger.Assert("talker tryget", evt.talker.TryGetComponent(out other));
-        //            SgtLogger.Assert("other go", other);
-        //            SgtLogger.l("smc talker");
-        //            other.TryGetComponent(out StateMachineController smc);
-        //        }
-        //    }
-        //}
         /// <summary>
 		/// Applied before OnStartedTalking runs.
 		/// </summary>
@@ -235,10 +237,23 @@ namespace SetStartDupes
         }
 
 
-        [HarmonyPatch(typeof(ImmigrantScreen))]
-        [HarmonyPatch(nameof(ImmigrantScreen.Initialize))]
-        public class CustomSingleForNoTelepad
+
+
+        //[HarmonyPatch(typeof(ImmigrantScreen))]
+        //[HarmonyPatch(nameof(ImmigrantScreen.Initialize))]
+        public class ImmigrantScreen_Initialize_Patch
         {
+            public static void AssetOnPrefabInitPostfix(Harmony harmony)
+            {
+                var m_TargetMethod = AccessTools.Method("ImmigrantScreen, Assembly-CSharp:Initialize");
+                //var m_Transpiler = AccessTools.Method(typeof(CharacterSelectionController_Patch), "Transpiler");
+                var m_Prefix = AccessTools.Method(typeof(ImmigrantScreen_Initialize_Patch), "Prefix");
+                var m_Postfix = AccessTools.Method(typeof(ImmigrantScreen_Initialize_Patch), "Postfix");
+
+                harmony.Patch(m_TargetMethod, new HarmonyMethod(m_Prefix), new HarmonyMethod(m_Postfix));
+            }
+
+
             static GameObject Spacer = null;
             public static bool Prefix(Telepad telepad, ImmigrantScreen __instance)
             {
@@ -348,12 +363,21 @@ namespace SetStartDupes
             }
         }
 
-        [HarmonyPatch(typeof(ImmigrantScreen))]
-        [HarmonyPatch(nameof(ImmigrantScreen.OnProceed))]
-        public class SkipTelepadActionsForCryoDupes
+        //[HarmonyPatch(typeof(ImmigrantScreen))]
+        //[HarmonyPatch(nameof(ImmigrantScreen.OnProceed))]
+        public class ImmigrantScreen_OnProceed_Patch
         {
-            [HarmonyPriority(Priority.Low)]
-            public static bool Prefix(Telepad ___telepad, ImmigrantScreen __instance)
+            public static void AssetOnPrefabInitPostfix(Harmony harmony)
+            {
+                var m_TargetMethod = AccessTools.Method("ImmigrantScreen, Assembly-CSharp:OnProceed");
+                //var m_Transpiler = AccessTools.Method(typeof(CharacterSelectionController_Patch), "Transpiler");
+                var m_Prefix = AccessTools.Method(typeof(ImmigrantScreen_OnProceed_Patch), "Prefix");
+
+                harmony.Patch(m_TargetMethod, new HarmonyMethod(m_Prefix, Priority.Low));
+            }
+
+            //[HarmonyPriority(Priority.Low)]
+            public static bool Prefix(ImmigrantScreen __instance)
             {
                 if (EditingSingleDupe)
                 {
@@ -433,10 +457,19 @@ namespace SetStartDupes
             }
         }
 
-        [HarmonyPatch(typeof(ImmigrantScreen))]
-        [HarmonyPatch(nameof(ImmigrantScreen.Initialize))]
-        public class AddRerollButtonIfEnabled
+
+        //[HarmonyPatch(typeof(ImmigrantScreen))]
+        //[HarmonyPatch(nameof(ImmigrantScreen.Initialize))]
+        public class ImmigrantScreen_Initialize_Patch2
         {
+            public static void AssetOnPrefabInitPostfix(Harmony harmony)
+            {
+                var m_TargetMethod = AccessTools.Method("ImmigrantScreen, Assembly-CSharp:Initialize");
+                //var m_Transpiler = AccessTools.Method(typeof(CharacterSelectionController_Patch), "Transpiler");
+                var m_Postfix = AccessTools.Method(typeof(ImmigrantScreen_Initialize_Patch2), "Postfix");
+
+                harmony.Patch(m_TargetMethod, postfix: new HarmonyMethod(m_Postfix));
+            }
             public static void Postfix(Telepad telepad, ImmigrantScreen __instance)
             {
                 if (Config.Instance.RerollDuringGame)
@@ -473,57 +506,26 @@ namespace SetStartDupes
             }
         }
 
-        [HarmonyPatch(typeof(CarePackageContainer))]
-        [HarmonyPatch(nameof(CarePackageContainer.OnSpawn))]
-        public class CarePackageContainer_Add_SelectPackageButton
+
+        //[HarmonyPatch(typeof(ImmigrantScreen))]
+        //[HarmonyPatch(nameof(ImmigrantScreen.OnPressBack))]
+        public class ImmigrantScreen_OnPressBack_Patch
         {
-            public static void Postfix(CarePackageContainer __instance)
+            public static void AssetOnPrefabInitPostfix(Harmony harmony)
             {
-                List<CarePackageInfo> carePackageInfos = null;
+                var m_TargetMethod = AccessTools.Method("ImmigrantScreen, Assembly-CSharp:OnPressBack");
+                //var m_Transpiler = AccessTools.Method(typeof(CharacterSelectionController_Patch), "Transpiler");
+                var m_Prefix = AccessTools.Method(typeof(ImmigrantScreen_OnPressBack_Patch), "Prefix");
 
-                var BioInks_ModApi_Type = Type.GetType("PrintingPodRecharge.ModAPI, PrintingPodRecharge", false, false);
-                if (BioInks_ModApi_Type != null)
-                {
-                    var currentPool = Traverse.Create(BioInks_ModApi_Type).Method("GetCurrentPool").GetValue() as List<CarePackageInfo>;
-                    carePackageInfos = currentPool;
-                }
-
-                if (carePackageInfos != null)
-                    SgtLogger.l("Bio Inks Pool loaded");
-
-
-
-                if (__instance.reshuffleButton == null || !Config.Instance.RerollDuringGame)
-                    return;
-
-                var selectButton = Util.KInstantiateUI<KButton>(__instance.reshuffleButton.gameObject, __instance.reshuffleButton.transform.parent.gameObject, true);
-                selectButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 20, 33f);
-                UIUtils.FindAndDestroy(selectButton.transform, "Text");
-                if (selectButton.transform.Find("FG").TryGetComponent<Image>(out var image))
-                {
-                    image.sprite = Assets.GetSprite("icon_gear");
-                }
-
-                //UIUtils.ListAllChildren(selectButton.transform);
-                selectButton.onClick += () =>
-                {
-                    UnityCarePackageScreen.ShowWindow(__instance, () => { }, carePackageInfos);
-                };
+                harmony.Patch(m_TargetMethod, new HarmonyMethod(m_Prefix));
             }
-        }
-
-
-        [HarmonyPatch(typeof(ImmigrantScreen))]
-        [HarmonyPatch(nameof(ImmigrantScreen.OnPressBack))]
-        public class CatchCryopodDupeException
-        {
             public static bool Prefix(ImmigrantScreen __instance)
             {
                 return !(__instance.containers == null || __instance.containers.Count == 0);
             }
         }
-        [HarmonyPatch(typeof(CharacterContainer))]
-        [HarmonyPatch(nameof(CharacterContainer.Reshuffle))]
+        
+        [HarmonyPatch(typeof(CharacterContainer), nameof(CharacterContainer.Reshuffle))]
         public class PreventCrashForSingleDupes
         {
 
@@ -543,10 +545,19 @@ namespace SetStartDupes
                 return true;
             }
         }
-        [HarmonyPatch(typeof(DetailsScreen))]
-        [HarmonyPatch(nameof(DetailsScreen.OnPrefabInit))]
-        public class AddSkinButtonToDetailScreen
+
+        [HarmonyPatch(typeof(DetailsScreen),nameof(DetailsScreen.OnPrefabInit))]
+        public class DetailsScreen_OnPrefabInit_Patch
         {
+            public static void AssetOnPrefabInitPostfix(Harmony harmony)
+            {
+                var m_TargetMethod = AccessTools.Method("DetailsScreen, Assembly-CSharp:OnPrefabInit");
+                var m_Postfix = AccessTools.Method(typeof(DetailsScreen_OnPrefabInit_Patch), "Postfix");
+
+                harmony.Patch(m_TargetMethod, postfix: new HarmonyMethod(m_Postfix));
+            }
+
+
             public static GameObject SkinButtonGO = null;
             public static GameObject DupeStatEditingButtonGO = null;
             public static void Postfix(DetailsScreen __instance)
@@ -601,16 +612,23 @@ namespace SetStartDupes
                 }
             }
         }
-        [HarmonyPatch(typeof(DetailsScreen))]
-        [HarmonyPatch(nameof(DetailsScreen.OnSelectObject))]
-        public class ToggleSkinButtonVisibility
+
+        [HarmonyPatch(typeof(DetailsScreen),nameof(DetailsScreen.OnSelectObject))]
+        public class DetailsScreen_OnSelectObject_Patch
         {
+            public static void AssetOnPrefabInitPostfix(Harmony harmony)
+            {
+                var m_TargetMethod = AccessTools.Method("DetailsScreen, Assembly-CSharp:OnSelectObject");
+                var m_Prefix = AccessTools.Method(typeof(DetailsScreen_OnSelectObject_Patch), "Prefix");
+
+                harmony.Patch(m_TargetMethod, new HarmonyMethod(m_Prefix));
+            }
             public static void Prefix(DetailsScreen __instance)
             {
                 if (__instance.target == null || !__instance.target.TryGetComponent<MinionIdentity>(out _))
                 {
-                    AddSkinButtonToDetailScreen.SkinButtonGO?.SetActive(false);
-                    AddSkinButtonToDetailScreen.DupeStatEditingButtonGO?.SetActive(false);
+                    DetailsScreen_OnPrefabInit_Patch.SkinButtonGO?.SetActive(false);
+                    DetailsScreen_OnPrefabInit_Patch.DupeStatEditingButtonGO?.SetActive(false);
                     return;
                 }
 
@@ -619,13 +637,12 @@ namespace SetStartDupes
                 bool ShowDupeEditing = Config.Instance.DuplicityDupeEditor || debugActive;
                 bool ShowSkinEditing = Config.Instance.LiveDupeSkins || debugActive;
 
-                AddSkinButtonToDetailScreen.SkinButtonGO?.SetActive(ShowSkinEditing);
-                AddSkinButtonToDetailScreen.DupeStatEditingButtonGO?.SetActive(ShowDupeEditing);
+                DetailsScreen_OnPrefabInit_Patch.SkinButtonGO?.SetActive(ShowSkinEditing);
+                DetailsScreen_OnPrefabInit_Patch.DupeStatEditingButtonGO?.SetActive(ShowDupeEditing);
             }
         }
 
-        [HarmonyPatch(typeof(MinionBrowserScreenConfig))]
-        [HarmonyPatch(nameof(MinionBrowserScreenConfig.Personalities))]
+        [HarmonyPatch(typeof(MinionBrowserScreenConfig), nameof(MinionBrowserScreenConfig.Personalities))]
         public class AddHiddenPersonalitiesToSkinSelection
         {
             public static void Postfix(ref MinionBrowserScreenConfig __result, Option<Personality> defaultSelectedPersonality = default(Option<Personality>))
@@ -645,6 +662,7 @@ namespace SetStartDupes
                     catch (Exception e)
                     {
                         SgtLogger.error($"unlock condition method for {HiddenPersonalityUnlock.Key} failed to execute!\n\n" + e);
+                        isUnlocked = true;
                     }
 
                     if (isUnlocked)
@@ -677,10 +695,18 @@ namespace SetStartDupes
         }
 
 
-        [HarmonyPatch(typeof(CharacterSelectionController))]
-        [HarmonyPatch(nameof(CharacterSelectionController.AddDeliverable))]
-        public class CatchErrorLogging
+        //[HarmonyPatch(typeof(CharacterSelectionController))]
+        //[HarmonyPatch(nameof(CharacterSelectionController.AddDeliverable))]
+        public class CharacterSelectionController_AddDeliverable_Patch
         {
+            public static void AssetOnPrefabInitPostfix(Harmony harmony)
+            {
+                var m_TargetMethod = AccessTools.Method("CharacterSelectionController, Assembly-CSharp:AddDeliverable");
+                //var m_Transpiler = AccessTools.Method(typeof(CharacterSelectionController_Patch), "Transpiler");
+                var m_Prefix = AccessTools.Method(typeof(CharacterSelectionController_AddDeliverable_Patch), "Prefix");
+
+                harmony.Patch(m_TargetMethod, new HarmonyMethod(m_Prefix));
+            }
             public static void Prefix(ITelepadDeliverable deliverable, CharacterSelectionController __instance)
             {
                 if (!__instance.selectedDeliverables.Contains(deliverable)
@@ -698,21 +724,21 @@ namespace SetStartDupes
         /// <summary>
         /// Pauses Printing Pod
         /// </summary>
-        [HarmonyPatch(typeof(Immigration))]
-        [HarmonyPatch(nameof(Immigration.Sim200ms))]
-        public class Add
+        [HarmonyPatch(typeof(Immigration), nameof(Immigration.Sim200ms))]
+        public class PauseOnReadyToPrint
         {
-            static async Task DoWithDelay(System.Action task, int ms)
+            private static System.Collections.IEnumerator MinionNumberAdustmentRoutine()
             {
-                await Task.Delay(ms);
-                task.Invoke();
+
+                yield return (object)SequenceUtil.WaitForSeconds(((3 - SpeedControlScreen.Instance.speed) * 500f)/ 1000f);
+                SpeedControlScreen.Instance.Pause(true);
             }
             public static void Prefix(Immigration __instance, float dt)
             {
                 if (__instance.bImmigrantAvailable == false && Mathf.Approximately(Math.Max(__instance.timeBeforeSpawn - dt, 0.0f), 0.0f) && Config.Instance.PauseOnReadyToPrint)
                 {
                     SgtLogger.l("Paused the game - new printables available");
-                    DoWithDelay(() => SpeedControlScreen.Instance.Pause(true), (3 - SpeedControlScreen.Instance.speed) * 500);
+                    __instance.StartCoroutine(MinionNumberAdustmentRoutine());
                 }
             }
         }
@@ -721,8 +747,7 @@ namespace SetStartDupes
         /// <summary>
         /// Applies custom printing pod cooldown
         /// </summary>
-        [HarmonyPatch(typeof(Immigration))]
-        [HarmonyPatch(nameof(Immigration.EndImmigration))]
+        [HarmonyPatch(typeof(Immigration), nameof(Immigration.EndImmigration))]
         public class AdjustTImeOfReprint
         {
             public static void Prefix(Immigration __instance)
@@ -738,8 +763,7 @@ namespace SetStartDupes
                 //}
             }
         }
-        [HarmonyPatch(typeof(Immigration))]
-        [HarmonyPatch(nameof(Immigration.OnPrefabInit))]
+        [HarmonyPatch(typeof(Immigration), nameof(Immigration.OnPrefabInit))]
         public class AdjustTImeOfReprint_Initial
         {
             public static void Prefix(Immigration __instance)
@@ -762,10 +786,17 @@ namespace SetStartDupes
                 //}
             }
         }
-        [HarmonyPatch(typeof(MinionSelectScreen))]
-        [HarmonyPatch(nameof(MinionSelectScreen.OnSpawn))]
-        public class AddCrewPresetButton
+        //[HarmonyPatch(typeof(MinionSelectScreen))]
+        //[HarmonyPatch(nameof(MinionSelectScreen.OnSpawn))]
+        public class MinionSelectScreen_OnSpawn_Patch
         {
+            public static void AssetOnPrefabInitPostfix(Harmony harmony)
+            {
+                var m_TargetMethod = AccessTools.Method("MinionSelectScreen, Assembly-CSharp:OnSpawn");
+                var m_Postfix = AccessTools.Method(typeof(MinionSelectScreen_OnSpawn_Patch), "Postfix");
+
+                harmony.Patch(m_TargetMethod, postfix: new HarmonyMethod(m_Postfix));
+            }
             public static void Postfix(MinionSelectScreen __instance)
             {
                 var PresetButton = Util.KInstantiateUI(__instance.proceedButton.gameObject, __instance.proceedButton.transform.parent.gameObject, true);
@@ -850,29 +881,17 @@ namespace SetStartDupes
             }
         }
 
-        [HarmonyPatch(typeof(Assets), nameof(Assets.OnPrefabInit))]
-        public static class OnASsetPrefabPatch
-        {
-            public static void Postfix()
-            {
-                SgtLogger.l("Manually patching CharacterSelectionController..");
-                CharacterSelectionController_Patch2.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
-                CharacterSelectionController_Patch.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
-                MinionSelectScreen_SetDefaultMinionsRoutine.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
-            }
-        }
-
         /// <summary>
         /// Gets a prefab and applies "Care Packages Only"-Mode
         /// </summary>
         //[HarmonyPatch(typeof(CharacterSelectionController), nameof(CharacterSelectionController.InitializeContainers))]
-        public class CharacterSelectionController_Patch2
+        public class CharacterSelectionController_InitializeContainers_Patch
         {
             public static void AssetOnPrefabInitPostfix(Harmony harmony)
             {
                 var m_TargetMethod = AccessTools.Method("CharacterSelectionController, Assembly-CSharp:InitializeContainers");
-                var m_Transpiler = AccessTools.Method(typeof(CharacterSelectionController_Patch2), "Transpiler");
-                var m_Prefix = AccessTools.Method(typeof(CharacterSelectionController_Patch2), "Prefix");
+                var m_Transpiler = AccessTools.Method(typeof(CharacterSelectionController_InitializeContainers_Patch), "Transpiler");
+                var m_Prefix = AccessTools.Method(typeof(CharacterSelectionController_InitializeContainers_Patch), "Prefix");
                 //var m_Postfix = AccessTools.Method(typeof(CharacterSelectionController_Patch2), "Postfix");
 
                 harmony.Patch(m_TargetMethod, new HarmonyMethod(m_Prefix),
@@ -921,8 +940,8 @@ namespace SetStartDupes
                 "numberOfCarePackageOptions");
 
             public static readonly MethodInfo AdjustNumbers = AccessTools.Method(
-               typeof(CharacterSelectionController_Patch2),
-               nameof(CharacterSelectionController_Patch2.CarePackagesOnly));
+               typeof(CharacterSelectionController_InitializeContainers_Patch),
+               nameof(CharacterSelectionController_InitializeContainers_Patch.CarePackagesOnly));
 
             static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
             {
@@ -948,8 +967,7 @@ namespace SetStartDupes
 
 
 
-        [HarmonyPatch(typeof(WattsonMessage))]
-        [HarmonyPatch(nameof(WattsonMessage.OnActivate))]
+        [HarmonyPatch(typeof(WattsonMessage), nameof(WattsonMessage.OnActivate))]
         public class DupeSpawnAdjustmentNo2BecauseKleiIsKlei
         {
             const float OxilitePerDupePerDay = 0.1f * 600f; //in KG
@@ -1308,13 +1326,13 @@ namespace SetStartDupes
             //}
         }
 
-        public class MinionSelectScreen_SetDefaultMinionsRoutine
+        public class MinionSelectScreen_SetDefaultMinionsRoutine_Patch
         {
             public static void AssetOnPrefabInitPostfix(Harmony harmony)
             {
                 var m_TargetMethod = AccessTools.Method("MinionSelectScreen, Assembly-CSharp:SetDefaultMinionsRoutine");
                 //var m_Transpiler = AccessTools.Method(typeof(CharacterSelectionController_Patch), "Transpiler");
-                var m_Postfix = AccessTools.Method(typeof(MinionSelectScreen_SetDefaultMinionsRoutine), "Postfix");
+                var m_Postfix = AccessTools.Method(typeof(MinionSelectScreen_SetDefaultMinionsRoutine_Patch), "Postfix");
 
                 harmony.Patch(m_TargetMethod, null, new HarmonyMethod(m_Postfix)
                     // , new HarmonyMethod(m_Transpiler)
@@ -1365,44 +1383,19 @@ namespace SetStartDupes
             }
         }
         //[HarmonyPatch(typeof(CharacterSelectionController), nameof(CharacterSelectionController.InitializeContainers))]
-        public class CharacterSelectionController_Patch
+        public class CharacterSelectionController_InitializeContainers_Patch2
         {
             public static void AssetOnPrefabInitPostfix(Harmony harmony)
             {
                 var m_TargetMethod = AccessTools.Method("CharacterSelectionController, Assembly-CSharp:InitializeContainers");
                 //var m_Transpiler = AccessTools.Method(typeof(CharacterSelectionController_Patch), "Transpiler");
-                var m_Prefix = AccessTools.Method(typeof(CharacterSelectionController_Patch), "Prefix");
-                var m_Postfix = AccessTools.Method(typeof(CharacterSelectionController_Patch), "Postfix");
+                var m_Prefix = AccessTools.Method(typeof(CharacterSelectionController_InitializeContainers_Patch2), "Prefix");
+                var m_Postfix = AccessTools.Method(typeof(CharacterSelectionController_InitializeContainers_Patch2), "Postfix");
 
                 harmony.Patch(m_TargetMethod, new HarmonyMethod(m_Prefix), new HarmonyMethod(m_Postfix)
                     // , new HarmonyMethod(m_Transpiler)
                     );
             }
-
-            //public static int CustomStartingDupeCount(int dupeCount) ///int requirement to consume previous "3" on stack
-            //{
-            //    if (dupeCount == 3 && CharacterSelectionController_Patch2.instance is MinionSelectScreen)
-            //        return Config.Instance.DuplicantStartAmount; ///push new value to the stack
-            //    else return dupeCount;
-            //}
-
-            //public static readonly MethodInfo AdjustNumber = AccessTools.Method(
-            //   typeof(CharacterSelectionController_Patch),
-            //   nameof(CustomStartingDupeCount));
-
-            //[HarmonyPriority(Priority.VeryLow)]
-            //static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
-            //{
-            //    var code = instructions.ToList();
-            //    var insertionIndex = code.FindIndex(ci => ci.opcode == OpCodes.Ldc_I4_3);
-
-            //    //foreach (var v in code) { Debug.Log(v.opcode + " -> " + v.operand); };
-            //    if (insertionIndex != -1)
-            //    {
-            //        code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, AdjustNumber));
-            //    }
-            //    return code;
-            //}
 
             /// <summary>
             /// Size Adjustment
@@ -1410,8 +1403,8 @@ namespace SetStartDupes
             /// <param name="__instance"></param>
             public static void Prefix(CharacterSelectionController __instance)
             {
-                GameObject parentToScale = (GameObject)typeof(CharacterSelectionController).GetField("containerParent", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance);
-                CharacterContainer prefabToScale = (CharacterContainer)typeof(CharacterSelectionController).GetField("containerPrefab", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance);
+                GameObject parentToScale = __instance.containerParent;// (GameObject)typeof(CharacterSelectionController).GetField("containerParent", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance);
+                CharacterContainer prefabToScale = __instance.containerPrefab; //(CharacterContainer)typeof(CharacterSelectionController).GetField("containerPrefab", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance);
 
                 ///If is starterscreen
                 if (__instance.GetType() == typeof(MinionSelectScreen))
@@ -1511,7 +1504,6 @@ namespace SetStartDupes
             }
         }
 
-
         [HarmonyPatch(typeof(CharacterContainer), nameof(CharacterContainer.SetInfoText))]
         public static class CharacterContainer_SetInfoText_Patch_ContainerSize
         {
@@ -1527,6 +1519,7 @@ namespace SetStartDupes
                 }
             }
         }
+        
         [HarmonyPatch(typeof(CharacterContainer), nameof(CharacterContainer.SetMinion))]
         public static class RefreshStatsForFreyja
         {
