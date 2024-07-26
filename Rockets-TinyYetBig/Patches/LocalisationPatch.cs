@@ -21,42 +21,8 @@ namespace Rockets_TinyYetBig
             public static void Postfix()
             {
                 LocalisationUtil.Translate(typeof(STRINGS), true);
+                LocalisationUtil.FixRoomConstrains();
             }
         }
-
-        ///No longer needed crash fix for a bug in localisation
-        //[HarmonyPatch(typeof(Localization))]
-        //[HarmonyPatch(nameof(Localization.WriteStringsTemplate))]
-        //public class FIX_KLEI_TEMPLATE_BUG
-        //{
-
-        //    private static readonly MethodInfo ConverterMethod = AccessTools.Method(
-        //       typeof(UnityEngine.Debug),
-        //       nameof(UnityEngine.Debug.LogWarning),
-        //       new[] {typeof(object)}
-        //    );
-
-
-        //    private static readonly MethodInfo SuitableMethodInfo = AccessTools.Method(
-        //            typeof(UnityEngine.Debug),
-        //            nameof(UnityEngine.Debug.LogError),
-        //            new[] { typeof(object) }
-        //       );
-
-        //    static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
-        //    {
-        //        var code = instructions.ToList();
-        //        var insertionIndex = code.FindIndex(ci => ci.operand is MethodInfo f && f == SuitableMethodInfo);
-
-
-        //        if (insertionIndex != -1)
-        //        {
-        //            //Debug.LogWarning("FOOOOOUUUUUUUNNNNNNN;");
-        //            code[insertionIndex] = new CodeInstruction(OpCodes.Call, ConverterMethod);
-        //        }
-
-        //        return code;
-        //    }
-        //}
     }
 }

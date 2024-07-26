@@ -64,8 +64,8 @@ namespace Rockets_TinyYetBig.Patches
         {
             public static void Prefix()
             {
-                AddNewSkins.Patch(Mod.haromy);
-                SublevelCategoryPatch.Patch(Mod.haromy);
+                AddNewSkins.Patch(Mod.harmonyInstance);
+                SublevelCategoryPatch.Patch(Mod.harmonyInstance);
             }
         }
 

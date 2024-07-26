@@ -30,7 +30,8 @@ namespace Rockets_TinyYetBig.SpaceStations.Patches
             }
         }
 
-        [HarmonyPatch(typeof(ExobaseHeadquartersConfig), "ConfigureBuildingTemplate")]
+        //TODO: manual patch to avoid breaking translations
+        //[HarmonyPatch(typeof(ExobaseHeadquartersConfig), "ConfigureBuildingTemplate")]
         public static class AllowSmallPrintingPodInSpaceStation
         {
             public static void Postfix(GameObject go)

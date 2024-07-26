@@ -80,6 +80,8 @@ namespace Rockets_TinyYetBig.TwitchEvents.SpaceSpice
         }
         static List<SpiceEyes> AllSpicyEyes = new List<SpiceEyes>();
 
+
+        //TODO: manual patch to avoid breaking translations
         [HarmonyPatch(typeof(SaveLoader), "Save", new Type[] { typeof(string), typeof(bool), typeof(bool) })]
         public class SaveLoader_Save_Patch
         {

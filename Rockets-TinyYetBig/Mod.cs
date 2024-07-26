@@ -17,18 +17,23 @@ using Klei;
 using System.Runtime.CompilerServices;
 using System.Linq;
 using static Rockets_TinyYetBig.Patches.CompatibilityPatches.Rocketry_Interior_WeightLimit;
+using System.Reflection;
+using static Rockets_TinyYetBig.Patches.AnimationFixes;
+using UnityEngine;
 
 namespace Rockets_TinyYetBig
 {
     public class Mod : UserMod2
     {
-        public static Harmony haromy;
+        public static Harmony harmonyInstance;
         public static Dictionary<int, string> Tooltips = new Dictionary<int, string>();
+
+
         public override void OnLoad(Harmony harmony)
         {
-            haromy = harmony;
-            PUtil.InitLibrary(false);
-            
+            SgtLogger.l("RE.OnLoad");
+            harmonyInstance = harmony;
+            PUtil.InitLibrary(false);            
             new POptions().RegisterOptions(this, typeof(Config));
             //ModuleConfigManager.Init();
 
