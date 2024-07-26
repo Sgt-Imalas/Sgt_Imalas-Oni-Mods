@@ -185,7 +185,7 @@ namespace ModProfileManager_Addon
             }
         }
 
-        public void SetModEnabledForDlc(KMod.Label label, bool enabled, string entry)
+        public void SetModEnabledForDlc(KMod.Label label, bool enabled, string entry, bool writeAfter = true)
         {
             if (!SavePoints.TryGetValue(entry, out var points))
             {
@@ -196,7 +196,9 @@ namespace ModProfileManager_Addon
                 points.RemoveAll(entry => entry.defaultStaticID == label.defaultStaticID);
             else
                 points.Add(label);
-            WriteModlistToFile();
+
+            if(writeAfter)
+                WriteModlistToFile();
         }
 
         public static string GetModListFileName(string pathOfReference)

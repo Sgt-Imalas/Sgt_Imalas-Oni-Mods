@@ -14,10 +14,11 @@ namespace UtilLibs.ModSyncing
         {
             var data = PRegistry.GetData<List<string>>(SyncModKey);
 
-            if(data == null )
+            if(data == null)
                 return false;
 
-            return data.Contains(defaultStaticModID);
+            return data.Contains(defaultStaticModID)
+                ||defaultStaticModID.ToLowerInvariant().Contains("modupdatedate")||defaultStaticModID.Contains("2018291283"); //mod updater
         }
         public static bool IsModSyncMod(KMod.Mod mod) => IsModSyncMod(mod.label.defaultStaticID);
         public static void RegisterModAsSyncMod(KMod.Mod mod)

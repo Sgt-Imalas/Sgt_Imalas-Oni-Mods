@@ -3,6 +3,7 @@ using Klei.AI;
 using KMod;
 using ModProfileManager_Addon.IO;
 using ModProfileManager_Addon.ModProfileData;
+using ModProfileManager_Addon.UnityUI;
 using Newtonsoft.Json;
 using Steamworks;
 using System;
@@ -18,6 +19,7 @@ using UnityEngine;
 using UtilLibs;
 using UtilLibs.ModSyncing;
 using static KInputController;
+using static STRINGS.BUILDING.STATUSITEMS.ACCESS_CONTROL;
 
 namespace ModProfileManager_Addon
 {
@@ -117,11 +119,11 @@ namespace ModProfileManager_Addon
                 else
                 {
                     modlist.WriteModlistToFile();
-                    int missingSteamMods = ModAssets.GetMissingSteamModCount(modlist,out List<ulong> missings);
-                    if(missingSteamMods > 0)
+                    int missingSteamMods = ModAssets.GetMissingSteamModCount(modlist, out List<ulong> missings);
+                    if (missingSteamMods > 0)
                     {
                         System.Action onConfirm = () => ModAssets.SubToAllDelayed(missings);
-                        DialogUtil.CreateConfirmDialogFrontend(STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.TITLE, 
+                        DialogUtil.CreateConfirmDialogFrontend(STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.TITLE,
                             string.Format(STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.MISSING.SUCCESS, modlist.ModlistPath, missingSteamMods),
                             STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.MISSING.SUBTOALL, onConfirm,
                             STRINGS.UI.PRESETOVERVIEW.IMPORT_POPUP.MISSING.CONTINUE, () => { });
@@ -143,7 +145,7 @@ namespace ModProfileManager_Addon
 
         private static void SubToAllDelayed(List<ulong> missings)
         {
-            foreach(var entry in missings)
+            foreach (var entry in missings)
                 ModAssets.SubToMissingMod(entry);
         }
 
@@ -151,15 +153,15 @@ namespace ModProfileManager_Addon
         {
             missings = new List<ulong>();
             SgtLogger.l("getting steam missing count");
-            if(modlist == null || modlist.SavePoints.Count == 0 || modlist.SavePoints.Last().Value == null ||modlist.SavePoints.Last().Value.Count == 0)
+            if (modlist == null || modlist.SavePoints.Count == 0 || modlist.SavePoints.Last().Value == null || modlist.SavePoints.Last().Value.Count == 0)
                 return 0;
             var allMods = Global.Instance.modManager.mods;
 
             var modsInPreset = modlist.SavePoints.Last().Value;
 
-            HashSet<string> toFilter = new (modsInPreset.Select(e => e.defaultStaticID));
+            HashSet<string> toFilter = new(modsInPreset.Select(e => e.defaultStaticID));
 
-            foreach(var mod in allMods)
+            foreach (var mod in allMods)
             {
                 if (mod.status == KMod.Mod.Status.UninstallPending || mod.status == KMod.Mod.Status.NotInstalled)
                     continue;
@@ -176,7 +178,7 @@ namespace ModProfileManager_Addon
             if (allMissingSteamMods.Count == 0)
                 return 0;
 
-            foreach(var item in allMissingSteamMods)
+            foreach (var item in allMissingSteamMods)
             {
                 if (ulong.TryParse(item.id, out ulong steamId))
                     missings.Add(steamId);
@@ -328,11 +330,11 @@ namespace ModProfileManager_Addon
 
             if (!restartAfter)
             {
-                Global.Instance.modManager.dirty = true;
-                Global.Instance.modManager.Update(null);
+                mm.dirty = true;
+                mm.Update(null);
             }
             else
-                Global.Instance.modManager.Save();
+                mm.Save();
 
 
             if (restartAfter)
@@ -403,5 +405,42 @@ namespace ModProfileManager_Addon
             }
         }
 
+        internal static void ShowModIndexShiftDialogue(KMod.Mod targetMod, GameObject target)
+        {
+            if (SelectedModPack.ModList.TryGetModListEntry(SelectedModPack.Path, out var mods))
+            {
+                var currentIndex = mods.FindIndex(m => m.defaultStaticID == targetMod.label.defaultStaticID); 
+                if (currentIndex >= 0)
+                {
+                    Dialog_ModOrder.ShowIndexDialog(currentIndex, targetMod.title, target);
+                }
+            }
+        }
+
+        internal static void SetAllModsInPresetEnabled(bool enable)
+        {
+            if ((SelectedModPack.ModList.TryGetModListEntry(SelectedModPack.Path, out var mods)))
+            {
+                var mm = Global.Instance.modManager;
+                HashSet<string> currentStaticIds = new HashSet<string>(mods.Select(modLabel => modLabel.defaultStaticID));
+                if (enable)
+                {
+                    foreach (var mod in mm.mods)
+                    {
+                        var defaulStaticLabelID = mod.label.defaultStaticID;
+                        if (!currentStaticIds.Contains(defaulStaticLabelID) && mod.available_content != 0 && mod.contentCompatability == ModContentCompatability.OK)
+                        {
+                            mods.Add(mod.label);
+                        }
+
+                    }
+                }
+                else
+                {
+                    mods.RemoveAll(labl => !ModSyncUtils.IsModSyncMod(labl.defaultStaticID));
+                }
+                SelectedModPack.ModList.WriteModlistToFile();
+            }
+        }
     }
 }

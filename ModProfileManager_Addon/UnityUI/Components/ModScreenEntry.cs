@@ -15,6 +15,7 @@ namespace ModProfileManager_Addon.UnityUI.Components
 {
     internal class ModScreenEntry : KMonoBehaviour
     {
+        FButton ChangeSortOrderBt;
         FToggle2 ModEnabled;
         public KMod.Mod TargetMod;
         public KMod.Label? MissingLabel = null;
@@ -34,12 +35,19 @@ namespace ModProfileManager_Addon.UnityUI.Components
             ModEnabled.SetCheckmark("Checkmark");
             PlibConfigHighlight = transform.Find("HasPLibData").gameObject;
             plibTooltip = UIUtils.AddSimpleTooltipToObject(PlibConfigHighlight, "");
+            ChangeSortOrderBt = transform.Find("ReorderButton").gameObject.AddComponent<FButton>();
 
             var TypeGO = transform.Find("ModType").gameObject;
             if (TargetMod != null)
             {
                 Name = TargetMod.label.title;
                 this.gameObject.name = Name;
+
+                ChangeSortOrderBt.OnClick += () =>
+                {
+                    ModAssets.ShowModIndexShiftDialogue(TargetMod, ChangeSortOrderBt.gameObject);
+                };
+
                 var bt =
                     TypeGO.AddOrGet<FButton>();
                 bt.OnClick += TargetMod.on_managed;
@@ -66,6 +74,7 @@ namespace ModProfileManager_Addon.UnityUI.Components
             {
                 var m_missingLabel = MissingLabel.Value;
                 bool isMissingSteam = ulong.TryParse(m_missingLabel.id, out ulong steamId);
+                ChangeSortOrderBt.SetInteractable(false);
 
                 Name = m_missingLabel.title;
                 this.gameObject.name = Name;
@@ -98,6 +107,8 @@ namespace ModProfileManager_Addon.UnityUI.Components
                 plibTooltip.SetSimpleTooltip(STRINGS.UI.PLIB_CONFIG_FOUND + "\n" + plibData);
             }
             ModEnabled.SetOnFromCode(enabled);
+            ChangeSortOrderBt.SetInteractable(enabled);
+
         }
         public override void OnSpawn()
         {

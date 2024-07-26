@@ -17,6 +17,30 @@ namespace ModProfileManager_Addon
             public static LocString STEAM_MISSING_TOOLTIP = "This steam mod is currently not installed.\nClick here to subscribe to it.";
             public static LocString PRESET_APPLIED_TITLE = "MOD PRESET APPLIED";
             public static LocString PLIB_CONFIG_FOUND = "Modified Mod Options detected:";
+            public class MOD_FILTER_DROPDOWN
+            {
+                public static LocString LOCAL = "Local";
+                public static LocString STEAM = "Steam";
+                public static LocString DEV = "Dev";
+
+                public static LocString ACTIVE = "Active";
+                public static LocString INACTIVE = "Inactive";
+                public static LocString MISSING = "Missing";
+            }
+
+            public class MODORDER
+            {
+                public static LocString WINDOWTITLE = "Change Mod Index";
+                public static LocString PUTTOSTART = "Move to start";
+                public static LocString PUTTOSTART_TOOLTIP = "Put this mod at the start of the load order";
+                public static LocString PUTTOEND = "Move to end";
+                public static LocString PUTTOEND_TOOLTIP = "Put this mod at the end of the load order";
+
+                public static LocString PUTTOINDEX = "Move to: ";
+                public static LocString PUTTOINDEX_TOOLTIP = "Move this mod to the following position in the load order";
+
+                public static LocString BUTTONTOOLTIPADDON = "click to move it via index";
+            }
             public class PRESETOVERVIEW
             {
                 public class TOPBAR
@@ -103,6 +127,18 @@ namespace ModProfileManager_Addon
                 }
                 public class MODENTRYVIEW
                 {
+                    public class FILTERS
+                    {
+                        public class TOGGLEALL
+                        {
+                            public static LocString ENABLE_ALL_PRESET = "Enable all in Preset";
+                            public static LocString DISABLE_ALL_PRESET = "Disable all in Preset";
+                        }
+                        public static class FILTERBUTTON
+                        {
+                            public static LocString TEXT = "Mod Filters";
+                        }
+                    }
                     public class BUTTONS
                     {
                         public class APPLYPRESET

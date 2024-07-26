@@ -26,6 +26,8 @@ using static ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.FILEHIERARCHY;
 using System.Collections;
 using static ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.FILEHIERARCHY.BUTTONS;
 using static ModProfileManager_Addon.STRINGS.UI.PRESETOVERVIEW.MODENTRYVIEW.BUTTONS;
+using static ModProfileManager_Addon.STRINGS.UI;
+using static STRINGS.WORLD_TRAITS;
 
 namespace ModProfileManager_Addon.UnityUI
 {
@@ -50,6 +52,7 @@ namespace ModProfileManager_Addon.UnityUI
         public FButton ClearModProfileSearchBar;
         public FButton OpenPresetFolder;
 
+
         public GameObject HierarchyContainer;
         public FileHierarchyEntry HierarchyEntryPrefab;
         public FolderHierarchyEntry HierarchyFolderPrefab;
@@ -58,6 +61,13 @@ namespace ModProfileManager_Addon.UnityUI
 
         //ModView
         public FInputField2 ModEntrySearchbar;
+        public FButton AllModsToggle;
+        private LocText allModsToggleText;
+        private bool _allModsActive = false;
+        public bool AllModsActive => _allModsActive;
+        public FMultiSelectDropdown FilterDropDown;
+
+
         public Dictionary<string, ModScreenEntry> ModEntryEntries = new();
         public Dictionary<string, string> ModFilterStrings = new();
         public FButton ClearModEntrySearchbar;
@@ -68,6 +78,45 @@ namespace ModProfileManager_Addon.UnityUI
 
         public bool CurrentlyActive;
         public bool DialogueCurrentlyOpen;
+
+        bool SteamActive = true;
+        bool DevActive = true;
+        bool LocalActive = true;
+        bool EnabledActive = true;
+        bool DisabledActive = true;
+        bool MissingActive = true;
+
+        void OnFilterToggled_Steam(bool value)
+        {
+            SteamActive = value;
+            RebuildModsScreen();
+        }
+        void OnFilterToggled_Local(bool value)
+        {
+            LocalActive = value;
+            RebuildModsScreen();
+        }
+        void OnFilterToggled_Dev(bool value)
+        {
+
+            DevActive = value;
+            RebuildModsScreen();
+        }
+        void OnFilterToggled_Active(bool value)
+        {
+            EnabledActive = value;
+            RebuildModsScreen();
+        }
+        void OnFilterToggled_Inactive(bool value)
+        {
+            DisabledActive = value;
+            RebuildModsScreen();
+        }
+        void OnFilterToggled_Missing(bool value)
+        {
+            MissingActive = value;
+            RebuildModsScreen();
+        }
 
         private void Init()
         {
@@ -97,12 +146,27 @@ namespace ModProfileManager_Addon.UnityUI
             var hierarchyFolderGO = transform.Find("FileHierarchy/ScrollArea/Content/FolderPrefab").gameObject;
             hierarchyFolderGO.SetActive(false);
             HierarchyFolderPrefab = hierarchyFolderGO.AddOrGet<FolderHierarchyEntry>();
+            AllModsToggle = transform.Find("ModEntryView/Filters/ToggleAll").FindOrAddComponent<FButton>();
+            allModsToggleText = transform.Find("ModEntryView/Filters/ToggleAll/Text").gameObject.GetComponent<LocText>();
+            AllModsToggle.OnClick += () => ToggleAllMods();
 
             ModEntrySearchbar = transform.Find("ModEntryView/SearchBar/Input").FindOrAddComponent<FInputField2>();
 
             ModEntrySearchbar.OnValueChanged.AddListener(ApplyModsFilter);
 
             ModEntrySearchbar.Text = string.Empty;
+
+            FilterDropDown = transform.Find("ModEntryView/Filters/FilterButton").FindOrAddComponent<FMultiSelectDropdown>();
+            FilterDropDown.DropDownEntries = new()
+            {
+                new (MOD_FILTER_DROPDOWN.STEAM,OnFilterToggled_Steam,true),
+                new (MOD_FILTER_DROPDOWN.LOCAL,OnFilterToggled_Local,true),
+                new (MOD_FILTER_DROPDOWN.DEV,OnFilterToggled_Dev,true),
+                new (MOD_FILTER_DROPDOWN.ACTIVE,OnFilterToggled_Active,true),
+                new (MOD_FILTER_DROPDOWN.INACTIVE,OnFilterToggled_Inactive,true),
+                new (MOD_FILTER_DROPDOWN.MISSING,OnFilterToggled_Missing,true),
+            };
+            FilterDropDown.InitializeDropDown();
 
             ClearModEntrySearchbar = transform.Find("ModEntryView/SearchBar/DeleteButton").FindOrAddComponent<FButton>();
 
@@ -193,9 +257,15 @@ namespace ModProfileManager_Addon.UnityUI
         {
             var mods = Global.Instance.modManager.mods;
             List<KMod.Label> currentMods = new();
+            bool allModsActive = true;
+
             foreach (var mod in mods)
             {
-                if (mod.status == KMod.Mod.Status.NotInstalled || mod.status == KMod.Mod.Status.UninstallPending || mod.HasOnlyTranslationContent() || mod.contentCompatability != ModContentCompatability.OK)
+                if (mod.status == KMod.Mod.Status.NotInstalled || mod.status == KMod.Mod.Status.UninstallPending)
+                {
+                    continue;
+                }
+                if (mod.HasOnlyTranslationContent() || mod.contentCompatability != ModContentCompatability.OK)
                 {
                     continue;
                 }
@@ -203,14 +273,29 @@ namespace ModProfileManager_Addon.UnityUI
                 {
                     currentMods.Add(mod.label);
                 }
+                else
+                    allModsActive = false; 
             }
             var TMP = new SaveGameModList();
             TMP.IsModPack = true;
             TMP.ModlistPath = ModAssets.TMP_PRESET;
             TMP.ReferencedColonySaveName = ModAssets.TMP_PRESET;
             TMP.AddOrUpdateEntryToModList(ModAssets.TMP_PRESET, currentMods, true);
-
+            SetAllModsButtonState(allModsActive);
             ModAssets.SelectedModPack = new ModPresetEntry(TMP, ModAssets.TMP_PRESET);
+        }
+
+        private void ToggleAllMods()
+        {
+            ModAssets.SetAllModsInPresetEnabled(!AllModsActive);
+            SetAllModsButtonState(!AllModsActive);
+            RebuildModsScreen();
+        }
+
+        private void SetAllModsButtonState(bool allModsActive)
+        {
+            _allModsActive = allModsActive;
+            allModsToggleText.SetText(_allModsActive ? FILTERS.TOGGLEALL.DISABLE_ALL_PRESET : FILTERS.TOGGLEALL.ENABLE_ALL_PRESET);            
         }
 
         private void ClearSearchbars()
@@ -264,7 +349,26 @@ namespace ModProfileManager_Addon.UnityUI
             }
             this.ConsumeMouseScroll = true;
         }
+        bool IsModActiveInUI(KMod.Mod mod, bool shouldBeActive)
+        {
+            bool ShowModInList = true;
 
+            bool isDev = mod.IsDev;
+            bool isLocal = mod.IsLocal;
+
+            if (ShowModInList && isDev && !DevActive)
+                ShowModInList = false;
+            if (ShowModInList && isLocal && !LocalActive)
+                ShowModInList = false;
+            if (ShowModInList && (!isLocal&&!isDev) && !SteamActive)
+                ShowModInList = false;
+            if(ShowModInList && shouldBeActive && !EnabledActive)
+                ShowModInList = false;
+            if (ShowModInList && !shouldBeActive && !DisabledActive)
+                ShowModInList = false;
+
+            return ShowModInList;
+        }
         public void RebuildModsScreen()
         {
             scroll.OnBuild();
@@ -273,12 +377,15 @@ namespace ModProfileManager_Addon.UnityUI
             HashSet<string> activeMods = new();
             List<Label> presetMods = new();
 
+
+
             if (ModAssets.SelectedModPack != null)
             {
                 presetMods = ModAssets.SelectedModPack.GetActiveMods();
                 activeMods = new(ModAssets.SelectedModPack.GetActiveMods().Select(e => e.defaultStaticID));
             }
 
+            bool allModsActive = true;
             foreach (var mod in mods)
             {
                 ModAssets.RegisterModMapping(mod);
@@ -293,21 +400,26 @@ namespace ModProfileManager_Addon.UnityUI
                 }
                 ModScreenEntry modEntry = AddOrGetModEntry(mod, default);
 
-                bool enabled = ModAssets.SelectedModPack == null ? mod.IsEnabledForActiveDlc() : activeMods.Contains(mod.label.defaultStaticID);
+                bool modActiveInPreset = activeMods.Contains(mod.label.defaultStaticID);
+
+                bool enabled = ModAssets.SelectedModPack == null ? mod.IsEnabledForActiveDlc() : modActiveInPreset;
+                if(!enabled)
+                    allModsActive = false;
+
+
                 MPM_POptionDataEntry data = null;
-
-
                 bool hasPlib = ModAssets.SelectedModPack != null && ModAssets.SelectedModPack.GetActivePlibConfig().TryGetValue(mod.staticID, out data);
 
                 string dataString = null;
                 if (data != null)
                     dataString = data.ModConfigData.ToString();
-                modEntry.gameObject.SetActive(ShowModByStaticID(mod.label.defaultStaticID));
+                modEntry.gameObject.SetActive(ShowModByStaticID(mod.label.defaultStaticID) && IsModActiveInUI(mod, modActiveInPreset));
                 modEntry.Refresh(enabled, hasPlib, dataString);
+
                 if (activeMods.Contains(mod.label.defaultStaticID))
                     activeMods.Remove(mod.label.defaultStaticID);
             }
-            for (int i = presetMods.Count - 1; i > 0; i--)
+            for (int i = presetMods.Count - 1; i >= 0; i--)
             {
                 Label potentiallyMissing = presetMods[i];
                 if (activeMods.Contains(potentiallyMissing.defaultStaticID))
@@ -316,7 +428,7 @@ namespace ModProfileManager_Addon.UnityUI
 
                     bool enabled = true;
                     bool hasPlib = false;
-                    modEntryMissing.gameObject.SetActive(ShowModByStaticID(potentiallyMissing.defaultStaticID));
+                    modEntryMissing.gameObject.SetActive(ShowModByStaticID(potentiallyMissing.defaultStaticID) && MissingActive);
                     modEntryMissing.Refresh(enabled, hasPlib, string.Empty);
                 }
                 if (ModEntryEntries.TryGetValue(potentiallyMissing.defaultStaticID, out var e))
@@ -324,6 +436,8 @@ namespace ModProfileManager_Addon.UnityUI
                     e.transform.SetAsFirstSibling();
                 }
             }
+            SetAllModsButtonState(allModsActive);
+
             scroll.Rebuild();
         }
 
@@ -417,7 +531,6 @@ namespace ModProfileManager_Addon.UnityUI
 
             if (!ModEntryEntries.ContainsKey(label.defaultStaticID))
             {
-
                 var elementEntry = Util.KInstantiateUI<ModScreenEntry>(ModEntryPrefab.gameObject, ModEntrysContainer);
                 elementEntry.TargetMod = mod;
                 elementEntry.MissingLabel = label;
