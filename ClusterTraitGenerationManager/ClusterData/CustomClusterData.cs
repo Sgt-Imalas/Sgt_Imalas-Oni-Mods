@@ -27,7 +27,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 
             return planetDiff;
         }
-
+        [JsonIgnore] public bool HasCeresAsteroid => GetAllPlanets().Any(planet => planet.id.ToUpperInvariant().Contains("CERES"));
         [JsonIgnore] public bool HasTear => POIs != null && POIs.Any(item => item.Value.placementPOI != null && item.Value.placementPOI.pois != null && item.Value.placementPOI.pois.Contains("TemporalTear"));
         [JsonIgnore] public bool HasTeapot => POIs != null && POIs.Any(item => item.Value.placementPOI != null && item.Value.placementPOI.pois != null && item.Value.placementPOI.pois.Contains("ArtifactSpacePOI_RussellsTeapot"));
         [JsonIgnore] public int AdjustedOuterExpansion => GetAdjustedOuterExpansion();

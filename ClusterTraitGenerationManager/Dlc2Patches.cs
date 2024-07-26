@@ -1,4 +1,5 @@
 ﻿using ClusterTraitGenerationManager.ClusterData;
+using Database;
 using HarmonyLib;
 using Klei.CustomSettings;
 using ProcGen;
@@ -32,9 +33,25 @@ namespace ClusterTraitGenerationManager
                 }
             }
         }
+        [HarmonyPatch(typeof(ColonyAchievement), nameof(ColonyAchievement.IsValidForSave))]
+        public static class SteamAheadAchievment_ExistingSaves
+        {
+            public static void Postfix(ColonyAchievement __instance, ref bool __result)
+            {
+                if (__result == false
+                    && __instance.clusterTag != null
+                    && Game.clusterId == CGSMClusterManager.CustomClusterID
+                    && DlcManager.IsContentSubscribed(DlcManager.DLC2_ID)
+                    && SaveLoader.Instance.IsDLCActiveForCurrentSave(DlcManager.DLC2_ID)
+                    && SaveGameData.Instance != null)
+                {
+                    __result = SaveGameData.Instance.IsCeresAsteroidInCluster(__instance.clusterTag);
+                }
+            }
+        }
         [HarmonyPatch(typeof(CustomGameSettings), nameof(CustomGameSettings.GetCurrentClusterLayout))]
         public static class ClusterLayouts_GetCurrentClusterLayout
-        {
+        {            
             public static void Postfix(ref ClusterLayout __result)
             {
                 if (Patches.StillLoading || Patches.ApplyCustomGen.IsGenerating)

@@ -1601,6 +1601,11 @@ namespace ClusterTraitGenerationManager
 
                     //dirty manual exclusion to fix crash
                     CustomGameSettings.Instance.CurrentMixingLevelsBySetting["CeresAsteroidMixing"] = WorldMixingSettingConfig.DisabledLevelId;
+                    if(DlcManager.IsContentOwned(DlcManager.DLC2_ID) && DlcManager.IsContentSubscribed(DlcManager.DLC2_ID) && CustomCluster.HasCeresAsteroid)
+                    {
+                        SgtLogger.l("Enabling Frosty Planet for Custom Cluster");
+                        CustomGameSettings.Instance.CurrentMixingLevelsBySetting["DLC2_ID"] = DlcMixingSettingConfig.EnabledLevelId;
+                    }
                     //if (CGSMClusterManager.CustomCluster == null)
                     //{
                     //    ///Generating custom cluster if null

@@ -59,7 +59,7 @@ namespace ClusterTraitGenerationManager.ClusterData
             if (clusterTag == "CeresCluster" || clusterTag == "GeothermalImperative")
             {
                 foreach (WorldContainer planet in ClusterManager.Instance.WorldContainers)
-                {
+                {                    
                     if (planet.worldTags != null && planet.worldTags.Contains("Ceres"))
                     {
                         //Retroactively adding those to cgm clusters
