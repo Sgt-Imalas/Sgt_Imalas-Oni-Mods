@@ -15,6 +15,7 @@ using Klei.CustomSettings;
 using static ClusterTraitGenerationManager.ClusterData.CGSMClusterManager;
 using System.Security.Cryptography;
 using ClusterTraitGenerationManager.ClusterData;
+using System.IO;
 
 namespace ClusterTraitGenerationManager
 {
@@ -452,8 +453,16 @@ namespace ClusterTraitGenerationManager
             const string DLC_WorldNamePrefix = "expansion1::worlds/";
             const string Base_WorldNamePrefix = "worlds/";
 
+            /// <summary>
+            /// these got randomly removed on 26.07.2024, breaking existing presets.
+            /// readding them while they still exist to fix those
+            /// </summary>
+
             public static void Prefix(ISet<string> referencedWorlds)
             {
+                if (!DlcManager.IsExpansion1Active())
+                    return;
+
                 SgtLogger.l("checking if any moonlets should be added");
                 List<string> additionalWorlds = new List<string>();
                 foreach(var item in referencedWorlds)
@@ -461,7 +470,7 @@ namespace ClusterTraitGenerationManager
                     string path = SettingsCache.RewriteWorldgenPathYaml(item);
                     if (ModAssets.IsModdedAsteroid(path,out _))
                         continue;
-
+                    
                     if (ModAssets.Moonlets.Any(item.Contains))
                     {
                         string outerWorld = item.Replace("Start", string.Empty).Replace("Warp", string.Empty);
@@ -473,8 +482,9 @@ namespace ClusterTraitGenerationManager
                         if (!referencedWorlds.Contains(startWorld) && !additionalWorlds.Contains(startWorld))
                             additionalWorlds.Add(startWorld);
                     }
+
                 }
-                foreach(var item in additionalWorlds)
+                foreach (var item in additionalWorlds)
                 {
                     SgtLogger.l("adding additional world: " + item);
                     referencedWorlds.Add(item);

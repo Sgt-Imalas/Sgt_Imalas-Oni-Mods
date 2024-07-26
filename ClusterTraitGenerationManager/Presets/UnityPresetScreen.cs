@@ -394,7 +394,6 @@ namespace ClusterTraitGenerationManager
             if (item == null)
                 return null;
 
-           
 
             var planetObject = Util.KInstantiateUI(InfoRowPrefab, InfoScreenContainer, true);
             planetObject.transform.Find("Label/TraitImage").TryGetComponent<Image>(out var image);
@@ -402,9 +401,12 @@ namespace ClusterTraitGenerationManager
 
             if (item.category != StarmapItemCategory.POI)
             {
+
                 if (!PlanetoidDict.ContainsKey(item.itemID))
                 {
-                    SgtLogger.warning(item.itemID + " not found planetoid dictionar!");
+                    image.sprite = Assets.GetSprite("unknown");
+                    UIUtils.TryChangeText(planetObject.transform, "Label", "MISSING: "+item.itemID);
+                    SgtLogger.warning(item.itemID + " not found planetoid dictionary!");
                     return null;
                 }
 

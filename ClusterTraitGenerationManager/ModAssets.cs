@@ -35,6 +35,33 @@ namespace ClusterTraitGenerationManager
                 "MiniRadioactiveOcean"
             };
 
+
+        /// <summary>
+        /// Asteroid variants that have been removed with the hotfix on 26/07/2024
+        /// redirects to regular variants for presets
+        /// </summary>
+        static Dictionary<string, string> SmallClassicAsteroidsRedirects = new()
+        {
+            { "expansion1::worlds/SmallWarpOilySwamp", "expansion1::worlds/WarpOilySwamp"}, //warp
+            { "expansion1::worlds/SmallOilySwampStart", "expansion1::worlds/OilySwampStart"}, //start
+            { "expansion1::worlds/SmallOilySwampOuter", "expansion1::worlds/OilySwampOuter"}, //outer
+
+            { "expansion1::worlds/SmallRadioactiveLandingSite", "expansion1::worlds/IdealLandingSite"}, //outer
+            { "expansion1::worlds/SmallRadioactiveLandingSiteStart", "expansion1::worlds/IdealLandingSiteStart"}, //start
+            { "expansion1::worlds/SmallRadioactiveLandingSiteWarp", "expansion1::worlds/IdealLandingSiteWarp"}, //warp
+        };
+        public static bool FindSwapAsteroid(string item, out string replacement)
+        {
+            replacement = null;
+            if (SmallClassicAsteroidsRedirects.TryGetValue(item, out replacement))
+            {
+                SgtLogger.l("found old removed asteroid " + item + ", redirecting to " + replacement);
+                return true;
+            }
+            return false;
+        }
+
+
         //origin paths of dynamically generated asteroids and modded planets
         public static Dictionary<string, string> ModPlanetOriginPaths = new Dictionary<string, string>();
 
@@ -48,7 +75,7 @@ namespace ClusterTraitGenerationManager
             public bool HasArtifacts;
 
             public float RechargeMin, RechargeMax;
-            public float CapacityMin,CapacityMax;
+            public float CapacityMin, CapacityMax;
 
         }
 
@@ -72,7 +99,7 @@ namespace ClusterTraitGenerationManager
                 if (data != null && !_so_POIs.ContainsKey(data.Id))
                 {
                     _so_POIs.Add(data.Id, data);
-                    if(data.Id!=TeapotId)
+                    if (data.Id != TeapotId)
                         _nonUniquePOI_Ids.Add(data.Id);
                 }
             }
@@ -114,7 +141,7 @@ namespace ClusterTraitGenerationManager
         {
             get
             {
-                if(_so_POIs == null)
+                if (_so_POIs == null)
                 {
                     InitPOIs();
                 }
@@ -198,11 +225,11 @@ namespace ClusterTraitGenerationManager
         public static Sprite GetTraitSprite(WorldTrait trait)
         {
             Sprite TraitSprite = null;
-            if(trait.icon != null && trait.icon.Length > 0)
+            if (trait.icon != null && trait.icon.Length > 0)
             {
-                TraitSprite = Assets.GetSprite(trait.icon); 
+                TraitSprite = Assets.GetSprite(trait.icon);
             }
-            if(TraitSprite == null)
+            if (TraitSprite == null)
             {
                 string associatedIcon = trait.filePath.Substring(trait.filePath.LastIndexOf("/") + 1);
 
@@ -252,15 +279,15 @@ namespace ClusterTraitGenerationManager
             public static string ItemDescriptor(StarmapItemCategory itemCategory, bool plural = false)
             {
 
-                if(itemCategory == StarmapItemCategory.StoryTraits)
-                    return plural ?  STRINGS.UI.STARMAPITEMDESCRIPTOR.STORYTRAITPLURAL : STRINGS.UI.STARMAPITEMDESCRIPTOR.STORYTRAIT;
-                
+                if (itemCategory == StarmapItemCategory.StoryTraits)
+                    return plural ? STRINGS.UI.STARMAPITEMDESCRIPTOR.STORYTRAITPLURAL : STRINGS.UI.STARMAPITEMDESCRIPTOR.STORYTRAIT;
+
                 if (itemCategory == StarmapItemCategory.POI)
                     return plural ? STRINGS.UI.STARMAPITEMDESCRIPTOR.POI_GROUP_PLURAL : STRINGS.UI.STARMAPITEMDESCRIPTOR.POI_GROUP;
 
-                if (itemCategory == StarmapItemCategory.VanillaStarmap|| itemCategory == StarmapItemCategory.SpacedOutStarmap)
+                if (itemCategory == StarmapItemCategory.VanillaStarmap || itemCategory == StarmapItemCategory.SpacedOutStarmap)
                     return plural ? STRINGS.UI.STARMAPITEMDESCRIPTOR.POIPLURAL : STRINGS.UI.STARMAPITEMDESCRIPTOR.POI;
-                
+
                 return plural ? STRINGS.UI.STARMAPITEMDESCRIPTOR.ASTEROIDPLURAL : STRINGS.UI.STARMAPITEMDESCRIPTOR.ASTEROID;
             }
 
