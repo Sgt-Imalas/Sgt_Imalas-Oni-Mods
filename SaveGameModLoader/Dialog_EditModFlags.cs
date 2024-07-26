@@ -8,8 +8,6 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI.Extensions;
 using UtilLibs;
-using static ModInfo;
-using static Operational;
 using static SaveGameModLoader.STRINGS.UI.FRONTEND.MODTAGS;
 
 namespace SaveGameModLoader

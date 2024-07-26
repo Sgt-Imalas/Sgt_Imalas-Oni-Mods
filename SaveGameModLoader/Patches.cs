@@ -160,7 +160,7 @@ namespace SaveGameModLoader
 
             internal static void Prefix(ModsScreen __instance)
             {
-                __instance.canBackoutWithRightClick = false;
+                //__instance.canBackoutWithRightClick = false;
                 var transf = __instance.entryPrefab.transform;
                 if (blue == null)
                 {
@@ -175,8 +175,16 @@ namespace SaveGameModLoader
                 }
                 if (!__instance.entryPrefab.transform.Find("PinBtn") && __instance.entryPrefab.TryGetComponent<HierarchyReferences>(out var hr))
                 {
-                    var rightclickButton = __instance.entryPrefab.gameObject.AddComponent<FButton>();
-                    rightclickButton.normalColor = Color.black;
+                    var dragIndicator = __instance.entryPrefab.transform.Find("DragReorderIndicator").gameObject;
+                    if(dragIndicator.TryGetComponent<ToolTip>(out var toolTip))
+                    {
+                        toolTip.UseFixedStringKey = false;
+                        toolTip.SetSimpleTooltip(global::STRINGS.UI.FRONTEND.MODS.DRAG_TO_REORDER+"\n\n"+STRINGS.UI.FRONTEND.MODORDER.BUTTONTOOLTIPADDON);
+                    }
+
+                    var rightclickButton = dragIndicator.AddComponent<FButton>();
+                    rightclickButton.normalColor = PUITuning.Colors.ButtonPinkStyle.activeColor;
+                    rightclickButton.hoverColor = UIUtils.Lighten(PUITuning.Colors.ButtonPinkStyle.activeColor,20);
                     SgtLogger.l("preparing prefab");
 
 
@@ -259,13 +267,12 @@ namespace SaveGameModLoader
             private static readonly RectOffset BUTTON_MARGIN = new RectOffset(3, 3, 3, 3);
             private static readonly Vector2 ICON_SIZE = new Vector2(20.0f, 20.0f);
 
-
             internal static void Postfix(ModsScreen __instance, List<DisplayedMod> ___displayedMods)
             {
                 var allMods = Global.Instance.modManager.mods;
                 var modStateConfig = MPM_Config.Instance;
                 //new Dialog_EditFilterTags(mod.label.defaultStaticID, () => __instance.RebuildDisplay("pinned mod changed")).CreateAndShow(null);
-                foreach (DisplayedMod displayedMod in ___displayedMods)
+                foreach (var displayedMod in ___displayedMods)
                 {
                     var transf = displayedMod.rect_transform;
                     var go = transf.gameObject;
@@ -273,7 +280,7 @@ namespace SaveGameModLoader
                     var mod = allMods[displayedMod.mod_index];
                     string staticModId = mod.label.defaultStaticID;
 
-
+                    int currentIndex = displayedMod.mod_index;
                     if (transf.TryGetComponent<HierarchyReferences>(out var hier))
                     {
                         if (mod.IsLocal)
@@ -283,11 +290,9 @@ namespace SaveGameModLoader
                             modButtonBg.ApplyColorStyleSetting();
                         }
                         var contextButton = hier.GetReference<FButton>(rightClickBtn);
-                        contextButton.OnRightClick += () =>
+                        contextButton.OnClick += () =>
                         {
-                            //SgtLogger.l("rightclicked mod " + displayedMod.mod_index);
-                            //modStateConfig.TogglePinnedMod(staticModId);
-                            //__instance.RebuildDisplay("pinned mod changed");
+                            Dialog_ModOrder.ShowIndexDialog(currentIndex, mod.title , contextButton.gameObject) ;
                         };
 
                         var pinButton = hier.GetReference<KButton>(PinButton);
@@ -317,6 +322,7 @@ namespace SaveGameModLoader
                             var img = hier.GetReference<Image>(tagBgnImg);
                             img.color = HasTags;
                         }
+
                         hier.GetReference<KButton>(tagBgn).onClick += () => Dialog_EditFilterTags.ShowFilterDialog(mod.label.defaultStaticID, () => __instance.RebuildDisplay("pinned mod changed"));
                         hier.GetReference<Transform>(PinTransform).SetSiblingIndex(2);
                         hier.GetReference<Transform>(tagBgnTransform).SetSiblingIndex(3);
@@ -498,6 +504,7 @@ namespace SaveGameModLoader
             public static void Postfix()
             {
                 ModlistManager.Instance.IsSyncing = false;
+                Dialog_ModOrder.Close();
             }
         }
 

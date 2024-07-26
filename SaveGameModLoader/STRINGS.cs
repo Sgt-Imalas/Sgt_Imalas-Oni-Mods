@@ -35,6 +35,19 @@ namespace SaveGameModLoader
         {
             public class FRONTEND
             {
+                public class MODORDER
+                {
+                    public static LocString WINDOWTITLE = "Change Mod Index";
+                    public static LocString PUTTOSTART = "Move to start";
+                    public static LocString PUTTOSTART_TOOLTIP = "Put this mod at the start of the load order";
+                    public static LocString PUTTOEND = "Move to end";
+                    public static LocString PUTTOEND_TOOLTIP = "Put this mod at the end of the load order";
+
+                    public static LocString PUTTOINDEX = "Move to: ";
+                    public static LocString PUTTOINDEX_TOOLTIP = "Move this mod to the following position in the load order";
+
+                    public static LocString BUTTONTOOLTIPADDON = "click to move it via index";
+                }
                 public class FILTERSTRINGS
                 {
                     public class DROPDOWN
