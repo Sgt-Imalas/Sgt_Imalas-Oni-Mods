@@ -1138,6 +1138,7 @@ namespace ClusterTraitGenerationManager
                     return;
                 if ((target != "OverworldDensityMin") && (target != "OverworldDensityMax") && (target != "OverworldAvoidRadius") && (target != "OverworldMinNodes") && (target != "OverworldMaxNodes"))
                     return;
+
                 __result = GetMultipliedSizeFloat(__result, __instance);
             }
         }
@@ -1228,9 +1229,11 @@ namespace ClusterTraitGenerationManager
                 if (Mathf.Approximately(item.CurrentSizeMultiplier, 1))
                     return inputNumber;
 
-                SgtLogger.l($"changed input float: {inputNumber}, multiplied: {item.ApplySizeMultiplierToValue((float)inputNumber)}", "CGM WorldgenModifier");
+                float newValue = Mathf.RoundToInt(item.ApplySizeMultiplierToValue((float)inputNumber));
 
-                return item.ApplySizeMultiplierToValue((float)inputNumber);
+                SgtLogger.l($"changed input float: {inputNumber}, multiplied: {newValue}", "CGM WorldgenModifier");
+
+                return newValue;
             }
             return inputNumber;
         }
@@ -1246,7 +1249,7 @@ namespace ClusterTraitGenerationManager
                 if (Mathf.Approximately(item.CurrentSizeMultiplier, 1))
                     return inputNumber;
 
-                SgtLogger.l($"changed input int: {inputNumber}, multiplied: {item.ApplySizeMultiplierToValue((float)inputNumber)}", "CGM WorldgenModifier");
+                SgtLogger.l($"GetMultipliedSizeInt: {inputNumber}, multiplied: {item.ApplySizeMultiplierToValue((float)inputNumber)}", "CGM WorldgenModifier");
 
 
                 return Mathf.RoundToInt(item.ApplySizeMultiplierToValue((float)inputNumber));
@@ -1329,7 +1332,7 @@ namespace ClusterTraitGenerationManager
             /// <summary>
             /// Inserting Custom Traits
             /// </summary>
-            public static void Prefix(WorldGenSettings settings)
+            public static void Prefix(WorldGenSettings settings, SeededRandom myRandom)
             {
                 const string geyserKey = "GEYSER";
                 if (CGSMClusterManager.LoadCustomCluster && CGSMClusterManager.CustomCluster != null)
@@ -1339,6 +1342,9 @@ namespace ClusterTraitGenerationManager
 
                     if (CGSMClusterManager.CustomCluster.HasStarmapItem(settings.world.filePath, out var item) && !item.DefaultDimensions && !Mathf.Approximately(item.CurrentSizeMultiplier, 1))
                     {
+                        int seed = myRandom.seed;
+                        SgtLogger.l(seed.ToString(), "geyserSeed");
+
                         float SizeModifier = item.CurrentSizeMultiplier;
 
                         if (Mathf.Approximately(SizeModifier, 1))
@@ -1356,17 +1362,16 @@ namespace ClusterTraitGenerationManager
                                     OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names] = WorldTemplateRule.times;
                                 }
 
-
-
                                 float newGeyserAmount = (((float)OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names]) * SizeModifier);
                                 SgtLogger.l(string.Format("Adjusting geyser roll amount to worldsize for {0}; {1} -> {2}", WorldTemplateRule.names.FirstOrDefault(), OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names], newGeyserAmount), item.id);
+                                
+                                float chance = ((float)new KRandom(seed + WorldTemplateRule.names.First().GetHashCode()).Next(100)) / 100f;
 
                                 if (newGeyserAmount > 1)
                                 {
                                     WorldTemplateRule.times = Mathf.FloorToInt(newGeyserAmount);
                                     SgtLogger.l("new Geyser amount has a chance of " + newGeyserAmount % 1f + " for an additional spawn, rolling...", "CGM WorldgenModifier");
 
-                                    float chance = ((float)new System.Random(CGSMClusterManager.CurrentSeed + BitConverter.ToInt32(MD5.Create().ComputeHash(Encoding.Default.GetBytes(WorldTemplateRule.names.First())), 0)).Next(100)) / 100f;
                                     SgtLogger.l("rolled: " + chance);
                                     //chance = 0;///always atleast 1
                                     if (chance <= (newGeyserAmount % 1f))
@@ -1383,9 +1388,7 @@ namespace ClusterTraitGenerationManager
                                 }
                                 else
                                 {
-
                                     SgtLogger.l("new Geyser amount below 1, rolling for the geyser to appear at all...");
-                                    float chance = ((float)new System.Random(CGSMClusterManager.CurrentSeed + BitConverter.ToInt32(MD5.Create().ComputeHash(Encoding.Default.GetBytes(WorldTemplateRule.names.First())), 0)).Next(100)) / 100f;
                                     SgtLogger.l("rolled: " + chance);
                                     //chance = 0;///always atleast 1
                                     if (chance <= newGeyserAmount)

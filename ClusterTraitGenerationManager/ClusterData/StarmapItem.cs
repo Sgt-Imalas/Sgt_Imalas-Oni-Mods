@@ -182,7 +182,7 @@ namespace ClusterTraitGenerationManager.ClusterData
         //int CustomWorldSizeX = -1, CustomWorldSizeY = -1;
         WorldSizePresets SizePreset = WorldSizePresets.Normal;
         WorldRatioPresets RatioPreset = WorldRatioPresets.Normal;
-        [JsonIgnore] public bool DefaultDimensions => SizePreset == WorldSizePresets.Normal && RatioPreset == WorldRatioPresets.Normal;
+        [JsonIgnore] public bool DefaultDimensions => SizePreset == WorldSizePresets.Normal && RatioPreset == WorldRatioPresets.Normal && !UsingCustomDimensions;
         [JsonIgnore] public WorldSizePresets CurrentSizePreset => SizePreset;
         [JsonIgnore] public WorldRatioPresets CurrentRatioPreset => RatioPreset;
 
@@ -216,8 +216,6 @@ namespace ClusterTraitGenerationManager.ClusterData
             {
                 CustomY = currentDims.Y;
             }
-            RatioPreset = WorldRatioPresets.Custom;
-            SizePreset = WorldSizePresets.Custom;
             if (world != null)
             {
                 if (heightTrueWidthFalse)

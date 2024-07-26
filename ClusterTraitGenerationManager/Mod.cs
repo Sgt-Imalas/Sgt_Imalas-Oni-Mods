@@ -40,6 +40,7 @@ namespace ClusterTraitGenerationManager
         }
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
         {
+            //SgtLogger.l("CGM_OnAllModsLoaded");
             base.OnAllModsLoaded(harmony, mods);
             CompatibilityNotifications.FlagLoggingPrevention(mods);            
             CompatibilityNotifications.RemoveCrashingIncompatibility(harmony,mods,"CGSMMerged");
