@@ -11,6 +11,7 @@ using System.Text;
 using UnityEngine;
 using UtilLibs;
 using static ClusterTraitGenerationManager.ClusterData.CGSMClusterManager;
+using static ClusterTraitGenerationManager.STRINGS;
 using static CustomGameSettings;
 
 namespace ClusterTraitGenerationManager
@@ -599,8 +600,7 @@ namespace ClusterTraitGenerationManager
                     SgtLogger.l(poi.Key + " had no item");
                     continue;
                 }
-
-                if (poi.Value.pois == null)
+                if (poi.Value.pois == null || poi.Value.pois.Count == 0)
                 {
                     SgtLogger.l("legacy poi " + poi.Key + " found");
                     cluster.AddLegacyPOIGroup(poi.Key, poi.Value.minRing, poi.Value.maxRing, poi.Value.numberToSpawn);
@@ -640,7 +640,10 @@ namespace ClusterTraitGenerationManager
                     cluster.SO_Starmap = null;
                 }
             }
-
+            if (missinCount > 0)
+            {
+                DialogUtil.CreateConfirmDialogFrontend(ERRORMESSAGES.MISSINGWORLDS_TITLE, string.Format(ERRORMESSAGES.MISSINGWORLDS_TEXT, missinCount));
+            }
         }
         void ApplyDataToStarmapItem(SerializableStarmapItem item, StarmapItem reciverToLookup)
         {
@@ -742,27 +745,41 @@ namespace ClusterTraitGenerationManager
 
         private void FixAsteroidIDs()
         {
-            if(StarterPlanet != null)
+            if (StarterPlanet != null)
             {
                 if (ModAssets.FindSwapAsteroid(StarterPlanet.itemID, out var newId))
                     StarterPlanet.itemID = newId;
             }
-            if(WarpPlanet != null)
+            if (WarpPlanet != null)
             {
                 if (ModAssets.FindSwapAsteroid(WarpPlanet.itemID, out var newId))
                     WarpPlanet.itemID = newId;
             }
 
-            List<string> Keys = OuterPlanets.Keys.ToList();
-            foreach (var asteroid in Keys)
+            if (OuterPlanets != null)
             {
-                if(ModAssets.FindSwapAsteroid(asteroid, out var newId))
+                List<string> Keys = OuterPlanets.Keys.ToList();
+                foreach (var asteroid in Keys)
                 {
-                    var ast = OuterPlanets[asteroid];
-                    ast.itemID = newId;
+                    if (ModAssets.FindSwapAsteroid(asteroid, out var newId))
+                    {
+                        var ast = OuterPlanets[asteroid];
+                        ast.itemID = newId;
 
-                    OuterPlanets.Remove(asteroid);
-                    OuterPlanets.Add(newId, ast);
+                        OuterPlanets.Remove(asteroid);
+                        OuterPlanets.Add(newId, ast);
+                    }
+                }
+
+            }
+            if (SO_POI_Overrides != null)
+            {
+                foreach (var poiPos in SO_POI_Overrides)
+                {
+                    if (ModAssets.FindSwapAsteroid(poiPos.itemId, out var newId))
+                    {
+                        poiPos.itemId = newId;
+                    }
                 }
             }
         }

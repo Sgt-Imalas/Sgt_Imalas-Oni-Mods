@@ -308,7 +308,7 @@ namespace ClusterTraitGenerationManager
                 var starterHeader = Util.KInstantiateUI(InfoHeaderPrefab, InfoScreenContainer, true);
                 starterHeader.transform.Find("Label").GetComponent<LocText>().text = CATEGORYENUM.START + ":";
                 StarmapItemContainers.Add(starterHeader);
-
+                CurrentlySelected.StarterPlanet.category = StarmapItemCategory.Starter;
                 CreateUIItemForStarmapItem(CurrentlySelected.StarterPlanet);
             }
 
@@ -318,6 +318,7 @@ namespace ClusterTraitGenerationManager
                 warpHeader.transform.Find("Label").GetComponent<LocText>().text = CATEGORYENUM.WARP + ":";
                 StarmapItemContainers.Add(warpHeader);
 
+                CurrentlySelected.WarpPlanet.category = StarmapItemCategory.Warp;
                 CreateUIItemForStarmapItem(CurrentlySelected.WarpPlanet);
             }
 
@@ -329,6 +330,7 @@ namespace ClusterTraitGenerationManager
             }
             foreach(KeyValuePair<string, SerializableStarmapItem> planet in CurrentlySelected.OuterPlanets)
             {
+                planet.Value.category = StarmapItemCategory.Outer;
                 CreateUIItemForStarmapItem(planet.Value);
             }
 
@@ -340,6 +342,7 @@ namespace ClusterTraitGenerationManager
             }
             foreach (KeyValuePair<string, SerializableStarmapItem> planet in CurrentlySelected.POIs)
             {
+                planet.Value.category = StarmapItemCategory.POI;
                 CreateUIItemForStarmapItem(planet.Value);
             }
         }
@@ -396,6 +399,7 @@ namespace ClusterTraitGenerationManager
 
 
             var planetObject = Util.KInstantiateUI(InfoRowPrefab, InfoScreenContainer, true);
+            StarmapItemContainers.Add(planetObject);
             planetObject.transform.Find("Label/TraitImage").TryGetComponent<Image>(out var image);
             var imageContainer = planetObject.transform.Find("IconContainer").gameObject;
 
@@ -469,7 +473,6 @@ namespace ClusterTraitGenerationManager
                     }
                 }
             }
-            StarmapItemContainers.Add(planetObject);
             return planetObject;
         }
 

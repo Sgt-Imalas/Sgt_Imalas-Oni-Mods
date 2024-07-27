@@ -55,7 +55,8 @@ namespace ClusterTraitGenerationManager
             replacement = null;
             if (SmallClassicAsteroidsRedirects.TryGetValue(item, out replacement))
             {
-                SgtLogger.l("found old removed asteroid " + item + ", redirecting to " + replacement);
+                SgtLogger.warning("found old removed asteroid " + item + "in preset, redirecting to " + replacement);
+
                 return true;
             }
             return false;
@@ -81,8 +82,9 @@ namespace ClusterTraitGenerationManager
 
         private static void InitPOIs()
         {
+            _nonUniquePOI_Ids = new();
             _so_POIs = new Dictionary<string, POI_Data>();
-            _nonUniquePOI_Ids = new List<string>();
+            _so_POI_IDs = new();
 
             foreach (var item in Assets.GetPrefabsWithComponent<HarvestablePOIClusterGridEntity>())
             {
@@ -92,6 +94,9 @@ namespace ClusterTraitGenerationManager
                     _so_POIs.Add(data.Id, data);
                     _nonUniquePOI_Ids.Add(data.Id);
                 }
+                if (data != null && !_so_POI_IDs.Contains(data.Id))
+                    _so_POI_IDs.Add(data.Id);
+
             }
             foreach (var item in Assets.GetPrefabsWithComponent<ArtifactPOIClusterGridEntity>())
             {
@@ -102,6 +107,8 @@ namespace ClusterTraitGenerationManager
                     if (data.Id != TeapotId)
                         _nonUniquePOI_Ids.Add(data.Id);
                 }
+                if (data != null && !_so_POI_IDs.Contains(data.Id))
+                    _so_POI_IDs.Add(data.Id);
             }
             foreach (var item in Assets.GetPrefabsWithComponent<TemporalTear>())
             {
@@ -110,6 +117,8 @@ namespace ClusterTraitGenerationManager
                 {
                     _so_POIs.Add(data.Id, data);
                 }
+                if (data != null && !_so_POI_IDs.Contains(data.Id))
+                    _so_POI_IDs.Add(data.Id);
             }
             var randomPoiData = new POI_Data();
             RandomPOIId = RandomKey + StarmapItemCategory.POI.ToString();
@@ -125,7 +134,23 @@ namespace ClusterTraitGenerationManager
 
         private static Dictionary<string, POI_Data> _so_POIs;
         private static List<string> _nonUniquePOI_Ids;
-        public static List<string> NonUniquePOI_Ids
+        private static HashSet<string> _so_POI_IDs;
+
+        public static bool IsSOPOI(string id) => SO_POI_IDs.Contains(id);
+
+        public static HashSet<string> SO_POI_IDs
+        {
+            get
+            {
+                if (_so_POI_IDs == null)
+                {
+                    InitPOIs();
+                }
+                return _so_POI_IDs;
+            }
+        }
+
+public static List<string> NonUniquePOI_Ids
         {
             get
             {

@@ -1500,6 +1500,9 @@ namespace ClusterTraitGenerationManager
                     return;
 
                 SgtLogger.l("Applying CGM custom starmap");
+
+                HashSet<AxialI> UsedLocations = new();
+
                 __instance.poiPlacements.Clear();
                 int seed = __instance.seed;
                 var worldPlacements = GeneratedLayout.worldPlacements;
@@ -1511,9 +1514,10 @@ namespace ClusterTraitGenerationManager
                     int pos = worldPlacements.FindIndex(placement => placement.world == placementData.Value);
                     if (pos != -1)
                     {
-                        __instance.worlds[pos].SetClusterLocation(placementData.Key);
+                        __instance.worlds[pos].SetClusterLocation(placementData.Key); 
+                        UsedLocations.Add(placementData.Key);
                     }
-                    else
+                    else if (ModAssets.IsSOPOI(placementData.Value))
                     {
                         if (placementData.Value == ModAssets.RandomPOIId)
                         {
@@ -1523,6 +1527,7 @@ namespace ClusterTraitGenerationManager
                         }
                         else
                             __instance.poiPlacements.Add(placementData.Key, placementData.Value);
+                        UsedLocations.Add(placementData.Key);
                     }
 
                 }
