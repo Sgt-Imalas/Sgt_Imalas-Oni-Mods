@@ -8,7 +8,7 @@ using static EdiblesManager;
 
 namespace OniRetroEdition.Entities.Foods
 {
-    internal class MicrowavedSaladConfig : IEntityConfig
+    internal class MicrowavedLettuceConfig : IEntityConfig
     {
         public const string ID = "MicrowavedLettuce";
         public static ComplexRecipe recipe;
@@ -25,7 +25,7 @@ namespace OniRetroEdition.Entities.Foods
             MICROWAVEDLETTUCE = MICROWAVEDLETTUCE.AddEffects(effects1, DlcManager.AVAILABLE_EXPANSION1_ONLY);
 
 
-            return EntityTemplates.ExtendEntityToFood(EntityTemplates.CreateLooseEntity(ID, (string)global::STRINGS.ITEMS.FOOD.MICROWAVEDLETTUCE.NAME, (string)global::STRINGS.ITEMS.FOOD.MICROWAVEDLETTUCE.DESC, 1f, false, Assets.GetAnim((HashedString)"zestysalsa_kanim"), "object", Grid.SceneLayer.Front, EntityTemplates.CollisionShape.RECTANGLE, 0.8f, 0.5f, true), MICROWAVEDLETTUCE);
+            return EntityTemplates.ExtendEntityToFood(EntityTemplates.CreateLooseEntity(ID, (string)global::STRINGS.ITEMS.FOOD.MICROWAVEDLETTUCE.NAME, (string)global::STRINGS.ITEMS.FOOD.MICROWAVEDLETTUCE.DESC, 1f, false, Assets.GetAnim((HashedString)"microwaved_lettuce_kanim"), "object", Grid.SceneLayer.Front, EntityTemplates.CollisionShape.RECTANGLE, 0.8f, 0.5f, true), MICROWAVEDLETTUCE);
         }
 
         public string[] GetDlcIds() => DlcManager.AVAILABLE_ALL_VERSIONS;

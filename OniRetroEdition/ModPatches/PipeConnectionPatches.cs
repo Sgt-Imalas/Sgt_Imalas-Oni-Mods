@@ -54,7 +54,7 @@ namespace OniRetroEdition.ModPatches
 
 
         static HashedString IconMode;
-        [HarmonyPatch(typeof(BuildingCellVisualizer), "DrawIcons")]
+        [HarmonyPatch(typeof(EntityCellVisualizer), nameof(EntityCellVisualizer.DrawIcons))]
         public class Assets_OnPrefabInit_Patch
         {
             public static void Prefix(HashedString mode)
@@ -62,19 +62,22 @@ namespace OniRetroEdition.ModPatches
                 IconMode = mode;
             }
         }
-        [HarmonyPatch(typeof(BuildingCellVisualizer),
-            nameof(BuildingCellVisualizer.DrawUtilityIcon),
+        [HarmonyPatch(typeof(EntityCellVisualizer),
+            nameof(EntityCellVisualizer.DrawUtilityIcon),
             new Type[] { typeof(int), typeof(Sprite), typeof(GameObject), typeof(Color), typeof(float), typeof(bool) },
             new ArgumentType[] { ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Ref, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal })]
         public class BuildingCellVisualizerResources_Init
         {
             [HarmonyPrepare]
             static bool Prep() => Config.Instance.oldPipeIcons;
-            public static void Prefix(BuildingCellVisualizer __instance,
+            public static void Prefix(EntityCellVisualizer __instance,
                 int cell,
-                ref Sprite icon_img,
-                ref Color tint)
+                ref Sprite icon_img)
             {
+
+                if (__instance is not BuildingCellVisualizer visualizer)
+                    return;
+
 
                 if (IconMode != OverlayModes.GasConduits.ID && IconMode != OverlayModes.LiquidConduits.ID)
                     return;

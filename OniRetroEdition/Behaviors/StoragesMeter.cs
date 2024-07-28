@@ -67,7 +67,7 @@ namespace OniRetroEdition.Behaviors
                 maxValue = MaxMassOverride;
 
             float newMeterValue = Mathf.Clamp(currentValue / maxValue, 0, 1f);
-            SgtLogger.l("Meter on " + this.GetProperName() + " changed, new value: " + newMeterValue * 100 + "%");
+            //SgtLogger.l("Meter on " + this.GetProperName() + " changed, new value: " + newMeterValue * 100 + "%");
             storageMeter.SetPositionPercent(newMeterValue);
             
         }

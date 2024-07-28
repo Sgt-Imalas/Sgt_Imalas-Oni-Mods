@@ -19,6 +19,12 @@ namespace OniRetroEdition.ModPatches
         public static string Liquid_Input_Connected = "RetroOni_Liquid_Input_Connected";
         public static string Liquid_Input_Disconnected = "RetroOni_Liquid_Input_Disconnected";
 
+
+        public static string DigHex = "iconHex01";
+        public static string DigHardness = "inspectorUI_hardness_icon";
+        public static string DigMass = "inspectorUI_mass_icon_orange";
+
+
         [HarmonyPatch(typeof(Assets), "OnPrefabInit")]
         public class Assets_OnPrefabInit_Patch
         {
@@ -32,6 +38,10 @@ namespace OniRetroEdition.ModPatches
                 InjectionMethods.AddSpriteToAssets(__instance, SpritePatch.Gas_Input_Disconnected);
                 InjectionMethods.AddSpriteToAssets(__instance, SpritePatch.Liquid_Input_Connected);
                 InjectionMethods.AddSpriteToAssets(__instance, SpritePatch.Liquid_Input_Disconnected);
+
+                //InjectionMethods.AddSpriteToAssets(__instance, SpritePatch.DigHex);
+                //InjectionMethods.AddSpriteToAssets(__instance, SpritePatch.DigHardness);
+                //InjectionMethods.AddSpriteToAssets(__instance, SpritePatch.DigMass);
 
             }
         }
