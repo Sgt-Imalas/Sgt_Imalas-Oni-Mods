@@ -103,6 +103,18 @@ namespace GoodByeFrostByte
                 return true;
             }
         }
+        /// <summary>
+        /// adjust scolding temp
+        /// </summary>
+        [HarmonyPatch(typeof(ScaldingMonitor.Instance))]
+        [HarmonyPatch(nameof(ScaldingMonitor.Instance.GetScoldingThreshold))]
+        public static class ScaldingMonitor_GetScoldingThreshold_Patch
+        {
+            public static void Postfix(ref float __result)
+            {
+                __result = UtilMethods.GetKelvinFromC(Config.Instance.FrostBiteThreshold);
+            }
+        }
 
         /// <summary>
         /// Disable Heat debuff for dupes

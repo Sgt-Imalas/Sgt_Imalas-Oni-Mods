@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using UtilLibs;
 
 namespace GoodByeFrostByte
 {
@@ -31,6 +32,10 @@ namespace GoodByeFrostByte
         [Option("STRINGS.MODCONFIG_GOODBYEFROSTBITE.DISABLECOLDSLEEP.NAME", "STRINGS.MODCONFIG_GOODBYEFROSTBITE.DISABLECOLDSLEEP.TOOLTIP")]
         [JsonProperty]
         public bool DisableDupeColdSleep { get; set; } = false;
+
+        [Option("STRINGS.MODCONFIG_GOODBYEFROSTBITE.FROSTBITETHRESHOLD.NAME", "STRINGS.MODCONFIG_GOODBYEFROSTBITE.FROSTBITETHRESHOLD.TOOLTIP")]
+        [JsonProperty]
+        public float FrostBiteThreshold { get; set; } = UtilMethods.GetCFromKelvin  ( 183f); //from ScaldingMonitor.Def
 
         [Option("STRINGS.MODCONFIG_GOODBYEFROSTBITE.LOGARITHMICSPEEDDEBUFF.NAME", "STRINGS.MODCONFIG_GOODBYEFROSTBITE.LOGARITHMICSPEEDDEBUFF.TOOLTIP")]
         [JsonProperty]

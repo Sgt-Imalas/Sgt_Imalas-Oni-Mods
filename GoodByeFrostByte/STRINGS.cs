@@ -26,6 +26,11 @@ namespace GoodByeFrostByte
                 public static LocString NAME = "Disable frostbite damage";
                 public static LocString TOOLTIP = "Dupes no longer get any frostbite damage";
             }
+            public class FROSTBITETHRESHOLD
+            {
+                public static LocString NAME = "Frostbite temperature threshold (in °C)";
+                public static LocString TOOLTIP = "Adjust the temperature at which dupes receive frostbite damage";
+            }
             public class DISABLEHEATDEBUFF
             {
                 public static LocString NAME = "Disable heat debuffs";
