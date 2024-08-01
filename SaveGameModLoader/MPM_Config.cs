@@ -68,7 +68,7 @@ namespace SaveGameModLoader
         [JsonIgnore] public bool HasPinned => PinnedMods.Count > 0;
 
         public HashSet<string> PinnedMods = new HashSet<string>();
-        public Dictionary<string, TagFilterState> FilterTags = new();
+        public Dictionary<string, TagFilterState> FilterTags = new Dictionary<string, TagFilterState>();
 
         public Dictionary<string, HashSet<string>> ModTagConfig = new Dictionary<string, HashSet<string>>();
 
@@ -89,6 +89,8 @@ namespace SaveGameModLoader
                 return false;
             }
         }
+
+        public static void SaveInstanceToFile() => Instance?.SaveToFile();
 
         public void SaveToFile()
         {

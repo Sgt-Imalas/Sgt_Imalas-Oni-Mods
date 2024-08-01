@@ -135,14 +135,14 @@ namespace SaveGameModLoader.ModFilter
             //hidePins_btn.onClick += () =>
             //{
             //    MPM_Config.Instance.hidePins ^= true;
-            //    MPM_Config.Instance.SaveToFile();
+            //    MPM_Config.SaveInstanceToFile();
             //    RefreshUIState();
             //};
             //HideInactive_btn.onDoubleClick += () =>
             //{
             //    MPM_Config.Instance.ToggleAll();
             //    MPM_Config.Instance.hidePins = false;
-            //    MPM_Config.Instance.SaveToFile();
+            //    MPM_Config.SaveInstanceToFile();
             //    RefreshUIState();
             //};
             //UIUtils.AddSimpleTooltipToObject(pinButton, STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_PINS_TOOLTIP);
@@ -154,14 +154,14 @@ namespace SaveGameModLoader.ModFilter
             hideDev_btn.onClick += () =>
             {
                 MPM_Config.Instance.hideDev ^= true;
-                MPM_Config.Instance.SaveToFile();
+                MPM_Config.SaveInstanceToFile();
                 RefreshUIState();
             };
             //hideLocal_btn.onDoubleClick += () =>
             //{
             //    MPM_Config.Instance.ToggleAll();
             //    MPM_Config.Instance.hideLocal = false;
-            //    MPM_Config.Instance.SaveToFile();
+            //    MPM_Config.SaveInstanceToFile();
             //    RefreshUIState();
             //};
             UIUtils.AddSimpleTooltipToObject(devButton, STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_DEV_TOOLTIP);
@@ -174,14 +174,14 @@ namespace SaveGameModLoader.ModFilter
             hideLocal_btn.onClick += () =>
             {
                 MPM_Config.Instance.hideLocal ^= true;
-                MPM_Config.Instance.SaveToFile();
+                MPM_Config.SaveInstanceToFile();
                 RefreshUIState();
             };
             //hideLocal_btn.onDoubleClick += () =>
             //{
             //    MPM_Config.Instance.ToggleAll();
             //    MPM_Config.Instance.hideLocal = false;
-            //    MPM_Config.Instance.SaveToFile();
+            //    MPM_Config.SaveInstanceToFile();
             //    RefreshUIState();
             //};
             UIUtils.AddSimpleTooltipToObject(localButton, STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_LOCAL_TOOLTIP);
@@ -194,14 +194,14 @@ namespace SaveGameModLoader.ModFilter
             HideSteam_btn.onClick += () =>
             {
                 MPM_Config.Instance.hidePlatform ^= true;
-                MPM_Config.Instance.SaveToFile();
+                MPM_Config.SaveInstanceToFile();
                 RefreshUIState();
             };
             //HideSteam_btn.onDoubleClick += () =>
             //{
             //    MPM_Config.Instance.ToggleAll();
             //    MPM_Config.Instance.hideLocal = false;
-            //    MPM_Config.Instance.SaveToFile();
+            //    MPM_Config.SaveInstanceToFile();
             //    RefreshUIState();
             //};
             UIUtils.AddSimpleTooltipToObject(steamButton, STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_PLATFORM_TOOLTIP);
@@ -217,14 +217,14 @@ namespace SaveGameModLoader.ModFilter
                 MPM_Config.Instance.hideActive ^= true;
                 if (MPM_Config.Instance.hideActive)
                     MPM_Config.Instance.hideInactive = false;
-                MPM_Config.Instance.SaveToFile();
+                MPM_Config.SaveInstanceToFile();
                 RefreshUIState();
             };
             //HideActive_btn.onDoubleClick += () =>
             //{
             //    MPM_Config.Instance.ToggleAll();
             //    MPM_Config.Instance.hideActive = false;
-            //    MPM_Config.Instance.SaveToFile();
+            //    MPM_Config.SaveInstanceToFile();
             //    RefreshUIState();
             //};
             UIUtils.AddSimpleTooltipToObject(activeButton, STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_ACTIVE_TOOLTIP);
@@ -238,14 +238,14 @@ namespace SaveGameModLoader.ModFilter
                 MPM_Config.Instance.hideInactive ^= true;
                 if (MPM_Config.Instance.hideInactive)
                     MPM_Config.Instance.hideActive = false;
-                MPM_Config.Instance.SaveToFile();
+                MPM_Config.SaveInstanceToFile();
                 RefreshUIState();
             };
             //HideInactive_btn.onDoubleClick += () =>
             //{
             //    MPM_Config.Instance.ToggleAll();
             //    MPM_Config.Instance.hideInactive = false;
-            //    MPM_Config.Instance.SaveToFile();
+            //    MPM_Config.SaveInstanceToFile();
             //    RefreshUIState();
             //};
             UIUtils.AddSimpleTooltipToObject(inactiveButton, STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_INACTIVE_TOOLTIP);
@@ -258,14 +258,14 @@ namespace SaveGameModLoader.ModFilter
             hideIncompatible_btn.onClick += () =>
             {
                 MPM_Config.Instance.hideIncompatible ^= true;
-                MPM_Config.Instance.SaveToFile();
+                MPM_Config.SaveInstanceToFile();
                 RefreshUIState();
             };
             //hideIncompatible_btn.onDoubleClick += () =>
             //{
             //    MPM_Config.Instance.ToggleAll();
             //    MPM_Config.Instance.hideIncompatible = false;
-            //    MPM_Config.Instance.SaveToFile();
+            //    MPM_Config.SaveInstanceToFile();
             //    RefreshUIState();
             //};
             incompatibleButton.TryGetComponent<KImage>(out hideIncompatible_img);

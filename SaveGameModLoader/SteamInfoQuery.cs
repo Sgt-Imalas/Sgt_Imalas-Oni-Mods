@@ -223,7 +223,7 @@ namespace SaveGameModLoader
                         }
                     }
                 }
-                MPM_Config.Instance.SaveToFile();
+                //MPM_Config.SaveInstanceToFile();
             }
 
 

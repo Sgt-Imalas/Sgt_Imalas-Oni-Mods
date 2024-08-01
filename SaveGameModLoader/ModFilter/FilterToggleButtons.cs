@@ -86,7 +86,7 @@ namespace SaveGameModLoader.ModFilter
             hidePins_btn.OnClick += (v) =>
             {
                 MPM_Config.Instance.hidePins = !hidePins_btn.On;
-                MPM_Config.Instance.SaveToFile();
+                MPM_Config.SaveInstanceToFile();
                 RefreshUIState();
             };
 
@@ -95,7 +95,7 @@ namespace SaveGameModLoader.ModFilter
             hideDev_btn.OnClick += (v) =>
             {
                 MPM_Config.Instance.hideDev = !hideDev_btn.On;
-                MPM_Config.Instance.SaveToFile();
+                MPM_Config.SaveInstanceToFile();
                 RefreshUIState();
             };
 
@@ -104,7 +104,7 @@ namespace SaveGameModLoader.ModFilter
             hideLocal_btn.OnClick += (v) =>
             {
                 MPM_Config.Instance.hideLocal = !hideLocal_btn.On;
-                MPM_Config.Instance.SaveToFile();
+                MPM_Config.SaveInstanceToFile();
                 RefreshUIState();
             };
             
@@ -113,7 +113,7 @@ namespace SaveGameModLoader.ModFilter
             HideSteam_btn.OnClick += (v) =>
             {
                 MPM_Config.Instance.hidePlatform = !HideSteam_btn.On;
-                MPM_Config.Instance.SaveToFile();
+                MPM_Config.SaveInstanceToFile();
                 RefreshUIState();
             };
 
@@ -124,7 +124,7 @@ namespace SaveGameModLoader.ModFilter
                 MPM_Config.Instance.hideActive = !HideActive_btn.On;
                 if (MPM_Config.Instance.hideActive)
                     MPM_Config.Instance.hideInactive = false;
-                MPM_Config.Instance.SaveToFile();
+                MPM_Config.SaveInstanceToFile();
                 RefreshUIState();
             };
 
@@ -135,7 +135,7 @@ namespace SaveGameModLoader.ModFilter
                 MPM_Config.Instance.hideInactive = !HideInactive_btn.On;
                 if (MPM_Config.Instance.hideInactive)
                     MPM_Config.Instance.hideActive = false;
-                MPM_Config.Instance.SaveToFile();
+                MPM_Config.SaveInstanceToFile();
                 RefreshUIState();
             };
 
@@ -144,7 +144,7 @@ namespace SaveGameModLoader.ModFilter
             hideIncompatible_btn.OnClick += (v) =>
             {
                 MPM_Config.Instance.hideIncompatible = !hideIncompatible_btn.On;
-                MPM_Config.Instance.SaveToFile();
+                MPM_Config.SaveInstanceToFile();
                 RefreshUIState();
             };
 
