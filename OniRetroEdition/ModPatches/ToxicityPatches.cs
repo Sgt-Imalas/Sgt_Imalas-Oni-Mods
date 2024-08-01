@@ -79,6 +79,15 @@ namespace OniRetroEdition.ModPatches
                     if (element.id == SimHashes.Void || element.id == SimHashes.Vacuum)
                         continue;
 
+                    element.disabled = false;
+                    if (element.oreTags != null)
+                    {
+                        var list = element.oreTags.ToList();
+                        list.Remove(GameTags.HideFromSpawnTool);
+                        list.Remove(GameTags.HideFromCodex);
+                        element.oreTags = list.ToArray();
+                    }
+
                     if (!GasLiquidExposureMonitor.customExposureRates.TryGetValue(element.id, out var multiplier))
                     {
                         multiplier = 1f;
