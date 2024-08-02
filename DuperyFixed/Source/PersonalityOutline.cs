@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using static ModInfo;
 
 namespace Dupery
 {
@@ -42,6 +44,21 @@ namespace Dupery
         public string Hair { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string Body { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string CongenitalTrait { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string Belt { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string Cuff { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string Foot { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string Hand { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string Pelvis { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string Leg { get; set; }
 
         // Extra not-serlialized properties
         private string sourceModId;
@@ -55,6 +72,49 @@ namespace Dupery
 
             Printable = p.Printable;
             StartingMinion = p.StartingMinion;
+
+            ///Potential alternative:
+
+            //var outlineType = typeof(PersonalityOutline);
+
+            //foreach (PropertyInfo srcProp in outlineType.GetProperties())
+            //{
+            //    if (!srcProp.CanRead)
+            //    {
+            //        continue;
+            //    }
+            //    PropertyInfo targetProperty = outlineType.GetProperty(srcProp.Name);
+            //    if (targetProperty == null)
+            //    {
+            //        continue;
+            //    }
+            //    if (!targetProperty.CanWrite)
+            //    {
+            //        continue;
+            //    }
+            //    if (targetProperty.GetSetMethod(true) != null && targetProperty.GetSetMethod(true).IsPrivate)
+            //    {
+            //        continue;
+            //    }
+            //    if ((targetProperty.GetSetMethod().Attributes & MethodAttributes.Static) != 0)
+            //    {
+            //        continue;
+            //    }
+            //    if (!targetProperty.PropertyType.IsAssignableFrom(srcProp.PropertyType))
+            //    {
+            //        continue;
+            //    }
+            //    // Passed all tests, lets set the value
+            //    var ownValue = srcProp.GetValue(this, null);
+            //    var targetValue = srcProp.GetValue(p, null);
+            //    if(ownValue!=targetValue)
+            //    {
+            //        targetProperty.SetValue(this, targetValue);
+            //        isModified =true;
+            //    }
+            //}
+
+
             if (p.Name != null && p.Name != Name) { Name = p.Name; isModified = true; }
             if (p.Description != null && p.Description != Description) { Description = p.Description; isModified = true; }
             if (p.Gender != null && p.Gender != Gender) { Gender = p.Gender; isModified = true; }
@@ -67,6 +127,12 @@ namespace Dupery
             if (p.Eyes != null && p.Eyes != Eyes) { Eyes = p.Eyes; isModified = true; }
             if (p.Hair != null && p.Hair != Hair) { Hair = p.Hair; isModified = true; }
             if (p.Body != null && p.Body != Body) { Body = p.Body; isModified = true; }
+            if (p.Belt != null && p.Belt != Belt) { Belt = p.Belt; isModified = true; }
+            if (p.Cuff != null && p.Cuff != Cuff) { Cuff = p.Cuff; isModified = true; }
+            if (p.Foot != null && p.Foot != Foot) { Foot = p.Foot; isModified = true; }
+            if (p.Hand != null && p.Hand != Hand) { Hand = p.Hand; isModified = true; }
+            if (p.Pelvis != null && p.Pelvis != Pelvis) { Pelvis = p.Pelvis; isModified = true; }
+            if (p.Leg != null && p.Leg != Leg) { Leg = p.Leg; isModified = true; }
             // There's probably a cleverer way of doing all of that but whatever
 
             if (p.Randomize)
@@ -89,7 +155,7 @@ namespace Dupery
             nameStringKey = nameStringKey.ToUpper();
 
             // Meaningless attributes
-            string congenitalTrait = "None";
+            string congenitalTrait = CongenitalTrait != null ? CongenitalTrait : "None";
             int neck = -1;
 
             // Name can't be null
@@ -157,6 +223,12 @@ namespace Dupery
             // Customisable accessories
             int hair = ChooseAccessoryNumber(Db.Get().AccessorySlots.Hair, Hair);
             int body = ChooseAccessoryNumber(Db.Get().AccessorySlots.Body, Body);
+            int belt = ChooseAccessoryNumber(Db.Get().AccessorySlots.Belt, Belt);
+            int cuff = ChooseAccessoryNumber(Db.Get().AccessorySlots.Cuff, Cuff);
+            int foot = ChooseAccessoryNumber(Db.Get().AccessorySlots.Foot, Foot);
+            int hand = ChooseAccessoryNumber(Db.Get().AccessorySlots.Hand, Hand);
+            int pelvis = ChooseAccessoryNumber(Db.Get().AccessorySlots.Pelvis, Pelvis);
+            int leg = ChooseAccessoryNumber(Db.Get().AccessorySlots.Leg, Leg);
 
             // Remember any custom accessories
             DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Hair.Id, Hair);
@@ -176,8 +248,10 @@ namespace Dupery
                 eyes,
                 hair,
                 body,
+                belt, cuff, foot,hand,pelvis,leg,
                 description,
-                StartingMinion
+                StartingMinion,
+                ""
             );
 
             return personality;
@@ -202,7 +276,14 @@ namespace Dupery
                 HeadShape = personality.headShape.ToString(),
                 Eyes = personality.eyes.ToString(),
                 Hair = personality.hair.ToString(),
-                Body = personality.body.ToString()
+                Body = personality.body.ToString(),
+                Belt = personality.belt.ToString(),
+                Cuff = personality.cuff.ToString(),
+                Foot = personality.foot.ToString(),
+                Hand = personality.hand.ToString(),
+                Pelvis = personality.pelvis.ToString(),
+                Leg = personality.leg.ToString(),
+                CongenitalTrait = personality.congenitaltrait?.ToString(),
             };
 
             return jsonPersonality;
@@ -233,10 +314,11 @@ namespace Dupery
             }
             else
             {
-                int.TryParse(value, out accessoryNumber);
-                accessoryNumber = accessoryNumber > 0 ? accessoryNumber : 1;
+                if(!int.TryParse(value, out accessoryNumber))
+                {
+                    accessoryNumber = 1;
+                }
             }
-
             return accessoryNumber;
         }
     }

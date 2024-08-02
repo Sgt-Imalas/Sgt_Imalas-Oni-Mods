@@ -11,7 +11,7 @@
 //using static KAnimControllerBase;
 //using static STRINGS.NAMEGEN;
 
-//namespace SetStartDupes.DuplicityEditing.ScreenComponents
+//namespace DuperyFixed.MinionImages
 //{
 //    public class MinionPortraitHelper : MonoBehaviour
 //    {
@@ -20,7 +20,7 @@
 //        {
 //            if (true)
 //            {
-//                ///grabbin crew face from retiredcolony info screen
+//                / grabbin crew face from retiredcolony info screen
 //                if (crewPortraitPrefab == null)
 //                {
 //                    var source = ScreenPrefabs.Instance.RetiredColonyInfoScreen;
@@ -39,7 +39,7 @@
 
 //                        UnityEngine.Object.Destroy(clone);
 //                    }
-//                    // ERROR!
+//                    ERROR!
 //                    else
 //                        Debug.Log("[DSS] Error creating search prefab!  The searchbar will not function!");
 
@@ -48,21 +48,21 @@
 //            }
 //            else
 //            {
-//                ///other option for a portrait, but kinda breaks that sourcescreen so its not used
+//                / other option for a portrait, but kinda breaks that sourcescreen so its not used
 //                if (crewPortraitPrefab == null)
-//                {
-//                    foreach (SideScreenRef screen in DetailsScreen.Instance.sideScreens)
 //                    {
-//                        if (screen.screenPrefab.TryGetComponent<AccessControlSideScreen>(out var accessControl))
+//                        foreach (SideScreenRef screen in DetailsScreen.Instance.sideScreens)
 //                        {
-//                            var rowPrefab = Util.KInstantiateUI<AccessControlSideScreenRow>(accessControl.rowPrefab.gameObject);
-//                            crewPortraitPrefab = Util.KInstantiateUI(rowPrefab.crewPortraitPrefab.gameObject);
-//                            crewPortraitPrefab.SetActive(false);
+//                            if (screen.screenPrefab.TryGetComponent<AccessControlSideScreen>(out var accessControl))
+//                            {
+//                                var rowPrefab = Util.KInstantiateUI<AccessControlSideScreenRow>(accessControl.rowPrefab.gameObject);
+//                                crewPortraitPrefab = Util.KInstantiateUI(rowPrefab.crewPortraitPrefab.gameObject);
+//                                crewPortraitPrefab.SetActive(false);
 
-//                            return crewPortraitPrefab;
+//                                return crewPortraitPrefab;
+//                            }
 //                        }
 //                    }
-//                }
 //                return crewPortraitPrefab;
 //            }
 //        }
@@ -73,12 +73,12 @@
 
 //        public List<KeyValuePair<string, string>> GetAccessoryIDs(Personality personality)
 //        {
-//            Dictionary<string,string> accessories = new Dictionary<string,string>();
+//            Dictionary<string, string> accessories = new Dictionary<string, string>();
 //            var slots = Db.Get().AccessorySlots;
 //            var bodyData = MinionStartingStats.CreateBodyData(personality);
 
 //            accessories.Add(slots.Eyes.Id, slots.Eyes.Lookup(bodyData.eyes).Id);
-//            accessories.Add(slots.HatHair.Id,slots.HatHair.Lookup("hat_" + HashCache.Get().Get(bodyData.hair)).Id);
+//            accessories.Add(slots.HatHair.Id, slots.HatHair.Lookup("hat_" + HashCache.Get().Get(bodyData.hair)).Id);
 //            accessories.Add(slots.Hair.Id, slots.Hair.Lookup(bodyData.hair).Id);
 //            accessories.Add(slots.HeadShape.Id, slots.HeadShape.Lookup(bodyData.headShape).Id);
 //            accessories.Add(slots.Mouth.Id, slots.Mouth.Lookup(bodyData.mouth).Id);
@@ -117,7 +117,7 @@
 //            if (kbac == null)
 //                kbac = gameObject.GetComponentInChildren<KBatchedAnimController>();
 
-//            //kbac.visibilityType = VisibilityType.Default;
+//            kbac.visibilityType = VisibilityType.Default;
 //            soc.RemoveAllSymbolOverrides();
 //            kbac.SetSymbolVisiblity((KAnimHashedString)"snapTo_neck", false);
 //            kbac.SetSymbolVisiblity((KAnimHashedString)"snapTo_goggles", false);
@@ -134,7 +134,7 @@
 //                    kbac.SetSymbolVisiblity((KAnimHashedString)accessory.Key, true);
 //                }
 //            }
-//            //soc.ApplyOverrides();
+//            soc.ApplyOverrides();
 
 //            if (gameObject.activeInHierarchy)
 //                this.StartCoroutine(this.ActivatePortraitsWhenReady());
@@ -142,7 +142,7 @@
 //        private IEnumerator ActivatePortraitsWhenReady()
 //        {
 //            yield return 0;
-//                kbac.transform.localScale = Vector3.one;
+//            kbac.transform.localScale = Vector3.one;
 //        }
 //    }
 //}
