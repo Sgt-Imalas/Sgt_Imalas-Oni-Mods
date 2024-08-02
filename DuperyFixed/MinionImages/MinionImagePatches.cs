@@ -21,7 +21,7 @@ namespace DuperyFixed.MinionImages
             {
                 if (__result == null)
                 {
-                    __result = ModAssets.BuildDynamicDreamImage(__instance); 
+                    __result = ModAssets.GetDynamicDreamImage(__instance); 
                 }
             }
         }
