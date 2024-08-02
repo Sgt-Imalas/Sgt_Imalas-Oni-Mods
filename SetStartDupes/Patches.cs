@@ -133,7 +133,7 @@ namespace SetStartDupes
                 }
             }
         }
-        
+
         [HarmonyPatch(typeof(CharacterContainer), nameof(CharacterContainer.GenerateCharacter))]
         public class OverwriteRngGeneration
         {
@@ -187,7 +187,7 @@ namespace SetStartDupes
         [HarmonyPatch(typeof(CharacterContainer), nameof(CharacterContainer.GenerateCharacter))]
         public class ApplyCrewPresetIfAvailable
         {
-            public static void Postfix(CharacterContainer __instance, KButton ___selectButton)
+            public static void Postfix(CharacterContainer __instance)
             {
                 if (MinionCrewPreset.OpenPresetAssignments.Count > 0)
                 {
@@ -197,6 +197,21 @@ namespace SetStartDupes
             }
         }
 
+        [HarmonyPatch(typeof(MinionStartingStats), MethodType.Constructor, new Type[] { typeof(bool), typeof(string), typeof(string), typeof(bool) })]
+        public class RerollWithLockedPersonality
+        {
+            [HarmonyPriority(Priority.LowerThanNormal)]
+
+            public static void Postfix(MinionStartingStats __instance, bool is_starter_minion, string guaranteedAptitudeID, string guaranteedTraitID, bool isDebugMinion)
+            {
+                if (ModAssets.ToShufflePersonality == null)
+                {
+                    return;
+                }
+                ModAssets.ApplySkinFromPersonality(ToShufflePersonality, __instance, true);
+                ModAssets.ToShufflePersonality = null;
+            }
+        }
         [HarmonyPatch(typeof(MinionStartingStats), nameof(MinionStartingStats.GenerateStats))]
         public class RecalculateStatBoni
         {
@@ -212,31 +227,29 @@ namespace SetStartDupes
         }
 
         /// <summary>
-		/// Applied before OnStartedTalking runs.
-		/// </summary>
-		[HarmonyPriority(Priority.LowerThanNormal)]
-        internal static bool Prefix(object data, Chatty __instance)
-        {
-            if ((data is MinionIdentity other || (data is ConversationManager.
-                    StartedTalkingEvent evt && evt.talker != null && evt.talker.
-                    TryGetComponent(out other))) &&
-                    other != null && other != __instance.identity)
-            {
+        /// Applied before OnStartedTalking runs.
+        /// </summary>
+        //[HarmonyPriority(Priority.LowerThanNormal)]
+        //      internal static bool Prefix(object data, Chatty __instance)
+        //      {
+        //          if ((data is MinionIdentity other || (data is ConversationManager.
+        //                  StartedTalkingEvent evt && evt.talker != null && evt.talker.
+        //                  TryGetComponent(out other))) &&
+        //                  other != null && other != __instance.identity)
+        //          {
 
 
-                // Cannot talk to yourself (self)
-                if (other.TryGetComponent(out StateMachineController smc))
-                    smc.GetSMI<JoyBehaviourMonitor.Instance>()?.GoToOverjoyed();
-                if (__instance.TryGetComponent(out smc))
-                    smc.GetSMI<JoyBehaviourMonitor.Instance>()?.GoToOverjoyed();
+        //              // Cannot talk to yourself (self)
+        //              if (other.TryGetComponent(out StateMachineController smc))
+        //                  smc.GetSMI<JoyBehaviourMonitor.Instance>()?.GoToOverjoyed();
+        //              if (__instance.TryGetComponent(out smc))
+        //                  smc.GetSMI<JoyBehaviourMonitor.Instance>()?.GoToOverjoyed();
 
 
-            }
-            __instance.conversationPartners.Clear();
-            return false;
-        }
-
-
+        //          }
+        //          __instance.conversationPartners.Clear();
+        //          return false;
+        //      }
 
 
         //[HarmonyPatch(typeof(ImmigrantScreen))]
@@ -299,8 +312,6 @@ namespace SetStartDupes
                     }
                 }
 
-
-
                 if (EditingSingleDupe)
                 {
                     if (__instance.containers != null && __instance.containers.Count > 0)
@@ -357,9 +368,70 @@ namespace SetStartDupes
 
                 return true;
             }
-            public static void Postfix(ImmigrantScreen __instance)
+            static GameObject printerSelectButtonGO = null;
+            public static void Postfix(ImmigrantScreen __instance, Telepad telepad)
             {
                 ModAssets.ParentScreen = PauseScreen.Instance.transform.parent.gameObject;
+
+                if (!DlcManager.IsExpansion1Active()) //no multiple printing pods in base game
+                    return;
+
+                if (printerSelectButtonGO == null)
+                {
+                    SgtLogger.l("building pod selector button");
+                    var buttonWithImage = __instance.closeButton.gameObject;
+                    var parentGO = __instance.proceedButton.transform.parent.gameObject;
+
+
+
+                    printerSelectButtonGO = Util.KInstantiateUI(buttonWithImage,parentGO, true);
+                    UIUtils.ListAllChildren(printerSelectButtonGO.transform);
+                    var buttonRect = printerSelectButtonGO.rectTransform();
+                    if(printerSelectButtonGO.TryGetComponent<LayoutElement>(out var LE))
+                        LE.enabled = false;
+                    
+                    UIUtils.AddSimpleTooltipToObject(printerSelectButtonGO, MODDEDIMMIGRANTSCREEN.PRINTINGPOD_SELECT);
+
+                        buttonRect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 5, 48);
+                    buttonRect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, 48);
+                    var imageGO = buttonRect.Find("GameObject").gameObject;
+                    var imageRect = imageGO.rectTransform();
+
+                    imageRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 40);
+                    imageRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 40);
+                }
+                if(!EditingSingleDupe)//not a single dupe
+                {
+                    WorldContainer world = telepad.GetMyWorld();
+                    var button = printerSelectButtonGO.GetComponent<KButton>();
+                    button.isInteractable = (Components.Telepads.Count > 1);
+                    if (world != null && world.TryGetComponent<ClusterGridEntity>(out var starmapEntity))
+                    {
+                        var sprite = starmapEntity.GetUISprite();
+                        printerSelectButtonGO.transform.Find("GameObject").GetComponent<Image>().sprite = sprite;
+                    }
+                    
+                    {
+                        button.ClearOnClick();
+                        button.onClick += () =>
+                        {
+                            var list = Components.Telepads.ToList();
+                            int index = list.FindIndex(t => __instance.telepad == t);
+                            index++;
+                            if (index >= list.Count)
+                                index = 0;
+                            var nextTelepad = list[index];
+                            __instance.telepad = (nextTelepad);
+                            WorldContainer world = nextTelepad.GetMyWorld(); 
+                            if (world != null && world.TryGetComponent<ClusterGridEntity>(out var starmapEntity))
+                            {
+                                var sprite = starmapEntity.GetUISprite();
+                                printerSelectButtonGO.transform.Find("GameObject").GetComponent<Image>().sprite = sprite;
+                            }
+                        };
+                    }
+                }
+                printerSelectButtonGO.SetActive(!EditingSingleDupe);
             }
         }
 
@@ -524,29 +596,52 @@ namespace SetStartDupes
                 return !(__instance.containers == null || __instance.containers.Count == 0);
             }
         }
-        
+
         [HarmonyPatch(typeof(CharacterContainer), nameof(CharacterContainer.Reshuffle))]
         public class PreventCrashForSingleDupes
         {
 
             public static bool Prefix(CharacterContainer __instance, ref bool is_starter)
             {
-                is_starter = __instance.controller is MinionSelectScreen;
                 if (EditingSingleDupe)
                 {
+                    is_starter = __instance.controller is MinionSelectScreen;
+
                     if (__instance.fxAnim != null)
                     {
                         __instance.fxAnim.Play("loop");
                     }
-                    //SgtLogger.l(__instance.guaranteedAptitudeID, "archetypeID");
+                    if (__instance.controller != null && __instance.controller.IsSelected(__instance.stats))
+                    {
+                        __instance.DeselectDeliverable();
+                    }
                     __instance.GenerateCharacter(is_starter, __instance.guaranteedAptitudeID);
                     return false;
                 }
+                if (__instance.stats != null && ModAssets.LockedContainer(__instance))
+                {
+                    ModAssets.ToShufflePersonality = __instance.stats.personality;
+                }
                 return true;
             }
+            //public static void Postfix(CharacterContainer __instance)
+            //{
+
+            //}
         }
 
-        [HarmonyPatch(typeof(DetailsScreen),nameof(DetailsScreen.OnPrefabInit))]
+
+        [HarmonyPatch(typeof(Assets), "OnPrefabInit")]
+        public class Assets_OnPrefabInit_Patch
+        {
+            [HarmonyPriority(Priority.LowerThanNormal)]
+            public static void Prefix(Assets __instance)
+            {
+
+                InjectionMethods.AddSpriteToAssets(__instance, ModAssets.UnlockIcon);
+            }
+        }
+        [HarmonyPatch(typeof(DetailsScreen), nameof(DetailsScreen.OnPrefabInit))]
         public class DetailsScreen_OnPrefabInit_Patch
         {
             public static void AssetOnPrefabInitPostfix(Harmony harmony)
@@ -613,7 +708,7 @@ namespace SetStartDupes
             }
         }
 
-        [HarmonyPatch(typeof(DetailsScreen),nameof(DetailsScreen.OnSelectObject))]
+        [HarmonyPatch(typeof(DetailsScreen), nameof(DetailsScreen.OnSelectObject))]
         public class DetailsScreen_OnSelectObject_Patch
         {
             public static void AssetOnPrefabInitPostfix(Harmony harmony)
@@ -730,7 +825,7 @@ namespace SetStartDupes
             private static System.Collections.IEnumerator MinionNumberAdustmentRoutine()
             {
 
-                yield return (object)SequenceUtil.WaitForSeconds(((3 - SpeedControlScreen.Instance.speed) * 500f)/ 1000f);
+                yield return (object)SequenceUtil.WaitForSeconds(((3 - SpeedControlScreen.Instance.speed) * 500f) / 1000f);
                 SpeedControlScreen.Instance.Pause(true);
             }
             public static void Prefix(Immigration __instance, float dt)
@@ -916,6 +1011,7 @@ namespace SetStartDupes
             //    //UIUtils.ListAllChildren(NextButtonPrefab.transform);
             //    NextButtonPrefab.name = "CycleButtonPrefab";
             //}
+
             public static void CarePackagesOnly()
             {
                 if (instance is MinionSelectScreen)
@@ -946,8 +1042,8 @@ namespace SetStartDupes
             static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
             {
                 var code = instructions.ToList();
-                var insertionIndex1 = code.FindIndex(ci => ci.opcode == OpCodes.Stfld && ci.operand is FieldInfo fi && fi == numberOfCarePacks);
-                var insertionIndex2 = code.FindLastIndex(ci => ci.opcode == OpCodes.Stfld && ci.operand is FieldInfo fi && fi == numberOfDupes);
+                var insertionIndex1 = code.FindIndex(ci => ci.StoresField(numberOfCarePacks));
+                var insertionIndex2 = code.FindLastIndex(ci => ci.StoresField(numberOfDupes));
 
                 //foreach (var v in code) { Debug.Log(v.opcode + " -> " + v.operand); };
                 if (insertionIndex1 != -1 && insertionIndex2 != -1)
@@ -959,6 +1055,7 @@ namespace SetStartDupes
                 }
                 else
                 {
+                    
                     SgtLogger.error("CarePackagesOnly Transpiler failed!");
                 }
                 return code;
@@ -1064,62 +1161,6 @@ namespace SetStartDupes
         [HarmonyPatch(typeof(CharacterContainer), nameof(CharacterContainer.OnSpawn))]
         public class AddDeletionButtonForStartScreen_TraitRerolling
         {
-            [HarmonyPostfix]
-            public static void Postfix(CharacterContainer __instance)
-            {
-                bool IsStartDupe = __instance.controller is MinionSelectScreen;
-
-                if (IsStartDupe)
-                {
-                    GameObject deleteBtn = Util.KInstantiateUI(__instance.reshuffleButton.gameObject, __instance.reshuffleButton.transform.parent.gameObject, true);
-                    deleteBtn.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 0, 80f);
-                    var text = deleteBtn.transform.Find("Text");
-                    text.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 2, 76f);
-
-
-                    UIUtils.TryChangeText(text, "", MODDEDIMMIGRANTSCREEN.REMOVEDUPE);
-                    UIUtils.AddSimpleTooltipToObject(deleteBtn.transform, MODDEDIMMIGRANTSCREEN.REMOVEDUPETOOLTIP);
-                    UIUtils.AddActionToButton(deleteBtn.transform, "", () =>
-                    {
-                        if (__instance.controller.containers.Count > 1)
-                        {
-                            __instance.controller.containers.Remove(__instance);
-                            UnityEngine.Object.Destroy(__instance.GetGameObject());
-                        }
-                    });
-                }
-                if (!EditingSingleDupe && (Config.Instance.RerollDuringGame || IsStartDupe))
-                {
-                    GameObject rerollTraitBtn = Util.KInstantiateUI(__instance.reshuffleButton.gameObject, __instance.reshuffleButton.transform.parent.gameObject, true);
-                    rerollTraitBtn.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 120, 80f);
-                    var text = rerollTraitBtn.transform.Find("Text");
-                    text.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 2, 76f);
-
-
-                    ApplyTraitStyleByKey(rerollTraitBtn.GetComponent<KImage>(), default);
-                    UIUtils.TryChangeText(text, "", CONGENITALTRAITS.NONE.NAME);
-                    UIUtils.AddSimpleTooltipToObject(rerollTraitBtn.transform, MODDEDIMMIGRANTSCREEN.GUARANTEETRAIT);
-                    UIUtils.AddActionToButton(rerollTraitBtn.transform, "", () =>
-                    {
-                        UnityTraitRerollingScreen.ShowWindow(() =>
-                        {
-                            __instance.Reshuffle(IsStartDupe);
-                            var type = GetTraitListOfTrait(UnityTraitRerollingScreen.GetTraitId(__instance));
-                            ApplyTraitStyleByKey(rerollTraitBtn.GetComponent<KImage>(), type);
-                            UIUtils.TryChangeText(text, "", UnityTraitRerollingScreen.GetTraitName(__instance));
-                        },
-                        __instance);
-                    });
-
-                    if (!buttonsToDeactivateOnEdit.ContainsKey(__instance))
-                    {
-                        buttonsToDeactivateOnEdit[__instance] = new List<KButton>();
-                    }
-                    buttonsToDeactivateOnEdit[__instance].Add(rerollTraitBtn.GetComponent<KButton>());
-                }
-            }
-
-
             /// <summary>
             /// Adding the dss screen to each characterContainer
             /// </summary>
@@ -1127,7 +1168,7 @@ namespace SetStartDupes
             /// <param name="___stats"></param>
             /// <param name="__state"></param>
             [HarmonyPostfix]
-            public static void Postfix(CharacterContainer __instance, MinionStartingStats ___stats)
+            public static void Postfix(CharacterContainer __instance)
             {
                 bool is_starter = __instance.controller is MinionSelectScreen;
 
@@ -1171,84 +1212,170 @@ namespace SetStartDupes
                 UIUtils.AddActionToButton(skinBtn.transform, "", () => DupeSkinScreenAddon.ShowSkinScreen(__instance));
 
 
-                if (!is_starter && !AllowModification)
-                    return;
-
-                ///Make modify button
-                var changebtn = Util.KInstantiateUI(buttonPrefab, titlebar);
-                changebtn.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, insetBase + insetA, changebtn.rectTransform().sizeDelta.x);
-                changebtn.name = "ChangeDupeStatButton";
-                changebtn.GetComponent<ToolTip>().toolTip = STRINGS.UI.BUTTONS.MODIFYBUTTONTOOLTIP;
-
-                var img = changebtn.transform.Find("Image").GetComponent<KImage>();
-                img.sprite = Assets.GetSprite("icon_gear");
-
-                var button = __instance.transform.Find("ShuffleDupeButton").GetComponent<KButton>();
-                var button2 = __instance.transform.Find("ArchetypeSelect").GetComponent<KButton>();
-
-                buttonsToDeactivateOnEdit[__instance].Add(button);
-                buttonsToDeactivateOnEdit[__instance].Add(button2);
-                changebtn.TryGetComponent<ToolTip>(out var tt);
-                changebtn.TryGetComponent<KButton>(out var btn);
-
-                if (AddNewToTraitsButtonPrefab == null)
+                if (is_starter || AllowModification)
                 {
-                    AddNewToTraitsButtonPrefab = Util.KInstantiateUI(buttonPrefab);
-                    AddNewToTraitsButtonPrefab.GetComponent<ToolTip>().enabled = false;
-                    AddNewToTraitsButtonPrefab.transform.Find("Image").GetComponent<KImage>().sprite = Assets.GetSprite("icon_positive");
-                    AddNewToTraitsButtonPrefab.name = "AddButton";
-                }
-                if (RemoveFromTraitsButtonPrefab == null)
-                {
-                    RemoveFromTraitsButtonPrefab = Util.KInstantiateUI(buttonPrefab);
-                    RemoveFromTraitsButtonPrefab.GetComponent<ToolTip>().enabled = false;
-                    RemoveFromTraitsButtonPrefab.transform.Find("Image").GetComponent<KImage>().sprite = Assets.GetSprite("cancel");
-                    RemoveFromTraitsButtonPrefab.name = "RemoveButton";
-                }
+                    ///Make modify button
+                    var changebtn = Util.KInstantiateUI(buttonPrefab, titlebar);
+                    changebtn.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, insetBase + insetA, changebtn.rectTransform().sizeDelta.x);
+                    changebtn.name = "ChangeDupeStatButton";
+                    changebtn.GetComponent<ToolTip>().toolTip = STRINGS.UI.BUTTONS.MODIFYBUTTONTOOLTIP;
 
-                var detailsSection = __instance.transform.Find("Details").gameObject;
-                GameObject dssSection;
+                    var img = changebtn.transform.Find("Image").GetComponent<KImage>();
+                    img.sprite = Assets.GetSprite("icon_gear");
 
-                if (__instance.transform.Find("ModifyDupeStats") != null)
-                    dssSection = __instance.transform.Find("ModifyDupeStats").gameObject;
-                else
-                {
-                    dssSection = Util.KInstantiateUI(StartPrefab, __instance.gameObject, true);
-                    dssSection.AddOrGet<DupeTraitManager>().InitUI();
-                    dssSection.name = "ModifyDupeStats";
-                }
+                    var button = __instance.transform.Find("ShuffleDupeButton").GetComponent<KButton>();
+                    var button2 = __instance.transform.Find("ArchetypeSelect").GetComponent<KButton>();
 
-                var mng = dssSection.AddOrGet<DupeTraitManager>();
+                    buttonsToDeactivateOnEdit[__instance].Add(button);
+                    buttonsToDeactivateOnEdit[__instance].Add(button2);
+                    changebtn.TryGetComponent<ToolTip>(out var tt);
+                    changebtn.TryGetComponent<KButton>(out var btn);
 
-                ToggleEditButtonState(mng.CurrentlyEditing, __instance, detailsSection, dssSection, img, tt);
+                    if (AddNewToTraitsButtonPrefab == null)
+                    {
+                        AddNewToTraitsButtonPrefab = Util.KInstantiateUI(buttonPrefab);
+                        AddNewToTraitsButtonPrefab.GetComponent<ToolTip>().enabled = false;
+                        AddNewToTraitsButtonPrefab.transform.Find("Image").GetComponent<KImage>().sprite = Assets.GetSprite("icon_positive");
+                        AddNewToTraitsButtonPrefab.name = "AddButton";
+                    }
+                    if (RemoveFromTraitsButtonPrefab == null)
+                    {
+                        RemoveFromTraitsButtonPrefab = Util.KInstantiateUI(buttonPrefab);
+                        RemoveFromTraitsButtonPrefab.GetComponent<ToolTip>().enabled = false;
+                        RemoveFromTraitsButtonPrefab.transform.Find("Image").GetComponent<KImage>().sprite = Assets.GetSprite("cancel");
+                        RemoveFromTraitsButtonPrefab.name = "RemoveButton";
+                    }
 
-                btn.onClick += () =>
-                {
-                    mng.CurrentlyEditing = !mng.CurrentlyEditing;
+                    var detailsSection = __instance.transform.Find("Details").gameObject;
+                    GameObject dssSection;
+
+                    if (__instance.transform.Find("ModifyDupeStats") != null)
+                        dssSection = __instance.transform.Find("ModifyDupeStats").gameObject;
+                    else
+                    {
+                        dssSection = Util.KInstantiateUI(StartPrefab, __instance.gameObject, true);
+                        dssSection.AddOrGet<DupeTraitManager>().InitUI();
+                        dssSection.name = "ModifyDupeStats";
+                    }
+
+                    var mng = dssSection.AddOrGet<DupeTraitManager>();
+
                     ToggleEditButtonState(mng.CurrentlyEditing, __instance, detailsSection, dssSection, img, tt);
 
-                    if (!mng.CurrentlyEditing)
+                    btn.onClick += () =>
                     {
-                        __instance.SetInfoText();
-                        __instance.SetAttributes();
-                        __instance.SetAnimator();
+                        mng.CurrentlyEditing = !mng.CurrentlyEditing;
+                        ToggleEditButtonState(mng.CurrentlyEditing, __instance, detailsSection, dssSection, img, tt);
+
+                        if (!mng.CurrentlyEditing)
+                        {
+                            __instance.SetInfoText();
+                            __instance.SetAttributes();
+                            __instance.SetAnimator();
+                        }
+                    };
+
+                    float insetDistancePresetButton = insetBase + insetB;
+                    ///Make Preset button
+                    var PresetButton = Util.KInstantiateUI(buttonPrefab, titlebar);
+                    PresetButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, insetDistancePresetButton, PresetButton.rectTransform().sizeDelta.x);
+                    PresetButton.name = "DupePresetButton";
+                    PresetButton.GetComponent<ToolTip>().toolTip = STRINGS.UI.BUTTONS.PRESETWINDOWBUTTONTOOLTIP;
+
+                    PresetButton.transform.Find("Image").GetComponent<KImage>().sprite = Assets.GetSprite("iconPaste");
+                    //var currentlySelectedIdentity = __instance.GetComponent<MinionIdentity>();
+
+                    //UIUtils.AddActionToButton(PresetButton.transform, "", () => DupePresetScreenAddon.ShowPresetScreen(__instance, ___stats)); 
+
+                    UIUtils.AddActionToButton(PresetButton.transform, "", () => UnityPresetScreen.ShowWindow(mng.Stats, RebuildDupePanel));
+                    buttonsToDeactivateOnEdit[__instance].Add(PresetButton.FindComponent<KButton>());
+                }
+
+                if (is_starter)
+                {
+                    GameObject removeSlotButton = Util.KInstantiateUI(__instance.reshuffleButton.gameObject, __instance.reshuffleButton.transform.parent.gameObject, true);
+                    removeSlotButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 0, 60f);
+                    var text = removeSlotButton.transform.Find("Text");
+                    text.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 2, 58f);
+                    //text.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal,58);
+
+
+                    UIUtils.TryChangeText(text, "", MODDEDIMMIGRANTSCREEN.REMOVEDUPE);
+                    UIUtils.AddSimpleTooltipToObject(removeSlotButton.transform, MODDEDIMMIGRANTSCREEN.REMOVEDUPETOOLTIP);
+                    UIUtils.AddActionToButton(removeSlotButton.transform, "", () =>
+                    {
+                        if (__instance.controller.containers.Count > 1)
+                        {
+                            __instance.controller.containers.Remove(__instance);
+                            UnityEngine.Object.Destroy(__instance.GetGameObject());
+                        }
+                    });
+                }
+                if (!EditingSingleDupe && (Config.Instance.RerollDuringGame || is_starter))
+                {
+                    //traitReroll
+                    {
+                        GameObject rerollTraitBtn = Util.KInstantiateUI(__instance.reshuffleButton.gameObject, __instance.reshuffleButton.transform.parent.gameObject, true);
+                        rerollTraitBtn.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 120, 80f);
+                        var text = rerollTraitBtn.transform.Find("Text");
+                        text.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 2, 76f);
+
+
+                        ApplyTraitStyleByKey(rerollTraitBtn.GetComponent<KImage>(), default);
+                        UIUtils.TryChangeText(text, "", CONGENITALTRAITS.NONE.NAME);
+                        UIUtils.AddSimpleTooltipToObject(rerollTraitBtn.transform, MODDEDIMMIGRANTSCREEN.GUARANTEETRAIT);
+                        UIUtils.AddActionToButton(rerollTraitBtn.transform, "", () =>
+                        {
+                            UnityTraitRerollingScreen.ShowWindow(() =>
+                            {
+                                __instance.Reshuffle(is_starter);
+                                UpdateTraitLockButton(__instance);
+                            },
+                            __instance);
+                        });
+
+                        ModAssets.TraitRerollButtons[__instance] = rerollTraitBtn;
+
+                        if (!buttonsToDeactivateOnEdit.ContainsKey(__instance))
+                        {
+                            buttonsToDeactivateOnEdit[__instance] = new List<KButton>();
+                        }
+                        buttonsToDeactivateOnEdit[__instance].Add(rerollTraitBtn.GetComponent<KButton>());
                     }
-                };
+                    //personalityLock
+                    {
+                        GameObject lockPersonalityButton = Util.KInstantiateUI(buttonPrefab, __instance.reshuffleButton.transform.parent.gameObject, true);
+                        var rect = lockPersonalityButton.rectTransform();
+                        if(lockPersonalityButton.TryGetComponent<LayoutElement>(out var ele)){
+                            ele.ignoreLayout = true;
+                        }
 
-                float insetDistancePresetButton = insetBase + insetB;
-                ///Make Preset button
-                var PresetButton = Util.KInstantiateUI(buttonPrefab, titlebar);
-                PresetButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, insetDistancePresetButton, PresetButton.rectTransform().sizeDelta.x);
-                PresetButton.name = "DupePresetButton";
-                PresetButton.GetComponent<ToolTip>().toolTip = STRINGS.UI.BUTTONS.PRESETWINDOWBUTTONTOOLTIP;
+                        rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 60, 41f);
+                        rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, -44f,40.5f);
+                        UIUtils.AddSimpleTooltipToObject(lockPersonalityButton.transform, MODDEDIMMIGRANTSCREEN.LOCKPERSONALITY_TOOLTIP);
 
-                PresetButton.transform.Find("Image").GetComponent<KImage>().sprite = Assets.GetSprite("iconPaste");
-                //var currentlySelectedIdentity = __instance.GetComponent<MinionIdentity>();
+                        var lockImage = Util.KInstantiateUI(lockPersonalityButton.transform.Find("Image").gameObject,lockPersonalityButton, true);
+                        lockImage.name = "LockImage";
+                        var lockTransform = lockImage.rectTransform();
+                        lockTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 1, 22);
+                        lockTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom,3, 22);
 
-                //UIUtils.AddActionToButton(PresetButton.transform, "", () => DupePresetScreenAddon.ShowPresetScreen(__instance, ___stats)); 
+                        //UIUtils.TryChangeText(text, "", CONGENITALTRAITS.NONE.NAME);
+                        UIUtils.AddActionToButton(rect, "", () =>
+                        {
+                            ModAssets.ToggleContainerPersonalityLock(__instance);
+                        });
 
-                UIUtils.AddActionToButton(PresetButton.transform, "", () => UnityPresetScreen.ShowWindow(mng.Stats, RebuildDupePanel));
-                buttonsToDeactivateOnEdit[__instance].Add(PresetButton.FindComponent<KButton>());
+                        ModAssets.PersonalityLockButtons[__instance] = lockPersonalityButton;
+                        ModAssets.UpdatePersonalityLockButton(__instance);
+
+                        if (!buttonsToDeactivateOnEdit.ContainsKey(__instance))
+                        {
+                            buttonsToDeactivateOnEdit[__instance] = new List<KButton>();
+                        }
+                        buttonsToDeactivateOnEdit[__instance].Add(lockPersonalityButton.GetComponent<KButton>());
+                    }
+                }
             }
             static void ToggleEditButtonState(bool currentlyEditing, CharacterContainer characterContainer, GameObject detailsSection, GameObject DSS_Section, KImage btnImage, ToolTip tt)
             {
@@ -1290,6 +1417,21 @@ namespace SetStartDupes
         [HarmonyPatch(nameof(MinionStartingStats.GenerateTraits))]
         public class AllowCustomTraitAllignment
         {
+            public static void Prefix(MinionStartingStats __instance, ref string guaranteedTraitID)
+            {
+                if (guaranteedTraitID == null || guaranteedTraitID.Length == 0)
+                    return;
+                if(__instance.personality!=null && __instance.personality?.congenitaltrait != null)
+                {
+                    var trait = Db.Get().traits.TryGet(__instance.personality.congenitaltrait);
+                    if (trait != null && trait.Name != "None")
+                    {
+                        if (trait.Id == guaranteedTraitID)
+                            guaranteedTraitID = null;
+                    }
+                }
+            }
+
             public static void Postfix(MinionStartingStats __instance)
             {
                 if (Config.Instance.NoJoyReactions)
@@ -1519,7 +1661,7 @@ namespace SetStartDupes
                 }
             }
         }
-        
+
         [HarmonyPatch(typeof(CharacterContainer), nameof(CharacterContainer.SetMinion))]
         public static class RefreshStatsForFreyja
         {
@@ -1539,26 +1681,33 @@ namespace SetStartDupes
                 }
                 else
                     SgtLogger.warning("dupe mng was null!");
+
+                if (DlcManager.IsContentSubscribed(DlcManager.DLC2_ID) && ___stats.personality == Db.Get().Personalities.Get("FREYJA"))
+                {
+                    ModAssets.SetContainerPersonalityLock(__instance, true);
+                    UnityTraitRerollingScreen.GuaranteedTraitRoll[__instance] = Db.Get().traits.Get("FrostProof");
+                    ModAssets.UpdateTraitLockButton(__instance);
+                }
             }
         }
 
 
         [HarmonyPatch(typeof(CharacterContainer), nameof(CharacterContainer.GenerateCharacter))]
-        public static class AddChangeButtonToCharacterContainer
+        public static class RerollWithGuaranteedTraitAndPersonality
         {
-
             public static MinionStartingStats GenerateWithGuaranteedSkill(bool is_starter_minion, string guaranteedAptitudeID = null, string guaranteedTraitID = null, bool isDebugMinion = false, CharacterContainer __instance = null)
             {
-                if (__instance != null && UnityTraitRerollingScreen.GuaranteedTraitRoll.ContainsKey(__instance))
+                if (__instance != null 
+                    && UnityTraitRerollingScreen.GuaranteedTraitRoll.TryGetValue(__instance, out var trait))
                 {
-                    return new MinionStartingStats(is_starter_minion, guaranteedAptitudeID, UnityTraitRerollingScreen.GuaranteedTraitRoll[__instance].Id, isDebugMinion);
+                    return new MinionStartingStats(is_starter_minion, guaranteedAptitudeID, trait.Id, isDebugMinion);
                 }
                 return new MinionStartingStats(is_starter_minion, guaranteedAptitudeID, guaranteedTraitID, isDebugMinion);
             }
 
             public static readonly MethodInfo overrideStarterGeneration = AccessTools.Method(
-               typeof(AddChangeButtonToCharacterContainer),
-               nameof(AddChangeButtonToCharacterContainer.GenerateWithGuaranteedSkill));
+               typeof(RerollWithGuaranteedTraitAndPersonality),
+               nameof(RerollWithGuaranteedTraitAndPersonality.GenerateWithGuaranteedSkill));
 
             [HarmonyPriority(Priority.VeryLow)]
             static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
@@ -1602,6 +1751,8 @@ namespace SetStartDupes
                 }
                 else
                     SgtLogger.warning("dupe mng was null!");
+
+                ModAssets.UpdatePersonalityLockButton(__instance);
             }
 
         }

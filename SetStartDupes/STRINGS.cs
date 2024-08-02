@@ -422,6 +422,8 @@ namespace SetStartDupes
                 public static LocString REMOVEDUPE = "REMOVE SLOT";
                 public static LocString REMOVEDUPETOOLTIP = "Remove this duplicant slot, reducing your total starting duplicant count by 1.";
                 public static LocString GUARANTEETRAIT = "Guarantee this trait to be rolled on a reroll.\nWorks in combination with the interest selector.";
+                public static LocString LOCKPERSONALITY_TOOLTIP = "Lock the current personality for rolls.\nWhile locked, all duplicants rolled will automatically have the locked personality.";
+                public static LocString PRINTINGPOD_SELECT = "The current planet the active printing pod is on.\nClick to change the active printing pod";
             }
             public class DUPESETTINGSSCREEN
             {

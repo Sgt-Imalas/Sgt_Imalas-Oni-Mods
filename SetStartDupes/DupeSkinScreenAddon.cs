@@ -94,6 +94,8 @@ namespace SetStartDupes
                 CurrentContainer.SetAnimator();
                 CurrentContainer.SetAttributes();
                 CurrentContainer.SetInfoText();
+
+                ModAssets.UpdatePersonalityLockButton(CurrentContainer);
             }
             else
             {
@@ -105,6 +107,7 @@ namespace SetStartDupes
             {
                 ModAssets.ApplySkinToExistingDuplicant(Selected.GetPersonality(), EditingSkinOnExistingDupeGO);
             }
+
 
             ToggleCustomScreenOff();
         }

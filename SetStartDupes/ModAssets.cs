@@ -16,12 +16,14 @@ using TUNING;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
+using static BestFit;
 using static KSerialization.DebugLog;
 using static SetStartDupes.DupeTraitManager;
 using static SetStartDupes.STRINGS.UI;
 using static SetStartDupes.STRINGS.UI.DSS_OPTIONS;
 using static STRINGS.DUPLICANTS;
 using static STRINGS.UI.DETAILTABS;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace SetStartDupes
 {
@@ -35,6 +37,8 @@ namespace SetStartDupes
         public static bool EditingJorge = false;
 
         public static GameObject StartPrefab;
+
+        public static Personality ToShufflePersonality;
 
         public static CharacterContainer SingleCharacterContainer;
         public static GameObject CryoDupeToApplyStatsOn = null;
@@ -105,6 +109,8 @@ namespace SetStartDupes
                 parentScreen = value;
             }
         }
+
+
         private static GameObject parentScreen = null;
 
 
@@ -319,9 +325,9 @@ namespace SetStartDupes
             JoyResponseOutfitTarget.FromMinion(go).WriteFacadeId(joyResponseOutfitTarget.ReadFacadeId());
         }
 
-        public static void ApplySkinFromPersonality(Personality personality, MinionStartingStats stats)
+        public static void ApplySkinFromPersonality(Personality personality, MinionStartingStats stats, bool ForceOverideReactions = false)
         {
-            if (Config.Instance.SkinsDoReactions)
+            if (Config.Instance.SkinsDoReactions || ForceOverideReactions)
             {
                 if (!Config.Instance.NoJoyReactions)
                 {
@@ -345,6 +351,10 @@ namespace SetStartDupes
             stats.GenderStringKey = personality.genderStringKey;
             stats.NameStringKey = personality.nameStringKey;
             stats.voiceIdx = ModApi.GetVoiceIdxOverrideForPersonality(personality.nameStringKey);
+            if (ForceOverideReactions)
+            {
+                stats.Name = personality.Name;
+            }
         }
 
 
@@ -898,5 +908,63 @@ namespace SetStartDupes
         {
             return possibleStickerTypes.GetRandom();
         }
+
+        public static Dictionary<CharacterContainer, GameObject> TraitRerollButtons = new();
+        public static Dictionary<CharacterContainer, GameObject> PersonalityLockButtons = new();
+        static HashSet<CharacterContainer> LockedContainers = new HashSet<CharacterContainer>();
+
+        public static void UpdateTraitLockButton(CharacterContainer container)
+        {
+            if(TraitRerollButtons.TryGetValue(container,out var rerollTraitBtn))
+            {
+                var type = GetTraitListOfTrait(UnityTraitRerollingScreen.GetTraitId(container));
+                ApplyTraitStyleByKey(rerollTraitBtn.GetComponent<KImage>(), type);
+                UIUtils.TryChangeText(rerollTraitBtn.transform, "Text", UnityTraitRerollingScreen.GetTraitName(container));
+            }
+        }
+
+
+        public static bool LockedContainer(CharacterContainer instance)
+        {
+            return LockedContainers.Contains(instance);
+        }
+
+        public static void ToggleContainerPersonalityLock(CharacterContainer container)
+        {
+            SetContainerPersonalityLock(container,!LockedContainer(container));
+        }
+
+        public static void SetContainerPersonalityLock(CharacterContainer container,bool lockPersonality)
+        {
+            if(lockPersonality && !LockedContainers.Contains(container))
+            {
+                LockedContainers.Add(container);
+            }
+            else
+                LockedContainers.Remove(container);
+            UpdatePersonalityLockButton(container);
+
+        }
+        public static void UpdatePersonalityLockButton(CharacterContainer container)
+        {
+            if (PersonalityLockButtons.TryGetValue(container, out var rerollTraitBtn))
+            {
+                bool locked = LockedContainer(container);
+
+                var personality = container.stats?.personality;
+                Sprite lockIcon = locked ? Assets.GetSprite("lock"): Assets.GetSprite(UnlockIcon);
+
+                Sprite dupeIcon = personality != null ? personality.GetMiniIcon() : Assets.GetSprite("unknown");
+                if (dupeIcon == null)
+                    dupeIcon = Assets.GetSprite("unknown");
+
+                rerollTraitBtn.transform.Find("Image").GetComponent<KImage>().sprite = dupeIcon;
+                var lockImage = rerollTraitBtn.transform.Find("LockImage").GetComponent<KImage>();
+                lockImage.sprite = lockIcon;
+                lockImage.color = locked ? Color.red : Color.white;
+            }
+        }
+
+        public static string UnlockIcon = "OpenLock";
     }
 }
