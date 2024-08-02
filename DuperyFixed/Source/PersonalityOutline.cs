@@ -48,13 +48,13 @@ namespace Dupery
         public string CongenitalTrait { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string Belt { get; set; }
+        public string Belt { get; set; } 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string Cuff { get; set; }
+        public string Cuff { get; set; } 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string Foot { get; set; }
+        public string Foot { get; set; } 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string Hand { get; set; }
+        public string Hand { get; set; } 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string Pelvis { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]

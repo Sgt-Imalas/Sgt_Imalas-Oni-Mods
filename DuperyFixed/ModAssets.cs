@@ -1,4 +1,5 @@
-﻿using DuperyFixed.MinionImages;
+﻿using ClipperLib;
+using DuperyFixed.MinionImages;
 using Klei.AI;
 using System;
 using System.Collections;
@@ -7,11 +8,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TemplateClasses;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UtilLibs;
 using static KAnim.Build;
+using static ModInfo;
 using static STRINGS.UI.DETAILTABS;
+using static SymbolOverrideController;
 
 namespace DuperyFixed
 {
@@ -114,16 +118,23 @@ namespace DuperyFixed
             //SymbolSprites.Add(SpriteKey, sprite);
             return sprite;
         }
-        //static GameObject crewPortraitPrefab;
-        //public static Sprite GetDynamicDreamImage2(Personality personality)
-        //{
-        //    var minionImage = Util.KInstantiateUI(MinionPortraitHelper.GetCrewPortraitPrefab());
-        //    minionImage.TryGetComponent<MinionPortraitHelper>(out var helper);
-        //    helper.ApplyMinionAccessories(helper.GetAccessoryIDs(personality));
-        //}
+
+        public static List<KeyValuePair<string, string>> GetAccessoryIDs(Personality personality)
+        {
+            Dictionary<string, string> accessories = new Dictionary<string, string>();
+            var slots = Db.Get().AccessorySlots;
+            var bodyData = MinionStartingStats.CreateBodyData(personality);
+
+            accessories.Add(slots.Eyes.Id, slots.Eyes.Lookup(bodyData.eyes).Id);
+            accessories.Add(slots.HatHair.Id, slots.HatHair.Lookup("hat_" + HashCache.Get().Get(bodyData.hair)).Id);
+            accessories.Add(slots.Hair.Id, slots.Hair.Lookup(bodyData.hair).Id);
+            accessories.Add(slots.HeadShape.Id, slots.HeadShape.Lookup(bodyData.headShape).Id);
+            accessories.Add(slots.Mouth.Id, slots.Mouth.Lookup(bodyData.mouth).Id);
+            return accessories.ToList();
+        }
 
         static Dictionary<Personality, Sprite> DreamImages = new();
-        internal static Sprite BuildDynamicDreamImage(Personality personality)
+        internal static Sprite GetDynamicDreamImage(Personality personality)
         {
             if (DreamImages.TryGetValue(personality, out var s))
                 return s;
@@ -131,24 +142,11 @@ namespace DuperyFixed
             var slots = Db.Get().AccessorySlots;
             var bodyData = MinionStartingStats.CreateBodyData(personality);
 
-            Texture2D Resize(Texture2D texture2D, int targetX, int targetY)
-            {
-                RenderTexture rt = new RenderTexture(targetX, targetY, 24);
-                RenderTexture.active = rt;
-                Graphics.Blit(texture2D, rt);
-                Texture2D result = new Texture2D(targetX, targetY);
-                result.ReadPixels(new Rect(0, 0, targetX, targetY), 0, 0);
-                result.Apply();
-                return result;
-            }
             Vector2I GetPivotPoint(KAnim.Build.Symbol symbol, Texture2D texture)
             {
                 SymbolFrameInstance frame = symbol.GetFrame(0);
                 var PivotX = frame.bboxMin.x + texture.width;
                 var PivotY = frame.bboxMin.y + texture.height;
-
-                SgtLogger.l($"texture: ({texture.width},{texture.height}), bb:{frame.bboxMin}");
-
                 return new (Mathf.RoundToInt(PivotX),Mathf.RoundToInt(PivotY));
             }
 
@@ -159,39 +157,23 @@ namespace DuperyFixed
                 symbolMouth = slots.Mouth.Lookup(bodyData.mouth).symbol;
 
             var output = new Texture2D(125, 125);
-            void WriteToOutput(Symbol symbolToWrite, int xOffsetWrite = 0, int yOffsetWrite = 0, bool pivot = false)
+            void WriteToOutput(Symbol symbolToWrite, int xOffsetWrite = 0, int yOffsetWrite = 0, bool pivot = false, bool flipX=false, int symbolOverride = -1)
             {
 
-                Texture2D toWrite = GetSingleSpriteFromTexture(GetSpriteFrom(symbolToWrite));
+                Texture2D toWrite = GetSingleSpriteFromTexture(GetSpriteFrom(symbolToWrite, symbolOverride));
                 var pivotPoint = GetPivotPoint(symbolToWrite, toWrite);
-
-                SgtLogger.l(pivotPoint.ToString(), personality.Name);
-
 
                 int xStart = 0;
                 int yStart = 0;
                 int xEnd = toWrite.width;
                 int yEnd = toWrite.height;
 
-                //125, 104,
-               // 125, 85
-
-                int xStartWrite = (output.width / 2) - ((toWrite.width / 2)) + xOffsetWrite; 
+                int xStartWrite = (output.width / 2) - ((toWrite.width / 2))+ xOffsetWrite; 
                 int yStartWrite = (output.height / 2) - ((toWrite.height / 2))+ yOffsetWrite;
                 if (pivot)
                 {
-                    //int heightDiff = output.height - toWrite.height;
-                    //if(heightDiff <= 0) //texture is larger than target height
-                    //{
-
-                    //}
-                    //else
-                    //{
-                    //    //yStartWrite += (heightDiff/4);
-                    //}
-
-                    ////xStartWrite += pivotPoint.x;
-                    ////yStartWrite += pivotPoint.y;
+                    xStartWrite += pivotPoint.x/2; //pivot points have their values x2
+                    yStartWrite -= pivotPoint.y/2;
                 }
 
                 for (int x = xStart; x < xEnd; x++)
@@ -200,16 +182,16 @@ namespace DuperyFixed
                     {
                         var px = toWrite.GetPixel(x, y);
 
-                        var outputX = x + xStartWrite;
+                        var outputX = flipX ? xEnd - x +xStartWrite : x + xStartWrite;
                         var outputY = y + yStartWrite;
 
-                        if (px.a > 0f
-                            && outputX>=0 && outputX < output.width && outputY >=0 && outputY < output.height
+                        if (px.a > 0.1f
+                            && outputX >=0 && outputX < output.width 
+                            && outputY >=0 && outputY < output.height
                             )
                         {
                             output.SetPixel(outputX, outputY, px);
-                        }
-                        
+                        }                        
                     }
                 }
             }
@@ -225,9 +207,9 @@ namespace DuperyFixed
                 }
                 
                 WriteToOutput(symbolHead);
-                WriteToOutput(symbolEyes,6,5);
-                WriteToOutput(symbolHair,4,14, true);
-                WriteToOutput(symbolMouth,10, -10);
+                WriteToOutput(symbolEyes,8,3, flipX:true);
+                WriteToOutput(symbolHair,8,30, true);
+                WriteToOutput(symbolMouth,10, -12, symbolOverride:22);
 
 
                 //var imageBytes = output.EncodeToPNG();
@@ -242,7 +224,6 @@ namespace DuperyFixed
             output.name = "dreamIcon_" + (nameStringKey[0] + nameStringKey.Substring(1).ToLower());
             var sprite = Sprite.Create(output, new Rect(0, 0, 125, 125), new(0.5f, 0.5f));
             sprite.name = "dreamIcon_" + (nameStringKey[0] + nameStringKey.Substring(1).ToLower());
-
             DreamImages[personality] = sprite;
 
             return sprite;
