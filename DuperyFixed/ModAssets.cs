@@ -132,6 +132,22 @@ namespace DuperyFixed
             accessories.Add(slots.Mouth.Id, slots.Mouth.Lookup(bodyData.mouth).Id);
             return accessories.ToList();
         }
+        //        publ
+        //static GameObject crewPortraitPrefab;
+
+        public static List<KeyValuePair<string, string>> GetAccessoryIDs(Personality personality)
+        {
+            Dictionary<string, string> accessories = new Dictionary<string, string>();
+            var slots = Db.Get().AccessorySlots;
+            var bodyData = MinionStartingStats.CreateBodyData(personality);
+
+            accessories.Add(slots.Eyes.Id, slots.Eyes.Lookup(bodyData.eyes).Id);
+            accessories.Add(slots.HatHair.Id, slots.HatHair.Lookup("hat_" + HashCache.Get().Get(bodyData.hair)).Id);
+            accessories.Add(slots.Hair.Id, slots.Hair.Lookup(bodyData.hair).Id);
+            accessories.Add(slots.HeadShape.Id, slots.HeadShape.Lookup(bodyData.headShape).Id);
+            accessories.Add(slots.Mouth.Id, slots.Mouth.Lookup(bodyData.mouth).Id);
+            return accessories.ToList();
+        }
 
         static Dictionary<Personality, Sprite> DreamImages = new();
         internal static Sprite GetDynamicDreamImage(Personality personality)
