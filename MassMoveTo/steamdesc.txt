@@ -1,0 +1,34 @@
+﻿[h1]Mass Move Tool[/h1]
+
+This mod adds a new tool that allows you to select multiple items for a single "move to" command.
+
+[img]https://i.imgur.com/oNBUpGe.png[/img] [img]https://i.imgur.com/Cd1HwbV.png[/img] [img]https://i.imgur.com/pa6jsyD.png[/img]
+
+[h1]Current latest Version: 1.0.0/h1]
+
+[hr][/hr]
+
+[h1]Features[/h1]
+[list][*] Allows you to select an area, then a point to move all items in the area to
+[*] Item types have a filtered selection so you can move only specific items
+[*] default hotkey: shift+k (can be adjusted in the game settings)
+[*] mod uses vanilla methods for creating move-to chores, thus it can be safely removed
+[*] Vanila Limitation: a single "move to" can only be served by one duplicant at the time, so split up large mass moves if you want to speed them up.
+[/list]
+
+[hr][/hr]
+[h1]Credits[/h1]
+The filtered selection tool is from PeterHans excellent [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1863428350]Sweep by Type[/url], which is available under MIT License.
+
+
+[h1]Bug Reports & Local Download[/h1]
+You can find direct downloads for my mods [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases]here[/url] (please notify me if I forgot to release new versions).
+
+Please post bug reports and issues on [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url] or on my [url=https://discord.gg/5n7peBCnWZ]Discord Server[/url]. 
+[b]Always include the full player.log in a report: [/b] https://github.com/aki-art/ONI-Mods/wiki/How-to-send-a-log
+
+[b]Make sure you do NOT have the mod "Debug Console" enabled as it breaks the game's logging and makes the log useless for fixing bugs![/b] 
+
+[hr][/hr]
+
+Do you like the mods I made? If you want, you can support me on [url=https://www.buymeacoffee.com/sgtimalas]Buy me a coffe[/url] or [url=https://ko-fi.com/sgtimalas]Kofi[/url] :D.

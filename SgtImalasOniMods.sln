@@ -117,7 +117,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OniRetroEdition", "OniRetro
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InvertedItemFilter", "InvertedItemFilter\InvertedItemFilter.csproj", "{14F424C8-92F2-4098-AF87-6E33BFBD8857}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SubPlanetaryTransport", "SubPlanetaryTransport\SubPlanetaryTransport.csproj", "{C050C85A-4070-4781-A09B-7FD2D9F22F86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ItemRailgun", "SubPlanetaryTransport\ItemRailgun.csproj", "{C050C85A-4070-4781-A09B-7FD2D9F22F86}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrokenRocketInteriorPortFix", "BrokenRocketInteriorPortFix\BrokenRocketInteriorPortFix.csproj", "{B6BC63AA-520E-46A9-BA10-DBB149BC0CB1}"
 EndProject
@@ -171,7 +171,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DlcSwapButton", "DlcSwapBut
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DontCrashMyMods", "DontCrashMyMods\DontCrashMyMods.csproj", "{036BB435-8148-41B5-BFAF-B70A903B3770}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodByeFrostByte", "GoodByeFrostByte\GoodByeFrostByte.csproj", "{C96F2DB2-3373-41BD-88C8-8251028C691E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodByeFrostByte", "GoodByeFrostByte\GoodByeFrostByte.csproj", "{C96F2DB2-3373-41BD-88C8-8251028C691E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassMoveTo", "MassMoveTo\MassMoveTo.csproj", "{D969C6FC-DADD-4867-8226-94365A6631B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -499,6 +501,10 @@ Global
 		{C96F2DB2-3373-41BD-88C8-8251028C691E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C96F2DB2-3373-41BD-88C8-8251028C691E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C96F2DB2-3373-41BD-88C8-8251028C691E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D969C6FC-DADD-4867-8226-94365A6631B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D969C6FC-DADD-4867-8226-94365A6631B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D969C6FC-DADD-4867-8226-94365A6631B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D969C6FC-DADD-4867-8226-94365A6631B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
