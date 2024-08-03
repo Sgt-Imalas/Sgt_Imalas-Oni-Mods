@@ -147,6 +147,12 @@ namespace Dupery
                 if (p.Eyes == null) Eyes = null;
                 if (p.Hair == null) Hair = null;
                 if (p.Body == null) Body = null;
+                if(p.Belt == null) Belt = null;
+                if(p.Cuff== null) Cuff = null;
+                if(p.Foot == null) Foot = null;
+                if(p.Hand == null) Hand = null;
+                if(p.Pelvis == null) Pelvis = null;
+                if(p.Leg == null) Leg = null;
             }
         }
 
@@ -223,12 +229,12 @@ namespace Dupery
             // Customisable accessories
             int hair = ChooseAccessoryNumber(Db.Get().AccessorySlots.Hair, Hair);
             int body = ChooseAccessoryNumber(Db.Get().AccessorySlots.Body, Body);
-            int belt = ChooseAccessoryNumber(Db.Get().AccessorySlots.Belt, Belt);
-            int cuff = ChooseAccessoryNumber(Db.Get().AccessorySlots.Cuff, Cuff);
-            int foot = ChooseAccessoryNumber(Db.Get().AccessorySlots.Foot, Foot);
-            int hand = ChooseAccessoryNumber(Db.Get().AccessorySlots.Hand, Hand);
-            int pelvis = ChooseAccessoryNumber(Db.Get().AccessorySlots.Pelvis, Pelvis);
-            int leg = ChooseAccessoryNumber(Db.Get().AccessorySlots.Leg, Leg);
+            int belt = ChooseAccessoryNumber(Db.Get().AccessorySlots.Belt, Belt,0);
+            int cuff = ChooseAccessoryNumber(Db.Get().AccessorySlots.Cuff, Cuff, 0);
+            int foot = ChooseAccessoryNumber(Db.Get().AccessorySlots.Foot, Foot, 0);
+            int hand = ChooseAccessoryNumber(Db.Get().AccessorySlots.Hand, Hand, 0);
+            int pelvis=ChooseAccessoryNumber(Db.Get().AccessorySlots.Pelvis, Pelvis, 0);
+            int leg =  ChooseAccessoryNumber(Db.Get().AccessorySlots.Leg, Leg, 0);
 
             // Remember any custom accessories
             DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Hair.Id, Hair);
@@ -304,19 +310,19 @@ namespace Dupery
             return this.isModified;
         }
 
-        private int ChooseAccessoryNumber(AccessorySlot slot, string value)
+        private int ChooseAccessoryNumber(AccessorySlot slot, string value, int defaultValue = 1)
         {
             int accessoryNumber;
 
             if (value == null || value == "")
             {
-                accessoryNumber = Randomize ? PersonalityGenerator.RollAccessory(slot) : 1;
+                accessoryNumber = Randomize ? PersonalityGenerator.RollAccessory(slot) : defaultValue;
             }
             else
             {
                 if(!int.TryParse(value, out accessoryNumber))
                 {
-                    accessoryNumber = 1;
+                    accessoryNumber = defaultValue;
                 }
             }
             return accessoryNumber;

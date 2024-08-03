@@ -15,7 +15,7 @@ namespace DuperyFixed
         public override void OnLoad(Harmony harmony)
         {
             base.OnLoad(harmony);
-            SgtLogger.LogVersion(this, harmony);
+            SgtLogger.LogVersion(this, harmony,false);
             string assemblyLocation = Assembly.GetExecutingAssembly().Location;
             DuperyPatches.DirectoryName = Path.GetDirectoryName(assemblyLocation);
         }

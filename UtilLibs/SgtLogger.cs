@@ -17,7 +17,7 @@ namespace UtilLibs
     public class SgtLogger
     {
 
-        public SgtLogger(string log) 
+        public SgtLogger(string log)
         {
             l(log);
         }
@@ -26,23 +26,20 @@ namespace UtilLibs
 
         public static void LogVersionAndInitUpdating(UserMod2 usermod, Harmony _harmony)
         {
-            LogVersion (usermod, _harmony);
-           // ModUpdatingState.UpdatingInstance = true;
+            LogVersion(usermod, _harmony);
+            // ModUpdatingState.UpdatingInstance = true;
         }
 
-        public static void LogVersion(UserMod2 usermod, Harmony _harmony)
+        public static void LogVersion(UserMod2 usermod, Harmony _harmony, bool VersionChecking = true)
         {
             harmony = _harmony;
-            ModVersionCheck.VersionChecker.HandleVersionChecking(usermod,harmony);
-            //using (var client = new WebClient())
-            //{
-            //    string responseBody = client.DownloadString("https://raw.githubusercontent.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/master/ModVersionData.json");
-            //    var FoundData = JsonConvert.DeserializeObject<JsonURLVersionChecker.ModVersions>(responseBody);
-            //    FoundData.mods.ForEach((mod) => SgtLogger.l(mod.version, mod.staticID));
-            //}
-            var VersionChecker = new PVersionCheck();
-            //VersionChecker.Register(usermod, new JsonURLVersionChecker("https://raw.githubusercontent.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/master/ModVersionData.json")); //Currently partially broken
-            VersionChecker.Register(usermod, new SteamVersionChecker());
+            if (VersionChecking)
+            {
+                ModVersionCheck.VersionChecker.HandleVersionChecking(usermod, harmony);
+                var VersionChecker = new PVersionCheck();
+                //VersionChecker.Register(usermod, new JsonURLVersionChecker("https://raw.githubusercontent.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/master/ModVersionData.json")); //Currently partially broken
+                VersionChecker.Register(usermod, new SteamVersionChecker());
+            }
             debuglog($"{usermod.mod.staticID} - Mod Version: {usermod.mod.packagedModInfo.version} ");
         }
         public static void l(string message, string assemblyOverride = "")
@@ -57,23 +54,23 @@ namespace UtilLibs
             }
         }
 
-        public static void debuglog(object a,object b = null, object c = null, object d = null)
+        public static void debuglog(object a, object b = null, object c = null, object d = null)
         {
-            var message = a.ToString() + b !=null? " "+b.ToString() : string.Empty + c != null ? " " + c.ToString() : string.Empty + d != null ? " " + d.ToString() : string.Empty;
+            var message = a.ToString() + b != null ? " " + b.ToString() : string.Empty + c != null ? " " + c.ToString() : string.Empty + d != null ? " " + d.ToString() : string.Empty;
 
 
-              string assemblyOverride = Assembly.GetExecutingAssembly().GetName().Name;
+            string assemblyOverride = Assembly.GetExecutingAssembly().GetName().Name;
             string messageToLog = string.Concat("[" + TimeZoneInfo.ConvertTimeToUtc(System.DateTime.Now).ToString("HH:mm:ss.fff") + "] [INFO] [" + assemblyOverride + "]: ", message);
 
             Console.WriteLine(messageToLog);
 
         }
 
-        public static void debuglog(string message, string assemblyOverride = "") 
+        public static void debuglog(string message, string assemblyOverride = "")
         {
-            if(assemblyOverride == "")
-                assemblyOverride= Assembly.GetExecutingAssembly().GetName().Name;
-            string messageToLog = string.Concat("["+ TimeZoneInfo.ConvertTimeToUtc(System.DateTime.Now).ToString("HH:mm:ss.fff") + "] [INFO] [" + assemblyOverride+"]: ",message);
+            if (assemblyOverride == "")
+                assemblyOverride = Assembly.GetExecutingAssembly().GetName().Name;
+            string messageToLog = string.Concat("[" + TimeZoneInfo.ConvertTimeToUtc(System.DateTime.Now).ToString("HH:mm:ss.fff") + "] [INFO] [" + assemblyOverride + "]: ", message);
 
             Console.WriteLine(messageToLog);
 
@@ -85,7 +82,7 @@ namespace UtilLibs
         public static void error(string message, string assemblyOverride = "") => dlogerror(message, assemblyOverride);
 
         public static void logwarning(string message, string assemblyOverride = "") => dlogwarn(message, assemblyOverride);
-        public static void logerror(string message, string assemblyOverride = "") =>  dlogerror(message, assemblyOverride);
+        public static void logerror(string message, string assemblyOverride = "") => dlogerror(message, assemblyOverride);
 
 
         public static void dlogwarn(string message, string assemblyOverride = "")
@@ -107,8 +104,8 @@ namespace UtilLibs
 
         public static void logError(string v)
         {
-            
-              var  assemblyOverride = Assembly.GetExecutingAssembly().GetName().Name;
+
+            var assemblyOverride = Assembly.GetExecutingAssembly().GetName().Name;
             string messageToLog = string.Concat("[" + TimeZoneInfo.ConvertTimeToUtc(System.DateTime.Now).ToString("HH:mm:ss.fff") + "] [ERROR] [" + assemblyOverride + "]: ", v);
 
             Console.WriteLine(messageToLog, assemblyOverride);
