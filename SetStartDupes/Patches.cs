@@ -600,21 +600,20 @@ namespace SetStartDupes
         [HarmonyPatch(typeof(CharacterContainer), nameof(CharacterContainer.Reshuffle))]
         public class PreventCrashForSingleDupes
         {
-
             public static bool Prefix(CharacterContainer __instance, ref bool is_starter)
             {
+                is_starter = __instance.controller is MinionSelectScreen;
                 if (EditingSingleDupe)
                 {
-                    is_starter = __instance.controller is MinionSelectScreen;
-
                     if (__instance.fxAnim != null)
                     {
                         __instance.fxAnim.Play("loop");
                     }
-                    if (__instance.controller != null && __instance.controller.IsSelected(__instance.stats))
-                    {
-                        __instance.DeselectDeliverable();
-                    }
+                    ///Do not! deselect, crashes.
+                    //if (__instance.controller != null && __instance.controller.IsSelected(__instance.stats))
+                    //{
+                    //    __instance.DeselectDeliverable();
+                    //}
                     __instance.GenerateCharacter(is_starter, __instance.guaranteedAptitudeID);
                     return false;
                 }

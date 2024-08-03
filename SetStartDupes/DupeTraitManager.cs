@@ -4,6 +4,7 @@ using Database;
 using Klei.AI;
 using KSerialization;
 using System;
+using System.CodeDom;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -449,11 +450,10 @@ namespace SetStartDupes
                 UI_TraitEntries[trait] = traitEntry;
 
                 var textLabel = traitEntry.transform.Find("Label").GetComponent<LocText>();
-                if(type != NextType.undefined)
+                if(type != NextType.undefined && type != NextType.special)
                     textLabel.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 26, LE.preferredWidth-25);
             }
             UpdateTraitSorting();
-
         }
         GameObject AddTraitContainerUI(Trait trait, GameObject parent, NextType type, bool enableDeleteButton = true)
         {
@@ -466,7 +466,10 @@ namespace SetStartDupes
 
             ModAssets.ApplyTraitStyleByKey(traitEntry.GetComponent<KImage>(), type);
 
-            traitEntry.GetComponent<KButton>().enabled = type != NextType.undefined;
+            bool notEditable = (type == NextType.undefined||type == NextType.special);
+
+
+            traitEntry.GetComponent<KButton>().enabled = !notEditable;
             UIUtils.AddActionToButton(traitEntry.transform, "", () =>
             {
                 UnityTraitScreen.ShowWindow(ToEditMinionStats,
@@ -476,7 +479,7 @@ namespace SetStartDupes
             });
 
             UIUtils.TryChangeText(traitEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, trait.Name));
-            traitEntry.transform.Find("RemoveButton").gameObject.SetActive(Config.Instance.AddAndRemoveTraitsAndInterests && type != NextType.undefined && enableDeleteButton);
+            traitEntry.transform.Find("RemoveButton").gameObject.SetActive(Config.Instance.AddAndRemoveTraitsAndInterests && !notEditable && enableDeleteButton);
 
             ModAssets.ApplyTraitStyleByKey(traitEntry.transform.Find("RemoveButton").gameObject.GetComponent<KImage>(), type);
 
