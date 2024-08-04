@@ -14,11 +14,12 @@ namespace MassMoveTo
     internal class ModAssets
     {
         static HashSet<Movable> cachedMovables = new();
+        static HashSet<int> cachedTargetCells = new();
         static PrioritySetting cachedPriority;
 
         public static Sprite MassMoveToolIcon;
         public static bool HasStashed => cachedMovables.Count > 0;
-
+        public static int TargetCellCount => cachedTargetCells.Count;
 
         internal static void ClearStashed()
         {
@@ -58,24 +59,64 @@ namespace MassMoveTo
             targetProxy = new Ref<Storage>(targetStorage);
             return targetProxy;
         }
-        internal static void MoveAllTo(int mouseCell)
-        {
-            if (cachedMovables.Count > 0)
-            {
-                var proxy = AddOrGetStorageProxy(mouseCell);
-                proxy.Get().prioritizable.SetMasterPriority(cachedPriority);
 
-                foreach (var movable in cachedMovables)
+        public static List<T>[] Partition<T>(List<T> list, int totalPartitions)
+        {
+            if (list == null)
+                throw new ArgumentNullException("list");
+
+            if (totalPartitions < 1)
+                throw new ArgumentOutOfRangeException("totalPartitions");
+
+            List<T>[] partitions = new List<T>[totalPartitions];
+
+            int maxSize = (int)Math.Ceiling(list.Count / (double)totalPartitions);
+            int k = 0;
+
+            for (int i = 0; i < partitions.Length; i++)
+            {
+                partitions[i] = new List<T>();
+                for (int j = k; j < k + maxSize; j++)
                 {
-                    if (!movable.IsMarkedForMove)
-                    {
-                        movable.storageProxy = proxy;
-                        movable.MoveToLocation(mouseCell);
-                    }
+                    if (j >= list.Count)
+                        break;
+                    partitions[i].Add(list[j]);
+                }
+                k += maxSize;
+            }
+
+            return partitions;
+        }
+
+        internal static void MoveAllItems()
+        {
+            if (cachedMovables.Count > 0 && TargetCellCount > 0)
+            {
+                var targetCells = cachedTargetCells.ToList();
+                var movableChunks = Partition<Movable>(cachedMovables.ToList(), TargetCellCount);
+                for (int i = 0; i < movableChunks.Length; i++)
+                {
+                    MoveItemsToLocation(movableChunks[i], targetCells[i]);
                 }
                 ClearStashed();
             }
+            ClearCachedTargets();
         }
+        private static void MoveItemsToLocation(List<Movable> items, int targetCell)
+        {
+            var proxy = AddOrGetStorageProxy(targetCell);
+            proxy.Get().prioritizable.SetMasterPriority(cachedPriority);
+
+            foreach (var movable in items)
+            {
+                if (!movable.IsMarkedForMove)
+                {
+                    movable.storageProxy = proxy;
+                    movable.MoveToLocation(targetCell);
+                }
+            }
+        }
+
 
         public static class ActionKeys
         {
@@ -89,6 +130,19 @@ namespace MassMoveTo
         {
             Actions.MassMoveTool_Open = new PActionManager().CreateAction(ActionKeys.ACTION_MASSMOVETOOL,
                 STRINGS.UI.TOOLS.MOVETOSELECTTOOL.NAME, new PKeyBinding(KKeyCode.K, Modifier.Shift));
+        }
+
+        internal static void ClearCachedTargets()
+        {
+            cachedTargetCells.Clear();
+        }
+
+        internal static void RegisterTargetCell(int cell)
+        {
+            if (cachedTargetCells.Contains(cell))
+                return;
+
+            cachedTargetCells.Add(cell);
         }
     }
 }

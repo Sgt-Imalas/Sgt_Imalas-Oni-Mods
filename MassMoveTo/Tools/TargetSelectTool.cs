@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MassMoveTo.Tools.SweepByType;
+using PeterHan.PLib.Detours;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,8 +9,19 @@ using UnityEngine;
 
 namespace MassMoveTo.Tools
 {
-    internal class TargetSelectTool : InterfaceTool
+    internal class TargetSelectTool : DragTool
     {
+        private static readonly IDetouredField<DragTool, GameObject> AREA_VISUALIZER =
+            PDetours.DetourField<DragTool, GameObject>("areaVisualizer");
+        private static readonly IDetouredField<DragTool, GameObject> AREA_VISUALIZER_TEXT_PREFAB =
+            PDetours.DetourField<DragTool, GameObject>("areaVisualizerTextPrefab");
+        private static readonly IDetouredField<DragTool, Texture2D> BOX_CURSOR =
+            PDetours.DetourField<DragTool, Texture2D>("boxCursor");
+        private static readonly IDetouredField<InterfaceTool, Texture2D> CURSOR =
+            PDetours.DetourField<InterfaceTool, Texture2D>(nameof(cursor));
+        private static readonly IDetouredField<InterfaceTool, GameObject> VISUALIZER =
+            PDetours.DetourField<InterfaceTool, GameObject>(nameof(visualizer));
+
         public static TargetSelectTool Instance;
         public static void DestroyInstance() => Instance = null;
 
@@ -17,6 +30,21 @@ namespace MassMoveTo.Tools
             base.OnPrefabInit();
             Instance = this;
             visualizer = Util.KInstantiate(MoveToLocationTool.Instance.visualizer);
+
+            var inst = ClearTool.Instance;
+            var avTemplate = AREA_VISUALIZER.Get(inst);
+            if (avTemplate != null)
+            {
+                var areaVisualizer = Util.KInstantiate(avTemplate, gameObject,
+                    "FilteredMassMoveToolAreaVisualizer");
+                areaVisualizer.SetActive(false);
+                areaVisualizerSpriteRenderer = areaVisualizer.GetComponent<
+                    SpriteRenderer>();
+                // The visualizer is private so we need to set it with reflection
+                AREA_VISUALIZER.Set(this, areaVisualizer);
+                AREA_VISUALIZER_TEXT_PREFAB.Set(this, AREA_VISUALIZER_TEXT_PREFAB.Get(
+                    inst));
+            }
         }
 
         public bool CanTarget(int target_cell) => !Grid.IsSolidCell(target_cell) && Grid.IsWorldValidCell(target_cell);
@@ -38,20 +66,36 @@ namespace MassMoveTo.Tools
             visualizer.gameObject.SetActive(false);
             ToolMenu.Instance.ClearSelection();
         }
-        public override void OnLeftClickDown(Vector3 cursor_pos)
-        {
-            base.OnLeftClickDown(cursor_pos);
-            int mouseCell = DebugHandler.GetMouseCell();
 
-            if (CanTarget(mouseCell))
+        public override void OnDragTool(int cell, int distFromOrigin)
+        {
+            if (CanTarget(cell))
+                ModAssets.RegisterTargetCell(cell);
+        }
+        public override void OnDragComplete(Vector3 cursorDown, Vector3 cursorUp)
+        {
+            if (CanTarget(Grid.PosToCell(cursorDown)))
+                ModAssets.RegisterTargetCell(Grid.PosToCell(cursorDown));
+            if (CanTarget(Grid.PosToCell(cursorUp)))
+                ModAssets.RegisterTargetCell(Grid.PosToCell(cursorUp));
+
+            if (ModAssets.TargetCellCount > 0)
             {
                 PlaySound(GlobalAssets.GetSound("HUD_Click"));
-                ModAssets.MoveAllTo(mouseCell);
+                ModAssets.MoveAllItems();
                 DeactivateTool();
                 SelectTool.Instance.Activate();
             }
             else
+            {
                 PlaySound(GlobalAssets.GetSound("Negative"));
+            }
+        }
+
+        public override void OnLeftClickUp(Vector3 cursor_pos)
+        {
+            ModAssets.ClearCachedTargets();
+            base.OnLeftClickUp(cursor_pos);
         }
 
         private void RefreshColor()
