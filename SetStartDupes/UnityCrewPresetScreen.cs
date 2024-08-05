@@ -331,6 +331,9 @@ namespace SetStartDupes
             CloseButton = transform.Find("HorizontalLayout/ItemInfo/Buttons/CloseButton").FindOrAddComponent<FButton>();
             ApplyButton = transform.Find("HorizontalLayout/ItemInfo/Buttons/ApplyPresetButton").FindOrAddComponent<FButton>();
 
+            transform.Find("HorizontalLayout/ItemInfo/Checkboxes/ReactionOverride").gameObject.SetActive(false);
+            transform.Find("HorizontalLayout/ItemInfo/Checkboxes/NameOverride").gameObject.SetActive(false);
+
             OpenPresetFolder = transform.Find("HorizontalLayout/ObjectList/SearchBar/FolderButton").FindOrAddComponent<FButton>();
             OpenPresetFolder.OnClick += () => Process.Start(new ProcessStartInfo(ModAssets.DupeGroupTemplatePath) { UseShellExecute = true });
 

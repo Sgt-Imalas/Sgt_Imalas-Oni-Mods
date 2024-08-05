@@ -256,9 +256,9 @@ namespace SetStartDupes
         static string STICKERBOMBER = "StickerBomber";
         static string ANCIENTKNOWLEDGE = "AncientKnowledge";
         static string CHATTY = "Chatty";
-        public void ApplyPreset(MinionStartingStats referencedStats)
+        public void ApplyPreset(MinionStartingStats referencedStats, bool overrideName, bool overrideReaction)
         {
-            if(Config.Instance.PresetsDoNames)
+            if(overrideName)
                 referencedStats.Name = this.ConfigName.Replace(STRINGS.UNNAMEDPRESET, string.Empty);
 
             bool HadChatty = referencedStats.Traits.Any(trait => trait.Id == CHATTY);
@@ -312,7 +312,7 @@ namespace SetStartDupes
             SgtLogger.l("Applying joy reaction");
             if (!Config.Instance.NoJoyReactions)
             {
-                if (Config.Instance.PresetsDoReactions)
+                if (overrideReaction)
                     referencedStats.joyTrait = traitRef.Get(this.joyTrait);
             }
             else
@@ -329,7 +329,7 @@ namespace SetStartDupes
             SgtLogger.l("Applying stress reaction");
             if (!Config.Instance.NoStressReactions)
             {
-                if (Config.Instance.PresetsDoReactions)
+                if (overrideReaction)
                     referencedStats.stressTrait = traitRef.Get(this.stressTrait);
             }
             else

@@ -62,7 +62,7 @@ namespace SetStartDupes
             var pers = Db.Get().Personalities.GetPersonalityFromNameStringKey(Mate.first);
             if (pers != null)
                 ModAssets.ApplySkinFromPersonality(pers, container.Stats);
-            Mate.second.ApplyPreset(container.Stats);
+            Mate.second.ApplyPreset(container.Stats, true, true);
 
 
             container.characterNameTitle.OnEndEdit(Mate.second.ConfigName);

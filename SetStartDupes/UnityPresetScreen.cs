@@ -54,7 +54,13 @@ namespace SetStartDupes
         public FButton ClearSearchBar;
         public FInputField2 Searchbar;
 
+        public FToggle2 OverrideNamesToggle;
+        public FToggle2 OverrideReactionsToggle;
+
+
         public bool CurrentlyActive;
+        public bool OverrideNames = false;
+        public bool OverrideReactions = true;
 
         ///Preset
         MinionStatConfig CurrentlySelected;
@@ -310,6 +316,20 @@ namespace SetStartDupes
             OpenPresetFolder.OnClick += () => Process.Start(new ProcessStartInfo(ModAssets.DupeTemplatePath) { UseShellExecute = true });
 
 
+
+            UIUtils.AddSimpleTooltipToObject(transform.Find("HorizontalLayout/ItemInfo/Checkboxes/ReactionOverride").gameObject, HORIZONTALLAYOUT.ITEMINFO.CHECKBOXES.REACTIONOVERRIDE.TOOLTIP);
+            OverrideReactionsToggle = transform.Find("HorizontalLayout/ItemInfo/Checkboxes/ReactionOverride/Checkbox").gameObject.AddOrGet<FToggle2>();
+            OverrideReactionsToggle.SetCheckmark("Checkmark");
+            OverrideReactionsToggle.SetOnFromCode(OverrideReactions);
+            OverrideReactionsToggle.OnChange += (result) => OverrideReactions = result;
+
+            UIUtils.AddSimpleTooltipToObject(transform.Find("HorizontalLayout/ItemInfo/Checkboxes/NameOverride").gameObject, HORIZONTALLAYOUT.ITEMINFO.CHECKBOXES.NAMEOVERRIDE.TOOLTIP);
+            OverrideNamesToggle = transform.Find("HorizontalLayout/ItemInfo/Checkboxes/NameOverride/Checkbox").gameObject.AddOrGet<FToggle2>();
+            OverrideNamesToggle.SetCheckmark("Checkmark");
+            OverrideNamesToggle.SetOnFromCode(OverrideNames);
+            OverrideNamesToggle.OnChange += (result) => OverrideNames = result;
+
+
             Searchbar = transform.Find("HorizontalLayout/ObjectList/SearchBar/Input").FindOrAddComponent<FInputField2>();
             Searchbar.OnValueChanged.AddListener(ApplyFilter);
             Searchbar.Text = string.Empty;
@@ -320,7 +340,7 @@ namespace SetStartDupes
 
             ApplyButton.OnClick += () =>
             {
-                CurrentlySelected.ApplyPreset(ReferencedStats);
+                CurrentlySelected.ApplyPreset(ReferencedStats, OverrideNames,OverrideReactions);
                 this.OnCloseAction.Invoke();
                 this.Show(false);
             };

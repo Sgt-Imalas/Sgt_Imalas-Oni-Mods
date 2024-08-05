@@ -187,16 +187,6 @@ namespace SetStartDupes
                     public static LocString NAME = "Reroll printing pod";
                     public static LocString TOOLTIP = "Enable this option to add the reroll button to printing pod Duplicants and care packages.\nCare Packages allow selecting from all currently available package configurations.";
                 }
-                public class PRESETSOVERRIDEREACTIONS
-                {
-                    public static LocString NAME = "Presets override Reactions";
-                    public static LocString TOOLTIP = "If enabled, applying presets to duplicants also overrides their inherited stress reaction and overjoyed response.";
-                }
-                public class PRESETSOVERRIDENAME
-                {
-                    public static LocString NAME = "Presets override Name";
-                    public static LocString TOOLTIP = "If enabled, applying presets to duplicants also sets their name to that of the preset";
-                }
 
                 public class PRINTINGPODRECHARGETIME
                 {
@@ -396,7 +386,7 @@ namespace SetStartDupes
                             public class CLOSEBUTTON
                             {
                                 public static LocString TEXT = "Return";
-                                public static LocString TOOLTIP = "close preset window";
+                                public static LocString TOOLTIP = "Close preset window";
                             }
                             public class GENERATEFROMCURRENT
                             {
@@ -408,6 +398,19 @@ namespace SetStartDupes
                                 public static LocString TEXT = "Apply Preset";
                                 public static LocString TOOLTIP = "Apply the currenly displayed stats to the Duplicant this window was opened from.";
                                 public static LocString TOOLTIPCREW = "Load the Crew Preset thats currently displayed in the preview";
+                            }
+                        }
+                        public class CHECKBOXES
+                        {
+                            public class REACTIONOVERRIDE
+                            {
+                                public static LocString LABEL = "Preset overrides Reactions";
+                                public static LocString TOOLTIP = "If enabled, applying presets to duplicants also overrides their inherited stress reaction and overjoyed response.";
+                            }
+                            public class NAMEOVERRIDE
+                            {
+                                public static LocString LABEL = "Preset overrides Name";
+                                public static LocString TOOLTIP = "If enabled, applying presets to duplicants also sets their name to that of the preset";
                             }
                         }
                     }
