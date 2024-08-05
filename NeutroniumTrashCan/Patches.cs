@@ -25,6 +25,7 @@ namespace NeutroniumTrashCan
             public static void Prefix()
             {
                 ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, NeutroniumTrashCanConfig.ID);
+                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, ArtifactTrashCanConfig.ID);
                 ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, SolidTrashCanConfig.ID);
                 ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, LiquidTrashCanConfig.ID);
                 ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, GasTrashCanConfig.ID);
@@ -38,6 +39,7 @@ namespace NeutroniumTrashCan
             public static void Postfix()
             {
                 InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.SmartStorage, NeutroniumTrashCanConfig.ID);
+                InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.SmartStorage, ArtifactTrashCanConfig.ID);
                 InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.SmartStorage, SolidTrashCanConfig.ID);
                 InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.SmartStorage, LiquidTrashCanConfig.ID);
                 InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.SmartStorage, GasTrashCanConfig.ID);

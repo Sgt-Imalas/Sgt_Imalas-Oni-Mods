@@ -8,9 +8,9 @@ using UnityEngine;
 
 namespace NeutroniumTrashCan
 {
-    internal class GasTrashCanConfig : IBuildingConfig
+    internal class ArtifactTrashCanConfig : IBuildingConfig
     {
-        public const string ID = "NTC_GasTrashCan";
+        public const string ID = "NTC_ArtifactTrashCan";
 
         public override BuildingDef CreateBuildingDef()
         {
@@ -35,9 +35,6 @@ namespace NeutroniumTrashCan
             buildingDef.Floodable = false;
             buildingDef.AudioCategory = "Metal";
             buildingDef.Overheatable = false;
-            buildingDef.InputConduitType = ConduitType.Gas;
-            buildingDef.ViewMode = OverlayModes.GasConduits.ID;
-            buildingDef.UtilityInputOffset = new CellOffset(0, 0);
             return buildingDef;
         }
 
@@ -50,13 +47,18 @@ namespace NeutroniumTrashCan
             storage.showInUI = true;
             storage.allowItemRemoval = false;
             storage.showDescriptor = true;
-            storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
-            ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
-            conduitConsumer.conduitType = ConduitType.Gas;
-            conduitConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Store;
-            conduitConsumer.forceAlwaysSatisfied = true;
+            ManualDeliveryKG manualDeliveryKg = go.AddOrGet<ManualDeliveryKG>();
+            manualDeliveryKg.SetStorage(storage);
+            manualDeliveryKg.RequestedItemTag = GameTags.Artifact;
+            //manualDeliveryKg.ForbiddenTags = new Tag[] { GameTags.CharmedArtifact };
+            manualDeliveryKg.capacity = 9999999;
+            manualDeliveryKg.refillMass = 9999998;
+            manualDeliveryKg.MinimumMass = 9999999;
+            manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.StorageFetch.IdHash;
+
+
         }
 
-        public override void DoPostConfigureComplete(GameObject go) => go.AddOrGet<NeutroniumTrashCan>().tint = Color.yellow;
+        public override void DoPostConfigureComplete(GameObject go) => go.AddOrGet<NeutroniumTrashCan>();
     }
 }
