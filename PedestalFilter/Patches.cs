@@ -62,20 +62,23 @@ namespace PedestalFilter
                     SearchBar.text = string.Empty;
                 }
             }
-            public static void Prefix()
-            {
-               
-            }
             public static void Postfix(ReceptacleSideScreen __instance)
             {
-                if (__instance.GetType() != typeof(ReceptacleSideScreen))
+                if (__instance.GetType().IsSubclassOf(typeof(ReceptacleSideScreen)))
                     return;
 
 
                 if (SearchBar != null)
                 {
                     FilterArtifacts = Config.Instance.DefaultToArtifactsOnly;
-                    ArtifactFilter?.UpdateColor(true, FilterArtifacts, false);
+                    if (ArtifactFilter != null)
+                    {
+                        if (ArtifactFilter.bgImage != null|| ArtifactFilter.GetComponent<KImage>()!=null)
+                        {
+                            ArtifactFilter?.UpdateColor(true, FilterArtifacts, false);
+                        }
+                    }
+
                     ClearSearchBar();
                     return;
                 }
@@ -106,7 +109,13 @@ namespace PedestalFilter
                 };
                 ArtifactFilter.onPointerExit += () =>
                 {
-                    ArtifactFilter?.UpdateColor(true, FilterArtifacts, false);
+                    if (ArtifactFilter != null)
+                    {
+                        if (ArtifactFilter.bgImage != null || ArtifactFilter.GetComponent<KImage>() != null)
+                        {
+                            ArtifactFilter?.UpdateColor(true, FilterArtifacts, false);
+                        }
+                    }
                 };
                 secondaryButton.gameObject.GetComponentInChildren<ToolTip>().SetSimpleTooltip(STRINGS.PEDESTALSEARCHBAR.FILTER_ARTIFACTS);
 
@@ -153,7 +162,7 @@ namespace PedestalFilter
         {
             public static bool Prefix(ReceptacleSideScreen __instance)
             {
-                if (__instance.GetType() != typeof(ReceptacleSideScreen))
+                if (__instance.GetType().IsSubclassOf(typeof(ReceptacleSideScreen)))
                     return true;
 
                 return __instance.requestObjectList.GetComponent("VirtualScroll") != null;
