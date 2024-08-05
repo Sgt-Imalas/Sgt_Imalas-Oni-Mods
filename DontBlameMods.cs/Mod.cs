@@ -3,6 +3,7 @@ using KMod;
 using System;
 using System.Collections.Generic;
 using UtilLibs;
+using UtilLibs.ModSyncing;
 
 namespace DontBlameMods.cs
 {
@@ -13,6 +14,7 @@ namespace DontBlameMods.cs
             base.OnLoad(harmony);
             SgtLogger.debuglog("Initialized");
             SgtLogger.LogVersion(this, harmony);
+            ModSyncUtils.RegisterModAsSyncMod(this.mod);
         }
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
         {
