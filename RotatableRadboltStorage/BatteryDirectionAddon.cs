@@ -66,7 +66,7 @@ namespace RotatableRadboltStorage
                 _direction = value;
                 if (directionController == null)
                     return;                
-                directionController.SetPositionPercent((EightDirectionUtil.GetDirectionIndex(_direction) + 1f) / 8f);
+                directionController.SetPositionPercent(EightDirectionUtil.GetDirectionIndex(_direction) / 7f);
             }
         }
         public void OnCopySettings(object data)
