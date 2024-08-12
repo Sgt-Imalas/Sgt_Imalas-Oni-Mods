@@ -141,6 +141,15 @@ namespace OniRetroEdition
                 }
             }
         }
+        [HarmonyPatch(typeof(PressureDoorConfig),nameof(PressureDoorConfig.DoPostConfigureComplete))]
+        public static class MechanizedAirlockTileable
+        {
+
+            public static void Postfix(GameObject go)
+            {
+                go.AddOrGet<AnimTileable>();
+            }
+        }
 
         [HarmonyPatch]
         ///Connects mesh+airflow and normal tiles

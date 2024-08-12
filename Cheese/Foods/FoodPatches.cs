@@ -151,7 +151,7 @@ namespace Cheese.Foods
         /// <summary>
         /// Bractose Intolerance watercooler
         /// </summary>
-        [HarmonyPatch(typeof(WaterCoolerChore.States), "Drink")]
+        [HarmonyPatch(typeof(WaterCoolerChore.States), "TriggerDrink")]
         public static class WaterCoolerChore_Drink_Patch
         {
             [HarmonyPostfix]

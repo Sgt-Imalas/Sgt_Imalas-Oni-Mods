@@ -169,7 +169,7 @@ namespace Imalas_TwitchChaosEvents.Elements
 
 
 
-        [HarmonyPatch(typeof(WaterCoolerChore.States), "Drink")]
+        [HarmonyPatch(typeof(WaterCoolerChore.States), "TriggerDrink")]
         public class WaterCoolerChore_States_Drink_Patch
         {
             public static void Prefix(WaterCoolerChore.States __instance, WaterCoolerChore.StatesInstance smi)

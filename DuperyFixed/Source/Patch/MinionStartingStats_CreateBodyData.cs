@@ -13,7 +13,7 @@ namespace Dupery
     internal class MinionStartingStats_CreateBodyData
     {
         [HarmonyPostfix]
-        static void PostFix(ref KCompBuilder.BodyData __result, Personality p)
+        static void Postfix(ref KCompBuilder.BodyData __result, Personality p)
         {
             HashedString hairId = FindNewId(Db.Get().AccessorySlots.Hair, p.nameStringKey);
             if (hairId != null)
