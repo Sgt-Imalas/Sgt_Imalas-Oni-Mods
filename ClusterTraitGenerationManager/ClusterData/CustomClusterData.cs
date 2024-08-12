@@ -27,7 +27,34 @@ namespace ClusterTraitGenerationManager.ClusterData
 
             return planetDiff;
         }
-        [JsonIgnore] public bool HasCeresAsteroid => GetAllPlanets().Any(planet => planet.id.ToUpperInvariant().Contains("CERES"));
+
+        public string GetOriginalClusterId()
+        {
+            SgtLogger.l("Fetching original cluster id for CGM custom cluster");
+
+            bool spacedOutActive = DlcManager.IsExpansion1Active();
+            if (OriginalClusterID!=null && OriginalClusterID.Length > 0)
+            {
+                return OriginalClusterID;
+            }
+            //hardcode one of the ceres clusters to handle all of the extra ceres stuff (geothermal pump, skins, music etc),
+            //so that it wont throw errors in these saves if the mod is removed.
+            //goes in effect if warp or outer ceres is used
+            SgtLogger.l($"HasCeresAsteroid: {HasCeresAsteroid}, HasCeresStarter: {HasCeresStarter}");
+            if (HasCeresAsteroid && !HasCeresStarter)
+            {
+                return spacedOutActive ? "dlc2::clusters/CeresClassicCluster" : "dlc2::clusters/CeresBaseGameCluster";
+            }
+            if (CGSMClusterManager.TryGetClusterForStarter(StarterPlanet, out var clusterID))
+            {
+                return clusterID;
+            }
+            return spacedOutActive ? "expansion1::clusters/SandstoneStartCluster" : "clusters/SandstoneDefault"; //final fallback
+        }
+
+        public string OriginalClusterID;
+        [JsonIgnore] public bool HasCeresAsteroid => GetAllPlanets().Any(planet => planet.DlcID == DlcManager.DLC2_ID || planet.id.ToUpperInvariant().Contains("CERES"));
+        [JsonIgnore] public bool HasCeresStarter => StarterPlanet != null && (StarterPlanet.DlcID == DlcManager.DLC2_ID || StarterPlanet.id.ToUpperInvariant().Contains("CERES"));
         [JsonIgnore] public bool HasTear => POIs != null && POIs.Any(item => item.Value.placementPOI != null && item.Value.placementPOI.pois != null && item.Value.placementPOI.pois.Contains("TemporalTear"));
         [JsonIgnore] public bool HasTeapot => POIs != null && POIs.Any(item => item.Value.placementPOI != null && item.Value.placementPOI.pois != null && item.Value.placementPOI.pois.Contains("ArtifactSpacePOI_RussellsTeapot"));
         [JsonIgnore] public int AdjustedOuterExpansion => GetAdjustedOuterExpansion();
@@ -163,7 +190,6 @@ namespace ClusterTraitGenerationManager.ClusterData
                 var possibleTraits = StarmapItem.AllowedWorldTraitsFor(existing, world)
                     .Where(item =>
                     item.filePath != ModAssets.CGM_RandomTrait
-                    //&& !item.filePath.ToUpperInvariant().Contains("SPACEHOLE")
                     && !RandomTraitInBlacklist(item.filePath));
                 if (possibleTraits.Count() == 0)
                     break;
@@ -538,9 +564,8 @@ namespace ClusterTraitGenerationManager.ClusterData
                 }
             }
         }
-        ///<summary>
-        /// copied from SpaceCraftManager.GenerateFixedDestinations and SpaceCraftManager.GenerateRandomDestinations.
-        /// required since those methods require the savegame seed and arent returning anything
+        /// <summary>
+        /// instantiate a local copy of spacecraft manager to generate the starmap
         /// </summary>
         void GenerateVanillaStarmapDestinations()
         {

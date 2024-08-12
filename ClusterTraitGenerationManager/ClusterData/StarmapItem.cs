@@ -7,6 +7,7 @@ using System.Linq;
 using static ClusterTraitGenerationManager.ClusterData.CGSMClusterManager;
 using UnityEngine;
 using UtilLibs;
+using Microsoft.Build.Framework.XamlTypes;
 
 namespace ClusterTraitGenerationManager.ClusterData
 {
@@ -24,6 +25,7 @@ namespace ClusterTraitGenerationManager.ClusterData
         [JsonIgnore] public ProcGen.World world;
         [JsonIgnore] public Vector2I originalWorldDimensions;
         [JsonIgnore] public string ModName = string.Empty;
+        [JsonIgnore] public string DlcID = "";
 
         public WorldPlacement placement;
 
@@ -139,14 +141,14 @@ namespace ClusterTraitGenerationManager.ClusterData
 
                 if (world != null)
                 {
-                    if (SizePreset != WorldSizePresets.Normal || RatioPreset!=WorldRatioPresets.Normal)
+                    if (SizePreset != WorldSizePresets.Normal || RatioPreset != WorldRatioPresets.Normal)
                     {
                         float sizePercentage = (float)SizePreset / 100f;
                         float ratioModifier = 0;
 
                         bool? ChooseHeight = null;
 
-                        if (RatioPreset!=WorldRatioPresets.Normal)
+                        if (RatioPreset != WorldRatioPresets.Normal)
                         {
                             int intRatio = (int)RatioPreset;
                             if (intRatio < 100)
@@ -438,6 +440,12 @@ namespace ClusterTraitGenerationManager.ClusterData
             this.category = category;
             this.planetSprite = sprite;
         }
+        public StarmapItem AssignDlc(string dlcId)
+        {
+            this.DlcID = dlcId;
+            return this;
+        }
+
         public StarmapItem MakeItemPlanet(ProcGen.World world)
         {
             this.world = world;
@@ -459,6 +467,10 @@ namespace ClusterTraitGenerationManager.ClusterData
                 this.ModName = sourceMod.title;
             }
 
+            SettingsCache.GetDlcIdAndPath(filepath, out var dlcId, out _);
+            this.AssignDlc(dlcId);
+
+            SgtLogger.l("making starmapitem for " + world.filePath + ",dlc: " + dlcId);
             return this;
         }
 
@@ -493,6 +505,7 @@ namespace ClusterTraitGenerationManager.ClusterData
             placement.allowedRings = new(placement2.allowedRings.min, placement2.allowedRings.max);
             placement.buffer = placement2.buffer;
             placement.locationType = placement2.locationType;
+            placement.worldMixing = placement2.worldMixing;
             return this;
         }
         public StarmapItem MakeItemPOI(SpaceMapPOIPlacement placement2)
@@ -511,6 +524,118 @@ namespace ClusterTraitGenerationManager.ClusterData
             return this;
         }
 
+        #region GeyserBlacklist
+
+        private bool _geyserBlacklistAffectsNonGenerics = false;
+        public bool GeyserBlacklistAffectsNonGenerics => _geyserBlacklistAffectsNonGenerics;
+
+        private List<string> _geyserBlacklistIDs = new();
+        public List<string> GeyserBlacklistIDs => _geyserBlacklistIDs;
+
+        public void SetGeyserBlacklist(List<string> NEWs)
+        {
+            _geyserBlacklistIDs = NEWs;
+        }
+        public void SetGeyserBlacklistAffectsNonGenerics(bool affectsNongenerics)
+        {
+            _geyserBlacklistAffectsNonGenerics = affectsNongenerics;
+        }
+
+        public void AddGeyserBlacklist(string geyserID)
+        {
+            _geyserBlacklistIDs.Add(geyserID);
+        }
+        public void RemoveGeyserBlacklist(string geyserID)
+        {
+            _geyserBlacklistIDs.Remove(geyserID);
+        }
+        public bool HasGeyserBlacklisted(string geyserID)
+        {
+            return GeyserBlacklistIDs.Contains(geyserID);
+        }
+
+        #endregion
+
+        #region GeyserOverrides
+
+        private List<string> _geyserOverrideIDs = new();
+        public List<string> GeyserOverrideIDs => _geyserOverrideIDs;
+
+        public void SetGeyserOverrides(List<string> NEWs)
+        {
+            _geyserOverrideIDs = NEWs;
+            for (int i = _geyserOverrideCount - 1; i >= 0; i--)
+            {
+                var currentGeyser = _geyserOverrideIDs[i];
+                if (!ModAssets.AllGeysers.TryGetValue(currentGeyser, out _))
+                {
+                    SgtLogger.l("invalid geyser found: " + currentGeyser);
+                    _geyserOverrideIDs.RemoveAt(i);
+                }
+            }
+        }
+        public void ClearGeyserOverrides()
+        {
+            GeyserOverrideIDs.Clear();
+            GeyserBlacklistIDs.Clear();
+            _geyserBlacklistAffectsNonGenerics = false;
+        }
+
+        public void AddGeyserOverride(string geyserID)
+        {
+            GeyserOverrideIDs.Add(geyserID);
+        }
+        public void RemoveGeyserOverrideAt(int index)
+        {
+            GeyserOverrideIDs.RemoveAt(index);
+        }
+        public int GetCurrentGeyserOverrideCount()
+        {
+            return GeyserOverrideIDs.Count;
+        }
+        public bool CanAddGeyserOverrides() => GetMaxGeyserOverrideCount() > 0;
+
+        public int GetMaxGeyserOverrideCount()
+        {
+            int totalCountRules = 0;
+            int totalCountTraits = 0;
+
+            if (world != null && world.worldTemplateRules != null) //Grabbing geyserGenericSpawns
+            {
+                foreach (var rule in world.worldTemplateRules)
+                {
+                    if (rule.names != null && rule.names.Count() == 1 && rule.names[0] == "geysers/generic")
+                    {
+                        totalCountRules += rule.times;
+                    }
+                }
+            }
+            foreach (var traitID in CurrentTraits) //grabbing generics from traits
+            {
+                if (SettingsCache.worldTraits.TryGetValue(traitID, out var trait))
+                {
+                    if(trait!=null && trait.removeWorldTemplateRulesById!=null && trait.removeWorldTemplateRulesById.Count() > 0)
+                    {
+                        if (trait.removeWorldTemplateRulesById.Contains("GenericGeysers")) //Geodormant removes the main rule and replaces it with a 9 geyser rule
+                            totalCountRules = 0;
+                    }
+
+                    if (trait != null && trait.additionalWorldTemplateRules != null)
+                    {
+                        foreach (var rule in trait.additionalWorldTemplateRules)
+                        {
+                            if (rule.names != null && rule.names.Count() == 1 && rule.names[0] == "geysers/generic")
+                            {
+                                totalCountTraits += rule.times;
+                            }
+                        }
+                    }
+                }
+            }
+            return totalCountTraits+ totalCountRules;
+        }
+
+        #endregion
 
         #region PlanetMeteors
 
@@ -601,7 +726,18 @@ namespace ClusterTraitGenerationManager.ClusterData
 
         private List<string> currentPlanetTraits = new List<string>();
         [JsonIgnore] public List<string> CurrentTraits => currentPlanetTraits;
-        public void SetWorldTraits(List<string> NEWs) => currentPlanetTraits = NEWs;
+        public void SetWorldTraits(List<string> NEWs)
+        {
+            currentPlanetTraits = NEWs;
+            for (int i = currentPlanetTraits.Count - 1; i >= 0; i--)
+            {
+                var currentTrait = currentPlanetTraits[i];
+                if (!ModAssets.AllTraitsWithRandomDict.TryGetValue(currentTrait, out _))
+                {
+                    currentPlanetTraits.RemoveAt(i);
+                }
+            }
+        }
 
 
         public static List<WorldTrait> AllowedWorldTraitsFor(List<string> currentTraits, ProcGen.World world)
@@ -670,7 +806,6 @@ namespace ClusterTraitGenerationManager.ClusterData
                 currentPlanetTraits.Remove(traitID);
             return allowed;
         }
-
         public bool AddWorldTrait(WorldTrait trait)
         {
             string traitID = trait.filePath;

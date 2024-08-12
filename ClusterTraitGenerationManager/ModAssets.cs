@@ -1,4 +1,5 @@
 ﻿using ClusterTraitGenerationManager.ClusterData;
+using ClusterTraitGenerationManager.GeyserExperiments;
 using Klei;
 using MonoMod.Utils;
 using ProcGen;
@@ -362,6 +363,33 @@ public static List<string> NonUniquePOI_Ids
                 traits.AddRange(SettingsCache.worldTraits);
                 return traits;
             }
+        }
+
+
+        public static Dictionary<string, GeyserDataEntry> AllGeysers = new();
+        public static List<string> AllGenericGeysers= new();
+
+        public static string GetGenericGeyserAt(int seed, Vector2I position, HashSet<string> geyserBlacklist = null)
+        {
+            int num = 0;
+            num += seed;
+
+            SgtLogger.l("getting generic geyser at " + position.ToString() + ", seed :" + seed);
+            string geyserID = AllGenericGeysers[new KRandom(num + position.x + position.y).Next(0, AllGenericGeysers.Count)];
+
+            if(geyserBlacklist != null && geyserBlacklist.Count > 0 && geyserBlacklist.Contains(geyserID))
+            {
+                int failure = AllGenericGeysers.Count;
+                while (geyserBlacklist.Contains(geyserID) && failure > 0)
+                {
+                    failure--;
+                    num++;
+                    geyserID = AllGenericGeysers[new KRandom(num + position.x + position.y).Next(0, AllGenericGeysers.Count)];
+                }
+            }
+
+            SgtLogger.l("getting generic geyser at " + position.ToString() + ", seed :" + seed+" --> "+geyserID);
+            return geyserID;
         }
 
         public static List<KeyValuePair<string, WorldTrait>> AllTraitsWithRandom

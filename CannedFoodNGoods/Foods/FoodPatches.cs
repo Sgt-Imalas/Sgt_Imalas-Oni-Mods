@@ -1,4 +1,5 @@
-﻿using Database;
+﻿using CannedFoods.EmptyCans;
+using Database;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
@@ -6,12 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TUNING;
+using UtilLibs;
 using static CannedFoods.ModAssets;
 using static ComplexRecipe;
+using static ResearchTypes;
 
 namespace CannedFoods.Foods
 {
-    
+
     internal class FoodPatches
     {
         [HarmonyPatch(typeof(CraftingTableConfig), "ConfigureRecipes")]
@@ -19,16 +22,43 @@ namespace CannedFoods.Foods
         {
             public static void Postfix()
             {
+                AddCanRecipes();
                 AddCannedTunaRecipe();
                 AddCannedBBQRecipe();
                 AddCannedBreadRecipe();
             }
-            private static void AddCannedTunaRecipe()
+
+            private static void AddCanRecipes()
             {
-                var metalTag = ElementLoader.FindElementByHash(ExportSettings.GetMaterialHashForCans()).tag;
+                var metalTag = ElementLoader.FindElementByHash(ModAssets.ExportSettings.GetMaterialHashForCans()).tag;
                 RecipeElement[] input = new RecipeElement[]
                 {
-                    new RecipeElement(metalTag, 0.5f),
+                        new RecipeElement(metalTag, 0.5f),
+                };
+
+                RecipeElement[] output = new RecipeElement[]
+                {
+                        new RecipeElement(EmptyCanConfig.ID+metalTag.ToString(), 0.5f)
+                };
+
+                string recipeID = ComplexRecipeManager.MakeRecipeID(CraftingTableConfig.ID, input, output);
+
+                CannedTunaConfig.recipe = new ComplexRecipe(recipeID, input, output)
+                {
+                    time = 15,
+                    description = STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.CF_EMPTYCAN.DESC,
+                    nameDisplay = RecipeNameDisplay.IngredientToResult,
+                    fabricators = new List<Tag> { CraftingTableConfig.ID }
+                };
+
+            }
+
+
+            private static void AddCannedTunaRecipe()
+            {
+                RecipeElement[] input = new RecipeElement[]
+                {
+                    new RecipeElement(ModAssets.Tags.CanTag, 0.5f),
                     new RecipeElement(CookedFishConfig.ID, 0.5f)
                 };
 
@@ -49,10 +79,9 @@ namespace CannedFoods.Foods
             }
             private static void AddCannedBBQRecipe()
             {
-                var metalTag = ElementLoader.FindElementByHash(ExportSettings.GetMaterialHashForCans()).tag;
                 RecipeElement[] input = new RecipeElement[]
                 {
-                    new RecipeElement(metalTag, 0.5f),
+                    new RecipeElement(ModAssets.Tags.CanTag, 0.5f),
                     new RecipeElement(CookedMeatConfig.ID, 0.5f)
                 };
 
@@ -73,10 +102,9 @@ namespace CannedFoods.Foods
             }
             private static void AddCannedBreadRecipe()
             {
-                var metalTag = ElementLoader.FindElementByHash(ExportSettings.GetMaterialHashForCans()).tag;
                 RecipeElement[] input = new RecipeElement[]
                 {
-                    new RecipeElement(metalTag, 0.5f),
+                    new RecipeElement(ModAssets.Tags.CanTag, 0.5f),
                     new RecipeElement(SpiceBreadConfig.ID, 0.5f)
                 };
 
@@ -107,14 +135,6 @@ namespace CannedFoods.Foods
         [HarmonyPatch(nameof(Db.Initialize))]
         public static class PatchCarnivoreAchievment
         {
-            //public static void Postfix(List<string> fromFoodType)
-            //{
-            //    if (!fromFoodType.Contains(CannedBBQConfig.ID))
-            //    {
-            //        fromFoodType.Add(CannedBBQConfig.ID);
-            //        fromFoodType.Add(CannedTunaConfig.ID);
-            //    }
-            //}
             public static void Postfix(Db __instance)
             {
                 var items = __instance.ColonyAchievements.EatkCalFromMeatByCycle100.requirementChecklist;
@@ -175,6 +195,7 @@ namespace CannedFoods.Foods
             public static void Postfix()
             {
                 AddRecyclingRecipeMetalRefinery();
+                AddRecyclingRecipeMetalRefineryEmptyCan();
             }
             private static void AddRecyclingRecipeMetalRefinery()
             {
@@ -194,13 +215,40 @@ namespace CannedFoods.Foods
                 ComplexRecipe complexRecipe = new ComplexRecipe(recipeID, input, output)
                 {
                     time = 10f,
-                    description = string.Format(global::STRINGS.BUILDINGS.PREFABS.METALREFINERY.RECIPE_DESCRIPTION, (object)metalTag.ProperName(),STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.CF_CANSCRAP.NAME),
+                    description = string.Format(global::STRINGS.BUILDINGS.PREFABS.METALREFINERY.RECIPE_DESCRIPTION, (object)metalTag.ProperName(), STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.CF_CANSCRAP.NAME),
                     nameDisplay = ComplexRecipe.RecipeNameDisplay.Ingredient,
                     fabricators = new List<Tag>()
                     {
                         TagManager.Create("MetalRefinery")
                     }
                 };
+            }
+            private static void AddRecyclingRecipeMetalRefineryEmptyCan()
+            {
+                var metalTag = ElementLoader.FindElementByHash(Config.Instance.GetCanElement()).tag;
+                var input = new RecipeElement[]
+                {
+                        new RecipeElement(TagManager.Create(EmptyCanConfig.ID), 10f)
+                };
+
+                var output = new RecipeElement[]
+                {
+                        new RecipeElement(metalTag, 10f)
+                };
+
+                var recipeID = ComplexRecipeManager.MakeRecipeID(MetalRefineryConfig.ID, input, output);
+
+                ComplexRecipe complexRecipe = new ComplexRecipe(recipeID, input, output)
+                {
+                    time = 10f,
+                    description = string.Format(global::STRINGS.BUILDINGS.PREFABS.METALREFINERY.RECIPE_DESCRIPTION, (object)metalTag.ProperName(), STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.CF_EMPTYCAN.NAME),
+                    nameDisplay = ComplexRecipe.RecipeNameDisplay.Ingredient,
+                    fabricators = new List<Tag>()
+                        {
+                            TagManager.Create("MetalRefinery")
+                        }
+                };
+
             }
         }
 
@@ -210,10 +258,10 @@ namespace CannedFoods.Foods
         [HarmonyPatch(typeof(Edible), "OnStopWork")]
         public static class PatchDroppingOfTincans
         {
-            public static void Prefix(Edible __instance )
+            public static void Prefix(Edible __instance)
             {
-                if (__instance.HasTag(ModAssets.Tags.DropCanOnEat) 
-                    || __instance.FoodInfo.Id==CannedBBQConfig.ID || __instance.FoodInfo.Id == CannedTunaConfig.ID //compatiblitiy
+                if (__instance.HasTag(ModAssets.Tags.DropCanOnEat)
+                    || __instance.FoodInfo.Id == CannedBBQConfig.ID || __instance.FoodInfo.Id == CannedTunaConfig.ID //compatiblitiy
                     )
                 {
                     float trashMass = 0.5f * __instance.unitsConsumed;
@@ -222,11 +270,10 @@ namespace CannedFoods.Foods
             }
             public static void DropCan(Edible gameObject, float mass)
             {
-                var MetalHash = Config.Instance.GetCanElement();
-                var element = ElementLoader.FindElementByHash(MetalHash);
-                var temperature = gameObject.GetComponent<PrimaryElement>().Temperature;
+                var element = gameObject.GetComponent<PrimaryElement>();
+                var temperature = element.Temperature;
 
-                var scrapObject = GameUtil.KInstantiate(Assets.GetPrefab((Tag)"CF_CanScrap"), gameObject.transform.position, Grid.SceneLayer.Ore);
+                var scrapObject = GameUtil.KInstantiate(Assets.GetPrefab(EmptyCanConfig.ID), gameObject.transform.position, Grid.SceneLayer.Ore);
                 scrapObject.SetActive(true);
                 var scrapObjectElement = scrapObject.GetComponent<PrimaryElement>();
                 scrapObjectElement.Mass = mass;

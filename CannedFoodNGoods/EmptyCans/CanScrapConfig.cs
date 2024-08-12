@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace CannedFoods
+namespace CannedFoods.EmptyCans
 {
     class CanScrapConfig : IEntityConfig
     {
         public const string ID = "CF_CanScrap";
-       
+
         public string[] GetDlcIds()
         {
             return DlcManager.AVAILABLE_ALL_VERSIONS;
@@ -18,28 +18,27 @@ namespace CannedFoods
 
         public GameObject CreatePrefab()
         {
-            var canElement = Config.Instance.GetCanElement();
             GameObject looseEntity = EntityTemplates.CreateLooseEntity(
                   id: ID,
                   name: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.CF_CANSCRAP.NAME,
-                  desc: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.CF_CANSCRAP.DESC, 
+                  desc: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.CF_CANSCRAP.DESC,
                   mass: 1f,
                   unitMass: false,
                   anim: Assets.GetAnim("can_scrap_kanim"),
                   initialAnim: "object",
-                  sceneLayer: Grid.SceneLayer.Front,
+                  sceneLayer: Grid.SceneLayer.Ore,
                   collisionShape: EntityTemplates.CollisionShape.RECTANGLE,
                   width: 0.64f,
                   height: 0.7f,
                   isPickupable: true,
-                  element: canElement,
+                  element: SimHashes.Copper,
                   additionalTags: new List<Tag>()
                   {
-                      GameTags.IndustrialIngredient
+                      ModAssets.Tags.CanTag,
+                      GameTags.IndustrialProduct
                   });
 
             looseEntity.AddOrGet<EntitySplitter>();
-
 
             looseEntity.AddOrGet<OccupyArea>();
 

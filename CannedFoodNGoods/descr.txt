@@ -35,7 +35,20 @@ Options made with PLib.
 [hr][/hr]
 
 [h1]Bug Reports[/h1]
+
 Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.
+
+[h1]Quality Mod Experience[/h1]
+
+Due to bugs in the games mod updating system leading to mods not updating,
+always use [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2018291283]Mod Updater[/url] to force updates!
+
+Want to improve how mods handle in general?
+Use [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3281716506]Mod Preset Manager[/url] for changing mod loadouts on the fly and [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2854869130]Mod Profile Manager[/url] to enhance your mod menu.
+
+[hr][/hr]
+
+
 
 [hr][/hr]
 

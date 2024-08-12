@@ -265,7 +265,7 @@ namespace Rockets_TinyYetBig.Patches
             {
                 var code = instructions.ToList();
 
-                for(int i = code.Count - 1; i > 0; --i)
+                for(int i = code.Count - 1; i >= 0; --i)
                 {
                     var ci = code[i];
                     if (ci.LoadsField(ResourceHarvestModuleDef_harvestSpeed))

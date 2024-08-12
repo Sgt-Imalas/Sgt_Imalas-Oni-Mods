@@ -65,6 +65,16 @@
                     {
                         public static LocString LABEL = (LocString)"[STARMAPITEMTYPEPL] in this category:";
                     }
+                    public class STARITEMCONTENT
+                    {
+                        public class INPUT
+                        {
+                            public class TEXTAREA
+                            {
+                                public static LocString PLACEHOLDER = (LocString)"Enter text to filter asteroids...";
+                            }
+                        }
+                    }
                     public class VANILLASTARMAPCONTENT
                     {
                         public class VANILLASTARMAPCONTAINER
@@ -458,6 +468,66 @@
                                 }
                             }
 
+                            public class ASTEROIDGEYSERS
+                            {
+                                public class DESCRIPTOR
+                                {
+                                    public static LocString LABEL = (LocString)"Asteroid Geysers:";
+                                    public static LocString NONE = (LocString)"No available geysers";
+                                }
+                                public class CONTENT
+                                {
+                                    public class GUARANTEED
+                                    {
+                                        public class DESCRIPTOR
+                                        {
+                                            public static LocString LABEL = (LocString)"Overrides:";
+                                            public static LocString INFOTOOLTIP = (LocString)"Geyser overrides can be used to force specific geysers to appear in place of fully randomly generated geysers.\nSemi-Random, pre-picked geysers cannot be changed.\nfully random geysers also include those added by the \"Geoactive\" trait.";
+                                        }
+                                        public class SCROLLAREA
+                                        {
+                                            public class CONTENT
+                                            {
+                                                public class NONE
+                                                {
+                                                    public static LocString LABEL = "No geyser overrides";
+                                                }
+                                            }
+                                        }
+                                        public class ADDGEYSERBTN
+                                        {
+                                            public static LocString TEXT = "Add Geyser Override";
+                                        }
+                                    }
+                                    public class BLACKLIST
+                                    {
+                                        public class DESCRIPTOR
+                                        {
+                                            public static LocString LABEL = (LocString)"Blacklist:";
+                                            public static LocString INFOTOOLTIP = "Prevent geyser types from generating as fully random geysers.\nThese are then replaced with random (generic) geysers.\nHas no effect on semi-random, curated geysers unless toggled on";
+                                        }
+                                        public class BLACKLISTAFFECTNONGENERICS
+                                        {
+                                            public static LocString LABEL = (LocString)"Blacklist affects all geysers";
+                                            public static LocString TOOLTIP = "If enabled, the blacklist will also replace predetermined and curated geysers from the blacklist with random geysers.";
+                                        }
+                                        public class SCROLLAREA
+                                        {
+                                            public class CONTENT
+                                            {
+                                                public class NONE
+                                                {
+                                                    public static LocString LABEL = "No blacklisted geysers";
+                                                }
+                                            }
+                                        }
+                                        public class BLACKLISTBUTTON
+                                        {
+                                            public static LocString TEXT = "Add geyser to blacklist";
+                                        }
+                                    }
+                                }
+                            }
 
                             public class METEORSEASONCYCLE
                             {

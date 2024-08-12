@@ -346,7 +346,6 @@ namespace ClusterTraitGenerationManager
                 CreateUIItemForStarmapItem(planet.Value);
             }
         }
-
         static async Task ExecuteWithDelay(int ms, System.Action action)
         {
             await Task.Delay(ms);

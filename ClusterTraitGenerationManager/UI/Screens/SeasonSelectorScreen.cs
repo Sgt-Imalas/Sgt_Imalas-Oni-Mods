@@ -59,6 +59,8 @@ namespace ClusterTraitGenerationManager.UI.Screens
             init = true;
             SeasonPrefab = transform.Find("ScrollArea/Content/ListViewEntryPrefab").gameObject;
             PossibleSeasonContainer = transform.Find("ScrollArea/Content").gameObject;
+            UIUtils.TryChangeText(transform, "Text", METEORSEASONCYCLE.CONTENT.TITLE);
+            UIUtils.TryChangeText(PossibleSeasonContainer.transform, "NoTraitAvailable/Label", METEORSEASONCYCLE.CONTENT.NOSEASONTYPESAVAILABLE);
 
             var closeButton = transform.Find("CancelButton").FindOrAddComponent<FButton>();
             closeButton.OnClick += () =>
@@ -66,8 +68,6 @@ namespace ClusterTraitGenerationManager.UI.Screens
                 OnCloseAction.Invoke();
                 Show(false);
             };
-            UIUtils.TryChangeText(transform, "Text", METEORSEASONCYCLE.CONTENT.TITLE);
-            UIUtils.TryChangeText(PossibleSeasonContainer.transform, "NoTraitAvailable/Label", METEORSEASONCYCLE.CONTENT.NOSEASONTYPESAVAILABLE);
 
 
             InitializeTraitContainer();

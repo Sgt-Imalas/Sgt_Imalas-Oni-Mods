@@ -56,9 +56,9 @@ namespace ClusterTraitGenerationManager.UI.Screens
         }
 
 
+        Dictionary<string, BlacklistTrait> BlacklistedRandomTraits = new Dictionary<string, BlacklistTrait>();
         public static TraitSelectorScreen Instance { get; private set; }
 
-        Dictionary<string, BlacklistTrait> BlacklistedRandomTraits = new Dictionary<string, BlacklistTrait>();
 
         Dictionary<string, GameObject> Traits = new Dictionary<string, GameObject>();
         public StarmapItem SelectedPlanet;

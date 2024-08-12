@@ -3,6 +3,7 @@ using HarmonyLib;
 using ONITwitchLib.Utils;
 using STRINGS;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,28 +16,21 @@ namespace Rockets_TinyYetBig.Elements
 
     public class ELEMENTpatches
     {
-
-
-
         /// <summary>
-        /// akis beached 
+        /// from akis beached 
         /// </summary>
         [HarmonyPatch(typeof(ElementLoader))]
         [HarmonyPatch(nameof(ElementLoader.Load))]
         public class ElementLoader_Load_Patch
         {
-            public static void Prefix(Dictionary<string, SubstanceTable> substanceTablesByDlc)
+            public static void Prefix(Dictionary<string, SubstanceTable> substanceTablesByDlc, ref Hashtable substanceList)
             {
                 // Add my new elements
                 var list = substanceTablesByDlc[DlcManager.VANILLA_ID].GetList();
-                ModElements.RegisterSubstances(list);
-
-                //SgtLogger.l("ElementList length after that method; " + substanceTablesByDlc[DlcManager.VANILLA_ID].GetList().Count);
-                //SgtLogger.l("ElementList SO length; " + substanceTablesByDlc[DlcManager.EXPANSION1_ID].GetList().Count);
+                ModElements.RegisterSubstances(list, ref substanceList);
             }
             public static void Postfix(ElementLoader __instance)
             {
-                //SgtLogger.l("ElementList length in postfix; " + ElementLoader.elementTable.Count);
                 SgtElementUtil.FixTags();
             }
         }

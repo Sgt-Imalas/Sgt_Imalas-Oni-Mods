@@ -10,8 +10,10 @@ namespace CannedFoods
     {
         public class Tags
         {
+            public static Tag CanTag = TagManager.Create("CF_Can");
             public static Tag DropCanOnEat = TagManager.Create("CF_Drop_Can_On_Eat");
         }
+
         public sealed class ExportSettings
         {
             private static readonly Lazy<ExportSettings> lazy =
@@ -24,11 +26,6 @@ namespace CannedFoods
             {
                 return Config.Instance.GetCanElement();
             }
-            public static Tag GetCanTag()
-            {
-                return Tags.DropCanOnEat;
-            }
-
         }
     }
 }
