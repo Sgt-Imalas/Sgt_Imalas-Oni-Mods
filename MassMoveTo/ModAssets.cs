@@ -21,17 +21,27 @@ namespace MassMoveTo
         public static bool HasStashed => cachedMovables.Count > 0;
         public static int TargetCellCount => cachedTargetCells.Count;
 
-        internal static void ClearStashed()
+        internal static void ClearStashed(bool removeMarks = true)
         {
+            if (removeMarks)
+            {
+                foreach (var item in cachedMovables)
+                {
+                    if (item != null && item.gameObject != null)
+                        item.gameObject.RemoveTag(GameTags.MarkedForMove);
+                }
+            }
+
             cachedMovables.Clear();
         }
 
         internal static void MarkForMove(Movable movable, PrioritySetting priority)
         {
             cachedPriority = priority;
-            if (!cachedMovables.Contains(movable))
+            if (!cachedMovables.Contains(movable) && !movable.IsMarkedForMove)
             {
                 cachedMovables.Add(movable);
+                movable.gameObject.AddTag(GameTags.MarkedForMove);
             }
         }
 
@@ -98,7 +108,7 @@ namespace MassMoveTo
                 {
                     MoveItemsToLocation(movableChunks[i], targetCells[i]);
                 }
-                ClearStashed();
+                ClearStashed(false);
             }
             ClearCachedTargets();
         }
@@ -107,9 +117,11 @@ namespace MassMoveTo
             var proxy = AddOrGetStorageProxy(targetCell);
             proxy.Get().prioritizable.SetMasterPriority(cachedPriority);
 
-            foreach (var movable in items)
+            foreach (Movable movable in items)
             {
-                if (!movable.IsMarkedForMove)
+                if (movable != null
+                    && movable.gameObject != null
+                    && !movable.IsMarkedForMove)
                 {
                     movable.storageProxy = proxy;
                     movable.MoveToLocation(targetCell);

@@ -59,12 +59,15 @@ namespace MassMoveTo.Tools
         {
             base.OnActivateTool();
             visualizer.gameObject.SetActive(true);
+            SpeedControlScreen.Instance.Pause(false);
+
         }
         public override void OnDeactivateTool(InterfaceTool new_tool)
         {
             base.OnDeactivateTool(new_tool);
             visualizer.gameObject.SetActive(false);
             ToolMenu.Instance.ClearSelection();
+            SpeedControlScreen.Instance.Unpause(false);
         }
 
         public override void OnDragTool(int cell, int distFromOrigin)
