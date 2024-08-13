@@ -16,7 +16,7 @@ namespace UtilLibs.UIcmp
 
         GameObject DropDownContent;
 
-        FToggle2 entryPrefab;
+        FToggle entryPrefab;
         Image backgroundImage;
 
         public Color Inactive = UIUtils.rgb(62, 67, 87);
@@ -48,7 +48,7 @@ namespace UtilLibs.UIcmp
             backgroundImage = GetComponent<Image>();
             backgroundImage.color = Inactive;
             DropDownContent = transform.Find("DropDownContent").gameObject;
-            entryPrefab = transform.Find("DropDownContent/Item").gameObject.AddOrGet<FToggle2>();
+            entryPrefab = transform.Find("DropDownContent/Item").gameObject.AddOrGet<FToggle>();
             entryPrefab.gameObject.SetActive(false);
             InitializeDropDown();
 
@@ -61,7 +61,7 @@ namespace UtilLibs.UIcmp
                 DropDownContent.SetActive(true);
                 foreach (var entry in DropDownEntries)
                 {
-                    var toggle = Util.KInstantiateUI<FToggle2>(entryPrefab.gameObject, DropDownContent, true);
+                    var toggle = Util.KInstantiateUI<FToggle>(entryPrefab.gameObject, DropDownContent, true);
                     toggle.SetCheckmark("Background/Checkmark");
                     toggle.SetOnFromCode(entry.Enabled);
 

@@ -16,7 +16,7 @@ namespace ModProfileManager_Addon.UnityUI.Components
     internal class ModScreenEntry : KMonoBehaviour
     {
         FButton ChangeSortOrderBt;
-        FToggle2 ModEnabled;
+        FToggle ModEnabled;
         public KMod.Mod TargetMod;
         public KMod.Label? MissingLabel = null;
         LocText ModName;
@@ -31,7 +31,7 @@ namespace ModProfileManager_Addon.UnityUI.Components
         {
             base.OnPrefabInit();
             ModName = transform.Find("Label").gameObject.GetComponent<LocText>();
-            ModEnabled = transform.Find("Background").gameObject.AddComponent<FToggle2>();
+            ModEnabled = transform.Find("Background").gameObject.AddComponent<FToggle>();
             ModEnabled.SetCheckmark("Checkmark");
             PlibConfigHighlight = transform.Find("HasPLibData").gameObject;
             plibTooltip = UIUtils.AddSimpleTooltipToObject(PlibConfigHighlight, "");

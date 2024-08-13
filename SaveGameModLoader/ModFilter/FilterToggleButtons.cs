@@ -18,7 +18,7 @@ namespace SaveGameModLoader.ModFilter
 {
     internal class FilterToggleButtons : KMonoBehaviour
     {
-        FToggle2 hideIncompatible_btn, hideDev_btn, hideLocal_btn, HideSteam_btn, HideActive_btn, HideInactive_btn, hidePins_btn;
+        FToggle hideIncompatible_btn, hideDev_btn, hideLocal_btn, HideSteam_btn, HideActive_btn, HideInactive_btn, hidePins_btn;
         //LocText hideIncompatible_lbl, hideDev_lbl, hideLocal_lbl, hideSteam_lbl, HideActive_lbl, HideInactive_lbl, hidePins_lbl;
         KImage hideIncompatible_img, hideDev_img, hideLocal_img, hideSteam_img, HideActive_img, HideInactive_img, hidePins_img;
 
@@ -171,7 +171,7 @@ namespace SaveGameModLoader.ModFilter
             HideInactive_btn.gameObject.name = "Inactive_Filter";
             hidePins_btn.gameObject.name = "Pinned_Filter";
         }
-        FToggle2 GenerateCheckbox(GameObject checkboxcontainer, GameObject parent,string LabelText, string tooltip)
+        FToggle GenerateCheckbox(GameObject checkboxcontainer, GameObject parent,string LabelText, string tooltip)
         {
             var buttonGO = Util.KInstantiateUI(togglePrefab, parent, true);
             UIUtils.TryChangeText(buttonGO.transform, "Label", LabelText);
@@ -180,7 +180,7 @@ namespace SaveGameModLoader.ModFilter
             buttonGO.TryGetComponent<RectTransform>(out var RT);
             RT.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 96);
 
-            var toggle = buttonGO.transform.Find("Checkbox").gameObject.AddComponent<FToggle2>();
+            var toggle = buttonGO.transform.Find("Checkbox").gameObject.AddComponent<FToggle>();
             //buttonGO.transform.Find("Label").TryGetComponent<LayoutElement>(out LE);
             //LE.minWidth = 30;
 

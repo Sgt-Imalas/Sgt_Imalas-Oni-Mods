@@ -34,10 +34,10 @@ namespace CustomGameSettingsModifier
         private FCycle MeteorShowers;
         private FCycle Radiation;
         private FCycle Stress;
-        private FToggle2 StressBreaks;
-        private FToggle2 CarePackages;
+        private FToggle StressBreaks;
+        private FToggle CarePackages;
         //private FToggle2 SandboxMode;
-        private FToggle2 FastWorkersMode;
+        private FToggle FastWorkersMode;
 
         public FButton CloseButton;
         public FButton CloseButton2;
@@ -227,7 +227,7 @@ namespace CustomGameSettingsModifier
 
             UIUtils.AddSimpleTooltipToObject(transform.Find("Content/Warning"), STRINGS.UI.CUSTOMGAMESETTINGSCHANGER.CHANGEWARNINGTOOLTIP);
 
-            StressBreaks = transform.Find("Content/StressReactions").FindOrAddComponent<FToggle2>();
+            StressBreaks = transform.Find("Content/StressReactions").FindOrAddComponent<FToggle>();
 
             var StressBreaksLabel = StressBreaks.transform.Find("Label").gameObject.AddOrGet<LocText>();
             StressBreaksLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.STRESS_BREAKS.NAME;
@@ -239,7 +239,7 @@ namespace CustomGameSettingsModifier
                 SetCustomGameSettings(CustomGameSettingConfigs.StressBreaks, StressBreaks.On);
             };
             
-            CarePackages = transform.Find("Content/CarePackages").FindOrAddComponent<FToggle2>();
+            CarePackages = transform.Find("Content/CarePackages").FindOrAddComponent<FToggle>();
 
             var CarePackagesLabel = CarePackages.transform.Find("Label").gameObject.AddOrGet<LocText>();
             CarePackagesLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.CAREPACKAGES.NAME;
@@ -265,7 +265,7 @@ namespace CustomGameSettingsModifier
                 SetCustomGameSettings(CustomGameSettingConfigs.SandboxMode, SandboxMode.On);
             };
             **/
-            FastWorkersMode = transform.Find("Content/FastWorkers").FindOrAddComponent<FToggle2>();
+            FastWorkersMode = transform.Find("Content/FastWorkers").FindOrAddComponent<FToggle>();
 
             var FastWorkersModeLabel = FastWorkersMode.transform.Find("Label").gameObject.AddOrGet<LocText>();
             FastWorkersModeLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.FASTWORKERSMODE.NAME;
