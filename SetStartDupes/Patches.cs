@@ -1,5 +1,6 @@
 ﻿using Database;
 using Epic.OnlineServices;
+using FMOD.Studio;
 using HarmonyLib;
 using Klei.AI;
 using PeterHan.PLib.Core;
@@ -384,15 +385,15 @@ namespace SetStartDupes
 
 
 
-                    printerSelectButtonGO = Util.KInstantiateUI(buttonWithImage,parentGO, true);
+                    printerSelectButtonGO = Util.KInstantiateUI(buttonWithImage, parentGO, true);
                     UIUtils.ListAllChildren(printerSelectButtonGO.transform);
                     var buttonRect = printerSelectButtonGO.rectTransform();
-                    if(printerSelectButtonGO.TryGetComponent<LayoutElement>(out var LE))
+                    if (printerSelectButtonGO.TryGetComponent<LayoutElement>(out var LE))
                         LE.enabled = false;
-                    
+
                     UIUtils.AddSimpleTooltipToObject(printerSelectButtonGO, MODDEDIMMIGRANTSCREEN.PRINTINGPOD_SELECT);
 
-                        buttonRect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 5, 48);
+                    buttonRect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 5, 48);
                     buttonRect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, 48);
                     var imageGO = buttonRect.Find("GameObject").gameObject;
                     var imageRect = imageGO.rectTransform();
@@ -400,7 +401,7 @@ namespace SetStartDupes
                     imageRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 40);
                     imageRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 40);
                 }
-                if(!EditingSingleDupe)//not a single dupe
+                if (!EditingSingleDupe)//not a single dupe
                 {
                     WorldContainer world = telepad.GetMyWorld();
                     var button = printerSelectButtonGO.GetComponent<KButton>();
@@ -410,7 +411,7 @@ namespace SetStartDupes
                         var sprite = starmapEntity.GetUISprite();
                         printerSelectButtonGO.transform.Find("GameObject").GetComponent<Image>().sprite = sprite;
                     }
-                    
+
                     {
                         button.ClearOnClick();
                         button.onClick += () =>
@@ -422,7 +423,7 @@ namespace SetStartDupes
                                 index = 0;
                             var nextTelepad = list[index];
                             __instance.telepad = (nextTelepad);
-                            WorldContainer world = nextTelepad.GetMyWorld(); 
+                            WorldContainer world = nextTelepad.GetMyWorld();
                             if (world != null && world.TryGetComponent<ClusterGridEntity>(out var starmapEntity))
                             {
                                 var sprite = starmapEntity.GetUISprite();
@@ -1003,14 +1004,6 @@ namespace SetStartDupes
                 NextButtonPrefab.name = "CycleButtonPrefab";
             }
 
-            //public static void Postfix(KButton ___proceedButton)
-            //{
-            //    //Debug.Log("Creating PREFAB2");
-            //    NextButtonPrefab = Util.KInstantiateUI(___proceedButton.gameObject);
-            //    //UIUtils.ListAllChildren(NextButtonPrefab.transform);
-            //    NextButtonPrefab.name = "CycleButtonPrefab";
-            //}
-
             public static void CarePackagesOnly()
             {
                 if (instance is MinionSelectScreen)
@@ -1054,7 +1047,7 @@ namespace SetStartDupes
                 }
                 else
                 {
-                    
+
                     SgtLogger.error("CarePackagesOnly Transpiler failed!");
                 }
                 return code;
@@ -1062,16 +1055,163 @@ namespace SetStartDupes
         }
 
 
+        [HarmonyPatch(typeof(NewBaseScreen), nameof(NewBaseScreen.SpawnMinions))]
+        public class DupeSpawnAdjustmentNo1
+        {
+            const float defaultDelaySecs = 0.5f;
+            const int defaultCount = 3;
+
+            static int dupeCount;
+            static float adjustedDelaySecs = 0.5f;
+
+            public static readonly MethodInfo AdjustedTimeDelay = AccessTools.Method(
+               typeof(DupeSpawnAdjustmentNo1),
+               nameof(DupeSpawnAdjustmentNo1.TimeAdjustment));
+            public static float TimeAdjustment(float currentPerDupeDelay)
+            {
+                return adjustedDelaySecs;
+            }
+
+            static void Prefix(NewBaseScreen __instance)
+            {
+                dupeCount = __instance.m_minionStartingStats.Length;
+                adjustedDelaySecs = (((float)defaultCount) * defaultDelaySecs) / dupeCount;
+                SgtLogger.l("adjustedDelay: " + adjustedDelaySecs);
+
+            }
+            [HarmonyPriority(Priority.VeryLow)]
+            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
+            {
+                var code = instructions.ToList();
+
+                var timeDelayIndex = code.FindIndex(ci => ci.LoadsConstant(defaultDelaySecs));
+
+
+                if (timeDelayIndex != -1)
+                {
+                    code.Insert(++timeDelayIndex, new CodeInstruction(OpCodes.Call, AdjustedTimeDelay));
+                }
+                else
+                    SgtLogger.error("TIME DELAY TRANSPILER FAILED: NEWBASESCREEN.SPAWNMINIONS");
+
+
+                return code;
+            }
+        }
 
         [HarmonyPatch(typeof(WattsonMessage), nameof(WattsonMessage.OnActivate))]
-        public class DupeSpawnAdjustmentNo2BecauseKleiIsKlei
+        public class DupeSpawnAdjustmentNo2
         {
             const float OxilitePerDupePerDay = 0.1f * 600f; //in KG
             const float FoodBarsPerDupePerDay = 1000 / 800f; //in Units
+
+            const float defaultDelaySecs = 0.5f;
+            const int defaultCount = 3;
+
+            static int positionIDX = 0;
+            static int dupeCount;
+            static float adjustedDelaySecs = 0.5f;
+
+
+            public static readonly MethodInfo AdjustedTimeDelay = AccessTools.Method(
+               typeof(DupeSpawnAdjustmentNo2),
+               nameof(DupeSpawnAdjustmentNo2.TimeAdjustment));
+            public static float TimeAdjustment(float currentPerDupeDelay)
+            {
+                SgtLogger.l("adjusting time to " + adjustedDelaySecs);
+                return adjustedDelaySecs;
+            }
+
+            static bool Prefix(WattsonMessage __instance)
+            {
+                positionIDX = 0;
+                dupeCount = Components.LiveMinionIdentities.Count;
+                adjustedDelaySecs = (((float)defaultCount) * defaultDelaySecs) / dupeCount;
+
+                SgtLogger.l("replacing WattsonMessage.OnActivate");
+
+
+
+                if (dupeCount == 1)
+                    __instance.birthsComplete = -1; //birthsComplete == Components.LiveMinionIdentities.Count - 1 triggers the screen, so for 1 dupe that has to be 0 after the first dupe spawned
+
+                //replacement:
+                AudioMixer.instance.Stop(AudioMixerSnapshots.Get().NewBaseSetupSnapshot);
+                AudioMixer.instance.Start(AudioMixerSnapshots.Get().IntroNIS);
+                AudioMixer.instance.activeNIS = true;
+                __instance.button.onClick += delegate
+                {
+                    __instance.StartCoroutine(__instance.CollapsePanel());
+                };
+                __instance.dialog.GetComponent<KScreen>().Show(show: false);
+                __instance.startFade = false;
+                GameObject telepad = GameUtil.GetTelepad(ClusterManager.Instance.GetStartWorld().id);
+                if (telepad != null)
+                {
+                    KAnimControllerBase kac = telepad.GetComponent<KAnimControllerBase>();
+                    kac.Play(WattsonMessage.WorkLoopAnims, KAnim.PlayMode.Loop);
+                    NameDisplayScreen.Instance.gameObject.SetActive(value: false);
+                    for (int i = 0; i < Components.LiveMinionIdentities.Count; i++)
+                    {
+                        int idx = i + 1;
+
+                        int clampedIdx = (i % 3) +1; //added for position calculation
+
+                        MinionIdentity minionIdentity = Components.LiveMinionIdentities[i];
+
+                        minionIdentity.gameObject.transform.SetPosition(new Vector3(telepad.transform.GetPosition().x + (float)clampedIdx - 1.5f, telepad.transform.GetPosition().y, minionIdentity.gameObject.transform.GetPosition().z));
+                        GameObject gameObject = minionIdentity.gameObject;
+                        ChoreProvider chore_provider = gameObject.GetComponent<ChoreProvider>();
+
+                        //these arent really doable with transpilers since they are inner classes:
+
+                        //adjusted idx -> clampedIdx (to keep any above 3 at the printer)
+                        EmoteChore chorePre = new EmoteChore(chore_provider, Db.Get().ChoreTypes.EmoteHighPriority, "anim_interacts_portal_kanim", new HashedString[1] { "portalbirth_pre_" + clampedIdx }, KAnim.PlayMode.Loop);
+
+                        //adjusted 0.5 -> adjustedDelaySecs
+                        UIScheduler.Instance.Schedule("DupeBirth", (float)idx * adjustedDelaySecs, delegate
+                        {
+                            chorePre.Cancel("Done looping");
+                            //adjusted 0.5 -> adjustedDelaySecs
+                            EmoteChore emoteChore = new EmoteChore(chore_provider, Db.Get().ChoreTypes.EmoteHighPriority, "anim_interacts_portal_kanim", new HashedString[1] { "portalbirth_" + clampedIdx });
+                            emoteChore.onComplete = (Action<Chore>)Delegate.Combine(emoteChore.onComplete, (Action<Chore>)delegate
+                            {
+                                __instance.birthsComplete++;
+                                if (__instance.birthsComplete == Components.LiveMinionIdentities.Count - 1  && __instance.IsActive())
+                                {
+                                    NameDisplayScreen.Instance.gameObject.SetActive(value: true);
+                                    __instance.PauseAndShowMessage();
+                                }
+                            });
+                        });
+                    }
+
+                    UIScheduler.Instance.Schedule("Welcome", 6.6f, delegate
+                    {
+                        kac.Play(new HashedString[2] { "working_pst", "idle" });
+                    });
+                    CameraController.Instance.DisableUserCameraControl = true;
+                }
+                else
+                {
+                    Debug.LogWarning("Failed to spawn telepad - does the starting base template lack a 'Headquarters' ?");
+                    __instance.PauseAndShowMessage();
+                }
+
+                __instance.scheduleHandles.Add(UIScheduler.Instance.Schedule("GoHome", 0.1f, delegate
+                {
+                    CameraController.Instance.OrthographicSize = TuningData<WattsonMessage.Tuning>.Get().initialOrthographicSize;
+                    CameraController.Instance.CameraGoHome(0.5f);
+                    __instance.startFade = true;
+                    MusicManager.instance.PlaySong(__instance.WelcomeMusic);
+                }));
+                return false;
+
+            }
+
             static void Postfix()
             {
-                int dupeCount = Components.LiveMinionIdentities.Count;
-
+                SgtLogger.l("Starting dupe count: " + dupeCount);
                 if (Config.Instance.StartupResources && dupeCount > 3)
                 {
                     GameObject telepad = GameUtil.GetTelepad(ClusterManager.Instance.GetStartWorld().id);
@@ -1109,51 +1249,104 @@ namespace SetStartDupes
                     GameComps.Fallers.Remove(go);
                 GameComps.Fallers.Add(go, initial_velocity);
             }
+            //public static int IdxAdjustment(int currentIdx)
+            //{
+            //    positionIDX++;
+            //    return currentIdx % 3;
+            //}
+            //public static int TrueIdx(int currentIdx)
+            //{
+            //    return positionIDX;
+            //}
+
+            //public static float AdjustCellX(float OldX, GameObject printingPod, int index) ///int requirement to consume previous "3" on stack
+            //{
+            //    int newCell = Grid.PosToCell(printingPod) + ((index + 1) % 4 - 1);
+            //    //Debug.Log("Old CellPosX: " + OldX + ", New CellPos: " + Grid.CellToXY(newCell));
+            //    //YeetOxilite(printingPod, 150f);
+            //    return (float)Grid.CellToXY(newCell).x + 0.5f;
+            //}
+
+            //public static readonly MethodInfo NewCellX = AccessTools.Method(
+            //   typeof(DupeSpawnAdjustmentNo2),
+            //   nameof(DupeSpawnAdjustmentNo2.AdjustCellX));
+
+            //public static readonly MethodInfo IDXAdjustment = AccessTools.Method(
+            //   typeof(DupeSpawnAdjustmentNo2),
+            //   nameof(DupeSpawnAdjustmentNo2.IdxAdjustment));
+
+            //public static readonly MethodInfo GetTrueIdx = AccessTools.Method(
+            //   typeof(DupeSpawnAdjustmentNo2),
+            //   nameof(DupeSpawnAdjustmentNo2.TrueIdx));
+
+            //public static readonly MethodInfo GetPrintingPodInfo = AccessTools.Method(
+            //   typeof(GameUtil),
+            //   nameof(GameUtil.GetTelepad));
+
+            //public static readonly MethodInfo GetDupeFromComponentInfo = AccessTools.Method(
+            //   typeof(Components.Cmps<MinionIdentity>),
+            //   ("get_Item"));
 
 
-            public static float AdjustCellX(float OldX, GameObject printingPod, int index) ///int requirement to consume previous "3" on stack
-            {
-                int newCell = Grid.PosToCell(printingPod) + ((index + 1) % 4 - 1);
-                //Debug.Log("Old CellPosX: " + OldX + ", New CellPos: " + Grid.CellToXY(newCell));
-                //YeetOxilite(printingPod, 150f);
-                return (float)Grid.CellToXY(newCell).x + 0.5f;
-            }
+            //[HarmonyPriority(Priority.VeryLow)]
+            //static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
+            //{
+            //    var code = instructions.ToList();
 
-            public static readonly MethodInfo NewCellX = AccessTools.Method(
-               typeof(DupeSpawnAdjustmentNo2BecauseKleiIsKlei),
-               nameof(DupeSpawnAdjustmentNo2BecauseKleiIsKlei.AdjustCellX));
-
-            public static readonly MethodInfo GetPrintingPodInfo = AccessTools.Method(
-               typeof(GameUtil),
-               nameof(GameUtil.GetTelepad));
-
-            public static readonly MethodInfo GetDupeFromComponentInfo = AccessTools.Method(
-               typeof(Components.Cmps<MinionIdentity>),
-               ("get_Item"));
+            //    var timeDelayIndex = code.FindIndex(ci => ci.LoadsConstant(defaultDelaySecs));
 
 
-            [HarmonyPriority(Priority.VeryLow)]
-            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
-            {
-                var code = instructions.ToList();
-                var insertionIndex = code.FindLastIndex(ci => ci.opcode == OpCodes.Sub);
-                var insertionIndexPrintingPodInfo = code.FindIndex(ci => ci.opcode == OpCodes.Call && ci.operand is MethodInfo f && f == GetPrintingPodInfo);
-                var minionGetterIndexInfo = code.FindIndex(ci => ci.opcode == OpCodes.Callvirt && ci.operand is MethodInfo f && f == GetDupeFromComponentInfo);
+            //    if (timeDelayIndex != -1)
+            //    {
+            //        code.Insert(++timeDelayIndex, new CodeInstruction(OpCodes.Call, AdjustedTimeDelay));
+            //    }
+            //    else
+            //        SgtLogger.error("TIME DELAY TRANSPILER FAILED: WATTSONMESSAGE.ONACTIVATE");
 
-                //foreach (var v in code) { Debug.Log(v.opcode + " -> " + v.operand); };
-                if (insertionIndex != -1)
-                {
-                    int printingPodIndex = TranspilerHelper.FindIndexOfNextLocalIndex(code, insertionIndexPrintingPodInfo, false);
-                    int IDXIndex = TranspilerHelper.FindIndexOfNextLocalIndex(code, minionGetterIndexInfo);
 
-                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, printingPodIndex));
-                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, IDXIndex));
-                    code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, NewCellX));
-                    // TranspilerHelper.PrintInstructions(code);
-                }
-                //foreach (var v in code) { Console.WriteLine(v.opcode + (v.operand != null ? ": " + v.operand : "")); };
-                return code;
-            }
+            //    //var idxStoreIndex = code.FindIndex(ci => ci.opcode == OpCodes.Stfld && ci.operand.ToString().Contains("idx"));
+            //    //if (idxStoreIndex != -1)
+            //    //{
+            //    //    code.Insert(++idxStoreIndex, new CodeInstruction(OpCodes.Call, IDXAdjustment));
+            //    //}
+            //    //else
+            //    //    SgtLogger.error("IDX TRANSPILER FAILED: WATTSONMESSAGE.ONACTIVATE");
+
+
+            //    //var schedulerIndex = code.FindIndex(ci => ci.opcode == OpCodes.Ldstr && ci.operand.ToString().Contains("DupeBirth"));
+            //    //if (schedulerIndex != -1)
+            //    //{
+            //    //    var trueIdxForSchedule = code.FindIndex(schedulerIndex, ci => ci.opcode == OpCodes.Ldfld && ci.operand.ToString().Contains("idx"));
+            //    //    if (trueIdxForSchedule != -1)
+            //    //    {
+            //    //        code.Insert(++trueIdxForSchedule, new CodeInstruction(OpCodes.Call, GetTrueIdx));
+            //    //    }
+            //    //    else
+            //    //        SgtLogger.error("IDX TIME FIX TRANSPILER FAILED: WATTSONMESSAGE.ONACTIVATE");
+            //    //}
+            //    //else
+            //    //    SgtLogger.error("IDX TIME FIX TRANSPILER FAILED: WATTSONMESSAGE.ONACTIVATE");
+
+
+            //    var insertionIndex = code.FindLastIndex(ci => ci.opcode == OpCodes.Sub);
+            //    var insertionIndexPrintingPodInfo = code.FindIndex(ci => ci.opcode == OpCodes.Call && ci.operand is MethodInfo f && f == GetPrintingPodInfo);
+            //    var minionGetterIndexInfo = code.FindIndex(ci => ci.opcode == OpCodes.Callvirt && ci.operand is MethodInfo f && f == GetDupeFromComponentInfo);
+
+            //    if (insertionIndex != -1)
+            //    {
+            //        int printingPodIndex = TranspilerHelper.FindIndexOfNextLocalIndex(code, insertionIndexPrintingPodInfo, false);
+            //        int IDXIndex = TranspilerHelper.FindIndexOfNextLocalIndex(code, minionGetterIndexInfo);
+
+            //        code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, printingPodIndex));
+            //        code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, IDXIndex));
+            //        code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, NewCellX));
+            //    }
+            //    else
+            //        SgtLogger.error("SPAWN POSITION ADJUSTMENT TRANSPILER FAILED: WATTSONMESSAGE.ONACTIVATE");
+            //    TranspilerHelper.PrintInstructions(code);
+
+            //    return code;
+            //}
         }
 
 
@@ -1345,19 +1538,20 @@ namespace SetStartDupes
                     {
                         GameObject lockPersonalityButton = Util.KInstantiateUI(buttonPrefab, __instance.reshuffleButton.transform.parent.gameObject, true);
                         var rect = lockPersonalityButton.rectTransform();
-                        if(lockPersonalityButton.TryGetComponent<LayoutElement>(out var ele)){
+                        if (lockPersonalityButton.TryGetComponent<LayoutElement>(out var ele))
+                        {
                             ele.ignoreLayout = true;
                         }
 
                         rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 60, 41f);
-                        rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, -44f,40.5f);
+                        rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, -44f, 40.5f);
                         UIUtils.AddSimpleTooltipToObject(lockPersonalityButton.transform, MODDEDIMMIGRANTSCREEN.LOCKPERSONALITY_TOOLTIP);
 
-                        var lockImage = Util.KInstantiateUI(lockPersonalityButton.transform.Find("Image").gameObject,lockPersonalityButton, true);
+                        var lockImage = Util.KInstantiateUI(lockPersonalityButton.transform.Find("Image").gameObject, lockPersonalityButton, true);
                         lockImage.name = "LockImage";
                         var lockTransform = lockImage.rectTransform();
                         lockTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 1, 22);
-                        lockTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom,3, 22);
+                        lockTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 3, 22);
 
                         //UIUtils.TryChangeText(text, "", CONGENITALTRAITS.NONE.NAME);
                         UIUtils.AddActionToButton(rect, "", () =>
@@ -1420,7 +1614,7 @@ namespace SetStartDupes
             {
                 if (guaranteedTraitID == null || guaranteedTraitID.Length == 0)
                     return;
-                if(__instance.personality!=null && __instance.personality?.congenitaltrait != null)
+                if (__instance.personality != null && __instance.personality?.congenitaltrait != null)
                 {
                     var trait = Db.Get().traits.TryGet(__instance.personality.congenitaltrait);
                     if (trait != null && trait.Name != "None")
@@ -1696,7 +1890,7 @@ namespace SetStartDupes
         {
             public static MinionStartingStats GenerateWithGuaranteedSkill(bool is_starter_minion, string guaranteedAptitudeID = null, string guaranteedTraitID = null, bool isDebugMinion = false, CharacterContainer __instance = null)
             {
-                if (__instance != null 
+                if (__instance != null
                     && UnityTraitRerollingScreen.GuaranteedTraitRoll.TryGetValue(__instance, out var trait))
                 {
                     return new MinionStartingStats(is_starter_minion, guaranteedAptitudeID, trait.Id, isDebugMinion);

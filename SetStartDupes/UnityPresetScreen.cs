@@ -54,8 +54,8 @@ namespace SetStartDupes
         public FButton ClearSearchBar;
         public FInputField2 Searchbar;
 
-        public FToggle2 OverrideNamesToggle;
-        public FToggle2 OverrideReactionsToggle;
+        public FToggle OverrideNamesToggle;
+        public FToggle OverrideReactionsToggle;
 
 
         public bool CurrentlyActive;
@@ -318,13 +318,13 @@ namespace SetStartDupes
 
 
             UIUtils.AddSimpleTooltipToObject(transform.Find("HorizontalLayout/ItemInfo/Checkboxes/ReactionOverride").gameObject, HORIZONTALLAYOUT.ITEMINFO.CHECKBOXES.REACTIONOVERRIDE.TOOLTIP);
-            OverrideReactionsToggle = transform.Find("HorizontalLayout/ItemInfo/Checkboxes/ReactionOverride/Checkbox").gameObject.AddOrGet<FToggle2>();
+            OverrideReactionsToggle = transform.Find("HorizontalLayout/ItemInfo/Checkboxes/ReactionOverride/Checkbox").gameObject.AddOrGet<FToggle>();
             OverrideReactionsToggle.SetCheckmark("Checkmark");
             OverrideReactionsToggle.SetOnFromCode(OverrideReactions);
             OverrideReactionsToggle.OnChange += (result) => OverrideReactions = result;
 
             UIUtils.AddSimpleTooltipToObject(transform.Find("HorizontalLayout/ItemInfo/Checkboxes/NameOverride").gameObject, HORIZONTALLAYOUT.ITEMINFO.CHECKBOXES.NAMEOVERRIDE.TOOLTIP);
-            OverrideNamesToggle = transform.Find("HorizontalLayout/ItemInfo/Checkboxes/NameOverride/Checkbox").gameObject.AddOrGet<FToggle2>();
+            OverrideNamesToggle = transform.Find("HorizontalLayout/ItemInfo/Checkboxes/NameOverride/Checkbox").gameObject.AddOrGet<FToggle>();
             OverrideNamesToggle.SetCheckmark("Checkmark");
             OverrideNamesToggle.SetOnFromCode(OverrideNames);
             OverrideNamesToggle.OnChange += (result) => OverrideNames = result;

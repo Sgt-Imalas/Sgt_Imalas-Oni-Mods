@@ -13,7 +13,7 @@ namespace SetStartDupes.DuplicityEditing.ScreenComponents
         public string Text;
         LocText label;
         public System.Action<bool> OnCheckboxToggled;
-        FToggle2 checkboxToggle;
+        FToggle checkboxToggle;
 
         public override void OnPrefabInit()
         {
@@ -21,7 +21,7 @@ namespace SetStartDupes.DuplicityEditing.ScreenComponents
             label = transform.Find("Label").GetComponent<LocText>();
             label.SetText(Text);
 
-            checkboxToggle = transform.Find("Background").gameObject.AddOrGet<FToggle2>();
+            checkboxToggle = transform.Find("Background").gameObject.AddOrGet<FToggle>();
             checkboxToggle.SetCheckmark("Checkmark");
             checkboxToggle.OnClick += OnCheckboxToggled;
         }
