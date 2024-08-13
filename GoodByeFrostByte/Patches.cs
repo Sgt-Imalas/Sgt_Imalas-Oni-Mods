@@ -106,13 +106,12 @@ namespace GoodByeFrostByte
         /// <summary>
         /// adjust scolding temp
         /// </summary>
-        [HarmonyPatch(typeof(ScaldingMonitor.Instance))]
-        [HarmonyPatch(nameof(ScaldingMonitor.Instance.GetScoldingThreshold))]
+        [HarmonyPatch(typeof(ScaldingMonitor.Instance), MethodType.Constructor, new Type[] { typeof(IStateMachineTarget), typeof(ScaldingMonitor.Def) })]
         public static class ScaldingMonitor_GetScoldingThreshold_Patch
         {
-            public static void Postfix(ref float __result)
+            public static void Prefix(ScaldingMonitor.Def def)
             {
-                __result = UtilMethods.GetKelvinFromC(Config.Instance.FrostBiteThreshold);
+                def.defaultScoldingTreshold = UtilMethods.GetKelvinFromC(Config.Instance.FrostBiteThreshold);
             }
         }
 
