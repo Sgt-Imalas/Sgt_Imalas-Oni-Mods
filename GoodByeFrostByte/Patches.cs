@@ -4,10 +4,12 @@ using Klei.AI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using static Klei.AI.Effects;
 
 namespace GoodByeFrostByte
 {
@@ -112,6 +114,33 @@ namespace GoodByeFrostByte
             public static void Prefix(ScaldingMonitor.Def def)
             {
                 def.defaultScoldingTreshold = UtilMethods.GetKelvinFromC(Config.Instance.FrostBiteThreshold);
+            }
+        }
+        /// <summary>
+        /// fix missing temperature immunities on lead and jet suits
+        /// </summary>
+        [HarmonyPatch]
+        public static class CreateEquipmentDef_EffectImmunities
+        {
+            [HarmonyPostfix]
+            public static void Postfix(EquipmentDef __result)
+            {
+                if(__result.EffectImmunites != null)
+                {
+                    var effects = Db.Get().effects;
+
+                    if (!__result.EffectImmunites.Any(effect => effect.Id== "ColdAir"))
+                        __result.EffectImmunites.Add(effects.Get("ColdAir"));
+                    if (!__result.EffectImmunites.Any(effect => effect.Id == "WarmAir"))
+                        __result.EffectImmunites.Add(effects.Get("WarmAir"));
+                }
+            }
+            [HarmonyTargetMethods]
+            internal static IEnumerable<MethodBase> TargetMethods()
+            {
+                const string name = nameof(IEquipmentConfig.CreateEquipmentDef);
+                yield return typeof(JetSuitConfig).GetMethod(name);
+                yield return typeof(LeadSuitConfig).GetMethod(name);
             }
         }
 
