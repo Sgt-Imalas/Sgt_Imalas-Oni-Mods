@@ -81,6 +81,8 @@ namespace ClusterTraitGenerationManager.ClusterData
 
         public StarmapItem StarterPlanet { get; set; }
         public StarmapItem WarpPlanet { get; set; }
+        //key: mixing world, value: mixing target planet;
+        public Dictionary<StarmapItem, StarmapItem> MixingWorldsWithTarget = new ();
         public Dictionary<string, StarmapItem> OuterPlanets = new Dictionary<string, StarmapItem>();
         public Dictionary<string, StarmapItem> POIs = new Dictionary<string, StarmapItem>();
         public string DLC_Id = DlcManager.GetHighestActiveDlcId();

@@ -123,7 +123,7 @@ namespace ClusterTraitGenerationManager.UI.SO_StarmapEditor
         private GameObject ToolboxPOIPrefab;
         private FInputField2 POIFilterTextInput;
         private FButton deleteFilter;
-        private FToggle2 alwaysShowNames;
+        private FToggle alwaysShowNames;
         private HexGrid Grid;
         private GameObject TrashCan;
         Dictionary<string, ToolkitItem> ToolboxItems;
@@ -238,7 +238,7 @@ namespace ClusterTraitGenerationManager.UI.SO_StarmapEditor
             handler.secondaryHighlight = TrashCan.transform.Find("TrashcanIcon").gameObject.GetComponent<Image>();
             handler.hexGrid = Grid;
 
-            alwaysShowNames = transform.Find("Footer/Toolbox/TrashCanContainer/ShowPermaLabels").gameObject.AddOrGet<FToggle2>();
+            alwaysShowNames = transform.Find("Footer/Toolbox/TrashCanContainer/ShowPermaLabels").gameObject.AddOrGet<FToggle>();
             alwaysShowNames.SetCheckmark("Background/Checkmark");
             alwaysShowNames.On = Grid.AlwaysShowNames;
             alwaysShowNames.OnClick += (b) => Grid.AlwaysShowNames = b;

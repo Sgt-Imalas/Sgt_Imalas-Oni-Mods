@@ -21,8 +21,16 @@ namespace ClusterTraitGenerationManager.ClusterData
         public string POIGroupUID = string.Empty;
 
         [JsonIgnore] public Sprite planetSprite;
+        [JsonIgnore] public Sprite planetMixingSprite => world_mixing?.planetSprite;
 
-        [JsonIgnore] public ProcGen.World world;
+        [JsonIgnore] public ProcGen.World world => world_mixing != null? world_mixing.world : world_internal;
+        [JsonIgnore] public ProcGen.World World_Internal => world_internal;
+        [JsonIgnore] public bool IsMixed => world_mixing != null;
+        [JsonIgnore] public StarmapItem MixingTarget => world_mixing;
+
+
+        [JsonIgnore] private ProcGen.World world_internal;
+        [JsonIgnore] private StarmapItem world_mixing;
         [JsonIgnore] public Vector2I originalWorldDimensions;
         [JsonIgnore] public string ModName = string.Empty;
         [JsonIgnore] public string DlcID = "";
@@ -60,6 +68,11 @@ namespace ClusterTraitGenerationManager.ClusterData
                     if (Strings.TryGet(world.name, out var nameEntry))
                     {
                         var name = nameEntry.ToString();
+                        if (IsMixed && World_Internal !=null && Strings.TryGet(World_Internal.name, out var namePreMixing))
+                        {
+                            name += " (" + namePreMixing.ToString() + ")";
+                        }
+
                         if (ModName != string.Empty)
                             name += " " + UIUtils.ColorText(STRINGS.UI.SPACEDESTINATIONS.MODDEDPLANET, UIUtils.rgb(212, 244, 199));
 
@@ -222,13 +235,13 @@ namespace ClusterTraitGenerationManager.ClusterData
             {
                 if (heightTrueWidthFalse)
                 {
-                    var rounded = Mathf.RoundToInt(Mathf.Max(Mathf.Min(value, originalWorldDimensions.Y * 2.6f), originalWorldDimensions.Y * 0.55f));
+                    var rounded = Mathf.RoundToInt(Mathf.Clamp(value,originalWorldDimensions.Y * 0.55f, originalWorldDimensions.Y * 2.6f));
                     if (rounded != CustomY)
                         CustomY = rounded;
                 }
                 else
                 {
-                    var rounded = Mathf.RoundToInt(Mathf.Max(Mathf.Min(value, originalWorldDimensions.X * 2.6f), originalWorldDimensions.X * 0.55f));
+                    var rounded = Mathf.RoundToInt(Mathf.Clamp(value, originalWorldDimensions.X * 0.55f,originalWorldDimensions.X * 2.6f));
 
                     if (rounded != CustomX)
                         CustomX = rounded;
@@ -448,7 +461,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 
         public StarmapItem MakeItemPlanet(ProcGen.World world)
         {
-            this.world = world;
+            this.world_internal = world;
             this.originalWorldDimensions = world.worldsize;
             //this.InitGeyserInfo();
 
@@ -469,8 +482,6 @@ namespace ClusterTraitGenerationManager.ClusterData
 
             SettingsCache.GetDlcIdAndPath(filepath, out var dlcId, out _);
             this.AssignDlc(dlcId);
-
-            SgtLogger.l("making starmapitem for " + world.filePath + ",dlc: " + dlcId);
             return this;
         }
 
@@ -517,12 +528,19 @@ namespace ClusterTraitGenerationManager.ClusterData
             placementPOI.avoidClumping = placement2.avoidClumping;
             placementPOI.numToSpawn = placement2.numToSpawn;
             placementPOI.allowedRings = new(placement2.allowedRings.min, placement2.allowedRings.max);
+            placementPOI.guarantee = placement2.guarantee;
             originalMaxPOI = placement2.allowedRings.max;
             originalMinPOI = placement2.allowedRings.min;
             //MaxNumberOfInstances = placement2.numToSpawn * 5f; 
             InstancesToSpawn = placement2.numToSpawn;
             return this;
         }
+        public StarmapItem SetWorldMixing(StarmapItem mix)
+        {
+            world_mixing = mix;
+            return this;
+        }
+        
 
         #region GeyserBlacklist
 

@@ -17,6 +17,8 @@ using System.Security.Cryptography;
 using ClusterTraitGenerationManager.ClusterData;
 using System.IO;
 using static ProcGenGame.WorldgenMixing;
+using System.Diagnostics.PerformanceData;
+using static ProcGen.World;
 
 namespace ClusterTraitGenerationManager
 {
@@ -34,20 +36,7 @@ namespace ClusterTraitGenerationManager
                 ColonyDestinationSelectScreen_ShuffleClicked_Patch.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
                 ColonyDestinationSelectScreen_CoordinateChanged_Patch.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
             }
-            //public static void AssetOnPrefabInitPostfix(Harmony harmony)
-            //{
-            //    var m_TargetMethod = AccessTools.Method("CharacterSelectionController, Assembly-CSharp:InitializeContainers");
-            //    var m_Transpiler = AccessTools.Method(typeof(CharacterSelectionController_Patch), "Transpiler");
-            //    var m_Prefix = AccessTools.Method(typeof(CharacterSelectionController_Patch), "Prefix");
-            //    var m_Postfix = AccessTools.Method(typeof(CharacterSelectionController_Patch), "Postfix");
-
-            //    harmony.Patch(m_TargetMethod, new HarmonyMethod(m_Prefix), new HarmonyMethod(m_Postfix), new HarmonyMethod(m_Transpiler));
-            //}
         }
-
-
-
-
         //[HarmonyPatch(typeof(SaveGame), "GetColonyToolTip")]
         public static class LayoutNameFix
         {
@@ -61,7 +50,7 @@ namespace ClusterTraitGenerationManager
 
             public static void Postfix(ref List<Tuple<string, TextStyleSetting>> __result, SaveGame __instance)
             {
-                if (Game.clusterId == CustomClusterID)
+                if (Game.clusterId == CustomClusterID || SaveGameData.IsCustomCluster())
                 {
                     var array = __result.ToArray();
                     array[1] = new Tuple<string, TextStyleSetting>((string)STRINGS.CLUSTER_NAMES.CGM.NAME, ToolTipScreen.Instance.defaultTooltipBodyStyle);
@@ -109,12 +98,18 @@ namespace ClusterTraitGenerationManager
         {
             public static void Postfix(PauseScreen __instance)
             {
-                if (Game.clusterId == CustomClusterID)
+                if (Game.clusterId == CustomClusterID || SaveGameData.IsCustomCluster())
                 {
-                    string settingsCoordinate = CustomGameSettings.Instance.GetSettingsCoordinate().Replace("SNDST-C", "CGM").Replace("SNDST-A", "CGM");
+                    var inst = CustomGameSettings.Instance;
+                    SettingLevel currentQualitySetting2 = inst.GetCurrentQualitySetting(CustomGameSettingConfigs.WorldgenSeed);
+                    string otherSettingsCode = inst.GetOtherSettingsCode();
+                    string storyTraitSettingsCode = inst.GetStoryTraitSettingsCode();
+                    string mixingSettingsCode = inst.GetMixingSettingsCode();
+                    string settingsCoordinate = $"{CustomClusterIDCoordinate}-{currentQualitySetting2.id}-{otherSettingsCode}-{storyTraitSettingsCode}-{mixingSettingsCode}";
                     string[] settingCoordinate = CustomGameSettings.ParseSettingCoordinate(settingsCoordinate);
+
                     __instance.worldSeed.SetText(string.Format((string)global::STRINGS.UI.FRONTEND.PAUSE_SCREEN.WORLD_SEED, (object)settingsCoordinate));
-                    __instance.worldSeed.GetComponent<ToolTip>().toolTip = string.Format((string)global::STRINGS.UI.FRONTEND.PAUSE_SCREEN.WORLD_SEED_TOOLTIP, "CGM", settingCoordinate[2], (object)settingCoordinate[3], (object)settingCoordinate[4], settingCoordinate[5]);
+                    __instance.worldSeed.GetComponent<ToolTip>().toolTip = string.Format((string)global::STRINGS.UI.FRONTEND.PAUSE_SCREEN.WORLD_SEED_TOOLTIP, CustomClusterIDCoordinate, settingCoordinate[2], (object)settingCoordinate[3], (object)settingCoordinate[4], settingCoordinate[5]);
 
                 }
             }
@@ -142,7 +137,6 @@ namespace ClusterTraitGenerationManager
         {
             public static void Prefix(ColonyDestinationSelectScreen __instance)
             {
-
                 InitExtraWorlds.InitWorlds();
                 OverrideWorldSizeOnDataGetting.ResetCustomSizes();
 
@@ -494,10 +488,49 @@ namespace ClusterTraitGenerationManager
         }
 
         ////[HarmonyPatch(typeof(Db),(nameof(Db.Initialize)))]
+        ///Planet generation in spaced out
         public static class InitExtraWorlds
         {
             //ProcGenGame.WorldGen.LoadSettings_Internal()
             static bool initialized = false;
+
+            static void CopyAllWorldTraits(ProcGen.World source, ProcGen.World target, StarmapItemCategory category)
+            {
+                target.worldTraitRules = new List<ProcGen.World.TraitRule>();
+
+                Debug.Assert(source != target, "Source == Target");
+                Debug.Assert(source.worldTraitRules != target.worldTraitRules, "Source.worldTraitRules == Target.worldTraitRules");
+                List<ProcGen.World.TraitRule> newRules = new();
+
+                if (source.worldTraitRules != null && source.worldTraitRules.Count > 0)
+                {
+                    foreach (var rule in source.worldTraitRules)
+                    {
+                        var newRule = new ProcGen.World.TraitRule(rule.min, rule.max);
+                        newRule.requiredTags = rule.requiredTags != null ? new List<string>(rule.requiredTags) : new();
+                        newRule.specificTraits = rule.specificTraits != null ? new List<string>(rule.specificTraits) : new();
+                        newRule.forbiddenTags = rule.forbiddenTags != null ? new List<string>(rule.forbiddenTags) : new();
+                        newRule.forbiddenTraits = rule.forbiddenTraits != null ? new List<string>(rule.forbiddenTraits) : new();
+
+                        if (category != StarmapItemCategory.Starter)
+                        {
+                            if (newRule.forbiddenTags.Contains("StartWorldOnly"))
+                                newRule.forbiddenTags.Remove("StartWorldOnly");
+                            if (!newRule.forbiddenTags.Contains("StartChange")) //displaced pod trait
+                                newRule.forbiddenTags.Add("StartChange");
+                        }
+                        else
+                        {
+                            if (!newRule.forbiddenTags.Contains("StartWorldOnly"))
+                                newRule.forbiddenTags.Add("StartWorldOnly");
+                            if (newRule.forbiddenTags.Contains("StartChange"))
+                                newRule.forbiddenTags.Remove("StartChange");
+                        }
+                        target.worldTraitRules.Add(newRule);
+                    }
+                }
+            }
+
             public static void InitWorlds()
             {
                 if (initialized)
@@ -517,8 +550,10 @@ namespace ClusterTraitGenerationManager
                     if ((int)sourceWorld.Value.skip >= 99 || sourceWorld.Value.moduleInterior)
                         continue;
 
-                    ///Moonlets already exist in all 3 configurations
-                    if (CGSMClusterManager.SkipWorldForDlcReasons(sourceWorld.Key, sourceWorld.Value) || ModAssets.Moonlets.Contains(sourceWorld.Key))
+
+                    if (CGSMClusterManager.SkipWorldForDlcReasons(sourceWorld.Key, sourceWorld.Value)
+                        || CGSMClusterManager.IsWorldMixingAsteroid(sourceWorld.Key)
+                        || ModAssets.Moonlets.Contains(sourceWorld.Key)) ///Moonlets already exist in all 3 configurations
                     {
                         continue;
                     }
@@ -589,7 +624,7 @@ namespace ClusterTraitGenerationManager
 
                     if (TypeToIgnore != StarmapItemCategory.Starter)
                     {
-                        string newStartWorldPath = BaseName + "Start";
+                        string newWorldPath_Start = BaseName + "Start";
 
                         var StartWorld = new ProcGen.World();
 
@@ -612,8 +647,6 @@ namespace ClusterTraitGenerationManager
                             }
                             StartWorld.worldsize = new Vector2I(Mathf.RoundToInt(newX), Mathf.RoundToInt(newY));
                         }
-
-
 
                         StartWorld.unknownCellsAllowedSubworlds = new List<ProcGen.World.AllowedCellsFilter>(sourceWorld.Value.unknownCellsAllowedSubworlds);
                         StartWorld.subworldFiles = new List<WeightedSubworldName>(sourceWorld.Value.subworldFiles);
@@ -652,29 +685,9 @@ namespace ClusterTraitGenerationManager
                             }
 
                         }
-                        StartWorld.worldTraitRules = new List<ProcGen.World.TraitRule>();
+                        CopyAllWorldTraits(sourceWorld.Value, StartWorld, StarmapItemCategory.Starter);
 
-                        if (sourceWorld.Value.worldTraitRules != null && StartWorld.worldTraitRules.Count > 0)
-                        {
-                            foreach (var rule in sourceWorld.Value.worldTraitRules)
-                            {
-                                var newRule = new ProcGen.World.TraitRule(rule.min, rule.max);
-                                newRule.requiredTags = new List<string>(rule.requiredTags);
-                                newRule.specificTraits = new List<string>(rule.specificTraits);
-                                newRule.forbiddenTags = new List<string>(rule.forbiddenTags);
-                                newRule.forbiddenTraits = new List<string>(rule.forbiddenTraits);
-
-                                if (newRule.forbiddenTags.Contains("StartChange"))
-                                    newRule.forbiddenTags.Remove("StartChange");
-                                if (!newRule.forbiddenTags.Contains("StartWorldOnly"))
-                                    newRule.forbiddenTags.Add("StartWorldOnly");
-
-                                StartWorld.worldTraitRules.Add(newRule);
-                            }
-
-                        }
-
-                        StartWorld.filePath = newStartWorldPath;
+                        StartWorld.filePath = newWorldPath_Start;
                         StartWorld.startSubworldName = ModAPI.GetStartAreaSubworld(StartWorld, false);
                         StartWorld.startingBaseTemplate = ModAPI.GetStarterBaseTemplate(StartWorld, false);
 
@@ -761,24 +774,24 @@ namespace ClusterTraitGenerationManager
                         };
                         StartWorld.worldTemplateRules.Insert(0, TeleporterSpawn);
 
-                        toAdd.Add(new(newStartWorldPath, StartWorld));
-                        ModAssets.ModPlanetOriginPaths.Add(newStartWorldPath, sourceWorld.Key);
+                        toAdd.Add(new(newWorldPath_Start, StartWorld));
+                        ModAssets.ModPlanetOriginPaths.Add(newWorldPath_Start, sourceWorld.Key);
 
-                        SgtLogger.l(newStartWorldPath, "Created Starter Planet Variant");
+                        SgtLogger.l(newWorldPath_Start, "Created Starter Planet Variant");
 
                     }
                     ///Warp planet variant
                     if (TypeToIgnore != StarmapItemCategory.Warp)
                     {
-                        string newStartWorldPath = BaseName + "Warp";
+                        string newWorldPath_Warp = BaseName + "Warp";
 
-                        var StartWorld = new ProcGen.World();
+                        var WarpWorld = new ProcGen.World();
 
-                        CopyValues(StartWorld, sourceWorld.Value);
+                        CopyValues(WarpWorld, sourceWorld.Value);
 
-                        if (StartWorld.worldsize.X < 100 || StartWorld.worldsize.Y < 100)
+                        if (WarpWorld.worldsize.X < 100 || WarpWorld.worldsize.Y < 100)
                         {
-                            float planetSizeRatio = ((float)StartWorld.worldsize.Y) / ((float)StartWorld.worldsize.X);
+                            float planetSizeRatio = ((float)WarpWorld.worldsize.Y) / ((float)WarpWorld.worldsize.X);
                             float newX, newY;
                             if (planetSizeRatio > 1)
                             {
@@ -790,13 +803,13 @@ namespace ClusterTraitGenerationManager
                                 newX = 100f * (1f / planetSizeRatio);
                                 newY = 100f;
                             }
-                            StartWorld.worldsize = new Vector2I(Mathf.RoundToInt(newX), Mathf.RoundToInt(newY));
+                            WarpWorld.worldsize = new Vector2I(Mathf.RoundToInt(newX), Mathf.RoundToInt(newY));
                         }
 
 
-                        StartWorld.unknownCellsAllowedSubworlds = new List<ProcGen.World.AllowedCellsFilter>(sourceWorld.Value.unknownCellsAllowedSubworlds);
-                        StartWorld.subworldFiles = new List<WeightedSubworldName>(sourceWorld.Value.subworldFiles);
-                        StartWorld.worldTemplateRules = new List<ProcGen.World.TemplateSpawnRules>();
+                        WarpWorld.unknownCellsAllowedSubworlds = new List<ProcGen.World.AllowedCellsFilter>(sourceWorld.Value.unknownCellsAllowedSubworlds);
+                        WarpWorld.subworldFiles = new List<WeightedSubworldName>(sourceWorld.Value.subworldFiles);
+                        WarpWorld.worldTemplateRules = new List<ProcGen.World.TemplateSpawnRules>();
 
                         if (sourceWorld.Value.worldTemplateRules != null && sourceWorld.Value.worldTemplateRules.Count > 0)
                         {
@@ -805,80 +818,55 @@ namespace ClusterTraitGenerationManager
                                 var ruleNew = new ProcGen.World.TemplateSpawnRules();
                                 CopyValues(ruleNew, rule);
 
-                                StartWorld.worldTemplateRules.Add(ruleNew);
+                                WarpWorld.worldTemplateRules.Add(ruleNew);
                             }
                         }
-                        if (StartWorld.subworldFiles != null && StartWorld.subworldFiles.Count > 0)
+                        if (WarpWorld.subworldFiles != null && WarpWorld.subworldFiles.Count > 0)
                         {
-                            for (int i = StartWorld.subworldFiles.Count - 1; i >= 0; --i)
+                            for (int i = WarpWorld.subworldFiles.Count - 1; i >= 0; --i)
                             {
-                                if (StartWorld.subworldFiles[i].name.Contains("Start"))
+                                if (WarpWorld.subworldFiles[i].name.Contains("Start"))
                                 {
-                                    StartWorld.subworldFiles.RemoveAt(i);
+                                    WarpWorld.subworldFiles.RemoveAt(i);
                                 }
                             }
                         }
-                        if (StartWorld.unknownCellsAllowedSubworlds != null && StartWorld.unknownCellsAllowedSubworlds.Count > 0)
+                        if (WarpWorld.unknownCellsAllowedSubworlds != null && WarpWorld.unknownCellsAllowedSubworlds.Count > 0)
                         {
-                            for (int i = StartWorld.unknownCellsAllowedSubworlds.Count - 1; i >= 0; --i)
+                            for (int i = WarpWorld.unknownCellsAllowedSubworlds.Count - 1; i >= 0; --i)
                             {
-                                if (StartWorld.unknownCellsAllowedSubworlds[i].subworldNames.Any(world => world.ToLowerInvariant().Contains("start")))
-                                    StartWorld.unknownCellsAllowedSubworlds.RemoveAt(i);
+                                if (WarpWorld.unknownCellsAllowedSubworlds[i].subworldNames.Any(world => world.ToLowerInvariant().Contains("start")))
+                                    WarpWorld.unknownCellsAllowedSubworlds.RemoveAt(i);
                             }
                         }
 
 
+                        CopyAllWorldTraits(sourceWorld.Value, WarpWorld, StarmapItemCategory.Warp);
 
-                        StartWorld.worldTraitRules = new List<ProcGen.World.TraitRule>();
-
-                        if (StartWorld.worldTraitRules != null && StartWorld.worldTraitRules.Count > 0)
-                        {
-                            foreach (var rule in sourceWorld.Value.worldTraitRules)
-                            {
-                                var newRule = new ProcGen.World.TraitRule(rule.min, rule.max);
-                                newRule.requiredTags = new List<string>(rule.requiredTags);
-                                newRule.specificTraits = new List<string>(rule.specificTraits);
-                                newRule.forbiddenTags = new List<string>(rule.forbiddenTags);
-                                newRule.forbiddenTraits = new List<string>(rule.forbiddenTraits);
-
-                                if (newRule.forbiddenTags.Contains("StartChange"))
-                                    newRule.forbiddenTags.Remove("StartChange");
-                                if (newRule.forbiddenTags.Contains("StartWorldOnly"))
-                                    newRule.forbiddenTags.Remove("StartWorldOnly");
-
-                                StartWorld.worldTraitRules.Add(newRule);
-                            }
-
-                        }
-
-                        StartWorld.filePath = newStartWorldPath;
-                        StartWorld.startingBaseTemplate = ModAPI.GetStarterBaseTemplate(StartWorld, true);
-                        StartWorld.startSubworldName = ModAPI.GetStartAreaSubworld(StartWorld, true);
+                        WarpWorld.filePath = newWorldPath_Warp;
+                        WarpWorld.startingBaseTemplate = ModAPI.GetStarterBaseTemplate(WarpWorld, true);
+                        WarpWorld.startSubworldName = ModAPI.GetStartAreaSubworld(WarpWorld, true);
 
                         //Starter Biome subworld files
-                        var startBiome = new WeightedSubworldName(ModAPI.GetStartAreaSubworld(StartWorld, true), 1);
+                        var startBiome = new WeightedSubworldName(ModAPI.GetStartAreaSubworld(WarpWorld, true), 1);
                         startBiome.overridePower = 3;
 
-                        //var startBiomeWater = new WeightedSubworldName("expansion1::subworlds/sandstone/SandstoneMiniWater", 1);
-                        //startBiomeWater.overridePower = 0.7f;
-                        //startBiomeWater.maxCount = 2;
+                        WarpWorld.subworldFiles.Insert(0, startBiome);
 
-                        //StartWorld.subworldFiles.Insert(0, startBiomeWater);
-                        StartWorld.subworldFiles.Insert(0, startBiome);
                         //Starter biome placement rules
                         ProcGen.World.AllowedCellsFilter CoreBiome = new ProcGen.World.AllowedCellsFilter();
                         CoreBiome.tagcommand = ProcGen.World.AllowedCellsFilter.TagCommand.Default;
                         CoreBiome.command = ProcGen.World.AllowedCellsFilter.Command.Replace;
-                        CoreBiome.subworldNames = new List<string>() { ModAPI.GetStartAreaSubworld(StartWorld, true) };
+                        CoreBiome.subworldNames = new List<string>() { ModAPI.GetStartAreaSubworld(WarpWorld, true) };
 
-                        StartWorld.unknownCellsAllowedSubworlds.Insert(0, CoreBiome);
+                        WarpWorld.unknownCellsAllowedSubworlds.Insert(0, CoreBiome);
 
 
                         //Teleporter PlacementRules
 
                         //Deleting any of the existing teleporter templates
 
-                        StartWorld.worldTemplateRules.RemoveAll((template) => ModAPI.IsATeleporterTemplate(StartWorld, template));
+                        WarpWorld.worldTemplateRules.RemoveAll((template) => ModAPI.IsATeleporterTemplate(WarpWorld, template));
 
 
                         ProcGen.World.TemplateSpawnRules TeleporterSpawn = new ProcGen.World.TemplateSpawnRules();
@@ -925,57 +913,29 @@ namespace ClusterTraitGenerationManager
                                 tag = "NoGravitasFeatures"
                             }
                         };
-                        StartWorld.worldTemplateRules.Insert(0, TeleporterSpawn);
+                        WarpWorld.worldTemplateRules.Insert(0, TeleporterSpawn);
 
-                        //foreach (var subworld in StartWorld.subworldFiles)
-                        //    SgtLogger.l(subworld.name, "SUBWORLD");
-                        //foreach (var unknownCell in StartWorld.unknownCellsAllowedSubworlds)
-                        //    foreach (var name in unknownCell.subworldNames)
-                        //        SgtLogger.l(name, "UNKNOWNCELL");
-                        //SgtLogger.l(StartWorld.startSubworldName, "STARTSUB");
+                        toAdd.Add(new(newWorldPath_Warp, WarpWorld));
+                        ModAssets.ModPlanetOriginPaths.Add(newWorldPath_Warp, sourceWorld.Key);
 
-
-
-                        toAdd.Add(new(newStartWorldPath, StartWorld));
-                        ModAssets.ModPlanetOriginPaths.Add(newStartWorldPath, sourceWorld.Key);
-
-                        SgtLogger.l(newStartWorldPath, "Created Warp Planet Variant");
+                        SgtLogger.l(newWorldPath_Warp, "Created Warp Planet Variant");
 
                     }
 
                     if (TypeToIgnore != StarmapItemCategory.Outer)
                     {
-                        string newStartWorldPath = BaseName + "Outer";
+                        string newWorldPath_Outer = BaseName + "Outer";
 
-                        var StartWorld = new ProcGen.World();
+                        var OuterWorld = new ProcGen.World();
 
-                        CopyValues(StartWorld, sourceWorld.Value);
-                        StartWorld.filePath = newStartWorldPath;
-                        StartWorld.startingBaseTemplate = null;
+                        CopyValues(OuterWorld, sourceWorld.Value);
+                        OuterWorld.filePath = newWorldPath_Outer;
+                        OuterWorld.startingBaseTemplate = null;
                         //StartWorld.startSubworldName = string.Empty;
 
-                        StartWorld.unknownCellsAllowedSubworlds = new List<ProcGen.World.AllowedCellsFilter>(sourceWorld.Value.unknownCellsAllowedSubworlds);
-                        StartWorld.subworldFiles = new List<WeightedSubworldName>(sourceWorld.Value.subworldFiles);
-
-                        //if (StartWorld.subworldFiles != null && StartWorld.subworldFiles.Count > 0)
-                        //{
-                        //    for (int i = StartWorld.subworldFiles.Count - 1; i >= 0; --i)
-                        //    {
-                        //        if (StartWorld.subworldFiles[i].name.Contains("Start"))
-                        //            StartWorld.subworldFiles.RemoveAt(i);
-                        //    }
-                        //}
-                        //if (StartWorld.unknownCellsAllowedSubworlds != null && StartWorld.unknownCellsAllowedSubworlds.Count > 0)
-                        //{
-                        //    for (int i = StartWorld.unknownCellsAllowedSubworlds.Count - 1; i >= 0; --i)
-                        //    {
-                        //        if (StartWorld.unknownCellsAllowedSubworlds[i].subworldNames.Any(world => world.ToLowerInvariant().Contains("start")))
-                        //            StartWorld.unknownCellsAllowedSubworlds.RemoveAt(i);
-                        //    }
-                        //}
-
-                        StartWorld.worldTemplateRules = new List<ProcGen.World.TemplateSpawnRules>();
-
+                        OuterWorld.unknownCellsAllowedSubworlds = new List<ProcGen.World.AllowedCellsFilter>(sourceWorld.Value.unknownCellsAllowedSubworlds);
+                        OuterWorld.subworldFiles = new List<WeightedSubworldName>(sourceWorld.Value.subworldFiles);
+                        OuterWorld.worldTemplateRules = new List<ProcGen.World.TemplateSpawnRules>();
 
 
                         if (sourceWorld.Value.worldTemplateRules != null && sourceWorld.Value.worldTemplateRules.Count > 0)
@@ -987,35 +947,15 @@ namespace ClusterTraitGenerationManager
 
                                 //if (ruleNew.listRule == ProcGen.World.TemplateSpawnRules.ListRule.GuaranteeAll)
                                 //    ruleNew.listRule = ProcGen.World.TemplateSpawnRules.ListRule.GuaranteeSomeTryMore;
-                                StartWorld.worldTemplateRules.Add(ruleNew);
+                                OuterWorld.worldTemplateRules.Add(ruleNew);
                             }
                         }
 
-                        StartWorld.worldTraitRules = new List<ProcGen.World.TraitRule>();
-
-                        if (StartWorld.worldTraitRules.Count > 0)
-                        {
-                            foreach (var rule in sourceWorld.Value.worldTraitRules)
-                            {
-                                var newRule = new ProcGen.World.TraitRule(rule.min, rule.max);
-                                newRule.requiredTags = new List<string>(rule.requiredTags);
-                                newRule.specificTraits = new List<string>(rule.specificTraits);
-                                newRule.forbiddenTags = new List<string>(rule.forbiddenTags);
-                                newRule.forbiddenTraits = new List<string>(rule.forbiddenTraits);
-
-                                if (newRule.forbiddenTags.Contains("StartChange"))
-                                    newRule.forbiddenTags.Remove("StartChange");
-                                if (newRule.forbiddenTags.Contains("StartWorldOnly"))
-                                    newRule.forbiddenTags.Remove("StartWorldOnly");
-
-                                StartWorld.worldTraitRules.Add(newRule);
-                            }
-
-                        }
+                        CopyAllWorldTraits(sourceWorld.Value, OuterWorld, StarmapItemCategory.Outer);
 
                         //StartWorld.unknownCellsAllowedSubworlds.RemoveAll(cellsfilter => cellsfilter.tag == "AtStart");
                         //StartWorld.subworldFiles.RemoveAll(cellsfilter => cellsfilter.name.Contains("Start"));
-                        StartWorld.worldTemplateRules.RemoveAll((template) => ModAPI.IsATeleporterTemplate(StartWorld, template));
+                        OuterWorld.worldTemplateRules.RemoveAll((template) => ModAPI.IsATeleporterTemplate(OuterWorld, template));
                         //StartWorld.worldTemplateRules.ForEach(TemplateRule =>
                         //{
                         //    if (TemplateRule.listRule == ProcGen.World.TemplateSpawnRules.ListRule.GuaranteeAll)
@@ -1025,10 +965,10 @@ namespace ClusterTraitGenerationManager
 
                         //StartWorld.worldTemplateRules.RemoveAll(cellsfilter => cellsfilter.allowedCellsFilter.Any(item=> item.tag=="AtStart"));
 
-                        toAdd.Add(new(newStartWorldPath, StartWorld));
-                        ModAssets.ModPlanetOriginPaths.Add(newStartWorldPath, sourceWorld.Key);
+                        toAdd.Add(new(newWorldPath_Outer, OuterWorld));
+                        ModAssets.ModPlanetOriginPaths.Add(newWorldPath_Outer, sourceWorld.Key);
 
-                        SgtLogger.l(newStartWorldPath, "Created Outer Planet Variant");
+                        SgtLogger.l(newWorldPath_Outer, "Created Outer Planet Variant");
                     }
 
 
@@ -1547,6 +1487,7 @@ namespace ClusterTraitGenerationManager
                     if (SaveGameData.Instance != null)
                     {
                         SgtLogger.l("writing custom cluster tags");
+                        SaveGameData.SetCustomCluster();
                         SaveGameData.WriteCustomClusterTags(CGSMClusterManager.GeneratedLayout.clusterTags);
                     }
                 }
@@ -1589,6 +1530,20 @@ namespace ClusterTraitGenerationManager
                 }
             }
         }
+        //[HarmonyPatch(typeof(SettingsCache), nameof(SettingsCache.GetRandomTraits))]
+        //public static class GetRandomTraits_test
+        //{
+        //    public static void Postfix(List<string> __result, int seed, ProcGen.World world)
+        //    {
+        //        SgtLogger.l(world.filePath.ToString() + ", " + seed);
+        //        foreach (var item in __result)
+        //        {
+        //            SgtLogger.l(item.ToString());
+        //        }
+
+        //    }
+        //}
+
 
         [HarmonyPatch(typeof(Cluster), MethodType.Constructor)]
         [HarmonyPatch(new Type[] { typeof(string), typeof(int), typeof(List<string>), typeof(bool), typeof(bool), typeof(bool) })]

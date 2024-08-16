@@ -42,8 +42,8 @@ namespace ClusterTraitGenerationManager
                     && __instance.clusterTag != null
                     && Game.clusterId == CGSMClusterManager.CustomClusterID
                     && DlcManager.IsContentSubscribed(DlcManager.DLC2_ID)
-                    && SaveLoader.Instance.IsDLCActiveForCurrentSave(DlcManager.DLC2_ID)
-                    && SaveGameData.Instance != null)
+                    && SaveGameData.Instance != null
+                    && SaveLoader.Instance.IsDLCActiveForCurrentSave(DlcManager.DLC2_ID))
                 {
                     __result = SaveGameData.Instance.IsCeresAsteroidInCluster(__instance.clusterTag);
                 }

@@ -357,21 +357,21 @@ namespace ClusterTraitGenerationManager
             public StarmapItemCategory category;
             public WorldSizePresets sizePreset;
             public WorldRatioPresets ratioPreset;
-            public int customX=-1, customY =-1;
+            public int customX = -1, customY = -1;
             public List<string> meteorSeasons;
             public List<string> planetTraits;
             public List<string> pois;
             public List<string> geysers;
             public List<string> geyserBlacklists;
             public bool geyserBlacklistAffectsNonGenerics;
-            public bool allowDuplicates, avoidClumping;
+            public bool allowDuplicates, avoidClumping, guarantee;
 
             public SerializableStarmapItem AddGeysers(List<string> geyserIDs)
             {
                 geysers = new List<string>(geyserIDs);
                 return this;
             }
-            public SerializableStarmapItem AddGeyserBlacklists(List<string> geyserIDs,bool nonGenerics)
+            public SerializableStarmapItem AddGeyserBlacklists(List<string> geyserIDs, bool nonGenerics)
             {
                 geyserBlacklists = new List<string>(geyserIDs);
                 geyserBlacklistAffectsNonGenerics = nonGenerics;
@@ -398,12 +398,13 @@ namespace ClusterTraitGenerationManager
                 this.customY = customY;
                 return this;
             }
-            public SerializableStarmapItem AddPoiData(bool _avoidClumping, bool _canSpawnDuplicates, List<string> POIs)
+            public SerializableStarmapItem AddPoiData(bool _avoidClumping, bool _canSpawnDuplicates, List<string> POIs, bool _guarantee)
             {
                 avoidClumping = _avoidClumping;
-                    allowDuplicates = _canSpawnDuplicates;
-                    pois = new(POIs);
-                return this; 
+                allowDuplicates = _canSpawnDuplicates;
+                pois = new(POIs);
+                guarantee = _guarantee;
+                return this;
             }
 
             public SerializableStarmapItem(
@@ -412,7 +413,7 @@ namespace ClusterTraitGenerationManager
                 int minRing,
                 int maxRing,
                 int buffer,
-                float numberToSpawn, 
+                float numberToSpawn,
                 StarmapItemCategory category)
             {
                 this.itemID = itemID;
@@ -443,7 +444,7 @@ namespace ClusterTraitGenerationManager
                     poiItem.buffer,
                     poiItem.InstancesToSpawn,
                     poiItem.category)
-                .AddPoiData(poiItem.placementPOI.avoidClumping, poiItem.placementPOI.canSpawnDuplicates, poiItem.placementPOI.pois);
+                .AddPoiData(poiItem.placementPOI.avoidClumping, poiItem.placementPOI.canSpawnDuplicates, poiItem.placementPOI.pois, poiItem.placementPOI.guarantee);
             }
             public static SerializableStarmapItem InitRandomPlanet(StarmapItem poiItem)
             {
@@ -484,9 +485,9 @@ namespace ClusterTraitGenerationManager
                     poiItem.CustomY)
                     .AddMeteors(poiItem.world.seasons)
                     .AddGeysers(poiItem.GeyserOverrideIDs)
-                    .AddGeyserBlacklists(poiItem.GeyserBlacklistIDs,poiItem.GeyserBlacklistAffectsNonGenerics)
+                    .AddGeyserBlacklists(poiItem.GeyserBlacklistIDs, poiItem.GeyserBlacklistAffectsNonGenerics)
                     .AddTraits(poiItem.CurrentTraits);
-                    ;
+                ;
             }
         }
 
@@ -629,7 +630,8 @@ namespace ClusterTraitGenerationManager
                         pois = poi.Value.pois,
                         canSpawnDuplicates = poi.Value.allowDuplicates,
                         avoidClumping = poi.Value.avoidClumping,
-                        numToSpawn = (int)Mathf.FloorToInt(poi.Value.numberToSpawn)
+                        numToSpawn = (int)Mathf.FloorToInt(poi.Value.numberToSpawn),
+                        guarantee = poi.Value.guarantee
 
                     }, poi.Value.numberToSpawn);
                 }
@@ -695,7 +697,7 @@ namespace ClusterTraitGenerationManager
 
             if (reciever.world != null)
             {
-                reciever.world.seasons = item.meteorSeasons;                
+                reciever.world.seasons = item.meteorSeasons;
             }
             if (!reciever.IsPOI && !reciever.IsRandom)
             {

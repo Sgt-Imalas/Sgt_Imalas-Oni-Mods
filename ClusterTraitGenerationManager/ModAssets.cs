@@ -3,6 +3,7 @@ using ClusterTraitGenerationManager.GeyserExperiments;
 using Klei;
 using MonoMod.Utils;
 using ProcGen;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -390,6 +391,11 @@ public static List<string> NonUniquePOI_Ids
 
             SgtLogger.l("getting generic geyser at " + position.ToString() + ", seed :" + seed+" --> "+geyserID);
             return geyserID;
+        }
+
+        internal static bool HasWorldMixingAsteroids()
+        {
+            return SettingsCache.worldMixingSettings.Count > 0;
         }
 
         public static List<KeyValuePair<string, WorldTrait>> AllTraitsWithRandom

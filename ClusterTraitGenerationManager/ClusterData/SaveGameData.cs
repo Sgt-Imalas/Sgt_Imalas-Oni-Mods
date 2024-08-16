@@ -15,12 +15,29 @@ namespace ClusterTraitGenerationManager.ClusterData
 
         public static SaveGameData Instance = null;
 
+        [SerializeField][Serialize] private bool _isCustomCluster = false;
+
         //internal bool TryGetGeyserOverride(GameObject placer, out string overrideID)
         //{
         //    overrideID = null;
         //    return false;
         //    var world = placer.GetMyWorld();
         //}
+        public static void SetCustomCluster(bool isCustomCluster = true)
+        {
+            if(Instance!=null)
+            {
+                Instance._isCustomCluster = isCustomCluster;
+            }
+        }
+        public static bool IsCustomCluster()
+        {
+            if (Instance!=null)
+                return Instance._isCustomCluster;
+            return false;
+
+        }
+
         public static void WriteCustomClusterTags(List<string> tags)
         {
             SgtLogger.l("writing tags, hasInstance:" + (Instance != null));

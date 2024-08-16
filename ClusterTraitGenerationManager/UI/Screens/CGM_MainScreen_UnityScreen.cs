@@ -45,12 +45,12 @@ namespace ClusterTraitGenerationManager.UI.Screens
         private FCycle MeteorShowers;
         private FCycle Radiation;
         private FCycle Stress;
-        private FToggle2 StressBreaks;
-        private FToggle2 CarePackages;
-        private FToggle2 SandboxMode;
-        private FToggle2 FastWorkersMode;
-        private FToggle2 SaveToCloud;
-        private FToggle2 Teleporters;
+        private FToggle StressBreaks;
+        private FToggle CarePackages;
+        private FToggle SandboxMode;
+        private FToggle FastWorkersMode;
+        private FToggle SaveToCloud;
+        private FToggle Teleporters;
 
 
         private void AddMissingCustomGameSetting(SettingConfig type)
@@ -292,7 +292,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
             SwitchPrefab.SetActive(false);
             // UIUtils.AddSimpleTooltipToObject(transform.Find("Content/Warning"), STRINGS.UI.CUSTOMGAMESETTINGSCHANGER.CHANGEWARNINGTOOLTIP);
 
-            StressBreaks = Util.KInstantiateUI(TogglePrefab, CustomGameSettingsContainer, true).gameObject.AddOrGet<FToggle2>();
+            StressBreaks = Util.KInstantiateUI(TogglePrefab, CustomGameSettingsContainer, true).gameObject.AddOrGet<FToggle>();
 
             var StressBreaksLabel = StressBreaks.transform.Find("Label").gameObject.AddOrGet<LocText>();
             StressBreaksLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.STRESS_BREAKS.NAME;
@@ -304,7 +304,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
                 SetCustomGameSettings(CustomGameSettingConfigs.StressBreaks, StressBreaks.On);
             };
 
-            CarePackages = Util.KInstantiateUI(TogglePrefab, CustomGameSettingsContainer, true).gameObject.AddOrGet<FToggle2>();
+            CarePackages = Util.KInstantiateUI(TogglePrefab, CustomGameSettingsContainer, true).gameObject.AddOrGet<FToggle>();
 
             var CarePackagesLabel = CarePackages.transform.Find("Label").gameObject.AddOrGet<LocText>();
             CarePackagesLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.CAREPACKAGES.NAME;
@@ -317,7 +317,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
             };
 
 
-            SandboxMode = Util.KInstantiateUI(TogglePrefab, CustomGameSettingsContainer, true).gameObject.AddOrGet<FToggle2>();
+            SandboxMode = Util.KInstantiateUI(TogglePrefab, CustomGameSettingsContainer, true).gameObject.AddOrGet<FToggle>();
 
             var SandboxModeLabel = SandboxMode.transform.Find("Label").gameObject.AddOrGet<LocText>();
             SandboxModeLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.SANDBOXMODE.NAME;
@@ -331,7 +331,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 
 
-            FastWorkersMode = Util.KInstantiateUI(TogglePrefab, CustomGameSettingsContainer, true).gameObject.AddOrGet<FToggle2>();
+            FastWorkersMode = Util.KInstantiateUI(TogglePrefab, CustomGameSettingsContainer, true).gameObject.AddOrGet<FToggle>();
 
             var FastWorkersModeLabel = FastWorkersMode.transform.Find("Label").gameObject.AddOrGet<LocText>();
             FastWorkersModeLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.FASTWORKERSMODE.NAME;
@@ -343,7 +343,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
                 SetCustomGameSettings(CustomGameSettingConfigs.FastWorkersMode, v);
             };
 
-            SaveToCloud = Util.KInstantiateUI(TogglePrefab, CustomGameSettingsContainer, true).gameObject.AddOrGet<FToggle2>();
+            SaveToCloud = Util.KInstantiateUI(TogglePrefab, CustomGameSettingsContainer, true).gameObject.AddOrGet<FToggle>();
 
             var SaveToCloudLabel = SaveToCloud.transform.Find("Label").gameObject.AddOrGet<LocText>();
             SaveToCloudLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.SAVETOCLOUD.NAME;
@@ -356,7 +356,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
             };
 
 
-            Teleporters = Util.KInstantiateUI(TogglePrefab, CustomGameSettingsContainer, true).gameObject.AddOrGet<FToggle2>();
+            Teleporters = Util.KInstantiateUI(TogglePrefab, CustomGameSettingsContainer, true).gameObject.AddOrGet<FToggle>();
             if (DlcManager.IsExpansion1Active())
             {
                 var TeleportersLabel = Teleporters.transform.Find("Label").gameObject.AddOrGet<LocText>();
@@ -593,7 +593,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
         GameObject PlanetoidCategoryPrefab;
         public GameObject categoryListContent;
 
-        FToggle2 DLC2_Toggle;
+        FToggle DLC2_Toggle;
 
         GameObject StoryTraitButton;
 
@@ -656,19 +656,19 @@ namespace ClusterTraitGenerationManager.UI.Screens
         private GameObject Details_StoryTraitContainer;
         private Image StoryTraitImage;
         private LocText StoryTraitDesc;
-        public FToggle2 StoryTraitToggle;
+        public FToggle StoryTraitToggle;
 
 
         private FSlider ClusterSize;
 
         public FInputField2 SeedInput_Main;
         public FButton SeedCycleButton_Main;
-        public FToggle2 SeedRerollsTraitsToggle_Main;
-        public FToggle2 SeedRerollsVanillaStarmapToggle;
+        public FToggle SeedRerollsTraitsToggle_Main;
+        public FToggle SeedRerollsVanillaStarmapToggle;
 
 
         private LocText StarmapItemEnabledText;
-        private FToggle2 StarmapItemEnabled;
+        private FToggle StarmapItemEnabled;
 
         public FInputField2 NumberToGenerateInput;
 
@@ -740,7 +740,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
         private GameObject GeyserBlacklistPrefab;
         private Dictionary<string, GameObject> ActiveGeyserBlacklists = new();
         private FButton AddBlacklistedGeysers;
-        private FToggle2 BlacklistAffectsNonGenerics;
+        private FToggle BlacklistAffectsNonGenerics;
 
         //BiomeMixings
         private GameObject BiomeMixingContainer;
@@ -770,13 +770,13 @@ namespace ClusterTraitGenerationManager.UI.Screens
             transform.Find("Categories/DLCFooter/Title/Label").gameObject.GetComponent<LocText>().SetText(global::STRINGS.UI.FRONTEND.COLONYDESTINATIONSCREEN.MIXING_DLC_HEADER);
             transform.Find("Categories/DLCFooter/Item/Label").gameObject.GetComponent<LocText>().SetText(global::STRINGS.UI.DLC2.NAME);
 
-            DLC2_Toggle = transform.Find("Categories/DLCFooter/Item/Checkbox").gameObject.AddComponent<FToggle2>();
+            DLC2_Toggle = transform.Find("Categories/DLCFooter/Item/Checkbox").gameObject.AddComponent<FToggle>();
             DLC2_Toggle.SetCheckmark("Checkmark");
 
             DLC2_Toggle.SetOnFromCode(isDLC2Active);
             DLC2_Toggle.OnClick += (v) =>
             {
-                SetDLCMixingSettings(CustomMixingSettingsConfigs.DLC2Mixing, v);
+                ToggleDlc2(v);
             };
 
             StoryTraitButton = transform.Find("Categories/FooterContent/StoryTraits").gameObject;
@@ -803,14 +803,10 @@ namespace ClusterTraitGenerationManager.UI.Screens
             SgtLogger.l("Hooking up GalleryContainers");
 
             CustomGameSettingsContent = transform.Find("ItemSelection/CustomGameSettingsContent").gameObject;
-            VanillaStarmapItemContent = transform.Find("ItemSelection/VanillaStarmapContent").gameObject;
+            StarmapItemContent = transform.Find("ItemSelection/VanillaStarmapContent").gameObject;
             StoryTraitGridContent = transform.Find("ItemSelection/StoryTraitsContent").gameObject;
             ClusterItemsContent = transform.Find("ItemSelection/StarItemContent").gameObject;
-            if (!DlcManager.IsExpansion1Active())
-            {
-                ClusterItemsContent.SetActive(false);
-            }
-
+            
             AsteroidFilter = transform.Find("ItemSelection/StarItemContent/Input").gameObject.AddOrGet<FInputField2>();
 
             AsteroidFilter.Text = string.Empty;
@@ -957,14 +953,11 @@ namespace ClusterTraitGenerationManager.UI.Screens
                     case StarmapItemCategory.Outer:
                         PlanetSprite = CustomCluster.OuterPlanets.Count > 0 ? CustomCluster.OuterPlanets.First().Value.planetSprite : Assets.GetSprite("unknown");
                         break;
-                    case StarmapItemCategory.POI:
-                        PlanetSprite = Assets.GetSprite(Db.Get().SpaceDestinationTypes.Wormhole.spriteName);
-                        break;
                     case StarmapItemCategory.SpacedOutStarmap:
                         // PlanetSprite = Assets.GetSprite(SpritePatch.starmapIcon);
                         PlanetSprite = Assets.GetSprite("hex_unknown");
                         break;
-
+                    case StarmapItemCategory.POI:
                     case StarmapItemCategory.VanillaStarmap:
                         PlanetSprite = Assets.GetSprite(Db.Get().SpaceDestinationTypes.Wormhole.spriteName);
                         break;
@@ -1195,8 +1188,9 @@ namespace ClusterTraitGenerationManager.UI.Screens
         void UpdateSO_POIGroup()
         {
             selectionHeaderLabel.SetText(ModAssets.Strings.ApplyCategoryTypeToString(string.Format(STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.HEADER.LABEL, CurrentStarmapItem.DisplayName), SelectedCategory));
-            POIGroup_AllowDuplicates.SetOn(CurrentStarmapItem.placementPOI.canSpawnDuplicates);
-            POIGroup_AvoidClumping.SetOn(CurrentStarmapItem.placementPOI.avoidClumping);
+            POIGroup_AllowDuplicates.SetOnFromCode(CurrentStarmapItem.placementPOI.canSpawnDuplicates);
+            POIGroup_AvoidClumping.SetOnFromCode(CurrentStarmapItem.placementPOI.avoidClumping);
+            POIGroup_Guarantee.SetOnFromCode(CurrentStarmapItem.placementPOI.guarantee);
             var allItems = POIGroup_Entries;
 
             for (int i = allItems.Count - 1; i >= 0; i--)
@@ -1271,6 +1265,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
             ///SpacedOut POI Group Containers
             POIGroup_AllowDuplicates.gameObject.SetActive(POIGroupSelected);
             POIGroup_AvoidClumping.gameObject.SetActive(POIGroupSelected);
+            POIGroup_Guarantee.gameObject.SetActive(POIGroupSelected);
             POIGroup_POIs.gameObject.SetActive(POIGroupSelected);
             POIGroup_AddPoiToGroup.gameObject.SetActive(POIGroupSelected);
             POIGroup_DeletePoiGroup.gameObject.SetActive(POIGroupSelected);
@@ -1460,7 +1455,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
         {
 
             CustomGameSettingsContent.SetActive(SelectedCategory == StarmapItemCategory.GameSettings);
-            VanillaStarmapItemContent.SetActive(SelectedCategory == StarmapItemCategory.VanillaStarmap || SelectedCategory == StarmapItemCategory.POI);
+            StarmapItemContent.SetActive(SelectedCategory == StarmapItemCategory.VanillaStarmap || SelectedCategory == StarmapItemCategory.POI);
             StoryTraitGridContent.SetActive(SelectedCategory == StarmapItemCategory.StoryTraits);
             ClusterItemsContent.SetActive(IsPlanetCategory(SelectedCategory));
 
@@ -1501,13 +1496,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
         {
 
             if (DlcManager.IsExpansion1Active())
-                SpacedOutStarmap.SetActive(category == StarmapItemCategory.SpacedOutStarmap);
-            //if(category == StarmapItemCategory.SpacedOutStarmap)
-            //{
-            //    Unity_SO_StarmapScreen.ShowWindow();
-            //    return;
-            //}
-
+                SpacedOutStarmap.SetActive(category == StarmapItemCategory.SpacedOutStarmap);            
             SelectedCategory = category;
             //this.categoryHeaderLabel.SetText(STRINGS.UI.CUSTOMCLUSTERUI.NAMECATEGORIES);
             SelectDefaultCategoryItem();
@@ -1541,7 +1530,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
         private GameObject VanillaStarmapItemPrefab;
         private GameObject SO_StarmapItemPrefab;
 
-        GameObject VanillaStarmapItemContent;
+        GameObject StarmapItemContent;
         Dictionary<int, VanillaStarmapRangeBand> VanillaStarmapEntries = new Dictionary<int, VanillaStarmapRangeBand>();
         Dictionary<string, SO_StarmapRangeBand> SOStarmapEntries = new Dictionary<string, SO_StarmapRangeBand>();
         Transform AddRemoveStarmapButtons;
@@ -1550,8 +1539,9 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 
 
-        public FToggle2 POIGroup_AllowDuplicates;
-        public FToggle2 POIGroup_AvoidClumping;
+        public FToggle POIGroup_AllowDuplicates;
+        public FToggle POIGroup_Guarantee;
+        public FToggle POIGroup_AvoidClumping;
         public GameObject POIGroup_POIs;
         public GameObject POIGroup_Container;
         public GameObject POIGroup_EntryPrefab;
@@ -1686,8 +1676,8 @@ namespace ClusterTraitGenerationManager.UI.Screens
         public void RebuildSoStarmap()
         {
             SgtLogger.l("rebuilding poi groups");
-            bool currentlyActive = VanillaStarmapItemContent.activeSelf;
-            VanillaStarmapItemContent.SetActive(true);
+            bool currentlyActive = StarmapItemContent.activeSelf;
+            StarmapItemContent.SetActive(true);
 
             var list = SOStarmapEntries.Values.ToList();
             for (int i = SOStarmapEntries.Count - 1; i >= 0; i--)
@@ -1703,7 +1693,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
             AddRemoveStarmapButtons.gameObject.SetActive(false);
 
             RefreshMissingItemsButton();
-            VanillaStarmapItemContent.SetActive(currentlyActive);
+            StarmapItemContent.SetActive(currentlyActive);
         }
 
         public void ResetSOStarmap(bool reset)
@@ -1771,8 +1761,8 @@ namespace ClusterTraitGenerationManager.UI.Screens
         }
         private void RebuildVanillaStarmapUI()
         {
-            bool currentlyActive = VanillaStarmapItemContent.activeSelf;
-            VanillaStarmapItemContent.SetActive(true);
+            bool currentlyActive = StarmapItemContent.activeSelf;
+            StarmapItemContent.SetActive(true);
             var list = VanillaStarmapEntries.Values.ToList();
             for (int i = list.Count - 1; i >= 0; i--)
             {
@@ -1789,7 +1779,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
             RefreshTearIndex();
             RefreshMissingItemsButton();
-            VanillaStarmapItemContent.SetActive(currentlyActive);
+            StarmapItemContent.SetActive(currentlyActive);
             if (SelectedCategory == StarmapItemCategory.VanillaStarmap)
                 CurrentlySelectedItemData = null;
         }
@@ -1883,7 +1873,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
             UIUtils.AddSimpleTooltipToObject(MinMaxDistanceSlider.transform.parent.Find("Descriptor"), MINMAXDISTANCE.DESCRIPTOR.TOOLTIP, onBottom: true, alignCenter: true);
 
             StarmapItemEnabledText = transform.Find("Details/Content/ScrollRectContainer/StarmapItemEnabled/Label").GetComponent<LocText>();
-            StarmapItemEnabled = transform.Find("Details/Content/ScrollRectContainer/StarmapItemEnabled").FindOrAddComponent<FToggle2>();
+            StarmapItemEnabled = transform.Find("Details/Content/ScrollRectContainer/StarmapItemEnabled").FindOrAddComponent<FToggle>();
             StarmapItemEnabled.SetCheckmark("Background/Checkmark");
             StarmapItemEnabled.OnClick += (v) =>
             {
@@ -2167,7 +2157,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
             SeedLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.WORLDGEN_SEED.NAME;
             UIUtils.AddSimpleTooltipToObject(SeedLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.WORLDGEN_SEED.TOOLTIP, alignCenter: true, onBottom: true);
 
-            SeedRerollsVanillaStarmapToggle = transform.Find("Details/Footer/Seed/SeedAfffectingStarmap").gameObject.AddOrGet<FToggle2>();
+            SeedRerollsVanillaStarmapToggle = transform.Find("Details/Footer/Seed/SeedAfffectingStarmap").gameObject.AddOrGet<FToggle>();
             SeedRerollsVanillaStarmapToggle.SetCheckmark("Background/Checkmark");
             SeedRerollsVanillaStarmapToggle.On = RerollStarmapWithSeedChange;
             SeedRerollsVanillaStarmapToggle.OnClick += (v) =>
@@ -2180,7 +2170,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
             UIUtils.TryChangeText(seedStarmapRerollLabel.transform, "", STRINGS.UI.SEEDLOCK.NAME_STARMAP);
             UIUtils.AddSimpleTooltipToObject(seedStarmapRerollLabel.transform, STRINGS.UI.SEEDLOCK.TOOLTIP_STARMAP, alignCenter: true, onBottom: true);
 
-            SeedRerollsTraitsToggle_Main = transform.Find("Details/Footer/Seed/SeedAfffectingTraits").FindOrAddComponent<FToggle2>();
+            SeedRerollsTraitsToggle_Main = transform.Find("Details/Footer/Seed/SeedAfffectingTraits").FindOrAddComponent<FToggle>();
             SeedRerollsTraitsToggle_Main.SetCheckmark("Background/Checkmark");
             SeedRerollsTraitsToggle_Main.On = RerollTraitsWithSeedChange;
             SeedRerollsTraitsToggle_Main.OnClick += (v) =>
@@ -2197,9 +2187,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
             InitializeMeteorShowerContainers();
             //UIUtils.AddSimpleTooltipToObject(SeedLabel.transform, global::STRINGS.UI.DETAILTABS.SIMPLEINFO.GROUPNAME_BIOMES, alignCenter: true, onBottom: true);
             InitializePlanetBiomesContainers();
-            SgtLogger.l("AAAAAAAAA");
             InitializeGeyserOverrideContainer();
-            SgtLogger.l("BBBBBBBBB");
             InitializePlanetMixingContainer();
             InitializeBiomeMixingContainer();
 
@@ -2207,12 +2195,12 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
         private void InitializeBiomeMixingContainer()
         {
-            BiomeMixingContainer = transform.Find("Details/Content/ScrollRectContainer/BiomeMixing").gameObject;
+          //  BiomeMixingContainer = transform.Find("Details/Content/ScrollRectContainer/BiomeMixing").gameObject;
         }
 
         private void InitializePlanetMixingContainer()
         {
-            WorldMixingContainer = transform.Find("Details/Content/ScrollRectContainer/WorldMixing").gameObject;
+           // WorldMixingContainer = transform.Find("Details/Content/ScrollRectContainer/WorldMixingAsteroid").gameObject;
         }
 
         private void InitializeGeyserOverrideContainer()
@@ -2239,7 +2227,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
                 GeyserSelectorScreen.InitializeView(CurrentStarmapItem, () => RefreshView(), true);
             };
 
-            BlacklistAffectsNonGenerics = transform.Find("Details/Content/ScrollRectContainer/AsteroidGeysers/Content/Blacklist/BlacklistAffectNonGenerics").gameObject.AddOrGet<FToggle2>();
+            BlacklistAffectsNonGenerics = transform.Find("Details/Content/ScrollRectContainer/AsteroidGeysers/Content/Blacklist/BlacklistAffectNonGenerics").gameObject.AddOrGet<FToggle>();
             BlacklistAffectsNonGenerics.SetCheckmark("Background/Checkmark");
             BlacklistAffectsNonGenerics.OnClick += SetCurrentGeyserBlacklistEffect;
             UIUtils.AddSimpleTooltipToObject(BlacklistAffectsNonGenerics.gameObject, ASTEROIDGEYSERS.CONTENT.BLACKLIST.BLACKLISTAFFECTNONGENERICS.TOOLTIP);
@@ -2365,7 +2353,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
         public void InitializeSO_POIGroupInfo()
         {
-            POIGroup_AllowDuplicates = transform.Find("Details/Content/ScrollRectContainer/POI_AllowDuplicates").FindOrAddComponent<FToggle2>();
+            POIGroup_AllowDuplicates = transform.Find("Details/Content/ScrollRectContainer/POI_AllowDuplicates").FindOrAddComponent<FToggle>();
             POIGroup_AllowDuplicates.SetCheckmark("Background/Checkmark");
             POIGroup_AllowDuplicates.OnClick += (v) =>
             {
@@ -2375,12 +2363,13 @@ namespace ClusterTraitGenerationManager.UI.Screens
                         return;
 
                     item.placementPOI.canSpawnDuplicates = v;
-                    if (DlcManager.IsExpansion1Active()) ResetSOStarmap(true);
+                    if (DlcManager.IsExpansion1Active()) 
+                        ResetSOStarmap(true);
                 }
             };
             UIUtils.AddSimpleTooltipToObject(POIGroup_AllowDuplicates.gameObject, POI_ALLOWDUPLICATES.TOOLTIP);
 
-            POIGroup_AvoidClumping = transform.Find("Details/Content/ScrollRectContainer/POI_AvoidClumping").FindOrAddComponent<FToggle2>();
+            POIGroup_AvoidClumping = transform.Find("Details/Content/ScrollRectContainer/POI_AvoidClumping").FindOrAddComponent<FToggle>();
             POIGroup_AvoidClumping.SetCheckmark("Background/Checkmark");
             POIGroup_AvoidClumping.OnClick += (v) =>
             {
@@ -2389,11 +2378,30 @@ namespace ClusterTraitGenerationManager.UI.Screens
                     if (item.placementPOI.avoidClumping == v)
                         return;
                     item.placementPOI.avoidClumping = v;
-                    if (DlcManager.IsExpansion1Active()) ResetSOStarmap(true);
+                    if (DlcManager.IsExpansion1Active()) 
+                        ResetSOStarmap(true);
                 }
             };
 
             UIUtils.AddSimpleTooltipToObject(POIGroup_AvoidClumping.gameObject, POI_AVOIDCLUMPING.TOOLTIP);
+
+            POIGroup_Guarantee = transform.Find("Details/Content/ScrollRectContainer/POI_Guarantee").FindOrAddComponent<FToggle>();
+            POIGroup_Guarantee.SetCheckmark("Background/Checkmark");
+            POIGroup_Guarantee.OnClick += (v) =>
+            {
+                if (CustomCluster.HasStarmapItem(CurrentStarmapItem.id, out var item) && item.category == StarmapItemCategory.POI && item.placementPOI != null)
+                {
+                    if (item.placementPOI.guarantee == v)
+                        return;
+                    item.placementPOI.guarantee = v;
+                    if (DlcManager.IsExpansion1Active())
+                        ResetSOStarmap(true);
+                }
+            };
+
+            UIUtils.AddSimpleTooltipToObject(POIGroup_Guarantee.gameObject, POI_GUARANTEE.TOOLTIP);
+
+
 
             POIGroup_DeletePoiGroup = transform.Find("Details/Content/ScrollRectContainer/SO_POIGroup_Remove").FindOrAddComponent<FButton>();
             POIGroup_DeletePoiGroup.OnClick += () =>
@@ -2478,7 +2486,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
             Details_StoryTraitContainer.SetActive(true);
             StoryTraitImage = transform.Find("Details/Content/ScrollRectContainer/StoryTrait/HeaderImage").gameObject.AddOrGet<Image>();
             StoryTraitDesc = transform.Find("Details/Content/ScrollRectContainer/StoryTrait/Description").gameObject.AddOrGet<LocText>();
-            StoryTraitToggle = transform.Find("Details/Content/ScrollRectContainer/StoryTrait/StoryTraitEnabled").gameObject.AddOrGet<FToggle2>();
+            StoryTraitToggle = transform.Find("Details/Content/ScrollRectContainer/StoryTrait/StoryTraitEnabled").gameObject.AddOrGet<FToggle>();
             StoryTraitToggle.SetCheckmark("Background/Checkmark");
             Details_StoryTraitContainer.SetActive(false);
             StoryTraitToggle.OnClick +=
@@ -2494,7 +2502,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
                 UIUtils.TryChangeText(entry.transform, "Label", Strings.Get(Story.StoryTrait.name));
                 entry.transform.Find("Image").GetComponent<Image>().sprite = Assets.GetSprite(Story.StoryTrait.icon);
                 var btn = entry.gameObject.AddOrGet<FToggleButton>();
-                FToggle2 toggle = entry.transform.Find("Background").gameObject.AddOrGet<FToggle2>();
+                FToggle toggle = entry.transform.Find("Background").gameObject.AddOrGet<FToggle>();
                 toggle.SetCheckmark("Checkmark");
                 toggle.OnClick +=
                 (v) =>
@@ -2514,7 +2522,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
             }
         }
 
-        Dictionary<string, FToggle2> StoryTraitToggleCheckmarks = new Dictionary<string, FToggle2>();
+        Dictionary<string, FToggle> StoryTraitToggleCheckmarks = new Dictionary<string, FToggle>();
         Dictionary<string, FToggleButton> StoryTraitToggleButtons = new Dictionary<string, FToggleButton>();
 
         bool StoryTraitEnabled(string id) => CustomGameSettings.Instance.GetCurrentStoryTraitSetting(id).id == StoryContentPanel.StoryState.Guaranteed.ToString();
@@ -2596,7 +2604,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 
             CustomGameSettingsContainer.SetActive(true);
-            VanillaStarmapItemContent.SetActive(true);
+            StarmapItemContent.SetActive(true);
             StoryTraitGridContent.SetActive(true);
             ClusterItemsContent.SetActive(true);
         }

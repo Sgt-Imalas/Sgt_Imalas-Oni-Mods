@@ -1,10 +1,8 @@
-﻿- added base game compatibility
-- added base game star map configuration tool
+﻿
+Features:
+- Geyser Override: allows you to guarantee certain geysers to spawn by overriding the spawn rules for generic geysers
+- Geyser Blacklist: prevent geyser types from spawning
 
-- the meteor preview now shows the individual meteor types instead of shower types
-- Story traits are now configurable in the CGM main screen
-- Game settings got moved into the CGM main screen
+Fixes:
+- fixed world trait rules not copying to dynamically generated asteroids
 
-- fixed outer planets partially shuffling their generation order, causing slight variants in tni seeds on outer planets (only applies for newly created worlds and presets)
-- fixed a crash when clicking on the colonly summary screen if there was atleast one twitch integration pocket dimension currently active
-- worlds with disabled traits can no longer receive random traits for compatibility reasons

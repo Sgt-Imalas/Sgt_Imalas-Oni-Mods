@@ -194,6 +194,11 @@
                                 public static LocString LABEL = (LocString)"Avoid Clumping:";
                                 public static LocString TOOLTIP = (LocString)"When enabled, POIs generated from this group cannot generate adjacent to other POIs.";
                             }
+                            public class POI_GUARANTEE
+                            {
+                                public static LocString LABEL = (LocString)"Guarantee all POIs:";
+                                public static LocString TOOLTIP = (LocString)"When enabled, all POIs will be spawned, even if their placement fails by regular placement rules.";
+                            }
                             public class SO_POIGROUP_REMOVE
                             {
                                 public static LocString LABEL = (LocString)"Delete this POI Group";
