@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using static Grid.Restriction;
 using static KAnim;
 
 namespace OniRetroEdition.BuildingDefModification
@@ -40,14 +41,14 @@ namespace OniRetroEdition.BuildingDefModification
                 var interacts = new HashSet<HashedString>();
                 BuildingModifications.Instance.LoadedBuildingOverrides.Values.ToList().ForEach(item =>
                 {
-                    if (item!=null && item.WorkableAnimOverrides != null && item.WorkableAnimOverrides.Count > 0)
+                    if (item != null && item.WorkableAnimOverrides != null && item.WorkableAnimOverrides.Count > 0)
                     {
-                        foreach(var anim in item.WorkableAnimOverrides)
-                        interacts.Add(anim.Value);
+                        foreach (var anim in item.WorkableAnimOverrides)
+                            interacts.Add(anim.Value);
                     }
                 });
 
-                if(interacts.Count > 0)
+                if (interacts.Count > 0)
                 {
                     InjectionMethods.RegisterCustomInteractAnim(
                         __instance, interacts);
@@ -91,7 +92,7 @@ namespace OniRetroEdition.BuildingDefModification
                             }
                             else
                                 SgtLogger.error($"WorkingOverride Animfile {workableOverride} not found!");
-                        } 
+                        }
                     }
                 }
             }
@@ -107,13 +108,13 @@ namespace OniRetroEdition.BuildingDefModification
                     }
                     BuildingModification overrideParams = BuildingModifications.Instance.LoadedBuildingOverrides[kPrefabID.PrefabID().ToString()];
 
-                    
+
                     if (overrideParams.WorkableOffsetOverride.HasValue)
                     {
 
                         var offsetOverride = overrideParams.WorkableOffsetOverride.Value;
 
-                        if(__instance.TryGetComponent<Rotatable>(out var rot) && rot.Orientation == Orientation.FlipH)
+                        if (__instance.TryGetComponent<Rotatable>(out var rot) && rot.Orientation == Orientation.FlipH)
                         {
                             offsetOverride.x = -offsetOverride.x;
                         }
@@ -124,8 +125,81 @@ namespace OniRetroEdition.BuildingDefModification
             }
         }
 
+        [HarmonyPatch(typeof(Rotatable), nameof(Rotatable.GetVisualizerFlipX))]
+        public static class Rotatable_GetVisualizerFlipX
+        {
+            private static void Postfix(Rotatable __instance, ref bool __result)
+            {
+                if (__instance.TryGetComponent<KBatchedAnimController>(out var kbac)
+                    && __instance.TryGetComponent<Building>(out var building))
+                {
+                    if (!BuildingModifications.Instance.LoadedBuildingOverrides.ContainsKey(building.Def.PrefabID.ToString()))
+                    {
+                        return;
+                    }
+                    BuildingModification overrideParams = BuildingModifications.Instance.LoadedBuildingOverrides[building.Def.PrefabID.ToString()];
 
-        [HarmonyPatch (typeof(Building),nameof(Building.OnSpawn))]
+                    if (overrideParams.FlipX.HasValue && overrideParams.FlipX.Value)
+                    {
+                        __result = !__result;
+                    }
+                }
+            }
+        }
+        [HarmonyPatch(typeof(Rotatable), nameof(Rotatable.GetVisualizerFlipY))]
+        public static class Rotatable_GetVisualizerFlipY
+        {
+            private static void Postfix(Rotatable __instance, ref bool __result)
+            {
+                if (__instance.TryGetComponent<KBatchedAnimController>(out var kbac)
+                    && __instance.TryGetComponent<Building>(out var building))
+                {
+                    if (!BuildingModifications.Instance.LoadedBuildingOverrides.ContainsKey(building.Def.PrefabID.ToString()))
+                    {
+                        return;
+                    }
+                    BuildingModification overrideParams = BuildingModifications.Instance.LoadedBuildingOverrides[building.Def.PrefabID.ToString()];
+
+                    if (overrideParams.FlipY.HasValue && overrideParams.FlipY.Value)
+                    {
+                        __result = !__result;
+                    }
+                }
+            }
+        }
+        //[HarmonyPatch(typeof(Rotatable), nameof(Rotatable.GetVisualizerOffset))]
+        //public static class Rotatable_GetVisualizerOffset
+        //{
+        //    private static void Postfix(Rotatable __instance, ref Vector3 __result)
+        //    {
+        //        if (__instance.TryGetComponent<KBatchedAnimController>(out var kbac)
+        //            && __instance.TryGetComponent<Building>(out var building))
+        //        {
+        //            if (!BuildingModifications.Instance.LoadedBuildingOverrides.ContainsKey(building.Def.PrefabID.ToString()))
+        //            {
+        //                return;
+        //            }
+        //            BuildingModification overrideParams = BuildingModifications.Instance.LoadedBuildingOverrides[building.Def.PrefabID.ToString()];
+        //            if (overrideParams.FlipY.HasValue && overrideParams.FlipY.Value)
+        //            {
+        //                if(__instance.orientation == Orientation.FlipV)
+        //                {
+        //                    __result.y = __instance.visualizerOffset.y;
+        //                }
+        //            }
+        //            if (overrideParams.FlipX.HasValue && overrideParams.FlipX.Value)
+        //            {
+        //                if (__instance.orientation == Orientation.FlipH)
+        //                {
+        //                    __result.x = __instance.visualizerOffset.x;
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
+
+
+        [HarmonyPatch(typeof(Building), nameof(Building.OnSpawn))]
         public static class AnimOverrides_OnSpawn
         {
             private static void Postfix(Building __instance)
@@ -142,16 +216,21 @@ namespace OniRetroEdition.BuildingDefModification
 
                     if (overrideParams.AnimOffsetOverrideX.HasValue || overrideParams.AnimOffsetOverrideY.HasValue)
                     {
-                        float x,y;
-                        x = overrideParams.AnimOffsetOverrideX.HasValue ? overrideParams.AnimOffsetOverrideX.Value : 1;
-                        y = overrideParams.AnimOffsetOverrideY.HasValue ? overrideParams.AnimOffsetOverrideY.Value : 1;
+                        float x, y;
+                        x = overrideParams.AnimOffsetOverrideX.HasValue ? overrideParams.AnimOffsetOverrideX.Value + 0.5f : kbac.Offset.x;
+                        y = overrideParams.AnimOffsetOverrideY.HasValue ? overrideParams.AnimOffsetOverrideY.Value : kbac.Offset.y;
 
-                        SgtLogger.l("changing anim offset to "+ new Vector2(x, y), __instance.name);
-                        kbac.Offset = new(x,y);
+                        SgtLogger.l("changing anim offset to " + new Vector2(x, y), __instance.name);
+                        if(__instance.TryGetComponent<Rotatable>(out var rot))
+                        {
+                            rot.visualizerOffset = new(x, y);
+                        }
+
+                        kbac.Offset = new(x, y);
                     }
                     if (overrideParams.AnimScaleWidthOverride.HasValue)
                     {
-                        SgtLogger.l("changing anim scale width to "+ overrideParams.AnimScaleWidthOverride.Value, __instance.name);
+                        SgtLogger.l("changing anim scale width to " + overrideParams.AnimScaleWidthOverride.Value, __instance.name);
                         kbac.animWidth = overrideParams.AnimScaleWidthOverride.Value;
                     }
                     if (overrideParams.AnimScaleHeightOverride.HasValue)
@@ -276,6 +355,10 @@ namespace OniRetroEdition.BuildingDefModification
                     {
                         BuildingTemplates.CreateFoundationTileDef(def);
                     }
+                    if (overrideParams.BuildLocationRuleOverride.HasValue)
+                    {
+                        def.BuildLocationRule = overrideParams.BuildLocationRuleOverride.Value;
+                    }
                     if (overrideParams.UtilityInputOffsetOverride.HasValue)
                     {
                         def.UtilityInputOffset = overrideParams.UtilityInputOffsetOverride.Value;
@@ -337,7 +420,7 @@ namespace OniRetroEdition.BuildingDefModification
 
                     //if (go.TryGetComponent<Workable>(out var workable))
                     //{
-                        
+
                     //    if (overrideParams.workableAnimOverride != null && overrideParams.workableAnimOverride.Length > 0)
                     //    {
                     //        var anim = Assets.GetAnim(overrideParams.workableAnimOverride);

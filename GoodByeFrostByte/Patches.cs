@@ -65,7 +65,7 @@ namespace GoodByeFrostByte
                     float Multiplied = __instance.converter.multiplier * totalValue; //-0.5f
                     float baseValue = __instance.converter.baseValue; //0;
                                                                       //result wanted: 0.66 MS -> -0.44
-                    float division = 1f / ((-Multiplied) + 1); //50% ms at -10, 33%ms at -20, 66%ms at 
+                    float division = 1f / ((-Multiplied) + 1); //50% ms at -10, 33%ms at -20, 66%ms at -5
 
                     __result = baseValue - 1 + division;
                     return false;
@@ -125,11 +125,11 @@ namespace GoodByeFrostByte
             [HarmonyPostfix]
             public static void Postfix(EquipmentDef __result)
             {
-                if(__result.EffectImmunites != null)
+                if (__result.EffectImmunites != null)
                 {
                     var effects = Db.Get().effects;
 
-                    if (!__result.EffectImmunites.Any(effect => effect.Id== "ColdAir"))
+                    if (!__result.EffectImmunites.Any(effect => effect.Id == "ColdAir"))
                         __result.EffectImmunites.Add(effects.Get("ColdAir"));
                     if (!__result.EffectImmunites.Any(effect => effect.Id == "WarmAir"))
                         __result.EffectImmunites.Add(effects.Get("WarmAir"));

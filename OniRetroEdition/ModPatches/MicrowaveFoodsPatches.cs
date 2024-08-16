@@ -18,6 +18,8 @@ namespace OniRetroEdition.ModPatches
         {
             public static void Postfix(ref GameObject __result)
             {
+                //TODO STRING FIX manual patch (breaks strings in the food tooltip)
+
                 __result = EntityTemplates.ExtendEntityToFood(EntityTemplates.CreateLooseEntity("GammaMush", global::STRINGS.ITEMS.FOOD.GAMMAMUSH.NAME, global::STRINGS.ITEMS.FOOD.GAMMAMUSH.DESC, 1f, unitMass: false, Assets.GetAnim("gammamush_kanim"), "object", Grid.SceneLayer.Front, EntityTemplates.CollisionShape.RECTANGLE, 0.8f, 0.4f, isPickupable: true), TUNING.FOOD.FOOD_TYPES.GAMMAMUSH);
                 var animHandler = __result.AddComponent<ItemLoopedAnimHandler>();
                 animHandler.LoopBaseAnim = true;

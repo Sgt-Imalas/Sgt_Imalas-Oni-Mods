@@ -500,17 +500,17 @@ namespace OniRetroEdition
 
 
 
-        [HarmonyPatch(typeof(FlyingCreatureBaitConfig))]
-        [HarmonyPatch(nameof(FlyingCreatureBaitConfig.CreateBuildingDef))]
-        public static class AirborneCritterBait_CeilingOnly
-        {
-            public static void Postfix(ref BuildingDef __result)
-            {
-                __result.ShowInBuildMenu = true;
-                __result.Deprecated = false;
-                __result.BuildLocationRule = BuildLocationRule.OnCeiling;
-            }
-        }
+        //[HarmonyPatch(typeof(FlyingCreatureBaitConfig))]
+        //[HarmonyPatch(nameof(FlyingCreatureBaitConfig.CreateBuildingDef))]
+        //public static class AirborneCritterBait_CeilingOnly
+        //{
+        //    public static void Postfix(ref BuildingDef __result)
+        //    {
+        //        __result.ShowInBuildMenu = true;
+        //        __result.Deprecated = false;
+        //        __result.BuildLocationRule = BuildLocationRule.OnCeiling;
+        //    }
+        //}
 
         [HarmonyPatch(typeof(Assets))]
         [HarmonyPatch(nameof(Assets.GetAnim))]

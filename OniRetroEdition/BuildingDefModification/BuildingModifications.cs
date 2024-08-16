@@ -246,13 +246,15 @@ namespace OniRetroEdition.BuildingDefModification
         public string animOverride;
         public string techOverride;
         public string buildMenuCategory, placedBehindBuildingId;
-
+        public BuildLocationRule? BuildLocationRuleOverride=null;
 
 
         public CellOffset? UtilityInputOffsetOverride, UtilityOutputOffsetOverride, PowerInputOffsetOverride, WorkableOffsetOverride;
         public float? AnimOffsetOverrideX, AnimOffsetOverrideY;
         public float? AnimScaleWidthOverride, AnimScaleHeightOverride, animRotation;
         public bool? placeBefore;
+        public bool? FlipX, FlipY;
+
 
         public bool? requiresMinionWorker;
         public Dictionary<string,string> WorkableAnimOverrides;
