@@ -9,6 +9,17 @@ namespace BathTub
 {
     internal class STRINGS
     {
+        public class ITEMS
+        {
+            public class INDUSTRIAL_PRODUCTS
+            {
+                public class BT_RUBBERDUCKIE
+                {
+                    public static LocString NAME = "Rubber Duckie";
+                    public static LocString DESC = "All you need for a refreshing bath.\nFloats on liquids.";
+                }
+            }
+        }
         public class BUILDING
         {
             public class STATUSITEMS

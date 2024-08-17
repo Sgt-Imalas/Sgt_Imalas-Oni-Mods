@@ -19,7 +19,7 @@ namespace BathTub
 
             public static string BathRoom_RoomId = "BathroomRoom";
             public static string PlumbedBathroomId = null;
-            public static string PrivateBedroomId = "BathroomRoom";
+            public static string PrivateBedroomId = null;
             public static float BathRoomBonus = 0.2f;
 
             public static bool BathroomBonusActive(KMonoBehaviour item)

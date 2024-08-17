@@ -24,8 +24,6 @@ namespace BathTub
                 var targetType = AccessTools.TypeByName("Database.BuildingFacades");
                 var target = AccessTools.Constructor(targetType, new[] { typeof(ResourceSet) });
                 var postfix = AccessTools.Method(typeof(InitFacadePatchForRockets), "PostfixPatch");
-
-
                 harmony.Patch(target, postfix: new HarmonyMethod(postfix));
             }
 
