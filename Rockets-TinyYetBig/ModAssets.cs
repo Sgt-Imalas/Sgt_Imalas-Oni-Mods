@@ -44,6 +44,35 @@ namespace Rockets_TinyYetBig
         public static GameObject SpaceConstructionTargetScreenWindowPrefab;
         public static KScreen SpaceConstructionTargetSecondarySideScreen;
 
+
+
+
+        public static Dictionary<int, string> Tooltips = new Dictionary<int, string>();
+        public static void InitializeCategoryTooltipDictionary()
+        {
+            Tooltips.Add(0, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.ENGINES);
+            Tooltips.Add(1, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.HABITATS);
+            Tooltips.Add(2, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.NOSECONES);
+            Tooltips.Add(3, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.DEPLOYABLES);
+            Tooltips.Add(4, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.FUEL);
+            Tooltips.Add(5, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.CARGO);
+            Tooltips.Add(6, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.POWER);
+            Tooltips.Add(7, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.PRODUCTION);
+            Tooltips.Add(8, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.UTILITY);
+            Tooltips.Add(-1, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.UNCATEGORIZED);
+
+            //engines = 0,
+            //    habitats = 1,
+            //nosecones = 2,
+            //deployables = 3,
+            //fuel = 4,
+            //cargo = 5,
+            //power = 6,
+            //production = 7,
+            //utility = 8,
+            //uncategorized = -1
+        }
+
         public static void LoadAssets()
         {
             AssetBundle bundle = AssetUtils.LoadAssetBundle("rocketryexpanded_ui_assets", platformSpecific: true);

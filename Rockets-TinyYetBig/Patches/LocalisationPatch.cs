@@ -22,6 +22,7 @@ namespace Rockets_TinyYetBig
             {
                 LocalisationUtil.Translate(typeof(STRINGS), true);
                 LocalisationUtil.FixRoomConstrains();
+                ModAssets.InitializeCategoryTooltipDictionary();
             }
         }
     }
