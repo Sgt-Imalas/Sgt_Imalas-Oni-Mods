@@ -29,7 +29,7 @@ namespace BathTub.Duck.Floating
              * X roaming
              */
             // TODO: Bias based on liquid mass in right/left cells
-            private static void ApplyXVelocityChanges(ref GravityComponent grav, float dt)
+            private static bool ApplyXVelocityChanges(ref GravityComponent grav, float dt)
             {
                 Vector2 newChange = new Vector2(grav.velocity.x, grav.velocity.y);
 
@@ -38,6 +38,7 @@ namespace BathTub.Duck.Floating
                     newChange.x += RandomXVelocity() * dt;
                 }
                 grav.velocity = newChange;
+                return newChange.x < 0f;
             }
 
             /**
@@ -59,14 +60,13 @@ namespace BathTub.Duck.Floating
                 }
                 else if (grav.velocity.y > 0)
                 {
-                    Immigration
-                    [[File: SO_Logo.png| x16px]]
                     Mathf.SmoothDamp(position.y, position.y, ref grav.velocity.y, 5f, tuning.maxVelocityInLiquid, dt);
                 }
             }
 
             private static Dictionary<int, GravityComponent> gravComponentState = new Dictionary<int, GravityComponent>(1024);
 
+            [HarmonyPriority(Priority.LowerThanNormal)]
             // TODO: Check for potential bug with 1-tile width water
             public static void Prefix(List<GravityComponent> ___data, float dt)
             {
@@ -76,9 +76,9 @@ namespace BathTub.Duck.Floating
                 for (int i = 0; i < ___data.Count; i++)
                 {
                     GravityComponent grav = ___data[i];
-                    if (!Helpers.ShouldFloat(grav.transform)) continue;
-                    
-                    ApplyXVelocityChanges(ref grav, dt);
+                    if (!Helpers.ShouldFloat(grav.transform, out var floater)) continue;
+
+                    floater.UpdateDirection(ApplyXVelocityChanges(ref grav, dt));
                     ApplyYVelocityChanges(ref grav, dt);
 
                     Vector3 pos = grav.transform.GetPosition();
@@ -101,6 +101,7 @@ namespace BathTub.Duck.Floating
                 }
             }
 
+            [HarmonyPriority(Priority.LowerThanNormal)]
             public static void Postfix(List<GravityComponent> ___data)
             {
                 foreach (var newGrav in gravComponentState)

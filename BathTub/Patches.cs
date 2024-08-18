@@ -33,6 +33,7 @@ namespace BathTub
             {
                 InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Liquids.Sanitation, BathTubConfig.ID);
 
+                ModAssets.InitSounds();
                 //SgtLogger.l("grabbing sparkle streaker fx for foam:");
                 //ModAssets.FoamFX = Util.KInstantiateUI(EffectPrefabs.Instance.SparkleStreakFX);
                 //ModAssets.InitFoam();

@@ -11,7 +11,7 @@ namespace BathTub.Duck
     internal class RubberDuckieConfig : IEntityConfig
     {
         public const string ID = "BT_RubberDuckie";
-
+        public static ComplexRecipe recipe;
         public string[] GetDlcIds()
         {
             return DlcManager.AVAILABLE_ALL_VERSIONS;
@@ -40,6 +40,7 @@ namespace BathTub.Duck
 
             looseEntity.AddOrGet<OccupyArea>();
             looseEntity.AddOrGet<Floater>();
+            looseEntity.AddOrGet<DuckNoises>();
             DecorProvider decorProvider = looseEntity.AddOrGet<DecorProvider>();
             decorProvider.SetValues(TUNING.DECOR.BONUS.TIER3);
             decorProvider.overrideName = STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.BT_RUBBERDUCKIE.NAME;

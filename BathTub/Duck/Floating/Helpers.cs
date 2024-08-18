@@ -76,13 +76,14 @@ namespace BathTub.Duck.Floating
         /**
          * check if it should float - simplified to only check for cmp and is in liquid since only the duck has this component
          */
-        public static bool ShouldFloat(Transform tr)
+        public static bool ShouldFloat(Transform tr, out Floater floater)
         {
-            if(tr == null) return false;
+            floater = null;
+            if (tr == null) return false;
 
             var go = tr.gameObject;
 
-            if( go==null || !go.TryGetComponent<Floater>(out var floater))
+            if( go==null || !go.TryGetComponent<Floater>(out floater))
                 return false;
             
             if(!IsVisiblyInLiquid(floater.GetFloatingPosition()))

@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using KSerialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +13,14 @@ namespace BathTub.Duck.Floating
     public class Floater : KMonoBehaviour, ISim4000ms
     {
         [MyCmpGet] Pickupable pickupable;
+        [Serialize] public bool isFlipped;
+        [MyCmpGet] KBatchedAnimController kbac;
+
 
         public float extendOffsetY = 0f;
         public void Sim4000ms(float dt)
         {
-            if (Helpers.ShouldFloat(transform))
+            if (Helpers.ShouldFloat(transform, out _))
             {
                 AddFaller();
                 TryMergeWithOthers();
@@ -62,6 +66,15 @@ namespace BathTub.Duck.Floating
             else
                 pos.y -= extendOffsetY;
             return pos;
+        }
+
+        internal void UpdateDirection(bool ShouldBeFlipped)
+        {
+            if (isFlipped == ShouldBeFlipped)
+                return;
+
+            isFlipped = ShouldBeFlipped;
+            kbac.FlipX = isFlipped;
         }
     }
 }
