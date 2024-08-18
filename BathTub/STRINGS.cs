@@ -20,7 +20,7 @@ namespace BathTub
                 public class BT_RUBBERDUCKIE
                 {
                     public static LocString NAME = "Rubber Duckie";
-                    public static LocString DESC = "All you need for a refreshing bath.\nFloats on liquids.\n\nArthur likes to know how they work.";
+                    public static LocString DESC = "All you need for a refreshing bath.\nFloats on liquids.\n\nArthur likes to know its exact function.\n\nHelps you think.";
                 }
             }
         }

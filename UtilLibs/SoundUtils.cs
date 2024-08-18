@@ -148,6 +148,10 @@ namespace UtilLibs
 
             var path = Path.Combine(UtilMethods.ModPath, "assets");
             var soundFile = Path.Combine(path, fileName);
+            if (!File.Exists(soundFile))
+            {
+                SgtLogger.error("Sound file does not exist: " + soundFile);
+            }
 
             var mode = FMOD.MODE._2D | FMOD.MODE._3D | FMOD.MODE._3D_WORLDRELATIVE | FMOD.MODE.CREATESAMPLE;
 
@@ -169,7 +173,6 @@ namespace UtilLibs
                 return false;
             }
         }
-
         public static int PlaySound(string key, float volume = 1f, bool global = false, GameObject attached = null, Vector3 position = default)
         {
             if (sounds.TryGetValue(key, out var sound))

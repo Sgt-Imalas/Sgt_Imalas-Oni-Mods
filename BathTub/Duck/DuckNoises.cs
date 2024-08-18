@@ -8,7 +8,8 @@ using UnityEngine.UI;
 namespace BathTub.Duck
 {
     internal class DuckNoises:KMonoBehaviour
-    {        
+    {
+
         private System.Action<object> m_onSelectObjectDelegate;
         private SchedulerHandle NextQuackHandle;
 
@@ -30,11 +31,13 @@ namespace BathTub.Duck
         public void ScheduleNextQuack()
         {
             var time = new KRandom().Next(25, 100);
-            NextQuackHandle = GameScheduler.Instance.Schedule("Quack", time, Quack);
+            //NextQuackHandle = GameScheduler.Instance.Schedule("Quack", time, Quack);
+            NextQuackHandle = GameScheduler.Instance.Schedule("Quack", 1, Quack);
         }
         public void Quack(object o)
         {
-            ModAssets.PlayRandomQuack(this);
+            if (CameraController.Instance.IsVisiblePos(this.transform.GetPosition())) //no offscreen quacks
+                ModAssets.PlayRandomQuack(this);
             ScheduleNextQuack();
         }
 

@@ -38,7 +38,7 @@ namespace BathTub.Duck.Floating
                     newChange.x += RandomXVelocity() * dt;
                 }
                 grav.velocity = newChange;
-                return newChange.x < 0f;
+                return newChange.x > 0f;
             }
 
             /**
