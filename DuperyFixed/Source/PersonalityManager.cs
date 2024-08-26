@@ -111,15 +111,14 @@ namespace Dupery
 
         public void TryAssignAccessory(string duplicantId, string slotId, string accessoryKey)
         {
-            string accessoryId = DuperyPatches.AccessoryManager.TryGetAccessoryId(slotId, accessoryKey);
-            if (accessoryId != null)
+            if (DuperyPatches.AccessoryManager.TryGetAccessoryId(slotId, accessoryKey, out string accessoryId))
             {
                 if (!accessoryOwnershipMap.ContainsKey(duplicantId))
                 {
                     accessoryOwnershipMap[duplicantId] = new Dictionary<string, string>();
                 }
 
-                accessoryOwnershipMap[duplicantId][slotId] = accessoryId;
+                accessoryOwnershipMap[duplicantId][slotId] = accessoryId.ToString();
             }
         }
 

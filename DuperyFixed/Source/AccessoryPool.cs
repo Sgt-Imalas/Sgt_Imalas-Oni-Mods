@@ -21,13 +21,13 @@ namespace Dupery
             };
         }
 
-        public string GetId(string slotId, string accessoryKey)
+        public bool TryGetId(string slotId, string accessoryKey, out string id)
         {
-            if (!pool.ContainsKey(slotId))
-                return null;
+            id = null;
+            if (!pool.ContainsKey(slotId)||accessoryKey == null)
+                return false;
 
-            pool[slotId].TryGetValue(accessoryKey, out string id);
-            return id;
+            return pool[slotId].TryGetValue(accessoryKey, out id);
         }
 
         public void AddId(string slotId, string accessoryKey, string accessoryId)

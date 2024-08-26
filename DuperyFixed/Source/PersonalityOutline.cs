@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using UtilLibs;
 using static ModInfo;
 
 namespace Dupery
@@ -36,6 +37,8 @@ namespace Dupery
         public string StickerType { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string HeadShape { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string Neck { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string Mouth { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
@@ -124,6 +127,7 @@ namespace Dupery
             if (p.StickerType != null && p.StickerType != StickerType) { StickerType = p.StickerType; isModified = true; }
             if (p.HeadShape != null && p.HeadShape != HeadShape) { HeadShape = p.HeadShape; isModified = true; }
             if (p.Mouth != null && p.Mouth != Mouth) { Mouth = p.Mouth; isModified = true; }
+            if (p.Neck != null && p.Neck != Neck) { Neck = p.Neck; isModified = true; }
             if (p.Eyes != null && p.Eyes != Eyes) { Eyes = p.Eyes; isModified = true; }
             if (p.Hair != null && p.Hair != Hair) { Hair = p.Hair; isModified = true; }
             if (p.Body != null && p.Body != Body) { Body = p.Body; isModified = true; }
@@ -144,6 +148,7 @@ namespace Dupery
                 if (p.StickerType == null) StickerType = null;
                 if (p.HeadShape == null) HeadShape = null;
                 if (p.Mouth == null) Mouth = null;
+                if (p.Neck == null) Neck = null;
                 if (p.Eyes == null) Eyes = null;
                 if (p.Hair == null) Hair = null;
                 if (p.Body == null) Body = null;
@@ -159,10 +164,7 @@ namespace Dupery
         public Personality ToPersonality(string nameStringKey)
         {
             nameStringKey = nameStringKey.ToUpper();
-
-            // Meaningless attributes
             string congenitalTrait = CongenitalTrait != null ? CongenitalTrait : "None";
-            int neck = -1;
 
             // Name can't be null
             string name = Name;
@@ -222,22 +224,36 @@ namespace Dupery
             description = localizedDescription != null ? localizedDescription : description;
 
             // Uncustomisable accessories
-            int headShape = ChooseAccessoryNumber(Db.Get().AccessorySlots.HeadShape, HeadShape);
-            int mouth = Mouth == null ? headShape : ChooseAccessoryNumber(Db.Get().AccessorySlots.Mouth, Mouth);
-            int eyes = ChooseAccessoryNumber(Db.Get().AccessorySlots.Eyes, Eyes);
+            int headShape = ChooseAccessoryNumber( Db.Get().AccessorySlots.HeadShape, HeadShape);
+            int mouth = Mouth == null ? headShape : ChooseAccessoryNumber( Db.Get().AccessorySlots.Mouth, Mouth);
+            int eyes = ChooseAccessoryNumber( Db.Get().AccessorySlots.Eyes, Eyes);
 
             // Customisable accessories
-            int hair = ChooseAccessoryNumber(Db.Get().AccessorySlots.Hair, Hair);
-            int body = ChooseAccessoryNumber(Db.Get().AccessorySlots.Body, Body);
-            int belt = ChooseAccessoryNumber(Db.Get().AccessorySlots.Belt, Belt,0);
-            int cuff = ChooseAccessoryNumber(Db.Get().AccessorySlots.Cuff, Cuff, 0);
-            int foot = ChooseAccessoryNumber(Db.Get().AccessorySlots.Foot, Foot, 0);
-            int hand = ChooseAccessoryNumber(Db.Get().AccessorySlots.Hand, Hand, 0);
-            int pelvis=ChooseAccessoryNumber(Db.Get().AccessorySlots.Pelvis, Pelvis, 0);
-            int leg =  ChooseAccessoryNumber(Db.Get().AccessorySlots.Leg, Leg, 0);
+            int hair = ChooseAccessoryNumber( Db.Get().AccessorySlots.Hair, Hair);
+            int body = ChooseAccessoryNumber( Db.Get().AccessorySlots.Body, Body);
+            int neck = ChooseAccessoryNumber( Db.Get().AccessorySlots.Neck, Neck, -1);
+            int belt = ChooseAccessoryNumber( Db.Get().AccessorySlots.Belt, Belt,0);
+            int cuff = ChooseAccessoryNumber( Db.Get().AccessorySlots.Cuff, Cuff, 0);
+            int foot = ChooseAccessoryNumber( Db.Get().AccessorySlots.Foot, Foot, 0);
+            int hand = ChooseAccessoryNumber( Db.Get().AccessorySlots.Hand, Hand, 0);
+            int pelvis=ChooseAccessoryNumber( Db.Get().AccessorySlots.Pelvis, Pelvis, 0);
+            int leg =  ChooseAccessoryNumber( Db.Get().AccessorySlots.Leg, Leg, 0);
 
             // Remember any custom accessories
             DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Hair.Id, Hair);
+            DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Eyes.Id, Eyes);
+            DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Mouth.Id, Mouth);
+            DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Body.Id, Body);
+            DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.HeadShape.Id, HeadShape);
+            DuperyPatches.AccessoryManager.RegisterPersonalityForCustomCheeks(nameStringKey, HeadShape);
+            //DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Neck.Id, Neck);
+            //DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Belt.Id, Belt);
+            //DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Neck.Id, Neck);
+            //DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Cuff.Id, Cuff);
+            //DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Foot.Id, Foot);
+            //DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Hand.Id, Hand);
+            //DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Pelvis.Id, Pelvis);
+            //DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Leg.Id, Leg);
 
             Personality personality = new Personality(
                 nameStringKey,
@@ -320,7 +336,12 @@ namespace Dupery
             }
             else
             {
-                if(!int.TryParse(value, out accessoryNumber))
+                //if (DuperyPatches.AccessoryManager.TryGetAccessoryId(slot.Id,value, out int hash))
+                //{
+                //    SgtLogger.l(slot.Name + ": " + hash + "(value: "+value);
+                //    accessoryNumber = hash;
+                //} else
+                if (!int.TryParse(value, out accessoryNumber))
                 {
                     accessoryNumber = defaultValue;
                 }

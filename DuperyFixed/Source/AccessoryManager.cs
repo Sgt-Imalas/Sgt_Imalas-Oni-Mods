@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using Database;
+using HarmonyLib;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -16,15 +17,33 @@ namespace Dupery
         public AccessoryPool Pool { get { return this.accessoryPool; } }
 
         private AccessoryPool accessoryPool;
+        public static Dictionary<string, string> HeadOverrideAnims = new (); //key: headshape, value: animName
+        public static Dictionary<HashedString,string> PersonalityHeadOverrideAnims = new (); //key: personalityId, value: animName
 
         public AccessoryManager()
         {
             accessoryPool = new AccessoryPool();
         }
 
-        public string TryGetAccessoryId(string slotId, string accessoryKey)
+        public bool TryGetAccessoryId(string slotId, string accessoryName, out string accessoryId)
         {
-            return accessoryPool.GetId(slotId, accessoryKey);
+            return accessoryPool.TryGetId(slotId, accessoryName, out accessoryId);
+        }
+        public bool TryGetHeadAnimOverride(MinionIdentity identity, out string headAnimOverride)
+        {
+            return PersonalityHeadOverrideAnims.TryGetValue(identity.personalityResourceId, out headAnimOverride);
+        }
+        public bool RegisterPersonalityForCustomCheeks(HashedString personalityID, string headshape)
+        {
+            if (headshape == null) return false;
+
+            if(HeadOverrideAnims.TryGetValue(headshape, out var anim))
+            {
+                SgtLogger.l("Registered custom headshape for " + personalityID+": "+headshape+" -> "+anim);
+                PersonalityHeadOverrideAnims[personalityID] = anim;
+                return true;
+            }
+            return false;
         }
 
 
@@ -42,63 +61,58 @@ namespace Dupery
             ResourceSet accessories = Db.Get().Accessories;
 
             KAnimFile anim = Assets.GetAnim(animName);
-            //HashedString groupId = new HashedString(animName);
+            if(anim == null)
+            {
+                Debug.LogWarning("[Dupery]: no anim with the name " + animName + " found");
+                return 0;
+            }
             KAnim.Build build = anim.GetData().build;
-            //var oldGroup = KAnimGroupFile.GetGroup(groupId);
-            //var swapAnimsGroup = KAnimGroupFile.GetGroup(new HashedString(InjectionMethods.BATCH_TAGS.SWAPS));
-
-            //// remove the wrong group
-            //oldGroup.animFiles.RemoveAll(g => anim == g);
-            //oldGroup.animNames.RemoveAll(g => anim.name == g);
-            //// readd to correct group
-            //swapAnimsGroup.animFiles.Add(anim);
-            //swapAnimsGroup.animNames.Add(anim.name);
-
 
             int numLoaded = 0;
             int numCached = 0;
+            var accessorySlots = Db.Get().AccessorySlots;
+            var resourceTable = Db.Get().ResourceTable;
+
             for (int index = 0; index < build.symbols.Length; ++index)
             {
                 string id = HashCache.Get().Get(build.symbols[index].hash);
-
-                AccessorySlot slot;
-                bool cachable = true;
-
-                if (id.StartsWith("hair_"))
+                AccessorySlot slot = null;
+                string lowerinvid = id.ToLowerInvariant();
+                Debug.Log("[Dupery]: trying to load accessory " + id);
+                foreach (var _slot in accessorySlots.resources)
                 {
-                    slot = Db.Get().AccessorySlots.Hair;
+                    string slotID = _slot.Id.ToLowerInvariant();
+                    if(lowerinvid.Contains(slotID))
+                        slot = _slot;
                 }
-                else if (id.StartsWith("hat_hair_"))
+
+                if (slot == null)
+                    continue;
+
+                bool cachable = true;
+                if (slot.Id == accessorySlots.HatHair.Id)
                 {
-                    slot = Db.Get().AccessorySlots.HatHair;
                     cachable = false;
                 }
-                //else if (id.StartsWith("head_"))
-                //{
-                //    slot = Db.Get().AccessorySlots.HeadShape;
-                //    cachable = false;
-                //}
-                //else if (id.StartsWith("eyes_"))
-                //{
-                //    slot = Db.Get().AccessorySlots.Eyes;
-                //    cachable = false;
-                //}
-                else
+
+                if (slot.Id == accessorySlots.HeadShape.Id)
                 {
-                    continue;
+                    HeadOverrideAnims.Add(id, animName);
+                    Debug.Log("[Dupery]: setting custom cheek override anim for headshape: " + id);
                 }
+
 
                 Accessory accessory = new Accessory(id, accessories, slot, anim.batchTag, build.symbols[index], anim);
                 slot.accessories.Add(accessory);
-                Db.Get().ResourceTable.Add(accessory);
+                resourceTable.Add(accessory);
 
                 if (cachable && saveToCache)
                 {
                     accessoryPool.AddId(slot.Id, id, id);
                     numCached++;
                 }
-
                 numLoaded++;
+                Debug.Log("[Dupery]: accessory successfully loaded as "+slot.Name);
             }
 
             if (numCached > 0)
