@@ -1677,10 +1677,10 @@ namespace SetStartDupes
             private static System.Collections.IEnumerator MinionNumberAdustmentRoutine(MinionSelectScreen __instance)
             {
 
-                yield return (object)SequenceUtil.WaitForNextFrame;
-                yield return (object)SequenceUtil.WaitForNextFrame;
-                yield return (object)SequenceUtil.WaitForNextFrame;
-                yield return (object)SequenceUtil.WaitForNextFrame;
+                yield return SequenceUtil.WaitForNextFrame;
+                yield return SequenceUtil.WaitForNextFrame;
+                yield return SequenceUtil.WaitForNextFrame;
+                yield return SequenceUtil.WaitForNextFrame;
 
                 int currentCount = __instance.containers.Count;
                 int targetCount = Math.Max(1, Config.Instance.DuplicantStartAmount);

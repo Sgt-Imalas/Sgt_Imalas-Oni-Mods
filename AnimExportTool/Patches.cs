@@ -15,6 +15,7 @@ using static ResearchTypes;
 using TMPro;
 using Newtonsoft.Json;
 using static KAnim;
+using static RoomTracker;
 
 namespace AnimExportTool
 {
@@ -323,5 +324,37 @@ namespace AnimExportTool
                 WriteUISpriteToFile(UISprite, Path.Combine(UtilMethods.ModPath, "EntityUISpritesByName"), TagManager.GetProperName(id,true));
             }
         }
+
+        /////gather basegame care packages:
+
+
+        //[HarmonyPatch(typeof(CarePackageInfo),MethodType.Constructor, new Type[] { typeof( string), typeof(float ), typeof(Func<bool> )})]
+        //public class CarePackageConfig_TargetMethod_Patch
+        //{
+        //    public static void Postfix(string ID, float amount, Func<bool> requirement)
+        //    {
+        //        var list =   requirement.GetInvocationList();
+        //        SgtLogger.l(ID + " x" + amount, "CAREPACKAGEGRAB");              
+        //        foreach (var _delegate in list)
+        //        {
+        //            SgtLogger.l(_delegate.Method.Name);
+        //        }
+        //    }
+        //}
+        //[HarmonyPatch(typeof(CarePackageInfo), MethodType.Constructor, new Type[] { typeof(string), typeof(float), typeof(Func<bool>), typeof(string) })]
+        //public class CarePackageConfig_TargetMethod_Patch2
+        //{            
+        //    public static void Postfix(string ID, float amount, Func<bool> requirement)
+        //    {
+        //        var list = requirement.GetInvocationList();
+        //        SgtLogger.l(ID + " x" + amount, "CAREPACKAGEGRAB");
+        //        foreach (var _delegate in list)
+        //        {
+        //            if(_delegate.Method!=null)
+        //                SgtLogger.l(_delegate.Method.Name);
+        //        }
+        //    }
+        //}
+
     }
 }
