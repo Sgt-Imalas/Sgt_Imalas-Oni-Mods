@@ -31,7 +31,7 @@ namespace CannedFoods.EmptyCans
                   width: 0.64f,
                   height: 0.7f,
                   isPickupable: true,
-                  element: ModAssets.ExportSettings.GetMaterialHashForCans(),
+                  element: Config.Instance.GetCanElement(),
                   additionalTags: new List<Tag>()
                   {
                       ModAssets.Tags.CanTag,
