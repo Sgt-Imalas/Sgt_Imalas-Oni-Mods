@@ -136,7 +136,7 @@ namespace ClusterTraitGenerationManager
                     inst.AddOrGet<KBatchedAnimController>().SwapAnims(new KAnimFile[1]
                     {
                     Assets.GetAnim((HashedString) "floppy_disc_ceres_kanim")
-                    });
+                    });                
             }
             [HarmonyTargetMethods]
             internal static IEnumerable<MethodBase> TargetMethods()

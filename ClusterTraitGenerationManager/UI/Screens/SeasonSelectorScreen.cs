@@ -70,7 +70,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
             };
 
 
-            InitializeTraitContainer();
+            InitializeMeteorSeasonContainer();
         }
         public override void OnPrefabInit()
         {
@@ -80,11 +80,16 @@ namespace ClusterTraitGenerationManager.UI.Screens
             Init();
         }
 
-        void InitializeTraitContainer()
+        void InitializeMeteorSeasonContainer()
         {
             foreach (var gameplaySeason in Db.Get().GameplaySeasons.resources)
             {
-                if (!(gameplaySeason is MeteorShowerSeason) || gameplaySeason.Id.Contains("Fullerene") || gameplaySeason.Id.Contains("TemporalTear") || !DlcManager.IsContentSubscribed(gameplaySeason.dlcId))
+                if (!(gameplaySeason is MeteorShowerSeason) 
+                    || gameplaySeason.Id.Contains("Fullerene") 
+                    || gameplaySeason.Id.Contains("TemporalTear") 
+                    || !DlcManager.IsContentSubscribed(gameplaySeason.dlcId)
+                    || (gameplaySeason.dlcId == DlcManager.VANILLA_ID && DlcManager.IsExpansion1Active())
+                    )
                     continue;
                 var meteorSeason = gameplaySeason as MeteorShowerSeason;
 
