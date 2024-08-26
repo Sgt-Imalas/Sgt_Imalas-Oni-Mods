@@ -1,4 +1,5 @@
 ﻿using Klei.AI;
+using OniRetroEdition.Behaviors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +42,11 @@ namespace OniRetroEdition.Entities
                 if (!((UnityEngine.Object)component2 != (UnityEngine.Object)null) || !component2.HasPerk((HashedString)Db.Get().SkillPerks.ExosuitExpertise.Id))
                     return;
                 targetGameObject.GetAttributes().Get(Db.Get().Attributes.Athletics).Add(this.expertAthleticsModifier);
+
+                if(eq.TryGetComponent<GasMaskOxFarter>(out var fart))
+                {
+                    fart.IsFarting = false;
+                }
             });
             equipmentDef.OnUnequipCallBack = (System.Action<Equippable>)(eq =>
             {
@@ -58,16 +64,9 @@ namespace OniRetroEdition.Entities
                     return;
                 component.ClearFlags(PathFinder.PotentialPath.Flags.HasOxygenMask);
 
-                if(eq.TryGetComponent<PrimaryElement>(out var primaryElement))
+                if (eq.TryGetComponent<GasMaskOxFarter>(out var fart))
                 {
-                    if(eq.TryGetComponent<SuitTank>(out var suitTank))
-                    {
-                        float mass = suitTank.GetTankAmount();
-                        SimHashes element = SimHashes.Oxygen;
-
-                    }
-
-                    UnityEngine.Object.Destroy(eq.gameObject);
+                    fart.IsFarting = true;
                 }
 
             });
@@ -89,6 +88,8 @@ namespace OniRetroEdition.Entities
             component.AddTag(GameTags.Clothes);
             component.AddTag(GameTags.PedestalDisplayable);
             go.AddComponent<SuitDiseaseHandler>();
+            go.AddComponent<GasMaskOxFarter>();
         }
+        
     }
 }

@@ -10,6 +10,18 @@ namespace OniRetroEdition
 {
     internal class STRINGS
     {
+        public class EQUIPMENT
+        {
+            public class PREFABS
+            {
+                public class OXYGEN_MASK_RETRO
+                {
+                    public static LocString NAME = FormatAsLink(global::STRINGS.UI.StripLinkFormatting(global::STRINGS.EQUIPMENT.PREFABS.OXYGEN_MASK.NAME), nameof(OXYGEN_MASK_RETRO));
+                    public static LocString DESC = global::STRINGS.EQUIPMENT.PREFABS.OXYGEN_MASK.DESC;
+                    public static LocString EFFECT = "Improves " + FormatAsLink("Decor", "DECOR") + " and reduces " + FormatAsLink("Stress", "STRESS") + " by providing " + FormatAsLink("light", "LIGHT") + ".";
+                }
+            }
+        }
         public class BUILDINGS
         {
             public class PREFABS
