@@ -54,12 +54,15 @@ namespace MassMoveTo.Tools
         {
             PlayerController.Instance.ActivateTool(this);
         }
-
+        bool wasAlreadyPaused = false;
         public override void OnActivateTool()
         {
             base.OnActivateTool();
             visualizer.gameObject.SetActive(true);
-            SpeedControlScreen.Instance.Pause(false);
+            wasAlreadyPaused = SpeedControlScreen.Instance.IsPaused;
+
+            if(!wasAlreadyPaused)
+                SpeedControlScreen.Instance.Pause(false);
 
         }
         public override void OnDeactivateTool(InterfaceTool new_tool)
@@ -67,7 +70,8 @@ namespace MassMoveTo.Tools
             base.OnDeactivateTool(new_tool);
             visualizer.gameObject.SetActive(false);
             ToolMenu.Instance.ClearSelection();
-            SpeedControlScreen.Instance.Unpause(false);
+            if (!wasAlreadyPaused)
+                SpeedControlScreen.Instance.Unpause(false);
         }
 
         public override void OnDragTool(int cell, int distFromOrigin)
