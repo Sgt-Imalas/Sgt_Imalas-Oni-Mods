@@ -903,8 +903,6 @@ namespace ClusterTraitGenerationManager.ClusterData
             }
         }
 
-
-
         public static bool RerollStarmapWithSeedChange = true;
         public static bool RerollTraitsWithSeedChange = true;
         public static void RerollTraits()
@@ -948,7 +946,7 @@ namespace ClusterTraitGenerationManager.ClusterData
                 if (!ToAdd.IsPOI)
                 {
 
-                    MinMaxI startCoords = new MinMaxI(0, CustomCluster.Rings);
+                    MinMaxI startCoords = new (0, CustomCluster.Rings);
                     if (ToAdd.category == StarmapItemCategory.Starter)
                         startCoords = new MinMaxI(0, 0);
                     else if (ToAdd.category == StarmapItemCategory.Warp)

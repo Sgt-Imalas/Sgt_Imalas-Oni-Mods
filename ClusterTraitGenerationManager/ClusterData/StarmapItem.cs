@@ -23,15 +23,19 @@ namespace ClusterTraitGenerationManager.ClusterData
         [JsonIgnore] public Sprite planetSprite;
         [JsonIgnore] public Sprite planetMixingSprite => world_mixing?.planetSprite;
 
-        [JsonIgnore] public ProcGen.World world => world_mixing != null? world_mixing.world : world_internal;
+        [JsonIgnore] public ProcGen.World world => world_mixing != null ? world_mixing.world : world_internal;
         [JsonIgnore] public ProcGen.World World_Internal => world_internal;
         [JsonIgnore] public bool IsMixed => world_mixing != null;
+        [JsonIgnore] public bool SupportsWorldMixing => placement!=null && placement.worldMixing != null;
+        [JsonIgnore] public bool SupportsSubworldMixing => SubworldMixingMaxCount > 0;
+        [JsonIgnore] public int SubworldMixingMaxCount => world.subworldMixingRules!=null ? world.subworldMixingRules.Count : 0;
         [JsonIgnore] public StarmapItem MixingTarget => world_mixing;
 
 
         [JsonIgnore] private ProcGen.World world_internal;
         [JsonIgnore] private StarmapItem world_mixing;
         [JsonIgnore] public Vector2I originalWorldDimensions;
+        [JsonIgnore] public float originalWorldTraitScale;
         [JsonIgnore] public string ModName = string.Empty;
         [JsonIgnore] public string DlcID = "";
 
@@ -68,7 +72,7 @@ namespace ClusterTraitGenerationManager.ClusterData
                     if (Strings.TryGet(world.name, out var nameEntry))
                     {
                         var name = nameEntry.ToString();
-                        if (IsMixed && World_Internal !=null && Strings.TryGet(World_Internal.name, out var namePreMixing))
+                        if (IsMixed && World_Internal != null && Strings.TryGet(World_Internal.name, out var namePreMixing))
                         {
                             name += " (" + namePreMixing.ToString() + ")";
                         }
@@ -235,13 +239,13 @@ namespace ClusterTraitGenerationManager.ClusterData
             {
                 if (heightTrueWidthFalse)
                 {
-                    var rounded = Mathf.RoundToInt(Mathf.Clamp(value,originalWorldDimensions.Y * 0.55f, originalWorldDimensions.Y * 2.6f));
+                    var rounded = Mathf.RoundToInt(Mathf.Clamp(value, originalWorldDimensions.Y * 0.55f, originalWorldDimensions.Y * 2.6f));
                     if (rounded != CustomY)
                         CustomY = rounded;
                 }
                 else
                 {
-                    var rounded = Mathf.RoundToInt(Mathf.Clamp(value, originalWorldDimensions.X * 0.55f,originalWorldDimensions.X * 2.6f));
+                    var rounded = Mathf.RoundToInt(Mathf.Clamp(value, originalWorldDimensions.X * 0.55f, originalWorldDimensions.X * 2.6f));
 
                     if (rounded != CustomX)
                         CustomX = rounded;
@@ -463,6 +467,7 @@ namespace ClusterTraitGenerationManager.ClusterData
         {
             this.world_internal = world;
             this.originalWorldDimensions = world.worldsize;
+            this.originalWorldTraitScale = world.worldTraitScale;
             //this.InitGeyserInfo();
 
             //XYratio = (float)world.worldsize.X / (float)world.worldsize.Y;
@@ -540,7 +545,7 @@ namespace ClusterTraitGenerationManager.ClusterData
             world_mixing = mix;
             return this;
         }
-        
+
 
         #region GeyserBlacklist
 
@@ -632,7 +637,7 @@ namespace ClusterTraitGenerationManager.ClusterData
             {
                 if (SettingsCache.worldTraits.TryGetValue(traitID, out var trait))
                 {
-                    if(trait!=null && trait.removeWorldTemplateRulesById!=null && trait.removeWorldTemplateRulesById.Count() > 0)
+                    if (trait != null && trait.removeWorldTemplateRulesById != null && trait.removeWorldTemplateRulesById.Count() > 0)
                     {
                         if (trait.removeWorldTemplateRulesById.Contains("GenericGeysers")) //Geodormant removes the main rule and replaces it with a 9 geyser rule
                             totalCountRules = 0;
@@ -650,7 +655,7 @@ namespace ClusterTraitGenerationManager.ClusterData
                     }
                 }
             }
-            return totalCountTraits+ totalCountRules;
+            return totalCountTraits + totalCountRules;
         }
 
         #endregion
@@ -662,9 +667,9 @@ namespace ClusterTraitGenerationManager.ClusterData
             get
             {
                 var seasons = new List<MeteorShowerSeason>();
+                var db = Db.Get();
                 if (world != null)
                 {
-                    var db = Db.Get();
                     foreach (var season in world.seasons)
                     {
                         var seasonData = (db.GameplaySeasons.TryGet(season) as MeteorShowerSeason);
@@ -672,6 +677,19 @@ namespace ClusterTraitGenerationManager.ClusterData
                             seasons.Add(seasonData);
                     }
                 }
+                if(IsMixed 
+                    && placement.worldMixing != null 
+                    && placement.worldMixing.additionalSeasons != null
+                    )
+                {
+                    foreach (var season in placement.worldMixing.additionalSeasons)
+                    {
+                        var seasonData = (db.GameplaySeasons.TryGet(season) as MeteorShowerSeason);
+                        if (seasonData != null)
+                            seasons.Add(seasonData);
+                    }
+                }
+
                 return seasons;
             }
         }
@@ -681,22 +699,17 @@ namespace ClusterTraitGenerationManager.ClusterData
             get
             {
                 var showers = new List<MeteorShowerEvent>();
-                if (world != null)
+
+                var db = Db.Get();
+                foreach (var seasonData in CurrentMeteorSeasons)
                 {
-                    var db = Db.Get();
-                    foreach (var season in world.seasons)
+                    if (seasonData != null)
                     {
-                        var seasonData = (db.GameplaySeasons.TryGet(season) as MeteorShowerSeason);
-                        if (seasonData != null)
+                        foreach (var shower in seasonData.events)
                         {
-                            foreach (var shower in seasonData.events)
-                            {
-                                var showerEvent = shower as MeteorShowerEvent;
-                                if (!showers.Contains(showerEvent))
-                                    showers.Add(showerEvent);
-
-                            }
-
+                            var showerEvent = shower as MeteorShowerEvent;
+                            if (!showers.Contains(showerEvent))
+                                showers.Add(showerEvent);
                         }
                     }
                 }
@@ -704,7 +717,7 @@ namespace ClusterTraitGenerationManager.ClusterData
             }
         }
 
-        private void BackupOriginalWorldTraits()
+        private void BackupOriginalWorldMeteors()
         {
             if (world != null)
             {
@@ -717,7 +730,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 
         public void AddMeteorSeason(string id)
         {
-            BackupOriginalWorldTraits();
+            BackupOriginalWorldMeteors();
             if (world != null)
             {
                 world.seasons.Add(id);
@@ -726,7 +739,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 
         public void RemoveMeteorSeason(string id)
         {
-            BackupOriginalWorldTraits();
+            BackupOriginalWorldMeteors();
             if (world != null)
             {
                 if (world.seasons.Contains(id))

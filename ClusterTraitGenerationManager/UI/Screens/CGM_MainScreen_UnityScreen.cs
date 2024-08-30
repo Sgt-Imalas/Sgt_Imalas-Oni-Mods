@@ -2061,6 +2061,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
             ActiveBiomesContainer = transform.Find("Details/Content/ScrollRectContainer/AsteroidBiomes/Content/TraitContainer/ScrollArea/Content").gameObject;
             BiomePrefab = transform.Find("Details/Content/ScrollRectContainer/AsteroidBiomes/Content/TraitContainer/ScrollArea/Content/Item").gameObject;
+
             AddSeasonButton = transform.Find("Details/Content/ScrollRectContainer/MeteorSeasonCycle/Content/Seasons/SeasonScrollArea/Content/AddSeasonButton").FindOrAddComponent<FButton>();
             UIUtils.AddSimpleTooltipToObject(AddSeasonButton.transform, METEORSEASONCYCLE.DESCRIPTOR.TOOLTIP);
             AddSeasonButton.OnClick += () =>
@@ -2826,7 +2827,6 @@ namespace ClusterTraitGenerationManager.UI.Screens
             Regex rx = new Regex(@"subworlds[\\\/](.*)[\\\/]");
             foreach (var subworld in CurrentStarmapItem.world.subworldFiles)
             {
-
                 var match = rx.Match(subworld.name);
                 string biomeName = string.Empty;
                 if (!match.Success || match.Groups.Count < 2)
@@ -2837,6 +2837,24 @@ namespace ClusterTraitGenerationManager.UI.Screens
                 biomeName = match.Groups[1].ToString();
                 if (PlanetBiomes.ContainsKey(biomeName))
                     PlanetBiomes[biomeName].SetActive(true);
+            }
+            if(CurrentStarmapItem.IsMixed && CurrentStarmapItem.placement!=null 
+                && CurrentStarmapItem.placement.worldMixing!=null
+                && CurrentStarmapItem.placement.worldMixing.additionalSubworldFiles != null
+                )
+            {
+                foreach (var subworld in CurrentStarmapItem.placement.worldMixing.additionalSubworldFiles)
+                {
+                    var match = rx.Match(subworld.name);
+                    string biomeName = string.Empty;
+                    if (!match.Success || match.Groups.Count < 2)
+                    {
+                        continue;
+                    }
+                    biomeName = match.Groups[1].ToString();
+                    if (PlanetBiomes.ContainsKey(biomeName))
+                        PlanetBiomes[biomeName].SetActive(true);
+                }
             }
         }
         Dictionary<string, string> CometDescriptions = new Dictionary<string, string>();
