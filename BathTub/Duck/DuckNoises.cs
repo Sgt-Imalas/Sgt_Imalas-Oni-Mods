@@ -1,17 +1,27 @@
-﻿using System;
+﻿using KSerialization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.UI;
+using static BathTub.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS;
 
 namespace BathTub.Duck
 {
-    internal class DuckNoises:KMonoBehaviour
+    internal class DuckNoises:KMonoBehaviour, ISidescreenButtonControl
     {
+        [Serialize]
+        [SerializeField]
+        public bool STFU = false;
 
         private System.Action<object> m_onSelectObjectDelegate;
         private SchedulerHandle NextQuackHandle;
+
+        public string SidescreenButtonText => STFU ? BT_RUBBERDUCKIE.BUTTON_OFF : BT_RUBBERDUCKIE.BUTTON_ON;
+
+        public string SidescreenButtonTooltip => BT_RUBBERDUCKIE.TOOLTIP;
 
         public override void OnSpawn()
         {
@@ -30,13 +40,12 @@ namespace BathTub.Duck
         }
         public void ScheduleNextQuack()
         {
-            var time = new KRandom().Next(25, 100);
-            //NextQuackHandle = GameScheduler.Instance.Schedule("Quack", time, Quack);
-            NextQuackHandle = GameScheduler.Instance.Schedule("Quack", 1, Quack);
+            var time = new KRandom().Next(30, 200);
+            NextQuackHandle = GameScheduler.Instance.Schedule("Quack", time, Quack);
         }
         public void Quack(object o)
         {
-            if (CameraController.Instance.IsVisiblePos(this.transform.GetPosition())) //no offscreen quacks
+            if (!STFU  && CameraController.Instance.IsVisiblePos(this.transform.GetPosition())) //no offscreen quacks
                 ModAssets.PlayRandomQuack(this);
             ScheduleNextQuack();
         }
@@ -46,6 +55,40 @@ namespace BathTub.Duck
             if (!(bool)data) //on deselect
                 return;
             ModAssets.PlayRandomSqueak(this);
+        }
+
+        public void SetButtonTextOverride(ButtonMenuTextOverride textOverride)
+        {
+        }
+
+        public bool SidescreenEnabled()
+        {
+            return true;
+        }
+
+        public bool SidescreenButtonInteractable()
+        {
+            return true;
+        }
+
+        public void OnSidescreenButtonPressed()
+        {
+            ToggleSTFU();
+        }
+
+        private void ToggleSTFU()
+        {
+            STFU = !STFU;
+        }
+
+        public int HorizontalGroupID()
+        {
+            return -1;
+        }
+
+        public int ButtonSideScreenSortOrder()
+        {
+            return 20;
         }
     }
 }
