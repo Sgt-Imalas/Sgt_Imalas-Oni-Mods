@@ -224,6 +224,7 @@ namespace ClusterTraitGenerationManager
             {
                 SgtLogger.l("Regenerating Traits for " + clusterPath + ". Reason: " + changedConfigID + " changed.");
                 CGSMClusterManager.RerollTraits();
+                CGSMClusterManager.RerollMixings();
             }
         }
 
@@ -1216,6 +1217,7 @@ namespace ClusterTraitGenerationManager
         {
             public static Dictionary<string, Vector2I> OriginalPlanetSizes = new Dictionary<string, Vector2I>();
             static Dictionary<string, float> OriginalWorldTraitScales = new();
+            
 
             public static void ResetCustomSizes()
             {

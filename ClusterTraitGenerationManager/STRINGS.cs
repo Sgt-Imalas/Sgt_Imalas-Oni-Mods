@@ -351,6 +351,31 @@
                                 }
                             }
 
+                            public class ASTEROIDSKY
+                            {
+                                public class DESCRIPTOR
+                                {
+                                    public static LocString LABEL = (LocString)"Asteroid Sky:";
+                                    public static LocString TOOLTIP = (LocString)"The space behavior of this asteroid";
+                                }
+                                public class CONTENT
+                                {
+
+                                    public class SUNLIGHTCYCLE
+                                    {
+                                        public static LocString LABEL = (LocString)"Sunlight:";
+                                    }
+                                    public class RADIATIONCYCLE
+                                    {
+                                        public static LocString LABEL = (LocString)"Space Radiation:";
+                                    }
+                                    public class NORTHERNLIGHTSCYCLE
+                                    {
+                                        public static LocString LABEL = (LocString)"Northern Lights:";
+                                    }
+                                }
+
+                            }
 
                             public class ASTEROIDSIZE
                             {
@@ -812,8 +837,9 @@
             public class SEEDLOCK
             {
                 public static LocString NAME = (LocString)"Seed rerolling affects traits";
-                public static LocString NAME_SHORT = (LocString)"rerolling Traits:";
-                public static LocString NAME_STARMAP = (LocString)"rerolling Starmap:";
+                public static LocString NAME_SHORT = (LocString)"reroll Traits:";
+                public static LocString NAME_STARMAP = (LocString)"reroll Starmap:";
+                public static LocString NAME_MIXING = (LocString)"reroll Mixings:";
                 public static LocString SEED_PLACEHOLDER = (LocString)"Enter Seed...";
                 public static LocString TOOLTIP = (LocString)"When enabled, rerolling the seed will also reroll the planet traits to those of the new seed.\nDisable to reroll the seed without affecting the traits.\nOnly blocks trait rerolling for the seed setting above.";
                 public static LocString TOOLTIP_STARMAP = (LocString)"When enabled, rerolling the seed will also reroll the starmap to the new seed.\nDisable to reroll the seed without affecting the starmap.";

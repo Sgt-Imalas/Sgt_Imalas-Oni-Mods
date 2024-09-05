@@ -360,6 +360,7 @@ namespace ClusterTraitGenerationManager
             public int customX = -1, customY = -1;
             public List<string> meteorSeasons;
             public List<string> planetTraits;
+            public List<string> FixedSkyTraits;
             public List<string> pois;
             public List<string> geysers;
             public List<string> geyserBlacklists;
@@ -380,6 +381,14 @@ namespace ClusterTraitGenerationManager
             public SerializableStarmapItem AddMeteors(List<string> meteorSeasonÍDs)
             {
                 meteorSeasons = new List<string>(meteorSeasonÍDs);
+                return this;
+            }
+            private SerializableStarmapItem AddSkyTraits(StarmapItem poiItem)
+            {
+                if (poiItem != null && poiItem.world != null)
+                {
+                    FixedSkyTraits = new(poiItem.world.fixedTraits);
+                }
                 return this;
             }
             public SerializableStarmapItem AddTraits(List<string> _traitIDs)
@@ -486,9 +495,11 @@ namespace ClusterTraitGenerationManager
                     .AddMeteors(poiItem.world.seasons)
                     .AddGeysers(poiItem.GeyserOverrideIDs)
                     .AddGeyserBlacklists(poiItem.GeyserBlacklistIDs, poiItem.GeyserBlacklistAffectsNonGenerics)
-                    .AddTraits(poiItem.CurrentTraits);
+                    .AddTraits(poiItem.CurrentTraits)
+                    .AddSkyTraits(poiItem);
                 ;
             }
+
         }
 
 
@@ -701,6 +712,7 @@ namespace ClusterTraitGenerationManager
             }
             if (!reciever.IsPOI && !reciever.IsRandom)
             {
+                reciever.SetFixedSkyTraits(item.FixedSkyTraits);
                 reciever.SetWorldTraits(item.planetTraits);
                 reciever.SetGeyserOverrides(item.geysers);
                 reciever.SetGeyserBlacklist(item.geyserBlacklists);

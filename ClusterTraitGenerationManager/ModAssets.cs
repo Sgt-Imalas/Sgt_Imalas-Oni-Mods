@@ -1,4 +1,5 @@
 ﻿using ClusterTraitGenerationManager.ClusterData;
+using ClusterTraitGenerationManager.FixedTraitExperiment;
 using ClusterTraitGenerationManager.GeyserExperiments;
 using Klei;
 using MonoMod.Utils;
@@ -15,7 +16,7 @@ namespace ClusterTraitGenerationManager
 {
     internal class ModAssets
     {
-        Transform Screen;
+
         public static GameObject CustomPlanetSideScreen;
         public static GameObject CGM_MainMenu;
         public static GameObject TraitPopup;
@@ -24,6 +25,11 @@ namespace ClusterTraitGenerationManager
         public static GameObject SO_StarmapScreen;
         public static string CustomClusterTemplatesPath;
         public static readonly string TemporalTearId = "TemporalTear", TeapotId = "ArtifactSpacePOI_RussellsTeapot";
+
+
+        //origin paths of dynamically generated asteroids and modded planets
+        public static Dictionary<string, string> ModPlanetOriginPaths = new Dictionary<string, string>();
+
 
         /// <summary>
         /// These have a guaranteed Start,Warp and Outer Version
@@ -64,9 +70,47 @@ namespace ClusterTraitGenerationManager
             return false;
         }
 
+        private static Dictionary<string, int> _sunlightFixedTraits = null;
+        public static Dictionary<string, int> SunlightFixedTraits
+        {
+            get
+            {
+                if (_sunlightFixedTraits == null)
+                    InitWorldContainerDicts();
+                return _sunlightFixedTraits;
+            }
+        }
+        private static Dictionary<string, int> _northernLightsFixedTraits = null;
+        public static Dictionary<string, int> NorthernLightsFixedTraits
+        {
+            get
+            {
+                if (_northernLightsFixedTraits == null)
+                    InitWorldContainerDicts();
+                return _northernLightsFixedTraits;
+            }
+        }
+        private static Dictionary<string, int> _cosmicRadiationFixedTraits = null;
+        public static Dictionary<string, int> CosmicRadiationFixedTraits
+        {
+            get
+            {
+                if (_cosmicRadiationFixedTraits == null)
+                    InitWorldContainerDicts();
+                return _cosmicRadiationFixedTraits;
+            }
+        }
 
-        //origin paths of dynamically generated asteroids and modded planets
-        public static Dictionary<string, string> ModPlanetOriginPaths = new Dictionary<string, string>();
+        static void InitWorldContainerDicts()
+        {
+            var go = new GameObject();
+            var container = go.AddComponent<DummyWorldContainer>();
+            _sunlightFixedTraits = new(container.SunlightFixedTraits);
+            _northernLightsFixedTraits = new(container.NorthernLightsFixedTraits);
+            _cosmicRadiationFixedTraits = new(container.CosmicRadiationFixedTraits);
+            UnityEngine.Object.Destroy(go);
+        }
+
 
         public class POI_Data
         {
@@ -151,8 +195,8 @@ namespace ClusterTraitGenerationManager
                 return _so_POI_IDs;
             }
         }
-
-public static List<string> NonUniquePOI_Ids
+        
+        public static List<string> NonUniquePOI_Ids
         {
             get
             {
@@ -351,6 +395,7 @@ public static List<string> NonUniquePOI_Ids
         public static WorldTrait RandomizedTraitsTrait;
 
 
+        public static Dictionary<ProcGen.World, List<string>> ChangedSkyFixedTraits = new Dictionary<ProcGen.World, List<string>>();
         public static Dictionary<ProcGen.World, List<string>> ChangedMeteorSeasons = new Dictionary<ProcGen.World, List<string>>();
 
         public static Dictionary<string, WorldTrait> AllTraitsWithRandomDict

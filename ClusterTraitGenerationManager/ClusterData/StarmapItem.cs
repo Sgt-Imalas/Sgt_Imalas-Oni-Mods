@@ -8,6 +8,7 @@ using static ClusterTraitGenerationManager.ClusterData.CGSMClusterManager;
 using UnityEngine;
 using UtilLibs;
 using Microsoft.Build.Framework.XamlTypes;
+using TUNING;
 
 namespace ClusterTraitGenerationManager.ClusterData
 {
@@ -26,10 +27,10 @@ namespace ClusterTraitGenerationManager.ClusterData
         [JsonIgnore] public ProcGen.World world => world_mixing != null ? world_mixing.world : world_internal;
         [JsonIgnore] public ProcGen.World World_Internal => world_internal;
         [JsonIgnore] public bool IsMixed => world_mixing != null;
-        [JsonIgnore] public bool SupportsWorldMixing => placement!=null && placement.worldMixing != null;
+        [JsonIgnore] public bool SupportsWorldMixing => placement != null && placement.worldMixing != null;
         [JsonIgnore] public bool SupportsSubworldMixing => SubworldMixingMaxCount > 0;
-        [JsonIgnore] public int SubworldMixingMaxCount => world.subworldMixingRules!=null ? world.subworldMixingRules.Count : 0;
-        [JsonIgnore] public StarmapItem MixingTarget => world_mixing;
+        [JsonIgnore] public int SubworldMixingMaxCount => world.subworldMixingRules != null ? world.subworldMixingRules.Count : 0;
+        [JsonIgnore] public StarmapItem MixingAsteroidSource => world_mixing;
 
 
         [JsonIgnore] private ProcGen.World world_internal;
@@ -150,6 +151,10 @@ namespace ClusterTraitGenerationManager.ClusterData
         {
             get
             {
+                if (IsMixed)
+                    return MixingAsteroidSource.CustomPlanetDimensions;
+
+
                 if (UsingCustomDimensions)
                 {
                     return new(CustomX, CustomY);
@@ -202,13 +207,25 @@ namespace ClusterTraitGenerationManager.ClusterData
         WorldSizePresets SizePreset = WorldSizePresets.Normal;
         WorldRatioPresets RatioPreset = WorldRatioPresets.Normal;
         [JsonIgnore] public bool DefaultDimensions => SizePreset == WorldSizePresets.Normal && RatioPreset == WorldRatioPresets.Normal && !UsingCustomDimensions;
-        [JsonIgnore] public WorldSizePresets CurrentSizePreset => SizePreset;
-        [JsonIgnore] public WorldRatioPresets CurrentRatioPreset => RatioPreset;
+        [JsonIgnore] public WorldSizePresets CurrentSizePreset => IsMixed ? MixingAsteroidSource.SizePreset : SizePreset;
+        [JsonIgnore] public WorldRatioPresets CurrentRatioPreset => IsMixed ? MixingAsteroidSource.RatioPreset : RatioPreset;
 
-        [JsonIgnore] public float CurrentSizeMultiplier => UsingCustomDimensions ? CustomSizeIncrease : (float)SizePreset / 100f;
+        [JsonIgnore]
+        public float CurrentSizeMultiplier =>
+            IsMixed
+            ? MixingAsteroidSource.CurrentSizeMultiplier
+            : UsingCustomDimensions
+                ? CustomSizeIncrease
+                : (float)SizePreset / 100f;
 
         public void SetPlanetSizeToPreset(WorldSizePresets preset)
         {
+            if (IsMixed)
+            {
+                MixingAsteroidSource.SetPlanetSizeToPreset(preset);
+                return;
+            }
+
             CustomX = -1;
             CustomY = -1;
             UsingCustomDimensions = false;
@@ -216,6 +233,12 @@ namespace ClusterTraitGenerationManager.ClusterData
         }
         public void SetPlanetRatioToPreset(WorldRatioPresets preset)
         {
+            if (IsMixed)
+            {
+                MixingAsteroidSource.SetPlanetRatioToPreset(preset);
+                return;
+            }
+
             CustomX = -1;
             CustomY = -1;
             UsingCustomDimensions = false;
@@ -225,6 +248,13 @@ namespace ClusterTraitGenerationManager.ClusterData
         private bool UsingCustomDimensions = false;
         public void ApplyCustomDimension(int value, bool heightTrueWidthFalse)
         {
+            if (IsMixed)
+            {
+                MixingAsteroidSource.ApplyCustomDimension(value, heightTrueWidthFalse);
+                return;
+            }
+
+
             var currentDims = CustomPlanetDimensions;
             UsingCustomDimensions = true;
             if (CustomX == -1)
@@ -279,9 +309,7 @@ namespace ClusterTraitGenerationManager.ClusterData
             }
         }
 
-
         float CustomSizeIncrease = -1f;
-
         public float InstancesToSpawn = 1;
         public bool MoreThanOnePossible = false;
         //public float MaxNumberOfInstances = 1;
@@ -660,6 +688,127 @@ namespace ClusterTraitGenerationManager.ClusterData
 
         #endregion
 
+        #region SkyFixedTraits
+
+
+        private void BackupOriginalWorldSkyFixedTraits()
+        {
+            if (world != null)
+            {
+                if (world.fixedTraits == null)
+                    world.fixedTraits = new();
+
+                if (!ModAssets.ChangedSkyFixedTraits.ContainsKey(world))
+                {
+                    ModAssets.ChangedSkyFixedTraits[world] = new List<string>(world.fixedTraits);
+                }
+            }
+        }
+        public void SetFixedSkyTraits(List<string> fixedSkyTraits)
+        {
+            if (fixedSkyTraits == null || fixedSkyTraits.Count == 0 || world == null)
+                return;
+
+
+            string lightTrait = fixedSkyTraits.FirstOrDefault(t => ModAssets.SunlightFixedTraits.ContainsKey(t));
+            if (lightTrait != null)
+            {
+                SetSunlightValue(lightTrait);
+            }
+
+            string radTrait = fixedSkyTraits.FirstOrDefault(t => ModAssets.CosmicRadiationFixedTraits.ContainsKey(t));
+            if (radTrait != null && DlcManager.IsExpansion1Active())
+            {
+                SetRadiationValue(radTrait);
+            }
+
+            string northernLightTrait = fixedSkyTraits.FirstOrDefault(t => ModAssets.NorthernLightsFixedTraits.ContainsKey(t));
+            if (northernLightTrait != null)
+            {
+                SetNorthernLightsValue(northernLightTrait);
+            }
+
+        }
+        public string GetSunlightValue()
+        {
+            if (world == null)
+                return null;
+
+
+            string currentValue = world.fixedTraits.FirstOrDefault(t => ModAssets.SunlightFixedTraits.ContainsKey(t));
+            if (currentValue != null)
+                return currentValue;
+
+            return FIXEDTRAITS.SUNLIGHT.NAME.DEFAULT;
+        }
+        public string GetRadiationValue()
+        {
+            if (world == null)
+                return null;
+
+
+            string currentValue = world.fixedTraits.FirstOrDefault(t => ModAssets.CosmicRadiationFixedTraits.ContainsKey(t));
+            if (currentValue != null)
+                return currentValue;
+
+            return FIXEDTRAITS.COSMICRADIATION.NAME.DEFAULT;
+        }
+        public string GetNorthernLightsValue()
+        {
+            if (world == null)
+                return null;
+
+
+            string currentValue = world.fixedTraits.FirstOrDefault(t => ModAssets.NorthernLightsFixedTraits.ContainsKey(t));
+            if (currentValue != null)
+                return currentValue;
+
+            return FIXEDTRAITS.NORTHERNLIGHTS.NAME.DEFAULT;
+        }
+
+        public void SetSunlightValue(string traitId)
+        {
+            if (world == null)
+                return;
+            BackupOriginalWorldSkyFixedTraits();
+
+            SgtLogger.l(traitId, "Trait LIGHT");
+            string currentValue = world.fixedTraits.FirstOrDefault(t => ModAssets.SunlightFixedTraits.ContainsKey(t));
+            if(currentValue !=null)
+                world.fixedTraits.Remove(currentValue);
+            world.fixedTraits.Add(traitId);
+
+        }
+        public void SetRadiationValue(string traitId)
+        {
+            if(!DlcManager.IsExpansion1Active())
+                return;
+
+            if (world == null)
+                return;
+            BackupOriginalWorldSkyFixedTraits();
+            SgtLogger.l(traitId, "Trait RAD");
+
+            string currentValue = world.fixedTraits.FirstOrDefault(t => ModAssets.CosmicRadiationFixedTraits.ContainsKey(t));
+            if (currentValue != null)
+                world.fixedTraits.Remove(currentValue);
+            world.fixedTraits.Add(traitId);
+        }
+        public void SetNorthernLightsValue(string traitId)
+        {
+            if (world == null)
+                return;
+            BackupOriginalWorldSkyFixedTraits();
+            SgtLogger.l(traitId, "Trait NL");
+            string currentValue = world.fixedTraits.FirstOrDefault(t => ModAssets.NorthernLightsFixedTraits.ContainsKey(t));
+            if (currentValue != null)
+                world.fixedTraits.Remove(currentValue);
+            world.fixedTraits.Add(traitId);            
+        }
+
+        #endregion
+
+
         #region PlanetMeteors
 
         public List<MeteorShowerSeason> CurrentMeteorSeasons
@@ -677,8 +826,8 @@ namespace ClusterTraitGenerationManager.ClusterData
                             seasons.Add(seasonData);
                     }
                 }
-                if(IsMixed 
-                    && placement.worldMixing != null 
+                if (IsMixed
+                    && placement.worldMixing != null
                     && placement.worldMixing.additionalSeasons != null
                     )
                 {

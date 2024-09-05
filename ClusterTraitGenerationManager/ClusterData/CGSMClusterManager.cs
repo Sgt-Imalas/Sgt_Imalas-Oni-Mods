@@ -57,6 +57,7 @@ namespace ClusterTraitGenerationManager.ClusterData
                 if (value == false)
                 {
                     ResetMeteorSeasons();
+                    ResetSkyFixedTraits();
                 }
             }
         }
@@ -92,6 +93,25 @@ namespace ClusterTraitGenerationManager.ClusterData
             }
         }
 
+        public static void ResetSkyFixedTraits(ProcGen.World singleItem = null)
+        {
+            if (singleItem == null)
+            {
+                foreach (var planetData in ModAssets.ChangedSkyFixedTraits)
+                {
+                    planetData.Key.fixedTraits = new List<string>(planetData.Value);
+                }
+                ModAssets.ChangedSkyFixedTraits.Clear();
+            }
+            else
+            {
+                if (singleItem != null && ModAssets.ChangedSkyFixedTraits.ContainsKey(singleItem))
+                {
+                    singleItem.fixedTraits = new List<string>(ModAssets.ChangedSkyFixedTraits[singleItem]);
+                    ModAssets.ChangedSkyFixedTraits.Remove(singleItem);
+                }
+            }
+        }
         public static void ResetMeteorSeasons(ProcGen.World singleItem = null)
         {
             if (singleItem == null)
@@ -180,6 +200,7 @@ namespace ClusterTraitGenerationManager.ClusterData
             GameSettings = -3,
             VanillaStarmap = -4,
             SpacedOutStarmap = -5,
+            MixingSettings = -6,
         }
 
 
@@ -385,7 +406,7 @@ namespace ClusterTraitGenerationManager.ClusterData
                 seed++;
             }
             else
-                SgtLogger.warning("No start planet selected");
+                SgtLogger.warning("No start planetData selected");
 
             if (CustomCluster.WarpPlanet != null)
             {
@@ -426,7 +447,7 @@ namespace ClusterTraitGenerationManager.ClusterData
                 if (DlcManager.IsExpansion1Active())
                 {
                     if (log)
-                        SgtLogger.log("No warp planet selected");
+                        SgtLogger.log("No warp planetData selected");
                     CustomGameSettings.Instance.SetQualitySetting(CustomGameSettingConfigs.Teleporters, (CustomGameSettingConfigs.Teleporters as ToggleSettingConfig).off_level.id);
                 }
             }
@@ -745,6 +766,7 @@ namespace ClusterTraitGenerationManager.ClusterData
                                 break;
                         }
                         ResetMeteorSeasons(FoundPlanet.world);
+                        ResetSkyFixedTraits(FoundPlanet.world);
                         FoundPlanet.ClearWorldTraits();
                         FoundPlanet.ClearGeyserOverrides();
                         //SgtLogger.l("Grabbing Traits");
@@ -807,6 +829,7 @@ namespace ClusterTraitGenerationManager.ClusterData
                     }
 
                     ResetMeteorSeasons(FoundPlanet.world);
+                    ResetSkyFixedTraits(FoundPlanet.world);
                     FoundPlanet.ClearWorldTraits();
                     FoundPlanet.ClearGeyserOverrides();
 
@@ -905,10 +928,56 @@ namespace ClusterTraitGenerationManager.ClusterData
 
         public static bool RerollStarmapWithSeedChange = true;
         public static bool RerollTraitsWithSeedChange = true;
+        public static bool RerollMixingsWithSeedChange = true;
+        public static void RerollMixings()
+        {
+            if (CustomCluster == null || !RerollMixingsWithSeedChange && CGM_Screen.IsCurrentlyActive)
+                return;
+
+            foreach(var planet in CustomCluster.GetAllPlanets())
+            {
+                if(planet== null||planet.world==null||planet.placement == null ) continue;
+                planet.SetWorldMixing(null);
+                planet.placement.UndoWorldMixing();
+            }
+
+            int seed = int.Parse(CustomGameSettings.Instance.GetCurrentQualitySetting(CustomGameSettingConfigs.WorldgenSeed).id);
+
+            var layout = GeneratedLayout;
+
+            var mutated = WorldgenMixing.DoWorldMixing(layout, seed, true, true);
+
+            foreach (var planetPlacement in mutated.layout.worldPlacements)
+            {
+                bool isWorldMixed = false;
+                string planetpath = planetPlacement.world;
+                string mixingAsteroid = string.Empty;
+
+                if (planetPlacement.worldMixing != null && planetPlacement.worldMixing.mixingWasApplied)
+                {
+                    mixingAsteroid = planetpath;
+                    planetpath = planetPlacement.worldMixing.previousWorld;
+                    isWorldMixed = true;
+                    SgtLogger.l(planetpath, "MIXING");
+                }
+                if (CustomCluster.HasStarmapItem(planetpath, out var FoundPlanet))
+                {
+                    SgtLogger.l(FoundPlanet.category.ToString());
+                    if (isWorldMixed && PlanetoidDict.TryGetValue(mixingAsteroid, out StarmapItem _mixingItem))
+                    {
+                        SetMixingWorld(FoundPlanet, _mixingItem);
+                        FoundPlanet.SetWorldMixing(_mixingItem);
+                    }
+                    else
+                        SetMixingWorld(FoundPlanet, null);
+                }
+            }
+        }
         public static void RerollTraits()
         {
             if (CustomCluster == null || !RerollTraitsWithSeedChange && CGM_Screen.IsCurrentlyActive)
                 return;
+
 
             int seed = int.Parse(CustomGameSettings.Instance.GetCurrentQualitySetting(CustomGameSettingConfigs.WorldgenSeed).id);
 
@@ -946,7 +1015,7 @@ namespace ClusterTraitGenerationManager.ClusterData
                 if (!ToAdd.IsPOI)
                 {
 
-                    MinMaxI startCoords = new (0, CustomCluster.Rings);
+                    MinMaxI startCoords = new(0, CustomCluster.Rings);
                     if (ToAdd.category == StarmapItemCategory.Starter)
                         startCoords = new MinMaxI(0, 0);
                     else if (ToAdd.category == StarmapItemCategory.Warp)
@@ -1123,7 +1192,7 @@ namespace ClusterTraitGenerationManager.ClusterData
                         }
                     }
                     else
-                        SgtLogger.warning("Tried to add disabling story traits to a planet that does not exist: " + planet.world);
+                        SgtLogger.warning("Tried to add disabling story traits to a planetData that does not exist: " + planet.world);
                 }
 
 
