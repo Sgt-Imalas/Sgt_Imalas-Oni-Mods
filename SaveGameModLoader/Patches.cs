@@ -22,6 +22,7 @@ using static SaveGameModLoader.STRINGS.UI.FRONTEND.MODTAGS;
 using UtilLibs.ModSyncing;
 using SaveGameModLoader.UIComponents;
 using UtilLibs.UIcmp;
+using static STRINGS.UI.NEWBUILDCATEGORIES;
 
 namespace SaveGameModLoader
 {
@@ -153,6 +154,7 @@ namespace SaveGameModLoader
 
 
             static ColorStyleSetting blue = null;
+            static ColorStyleSetting yellow = null;
             /// <summary>
             /// Applied after BuildDisplay runs.
             /// </summary>
@@ -168,10 +170,18 @@ namespace SaveGameModLoader
                     transf.Find("ManageButton").TryGetComponent<KImage>(out var mngButtonImage);
                     var defaultStyle = mngButtonImage.colorStyleSetting;
                     blue = (ColorStyleSetting)ScriptableObject.CreateInstance("ColorStyleSetting");
-                    blue.inactiveColor = UIUtils.HSVShift(defaultStyle.inactiveColor, 70f);
-                    blue.activeColor = UIUtils.HSVShift(defaultStyle.activeColor, 70f);
-                    blue.disabledColor = UIUtils.HSVShift(defaultStyle.disabledColor, 70f);
-                    blue.hoverColor = UIUtils.HSVShift(defaultStyle.hoverColor, 70f);
+                    float hsvShift = 70f;
+                    blue.inactiveColor = UIUtils.HSVShift(defaultStyle.inactiveColor, hsvShift);
+                    blue.activeColor = UIUtils.HSVShift(defaultStyle.activeColor, hsvShift);
+                    blue.disabledColor = UIUtils.HSVShift(defaultStyle.disabledColor, hsvShift);
+                    blue.hoverColor = UIUtils.HSVShift(defaultStyle.hoverColor, hsvShift);
+
+                    hsvShift = 20f;
+                    yellow = (ColorStyleSetting)ScriptableObject.CreateInstance("ColorStyleSetting");
+                    yellow.inactiveColor = UIUtils.HSVShift(defaultStyle.inactiveColor, hsvShift);
+                    yellow.activeColor = UIUtils.HSVShift(defaultStyle.activeColor, hsvShift);
+                    yellow.disabledColor = UIUtils.HSVShift(defaultStyle.disabledColor, hsvShift);
+                    yellow.hoverColor = UIUtils.HSVShift(defaultStyle.hoverColor, hsvShift);
                 }
                 if (!__instance.entryPrefab.transform.Find("PinBtn") && __instance.entryPrefab.TryGetComponent<HierarchyReferences>(out var hr))
                 {
@@ -286,7 +296,7 @@ namespace SaveGameModLoader
                         if (mod.IsLocal)
                         {
                             var modButtonBg = hier.GetReference<KImage>(MngBtImage);
-                            modButtonBg.colorStyleSetting = blue;
+                            modButtonBg.colorStyleSetting = mod.label.distribution_platform == KMod.Label.DistributionPlatform.Dev ? yellow : blue;
                             modButtonBg.ApplyColorStyleSetting();
                         }
                         var contextButton = hier.GetReference<FButton>(rightClickBtn);

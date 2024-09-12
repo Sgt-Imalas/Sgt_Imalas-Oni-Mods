@@ -11,8 +11,6 @@ namespace ModProfileManager_Addon
     {
         public class UI
         {
-            public static LocString LOCAL_MOD = "Local";
-            public static LocString MISSING = "Missing";
             public static LocString LOCAL_MISSING_TOOLTIP = "This local mod is currently not installed";
             public static LocString STEAM_MISSING_TOOLTIP = "This steam mod is currently not installed.\nClick here to subscribe to it.";
             public static LocString PRESET_APPLIED_TITLE = "MOD PRESET APPLIED";

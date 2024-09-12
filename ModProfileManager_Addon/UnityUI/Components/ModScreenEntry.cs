@@ -48,18 +48,25 @@ namespace ModProfileManager_Addon.UnityUI.Components
                     ModAssets.ShowModIndexShiftDialogue(TargetMod, ChangeSortOrderBt.gameObject);
                 };
 
+                bool devMod = TargetMod.label.distribution_platform == KMod.Label.DistributionPlatform.Dev;
+
                 var bt =
                     TypeGO.AddOrGet<FButton>();
                 bt.OnClick += TargetMod.on_managed;
-                bt.normalColor = TargetMod.IsLocal ? ModAssets.Colors.Blue : ModAssets.Colors.Red;
-                bt.hoverColor = TargetMod.IsLocal ? UIUtils.Lighten(ModAssets.Colors.Blue, 20):UIUtils.Lighten(ModAssets.Colors.Red, 20);
+                Color buttonColor = ModAssets.Colors.Red;
+                if (TargetMod.IsDev)
+                    buttonColor = ModAssets.Colors.Yellow;
+                else if(TargetMod.IsLocal)
+                    buttonColor = ModAssets.Colors.Blue;
+                bt.normalColor = buttonColor;
+                bt.hoverColor = UIUtils.Lighten(buttonColor, 20);
 
                 ModName?.SetText(Name);
                 var label = transform.Find("ModType/Label").gameObject.GetComponent<LocText>();
                 if (TargetMod.IsLocal)
                 {
-                    TypeGO.gameObject.GetComponent<Image>().color = ModAssets.Colors.Blue;
-                    label.SetText(STRINGS.UI.LOCAL_MOD);
+                    TypeGO.gameObject.GetComponent<Image>().color = buttonColor;
+                    label.SetText(devMod ? STRINGS.UI.MOD_FILTER_DROPDOWN.DEV : STRINGS.UI.MOD_FILTER_DROPDOWN.LOCAL);
                 }
                 else
                 {
@@ -79,11 +86,18 @@ namespace ModProfileManager_Addon.UnityUI.Components
                 Name = m_missingLabel.title;
                 this.gameObject.name = Name;
 
+                Color buttonColor = ModAssets.Colors.DarkRed;
+                if (m_missingLabel.distribution_platform == KMod.Label.DistributionPlatform.Dev)
+                    buttonColor = ModAssets.Colors.DarkYellow;
+                else if (m_missingLabel.distribution_platform == KMod.Label.DistributionPlatform.Local)
+                    buttonColor = ModAssets.Colors.DarkBlue;
+
+
                 ModName?.SetText(Name);
-                TypeGO.GetComponent<Image>().color = isMissingSteam ? ModAssets.Colors.DarkRed : ModAssets.Colors.DarkBlue;
+                TypeGO.GetComponent<Image>().color = buttonColor;
 
                 var label = transform.Find("ModType/Label").gameObject.GetComponent<LocText>();
-                label.SetText(STRINGS.UI.MISSING);
+                label.SetText(STRINGS.UI.MOD_FILTER_DROPDOWN.MISSING);
                 UIUtils.AddSimpleTooltipToObject(label.gameObject, isMissingSteam ? STRINGS.UI.STEAM_MISSING_TOOLTIP : STRINGS.UI.LOCAL_MISSING_TOOLTIP);
 
                 if (isMissingSteam)

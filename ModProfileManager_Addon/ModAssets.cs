@@ -68,9 +68,11 @@ namespace ModProfileManager_Addon
         {
             public static Color Red = UIUtils.rgb(134, 69, 101);
             public static Color Blue = UIUtils.HSVShift(Red, 70f);
+            public static Color Yellow = UIUtils.HSVShift(Red, 20f);
 
             public static Color DarkRed = UIUtils.Darken(Red, 40);
             public static Color DarkBlue = UIUtils.Darken(Blue, 40);
+            public static Color DarkYellow = UIUtils.Darken(Yellow, 40);
         }
 
 
