@@ -10,10 +10,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{24F61C11-CC87-4DFE-A4CF-659E31DFF121}"
 	ProjectSection(SolutionItems) = preProject
 		Directory.Build.props = Directory.Build.props
+		Directory.Build.props.default = Directory.Build.props.default
 		Directory.Build.targets = Directory.Build.targets
 		ModThatBroke.txt = ModThatBroke.txt
 		ModVersionData.json = ModVersionData.json
 		README.md = README.md
+		TODO.txt = TODO.txt
 		UpdatedOniTemplate.zip = UpdatedOniTemplate.zip
 	EndProjectSection
 EndProject
@@ -177,7 +179,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MassMoveTo", "MassMoveTo\Ma
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoragePiles", "StoragePiles\StoragePiles.csproj", "{17A07EFE-86F1-47CA-B3F7-091ABA898C9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoldHatch", "GoldHatch\GoldHatch.csproj", "{D6BA8125-D114-4A32-931B-4D909129C5DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoldHatch", "GoldHatch\GoldHatch.csproj", "{D6BA8125-D114-4A32-931B-4D909129C5DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

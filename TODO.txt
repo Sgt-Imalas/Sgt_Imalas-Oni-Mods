@@ -1,0 +1,16 @@
+DSS:
+- add extra care packages for FP
+- fix right click spam crash for duplicity editor
+
+MassMoveTool:
+- add critter categories
+
+CGM:
+- biome mixing
+- biome mixing ui
+- world mixing ui
+- mixing preset integration
+
+RocketryExpanded:
+- rm fake solar panel solution from radbolt chamber module
+- recheck if radbolt chamber module anim is fixed.
