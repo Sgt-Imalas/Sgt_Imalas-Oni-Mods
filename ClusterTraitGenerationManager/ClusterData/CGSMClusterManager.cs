@@ -934,19 +934,21 @@ namespace ClusterTraitGenerationManager.ClusterData
             if (CustomCluster == null || !RerollMixingsWithSeedChange && CGM_Screen.IsCurrentlyActive)
                 return;
 
+            //undo all ongoing worldmixings
             foreach(var planet in CustomCluster.GetAllPlanets())
             {
-                if(planet== null||planet.world==null||planet.placement == null ) continue;
+                if(planet== null||planet.world==null||planet.placement == null) continue;
                 planet.SetWorldMixing(null);
                 planet.placement.UndoWorldMixing();
             }
 
             int seed = int.Parse(CustomGameSettings.Instance.GetCurrentQualitySetting(CustomGameSettingConfigs.WorldgenSeed).id);
 
+            //grab the unmixed layout
             var layout = GeneratedLayout;
-
+            //throw it throught the mixer to apply all the mixings , todo: grab biome mixings somewhere
             var mutated = WorldgenMixing.DoWorldMixing(layout, seed, true, true);
-
+            
             foreach (var planetPlacement in mutated.layout.worldPlacements)
             {
                 bool isWorldMixed = false;
@@ -960,6 +962,7 @@ namespace ClusterTraitGenerationManager.ClusterData
                     isWorldMixed = true;
                     SgtLogger.l(planetpath, "MIXING");
                 }
+                //apply mixing relations for UI
                 if (CustomCluster.HasStarmapItem(planetpath, out var FoundPlanet))
                 {
                     SgtLogger.l(FoundPlanet.category.ToString());

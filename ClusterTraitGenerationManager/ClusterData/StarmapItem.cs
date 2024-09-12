@@ -571,6 +571,19 @@ namespace ClusterTraitGenerationManager.ClusterData
         public StarmapItem SetWorldMixing(StarmapItem mix)
         {
             world_mixing = mix;
+            if (placement != null)
+            {
+                if (mix == null) //undoing mixing
+                {
+                    placement.UndoWorldMixing();
+                }
+                else //applying mixing
+                {
+                    placement.worldMixing.previousWorld = placement.world;
+                    placement.worldMixing.mixingWasApplied = true;
+                    placement.world = mix.world.filePath;
+                }
+            }
             return this;
         }
 
@@ -774,14 +787,14 @@ namespace ClusterTraitGenerationManager.ClusterData
 
             SgtLogger.l(traitId, "Trait LIGHT");
             string currentValue = world.fixedTraits.FirstOrDefault(t => ModAssets.SunlightFixedTraits.ContainsKey(t));
-            if(currentValue !=null)
+            if (currentValue != null)
                 world.fixedTraits.Remove(currentValue);
             world.fixedTraits.Add(traitId);
 
         }
         public void SetRadiationValue(string traitId)
         {
-            if(!DlcManager.IsExpansion1Active())
+            if (!DlcManager.IsExpansion1Active())
                 return;
 
             if (world == null)
@@ -803,7 +816,7 @@ namespace ClusterTraitGenerationManager.ClusterData
             string currentValue = world.fixedTraits.FirstOrDefault(t => ModAssets.NorthernLightsFixedTraits.ContainsKey(t));
             if (currentValue != null)
                 world.fixedTraits.Remove(currentValue);
-            world.fixedTraits.Add(traitId);            
+            world.fixedTraits.Add(traitId);
         }
 
         #endregion
