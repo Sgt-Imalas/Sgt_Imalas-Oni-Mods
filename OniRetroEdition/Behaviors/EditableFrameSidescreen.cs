@@ -33,7 +33,7 @@
 //        public override void OnSpawn()
 //        {
 //            base.OnSpawn();
-           
+
 //            //RandomButtonImage = flipButton.transform.Find("FG").GetComponent<Image>();
 
 //            //if (PlaceStationButton.TryGetComponent<KImage>(out var sourceBtn) && flipButton.TryGetComponent<KImage>(out var targetButton))
@@ -41,7 +41,7 @@
 //            //    targetButton.colorStyleSetting = (sourceBtn.colorStyleSetting);
 //            //    targetButton.ApplyColorStyleSetting();
 //            //}
-            
+
 //            //UIUtils.AddActionToButton(ToggleManualDeliveryButton.transform, "", () => { TargetBalloonStand.ToggleManualDelivery(); RefreshButtons(); });
 //            //UIUtils.AddActionToButton(PlaceStationButton.transform, "", () => { TargetBalloonStand.ToggleAll(); RefreshButtons(); });
 //            //UIUtils.AddActionToButton(flipButton.transform, "", () => { TargetBalloonStand.ToggleFullyRandom(); RefreshButtons(); });

@@ -8,455 +8,450 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using UtilLibs;
-using static ModifierSet;
-using static ModInfo;
-using static ResearchTypes;
-using static STRINGS.UI.TOOLS;
 
 namespace SetStartDupes
 {
-    public class MinionStatConfig
-    {
-        public string FileName;
-        public string ConfigName;
-        public List<string> Traits = new List<string>();
-        public string stressTrait;
-        public string joyTrait;
-        public List<KeyValuePair<string, int>> StartingLevels = new List<KeyValuePair<string, int>>();
-        public List<KeyValuePair<string, float>> skillAptitudes = new List<KeyValuePair<string, float>>();
-        public float StarterXP = 0;
-        public float Age = 0;
-        public string PersonalityID;
-        public string DLCID = "";
+	public class MinionStatConfig
+	{
+		public string FileName;
+		public string ConfigName;
+		public List<string> Traits = new List<string>();
+		public string stressTrait;
+		public string joyTrait;
+		public List<KeyValuePair<string, int>> StartingLevels = new List<KeyValuePair<string, int>>();
+		public List<KeyValuePair<string, float>> skillAptitudes = new List<KeyValuePair<string, float>>();
+		public float StarterXP = 0;
+		public float Age = 0;
+		public string PersonalityID;
+		public string DLCID = "";
 
-        public void OpenPopUpToChangeName(System.Action callBackAction = null)
-        {
-            FileNameDialog fileNameDialog = (FileNameDialog)KScreenManager.Instance.StartScreen(ScreenPrefabs.Instance.FileNameDialog.gameObject, ModAssets.ParentScreen);
-            fileNameDialog.SetTextAndSelect(ConfigName);
-            fileNameDialog.onConfirm = (System.Action<string>)(newName =>
-            {
-                if (newName.EndsWith(".sav"))
-                {
-                    int place = newName.LastIndexOf(".sav");
+		public void OpenPopUpToChangeName(System.Action callBackAction = null)
+		{
+			FileNameDialog fileNameDialog = (FileNameDialog)KScreenManager.Instance.StartScreen(ScreenPrefabs.Instance.FileNameDialog.gameObject, ModAssets.ParentScreen);
+			fileNameDialog.SetTextAndSelect(ConfigName);
+			fileNameDialog.onConfirm = (System.Action<string>)(newName =>
+			{
+				if (newName.EndsWith(".sav"))
+				{
+					int place = newName.LastIndexOf(".sav");
 
-                    if (place != -1)
-                        newName = newName.Remove(place, 4);
-                }
-                this.ChangenName(newName);
+					if (place != -1)
+						newName = newName.Remove(place, 4);
+				}
+				this.ChangenName(newName);
 
-                if (callBackAction != null)
-                    callBackAction.Invoke();
-            });
-        }
+				if (callBackAction != null)
+					callBackAction.Invoke();
+			});
+		}
 
-        public void ChangenName(string newName)
-        {
-            DeleteFile();
-            ConfigName = newName;
-            FileName = FileNameWithHash(newName);
-            WriteToFile();
-        }
+		public void ChangenName(string newName)
+		{
+			DeleteFile();
+			ConfigName = newName;
+			FileName = FileNameWithHash(newName);
+			WriteToFile();
+		}
 
-        static string FileNameWithHash(string filename)
-        {
-            return filename.Replace(" ", "_");// + "_" + GenerateHash(System.DateTime.Now.ToString());
-        }
+		static string FileNameWithHash(string filename)
+		{
+			return filename.Replace(" ", "_");// + "_" + GenerateHash(System.DateTime.Now.ToString());
+		}
 
-        public MinionStatConfig(string fileName, string configName, List<Trait> traits, Trait stressTrait, Trait joyTrait, List<KeyValuePair<string, int>> startingLevels, List<KeyValuePair<SkillGroup, float>> skillAptitudes)
-        {
-            FileName = fileName;
-            ConfigName = configName;
-            Traits = traits.Select(trait => trait.Id).ToList();
-            Traits.RemoveAll(trait => trait == ANCIENTKNOWLEDGE);
-            this.stressTrait = stressTrait.Id;
-            this.joyTrait = joyTrait.Id;
-            StartingLevels = startingLevels;
-            this.skillAptitudes = skillAptitudes.Select(kvp => new KeyValuePair<string, float>(kvp.Key.Id, kvp.Value)).ToList();
+		public MinionStatConfig(string fileName, string configName, List<Trait> traits, Trait stressTrait, Trait joyTrait, List<KeyValuePair<string, int>> startingLevels, List<KeyValuePair<SkillGroup, float>> skillAptitudes)
+		{
+			FileName = fileName;
+			ConfigName = configName;
+			Traits = traits.Select(trait => trait.Id).ToList();
+			Traits.RemoveAll(trait => trait == ANCIENTKNOWLEDGE);
+			this.stressTrait = stressTrait.Id;
+			this.joyTrait = joyTrait.Id;
+			StartingLevels = startingLevels;
+			this.skillAptitudes = skillAptitudes.Select(kvp => new KeyValuePair<string, float>(kvp.Key.Id, kvp.Value)).ToList();
 
-            if (DlcManager.IsExpansion1Active())
-                DLCID = DlcManager.EXPANSION1_ID;
-        }
-        public MinionStatConfig() { }
-        public MinionStatConfig(string fileName, string configName, List<string> traits, string stressTrait, string joyTrait, List<KeyValuePair<string, int>> startingLevels, List<KeyValuePair<string, float>> skillAptitudes)
-        {
-            FileName = fileName;
-            ConfigName = configName;
-            Traits = traits;
-            this.stressTrait = stressTrait;
-            this.joyTrait = joyTrait;
-            StartingLevels = startingLevels;
-            this.skillAptitudes = skillAptitudes;
-            if (DlcManager.IsExpansion1Active())
-                DLCID = DlcManager.EXPANSION1_ID;
-            //WriteToFile();
-        }
+			if (DlcManager.IsExpansion1Active())
+				DLCID = DlcManager.EXPANSION1_ID;
+		}
+		public MinionStatConfig() { }
+		public MinionStatConfig(string fileName, string configName, List<string> traits, string stressTrait, string joyTrait, List<KeyValuePair<string, int>> startingLevels, List<KeyValuePair<string, float>> skillAptitudes)
+		{
+			FileName = fileName;
+			ConfigName = configName;
+			Traits = traits;
+			this.stressTrait = stressTrait;
+			this.joyTrait = joyTrait;
+			StartingLevels = startingLevels;
+			this.skillAptitudes = skillAptitudes;
+			if (DlcManager.IsExpansion1Active())
+				DLCID = DlcManager.EXPANSION1_ID;
+			//WriteToFile();
+		}
 
-        public static string GenerateHash(string str)
-        {
-            using (var md5Hasher = MD5.Create())
-            {
-                var data = md5Hasher.ComputeHash(Encoding.Default.GetBytes(str));
-                return BitConverter.ToString(data).Replace("-", "").Substring(0, 6);
-            }
-        }
-        internal static void RegisterTearDuplicant(StoredMinionIdentity storedMinionIdentity)
-        {
-            CreateFromStoredMinionIdentiy(storedMinionIdentity).WriteToFile(true);
-        }
-        internal static void RegisterTearDuplicant(MinionIdentity minionIdentity)
-        {
-            CreateFromMinionIdentiy(minionIdentity).WriteToFile(true);
-        }
-        public static MinionStatConfig CreateFromStoredMinionIdentiy(StoredMinionIdentity dupe)
-        {
-            List<KeyValuePair<string, int>> startingLevels = new List<KeyValuePair<string, int>>();
-            List<KeyValuePair<string, float>> skillAptitudes = new List<KeyValuePair<string, float>>();
-            List<string> traitsId = new List<string>();
-            string stress = null, joy = null;
+		public static string GenerateHash(string str)
+		{
+			using (var md5Hasher = MD5.Create())
+			{
+				var data = md5Hasher.ComputeHash(Encoding.Default.GetBytes(str));
+				return BitConverter.ToString(data).Replace("-", "").Substring(0, 6);
+			}
+		}
+		internal static void RegisterTearDuplicant(StoredMinionIdentity storedMinionIdentity)
+		{
+			CreateFromStoredMinionIdentiy(storedMinionIdentity).WriteToFile(true);
+		}
+		internal static void RegisterTearDuplicant(MinionIdentity minionIdentity)
+		{
+			CreateFromMinionIdentiy(minionIdentity).WriteToFile(true);
+		}
+		public static MinionStatConfig CreateFromStoredMinionIdentiy(StoredMinionIdentity dupe)
+		{
+			List<KeyValuePair<string, int>> startingLevels = new List<KeyValuePair<string, int>>();
+			List<KeyValuePair<string, float>> skillAptitudes = new List<KeyValuePair<string, float>>();
+			List<string> traitsId = new List<string>();
+			string stress = null, joy = null;
 
-            foreach (var trait in dupe.traitIDs)
-            {
-                switch (ModAssets.GetTraitListOfTrait(trait))
-                {
-                    case DupeTraitManager.NextType.joy:
-                        joy = trait;
-                        break;
-                    case DupeTraitManager.NextType.stress:
-                        stress = trait;
-                        break;
-                    default:
-                        traitsId.Add(trait);
-                        break;
-                }
-            }
+			foreach (var trait in dupe.traitIDs)
+			{
+				switch (ModAssets.GetTraitListOfTrait(trait))
+				{
+					case DupeTraitManager.NextType.joy:
+						joy = trait;
+						break;
+					case DupeTraitManager.NextType.stress:
+						stress = trait;
+						break;
+					default:
+						traitsId.Add(trait);
+						break;
+				}
+			}
 
-            foreach (var attribute in dupe.attributeLevels)
-            {
-                startingLevels.Add(new KeyValuePair<string, int>(attribute.attributeId, attribute.level));
-            }
+			foreach (var attribute in dupe.attributeLevels)
+			{
+				startingLevels.Add(new KeyValuePair<string, int>(attribute.attributeId, attribute.level));
+			}
 
-            var groups = Db.Get().SkillGroups;
-            foreach (var skillAptitude in dupe.AptitudeBySkillGroup)
-            {
-                var group = groups.Get(skillAptitude.Key);
+			var groups = Db.Get().SkillGroups;
+			foreach (var skillAptitude in dupe.AptitudeBySkillGroup)
+			{
+				var group = groups.Get(skillAptitude.Key);
 
-                if (group == null)
-                {
-                    SgtLogger.error(skillAptitude.Key + " was no viable skillgroup!");
-                    continue;
-                }
+				if (group == null)
+				{
+					SgtLogger.error(skillAptitude.Key + " was no viable skillgroup!");
+					continue;
+				}
 
-                skillAptitudes.Add(new KeyValuePair<string, float>(group.Id, skillAptitude.Value));
-            }
+				skillAptitudes.Add(new KeyValuePair<string, float>(group.Id, skillAptitude.Value));
+			}
 
-            var config = new MinionStatConfig(
-                FileNameWithHash(SaveGame.Instance.BaseName + "_" + dupe.name),
-                dupe.name,
-                traitsId,
-                stress,
-                joy,
-                startingLevels,
-                skillAptitudes);
-            config.StarterXP = dupe.TotalExperienceGained;
-            config.Age = GameClock.Instance.GetCycle() - dupe.arrivalTime;
-            config.PersonalityID = dupe.nameStringKey;
+			var config = new MinionStatConfig(
+				FileNameWithHash(SaveGame.Instance.BaseName + "_" + dupe.name),
+				dupe.name,
+				traitsId,
+				stress,
+				joy,
+				startingLevels,
+				skillAptitudes);
+			config.StarterXP = dupe.TotalExperienceGained;
+			config.Age = GameClock.Instance.GetCycle() - dupe.arrivalTime;
+			config.PersonalityID = dupe.nameStringKey;
 
-            return config;
-        }
-        public static MinionStatConfig CreateFromMinionIdentiy(MinionIdentity dupe)
-        {
-            if (dupe.TryGetComponent<MinionResume>(out var resume)
-               && dupe.TryGetComponent<Traits>(out var traits)
-               && dupe.TryGetComponent<AttributeLevels>(out var attributes)
-               )
-            {
-                List<KeyValuePair<string, int>> startingLevels = new List<KeyValuePair<string, int>>();
-                List<KeyValuePair<SkillGroup, float>> skillAptitudes = new List<KeyValuePair<SkillGroup, float>>();
-                List<Trait> traitsId = new List<Trait>();
-                Trait stress = null, joy = null;
+			return config;
+		}
+		public static MinionStatConfig CreateFromMinionIdentiy(MinionIdentity dupe)
+		{
+			if (dupe.TryGetComponent<MinionResume>(out var resume)
+			   && dupe.TryGetComponent<Traits>(out var traits)
+			   && dupe.TryGetComponent<AttributeLevels>(out var attributes)
+			   )
+			{
+				List<KeyValuePair<string, int>> startingLevels = new List<KeyValuePair<string, int>>();
+				List<KeyValuePair<SkillGroup, float>> skillAptitudes = new List<KeyValuePair<SkillGroup, float>>();
+				List<Trait> traitsId = new List<Trait>();
+				Trait stress = null, joy = null;
 
-                foreach (var trait in traits.TraitList)
-                {
-                    switch (ModAssets.GetTraitListOfTrait(trait))
-                    {
-                        case DupeTraitManager.NextType.joy:
-                            joy = trait;
-                            break;
-                        case DupeTraitManager.NextType.stress:
-                            stress = trait;
-                            break;
-                        default:
-                            traitsId.Add(trait);
-                            break;
-                    }
-                }
+				foreach (var trait in traits.TraitList)
+				{
+					switch (ModAssets.GetTraitListOfTrait(trait))
+					{
+						case DupeTraitManager.NextType.joy:
+							joy = trait;
+							break;
+						case DupeTraitManager.NextType.stress:
+							stress = trait;
+							break;
+						default:
+							traitsId.Add(trait);
+							break;
+					}
+				}
 
-                foreach (AttributeLevel attribute in attributes.levels)
-                {
-                    startingLevels.Add(new KeyValuePair<string, int>(attribute.attribute.Attribute.Id, attribute.level));
-                }
+				foreach (AttributeLevel attribute in attributes.levels)
+				{
+					startingLevels.Add(new KeyValuePair<string, int>(attribute.attribute.Attribute.Id, attribute.level));
+				}
 
-                var groups = Db.Get().SkillGroups;
-                foreach (var skillAptitude in resume.AptitudeBySkillGroup)
-                {
-                    var group = groups.Get(skillAptitude.Key);
+				var groups = Db.Get().SkillGroups;
+				foreach (var skillAptitude in resume.AptitudeBySkillGroup)
+				{
+					var group = groups.Get(skillAptitude.Key);
 
-                    if (group == null)
-                    {
-                        SgtLogger.error(skillAptitude.Key + " was no viable skillgroup!");
-                        continue;
-                    }
+					if (group == null)
+					{
+						SgtLogger.error(skillAptitude.Key + " was no viable skillgroup!");
+						continue;
+					}
 
-                    skillAptitudes.Add(new KeyValuePair<SkillGroup, float>(group, skillAptitude.Value));
-                }
+					skillAptitudes.Add(new KeyValuePair<SkillGroup, float>(group, skillAptitude.Value));
+				}
 
-                var config = new MinionStatConfig(
-                    FileNameWithHash(SaveGame.Instance.BaseName + "_" + dupe.name),
-                    dupe.name,
-                    traitsId,
-                    stress,
-                    joy,
-                    startingLevels,
-                    skillAptitudes);
-                config.StarterXP = resume.TotalExperienceGained;
-                config.Age = GameClock.Instance.GetCycle() - dupe.arrivalTime;
-                config.PersonalityID = dupe.nameStringKey;
+				var config = new MinionStatConfig(
+					FileNameWithHash(SaveGame.Instance.BaseName + "_" + dupe.name),
+					dupe.name,
+					traitsId,
+					stress,
+					joy,
+					startingLevels,
+					skillAptitudes);
+				config.StarterXP = resume.TotalExperienceGained;
+				config.Age = GameClock.Instance.GetCycle() - dupe.arrivalTime;
+				config.PersonalityID = dupe.nameStringKey;
 
-                return config;
-            }
-            return null;
-        }
+				return config;
+			}
+			return null;
+		}
 
-        public static MinionStatConfig CreateFromStartingStats(MinionStartingStats startingStats)
-        {
-            List<KeyValuePair<string, float>> skillAptitudes = new List<KeyValuePair<string, float>>();
-            foreach (var kvp in startingStats.skillAptitudes)
-            {
-                skillAptitudes.Add(new KeyValuePair<string, float>(kvp.Key.Id, kvp.Value));
-            }
-            string dupeName = startingStats.Name + " " + STRINGS.UNNAMEDPRESET;
+		public static MinionStatConfig CreateFromStartingStats(MinionStartingStats startingStats)
+		{
+			List<KeyValuePair<string, float>> skillAptitudes = new List<KeyValuePair<string, float>>();
+			foreach (var kvp in startingStats.skillAptitudes)
+			{
+				skillAptitudes.Add(new KeyValuePair<string, float>(kvp.Key.Id, kvp.Value));
+			}
+			string dupeName = startingStats.Name + " " + STRINGS.UNNAMEDPRESET;
 
-            var config = new MinionStatConfig(
-                FileNameWithHash(dupeName),
-                dupeName,
-                startingStats.Traits,
-                startingStats.stressTrait,
-                startingStats.joyTrait,
-                startingStats.StartingLevels.ToList(),
-                startingStats.skillAptitudes.ToList());
+			var config = new MinionStatConfig(
+				FileNameWithHash(dupeName),
+				dupeName,
+				startingStats.Traits,
+				startingStats.stressTrait,
+				startingStats.joyTrait,
+				startingStats.StartingLevels.ToList(),
+				startingStats.skillAptitudes.ToList());
 
-            if (ModAssets.BeachedActive)
-                config.Traits.Add(Beached_API.GetCurrentLifeGoal(startingStats).Id);
+			if (ModAssets.BeachedActive)
+				config.Traits.Add(Beached_API.GetCurrentLifeGoal(startingStats).Id);
 
-            return config;
-        }
+			return config;
+		}
 
-        static string STICKERBOMBER = "StickerBomber";
-        static string ANCIENTKNOWLEDGE = "AncientKnowledge";
-        static string CHATTY = "Chatty";
-        public void ApplyPreset(MinionStartingStats referencedStats, bool overrideName, bool overrideReaction)
-        {
-            if(overrideName)
-                referencedStats.Name = this.ConfigName.Replace(STRINGS.UNNAMEDPRESET, string.Empty);
+		static string STICKERBOMBER = "StickerBomber";
+		static string ANCIENTKNOWLEDGE = "AncientKnowledge";
+		static string CHATTY = "Chatty";
+		public void ApplyPreset(MinionStartingStats referencedStats, bool overrideName, bool overrideReaction)
+		{
+			if (overrideName)
+				referencedStats.Name = this.ConfigName.Replace(STRINGS.UNNAMEDPRESET, string.Empty);
 
-            bool HadChatty = referencedStats.Traits.Any(trait => trait.Id == CHATTY);
-            bool HadAncientKnowledge = referencedStats.Traits.Any(trait => trait.Id == ANCIENTKNOWLEDGE);
-            referencedStats.Traits.Clear();
-            var traitRef = Db.Get().traits;
+			bool HadChatty = referencedStats.Traits.Any(trait => trait.Id == CHATTY);
+			bool HadAncientKnowledge = referencedStats.Traits.Any(trait => trait.Id == ANCIENTKNOWLEDGE);
+			referencedStats.Traits.Clear();
+			var traitRef = Db.Get().traits;
 
-            if (!Traits.Contains(MinionConfig.MINION_BASE_TRAIT_ID))
-                Traits.Add(MinionConfig.MINION_BASE_TRAIT_ID);
-
-
-            if (HadAncientKnowledge)
-            {
-                Traits.Add(ANCIENTKNOWLEDGE);
-            }
-            else
-                Traits.RemoveAll(trait => trait == ANCIENTKNOWLEDGE);
-
-            if (HadChatty)
-            {
-                Traits.Add(CHATTY);
-            }
-            else
-                Traits.RemoveAll(trait => trait == CHATTY);
-
-            SgtLogger.l("Applying traits");
-            foreach (var traitID in this.Traits)
-            {
-                var Trait = traitRef.TryGet(traitID);
-
-                if (Trait != null && ModAssets.GetTraitListOfTrait(Trait) == DupeTraitManager.NextType.Beached_LifeGoal)
-                {
-                    Beached_API.RemoveLifeGoal(referencedStats);
-                    Beached_API.SetLifeGoal(referencedStats, Trait, false);
-                    continue;
-                }
-
-                if (Trait != null && ModAssets.TraitAllowedInCurrentDLC(traitID))
-                {
-                    referencedStats.Traits.Add(Trait);
-                }
-            }
-
-            SgtLogger.l("Applying starting levels");
-            referencedStats.StartingLevels.Clear();
-            foreach (var startLevel in this.StartingLevels)
-            {
-                referencedStats.StartingLevels[startLevel.Key] = startLevel.Value;
-            }
-
-            SgtLogger.l("Applying joy reaction");
-            if (!Config.Instance.NoJoyReactions)
-            {
-                if (overrideReaction)
-                    referencedStats.joyTrait = traitRef.Get(this.joyTrait);
-            }
-            else
-            {
-                referencedStats.joyTrait = traitRef.Get("None");
-            }
-            ///fixes invis stickers;
-            if(joyTrait == STICKERBOMBER && referencedStats.stickerType.IsNullOrWhiteSpace())
-            {
-                referencedStats.stickerType = ModAssets.GetRandomStickerType();
-            }
+			if (!Traits.Contains(MinionConfig.MINION_BASE_TRAIT_ID))
+				Traits.Add(MinionConfig.MINION_BASE_TRAIT_ID);
 
 
-            SgtLogger.l("Applying stress reaction");
-            if (!Config.Instance.NoStressReactions)
-            {
-                if (overrideReaction)
-                    referencedStats.stressTrait = traitRef.Get(this.stressTrait);
-            }
-            else
-            {
-                referencedStats.stressTrait = traitRef.Get("None");
-            }
+			if (HadAncientKnowledge)
+			{
+				Traits.Add(ANCIENTKNOWLEDGE);
+			}
+			else
+				Traits.RemoveAll(trait => trait == ANCIENTKNOWLEDGE);
 
-            if (ModAssets.DupeTraitManagers.ContainsKey(referencedStats))
-            {
-                ModAssets.DupeTraitManagers[referencedStats].ResetPool();
-            }
+			if (HadChatty)
+			{
+				Traits.Add(CHATTY);
+			}
+			else
+				Traits.RemoveAll(trait => trait == CHATTY);
 
-            var AptitudeRef = Db.Get().SkillGroups;
-            referencedStats.skillAptitudes.Clear();
+			SgtLogger.l("Applying traits");
+			foreach (var traitID in this.Traits)
+			{
+				var Trait = traitRef.TryGet(traitID);
 
-            SgtLogger.l("Applying skill aptitudes");
-            foreach (var skillAptitude in this.skillAptitudes)
-            {
-                SkillGroup targetGroup = AptitudeRef.TryGet(skillAptitude.Key);
-                if (targetGroup != null)
-                {
-                    referencedStats.skillAptitudes[targetGroup] = skillAptitude.Value;
-                }
-            }
+				if (Trait != null && ModAssets.GetTraitListOfTrait(Trait) == DupeTraitManager.NextType.Beached_LifeGoal)
+				{
+					Beached_API.RemoveLifeGoal(referencedStats);
+					Beached_API.SetLifeGoal(referencedStats, Trait, false);
+					continue;
+				}
+
+				if (Trait != null && ModAssets.TraitAllowedInCurrentDLC(traitID))
+				{
+					referencedStats.Traits.Add(Trait);
+				}
+			}
+
+			SgtLogger.l("Applying starting levels");
+			referencedStats.StartingLevels.Clear();
+			foreach (var startLevel in this.StartingLevels)
+			{
+				referencedStats.StartingLevels[startLevel.Key] = startLevel.Value;
+			}
+
+			SgtLogger.l("Applying joy reaction");
+			if (!Config.Instance.NoJoyReactions)
+			{
+				if (overrideReaction)
+					referencedStats.joyTrait = traitRef.Get(this.joyTrait);
+			}
+			else
+			{
+				referencedStats.joyTrait = traitRef.Get("None");
+			}
+			///fixes invis stickers;
+			if (joyTrait == STICKERBOMBER && referencedStats.stickerType.IsNullOrWhiteSpace())
+			{
+				referencedStats.stickerType = ModAssets.GetRandomStickerType();
+			}
 
 
-            if (ModAssets.OtherModBonusPoints.ContainsKey(referencedStats))
-            {
-                ModAssets.OtherModBonusPoints.Remove(referencedStats);
-            }
-            if (ModAssets.DupeTraitManagers.ContainsKey(referencedStats))
-            {
-                ModAssets.DupeTraitManagers[referencedStats].RecalculateAll();
-            }
-        }
+			SgtLogger.l("Applying stress reaction");
+			if (!Config.Instance.NoStressReactions)
+			{
+				if (overrideReaction)
+					referencedStats.stressTrait = traitRef.Get(this.stressTrait);
+			}
+			else
+			{
+				referencedStats.stressTrait = traitRef.Get("None");
+			}
 
-        public static MinionStatConfig ReadFromFile(FileInfo filePath)
-        {
-            if (!filePath.Exists || filePath.Extension != ".json")
-            {
-                SgtLogger.logwarning("Not a valid dupe preset.");
-                return null;
-            }
-            else
-            {
-                FileStream filestream = filePath.OpenRead();
-                using (var sr = new StreamReader(filestream))
-                {
-                    string jsonString = sr.ReadToEnd();
-                    MinionStatConfig modlist = JsonConvert.DeserializeObject<MinionStatConfig>(jsonString);
-                    return modlist;
-                }
-            }
-        }
-        public string SkillGroupName(string groupID)
-        {
-            if (groupID == null)
-                return "";
-            else
-            {
+			if (ModAssets.DupeTraitManagers.ContainsKey(referencedStats))
+			{
+				ModAssets.DupeTraitManagers[referencedStats].ResetPool();
+			}
 
-                var skillGroup = Db.Get().SkillGroups.TryGet(groupID);
-                if (skillGroup == null)
-                {
-                    return STRINGS.MISSINGSKILLGROUP;
-                }
-                else
-                {
-                    string relevantSkillID = skillGroup.relevantAttributes.First().Id;
-                    return string.Format(STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY, ModAssets.GetChoreGroupNameForSkillgroup(skillGroup), SkillGroup(skillGroup), SkillLevel(relevantSkillID));
-                }
-            }
-        }
-        public string SkillGroupDesc(string groupID)
-        {
-            if (groupID == null)
-                return "";
-            else
-            {
-                var skillGroup = Db.Get().SkillGroups.TryGet(groupID);
-                return ModAssets.GetSkillgroupDescription(skillGroup, id: groupID);
-            }
-        }
-        public string SkillGroup(SkillGroup group)
-        {
-            return Strings.Get("STRINGS.DUPLICANTS.ATTRIBUTES." + group.relevantAttributes.First().Id.ToUpperInvariant() + ".NAME");
-        }
-        string SkillLevel(string skillID)
-        {
-            return StartingLevels.Find((skill) => skill.Key == skillID).Value.ToString();
-        }
+			var AptitudeRef = Db.Get().SkillGroups;
+			referencedStats.skillAptitudes.Clear();
 
-        public void WriteToFile(bool tearDupe = false)
-        {
-            try
-            {
-                string templatePath = tearDupe ? ModAssets.DupeTearTemplatePath : ModAssets.DupeTemplatePath;
-                var path = Path.Combine(templatePath, FileName + ".json");
+			SgtLogger.l("Applying skill aptitudes");
+			foreach (var skillAptitude in this.skillAptitudes)
+			{
+				SkillGroup targetGroup = AptitudeRef.TryGet(skillAptitude.Key);
+				if (targetGroup != null)
+				{
+					referencedStats.skillAptitudes[targetGroup] = skillAptitude.Value;
+				}
+			}
 
-                var fileInfo = new FileInfo(path);
-                FileStream fcreate = fileInfo.Open(FileMode.Create);
 
-                var JsonString = JsonConvert.SerializeObject(this, Formatting.Indented);
-                using (var streamWriter = new StreamWriter(fcreate))
-                {
-                    streamWriter.Write(JsonString);
-                }
-            }
-            catch (Exception e)
-            {
-                SgtLogger.logError("Could not write file, Exception: " + e);
-            }
-        }
-        public void DeleteFile(bool tearDupe = false)
-        {
-            try
-            {
-                string templatePath = tearDupe ? ModAssets.DupeTearTemplatePath : ModAssets.DupeTemplatePath;
-                var path = Path.Combine(templatePath, FileName + ".json");
+			if (ModAssets.OtherModBonusPoints.ContainsKey(referencedStats))
+			{
+				ModAssets.OtherModBonusPoints.Remove(referencedStats);
+			}
+			if (ModAssets.DupeTraitManagers.ContainsKey(referencedStats))
+			{
+				ModAssets.DupeTraitManagers[referencedStats].RecalculateAll();
+			}
+		}
 
-                var fileInfo = new FileInfo(path);
-                fileInfo.Delete();
-            }
-            catch (Exception e)
-            {
-                SgtLogger.logError("Could not delete file, Exception: " + e);
-            }
-        }
-    }
+		public static MinionStatConfig ReadFromFile(FileInfo filePath)
+		{
+			if (!filePath.Exists || filePath.Extension != ".json")
+			{
+				SgtLogger.logwarning("Not a valid dupe preset.");
+				return null;
+			}
+			else
+			{
+				FileStream filestream = filePath.OpenRead();
+				using (var sr = new StreamReader(filestream))
+				{
+					string jsonString = sr.ReadToEnd();
+					MinionStatConfig modlist = JsonConvert.DeserializeObject<MinionStatConfig>(jsonString);
+					return modlist;
+				}
+			}
+		}
+		public string SkillGroupName(string groupID)
+		{
+			if (groupID == null)
+				return "";
+			else
+			{
+
+				var skillGroup = Db.Get().SkillGroups.TryGet(groupID);
+				if (skillGroup == null)
+				{
+					return STRINGS.MISSINGSKILLGROUP;
+				}
+				else
+				{
+					string relevantSkillID = skillGroup.relevantAttributes.First().Id;
+					return string.Format(STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY, ModAssets.GetChoreGroupNameForSkillgroup(skillGroup), SkillGroup(skillGroup), SkillLevel(relevantSkillID));
+				}
+			}
+		}
+		public string SkillGroupDesc(string groupID)
+		{
+			if (groupID == null)
+				return "";
+			else
+			{
+				var skillGroup = Db.Get().SkillGroups.TryGet(groupID);
+				return ModAssets.GetSkillgroupDescription(skillGroup, id: groupID);
+			}
+		}
+		public string SkillGroup(SkillGroup group)
+		{
+			return Strings.Get("STRINGS.DUPLICANTS.ATTRIBUTES." + group.relevantAttributes.First().Id.ToUpperInvariant() + ".NAME");
+		}
+		string SkillLevel(string skillID)
+		{
+			return StartingLevels.Find((skill) => skill.Key == skillID).Value.ToString();
+		}
+
+		public void WriteToFile(bool tearDupe = false)
+		{
+			try
+			{
+				string templatePath = tearDupe ? ModAssets.DupeTearTemplatePath : ModAssets.DupeTemplatePath;
+				var path = Path.Combine(templatePath, FileName + ".json");
+
+				var fileInfo = new FileInfo(path);
+				FileStream fcreate = fileInfo.Open(FileMode.Create);
+
+				var JsonString = JsonConvert.SerializeObject(this, Formatting.Indented);
+				using (var streamWriter = new StreamWriter(fcreate))
+				{
+					streamWriter.Write(JsonString);
+				}
+			}
+			catch (Exception e)
+			{
+				SgtLogger.logError("Could not write file, Exception: " + e);
+			}
+		}
+		public void DeleteFile(bool tearDupe = false)
+		{
+			try
+			{
+				string templatePath = tearDupe ? ModAssets.DupeTearTemplatePath : ModAssets.DupeTemplatePath;
+				var path = Path.Combine(templatePath, FileName + ".json");
+
+				var fileInfo = new FileInfo(path);
+				fileInfo.Delete();
+			}
+			catch (Exception e)
+			{
+				SgtLogger.logError("Could not delete file, Exception: " + e);
+			}
+		}
+	}
 }

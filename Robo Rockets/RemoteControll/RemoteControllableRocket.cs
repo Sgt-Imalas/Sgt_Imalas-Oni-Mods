@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RoboRockets.RemoteControll
+﻿namespace RoboRockets.RemoteControll
 {
-    internal class RemoteControllableRocket:KMonoBehaviour
-    {
-    }
+	internal class RemoteControllableRocket : KMonoBehaviour
+	{
+	}
 }

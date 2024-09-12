@@ -238,10 +238,10 @@
 //                        return true;
 //                }
 //            }
-            
+
 //            foundPath = string.Empty;
 //            return false;
-            
+
 //        }
 
 //        private void Restart() => App.instance.Restart();

@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace KnastoronOniMods
+﻿namespace KnastoronOniMods
 {
-    class RocketControlStationIdleWorkableAI: RocketControlStationIdleWorkable
-    {
-        public override float GetEfficiencyMultiplier(Worker worker) => 1f;
-    }
+	class RocketControlStationIdleWorkableAI : RocketControlStationIdleWorkable
+	{
+		public override float GetEfficiencyMultiplier(Worker worker) => 1f;
+	}
 }

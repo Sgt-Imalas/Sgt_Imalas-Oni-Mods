@@ -1,16 +1,7 @@
-﻿using Klei.AI;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-
-namespace DrywallPatternColours
+﻿namespace DrywallPatternColours
 {
-    internal class ModAssets
-    {
+	internal class ModAssets
+	{
 
-    }
+	}
 }

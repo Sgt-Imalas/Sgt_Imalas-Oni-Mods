@@ -1,5 +1,5 @@
-using System;
 using HarmonyLib;
+using System;
 using TMPro;
 
 namespace SaveGameModLoader.ModsFilter
@@ -13,7 +13,7 @@ namespace SaveGameModLoader.ModsFilter
 		public static string ModFilterText => ModFilterTextCmp.text;
 
 
-        private readonly KButton _clearSearchButton;
+		private readonly KButton _clearSearchButton;
 		private readonly TMP_InputField _search;
 
 		public FilterManager(TMP_InputField search, KButton button)

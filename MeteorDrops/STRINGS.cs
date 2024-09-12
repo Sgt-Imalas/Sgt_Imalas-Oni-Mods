@@ -1,20 +1,13 @@
-﻿using STRINGS;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MeteorDrops
+﻿namespace MeteorDrops
 {
-    internal class STRINGS
-    {
-        public class BUILDINGS
-        {
-            public class PREFABS
-            {
+	internal class STRINGS
+	{
+		public class BUILDINGS
+		{
+			public class PREFABS
+			{
 
-            }
-        }
-    }
+			}
+		}
+	}
 }

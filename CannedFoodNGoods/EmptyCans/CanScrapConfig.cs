@@ -1,58 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace CannedFoods.EmptyCans
 {
-    class CanScrapConfig : IEntityConfig
-    {
-        public const string ID = "CF_CanScrap";
+	class CanScrapConfig : IEntityConfig
+	{
+		public const string ID = "CF_CanScrap";
 
-        public string[] GetDlcIds()
-        {
-            return DlcManager.AVAILABLE_ALL_VERSIONS;
-        }
+		public string[] GetDlcIds()
+		{
+			return DlcManager.AVAILABLE_ALL_VERSIONS;
+		}
 
-        public GameObject CreatePrefab()
-        {
-            GameObject looseEntity = EntityTemplates.CreateLooseEntity(
-                  id: ID,
-                  name: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.CF_CANSCRAP.NAME,
-                  desc: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.CF_CANSCRAP.DESC,
-                  mass: 1f,
-                  unitMass: false,
-                  anim: Assets.GetAnim("can_scrap_kanim"),
-                  initialAnim: "object",
-                  sceneLayer: Grid.SceneLayer.Ore,
-                  collisionShape: EntityTemplates.CollisionShape.RECTANGLE,
-                  width: 0.64f,
-                  height: 0.7f,
-                  isPickupable: true,
-                  element: Config.Instance.GetCanElement(),
-                  additionalTags: new List<Tag>()
-                  {
-                      ModAssets.Tags.CanTag,
-                      GameTags.IndustrialProduct
-                  });
+		public GameObject CreatePrefab()
+		{
+			GameObject looseEntity = EntityTemplates.CreateLooseEntity(
+				  id: ID,
+				  name: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.CF_CANSCRAP.NAME,
+				  desc: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.CF_CANSCRAP.DESC,
+				  mass: 1f,
+				  unitMass: false,
+				  anim: Assets.GetAnim("can_scrap_kanim"),
+				  initialAnim: "object",
+				  sceneLayer: Grid.SceneLayer.Ore,
+				  collisionShape: EntityTemplates.CollisionShape.RECTANGLE,
+				  width: 0.64f,
+				  height: 0.7f,
+				  isPickupable: true,
+				  element: Config.Instance.GetCanElement(),
+				  additionalTags: new List<Tag>()
+				  {
+					  ModAssets.Tags.CanTag,
+					  GameTags.IndustrialProduct
+				  });
 
-            looseEntity.AddOrGet<EntitySplitter>();
+			looseEntity.AddOrGet<EntitySplitter>();
 
-            looseEntity.AddOrGet<OccupyArea>();
+			looseEntity.AddOrGet<OccupyArea>();
 
-            DecorProvider decorProvider = looseEntity.AddOrGet<DecorProvider>();
-            decorProvider.SetValues(TUNING.DECOR.PENALTY.TIER5);
-            decorProvider.overrideName = STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.CF_CANSCRAP.NAME;
+			DecorProvider decorProvider = looseEntity.AddOrGet<DecorProvider>();
+			decorProvider.SetValues(TUNING.DECOR.PENALTY.TIER5);
+			decorProvider.overrideName = STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.CF_CANSCRAP.NAME;
 
-            return looseEntity;
-        }
+			return looseEntity;
+		}
 
 
-        public void OnPrefabInit(GameObject inst)
-        {
-        }
-        public void OnSpawn(GameObject inst) { }
-    }
+		public void OnPrefabInit(GameObject inst)
+		{
+		}
+		public void OnSpawn(GameObject inst) { }
+	}
 }

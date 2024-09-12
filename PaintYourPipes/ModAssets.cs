@@ -1,33 +1,25 @@
-﻿using Klei.AI;
-using PeterHan.PLib.Actions;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using PeterHan.PLib.Actions;
 
 namespace PaintYourPipes
 {
-    internal class ModAssets
-    {
-        public class HotKeys
-        {
-            public static PAction ToggleOverlayColors { get; private set; }
+	internal class ModAssets
+	{
+		public class HotKeys
+		{
+			public static PAction ToggleOverlayColors { get; private set; }
 
-            public const string TRIGGER_FAKE_TACORAIN_IDENTIFIER = "ICT_TRIGGERFAKETACORAIN";
-            public const string TRIGGER_UNLOCKTACORECIPE = "ICT_UNLOCKTACORECIPE";
-            public const string TRIGGER_RAINBOWLIQUIDTOGGLE = "ICT_RAINBOWLIQUIDTOGGLE";
+			public const string TRIGGER_FAKE_TACORAIN_IDENTIFIER = "ICT_TRIGGERFAKETACORAIN";
+			public const string TRIGGER_UNLOCKTACORECIPE = "ICT_UNLOCKTACORECIPE";
+			public const string TRIGGER_RAINBOWLIQUIDTOGGLE = "ICT_RAINBOWLIQUIDTOGGLE";
 
-            public static void Register()
-            {
-                ToggleOverlayColors = new PActionManager().CreateAction(
-                    TRIGGER_FAKE_TACORAIN_IDENTIFIER,
-                    STRINGS.HOTKEYACTIONS.TOGGLE_OVERLAY_COLOR,
-                    new PKeyBinding(KKeyCode.C, Modifier.Shift));
+			public static void Register()
+			{
+				ToggleOverlayColors = new PActionManager().CreateAction(
+					TRIGGER_FAKE_TACORAIN_IDENTIFIER,
+					STRINGS.HOTKEYACTIONS.TOGGLE_OVERLAY_COLOR,
+					new PKeyBinding(KKeyCode.C, Modifier.Shift));
 
-            }
-        }
-    }
+			}
+		}
+	}
 }

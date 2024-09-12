@@ -1,20 +1,13 @@
-﻿using STRINGS;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SkillScreenCrashMitigation
+﻿namespace SkillScreenCrashMitigation
 {
-    internal class STRINGS
-    {
-        public class BUILDINGS
-        {
-            public class PREFABS
-            {
+	internal class STRINGS
+	{
+		public class BUILDINGS
+		{
+			public class PREFABS
+			{
 
-            }
-        }
-    }
+			}
+		}
+	}
 }

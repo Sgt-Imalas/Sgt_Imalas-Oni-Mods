@@ -1,80 +1,76 @@
-﻿using ProcGen;
+﻿using ONITwitchLib.Utils;
+using ProcGen;
 using System;
-using System.Collections.Generic;
-using ONITwitchLib.Utils;
-using System.Text;
-using System.Threading.Tasks;
-using static STRINGS.BUILDINGS.PREFABS;
 
 namespace Util_TwitchIntegrationLib.Scripts
 {
-    public static class SpaceCheeseChecker
-    {
-        public static bool HasThereBeenAttemptedSpaceCheese(int sourceCell, out int targetCell, out string dupeName, int radius = 7, int checks = 6, bool instaFail = true, int thresholdFail = -1)
-        {
-            targetCell = sourceCell;
+	public static class SpaceCheeseChecker
+	{
+		public static bool HasThereBeenAttemptedSpaceCheese(int sourceCell, out int targetCell, out string dupeName, int radius = 7, int checks = 6, bool instaFail = true, int thresholdFail = -1)
+		{
+			targetCell = sourceCell;
 
-            Debug.Log($"World.Instance.zoneRenderData.worldZoneTypes[sourceCell]: ({Grid.CellToXY(sourceCell)}) " + World.Instance.zoneRenderData.worldZoneTypes[sourceCell]);
+			Debug.Log($"World.Instance.zoneRenderData.worldZoneTypes[sourceCell]: ({Grid.CellToXY(sourceCell)}) " + World.Instance.zoneRenderData.worldZoneTypes[sourceCell]);
 
-            if (World.Instance.zoneRenderData.worldZoneTypes[sourceCell] == SubWorld.ZoneType.Space)
-            {
-                
-                targetCell = GetRandomLiveDupeCell(sourceCell, out dupeName);
-                return true;
-            }
-            int fails = 0;
+			if (World.Instance.zoneRenderData.worldZoneTypes[sourceCell] == SubWorld.ZoneType.Space)
+			{
 
-            for (int i = 0; i < checks; i++)
-            {
-               var randomCheckPos = PosUtil.ClampedMouseCellWithRange(radius);
+				targetCell = GetRandomLiveDupeCell(sourceCell, out dupeName);
+				return true;
+			}
+			int fails = 0;
 
-                Debug.Log($"World.Instance.zoneRenderData.worldZoneTypes[randomCheckPos]: ({Grid.CellToXY(randomCheckPos)}) " + World.Instance.zoneRenderData.worldZoneTypes[randomCheckPos]);
+			for (int i = 0; i < checks; i++)
+			{
+				var randomCheckPos = PosUtil.ClampedMouseCellWithRange(radius);
 
-                if (World.Instance.zoneRenderData.worldZoneTypes[randomCheckPos] == SubWorld.ZoneType.Space)
-                {
-                    if (instaFail)
-                    {
-                        targetCell = GetRandomLiveDupeCell(sourceCell, out dupeName);
-                        return true;
-                    }
-                    else
-                    {
-                        fails++;
-                    }
-                }
-            }
+				Debug.Log($"World.Instance.zoneRenderData.worldZoneTypes[randomCheckPos]: ({Grid.CellToXY(randomCheckPos)}) " + World.Instance.zoneRenderData.worldZoneTypes[randomCheckPos]);
 
-            if( fails > thresholdFail && thresholdFail>0)
-            {
-                targetCell = GetRandomLiveDupeCell(sourceCell, out dupeName);
-                return true;
-            }
-            if(fails<= thresholdFail && fails > 0 && thresholdFail > 0)
-            {
-               var rando  = new Random().Next(thresholdFail + 1);
-                if(rando < fails )
-                {
-                    targetCell = GetRandomLiveDupeCell(sourceCell, out dupeName);
-                    return true;
-                }
-            }
+				if (World.Instance.zoneRenderData.worldZoneTypes[randomCheckPos] == SubWorld.ZoneType.Space)
+				{
+					if (instaFail)
+					{
+						targetCell = GetRandomLiveDupeCell(sourceCell, out dupeName);
+						return true;
+					}
+					else
+					{
+						fails++;
+					}
+				}
+			}
+
+			if (fails > thresholdFail && thresholdFail > 0)
+			{
+				targetCell = GetRandomLiveDupeCell(sourceCell, out dupeName);
+				return true;
+			}
+			if (fails <= thresholdFail && fails > 0 && thresholdFail > 0)
+			{
+				var rando = new Random().Next(thresholdFail + 1);
+				if (rando < fails)
+				{
+					targetCell = GetRandomLiveDupeCell(sourceCell, out dupeName);
+					return true;
+				}
+			}
 
 
-            dupeName = "";
-            return false;
-        }
+			dupeName = "";
+			return false;
+		}
 
-        static int GetRandomLiveDupeCell(int fallback, out string doop)
-        {
-            if(Components.LiveMinionIdentities.Count > 0)
-            {
-                var randomDupe = Components.LiveMinionIdentities.GetRandom();
-                doop = randomDupe.name;
-                return Grid.PosToCell(randomDupe);
+		static int GetRandomLiveDupeCell(int fallback, out string doop)
+		{
+			if (Components.LiveMinionIdentities.Count > 0)
+			{
+				var randomDupe = Components.LiveMinionIdentities.GetRandom();
+				doop = randomDupe.name;
+				return Grid.PosToCell(randomDupe);
 
-            }
-            doop = "";
-            return fallback;
-        }
-    }
+			}
+			doop = "";
+			return fallback;
+		}
+	}
 }

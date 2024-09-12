@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-
-namespace UtilLibs.ModSettings
+﻿namespace UtilLibs.ModSettings
 {
-    public interface IModSettingsInstance
-    {
-        //void OnOptionsChanged();
-    }
+	public interface IModSettingsInstance
+	{
+		//void OnOptionsChanged();
+	}
 }

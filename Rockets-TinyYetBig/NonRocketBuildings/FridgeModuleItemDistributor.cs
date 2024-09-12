@@ -91,7 +91,7 @@
 //                    capacity += clusterbay.storage.capacityKg;
 //                    //SgtLogger.l("found fridge");
 //                    fakeStorage.InitLink(OwnStorage,clusterbay.storage);
-                    
+
 //                    ConnectedFridgeModules.Add(new Tuple<CargoBayCluster, FakeStorage>(clusterbay,fakeStorage));
 //                }
 //            }

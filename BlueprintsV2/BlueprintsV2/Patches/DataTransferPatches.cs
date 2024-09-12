@@ -1,69 +1,63 @@
 ﻿using BlueprintsV2.BlueprintData;
 using HarmonyLib;
 using Klei.AI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using UtilLibs;
 
 namespace BlueprintsV2.Patches
 {
-    internal class DataTransferPatches
-    {
-        [HarmonyPatch(typeof(BuildingLoader), nameof(BuildingLoader.CreateBuildingUnderConstruction))]
-        public class BuildingLoader_CreateBuildingUnderConstruction_Patch
-        {
-            public static void Postfix(GameObject __result)
-            {
-                __result.AddOrGet<UnderConstructionDataTransfer>();
-            }
-        }
-        public static class ApplySettingsToNewBuilding
-        {
-            [HarmonyPatch(typeof(GameplayEventManager), "OnSpawn")]
-            public static class GameplayEventManager_OnSpawn
-            {
-                public static void Postfix(GameplayEventManager __instance)
-                {
-                    __instance.Subscribe(-1661515756, OnBuildingConstructed);
-                }
-            }
-            [HarmonyPatch(typeof(GameplayEventManager), "OnCleanUp")]
-            public static class GameplayEventManager_OnCleanup
-            {
-                public static void Postfix(GameplayEventManager __instance)
-                {
-                    __instance.Unsubscribe(-1661515756, OnBuildingConstructed);
-                }
-            }
-            static void OnBuildingConstructed(object data)
-            {
-                //SgtLogger.l("onbuildingconstructed");
-                if (data is BonusEvent.GameplayEventData bonusData)
-                {
-                    var pos = bonusData.building.NaturalBuildingCell();
-                    var layer = bonusData.building.Def.ObjectLayer;
-                    Tuple<int,ObjectLayer> targetPos = new(pos, layer);
+	internal class DataTransferPatches
+	{
+		[HarmonyPatch(typeof(BuildingLoader), nameof(BuildingLoader.CreateBuildingUnderConstruction))]
+		public class BuildingLoader_CreateBuildingUnderConstruction_Patch
+		{
+			public static void Postfix(GameObject __result)
+			{
+				__result.AddOrGet<UnderConstructionDataTransfer>();
+			}
+		}
+		public static class ApplySettingsToNewBuilding
+		{
+			[HarmonyPatch(typeof(GameplayEventManager), "OnSpawn")]
+			public static class GameplayEventManager_OnSpawn
+			{
+				public static void Postfix(GameplayEventManager __instance)
+				{
+					__instance.Subscribe(-1661515756, OnBuildingConstructed);
+				}
+			}
+			[HarmonyPatch(typeof(GameplayEventManager), "OnCleanUp")]
+			public static class GameplayEventManager_OnCleanup
+			{
+				public static void Postfix(GameplayEventManager __instance)
+				{
+					__instance.Unsubscribe(-1661515756, OnBuildingConstructed);
+				}
+			}
+			static void OnBuildingConstructed(object data)
+			{
+				//SgtLogger.l("onbuildingconstructed");
+				if (data is BonusEvent.GameplayEventData bonusData)
+				{
+					var pos = bonusData.building.NaturalBuildingCell();
+					var layer = bonusData.building.Def.ObjectLayer;
+					Tuple<int, ObjectLayer> targetPos = new(pos, layer);
 
-                    var targetBuilding = bonusData.building.gameObject;
-                    //SgtLogger.l($"first: {UnderConstructionDataTransfer.RegisteredTransferPlans.TryGetValue(targetPos, out var test)}, second: {test.building.Def.PrefabID == bonusData.building.Def.PrefabID} ({test.building.Def.PrefabID},{bonusData.building.Def.PrefabID}), third {targetBuilding != null}");
+					var targetBuilding = bonusData.building.gameObject;
+					//SgtLogger.l($"first: {UnderConstructionDataTransfer.RegisteredTransferPlans.TryGetValue(targetPos, out var test)}, second: {test.building.Def.PrefabID == bonusData.building.Def.PrefabID} ({test.building.Def.PrefabID},{bonusData.building.Def.PrefabID}), third {targetBuilding != null}");
 
-                    if (UnderConstructionDataTransfer.RegisteredTransferPlans.TryGetValue(targetPos, out UnderConstructionDataTransfer dataTransferItem)
-                        && dataTransferItem.building.Def.PrefabID == bonusData.building.Def.PrefabID
-                        && targetBuilding !=null)
-                    {
-                        var dataToApply = dataTransferItem.GetStoredData();
-                        GameScheduler.Instance.ScheduleNextFrame("delayed settings application", (_) =>
-                        {
-                            UnderConstructionDataTransfer.TransferDataTo(targetBuilding, dataToApply);
-                        });
-                    }
-                }
-            }
-        }
+					if (UnderConstructionDataTransfer.RegisteredTransferPlans.TryGetValue(targetPos, out UnderConstructionDataTransfer dataTransferItem)
+						&& dataTransferItem.building.Def.PrefabID == bonusData.building.Def.PrefabID
+						&& targetBuilding != null)
+					{
+						var dataToApply = dataTransferItem.GetStoredData();
+						GameScheduler.Instance.ScheduleNextFrame("delayed settings application", (_) =>
+						{
+							UnderConstructionDataTransfer.TransferDataTo(targetBuilding, dataToApply);
+						});
+					}
+				}
+			}
+		}
 
-    }
+	}
 }

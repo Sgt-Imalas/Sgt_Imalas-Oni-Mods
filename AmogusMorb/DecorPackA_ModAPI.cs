@@ -38,7 +38,7 @@ namespace AmogusMorb
 		public static AddMoodlampDelegate AddMoodLamp;
 
 		// returns the LampVariant db entry as an object
-		public delegate object AddMoodlampDelegate(string ID, string name, string category, string kAnimFile, 
+		public delegate object AddMoodlampDelegate(string ID, string name, string category, string kAnimFile,
 			Color color, KAnim.PlayMode playModeWhenOn = KAnim.PlayMode.Paused, HashSet<HashedString> tags = null);
 
 		public static Action<Type> AddComponentToLampPrefab;
@@ -111,7 +111,7 @@ namespace AmogusMorb
 
 			if (type == null)
 			{
-				if(logWarnings) Debug.LogWarning("DP ModAPI type is null.");
+				if (logWarnings) Debug.LogWarning("DP ModAPI type is null.");
 				return false;
 			}
 

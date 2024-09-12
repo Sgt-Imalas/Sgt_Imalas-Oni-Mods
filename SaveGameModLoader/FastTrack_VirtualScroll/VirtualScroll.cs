@@ -18,7 +18,6 @@
 
 using System.Collections.Generic;
 using System.Threading;
-using PeterHan.PLib.Core;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,7 +27,8 @@ namespace SaveGameModLoader.FastTrack_VirtualScroll
 	/// Hides components that are off screen when scrolling, instead replacing them with a
 	/// virtual component above and below them that is resized to occupy the same space.
 	/// </summary>
-	public sealed class VirtualScroll : MonoBehaviour {
+	public sealed class VirtualScroll : MonoBehaviour
+	{
 		/// <summary>
 		/// The items currently being scrolled.
 		/// </summary>
@@ -84,7 +84,8 @@ namespace SaveGameModLoader.FastTrack_VirtualScroll
 		/// </summary>
 		private LayoutElement virtualLayout;
 
-		internal VirtualScroll() {
+		internal VirtualScroll()
+		{
 			components = new List<VirtualItem>(64);
 			forceShow = new HashSet<GameObject>();
 			freezeLayout = false;
@@ -98,7 +99,8 @@ namespace SaveGameModLoader.FastTrack_VirtualScroll
 		/// <summary>
 		/// Called when the component is first added.
 		/// </summary>
-		internal void Awake() {
+		internal void Awake()
+		{
 			scroll = GetComponentInParent<KScrollRect>();
 			parentRect = scroll.rectTransform();
 		}
@@ -107,7 +109,8 @@ namespace SaveGameModLoader.FastTrack_VirtualScroll
 		/// Restores a game object to be hidden if off-screen.
 		/// </summary>
 		/// <param name="allowHide">The game object to possibly hide.</param>
-		internal void ClearForceShow(GameObject allowHide) {
+		internal void ClearForceShow(GameObject allowHide)
+		{
 			if (forceShow.Remove(allowHide))
 				UpdateScroll();
 		}
@@ -115,21 +118,26 @@ namespace SaveGameModLoader.FastTrack_VirtualScroll
 		/// <summary>
 		/// Rebuilds the scroll pane in a coroutine after layout.
 		/// </summary>
-		private System.Collections.IEnumerator DoRebuild() {
+		private System.Collections.IEnumerator DoRebuild()
+		{
 			int oldCount;
-			do {
+			do
+			{
 				oldCount = pendCount;
 				yield return null;
 			} while (Interlocked.CompareExchange(ref pendCount, 0, oldCount) != oldCount);
-			if (!App.IsExiting && scroll != null && itemList != null) {
+			if (!App.IsExiting && scroll != null && itemList != null)
+			{
 				int n = itemList.childCount;
 				float marginX = 0.0f, marginY = 0.0f;
 				bool ice = freezeLayout;
 				components.Clear();
-				for (int i = 0; i < n; i++) {
+				for (int i = 0; i < n; i++)
+				{
 					var child = itemList.GetChild(i);
 					GameObject go;
-					if (child != null && (go = child.gameObject).activeSelf) {
+					if (child != null && (go = child.gameObject).activeSelf)
+					{
 						var vi = new VirtualItem(child, go, itemList, ice);
 						float w = vi.size.x, h = vi.size.y;
 						components.Add(vi);
@@ -139,7 +147,8 @@ namespace SaveGameModLoader.FastTrack_VirtualScroll
 							marginY = h;
 					}
 				}
-				if (realLayout != null) {
+				if (realLayout != null)
+				{
 					// Copy the parameters to the virtual layout
 					virtualLayout.minHeight = realLayout.minHeight;
 					virtualLayout.minWidth = realLayout.minWidth;
@@ -150,14 +159,14 @@ namespace SaveGameModLoader.FastTrack_VirtualScroll
 					virtualLayout.enabled = true;
 					realLayout.enabled = false;
 				}
-                float scalar = KPlayerPrefs.GetFloat(KCanvasScaler.UIScalePrefKey, 0.0f);
-                // 100 = x1.0
-                if (scalar < 100.0f)
-                    scalar = 100.0f;
-                scalar *= 0.015f;
-                margin = new Vector2(marginX * scalar, marginY * scalar);
-                // Calculate the margin
-                UpdateScroll();
+				float scalar = KPlayerPrefs.GetFloat(KCanvasScaler.UIScalePrefKey, 0.0f);
+				// 100 = x1.0
+				if (scalar < 100.0f)
+					scalar = 100.0f;
+				scalar *= 0.015f;
+				margin = new Vector2(marginX * scalar, marginY * scalar);
+				// Calculate the margin
+				UpdateScroll();
 			}
 		}
 
@@ -169,7 +178,8 @@ namespace SaveGameModLoader.FastTrack_VirtualScroll
 		/// <param name="yMin">The minimum visible y coordinate.</param>
 		/// <param name="yMax">The maximum visible y coordinate.</param>
 		private void GetViewableRect(out float xMin, out float xMax, out float yMin,
-				out float yMax) {
+				out float yMax)
+		{
 			// Get the absolute coordinates of the current viewable rect
 			var center = parentRect.position;
 			var rect = parentRect.rect;
@@ -188,10 +198,12 @@ namespace SaveGameModLoader.FastTrack_VirtualScroll
 		/// </summary>
 		/// <param name="target">The target object containing the items, or null to use the
 		/// object where this component is applied.</param>
-		internal void Initialize(RectTransform target = null) {
+		internal void Initialize(RectTransform target = null)
+		{
 			if (target == null && !TryGetComponent(out target))
 				target = null;
-			if (target != null && target != itemList && scroll != null) {
+			if (target != null && target != itemList && scroll != null)
+			{
 				scroll.onValueChanged.AddListener(OnScroll);
 				itemList = target;
 				target.TryGetComponent(out realLayout);
@@ -206,16 +218,20 @@ namespace SaveGameModLoader.FastTrack_VirtualScroll
 		/// Switches off the virtual layout, and turns the real one back on, for when items are
 		/// about to be added or removed.
 		/// </summary>
-		internal void OnBuild() {
-			if (realLayout != null && pendCount <= 0) {
+		internal void OnBuild()
+		{
+			if (realLayout != null && pendCount <= 0)
+			{
 				virtualLayout.enabled = false;
 				realLayout.enabled = true;
 			}
 		}
 
-		internal void OnDestroy() {
+		internal void OnDestroy()
+		{
 			forceShow.Clear();
-			if (scroll != null) {
+			if (scroll != null)
+			{
 				scroll.onValueChanged.RemoveListener(OnScroll);
 				itemList = null;
 				realLayout = null;
@@ -229,10 +245,12 @@ namespace SaveGameModLoader.FastTrack_VirtualScroll
 		/// It appears that (0, 0) is when at bottom and (0, 1) is at top.
 		/// </summary>
 		/// <param name="topLeft">The upper left corner location as a fraction.</param>
-		private void OnScroll(Vector2 topLeft) {
+		private void OnScroll(Vector2 topLeft)
+		{
 			float x = topLeft.x, y = topLeft.y;
 			if (scroll != null && !Mathf.Approximately(x, lastPosition.x) || !Mathf.
-					Approximately(y, lastPosition.y)) {
+					Approximately(y, lastPosition.y))
+			{
 				lastPosition.x = x;
 				lastPosition.y = y;
 				UpdateScroll();
@@ -242,7 +260,8 @@ namespace SaveGameModLoader.FastTrack_VirtualScroll
 		/// <summary>
 		/// Rebuilds the list of items next frame.
 		/// </summary>
-		internal void Rebuild() {
+		internal void Rebuild()
+		{
 			if (gameObject.activeInHierarchy && Interlocked.Increment(ref pendCount) <= 1)
 				StartCoroutine(DoRebuild());
 		}
@@ -251,7 +270,8 @@ namespace SaveGameModLoader.FastTrack_VirtualScroll
 		/// Forces a game object to always be active regardless of whether it is on-screen.
 		/// </summary>
 		/// <param name="disableHide">The game object to show.</param>
-		internal void SetForceShow(GameObject disableHide) {
+		internal void SetForceShow(GameObject disableHide)
+		{
 			if (forceShow.Add(disableHide))
 				UpdateScroll();
 		}
@@ -259,11 +279,14 @@ namespace SaveGameModLoader.FastTrack_VirtualScroll
 		/// <summary>
 		/// Updates the visibility of all items based on the ones that should be visible.
 		/// </summary>
-		private void UpdateScroll() {
+		private void UpdateScroll()
+		{
 			int n = components.Count;
-			if (n > 0) {
+			if (n > 0)
+			{
 				GetViewableRect(out float xl, out float xr, out float yb, out float yt);
-				for (int i = 0; i < n; i++) {
+				for (int i = 0; i < n; i++)
+				{
 					var item = components[i];
 					float yMin = item.min.y, xMin = item.min.x, yMax = item.max.y, xMax =
 						item.max.x;
@@ -276,7 +299,8 @@ namespace SaveGameModLoader.FastTrack_VirtualScroll
 		/// <summary>
 		/// Stores information about the virtually scrolled items.
 		/// </summary>
-		private sealed class VirtualItem {
+		private sealed class VirtualItem
+		{
 			/// <summary>
 			/// The object to set visible or invisible.
 			/// </summary>
@@ -303,7 +327,8 @@ namespace SaveGameModLoader.FastTrack_VirtualScroll
 			private bool visible;
 
 			public VirtualItem(Transform transform, GameObject go, Transform parent,
-					bool freezeLayout) {
+					bool freezeLayout)
+			{
 				var absOffset = RectTransformUtility.CalculateRelativeRectTransformBounds(
 					parent, transform);
 				entry = go;
@@ -312,7 +337,8 @@ namespace SaveGameModLoader.FastTrack_VirtualScroll
 				size = new Vector2(absOffset.size.x, absOffset.size.y);
 				max = min + size;
 				// Destroy and replace layout groups with a fixed element, this helps a lot
-				if (transform.TryGetComponent(out LayoutGroup group) && freezeLayout) {
+				if (transform.TryGetComponent(out LayoutGroup group) && freezeLayout)
+				{
 					entry.AddOrGet<LayoutElement>().CopyFrom(group);
 					Destroy(group);
 				}
@@ -322,8 +348,10 @@ namespace SaveGameModLoader.FastTrack_VirtualScroll
 			/// Shows or hides the target object.
 			/// </summary>
 			/// <param name="isVisible">true to make it visible, or false to make it invisible.</param>
-			public void SetVisible(bool isVisible) {
-				if (entry != null && isVisible != visible) {
+			public void SetVisible(bool isVisible)
+			{
+				if (entry != null && isVisible != visible)
+				{
 					entry.SetActive(isVisible);
 					visible = isVisible;
 				}

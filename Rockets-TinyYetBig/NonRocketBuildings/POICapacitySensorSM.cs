@@ -1,306 +1,301 @@
 ﻿using KSerialization;
-using RoboRockets.Rockets_TinyYetBig;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 using static KAnim.Build;
 
 namespace Rockets_TinyYetBig.NonRocketBuildings
 {
-    internal class POICapacitySensorSM : StateMachineComponent<POICapacitySensorSM.StatesInstance>, ISaveLoadable, ISim200ms, IThresholdSwitch
-    //, IGameObjectEffectDescriptor
-    {
-        [MyCmpGet]
-        Building building;
-        [MyCmpGet]
-        ClusterDestinationSelector locationSelector;
-        [MyCmpGet]
-        private Operational operational;
-        [MyCmpGet]
-        SymbolOverrideController SymbolController;
-        [MyCmpGet]
-        KBatchedAnimController animController;
-        [MyCmpGet]
-        LogicPorts logicPorts;
+	internal class POICapacitySensorSM : StateMachineComponent<POICapacitySensorSM.StatesInstance>, ISaveLoadable, ISim200ms, IThresholdSwitch
+	//, IGameObjectEffectDescriptor
+	{
+		[MyCmpGet]
+		Building building;
+		[MyCmpGet]
+		ClusterDestinationSelector locationSelector;
+		[MyCmpGet]
+		private Operational operational;
+		[MyCmpGet]
+		SymbolOverrideController SymbolController;
+		[MyCmpGet]
+		KBatchedAnimController animController;
+		[MyCmpGet]
+		LogicPorts logicPorts;
 
 
-        public override void OnSpawn()
-        {
-            base.OnSpawn();
-            this.smi.StartSM();
-            this.operational.SetFlag(LogicBroadcaster.spaceVisible, this.HasLineOfSight());
-            this.Subscribe((int)GameHashes.ClusterDestinationChanged, (data)=>UpdateEntity(data));
+		public override void OnSpawn()
+		{
+			base.OnSpawn();
+			this.smi.StartSM();
+			this.operational.SetFlag(LogicBroadcaster.spaceVisible, this.HasLineOfSight());
+			this.Subscribe((int)GameHashes.ClusterDestinationChanged, (data) => UpdateEntity(data));
 
-            UpdateEntity(null);
-            UpdateLogicState(true);
-        }
-        public bool HasLineOfSight()
-        {
-            Extents extents = building.GetExtents();
-            int x1 = extents.x;
-            int num = extents.x + extents.width - 1;
-            for (int x2 = x1; x2 <= num; ++x2)
-            {
-                int cell = Grid.XYToCell(x2, extents.y);
-                if ((double)Grid.ExposedToSunlight[cell] == (byte)0)
-                    return false;
-            }
-            return true;
-        }
+			UpdateEntity(null);
+			UpdateLogicState(true);
+		}
+		public bool HasLineOfSight()
+		{
+			Extents extents = building.GetExtents();
+			int x1 = extents.x;
+			int num = extents.x + extents.width - 1;
+			for (int x2 = x1; x2 <= num; ++x2)
+			{
+				int cell = Grid.XYToCell(x2, extents.y);
+				if ((double)Grid.ExposedToSunlight[cell] == (byte)0)
+					return false;
+			}
+			return true;
+		}
 
-        bool ArtifactOnly = false;
-        ArtifactPOIStates.Instance artifactpoistatus = null;
-        HarvestablePOIStates.Instance harvestpoistatus = null;
+		bool ArtifactOnly = false;
+		ArtifactPOIStates.Instance artifactpoistatus = null;
+		HarvestablePOIStates.Instance harvestpoistatus = null;
 
-        bool LastArtifactState = false;
-        bool LastThresholdState = false;
-        bool lastWasNonOperationa = false;
+		bool LastArtifactState = false;
+		bool LastThresholdState = false;
+		bool lastWasNonOperationa = false;
 
-        void UpdateLogicState(bool force = false)
-        {
-            if (!operational.IsOperational)
-            {
-                if (!lastWasNonOperationa)
-                {
-                    logicPorts.SendSignal(POICapacitySensorConfig.PORT_ID_ARTIFACT, 0);
-                    logicPorts.SendSignal(POICapacitySensorConfig.PORT_ID_MASS_THRESHOLD, 0);
-                    UpdateVisualState(false, force);
-                    lastWasNonOperationa = true;
-                }
-                return;
-            }
+		void UpdateLogicState(bool force = false)
+		{
+			if (!operational.IsOperational)
+			{
+				if (!lastWasNonOperationa)
+				{
+					logicPorts.SendSignal(POICapacitySensorConfig.PORT_ID_ARTIFACT, 0);
+					logicPorts.SendSignal(POICapacitySensorConfig.PORT_ID_MASS_THRESHOLD, 0);
+					UpdateVisualState(false, force);
+					lastWasNonOperationa = true;
+				}
+				return;
+			}
 
-            lastWasNonOperationa = false;
+			lastWasNonOperationa = false;
 
-            bool artifactIsAvailable = artifactpoistatus != null ? artifactpoistatus.CanHarvestArtifact() : false;
-            bool aboveMassThreshold = harvestpoistatus != null ?
-                activateAboveThreshold 
-                    ? harvestpoistatus.poiCapacity >= threshold  
-                    : harvestpoistatus.poiCapacity < threshold
-                : false;
+			bool artifactIsAvailable = artifactpoistatus != null ? artifactpoistatus.CanHarvestArtifact() : false;
+			bool aboveMassThreshold = harvestpoistatus != null ?
+				activateAboveThreshold
+					? harvestpoistatus.poiCapacity >= threshold
+					: harvestpoistatus.poiCapacity < threshold
+				: false;
 
-            if (LastArtifactState!=artifactIsAvailable || force)
-            {
-                LastArtifactState = artifactIsAvailable;
-                logicPorts.SendSignal(POICapacitySensorConfig.PORT_ID_ARTIFACT, this.LastArtifactState ? 1 : 0);
-            }
-            if (LastThresholdState != aboveMassThreshold || force)
-            {
-                LastThresholdState = aboveMassThreshold;
-                logicPorts.SendSignal(POICapacitySensorConfig.PORT_ID_MASS_THRESHOLD, this.LastThresholdState ? 1 : 0);
-            }
+			if (LastArtifactState != artifactIsAvailable || force)
+			{
+				LastArtifactState = artifactIsAvailable;
+				logicPorts.SendSignal(POICapacitySensorConfig.PORT_ID_ARTIFACT, this.LastArtifactState ? 1 : 0);
+			}
+			if (LastThresholdState != aboveMassThreshold || force)
+			{
+				LastThresholdState = aboveMassThreshold;
+				logicPorts.SendSignal(POICapacitySensorConfig.PORT_ID_MASS_THRESHOLD, this.LastThresholdState ? 1 : 0);
+			}
 
-            bool ShouldBeGreen = (artifactIsAvailable && ArtifactOnly || aboveMassThreshold);
+			bool ShouldBeGreen = (artifactIsAvailable && ArtifactOnly || aboveMassThreshold);
 
-            UpdateVisualState(ShouldBeGreen, force);
-        }
-        bool lastVisualState = false;
+			UpdateVisualState(ShouldBeGreen, force);
+		}
+		bool lastVisualState = false;
 
-        void UpdateVisualState(bool newState, bool force = false)
-        {
-            if(lastVisualState == newState && !force) return;
-            
-            if(!force)            
-            lastVisualState = newState;
+		void UpdateVisualState(bool newState, bool force = false)
+		{
+			if (lastVisualState == newState && !force) return;
+
+			if (!force)
+				lastVisualState = newState;
 
 
-            Color color = newState ? GlobalAssets.Instance.colorSet.logicOn : GlobalAssets.Instance.colorSet.logicOff;
-            color.a = 1f;
-            animController.SetSymbolTint("body_active", color);
-        }
+			Color color = newState ? GlobalAssets.Instance.colorSet.logicOn : GlobalAssets.Instance.colorSet.logicOff;
+			color.a = 1f;
+			animController.SetSymbolTint("body_active", color);
+		}
 
-        void UpdateEntity(object data)
-        {
-            var entity = ClusterGrid.Instance.GetVisibleEntityOfLayerAtCell(locationSelector.GetDestination(), EntityLayer.POI);
-            Symbol symbol = null;
-            if (entity != null)
-            {
-                var artifactcmp = entity.GetSMI<ArtifactPOIStates.Instance>();
-                var harvestablecmp = entity.GetSMI<HarvestablePOIStates.Instance>();
+		void UpdateEntity(object data)
+		{
+			var entity = ClusterGrid.Instance.GetVisibleEntityOfLayerAtCell(locationSelector.GetDestination(), EntityLayer.POI);
+			Symbol symbol = null;
+			if (entity != null)
+			{
+				var artifactcmp = entity.GetSMI<ArtifactPOIStates.Instance>();
+				var harvestablecmp = entity.GetSMI<HarvestablePOIStates.Instance>();
 
-                if(harvestablecmp != null)
-                {
-                    rangeMax = harvestablecmp.configuration.GetMaxCapacity();
-                }
-                var newSprite = Def.GetUISpriteFromMultiObjectAnim(entity.AnimConfigs.First().animFile, entity.AnimConfigs.First().initialAnim);
+				if (harvestablecmp != null)
+				{
+					rangeMax = harvestablecmp.configuration.GetMaxCapacity();
+				}
+				var newSprite = Def.GetUISpriteFromMultiObjectAnim(entity.AnimConfigs.First().animFile, entity.AnimConfigs.First().initialAnim);
 
-                if (entity.TryGetComponent<ArtifactPOIClusterGridEntity>(out _))
-                {
-                    ArtifactOnly = true;
-                }
-                else
-                    ArtifactOnly = false;
+				if (entity.TryGetComponent<ArtifactPOIClusterGridEntity>(out _))
+				{
+					ArtifactOnly = true;
+				}
+				else
+					ArtifactOnly = false;
 
-                artifactpoistatus = artifactcmp;
-                harvestpoistatus = harvestablecmp;
-                symbol = UIUtils.GetSymbolFromMultiObjectAnim(entity.AnimConfigs.First().animFile, entity.AnimConfigs.First().initialAnim);
-                
-            }
-            else
-            {
-                artifactpoistatus = null;
-                harvestpoistatus = null;
-                rangeMax = 1;
-            }
+				artifactpoistatus = artifactcmp;
+				harvestpoistatus = harvestablecmp;
+				symbol = UIUtils.GetSymbolFromMultiObjectAnim(entity.AnimConfigs.First().animFile, entity.AnimConfigs.First().initialAnim);
 
-            if(symbol!=null)
-            {
-                SgtLogger.l("replacing image");
-                SymbolController.AddSymbolOverride((HashedString)"ToReplace", symbol);
-            }
-            else
-            {
-                SgtLogger.l(message: "undoing replacement image");
-                SymbolController.RemoveSymbolOverride((HashedString)"ToReplace");
-            }
-            UpdateLogicState();
-        }
+			}
+			else
+			{
+				artifactpoistatus = null;
+				harvestpoistatus = null;
+				rangeMax = 1;
+			}
 
-        public override void OnCleanUp()
-        {
-            base.OnCleanUp();
-        }
+			if (symbol != null)
+			{
+				SgtLogger.l("replacing image");
+				SymbolController.AddSymbolOverride((HashedString)"ToReplace", symbol);
+			}
+			else
+			{
+				SgtLogger.l(message: "undoing replacement image");
+				SymbolController.RemoveSymbolOverride((HashedString)"ToReplace");
+			}
+			UpdateLogicState();
+		}
 
-        public void Sim200ms(float dt)
-        {
-            operational.SetFlag(LogicBroadcaster.spaceVisible, HasLineOfSight());
-        }
+		public override void OnCleanUp()
+		{
+			base.OnCleanUp();
+		}
 
-        #region sidescreen
-        public float Threshold
-        {
-            get => this.threshold;
-            set => this.threshold = value;
-        }
-        public bool ActivateAboveThreshold
-        {
-            get => this.activateAboveThreshold;
-            set => this.activateAboveThreshold = value;
-        }
+		public void Sim200ms(float dt)
+		{
+			operational.SetFlag(LogicBroadcaster.spaceVisible, HasLineOfSight());
+		}
 
-        public float CurrentValue => harvestpoistatus != null ? harvestpoistatus.poiCapacity : 0;
+		#region sidescreen
+		public float Threshold
+		{
+			get => this.threshold;
+			set => this.threshold = value;
+		}
+		public bool ActivateAboveThreshold
+		{
+			get => this.activateAboveThreshold;
+			set => this.activateAboveThreshold = value;
+		}
 
-        private float rangeMin = 0f;
-        private float rangeMax = 1f;
+		public float CurrentValue => harvestpoistatus != null ? harvestpoistatus.poiCapacity : 0;
 
-        [Serialize]
-        private float threshold;
-        [Serialize]
-        private bool activateAboveThreshold = true;
-        public float RangeMin => this.rangeMin;
+		private float rangeMin = 0f;
+		private float rangeMax = 1f;
 
-        public float RangeMax => this.rangeMax;
+		[Serialize]
+		private float threshold;
+		[Serialize]
+		private bool activateAboveThreshold = true;
+		public float RangeMin => this.rangeMin;
 
-        public LocString Title => STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.SIDESCREENTITLE;
+		public float RangeMax => this.rangeMax;
 
-        public LocString ThresholdValueName => STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.REMAININGMASS;
+		public LocString Title => STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.SIDESCREENTITLE;
 
-        public string AboveToolTip => STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.REMAININGMASS_TOOLTIP_ABOVE;
+		public LocString ThresholdValueName => STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.REMAININGMASS;
 
-        public string BelowToolTip => STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.REMAININGMASS_TOOLTIP_BELOW;
+		public string AboveToolTip => STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.REMAININGMASS_TOOLTIP_ABOVE;
 
-        public ThresholdScreenLayoutType LayoutType => ThresholdScreenLayoutType.SliderBar;
+		public string BelowToolTip => STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.REMAININGMASS_TOOLTIP_BELOW;
 
-        public int IncrementScale => 1;
+		public ThresholdScreenLayoutType LayoutType => ThresholdScreenLayoutType.SliderBar;
 
-        public NonLinearSlider.Range[] GetRanges => NonLinearSlider.GetDefaultRange(this.RangeMax);
+		public int IncrementScale => 1;
 
-        public float GetRangeMinInputField() => RangeMin;
+		public NonLinearSlider.Range[] GetRanges => NonLinearSlider.GetDefaultRange(this.RangeMax);
 
-        public float GetRangeMaxInputField() => RangeMax;
+		public float GetRangeMinInputField() => RangeMin;
 
-        public LocString ThresholdValueUnits() => GameUtil.GetCurrentMassUnit();
-        public string Format(float value, bool units) => GameUtil.GetFormattedMass(value, massFormat: GameUtil.MetricMassFormat.Kilogram, includeSuffix: units);      
-        public float ProcessedSliderValue(float input) => input;
-        public float ProcessedInputValue(float input) => input;
+		public float GetRangeMaxInputField() => RangeMax;
 
-        #endregion
-        #region StateMachine
+		public LocString ThresholdValueUnits() => GameUtil.GetCurrentMassUnit();
+		public string Format(float value, bool units) => GameUtil.GetFormattedMass(value, massFormat: GameUtil.MetricMassFormat.Kilogram, includeSuffix: units);
+		public float ProcessedSliderValue(float input) => input;
+		public float ProcessedInputValue(float input) => input;
 
-        public class StatesInstance : GameStateMachine<States, StatesInstance, POICapacitySensorSM>.GameInstance
-        {
-            //public MinionAssignablesProxy minionProxy;
-            public StatesInstance(POICapacitySensorSM master) : base(master)
-            {
-            }
-        }
+		#endregion
+		#region StateMachine
 
-        public class States : GameStateMachine<POICapacitySensorSM.States, POICapacitySensorSM.StatesInstance, POICapacitySensorSM, object>
-        {
-            public class OnStates : State
-            {
-                public State noPoiSelected;
-                public State poiSelected;
-            }
-            public class OffStates : State
-            {
-                public State NormalOff;
-                public State NoLOS;
-                public State from_on;
-            }
+		public class StatesInstance : GameStateMachine<States, StatesInstance, POICapacitySensorSM>.GameInstance
+		{
+			//public MinionAssignablesProxy minionProxy;
+			public StatesInstance(POICapacitySensorSM master) : base(master)
+			{
+			}
+		}
 
-            public OffStates offStates;
-            public OnStates onStates;
+		public class States : GameStateMachine<POICapacitySensorSM.States, POICapacitySensorSM.StatesInstance, POICapacitySensorSM, object>
+		{
+			public class OnStates : State
+			{
+				public State noPoiSelected;
+				public State poiSelected;
+			}
+			public class OffStates : State
+			{
+				public State NormalOff;
+				public State NoLOS;
+				public State from_on;
+			}
 
-            public override void InitializeStates(out BaseState defaultState)
-            {
+			public OffStates offStates;
+			public OnStates onStates;
 
-                defaultState = offStates;
+			public override void InitializeStates(out BaseState defaultState)
+			{
 
-                offStates
-                    .Enter((smi)=> smi.master.UpdateLogicState())
-                    .Exit((smi)=> smi.master.UpdateLogicState())
-                .DefaultState(this.offStates.NormalOff)
-                .TagTransition(GameTags.Operational, this.onStates.noPoiSelected)
-                .PlayAnim("off")
-                ;
+				defaultState = offStates;
 
-                offStates.NormalOff
-                .Transition(offStates.NoLOS, (smi => !smi.master.operational.GetFlag(LogicBroadcaster.spaceVisible)))
-                ;
+				offStates
+					.Enter((smi) => smi.master.UpdateLogicState())
+					.Exit((smi) => smi.master.UpdateLogicState())
+				.DefaultState(this.offStates.NormalOff)
+				.TagTransition(GameTags.Operational, this.onStates.noPoiSelected)
+				.PlayAnim("off")
+				;
 
-                offStates.NoLOS
-                .Transition(offStates.NormalOff, (smi => smi.master.operational.GetFlag(LogicBroadcaster.spaceVisible)))
-                .ToggleStatusItem(Db.Get().BuildingStatusItems.NoSurfaceSight)
-                ;
+				offStates.NormalOff
+				.Transition(offStates.NoLOS, (smi => !smi.master.operational.GetFlag(LogicBroadcaster.spaceVisible)))
+				;
 
-                onStates
-                    .Enter((smi) => smi.master.UpdateLogicState(true))
-                 .PlayAnim("on_pre")
-                 .QueueAnim("on", true)
-                 .Update((smi, dt) =>
-                 {
+				offStates.NoLOS
+				.Transition(offStates.NormalOff, (smi => smi.master.operational.GetFlag(LogicBroadcaster.spaceVisible)))
+				.ToggleStatusItem(Db.Get().BuildingStatusItems.NoSurfaceSight)
+				;
 
-                 })
-                 .DefaultState(this.onStates.noPoiSelected)
-                 .TagTransition(GameTags.Operational, this.offStates.from_on, true)
-                 ;
+				onStates
+					.Enter((smi) => smi.master.UpdateLogicState(true))
+				 .PlayAnim("on_pre")
+				 .QueueAnim("on", true)
+				 .Update((smi, dt) =>
+				 {
 
-                onStates.noPoiSelected
-                    .UpdateTransition(onStates.poiSelected,(smi,dt) => { return smi.master.artifactpoistatus != null;})
-                    ;
+				 })
+				 .DefaultState(this.onStates.noPoiSelected)
+				 .TagTransition(GameTags.Operational, this.offStates.from_on, true)
+				 ;
 
-                onStates.poiSelected
-                    .UpdateTransition(onStates.poiSelected, (smi, dt) => { return smi.master.artifactpoistatus != null; })
-                    
-                    .Update( (smi, dt) =>
-                    {
-                        smi.master.UpdateLogicState();
-                    })
-                    ;
+				onStates.noPoiSelected
+					.UpdateTransition(onStates.poiSelected, (smi, dt) => { return smi.master.artifactpoistatus != null; })
+					;
 
-                offStates.from_on
-                    .PlayAnim("on_pst")
-                    .OnAnimQueueComplete(this.offStates)
-                    ;
-            }
-        }
-        #endregion
-    }
+				onStates.poiSelected
+					.UpdateTransition(onStates.poiSelected, (smi, dt) => { return smi.master.artifactpoistatus != null; })
+
+					.Update((smi, dt) =>
+					{
+						smi.master.UpdateLogicState();
+					})
+					;
+
+				offStates.from_on
+					.PlayAnim("on_pst")
+					.OnAnimQueueComplete(this.offStates)
+					;
+			}
+		}
+		#endregion
+	}
 }
 
 

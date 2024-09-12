@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Rockets_TinyYetBig.LandingLegs
+﻿namespace Rockets_TinyYetBig.LandingLegs
 {
-    class RTB_LaunchPadWithoutLogic : LaunchPad
-    {
-    }
+	class RTB_LaunchPadWithoutLogic : LaunchPad
+	{
+	}
 }

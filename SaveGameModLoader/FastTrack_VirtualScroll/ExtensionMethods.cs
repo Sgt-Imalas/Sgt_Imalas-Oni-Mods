@@ -16,17 +16,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-using HarmonyLib;
-using PeterHan.PLib.Core;
 using System;
 #if DEBUG
 using System.Collections.Generic;
 using System.Reflection;
 #endif
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -35,7 +31,8 @@ namespace SaveGameModLoader.FastTrack_VirtualScroll
 	/// <summary>
 	/// Extension methods make life easier!
 	/// </summary>
-	public static class ExtensionMethods {
+	public static class ExtensionMethods
+	{
 		/// <summary>
 		/// The shared stopwatch used to avoid allocations when timing handles.
 		/// </summary>
@@ -47,7 +44,8 @@ namespace SaveGameModLoader.FastTrack_VirtualScroll
 		/// <param name="dest">The destination string.</param>
 		/// <param name="src">The source string.</param>
 		/// <returns>The modified destination string with src appended.</returns>
-		public static StringBuilder Append(this StringBuilder dest, StringBuilder src) {
+		public static StringBuilder Append(this StringBuilder dest, StringBuilder src)
+		{
 			int n = src.Length;
 			dest.EnsureCapacity(dest.Length + n);
 			for (int i = 0; i < n; i++)
@@ -61,7 +59,8 @@ namespace SaveGameModLoader.FastTrack_VirtualScroll
 		/// </summary>
 		/// <param name="dest">The fixed layout component that will replace it.</param>
 		/// <param name="src">The current layout component.</param>
-		public static void CopyFrom(this LayoutElement dest, ILayoutElement src) {
+		public static void CopyFrom(this LayoutElement dest, ILayoutElement src)
+		{
 			dest.flexibleHeight = src.flexibleHeight;
 			dest.flexibleWidth = src.flexibleWidth;
 			dest.preferredHeight = src.preferredHeight;
@@ -79,15 +78,18 @@ namespace SaveGameModLoader.FastTrack_VirtualScroll
 		/// <param name="shader">The material to use, or null to leave unassigned.</param>
 		/// <returns>The game object to use for rendering.</returns>
 		public static GameObject CreateMeshRenderer(this Mesh targetMesh, string name,
-				int layer, Material shader = null) {
+				int layer, Material shader = null)
+		{
 			if (targetMesh == null)
 				throw new ArgumentNullException(nameof(targetMesh));
 			var go = new GameObject(name ?? "Mesh Renderer", typeof(MeshRenderer), typeof(
-					MeshFilter)) {
+					MeshFilter))
+			{
 				layer = layer
 			};
 			// Set up the mesh with the right material
-			if (go.TryGetComponent(out MeshRenderer renderer)) {
+			if (go.TryGetComponent(out MeshRenderer renderer))
+			{
 				renderer.allowOcclusionWhenDynamic = false;
 				renderer.lightProbeUsage = UnityEngine.Rendering.LightProbeUsage.Off;
 				renderer.motionVectorGenerationMode = MotionVectorGenerationMode.ForceNoMotion;
@@ -109,7 +111,8 @@ namespace SaveGameModLoader.FastTrack_VirtualScroll
 		/// <param name="str">The LocString to format.</param>
 		/// <param name="value">The value to substitute for "{0}".</param>
 		/// <returns>The formatted string.</returns>
-		public static string Format(this LocString str, string value) {
+		public static string Format(this LocString str, string value)
+		{
 			return str.text.Replace("{0}", value);
 		}
 
@@ -119,7 +122,8 @@ namespace SaveGameModLoader.FastTrack_VirtualScroll
 		/// <param name="str">The StringEntry to format.</param>
 		/// <param name="value">The value to substitute for "{0}".</param>
 		/// <returns>The formatted string.</returns>
-		public static string Format(this StringEntry str, string value) {
+		public static string Format(this StringEntry str, string value)
+		{
 			return str.String.Replace("{0}", value);
 		}
 

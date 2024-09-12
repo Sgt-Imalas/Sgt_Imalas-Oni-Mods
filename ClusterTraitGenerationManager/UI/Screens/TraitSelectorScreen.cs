@@ -1,224 +1,224 @@
-﻿using ProcGen;
+﻿using ClusterTraitGenerationManager.ClusterData;
+using ProcGen;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UtilLibs;
 using UtilLibs.UIcmp;
-using UnityEngine.UI;
-using static ClusterTraitGenerationManager.STRINGS.UI.CGMEXPORT_SIDEMENUS.TRAITPOPUP.SCROLLAREA.CONTENT.LISTVIEWENTRYPREFAB;
-using ClusterTraitGenerationManager.ClusterData;
 using static ClusterTraitGenerationManager.ClusterData.CGSMClusterManager;
+using static ClusterTraitGenerationManager.STRINGS.UI.CGMEXPORT_SIDEMENUS.TRAITPOPUP.SCROLLAREA.CONTENT.LISTVIEWENTRYPREFAB;
 
 namespace ClusterTraitGenerationManager.UI.Screens
 {
-    internal class TraitSelectorScreen : FScreen
-    {
-        public class BlacklistTrait : MonoBehaviour
-        {
-            public LocText buttonDescription;
-            public Image backgroundImage;
-            public Color originalColor;
-            public FButton ToggleBlacklistTrait;
-            public string referencedTraitId;
+	internal class TraitSelectorScreen : FScreen
+	{
+		public class BlacklistTrait : MonoBehaviour
+		{
+			public LocText buttonDescription;
+			public Image backgroundImage;
+			public Color originalColor;
+			public FButton ToggleBlacklistTrait;
+			public string referencedTraitId;
 
-            public void Init(string traitID)
-            {
+			public void Init(string traitID)
+			{
 
-                gameObject.transform.Find("AddThisTraitButton").gameObject.SetActive(true);
-                buttonDescription = gameObject.transform.Find("AddThisTraitButton/Text").GetComponent<LocText>();
-                ToggleBlacklistTrait = gameObject.transform
-                    .Find("AddThisTraitButton")
-                    .FindOrAddComponent<FButton>();
-                backgroundImage = gameObject.transform.Find("Background").GetComponent<Image>();
-                originalColor = backgroundImage.color;
-                referencedTraitId = traitID;
-                ToggleBlacklistTrait.OnClick +=
-                    () =>
-                    {
-                        bool isBlacklisted = CGSMClusterManager.ToggleRandomTraitBlacklist(referencedTraitId);
-                        UpdateState(isBlacklisted);
-                    };
+				gameObject.transform.Find("AddThisTraitButton").gameObject.SetActive(true);
+				buttonDescription = gameObject.transform.Find("AddThisTraitButton/Text").GetComponent<LocText>();
+				ToggleBlacklistTrait = gameObject.transform
+					.Find("AddThisTraitButton")
+					.FindOrAddComponent<FButton>();
+				backgroundImage = gameObject.transform.Find("Background").GetComponent<Image>();
+				originalColor = backgroundImage.color;
+				referencedTraitId = traitID;
+				ToggleBlacklistTrait.OnClick +=
+					() =>
+					{
+						bool isBlacklisted = CGSMClusterManager.ToggleRandomTraitBlacklist(referencedTraitId);
+						UpdateState(isBlacklisted);
+					};
 
-                RefreshState();
-            }
+				RefreshState();
+			}
 
-            public void RefreshState()
-            {
-                UpdateState(CGSMClusterManager.RandomTraitInBlacklist(referencedTraitId));
-            }
-            public void UpdateState(bool isInBlacklist)
-            {
-                Color logicColour = isInBlacklist ? GlobalAssets.Instance.colorSet.logicOff : GlobalAssets.Instance.colorSet.logicOn;
-                logicColour.a = 1f;
-                backgroundImage.color = Color.Lerp(logicColour, originalColor, 0.8f);
-                buttonDescription.text = isInBlacklist ? TOGGLETRAITBUTTON.REMOVEFROMBLACKLIST : TOGGLETRAITBUTTON.ADDTOBLACKLIST;
-                UIUtils.AddSimpleTooltipToObject(ToggleBlacklistTrait.transform, isInBlacklist ? TOGGLETRAITBUTTON.REMOVEFROMBLACKLISTTOOLTIP : TOGGLETRAITBUTTON.ADDTOBLACKLISTTOOLTIP);
-            }
-        }
-
-
-        Dictionary<string, BlacklistTrait> BlacklistedRandomTraits = new Dictionary<string, BlacklistTrait>();
-        public static TraitSelectorScreen Instance { get; private set; }
+			public void RefreshState()
+			{
+				UpdateState(CGSMClusterManager.RandomTraitInBlacklist(referencedTraitId));
+			}
+			public void UpdateState(bool isInBlacklist)
+			{
+				Color logicColour = isInBlacklist ? GlobalAssets.Instance.colorSet.logicOff : GlobalAssets.Instance.colorSet.logicOn;
+				logicColour.a = 1f;
+				backgroundImage.color = Color.Lerp(logicColour, originalColor, 0.8f);
+				buttonDescription.text = isInBlacklist ? TOGGLETRAITBUTTON.REMOVEFROMBLACKLIST : TOGGLETRAITBUTTON.ADDTOBLACKLIST;
+				UIUtils.AddSimpleTooltipToObject(ToggleBlacklistTrait.transform, isInBlacklist ? TOGGLETRAITBUTTON.REMOVEFROMBLACKLISTTOOLTIP : TOGGLETRAITBUTTON.ADDTOBLACKLISTTOOLTIP);
+			}
+		}
 
 
-        Dictionary<string, GameObject> Traits = new Dictionary<string, GameObject>();
-        public StarmapItem SelectedPlanet;
-        public static System.Action OnCloseAction;
-
-        public bool IsCurrentlyActive = false;
-
-        public static void InitializeView(StarmapItem _planet, System.Action onclose, bool editingRandomBlacklist = false)
-        {
-            if (Instance == null)
-            {
-                var screen = Util.KInstantiateUI(ModAssets.TraitPopup, FrontEndManager.Instance.gameObject, true);
-                Instance = screen.AddOrGet<TraitSelectorScreen>();
-                Instance.Init();
-            }
-            OnCloseAction = onclose;
-
-            Instance.Show(true);
-            Instance.SelectedPlanet = _planet;
-            Instance.ConsumeMouseScroll = true;
-            Instance.transform.SetAsLastSibling();
+		Dictionary<string, BlacklistTrait> BlacklistedRandomTraits = new Dictionary<string, BlacklistTrait>();
+		public static TraitSelectorScreen Instance { get; private set; }
 
 
-            if (_planet != null && CustomCluster.HasStarmapItem(_planet.id, out var item))
-            {
-                foreach (var traitContainer in Instance.BlacklistedRandomTraits.Values)
-                {
-                    traitContainer.gameObject.SetActive(false);
-                }
-                foreach (var traitContainer in Instance.Traits.Values)
-                {
-                    traitContainer.SetActive(false);
-                }
-                foreach (var activeTrait in item.AllowedPlanetTraits)
-                {
-                    Instance.Traits[activeTrait.filePath].SetActive(true);
-                }
-            }
-            if (editingRandomBlacklist)
-            {
-                foreach (var traitContainer in Instance.Traits.Values)
-                {
-                    traitContainer.SetActive(false);
-                }
-                foreach (var traitContainer in Instance.BlacklistedRandomTraits.Values)
-                {
-                    traitContainer.gameObject.SetActive(true);
-                    traitContainer.RefreshState();
-                }
-            }
+		Dictionary<string, GameObject> Traits = new Dictionary<string, GameObject>();
+		public StarmapItem SelectedPlanet;
+		public static System.Action OnCloseAction;
 
-        }
+		public bool IsCurrentlyActive = false;
 
-        private GameObject TraitPrefab;
-        private GameObject PossibleTraitsContainer;
-        private bool init = false;
+		public static void InitializeView(StarmapItem _planet, System.Action onclose, bool editingRandomBlacklist = false)
+		{
+			if (Instance == null)
+			{
+				var screen = Util.KInstantiateUI(ModAssets.TraitPopup, FrontEndManager.Instance.gameObject, true);
+				Instance = screen.AddOrGet<TraitSelectorScreen>();
+				Instance.Init();
+			}
+			OnCloseAction = onclose;
+
+			Instance.Show(true);
+			Instance.SelectedPlanet = _planet;
+			Instance.ConsumeMouseScroll = true;
+			Instance.transform.SetAsLastSibling();
 
 
-        private void Init()
-        {
-            if (init) return;
-            init = true;
-            TraitPrefab = transform.Find("ScrollArea/Content/ListViewEntryPrefab").gameObject;
-            TraitPrefab.SetActive(false);
-            PossibleTraitsContainer = transform.Find("ScrollArea/Content").gameObject;
+			if (_planet != null && CustomCluster.HasStarmapItem(_planet.id, out var item))
+			{
+				foreach (var traitContainer in Instance.BlacklistedRandomTraits.Values)
+				{
+					traitContainer.gameObject.SetActive(false);
+				}
+				foreach (var traitContainer in Instance.Traits.Values)
+				{
+					traitContainer.SetActive(false);
+				}
+				foreach (var activeTrait in item.AllowedPlanetTraits)
+				{
+					Instance.Traits[activeTrait.filePath].SetActive(true);
+				}
+			}
+			if (editingRandomBlacklist)
+			{
+				foreach (var traitContainer in Instance.Traits.Values)
+				{
+					traitContainer.SetActive(false);
+				}
+				foreach (var traitContainer in Instance.BlacklistedRandomTraits.Values)
+				{
+					traitContainer.gameObject.SetActive(true);
+					traitContainer.RefreshState();
+				}
+			}
 
-            var closeButton = transform.Find("CancelButton").FindOrAddComponent<FButton>();
-            closeButton.OnClick += () =>
-            {
-                OnCloseAction.Invoke();
-                Show(false);
-            };
+		}
 
-
-            InitializeTraitContainer();
-        }
-        public override void OnPrefabInit()
-        {
-            base.OnPrefabInit();
-            ConsumeMouseScroll = true;
-
-            Init();
-        }
-
-        void InitializeTraitContainer()
-        {
-            foreach (var kvp in ModAssets.AllTraitsWithRandom)
-            {
-                //SgtLogger.l(kvp.Key, "INIT");
-
-                var TraitHolder = Util.KInstantiateUI(TraitPrefab, PossibleTraitsContainer, true);
-                //UIUtils.ListAllChildrenWithComponents(TraitHolder.transform);
-                var AddTraitButton = TraitHolder
-                    //.transform.Find("AddThisTraitButton").gameObject
-                    .FindOrAddComponent<FButton>();
-                Strings.TryGet(kvp.Value.name, out var name);
-                Strings.TryGet(kvp.Value.description, out var description);
-                var combined = "<color=#" + kvp.Value.colorHex + ">" + name.ToString() + "</color>";
-
-                var icon = TraitHolder.transform.Find("Label/TraitImage").GetComponent<Image>();
-                icon.sprite = ModAssets.GetTraitSprite(kvp.Value);
-                icon.color = Util.ColorFromHex(kvp.Value.colorHex);
-
-                UIUtils.TryChangeText(TraitHolder.transform, "Label", combined);
-                UIUtils.AddSimpleTooltipToObject(TraitHolder.transform, description);
+		private GameObject TraitPrefab;
+		private GameObject PossibleTraitsContainer;
+		private bool init = false;
 
 
-                AddTraitButton.OnClick += () =>
-                {
-                    if (CustomCluster.HasStarmapItem(SelectedPlanet.id, out var item))
-                    {
-                        item.AddWorldTrait(kvp.Value);
-                    }
-                    CloseThis();
-                };
-                Traits[kvp.Value.filePath] = TraitHolder;
-            }
+		private void Init()
+		{
+			if (init) return;
+			init = true;
+			TraitPrefab = transform.Find("ScrollArea/Content/ListViewEntryPrefab").gameObject;
+			TraitPrefab.SetActive(false);
+			PossibleTraitsContainer = transform.Find("ScrollArea/Content").gameObject;
+
+			var closeButton = transform.Find("CancelButton").FindOrAddComponent<FButton>();
+			closeButton.OnClick += () =>
+			{
+				OnCloseAction.Invoke();
+				Show(false);
+			};
 
 
-            foreach (var kvp in SettingsCache.worldTraits)
-            {
-                var TraitHolder = Util.KInstantiateUI(TraitPrefab, PossibleTraitsContainer, true);
-                var blacklistContainer = TraitHolder.AddOrGet<BlacklistTrait>();
-                blacklistContainer.Init(kvp.Value.filePath);
+			InitializeTraitContainer();
+		}
+		public override void OnPrefabInit()
+		{
+			base.OnPrefabInit();
+			ConsumeMouseScroll = true;
 
-                Strings.TryGet(kvp.Value.name, out var name);
-                Strings.TryGet(kvp.Value.description, out var description);
-                var combined = "<color=#" + kvp.Value.colorHex + ">" + name.ToString() + "</color>";
+			Init();
+		}
 
-                var icon = TraitHolder.transform.Find("Label/TraitImage").GetComponent<Image>();
-                icon.sprite = ModAssets.GetTraitSprite(kvp.Value);
-                icon.color = Util.ColorFromHex(kvp.Value.colorHex);
+		void InitializeTraitContainer()
+		{
+			foreach (var kvp in ModAssets.AllTraitsWithRandom)
+			{
+				//SgtLogger.l(kvp.Key, "INIT");
 
-                UIUtils.TryChangeText(TraitHolder.transform, "Label", combined);
-                UIUtils.AddSimpleTooltipToObject(TraitHolder.transform.Find("Label"), description);
+				var TraitHolder = Util.KInstantiateUI(TraitPrefab, PossibleTraitsContainer, true);
+				//UIUtils.ListAllChildrenWithComponents(TraitHolder.transform);
+				var AddTraitButton = TraitHolder
+					//.transform.Find("AddThisTraitButton").gameObject
+					.FindOrAddComponent<FButton>();
+				Strings.TryGet(kvp.Value.name, out var name);
+				Strings.TryGet(kvp.Value.description, out var description);
+				var combined = "<color=#" + kvp.Value.colorHex + ">" + name.ToString() + "</color>";
 
-                BlacklistedRandomTraits[kvp.Value.filePath] = blacklistContainer;
-            }
-        }
+				var icon = TraitHolder.transform.Find("Label/TraitImage").GetComponent<Image>();
+				icon.sprite = ModAssets.GetTraitSprite(kvp.Value);
+				icon.color = Util.ColorFromHex(kvp.Value.colorHex);
+
+				UIUtils.TryChangeText(TraitHolder.transform, "Label", combined);
+				UIUtils.AddSimpleTooltipToObject(TraitHolder.transform, description);
 
 
-        public override void Show(bool show = true)
-        {
-            base.Show(show);
-            IsCurrentlyActive = show;
-        }
-        void CloseThis()
-        {
-            OnCloseAction.Invoke();
-            Show(false);
-        }
+				AddTraitButton.OnClick += () =>
+				{
+					if (CustomCluster.HasStarmapItem(SelectedPlanet.id, out var item))
+					{
+						item.AddWorldTrait(kvp.Value);
+					}
+					CloseThis();
+				};
+				Traits[kvp.Value.filePath] = TraitHolder;
+			}
 
-        public override void OnKeyDown(KButtonEvent e)
-        {
-            if (e.TryConsume(Action.Escape) || e.TryConsume(Action.MouseRight))
-            {
-                CloseThis();
-            }
 
-            base.OnKeyDown(e);
-        }
-    }
+			foreach (var kvp in SettingsCache.worldTraits)
+			{
+				var TraitHolder = Util.KInstantiateUI(TraitPrefab, PossibleTraitsContainer, true);
+				var blacklistContainer = TraitHolder.AddOrGet<BlacklistTrait>();
+				blacklistContainer.Init(kvp.Value.filePath);
+
+				Strings.TryGet(kvp.Value.name, out var name);
+				Strings.TryGet(kvp.Value.description, out var description);
+				var combined = "<color=#" + kvp.Value.colorHex + ">" + name.ToString() + "</color>";
+
+				var icon = TraitHolder.transform.Find("Label/TraitImage").GetComponent<Image>();
+				icon.sprite = ModAssets.GetTraitSprite(kvp.Value);
+				icon.color = Util.ColorFromHex(kvp.Value.colorHex);
+
+				UIUtils.TryChangeText(TraitHolder.transform, "Label", combined);
+				UIUtils.AddSimpleTooltipToObject(TraitHolder.transform.Find("Label"), description);
+
+				BlacklistedRandomTraits[kvp.Value.filePath] = blacklistContainer;
+			}
+		}
+
+
+		public override void Show(bool show = true)
+		{
+			base.Show(show);
+			IsCurrentlyActive = show;
+		}
+		void CloseThis()
+		{
+			OnCloseAction.Invoke();
+			Show(false);
+		}
+
+		public override void OnKeyDown(KButtonEvent e)
+		{
+			if (e.TryConsume(Action.Escape) || e.TryConsume(Action.MouseRight))
+			{
+				CloseThis();
+			}
+
+			base.OnKeyDown(e);
+		}
+	}
 }

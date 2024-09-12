@@ -1,29 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UtilLibs;
-
-namespace SkinEffects
+﻿namespace SkinEffects
 {
-    internal class SkinLamp:KMonoBehaviour
-    {
-        [MyCmpGet]
-        Light2D light;
+	internal class SkinLamp : KMonoBehaviour
+	{
+		[MyCmpGet]
+		Light2D light;
 
-        [MyCmpGet]
-        BuildingFacade skin;
+		[MyCmpGet]
+		BuildingFacade skin;
 
-        public override void OnSpawn()
-        {
-            base.OnSpawn();
-            ToggleLamp();
-        }
-        internal void ToggleLamp()
-        {
-            light.enabled=(!skin.currentFacade.IsNullOrWhiteSpace() && skin.currentFacade.Contains("shineornaments"));
-            light.FullRefresh();
-        }
-    }
+		public override void OnSpawn()
+		{
+			base.OnSpawn();
+			ToggleLamp();
+		}
+		internal void ToggleLamp()
+		{
+			light.enabled = (!skin.currentFacade.IsNullOrWhiteSpace() && skin.currentFacade.Contains("shineornaments"));
+			light.FullRefresh();
+		}
+	}
 }

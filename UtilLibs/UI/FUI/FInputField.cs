@@ -5,11 +5,11 @@ using UnityEngine.UI;
 namespace UtilLibs.UIcmp //Source: Aki
 {
 	public class FInputField : KScreen
-    {
+	{
 		public InputField inputField;
 		public InputField.ContentType contentType = InputField.ContentType.Alphanumeric;
 		public event System.Action OnStartEdit;
-        public event System.Action OnEndEdit;
+		public event System.Action OnEndEdit;
 		public event System.Action<string> OnValueChanged;
 
 		new private bool isEditing;
@@ -22,7 +22,7 @@ namespace UtilLibs.UIcmp //Source: Aki
 			inputField = gameObject.GetComponent<InputField>();
 		}
 
-        public override void OnSpawn()
+		public override void OnSpawn()
 		{
 			base.OnSpawn();
 			inputField.onEndEdit.AddListener(OnEditEnd);
@@ -31,7 +31,7 @@ namespace UtilLibs.UIcmp //Source: Aki
 		}
 		private void OnChangeValue(string input)
 		{
-			if(!isEditing)
+			if (!isEditing)
 			{
 				isEditing = true;
 				KScreenManager.Instance.RefreshStack();
@@ -58,7 +58,7 @@ namespace UtilLibs.UIcmp //Source: Aki
 			yield break;
 		}
 
-        public override void OnKeyDown(KButtonEvent e)
+		public override void OnKeyDown(KButtonEvent e)
 		{
 			if (isEditing)
 				e.Consumed = true;
@@ -73,14 +73,14 @@ namespace UtilLibs.UIcmp //Source: Aki
 		{
 			string inputString = input.ToString();
 			if (!inputString.IsNullOrWhiteSpace())
-			{ 
+			{
 				SetDisplayValue(inputString);
 			}
 		}
 
 		public void SetDisplayValue(object input, bool triggerEdit = false)
 		{
-			if(inputField != null)
+			if (inputField != null)
 			{
 				inputField.text = input.ToString();
 				if (triggerEdit)

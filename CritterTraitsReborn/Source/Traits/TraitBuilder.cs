@@ -1,21 +1,21 @@
 ﻿namespace CritterTraitsReborn.Traits
 {
-    /**
+	/**
      * Base class for traits in this mod.
      */
-    public abstract class TraitBuilder
-    {
-        public abstract string ID { get; }
+	public abstract class TraitBuilder
+	{
+		public abstract string ID { get; }
 
-        public abstract Group Group { get; }
+		public abstract Group Group { get; }
 
-        protected abstract void Init();
+		protected abstract void Init();
 
-        public bool RequiresDLC = false;
+		public bool RequiresDLC = false;
 
-        public void CreateTrait()
-        {
-            Init();
-        }
-    }
+		public void CreateTrait()
+		{
+			Init();
+		}
+	}
 }

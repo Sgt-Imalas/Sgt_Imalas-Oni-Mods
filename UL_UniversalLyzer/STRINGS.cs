@@ -1,13 +1,6 @@
-﻿using STRINGS;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace UL_UniversalLyzer
+﻿namespace UL_UniversalLyzer
 {
-    internal class STRINGS
-    {
-    }
+	internal class STRINGS
+	{
+	}
 }

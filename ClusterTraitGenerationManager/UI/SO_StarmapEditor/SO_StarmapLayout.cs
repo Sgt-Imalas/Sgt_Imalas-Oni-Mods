@@ -1,12 +1,9 @@
-﻿using ProcGen;
+﻿using ClusterTraitGenerationManager.ClusterData;
+using ProcGen;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using ClusterTraitGenerationManager.ClusterData;
-using static STRINGS.DUPLICANTS.PERSONALITIES;
 using UtilLibs;
-using static ResearchTypes;
-using System;
 
 namespace ClusterTraitGenerationManager.UI.SO_StarmapEditor
 {

@@ -1,16 +1,7 @@
-﻿using Klei.AI;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-
-namespace SGTIM_NotificationManager
+﻿namespace SGTIM_NotificationManager
 {
-    internal class ModAssets
-    {
+	internal class ModAssets
+	{
 
-    }
+	}
 }

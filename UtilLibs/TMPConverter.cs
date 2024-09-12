@@ -8,85 +8,85 @@ using UnityEngine.UI;
 
 namespace UtilLibs
 {
-    /// <summary>
-    /// Credit: Aki
-    /// </summary>
-    public class TMPConverter
-    {
-        static TMP_FontAsset NotoSans;
-        static TMP_FontAsset GrayStroke;
+	/// <summary>
+	/// Credit: Aki
+	/// </summary>
+	public class TMPConverter
+	{
+		static TMP_FontAsset NotoSans;
+		static TMP_FontAsset GrayStroke;
 
-        public TMPConverter() => Initialize();
+		public TMPConverter() => Initialize();
 
-        public void Initialize()
-        {
-            var fonts = new List<TMP_FontAsset>(Resources.FindObjectsOfTypeAll<TMP_FontAsset>());
-            NotoSans = fonts.FirstOrDefault(f => f.name == "NotoSans-Regular");
-            GrayStroke = fonts.FirstOrDefault(f => f.name == "GRAYSTROKE REGULAR SDF");
-        }
+		public void Initialize()
+		{
+			var fonts = new List<TMP_FontAsset>(Resources.FindObjectsOfTypeAll<TMP_FontAsset>());
+			NotoSans = fonts.FirstOrDefault(f => f.name == "NotoSans-Regular");
+			GrayStroke = fonts.FirstOrDefault(f => f.name == "GRAYSTROKE REGULAR SDF");
+		}
 
-        public void ReplaceAllText(GameObject parent, bool realign = true)
-        {
-            var textComponents = parent.GetComponentsInChildren(typeof(Text), true);
+		public void ReplaceAllText(GameObject parent, bool realign = true)
+		{
+			var textComponents = parent.GetComponentsInChildren(typeof(Text), true);
 
-            foreach (Text text in textComponents)
-            {
-                if (text.gameObject.name == "SettingsDialogData") continue;
+			foreach (Text text in textComponents)
+			{
+				if (text.gameObject.name == "SettingsDialogData") continue;
 
-                string TMPData = text.text;
-                GameObject obj = text.gameObject;
-                TMPSettings data = ExtractTMPData(TMPData, text);
+				string TMPData = text.text;
+				GameObject obj = text.gameObject;
+				TMPSettings data = ExtractTMPData(TMPData, text);
 
-                if (data != null)
-                {
-                    var LT = obj.AddComponent<LocText>();
-                    LT.font = data.Font.Contains("GRAYSTROKE") ? GrayStroke : NotoSans;
-                    LT.fontStyle = data.FontStyle;
-                    LT.fontSize = data.FontSize;
-                    LT.maxVisibleLines = data.MaxVisibleLines;
-                    LT.enableWordWrapping = data.EnableWordWrapping;
-                    LT.autoSizeTextContainer = data.AutoSizeTextContainer;
-                    LT.text = "";
-                    LT.color = new Color(data.Color[0], data.Color[1], data.Color[2]);
-                    LT.key = data.Content.Replace(" ",string.Empty);
-                    // alignment isn't carried over instantiation, so it's applied later
-                    if (realign)
-                    {
-                        LT.gameObject.AddComponent<TMPImportFix>().alignment = data.Alignment;
-                    }
-                    LT.autoSizeTextContainer = data.VariableFontSize;
-                    LT.fontSizeMin = data.VariableFontSizeMinimum;
-                    LT.fontSizeMax = data.VariableFontSizeMaximum;
-                }
-            }
-        }
+				if (data != null)
+				{
+					var LT = obj.AddComponent<LocText>();
+					LT.font = data.Font.Contains("GRAYSTROKE") ? GrayStroke : NotoSans;
+					LT.fontStyle = data.FontStyle;
+					LT.fontSize = data.FontSize;
+					LT.maxVisibleLines = data.MaxVisibleLines;
+					LT.enableWordWrapping = data.EnableWordWrapping;
+					LT.autoSizeTextContainer = data.AutoSizeTextContainer;
+					LT.text = "";
+					LT.color = new Color(data.Color[0], data.Color[1], data.Color[2]);
+					LT.key = data.Content.Replace(" ", string.Empty);
+					// alignment isn't carried over instantiation, so it's applied later
+					if (realign)
+					{
+						LT.gameObject.AddComponent<TMPImportFix>().alignment = data.Alignment;
+					}
+					LT.autoSizeTextContainer = data.VariableFontSize;
+					LT.fontSizeMin = data.VariableFontSizeMinimum;
+					LT.fontSizeMax = data.VariableFontSizeMaximum;
+				}
+			}
+		}
 
-        private static bool isValidJSon(string data)
-        {
-            if (string.IsNullOrWhiteSpace(data)) return false;
-            return data.StartsWith("{") && data.EndsWith("}");
-        }
+		private static bool isValidJSon(string data)
+		{
+			if (string.IsNullOrWhiteSpace(data)) return false;
+			return data.StartsWith("{") && data.EndsWith("}");
+		}
 
-        private static TMPSettings ExtractTMPData(string TMPData, Text text)
-        {
-            TMPSettings data = null;
+		private static TMPSettings ExtractTMPData(string TMPData, Text text)
+		{
+			TMPSettings data = null;
 
-            if (isValidJSon(TMPData))
-            {
-                try
-                {
-                    data = JsonConvert.DeserializeObject<TMPSettings>(TMPData);
-                }
-                catch (JsonReaderException e)
-                {
-                    SgtLogger.warning("Not valid Json format\n"+e.ToString());
-                }
+			if (isValidJSon(TMPData))
+			{
+				try
+				{
+					data = JsonConvert.DeserializeObject<TMPSettings>(TMPData);
+				}
+				catch (JsonReaderException e)
+				{
+					SgtLogger.warning("Not valid Json format\n" + e.ToString());
+				}
 
-                Object.DestroyImmediate(text);
-            }
+				Object.DestroyImmediate(text);
+			}
 
-            return data;
-        }
-    }
+			return data;
+		}
+	}
 }
 

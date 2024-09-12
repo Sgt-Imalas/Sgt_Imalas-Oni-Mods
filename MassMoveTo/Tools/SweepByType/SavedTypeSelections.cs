@@ -21,50 +21,50 @@ using System.Collections.Generic;
 
 namespace MassMoveTo.Tools.SweepByType
 {
-    /// <summary>
-    /// Stores a list of the types selected to sweep in the save.
-    /// </summary>
-    public sealed class SavedTypeSelections : KMonoBehaviour
-    {
-        /// <summary>
-        /// The types to sweep last chosen by the user.
-        /// </summary>
-        [Serialize]
-        private List<Tag> types;
+	/// <summary>
+	/// Stores a list of the types selected to sweep in the save.
+	/// </summary>
+	public sealed class SavedTypeSelections : KMonoBehaviour
+	{
+		/// <summary>
+		/// The types to sweep last chosen by the user.
+		/// </summary>
+		[Serialize]
+		private List<Tag> types;
 
-        internal SavedTypeSelections() { }
+		internal SavedTypeSelections() { }
 
-        /// <summary>
-        /// Initializes the type list if it is uninitialized.
-        /// </summary>
-        private void InitTypes()
-        {
-            if (types == null)
-                types = new List<Tag>(64);
-        }
+		/// <summary>
+		/// Initializes the type list if it is uninitialized.
+		/// </summary>
+		private void InitTypes()
+		{
+			if (types == null)
+				types = new List<Tag>(64);
+		}
 
-        /// <summary>
-        /// Gets the list of saved types.
-        /// </summary>
-        /// <returns>The list of saved types, or an empty list if they are uninitialized.</returns>
-        public ICollection<Tag> GetSavedTypes()
-        {
-            InitTypes();
-            return types;
-        }
+		/// <summary>
+		/// Gets the list of saved types.
+		/// </summary>
+		/// <returns>The list of saved types, or an empty list if they are uninitialized.</returns>
+		public ICollection<Tag> GetSavedTypes()
+		{
+			InitTypes();
+			return types;
+		}
 
-        /// <summary>
-        /// Sets the list of saved types.
-        /// </summary>
-        /// <param name="newTypes">The types selected.</param>
-        public void SetSavedTypes(IEnumerable<Tag> newTypes)
-        {
-            if (newTypes != null)
-            {
-                InitTypes();
-                types.Clear();
-                types.AddRange(newTypes);
-            }
-        }
-    }
+		/// <summary>
+		/// Sets the list of saved types.
+		/// </summary>
+		/// <param name="newTypes">The types selected.</param>
+		public void SetSavedTypes(IEnumerable<Tag> newTypes)
+		{
+			if (newTypes != null)
+			{
+				InitTypes();
+				types.Clear();
+				types.AddRange(newTypes);
+			}
+		}
+	}
 }

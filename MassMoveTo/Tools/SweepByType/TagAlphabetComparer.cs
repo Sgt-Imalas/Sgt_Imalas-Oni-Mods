@@ -21,34 +21,34 @@ using System.Collections.Generic;
 
 namespace MassMoveTo.Tools.SweepByType
 {
-    /// <summary>
-    /// The default comparer for Tag sorts on hash code, not alphabet. This comparer sorts
-    /// tags by alphabetical <b>proper name</b> order, case <b>in</b>sensitive.
-    /// </summary>
-    internal sealed class TagAlphabetComparer : IComparer<Tag>
-    {
-        /// <summary>
-        /// The only instance of this class.
-        /// </summary>
-        internal static readonly IComparer<Tag> INSTANCE = new TagAlphabetComparer();
+	/// <summary>
+	/// The default comparer for Tag sorts on hash code, not alphabet. This comparer sorts
+	/// tags by alphabetical <b>proper name</b> order, case <b>in</b>sensitive.
+	/// </summary>
+	internal sealed class TagAlphabetComparer : IComparer<Tag>
+	{
+		/// <summary>
+		/// The only instance of this class.
+		/// </summary>
+		internal static readonly IComparer<Tag> INSTANCE = new TagAlphabetComparer();
 
-        private TagAlphabetComparer() { }
+		private TagAlphabetComparer() { }
 
-        public int Compare(Tag x, Tag y)
-        {
-            if (x == null)
-                throw new ArgumentNullException("x");
-            if (y == null)
-                throw new ArgumentNullException("y");
-            string nx = x.ProperName(), ny = y.ProperName();
-            if (string.IsNullOrEmpty(nx))
-                nx = x.ToString();
-            if (string.IsNullOrEmpty(ny))
-                ny = y.ToString();
-            int difference = string.Compare(nx, ny, true);
-            if (difference == 0)
-                difference = string.Compare(x.Name, y.Name, StringComparison.InvariantCulture);
-            return difference;
-        }
-    }
+		public int Compare(Tag x, Tag y)
+		{
+			if (x == null)
+				throw new ArgumentNullException("x");
+			if (y == null)
+				throw new ArgumentNullException("y");
+			string nx = x.ProperName(), ny = y.ProperName();
+			if (string.IsNullOrEmpty(nx))
+				nx = x.ToString();
+			if (string.IsNullOrEmpty(ny))
+				ny = y.ToString();
+			int difference = string.Compare(nx, ny, true);
+			if (difference == 0)
+				difference = string.Compare(x.Name, y.Name, StringComparison.InvariantCulture);
+			return difference;
+		}
+	}
 }
