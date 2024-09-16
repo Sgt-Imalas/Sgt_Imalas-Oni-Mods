@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using KMod;
 
-namespace ReactorMeterFix
+namespace TinyFixes
 {
 	public class Mod : UserMod2
 	{
