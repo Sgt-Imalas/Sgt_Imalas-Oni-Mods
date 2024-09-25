@@ -109,16 +109,26 @@ namespace SetStartDupes
 			var carePackages = new List<CarePackageInfo>()
 			{          
                 ///missing seeds:
+				
+				//Sporechid
                 new CarePackageInfo(EvilFlowerConfig.SEED_ID, 1f, () => Immigration.CycleCondition(96) && Immigration.DiscoveredCondition((Tag) EvilFlowerConfig.ID) || Immigration.CycleCondition(500)),
+				//Buddy Bud
 				new CarePackageInfo(BulbPlantConfig.SEED_ID, 1f, () => Immigration.CycleCondition(36) && Immigration.DiscoveredCondition((Tag) BulbPlantConfig.ID) || Immigration.CycleCondition(500)),
+				//Nosh Bean
 				new CarePackageInfo(BeanPlantConfig.SEED_ID, 3f, () => Immigration.CycleCondition(48) && Immigration.DiscoveredCondition((Tag) BeanPlantConfig.ID) || Immigration.CycleCondition(500)),
+				//Sleet Wheat
 				new CarePackageInfo(ColdWheatConfig.SEED_ID, 3f, () => Immigration.CycleCondition(48) && Immigration.DiscoveredCondition((Tag) ColdWheatConfig.ID) || Immigration.CycleCondition(500)),
+				//Waterweed
 				new CarePackageInfo(SeaLettuceConfig.SEED_ID, 3f, () => Immigration.CycleCondition(48) && Immigration.DiscoveredCondition((Tag) SeaLettuceConfig.ID) || Immigration.CycleCondition(500)),
+				//Dasha Saltvine
 				new CarePackageInfo(SaltPlantConfig.SEED_ID, 3f, () => Immigration.CycleCondition(48) && Immigration.DiscoveredCondition((Tag) SaltPlantConfig.ID) || Immigration.CycleCondition(500)),
+				//Mealwood
+				new CarePackageInfo(BasicSingleHarvestPlantConfig.SEED_ID, 3f, () => Immigration.CycleCondition(24) && Immigration.DiscoveredCondition((Tag) BasicSingleHarvestPlantConfig.ID) || Immigration.CycleCondition(500)),
 
                 ///missing minerals:
                 new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.Granite).tag.ToString(), 1000f, (Func<bool>) (() => Immigration.CycleCondition(24) && Immigration.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.Granite).tag)|| Immigration.CycleCondition(500))),
 				new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.Obsidian).tag.ToString(), 1000f, (Func<bool>) (() => Immigration.CycleCondition(24) && Immigration.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.Obsidian).tag)|| Immigration.CycleCondition(500))),
+				//Abyssalite
 				new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.Katairite).tag.ToString(), 1000f, (Func<bool>) (() => Immigration.CycleCondition(48) && Immigration.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.Katairite).tag)|| Immigration.CycleCondition(500))),
 
                 ///missing ores+metals
@@ -136,11 +146,18 @@ namespace SetStartDupes
                     new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.UraniumOre).tag.ToString(), 100f, () => Immigration.CycleCondition(48)&& Immigration.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.UraniumOre).tag) || Immigration.CycleCondition(500)),
                     
                     ///missing seeds
-                    new CarePackageInfo(SwampHarvestPlantConfig.SEED_ID, 3f, () => Immigration.CycleCondition(24) && Immigration.DiscoveredCondition((Tag) SwampHarvestPlantConfig.ID) || Immigration.CycleCondition(500)),
+                    
+					//Bog Bucket
+					new CarePackageInfo(SwampHarvestPlantConfig.SEED_ID, 3f, () => Immigration.CycleCondition(24) && Immigration.DiscoveredCondition((Tag) SwampHarvestPlantConfig.ID) || Immigration.CycleCondition(500)),
+					//Tranquil Toes
 					new CarePackageInfo(ToePlantConfig.SEED_ID, 3f, () => Immigration.CycleCondition(48) && Immigration.DiscoveredCondition((Tag) ToePlantConfig.ID) || Immigration.CycleCondition(500)),
+					//Saturn Critter Trap
 					new CarePackageInfo("CritterTrapPlantSeed", 1f, () => Immigration.CycleCondition(96)&& Immigration.DiscoveredCondition((Tag) CritterTrapPlantConfig.ID) || Immigration.CycleCondition(500)),
+					
 
                     ///missing critters
+					
+					//Beetiny
                     new CarePackageInfo(BabyBeeConfig.ID, 1f, () => Immigration.CycleCondition(24) && (Immigration.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.UraniumOre).tag)||Immigration.DiscoveredCondition((Tag) BabyBeeConfig.ID)) || Immigration.CycleCondition(500)),
 
 				});
@@ -150,6 +167,9 @@ namespace SetStartDupes
 			{
 				carePackages.AddRange(new List<CarePackageInfo>()
 				{
+					///Pikeapple
+					new CarePackageInfo(ToePlantConfig.SEED_ID, 1f, () => Immigration.CycleCondition(24)&& Immigration.DiscoveredCondition((Tag) ToePlantConfig.ID) || Immigration.CycleCondition(500)),
+
                     ///carved lumen quartz
                     new CarePackageInfo(PinkRockCarvedConfig.ID, 1f, () => Immigration.CycleCondition(48) || Immigration.CycleCondition(500))
 				});
