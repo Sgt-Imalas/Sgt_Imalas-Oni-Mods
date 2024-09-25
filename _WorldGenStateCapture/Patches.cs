@@ -182,7 +182,7 @@ namespace _WorldGenStateCapture
 
 				SgtLogger.l("autostart successful");
 				autoLoadActive = true;
-				clusterCategory = targetLayout.clusterCategory;
+				clusterCategory = (int)targetLayout.clusterCategory;
 				__instance.NewGame();
 
 			}
@@ -222,7 +222,7 @@ namespace _WorldGenStateCapture
 			{
 				if (autoLoadActive)
 				{
-					__instance.newGameSettings.SetSetting((SettingConfig)CustomGameSettingConfigs.ClusterLayout, targetLayout.filePath);
+					__instance.newGameSettingsPanel.SetSetting((SettingConfig)CustomGameSettingConfigs.ClusterLayout, targetLayout.filePath);
 					__instance.ShuffleClicked();
 					__instance.LaunchClicked();
 				}

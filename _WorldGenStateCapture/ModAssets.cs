@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using UnityEngine;
 using UtilLibs;
+using static ProcGen.ClusterLayout;
 
 namespace _WorldGenStateCapture
 {
@@ -107,13 +108,13 @@ namespace _WorldGenStateCapture
 			string parentPath = string.Empty;
 			switch (clusterData.clusterCategory)
 			{
-				case 0:
+				case ClusterCategory.Vanilla:
 					parentPath = System.IO.Path.Combine(IO_Utils.ModPath, BaseGameFolder);
 					break;
-				case 1:
+				case ClusterCategory.SpacedOutVanillaStyle:
 					parentPath = System.IO.Path.Combine(IO_Utils.ModPath, DlcClassicFolder);
 					break;
-				case 2:
+				case ClusterCategory.SpacedOutStyle:
 					parentPath = System.IO.Path.Combine(IO_Utils.ModPath, DlcSpacedOutFolder);
 					break;
 
