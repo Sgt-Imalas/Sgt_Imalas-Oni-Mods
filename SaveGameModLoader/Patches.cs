@@ -353,9 +353,9 @@ namespace SaveGameModLoader
 				pinnedBg = UIUtils.Darken(normal, 15),
 				incompatibleBg = UIUtils.rgb(26, 28, 33),
 				pinnedActive = UIUtils.Lighten(Color.red, 50),
-				pinnedInactive = Color.gray,
+				pinnedInactive = Color.white,
 				HasTags = UIUtils.Lighten(Color.blue, 50),
-				HasNoTags = Color.gray;
+				HasNoTags = Color.white;
 		}
 
 		[HarmonyPatch(typeof(KMod.Manager), nameof(KMod.Manager.NotifyDialog))]
