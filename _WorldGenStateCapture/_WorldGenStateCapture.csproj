@@ -43,6 +43,12 @@
 	<ItemGroup>
 	  <PackageReference Include="PLib" Version="4.16.0" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="UnityEngine.UnityWebRequestModule">
+	    <HintPath>X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\UnityEngine.UnityWebRequestModule.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
 	
 	<ItemGroup>
 	  <None Update="System.Drawing.dll">

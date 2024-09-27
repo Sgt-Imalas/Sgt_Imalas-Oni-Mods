@@ -3,11 +3,14 @@ using _WorldGenStateCapture.WorldStateData.Starmap.SpacemapItems;
 using _WorldGenStateCapture.WorldStateData.WorldPOIs;
 using Klei.CustomSettings;
 using ProcGen;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.Networking;
 using static ProcGen.ClusterLayout;
 
 namespace _WorldGenStateCapture
@@ -24,7 +27,7 @@ namespace _WorldGenStateCapture
 		static string DlcClassicFolder = "DlcClassicSeeds";
 		static string DlcSpacedOutFolder = "DlcSOSeeds";
 
-		internal static void AccumulateSeedData()
+		internal static void AccumulateSeedData(MonoBehaviour instance)
 		{
 
 			System.IO.Directory.CreateDirectory(System.IO.Path.Combine(ModPath, BaseGameFolder));
@@ -123,17 +126,50 @@ namespace _WorldGenStateCapture
 			}
 			if (parentPath != string.Empty)
 			{
-				string fileName = DataItem.FullCoordinate + ".json";
+				//string fileName = DataItem.FullCoordinate + ".json";
 				///Replace with uploader
 				//IO_Utils.WriteToFile(DataItem, System.IO.Path.Combine(parentPath, fileName));
-				GridMap.Save(System.IO.Path.Combine(parentPath, DataItem.FullCoordinate + ".png"));
+
+				string json = Newtonsoft.Json.JsonConvert.SerializeObject(DataItem);
+				instance.StartCoroutine(TryPostRequest(json));
+				//GridMap.Save(System.IO.Path.Combine(parentPath, DataItem.FullCoordinate + ".png"));
 			}
+			else
+				ClearAndRestart();
+		}
 
+		static IEnumerator TryPostRequest(string data)
+		{
+			using (UnityWebRequest www = UnityWebRequest.Post(uri: "https://api.mapsnotincluded.org", postData: data)) //or "https://api.mapsnotincluded.org/ingest" ?
+			{
+				if (Environment.GetEnvironmentVariable("MNI_API_KEY") != null)
+				{
+					www.SetRequestHeader("Authorization", Environment.GetEnvironmentVariable("MNI_API_KEY"));
+				}
 
+				yield return www.SendWebRequest();
+
+				if (www.result != UnityWebRequest.Result.Success)
+				{
+					Debug.LogError(www.error);
+					ClearAndRestart();
+				}
+				else
+				{
+					Debug.Log("Form upload complete!");
+					ClearAndRestart();
+				}
+			}
+		}
+
+		public static void ClearAndRestart()
+		{
 			currentGeysers.Clear();
 			currentPOIs.Clear();
 			dlcStarmapItems.Clear();
 			baseStarmapItems.Clear();
+			GameScheduler.Instance.ScheduleNextFrame("restart game", (_) => App.instance.Restart());
 		}
+
 	}
 }

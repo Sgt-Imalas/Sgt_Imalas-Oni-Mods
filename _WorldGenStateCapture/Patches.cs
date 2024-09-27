@@ -3,6 +3,7 @@ using Klei.CustomSettings;
 using ProcGen;
 using System.IO;
 using static STRINGS.INPUT_BINDINGS;
+using UnityEngine.Networking;
 
 namespace _WorldGenStateCapture
 {
@@ -82,7 +83,7 @@ namespace _WorldGenStateCapture
 		[HarmonyPatch(typeof(WattsonMessage), nameof(WattsonMessage.OnDeactivate))]
 		public static class QuitGamePt2
 		{
-			public static void Postfix()
+			public static void Postfix(WattsonMessage __instance)
 			{
 
 				Debug.Log("gathering world data...");
@@ -100,10 +101,8 @@ namespace _WorldGenStateCapture
 
 				GameScheduler.Instance.ScheduleNextFrame("collect data", (_) =>
 				{
-					ModAssets.AccumulateSeedData();
+					ModAssets.AccumulateSeedData(__instance);
 
-					GameScheduler.Instance.ScheduleNextFrame("restart game", (_) =>
-					App.instance.Restart());
 				});
 			}
 

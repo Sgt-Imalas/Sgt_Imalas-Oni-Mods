@@ -92,7 +92,7 @@ namespace _WorldGenStateCapture.WorldStateData.WorldPOIs
 					ActivePeriod_EruptionTime = configuration.GetOnDuration(),
 					DormancyCycles = configuration.GetYearOffDuration() / 600f,
 					ActiveCycles = configuration.GetYearOnDuration() / 600f,
-					EmitRate = configuration.GetEmitRate() * 1000f,
+					EmitRate = configuration.GetEmitRate() * 1000f,					
 				});
 			}
 		}
