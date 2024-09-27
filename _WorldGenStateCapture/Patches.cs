@@ -1,7 +1,8 @@
 ﻿using HarmonyLib;
 using Klei.CustomSettings;
 using ProcGen;
-using UtilLibs;
+using System.IO;
+using static STRINGS.INPUT_BINDINGS;
 
 namespace _WorldGenStateCapture
 {
@@ -13,9 +14,28 @@ namespace _WorldGenStateCapture
 		[HarmonyPatch(typeof(Localization), "Initialize")]
 		public static class Localization_Initialize_Patch
 		{
+			private static void OverLoadStrings()
+			{
+				string code = Localization.GetLocale()?.Code;
+
+				if (code.IsNullOrWhiteSpace()) return;
+
+				string path = System.IO.Path.Combine(ModAssets.ModPath, "translations", Localization.GetLocale().Code + ".po");
+
+				if (File.Exists(path))
+				{
+					Localization.OverloadStrings(Localization.LoadStringsFile(path, false));
+					Debug.Log($"Found translation file for {code}.");
+				}
+			}
 			public static void Postfix()
 			{
-				LocalisationUtil.Translate(typeof(STRINGS), true);
+				var root = typeof(STRINGS);
+				Localization.RegisterForTranslation(typeof(STRINGS));
+				OverLoadStrings();
+				LocString.CreateLocStringKeys(root, null);
+				Localization.GenerateStringsTemplate(root, System.IO.Path.Combine(KMod.Manager.GetDirectory(), "strings_templates"));
+
 			}
 		}
 
@@ -65,7 +85,7 @@ namespace _WorldGenStateCapture
 			public static void Postfix()
 			{
 
-				SgtLogger.l("gathering world data...");
+				Debug.Log("gathering world data...");
 				foreach (var world in ClusterManager.Instance.m_worldContainers)
 				{
 					world.isDiscovered = true;
@@ -112,15 +132,18 @@ namespace _WorldGenStateCapture
 				{
 					var startParsingBTN = Util.KInstantiateUI(__instance.Button_NewGame.gameObject, __instance.Button_NewGame.transform.parent.gameObject, true);
 					startParsingBTN.name = "start parsing";
-					UIUtils.AddActionToButton(startParsingBTN.transform, "", () =>
+					if (startParsingBTN.TryGetComponent<KButton>(out var btn))
 					{
-						ToggleAutoParse(true);
-						ReduceRemainingRuns();
-						InitAutoStart(__instance);
-					});
+						btn.ClearOnClick();
+						btn.onClick += () =>
+						{
+							ToggleAutoParse(true);
+							ReduceRemainingRuns();
+							InitAutoStart(__instance);
+						};
+					}
 					LocText componentInChildren = startParsingBTN.GetComponentInChildren<LocText>();
 					componentInChildren.text = STRINGS.STARTPARSING;
-
 				}
 
 
@@ -166,7 +189,7 @@ namespace _WorldGenStateCapture
 				var clusterPrefix = DlcManager.IsExpansion1Active() ? Config.Instance.TargetCoordinateDLC : Config.Instance.TargetCoordinateBase;
 
 				targetLayout = null;
-				SgtLogger.l("autostarting...");
+				Debug.Log("autostarting...");
 				foreach (string clusterName in SettingsCache.GetClusterNames())
 				{
 					ClusterLayout clusterData = SettingsCache.clusterLayouts.GetClusterData(clusterName);
@@ -180,7 +203,7 @@ namespace _WorldGenStateCapture
 				if (targetLayout == null)
 					return;
 
-				SgtLogger.l("autostart successful");
+				Debug.Log("autostart successful");
 				autoLoadActive = true;
 				clusterCategory = (int)targetLayout.clusterCategory;
 				__instance.NewGame();

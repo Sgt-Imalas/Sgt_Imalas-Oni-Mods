@@ -2,7 +2,7 @@
 using KMod;
 using PeterHan.PLib.Core;
 using PeterHan.PLib.Options;
-using UtilLibs;
+using static DistributionPlatform;
 
 namespace _WorldGenStateCapture
 {
@@ -14,7 +14,7 @@ namespace _WorldGenStateCapture
 			new POptions().RegisterOptions(this, typeof(Config));
 			base.OnLoad(harmony);
 			harmonyInstance = harmony;
-			SgtLogger.LogVersion(this, harmony);
+			Debug.Log($"{mod.staticID} - Mod Version: {mod.packagedModInfo.version} ");
 			THIS = this.mod;
 		}
 		public static Harmony harmonyInstance;

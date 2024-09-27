@@ -5,14 +5,16 @@ using Klei.CustomSettings;
 using ProcGen;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
+using System.Reflection;
 using UnityEngine;
-using UtilLibs;
 using static ProcGen.ClusterLayout;
 
 namespace _WorldGenStateCapture
 {
 	internal class ModAssets
 	{
+		public static string ModPath => System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 		public static Dictionary<WorldContainer, List<MapGeyser>> currentGeysers = new();
 		public static Dictionary<WorldContainer, List<MapPOI>> currentPOIs = new();
 		public static List<HexMap_Entry> dlcStarmapItems = new List<HexMap_Entry>();
@@ -25,9 +27,9 @@ namespace _WorldGenStateCapture
 		internal static void AccumulateSeedData()
 		{
 
-			System.IO.Directory.CreateDirectory(System.IO.Path.Combine(IO_Utils.ModPath, BaseGameFolder));
-			System.IO.Directory.CreateDirectory(System.IO.Path.Combine(IO_Utils.ModPath, DlcClassicFolder));
-			System.IO.Directory.CreateDirectory(System.IO.Path.Combine(IO_Utils.ModPath, DlcSpacedOutFolder));
+			System.IO.Directory.CreateDirectory(System.IO.Path.Combine(ModPath, BaseGameFolder));
+			System.IO.Directory.CreateDirectory(System.IO.Path.Combine(ModPath, DlcClassicFolder));
+			System.IO.Directory.CreateDirectory(System.IO.Path.Combine(ModPath, DlcSpacedOutFolder));
 
 
 			bool dlcActive = DlcManager.IsExpansion1Active();
@@ -38,7 +40,7 @@ namespace _WorldGenStateCapture
 			SettingLevel currentQualitySetting = CustomGameSettings.Instance.GetCurrentQualitySetting(CustomGameSettingConfigs.ClusterLayout);
 			if (currentQualitySetting == null)
 			{
-				SgtLogger.error("Clusterlayout was null");
+				Debug.LogError("Clusterlayout was null");
 				return;
 			}
 			//if(Global.Instance.modManager.mods.Count > 1)
@@ -72,10 +74,10 @@ namespace _WorldGenStateCapture
 			DataItem.FullCoordinate = CustomGameSettings.Instance.GetSettingsCoordinate();
 			DataItem.StoryTraits = new(CustomGameSettings.Instance.GetCurrentStories());
 
-			SgtLogger.l("accumulating pois...");
+			Debug.Log("accumulating pois...");
 			foreach (var asteroid in ClusterManager.Instance.WorldContainers)
 			{
-				SgtLogger.l("collecting " + asteroid.GetProperName());
+				Debug.Log("collecting " + asteroid.GetProperName());
 				var asteroidData = new AsteroidData()
 				{
 					Id = System.IO.Path.GetFileName(asteroid.worldName),
@@ -109,20 +111,21 @@ namespace _WorldGenStateCapture
 			switch (clusterData.clusterCategory)
 			{
 				case ClusterCategory.Vanilla:
-					parentPath = System.IO.Path.Combine(IO_Utils.ModPath, BaseGameFolder);
+					parentPath = System.IO.Path.Combine(ModPath, BaseGameFolder);
 					break;
 				case ClusterCategory.SpacedOutVanillaStyle:
-					parentPath = System.IO.Path.Combine(IO_Utils.ModPath, DlcClassicFolder);
+					parentPath = System.IO.Path.Combine(ModPath, DlcClassicFolder);
 					break;
 				case ClusterCategory.SpacedOutStyle:
-					parentPath = System.IO.Path.Combine(IO_Utils.ModPath, DlcSpacedOutFolder);
+					parentPath = System.IO.Path.Combine(ModPath, DlcSpacedOutFolder);
 					break;
 
 			}
 			if (parentPath != string.Empty)
 			{
 				string fileName = DataItem.FullCoordinate + ".json";
-				IO_Utils.WriteToFile(DataItem, System.IO.Path.Combine(parentPath, fileName));
+				///Replace with uploader
+				//IO_Utils.WriteToFile(DataItem, System.IO.Path.Combine(parentPath, fileName));
 				GridMap.Save(System.IO.Path.Combine(parentPath, DataItem.FullCoordinate + ".png"));
 			}
 
