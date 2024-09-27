@@ -146,7 +146,10 @@ namespace _WorldGenStateCapture
 
 		static IEnumerator TryPostRequest(string data)
 		{
-			using (UnityWebRequest www = UnityWebRequest.Post(uri: "https://api.mapsnotincluded.org", postData: data)) //or "https://api.mapsnotincluded.org/ingest" ?
+			List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
+			formData.Add(new MultipartFormDataSection("data", data));
+
+			using (UnityWebRequest www = UnityWebRequest.Post(uri: "https://api.mapsnotincluded.org", formData)) //or "https://api.mapsnotincluded.org/ingest" ?
 			{
 				if (Environment.GetEnvironmentVariable("MNI_API_KEY") != null)
 				{
