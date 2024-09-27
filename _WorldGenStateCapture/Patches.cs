@@ -83,7 +83,7 @@ namespace _WorldGenStateCapture
 		[HarmonyPatch(typeof(WattsonMessage), nameof(WattsonMessage.OnDeactivate))]
 		public static class QuitGamePt2
 		{
-			public static void Postfix(WattsonMessage __instance)
+			public static void Postfix()
 			{
 
 				Debug.Log("gathering world data...");
@@ -101,8 +101,7 @@ namespace _WorldGenStateCapture
 
 				GameScheduler.Instance.ScheduleNextFrame("collect data", (_) =>
 				{
-					ModAssets.AccumulateSeedData(__instance);
-
+					ModAssets.AccumulateSeedData();
 				});
 			}
 

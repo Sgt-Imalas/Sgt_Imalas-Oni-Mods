@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 using static ProcGen.ClusterLayout;
@@ -27,7 +28,7 @@ namespace _WorldGenStateCapture
 		static string DlcClassicFolder = "DlcClassicSeeds";
 		static string DlcSpacedOutFolder = "DlcSOSeeds";
 
-		internal static void AccumulateSeedData(MonoBehaviour instance)
+		internal static void AccumulateSeedData()
 		{
 
 			System.IO.Directory.CreateDirectory(System.IO.Path.Combine(ModPath, BaseGameFolder));
@@ -131,7 +132,12 @@ namespace _WorldGenStateCapture
 				//IO_Utils.WriteToFile(DataItem, System.IO.Path.Combine(parentPath, fileName));
 
 				string json = Newtonsoft.Json.JsonConvert.SerializeObject(DataItem);
-				instance.StartCoroutine(TryPostRequest(json));
+
+				//attach the coroutine to the main game object
+				Game.Instance.StartCoroutine(TryPostRequest(json));
+				//^ if that still crashes, use this:
+				//Task.Run(() => TryPostRequest(json));
+
 				//GridMap.Save(System.IO.Path.Combine(parentPath, DataItem.FullCoordinate + ".png"));
 			}
 			else
