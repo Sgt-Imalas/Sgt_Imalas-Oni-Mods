@@ -20,7 +20,7 @@ namespace _WorldGenStateCapture
 	{
 		//if any other mods are installed
 
-		public static bool ModDilution =false ;
+		public static bool ModDilution = false;
 
 		public static string ModPath => System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 		public static Dictionary<WorldContainer, List<MapGeyser>> currentGeysers = new();
@@ -34,6 +34,13 @@ namespace _WorldGenStateCapture
 
 		internal static void AccumulateSeedData()
 		{
+
+			if (ModAssets.ModDilution)
+			{
+				Debug.LogWarning("other active mods detected, aborting world parsing");
+				return;
+			}
+
 
 			System.IO.Directory.CreateDirectory(System.IO.Path.Combine(ModPath, BaseGameFolder));
 			System.IO.Directory.CreateDirectory(System.IO.Path.Combine(ModPath, DlcClassicFolder));

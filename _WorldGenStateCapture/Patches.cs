@@ -125,6 +125,15 @@ namespace _WorldGenStateCapture
 			public static void Postfix(MainMenu __instance)
 			{
 				bool shouldAutoStart = ShoulDoAutoStartParsing(out _);
+
+
+				if (ModAssets.ModDilution)
+				{
+					Debug.LogWarning("other active mods detected, aborting auto world parsing");
+					return;
+				}
+
+
 				var config = Config.Instance;
 				if (!shouldAutoStart)
 				{
