@@ -244,6 +244,10 @@ namespace _WorldGenStateCapture
 				if (autoLoadActive)
 				{
 					__instance.newGameSettingsPanel.SetSetting((SettingConfig)CustomGameSettingConfigs.ClusterLayout, targetLayout.filePath);
+
+					__instance.newGameSettingsPanel.ConsumeStoryTraitsCode("0");					
+					__instance.newGameSettingsPanel.ConsumeMixingSettingsCode("0");
+					DlcManager
 					__instance.ShuffleClicked();
 					__instance.LaunchClicked();
 				}

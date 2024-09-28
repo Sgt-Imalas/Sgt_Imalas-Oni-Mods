@@ -18,6 +18,10 @@ namespace _WorldGenStateCapture
 {
 	internal class ModAssets
 	{
+		//if any other mods are installed
+
+		public static bool ModDilution =false ;
+
 		public static string ModPath => System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 		public static Dictionary<WorldContainer, List<MapGeyser>> currentGeysers = new();
 		public static Dictionary<WorldContainer, List<MapPOI>> currentPOIs = new();
