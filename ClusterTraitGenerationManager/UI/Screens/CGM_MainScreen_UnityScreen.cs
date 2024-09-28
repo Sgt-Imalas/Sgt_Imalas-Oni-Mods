@@ -17,6 +17,7 @@ using UtilLibs;
 using UtilLibs.UI.FUI;
 using UtilLibs.UIcmp;
 using static ClusterTraitGenerationManager.ClusterData.CGSMClusterManager;
+using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.CATEGORIES.FOOTERCONTENT;
 using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER;
 using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDTRAITS.CONTENT.TRAITCONTAINER.SCROLLAREA.CONTENT.LISTVIEWENTRYPREFAB;
 using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.VANILLAPOI_RESOURCES.VANILLAPOI_ARTIFACT;
@@ -30,7 +31,13 @@ namespace ClusterTraitGenerationManager.UI.Screens
 	public class CGM_MainScreen_UnityScreen : KModalScreen
 	{
 		#region MixingSettings
-		private void SetDLCMixingSettings(SettingConfig ConfigToSet, object valueId)
+
+		GameObject MixingSettingsContent;
+		GameObject MixingSettingsContainer;
+		GameObject MixingSettingsButton;
+
+		Dictionary<string, FCycle> MixingCycleConfigs = new();
+		private void SetMixingSetting(SettingConfig ConfigToSet, object valueId)
 		{
 			string valueToSet = valueId.ToString();
 			if (valueId is bool val)
@@ -41,6 +48,109 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			//SgtLogger.l("changing " + ConfigToSet.id.ToString() + " from " + CustomGameSettings.Instance.GetCurrentMixingSettingLevel(ConfigToSet).id + " to " + valueToSet.ToString());
 			CustomGameSettings.Instance.SetMixingSetting(ConfigToSet, valueToSet);
 		}
+
+		void SetMixingSettingsVisible(bool visible)
+		{
+			foreach (var item in MixingCycleConfigs.Values)
+			{
+				item.gameObject.SetActive(visible);
+			}
+		}
+
+		private void LoadMixingSettings()
+		{
+			var instance = CustomGameSettings.Instance;
+			bool isNoSweat = instance.customGameMode == CustomGameMode.Nosweat;
+
+			foreach (var qualitySetting in instance.MixingSettings)
+			{
+				string id = qualitySetting.Key;
+
+				if (id == CustomMixingSettingsConfigs.DLC2Mixing.id)
+					continue;
+
+				if (!DlcManager.HasAllContentSubscribed(qualitySetting.Value.required_content))
+					continue;
+				if(qualitySetting.Value is not MixingSettingConfig setting)
+				{
+					SgtLogger.warning(qualitySetting.Value.id + " was not a mixing setting!");
+					continue;
+				}	
+
+				string settingValue = instance.GetCurrentMixingSettingLevel(setting).id;
+				if (MixingCycleConfigs.TryGetValue(id, out var settingsCycle))
+				{
+					settingsCycle.Value = settingValue;
+				}
+				else
+				{
+					SgtLogger.warning("uninitialized setting found: " + id);
+				}
+			}
+		}
+		public void InitializeMixingSettings()
+		{
+			SgtLogger.l("initializing mixing settings");
+			SgtLogger.Assert("MixingSettingsContainer not assigned", MixingSettingsContainer);
+			Debug.Log(MixingSettingsContainer);
+			var transform = MixingSettingsContainer.transform;
+			MixingSettingsContainer.SetActive(true);
+			GameObject CyclePrefab = transform.Find("SwitchPrefab").gameObject;
+
+			SgtLogger.Assert("CyclePrefab missing", CyclePrefab);
+
+			CyclePrefab.SetActive(false);
+
+			foreach (var mixingSetting in CustomGameSettings.Instance.MixingSettings)
+			{
+
+
+				string settingID = mixingSetting.Key;
+				SgtLogger.l(settingID, "initializing MixingSetting UI Item");
+
+				if (settingID == CustomMixingSettingsConfigs.DLC2Mixing.id)
+					continue;
+
+				if (!DlcManager.HasAllContentSubscribed(mixingSetting.Value.required_content))
+					continue;
+
+				if (mixingSetting.Value is MixingSettingConfig listSetting)
+				{
+					MixingCycleConfigs[settingID] = AddListMixingSettingsContainer(CyclePrefab, MixingSettingsContainer, listSetting);
+				}
+				else
+				{
+					SgtLogger.error(mixingSetting.Value.id + " was not a valid mixing setting!");
+				}
+			}
+		}
+
+		public FCycle AddListMixingSettingsContainer(GameObject prefab, GameObject parent, MixingSettingConfig ConfigToSet)
+		{
+			var cycle = Util.KInstantiateUI(prefab, parent, true).AddOrGet<FCycle>();
+
+			var settingLabel = cycle.transform.Find("Label").gameObject.AddOrGet<LocText>();
+			cycle.transform.Find("Image").GetComponent<Image>().sprite = ConfigToSet.icon;
+			settingLabel.text = ConfigToSet.label;
+			UIUtils.AddSimpleTooltipToObject(settingLabel.transform, ConfigToSet.tooltip, alignCenter: true, onBottom: true);
+			cycle.Initialize(
+				cycle.transform.Find("Left").gameObject.AddOrGet<FButton>(),
+				cycle.transform.Find("Right").gameObject.AddOrGet<FButton>(),
+				cycle.transform.Find("ChoiceLabel").gameObject.AddOrGet<LocText>()
+				//	,cycle.transform.Find("ChoiceLabel/Description").gameObject.AddOrGet<LocText>()
+				);
+
+			cycle.Options = new List<FCycle.Option>();
+			foreach (var config in ConfigToSet.GetLevels())
+			{
+				cycle.Options.Add(new FCycle.Option(config.id, config.label, config.tooltip));
+			}
+			cycle.OnChange += () =>
+			{
+				SetMixingSetting(ConfigToSet, cycle.Value);
+			};
+			return cycle;
+		}
 		#endregion
 
 		#region CustomGameSettings
@@ -48,9 +158,20 @@ namespace ClusterTraitGenerationManager.UI.Screens
 		GameObject CustomGameSettingsContent;
 		GameObject GameSettingsButton;
 
-		Dictionary<string, FToggle> ToggleConfigs = new();
-		Dictionary<string, FCycle> CycleConfigs = new();
+		Dictionary<string, FToggle> CustomGameSettingsToggleConfigs = new();
+		Dictionary<string, FCycle> CustomGameSettingsCycleConfigs = new();
 
+		void SetGameSettingsVisible(bool visible)
+		{
+			foreach (var item in CustomGameSettingsToggleConfigs.Values)
+			{
+				item.gameObject.SetActive(visible);
+			}
+			foreach (var item in CustomGameSettingsCycleConfigs.Values)
+			{
+				item.gameObject.SetActive(visible);
+			}
+		}
 		private void LoadGameSettings()
 		{
 			var instance = CustomGameSettings.Instance;
@@ -68,11 +189,11 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				string settingValue = instance.GetCurrentQualitySetting(setting).id;
 
 
-				if (CycleConfigs.TryGetValue(id, out var settingsCycle))
+				if (CustomGameSettingsCycleConfigs.TryGetValue(id, out var settingsCycle))
 				{
 					settingsCycle.Value = settingValue;
 				}
-				else if (ToggleConfigs.TryGetValue(id, out var settingsToggle))
+				else if (CustomGameSettingsToggleConfigs.TryGetValue(id, out var settingsToggle))
 				{
 					settingsToggle.SetOnFromCode(settingValue == (setting as ToggleSettingConfig).on_level.id);
 				}
@@ -176,7 +297,6 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 			SgtLogger.Assert("CyclePrefab missing", CyclePrefab);
 			SgtLogger.Assert("TogglePrefab missing", TogglePrefab);
-			SgtLogger.l("initializing settings2");
 
 			TogglePrefab.SetActive(false);
 			CyclePrefab.SetActive(false);
@@ -184,7 +304,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			foreach (var qualitySetting in CustomGameSettings.Instance.QualitySettings)
 			{
 				string settingID = qualitySetting.Key;
-				SgtLogger.l(settingID, "initializing QualitySetting");
+				SgtLogger.l(settingID, "initializing QualitySetting UI Item");
 
 				if (settingID == CustomGameSettingConfigs.WorldgenSeed.id || settingID == CustomGameSettingConfigs.ClusterLayout.id)
 					continue;
@@ -194,11 +314,11 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 				if (qualitySetting.Value is ToggleSettingConfig toggleSetting)
 				{
-					ToggleConfigs[settingID] = AddCheckboxGameSettingsContainer(TogglePrefab, CustomGameSettingsContainer, toggleSetting);
+					CustomGameSettingsToggleConfigs[settingID] = AddCheckboxGameSettingsContainer(TogglePrefab, CustomGameSettingsContainer, toggleSetting);
 				}
 				else if (qualitySetting.Value is ListSettingConfig listSetting)
 				{
-					CycleConfigs[settingID] = AddListGameSettingsContainer(CyclePrefab, CustomGameSettingsContainer, listSetting);
+					CustomGameSettingsCycleConfigs[settingID] = AddListGameSettingsContainer(CyclePrefab, CustomGameSettingsContainer, listSetting);
 				}
 			}
 		}
@@ -433,6 +553,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 			StoryTraitButton = transform.Find("Categories/FooterContent/StoryTraits").gameObject;
 			GameSettingsButton = transform.Find("Categories/FooterContent/GameSettings").gameObject;
+			MixingSettingsButton = transform.Find("Categories/FooterContent/MixingSettings").gameObject;
 
 			///Gallery
 			SgtLogger.l("Hooking up Gallery");
@@ -441,7 +562,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 			VanillaStarmapItemContainer = transform.Find("ItemSelection/VanillaStarmapContent/VanillaStarmapContainer").gameObject;
 			VanillaStarmapItemPrefab = transform.Find("ItemSelection/VanillaStarmapContent/VanillaStarmapContainer/VanillaStarmapEntryPrefab").gameObject;
-
+			MixingSettingsContainer = transform.Find("ItemSelection/MixingSettingsSettingsContent/MixingSettingsSettingsContainer").gameObject;
 			CustomGameSettingsContainer = transform.Find("ItemSelection/CustomGameSettingsContent/CustomGameSettingsContainer").gameObject;
 
 			galleryGridContainer = transform.Find("ItemSelection/StarItemContent/StarItemContainer").gameObject;
@@ -454,6 +575,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			///GalleryContainers
 			SgtLogger.l("Hooking up GalleryContainers");
 
+			MixingSettingsContent = transform.Find("ItemSelection/MixingSettingsSettingsContent").gameObject;
 			CustomGameSettingsContent = transform.Find("ItemSelection/CustomGameSettingsContent").gameObject;
 			StarmapItemContent = transform.Find("ItemSelection/VanillaStarmapContent").gameObject;
 			StoryTraitGridContent = transform.Find("ItemSelection/StoryTraitsContent").gameObject;
@@ -915,7 +1037,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			POIGroup_AddPoiToGroup.gameObject.SetActive(POIGroupSelected);
 			POIGroup_DeletePoiGroup.gameObject.SetActive(POIGroupSelected);
 
-			if (SelectedCategory == StarmapItemCategory.GameSettings)
+			if (SelectedCategory == StarmapItemCategory.MixingSettings || SelectedCategory == StarmapItemCategory.GameSettings)
 			{
 				selectionHeaderLabel.SetText(string.Empty);
 			}
@@ -1099,8 +1221,6 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			RefreshView();
 		}
 
-
-
 		bool IsPlanetCategory(StarmapItemCategory category) => AvailableStarmapItemCategories.Contains(category);
 
 		bool ShowPlanetFromFilter(StarmapItem item)
@@ -1113,7 +1233,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 		private void RefreshGallery()
 		{
-
+			MixingSettingsContent.SetActive( SelectedCategory == StarmapItemCategory.MixingSettings);
 			CustomGameSettingsContent.SetActive(SelectedCategory == StarmapItemCategory.GameSettings);
 			StarmapItemContent.SetActive(SelectedCategory == StarmapItemCategory.VanillaStarmap || SelectedCategory == StarmapItemCategory.POI);
 			StoryTraitGridContent.SetActive(SelectedCategory == StarmapItemCategory.StoryTraits);
@@ -1143,6 +1263,17 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			{
 				galleryHeaderLabel.SetText(global::STRINGS.UI.FRONTEND.COLONYDESTINATIONSCREEN.CUSTOMIZE);
 				LoadGameSettings();
+				//those two share a container
+				SetGameSettingsVisible(true);
+				SetMixingSettingsVisible(false);
+			}
+			else if (SelectedCategory == StarmapItemCategory.MixingSettings)
+			{
+				galleryHeaderLabel.SetText(global::STRINGS.UI.FRONTEND.COLONYDESTINATIONSCREEN.MIXING_SETTINGS_HEADER);
+				LoadMixingSettings();
+				//those two share a container
+				SetGameSettingsVisible(false);
+				SetMixingSettingsVisible(true);
 			}
 			else if (SelectedCategory == StarmapItemCategory.StoryTraits)
 			{
@@ -1490,6 +1621,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			PopulateGalleryAndCategories();
 			InitializeItemSettings();
 			InitializeGameSettings();
+			InitializeMixingSettings();
 			InitializeStoryTraits();
 			InitializeStarmapInfo();
 			InitializeStarmap();
@@ -2336,11 +2468,22 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 
 			var StoryTraitsBtn = StoryTraitButton.AddOrGet<CategoryItem>();
+			StoryTraitsBtn.transform.Find("Label").GetComponent<LocText>().SetText(global::STRINGS.UI.FRONTEND.COLONYDESTINATIONSCREEN.STORY_TRAITS_HEADER);
+			UIUtils.AddSimpleTooltipToObject(StoryTraitsBtn.gameObject, STORYTRAITS.TOOLTIP);
 			StoryTraitsBtn.Initialize(StarmapItemCategory.StoryTraits, null);
 			StoryTraitsBtn.ActiveToggle.OnClick += () => SelectCategory(StarmapItemCategory.StoryTraits);
 			categoryToggles.Add(StarmapItemCategory.StoryTraits, StoryTraitsBtn);
 
+			var MixingSettingsBtn = MixingSettingsButton.AddOrGet<CategoryItem>();
+			MixingSettingsBtn.transform.Find("Label").GetComponent<LocText>().SetText(global::STRINGS.UI.FRONTEND.COLONYDESTINATIONSCREEN.MIXING_SETTINGS_HEADER);
+			UIUtils.AddSimpleTooltipToObject(MixingSettingsBtn.gameObject, MIXINGSETTINGS.TOOLTIP);
+			MixingSettingsBtn.Initialize(StarmapItemCategory.MixingSettings, null);
+			MixingSettingsBtn.ActiveToggle.OnClick += () => SelectCategory(StarmapItemCategory.MixingSettings);
+			categoryToggles.Add(StarmapItemCategory.MixingSettings, MixingSettingsBtn);
+
 			var GameSettingsBtn = GameSettingsButton.AddOrGet<CategoryItem>();
+			GameSettingsBtn.transform.Find("Label").GetComponent<LocText>().SetText(global::STRINGS.UI.FRONTEND.COLONYDESTINATIONSCREEN.CUSTOMIZE);
+			UIUtils.AddSimpleTooltipToObject(GameSettingsBtn.gameObject, GAMESETTINGS.TOOLTIP);
 			GameSettingsBtn.Initialize(StarmapItemCategory.GameSettings, null);
 			GameSettingsBtn.ActiveToggle.OnClick += () => SelectCategory(StarmapItemCategory.GameSettings);
 			categoryToggles.Add(StarmapItemCategory.GameSettings, GameSettingsBtn);
@@ -2348,7 +2491,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			//if (galleryGridLayouter != null)
 			//    this.galleryGridLayouter.RequestGridResize();
 
-
+			MixingSettingsContainer.SetActive(true);
 			CustomGameSettingsContainer.SetActive(true);
 			StarmapItemContent.SetActive(true);
 			StoryTraitGridContent.SetActive(true);

@@ -49,13 +49,15 @@
 						}
 						public class STORYTRAITS
 						{
-							public static LocString LABEL = global::STRINGS.UI.FRONTEND.COLONYDESTINATIONSCREEN.STORY_TRAITS_HEADER;
-							public static LocString TOOLTIP = (LocString)"Open the game settings screen.";
+							public static LocString TOOLTIP = (LocString)"Open the story traits selection.";
 						}
 						public class GAMESETTINGS
 						{
-							public static LocString LABEL = global::STRINGS.UI.FRONTEND.COLONYDESTINATIONSCREEN.CUSTOMIZE;
 							public static LocString TOOLTIP = (LocString)"Open the game settings.";
+						}
+						public class MIXINGSETTINGS
+						{
+							public static LocString TOOLTIP = (LocString)"Open the mixing settings.";
 						}
 					}
 				}

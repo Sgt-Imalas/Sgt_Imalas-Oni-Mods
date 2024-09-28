@@ -1052,7 +1052,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 			return ToAdd;
 		}
-		private static void SetDLCMixingSettings(SettingConfig ConfigToSet, object valueId)
+		private static void SetMixingSetting(SettingConfig ConfigToSet, object valueId)
 		{
 			string valueToSet = valueId.ToString();
 			if (valueId is bool val)
@@ -1065,7 +1065,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 		}
 		public static void ToggleDlc2(bool enabled)
 		{
-			SetDLCMixingSettings(CustomMixingSettingsConfigs.DLC2Mixing, enabled);
+			SetMixingSetting(CustomMixingSettingsConfigs.DLC2Mixing, enabled);
 			RegenerateAllPOIData();
 			CGM_Screen?.RebuildStarmap(true);
 		}
