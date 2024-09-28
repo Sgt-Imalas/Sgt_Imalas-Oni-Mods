@@ -2,6 +2,7 @@
 using KMod;
 using PeterHan.PLib.Core;
 using PeterHan.PLib.Options;
+using System.Collections.Generic;
 using static DistributionPlatform;
 
 namespace _WorldGenStateCapture
@@ -15,9 +16,23 @@ namespace _WorldGenStateCapture
 			base.OnLoad(harmony);
 			harmonyInstance = harmony;
 			Debug.Log($"{mod.staticID} - Mod Version: {mod.packagedModInfo.version} ");
-			THIS = this.mod;
 		}
 		public static Harmony harmonyInstance;
-		public static KMod.Mod THIS;
+
+		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
+		{
+			base.OnAllModsLoaded(harmony, mods);
+			foreach (var mod in mods)
+			{
+				if (mod.IsEnabledForActiveDlc() && mod != this.mod)
+				{
+					//another mod than this is active, abort all actions
+					ModAssets.ModDilution = true;
+					break;
+				}
+			}
+
+		}
 	}
+
 }
