@@ -209,8 +209,8 @@ namespace UL_UniversalLyzer
 					typeof(int),
 					typeof(string[]),
 					typeof(Color32?),
-					typeof(float?),
-					typeof(int?)
+					typeof(int?),
+					typeof(float?)
 				});
 
 			if (m_AddConfig == null)
@@ -225,7 +225,7 @@ namespace UL_UniversalLyzer
 					typeof(int),
 					typeof(string[]),
 					typeof(Color32?),
-					typeof(int?),
+					typeof(float?),
 					typeof(int?)
 				});
 			}
