@@ -23,12 +23,18 @@ namespace _WorldGenStateCapture
 		[Option("STRINGS.WORLDPARSERMODCONFIG.TARGETINFINITE.NAME", "STRINGS.WORLDPARSERMODCONFIG.TARGETINFINITE.DESC")]
 		[JsonProperty]
 		public bool ContinuousParsing { get; set; }
-		public Config()
+
+		[Option("STRINGS.WORLDPARSERMODCONFIG.TARGETINFINITE.NAME", "STRINGS.WORLDPARSERMODCONFIG.TARGETINFINITE.DESC")]
+		[JsonProperty]
+		public bool RandomizedClusterGen { get; set; } = true;
+
+        public Config()
 		{
 			TargetCoordinateBase = "SNDST-A";
 			TargetCoordinateDLC = "SNDST-C";
 			TargetNumber = 2;
 			ContinuousParsing = false;
-		}
+
+        }
 	}
 }

@@ -31,7 +31,6 @@ namespace _WorldGenStateCapture
 					break;
 				}
 			}
-
 		}
 	}
 

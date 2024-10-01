@@ -197,13 +197,37 @@ namespace _WorldGenStateCapture
 
 				targetLayout = null;
 				Debug.Log("autostarting...");
-				foreach (string clusterName in SettingsCache.GetClusterNames())
+
+				if (Config.Instance.RandomizedClusterGen)
 				{
-					ClusterLayout clusterData = SettingsCache.clusterLayouts.GetClusterData(clusterName);
-					if (clusterData.coordinatePrefix == clusterPrefix)
+                    while(targetLayout == null)
 					{
-						targetLayout = clusterData;
-						break;
+						targetLayout = SettingsCache.clusterLayouts.clusterCache.GetRandom().Value;
+
+						//skip empty dev clusters
+						if (targetLayout.skip > 0)
+                        {
+                            targetLayout = null;
+                            continue;
+                        }
+						//spaced out loads vanilla terra to the cache, skip that
+						if(DlcManager.IsExpansion1Active() && targetLayout.coordinatePrefix == "SNDST-A")
+						{ 
+                            targetLayout = null;
+                            continue;
+                        }
+                    }
+                }
+				else
+				{
+					foreach (string clusterName in SettingsCache.GetClusterNames())
+					{
+						ClusterLayout clusterData = SettingsCache.clusterLayouts.GetClusterData(clusterName);
+						if (clusterData.coordinatePrefix == clusterPrefix)
+						{
+							targetLayout = clusterData;
+							break;
+						}
 					}
 				}
 
