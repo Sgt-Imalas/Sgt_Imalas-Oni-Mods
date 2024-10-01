@@ -24,7 +24,7 @@ namespace _WorldGenStateCapture
 		[JsonProperty]
 		public bool ContinuousParsing { get; set; }
 
-		[Option("STRINGS.WORLDPARSERMODCONFIG.TARGETINFINITE.NAME", "STRINGS.WORLDPARSERMODCONFIG.TARGETINFINITE.DESC")]
+		[Option("STRINGS.WORLDPARSERMODCONFIG.RANDOMIZEDGEN.NAME", "STRINGS.WORLDPARSERMODCONFIG.RANDOMIZEDGEN.DESC")]
 		[JsonProperty]
 		public bool RandomizedClusterGen { get; set; } = true;
 
