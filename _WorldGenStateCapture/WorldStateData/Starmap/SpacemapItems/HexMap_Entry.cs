@@ -2,9 +2,10 @@
 {
 	internal class HexMap_Entry
 	{
-		//Hex-coordinates
-		public int Q, R;
-		public string Id;
+        public string id;
+
+        //Hex-coordinates
+        public int q, r;
 
 		//public float RefillTime;
 		//public float MaximumMass;

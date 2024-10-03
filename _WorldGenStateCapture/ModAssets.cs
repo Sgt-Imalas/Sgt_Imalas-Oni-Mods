@@ -3,14 +3,11 @@ using _WorldGenStateCapture.WorldStateData.Starmap.SpacemapItems;
 using _WorldGenStateCapture.WorldStateData.WorldPOIs;
 using Klei.CustomSettings;
 using ProcGen;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
+using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
-using UnityEngine;
+using System.Text;
 using UnityEngine.Networking;
 using static ProcGen.ClusterLayout;
 
@@ -18,11 +15,10 @@ namespace _WorldGenStateCapture
 {
 	internal class ModAssets
 	{
-		//if any other mods are installed
 
-		public static bool ModDilution = false;
-
-		public static string ModPath => System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        //if any other mods are installed
+        public static bool ModDilution = false;
+        public static string ModPath => System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 		public static Dictionary<WorldContainer, List<MapGeyser>> currentGeysers = new();
 		public static Dictionary<WorldContainer, List<MapPOI>> currentPOIs = new();
 		public static List<HexMap_Entry> dlcStarmapItems = new List<HexMap_Entry>();
@@ -35,14 +31,13 @@ namespace _WorldGenStateCapture
 		internal static void AccumulateSeedData()
 		{
 
-			if (ModAssets.ModDilution)
-			{
-				Debug.LogWarning("other active mods detected, aborting world parsing");
-				return;
-			}
+            if (ModAssets.ModDilution)
+            {
+                Debug.LogError("Other active mods detected, aborting world parsing.");
+                return;
+            }
 
-
-			System.IO.Directory.CreateDirectory(System.IO.Path.Combine(ModPath, BaseGameFolder));
+            System.IO.Directory.CreateDirectory(System.IO.Path.Combine(ModPath, BaseGameFolder));
 			System.IO.Directory.CreateDirectory(System.IO.Path.Combine(ModPath, DlcClassicFolder));
 			System.IO.Directory.CreateDirectory(System.IO.Path.Combine(ModPath, DlcSpacedOutFolder));
 
@@ -51,78 +46,87 @@ namespace _WorldGenStateCapture
 
 			WorldDataInstance DataItem = new WorldDataInstance();
 
-
 			SettingLevel currentQualitySetting = CustomGameSettings.Instance.GetCurrentQualitySetting(CustomGameSettingConfigs.ClusterLayout);
 			if (currentQualitySetting == null)
 			{
 				Debug.LogError("Clusterlayout was null");
 				return;
 			}
-			//if(Global.Instance.modManager.mods.Count > 1)
-			//{
-			//    SgtLogger.error("other mods installed");
-			//}
-
-
-
-			var GridMap = new Bitmap(Grid.WidthInCells, Grid.HeightInCells);
-
-			for (int i = 0; i < Grid.CellCount; i++)
-			{
-				SubWorld.ZoneType data = World.Instance.zoneRenderData.worldZoneTypes[i];
-				Grid.CellToXY(i, out var x, out var y);
-				Color32 color = World.Instance.zoneRenderData.zoneColours[(int)data];
-
-				GridMap.SetPixel(x, (Grid.HeightInCells - 1) - y, System.Drawing.Color.FromArgb(color.r, color.g, color.b));
-			}
-
 
 			ClusterLayout clusterData = SettingsCache.clusterLayouts.GetClusterData(currentQualitySetting.id);
 			SettingLevel currentQualitySetting2 = CustomGameSettings.Instance.GetCurrentQualitySetting(CustomGameSettingConfigs.WorldgenSeed);
 			//string otherSettingsCode = CustomGameSettings.Instance.GetOtherSettingsCode();
 			string storyTraitSettingsCode = CustomGameSettings.Instance.GetStoryTraitSettingsCode();
 
-
 			int.TryParse(currentQualitySetting2.id, out int seed);
-			DataItem.Seed = seed;
-			DataItem.Coordinate = clusterData.GetCoordinatePrefix();
-			DataItem.FullCoordinate = CustomGameSettings.Instance.GetSettingsCoordinate();
-			DataItem.StoryTraits = new(CustomGameSettings.Instance.GetCurrentStories());
+			
+			// DataItem.seed = seed;
+			
+			DataItem.cluster = clusterData.GetCoordinatePrefix();
+			DataItem.coordinate = CustomGameSettings.Instance.GetSettingsCoordinate();
 
-			Debug.Log("accumulating pois...");
+			var activeDlcIds = DlcManager.GetActiveDLCIds();
+
+			var cleanDlcIds = new List<string>();
+
+            foreach (var dlcId in activeDlcIds)
+            {
+                switch (dlcId)
+                {
+                    case "DLC2_ID":
+                        cleanDlcIds.Add("FrostyPlanet");
+                        break;
+                    case "EXPANSION1_ID":
+                        cleanDlcIds.Add("SpacedOut");
+                        break;
+                    default:
+                        cleanDlcIds.Add(dlcId); // If it's not a known ID, keep it as is
+                        break;
+                }
+            }
+
+			DataItem.dlcs = cleanDlcIds;
+
+            Debug.Log("accumulating pois...");
 			foreach (var asteroid in ClusterManager.Instance.WorldContainers)
 			{
 				Debug.Log("collecting " + asteroid.GetProperName());
-				var asteroidData = new AsteroidData()
+
+                // Clean worldTraits by removing parts before "/"
+                var cleanWorldTraits = asteroid.WorldTraitIds.Select(trait => trait.Contains("/")
+                    ? trait.Split('/').Last()
+                    : trait).ToList();
+
+                var asteroidData = new AsteroidData()
 				{
-					Id = System.IO.Path.GetFileName(asteroid.worldName),
-					OffsetX = asteroid.WorldOffset.X,
-					OffsetY = asteroid.WorldOffset.Y,
-					SizeX = asteroid.WorldSize.X,
-					SizeY = asteroid.WorldSize.Y,
-					WorldTraits = asteroid.WorldTraitIds,
-					StoryTraits = asteroid.StoryTraitIds
+					id = System.IO.Path.GetFileName(asteroid.worldName),
+					offsetX = asteroid.WorldOffset.X,
+					offsetY = asteroid.WorldOffset.Y,
+					sizeX = asteroid.WorldSize.X,
+					sizeY = asteroid.WorldSize.Y,
+					worldTraits = cleanWorldTraits
 				};
 
 				if (currentPOIs.ContainsKey(asteroid))
-					asteroidData.POIs = new(currentPOIs[asteroid]);
+					asteroidData.pointsOfInterest = new(currentPOIs[asteroid]);
 
 				if (currentGeysers.ContainsKey(asteroid))
-					asteroidData.Geysers = new(currentGeysers[asteroid]);
+					asteroidData.geysers = new(currentGeysers[asteroid]);
 
-				DataItem.Asteroids.Add(asteroidData);
+				DataItem.asteroids.Add(asteroidData);
 			}
 
 			if (dlcActive)
 			{
-				DataItem.StarmapEntries_SpacedOut = new(dlcStarmapItems);
+				DataItem.starMapEntriesSpacedOut = new(dlcStarmapItems);
 			}
 			else
 			{
-				DataItem.StarmapEntries_Vanilla = new(baseStarmapItems);
+				DataItem.starMapEntriesVanilla = new(baseStarmapItems);
 			}
 
 			string parentPath = string.Empty;
+
 			switch (clusterData.clusterCategory)
 			{
 				case ClusterCategory.Vanilla:
@@ -136,42 +140,59 @@ namespace _WorldGenStateCapture
 					break;
 
 			}
+
 			if (parentPath != string.Empty)
 			{
-				//string fileName = DataItem.FullCoordinate + ".json";
-				///Replace with uploader
-				//IO_Utils.WriteToFile(DataItem, System.IO.Path.Combine(parentPath, fileName));
 
-				string json = Newtonsoft.Json.JsonConvert.SerializeObject(DataItem);
+                Debug.Log("Serialize data...");
 
-				//attach the coroutine to the main game object
-				Game.Instance.StartCoroutine(TryPostRequest(json));
+                string json = Newtonsoft.Json.JsonConvert.SerializeObject(DataItem);
+
+
+                Debug.Log("Send data to webservice...");
+
+                //attach the coroutine to the main game object
+                Game.Instance.StartCoroutine(TryPostRequest(json));
+				
 				//^ if that still crashes, use this:
 				//Task.Run(() => TryPostRequest(json));
-
-				//GridMap.Save(System.IO.Path.Combine(parentPath, DataItem.FullCoordinate + ".png"));
 			}
 			else
-				ClearAndRestart();
+			{
+
+				Debug.LogWarning("Parent path not found!");
+
+                ClearAndRestart();
+            }
+				
 		}
 
 		static IEnumerator TryPostRequest(string data)
-		{
-			List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
-			formData.Add(new MultipartFormDataSection("data", data));
+        {
 
-			using (UnityWebRequest www = UnityWebRequest.Post(uri: "https://api.mapsnotincluded.org", formData)) //or "https://api.mapsnotincluded.org/ingest" ?
+            // Convert JSON string to bytes
+            byte[] bodyRaw = Encoding.UTF8.GetBytes(data);
+
+			using (UnityWebRequest request = new UnityWebRequest("https://api.mapsnotincluded.org/ingest", "POST"))
 			{
-				if (Environment.GetEnvironmentVariable("MNI_API_KEY") != null)
-				{
-					www.SetRequestHeader("Authorization", Environment.GetEnvironmentVariable("MNI_API_KEY"));
-				}
 
-				yield return www.SendWebRequest();
+				// Set the request body to the JSON byte array
+				request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+				request.downloadHandler = new DownloadHandlerBuffer();
 
-				if (www.result != UnityWebRequest.Result.Success)
+				// Set the content type to JSON
+				request.SetRequestHeader("Content-Type", "application/json");
+
+				// Send the API key
+				request.SetRequestHeader("MNI_API_KEY", "KAEofp47Zu8JRUi");
+
+                Debug.Log("request.SendWebRequest() ...");
+
+                yield return request.SendWebRequest();
+
+				if (request.result != UnityWebRequest.Result.Success)
 				{
-					Debug.LogError(www.error);
+					Debug.LogError(request.error);
 					ClearAndRestart();
 				}
 				else
@@ -190,6 +211,5 @@ namespace _WorldGenStateCapture
 			baseStarmapItems.Clear();
 			GameScheduler.Instance.ScheduleNextFrame("restart game", (_) => App.instance.Restart());
 		}
-
 	}
 }

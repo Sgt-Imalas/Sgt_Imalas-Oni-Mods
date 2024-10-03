@@ -14,8 +14,13 @@
 			{
 				public static LocString NAME = "Target Cluster (DLC)";
 				public static LocString DESC = "Coordinate prefix of the cluster to parse seeds from.";
-			}
-			public class TARGETNUMBER
+            }
+            public class RANDOMIZEDGEN
+            {
+				public static LocString NAME = "generate random Clusters";
+                public static LocString DESC = "selects the cluster to generate at random.";
+            }
+            public class TARGETNUMBER
 			{
 				public static LocString NAME = "Number of runs";
 				public static LocString DESC = "total number of runs the program should parse before stopping.\nInfinite parsing overrides this!";

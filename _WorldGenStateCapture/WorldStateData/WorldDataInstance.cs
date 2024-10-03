@@ -5,12 +5,13 @@ namespace _WorldGenStateCapture.WorldStateData
 {
 	internal class WorldDataInstance
 	{
-		public int Seed;
-		public string Coordinate, FullCoordinate;
-		public List<string> StoryTraits = new List<string>();
-		public List<string> MixingTraits = new List<string>();
-		public List<AsteroidData> Asteroids = new List<AsteroidData>();
-		public List<VanillaMap_Entry> StarmapEntries_Vanilla = null;
-		public List<HexMap_Entry> StarmapEntries_SpacedOut = null;
+		public string coordinate;
+		public string cluster;
+
+		public List<string> dlcs;
+
+		public List<AsteroidData> asteroids = new List<AsteroidData>();
+		public List<VanillaMap_Entry> starMapEntriesVanilla = null;
+		public List<HexMap_Entry> starMapEntriesSpacedOut = null;
 	}
 }
