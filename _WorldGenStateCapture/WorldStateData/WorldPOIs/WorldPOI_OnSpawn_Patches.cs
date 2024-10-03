@@ -24,9 +24,9 @@ namespace _WorldGenStateCapture.WorldStateData.WorldPOIs
 					{
 						ModAssets.baseStarmapItems.Add(new VanillaMap_Entry()
 						{
-							Id = data.type,
+							id = data.type,
 							// Name = data.GetDestinationType().Name,
-							Distance = data.distance
+							distance = data.distance
 						});
 					});
 
@@ -59,10 +59,10 @@ namespace _WorldGenStateCapture.WorldStateData.WorldPOIs
 
 				ModAssets.dlcStarmapItems.Add(new HexMap_Entry()
 				{
-					Id = prefabid,
+					id = prefabid,
 					// Name = locationEntity.Name,
-					Q = __instance.Location.Q,
-					R = __instance.Location.R,
+					q = __instance.Location.Q,
+					r = __instance.Location.R,
 				}); ;
 			}
 		}
@@ -84,15 +84,15 @@ namespace _WorldGenStateCapture.WorldStateData.WorldPOIs
 
 				ModAssets.currentGeysers[myWorld].Add(new MapGeyser()
 				{
-					Id = configuration.geyserType.id,
-					PosX = (int)position.x,
-					PosY = (int)position.y,
+					id = configuration.geyserType.id,
+					posX = (int)position.x,
+					posY = (int)position.y,
 
-					ActivePeriod_IdleTime = configuration.GetOffDuration(),
-					ActivePeriod_EruptionTime = configuration.GetOnDuration(),
-					DormancyCycles = configuration.GetYearOffDuration() / 600f,
-					ActiveCycles = configuration.GetYearOnDuration() / 600f,
-					EmitRate = configuration.GetEmitRate() * 1000f,					
+					idleTime = configuration.GetOffDuration(),
+					eruptionTime = configuration.GetOnDuration(),
+					dormancyCycles = configuration.GetYearOffDuration() / 600f,
+					activeCycles = configuration.GetYearOnDuration() / 600f,
+					emitRate = configuration.GetEmitRate() * 1000f,					
 				});
 			}
 		}
@@ -110,15 +110,15 @@ namespace _WorldGenStateCapture.WorldStateData.WorldPOIs
 
 				ModAssets.currentGeysers[myWorld].Add(new MapGeyser()
 				{
-					Id = OilWellConfig.ID,
-					PosX = (int)position.x,
-					PosY = (int)position.y,
+					id = OilWellConfig.ID,
+					posX = (int)position.x,
+					posY = (int)position.y,
 
-					ActivePeriod_IdleTime = 0,
-					ActivePeriod_EruptionTime = 1,
-					DormancyCycles = 0f,
-					ActiveCycles = 1,
-					EmitRate = 3333.33f,
+					idleTime = 0,
+					eruptionTime = 1,
+					dormancyCycles = 0f,
+					activeCycles = 1,
+					emitRate = 3333.33f,
 				});
 			}
 		}

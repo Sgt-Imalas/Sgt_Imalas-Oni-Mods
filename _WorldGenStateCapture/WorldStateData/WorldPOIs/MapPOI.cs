@@ -2,7 +2,7 @@
 {
 	internal class MapPOI
 	{
-		public string Id;
-		public int PosX, PosY;
+		public string id;
+		public int posX, posY;
 	}
 }
