@@ -16,9 +16,9 @@ namespace _WorldGenStateCapture.WorldStateData.WorldPOIs
 
 			ModAssets.currentPOIs[myWorld].Add(new MapPOI()
 			{
-				Id = targetId,
-				PosX = (int)position.x,
-				PosY = (int)position.y,
+				id = targetId,
+				posX = (int)position.x,
+				posY = (int)position.y,
 			});
 		}
 	}

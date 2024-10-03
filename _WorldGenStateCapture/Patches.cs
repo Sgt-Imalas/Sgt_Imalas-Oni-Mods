@@ -4,6 +4,7 @@ using ProcGen;
 using System.IO;
 using static STRINGS.INPUT_BINDINGS;
 using UnityEngine.Networking;
+using ProcGenGame;
 
 namespace _WorldGenStateCapture
 {
@@ -321,5 +322,15 @@ namespace _WorldGenStateCapture
 				}
 			}
 		}
-	}
+
+        [HarmonyPatch(typeof(WorldGen), nameof(WorldGen.ReportWorldGenError))]
+        public static class RestartOnFailedSeed
+        {
+            public static void Postfix()
+            {
+                //potential TODO: send post request with "seed failed germination", then quit
+                ModAssets.ClearAndRestart();
+            }
+        }
+    }
 }
