@@ -135,13 +135,23 @@ namespace _WorldGenStateCapture.WorldStateData.WorldPOIs
 			internal static IEnumerable<MethodBase> TargetMethods()
 			{
 				const string name = nameof(IBuildingConfig.DoPostConfigureComplete);
+				
+				//printing pod
 				yield return typeof(HeadquartersConfig).GetMethod(name);
 
-
+				//Item Teleporters
 				yield return typeof(WarpConduitSenderConfig).GetMethod(name);
 				yield return typeof(WarpConduitReceiverConfig).GetMethod(name);
 
+				//AETN
 				yield return typeof(MassiveHeatSinkConfig).GetMethod(name);
+
+				//Tear opener
+				yield return typeof(TemporalTearOpenerConfig).GetMethod(name);
+
+				//artifact pedestals in gravitas ruins
+				yield return typeof(GravitasPedestalConfig).GetMethod(name);
+				
 			}
 		}
 		[HarmonyPatch]
@@ -157,15 +167,22 @@ namespace _WorldGenStateCapture.WorldStateData.WorldPOIs
 			internal static IEnumerable<MethodBase> TargetMethods()
 			{
 				const string name = nameof(IEntityConfig.CreatePrefab);
+
+				//neural vaccilator
 				yield return typeof(GeneShufflerConfig).GetMethod(name);
 
+				//hungry resin tree
 				yield return typeof(SapTreeConfig).GetMethod(name);
 
+				//Dupe Teleporters
 				yield return typeof(WarpPortalConfig).GetMethod(name);
 				yield return typeof(WarpReceiverConfig).GetMethod(name);
 
+				//crashed satellites
+				yield return typeof(PropSurfaceSatellite1Config).GetMethod(name);
+				yield return typeof(PropSurfaceSatellite2Config).GetMethod(name);
+				yield return typeof(PropSurfaceSatellite3Config).GetMethod(name);
 			}
 		}
-
 	}
 }
