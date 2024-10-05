@@ -217,6 +217,7 @@ namespace ClusterTraitGenerationManager
 			{
 				SgtLogger.l("Regenerating Traits for " + clusterPath + ". Reason: " + changedConfigID + " changed.");
 				CGSMClusterManager.RerollTraits();
+				SgtLogger.l("Regenerating Mixings for " + clusterPath + ". Reason: " + changedConfigID + " changed.");
 				CGSMClusterManager.RerollMixings();
 			}
 		}

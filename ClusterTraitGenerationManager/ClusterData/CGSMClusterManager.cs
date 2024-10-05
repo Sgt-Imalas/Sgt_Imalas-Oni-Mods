@@ -1,5 +1,6 @@
 ﻿using ClusterTraitGenerationManager.UI.Screens;
 using Klei.CustomSettings;
+using ObjectCloner;
 using ProcGen;
 using ProcGenGame;
 using System;
@@ -23,8 +24,6 @@ namespace ClusterTraitGenerationManager.ClusterData
 		public const string CustomClusterClusterTag = "CGM_CustomCluster";
 
 
-		public const float MaxAmountPOI = 5f;
-		public const float MaxAmountRandomPOI = 32f; //TODO: dynamic scale with map size
 		public const float MaxAmountRandomPlanet = 6f;
 		public const string RandomKey = "CGM_RANDOM_";
 		static Dictionary<string, StarmapItem> PlanetsAndPOIs = null;
@@ -246,24 +245,6 @@ namespace ClusterTraitGenerationManager.ClusterData
 			selectScreen.LaunchClicked();
 		}
 
-		//static void ApplySizeMultiplier(WorldPlacement placement, float multiplier)
-		//{
-		//    float min = placement.allowedRings.min, max = placement.allowedRings.max;
-		//    //min*= multiplier;
-
-		//    //if (max < 3)
-		//        //max = 3;
-
-		//    max *= multiplier;
-		//    max = Math.Min(max, CustomCluster.Rings);
-
-		//    int max2 = Math.Min(placement.allowedRings.max + CustomCluster.AdjustedOuterExpansion, CustomCluster.Rings);
-		//    int newMax = Math.Max((int)Math.Round(max), max2);
-		//    placement.allowedRings = new MinMaxI((int)min, newMax);
-
-		//    SgtLogger.l("Set inner and outer limits to " + placement.allowedRings.ToString(), placement.world);
-		//}
-
 		static void ApplySizeMultiplier(SpaceMapPOIPlacement placement, float multiplier)
 		{
 			float min = placement.allowedRings.min, max = placement.allowedRings.max;
@@ -376,8 +357,6 @@ namespace ClusterTraitGenerationManager.ClusterData
 				///Disabling Story Traits if MiniBase worlds are active
 				if (CustomCluster.StarterPlanet.DisablesStoryTraits)
 					layout.disableStoryTraits = true;
-
-
 
 				if (CustomCluster.StarterPlanet.id.Contains(RandomKey))
 				{
@@ -714,10 +693,11 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 		public static void CreateCustomClusterFrom(string clusterID, string singleItemId = "", bool ForceRegen = false)
 		{
-			if (singleItemId != string.Empty)
-			{
+			bool ResetSingleItem = singleItemId != string.Empty;
+
+
+			if (ResetSingleItem)
 				SgtLogger.l("Regenerating stats for " + singleItemId + " in " + clusterID);
-			}
 			else
 				SgtLogger.l("Generating custom cluster from " + clusterID);
 
@@ -727,20 +707,36 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 			if (ReferenceLayout == null || selectScreen == null || selectScreen.newGameSettingsPanel == null)
 				return;
-			string setting = selectScreen.newGameSettingsPanel.GetSetting(CustomGameSettingConfigs.WorldgenSeed);
 
-			if (setting == null || setting.Length == 0)
+			string seedSetting = selectScreen.newGameSettingsPanel.GetSetting(CustomGameSettingConfigs.WorldgenSeed);
+
+			if (seedSetting == null || seedSetting.Length == 0)
 				return;
 
-			int seed = int.Parse(setting);
+			int seed = int.Parse(seedSetting);
+
 			var mutated = new MutatedClusterLayout(ReferenceLayout);
 			WorldgenMixing.RefreshWorldMixing(mutated, seed, true, true);
 			CurrentSeed = seed;
-			if (singleItemId == string.Empty)
+
+			if (!ResetSingleItem)
 			{
 				SgtLogger.l("Rebuilding Cluster Data");
 				CustomCluster = new CustomClusterData();
 				CustomCluster.SetRings(mutated.layout.numRings - 1, true);
+
+				foreach (var planet in PlanetoidDict.Values)
+				{
+					planet.ClearWorldTraits();
+					planet.ClearGeyserOverrides();
+					planet.SetPlanetSizeToPreset(WorldSizePresets.Normal);
+					planet.SetPlanetRatioToPreset(WorldRatioPresets.Normal);
+
+					if (planet.world == null) continue;
+					ResetMeteorSeasons(planet.world);
+					ResetSkyFixedTraits(planet.world);
+				}
+
 				ResetStarmap();
 			}
 			else
@@ -779,6 +775,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 					}
 				}
 			}
+
 			for (int i = 0; i < mutated.layout.worldPlacements.Count; i++)
 			{
 				WorldPlacement planetPlacement = mutated.layout.worldPlacements[i];
@@ -786,6 +783,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 				//SgtLogger.l(planetpath, "planet in cluster");
 				string mixingAsteroid = string.Empty;
 				bool isWorldMixed = false;
+
 				if (planetPlacement.worldMixing != null && planetPlacement.worldMixing.mixingWasApplied)
 				{
 					mixingAsteroid = planetpath;
@@ -803,15 +801,13 @@ namespace ClusterTraitGenerationManager.ClusterData
 					}
 					FoundPlanet.PredefinedPlacementOrder = i;
 
+					SetMixingWorld(FoundPlanet, null);
 					FoundPlanet.AddItemWorldPlacement(planetPlacement);
 
 					if (isWorldMixed && PlanetoidDict.TryGetValue(mixingAsteroid, out StarmapItem _mixingItem))
 					{
 						SetMixingWorld(FoundPlanet, _mixingItem);
-						FoundPlanet.SetWorldMixing(_mixingItem);
 					}
-					else
-						SetMixingWorld(FoundPlanet, null);
 
 					switch (FoundPlanet.category)
 					{
@@ -854,7 +850,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 			target.SetWorldMixing(mixingSource);
 			if (mixingSource != null)
 			{
-				if (CustomCluster.MixingWorldsWithTarget.TryGetValue(mixingSource, out var OldTarget))
+				if (CustomCluster.MixingWorldsWithTarget.TryGetValue(mixingSource, out var OldTarget) && OldTarget != target)
 				{
 					OldTarget.SetWorldMixing(null);
 				}
@@ -936,8 +932,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 			foreach (var planet in CustomCluster.GetAllPlanets())
 			{
 				if (planet == null || planet.world == null || planet.placement == null) continue;
-				planet.SetWorldMixing(null);
-				planet.placement.UndoWorldMixing();
+				SetMixingWorld(planet, null);
 			}
 
 			int seed = int.Parse(CustomGameSettings.Instance.GetCurrentQualitySetting(CustomGameSettingConfigs.WorldgenSeed).id);
@@ -952,26 +947,26 @@ namespace ClusterTraitGenerationManager.ClusterData
 				bool isWorldMixed = false;
 				string planetpath = planetPlacement.world;
 				string mixingAsteroid = string.Empty;
-
 				if (planetPlacement.worldMixing != null && planetPlacement.worldMixing.mixingWasApplied)
 				{
 					mixingAsteroid = planetpath;
 					planetpath = planetPlacement.worldMixing.previousWorld;
 					isWorldMixed = true;
-					SgtLogger.l(planetpath, "MIXING");
+					SgtLogger.l(planetpath, "Mixed original");
+
 				}
 				//apply mixing relations for UI
 				if (CustomCluster.HasStarmapItem(planetpath, out var FoundPlanet))
 				{
-					SgtLogger.l(FoundPlanet.category.ToString());
+					SetMixingWorld(FoundPlanet, null);
+					//SgtLogger.l(FoundPlanet.category.ToString() + " -> " + FoundPlanet.DisplayName);
 					if (isWorldMixed && PlanetoidDict.TryGetValue(mixingAsteroid, out StarmapItem _mixingItem))
 					{
 						SetMixingWorld(FoundPlanet, _mixingItem);
-						FoundPlanet.SetWorldMixing(_mixingItem);
 					}
-					else
-						SetMixingWorld(FoundPlanet, null);
 				}
+				else
+					SgtLogger.warning(planetpath + " not found for mixing relation!");
 			}
 		}
 		public static void RerollTraits()
@@ -1173,7 +1168,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 				if (DlcManager.IsExpansion1Active())
 				{
 
-					if (ClusterLayout.Key.Contains("clusters/SandstoneDefault") // Uncomment when klei removes the default cluster
+					if (ClusterLayout.Key.Contains("clusters/SandstoneDefault") // Comment out when klei removes the default cluster
 						|| ClusterLayout.Value.forbiddenDlcIds != null && ClusterLayout.Value.forbiddenDlcIds.Contains(DlcManager.EXPANSION1_ID))
 					{
 						continue;

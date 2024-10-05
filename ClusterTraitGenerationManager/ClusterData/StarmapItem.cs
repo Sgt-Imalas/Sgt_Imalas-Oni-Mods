@@ -1,5 +1,6 @@
 ﻿using Klei.AI;
 using Newtonsoft.Json;
+using ObjectCloner;
 using ProcGen;
 using System;
 using System.Collections.Generic;
@@ -548,7 +549,22 @@ namespace ClusterTraitGenerationManager.ClusterData
 			placement.allowedRings = new(placement2.allowedRings.min, placement2.allowedRings.max);
 			placement.buffer = placement2.buffer;
 			placement.locationType = placement2.locationType;
-			placement.worldMixing = placement2.worldMixing;
+			placement.worldMixing = SerializingCloner.Copy(placement2.worldMixing);
+			placement.worldMixing = new()
+			{
+				requiredTags = new List<string>(placement2.worldMixing.requiredTags),
+				forbiddenTags = new List<string>(placement2.worldMixing.forbiddenTags),
+				additionalWorldTemplateRules = new (placement2.worldMixing.additionalWorldTemplateRules),
+				additionalUnknownCellFilters = new (placement2.worldMixing.additionalUnknownCellFilters),
+				additionalSubworldFiles = new (placement2.worldMixing.additionalSubworldFiles),
+				additionalSeasons = new List<string>(placement2.worldMixing.additionalSeasons),
+
+
+				mixingWasApplied = placement2.worldMixing.mixingWasApplied,
+				previousWorld = placement2.worldMixing.previousWorld
+			};
+				
+
 			return this;
 		}
 		public StarmapItem MakeItemPOI(SpaceMapPOIPlacement placement2)
@@ -572,12 +588,12 @@ namespace ClusterTraitGenerationManager.ClusterData
 			world_mixing = mix;
 			if (placement != null)
 			{
-				if (mix == null) //undoing mixing
+				//clearing previous mixing
+				placement.UndoWorldMixing();
+
+				if (mix != null)//applying mixing
 				{
-					placement.UndoWorldMixing();
-				}
-				else //applying mixing
-				{
+					SgtLogger.l(DisplayName + " is getting mixing replacement "+mix.DisplayName);
 					placement.worldMixing.previousWorld = placement.world;
 					placement.worldMixing.mixingWasApplied = true;
 					placement.world = mix.world.filePath;

@@ -2726,6 +2726,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				if (PlanetBiomes.ContainsKey(biomeName))
 					PlanetBiomes[biomeName].SetActive(true);
 			}
+			///world mixing:
 			if (CurrentStarmapItem.IsMixed && CurrentStarmapItem.placement != null
 				&& CurrentStarmapItem.placement.worldMixing != null
 				&& CurrentStarmapItem.placement.worldMixing.additionalSubworldFiles != null
@@ -2744,6 +2745,8 @@ namespace ClusterTraitGenerationManager.UI.Screens
 						PlanetBiomes[biomeName].SetActive(true);
 				}
 			}
+			///Biome Mixing (TODO!)
+			///
 		}
 		Dictionary<string, string> CometDescriptions = new Dictionary<string, string>();
 
