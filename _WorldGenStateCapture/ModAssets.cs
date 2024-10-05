@@ -210,7 +210,6 @@ namespace _WorldGenStateCapture
 			dlcStarmapItems.Clear();
 			baseStarmapItems.Clear();
 			App.instance.Restart();
-			//GameScheduler.Instance.ScheduleNextFrame("restart game", (_) => App.instance.Restart());
 		}
 	}
 }

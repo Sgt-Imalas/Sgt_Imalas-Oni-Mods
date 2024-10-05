@@ -5,6 +5,9 @@ using System.IO;
 using static STRINGS.INPUT_BINDINGS;
 using UnityEngine.Networking;
 using ProcGenGame;
+using System.Linq;
+using System.Collections.Generic;
+using System.Numerics;
 
 namespace _WorldGenStateCapture
 {
@@ -201,24 +204,24 @@ namespace _WorldGenStateCapture
 
 				if (Config.Instance.RandomizedClusterGen)
 				{
-                    while(targetLayout == null)
+					while (targetLayout == null)
 					{
 						targetLayout = SettingsCache.clusterLayouts.clusterCache.GetRandom().Value;
 
 						//skip empty dev clusters
 						if (targetLayout.skip > 0)
-                        {
-                            targetLayout = null;
-                            continue;
-                        }
+						{
+							targetLayout = null;
+							continue;
+						}
 						//spaced out loads vanilla terra to the cache, skip that
-						if(DlcManager.IsExpansion1Active() && targetLayout.coordinatePrefix == "SNDST-A")
-						{ 
-                            targetLayout = null;
-                            continue;
-                        }
-                    }
-                }
+						if (DlcManager.IsExpansion1Active() && targetLayout.coordinatePrefix == "SNDST-A")
+						{
+							targetLayout = null;
+							continue;
+						}
+					}
+				}
 				else
 				{
 					foreach (string clusterName in SettingsCache.GetClusterNames())
@@ -279,9 +282,55 @@ namespace _WorldGenStateCapture
 				{
 					__instance.newGameSettingsPanel.SetSetting((SettingConfig)CustomGameSettingConfigs.ClusterLayout, targetLayout.filePath);
 
-					__instance.newGameSettingsPanel.ConsumeStoryTraitsCode("0");					
-					__instance.newGameSettingsPanel.ConsumeMixingSettingsCode("0");
-					
+					Debug.Log("Selected cluster: "+ Strings.Get(targetLayout.name));
+					__instance.newGameSettingsPanel.ConsumeStoryTraitsCode("0");
+
+					if (DlcManager.IsContentSubscribed(DlcManager.DLC2_ID))
+					{
+						//ceres clusters require dlc mixing to be enabled
+						if (Config.Instance.RandomMixing == false)
+						{
+							Debug.Log("Mixing disabled by config");
+							//if its a ceres cluster, turn off any mixing, otherwise leave them at default (adjust in the future if klei releases a second mixing dlc, rn ceres comes with everything disabled by default)
+							if (!targetLayout.requiredDlcIds.Contains(DlcManager.DLC2_ID))
+							{
+								__instance.newGameSettingsPanel.ConsumeMixingSettingsCode("0");
+							}
+						}
+						else
+						{
+							var settingsInstance = CustomGameSettings.Instance;
+							foreach (var setting in CustomGameSettings.Instance.MixingSettings.Values)
+							{
+								if (setting.coordinate_range == -1) //settings that cannot be configured
+								{
+									continue;
+								}
+								if (setting is DlcMixingSettingConfig dlcSetting) //FP setting
+								{
+									Debug.Log("Turning on dlc mixing "+setting.id);
+									settingsInstance.SetMixingSetting(dlcSetting, DlcMixingSettingConfig.EnabledLevelId);
+									continue;
+								}
+								else if(setting is MixingSettingConfig mixingSetting)
+								{
+									//disable if forbidden by cluster
+									if(targetLayout.clusterTags.Any(tag => mixingSetting.forbiddenClusterTags.Contains(tag)))
+									{
+										Debug.Log(setting.id + " is forbidden by the current cluster, disabling it.");
+										settingsInstance.SetMixingSetting(mixingSetting, SubworldMixingSettingConfig.DisabledLevelId); //same id for world and subworld mixing setting
+									}
+									else
+									{
+										string randomLevel = mixingSetting.levels.GetRandom().id;
+										Debug.Log("setting a random value for mixing setting "+setting.id + ": "+ randomLevel);
+										settingsInstance.SetMixingSetting(mixingSetting, randomLevel);
+									}
+								}
+							}
+						}
+					}
+
 					__instance.ShuffleClicked();
 					__instance.LaunchClicked();
 				}
@@ -323,14 +372,14 @@ namespace _WorldGenStateCapture
 			}
 		}
 
-        [HarmonyPatch(typeof(WorldGen), nameof(WorldGen.ReportWorldGenError))]
-        public static class RestartOnFailedSeed
-        {
-            public static void Postfix()
-            {
-                //potential TODO: send post request with "seed failed germination", then quit
-                ModAssets.ClearAndRestart();
-            }
-        }
-    }
+		[HarmonyPatch(typeof(WorldGen), nameof(WorldGen.ReportWorldGenError))]
+		public static class RestartOnFailedSeed
+		{
+			public static void Postfix()
+			{
+				//potential TODO: send post request with "seed failed germination", then quit
+				ModAssets.ClearAndRestart();
+			}
+		}
+	}
 }

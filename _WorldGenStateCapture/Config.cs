@@ -28,7 +28,11 @@ namespace _WorldGenStateCapture
 		[JsonProperty]
 		public bool RandomizedClusterGen { get; set; } = true;
 
-        public Config()
+		[Option("STRINGS.WORLDPARSERMODCONFIG.RANDOMMIXING.NAME", "STRINGS.WORLDPARSERMODCONFIG.RANDOMMIXING.DESC")]
+		[JsonProperty]
+		public bool RandomMixing { get; set; } = true;
+
+		public Config()
 		{
 			TargetCoordinateBase = "SNDST-A";
 			TargetCoordinateDLC = "SNDST-C";

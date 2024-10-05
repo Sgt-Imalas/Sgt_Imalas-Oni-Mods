@@ -30,6 +30,11 @@
 				public static LocString NAME = "Infinite parsing";
 				public static LocString DESC = "the tool will run continuously until the mod is removed by deleting the mods.json file.\nOnly do this if you want fully autonomous seed parsing!";
 			}
+			public class RANDOMMIXING
+			{
+				public static LocString NAME = "Enable Random Mixing";
+				public static LocString DESC = "Mixing Options will be enabled at random";
+			}
 		}
 	}
 }
