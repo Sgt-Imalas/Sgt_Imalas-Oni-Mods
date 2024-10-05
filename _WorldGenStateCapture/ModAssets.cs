@@ -113,7 +113,10 @@ namespace _WorldGenStateCapture
 				if (currentGeysers.ContainsKey(asteroid))
 					asteroidData.geysers = new(currentGeysers[asteroid]);
 
-				DataItem.asteroids.Add(asteroidData);
+				if(asteroid.IsStartWorld)
+					DataItem.asteroids.Insert(0, asteroidData);
+				else
+					DataItem.asteroids.Add(asteroidData);
 			}
 
 			if (dlcActive)
