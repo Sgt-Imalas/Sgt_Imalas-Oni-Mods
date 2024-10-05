@@ -317,6 +317,8 @@ namespace MassMoveTo.Tools.SweepByType
 					UpdateCategory(category);
 				foreach (var category in GameTags.UnitCategories)
 					UpdateCategory(category);
+				UpdateCategory(GameTags.BagableCreature);
+				UpdateCategory(GameTags.SwimmingCreature);
 				UpdateCategory(GameTags.Miscellaneous);
 				UpdateCategory(GameTags.MiscPickupable, TOOLS.MOVETOSELECTTOOL.CATEGORY_MISCPICKUPABLE);
 			}
