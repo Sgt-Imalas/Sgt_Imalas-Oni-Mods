@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Klei;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -157,13 +158,36 @@ namespace AnimExportTool
 				{
 					GetAnimsFromEntity(egg);
 				}
-
+			}
+			static void GetAnimsFromGeyser(GameObject geyserPrefab) =>
+					GetAnimsFromEntity(geyserPrefab, "GeyserUISpritesById", "GeyserUISpritesByName");
+			public static void GetGeysers()
+			{
+				foreach (var geyser in Assets.GetPrefabsWithTag(GameTags.GeyserFeature))
+				{
+					GetAnimsFromGeyser(geyser);
+				}
+				GetAnimsFromGeyser(Assets.GetPrefab(OilWellConfig.ID));
+			}
+			public static void GetAsteroids()
+			{
+				List<YamlIO.Error> errors = new List<YamlIO.Error>();
+				ProcGen.SettingsCache.LoadFiles(errors);
+				foreach (var WorldFromCache in ProcGen.SettingsCache.worlds.worldCache)
+				{
+					ProcGen.World world = WorldFromCache.Value;
+					if ((int)world.skip >= 99)
+						continue;
+					GetAnimsFromAsteroid(world);
+				}
 			}
 
 			public static void Postfix()
 			{
-				GetEggs();
+				GetEggs(); 
+				GetGeysers();
 				GetWorldTraits();
+				GetAsteroids();
 			}
 		}
 
@@ -294,7 +318,7 @@ namespace AnimExportTool
 				return code;
 			}
 		}
-		static void GetAnimsFromEntity(GameObject instance)
+		static void GetAnimsFromEntity(GameObject instance, string idPath = "EntityUISpritesById", string namePath = "EntityUISpritesByName")
 		{
 			if (!instance.TryGetComponent<KAnimControllerBase>(out var kbac) || kbac.animFiles.Length == 0)
 				return;
@@ -310,8 +334,20 @@ namespace AnimExportTool
 
 			if (UISprite != null && UISprite != Assets.GetSprite("unknown"))
 			{
-				WriteUISpriteToFile(UISprite, Path.Combine(UtilMethods.ModPath, "EntityUISpritesById"), id);
-				WriteUISpriteToFile(UISprite, Path.Combine(UtilMethods.ModPath, "EntityUISpritesByName"), TagManager.GetProperName(id, true));
+				WriteUISpriteToFile(UISprite, Path.Combine(UtilMethods.ModPath, idPath), id);
+				WriteUISpriteToFile(UISprite, Path.Combine(UtilMethods.ModPath, namePath), TagManager.GetProperName(id, true));
+			}
+		}
+		static void GetAnimsFromAsteroid(ProcGen.World world, string idPath = "AsteroidUISpritesById", string namePath = "AsteroiUISpritesByName")
+		{
+			Sprite UISprite = ColonyDestinationAsteroidBeltData.GetUISprite(world.asteroidIcon);
+
+			var id = Path.GetFileName(world.filePath).ToString();
+
+			if (UISprite != null && UISprite != Assets.GetSprite("unknown"))
+			{
+				WriteUISpriteToFile(UISprite, Path.Combine(UtilMethods.ModPath, idPath), id);
+				WriteUISpriteToFile(UISprite, Path.Combine(UtilMethods.ModPath, namePath), Strings.Get(world.name));
 			}
 		}
 
