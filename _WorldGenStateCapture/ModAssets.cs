@@ -181,7 +181,7 @@ namespace _WorldGenStateCapture
 					sizeX = asteroid.WorldSize.X,
 					sizeY = asteroid.WorldSize.Y,
 					worldTraits = cleanWorldTraits,
-					BiomesSVG = AccumulateBiomeData(asteroid)
+					biomesSVG = AccumulateBiomeData(asteroid)
 				};
 
 				if (currentPOIs.ContainsKey(asteroid))
