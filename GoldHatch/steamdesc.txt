@@ -1,29 +1,28 @@
-﻿[h1]Fandom Madness - Gold Hatch[/h1]
+﻿Earlier this year, the ONI-Wiki has finally moved on from fandom 
+and can now be found on [url=https://oxygennotincluded.wiki.gg/wiki/Oxygen_Not_Included_Wiki]Wiki gg[/url].
+(A few reasons for the move can be found in [url=https://www.youtube.com/watch?v=qcfuA_UAz3I]this video[/url])
 
-Earlier this year, the ONI-Wiki has finally moved on from fandom and can now be found on [url=https://oxygennotincluded.wiki.gg/wiki/Oxygen_Not_Included_Wiki]Wiki.gg[/url].
-(A few reasons for the move can be found in this video: https://www.youtube.com/watch?v=qcfuA_UAz3I)
 With all moderation gone, fandom has started to accumulate some rather peculiar content.
-While I recommend to not interact with the old wiki and just leave it to rot, I have made one of its new entries into a mod, namely the:
-[h2]Gold Hatch[/h2]
+While do I recommend to simply not interact with the old wiki at all and just leave it to rot, I have made one of its new entries into a mod, namely the:
 
+[h1]Gold Hatch[/h1]
 The Gold Hatch is a new hatch morph that has learned the secrets of alchemy, allowing it to turn lead into gold!
 Other metals and ores work too, but only at 75% efficiency (ores turn into gold amalgam).
 Smooth and stone hatches had their diets adjusted, allowing them to eat Lead, increasing the chance for a gold hatch egg.
 
-[img]https://i.imgur.com/GbFtLZ2.png[/img]
+[img]https://i.imgur.com/oNBUpGe.png[/img] [img]https://i.imgur.com/Cd1HwbV.png[/img] [img]https://i.imgur.com/pa6jsyD.png[/img]
 
 [h1]Current latest Version: 1.0.0[/h1]
 
 [hr][/hr]
 
 [h1]Features[/h1]
-[list][*] New Critter Morph: Gold Hatch
-[*] Converts ores to gold amalgam at 75% efficiency
+New Critter Morph: Gold Hatch
+[list][*] Converts ores to gold amalgam at 75% efficiency
 [*] Converts refined metals to gold at 75% efficiency
 [*] Converts Lead to gold at 100% efficiency (it has found the secrets of the eternal alchemy)
 [*] Stone and Smooth Hatches can now eat Lead, increasing the chance for a gold hatch egg
 [/list]
-
 
 [h1]Bug Reports & Local Download[/h1]
 You can find direct downloads for my mods [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases]here[/url] (please notify me if I forgot to release new versions).
