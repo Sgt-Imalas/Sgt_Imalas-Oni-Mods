@@ -48,18 +48,22 @@ namespace GoldHatch.Creatures
 		{
 			List<Diet.Info> infoList = new List<Diet.Info>();
 
-			var goldTag = SimHashes.Gold.CreateTag();
+			var goldTag = SimHashes.Gold.CreateTag(); //refined metal
+			var goldAmalgamTag = SimHashes.GoldAmalgam.CreateTag(); //ore
 
 			foreach (var element in ElementLoader.elements
 				.FindAll(e => e.IsSolid && (e.HasTag(GameTags.Metal) ^ e.HasTag(GameTags.RefinedMetal)))) //no alloys (both tags)
 			{
+				bool isRefined = element.HasTag(GameTags.RefinedMetal);
+
+
 				if (element.id != SimHashes.Gold //no eating gold
-					&& element.id != SimHashes.GoldAmalgam //no eating gold
+					&& element.id != SimHashes.GoldAmalgam //no eating gold amalgam
 					&& element.id != SimHashes.Lead) //separate rate for lead
 				{
 					infoList.Add(
 						new(new HashSet<Tag>() { element.id.CreateTag() },
-						goldTag,
+						isRefined ? goldTag : goldAmalgamTag,  //ores get converted to amalgam, refined metals to gold
 						caloriesPerKg,
 						producedConversionRate,
 						diseaseId,
