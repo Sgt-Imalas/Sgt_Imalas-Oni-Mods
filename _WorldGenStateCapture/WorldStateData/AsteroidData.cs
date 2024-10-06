@@ -13,5 +13,7 @@ namespace _WorldGenStateCapture.WorldStateData
 		public List<string> worldTraits;
 		public List<MapPOI> pointsOfInterest = new List<MapPOI>();
 		public List<MapGeyser> geysers = new List<MapGeyser>();
+
+		public string BiomesSVG;
 	}
 }

@@ -51,12 +51,6 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-	  <None Update="System.Drawing.dll">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	</ItemGroup>
-	
-	<ItemGroup>
 	  <PackageReference Update="ILRepack.Lib.MSBuild.Task" Version="2.0.34.2">
 	    <PrivateAssets>all</PrivateAssets>
 	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
