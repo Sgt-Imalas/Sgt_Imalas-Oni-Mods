@@ -92,7 +92,7 @@ namespace _WorldGenStateCapture
 				if (!addedZoneType.Contains(currentZoneType))
 				{
 					var biomeColor = GetBiomeColor(currentZoneType);
-					string colorHex = Util.ToHexString(biomeColor);
+					string colorHex = Util.ToHexString(biomeColor).Substring(0,6);
 
 					addedZoneType.Add(currentZoneType);
 					styleSheetBuilder.Append($".{ZoneTypeCssClass}{{fill:#{colorHex};stroke:#{colorHex};}}");
