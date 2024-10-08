@@ -691,15 +691,15 @@ namespace BlueprintsV2.BlueprintData
 			}
 		}
 
-		internal class DataTransfer_GenericRibbonData<T>
+		internal class DataTransfer_LogicRibbonWriter
 		{
 			internal static JObject TryGetData(GameObject arg)
 			{
-				if (arg.TryGetComponent<T>(out var sourceComponent))
+				if (arg.TryGetComponent<LogicRibbonWriter>(out var sourceComponent))
 				{
 					return new JObject()
 					{
-						{ "selectedBit", (float)Traverse.Create(sourceComponent).Property("selectedBit").GetValue()}
+						{ "selectedBit", sourceComponent.GetBitSelection()}
 					};
 				}
 				return null;
@@ -708,15 +708,46 @@ namespace BlueprintsV2.BlueprintData
 			{
 				if (jObject == null)
 					return;
-				if (building.TryGetComponent<T>(out var targetComponent))
+				if (building.TryGetComponent<LogicRibbonWriter>(out var targetComponent))
 				{
 					var t1 = jObject.GetValue("selectedBit");
 					if (t1 == null)
 						return;
 					var selectedBit = t1.Value<int>();
 
+					SgtLogger.l("bit: " + selectedBit);
 					//applying values
-					Traverse.Create(targetComponent).Method("SetBitSelection").SetValue(selectedBit);
+					targetComponent.SetBitSelection(selectedBit);
+				}
+			}
+		}
+		internal class DataTransfer_LogicRibbonReader
+		{
+			internal static JObject TryGetData(GameObject arg)
+			{
+				if (arg.TryGetComponent<LogicRibbonReader>(out var sourceComponent))
+				{
+					return new JObject()
+					{
+						{ "selectedBit", sourceComponent.GetBitSelection()}
+					};
+				}
+				return null;
+			}
+			public static void TryApplyData(GameObject building, JObject jObject)
+			{
+				if (jObject == null)
+					return;
+				if (building.TryGetComponent<LogicRibbonReader>(out var targetComponent))
+				{
+					var t1 = jObject.GetValue("selectedBit");
+					if (t1 == null)
+						return;
+					var selectedBit = t1.Value<int>();
+
+					SgtLogger.l("bit: " + selectedBit);
+					//applying values
+					targetComponent.SetBitSelection(selectedBit);
 				}
 			}
 		}

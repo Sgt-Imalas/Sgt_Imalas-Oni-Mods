@@ -414,7 +414,7 @@ namespace BlueprintsV2.UnityUI
 			ClearUIState();
 		}
 
-		public static bool HasReplacementCandidates(Tag original) => MaterialSelector.GetValidMaterials(original).Count() > 1;
+		public static bool HasReplacementCandidates(Tag original) => ModAssets.GetValidMaterials(original).Count() > 1;
 
 		BlueprintSelectedMaterial ToReplaceTag = null;
 		List<ReplaceElementEntry> PreviouslyActiveMaterialReplacementButtons = new();

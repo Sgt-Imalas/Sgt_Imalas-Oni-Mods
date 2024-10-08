@@ -234,9 +234,11 @@ namespace BlueprintsV2.BlueprintData
 					{
 						Tag elementTag;
 
-						if (selectedElement.Type == JTokenType.Integer && ElementLoader.GetElement(elementTag = new Tag(selectedElement.Value<int>())) != null)
+						if (selectedElement.Type == JTokenType.Integer)
 						{
-							SelectedElements.Add(elementTag);
+							Tag selectedTag = new Tag(selectedElement.Value<int>());
+							if(ElementLoader.GetElement(selectedTag) != null || Assets.GetPrefab(selectedTag) != null)
+								SelectedElements.Add(selectedTag);
 						}
 					}
 				}

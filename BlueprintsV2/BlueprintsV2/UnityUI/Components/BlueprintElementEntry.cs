@@ -85,6 +85,7 @@ namespace BlueprintsV2.UnityUI.Components
 					else
 					{
 						ElementName?.SetText(selectedTag.Name);
+						ElementIcon.sprite = Assets.GetSprite("Unknown");
 					}
 				}
 

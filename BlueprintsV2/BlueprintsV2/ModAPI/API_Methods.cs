@@ -326,8 +326,8 @@ namespace BlueprintsV2.ModAPI
 			RegisterInternally(nameof(LogicGateBuffer), DataTransfer_GenericLogicGateDelay<LogicGateBuffer>.TryGetData, DataTransfer_GenericLogicGateDelay<LogicGateBuffer>.TryApplyData);
 			RegisterInternally(nameof(LogicGateFilter), DataTransfer_GenericLogicGateDelay<LogicGateFilter>.TryGetData, DataTransfer_GenericLogicGateDelay<LogicGateFilter>.TryApplyData);
 
-			RegisterInternally(nameof(LogicRibbonReader), DataTransfer_GenericRibbonData<LogicRibbonReader>.TryGetData, DataTransfer_GenericRibbonData<LogicRibbonReader>.TryApplyData);
-			RegisterInternally(nameof(LogicRibbonWriter), DataTransfer_GenericRibbonData<LogicRibbonWriter>.TryGetData, DataTransfer_GenericRibbonData<LogicRibbonWriter>.TryApplyData);
+			RegisterInternally(nameof(LogicRibbonReader), DataTransfer_LogicRibbonReader.TryGetData, DataTransfer_LogicRibbonReader.TryApplyData);
+			RegisterInternally(nameof(LogicRibbonWriter), DataTransfer_LogicRibbonWriter.TryGetData, DataTransfer_LogicRibbonWriter.TryApplyData);
 			RegisterInternally(nameof(PixelPack), DataTransfer_PixelPack.TryGetData, DataTransfer_PixelPack.TryApplyData);
 
 
