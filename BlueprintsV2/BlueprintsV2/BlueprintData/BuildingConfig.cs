@@ -232,8 +232,6 @@ namespace BlueprintsV2.BlueprintData
 				{
 					foreach (JToken selectedElement in selectedElementTokens)
 					{
-						Tag elementTag;
-
 						if (selectedElement.Type == JTokenType.Integer)
 						{
 							Tag selectedTag = new Tag(selectedElement.Value<int>());

@@ -376,41 +376,44 @@ namespace BlueprintsV2
 				if (ClusterManager.Instance.activeWorld.worldInventory.GetAmount(mat, true) >= mass || DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive || MaterialSelector.AllowInsufficientMaterialBuild())
 					return mat;
 			}
-			SgtLogger.error("could not find viable replacementTag for materialType " + materialType);
+			SgtLogger.warning("could not find viable replacementTag for materialType " + materialType);
 			return materialType;
 		}
 
-		public static List<Tag> GetValidMaterials(Tag materialTypeTag, bool omitDisabledElements = true)
+		public static List<Tag> GetValidMaterials(Tag materialTypeTags, bool omitDisabledElements = true)
 		{
-			List<Tag> list = new List<Tag>();
-			foreach (Element element in ElementLoader.elements)
+			List<Tag> validMaterials = new List<Tag>();
+			var actualTags = materialTypeTags.ToString().Split('&');
+			foreach (var actualTag in actualTags)
 			{
-				if (!(element.disabled && omitDisabledElements)
-					&& (element.IsSolid || BlueprintsV2.ModAPI.API_Methods.AllowNonSolids(materialTypeTag))
-					&& (element.tag == materialTypeTag || element.HasTag(materialTypeTag)))
+				foreach (Element element in ElementLoader.elements)
 				{
-					list.Add(element.tag);
-				}
-			}
-
-			foreach (Tag materialBuildingElement in GameTags.MaterialBuildingElements)
-			{
-				if (!(materialBuildingElement == materialTypeTag))
-				{
-					continue;
-				}
-
-				foreach (GameObject item in Assets.GetPrefabsWithTag(materialBuildingElement))
-				{
-					KPrefabID component = item.GetComponent<KPrefabID>();
-					if (component != null && !list.Contains(component.PrefabTag))
+					if (!(element.disabled && omitDisabledElements)
+						&& (element.IsSolid || ModAPI.API_Methods.AllowNonSolids(actualTag))
+						&& (element.tag == actualTag || element.HasTag(actualTag)))
 					{
-						list.Add(component.PrefabTag);
+						validMaterials.Add(element.tag);
+					}
+				}
+
+				foreach (Tag materialBuildingElement in GameTags.MaterialBuildingElements)
+				{
+					if (!(materialBuildingElement == actualTag))
+					{
+						continue;
+					}
+
+					foreach (GameObject item in Assets.GetPrefabsWithTag(materialBuildingElement))
+					{
+						KPrefabID component = item.GetComponent<KPrefabID>();
+						if (component != null && !validMaterials.Contains(component.PrefabTag))
+						{
+							validMaterials.Add(component.PrefabTag);
+						}
 					}
 				}
 			}
-
-			return list;
+			return validMaterials;
 		}
 
 		public static class ActionKeys
