@@ -75,6 +75,9 @@ namespace _WorldGenStateCapture
 				var currentZoneType = biomeBlob.zoneType;
 				string ZoneTypeCssClass = $"zone{(int)currentZoneType}";
 
+				if (currentZoneType == ZoneType.Space)
+					continue;
+
 				foreach (var vert in biomeBlob.poly.Vertices)
 				{
 					//if the vertex is outside the asteroids bounding box, the polygon isnt part of the asteroid, skip it
@@ -96,6 +99,7 @@ namespace _WorldGenStateCapture
 
 					addedZoneType.Add(currentZoneType);
 					styleSheetBuilder.Append($".{ZoneTypeCssClass}{{fill:#{colorHex};stroke:#{colorHex};}}");
+					//styleSheetBuilder.Append($".{ZoneTypeCssClass}{{fill:#{colorHex}}}");
 				}
 
 				//add polygon for this biomeBlob to polygons-stringbuilder
