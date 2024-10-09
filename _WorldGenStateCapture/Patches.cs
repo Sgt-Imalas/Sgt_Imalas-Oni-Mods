@@ -220,6 +220,12 @@ namespace _WorldGenStateCapture
 							targetLayout = null;
 							continue;
 						}
+						//skip skewed asteroid and future clusters with a fixed seed
+						if(targetLayout.fixedCoordinate != -1)
+						{
+							targetLayout = null;
+							continue;
+						}
 					}
 				}
 				else

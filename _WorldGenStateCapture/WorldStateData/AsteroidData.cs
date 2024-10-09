@@ -1,5 +1,7 @@
 ﻿using _WorldGenStateCapture.WorldStateData.WorldPOIs;
+using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace _WorldGenStateCapture.WorldStateData
 {
@@ -14,6 +16,8 @@ namespace _WorldGenStateCapture.WorldStateData
 		public List<MapPOI> pointsOfInterest = new List<MapPOI>();
 		public List<MapGeyser> geysers = new List<MapGeyser>();
 
-		public string biomesSVG;
+		public string biomePaths;
+
+		//public Dictionary<ProcGen.SubWorld.ZoneType, List<biomePolygon>> biomes;
 	}
 }
