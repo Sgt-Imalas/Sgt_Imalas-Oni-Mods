@@ -88,11 +88,15 @@ namespace _WorldGenStateCapture.WorldStateData.WorldPOIs
 					posX = (int)position.x,
 					posY = (int)position.y,
 
-					idleTime = configuration.GetOffDuration(),
-					eruptionTime = configuration.GetOnDuration(),
+					
+					idleTime = Mathf.RoundToInt(configuration.GetOffDuration()),
+					eruptionTime = Mathf.RoundToInt(configuration.GetOnDuration()),
+
 					dormancyCycles = configuration.GetYearOffDuration() / 600f,
 					activeCycles = configuration.GetYearOnDuration() / 600f,
-					emitRate = configuration.GetEmitRate() * 1000f,					
+
+					emitRate = configuration.GetEmitRate() * 1000f,		
+					averageEmitRate = configuration.GetAverageEmission()
 				});
 			}
 		}
