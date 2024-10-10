@@ -159,13 +159,13 @@ namespace _WorldGenStateCapture
 		{
 			foreach (var poi in asteroid.pointsOfInterest)
 			{
-				poi.posY = asteroid.sizeY - (poi.posY - asteroid.offsetY);
-				poi.posX -= asteroid.offsetX;
+				poi.y = asteroid.sizeY - (poi.y - asteroid.offsetY);
+				poi.x -= asteroid.offsetX;
 			}
 			foreach (var geyser in asteroid.geysers)
 			{
-				geyser.posY = asteroid.sizeY - (geyser.posY - asteroid.offsetY);
-				geyser.posX -= asteroid.offsetX;
+				geyser.y = asteroid.sizeY - (geyser.y - asteroid.offsetY);
+				geyser.x -= asteroid.offsetX;
 			}
 		}
 

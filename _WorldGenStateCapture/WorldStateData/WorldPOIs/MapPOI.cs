@@ -3,6 +3,6 @@
 	internal class MapPOI
 	{
 		public string id;
-		public int posX, posY;
+		public int x, y;
 	}
 }

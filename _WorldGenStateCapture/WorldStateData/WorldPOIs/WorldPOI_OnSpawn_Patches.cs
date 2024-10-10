@@ -1,5 +1,6 @@
 ﻿using _WorldGenStateCapture.WorldStateData.Starmap.SpacemapItems;
 using HarmonyLib;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -85,18 +86,18 @@ namespace _WorldGenStateCapture.WorldStateData.WorldPOIs
 				ModAssets.currentGeysers[myWorld].Add(new MapGeyser()
 				{
 					id = configuration.geyserType.id,
-					posX = (int)position.x,
-					posY = (int)position.y,
+					x = (int)position.x,
+					y = (int)position.y,
 
 					
 					idleTime = Mathf.RoundToInt(configuration.GetOffDuration()),
 					eruptionTime = Mathf.RoundToInt(configuration.GetOnDuration()),
 
-					dormancyCycles = configuration.GetYearOffDuration() / 600f,
-					activeCycles = configuration.GetYearOnDuration() / 600f,
+					dormancyCycles = (float)Math.Round(configuration.GetYearOffDuration() / 600f, 1),
+					activeCycles = (float)Math.Round(configuration.GetYearOnDuration() / 600f, 1),
 
-					emitRate = configuration.GetEmitRate() * 1000f,		
-					averageEmitRate = configuration.GetAverageEmission()
+					emitRate = Mathf.RoundToInt((float)Math.Round(configuration.GetEmitRate() * 1000f, 2)),		
+					avgEmitRate = Mathf.RoundToInt((float)Math.Round(configuration.GetAverageEmission()*1000f,2))
 				});
 			}
 		}
@@ -115,14 +116,15 @@ namespace _WorldGenStateCapture.WorldStateData.WorldPOIs
 				ModAssets.currentGeysers[myWorld].Add(new MapGeyser()
 				{
 					id = OilWellConfig.ID,
-					posX = (int)position.x,
-					posY = (int)position.y,
+					x = (int)position.x,
+					y = (int)position.y,
 
 					idleTime = 0,
 					eruptionTime = 1,
-					dormancyCycles = 0f,
+					dormancyCycles = 0,
 					activeCycles = 1,
-					emitRate = 3333.33f,
+					emitRate = 3333,
+					avgEmitRate = 3333
 				});
 			}
 		}
