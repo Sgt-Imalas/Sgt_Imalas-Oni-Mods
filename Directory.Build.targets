@@ -35,10 +35,15 @@
 		  Parallel="true"
 		  OutputFile="$(TargetPath)"/>
 	</Target>
-
+  
+  <PropertyGroup>
+    <TargetFolder Condition="'$(GameLibsFolder)' != '../Lib'">$(ModFolder)\$(TargetName)_dev\</TargetFolder>
+    <TargetFolder Condition="'$(GameLibsFolder)' == '../Lib'">../Builds\$(TargetName)</TargetFolder>
+  </PropertyGroup>
+  
   <!--Copies the mod dll, the two yaml files and everything inside the ModAssets folder to the target mod folder-->
-	<Target Name="CopyModsToDevFolder" AfterTargets="ILRepack" Condition="'$(AssemblyName)' != 'UtilLibs' and '$(AssemblyName)' != 'Util_TwitchIntegrationLib' and '$(GameLibsFolder)' != '../Lib'" >
-		
+	<Target Name="CopyModsToDevFolder" AfterTargets="ILRepack" Condition="'$(AssemblyName)' != 'UtilLibs' and '$(AssemblyName)' != 'Util_TwitchIntegrationLib'">
+
 		<Message Text="Executing CopyDLLs task" Importance="High" />
 
 		<ItemGroup>
@@ -51,11 +56,11 @@
 			$(TargetDir)mod.yaml;
 			$(TargetDir)mod_info.yaml;"
 		  
-		  DestinationFolder="$(ModFolder)\$(TargetName)_dev\" />
+		  DestinationFolder="$(TargetFolder)"/>
 
-		<Message Text="Copy ModAssets to $(ModFolder)\$(TargetName)_dev\" Importance="High"></Message>
+		<Message Text="Copy ModAssets to $(TargetFolder)\" Importance="High"></Message>
 		
-		<Copy SourceFiles="@(ModAssets)" DestinationFolder="$(ModFolder)\$(TargetName)_dev\%(RecursiveDir)" SkipUnchangedFiles="false" />
+		<Copy SourceFiles="@(ModAssets)" DestinationFolder="$(TargetFolder)\%(RecursiveDir)" SkipUnchangedFiles="false" />
 		
 		<Message Text="Copied build files" Importance="High" />
 		
