@@ -111,6 +111,10 @@
 			<HintPath>$(GameLibsFolder)/UnityEngine.UIModule.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
+    <Reference Include="UnityEngine.WebRequestModule">
+      <HintPath>$(GameLibsFolder)/UnityEngine.UnityWebRequestModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
 		<Reference Include="com.rlabrecque.steamworks.net">
 			<HintPath>$(GameLibsFolder)\com.rlabrecque.steamworks.net.dll</HintPath>
 			<Private>false</Private>
