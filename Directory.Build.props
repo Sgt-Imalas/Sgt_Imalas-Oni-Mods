@@ -42,16 +42,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Reference Include="Assembly-CSharp">
+    <Reference Include="Assembly-CSharp">
       <!--Publicized version, run "Clean" on the 1_CycleComma project once to generate this-->
       <HintPath>$(AssemblyPublicized)</HintPath>
-			<Private>False</Private>
-		</Reference>
-		<Reference Include="Assembly-CSharp-firstpass">
+      <HintPath Condition="'$(GameLibsFolder)' == '../Lib'">$(GameLibsFolder)/Assembly-CSharp_public.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Assembly-CSharp-firstpass">
       <!--Publicized version, run "Clean" on the 1_CycleComma project once to generate this-->
       <HintPath>$(AssemblyFirstpassPublicized)</HintPath>
-			<Private>False</Private>
-		</Reference>
+      <HintPath Condition="'$(GameLibsFolder)' == '../Lib'">$(GameLibsFolder)/Assembly-CSharp-firstpass_public.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
 		<Reference Include="0Harmony">
 			<HintPath>$(GameLibsFolder)/0Harmony.dll</HintPath>
 			<Private>False</Private>

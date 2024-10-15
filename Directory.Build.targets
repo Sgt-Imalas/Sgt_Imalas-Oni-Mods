@@ -89,6 +89,8 @@
     $(GameLibsFolder)/Assembly-CSharp.dll $(GameLibsFolder)/Assembly-CSharp-firstpass.dll $(GameLibsFolder)/0Harmony.dll ^
     $(GameLibsFolder)/FMODUnity.dll $(GameLibsFolder)/Newtonsoft.Json.dll $(GameLibsFolder)/UnityEngine.dll ^
     $(GameLibsFolder)/UnityEngine.CoreModule.dll $(GameLibsFolder)/UnityEngine.ImageConversionModule.dll ^
+    $(GameLibsFolder)/UnityEngine.AssetBundleModule.dll $(GameLibsFolder)/UnityEngine.PhysicsModule.dll ^
+    $(GameLibsFolder)/UnityEngine.Physics2DModule.dll $(GameLibsFolder)/UnityEngine.ParticleSystemModule.dll ^ 
     $(GameLibsFolder)/UnityEngine.InputLegacyModule.dll $(GameLibsFolder)/Unity.TextMeshPro.dll ^
     $(GameLibsFolder)/UnityEngine.TextRenderingModule.dll $(GameLibsFolder)/UnityEngine.UI.dll ^
     $(GameLibsFolder)/UnityEngine.UIModule.dll $(GameLibsFolder)/UnityEngine.UnityWebRequestModule.dll ^
