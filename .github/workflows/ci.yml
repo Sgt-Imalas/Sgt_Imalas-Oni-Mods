@@ -1,0 +1,20 @@
+name: CI on reference Oxygen Not Included assemblies
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v2
+    - name: NuGet Restore
+      run: msbuild -t:restore -property:Configuration=Release
+    - name: Build project
+      run: msbuild -t:rebuild -property:Configuration=Release -property:GameLibsFolder="../Lib"
