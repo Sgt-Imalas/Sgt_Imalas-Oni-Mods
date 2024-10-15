@@ -37,7 +37,7 @@
 	</Target>
 
   <!--Copies the mod dll, the two yaml files and everything inside the ModAssets folder to the target mod folder-->
-	<Target Name="CopyModsToDevFolder" AfterTargets="ILRepack" Condition="'$(AssemblyName)' != 'UtilLibs' and '$(AssemblyName)' != 'Util_TwitchIntegrationLib'">
+	<Target Name="CopyModsToDevFolder" AfterTargets="ILRepack" Condition="'$(AssemblyName)' != 'UtilLibs' and '$(AssemblyName)' != 'Util_TwitchIntegrationLib' and '$(GameLibsFolder)' != '../Lib'" >
 		
 		<Message Text="Executing CopyDLLs task" Importance="High" />
 
@@ -62,13 +62,13 @@
 	</Target>
 
   <!--Create folder for publicized dlls if not existing-->
-  <Target Name="PubliciseMKDIR" BeforeTargets ="Clean">
+  <Target Name="PubliciseMKDIR" BeforeTargets ="Clean" Condition="'$(GameLibsFolder)' != '../Lib' ">
     <MakeDir
             Directories="$(SolutionDir)\PublicisedAssembly"/>
   </Target>
 
   <!--Creates publicized dlls from the game dlls-->
-  <Target Name="Publicise" AfterTargets="Clean" Condition="'$(AssemblyName)' == 'CycleComma'">
+  <Target Name="Publicise" AfterTargets="Clean" Condition="'$(AssemblyName)' == 'CycleComma' and '$(GameLibsFolder)' != '../Lib' ">
     <ItemGroup>
       <PubliciseInputAssemblies
 			   Include="
