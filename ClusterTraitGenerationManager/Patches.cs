@@ -1404,17 +1404,31 @@ namespace ClusterTraitGenerationManager
 		[HarmonyPatch(typeof(MobSettings), "GetMob")]
 		public static class MobSettings_GetMob_Patch
 		{
-			public static HashSet<string> patched = new HashSet<string>();
+			static Dictionary<string,MinMax> OriginalMobModifiers = new Dictionary<string,MinMax>();
 
 			public static void Postfix(string id, ref Mob __result)
 			{
-				if (__result == null || Mathf.Approximately(WorldSizeMultiplier, 1))
+				if (__result == null)
 					return;
-				string str = __result.prefabName ?? __result.name;
-				if (str == null || Patches.MobSettings_GetMob_Patch.patched.Contains(str))
+
+				string prefabID = __result.prefabName ?? __result.name;
+
+				if (prefabID == null)
 					return;
-				Patches.MobSettings_GetMob_Patch.patched.Add(str);
-				Traverse.Create((object)__result).Property("density").SetValue((object)new ProcGen.MinMax(__result.density.min * WorldSizeMultiplier, __result.density.max * WorldSizeMultiplier));
+
+				if (Mathf.Approximately(WorldSizeMultiplier, 1))
+				{
+					if (OriginalMobModifiers.TryGetValue(prefabID, out var value))
+					{
+						__result.density = value;
+						OriginalMobModifiers.Remove(prefabID);
+					}
+					return;
+				}
+				if (!OriginalMobModifiers.ContainsKey(prefabID))
+					OriginalMobModifiers.Add(prefabID, __result.density);
+
+				__result.density = new(__result.density.min * WorldSizeMultiplier, __result.density.max * WorldSizeMultiplier);
 			}
 		}
 
