@@ -1408,7 +1408,7 @@ namespace ClusterTraitGenerationManager
 
 			public static void Postfix(string id, ref Mob __result)
 			{
-				if (__result == null)
+				if (__result == null || !CGSMClusterManager.LoadCustomCluster)
 					return;
 
 				string prefabID = __result.prefabName ?? __result.name;
@@ -1416,19 +1416,22 @@ namespace ClusterTraitGenerationManager
 				if (prefabID == null)
 					return;
 
+				
 				if (Mathf.Approximately(WorldSizeMultiplier, 1))
 				{
 					if (OriginalMobModifiers.TryGetValue(prefabID, out var value))
 					{
 						__result.density = value;
-						OriginalMobModifiers.Remove(prefabID);
+						//OriginalMobModifiers.Remove(prefabID);
 					}
 					return;
 				}
 				if (!OriginalMobModifiers.ContainsKey(prefabID))
 					OriginalMobModifiers.Add(prefabID, __result.density);
 
-				__result.density = new(__result.density.min * WorldSizeMultiplier, __result.density.max * WorldSizeMultiplier);
+				var original = OriginalMobModifiers[prefabID];
+
+				__result.density = new(original.min * WorldSizeMultiplier, original.max * WorldSizeMultiplier);
 			}
 		}
 
