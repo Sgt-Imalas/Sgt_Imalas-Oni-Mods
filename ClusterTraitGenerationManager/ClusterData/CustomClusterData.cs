@@ -33,10 +33,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 			SgtLogger.l("Fetching original cluster id for CGM custom cluster");
 
 			bool spacedOutActive = DlcManager.IsExpansion1Active();
-			if (OriginalClusterID != null && OriginalClusterID.Length > 0)
-			{
-				return OriginalClusterID;
-			}
+
 			//hardcode one of the ceres clusters to handle all of the extra ceres stuff (geothermal pump, skins, music etc),
 			//so that it wont throw errors in these saves if the mod is removed.
 			//goes in effect if warp or outer ceres is used
@@ -52,7 +49,6 @@ namespace ClusterTraitGenerationManager.ClusterData
 			return spacedOutActive ? "expansion1::clusters/SandstoneStartCluster" : "clusters/SandstoneDefault"; //final fallback
 		}
 
-		public string OriginalClusterID;
 		[JsonIgnore] public bool HasCeresAsteroid => GetAllPlanets().Any(planet => planet.DlcID == DlcManager.DLC2_ID || planet.id.ToUpperInvariant().Contains("CERES"));
 		[JsonIgnore] public bool HasCeresStarter => StarterPlanet != null && (StarterPlanet.DlcID == DlcManager.DLC2_ID || StarterPlanet.id.ToUpperInvariant().Contains("CERES"));
 		[JsonIgnore] public bool HasTear => POIs != null && POIs.Any(item => item.Value.placementPOI != null && item.Value.placementPOI.pois != null && item.Value.placementPOI.pois.Contains("TemporalTear"));
@@ -90,35 +86,42 @@ namespace ClusterTraitGenerationManager.ClusterData
 		public Dictionary<int, List<string>> VanillaStarmapItems = new Dictionary<int, List<string>>();
 		public int MaxStarmapDistance;
 
-		public bool HasStarmapItem(string id, out StarmapItem item1)
+		public bool HasStarmapItem(string id, out StarmapItem starmapItem)
 		{
 			if (id == null || id.Length == 0)
 			{
-				item1 = null;
+				starmapItem = null;
 				return false;
 			}
+			if (IsWorldMixingAsteroid(id)
+				&& PlanetoidDict.TryGetValue(id, out var mixingAsteroid) 
+				&& MixingWorldsWithTarget.TryGetValue(mixingAsteroid, out var mixingTarget))
+			{
+				id = mixingTarget.id;
+			}
+
 
 			if (StarterPlanet != null && StarterPlanet.id == id)
 			{
-				item1 = StarterPlanet;
+				starmapItem = StarterPlanet;
 				return true;
 			}
 			else if (WarpPlanet != null && WarpPlanet.id == id)
 			{
-				item1 = WarpPlanet;
+				starmapItem = WarpPlanet;
 				return true;
 			}
 			else if (OuterPlanets.ContainsKey(id))
 			{
-				item1 = OuterPlanets[id];
+				starmapItem = OuterPlanets[id];
 				return true;
 			}
 			else if (POIs.ContainsKey(id))
 			{
-				item1 = POIs[id];
+				starmapItem = POIs[id];
 				return true;
 			}
-			if (PlanetoidDict.TryGetValue(id, out item1))
+			if (PlanetoidDict.TryGetValue(id, out starmapItem))
 			{
 				return false;
 			}

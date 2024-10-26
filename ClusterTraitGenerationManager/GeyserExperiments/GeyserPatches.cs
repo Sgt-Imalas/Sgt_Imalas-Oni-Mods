@@ -193,7 +193,7 @@ namespace ClusterTraitGenerationManager.GeyserExperiments
                             new CodeInstruction(OpCodes.Call, m_InjectedMethod)
 						});
 
-			TranspilerHelper.PrintInstructions(codes);
+			//TranspilerHelper.PrintInstructions(codes);
 
 			return codes;
 		}

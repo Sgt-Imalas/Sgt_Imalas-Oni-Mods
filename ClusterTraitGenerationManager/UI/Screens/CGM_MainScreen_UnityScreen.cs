@@ -2919,6 +2919,8 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				AsteroidSizeLabel.text = UIUtils.ColorText(ASTEROIDSIZE.DESCRIPTOR.LABEL, Warning3);
 				AsteroidSizeTooltip.SetSimpleTooltip(UIUtils.ColorText(ASTEROIDSIZE.BIOMEMISSINGWARNING, Warning3));
 			}
+			//geyser count scales with size
+			RefreshGeyserOverrides();
 		}
 		void PercentageLargerThanTerra(StarmapItem current, out int dimensions)
 		{

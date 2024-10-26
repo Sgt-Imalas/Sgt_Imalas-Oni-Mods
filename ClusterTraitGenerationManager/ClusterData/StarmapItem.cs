@@ -206,9 +206,10 @@ namespace ClusterTraitGenerationManager.ClusterData
 		//int CustomWorldSizeX = -1, CustomWorldSizeY = -1;
 		WorldSizePresets SizePreset = WorldSizePresets.Normal;
 		WorldRatioPresets RatioPreset = WorldRatioPresets.Normal;
-		[JsonIgnore] public bool DefaultDimensions => SizePreset == WorldSizePresets.Normal && RatioPreset == WorldRatioPresets.Normal && !UsingCustomDimensions;
+		[JsonIgnore] public bool DefaultDimensions => IsMixed ? MixingAsteroidSource.DefaultDimensions : SizePreset == WorldSizePresets.Normal && RatioPreset == WorldRatioPresets.Normal && !UsingCustomDimensions;
 		[JsonIgnore] public WorldSizePresets CurrentSizePreset => IsMixed ? MixingAsteroidSource.SizePreset : SizePreset;
 		[JsonIgnore] public WorldRatioPresets CurrentRatioPreset => IsMixed ? MixingAsteroidSource.RatioPreset : RatioPreset;
+
 
 		[JsonIgnore]
 		public float CurrentSizeMultiplier =>
@@ -501,19 +502,19 @@ namespace ClusterTraitGenerationManager.ClusterData
 			//XYratio = (float)world.worldsize.X / (float)world.worldsize.Y;
 
 
-			string filepath = world.filePath;
+			string worldId = world.filePath;
 			///Dynamically created planets, check for original instead
-			if (ModAssets.ModPlanetOriginPaths.ContainsKey(filepath))
-				filepath = ModAssets.ModPlanetOriginPaths[filepath];
+			if (ModAssets.ModPlanetOriginPaths.ContainsKey(worldId))
+				worldId = ModAssets.ModPlanetOriginPaths[worldId];
 
-			string path = SettingsCache.RewriteWorldgenPathYaml(filepath);
 
-			if (ModAssets.IsModdedAsteroid(path, out var sourceMod))
+			if (ModAssets.IsModdedAsteroid(worldId, out var sourceMod))
 			{
 				this.ModName = sourceMod.title;
+				SgtLogger.l($"Created Starmap item for {worldId} from {ModName}");
 			}
 
-			SettingsCache.GetDlcIdAndPath(filepath, out var dlcId, out _);
+			SettingsCache.GetDlcIdAndPath(worldId, out var dlcId, out _);
 			this.AssignDlc(dlcId);
 			return this;
 		}
@@ -685,7 +686,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 				{
 					if (rule.names != null && rule.names.Count() == 1 && rule.names[0] == "geysers/generic")
 					{
-						totalCountRules += rule.times;
+						totalCountRules += Mathf.FloorToInt(rule.times*CurrentSizeMultiplier);
 					}
 				}
 			}
@@ -705,12 +706,17 @@ namespace ClusterTraitGenerationManager.ClusterData
 						{
 							if (rule.names != null && rule.names.Count() == 1 && rule.names[0] == "geysers/generic")
 							{
-								totalCountTraits += rule.times;
+								totalCountTraits += Mathf.FloorToInt(rule.times);
 							}
 						}
 					}
 				}
 			}
+			///TODO!!!!
+			//Implement Size Scaling!
+			//is 
+			//potentially 
+			//implemented, todo test!
 			return totalCountTraits + totalCountRules;
 		}
 

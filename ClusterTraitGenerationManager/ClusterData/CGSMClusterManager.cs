@@ -1607,14 +1607,12 @@ namespace ClusterTraitGenerationManager.ClusterData
 				return true;
 			}
 
-			string sourcePath = SettingsCache.RewriteWorldgenPathYaml(world);
 			if (ModAssets.ModPlanetOriginPaths.TryGetValue(world, out var moddedPath))
 			{
 				world = moddedPath;
-				sourcePath = SettingsCache.RewriteWorldgenPathYaml(moddedPath);
 			}
 
-			if (ModAssets.IsModdedAsteroid(sourcePath, out var mod) || worldItem.isModded)
+			if (ModAssets.IsModdedAsteroid(world, out var mod) || worldItem.isModded)
 			{
 				//SgtLogger.l(world + " is modded");
 				return SkipModdedWorld(world, mod);

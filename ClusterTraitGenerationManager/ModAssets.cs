@@ -1,6 +1,7 @@
 ﻿using ClusterTraitGenerationManager.ClusterData;
 using ClusterTraitGenerationManager.FixedTraitExperiment;
 using ClusterTraitGenerationManager.GeyserExperiments;
+using ClusterTraitGenerationManager.ModIntegrations;
 using Klei;
 using MonoMod.Utils;
 using ProcGen;
@@ -273,8 +274,14 @@ namespace ClusterTraitGenerationManager
 			return null;
 		}
 
-		public static bool IsModdedAsteroid(string filepath, out KMod.Mod sourceMod)
+		public static bool IsModdedAsteroid(string worldId, out KMod.Mod sourceMod)
 		{
+			if (MoonletAPI.IsMoonletMod(worldId, out sourceMod))
+			{
+				return true;
+			}
+			var filepath = SettingsCache.RewriteWorldgenPathYaml(worldId);
+
 			sourceMod = null;
 			var directory = FileSystem.file_sources.FirstOrDefault(item => item.FileExists(filepath));
 			if (directory != null && directory != default)
@@ -419,7 +426,7 @@ namespace ClusterTraitGenerationManager
 			int num = 0;
 			num += seed;
 
-			SgtLogger.l("getting generic geyser at " + position.ToString() + ", seed :" + seed);
+			//SgtLogger.l("getting generic geyser at " + position.ToString() + ", seed :" + seed);
 			string geyserID = AllGenericGeysers[new KRandom(num + position.x + position.y).Next(0, AllGenericGeysers.Count)];
 
 			if (geyserBlacklist != null && geyserBlacklist.Count > 0 && geyserBlacklist.Contains(geyserID))

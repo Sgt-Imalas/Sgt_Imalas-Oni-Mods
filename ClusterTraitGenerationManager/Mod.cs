@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using ClusterTraitGenerationManager.ModIntegrations;
+using HarmonyLib;
 using Klei;
 using KMod;
 using PeterHan.PLib.Core;
@@ -12,9 +13,11 @@ namespace ClusterTraitGenerationManager
 {
 	public class Mod : UserMod2
 	{
+		public static KMod.Mod Instance;
 		public static Harmony harmonyInstance;
 		public override void OnLoad(Harmony harmony)
 		{
+			Instance = this.mod;
 			PUtil.InitLibrary(false);
 			new POptions().RegisterOptions(this, typeof(Config));
 
@@ -42,6 +45,9 @@ namespace ClusterTraitGenerationManager
 		{
 			//SgtLogger.l("CGM_OnAllModsLoaded");
 			base.OnAllModsLoaded(harmony, mods);
+			MoonletAPI.MoonletInitialized = MoonletAPI.InitializeIntegration();
+
+
 			CompatibilityNotifications.FlagLoggingPrevention(mods);
 			CompatibilityNotifications.RemoveCrashingIncompatibility(harmony, mods, "CGSMMerged");
 			CompatibilityNotifications.RemoveCrashingIncompatibility(harmony, mods, "WGSM");

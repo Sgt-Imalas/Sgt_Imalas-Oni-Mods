@@ -358,48 +358,6 @@ namespace ClusterTraitGenerationManager
 		}
 
 
-		/// <summary>
-		/// CoreTraitFix_SolarSystemWorlds
-		/// </summary>
-		[HarmonyPatch(typeof(SettingsCache))]
-		[HarmonyPatch(nameof(SettingsCache.LoadWorldTraits))]
-		public static class TraitInitPostfix_ExclusionFix
-		{
-			public static void Postfix()
-			{
-				string coreKey = string.Empty;
-				string cryoVolcano = string.Empty;
-
-
-				foreach (var trait in SettingsCache.GetCachedWorldTraitNames())
-				{
-					if (trait.Contains("IronCore"))
-						coreKey = trait;
-
-					if (trait.Contains(SpritePatch.missingTexture_CryoVolcanoes))
-						cryoVolcano = trait;
-				}
-
-				var IronCoreTrait = SettingsCache.GetCachedWorldTrait(coreKey, false);
-				if (IronCoreTrait != null)
-				{
-					IronCoreTrait.colorHex = "B7410E"; /// BA5C3F  or B7410E
-					if (IronCoreTrait.exclusiveWithTags == null)
-						IronCoreTrait.exclusiveWithTags = new List<string>();
-					if (!IronCoreTrait.exclusiveWithTags.Contains("CoreTrait"))
-						IronCoreTrait.exclusiveWithTags.Add("CoreTrait");
-				}
-
-				var cryoVolcanoTrait = SettingsCache.GetCachedWorldTrait(cryoVolcano, false);
-				if (cryoVolcanoTrait != null)
-				{
-					///Light blue
-					cryoVolcanoTrait.colorHex = "91D8F0";
-				}
-			}
-		}
-
-
 
 		///// <summary>
 		///// make WorldMixing (not subworld mixing!) disable with cgm cluster
@@ -440,14 +398,6 @@ namespace ClusterTraitGenerationManager
 		[HarmonyPatch(nameof(Worlds.LoadReferencedWorlds))]
 		public static class LoadAdditionalWorlds
 		{
-			const string DLC_WorldNamePrefix = "expansion1::worlds/";
-			const string Base_WorldNamePrefix = "worlds/";
-
-			/// <summary>
-			/// these got randomly removed on 26.07.2024, breaking existing presets.
-			/// readding them while they still exist to fix those
-			/// </summary>
-
 			public static void Prefix(ISet<string> referencedWorlds)
 			{
 				if (!DlcManager.IsExpansion1Active())
@@ -455,15 +405,14 @@ namespace ClusterTraitGenerationManager
 
 				SgtLogger.l("checking if any moonlets should be added");
 				List<string> additionalWorlds = new List<string>();
-				foreach (var item in referencedWorlds)
+				foreach (var world in referencedWorlds)
 				{
-					string path = SettingsCache.RewriteWorldgenPathYaml(item);
-					if (ModAssets.IsModdedAsteroid(path, out _))
+					if (ModAssets.IsModdedAsteroid(world, out _))
 						continue;
 
-					if (ModAssets.Moonlets.Any(item.Contains))
+					if (ModAssets.Moonlets.Any(world.Contains))
 					{
-						string outerWorld = item.Replace("Start", string.Empty).Replace("Warp", string.Empty);
+						string outerWorld = world.Replace("Start", string.Empty).Replace("Warp", string.Empty);
 						string startWorld = outerWorld + "Start", warpWorld = outerWorld + "Warp";
 						if (!referencedWorlds.Contains(outerWorld) && !additionalWorlds.Contains(outerWorld))
 							additionalWorlds.Add(outerWorld);
@@ -472,7 +421,6 @@ namespace ClusterTraitGenerationManager
 						if (!referencedWorlds.Contains(startWorld) && !additionalWorlds.Contains(startWorld))
 							additionalWorlds.Add(startWorld);
 					}
-
 				}
 				foreach (var item in additionalWorlds)
 				{
@@ -1150,8 +1098,6 @@ namespace ClusterTraitGenerationManager
 		{
 			private static void Prefix(WorldGen __instance)
 			{
-				if (!CGSMClusterManager.LoadCustomCluster)
-					return;
 				if (__instance != null && __instance.Settings != null)
 				{
 					borderSizeMultiplier = Mathf.Min(1, GetMultipliedSizeFloat(1f, __instance.Settings));
@@ -1166,6 +1112,9 @@ namespace ClusterTraitGenerationManager
 
 		public static float GetMultipliedSizeFloat(float inputNumber, WorldGenSettings worldgen)
 		{
+			if (!CGSMClusterManager.LoadCustomCluster)
+				return inputNumber;
+
 
 			if (worldgen != null && worldgen.world != null && worldgen.world.filePath != null &&
 				CGSMClusterManager.CustomCluster.HasStarmapItem(worldgen.world.filePath, out var item)
@@ -1185,6 +1134,9 @@ namespace ClusterTraitGenerationManager
 		}
 		public static int GetMultipliedSizeInt(int inputNumber, WorldGenSettings worldgen)
 		{
+
+			if (!CGSMClusterManager.LoadCustomCluster)
+				return inputNumber;
 
 			if (worldgen != null && worldgen.world != null && worldgen.world.filePath != null &&
 				CGSMClusterManager.CustomCluster.HasStarmapItem(worldgen.world.filePath, out var item)
@@ -1238,7 +1190,13 @@ namespace ClusterTraitGenerationManager
 					if (!OriginalWorldTraitScales.ContainsKey(name))
 						OriginalWorldTraitScales.Add(name, __result.worldTraitScale);
 
-					if (CGSMClusterManager.CustomCluster != null && CGSMClusterManager.CustomCluster.HasStarmapItem(name, out var item) && !item.DefaultDimensions)
+					SgtLogger.l("size check for " + name);
+
+					SgtLogger.l($"{CGSMClusterManager.LoadCustomCluster} && {CGSMClusterManager.CustomCluster != null} && {CGSMClusterManager.CustomCluster.HasStarmapItem(name, out var item2)} && {item2.CustomPlanetDimensions.ToString()}");
+
+
+					if (CGSMClusterManager.LoadCustomCluster && CGSMClusterManager.CustomCluster != null && CGSMClusterManager.CustomCluster.HasStarmapItem(name, out var item) && !item.DefaultDimensions
+						)
 					{
 						if (__result.worldsize != item.CustomPlanetDimensions)
 						{
@@ -1349,8 +1307,6 @@ namespace ClusterTraitGenerationManager
 										WorldTemplateRule.times = 0;
 									}
 								}
-
-
 
 								//WorldTemplateRule.times = Math.Max(1, Mathf.RoundToInt(((float)OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names]) * (float)item.CurrentSizePreset / 100f));
 								//SgtLogger.l(string.Format("Adjusting geyser roll amount to worldsize for {0}; {1} -> {2}", WorldTemplateRule.names.FirstOrDefault(), OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names], WorldTemplateRule.times), item.id);
