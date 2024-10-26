@@ -93,11 +93,16 @@ namespace ClusterTraitGenerationManager.ClusterData
 				starmapItem = null;
 				return false;
 			}
+
 			if (IsWorldMixingAsteroid(id)
 				&& PlanetoidDict.TryGetValue(id, out var mixingAsteroid) 
 				&& MixingWorldsWithTarget.TryGetValue(mixingAsteroid, out var mixingTarget))
 			{
-				id = mixingTarget.id;
+				if(HasStarmapItem(mixingTarget.id, out _))
+				{
+					starmapItem = mixingAsteroid;
+					return true;
+				}
 			}
 
 

@@ -1190,13 +1190,7 @@ namespace ClusterTraitGenerationManager
 					if (!OriginalWorldTraitScales.ContainsKey(name))
 						OriginalWorldTraitScales.Add(name, __result.worldTraitScale);
 
-					SgtLogger.l("size check for " + name);
-
-					SgtLogger.l($"{CGSMClusterManager.LoadCustomCluster} && {CGSMClusterManager.CustomCluster != null} && {CGSMClusterManager.CustomCluster.HasStarmapItem(name, out var item2)} && {item2.CustomPlanetDimensions.ToString()}");
-
-
-					if (CGSMClusterManager.LoadCustomCluster && CGSMClusterManager.CustomCluster != null && CGSMClusterManager.CustomCluster.HasStarmapItem(name, out var item) && !item.DefaultDimensions
-						)
+					if (CGSMClusterManager.LoadCustomCluster && CGSMClusterManager.CustomCluster != null && CGSMClusterManager.CustomCluster.HasStarmapItem(name, out var item) && !item.DefaultDimensions)
 					{
 						if (__result.worldsize != item.CustomPlanetDimensions)
 						{
