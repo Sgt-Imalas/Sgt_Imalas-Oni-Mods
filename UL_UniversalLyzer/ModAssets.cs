@@ -97,7 +97,7 @@ namespace UL_UniversalLyzer
 				: new ElementConverter.OutputElement[]
 				{
 						new ElementConverter.OutputElement(0.622f, SimHashes.Oxygen, UtilMethods.GetKelvinFromC(Config.Instance.minOutputTemp_brine), useEntityTemperature: false, storeOutput: IsPipedAndPipedBuildingsActive, defaultLyzerOffset.x, defaultLyzerOffset.y),
-						new ElementConverter.OutputElement(0.78f, SimHashes.Hydrogen, UtilMethods.GetKelvinFromC(Config.Instance.minOutputTemp_brine), useEntityTemperature: false, storeOutput: IsPipedAndPipedBuildingsActive, defaultLyzerOffset.x, defaultLyzerOffset.y),
+						new ElementConverter.OutputElement(0.078f, SimHashes.Hydrogen, UtilMethods.GetKelvinFromC(Config.Instance.minOutputTemp_brine), useEntityTemperature: false, storeOutput: IsPipedAndPipedBuildingsActive, defaultLyzerOffset.x, defaultLyzerOffset.y),
 						new ElementConverter.OutputElement(0.300f, SimHashes.ChlorineGas, UtilMethods.GetKelvinFromC(Config.Instance.minOutputTemp_brine), useEntityTemperature: false, storeOutput: IsPipedAndPipedBuildingsActive, tertiaryGasOffset.x, tertiaryGasOffset.y)
 				}
 			,
