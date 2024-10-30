@@ -29,8 +29,40 @@ namespace ElementalWood
 				{
 					wood.highTempTransitionTarget = nameof(SimHashes.Carbon);
 					wood.highTemp = UtilMethods.GetKelvinFromC(200);
-					SgtLogger.l("Changed wood transition target to "+wood.highTempTransitionTarget);
+					SgtLogger.l("Changed wood transition target to " + wood.highTempTransitionTarget);
 				}
+			}
+		}
+
+		/// <summary>
+		/// add kiln recipe for coal
+		/// </summary>
+		[HarmonyPatch(typeof(KilnConfig))]
+		[HarmonyPatch(nameof(KilnConfig.ConfigureRecipes))]
+		public static class Patch_KilnConfig_ConfigureRecipes
+		{
+			public static void Postfix()
+			{
+				Tag coalTag = SimHashes.Carbon.CreateTag();
+				ComplexRecipe.RecipeElement[] ingredients =
+				[
+					new ComplexRecipe.RecipeElement(SimHashes.WoodLog.CreateTag(), 100f)
+				];
+				ComplexRecipe.RecipeElement[] results =
+				[
+					new ComplexRecipe.RecipeElement(coalTag, 50f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				];
+				string obsolete_id3 = ComplexRecipeManager.MakeObsoleteRecipeID(KilnConfig.ID, coalTag);
+				string recipeID = ComplexRecipeManager.MakeRecipeID(KilnConfig.ID, ingredients, results);
+				new ComplexRecipe(recipeID, ingredients, results)
+				{
+					time = 40f,
+					description = string.Format(STRINGS.BUILDINGS.PREFABS.EGGCRACKER.RECIPE_DESCRIPTION, ElementLoader.FindElementByHash(SimHashes.WoodLog).name, ElementLoader.FindElementByHash(SimHashes.Carbon).name),
+					fabricators = new List<Tag> { TagManager.Create(KilnConfig.ID) },
+					nameDisplay = ComplexRecipe.RecipeNameDisplay.IngredientToResult,
+					sortOrder = 299
+				};
+				ComplexRecipeManager.Get().AddObsoleteIDMapping(obsolete_id3, recipeID);
 			}
 		}
 	}
