@@ -48,6 +48,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 			buildingDef.AddLogicPowerPort = false;
 			buildingDef.EnergyConsumptionWhenActive = 120f;
 
+			buildingDef.ViewMode = OverlayModes.Logic.ID;
 			buildingDef.SceneLayer = Grid.SceneLayer.Building;
 
 			buildingDef.PermittedRotations = PermittedRotations.Unrotatable;
