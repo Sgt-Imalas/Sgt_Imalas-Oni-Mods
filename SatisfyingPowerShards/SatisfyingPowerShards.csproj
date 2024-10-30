@@ -1,0 +1,112 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<!-- General Package Properties -->
+	<PropertyGroup>
+		<PackageId>SatisfyingPowerShards</PackageId>
+		<Version>1.0.0</Version>
+		<Authors>Sgt_Imalas</Authors>
+		<Copyright>2022-2024 Sgt_Imalas</Copyright>
+		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
+	</PropertyGroup>
+
+	<!-- Build Properties -->
+	<PropertyGroup>
+		<TargetFramework>net471</TargetFramework>
+		<Configurations>Debug;Release</Configurations>
+		<AssemblyName>SatisfyingPowerShards</AssemblyName>
+		<RootNamespace>SatisfyingPowerShards</RootNamespace>
+		<IsMod>true</IsMod>
+		<GenerateMetadata>true</GenerateMetadata>
+		<IsPacked>true</IsPacked>
+	</PropertyGroup>
+
+
+	<!-- Mod Info -->
+	<PropertyGroup>
+		<ModName>Power Shards</ModName>
+		<ModDescription></ModDescription>
+		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
+		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
+		<APIVersion>2</APIVersion>
+	</PropertyGroup>
+
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<OutDir>bin</OutDir>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<LangVersion>preview</LangVersion>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <Folder Include="Defs\Items\" />
+	  <Folder Include="ModAssets\anim\assets\caterpillar_yellow\" />
+	  <Folder Include="ModAssets\anim\assets\caterpillar_purple\" />
+	  <Folder Include="ModAssets\anim\assets\baby_caterpillar_purple\" />
+	  <Folder Include="ModAssets\anim\assets\baby_caterpillar_yellow\" />
+	  <Folder Include="ModAssets\anim\assets\power_shard\" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <None Update="ModAssets\anim\assets\baby_caterpillar_purple\baby_caterpillar_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\baby_caterpillar_purple\baby_caterpillar_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\baby_caterpillar_purple\baby_caterpillar_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\baby_caterpillar_yellow\baby_caterpillar_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\baby_caterpillar_yellow\baby_caterpillar_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\baby_caterpillar_yellow\baby_caterpillar_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\caterpillar_purple\caterpillar_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\caterpillar_purple\caterpillar_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\caterpillar_purple\caterpillar_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\caterpillar_yellow\caterpillar_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\caterpillar_yellow\caterpillar_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\caterpillar_yellow\caterpillar_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\egg_caterpillar_purple\egg_caterpillar_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\egg_caterpillar_purple\egg_caterpillar_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\egg_caterpillar_purple\egg_caterpillar_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\egg_caterpillar_yellow\egg_caterpillar_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\egg_caterpillar_yellow\egg_caterpillar_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\egg_caterpillar_yellow\egg_caterpillar_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+</Project>
