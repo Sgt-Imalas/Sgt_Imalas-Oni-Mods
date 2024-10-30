@@ -6,6 +6,7 @@ namespace UL_UniversalLyzer
 {
 	[Serializable]
 	[RestartRequired]
+	[ConfigFile(SharedConfigLocation: true)]
 	[ModInfo("Universal Electrolyzer")]
 	public class Config : SingletonOptions<Config>
 	{

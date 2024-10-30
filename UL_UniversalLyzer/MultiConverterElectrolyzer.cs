@@ -73,7 +73,8 @@ namespace UL_UniversalLyzer
 
 		private bool RoomForPressure => !GameUtil.FloodFillCheck(new Func<int, MultiConverterElectrolyzer, bool>(MultiConverterElectrolyzer.OverPressure), this, Grid.OffsetCell(Grid.PosToCell(this.transform.GetPosition()), this.emissionOffset), 3, true, true);
 
-		private static bool OverPressure(int cell, MultiConverterElectrolyzer MultiConverterElectrolyzer) => (double)Grid.Mass[cell] > MultiConverterElectrolyzer.LastActiveConfig.OverpressurisationThreshold;
+		private static bool OverPressure(int cell, MultiConverterElectrolyzer MultiConverterElectrolyzer) => (double)Grid.Mass[cell] >
+			(Config.Instance.PerLiquidSettings ? MultiConverterElectrolyzer.LastActiveConfig.OverpressurisationThreshold : ModAssets.ElectrolyzerConfigurations[SimHashes.Water].OverpressurisationThreshold);
 
 		public class StatesInstance :
 		  GameStateMachine<States, StatesInstance, MultiConverterElectrolyzer, object>.GameInstance
@@ -137,7 +138,7 @@ namespace UL_UniversalLyzer
 			{
 				var lastVal = LastActiveConfig;
 
-				if (Config.Instance.PerLiquidSettings && ModAssets.ElectrolyzerConfigurations.ContainsKey(element.ElementID))
+				if (ModAssets.ElectrolyzerConfigurations.ContainsKey(element.ElementID))
 				{
 					LastActiveConfig = ModAssets.ElectrolyzerConfigurations[element.ElementID];
 				}
@@ -150,9 +151,33 @@ namespace UL_UniversalLyzer
 				{
 					CleaningUpOldAccumulators();
 					converter.consumedElements = LastActiveConfig.InputElements.ToArray();
-					converter.outputElements = LastActiveConfig.OutputElements.ToArray();
+
+					if (!Config.Instance.PerLiquidSettings)
+					{
+						var waterElements = ElectrolyzerConfigurations[SimHashes.Water].OutputElements;
+						var elements = LastActiveConfig.OutputElements;
+						ElementConverter.OutputElement[] outputs = new ElementConverter.OutputElement[elements.Count];
+						
+						for (int i = 0; i< elements.Count; i++)
+						{
+							var outputElement = elements[i];
+							outputElement.minOutputTemperature = waterElements[i].minOutputTemperature;
+							outputs[i] = outputElement;
+						}
+						converter.outputElements = outputs;
+					}
+					else
+						converter.outputElements = LastActiveConfig.OutputElements.ToArray();
 					CreatingNewAccumulators();
-					energyConsumer.BaseWattageRating = LastActiveConfig.PowerConsumption;
+
+					if (Config.Instance.PerLiquidSettings)
+					{
+						energyConsumer.BaseWattageRating = LastActiveConfig.PowerConsumption;
+					}
+					else
+					{
+						energyConsumer.BaseWattageRating = ModAssets.ElectrolyzerConfigurations[SimHashes.Water].PowerConsumption;
+					}
 				}
 			}
 		}
