@@ -208,12 +208,16 @@ namespace RebuildPreserve
 				}
 			}
 			static void OnBuildingConstructed(object data)
-			{
-				//SgtLogger.l("onbuildingconstructed");
-				if (data is BonusEvent.GameplayEventData bonusData)
-				{
+            {
+                if (data == null)
+                    return;
+                //SgtLogger.l("onbuildingconstructed");
+                if (data is BonusEvent.GameplayEventData bonusData)
+                {
+                    if (bonusData.building == null || bonusData.building.Def == null )
+                        return;
 
-					var pos = bonusData.building.NaturalBuildingCell();
+                    var pos = bonusData.building.NaturalBuildingCell();
 					var layer = bonusData.building.Def.ObjectLayer;
 					var targetPos = new Tuple<int, ObjectLayer>(pos, layer);
 

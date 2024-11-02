@@ -8,12 +8,28 @@ namespace RebuildPreserve
 	internal class BuildSettingsPreservationData : KMonoBehaviour
 	{
 		public static BuildSettingsPreservationData Instance;
-
-		[Serialize]
+				
 		public Dictionary<Tuple<int, ObjectLayer>, GameObject> ToCopyFromComponents = new();
 		[Serialize]
 		public Dictionary<Tuple<int, ObjectLayer>, string> ToCopyFromPrefabIds = new();
-		public void ReplaceEntry(Tuple<int, ObjectLayer> targetPos, GameObject newCachedObject, string prefabId)
+
+        public override void OnSpawn()
+        {
+			List<Tuple<int, ObjectLayer> > toRemove = new List<Tuple<int, ObjectLayer>>();
+			foreach (var entry in ToCopyFromComponents)
+				if (entry.Value == null)
+					toRemove.Add(entry.Key);
+
+			foreach (var entry in toRemove)
+            {
+                ToCopyFromComponents.Remove(entry);
+				ToCopyFromPrefabIds.Remove(entry);
+            }
+
+        }
+
+
+        public void ReplaceEntry(Tuple<int, ObjectLayer> targetPos, GameObject newCachedObject, string prefabId)
 		{
 			RemoveEntry(targetPos);
 			ToCopyFromComponents.Add(targetPos, newCachedObject);
