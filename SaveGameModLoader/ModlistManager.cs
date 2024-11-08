@@ -167,12 +167,10 @@ namespace SaveGameModLoader
 			public int version = 1;
 			public List<KMod.Mod> mods;
 		}
-
-		static string ModsFolder { get { return System.IO.Directory.GetParent(System.IO.Directory.GetParent(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)).FullName).ToString() + "\\"; } }
-
+				
 		public static modsJSON ReadGameMods()
 		{
-			var path = Path.Combine(ModsFolder, "mods.json");
+			var path = Path.Combine(IO_Utils.ModsFolder, "mods.json");
 			SgtLogger.l(path);
 			var fileInfo = new FileInfo(path);
 
