@@ -146,7 +146,7 @@ namespace _WorldGenStateCapture
 
 			Console.WriteLine(json);
 			//attach the coroutine to the main game object
-			Game.Instance.StartCoroutine(TryPostRequest(json));
+			//Game.Instance.StartCoroutine(TryPostRequest(json));
 		}
 
 		/// <summary>
@@ -367,40 +367,33 @@ namespace _WorldGenStateCapture
 			return color;
 		}
 
-		static IEnumerator TryPostRequest(string data)
-		{
-			// Convert JSON string to bytes
-			byte[] bodyRaw = Encoding.UTF8.GetBytes(data);
+		//static IEnumerator TryPostRequest(string data)
+		//{
+			//// Convert JSON string to bytes
+			//byte[] bodyRaw = Encoding.UTF8.GetBytes(data);
+			//using (UnityWebRequest request = new UnityWebRequest("https://oni-seed-uploader-stefan-oltmann.koyeb.app/upload", "POST"))
+			//{
+			//	request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+			//	request.downloadHandler = new DownloadHandlerBuffer();
+			//	request.SetRequestHeader("Content-Type", "application/json");
 
-			using (UnityWebRequest request = new UnityWebRequest("https://api.mapsnotincluded.org/ingest", "POST"))
-			{
+			//	// Send the API key
+			//	request.SetRequestHeader("MNI_API_KEY", "KAEofp47Zu8JRUi");
 
-				// Set the request body to the JSON byte array
-				request.uploadHandler = new UploadHandlerRaw(bodyRaw);
-				request.downloadHandler = new DownloadHandlerBuffer();
-
-				// Set the content type to JSON
-				request.SetRequestHeader("Content-Type", "application/json");
-
-				// Send the API key
-				request.SetRequestHeader("MNI_API_KEY", "KAEofp47Zu8JRUi");
-
-				Debug.Log("request.SendWebRequest() ...");
-
-				yield return request.SendWebRequest();
-
-				if (request.result != UnityWebRequest.Result.Success)
-				{
-					Debug.LogError(request.error);
-					ClearAndRestart();
-				}
-				else
-				{
-					Debug.Log("Form upload complete!");
-					ClearAndRestart();
-				}
-			}
-		}
+			//	Debug.Log("request.SendWebRequest() ...");
+			//	yield return request.SendWebRequest();
+			//	if (request.result != UnityWebRequest.Result.Success)
+			//	{
+			//		Debug.LogError(request.error);
+			//		ClearAndRestart();
+			//	}
+			//	else
+			//	{
+			//		Debug.Log("Form upload complete!");
+			//		ClearAndRestart();
+			//	}
+			//}
+		//}
 
 		public static void ClearAndRestart()
 		{
