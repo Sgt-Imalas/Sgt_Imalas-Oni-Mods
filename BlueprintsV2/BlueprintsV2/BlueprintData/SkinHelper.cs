@@ -206,12 +206,14 @@ namespace BlueprintsV2.BlueprintData
 		static bool ValidFacadeId(string facadeID)
 		{
 			return !facadeID.IsNullOrWhiteSpace() && facadeID != "DEFAULT_FACADE" && Db.GetBuildingFacades().TryGet(facadeID) != null
-				 && Db.GetBuildingFacades().Get(facadeID).IsUnlocked();
+				 && Db.GetBuildingFacades().Get(facadeID).IsUnlocked()
+				 ;
 		}
 		static bool ValidArtableId(string artableID)
 		{
 			return !artableID.IsNullOrWhiteSpace() && artableID != "Default" && Db.GetArtableStages().TryGet(artableID) != null
-				 && Db.GetArtableStages().Get(artableID).IsUnlocked();
+				 && Db.GetArtableStages().Get(artableID).IsUnlocked()
+				 ;
 		}
 	}
 }

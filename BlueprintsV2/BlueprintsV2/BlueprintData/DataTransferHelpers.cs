@@ -9,7 +9,10 @@ namespace BlueprintsV2.BlueprintData
 {
 	internal class DataTransferHelpers
 	{
-
+		//TODO:
+		//- disabled state
+		//- flower pot plant
+		//- pedestal item tag
 		internal class DataTransfer_LogicClusterLocationSensor
 		{
 			//active locations are disabled since those vary for each game
