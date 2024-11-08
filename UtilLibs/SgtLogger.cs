@@ -3,6 +3,7 @@ using KMod;
 using PeterHan.PLib.AVC;
 using System;
 using System.Reflection;
+using System.Threading;
 
 namespace UtilLibs
 {
@@ -52,7 +53,7 @@ namespace UtilLibs
 
 
 			string assemblyOverride = Assembly.GetExecutingAssembly().GetName().Name;
-			string messageToLog = string.Concat("[" + TimeZoneInfo.ConvertTimeToUtc(System.DateTime.Now).ToString("HH:mm:ss.fff") + "] [INFO] [" + assemblyOverride + "]: ", message);
+			string messageToLog = string.Concat(TimeStamp()," [INFO] [" , assemblyOverride , "]: ", message);
 
 			Console.WriteLine(messageToLog);
 
@@ -62,11 +63,12 @@ namespace UtilLibs
 		{
 			if (assemblyOverride == "")
 				assemblyOverride = Assembly.GetExecutingAssembly().GetName().Name;
-			string messageToLog = string.Concat("[" + TimeZoneInfo.ConvertTimeToUtc(System.DateTime.Now).ToString("HH:mm:ss.fff") + "] [INFO] [" + assemblyOverride + "]: ", message);
-
+			string messageToLog = string.Concat(TimeStamp(), " [INFO] [",assemblyOverride,"]: ", message);
+			//Debug.Log(messageToLog);
 			Console.WriteLine(messageToLog);
 
 		}
+		public static string TimeStamp() => string.Concat("[" + TimeZoneInfo.ConvertTimeToUtc(System.DateTime.Now).ToString("HH:mm:ss.fff"), "] [", Thread.CurrentThread.ManagedThreadId, "]");
 
 
 		public static void log(string message, string assemblyOverride = "") => debuglog(message, assemblyOverride);
