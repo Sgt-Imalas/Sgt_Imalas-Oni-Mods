@@ -12,12 +12,14 @@ namespace Rockets_TinyYetBig
 	public class Config : SingletonOptions<Config>, PeterHan.PLib.Options.IOptions
 	{
 		public static bool SpaceStationsPossible =>
+			   Instance.SpaceStationsAndTech
+			&& SpaceStationRequirements
+			;
+		public static bool SpaceStationRequirements =>
 			   Instance.CompressInteriors
 			&& Instance.EnableAdvWorldSelector
-			&& Instance.SpaceStationsAndTech
 			&& Instance.NeutroniumMaterial
 			;
-
 
 		//[Option("Vanilla+ Preset", "Load a settings preset: All the bugfixes and qol improvements, everything else disabled")]
 		//public Action<object> LoadVanillaPlusSettings { get 
@@ -353,7 +355,8 @@ namespace Rockets_TinyYetBig
 
 		public void OnOptionsChanged()
 		{
-			SpaceStationsAndTech = SpaceStationsPossible;
+			if (SpaceStationsAndTech && !SpaceStationRequirements)
+				SpaceStationsAndTech = false;
 			POptions.WriteSettings(this);
 		}
 	}

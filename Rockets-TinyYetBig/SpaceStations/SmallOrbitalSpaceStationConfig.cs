@@ -35,6 +35,8 @@ namespace Rockets_TinyYetBig.SpaceStations
 			entity.AddOrGetDef<AlertStateManager.Def>();
 			entity.AddOrGet<Notifier>();
 
+			entity.AddOrGetDef<RocketSelfDestructMonitor.Def>();
+
 			var traveler = entity.AddOrGet<ClusterTraveler>();
 			traveler.stopAndNotifyWhenPathChanges = false;
 

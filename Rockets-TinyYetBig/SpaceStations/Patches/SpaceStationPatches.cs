@@ -507,12 +507,26 @@ namespace Rockets_TinyYetBig.SpaceStations.Patches
 		{
 			public static void Postfix(GameObject target, ref bool __result)
 			{
-				if (target.TryGetComponent<SpaceStation>(out _) || target.TryGetComponent<DerelictStation>(out _))
-				{
-					__result = false;
-				}
+				//if (target.TryGetComponent<SpaceStation>(out _) || target.TryGetComponent<DerelictStation>(out _))
+				//{
+				//	__result = false;
+				//}
 			}
 		}
+		[HarmonyPatch(typeof(CraftModuleInterface))]
+		[HarmonyPatch(nameof(CraftModuleInterface.CompleteSelfDestruct))]
+		public static class FixStationSelfDestruct
+		{
+			public static bool Prefix(CraftModuleInterface __instance)
+			{
+				//skip non existing module chain and blow up world
+				__instance.m_clustercraft.SetExploding();
+				SpaceStationManager.Instance.DestroySpaceStationInteriorWorld(__instance.GetInteriorWorld().id);
+				return false;
+			}
+		}
+
+
 
 		/// <summary>
 		/// Bouncy Stations
