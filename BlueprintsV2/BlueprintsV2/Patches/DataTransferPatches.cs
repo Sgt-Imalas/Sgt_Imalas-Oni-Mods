@@ -2,6 +2,7 @@
 using HarmonyLib;
 using Klei.AI;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 
 namespace BlueprintsV2.Patches
 {
@@ -35,9 +36,15 @@ namespace BlueprintsV2.Patches
 			}
 			static void OnBuildingConstructed(object data)
 			{
+				if (data == null)
+					return;
+
 				//SgtLogger.l("onbuildingconstructed");
 				if (data is BonusEvent.GameplayEventData bonusData)
 				{
+					if (bonusData.building == null)
+						return;
+
 					var pos = bonusData.building.NaturalBuildingCell();
 					var layer = bonusData.building.Def.ObjectLayer;
 					Tuple<int, ObjectLayer> targetPos = new(pos, layer);
