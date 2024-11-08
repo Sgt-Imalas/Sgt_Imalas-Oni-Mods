@@ -6,7 +6,7 @@ namespace ClusterTraitGenerationManager.UI.SecondaryDisplayTypes
 	{
 		public SelectedGalleryStarmapItem(StarmapItem item)
 		{
-			StarmapItem = item;
+			_starmapItem = item;
 			ID = item.id;
 		}
 		public string ID { get; set; }
