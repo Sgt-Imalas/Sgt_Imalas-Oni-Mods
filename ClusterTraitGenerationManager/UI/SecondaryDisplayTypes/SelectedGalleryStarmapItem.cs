@@ -10,7 +10,14 @@ namespace ClusterTraitGenerationManager.UI.SecondaryDisplayTypes
 			ID = item.id;
 		}
 		public string ID { get; set; }
-		public StarmapItem StarmapItem { get; set; }
+		public StarmapItem StarmapItem { get
+			{
+				return _starmapItem;
+				//return _starmapItem.IsMixed ? _starmapItem.MixingAsteroidSource : _starmapItem;
+			}
+		}
+
+		private StarmapItem _starmapItem;
 		public string LocationDescription()
 		{
 			return (ModAssets.Strings.ApplyCategoryTypeToString(string.Format(STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.HEADER.LABEL, StarmapItem.DisplayName), StarmapItem.category));
