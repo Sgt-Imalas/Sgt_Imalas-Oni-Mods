@@ -203,11 +203,11 @@ namespace ConveyorTiles
 		}
 		void ReevaluateLogicState()
 		{
-			if (LogicControllsDirection && logicPorts != null && logicPorts.IsPortConnected(LogicOperationalController.PORT_ID))
+			if (logicPorts != null && logicPorts.IsPortConnected(LogicOperationalController.PORT_ID))
 			{
 				var inputBitsInt = logicPorts.GetInputValue(LogicOperationalController.PORT_ID);
 				bool shouldBeFlipped = LogicCircuitNetwork.IsBitActive(1, inputBitsInt);
-				if (shouldBeFlipped != flipped)
+				if (LogicControllsDirection && shouldBeFlipped != flipped)
 				{
 					Reverse();
 				}
