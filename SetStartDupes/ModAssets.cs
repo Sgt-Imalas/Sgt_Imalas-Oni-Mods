@@ -168,7 +168,7 @@ namespace SetStartDupes
 				carePackages.AddRange(new List<CarePackageInfo>()
 				{
 					///Pikeapple
-					new CarePackageInfo(ToePlantConfig.SEED_ID, 1f, () => Immigration.CycleCondition(24)&& Immigration.DiscoveredCondition((Tag) ToePlantConfig.ID) || Immigration.CycleCondition(500)),
+					new CarePackageInfo(HardSkinBerryPlantConfig.SEED_ID, 1f, () => Immigration.CycleCondition(24)&& Immigration.DiscoveredCondition((Tag) HardSkinBerryPlantConfig.ID) || Immigration.CycleCondition(500)),
 
                     ///carved lumen quartz
                     new CarePackageInfo(PinkRockCarvedConfig.ID, 1f, () => Immigration.CycleCondition(48) || Immigration.CycleCondition(500))
