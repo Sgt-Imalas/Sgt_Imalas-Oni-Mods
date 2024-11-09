@@ -16,9 +16,10 @@
     <QoL2024Feb>596100</QoL2024Feb>
     <FrostyPlanetBeta>616718</FrostyPlanetBeta>
     <FrostyPlanetRelease>622222</FrostyPlanetRelease>
+    <QOL2024Nov>640445</QOL2024Nov>
     
     <!--Latest-->
-    <TargetGameVersion>$(FrostyPlanetRelease)</TargetGameVersion>
+    <TargetGameVersion>$(QOL2024Nov)</TargetGameVersion>
   </PropertyGroup>
 
 
