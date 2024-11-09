@@ -14,22 +14,6 @@ namespace DupePrioPresetManager
 		public static GameObject ScheduleShifterPrefab;
 
 
-
-		public static Dictionary<string, ColorStyleSetting> ColoursForBlocks = null;
-		public static ColorStyleSetting GimmeColorForPreset(string presetID)
-		{
-			if (ColoursForBlocks != null)
-			{
-				ColoursForBlocks.TryGetValue(presetID, out var color);
-				if (color == null)
-				{
-
-				}
-				return color;
-			}
-			return null;
-		}
-
 		public static void LoadAssets()
 		{
 			AssetBundle bundle = AssetUtils.LoadAssetBundle("dupe_prio_preset_window", platformSpecific: true);

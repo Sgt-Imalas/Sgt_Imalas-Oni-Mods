@@ -70,15 +70,12 @@ namespace DupePrioPresetManager
 					SgtLogger.warning("unknown schedule block type found, defaulting to worktime");
 					scheduleGroup = dbHandler.Worktime;
 				}
-				schedule.SetGroup(i, scheduleGroup);
+				schedule.SetBlockGroup(i, scheduleGroup);
 			}
 		}
 
 		public ScheduleSettingsPreset(string fileName, string configName, List<string> blockIdx)
 		{
-			if (blockIdx.Count != 24)
-				return;
-
 			FileName = fileName;
 			ConfigName = configName;
 			ScheduleGroups = new List<string>(blockIdx);
