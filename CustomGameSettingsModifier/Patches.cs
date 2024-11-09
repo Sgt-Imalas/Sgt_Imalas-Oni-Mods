@@ -75,9 +75,7 @@ namespace CustomGameSettingsModifier
 		{
 			public static void AssetOnPrefabInitPostfix(Harmony harmony)
 			{
-				var m_TargetMethod = AccessTools.Method("PauseScreen, Assembly-CSharp:OnShow");
-				//var m_Transpiler = AccessTools.Method(typeof(CharacterSelectionController_Patch), "Transpiler");
-				//var m_Prefix = AccessTools.Method(typeof(CharacterSelectionController_Patch), "Prefix");
+				var m_TargetMethod = AccessTools.Method("PauseScreen, Assembly-CSharp:ConfigureButtonInfos");
 				var m_Postfix = AccessTools.Method(typeof(PauseScreen_OnPrefabInit_Patch), "Postfix");
 
 				harmony.Patch(m_TargetMethod,
