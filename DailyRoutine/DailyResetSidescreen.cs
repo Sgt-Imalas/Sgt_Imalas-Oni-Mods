@@ -250,6 +250,9 @@ namespace DailyRoutine
 			}
 		}
 		private float NormalizedValueToDegrees(float value) => 360f * value;
-
-	}
+        public override string GetTitle()
+		{
+			return STRINGS.UISTRINGS.DAILYROUTINETITLE;
+        }
+    }
 }
