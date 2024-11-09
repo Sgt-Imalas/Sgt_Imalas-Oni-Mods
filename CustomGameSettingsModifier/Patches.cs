@@ -47,7 +47,7 @@ namespace CustomGameSettingsModifier
 			}
 		}
 
-		private static readonly KButtonMenu.ButtonInfo TwitchButtonInfo = new KButtonMenu.ButtonInfo((string)STRINGS.UI.CUSTOMGAMESETTINGSCHANGER.BUTTONTEXT, Action.NumActions, new UnityAction(OnCustomMenuButtonPressed));
+		private static readonly KButtonMenu.ButtonInfo CustomSettingsButton = new KButtonMenu.ButtonInfo((string)STRINGS.UI.CUSTOMGAMESETTINGSCHANGER.BUTTONTEXT, Action.NumActions, new UnityAction(OnCustomMenuButtonPressed));
 		private static void OnCustomMenuButtonPressed()
 		{
 			PauseScreen.Instance.RefreshButtons();
@@ -70,12 +70,12 @@ namespace CustomGameSettingsModifier
 
 
 
-		//[HarmonyPatch(typeof(PauseScreen), "OnPrefabInit")]
+		//[HarmonyPatch(typeof(PauseScreen), "OnShow")]
 		private static class PauseScreen_OnPrefabInit_Patch
 		{
 			public static void AssetOnPrefabInitPostfix(Harmony harmony)
 			{
-				var m_TargetMethod = AccessTools.Method("PauseScreen, Assembly-CSharp:OnPrefabInit");
+				var m_TargetMethod = AccessTools.Method("PauseScreen, Assembly-CSharp:OnShow");
 				//var m_Transpiler = AccessTools.Method(typeof(CharacterSelectionController_Patch), "Transpiler");
 				//var m_Prefix = AccessTools.Method(typeof(CharacterSelectionController_Patch), "Prefix");
 				var m_Postfix = AccessTools.Method(typeof(PauseScreen_OnPrefabInit_Patch), "Postfix");
@@ -89,9 +89,10 @@ namespace CustomGameSettingsModifier
 
 			private static void Postfix(ref IList<KButtonMenu.ButtonInfo> ___buttons)
 			{
+				SgtLogger.l("adding custom settings button");
 				List<KButtonMenu.ButtonInfo> list = ___buttons.ToList<KButtonMenu.ButtonInfo>();
-				TwitchButtonInfo.isEnabled = true;
-				list.Insert(5, TwitchButtonInfo);
+				CustomSettingsButton.isEnabled = true;
+				list.Insert(5, CustomSettingsButton);
 				___buttons = (IList<KButtonMenu.ButtonInfo>)list;
 			}
 		}
