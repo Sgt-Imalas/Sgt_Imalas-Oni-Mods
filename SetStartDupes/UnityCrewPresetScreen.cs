@@ -264,7 +264,7 @@ namespace SetStartDupes
 
 				foreach (var trait in mate.second.Traits)
 				{
-					if (trait == MinionConfig.MINION_BASE_TRAIT_ID)
+					if (ModAssets.IsMinionBaseTrait(trait))
 						continue;
 					var traitcon = Util.KInstantiateUI(TraitPrefab, TraitContainer, true);
 					UIUtils.TryChangeText(traitcon.transform, "Label", ModAssets.GetTraitName(traitRef.TryGet(trait)));

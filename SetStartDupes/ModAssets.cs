@@ -97,8 +97,10 @@ namespace SetStartDupes
 			}
 		}
 
+		[Obsolete ("make dynamic to account for bionic dupes!")]
+		public static string DefaultMinionBaseTrait => "MinionBaseTrait";
 
-		private static GameObject parentScreen = null;
+        private static GameObject parentScreen = null;
 
 
 		public static CarePackageInfo[] GetAdditionalCarePackages()
@@ -583,7 +585,7 @@ namespace SetStartDupes
 
 		public static bool TraitAllowedInCurrentDLC(string traitId)
 		{
-			if (traitId == MinionConfig.MINION_BASE_TRAIT_ID)
+			if (ModAssets.IsMinionBaseTrait(traitId))
 				return true;
 
 			GetTraitListOfTrait(traitId, out var traitList);
@@ -714,6 +716,10 @@ namespace SetStartDupes
 			{
 				NextType.cogenital,
 				DUPLICANTSTATS.CONGENITALTRAITS
+			},
+			{
+				NextType.bionic,
+				DUPLICANTSTATS.BIONICUPGRADETRAITS
 			}
 		};
 
@@ -910,7 +916,7 @@ namespace SetStartDupes
 			}
 		}
 
-		static string[] possibleStickerTypes = new string[3] { "sticker", "glitter", "glowinthedark" };
+		static string[] possibleStickerTypes = [ "sticker", "glitter", "glowinthedark"];
 		internal static string GetRandomStickerType()
 		{
 			return possibleStickerTypes.GetRandom();
@@ -972,6 +978,11 @@ namespace SetStartDupes
 			}
 		}
 
-		public static string UnlockIcon = "OpenLock";
+        internal static bool IsMinionBaseTrait(string id)
+        {
+			return id.Contains("BaseTrait");
+        }
+
+        public static string UnlockIcon = "OpenLock";
 	}
 }

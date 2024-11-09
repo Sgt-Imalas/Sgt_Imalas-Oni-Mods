@@ -32,23 +32,27 @@ namespace SetStartDupes
 			//}
 			public static void Postfix()
 			{
-				//Mod.harmonyInstance.PatchAll();
-				SgtLogger.l("Manually patching CharacterSelectionController..");
-				//CharacterSelectionController
-				CharacterSelectionController_InitializeContainers_Patch.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
-				CharacterSelectionController_InitializeContainers_Patch2.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
-				CharacterSelectionController_AddDeliverable_Patch.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
+                ExecuteManualPatches();
+            }
 
-				//Minionselectscreen
-				MinionSelectScreen_SetDefaultMinionsRoutine_Patch.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
-				MinionSelectScreen_OnSpawn_Patch.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
+            public static void ExecuteManualPatches()
+            {
+                SgtLogger.l("Manually patching CharacterSelectionController..");
+                //CharacterSelectionController
+                CharacterSelectionController_InitializeContainers_Patch.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
+                CharacterSelectionController_InitializeContainers_Patch2.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
+                CharacterSelectionController_AddDeliverable_Patch.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
 
-				//immigrantScreen
-				ImmigrantScreen_Initialize_Patch.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
-				ImmigrantScreen_OnPressBack_Patch.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
-				ImmigrantScreen_Initialize_Patch2.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
-				ImmigrantScreen_OnProceed_Patch.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
-			}
+                //Minionselectscreen
+                MinionSelectScreen_SetDefaultMinionsRoutine_Patch.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
+                MinionSelectScreen_OnSpawn_Patch.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
+
+                //immigrantScreen
+                ImmigrantScreen_Initialize_Patch.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
+                ImmigrantScreen_OnPressBack_Patch.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
+                ImmigrantScreen_Initialize_Patch2.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
+                ImmigrantScreen_OnProceed_Patch.AssetOnPrefabInitPostfix(Mod.harmonyInstance);
+            }
 		}
 
 		[HarmonyPatch(typeof(Traits))]
@@ -1351,6 +1355,8 @@ namespace SetStartDupes
 					buttonsToDeactivateOnEdit[__instance] = new List<KButton>();
 				}
 
+
+
 				var buttonPrefab = __instance.transform.Find("TitleBar/RenameButton").gameObject;
 				var titlebar = __instance.transform.Find("TitleBar").gameObject;
 
@@ -1771,11 +1777,12 @@ namespace SetStartDupes
 #endif
 			}
 
-			public static void Postfix(CharacterSelectionController __instance, CharacterContainer ___containerPrefab)
+			public static void Postfix(CharacterSelectionController __instance)
 			{
 				if (ModAssets.StartPrefab == null)
-				{
-					StartPrefab = ___containerPrefab.transform.Find("Details").gameObject;
+                {
+                    UIUtils.ListAllChildren(__instance.transform);
+                    StartPrefab = __instance.containerPrefab.transform.Find("Details").gameObject;
 
 				}
 				if (!__instance.IsStarterMinion)
@@ -1869,14 +1876,14 @@ namespace SetStartDupes
 		[HarmonyPatch(typeof(CharacterContainer), nameof(CharacterContainer.GenerateCharacter))]
 		public static class RerollWithGuaranteedTraitAndPersonality
 		{
-			public static MinionStartingStats GenerateWithGuaranteedSkill(bool is_starter_minion, string guaranteedAptitudeID = null, string guaranteedTraitID = null, bool isDebugMinion = false, CharacterContainer __instance = null)
+			public static MinionStartingStats GenerateWithGuaranteedSkill(List<Tag> permittedModels,bool is_starter_minion, string guaranteedAptitudeID = null, string guaranteedTraitID = null, bool isDebugMinion = false, CharacterContainer __instance = null)
 			{
 				if (__instance != null
 					&& UnityTraitRerollingScreen.GuaranteedTraitRoll.TryGetValue(__instance, out var trait))
 				{
-					return new MinionStartingStats(is_starter_minion, guaranteedAptitudeID, trait.Id, isDebugMinion);
+					return new MinionStartingStats(permittedModels, is_starter_minion, guaranteedAptitudeID, trait.Id, isDebugMinion);
 				}
-				return new MinionStartingStats(is_starter_minion, guaranteedAptitudeID, guaranteedTraitID, isDebugMinion);
+				return new MinionStartingStats(permittedModels, is_starter_minion, guaranteedAptitudeID, guaranteedTraitID, isDebugMinion);
 			}
 
 			public static readonly MethodInfo overrideStarterGeneration = AccessTools.Method(
@@ -1897,7 +1904,8 @@ namespace SetStartDupes
 				else
 					SgtLogger.warning("minionStartingStatsReplacer not found");
 
-				//TranspilerHelper.PrintInstructions(code);
+                SgtLogger.warning("CharacterContainer.GenerateCharacter not found");
+                //TranspilerHelper.PrintInstructions(code);
 				return code;
 			}
 

@@ -53,7 +53,6 @@ namespace SetStartDupes
 		{
 			base.OnAllModsLoaded(harmony, mods);
 			CompatibilityNotifications.FlagLoggingPrevention(mods);
-			//CompatibilityNotifications.CheckAndAddIncompatibles("DGSM2", "Duplicant Stat Selector","DGSM - Duplicants Generation Settings Manager");
 			CompatibilityNotifications.CheckAndAddIncompatibles("RePrint", "Duplicant Stat Selector", "Reprint");
 			ModAssets.RemoveCrashingIncompatibility(mods);
 			//CheckAndAddIncompatibles(".Mod.WGSM", "WGSM");

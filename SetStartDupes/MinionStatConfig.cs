@@ -261,8 +261,10 @@ namespace SetStartDupes
 			referencedStats.Traits.Clear();
 			var traitRef = Db.Get().traits;
 
-			if (!Traits.Contains(MinionConfig.MINION_BASE_TRAIT_ID))
-				Traits.Add(MinionConfig.MINION_BASE_TRAIT_ID);
+
+            //TODO! Adjust for bionic dupes!
+            if (!Traits.Contains(ModAssets.DefaultMinionBaseTrait))
+				Traits.Add(ModAssets.DefaultMinionBaseTrait);
 
 
 			if (HadAncientKnowledge)
