@@ -428,7 +428,7 @@ namespace SetStartDupes
 			}
 			else
 			{
-				if (trait.Id == MinionConfig.MINION_BASE_TRAIT_ID)
+				if (trait.Id == MinionConfig.TRAITS)
 					return;
 
 				var type = ModAssets.GetTraitListOfTrait(trait.Id);

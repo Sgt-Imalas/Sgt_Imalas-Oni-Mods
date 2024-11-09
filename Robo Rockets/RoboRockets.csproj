@@ -133,7 +133,7 @@
 	  <None Update="ModAssets\translations\ru.po">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\translations\zh_CN.po">
+	  <None Update="ModAssets\translations\zh.po">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>
