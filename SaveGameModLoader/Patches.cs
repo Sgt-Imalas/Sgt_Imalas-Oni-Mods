@@ -8,6 +8,7 @@ using SaveGameModLoader.ModsFilter;
 using SaveGameModLoader.Patches;
 using SaveGameModLoader.UIComponents;
 using Steamworks;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -36,18 +37,41 @@ namespace SaveGameModLoader
 			}
 		}
 
-		[HarmonyPatch(typeof(LoadScreen), "ShowColony")]
+		[HarmonyPatch(typeof(LoadScreen), nameof(LoadScreen.ShowColony))]
 		public static class AddModSyncButtonLogic
 		{
+			public static void Postfix(LoadScreen __instance, List<LoadScreen.SaveGameFileDetails> saves, int selectIndex = -1)
+			{
+                __instance.colonyViewRoot.TryGetComponent<HierarchyReferences>(out var hierarchyReferences);
+                var container = hierarchyReferences.GetReference<RectTransform>("Content").transform; //save entry container
+
+                int saveCount = saves.Count;
+				int rectTransformCount = container.childCount;
+
+				int childrenOffset = rectTransformCount - saveCount;
+				SgtLogger.l("childrenOffset " + childrenOffset);
+				SgtLogger.l("rectTransformCount " + rectTransformCount);
+				SgtLogger.l("saveCount " + saveCount);
+
+                for (int i = rectTransformCount - 1; i >= childrenOffset; i--)
+				{
+					var saveEntryTransform = container.GetChild(i);
+					var saveEntry = saves[i - childrenOffset];
+
+					InsertModButtonCode(saveEntryTransform.rectTransform(), saveEntry);
+                }
+            }
+
+
+
 			public static void InsertModButtonCode(
 				  RectTransform entry
-				, object FileDetails
+				, LoadScreen.SaveGameFileDetails FileDetails
 				)
 			{
 
-				var ContainerOpener = FileDetails.GetType().GetField("save").GetValue(FileDetails);
-				string baseName = (string)ContainerOpener.GetType().GetField("BaseName").GetValue(ContainerOpener);
-				string fileName = (string)ContainerOpener.GetType().GetField("FileName").GetValue(ContainerOpener);
+				string baseName = FileDetails.BaseName; 
+				string fileName = FileDetails.FileName;
 
 				var btn = entry.Find("SyncButton").GetComponent<KButton>();
 
@@ -62,80 +86,69 @@ namespace SaveGameModLoader
 					});
 				}
 			}
-			public static readonly MethodInfo ButtonLogic = AccessTools.Method(
-			   typeof(AddModSyncButtonLogic),
-			   nameof(InsertModButtonCode));
+			//public static readonly MethodInfo ButtonLogic = AccessTools.Method(
+			//   typeof(AddModSyncButtonLogic),
+			//   nameof(InsertModButtonCode));
 
-			private static readonly MethodInfo SuitableMethodInfo = AccessTools.Method(
-					typeof(KButton),
-					nameof(KButton.ClearOnClick));
+			//private static readonly MethodInfo SuitableMethodInfo = AccessTools.Method(
+			//		typeof(KButton),
+			//		nameof(KButton.ClearOnClick));
 
-			private static readonly MethodInfo SaveGameFileIndexFinder = AccessTools.Method(
-					typeof(System.IO.Path),
-					nameof(System.IO.Path.GetFileNameWithoutExtension));
+			//private static readonly MethodInfo SaveGameFileIndexFinder = AccessTools.Method(
+			//		typeof(System.IO.Path),
+			//		nameof(System.IO.Path.GetFileNameWithoutExtension), [ typeof(string) ]);
 
-			//private static MethodInfo TransformIndexFinder =
-			//    AccessTools.Method(
-			//    typeof(UnityEngine.Object),
-			//    nameof(UnityEngine.Object.Instantiate),
-			//    new System.Type[] { typeof(UnityEngine.Object), typeof(UnityEngine.Transform)}); 
-
-
-			static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
-			{
-				///
-				var Methods = typeof(UnityEngine.Object).GetPublicStaticMethods();
-
-				var GenericMethodInfo = Methods.FirstOrDefault(meth =>
-				meth.Name.Contains("Instantiate")
-				&& meth.GetParameters().Length == 2
-				&& meth.GetParameters().Last().ParameterType == typeof(UnityEngine.Transform)
-				&& meth.GetParameters().First().ParameterType.IsGenericParameter
-				).MakeGenericMethod(typeof(RectTransform));
+			////private static MethodInfo TransformIndexFinder =
+			////    AccessTools.Method(
+			////    typeof(UnityEngine.Object),
+			////    nameof(UnityEngine.Object.Instantiate),
+			////    new System.Type[] { typeof(UnityEngine.Object), typeof(UnityEngine.Transform)}); 
 
 
-				//SgtLogger.l(GenericMethodInfo.Name + "::" + GenericMethodInfo, "postselect");
-				///
+			//static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
+			//{
+			//	///
+			//	var Methods = typeof(UnityEngine.Object).GetPublicStaticMethods();
+
+			//	var GenericMethodInfo = Methods.FirstOrDefault(meth =>
+			//	meth.Name.Contains("Instantiate")
+			//	&& meth.GetParameters().Length == 2
+			//	&& meth.GetParameters().Last().ParameterType == typeof(UnityEngine.Transform)
+			//	&& meth.GetParameters().First().ParameterType.IsGenericParameter
+			//	).MakeGenericMethod(typeof(RectTransform));
 
 
-				var code = instructions.ToList();
-				var insertionIndex = code.FindLastIndex(ci => ci.opcode == OpCodes.Callvirt && ci.operand is MethodInfo f && f == SuitableMethodInfo);
+			//	//SgtLogger.l(GenericMethodInfo.Name + "::" + GenericMethodInfo, "postselect");
+			//	///
 
 
-				var SaveGameFileIndexFinderStart = code.FindIndex(ci => ci.opcode == OpCodes.Call && ci.operand is MethodInfo f && f == SaveGameFileIndexFinder);
-				var saveFileRootIndex = TranspilerHelper.FindIndexOfNextLocalIndex(code, SaveGameFileIndexFinderStart);
-
-				var TransformIndexFinderStart = code.FindIndex(ci => ci.opcode == OpCodes.Call && ci.operand is MethodInfo f && f == GenericMethodInfo);// code.FindIndex(ci => ci.opcode == OpCodes.Call && ci.operand.ToString().Contains("Instantiate"));
+			//	var code = instructions.ToList();
+			//	var insertionIndex = code.FindLastIndex(ci => ci.opcode == OpCodes.Callvirt && ci.operand is MethodInfo f && f == SuitableMethodInfo);
 
 
-				var TransformIndex = TranspilerHelper.FindIndexOfNextLocalIndex(code, TransformIndexFinderStart, false);
-				//SgtLogger.l(TransformIndex + "", "TRANSFORMINDEX");
+			//	var SaveGameFileIndexFinderStart = code.FindIndex(ci => ci.opcode == OpCodes.Call && ci.operand is MethodInfo f && f == SaveGameFileIndexFinder);
+			//	var saveFileRootIndex = TranspilerHelper.FindIndexOfNextLocalIndex(code, SaveGameFileIndexFinderStart);
 
-				//foreach (var v in code) { SgtLogger.log(v.opcode + " -> " + v.operand); };
-				if (insertionIndex != -1)
-				{
-					insertionIndex += 1;
-					code.Insert(insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, TransformIndex));//7
-					code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, saveFileRootIndex));//6
-					code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, ButtonLogic));
+			//	var TransformIndexFinderStart = code.FindIndex(ci => ci.opcode == OpCodes.Call && ci.operand is MethodInfo f && f == GenericMethodInfo);// code.FindIndex(ci => ci.opcode == OpCodes.Call && ci.operand.ToString().Contains("Instantiate"));
 
-					//TranspilerHelper.PrintInstructions(code,true);
-				}
-				//foreach (var v in code) { SgtLogger.log(v.opcode + " -> " + v.operand); };
 
-				return code;
-			}
+			//	var TransformIndex = TranspilerHelper.FindIndexOfNextLocalIndex(code, TransformIndexFinderStart, false);
+			//	//SgtLogger.l(TransformIndex + "", "TRANSFORMINDEX");
 
-			public struct SaveGameFileDetails
-			{
-				public string BaseName;
-				public string FileName;
-				public string UniqueID;
-				public System.DateTime FileDate;
-				public SaveGame.Header FileHeader;
-				public SaveGame.GameInfo FileInfo;
-				public long Size;
-			}
+			//	//foreach (var v in code) { SgtLogger.log(v.opcode + " -> " + v.operand); };
+			//	if (insertionIndex != -1)
+			//	{
+			//		insertionIndex += 1;
+			//		code.Insert(insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, TransformIndex));//7
+			//		code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, saveFileRootIndex));//6
+			//		code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, ButtonLogic));
+
+			//		//TranspilerHelper.PrintInstructions(code,true);
+			//	}
+			//	//foreach (var v in code) { SgtLogger.log(v.opcode + " -> " + v.operand); };
+
+			//	return code;
+			//}
 		}
 
 
