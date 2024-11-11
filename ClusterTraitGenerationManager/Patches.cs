@@ -54,7 +54,7 @@ namespace ClusterTraitGenerationManager
 		/// <summary>
 		/// Custom cluster in load menu
 		/// </summary>
-		[HarmonyPatch(typeof(LoadScreen), "ShowColonySave")]
+		[HarmonyPatch(typeof(LoadScreen), nameof(LoadScreen.ShowColonySave))]
 		public static class LoadScreen_NameFix
 		{
 			public static void Prefix() => RemoveFromCache();
@@ -484,6 +484,7 @@ namespace ClusterTraitGenerationManager
 					return;
 
 				ProcGen.Worlds __instance = SettingsCache.worlds;
+				int ceresMoonletCounter = 0;
 
 				SgtLogger.l("Initializing generation of additional planetoids, current count: " + __instance.worldCache.Count());
 				List<KeyValuePair<string, ProcGen.World>> toAdd = new List<KeyValuePair<string, ProcGen.World>>();
@@ -518,6 +519,15 @@ namespace ClusterTraitGenerationManager
 						SgtLogger.l($"skipping {sourceWorld.Key} to avoid unlivable planets");
 						continue;
 					}
+
+					//3 shattered ceres moonlets would overlap in name...
+					if (BaseName.Contains("MiniShattered"))
+					{
+						BaseName += ceresMoonletCounter;
+						ceresMoonletCounter++;
+
+                    }
+
 
 
 					var TypeToIgnore = DeterminePlanetType(sourceWorld.Value);
