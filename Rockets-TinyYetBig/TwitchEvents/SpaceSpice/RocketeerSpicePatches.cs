@@ -12,7 +12,7 @@ namespace Rockets_TinyYetBig.TwitchEvents.SpaceSpice
 		[HarmonyPatch(typeof(Edible), "StopConsuming")]
 		public static class PatchDroppingOfTincans
 		{
-			public static void Prefix(Worker worker, Edible __instance)
+			public static void Prefix(WorkerBase worker, Edible __instance)
 			{
 				var rocketSpice = __instance.spices.Find((s) => s.Id == "PILOTING_SPICE");
 				if (!rocketSpice.Equals(default(SpiceInstance)))
