@@ -2,6 +2,7 @@
 using KMod;
 using System;
 using System.IO;
+using System.Reflection;
 using static global::STRINGS.ROOMS;
 
 namespace UtilLibs
@@ -97,7 +98,9 @@ namespace UtilLibs
 			if (generateTemplate)
 			{
 				Localization.GenerateStringsTemplate(root, Path.Combine(Manager.GetDirectory(), "strings_templates"));
-			}
+
+				Localization.GenerateStringsTemplate(root.Namespace, Assembly.GetExecutingAssembly(), Path.Combine(IO_Utils.ModPath, "translation_template.pot"), null);
+            }
 		}
 
 		// Loads user created translations
