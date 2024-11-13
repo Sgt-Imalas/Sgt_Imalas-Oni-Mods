@@ -28,7 +28,7 @@ namespace RoboRockets.LearningBrain
 		[Serialize]
 		public bool ShouldDrop = true;
 
-		public override void OnCompleteWork(Worker worker) => this.DropOnDestroy();
+		public override void OnCompleteWork(WorkerBase worker) => this.DropOnDestroy();
 
 		private void DropOnDestroy()
 		{
