@@ -25,7 +25,7 @@ namespace Rockets_TinyYetBig
 			public class TAGS
 			{
 				public static LocString RTB_DOCKINGTUBEATTACHMENTSLOT = "Spacefarer Docking Tube Attachment Port";
-				public static LocString RTB_RADIATIONSHIELDINGMATERIAL = "Radiation Shielding";
+				public static LocString RTB_RADIATIONSHIELDINGROCKETCONSTRUCTIONMATERIAL = "Radiation Shielding";
 
 				public static LocString RTB_NEUTRONIUMALLOYMATERIAL = "Neutronium Alloy";
 				public static LocString RTB_NEUTRONIUMALLOYMATERIAL_DESC = "Neutronium Alloy is an insanely durable " + FormatAsLink("Solid Material", "ELEMENTS_SOLID") + " used in the construction of large space structures.";
