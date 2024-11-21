@@ -44,7 +44,8 @@ namespace ClusterTraitGenerationManager
 		public List<SO_POI_DataEntry> SO_POI_Overrides;
 		public Dictionary<int, List<string>> VanillaStarmapLocations;
 		public Dictionary<string, string> StoryTraits;
-		public List<string> BlacklistedTraits;
+		public Dictionary<string, string> MixingSettings;
+        public List<string> BlacklistedTraits;
 
 		void PopulatePresetData(CustomClusterData data)
 		{
@@ -247,9 +248,29 @@ namespace ClusterTraitGenerationManager
 				}
 				StoryTraits.Add(story.Key, value);
 			}
-		}
+            MixingSettings = new Dictionary<string, string>();
+            foreach (var story in instance.MixingSettings)
+            {
+                string value = string.Empty;
 
-		private void SetCustomGameSettings(SettingConfig ConfigToSet, object valueId, bool isStoryTrait = false)
+                if (!instance.CurrentMixingLevelsBySetting.ContainsKey(story.Key))
+                {
+                    value = story.Value.GetDefaultLevelId();
+                }
+                else
+                {
+                    value = instance.CurrentMixingLevelsBySetting[story.Key];
+                }
+                MixingSettings.Add(story.Key, value);
+            }
+
+        }
+        private void SetMixingSettings(MixingSettingConfig mixing, object valueId)
+        {
+            string valueToSet = valueId.ToString();
+			CustomGameSettings.Instance.SetMixingSetting(mixing, valueToSet);            
+        }
+        private void SetCustomGameSettings(SettingConfig ConfigToSet, object valueId, bool isStoryTrait = false)
 		{
 			string valueToSet = valueId.ToString();
 			if (valueId is bool)
@@ -338,12 +359,23 @@ namespace ClusterTraitGenerationManager
 			{
 				foreach (var story in StoryTraits)
 				{
-					if (CustomGameSettings.Instance.StorySettings.ContainsKey(story.Key))
+					if (CustomGameSettings.Instance.StorySettings.TryGetValue(story.Key, out var storyTraitSetting))
 					{
-						SetCustomGameSettings(CustomGameSettings.Instance.StorySettings[story.Key], story.Value, true);
+						SetCustomGameSettings(storyTraitSetting, story.Value, true);
 					}
 				}
 			}
+
+			if(MixingSettings!=null && MixingSettings.Count > 0)
+			{
+                foreach (var mix in MixingSettings)
+                {
+                    if (CustomGameSettings.Instance.MixingSettings.TryGetValue(mix.Key, out var mixingSetting ))
+                    {
+                        SetMixingSettings(mixingSetting as MixingSettingConfig, mix.Value);
+                    }
+                }
+            }
 		}
 
 

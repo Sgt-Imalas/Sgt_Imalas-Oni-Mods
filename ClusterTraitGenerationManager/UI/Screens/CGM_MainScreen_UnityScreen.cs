@@ -45,9 +45,10 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				var toggle = ConfigToSet as ToggleSettingConfig;
 				valueToSet = val ? toggle.on_level.id : toggle.off_level.id;
 			}
-			//SgtLogger.l("changing " + ConfigToSet.id.ToString() + " from " + CustomGameSettings.Instance.GetCurrentMixingSettingLevel(ConfigToSet).id + " to " + valueToSet.ToString());
-			CustomGameSettings.Instance.SetMixingSetting(ConfigToSet, valueToSet);
-		}
+			//SgtLogger.l("changing " + ConfigToSet.id.ToString() + " from " + CustomGameSettings.Instance.GetCurrentMixingSettingLevel(ConfigToSet).id + " to " + valueToSet.ToString());			
+            CustomGameSettings.Instance.SetMixingSetting(ConfigToSet, valueToSet);
+			RefreshCategories();
+        }
 
 		void SetMixingSettingsVisible(bool visible)
 		{
