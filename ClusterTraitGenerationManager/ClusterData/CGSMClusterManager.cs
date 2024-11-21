@@ -802,7 +802,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 				if (PlanetoidDict.TryGetValue(planetpath, out StarmapItem FoundPlanet))
 				{
-					SgtLogger.l(FoundPlanet.category.ToString());
+					//SgtLogger.l(FoundPlanet.category.ToString());
 					if (singleItemId != string.Empty && FoundPlanet.id != singleItemId)
 					{
 						continue;
