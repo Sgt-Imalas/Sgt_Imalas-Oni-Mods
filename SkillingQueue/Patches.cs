@@ -29,24 +29,6 @@ namespace SkillingQueue
 			}
 		}
 
-		[HarmonyPatch(typeof(Db), nameof(Db.Initialize))]
-		public static class MinionConfig_CreatePrefab_Patch_Db_Init
-        {
-            public static void Postfix()
-            {
-                var m_TargetMethod = AccessTools.Method("MinionConfig, Assembly-CSharp:CreatePrefab");
-                //var m_Transpiler = AccessTools.Method(typeof(MinionConfig_CreatePrefab_Patch_Db_Init), "Transpiler");
-                //var m_Prefix = AccessTools.Method(typeof(MinionConfig_CreatePrefab_Patch_Db_Init), "Prefix");
-                var m_Postfix = AccessTools.Method(typeof(MinionConfig_CreatePrefab_Patch_Db_Init), "PostfixTarget");
-				Mod.Harmony.Patch(m_TargetMethod, postfix: new(m_Postfix));
-
-            }
-            public static void PostfixTarget(GameObject __result)
-            {
-                __result.AddOrGet<SavedSkillQueue>();
-				SgtLogger.l("addorget savedskillqueue to minion go");
-            }
-        }
 
 
         //[HarmonyPatch(typeof(MinionResume), nameof(MinionResume.AddExperience))]
