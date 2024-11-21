@@ -11,7 +11,7 @@ namespace Radiator_Mod
 
 		public static string[] construction_materials = MATERIALS.REFINED_METALS;
 
-		public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
 		public override BuildingDef CreateBuildingDef()
 		{
 

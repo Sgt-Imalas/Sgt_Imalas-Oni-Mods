@@ -7,7 +7,7 @@ namespace Rockets_TinyYetBig.Buildings
 	class DockingTubeDoorConfig : IBuildingConfig
 	{
 		public const string ID = "RTB_DockingTubeDoor";
-		public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
 
 		private ConduitPortInfo gasInputPort = new ConduitPortInfo(ConduitType.Gas, new CellOffset(0, 0));
 		private ConduitPortInfo liquidInputPort = new ConduitPortInfo(ConduitType.Liquid, new CellOffset(0, 0));

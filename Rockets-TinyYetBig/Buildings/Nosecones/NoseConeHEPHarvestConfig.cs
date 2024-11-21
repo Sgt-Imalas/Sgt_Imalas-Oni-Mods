@@ -7,7 +7,7 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
 {
 	class NoseConeHEPHarvestConfig : IBuildingConfig
 	{
-		public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
 		public const string ID = "RYB_NoseConeHEPHarvest";
 
 		public override BuildingDef CreateBuildingDef()

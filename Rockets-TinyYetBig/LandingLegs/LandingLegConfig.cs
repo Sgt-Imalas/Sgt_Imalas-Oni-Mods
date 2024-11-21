@@ -6,7 +6,7 @@ namespace Rockets_TinyYetBig.Buildings
 	class LandingLegConfig : IBuildingConfig
 	{
 		public const string ID = "RTB_LandingLegsModule";
-		public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
 
 		public override BuildingDef CreateBuildingDef()
 		{

@@ -7,7 +7,7 @@ namespace Rockets_TinyYetBig.RocketFueling
 	public class HEPFuelLoaderConfig : IBuildingConfig
 	{
 		public const string ID = "RTB_HEPFuelLoader";
-		public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
 		public override BuildingDef CreateBuildingDef()
 		{
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 1, 3, "fuel_loader_hep_kanim", 1000, 60f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER4, MATERIALS.REFINED_METALS, 9999f, BuildLocationRule.OnFloor, noise: NOISE_POLLUTION.NOISY.TIER2, decor: BUILDINGS.DECOR.NONE);

@@ -10,7 +10,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 		public const string ID = "RTB_FridgeModuleAccessHatch";
 
 		public static readonly HashedString PULL_MORE_ID = "RTB_PULL_MORE";
-		public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
 
 		public override BuildingDef CreateBuildingDef()
 		{

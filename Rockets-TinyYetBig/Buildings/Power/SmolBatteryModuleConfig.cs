@@ -8,7 +8,7 @@ namespace Rockets_TinyYetBig.Buildings.Generators
 		public const string ID = "RTB_SmolBatteryModule";
 		private static readonly CellOffset PLUG_OFFSET = new CellOffset(-1, 0);
 
-		public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
 
 		public override BuildingDef CreateBuildingDef()
 		{

@@ -10,7 +10,7 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
 		public static float CAPACITY_OFF = 30000f;
 		public static float CAPACITY_ON = Config.Instance.GasCargoBayKgPerUnit * Config.Instance.CollossalCargoBayUnits;
 
-		public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
 
 		public override BuildingDef CreateBuildingDef()
 		{

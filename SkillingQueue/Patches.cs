@@ -14,21 +14,22 @@ namespace SkillingQueue
 		public static Dictionary<MinionResume, SavedSkillQueue> ResumeQueues = new Dictionary<MinionResume, SavedSkillQueue>();
 
 
-        //in their infinite competency klei completely broke patching minionConfig class directly >:( 
+		//in their infinite competency klei completely broke patching minionConfig class directly >:( 
 
-        /// <summary>
-        /// Add Skill queue component to dupe prefab
-        /// </summary>
-        //[HarmonyPatch(typeof(MinionConfig), nameof(MinionConfig.CreatePrefab))]
-        //public static class MinionConfig_CreatePrefab_Patch
-        //{
-        //	public static void Postfix(GameObject __result)
-        //	{
-        //		__result.AddOrGet<SavedSkillQueue>();
-        //	}
-        //}
+		/// <summary>
+		/// Add Skill queue component to dupe prefab
+		/// </summary>
+		[HarmonyPatch(typeof(MinionConfig), nameof(MinionConfig.CreatePrefab))]
+		public static class MinionConfig_CreatePrefab_Patch
+		{
+			
+			public static void Postfix(GameObject __result)
+			{
+				__result.AddOrGet<SavedSkillQueue>();
+			}
+		}
 
-        [HarmonyPatch(typeof(Db), nameof(Db.Initialize))]
+		[HarmonyPatch(typeof(Db), nameof(Db.Initialize))]
 		public static class MinionConfig_CreatePrefab_Patch_Db_Init
         {
             public static void Postfix()

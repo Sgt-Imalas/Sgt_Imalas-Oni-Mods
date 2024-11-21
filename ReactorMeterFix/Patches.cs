@@ -64,6 +64,13 @@ namespace TinyFixes
         [HarmonyPatch(typeof(MainMenu), nameof(MainMenu.OnPrefabInit))]
         public class MainMenu_OnPrefabInit
         {
+            public class VanillaStarmapLocation
+            {
+                public string Id;
+                public string Name;
+                public string Image;
+            }
+
             public class Asteroid
             {
                 public string Id;

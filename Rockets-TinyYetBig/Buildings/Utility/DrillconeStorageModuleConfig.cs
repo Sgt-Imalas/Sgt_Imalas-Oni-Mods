@@ -7,7 +7,7 @@ namespace Rockets_TinyYetBig.Buildings.Utility
 	public class DrillconeStorageModuleConfig : IBuildingConfig
 	{
 		public const string ID = "RTB_DrillConeDiamondStorage";
-		public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
 
 		public override BuildingDef CreateBuildingDef()
 		{

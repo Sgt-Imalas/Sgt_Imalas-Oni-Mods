@@ -58,7 +58,18 @@ namespace UtilLibs.UIcmp //Source: Aki
 			base.OnSpawn();
 			UpdateLabel();
 		}
+		private bool _isInteractable = true;
 
+		public bool IsInteractable
+		{
+			get { return _isInteractable; }
+			set
+			{
+				_isInteractable = value;
+				leftArrow.SetInteractable(value);
+				rightArrow.SetInteractable(value);
+			}
+		}
 		private bool HasOptions => Options.Count > 0;
 
 		public string Value
@@ -90,7 +101,7 @@ namespace UtilLibs.UIcmp //Source: Aki
 
 		public void CycleLeft()
 		{
-			if (HasOptions)
+			if (HasOptions && IsInteractable)
 			{
 				currentIndex = (currentIndex + Options.Count - 1) % Options.Count;
 				UpdateLabel();
@@ -100,7 +111,7 @@ namespace UtilLibs.UIcmp //Source: Aki
 
 		public void CycleRight()
 		{
-			if (HasOptions)
+			if (HasOptions && IsInteractable)
 			{
 				currentIndex = (currentIndex + 1) % Options.Count;
 				UpdateLabel();

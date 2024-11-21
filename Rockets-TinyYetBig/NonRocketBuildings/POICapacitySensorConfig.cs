@@ -7,7 +7,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 	public class POICapacitySensorConfig : IBuildingConfig
 	{
 		public const string ID = "RTB_PoiCapacitySensor";
-		public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
 
 
 		public static readonly HashedString PORT_ID_MASS_THRESHOLD = (HashedString)"RTB_" + nameof(PORT_ID_MASS_THRESHOLD);
