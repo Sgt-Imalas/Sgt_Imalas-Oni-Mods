@@ -1018,8 +1018,9 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			ActiveBiomesContainer?.SetActive(planetCategorySelected);
 
 			GeyserContainer?.SetActive(planetCategorySelected);
-			BiomeMixingContainer?.SetActive(planetCategorySelected);
-			WorldMixingContainer?.SetActive(planetCategorySelected && !HexGridSelection);
+			///TODO: reenable when mixing is fixed
+			//BiomeMixingContainer?.SetActive(planetCategorySelected);
+			//WorldMixingContainer?.SetActive(planetCategorySelected && !HexGridSelection);
 
 			///StoryTrait Details Container
 			Details_StoryTraitContainer.SetActive(SelectedCategory == StarmapItemCategory.StoryTraits);
@@ -1840,9 +1841,10 @@ namespace ClusterTraitGenerationManager.UI.Screens
 					}
 				}
 			};
+			AsteroidSky_NorthernLights.IsInteractable = DlcManager.IsContentSubscribed(DlcManager.DLC2_ID);
 
-			///asteroid size 
-			AsteroidSize = transform.Find("Details/Content/ScrollRectContainer/AsteroidSize").gameObject;
+            ///asteroid size 
+            AsteroidSize = transform.Find("Details/Content/ScrollRectContainer/AsteroidSize").gameObject;
 			AsteroidSizeLabel = AsteroidSize.transform.Find("Descriptor/Label").GetComponent<LocText>();
 			AsteroidSizeTooltip = UIUtils.AddSimpleTooltipToObject(AsteroidSizeLabel.transform.parent, ASTEROIDSIZE.DESCRIPTOR.TOOLTIP);
 
@@ -2073,13 +2075,17 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 		private void InitializeBiomeMixingContainer()
 		{
-			//  BiomeMixingContainer = transform.Find("Details/Content/ScrollRectContainer/BiomeMixing").gameObject;
-		}
+			 BiomeMixingContainer = transform.Find("Details/Content/ScrollRectContainer/BiomeMixing").gameObject;
+            BiomeMixingContainer?.SetActive(false);
+        }
 
 		private void InitializePlanetMixingContainer()
-		{
-			// WorldMixingContainer = transform.Find("Details/Content/ScrollRectContainer/WorldMixingAsteroid").gameObject;
-		}
+        {
+            //UIUtils.ListAllChildrenPath(this.transform);
+            WorldMixingContainer = transform.Find("Details/Content/ScrollRectContainer/WorldMixing").gameObject;
+			WorldMixingContainer?.SetActive(false);
+
+        }
 
 		private void InitializeGeyserOverrideContainer()
 		{

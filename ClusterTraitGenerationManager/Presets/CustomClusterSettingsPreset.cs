@@ -12,6 +12,7 @@ using UtilLibs;
 using static ClusterTraitGenerationManager.ClusterData.CGSMClusterManager;
 using static ClusterTraitGenerationManager.STRINGS;
 using static CustomGameSettings;
+using static STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS;
 
 namespace ClusterTraitGenerationManager
 {
@@ -365,6 +366,7 @@ namespace ClusterTraitGenerationManager
 			public List<string> geyserBlacklists;
 			public bool geyserBlacklistAffectsNonGenerics;
 			public bool allowDuplicates, avoidClumping, guarantee;
+			public string mixedBy = null;
 
 			public SerializableStarmapItem AddGeysers(List<string> geyserIDs)
 			{
@@ -390,7 +392,16 @@ namespace ClusterTraitGenerationManager
 				}
 				return this;
 			}
-			public SerializableStarmapItem AddTraits(List<string> _traitIDs)
+            private SerializableStarmapItem InitMixedState(StarmapItem poiItem)
+            {
+                if (poiItem != null && poiItem.IsMixed)
+                {
+					mixedBy = poiItem.MixingAsteroidSource.id;
+                }
+                return this;
+            }
+            
+            public SerializableStarmapItem AddTraits(List<string> _traitIDs)
 			{
 				planetTraits = new List<string>(_traitIDs);
 				return this;
@@ -495,7 +506,8 @@ namespace ClusterTraitGenerationManager
 					.AddGeysers(poiItem.GeyserOverrideIDs)
 					.AddGeyserBlacklists(poiItem.GeyserBlacklistIDs, poiItem.GeyserBlacklistAffectsNonGenerics)
 					.AddTraits(poiItem.CurrentTraits)
-					.AddSkyTraits(poiItem);
+					.AddSkyTraits(poiItem)
+					.InitMixedState(poiItem);
 				;
 			}
 
@@ -710,12 +722,12 @@ namespace ClusterTraitGenerationManager
 				reciever.world.seasons = item.meteorSeasons;
 			}
 			if (!reciever.IsPOI && !reciever.IsRandom)
-			{
-				reciever.SetFixedSkyTraits(item.FixedSkyTraits);
+			{               
+                reciever.SetFixedSkyTraits(item.FixedSkyTraits);
 				reciever.SetWorldTraits(item.planetTraits);
 				reciever.SetGeyserOverrides(item.geysers);
 				reciever.SetGeyserBlacklist(item.geyserBlacklists);
-				reciever.SetGeyserBlacklistAffectsNonGenerics(item.geyserBlacklistAffectsNonGenerics);
+				reciever.SetGeyserBlacklistAffectsNonGenerics(item.geyserBlacklistAffectsNonGenerics);				
 			}
 			else
 			{
