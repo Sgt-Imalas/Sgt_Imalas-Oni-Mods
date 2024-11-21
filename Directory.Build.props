@@ -16,9 +16,11 @@
     <QoL2024Feb>596100</QoL2024Feb>
     <FrostyPlanetBeta>616718</FrostyPlanetBeta>
     <FrostyPlanetRelease>622222</FrostyPlanetRelease>
+    <QOL2024NovBeta>641371</QOL2024NovBeta>
+    <QOL2024NovRelease>642443</QOL2024NovRelease>
     
     <!--Latest-->
-    <TargetGameVersion>$(FrostyPlanetRelease)</TargetGameVersion>
+    <TargetGameVersion>$(QOL2024NovRelease)</TargetGameVersion>
   </PropertyGroup>
 
 
@@ -55,6 +57,10 @@
       <!--Publicized version, run "Clean" on the 1_CycleComma project once to generate this-->
       <HintPath>$(AssemblyFirstpassPublicized)</HintPath>
       <HintPath Condition="'$(GameLibsFolder)' == '../Lib'">$(GameLibsFolder)/Assembly-CSharp-firstpass_public.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="netstandard">
+      <HintPath>$(GameLibsFolder)/netstandard.dll</HintPath>
       <Private>False</Private>
     </Reference>
 		<Reference Include="0Harmony">

@@ -334,9 +334,9 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 
 			if (DlcManager.IsExpansion1Active())
-				layout.requiredDlcIds = new string[] { DlcManager.EXPANSION1_ID };
+				layout.requiredDlcIds = [DlcManager.EXPANSION1_ID];
 			else
-				layout.forbiddenDlcIds = new string[] { DlcManager.EXPANSION1_ID };
+				layout.forbiddenDlcIds = [DlcManager.EXPANSION1_ID];
 
 			float multiplier = 1f;
 			if (CustomCluster.Rings > CustomCluster.defaultRings)
@@ -469,8 +469,9 @@ namespace ClusterTraitGenerationManager.ClusterData
 							var placement = GivePrefilledItem(randomItem).placement;
 							placement.allowedRings = world.placement.allowedRings;
 							placement.buffer = world.placement.buffer;
-
+							
 							//ApplySizeMultiplier(placement, multiplier);
+
 							layout.worldPlacements.Add(placement);
 
 							if (log)
@@ -480,6 +481,13 @@ namespace ClusterTraitGenerationManager.ClusterData
 					else
 					{
 						var placement = world.placement;
+
+						if (placement.worldMixing.mixingWasApplied)
+						{
+							SgtLogger.l("mixing placement: " + placement.world);
+                            SgtLogger.l(placement.worldMixing.additionalSubworldFiles.Count+"");
+						}
+
 						//ApplySizeMultiplier(placement, multiplier);
 						layout.worldPlacements.Add(placement);
 						if (log)
@@ -794,7 +802,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 				if (PlanetoidDict.TryGetValue(planetpath, out StarmapItem FoundPlanet))
 				{
-					SgtLogger.l(FoundPlanet.category.ToString());
+					//SgtLogger.l(FoundPlanet.category.ToString());
 					if (singleItemId != string.Empty && FoundPlanet.id != singleItemId)
 					{
 						continue;

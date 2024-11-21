@@ -77,33 +77,27 @@ namespace UtilLibs
 			Strings.Add("STRINGS." + category + ".STATUSITEMS." + status_id + ".NAME", name);
 			Strings.Add("STRINGS." + category + ".STATUSITEMS." + status_id + ".TOOLTIP", desc);
 		}
-		/// <summary>
-		/// Add SpriteOnly Item to techs
-		/// </summary>
-		/// <param name="techId"></param>
-		/// <param name="name"></param>
-		/// <param name="description"></param>
-		/// <param name="spriteName"></param>
-		/// <param name="awailableDLCs">DlcManager.</param>
-		public static TechItem AddItemToTechnologySprite(string techItemId, string techId, string name, string description, string spriteName, string[] availableDLCs = null)
+
+        /// <summary>
+        /// Add SpriteOnly Item to techs
+        /// </summary>
+        /// <param name="techId"></param>
+        /// <param name="name"></param>
+        /// <param name="description"></param>
+        /// <param name="spriteName"></param>
+        /// <param name="awailableDLCs">DlcManager.</param>
+        public static TechItem AddItemToTechnologySprite(string techItemId, string techId, string name, string description, string spriteName, string[] requiredDLcs = null, string[] forbiddenDlc = null, bool isPoiUnlock = false)
 		{
-			if (availableDLCs == null)
-			{
-				availableDLCs = DlcManager.AVAILABLE_ALL_VERSIONS;
-			}
 			AddBuildingToTechnology(techId, techItemId);
-			return Db.Get().TechItems.AddTechItem(techItemId, name, description, GetSpriteFnBuilder(spriteName), availableDLCs);
+			return Db.Get().TechItems.AddTechItem(techItemId, name, description, GetSpriteFnBuilder(spriteName), requiredDLcs, forbiddenDlc, isPoiUnlock);
 		}
 
-		public static TechItem AddItemToTechnologyKanim(string techItemId, string techId, string name, string description, string kanimName, string[] availableDLCs = null, string uiAnim = "ui")
+		public static TechItem AddItemToTechnologyKanim(string techItemId, string techId, string name, string description, string kanimName, string uiAnim = "ui", string[] requiredDLcs = null, string[] forbiddenDlc = null, bool isPoiUnlock = false)
 		{
 			var sprite = Def.GetUISpriteFromMultiObjectAnim(Assets.GetAnim(kanimName), uiAnim);
-			if (availableDLCs == null)
-			{
-				availableDLCs = DlcManager.AVAILABLE_ALL_VERSIONS;
-			}
+
 			AddBuildingToTechnology(techId, techItemId);
-			return Db.Get().TechItems.AddTechItem(techItemId, name, description, (anim, centered) => sprite, availableDLCs);
+			return Db.Get().TechItems.AddTechItem(techItemId, name, description, (anim, centered) => sprite, requiredDLcs, forbiddenDlc, isPoiUnlock);
 		}
 
 		public static void MoveExistingBuildingToNewPlanscreen(
@@ -205,7 +199,7 @@ namespace UtilLibs
 		}
 
 		public static void AddBuildingToTechnology(string techId, string buildingId)
-		{
+		{ 
 			Db.Get().Techs.Get(techId).unlockedItemIDs.Add(buildingId);
 		}
 		public static Sprite AddSpriteToAssets(Assets instance, string spriteid, bool overrideExisting = false)

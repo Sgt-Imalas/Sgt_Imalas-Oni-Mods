@@ -647,15 +647,15 @@ namespace PaintYourPipes
 			public static void Postfix(DetailsScreen __instance)
 			{
 
-				if (__instance.currentSideScreen != null
-					&& __instance.currentSideScreen.gameObject != null)
+				if (__instance.sideScreen != null
+					&& __instance.sideScreen.gameObject != null)
 				{
 					if (__instance.target.TryGetComponent<ColorableConduit>(out var colorable))
 						ColorableConduit_SideScreen.Target = colorable;
 					else
 						ColorableConduit_SideScreen.Target = null;
 
-					ColorableConduit_SideScreen.RefreshUIState(__instance.currentSideScreen.transform);
+					ColorableConduit_SideScreen.RefreshUIState(__instance.sideScreen.transform);
 				}
 			}
 		}

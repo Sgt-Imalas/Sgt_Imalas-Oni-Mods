@@ -19,7 +19,7 @@ namespace SetStartDupes.DuplicityEditing.Helpers
 					var source = ScreenPrefabs.Instance.RetiredColonyInfoScreen;
 
 					var clone = Util.KInstantiateUI(source.duplicantPrefab);
-					UIUtils.ListAllChildrenPath(clone.transform);
+					//UIUtils.ListAllChildrenPath(clone.transform);
 					if (clone != null)
 					{
 						crewPortraitPrefab = Util.KInstantiateUI(clone);//.transform.Find("PortraitImage").gameObject);

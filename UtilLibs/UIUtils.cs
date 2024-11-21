@@ -247,9 +247,6 @@ namespace UtilLibs
 			}
 		}
 
-
-
-
 		public static void ListAllChildrenWithComponents(Transform parent, int level = 0, int maxDepth = 10)
 		{
 			if (level >= maxDepth) return;
@@ -276,15 +273,16 @@ namespace UtilLibs
 		/// <summary>
 		/// Create sidescreen by cloning an already existing one.
 		/// </summary>
-		public static GameObject AddClonedSideScreen<T>(string name, string originalName, Type originalType)
+		public static GameObject AddClonedSideScreen<T>(string name, string originalName, Type originalType, SidescreenTabTypes targetTab = SidescreenTabTypes.Config)
 		{
-			bool elementsReady = GetElements(out List<SideScreenRef> screens, out GameObject contentBody);
+			bool elementsReady = GetElements(out List<SideScreenRef> screens, out var tabs);
 			if (elementsReady)
 			{
+				GameObject contentBody = GetContentBodyForTab(targetTab, tabs);
 				var oldPrefab = FindOriginal(originalName, screens);
 				var newPrefab = Copy<T>(oldPrefab, contentBody, name, originalType);
 
-				screens.Add(NewSideScreen(name, newPrefab));
+				screens.Add(NewSideScreen(name, newPrefab, targetTab));
 				return contentBody;
 			}
 			return null;
@@ -293,30 +291,38 @@ namespace UtilLibs
 		/// <summary>
 		/// Create sidescreen from a custom prefab.
 		/// </summary>
-		public static void AddCustomSideScreen<T>(string name, GameObject prefab)
+		public static void AddCustomSideScreen<T>(string name, GameObject prefab, SidescreenTabTypes targetTab = SidescreenTabTypes.Config)
 		{
-			bool elementsReady = GetElements(out List<SideScreenRef> screens, out _);
+			bool elementsReady = GetElements(out List<SideScreenRef> screens, out var tabs);
 			if (elementsReady)
 			{
 				var newScreen = prefab.AddComponent(typeof(T)) as SideScreenContent;
-				screens.Add(NewSideScreen(name, newScreen));
+				screens.Add(NewSideScreen(name, newScreen,targetTab));
 			}
 			else
 				SgtLogger.error($"Couldnt add custom sidescreen {name}, sidescreen vars not found");
 		}
 
-		private static bool GetElements(out List<SideScreenRef> screens, out GameObject contentBody)
+		private static GameObject GetContentBodyForTab(SidescreenTabTypes targetTab, List<SidescreenTab> tabs)
+		{
+			foreach(var tab in tabs)
+			{
+				if (tab.type == targetTab)
+				{
+					return tab.bodyInstance;
+				}
+			}
+			SgtLogger.logerror(targetTab + " not found!");
+			return null;
+		}
+        private static bool GetElements(out List<SideScreenRef> screens, out List<SidescreenTab> tabs)
 		{
 			var detailsScreen = Traverse.Create(DetailsScreen.Instance);
+			//grep screens
 			screens = detailsScreen.Field("sideScreens").GetValue<List<SideScreenRef>>();
-#if DEBUG
-            foreach (var v in screens)
-            {
-                //Debug.Log(v.name);
-            }
-#endif
-			contentBody = detailsScreen.Field("sideScreenConfigContentBody").GetValue<GameObject>();
-			return screens != null && contentBody != null;
+			//grep tabs
+            tabs = detailsScreen.Field("sidescreenTabs").GetValue<SidescreenTab[]>().ToList();
+			return screens != null && tabs != null;
 		}
 
 		private static SideScreenContent FindOriginal(string name, List<SideScreenRef> screens)
@@ -341,13 +347,14 @@ namespace UtilLibs
 			return prefab;
 		}
 
-		private static SideScreenRef NewSideScreen(string name, SideScreenContent prefab)
+		private static SideScreenRef NewSideScreen(string name, SideScreenContent prefab, SidescreenTabTypes targetTab)
 		{
 			return new SideScreenRef
 			{
 				name = name,
 				offset = Vector2.zero,
-				screenPrefab = prefab
+				screenPrefab = prefab,
+				tab = targetTab
 			};
 		}
 

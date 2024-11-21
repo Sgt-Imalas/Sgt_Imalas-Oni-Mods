@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>PedestalFilter</PackageId>
-		<Version>1.0.3</Version>
+		<Version>1.0.4</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>2022-2024 Sgt_Imalas</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
@@ -11,7 +11,7 @@
 
 	<!-- Build Properties -->
 	<PropertyGroup>
-		<TargetFramework>net471</TargetFramework>
+		<TargetFramework>net48</TargetFramework>
 		<Configurations>Debug;Release</Configurations>
 		<AssemblyName>PedestalFilter</AssemblyName>
 		<RootNamespace>PedestalFilter</RootNamespace>
@@ -26,7 +26,7 @@
 		<ModName>Pedestal Filter</ModName>
 		<ModDescription></ModDescription>
 		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
-		<MinimumSupportedBuild>$(QoL2024Feb)</MinimumSupportedBuild>
+		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 

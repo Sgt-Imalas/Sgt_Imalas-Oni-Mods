@@ -32,7 +32,7 @@ namespace BawoonFwiend
 			///ColorIntegration(this.gameObject);
 		}
 
-		public override void OnStartWork(Worker worker)
+		public override void OnStartWork(WorkerBase worker)
 		{
 			this.operational.SetActive(true);
 
@@ -48,7 +48,7 @@ namespace BawoonFwiend
 			}
 		}
 
-		public override void OnCompleteWork(Worker worker)
+		public override void OnCompleteWork(WorkerBase worker)
 		{
 			Storage component1 = this.GetComponent<Storage>();
 			component1.ConsumeIgnoringDisease(ModAssets.Tags.BalloonGas, Config.Instance.GasMass);
@@ -115,9 +115,9 @@ namespace BawoonFwiend
 		//   // SgtLogger.l("integration called");
 
 		//}
-		public override void OnStopWork(Worker worker) => this.operational.SetActive(false);
+		public override void OnStopWork(WorkerBase worker) => this.operational.SetActive(false);
 
-		public bool GetWorkerPriority(Worker worker, out int priority)
+		public bool GetWorkerPriority(WorkerBase worker, out int priority)
 		{
 			priority = RELAXATION.PRIORITY.TIER5;
 			worker.TryGetComponent<Effects>(out var component);

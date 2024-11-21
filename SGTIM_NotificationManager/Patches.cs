@@ -196,9 +196,9 @@ namespace SGTIM_NotificationManager
 		{
 			public static void Postfix(SuffocationMonitor __instance)
 			{
-				__instance.nooxygen.suffocating.enterActions.Clear();
+				__instance.noOxygen.suffocating.enterActions.Clear();
 				//__instance.nooxygen.suffocating.exitActions.Clear();
-				__instance.nooxygen.suffocating.Update((SuffocationMonitor.Instance smi, float dt) =>
+				__instance.noOxygen.suffocating.Update((SuffocationMonitor.Instance smi, float dt) =>
 				{
 					float breathValuePercentage = ((float)Config.Instance.SUFFOCATION_THRESHOLD) * 100f / 110f;
 					bool BeyondNotificationThreshold = (double)smi.breath.value <= breathValuePercentage;

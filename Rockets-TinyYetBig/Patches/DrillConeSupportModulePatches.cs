@@ -44,7 +44,7 @@ namespace Rockets_TinyYetBig.Patches
 		public class RocketControlStation_SetPilotSpeedMult_Patch
 		{
 			[HarmonyPriority(Priority.HigherThanNormal)]
-			public static void Prefix(Worker pilot, RocketControlStation.StatesInstance __instance)
+			public static void Prefix(WorkerBase pilot, RocketControlStation.StatesInstance __instance)
 			{
 				AttributeConverter diggingSpeed = Db.Get().AttributeConverters.DiggingSpeed;
 				if (pilot.TryGetComponent<AttributeConverters>(out var converters) && converters.GetConverter(diggingSpeed.Id) != null)

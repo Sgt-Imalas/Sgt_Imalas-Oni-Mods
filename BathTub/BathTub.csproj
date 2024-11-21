@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>BathTub</PackageId>
-		<Version>2.1.1</Version>
+		<Version>2.1.2</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>$(AssemblyCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
@@ -11,7 +11,7 @@
 
 	<!-- Build Properties -->
 	<PropertyGroup>
-		<TargetFramework>net471</TargetFramework>
+		<TargetFramework>net48</TargetFramework>
 		<Configurations>Debug;Release</Configurations>
 		<AssemblyName>BathTub</AssemblyName>
 		<RootNamespace>BathTub</RootNamespace>
@@ -26,7 +26,7 @@
 		<ModName>Bubbles Bathtub</ModName>
 		<ModDescription></ModDescription>
 		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
-		<MinimumSupportedBuild>587362</MinimumSupportedBuild>
+		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 

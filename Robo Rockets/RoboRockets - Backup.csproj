@@ -1,0 +1,140 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+ 
+	<!-- General Package Properties -->
+  <PropertyGroup>
+    <PackageId>RoboRockets</PackageId>
+    <Version>4.2.5</Version>
+    <Authors>Sgt_Imalas</Authors>
+    <Copyright>2022-2023 Sgt_Imalas</Copyright>
+    <RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
+  </PropertyGroup>
+
+	<!-- Build Properties -->
+	<PropertyGroup>
+		<TargetFramework>net48</TargetFramework>
+		<Configurations>Debug;Release</Configurations>
+		<AssemblyName>RoboRockets</AssemblyName>
+		<RootNamespace>RoboRockets</RootNamespace>
+		<IsMod>true</IsMod>
+		<GenerateMetadata>true</GenerateMetadata>
+		<IsPacked>true</IsPacked>
+	</PropertyGroup>
+	
+	
+	<!-- Mod Info AI Controlled Rockets-->
+	<PropertyGroup>
+		<ModName>AI Controlled Rockets</ModName>
+		<ModDescription>Adds in 3 Control Modules that allows Rockets to fly without a Pilot</ModDescription>
+		<SupportedContent>EXPANSION1_ID</SupportedContent>
+		<MinimumSupportedBuild>561558</MinimumSupportedBuild>
+		<APIVersion>2</APIVersion>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<OutDir>bin</OutDir>
+		<OutputPath></OutputPath>
+		<DocumentationFile></DocumentationFile>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	  <OutDir>bin</OutDir>
+	  <OutputPath />
+	  <DocumentationFile />
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2|AnyCPU'">
+	  <OutDir>bin</OutDir>
+	  <OutputPath />
+	  <DocumentationFile />
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<OutDir>bin</OutDir>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Properties\**" />
+	  <EmbeddedResource Remove="Properties\**" />
+	  <None Remove="Properties\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Aze.Publicise.MSBuild.Task" Version="1.1.0">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Update="ModAssets\anim\assets\brain_bot\brain_bot_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\brain_bot\brain_bot_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\brain_bot\brain_bot_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\Brain_Controller\Brain_Controller.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\Brain_Controller\Brain_Controller_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\Brain_Controller\Brain_Controller_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\brain_item\brain_item_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\brain_item\brain_item_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\brain_item\brain_item_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\rocket_habitat_ai_module\rocket_habitat_ai_module_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\rocket_habitat_ai_module\rocket_habitat_ai_module_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\rocket_habitat_ai_module\rocket_habitat_ai_module_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\rocket_habitat_ai_module_v2\rocket_habitat_ai_module_v2_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\rocket_habitat_ai_module_v2\rocket_habitat_ai_module_v2_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\rocket_habitat_ai_module_v2\rocket_habitat_ai_module_v2_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\templates\interiors\AIRocketV2.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\templates\interiors\habitat_robo.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\translations\de.po">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\translations\fr.po">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\translations\pt_BR.po">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\translations\ru.po">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\translations\zh.po">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+</Project>

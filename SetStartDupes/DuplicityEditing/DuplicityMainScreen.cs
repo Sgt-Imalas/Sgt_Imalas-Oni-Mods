@@ -171,7 +171,7 @@ namespace SetStartDupes.DuplicityEditing
 		{
 			if (init) { return; }
 			SgtLogger.l("Initializing Duplicity Dupe editing");
-			UIUtils.ListAllChildrenPath(this.transform);
+			//UIUtils.ListAllChildrenPath(this.transform);
 			MinionButtonContainer = transform.Find("Categories/Content/ScrollRectContainer").gameObject;
 			MinionButtonPrefab = MinionButtonContainer.transform.Find("Item").gameObject;
 			MinionButtonPrefab.SetActive(false);

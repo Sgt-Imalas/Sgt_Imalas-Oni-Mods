@@ -9,7 +9,7 @@ namespace Rockets_TinyYetBig
 	{
 		public const string ID = "RTB_GeneratorCoalModule";
 
-		public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
 
 		public override BuildingDef CreateBuildingDef()
 		{

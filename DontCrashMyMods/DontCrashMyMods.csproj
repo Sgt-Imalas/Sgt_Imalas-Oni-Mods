@@ -11,7 +11,7 @@
 
 	<!-- Build Properties -->
 	<PropertyGroup>
-		<TargetFramework>net471</TargetFramework>
+		<TargetFramework>net48</TargetFramework>
 		<Configurations>Debug;Release</Configurations>
 		<AssemblyName>DontCrashMyMods</AssemblyName>
 		<RootNamespace>DontCrashMyMods</RootNamespace>
@@ -26,7 +26,7 @@
 		<ModName>Help, none of my mod options are working after the DLC update - fix</ModName>
 		<ModDescription></ModDescription>
 		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
-		<MinimumSupportedBuild>$(FrostyPlanetRelease)</MinimumSupportedBuild>
+		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 

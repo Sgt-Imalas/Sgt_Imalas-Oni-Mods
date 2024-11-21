@@ -221,17 +221,8 @@ namespace DupePrioPresetManager
 			/// </summary>
 
 			[HarmonyPriority(Priority.LowerThanNormal)]
-			internal static void Postfix(ScheduleScreen __instance, Dictionary<string, ColorStyleSetting> ___paintStyles)
+			internal static void Postfix(ScheduleScreen __instance)
 			{
-				if (___paintStyles != null)
-				{
-					ModAssets.ColoursForBlocks = new Dictionary<string, ColorStyleSetting>();
-					foreach (var Kvp in ___paintStyles)
-					{
-						ModAssets.ColoursForBlocks[Kvp.Key] = Kvp.Value;
-					}
-				}
-
 				UnityScreen_ScheduleShifterPopup.RefreshAllAction = () => { __instance.OnSchedulesChanged(ScheduleManager.Instance.schedules); };
 			}
 		}
@@ -244,13 +235,13 @@ namespace DupePrioPresetManager
 
 			internal static void Postfix(ScheduleScreenEntry __instance, Schedule schedule)
 			{
-				//UIUtils.ListAllChildrenPath(__instance.transform);
+				UIUtils.ListAllChildrenPath(__instance.duplicateScheduleButton.transform);
 				//UIUtils.ListAllChildrenWithComponents(__instance.transform);
-				var btn = __instance.transform.Find("Header/OptionsButton");
+				var btn = __instance.duplicateScheduleButton;
 				var ButtonPresets = Util.KInstantiateUI(btn.gameObject, btn.transform.parent.gameObject).GetComponent<KButton>();
-				ButtonPresets.transform.SetSiblingIndex(2);
+				ButtonPresets.transform.SetSiblingIndex(3);
 				ButtonPresets.name = "PresetButton";
-				ButtonPresets.transform.Find("GameObject").TryGetComponent<Image>(out var imageBT);
+				ButtonPresets.transform.Find("FG").TryGetComponent<Image>(out var imageBT);
 				UIUtils.AddSimpleTooltipToObject(ButtonPresets.transform, STRINGS.UI.PRESETWINDOWDUPEPRIOS.OPENPRESETWINDOW, true, onBottom: true);
 
 				imageBT.sprite = Assets.GetSprite("iconPaste");
@@ -263,9 +254,9 @@ namespace DupePrioPresetManager
 
 
 				var ButtonShift = Util.KInstantiateUI(btn.gameObject, btn.transform.parent.gameObject).GetComponent<KButton>();
-				ButtonShift.transform.SetSiblingIndex(3);
-				ButtonShift.name = "PresetButton";
-				ButtonShift.transform.Find("GameObject").TryGetComponent<Image>(out var imageShift);
+				ButtonShift.transform.SetSiblingIndex(4);
+				ButtonShift.name = "ShiftScheduleButton";
+				ButtonShift.transform.Find("FG").TryGetComponent<Image>(out var imageShift);
 				UIUtils.AddSimpleTooltipToObject(ButtonShift.transform, STRINGS.UI.PRESETWINDOWDUPEPRIOS.OPENSHIFTCLONE, true, onBottom: true);
 
 				imageShift.sprite = Assets.GetSprite("action_direction_both");

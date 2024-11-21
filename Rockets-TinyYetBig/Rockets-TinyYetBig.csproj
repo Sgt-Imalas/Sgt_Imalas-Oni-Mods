@@ -11,7 +11,7 @@
 
 	<!-- Build Properties -->
 	<PropertyGroup>
-		<TargetFramework>net471</TargetFramework>
+		<TargetFramework>net48</TargetFramework>
 		<Configurations>Debug;Release</Configurations>
 		<AssemblyName>Rocketry Expanded</AssemblyName>
 		<RootNamespace>Rockets_TinyYetBig</RootNamespace>
@@ -25,7 +25,7 @@
 		<ModName>Rocketry Expanded</ModName>
 		<ModDescription>Various QoL Additions to Rockets. Shrinks the border around rocket interiors and provides some larger variants to construct. Also adds several new modules and mechanics to rockets</ModDescription>
 		<SupportedContent>EXPANSION1_ID</SupportedContent>
-		<MinimumSupportedBuild>$(FrostyPlanetRelease)</MinimumSupportedBuild>
+		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>

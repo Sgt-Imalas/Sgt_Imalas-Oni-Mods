@@ -247,13 +247,13 @@ namespace ClusterTraitGenerationManager.UI.SO_StarmapEditor
 			new (-1,1),
 			new (0,1),
 		};
-		public Vector2 GetPosForHex(int x, int y) => new(x * XStep + (0.5f * y * XStep), (-y * YStep));
+		public Vector2 GetPosForHex(int r, int q) => new(r * RStep + (0.5f * q * RStep), (-q * QStep));
 		public Tuple<int, int> GetHexPosForPos(Vector2 pos)
 		{
-			var y = (Mathf.Sqrt(3f) / 3f * pos.x - 1f / 3f * pos.y) / YStep;
-			var x = (2f / 3f * pos.y) / XStep;
+			var q = (Mathf.Sqrt(3f) / 3f * pos.x - 1f / 3f * pos.y) / QStep;
+			var r = (2f / 3f * pos.y) / RStep;
 
-			return new Tuple<int, int>(Mathf.RoundToInt(x), Mathf.RoundToInt(y));
+			return new Tuple<int, int>(Mathf.RoundToInt(r), Mathf.RoundToInt(q));
 		}
 
 		[SerializeField]
@@ -427,7 +427,9 @@ namespace ClusterTraitGenerationManager.UI.SO_StarmapEditor
 		float zoomStepMin = -2, zoomStepMax = 15;
 		float m_targetZoomScale = 0.25f, m_currentZoomScale = 0.25f;
 		int lastRadius;
-		float XStep, YStep;
+
+
+		float RStep, QStep;
 		public void UpdateBgGrid()
 		{
 			int radius = MapRadius - 1;
@@ -445,8 +447,8 @@ namespace ClusterTraitGenerationManager.UI.SO_StarmapEditor
 					EntryParent = gameObject;
 
 
-				XStep = (CellRadius) * Mathf.Sqrt(3f) + BufferDistance;
-				YStep = (3f / 2f) * (CellRadius + BufferDistance);
+				RStep = (CellRadius) * Mathf.Sqrt(3f) + BufferDistance;
+				QStep = (3f / 2f) * (CellRadius + BufferDistance);
 
 				RectTransform.sizeDelta = new Vector2((float)(MapRadius * 220), (float)(MapRadius * 200));
 				RectTransform.localPosition = new Vector2(0, 0);
@@ -491,18 +493,18 @@ namespace ClusterTraitGenerationManager.UI.SO_StarmapEditor
 		{
 			if (!ActiveItems.ContainsKey(key))
 			{
-				int x = key.first, y = key.second;
+				int r = key.first, q = key.second;
 
 				var StarmapItemEntry = Util.KInstantiateUI(DraggablePrefab, EntryParent);
 				StarmapItemEntry.SetActive(true);
 				StarmapItemEntry.TryGetComponent<RectTransform>(out var rect);
 				StarmapItemEntry.TryGetComponent<Image>(out var img);
-				rect.anchoredPosition = GetPosForHex(x, y);
+				rect.anchoredPosition = GetPosForHex(r, q); //x = r, y = q
 
 				var dragLogic = StarmapItemEntry.AddOrGet<HexDrag>();
-				dragLogic.Init(this, x, y, itemId);
+				dragLogic.Init(this, r, q, itemId);
 
-				ActiveItems.Add(new Tuple<int, int>(x, y), dragLogic);
+				ActiveItems.Add(new Tuple<int, int>(r, q), dragLogic);
 
 				if (init)
 					return;

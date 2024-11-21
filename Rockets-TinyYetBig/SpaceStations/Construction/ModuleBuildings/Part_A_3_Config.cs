@@ -6,7 +6,7 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction.ModuleBuildings
 	public class Part_A_3_Config : IBuildingConfig
 	{
 		public const string ID = "RTB_Part_A_3";
-		public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
 
 		public override BuildingDef CreateBuildingDef()
 		{

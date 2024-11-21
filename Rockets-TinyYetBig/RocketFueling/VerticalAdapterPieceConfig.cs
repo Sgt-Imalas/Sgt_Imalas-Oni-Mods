@@ -6,7 +6,7 @@ namespace Rockets_TinyYetBig.RocketFueling
 	internal class VerticalAdapterPieceConfig : IBuildingConfig
 	{
 		public const string ID = "RTB_VerticalAdapterPiece";
-		public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
 		public override BuildingDef CreateBuildingDef()
 		{
 

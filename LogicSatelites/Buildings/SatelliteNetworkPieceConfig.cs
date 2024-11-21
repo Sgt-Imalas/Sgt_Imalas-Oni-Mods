@@ -8,7 +8,7 @@ namespace LogicSatellites.Buildings
 	internal class SatelliteNetworkPieceConfig : IBuildingConfig
 	{
 		public const string ID = "LS_SatelliteNetworkGroundPiece";
-		public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
 		public override BuildingDef CreateBuildingDef()
 		{
 			float[] materialMass = new float[2]

@@ -29,6 +29,6 @@ namespace LogicSatellites.Behaviours
 			this.constructorInstance = this.GetSMI<BuildingInternalConstructorRocket.Instance>();
 		}
 
-		public override void OnCompleteWork(Worker worker) => this.constructorInstance.ConstructionComplete();
+		public override void OnCompleteWork(WorkerBase worker) => this.constructorInstance.ConstructionComplete();
 	}
 }

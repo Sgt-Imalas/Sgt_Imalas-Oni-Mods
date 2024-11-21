@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>SaveGameModLoader</PackageId>
-		<Version>6.8.0</Version>
+		<Version>6.8.1</Version>
 		<Authors>Sgt_Imalas</Authors>
     <Copyright>$(AssemblyCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
@@ -11,7 +11,7 @@
 
 	<!-- Build Properties -->
 	<PropertyGroup>
-		<TargetFramework>net471</TargetFramework>
+		<TargetFramework>net48</TargetFramework>
 		<Configurations>Debug;Release</Configurations>
 		<AssemblyName>SaveGameModLoader</AssemblyName>
 		<RootNamespace>SaveGameModLoader</RootNamespace>
@@ -51,7 +51,6 @@
 	    <PrivateAssets>all</PrivateAssets>
 	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	  </PackageReference>
-	  <PackageReference Include="DotNetZip" Version="1.16.0" />
 	</ItemGroup>
 	
 	<ItemGroup>

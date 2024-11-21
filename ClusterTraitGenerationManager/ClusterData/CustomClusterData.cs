@@ -8,10 +8,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
+using TUNING;
 using UnityEngine;
 using UtilLibs;
 using static ClusterTraitGenerationManager.ClusterData.CGSMClusterManager;
 using static ClusterTraitGenerationManager.Patches;
+using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.CATEGORIES.FOOTERCONTENT;
 
 namespace ClusterTraitGenerationManager.ClusterData
 {
@@ -49,7 +51,24 @@ namespace ClusterTraitGenerationManager.ClusterData
 			return spacedOutActive ? "expansion1::clusters/SandstoneStartCluster" : "clusters/SandstoneDefault"; //final fallback
 		}
 
-		[JsonIgnore] public bool HasCeresAsteroid => GetAllPlanets().Any(planet => planet.DlcID == DlcManager.DLC2_ID || planet.id.ToUpperInvariant().Contains("CERES"));
+
+		public bool IsCeresMixingActive()
+		{
+            foreach(var mixinsetting in CustomGameSettings.Instance.GetActiveWorldMixingSettings())
+			{
+				if (mixinsetting.dlcIdFrom == DlcManager.DLC2_ID)
+					return true;
+			}
+			foreach( var subworldmixingsetting in CustomGameSettings.Instance.GetActiveSubworldMixingSettings())
+			{
+
+                if (subworldmixingsetting.dlcIdFrom == DlcManager.DLC2_ID)
+                    return true;
+            }
+			return false;
+        }
+
+		[JsonIgnore] public bool HasCeresAsteroid => GetAllPlanets().Any(planet => planet.DlcID == DlcManager.DLC2_ID || planet.id.ToUpperInvariant().Contains("CERES")) || IsCeresMixingActive();
 		[JsonIgnore] public bool HasCeresStarter => StarterPlanet != null && (StarterPlanet.DlcID == DlcManager.DLC2_ID || StarterPlanet.id.ToUpperInvariant().Contains("CERES"));
 		[JsonIgnore] public bool HasTear => POIs != null && POIs.Any(item => item.Value.placementPOI != null && item.Value.placementPOI.pois != null && item.Value.placementPOI.pois.Contains("TemporalTear"));
 		[JsonIgnore] public bool HasTeapot => POIs != null && POIs.Any(item => item.Value.placementPOI != null && item.Value.placementPOI.pois != null && item.Value.placementPOI.pois.Contains("ArtifactSpacePOI_RussellsTeapot"));

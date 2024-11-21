@@ -560,7 +560,6 @@ namespace ClusterTraitGenerationManager.ClusterData
 				additionalSubworldFiles = new (placement2.worldMixing.additionalSubworldFiles),
 				additionalSeasons = new List<string>(placement2.worldMixing.additionalSeasons),
 
-
 				mixingWasApplied = placement2.worldMixing.mixingWasApplied,
 				previousWorld = placement2.worldMixing.previousWorld
 			};
@@ -598,7 +597,9 @@ namespace ClusterTraitGenerationManager.ClusterData
 					placement.worldMixing.previousWorld = placement.world;
 					placement.worldMixing.mixingWasApplied = true;
 					placement.world = mix.world.filePath;
-				}
+
+					mix.PredefinedPlacementOrder = this.PredefinedPlacementOrder;
+                }
 			}
 			return this;
 		}

@@ -11,7 +11,7 @@
 
 	<!-- Build Properties -->
 	<PropertyGroup>
-		<TargetFramework>net471</TargetFramework>
+		<TargetFramework>net48</TargetFramework>
 		<Configurations>Debug;Release</Configurations>
 		<AssemblyName>DlcSwapButton</AssemblyName>
 		<RootNamespace>DlcSwapButton</RootNamespace>
@@ -26,7 +26,7 @@
 		<ModName>Old Dlc Toggle</ModName>
 		<ModDescription></ModDescription>
 		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
-    <MinimumSupportedBuild>$(FrostyPlanetRelease)</MinimumSupportedBuild>
+    <MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 

@@ -28,7 +28,7 @@ namespace BathTub
 			this.faceTargetWhenWorking = true;
 			this.SetWorkTime(35f);
 		}
-		public override bool OnWorkTick(Worker worker, float dt)
+		public override bool OnWorkTick(WorkerBase worker, float dt)
 		{
 			PrimaryElement component = worker.GetComponent<PrimaryElement>();
 			if (component.DiseaseCount > 0)
@@ -49,12 +49,12 @@ namespace BathTub
 			}
 			return false;
 		}
-		public override Workable.AnimInfo GetAnim(Worker worker) => base.GetAnim(worker) with
+		public override Workable.AnimInfo GetAnim(WorkerBase worker) => base.GetAnim(worker) with
 		{
 			smi = (StateMachine.Instance)new HotTubWorkerStateMachine.StatesInstance(worker)
 		};
 
-		public override void OnStartWork(Worker worker)
+		public override void OnStartWork(WorkerBase worker)
 		{
 			this.faceLeft = UnityEngine.Random.value > 0.5f;
 			worker.GetComponent<Effects>().Add("HotTubRelaxing", false);
@@ -69,11 +69,11 @@ namespace BathTub
 			this.accumulatedDisease = SimUtil.DiseaseInfo.Invalid;
 		}
 
-		public override void OnStopWork(Worker worker) => worker.GetComponent<Effects>().Remove("HotTubRelaxing");
+		public override void OnStopWork(WorkerBase worker) => worker.GetComponent<Effects>().Remove("HotTubRelaxing");
 
 		public override Vector3 GetFacingTarget() => this.transform.GetPosition() + (this.faceLeft ? Vector3.left : Vector3.right);
 
-		public override void OnCompleteWork(Worker worker)
+		public override void OnCompleteWork(WorkerBase worker)
 		{
 			Effects component = worker.GetComponent<Effects>();
 			for (int index = 0; index < Shower.EffectsRemoved.Length; ++index)
@@ -87,7 +87,7 @@ namespace BathTub
 			worker.GetSMI<HygieneMonitor.Instance>()?.SetDirtiness(0.0f);
 		}
 
-		public bool GetWorkerPriority(Worker worker, out int priority)
+		public bool GetWorkerPriority(WorkerBase worker, out int priority)
 		{
 			priority = this.bathTub.basePriority;
 			Effects component = worker.GetComponent<Effects>();

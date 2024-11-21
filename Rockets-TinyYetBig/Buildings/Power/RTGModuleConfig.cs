@@ -11,7 +11,7 @@ namespace Rockets_TinyYetBig
 		public const float UraniumCapacity = 50f;
 		public const float energyProduction = 120f;
 		public float ConsumptionRate = (UraniumCapacity / Config.Instance.IsotopeDecayTime) / 600f;
-		public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
 
 		public override BuildingDef CreateBuildingDef()
 		{

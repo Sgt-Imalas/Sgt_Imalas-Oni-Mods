@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>DailyRoutine</PackageId>
-		<Version>1.0.8</Version>
+		<Version>1.0.9</Version>
 		<Authors>Sgt_Imalas</Authors>
 		     <Copyright>$(AssemblyCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
@@ -11,7 +11,7 @@
 
 	<!-- Build Properties -->
 	<PropertyGroup>
-		<TargetFramework>net471</TargetFramework>
+		<TargetFramework>net48</TargetFramework>
 		<Configurations>Debug;Release</Configurations>
 		<AssemblyName>DailyRoutine</AssemblyName>
 		<RootNamespace>DailyRoutine</RootNamespace>

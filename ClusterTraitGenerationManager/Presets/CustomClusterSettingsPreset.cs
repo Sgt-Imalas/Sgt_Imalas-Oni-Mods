@@ -12,6 +12,7 @@ using UtilLibs;
 using static ClusterTraitGenerationManager.ClusterData.CGSMClusterManager;
 using static ClusterTraitGenerationManager.STRINGS;
 using static CustomGameSettings;
+using static STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS;
 
 namespace ClusterTraitGenerationManager
 {
@@ -43,7 +44,8 @@ namespace ClusterTraitGenerationManager
 		public List<SO_POI_DataEntry> SO_POI_Overrides;
 		public Dictionary<int, List<string>> VanillaStarmapLocations;
 		public Dictionary<string, string> StoryTraits;
-		public List<string> BlacklistedTraits;
+		public Dictionary<string, string> MixingSettings;
+        public List<string> BlacklistedTraits;
 
 		void PopulatePresetData(CustomClusterData data)
 		{
@@ -246,9 +248,29 @@ namespace ClusterTraitGenerationManager
 				}
 				StoryTraits.Add(story.Key, value);
 			}
-		}
+            MixingSettings = new Dictionary<string, string>();
+            foreach (var story in instance.MixingSettings)
+            {
+                string value = string.Empty;
 
-		private void SetCustomGameSettings(SettingConfig ConfigToSet, object valueId, bool isStoryTrait = false)
+                if (!instance.CurrentMixingLevelsBySetting.ContainsKey(story.Key))
+                {
+                    value = story.Value.GetDefaultLevelId();
+                }
+                else
+                {
+                    value = instance.CurrentMixingLevelsBySetting[story.Key];
+                }
+                MixingSettings.Add(story.Key, value);
+            }
+
+        }
+        private void SetMixingSettings(MixingSettingConfig mixing, object valueId)
+        {
+            string valueToSet = valueId.ToString();
+			CustomGameSettings.Instance.SetMixingSetting(mixing, valueToSet);            
+        }
+        private void SetCustomGameSettings(SettingConfig ConfigToSet, object valueId, bool isStoryTrait = false)
 		{
 			string valueToSet = valueId.ToString();
 			if (valueId is bool)
@@ -337,12 +359,23 @@ namespace ClusterTraitGenerationManager
 			{
 				foreach (var story in StoryTraits)
 				{
-					if (CustomGameSettings.Instance.StorySettings.ContainsKey(story.Key))
+					if (CustomGameSettings.Instance.StorySettings.TryGetValue(story.Key, out var storyTraitSetting))
 					{
-						SetCustomGameSettings(CustomGameSettings.Instance.StorySettings[story.Key], story.Value, true);
+						SetCustomGameSettings(storyTraitSetting, story.Value, true);
 					}
 				}
 			}
+
+			if(MixingSettings!=null && MixingSettings.Count > 0)
+			{
+                foreach (var mix in MixingSettings)
+                {
+                    if (CustomGameSettings.Instance.MixingSettings.TryGetValue(mix.Key, out var mixingSetting ))
+                    {
+                        SetMixingSettings(mixingSetting as MixingSettingConfig, mix.Value);
+                    }
+                }
+            }
 		}
 
 
@@ -365,6 +398,7 @@ namespace ClusterTraitGenerationManager
 			public List<string> geyserBlacklists;
 			public bool geyserBlacklistAffectsNonGenerics;
 			public bool allowDuplicates, avoidClumping, guarantee;
+			public string mixedBy = null;
 
 			public SerializableStarmapItem AddGeysers(List<string> geyserIDs)
 			{
@@ -390,7 +424,16 @@ namespace ClusterTraitGenerationManager
 				}
 				return this;
 			}
-			public SerializableStarmapItem AddTraits(List<string> _traitIDs)
+            private SerializableStarmapItem InitMixedState(StarmapItem poiItem)
+            {
+                if (poiItem != null && poiItem.IsMixed)
+                {
+					mixedBy = poiItem.MixingAsteroidSource.id;
+                }
+                return this;
+            }
+            
+            public SerializableStarmapItem AddTraits(List<string> _traitIDs)
 			{
 				planetTraits = new List<string>(_traitIDs);
 				return this;
@@ -495,7 +538,8 @@ namespace ClusterTraitGenerationManager
 					.AddGeysers(poiItem.GeyserOverrideIDs)
 					.AddGeyserBlacklists(poiItem.GeyserBlacklistIDs, poiItem.GeyserBlacklistAffectsNonGenerics)
 					.AddTraits(poiItem.CurrentTraits)
-					.AddSkyTraits(poiItem);
+					.AddSkyTraits(poiItem)
+					.InitMixedState(poiItem);
 				;
 			}
 
@@ -710,12 +754,12 @@ namespace ClusterTraitGenerationManager
 				reciever.world.seasons = item.meteorSeasons;
 			}
 			if (!reciever.IsPOI && !reciever.IsRandom)
-			{
-				reciever.SetFixedSkyTraits(item.FixedSkyTraits);
+			{               
+                reciever.SetFixedSkyTraits(item.FixedSkyTraits);
 				reciever.SetWorldTraits(item.planetTraits);
 				reciever.SetGeyserOverrides(item.geysers);
 				reciever.SetGeyserBlacklist(item.geyserBlacklists);
-				reciever.SetGeyserBlacklistAffectsNonGenerics(item.geyserBlacklistAffectsNonGenerics);
+				reciever.SetGeyserBlacklistAffectsNonGenerics(item.geyserBlacklistAffectsNonGenerics);				
 			}
 			else
 			{

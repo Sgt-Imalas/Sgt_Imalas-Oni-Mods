@@ -15,7 +15,7 @@ namespace Rockets_TinyYetBig.Buildings.Engines
 		public const int MaxRange = 32;
 		public const SimHashes FUEL = SimHashes.Water;
 
-		public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
 
 		public override BuildingDef CreateBuildingDef()
 		{

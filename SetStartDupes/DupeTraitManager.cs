@@ -428,7 +428,7 @@ namespace SetStartDupes
 			}
 			else
 			{
-				if (trait.Id == MinionConfig.MINION_BASE_TRAIT_ID)
+				if (ModAssets.IsMinionBaseTrait(trait.Id))
 					return;
 
 				var type = ModAssets.GetTraitListOfTrait(trait.Id);
@@ -623,6 +623,7 @@ namespace SetStartDupes
 			stress,
 			undefined,
 			cogenital,
+			bionic,
 			allTraits,
 
 			Beached_LifeGoal,

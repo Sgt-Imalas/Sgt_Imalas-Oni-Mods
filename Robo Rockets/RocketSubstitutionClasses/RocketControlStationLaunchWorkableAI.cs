@@ -2,6 +2,6 @@
 {
 	class RocketControlStationLaunchWorkableAI : RocketControlStationLaunchWorkable
 	{
-		public override float GetEfficiencyMultiplier(Worker worker) => 1f;
+		public override float GetEfficiencyMultiplier(WorkerBase worker) => 1f;
 	}
 }

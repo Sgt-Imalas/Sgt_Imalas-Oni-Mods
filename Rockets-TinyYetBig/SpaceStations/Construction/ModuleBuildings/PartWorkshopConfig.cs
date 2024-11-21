@@ -6,7 +6,7 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction.ModuleBuildings
 	internal class PartWorkshopConfig : IBuildingConfig
 	{
 		public const string ID = "RTB_PartWorkshopBase";
-		public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
 
 		public override BuildingDef CreateBuildingDef()
 		{

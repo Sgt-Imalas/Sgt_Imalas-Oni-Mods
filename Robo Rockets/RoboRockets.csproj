@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
   <PropertyGroup>
     <PackageId>RoboRockets</PackageId>
-    <Version>4.2.5</Version>
+    <Version>4.2.6</Version>
     <Authors>Sgt_Imalas</Authors>
     <Copyright>2022-2023 Sgt_Imalas</Copyright>
     <RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
@@ -11,7 +11,7 @@
 
 	<!-- Build Properties -->
 	<PropertyGroup>
-		<TargetFramework>net471</TargetFramework>
+		<TargetFramework>net48</TargetFramework>
 		<Configurations>Debug;Release</Configurations>
 		<AssemblyName>RoboRockets</AssemblyName>
 		<RootNamespace>RoboRockets</RootNamespace>
@@ -26,7 +26,7 @@
 		<ModName>AI Controlled Rockets</ModName>
 		<ModDescription>Adds in 3 Control Modules that allows Rockets to fly without a Pilot</ModDescription>
 		<SupportedContent>EXPANSION1_ID</SupportedContent>
-		<MinimumSupportedBuild>561558</MinimumSupportedBuild>
+		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>
@@ -133,7 +133,7 @@
 	  <None Update="ModAssets\translations\ru.po">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\translations\zh_CN.po">
+	  <None Update="ModAssets\translations\zh.po">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>

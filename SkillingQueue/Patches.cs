@@ -1,5 +1,6 @@
 ﻿using Database;
 using HarmonyLib;
+using PeterHan.PLib.Core;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -12,30 +13,37 @@ namespace SkillingQueue
 		//SimHashes.SkillPointAquired, MinionResume data
 		public static Dictionary<MinionResume, SavedSkillQueue> ResumeQueues = new Dictionary<MinionResume, SavedSkillQueue>();
 
+
+		//in their infinite competency klei completely broke patching minionConfig class directly >:( 
+
 		/// <summary>
 		/// Add Skill queue component to dupe prefab
 		/// </summary>
 		[HarmonyPatch(typeof(MinionConfig), nameof(MinionConfig.CreatePrefab))]
 		public static class MinionConfig_CreatePrefab_Patch
 		{
+			
 			public static void Postfix(GameObject __result)
 			{
 				__result.AddOrGet<SavedSkillQueue>();
 			}
 		}
-		//[HarmonyPatch(typeof(MinionResume), nameof(MinionResume.AddExperience))]
-		//public static class DEBUG_MULTIPLIER
-		//{
-		//    public static void Prefix(ref float amount)
-		//    {
-		//        amount *= 100f;
-		//    }
-		//}
 
-		/// <summary>
-		/// refresh queue on skill learned
-		/// </summary>
-		[HarmonyPatch(typeof(MinionResume), nameof(MinionResume.MasterSkill))]
+
+
+        //[HarmonyPatch(typeof(MinionResume), nameof(MinionResume.AddExperience))]
+        //public static class DEBUG_MULTIPLIER
+        //{
+        //    public static void Prefix(ref float amount)
+        //    {
+        //        amount *= 100f;
+        //    }
+        //}
+
+        /// <summary>
+        /// refresh queue on skill learned
+        /// </summary>
+        [HarmonyPatch(typeof(MinionResume), nameof(MinionResume.MasterSkill))]
 		public static class MinionResume_MasterSkill_Patch
 		{
 			public static void Postfix(MinionResume __instance, string skillId)

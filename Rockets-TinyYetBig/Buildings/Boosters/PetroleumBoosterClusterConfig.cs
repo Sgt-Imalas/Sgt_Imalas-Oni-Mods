@@ -12,7 +12,7 @@ namespace Rockets_TinyYetBig.Buildings.Boosters
 		public const string kanim = "rocket_solid_booster_kanim"; //rocket_petro_engine_small_kanim
 																  //public const float Wattage = 240f;
 
-		public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
 
 		public override BuildingDef CreateBuildingDef()
 		{

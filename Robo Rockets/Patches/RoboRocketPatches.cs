@@ -164,7 +164,7 @@ namespace RoboRockets
 		[HarmonyPatch(typeof(RocketControlStation.StatesInstance), nameof(RocketControlStation.StatesInstance.SetPilotSpeedMult))]
 		public class RocketControlStation_SetPilotSpeedMult_Patch
 		{
-			public static bool Prefix(Worker pilot, RocketControlStation.StatesInstance __instance)
+			public static bool Prefix(WorkerBase pilot, RocketControlStation.StatesInstance __instance)
 			{
 				AttributeConverter pilotingSpeed = Db.Get().AttributeConverters.PilotingSpeed;
 				if (pilot.GetComponent<AttributeConverters>().GetConverter(pilotingSpeed.Id) == null)

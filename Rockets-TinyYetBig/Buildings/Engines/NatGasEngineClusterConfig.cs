@@ -14,7 +14,7 @@ namespace Rockets_TinyYetBig.Buildings.Engines
 		public const float TankCapacity = 450f;
 		public const int RocketHeight = 23;
 
-		public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
 
 		public override BuildingDef CreateBuildingDef()
 		{

@@ -145,10 +145,11 @@ namespace DupePrioPresetManager
 					newSchedule = ScheduleManager.Instance.AddSchedule(Db.Get().ScheduleGroups.allGroups, null, false);
 				}
 
+				int blocksCount = ToChangeOrClone.blocks.Count;
 
-				for (int i = 0; i < ToChangeOrClone.blocks.Count; ++i)
+                for (int i = 0; i < blocksCount; ++i)
 				{
-					int oldIndex = (i - ShiftIndex + 24) % 24;
+					int oldIndex = (i - ShiftIndex + blocksCount) % blocksCount;
 					newBlocks.Add(ToChangeOrClone.blocks[oldIndex]);
 				}
 

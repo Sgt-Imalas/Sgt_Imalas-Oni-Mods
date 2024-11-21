@@ -308,7 +308,7 @@ namespace SaveGameModLoader
 		{
 			try
 			{
-				var path = Path.Combine(ModsFolder, "mods.json");
+				var path = Path.Combine(IO_Utils.ModsFolder, "mods.json");
 				SgtLogger.l("WRITING TO: " + path);
 				var fileInfo = new FileInfo(path);
 

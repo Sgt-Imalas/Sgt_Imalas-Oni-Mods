@@ -2,6 +2,7 @@
 using KMod;
 using System;
 using System.IO;
+using System.Reflection;
 using static global::STRINGS.ROOMS;
 
 namespace UtilLibs
@@ -48,7 +49,7 @@ namespace UtilLibs
 			RoomConstraints.DECORATIVE_ITEM.name = string.Format(CRITERIA.DECORATIVE_ITEM.NAME, 1); RoomConstraints.DECORATIVE_ITEM.description = string.Format(CRITERIA.DECORATIVE_ITEM.DESCRIPTION, 1);
 			RoomConstraints.DECORATIVE_ITEM_2.name = string.Format(CRITERIA.DECORATIVE_ITEM.NAME, 2); RoomConstraints.DECORATIVE_ITEM_2.description = string.Format(CRITERIA.DECORATIVE_ITEM.DESCRIPTION, 2);
 			RoomConstraints.DECORATIVE_ITEM_SCORE_20.name = CRITERIA.DECOR20.NAME; RoomConstraints.DECORATIVE_ITEM_SCORE_20.description = CRITERIA.DECOR20.DESCRIPTION;
-			RoomConstraints.POWER_STATION.name = CRITERIA.POWERSTATION.NAME; RoomConstraints.POWER_STATION.description = CRITERIA.POWERSTATION.DESCRIPTION;
+			RoomConstraints.POWER_STATION.name = CRITERIA.POWERPLANT.NAME; RoomConstraints.POWER_STATION.description = CRITERIA.POWERPLANT.DESCRIPTION;
 			RoomConstraints.FARM_STATION.name = CRITERIA.FARMSTATIONTYPE.NAME; RoomConstraints.FARM_STATION.description = CRITERIA.FARMSTATIONTYPE.DESCRIPTION;
 			RoomConstraints.RANCH_STATION.name = CRITERIA.RANCHSTATIONTYPE.NAME; RoomConstraints.RANCH_STATION.description = CRITERIA.RANCHSTATIONTYPE.DESCRIPTION;
 			RoomConstraints.SPICE_STATION.name = CRITERIA.SPICESTATION.NAME; RoomConstraints.SPICE_STATION.description = CRITERIA.SPICESTATION.DESCRIPTION;
@@ -97,7 +98,9 @@ namespace UtilLibs
 			if (generateTemplate)
 			{
 				Localization.GenerateStringsTemplate(root, Path.Combine(Manager.GetDirectory(), "strings_templates"));
-			}
+
+				Localization.GenerateStringsTemplate(root.Namespace, Assembly.GetExecutingAssembly(), Path.Combine(IO_Utils.ModPath, "translation_template.pot"), null);
+            }
 		}
 
 		// Loads user created translations

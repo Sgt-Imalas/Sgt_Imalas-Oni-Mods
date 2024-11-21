@@ -239,7 +239,7 @@ namespace SetStartDupes
 			//SgtLogger.l("redoing trait vis");
 			foreach (var trait in CurrentlySelected.Traits)
 			{
-				if (trait == MinionConfig.MINION_BASE_TRAIT_ID)
+				if (ModAssets.IsMinionBaseTrait(trait))
 					continue;
 
 				var traitcon = Util.KInstantiateUI(InfoRowPrefab, InfoScreenContainer, true);

@@ -18,7 +18,7 @@ namespace KnastoronOniMods
 		public const float SLOW_SPEED = 0.5f;
 		public const float DEFAULT_PILOT_MODIFIER = 1f;
 
-		public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
 
 		public override BuildingDef CreateBuildingDef()
 		{

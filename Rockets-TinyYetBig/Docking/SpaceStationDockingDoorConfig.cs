@@ -7,7 +7,7 @@ namespace Rockets_TinyYetBig.Buildings
 	class SpaceStationDockingDoorConfig : IBuildingConfig
 	{
 		public const string ID = "RTB_SpaceStationDockingDoor";
-		public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
 
 		public override BuildingDef CreateBuildingDef()
 		{

@@ -1,0 +1,92 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<!-- General Package Properties -->
+	<PropertyGroup>
+		<PackageId>SaveGameModLoader</PackageId>
+		<Version>6.8.0</Version>
+		<Authors>Sgt_Imalas</Authors>
+    <Copyright>$(AssemblyCopyright)</Copyright>
+		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
+	</PropertyGroup>
+
+	<!-- Build Properties -->
+	<PropertyGroup>
+		<TargetFramework>net48</TargetFramework>
+		<Configurations>Debug;Release</Configurations>
+		<AssemblyName>SaveGameModLoader</AssemblyName>
+		<RootNamespace>SaveGameModLoader</RootNamespace>
+		<IsMod>true</IsMod>
+		<GenerateMetadata>true</GenerateMetadata>
+		<IsPacked>true</IsPacked>
+	</PropertyGroup>
+
+
+	<!-- Mod Info -->
+	<PropertyGroup>
+		<ModName>Mod Profile Manager</ModName>
+		<ModDescription>Manage your mods in profiles and synchronize your active mods with those used in your save games.</ModDescription>
+		<SupportedContent>ALL</SupportedContent>
+		<MinimumSupportedBuild>561558</MinimumSupportedBuild>
+		<APIVersion>2</APIVersion>
+	</PropertyGroup>
+
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<OutDir>bin</OutDir>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<LangVersion>preview</LangVersion>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="SteamItems\**" />
+	  <EmbeddedResource Remove="SteamItems\**" />
+	  <None Remove="SteamItems\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Aze.Publicise.MSBuild.Task" Version="1.1.0">
+	    <PrivateAssets>all</PrivateAssets>
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
+	  <PackageReference Include="DotNetZip" Version="1.16.0" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <Reference Include="PresentationCore" />
+	</ItemGroup>
+	
+
+	
+	<ItemGroup>
+	  <None Update="ModAssets\assets\MPM_CLIPBOARD.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\assets\MPM_DEL.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\assets\MPM_Flag.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\assets\MPM_Pin.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\assets\MPM_TAG.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\translations\de.po">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\translations\fr.po">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+	
+	
+</Project>

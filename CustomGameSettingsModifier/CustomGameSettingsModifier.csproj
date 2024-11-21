@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>CustomGameSettingsModifier</PackageId>
-		<Version>1.1.0</Version>
+		<Version>1.1.2</Version>
 		<Authors>Sgt_Imalas</Authors>
     <Copyright>$(AssemblyCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
@@ -11,7 +11,7 @@
 
 	<!-- Build Properties -->
 	<PropertyGroup>
-		<TargetFramework>net471</TargetFramework>
+		<TargetFramework>net48</TargetFramework>
 		<Configurations>Debug;Release</Configurations>
 		<AssemblyName>CustomGameSettingsModifier</AssemblyName>
 		<RootNamespace>CustomGameSettingsModifier</RootNamespace>
@@ -26,7 +26,7 @@
 		<ModName>Modify Difficulty Settings</ModName>
 		<ModDescription></ModDescription>
 		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
-		<MinimumSupportedBuild>561558</MinimumSupportedBuild>
+		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 

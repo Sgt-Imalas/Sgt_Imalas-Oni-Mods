@@ -25,8 +25,8 @@ namespace Rockets_TinyYetBig
 			//ModuleConfigManager.Init();
 
 			base.OnLoad(harmony);
-			//GameTags.MaterialBuildingElements.Add(ModAssets.Tags.RadiationShielding);
-			//GameTags.MaterialBuildingElements.Add(ModAssets.Tags.NeutroniumDust);
+			GameTags.MaterialBuildingElements.Add(ModAssets.Tags.RadiationShieldingRocketConstructionMaterial);
+			GameTags.MaterialBuildingElements.Add(ModAssets.Tags.NeutroniumAlloy);
 
 			ModAssets.LoadAssets();
 
@@ -35,7 +35,6 @@ namespace Rockets_TinyYetBig
 
 			///mod applies fix to rocketConduitports leaking
 			PRegistry.PutData("Bugs.RocketConduitPorts", true);
-
 
 		}
 		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)

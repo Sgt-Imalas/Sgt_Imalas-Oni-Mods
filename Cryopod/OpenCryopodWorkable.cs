@@ -43,16 +43,16 @@ namespace Cryopod
 			this.requireMinionToWork = true;
 			return openChore;
 		}
-		public override void OnStartWork(Worker worker) => base.OnStartWork(worker);
+		public override void OnStartWork(WorkerBase worker) => base.OnStartWork(worker);
 
-		public override bool OnWorkTick(Worker worker, float dt)
+		public override bool OnWorkTick(WorkerBase worker, float dt)
 		{
 			base.OnWorkTick(worker, dt);
 			return false;
 		}
-		public override void OnStopWork(Worker worker) => base.OnStopWork(worker);
+		public override void OnStopWork(WorkerBase worker) => base.OnStopWork(worker);
 
-		public override void OnCompleteWork(Worker worker)
+		public override void OnCompleteWork(WorkerBase worker)
 		{
 
 			CompleteOpenChore();
