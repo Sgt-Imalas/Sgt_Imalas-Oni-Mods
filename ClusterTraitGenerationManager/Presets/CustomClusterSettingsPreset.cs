@@ -263,7 +263,6 @@ namespace ClusterTraitGenerationManager
                 }
                 MixingSettings.Add(story.Key, value);
             }
-
         }
         private void SetMixingSettings(MixingSettingConfig mixing, object valueId)
         {

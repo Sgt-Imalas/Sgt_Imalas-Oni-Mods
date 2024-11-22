@@ -181,9 +181,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoragePiles", "StoragePile
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoldHatch", "GoldHatch\GoldHatch.csproj", "{D6BA8125-D114-4A32-931B-4D909129C5DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SatisfyingPowerShards", "SatisfyingPowerShards\SatisfyingPowerShards.csproj", "{13F75AF5-AC55-4A3C-B730-3A489FAE226A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SatisfyingPowerShards", "SatisfyingPowerShards\SatisfyingPowerShards.csproj", "{13F75AF5-AC55-4A3C-B730-3A489FAE226A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElementalWood", "ElementalWood\ElementalWood.csproj", "{0E96E5D1-28E6-40B7-A601-0841278BF130}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElementalWood", "ElementalWood\ElementalWood.csproj", "{0E96E5D1-28E6-40B7-A601-0841278BF130}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BritishWaterBottle", "BritishWaterBottle\BritishWaterBottle.csproj", "{42A479D3-0403-4C67-8D2A-399C46A5B45B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -531,6 +533,10 @@ Global
 		{0E96E5D1-28E6-40B7-A601-0841278BF130}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E96E5D1-28E6-40B7-A601-0841278BF130}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E96E5D1-28E6-40B7-A601-0841278BF130}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42A479D3-0403-4C67-8D2A-399C46A5B45B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42A479D3-0403-4C67-8D2A-399C46A5B45B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42A479D3-0403-4C67-8D2A-399C46A5B45B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42A479D3-0403-4C67-8D2A-399C46A5B45B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
