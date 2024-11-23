@@ -41,7 +41,7 @@ namespace UtilLibs.UIcmp //Source: Aki
 			}
 		}
 
-		public static ToolTip AddSimpleToolTip(GameObject gameObject, string message, bool alignCenter = false, float wrapWidth = 0)
+		public static ToolTip AddSimpleToolTip2(GameObject gameObject, string message, bool alignCenter = false, float wrapWidth = 0)
 		{
 			if (gameObject.GetComponent<ToolTip>() != null)
 			{

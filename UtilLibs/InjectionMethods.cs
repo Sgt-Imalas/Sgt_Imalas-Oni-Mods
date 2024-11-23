@@ -215,9 +215,49 @@ namespace UtilLibs
 			Strings.Add($"STRINGS.BUILDINGS.PREFABS.{buildingId.ToUpperInvariant()}.EFFECT", effect);
 		}
 
-		//[HarmonyPatch(typeof(CodexEntryGenerator), "GenerateCreatureEntries")]
-		//CodexEntryGenerator_GenerateCreatureEntries_Patch
-		public static void AddCreatureStrings(string creatureId, string name)
+        public static void AddLaserEffect(string ID, HashedString context, KBatchedAnimEventToggler kbatchedAnimEventToggler, KBatchedAnimController kbac, string animFile, string defaultAnimation = "loop")
+        {
+            var laserEffect = new BaseMinionConfig.LaserEffect
+            {
+                id = ID,
+                animFile = animFile,
+                anim = defaultAnimation,
+                context = context
+            };
+
+            var laserGo = new GameObject(laserEffect.id);
+            laserGo.transform.parent = kbatchedAnimEventToggler.transform;
+            laserGo.AddOrGet<KPrefabID>().PrefabTag = new Tag(laserEffect.id);
+
+            var tracker = laserGo.AddOrGet<KBatchedAnimTracker>();
+            tracker.controller = kbac;
+            tracker.symbol = new HashedString("snapTo_rgtHand");
+            tracker.offset = new Vector3(195f, -35f, 0f);
+            tracker.useTargetPoint = true;
+
+            var kbatchedAnimController = laserGo.AddOrGet<KBatchedAnimController>();
+            kbatchedAnimController.AnimFiles =
+            [
+                Assets.GetAnim(laserEffect.animFile)
+            ];
+
+            var item = new KBatchedAnimEventToggler.Entry
+            {
+                anim = laserEffect.anim,
+                context = laserEffect.context,
+                controller = kbatchedAnimController
+            };
+
+            kbatchedAnimEventToggler.entries.Add(item);
+
+            laserGo.AddOrGet<LoopingSounds>();
+        }
+    
+
+
+    #region obsoleteStringInjections
+
+    public static void AddCreatureStrings(string creatureId, string name)
 		{
 			Strings.Add($"STRINGS.CREATURES.FAMILY.{creatureId.ToUpperInvariant()}", STRINGS.UI.FormatAsLink(name, creatureId));
 			Strings.Add($"STRINGS.CREATURES.FAMILY_PLURAL.{creatureId.ToUpperInvariant()}", STRINGS.UI.FormatAsLink(name + "s", creatureId));
@@ -250,7 +290,10 @@ namespace UtilLibs
 			Strings.Add($"STRINGS.DUPLICANTS.DISEASES.{id.ToUpperInvariant()}.DESC", description);
 			//Strings.Add($"STRINGS.DUPLICANTS.DISEASES.{id.ToUpperInvariant()}.LEGEND_HOVERTEXT", hover);
 		}
-		public static void Action(Tag speciesTag, string name, Dictionary<string, CodexEntry> results)
+
+        #endregion
+
+        public static void Action(Tag speciesTag, string name, Dictionary<string, CodexEntry> results)
 		{
 			List<GameObject> brains = Assets.GetPrefabsWithComponent<CreatureBrain>();
 			CodexEntry entry = new CodexEntry("CREATURES", new List<ContentContainer>()
