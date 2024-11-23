@@ -45,7 +45,7 @@ namespace ClusterTraitGenerationManager
 		public Dictionary<int, List<string>> VanillaStarmapLocations;
 		public Dictionary<string, string> StoryTraits;
 		public Dictionary<string, string> MixingSettings;
-        public List<string> BlacklistedTraits;
+		public List<string> BlacklistedTraits;
 
 		void PopulatePresetData(CustomClusterData data)
 		{
@@ -248,28 +248,34 @@ namespace ClusterTraitGenerationManager
 				}
 				StoryTraits.Add(story.Key, value);
 			}
-            MixingSettings = new Dictionary<string, string>();
-            foreach (var story in instance.MixingSettings)
-            {
-                string value = string.Empty;
+			MixingSettings = new Dictionary<string, string>();
+			foreach (var story in instance.MixingSettings)
+			{
+				string value = string.Empty;
 
-                if (!instance.CurrentMixingLevelsBySetting.ContainsKey(story.Key))
-                {
-                    value = story.Value.GetDefaultLevelId();
-                }
-                else
-                {
-                    value = instance.CurrentMixingLevelsBySetting[story.Key];
-                }
-                MixingSettings.Add(story.Key, value);
-            }
-        }
-        private void SetMixingSettings(MixingSettingConfig mixing, object valueId)
-        {
-            string valueToSet = valueId.ToString();
-			CustomGameSettings.Instance.SetMixingSetting(mixing, valueToSet);            
-        }
-        private void SetCustomGameSettings(SettingConfig ConfigToSet, object valueId, bool isStoryTrait = false)
+				if (!instance.CurrentMixingLevelsBySetting.ContainsKey(story.Key))
+				{
+					value = story.Value.GetDefaultLevelId();
+				}
+				else
+				{
+					value = instance.CurrentMixingLevelsBySetting[story.Key];
+				}
+				MixingSettings.Add(story.Key, value);
+			}
+		}
+		private void SetMixingSetting(SettingConfig ConfigToSet, object valueId)
+		{
+			string valueToSet = valueId.ToString();
+			if (valueId is bool val)
+			{
+				var toggle = ConfigToSet as ToggleSettingConfig;
+				valueToSet = val ? toggle.on_level.id : toggle.off_level.id;
+			}
+			//SgtLogger.l("changing " + ConfigToSet.id.ToString() + " from " + CustomGameSettings.Instance.GetCurrentMixingSettingLevel(ConfigToSet).id + " to " + valueToSet.ToString());			
+			CustomGameSettings.Instance.SetMixingSetting(ConfigToSet, valueToSet);
+		}
+		private void SetCustomGameSettings(SettingConfig ConfigToSet, object valueId, bool isStoryTrait = false)
 		{
 			string valueToSet = valueId.ToString();
 			if (valueId is bool)
@@ -286,7 +292,19 @@ namespace ClusterTraitGenerationManager
 				CustomGameSettings.Instance.SetQualitySetting(ConfigToSet, valueToSet);
 			}
 		}
-
+		private void ApplyMixingSetting()
+		{
+			if (MixingSettings != null && MixingSettings.Count > 0)
+			{
+				foreach (var mix in MixingSettings)
+				{
+					if (CustomGameSettings.Instance.MixingSettings.TryGetValue(mix.Key, out var mixingSetting))
+					{
+						SetMixingSetting(mixingSetting, mix.Value);
+					}
+				}
+			}
+		}
 		private void ApplyGameSettings()
 		{
 
@@ -364,20 +382,7 @@ namespace ClusterTraitGenerationManager
 					}
 				}
 			}
-
-			if(MixingSettings!=null && MixingSettings.Count > 0)
-			{
-                foreach (var mix in MixingSettings)
-                {
-                    if (CustomGameSettings.Instance.MixingSettings.TryGetValue(mix.Key, out var mixingSetting ))
-                    {
-                        SetMixingSettings(mixingSetting as MixingSettingConfig, mix.Value);
-                    }
-                }
-            }
 		}
-
-
 
 		public class SerializableStarmapItem
 		{
@@ -423,16 +428,16 @@ namespace ClusterTraitGenerationManager
 				}
 				return this;
 			}
-            private SerializableStarmapItem InitMixedState(StarmapItem poiItem)
-            {
-                if (poiItem != null && poiItem.IsMixed)
-                {
+			private SerializableStarmapItem InitMixedState(StarmapItem poiItem)
+			{
+				if (poiItem != null && poiItem.IsMixed)
+				{
 					mixedBy = poiItem.MixingAsteroidSource.id;
-                }
-                return this;
-            }
-            
-            public SerializableStarmapItem AddTraits(List<string> _traitIDs)
+				}
+				return this;
+			}
+
+			public SerializableStarmapItem AddTraits(List<string> _traitIDs)
 			{
 				planetTraits = new List<string>(_traitIDs);
 				return this;
@@ -587,12 +592,21 @@ namespace ClusterTraitGenerationManager
 			if (CGSMClusterManager.CustomCluster == null)
 				return;
 
+			bool traitRerollActive = RerollTraitsWithSeedChange;
+			bool starmapRerollActive = RerollStarmapWithSeedChange;
+			bool mixingRerollActive = RerollMixingsWithSeedChange;
+
+
+			RerollTraitsWithSeedChange = false;
+			RerollStarmapWithSeedChange = false;
+			RerollMixingsWithSeedChange = false;
+
 			int missinCount = 0;
 
 			SgtLogger.l("Applying Preset " + ConfigName);
 
 			ApplyGameSettings();
-			SgtLogger.l("Settings loaded");
+			SgtLogger.l("game Settings applied");
 			var dict = PlanetoidDict;
 
 			var cluster = CGSMClusterManager.CustomCluster;
@@ -711,10 +725,17 @@ namespace ClusterTraitGenerationManager
 					cluster.SO_Starmap = null;
 				}
 			}
+			RerollMixingsWithSeedChange = mixingRerollActive;
+			ApplyMixingSetting();
+			SgtLogger.l("Mixing Settings loaded");
+
+			RerollTraitsWithSeedChange = traitRerollActive;
+			RerollStarmapWithSeedChange = starmapRerollActive;
 			if (missinCount > 0)
 			{
 				DialogUtil.CreateConfirmDialogFrontend(ERRORMESSAGES.MISSINGWORLDS_TITLE, string.Format(ERRORMESSAGES.MISSINGWORLDS_TEXT, missinCount));
 			}
+
 		}
 		void ApplyDataToStarmapItem(SerializableStarmapItem item, StarmapItem reciverToLookup)
 		{
@@ -753,12 +774,12 @@ namespace ClusterTraitGenerationManager
 				reciever.world.seasons = item.meteorSeasons;
 			}
 			if (!reciever.IsPOI && !reciever.IsRandom)
-			{               
-                reciever.SetFixedSkyTraits(item.FixedSkyTraits);
+			{
+				reciever.SetFixedSkyTraits(item.FixedSkyTraits);
 				reciever.SetWorldTraits(item.planetTraits);
 				reciever.SetGeyserOverrides(item.geysers);
 				reciever.SetGeyserBlacklist(item.geyserBlacklists);
-				reciever.SetGeyserBlacklistAffectsNonGenerics(item.geyserBlacklistAffectsNonGenerics);				
+				reciever.SetGeyserBlacklistAffectsNonGenerics(item.geyserBlacklistAffectsNonGenerics);
 			}
 			else
 			{

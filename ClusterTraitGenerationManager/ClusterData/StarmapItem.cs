@@ -615,6 +615,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 		public void SetGeyserBlacklist(List<string> NEWs)
 		{
+			if (NEWs == null) NEWs = new List<string>();
 			_geyserBlacklistIDs = NEWs;
 		}
 		public void SetGeyserBlacklistAffectsNonGenerics(bool affectsNongenerics)
@@ -644,6 +645,8 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 		public void SetGeyserOverrides(List<string> NEWs)
 		{
+			if(NEWs ==null) NEWs = new List<string>();
+
 			_geyserOverrideIDs = NEWs;
 			for (int i = _geyserOverrideCount - 1; i >= 0; i--)
 			{
@@ -943,6 +946,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 		[JsonIgnore] public List<string> CurrentTraits => currentPlanetTraits;
 		public void SetWorldTraits(List<string> NEWs)
 		{
+			if (NEWs == null) NEWs = new List<string>();
 			currentPlanetTraits = NEWs;
 			for (int i = currentPlanetTraits.Count - 1; i >= 0; i--)
 			{
