@@ -153,7 +153,7 @@ namespace Cheese.Foods
 			[HarmonyPostfix]
 			public static void Postfix(WaterCoolerChore.States __instance, WaterCoolerChore.StatesInstance smi)
 			{
-				var worker = __instance.drinker.Get<Worker>(smi);
+				var worker = __instance.drinker.Get<WorkerBase>(smi);
 				if (worker.TryGetComponent<Effects>(out var effects) && effects.HasEffect("DuplicantGotMilk"))
 				{
 					BracktoseIntolerant.HandleDupeEffect(worker);

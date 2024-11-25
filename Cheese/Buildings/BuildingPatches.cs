@@ -38,7 +38,6 @@ namespace Cheese.Buildings
 				harmony.Patch(target, postfix: new HarmonyMethod(postfix));
 			}
 
-
 			public class InitCheeseBlockSkins
 			{
 				public static void PostfixPatch(object __instance)
@@ -46,7 +45,7 @@ namespace Cheese.Buildings
 					SgtLogger.l("Start Facade Patch");
 					var artableStages = (ArtableStages)__instance;
 
-					CheeseSculptureSkins.Add(AddStatueStage(artableStages,
+					CheeseSculptureSkins.Add(ArtHelper.AddStatueStage(artableStages,
 						CheeseSculptureConfig.ID,
 						"Ratatouille",
 						STRINGS.BUILDINGS.PREFABS.CHEESE_CHEESESCULPTURE.FACADES.SCULPTURE_CHEESE_AMAZING_1.NAME,
@@ -54,7 +53,7 @@ namespace Cheese.Buildings
 						 "sculpture_cheese_amazing_1_kanim",
 						 ArtableStatuses.ArtableStatusType.LookingGreat));
 
-					CheeseSculptureSkins.Add(AddStatueStage(artableStages,
+					CheeseSculptureSkins.Add(ArtHelper.AddStatueStage(artableStages,
 						CheeseSculptureConfig.ID,
 						"Wallace",
 						STRINGS.BUILDINGS.PREFABS.CHEESE_CHEESESCULPTURE.FACADES.SCULPTURE_CHEESE_AMAZING_2.NAME,
@@ -62,7 +61,7 @@ namespace Cheese.Buildings
 						 "sculpture_cheese_amazing_2_kanim",
 						 ArtableStatuses.ArtableStatusType.LookingGreat));
 
-					CheeseSculptureSkins.Add(AddStatueStage(artableStages,
+					CheeseSculptureSkins.Add(ArtHelper.AddStatueStage(artableStages,
 						CheeseSculptureConfig.ID,
 						"CheeseMoon",
 						STRINGS.BUILDINGS.PREFABS.CHEESE_CHEESESCULPTURE.FACADES.SCULPTURE_CHEESE_AMAZING_3.NAME,
@@ -70,7 +69,7 @@ namespace Cheese.Buildings
 						 "sculpture_cheese_amazing_3_kanim",
 						 ArtableStatuses.ArtableStatusType.LookingGreat));
 
-					CheeseSculptureSkins.Add(AddStatueStage(artableStages,
+					CheeseSculptureSkins.Add(ArtHelper.AddStatueStage(artableStages,
 						CheeseSculptureConfig.ID,
 						"Sergal",
 						STRINGS.BUILDINGS.PREFABS.CHEESE_CHEESESCULPTURE.FACADES.SCULPTURE_CHEESE_AMAZING_4.NAME,
@@ -78,7 +77,7 @@ namespace Cheese.Buildings
 						 "sculpture_cheese_amazing_4_kanim",
 						 ArtableStatuses.ArtableStatusType.LookingGreat));
 
-					CheeseSculptureSkins.Add(AddStatueStage(artableStages,
+					CheeseSculptureSkins.Add(ArtHelper.AddStatueStage(artableStages,
 						CheeseSculptureConfig.ID,
 						"Spongebob",
 						STRINGS.BUILDINGS.PREFABS.CHEESE_CHEESESCULPTURE.FACADES.SCULPTURE_CHEESE_AMAZING_5.NAME,
@@ -86,7 +85,7 @@ namespace Cheese.Buildings
 						 "sculpture_cheese_amazing_5_kanim",
 						 ArtableStatuses.ArtableStatusType.LookingGreat));
 
-					CheeseSculptureSkins.Add(AddStatueStage(artableStages,
+					CheeseSculptureSkins.Add(ArtHelper.AddStatueStage(artableStages,
 						CheeseSculptureConfig.ID,
 						"CheezeKitten",
 						STRINGS.BUILDINGS.PREFABS.CHEESE_CHEESESCULPTURE.FACADES.SCULPTURE_CHEESE_AMAZING_6.NAME,
@@ -94,7 +93,7 @@ namespace Cheese.Buildings
 						 "sculpture_cheese_amazing_6_kanim",
 						 ArtableStatuses.ArtableStatusType.LookingGreat));
 
-					CheeseSculptureSkins.Add(AddStatueStage(artableStages,
+					CheeseSculptureSkins.Add(ArtHelper.AddStatueStage(artableStages,
 						CheeseSculptureConfig.ID,
 						"PileOfWheels",
 						STRINGS.BUILDINGS.PREFABS.CHEESE_CHEESESCULPTURE.FACADES.SCULPTURE_CHEESE_AMAZING_7.NAME,
@@ -104,7 +103,7 @@ namespace Cheese.Buildings
 
 
 
-					CheeseSculptureSkins.Add(AddStatueStage(artableStages,
+					CheeseSculptureSkins.Add(ArtHelper.AddStatueStage(artableStages,
 						CheeseSculptureConfig.ID,
 						"Cheeseception",
 						STRINGS.BUILDINGS.PREFABS.CHEESE_CHEESESCULPTURE.FACADES.SCULPTURE_CHEESE_GOOD_1.NAME,
@@ -114,7 +113,7 @@ namespace Cheese.Buildings
 
 
 
-					CheeseSculptureSkins.Add(AddStatueStage(artableStages,
+					CheeseSculptureSkins.Add(ArtHelper.AddStatueStage(artableStages,
 						CheeseSculptureConfig.ID,
 						"HungryBite",
 						STRINGS.BUILDINGS.PREFABS.CHEESE_CHEESESCULPTURE.FACADES.SCULPTURE_CHEESE_CRAP_1.NAME,
@@ -124,39 +123,6 @@ namespace Cheese.Buildings
 
 
 					SgtLogger.l("Patch Executed");
-				}
-
-				private static string AddStatueStage(ArtableStages __instance, string buildingId, string statueId, string name, string description, string kanim, ArtableStatuses.ArtableStatusType level)
-				{
-					ArtHelper.GetDefaultDecors(__instance, buildingId, out var greatDecor, out var okayDecor, out var uglyDecor);
-					int decor;
-					switch (level)
-					{
-						default:
-						case ArtableStatuses.ArtableStatusType.LookingUgly:
-							decor = uglyDecor; break;
-						case ArtableStatuses.ArtableStatusType.LookingOkay:
-							decor = okayDecor; break;
-						case ArtableStatuses.ArtableStatusType.LookingGreat:
-							decor = greatDecor; break;
-					}
-
-					string skinID = buildingId + "_" + statueId;
-					__instance.Add(
-						skinID,
-						name,
-						description,
-						PermitRarity.Universal,
-						kanim,
-						statueId, // leftover from when these were one merged animation file
-						decor,
-						true,
-						level.ToString(),
-						buildingId,
-						"ui",
-						DlcManager.AVAILABLE_ALL_VERSIONS
-						);
-					return skinID;
 				}
 			}
 		}

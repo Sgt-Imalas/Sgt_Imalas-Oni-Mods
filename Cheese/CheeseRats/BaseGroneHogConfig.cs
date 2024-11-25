@@ -90,7 +90,7 @@ namespace Cheese.CheeseRats
 				new Diet.Info(new HashSet<Tag>()
 				{
 					ModElementRegistration.Cheese.SimHash.CreateTag()
-				}, poopTag, caloriesPerKg, producedConversionRate, diseaseId, diseasePerKgProduced, false, false)
+				}, poopTag, caloriesPerKg, producedConversionRate, diseaseId, diseasePerKgProduced, false)
 			};
 		}
 	}

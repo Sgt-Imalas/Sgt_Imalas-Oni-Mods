@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using Klei.AI;
+using System.Linq;
 using UnityEngine;
 
 namespace Cheese.CheesynessStat
@@ -19,12 +20,14 @@ namespace Cheese.CheesynessStat
 				__instance.Add(Cheesyness);
 			}
 		}
-		[HarmonyPatch(typeof(MinionConfig), nameof(MinionConfig.AddMinionAmounts))]
-		public class MinionConfig_AddMinionAmounts
+		[HarmonyPatch(typeof(MinionConfig), nameof(MinionConfig.GetAmounts))]
+		public class BaseMinionConfig_AddMinionAmounts
 		{
-			public static void Postfix(Modifiers modifiers)
+			public static void Postfix(ref string[] __result)
 			{
-				modifiers.initialAmounts.Add(Cheesyness.Id);
+				var listed = __result.ToList();
+				listed.Add(Cheesyness.Id);
+				__result = listed.ToArray();
 			}
 		}
 		[HarmonyPatch(typeof(MinionConfig), nameof(MinionConfig.OnPrefabInit))]

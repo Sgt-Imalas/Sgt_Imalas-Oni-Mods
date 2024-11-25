@@ -32,9 +32,9 @@ namespace AmogusMorb
 		{
 			public static void Postfix()
 			{
-				CREATURES.FAMILY.GLOM = (LocString)UI.FormatAsLink("Amorbus", "GLOMSPECIES");
-				CREATURES.FAMILY_PLURAL.GLOMSPECIES = (LocString)UI.FormatAsLink("Amorbi", nameof(CREATURES.FAMILY_PLURAL.GLOMSPECIES));
-				CREATURES.SPECIES.GLOM.NAME = (LocString)UI.FormatAsLink("Amorbus", nameof(CREATURES.SPECIES.GLOM));
+				CREATURES.FAMILY.GLOM = UI.FormatAsLink("Amorbus", "GLOMSPECIES");
+				CREATURES.FAMILY_PLURAL.GLOMSPECIES = UI.FormatAsLink("Amorbi", nameof(CREATURES.FAMILY_PLURAL.GLOMSPECIES));
+				CREATURES.SPECIES.GLOM.NAME = UI.FormatAsLink("Amorbus", nameof(CREATURES.SPECIES.GLOM));
 				CREATURES.SPECIES.GLOM.DESC = "When the Imposter is Sus?!?\n\n" + CREATURES.SPECIES.GLOM.DESC;
 			}
 		}

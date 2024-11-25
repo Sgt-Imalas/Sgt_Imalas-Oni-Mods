@@ -52,8 +52,8 @@ namespace ConveyorTiles
 			{
 				public class CT_CONVEYORTILE_POWERCONSUMPTION
 				{
-					public static LocString NAME = (LocString)"{CONFIG}: {WATTS}";
-					public static LocString TOOLTIP = (LocString)("This conveyor tile is currently in the {CONFIG} configuration, consuming {WATTS} while active.");
+					public static LocString NAME = "{CONFIG}: {WATTS}";
+					public static LocString TOOLTIP = ("This conveyor tile is currently in the {CONFIG} configuration, consuming {WATTS} while active.");
 
 					public static LocString SPEEDBASE = "Normal Speed";
 					public static LocString SPEEDFAST = "Fast Speed";

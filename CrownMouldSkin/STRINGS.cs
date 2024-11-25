@@ -28,33 +28,33 @@
 						}
 						public class CORNER_TILE_B
 						{
-							public static LocString NAME = (LocString)global::STRINGS.UI.FormatAsLink("Bulky Crescent Corner Moulding", nameof(CORNERMOULDING));
-							public static LocString DESC = (LocString)"A new look for the Corner Moulding";
+							public static LocString NAME = global::STRINGS.UI.FormatAsLink("Bulky Crescent Corner Moulding", nameof(CORNERMOULDING));
+							public static LocString DESC = "A new look for the Corner Moulding";
 						}
 						public class CORNER_TILE_C
 						{
-							public static LocString NAME = (LocString)global::STRINGS.UI.FormatAsLink("Sprouting Blossom Corner Moulding", nameof(CORNERMOULDING));
-							public static LocString DESC = (LocString)"A new look for the Corner Moulding";
+							public static LocString NAME = global::STRINGS.UI.FormatAsLink("Sprouting Blossom Corner Moulding", nameof(CORNERMOULDING));
+							public static LocString DESC = "A new look for the Corner Moulding";
 						}
 						public class CORNER_TILE_D
 						{
-							public static LocString NAME = (LocString)global::STRINGS.UI.FormatAsLink("Hand Fan Corner Moulding", nameof(CORNERMOULDING));
-							public static LocString DESC = (LocString)"A new look for the Corner Moulding";
+							public static LocString NAME = global::STRINGS.UI.FormatAsLink("Hand Fan Corner Moulding", nameof(CORNERMOULDING));
+							public static LocString DESC = "A new look for the Corner Moulding";
 						}
 						public class CORNER_TILE_E
 						{
-							public static LocString NAME = (LocString)global::STRINGS.UI.FormatAsLink("Sleek Angled Corner Moulding", nameof(CORNERMOULDING));
-							public static LocString DESC = (LocString)"A new look for the Corner Moulding";
+							public static LocString NAME = global::STRINGS.UI.FormatAsLink("Sleek Angled Corner Moulding", nameof(CORNERMOULDING));
+							public static LocString DESC = "A new look for the Corner Moulding";
 						}
 						public class CORNER_TILE_F
 						{
-							public static LocString NAME = (LocString)global::STRINGS.UI.FormatAsLink("Greek Ornament Corner Moulding", nameof(CORNERMOULDING));
-							public static LocString DESC = (LocString)"A new look for the Corner Moulding";
+							public static LocString NAME = global::STRINGS.UI.FormatAsLink("Greek Ornament Corner Moulding", nameof(CORNERMOULDING));
+							public static LocString DESC = "A new look for the Corner Moulding";
 						}
 						public class CORNER_TILE_G
 						{
-							public static LocString NAME = (LocString)global::STRINGS.UI.FormatAsLink("Elegant Arc Corner Moulding", nameof(CORNERMOULDING));
-							public static LocString DESC = (LocString)"A new look for the Corner Moulding";
+							public static LocString NAME = global::STRINGS.UI.FormatAsLink("Elegant Arc Corner Moulding", nameof(CORNERMOULDING));
+							public static LocString DESC = "A new look for the Corner Moulding";
 						}
 					}
 				}

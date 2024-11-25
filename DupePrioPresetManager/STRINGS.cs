@@ -11,8 +11,8 @@
 			{
 				public class ENGBUILD
 				{
-					public static LocString NAME = (LocString)"Engineer Building";
-					public static LocString DESC = (LocString)"Construct buildings requiring engineering.";
+					public static LocString NAME = "Engineer Building";
+					public static LocString DESC = "Construct buildings requiring engineering.";
 				}
 			}
 		}

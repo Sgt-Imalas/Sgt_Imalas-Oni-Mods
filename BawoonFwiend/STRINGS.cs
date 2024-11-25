@@ -39,9 +39,9 @@ namespace BawoonFwiend
 			{
 				public class BF_BALLOONSTATION
 				{
-					public static LocString NAME = (LocString)FormatAsLink("Balloon Dispenser", nameof(BF_BALLOONSTATION));
-					public static LocString DESC = (LocString)"You get a balloon,\n you get a balloon,\neverybody gets a balloon!";
-					public static LocString EFFECT = (LocString)("This building gives out balloons to duplicants during downtime.\n\nConsumes 5kg of either " + FormatAsLink("Hydrogen", "HYDROGEN") + " or " + FormatAsLink("Helium", "HELIUM") + " for each balloon created.");
+					public static LocString NAME = FormatAsLink("Balloon Dispenser", nameof(BF_BALLOONSTATION));
+					public static LocString DESC = "You get a balloon,\n you get a balloon,\neverybody gets a balloon!";
+					public static LocString EFFECT = ("This building gives out balloons to duplicants during downtime.\n\nConsumes 5kg of either " + FormatAsLink("Hydrogen", "HYDROGEN") + " or " + FormatAsLink("Helium", "HELIUM") + " for each balloon created.");
 				}
 			}
 		}
@@ -51,18 +51,18 @@ namespace BawoonFwiend
 			{
 				public class BF_BALLOONSTAND
 				{
-					public static LocString TITLE = (LocString)"Balloon Skins";
-					public static LocString TOGGLEALLON = (LocString)"Activate All";
-					public static LocString TOGGLEALLOFF = (LocString)"Deactivate All";
+					public static LocString TITLE = "Balloon Skins";
+					public static LocString TOGGLEALLON = "Activate All";
+					public static LocString TOGGLEALLOFF = "Deactivate All";
 
-					public static LocString ENABLEMANUALDELIVERY = (LocString)"Enable Manual Delivery";
-					public static LocString ENABLEMANUALDELIVERYTOOLTIP = (LocString)"Enables manual delivery of gasses, disables pipe input";
-					public static LocString DISABLEMANUALDELIVERY = (LocString)"Disable Manual Delivery";
-					public static LocString DISABLEMANUALDELIVERYTOOLTIP = (LocString)"Disables manual delivery of gasses, enables pipe input";
+					public static LocString ENABLEMANUALDELIVERY = "Enable Manual Delivery";
+					public static LocString ENABLEMANUALDELIVERYTOOLTIP = "Enables manual delivery of gasses, disables pipe input";
+					public static LocString DISABLEMANUALDELIVERY = "Disable Manual Delivery";
+					public static LocString DISABLEMANUALDELIVERYTOOLTIP = "Disables manual delivery of gasses, enables pipe input";
 
 
-					public static LocString ALLRANDOMYES = (LocString)"Each balloon skin is chosen fully random.\nResults in random amounts of each chosen skin to appear.\nToggle to change it to a queue based system";
-					public static LocString ALLRANDOMNO = (LocString)"Each active balloon skin is picked atleast\nonce before duplicates can appear.\nResults in an even distribution of each chosen skin.\nToggle to change it to a fully random system";
+					public static LocString ALLRANDOMYES = "Each balloon skin is chosen fully random.\nResults in random amounts of each chosen skin to appear.\nToggle to change it to a queue based system";
+					public static LocString ALLRANDOMNO = "Each active balloon skin is picked atleast\nonce before duplicates can appear.\nResults in an even distribution of each chosen skin.\nToggle to change it to a fully random system";
 				}
 			}
 		}

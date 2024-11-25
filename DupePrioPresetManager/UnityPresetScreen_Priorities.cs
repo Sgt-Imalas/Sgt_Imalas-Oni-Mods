@@ -242,7 +242,7 @@ namespace DupePrioPresetManager
 		private LocString GetPriorityStr(int priority)
 		{
 			priority = Mathf.Clamp(priority, 0, 5);
-			LocString priorityStr = (LocString)null;
+			LocString priorityStr = null;
 			foreach (JobsTableScreen.PriorityInfo priorityInfo in JobsTableScreen.priorityInfo)
 			{
 				if (priorityInfo.priority == priority)

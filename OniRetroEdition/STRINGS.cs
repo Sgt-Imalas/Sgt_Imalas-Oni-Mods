@@ -34,9 +34,9 @@ namespace OniRetroEdition
 			{
 				public class SLURPPLACER
 				{
-					public static LocString NAME = (LocString)"Pump";
-					public static LocString TOOL_NAME = (LocString)"Pumping Tool";
-					public static LocString ACTION_NAME = (LocString)"Pump Liquids";
+					public static LocString NAME = "Pump";
+					public static LocString TOOL_NAME = "Pumping Tool";
+					public static LocString ACTION_NAME = "Pump Liquids";
 
 					public static LocString SLURPBUTTON = "Command duplicants to pump liquid\nRequires a duplicant with plumbing skill";
 				}
@@ -91,14 +91,14 @@ namespace OniRetroEdition
 			{
 				public static class WORKSTATIONS
 				{
-					public static LocString NAME = (LocString)"Skill Assignment";
-					public static LocString BUILDMENUTITLE = (LocString)"Skill Assignment";
-					public static LocString TOOLTIP = (LocString)"";
+					public static LocString NAME = "Skill Assignment";
+					public static LocString BUILDMENUTITLE = "Skill Assignment";
+					public static LocString TOOLTIP = "";
 				}
 			}
 			public class TOOLTIPS
 			{
-				public static LocString MANAGEMENTMENU_REQUIRES_SKILL_STATION_RETRO = (LocString)("Build a Skills Board to unlock this menu\n\nThe " + (string)global::STRINGS.BUILDINGS.PREFABS.ROLESTATION.NAME + " can be found in the " + global::STRINGS.UI.FormatAsBuildMenuTab("Stations Tab", Action.Plan10) + " of the Build Menu");
+				public static LocString MANAGEMENTMENU_REQUIRES_SKILL_STATION_RETRO = ("Build a Skills Board to unlock this menu\n\nThe " + (string)global::STRINGS.BUILDINGS.PREFABS.ROLESTATION.NAME + " can be found in the " + global::STRINGS.UI.FormatAsBuildMenuTab("Stations Tab", Action.Plan10) + " of the Build Menu");
 			}
 
 		}

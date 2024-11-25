@@ -29,7 +29,7 @@ namespace Cheese.Traits
 			return hasTrait;
 		}
 
-		internal static void HandleDupeEffect(Worker worker)
+		internal static void HandleDupeEffect(WorkerBase worker)
 		{
 			if (worker.gameObject != null
 				&& HasAffectingTrait(worker.gameObject)

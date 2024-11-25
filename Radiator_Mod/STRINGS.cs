@@ -21,21 +21,21 @@
 			{
 				public class RADIATORBASE
 				{
-					public static LocString NAME = (LocString)"Space Radiator";
-					public static LocString DESC = (LocString)"Radiates off heat energy into space as infrared radiation.";
-					public static LocString EFFECT = (LocString)"Exchanges heat with the liquid pumped through it.\n\nIf in space, radiates off infrared energy based off the Stefan–Boltzmann law.";
+					public static LocString NAME = "Space Radiator";
+					public static LocString DESC = "Radiates off heat energy into space as infrared radiation.";
+					public static LocString EFFECT = "Exchanges heat with the liquid pumped through it.\n\nIf in space, radiates off infrared energy based off the Stefan–Boltzmann law.";
 				}
 				public class RADIATORUPDATED
 				{
-					public static LocString NAME = (LocString)"Space Radiator";
-					public static LocString DESC = (LocString)"Radiates off heat energy into space as infrared radiation.";
-					public static LocString EFFECT = (LocString)"Exchanges heat with the liquid pumped through it.\n\nIf in space, radiates off infrared energy based off the Stefan–Boltzmann law.";
+					public static LocString NAME = "Space Radiator";
+					public static LocString DESC = "Radiates off heat energy into space as infrared radiation.";
+					public static LocString EFFECT = "Exchanges heat with the liquid pumped through it.\n\nIf in space, radiates off infrared energy based off the Stefan–Boltzmann law.";
 				}
 				public class RM_RADIATORROCKETWALLBUILDABLE
 				{
-					public static LocString NAME = (LocString)"Space Radiator (Rocket)";
-					public static LocString DESC = (LocString)"Radiates off heat energy into space as infrared radiation.";
-					public static LocString EFFECT = (LocString)"Exchanges heat with the liquid pumped through it.\n\nIf in space, radiates off infrared energy based off the Stefan–Boltzmann law.\n\nHas to be attached to the rocket interior wall.";
+					public static LocString NAME = "Space Radiator (Rocket)";
+					public static LocString DESC = "Radiates off heat energy into space as infrared radiation.";
+					public static LocString EFFECT = "Exchanges heat with the liquid pumped through it.\n\nIf in space, radiates off infrared energy based off the Stefan–Boltzmann law.\n\nHas to be attached to the rocket interior wall.";
 				}
 			}
 		}
@@ -49,18 +49,18 @@
 			{
 				public class RM_INSPACERADIATING
 				{
-					public static LocString NAME = (LocString)"Radiating {0}";
-					public static LocString TOOLTIP = (LocString)("This radiator is currently radiating heat at {0} with {AREAPERCENTAGE}% of its area.");
+					public static LocString NAME = "Radiating {0}";
+					public static LocString TOOLTIP = ("This radiator is currently radiating heat at {0} with {AREAPERCENTAGE}% of its area.");
 				}
 				public class RM_NOTINSPACE
 				{
-					public static LocString NAME = (LocString)"Not in space";
-					public static LocString TOOLTIP = (LocString)("This radiators panels are not exposed to space, thus it won't radiate any heat away.");
+					public static LocString NAME = "Not in space";
+					public static LocString TOOLTIP = ("This radiators panels are not exposed to space, thus it won't radiate any heat away.");
 				}
 				public class RM_BUNKERDOWN
 				{
-					public static LocString NAME = (LocString)"Bunkered down";
-					public static LocString TOOLTIP = (LocString)("This radiator is currently protected from meteor impacts.");
+					public static LocString NAME = "Bunkered down";
+					public static LocString TOOLTIP = ("This radiator is currently protected from meteor impacts.");
 				}
 			}
 		}

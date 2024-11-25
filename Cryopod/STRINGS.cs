@@ -42,11 +42,11 @@ namespace Cryopod
 				public class CRY_BUILDABLECRYOTANK
 				{
 					public static LocString NAME = UI.FormatAsLink("Cryotank 4000", nameof(CRY_BUILDABLECRYOTANK));
-					public static LocString DESC = (LocString)"A design found in an ancient facility, your Duplicants have managed to almost perfectly replicate it.";
-					public static LocString EFFECT = (LocString)"Can store 1 Duplicant.\n\nHeats up during freezing.\nCools down during thawing.";
-					public static LocString DEFROSTBUTTON = (LocString)"Defrost stored Friend";
-					public static LocString DEFROSTBUTTONCANCEL = (LocString)"Cancel Defrosting";
-					public static LocString DEFROSTBUTTONTOOLTIP = (LocString)"Unfreeze the duplicant stored here.";
+					public static LocString DESC = "A design found in an ancient facility, your Duplicants have managed to almost perfectly replicate it.";
+					public static LocString EFFECT = "Can store 1 Duplicant.\n\nHeats up during freezing.\nCools down during thawing.";
+					public static LocString DEFROSTBUTTON = "Defrost stored Friend";
+					public static LocString DEFROSTBUTTONCANCEL = "Cancel Defrosting";
+					public static LocString DEFROSTBUTTONTOOLTIP = "Unfreeze the duplicant stored here.";
 
 					public static LocString INPUT_LOGIC_PORT = "Thaw Duplicant";
 					public static LocString INPUT_LOGIC_PORT_ACTIVE = (UI.FormatAsAutomationState("Green Signal", UI.AutomationState.Active) + ": Triggers the thawing process.");
@@ -55,8 +55,8 @@ namespace Cryopod
 				public class CRY_BUILDABLECRYOTANKLIQUID
 				{
 					public static LocString NAME = UI.FormatAsLink("Cryotank 5000", nameof(CRY_BUILDABLECRYOTANKLIQUID));
-					public static LocString DESC = (LocString)"A design found in an ancient facility, your Duplicants have managed to almost perfectly replicate it.";
-					public static LocString EFFECT = (LocString)"Can store 1 Duplicant.\n\nHeats up during freezing.\nCools down during thawing.\n\nExchanges temperature with the liquid pumped through.";
+					public static LocString DESC = "A design found in an ancient facility, your Duplicants have managed to almost perfectly replicate it.";
+					public static LocString EFFECT = "Can store 1 Duplicant.\n\nHeats up during freezing.\nCools down during thawing.\n\nExchanges temperature with the liquid pumped through.";
 				}
 			}
 		}
@@ -108,8 +108,8 @@ namespace Cryopod
 			public class CRYOSICKNESS
 			{
 				public static LocString NAME = "Cryo Sickness";
-				public static LocString DESCRIPTIVE_SYMPTOMS = (LocString)"A lot of cells got pierced by a non standard cryopod thawing.";
-				public static LocString DESCRIPTION = (LocString)"After a botched thawing process, this dupe will take time to feel normal again.";
+				public static LocString DESCRIPTIVE_SYMPTOMS = "A lot of cells got pierced by a non standard cryopod thawing.";
+				public static LocString DESCRIPTION = "After a botched thawing process, this dupe will take time to feel normal again.";
 			}
 		}
 	}

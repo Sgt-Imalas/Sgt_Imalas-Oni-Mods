@@ -26,61 +26,61 @@ namespace Cheese
 			{
 				public class CHEESE_CHEESESCULPTURE
 				{
-					public static LocString NAME = (LocString)UI.FormatAsLink("Cheese Block", nameof(CHEESE_CHEESESCULPTURE));
-					public static LocString DESC = (LocString)"Duplicants who have learned art skills can produce more decorative sculptures.";
-					public static LocString EFFECT = (LocString)("Majorly increases " + UI.FormatAsLink("Decor", "DECOR") + ", contributing to " + UI.FormatAsLink("Morale", "MORALE") + ".\n\nMust be sculpted by a Duplicant.");
-					public static LocString POORQUALITYNAME = (LocString)"\"Abstract\" Cheese Sculpture";
-					public static LocString AVERAGEQUALITYNAME = (LocString)"Mediocre Cheese Sculpture";
-					public static LocString EXCELLENTQUALITYNAME = (LocString)"Genius Cheese Sculpture";
+					public static LocString NAME = UI.FormatAsLink("Cheese Block", nameof(CHEESE_CHEESESCULPTURE));
+					public static LocString DESC = "Duplicants who have learned art skills can produce more decorative sculptures.";
+					public static LocString EFFECT = ("Majorly increases " + UI.FormatAsLink("Decor", "DECOR") + ", contributing to " + UI.FormatAsLink("Morale", "MORALE") + ".\n\nMust be sculpted by a Duplicant.");
+					public static LocString POORQUALITYNAME = "\"Abstract\" Cheese Sculpture";
+					public static LocString AVERAGEQUALITYNAME = "Mediocre Cheese Sculpture";
+					public static LocString EXCELLENTQUALITYNAME = "Genius Cheese Sculpture";
 
 					public class FACADES
 					{
 						public class SCULPTURE_CHEESE_CRAP_1
 						{
-							public static LocString NAME = (LocString)UI.FormatAsLink("The Bite", nameof(SCULPTURE_CHEESE_CRAP_1));
-							public static LocString DESC = (LocString)"With all that cheese, the artist got hungry...";
+							public static LocString NAME = UI.FormatAsLink("The Bite", nameof(SCULPTURE_CHEESE_CRAP_1));
+							public static LocString DESC = "With all that cheese, the artist got hungry...";
 						}
 
 						public class SCULPTURE_CHEESE_GOOD_1
 						{
-							public static LocString NAME = (LocString)UI.FormatAsLink("Cheeseception", nameof(SCULPTURE_CHEESE_GOOD_1));
-							public static LocString DESC = (LocString)"A cheese born from cheese.";
+							public static LocString NAME = UI.FormatAsLink("Cheeseception", nameof(SCULPTURE_CHEESE_GOOD_1));
+							public static LocString DESC = "A cheese born from cheese.";
 						}
 
 						public class SCULPTURE_CHEESE_AMAZING_1
 						{
-							public static LocString NAME = (LocString)UI.FormatAsLink("Ratatouille", nameof(SCULPTURE_CHEESE_AMAZING_1));
-							public static LocString DESC = (LocString)"The best head-chef the world has ever seen.";
+							public static LocString NAME = UI.FormatAsLink("Ratatouille", nameof(SCULPTURE_CHEESE_AMAZING_1));
+							public static LocString DESC = "The best head-chef the world has ever seen.";
 						}
 						public class SCULPTURE_CHEESE_AMAZING_2
 						{
-							public static LocString NAME = (LocString)UI.FormatAsLink("Wallace", nameof(SCULPTURE_CHEESE_AMAZING_2));
-							public static LocString DESC = (LocString)"No cheese, Gromit! We've forgot the cheese!";
+							public static LocString NAME = UI.FormatAsLink("Wallace", nameof(SCULPTURE_CHEESE_AMAZING_2));
+							public static LocString DESC = "No cheese, Gromit! We've forgot the cheese!";
 						}
 						public class SCULPTURE_CHEESE_AMAZING_3
 						{
-							public static LocString NAME = (LocString)UI.FormatAsLink("The Moon", nameof(SCULPTURE_CHEESE_AMAZING_3));
-							public static LocString DESC = (LocString)"Everyone knows the moon is made out of cheese!";
+							public static LocString NAME = UI.FormatAsLink("The Moon", nameof(SCULPTURE_CHEESE_AMAZING_3));
+							public static LocString DESC = "Everyone knows the moon is made out of cheese!";
 						}
 						public class SCULPTURE_CHEESE_AMAZING_4
 						{
-							public static LocString NAME = (LocString)UI.FormatAsLink("Sergal", nameof(SCULPTURE_CHEESE_AMAZING_4));
-							public static LocString DESC = (LocString)"The fluffy cheese";
+							public static LocString NAME = UI.FormatAsLink("Sergal", nameof(SCULPTURE_CHEESE_AMAZING_4));
+							public static LocString DESC = "The fluffy cheese";
 						}
 						public class SCULPTURE_CHEESE_AMAZING_5
 						{
-							public static LocString NAME = (LocString)UI.FormatAsLink("Spongebob Squarecheese", nameof(SCULPTURE_CHEESE_AMAZING_5));
-							public static LocString DESC = (LocString)"He lives in a pineapple under the sea.";
+							public static LocString NAME = UI.FormatAsLink("Spongebob Squarecheese", nameof(SCULPTURE_CHEESE_AMAZING_5));
+							public static LocString DESC = "He lives in a pineapple under the sea.";
 						}
 						public class SCULPTURE_CHEESE_AMAZING_6
 						{
-							public static LocString NAME = (LocString)UI.FormatAsLink("Hungry Kitty", nameof(SCULPTURE_CHEESE_AMAZING_6));
-							public static LocString DESC = (LocString)"Hey Kitty, you can has CheezeBurger - Mreaow.";
+							public static LocString NAME = UI.FormatAsLink("Hungry Kitty", nameof(SCULPTURE_CHEESE_AMAZING_6));
+							public static LocString DESC = "Hey Kitty, you can has CheezeBurger - Mreaow.";
 						}
 						public class SCULPTURE_CHEESE_AMAZING_7
 						{
-							public static LocString NAME = (LocString)UI.FormatAsLink("Pile of Cheese Wheels", nameof(SCULPTURE_CHEESE_AMAZING_7));
-							public static LocString DESC = (LocString)"Consuming these would probably heal you to full heath.";
+							public static LocString NAME = UI.FormatAsLink("Pile of Cheese Wheels", nameof(SCULPTURE_CHEESE_AMAZING_7));
+							public static LocString DESC = "Consuming these would probably heal you to full heath.";
 						}
 					}
 				}
@@ -100,8 +100,8 @@ namespace Cheese
 				public class CHEESEBURGER
 				{
 					public static LocString NAME = UI.FormatAsLink("Cheeseburger", nameof(CHEESEBURGER));
-					public static LocString DESC = (LocString)(UI.FormatAsLink("Meat", "MEAT") + " and " + UI.FormatAsLink("Lettuce", "LETTUCE") + " and " + UI.FormatAsLink("Cheese", "CHEESE") + " on a chilled " + UI.FormatAsLink("Frost Bun", "COLDWHEATBREAD") + ".\n\nIt's the only burger best served cold.");
-					public static LocString RECIPEDESC = (LocString)(UI.FormatAsLink("Meat", "MEAT") + " and " + UI.FormatAsLink("Lettuce", "LETTUCE") + " and " + UI.FormatAsLink("Cheese", "CHEESE") + " on a chilled " + UI.FormatAsLink("Frost Bun", "COLDWHEATBREAD") + ".");
+					public static LocString DESC = (UI.FormatAsLink("Meat", "MEAT") + " and " + UI.FormatAsLink("Lettuce", "LETTUCE") + " and " + UI.FormatAsLink("Cheese", "CHEESE") + " on a chilled " + UI.FormatAsLink("Frost Bun", "COLDWHEATBREAD") + ".\n\nIt's the only burger best served cold.");
+					public static LocString RECIPEDESC = (UI.FormatAsLink("Meat", "MEAT") + " and " + UI.FormatAsLink("Lettuce", "LETTUCE") + " and " + UI.FormatAsLink("Cheese", "CHEESE") + " on a chilled " + UI.FormatAsLink("Frost Bun", "COLDWHEATBREAD") + ".");
 				}
 				public class CHEESESANDWICH
 				{
@@ -150,13 +150,13 @@ namespace Cheese
 			{
 				public class CHEESETHROWER
 				{
-					public static LocString NAME = (LocString)"Cheese Connoisseur";
-					public static LocString DESC = (LocString)"This Duplicant shares their immovable love for cheese with everyone around when they are " + UI.PRE_KEYWORD + "Overjoyed" + UI.PST_KEYWORD;
+					public static LocString NAME = "Cheese Connoisseur";
+					public static LocString DESC = "This Duplicant shares their immovable love for cheese with everyone around when they are " + UI.PRE_KEYWORD + "Overjoyed" + UI.PST_KEYWORD;
 				}
 				public class BRACKTOSEINTOLERANT
 				{
-					public static LocString NAME = (LocString)"Bracktose Intolerant";
-					public static LocString DESC = (LocString)"This duplicants tummy hurts after consuming tasty brackene products.";
+					public static LocString NAME = "Bracktose Intolerant";
+					public static LocString DESC = "This duplicants tummy hurts after consuming tasty brackene products.";
 				}
 			}
 			public class PERSONALITIES

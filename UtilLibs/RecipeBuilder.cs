@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using static ComplexRecipe.RecipeElement;
 using static ComplexRecipe;
 
-namespace UtilLibs
+namespace UtilLibs 
 {
-	public class RecipeBuilder
+	public class RecipeBuilder //Source: Aki
 	{
 		private string fabricator;
 		private float time;

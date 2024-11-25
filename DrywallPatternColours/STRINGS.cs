@@ -14,44 +14,44 @@ namespace DrywallPatternColours
 					{
 						public class RED_DEEP
 						{
-							public static LocString NAME = (LocString)UI.FormatAsLink("Volcano", nameof(EXTERIORWALL));
-							public static LocString DESC = (LocString)"A red wallpaper.";
+							public static LocString NAME = UI.FormatAsLink("Volcano", nameof(EXTERIORWALL));
+							public static LocString DESC = "A red wallpaper.";
 						}
 
 						public class ORANGE_SATSUMA
 						{
-							public static LocString NAME = (LocString)UI.FormatAsLink("Carrots", nameof(EXTERIORWALL));
-							public static LocString DESC = (LocString)"An orange wallpaper.";
+							public static LocString NAME = UI.FormatAsLink("Carrots", nameof(EXTERIORWALL));
+							public static LocString DESC = "An orange wallpaper.";
 						}
 
 						public class YELLOW_LEMON
 						{
-							public static LocString NAME = (LocString)UI.FormatAsLink("Yellow Cake", nameof(EXTERIORWALL));
-							public static LocString DESC = (LocString)"A radiation-free wallpaper.";
+							public static LocString NAME = UI.FormatAsLink("Yellow Cake", nameof(EXTERIORWALL));
+							public static LocString DESC = "A radiation-free wallpaper.";
 						}
 
 						public class GREEN_KELLY
 						{
-							public static LocString NAME = (LocString)UI.FormatAsLink("Algae", nameof(EXTERIORWALL));
-							public static LocString DESC = (LocString)"A slippery wallpaper.";
+							public static LocString NAME = UI.FormatAsLink("Algae", nameof(EXTERIORWALL));
+							public static LocString DESC = "A slippery wallpaper.";
 						}
 
 						public class BLUE_COBALT
 						{
-							public static LocString NAME = (LocString)UI.FormatAsLink("Bubbles", nameof(EXTERIORWALL));
-							public static LocString DESC = (LocString)"A damp wallpaper.";
+							public static LocString NAME = UI.FormatAsLink("Bubbles", nameof(EXTERIORWALL));
+							public static LocString DESC = "A damp wallpaper.";
 						}
 
 						public class PINK_FLAMINGO
 						{
-							public static LocString NAME = (LocString)UI.FormatAsLink("Hearts", nameof(EXTERIORWALL));
-							public static LocString DESC = (LocString)"A pink wallpaper.";
+							public static LocString NAME = UI.FormatAsLink("Hearts", nameof(EXTERIORWALL));
+							public static LocString DESC = "A pink wallpaper.";
 						}
 
 						public class GREY_CHARCOAL
 						{
-							public static LocString NAME = (LocString)UI.FormatAsLink("Cobblestone", nameof(EXTERIORWALL));
-							public static LocString DESC = (LocString)"A sleek wallpaper.";
+							public static LocString NAME = UI.FormatAsLink("Cobblestone", nameof(EXTERIORWALL));
+							public static LocString DESC = "A sleek wallpaper.";
 						}
 					}
 				}

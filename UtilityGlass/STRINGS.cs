@@ -16,7 +16,7 @@ namespace UtilityGlass
 				}
 				public class UG_REINFORCEDGLASS
 				{
-					public static LocString NAME = (LocString)global::STRINGS.UI.FormatAsLink("Reinforced Window Tile", nameof(UG_REINFORCEDGLASS));
+					public static LocString NAME = global::STRINGS.UI.FormatAsLink("Reinforced Window Tile", nameof(UG_REINFORCEDGLASS));
 					public static LocString DESC = "\"Transparent Aluminum\"";
 					public static LocString EFFECT = "Used to build the walls and floors of rooms.\n\nAllows " + UI.FormatAsLink("Light", "LIGHT") + " and " + UI.FormatAsLink("Decor", "DECOR") + " to pass through.\n\nCan withstand extreme pressures and impacts.";
 				}

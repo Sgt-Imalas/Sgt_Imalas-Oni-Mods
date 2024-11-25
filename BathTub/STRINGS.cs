@@ -30,8 +30,8 @@ namespace BathTub
 			{
 				public class BT_BATHTUBFILLING
 				{
-					public static LocString NAME = (LocString)"Filling Up: ({fullness})";
-					public static LocString TOOLTIP = (LocString)("This bathtub is currently filling with " + UI.PRE_KEYWORD + "Water" + UI.PST_KEYWORD + "\n\nIt will be available to use when the " + UI.PRE_KEYWORD + "Water" + UI.PST_KEYWORD + " level reaches <b>100%</b>");
+					public static LocString NAME = "Filling Up: ({fullness})";
+					public static LocString TOOLTIP = ("This bathtub is currently filling with " + UI.PRE_KEYWORD + "Water" + UI.PST_KEYWORD + "\n\nIt will be available to use when the " + UI.PRE_KEYWORD + "Water" + UI.PST_KEYWORD + " level reaches <b>100%</b>");
 				}
 			}
 		}
