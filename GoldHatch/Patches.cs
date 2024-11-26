@@ -14,7 +14,6 @@ namespace GoldHatch
 		[HarmonyPatch(typeof(ModifierSet), nameof(ModifierSet.LoadFertilityModifiers))]
 		public static class ModifierSet_LoadFertilityModifiers
 		{
-
 			public static void Prefix()
 			{
 				TUNING.CREATURES.EGG_CHANCE_MODIFIERS.MODIFIER_CREATORS
