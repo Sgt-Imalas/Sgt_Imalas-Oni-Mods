@@ -1965,7 +1965,7 @@ namespace SetStartDupes
 
 			//}
 			[HarmonyPriority(Priority.Low - 1)]
-			public static void Postfix(CharacterContainer __instance, MinionStartingStats ___stats)
+			public static void Postfix(CharacterContainer __instance)
 			{
 				var mngt = __instance.transform.Find("ModifyDupeStats");
 				if (mngt == null)
@@ -1977,12 +1977,13 @@ namespace SetStartDupes
 				var mng = mngt.gameObject.GetComponent<DupeTraitManager>();
 				if (mng != null)
 				{
-					mng.SetReferenceStats(___stats);
+					mng.SetReferenceStats(__instance.stats);
 				}
 				else
 					SgtLogger.warning("dupe mng was null!");
 
 				ModAssets.UpdatePersonalityLockButton(__instance);
+				ToggleVisibilityTraitLockButton(__instance, __instance.stats.personality.model != GameTags.Minions.Models.Bionic);
 			}
 
 		}

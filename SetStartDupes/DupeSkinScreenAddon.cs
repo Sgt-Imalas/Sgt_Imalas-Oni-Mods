@@ -12,9 +12,9 @@ namespace SetStartDupes
 		Dictionary<string,Transform> Personalities = new ();
 		[MyCmpGet]
 		MinionBrowserScreen minionSelectionScreen;
-
+		
 		public override void OnPrefabInit()
-		{
+		{			
 			base.OnPrefabInit();
 
 			StuffToActivate.Clear();
@@ -29,6 +29,22 @@ namespace SetStartDupes
 			UIUtils.TryChangeText(ConfirmButton.transform, "Label", STRINGS.UI.BUTTONS.APPLYSKIN);
 			UIUtils.AddActionToButton(ConfirmButton.transform, "", () => SetSelectedDupe());
 			StuffToActivate.Add(ConfirmButton.transform);
+			minionSelectionScreen.RefreshGalleryFn += () =>
+			{
+				Personality personality = null;
+				if (EditableIdentity != null)
+					personality = EditableIdentity.personality;
+				else if (EditingSkinOnExistingDupeGO != null)
+				{
+					if (EditingSkinOnExistingDupeGO.TryGetComponent<MinionIdentity>(out var IdentityHolder))
+					{
+						personality = Db.Get().Personalities.GetPersonalityFromNameStringKey(IdentityHolder.nameStringKey);
+					}
+				}
+				bool sameModel = personality == null ? true : (minionSelectionScreen.selectedGridItem.GetPersonality().model == personality.model);
+
+				ConfirmButton.GetComponent<KButton>().interactable = sameModel;
+			};
 		}
 		public override void OnKeyDown(KButtonEvent e)
 		{

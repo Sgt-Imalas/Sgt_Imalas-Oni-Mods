@@ -915,6 +915,13 @@ namespace SetStartDupes
 				UIUtils.TryChangeText(rerollTraitBtn.transform, "Text", UnityTraitRerollingScreen.GetTraitName(container));
 			}
 		}
+		public static void ToggleVisibilityTraitLockButton(CharacterContainer container, bool visible)
+		{
+			if (TraitRerollButtons.TryGetValue(container, out var rerollTraitBtn))
+			{
+				rerollTraitBtn.SetActive( visible);
+			}
+		}
 
 
 		public static bool IsLockedContainer(CharacterContainer instance)
