@@ -1929,7 +1929,15 @@ namespace SetStartDupes
 				if (__instance != null
 					&& UnityTraitRerollingScreen.GuaranteedTraitRoll.TryGetValue(__instance, out var trait))
 				{
-					return new MinionStartingStats(permittedModels, is_starter_minion, guaranteedAptitudeID, trait.Id, isDebugMinion);
+					var newStats = new MinionStartingStats(permittedModels, is_starter_minion, guaranteedAptitudeID, trait.Id, isDebugMinion);
+					if (newStats.personality.model == GameTags.Minions.Models.Bionic)
+					{
+						string traitId = trait.Id;
+						GetTraitListOfTrait(traitId, out var bionicTraitsOfGuaranteed);
+						newStats.Traits.RemoveAll(toRemoveTrait => bionicTraitsOfGuaranteed.Any(val => val.id == toRemoveTrait.Id));
+						newStats.Traits.Add(trait);
+					}
+					return newStats;
 				}
 				return new MinionStartingStats(permittedModels, is_starter_minion, guaranteedAptitudeID, guaranteedTraitID, isDebugMinion);
 			}
@@ -1982,18 +1990,16 @@ namespace SetStartDupes
 				else
 					SgtLogger.warning("dupe mng was null!");
 
+
 				ModAssets.UpdatePersonalityLockButton(__instance);
-				ToggleVisibilityTraitLockButton(__instance, __instance.stats.personality.model != GameTags.Minions.Models.Bionic);
+				//ToggleVisibilityTraitLockButton(__instance, __instance.stats.personality.model != GameTags.Minions.Models.Bionic);
 			}
 
 		}
 
-
-
-		//TODO: REVERT AFTER KLEI FIX
-		/// <summary>
-		/// /// Init. auto translation
-		/// /// </summary>
+		///<summary>
+		/// Init. auto translation
+		/// </summary>
 		[HarmonyPatch(typeof(Localization), "Initialize")]
 		public static class Localization_Initialize_Patch
 		{

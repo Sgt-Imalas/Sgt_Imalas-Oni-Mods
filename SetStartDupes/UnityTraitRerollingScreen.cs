@@ -98,7 +98,7 @@ namespace SetStartDupes
 		{
 			TraitCategory = NextType.allTraits;
 
-			List<string> allowedTraits = ModAssets.TryGetTraitsOfCategory(NextType.allTraits,OpenedFrom.stats.personality.model).Select(t => t.id).ToList();
+			List<string> allowedTraits = ModAssets.TryGetTraitsOfCategory(NextType.allTraits, OpenedFrom.stats.personality.model).Select(t => t.id).ToList();
 
 			Trait currentTrait = null;
 			if (GuaranteedTraitRoll.ContainsKey(OpenedFrom))
@@ -170,6 +170,7 @@ namespace SetStartDupes
 			if (trait != null)
 			{
 				GuaranteedTraitRoll[OpenedFrom] = trait;
+				ModAssets.LockModelSelection(OpenedFrom);
 			}
 			else
 			{
@@ -228,7 +229,7 @@ namespace SetStartDupes
 
 			foreach (var type in (NextType[])Enum.GetValues(typeof(NextType)))
 			{
-				if (type != NextType.posTrait && type != NextType.negTrait) continue;
+				if (type != NextType.posTrait && type != NextType.negTrait && type != NextType.bionic_boost && type != NextType.bionic_bug) continue;
 
 				var TraitsOfCategory = ModAssets.TryGetTraitsOfCategory(type, null);
 				foreach (DUPLICANTSTATS.TraitVal item in TraitsOfCategory)
@@ -242,7 +243,7 @@ namespace SetStartDupes
 
 		public void ApplyFilter(string filterstring = "")
 		{
-			var allowedTraits = ModAssets.TryGetTraitsOfCategory(NextType.allTraits, OpenedFrom?.stats?.personality?.model??null).Select(t => t.id).ToList();
+			var allowedTraits = ModAssets.TryGetTraitsOfCategory(NextType.allTraits, OpenedFrom?.stats?.personality?.model ?? null).Select(t => t.id).ToList();
 			foreach (var go in TraitContainers)
 			{
 				bool Contained = allowedTraits.Contains(go.Key.Id);

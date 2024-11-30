@@ -12,6 +12,7 @@ using UtilLibs;
 using static CharacterContainer;
 using static SetStartDupes.DupeTraitManager;
 using static SetStartDupes.STRINGS.UI;
+using static STRINGS.UI.DETAILTABS;
 
 namespace SetStartDupes
 {
@@ -965,10 +966,19 @@ namespace SetStartDupes
 
 				if (locked)
 				{
-					container.permittedModels = new() { personality.model };
-					container.selectedModelIcon.sprite = Assets.GetSprite(MinionModelIcons[personality.model]);
+					LockModelSelection(container);
 				}
 			}
+		}
+
+		public static void LockModelSelection(CharacterContainer container)
+		{
+			var personality = container.stats?.personality;
+			if (personality == null)
+				return;
+
+			container.permittedModels = new() { personality.model };
+			container.selectedModelIcon.sprite = Assets.GetSprite(MinionModelIcons[personality.model]);
 		}
 
 		static Dictionary<Tag, string> MinionModelIcons = new()
