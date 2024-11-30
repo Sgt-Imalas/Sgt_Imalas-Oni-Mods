@@ -89,7 +89,6 @@ namespace AkisSnowThings.Content.Scripts.Buildings
 
 		public override void OnCleanUp()
 		{
-			Unseal();
 			base.OnCleanUp();
 		}
 	}

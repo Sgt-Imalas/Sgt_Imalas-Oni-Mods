@@ -162,6 +162,7 @@ namespace AkisSnowThings
 		{
 			public static LocString DECOROVERLAYTITLE = "Snow:";
 			public static LocString PETTHATDAWG = "Pet";
+			public static LocString PETTED = "Dog petted!";
 			public class SNOWMACHINESIDESCREEN
 			{
 				public class CONTENTS

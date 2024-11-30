@@ -105,6 +105,7 @@ namespace AkisSnowThings.Content.Scripts.Buildings
 		{
 			base.SetStage(stage_id, skip_effect);
 
+			kbac.Play("pile", KAnim.PlayMode.Paused);
 			if (sealable.IsCased)
 			{
 				PutInCase(sealable.glassCase);
@@ -126,20 +127,39 @@ namespace AkisSnowThings.Content.Scripts.Buildings
 				return;
 			}
 
-			if (petCapacity < DOG_CRITICAL_THRESHOLD && petCapacity >= DOG_CRITICAL_THRESHOLD - 2)
+			if (sealable.glassCase != null && petCapacity < DOG_CRITICAL_THRESHOLD && petCapacity >= DOG_CRITICAL_THRESHOLD - 2)
 			{
 				SoundUtils.PlaySound(ModAssets.Sounds.CUICA_DRUM, transform.position, KPlayerPrefs.GetFloat("Volume_SFX"));
 			}
 
-			kbac.Play("cased", KAnim.PlayMode.Paused);
+			//kbac.Play("cased", KAnim.PlayMode.Paused);
+
+			//bool isPaused = SpeedControlScreen.Instance.IsPaused;
+			//if (isPaused)
+			//	SpeedControlScreen.Instance.Unpause(false);
+
+			if (SpeedControlScreen.Instance.IsPaused)
+				SpeedControlScreen.Instance.Unpause(false);
+
+
 			kbac.SetPositionPercent((float)petCapacity / MAX_PET);
+			kbac.UpdateAnim(0);
+			kbac.SetDirty();
+
+
+			PopFXManager.Instance.SpawnFX(Assets.GetSprite("crew_state_happy"), STRINGS.UI.PETTED, null, offset: this.transform.GetPosition(), 2);
+
+			//if (isPaused)
+			//	SpeedControlScreen.Instance.Pause(false);
+
+			//kbac.forceRebuild = true;
 		}
 
 		private void OnRefreshUserMenu(object obj)
 		{
 			if (pettable)
 			{
-				var button = new KIconButtonMenu.ButtonInfo("action_switch_toggle", STRINGS.UI.PETTHATDAWG, Pet, is_interactable: petCapacity < MAX_PET);
+				var button = new KIconButtonMenu.ButtonInfo("crew_state_happy", STRINGS.UI.PETTHATDAWG, Pet, is_interactable: petCapacity < MAX_PET);
 				Game.Instance.userMenu.AddButton(gameObject, button);
 			}
 		}
