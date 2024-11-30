@@ -743,7 +743,7 @@ namespace SetStartDupes
 			public static void Postfix(ref MinionBrowserScreenConfig __result, Option<Personality> defaultSelectedPersonality = default(Option<Personality>))
 			{
 				var personalities = Db.Get().Personalities;
-				List<MinionBrowserScreen.GridItem> HiddenPersonalityTargets = new List<MinionBrowserScreen.GridItem>();
+				List<MinionBrowserScreen.GridItem> AllPersonalityTargets = new List<MinionBrowserScreen.GridItem>();
 				SgtLogger.l("Adding hidden personalities to dupe screen");
 
 				foreach (var HiddenPersonalityUnlock in ModApi.HiddenPersonalitiesWithUnlockCondition)
@@ -774,7 +774,7 @@ namespace SetStartDupes
 							SgtLogger.warning($"no grid item found for {HiddenPersonalityUnlock.Key}!");
 							continue;
 						}
-						HiddenPersonalityTargets.Add(Target);
+						AllPersonalityTargets.Add(Target);
 						SgtLogger.l($"{HiddenPersonalityUnlock.Key} added");
 					}
 					else
@@ -783,9 +783,15 @@ namespace SetStartDupes
 					}
 				}
 
-				HiddenPersonalityTargets.InsertRange(0, __result.items);
+				AllPersonalityTargets.InsertRange(0, __result.items);
 
-				__result = new MinionBrowserScreenConfig(HiddenPersonalityTargets.OrderBy(item => item.GetName()).ToArray(), __result.defaultSelectedItem);
+				if(DupeSkinScreenAddon.IsCustomActive && DupeSkinScreenAddon.StartPersonality != null)
+				{
+					AllPersonalityTargets.RemoveAll(personalityGridItem => personalityGridItem.GetPersonality().model != DupeSkinScreenAddon.StartPersonality.model);
+				}
+
+
+				__result = new MinionBrowserScreenConfig(AllPersonalityTargets.OrderBy(item => item.GetName()).ToArray(), __result.defaultSelectedItem);
 			}
 		}
 
