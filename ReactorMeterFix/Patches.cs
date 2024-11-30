@@ -1,172 +1,243 @@
 ﻿using HarmonyLib;
 using Klei.AI;
+using PeterHan.PLib.Core;
 using ProcGen;
 using ProcGenGame;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using TemplateClasses;
+using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UtilLibs;
-using static ProcGen.ClusterLayout;
-using static ProcGen.World;
 
 namespace TinyFixes
 {
-    internal class Patches
-    {
-        /// <summary>
-        /// Fix the reactor meter by removing that obsolete frame scale hack thing from an earlier reactor implementation
-        /// </summary>
-        [HarmonyPatch(typeof(Reactor), nameof(Reactor.OnSpawn))]
-        public static class GeneratedBuildings_LoadGeneratedBuildings_Patch
-        {
-            public static void Prefix()
-            {
-                Reactor.meterFrameScaleHack = 1;
-            }
-        }
+	internal class Patches
+	{
+		/// <summary>
+		/// Fix the reactor meter by removing that obsolete frame scale hack thing from an earlier reactor implementation
+		/// </summary>
+		[HarmonyPatch(typeof(Reactor), nameof(Reactor.OnSpawn))]
+		public static class GeneratedBuildings_LoadGeneratedBuildings_Patch
+		{
+			public static void Prefix()
+			{
+				Reactor.meterFrameScaleHack = 1;
+			}
+		}
 
-        /// <summary>
-        /// fix that check to actually check for immunities instead of hardcoding for the WarmTouch effect (which breaks the effect for WarmTouchFood)
-        /// </summary>
-        [HarmonyPatch(typeof(ColdImmunityMonitor), nameof(ColdImmunityMonitor.HasImmunityEffect))]
-        public static class ColdImmunityMonitor_HasImmunityEffect
-        {
-            static Effect ColdAir;
-            public static void Postfix(ref bool __result, ColdImmunityMonitor.Instance smi)
-            {
-                if (__result)
-                    return;
-                if (ColdAir == null)
-                    ColdAir = Db.Get().effects.Get("ColdAir");
+		/// <summary>
+		/// fix that check to actually check for immunities instead of hardcoding for the WarmTouch effect (which breaks the effect for WarmTouchFood)
+		/// </summary>
+		[HarmonyPatch(typeof(ColdImmunityMonitor), nameof(ColdImmunityMonitor.HasImmunityEffect))]
+		public static class ColdImmunityMonitor_HasImmunityEffect
+		{
+			static Effect ColdAir;
+			public static void Postfix(ref bool __result, ColdImmunityMonitor.Instance smi)
+			{
+				if (__result)
+					return;
+				if (ColdAir == null)
+					ColdAir = Db.Get().effects.Get("ColdAir");
 
-                var effects = smi.GetComponent<Effects>();
-                if (effects.HasImmunityTo(ColdAir))
-                    __result = true;
-            }
-        }
-        /// <summary>
-        /// add proper cold air effect immunity to WarmTouch and WarmTouchFood so the tooltips actually reflect that
-        /// </summary>
-        [HarmonyPatch(typeof(Db), nameof(Db.Initialize))]
-        public class Db_Initialize_Patch
-        {
-            public static void Postfix()
-            {
-                Effect frostImmunityEffect = Db.Get().effects.Get("WarmTouch");
-                frostImmunityEffect.immunityEffectsNames = frostImmunityEffect.immunityEffectsNames.AddItem("ColdAir").ToArray();
+				var effects = smi.GetComponent<Effects>();
+				if (effects.HasImmunityTo(ColdAir))
+					__result = true;
+			}
+		}
+		/// <summary>
+		/// add proper cold air effect immunity to WarmTouch and WarmTouchFood so the tooltips actually reflect that
+		/// </summary>
+		[HarmonyPatch(typeof(Db), nameof(Db.Initialize))]
+		public class Db_Initialize_Patch
+		{
+			public static void Postfix()
+			{
+				Effect frostImmunityEffect = Db.Get().effects.Get("WarmTouch");
+				frostImmunityEffect.immunityEffectsNames = frostImmunityEffect.immunityEffectsNames.AddItem("ColdAir").ToArray();
 
-                Effect frostImmunityFoodEffect = Db.Get().effects.Get("WarmTouchFood");
-                frostImmunityFoodEffect.immunityEffectsNames = frostImmunityFoodEffect.immunityEffectsNames.AddItem("ColdAir").ToArray();
-            }
-        }
+				Effect frostImmunityFoodEffect = Db.Get().effects.Get("WarmTouchFood");
+				frostImmunityFoodEffect.immunityEffectsNames = frostImmunityFoodEffect.immunityEffectsNames.AddItem("ColdAir").ToArray();
+			}
+		}
+		///BalloonstandSensor
+		///
+		[HarmonyPatch(typeof(BalloonStandCellSensor), nameof(BalloonStandCellSensor.Update))]
+		public class BalloonStandCellSensor_Update_Patch
+		{
+			//skip this horribly inefficient method
+			public static bool Prefix(BalloonStandCellSensor __instance)
+			{				
+				return false;
+			}
+		}
+		[HarmonyPatch(typeof(BalloonStandCellSensor), nameof(BalloonStandCellSensor.GetCell))]
+		public class BalloonStandCellSensor_GetCell_Patch
+		{
+			//only run the query when requested
+			public static void Prefix(BalloonStandCellSensor __instance)
+			{
+				UpdateBalloonBuddyCells(__instance);
+			}
+		}
+		[HarmonyPatch(typeof(BalloonStandCellSensor), nameof(BalloonStandCellSensor.GetStandCell))]
+		public class BalloonStandCellSensor_GetStandCell_Patch
+		{
+			//only run the query when requested
+			public static void Prefix(BalloonStandCellSensor __instance)
+			{
+				UpdateBalloonBuddyCells(__instance);
+			}
+		}
+		[HarmonyPatch(typeof(OxygenBreather), nameof(OxygenBreather.OnSpawn))]
+		public class OverjoyedTrigger
+		{
+			public static void Postfix(OxygenBreather __instance)
+			{
+				__instance.Subscribe((int)GameHashes.RefreshUserMenu, (_)=>OnRefreshUserMenu(__instance));
+			}
+			private static void OnRefreshUserMenu(OxygenBreather obj)
+			{
+				var smi = obj.GetSMI<JoyBehaviourMonitor.Instance>();
 
-        [HarmonyPatch(typeof(MainMenu), nameof(MainMenu.OnPrefabInit))]
-        public class MainMenu_OnPrefabInit
-        {
-            public class VanillaStarmapLocation
-            {
-                public string Id;
-                public string Name;
-                public string Image;
-            }
+				if (smi != null) 
+				{
+					var button = new KIconButtonMenu.ButtonInfo("crew_state_happy", "trigger joy",  smi.GoToOverjoyed, is_interactable: true);
+					Game.Instance.userMenu.AddButton(obj.gameObject, button);
+				}
+			}
+		}
 
-            public class Asteroid
-            {
-                public string Id;
-                public string Name;
-                public string Image;
-                public bool DisableWorldTraits = false;
-                public List<TraitRule> TraitRules;
-                public float worldTraitScale;
-            }
-            public class ClusterLayout
-            {
-                public string Id;
-                public string Name;
-                public string Prefix;
-                public int menuOrder;
-                public int startWorldIndex;
-                public string[] RequiredDlcsIDs;
-                public string[] ForbiddenDlcIDs;
-                public List<string> WorldPlacementIDs;
-                public int clusterCategory;
-                public int fixedCoordinate;
-            }
-            public class DataExport
-            {
-                public List<ClusterLayout> clusters = new();
-                public List<Asteroid> asteroids = new();
-                public List<WorldTrait> worldTraits = new();
+		public static void UpdateBalloonBuddyCells(BalloonStandCellSensor __instance)
+		{
+			int worldId = __instance.gameObject.GetMyWorldId();
 
-            }
-            public class WorldTrait
-            {
-                public string Id;
-                public string Name, ColorHex;
-                public List<string> forbiddenDLCIds, exclusiveWith, exclusiveWithTags, traitTags;
-                public Dictionary<string, int> globalFeatureMods { get; set; }
+			__instance.cell = Grid.InvalidCell;
+			__instance.standCell = Grid.InvalidCell;
+			var roomProber = Game.Instance.roomProber;
 
-                public WorldTrait()
-                {
-                    exclusiveWith = new List<string>();
-                    exclusiveWithTags = new List<string>();
-                    forbiddenDLCIds = new List<string>();
-                    traitTags = new List<string>();
-                    Name = string.Empty;
-                    Id = string.Empty;
-                }
-            }
+			var brain = __instance.brain;
+			var navigator = __instance.navigator;
+			var navTable = navigator.NavGrid.NavTable;
+			int currentMinimumNavCost = int.MaxValue;
+
+			int maxNavCost = 4000; //game use 50, which is 5 tiles...
+
+			int potentialStandCellLeft = Grid.InvalidCell;
+			int potentialStandCellRight = Grid.InvalidCell;
 
 
-            public static void Postfix()
-            {
-                var export = new DataExport();
-                foreach (var cluster in SettingsCache.clusterLayouts.clusterCache.Values)
-                {
-                    var data = new ClusterLayout();
-                    data.Id = cluster.filePath;
-                    data.Name = Strings.Get(cluster.name);
-                    data.Prefix = cluster.coordinatePrefix;
-                    data.menuOrder = cluster.menuOrder;
-                    data.RequiredDlcsIDs = cluster.requiredDlcIds;
-                    data.ForbiddenDlcIDs = cluster.forbiddenDlcIds;
-                    //data.WorldPlacements = cluster.worldPlacements;
-                    data.startWorldIndex = cluster.startWorldIndex;
+			void PickRandomDirectionCell()
+			{
+				//at least one of these is supposed to be a valid cell
+				if (potentialStandCellLeft == Grid.InvalidCell && potentialStandCellRight != Grid.InvalidCell)
+				{
+					__instance.standCell = potentialStandCellRight;
+				}
+				else if (potentialStandCellLeft != Grid.InvalidCell && potentialStandCellRight == Grid.InvalidCell)
+				{
+					__instance.standCell = potentialStandCellLeft;
+				}
+				else
+				{
+					if (new System.Random().Next(0, 2) != 0)
+					{
+						__instance.standCell = potentialStandCellLeft;
+					}
+					else
+					{
+						__instance.standCell = potentialStandCellRight;
+					}
+				}
+			}
+			void CheckCell(int mingleCell)
+			{
+				int navigationCost = navigator.GetNavigationCost(mingleCell);
+				//finding the closest viable spot
+				if (navigationCost == -1 || navigationCost > currentMinimumNavCost)
+					return;
 
-                    data.WorldPlacementIDs = cluster.worldPlacements.Select(pl => pl.world).ToList();
-                    data.clusterCategory = (int)cluster.clusterCategory;
-                    data.fixedCoordinate = cluster.fixedCoordinate;
-                    export.clusters.Add(data);
-                }
-                foreach (var world in SettingsCache.worlds.worldCache.Values)
-                {
-                    var data = new Asteroid();
-                    data.Id = world.filePath;
-                    data.Name = Strings.Get(world.name);
-                    data.DisableWorldTraits = world.disableWorldTraits;
-                    data.TraitRules = world.worldTraitRules;
-                    data.worldTraitScale = world.worldTraitScale;
+				//if cell withing nav cost bounds
+				if (navigationCost < maxNavCost)
+				{
 
-                    export.asteroids.Add(data);
-                }
-                foreach (var trait in SettingsCache.worldTraits.Values)
-                {
-                    var data = new WorldTrait();
-                    data.Id = trait.filePath;
-                    data.Name = Strings.Get(trait.name);
-                    data.ColorHex = trait.colorHex;
-                    data.forbiddenDLCIds = trait.forbiddenDLCIds;
-                    data.exclusiveWith = trait.exclusiveWith;
-                    data.exclusiveWithTags = trait.exclusiveWithTags;
-                    data.traitTags = trait.traitTags;
-                    data.globalFeatureMods = trait.globalFeatureMods;
+					int betweenCellRight = Grid.CellRight(mingleCell);
+					int ballonStandRight = Grid.CellRight(betweenCellRight);
+					int betweenCellLeft = Grid.CellLeft(mingleCell);
+					int balloonStandLeft = Grid.CellLeft(betweenCellLeft);
 
-                    export.worldTraits.Add(data);
-                }
-                Console.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-                Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(export));
-            }
-        }
-    }
+					CavityInfo ballonGiverLocationCavityInfo = roomProber.GetCavityForCell(mingleCell);
+					CavityInfo ballonStandCavityInfoLeft = roomProber.GetCavityForCell(balloonStandLeft);
+					CavityInfo balloonStandCavityInfoRight = roomProber.GetCavityForCell(ballonStandRight);
+					if (ballonGiverLocationCavityInfo != null)
+					{
+
+						//if at least one of the two directions is valid, this is the new minimum travel cost. Check both to potentially flip the output.
+						if (balloonStandCavityInfoRight != null && balloonStandCavityInfoRight.handle == ballonGiverLocationCavityInfo.handle
+							&& navTable.IsValid(betweenCellRight) && navTable.IsValid(ballonStandRight))
+						{
+							//SgtLogger.l("cell to the right was valid!");
+
+							__instance.cell = mingleCell; //new minimum found
+							potentialStandCellRight = ballonStandRight;
+							currentMinimumNavCost = navigationCost;
+						}
+						if (ballonStandCavityInfoLeft != null && ballonStandCavityInfoLeft.handle == ballonGiverLocationCavityInfo.handle
+							&& navTable.IsValid(betweenCellLeft) && navTable.IsValid(balloonStandLeft))
+						{
+							//SgtLogger.l("cell to the left was valid!");
+
+							__instance.cell = mingleCell; //new minimum found
+							potentialStandCellLeft = balloonStandLeft;
+							currentMinimumNavCost = navigationCost;
+						}
+					}
+				}
+			}
+
+			//finding closest viable stand cell in mingle cells
+			foreach (int mingleCell in Game.Instance.mingleCellTracker.mingleCells)
+			{
+				if (brain.IsCellClear(mingleCell))
+				{
+					CheckCell(mingleCell);
+				}
+			}
+			//query for mingle cells was successful
+			if(potentialStandCellLeft != Grid.InvalidCell ||potentialStandCellRight != Grid.InvalidCell)
+			{
+				PickRandomDirectionCell();
+				return;
+			}
+			SgtLogger.l("reverting to gathering points...");
+			//no viable stand locations were found, using printing pods and watercoolers as backup
+			if (Components.SocialGatheringPoints.CountWorldItems(worldId) > 0)
+			{
+				maxNavCost = int.MaxValue; //fallback, dont care about max range anymore, also there are way less items here
+				currentMinimumNavCost = int.MaxValue;
+
+				var gatheringPoints = Components.SocialGatheringPoints.GetItems(worldId);
+
+				foreach (var item in gatheringPoints)
+				{
+					int cell = Grid.PosToCell(item);
+					CheckCell(cell);
+				}
+				//valid fallback location found
+				if (potentialStandCellLeft != Grid.InvalidCell || potentialStandCellRight != Grid.InvalidCell)
+				{
+					PickRandomDirectionCell();
+					return;
+				}
+			}
+
+			//if still nothing found yet... check current position validitiy (prevent dupe freezing in place when one of the two directions is valid at least..)
+
+			CheckCell(Grid.PosToCell(__instance.brain));
+			PickRandomDirectionCell();
+		}
+	}
 }
