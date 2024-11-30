@@ -145,6 +145,8 @@ namespace SetStartDupes
 
 		private void AddUIContainer(SkillGroup group)
 		{
+			SgtLogger.l("adding ui container for skillgroup " + group.Id);
+
 			if (group != null && !DupeInterestContainers.ContainsKey(group))
 				DupeInterestContainers[group] = AddUiContainer(
 				ModAssets.GetSkillgroupName(group),
@@ -187,6 +189,8 @@ namespace SetStartDupes
 			{
 				case NextType.geneShufflerTrait:
 				case NextType.posTrait:
+				case NextType.bionic_boost:
+				case NextType.bionic_bug:
 				case NextType.negTrait:
 				case NextType.needTrait:
 				case NextType.allTraits:
@@ -262,7 +266,6 @@ namespace SetStartDupes
 			transform.Find("ScrollArea/Content/CarePackagePrefab").gameObject.SetActive(false);
 
 			var CloserButton = transform.Find("CloseButton").gameObject;
-			//UIUtils.ListAllChildren(CloserButton.transform);
 			CloserButton.FindOrAddComponent<FButton>().OnClick += () => this.Show(false);
 			CloserButton.transform.Find("Text").GetComponent<LocText>().text = STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.CLOSEBUTTON.TEXT;
 
@@ -281,12 +284,16 @@ namespace SetStartDupes
 		private void InitAllContainers()
 		{
 			var traitsDb = Db.Get().traits;
-			var interests = Db.Get().SkillGroups.resources;
+			var interests = new List<SkillGroup>(Db.Get().SkillGroups.resources);
+			interests.RemoveAll(interest => interest.choreGroupID == null);
+
+
+
 			foreach (var type in (NextType[])Enum.GetValues(typeof(NextType)))
 			{
 				if (type == NextType.allTraits) continue;
 
-				var TraitsOfCategory = ModAssets.TryGetTraitsOfCategory(type);
+				var TraitsOfCategory = ModAssets.TryGetTraitsOfCategory(type, null);
 				foreach (var item in TraitsOfCategory)
 				{
 					if (ModAssets.TraitAllowedInCurrentDLC(item))
@@ -350,7 +357,7 @@ namespace SetStartDupes
 
 		List<string> GetAllowedTraits()
 		{
-			var allowedTraits = ModAssets.TryGetTraitsOfCategory(TraitCategory, ReferencedStats.Traits).Select(t => t.id).ToList();
+			var allowedTraits = ModAssets.TryGetTraitsOfCategory(TraitCategory, ReferencedStats.personality.model,ReferencedStats.Traits).Select(t => t.id).ToList();
 			var finalTraits = new List<string>();
 			var forbiddenTraits = ReferencedStats.Traits.Count > 0 ? ReferencedStats.Traits.Select(allowedTraits => allowedTraits.Id).ToList() : new List<string>();
 

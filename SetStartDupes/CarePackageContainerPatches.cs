@@ -115,7 +115,6 @@ namespace SetStartDupes
 					image.sprite = Assets.GetSprite("icon_gear");
 				}
 
-				//UIUtils.ListAllChildren(selectButton.transform);
 				selectButton.onClick += () =>
 				{
 					UnityCarePackageScreen.ShowWindow(__instance, () => { }, carePackageInfos);

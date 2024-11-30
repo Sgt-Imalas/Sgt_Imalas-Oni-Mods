@@ -19,7 +19,6 @@ namespace SetStartDupes.DuplicityEditing.Helpers
 					var source = ScreenPrefabs.Instance.RetiredColonyInfoScreen;
 
 					var clone = Util.KInstantiateUI(source.duplicantPrefab);
-					//UIUtils.ListAllChildrenPath(clone.transform);
 					if (clone != null)
 					{
 						crewPortraitPrefab = Util.KInstantiateUI(clone);//.transform.Find("PortraitImage").gameObject);
@@ -71,25 +70,7 @@ namespace SetStartDupes.DuplicityEditing.Helpers
 			if (kbac == null)
 				kbac = gameObject.GetComponentInChildren<KBatchedAnimController>();
 
-			//kbac.visibilityType = VisibilityType.Default;
-
-			soc.RemoveAllSymbolOverrides();
-			kbac.SetSymbolVisiblity((KAnimHashedString)"snapTo_neck", false);
-			kbac.SetSymbolVisiblity((KAnimHashedString)"snapTo_goggles", false);
-			kbac.SetSymbolVisiblity((KAnimHashedString)"snapTo_hat", false);
-			kbac.SetSymbolVisiblity((KAnimHashedString)"snapTo_headfx", false);
-			kbac.SetSymbolVisiblity((KAnimHashedString)"snapTo_hat_hair", false);
-			foreach (KeyValuePair<string, string> accessory in accessories)
-			{
-				if (Db.Get().Accessories.Exists(accessory.Value))
-				{
-					KAnim.Build.Symbol symbol = Db.Get().Accessories.Get(accessory.Value).symbol;
-					AccessorySlot accessorySlot = Db.Get().AccessorySlots.Get(accessory.Key);
-					soc.AddSymbolOverride((HashedString)accessorySlot.targetSymbolId, symbol);
-					kbac.SetSymbolVisiblity((KAnimHashedString)accessory.Key, true);
-				}
-			}
-			soc.ApplyOverrides();
+			MinionAnimUtils.ApplyNewAccessories(kbac, soc, accessories);			
 			StartCoroutine(ActivatePortraitsWhenReady());
 		}
 		private IEnumerator ActivatePortraitsWhenReady()

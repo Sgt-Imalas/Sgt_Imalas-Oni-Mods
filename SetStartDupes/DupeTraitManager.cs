@@ -48,6 +48,8 @@ namespace SetStartDupes
 		GameObject ListEntryButtonContainer;
 		GameObject SpacerPrefab;
 		//Cached UI parts:
+
+		GameObject InterestBonusHeaderGO;
 		LocText InterestBonusHeader;
 		ToolTip interestBonusTooltipCMP;
 		string InterestBonusTooltip;
@@ -77,6 +79,14 @@ namespace SetStartDupes
 		ToolTip GoalTT;
 
 		private bool _currentlyEditing = false;
+
+		public GameObject InitContainer(string name, string title)
+		{
+			GameObject go = Util.KInstantiateUI(TraitContainer, TraitContainer.transform.parent.gameObject, true);
+			go.name = name;
+			UIUtils.TryChangeText(go.transform, "Title", title);
+			return go;
+		}
 		public void InitUI()
 		{
 			UIUtils.FindAndDestroy(transform, "Top");
@@ -91,27 +101,19 @@ namespace SetStartDupes
 			UIUtils.FindAndDestroy(TraitContainer.transform, "TraitGroupGood", true);
 			UIUtils.FindAndDestroy(TraitContainer.transform, "TraitGroupBad", true);
 
-			// UIUtils.ListAllChildrenPath(InterestContainer.transform);
-			// UIUtils.ListAllChildrenPath(TraitContainer.transform);
-			//UIUtils.FindAndDestroy()
 
 
 			Debug.Assert(TraitContainer, "traitcontainer was null!");
 
-			OverjoyedContainer = Util.KInstantiateUI(TraitContainer, TraitContainer.transform.parent.gameObject, true);
-			OverjoyedContainer.name = "OverjoyedContainer";
-			UIUtils.TryChangeText(OverjoyedContainer.transform, "Title", string.Format(global::STRINGS.UI.CHARACTERCONTAINER_JOYTRAIT, string.Empty));
+			OverjoyedContainer = InitContainer("OverjoyedContainer", string.Format(global::STRINGS.UI.CHARACTERCONTAINER_JOYTRAIT, string.Empty));
 			OverjoyedContainer.SetActive(!Config.Instance.NoJoyReactions);
 
-			StressContainer = Util.KInstantiateUI(TraitContainer, TraitContainer.transform.parent.gameObject, true);
-			StressContainer.name = "StressContainer";
-			UIUtils.TryChangeText(StressContainer.transform, "Title", string.Format(global::STRINGS.UI.CHARACTERCONTAINER_STRESSTRAIT, string.Empty));
+			StressContainer = InitContainer( "StressContainer", string.Format(global::STRINGS.UI.CHARACTERCONTAINER_STRESSTRAIT, string.Empty));
 			StressContainer.SetActive(!Config.Instance.NoStressReactions);
 
-			LifeGoalContainer = Util.KInstantiateUI(TraitContainer, TraitContainer.transform.parent.gameObject, true);
-			LifeGoalContainer.name = "LifeGoalContainer";
-			UIUtils.TryChangeText(LifeGoalContainer.transform, "Title", string.Format(Strings.Get("STRINGS.UI.CHARACTERCONTAINER_LIFEGOAL_TRAIT"), string.Empty));
+			LifeGoalContainer = InitContainer("LifeGoalContainer", string.Format(Strings.Get("STRINGS.UI.CHARACTERCONTAINER_LIFEGOAL_TRAIT"), string.Empty));
 			LifeGoalContainer.SetActive(ModAssets.BeachedActive);
+
 			if (InterestContainer.transform.gameObject.TryGetComponent<LayoutElement>(out LayoutElement layoutElement))
 			{
 				layoutElement.preferredHeight = -1;
@@ -180,10 +182,10 @@ namespace SetStartDupes
 
 
 
-			var InterestPointBonus = Util.KInstantiateUI(SpacerPrefab, InterestContainer, true);
-			InterestPointBonus.name = "InterestBonusPointInfoHeader";
-			InterestBonusHeader = InterestPointBonus.GetComponent<LocText>();
-			interestBonusTooltipCMP = UIUtils.AddSimpleTooltipToObject(InterestPointBonus.gameObject, "tt");
+			InterestBonusHeaderGO = Util.KInstantiateUI(SpacerPrefab, InterestContainer, true);
+			InterestBonusHeaderGO.name = "InterestBonusPointInfoHeader";
+			InterestBonusHeader = InterestBonusHeaderGO.GetComponent<LocText>();
+			interestBonusTooltipCMP = UIUtils.AddSimpleTooltipToObject(InterestBonusHeaderGO.gameObject, "tt");
 
 			AddNewInterest = Util.KInstantiateUI(ModAssets.AddNewToTraitsButtonPrefab, InterestContainer, Config.Instance.AddAndRemoveTraitsAndInterests);
 			AddNewInterest.TryGetComponent<LayoutElement>(out var addbtnLE);
@@ -432,7 +434,9 @@ namespace SetStartDupes
 					return;
 
 				var type = ModAssets.GetTraitListOfTrait(trait.Id);
-				var traitEntry = AddTraitContainerUI(trait, TraitContainer, type);
+
+				bool bionicTrait = (type == NextType.bionic_boost || type == NextType.bionic_bug);
+				var traitEntry = AddTraitContainerUI(trait, TraitContainer, type,!bionicTrait);
 				traitEntry.TryGetComponent<LayoutElement>(out var LE);
 				UI_TraitEntries[trait] = traitEntry;
 
@@ -467,7 +471,7 @@ namespace SetStartDupes
 
 			UIUtils.TryChangeText(traitEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, trait.Name));
 			traitEntry.transform.Find("RemoveButton").gameObject.SetActive(Config.Instance.AddAndRemoveTraitsAndInterests && !notEditable && enableDeleteButton);
-
+			
 			ModAssets.ApplyTraitStyleByKey(traitEntry.transform.Find("RemoveButton").gameObject.GetComponent<KImage>(), type);
 
 			UIUtils.AddActionToButton(traitEntry.transform, "RemoveButton", () =>
@@ -488,6 +492,20 @@ namespace SetStartDupes
 			{
 				entry.gameObject.SetActive(false);
 			}
+
+			if(ToEditMinionStats.personality.model == BionicMinionConfig.MODEL && !Config.Instance.BionicNormalTraits)
+			{
+				AddNewTrait.SetActive(false);
+				InterestContainer.SetActive(false);
+				return;
+			}
+			else
+			{
+				AddNewTrait.SetActive(true);
+				InterestContainer.SetActive(true);
+			}
+
+
 			foreach (SkillGroup a in GetInterestsWithStats())
 			{
 				AddInterestUI(a);
@@ -581,7 +599,7 @@ namespace SetStartDupes
 		}
 
 		static string GetSkillGroupName(SkillGroup Group) => ModAssets.GetChoreGroupNameForSkillgroup(Group);
-		static string FirstSkillGroupStat(SkillGroup Group) => Strings.Get("STRINGS.DUPLICANTS.ATTRIBUTES." + Group.relevantAttributes.First().Id.ToUpperInvariant() + ".NAME");
+		static string FirstSkillGroupStat(SkillGroup Group) => Strings.Get("STRINGS.DUPLICANTS.ATTRIBUTES." + Group.relevantAttributes.First()?.Id.ToUpperInvariant() + ".NAME");
 
 
 		#endregion
@@ -623,7 +641,10 @@ namespace SetStartDupes
 			stress,
 			undefined,
 			cogenital,
-			bionic,
+			bionic_boost,
+			bionic_bug,
+
+
 			allTraits,
 
 			Beached_LifeGoal,
@@ -670,7 +691,6 @@ namespace SetStartDupes
 		{
 			var newValue = ModAssets.GetTraitBonus(ToEditMinionStats);
 			var oldValue = additionalSkillPoints;
-
 
 			additionalSkillPoints = newValue;
 			return newValue != oldValue;
@@ -778,7 +798,7 @@ namespace SetStartDupes
 		public void RedoStatpointBonus(Trait trait)
 		{
 			ModAssets.GetTraitListOfTrait(trait.Id, out var list);
-
+			SgtLogger.l(trait.Name + ": " + list);
 			if (list == null)
 				return;
 

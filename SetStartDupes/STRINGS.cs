@@ -259,6 +259,11 @@ namespace SetStartDupes
 					public static LocString NAME = "Interest Point Balancing";
 					public static LocString TOOLTIP = "Use the vanilla interest point bonus for active interests determined by active traits.\nDeactivate to override this point limit.";
 				}
+				public class BEYONDBIONICS
+				{
+					public static LocString NAME = "Add normal traits to Bionic Duplicants";
+					public static LocString TOOLTIP = "When active, allows adding regular traits to bionic duplicants.";
+				}
 				public class NOJOYREACTION
 				{
 					public static LocString NAME = "Disable Overjoyed Responses";

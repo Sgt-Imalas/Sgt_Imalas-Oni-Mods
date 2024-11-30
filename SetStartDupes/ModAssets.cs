@@ -9,6 +9,7 @@ using System.Linq;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
+using static CharacterContainer;
 using static SetStartDupes.DupeTraitManager;
 using static SetStartDupes.STRINGS.UI;
 
@@ -195,7 +196,6 @@ namespace SetStartDupes
 			SgtLogger.Assert("CrewDupeEntryPrefab was null!", CrewDupeEntryPrefab);
 			SgtLogger.Assert("DuplicityWindowPrefab was null!", DuplicityWindowPrefab);
 
-			//UIUtils.ListAllChildren(PresetWindowPrefab.transform);
 
 			var TMPConverter = new TMPConverter();
 			TMPConverter.ReplaceAllText(PresetWindowPrefab);
@@ -435,7 +435,7 @@ namespace SetStartDupes
 		public static int GetTraitBonus(MinionStartingStats stats)
 		{
 			int targetPoints = 0;
-			var allTraitStats = TryGetTraitsOfCategory(NextType.allTraits);
+			var allTraitStats = TryGetTraitsOfCategory(NextType.allTraits, stats.personality.model);
 			foreach (var activeTrait in stats.Traits)
 			{
 				var active = allTraitStats.Find(match => match.id == activeTrait.Id);
@@ -554,7 +554,10 @@ namespace SetStartDupes
 			if (group == null)
 				return STRINGS.MISSINGSKILLGROUP;
 
-			return GetChoreGroupNameForSkillgroup(group) + " (" + Strings.Get("STRINGS.DUPLICANTS.ATTRIBUTES." + group.relevantAttributes.First().Id.ToUpperInvariant() + ".NAME") + ")";
+
+			var relevantAttributeId = group.relevantAttributes.Count > 0 ? group.relevantAttributes.First().Id : "NONE";
+
+			return GetChoreGroupNameForSkillgroup(group) + " (" + Strings.Get("STRINGS.DUPLICANTS.ATTRIBUTES." + relevantAttributeId.ToUpperInvariant() + ".NAME") + ")";
 		}
 		public static string GetSkillgroupDescription(SkillGroup group, MinionStartingStats stats = null, string id = "")
 		{
@@ -563,7 +566,7 @@ namespace SetStartDupes
 
 
 			string description;
-			if (group.choreGroupID != "")
+			if (!group.choreGroupID.IsNullOrWhiteSpace())
 			{
 				ChoreGroup choreGroup = Db.Get().ChoreGroups.Get(group.choreGroupID);
 				description = string.Format(DUPLICANTS.ROLES.GROUPS.APTITUDE_DESCRIPTION_CHOREGROUP, group.Name, DUPLICANTSTATS.APTITUDE_BONUS, choreGroup.description);
@@ -718,13 +721,18 @@ namespace SetStartDupes
 				DUPLICANTSTATS.CONGENITALTRAITS
 			},
 			{
-				NextType.bionic,
+				NextType.bionic_boost,
 				DUPLICANTSTATS.BIONICUPGRADETRAITS
+			},
+			{
+				NextType.bionic_bug,
+				DUPLICANTSTATS.BIONICBUGTRAITS
 			}
 		};
 
-		public static List<DUPLICANTSTATS.TraitVal> TryGetTraitsOfCategory(NextType type, List<Trait> traitsForCost = null, bool overrideShowAll = false)
+		public static List<DUPLICANTSTATS.TraitVal> TryGetTraitsOfCategory(NextType type, Tag minionModel, List<Trait> traitsForCost = null, bool overrideShowAll = false)
 		{
+			bool initializingUI = minionModel == null;
 			if (type != NextType.allTraits)
 			{
 				if (!TraitsByType.ContainsKey(type))
@@ -739,16 +747,21 @@ namespace SetStartDupes
 				if (DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive || Config.Instance.AddVaccilatorTraits || overrideShowAll)
 				{
 					returnValues.AddRange(TraitsByType[NextType.geneShufflerTrait]);
-					return
-						//TraitsByType[NextType.special].Concat
-						(TraitsByType[NextType.geneShufflerTrait]).Concat(TraitsByType[NextType.posTrait]).Concat(TraitsByType[NextType.needTrait]).Concat(TraitsByType[NextType.negTrait]).ToList();
 				}
 				if (ModAssets.RainbowFartsActive)
 					returnValues.AddRange(TraitsByType[NextType.RainbowFart]);
 
-				returnValues.AddRange(TraitsByType[NextType.posTrait]);
-				returnValues.AddRange(TraitsByType[NextType.needTrait]);
-				returnValues.AddRange(TraitsByType[NextType.negTrait]);
+				if(minionModel == GameTags.Minions.Models.Bionic || initializingUI)
+				{
+					returnValues.AddRange(TraitsByType[NextType.bionic_boost]);
+					returnValues.AddRange(TraitsByType[NextType.bionic_bug]);
+				}
+				else
+				{
+					returnValues.AddRange(TraitsByType[NextType.posTrait]);
+					returnValues.AddRange(TraitsByType[NextType.needTrait]);
+					returnValues.AddRange(TraitsByType[NextType.negTrait]);
+				}
 				return returnValues;
 
 			}
@@ -768,72 +781,37 @@ namespace SetStartDupes
 
 		public static NextType GetTraitListOfTrait(string traitId, out List<DUPLICANTSTATS.TraitVal> TraitList)
 		{
-			if (RAINBOWFARTS_FARTTRAITS.FindIndex(t => t.id == traitId) != -1)
-			{
-				TraitList = RAINBOWFARTS_FARTTRAITS;
-				if (!NextTypesPerTrait.ContainsKey(traitId))
-					NextTypesPerTrait.Add(traitId, NextType.RainbowFart);
-				return NextType.RainbowFart;
-			}
-			else if (BEACHED_LIFEGOALS.FindIndex(t => t.id == traitId) != -1)
-			{
-				TraitList = BEACHED_LIFEGOALS;
-				if (!NextTypesPerTrait.ContainsKey(traitId))
-					NextTypesPerTrait.Add(traitId, NextType.Beached_LifeGoal);
-				return NextType.Beached_LifeGoal;
-			}
-			else if (DUPLICANTSTATS.GENESHUFFLERTRAITS.FindIndex(t => t.id == traitId) != -1)
-			{
-				TraitList = DUPLICANTSTATS.GENESHUFFLERTRAITS;
-				if (!NextTypesPerTrait.ContainsKey(traitId))
-					NextTypesPerTrait.Add(traitId, NextType.geneShufflerTrait);
-				return NextType.geneShufflerTrait;
-			}
-			else if (DUPLICANTSTATS.GOODTRAITS.FindIndex(t => t.id == traitId) != -1)
-			{
-				TraitList = DUPLICANTSTATS.GOODTRAITS;
-				if (!NextTypesPerTrait.ContainsKey(traitId))
-					NextTypesPerTrait.Add(traitId, NextType.posTrait);
-				return NextType.posTrait;
-			}
-			else if (DUPLICANTSTATS.BADTRAITS.FindIndex(t => t.id == traitId) != -1)
-			{
-				TraitList = DUPLICANTSTATS.BADTRAITS;
-				if (!NextTypesPerTrait.ContainsKey(traitId))
-					NextTypesPerTrait.Add(traitId, NextType.negTrait);
-				return NextType.negTrait;
-			}
-			else if (DUPLICANTSTATS.NEEDTRAITS.FindIndex(t => t.id == traitId) != -1)
-			{
-				TraitList = DUPLICANTSTATS.NEEDTRAITS;
-				if (!NextTypesPerTrait.ContainsKey(traitId))
-					NextTypesPerTrait.Add(traitId, NextType.needTrait);
-				return NextType.needTrait;
-			}
-			else if (DUPLICANTSTATS.JOYTRAITS.FindIndex(t => t.id == traitId) != -1)
-			{
-				TraitList = DUPLICANTSTATS.JOYTRAITS;
-				if (!NextTypesPerTrait.ContainsKey(traitId))
-					NextTypesPerTrait.Add(traitId, NextType.joy);
-				return NextType.joy;
-			}
-			else if (DUPLICANTSTATS.STRESSTRAITS.FindIndex(t => t.id == traitId) != -1)
-			{
-				TraitList = DUPLICANTSTATS.STRESSTRAITS;
-				if (!NextTypesPerTrait.ContainsKey(traitId))
-					NextTypesPerTrait.Add(traitId, NextType.stress);
-				return NextType.stress;
-			}
-			else if (DUPLICANTSTATS.SPECIALTRAITS.FindIndex(t => t.id == traitId) != -1)
-			{
-				TraitList = new List<DUPLICANTSTATS.TraitVal>() { DUPLICANTSTATS.SPECIALTRAITS.Find(t => t.id == traitId) };
-				if (!NextTypesPerTrait.ContainsKey(traitId))
-					NextTypesPerTrait.Add(traitId, NextType.special);
-				return NextType.undefined;
-			}
+			NextType nextType = NextType.undefined;
 			TraitList = null;
-			return NextType.undefined;
 
+			if (!NextTypesPerTrait.ContainsKey(traitId))
+			{
+				foreach (var possibility in TraitsByType)
+				{
+					var checkedCategory = possibility.Key; 
+					var traitValList = possibility.Value;
+					if (traitValList.FindIndex(t => t.id == traitId) != -1)
+					{
+						nextType = checkedCategory;
+						NextTypesPerTrait.Add(traitId, checkedCategory);
+						TraitList = TraitsByType[checkedCategory];
+						break;
+					}
+				}
+			}
+			else
+			{
+				nextType = NextTypesPerTrait[traitId];
+				TraitList = TraitsByType[nextType];
+			}
+
+
+			if (nextType == NextType.special) //chatty, ancient knowledge shouldnt be editable 
+			{
+				TraitList = null;
+				nextType = NextType.undefined;
+			}
+			return nextType;
 		}
 
 		public static Color GetColourFromType(DupeTraitManager.NextType type)
@@ -843,9 +821,11 @@ namespace SetStartDupes
 			{
 				case DupeTraitManager.NextType.joy:
 				case DupeTraitManager.NextType.posTrait:
+				case DupeTraitManager.NextType.bionic_boost:
 					colorToPaint = Colors.green;
 					break;
 				case DupeTraitManager.NextType.negTrait:
+				case DupeTraitManager.NextType.bionic_bug:
 				case DupeTraitManager.NextType.stress:
 					colorToPaint = Colors.red;
 					break;
@@ -937,14 +917,14 @@ namespace SetStartDupes
 		}
 
 
-		public static bool LockedContainer(CharacterContainer instance)
+		public static bool IsLockedContainer(CharacterContainer instance)
 		{
 			return LockedContainers.Contains(instance);
 		}
 
 		public static void ToggleContainerPersonalityLock(CharacterContainer container)
 		{
-			SetContainerPersonalityLock(container, !LockedContainer(container));
+			SetContainerPersonalityLock(container, !IsLockedContainer(container));
 		}
 
 		public static void SetContainerPersonalityLock(CharacterContainer container, bool lockPersonality)
@@ -962,7 +942,7 @@ namespace SetStartDupes
 		{
 			if (PersonalityLockButtons.TryGetValue(container, out var rerollTraitBtn))
 			{
-				bool locked = LockedContainer(container);
+				bool locked = IsLockedContainer(container);
 
 				var personality = container.stats?.personality;
 				Sprite lockIcon = locked ? Assets.GetSprite("lock") : Assets.GetSprite(UnlockIcon);
@@ -975,8 +955,21 @@ namespace SetStartDupes
 				var lockImage = rerollTraitBtn.transform.Find("LockImage").GetComponent<KImage>();
 				lockImage.sprite = lockIcon;
 				lockImage.color = locked ? Color.red : Color.white;
+
+				if (locked)
+				{
+					container.permittedModels = new() { personality.model };
+					container.selectedModelIcon.sprite = Assets.GetSprite(MinionModelIcons[personality.model]);
+				}
 			}
 		}
+
+		static Dictionary<Tag, string> MinionModelIcons = new()
+		{
+			{ GameTags.Minions.Models.Standard,"ui_duplicant_minion_selection"},
+			{ GameTags.Minions.Models.Bionic,"ui_duplicant_bionicminion_selection"},
+			{ GameTags.Any, "ui_duplicant_any_selection" },
+		};
 
         internal static bool IsMinionBaseTrait(string id)
         {

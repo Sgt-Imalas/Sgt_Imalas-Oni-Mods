@@ -98,7 +98,7 @@ namespace SetStartDupes
 		{
 			TraitCategory = NextType.allTraits;
 
-			List<string> allowedTraits = ModAssets.TryGetTraitsOfCategory(NextType.allTraits).Select(t => t.id).ToList();
+			List<string> allowedTraits = ModAssets.TryGetTraitsOfCategory(NextType.allTraits,OpenedFrom.stats.personality.model).Select(t => t.id).ToList();
 
 			Trait currentTrait = null;
 			if (GuaranteedTraitRoll.ContainsKey(OpenedFrom))
@@ -189,7 +189,6 @@ namespace SetStartDupes
 				return;
 			}
 			SgtLogger.l("Initializing TraitSelectionWindow");
-			//UIUtils.ListAllChildren(this.transform);
 
 
 			ToReplaceName = transform.Find("ToReplace/CurrentlyActive/Label").FindComponent<LocText>();
@@ -212,7 +211,6 @@ namespace SetStartDupes
 
 
 			var CloserButton = transform.Find("CloseButton").gameObject;
-			//UIUtils.ListAllChildren(CloserButton.transform);
 			CloserButton.FindOrAddComponent<FButton>().OnClick += () => this.Show(false);
 			CloserButton.transform.Find("Text").GetComponent<LocText>().text = STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.CLOSEBUTTON.TEXT;
 
@@ -232,7 +230,7 @@ namespace SetStartDupes
 			{
 				if (type != NextType.posTrait && type != NextType.negTrait) continue;
 
-				var TraitsOfCategory = ModAssets.TryGetTraitsOfCategory(type);
+				var TraitsOfCategory = ModAssets.TryGetTraitsOfCategory(type, null);
 				foreach (DUPLICANTSTATS.TraitVal item in TraitsOfCategory)
 				{
 					if (ModAssets.TraitAllowedInCurrentDLC(item))
@@ -244,7 +242,7 @@ namespace SetStartDupes
 
 		public void ApplyFilter(string filterstring = "")
 		{
-			var allowedTraits = ModAssets.TryGetTraitsOfCategory(NextType.allTraits).Select(t => t.id).ToList();
+			var allowedTraits = ModAssets.TryGetTraitsOfCategory(NextType.allTraits, OpenedFrom?.stats?.personality?.model??null).Select(t => t.id).ToList();
 			foreach (var go in TraitContainers)
 			{
 				bool Contained = allowedTraits.Contains(go.Key.Id);

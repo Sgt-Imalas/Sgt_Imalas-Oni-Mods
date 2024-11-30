@@ -291,7 +291,6 @@ namespace SetStartDupes
 		{
 			SgtLogger.l("Initializing PresetWindow");
 
-			//UIUtils.ListAllChildrenPath(transform);
 			GeneratePresetButton = transform.Find("HorizontalLayout/ItemInfo/Buttons/GenerateFromCurrent").FindOrAddComponent<FButton>();
 			CloseButton = transform.Find("HorizontalLayout/ItemInfo/Buttons/CloseButton").FindOrAddComponent<FButton>();
 			ApplyButton = transform.Find("HorizontalLayout/ItemInfo/Buttons/ApplyPresetButton").FindOrAddComponent<FButton>();

@@ -133,8 +133,6 @@ namespace SetStartDupes
 		{
 			if (init) { return; }
 			SgtLogger.l("Initializing CarePackageWindow");
-			//UIUtils.ListAllChildren(this.transform);
-
 
 			ToReplaceName = transform.Find("ToReplace/CurrentlyActive/Label").FindComponent<LocText>();
 			ToReplaceColour = transform.Find("ToReplace/CurrentlyActive/Background").FindComponent<Image>();

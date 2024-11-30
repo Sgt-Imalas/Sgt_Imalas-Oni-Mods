@@ -9,6 +9,8 @@ using UtilLibs;
 using UtilLibs.UI.FUI;
 using UtilLibs.UIcmp;
 using static SetStartDupes.DupeTraitManager;
+using static STRINGS.UI;
+using static STRINGS.UI.TOOLS;
 
 namespace SetStartDupes.DuplicityEditing
 {
@@ -30,6 +32,9 @@ namespace SetStartDupes.DuplicityEditing
 
 
 		public static DuplicityMainScreen Instance = null;
+		ConfirmDialogScreen ConfirmDialog = null;
+
+
 
 		public bool CurrentlyActive;
 
@@ -112,16 +117,16 @@ namespace SetStartDupes.DuplicityEditing
 
 		public override void OnKeyDown(KButtonEvent e)
 		{
-			if (e.TryConsume(Action.MouseRight))
-			{
-				TryClose();
-				//Debug.Log("consumed closing action");
-			}
+			if (e.Consumed)
+				return;
 
-			if (e.TryConsume(Action.Escape))
+			if (e.TryConsume(Action.MouseRight) || e.TryConsume(Action.Escape))
 			{
-				TryClose();
-				//this.Show(false);
+				if (HasOpenDialogue())
+					CloseConfirmDialog();
+				else
+					TryClose();
+				//Debug.Log("consumed closing action");
 			}
 			base.OnKeyDown(e);
 		}
@@ -136,17 +141,16 @@ namespace SetStartDupes.DuplicityEditing
 		}
 		void TryClose()
 		{
-			if (PendingChanges())
+			if (PendingChanges() && !HasOpenDialogue())
 			{
-				KMod.Manager.Dialog(Global.Instance.globalCanvas,
-					   STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.TITLE,
-					   STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.TEXT,
-				STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.APPLYCHANGES,
-					   () => ApplyAndClose(),
-				STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.DISCARDCHANGES,
-					   () => DiscardAndClose(),
-					   STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.CANCEL,
-					   () => { });
+				ConfirmDialog = DialogUtil.CreateConfirmDialog(STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.TITLE,
+				   STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.TEXT,
+			STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.APPLYCHANGES,
+				   () => ApplyAndClose(),
+			STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.DISCARDCHANGES,
+				   () => DiscardAndClose(),
+				   STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.CANCEL,
+				   () => { });
 			}
 			else
 				DiscardAndClose();
@@ -171,7 +175,6 @@ namespace SetStartDupes.DuplicityEditing
 		{
 			if (init) { return; }
 			SgtLogger.l("Initializing Duplicity Dupe editing");
-			//UIUtils.ListAllChildrenPath(this.transform);
 			MinionButtonContainer = transform.Find("Categories/Content/ScrollRectContainer").gameObject;
 			MinionButtonPrefab = MinionButtonContainer.transform.Find("Item").gameObject;
 			MinionButtonPrefab.SetActive(false);
@@ -389,10 +392,10 @@ namespace SetStartDupes.DuplicityEditing
 
 			attributeEditors = new();
 
-			FButton addTraits = TraitsInterestContainer.transform.Find("Content/grp2/AddTraitButton").gameObject.AddOrGet<FButton>();
-			addTraits.OnClick += () => UnityDuplicitySelectionScreen.ShowWindow(UnityDuplicitySelectionScreen.OpenedFrom.Trait, (obj) => OnAddTrait((string)obj), () => RebuildTraitsAptitudes());
-			FButton addAptitudes = TraitsInterestContainer.transform.Find("Content/grp2/AddInterestButton").gameObject.AddOrGet<FButton>();
-			addAptitudes.OnClick += () => UnityDuplicitySelectionScreen.ShowWindow(UnityDuplicitySelectionScreen.OpenedFrom.Interest, (obj) => OnAddAptitude((string)obj), () => RebuildTraitsAptitudes());
+			AddNewTrait = TraitsInterestContainer.transform.Find("Content/grp2/AddTraitButton").gameObject.AddOrGet<FButton>();
+			AddNewTrait.OnClick += () => UnityDuplicitySelectionScreen.ShowWindow(UnityDuplicitySelectionScreen.OpenedFrom.Trait, (obj) => OnAddTrait((string)obj), () => RebuildTraitsAptitudes());
+			AddNewAptitude = TraitsInterestContainer.transform.Find("Content/grp2/AddInterestButton").gameObject.AddOrGet<FButton>();
+			AddNewAptitude.OnClick += () => UnityDuplicitySelectionScreen.ShowWindow(UnityDuplicitySelectionScreen.OpenedFrom.Interest, (obj) => OnAddAptitude((string)obj), () => RebuildTraitsAptitudes());
 
 			foreach (var attribute in AttributeHelper.GetEditableAttributes())
 			{
@@ -634,7 +637,7 @@ namespace SetStartDupes.DuplicityEditing
 				entry.Text = trait.Name;
 				entry.Tooltip = trait.description;
 				entry.backgroundColor = ModAssets.GetColourFromType(Type);
-				if (Type == NextType.undefined || Type == NextType.special)
+				if (Type == NextType.undefined || Type == NextType.special || Type == NextType.bionic_boost || Type == NextType.bionic_bug)
 				{
 					entry.HideDelete = true;
 				}
@@ -744,6 +747,15 @@ namespace SetStartDupes.DuplicityEditing
 			Stats?.AddEffect(id);
 			RebuildEffects();
 		}
+		bool HasOpenDialogue() => ConfirmDialog != null;
+		void CloseConfirmDialog()
+		{
+			if (ConfirmDialog != null)
+			{
+				ConfirmDialog.Deactivate();
+				ConfirmDialog = null;
+			}
+		}
 
 		public override void OnShow(bool show)
 		{
@@ -753,6 +765,7 @@ namespace SetStartDupes.DuplicityEditing
 				Init();
 			}
 			CurrentlyActive = show;
+			ConfirmDialog = null;
 
 			OnResize();
 			if (show)
@@ -862,25 +875,37 @@ namespace SetStartDupes.DuplicityEditing
 			if (newMinion == SelectedMinion)
 				return;
 
-			if (PendingChanges())
+			if (PendingChanges() && !HasOpenDialogue())
 			{
-				KMod.Manager.Dialog(Global.Instance.globalCanvas,
-					   STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.TITLE,
-					   STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.TEXT,
-				STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.APPLYCHANGES,
-					   () =>
-					   {
-						   Stats.Apply(SelectedMinion);
-						   GenerateMinionEditStats(newMinion);
-					   },
-				STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.DISCARDCHANGES,
-					   () => GenerateMinionEditStats(newMinion),
-				STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.CANCEL,
-					   () => { });
+				ConfirmDialog = DialogUtil.CreateConfirmDialog(
+				   STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.TITLE,
+				   STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.TEXT,
+			STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.APPLYCHANGES,
+				   () =>
+				   {
+					   Stats.Apply(SelectedMinion);
+					   GenerateMinionEditStats(newMinion);
+				   },
+			STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.DISCARDCHANGES,
+				   () => GenerateMinionEditStats(newMinion),
+			STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.CANCEL,
+				   () => { });
 			}
 			else
 			{
 				GenerateMinionEditStats(newMinion);
+			}
+
+			if (Stats.Model == GameTags.Minions.Models.Bionic)
+			{
+				AddNewAptitude.SetInteractable(false);
+				AddNewTrait.SetInteractable(false);
+			}
+			else
+			{
+
+				AddNewTrait.SetInteractable(true);
+				AddNewAptitude.SetInteractable(true);
 			}
 		}
 

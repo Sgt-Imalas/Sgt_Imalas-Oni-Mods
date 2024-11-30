@@ -9,6 +9,7 @@ namespace SetStartDupes
 		public static bool IsCustomActive = false;
 		List<Transform> StuffToDeactivate = new List<Transform>();
 		List<Transform> StuffToActivate = new List<Transform>();
+		Dictionary<string,Transform> Personalities = new ();
 		[MyCmpGet]
 		MinionBrowserScreen minionSelectionScreen;
 
@@ -19,7 +20,6 @@ namespace SetStartDupes
 			StuffToActivate.Clear();
 			StuffToActivate.Clear();
 
-			//UIUtils.ListAllChildren(this.transform);
 			StuffToDeactivate.Add(transform.Find("PreviewColumn/LayoutBreaker/Content/SelectedItemInfo"));
 			StuffToDeactivate.Add(transform.Find("PreviewColumn/LayoutBreaker/Content/Cycler"));
 			StuffToDeactivate.Add(transform.Find("PreviewColumn/LayoutBreaker/Content/ButtonsContainer/Buttons/EditOutfitButton"));
