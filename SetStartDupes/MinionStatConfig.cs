@@ -25,6 +25,7 @@ namespace SetStartDupes
 		public float Age = 0;
 		public string PersonalityID;
 		public string DLCID = "";
+		public Tag Model = null;
 
 		public void OpenPopUpToChangeName(System.Action callBackAction = null)
 		{
@@ -59,7 +60,7 @@ namespace SetStartDupes
 			return filename.Replace(" ", "_");// + "_" + GenerateHash(System.DateTime.Now.ToString());
 		}
 
-		public MinionStatConfig(string fileName, string configName, List<Trait> traits, Trait stressTrait, Trait joyTrait, List<KeyValuePair<string, int>> startingLevels, List<KeyValuePair<SkillGroup, float>> skillAptitudes)
+		public MinionStatConfig(string fileName, string configName, List<Trait> traits, Trait stressTrait, Trait joyTrait, List<KeyValuePair<string, int>> startingLevels, List<KeyValuePair<SkillGroup, float>> skillAptitudes, Tag model)
 		{
 			FileName = fileName;
 			ConfigName = configName;
@@ -72,9 +73,10 @@ namespace SetStartDupes
 
 			if (DlcManager.IsExpansion1Active())
 				DLCID = DlcManager.EXPANSION1_ID;
+			Model = model;
 		}
 		public MinionStatConfig() { }
-		public MinionStatConfig(string fileName, string configName, List<string> traits, string stressTrait, string joyTrait, List<KeyValuePair<string, int>> startingLevels, List<KeyValuePair<string, float>> skillAptitudes)
+		public MinionStatConfig(string fileName, string configName, List<string> traits, string stressTrait, string joyTrait, List<KeyValuePair<string, int>> startingLevels, List<KeyValuePair<string, float>> skillAptitudes, Tag model)
 		{
 			FileName = fileName;
 			ConfigName = configName;
@@ -86,6 +88,7 @@ namespace SetStartDupes
 			if (DlcManager.IsExpansion1Active())
 				DLCID = DlcManager.EXPANSION1_ID;
 			//WriteToFile();
+			Model = model;
 		}
 
 		public static string GenerateHash(string str)
@@ -153,10 +156,12 @@ namespace SetStartDupes
 				stress,
 				joy,
 				startingLevels,
-				skillAptitudes);
+				skillAptitudes, 
+				dupe.model);
 			config.StarterXP = dupe.TotalExperienceGained;
 			config.Age = GameClock.Instance.GetCycle() - dupe.arrivalTime;
 			config.PersonalityID = dupe.nameStringKey;
+
 
 			return config;
 		}
@@ -214,7 +219,8 @@ namespace SetStartDupes
 					stress,
 					joy,
 					startingLevels,
-					skillAptitudes);
+					skillAptitudes,
+					dupe.model);
 				config.StarterXP = resume.TotalExperienceGained;
 				config.Age = GameClock.Instance.GetCycle() - dupe.arrivalTime;
 				config.PersonalityID = dupe.nameStringKey;
@@ -240,7 +246,8 @@ namespace SetStartDupes
 				startingStats.stressTrait,
 				startingStats.joyTrait,
 				startingStats.StartingLevels.ToList(),
-				startingStats.skillAptitudes.ToList());
+				startingStats.skillAptitudes.ToList(),
+				startingStats.personality.model);
 
 			if (ModAssets.BeachedActive)
 				config.Traits.Add(Beached_API.GetCurrentLifeGoal(startingStats).Id);
@@ -262,10 +269,11 @@ namespace SetStartDupes
 			var traitRef = Db.Get().traits;
 
 
-            //TODO! Adjust for bionic dupes!
-            if (!Traits.Contains(ModAssets.DefaultMinionBaseTrait))
-				Traits.Add(ModAssets.DefaultMinionBaseTrait);
+			//TODO! Adjust for bionic dupes!
 
+			var baseTrait = BaseMinionConfig.GetMinionBaseTraitIDForModel(referencedStats.personality.model);
+			if (!Traits.Contains(baseTrait))
+					Traits.Add(baseTrait);
 
 			if (HadAncientKnowledge)
 			{
@@ -376,11 +384,21 @@ namespace SetStartDupes
 				using (var sr = new StreamReader(filestream))
 				{
 					string jsonString = sr.ReadToEnd();
-					MinionStatConfig modlist = JsonConvert.DeserializeObject<MinionStatConfig>(jsonString);
-					return modlist;
+					MinionStatConfig preset = JsonConvert.DeserializeObject<MinionStatConfig>(jsonString);
+					preset.Migrate();
+					return preset;
 				}
 			}
 		}
+
+		private void Migrate()
+		{
+			if(Model == null)
+			{
+				Model = GameTags.Minions.Models.Standard;
+			}
+		}
+
 		public string SkillGroupName(string groupID)
 		{
 			if (groupID == null)

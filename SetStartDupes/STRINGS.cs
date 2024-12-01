@@ -355,6 +355,7 @@ namespace SetStartDupes
 										public static LocString TEXT = "Load Preset";
 									}
 
+									public static LocString INVALIDMODELTOOLTIP = "Preset not compatible with current duplicant model!";
 									public static LocString RENAMEPRESETTOOLTIP = "Rename Preset";
 									public static LocString DELETEPRESETTOOLTIP = "Delete Preset";
 

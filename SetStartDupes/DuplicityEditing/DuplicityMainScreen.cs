@@ -9,6 +9,7 @@ using UtilLibs;
 using UtilLibs.UI.FUI;
 using UtilLibs.UIcmp;
 using static SetStartDupes.DupeTraitManager;
+using static STRINGS.DUPLICANTS;
 using static STRINGS.UI;
 using static STRINGS.UI.TOOLS;
 
@@ -359,7 +360,7 @@ namespace SetStartDupes.DuplicityEditing
 		}
 		void InitHealthTab()
 		{
-			foreach (Amount amount in AmountHelper.GetEditableAmounts())
+			foreach (Amount amount in AmountHelper.GetAllEditableAmounts())
 			{
 				var input = Util.KInstantiateUI<SliderInput>(SliderInputPrefab.gameObject, ParentContainer);
 				input.Text = amount.Name;
@@ -499,8 +500,15 @@ namespace SetStartDupes.DuplicityEditing
 			SgtLogger.Assert("stats were null", Stats);
 			if (Stats == null)
 				return;
-			foreach (var amount in AmountHelper.GetEditableAmounts())
+			foreach (var amount in AmountHelper.GetAllEditableAmounts())
 			{
+				bool isValidAmount = AmountHelper.IsValidModelAmount(amount,Stats.Model);
+
+				AmountSliders[amount].gameObject.SetActive(isValidAmount);
+
+				if (!isValidAmount)
+					continue;
+
 				var instance = amount.Lookup(SelectedMinion.GetTargetGameObject());
 				AmountSliders[amount].SetMinMaxCurrent(instance.GetMin(), instance.GetMax(), instance.value);
 			}
@@ -899,13 +907,13 @@ namespace SetStartDupes.DuplicityEditing
 			if (Stats.Model == GameTags.Minions.Models.Bionic)
 			{
 				AddNewAptitude.SetInteractable(false);
-				AddNewTrait.SetInteractable(false);
+				//AddNewTrait.SetInteractable(false);
 			}
 			else
 			{
 
-				AddNewTrait.SetInteractable(true);
 				AddNewAptitude.SetInteractable(true);
+				//AddNewTrait.SetInteractable(true);
 			}
 		}
 

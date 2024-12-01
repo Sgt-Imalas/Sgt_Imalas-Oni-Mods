@@ -99,12 +99,7 @@ namespace SetStartDupes
 			}
 		}
 
-		[Obsolete ("make dynamic to account for bionic dupes!")]
-		public static string DefaultMinionBaseTrait => "MinionBaseTrait";
-
         private static GameObject parentScreen = null;
-
-
 		public static CarePackageInfo[] GetAdditionalCarePackages()
 		{
 			bool Dlc1Active = DlcManager.IsExpansion1Active();

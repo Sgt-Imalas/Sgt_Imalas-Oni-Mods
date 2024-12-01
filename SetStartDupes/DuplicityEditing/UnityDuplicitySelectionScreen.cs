@@ -254,9 +254,9 @@ namespace SetStartDupes
 				NextType.special,
 				NextType.geneShufflerTrait,
 				NextType.posTrait,
-				NextType.bionic_boost,
+				//NextType.bionic_boost,
 				NextType.needTrait,
-				NextType.bionic_bug,
+				//NextType.bionic_bug,
 				NextType.negTrait,
 				NextType.undefined,
 			};
@@ -397,7 +397,7 @@ namespace SetStartDupes
 
 		List<string> GetAllowedTraits()
 		{
-			var traits = ModAssets.TryGetTraitsOfCategory(NextType.allTraits, DuplicityMainScreen.Instance.Stats.Model, overrideShowAll: true);
+			var traits = ModAssets.TryGetTraitsOfCategory(NextType.allTraits, GameTags.Minions.Models.Standard, overrideShowAll: true);
 
 			DuplicityMainScreen.Instance.ReactionInfo(out var hasJoy, out var hasStress);
 
