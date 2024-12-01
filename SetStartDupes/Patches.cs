@@ -174,6 +174,7 @@ namespace SetStartDupes
 					//   // __instance.stats.Traits.Add(ancientKnowledgeTrait);
 					//}
 					__instance.SetReshufflingState(true);
+					__instance.modelDropDown.transform.parent.gameObject.SetActive(false);
 					__instance.SetAnimator();
 					__instance.SetInfoText();
 					__instance.StartCoroutine(__instance.SetAttributes());
@@ -572,9 +573,6 @@ namespace SetStartDupes
 						}
 					}
 				}
-
-				SgtLogger.l("AAAAAAAAAAAAAAAAAAAAAAAA");
-				UIUtils.ListAllChildren(__instance.transform);
 			}
 		}
 
