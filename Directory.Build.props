@@ -5,64 +5,65 @@
 
 	<PropertyGroup>
 		<Optimize>true</Optimize>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
-  
-  <!--Game Release Versions-->
-  <PropertyGroup>
-    <WhattaBlast>549456</WhattaBlast>
-    <QoL2023June>560597</QoL2023June>
-    <PackedSnacks>581003</PackedSnacks>
-    <QoL2024Feb>596100</QoL2024Feb>
-    <FrostyPlanetBeta>616718</FrostyPlanetBeta>
-    <FrostyPlanetRelease>622222</FrostyPlanetRelease>
-    <QOL2024NovBeta>641371</QOL2024NovBeta>
-    <QOL2024NovRelease>642443</QOL2024NovRelease>
-    
-    <!--Latest-->
-    <TargetGameVersion>$(QOL2024NovRelease)</TargetGameVersion>
-  </PropertyGroup>
+
+	<!--Game Release Versions-->
+	<PropertyGroup>
+		<WhattaBlast>549456</WhattaBlast>
+		<QoL2023June>560597</QoL2023June>
+		<PackedSnacks>581003</PackedSnacks>
+		<QoL2024Feb>596100</QoL2024Feb>
+		<FrostyPlanetBeta>616718</FrostyPlanetBeta>
+		<FrostyPlanetRelease>622222</FrostyPlanetRelease>
+		<QOL2024NovBeta>641371</QOL2024NovBeta>
+		<QOL2024NovRelease>642443</QOL2024NovRelease>
+		<BionicBoostBeta>644454</BionicBoostBeta>
+
+		<!--Latest-->
+		<TargetGameVersion>$(BionicBoostBeta)</TargetGameVersion>
+	</PropertyGroup>
 
 
-  <!--Copyright notice-->
-  <PropertyGroup>
-    <CurrentYear>$([System.DateTime]::Now.ToString(`yyyy`))</CurrentYear>
-    <Author>Sgt_Imalas</Author>
-    <AssemblyCopyright>Copyright ©$(Author) $(CurrentYear)</AssemblyCopyright>
-  </PropertyGroup>
-  
-  <PropertyGroup>
-    <!--Normal Versions of the main dlls-->
-    <AssemblyNormal>$(GameLibsFolder)/Assembly-CSharp.dll</AssemblyNormal>
-    <AssemblyFirstpassNormal>$(GameLibsFolder)/Assembly-CSharp-firstpass.dll</AssemblyFirstpassNormal>
-    <!--Publicized Versions of the main dlls, everything here is made public-->
-    <AssemblyPublicized>$(SolutionDir)/PublicisedAssembly/Assembly-CSharp_public.dll</AssemblyPublicized>
-    <AssemblyFirstpassPublicized>$(SolutionDir)/PublicisedAssembly/Assembly-CSharp-firstpass_public.dll</AssemblyFirstpassPublicized>
-  </PropertyGroup>
+	<!--Copyright notice-->
+	<PropertyGroup>
+		<CurrentYear>$([System.DateTime]::Now.ToString(`yyyy`))</CurrentYear>
+		<Author>Sgt_Imalas</Author>
+		<AssemblyCopyright>Copyright ©$(Author) $(CurrentYear)</AssemblyCopyright>
+	</PropertyGroup>
 
-  <ItemGroup Condition="'$(GenerateMetadata)' == 'true' ">
+	<PropertyGroup>
+		<!--Normal Versions of the main dlls-->
+		<AssemblyNormal>$(GameLibsFolder)/Assembly-CSharp.dll</AssemblyNormal>
+		<AssemblyFirstpassNormal>$(GameLibsFolder)/Assembly-CSharp-firstpass.dll</AssemblyFirstpassNormal>
+		<!--Publicized Versions of the main dlls, everything here is made public-->
+		<AssemblyPublicized>$(SolutionDir)/PublicisedAssembly/Assembly-CSharp_public.dll</AssemblyPublicized>
+		<AssemblyFirstpassPublicized>$(SolutionDir)/PublicisedAssembly/Assembly-CSharp-firstpass_public.dll</AssemblyFirstpassPublicized>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(GenerateMetadata)' == 'true' ">
 		<PackageReference Include="Cairath.ONIMetadataFileGenerator" Version="1.0.0">
 			<ExcludeAssets>runtime</ExcludeAssets>
 		</PackageReference>
 	</ItemGroup>
 
 	<ItemGroup>
-    <Reference Include="Assembly-CSharp">
-      <!--Publicized version, run "Clean" on the 1_CycleComma project once to generate this-->
-      <HintPath>$(AssemblyPublicized)</HintPath>
-      <HintPath Condition="'$(GameLibsFolder)' == '../Lib'">$(GameLibsFolder)/Assembly-CSharp_public.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Assembly-CSharp-firstpass">
-      <!--Publicized version, run "Clean" on the 1_CycleComma project once to generate this-->
-      <HintPath>$(AssemblyFirstpassPublicized)</HintPath>
-      <HintPath Condition="'$(GameLibsFolder)' == '../Lib'">$(GameLibsFolder)/Assembly-CSharp-firstpass_public.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="netstandard">
-      <HintPath>$(GameLibsFolder)/netstandard.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
+		<Reference Include="Assembly-CSharp">
+			<!--Publicized version, run "Clean" on the 1_CycleComma project once to generate this-->
+			<HintPath>$(AssemblyPublicized)</HintPath>
+			<HintPath Condition="'$(GameLibsFolder)' == '../Lib'">$(GameLibsFolder)/Assembly-CSharp_public.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Assembly-CSharp-firstpass">
+			<!--Publicized version, run "Clean" on the 1_CycleComma project once to generate this-->
+			<HintPath>$(AssemblyFirstpassPublicized)</HintPath>
+			<HintPath Condition="'$(GameLibsFolder)' == '../Lib'">$(GameLibsFolder)/Assembly-CSharp-firstpass_public.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="netstandard">
+			<HintPath>$(GameLibsFolder)/netstandard.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
 		<Reference Include="0Harmony">
 			<HintPath>$(GameLibsFolder)/0Harmony.dll</HintPath>
 			<Private>False</Private>
@@ -91,18 +92,18 @@
 			<HintPath>$(GameLibsFolder)/UnityEngine.AssetBundleModule.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
-    <Reference Include="UnityEngine.PhysicsModule">
-      <HintPath>$(GameLibsFolder)/UnityEngine.PhysicsModule.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="UnityEngine.Physics2DModule">
-      <HintPath>$(GameLibsFolder)/UnityEngine.Physics2DModule.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="UnityEngine.ParticleSystemModule">
-      <HintPath>$(GameLibsFolder)/UnityEngine.ParticleSystemModule.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
+		<Reference Include="UnityEngine.PhysicsModule">
+			<HintPath>$(GameLibsFolder)/UnityEngine.PhysicsModule.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="UnityEngine.Physics2DModule">
+			<HintPath>$(GameLibsFolder)/UnityEngine.Physics2DModule.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="UnityEngine.ParticleSystemModule">
+			<HintPath>$(GameLibsFolder)/UnityEngine.ParticleSystemModule.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
 		<Reference Include="UnityEngine.ImageConversionModule">
 			<HintPath>$(GameLibsFolder)/UnityEngine.ImageConversionModule.dll</HintPath>
 			<Private>false</Private>
@@ -112,18 +113,18 @@
 			<Private>false</Private>
 		</Reference>
 		<Reference Include="UnityEngine.UI">
-      <HintPath>$(GameLibsFolder)/UnityEngine.UI.dll</HintPath>
-      <!--<HintPath>$(SolutionDir)/PublicisedAssembly/UnityEngine.UI_public.dll</HintPath>-->
+			<HintPath>$(GameLibsFolder)/UnityEngine.UI.dll</HintPath>
+			<!--<HintPath>$(SolutionDir)/PublicisedAssembly/UnityEngine.UI_public.dll</HintPath>-->
 			<Private>false</Private>
 		</Reference>
 		<Reference Include="UnityEngine.UIModule">
 			<HintPath>$(GameLibsFolder)/UnityEngine.UIModule.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
-    <Reference Include="UnityEngine.WebRequestModule">
-      <HintPath>$(GameLibsFolder)/UnityEngine.UnityWebRequestModule.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
+		<Reference Include="UnityEngine.WebRequestModule">
+			<HintPath>$(GameLibsFolder)/UnityEngine.UnityWebRequestModule.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
 		<Reference Include="com.rlabrecque.steamworks.net">
 			<HintPath>$(GameLibsFolder)\com.rlabrecque.steamworks.net.dll</HintPath>
 			<Private>false</Private>
