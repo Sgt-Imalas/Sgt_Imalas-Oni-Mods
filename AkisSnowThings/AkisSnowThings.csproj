@@ -45,178 +45,193 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="ModAssets\anim\assets\sm_glasscase\glass_case_0.png">
+	  <None Update="ModAssets\anim\buildings\sm_glasscase\glass_case_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\sm_glasscase\glass_case_anim.bytes">
+	  <None Update="ModAssets\anim\buildings\sm_glasscase\glass_case_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\sm_glasscase\glass_case_build.bytes">
+	  <None Update="ModAssets\anim\buildings\sm_glasscase\glass_case_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\sm_sculpture_snow\snowman.png">
+	  <None Update="ModAssets\anim\entities\pine_cone\pine_cone_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\sm_sculpture_snow\snowman_anim.bytes">
+	  <None Update="ModAssets\anim\entities\pine_cone\pine_cone_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\sm_sculpture_snow\snowman_build.bytes">
+	  <None Update="ModAssets\anim\entities\pine_cone\pine_cone_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\sm_snowbeam\paint_beam_0.png">
+	  <None Update="ModAssets\anim\plants\sm_pine_tree_plant\pine_tree_plant_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\sm_snowbeam\paint_beam_anim.bytes">
+	  <None Update="ModAssets\anim\plants\sm_pine_tree_plant\pine_tree_plant_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\sm_snowbeam\paint_beam_build.bytes">
+	  <None Update="ModAssets\anim\plants\sm_pine_tree_plant\pine_tree_plant_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\sm_snowmachine\snowmachine.png">
+	  <None Update="ModAssets\anim\snowmen\sm_sculpture_snow\snowman.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\sm_snowmachine\snowmachine_anim.bytes">
+	  <None Update="ModAssets\anim\snowmen\sm_sculpture_snow\snowman_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\sm_snowmachine\snowmachine_build.bytes">
+	  <None Update="ModAssets\anim\snowmen\sm_sculpture_snow\snowman_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_dog\snowman.png">
+	  <None Update="ModAssets\anim\buildings\sm_snowbeam\paint_beam_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_dog\snowman_anim.bytes">
+	  <None Update="ModAssets\anim\buildings\sm_snowbeam\paint_beam_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_dog\snowman_build.bytes">
+	  <None Update="ModAssets\anim\buildings\sm_snowbeam\paint_beam_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_amazing_11\snowman.png">
+	  <None Update="ModAssets\anim\buildings\sm_snowmachine\snowmachine.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_amazing_11\snowman_anim.bytes">
+	  <None Update="ModAssets\anim\buildings\sm_snowmachine\snowmachine_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_amazing_11\snowman_build.bytes">
+	  <None Update="ModAssets\anim\buildings\sm_snowmachine\snowmachine_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_amazing_10\snowman.png">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_dog\snowman.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_amazing_10\snowman_anim.bytes">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_dog\snowman_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_amazing_10\snowman_build.bytes">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_dog\snowman_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_amazing_9\snowman.png">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_amazing_11\snowman.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_amazing_9\snowman_anim.bytes">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_amazing_11\snowman_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_amazing_9\snowman_build.bytes">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_amazing_11\snowman_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_amazing_8\snowman.png">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_amazing_10\snowman.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_amazing_8\snowman_anim.bytes">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_amazing_10\snowman_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_amazing_8\snowman_build.bytes">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_amazing_10\snowman_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_amazing_7\snowman.png">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_amazing_9\snowman.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_amazing_7\snowman_anim.bytes">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_amazing_9\snowman_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_amazing_7\snowman_build.bytes">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_amazing_9\snowman_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_amazing_6\snowman.png">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_amazing_8\snowman.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_amazing_6\snowman_anim.bytes">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_amazing_8\snowman_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_amazing_6\snowman_build.bytes">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_amazing_8\snowman_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_amazing_5\snowman.png">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_amazing_7\snowman.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_amazing_5\snowman_anim.bytes">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_amazing_7\snowman_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_amazing_5\snowman_build.bytes">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_amazing_7\snowman_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_amazing_4\snowman.png">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_amazing_6\snowman.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_amazing_4\snowman_anim.bytes">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_amazing_6\snowman_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_amazing_4\snowman_build.bytes">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_amazing_6\snowman_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_amazing_3\snowman.png">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_amazing_5\snowman.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_amazing_3\snowman_anim.bytes">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_amazing_5\snowman_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_amazing_3\snowman_build.bytes">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_amazing_5\snowman_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_amazing_2\snowman.png">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_amazing_4\snowman.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_amazing_2\snowman_anim.bytes">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_amazing_4\snowman_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_amazing_2\snowman_build.bytes">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_amazing_4\snowman_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_amazing_1\snowman.png">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_amazing_3\snowman.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_amazing_1\snowman_anim.bytes">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_amazing_3\snowman_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_amazing_1\snowman_build.bytes">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_amazing_3\snowman_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_crap_1\snowman_0.png">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_amazing_2\snowman.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_crap_1\snowman_anim.bytes">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_amazing_2\snowman_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_crap_1\snowman_build.bytes">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_amazing_2\snowman_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_good_1\snowman.png">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_amazing_1\snowman.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_good_1\snowman_anim.bytes">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_amazing_1\snowman_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_good_1\snowman_build.bytes">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_amazing_1\snowman_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_good_2\snowman.png">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_crap_1\snowman_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_good_2\snowman_0.png">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_crap_1\snowman_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_good_2\snowman_anim.bytes">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_crap_1\snowman_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\snowsculptures_snowsculpture_good_2\snowman_build.bytes">
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_good_1\snowman.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_good_1\snowman_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_good_1\snowman_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_good_2\snowman_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_good_2\snowman_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\snowmen\snowsculptures_snowsculpture_good_2\snowman_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\assets\452667__kyles__window-break-with-axe-glass-shatter-in-trailer.wav">
@@ -228,5 +243,11 @@
 	  <None Update="ModAssets\assets\snowsculptures_assets">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="ModAssets\anim\entities\pine_cone\" />
+	  <Folder Include="ModAssets\anim\plants\sm_pine_tree_plant\" />
+	  <Folder Include="Patches\Buildings\" />
 	</ItemGroup>
 </Project>

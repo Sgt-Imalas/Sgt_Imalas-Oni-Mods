@@ -34,6 +34,31 @@ namespace AkisSnowThings
 			public static LocString CATEGORY_SNOWSCULPTURE = "Snow Sculpture";
 
 		}
+		public class CREATURES
+		{
+			public class SPECIES
+			{
+				public class SNOWSCULPTURES_PINETREE
+				{
+					public static LocString NAME = FormatAsLink("Pine Tree", nameof(SNOWSCULPTURES_PINETREE));
+					public static LocString DESC = (LocString)("Pine Trees are an excellent source of " + ELEMENTS.WOODLOG.NAME + ".\n\nThey also are a great joy of the season");
+					public static LocString DOMESTICATEDDESC = DESC;
+					public class REMAINS
+					{
+						public static LocString NAME = FormatAsLink("Wood Pile", nameof(global::STRINGS.ELEMENTS.WOODLOG.NAME));
+						public static LocString DESC = (LocString)("The wooden remains of a " + FormatAsLink("Pine Tree", nameof(SNOWSCULPTURES_PINETREE)) + ". Turns into " + ELEMENTS.WOODLOG.NAME+".");
+					}
+				}
+				public class SEEDS
+				{
+					public class SNOWSCULPTURES_PINETREE
+					{
+						public static LocString NAME = FormatAsLink("Pine Cone", nameof(SNOWSCULPTURES_PINETREE));
+						public static LocString DESC = (LocString)("The " + FormatAsLink("Seed", "PLANTS") + " of a " + FormatAsLink("Pine Tree", nameof(SNOWSCULPTURES_PINETREE)) + ".");
+					}
+				}
+			}
+		}
 		public class BUILDINGS
 		{
 			public class PREFABS
