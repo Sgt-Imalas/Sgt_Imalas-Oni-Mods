@@ -357,7 +357,7 @@ namespace SetStartDupes
 
 		List<string> GetAllowedTraits()
 		{
-			var allowedTraits = ModAssets.TryGetTraitsOfCategory(TraitCategory, ReferencedStats.personality.model,ReferencedStats.Traits).Select(t => t.id).ToList();
+			var allowedTraits = ModAssets.TryGetTraitsOfCategory(TraitCategory, ReferencedStats.personality.model).Select(t => t.id).ToList();
 			var finalTraits = new List<string>();
 			var forbiddenTraits = ReferencedStats.Traits.Count > 0 ? ReferencedStats.Traits.Select(allowedTraits => allowedTraits.Id).ToList() : new List<string>();
 

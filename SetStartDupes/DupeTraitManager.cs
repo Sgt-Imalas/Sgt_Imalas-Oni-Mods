@@ -493,7 +493,9 @@ namespace SetStartDupes
 				entry.gameObject.SetActive(false);
 			}
 
-			if(ToEditMinionStats.personality.model == BionicMinionConfig.MODEL && !Config.Instance.BionicNormalTraits)
+			if(ToEditMinionStats.personality.model == BionicMinionConfig.MODEL
+				//&& !Config.Instance.BionicNormalTraits
+				)
 			{
 				AddNewTrait.SetActive(false);
 				InterestContainer.SetActive(false);

@@ -726,7 +726,7 @@ namespace SetStartDupes
 			}
 		};
 
-		public static List<DUPLICANTSTATS.TraitVal> TryGetTraitsOfCategory(NextType type, Tag minionModel, List<Trait> traitsForCost = null, bool overrideShowAll = false)
+		public static List<DUPLICANTSTATS.TraitVal> TryGetTraitsOfCategory(NextType type, Tag minionModel, bool overrideShowAll = false)
 		{
 			bool initializingUI = minionModel == null;
 			if (type != NextType.allTraits)
@@ -752,7 +752,7 @@ namespace SetStartDupes
 					returnValues.AddRange(TraitsByType[NextType.bionic_boost]);
 					returnValues.AddRange(TraitsByType[NextType.bionic_bug]);
 				}
-				else
+				if(minionModel == GameTags.Minions.Models.Standard || initializingUI)
 				{
 					returnValues.AddRange(TraitsByType[NextType.posTrait]);
 					returnValues.AddRange(TraitsByType[NextType.needTrait]);

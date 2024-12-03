@@ -546,13 +546,14 @@ namespace SetStartDupes
 						{
 							if (container is CharacterContainer characterContainer)
 							{
-								///fixes the sorting order of the dropdown canvas to render on top of the window instead of behind it
-								var DropDownCanvas = characterContainer.modelDropDown.transform.Find("ScrollRect").GetComponent<Canvas>();
-								var instanceCanvas = __instance.GetComponent<Canvas>();	
-								DropDownCanvas.sortingOrder = instanceCanvas.sortingOrder+1;
-
-
 								characterContainer.SetReshufflingState(true);
+								///fixes the sorting order of the dropdown canvas to render on top of the window instead of behind it
+								var DropDownCanvas = characterContainer?.modelDropDown?.transform?.Find("ScrollRect")?.GetComponent<Canvas>();
+								var instanceCanvas = __instance.GetComponent<Canvas>();
+								if (DropDownCanvas != null)
+									DropDownCanvas.sortingOrder = instanceCanvas.sortingOrder+1;
+
+
 								characterContainer.reshuffleButton.onClick += () =>
 								{
 									//Prevents multiple selections
@@ -1368,6 +1369,7 @@ namespace SetStartDupes
 				//            {
 				//	//UNLOCK PERSONALITY & Trait!
 
+				__instance.controller?.RemoveLast();
 				UnityTraitRerollingScreen.GuaranteedTraitRoll.Remove(__instance);
 				ModAssets.UpdateTraitLockButton(__instance);
 				ModAssets.SetContainerPersonalityLock(__instance, false);
@@ -1964,7 +1966,7 @@ namespace SetStartDupes
 				else
 					SgtLogger.warning("minionStartingStatsReplacer not found");
 
-				SgtLogger.warning("CharacterContainer.GenerateCharacter not found");
+				//SgtLogger.warning("CharacterContainer.GenerateCharacter not found");
 				//TranspilerHelper.PrintInstructions(code);
 				return code;
 			}
