@@ -555,15 +555,15 @@ namespace ClusterTraitGenerationManager.ClusterData
 			{
 				requiredTags = new List<string>(placement2.worldMixing.requiredTags),
 				forbiddenTags = new List<string>(placement2.worldMixing.forbiddenTags),
-				additionalWorldTemplateRules = new (placement2.worldMixing.additionalWorldTemplateRules),
-				additionalUnknownCellFilters = new (placement2.worldMixing.additionalUnknownCellFilters),
-				additionalSubworldFiles = new (placement2.worldMixing.additionalSubworldFiles),
+				additionalWorldTemplateRules = new(placement2.worldMixing.additionalWorldTemplateRules),
+				additionalUnknownCellFilters = new(placement2.worldMixing.additionalUnknownCellFilters),
+				additionalSubworldFiles = new(placement2.worldMixing.additionalSubworldFiles),
 				additionalSeasons = new List<string>(placement2.worldMixing.additionalSeasons),
 
 				mixingWasApplied = placement2.worldMixing.mixingWasApplied,
 				previousWorld = placement2.worldMixing.previousWorld
 			};
-				
+
 
 			return this;
 		}
@@ -593,13 +593,13 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 				if (mix != null)//applying mixing
 				{
-					SgtLogger.l(DisplayName + " is getting mixing replacement "+mix.DisplayName);
+					SgtLogger.l(DisplayName + " is getting mixing replacement " + mix.DisplayName);
 					placement.worldMixing.previousWorld = placement.world;
 					placement.worldMixing.mixingWasApplied = true;
 					placement.world = mix.world.filePath;
 
 					mix.PredefinedPlacementOrder = this.PredefinedPlacementOrder;
-                }
+				}
 			}
 			return this;
 		}
@@ -608,32 +608,49 @@ namespace ClusterTraitGenerationManager.ClusterData
 		#region GeyserBlacklist
 
 		private bool _geyserBlacklistAffectsNonGenerics = false;
-		public bool GeyserBlacklistAffectsNonGenerics => _geyserBlacklistAffectsNonGenerics;
+		public bool GeyserBlacklistAffectsNonGenerics => IsMixed ? MixingAsteroidSource._geyserBlacklistAffectsNonGenerics : _geyserBlacklistAffectsNonGenerics;
 
 		private List<string> _geyserBlacklistIDs = new();
-		public List<string> GeyserBlacklistIDs => _geyserBlacklistIDs;
+		public List<string> GeyserBlacklistIDs => IsMixed ? MixingAsteroidSource.GeyserBlacklistIDs : _geyserBlacklistIDs;
 
 		public void SetGeyserBlacklist(List<string> NEWs)
 		{
+			if (IsMixed)
+			{
+				MixingAsteroidSource.SetGeyserBlacklist(NEWs);
+				return;
+			}
 			if (NEWs == null) NEWs = new List<string>();
 			_geyserBlacklistIDs = NEWs;
 		}
 		public void SetGeyserBlacklistAffectsNonGenerics(bool affectsNongenerics)
 		{
-			_geyserBlacklistAffectsNonGenerics = affectsNongenerics;
+			if(IsMixed)
+				MixingAsteroidSource.SetGeyserBlacklistAffectsNonGenerics(affectsNongenerics);
+			else
+			 _geyserBlacklistAffectsNonGenerics = affectsNongenerics;
 		}
 
 		public void AddGeyserBlacklist(string geyserID)
 		{
-			_geyserBlacklistIDs.Add(geyserID);
+			if (IsMixed)
+				MixingAsteroidSource.AddGeyserBlacklist(geyserID);
+			else
+				_geyserBlacklistIDs.Add(geyserID);
 		}
 		public void RemoveGeyserBlacklist(string geyserID)
 		{
-			_geyserBlacklistIDs.Remove(geyserID);
+			if (IsMixed)
+				MixingAsteroidSource.RemoveGeyserBlacklist(geyserID);
+			else
+				_geyserBlacklistIDs.Remove(geyserID);
 		}
 		public bool HasGeyserBlacklisted(string geyserID)
 		{
-			return GeyserBlacklistIDs.Contains(geyserID);
+			if (IsMixed)
+				return MixingAsteroidSource.HasGeyserBlacklisted(geyserID);
+			else
+				return GeyserBlacklistIDs.Contains(geyserID);
 		}
 
 		#endregion
@@ -641,11 +658,17 @@ namespace ClusterTraitGenerationManager.ClusterData
 		#region GeyserOverrides
 
 		private List<string> _geyserOverrideIDs = new();
-		public List<string> GeyserOverrideIDs => _geyserOverrideIDs;
-
+		public List<string> GeyserOverrideIDs => IsMixed ? MixingAsteroidSource.GeyserOverrideIDs : _geyserOverrideIDs;
 		public void SetGeyserOverrides(List<string> NEWs)
 		{
-			if(NEWs ==null) NEWs = new List<string>();
+			if (NEWs == null) NEWs = new List<string>();
+
+			if (IsMixed)
+			{
+				MixingAsteroidSource.SetGeyserOverrides(NEWs);
+				return;
+			}
+
 
 			_geyserOverrideIDs = NEWs;
 			for (int i = _geyserOverrideCount - 1; i >= 0; i--)
@@ -667,20 +690,30 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 		public void AddGeyserOverride(string geyserID)
 		{
-			GeyserOverrideIDs.Add(geyserID);
+			if (IsMixed)
+				MixingAsteroidSource.AddGeyserOverride(geyserID);
+			else
+				GeyserOverrideIDs.Add(geyserID);
 		}
 		public void RemoveGeyserOverrideAt(int index)
 		{
-			GeyserOverrideIDs.RemoveAt(index);
+			if (IsMixed)
+				MixingAsteroidSource.RemoveGeyserOverrideAt(index);
+			else
+				GeyserOverrideIDs.RemoveAt(index);
 		}
 		public int GetCurrentGeyserOverrideCount()
 		{
-			return GeyserOverrideIDs.Count;
+			return IsMixed ? MixingAsteroidSource.GetCurrentGeyserOverrideCount() : GeyserOverrideIDs.Count;
 		}
-		public bool CanAddGeyserOverrides() => GetMaxGeyserOverrideCount() > 0;
+		public bool CanAddGeyserOverrides() => IsMixed ? MixingAsteroidSource.CanAddGeyserOverrides() : GetMaxGeyserOverrideCount() > 0;
 
 		public int GetMaxGeyserOverrideCount()
 		{
+			if (IsMixed)
+				return MixingAsteroidSource.GetMaxGeyserOverrideCount();
+
+
 			int totalCountRules = 0;
 			int totalCountTraits = 0;
 
@@ -690,7 +723,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 				{
 					if (rule.names != null && rule.names.Count() == 1 && rule.names[0] == "geysers/generic")
 					{
-						totalCountRules += Mathf.FloorToInt(rule.times*CurrentSizeMultiplier);
+						totalCountRules += Mathf.FloorToInt(rule.times * CurrentSizeMultiplier);
 					}
 				}
 			}
