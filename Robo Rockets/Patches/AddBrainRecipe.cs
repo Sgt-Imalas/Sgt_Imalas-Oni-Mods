@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using RoboRockets.LearningBrain;
 using System.Collections.Generic;
+using UtilLibs;
 using static ComplexRecipe;
 
 namespace RoboRockets.Patches
@@ -14,8 +15,19 @@ namespace RoboRockets.Patches
 			{
 				AddBrainRecipe();
 			}
+			static bool added = false;
 			private static void AddBrainRecipe()
 			{
+				if (added)
+				{
+					SgtLogger.l("tried adding brain recipe twice");
+					return;
+				}
+
+				added = true;
+
+				SgtLogger.l("adding brain recipe");
+
 				RecipeElement[] input = BrainConfig.ProductionCosts;
 
 				RecipeElement[] output = new RecipeElement[]

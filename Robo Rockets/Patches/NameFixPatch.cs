@@ -11,7 +11,7 @@ namespace RoboRockets.Patches
 	{
 		[HarmonyPatch(typeof(DetailsScreen), nameof(DetailsScreen.TrySetRocketTitle))]
 		[HarmonyPatch(new Type[] { typeof(ClustercraftExteriorDoor) })]
-		public static class Patch_CraftingTableConfig_ConfigureRecipes
+		public static class DetailsScreen_TrySetRocketTitle_Patch
 		{
 			public static bool GetTargetWorldNotNull(ClustercraftExteriorDoor clusterCraftDoor)
 			{
@@ -22,7 +22,7 @@ namespace RoboRockets.Patches
 			}
 
 			public static readonly MethodInfo TargetWorldCheck = AccessTools.Method(
-			   typeof(Patch_CraftingTableConfig_ConfigureRecipes),
+			   typeof(DetailsScreen_TrySetRocketTitle_Patch),
 			   nameof(GetTargetWorldNotNull));
 
 			public static readonly MethodInfo Original = AccessTools.Method(
