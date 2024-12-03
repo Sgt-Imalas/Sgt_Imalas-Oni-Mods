@@ -15,7 +15,8 @@ namespace AkisSnowThings
 		{
 			public class TAGS
 			{
-				public static LocString SNOWTHINGS_GLASSCASEATTACHMENTSLOT = "Meltable Statue";
+				public static LocString SNOWTHINGS_GLASSCASE_ATTACHMENTSLOT = "Meltable Statue";
+				public static LocString SNOWTHINGS_PINETREE_ATTACHMENTSLOT = "Pine Tree Stem";
 			}
 		}
 		public class SNOWMODCONFIG
@@ -38,23 +39,23 @@ namespace AkisSnowThings
 		{
 			public class SPECIES
 			{
-				public class SNOWSCULPTURES_PINETREE
+				public class SNOWSCULPTURES_EVERGREEN_TREE
 				{
-					public static LocString NAME = FormatAsLink("Pine Tree", nameof(SNOWSCULPTURES_PINETREE));
-					public static LocString DESC = (LocString)("Pine Trees are an excellent source of " + ELEMENTS.WOODLOG.NAME + ".\n\nThey also are a great joy of the season");
+					public static LocString NAME = FormatAsLink("Evergreen", nameof(SNOWSCULPTURES_EVERGREEN_TREE));
+					public static LocString DESC = NAME+"s are an excellent source of " + ELEMENTS.WOODLOG.NAME + ".\n\nThey also are a great joy of the season";
 					public static LocString DOMESTICATEDDESC = DESC;
 					public class REMAINS
 					{
-						public static LocString NAME = FormatAsLink("Wood Pile", nameof(global::STRINGS.ELEMENTS.WOODLOG.NAME));
-						public static LocString DESC = (LocString)("The wooden remains of a " + FormatAsLink("Pine Tree", nameof(SNOWSCULPTURES_PINETREE)) + ". Turns into " + ELEMENTS.WOODLOG.NAME+".");
+						public static LocString NAME = FormatAsLink("Wood Pile", nameof(global::STRINGS.ELEMENTS.WOODLOG));
+						public static LocString DESC = (LocString)("The wooden remains of a felled " + SNOWSCULPTURES_EVERGREEN_TREE.NAME + ". Turns into " + ELEMENTS.WOODLOG.NAME+".");
 					}
 				}
 				public class SEEDS
 				{
-					public class SNOWSCULPTURES_PINETREE
+					public class SNOWSCULPTURES_EVERGREEN_TREE
 					{
-						public static LocString NAME = FormatAsLink("Pine Cone", nameof(SNOWSCULPTURES_PINETREE));
-						public static LocString DESC = (LocString)("The " + FormatAsLink("Seed", "PLANTS") + " of a " + FormatAsLink("Pine Tree", nameof(SNOWSCULPTURES_PINETREE)) + ".");
+						public static LocString NAME = FormatAsLink("Pine Cone", nameof(SNOWSCULPTURES_EVERGREEN_TREE));
+						public static LocString DESC = ("The " + FormatAsLink("Seed", "PLANTS") + " of a " + SPECIES.SNOWSCULPTURES_EVERGREEN_TREE.NAME) + ".";
 					}
 				}
 			}

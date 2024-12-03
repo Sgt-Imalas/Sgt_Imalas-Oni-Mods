@@ -246,8 +246,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="Content\Scripts\Elements\" />
 	  <Folder Include="ModAssets\anim\entities\pine_cone\" />
 	  <Folder Include="ModAssets\anim\plants\sm_pine_tree_plant\" />
 	  <Folder Include="Patches\Buildings\" />
+	  <Folder Include="Patches\Elements\" />
 	</ItemGroup>
 </Project>

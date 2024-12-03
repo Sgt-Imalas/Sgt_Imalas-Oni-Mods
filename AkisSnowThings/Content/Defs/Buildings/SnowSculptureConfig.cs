@@ -49,7 +49,7 @@ namespace AkisSnowThings.Content.Defs.Buildings
 		{
 			go.AddOrGet<BuildingComplete>().isArtable = true;
 			go.AddTag(GameTags.Decoration);
-			go.AddOrGet<BuildingAttachPoint>().points = [new BuildingAttachPoint.HardPoint(new CellOffset(0, 0), ModAssets.AttachmentTag, null)];
+			go.AddOrGet<BuildingAttachPoint>().points = [new BuildingAttachPoint.HardPoint(new CellOffset(0, 0), ModAssets.GlassCaseAttachmentTag, null)];
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)

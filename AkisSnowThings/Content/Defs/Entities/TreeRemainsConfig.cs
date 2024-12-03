@@ -10,7 +10,10 @@ using static AkisSnowThings.STRINGS;
 
 namespace AkisSnowThings.Content.Defs.Entities
 {
-	internal class PineTreeRemainsConfig : IEntityConfig
+	/// <summary>
+	/// pine tree drop filler item as only one plant can make one resource and normal trees occupy wood
+	/// </summary>
+	internal class TreeRemainsConfig : IEntityConfig
 	{
 		public const string ID = "SnowSculptures_PineTreeRemains";
 
@@ -19,9 +22,9 @@ namespace AkisSnowThings.Content.Defs.Entities
 		public GameObject CreatePrefab()
 		{
 			GameObject looseEntity = EntityTemplates.CreateLooseEntity(ID,
-				CREATURES.SPECIES.SNOWSCULPTURES_PINETREE.REMAINS.NAME, 
-				CREATURES.SPECIES.SNOWSCULPTURES_PINETREE.REMAINS.DESC, 
-				1, true, Assets.GetAnim((HashedString)"wood_kanim"),
+				CREATURES.SPECIES.SNOWSCULPTURES_EVERGREEN_TREE.REMAINS.NAME, 
+				CREATURES.SPECIES.SNOWSCULPTURES_EVERGREEN_TREE.REMAINS.DESC, 
+				1, false, Assets.GetAnim((HashedString)"wood_kanim"),
 				"object", 
 				Grid.SceneLayer.Front, 
 				EntityTemplates.CollisionShape.CIRCLE, 

@@ -6,46 +6,51 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 namespace AkisSnowThings.Content.Defs.Buildings
 {
-	internal class GlassCaseConfig : IBuildingConfig
+	internal class SapTapConfig : IBuildingConfig
 	{
-		public static string ID = "SnowSculptures_GlassCase";
+		public static string ID = "SnowSculptures_SapTap";
 
 		public override BuildingDef CreateBuildingDef()
 		{
 			var def = BuildingTemplates.CreateBuildingDef(
 			   ID,
-			   2,
-			   3,
-			   "sm_glasscase_kanim",
-			   BUILDINGS.HITPOINTS.TIER2,
-			   BUILDINGS.CONSTRUCTION_TIME_SECONDS.TIER4,
-			   BUILDINGS.CONSTRUCTION_MASS_KG.TIER3,
-			   MATERIALS.TRANSPARENTS,
-			   BUILDINGS.MELTING_POINT_KELVIN.TIER2,
-			   BuildLocationRule.BuildingAttachPoint,
-			   DECOR.NONE,
+			   1,
+			   1,
+			   "ventliquid_kanim",
+			   BUILDINGS.HITPOINTS.TIER1,
+			   BUILDINGS.CONSTRUCTION_TIME_SECONDS.TIER2,
+			   BUILDINGS.CONSTRUCTION_MASS_KG.TIER2,
+			   MATERIALS.REFINED_METALS,
+			   1600f,
+			   BuildLocationRule.OnFloor,
+			   BUILDINGS.DECOR.PENALTY.TIER1,
 			   NOISE_POLLUTION.NONE
 		   );
 
 			def.Floodable = false;
-			def.AudioCategory = AUDIO.CATEGORY.GLASS;
-			//def.ViewMode = OverlayModes.Power.ID;
+			def.Overheatable = false;
+			def.AudioCategory = AUDIO.CATEGORY.HOLLOW_METAL;
+			def.ViewMode = OverlayModes.LiquidConduits.ID;
+			def.DefaultAnimState = "off";
+			def.PermittedRotations = PermittedRotations.Unrotatable;
 
 			def.ObjectLayer = ObjectLayer.AttachableBuilding;
 			def.SceneLayer = Grid.SceneLayer.BuildingFront;
 			def.ForegroundLayer = Grid.SceneLayer.Background;
 			def.AttachmentSlotTag = ModAssets.GlassCaseAttachmentTag;
 			def.attachablePosition = new CellOffset(0, 0);
-
+			//def.attachablePosition = new CellOffset(0, 0);
+			//def.AttachmentSlotTag = ModAssets.AttachmentTag;
 			return def;
 		}
 
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
-			go.AddComponent<GlassCase>();
+			go.AddOrGet<BuildingAttachPoint>().points = [new BuildingAttachPoint.HardPoint(new CellOffset(0, 0), ModAssets.TreeAttachmentTag, null)];
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)

@@ -17,7 +17,7 @@ namespace AkisSnowThings.Patches.Plants
         {
             public static void Prefix()
             {
-                CROPS.CROP_TYPES.Add(new Crop.CropVal(PineTreeRemainsConfig.ID, PineTreeConfig.GROWTH_TIME, PineTreeConfig.HARVEST_MASS));
+                CROPS.CROP_TYPES.Add(new Crop.CropVal(TreeRemainsConfig.ID, EvergreenTreeConfig.GROWTH_TIME, EvergreenTreeConfig.HARVEST_MASS));
             }
         }
     }
