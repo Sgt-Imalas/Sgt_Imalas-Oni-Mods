@@ -45,6 +45,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Update="ModAssets\anim\buildings\sm_christmastree\christmas_tree_attachment_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\buildings\sm_christmastree\christmas_tree_attachment_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\buildings\sm_christmastree\christmas_tree_attachment_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\anim\buildings\sm_glasscase\glass_case_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
@@ -249,7 +258,6 @@
 	  <Folder Include="Content\Scripts\Elements\" />
 	  <Folder Include="ModAssets\anim\entities\pine_cone\" />
 	  <Folder Include="ModAssets\anim\plants\sm_pine_tree_plant\" />
-	  <Folder Include="Patches\Buildings\" />
 	  <Folder Include="Patches\Elements\" />
 	</ItemGroup>
 </Project>

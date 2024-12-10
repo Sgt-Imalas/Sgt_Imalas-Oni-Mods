@@ -16,7 +16,7 @@ namespace AkisSnowThings
 			public class TAGS
 			{
 				public static LocString SNOWTHINGS_GLASSCASE_ATTACHMENTSLOT = "Meltable Statue";
-				public static LocString SNOWTHINGS_PINETREE_ATTACHMENTSLOT = "Pine Tree Stem";
+				public static LocString SNOWTHINGS_PINETREE_ATTACHMENTSLOT = "Evergreen Tree Stem";
 			}
 		}
 		public class SNOWMODCONFIG
@@ -168,6 +168,12 @@ namespace AkisSnowThings
 					public static LocString NAME = FormatAsLink("Glass Case", GlassCaseConfig.ID);
 					public static LocString DESC = "Protects Ice and Snow Sculptures.";
 					public static LocString EFFECT = "Thermally insulates Snow and Ice Sculptures, so they cannot melt or exchange temperature with their environment.";
+				}
+				public class SNOWSCULPTURES_CHRISTMASTREE
+				{
+					public static LocString NAME = FormatAsLink("Festive Tree", ChristmasTreeAttachmentConfig.ID);
+					public static LocString DESC = "It's the most wonderful time of the year";
+					public static LocString EFFECT = "Attaches to a fully grown "+ CREATURES.SPECIES.SNOWSCULPTURES_EVERGREEN_TREE.NAME+".\n\nMajorly increases " + FormatAsLink("Decor", "DECOR") + ", contributing to " + FormatAsLink("Morale", "MORALE");
 				}
 			}
 

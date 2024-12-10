@@ -1,11 +1,12 @@
 ﻿using AkisSnowThings.Content.Defs.Buildings;
 using AkisSnowThings.Content.Scripts;
+using AkisSnowThings.Patches.Buildings;
 using HarmonyLib;
 using UtilLibs;
 
 namespace AkisSnowThings.Patches
 {
-	public class DbPatch
+    public class DbPatch
 	{
 		[HarmonyPatch(typeof(Db), "Initialize")]
 		public class Db_Initialize_Patch
@@ -22,10 +23,12 @@ namespace AkisSnowThings.Patches
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Furniture, SnowSculptureConfig.ID, IceSculptureConfig.ID);
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Utilities, GlassCaseConfig.ID,LiquidConditionerConfig.ID );
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Furniture, SnowMachineConfig.ID);
+				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Furniture, ChristmasTreeAttachmentConfig.ID);
 
 				InjectionMethods.AddBuildingToTechnology( GameStrings.Technology.Decor.ArtisticExpression, SnowSculptureConfig.ID);
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Decor.ArtisticExpression,GlassCaseConfig.ID);
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Decor.InteriorDecor,SnowMachineConfig.ID);
+				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Decor.ArtisticExpression, ChristmasTreeAttachmentConfig.ID);
 
 				ConfigureRecipes();
 

@@ -15,12 +15,12 @@ namespace AkisSnowThings.Content.Scripts.Entities
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
-			growth = this.GetSMI<Growing>();
+			growth = this.GetComponent<Growing>();
 		}
 
 		public bool CanAttachToTree()
 		{
-			return growth.IsGrown();
+			return growth == null || growth.IsGrown();
 		}
 	}
 }
