@@ -154,6 +154,10 @@ namespace ClusterTraitGenerationManager
 					CGSMClusterManager.InstantiateClusterSelectionView(__instance);
 					LastWorldGenDidFail(false);
 				}
+				else
+				{
+                    CGSMClusterManager.GenerateDefaultCluster();
+                }
 			}
 		}
 		[HarmonyPatch(typeof(CustomGameSettings))]
@@ -199,8 +203,11 @@ namespace ClusterTraitGenerationManager
 				return;
 			}
 			string clusterPath = __instance.GetCurrentQualitySetting(CustomGameSettingConfigs.ClusterLayout).id;
+			//SgtLogger.l("clusterPath: " + clusterPath);
+
 			if (clusterPath == null || clusterPath.Length == 0)
 			{
+				//SgtLogger.l("DestinationSelectPanel.ChosenClusterCategorySetting: " + DestinationSelectPanel.ChosenClusterCategorySetting);
 				///default is no path selected, this picks either classic Terra on "classic" selection/base game or Terrania on "spaced out" selection
 				if (DlcManager.IsExpansion1Active())
 					clusterPath = DestinationSelectPanel.ChosenClusterCategorySetting == 1 ? "expansion1::clusters/VanillaSandstoneCluster" : "expansion1::clusters/SandstoneStartCluster";
