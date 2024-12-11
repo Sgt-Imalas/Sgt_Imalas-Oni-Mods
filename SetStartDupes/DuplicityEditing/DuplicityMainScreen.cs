@@ -520,9 +520,16 @@ namespace SetStartDupes.DuplicityEditing
 				return;
 			XP.SetInputFieldValue(Stats.GetExperience().ToString());
 
-			foreach (var skill in SkillHelper.GetAllSkills())
+			foreach(var toggle in SkillToggles.Values)
 			{
-				SkillToggles[skill].SetCheckboxValue(Stats.HasMasteredSkill(skill));
+				toggle.gameObject.SetActive(false);
+			}
+
+			foreach (var skill in SkillHelper.GetAllSkills(Stats.Model.ToString()))
+			{
+				SkillToggles[skill].gameObject.SetActive(true);
+
+                SkillToggles[skill].SetCheckboxValue(Stats.HasMasteredSkill(skill));
 			}
 		}
 		private void RefreshAttributeTab()
