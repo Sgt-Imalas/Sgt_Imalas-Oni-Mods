@@ -501,24 +501,26 @@ namespace Rockets_TinyYetBig.SpaceStations.Patches
 		/// <summary>
 		/// No Self Destruct button.. for now
 		/// </summary>
-		[HarmonyPatch(typeof(SelfDestructButtonSideScreen))]
-		[HarmonyPatch(nameof(SelfDestructButtonSideScreen.IsValidForTarget))]
-		public static class NoSpaceStationSelfDestruct
-		{
-			public static void Postfix(GameObject target, ref bool __result)
-			{
-				//if (target.TryGetComponent<SpaceStation>(out _) || target.TryGetComponent<DerelictStation>(out _))
-				//{
-				//	__result = false;
-				//}
-			}
-		}
+		//[HarmonyPatch(typeof(SelfDestructButtonSideScreen))]
+		//[HarmonyPatch(nameof(SelfDestructButtonSideScreen.IsValidForTarget))]
+		//public static class NoSpaceStationSelfDestruct
+		//{
+		//	public static void Postfix(GameObject target, ref bool __result)
+		//	{
+		//		//if (target.TryGetComponent<SpaceStation>(out _) || target.TryGetComponent<DerelictStation>(out _))
+		//		//{
+		//		//	__result = false;
+		//		//}
+		//	}
+		//}
 		[HarmonyPatch(typeof(CraftModuleInterface))]
 		[HarmonyPatch(nameof(CraftModuleInterface.CompleteSelfDestruct))]
 		public static class FixStationSelfDestruct
 		{
 			public static bool Prefix(CraftModuleInterface __instance)
 			{
+				if (!__instance.TryGetComponent<SpaceStation>(out _) && !__instance.TryGetComponent<DerelictStation>(out _))
+					return true;
 				//skip non existing module chain and blow up world
 				__instance.m_clustercraft.SetExploding();
 				SpaceStationManager.Instance.DestroySpaceStationInteriorWorld(__instance.GetInteriorWorld().id);

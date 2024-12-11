@@ -118,7 +118,7 @@ namespace UtilLibs
                 Debug.Log("Added " + module + " to category engines");
 #endif
 			}
-			if (module.Contains("HabitatModule"))
+			if (module.Contains("HabitatModule")||module.Contains("RoboPilotModule"))
 			{
 				AddIfNotExists(sortedModules[(int)RocketCategory.habitats], module);
 				categoryFound = true;
