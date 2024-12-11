@@ -10,7 +10,7 @@ namespace CustomGameSettingsModifier
 		public static void LoadAssets()
 		{
 			AssetBundle bundle = AssetUtils.LoadAssetBundle("customgamesettings_assets", platformSpecific: true);
-			CustomGameSettings = bundle.LoadAsset<GameObject>("Assets/CustomGameSettingsChangerPrefab.prefab");
+			CustomGameSettings = bundle.LoadAsset<GameObject>("Assets/UIs/CustomGameSettingsChanger.prefab");
 
 			//UIUtils.ListAllChildren(CustomGameSettings.transform);
 
