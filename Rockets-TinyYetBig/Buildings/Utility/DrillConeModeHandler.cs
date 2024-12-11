@@ -56,9 +56,9 @@ namespace Rockets_TinyYetBig.Buildings.Utility
 
 		public string CheckboxTitleKey => "";
 
-		public string CheckboxLabel => "Load via Cargo Loader"; //TODO LOC
+		public string CheckboxLabel => STRINGS.UI.DRILLCONE_MODEHANDLER_SIDESCREEN.LABEL;
 
-		public string CheckboxTooltip => "toggle between automatic and manual loading";//TODO LOC
+		public string CheckboxTooltip => STRINGS.UI.DRILLCONE_MODEHANDLER_SIDESCREEN.TOOLTIP;
 
 
 		public bool GetCheckboxValue() => IsAutoLoader;

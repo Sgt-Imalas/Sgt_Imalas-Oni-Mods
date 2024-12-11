@@ -156,7 +156,7 @@ namespace Rockets_TinyYetBig
 		}
 
 
-		public class BUILDINGS
+		public class BUILDINGS 
 		{
 			public class PREFABS
 			{
@@ -563,11 +563,16 @@ namespace Rockets_TinyYetBig
 					public static LocString RTB_MODULE_SKINS = "Rocket Modules";
 				}
 
-			}
-			public static class CLUSTERLOCATIONSENSORADDON
+            }
+            public static class  DRILLCONE_MODEHANDLER_SIDESCREEN
+            {
+                public static LocString LABEL = "Load via Cargo Loader";
+                public static LocString TOOLTIP = "toggle between automatic and manual loading";
+            }
+            public static class CLUSTERLOCATIONSENSORADDON
 			{
 				public static LocString TITLE = "Extra green signal at";
-			}
+			} 
 			public class SPACEASSEMBLEMENU_SIDESCREEN
 			{
 				public static class TITLE

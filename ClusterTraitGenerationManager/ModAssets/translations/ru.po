@@ -10,17 +10,17 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Application: Oxygen Not IncludedPOT Version: 2.0\n"
-"X-Generator: Poedit 3.4.4\n"
+"X-Generator: Poedit 3.5\n"
 
 #. ClusterTraitGenerationManager.STRINGS.CLUSTER_NAMES.CGM.DESCRIPTION
 msgctxt "ClusterTraitGenerationManager.STRINGS.CLUSTER_NAMES.CGM.DESCRIPTION"
 msgid "Этот кластер был создан вручную в Менеджере генерации кластеров"
-msgstr "Этот кластер был создан вручную в Менеджере генерации кластеров"
+msgstr "Этот кластер был создан вручную в менеджере генерации кластеров"
 
 #. ClusterTraitGenerationManager.STRINGS.CLUSTER_NAMES.CGM.NAME
 msgctxt "ClusterTraitGenerationManager.STRINGS.CLUSTER_NAMES.CGM.NAME"
 msgid "Пользовательский кластер МГК"
-msgstr "Пользовательский кластер МГК"
+msgstr "Пользовательский кластер"
 
 #. ClusterTraitGenerationManager.STRINGS.ERRORMESSAGES.MISSINGWORLD
 msgctxt "ClusterTraitGenerationManager.STRINGS.ERRORMESSAGES.MISSINGWORLD"
@@ -30,6 +30,22 @@ msgid ""
 msgstr ""
 "Отсутствующие миры!\n"
 "Пресет не может быть загружен, так как отсутствует его начальный мир."
+
+#. ClusterTraitGenerationManager.STRINGS.ERRORMESSAGES.MISSINGWORLDS_TEXT
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.ERRORMESSAGES.MISSINGWORLDS_TEXT"
+msgid ""
+"There were {0} worlds in the preset that\n"
+"don't exist in the current game!"
+msgstr ""
+"В предустановке было {0} миров, которые\n"
+"не существует в текущей игре!"
+
+#. ClusterTraitGenerationManager.STRINGS.ERRORMESSAGES.MISSINGWORLDS_TITLE
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.ERRORMESSAGES.MISSINGWORLDS_TITLE"
+msgid "Missing Worlds!"
+msgstr "Отсутствующие миры!"
 
 #. ClusterTraitGenerationManager.STRINGS.ERRORMESSAGES.PLANETPLACEMENTERROR
 msgctxt ""
@@ -46,17 +62,17 @@ msgstr ""
 #. ClusterTraitGenerationManager.STRINGS.MODCONFIG.MANUALCLUSTERPRESETS.NAME
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.MODCONFIG.MANUALCLUSTERPRESETS.NAME"
-msgid "Automated Cluster Preset"
+msgid "Автоматический пресет кластера"
 msgstr "Автоматический пресет кластера"
 
 #. ClusterTraitGenerationManager.STRINGS.MODCONFIG.MANUALCLUSTERPRESETS.TOOLTIP
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.MODCONFIG.MANUALCLUSTERPRESETS.TOOLTIP"
 msgid ""
-"Each time you start a new CGM cluster, a cluster preset will be created "
-"automatically.\n"
-"if deactivated, there will be a button for manual creation on the start "
-"screen instead."
+"Каждый раз, когда вы запускаете новый кластер МГК, пресет кластера создается "
+"автоматически.\n"
+"Если отключено, то на стартовом экране будет кнопка для создания пресета "
+"вручную."
 msgstr ""
 "Каждый раз, когда вы запускаете новый кластер МГК, пресет кластера создается "
 "автоматически.\n"
@@ -88,32 +104,25 @@ msgctxt "ClusterTraitGenerationManager.STRINGS.UI.CATEGORYENUM.WARP"
 msgid "Астероид для телепортации"
 msgstr "Астероид для телепортации"
 
-#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.CATEGORIES.FOOTERCONTENT.GAMESETTINGS.LABEL
-msgctxt ""
-"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.CATEGORIES."
-"FOOTERCONTENT.GAMESETTINGS.LABEL"
-msgid "Игровые настройки"
-msgstr "Игровые настройки"
-
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.CATEGORIES.FOOTERCONTENT.GAMESETTINGS.TOOLTIP
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.CATEGORIES."
 "FOOTERCONTENT.GAMESETTINGS.TOOLTIP"
-msgid "Открыть настройки игры."
+msgid "Открыть настройки игры"
 msgstr "Открыть настройки игры"
 
-#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.CATEGORIES.FOOTERCONTENT.STORYTRAITS.LABEL
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.CATEGORIES.FOOTERCONTENT.MIXINGSETTINGS.TOOLTIP
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.CATEGORIES."
-"FOOTERCONTENT.STORYTRAITS.LABEL"
-msgid "Сюжетные особенности"
-msgstr "Сюжетные особенности"
+"FOOTERCONTENT.MIXINGSETTINGS.TOOLTIP"
+msgid "Open the mixing settings."
+msgstr "Открыть настройки смешивания."
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.CATEGORIES.FOOTERCONTENT.STORYTRAITS.TOOLTIP
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.CATEGORIES."
 "FOOTERCONTENT.STORYTRAITS.TOOLTIP"
-msgid "Открыть экран настроек игры."
+msgid "Открыть экран настроек игры"
 msgstr "Открыть экран настроек игры"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.CATEGORIES.FOOTERCONTENT.TITLE.LABEL
@@ -204,6 +213,119 @@ msgstr ""
 "создания точек интереса.\n"
 "(например, 0,8 = 80% шанс создать эту точку интереса)"
 
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.CONTENT.BLACKLIST.BLACKLISTAFFECTNONGENERICS.LABEL
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
+"CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.CONTENT.BLACKLIST."
+"BLACKLISTAFFECTNONGENERICS.LABEL"
+msgid "Blacklist affects all geysers"
+msgstr "Чёрный список влияет на все гейзеры"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.CONTENT.BLACKLIST.BLACKLISTAFFECTNONGENERICS.TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
+"CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.CONTENT.BLACKLIST."
+"BLACKLISTAFFECTNONGENERICS.TOOLTIP"
+msgid ""
+"If enabled, the blacklist will also replace predetermined and curated "
+"geysers from the blacklist with random geysers."
+msgstr ""
+"Если включено, то заранее определенные и отобранные гейзеры из чёрного "
+"списка будут заменены на случайные гейзеры."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.CONTENT.BLACKLIST.BLACKLISTBUTTON.TEXT
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
+"CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.CONTENT.BLACKLIST."
+"BLACKLISTBUTTON.TEXT"
+msgid "Add geyser to blacklist"
+msgstr "Добавить гейзер в чёрный список"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.CONTENT.BLACKLIST.DESCRIPTOR.INFOTOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
+"CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.CONTENT.BLACKLIST.DESCRIPTOR."
+"INFOTOOLTIP"
+msgid ""
+"Prevent geyser types from generating as fully random geysers.\n"
+"These are then replaced with random (generic) geysers.\n"
+"Has no effect on semi-random, curated geysers unless toggled on"
+msgstr ""
+"Запрещает генерировать типы гейзеров как полностью случайные гейзеры.\n"
+"Затем они заменяются случайными (общими) гейзерами.\n"
+"Не влияет на полуслучайные, отобранные гейзеры, если не включено"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.CONTENT.BLACKLIST.DESCRIPTOR.LABEL
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
+"CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.CONTENT.BLACKLIST.DESCRIPTOR."
+"LABEL"
+msgid "Blacklist:"
+msgstr "Чёрный список:"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.CONTENT.BLACKLIST.SCROLLAREA.CONTENT.NONE.LABEL
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
+"CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.CONTENT.BLACKLIST.SCROLLAREA."
+"CONTENT.NONE.LABEL"
+msgid "No blacklisted geysers"
+msgstr "Нет гейзеров в чёрном списке"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.CONTENT.GUARANTEED.ADDGEYSERBTN.TEXT
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
+"CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.CONTENT.GUARANTEED.ADDGEYSERBTN."
+"TEXT"
+msgid "Add Geyser Override"
+msgstr "Добавить переопределение гейзера"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.CONTENT.GUARANTEED.DESCRIPTOR.INFOTOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
+"CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.CONTENT.GUARANTEED.DESCRIPTOR."
+"INFOTOOLTIP"
+msgid ""
+"Geyser overrides can be used to force specific geysers to appear in place of "
+"fully randomly generated geysers.\n"
+"Semi-Random, pre-picked geysers cannot be changed.\n"
+"fully random geysers also include those added by the \"Geoactive\" trait."
+msgstr ""
+"Переопределения гейзеров можно использовать, чтобы заставить определённые "
+"гейзеры появляться вместо полностью случайно сгенерированных гейзеров.\n"
+"Полуслучайные, заранее выбранные гейзеры не могут быть изменены.\n"
+"Полностью случайные гейзеры также включают гейзеры, добавленные чертой "
+"«Геоактивный»."
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.CONTENT.GUARANTEED.DESCRIPTOR.LABEL
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
+"CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.CONTENT.GUARANTEED.DESCRIPTOR."
+"LABEL"
+msgid "Overrides:"
+msgstr "Переопределения:"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.CONTENT.GUARANTEED.SCROLLAREA.CONTENT.NONE.LABEL
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
+"CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.CONTENT.GUARANTEED.SCROLLAREA."
+"CONTENT.NONE.LABEL"
+msgid "No geyser overrides"
+msgstr "Нет переопределения гейзеров"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.DESCRIPTOR.LABEL
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
+"CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.DESCRIPTOR.LABEL"
+msgid "Asteroid Geysers:"
+msgstr "Гейзеры на астероиде:"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.DESCRIPTOR.NONE
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
+"CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.DESCRIPTOR.NONE"
+msgid "No available geysers"
+msgstr "Нет доступных гейзеров"
+
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.BIOMEMISSINGWARNING
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
@@ -242,7 +364,7 @@ msgstr "Размер астероида:"
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
 "CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.DESCRIPTOR.TOOLTIP"
-msgid "Размеры этого астероида."
+msgid "Размеры этого астероида"
 msgstr "Размеры этого астероида"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.INPUT.TEXT
@@ -263,8 +385,8 @@ msgstr "Немного выше"
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
 "CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.RATIOSELECTOR.HEIGHT1TOOLTIP"
-msgid "Астероид немного выше обычного."
-msgstr "Астероид немного выше обычного"
+msgid "Астероид немного выше обычного"
+msgstr "Немного выше"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.RATIOSELECTOR.HEIGHT2
 msgctxt ""
@@ -277,7 +399,7 @@ msgstr "Выше"
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
 "CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.RATIOSELECTOR.HEIGHT2TOOLTIP"
-msgid "Астероид выше обычного."
+msgid "Астероид выше обычного"
 msgstr "Астероид выше обычного"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.RATIOSELECTOR.HEIGHT3
@@ -291,7 +413,7 @@ msgstr "Значительно выше"
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
 "CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.RATIOSELECTOR.HEIGHT3TOOLTIP"
-msgid "Астероид намного выше обычного."
+msgid "Астероид намного выше обычного"
 msgstr "Астероид намного выше обычного"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.RATIOSELECTOR.NORMAL
@@ -305,7 +427,7 @@ msgstr "Обычная форма"
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
 "CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.RATIOSELECTOR.NORMALTOOLTIP"
-msgid "Астероид имеет свою обычную форму."
+msgid "Астероид имеет свою обычную форму"
 msgstr "Астероид имеет свою обычную форму"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.RATIOSELECTOR.WIDE1
@@ -319,7 +441,7 @@ msgstr "Немного шире"
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
 "CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.RATIOSELECTOR.WIDE1TOOLTIP"
-msgid "Астероид немного шире, чем обычно."
+msgid "Астероид немного шире, чем обычно"
 msgstr "Астероид немного шире, чем обычно"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.RATIOSELECTOR.WIDE2
@@ -333,7 +455,7 @@ msgstr "Шире"
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
 "CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.RATIOSELECTOR.WIDE2TOOLTIP"
-msgid "Астероид шире, чем обычно."
+msgid "Астероид шире, чем обычно"
 msgstr "Астероид шире, чем обычно"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.RATIOSELECTOR.WIDE3
@@ -347,7 +469,7 @@ msgstr "Значительно шире"
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
 "CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.RATIOSELECTOR.WIDE3TOOLTIP"
-msgid "Астероид намного шире обычного."
+msgid "Астероид намного шире обычного"
 msgstr "Астероид намного шире обычного"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.SIZESELECTOR.NEGSIZE0
@@ -361,7 +483,7 @@ msgstr "Крошечный"
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
 "CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.SIZESELECTOR.NEGSIZE0TOOLTIP"
-msgid "Астероид имеет размер 30% от своего обычного размера."
+msgid "Астероид имеет размер 30% от своего обычного размера"
 msgstr "Астероид имеет размер 30% от своего обычного размера"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.SIZESELECTOR.NEGSIZE1
@@ -375,7 +497,7 @@ msgstr "Меньший"
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
 "CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.SIZESELECTOR.NEGSIZE1TOOLTIP"
-msgid "Астероид имеет размер 45% от своего обычного размера."
+msgid "Астероид имеет размер 45% от своего обычного размера"
 msgstr "Астероид имеет размер 45% от своего обычного размера"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.SIZESELECTOR.NEGSIZE2
@@ -389,7 +511,7 @@ msgstr "Маленький"
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
 "CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.SIZESELECTOR.NEGSIZE2TOOLTIP"
-msgid "Астероид имеет размер 60% от своего обычного размера."
+msgid "Астероид имеет размер 60% от своего обычного размера"
 msgstr "Астероид имеет размер 60% от своего обычного размера"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.SIZESELECTOR.NEGSIZE3
@@ -403,7 +525,7 @@ msgstr "Немного меньше"
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
 "CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.SIZESELECTOR.NEGSIZE3TOOLTIP"
-msgid "Астероид имеет размер 80% от своего обычного размера."
+msgid "Астероид имеет размер 80% от своего обычного размера"
 msgstr "Астероид имеет размер 80% от своего обычного размера"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.SIZESELECTOR.SIZE0
@@ -417,7 +539,7 @@ msgstr "Обычный"
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
 "CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.SIZESELECTOR.SIZE0TOOLTIP"
-msgid "Астероид имеет свой обычный размер."
+msgid "Астероид имеет свой обычный размер"
 msgstr "Астероид имеет свой обычный размер"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.SIZESELECTOR.SIZE1
@@ -431,7 +553,7 @@ msgstr "Немного больше"
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
 "CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.SIZESELECTOR.SIZE1TOOLTIP"
-msgid "Астероид на четверть больше своего обычного размера."
+msgid "Астероид на четверть больше своего обычного размера"
 msgstr "Астероид на четверть больше своего обычного размера"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.SIZESELECTOR.SIZE2
@@ -445,7 +567,7 @@ msgstr "Большой"
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
 "CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.SIZESELECTOR.SIZE2TOOLTIP"
-msgid "Астероид на половину больше своего обычного размера."
+msgid "Астероид на половину больше своего обычного размера"
 msgstr "Астероид на половину больше своего обычного размера"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.SIZESELECTOR.SIZE3
@@ -459,7 +581,7 @@ msgstr "Огромный"
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
 "CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.SIZESELECTOR.SIZE3TOOLTIP"
-msgid "Астероид в два раза больше своего обычного размера."
+msgid "Астероид в два раза больше своего обычного размера"
 msgstr "Астероид в два раза больше своего обычного размера"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.SIZESELECTOR.SIZE4
@@ -473,7 +595,7 @@ msgstr "Массивный"
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
 "CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.SIZESELECTOR.SIZE4TOOLTIP"
-msgid "Астероид в три раза больше своего обычного размера."
+msgid "Астероид в три раза больше своего обычного размера"
 msgstr "Астероид в три раза больше своего обычного размера"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.SIZESELECTOR.SIZE5
@@ -487,7 +609,7 @@ msgstr "Громадный"
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
 "CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.SIZESELECTOR.SIZE5TOOLTIP"
-msgid "Астероид в четыре раза больше своего обычного размера."
+msgid "Астероид в четыре раза больше своего обычного размера"
 msgstr "Астероид в четыре раза больше своего обычного размера"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDSIZE.SIZEWARNING
@@ -504,6 +626,41 @@ msgstr ""
 "Выбранный вами размер планеты имеет площадь на {0}% больше, чем у астероида "
 "обычного размера.\n"
 "Это может привести к снижению производительности игры!"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDSKY.CONTENT.NORTHERNLIGHTSCYCLE.LABEL
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
+"CONTENT.SCROLLRECTCONTAINER.ASTEROIDSKY.CONTENT.NORTHERNLIGHTSCYCLE.LABEL"
+msgid "Northern Lights:"
+msgstr "Северное сияние:"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDSKY.CONTENT.RADIATIONCYCLE.LABEL
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
+"CONTENT.SCROLLRECTCONTAINER.ASTEROIDSKY.CONTENT.RADIATIONCYCLE.LABEL"
+msgid "Space Radiation:"
+msgstr "Космическая радиация:"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDSKY.CONTENT.SUNLIGHTCYCLE.LABEL
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
+"CONTENT.SCROLLRECTCONTAINER.ASTEROIDSKY.CONTENT.SUNLIGHTCYCLE.LABEL"
+msgid "Sunlight:"
+msgstr "Солнечный свет:"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDSKY.DESCRIPTOR.LABEL
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
+"CONTENT.SCROLLRECTCONTAINER.ASTEROIDSKY.DESCRIPTOR.LABEL"
+msgid "Asteroid Sky:"
+msgstr "Небо астероида:"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDSKY.DESCRIPTOR.TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
+"CONTENT.SCROLLRECTCONTAINER.ASTEROIDSKY.DESCRIPTOR.TOOLTIP"
+msgid "The space behavior of this asteroid"
+msgstr "Поведение этого астероида в космосе"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDTRAITS.ADDTRAITBUTTON.TEXT
 msgctxt ""
@@ -534,7 +691,7 @@ msgctxt ""
 "CONTENT.LISTVIEWENTRYPREFAB.AWAILABLERANDOMTRAITS.TOOLTIP"
 msgid ""
 "Отключить характеристики, которые вы хотите, чтобы не отображались как "
-"случайные характеристики."
+"случайные характеристики"
 msgstr ""
 "Отключить характеристики, которые вы хотите, чтобы не отображались как "
 "случайные характеристики"
@@ -573,13 +730,13 @@ msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
 "CONTENT.SCROLLRECTCONTAINER.BUFFERSLIDER.DESCRIPTOR.OUTPUT"
 msgid "0"
-msgstr ""
+msgstr "0"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.BUFFERSLIDER.DESCRIPTOR.TOOLTIP
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
 "CONTENT.SCROLLRECTCONTAINER.BUFFERSLIDER.DESCRIPTOR.TOOLTIP"
-msgid "Минимальное расстояние данного астероида до других астероидов."
+msgid "Минимальное расстояние данного астероида до других астероидов"
 msgstr "Минимальное расстояние данного астероида до других астероидов"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.METEORSEASONCYCLE.ACTIVEMETEORSLABEL
@@ -699,7 +856,7 @@ msgstr "Какие метеоры должны упасть на этот аст
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
 "CONTENT.SCROLLRECTCONTAINER.METEORSEASONCYCLE.FULLERENETOOLTIP"
-msgid "Однократный дождь при открытии разрыва."
+msgid "Однократный дождь при открытии разрыва"
 msgstr "Однократный дождь при открытии разрыва"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.METEORSEASONCYCLE.NOSEASONSSELECTED
@@ -797,7 +954,7 @@ msgctxt ""
 "CONTENT.SCROLLRECTCONTAINER.POI_ALLOWDUPLICATES.TOOLTIP"
 msgid ""
 "Если этот параметр включен, точка интереса из пула точек интереса может "
-"генерироваться несколько раз из этой группы точек интереса."
+"генерироваться несколько раз из этой группы точек интереса"
 msgstr ""
 "Если этот параметр включен, точка интереса из пула точек интереса может "
 "генерироваться несколько раз из этой группы точек интереса"
@@ -815,10 +972,28 @@ msgctxt ""
 "CONTENT.SCROLLRECTCONTAINER.POI_AVOIDCLUMPING.TOOLTIP"
 msgid ""
 "Если эта функция включена, точки интереса, созданные из этой группы, не "
-"могут генерироваться рядом с другими точками интереса."
+"могут генерироваться рядом с другими точками интереса"
 msgstr ""
 "Если эта функция включена, точки интереса, созданные из этой группы, не "
 "могут генерироваться рядом с другими точками интереса"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.POI_GUARANTEE.LABEL
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
+"CONTENT.SCROLLRECTCONTAINER.POI_GUARANTEE.LABEL"
+msgid "Guarantee all POIs:"
+msgstr "Гарантия всех точек интереса:"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.POI_GUARANTEE.TOOLTIP
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
+"CONTENT.SCROLLRECTCONTAINER.POI_GUARANTEE.TOOLTIP"
+msgid ""
+"When enabled, all POIs will be spawned, even if their placement fails by "
+"regular placement rules."
+msgstr ""
+"Если эта функция включена, все точки интереса будут созданы, даже если их "
+"размещение не соответствует обычным правилам размещения."
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.SO_POIGROUP_CONTAINER.ADDPOIBUTTON.LABEL
 msgctxt ""
@@ -854,8 +1029,7 @@ msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
 "CONTENT.SCROLLRECTCONTAINER.SO_POIGROUP_REMOVE.TOOLTIP"
 msgid ""
-"Удалить текущую выбранную группу точек интереса из пользовательского "
-"кластера."
+"Удалить текущую выбранную группу точек интереса из пользовательского кластера"
 msgstr ""
 "Удалить текущую выбранную группу точек интереса из пользовательского кластера"
 
@@ -907,7 +1081,7 @@ msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS."
 "CONTENT.SCROLLRECTCONTAINER.VANILLAPOI_RESOURCES.CONTENT.RESOURCECONTAINER."
 "SCROLLAREA.CONTENT.LISTVIEWENTRYPREFAB.BIOLABEL.TOOLTIP"
-msgid "Для сбора этого ресурса требуется биологический грузовой отсек."
+msgid "Для сбора этого ресурса требуется биологический грузовой отсек"
 msgstr "Для сбора этого ресурса требуется биологический грузовой отсек"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.VANILLAPOI_RESOURCES.CONTENT.RESOURCECONTAINER.SCROLLAREA.CONTENT.NORESOURCES.LABEL
@@ -1163,14 +1337,14 @@ msgstr "Сбросить всё"
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.FOOTER."
 "BUTTONS.RESETCLUSTERBUTTON.TOOLTIP"
-msgid "Отмените все внесённые вами изменения, перезагрузив пресет кластера."
+msgid "Отмените все внесённые вами изменения, перезагрузив пресет кластера"
 msgstr "Отмените все внесённые вами изменения, перезагрузив пресет кластера"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.FOOTER.BUTTONS.RESETCLUSTERBUTTON.TOOLTIP_VANILLA
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.FOOTER."
 "BUTTONS.RESETCLUSTERBUTTON.TOOLTIP_VANILLA"
-msgid "Отмените все внесённые вами изменения, перезагрузив пресет мира."
+msgid "Отмените все внесённые вами изменения, перезагрузив пресет мира"
 msgstr "Отмените все внесённые вами изменения, перезагрузив пресет мира"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.FOOTER.BUTTONS.RESETSELECTIONBUTTON.TEXT
@@ -1185,7 +1359,7 @@ msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.FOOTER."
 "BUTTONS.RESETSELECTIONBUTTON.TOOLTIP"
 msgid ""
-"Отмените все изменения, внесённые вами в выбранный в данный момент объект."
+"Отмените все изменения, внесённые вами в выбранный в данный момент объект"
 msgstr ""
 "Отмените все изменения, внесённые вами в выбранный в данный момент объект"
 
@@ -1200,7 +1374,7 @@ msgstr "Назад"
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.FOOTER."
 "BUTTONS.RETURNBUTTON.TOOLTIP"
-msgid "Вернуться на предыдущий экран."
+msgid "Вернуться на предыдущий экран"
 msgstr "Вернуться на предыдущий экран"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.FOOTER.BUTTONS.STARMAPBUTTON.TEXT
@@ -1214,7 +1388,7 @@ msgstr "Сбросить звёздную карту"
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.FOOTER."
 "BUTTONS.STARMAPBUTTON.TOOLTIP"
-msgid "Отменить все изменения, внесённые в звёздную карту."
+msgid "Отменить все изменения, внесённые в звёздную карту"
 msgstr "Отменить все изменения, внесённые в звёздную карту"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.FOOTER.CLUSTERSIZESLIDER.DESCRIPTOR.INPUT.TEXT
@@ -1314,6 +1488,13 @@ msgctxt ""
 "HEADER.LABEL"
 msgid "[STARMAPITEMTYPEPL] в этой категории:"
 msgstr "[STARMAPITEMTYPEPL] в этой категории:"
+
+#. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION.STARITEMCONTENT.INPUT.TEXTAREA.PLACEHOLDER
+msgctxt ""
+"ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION."
+"STARITEMCONTENT.INPUT.TEXTAREA.PLACEHOLDER"
+msgid "Enter text to filter asteroids..."
+msgstr "Введите текст для фильтрации астероидов..."
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION.VANILLASTARMAPCONTENT.VANILLASTARMAPCONTAINER.ADDMISSINGPOI.LABEL
 msgctxt ""
@@ -1447,7 +1628,7 @@ msgstr "Пресет кластера"
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.CGMEXPORT_SIDEMENUS.PRESETWINDOWCGM."
 "HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TOOLTIP"
-msgid "Сохранить текущую загруженную конфигурацию кластера в новый пресет."
+msgid "Сохранить текущую загруженную конфигурацию кластера в новый пресет"
 msgstr "Сохранить текущую загруженную конфигурацию кластера в новый пресет"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.CGMEXPORT_SIDEMENUS.PRESETWINDOWCGM.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.NOPRESETSAVAILABLE.LABEL
@@ -1599,6 +1780,11 @@ msgctxt "ClusterTraitGenerationManager.STRINGS.UI.SEEDLOCK.NAME"
 msgid "Рандомизация координат влияет на характеристики"
 msgstr "Рандомизация координат влияет на характеристики"
 
+#. ClusterTraitGenerationManager.STRINGS.UI.SEEDLOCK.NAME_MIXING
+msgctxt "ClusterTraitGenerationManager.STRINGS.UI.SEEDLOCK.NAME_MIXING"
+msgid "reroll Mixings:"
+msgstr "Смешивание:"
+
 #. ClusterTraitGenerationManager.STRINGS.UI.SEEDLOCK.NAME_SHORT
 msgctxt "ClusterTraitGenerationManager.STRINGS.UI.SEEDLOCK.NAME_SHORT"
 msgid "Характеристики"
@@ -1719,13 +1905,13 @@ msgstr "Телепорт на случайный астероид"
 #. ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.MODDEDPLANET
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.MODDEDPLANET"
-msgid "(Modded)"
+msgid "(Мод.)"
 msgstr "(Мод.)"
 
 #. ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.MODDEDPLANETDESC
 msgctxt ""
 "ClusterTraitGenerationManager.STRINGS.UI.SPACEDESTINATIONS.MODDEDPLANETDESC"
-msgid "Added by the mod \"{0}\""
+msgid "Добавлено модом \"{0}\""
 msgstr "Добавлено модом \"{0}\""
 
 #. ClusterTraitGenerationManager.STRINGS.UI.STARMAPITEMDESCRIPTOR.ASTEROID

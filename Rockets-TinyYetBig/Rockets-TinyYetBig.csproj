@@ -568,6 +568,9 @@
 	  <None Update="ModAssets\translations\ko.po">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\translations\ru.po">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\translations\zh.po">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>

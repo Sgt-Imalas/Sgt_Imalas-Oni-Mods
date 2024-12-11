@@ -278,7 +278,7 @@ namespace Rockets_TinyYetBig
 						//var buttonText = references.GetReference<LocText>("HeaderLabel");
 						var buttonText = foldButtonGO.transform.Find("Label").GetComponent<LocText>();
 						buttonText.text = Strings.Get("STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES." + CategoryName);
-						var tooltip = UIUtils.AddSimpleTooltipToObject(foldButtonGO.transform, ModAssets.Tooltips[category.Key], onBottom: true);
+						var tooltip = UIUtils.AddSimpleTooltipToObject(foldButtonGO.transform, ModAssets.GetCategoryTooltip(category.Key), onBottom: true);
 
 						Transform CategoryGrid = component.transform.Find("Grid");
 						Grids[category.Key] = CategoryGrid.gameObject;
