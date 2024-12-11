@@ -81,7 +81,7 @@ namespace SetStartDupes
 		{
 			if (GuaranteedTraitRoll.ContainsKey(instance))
 			{
-				return GuaranteedTraitRoll[instance].Name;
+				return GuaranteedTraitRoll[instance].GetName();
 			}
 			return CONGENITALTRAITS.NONE.NAME;
 		}
@@ -232,8 +232,13 @@ namespace SetStartDupes
 				if (type != NextType.posTrait && type != NextType.negTrait && type != NextType.bionic_boost && type != NextType.bionic_bug) continue;
 
 				var TraitsOfCategory = ModAssets.TryGetTraitsOfCategory(type, null);
-				foreach (DUPLICANTSTATS.TraitVal item in TraitsOfCategory)
+
+				var sortedTraits = TraitsOfCategory.OrderBy(traitval => traitsDb.TryGet(traitval.id)?.GetName());
+
+                foreach (DUPLICANTSTATS.TraitVal item in sortedTraits)
 				{
+					var trait = traitsDb.TryGet(item.id);
+
 					if (ModAssets.TraitAllowedInCurrentDLC(item))
 						AddUIContainer(traitsDb.TryGet(item.id), type);
 				}
@@ -247,14 +252,14 @@ namespace SetStartDupes
 			foreach (var go in TraitContainers)
 			{
 				bool Contained = allowedTraits.Contains(go.Key.Id);
-				go.Value.SetActive(filterstring == string.Empty ? Contained : Contained && ShowInFilter(filterstring, new string[] { go.Key.Name, go.Key.description }));
+				go.Value.SetActive(filterstring == string.Empty ? Contained : Contained && ShowInFilter(filterstring, [go.Key.GetName(), go.Key.description ]));
 			}
 			NothingEntry.SetActive(true);
 		}
 
 		bool ShowInFilter(string filtertext, string stringsToInclude)
 		{
-			return ShowInFilter(filtertext, new string[] { stringsToInclude });
+			return ShowInFilter(filtertext, [stringsToInclude]);
 		}
 
 		bool ShowInFilter(string filtertext, string[] stringsToInclude)
