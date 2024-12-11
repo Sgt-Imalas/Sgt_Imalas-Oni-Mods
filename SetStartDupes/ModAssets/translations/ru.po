@@ -12,6 +12,26 @@ msgstr ""
 "Application: Oxygen Not IncludedPOT Version: 2.0\n"
 "X-Generator: Poedit 3.5\n"
 
+#. SetStartDupes.STRINGS.BIONIC_STRESS_HARDWIRED
+msgctxt "SetStartDupes.STRINGS.BIONIC_STRESS_HARDWIRED"
+msgid ""
+"Bionic duplicants have a hardwired stress reaction since they are mostly "
+"incompatible with normal stress reactions"
+msgstr ""
+"Бионические дубликанты имеют встроенную реакцию на стресс, поскольку они в "
+"большинстве случаев несовместимы с нормальными реакциями на стресс"
+
+#. SetStartDupes.STRINGS.EXCLUSIVITY_RULE_CONFLICTING
+msgctxt "SetStartDupes.STRINGS.EXCLUSIVITY_RULE_CONFLICTING"
+msgid ""
+"Mutual exclusivity detected:\n"
+"With vanilla generation rules,\n"
+"this would not be added, as it is mutually exclusive with:"
+msgstr ""
+"Обнаружена взаимоисключаемость:\n"
+"При использовании правил генерации игры\n"
+"это не было бы добавлено, так как является взаимоисключающим с:"
+
 #. SetStartDupes.STRINGS.MISSINGSKILLGROUP
 msgctxt "SetStartDupes.STRINGS.MISSINGSKILLGROUP"
 msgid "Missing Attribute!"
@@ -96,7 +116,7 @@ msgstr "Переделать для получения другой посылк
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.ADDANDREMOVE.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.ADDANDREMOVE.NAME"
 msgid "Add/Remove Interests and Traits"
-msgstr "Добавить/удалить интересы и характеристики"
+msgstr "Добавить/удалить интересы и черты"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.ADDANDREMOVE.TOOLTIP
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.ADDANDREMOVE.TOOLTIP"
@@ -104,8 +124,8 @@ msgid ""
 "Allows to add new or remove existing Traits and Interests on Duplicants.\n"
 "Can be overpowered if used excessively."
 msgstr ""
-"Позволяет добавлять новые или удалять существующие характеристики и интересы "
-"у дубликантов.\n"
+"Позволяет добавлять новые или удалять существующие черты и интересы у "
+"дубликантов.\n"
 "При чрезмерном использовании может оказаться слишком мощным."
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.ADDVACCILATORTRAITS.NAME
@@ -119,6 +139,17 @@ msgid "Allows adding Neural-Vaccilator-Traits with the \"Add Trait\" Feature."
 msgstr ""
 "Позволяет добавлять черты из нейронного калибратора с помощью функции "
 "\"Добавить\"."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.BEYONDBIONICS.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.BEYONDBIONICS.NAME"
+msgid "Add normal traits to Bionic Duplicants"
+msgstr "Добавить обычные черты бионическим дубликантам"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.BEYONDBIONICS.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.BEYONDBIONICS.TOOLTIP"
+msgid "When active, allows adding regular traits to bionic duplicants."
+msgstr ""
+"Если включено, то позволяет добавлять обычные черты бионическим дубликантам."
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.NAME"
@@ -1077,6 +1108,13 @@ msgctxt ""
 "CONTENT.PRESETENTRYPREFAB.DELETEPRESETTOOLTIP"
 msgid "Delete Preset"
 msgstr "Удалить пресет"
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.INVALIDMODELTOOLTIP
+msgctxt ""
+"SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA."
+"CONTENT.PRESETENTRYPREFAB.INVALIDMODELTOOLTIP"
+msgid "Preset not compatible with current duplicant model!"
+msgstr "Пресет несовместим с текущей моделью дубликанта!"
 
 #. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.RENAMEPRESETTOOLTIP
 msgctxt ""

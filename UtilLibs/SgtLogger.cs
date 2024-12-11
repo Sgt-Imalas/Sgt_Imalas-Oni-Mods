@@ -104,5 +104,5 @@ namespace UtilLibs
 
 			Console.WriteLine(messageToLog, assemblyOverride);
 		}
-	}
+    }
 }
