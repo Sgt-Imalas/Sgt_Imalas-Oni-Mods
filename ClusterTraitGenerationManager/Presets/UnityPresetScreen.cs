@@ -558,7 +558,6 @@ namespace ClusterTraitGenerationManager
 			UIUtils.AddSimpleTooltipToObject(WorldgenSeed.transform.parent, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.WORLDGEN_SEED.TOOLTIP, alignCenter: true, onBottom: true);
 			GameSettingsTexts[CustomGameSettingConfigs.WorldgenSeed] = WorldgenSeed;
 
-			// UIUtils.AddSimpleTooltipToObject(transform.Find("Content/Warning"), STRINGS.UI.CUSTOMGAMESETTINGSCHANGER.CHANGEWARNINGTOOLTIP);
 
 			var ImmuneSystem = Util.KInstantiateUI(InfoRowSimple, InfoScreenContainer, true).transform.Find("Label").gameObject.AddOrGet<LocText>();
 			ImmuneSystem.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.IMMUNESYSTEM.NAME;

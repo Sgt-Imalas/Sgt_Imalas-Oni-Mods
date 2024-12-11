@@ -182,7 +182,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				if (id == CustomGameSettingConfigs.WorldgenSeed.id || id == CustomGameSettingConfigs.ClusterLayout.id)
 					continue;
 
-				if (!DlcManager.HasAllContentSubscribed(qualitySetting.Value.required_content))
+				if (!DlcManager.IsAllContentSubscribed(qualitySetting.Value.required_content))
 					continue;
 				SettingConfig setting = qualitySetting.Value;
 				string settingValue = instance.GetCurrentQualitySetting(setting).id;
@@ -308,7 +308,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				if (settingID == CustomGameSettingConfigs.WorldgenSeed.id || settingID == CustomGameSettingConfigs.ClusterLayout.id)
 					continue;
 
-				if (!DlcManager.HasAllContentSubscribed(qualitySetting.Value.required_content))
+				if (!DlcManager.IsAllContentSubscribed(qualitySetting.Value.required_content))
 					continue;
 
 				if (qualitySetting.Value is ToggleSettingConfig toggleSetting)
