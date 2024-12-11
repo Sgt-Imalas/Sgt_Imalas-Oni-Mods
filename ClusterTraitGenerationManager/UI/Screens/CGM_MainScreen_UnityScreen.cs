@@ -67,10 +67,10 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			{
 				string id = qualitySetting.Key;
 
-				if (id == CustomMixingSettingsConfigs.DLC2Mixing.id)
+				if (qualitySetting.Value is DlcMixingSettingConfig)
 					continue;
 
-				if (!DlcManager.HasAllContentSubscribed(qualitySetting.Value.required_content))
+				if (!DlcManager.IsAllContentSubscribed(qualitySetting.Value.required_content))
 					continue;
 				if(qualitySetting.Value is not MixingSettingConfig setting)
 				{
@@ -107,12 +107,10 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 
 				string settingID = mixingSetting.Key;
-				SgtLogger.l(settingID, "initializing MixingSetting UI Item");
+                if (mixingSetting.Value is DlcMixingSettingConfig)
+                        continue;
 
-				if (settingID == CustomMixingSettingsConfigs.DLC2Mixing.id)
-					continue;
-
-				if (!DlcManager.HasAllContentSubscribed(mixingSetting.Value.required_content))
+				if (!DlcManager.IsAllContentSubscribed(mixingSetting.Value.required_content))
 					continue;
 
 				if (mixingSetting.Value is MixingSettingConfig listSetting)
@@ -361,8 +359,9 @@ namespace ClusterTraitGenerationManager.UI.Screens
 		public GameObject categoryListContent;
 
 		FToggle DLC2_Toggle;
+		FToggle DLC3_Toggle;
 
-		GameObject StoryTraitButton;
+        GameObject StoryTraitButton;
 
 		private LocText galleryHeaderLabel;
 		private LocText categoryHeaderLabel;
@@ -523,8 +522,9 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 
 		static bool isDLC2Active => CustomGameSettings.Instance.GetCurrentMixingSettingLevel(CustomMixingSettingsConfigs.DLC2Mixing).id == (CustomMixingSettingsConfigs.DLC2Mixing as ToggleSettingConfig).on_level.id;
+		static bool isDLC3Active => CustomGameSettings.Instance.GetCurrentMixingSettingLevel(CustomMixingSettingsConfigs.DLC3Mixing).id == (CustomMixingSettingsConfigs.DLC3Mixing as ToggleSettingConfig).on_level.id;
 
-		public override void OnPrefabInit()
+        public override void OnPrefabInit()
 		{
 			base.OnPrefabInit();
 			Instance = this;
@@ -541,18 +541,29 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			categoryHeaderLabel = transform.Find("Categories/Header/Label").GetComponent<LocText>();
 
 			transform.Find("Categories/DLCFooter/Title/Label").gameObject.GetComponent<LocText>().SetText(global::STRINGS.UI.FRONTEND.COLONYDESTINATIONSCREEN.MIXING_DLC_HEADER);
-			transform.Find("Categories/DLCFooter/Item/Label").gameObject.GetComponent<LocText>().SetText(global::STRINGS.UI.DLC2.NAME);
+			transform.Find("Categories/DLCFooter/DLC2/Label").gameObject.GetComponent<LocText>().SetText(global::STRINGS.UI.DLC2.NAME);
+			transform.Find("Categories/DLCFooter/DLC3/Label").gameObject.GetComponent<LocText>().SetText(global::STRINGS.UI.DLC3.NAME);
 
-			DLC2_Toggle = transform.Find("Categories/DLCFooter/Item/Checkbox").gameObject.AddComponent<FToggle>();
+			DLC2_Toggle = transform.Find("Categories/DLCFooter/DLC2/Checkbox").gameObject.AddComponent<FToggle>();
 			DLC2_Toggle.SetCheckmark("Checkmark");
 
 			DLC2_Toggle.SetOnFromCode(isDLC2Active);
 			DLC2_Toggle.OnClick += (v) =>
 			{
-				ToggleDlc2(v);
+				ToggleWorldgenAffectingDlc(v, CustomMixingSettingsConfigs.DLC2Mixing);
 			};
 
-			StoryTraitButton = transform.Find("Categories/FooterContent/StoryTraits").gameObject;
+            DLC3_Toggle = transform.Find("Categories/DLCFooter/DLC3/Checkbox").gameObject.AddComponent<FToggle>();
+            DLC3_Toggle.SetCheckmark("Checkmark");
+
+            DLC3_Toggle.SetOnFromCode(isDLC3Active);
+            DLC3_Toggle.OnClick += (v) =>
+            {
+                ToggleNonWorldGenDlc(v, CustomMixingSettingsConfigs.DLC3Mixing);
+            };
+
+
+            StoryTraitButton = transform.Find("Categories/FooterContent/StoryTraits").gameObject;
 			GameSettingsButton = transform.Find("Categories/FooterContent/GameSettings").gameObject;
 			MixingSettingsButton = transform.Find("Categories/FooterContent/MixingSettings").gameObject;
 
@@ -732,7 +743,8 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				categoryToggle.Value.Refresh(SelectedCategory, PlanetSprite);
 			}
 			DLC2_Toggle.SetOnFromCode(isDLC2Active);
-			DLC2_Toggle.SetInteractable(!CustomCluster.HasCeresAsteroid);
+			DLC3_Toggle.SetOnFromCode(isDLC3Active);
+            DLC2_Toggle.SetInteractable(!CustomCluster.HasCeresAsteroid);
 		}
 
 

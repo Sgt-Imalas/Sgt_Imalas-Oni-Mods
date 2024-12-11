@@ -1079,11 +1079,15 @@ namespace ClusterTraitGenerationManager.ClusterData
             //SgtLogger.l("changing " + ConfigToSet.id.ToString() + " from " + CustomGameSettings.Instance.GetCurrentMixingSettingLevel(ConfigToSet).id + " to " + valueToSet.ToString());
             CustomGameSettings.Instance.SetMixingSetting(ConfigToSet, valueToSet);
         }
-        public static void ToggleDlc2(bool enabled)
+        public static void ToggleWorldgenAffectingDlc(bool enabled, SettingConfig dlc)
         {
-            SetMixingSetting(CustomMixingSettingsConfigs.DLC2Mixing, enabled);
+            SetMixingSetting(dlc, enabled);
             RegenerateAllPOIData();
             CGM_Screen?.RebuildStarmap(true);
+        }
+        public static void ToggleNonWorldGenDlc(bool enabled, SettingConfig dlc)
+        {
+            SetMixingSetting(dlc, enabled);
         }
 
         public static void TogglePlanetoid(StarmapItem ToAdd)
@@ -1095,7 +1099,7 @@ namespace ClusterTraitGenerationManager.ClusterData
             {
                 if (!CustomCluster.HasStarmapItem(ToAdd.id, out _)) //enable dlc2 for when a ceres asteroid was added
                 {
-                    ToggleDlc2(true);
+                    ToggleWorldgenAffectingDlc(true, CustomMixingSettingsConfigs.DLC2Mixing);
                 }
             }
 
