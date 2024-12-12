@@ -1070,6 +1070,9 @@ namespace ClusterTraitGenerationManager.ClusterData
         }
         private static void SetMixingSetting(SettingConfig ConfigToSet, object valueId)
         {
+            if (!DlcManager.IsAllContentSubscribed(ConfigToSet.required_content))
+                return;
+
             string valueToSet = valueId.ToString();
             if (valueId is bool val)
             {

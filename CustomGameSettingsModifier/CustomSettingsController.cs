@@ -80,6 +80,8 @@ namespace CustomGameSettingsModifier
                 SettingConfig setting = qualitySetting.Value;
                 string settingValue = instance.GetCurrentQualitySetting(setting).id;
 
+                if (!qualitySetting.Value.ShowInUI())
+                    continue;
 
                 if (CustomGameSettingsCycleConfigs.TryGetValue(id, out var settingsCycle))
                 {
@@ -187,6 +189,10 @@ namespace CustomGameSettingsModifier
                     continue;
 
                 if (!DlcManager.IsAllContentSubscribed(qualitySetting.Value.required_content))
+                    continue;
+
+
+                if(!qualitySetting.Value.ShowInUI())
                     continue;
 
                 if (qualitySetting.Value is ToggleSettingConfig toggleSetting)
