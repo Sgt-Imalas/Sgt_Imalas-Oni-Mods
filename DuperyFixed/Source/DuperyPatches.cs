@@ -3,6 +3,7 @@ using KMod;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
+using UtilLibs;
 
 namespace Dupery
 {
@@ -23,7 +24,7 @@ namespace Dupery
 
 		public static void LoadResources()
 		{
-			Localizer = new CheekyLocalizer(DirectoryName);
+			Localizer = new CheekyLocalizer(IO_Utils.ModPath);
 			ModLocalizers = new Dictionary<string, CheekyLocalizer>();
 
 			AccessoryManager = new AccessoryManager();

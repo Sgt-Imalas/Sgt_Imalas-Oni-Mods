@@ -86,7 +86,7 @@ namespace Dupery
 					cachable = false;
 				}
 
-				if (slot.Id == accessorySlots.HeadShape.Id)
+				if (slot.Id == accessorySlots.Mouth.Id)
 				{
 					HeadOverrideAnims.Add(id, animName);
 					Debug.Log("[Dupery]: setting custom cheek override anim for headshape: " + id);

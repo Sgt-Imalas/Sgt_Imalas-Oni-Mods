@@ -14,7 +14,7 @@ namespace Dupery
 
 		public const int MINIMUM_PERSONALITY_COUNT = 4;
 
-		private string loadFailureMessage = "Failed to load the '{0}' file from the Dupery mod folder. Please fix any JSON syntax errors or delete the file.";
+		private string loadFailureMessage = "Failed to load the '{0}' file from the Dupery config folder. Please fix any JSON syntax errors or delete the file.";
 
 		private Dictionary<string, PersonalityOutline> stockPersonalities;
 		private Dictionary<string, PersonalityOutline> customPersonalities;
@@ -39,7 +39,8 @@ namespace Dupery
 				stockPersonalities[dbPersonality.nameStringKey] = PersonalityOutline.FromStockPersonality(dbPersonality);
 			}
 
-			string overrideFilePath = Path.Combine(DuperyPatches.DirectoryName, OVERRIDE_FILE_NAME);
+			string overrideFilePath = Path.GetFullPath(Path.Combine(DuperyPatches.DirectoryName, OVERRIDE_FILE_NAME));
+			Debug.Log("Dupery override file: "+overrideFilePath);
 			if (!File.Exists(overrideFilePath))
 				Logger.Log($"Creating {OVERRIDE_FILE_NAME} override file for modifying stock personalities.");
 
