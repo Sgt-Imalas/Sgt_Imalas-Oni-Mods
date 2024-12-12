@@ -3,75 +3,98 @@ msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
-"Last-Translator: \n"
+"Last-Translator: DarkEviL <darkevilx17@gmail.com>\n"
 "Language-Team: \n"
 "Language: ru_RU\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Application: Oxygen Not IncludedPOT Version: 2.0\n"
-"X-Generator: Poedit 3.4.1\n"
+"X-Generator: Poedit 3.4.4\n"
+
+#. NeutroniumTrashCan.STRINGS.BUILDINGS.PREFABS.NTC_ARTIFACTTRASHCAN.DESC
+msgctxt ""
+"NeutroniumTrashCan.STRINGS.BUILDINGS.PREFABS.NTC_ARTIFACTTRASHCAN.DESC"
+msgid "Its bigger on the inside!"
+msgstr "Внутри он больше!"
+
+#. NeutroniumTrashCan.STRINGS.BUILDINGS.PREFABS.NTC_ARTIFACTTRASHCAN.EFFECT
+msgctxt ""
+"NeutroniumTrashCan.STRINGS.BUILDINGS.PREFABS.NTC_ARTIFACTTRASHCAN.EFFECT"
+msgid "Eats and deletes artifacts."
+msgstr "Поглощает и удаляет артефакты."
+
+#. NeutroniumTrashCan.STRINGS.BUILDINGS.PREFABS.NTC_ARTIFACTTRASHCAN.NAME
+msgctxt ""
+"NeutroniumTrashCan.STRINGS.BUILDINGS.PREFABS.NTC_ARTIFACTTRASHCAN.NAME"
+msgid "<link=\"NTCARTIFACTTRASHCAN\">Artifact Trash Can</link>"
+msgstr "<link=\"NTCARTIFACTTRASHCAN\">Мусорный бак для артефактов</link>"
 
 #. NeutroniumTrashCan.STRINGS.BUILDINGS.PREFABS.NTC_GASTRASHCAN.DESC
 msgctxt "NeutroniumTrashCan.STRINGS.BUILDINGS.PREFABS.NTC_GASTRASHCAN.DESC"
-msgid "Its bigger on the inside!"
+msgid "Внутри он больше!"
 msgstr "Внутри он больше!"
 
 #. NeutroniumTrashCan.STRINGS.BUILDINGS.PREFABS.NTC_GASTRASHCAN.EFFECT
 msgctxt "NeutroniumTrashCan.STRINGS.BUILDINGS.PREFABS.NTC_GASTRASHCAN.EFFECT"
-msgid "Deletes Gasses pumped into it"
+msgid "Удаляет закачанные газы."
 msgstr "Удаляет закачанные газы."
 
 #. NeutroniumTrashCan.STRINGS.BUILDINGS.PREFABS.NTC_GASTRASHCAN.NAME
 msgctxt "NeutroniumTrashCan.STRINGS.BUILDINGS.PREFABS.NTC_GASTRASHCAN.NAME"
-msgid "<link=\"NTCGASTRASHCAN\">Gas Trash Can</link>"
+msgid "<link=\"NTCGASTRASHCAN\">Мусорный бак для газа</link>"
 msgstr "<link=\"NTCGASTRASHCAN\">Мусорный бак для газа</link>"
 
 #. NeutroniumTrashCan.STRINGS.BUILDINGS.PREFABS.NTC_LIQUIDTRASHCAN.DESC
 msgctxt "NeutroniumTrashCan.STRINGS.BUILDINGS.PREFABS.NTC_LIQUIDTRASHCAN.DESC"
-msgid "Its bigger on the inside!"
+msgid "Внутри он больше!"
 msgstr "Внутри он больше!"
 
 #. NeutroniumTrashCan.STRINGS.BUILDINGS.PREFABS.NTC_LIQUIDTRASHCAN.EFFECT
 msgctxt ""
 "NeutroniumTrashCan.STRINGS.BUILDINGS.PREFABS.NTC_LIQUIDTRASHCAN.EFFECT"
-msgid "Deletes Liquids pumped into it"
+msgid "Удаляет закачанные жидкости."
 msgstr "Удаляет закачанные жидкости."
 
 #. NeutroniumTrashCan.STRINGS.BUILDINGS.PREFABS.NTC_LIQUIDTRASHCAN.NAME
 msgctxt "NeutroniumTrashCan.STRINGS.BUILDINGS.PREFABS.NTC_LIQUIDTRASHCAN.NAME"
-msgid "<link=\"NTCLIQUIDTRASHCAN\">Liquid Trash Can</link>"
+msgid "<link=\"NTCLIQUIDTRASHCAN\">Мусорный бак для жидкости</link>"
 msgstr "<link=\"NTCLIQUIDTRASHCAN\">Мусорный бак для жидкости</link>"
 
 #. NeutroniumTrashCan.STRINGS.BUILDINGS.PREFABS.NTC_NEUTRONIUMTRASHCAN.DESC
 msgctxt ""
 "NeutroniumTrashCan.STRINGS.BUILDINGS.PREFABS.NTC_NEUTRONIUMTRASHCAN.DESC"
-msgid "Its bigger on the inside!"
+msgid "Внутри он больше!"
 msgstr "Внутри он больше!"
 
 #. NeutroniumTrashCan.STRINGS.BUILDINGS.PREFABS.NTC_NEUTRONIUMTRASHCAN.EFFECT
 msgctxt ""
 "NeutroniumTrashCan.STRINGS.BUILDINGS.PREFABS.NTC_NEUTRONIUMTRASHCAN.EFFECT"
-msgid "Eats and deletes Neutronium - for those cleanly shaved walls."
+msgid "Поглощает и удаляет Нейтроний."
 msgstr "Поглощает и удаляет Нейтроний."
 
 #. NeutroniumTrashCan.STRINGS.BUILDINGS.PREFABS.NTC_NEUTRONIUMTRASHCAN.NAME
 msgctxt ""
 "NeutroniumTrashCan.STRINGS.BUILDINGS.PREFABS.NTC_NEUTRONIUMTRASHCAN.NAME"
-msgid "<link=\"NTCNEUTRONIUMTRASHCAN\">Neutronium Trash Can</link>"
+msgid "<link=\"NTCNEUTRONIUMTRASHCAN\">Мусорный бак для нейтрония</link>"
 msgstr "<link=\"NTCNEUTRONIUMTRASHCAN\">Мусорный бак для нейтрония</link>"
 
 #. NeutroniumTrashCan.STRINGS.BUILDINGS.PREFABS.NTC_SOLIDTRASHCAN.DESC
 msgctxt "NeutroniumTrashCan.STRINGS.BUILDINGS.PREFABS.NTC_SOLIDTRASHCAN.DESC"
-msgid "Its bigger on the inside!"
+msgid "Внутри он больше!"
 msgstr "Внутри он больше!"
 
 #. NeutroniumTrashCan.STRINGS.BUILDINGS.PREFABS.NTC_SOLIDTRASHCAN.EFFECT
 msgctxt "NeutroniumTrashCan.STRINGS.BUILDINGS.PREFABS.NTC_SOLIDTRASHCAN.EFFECT"
-msgid "Deletes Solids pumped into it"
+msgid "Удаляет загруженные с рельса твёрдые вещества."
 msgstr "Удаляет загруженные с рельса твёрдые вещества."
 
 #. NeutroniumTrashCan.STRINGS.BUILDINGS.PREFABS.NTC_SOLIDTRASHCAN.NAME
 msgctxt "NeutroniumTrashCan.STRINGS.BUILDINGS.PREFABS.NTC_SOLIDTRASHCAN.NAME"
-msgid "<link=\"NTCSOLIDTRASHCAN\">Solid Trash Can</link>"
+msgid "<link=\"NTCSOLIDTRASHCAN\">Мусорный бак для твёрдых веществ</link>"
 msgstr "<link=\"NTCSOLIDTRASHCAN\">Мусорный бак для твёрдых веществ</link>"
+
+#. NeutroniumTrashCan.STRINGS.MISC.TAGS.ARTIFACT
+msgctxt "NeutroniumTrashCan.STRINGS.MISC.TAGS.ARTIFACT"
+msgid "Artifact"
+msgstr "Артефакт"

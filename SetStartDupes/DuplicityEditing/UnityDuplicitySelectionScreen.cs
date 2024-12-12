@@ -220,7 +220,6 @@ namespace SetStartDupes
 			transform.Find("ScrollArea/Content/CarePackagePrefab").gameObject.SetActive(false);
 
 			var CloserButton = transform.Find("CloseButton").gameObject;
-			//UIUtils.ListAllChildren(CloserButton.transform);
 			CloserButton.FindOrAddComponent<FButton>().OnClick += () => this.Show(false);
 			CloserButton.transform.Find("Text").GetComponent<LocText>().text = STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.CLOSEBUTTON.TEXT;
 
@@ -255,7 +254,9 @@ namespace SetStartDupes
 				NextType.special,
 				NextType.geneShufflerTrait,
 				NextType.posTrait,
+				//NextType.bionic_boost,
 				NextType.needTrait,
+				//NextType.bionic_bug,
 				NextType.negTrait,
 				NextType.undefined,
 			};
@@ -264,7 +265,7 @@ namespace SetStartDupes
 			{
 				if (type == NextType.allTraits) continue;
 
-				var TraitsOfCategory = ModAssets.TryGetTraitsOfCategory(type);
+				var TraitsOfCategory = ModAssets.TryGetTraitsOfCategory(type, null);
 				foreach (var item in TraitsOfCategory)
 				{
 					if (ModAssets.TraitAllowedInCurrentDLC(item))
@@ -276,6 +277,8 @@ namespace SetStartDupes
 			}
 			foreach (var item in interests)
 			{
+				if(item.choreGroupID == null) continue;
+
 				CategoryEntries[OpenedFrom.Interest].Add(AddUIContainer(item));
 			}
 			HashSet<string> validMinionAttributes = new(AttributeHelper.GetValidMinionAttributeIDs());
@@ -394,14 +397,14 @@ namespace SetStartDupes
 
 		List<string> GetAllowedTraits()
 		{
-			var traits = ModAssets.TryGetTraitsOfCategory(NextType.allTraits, overrideShowAll: true);
+			var traits = ModAssets.TryGetTraitsOfCategory(NextType.allTraits, GameTags.Minions.Models.Standard, overrideShowAll: true);
 
 			DuplicityMainScreen.Instance.ReactionInfo(out var hasJoy, out var hasStress);
 
 			if (!hasJoy)
-				traits = ModAssets.TryGetTraitsOfCategory(NextType.joy).Concat(traits).ToList();
+				traits = ModAssets.TryGetTraitsOfCategory(NextType.joy, null).Concat(traits).ToList();
 			if (!hasStress)
-				traits = ModAssets.TryGetTraitsOfCategory(NextType.stress).Concat(traits).ToList();
+				traits = ModAssets.TryGetTraitsOfCategory(NextType.stress, null).Concat(traits).ToList();
 
 
 			var allowedTraits = traits.Select(t => t.id).ToList();

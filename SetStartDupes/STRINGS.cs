@@ -3,13 +3,17 @@
 namespace SetStartDupes
 {
 	public class STRINGS
-	{
-		public static LocString UNNAMEDPRESET = "(Unnamed Preset)";
+    {
+        public static LocString BIONIC_STRESS_HARDWIRED = "Bionic duplicants have a hardwired stress reaction since they are mostly incompatible with normal stress reactions";
+
+        public static LocString UNNAMEDPRESET = "(Unnamed Preset)";
 		public static LocString MISSINGTRAIT = "Missing Trait!";
 		public static LocString MISSINGTRAITDESC = "This Trait could not be found: {0}";
 		public static LocString MISSINGSKILLGROUP = "Missing Attribute!";
 		public static LocString MISSINGSKILLGROUPDESC = "This Attribute could not be found: {0}";
-		public class UI
+		public static LocString EXCLUSIVITY_RULE_CONFLICTING = "Mutual exclusivity detected:\nWith vanilla generation rules,\nthis would not be added, as it is mutually exclusive with:";
+
+        public class UI
 		{
 			public class STARTAGAIN
 			{
@@ -259,6 +263,11 @@ namespace SetStartDupes
 					public static LocString NAME = "Interest Point Balancing";
 					public static LocString TOOLTIP = "Use the vanilla interest point bonus for active interests determined by active traits.\nDeactivate to override this point limit.";
 				}
+				public class BEYONDBIONICS
+				{
+					public static LocString NAME = "Add normal traits to Bionic Duplicants";
+					public static LocString TOOLTIP = "When active, allows adding regular traits to bionic duplicants.";
+				}
 				public class NOJOYREACTION
 				{
 					public static LocString NAME = "Disable Overjoyed Responses";
@@ -350,6 +359,7 @@ namespace SetStartDupes
 										public static LocString TEXT = "Load Preset";
 									}
 
+									public static LocString INVALIDMODELTOOLTIP = "Preset not compatible with current duplicant model!";
 									public static LocString RENAMEPRESETTOOLTIP = "Rename Preset";
 									public static LocString DELETEPRESETTOOLTIP = "Delete Preset";
 

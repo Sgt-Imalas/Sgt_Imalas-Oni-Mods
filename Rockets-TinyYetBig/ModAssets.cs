@@ -42,11 +42,28 @@ namespace Rockets_TinyYetBig
 
 
 
-
-		public static Dictionary<int, string> Tooltips = new Dictionary<int, string>();
-		public static void InitializeCategoryTooltipDictionary()
+		static bool tooltipsInitialized = false;
+		public static string GetCategoryTooltip(int category)
 		{
-			Tooltips.Add(0, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.ENGINES);
+			if (!tooltipsInitialized)
+				InitializeCategoryTooltipDictionary();
+
+			if(Tooltips.TryGetValue(category, out var tooltip))
+				return tooltip;
+
+			SgtLogger.warning("RE category tooltip not found for category " + category);
+
+			return "Category Tooltip not found!";
+		}
+		private static Dictionary<int, string> Tooltips = new Dictionary<int, string>();
+		private static void InitializeCategoryTooltipDictionary()
+		{
+			if(tooltipsInitialized)
+				return;
+
+            tooltipsInitialized = true;
+
+            Tooltips.Add(0, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.ENGINES);
 			Tooltips.Add(1, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.HABITATS);
 			Tooltips.Add(2, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.NOSECONES);
 			Tooltips.Add(3, STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.DEPLOYABLES);

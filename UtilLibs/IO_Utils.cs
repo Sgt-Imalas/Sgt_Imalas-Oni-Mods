@@ -9,7 +9,7 @@ namespace UtilLibs
 	public static class IO_Utils
 	{
 		public static string ModPath => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-		public static string ModsFolder => System.IO.Path.GetFullPath(System.IO.Directory.GetParent(System.IO.Directory.GetParent(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)).FullName).ToString());
+		public static string ModsFolder => KMod.Manager.GetDirectory();
 		public static string ConfigFolder => Path.Combine(ModsFolder, "config");
 
 		public static void PutToClipboard(string toPut)

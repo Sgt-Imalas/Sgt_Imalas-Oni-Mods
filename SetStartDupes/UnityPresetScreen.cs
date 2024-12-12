@@ -68,9 +68,9 @@ namespace SetStartDupes
 			Instance.Show(true);
 			Instance.ConsumeMouseScroll = true;
 			Instance.transform.SetAsLastSibling();
+			Instance.ReferencedStats = startingStats;
 			Instance.LoadAllPresets();
 			Instance.LoadTemporalPreset(startingStats);
-			Instance.ReferencedStats = startingStats;
 			Instance.OnCloseAction = onClose;
 			Instance.Searchbar.Text = string.Empty;
 		}
@@ -144,7 +144,15 @@ namespace SetStartDupes
 				PresetHolder.transform.Find("TraitImage").gameObject.SetActive(false);
 
 				UIUtils.TryChangeText(PresetHolder.transform, "Label", config.ConfigName);
-				PresetHolder.transform.Find("RenameButton").FindOrAddComponent<FButton>().OnClick +=
+				var renamePresetButton = PresetHolder.transform.Find("RenameButton").FindOrAddComponent<FButton>();
+
+				bool isValidForModel = config.Model == ReferencedStats.personality.model;
+
+				if(!isValidForModel) 
+					UIUtils.AddSimpleTooltipToObject(PresetHolder.transform, SCROLLAREA.CONTENT.PRESETENTRYPREFAB.INVALIDMODELTOOLTIP);
+
+
+				renamePresetButton.OnClick +=
 					() => config.OpenPopUpToChangeName(
 						() =>
 							{
@@ -152,9 +160,11 @@ namespace SetStartDupes
 								RebuildInformationPanel();
 							}
 						);
-				PresetHolder.transform
-					//.Find("AddThisTraitButton")
-					.FindOrAddComponent<FButton>().OnClick += () => SetAsCurrent(config);
+				var selectButton = PresetHolder.transform.FindOrAddComponent<FButton>();
+				selectButton.OnClick += () => SetAsCurrent(config);
+				selectButton.SetInteractable(isValidForModel);
+
+
 				PresetHolder.transform.Find("DeleteButton").FindOrAddComponent<FButton>().OnClick += () => DeletePreset(config);
 
 				UIUtils.AddSimpleTooltipToObject(PresetHolder.transform.Find("RenameButton"), SCROLLAREA.CONTENT.PRESETENTRYPREFAB.RENAMEPRESETTOOLTIP);
@@ -291,7 +301,6 @@ namespace SetStartDupes
 		{
 			SgtLogger.l("Initializing PresetWindow");
 
-			//UIUtils.ListAllChildrenPath(transform);
 			GeneratePresetButton = transform.Find("HorizontalLayout/ItemInfo/Buttons/GenerateFromCurrent").FindOrAddComponent<FButton>();
 			CloseButton = transform.Find("HorizontalLayout/ItemInfo/Buttons/CloseButton").FindOrAddComponent<FButton>();
 			ApplyButton = transform.Find("HorizontalLayout/ItemInfo/Buttons/ApplyPresetButton").FindOrAddComponent<FButton>();

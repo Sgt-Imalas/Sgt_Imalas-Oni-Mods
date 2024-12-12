@@ -15,7 +15,8 @@ namespace DuperyFixed
 			base.OnLoad(harmony);
 			SgtLogger.LogVersion(this, harmony, false);
 			string assemblyLocation = Assembly.GetExecutingAssembly().Location;
-			DuperyPatches.DirectoryName = Path.GetDirectoryName(assemblyLocation);
+			DuperyPatches.DirectoryName = Path.Combine(IO_Utils.ConfigFolder , "DuperyConfigs");
+            System.IO.Directory.CreateDirectory(DuperyPatches.DirectoryName);
 		}
 		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
 		{

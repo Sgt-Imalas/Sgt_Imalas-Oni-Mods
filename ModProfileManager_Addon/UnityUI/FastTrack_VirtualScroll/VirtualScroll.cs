@@ -177,21 +177,24 @@ namespace ModProfileManager_Addon.UnityUI.FastTrack_VirtualScroll
 		/// <param name="xMax">The maximum visible x coordinate.</param>
 		/// <param name="yMin">The minimum visible y coordinate.</param>
 		/// <param name="yMax">The maximum visible y coordinate.</param>
-		private void GetViewableRect(out float xMin, out float xMax, out float yMin,
-				out float yMax)
+		private void GetViewableRect(out float xMin, out float xMax, out float yMin,out float yMax)
 		{
 			// Get the absolute coordinates of the current viewable rect
 			var center = parentRect.position;
 			var rect = parentRect.rect;
-			float wxMin = rect.x + center.x, wyMin = rect.y + center.y;
-			// Transform into itemList space
-			Vector3 bl = itemList.InverseTransformPoint(wxMin, wyMin, 0.0f), tr = itemList.
-				InverseTransformPoint(wxMin + rect.width, wyMin + rect.height, 0.0f);
+
+			float wxMin = rect.x + center.x,
+				  wyMin = rect.y + center.y;
+            
+            // Transform into itemList space
+            Vector3 bl = itemList.InverseTransformPoint(wxMin, wyMin, 0.0f),
+				    tr = itemList.InverseTransformPoint(wxMin + rect.width, wyMin + rect.height, 0.0f);
 			xMin = bl.x - margin.x;
 			yMin = bl.y - margin.y;
-			xMax = tr.x + margin.x;
+            xMax = tr.x + margin.x;
 			yMax = tr.y + margin.y;
-		}
+
+        }
 
 		/// <summary>
 		/// Initializes the virtual scroll pane.
@@ -210,6 +213,7 @@ namespace ModProfileManager_Addon.UnityUI.FastTrack_VirtualScroll
 				virtualLayout = target.gameObject.AddOrGet<LayoutElement>();
 				virtualLayout.enabled = false;
 				virtualLayout.layoutPriority = 100;
+				virtualLayout.flexibleHeight = 1;
 				Rebuild();
 			}
 		}
@@ -285,13 +289,15 @@ namespace ModProfileManager_Addon.UnityUI.FastTrack_VirtualScroll
 			if (n > 0)
 			{
 				GetViewableRect(out float xl, out float xr, out float yb, out float yt);
-				for (int i = 0; i < n; i++)
+				//Debug.Log($"ViewableRect: xl: {xl}, xr: {xr}, yb: {yb}, yt: {yt}");
+				yb -= 400; //for some reason this value is too large at higher scales, cutting off items above the bottom border.
+
+
+                for (int i = 0; i < n; i++)
 				{
 					var item = components[i];
-					float yMin = item.min.y, xMin = item.min.x, yMax = item.max.y, xMax =
-						item.max.x;
-					item.SetVisible(forceShow.Contains(item.entry) || yMin <= yt &&
-						yMax >= yb && xMin <= xr && xMax >= xl);
+					float yMin = item.min.y, xMin = item.min.x, yMax = item.max.y, xMax = item.max.x;
+					item.SetVisible(forceShow.Contains(item.entry) || (yMin <= yt && yMax >= yb && xMin <= xr && xMax >= xl));
 				}
 			}
 		}

@@ -23,8 +23,8 @@ namespace AkisSnowThings.Content.Defs.Buildings
 			   BUILDINGS.HITPOINTS.TIER2,
 			   BUILDINGS.CONSTRUCTION_TIME_SECONDS.TIER4,
 			   BUILDINGS.CONSTRUCTION_MASS_KG.TIER3,
-			   MATERIALS.RAW_MINERALS,
-			   BUILDINGS.MELTING_POINT_KELVIN.TIER0,
+			   MATERIALS.TRANSPARENTS,
+			   BUILDINGS.MELTING_POINT_KELVIN.TIER2,
 			   BuildLocationRule.BuildingAttachPoint,
 			   DECOR.NONE,
 			   NOISE_POLLUTION.NONE
@@ -32,12 +32,12 @@ namespace AkisSnowThings.Content.Defs.Buildings
 
 			def.Floodable = false;
 			def.AudioCategory = AUDIO.CATEGORY.GLASS;
-			def.ViewMode = OverlayModes.Power.ID;
+			//def.ViewMode = OverlayModes.Power.ID;
 
 			def.ObjectLayer = ObjectLayer.AttachableBuilding;
 			def.SceneLayer = Grid.SceneLayer.BuildingFront;
 			def.ForegroundLayer = Grid.SceneLayer.Background;
-			def.AttachmentSlotTag = ModAssets.AttachmentTag;
+			def.AttachmentSlotTag = ModAssets.GlassCaseAttachmentTag;
 			def.attachablePosition = new CellOffset(0, 0);
 
 			return def;

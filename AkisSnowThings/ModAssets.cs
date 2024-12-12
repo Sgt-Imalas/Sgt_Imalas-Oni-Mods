@@ -26,7 +26,8 @@ namespace AkisSnowThings
 		}
 
 		public static Tag customHighlightTag = TagManager.Create("SnowThings_CustomHighlightTag");
-		public static Tag AttachmentTag = TagManager.Create("SnowThings_GlassCaseAttachmentSlot",Strings.Get("STRINGS.MISC.TAGS.SNOWTHINGS_GLASSCASEATTACHMENTSLOT"));
+		public static Tag GlassCaseAttachmentTag = TagManager.Create("SnowThings_GlassCase_AttachmentSlot",Strings.Get("STRINGS.MISC.TAGS.SNOWTHINGS_GLASSCASE_ATTACHMENTSLOT"));
+		public static Tag TreeAttachmentTag = TagManager.Create("SnowThings_PineTree_AttachmentSlot",Strings.Get("STRINGS.MISC.TAGS.SNOWTHINGS_PINETREE_ATTACHMENTSLOT"));
 		public static class Sounds
 		{
 			public const string GLASS_SHATTER = "SnowSculptures_ShatterGlass";

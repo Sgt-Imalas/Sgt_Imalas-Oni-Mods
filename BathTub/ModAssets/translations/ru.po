@@ -10,20 +10,20 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Application: Oxygen Not IncludedPOT Version: 2.0\n"
-"X-Generator: Poedit 3.4.4\n"
+"X-Generator: Poedit 3.5\n"
 
 #. BathTub.STRINGS.BUILDING.STATUSITEMS.BT_BATHTUBFILLING.NAME
 msgctxt "BathTub.STRINGS.BUILDING.STATUSITEMS.BT_BATHTUBFILLING.NAME"
-msgid "Filling Up: ({fullness})"
+msgid "Наполнение: ({fullness})"
 msgstr "Наполнение: ({fullness})"
 
 #. BathTub.STRINGS.BUILDING.STATUSITEMS.BT_BATHTUBFILLING.TOOLTIP
 msgctxt "BathTub.STRINGS.BUILDING.STATUSITEMS.BT_BATHTUBFILLING.TOOLTIP"
 msgid ""
-"This bathtub is currently filling with <style=\"KKeyword\">Water</style>\n"
+"В настоящее время эта ванна наполняется <style=\"KKeyword\">водой</style>\n"
 "\n"
-"It will be available to use when the <style=\"KKeyword\">Water</style> level "
-"reaches <b>100%</b>"
+"Её можно будет использовать, когда уровень <style=\"KKeyword\">воды</style> "
+"достигнет <b>100%</b>"
 msgstr ""
 "В настоящее время эта ванна наполняется <style=\"KKeyword\">водой</style>\n"
 "\n"
@@ -32,7 +32,7 @@ msgstr ""
 
 #. BathTub.STRINGS.BUILDINGS.PREFABS.SGTIMALAS_BATHTUB.DESC
 msgctxt "BathTub.STRINGS.BUILDINGS.PREFABS.SGTIMALAS_BATHTUB.DESC"
-msgid "When showers aren't enough!"
+msgid "Когда душа недостаточно!"
 msgstr "Когда душа недостаточно!"
 
 #. BathTub.STRINGS.BUILDINGS.PREFABS.SGTIMALAS_BATHTUB.EFFECT
@@ -48,17 +48,41 @@ msgstr ""
 msgctxt ""
 "BathTub.STRINGS.BUILDINGS.PREFABS.SGTIMALAS_BATHTUB.FACADES.HANDY_RETRO_TUB."
 "DESC"
-msgid "No, there are no duplicants buried beneath that hold it..."
+msgid "Нет, под ней не закопаны дубликанты..."
 msgstr "Нет, под ней не закопаны дубликанты..."
 
 #. BathTub.STRINGS.BUILDINGS.PREFABS.SGTIMALAS_BATHTUB.FACADES.HANDY_RETRO_TUB.NAME
 msgctxt ""
 "BathTub.STRINGS.BUILDINGS.PREFABS.SGTIMALAS_BATHTUB.FACADES.HANDY_RETRO_TUB."
 "NAME"
-msgid "Handy Retro Tub"
+msgid "Удобная ретро-ванна"
 msgstr "Удобная ретро-ванна"
 
 #. BathTub.STRINGS.BUILDINGS.PREFABS.SGTIMALAS_BATHTUB.NAME
 msgctxt "BathTub.STRINGS.BUILDINGS.PREFABS.SGTIMALAS_BATHTUB.NAME"
-msgid "Bathtub"
+msgid "Ванна"
 msgstr "Ванна"
+
+#. BathTub.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.BT_RUBBERDUCKIE.DESC
+msgctxt "BathTub.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.BT_RUBBERDUCKIE.DESC"
+msgid ""
+"All you need for a refreshing bath.\n"
+"Floats on liquids.\n"
+"\n"
+"Arthur likes to know its exact function.\n"
+"\n"
+"Helps you think."
+msgstr ""
+"Все, что нужно для освежающей ванны.\n"
+"Плавает в жидкости.\n"
+"Помогает думать."
+
+#. BathTub.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.BT_RUBBERDUCKIE.NAME
+msgctxt "BathTub.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.BT_RUBBERDUCKIE.NAME"
+msgid "Rubber Duckie"
+msgstr "Резиновая уточка"
+
+#. BathTub.STRINGS.MOODLAMPSKINS.RUBBERDUCKIE
+msgctxt "BathTub.STRINGS.MOODLAMPSKINS.RUBBERDUCKIE"
+msgid "Rubber Duckie"
+msgstr "Резиновая уточка"

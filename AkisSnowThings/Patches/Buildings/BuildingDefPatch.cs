@@ -11,6 +11,10 @@ namespace AkisSnowThings.Patches
 {
 	internal class BuildingDefPatch
     {
+        /// <summary>
+        /// fixes attachment buildings using the tag.tostring instead of the actual tag string
+        /// only takes effect if the tag string exists
+        /// </summary>
         [HarmonyPatch(typeof(BuildingDef), nameof(BuildingDef.IsAreaClear),
             [typeof(GameObject),typeof(int), typeof(Orientation), typeof(ObjectLayer), typeof(ObjectLayer), typeof(bool), typeof(bool), typeof(string)],
             [ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Out])]
@@ -18,10 +22,15 @@ namespace AkisSnowThings.Patches
 		{
             public static void Postfix(BuildingDef __instance, ref string fail_reason, ref bool __result)
             {
-                if (!__result && __instance.BuildLocationRule == BuildLocationRule.BuildingAttachPoint)
+                if (__result || __instance.BuildLocationRule != BuildLocationRule.BuildingAttachPoint)
+                    return;
+
+                string properAttachmentPointTagString = Strings.Get("STRINGS.MISC.TAGS." + __instance.AttachmentSlotTag.Name.ToUpperInvariant());
+
+				if (!properAttachmentPointTagString.Contains("MISSING.STRINGS"))
 				{                    
-					fail_reason = string.Format(global::STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_ATTACHPOINT, Strings.Get("STRINGS.MISC.TAGS."+__instance.AttachmentSlotTag.Name.ToUpperInvariant()));
-                    SgtLogger.l("fail reason: "+fail_reason);
+					fail_reason = string.Format(global::STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_ATTACHPOINT, properAttachmentPointTagString);
+                    //SgtLogger.l("fail reason: "+fail_reason);
 				}
             }
 

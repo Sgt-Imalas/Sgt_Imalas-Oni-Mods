@@ -10,18 +10,22 @@ namespace Dupery
 		[HarmonyPostfix]
 		static void Postfix(ref KCompBuilder.BodyData __result, Personality p)
 		{
-
-
-			HashedString bodyId = FindNewId(Db.Get().AccessorySlots.Hair, p.nameStringKey);
+			HashedString bodyId = FindNewId(Db.Get().AccessorySlots.Body, p.nameStringKey);
 			if (bodyId != null)
 			{
-				SgtLogger.l("overriding body: " + __result.body + " -> " + bodyId);
+				//SgtLogger.l("overriding body: " + __result.body + " -> " + bodyId);
 				__result.body = bodyId;
-			}
-			HashedString hairId = FindNewId(Db.Get().AccessorySlots.Hair, p.nameStringKey);
+            }
+            HashedString legId = FindNewId(Db.Get().AccessorySlots.LegSkin, p.nameStringKey);
+            if (bodyId != null)
+            {
+                //SgtLogger.l("overriding body: " + __result.body + " -> " + bodyId);
+                __result.legSkin = legId;
+            }
+            HashedString hairId = FindNewId(Db.Get().AccessorySlots.Hair, p.nameStringKey);
 			if (hairId != null)
 			{
-				SgtLogger.l("overriding hair: " + __result.hair + " -> " + hairId);
+				//SgtLogger.l("overriding hair: " + __result.hair + " -> " + hairId);
 				__result.hair = hairId;
 			}
 
@@ -29,8 +33,8 @@ namespace Dupery
 			HashedString headId = FindNewId(Db.Get().AccessorySlots.HeadShape, p.nameStringKey);
 			if (headId != null)
 			{
-				UtilMethods.ListAllFieldValues(__result);
-				SgtLogger.l("overriding body: " + __result.headShape + " -> " + headId);
+				//UtilMethods.ListAllFieldValues(__result);
+				//SgtLogger.l("overriding body: " + __result.headShape + " -> " + headId);
 				__result.headShape = headId;
 			}
 

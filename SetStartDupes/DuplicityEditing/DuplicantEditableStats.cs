@@ -24,6 +24,7 @@ namespace SetStartDupes.DuplicityEditing
 
 		public string JoyTraitId, StressTraitId;
 		public HashSet<string> Traits;
+		public Tag Model;
 
 		internal static DuplicantEditableStats GenerateFromMinion(MinionAssignablesProxy minion)
 		{
@@ -36,6 +37,7 @@ namespace SetStartDupes.DuplicityEditing
 			}
 			else if (go.TryGetComponent<MinionIdentity>(out var minionIdentity))
 			{
+				stats.Model = minionIdentity.model;
 				if (minionIdentity.TryGetComponent<AttributeLevels>(out var attributeLevels))
 				{
 					var attributes = Db.Get().Attributes;
@@ -99,7 +101,7 @@ namespace SetStartDupes.DuplicityEditing
 				}
 				//Health Amounts
 				stats.HealthAmounts = new();
-				foreach (var amount in AmountHelper.GetEditableAmounts())
+				foreach (var amount in AmountHelper.GetAmountsForModel(stats.Model))
 				{
 					var instance = amount.Lookup(go);
 					if (instance == null)
@@ -358,7 +360,7 @@ namespace SetStartDupes.DuplicityEditing
 			//Health Amounts
 			if (HealthPending)
 			{
-				foreach (var amount in AmountHelper.GetEditableAmounts())
+				foreach (var amount in AmountHelper.GetAmountsForModel(Model))
 				{
 					var instance = amount.Lookup(go);
 					if (instance == null || !HealthAmounts.ContainsKey(amount.Id))

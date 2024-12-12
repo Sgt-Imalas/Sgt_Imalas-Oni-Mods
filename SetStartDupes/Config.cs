@@ -99,6 +99,10 @@ namespace SetStartDupes
 		[JsonProperty]
 		public bool BalanceAddRemove { get; set; }
 
+		//[Option("STRINGS.UI.DSS_OPTIONS.BEYONDBIONICS.NAME", "STRINGS.UI.DSS_OPTIONS.BEYONDBIONICS.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS")]
+		//[JsonProperty]
+		//public bool BionicNormalTraits = true;
+
 		[Option("STRINGS.UI.DSS_OPTIONS.NOJOYREACTION.NAME", "STRINGS.UI.DSS_OPTIONS.NOJOYREACTION.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS")]
 		[JsonProperty]
 		public bool NoJoyReactions { get; set; }

@@ -396,6 +396,7 @@ namespace UtilLibs
 
 			return number.ToString();
 		}
+		public static string EmboldenText(string text) => "<b>" + text + "</b>";
 
 		public static string ColorText(string text, string hex)
 		{

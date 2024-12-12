@@ -37,7 +37,7 @@ namespace CrittersShedFurOnBrush
 			public static void Postfix(GameObject go)
 			{
 				RanchStation.Def def = go.GetDef<RanchStation.Def>();
-				def.OnRanchCompleteCb = (System.Action<GameObject>)(creature_go =>
+				def.OnRanchCompleteCb = (creature_go, _) =>
 				{
 					RanchStation.Instance targetRanchStation = creature_go.GetSMI<RanchableMonitor.Instance>().TargetRanchStation;
 					RancherChore.RancherChoreStates.Instance smi = targetRanchStation.GetSMI<RancherChore.RancherChoreStates.Instance>();
@@ -49,7 +49,7 @@ namespace CrittersShedFurOnBrush
 					{
 						YeetWool(creature_go, shedAmount * rancherAmountEffect, CreatureTag);
 					}
-				});
+				};
 			}
 
 			static void YeetWool(GameObject originGo, float amount, Tag CreatureTag)

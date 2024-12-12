@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using FMOD.Studio;
+using HarmonyLib;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UtilLibs;
 
@@ -9,17 +12,17 @@ namespace SetStartDupes
 		public static bool IsCustomActive = false;
 		List<Transform> StuffToDeactivate = new List<Transform>();
 		List<Transform> StuffToActivate = new List<Transform>();
+		Dictionary<string,Transform> Personalities = new ();
 		[MyCmpGet]
 		MinionBrowserScreen minionSelectionScreen;
-
+		
 		public override void OnPrefabInit()
-		{
+		{			
 			base.OnPrefabInit();
 
 			StuffToActivate.Clear();
 			StuffToActivate.Clear();
 
-			//UIUtils.ListAllChildren(this.transform);
 			StuffToDeactivate.Add(transform.Find("PreviewColumn/LayoutBreaker/Content/SelectedItemInfo"));
 			StuffToDeactivate.Add(transform.Find("PreviewColumn/LayoutBreaker/Content/Cycler"));
 			StuffToDeactivate.Add(transform.Find("PreviewColumn/LayoutBreaker/Content/ButtonsContainer/Buttons/EditOutfitButton"));
@@ -28,7 +31,7 @@ namespace SetStartDupes
 			var ConfirmButton = Util.KInstantiateUI(transform.Find("PreviewColumn/LayoutBreaker/Content/ButtonsContainer/Buttons/EditOutfitButton").gameObject, transform.Find("PreviewColumn/LayoutBreaker/Content/ButtonsContainer/Buttons").gameObject, true);
 			UIUtils.TryChangeText(ConfirmButton.transform, "Label", STRINGS.UI.BUTTONS.APPLYSKIN);
 			UIUtils.AddActionToButton(ConfirmButton.transform, "", () => SetSelectedDupe());
-			StuffToActivate.Add(ConfirmButton.transform);
+			StuffToActivate.Add(ConfirmButton.transform);			
 		}
 		public override void OnKeyDown(KButtonEvent e)
 		{
@@ -113,6 +116,23 @@ namespace SetStartDupes
 			{
 				t.gameObject.SetActive(IsCustomActive);
 			}
+			//minionSelectionScreen.RefreshGalleryFn += () =>
+			//{
+			//	SgtLogger.l("OnRefreshGallery");
+			//	Personality personality = null;
+			//	if (EditableIdentity != null)
+			//		personality = EditableIdentity.personality;
+			//	else if (EditingSkinOnExistingDupeGO != null)
+			//	{
+			//		if (EditingSkinOnExistingDupeGO.TryGetComponent<MinionIdentity>(out var IdentityHolder))
+			//		{
+			//			personality = Db.Get().Personalities.GetPersonalityFromNameStringKey(IdentityHolder.nameStringKey);
+			//		}
+			//	}
+			//	bool sameModel = personality == null ? true : (minionSelectionScreen.selectedGridItem.GetPersonality().model == personality.model);
+
+			//	ConfirmButton.GetComponent<KButton>().interactable = !IsCustomActive || sameModel;
+			//};
 		}
 
 		public void InitUI(CharacterContainer container, MinionStartingStats identity)
@@ -123,6 +143,7 @@ namespace SetStartDupes
 		}
 
 		GameObject EditingSkinOnExistingDupeGO = null;
+		public static Personality StartPersonality;
 		MinionStartingStats EditableIdentity;
 		CharacterContainer CurrentContainer;
 
@@ -136,13 +157,20 @@ namespace SetStartDupes
 			if (container != null)
 			{
 				targetPersonality = container.stats.personality;
-				MinionBrowserScreenConfig.Personalities(targetPersonality).ApplyAndOpenScreen();
+				StartPersonality = targetPersonality;
+				var personalityGridItems = MinionBrowserScreenConfig.Personalities(targetPersonality);
+				personalityGridItems.ApplyAndOpenScreen();
+
 				instance.InitUI(container, container.stats);
 			}
 			else if (LiveDupeGO != null && LiveDupeGO.TryGetComponent<MinionIdentity>(out var IdentityHolder))
 			{
 				targetPersonality = Db.Get().Personalities.Get(IdentityHolder.personalityResourceId);
-				MinionBrowserScreenConfig.Personalities(targetPersonality).ApplyAndOpenScreen();
+				StartPersonality = targetPersonality;
+
+				var personalityGridItems = MinionBrowserScreenConfig.Personalities(targetPersonality);
+				personalityGridItems.ApplyAndOpenScreen();
+
 				instance.InitUI(null, null);
 			}
 
@@ -152,6 +180,7 @@ namespace SetStartDupes
 			if (!show)
 			{
 				IsCustomActive = false;
+				StartPersonality = null;
 			}
 			base.OnShow(show);
 		}

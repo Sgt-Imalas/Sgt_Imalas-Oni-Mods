@@ -81,7 +81,7 @@ namespace SetStartDupes
 		{
 			if (GuaranteedTraitRoll.ContainsKey(instance))
 			{
-				return GuaranteedTraitRoll[instance].Name;
+				return GuaranteedTraitRoll[instance].GetName();
 			}
 			return CONGENITALTRAITS.NONE.NAME;
 		}
@@ -98,7 +98,7 @@ namespace SetStartDupes
 		{
 			TraitCategory = NextType.allTraits;
 
-			List<string> allowedTraits = ModAssets.TryGetTraitsOfCategory(NextType.allTraits).Select(t => t.id).ToList();
+			List<string> allowedTraits = ModAssets.TryGetTraitsOfCategory(NextType.allTraits, OpenedFrom.stats.personality.model).Select(t => t.id).ToList();
 
 			Trait currentTrait = null;
 			if (GuaranteedTraitRoll.ContainsKey(OpenedFrom))
@@ -170,6 +170,7 @@ namespace SetStartDupes
 			if (trait != null)
 			{
 				GuaranteedTraitRoll[OpenedFrom] = trait;
+				ModAssets.LockModelSelection(OpenedFrom);
 			}
 			else
 			{
@@ -189,7 +190,6 @@ namespace SetStartDupes
 				return;
 			}
 			SgtLogger.l("Initializing TraitSelectionWindow");
-			//UIUtils.ListAllChildren(this.transform);
 
 
 			ToReplaceName = transform.Find("ToReplace/CurrentlyActive/Label").FindComponent<LocText>();
@@ -212,7 +212,6 @@ namespace SetStartDupes
 
 
 			var CloserButton = transform.Find("CloseButton").gameObject;
-			//UIUtils.ListAllChildren(CloserButton.transform);
 			CloserButton.FindOrAddComponent<FButton>().OnClick += () => this.Show(false);
 			CloserButton.transform.Find("Text").GetComponent<LocText>().text = STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.CLOSEBUTTON.TEXT;
 
@@ -230,11 +229,16 @@ namespace SetStartDupes
 
 			foreach (var type in (NextType[])Enum.GetValues(typeof(NextType)))
 			{
-				if (type != NextType.posTrait && type != NextType.negTrait) continue;
+				if (type != NextType.posTrait && type != NextType.negTrait && type != NextType.bionic_boost && type != NextType.bionic_bug) continue;
 
-				var TraitsOfCategory = ModAssets.TryGetTraitsOfCategory(type);
-				foreach (DUPLICANTSTATS.TraitVal item in TraitsOfCategory)
+				var TraitsOfCategory = ModAssets.TryGetTraitsOfCategory(type, null);
+
+				var sortedTraits = TraitsOfCategory.OrderBy(traitval => traitsDb.TryGet(traitval.id)?.GetName());
+
+                foreach (DUPLICANTSTATS.TraitVal item in sortedTraits)
 				{
+					var trait = traitsDb.TryGet(item.id);
+
 					if (ModAssets.TraitAllowedInCurrentDLC(item))
 						AddUIContainer(traitsDb.TryGet(item.id), type);
 				}
@@ -244,18 +248,18 @@ namespace SetStartDupes
 
 		public void ApplyFilter(string filterstring = "")
 		{
-			var allowedTraits = ModAssets.TryGetTraitsOfCategory(NextType.allTraits).Select(t => t.id).ToList();
+			var allowedTraits = ModAssets.TryGetTraitsOfCategory(NextType.allTraits, OpenedFrom?.stats?.personality?.model ?? null).Select(t => t.id).ToList();
 			foreach (var go in TraitContainers)
 			{
 				bool Contained = allowedTraits.Contains(go.Key.Id);
-				go.Value.SetActive(filterstring == string.Empty ? Contained : Contained && ShowInFilter(filterstring, new string[] { go.Key.Name, go.Key.description }));
+				go.Value.SetActive(filterstring == string.Empty ? Contained : Contained && ShowInFilter(filterstring, [go.Key.GetName(), go.Key.description ]));
 			}
 			NothingEntry.SetActive(true);
 		}
 
 		bool ShowInFilter(string filtertext, string stringsToInclude)
 		{
-			return ShowInFilter(filtertext, new string[] { stringsToInclude });
+			return ShowInFilter(filtertext, [stringsToInclude]);
 		}
 
 		bool ShowInFilter(string filtertext, string[] stringsToInclude)

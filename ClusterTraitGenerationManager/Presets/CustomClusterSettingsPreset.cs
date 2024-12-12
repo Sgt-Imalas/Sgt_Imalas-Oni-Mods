@@ -1,6 +1,7 @@
 ﻿using ClusterTraitGenerationManager.ClusterData;
 using Klei.CustomSettings;
 using Newtonsoft.Json;
+using ProcGenGame;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -252,15 +253,8 @@ namespace ClusterTraitGenerationManager
 			foreach (var story in instance.MixingSettings)
 			{
 				string value = string.Empty;
-
-				if (!instance.CurrentMixingLevelsBySetting.ContainsKey(story.Key))
-				{
-					value = story.Value.GetDefaultLevelId();
-				}
-				else
-				{
-					value = instance.CurrentMixingLevelsBySetting[story.Key];
-				}
+				var mixingLevel = instance.GetCurrentMixingSettingLevel(story.Value);
+				value = mixingLevel.id;
 				MixingSettings.Add(story.Key, value);
 			}
 		}
@@ -272,7 +266,7 @@ namespace ClusterTraitGenerationManager
 				var toggle = ConfigToSet as ToggleSettingConfig;
 				valueToSet = val ? toggle.on_level.id : toggle.off_level.id;
 			}
-			//SgtLogger.l("changing " + ConfigToSet.id.ToString() + " from " + CustomGameSettings.Instance.GetCurrentMixingSettingLevel(ConfigToSet).id + " to " + valueToSet.ToString());			
+			SgtLogger.l("changing " + ConfigToSet.id.ToString() + " from " + CustomGameSettings.Instance.GetCurrentMixingSettingLevel(ConfigToSet).id + " to " + valueToSet.ToString());			
 			CustomGameSettings.Instance.SetMixingSetting(ConfigToSet, valueToSet);
 		}
 		private void SetCustomGameSettings(SettingConfig ConfigToSet, object valueId, bool isStoryTrait = false)
@@ -607,6 +601,8 @@ namespace ClusterTraitGenerationManager
 
 			ApplyGameSettings();
 			SgtLogger.l("game Settings applied");
+			ApplyMixingSetting();
+			SgtLogger.l("Mixing Settings loaded");
 			var dict = PlanetoidDict;
 
 			var cluster = CGSMClusterManager.CustomCluster;
@@ -725,9 +721,8 @@ namespace ClusterTraitGenerationManager
 					cluster.SO_Starmap = null;
 				}
 			}
+
 			RerollMixingsWithSeedChange = mixingRerollActive;
-			ApplyMixingSetting();
-			SgtLogger.l("Mixing Settings loaded");
 
 			RerollTraitsWithSeedChange = traitRerollActive;
 			RerollStarmapWithSeedChange = starmapRerollActive;
@@ -739,6 +734,12 @@ namespace ClusterTraitGenerationManager
 		}
 		void ApplyDataToStarmapItem(SerializableStarmapItem item, StarmapItem reciverToLookup)
 		{
+			if (item.mixedBy != null && PlanetoidDict.TryGetValue(item.mixedBy, out StarmapItem _mixingItem))
+			{		
+				SetMixingWorld(reciverToLookup, _mixingItem);			
+			}
+
+
 			item.minRing = Math.Max(0, item.minRing);
 			item.maxRing = Math.Max(0, item.maxRing);
 			if (item.category != StarmapItemCategory.POI)

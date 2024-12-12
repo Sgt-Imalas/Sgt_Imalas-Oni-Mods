@@ -16,7 +16,7 @@ namespace AkisSnowThings.Patches
 		{
             public static void Postfix(GameObject go)
 			{
-				go.AddOrGet<BuildingAttachPoint>().points = [new BuildingAttachPoint.HardPoint(new CellOffset(0, 0), ModAssets.AttachmentTag, null)];
+				go.AddOrGet<BuildingAttachPoint>().points = [new BuildingAttachPoint.HardPoint(new CellOffset(0, 0), ModAssets.GlassCaseAttachmentTag, null)];
 			}
         }
 	}

@@ -185,7 +185,7 @@ namespace AnimExportTool
 
 			public static void Postfix()
 			{
-				GetEggs(); 
+				GetEggs();
 				GetGeysers();
 				GetWorldTraits();
 				GetAsteroids();
@@ -387,12 +387,31 @@ namespace AnimExportTool
 		[HarmonyPatch(typeof(MainMenu), nameof(MainMenu.OnPrefabInit))]
 		public class MainMenu_OnPrefabInit
 		{
+			public class StarmapGeneratorData
+			{
+				public Dictionary<string, VanillaStarmapLocation> Locations = new();
+				public Dictionary<string, ElementData> Elements= new();
+			}
+			public class ElementData
+			{
+				public ElementData(string id,string name)
+				{
+					Id = id;
+					Name = name;
+				}
+				public string Id;
+				public string Name;
+			}
 			public class VanillaStarmapLocation
 			{
 				public string Id;
 				public string Name;
+				public string Description;
 				public string Image;
+				public Dictionary<string, float> Ressources_Elements;
+				public Dictionary<string, int> Ressources_Entities;
 			}
+
 
 			public class Asteroid
 			{
@@ -441,8 +460,21 @@ namespace AnimExportTool
 				}
 			}
 
+            static void GetAnimsFromRecoverable(GameObject geyserPrefab) =>
+                    GetAnimsFromEntity(geyserPrefab, "StarmapDestinationRecoverablesById", "StarmapDestinationRecoverablesByName");
+            static void GetAnimsFromStarmapLocation(string spriteName, string fileName, string idPath = "StarmapDestinationsById")
+            {
+                Sprite UISprite = Assets.GetSprite(spriteName);
 
-			public static void Postfix()
+                var id = Path.GetFileName(fileName).ToString();
+
+                if (UISprite != null && UISprite != Assets.GetSprite("unknown"))
+                {
+                    WriteUISpriteToFile(UISprite, Path.Combine(UtilMethods.ModPath, idPath), id);
+                }
+            }
+
+            public static void Postfix()
 			{
 				var export = new DataExport();
 				foreach (var cluster in ProcGen.SettingsCache.clusterLayouts.clusterCache.Values)
@@ -489,6 +521,51 @@ namespace AnimExportTool
 				}
 				Console.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 				Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(export));
+
+				var starmapExport = new StarmapGeneratorData();
+				
+
+				foreach (var element in ElementLoader.elements)
+				{
+					starmapExport.Elements.Add(element.id.ToString(), new(element.id.ToString(), element.name));
+				}
+
+				foreach (var location in Db.Get().SpaceDestinationTypes.resources)
+				{
+					var locationData = new VanillaStarmapLocation()
+					{
+						Id = location.Id,
+						Name = STRINGS.UI.StripLinkFormatting(location.Name),
+						Description = location.description,
+						Image = location.spriteName,
+					};
+					if (location.elementTable != null)
+                    {
+						locationData.Ressources_Elements = location.elementTable.ToDictionary(kvp => kvp.Key.ToString(), kvp => kvp.Value.min);
+					}
+
+					if (location.recoverableEntities != null)
+                    {
+						locationData.Ressources_Entities = new(location.recoverableEntities);
+
+                        foreach (var entity in location.recoverableEntities)
+						{
+							var prefab = Assets.GetPrefab(entity.Key);
+							if (prefab != null)
+							{
+								GetAnimsFromRecoverable(prefab);
+							}
+							else
+								SgtLogger.warning(entity.Key + " not found!");
+
+						}
+					}
+					starmapExport.Locations.Add(location.Id,locationData);
+					GetAnimsFromStarmapLocation(location.spriteName,location.Id);
+				}
+				
+				Console.WriteLine("BBBBBBBBBBBBBBBBBB");
+				Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(starmapExport));
 			}
 		}
 

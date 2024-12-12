@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using System.Linq;
+using UtilLibs;
 
 namespace Dupery
 {
@@ -12,8 +14,13 @@ namespace Dupery
 		[JsonProperty]
 		public bool StartingMinion { get; set; } = true;
 
-		// Personality properties
-		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        // Personality properties
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string Model { get; set; }
+
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string Name { get; set; }
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string Description { get; set; }
@@ -55,8 +62,13 @@ namespace Dupery
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string Leg { get; set; }
 
-		// Extra not-serlialized properties
-		private string sourceModId;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string ArmSkin { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string LegSkin { get; set; }
+
+        // Extra not-serlialized properties
+        private string sourceModId;
 		private bool isModified;
 
 		public PersonalityOutline() { }
@@ -129,9 +141,11 @@ namespace Dupery
 			if (p.Hand != null && p.Hand != Hand) { Hand = p.Hand; isModified = true; }
 			if (p.Pelvis != null && p.Pelvis != Pelvis) { Pelvis = p.Pelvis; isModified = true; }
 			if (p.Leg != null && p.Leg != Leg) { Leg = p.Leg; isModified = true; }
-			// There's probably a cleverer way of doing all of that but whatever
+			if (p.ArmSkin != null && p.ArmSkin != Leg) { ArmSkin = p.ArmSkin; isModified = true; }
+			if (p.LegSkin != null && p.LegSkin != LegSkin) { LegSkin = p.LegSkin; isModified = true; }
+            // There's probably a cleverer way of doing all of that but whatever
 
-			if (p.Randomize)
+            if (p.Randomize)
 			{
 				Randomize = true;
 				if (p.PersonalityType == null) PersonalityType = null;
@@ -155,7 +169,14 @@ namespace Dupery
 
 		public Personality ToPersonality(string nameStringKey)
 		{
-			nameStringKey = nameStringKey.ToUpper();
+
+
+			if (Model == null || !GameTags.Minions.Models.AllModels.Contains(Model))
+				Model = GameTags.Minions.Models.Standard.ToString();
+
+            Tag model = Model;
+
+            nameStringKey = nameStringKey.ToUpper();
 			string congenitalTrait = CongenitalTrait != null ? CongenitalTrait : "None";
 
 			// Name can't be null
@@ -220,19 +241,31 @@ namespace Dupery
 			int mouth = Mouth == null ? headShape : ChooseAccessoryNumber(Db.Get().AccessorySlots.Mouth, Mouth);
 			int eyes = ChooseAccessoryNumber(Db.Get().AccessorySlots.Eyes, Eyes);
 
-			// Customisable accessories
-			int hair = ChooseAccessoryNumber(Db.Get().AccessorySlots.Hair, Hair);
+            //legacy personalities without arms
+            if (Body != null && !Randomize)
+            {
+				SgtLogger.l("legacybody: " + Body);
+                if (ArmSkin == null) ArmSkin = Body;
+            }
+
+
+
+            // Customisable accessories
+            int hair = ChooseAccessoryNumber(Db.Get().AccessorySlots.Hair, Hair);
 			int body = ChooseAccessoryNumber(Db.Get().AccessorySlots.Body, Body);
-			int neck = ChooseAccessoryNumber(Db.Get().AccessorySlots.Neck, Neck, -1);
+			int neck = ChooseAccessoryNumber(Db.Get().AccessorySlots.Neck, Neck, 0);
 			int belt = ChooseAccessoryNumber(Db.Get().AccessorySlots.Belt, Belt, 0);
 			int cuff = ChooseAccessoryNumber(Db.Get().AccessorySlots.Cuff, Cuff, 0);
 			int foot = ChooseAccessoryNumber(Db.Get().AccessorySlots.Foot, Foot, 0);
 			int hand = ChooseAccessoryNumber(Db.Get().AccessorySlots.Hand, Hand, 0);
 			int pelvis = ChooseAccessoryNumber(Db.Get().AccessorySlots.Pelvis, Pelvis, 0);
 			int leg = ChooseAccessoryNumber(Db.Get().AccessorySlots.Leg, Leg, 0);
+			int armSkin = ChooseAccessoryNumber(Db.Get().AccessorySlots.ArmUpperSkin, ArmSkin);
+			int legSkin = ChooseAccessoryNumber(Db.Get().AccessorySlots.LegSkin, LegSkin);
 
-			// Remember any custom accessories
-			DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Hair.Id, Hair);
+
+            // Remember any custom accessories
+            DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Hair.Id, Hair);
 			DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Eyes.Id, Eyes);
 			DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Mouth.Id, Mouth);
 			DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Body.Id, Body);
@@ -263,14 +296,17 @@ namespace Dupery
 				hair,
 				body,
 				belt, cuff, foot, hand, pelvis, leg,
-				description,
+                armSkin,
+				legSkin,
+                description,
 				StartingMinion,
-				""
+				"", 
+				model
 			);
 
 			return personality;
 		}
-
+		
 		public static PersonalityOutline FromStockPersonality(Personality personality)
 		{
 			string name = string.Format("STRINGS.DUPLICANTS.PERSONALITIES.{0}.NAME", personality.nameStringKey.ToUpper());
@@ -280,6 +316,7 @@ namespace Dupery
 			{
 				Printable = true,
 				StartingMinion = personality.startingMinion,
+				Model = personality.model.ToString(),
 				Name = name,
 				Description = description,
 				Gender = personality.genderStringKey,
@@ -288,15 +325,19 @@ namespace Dupery
 				JoyTrait = personality.joyTrait,
 				StickerType = personality.stickerType,
 				HeadShape = personality.headShape.ToString(),
-				Eyes = personality.eyes.ToString(),
+                Neck = personality.neck.ToString(),
+				Mouth = personality.mouth.ToString(),
+                Eyes = personality.eyes.ToString(),
 				Hair = personality.hair.ToString(),
 				Body = personality.body.ToString(),
 				Belt = personality.belt.ToString(),
 				Cuff = personality.cuff.ToString(),
-				Foot = personality.foot.ToString(),
+                Foot = personality.foot.ToString(),
 				Hand = personality.hand.ToString(),
 				Pelvis = personality.pelvis.ToString(),
 				Leg = personality.leg.ToString(),
+				ArmSkin = personality.arm_skin.ToString(),
+				LegSkin = personality.leg_skin.ToString(),
 				CongenitalTrait = personality.congenitaltrait?.ToString(),
 			};
 

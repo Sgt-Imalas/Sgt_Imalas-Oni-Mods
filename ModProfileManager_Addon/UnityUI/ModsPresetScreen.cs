@@ -360,7 +360,7 @@ namespace ModProfileManager_Addon.UnityUI
 		}
 		public void RebuildModsScreen()
 		{
-			scroll.OnBuild();
+			scroll?.OnBuild();
 			var mods = Global.Instance.modManager.mods;
 
 			HashSet<string> activeMods = new();
@@ -427,7 +427,7 @@ namespace ModProfileManager_Addon.UnityUI
 			}
 			SetAllModsButtonState(allModsActive);
 
-			scroll.Rebuild();
+			scroll?.Rebuild();
 		}
 
 		//public void SelectFolder(SaveGameModList folder)
@@ -500,9 +500,9 @@ namespace ModProfileManager_Addon.UnityUI
 		private IEnumerator RemoveUICoroutine(KMod.Label label)
 		{
 			yield return null;
-			scroll.OnBuild();
+			scroll?.OnBuild();
 			RemoveUIMod(label);
-			scroll.Rebuild();
+			scroll?.Rebuild();
 			RebuildModsScreen();
 		}
 		private void RemoveUIMod(Label label)
@@ -538,12 +538,12 @@ namespace ModProfileManager_Addon.UnityUI
 				RebuildModsScreen();
 				return;
 			}
-			scroll.OnBuild();
+			scroll?.OnBuild();
 			foreach (var go in ModEntryEntries)
 			{
 				go.Value.gameObject.SetActive(ShowModByStaticID(go.Key));
 			}
-			scroll.Rebuild();
+			scroll?.Rebuild();
 		}
 		public bool ShowModByStaticID(string staticModID)
 		{

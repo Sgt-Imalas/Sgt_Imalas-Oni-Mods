@@ -19,10 +19,9 @@ namespace SkillingQueue
 		/// <summary>
 		/// Add Skill queue component to dupe prefab
 		/// </summary>
-		[HarmonyPatch(typeof(MinionConfig), nameof(MinionConfig.CreatePrefab))]
-		public static class MinionConfig_CreatePrefab_Patch
-		{
-			
+		[HarmonyPatch(typeof(BaseMinionConfig), nameof(BaseMinionConfig.BaseMinion))]
+		public static class BaseMinionConfig_BaseMinion_Patch
+		{			
 			public static void Postfix(GameObject __result)
 			{
 				__result.AddOrGet<SavedSkillQueue>();

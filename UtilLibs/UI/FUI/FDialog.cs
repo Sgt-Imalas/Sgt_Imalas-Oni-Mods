@@ -28,7 +28,8 @@ namespace UtilLibs.UIcmp //Source: Aki
 			gameObject.SetActive(true);
 		}
 
-		public virtual void SetObjects()
+        //ancient auto button setup for settings menu, inherited from aki
+        public virtual void SetObjects()
 		{
 			var refsDataObj = transform.Find("SettingsDialogData");
 

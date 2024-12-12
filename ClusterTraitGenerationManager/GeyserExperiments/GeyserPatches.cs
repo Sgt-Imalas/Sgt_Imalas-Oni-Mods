@@ -91,6 +91,7 @@ namespace ClusterTraitGenerationManager.GeyserExperiments
 			ReplaceNonGenerics = false;
 
 			string planetID = __instance.Settings.world.filePath;
+			SgtLogger.l("generating " + planetID);
 			if (CGSMClusterManager.LoadCustomCluster && CGSMClusterManager.CustomCluster.HasStarmapItem(planetID, out var planet))
 			{
 				GeysersToOverride = new(planet.GeyserOverrideIDs);

@@ -1,5 +1,6 @@
 ﻿using Klei.CustomSettings;
 using System.Collections.Generic;
+using UnityEngine;
 using UtilLibs;
 using UtilLibs.UIcmp;
 using static CustomGameSettings;
@@ -13,19 +14,15 @@ namespace CustomGameSettingsModifier
 #pragma warning restore IDE0051 // Remove unused private members
 		public static CustomSettingsController Instance = null;
 
-		private FCycle ImmuneSystem;
-		private FCycle CalorieBurn;
-		private FCycle Morale;
-		private FCycle Durability;
-		private FCycle MeteorShowers;
-		private FCycle Radiation;
-		private FCycle Stress;
-		private FToggle StressBreaks;
-		private FToggle CarePackages;
-		//private FToggle2 SandboxMode;
-		private FToggle FastWorkersMode;
 
-		public FButton CloseButton;
+
+        GameObject CustomGameSettingsContainer;
+
+
+        Dictionary<string, FToggle> CustomGameSettingsToggleConfigs = new();
+        Dictionary<string, FCycle> CustomGameSettingsCycleConfigs = new();
+
+        public FButton CloseButton;
 		public FButton CloseButton2;
 
 		public bool CurrentlyActive;
@@ -48,6 +45,8 @@ namespace CustomGameSettingsModifier
 		private bool init;
 
 
+
+
 		public override void OnKeyDown(KButtonEvent e)
 		{
 			if (e.TryConsume(Action.Escape) || e.TryConsume(Action.MouseRight))
@@ -65,133 +64,41 @@ namespace CustomGameSettingsModifier
 			CustomGameSettings.Instance.QualitySettings[type.id] = type;
 		}
 
-		private void LoadGameSettings()
-		{
-			var instance = CustomGameSettings.Instance;
-			bool isNoSweat = instance.customGameMode == CustomGameMode.Nosweat;
+        private void LoadGameSettings()
+        {
+            var instance = CustomGameSettings.Instance;
+            bool isNoSweat = instance.customGameMode == CustomGameMode.Nosweat;
 
-			///ImmuneSystem
-			if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.ImmuneSystem.id))
-			{
-				ImmuneSystem.Value = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.ImmuneSystem).id;
-			}
-			else
-			{
-				AddMissingCustomGameSetting(CustomGameSettingConfigs.ImmuneSystem);
-				ImmuneSystem.Value = isNoSweat ? CustomGameSettingConfigs.ImmuneSystem.GetNoSweatDefaultLevelId() : CustomGameSettingConfigs.ImmuneSystem.GetDefaultLevelId();
-			}
+            foreach (var qualitySetting in instance.QualitySettings)
+            {
+                string id = qualitySetting.Key;
+                if (id == CustomGameSettingConfigs.WorldgenSeed.id || id == CustomGameSettingConfigs.ClusterLayout.id)
+                    continue;
 
-			///CalorieBurn
-			if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.CalorieBurn.id))
-			{
-				CalorieBurn.Value = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.CalorieBurn).id;
-			}
-			else
-			{
-				AddMissingCustomGameSetting(CustomGameSettingConfigs.CalorieBurn);
-				CalorieBurn.Value = isNoSweat ? CustomGameSettingConfigs.CalorieBurn.GetNoSweatDefaultLevelId() : CustomGameSettingConfigs.CalorieBurn.GetDefaultLevelId();
-			}
+                if (!DlcManager.IsAllContentSubscribed(qualitySetting.Value.required_content))
+                    continue;
+                SettingConfig setting = qualitySetting.Value;
+                string settingValue = instance.GetCurrentQualitySetting(setting).id;
 
-			///Morale
-			if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.Morale.id))
-			{
-				Morale.Value = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.Morale).id;
-			}
-			else
-			{
-				AddMissingCustomGameSetting(CustomGameSettingConfigs.Morale);
-				Morale.Value = isNoSweat ? CustomGameSettingConfigs.Morale.GetNoSweatDefaultLevelId() : CustomGameSettingConfigs.Morale.GetDefaultLevelId();
-			}
+                if (!qualitySetting.Value.ShowInUI())
+                    continue;
 
-			///Durability (suits)
-			if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.Durability.id))
-			{
-				Durability.Value = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.Durability).id;
-			}
-			else
-			{
-				AddMissingCustomGameSetting(CustomGameSettingConfigs.Durability);
-				Durability.Value = isNoSweat ? CustomGameSettingConfigs.Durability.GetNoSweatDefaultLevelId() : CustomGameSettingConfigs.Durability.GetDefaultLevelId();
-			}
+                if (CustomGameSettingsCycleConfigs.TryGetValue(id, out var settingsCycle))
+                {
+                    settingsCycle.Value = settingValue;
+                }
+                else if (CustomGameSettingsToggleConfigs.TryGetValue(id, out var settingsToggle))
+                {
+                    settingsToggle.SetOnFromCode(settingValue == (setting as ToggleSettingConfig).on_level.id);
+                }
+                else
+                {
+                    SgtLogger.warning("uninitialized setting found: " + id);                    
+                }
+            }
+        }
 
-			///MeteorShowers
-			if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.MeteorShowers.id))
-			{
-				MeteorShowers.Value = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.MeteorShowers).id;
-			}
-			else
-			{
-				AddMissingCustomGameSetting(CustomGameSettingConfigs.MeteorShowers);
-				MeteorShowers.Value = isNoSweat ? CustomGameSettingConfigs.MeteorShowers.GetNoSweatDefaultLevelId() : CustomGameSettingConfigs.MeteorShowers.GetDefaultLevelId();
-			}
-
-			///Radiation
-			if (DlcManager.IsExpansion1Active())
-			{
-				if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.Radiation.id))
-				{
-					Radiation.Value = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.Radiation).id;
-				}
-				else
-				{
-					AddMissingCustomGameSetting(CustomGameSettingConfigs.Radiation);
-					Radiation.Value = isNoSweat ? CustomGameSettingConfigs.Radiation.GetNoSweatDefaultLevelId() : CustomGameSettingConfigs.Radiation.GetDefaultLevelId();
-				}
-			}
-
-			///Stress
-			if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.Stress.id))
-			{
-				Stress.Value = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.Stress).id;
-			}
-			else
-			{
-				AddMissingCustomGameSetting(CustomGameSettingConfigs.Stress);
-				Stress.Value = isNoSweat ? CustomGameSettingConfigs.Stress.GetNoSweatDefaultLevelId() : CustomGameSettingConfigs.Stress.GetDefaultLevelId();
-			}
-
-			///StressBreaks
-			if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.StressBreaks.id))
-			{
-				StressBreaks.On = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.StressBreaks).id == (CustomGameSettingConfigs.StressBreaks as ToggleSettingConfig).on_level.id;
-			}
-			else
-			{
-				AddMissingCustomGameSetting(CustomGameSettingConfigs.StressBreaks);
-				StressBreaks.On = isNoSweat
-					? CustomGameSettingConfigs.StressBreaks.GetNoSweatDefaultLevelId() == (CustomGameSettingConfigs.StressBreaks as ToggleSettingConfig).on_level.id
-					: CustomGameSettingConfigs.StressBreaks.GetDefaultLevelId() == (CustomGameSettingConfigs.StressBreaks as ToggleSettingConfig).on_level.id;
-			}
-
-			///CarePackages
-			if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.CarePackages.id))
-			{
-				CarePackages.On = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.CarePackages).id == (CustomGameSettingConfigs.CarePackages as ToggleSettingConfig).on_level.id;
-			}
-			else
-			{
-				AddMissingCustomGameSetting(CustomGameSettingConfigs.CarePackages);
-				CarePackages.On = isNoSweat
-					? CustomGameSettingConfigs.CarePackages.GetNoSweatDefaultLevelId() == (CustomGameSettingConfigs.CarePackages as ToggleSettingConfig).on_level.id
-					: CustomGameSettingConfigs.CarePackages.GetDefaultLevelId() == (CustomGameSettingConfigs.CarePackages as ToggleSettingConfig).on_level.id;
-			}
-
-			///Fast Workers
-			if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.FastWorkersMode.id))
-			{
-				FastWorkersMode.On = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.FastWorkersMode).id == (CustomGameSettingConfigs.FastWorkersMode as ToggleSettingConfig).on_level.id;
-			}
-			else
-			{
-				AddMissingCustomGameSetting(CustomGameSettingConfigs.FastWorkersMode);
-				FastWorkersMode.On = isNoSweat
-					? CustomGameSettingConfigs.FastWorkersMode.GetNoSweatDefaultLevelId() == (CustomGameSettingConfigs.FastWorkersMode as ToggleSettingConfig).on_level.id
-					: CustomGameSettingConfigs.FastWorkersMode.GetDefaultLevelId() == (CustomGameSettingConfigs.FastWorkersMode as ToggleSettingConfig).on_level.id;
-			}
-
-		}
-
-		private void SetCustomGameSettings(SettingConfig ConfigToSet, object valueId)
+        private void SetCustomGameSettings(SettingConfig ConfigToSet, object valueId)
 		{
 			string valueToSet = valueId.ToString();
 			if (valueId is bool)
@@ -211,230 +118,94 @@ namespace CustomGameSettingsModifier
 			CloseButton.OnClick += () => this.Show(false);
 			CloseButton2.OnClick += () => this.Show(false);
 
-			UIUtils.AddSimpleTooltipToObject(transform.Find("Content/Warning"), STRINGS.UI.CUSTOMGAMESETTINGSCHANGER.CHANGEWARNINGTOOLTIP);
-
-			StressBreaks = transform.Find("Content/StressReactions").FindOrAddComponent<FToggle>();
-
-			var StressBreaksLabel = StressBreaks.transform.Find("Label").gameObject.AddOrGet<LocText>();
-			StressBreaksLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.STRESS_BREAKS.NAME;
-			UIUtils.AddSimpleTooltipToObject(StressBreaksLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.STRESS_BREAKS.TOOLTIP);
-
-			StressBreaks.SetCheckmark("Background/Checkmark");
-			StressBreaks.OnClick += (v) =>
-			{
-				SetCustomGameSettings(CustomGameSettingConfigs.StressBreaks, StressBreaks.On);
-			};
-
-			CarePackages = transform.Find("Content/CarePackages").FindOrAddComponent<FToggle>();
-
-			var CarePackagesLabel = CarePackages.transform.Find("Label").gameObject.AddOrGet<LocText>();
-			CarePackagesLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.CAREPACKAGES.NAME;
-			UIUtils.AddSimpleTooltipToObject(CarePackagesLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.CAREPACKAGES.TOOLTIP);
-
-			CarePackages.SetCheckmark("Background/Checkmark");
-			CarePackages.OnClick += (v) =>
-			{
-				SetCustomGameSettings(CustomGameSettingConfigs.CarePackages, CarePackages.On);
-			};
-
-
-			/**
-            SandboxMode = transform.Find("Content/SandboxMode").FindOrAddComponent<FToggle2>();
-
-            var SandboxModeLabel = SandboxMode.transform.Find("Label").gameObject.AddOrGet<LocText>();
-            SandboxModeLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.SANDBOXMODE.NAME;
-            UIUtils.AddSimpleTooltipToObject(SandboxModeLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.SANDBOXMODE.TOOLTIP);
-
-            SandboxMode.SetCheckmark("Background/Checkmark");
-            SandboxMode.OnClick += () =>
-            {
-                SetCustomGameSettings(CustomGameSettingConfigs.SandboxMode, SandboxMode.On);
-            };
-            **/
-			FastWorkersMode = transform.Find("Content/FastWorkers").FindOrAddComponent<FToggle>();
-
-			var FastWorkersModeLabel = FastWorkersMode.transform.Find("Label").gameObject.AddOrGet<LocText>();
-			FastWorkersModeLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.FASTWORKERSMODE.NAME;
-			UIUtils.AddSimpleTooltipToObject(FastWorkersModeLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.FASTWORKERSMODE.TOOLTIP);
-
-			FastWorkersMode.SetCheckmark("Background/Checkmark");
-			FastWorkersMode.OnClick += (v) =>
-			{
-				SetCustomGameSettings(CustomGameSettingConfigs.FastWorkersMode, FastWorkersMode.On);
-			};
-
-			///Immune System Strength
-			ImmuneSystem = transform.Find("Content/ImmuneSystem").gameObject.AddOrGet<FCycle>();
-			var ImmuneLabel = ImmuneSystem.transform.Find("Label").gameObject.AddOrGet<LocText>();
-			ImmuneLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.IMMUNESYSTEM.NAME;
-			UIUtils.AddSimpleTooltipToObject(ImmuneLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.IMMUNESYSTEM.TOOLTIP);
-
-			ImmuneSystem.Initialize(
-				ImmuneSystem.transform.Find("Left").gameObject.AddOrGet<FButton>(),
-				ImmuneSystem.transform.Find("Right").gameObject.AddOrGet<FButton>(),
-				ImmuneSystem.transform.Find("ChoiceLabel").gameObject.AddOrGet<LocText>(),
-				ImmuneSystem.transform.Find("ChoiceLabel/Description").gameObject.AddOrGet<LocText>());
-
-			ImmuneSystem.Options = new List<FCycle.Option>();
-			foreach (var config in CustomGameSettingConfigs.ImmuneSystem.GetLevels())
-			{
-				ImmuneSystem.Options.Add(new FCycle.Option(config.id, config.label, config.tooltip));
-			}
-			ImmuneSystem.OnChange += () =>
-			{
-				SetCustomGameSettings(CustomGameSettingConfigs.ImmuneSystem, ImmuneSystem.Value);
-			};
-
-			///Calorie Usage
-			CalorieBurn = transform.Find("Content/Calories").gameObject.AddOrGet<FCycle>();
-
-			var CalorieBurnLabel = CalorieBurn.transform.Find("Label").gameObject.AddOrGet<LocText>();
-			CalorieBurnLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.CALORIE_BURN.NAME;
-			UIUtils.AddSimpleTooltipToObject(CalorieBurnLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.CALORIE_BURN.TOOLTIP);
-
-			CalorieBurn.Initialize(
-				CalorieBurn.transform.Find("Left").gameObject.AddOrGet<FButton>(),
-				CalorieBurn.transform.Find("Right").gameObject.AddOrGet<FButton>(),
-				CalorieBurn.transform.Find("ChoiceLabel").gameObject.AddOrGet<LocText>(),
-				CalorieBurn.transform.Find("ChoiceLabel/Description").gameObject.AddOrGet<LocText>());
-
-			CalorieBurn.Options = new List<FCycle.Option>();
-			foreach (var config in CustomGameSettingConfigs.CalorieBurn.GetLevels())
-			{
-				CalorieBurn.Options.Add(new FCycle.Option(config.id, config.label, config.tooltip));
-			}
-			CalorieBurn.OnChange += () =>
-			{
-				SetCustomGameSettings(CustomGameSettingConfigs.CalorieBurn, CalorieBurn.Value);
-			};
-
-			///Morale Requirements
-			Morale = transform.Find("Content/Morale").gameObject.AddOrGet<FCycle>();
-
-			var MoraleLabel = Morale.transform.Find("Label").gameObject.AddOrGet<LocText>();
-			MoraleLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.MORALE.NAME;
-			UIUtils.AddSimpleTooltipToObject(MoraleLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.MORALE.TOOLTIP);
-
-			Morale.Initialize(
-				Morale.transform.Find("Left").gameObject.AddOrGet<FButton>(),
-				Morale.transform.Find("Right").gameObject.AddOrGet<FButton>(),
-				Morale.transform.Find("ChoiceLabel").gameObject.AddOrGet<LocText>(),
-				Morale.transform.Find("ChoiceLabel/Description").gameObject.AddOrGet<LocText>());
-
-			Morale.Options = new List<FCycle.Option>();
-			foreach (var config in CustomGameSettingConfigs.Morale.GetLevels())
-			{
-				Morale.Options.Add(new FCycle.Option(config.id, config.label, config.tooltip));
-			}
-			Morale.OnChange += () =>
-			{
-				SetCustomGameSettings(CustomGameSettingConfigs.Morale, Morale.Value);
-			};
-
-			///Suit Durability Settings
-			Durability = transform.Find("Content/Suits").gameObject.AddOrGet<FCycle>();
-
-			var DurabilityLabel = Durability.transform.Find("Label").gameObject.AddOrGet<LocText>();
-			DurabilityLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.DURABILITY.NAME;
-			UIUtils.AddSimpleTooltipToObject(DurabilityLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.DURABILITY.TOOLTIP);
-
-			Durability.Initialize(
-				Durability.transform.Find("Left").gameObject.AddOrGet<FButton>(),
-				Durability.transform.Find("Right").gameObject.AddOrGet<FButton>(),
-				Durability.transform.Find("ChoiceLabel").gameObject.AddOrGet<LocText>(),
-				Durability.transform.Find("ChoiceLabel/Description").gameObject.AddOrGet<LocText>());
-
-			Durability.Options = new List<FCycle.Option>();
-			foreach (var config in CustomGameSettingConfigs.Durability.GetLevels())
-			{
-				Durability.Options.Add(new FCycle.Option(config.id, config.label, config.tooltip));
-			}
-			Durability.OnChange += () =>
-			{
-				SetCustomGameSettings(CustomGameSettingConfigs.Durability, Durability.Value);
-			};
-
-			///Meteors
-			MeteorShowers = transform.Find("Content/MeteorShowers").gameObject.AddOrGet<FCycle>();
-
-			var MeteorLabel = MeteorShowers.transform.Find("Label").gameObject.AddOrGet<LocText>();
-			MeteorLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.METEORSHOWERS.NAME;
-			UIUtils.AddSimpleTooltipToObject(MeteorLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.METEORSHOWERS.TOOLTIP);
-
-			MeteorShowers.Initialize(
-				MeteorShowers.transform.Find("Left").gameObject.AddOrGet<FButton>(),
-				MeteorShowers.transform.Find("Right").gameObject.AddOrGet<FButton>(),
-				MeteorShowers.transform.Find("ChoiceLabel").gameObject.AddOrGet<LocText>(),
-				MeteorShowers.transform.Find("ChoiceLabel/Description").gameObject.AddOrGet<LocText>());
-
-			MeteorShowers.Options = new List<FCycle.Option>();
-			foreach (var config in CustomGameSettingConfigs.MeteorShowers.GetLevels())
-			{
-				MeteorShowers.Options.Add(new FCycle.Option(config.id, config.label, config.tooltip));
-			}
-			MeteorShowers.OnChange += () =>
-			{
-				SetCustomGameSettings(CustomGameSettingConfigs.MeteorShowers, MeteorShowers.Value);
-			};
-
-			///Meteors
-			Radiation = transform.Find("Content/Rads").gameObject.AddOrGet<FCycle>();
-			if (DlcManager.IsExpansion1Active())
-			{
-				Radiation.Initialize(
-					Radiation.transform.Find("Left").gameObject.AddOrGet<FButton>(),
-					Radiation.transform.Find("Right").gameObject.AddOrGet<FButton>(),
-					Radiation.transform.Find("ChoiceLabel").gameObject.AddOrGet<LocText>(),
-					Radiation.transform.Find("ChoiceLabel/Description").gameObject.AddOrGet<LocText>());
-
-
-				var RadiationLabel = Radiation.transform.Find("Label").gameObject.AddOrGet<LocText>();
-				RadiationLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.RADIATION.NAME;
-				UIUtils.AddSimpleTooltipToObject(RadiationLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.RADIATION.TOOLTIP);
-
-				Radiation.Options = new List<FCycle.Option>();
-				foreach (var config in CustomGameSettingConfigs.Radiation.GetLevels())
-				{
-					Radiation.Options.Add(new FCycle.Option(config.id, config.label, config.tooltip));
-				}
-				Radiation.OnChange += () =>
-				{
-					SetCustomGameSettings(CustomGameSettingConfigs.Radiation, Radiation.Value);
-				};
-			}
-			else
-			{
-				Radiation.gameObject.SetActive(false);
-			}
-
-			///Stress
-			Stress = transform.Find("Content/Stress").gameObject.AddOrGet<FCycle>();
-
-			var STRESSLabel = Stress.transform.Find("Label").gameObject.AddOrGet<LocText>();
-			STRESSLabel.text = global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.STRESS.NAME;
-			UIUtils.AddSimpleTooltipToObject(STRESSLabel.transform, global::STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.STRESS.TOOLTIP);
-
-			Stress.Initialize(
-				Stress.transform.Find("Left").gameObject.AddOrGet<FButton>(),
-				Stress.transform.Find("Right").gameObject.AddOrGet<FButton>(),
-				Stress.transform.Find("ChoiceLabel").gameObject.AddOrGet<LocText>(),
-				Stress.transform.Find("ChoiceLabel/Description").gameObject.AddOrGet<LocText>());
-
-			Stress.Options = new List<FCycle.Option>();
-			foreach (var config in CustomGameSettingConfigs.Stress.GetLevels())
-			{
-				Stress.Options.Add(new FCycle.Option(config.id, config.label, config.tooltip));
-			}
-			Stress.OnChange += () =>
-			{
-				SetCustomGameSettings(CustomGameSettingConfigs.Stress, Stress.Value);
-			};
-
-
-			init = true;
+            UIUtils.AddSimpleTooltipToObject(transform.Find("WarningIcon"), STRINGS.UI.CUSTOMGAMESETTINGSCHANGER.CHANGEWARNINGTOOLTIP);
+            UIUtils.AddSimpleTooltipToObject(transform.Find("ChangeWarning"), STRINGS.UI.CUSTOMGAMESETTINGSCHANGER.CHANGEWARNINGTOOLTIP);
+            CustomGameSettingsContainer = transform.Find("Content/ScrollRectContainer").gameObject;
+            InitializeGameSettings();
+            init = true;
 		}
 
-		public override void OnShow(bool show)
+        public FToggle AddCheckboxGameSettingsContainer(GameObject prefab, GameObject parent, SettingConfig ConfigToSet)
+        {
+            var toggle = Util.KInstantiateUI(prefab, parent, true).gameObject.AddOrGet<FToggle>();
+
+            var settingLabel = toggle.transform.Find("Label").gameObject.AddOrGet<LocText>();
+            settingLabel.text = ConfigToSet.label;
+            UIUtils.AddSimpleTooltipToObject(settingLabel.transform, ConfigToSet.tooltip, alignCenter: true, onBottom: true);
+
+            toggle.SetCheckmark("Background/Checkmark");
+            toggle.OnClick += (v) =>
+            {
+                SetCustomGameSettings(ConfigToSet, v);
+            };
+            return toggle;
+        }
+        public FCycle AddListGameSettingsContainer(GameObject prefab, GameObject parent, SettingConfig ConfigToSet)
+        {
+            var cycle = Util.KInstantiateUI(prefab, parent, true).AddOrGet<FCycle>();
+
+            var settingLabel = cycle.transform.Find("Label").gameObject.AddOrGet<LocText>();
+            settingLabel.text = ConfigToSet.label;
+            UIUtils.AddSimpleTooltipToObject(settingLabel.transform, ConfigToSet.tooltip, alignCenter: true, onBottom: true);
+            cycle.Initialize(
+                cycle.transform.Find("Left").gameObject.AddOrGet<FButton>(),
+                cycle.transform.Find("Right").gameObject.AddOrGet<FButton>(),
+                cycle.transform.Find("ChoiceLabel").gameObject.AddOrGet<LocText>(),
+                cycle.transform.Find("ChoiceLabel/Description").gameObject.AddOrGet<LocText>());
+
+            cycle.Options = new List<FCycle.Option>();
+            foreach (var config in ConfigToSet.GetLevels())
+            {
+                cycle.Options.Add(new FCycle.Option(config.id, config.label, config.tooltip));
+            }
+            cycle.OnChange += () =>
+            {
+                SetCustomGameSettings(ConfigToSet, cycle.Value);
+            };
+            return cycle;
+        }
+        public void InitializeGameSettings()
+        {
+            SgtLogger.l("initializing custom game settings");
+            SgtLogger.Assert("CustomGameSettingsContainer not assigned", CustomGameSettingsContainer);
+            Debug.Log(CustomGameSettingsContainer);
+            var transform = CustomGameSettingsContainer.transform;
+            CustomGameSettingsContainer.SetActive(true);
+            GameObject CyclePrefab = transform.Find("SwitchPrefab").gameObject;
+            GameObject TogglePrefab = transform.Find("TogglePrefab").gameObject;
+
+            SgtLogger.Assert("CyclePrefab missing", CyclePrefab);
+            SgtLogger.Assert("TogglePrefab missing", TogglePrefab);
+
+            TogglePrefab.SetActive(false);
+            CyclePrefab.SetActive(false);
+
+            foreach (var qualitySetting in CustomGameSettings.Instance.QualitySettings)
+            {
+                string settingID = qualitySetting.Key;
+                SgtLogger.l(settingID, "initializing QualitySetting UI Item");
+
+                if (settingID == CustomGameSettingConfigs.WorldgenSeed.id || settingID == CustomGameSettingConfigs.ClusterLayout.id)
+                    continue;
+
+                if (!DlcManager.IsAllContentSubscribed(qualitySetting.Value.required_content))
+                    continue;
+
+
+                if(!qualitySetting.Value.ShowInUI())
+                    continue;
+
+                if (qualitySetting.Value is ToggleSettingConfig toggleSetting)
+                {
+                    CustomGameSettingsToggleConfigs[settingID] = AddCheckboxGameSettingsContainer(TogglePrefab, CustomGameSettingsContainer, toggleSetting);
+                }
+                else if (qualitySetting.Value is ListSettingConfig listSetting)
+                {
+                    CustomGameSettingsCycleConfigs[settingID] = AddListGameSettingsContainer(CyclePrefab, CustomGameSettingsContainer, listSetting);
+                }
+            }
+        }
+        public override void OnShow(bool show)
 		{
 			base.OnShow(show);
 			if (!init)
