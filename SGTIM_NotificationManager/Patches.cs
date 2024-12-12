@@ -157,39 +157,6 @@ namespace SGTIM_NotificationManager
 			}
 		}
 
-
-
-
-
-		[HarmonyPatch(typeof(SuitSuffocationMonitor))]
-		[HarmonyPatch(nameof(SuitSuffocationMonitor.InitializeStates))]
-		public static class SuffocationNotificationSuit
-		{
-			public static void Postfix(SuitSuffocationMonitor __instance)
-			{
-				__instance.nooxygen.suffocating.enterActions.Clear();
-				//__instance.nooxygen.suffocating.exitActions.Clear();
-				__instance.nooxygen.suffocating.Update((SuitSuffocationMonitor.Instance smi, float dt) =>
-				{
-					float breathValuePercentage = ((float)Config.Instance.SUFFOCATION_THRESHOLD) * 100f / 110f;
-					bool BeyondNotificationThreshold = (double)smi.breath.value <= breathValuePercentage;
-
-					if (smi.master.gameObject.TryGetComponent<KSelectable>(out var selectable))
-					{
-						if (BeyondNotificationThreshold)
-						{
-							selectable.SetStatusItem(Db.Get().StatusItemCategories.Suffocation, Db.Get().DuplicantStatusItems.Suffocating);
-						}
-						else
-						{
-							selectable.SetStatusItem(Db.Get().StatusItemCategories.Suffocation, Db.Get().DuplicantStatusItems.HoldingBreath);
-						}
-					}
-				}
-				);
-			}
-		}
-
 		[HarmonyPatch(typeof(SuffocationMonitor))]
 		[HarmonyPatch(nameof(SuffocationMonitor.InitializeStates))]
 		public static class SuffocationNotification
@@ -219,35 +186,65 @@ namespace SGTIM_NotificationManager
 			}
 		}
 
-		//[HarmonyPatch(typeof(SuffocationMonitor.Instance))]
-		//[HarmonyPatch(nameof(SuffocationMonitor.Instance.IsSuffocating))]
-		//public static class SuffocationNotification
-		//{
-		//    public static bool Prefix(SuffocationMonitor.Instance __instance, ref bool __result)
-		//    {
-		//        float breathValuePercentage = ((float)Config.Instance.SUFFOCATION_THRESHOLD) * 100f / 110f;
-		//        if (__instance.breath.deltaAttribute.GetTotalValue() <= 0f)
-		//        {
-		//            return __instance.breath.value <= breathValuePercentage;
-		//        }
-		//        __result = false;
-		//        return false;
-		//    }
-		//}
+        [HarmonyPatch(typeof(BionicSuffocationMonitor))]
+        [HarmonyPatch(nameof(BionicSuffocationMonitor.InitializeStates))]
+        public static class BionicSuffocationNotification
+        {
+            public static void Postfix(BionicSuffocationMonitor __instance)
+            {
+                __instance.noOxygen.suffocating.enterActions.Clear();
+                //__instance.nooxygen.suffocating.exitActions.Clear();
+                __instance.noOxygen.suffocating.Update((BionicSuffocationMonitor.Instance smi, float dt) =>
+                {
+                    float breathValuePercentage = ((float)Config.Instance.SUFFOCATION_THRESHOLD) * 100f / 110f;
+                    bool BeyondNotificationThreshold = (double)smi.breath.value <= breathValuePercentage;
 
-		//[HarmonyPatch(typeof(SuitSuffocationMonitor.Instance))]
-		//[HarmonyPatch(nameof(SuitSuffocationMonitor.Instance.IsSuffocating))]
-		//public static class SuffocationNotificationSuit
-		//{
-		//    public static bool Prefix(SuffocationMonitor.Instance __instance, ref bool __result)
-		//    {
-		//        float breathValuePercentage = ((float)Config.Instance.SUFFOCATION_THRESHOLD) * 100f / 110f;
-		//        __result = (double)__instance.breath.value <= breathValuePercentage;
-		//        return false;
-		//    }
-		//}
+                    if (smi.master.gameObject.TryGetComponent<KSelectable>(out var selectable))
+                    {
+                        if (BeyondNotificationThreshold)
+                        {
+                            selectable.SetStatusItem(Db.Get().StatusItemCategories.Suffocation, Db.Get().DuplicantStatusItems.Suffocating);
+                        }
+                        else
+                        {
+                            selectable.SetStatusItem(Db.Get().StatusItemCategories.Suffocation, Db.Get().DuplicantStatusItems.HoldingBreath);
+                        }
+                    }
+                }
+                );
+            }
+        }
+        CodexScreen
 
-		[HarmonyPatch(typeof(NotificationScreen))]
+        //[HarmonyPatch(typeof(SuffocationMonitor.Instance))]
+        //[HarmonyPatch(nameof(SuffocationMonitor.Instance.IsSuffocating))]
+        //public static class SuffocationNotification
+        //{
+        //    public static bool Prefix(SuffocationMonitor.Instance __instance, ref bool __result)
+        //    {
+        //        float breathValuePercentage = ((float)Config.Instance.SUFFOCATION_THRESHOLD) * 100f / 110f;
+        //        if (__instance.breath.deltaAttribute.GetTotalValue() <= 0f)
+        //        {
+        //            return __instance.breath.value <= breathValuePercentage;
+        //        }
+        //        __result = false;
+        //        return false;
+        //    }
+        //}
+
+        //[HarmonyPatch(typeof(SuitSuffocationMonitor.Instance))]
+        //[HarmonyPatch(nameof(SuitSuffocationMonitor.Instance.IsSuffocating))]
+        //public static class SuffocationNotificationSuit
+        //{
+        //    public static bool Prefix(SuffocationMonitor.Instance __instance, ref bool __result)
+        //    {
+        //        float breathValuePercentage = ((float)Config.Instance.SUFFOCATION_THRESHOLD) * 100f / 110f;
+        //        __result = (double)__instance.breath.value <= breathValuePercentage;
+        //        return false;
+        //    }
+        //}
+
+        [HarmonyPatch(typeof(NotificationScreen))]
 		[HarmonyPatch(nameof(NotificationScreen.PlayDingSound))]
 		public static class MuteDingSound
 		{
