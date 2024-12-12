@@ -214,7 +214,6 @@ namespace SGTIM_NotificationManager
                 );
             }
         }
-        CodexScreen
 
         //[HarmonyPatch(typeof(SuffocationMonitor.Instance))]
         //[HarmonyPatch(nameof(SuffocationMonitor.Instance.IsSuffocating))]
@@ -244,8 +243,7 @@ namespace SGTIM_NotificationManager
         //    }
         //}
 
-        [HarmonyPatch(typeof(NotificationScreen))]
-		[HarmonyPatch(nameof(NotificationScreen.PlayDingSound))]
+        [HarmonyPatch(typeof(NotificationScreen), nameof(NotificationScreen.PlayDingSound))]
 		public static class MuteDingSound
 		{
 			public static void Prefix(Notification notification)

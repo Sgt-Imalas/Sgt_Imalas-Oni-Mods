@@ -19,9 +19,9 @@
 		<QOL2024NovBeta>641371</QOL2024NovBeta>
 		<QOL2024NovRelease>642443</QOL2024NovRelease>
 		<BionicBoostBeta>645088</BionicBoostBeta>
-
+		<BionicBoosterRelease>646687</BionicBoosterRelease>
 		<!--Latest-->
-		<TargetGameVersion>$(BionicBoostBeta)</TargetGameVersion>
+		<TargetGameVersion>$(BionicBoosterRelease)</TargetGameVersion>
 	</PropertyGroup>
 
 
