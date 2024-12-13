@@ -63,7 +63,10 @@ namespace CustomGameSettingsModifier
 			SgtLogger.warning(type.GetType().ToString() + " value not found, defaulting");
 			CustomGameSettings.Instance.QualitySettings[type.id] = type;
 		}
-
+        static bool ShowQualitySetting(SettingConfig setting)
+        {
+            return !setting.deprecated && DlcManager.IsAllContentSubscribed(setting.required_content);
+        }
         private void LoadGameSettings()
         {
             var instance = CustomGameSettings.Instance;
@@ -78,9 +81,10 @@ namespace CustomGameSettingsModifier
                 if (!DlcManager.IsAllContentSubscribed(qualitySetting.Value.required_content))
                     continue;
                 SettingConfig setting = qualitySetting.Value;
+
                 string settingValue = instance.GetCurrentQualitySetting(setting).id;
 
-                if (!qualitySetting.Value.ShowInUI())
+                if (!ShowQualitySetting(qualitySetting.Value))
                     continue;
 
                 if (CustomGameSettingsCycleConfigs.TryGetValue(id, out var settingsCycle))
@@ -192,7 +196,7 @@ namespace CustomGameSettingsModifier
                     continue;
 
 
-                if(!qualitySetting.Value.ShowInUI())
+                if(!ShowQualitySetting(qualitySetting.Value))
                     continue;
 
                 if (qualitySetting.Value is ToggleSettingConfig toggleSetting)
