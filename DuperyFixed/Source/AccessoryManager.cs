@@ -24,13 +24,13 @@ namespace Dupery
 		{
 			return PersonalityHeadOverrideAnims.TryGetValue(identity.personalityResourceId, out headAnimOverride);
 		}
-		public bool RegisterPersonalityForCustomCheeks(HashedString personalityID, string headshape)
+		public bool RegisterPersonalityForCustomCheeks(HashedString personalityID, string mouth)
 		{
-			if (headshape == null) return false;
+			if (mouth == null) return false;
 
-			if (HeadOverrideAnims.TryGetValue(headshape, out var anim))
+			if (HeadOverrideAnims.TryGetValue(mouth, out var anim))
 			{
-				SgtLogger.l("Registered custom headshape for " + personalityID + ": " + headshape + " -> " + anim);
+				SgtLogger.l("Registered custom mouth for " + personalityID + ": " + mouth + " -> " + anim);
 				PersonalityHeadOverrideAnims[personalityID] = anim;
 				return true;
 			}
@@ -89,7 +89,7 @@ namespace Dupery
 				if (slot.Id == accessorySlots.Mouth.Id)
 				{
 					HeadOverrideAnims.Add(id, animName);
-					Debug.Log("[Dupery]: setting custom cheek override anim for headshape: " + id);
+					Debug.Log("[Dupery]: setting custom cheek override anim for mouth: " + id);
 				}
 
 
