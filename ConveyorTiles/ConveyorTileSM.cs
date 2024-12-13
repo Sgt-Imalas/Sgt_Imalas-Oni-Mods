@@ -288,8 +288,9 @@ namespace ConveyorTiles
 							continue;
 						}
 						///Working dupes that have started working are immune (doesnt affect walkers)
-						if (pickupable.TryGetComponent<WorkerBase>(out var worker) && worker.GetWorkable() != null && worker.GetWorkable().GetPercentComplete() > 0)
+						if (pickupable.TryGetComponent<WorkerBase>(out var worker) && worker.GetWorkable() != null && (worker.GetWorkable().GetPercentComplete() > 0||Grid.PosToCell(worker.GetWorkable()) == Grid.PosToCell(component)))
 						{
+							
 							continue;
 						}
 					}
