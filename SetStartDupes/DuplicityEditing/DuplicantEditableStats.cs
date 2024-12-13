@@ -225,6 +225,8 @@ namespace SetStartDupes.DuplicityEditing
 
 			if (AttributesPending && go.TryGetComponent<AttributeLevels>(out var attributeLevels))
 			{
+				SgtLogger.l("applying attribute changes");
+
 				//Attribute Levels
 
 				foreach (var attribute in AttributeHelper.GetEditableAttributes())
@@ -241,16 +243,17 @@ namespace SetStartDupes.DuplicityEditing
 				}
 			}
 			if (AppearancePending && go.TryGetComponent<Accessorizer>(out var accessorizer))
-			{
-				//Looks
-				var sourceAccessories = accessorizer.GetAccessories();
+            {
+                SgtLogger.l("applying looks changes");
+                //Looks
+                var sourceAccessories = accessorizer.GetAccessories();
 				List<Accessory> ToRemove = new(), ToAdd = new();
 				HashSet<AccessorySlot> NotExistingSlots = new(AccessorySlotHelper.GetAllChangeableSlot());
 
 
 				var slotDb = Db.Get().AccessorySlots;
-				var mouthSlot = slotDb.Mouth;
-				Accessory mouth = null;
+				//var mouthSlot = slotDb.Mouth;
+				//Accessory mouth = null;
 
 				foreach (var itemRef in sourceAccessories)
 				{
@@ -261,14 +264,15 @@ namespace SetStartDupes.DuplicityEditing
 						NotExistingSlots.Remove(newItem.slot);
 						if (newItem != oldItem)
 						{
+							SgtLogger.l($"removing {oldItem.Name}, adding {newItem.Name}");
 							ToRemove.Add(oldItem);
 							ToAdd.Add(newItem);
 						}
 					}
 
-					///finding old mouth to replace later if headshape has changed
-					if (oldItem.slot == mouthSlot)
-						mouth = oldItem;
+					/////finding old mouth to replace later if headshape has changed
+					//if (oldItem.slot == mouthSlot)
+					//	mouth = oldItem;
 
 				}
 				foreach (var slot in NotExistingSlots)
@@ -288,32 +292,35 @@ namespace SetStartDupes.DuplicityEditing
 					var accessory = ToAdd[i];
 					accessorizer.AddAccessory(accessory);
 
-					///replacing mouth based on head since that can't be visualized based on normal dupe animations (it only affects the lips in interact anims like sleeping, other)
-					if (accessory.slot == slotDb.HeadShape)
-					{
-						string accessoryNumber = accessory.Id.Replace("headshape_", string.Empty);
-						var newMouth = slotDb.Mouth.accessories.FirstOrDefault(mouthAccessory => mouthAccessory.Id.Replace("mouth_", string.Empty) == accessoryNumber);
+					/////replacing mouth based on head since that can't be visualized based on normal dupe animations (it only affects the lips in interact anims like sleeping, other)
+					//if (accessory.slot == slotDb.HeadShape)
+					//{
+					//	string accessoryNumber = accessory.Id.Replace("headshape_", string.Empty);
+					//	var newMouth = slotDb.Mouth.accessories.FirstOrDefault(mouthAccessory => mouthAccessory.Id.Replace("mouth_", string.Empty) == accessoryNumber);
 
-						if (newMouth != null)
-						{
-							//SgtLogger.l("replacing mouth based on headshape");
-							accessorizer.RemoveAccessory(mouth);
-							accessorizer.AddAccessory(newMouth);
-						}
-					}
+					//	if (newMouth != null)
+					//	{
+					//		//SgtLogger.l("replacing mouth based on headshape");
+					//		accessorizer.RemoveAccessory(mouth);
+					//		accessorizer.AddAccessory(newMouth);
+					//	}
+					//}
 				}
 
 				if (go.TryGetComponent<SymbolOverrideController>(out var symbolOverride))
 				{
-					var headshape_symbolName = (KAnimHashedString)HashCache.Get().Get(accessorizer.GetAccessory(Db.Get().AccessorySlots.HeadShape).symbol.hash).Replace("headshape", "cheek");
+					//SgtLogger.l("mouth hash replace");
+					//SgtLogger.l(HashCache.Get().Get(accessorizer.GetAccessory(Db.Get().AccessorySlots.Mouth).symbol.hash).ToString());
+
+					var mouth_cheek_symbolName = (KAnimHashedString)HashCache.Get().Get(accessorizer.GetAccessory(Db.Get().AccessorySlots.Mouth).symbol.hash).Replace("mouth", "cheek");
 					var cheek_symbol_snapTo = (HashedString)"snapto_cheek";
 					var hair_symbol_snapTo = (HashedString)"snapto_hair_always";
 
-					symbolOverride.RemoveSymbolOverride(headshape_symbolName);
+					symbolOverride.RemoveSymbolOverride(mouth_cheek_symbolName);
 					symbolOverride.RemoveSymbolOverride(cheek_symbol_snapTo);
 					symbolOverride.RemoveSymbolOverride(hair_symbol_snapTo);
 
-					symbolOverride.AddSymbolOverride(cheek_symbol_snapTo, Assets.GetAnim((HashedString)"head_swap_kanim").GetData().build.GetSymbol((KAnimHashedString)headshape_symbolName), 1);
+					symbolOverride.AddSymbolOverride(cheek_symbol_snapTo, Assets.GetAnim((HashedString)"head_swap_kanim").GetData().build.GetSymbol((KAnimHashedString)mouth_cheek_symbolName), 1);
 					symbolOverride.AddSymbolOverride(hair_symbol_snapTo, accessorizer.GetAccessory(Db.Get().AccessorySlots.Hair).symbol, 1);
 					symbolOverride.AddSymbolOverride((HashedString)Db.Get().AccessorySlots.HatHair.targetSymbolId, Db.Get().AccessorySlots.HatHair.Lookup("hat_" + HashCache.Get().Get(accessorizer.GetAccessory(Db.Get().AccessorySlots.Hair).symbol.hash)).symbol, 1);
 				}
@@ -322,8 +329,9 @@ namespace SetStartDupes.DuplicityEditing
 			}
 			//Traits
 			if (AttributesPending && go.TryGetComponent<Traits>(out var traits))
-			{
-				var targetTraits = new List<string>(Traits);
+            {
+                SgtLogger.l("applying trait changes");
+                var targetTraits = new List<string>(Traits);
 				if (JoyTraitId != null)
 					targetTraits.Add(JoyTraitId);
 				if (StressTraitId != null)
@@ -359,8 +367,9 @@ namespace SetStartDupes.DuplicityEditing
 			}
 			//Health Amounts
 			if (HealthPending)
-			{
-				foreach (var amount in AmountHelper.GetAmountsForModel(Model))
+            {
+                SgtLogger.l("applying health changes");
+                foreach (var amount in AmountHelper.GetAmountsForModel(Model))
 				{
 					var instance = amount.Lookup(go);
 					if (instance == null || !HealthAmounts.ContainsKey(amount.Id))
@@ -372,9 +381,10 @@ namespace SetStartDupes.DuplicityEditing
 				}
 			}
 			if ((SkillsPending || AttributesPending) && go.TryGetComponent<MinionResume>(out var minionResume))
-			{
-				//XP
-				minionResume.totalExperienceGained = totalExperience;
+            {
+                SgtLogger.l("applying skills changes");
+                //XP
+                minionResume.totalExperienceGained = totalExperience;
 				//Skills
 				foreach (var skill in MasteryBySkillID)
 				{
@@ -399,8 +409,9 @@ namespace SetStartDupes.DuplicityEditing
 			}
 			//Effects
 			if (EffectsPending && go.TryGetComponent<Effects>(out Effects effects))
-			{
-				HashSet<string> toRemove = new();
+            {
+                SgtLogger.l("applying effects changes");
+                HashSet<string> toRemove = new();
 				foreach (var effectInstance in effects.effects)
 				{
 					string id = effectInstance.effect.Id;

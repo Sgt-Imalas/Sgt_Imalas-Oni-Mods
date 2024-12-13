@@ -315,7 +315,7 @@ namespace SetStartDupes
 								"",
 								() => SelectItem(accessory),
 								prefabOverride: BodypartPrefab,
-								placeImage: AccessorySlotHelper.GetSpriteFrom(accessory.symbol)
+								placeImage: AccessorySlotHelper.GetSpriteFrom(accessory.symbol, accessory.slot)
 							));
 						CategoryEntries[OpenedFrom.Bodypart].Add(BodypartContainers[slot][accessory.Id]);
 					}

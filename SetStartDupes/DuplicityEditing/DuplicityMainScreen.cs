@@ -590,7 +590,7 @@ namespace SetStartDupes.DuplicityEditing
 				if (MinionAnimCategories.ContainsKey(slotEntry.Key))
 				{
 					var entry = MinionAnimCategories[slotEntry.Key];
-					entry.SetItemIcon(AccessorySlotHelper.GetSpriteFrom(slotEntry.Value.symbol));
+					entry.SetItemIcon(AccessorySlotHelper.GetSpriteFrom(slotEntry.Value.symbol, slotEntry.Key));
 					entry.SetItemName(slotEntry.Value.Name);
 				}
 			}

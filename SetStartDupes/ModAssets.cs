@@ -296,7 +296,7 @@ namespace SetStartDupes
 				///These symbols get overidden at dupe creation, as we are editing already spawned dupes, we have to remove the old overrides and add the new overrides
 				if (Duplicant.TryGetComponent<SymbolOverrideController>(out var symbolOverride))
 				{
-					var headshape_symbolName = (KAnimHashedString)HashCache.Get().Get(accessorizer.GetAccessory(Db.Get().AccessorySlots.HeadShape).symbol.hash).Replace("headshape", "cheek");
+					var headshape_symbolName = (KAnimHashedString)HashCache.Get().Get(accessorizer.GetAccessory(Db.Get().AccessorySlots.Mouth).symbol.hash).Replace("mouth", "cheek");
 					var cheek_symbol_snapTo = (HashedString)"snapto_cheek";
 					var hair_symbol_snapTo = (HashedString)"snapto_hair_always";
 

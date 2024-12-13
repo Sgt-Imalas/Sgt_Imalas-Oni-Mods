@@ -19,7 +19,7 @@ namespace SetStartDupes.DuplicityEditing.Helpers
 			result.Add(slots.Hair);
 			//result.Add(slots.HatHair); //depends on hair
 			result.Add(slots.HeadShape);
-			//result.Add(slots.Mouth); //depending on HeadShape
+			result.Add(slots.Mouth); 
 			result.Add(slots.Body);
 			result.Add(slots.Arm);
 			result.Add(slots.ArmLower);
@@ -33,12 +33,11 @@ namespace SetStartDupes.DuplicityEditing.Helpers
 			result.Add(slots.ArmLowerSkin);
 			result.Add(slots.ArmUpperSkin);
 			result.Add(slots.LegSkin);
-
 			return result;
 		}
 		public static Dictionary<KeyValuePair<KAnimFile, KAnim.Build.Symbol>, Sprite> SymbolSprites
 			= new Dictionary<KeyValuePair<KAnimFile, KAnim.Build.Symbol>, Sprite>();
-		public static Sprite GetSpriteFrom(KAnim.Build.Symbol symbol)
+		public static Sprite GetSpriteFrom(KAnim.Build.Symbol symbol, AccessorySlot accessorySlot)
 		{
 			////var SpriteKey = new KeyValuePair<KAnimFile, KAnim.Build.Symbol>(animFile, symbol);
 			//if (SymbolSprites.TryGetValue(SpriteKey, out var spriteFound))
@@ -53,7 +52,10 @@ namespace SetStartDupes.DuplicityEditing.Helpers
 			//if(data ==null) return null;    
 
 			int frame2 = default(KAnim.Anim.FrameElement).frame;
-			KAnim.Build.SymbolFrameInstance symbolFrame = symbol.GetFrame(frame2);
+
+            if (accessorySlot == Db.Get().AccessorySlots.Mouth)
+                frame2 = 7; 
+            KAnim.Build.SymbolFrameInstance symbolFrame = symbol.GetFrame(frame2);
 			if (symbolFrame.Equals(default))
 			{
 				SgtLogger.l("SymbolFrame [" + frame2 + "] is missing");
