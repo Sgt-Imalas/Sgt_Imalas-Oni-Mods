@@ -1,4 +1,5 @@
 ﻿using AkisSnowThings.Content.Defs.Buildings;
+using AkisSnowThings.Content.Defs.Entities;
 using STRINGS;
 using System;
 using System.Collections.Generic;
@@ -190,7 +191,30 @@ namespace AkisSnowThings
 			}
 		}
 
-		public class UI
+        public class ENTITIES
+        {
+            public class PREFABS
+            {
+                public class SNOWSCULPTURES_GROWINGSNOWLAYER
+                {
+                    public static LocString NAME = FormatAsLink("Snow Drift", GrowingSnowLayerConfig.ID);
+                    public static LocString DESC = "Snow that has accumulated from a snow machine.";
+                }
+            }
+
+            public class STATUSITEMS
+            {
+                public class SNOWSCULPTURES_SEALEDSTATUSITEM
+                {
+                    public static LocString NAME = "{0}";
+                    public static LocString SEALED = "Vacuum sealed";
+                    public static LocString SEALED2 = "Somehow still sealed";
+                    public static LocString TOOLTIP = "This building is thermally insulated, and cannot melt or exchange heat with it's surroundings.";
+                }
+
+            }
+        }
+        public class UI
 		{
 			public static LocString DECOROVERLAYTITLE = "Snow:";
 			public static LocString PETTHATDAWG = "Pet";

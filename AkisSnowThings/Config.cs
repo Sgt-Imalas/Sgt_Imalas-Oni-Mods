@@ -15,7 +15,7 @@ namespace AkisSnowThings
 	[ModInfo("Snow Men and more")]
 	public class Config : SingletonOptions<Config>
 	{
-		public int SnowMachineMaxParticles { get; set; } = 200;
+		public int SnowMachineMaxParticles { get; set; } = 256;
 
 		public HashSet<string> GlassCaseSealables { get; set; } = new HashSet<string>()
 		{

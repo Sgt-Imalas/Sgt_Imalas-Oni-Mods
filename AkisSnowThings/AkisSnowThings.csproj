@@ -246,10 +246,16 @@
 	  <None Update="ModAssets\assets\452667__kyles__window-break-with-axe-glass-shatter-in-trailer.wav">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\assets\linux\snowsculptures_assets">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\assets\mac\snowsculptures_assets">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\assets\mus_drumcuica2.wav">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\assets\snowsculptures_assets">
+	  <None Update="ModAssets\assets\windows\snowsculptures_assets">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>
@@ -258,6 +264,9 @@
 	  <Folder Include="Content\Scripts\Elements\" />
 	  <Folder Include="ModAssets\anim\entities\pine_cone\" />
 	  <Folder Include="ModAssets\anim\plants\sm_pine_tree_plant\" />
+	  <Folder Include="ModAssets\assets\linux\" />
+	  <Folder Include="ModAssets\assets\mac\" />
+	  <Folder Include="ModAssets\assets\windows\" />
 	  <Folder Include="Patches\Elements\" />
 	</ItemGroup>
 </Project>

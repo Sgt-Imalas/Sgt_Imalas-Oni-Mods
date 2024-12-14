@@ -40,22 +40,25 @@ namespace AkisSnowThings
 		}
 		public static void LoadAssets()
 		{
-			var bundle = AssetUtils.LoadAssetBundle("snowsculptures_assets");
-
-			var emitterGo = bundle.LoadAsset<GameObject>("Assets/prefabs/SnowEmitter.prefab");
+			var bundle = AssetUtils.LoadAssetBundle("snowsculptures_assets",platformSpecific:true);
+			SgtLogger.l("loading snow emitter prefab");
+			var emitterGo = bundle.LoadAsset<GameObject>("Assets/SnowSculptures/SnowEmitter.prefab");
 			Prefabs.snowParticlesPrefab = emitterGo.transform.Find("Particle System").gameObject;
 			Prefabs.snowParticlesPrefab.SetLayerRecursively(Game.PickupableLayer);
 			Prefabs.snowParticlesPrefab.SetActive(false);
 
+            SgtLogger.l("loading snow particles 1 prefab");
+						
 			var material = new Material(Shader.Find("UI/Default"))
 			{
 				renderQueue = RenderQueues.Liquid, // Sparkle Streaker particles also render here
-				mainTexture = bundle.LoadAsset<Texture2D>("Assets/Images/snow_particles 1.png")
+				mainTexture = bundle.LoadAsset<Texture2D>("Assets/SnowSculptures/snow_particles 1.png")
 			};
 
 			Prefabs.snowParticlesPrefab.GetComponent<ParticleSystemRenderer>().material = material;
 
-			Prefabs.snowmachineSidescreenPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/SnowmachineSidescreen.prefab");
+            SgtLogger.l("loading SnowmachineSidescreen prefab");
+            Prefabs.snowmachineSidescreenPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/SnowmachineSidescreen.prefab");
 
 			var tmpConverter = new TMPConverter();
 			tmpConverter.ReplaceAllText(Prefabs.snowmachineSidescreenPrefab);
