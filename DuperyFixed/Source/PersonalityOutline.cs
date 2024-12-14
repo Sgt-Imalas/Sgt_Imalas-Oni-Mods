@@ -257,7 +257,7 @@ namespace Dupery
             name = localizedName != null ? localizedName : name;
             description = localizedDescription != null ? localizedDescription : description;
 
-            // Uncustomisable accessories
+
             int headShape = ChooseAccessoryNumber(Db.Get().AccessorySlots.HeadShape, HeadShape);
             int mouth = Mouth == null ? headShape : ChooseAccessoryNumber(Db.Get().AccessorySlots.Mouth, Mouth);
             int eyes = ChooseAccessoryNumber(Db.Get().AccessorySlots.Eyes, Eyes);
@@ -383,7 +383,7 @@ namespace Dupery
 
         private int ChooseAccessoryNumber(AccessorySlot slot, string value, int defaultValue = 1)
         {
-            int accessoryNumber;
+            int accessoryNumber = defaultValue;
 
             if (value == null || value == "")
             {
@@ -391,12 +391,11 @@ namespace Dupery
             }
             else
             {
-                //if (DuperyPatches.AccessoryManager.TryGetAccessoryId(slot.Id,value, out int hash))
-                //{
-                //    SgtLogger.l(slot.Name + ": " + hash + "(value: "+value);
-                //    accessoryNumber = hash;
-                //} else
-                if (!int.TryParse(value, out accessoryNumber))
+                if (int.TryParse(value, out int parsed))
+                {
+                    accessoryNumber = parsed;
+                }
+                else
                 {
                     accessoryNumber = defaultValue;
                 }

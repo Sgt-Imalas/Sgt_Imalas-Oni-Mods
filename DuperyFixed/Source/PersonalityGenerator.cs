@@ -27,18 +27,26 @@ namespace Dupery
 		public static string RollStressTrait()
 		{
 			int randomIndex = UnityEngine.Random.Range(0, DUPLICANTSTATS.STRESSTRAITS.Count);
-			return DUPLICANTSTATS.STRESSTRAITS[randomIndex].id;
+
+            var randomTrait = DUPLICANTSTATS.STRESSTRAITS[randomIndex];
+            if (DlcManager.IsContentSubscribed(randomTrait.dlcId))
+                return randomTrait.id;
+            else return RollStressTrait();
 		}
 
 		public static string RollJoyTrait()
 		{
 			int randomIndex = UnityEngine.Random.Range(0, DUPLICANTSTATS.JOYTRAITS.Count);
-			return DUPLICANTSTATS.JOYTRAITS[randomIndex].id;
+			var randomTrait = DUPLICANTSTATS.JOYTRAITS[randomIndex];
+
+			if (DlcManager.IsContentSubscribed(randomTrait.dlcId))
+				return randomTrait.id;
+			else return RollJoyTrait();
 		}
 
 		public static string RollStickerType()
 		{
-			string[] stickerTypes = new string[3] { "sticker", "glitter", "glowinthedark" };
+			string[] stickerTypes = ["sticker", "glitter", "glowinthedark"];
 			int randomIndex = UnityEngine.Random.Range(0, stickerTypes.Length);
 			return stickerTypes[randomIndex];
 		}
