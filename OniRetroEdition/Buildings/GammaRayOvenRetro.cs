@@ -63,7 +63,7 @@ namespace OniRetroEdition.Buildings
 				hepStorage.Subscribe((int)GameHashes.OnParticleStorageChanged, UpdateMeter);
 			}
 
-			complexFabricatorWorkable.OnWorkTickActions = (Action<Worker, float>)Delegate.Combine(complexFabricatorWorkable.OnWorkTickActions, (Action<Worker, float>)delegate (Worker worker, float dt)
+			complexFabricatorWorkable.OnWorkTickActions = (Action<WorkerBase, float>)Delegate.Combine(complexFabricatorWorkable.OnWorkTickActions, (Action<WorkerBase, float>)delegate (WorkerBase worker, float dt)
 			{
 				Debug.Assert(worker != null, "How did we get a null worker?");
 				if (diseaseCountKillRate > 0)

@@ -43,12 +43,12 @@ namespace OniRetroEdition.Behaviors
 		}
 
 
-		public override void OnStartWork(Worker worker)
+		public override void OnStartWork(WorkerBase worker)
 		{
 			base.OnStartWork(worker);
 			operational.IsOperational = true;
 		}
-		public override void OnCompleteWork(Worker worker)
+		public override void OnCompleteWork(WorkerBase worker)
 		{
 			base.OnCompleteWork(worker);
 			operational.IsOperational = false;

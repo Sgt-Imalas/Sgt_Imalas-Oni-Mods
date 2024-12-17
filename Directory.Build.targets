@@ -72,8 +72,8 @@
 		<Message Text="Creating archive release.." Importance="High"/>
 		
 		<PropertyGroup>
-			<CleanedModName>$(ModName.Replace(" ","_").Replace("[","").Replace("]",""))</CleanedModName>
-			<ArchiveTargetFolder>$(SolutionDir)Releases\$(ModName)\$(ModName)__$(Version)__$(MinimumSupportedBuild)\</ArchiveTargetFolder>
+			<CleanedModName>$(ModName.Replace('"','').Replace(";","").Replace(":",""))</CleanedModName>
+			<ArchiveTargetFolder>$(SolutionDir)Releases\$(CleanedModName)\$(CleanedModName)__$(Version)__$(MinimumSupportedBuild)\</ArchiveTargetFolder>
 		</PropertyGroup>
 			
 		<ItemGroup>

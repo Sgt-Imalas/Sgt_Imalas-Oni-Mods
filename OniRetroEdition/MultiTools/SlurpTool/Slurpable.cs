@@ -78,26 +78,26 @@ namespace OniRetroEdition.SlurpTool
 			this.gameObject.Trigger(2127324410);
 		}
 
-		public override void OnStartWork(Worker worker)
+		public override void OnStartWork(WorkerBase worker)
 		{
 			SimAndRenderScheduler.instance.Add((object)this);
 			this.Refresh();
 			this.MopTick(this.amountMoppedPerTick);
 		}
 
-		public override void OnStopWork(Worker worker)
+		public override void OnStopWork(WorkerBase worker)
 		{
 			SimAndRenderScheduler.instance.Remove((object)this);
 			worker.GetComponent<Storage>().DropAll();
 		}
 
-		public override void OnCompleteWork(Worker worker)
+		public override void OnCompleteWork(WorkerBase worker)
 		{
 			SimAndRenderScheduler.instance.Remove((object)this);
 			worker.GetComponent<Storage>().DropAll();
 		}
 
-		public override bool InstantlyFinish(Worker worker)
+		public override bool InstantlyFinish(WorkerBase worker)
 		{
 			this.MopTick(1000f);
 			return true;
