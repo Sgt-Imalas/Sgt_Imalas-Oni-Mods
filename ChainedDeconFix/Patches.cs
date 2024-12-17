@@ -22,7 +22,7 @@ namespace ChainedDeconFix
             typeof(float),
             typeof(byte),
             typeof(int),
-            typeof(Worker),
+            typeof(WorkerBase),
     }
 )]
         public static class ChainedDeconPatch

@@ -96,7 +96,7 @@ namespace Imalas_TwitchChaosEvents.Events
 		}
 		bool WorldValidForRoaches(WorldContainer world)
 		{
-			float availableCalories = RationTracker.Get().CountRations(null, world.worldInventory);
+			float availableCalories = RationTracker.Get().CountAmount(null, world.worldInventory);
 			if (availableCalories > Components.LiveMinionIdentities.GetWorldItems(world.id).Count * 2000f)
 			{
 				return true;

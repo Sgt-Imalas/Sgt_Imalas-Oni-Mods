@@ -176,8 +176,8 @@ namespace Imalas_TwitchChaosEvents.Elements
 
 				if (ModAssets.WaterCoolerDrinks.Beverages.TryGetValue(tag, out var effect))
 					__instance.stateTarget
-						.Get<WorkerBase>(smi)
-						.GetComponent<Effects>()
+						.Get<WorkerBase>(smi)?
+						.GetComponent<Effects>()?
 						.Add(effect, true);
 			}
 		}
