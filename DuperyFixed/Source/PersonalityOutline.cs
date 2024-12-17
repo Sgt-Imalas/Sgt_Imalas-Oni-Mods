@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UtilLibs;
+using static STRINGS.DUPLICANTS;
 
 namespace Dupery
 {
@@ -203,7 +204,7 @@ namespace Dupery
             if (personalityType == null)
                 personalityType = Randomize ? PersonalityGenerator.RollPersonalityType() : PersonalityGenerator.DEFAULT_PERSONALITY_TYPE;
 
-            if (Db.Get().traits.TryGet(CongenitalTrait) == null)
+            if (CongenitalTrait != null && Db.Get().traits.TryGet(CongenitalTrait) == null)
             {
                 SgtLogger.warning("invalid CongenitalTrait on dupery dupe: " + CongenitalTrait);
                 CongenitalTrait = null;

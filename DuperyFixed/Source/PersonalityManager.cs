@@ -163,7 +163,7 @@ namespace Dupery
 				modPersonalities[key].SetSourceModId(mod.staticID);
 
 			importedPersonalities[mod.staticID] = modPersonalities;
-			Logger.Log($"{importedPersonalities.Count} personalities imported from {mod.title}.");
+			Logger.Log($"{importedPersonalities[mod.staticID].Count} personalities imported from {mod.title}.");
 
 			return true;
 		}

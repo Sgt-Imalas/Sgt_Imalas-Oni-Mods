@@ -72,7 +72,7 @@ namespace Dupery
 					List<string> animNames = GetAnimNames(mod);
 					if (animNames != null && animNames.Count > 0)
 					{
-						Logger.Log($"Found anims belonging to mod {mod.title}, searching for accessories.");
+						Logger.Log($"Found {animNames.Count} anims belonging to mod {mod.title}, searching for accessories.");
 
 						int totalImported = 0;
 						foreach (string animName in animNames)
@@ -84,7 +84,8 @@ namespace Dupery
 						Logger.Log($"{totalImported} accessories imported successfully.");
 					}
 
-					PersonalityManager.TryImportPersonalities(personalitiesFilePath, mod);
+
+                    PersonalityManager.TryImportPersonalities(personalitiesFilePath, mod);
 				}
 			}
 		}
@@ -92,16 +93,20 @@ namespace Dupery
 		private static List<string> GetAnimNames(Mod mod)
 		{
 			List<string> animNames = new List<string>();
-
+			SgtLogger.l("getting anims from mod: " + mod.label.title);
 			string path = FileSystem.Normalize(System.IO.Path.Combine(mod.ContentPath, "anim"));
 			if (!System.IO.Directory.Exists(path))
-				return null;
+			{
+				SgtLogger.l("no anim directory found under: "+ path);
+                return null;
+            }
 
 			foreach (DirectoryInfo directory1 in new DirectoryInfo(path).GetDirectories())
 			{
 				foreach (DirectoryInfo directory2 in directory1.GetDirectories())
 				{
 					string name = directory2.Name + "_kanim";
+					SgtLogger.l("Kanim in mod: " + name);
 					foreach (KAnimFile kAnimFile in Assets.ModLoadedKAnims)
 					{
 						if (kAnimFile.name == name)
