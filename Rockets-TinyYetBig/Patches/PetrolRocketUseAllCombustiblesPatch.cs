@@ -60,7 +60,7 @@ namespace Rockets_TinyYetBig.Patches
 		[HarmonyPatch("Initialize")]
 		public static class StringReplacementPetroleum
 		{
-			public static void Prefix()
+			public static void Postfix()
 			{
 				if (Config.Instance.EthanolEngines)
 				{
