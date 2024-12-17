@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using FMOD;
+using HarmonyLib;
 using Klei.AI;
 using PeterHan.PLib.Core;
 using ProcGen;
@@ -11,6 +12,7 @@ using System.Runtime.CompilerServices;
 using TemplateClasses;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
+using UnityEngine.UI;
 using UtilLibs;
 
 namespace TinyFixes
@@ -68,13 +70,31 @@ namespace TinyFixes
 		[HarmonyPatch(typeof(BalloonStandCellSensor), nameof(BalloonStandCellSensor.Update))]
 		public class BalloonStandCellSensor_Update_Patch
 		{
-			//skip this horribly inefficient method
+			//skip this method re-checking every single tick
 			public static bool Prefix(BalloonStandCellSensor __instance)
 			{				
 				return false;
 			}
 		}
-		[HarmonyPatch(typeof(BalloonStandCellSensor), nameof(BalloonStandCellSensor.GetCell))]
+
+        [HarmonyPatch(typeof(LoadingOverlay), nameof(LoadingOverlay.Load))]
+        public class Overlay_Icon_Replace
+        {
+            //replace loading dupe face with pip
+            public static void Postfix()
+            {
+				var instance = LoadingOverlay.instance;
+				var image = instance.transform.Find("Image").GetComponent<Image>();
+				var pipSprite = Def.GetUISprite(Assets.GetPrefab(SquirrelConfig.ID));
+                image.preserveAspect = true;
+                image.sprite = pipSprite.first;
+
+				var rect = image.rectTransform();
+				rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 200);
+            }
+        }
+
+        [HarmonyPatch(typeof(BalloonStandCellSensor), nameof(BalloonStandCellSensor.GetCell))]
 		public class BalloonStandCellSensor_GetCell_Patch
 		{
 			//only run the query when requested
@@ -111,8 +131,56 @@ namespace TinyFixes
 			}
 		}
 
+		public class LastFoundCell
+		{
+			public int cell;
+			public int standCell;
+            public int time;
+			public LastFoundCell(int _cell, int _standCell, int _time)
+			{
+				this.cell = _cell;
+				this.standCell = _standCell;
+				this.time = _time;
+			}
+			public void UpdateCached(int _cell, int _standCell, int _time)
+            {
+                this.cell = _cell;
+                this.standCell = _standCell;
+                this.time = _time;
+            }
+        }
+		public static LastFoundCell AddOrRefreshLastFoundCell(BalloonStandCellSensor instance)
+		{
+			int _time = GameClock.Instance.GetFrame();
+			if (CachedValues.TryGetValue(instance, out var cache))
+			{
+				cache.UpdateCached(instance.cell, instance.standCell, _time);
+				return cache;
+            }
+			CachedValues[instance] = new(instance.cell, instance.standCell, _time);
+			return CachedValues[instance];
+		}
+
+
+        static Dictionary<BalloonStandCellSensor, LastFoundCell> CachedValues = new();
 		public static void UpdateBalloonBuddyCells(BalloonStandCellSensor __instance)
 		{
+			//for efficiency, use caching of the found value and only refresh it at max. every N frames if the method is called in rapid succession; otherwise use the cached value
+			if(CachedValues.TryGetValue(__instance, out var CachedForInstance))
+			{
+				int currentFrame = GameClock.Instance.GetFrame();
+				//the following value determines the min. number of frames it reuses the cached value without reevaluating
+				int minTimeUseCached = 20;
+
+				if(CachedForInstance.time + minTimeUseCached > currentFrame)
+				{
+					__instance.standCell = CachedForInstance.standCell;
+					__instance.cell = CachedForInstance.cell;
+                    return;
+				}
+			}
+
+
 			int worldId = __instance.gameObject.GetMyWorldId();
 
 			__instance.cell = Grid.InvalidCell;
@@ -152,7 +220,9 @@ namespace TinyFixes
 						__instance.standCell = potentialStandCellRight;
 					}
 				}
-			}
+                AddOrRefreshLastFoundCell(__instance);
+
+            }
 			void CheckCell(int mingleCell)
 			{
 				int navigationCost = navigator.GetNavigationCost(mingleCell);
