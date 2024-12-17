@@ -97,8 +97,12 @@ namespace UtilLibs
 
 			if (generateTemplate)
 			{
+				var translationFolder = Path.Combine(IO_Utils.ModPath, "translations");
+				System.IO.Directory.CreateDirectory(translationFolder);
+
 				Localization.GenerateStringsTemplate(root, Path.Combine(Manager.GetDirectory(), "strings_templates"));
 				Localization.GenerateStringsTemplate(root.Namespace, Assembly.GetExecutingAssembly(), Path.Combine(IO_Utils.ModPath, "translation_template.pot"), null);
+				Localization.GenerateStringsTemplate(root.Namespace, Assembly.GetExecutingAssembly(), Path.Combine(translationFolder, "translation_template.pot"), null);
             }
 		}
 
