@@ -8,6 +8,7 @@ namespace WeebDupe
 	{
 		public static string
 			WEEB_ID = "WD_WEEB"
+			,WEEB_BIONIC_ID = "WD_WEEB_BIONIC"
 			, SpriteID = "CatEarSprite";
 
 		public class WAccessories
@@ -49,10 +50,11 @@ namespace WeebDupe
 		public class WSkills
 		{
 			public static Skill weeb;
+			public static Skill weeb_bionic;
 
 			public static void Register(Skills __instance)
 			{
-				weeb = __instance.Add(new Skill(
+				weeb = __instance.AddSkill(new Skill(
 						WEEB_ID,
 						STRINGS.DUPLICANTS.ROLES.WEEB.NAME,
 						STRINGS.DUPLICANTS.ROLES.WEEB.DESCRIPTION,
@@ -69,6 +71,24 @@ namespace WeebDupe
 						}, new List<string>()
 						{
 						}));
+				weeb_bionic = __instance.AddSkill(new Skill(
+						WEEB_BIONIC_ID,
+						STRINGS.DUPLICANTS.ROLES.WEEB.NAME,
+						STRINGS.DUPLICANTS.ROLES.WEEB.DESCRIPTION,
+						DlcManager.DLC3_ID,
+						0,
+						"hat_role_weeb1",
+						"skillbadge_role_research1",
+						Db.Get().SkillGroups.Research.Id,
+						new List<SkillPerk>
+						{
+							WSkillPerks.Weeb1,
+							WSkillPerks.Weeb2
+
+						}, new List<string>()
+						{
+						},
+		GameTags.Minions.Models.Bionic.ToString()));
 
 			}
 		}
