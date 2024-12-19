@@ -1,11 +1,13 @@
 ﻿using HarmonyLib;
 using Klei;
+using ProcGenGame;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Text;
 using UnityEngine;
 using UtilLibs;
 
@@ -321,6 +323,9 @@ namespace AnimExportTool
 		}
 		static void GetAnimsFromEntity(GameObject instance, string idPath = "EntityUISpritesById", string namePath = "EntityUISpritesByName")
 		{
+			if (instance == null)
+				return;
+
 			if (!instance.TryGetComponent<KAnimControllerBase>(out var kbac) || kbac.animFiles.Length == 0)
 				return;
 
@@ -331,7 +336,11 @@ namespace AnimExportTool
 			if (UISpriteDef == null)
 				return;
 			var UISprite = UISpriteDef.first;
-			var id = kPrefab.PrefabID().ToString();
+
+			var prefabId = kPrefab.PrefabID();
+			if (prefabId == null)
+				return;
+			var id = prefabId.ToString();
 
 			if (UISprite != null && UISprite != Assets.GetSprite("unknown"))
 			{
@@ -460,6 +469,11 @@ namespace AnimExportTool
 				}
 			}
 
+			public static string GenerateLocalizedEntry(string key, string value)
+			{
+				return $"<data name=\"{key}\" xml:space=\"preserve\"><value>{value}</value></data>";
+			}
+
             static void GetAnimsFromRecoverable(GameObject geyserPrefab) =>
                     GetAnimsFromEntity(geyserPrefab, "StarmapDestinationRecoverablesById", "StarmapDestinationRecoverablesByName");
             static void GetAnimsFromStarmapLocation(string spriteName, string fileName, string idPath = "StarmapDestinationsById")
@@ -476,12 +490,25 @@ namespace AnimExportTool
 
             public static void Postfix()
 			{
+				StringBuilder loc = new StringBuilder();
 				var export = new DataExport();
 				foreach (var cluster in ProcGen.SettingsCache.clusterLayouts.clusterCache.Values)
 				{
+
+					bool strippedMoonlet = false;
+					string clusterName = Strings.Get(cluster.name);
+					{
+						if(clusterName.Contains("Moonlet Cluster - ") || clusterName.Contains("Mini Cluster - "))
+						{
+							strippedMoonlet = true;
+							clusterName = clusterName.ToString().Replace("Moonlet Cluster - ", string.Empty).Replace("Mini Cluster - ", string.Empty);
+							clusterName += " Cluster";
+						}
+					}
+
 					var data = new ClusterLayout();
 					data.Id = cluster.filePath;
-					data.Name = Strings.Get(cluster.name);
+					data.Name = clusterName;
 					data.Prefix = cluster.coordinatePrefix;
 					data.menuOrder = cluster.menuOrder;
 					data.RequiredDlcsIDs = cluster.requiredDlcIds;
@@ -493,7 +520,8 @@ namespace AnimExportTool
 					data.clusterCategory = (int)cluster.clusterCategory;
 					data.fixedCoordinate = cluster.fixedCoordinate;
 					export.clusters.Add(data);
-				}
+					loc.Append(GenerateLocalizedEntry(data.Name, data.Name));
+                }
 				foreach (var world in ProcGen.SettingsCache.worlds.worldCache.Values)
 				{
 					var data = new Asteroid();
@@ -504,7 +532,8 @@ namespace AnimExportTool
 					data.worldTraitScale = world.worldTraitScale;
 
 					export.asteroids.Add(data);
-				}
+                    loc.Append(GenerateLocalizedEntry(data.Name, data.Name));
+                }
 				foreach (var trait in ProcGen.SettingsCache.worldTraits.Values)
 				{
 					var data = new WorldTrait();
@@ -518,11 +547,13 @@ namespace AnimExportTool
 					data.globalFeatureMods = trait.globalFeatureMods;
 
 					export.worldTraits.Add(data);
-				}
+                    loc.Append(GenerateLocalizedEntry(data.Name, data.Name));
+                }
 				Console.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 				Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(export));
-
-				var starmapExport = new StarmapGeneratorData();
+				Console.WriteLine("LOC:");
+				Console.WriteLine(loc.ToString());
+                var starmapExport = new StarmapGeneratorData();
 				
 
 				foreach (var element in ElementLoader.elements)
