@@ -161,7 +161,6 @@ namespace BawoonFwiend
 		{
 			//SgtLogger.l(BallonSkin+" "+enabled+" "+onClick);   
 			var gameObject = Util.KInstantiateUI(stateButtonPrefab, buttonContainer.gameObject, true);
-			//SgtLogger.l("AAAAAAAAAAAA");
 			if (gameObject.TryGetComponent(out MultiToggle button))
 			{
 				//Assets.TryGetAnim((HashedString)animName, out var anim);
