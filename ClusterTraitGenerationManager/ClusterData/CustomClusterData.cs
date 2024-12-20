@@ -588,6 +588,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 					possibleLocations = possibleLocations.Shuffle(random).ToList();
 					int distance = possibleLocations.First();
+					distance = Math.Min(distance, VanillaStarmapItems.Count - 1);
 					SgtLogger.l(planetId + ": " + distance, "adding missing," + PossibleVanillaStarmapLocations.ContainsKey(planetId));
 					AddVanillaPoi(planetId, distance);
 				}

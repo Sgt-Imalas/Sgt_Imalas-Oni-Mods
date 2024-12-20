@@ -1341,6 +1341,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 		Dictionary<int, VanillaStarmapRangeBand> VanillaStarmapEntries = new Dictionary<int, VanillaStarmapRangeBand>();
 		Dictionary<string, SO_StarmapRangeBand> SOStarmapEntries = new Dictionary<string, SO_StarmapRangeBand>();
 		Transform AddRemoveStarmapButtons;
+		FButton RemoveDistance;
 		GameObject AddAllMissingStarmapItemsButton;
 		ToolTip MissingPlanetsTooltip;
 
@@ -1372,7 +1373,6 @@ namespace ClusterTraitGenerationManager.UI.Screens
 		{
 			if (DlcManager.IsExpansion1Active())
 			{
-				///TODO: Open POISelector
 				// CustomCluster.AddPoiGroup();
 				VanillaPOISelectorScreen.InitializeView(null, (id) =>
 				{
@@ -1416,12 +1416,14 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 				RefreshTearIndex();
 				AddRemoveStarmapButtons.SetAsLastSibling();
+				RefreshMissingItemsButton();
 			};
-			var RemoveButton = AddRemoveStarmapButtons.Find("RemoveDistanceRow").gameObject.AddOrGet<FButton>();
-			RemoveButton.OnClick += () =>
+			 RemoveDistance = AddRemoveStarmapButtons.Find("RemoveDistanceRow").gameObject.AddOrGet<FButton>();
+			RemoveDistance.OnClick += () =>
 			{
 				CustomCluster.RemoveFurthestVanillaStarmapDistance();
 				RemoveFurthestVanillaStarmapItemBand();
+				RefreshMissingItemsButton();
 			};
 
 			RebuildStarmap(true);
@@ -1619,6 +1621,8 @@ namespace ClusterTraitGenerationManager.UI.Screens
 					tooltipList += type.Name;
 				}
 				MissingPlanetsTooltip.SetSimpleTooltip(string.Format(ADDMISSINGPOI.TOOLTIP, tooltipList));
+
+				RemoveDistance.SetInteractable(CustomCluster.VanillaStarmapItems.Count > 1);
 
 			}
 		}

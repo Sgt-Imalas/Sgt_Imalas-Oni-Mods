@@ -286,20 +286,22 @@ namespace ClusterTraitGenerationManager
 						__instance.destinations.Sort(((a, b) => a.distance.CompareTo(b.distance)));
 
 
-						//shenanigans in the vanilla code:
-						List<float> list = new List<float>();
-						for (int index = 0; index < 10; ++index)
-							list.Add((float)index / 10f);
-						for (int index1 = 0; index1 < 20; ++index1)
+						//shenanigans in the vanilla code that determine the horizontal starting position of a space poi, adjusted for when there are a lot of pois in a band added by cgm
+
+						int numberPercentageSteps = 10;
+						List<float> startingPercentageRandoms = new List<float>();
+						for (int index = 0; index < numberPercentageSteps; ++index)
+							startingPercentageRandoms.Add(index / (float)numberPercentageSteps);
+						for (int index1 = 0; index1 < __instance.destinations.Count; ++index1)
 						{
-							list.Shuffle<float>();
-							int index2 = 0;
+							startingPercentageRandoms.Shuffle<float>();
+							int percentageIndex = 0;
 							foreach (SpaceDestination destination in __instance.destinations)
 							{
 								if (destination.distance == index1)
 								{
-									++index2;
-									destination.startingOrbitPercentage = list[index2];
+									++percentageIndex;
+									destination.startingOrbitPercentage = startingPercentageRandoms[percentageIndex % numberPercentageSteps];
 								}
 							}
 						}
