@@ -1091,6 +1091,13 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 					PlanetSizeWidth.SetInteractable(IsPartOfCluster && planetCategorySelected);
 					PlanetSizeHeight.SetInteractable(IsPartOfCluster && planetCategorySelected);
+
+					PlanetSizeCycle.SetInteractable(IsPartOfCluster && planetCategorySelected);
+					PlanetRazioCycle.SetInteractable(IsPartOfCluster && planetCategorySelected);
+
+					AsteroidSky_Light.SetInteractable(IsPartOfCluster && planetCategorySelected);
+					AsteroidSky_Radiation.SetInteractable(IsPartOfCluster && planetCategorySelected);
+					AsteroidSky_NorthernLights.SetInteractable(IsPartOfCluster && planetCategorySelected && DlcManager.IsContentSubscribed(DlcManager.DLC2_ID));
 					//if (!HexGridSelection)
 					//    MinMaxDistanceSlider.SetValues(current.minRing, current.maxRing, 0, CustomCluster.Rings, false);
 					//SpawnDistanceText.SetText(string.Format(MINMAXDISTANCE.DESCRIPTOR.FORMAT, (int)current.minRing, (int)current.maxRing));
