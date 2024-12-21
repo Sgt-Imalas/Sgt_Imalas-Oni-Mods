@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AkisSnowThings.Content.Scripts.Buildings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -64,6 +65,7 @@ namespace AkisSnowThings.Content.Defs.Buildings
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
 			go.AddOrGet<BuildingAttachPoint>().points = [new BuildingAttachPoint.HardPoint(new CellOffset(0, 0), ModAssets.TreeAttachmentTag, null)];
+			go.GetComponent<KPrefabID>().AddTag(GameTags.Decoration);
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)
@@ -79,6 +81,7 @@ namespace AkisSnowThings.Content.Defs.Buildings
 			light2D.shape = LightShape.Circle;
 			light2D.drawOverlay = true;
 			go.AddOrGetDef<LightController.Def>();
+			go.AddOrGet<TreeAttachableBuilding>();
 		}
 	}
 }

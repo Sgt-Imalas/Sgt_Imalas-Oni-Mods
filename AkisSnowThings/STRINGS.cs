@@ -12,6 +12,20 @@ namespace AkisSnowThings
 {
 	public class STRINGS
 	{
+		public class ELEMENTS
+		{
+			public class EVERGREENTREESAP
+			{
+				public static LocString NAME = FormatAsLink("Tree Sap", nameof(EVERGREENTREESAP));
+				public static LocString DESC = ("Sticky goo harvested from an evergreen tree.\n\nIt can be polymerized into " + FormatAsLink("Isoresin", "ISORESIN") + " by boiling away its excess moisture.");
+			}
+
+			public class EVERGREENTREESAPFROZEN
+			{
+				public static LocString NAME = FormatAsLink("Frozen Sap", nameof(EVERGREENTREESAPFROZEN));
+				public static LocString DESC = "Solidified goo harvested from an evergreen tree.\n\nIt is used in the production of " + FormatAsLink("Isoresin", "ISORESIN") + ".";
+			}
+		}
 		public class MISC
 		{
 			public class TAGS
@@ -43,12 +57,12 @@ namespace AkisSnowThings
 				public class SNOWSCULPTURES_EVERGREEN_TREE
 				{
 					public static LocString NAME = FormatAsLink("Evergreen", nameof(SNOWSCULPTURES_EVERGREEN_TREE));
-					public static LocString DESC = NAME+"s are an excellent source of " + ELEMENTS.WOODLOG.NAME + ".\n\nThey also are a great joy of the season";
+					public static LocString DESC = NAME+"s are an excellent source of " + global::STRINGS.ELEMENTS.WOODLOG.NAME + ".\n\nThey also are a great joy of the season";
 					public static LocString DOMESTICATEDDESC = DESC;
 					public class REMAINS
 					{
 						public static LocString NAME = FormatAsLink("Wood Pile", nameof(global::STRINGS.ELEMENTS.WOODLOG));
-						public static LocString DESC = (LocString)("The wooden remains of a felled " + SNOWSCULPTURES_EVERGREEN_TREE.NAME + ". Turns into " + ELEMENTS.WOODLOG.NAME+".");
+						public static LocString DESC = (LocString)("The wooden remains of a felled " + SNOWSCULPTURES_EVERGREEN_TREE.NAME + ". Turns into " + global::STRINGS.ELEMENTS.WOODLOG.NAME+".");
 					}
 				}
 				public class SEEDS

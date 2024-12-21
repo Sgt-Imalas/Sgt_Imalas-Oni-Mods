@@ -20,8 +20,9 @@ namespace AkisSnowThings.Content.Defs.Plants
 		public const float WATER_PER_CYCLE = 15f / 600;
 		public const float GROWTH_TIME = 18f * 600f;
 		public const int HARVEST_MASS = 6000;
-		public const float RESIN_PER_SECOND = 5f / 600f;
+		public const float SAP_PER_SECOND = 10f / 600f;
 		public const float SAP_CAPACITY = 20f;
+		public static CellOffset OUTPUT_CONDUIT_CELL_OFFSET = new CellOffset(0, 1);
 
 		public GameObject CreatePrefab()
 		{
@@ -50,6 +51,8 @@ namespace AkisSnowThings.Content.Defs.Plants
 				baseTraitId: ID + "Original",
 				baseTraitName: SNOWSCULPTURES_EVERGREEN_TREE.NAME);
 
+			UnityEngine.Object.DestroyImmediate(prefab.GetComponent<HarvestDesignatable>());
+			prefab.AddComponent<EvergreenHarvestDesignatable>().SetHarvestWhenReady(false);
 
 			//var fertilizerConsumption = new PlantElementAbsorber.ConsumeInfo()
 			//{
@@ -99,7 +102,14 @@ namespace AkisSnowThings.Content.Defs.Plants
 
 			var sapProducer = prefab.AddComponent<TreeSapProducer>();
 			sapProducer.SapStorage = sapStorage;
+			sapProducer.sapProductionRatePerSecond = SAP_PER_SECOND;
 
+			ConduitDispenser conduitDispenser = prefab.AddOrGet<ConduitDispenser>();
+			conduitDispenser.noBuildingOutputCellOffset = OUTPUT_CONDUIT_CELL_OFFSET;
+			conduitDispenser.conduitType = ConduitType.Liquid;
+			conduitDispenser.alwaysDispense = true;
+			//conduitDispenser.SetOnState(true);
+			conduitDispenser.storage =	sapStorage;
 			return prefab;
 		}
 
@@ -116,6 +126,8 @@ namespace AkisSnowThings.Content.Defs.Plants
 
 		public void OnSpawn(GameObject inst)
 		{
+			EntityCellVisualizer entityCellVisualizer = inst.AddOrGet<EntityCellVisualizer>();
+			entityCellVisualizer.AddPort(EntityCellVisualizer.Ports.LiquidOut, OUTPUT_CONDUIT_CELL_OFFSET, (Color)entityCellVisualizer.Resources.liquidIOColours.output.connected);
 		}
 	}
 }
