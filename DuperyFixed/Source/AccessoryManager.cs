@@ -5,11 +5,11 @@ namespace Dupery
 {
 	class AccessoryManager
 	{
-		public AccessoryPool Pool { get { return this.accessoryPool; } }
+		public AccessoryPool Pool => this.accessoryPool; 
 
 		private AccessoryPool accessoryPool;
-		public static Dictionary<string, string> HeadOverrideAnims = new(); //key: headshape, value: animName
-		public static Dictionary<HashedString, string> PersonalityHeadOverrideAnims = new(); //key: personalityId, value: animName
+		public static Dictionary<string, string> MouthOverrideAnims = new(); //key: headshape, value: animName
+		public static Dictionary<HashedString, string> PersonalityCheekSourceMouthOverrides = new(); //key: personalityId, value: animName
 
 		public AccessoryManager()
 		{
@@ -20,18 +20,19 @@ namespace Dupery
 		{
 			return accessoryPool.TryGetId(slotId, accessoryName, out accessoryId);
 		}
-		public bool TryGetHeadAnimOverride(MinionIdentity identity, out string headAnimOverride)
+		public bool TryGetCheekGetterAnimOverride(MinionIdentity identity, out string headAnimOverride)
 		{
-			return PersonalityHeadOverrideAnims.TryGetValue(identity.personalityResourceId, out headAnimOverride);
+			SgtLogger.l("trying to get custom cheek anim for "+identity.personalityResourceId);
+			return PersonalityCheekSourceMouthOverrides.TryGetValue(identity.personalityResourceId, out headAnimOverride);
 		}
 		public bool RegisterPersonalityForCustomCheeks(HashedString personalityID, string mouth)
 		{
 			if (mouth == null) return false;
 
-			if (HeadOverrideAnims.TryGetValue(mouth, out var anim))
+			if (MouthOverrideAnims.TryGetValue(mouth, out var anim))
 			{
 				SgtLogger.l("Registered custom mouth for " + personalityID + ": " + mouth + " -> " + anim);
-				PersonalityHeadOverrideAnims[personalityID] = anim;
+				PersonalityCheekSourceMouthOverrides[personalityID] = anim;
 				return true;
 			}
 			return false;
@@ -49,6 +50,7 @@ namespace Dupery
 
 		public int LoadAccessories(string animName, bool saveToCache = false)
 		{
+
 			ResourceSet accessories = Db.Get().Accessories;
 
 			KAnimFile anim = Assets.GetAnim(animName);
@@ -88,7 +90,7 @@ namespace Dupery
 
 				if (slot.Id == accessorySlots.Mouth.Id)
 				{
-					HeadOverrideAnims.Add(id, animName);
+					MouthOverrideAnims.Add(id, animName);
 					Debug.Log("[Dupery]: setting custom cheek override anim for mouth: " + id);
 				}
 
@@ -96,6 +98,8 @@ namespace Dupery
 				Accessory accessory = new Accessory(id, accessories, slot, anim.batchTag, build.symbols[index], anim);
 				slot.accessories.Add(accessory);
 				resourceTable.Add(accessory);
+
+				//InjectionMethods.RegisterCustomSwapAnim(KAnimGroupFile.GetGroupFile(), [animName]);
 
 				if (cachable && saveToCache)
 				{

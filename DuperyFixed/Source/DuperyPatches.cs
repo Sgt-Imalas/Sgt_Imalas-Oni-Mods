@@ -94,14 +94,34 @@ namespace Dupery
 		{
 			List<string> animNames = new List<string>();
 			SgtLogger.l("getting anims from mod: " + mod.label.title);
-			string path = FileSystem.Normalize(System.IO.Path.Combine(mod.ContentPath, "anim"));
-			if (!System.IO.Directory.Exists(path))
+			string animDirectory = FileSystem.Normalize(System.IO.Path.Combine(mod.ContentPath, "anim"));
+
+			string dreamIconDicrectory = FileSystem.Normalize(System.IO.Path.Combine(mod.ContentPath, "dreamicons"));
+			if (System.IO.Directory.Exists(dreamIconDicrectory))
 			{
-				SgtLogger.l("no anim directory found under: "+ path);
+				foreach(var file in System.IO.Directory.GetFiles(dreamIconDicrectory))
+				{
+					var fileInfo = new FileInfo(file);
+					if(fileInfo.Extension == ".png")
+					{
+						SgtLogger.l("Adding custom dream icon to assets: " + fileInfo.Name);
+						AssetUtils.AddSpriteToAssets(fileInfo);
+					}
+				}
+			}
+			else
+			{
+				SgtLogger.l("no dream icon directory found under: " + dreamIconDicrectory);
+			}
+
+
+			if (!System.IO.Directory.Exists(animDirectory))
+			{
+				SgtLogger.l("no anim directory found under: "+ animDirectory);
                 return null;
             }
 
-			foreach (DirectoryInfo directory1 in new DirectoryInfo(path).GetDirectories())
+			foreach (DirectoryInfo directory1 in new DirectoryInfo(animDirectory).GetDirectories())
 			{
 				foreach (DirectoryInfo directory2 in directory1.GetDirectories())
 				{

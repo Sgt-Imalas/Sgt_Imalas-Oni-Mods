@@ -40,7 +40,7 @@ namespace Dupery
 			}
 
 			string overrideFilePath = Path.GetFullPath(Path.Combine(DuperyPatches.DirectoryName, OVERRIDE_FILE_NAME));
-			Debug.Log("Dupery override file: "+overrideFilePath);
+			Debug.Log("Dupery override file: " + overrideFilePath);
 			if (!File.Exists(overrideFilePath))
 				Logger.Log($"Creating {OVERRIDE_FILE_NAME} override file for modifying stock personalities.");
 
@@ -221,6 +221,18 @@ namespace Dupery
 				string json = JsonConvert.SerializeObject(jsonPersonalities, Formatting.Indented);
 				streamWriter.Write(json);
 			}
+		}
+
+		static HashSet<HashedString> RoboMouthUsers = new();
+		public static bool UseRoboMouthConversation(HashedString? personalityResourceId)
+		{
+			if (personalityResourceId == null) return false;
+			return RoboMouthUsers.Contains(personalityResourceId.Value);
+		}
+		public static void RegisterRoboMouthConversationUsage(HashedString personalityId)
+		{
+			if (!RoboMouthUsers.Contains(personalityId))
+				RoboMouthUsers.Add(personalityId);
 		}
 	}
 }

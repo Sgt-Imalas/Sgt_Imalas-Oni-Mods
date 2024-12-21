@@ -69,8 +69,16 @@ namespace Dupery
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string LegSkin { get; set; }
 
-        // Extra not-serlialized properties
-        private string sourceModId;
+        /// <summary>
+        /// Conversations dont use regular mouth overrides, instead, the animation has a dedicated extra anim for mouth_006 (sonjar).
+        /// setting this value to true will make the dupe use that mouth_006 anim instead of the regular mouth anim.
+        /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public bool RoboMouthConversation { get; set; } = false;
+
+
+		// Extra not-serlialized properties
+		private string sourceModId;
         private bool isModified;
 
         public PersonalityOutline() { }
@@ -236,7 +244,7 @@ namespace Dupery
             if (joyTrait == "StickerBomber")
             {
                 stickerType = StickerType;
-                if (stickerType == null | stickerType == "")
+                if (stickerType.IsNullOrWhiteSpace())
                     stickerType = Randomize ? PersonalityGenerator.RollStickerType() : PersonalityGenerator.DEFAULT_STICKER_TYPE;
             }
 
@@ -327,7 +335,13 @@ namespace Dupery
                 model
             );
 
-            return personality;
+            if(RoboMouthConversation)
+			{
+                SgtLogger.l(name + " will be using a robotic mouth during conversations");
+                PersonalityManager.RegisterRoboMouthConversationUsage(nameStringKey);
+			}
+
+			return personality;
         }
 
         public static PersonalityOutline FromStockPersonality(Personality personality)
