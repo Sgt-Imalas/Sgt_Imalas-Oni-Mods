@@ -83,7 +83,7 @@ namespace UtilLibs
 		{
 			if (assemblyOverride == "")
 				assemblyOverride = Assembly.GetExecutingAssembly().GetName().Name;
-			string messageToLog = string.Concat("[" + TimeZoneInfo.ConvertTimeToUtc(System.DateTime.Now).ToString("HH:mm:ss.fff") + "] [WARNING] [" + assemblyOverride + "]: ", message);
+			string messageToLog = string.Concat(TimeStamp()," [WARNING] [" , assemblyOverride , "]: ", message);
 
 			Console.WriteLine(messageToLog, assemblyOverride);
 		}
@@ -91,7 +91,7 @@ namespace UtilLibs
 		{
 			if (assemblyOverride == "")
 				assemblyOverride = Assembly.GetExecutingAssembly().GetName().Name;
-			string messageToLog = string.Concat("[" + TimeZoneInfo.ConvertTimeToUtc(System.DateTime.Now).ToString("HH:mm:ss.fff") + "] [ERROR] [" + assemblyOverride + "]: ", message);
+			string messageToLog = string.Concat(TimeStamp(), " [ERROR] [" ,assemblyOverride , "]: ", message);
 
 			Console.WriteLine(messageToLog, assemblyOverride);
 		}
@@ -100,7 +100,7 @@ namespace UtilLibs
 		{
 
 			var assemblyOverride = Assembly.GetExecutingAssembly().GetName().Name;
-			string messageToLog = string.Concat("[" + TimeZoneInfo.ConvertTimeToUtc(System.DateTime.Now).ToString("HH:mm:ss.fff") + "] [ERROR] [" + assemblyOverride + "]: ", v);
+			string messageToLog = string.Concat(TimeStamp(), " [ERROR] [" , assemblyOverride , "]: ", v);
 
 			Console.WriteLine(messageToLog, assemblyOverride);
 		}

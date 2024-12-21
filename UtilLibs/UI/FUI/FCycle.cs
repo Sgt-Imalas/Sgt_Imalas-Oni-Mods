@@ -70,6 +70,10 @@ namespace UtilLibs.UIcmp //Source: Aki
 				rightArrow.SetInteractable(value);
 			}
 		}
+		public void SetInteractable(bool interactable)
+		{
+			IsInteractable = interactable;
+		}
 		private bool HasOptions => Options.Count > 0;
 
 		public string Value
