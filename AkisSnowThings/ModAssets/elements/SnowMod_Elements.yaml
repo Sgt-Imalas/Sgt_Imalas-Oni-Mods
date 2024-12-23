@@ -7,7 +7,7 @@ elements:
     liquidSurfaceAreaMultiplier: 1
     gasSurfaceAreaMultiplier: 1
     strength: 0.2
-    highTemp: 293.15
+    highTemp: 253.15
     highTempTransitionTarget: EvergreenTreeSap
     defaultTemperature: 242.15
     defaultMass: 30
@@ -34,8 +34,8 @@ elements:
     solidSurfaceAreaMultiplier: 1
     liquidSurfaceAreaMultiplier: 25
     gasSurfaceAreaMultiplier: 1
-    lowTemp: 293.15
-    highTemp: 398.15
+    lowTemp: 253.15
+    highTemp: 368.15
     lowTempTransitionTarget: EvergreenTreeSapFrozen
     highTempTransitionTarget: Steam
     highTempTransitionOreId: Isoresin

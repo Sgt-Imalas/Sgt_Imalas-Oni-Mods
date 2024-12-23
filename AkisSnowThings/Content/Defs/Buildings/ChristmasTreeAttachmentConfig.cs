@@ -72,6 +72,7 @@ namespace AkisSnowThings.Content.Defs.Buildings
 		{
 			go.AddOrGet<EnergyConsumer>();
 			go.AddOrGet<LoopingSounds>();
+			go.AddOrGet<ChristmasPresentSpawner>();
 			Light2D light2D = go.AddOrGet<Light2D>();
 			light2D.Lux = LUX;
 			light2D.overlayColour = LIGHT2D.SUNLAMP_OVERLAYCOLOR;

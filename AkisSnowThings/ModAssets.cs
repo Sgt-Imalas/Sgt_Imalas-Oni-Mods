@@ -14,6 +14,9 @@ namespace AkisSnowThings
 {
 	public class ModAssets
 	{
+		public static string PresentSlotId  = "SnowSculptures_PresentSlot";
+		public static AssignableSlot PresentSlot;
+
 		public static HashSet<string> GlassCaseSealables { get; set; } = new HashSet<string>()
 		{
 			SnowSculptureConfig.ID,

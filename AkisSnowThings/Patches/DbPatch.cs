@@ -16,8 +16,10 @@ namespace AkisSnowThings.Patches
 				BuildingFacadesPatches.PrefixPatch();
 			}
 
-			public static void Postfix()
+			public static void Postfix(Db __instance)
 			{
+				ModAssets.PresentSlot =  __instance.AssignableSlots.Add(new(ModAssets.PresentSlotId, STRINGS.ENTITIES.PREFABS.SNOWSCULPTURES_FESTIVEPRESENT.NAME, false));
+
 				SnowStatusItems.CreateStatusItems();
 
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Furniture, SnowSculptureConfig.ID, IceSculptureConfig.ID);

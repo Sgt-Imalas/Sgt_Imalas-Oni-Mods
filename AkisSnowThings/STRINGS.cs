@@ -213,8 +213,13 @@ namespace AkisSnowThings
                 {
                     public static LocString NAME = FormatAsLink("Snow Drift", GrowingSnowLayerConfig.ID);
                     public static LocString DESC = "Snow that has accumulated from a snow machine.";
-                }
-            }
+				}
+				public class SNOWSCULPTURES_FESTIVEPRESENT
+				{
+					public static LocString NAME = FormatAsLink("Festive Present", FestivePresentConfig.ID);
+					public static LocString DESC = "A festive present for one of my duplicants, ready to be unwrapped!";
+				}
+			}
 
             public class STATUSITEMS
             {
@@ -230,6 +235,12 @@ namespace AkisSnowThings
         }
         public class UI
 		{
+			public class GIVEDUPEPRESENTS
+			{
+				public static LocString LABEL = "Deliver Presents";
+				public static LocString LABEL_COOLDOWN = "Next Festivities in {0} Cycles";
+				public static LocString TOOLTIP = "Get your duplicants some nice gifts";
+			}
 			public static LocString DECOROVERLAYTITLE = "Snow:";
 			public static LocString PETTHATDAWG = "Pet";
 			public static LocString PETTED = "Dog petted!";

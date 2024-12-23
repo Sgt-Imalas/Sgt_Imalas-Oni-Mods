@@ -12,7 +12,7 @@ namespace AkisSnowThings.Content.Scripts.Elements
 	{
 		public static ElementInfo
 			EvergreenTreeSapFrozen = ElementInfo.Solid("EvergreenTreeSapFrozen", UIUtils.rgb(255, 215, 79)),
-			EvergreenTreeSap = ElementInfo.Liquid("EvergreenTreeSap", UIUtils.rgb(201, 170, 63))
+			EvergreenTreeSap = ElementInfo.Liquid("EvergreenTreeSap", UIUtils.rgb(255, 178, 74))
 			;
 
 		public static void RegisterSubstances(List<Substance> list)
