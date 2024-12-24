@@ -17,9 +17,9 @@ namespace AkisSnowThings.Content.Defs.Plants
 		public const string ID = "SnowSculptures_EverGreenTree";
 		public const string SEED_ID = "SnowSculptures_PineCone";
 		public const float FERTILIZER_PER_CYCLE = 2f / 600f;
-		public const float WATER_PER_CYCLE = 15f / 600;
-		public const float GROWTH_TIME = 18f * 600f;
-		public const int HARVEST_MASS = 6000;
+		public const float WATER_PER_CYCLE = 30f / 600;
+		public const float GROWTH_TIME = 24f * 600f;
+		public const int HARVEST_MASS = 4000;
 		public const float SAP_PER_SECOND = 10f / 600f;
 		public const float SAP_CAPACITY = 20f;
 		public static CellOffset OUTPUT_CONDUIT_CELL_OFFSET = new CellOffset(0, 1);

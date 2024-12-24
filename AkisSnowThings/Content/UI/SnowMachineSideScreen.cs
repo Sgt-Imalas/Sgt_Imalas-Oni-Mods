@@ -58,11 +58,15 @@ namespace AkisSnowThings.Content.UI
             UIUtils.AddSimpleTooltipToObject(turbulence.gameObject, STRINGS.UI.SNOWMACHINESIDESCREEN.CONTENTS.TURBULENCE.TOOLTIP);
         }
 
-        public override void OnSpawn()
+		public override string GetTitle()
+		{
+			return STRINGS.UI.DECOROVERLAYTITLE;
+		}
+		public override void OnSpawn()
         {
             base.OnSpawn();
 
-            density.OnChange += OnSettingsChanged;
+			density.OnChange += OnSettingsChanged;
             speed.OnChange += OnSettingsChanged;
             lifeTime.OnChange += OnSettingsChanged;
             turbulence.OnChange += OnSettingsChanged;
