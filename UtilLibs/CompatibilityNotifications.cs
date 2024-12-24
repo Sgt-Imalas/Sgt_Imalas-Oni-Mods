@@ -4,7 +4,9 @@ using PeterHan.PLib.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
+using UnityEngine.PlayerLoop;
 
 namespace UtilLibs
 {
@@ -24,6 +26,63 @@ namespace UtilLibs
 			else
 				Debug.Log("mod not found: " + assemblyName);
 		}
+
+
+		static string BrokenTimeoutFixed = "CrapManager_BrokenTimeoutFixed";
+		static int ManagerFixVersion = 1;
+		public static void FixBrokenTimeout(Harmony harmony)
+		{
+			if (PRegistry.GetData<int>(BrokenTimeoutFixed) >= ManagerFixVersion)
+			{
+				return;
+			}
+			PRegistry.PutData(BrokenTimeoutFixed, ManagerFixVersion);
+			//UtilMethods.ListAllTypesWithAssemblies();
+
+			var targetType = Type.GetType("Ony.OxygenNotIncluded.ModManager.Updater, Release_DLC1.Mod.ModManager");
+			if (targetType == null)
+			{
+				Debug.Log("mod manager fix target type not found");
+				return;
+			}
+            var innerClass = targetType.GetNestedTypes(AccessTools.all).FirstOrDefault(t => !t.FullName.Contains("All") && t.FullName.Contains("<Update>"));
+
+			if(innerClass == null)
+			{
+				Debug.Log("mod manager update inner type not found");
+				return;
+			}
+
+			var method = AccessTools.Method(innerClass, "MoveNext");
+			if(method  == null)
+			{
+				Debug.Log("mod manager update method missing");
+				return;
+			}
+
+
+			Debug.Log("fixing broken timeout in mod manager...");
+			var methodtranspiler = AccessTools.Method(typeof(CompatibilityNotifications),nameof(BrokenTimeoutFixTranspiler));
+
+			harmony.Patch(method, transpiler: new(methodtranspiler));
+
+		}
+
+		public static IEnumerable<CodeInstruction> BrokenTimeoutFixTranspiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
+		{
+			var codes = orig.ToList();
+
+			var index = codes.FindIndex(c => c.LoadsConstant(5000));
+
+			if (index == -1)
+			{
+				return codes;
+			}
+			codes[index].operand = 999999999;
+			return codes;
+		}
+
+
 
 		//public static void ImproveUserExperience(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
 		//{

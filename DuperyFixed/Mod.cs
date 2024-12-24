@@ -22,6 +22,7 @@ namespace DuperyFixed
 		{
 			DuperyPatches.Mods = mods;
 			DuperyPatches.ModStaticID = this.mod.staticID;
+			CompatibilityNotifications.FixBrokenTimeout(harmony);
 			base.OnAllModsLoaded(harmony, mods);
 		}
 	}

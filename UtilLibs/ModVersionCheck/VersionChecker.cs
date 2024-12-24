@@ -103,6 +103,7 @@ namespace UtilLibs.ModVersionCheck
 			Task.Run(() => HandleDataFetching(userMod));
 		}
 
+
 		public static async void HandleDataFetching(KMod.UserMod2 userMod)
 		{
 			var data = PRegistry.GetData<Dictionary<string, string>>(ModVersionDataKey_Server);

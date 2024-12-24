@@ -180,12 +180,21 @@ namespace Dupery
         }
 
         static HashSet<string> ValidModels = new() { "Minion", "BionicMinion" }; //tags arent initialized yet so they are null, update from GameTags.Minions.Models.AllModels when new minion type releases
-        public Personality ToPersonality(string nameStringKey)
-        {            
+        public bool ToPersonality(string nameStringKey, out Personality outPersonality, out string failReason)
+        {
+            failReason = null;
 
-            if (Model == null || !ValidModels.Contains(Model))
-                Model = GameTags.Minions.Models.Standard.ToString();
+			if (Model == null || !ValidModels.Contains(Model))
+                Model = "Minion";
             Tag model = Model;
+
+            if(!DlcManager.IsContentSubscribed(DlcManager.DLC3_ID) && Model == "BionicMinion")
+            {
+				failReason = "BionicMinion model is not available without the Bionic Booster DLC";
+				outPersonality = null;
+                return false;
+			}
+
 
             nameStringKey = nameStringKey.ToUpper();
 
@@ -302,16 +311,18 @@ namespace Dupery
             DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Body.Id, Body);
             DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.HeadShape.Id, HeadShape);
             DuperyPatches.AccessoryManager.RegisterPersonalityForCustomCheeks(nameStringKey, Mouth);
-            //DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Neck.Id, Neck);
-            //DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Belt.Id, Belt);
-            //DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Neck.Id, Neck);
-            //DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Cuff.Id, Cuff);
-            //DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Foot.Id, Foot);
-            //DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Hand.Id, Hand);
-            //DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Pelvis.Id, Pelvis);
-            //DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Leg.Id, Leg);
 
-            Personality personality = new Personality(
+			///todo: investigate why I commented these out
+			//DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Neck.Id, Neck);
+			//DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Belt.Id, Belt);
+			//DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Neck.Id, Neck);
+			//DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Cuff.Id, Cuff);
+			//DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Foot.Id, Foot);
+			//DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Hand.Id, Hand);
+			//DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Pelvis.Id, Pelvis);
+			//DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Leg.Id, Leg);
+
+			Personality personality = new Personality(
                 nameStringKey,
                 name,
                 gender,
@@ -340,8 +351,8 @@ namespace Dupery
                 SgtLogger.l(name + " will be using a robotic mouth during conversations");
                 PersonalityManager.RegisterRoboMouthConversationUsage(nameStringKey);
 			}
-
-			return personality;
+            outPersonality = personality;
+			return true;
         }
 
         public static PersonalityOutline FromStockPersonality(Personality personality)

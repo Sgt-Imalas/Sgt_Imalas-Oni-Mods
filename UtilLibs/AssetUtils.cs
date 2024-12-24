@@ -11,6 +11,28 @@ namespace UtilLibs
 	/// </summary>
 	public class AssetUtils
 	{
+		//
+		public static Sprite AddSpriteToAssets(FileInfo file, bool overrideExisting = false)
+		{
+			var instance = Assets.instance;
+			string spriteId = Path.GetFileNameWithoutExtension(file.Name);
+			TryLoadTexture(file.FullName, out Texture2D texture);
+			var sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector3.zero);
+			sprite.name = spriteId;
+			if (!overrideExisting && instance.SpriteAssets.Any(spritef => spritef != null && spritef.name == spriteId))
+			{
+				SgtLogger.l("Sprite " + spriteId + " was already existent in the sprite assets");
+				return null;
+			}
+			if (overrideExisting)
+				instance.SpriteAssets.RemoveAll(foundsprite2 => foundsprite2 != null && foundsprite2.name == spriteId);
+
+			instance.SpriteAssets.Add(sprite);
+
+			HashedString key = new HashedString(sprite.name);
+			Assets.Sprites[key] = sprite;
+			return sprite;
+		}
 		public static Sprite AddSpriteToAssets(Assets instance, string spriteid, bool overrideExisting = false)
 		{
 			var path = Path.Combine(UtilMethods.ModPath, "assets");

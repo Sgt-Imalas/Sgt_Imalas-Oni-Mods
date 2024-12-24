@@ -71,7 +71,8 @@ namespace Dupery
 				Description = description
 			};
 
-			return outline.ToPersonality(nameStringKey);
+			outline.ToPersonality(nameStringKey, out var pers, out _);
+			return pers;
 		}
 	}
 }

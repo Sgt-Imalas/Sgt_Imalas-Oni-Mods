@@ -1,6 +1,7 @@
 ﻿using Database;
 using HarmonyLib;
 using System.Collections.Generic;
+using UtilLibs;
 
 namespace Dupery
 {
@@ -31,7 +32,13 @@ namespace Dupery
 				foreach (string nameStringKey in map.Keys)
 				{
 					PersonalityOutline outline = map[nameStringKey];
-					Personality personality = outline.ToPersonality(nameStringKey);
+					if (!outline.ToPersonality(nameStringKey, out var personality, out string failReason))
+					{
+						SgtLogger.warning("Couldnt print " + nameStringKey + ", Reason: " + failReason);
+						continue;
+					}
+
+
 
 					string name = $"{personality.Name}";
 					string sourceModId = outline.GetSourceModId();

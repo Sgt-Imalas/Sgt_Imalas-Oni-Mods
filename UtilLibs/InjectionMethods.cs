@@ -30,8 +30,10 @@ namespace UtilLibs
 		//          }
 		//      }
 
+		public static void RegisterCustomSwapAnim(KAnimGroupFile kAnimGroupFile, HashSet<HashedString> swaps) =>
+			MoveAnimGroup(kAnimGroupFile, BATCH_TAGS.SWAPS, swaps);
 		public static void RegisterCustomInteractAnim(KAnimGroupFile kAnimGroupFile, HashSet<HashedString> swaps) =>
-			RegisterBatchTag(kAnimGroupFile, BATCH_TAGS.INTERACTS, swaps);
+			MoveAnimGroup(kAnimGroupFile, BATCH_TAGS.INTERACTS, swaps);
 
 		/// <summary>
 		/// Required to register the correct anim group for custom made interact anims
@@ -39,7 +41,7 @@ namespace UtilLibs
 		/// <param name="kAnimGroupFile"></param>
 		/// <param name="taghash"></param>
 		/// <param name="swaps"></param>
-		public static void RegisterBatchTag(KAnimGroupFile kAnimGroupFile, int taghash, HashSet<HashedString> swaps)
+		public static void MoveAnimGroup(KAnimGroupFile kAnimGroupFile, int taghash, HashSet<HashedString> swaps)
 		{
 			var groups = kAnimGroupFile.GetData();
 			var swapAnimsGroup = KAnimGroupFile.GetGroup(new HashedString(taghash));
@@ -67,6 +69,7 @@ namespace UtilLibs
 
 				swapAnimsGroup.animFiles.Add(anim);
 				swapAnimsGroup.animNames.Add(anim.name);
+				SgtLogger.l(anim+"; "+anim.name+" added to group");
 			}
 		}
 
