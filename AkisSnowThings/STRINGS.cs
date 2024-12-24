@@ -173,7 +173,7 @@ namespace AkisSnowThings
 
 				public class SNOWSCULPTURES_SNOWMACHINE
 				{
-					public static LocString NAME = FormatAsLink("Snow Machine", SnowMachineConfig.ID);
+					public static LocString NAME = FormatAsLink("Snow Machine (Decorative)", SnowMachineConfig.ID);
 					public static LocString DESC = "Delights your duplicants with pretty snow.";
 					public static LocString EFFECT = "Increases " + FormatAsLink("Decor", "DECOR") + ", contributing to " + FormatAsLink("Morale", "MORALE") + ".\n\nMust be powered.";
 				}

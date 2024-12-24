@@ -29,7 +29,7 @@ namespace AkisSnowThings.Content.Scripts.Buildings
 
 
 		[OnDeserializing()]
-		internal void OnDeserializingMethod(StreamingContext context)
+		internal void OnDeserializingMethod()
 		{
 			if (_globalCooldownLoc > 0 || GlobalCooldown < _globalCooldownLoc)
 			{
@@ -42,7 +42,7 @@ namespace AkisSnowThings.Content.Scripts.Buildings
 		}
 
 		[OnSerialized()]
-		internal void OnSerialized(StreamingContext context)
+		internal void OnSerialized()
 		{
 			if(_globalCooldownLoc < GlobalCooldown)
 			{

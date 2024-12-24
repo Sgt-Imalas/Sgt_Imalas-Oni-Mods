@@ -23,14 +23,14 @@ namespace AkisSnowThings.Patches
 				SnowStatusItems.CreateStatusItems();
 
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Furniture, SnowSculptureConfig.ID, IceSculptureConfig.ID);
-				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Utilities, GlassCaseConfig.ID,LiquidConditionerConfig.ID );
-				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Furniture, SnowMachineConfig.ID);
-				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Furniture, ChristmasTreeAttachmentConfig.ID);
+				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Utilities, GlassCaseConfig.ID,IceMachineConfig.ID );
+				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Furniture, SnowMachineConfig.ID,PixelPackConfig.ID);
+				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Furniture, ChristmasTreeAttachmentConfig.ID,BeachChairConfig.ID);
 
 				InjectionMethods.AddBuildingToTechnology( GameStrings.Technology.Decor.ArtisticExpression, SnowSculptureConfig.ID);
-				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Decor.ArtisticExpression,GlassCaseConfig.ID);
+				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Decor.GlassBlowing,GlassCaseConfig.ID);
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Decor.InteriorDecor,SnowMachineConfig.ID);
-				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Decor.ArtisticExpression, ChristmasTreeAttachmentConfig.ID);
+				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Decor.EnvironmentalAppreciation, ChristmasTreeAttachmentConfig.ID);
 
 				ConfigureRecipes();
 

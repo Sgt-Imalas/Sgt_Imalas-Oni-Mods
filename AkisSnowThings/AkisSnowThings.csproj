@@ -4,7 +4,7 @@
 	<PropertyGroup>
 		<PackageId>AkisSnowThings</PackageId>
 		<Version>1.0.0</Version>
-		<Authors>Sgt_Imalas</Authors>
+		<Authors>Sgt_Imalas &amp; Aki</Authors>
 		<Copyright>$(AssemblyCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
 	</PropertyGroup>
@@ -23,7 +23,7 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>AkisSnowThings</ModName>
+		<ModName>Decor Pack S - Winters Delight</ModName>
 		<ModDescription></ModDescription>
 		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>

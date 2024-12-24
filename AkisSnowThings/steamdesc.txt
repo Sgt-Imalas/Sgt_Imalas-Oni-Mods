@@ -1,0 +1,43 @@
+﻿[h1]Decor Pack S - Winters Delight[/h1]
+
+adds 4 new winter themed decor buildings and a new tree plant to decorate your base with
+
+[img]https://i.imgur.com/oNBUpGe.png[/img] [img]https://i.imgur.com/Cd1HwbV.png[/img] 
+[img]https://i.imgur.com/pa6jsyD.png[/img] [img]https://i.imgur.com/ix2Nmhl.png[/img]
+[h1]Current latest Version: 1.0[/h1]
+
+[hr][/hr]
+[h1]Features[/h1]
+[list][*] Snow Machine (Decorative): A decorative building that produces falling snow particles
+[*] Snow Sculpture: a new type of sculpture made from snow
+[*] Glass Case: A new utility building that can be used to vacuum seal snow and ice sculptures to prevent them from melting
+[*] Evergreen Tree: A new plant that either produces wood or tree sap. Its seeds can be found in a printing pod care package or produced in the molecular forge. A fully grown evergreen tree can be upgraded into a:
+[*] Festive Tree: This building attaches to fully grown evergreen trees to give a festive atmosphere. Once a year it also offers a special surprise for your duplicants..
+[/list]
+
+[h1]Localisation[/h1]
+- English
+
+[h1]Credits[/h1]
+All Snow Sculptures, Snow Machine, Glass Case as well as a large portion of the code were made by the wonderful [url=https://steamcommunity.com/id/akisnothere/myworkshopfiles/?appid=457140]Aki[/url], make sure to check out his other decor mods!
+
+[hr][/hr]
+
+[h1]Bug Reports & Local Download[/h1]
+You can find direct downloads for my mods [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases]here[/url] (please notify me if I forgot to release new versions).
+
+Please post bug reports and issues on [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url] or on my [url=https://discord.gg/5n7peBCnWZ]Discord Server[/url]. 
+[b]Always include the full player.log in a report: [/b] https://github.com/aki-art/ONI-Mods/wiki/How-to-send-a-log
+
+[b]Make also sure you do NOT have the mod "Debug Console // by @Ony 👾" enabled as it breaks the game internally and makes the log useless for debugging![/b] 
+
+[h3]Mod is marked as "incompatible"?[/h3]
+(remove ony mod manager and) install [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2018291283]Mod Updater[/url]!
+This problem is caused by a rare mod extraction bug that gets massively amplified by ony mod manager.
+
+you can also grab a direct download on [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases]GitHub[/url] to get the latest version
+
+[hr][/hr]
+
+Do you like the mods I made? If you want, you can support me on [url=https://www.buymeacoffee.com/sgtimalas]Buy me a coffee[/url] or [url=https://ko-fi.com/sgtimalas]Kofi[/url] :D.
+You can support Aki on [url=https://ko-fi.com/akisenkinn]Kofi[/url] too
