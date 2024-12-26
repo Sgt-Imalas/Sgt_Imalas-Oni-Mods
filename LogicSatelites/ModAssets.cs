@@ -119,6 +119,13 @@ namespace LogicSatellites.Behaviours
 
 		public class Graph
 		{
+
+			public bool TryGetNodeAt(AxialI location, out Node node)
+			{
+				node = AdjazenzMatrixHolder.LogicConnectionNodes.Find(f => f.SatelliteLocation == location);
+				return node != null;
+			}
+
 			public List<Node> LogicConnectionNodes = new List<Node>();
 
 			public bool?[,] AdjacencyMatrix;

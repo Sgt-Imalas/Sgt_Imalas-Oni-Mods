@@ -1,6 +1,9 @@
 ﻿using HarmonyLib;
 using LogicSatellites.Behaviours;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UtilLibs;
 
 namespace LogicSatellites.Patches
 {
@@ -46,53 +49,82 @@ namespace LogicSatellites.Patches
 		[HarmonyPatch(nameof(ClusterMapScreen.UpdatePaths))]
 		public static class PathUpdating
 		{
-			//static Color satelliteConnectionColor = UIUtils.rgba(255, 255, 255, 0.15f);
-			//static Color activeConnectionColor = UIUtils.rgba(255, 90, 90, 0.3f);
-			// public static void AddOrUpdateConnection(GameObject item, List<AxialI> connections)
-			// {
-			//     if(item == null)
-			//     {
-			//         SgtLogger.l("BroadcastReciever was null!");
-			//         return;
-			//     }
+			static Color satelliteConnectionColor = UIUtils.rgba(255, 255, 255, 0.15f);
+			static Color activeConnectionColor = UIUtils.rgba(90,255, 90, 0.3f);
+			public static void AddOrUpdateConnection(GameObject item, List<AxialI> connections)
+			{
+				if (item == null)
+				{
+					SgtLogger.l("BroadcastReciever was null!");
+					return;
+				}
 
-			//     if(ActiveConnections.ContainsKey(item))
-			//     {
-			//         Util.KDestroyGameObject(ActiveConnections[item]);
-			//         ActiveConnections.Remove(item);
-			//     }
-			//     if(connections != null && connections.Count>0)
-			//     {
-			//         var path = ClusterMapScreen.Instance.pathDrawer.AddPath();
-			//         path.SetPoints(connections.Select(note => note.ToWorld2D()).ToList());
-			//         path.SetColor(activeConnectionColor);
-			//         ActiveConnections.Add(item,path);
-			//     }
-			// }
+				if (ActiveConnections.ContainsKey(item))
+				{
+					Util.KDestroyGameObject(ActiveConnections[item]);
+					ActiveConnections.Remove(item);
+				}
+				if (connections != null && connections.Count > 0)
+				{
+					var path = ClusterMapScreen.Instance.pathDrawer.AddPath();
+					path.SetPoints(connections.Select(note => note.ToWorld2D()).ToList());
+					path.SetColor(satelliteConnectionColor);
+					ActiveConnections.Add(item, path);
+				}
+			}
 
-			// public static Dictionary<GameObject, ClusterMapPath> ActiveConnections = new Dictionary<GameObject, ClusterMapPath>();
-			// static Dictionary<ModAssets.Node, List<ClusterMapPath>> Paths = new Dictionary<ModAssets.Node, List<ClusterMapPath>> ();
-			//public static void Postfix(ClusterMapScreen __instance)
-			//{
-			//    foreach(var item in Paths)
-			//    {
-			//        for(int i= item.Value.Count-1; i>=0;i--)
-			//            Util.KDestroyGameObject(item.Value[i]);
-			//    }
-			//    Paths.Clear();
-			//    foreach(var node in ModAssets.AdjazenzMatrixHolder.LogicConnectionNodes)
-			//    {
-			//        var values= new List<ClusterMapPath> ();
-			//        foreach(var link in node.Links)
-			//        {
-			//            var path = __instance.pathDrawer.AddPath();
-			//            path.SetPoints(new List<UnityEngine.Vector2>() { link.Parent.SatelliteLocation.ToWorld2D(), link.Child.SatelliteLocation.ToWorld2D()});
-			//            path.SetColor(satelliteConnectionColor);
-			//            values.Add(path);
-			//        }
-			//        Paths[node] = values;
-			//    }
-			//}
+			public static Dictionary<GameObject, ClusterMapPath> ActiveConnections = new Dictionary<GameObject, ClusterMapPath>();
+			static Dictionary<ModAssets.Node, List<ClusterMapPath>> Paths = new Dictionary<ModAssets.Node, List<ClusterMapPath>>();
+			public static void Postfix(ClusterMapScreen __instance)
+			{
+				foreach (var path in Paths)
+				{
+					for (int i = path.Value.Count - 1; i >= 0; i--)
+					{
+						var item = path.Value[i];
+						if (!item.IsNullOrDestroyed() && !item.gameObject.IsNullOrDestroyed())
+							Util.KDestroyGameObject(item);
+					}
+				}
+				Paths.Clear();
+
+				if (__instance.m_selectedEntity is SatelliteGridEntity satellite)
+				{
+					if (ModAssets.AdjazenzMatrixHolder.TryGetNodeAt(satellite.Location, out var activeNode))
+					{
+						var values = new List<ClusterMapPath>();
+						foreach (var link in activeNode.Links)
+						{
+							var path = __instance.pathDrawer.AddPath();
+							path.SetPoints(new List<UnityEngine.Vector2>() { link.Parent.SatelliteLocation.ToWorld2D(), link.Child.SatelliteLocation.ToWorld2D() });
+							path.SetColor(satelliteConnectionColor);
+							values.Add(path);
+						}
+						Paths[activeNode] = values;
+						//activePaths.ForEach(path => path.SetColor(activeConnectionColor));
+					}
+				}
+				//foreach (var node in ModAssets.AdjazenzMatrixHolder.LogicConnectionNodes)
+				//{
+				//	var values = new List<ClusterMapPath>();
+				//	foreach (var link in node.Links)
+				//	{
+				//		var path = __instance.pathDrawer.AddPath();
+				//		path.SetPoints(new List<UnityEngine.Vector2>() { link.Parent.SatelliteLocation.ToWorld2D(), link.Child.SatelliteLocation.ToWorld2D() });
+				//		path.SetColor(satelliteConnectionColor);
+				//		values.Add(path);
+				//	}
+				//	Paths[node] = values;
+				//}
+				//if(__instance.m_selectedEntity is SatelliteGridEntity satellite)
+				//{
+				//	if(ModAssets.AdjazenzMatrixHolder.TryGetNodeAt(satellite.Location, out var activeNode)
+				//		&& Paths.TryGetValue(activeNode, out var activePaths))
+				//	{
+				//		activePaths.ForEach(path =>path.SetColor(activeConnectionColor));
+				//	}
+				//}
+			}
 		}
 	}
 }
