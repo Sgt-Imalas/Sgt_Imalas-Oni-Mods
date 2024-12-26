@@ -20,6 +20,7 @@ namespace CannedFoods
 		{
 			base.OnAllModsLoaded(harmony, mods);
 			CompatibilityNotifications.FlagLoggingPrevention(mods);
+			CompatibilityNotifications.FixBrokenTimeout(harmony);
 
 		}
 	}

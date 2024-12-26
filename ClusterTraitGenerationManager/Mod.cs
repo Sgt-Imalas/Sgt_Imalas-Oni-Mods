@@ -47,7 +47,7 @@ namespace ClusterTraitGenerationManager
 			base.OnAllModsLoaded(harmony, mods);
 			MoonletAPI.MoonletInitialized = MoonletAPI.InitializeIntegration();
 
-
+			CompatibilityNotifications.FixBrokenTimeout(harmony);
 			CompatibilityNotifications.FlagLoggingPrevention(mods);
 			CompatibilityNotifications.RemoveCrashingIncompatibility(harmony, mods, "CGSMMerged");
 			CompatibilityNotifications.RemoveCrashingIncompatibility(harmony, mods, "WGSM");
