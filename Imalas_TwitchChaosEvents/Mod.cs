@@ -24,6 +24,7 @@ namespace Imalas_TwitchChaosEvents
 		{
 			base.OnAllModsLoaded(harmony, mods);
 			CompatibilityNotifications.FlagLoggingPrevention(mods);
+			CompatibilityNotifications.FixBrokenTimeout(harmony);
 
 		}
 	}

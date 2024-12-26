@@ -27,7 +27,7 @@ namespace UL_UniversalLyzer
 		{
 			base.OnAllModsLoaded(harmony, mods);
 			CompatibilityNotifications.FlagLoggingPrevention(mods);
-
+			CompatibilityNotifications.FixBrokenTimeout(harmony);
 		}
 	}
 }

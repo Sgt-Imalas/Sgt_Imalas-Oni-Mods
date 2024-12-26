@@ -17,6 +17,7 @@ namespace MoveDupeHere
 			base.OnAllModsLoaded(harmony, mods);
 
 			CompatibilityNotifications.FlagLoggingPrevention(mods);
+			CompatibilityNotifications.FixBrokenTimeout(harmony);
 			//ModlistManager.Instance.UpdateModDict();
 		}
 	}

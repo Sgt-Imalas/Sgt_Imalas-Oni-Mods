@@ -133,7 +133,7 @@
     $(GameLibsFolder)/UnityEngine.InputLegacyModule.dll $(GameLibsFolder)/Unity.TextMeshPro.dll ^
     $(GameLibsFolder)/UnityEngine.TextRenderingModule.dll $(GameLibsFolder)/UnityEngine.UI.dll ^
     $(GameLibsFolder)/UnityEngine.UIModule.dll $(GameLibsFolder)/UnityEngine.UnityWebRequestModule.dll ^
-    $(GameLibsFolder)/Ionic.Zip.dll $(GameLibsFolder)/Newtonsoft.Json.dll $(GameLibsFolder)/com.rlabrecque.steamworks.net.dll" />
+    $(GameLibsFolder)/Ionic.Zip.dll $(GameLibsFolder)/Newtonsoft.Json.dll $(GameLibsFolder)/com.rlabrecque.steamworks.net.dll $(GameLibsFolder)/netstandard.dll" />
 	</Target>
 
 </Project>
