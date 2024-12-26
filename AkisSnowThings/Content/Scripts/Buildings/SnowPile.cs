@@ -49,6 +49,11 @@ namespace AkisSnowThings.Content.Scripts.Buildings
 			Subscribe((int)GameHashes.Rotated, OnRotated);
 			Subscribe(ModAssets.Hashes.Sealed, data => PutInCase(data as GlassCase));
 			Subscribe(ModAssets.Hashes.UnSealed, data => TakeOutFromCase(data as GlassCase));
+
+
+			pettable = sculpture.CurrentStage == SNOWDOG;
+			UpdateDog();
+			UpdateBroken();
 		}
 
 		private void OnRotated(object data)
@@ -63,7 +68,8 @@ namespace AkisSnowThings.Content.Scripts.Buildings
 		{
 			petCapacity++;
 			UpdateDog();
-			UpdateBroken();
+			UpdateBroken(); 
+			DogPetFx();
 		}
 
 		public void PutInCase(GlassCase glassCase)
@@ -114,6 +120,24 @@ namespace AkisSnowThings.Content.Scripts.Buildings
 			UpdateDog();
 			UpdateBroken();
 		}
+		public void DogPetFx()
+		{
+			pettable = sculpture.CurrentStage == SNOWDOG;
+
+			if (!pettable)
+			{
+				return;
+			}
+
+			if (sealable.glassCase != null && petCapacity < DOG_CRITICAL_THRESHOLD && petCapacity >= DOG_CRITICAL_THRESHOLD - 2)
+			{
+				SoundUtils.PlaySound(ModAssets.Sounds.CUICA_DRUM, transform.position, KPlayerPrefs.GetFloat("Volume_SFX"));
+			}
+
+			if (SpeedControlScreen.Instance.IsPaused)
+				SpeedControlScreen.Instance.Unpause(false);
+			PopFXManager.Instance.SpawnFX(Assets.GetSprite("crew_state_happy"), STRINGS.UI.PETTED, null, offset: this.transform.GetPosition(), 2);
+		}
 
 		public void UpdateDog()
 		{
@@ -123,36 +147,11 @@ namespace AkisSnowThings.Content.Scripts.Buildings
 			{
 				kbac.SetPositionPercent(0);
 				petCapacity = 0;
-
 				return;
 			}
-
-			if (sealable.glassCase != null && petCapacity < DOG_CRITICAL_THRESHOLD && petCapacity >= DOG_CRITICAL_THRESHOLD - 2)
-			{
-				SoundUtils.PlaySound(ModAssets.Sounds.CUICA_DRUM, transform.position, KPlayerPrefs.GetFloat("Volume_SFX"));
-			}
-
-			//kbac.Play("cased", KAnim.PlayMode.Paused);
-
-			//bool isPaused = SpeedControlScreen.Instance.IsPaused;
-			//if (isPaused)
-			//	SpeedControlScreen.Instance.Unpause(false);
-
-			if (SpeedControlScreen.Instance.IsPaused)
-				SpeedControlScreen.Instance.Unpause(false);
-
-
 			kbac.SetPositionPercent((float)petCapacity / MAX_PET);
 			kbac.UpdateAnim(0);
 			kbac.SetDirty();
-
-
-			PopFXManager.Instance.SpawnFX(Assets.GetSprite("crew_state_happy"), STRINGS.UI.PETTED, null, offset: this.transform.GetPosition(), 2);
-
-			//if (isPaused)
-			//	SpeedControlScreen.Instance.Pause(false);
-
-			//kbac.forceRebuild = true;
 		}
 
 		private void OnRefreshUserMenu(object obj)

@@ -117,7 +117,7 @@ namespace AkisSnowThings.Content.Scripts.Buildings
 
 			var yDiff = thisY - y;
 
-			if (yDiff < 0 || yDiff > decors.Length)
+			if (yDiff < 0 || yDiff >= decors.Length)
 			{
 				return 0f;
 			}
