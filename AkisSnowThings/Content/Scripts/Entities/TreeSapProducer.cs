@@ -32,10 +32,14 @@ namespace AkisSnowThings.Content.Scripts.Entities
 		public void Sim200ms(float dt)
 		{
 			selectable.RemoveStatusItem(Db.Get().MiscStatusItems.NotMarkedForHarvest);
+
+			if (SapStorage.IsFull())
+				return;
+
 			if (!growth?.IsGrown() ?? false || wiltCondition.IsWilting() || wiltCondition.goingToWilt)
 				return;
 
-			foreach(var potentialWiltingSource in wiltCondition.WiltConditions)
+			foreach (var potentialWiltingSource in wiltCondition.WiltConditions)
 			{
 				//wilting condition +  bool value if it is fulfilled (true == not wilting by that condition)
 				if (!potentialWiltingSource.Value) //tree would be wilting if growing, but it is already fully grown, so I have to check manually if any of the conditions are met.
@@ -46,6 +50,7 @@ namespace AkisSnowThings.Content.Scripts.Entities
 			}
 			float rate = rm.Replanted ? sapProductionRatePerSecond : sapProductionRatePerSecond / 4f;
 			rate *= dt;
+
 
 			SapStorage.AddLiquid(SnowModElements.EvergreenTreeSap, rate, primaryElement.Temperature, 255, 0);
 		}

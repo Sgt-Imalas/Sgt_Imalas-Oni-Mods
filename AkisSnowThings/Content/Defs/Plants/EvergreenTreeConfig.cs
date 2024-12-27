@@ -16,12 +16,12 @@ namespace AkisSnowThings.Content.Defs.Plants
 	{
 		public const string ID = "SnowSculptures_EverGreenTree";
 		public const string SEED_ID = "SnowSculptures_PineCone";
-		public const float FERTILIZER_PER_CYCLE = 2f / 600f;
-		public const float WATER_PER_CYCLE = 30f / 600;
+		public const float WATER_PER_SECOND = 30f / 600;
 		public const float GROWTH_TIME = 24f * 600f;
 		public const int HARVEST_MASS = 4000;
 		public const float SAP_PER_SECOND = 10f / 600f;
 		public const float SAP_CAPACITY = 20f;
+		public const float WOOD_PER_SECOND = HARVEST_MASS / GROWTH_TIME;
 		public static CellOffset OUTPUT_CONDUIT_CELL_OFFSET = new CellOffset(0, 1);
 
 		public GameObject CreatePrefab()
@@ -62,7 +62,7 @@ namespace AkisSnowThings.Content.Defs.Plants
 			var waterConsumption = new PlantElementAbsorber.ConsumeInfo()
 			{
 				tag = SimHashes.DirtyWater.CreateTag(),
-				massConsumptionRate = WATER_PER_CYCLE
+				massConsumptionRate = WATER_PER_SECOND
 			};
 
 			//EntityTemplates.ExtendPlantToFertilizable(prefab, [fertilizerConsumption]);
@@ -120,8 +120,7 @@ namespace AkisSnowThings.Content.Defs.Plants
 
 		public void OnPrefabInit(GameObject inst)
 		{
-			inst.GetComponent<KBatchedAnimController>().randomiseLoopedOffset = true;
-
+			inst.GetComponent<KBatchedAnimController>().randomiseLoopedOffset = true;	
 		}
 
 		public void OnSpawn(GameObject inst)
