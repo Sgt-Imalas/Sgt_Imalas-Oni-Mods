@@ -239,7 +239,13 @@ namespace RebuildPreserve
                             {
                                 targetAnimGraphTileVisualizer.Refresh();
                             }
-                            BuildSettingsPreservationData.Instance.RemoveEntry(targetPos);
+                            if(cachedGameObject.TryGetComponent<Bottler>(out var bottler) && targetBuilding.TryGetComponent<Bottler>(out var targetBottler))
+							{
+                                SgtLogger.debuglog("bottler hack; setting capacity to " + bottler.userMaxCapacity + " for " + targetBuilding.GetProperName());
+								targetBottler.UserMaxCapacity = bottler.userMaxCapacity; //because the public property getter defaults to 0 for reasons when certain params arent set, gotta set it manually here...
+							}
+
+							BuildSettingsPreservationData.Instance.RemoveEntry(targetPos);
                         });
                     }
                 }
