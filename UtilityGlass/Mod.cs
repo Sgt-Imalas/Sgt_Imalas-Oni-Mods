@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using KMod;
+using System.Collections.Generic;
 using UtilLibs;
 
 namespace UtilityGlass
@@ -10,6 +11,12 @@ namespace UtilityGlass
 		{
 			base.OnLoad(harmony);
 			SgtLogger.LogVersion(this, harmony);
+		}
+		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
+		{
+			base.OnAllModsLoaded(harmony, mods);
+			CompatibilityNotifications.FlagLoggingPrevention(mods);
+			CompatibilityNotifications.FixBrokenTimeout(harmony);
 		}
 	}
 }

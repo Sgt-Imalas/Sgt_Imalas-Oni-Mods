@@ -14,7 +14,7 @@
 	<PropertyGroup>
 		<TargetFramework>net48</TargetFramework>
 		<Configurations>Debug;Release</Configurations>
-    <LangVersion>preview</LangVersion>
+		<LangVersion>preview</LangVersion>
 		<AssemblyName>CycleComma</AssemblyName>
 		<RootNamespace>_1LineCrasher</RootNamespace>
 		<IsMod>true</IsMod>
