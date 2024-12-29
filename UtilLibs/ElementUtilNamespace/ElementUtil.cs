@@ -60,7 +60,7 @@ namespace ElementUtilNamespace
 			}
 
 			Substance substance = ModUtil.CreateSubstance(id.ToString(), state, animFile, newMaterial, color, uiColor, conduitColor);
-
+			substance.anims = [animFile]; 
 			return substance;
 		}
 
