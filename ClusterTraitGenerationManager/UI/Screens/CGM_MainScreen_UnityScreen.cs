@@ -548,6 +548,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			DLC2_Toggle.SetCheckmark("Checkmark");
 
 			DLC2_Toggle.SetOnFromCode(isDLC2Active);
+			DLC2_Toggle.SetInteractable(DlcManager.IsContentSubscribed(DlcManager.DLC2_ID));
 			DLC2_Toggle.OnClick += (v) =>
 			{
 				ToggleWorldgenAffectingDlc(v, CustomMixingSettingsConfigs.DLC2Mixing);
@@ -555,9 +556,10 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
             DLC3_Toggle = transform.Find("Categories/DLCFooter/DLC3/Checkbox").gameObject.AddComponent<FToggle>();
             DLC3_Toggle.SetCheckmark("Checkmark");
-
             DLC3_Toggle.SetOnFromCode(isDLC3Active);
-            DLC3_Toggle.OnClick += (v) =>
+
+			DLC3_Toggle.SetInteractable(DlcManager.IsContentSubscribed(DlcManager.DLC3_ID));
+			DLC3_Toggle.OnClick += (v) =>
             {
                 ToggleNonWorldGenDlc(v, CustomMixingSettingsConfigs.DLC3Mixing);
             };
@@ -744,7 +746,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			}
 			DLC2_Toggle.SetOnFromCode(isDLC2Active);
 			DLC3_Toggle.SetOnFromCode(isDLC3Active);
-            DLC2_Toggle.SetInteractable(!CustomCluster.HasCeresAsteroid);
+            DLC2_Toggle.SetInteractable(!CustomCluster.HasCeresAsteroid && DlcManager.IsContentSubscribed(DlcManager.DLC2_ID));
 		}
 
 
