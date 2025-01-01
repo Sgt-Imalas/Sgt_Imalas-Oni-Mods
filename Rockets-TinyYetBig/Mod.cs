@@ -42,7 +42,7 @@ namespace Rockets_TinyYetBig
 			SgtLogger.l("On all mods loaded");
 			base.OnAllModsLoaded(harmony, mods);
 			CompatibilityNotifications.FlagLoggingPrevention(mods);
-
+			CompatibilityNotifications.FixBrokenTimeout(harmony);
 			bool FreeGridSpaceFixed = PRegistry.GetData<bool>("Bugs.FreeGridSpace");
 
 

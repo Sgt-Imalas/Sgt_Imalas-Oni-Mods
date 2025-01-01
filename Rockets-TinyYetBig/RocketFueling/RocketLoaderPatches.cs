@@ -176,8 +176,6 @@ namespace Rockets_TinyYetBig.RocketFueling
 		{
 			public static void Postfix(GameObject go)
 			{
-				//go.GetComponent<KPrefabID>().AddTag(ModAssets.Tags.RocketPlatformTag);
-
 				ChainedBuilding.Def def = go.AddOrGetDef<ChainedBuilding.Def>();
 				def.headBuildingTag = ModAssets.Tags.RocketPlatformTag;
 			}

@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>Rocketry_Expanded</PackageId>
-		<Version>2.8.9.0</Version>
+		<Version>2.8.10.0</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>$(AssemblyCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
@@ -13,6 +13,7 @@
 	<PropertyGroup>
 		<TargetFramework>net48</TargetFramework>
 		<Configurations>Debug;Release</Configurations>
+		<LangVersion>preview</LangVersion>
 		<AssemblyName>Rocketry Expanded</AssemblyName>
 		<RootNamespace>Rockets_TinyYetBig</RootNamespace>
 		<IsMod>true</IsMod>
@@ -563,6 +564,9 @@
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\templates\storytraits\RTB_CrashedUFOStoryTrait.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\translations\fr.po">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\translations\ko.po">

@@ -475,6 +475,17 @@ namespace Rockets_TinyYetBig
 					input += cargobayInfo;
 				}
 
+				string perkInfo = string.Empty;
+				if (currentDef.GeneratorWattageRating > 0)
+				{
+					perkInfo += string.Format(STRINGS.ROCKETBUILDMENUCATEGORIES.MODULEPERKS.POWER_PRODUCTION, GameUtil.GetFormattedWattage(currentDef.GeneratorWattageRating));
+				}
+				if (perkInfo != string.Empty)
+				{
+					perkInfo = "\n\n" + STRINGS.ROCKETBUILDMENUCATEGORIES.MODULEPERKS.TITLE + perkInfo;
+					input += cargobayInfo;
+				}
+
 				return input;
 			}
 		}

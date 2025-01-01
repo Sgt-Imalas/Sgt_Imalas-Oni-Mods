@@ -12,6 +12,7 @@ using System.Linq;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
+using static PeterHan.PLib.UI.PTextField;
 using static Rockets_TinyYetBig.RocketFueling.FuelLoaderComponent;
 using static Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS;
 
@@ -240,14 +241,16 @@ namespace Rockets_TinyYetBig
 		public static void ReplacedCargoLoadingMethod(CraftModuleInterface craftInterface, HashSetPool<ChainedBuilding.StatesInstance, ChainedBuilding.StatesInstance>.PooledHashSet chain, System.Action<bool> SetCompleteAction)
 		{
 			bool HasLoadingProcess = false;
-			DictionaryPool<CargoBay.CargoType, ListPool<CargoBayCluster, CraftModuleInterface>.PooledList, CraftModuleInterface>.PooledDictionary pooledDictionary
-				= DictionaryPool<CargoBay.CargoType, ListPool<CargoBayCluster, CraftModuleInterface>.PooledList, CraftModuleInterface>.Allocate();
-			pooledDictionary[CargoBay.CargoType.Solids] = ListPool<CargoBayCluster, CraftModuleInterface>.Allocate();
-			pooledDictionary[CargoBay.CargoType.Liquids] = ListPool<CargoBayCluster, CraftModuleInterface>.Allocate();
-			pooledDictionary[CargoBay.CargoType.Gasses] = ListPool<CargoBayCluster, CraftModuleInterface>.Allocate();
+			var CargoBaysPool = DictionaryPool<CargoBay.CargoType, ListPool<CargoBayCluster, CraftModuleInterface>.PooledList, CraftModuleInterface>.Allocate();
+			CargoBaysPool[CargoBay.CargoType.Solids] = ListPool<CargoBayCluster, CraftModuleInterface>.Allocate();
+			CargoBaysPool[CargoBay.CargoType.Liquids] = ListPool<CargoBayCluster, CraftModuleInterface>.Allocate();
+			CargoBaysPool[CargoBay.CargoType.Gasses] = ListPool<CargoBayCluster, CraftModuleInterface>.Allocate();
 
+			var FuelTanksPool = DictionaryPool<Element.State, ListPool<FuelTank, CraftModuleInterface>.PooledList, CraftModuleInterface>.Allocate();
+			FuelTanksPool[Element.State.Solid] = ListPool<FuelTank, CraftModuleInterface>.Allocate();
+			FuelTanksPool[Element.State.Liquid] = ListPool<FuelTank, CraftModuleInterface>.Allocate();
+			FuelTanksPool[Element.State.Gas] = ListPool<FuelTank, CraftModuleInterface>.Allocate();
 
-			var FuelTanks = ListPool<FuelTank, CraftModuleInterface>.Allocate();
 			var OxidizerTanks = ListPool<OxidizerTank, CraftModuleInterface>.Allocate();
 			var HEPStorages = ListPool<HighEnergyParticleStorage, CraftModuleInterface>.Allocate();
 			var DrillConeStorages = ListPool<Storage, CraftModuleInterface>.Allocate();
@@ -257,29 +260,59 @@ namespace Rockets_TinyYetBig
 
 			bool hasOxidizer;
 
-			foreach (Ref<RocketModuleCluster> clusterModule in (IEnumerable<Ref<RocketModuleCluster>>)craftInterface.ClusterModules)
+			foreach (Ref<RocketModuleCluster> clusterModuleRef in (IEnumerable<Ref<RocketModuleCluster>>)craftInterface.ClusterModules)
 			{
-				if (clusterModule.Get().TryGetComponent<RocketEngineCluster>(out var engine))
+				var clusterModule = clusterModuleRef.Get();
+
+				if (clusterModule.TryGetComponent<RocketEngineCluster>(out var engine))
 				{
 					FuelTag = engine.fuelTag;
 					hasOxidizer = engine.requireOxidizer;
 				}
 
-				if (clusterModule.Get().TryGetComponent<FuelTank>(out var fueltank))
-					FuelTanks.Add(fueltank);
+				if (clusterModule.TryGetComponent<FuelTank>(out var fueltank))
+				{
+					var ele = ElementLoader.GetElement(fueltank.FuelType);
 
-				if (clusterModule.Get().TryGetComponent<HighEnergyParticleStorage>(out var hepStorage))
+					if(ele != null)
+					{
+						FuelTanksPool[ele.state].Add(fueltank);
+					}
+					else if (clusterModule.TryGetComponent<ConduitConsumer>(out var conduitConsumer))
+					{
+						if(conduitConsumer.conduitType == ConduitType.Gas)
+							FuelTanksPool[Element.State.Gas].Add(fueltank);
+						else if (conduitConsumer.conduitType == ConduitType.Liquid)
+							FuelTanksPool[Element.State.Liquid].Add(fueltank);
+						else if(conduitConsumer.conduitType == ConduitType.Solid)
+							FuelTanksPool[Element.State.Solid].Add(fueltank);
+					}
+					else if (clusterModule.TryGetComponent<Building> (out var building) && building.Def.InputConduitType != ConduitType.None)
+					{
+						var defType = building.Def.InputConduitType;
+						if (defType == ConduitType.Gas)
+							FuelTanksPool[Element.State.Gas].Add(fueltank);
+						else if (defType == ConduitType.Liquid)
+							FuelTanksPool[Element.State.Liquid].Add(fueltank);
+						else if (defType == ConduitType.Solid)
+							FuelTanksPool[Element.State.Solid].Add(fueltank);
+					}
+					else
+						FuelTanksPool[Element.State.Solid].Add(fueltank);
+				}
+
+				if (clusterModule.TryGetComponent<HighEnergyParticleStorage>(out var hepStorage))
 					HEPStorages.Add(hepStorage);
 
-				if (clusterModule.Get().TryGetComponent<OxidizerTank>(out var oxTank))
+				if (clusterModule.TryGetComponent<OxidizerTank>(out var oxTank))
 				{
 					hasOxidizer = true;
 					OxidizerTanks.Add(oxTank);
 				}
 
-				if (clusterModule.Get().TryGetComponent<CargoBayCluster>(out var cargoBay) && cargoBay.storageType != CargoBay.CargoType.Entities && cargoBay.RemainingCapacity > 0f)
+				if (clusterModule.TryGetComponent<CargoBayCluster>(out var cargoBay) && cargoBay.storageType != CargoBay.CargoType.Entities && cargoBay.RemainingCapacity > 0f)
 				{
-					pooledDictionary[cargoBay.storageType].Add(cargoBay);
+					CargoBaysPool[cargoBay.storageType].Add(cargoBay);
 				}
 
 				//if (clusterModule.Get().GetSMI<ResourceHarvestModule.StatesInstance>() != null)
@@ -292,7 +325,7 @@ namespace Rockets_TinyYetBig
 				//    DrillConeStorages.Add(helperModule.DiamondStorage);
 				//}
 
-				if (clusterModule.Get().TryGetComponent<DrillConeModeHandler>(out var Handler))
+				if (clusterModule.TryGetComponent<DrillConeModeHandler>(out var Handler))
 				{
 					if (Handler.LoadingAllowed)
 						DrillConeStorages.Add(Handler.DiamondStorage);
@@ -321,11 +354,16 @@ namespace Rockets_TinyYetBig
 						for (int index = AllItems.Count() - 1; index >= 0; --index)
 						{
 							GameObject storageItem = AllItems[index];
-							foreach (FuelTank fueltank in FuelTanks)
+							if (!storageItem.TryGetComponent<PrimaryElement>(out var primaryElement))
+								continue;
+							var elementState = primaryElement.Element.state;
+
+
+							foreach (FuelTank fueltank in FuelTanksPool[elementState])
 							{
 								float remainingCapacity = fueltank.Storage.RemainingCapacity();
 								float num1 = TotalMassStoredOfItems(AllItems);
-								if ((double)remainingCapacity > 0.0 && (double)num1 > 0.0 && storageItem.HasTag(FuelTag))
+								if ((double)remainingCapacity > 0.0 && (double)num1 > 0.0 && storageItem.HasTag(FuelTag) && storageItem.HasTag(fueltank.fuelType))
 								{
 									isLoading = true;
 									HasLoadingProcess = true;
@@ -411,7 +449,7 @@ namespace Rockets_TinyYetBig
 						if (gameObject == null)
 							continue;
 
-						foreach (CargoBayCluster cargoBayCluster in pooledDictionary[CargoBayConduit.ElementToCargoMap[conduitConsumerComponent.ConduitType]])
+						foreach (CargoBayCluster cargoBayCluster in CargoBaysPool[CargoBayConduit.ElementToCargoMap[conduitConsumerComponent.ConduitType]])
 						{
 							float remainingCapacity = cargoBayCluster.RemainingCapacity;
 							float internalMassStored = conduitConsumerComponent.Storage.MassStored();
@@ -435,19 +473,23 @@ namespace Rockets_TinyYetBig
 			}
 
 			chain.Recycle();
-			pooledDictionary[CargoBay.CargoType.Solids].Recycle();
-			pooledDictionary[CargoBay.CargoType.Liquids].Recycle();
-			pooledDictionary[CargoBay.CargoType.Gasses].Recycle();
-			pooledDictionary.Recycle();
+			CargoBaysPool[CargoBay.CargoType.Solids].Recycle();
+			CargoBaysPool[CargoBay.CargoType.Liquids].Recycle();
+			CargoBaysPool[CargoBay.CargoType.Gasses].Recycle();
+			CargoBaysPool.Recycle();
+
+
+			FuelTanksPool[Element.State.Solid].Recycle();
+			FuelTanksPool[Element.State.Liquid].Recycle();
+			FuelTanksPool[Element.State.Gas].Recycle();
+			FuelTanksPool.Recycle();
 
 			DrillConeStorages.Recycle();
-			FuelTanks.Recycle();
 			HEPStorages.Recycle();
 			OxidizerTanks.Recycle();
 
 			SetCompleteAction.Invoke(!HasLoadingProcess);
 		}
-
 
 		public static string DeepSpaceScienceID = "rtb_deepspace";
 		public class Techs

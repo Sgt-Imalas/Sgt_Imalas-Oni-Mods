@@ -153,10 +153,16 @@ namespace Rockets_TinyYetBig
 				public static LocString ARTIFACT = "\n• 1 artifact storage";
 				public static LocString POWER = "\n• {0} power storage";
 			}
+			public class MODULEPERKS
+			{
+				public static LocString TITLE = "<b>Module Boni:</b>";
+				public static LocString POWER_PRODUCTION = "\n• {0} power production";
+
+			}
 		}
 
 
-		public class BUILDINGS 
+		public class BUILDINGS
 		{
 			public class PREFABS
 			{
@@ -563,16 +569,16 @@ namespace Rockets_TinyYetBig
 					public static LocString RTB_MODULE_SKINS = "Rocket Modules";
 				}
 
-            }
-            public static class  DRILLCONE_MODEHANDLER_SIDESCREEN
-            {
-                public static LocString LABEL = "Load via Cargo Loader";
-                public static LocString TOOLTIP = "toggle between automatic and manual loading";
-            }
-            public static class CLUSTERLOCATIONSENSORADDON
+			}
+			public static class DRILLCONE_MODEHANDLER_SIDESCREEN
+			{
+				public static LocString LABEL = "Load via Cargo Loader";
+				public static LocString TOOLTIP = "toggle between automatic and manual loading";
+			}
+			public static class CLUSTERLOCATIONSENSORADDON
 			{
 				public static LocString TITLE = "Extra green signal at";
-			} 
+			}
 			public class SPACEASSEMBLEMENU_SIDESCREEN
 			{
 				public static class TITLE
