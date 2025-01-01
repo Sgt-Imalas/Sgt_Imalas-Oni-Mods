@@ -13,6 +13,7 @@ namespace BlueprintsV2.BlueprintData
 		//- disabled state
 		//- flower pot plant
 		//- pedestal item tag
+		//- bottler
 		internal class DataTransfer_LogicClusterLocationSensor
 		{
 			//active locations are disabled since those vary for each game
