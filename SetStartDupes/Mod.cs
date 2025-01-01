@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using UtilLibs;
+using UtilLibs.ModVersionCheck;
 using static Database.Personalities;
 
 namespace SetStartDupes
@@ -82,7 +83,8 @@ namespace SetStartDupes
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
         {
             base.OnAllModsLoaded(harmony, mods);
-            CompatibilityNotifications.FlagLoggingPrevention(mods);
+			CompatibilityNotifications.FixBrokenTimeout(harmony);
+			CompatibilityNotifications.FlagLoggingPrevention(mods);
             CompatibilityNotifications.CheckAndAddIncompatibles("RePrint", "Duplicant Stat Selector", "Reprint");
             ModAssets.RemoveCrashingIncompatibility(mods);
             //CheckAndAddIncompatibles(".Mod.WGSM", "WGSM");

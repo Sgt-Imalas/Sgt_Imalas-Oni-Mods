@@ -62,10 +62,47 @@ namespace SetStartDupes
 		[HarmonyPatch(nameof(Traits.OnSpawn))]
 		public class FixDupesWithoutDupeTrait
 		{
+			public static void Prefix(Traits __instance)
+			{
+				///if someone in the beta added a bionic exclusive overjoyed trait that is now missing anims because the dlc is not owned
+				if (!DlcManager.IsContentSubscribed(DlcManager.DLC3_ID))
+				{
+					string replacementJoyReaction = DUPLICANTSTATS.JOYTRAITS.Where(traitVal => DlcManager.IsContentSubscribed(traitVal.dlcId)).GetRandom().id;
+
+					if (__instance.TryGetComponent<MinionIdentity>(out var identity))
+					{
+						var personality = Db.Get().Personalities.Get(identity.personalityResourceId);
+						if (personality != null)
+						{
+							replacementJoyReaction = personality.joyTrait;
+						}
+					}
+
+					if (__instance.TraitIds.Contains("FlashMobber"))
+					{
+						SgtLogger.l("fixing unowned joyreaction: FlashMobber");
+						__instance.TraitIds.Remove("FlashMobber");
+						if (!__instance.TraitIds.Contains(replacementJoyReaction))
+						{
+							__instance.TraitIds.Add(replacementJoyReaction);
+						}
+
+					}
+					if (__instance.TraitIds.Contains("RoboDancer"))
+					{
+						SgtLogger.l("fixing unowned joyreaction: RoboDancer");
+						__instance.TraitIds.Remove("RoboDancer");
+						if (!__instance.TraitIds.Contains(replacementJoyReaction))
+						{
+							__instance.TraitIds.Add(replacementJoyReaction);
+						}
+					}
+				}
+			}
 			public static void Postfix(Traits __instance)
 			{
 				if (__instance.HasTrait("StickerBomber")
-					&& __instance.TryGetComponent<MinionIdentity>(out var identity)
+				&& __instance.TryGetComponent<MinionIdentity>(out var identity)
 					&& (identity.stickerType == null || identity.stickerType.Length == 0))
 				{
 					SgtLogger.l("fixing stickerType");
@@ -102,18 +139,6 @@ namespace SetStartDupes
 				}
 			}
 		}
-
-		[HarmonyPatch(typeof(Immigration), nameof(Immigration.ConfigureCarePackages))]
-		public class AdditionalCarePackages
-		{
-			[HarmonyPrepare]
-			static bool Prepare() => Config.Instance.AddAdditionalCarePackages;
-			public static void Postfix(Immigration __instance)
-			{
-				__instance.carePackages.AddRange(ModAssets.GetAdditionalCarePackages());
-			}
-		}
-
 
 		[HarmonyPatch(typeof(CryoTank), nameof(CryoTank.DropContents))]
 		public class AddToCryoTank
@@ -551,7 +576,7 @@ namespace SetStartDupes
 								var DropDownCanvas = characterContainer?.modelDropDown?.transform?.Find("ScrollRect")?.GetComponent<Canvas>();
 								var instanceCanvas = __instance.GetComponent<Canvas>();
 								if (DropDownCanvas != null)
-									DropDownCanvas.sortingOrder = instanceCanvas.sortingOrder+1;
+									DropDownCanvas.sortingOrder = instanceCanvas.sortingOrder + 1;
 
 
 								characterContainer.reshuffleButton.onClick += () =>
@@ -784,7 +809,7 @@ namespace SetStartDupes
 
 				AllPersonalityTargets.InsertRange(0, __result.items);
 
-				if(DupeSkinScreenAddon.IsCustomActive && DupeSkinScreenAddon.StartPersonality != null)
+				if (DupeSkinScreenAddon.IsCustomActive && DupeSkinScreenAddon.StartPersonality != null)
 				{
 					AllPersonalityTargets.RemoveAll(personalityGridItem => personalityGridItem.GetPersonality().model != DupeSkinScreenAddon.StartPersonality.model);
 				}
@@ -857,29 +882,6 @@ namespace SetStartDupes
 				{
 					__instance.spawnInterval[i] = Mathf.RoundToInt(Config.Instance.PrintingPodRechargeTime * 600f);
 				}
-				//for(int i = 0; i < __instance.spawnInterval.Length; i++)
-				//{
-				//    SgtLogger.l(__instance.spawnInterval[i].ToString(), i.ToString());
-				//}
-			}
-		}
-		[HarmonyPatch(typeof(Immigration), nameof(Immigration.OnPrefabInit))]
-		public class AdjustTImeOfReprint_Initial
-		{
-			public static void Prefix(Immigration __instance)
-			{
-
-				if (__instance.spawnInterval.Length >= 2)
-				{
-					__instance.spawnInterval[0] = Mathf.RoundToInt(Config.Instance.PrintingPodRechargeTimeFirst * 600f);
-					__instance.spawnInterval[1] = Mathf.RoundToInt(Config.Instance.PrintingPodRechargeTime * 600f);
-
-				}
-				//for (int i = 0; i < __instance.spawnInterval.Length; i++)
-				//{
-				//    __instance.spawnInterval[i] = Mathf.RoundToInt(ModConfig.Instance.PrintingPodRechargeTime * 600f);
-				//}
-				//__instance.timeBeforeSpawn = Mathf.RoundToInt(ModConfig.Instance.PrintingPodRechargeTime * 600f);
 				//for(int i = 0; i < __instance.spawnInterval.Length; i++)
 				//{
 				//    SgtLogger.l(__instance.spawnInterval[i].ToString(), i.ToString());

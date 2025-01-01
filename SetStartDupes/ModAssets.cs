@@ -2,6 +2,7 @@
 using Database;
 using Klei.AI;
 using SetStartDupes.API_IO;
+using SetStartDupes.CarePackageEditor;
 using STRINGS;
 using System;
 using System.Collections.Generic;
@@ -100,9 +101,13 @@ namespace SetStartDupes
 		}
 
         private static GameObject parentScreen = null;
-		public static CarePackageInfo[] GetAdditionalCarePackages()
+		public static List<CarePackageInfo> GetAdditionalCarePackages()
 		{
-			bool Dlc1Active = DlcManager.IsExpansion1Active();
+			return CarePackageOutlineManager.GetAllAdditionalCarePackages();
+
+
+
+            bool Dlc1Active = DlcManager.IsExpansion1Active();
 			bool Dlc2ActiveForSave = SaveLoader.Instance.GameInfo.dlcIds.Contains(DlcManager.DLC2_ID);
 
 			var carePackages = new List<CarePackageInfo>()
@@ -110,19 +115,19 @@ namespace SetStartDupes
                 ///missing seeds:
 				
 				//Sporechid
-                new CarePackageInfo(EvilFlowerConfig.SEED_ID, 1f, () => Immigration.CycleCondition(96) && Immigration.DiscoveredCondition((Tag) EvilFlowerConfig.ID) || Immigration.CycleCondition(500)),
+                new CarePackageInfo(EvilFlowerConfig.SEED_ID, 1f, () => Immigration.CycleCondition(96) && Immigration.DiscoveredCondition((Tag) EvilFlowerConfig.SEED_ID) || Immigration.CycleCondition(500)),
 				//Buddy Bud
-				new CarePackageInfo(BulbPlantConfig.SEED_ID, 1f, () => Immigration.CycleCondition(36) && Immigration.DiscoveredCondition((Tag) BulbPlantConfig.ID) || Immigration.CycleCondition(500)),
+				new CarePackageInfo(BulbPlantConfig.SEED_ID, 1f, () => Immigration.CycleCondition(36) && Immigration.DiscoveredCondition((Tag) BulbPlantConfig.SEED_ID) || Immigration.CycleCondition(500)),
 				//Nosh Bean
-				new CarePackageInfo(BeanPlantConfig.SEED_ID, 3f, () => Immigration.CycleCondition(48) && Immigration.DiscoveredCondition((Tag) BeanPlantConfig.ID) || Immigration.CycleCondition(500)),
+				new CarePackageInfo(BeanPlantConfig.SEED_ID, 3f, () => Immigration.CycleCondition(48) && Immigration.DiscoveredCondition((Tag) BeanPlantConfig.SEED_ID) || Immigration.CycleCondition(500)),
 				//Sleet Wheat
-				new CarePackageInfo(ColdWheatConfig.SEED_ID, 3f, () => Immigration.CycleCondition(48) && Immigration.DiscoveredCondition((Tag) ColdWheatConfig.ID) || Immigration.CycleCondition(500)),
+				new CarePackageInfo(ColdWheatConfig.SEED_ID, 3f, () => Immigration.CycleCondition(48) && Immigration.DiscoveredCondition((Tag) ColdWheatConfig.SEED_ID) || Immigration.CycleCondition(500)),
 				//Waterweed
-				new CarePackageInfo(SeaLettuceConfig.SEED_ID, 3f, () => Immigration.CycleCondition(48) && Immigration.DiscoveredCondition((Tag) SeaLettuceConfig.ID) || Immigration.CycleCondition(500)),
+				new CarePackageInfo(SeaLettuceConfig.SEED_ID, 3f, () => Immigration.CycleCondition(48) && Immigration.DiscoveredCondition((Tag) SeaLettuceConfig.SEED_ID) || Immigration.CycleCondition(500)),
 				//Dasha Saltvine
-				new CarePackageInfo(SaltPlantConfig.SEED_ID, 3f, () => Immigration.CycleCondition(48) && Immigration.DiscoveredCondition((Tag) SaltPlantConfig.ID) || Immigration.CycleCondition(500)),
+				new CarePackageInfo(SaltPlantConfig.SEED_ID, 3f, () => Immigration.CycleCondition(48) && Immigration.DiscoveredCondition((Tag) SaltPlantConfig.SEED_ID) || Immigration.CycleCondition(500)),
 				//Mealwood
-				new CarePackageInfo(BasicSingleHarvestPlantConfig.SEED_ID, 3f, () => Immigration.CycleCondition(24) && Immigration.DiscoveredCondition((Tag) BasicSingleHarvestPlantConfig.ID) || Immigration.CycleCondition(500)),
+				new CarePackageInfo(BasicSingleHarvestPlantConfig.SEED_ID, 3f, () => Immigration.CycleCondition(24) && Immigration.DiscoveredCondition((Tag) BasicSingleHarvestPlantConfig.SEED_ID) || Immigration.CycleCondition(500)),
 
                 ///missing minerals:
                 new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.Granite).tag.ToString(), 1000f, (Func<bool>) (() => Immigration.CycleCondition(24) && Immigration.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.Granite).tag)|| Immigration.CycleCondition(500))),
@@ -147,11 +152,11 @@ namespace SetStartDupes
                     ///missing seeds
                     
 					//Bog Bucket
-					new CarePackageInfo(SwampHarvestPlantConfig.SEED_ID, 3f, () => Immigration.CycleCondition(24) && Immigration.DiscoveredCondition((Tag) SwampHarvestPlantConfig.ID) || Immigration.CycleCondition(500)),
+					new CarePackageInfo(SwampHarvestPlantConfig.SEED_ID, 3f, () => Immigration.CycleCondition(24) && Immigration.DiscoveredCondition((Tag) SwampHarvestPlantConfig.SEED_ID) || Immigration.CycleCondition(500)),
 					//Tranquil Toes
-					new CarePackageInfo(ToePlantConfig.SEED_ID, 3f, () => Immigration.CycleCondition(48) && Immigration.DiscoveredCondition((Tag) ToePlantConfig.ID) || Immigration.CycleCondition(500)),
+					new CarePackageInfo(ToePlantConfig.SEED_ID, 3f, () => Immigration.CycleCondition(48) && Immigration.DiscoveredCondition((Tag) ToePlantConfig.SEED_ID) || Immigration.CycleCondition(500)),
 					//Saturn Critter Trap
-					new CarePackageInfo("CritterTrapPlantSeed", 1f, () => Immigration.CycleCondition(96)&& Immigration.DiscoveredCondition((Tag) CritterTrapPlantConfig.ID) || Immigration.CycleCondition(500)),
+					new CarePackageInfo("CritterTrapPlantSeed", 1f, () => Immigration.CycleCondition(96)&& Immigration.DiscoveredCondition((Tag) "CritterTrapPlantSeed") || Immigration.CycleCondition(500)),
 					
 
                     ///missing critters
@@ -166,22 +171,19 @@ namespace SetStartDupes
 			{
 				carePackages.AddRange(new List<CarePackageInfo>()
 				{
-					///Pikeapple
-					new CarePackageInfo(HardSkinBerryPlantConfig.SEED_ID, 1f, () => Immigration.CycleCondition(24)&& Immigration.DiscoveredCondition((Tag) HardSkinBerryPlantConfig.ID) || Immigration.CycleCondition(500)),
-
                     ///carved lumen quartz
                     new CarePackageInfo(PinkRockCarvedConfig.ID, 1f, () => Immigration.CycleCondition(48) || Immigration.CycleCondition(500))
 				});
 			}
 
-			return carePackages.ToArray();
+			return carePackages;
 		}
 		public static void LoadAssets()
 		{
 			AssetBundle bundle = AssetUtils.LoadAssetBundle("dss_uiassets", platformSpecific: true);
 
-
-			PresetWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/PresetWindow.prefab");
+            DupeTraitManager.AttributeEditPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/StartAttributeEditing.prefab");
+            PresetWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/PresetWindow.prefab");
 			TraitsWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/DupeSkillsPopUp.prefab");
 			CrewDupeEntryPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/DupePresetListItem.prefab");
 			DuplicityWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/DupeEditing.prefab");

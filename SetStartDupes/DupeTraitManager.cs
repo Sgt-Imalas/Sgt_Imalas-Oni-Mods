@@ -8,11 +8,15 @@ using TUNING;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
+using UtilLibs.UIcmp;
 
 namespace SetStartDupes
 {
 	public class DupeTraitManager : KMonoBehaviour
 	{
+
+        public static GameObject AttributeEditPrefab = null;
+
 		#region UI_Handing
 		public bool CurrentlyEditing
 		{
@@ -60,6 +64,8 @@ namespace SetStartDupes
 		string TraitBalanceTooltip;
 
 
+		GameObject AttributeContainer;
+
 		GameObject InterestContainer;
 		GameObject TraitContainer;
 		GameObject OverjoyedContainer;
@@ -69,6 +75,7 @@ namespace SetStartDupes
 		GameObject AddNewTrait;
 		GameObject AddNewInterest;
 
+		 
 
 
 		LocText JoyLabel;
@@ -104,6 +111,10 @@ namespace SetStartDupes
 
 
 			Debug.Assert(TraitContainer, "traitcontainer was null!");
+
+			AttributeContainer = InitContainer("AttributeContainer", global::STRINGS.UI.DETAILTABS.STATS.GROUPNAME_ATTRIBUTES);
+			AttributeContainer.transform.SetSiblingIndex(InterestContainer.transform.GetSiblingIndex());
+			AttributeContainer.SetActive(true);
 
 			OverjoyedContainer = InitContainer("OverjoyedContainer", string.Format(global::STRINGS.UI.CHARACTERCONTAINER_JOYTRAIT, string.Empty));
 			OverjoyedContainer.SetActive(!Config.Instance.NoJoyReactions);
@@ -216,7 +227,31 @@ namespace SetStartDupes
 			RebuildUI();
 		}
 
-		void UpdateReactions()
+
+        GameObject AddInterestEditToggle(GameObject parent)
+        {
+            var interestToggle = Util.KInstantiateUI(ListEntryButtonPrefab, parent, true);
+            interestToggle.name = "ToggleInterestEditing";
+
+            interestToggle.TryGetComponent<LayoutElement>(out var LE);
+            LE.preferredWidth = 270;
+            UIUtils.AddSimpleTooltipToObject(interestToggle.transform, "Toggle raw attribute editing\nThis disables interest point redistribution when active.", true, onBottom: true);
+
+
+            interestToggle.GetComponent<KButton>().enabled = true;
+            UIUtils.AddActionToButton(interestToggle.transform, "", () =>
+            {
+
+            });
+            //ModAssets.ApplyTraitStyleByKey(interestToggle.GetComponent<KImage>(), Nexty);
+
+            //UIUtils.TryChangeText(interestToggle.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, trait.Name));
+            interestToggle.transform.Find("RemoveButton").gameObject.SetActive(false);
+
+            return interestToggle;
+        }
+
+        void UpdateReactions()
 		{
 			if (JoyLabel == null)
 			{
@@ -1149,7 +1184,6 @@ namespace SetStartDupes
 		/// <param name="startingLevels"></param>
 		internal void AddSkillLevels(ref Dictionary<string, int> startingLevels)
 		{
-			//Debug.Log("AAAAAAAAAAAAAAAA");
 			ToEditMinionStats.StartingLevels = startingLevels;
 			foreach (var skillGroup in startingLevels)
 			{

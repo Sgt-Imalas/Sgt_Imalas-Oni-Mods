@@ -43,7 +43,7 @@ namespace SetStartDupes.DuplicityEditing
 					var attributes = Db.Get().Attributes;
 					//Attribute Levels
 					stats.AttributeLevels = new();
-					foreach (var attribute in AttributeHelper.GetEditableAttributes())
+					foreach (var attribute in AttributeHelper.GetEditableAttributes(stats.Model))
 					{
 						stats.AttributeLevels[attribute.Id] = attributeLevels.GetLevel(attribute);
 					}
@@ -229,7 +229,7 @@ namespace SetStartDupes.DuplicityEditing
 
 				//Attribute Levels
 
-				foreach (var attribute in AttributeHelper.GetEditableAttributes())
+				foreach (var attribute in AttributeHelper.GetEditableAttributes(Model))
 				{
 					if (!AttributeLevels.ContainsKey(attribute.Id))
 						continue;
