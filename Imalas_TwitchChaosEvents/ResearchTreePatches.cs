@@ -53,7 +53,7 @@ namespace Imalas_TwitchChaosEvents
 		{
 			public static void Postfix(ResearchScreen __instance)
 			{
-				SgtLogger.Assert("ModAssets.Techs.TacoTech", ModAssets.Techs.TacoTech);
+			return;	SgtLogger.Assert("ModAssets.Techs.TacoTech", ModAssets.Techs.TacoTech);
 				SgtLogger.Assert("__instance", __instance);
 
 				var TacoTechItem = __instance.entryMap[ModAssets.Techs.TacoTech];
