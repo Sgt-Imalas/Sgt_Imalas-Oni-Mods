@@ -42,11 +42,8 @@ jobs:
       run: |
           dir /s /b
 
-    - name: Move
-      run: move "Builds" .     
-
     - name: Zip the directory
-      run: Compress-Archive -Path "AllOniMods" -DestinationPath Sgt_Imalas_All_Mods_Nightly.zip  
+      run: Compress-Archive -Path "Builds" -DestinationPath Sgt_Imalas_All_Mods_Nightly.zip  
 
     - name: List all files
       shell: cmd
