@@ -1918,11 +1918,12 @@ namespace SetStartDupes
 					return;
 				}
 
-
 				ModAssets.SetContainerPersonalityLock(__instance, true);
-				if (DlcManager.IsContentSubscribed(DlcManager.DLC2_ID) && ___stats.personality == Db.Get().Personalities.Get("FREYJA"))
+				string cogenitalTrait = ___stats.personality.congenitaltrait;
+				var traits = Db.Get().traits;
+				if (DlcManager.IsContentSubscribed(DlcManager.DLC2_ID) && !cogenitalTrait.IsNullOrWhiteSpace() && traits.Get(cogenitalTrait)!=null)
 				{
-					UnityTraitRerollingScreen.GuaranteedTraitRoll[__instance] = Db.Get().traits.Get("FrostProof");
+					UnityTraitRerollingScreen.GuaranteedTraitRoll[__instance] = traits.Get(cogenitalTrait);
 					ModAssets.UpdateTraitLockButton(__instance);
 				}
 			}
