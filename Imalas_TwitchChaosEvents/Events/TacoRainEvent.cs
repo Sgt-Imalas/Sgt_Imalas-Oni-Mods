@@ -29,8 +29,6 @@ namespace Imalas_TwitchChaosEvents.Events
 			{
 				body += STRINGS.CHAOSEVENTS.TACORAIN.NEWRECIPE;
 				ChaosTwitch_SaveGameStorage.Instance.hasUnlockedTacoRecipe = true;
-				if (Research.Instance == null)
-					Research.Instance.Get(ModAssets.Techs.TacoTech)?.Purchased();
 			}
 
 			ChaosTwitch_SaveGameStorage.Instance.lastTacoRain = GameClock.Instance.GetTimeInCycles();

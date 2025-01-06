@@ -12,8 +12,8 @@ namespace Imalas_TwitchChaosEvents
 	{
 		public class Techs
 		{
-			public static string TacoTechID = "ITCE_TacoTech";
-			public static Tech TacoTech;
+			//public static string TacoTechID = "ITCE_TacoTech";
+			//public static Tech TacoTech;
 		}
 		public class WaterCoolerDrinks
 		{
