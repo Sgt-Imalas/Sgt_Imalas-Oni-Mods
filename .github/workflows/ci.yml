@@ -1,10 +1,14 @@
-name: CI on reference Oxygen Not Included assemblies
+name: Build all mods for automated release
 
 on:
   push:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
+
+permissions:
+  contents: write # Grant write permission for creating releases
+  actions: write # Grant write permission to delete old workflow runs
 
 jobs:
   build:
@@ -13,6 +17,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
+    - name: Set SHORT_COMMIT environment variable
+      shell: pwsh
+      run: |
+        $SHORT_COMMIT = git rev-parse --short HEAD
+        echo "SHORT_COMMIT=$SHORT_COMMIT" >> $env:GITHUB_ENV
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v2
     
@@ -27,3 +36,59 @@ jobs:
       with:
         path: Builds/
         name: AllOniMods
+
+    - name: List all files
+      shell: cmd
+      run: |
+          dir /s /b
+
+    - name: Move
+      run: move "Builds\AllOniMods" .     
+
+    - name: Zip the directory
+      run: Compress-Archive -Path "AllOniMods" -DestinationPath Sgt_Imalas_All_Mods_Nightly.zip  
+
+    - name: List all files
+      shell: cmd
+      run: |
+          dir /s /b
+
+    - name: Delete old releases
+      uses: dev-drprasad/delete-older-releases@v0.3.4
+      with:
+        keep_latest: 1
+        delete_tag_pattern: AllMods_Automated_Build*
+        delete_tags: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Create GitHub release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: "AllMods_Automated_Build"
+        release_name: "All Mods - Latest Build"
+        draft: false
+        prerelease: false
+    
+    - name: Upload zip to release
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: Sgt_Imalas_All_Mods_Nightly.zip
+        asset_name: Sgt_Imalas_All_Mods_Nightly.zip
+        asset_content_type: application/zip
+
+    - name: Delete workflow runs
+      uses: Mattraks/delete-workflow-runs@v2
+      with:
+        token: ${{ github.token }}
+        repository: ${{ github.repository }}
+        retain_days: 1
+        keep_minimum_runs: 3
+          
+
