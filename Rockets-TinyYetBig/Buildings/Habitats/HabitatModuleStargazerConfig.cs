@@ -82,7 +82,7 @@ namespace Rockets_TinyYetBig
 			Storage storage1 = go.AddComponent<Storage>();
 			storage1.showInUI = false;
 			storage1.capacityKg = 10f;
-			storage1.SetDefaultStoredItemModifiers(Storage.StandardSealedStorage);
+			storage1.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			RocketConduitSender rocketConduitSender1 = go.AddComponent<RocketConduitSender>();
 			rocketConduitSender1.conduitStorage = storage1;
 			rocketConduitSender1.conduitPortInfo = this.liquidInputPort;
@@ -90,7 +90,7 @@ namespace Rockets_TinyYetBig
 			Storage storage2 = go.AddComponent<Storage>();
 			storage2.showInUI = false;
 			storage2.capacityKg = 1f;
-			storage2.SetDefaultStoredItemModifiers(Storage.StandardSealedStorage);
+			storage2.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			RocketConduitSender rocketConduitSender2 = go.AddComponent<RocketConduitSender>();
 			rocketConduitSender2.conduitStorage = storage2;
 			rocketConduitSender2.conduitPortInfo = this.gasInputPort;
