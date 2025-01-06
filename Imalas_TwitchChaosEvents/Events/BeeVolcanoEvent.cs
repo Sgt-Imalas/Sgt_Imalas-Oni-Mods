@@ -17,9 +17,7 @@ namespace Imalas_TwitchChaosEvents.Events
 
 		public string EventName => STRINGS.CHAOSEVENTS.BEEVOLCANO.NAME;
 
-		public EventWeight EventWeight => EventWeight.WEIGHT_NORMAL;
-
-
+		public EventWeight EventWeight => EventWeight.WEIGHT_COMMON;
 
 
 		List<CellOffset> beezerOffsets = new List<CellOffset>()

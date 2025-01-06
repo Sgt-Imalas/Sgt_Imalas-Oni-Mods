@@ -21,7 +21,7 @@ namespace Imalas_TwitchChaosEvents.Events
 
 		public string EventDescription => STRINGS.CHAOSEVENTS.INVERSEELEMENT.TOASTTEXT;
 
-		public EventWeight EventWeight => EventWeight.WEIGHT_COMMON;
+		public EventWeight EventWeight => EventWeight.WEIGHT_UNCOMMON;
 
 		private static readonly CellElementEvent SpawnEvent = new(
 			"TwitchSpawnedElement",
