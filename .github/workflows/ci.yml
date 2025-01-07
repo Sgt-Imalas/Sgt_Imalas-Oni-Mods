@@ -53,7 +53,7 @@ jobs:
     - name: Delete old releases
       uses: dev-drprasad/delete-older-releases@v0.3.4
       with:
-        keep_latest: 1
+        keep_latest: 0
         delete_tag_pattern: AllMods_Automated_Build*
         delete_tags: true
       env:
