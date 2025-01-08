@@ -1879,21 +1879,6 @@ namespace SetStartDupes
 			}
 		}
 
-		[HarmonyPatch(typeof(CharacterContainer), nameof(CharacterContainer.SetInfoText))]
-		public static class CharacterContainer_SetInfoText_Patch_ContainerSize
-		{
-			/// <summary>
-			/// Remove prev height so additional traits extend the box indstead of going hidden
-			/// </summary>
-			/// <param name="__instance"></param>
-			public static void Postfix(CharacterContainer __instance)
-			{
-				if (__instance.aptitudeEntry.transform.parent.parent.gameObject.TryGetComponent<LayoutElement>(out LayoutElement layoutElement))
-				{
-					layoutElement.preferredHeight = -1;
-				}
-			}
-		}
 
 		[HarmonyPatch(typeof(CharacterContainer), nameof(CharacterContainer.SetMinion))]
 		public static class RefreshStatsForFreyja
