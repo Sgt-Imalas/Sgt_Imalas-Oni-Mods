@@ -221,6 +221,11 @@ namespace SetStartDupes
 					public static LocString NAME = "Additional Care Package Types";
 					public static LocString TOOLTIP = "Adds a number of items to the list of care packages that would otherwise not be obtainable.";
 				}
+				public class CAREPACKAGEEDITOR
+				{
+					public static LocString NAME = "Open Care Package Editor";
+					public static LocString TOOLTIP = "View and modify the different additional care packages or create new ones.";
+				}
 
 				public class CAREPACKAGESONLYDUPECAP
 				{

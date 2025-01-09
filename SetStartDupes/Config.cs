@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using PeterHan.PLib.Options;
+using SetStartDupes.CarePackageEditor.UI;
 using System;
 
 namespace SetStartDupes
@@ -37,6 +38,9 @@ namespace SetStartDupes
 		[Option("STRINGS.UI.DSS_OPTIONS.MORECAREPACKAGES.NAME", "STRINGS.UI.DSS_OPTIONS.MORECAREPACKAGES.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
 		[JsonProperty]
 		public bool AddAdditionalCarePackages { get; set; }
+
+		[Option("STRINGS.UI.DSS_OPTIONS.CAREPACKAGEEDITOR.NAME", "STRINGS.UI.DSS_OPTIONS.CAREPACKAGEEDITOR.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
+		public System.Action<object> Button_OpenCarepackageEditor => CarePackageEditor_MainScreen.ShowCarePackageEditor;
 
 		[Option("STRINGS.UI.DSS_OPTIONS.PRINTINGPODRECHARGETIME.NAME", "STRINGS.UI.DSS_OPTIONS.PRINTINGPODRECHARGETIME.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
 		[JsonProperty]
