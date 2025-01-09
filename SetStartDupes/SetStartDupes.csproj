@@ -52,7 +52,6 @@
 	
 	<ItemGroup>
 	  <Folder Include="ModAssets\assets\linux\" />
-	  <Folder Include="UI\Components\" />
 	</ItemGroup>
 	
 	<ItemGroup>

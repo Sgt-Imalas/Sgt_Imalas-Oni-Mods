@@ -21,6 +21,91 @@ namespace SetStartDupes
 				public static LocString SIDESCREEN_TOOLTIP = "Restart Light";
 			}
 
+			public class CAREPACKAGEEDITOR
+			{
+				public static LocString TITLE = "Care Package Editor";
+
+				public class HORIZONTALLAYOUT
+				{
+					public class OBJECTLIST
+					{
+						public class NOPRESETSAVAILABLE
+						{
+							public static LocString LABEL = "Show Vanilla Care Packages:";
+							public static LocString TOOLTIP = "Also show vanilla care packages in the list.\nNote that these cannot receive editing due to how they are implemented.";
+						}
+						public class SCROLLAREA
+						{
+							public class CONTENT
+							{
+								public class NOPRESETSAVAILABLE
+								{
+									public static LocString LABEL = "No custom care packages yet";
+								}
+								public class PRESETENTRYPREFAB
+								{
+									public class ADDTHISTRAITBUTTON
+									{
+										public static LocString TEXT = "Load Preset";
+									}
+
+									public static LocString INVALIDMODELTOOLTIP = "Preset not compatible with current duplicant model!";
+									public static LocString RENAMEPRESETTOOLTIP = "Rename Preset";
+									public static LocString DELETEPRESETTOOLTIP = "Delete Preset";
+									public static LocString IMPORTEDPRESET = "This preset was imported from your old dgsm crew presets, it cannot be modified or deleted directly.";
+
+								}
+							}
+						}
+
+						public class SEARCHBAR
+						{
+							public static LocString CLEARTOOLTIP = "Clear search bar";
+							public class INPUT
+							{
+								public class TEXTAREA
+								{
+									public static LocString PLACEHOLDER = "Enter text to filter care packages...";
+									public static LocString TEXT = "";
+								}
+							}
+						}
+						public class CAREPACKAGEITEMID
+						{
+							internal class INPUT
+							{
+								public class TEXTAREA
+								{
+									public static LocString PLACEHOLDER = "insert care package item Id...";
+									public static LocString TEXT = "";
+								}
+							}
+						}
+						public class ADDCAREPACKAGEBTN
+						{
+							public static LocString TEXT = "Add new custom care package";
+							public static LocString TOOLTIP = "Add a new custom care package.\nEnter the id of the item you want to add in the text field above.";
+						}
+					}
+					public class ITEMINFO
+					{
+						public class BUTTONS
+						{
+							public class CLOSEBUTTON
+							{
+								public static LocString TEXT = "Return";
+								public static LocString TOOLTIP = "Close window";
+							}
+							public class RESETBUTTON
+							{
+								public static LocString TEXT = "Reset All";
+								public static LocString TOOLTIP = "Reset all changes you have made to the care package selection";
+							}
+						}
+					}
+				}
+			}
+
 			public class DUPEEDITING
 			{
 				public class CONFIRMATIONDIALOG

@@ -3,6 +3,7 @@ using Database;
 using Klei.AI;
 using SetStartDupes.API_IO;
 using SetStartDupes.CarePackageEditor;
+using SetStartDupes.DuplicityEditing.ScreenComponents;
 using STRINGS;
 using System;
 using System.Collections.Generic;
@@ -49,6 +50,8 @@ namespace SetStartDupes
 		public static GameObject TraitsWindowPrefab;
 		public static GameObject CrewDupeEntryPrefab;
 		public static GameObject DuplicityWindowPrefab;
+		public static GameObject CarePackageEditorWindowPrefab;
+		public static NumberInput EditNumberRowPrefab;
 
 		public static bool BeachedActive = false;
 		public static List<DUPLICANTSTATS.TraitVal> BEACHED_LIFEGOALS = new List<DUPLICANTSTATS.TraitVal>();
@@ -187,12 +190,18 @@ namespace SetStartDupes
 			TraitsWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/DupeSkillsPopUp.prefab");
 			CrewDupeEntryPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/DupePresetListItem.prefab");
 			DuplicityWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/DupeEditing.prefab");
-
+			CarePackageEditorWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/CarePackageEditor.prefab");
+			var numberInputGO = bundle.LoadAsset<GameObject>("Assets/UIs/StartAttributeEditing.prefab");
+			if(numberInputGO!=null)
+				EditNumberRowPrefab = numberInputGO.AddOrGet<NumberInput>();
 
 			SgtLogger.Assert("PresetWindowPrefab was null!", PresetWindowPrefab);
 			SgtLogger.Assert("TraitsWindowPrefab was null!", TraitsWindowPrefab);
 			SgtLogger.Assert("CrewDupeEntryPrefab was null!", CrewDupeEntryPrefab);
 			SgtLogger.Assert("DuplicityWindowPrefab was null!", DuplicityWindowPrefab);
+			SgtLogger.Assert("CarePackageEditorWindowPrefab was null!", CarePackageEditorWindowPrefab);
+			SgtLogger.Assert("EditNumberRowPrefab was null!", EditNumberRowPrefab);
+
 
 
 			var TMPConverter = new TMPConverter();
@@ -200,6 +209,8 @@ namespace SetStartDupes
 			TMPConverter.ReplaceAllText(TraitsWindowPrefab);
 			TMPConverter.ReplaceAllText(CrewDupeEntryPrefab);
 			TMPConverter.ReplaceAllText(DuplicityWindowPrefab);
+			TMPConverter.ReplaceAllText(CarePackageEditorWindowPrefab);
+			TMPConverter.ReplaceAllText(EditNumberRowPrefab.gameObject);
 
 		}
 

@@ -6,7 +6,7 @@ using UtilLibs.UIcmp;
 namespace SetStartDupes.DuplicityEditing.ScreenComponents
 {
 
-	internal class NumberInput : KMonoBehaviour
+	public class NumberInput : KMonoBehaviour
 	{
 		FInputField2 inputField;
 		public Action<string> OnInputChanged;
