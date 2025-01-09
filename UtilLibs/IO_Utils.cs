@@ -24,15 +24,13 @@ namespace UtilLibs
 				tr.Method("Copy").GetValue();
 			}
 		}
-
-		public static bool ReadFromFile<T>(string FileOrigin, out T output, string forceExtensionTo = "")
+		public static bool ReadFromFile<T>(FileInfo filePath, out T output, string forceExtensionTo = "")
 		{
-			var filePath = new FileInfo(FileOrigin);
 			try
 			{
 				if (!filePath.Exists || (forceExtensionTo != string.Empty && filePath.Extension != forceExtensionTo))
 				{
-					SgtLogger.logwarning(FileOrigin, "File does not exist!");
+					SgtLogger.logwarning(filePath.FullName, "File does not exist!");
 					output = default(T);
 					return false;
 				}
@@ -49,12 +47,13 @@ namespace UtilLibs
 			}
 			catch (Exception ex)
 			{
-				SgtLogger.warning("failed reading " + FileOrigin + ":\n\n" + ex.Message);
+				SgtLogger.warning("failed reading " + filePath.FullName + ":\n\n" + ex.Message);
 				output = default(T);
 				return false;
 			}
 		}
-
+		public static bool ReadFromFile<T>(string FileOrigin, out T output, string forceExtensionTo = "") => ReadFromFile(new FileInfo(FileOrigin), out output, forceExtensionTo);
+		
 		public static bool WriteToFile<T>(T DataObject, string filePath)
 		{
 			try

@@ -1,4 +1,2 @@
-﻿- fixed some patches causing translations in certain screens to fail (note that quite a few other mods also might cause this to break)
-- if adding more than 3 interests, the interest box on the main dupe screen now expands in height instead of cutting the additional interest off
-- if interest points balancing is disabled, the point count will now display an infinity symbol
-- 
+﻿- added some sorting to the interest list so interests with the same attribute are always on top of each other (vanilla issue)
+- added import for old crew presets created with dgsm

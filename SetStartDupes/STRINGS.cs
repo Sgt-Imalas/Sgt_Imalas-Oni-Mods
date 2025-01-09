@@ -362,6 +362,7 @@ namespace SetStartDupes
 									public static LocString INVALIDMODELTOOLTIP = "Preset not compatible with current duplicant model!";
 									public static LocString RENAMEPRESETTOOLTIP = "Rename Preset";
 									public static LocString DELETEPRESETTOOLTIP = "Delete Preset";
+									public static LocString IMPORTEDPRESET = "This preset was imported from your old dgsm crew presets, it cannot be modified or deleted directly.";
 
 								}
 							}

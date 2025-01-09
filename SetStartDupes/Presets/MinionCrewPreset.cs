@@ -10,13 +10,16 @@ namespace SetStartDupes
 {
 	public class MinionCrewPreset
 	{
+		[JsonIgnore]
+		public bool Imported = false;
 
 		public string FileName;
 		public string CrewName;
+		public string CreationDate;
 
 		public MinionCrewPreset() { }
 
-		public List<Tuple<string, MinionStatConfig>> Crewmates;
+		public List<Tuple<string, MinionStatConfig>> Crewmates = new();
 
 		public void ApplyCrewPreset(CharacterSelectionController controller)
 		{
@@ -116,6 +119,7 @@ namespace SetStartDupes
 
 			preset.CrewName = crewTitle;
 			preset.FileName = FileNameWithHash(crewTitle);
+			preset.CreationDate = System.DateTime.Now.ToString("yyyy-MM-dd");
 			return preset;
 		}
 

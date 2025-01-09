@@ -40,18 +40,23 @@ namespace SetStartDupes
 					if (place != -1)
 						newName = newName.Remove(place, 4);
 				}
-				this.ChangenName(newName);
+				this.ChangeName(newName);
 
 				if (callBackAction != null)
 					callBackAction.Invoke();
 			});
 		}
 
-		public void ChangenName(string newName)
+		public void SetName(string newName)
 		{
-			DeleteFile();
 			ConfigName = newName;
 			FileName = FileNameWithHash(newName);
+		}
+
+		public void ChangeName(string newName)
+		{
+			DeleteFile();
+			SetName(newName);
 			WriteToFile();
 		}
 
@@ -268,8 +273,6 @@ namespace SetStartDupes
 			referencedStats.Traits.Clear();
 			var traitRef = Db.Get().traits;
 
-
-			//TODO! Adjust for bionic dupes!
 
 			var baseTrait = BaseMinionConfig.GetMinionBaseTraitIDForModel(referencedStats.personality.model);
 			if (!Traits.Contains(baseTrait))
