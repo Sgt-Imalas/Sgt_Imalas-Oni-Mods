@@ -16,6 +16,7 @@ namespace ClusterTraitGenerationManager.UI.ItemEntryTypes
 		public GameObject MixingImageBG;
 		bool _wasMixed = false;
 		ToolTip desc;
+		public Image DLC_Banner;
 
 		public void Initialize(StarmapItem planet)
 		{
@@ -27,10 +28,13 @@ namespace ClusterTraitGenerationManager.UI.ItemEntryTypes
 
 			Image itemIconImage = transform.Find("Image").GetComponent<Image>();
 			MixingImage = transform.Find("MixingImage").gameObject.GetComponent<Image>();
+			DLC_Banner = transform.Find("DLC_Banner").gameObject.GetComponent<Image>();
 			MixingImageBG = transform.Find("MixingImageBG").gameObject;
 			ItemNumber = transform.Find("AmountLabel").GetComponent<LocText>();
 			PlanetName = transform.Find("Label").GetComponent<LocText>();
 			DisabledOverlay = transform.Find("DisabledOverlay").gameObject;
+
+
 			ActiveToggle = this.gameObject.AddOrGet<FToggleButton>();
 			itemIconImage.sprite = planet.planetSprite;
 
@@ -46,6 +50,10 @@ namespace ClusterTraitGenerationManager.UI.ItemEntryTypes
 				itemIconImage.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, size);
 			}
 
+			if (ModAssets.GetBannerColor(planet, out var color))
+				DLC_Banner.color = color;
+			else
+				DLC_Banner.gameObject.SetActive(false);
 
 
 			desc = UIUtils.AddSimpleTooltipToObject(this.transform,

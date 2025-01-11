@@ -5,6 +5,7 @@ using ClusterTraitGenerationManager.ModIntegrations;
 using Klei;
 using MonoMod.Utils;
 using ProcGen;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -447,6 +448,18 @@ namespace ClusterTraitGenerationManager
 		internal static bool HasWorldMixingAsteroids()
 		{
 			return SettingsCache.worldMixingSettings.Count > 0;
+		}
+
+		internal static bool GetBannerColor(StarmapItem planet, out Color color)
+		{
+			color = default;
+			if (planet.DlcID == DlcManager.DLC2_ID)
+			{
+				color = DlcManager.GetDlcBannerColor(planet.DlcID);
+				return true;
+			}
+			return false;
+
 		}
 
 		public static List<KeyValuePair<string, WorldTrait>> AllTraitsWithRandom
