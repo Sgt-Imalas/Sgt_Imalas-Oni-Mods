@@ -96,7 +96,18 @@ namespace DebugButton
 			{
 				if (_debugHandler != null)
 				{
-					Time.timeScale = isOn ? 30f : 1f;
+					if (isOn)
+					{
+						Time.timeScale = 30f;
+					}
+					else if(!isOn && SpeedControlScreen.Instance != null)
+					{
+						SpeedControlScreen.Instance.OnChanged();
+					}
+					else
+					{
+						Time.timeScale = 1f;
+					}
 					_debugHandler.ultraTestMode = isOn;
 				}
 			}
