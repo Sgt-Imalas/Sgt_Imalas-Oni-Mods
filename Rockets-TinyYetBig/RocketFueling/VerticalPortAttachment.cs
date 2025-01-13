@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 
 namespace Rockets_TinyYetBig.RocketFueling
 {
@@ -68,8 +69,8 @@ namespace Rockets_TinyYetBig.RocketFueling
 
             if(chainedBuilding != null && delayRelink)
             {
-                GameScheduler.Instance.ScheduleNextFrame("delayed Relink", (_) => chainedBuilding.DEBUG_Relink());
-            }
+                StartCoroutine(DelayedRelinking());
+			}
         }
         public void DisconnectBottom(bool propagate, bool delayRelink = false)
         {
@@ -81,7 +82,7 @@ namespace Rockets_TinyYetBig.RocketFueling
 
             if (chainedBuilding != null && delayRelink)
             {
-                GameScheduler.Instance.ScheduleNextFrame("delayed Relink", (_) => chainedBuilding.DEBUG_Relink());
+                StartCoroutine(DelayedRelinking());
             }
         }
 
@@ -158,10 +159,18 @@ namespace Rockets_TinyYetBig.RocketFueling
             if (chainedBuilding != null)
             {
                 chainedBuilding.DEBUG_Relink();
-                GameScheduler.Instance.ScheduleNextFrame("delayed Relink", (_) => chainedBuilding.DEBUG_Relink());
+				StartCoroutine(DelayedRelinking());
             }
             HandleConnectionSymbol();
         }
+
+        public System.Collections.IEnumerator DelayedRelinking()
+        {
+            yield return null;
+            if (chainedBuilding != null && !this.IsNullOrDestroyed())
+                chainedBuilding.DEBUG_Relink();
+		}
+
         public override void OnCleanUp()
         {
             if (bottom != null)
