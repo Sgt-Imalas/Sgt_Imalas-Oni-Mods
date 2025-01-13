@@ -124,16 +124,21 @@
 
 	<!--Creates reference assemblies for CI-->
 	<Target Name="GenerateRefAssemblies" AfterTargets="Clean" Condition="'$(AssemblyName)' == 'CycleComma' and '$(GameLibsFolder)' != '../Lib' ">
+		<PropertyGroup>
+			<!--Workaround for paths containing spaces, e.g. "Program Files (x86)"-->
+			<!--For some reason, adding the quotes to GameLibsFolder does not work-->
+			<SaneGameLibsFolder>"$(GameLibsFolder)"</SaneGameLibsFolder>
+		</PropertyGroup>
 		<Exec Command="Refasmer -v -O ../Lib --all -c ../PublicisedAssembly/Assembly-CSharp_public.dll ../PublicisedAssembly/Assembly-CSharp-firstpass_public.dll ^
-    $(GameLibsFolder)/Assembly-CSharp.dll $(GameLibsFolder)/Assembly-CSharp-firstpass.dll $(GameLibsFolder)/0Harmony.dll ^
-    $(GameLibsFolder)/FMODUnity.dll $(GameLibsFolder)/Newtonsoft.Json.dll $(GameLibsFolder)/UnityEngine.dll ^
-    $(GameLibsFolder)/UnityEngine.CoreModule.dll $(GameLibsFolder)/UnityEngine.ImageConversionModule.dll ^
-    $(GameLibsFolder)/UnityEngine.AssetBundleModule.dll $(GameLibsFolder)/UnityEngine.PhysicsModule.dll ^
-    $(GameLibsFolder)/UnityEngine.Physics2DModule.dll $(GameLibsFolder)/UnityEngine.ParticleSystemModule.dll ^ 
-    $(GameLibsFolder)/UnityEngine.InputLegacyModule.dll $(GameLibsFolder)/Unity.TextMeshPro.dll ^
-    $(GameLibsFolder)/UnityEngine.TextRenderingModule.dll $(GameLibsFolder)/UnityEngine.UI.dll ^
-    $(GameLibsFolder)/UnityEngine.UIModule.dll $(GameLibsFolder)/UnityEngine.UnityWebRequestModule.dll ^
-    $(GameLibsFolder)/Ionic.Zip.dll $(GameLibsFolder)/Newtonsoft.Json.dll $(GameLibsFolder)/com.rlabrecque.steamworks.net.dll $(GameLibsFolder)/netstandard.dll" />
+			$(SaneGameLibsFolder)/Assembly-CSharp.dll $(SaneGameLibsFolder)/Assembly-CSharp-firstpass.dll $(SaneGameLibsFolder)/0Harmony.dll ^
+			$(SaneGameLibsFolder)/FMODUnity.dll $(SaneGameLibsFolder)/Newtonsoft.Json.dll $(SaneGameLibsFolder)/UnityEngine.dll ^
+			$(SaneGameLibsFolder)/UnityEngine.CoreModule.dll $(SaneGameLibsFolder)/UnityEngine.ImageConversionModule.dll ^
+			$(SaneGameLibsFolder)/UnityEngine.AssetBundleModule.dll $(SaneGameLibsFolder)/UnityEngine.PhysicsModule.dll ^
+			$(SaneGameLibsFolder)/UnityEngine.Physics2DModule.dll $(SaneGameLibsFolder)/UnityEngine.ParticleSystemModule.dll ^
+			$(SaneGameLibsFolder)/UnityEngine.InputLegacyModule.dll $(SaneGameLibsFolder)/Unity.TextMeshPro.dll ^
+			$(SaneGameLibsFolder)/UnityEngine.TextRenderingModule.dll $(SaneGameLibsFolder)/UnityEngine.UI.dll ^
+			$(SaneGameLibsFolder)/UnityEngine.UIModule.dll $(SaneGameLibsFolder)/UnityEngine.UnityWebRequestModule.dll ^
+			$(SaneGameLibsFolder)/Ionic.Zip.dll $(SaneGameLibsFolder)/Newtonsoft.Json.dll $(SaneGameLibsFolder)/com.rlabrecque.steamworks.net.dll $(SaneGameLibsFolder)/netstandard.dll" />
 	</Target>
 
 </Project>
