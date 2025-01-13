@@ -1468,7 +1468,12 @@ namespace ClusterTraitGenerationManager
 
 
 				var original = OriginalMobModifiers[prefabID];
-				__result.density = new(original.min * DensityMultiplier, original.max * DensityMultiplier);
+
+				//cap at double the plants & buried objects, dont decrease below original value
+				var modifiedMin = Mathf.Max(original.min, Mathf.Min(2, original.min * DensityMultiplier));
+				var modifiedMax = Mathf.Max(original.max, Mathf.Min(2, original.max * DensityMultiplier)); 
+
+				__result.density = new(modifiedMin, modifiedMax);
 				//SgtLogger.l("density multiplier for " + prefabID + ": multiplied with " + DensityMultiplier);
 			}
 		}
