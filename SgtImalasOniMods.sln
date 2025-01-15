@@ -191,6 +191,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AkisSnowThings", "AkisSnowT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlybotRoboPort", "FlybotRoboPort\FlybotRoboPort.csproj", "{8C3D7F39-2D99-440B-9AAC-CA3C2DD7DEC4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoadingPip", "LoadingPip\LoadingPip.csproj", "{18F8D1E6-686E-4103-B06E-A7E166B7342A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -549,6 +551,10 @@ Global
 		{8C3D7F39-2D99-440B-9AAC-CA3C2DD7DEC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C3D7F39-2D99-440B-9AAC-CA3C2DD7DEC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C3D7F39-2D99-440B-9AAC-CA3C2DD7DEC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18F8D1E6-686E-4103-B06E-A7E166B7342A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18F8D1E6-686E-4103-B06E-A7E166B7342A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18F8D1E6-686E-4103-B06E-A7E166B7342A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18F8D1E6-686E-4103-B06E-A7E166B7342A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
