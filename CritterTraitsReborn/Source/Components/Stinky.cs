@@ -63,22 +63,20 @@ namespace CritterTraitsReborn.Components
 
 		private void Emit(object data)
 		{
-			GameObject gameObject = (GameObject)data;
+			GameObject gameObject = this.gameObject;
 
 			global::Components.Cmps<MinionIdentity> liveMinionIdentities = global::Components.LiveMinionIdentities;
 			Vector2 a = gameObject.transform.GetPosition();
 			for (int i = 0; i < liveMinionIdentities.Count; i++)
 			{
 				MinionIdentity minionIdentity = liveMinionIdentities[i];
-				if (minionIdentity.gameObject != gameObject.gameObject)
+
+				Vector2 b = minionIdentity.transform.GetPosition();
+				float num = Vector2.SqrMagnitude(a - b);
+				if (num <= 2.25f)
 				{
-					Vector2 b = minionIdentity.transform.GetPosition();
-					float num = Vector2.SqrMagnitude(a - b);
-					if (num <= 2.25f)
-					{
-						minionIdentity.Trigger((int)GameHashes.Cringe, Strings.Get("STRINGS.DUPLICANTS.DISEASES.PUTRIDODOUR.CRINGE_EFFECT").String);
-						minionIdentity.gameObject.GetSMI<ThoughtGraph.Instance>().AddThought(Db.Get().Thoughts.PutridOdour);
-					}
+					minionIdentity.Trigger((int)GameHashes.Cringe, Strings.Get("STRINGS.DUPLICANTS.DISEASES.PUTRIDODOUR.CRINGE_EFFECT").String);
+					minionIdentity.gameObject.GetSMI<ThoughtGraph.Instance>().AddThought(Db.Get().Thoughts.PutridOdour);
 				}
 			}
 
@@ -89,7 +87,7 @@ namespace CritterTraitsReborn.Components
 				temp = ele.Temperature;
 			}
 			else
-				SgtLogger.l("no primary elemenet found");
+				SgtLogger.warning("no primary element found");
 			SimMessages.AddRemoveSubstance(gameCell, SimHashes.ContaminatedOxygen, CellEventLogger.Instance.ElementConsumerSimUpdate, 0.0025f, temp, DiseaseInfo.Invalid.idx, DiseaseInfo.Invalid.count);
 			KFMOD.PlayOneShot(GlobalAssets.GetSound("Dupe_Flatulence"), base.transform.GetPosition());
 		}
