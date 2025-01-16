@@ -12,9 +12,13 @@ namespace UtilLibs
 	public class AssetUtils
 	{
 		//
-		public static Sprite AddSpriteToAssets(FileInfo file, bool overrideExisting = false)
+		//works both pre and postfix
+		public static Sprite AddSpriteToAssets(FileInfo file, Assets instance = null, bool overrideExisting = false)
 		{
-			var instance = Assets.instance;
+			if (instance == null)
+			{
+				instance = Assets.instance;
+			}
 			string spriteId = Path.GetFileNameWithoutExtension(file.Name);
 			TryLoadTexture(file.FullName, out Texture2D texture);
 			var sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector3.zero);
@@ -26,13 +30,17 @@ namespace UtilLibs
 			}
 			if (overrideExisting)
 				instance.SpriteAssets.RemoveAll(foundsprite2 => foundsprite2 != null && foundsprite2.name == spriteId);
-
 			instance.SpriteAssets.Add(sprite);
 
 			HashedString key = new HashedString(sprite.name);
-			Assets.Sprites[key] = sprite;
+
+			if(Assets.Sprites != null)
+				Assets.Sprites[key] = sprite;
+
 			return sprite;
 		}
+
+		//use in prefix
 		public static Sprite AddSpriteToAssets(Assets instance, string spriteid, bool overrideExisting = false)
 		{
 			var path = Path.Combine(UtilMethods.ModPath, "assets");

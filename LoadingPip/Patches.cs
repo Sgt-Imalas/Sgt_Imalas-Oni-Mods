@@ -1,8 +1,10 @@
 ﻿using Database;
 using HarmonyLib;
+using Klei;
 using Klei.AI;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,10 +47,8 @@ namespace LoadingPip
 				LocalisationUtil.Translate(typeof(STRINGS), true);
 			}
 		}
-
-		public static Sprite primal_aspid_sprite;
+		
 		public static string primal_aspid_sprite_id = "aspid";
-
 
 		[HarmonyPatch(typeof(Assets), "OnPrefabInit")]
 		public class Assets_OnPrefabInit_Patch
@@ -56,7 +56,19 @@ namespace LoadingPip
 			[HarmonyPriority(Priority.LowerThanNormal)]
 			public static void Prefix(Assets __instance)
 			{
-				primal_aspid_sprite = InjectionMethods.AddSpriteToAssets(__instance, primal_aspid_sprite_id);
+				string dreamIconDicrectory = FileSystem.Normalize(System.IO.Path.Combine(IO_Utils.ModPath, "assets"));
+				if (System.IO.Directory.Exists(dreamIconDicrectory))
+				{
+					foreach (var file in System.IO.Directory.GetFiles(dreamIconDicrectory))
+					{
+						var fileInfo = new FileInfo(file);
+						if (fileInfo.Exists && fileInfo.Extension == ".png")
+						{
+							SgtLogger.l("loading custom load screen icon: " + fileInfo.Name);
+							AssetUtils.AddSpriteToAssets(fileInfo, __instance);
+						}
+					}
+				}
 			}
 		}
 	}
