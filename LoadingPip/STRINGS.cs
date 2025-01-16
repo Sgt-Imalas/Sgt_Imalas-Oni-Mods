@@ -9,11 +9,17 @@ namespace LoadingPip
 {
 	internal class STRINGS
 	{
-		public class BUILDINGS
+		public class MODOPTIONS
 		{
-			public class PREFABS
+			public class LOADINGICON
 			{
-
+				public static LocString NAME = "Loading icon Id/Name";
+				public static LocString TOOLTIP = "The id or name of the entity you want to see during the loading screen.";
+			}
+			public class PRIMALASPID
+			{
+				public static LocString NAME = "Primal Aspid";
+				public static LocString TOOLTIP = "The bane of the knight, now in your loading screen!";
 			}
 		}
 	}

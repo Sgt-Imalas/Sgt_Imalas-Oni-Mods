@@ -23,7 +23,7 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>LoadingPip</ModName>
+		<ModName>Loading Pip</ModName>
 		<ModDescription></ModDescription>
 		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
@@ -42,5 +42,15 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="ModAssets\assets\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="ModAssets\assets\aspid.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 </Project>
