@@ -79,7 +79,7 @@ namespace SetStartDupes
 		private void SetOpenedType(List<CarePackageInfo> currentlyAllowed)
 		{
 
-			ToReplaceName.text = GetSpawnableQuantity(ReferencedContainer.info.id, ReferencedContainer.info.quantity);
+			ToReplaceName.text = CarePackageItemHelper.GetSpawnableQuantity(ReferencedContainer.info.id, ReferencedContainer.info.quantity);
 			CurrentlyAllowedCarePackages.Clear();
 			if (currentlyAllowed == null)
 			{
@@ -235,9 +235,9 @@ namespace SetStartDupes
 				var PresetHolder = Util.KInstantiateUI(PresetListPrefab, PresetListContainer, true);
 
 
-				string name = GetSpawnableName(info.id);
-				string description = GetSpawnableDescription(info.id);
-				string amountDesc = GetSpawnableQuantity(info.id, info.quantity);
+				string name = CarePackageItemHelper.GetSpawnableName(info.id);
+				string description = CarePackageItemHelper.GetSpawnableDescription(info.id);
+				string amountDesc = CarePackageItemHelper.GetSpawnableQuantity(info.id, info.quantity);
 
 
 
@@ -294,10 +294,14 @@ namespace SetStartDupes
 				}
 			}
 		}
-		bool CarePackageAllowed(CarePackageInfo info) => (DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive) ? true
-			: info.requirement == null
-				? true
-				: info.requirement.Invoke();
+		bool CarePackageAllowed(CarePackageInfo info)
+		{
+			if (DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive)
+				return true;
+			if (info.requirement == null)
+				return true;
+			return info.requirement.Invoke();
+		}
 
 		private bool ApplyCarePackageSprite(CarePackageInfo CarePackage, Image image)
 		{
@@ -352,40 +356,6 @@ namespace SetStartDupes
 
 			return true;
 		}
-		private string GetSpawnableName(string CarePackageID)
-		{
-			GameObject prefab = Assets.GetPrefab((Tag)CarePackageID);
-			if (prefab == null)
-			{
-				Element elementByName = ElementLoader.FindElementByName(CarePackageID);
-				return elementByName != null ? elementByName.substance.name : "";
-			}
-			return prefab.GetProperName();
-		}
-		private string GetSpawnableQuantity(string CarePackageID, float CarePackageQuantity)
-		{
-			if (ElementLoader.GetElement(CarePackageID.ToTag()) != null)
-				return string.Format((string)global::STRINGS.UI.IMMIGRANTSCREEN.CARE_PACKAGE_ELEMENT_QUANTITY, GameUtil.GetFormattedMass(CarePackageQuantity), Assets.GetPrefab((Tag)CarePackageID).GetProperName());
-
-			var info = EdiblesManager.GetFoodInfo(CarePackageID);
-
-			return info != null && info.CaloriesPerUnit > 0
-				? string.Format((string)global::STRINGS.UI.IMMIGRANTSCREEN.CARE_PACKAGE_ELEMENT_QUANTITY, GameUtil.GetFormattedCaloriesForItem((Tag)CarePackageID, CarePackageQuantity), Assets.GetPrefab((Tag)CarePackageID).GetProperName())
-				: string.Format((string)global::STRINGS.UI.IMMIGRANTSCREEN.CARE_PACKAGE_ELEMENT_COUNT, Assets.GetPrefab((Tag)CarePackageID).GetProperName(), CarePackageQuantity.ToString());
-		}
-
-		private string GetSpawnableDescription(string CarePackageID)
-		{
-			Element element = ElementLoader.GetElement(CarePackageID.ToTag());
-			if (element != null)
-				return element.Description();
-			GameObject prefab = Assets.GetPrefab((Tag)CarePackageID);
-			if (prefab == null)
-				return "";
-			InfoDescription component = prefab.GetComponent<InfoDescription>();
-			return component != null ? component.description : prefab.GetProperName();
-		}
-
 
 
 		bool ShowInFilter(string filtertext, string stringsToInclude)

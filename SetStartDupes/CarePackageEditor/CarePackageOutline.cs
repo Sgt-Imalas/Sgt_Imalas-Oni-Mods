@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using static STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS;
 
 namespace SetStartDupes.CarePackageEditor
 {
@@ -17,6 +18,25 @@ namespace SetStartDupes.CarePackageEditor
 		public int Amount;
 		public List<List<ICarePackageUnlockCondition>> UnlockConditions = null;
 
+
+		internal string GetConditionsTooltip()
+		{
+			return "TODO";
+		}
+		public bool HasConditions() => UnlockConditions != null && UnlockConditions.Any() && UnlockConditions[0].Any();
+
+		public string GetDescriptionString()
+		{
+			var item = Assets.GetPrefab(ItemId);
+			if(item == null)
+			{
+				//spaced out package in base game, using stored name backup or id;
+				string displayName = Name ?? ItemId;
+
+				return string.Format((string)global::STRINGS.UI.IMMIGRANTSCREEN.CARE_PACKAGE_ELEMENT_COUNT, displayName, Amount);
+			}
+			return CarePackageItemHelper.GetSpawnableQuantity(ItemId, Amount);
+		}
 		public static bool IsValidCarePackageId(string id, out string failReason)
 		{
 			failReason = null;
@@ -185,5 +205,6 @@ namespace SetStartDupes.CarePackageEditor
 			carePackageInfo = new CarePackageInfo(ItemId, Amount, UnlockCondition);
 			return true;
 		}
+
 	}
 }

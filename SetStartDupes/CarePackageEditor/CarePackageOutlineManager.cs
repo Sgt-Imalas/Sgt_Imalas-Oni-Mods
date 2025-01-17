@@ -1,5 +1,6 @@
 ﻿using Database;
 using Klei.CustomSettings;
+using SetStartDupes.CarePackageEditor.UI;
 using SetStartDupes.Patches;
 using System;
 using System.Collections.Generic;
@@ -80,6 +81,12 @@ namespace SetStartDupes.CarePackageEditor
             }
             return result;
         }
+        public static List<CarePackageOutline> GetExtraCarePackageOutlines()
+        {
+            ResetExtraCarePackages(); //wip to fill the list, later load from file
+            return ExtraCarePackages;
+		}
+
         public static void ResetExtraCarePackages()
         {
             ExtraCarePackages = new();
@@ -143,5 +150,14 @@ namespace SetStartDupes.CarePackageEditor
             ExtraCarePackages.Add(new CarePackageOutline(PinkRockCarvedConfig.ID, 1).CycleCondition(48).DiscoverCondition().DlcRequired(DlcManager.DLC2_ID));
 
         }
-    }
+
+		internal static void TryDeleteOutline(CarePackageOutline targetOutline)
+		{
+    	}
+
+		internal static void TrySelectOutline(CarePackageOutline targetOutline)
+		{
+			CarePackageEditor_MainScreen.Instance?.SelectOutline(targetOutline);
+		}
+	}
 }
