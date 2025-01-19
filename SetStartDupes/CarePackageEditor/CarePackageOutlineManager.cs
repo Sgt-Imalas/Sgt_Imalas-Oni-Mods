@@ -81,9 +81,14 @@ namespace SetStartDupes.CarePackageEditor
             }
             return result;
         }
+        static bool carepackagesinit = false;
         public static List<CarePackageOutline> GetExtraCarePackageOutlines()
         {
-            ResetExtraCarePackages(); //wip to fill the list, later load from file
+            if (!carepackagesinit)
+			{
+				ResetExtraCarePackages(); //wip to fill the list, later load from file
+                carepackagesinit = true;
+			}
             return ExtraCarePackages;
 		}
 

@@ -3,17 +3,17 @@
 namespace SetStartDupes
 {
 	public class STRINGS
-    {
-        public static LocString BIONIC_STRESS_HARDWIRED = "Bionic duplicants have a hardwired stress reaction since they are mostly incompatible with normal stress reactions";
+	{
+		public static LocString BIONIC_STRESS_HARDWIRED = "Bionic duplicants have a hardwired stress reaction since they are mostly incompatible with normal stress reactions";
 
-        public static LocString UNNAMEDPRESET = "(Unnamed Preset)";
+		public static LocString UNNAMEDPRESET = "(Unnamed Preset)";
 		public static LocString MISSINGTRAIT = "Missing Trait!";
 		public static LocString MISSINGTRAITDESC = "This Trait could not be found: {0}";
 		public static LocString MISSINGSKILLGROUP = "Missing Attribute!";
 		public static LocString MISSINGSKILLGROUPDESC = "This Attribute could not be found: {0}";
 		public static LocString EXCLUSIVITY_RULE_CONFLICTING = "Mutual exclusivity detected:\nWith vanilla generation rules,\nthis would not be added, as it is mutually exclusive with:";
 
-        public class UI
+		public class UI
 		{
 			public class STARTAGAIN
 			{
@@ -29,7 +29,7 @@ namespace SetStartDupes
 				{
 					public class OBJECTLIST
 					{
-						public class NOPRESETSAVAILABLE
+						public class SHOWVANILLA
 						{
 							public static LocString LABEL = "Show Vanilla Care Packages:";
 							public static LocString TOOLTIP = "Also show vanilla care packages in the list.\nNote that these cannot receive editing due to how they are implemented.";
@@ -38,22 +38,13 @@ namespace SetStartDupes
 						{
 							public class CONTENT
 							{
-								public class NOPRESETSAVAILABLE
+								public class NONEAVAILABLE
 								{
 									public static LocString LABEL = "No custom care packages yet";
 								}
 								public class PRESETENTRYPREFAB
 								{
-									public class ADDTHISTRAITBUTTON
-									{
-										public static LocString TEXT = "Load Preset";
-									}
-
-									public static LocString INVALIDMODELTOOLTIP = "Preset not compatible with current duplicant model!";
-									public static LocString RENAMEPRESETTOOLTIP = "Rename Preset";
-									public static LocString DELETEPRESETTOOLTIP = "Delete Preset";
-									public static LocString IMPORTEDPRESET = "This preset was imported from your old dgsm crew presets, it cannot be modified or deleted directly.";
-
+									public static LocString DELETE_CARE_PACKAGE_TOOLTIP = "Delete Care Package";
 								}
 							}
 						}
@@ -65,22 +56,21 @@ namespace SetStartDupes
 							{
 								public class TEXTAREA
 								{
-									public static LocString PLACEHOLDER = "Enter text to filter care packages...";
+									public static LocString PLACEHOLDER = "Filter care packages...";
 									public static LocString TEXT = "";
 								}
 							}
 						}
 						public class CAREPACKAGEITEMID
 						{
-							internal class INPUT
+
+							public class TEXTAREA
 							{
-								public class TEXTAREA
-								{
-									public static LocString PLACEHOLDER = "insert care package item Id...";
-									public static LocString TEXT = "";
-								}
+								public static LocString PLACEHOLDER = "insert new care package item Id...";
+								public static LocString TEXT = "";
 							}
 						}
+
 						public class ADDCAREPACKAGEBTN
 						{
 							public static LocString TEXT = "Add new custom care package";
@@ -89,6 +79,32 @@ namespace SetStartDupes
 					}
 					public class ITEMINFO
 					{
+						public class SCROLLAREA
+						{
+							public class CONTENT
+							{
+								public class AMOUNTINPUT
+								{
+									public static LocString LABEL = "Amount:";
+								}
+								public class REQUIREDDLCS
+								{
+									public static LocString LABEL = "Required Dlcs:";
+								}
+								public class UNLOCKCONDITIONSLABEL
+								{
+									public static LocString LABEL = "Conditions required to unlock:";
+								}
+								public class UNLOCKATCYCLE
+								{
+									public static LocString LABEL = "Unlocked at cycle:";
+								}
+								public class ITEMDISCOVERED
+								{
+									public static LocString LABEL = "Item Discovered";
+								}
+							}
+						}
 						public class BUTTONS
 						{
 							public class CLOSEBUTTON

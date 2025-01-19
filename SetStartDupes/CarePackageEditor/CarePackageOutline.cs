@@ -23,7 +23,7 @@ namespace SetStartDupes.CarePackageEditor
 		{
 			return "TODO";
 		}
-		public bool HasConditions() => UnlockConditions != null && UnlockConditions.Any() && UnlockConditions[0].Any();
+		public bool HasConditions() => UnlockConditions != null && UnlockConditions.Any() && UnlockConditions[0] != null && UnlockConditions[0].Any();
 
 		public string GetDescriptionString()
 		{
