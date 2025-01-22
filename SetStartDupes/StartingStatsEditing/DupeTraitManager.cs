@@ -114,7 +114,7 @@ namespace SetStartDupes
 
 			AttributeContainer = InitContainer("AttributeContainer", global::STRINGS.UI.DETAILTABS.STATS.GROUPNAME_ATTRIBUTES);
 			AttributeContainer.transform.SetSiblingIndex(InterestContainer.transform.GetSiblingIndex());
-			AttributeContainer.SetActive(true);
+			AttributeContainer.SetActive(false);
 
 			OverjoyedContainer = InitContainer("OverjoyedContainer", string.Format(global::STRINGS.UI.CHARACTERCONTAINER_JOYTRAIT, string.Empty));
 			OverjoyedContainer.SetActive(!Config.Instance.NoJoyReactions);
@@ -123,7 +123,7 @@ namespace SetStartDupes
 			StressContainer.SetActive(!Config.Instance.NoStressReactions);
 
 			LifeGoalContainer = InitContainer("LifeGoalContainer", string.Format(Strings.Get("STRINGS.UI.CHARACTERCONTAINER_LIFEGOAL_TRAIT"), string.Empty));
-			LifeGoalContainer.SetActive(ModAssets.BeachedActive);
+			LifeGoalContainer.SetActive(ModAssets.Beached_LifegoalsActive);
 
 			if (InterestContainer.transform.gameObject.TryGetComponent<LayoutElement>(out LayoutElement layoutElement))
 			{
@@ -289,7 +289,7 @@ namespace SetStartDupes
 				StressTT.SetSimpleTooltip(ModAssets.GetTraitTooltip(ToEditMinionStats.stressTrait, ToEditMinionStats.stressTrait.Id));
 			}
 
-			if (ModAssets.BeachedActive)
+			if (ModAssets.Beached_LifegoalsActive)
 			{
 
 				Trait LifeGoalTrait = Beached_API.GetCurrentLifeGoal.Invoke(ToEditMinionStats);
@@ -713,7 +713,7 @@ namespace SetStartDupes
 
 		void Beached_RecalculateLifeGoal()
 		{
-			if (ToEditMinionStats == null || ModAssets.BeachedActive)
+			if (ToEditMinionStats == null || ModAssets.Beached_LifegoalsActive)
 			{
 				Trait currentGoal = Beached_API.GetCurrentLifeGoal(ToEditMinionStats);
 				Beached_API.RemoveLifeGoal(ToEditMinionStats);
@@ -797,14 +797,14 @@ namespace SetStartDupes
 		}
 		public void RemoveLifeGoal()
 		{
-			if (ToEditMinionStats != null && ModAssets.BeachedActive)
+			if (ToEditMinionStats != null && ModAssets.Beached_LifegoalsActive)
 			{
 				Beached_API.RemoveLifeGoal(ToEditMinionStats);
 			}
 		}
 		public void AddLifeGoal(Trait trait)
 		{
-			if (ToEditMinionStats != null && ModAssets.BeachedActive)
+			if (ToEditMinionStats != null && ModAssets.Beached_LifegoalsActive)
 			{
 				Beached_API.SetLifeGoal(ToEditMinionStats, trait, true);
 			}

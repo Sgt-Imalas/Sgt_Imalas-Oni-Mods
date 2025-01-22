@@ -53,7 +53,8 @@ namespace SetStartDupes
 		public static GameObject CarePackageEditorWindowPrefab;
 		public static NumberInput EditNumberRowPrefab;
 
-		public static bool BeachedActive = false;
+		public static bool Beached_LifegoalsActive = false;
+		public static bool BeachedEnabled = false;
 		public static List<DUPLICANTSTATS.TraitVal> BEACHED_LIFEGOALS = new List<DUPLICANTSTATS.TraitVal>();
 
 		public static bool RainbowFartsActive = false;
@@ -103,14 +104,14 @@ namespace SetStartDupes
 			}
 		}
 
-        private static GameObject parentScreen = null;
+		private static GameObject parentScreen = null;
 		public static List<CarePackageInfo> GetAdditionalCarePackages()
 		{
 			return CarePackageOutlineManager.GetAllAdditionalCarePackages();
 
 
 
-            bool Dlc1Active = DlcManager.IsExpansion1Active();
+			bool Dlc1Active = DlcManager.IsExpansion1Active();
 			bool Dlc2ActiveForSave = SaveLoader.Instance.GameInfo.dlcIds.Contains(DlcManager.DLC2_ID);
 
 			var carePackages = new List<CarePackageInfo>()
@@ -185,14 +186,14 @@ namespace SetStartDupes
 		{
 			AssetBundle bundle = AssetUtils.LoadAssetBundle("dss_uiassets", platformSpecific: true);
 
-            DupeTraitManager.AttributeEditPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/StartAttributeEditing.prefab");
-            PresetWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/PresetWindow.prefab");
+			DupeTraitManager.AttributeEditPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/StartAttributeEditing.prefab");
+			PresetWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/PresetWindow.prefab");
 			TraitsWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/DupeSkillsPopUp.prefab");
 			CrewDupeEntryPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/DupePresetListItem.prefab");
 			DuplicityWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/DupeEditing.prefab");
 			CarePackageEditorWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/CarePackageEditor.prefab");
 			var numberInputGO = bundle.LoadAsset<GameObject>("Assets/UIs/StartAttributeEditing.prefab");
-			if(numberInputGO!=null)
+			if (numberInputGO != null)
 				EditNumberRowPrefab = numberInputGO.AddOrGet<NumberInput>();
 
 			SgtLogger.Assert("PresetWindowPrefab was null!", PresetWindowPrefab);
@@ -343,6 +344,7 @@ namespace SetStartDupes
 			JoyResponseOutfitTarget.FromMinion(go).WriteFacadeId(joyResponseOutfitTarget.ReadFacadeId());
 		}
 
+
 		public static void ApplySkinFromPersonality(Personality personality, MinionStartingStats stats, bool ForceOverideReactions = false)
 		{
 			if (Config.Instance.SkinsDoReactions || ForceOverideReactions)
@@ -355,7 +357,7 @@ namespace SetStartDupes
 				{
 					stats.joyTrait = Db.Get().traits.TryGet(personality.joyTrait);
 				}
-				if (ModAssets.BeachedActive)
+				if (ModAssets.Beached_LifegoalsActive)
 				{
 					Beached_API.RemoveLifeGoal(stats);
 					Beached_API.SetLifeGoal(stats, Beached_API.GetLifeGoalFromPersonality(personality), false);
@@ -375,7 +377,15 @@ namespace SetStartDupes
 			}
 		}
 
-
+		public static List<string> GET_ALL_ATTRIBUTES()
+		{
+			var attributes = DUPLICANTSTATS.ALL_ATTRIBUTES.ToList();
+			if (BeachedEnabled && !attributes.Contains("Beached_Precision"))
+			{
+				attributes.Add("Beached_Precision");
+			}
+			return attributes;
+		}
 
 		public static int MinimumPointsPerInterest(MinionStartingStats stats, SkillGroup checkForMultiplesOf = null)
 		{
@@ -586,6 +596,9 @@ namespace SetStartDupes
 			if (stats == null)
 				return description;
 
+			if (!group.relevantAttributes.Any())
+				return description;
+
 			float startingLevel = (float)stats.StartingLevels[group.relevantAttributes[0].Id];
 			string attributes = group.relevantAttributes[0].Name + ": +" + startingLevel.ToString();
 			List<AttributeConverter> convertersForAttribute = Db.Get().AttributeConverters.GetConvertersForAttribute(group.relevantAttributes[0]);
@@ -660,8 +673,9 @@ namespace SetStartDupes
 		}
 		public static void InitBeached()
 		{
+			ModAssets.BeachedEnabled = true;
 			SgtLogger.l("Beached Found, initializing...");
-			ModAssets.BeachedActive = Beached_API.IsUsingLifeGoals.Invoke();
+			ModAssets.Beached_LifegoalsActive = Beached_API.IsUsingLifeGoals.Invoke();
 			SgtLogger.l(Beached_API.IsUsingLifeGoals.Invoke().ToString(), "Using Lifegoals");
 
 
@@ -760,12 +774,12 @@ namespace SetStartDupes
 				if (ModAssets.RainbowFartsActive)
 					returnValues.AddRange(TraitsByType[NextType.RainbowFart]);
 
-				if(minionModel == GameTags.Minions.Models.Bionic || initializingUI)
+				if (minionModel == GameTags.Minions.Models.Bionic || initializingUI)
 				{
 					returnValues.AddRange(TraitsByType[NextType.bionic_boost]);
 					returnValues.AddRange(TraitsByType[NextType.bionic_bug]);
 				}
-				if(minionModel == GameTags.Minions.Models.Standard || initializingUI)
+				if (minionModel == GameTags.Minions.Models.Standard || initializingUI)
 				{
 					returnValues.AddRange(TraitsByType[NextType.posTrait]);
 					returnValues.AddRange(TraitsByType[NextType.needTrait]);
@@ -797,7 +811,7 @@ namespace SetStartDupes
 			{
 				foreach (var possibility in TraitsByType)
 				{
-					var checkedCategory = possibility.Key; 
+					var checkedCategory = possibility.Key;
 					var traitValList = possibility.Value;
 					if (traitValList.FindIndex(t => t.id == traitId) != -1)
 					{
@@ -905,7 +919,7 @@ namespace SetStartDupes
 			}
 		}
 
-		static string[] possibleStickerTypes = [ "sticker", "glitter", "glowinthedark"];
+		static string[] possibleStickerTypes = ["sticker", "glitter", "glowinthedark"];
 		internal static string GetRandomStickerType()
 		{
 			return possibleStickerTypes.GetRandom();
@@ -928,7 +942,7 @@ namespace SetStartDupes
 		{
 			if (TraitRerollButtons.TryGetValue(container, out var rerollTraitBtn))
 			{
-				rerollTraitBtn.SetActive( visible);
+				rerollTraitBtn.SetActive(visible);
 			}
 		}
 
@@ -996,11 +1010,11 @@ namespace SetStartDupes
 			{ GameTags.Any, "ui_duplicant_any_selection" },
 		};
 
-        internal static bool IsMinionBaseTrait(string id)
-        {
+		internal static bool IsMinionBaseTrait(string id)
+		{
 			return id.Contains("BaseTrait");
-        }
+		}
 
-        public static string UnlockIcon = "OpenLock";
+		public static string UnlockIcon = "OpenLock";
 	}
 }

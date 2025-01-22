@@ -20,7 +20,7 @@ namespace SetStartDupes.Presets
             convertedCrew = null;
             if (file.Exists && IO_Utils.ReadFromFile<ImportedCrew>(file, out var importedCrew))
             {
-                convertedCrew = importedCrew.ToCrewPreset();
+                convertedCrew = importedCrew.ToCrewPreset(file);
             }
             return convertedCrew != null && convertedCrew.Crewmates.Any();
         }
@@ -28,7 +28,7 @@ namespace SetStartDupes.Presets
         //crew preset
         public class ImportedCrew
         {
-            public MinionCrewPreset ToCrewPreset()
+            public MinionCrewPreset ToCrewPreset(FileInfo filePath)
             {
                 var preset = new MinionCrewPreset();
                 preset.CrewName = Name;
@@ -44,8 +44,10 @@ namespace SetStartDupes.Presets
                 if (DLC1 && preset.Crewmates.Any())
                     preset.Crewmates.ForEach(item => item.second.DLCID = DlcManager.EXPANSION1_ID);
                 preset.Imported = true;
+                preset.OriginalFilePath = filePath;
 
-                return preset;
+
+				return preset;
             }
             public List<ImportedCrewMember> Info = new();
             public string Name;
@@ -92,7 +94,7 @@ namespace SetStartDupes.Presets
                         statConfig.Traits.Add(trait.Id);
                 }
 
-                foreach (var attributeId in DUPLICANTSTATS.ALL_ATTRIBUTES)
+                foreach (var attributeId in ModAssets.GET_ALL_ATTRIBUTES())
                 {
                     if (!StartingLevels.ContainsKey(attributeId))
                         StartingLevels[attributeId] = 0;

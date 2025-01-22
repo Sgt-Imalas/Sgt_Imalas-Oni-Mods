@@ -13,7 +13,7 @@ using static SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST;
 
 namespace SetStartDupes
 {
-    internal class UnityCrewPresetScreen : FScreen
+	internal class UnityCrewPresetScreen : FScreen
 	{
 #pragma warning disable IDE0051 // Remove unused private members
 #pragma warning disable CS0414 // Remove unused private members
@@ -170,14 +170,16 @@ namespace SetStartDupes
 					FindOrAddComponent<FButton>().OnClick += () => SetAsCurrent(config);
 				var deleteButton = PresetHolder.transform.Find("DeleteButton").FindOrAddComponent<FButton>();
 				var renameButton = PresetHolder.transform.Find("RenameButton").FindOrAddComponent<FButton>();
+
+				deleteButton.OnClick += () => DeletePreset(config);
+
 				if (config.Imported)
 				{
 					renameButton.SetInteractable(false);
-					deleteButton.SetInteractable(false);
+					//deleteButton.SetInteractable(false);
 				}
 				else
 				{
-					deleteButton.OnClick += () => DeletePreset(config);
 					renameButton.OnClick += () => config.OpenPopUpToChangeName(
 						() =>
 						{
@@ -187,7 +189,7 @@ namespace SetStartDupes
 				}
 
 				UIUtils.AddSimpleTooltipToObject(renameButton.gameObject, config.Imported ? SCROLLAREA.CONTENT.PRESETENTRYPREFAB.IMPORTEDPRESET : SCROLLAREA.CONTENT.PRESETENTRYPREFAB.RENAMEPRESETTOOLTIP);
-				UIUtils.AddSimpleTooltipToObject(deleteButton.gameObject, config.Imported ? SCROLLAREA.CONTENT.PRESETENTRYPREFAB.IMPORTEDPRESET : SCROLLAREA.CONTENT.PRESETENTRYPREFAB.DELETEPRESETTOOLTIP);
+				UIUtils.AddSimpleTooltipToObject(deleteButton.gameObject, SCROLLAREA.CONTENT.PRESETENTRYPREFAB.DELETEPRESETTOOLTIP);
 				Presets[config] = PresetHolder;
 				return true;
 			}

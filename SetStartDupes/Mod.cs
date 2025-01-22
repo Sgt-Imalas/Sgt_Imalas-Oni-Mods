@@ -18,7 +18,7 @@ namespace SetStartDupes
         public static Harmony harmonyInstance;
         public override void OnLoad(Harmony harmony)
         {
-            harmonyInstance = harmony;
+			harmonyInstance = harmony;
             ModApi.RegisteringJorge();
 
             ModAssets.LoadAssets();

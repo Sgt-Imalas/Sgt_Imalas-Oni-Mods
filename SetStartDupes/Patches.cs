@@ -498,7 +498,7 @@ namespace SetStartDupes
 
 						if (EditingJorge)
 						{
-							foreach (string key in DUPLICANTSTATS.ALL_ATTRIBUTES)
+							foreach (string key in GET_ALL_ATTRIBUTES())
 								DupeToDeliver.StartingLevels[key] += 7;
 						}
 
@@ -1666,7 +1666,7 @@ namespace SetStartDupes
 				}
 			}
 
-			public static void Postfix(MinionStartingStats __instance)
+			public static void Postfix(MinionStartingStats __instance, ref int __result)
 			{
 				if (Config.Instance.NoJoyReactions)
 				{
@@ -1675,6 +1675,12 @@ namespace SetStartDupes
 				if (Config.Instance.NoStressReactions)
 				{
 					__instance.stressTrait = Db.Get().traits.Get("None");
+				}
+
+				if (__instance.personality.model == GameTags.Minions.Models.Bionic)
+				{
+					//force 0 interest bonus for bionics
+					__result = 0;
 				}
 			}
 
@@ -1940,7 +1946,7 @@ namespace SetStartDupes
 			   typeof(RerollWithGuaranteedTraitAndPersonality),
 			   nameof(RerollWithGuaranteedTraitAndPersonality.GenerateWithGuaranteedSkill));
 
-			[HarmonyPriority(Priority.VeryLow)]
+			[HarmonyPriority(Priority.VeryHigh)]
 			static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
 			{
 				var code = instructions.ToList();
@@ -1952,7 +1958,7 @@ namespace SetStartDupes
 					code.Insert(insertionIndex, new CodeInstruction(OpCodes.Ldarg_0));
 				}
 				else
-					SgtLogger.warning("minionStartingStatsReplacer not found");
+					SgtLogger.warning("TRANSPILER ERROR: minionStartingStatsReplacer not found");
 
 				//SgtLogger.warning("CharacterContainer.GenerateCharacter not found");
 				//TranspilerHelper.PrintInstructions(code);

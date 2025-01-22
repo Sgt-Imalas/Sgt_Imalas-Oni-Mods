@@ -254,7 +254,7 @@ namespace SetStartDupes
 				startingStats.skillAptitudes.ToList(),
 				startingStats.personality.model);
 
-			if (ModAssets.BeachedActive)
+			if (ModAssets.Beached_LifegoalsActive)
 				config.Traits.Add(Beached_API.GetCurrentLifeGoal(startingStats).Id);
 
 			return config;
@@ -312,9 +312,21 @@ namespace SetStartDupes
 
 			SgtLogger.l("Applying starting levels");
 			referencedStats.StartingLevels.Clear();
+			HashSet<string> validAttributes = new HashSet<string>(DUPLICANTSTATS.ALL_ATTRIBUTES);
 			foreach (var startLevel in this.StartingLevels)
 			{
-				referencedStats.StartingLevels[startLevel.Key] = startLevel.Value;
+				if (validAttributes.Contains(startLevel.Key))
+					referencedStats.StartingLevels[startLevel.Key] = startLevel.Value;
+				else
+					SgtLogger.warning("couldnt apply attribute level for " + startLevel.Key + " as it is not a valid attribute.");
+			}
+			foreach (var requiredAttribute in validAttributes)
+			{
+				if (!referencedStats.StartingLevels.ContainsKey(requiredAttribute))
+				{
+					SgtLogger.l("adding missing attribute level " + requiredAttribute + ", defaulting to 0.");
+					referencedStats.StartingLevels[requiredAttribute] = 0;
+				}
 			}
 
 			SgtLogger.l("Applying joy reaction");

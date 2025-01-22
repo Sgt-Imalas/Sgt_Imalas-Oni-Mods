@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using SetStartDupes;
+using SetStartDupes.Patches;
 using System;
 using System.Collections.Generic;
 using UtilLibs;
@@ -17,7 +18,10 @@ namespace Beached_ModAPI
 				ModAssets.InitBeached();
 			}
 			else
+			{
 				SgtLogger.l("Beached mod not found, API is resting now, gn...zzz");
+				CrashMitigationPatches.FixBionicCrash.ExecutePatch(Mod.harmonyInstance);
+			}
 		}
 	}
 	public static class Beached_API

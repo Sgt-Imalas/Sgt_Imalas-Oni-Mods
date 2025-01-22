@@ -37,7 +37,7 @@ namespace SetStartDupes.DuplicityEditing.Helpers
                 };
                 if (DlcManager.IsExpansion1Active())
                     _editableAttributesBase.Add(attributes.SpaceNavigation);
-                if (ModAssets.BeachedActive)
+                if (ModAssets.Beached_LifegoalsActive)
                 {
                     if (attributes.TryGet("Beached_Precision") != null)
                         _editableAttributesBase.Add(attributes.Get("Beached_Precision"));

@@ -12,6 +12,8 @@ namespace SetStartDupes
 	{
 		[JsonIgnore]
 		public bool Imported = false;
+		[JsonIgnore]
+		public FileInfo OriginalFilePath;
 
 		public string FileName;
 		public string CrewName;
@@ -198,10 +200,18 @@ namespace SetStartDupes
 		{
 			try
 			{
-				var path = Path.Combine(ModAssets.DupeGroupTemplatePath, FileName + ".json");
+				if (Imported && OriginalFilePath != null)
+				{
+					if(OriginalFilePath.Exists)
+						OriginalFilePath.Delete();
+				}
+				else
+				{
+					var path = Path.Combine(ModAssets.DupeGroupTemplatePath, FileName + ".json");
 
-				var fileInfo = new FileInfo(path);
-				fileInfo.Delete();
+					var fileInfo = new FileInfo(path);
+					fileInfo.Delete();
+				}
 			}
 			catch (Exception e)
 			{
