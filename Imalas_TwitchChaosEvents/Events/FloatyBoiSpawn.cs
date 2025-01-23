@@ -7,6 +7,9 @@ using UtilLibs;
 
 namespace Imalas_TwitchChaosEvents.Events
 {
+	/// <summary>
+	/// custom cryo slickster that eats maetS
+	/// </summary>
 	internal class FloatyBoiSpawn : ITwitchEventBase
 	{
 		public string ID => "ChaosTwitch_CreeperEater";

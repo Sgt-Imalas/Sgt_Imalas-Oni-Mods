@@ -12,7 +12,7 @@ namespace Rockets_TinyYetBig.TwitchEvents.Events
 
 		public Danger EventDanger => Danger.High;
 		public string EventDescription => "A satellite derelict has fallen\nout of orbit on {0}";
-		public EventWeight EventWeight => EventWeight.WEIGHT_NORMAL;
+		public EventWeight EventWeight => EventWeight.WEIGHT_COMMON;
 		public Func<object, bool> Condition =>
 				(data) =>
 				{

@@ -20,13 +20,16 @@ namespace Imalas_TwitchChaosEvents.Events
 
 		public string EventDescription => STRINGS.CHAOSEVENTS.SHART.TOASTTEXT;
 
-		public EventWeight EventWeight => EventWeight.WEIGHT_COMMON;
+		public EventWeight EventWeight => EventWeight.WEIGHT_UNCOMMON;
 
 		public Action<object> EventAction => (obj) =>
 		{
 			foreach (var minion in Components.LiveMinionIdentities.Items)
 			{
-				DoShart(minion.gameObject, 25f);
+				if (minion.model == GameTags.Minions.Models.Standard)	
+					DoShart(minion.gameObject, 25f, ModElements.LiquidPoop.SimHash);
+				else if(minion.model == GameTags.Minions.Models.Bionic)
+					DoShart(minion.gameObject, 25f, SimHashes.LiquidGunk);
 			}
 
 			DoCringeEffect();
@@ -39,7 +42,7 @@ namespace Imalas_TwitchChaosEvents.Events
 			AccessTools.StaticFieldRefAccess<HashedString[]>(AccessTools.Field(typeof(Flatulence), "WorkLoopAnims"));
 
 		// most of this logic copied from Asquared `Fart`-Event
-		private static void DoShart(GameObject dupe, float shartMass)
+		private static void DoShart(GameObject dupe, float shartMass, SimHashes shartElement)
 		{
 			var dupePos = dupe.transform.position;
 			var temperature = Db.Get().Amounts.Temperature.Lookup(dupe).value;
@@ -50,13 +53,13 @@ namespace Imalas_TwitchChaosEvents.Events
 			if (equippable != null)
 			{
 				equippable.GetComponent<Storage>()
-					.AddLiquid(ModElements.LiquidPoop.SimHash, shartMass, temperature, diseaseIDX, diseaseCount, false);
+					.AddLiquid(shartElement, shartMass, temperature, diseaseIDX, diseaseCount, false);
 			}
 			else
 			{
 				SimMessages.AddRemoveSubstance(
 					Grid.PosToCell(dupePos),
-					ModElements.LiquidPoop.SimHash,
+					shartElement,
 					CellEventLogger.Instance.ElementConsumerSimUpdate,
 					shartMass,
 					temperature,
@@ -81,7 +84,7 @@ namespace Imalas_TwitchChaosEvents.Events
 				audioPos = SoundEvent.AudioHighlightListenerPosition(audioPos);
 				volume = SoundEvent.GetVolume(true);
 			}
-
+			//TODO: replace with shart sound!
 			KFMOD.PlayOneShot(GlobalAssets.GetSound("Dupe_Flatulence"), audioPos, volume);
 		}
 

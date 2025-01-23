@@ -61,7 +61,7 @@ namespace AkisSnowThings.Content.Scripts.Entities
 				//wilting condition +  bool value if it is fulfilled (true == not wilting by that condition)
 				if (!potentialWiltingSource.Value) //tree would be wilting if growing, but it is already fully grown, so I have to check manually if any of the conditions are met.
 				{
-					SgtLogger.l(((WiltCondition.Condition)potentialWiltingSource.Key).ToString() + " causes wilting");
+					//SgtLogger.l(((WiltCondition.Condition)potentialWiltingSource.Key).ToString() + " causes wilting");
 					return;
 				}
 			}
@@ -81,7 +81,7 @@ namespace AkisSnowThings.Content.Scripts.Entities
 				float totalWoodYield = plantModifiers.GetPreModifiedAttributeValue(db.PlantAttributes.YieldAmount);
 
 				float yieldModifier =  totalWoodYield / EvergreenTreeConfig.HARVEST_MASS;
-				SgtLogger.l("yield modifier: "+yieldModifier);
+				//SgtLogger.l("yield modifier: "+yieldModifier);
 				modifier *= yieldModifier;
 
 				float growthTime = plantModifiers.GetPreModifiedAttributeValue(db.Amounts.Maturity.maxAttribute);

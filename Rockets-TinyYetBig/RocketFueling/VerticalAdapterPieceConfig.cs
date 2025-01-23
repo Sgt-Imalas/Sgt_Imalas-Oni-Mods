@@ -59,6 +59,10 @@ namespace Rockets_TinyYetBig.RocketFueling
 			component.AddTag(BaseModularLaunchpadPortConfig.LinkTag);
 			component.AddTag(GameTags.ModularConduitPort);
 
+			Ladder ladder = go.AddOrGet<Ladder>();
+			ladder.upwardsMovementSpeedMultiplier = 0.75f; //same as ladder bed
+			ladder.downwardsMovementSpeedMultiplier = 0.75f;
+
 			go.AddOrGet<AnimTileable>();
 		}
 		public override void DoPostConfigureComplete(GameObject go)

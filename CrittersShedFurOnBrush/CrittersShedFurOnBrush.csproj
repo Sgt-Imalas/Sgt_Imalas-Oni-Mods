@@ -66,9 +66,8 @@
 	  <None Update="ModAssets\translations\ru.po">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	</ItemGroup>
-	
-	<ItemGroup>
-	  <Folder Include="ModAssets\translations\" />
+	  <None Update="ModAssets\translations\zh.po">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 </Project>

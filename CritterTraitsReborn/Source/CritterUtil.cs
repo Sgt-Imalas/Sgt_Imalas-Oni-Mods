@@ -56,8 +56,7 @@ namespace CritterTraitsReborn
 			}
 
 			// Drops
-			var butcherable = go.GetComponent<Butcherable>();
-			if (butcherable != null)
+			if (go.TryGetComponent<Butcherable>(out var butcherable ))
 			{
 				// If a mod uses non-meat drops then we should take that into account
 				var drops = butcherable.drops;

@@ -15,7 +15,7 @@ namespace AmogusMorb.TwitchEvents.Events
 
 		public Danger EventDanger => Danger.Small;
 		public string EventDescription => "Something crawled out of the vent!";
-		public EventWeight EventWeight => (EventWeight.WEIGHT_NORMAL);
+		public EventWeight EventWeight => (EventWeight.WEIGHT_COMMON);
 		public Func<object, bool> Condition =>
 				(data) =>
 				{

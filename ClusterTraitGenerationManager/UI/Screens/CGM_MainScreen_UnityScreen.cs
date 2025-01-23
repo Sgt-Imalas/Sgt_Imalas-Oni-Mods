@@ -581,6 +581,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 			galleryGridContainer = transform.Find("ItemSelection/StarItemContent/StarItemContainer").gameObject;
 			PlanetoidEntryPrefab = transform.Find("ItemSelection/StarItemContent/StarItemContainer/Item").gameObject;
+			PlanetoidEntryPrefab?.SetActive(false);
 			galleryHeaderLabel = transform.Find("ItemSelection/Header/Label").GetComponent<LocText>();
 
 
@@ -1705,7 +1706,8 @@ namespace ClusterTraitGenerationManager.UI.Screens
 					RefreshGallery();
 					RefreshDetails();
 
-					if (DlcManager.IsExpansion1Active()) ResetSOStarmap(true);
+					if (DlcManager.IsExpansion1Active()) 
+						ResetSOStarmap(true);
 				}
 			};
 			UIUtils.AddSimpleTooltipToObject(StarmapItemEnabled.transform, STARMAPITEMENABLED.TOOLTIP, onBottom: true, alignCenter: true);

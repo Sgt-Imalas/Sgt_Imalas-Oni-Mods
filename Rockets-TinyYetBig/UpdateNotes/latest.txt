@@ -1,0 +1,2 @@
+- fixed a crash with building and deleting a vertical port adapter in the same frame (sandbox/debug)
+- the vertical port adapter and pieces are now ladders for dupes

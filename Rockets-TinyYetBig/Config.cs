@@ -357,7 +357,8 @@ namespace Rockets_TinyYetBig
 		{
 			if (SpaceStationsAndTech && !SpaceStationRequirements)
 				SpaceStationsAndTech = false;
-			POptions.WriteSettings(this);
+
+			Instance = this;
 		}
 	}
 }

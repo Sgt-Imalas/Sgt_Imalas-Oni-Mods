@@ -20,8 +20,9 @@
 		<QOL2024NovRelease>644960</QOL2024NovRelease>
 		<BionicBoostBeta>645088</BionicBoostBeta>
 		<BionicBoosterRelease>646687</BionicBoosterRelease>
+		<JanuaryHotfix1>648807</JanuaryHotfix1>
 		<!--Latest-->
-		<TargetGameVersion>$(BionicBoosterRelease)</TargetGameVersion>
+		<TargetGameVersion>$(JanuaryHotfix1)</TargetGameVersion>
 	</PropertyGroup>
 
 

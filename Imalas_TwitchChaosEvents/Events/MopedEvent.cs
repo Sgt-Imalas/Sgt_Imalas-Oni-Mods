@@ -23,7 +23,7 @@ namespace Imalas_TwitchChaosEvents.Events
 
 		public string EventName => STRINGS.CHAOSEVENTS.MOPED.NAME;
 
-		public EventWeight EventWeight => EventWeight.WEIGHT_NORMAL;
+		public EventWeight EventWeight => EventWeight.WEIGHT_COMMON;
 
 		public Action<object> EventAction => (_) =>
 		{

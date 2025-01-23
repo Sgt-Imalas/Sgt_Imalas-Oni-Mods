@@ -128,12 +128,17 @@ namespace Rockets_TinyYetBig.SpaceStations
 			base.OnSpawn();
 
 			var world = ClusterManager.Instance.GetWorld(SpaceStationInteriorId);
+			if(world == null||world.gameObject.IsNullOrDestroyed())
+			{
+				SgtLogger.error("space station onspawn failed to initialize world");
+				return;
+			}
 
-			world.AddTag(ModAssets.Tags.IsSpaceStation);
-			if (IsDerelict)
-				world.AddTag(ModAssets.Tags.IsDerelict);
-			if (!BuildableInterior)
-				world.AddTag(ModAssets.Tags.NoBuildingAllowed);
+			world.AddTag(Tags.IsSpaceStation);
+			if (IsDerelict && !world.HasTag(Tags.IsDerelict))
+				world.AddTag(Tags.IsDerelict);
+			if (!BuildableInterior && !world.HasTag(Tags.NoBuildingAllowed))
+				world.AddTag(Tags.NoBuildingAllowed);
 
 			this.SetCraftStatus(CraftStatus.InFlight);
 

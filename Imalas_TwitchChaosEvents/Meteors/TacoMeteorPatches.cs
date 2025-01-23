@@ -2,6 +2,7 @@
 using HarmonyLib;
 using Imalas_TwitchChaosEvents.Meteors;
 using Klei.AI;
+using ONITwitchLib;
 using System.Collections.Generic;
 using TUNING;
 using UtilLibs;
@@ -47,6 +48,18 @@ namespace Imalas_TwitchChaosEvents
 			}
 		}
 
+		[HarmonyPatch(typeof(ComplexFabricatorSideScreen), nameof(ComplexFabricatorSideScreen.AnyRecipeRequirementsDiscovered))]
+		public class ComplexFabricatorSideScreen_AnyRecipeRequirementsDiscovered_Patch
+		{
+			public static void Postfix(ComplexRecipe recipe, ref bool __result)
+			{
+				if (ChaosTwitch_SaveGameStorage.Instance == null)
+					return;
+
+				if (recipe.id == TacoDehydratedConfig.recipe.id)
+					__result = ChaosTwitch_SaveGameStorage.Instance.hasUnlockedTacoRecipe;
+			}
+		}
 		[HarmonyPatch(typeof(PlayerController), "OnKeyDown")]
 		public class PlayerController_OnKeyDown_Patch
 		{
@@ -57,10 +70,11 @@ namespace Imalas_TwitchChaosEvents
 
 				if (e.TryConsume(ModAssets.HotKeys.UnlockTacoRecipe.GetKAction()))
 				{
-					ChaosTwitch_SaveGameStorage.Instance.hasUnlockedTacoRecipe = true;
-					if (Research.Instance == null)
-						Research.Instance.Get(ModAssets.Techs.TacoTech)?.Purchased();
-					//ToastManager.InstantiateToast(STRINGS.HOTKEYACTIONS.UNLOCK_TACO_RECIPE_TITLE, STRINGS.HOTKEYACTIONS.UNLOCK_TACO_RECIPE_BODY);
+					if (!ChaosTwitch_SaveGameStorage.Instance.hasUnlockedTacoRecipe)
+					{
+						ChaosTwitch_SaveGameStorage.Instance.hasUnlockedTacoRecipe = true;
+						ToastManager.InstantiateToast(STRINGS.HOTKEYACTIONS.UNLOCK_TACO_RECIPE_TITLE, STRINGS.HOTKEYACTIONS.UNLOCK_TACO_RECIPE_BODY);
+					}
 				}
 				else if (e.TryConsume(ModAssets.HotKeys.TriggerTacoRain.GetKAction()))
 				{
@@ -86,8 +100,7 @@ namespace Imalas_TwitchChaosEvents
 		}
 
 
-		[HarmonyPatch(typeof(Db))]
-		[HarmonyPatch(nameof(Db.Initialize))]
+		[HarmonyPatch(typeof(Db), nameof(Db.Initialize))]
 		public static class PatchCarnivoreAchievment
 		{
 			public static void Postfix(Db __instance)
@@ -139,7 +152,7 @@ namespace Imalas_TwitchChaosEvents
 					sortOrder = 28
 				};
 
-				TacoDehydratedConfig.recipe.requiredTech = ModAssets.Techs.TacoTechID;
+				//TacoDehydratedConfig.recipe.requiredTech = ModAssets.Techs.TacoTechID;
 			}
 		}
 
@@ -178,7 +191,7 @@ namespace Imalas_TwitchChaosEvents
 					sortOrder = 900
 				};
 
-				TacoConfig.recipe.requiredTech = ModAssets.Techs.TacoTechID;
+				//TacoConfig.recipe.requiredTech = ModAssets.Techs.TacoTechID;
 			}
 		}
 	}

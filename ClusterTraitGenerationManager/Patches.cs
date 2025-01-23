@@ -167,9 +167,9 @@ namespace ClusterTraitGenerationManager
 		{
 			public static void Postfix(CustomGameSettings __instance, SettingConfig config, string value)
 			{
-				if (__instance == null || LoadCustomCluster)
+				if (__instance == null || LoadCustomCluster || __instance.GetCurrentMixingSettingLevel(config).id == value)
 					return;
-				RegenerateCGM(__instance, "Mixing Setting " + config.id);
+				RegenerateCGM(__instance, "Mixing Setting " + config.id, rerollTraits: false);
 			}
 		}
 		/// <summary>
@@ -191,7 +191,7 @@ namespace ClusterTraitGenerationManager
 				RegenerateCGM(__instance, config.id);
 			}
 		}
-		public static void RegenerateCGM(CustomGameSettings __instance, string changedConfigID)
+		public static void RegenerateCGM(CustomGameSettings __instance, string changedConfigID, bool rerollTraits =true)
 		{
 			if (StillLoading || ApplyCustomGen.IsGenerating)
 				return;
@@ -224,8 +224,11 @@ namespace ClusterTraitGenerationManager
 			}
 			else
 			{
-				SgtLogger.l("Regenerating Traits for " + clusterPath + ". Reason: " + changedConfigID + " changed.");
-				CGSMClusterManager.RerollTraits();
+				if (rerollTraits)
+				{
+					SgtLogger.l("Regenerating Traits for " + clusterPath + ". Reason: " + changedConfigID + " changed.");
+					CGSMClusterManager.RerollTraits();
+				}
 				SgtLogger.l("Regenerating Mixings for " + clusterPath + ". Reason: " + changedConfigID + " changed.");
 				CGSMClusterManager.RerollMixings();
 			}
@@ -1465,7 +1468,12 @@ namespace ClusterTraitGenerationManager
 
 
 				var original = OriginalMobModifiers[prefabID];
-				__result.density = new(original.min * DensityMultiplier, original.max * DensityMultiplier);
+
+				//cap at double the plants & buried objects, dont decrease below original value
+				var modifiedMin = Mathf.Max(original.min, Mathf.Min(2, original.min * DensityMultiplier));
+				var modifiedMax = Mathf.Max(original.max, Mathf.Min(2, original.max * DensityMultiplier)); 
+
+				__result.density = new(modifiedMin, modifiedMax);
 				//SgtLogger.l("density multiplier for " + prefabID + ": multiplied with " + DensityMultiplier);
 			}
 		}

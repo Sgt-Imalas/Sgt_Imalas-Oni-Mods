@@ -77,22 +77,22 @@ namespace TinyFixes
 			}
 		}
 
-        [HarmonyPatch(typeof(LoadingOverlay), nameof(LoadingOverlay.Load))]
-        public class Overlay_Icon_Replace
-        {
-            //replace loading dupe face with pip
-            public static void Postfix()
-            {
-				var instance = LoadingOverlay.instance;
-				var image = instance.transform.Find("Image").GetComponent<Image>();
-				var pipSprite = Def.GetUISprite(Assets.GetPrefab(SquirrelConfig.ID));
-                image.preserveAspect = true;
-                image.sprite = pipSprite.first;
+    //    [HarmonyPatch(typeof(LoadingOverlay), nameof(LoadingOverlay.Load))]
+    //    public class Overlay_Icon_Replace
+    //    {
+    //        //replace loading dupe face with pip
+    //        public static void Postfix()
+    //        {
+				//var instance = LoadingOverlay.instance;
+				//var image = instance.transform.Find("Image").GetComponent<Image>();
+				//var pipSprite = Def.GetUISprite(Assets.GetPrefab(SquirrelConfig.ID));
+    //            image.preserveAspect = true;
+    //            image.sprite = pipSprite.first;
 
-				var rect = image.rectTransform();
-				rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 200);
-            }
-        }
+				//var rect = image.rectTransform();
+				//rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 200);
+    //        }
+    //    }
 
         [HarmonyPatch(typeof(BalloonStandCellSensor), nameof(BalloonStandCellSensor.GetCell))]
 		public class BalloonStandCellSensor_GetCell_Patch

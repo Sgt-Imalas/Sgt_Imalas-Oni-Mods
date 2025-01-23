@@ -22,7 +22,7 @@ namespace Rockets_TinyYetBig.Patches
 				go.AddOrGet<ClustercraftExteriorDoor>().interiorTemplateName = "interiors/habitat_medium_compressed";
 				foreach (var storage in go.GetComponents<Storage>())
 				{
-					storage.SetDefaultStoredItemModifiers(Storage.StandardSealedStorage);
+					storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 				}
 			}
 		}
@@ -35,12 +35,11 @@ namespace Rockets_TinyYetBig.Patches
 		[HarmonyPatch("CreateBuildingDef")]
 		public static class AddPowerPlug1_HabitatMedium_Patch
 		{
-			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.HabitatPowerPlug;
 			[HarmonyPriority(Priority.LowerThanNormal)]
 			public static void Postfix(BuildingDef __result)
 			{
-				RocketryUtils.AddPowerPlugToModule(__result, ModAssets.PLUG_OFFSET_MEDIUM);
+				if (Config.Instance.HabitatPowerPlug)
+					RocketryUtils.AddPowerPlugToModule(__result, ModAssets.PLUG_OFFSET_MEDIUM);
 			}
 		}
 
@@ -52,15 +51,15 @@ namespace Rockets_TinyYetBig.Patches
 		public static class AddPowerPlug2_HabitatMedium_Patch
 		{
 
-			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.HabitatPowerPlug;
-
 			[HarmonyPriority(Priority.LowerThanNormal)]
 			public static void Postfix(GameObject go)
 			{
-				WireUtilitySemiVirtualNetworkLink virtualNetworkLink = go.AddOrGet<WireUtilitySemiVirtualNetworkLink>();
-				virtualNetworkLink.link1 = ModAssets.PLUG_OFFSET_MEDIUM;
-				virtualNetworkLink.visualizeOnly = true;
+				if (Config.Instance.HabitatPowerPlug)
+				{
+					WireUtilitySemiVirtualNetworkLink virtualNetworkLink = go.AddOrGet<WireUtilitySemiVirtualNetworkLink>();
+					virtualNetworkLink.link1 = ModAssets.PLUG_OFFSET_MEDIUM;
+					virtualNetworkLink.visualizeOnly = true;
+				}
 
 			}
 		}
@@ -82,7 +81,7 @@ namespace Rockets_TinyYetBig.Patches
 
 				foreach (var storage in go.GetComponents<Storage>())
 				{
-					storage.SetDefaultStoredItemModifiers(Storage.StandardSealedStorage);
+					storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 				}
 			}
 		}
@@ -94,12 +93,11 @@ namespace Rockets_TinyYetBig.Patches
 		[HarmonyPatch("CreateBuildingDef")]
 		public static class AddPowerPlug1_HabitatSmall_Patch
 		{
-			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.HabitatPowerPlug;
 			[HarmonyPriority(Priority.LowerThanNormal)]
 			public static void Postfix(BuildingDef __result)
 			{
-				RocketryUtils.AddPowerPlugToModule(__result, ModAssets.PLUG_OFFSET_SMALL);
+				if(Config.Instance.HabitatPowerPlug)
+					RocketryUtils.AddPowerPlugToModule(__result, ModAssets.PLUG_OFFSET_SMALL);
 			}
 		}
 
@@ -115,10 +113,12 @@ namespace Rockets_TinyYetBig.Patches
 			[HarmonyPriority(Priority.LowerThanNormal)]
 			public static void Postfix(GameObject go)
 			{
-				WireUtilitySemiVirtualNetworkLink virtualNetworkLink = go.AddOrGet<WireUtilitySemiVirtualNetworkLink>();
-				virtualNetworkLink.link1 = ModAssets.PLUG_OFFSET_SMALL;
-				virtualNetworkLink.visualizeOnly = true;
-
+				if (Config.Instance.HabitatPowerPlug)
+				{
+					WireUtilitySemiVirtualNetworkLink virtualNetworkLink = go.AddOrGet<WireUtilitySemiVirtualNetworkLink>();
+					virtualNetworkLink.link1 = ModAssets.PLUG_OFFSET_SMALL;
+					virtualNetworkLink.visualizeOnly = true;
+				}
 			}
 		}
 		#endregion

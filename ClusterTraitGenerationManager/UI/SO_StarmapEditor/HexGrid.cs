@@ -197,9 +197,7 @@ namespace ClusterTraitGenerationManager.UI.SO_StarmapEditor
 					}
 					else if (eventData.pointerDrag.TryGetComponent(out ToolkitDraggable newPOI))
 					{
-						parent.AddNewPoiToStarmap(HexPos, newPOI.poiId);
-						int x = HexPos.first, y = HexPos.second;
-						CGSMClusterManager.CustomCluster.SO_Starmap.AddPOI(newPOI.poiId, new(x, y));
+						parent.AddNewPoi(HexPos, newPOI.poiId);
 					}
 				}
 			}
@@ -275,8 +273,8 @@ namespace ClusterTraitGenerationManager.UI.SO_StarmapEditor
 		public GameObject DraggablePrefab;
 		public GameObject EntryParent;
 
-		ToolkitDraggable _currentlySimDraggedNew = null;
-		public ToolkitDraggable CurrentlySimDraggedNew => _currentlySimDraggedNew;
+		ToolkitDraggable _currentlySimDraggedToolkit = null;
+		public ToolkitDraggable CurrentlySimDraggedNew => _currentlySimDraggedToolkit;
 
 		HexDrag _currentlySimDragged = null;
 		public HexDrag CurrentlySimDragged => _currentlySimDragged;
@@ -290,19 +288,19 @@ namespace ClusterTraitGenerationManager.UI.SO_StarmapEditor
 				_currentlySimDragged = null;
 			}
 
-			if (_currentlySimDraggedNew != null)
+			if (_currentlySimDraggedToolkit != null)
 			{
-				_currentlySimDraggedNew.OnEndDrag(null);
-				_currentlySimDraggedNew = null;
+				_currentlySimDraggedToolkit.OnEndDrag(null);
+				_currentlySimDraggedToolkit = null;
 			}
 		}
 
 		public void OnDoubleClickSimDragStartedHandler(HexDrag _clickedItem)
 		{
-			if (_currentlySimDragged != null || _currentlySimDraggedNew != null)
+			if (_currentlySimDragged != null || _currentlySimDraggedToolkit != null)
 				return;
 
-			_currentlySimDraggedNew = null;
+			_currentlySimDraggedToolkit = null;
 			_currentlySimDragged = _clickedItem;
 			_currentlySimDragged.OnBeginDrag(null);
 
@@ -310,12 +308,12 @@ namespace ClusterTraitGenerationManager.UI.SO_StarmapEditor
 		}
 		public void OnDoubleClickSimDragStartedHandler(ToolkitDraggable _clickedItem)
 		{
-			if (_currentlySimDragged != null || _currentlySimDraggedNew != null)
+			if (_currentlySimDragged != null || _currentlySimDraggedToolkit != null)
 				return;
 
-			_currentlySimDraggedNew = _clickedItem;
-			_currentlySimDraggedNew.OnBeginDrag(null);
 			_currentlySimDragged = null;
+			_currentlySimDraggedToolkit = _clickedItem;
+			_currentlySimDraggedToolkit.OnBeginDrag(null);
 		}
 		public void OnDoubleClickSimDragEndedHandler(HexDropHandler dropHandler)
 		{
@@ -330,15 +328,15 @@ namespace ClusterTraitGenerationManager.UI.SO_StarmapEditor
 				_currentlySimDragged.OnEndDrag(null);
 
 			}
-			else if (_currentlySimDraggedNew != null)
+			else if (_currentlySimDraggedToolkit != null)
 			{
 				if (!HexOccupied(dropHandler.HexPos))
-				{
-					AddNewPoiToStarmap(dropHandler.HexPos, _currentlySimDraggedNew.poiId);
+				{;
+					AddNewPoi(dropHandler.HexPos, _currentlySimDraggedToolkit.poiId);
 				}
-				_currentlySimDraggedNew.OnEndDrag(null);
+				_currentlySimDraggedToolkit.OnEndDrag(null);
 			}
-			_currentlySimDraggedNew = null;
+			_currentlySimDraggedToolkit = null;
 			_currentlySimDragged = null;
 		}
 		public void OnDoubleClickSimDragDeletedHandler()
@@ -353,11 +351,11 @@ namespace ClusterTraitGenerationManager.UI.SO_StarmapEditor
 				else
 					_currentlySimDragged.OnEndDrag(null);
 			}
-			else if (_currentlySimDraggedNew != null)
+			else if (_currentlySimDraggedToolkit != null)
 			{
-				_currentlySimDraggedNew.OnEndDrag(null);
+				_currentlySimDraggedToolkit.OnEndDrag(null);
 			}
-			_currentlySimDraggedNew = null;
+			_currentlySimDraggedToolkit = null;
 			_currentlySimDragged = null;
 		}
 
@@ -371,7 +369,7 @@ namespace ClusterTraitGenerationManager.UI.SO_StarmapEditor
 			RectTransform content = RectTransform;
 			content.localPosition = content.localPosition + (vector3_2 - vector3_1) * this.m_currentZoomScale;
 			if (_currentlySimDragged != null) _currentlySimDragged.transform.SetPosition(mousePos);
-			if (_currentlySimDraggedNew != null) _currentlySimDraggedNew.transform.SetPosition(mousePos);
+			if (_currentlySimDraggedToolkit != null) _currentlySimDraggedToolkit.transform.SetPosition(mousePos);
 		}
 
 
@@ -489,7 +487,7 @@ namespace ClusterTraitGenerationManager.UI.SO_StarmapEditor
 
 		public bool CurrentlySelectingNewPosition = true;
 
-		public void AddNewPoiToStarmap(Tuple<int, int> key, string itemId, bool init = false)
+		public void AddNewPoiToStarmap(Tuple<int, int> key, string itemId, bool calledDuringInit = false)
 		{
 			if (!ActiveItems.ContainsKey(key))
 			{
@@ -506,18 +504,24 @@ namespace ClusterTraitGenerationManager.UI.SO_StarmapEditor
 
 				ActiveItems.Add(new Tuple<int, int>(r, q), dragLogic);
 
-				if (init)
+				if (calledDuringInit)
 					return;
 
 				if (OnActiveItemCompositionChanged != null)
 					OnActiveItemCompositionChanged();
-				CGM_MainScreen_UnityScreen.Instance.SelectHexItem(dragLogic.ID, dragLogic.InternalPos);
 
+				CGM_MainScreen_UnityScreen.Instance.SelectHexItem(dragLogic.ID, dragLogic.InternalPos);
 			}
 			else
 			{
 				SgtLogger.warning(key.first + ", " + key.second + ": " + itemId, "Coordinate Key already in dictionary");
 			}
+		}
+		public void AddNewPoi(Tuple<int,int> hexPos, string poiId)
+		{
+			AddNewPoiToStarmap(hexPos, poiId);
+			AxialI targetPos = new(hexPos.first, hexPos.second);
+			CGSMClusterManager.CustomCluster.SO_Starmap.AddPOI(poiId, targetPos);
 		}
 		public void RemovePOI(HexDrag hexDragger)
 		{

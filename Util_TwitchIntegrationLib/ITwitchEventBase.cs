@@ -17,11 +17,12 @@ namespace Util_TwitchIntegrationLib
 	}
 	public enum EventWeight
 	{
-		WEIGHT_NEVER = 0,
-		WEIGHT_ALMOST_NEVER = 1,
-		WEIGHT_VERY_RARE = 3,
-		WEIGHT_RARE = 7,
-		WEIGHT_NORMAL = 14,
-		WEIGHT_COMMON = 30
+		WEIGHT_NEVER = Consts.EventWeight.Never,
+		WEIGHT_ALMOST_NEVER = Consts.EventWeight.AlmostNever,
+		WEIGHT_VERY_RARE = Consts.EventWeight.VeryRare,
+		WEIGHT_RARE = Consts.EventWeight.Rare,
+		WEIGHT_UNCOMMON = Consts.EventWeight.Uncommon,
+		WEIGHT_COMMON = Consts.EventWeight.Common,
+		WEIGHT_FREQUENT = Consts.EventWeight.Frequent
 	}
 }

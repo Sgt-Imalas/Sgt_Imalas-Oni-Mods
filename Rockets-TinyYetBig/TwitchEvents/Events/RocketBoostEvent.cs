@@ -12,7 +12,7 @@ namespace Rockets_TinyYetBig.TwitchEvents.Events
 
 		public Danger EventDanger => Danger.None;
 		public string EventDescription => "{0} has recieved a boost!";
-		public EventWeight EventWeight => EventWeight.WEIGHT_NORMAL;
+		public EventWeight EventWeight => EventWeight.WEIGHT_COMMON;
 		public Func<object, bool> Condition =>
 				(data) =>
 				{

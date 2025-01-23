@@ -57,11 +57,11 @@ namespace Rockets_TinyYetBig.RocketFueling
 			//simCellOccupier.notifyOnMelt = true;
 
 			Ladder ladder = go.AddOrGet<Ladder>();
-			ladder.offsets = new[]
-			{
+			ladder.offsets =
+			[
 				CellOffset.none,
 				new CellOffset(0,1)
-			};
+			];
 			ladder.upwardsMovementSpeedMultiplier = 1.2f;
 			ladder.downwardsMovementSpeedMultiplier = 1.2f;
 
