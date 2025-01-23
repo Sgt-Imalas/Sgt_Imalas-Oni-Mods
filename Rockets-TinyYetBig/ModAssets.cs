@@ -274,9 +274,10 @@ namespace Rockets_TinyYetBig
 				{
 					var ele = ElementLoader.GetElement(fueltank.FuelType);
 
-					if(ele != null)
+					if(ele != null && !ele.IsVacuum)
 					{
-						FuelTanksPool[ele.state].Add(fueltank);
+						//Mask out non-state related bits
+						FuelTanksPool[ele.state & Element.State.Solid].Add(fueltank);
 					}
 					else if (clusterModule.TryGetComponent<ConduitConsumer>(out var conduitConsumer))
 					{
