@@ -21,8 +21,9 @@
 		<BionicBoostBeta>645088</BionicBoostBeta>
 		<BionicBoosterRelease>646687</BionicBoosterRelease>
 		<JanuaryHotfix1>648807</JanuaryHotfix1>
+		<JanuaryHotfix2>651155</JanuaryHotfix2>
 		<!--Latest-->
-		<TargetGameVersion>$(JanuaryHotfix1)</TargetGameVersion>
+		<TargetGameVersion>$(JanuaryHotfix2)</TargetGameVersion>
 	</PropertyGroup>
 
 
