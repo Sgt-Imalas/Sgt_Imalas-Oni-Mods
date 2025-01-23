@@ -454,7 +454,7 @@ namespace AnimExportTool
 			public class WorldTrait
 			{
 				public string Id;
-				public string Name, ColorHex;
+				public string Name, Description, ColorHex;
 				public List<string> forbiddenDLCIds, exclusiveWith, exclusiveWithTags, traitTags;
 				public Dictionary<string, int> globalFeatureMods { get; set; }
 
@@ -487,7 +487,13 @@ namespace AnimExportTool
                     WriteUISpriteToFile(UISprite, Path.Combine(UtilMethods.ModPath, idPath), id);
                 }
             }
-
+			public static string StripFormatting(string toStrip)
+			{
+				toStrip = STRINGS.UI.StripLinkFormatting(toStrip);
+				toStrip = toStrip.Replace(STRINGS.UI.PRE_KEYWORD, string.Empty);
+				toStrip = toStrip.Replace(STRINGS.UI.PST_KEYWORD, string.Empty);
+				return toStrip;
+			}
             public static void Postfix()
 			{
 				StringBuilder loc = new StringBuilder();
@@ -508,7 +514,7 @@ namespace AnimExportTool
 
 					var data = new ClusterLayout();
 					data.Id = cluster.filePath;
-					data.Name = clusterName;
+					data.Name = StripFormatting(clusterName);
 					data.Prefix = cluster.coordinatePrefix;
 					data.menuOrder = cluster.menuOrder;
 					data.RequiredDlcsIDs = cluster.requiredDlcIds;
@@ -526,7 +532,7 @@ namespace AnimExportTool
 				{
 					var data = new Asteroid();
 					data.Id = world.filePath;
-					data.Name = Strings.Get(world.name);
+					data.Name = StripFormatting(Strings.Get(world.name));
 					data.DisableWorldTraits = world.disableWorldTraits;
 					data.TraitRules = world.worldTraitRules;
 					data.worldTraitScale = world.worldTraitScale;
@@ -538,7 +544,8 @@ namespace AnimExportTool
 				{
 					var data = new WorldTrait();
 					data.Id = trait.filePath;
-					data.Name = Strings.Get(trait.name);
+					data.Name = StripFormatting(Strings.Get(trait.name));
+					data.Description = StripFormatting(Strings.Get(trait.description));
 					data.ColorHex = trait.colorHex;
 					data.forbiddenDLCIds = trait.forbiddenDLCIds;
 					data.exclusiveWith = trait.exclusiveWith;
@@ -555,24 +562,23 @@ namespace AnimExportTool
 				Console.WriteLine(loc.ToString());
                 var starmapExport = new StarmapGeneratorData();
 				
-
-				foreach (var element in ElementLoader.elements)
-				{
-					starmapExport.Elements.Add(element.id.ToString(), new(element.id.ToString(), element.name));
-				}
-
 				foreach (var location in Db.Get().SpaceDestinationTypes.resources)
 				{
 					var locationData = new VanillaStarmapLocation()
 					{
 						Id = location.Id,
-						Name = STRINGS.UI.StripLinkFormatting(location.Name),
-						Description = location.description,
+						Name = StripFormatting(location.Name),
+						Description = StripFormatting(location.description),
 						Image = location.spriteName,
 					};
 					if (location.elementTable != null)
                     {
 						locationData.Ressources_Elements = location.elementTable.ToDictionary(kvp => kvp.Key.ToString(), kvp => kvp.Value.min);
+						foreach(var  elementK in location.elementTable)
+						{
+							var element = ElementLoader.GetElement(elementK.Key.CreateTag());
+							starmapExport.Elements[element.id.ToString()] = new(element.id.ToString(), StripFormatting(element.name));
+						}
 					}
 
 					if (location.recoverableEntities != null)
@@ -585,9 +591,11 @@ namespace AnimExportTool
 							if (prefab != null)
 							{
 								GetAnimsFromRecoverable(prefab);
+								starmapExport.Elements[entity.Key] = new(entity.Key.ToString(), StripFormatting(prefab.GetProperName()));
 							}
 							else
 								SgtLogger.warning(entity.Key + " not found!");
+
 
 						}
 					}
