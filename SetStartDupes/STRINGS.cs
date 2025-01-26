@@ -25,6 +25,23 @@ namespace SetStartDupes
 			{
 				public static LocString TITLE = "Care Package Editor";
 
+				public class CREATECAREPACKAGEPOPUP
+				{
+					public static LocString TITLE = "Care Package Creation";
+					public static LocString SUCCESS = "Successfully created a new care package with {0}";
+					public static LocString INVALIDID = "Could not create new care package!\n\nThere is no item with the Id or name \"{0}\"";
+				}
+
+				public class UNLOCKCONDITIONTOOLTIPS
+				{
+					public static LocString ALWAYSAVAILABLE = "This care package is always unlocked";
+					public static LocString START = "This care package unlocks after:";
+					public static LocString DISCOVERY = "{0} has been discovered";
+					public static LocString CYCLETHRESHOLD = "Cycle {0} has been reached";
+					public static LocString AND = "AND";
+					public static LocString OR = "OR";
+				}
+
 				public class HORIZONTALLAYOUT
 				{
 					public class OBJECTLIST
@@ -63,7 +80,6 @@ namespace SetStartDupes
 						}
 						public class CAREPACKAGEITEMID
 						{
-
 							public class TEXTAREA
 							{
 								public static LocString PLACEHOLDER = "insert new care package item Id...";
@@ -91,10 +107,7 @@ namespace SetStartDupes
 								{
 									public static LocString LABEL = "Required Dlcs:";
 								}
-								public class UNLOCKCONDITIONSLABEL
-								{
-									public static LocString LABEL = "Conditions required to unlock:";
-								}
+								public static LocString UNLOCKCONDITIONSLABEL = "Conditions required to unlock:";
 								public class UNLOCKATCYCLE
 								{
 									public static LocString LABEL = "Unlocked at cycle:";

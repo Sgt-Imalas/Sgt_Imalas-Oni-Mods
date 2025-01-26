@@ -4,6 +4,7 @@ using Klei;
 using KMod;
 using PeterHan.PLib.Core;
 using PeterHan.PLib.Options;
+using SetStartDupes.CarePackageEditor;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -27,7 +28,10 @@ namespace SetStartDupes
 
             SgtLogger.debuglog("Initializing file paths..");
             ModAssets.DupeTemplatePath = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config"), "DuplicantStatPresets"));
-            ModAssets.DupeTearTemplatePath = FileSystem.Normalize(Path.Combine(ModAssets.DupeTemplatePath, "TearTravelers"));
+			ModAssets.ExtraCarePackageFileInfo = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config"), "DSS_ExtraCarePackages.json"));
+
+
+			ModAssets.DupeTearTemplatePath = FileSystem.Normalize(Path.Combine(ModAssets.DupeTemplatePath, "TearTravelers"));
             ModAssets.DupeGroupTemplatePath = FileSystem.Normalize(Path.Combine(ModAssets.DupeTemplatePath, "StartingLayoutPresets"));
             SgtLogger.debuglog(ModAssets.DupeTemplatePath, "Stat Preset Folder");
             SgtLogger.debuglog("Initializing folders..");
@@ -42,7 +46,6 @@ namespace SetStartDupes
                 SgtLogger.error("Could not create folder, Exception:\n" + e);
             }
             SgtLogger.log("Folders succesfully initialized");
-
 
             SgtLogger.log("Current Config Settings:");
             UtilMethods.ListAllPropertyValues(Config.Instance);

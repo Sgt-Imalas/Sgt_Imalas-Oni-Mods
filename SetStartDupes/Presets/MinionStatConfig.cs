@@ -312,7 +312,7 @@ namespace SetStartDupes
 
 			SgtLogger.l("Applying starting levels");
 			referencedStats.StartingLevels.Clear();
-			HashSet<string> validAttributes = new HashSet<string>(DUPLICANTSTATS.ALL_ATTRIBUTES);
+			HashSet<string> validAttributes = new HashSet<string>(ModAssets.GET_ALL_ATTRIBUTES());
 			foreach (var startLevel in this.StartingLevels)
 			{
 				if (validAttributes.Contains(startLevel.Key))
@@ -324,6 +324,7 @@ namespace SetStartDupes
 			{
 				if (!referencedStats.StartingLevels.ContainsKey(requiredAttribute))
 				{
+					
 					SgtLogger.l("adding missing attribute level " + requiredAttribute + ", defaulting to 0.");
 					referencedStats.StartingLevels[requiredAttribute] = 0;
 				}
@@ -357,9 +358,9 @@ namespace SetStartDupes
 				referencedStats.stressTrait = traitRef.Get("None");
 			}
 
-			if (ModAssets.DupeTraitManagers.ContainsKey(referencedStats))
+			if (ModAssets.DupeTraitManagers.TryGetValue(referencedStats, out var mng))
 			{
-				ModAssets.DupeTraitManagers[referencedStats].ResetPool();
+				mng.ResetPool();
 			}
 
 			var AptitudeRef = Db.Get().SkillGroups;

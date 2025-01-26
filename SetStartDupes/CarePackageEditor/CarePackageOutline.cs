@@ -21,14 +21,105 @@ namespace SetStartDupes.CarePackageEditor
 
 		internal string GetConditionsTooltip()
 		{
-			return "TODO";
+			if (UnlockConditions == null || !UnlockConditions.Any())
+				return STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.ALWAYSAVAILABLE;
+
+			var sb = new StringBuilder();
+			sb.AppendLine(STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.START);
+			sb.AppendLine();
+
+			for (int i = 0; i < UnlockConditions.Count; i++)
+			{
+				if (i > 0)
+				{
+					sb.AppendLine();
+					sb.AppendLine(STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.OR);
+					sb.AppendLine();
+				}
+
+				for (int j = 0; j < UnlockConditions[i].Count; j++)
+				{
+					if (j > 0)
+					{
+						sb.AppendLine(STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.AND);
+					}
+
+					var condition = UnlockConditions[i][j];
+					if (condition is ItemDiscoveredCondition idc)
+					{
+						sb.AppendLine(string.Format(STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.DISCOVERY, CarePackageItemHelper.GetSpawnableName(idc.PrefabId)));
+					}
+					else if (condition is CycleUnlockCondition cu)
+					{
+						sb.AppendLine(string.Format(STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.CYCLETHRESHOLD, cu.CycleUnlock));
+					}
+				}
+			}
+			return sb.ToString();
 		}
+
+		public bool HasUIDiscoveredCondition() => GetUIConditions()?.Any(cond => cond is ItemDiscoveredCondition) ?? false;
+		public bool HasUICycleCondition(out CycleUnlockCondition condition)
+		{
+			condition = GetUIConditions()?.FirstOrDefault(cond => cond is CycleUnlockCondition) as CycleUnlockCondition;
+			return condition != null;
+		}
+
+		public void AddOrUpdateUIDiscoveredCondition()
+		{
+			var conditions = GetUIConditions();
+			if (conditions == null || !conditions.Any(cond => cond is ItemDiscoveredCondition))
+				DiscoverCondition(ItemId);
+		}
+		public void RemoveUIDiscoveredCondition()
+		{
+			var conditions = GetUIConditions();
+			if (conditions == null)
+				return;
+			conditions.RemoveAll(condition => condition is ItemDiscoveredCondition);
+		}
+
+
+		public void AddOrUpdateUICycleCondition(int cycle)
+		{
+			var conditions = GetUIConditions();
+			if (conditions == null || !conditions.Any(cond => cond is CycleUnlockCondition))
+				CycleCondition(cycle);
+			else
+			{
+				(conditions.First(item => item is CycleUnlockCondition) as CycleUnlockCondition).CycleUnlock = cycle;
+			}
+		}
+		public void RemoveUICycleCondition()
+		{
+			var conditions = GetUIConditions();
+			if (conditions == null)
+				return;
+			conditions.RemoveAll(condition => condition is CycleUnlockCondition);
+		}
+
+
+		public List<ICarePackageUnlockCondition> GetUIConditions() => UnlockConditions?.FirstOrDefault();
 		public bool HasConditions() => UnlockConditions != null && UnlockConditions.Any() && UnlockConditions[0] != null && UnlockConditions[0].Any();
 
+		public Tuple<Sprite, Color> GetImageWithColor()
+		{
+			var TargetItem = Assets.GetPrefab(ItemId);
+			if (TargetItem != null)
+			{
+				SgtLogger.l(TargetItem.GetProperName());
+				var image = Def.GetUISprite(TargetItem);
+				if (image != null)
+				{
+					return image;
+				}
+			}
+			return new(Assets.GetSprite("unknown"), Color.white);
+		}
 		public string GetDescriptionString()
 		{
 			var item = Assets.GetPrefab(ItemId);
-			if(item == null)
+			if (item == null)
 			{
 				//spaced out package in base game, using stored name backup or id;
 				string displayName = Name ?? ItemId;
@@ -71,6 +162,10 @@ namespace SetStartDupes.CarePackageEditor
 			SgtLogger.l(Name);
 			Amount = amount;
 			UnlockConditions = null;
+		}
+		public CarePackageOutline()
+		{
+
 		}
 		public CarePackageOutline DiscoverCondition(string targetId = null)
 		{
@@ -121,13 +216,16 @@ namespace SetStartDupes.CarePackageEditor
 
 		public CarePackageOutline(CarePackageInfo sourcePackage)
 		{
-			SgtLogger.l(sourcePackage.id);
+			var item = Assets.GetPrefab(sourcePackage.id);
 			ItemId = sourcePackage.id;
 			Amount = Mathf.RoundToInt(sourcePackage.quantity);
-			Name = Assets.GetPrefab(ItemId)?.GetProperName() ?? null;
-
+			Name = item?.GetProperName() ?? null;
 			UnlockConditions = null;
 
+			if(item!=null && item.TryGetComponent<KPrefabID>(out var prefabID) && prefabID.requiredDlcIds != null)
+			{
+				RequiredDlcs = new(prefabID.requiredDlcIds);
+			}
 		}
 
 

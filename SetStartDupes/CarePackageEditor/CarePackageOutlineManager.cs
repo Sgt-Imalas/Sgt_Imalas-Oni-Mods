@@ -4,6 +4,7 @@ using SetStartDupes.CarePackageEditor.UI;
 using SetStartDupes.Patches;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,9 +16,9 @@ namespace SetStartDupes.CarePackageEditor
     public class CarePackageOutlineManager
     {
         public static Dictionary<string, List<CarePackageOutline>> VanillaCarePackagesByDlc = null;
-        public static List<CarePackageOutline> VanillaCarePackages = null;
+		private static List<CarePackageOutline> VanillaCarePackages = null;
 
-        public static List<CarePackageOutline> ExtraCarePackages = null;
+        private static List<CarePackageOutline> ExtraCarePackages = null;
 
         public static void FetchVanillaCarePackages()
         {
@@ -68,7 +69,6 @@ namespace SetStartDupes.CarePackageEditor
         }
         public static List<CarePackageInfo> GetAllAdditionalCarePackages()
         {
-            ResetExtraCarePackages();
             var result = new List<CarePackageInfo>();
             foreach(var entry in ExtraCarePackages)
             {
@@ -81,18 +81,31 @@ namespace SetStartDupes.CarePackageEditor
             }
             return result;
         }
-        static bool carepackagesinit = false;
         public static List<CarePackageOutline> GetExtraCarePackageOutlines()
         {
-            if (!carepackagesinit)
-			{
-				ResetExtraCarePackages(); //wip to fill the list, later load from file
-                carepackagesinit = true;
-			}
-            return ExtraCarePackages;
+            if(ExtraCarePackages == null)
+				CarePackageOutlineManager.LoadCarePackageFile();
+			return ExtraCarePackages;
 		}
 
-        public static void ResetExtraCarePackages()
+		internal static void LoadCarePackageFile()
+		{
+            var file = new FileInfo(ModAssets.ExtraCarePackageFileInfo);
+            if (file.Exists && IO_Utils.ReadFromFile<List<CarePackageOutline>>(file, out var outlines))
+            {
+                SgtLogger.l("loaded care package file with " + outlines.Count + " entries");
+				ExtraCarePackages = outlines;
+			}
+            else
+            {
+                SgtLogger.l("no care package file found or failed to load existing one, creating new one with DSS default care packages");
+                ResetExtraCarePackages();
+			}
+            SgtLogger.l("loaded " + ExtraCarePackages.Count + " care packages");
+		}
+
+
+		public static void ResetExtraCarePackages()
         {
             ExtraCarePackages = new();
             ExtraCarePackages.Clear();
@@ -158,11 +171,30 @@ namespace SetStartDupes.CarePackageEditor
 
 		internal static void TryDeleteOutline(CarePackageOutline targetOutline)
 		{
-    	}
+            DialogUtil.CreateConfirmDialogFrontend(global::STRINGS.UI.FRONTEND.LOADSCREEN.DELETEBUTTON, string.Format(global::STRINGS.UI.FRONTEND.LOADSCREEN.CONFIRMDELETE, targetOutline.GetDescriptionString()), null,() => DeleteOutline(targetOutline), null, () => { });	
+		}
+        private static void DeleteOutline(CarePackageOutline outline)
+        {
+			ExtraCarePackages.Remove(outline);
+            SaveCarePackagesToFile();
+			CarePackageEditor_MainScreen.Instance?.RemoveOutlineEntry(outline);
+		}
+        public static void SaveCarePackagesToFile()
+        {
+            IO_Utils.WriteToFile(ExtraCarePackages, ModAssets.ExtraCarePackageFileInfo);
+		}
 
 		internal static void TrySelectOutline(CarePackageOutline targetOutline)
 		{
 			CarePackageEditor_MainScreen.Instance?.SelectOutline(targetOutline);
+		}
+
+		internal static void AddNewCarePackage(string itemID)
+		{
+			var newOutline = new CarePackageOutline(itemID);
+			ExtraCarePackages.Add(newOutline);
+			SaveCarePackagesToFile();
+            CarePackageEditor_MainScreen.Instance?.AddOrGetCarePackageOutlineUIEntry(newOutline);
 		}
 	}
 }

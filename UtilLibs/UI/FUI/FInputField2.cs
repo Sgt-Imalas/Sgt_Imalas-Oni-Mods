@@ -20,7 +20,7 @@ namespace UtilLibs.UIcmp //Source: Aki
 		private bool initialized;
 
 		private bool DataTextUpdate = false;
-		public void EditTextFromData(string newText)
+		public void SetTextFromData(string newText)
 		{
 			DataTextUpdate = true;
 			Text = newText;
@@ -28,7 +28,6 @@ namespace UtilLibs.UIcmp //Source: Aki
 
 			DataTextUpdate = false;
 		}
-		public void SetTextFromData(string text) => EditTextFromData(text);
 
 		public bool IsEditing()
 		{

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FMOD;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -53,7 +54,15 @@ namespace SetStartDupes.CarePackageEditor.UI
 
 			DeleteButton = transform.Find("DeleteButton")?.gameObject?.AddOrGet<FButton>();
 			SelectButton = gameObject.AddOrGet<FButton>();
+			SelectButton.OnClick += SelectOutline;
 			SgtLogger.l("Ui initialized!");
+		}
+
+		void SelectOutline()
+		{
+			if (TargetOutline == null)
+				return;
+			CarePackageOutlineManager.TrySelectOutline(TargetOutline);
 		}
 
 		public void UpdateOutline(CarePackageOutline newOutline)

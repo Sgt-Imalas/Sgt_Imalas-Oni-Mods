@@ -20,6 +20,7 @@ namespace SetStartDupes
 {
 	public class ModAssets
 	{
+		public static string ExtraCarePackageFileInfo;
 		public static string DupeTemplatePath;
 		public static string DupeTearTemplatePath;
 		public static string DupeGroupTemplatePath;
