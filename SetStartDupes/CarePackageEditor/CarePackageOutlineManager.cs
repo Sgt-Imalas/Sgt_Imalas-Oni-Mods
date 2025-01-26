@@ -1,5 +1,6 @@
 ﻿using Database;
 using Klei.CustomSettings;
+using Newtonsoft.Json;
 using SetStartDupes.CarePackageEditor.UI;
 using SetStartDupes.Patches;
 using System;
@@ -91,7 +92,7 @@ namespace SetStartDupes.CarePackageEditor
 		internal static void LoadCarePackageFile()
 		{
             var file = new FileInfo(ModAssets.ExtraCarePackageFileInfo);
-            if (file.Exists && IO_Utils.ReadFromFile<List<CarePackageOutline>>(file, out var outlines))
+            if (file.Exists && IO_Utils.ReadFromFile<List<CarePackageOutline>>(file, out var outlines, converterSettings: new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto }))
             {
                 SgtLogger.l("loaded care package file with " + outlines.Count + " entries");
 				ExtraCarePackages = outlines;
@@ -131,9 +132,11 @@ namespace SetStartDupes.CarePackageEditor
             ExtraCarePackages.Add(new CarePackageOutline(SaltPlantConfig.SEED_ID, 3).CycleCondition(48).DiscoverCondition());
             //Mealwood
             ExtraCarePackages.Add(new CarePackageOutline(BasicSingleHarvestPlantConfig.SEED_ID, 3).CycleCondition(24).DiscoverCondition());
+			//GasGrass
+			ExtraCarePackages.Add(new CarePackageOutline(GasGrassConfig.SEED_ID, 3).CycleCondition(96).DiscoverCondition());
 
-            ///missing minerals:
-            ExtraCarePackages.Add(CarePackageOutline.ElementCarePackage(SimHashes.Granite, 1000).CycleCondition(24).DiscoverCondition());
+			///missing minerals:
+			ExtraCarePackages.Add(CarePackageOutline.ElementCarePackage(SimHashes.Granite, 1000).CycleCondition(24).DiscoverCondition());
             ExtraCarePackages.Add(CarePackageOutline.ElementCarePackage(SimHashes.Obsidian, 1000).CycleCondition(24).DiscoverCondition());
             //Abyssalite
             ExtraCarePackages.Add(CarePackageOutline.ElementCarePackage(SimHashes.Katairite, 1000).CycleCondition(48).DiscoverCondition());
@@ -181,7 +184,7 @@ namespace SetStartDupes.CarePackageEditor
 		}
         public static void SaveCarePackagesToFile()
         {
-            IO_Utils.WriteToFile(ExtraCarePackages, ModAssets.ExtraCarePackageFileInfo);
+            IO_Utils.WriteToFile(ExtraCarePackages, ModAssets.ExtraCarePackageFileInfo, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto });
 		}
 
 		internal static void TrySelectOutline(CarePackageOutline targetOutline)

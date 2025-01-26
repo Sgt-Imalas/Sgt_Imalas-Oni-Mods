@@ -93,17 +93,13 @@ namespace SetStartDupes.CarePackageEditor.UI
 					DisplayImage.sprite = image.first;
 					DisplayImage.color = image.second;
 				}
-				bool hasConditions = TargetOutline.HasConditions();
-				ConditionIndicator.SetActive(hasConditions);
-				if (hasConditions)
-				{
-					ConditionToolTip.SetSimpleTooltip(TargetOutline.GetConditionsTooltip());
-				}
+				ConditionToolTip.SetSimpleTooltip(TargetOutline.GetConditionsTooltip());
+
 			}
 			WarningIcon?.SetActive(TargetItem == null);
 			DeleteButton?.ClearOnClick();
 
-			DeleteButton.OnClick += ()=> CarePackageOutlineManager.TryDeleteOutline(TargetOutline);
+			DeleteButton.OnClick += () => CarePackageOutlineManager.TryDeleteOutline(TargetOutline);
 			SelectButton.ClearOnClick();
 			SelectButton.OnClick += () => CarePackageOutlineManager.TrySelectOutline(TargetOutline);
 		}

@@ -1,4 +1,4 @@
-﻿using SetStartDupes.CarePackageEditor.UnlockConditions;
+﻿using UnlockConditions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,6 +55,10 @@ namespace SetStartDupes.CarePackageEditor
 					}
 				}
 			}
+			sb.AppendLine();
+			sb.AppendLine(STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.OR);
+			sb.AppendLine();
+			sb.AppendLine(string.Format(STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.CYCLETHRESHOLD,500));
 			return sb.ToString();
 		}
 
@@ -157,11 +161,19 @@ namespace SetStartDupes.CarePackageEditor
 		public CarePackageOutline(string itemId, int amount = 1)
 		{
 			ItemId = itemId;
-			SgtLogger.l(ItemId);
-			Name = Assets.GetPrefab(itemId)?.GetProperName() ?? null;
-			SgtLogger.l(Name);
+			var item = Assets.GetPrefab(itemId);
+			Name = item?.GetProperName() ?? null;
 			Amount = amount;
 			UnlockConditions = null;
+			if (item != null && item.TryGetComponent<KPrefabID>(out var prefabID) && prefabID.requiredDlcIds != null)
+			{
+				if(prefabID.requiredDlcIds.Any(id => id == DlcManager.VANILLA_ID))
+				{
+					RequiredDlcs = null;
+				}
+				else
+					RequiredDlcs = new(prefabID.requiredDlcIds);
+			}
 		}
 		public CarePackageOutline()
 		{
@@ -169,7 +181,6 @@ namespace SetStartDupes.CarePackageEditor
 		}
 		public CarePackageOutline DiscoverCondition(string targetId = null)
 		{
-			SgtLogger.l("DiscoverCondition");
 			if (targetId == null)
 				targetId = ItemId;
 
@@ -192,7 +203,6 @@ namespace SetStartDupes.CarePackageEditor
 		}
 		public CarePackageOutline CycleCondition(int cycle)
 		{
-			SgtLogger.l("CycleCondition");
 			if (UnlockConditions == null)
 				UnlockConditions = [new()];
 			UnlockConditions.Last().Add(new CycleUnlockCondition(cycle));

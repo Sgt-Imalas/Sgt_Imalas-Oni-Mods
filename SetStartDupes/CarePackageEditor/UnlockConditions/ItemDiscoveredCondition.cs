@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SetStartDupes.CarePackageEditor.UnlockConditions
+namespace UnlockConditions
 {
     internal class ItemDiscoveredCondition : ICarePackageUnlockCondition
     {

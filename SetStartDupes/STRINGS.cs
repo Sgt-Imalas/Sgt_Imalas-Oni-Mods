@@ -118,19 +118,21 @@ namespace SetStartDupes
 								}
 							}
 						}
-						public class BUTTONS
-						{
-							public class CLOSEBUTTON
-							{
-								public static LocString TEXT = "Return";
-								public static LocString TOOLTIP = "Close window";
-							}
-							public class RESETBUTTON
-							{
-								public static LocString TEXT = "Reset All";
-								public static LocString TOOLTIP = "Reset all changes you have made to the care package selection";
-							}
-						}
+						
+					}
+					
+				}
+				public class BUTTONS
+				{
+					public class CLOSEBUTTON
+					{
+						public static LocString TEXT = "Return";
+						public static LocString TOOLTIP = "Close window";
+					}
+					public class RESETBUTTON
+					{
+						public static LocString TEXT = "Reset All Changes";
+						public static LocString TOOLTIP = "Reset all changes you have made to the care package selection";
 					}
 				}
 			}

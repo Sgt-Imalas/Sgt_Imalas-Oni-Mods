@@ -1,5 +1,5 @@
 ﻿using HarmonyLib;
-using SetStartDupes.CarePackageEditor.UnlockConditions;
+using UnlockConditions;
 using SetStartDupes.DuplicityEditing;
 using System;
 using System.Collections.Generic;
@@ -51,8 +51,6 @@ namespace SetStartDupes.CarePackageEditor.UI
 
 		Dictionary<CarePackageOutline, CarePackageOutlineEntry> OutlineEntries = new();
 
-
-
 		public static void ShowCarePackageEditor(object obj)
 		{
 			SgtLogger.l("Opening Care Package Editor");
@@ -83,6 +81,18 @@ namespace SetStartDupes.CarePackageEditor.UI
 				uiElement.UpdateUI();
 			}
 		}
+		public void ResetEntries()
+		{
+			SelectedOutline = null;
+			CarePackageOutlineManager.ResetExtraCarePackages();
+			var activeOutlines = CarePackageOutlineManager.GetExtraCarePackageOutlines().ToHashSet();
+			foreach (var entry in OutlineEntries)
+			{
+				Util.KDestroyGameObject(entry.Value.gameObject);
+			}
+			OutlineEntries.Clear();
+			UpdateEntryList();
+		}
 
 		private bool initialized = false;
 		public void Init()
@@ -92,8 +102,10 @@ namespace SetStartDupes.CarePackageEditor.UI
 			initialized = true;
 
 
-			var closeButton = transform.Find("HorizontalLayout/ItemInfo/Buttons/CloseButton").gameObject.AddOrGet<FButton>();
+			var closeButton = transform.Find("Buttons/CloseButton").gameObject.AddOrGet<FButton>();
 			closeButton.OnClick += () => Show(false);
+			var ResetAllButton = transform.Find("Buttons/ResetButton").gameObject.AddOrGet<FButton>();
+			ResetAllButton.OnClick += ResetEntries;
 
 			OutlineEntryPrefab = transform.Find("HorizontalLayout/ObjectList/ScrollArea/Content/PresetEntryPrefab").gameObject;
 			OutlineEntryPrefab.AddOrGet<CarePackageOutlineEntry>();
@@ -209,7 +221,7 @@ namespace SetStartDupes.CarePackageEditor.UI
 				target = SelectedOutline;
 
 			AddOrGetCarePackageOutlineUIEntry(target).UpdateUI();
-			//CarePackageOutlineManager.SaveCarePackagesToFile();
+			CarePackageOutlineManager.SaveCarePackagesToFile();
 		}
 		public void ToggleItemDiscoveredCondition(bool enabled)
 		{
