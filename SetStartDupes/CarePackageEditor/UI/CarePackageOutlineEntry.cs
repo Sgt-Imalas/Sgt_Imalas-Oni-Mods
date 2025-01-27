@@ -45,8 +45,8 @@ namespace SetStartDupes.CarePackageEditor.UI
 			Label = transform.Find("Label")?.GetComponent<LocText>();
 			WarningIcon = transform.Find("Warning")?.gameObject;
 
-			if (WarningToolTip)
-				WarningToolTip = UIUtils.AddSimpleTooltipToObject(WarningToolTip.gameObject, "");
+			if (WarningIcon)
+				WarningToolTip = UIUtils.AddSimpleTooltipToObject(WarningIcon.gameObject, "");
 
 			ConditionIndicator = transform.Find("HasCondition")?.gameObject;
 			if (ConditionIndicator)
@@ -93,9 +93,17 @@ namespace SetStartDupes.CarePackageEditor.UI
 					DisplayImage.sprite = image.first;
 					DisplayImage.color = image.second;
 				}
-				ConditionToolTip.SetSimpleTooltip(TargetOutline.GetConditionsTooltip());
-
+				WarningToolTip.SetSimpleTooltip("");
 			}
+			else
+			{
+				DisplayImage.sprite = Assets.GetSprite("unknown");
+				DisplayImage.color = Color.white;
+				WarningToolTip.SetSimpleTooltip(STRINGS.UI.CAREPACKAGEEDITOR.UNKNOWN_ITEM_TOOLTIP);
+			}
+
+
+			ConditionToolTip.SetSimpleTooltip(TargetOutline.GetConditionsTooltip());
 			WarningIcon?.SetActive(TargetItem == null);
 			DeleteButton?.ClearOnClick();
 

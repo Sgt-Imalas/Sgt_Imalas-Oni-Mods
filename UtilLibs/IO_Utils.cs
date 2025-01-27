@@ -24,7 +24,7 @@ namespace UtilLibs
 				tr.Method("Copy").GetValue();
 			}
 		}
-		public static bool ReadFromFile<T>(FileInfo filePath, out T output, string forceExtensionTo = "")
+		public static bool ReadFromFile<T>(FileInfo filePath, out T output, string forceExtensionTo = "", JsonSerializerSettings converterSettings = null)
 		{
 			try
 			{
@@ -40,7 +40,7 @@ namespace UtilLibs
 					using (var sr = new StreamReader(filestream))
 					{
 						string jsonString = sr.ReadToEnd();
-						output = JsonConvert.DeserializeObject<T>(jsonString);
+						output = JsonConvert.DeserializeObject<T>(jsonString, converterSettings);
 						return true;
 					}
 				}
@@ -52,16 +52,16 @@ namespace UtilLibs
 				return false;
 			}
 		}
-		public static bool ReadFromFile<T>(string FileOrigin, out T output, string forceExtensionTo = "") => ReadFromFile(new FileInfo(FileOrigin), out output, forceExtensionTo);
+		public static bool ReadFromFile<T>(string FileOrigin, out T output, string forceExtensionTo = "", JsonSerializerSettings converterSettings = null) => ReadFromFile(new FileInfo(FileOrigin), out output, forceExtensionTo, converterSettings);
 		
-		public static bool WriteToFile<T>(T DataObject, string filePath)
+		public static bool WriteToFile<T>(T DataObject, string filePath, JsonSerializerSettings converterSettings = null)
 		{
 			try
 			{
 				var fileInfo = new FileInfo(filePath);
 				FileStream fcreate = fileInfo.Open(FileMode.Create);
 
-				var JsonString = JsonConvert.SerializeObject(DataObject, Formatting.Indented);
+				var JsonString = JsonConvert.SerializeObject(DataObject, Formatting.Indented, converterSettings);
 				using (var streamWriter = new StreamWriter(fcreate))
 				{
 					streamWriter.Write(JsonString);

@@ -31,8 +31,8 @@ namespace SetStartDupes.Patches
 			//[HarmonyPriority(Priority.HigherThanNormal)]
 			public static void Prefix(ref int pointsDelta, MinionStartingStats __instance)
 			{
-				if (__instance.personality.model == GameTags.Minions.Models.Bionic)
-				{
+				if (__instance.personality.model == GameTags.Minions.Models.Bionic && pointsDelta != 0)
+				{				
 					SgtLogger.l("Prevented a bionic dupe from crashing due to added bonus attribute points.");
 					pointsDelta = 0;
 				}

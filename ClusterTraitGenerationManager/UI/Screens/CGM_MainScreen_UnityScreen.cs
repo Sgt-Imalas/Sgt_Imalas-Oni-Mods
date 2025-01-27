@@ -2924,8 +2924,8 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 		public void UpdateSizeLabels(StarmapItem current)
 		{
-			PlanetSizeWidth.EditTextFromData(current.CustomPlanetDimensions.X.ToString());
-			PlanetSizeHeight.EditTextFromData(current.CustomPlanetDimensions.Y.ToString());
+			PlanetSizeWidth.SetTextFromData(current.CustomPlanetDimensions.X.ToString());
+			PlanetSizeHeight.SetTextFromData(current.CustomPlanetDimensions.Y.ToString());
 			PercentageLargerThanTerra(current, out var Percentage);
 			if (Percentage > 200)
 			{

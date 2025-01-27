@@ -69,8 +69,10 @@ namespace SetStartDupes.CarePackageEditor
             }
         }
         public static List<CarePackageInfo> GetAllAdditionalCarePackages()
-        {
-            var result = new List<CarePackageInfo>();
+		{
+			if (ExtraCarePackages == null)
+				CarePackageOutlineManager.LoadCarePackageFile();
+			var result = new List<CarePackageInfo>();
             foreach(var entry in ExtraCarePackages)
             {
                 if (entry.TryMakeCarePackageInfo(out var info)) 
@@ -102,6 +104,10 @@ namespace SetStartDupes.CarePackageEditor
                 SgtLogger.l("no care package file found or failed to load existing one, creating new one with DSS default care packages");
                 ResetExtraCarePackages();
 			}
+            foreach(var entry in ExtraCarePackages)
+            {
+				entry.RefreshInfo();
+            }
             SgtLogger.l("loaded " + ExtraCarePackages.Count + " care packages");
 		}
 

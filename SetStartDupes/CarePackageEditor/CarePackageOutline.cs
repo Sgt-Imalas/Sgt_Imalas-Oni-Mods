@@ -165,14 +165,38 @@ namespace SetStartDupes.CarePackageEditor
 			Name = item?.GetProperName() ?? null;
 			Amount = amount;
 			UnlockConditions = null;
+			RefreshDLCs(item);			
+		}
+		void RefreshDLCs(GameObject item)
+		{
+			RequiredDlcs = RequiredDlcs?.Distinct().ToList() ?? null;
 			if (item != null && item.TryGetComponent<KPrefabID>(out var prefabID) && prefabID.requiredDlcIds != null)
 			{
-				if(prefabID.requiredDlcIds.Any(id => id == DlcManager.VANILLA_ID))
+				var requiredDlcs = prefabID.requiredDlcIds?.ToList() ?? null;
+				if (requiredDlcs != null)
 				{
-					RequiredDlcs = null;
+					requiredDlcs = requiredDlcs.Distinct().ToList();
+					if(requiredDlcs.Contains(DlcManager.VANILLA_ID) && requiredDlcs.Contains(DlcManager.EXPANSION1_ID)) //when in both SO and base game, remove those 2
+					{
+						requiredDlcs.Remove(DlcManager.EXPANSION1_ID);
+						requiredDlcs.Remove(DlcManager.VANILLA_ID);
+					}
+
+					if (requiredDlcs.Any())
+					{
+						if (RequiredDlcs == null)
+							RequiredDlcs = new(requiredDlcs);
+						else
+						{
+							foreach (var dlc in requiredDlcs)
+								if (!RequiredDlcs.Contains(dlc))
+									RequiredDlcs.Add(dlc);
+						}
+
+					}
+					else if (RequiredDlcs != null && !RequiredDlcs.Any())
+						RequiredDlcs = null;
 				}
-				else
-					RequiredDlcs = new(prefabID.requiredDlcIds);
 			}
 		}
 		public CarePackageOutline()
@@ -212,7 +236,8 @@ namespace SetStartDupes.CarePackageEditor
 		{
 			if (RequiredDlcs == null)
 				RequiredDlcs = new(8);
-			RequiredDlcs.Add(dlc);
+			if(!RequiredDlcs.Contains(dlc))
+				RequiredDlcs.Add(dlc);
 			return this;
 		}
 		public CarePackageOutline OR()
@@ -314,5 +339,14 @@ namespace SetStartDupes.CarePackageEditor
 			return true;
 		}
 
+		internal void RefreshInfo()
+		{
+			var item = Assets.GetPrefab(ItemId);
+			if (Name == null || Name == ItemId)
+			{
+				Name = item?.GetProperName() ?? ItemId;
+			}
+			RefreshDLCs(item);
+		}
 	}
 }

@@ -199,7 +199,9 @@ namespace UtilLibs
 			var toDisable = parent.Find(name);
 			if (toDisable == null)
 			{
+#if DEBUG
 				SgtLogger.warning("Failure to delete " + name + " in " + parent.ToString());
+#endif
 				return false;
 			}
 			if (force) UnityEngine.Object.DestroyImmediate(toDisable.gameObject);

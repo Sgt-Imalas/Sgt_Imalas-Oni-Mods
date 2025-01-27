@@ -32,6 +32,7 @@ namespace SetStartDupes
 					public static LocString INVALIDID = "Could not create new care package!\n\nThere is no item with the Id or name \"{0}\"";
 				}
 
+				public static LocString UNKNOWN_ITEM_TOOLTIP = "The item of this care package could not be found in the current game version.";
 				public class UNLOCKCONDITIONTOOLTIPS
 				{
 					public static LocString ALWAYSAVAILABLE = "This care package is always unlocked";

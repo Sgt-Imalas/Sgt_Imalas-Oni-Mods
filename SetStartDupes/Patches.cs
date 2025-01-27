@@ -1053,7 +1053,6 @@ namespace SetStartDupes
 				}
 				else
 				{
-
 					SgtLogger.error("CarePackagesOnly Transpiler failed!");
 				}
 				return code;
@@ -1874,7 +1873,6 @@ namespace SetStartDupes
 		{
 			public static void Prefix(CharacterContainer __instance, Transform ___aptitudeLabel)
 			{
-
 				__instance.transform.Find("Details").gameObject.SetActive(true);
 
 				var skillMod = __instance.transform.Find("ModifyDupeStats");
@@ -1926,9 +1924,11 @@ namespace SetStartDupes
 		{
 			public static MinionStartingStats GenerateWithGuaranteedSkill(List<Tag> permittedModels, bool is_starter_minion, string guaranteedAptitudeID = null, string guaranteedTraitID = null, bool isDebugMinion = false, CharacterContainer __instance = null)
 			{
+				SgtLogger.l($"generating new MinionStartingStats; types: {string.Concat(permittedModels)}, isStarter: {is_starter_minion}, guaranteed aptitude: {guaranteedAptitudeID??"none"}, isDebugMinion: {isDebugMinion}, guaranteed trait: {guaranteedTraitID ?? "none"} ");
 				if (__instance != null
 					&& UnityTraitRerollingScreen.GuaranteedTraitRoll.TryGetValue(__instance, out var trait))
 				{
+					SgtLogger.l("overriding the guaranteed trait with: " + trait.Name);
 					var newStats = new MinionStartingStats(permittedModels, is_starter_minion, guaranteedAptitudeID, trait.Id, isDebugMinion);
 					if (newStats.personality.model == GameTags.Minions.Models.Bionic)
 					{
@@ -1942,7 +1942,7 @@ namespace SetStartDupes
 				return new MinionStartingStats(permittedModels, is_starter_minion, guaranteedAptitudeID, guaranteedTraitID, isDebugMinion);
 			}
 
-			public static readonly MethodInfo overrideStarterGeneration = AccessTools.Method(
+			public static readonly MethodInfo generateWithSkill = AccessTools.Method(
 			   typeof(RerollWithGuaranteedTraitAndPersonality),
 			   nameof(RerollWithGuaranteedTraitAndPersonality.GenerateWithGuaranteedSkill));
 
@@ -1954,7 +1954,7 @@ namespace SetStartDupes
 
 				if (insertionIndex != -1)
 				{
-					code[insertionIndex] = new CodeInstruction(OpCodes.Call, overrideStarterGeneration);
+					code[insertionIndex] = new CodeInstruction(OpCodes.Call, generateWithSkill);
 					code.Insert(insertionIndex, new CodeInstruction(OpCodes.Ldarg_0));
 				}
 				else
