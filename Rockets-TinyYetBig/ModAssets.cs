@@ -357,7 +357,8 @@ namespace Rockets_TinyYetBig
 							GameObject storageItem = AllItems[index];
 							if (!storageItem.TryGetComponent<PrimaryElement>(out var primaryElement))
 								continue;
-							var elementState = primaryElement.Element.state;
+							//Mask out non-state related bits
+							var elementState = primaryElement.Element.state & Element.State.Solid;
 
 
 							foreach (FuelTank fueltank in FuelTanksPool[elementState])
