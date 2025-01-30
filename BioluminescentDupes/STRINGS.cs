@@ -16,7 +16,7 @@ namespace BioluminescentDupes
 				public class BD_TRAITESSENCE
 				{
 					public static LocString NAME = "Biolumin Essence";
-					public static LocString DESC = "Permanently gives the consumer the Bioluminescence trait";
+					public static LocString DESC = "Permanently gives the consumer the Bioluminescent trait";
 					public static LocString RECIPEDESC = ("A highly experimental medicine that gives the duplicant a permanent faint glow. No side effects were recorded so far!");
 
 				}
