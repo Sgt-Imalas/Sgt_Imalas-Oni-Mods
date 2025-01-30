@@ -367,7 +367,7 @@ namespace SetStartDupes
             {
                 foreach (var existingTrait in ReferencedStats.Traits)
                 {
-                    string existingTraitId = existingTrait.Id;
+					string existingTraitId = existingTrait.Id;
                     ModAssets.GetTraitListOfTrait(existingTraitId, out var list);
                     if (list == null)
                         continue;
@@ -404,8 +404,13 @@ namespace SetStartDupes
             if (ReferencedStats.Traits.Count > 0)
             {
                 foreach (var existingTrait in ReferencedStats.Traits)
-                {
-                    string existingTraitId = existingTrait.Id;
+				{
+					if (CurrentTrait.Id == existingTrait.Id)
+					{
+						continue; //skip the trait we are currently replacing
+
+					}
+					string existingTraitId = existingTrait.Id;
                     ModAssets.GetTraitListOfTrait(existingTraitId, out var list);
                     if (list == null)
                         continue;

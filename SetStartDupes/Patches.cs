@@ -22,7 +22,7 @@ namespace SetStartDupes
 	class PatchesOld
 	{
 		/// <summary>
-		/// These Patches have to run manually or they break translations!
+		/// These Patches have to run manually after DB.Init or they break translations!
 		/// </summary>
 		[HarmonyPatch(typeof(Assets), nameof(Assets.OnPrefabInit))]
 		public static class OnAssetPrefabPatch
