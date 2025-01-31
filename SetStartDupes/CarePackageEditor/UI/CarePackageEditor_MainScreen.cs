@@ -109,6 +109,7 @@ namespace SetStartDupes.CarePackageEditor.UI
 			}
 			VanillaOutlineEntries.Clear();
 			UpdateEntryList();
+			Instance.ApplyBlueprintFilter(FilterBar.Text);
 		}
 
 		private bool initialized = false;
