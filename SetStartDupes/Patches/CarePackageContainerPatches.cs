@@ -117,7 +117,7 @@ namespace SetStartDupes.Patches
 
                 selectButton.onClick += () =>
                 {
-                    UnityCarePackageScreen.ShowWindow(__instance, () => { }, carePackageInfos);
+                    UnityCarePackageSelectorScreen.ShowWindow(__instance, () => { }, carePackageInfos);
                 };
             }
         }

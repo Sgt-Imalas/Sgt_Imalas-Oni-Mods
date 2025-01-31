@@ -15,6 +15,7 @@ using static CharacterContainer;
 using static SetStartDupes.DupeTraitManager;
 using static SetStartDupes.STRINGS.UI;
 using static STRINGS.UI.DETAILTABS;
+using static TUNING.DUPLICANTSTATS;
 
 namespace SetStartDupes
 {
@@ -754,6 +755,24 @@ namespace SetStartDupes
 			}
 		};
 
+		private static List<TUNING.DUPLICANTSTATS.TraitVal> _stressWithShocker = null;
+		static List<TUNING.DUPLICANTSTATS.TraitVal> StressWithShocker
+		{
+			get
+			{
+				if(_stressWithShocker == null)
+				{
+					_stressWithShocker = new(DUPLICANTSTATS.STRESSTRAITS);
+					_stressWithShocker.Add(new TraitVal
+					{
+						id = "StressShocker",
+						dlcId = "DLC3_ID"
+					});
+				}
+
+				return _stressWithShocker;
+			}
+		}
 		public static List<DUPLICANTSTATS.TraitVal> TryGetTraitsOfCategory(NextType type, Tag minionModel, bool overrideShowAll = false)
 		{
 			bool initializingUI = minionModel == null;
@@ -761,6 +780,8 @@ namespace SetStartDupes
 			{
 				if (!TraitsByType.ContainsKey(type))
 					return new List<DUPLICANTSTATS.TraitVal>();
+				else if ((initializingUI || minionModel == GameTags.Minions.Models.Bionic) && type == NextType.stress)
+					return StressWithShocker;
 				else
 					return TraitsByType[type];
 			}
@@ -780,7 +801,7 @@ namespace SetStartDupes
 					returnValues.AddRange(TraitsByType[NextType.bionic_boost]);
 					returnValues.AddRange(TraitsByType[NextType.bionic_bug]);
 				}
-				if (minionModel == GameTags.Minions.Models.Standard || initializingUI)
+				if (minionModel == GameTags.Minions.Models.Standard || initializingUI || Config.Instance.BionicNormalTraits)
 				{
 					returnValues.AddRange(TraitsByType[NextType.posTrait]);
 					returnValues.AddRange(TraitsByType[NextType.needTrait]);
@@ -791,7 +812,11 @@ namespace SetStartDupes
 			}
 
 		}
-		static Dictionary<string, NextType> NextTypesPerTrait = new();
+		static Dictionary<string, NextType> NextTypesPerTrait = new()
+		{
+			{"StressShocker",NextType.stress }
+		};
+
 		public static NextType GetTraitListOfTrait(Trait trait) => GetTraitListOfTrait(trait.Id);
 		public static NextType GetTraitListOfTrait(string traitId)
 		{

@@ -15,7 +15,7 @@ namespace SetStartDupes
 	public class DupeTraitManager : KMonoBehaviour
 	{
 
-        public static GameObject AttributeEditPrefab = null;
+		public static GameObject AttributeEditPrefab = null;
 
 		#region UI_Handing
 		public bool CurrentlyEditing
@@ -75,7 +75,7 @@ namespace SetStartDupes
 		GameObject AddNewTrait;
 		GameObject AddNewInterest;
 
-		 
+
 
 
 		LocText JoyLabel;
@@ -119,7 +119,7 @@ namespace SetStartDupes
 			OverjoyedContainer = InitContainer("OverjoyedContainer", string.Format(global::STRINGS.UI.CHARACTERCONTAINER_JOYTRAIT, string.Empty));
 			OverjoyedContainer.SetActive(!Config.Instance.NoJoyReactions);
 
-			StressContainer = InitContainer( "StressContainer", string.Format(global::STRINGS.UI.CHARACTERCONTAINER_STRESSTRAIT, string.Empty));
+			StressContainer = InitContainer("StressContainer", string.Format(global::STRINGS.UI.CHARACTERCONTAINER_STRESSTRAIT, string.Empty));
 			StressContainer.SetActive(!Config.Instance.NoStressReactions);
 
 			LifeGoalContainer = InitContainer("LifeGoalContainer", string.Format(Strings.Get("STRINGS.UI.CHARACTERCONTAINER_LIFEGOAL_TRAIT"), string.Empty));
@@ -228,30 +228,30 @@ namespace SetStartDupes
 		}
 
 
-        GameObject AddInterestEditToggle(GameObject parent)
-        {
-            var interestToggle = Util.KInstantiateUI(ListEntryButtonPrefab, parent, true);
-            interestToggle.name = "ToggleInterestEditing";
+		GameObject AddInterestEditToggle(GameObject parent)
+		{
+			var interestToggle = Util.KInstantiateUI(ListEntryButtonPrefab, parent, true);
+			interestToggle.name = "ToggleInterestEditing";
 
-            interestToggle.TryGetComponent<LayoutElement>(out var LE);
-            LE.preferredWidth = 270;
-            UIUtils.AddSimpleTooltipToObject(interestToggle.transform, "Toggle raw attribute editing\nThis disables interest point redistribution when active.", true, onBottom: true);
+			interestToggle.TryGetComponent<LayoutElement>(out var LE);
+			LE.preferredWidth = 270;
+			UIUtils.AddSimpleTooltipToObject(interestToggle.transform, "Toggle raw attribute editing\nThis disables interest point redistribution when active.", true, onBottom: true);
 
 
-            interestToggle.GetComponent<KButton>().enabled = true;
-            UIUtils.AddActionToButton(interestToggle.transform, "", () =>
-            {
+			interestToggle.GetComponent<KButton>().enabled = true;
+			UIUtils.AddActionToButton(interestToggle.transform, "", () =>
+			{
 
-            });
-            //ModAssets.ApplyTraitStyleByKey(interestToggle.GetComponent<KImage>(), Nexty);
+			});
+			//ModAssets.ApplyTraitStyleByKey(interestToggle.GetComponent<KImage>(), Nexty);
 
-            //UIUtils.TryChangeText(interestToggle.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, trait.Name));
-            interestToggle.transform.Find("RemoveButton").gameObject.SetActive(false);
+			//UIUtils.TryChangeText(interestToggle.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, trait.Name));
+			interestToggle.transform.Find("RemoveButton").gameObject.SetActive(false);
 
-            return interestToggle;
-        }
+			return interestToggle;
+		}
 
-        void UpdateReactions()
+		void UpdateReactions()
 		{
 			if (JoyLabel == null)
 			{
@@ -470,8 +470,8 @@ namespace SetStartDupes
 
 				var type = ModAssets.GetTraitListOfTrait(trait.Id);
 
-				bool bionicTrait = (type == NextType.bionic_boost || type == NextType.bionic_bug);
-				var traitEntry = AddTraitContainerUI(trait, TraitContainer, type,!bionicTrait);
+				//bool bionicTrait = (type == NextType.bionic_boost || type == NextType.bionic_bug);
+				var traitEntry = AddTraitContainerUI(trait, TraitContainer, type);
 				traitEntry.TryGetComponent<LayoutElement>(out var LE);
 				UI_TraitEntries[trait] = traitEntry;
 
@@ -506,7 +506,7 @@ namespace SetStartDupes
 
 			UIUtils.TryChangeText(traitEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, trait.Name));
 			traitEntry.transform.Find("RemoveButton").gameObject.SetActive(Config.Instance.AddAndRemoveTraitsAndInterests && !notEditable && enableDeleteButton);
-			
+
 			ModAssets.ApplyTraitStyleByKey(traitEntry.transform.Find("RemoveButton").gameObject.GetComponent<KImage>(), type);
 
 			UIUtils.AddActionToButton(traitEntry.transform, "RemoveButton", () =>
@@ -518,30 +518,24 @@ namespace SetStartDupes
 			return traitEntry;
 		}
 
-		void RebuildInterests()
+		void RebuildTypeSpecifics()
 		{
 			if (ToEditMinionStats == null)
 				return;
 
+			bool isBionic = ToEditMinionStats.personality.model == BionicMinionConfig.MODEL;
+
+			AddNewTrait.SetActive(!isBionic || Config.Instance.BionicNormalTraits);
+
+			InterestContainer.SetActive(!isBionic);
+		}
+
+		void RebuildInterests()
+		{
 			foreach (var entry in UI_InterestEntries.Values)
 			{
 				entry.gameObject.SetActive(false);
 			}
-
-			if(ToEditMinionStats.personality.model == BionicMinionConfig.MODEL
-				//&& !Config.Instance.BionicNormalTraits
-				)
-			{
-				AddNewTrait.SetActive(false);
-				InterestContainer.SetActive(false);
-				return;
-			}
-			else
-			{
-				AddNewTrait.SetActive(true);
-				InterestContainer.SetActive(true);
-			}
-
 
 			foreach (SkillGroup a in GetInterestsWithStats())
 			{
@@ -628,6 +622,7 @@ namespace SetStartDupes
 				return;
 			SgtLogger.l("Rebuilding UI");
 
+			RebuildTypeSpecifics();
 			RebuildInterests();
 			RebuildTraits();
 			RebuildInterestPointTooltip();
@@ -667,25 +662,37 @@ namespace SetStartDupes
 
 		public string PointPool => Config.Instance.BalanceAddRemove ? UIUtils.ColorNumber(skillPointPool) : UIUtils.ColorText("∞", UIUtils.number_green);
 
+
 		public enum NextType
 		{
+			//chatty + ancient knowledge
 			special,
+			//purple traits from gene shuffler
 			geneShufflerTrait,
-			posTrait,
-			needTrait,
-			negTrait,
-			joy,
-			stress,
-			undefined,
-			cogenital,
+
+			//bionic dupe traits
 			bionic_boost,
 			bionic_bug,
 
+			//regular dupe traits
+			posTrait,
+			needTrait,
+			negTrait,
 
+			//reactions
+			joy,
+			stress,
+
+
+			undefined, //catch
+			cogenital,  //unused
+
+			//fill type for all
 			allTraits,
 
-			Beached_LifeGoal,
-			RainbowFart
+			//mod integration types
+			Beached_LifeGoal, //lifegoal from akis beached mod
+			RainbowFart //rainbow fart from rainbow farts mod
 		}
 		internal void SetReferenceStats(MinionStartingStats referencedStats)
 		{

@@ -397,15 +397,14 @@ namespace SetStartDupes
         {
             string traitId = trait.Id;
             bool hasConflicts = false;
-
             var tooltipString = TraitTooltips[trait];
-            List<string> conflictingItems = new List<string>();
+			List<string> conflictingItems = new List<string>();
 
-            if (ReferencedStats.Traits.Count > 0)
+			if (ReferencedStats.Traits.Count > 0)
             {
                 foreach (var existingTrait in ReferencedStats.Traits)
 				{
-					if (CurrentTrait.Id == existingTrait.Id)
+					if (CurrentTrait?.Id == existingTrait.Id)
 					{
 						continue; //skip the trait we are currently replacing
 
@@ -414,7 +413,7 @@ namespace SetStartDupes
                     ModAssets.GetTraitListOfTrait(existingTraitId, out var list);
                     if (list == null)
                         continue;
-                    var traitVal = list.Find(checkTraitVal => checkTraitVal.id == existingTraitId);
+                    var traitVal = list.FirstOrDefault(checkTraitVal => checkTraitVal.id == existingTraitId);
                     if (traitVal.mutuallyExclusiveTraits != null && traitVal.mutuallyExclusiveTraits.Any() && traitVal.mutuallyExclusiveTraits.Contains(traitId))
                     {
                         conflictingItems.Add(ModAssets.GetTraitName(existingTrait));
@@ -422,10 +421,10 @@ namespace SetStartDupes
                     }
                 }
             }
-            ModAssets.GetTraitListOfTrait(traitId, out var ownTraitList);
+			ModAssets.GetTraitListOfTrait(traitId, out var ownTraitList);
             if (ownTraitList != null)
             {
-                TraitVal traitVal = ownTraitList.Find(checkTraitVal => checkTraitVal.id == traitId);
+                TraitVal traitVal = ownTraitList.FirstOrDefault(checkTraitVal => checkTraitVal.id == traitId);
                 var mutualExclusiveAptitudes = traitVal.mutuallyExclusiveAptitudes;
                 if (ReferencedStats.skillAptitudes != null && mutualExclusiveAptitudes != null && mutualExclusiveAptitudes.Any())
                 {
@@ -442,8 +441,7 @@ namespace SetStartDupes
                 }
 
             }
-
-            if (TraitContainers.TryGetValue(trait, out var container) && ContainerTooltips.TryGetValue(container, out var toolTip))
+			if (TraitContainers.TryGetValue(trait, out var container) && ContainerTooltips.TryGetValue(container, out var toolTip))
             {
 
                 if (hasConflicts)

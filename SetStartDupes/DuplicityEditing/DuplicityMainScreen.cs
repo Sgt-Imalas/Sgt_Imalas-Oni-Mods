@@ -660,7 +660,7 @@ namespace SetStartDupes.DuplicityEditing
 				entry.Text = trait.Name;
 				entry.Tooltip = trait.description;
 				entry.backgroundColor = ModAssets.GetColourFromType(Type);
-				if (Type == NextType.undefined || Type == NextType.special || Type == NextType.bionic_boost || Type == NextType.bionic_bug)
+				if (Type == NextType.undefined || Type == NextType.special )
 				{
 					entry.HideDelete = true;
 				}

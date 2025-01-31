@@ -13,12 +13,12 @@ using static SetStartDupes.STRINGS.UI.PRESETWINDOW;
 
 namespace SetStartDupes
 {
-	internal class UnityCarePackageScreen : FScreen
+	internal class UnityCarePackageSelectorScreen : FScreen
 	{
 #pragma warning disable IDE0051 // Remove unused private members
 		new bool ConsumeMouseScroll = true; // do not remove!!!!
 #pragma warning restore IDE0051 // Remove unused private members
-		public static UnityCarePackageScreen Instance = null;
+		public static UnityCarePackageSelectorScreen Instance = null;
 
 		public LocText ToReplaceName;
 		public Image ToReplaceColour;
@@ -45,7 +45,7 @@ namespace SetStartDupes
 			if (Instance == null)
 			{
 				var screen = Util.KInstantiateUI(ModAssets.TraitsWindowPrefab, ModAssets.ParentScreen, true);
-				Instance = screen.AddOrGet<UnityCarePackageScreen>();
+				Instance = screen.AddOrGet<UnityCarePackageSelectorScreen>();
 				InitArtifactCarePackages();
 				Instance.Init();
 			}

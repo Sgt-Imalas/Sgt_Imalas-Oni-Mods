@@ -74,11 +74,11 @@ namespace SetStartDupes.DuplicityEditing
 					stats.Traits = new HashSet<string>();
 					foreach (var traitId in traits.TraitIds)
 					{
-						if (DUPLICANTSTATS.JOYTRAITS.Any(trait => trait.id == traitId))
+						if (ModAssets.TryGetTraitsOfCategory(DupeTraitManager.NextType.joy, stats.Model).Any(trait => trait.id == traitId))
 						{
 							stats.JoyTraitId = traitId;
 						}
-						else if (DUPLICANTSTATS.STRESSTRAITS.Any(trait => trait.id == traitId))
+						else if (ModAssets.TryGetTraitsOfCategory(DupeTraitManager.NextType.stress, stats.Model).Any(trait => trait.id == traitId))
 						{
 							stats.StressTraitId = traitId;
 						}

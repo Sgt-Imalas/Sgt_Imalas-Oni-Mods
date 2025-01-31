@@ -40,6 +40,7 @@ namespace SetStartDupes.Patches
 					smi.InstallUpgrade(component2);
 				}
 				smi.sm.InitialUpgradeSpawned.Set(true, smi);
+				smi.GoTo(smi.sm.inactive);
 				return false;
 			}
 		}
