@@ -311,6 +311,11 @@ namespace SetStartDupes
 					public static LocString NAME = "First print time";
 					public static LocString TOOLTIP = "Time after the printing pod offers its first print, in cycles.\nDefault is 2.5 cycles.";
 				}
+				public class CAREPACKAGEMULTIPLIER
+				{
+					public static LocString NAME = "Care Package Multiplier";
+					public static LocString TOOLTIP = "Global multiplier for the amount of item amount inside of care packages.\nDefault is 1.";
+				}
 
 				public class PAUSEONREADYTOPRING
 				{
@@ -343,6 +348,21 @@ namespace SetStartDupes
 					public static LocString NAME = "Open Care Package Editor";
 					public static LocString TOOLTIP = "View and modify the different additional care packages or create new ones.";
 				}
+				public class SORTEDPRINTINGPOD
+				{
+					public static LocString NAME = "Sorted Printing Pod";
+					public static LocString TOOLTIP = "Printing pod entries are sorted by their type, dupes come first, then care packages.";
+				}
+				public class OVERRIDEPRINTERDUPECOUNT
+				{
+					public static LocString NAME = "Override printing pod dupe count";
+					public static LocString TOOLTIP = "Override the number of duplicants offered in the printing pod.\nA value of 0 or lower disables this feature.";
+				}
+				public class OVERRIDEPRINTERCAREPACKAGECOUNT
+				{
+					public static LocString NAME = "Override printing pod care package count";
+					public static LocString TOOLTIP = "Override the number of care packages offered in the printing pod.\nA value of 0 or lower disables this feature.\nDisabling care packages in the difficulty settings disables this feature.\nIf enabled, care packages only mode takes priority.";
+				}
 
 				public class CAREPACKAGESONLYDUPECAP
 				{
@@ -353,7 +373,7 @@ namespace SetStartDupes
 				public class CAREPACKAGESONLYPACKAGECAP
 				{
 					public static LocString NAME = "Number of care packages for care packages only";
-					public static LocString TOOLTIP = "Only has an effect if \"" + CAREPACKAGESONLY.NAME + "\" is enabled.\nSet the number of care packages that generate when the cap is in effect";
+					public static LocString TOOLTIP = "Only has an effect if \"" + CAREPACKAGESONLY.NAME + "\" is enabled.\nSet the number of care packages that generate when the cap is in effect.";
 				}
 				public class LIVEDUPESTATCHANGE
 				{

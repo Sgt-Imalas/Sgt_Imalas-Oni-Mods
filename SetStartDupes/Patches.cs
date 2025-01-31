@@ -994,10 +994,10 @@ namespace SetStartDupes
 				var m_TargetMethod = AccessTools.Method("CharacterSelectionController, Assembly-CSharp:InitializeContainers");
 				var m_Transpiler = AccessTools.Method(typeof(CharacterSelectionController_InitializeContainers_Patch), "Transpiler");
 				var m_Prefix = AccessTools.Method(typeof(CharacterSelectionController_InitializeContainers_Patch), "Prefix");
-				//var m_Postfix = AccessTools.Method(typeof(CharacterSelectionController_Patch2), "Postfix");
+				var m_Postfix = AccessTools.Method(typeof(CharacterSelectionController_InitializeContainers_Patch), "Postfix");
 
 				harmony.Patch(m_TargetMethod, new HarmonyMethod(m_Prefix),
-				   null, //new HarmonyMethod(m_Postfix),
+				    new HarmonyMethod(m_Postfix),
 					new HarmonyMethod(m_Transpiler));
 			}
 
@@ -1009,7 +1009,18 @@ namespace SetStartDupes
 				NextButtonPrefab = Util.KInstantiateUI(___proceedButton.gameObject);
 				NextButtonPrefab.name = "CycleButtonPrefab";
 			}
-
+			public static void Postfix(CharacterSelectionController __instance)
+			{
+				if (!Config.Instance.SortedPrintingPod)
+					return;
+				foreach (var container in __instance.containers)
+				{
+					if (container is CarePackageContainer careCon)
+					{
+						careCon.transform.SetAsLastSibling();
+					}
+				}
+			}
 			public static void CarePackagesOnly()
 			{
 				if (instance is MinionSelectScreen)
@@ -1022,6 +1033,15 @@ namespace SetStartDupes
 				{
 					instance.numberOfCarePackageOptions = Config.Instance.CarePackagesOnlyPackageCount;
 					instance.numberOfDuplicantOptions = 0;
+					return;
+				}
+				if (Config.Instance.OverridePrinterCarePackageCount > 0)
+				{
+					instance.numberOfCarePackageOptions = Config.Instance.OverridePrinterCarePackageCount;
+				}
+				if (Config.Instance.OverridePrinterDupeCount > 0)
+				{
+					instance.numberOfDuplicantOptions = Config.Instance.OverridePrinterDupeCount;
 				}
 			}
 
@@ -1060,7 +1080,7 @@ namespace SetStartDupes
 		}
 
 
-		[HarmonyPatch(typeof(NewBaseScreen), nameof(NewBaseScreen.SpawnMinions))]
+		[HarmonyPatch(typeof(Telepad), nameof(Telepad.ScheduleNewBaseEvents))]
 		public class DupeSpawnAdjustmentNo1
 		{
 			const float defaultDelaySecs = 0.5f;
@@ -1077,9 +1097,9 @@ namespace SetStartDupes
 				return adjustedDelaySecs;
 			}
 
-			static void Prefix(NewBaseScreen __instance)
+			static void Prefix(Telepad __instance)
 			{
-				dupeCount = __instance.m_minionStartingStats.Length;
+				dupeCount = __instance.aNewHopeEvents.Count;
 				adjustedDelaySecs = (((float)defaultCount) * defaultDelaySecs) / dupeCount;
 				SgtLogger.l("adjustedDelay: " + adjustedDelaySecs);
 
@@ -1097,7 +1117,7 @@ namespace SetStartDupes
 					code.Insert(++timeDelayIndex, new CodeInstruction(OpCodes.Call, AdjustedTimeDelay));
 				}
 				else
-					SgtLogger.error("TIME DELAY TRANSPILER FAILED: NEWBASESCREEN.SPAWNMINIONS");
+					SgtLogger.error("TIME DELAY TRANSPILER FAILED: Telepad.ScheduleNewBaseEvents");
 
 
 				return code;
@@ -1910,7 +1930,7 @@ namespace SetStartDupes
 				ModAssets.SetContainerPersonalityLock(__instance, true);
 				string cogenitalTrait = ___stats.personality.congenitaltrait;
 				var traits = Db.Get().traits;
-				if (DlcManager.IsContentSubscribed(DlcManager.DLC2_ID) && !cogenitalTrait.IsNullOrWhiteSpace() && traits.Get(cogenitalTrait)!=null)
+				if (DlcManager.IsContentSubscribed(DlcManager.DLC2_ID) && !cogenitalTrait.IsNullOrWhiteSpace() && traits.Get(cogenitalTrait) != null)
 				{
 					UnityTraitRerollingScreen.GuaranteedTraitRoll[__instance] = traits.Get(cogenitalTrait);
 					ModAssets.UpdateTraitLockButton(__instance);
@@ -1920,11 +1940,11 @@ namespace SetStartDupes
 
 
 		[HarmonyPatch(typeof(CharacterContainer), nameof(CharacterContainer.GenerateCharacter))]
-		public static class RerollWithGuaranteedTraitAndPersonality
+		public static class RollMinionWithForcedTrait
 		{
 			public static MinionStartingStats GenerateWithGuaranteedSkill(List<Tag> permittedModels, bool is_starter_minion, string guaranteedAptitudeID = null, string guaranteedTraitID = null, bool isDebugMinion = false, CharacterContainer __instance = null)
 			{
-				SgtLogger.l($"generating new MinionStartingStats; types: {string.Concat(permittedModels)}, isStarter: {is_starter_minion}, guaranteed aptitude: {guaranteedAptitudeID??"none"}, isDebugMinion: {isDebugMinion}, guaranteed trait: {guaranteedTraitID ?? "none"} ");
+				SgtLogger.l($"generating new MinionStartingStats; types: {string.Concat(permittedModels)}, isStarter: {is_starter_minion}, guaranteed aptitude: {guaranteedAptitudeID ?? "none"}, isDebugMinion: {isDebugMinion}, guaranteed trait: {guaranteedTraitID ?? "none"} ");
 				if (__instance != null
 					&& UnityTraitRerollingScreen.GuaranteedTraitRoll.TryGetValue(__instance, out var trait))
 				{
@@ -1943,8 +1963,8 @@ namespace SetStartDupes
 			}
 
 			public static readonly MethodInfo generateWithSkill = AccessTools.Method(
-			   typeof(RerollWithGuaranteedTraitAndPersonality),
-			   nameof(RerollWithGuaranteedTraitAndPersonality.GenerateWithGuaranteedSkill));
+			   typeof(RollMinionWithForcedTrait),
+			   nameof(RollMinionWithForcedTrait.GenerateWithGuaranteedSkill));
 
 			[HarmonyPriority(Priority.VeryHigh)]
 			static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
