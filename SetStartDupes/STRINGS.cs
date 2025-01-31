@@ -24,7 +24,11 @@ namespace SetStartDupes
 			public class CAREPACKAGEEDITOR
 			{
 				public static LocString TITLE = "Care Package Editor";
-
+				public class RESETALLPACKAGES
+				{
+					public static LocString TITLE = "Reset Care Packages";
+					public static LocString TEXT = "Are you sure you want to reset all modifications you have done to the care package selection?";
+				}
 				public class CREATECAREPACKAGEPOPUP
 				{
 					public static LocString TITLE = "Care Package Creation";
@@ -50,7 +54,7 @@ namespace SetStartDupes
 						public class SHOWVANILLA
 						{
 							public static LocString LABEL = "Show Vanilla Care Packages:";
-							public static LocString TOOLTIP = "Also show vanilla care packages in the list.\nNote that these cannot receive editing due to how they are implemented.";
+							public static LocString TOOLTIP = "Also show vanilla care packages in the list.\nNote that these cannot be modified.";
 						}
 						public class SCROLLAREA
 						{
@@ -361,7 +365,7 @@ namespace SetStartDupes
 				public class OVERRIDEPRINTERCAREPACKAGECOUNT
 				{
 					public static LocString NAME = "Override printing pod care package count";
-					public static LocString TOOLTIP = "Override the number of care packages offered in the printing pod.\nA value of 0 or lower disables this feature.\nDisabling care packages in the difficulty settings disables this feature.\nIf enabled, care packages only mode takes priority.";
+					public static LocString TOOLTIP = "Override the number of care packages offered in the printing pod.\nA value of 0 or lower disables this feature.\nDisabling care packages in the difficulty settings disables this feature.\nNo effect if care packages only mode is active.";
 				}
 
 				public class CAREPACKAGESONLYDUPECAP
@@ -405,9 +409,9 @@ namespace SetStartDupes
 					public static LocString NAME = "Interest Point Balancing";
 					public static LocString TOOLTIP = "Use the vanilla interest point bonus for active interests determined by active traits.\nDeactivate to override this point limit.";
 				}
-				public class BEYONDBIONICS
+				public class NORMALTRAITSONBIONICS
 				{
-					public static LocString NAME = "Add normal traits to Bionic Duplicants";
+					public static LocString NAME = "Allow normal traits on Bionic Duplicants";
 					public static LocString TOOLTIP = "When active, allows adding regular traits to bionic duplicants.";
 				}
 				public class NOJOYREACTION

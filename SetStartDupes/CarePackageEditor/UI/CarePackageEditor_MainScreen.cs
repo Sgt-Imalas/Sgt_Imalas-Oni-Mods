@@ -13,6 +13,7 @@ using UtilLibs;
 using UtilLibs.UIcmp;
 using static SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT;
 using static STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS;
+using static SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST;
 
 namespace SetStartDupes.CarePackageEditor.UI
 {
@@ -33,6 +34,7 @@ namespace SetStartDupes.CarePackageEditor.UI
 
 		public GameObject OutlineEntryContainer;
 		public GameObject OutlineEntryPrefab;
+		public GameObject VanillaOutlineEntryPrefab;
 
 		public LocText SelectedEntryNameDisplay;
 		public Image SelectedEntryPreviewImage;
@@ -50,6 +52,7 @@ namespace SetStartDupes.CarePackageEditor.UI
 
 
 		Dictionary<CarePackageOutline, CarePackageOutlineEntry> OutlineEntries = new();
+		Dictionary<CarePackageOutline, VanillaCarePackageOutlineEntry> VanillaOutlineEntries = new();
 
 		public static void ShowCarePackageEditor(object obj)
 		{
@@ -75,11 +78,20 @@ namespace SetStartDupes.CarePackageEditor.UI
 
 		public void UpdateEntryList()
 		{
-			foreach (var outline in CarePackageOutlineManager.GetExtraCarePackageOutlines())
+			foreach (var outline in CarePackageOutlineManager.GetVanillaCarePackageOutlines())
 			{
-				CarePackageOutlineEntry uiElement = AddOrGetCarePackageOutlineUIEntry(outline);
+				var uiElement = AddOrGetVanillaCarePackageOutlineUIEntry(outline);
 				uiElement.UpdateUI();
 			}
+			foreach (var outline in CarePackageOutlineManager.GetExtraCarePackageOutlines())
+			{
+				var uiElement = AddOrGetCarePackageOutlineUIEntry(outline);
+				uiElement.UpdateUI();
+			}
+		}
+		void TryResetEntries()
+		{
+			DialogUtil.CreateConfirmDialogFrontend(STRINGS.UI.CAREPACKAGEEDITOR.RESETALLPACKAGES.TITLE, STRINGS.UI.CAREPACKAGEEDITOR.RESETALLPACKAGES.TEXT,on_confirm: ResetEntries, on_cancel: () => { });
 		}
 		public void ResetEntries()
 		{
@@ -91,6 +103,11 @@ namespace SetStartDupes.CarePackageEditor.UI
 				Util.KDestroyGameObject(entry.Value.gameObject);
 			}
 			OutlineEntries.Clear();
+			foreach (var entry in VanillaOutlineEntries)
+			{
+				Util.KDestroyGameObject(entry.Value.gameObject);
+			}
+			VanillaOutlineEntries.Clear();
 			UpdateEntryList();
 		}
 
@@ -105,14 +122,22 @@ namespace SetStartDupes.CarePackageEditor.UI
 			var closeButton = transform.Find("Buttons/CloseButton").gameObject.AddOrGet<FButton>();
 			closeButton.OnClick += () => Show(false);
 			var ResetAllButton = transform.Find("Buttons/ResetButton").gameObject.AddOrGet<FButton>();
-			ResetAllButton.OnClick += ResetEntries;
+			ResetAllButton.OnClick += TryResetEntries;
 
 			OutlineEntryPrefab = transform.Find("HorizontalLayout/ObjectList/ScrollArea/Content/PresetEntryPrefab").gameObject;
 			OutlineEntryPrefab.AddOrGet<CarePackageOutlineEntry>();
 			OutlineEntryPrefab.SetActive(false);
+
+			VanillaOutlineEntryPrefab = transform.Find("HorizontalLayout/ObjectList/ScrollArea/Content/PresetEntryUneditablePrefab").gameObject;
+			VanillaOutlineEntryPrefab.AddOrGet<VanillaCarePackageOutlineEntry>();
+			VanillaOutlineEntryPrefab.SetActive(false);
+
+
 			OutlineEntryContainer = OutlineEntryPrefab.transform.parent.gameObject;
 
 
+
+			UIUtils.AddSimpleTooltipToObject(transform.Find("HorizontalLayout/ObjectList/ShowVanilla/Label").gameObject, SHOWVANILLA.TOOLTIP);
 			DisplayVanillaPackagesToggle = transform.Find("HorizontalLayout/ObjectList/ShowVanilla/Checkbox").gameObject.AddOrGet<FToggle>();
 			DisplayVanillaPackagesToggle.SetCheckmark("Checkmark");
 			DisplayVanillaPackagesToggle.OnClick += SetVanillaCarePackagesEnabled;
@@ -194,6 +219,13 @@ namespace SetStartDupes.CarePackageEditor.UI
 			{
 				go.Value.gameObject.SetActive(filterstring == string.Empty ? true : ShowInFilter(filterstring, go.Key.GetDescriptionString()));
 			}
+			foreach (var go in VanillaOutlineEntries)
+			{
+				if(!VanillaCarePackagesShown)
+					go.Value.gameObject.SetActive(false);
+				else
+					go.Value.gameObject.SetActive(filterstring == string.Empty ? true : ShowInFilter(filterstring, go.Key.GetDescriptionString()));
+			}
 		}
 
 		bool ShowInFilter(string filtertext, string stringsToInclude)
@@ -272,7 +304,7 @@ namespace SetStartDupes.CarePackageEditor.UI
 		public void SetVanillaCarePackagesEnabled(bool enabled)
 		{
 			VanillaCarePackagesShown = enabled;
-			//todo: refresh ui
+			ApplyBlueprintFilter(FilterBar.Text);//ui refresh
 		}
 
 		public override void OnKeyDown(KButtonEvent e)
@@ -286,6 +318,17 @@ namespace SetStartDupes.CarePackageEditor.UI
 				this.Show(false);
 			}
 			base.OnKeyDown(e);
+		}
+		public VanillaCarePackageOutlineEntry AddOrGetVanillaCarePackageOutlineUIEntry(CarePackageOutline outline)
+		{
+			if (VanillaOutlineEntries.TryGetValue(outline, out var entry))
+				return entry;
+
+			var newEntry = Util.KInstantiateUI<VanillaCarePackageOutlineEntry>(VanillaOutlineEntryPrefab.gameObject, OutlineEntryContainer, true);
+			newEntry.UpdateOutline(outline);
+			VanillaOutlineEntries.Add(outline, newEntry);
+			return newEntry;
+
 		}
 		public CarePackageOutlineEntry AddOrGetCarePackageOutlineUIEntry(CarePackageOutline outline)
 		{
