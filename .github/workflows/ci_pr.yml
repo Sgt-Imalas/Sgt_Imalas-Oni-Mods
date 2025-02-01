@@ -1,4 +1,4 @@
-name: Build all mods for automated release
+name: Build all mods on PR
 
 on:
   pull_request:
