@@ -520,10 +520,10 @@ namespace ClusterTraitGenerationManager
 
 					SgtLogger.l(sourceWorld.Key, "current planet");
 
+					bool prohibitChallengeStarts = !Config.Instance.IncludeChallengeStarts;
+					bool isChallengeWorld = sourceWorld.Key.Contains("NiobiumMoonlet") || sourceWorld.Key.Contains("RegolithMoonlet");
 
-					if (
-						sourceWorld.Key.Contains("NiobiumMoonlet")
-						|| sourceWorld.Key.Contains("RegolithMoonlet")
+					if (isChallengeWorld && prohibitChallengeStarts
 						//|| sourceWorld.Key.Contains("MooMoonlet")
 						|| sourceWorld.Key.Contains("worlds/SandstoneDefault")
 						|| PlanetByIdIsMiniBase(sourceWorld.Key.ToUpperInvariant())
@@ -724,13 +724,11 @@ namespace ClusterTraitGenerationManager
 								tag = "AtDepths",
 								minDistance = 0,
 								maxDistance = 0,
-							},
-							new ProcGen.World.AllowedCellsFilter()
+							},new ProcGen.World.AllowedCellsFilter()
 							{
 								command = ProcGen.World.AllowedCellsFilter.Command.ExceptWith,
-								zoneTypes  = new List<SubWorld.ZoneType>() { SubWorld.ZoneType.Space
-								, SubWorld.ZoneType.MagmaCore
-								}
+								zoneTypes = isChallengeWorld ? [SubWorld.ZoneType.Space] :  [SubWorld.ZoneType.Space, SubWorld.ZoneType.MagmaCore]
+
 							},
 							new ProcGen.World.AllowedCellsFilter()
 							{
@@ -739,6 +737,7 @@ namespace ClusterTraitGenerationManager
 								tag = "NoGravitasFeatures"
 							}
 						};
+
 						StartWorld.worldTemplateRules.Insert(0, TeleporterSpawn);
 
 						toAdd.Add(new(newWorldPath_Start, StartWorld));
@@ -865,13 +864,11 @@ namespace ClusterTraitGenerationManager
 								tag = "AtDepths",
 								minDistance = 0,
 								maxDistance = 0,
-							},
-							new ProcGen.World.AllowedCellsFilter()
+							},new ProcGen.World.AllowedCellsFilter()
 							{
 								command = ProcGen.World.AllowedCellsFilter.Command.ExceptWith,
-								zoneTypes  = new List<SubWorld.ZoneType>() { SubWorld.ZoneType.Space
-								, SubWorld.ZoneType.MagmaCore
-								}
+								zoneTypes = isChallengeWorld ? [SubWorld.ZoneType.Space] :  [SubWorld.ZoneType.Space, SubWorld.ZoneType.MagmaCore]
+
 							},
 							new ProcGen.World.AllowedCellsFilter()
 							{
@@ -880,6 +877,7 @@ namespace ClusterTraitGenerationManager
 								tag = "NoGravitasFeatures"
 							}
 						};
+
 						WarpWorld.worldTemplateRules.Insert(0, TeleporterSpawn);
 
 						toAdd.Add(new(newWorldPath_Warp, WarpWorld));

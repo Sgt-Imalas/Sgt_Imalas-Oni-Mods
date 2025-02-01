@@ -12,11 +12,14 @@ namespace ClusterTraitGenerationManager
 
 		[Option("STRINGS.MODCONFIG.MANUALCLUSTERPRESETS.NAME", "STRINGS.MODCONFIG.MANUALCLUSTERPRESETS.TOOLTIP")]
 		[JsonProperty]
-		public bool AutomatedClusterPresets { get; set; }
+		public bool AutomatedClusterPresets { get; set; } = true;
+
+		[Option("STRINGS.MODCONFIG.CHALLENGEASTEROIDS.NAME", "STRINGS.MODCONFIG.CHALLENGEASTEROIDS.TOOLTIP")]
+		[JsonProperty]
+		public bool IncludeChallengeStarts { get; set; } = false;
 
 		public Config()
 		{
-			AutomatedClusterPresets = true;
 		}
 	}
 }

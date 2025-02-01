@@ -3,8 +3,6 @@ name: Build all mods for automated release
 on:
   push:
     branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
 
 permissions:
   contents: write # Grant write permission for creating releases
