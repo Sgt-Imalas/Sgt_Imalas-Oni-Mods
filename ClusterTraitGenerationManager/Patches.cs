@@ -520,10 +520,11 @@ namespace ClusterTraitGenerationManager
 
 					SgtLogger.l(sourceWorld.Key, "current planet");
 
+					bool prohibitChallengeStarts = !Config.Instance.IncludeChallengeStarts;
 
 					if (
-						sourceWorld.Key.Contains("NiobiumMoonlet")
-						|| sourceWorld.Key.Contains("RegolithMoonlet")
+						sourceWorld.Key.Contains("NiobiumMoonlet") && prohibitChallengeStarts
+						|| sourceWorld.Key.Contains("RegolithMoonlet") && prohibitChallengeStarts
 						//|| sourceWorld.Key.Contains("MooMoonlet")
 						|| sourceWorld.Key.Contains("worlds/SandstoneDefault")
 						|| PlanetByIdIsMiniBase(sourceWorld.Key.ToUpperInvariant())

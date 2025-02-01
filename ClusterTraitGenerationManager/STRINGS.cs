@@ -9,6 +9,11 @@
 				public static LocString NAME = "Automated Cluster Preset";
 				public static LocString TOOLTIP = "Each time you start a new CGM cluster, a cluster preset will be created automatically.\nif deactivated, there will be a button for manual creation on the start screen instead.";
 			}
+			public class CHALLENGEASTEROIDS
+			{
+				public static LocString NAME = "Enable Challenge Asteroids";
+				public static LocString TOOLTIP = "Generate more challenging start asteroids like superconductive and regolith moonlet";
+			}
 		}
 		public class WORLD_TRAITS
 		{
