@@ -287,49 +287,94 @@ namespace SetStartDupes
 
 
 			static GameObject Spacer = null;
+			static GameObject SpacerTall = null;
+
+			static void ToggleSpacer(ImmigrantScreen __instance,bool on)
+			{
+				bool tall = !EditingSingleDupe;
+				if (Spacer == null)
+				{
+					var container = __instance.transform.Find("Layout");
+					var topButtonSpacer = Util.KInstantiateUI(__instance.transform.Find("Layout/Title").gameObject, container.gameObject, true).rectTransform();
+
+					topButtonSpacer.SetSiblingIndex(2);
+					if (topButtonSpacer.TryGetComponent<LayoutElement>(out var layoutElement))
+					{
+						layoutElement.minHeight = 42;
+					}
+					UIUtils.FindAndDestroy(topButtonSpacer, "TitleLabel");
+					UIUtils.FindAndDestroy(topButtonSpacer, "CloseButton");
+					topButtonSpacer.gameObject.name = "TopButtonSpacer";
+
+					//UIUtils.ListAllChildrenWithComponents(spacer.transform);
+
+					if (topButtonSpacer.transform.Find("BG").TryGetComponent<KImage>(out var image))
+					{
+						var ColorStyle = (ColorStyleSetting)ScriptableObject.CreateInstance("ColorStyleSetting");
+						ColorStyle.inactiveColor = UIUtils.rgb(37, 37, 41);
+						ColorStyle.hoverColor = UIUtils.rgb(37, 37, 41);
+						ColorStyle.activeColor = UIUtils.rgb(37, 37, 41);
+						ColorStyle.disabledColor = UIUtils.rgb(37, 37, 41);
+						image.colorStyleSetting = ColorStyle;
+						image.ApplyColorStyleSetting();
+
+					}
+					Spacer = topButtonSpacer.gameObject;
+				}
+				if (SpacerTall == null)
+				{
+					var container = __instance.transform.Find("Layout");
+					var topButtonSpacer = Util.KInstantiateUI(__instance.transform.Find("Layout/Title").gameObject, container.gameObject, true).rectTransform();
+
+					topButtonSpacer.SetSiblingIndex(2);
+					if (topButtonSpacer.TryGetComponent<LayoutElement>(out var layoutElement))
+					{
+						layoutElement.minHeight = 84;
+					}
+					UIUtils.FindAndDestroy(topButtonSpacer, "TitleLabel");
+					UIUtils.FindAndDestroy(topButtonSpacer, "CloseButton");
+					topButtonSpacer.gameObject.name = "TopButtonSpacerTall";
+
+					//UIUtils.ListAllChildrenWithComponents(spacer.transform);
+
+					if (topButtonSpacer.transform.Find("BG").TryGetComponent<KImage>(out var image))
+					{
+						var ColorStyle = (ColorStyleSetting)ScriptableObject.CreateInstance("ColorStyleSetting");
+						ColorStyle.inactiveColor = UIUtils.rgb(37, 37, 41);
+						ColorStyle.hoverColor = UIUtils.rgb(37, 37, 41);
+						ColorStyle.activeColor = UIUtils.rgb(37, 37, 41);
+						ColorStyle.disabledColor = UIUtils.rgb(37, 37, 41);
+						image.colorStyleSetting = ColorStyle;
+						image.ApplyColorStyleSetting();
+
+					}
+					SpacerTall = topButtonSpacer.gameObject;
+				}
+
+				if (on)
+				{
+					Spacer?.SetActive(!tall);
+					SpacerTall?.SetActive(tall);
+
+				}
+				else
+				{
+					Spacer?.SetActive(false);
+					SpacerTall?.SetActive(false);
+				}
+			}
+
 			public static bool Prefix(Telepad telepad, ImmigrantScreen __instance)
 			{
 				EditingSingleDupe = telepad == null;
 
 				if ((EditingSingleDupe && Config.Instance.JorgeAndCryopodDupes) || Config.Instance.RerollDuringGame)
 				{
-					if (Spacer == null)
-					{
-						var container = __instance.transform.Find("Layout");
-						var topButtonSpacer = Util.KInstantiateUI(__instance.transform.Find("Layout/Title").gameObject, container.gameObject, true).rectTransform();
-
-						topButtonSpacer.SetSiblingIndex(2);
-						if (topButtonSpacer.TryGetComponent<LayoutElement>(out var layoutElement))
-						{
-							layoutElement.minHeight = 84;
-						}
-						UIUtils.FindAndDestroy(topButtonSpacer, "TitleLabel");
-						UIUtils.FindAndDestroy(topButtonSpacer, "CloseButton");
-						topButtonSpacer.gameObject.name = "TopButtonSpacer";
-
-						//UIUtils.ListAllChildrenWithComponents(spacer.transform);
-
-						if (topButtonSpacer.transform.Find("BG").TryGetComponent<KImage>(out var image))
-						{
-							var ColorStyle = (ColorStyleSetting)ScriptableObject.CreateInstance("ColorStyleSetting");
-							ColorStyle.inactiveColor = UIUtils.rgb(37, 37, 41);
-							ColorStyle.hoverColor = UIUtils.rgb(37, 37, 41);
-							ColorStyle.activeColor = UIUtils.rgb(37, 37, 41);
-							ColorStyle.disabledColor = UIUtils.rgb(37, 37, 41);
-							image.colorStyleSetting = ColorStyle;
-							image.ApplyColorStyleSetting();
-
-						}
-						Spacer = topButtonSpacer.gameObject;
-					}
+					ToggleSpacer(__instance, true);
 				}
 				else
 				{
-					if (Spacer != null)
-					{
-						UnityEngine.Object.Destroy(Spacer);
-						Spacer = null;
-					}
+					ToggleSpacer(__instance, false);
 				}
 
 				if (EditingSingleDupe)
