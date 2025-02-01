@@ -46,7 +46,7 @@ namespace BioluminescentDupes.Content.Scripts
 			public StatesInstance(BD_Bioluminescence master)
 			  : base(master)
 			{
-				this.luminescenceModifier = new AttributeModifier(Db.Get().Attributes.Luminescence.Id, TUNING.TRAITS.GLOWSTICK_LUX_VALUE, STRINGS.DUPLICANTS.TRAITS.BD_BIOLUMINESCENSE.NAME);
+				this.luminescenceModifier = new AttributeModifier(Db.Get().Attributes.Luminescence.Id, TUNING.TRAITS.GLOWSTICK_LUX_VALUE, STRINGS.DUPLICANTS.TRAITS.BD_BIOLUMINESCENCE.NAME);
 			}
 		}
 

@@ -27,7 +27,7 @@ namespace BioluminescentDupes
 		{
 			public class TRAITS
 			{
-				public class BD_BIOLUMINESCENSE
+				public class BD_BIOLUMINESCENCE
 				{
 					public static LocString NAME = "Bioluminescent";
 					public static LocString DESC = "This Duplicant is has a faintly glow to it";

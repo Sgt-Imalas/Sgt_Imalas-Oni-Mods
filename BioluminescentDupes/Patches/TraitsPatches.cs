@@ -20,7 +20,7 @@ namespace BioluminescentDupes.Patches
 		{
 			public static void Register()
 			{
-				TraitUtil.CreateComponentTrait<BD_Bioluminescence>(BD_Bioluminescence.ID, STRINGS.DUPLICANTS.TRAITS.BD_BIOLUMINESCENSE.NAME, STRINGS.DUPLICANTS.TRAITS.BD_BIOLUMINESCENSE.DESC, true);
+				TraitUtil.CreateComponentTrait<BD_Bioluminescence>(BD_Bioluminescence.ID, STRINGS.DUPLICANTS.TRAITS.BD_BIOLUMINESCENCE.NAME, STRINGS.DUPLICANTS.TRAITS.BD_BIOLUMINESCENCE.DESC, true);
 				DUPLICANTSTATS.GOODTRAITS.Add(BD_Bioluminescence.GetTrait());
 				if (DUPLICANTSTATS.GOODTRAITS.Any(traitval => traitval.id == nameof(GlowStick)))
 				{
@@ -37,7 +37,7 @@ namespace BioluminescentDupes.Patches
 			}
 			public static void Prefix()
 			{
-				TRAITS.TRAIT_CREATORS.Add(TraitUtil.CreateComponentTrait<BD_Bioluminescence>(BD_Bioluminescence.ID, STRINGS.DUPLICANTS.TRAITS.BD_BIOLUMINESCENSE.NAME, STRINGS.DUPLICANTS.TRAITS.BD_BIOLUMINESCENSE.DESC, true));
+				TRAITS.TRAIT_CREATORS.Add(TraitUtil.CreateComponentTrait<BD_Bioluminescence>(BD_Bioluminescence.ID, STRINGS.DUPLICANTS.TRAITS.BD_BIOLUMINESCENCE.NAME, STRINGS.DUPLICANTS.TRAITS.BD_BIOLUMINESCENCE.DESC, true));
 			}
 			public static void Postfix()
 			{
