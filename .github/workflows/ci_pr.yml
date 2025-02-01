@@ -1,0 +1,40 @@
+name: Build all mods for automated release
+
+on:
+  pull_request:
+    branches: [ "master" ]
+
+permissions:
+  contents: write # Grant write permission for creating releases
+  actions: write # Grant write permission to delete old workflow runs
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set SHORT_COMMIT environment variable
+      shell: pwsh
+      run: |
+        $SHORT_COMMIT = git rev-parse --short HEAD
+        echo "SHORT_COMMIT=$SHORT_COMMIT" >> $env:GITHUB_ENV
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v2
+    
+    - name: NuGet Restore
+      run: msbuild -t:restore -property:Configuration=Release
+    
+    - name: Build project
+      run: msbuild -t:rebuild -property:Configuration=Release -property:GameLibsFolder="../Lib"
+    
+    - name: Delete workflow runs
+      uses: Mattraks/delete-workflow-runs@v2
+      with:
+        token: ${{ github.token }}
+        repository: ${{ github.repository }}
+        retain_days: 1
+        keep_minimum_runs: 3
+          
+
