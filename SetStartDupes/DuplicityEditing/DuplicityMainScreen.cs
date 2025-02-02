@@ -551,6 +551,8 @@ namespace SetStartDupes.DuplicityEditing
                 attributeEditors[attribute].SetInputFieldValue(Stats.GetAttributeLevel(attribute).ToString());
 			}
 		}
+
+
 		private void RebuildEffects()
 		{
 			foreach (var entry in EffectEntries.Values)

@@ -188,7 +188,7 @@ namespace SetStartDupes
 		{
 			AssetBundle bundle = AssetUtils.LoadAssetBundle("dss_uiassets", platformSpecific: true);
 
-			DupeTraitManager.AttributeEditPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/StartAttributeEditing.prefab");
+			DupeTraitManager.NumberInputPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/StartAttributeEditing.prefab")?.transform.Find("NumberInputPrefab").gameObject;
 			PresetWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/PresetWindow.prefab");
 			TraitsWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/DupeSkillsPopUp.prefab");
 			CrewDupeEntryPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/DupePresetListItem.prefab");
@@ -382,6 +382,10 @@ namespace SetStartDupes
 		public static List<string> GET_ALL_ATTRIBUTES()
 		{
 			var attributes = DUPLICANTSTATS.ALL_ATTRIBUTES.ToList();
+
+			if(!DlcManager.IsExpansion1Active())
+				attributes.Remove("SpaceNavigation");
+
 			if (BeachedEnabled && !attributes.Contains("Beached_Precision"))
 			{
 				attributes.Add("Beached_Precision");

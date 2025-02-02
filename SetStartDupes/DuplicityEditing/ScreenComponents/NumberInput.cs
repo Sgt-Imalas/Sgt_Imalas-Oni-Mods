@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Bson;
+using System;
 using UnityEngine;
 using UtilLibs;
 using UtilLibs.UIcmp;
@@ -20,7 +21,12 @@ namespace SetStartDupes.DuplicityEditing.ScreenComponents
 			base.OnSpawn();
 			inputField = transform.Find("Input").FindOrAddComponent<FInputField2>();
 			inputField.inputField.onEndEdit.AddListener(InputListener);
-			inputField.SetTextFromData("0");
+
+			if(bufferedValue != "")
+			{
+				SetInputFieldValue(bufferedValue);
+				bufferedValue = "";
+			}
 
 			label = transform.Find("Label").GetComponent<LocText>();
 			label.SetText(Text);
@@ -60,9 +66,11 @@ namespace SetStartDupes.DuplicityEditing.ScreenComponents
 			OnInputChanged(inputField.Text);
 
 		}
-
+		string bufferedValue = "";
 		public void SetInputFieldValue(string value)
 		{
+			if(inputField == null)
+				bufferedValue= value;
 			inputField?.SetTextFromData(value);
 		}
 	}

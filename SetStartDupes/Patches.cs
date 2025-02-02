@@ -1496,7 +1496,7 @@ namespace SetStartDupes
 				};
 
 				UIUtils.AddActionToButton(skinBtn.transform, "", () => DupeSkinScreenAddon.ShowSkinScreen(__instance));
-
+				bool modelDropdownEnabled = __instance.modelDropDown.transform.parent.gameObject.activeInHierarchy;
 
 				if (is_starter || AllowModification)
 				{
@@ -1619,7 +1619,7 @@ namespace SetStartDupes
 						text.GetComponent<LocText>().alignment = TMPro.TextAlignmentOptions.Center;
 
 						ApplyTraitStyleByKey(rerollTraitBtn.GetComponent<KImage>(), default);
-						UIUtils.TryChangeText(text, "", CONGENITALTRAITS.NONE.NAME);
+						UIUtils.TryChangeText(text, "", MODDEDIMMIGRANTSCREEN.ROLLWITHTRAIT_LABEL);
 						UIUtils.AddSimpleTooltipToObject(rerollTraitBtn.transform, MODDEDIMMIGRANTSCREEN.GUARANTEETRAIT);
 						UIUtils.AddActionToButton(rerollTraitBtn.transform, "", () =>
 						{
@@ -1648,7 +1648,7 @@ namespace SetStartDupes
 							ele.ignoreLayout = true;
 						}
 
-						rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 80, 40f);
+						rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, modelDropdownEnabled ? 80 : 0, 40f);
 						rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, -44f, 40f);
 						UIUtils.AddSimpleTooltipToObject(lockPersonalityButton.transform, MODDEDIMMIGRANTSCREEN.LOCKPERSONALITY_TOOLTIP);
 
@@ -1658,7 +1658,6 @@ namespace SetStartDupes
 						lockTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 1, 22);
 						lockTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 3, 22);
 
-						//UIUtils.TryChangeText(text, "", CONGENITALTRAITS.NONE.NAME);
 						UIUtils.AddActionToButton(rect, "", () =>
 						{
 							ModAssets.ToggleContainerPersonalityLock(__instance);

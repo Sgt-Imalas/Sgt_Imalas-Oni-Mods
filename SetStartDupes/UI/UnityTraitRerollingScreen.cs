@@ -83,7 +83,7 @@ namespace SetStartDupes
 			{
 				return GuaranteedTraitRoll[instance].GetName();
 			}
-			return CONGENITALTRAITS.NONE.NAME;
+			return STRINGS.UI.MODDEDIMMIGRANTSCREEN.ROLLWITHTRAIT_LABEL;
 		}
 		public static string GetTraitId(CharacterContainer instance)
 		{
