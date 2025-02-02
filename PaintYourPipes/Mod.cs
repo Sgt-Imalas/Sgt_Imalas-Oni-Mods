@@ -25,7 +25,7 @@ namespace PaintYourPipes
 			if (!Config.Instance.OverlayOnly)
 			{
 				CompatibilityPatches.Material_Colored_Tiles_Compatibility.ExecutePatch(harmony);
-				CompatibilityPatches.MaterialColour_Compatibility.ExecutePatch(harmony);
+				//CompatibilityPatches.MaterialColour_Compatibility.ExecutePatch(harmony);
 			}
 		}
 	}
