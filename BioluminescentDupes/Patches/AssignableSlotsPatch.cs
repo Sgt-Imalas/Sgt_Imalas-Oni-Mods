@@ -7,7 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace BioluminescentDupes.Patches
-{
+{   /// <summary>
+	/// Credit: Akis Bio Inks with his permission https://github.com/aki-art/ONI-Mods/tree/master/PrintingPodRecharge
+	/// </summary>
 	internal class AssignableSlotsPatch
 	{
 		[HarmonyPatch(typeof(AssignableSlots), MethodType.Constructor)]

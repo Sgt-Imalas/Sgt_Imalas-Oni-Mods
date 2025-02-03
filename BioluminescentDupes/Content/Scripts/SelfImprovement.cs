@@ -8,7 +8,9 @@ using UnityEngine;
 
 namespace BioluminescentDupes.Content.Scripts
 {
-
+	/// <summary>
+	/// Credit: Akis Bio Inks with his permission https://github.com/aki-art/ONI-Mods/tree/master/PrintingPodRecharge
+	/// </summary>
 	public class SelfImprovement : Assignable, IGameObjectEffectDescriptor
 	{
 		[MyCmpAdd]

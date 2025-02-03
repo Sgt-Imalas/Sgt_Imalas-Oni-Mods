@@ -7,6 +7,9 @@ using UtilLibs;
 
 namespace BioluminescentDupes.Content.Scripts
 {
+	/// <summary>
+	/// Credit: Akis Bio Inks with his permission https://github.com/aki-art/ONI-Mods/tree/master/PrintingPodRecharge
+	/// </summary>
 	public class SelfImprovementChore : Chore<SelfImprovementChore.StatesInstance>
 	{
 		public SelfImprovementChore(IStateMachineTarget book) : base(
