@@ -31,7 +31,7 @@ namespace Rockets_TinyYetBig
 
 			this.operational
 				.noRocket
-					.Update(((smi, dt) => this.SetAttachedRocket(smi.GetDockedRocket(), smi)), UpdateRate.RENDER_1000ms)
+					.Update(((smi, dt) => this.SetAttachedRocket(smi.GetDockedRocket(), smi)))
 					.EventHandler(ModAssets.Hashes.DockingConnectionConnected, (smi, data) => this.SetAttachedRocket(smi.GetDockedRocket(), smi))
 					//.EventHandler(GameHashes.RocketCreated, (smi, data) => this.SetAttachedRocket(smi.GetDockedRocket(), smi))
 					.ParamTransition<GameObject>(this.attachedRocket, this.operational.hasRocket, ((smi, p) => p != null));

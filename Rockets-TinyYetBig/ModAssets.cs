@@ -288,7 +288,7 @@ namespace Rockets_TinyYetBig
 						else if(conduitConsumer.conduitType == ConduitType.Solid)
 							FuelTanksPool[Element.State.Solid].Add(fueltank);
 					}
-					else if (clusterModule.TryGetComponent<Building> (out var building) && building.Def.InputConduitType != ConduitType.None)
+					else if (clusterModule.TryGetComponent<Building>(out var building) && building.Def.InputConduitType != ConduitType.None)
 					{
 						var defType = building.Def.InputConduitType;
 						if (defType == ConduitType.Gas)
@@ -354,22 +354,22 @@ namespace Rockets_TinyYetBig
 						GameObject[] AllItems = Concat(fuelLoader.solidStorage.items, fuelLoader.liquidStorage.items, fuelLoader.gasStorage.items).ToArray();
 						for (int index = AllItems.Count() - 1; index >= 0; --index)
 						{
-							GameObject storageItem = AllItems[index];
-							if (!storageItem.TryGetComponent<PrimaryElement>(out var primaryElement))
+							GameObject toTransferFuel = AllItems[index];
+							if (!toTransferFuel.TryGetComponent<PrimaryElement>(out var primaryElement)||primaryElement.Element.IsVacuum)
 								continue;
 							//Mask out non-state related bits
 							var elementState = primaryElement.Element.state & Element.State.Solid;
-
 
 							foreach (FuelTank fueltank in FuelTanksPool[elementState])
 							{
 								float remainingCapacity = fueltank.Storage.RemainingCapacity();
 								float num1 = TotalMassStoredOfItems(AllItems);
-								if ((double)remainingCapacity > 0.0 && (double)num1 > 0.0 && storageItem.HasTag(FuelTag) && storageItem.HasTag(fueltank.fuelType))
+								//SgtLogger.l($"{fueltank}; TankFuelType: {fueltank.fuelType} EngineTargetTag: {FuelTag}: {toTransferFuel.HasTag(FuelTag)} && has fueltank type: {toTransferFuel.HasTag(fueltank.fuelType)} ");
+								if ((double)remainingCapacity > 0.0 && (double)num1 > 0.0 && toTransferFuel.HasTag(FuelTag) && (fueltank.fuelType == null || toTransferFuel.HasTag(fueltank.fuelType)))
 								{
 									isLoading = true;
 									HasLoadingProcess = true;
-									Pickupable pickupable = storageItem.GetComponent<Pickupable>().Take(remainingCapacity);
+									Pickupable pickupable = toTransferFuel.GetComponent<Pickupable>().Take(remainingCapacity);
 									if (pickupable != null)
 									{
 										fueltank.storage.Store(pickupable.gameObject, true);

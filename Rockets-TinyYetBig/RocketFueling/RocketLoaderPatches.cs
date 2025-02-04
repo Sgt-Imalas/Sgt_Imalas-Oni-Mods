@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using UtilLibs;
 
 namespace Rockets_TinyYetBig.RocketFueling
 {
@@ -60,31 +61,46 @@ namespace Rockets_TinyYetBig.RocketFueling
 				go.TryGetComponent<KPrefabID>(out var component);
 
 
-				if ((!component.HasTag(__instance.def.linkBuildingTag) && !component.HasTag(__instance.def.headBuildingTag))
-					|| Grid.CellToXY(Grid.PosToCell(__instance)).y != Grid.CellToXY(Grid.PosToCell(go)).y
+				if (__instance.def.headBuildingTag != ModAssets.Tags.RocketPlatformTag 
+					|| (!component.HasTag(__instance.def.linkBuildingTag) && !component.HasTag(__instance.def.headBuildingTag))
+					|| (Grid.CellToXY(Grid.PosToCell(__instance)).Y != Grid.CellToXY(Grid.PosToCell(go)).Y && Grid.CellToXY(Grid.PosToCell(__instance)).X != Grid.CellToXY(Grid.PosToCell(go)).X)
 					)
 					return false;
 
-				if (__instance.gameObject != null && __instance.gameObject.TryGetComponent<VerticalPortAttachment>(out var verticalPortAttachment))
-				{
-					verticalPortAttachment.PropagateCollectionEvents(ref chain, ref foundHead, ignoredLink);
-					//foreach (var part in VerticalPortAttachment.GetNetwork(verticalPortAttachment))
-					//{
-					//    if (part.chainedBuilding != null
-					//        && part.TryGetComponent<KPrefabID>(out var linkedPrefabId)
-					//        && (linkedPrefabId.HasTag(__instance.def.linkBuildingTag) || linkedPrefabId.HasTag(__instance.def.headBuildingTag))
-					//        && !chain.Contains(part.chainedBuilding)
-					//        )
-					//    {
-					//        SgtLogger.l("colleccting....");
-					//        part.chainedBuilding?.CollectToChain(ref chain, ref foundHead, ignoredLink);
-					//    }
-					//}
-				}
-
-
 				go.GetSMI<ChainedBuilding.StatesInstance>()?.CollectToChain(ref chain, ref foundHead, ignoredLink);
 				return false;
+			}
+		}
+
+		[HarmonyPatch(typeof(ChainedBuilding.StatesInstance), nameof(ChainedBuilding.StatesInstance.StartSM))]
+		public class ChainedBuilding_StatesInstance_StartSM_Patch //constructor not directly patchable (?)
+		{
+			public static void Prefix(ChainedBuilding.StatesInstance __instance)
+			{
+				if (__instance.gameObject.TryGetComponent<VerticalPortAttachment>(out var portAttachment))
+				{
+					if (portAttachment.CrossPiece)
+					{
+						if (!__instance.neighbourCheckCells.Contains(portAttachment.TopCell))
+							__instance.neighbourCheckCells.Add(portAttachment.TopCell);
+						if (!__instance.neighbourCheckCells.Contains(portAttachment.BottomCell))
+							__instance.neighbourCheckCells.Add(portAttachment.BottomCell);
+						SgtLogger.l($"added crosspiece vertical cells to chained building");
+						foreach (var item in __instance.neighbourCheckCells)
+						{
+							SgtLogger.l("Cell in list: " + item);
+						}
+					}
+					else
+					{
+						__instance.neighbourCheckCells = [portAttachment.TopCell, portAttachment.BottomCell];
+						SgtLogger.l($"replaced neigbor cells with vertical cells in chained building");
+						foreach (var item in __instance.neighbourCheckCells)
+						{
+							SgtLogger.l("Cell in list: " + item);
+						}
+					}
+				}
 			}
 		}
 
@@ -129,6 +145,34 @@ namespace Rockets_TinyYetBig.RocketFueling
 				yield return typeof(BaseModularLaunchpadPortConfig).GetMethod(nameof(BaseModularLaunchpadPortConfig.CreateBaseLaunchpadPort));
 			}
 		}
+		/// <summary>
+		/// Add a 1 second delay to turnoff signal to prevent flickering
+		/// </summary>
+		static Dictionary<ModularConduitPortController.Instance, SchedulerHandle> ScheduledTurnOffs = new();
+		static void OnSignalChanged(ModularConduitPortController.Instance instance, LogicPorts logicPorts, bool greenSignal)
+		{
+			if (greenSignal)
+			{
+				if(ScheduledTurnOffs.TryGetValue(instance, out var scheduledTurnoff))
+				{
+					GameScheduler.Instance?.scheduler?.Clear(scheduledTurnoff);
+					ScheduledTurnOffs.Remove(instance);
+					logicPorts.SendSignal(ROCKETPORTLOADER_ACTIVE, 1);
+				}
+			}
+			else
+			{
+				if(!ScheduledTurnOffs.ContainsKey(instance))
+				{
+					ScheduledTurnOffs[instance] = GameScheduler.Instance.Schedule("turn off loader logic port", 1, (_) =>
+					{
+						logicPorts.SendSignal(ROCKETPORTLOADER_ACTIVE, 0);
+						ScheduledTurnOffs.Remove(instance);
+					});
+				}
+			}
+		}
+
 		[HarmonyPatch(typeof(ModularConduitPortController.Instance), nameof(ModularConduitPortController.Instance.SetLoading))]
 		public static class LogicOutputLoaderBuildings_UpdateLogic_Loading
 		{
@@ -138,8 +182,7 @@ namespace Rockets_TinyYetBig.RocketFueling
 			public static void Postfix(ModularConduitPortController.Instance __instance, bool isLoading)
 			{
 				var logicPorts = __instance.GetComponent<LogicPorts>();
-
-				logicPorts.SendSignal(ROCKETPORTLOADER_ACTIVE, isLoading ? 1 : 0);
+				OnSignalChanged(__instance, logicPorts, isLoading);
 			}
 		}
 		[HarmonyPatch(typeof(ModularConduitPortController.Instance), nameof(ModularConduitPortController.Instance.SetUnloading))]
@@ -151,8 +194,7 @@ namespace Rockets_TinyYetBig.RocketFueling
 			public static void Postfix(ModularConduitPortController.Instance __instance, bool isUnloading)
 			{
 				var logicPorts = __instance.GetComponent<LogicPorts>();
-
-				logicPorts.SendSignal(ROCKETPORTLOADER_ACTIVE, isUnloading ? 1 : 0);
+				OnSignalChanged(__instance, logicPorts, isUnloading);
 			}
 		}
 
