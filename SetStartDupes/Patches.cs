@@ -620,8 +620,10 @@ namespace SetStartDupes
 								///fixes the sorting order of the dropdown canvas to render on top of the window instead of behind it
 								var DropDownCanvas = characterContainer?.modelDropDown?.transform?.Find("ScrollRect")?.GetComponent<Canvas>();
 								var instanceCanvas = __instance.GetComponent<Canvas>();
-								if (DropDownCanvas != null)
+								if (DropDownCanvas != null && instanceCanvas != null)
 									DropDownCanvas.sortingOrder = instanceCanvas.sortingOrder + 1;
+								else
+									SgtLogger.warning("could not apply canvas sorting order fix for dropdown");
 
 
 								characterContainer.reshuffleButton.onClick += () =>
@@ -1458,6 +1460,33 @@ namespace SetStartDupes
 				bool is_starter = __instance.controller is MinionSelectScreen;
 
 				bool AllowModification = Config.Instance.ModifyDuringGame || (EditingSingleDupe && Config.Instance.JorgeAndCryopodDupes);
+
+				if (!is_starter && __instance.controller is ImmigrantScreen i && i.Telepad != null)
+				{
+					var overrideModels = Config.Instance.GetViablePrinterModels();
+					var personalitiesWithViableModels = Db.Get().Personalities.GetAll(true, false).FindAll((Personality personality) => overrideModels.Contains(personality.model));
+					if(personalitiesWithViableModels.Any())
+					{
+						if (!EditingSingleDupe)
+						{
+							SgtLogger.l("overriding minionmodels to " + Config.Instance.OverridePrintingPodModels);
+							__instance.permittedModels = overrideModels.ToList();
+							if(overrideModels.Length == 1 && __instance.selectedModelIcon.gameObject.activeInHierarchy)
+							{
+								if (overrideModels[0] == GameTags.Minions.Models.Standard)
+									__instance.selectedModelIcon.sprite = Assets.GetSprite("ui_duplicant_minion_selection");
+								if (overrideModels[0] == GameTags.Minions.Models.Bionic)
+									__instance.selectedModelIcon.sprite = Assets.GetSprite("ui_duplicant_bionicminion_selection");
+							}
+						}
+					}
+					else
+					{
+						SgtLogger.l("couldnt override model selection, as there would not be any personality with the selected models available.");
+					}
+				}
+
+
 				if (!buttonsToDeactivateOnEdit.ContainsKey(__instance))
 				{
 					buttonsToDeactivateOnEdit[__instance] = new List<KButton>();
@@ -1974,10 +2003,14 @@ namespace SetStartDupes
 				ModAssets.SetContainerPersonalityLock(__instance, true);
 				string cogenitalTrait = ___stats.personality.congenitaltrait;
 				var traits = Db.Get().traits;
-				if (DlcManager.IsContentSubscribed(DlcManager.DLC2_ID) && !cogenitalTrait.IsNullOrWhiteSpace() && traits.Get(cogenitalTrait) != null)
+				if (!cogenitalTrait.IsNullOrWhiteSpace() && traits.Get(cogenitalTrait) != null)
 				{
-					UnityTraitRerollingScreen.GuaranteedTraitRoll[__instance] = traits.Get(cogenitalTrait);
-					ModAssets.UpdateTraitLockButton(__instance);
+					var cogenital = traits.Get(cogenitalTrait);
+					if (DlcManager.IsAllContentSubscribed(cogenital.requiredDlcIds))
+					{
+						UnityTraitRerollingScreen.GuaranteedTraitRoll[__instance] = cogenital;
+						ModAssets.UpdateTraitLockButton(__instance);
+					}
 				}
 			}
 		}
@@ -1988,6 +2021,7 @@ namespace SetStartDupes
 		{
 			public static MinionStartingStats GenerateWithGuaranteedSkill(List<Tag> permittedModels, bool is_starter_minion, string guaranteedAptitudeID = null, string guaranteedTraitID = null, bool isDebugMinion = false, CharacterContainer __instance = null)
 			{
+				
 				SgtLogger.l($"generating new MinionStartingStats; types: {string.Concat(permittedModels)}, isStarter: {is_starter_minion}, guaranteed aptitude: {guaranteedAptitudeID ?? "none"}, isDebugMinion: {isDebugMinion}, guaranteed trait: {guaranteedTraitID ?? "none"} ");
 				if (__instance != null
 					&& UnityTraitRerollingScreen.GuaranteedTraitRoll.TryGetValue(__instance, out var trait))

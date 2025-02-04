@@ -2,6 +2,7 @@
 using PeterHan.PLib.Options;
 using SetStartDupes.CarePackageEditor.UI;
 using System;
+using System.Collections.Generic;
 
 namespace SetStartDupes
 {
@@ -71,6 +72,33 @@ namespace SetStartDupes
 		[JsonProperty]
 		[Limit(0, 10)]
 		public int OverridePrinterCarePackageCount { get; set; } = 0;
+
+		[Option("STRINGS.UI.DSS_OPTIONS.FORCEPRINTINGMODEL.NAME", "STRINGS.UI.DSS_OPTIONS.FORCEPRINTINGMODEL.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
+		[JsonProperty]
+		public MinionModelOverride OverridePrintingPodModels { get; set; } = MinionModelOverride.bionic;
+
+		public Tag[] GetViablePrinterModels()
+		{
+			switch (OverridePrintingPodModels)
+			{
+				case MinionModelOverride.normal:
+					return [GameTags.Minions.Models.Standard];
+				case MinionModelOverride.bionic:
+					return [GameTags.Minions.Models.Bionic];
+				case MinionModelOverride.none:
+				default:
+					return GameTags.Minions.Models.AllModels;
+			}
+		}
+		public enum MinionModelOverride
+		{
+			[Option("STRINGS.UI.CHARACTERCONTAINER_ALL_MODELS")]
+			none = 0,
+			[Option("STRINGS.DUPLICANTS.MODEL.STANDARD.NAME")]
+			normal = 1,
+			[Option("STRINGS.DUPLICANTS.MODEL.BIONIC.NAME")]
+			bionic = 2,
+		}
 
 		[Option("STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.NAME", "STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
 		[JsonProperty]

@@ -336,7 +336,11 @@ namespace SetStartDupes
 					public static LocString NAME = "NewGame+";
 					public static LocString TOOLTIP = "Start your game with dupes you sent through the tear in previous playthroughs.";
 				}
-
+				public class FORCEPRINTINGMODEL
+				{
+					public static LocString NAME = "Print only Dupe-Type";
+					public static LocString TOOLTIP = "Force the printing pod to only produce duplicants of the selected type";
+				}
 				public class CAREPACKAGESONLY
 				{
 					public static LocString NAME = "Print Care Packages only";
