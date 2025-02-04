@@ -21,7 +21,7 @@ namespace SetStartDupes.Patches
 		{
 			public static void Postfix(CharacterContainer __instance)
 			{
-				if (__instance.aptitudeEntry.transform.parent.parent.gameObject.TryGetComponent<LayoutElement>(out LayoutElement layoutElement))
+				if (__instance.aptitudeEntry?.transform?.parent?.parent?.gameObject?.TryGetComponent<LayoutElement>(out LayoutElement layoutElement)??false)
 				{
 					/// Remove prev height so additional traits extend the box indstead of going hidden
 					layoutElement.preferredHeight = -1;

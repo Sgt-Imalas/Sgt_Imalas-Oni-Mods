@@ -53,6 +53,7 @@
 		<Copy
 		  SourceFiles="
 			$(TargetDir)$(TargetName).dll;
+			$(TargetDir)$(TargetName).pdb;
 			$(TargetDir)mod.yaml;
 			$(TargetDir)mod_info.yaml;"
 		  
@@ -122,8 +123,7 @@
 			   PubliciseCompilerGenerated="false"/>
 	</Target>
 
-	<!--Creates reference assemblies for CI-->
-	<Target Name="GenerateRefAssemblies" AfterTargets="Clean" Condition="'$(AssemblyName)' == 'CycleComma' and '$(GameLibsFolder)' != '../Lib' ">
+	<Target Name="GenerateRefAssemblies" AfterTargets="Clean" Condition="'$(AssemblyName)' == 'CycleComma' and '$(GameLibsFolder)' != '../Lib' and '$(RefasmerInstalled)' == '0'">
 		<PropertyGroup>
 			<!--Workaround for paths containing spaces, e.g. "Program Files (x86)"-->
 			<!--For some reason, adding the quotes to GameLibsFolder does not work-->
