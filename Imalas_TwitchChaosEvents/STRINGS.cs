@@ -214,6 +214,12 @@ namespace Imalas_TwitchChaosEvents
 				public static LocString TOAST = "Rainbow Rave";
 				public static LocString TOASTTEXT = "All Liquids are throwing a rainbow party!";
 			}
+			public class HAIRLOSS
+			{
+				public static LocString NAME = "Balding";
+				public static LocString TOAST = "Balding Duplicants";
+				public static LocString TOASTTEXT = "All duplicants have lost their hair!";
+			}
 			public class SHART
 			{
 				public static LocString NAME = "Shart";

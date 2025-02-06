@@ -16,13 +16,19 @@ namespace Imalas_TwitchChaosEvents.Events
 
 		public string EventName => STRINGS.CHAOSEVENTS.WEATHERFORECAST.NAME;
 
-		public EventWeight EventWeight => EventWeight.WEIGHT_COMMON;
+		public EventWeight EventWeight => EventWeight.WEIGHT_FREQUENT;
 
 
 		public static List<string> WeatherEvents = new List<string>()
 		{
 			new FogEvent().ID,
 			new TacoRainEvent().ID,
+			//WeatherEvents from ChaosReigns by StuffyDoll:
+			"MagmaRain",
+			"NuclearWasteRain",
+			"ZoologicalMeteors",
+			"WaterBalloonMeteors",
+			"MoltenSlugMeteors"
 		};
 
 		public Action<object> EventAction => (obj) =>
