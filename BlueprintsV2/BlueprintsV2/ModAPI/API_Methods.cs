@@ -300,10 +300,12 @@ namespace BlueprintsV2.ModAPI
 			RegisterAdditionalStorableBuildingData(ID, (GetBlueprintDataDelegate)Delegate.CreateDelegate(typeof(GetBlueprintDataDelegate), GetDataToStore.Method), (SetBlueprintDataDelegate)Delegate.CreateDelegate(typeof(SetBlueprintDataDelegate), ApplyStoredData.Method), OverridePriority);
 		}
 		private static void RegisterVanillaBuildings()
-		{
+		{			
 			RegisterInternally(nameof(Artable), SkinHelper.TryStoreArtableSkin, SkinHelper.TryApplyArtableSkin);
 			RegisterInternally(nameof(BuildingFacade), SkinHelper.TryStoreBuildingSkin, SkinHelper.TryApplyBuildingSkin);
 
+			RegisterInternally(nameof(BuildingEnabledButton), DataTransfer_BuildingEnabledButton.TryGetData, DataTransfer_BuildingEnabledButton.TryApplyData);
+			RegisterInternally(nameof(SingleEntityReceptacle), DataTransfer_SingleEntityReceptacle.TryGetData, DataTransfer_SingleEntityReceptacle.TryApplyData);
 			RegisterInternally(nameof(Filterable), DataTransfer_Filterable.TryGetData, DataTransfer_Filterable.TryApplyData);
 			RegisterInternally(nameof(TreeFilterable), DataTransfer_TreeFilterable.TryGetData, DataTransfer_TreeFilterable.TryApplyData);
 			RegisterInternally(nameof(Valve), DataTransfer_Valve.TryGetData, DataTransfer_Valve.TryApplyData);

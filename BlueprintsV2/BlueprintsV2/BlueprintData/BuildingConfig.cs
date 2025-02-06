@@ -77,6 +77,13 @@ namespace BlueprintsV2.BlueprintData
 		//    });
 		//}
 
+
+
+		public bool IsValid()
+		{
+			return BuildingDef != null;
+		}
+
 		/// <summary>
 		/// Writes the building config to the given JSON writer.
 		/// Doesn't write unnecessary information to save space.
