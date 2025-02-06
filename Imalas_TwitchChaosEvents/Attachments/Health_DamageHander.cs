@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Imalas_TwitchChaosEvents.Attachments
 {
-	internal class Health_DamageHander : KMonoBehaviour, ISim4000ms
+	internal class Health_DamageHander : KMonoBehaviour, ISim1000ms
 	{
 		[MyCmpReq]
 		Health _health;
@@ -14,7 +14,9 @@ namespace Imalas_TwitchChaosEvents.Attachments
 
 		[MyCmpGet]
 		KSelectable selectable;
-		public void Sim4000ms(float dt)
+		[MyCmpGet]
+		KPrefabID kPrefabID;
+		public void Sim1000ms(float dt)
 		{
 			DamageChecker(dt);
 		}
@@ -38,7 +40,7 @@ namespace Imalas_TwitchChaosEvents.Attachments
 				{
 					criticalMass = 0.1f,
 					damagePerSecond = 100f/60f,
-					damagePerSecondSuited= 100f/600f,
+					//damagePerSecondSuited= 100f/600f,
 				}
 			}
 		};
@@ -62,17 +64,24 @@ namespace Imalas_TwitchChaosEvents.Attachments
 			_health.Damage(damage);
 			return damage;
 		}
+		public bool IsMinion()
+		{
+			return kPrefabID.HasTag(GameTags.BaseMinion);
+		}
 
 		public void DamageChecker(float dt)
 		{
 			DamagingMaterial damagingElement = this.DamagingElementSearch();
 			if (damagingElement != null)
 			{
-				DealHealthDamage(damagingElement, dt);
-				this.lastBurnTime = Time.time;
-				selectable.AddStatusItem(status_item, (object)this);
+				DealHealthDamage(damagingElement, dt); 
+				if (IsMinion())
+				{
+					this.lastBurnTime = Time.time;
+					selectable.AddStatusItem(status_item, (object)this);
+				}
 			}
-			else
+			else if(IsMinion())
 			{
 				if (Time.time - lastBurnTime > 5.0)
 					selectable.RemoveStatusItem(status_item, (bool)this);
