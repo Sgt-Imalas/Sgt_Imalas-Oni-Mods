@@ -162,7 +162,7 @@ namespace SetStartDupes.CarePackageEditor
 
 			///Spaced Out:
 
-			///missing ores
+			//uranium ore
 			ExtraCarePackages.Add(CarePackageOutline.ElementCarePackage(SimHashes.UraniumOre, 100).CycleCondition(48).DiscoverCondition().DlcRequired(DlcManager.EXPANSION1_ID));
 			//Bog Bucket
 			ExtraCarePackages.Add(new CarePackageOutline(SwampHarvestPlantConfig.SEED_ID, 3).CycleCondition(24).DiscoverCondition().DlcRequired(DlcManager.EXPANSION1_ID));
@@ -174,7 +174,7 @@ namespace SetStartDupes.CarePackageEditor
 
 			///missing critters
 			//Beetiny
-			ExtraCarePackages.Add(new CarePackageOutline(BabyBeeConfig.ID, 1).DlcRequired(DlcManager.EXPANSION1_ID) //discover either on uranium ore or beetiny finding, but only after cycle 24
+			ExtraCarePackages.Add(new CarePackageOutline(BabyBeeConfig.ID, 1).DlcRequired(DlcManager.EXPANSION1_ID) //discover either on uranium ore or beetiny, but only after cycle 24
 				.CycleCondition(24).DiscoverCondition()
 				.OR()
 				.CycleCondition(24).DiscoverElementCondition(SimHashes.UraniumOre));
