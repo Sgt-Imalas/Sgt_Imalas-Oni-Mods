@@ -5,7 +5,10 @@ namespace BlueprintsV2
 {
 	public enum DefaultSelections
 	{
-		All, None
+		[Option("STRINGS.BLUEPRINTS_CONFIG.DEFAULTMENUSELECTION.DEFAULTMENUSELECTION_ALL")]
+		All,
+		[Option("STRINGS.BLUEPRINTS_CONFIG.DEFAULTMENUSELECTION.DEFAULTMENUSELECTION_NONE")]
+		None
 	}
 
 	[Serializable]
@@ -13,21 +16,19 @@ namespace BlueprintsV2
 	[ConfigFile(SharedConfigLocation: true)]
 	public class Config : SingletonOptions<Config>
 	{
-		[Option("Default Menu Selections", "The default selections made when an advanced filter menu is opened.")]
+		[Option("STRINGS.BLUEPRINTS_CONFIG.DEFAULTMENUSELECTION.TITLE", "STRINGS.BLUEPRINTS_CONFIG.DEFAULTMENUSELECTION.TOOLTIP")]
 		public DefaultSelections DefaultMenuSelections { get; set; } = DefaultSelections.All;
 
-		[Option("Require Constructable", "Whether buildings must be constructable by the player to be used in blueprints.")]
+		[Option("STRINGS.BLUEPRINTS_CONFIG.REQUIRECONSTRUCTABLE.TITLE", "STRINGS.BLUEPRINTS_CONFIG.REQUIRECONSTRUCTABLE.TOOLTIP")]
 		public bool RequireConstructable { get; set; } = true;
 
-		[Option("FX Time", "How long FX created by Blueprints remain on the screen. Measured in seconds.")]
+		[Option("STRINGS.BLUEPRINTS_CONFIG.FXTIME.TITLE", "STRINGS.BLUEPRINTS_CONFIG.FXTIME.TOOLTIP")]
 		public float FXTime { get; set; } = 4;
 
-		[Option("Blueprint Tool Overlay Sync", "Whether the Blueprint Tool syncs with the current overlay. (configurable in game too)")]
+		[Option("STRINGS.BLUEPRINTS_CONFIG.CREATEBLUEPRINTTOOLSYNC.TITLE", "STRINGS.BLUEPRINTS_CONFIG.CREATEBLUEPRINTTOOLSYNC.TOOLTIP")]
 		public bool CreateBlueprintToolSync { get; set; } = true;
 
-		[Option("Snapshot Tool Overlay Sync", "Whether the Snapshot Tool syncs with the current overlay. (configurable in game too)")]
+		[Option("STRINGS.BLUEPRINTS_CONFIG.SNAPSHOTTOOLSYNC.TITLE", "STRINGS.BLUEPRINTS_CONFIG.SNAPSHOTTOOLSYNC.TOOLTIP")]
 		public bool SnapshotToolSync { get; set; } = true;
-		//[Option("Legacy Blueprint Navigation", "Navigate blueprints with the old system (arrow keys) instead of the new UI")]
-		//public bool LegacyNavigation { get; set; } = false;
 	}
 }
