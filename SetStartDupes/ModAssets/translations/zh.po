@@ -11,12 +11,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "Application: Oxygen Not IncludedPOT Version: 2.0\n"
-"X-Generator: Poedit 3.4.4\n"
+"X-Generator: Poedit 3.5\n"
 
 #. SetStartDupes.STRINGS.BIONIC_STRESS_HARDWIRED
 msgctxt "SetStartDupes.STRINGS.BIONIC_STRESS_HARDWIRED"
-msgid "Bionic duplicants have a hardwired stress reaction since they are mostly incompatible with normal stress reactions"
-msgstr "仿生复制体有硬连线的压力反应，因为它们大多与正常的压力反应不兼容"
+msgid ""
+"Bionic duplicants have a hardwired stress reaction since they are mostly "
+"incompatible with normal stress reactions"
+msgstr "仿生复制人有硬连线的压力反应，因为它们大多与正常的压力反应不兼容"
 
 #. SetStartDupes.STRINGS.EXCLUSIVITY_RULE_CONFLICTING
 msgctxt "SetStartDupes.STRINGS.EXCLUSIVITY_RULE_CONFLICTING"
@@ -72,17 +74,17 @@ msgstr "切换到上一个"
 #. SetStartDupes.STRINGS.UI.BUTTONS.DUPELICITYEDITINGBUTTONTOOLTIP
 msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.DUPELICITYEDITINGBUTTONTOOLTIP"
 msgid "Edit Duplicants"
-msgstr "编辑复制体"
+msgstr "编辑复制人"
 
 #. SetStartDupes.STRINGS.UI.BUTTONS.DUPESKINBUTTONTOOLTIP
 msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.DUPESKINBUTTONTOOLTIP"
 msgid "Select Duplicant Personality (Skin)"
-msgstr "选择复制体的个性（外观）"
+msgstr "选择复制人的外观"
 
 #. SetStartDupes.STRINGS.UI.BUTTONS.MODIFYBUTTONTOOLTIP
 msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.MODIFYBUTTONTOOLTIP"
 msgid "Modify Duplicant Stats"
-msgstr "修改复制体属性"
+msgstr "修改复制人属性"
 
 #. SetStartDupes.STRINGS.UI.BUTTONS.MODIFYBUTTONTOOLTIP2
 msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.MODIFYBUTTONTOOLTIP2"
@@ -96,8 +98,8 @@ msgid ""
 "To create a preset from this duplicants stats,\n"
 "click the \"Generate Preset\" button in the preset window."
 msgstr ""
-"打开复制体预设窗口\n"
-"要从这个复制体的属性创建预设，\n"
+"打开复制人预设窗口\n"
+"要从这个复制人的属性创建预设，\n"
 "请在预设窗口中点击\"生成预设\"按钮。"
 
 #. SetStartDupes.STRINGS.UI.BUTTONS.REMOVEFROMSTATS
@@ -110,6 +112,232 @@ msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.REROLLCAREPACKAGE"
 msgid "Reroll for a different Care Package"
 msgstr "重新抽取不同的补给包"
 
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.BUTTONS.CLOSEBUTTON.TEXT
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.BUTTONS.CLOSEBUTTON.TEXT"
+msgid "Return"
+msgstr "返回"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.BUTTONS.CLOSEBUTTON.TOOLTIP
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.BUTTONS.CLOSEBUTTON.TOOLTIP"
+msgid "Close window"
+msgstr "关闭窗口"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.BUTTONS.RESETBUTTON.TEXT
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.BUTTONS.RESETBUTTON.TEXT"
+msgid "Reset All Changes"
+msgstr "重置所有更改"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.BUTTONS.RESETBUTTON.TOOLTIP
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.BUTTONS.RESETBUTTON.TOOLTIP"
+msgid "Reset all changes you have made to the care package selection"
+msgstr "重置你对补给包选择所做的所有更改"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.CREATECAREPACKAGEPOPUP.INVALIDID
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.CREATECAREPACKAGEPOPUP.INVALIDID"
+msgid ""
+"Could not create new care package!\n"
+"\n"
+"There is no item with the Id or name \"{0}\""
+msgstr ""
+"无法创建新补给包！\n"
+"\n"
+"没有ID或名字为\"{0}\"的物品。"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.CREATECAREPACKAGEPOPUP.SUCCESS
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.CREATECAREPACKAGEPOPUP.SUCCESS"
+msgid "Successfully created a new care package with {0}"
+msgstr "已成功使用{0}创建新的补给包"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.CREATECAREPACKAGEPOPUP.TITLE
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.CREATECAREPACKAGEPOPUP.TITLE"
+msgid "Care Package Creation"
+msgstr "补给包创建"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.AMOUNTINPUT.LABEL
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.ITEMINFO."
+"SCROLLAREA.CONTENT.AMOUNTINPUT.LABEL"
+msgid "Amount:"
+msgstr "数量："
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.ITEMDISCOVERED.LABEL
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.ITEMINFO."
+"SCROLLAREA.CONTENT.ITEMDISCOVERED.LABEL"
+msgid "Item Discovered"
+msgstr "物品已发现"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.REQUIREDDLCS.LABEL
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.ITEMINFO."
+"SCROLLAREA.CONTENT.REQUIREDDLCS.LABEL"
+msgid "Required Dlcs:"
+msgstr "需要DLC:"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.UNLOCKATCYCLE.LABEL
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.ITEMINFO."
+"SCROLLAREA.CONTENT.UNLOCKATCYCLE.LABEL"
+msgid "Unlocked at cycle:"
+msgstr "解锁于周期："
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.UNLOCKCONDITIONSLABEL
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.ITEMINFO."
+"SCROLLAREA.CONTENT.UNLOCKCONDITIONSLABEL"
+msgid "Conditions required to unlock:"
+msgstr "解锁所需条件："
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.ADDCAREPACKAGEBTN.TEXT
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST."
+"ADDCAREPACKAGEBTN.TEXT"
+msgid "Add new custom care package"
+msgstr "添加新自定义补给包"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.ADDCAREPACKAGEBTN.TOOLTIP
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST."
+"ADDCAREPACKAGEBTN.TOOLTIP"
+msgid ""
+"Add a new custom care package.\n"
+"Enter the id of the item you want to add in the text field above."
+msgstr ""
+"添加新的补给包选项。\n"
+"在以上文本框输入想要加入的物品ID。"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.CAREPACKAGEITEMID.TEXTAREA.PLACEHOLDER
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST."
+"CAREPACKAGEITEMID.TEXTAREA.PLACEHOLDER"
+msgid "insert new care package item Id or Name (experimental)..."
+msgstr "插入新的补给包项目ID或名称（测试中功能）"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.CAREPACKAGEITEMID.TEXTAREA.TEXT
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST."
+"CAREPACKAGEITEMID.TEXTAREA.TEXT"
+msgid ""
+msgstr ""
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.NONEAVAILABLE.LABEL
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST."
+"SCROLLAREA.CONTENT.NONEAVAILABLE.LABEL"
+msgid "No custom care packages yet"
+msgstr "尚无自定义补给包"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.DELETE_CARE_PACKAGE_TOOLTIP
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST."
+"SCROLLAREA.CONTENT.PRESETENTRYPREFAB.DELETE_CARE_PACKAGE_TOOLTIP"
+msgid "Delete Care Package"
+msgstr "删除补给包"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.SEARCHBAR.CLEARTOOLTIP
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST."
+"SEARCHBAR.CLEARTOOLTIP"
+msgid "Clear search bar"
+msgstr "清除搜索栏"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.SEARCHBAR.INPUT.TEXTAREA.PLACEHOLDER
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST."
+"SEARCHBAR.INPUT.TEXTAREA.PLACEHOLDER"
+msgid "Filter care packages..."
+msgstr "补给包过滤器..."
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.SEARCHBAR.INPUT.TEXTAREA.TEXT
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST."
+"SEARCHBAR.INPUT.TEXTAREA.TEXT"
+msgid ""
+msgstr ""
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.SHOWVANILLA.LABEL
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST."
+"SHOWVANILLA.LABEL"
+msgid "Show Vanilla Care Packages:"
+msgstr "显示原版补给包"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.SHOWVANILLA.TOOLTIP
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST."
+"SHOWVANILLA.TOOLTIP"
+msgid ""
+"Also show vanilla care packages in the list.\n"
+"Note that these cannot be modified."
+msgstr ""
+"同时在列表中显示原版补给包。\n"
+"请注意，这些不能修改。"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.RESETALLPACKAGES.TEXT
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.RESETALLPACKAGES.TEXT"
+msgid ""
+"Are you sure you want to reset all modifications you have done to the care "
+"package selection?"
+msgstr "您确定要重置对补给包选择所做的所有修改吗？"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.RESETALLPACKAGES.TITLE
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.RESETALLPACKAGES.TITLE"
+msgid "Reset Care Packages"
+msgstr "重置补给包"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.TITLE
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.TITLE"
+msgid "Care Package Editor"
+msgstr "补给包编辑器"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNKNOWN_ITEM_TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNKNOWN_ITEM_TOOLTIP"
+msgid ""
+"The item of this care package could not be found in the current game version."
+msgstr "在当前游戏版本中找不到此补给包的项目。"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.ALWAYSAVAILABLE
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS."
+"ALWAYSAVAILABLE"
+msgid "This care package is always unlocked"
+msgstr "永不锁定此补给包"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.AND
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.AND"
+msgid "AND"
+msgstr "并且"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.CYCLETHRESHOLD
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS."
+"CYCLETHRESHOLD"
+msgid "Cycle {0} has been reached"
+msgstr "周期{0}已达成。"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.DISCOVERY
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.DISCOVERY"
+msgid "{0} has been discovered"
+msgstr "{0}已发现。"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.OR
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.OR"
+msgid "OR"
+msgstr "或者"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.START
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.START"
+msgid "This care package unlocks after:"
+msgstr "此补给包解锁于："
+
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.ADDANDREMOVE.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.ADDANDREMOVE.NAME"
 msgid "Add/Remove Interests and Traits"
@@ -121,8 +349,8 @@ msgid ""
 "Allows to add new or remove existing Traits and Interests on Duplicants.\n"
 "Can be overpowered if used excessively."
 msgstr ""
-"允许在复制体上添加新特质和兴趣，或移除现有的特质和兴趣。\n"
-"如果过度使用可能会导致过强。"
+"允许在复制人上添加新特质和兴趣，或移除现有的特质和兴趣。\n"
+"OP功能。"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.ADDVACCILATORTRAITS.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.ADDVACCILATORTRAITS.NAME"
@@ -134,15 +362,30 @@ msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.ADDVACCILATORTRAITS.TOOLTIP"
 msgid "Allows adding Neural-Vaccilator-Traits with the \"Add Trait\" Feature."
 msgstr "允许使用\"添加特质\"功能添加神经振荡器特质。"
 
-#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.BEYONDBIONICS.NAME
-msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.BEYONDBIONICS.NAME"
-msgid "Add normal traits to Bionic Duplicants"
-msgstr "添加常规特质到仿生复制体"
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGEEDITOR.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGEEDITOR.NAME"
+msgid "Open Care Package Editor"
+msgstr "打开补给包编辑器"
 
-#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.BEYONDBIONICS.TOOLTIP
-msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.BEYONDBIONICS.TOOLTIP"
-msgid "When active, allows adding regular traits to bionic duplicants."
-msgstr "启用后，允许给仿生复制体添加常规特质。"
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGEEDITOR.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGEEDITOR.TOOLTIP"
+msgid ""
+"View and modify the different additional care packages or create new ones."
+msgstr "查看和修改不同的附加补给包或创建新的补给包。"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGEMULTIPLIER.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGEMULTIPLIER.NAME"
+msgid "Care Package Multiplier"
+msgstr "补给包乘数"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGEMULTIPLIER.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGEMULTIPLIER.TOOLTIP"
+msgid ""
+"Global multiplier for the amount of item amount inside of care packages.\n"
+"Default is 1."
+msgstr ""
+"补给包内物品数量的总乘数。\n"
+"默认值为1。"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.NAME"
@@ -152,10 +395,12 @@ msgstr "只打印补给包"
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.TOOLTIP
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.TOOLTIP"
 msgid ""
-"When enabled, the printing pod will only give care packages when more than the the configured number of duplicants are alive.\n"
-"Overrides the care package configuration of a save game (no care package difficulty setting is ignored)."
+"When enabled, the printing pod will only give care packages when more than "
+"the the configured number of duplicants are alive.\n"
+"Overrides the care package configuration of a save game (no care package "
+"difficulty setting is ignored)."
 msgstr ""
-"启用后，当活着的复制体数量超过配置数量时，打印舱只会发放补给包。\n"
+"启用后，当活着的复制人数量超过配置数量时，打印舱只会发放补给包。\n"
 "覆盖保存游戏的补给包配置（忽略没有补给包的难度设置）。"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLYDUPECAP.NAME
@@ -167,10 +412,11 @@ msgstr "复制人数达到上限后仅打印补给包"
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLYDUPECAP.TOOLTIP"
 msgid ""
 "Only has an effect if \"Print Care Packages only\" is enabled.\n"
-"While above or at this number of duplicants, the printer will only give care packages."
+"While above or at this number of duplicants, the printer will only give care "
+"packages."
 msgstr ""
 "仅在启用\"复制人数达到上限后仅打印补给包\"选项时才有效\n"
-"当复制体数量达到或超过此数值时，打印机只会发放补给包。"
+"当复制人数量达到或超过此数值时，打印机只会发放补给包。"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLYPACKAGECAP.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLYPACKAGECAP.NAME"
@@ -178,10 +424,11 @@ msgid "Number of care packages for care packages only"
 msgstr "补给包打印数量"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLYPACKAGECAP.TOOLTIP
-msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLYPACKAGECAP.TOOLTIP"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLYPACKAGECAP.TOOLTIP"
 msgid ""
 "Only has an effect if \"Print Care Packages only\" is enabled.\n"
-"Set the number of care packages that generate when the cap is in effect"
+"Set the number of care packages that generate when the cap is in effect."
 msgstr ""
 "仅当启用了\"只打印补给包\"时有效。\n"
 "设置当打印包限制生效时生成的补给包数量"
@@ -211,15 +458,39 @@ msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CATEGORIES.E_UTIL"
 msgid "Extra Settings"
 msgstr "额外设置"
 
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.DIRECTATTRIBUTEEDITING.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.DIRECTATTRIBUTEEDITING.NAME"
+msgid "Direct Attribute Editing"
+msgstr "直接属性编辑"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.DIRECTATTRIBUTEEDITING.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.DIRECTATTRIBUTEEDITING.TOOLTIP"
+msgid ""
+"Allows to directly edit the starting attributes of duplicants.\n"
+"Can be overpowered."
+msgstr ""
+"允许直接编辑复制者的起始属性。\n"
+"OP功能。"
+
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.DUPLICANTSTARTAMOUNT.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.DUPLICANTSTARTAMOUNT.NAME"
 msgid "Number of Starting Duplicants"
-msgstr "起始复制体数量"
+msgstr "起始复制人数量"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.DUPLICANTSTARTAMOUNT.TOOLTIP
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.DUPLICANTSTARTAMOUNT.TOOLTIP"
 msgid "Choose the amount of duplicants you want to start with."
-msgstr "选择你想要开始的复制体数量。"
+msgstr "选择你想要开始的复制人数量。"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.FORCEPRINTINGMODEL.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.FORCEPRINTINGMODEL.NAME"
+msgid "Print only Dupe-Type"
+msgstr ""
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.FORCEPRINTINGMODEL.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.FORCEPRINTINGMODEL.TOOLTIP"
+msgid "Force the printing pod to only produce duplicants of the selected type"
+msgstr ""
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.HERMITSKIN.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.HERMITSKIN.NAME"
@@ -233,7 +504,7 @@ msgid ""
 "once the story trait has been completed atleast once on any savegame."
 msgstr ""
 "完成一次故事任务后\n"
-"隐士外观将加入可选择的外观池。"
+"隐士外观将加入可选择的外观池"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.INTERESTPOINTSBALANCING.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.INTERESTPOINTSBALANCING.NAME"
@@ -243,7 +514,8 @@ msgstr "兴趣点平衡"
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.INTERESTPOINTSBALANCING.TOOLTIP
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.INTERESTPOINTSBALANCING.TOOLTIP"
 msgid ""
-"Use the vanilla interest point bonus for active interests determined by active traits.\n"
+"Use the vanilla interest point bonus for active interests determined by "
+"active traits.\n"
 "Deactivate to override this point limit."
 msgstr ""
 "使用原版兴趣点奖励来确定活跃的兴趣点。\n"
@@ -252,27 +524,29 @@ msgstr ""
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.LIVEDUPESKINCHANGE.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.LIVEDUPESKINCHANGE.NAME"
 msgid "Skins for active Duplicants"
-msgstr "更改活跃复制体的外观"
+msgstr "更改活跃复制人的外观"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.LIVEDUPESKINCHANGE.TOOLTIP
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.LIVEDUPESKINCHANGE.TOOLTIP"
 msgid "Change the Skin of already existing duplicants"
-msgstr "允许更改现有复制体的外观"
+msgstr "允许更改现有复制人的外观"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.LIVEDUPESTATCHANGE.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.LIVEDUPESTATCHANGE.NAME"
 msgid "Enable Duplicity-style Duplicant Editor"
-msgstr "启用复制体编辑器"
+msgstr "启用复制人编辑器"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.LIVEDUPESTATCHANGE.TOOLTIP
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.LIVEDUPESTATCHANGE.TOOLTIP"
-msgid "Edit your active duplicants in a new editor similar to the Duplicity-savegame editor"
-msgstr "在类似于Duplicity存档编辑器的新编辑器中编辑你的活跃复制体"
+msgid ""
+"Edit your active duplicants in a new editor similar to the Duplicity-"
+"savegame editor"
+msgstr "在类似于Duplicity存档编辑器的新编辑器中编辑你的活跃复制人"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME.NAME"
 msgid "Modification of printing pod Duplicants"
-msgstr "打印舱复制体的修改"
+msgstr "打印舱复制人的修改"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME.TOOLTIP
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME.TOOLTIP"
@@ -281,7 +555,7 @@ msgid ""
 "When disabled, the feature only appears on the starter dupe selection.\n"
 "This also enables the use of presets."
 msgstr ""
-"启用此选项以在打印舱复制体中添加修改按钮\n"
+"启用此选项以在打印舱复制人中添加修改按钮\n"
 "当禁用时，该功能仅出现在新游戏开始选择中。\n"
 "这也启用了预设的使用。"
 
@@ -292,7 +566,9 @@ msgstr "额外的补给包类型"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.MORECAREPACKAGES.TOOLTIP
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.MORECAREPACKAGES.TOOLTIP"
-msgid "Adds a number of items to the list of care packages that would otherwise not be obtainable."
+msgid ""
+"Adds a number of items to the list of care packages that would otherwise not "
+"be obtainable."
 msgstr "将一些物品添加到补给包列表中，这些物品否则无法获得。"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.MYSTERIOUSMINIONMODE.NAME
@@ -312,18 +588,30 @@ msgstr "新游戏+"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.NEWGAMEPLUS.TOOLTIP
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.NEWGAMEPLUS.TOOLTIP"
-msgid "Start your game with dupes you sent through the tear in previous playthroughs."
-msgstr "从你在前一次游戏中通过裂隙发送的复制体开始游戏。"
+msgid ""
+"Start your game with dupes you sent through the tear in previous "
+"playthroughs."
+msgstr "从你在前一次游戏中通过裂隙发送的复制人开始游戏。"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.NOJOYREACTION.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.NOJOYREACTION.NAME"
 msgid "Disable Overjoyed Responses"
-msgstr "禁用极度兴奋反应"
+msgstr "禁用喜悦反应"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.NOJOYREACTION.TOOLTIP
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.NOJOYREACTION.TOOLTIP"
 msgid "Deactivates Overjoyed Responses on newly generated duplicants"
-msgstr "使新生成的复制体没有极度兴奋反应"
+msgstr "使新生成的复制人没有喜悦反应"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.NORMALTRAITSONBIONICS.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.NORMALTRAITSONBIONICS.NAME"
+msgid "Allow normal traits on Bionic Duplicants"
+msgstr "允许仿生复制人获得普通特质"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.NORMALTRAITSONBIONICS.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.NORMALTRAITSONBIONICS.TOOLTIP"
+msgid "When active, allows adding regular traits to bionic duplicants."
+msgstr "激活时，允许普通复制人的特质添加到仿生复制人。"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.NOSTRESSREACTION.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.NOSTRESSREACTION.NAME"
@@ -333,7 +621,41 @@ msgstr "禁用压力反应"
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.NOSTRESSREACTION.TOOLTIP
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.NOSTRESSREACTION.TOOLTIP"
 msgid "Deactivates Stress Reactions on newly generated duplicants"
-msgstr "使新生成的复制体没有压力反应"
+msgstr "使新生成的复制人没有压力反应"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.OVERRIDEPRINTERCAREPACKAGECOUNT.NAME
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DSS_OPTIONS.OVERRIDEPRINTERCAREPACKAGECOUNT.NAME"
+msgid "Override printing pod care package count"
+msgstr "覆盖打印舱补给包计数"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.OVERRIDEPRINTERCAREPACKAGECOUNT.TOOLTIP
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DSS_OPTIONS.OVERRIDEPRINTERCAREPACKAGECOUNT.TOOLTIP"
+msgid ""
+"Override the number of care packages offered in the printing pod.\n"
+"A value of 0 or lower disables this feature.\n"
+"Disabling care packages in the difficulty settings disables this feature.\n"
+"No effect if care packages only mode is active."
+msgstr ""
+"覆盖打印舱中提供的补给包数量。\n"
+"值为0或更低将禁用此功能。\n"
+"在难度设置中禁用补给包会禁用此功能。\n"
+"如果仅补给包模式处于活动状态，则不起作用。"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.OVERRIDEPRINTERDUPECOUNT.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.OVERRIDEPRINTERDUPECOUNT.NAME"
+msgid "Override printing pod dupe count"
+msgstr "覆盖打印舱复制人计数"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.OVERRIDEPRINTERDUPECOUNT.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.OVERRIDEPRINTERDUPECOUNT.TOOLTIP"
+msgid ""
+"Override the number of duplicants offered in the printing pod.\n"
+"A value of 0 or lower disables this feature."
+msgstr ""
+"覆盖打印舱中提供的复制人数量。\n"
+"值为0或更低时禁用此功能"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.PAUSEONREADYTOPRING.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.PAUSEONREADYTOPRING.NAME"
@@ -343,7 +665,7 @@ msgstr "在\"准备打印\"时暂停"
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.PAUSEONREADYTOPRING.TOOLTIP
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.PAUSEONREADYTOPRING.TOOLTIP"
 msgid "Pause the game when the printing pod has recharged for a new print"
-msgstr "当打印舱为下一次打印充能完毕时暂停游戏"
+msgstr "打印舱为下一次打印充能完毕时暂停游戏"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.PRINTINGPODRECHARGETIME.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.PRINTINGPODRECHARGETIME.NAME"
@@ -353,19 +675,22 @@ msgstr "打印舱冷却时间"
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.PRINTINGPODRECHARGETIME.TOOLTIP
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.PRINTINGPODRECHARGETIME.TOOLTIP"
 msgid ""
-"Time it takes for the printing pod to recharge for the next print in cycles.\n"
+"Time it takes for the printing pod to recharge for the next print in "
+"cycles.\n"
 "Default is 3 cycles."
 msgstr ""
 "打印舱为下次打印充能所需的时间，以周期计。\n"
 "默认是3个周期。"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.PRINTINGPODRECHARGETIMEFIRST.NAME
-msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.PRINTINGPODRECHARGETIMEFIRST.NAME"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DSS_OPTIONS.PRINTINGPODRECHARGETIMEFIRST.NAME"
 msgid "First print time"
 msgstr "首次打印时间"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.PRINTINGPODRECHARGETIMEFIRST.TOOLTIP
-msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.PRINTINGPODRECHARGETIMEFIRST.TOOLTIP"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DSS_OPTIONS.PRINTINGPODRECHARGETIMEFIRST.TOOLTIP"
 msgid ""
 "Time after the printing pod offers its first print, in cycles.\n"
 "Default is 2.5 cycles."
@@ -382,10 +707,11 @@ msgstr "隐士/冷冻仓修改"
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLCRYOPODANDJORGE.TOOLTIP"
 msgid ""
 "Allows modifying of the Hermit and Cryopod Duplicants.\n"
-"\"Ancient Knowledge\"-Trait no longer takes the slot of a positive trait during generation of these duplicants."
+"\"Ancient Knowledge\"-Trait no longer takes the slot of a positive trait "
+"during generation of these duplicants."
 msgstr ""
-"允许修改隐士和冷冻仓复制体。\n"
-"在生成这些复制体时，\"远古知识\"特质不再占用正面特质槽。"
+"允许修改隐士和冷冻仓复制人。\n"
+"在生成这些复制人时，\"远古知识\"特质不再占用正面特质槽。"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME.NAME"
@@ -395,10 +721,12 @@ msgstr "重新随机打印舱"
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME.TOOLTIP
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME.TOOLTIP"
 msgid ""
-"Enable this option to add the reroll button to printing pod Duplicants and care packages.\n"
-"Care Packages allow selecting from all currently available package configurations."
+"Enable this option to add the reroll button to printing pod Duplicants and "
+"care packages.\n"
+"Care Packages allow selecting from all currently available package "
+"configurations."
 msgstr ""
-"启用此选项可在打印舱复制体和补给包中添加重新随机按钮。\n"
+"启用此选项可在打印舱复制人和补给包中添加重新随机按钮。\n"
 "补给包允许从所有当前可用的配置中选择。"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.SKINSDOREACTS.NAME
@@ -408,8 +736,22 @@ msgstr "外观包含反应"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.SKINSDOREACTS.TOOLTIP
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.SKINSDOREACTS.TOOLTIP"
-msgid "When applying a skin, the inherited overjoyed response and stress reaction get applied in addition to the skin."
-msgstr "在应用外观时，继承的极度兴奋反应和压力反应也会一同应用。"
+msgid ""
+"When applying a skin, the inherited overjoyed response and stress reaction "
+"get applied in addition to the skin."
+msgstr "在应用外观时，继承的喜悦反应和压力反应也会一同应用。"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.SORTEDPRINTINGPOD.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.SORTEDPRINTINGPOD.NAME"
+msgid "Sorted Printing Pod"
+msgstr "排序打印舱"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.SORTEDPRINTINGPOD.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.SORTEDPRINTINGPOD.TOOLTIP"
+msgid ""
+"Printing pod entries are sorted by their type, dupes come first, then care "
+"packages."
+msgstr "打印舱条目按类型排序，复制人排在第一位，然后是补给包。"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.STARTUPRESOURCES.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.STARTUPRESOURCES.NAME"
@@ -423,9 +765,9 @@ msgid ""
 "Only goes in effect with more than 3 dupes.\n"
 "Only accounts for extra dupes above 3."
 msgstr ""
-"为你的额外复制体添加一些起始资源。\n"
-"仅在超过3个复制体时生效。\n"
-"仅计算超过3个的额外复制体。"
+"为你的额外复制人添加一些起始资源。\n"
+"仅在超过3个复制人时生效。\n"
+"仅计算超过3个的额外复制人。"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.SUPPORTEDDAYS.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.SUPPORTEDDAYS.NAME"
@@ -444,7 +786,7 @@ msgstr ""
 #. SetStartDupes.STRINGS.UI.DUPEEDITING.CATEGORIES.HEADER.LABEL
 msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.CATEGORIES.HEADER.LABEL"
 msgid "Duplicants"
-msgstr "复制体"
+msgstr "复制人"
 
 #. SetStartDupes.STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.APPLYCHANGES
 msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.APPLYCHANGES"
@@ -457,7 +799,8 @@ msgid "Cancel"
 msgstr "取消"
 
 #. SetStartDupes.STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.DISCARDCHANGES
-msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.DISCARDCHANGES"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.DISCARDCHANGES"
 msgid "Discard changes"
 msgstr "放弃更改"
 
@@ -476,168 +819,225 @@ msgid "Unsaved Changes"
 msgstr "未保存的更改"
 
 #. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.EFFECTS.DYNAMIC_EFFECT_TOOLTIP
-msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.EFFECTS.DYNAMIC_EFFECT_TOOLTIP"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER."
+"EFFECTS.DYNAMIC_EFFECT_TOOLTIP"
 msgid ""
-"This effect has been created dynamically by the game without registering as a resource.\n"
+"This effect has been created dynamically by the game without registering as "
+"a resource.\n"
 "Thus you won't be able to readd it from the list if you decide to remove it."
 msgstr ""
 "这个效果是由游戏动态生成的，没有注册为资源。\n"
 "因此，如果你决定删除它，就不能从列表中重新添加。"
 
 #. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.EFFECTS.EFFECT
-msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.EFFECTS.EFFECT"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER."
+"EFFECTS.EFFECT"
 msgid "Effect"
 msgstr "效果"
 
 #. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.EFFECTS.TIMEREMAINING
-msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.EFFECTS.TIMEREMAINING"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER."
+"EFFECTS.TIMEREMAINING"
 msgid "Remaining time in seconds | Remove Effect"
 msgstr "剩余时间（秒） | 移除效果"
 
 #. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.NEWBUTTONPREFAB.LABEL
-msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.NEWBUTTONPREFAB.LABEL"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER."
+"NEWBUTTONPREFAB.LABEL"
 msgid "Add new effect"
 msgstr "添加新效果"
 
 #. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.NEWBUTTONPREFAB.TOOLTIP
-msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.NEWBUTTONPREFAB.TOOLTIP"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER."
+"NEWBUTTONPREFAB.TOOLTIP"
 msgid "Choose another effect to add to the duplicant"
-msgstr "选择一个新的效果添加到复制体"
+msgstr "选择一个新的效果添加到复制人"
 
 #. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.SKILLS.EXPERIENCE
-msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.SKILLS.EXPERIENCE"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER."
+"SKILLS.EXPERIENCE"
 msgid "Experience:"
 msgstr "经验："
 
 #. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.SKILLS.MASTERY
-msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.SKILLS.MASTERY"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER."
+"SKILLS.MASTERY"
 msgid "Mastered"
 msgstr "掌握"
 
 #. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.SKILLS.SKILL
-msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.SKILLS.SKILL"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER."
+"SKILLS.SKILL"
 msgid "Skill"
 msgstr "技能"
 
 #. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.TRAITINTERESTCONTAINER.CONTENT.GRP2.ADDINTERESTBUTTON.TEXT
-msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.TRAITINTERESTCONTAINER.CONTENT.GRP2.ADDINTERESTBUTTON.TEXT"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER."
+"TRAITINTERESTCONTAINER.CONTENT.GRP2.ADDINTERESTBUTTON.TEXT"
 msgid "Add new interest"
 msgstr "添加新兴趣"
 
 #. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.TRAITINTERESTCONTAINER.CONTENT.GRP2.ADDINTERESTBUTTON.TOOLTIP
-msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.TRAITINTERESTCONTAINER.CONTENT.GRP2.ADDINTERESTBUTTON.TOOLTIP"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER."
+"TRAITINTERESTCONTAINER.CONTENT.GRP2.ADDINTERESTBUTTON.TOOLTIP"
 msgid "Choose another interest to add to the duplicant"
-msgstr "选择一个新的兴趣添加到复制体"
+msgstr "选择一个新的兴趣添加到复制人"
 
 #. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.TRAITINTERESTCONTAINER.CONTENT.GRP2.ADDTRAITBUTTON.TEXT
-msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.TRAITINTERESTCONTAINER.CONTENT.GRP2.ADDTRAITBUTTON.TEXT"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER."
+"TRAITINTERESTCONTAINER.CONTENT.GRP2.ADDTRAITBUTTON.TEXT"
 msgid "Add new trait"
 msgstr "添加新特质"
 
 #. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.TRAITINTERESTCONTAINER.CONTENT.GRP2.ADDTRAITBUTTON.TOOLTIP
-msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.TRAITINTERESTCONTAINER.CONTENT.GRP2.ADDTRAITBUTTON.TOOLTIP"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER."
+"TRAITINTERESTCONTAINER.CONTENT.GRP2.ADDTRAITBUTTON.TOOLTIP"
 msgid "Choose another trait to add to the duplicant"
-msgstr "选择另一个特质添加到复制体"
+msgstr "选择另一个特质添加到复制人"
 
 #. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.TRAITINTERESTCONTAINER.DESCRIPTOR.INTERESTLABEL
-msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.TRAITINTERESTCONTAINER.DESCRIPTOR.INTERESTLABEL"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER."
+"TRAITINTERESTCONTAINER.DESCRIPTOR.INTERESTLABEL"
 msgid "Interests:"
 msgstr "兴趣："
 
 #. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.TRAITINTERESTCONTAINER.DESCRIPTOR.TRAITLABEL
-msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.TRAITINTERESTCONTAINER.DESCRIPTOR.TRAITLABEL"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER."
+"TRAITINTERESTCONTAINER.DESCRIPTOR.TRAITLABEL"
 msgid "Traits:"
 msgstr "特质："
 
 #. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS.EXITBUTTON.TEXT
-msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS.EXITBUTTON.TEXT"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS.EXITBUTTON.TEXT"
 msgid "Exit"
 msgstr "退出"
 
 #. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS.EXITBUTTON.TOOLTIP
-msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS.EXITBUTTON.TOOLTIP"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS.EXITBUTTON."
+"TOOLTIP"
 msgid ""
 msgstr ""
 
 #. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS.RESETBUTTON.TEXT
-msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS.RESETBUTTON.TEXT"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS.RESETBUTTON.TEXT"
 msgid "Reset Changes"
 msgstr "重置更改"
 
 #. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS.RESETBUTTON.TOOLTIP
-msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS.RESETBUTTON.TOOLTIP"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS.RESETBUTTON."
+"TOOLTIP"
 msgid ""
 msgstr ""
 
 #. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS.SAVECHANGESBUTTON.TEXT
-msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS.SAVECHANGESBUTTON.TEXT"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS."
+"SAVECHANGESBUTTON.TEXT"
 msgid "Save Changes"
 msgstr "保存更改"
 
 #. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS.SAVECHANGESBUTTON.TOOLTIP
-msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS.SAVECHANGESBUTTON.TOOLTIP"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS."
+"SAVECHANGESBUTTON.TOOLTIP"
 msgid ""
 msgstr ""
 
 #. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.APPEARANCEBUTTON.TEXT
-msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.APPEARANCEBUTTON.TEXT"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.APPEARANCEBUTTON."
+"TEXT"
 msgid "Appearance"
 msgstr "外观"
 
 #. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.APPEARANCEBUTTON.TOOLTIP
-msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.APPEARANCEBUTTON.TOOLTIP"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.APPEARANCEBUTTON."
+"TOOLTIP"
 msgid ""
 msgstr ""
 
 #. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.ATTRIBUTEBUTTON.TEXT
-msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.ATTRIBUTEBUTTON.TEXT"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.ATTRIBUTEBUTTON."
+"TEXT"
 msgid "Attributes"
 msgstr "属性"
 
 #. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.ATTRIBUTEBUTTON.TOOLTIP
-msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.ATTRIBUTEBUTTON.TOOLTIP"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.ATTRIBUTEBUTTON."
+"TOOLTIP"
 msgid ""
 msgstr ""
 
 #. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.EFFECTSBUTTON.TEXT
-msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.EFFECTSBUTTON.TEXT"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.EFFECTSBUTTON."
+"TEXT"
 msgid "Effects"
 msgstr "效果"
 
 #. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.EFFECTSBUTTON.TOOLTIP
-msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.EFFECTSBUTTON.TOOLTIP"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.EFFECTSBUTTON."
+"TOOLTIP"
 msgid ""
 msgstr ""
 
 #. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.HEALTHBUTTON.TEXT
-msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.HEALTHBUTTON.TEXT"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.HEALTHBUTTON.TEXT"
 msgid "Health"
 msgstr "健康"
 
 #. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.HEALTHBUTTON.TOOLTIP
-msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.HEALTHBUTTON.TOOLTIP"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.HEALTHBUTTON."
+"TOOLTIP"
 msgid ""
 msgstr ""
 
 #. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.SKILLSBUTTON.TEXT
-msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.SKILLSBUTTON.TEXT"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.SKILLSBUTTON.TEXT"
 msgid "Skills"
 msgstr "技能"
 
 #. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.SKILLSBUTTON.TOOLTIP
-msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.SKILLSBUTTON.TOOLTIP"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.SKILLSBUTTON."
+"TOOLTIP"
 msgid ""
 msgstr ""
 
 #. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.LABEL
 msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.LABEL"
 msgid "Duplicants"
-msgstr "复制体"
+msgstr "复制人"
 
 #. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.LABEL_FILLED
 msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.LABEL_FILLED"
 msgid "Selected Duplicant: {0}"
-msgstr "选定的复制体：{0}"
+msgstr "选定的复制人：{0}"
 
 #. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY
 msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY"
@@ -656,18 +1056,19 @@ msgstr ""
 #. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_BALANCED
 msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_BALANCED"
 msgid "<b>balanced</b>"
-msgstr "<b>平衡的</b>"
+msgstr "平衡"
 
 #. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_STRONGER
 msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_STRONGER"
 msgid "<b>stronger</b>"
-msgstr "<b>更强的</b>"
+msgstr "更强"
 
 #. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_TOOLTIP
 msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_TOOLTIP"
 msgid ""
 "The current trait composition is {0}.\n"
-"The trait balance value is {1}, for vanilla balancing it's usually between {2} and {3}\n"
+"The trait balance value is {1}, for vanilla balancing it's usually between "
+"{2} and {3}\n"
 "Balance Composition:"
 msgstr ""
 "当前特质组合是 {0}。\n"
@@ -678,15 +1079,17 @@ msgstr ""
 msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_TOOLTIP_SIMPLE"
 msgid ""
 "The current trait balance value is {0}.\n"
-"Values above 0 indicate a trait balance favouring positive traits (overall stronger duplicant),\n"
-"values below 0 indicate a trait balance favouring negative traits (overall weaker duplicant).\n"
+"Values above 0 indicate a trait balance favouring positive traits (overall "
+"stronger duplicant),\n"
+"values below 0 indicate a trait balance favouring negative traits (overall "
+"weaker duplicant).\n"
 "This is purely informational and does not limit your ability to edit traits\n"
 "\n"
 "Balance Composition:"
 msgstr ""
 "当前特质平衡值是 {0}。\n"
-"值大于 0 表示特质平衡偏向正面特质（总体上更强的复制体），\n"
-"值小于 0 表示特质平衡偏向负面特质（总体上更弱的复制体）。\n"
+"值大于 0 表示特质平衡偏向正面特质（总体上更强的复制人），\n"
+"值小于 0 表示特质平衡偏向负面特质（总体上更弱的复制人）。\n"
 "这纯粹是信息性，不限制你编辑特质的能力\n"
 "\n"
 "平衡组成："
@@ -694,7 +1097,7 @@ msgstr ""
 #. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_WEAKER
 msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_WEAKER"
 msgid "<b>weaker</b>"
-msgstr "<b>更弱的</b>"
+msgstr "更弱"
 
 #. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.CONFIGBALANCINGDISABLED
 msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.CONFIGBALANCINGDISABLED"
@@ -734,7 +1137,7 @@ msgstr "<b>稀有</b>"
 #. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAIT_RARITY_UNCOMMON
 msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAIT_RARITY_UNCOMMON"
 msgid "<b>Uncommon</b>"
-msgstr "<b>不常见</b>"
+msgstr "<b>罕见</b>"
 
 #. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAIT_RARITYLEVEL
 msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAIT_RARITYLEVEL"
@@ -762,16 +1165,20 @@ msgid ""
 "This Duplicant has {0} total interest bonus points\n"
 "These come from the following trait boni:"
 msgstr ""
-"这个复制体有 {0} 个总兴趣奖励点\n"
+"这个复制人有 {0} 个总兴趣奖励点\n"
 "这些来自以下特质奖励:"
 
 #. SetStartDupes.STRINGS.UI.DUPESKILLSPOPUP.SCROLLAREA.CONTENT.NOSKILLSAVAILABLE.LABEL
-msgctxt "SetStartDupes.STRINGS.UI.DUPESKILLSPOPUP.SCROLLAREA.CONTENT.NOSKILLSAVAILABLE.LABEL"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DUPESKILLSPOPUP.SCROLLAREA.CONTENT."
+"NOSKILLSAVAILABLE.LABEL"
 msgid "No items available."
 msgstr "无可用项目。"
 
 #. SetStartDupes.STRINGS.UI.DUPESKILLSPOPUP.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.SWITCHIN.TEXT
-msgctxt "SetStartDupes.STRINGS.UI.DUPESKILLSPOPUP.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.SWITCHIN.TEXT"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DUPESKILLSPOPUP.SCROLLAREA.CONTENT."
+"PRESETENTRYPREFAB.SWITCHIN.TEXT"
 msgid "Select this"
 msgstr "选择这个"
 
@@ -787,8 +1194,10 @@ msgstr "添加插槽"
 
 #. SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.ADDDUPETOOLTIP
 msgctxt "SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.ADDDUPETOOLTIP"
-msgid "Add an additional duplicant slot, increasing your total starting duplicant count by 1."
-msgstr "添加一个额外的复制体插槽，总起始复制体数量增加 1。"
+msgid ""
+"Add an additional duplicant slot, increasing your total starting duplicant "
+"count by 1."
+msgstr "添加一个额外的复制人插槽，总起始复制人数量增加 1。"
 
 #. SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.GUARANTEETRAIT
 msgctxt "SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.GUARANTEETRAIT"
@@ -800,13 +1209,15 @@ msgstr ""
 "与兴趣选择器结合使用。"
 
 #. SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.LOCKPERSONALITY_TOOLTIP
-msgctxt "SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.LOCKPERSONALITY_TOOLTIP"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.LOCKPERSONALITY_TOOLTIP"
 msgid ""
 "Lock the current personality for rolls.\n"
-"While locked, all duplicants rolled will automatically have the locked personality."
+"While locked, all duplicants rolled will automatically have the locked "
+"personality."
 msgstr ""
 "锁定当前的性格以供随机。\n"
-"锁定后，所有随机的复制体将自动具有锁定的性格。"
+"锁定后，所有随机的复制人将自动具有锁定的性格。"
 
 #. SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.PRINTINGPOD_SELECT
 msgctxt "SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.PRINTINGPOD_SELECT"
@@ -824,18 +1235,25 @@ msgstr "移除插槽"
 
 #. SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.REMOVEDUPETOOLTIP
 msgctxt "SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.REMOVEDUPETOOLTIP"
-msgid "Remove this duplicant slot, reducing your total starting duplicant count by 1."
-msgstr "移除此复制体插槽，总起始复制体数量减少 1。"
+msgid ""
+"Remove this duplicant slot, reducing your total starting duplicant count by "
+"1."
+msgstr "移除此复制人插槽，总起始复制人数量减少 1。"
+
+#. SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.ROLLWITHTRAIT_LABEL
+msgctxt "SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.ROLLWITHTRAIT_LABEL"
+msgid "REROLL WITH TRAIT"
+msgstr "以特质重新随机"
 
 #. SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.SELECTYOURCREW
 msgctxt "SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.SELECTYOURCREW"
 msgid "CHOOSE YOUR DUPLICANTS TO BEGIN"
-msgstr "选择你的复制体以开始"
+msgstr "选择你的复制人以开始"
 
 #. SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.SELECTYOURLONECREWMAN
 msgctxt "SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.SELECTYOURLONECREWMAN"
 msgid "CHOOSE YOUR LONE DUPLICANT TO BEGIN"
-msgstr "选择你的单独复制体开始"
+msgstr "选择你的单独复制人开始"
 
 #. SetStartDupes.STRINGS.UI.PRESETWINDOW.DELETEWINDOW.CANCEL
 msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.DELETEWINDOW.CANCEL"
@@ -848,8 +1266,8 @@ msgid ""
 "You are about to delete the stat preset \"{0}\".\n"
 "Do you want to continue?"
 msgstr ""
-"你即将删除属性预设 \"{0}\"。\n"
-"你想继续吗？"
+"您将要删除属性预设 \"{0}\"。\n"
+"是否要继续？"
 
 #. SetStartDupes.STRINGS.UI.PRESETWINDOW.DELETEWINDOW.TITLE
 msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.DELETEWINDOW.TITLE"
@@ -862,37 +1280,53 @@ msgid "Confirm Deletion"
 msgstr "确认删除"
 
 #. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.APPLYPRESETBUTTON.TEXT
-msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.APPLYPRESETBUTTON.TEXT"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS."
+"APPLYPRESETBUTTON.TEXT"
 msgid "Apply Preset"
 msgstr "应用预设"
 
 #. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.APPLYPRESETBUTTON.TOOLTIP
-msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.APPLYPRESETBUTTON.TOOLTIP"
-msgid "Apply the currenly displayed stats to the Duplicant this window was opened from."
-msgstr "将当前显示的属性应用到打开此窗口的复制体。"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS."
+"APPLYPRESETBUTTON.TOOLTIP"
+msgid ""
+"Apply the currenly displayed stats to the Duplicant this window was opened "
+"from."
+msgstr "将当前显示的属性应用到打开此窗口的复制人。"
 
 #. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.APPLYPRESETBUTTON.TOOLTIPCREW
-msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.APPLYPRESETBUTTON.TOOLTIPCREW"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS."
+"APPLYPRESETBUTTON.TOOLTIPCREW"
 msgid "Load the Crew Preset thats currently displayed in the preview"
 msgstr "加载当前预览显示的团队预设"
 
 #. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.CLOSEBUTTON.TEXT
-msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.CLOSEBUTTON.TEXT"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS."
+"CLOSEBUTTON.TEXT"
 msgid "Return"
 msgstr "返回"
 
 #. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.CLOSEBUTTON.TOOLTIP
-msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.CLOSEBUTTON.TOOLTIP"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS."
+"CLOSEBUTTON.TOOLTIP"
 msgid "Close preset window"
 msgstr "关闭预设窗口"
 
 #. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TEXT
-msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TEXT"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS."
+"GENERATEFROMCURRENT.TEXT"
 msgid "Generate Preset"
 msgstr "生成预设"
 
 #. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TOOLTIP
-msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TOOLTIP"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS."
+"GENERATEFROMCURRENT.TOOLTIP"
 msgid ""
 "Generate and store a new preset from the currenly displayed values.\n"
 "Only has an effect if the preset doesn't exist yet"
@@ -901,47 +1335,79 @@ msgstr ""
 "仅当预设不存在时有效"
 
 #. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.CHECKBOXES.NAMEOVERRIDE.LABEL
-msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.CHECKBOXES.NAMEOVERRIDE.LABEL"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.CHECKBOXES."
+"NAMEOVERRIDE.LABEL"
 msgid "Preset overrides Name"
 msgstr "预设覆盖名称"
 
 #. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.CHECKBOXES.NAMEOVERRIDE.TOOLTIP
-msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.CHECKBOXES.NAMEOVERRIDE.TOOLTIP"
-msgid "If enabled, applying presets to duplicants also sets their name to that of the preset"
-msgstr "如果启用，将预设应用于复制体时也会将它们的名称设置为预设的名称"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.CHECKBOXES."
+"NAMEOVERRIDE.TOOLTIP"
+msgid ""
+"If enabled, applying presets to duplicants also sets their name to that of "
+"the preset"
+msgstr "如果启用，将预设应用于复制人时也会将它们的名称设置为预设的名称"
 
 #. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.CHECKBOXES.REACTIONOVERRIDE.LABEL
-msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.CHECKBOXES.REACTIONOVERRIDE.LABEL"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.CHECKBOXES."
+"REACTIONOVERRIDE.LABEL"
 msgid "Preset overrides Reactions"
 msgstr "预设覆盖反应"
 
 #. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.CHECKBOXES.REACTIONOVERRIDE.TOOLTIP
-msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.CHECKBOXES.REACTIONOVERRIDE.TOOLTIP"
-msgid "If enabled, applying presets to duplicants also overrides their inherited stress reaction and overjoyed response."
-msgstr "如果启用，将预设应用于复制体时也会覆盖它们继承的压力反应和极度兴奋反应。"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.CHECKBOXES."
+"REACTIONOVERRIDE.TOOLTIP"
+msgid ""
+"If enabled, applying presets to duplicants also overrides their inherited "
+"stress reaction and overjoyed response."
+msgstr ""
+"如果启用，将预设应用于复制人时也会覆盖它们继承的压力反应和极度兴奋反应。"
 
 #. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.NOPRESETSAVAILABLE.LABEL
-msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.NOPRESETSAVAILABLE.LABEL"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA."
+"CONTENT.NOPRESETSAVAILABLE.LABEL"
 msgid "No presets available."
 msgstr "无可用预设。"
 
 #. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.ADDTHISTRAITBUTTON.TEXT
-msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.ADDTHISTRAITBUTTON.TEXT"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA."
+"CONTENT.PRESETENTRYPREFAB.ADDTHISTRAITBUTTON.TEXT"
 msgid "Load Preset"
 msgstr "加载预设"
 
 #. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.DELETEPRESETTOOLTIP
-msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.DELETEPRESETTOOLTIP"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA."
+"CONTENT.PRESETENTRYPREFAB.DELETEPRESETTOOLTIP"
 msgid "Delete Preset"
 msgstr "删除预设"
 
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.IMPORTEDPRESET
+msgctxt ""
+"SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA."
+"CONTENT.PRESETENTRYPREFAB.IMPORTEDPRESET"
+msgid ""
+"This crew preset was imported from your old dgsm presets, it cannot be "
+"modified directly."
+msgstr "此团队预设是从您的旧DGSM预设中导入的，不能直接修改。"
+
 #. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.INVALIDMODELTOOLTIP
-msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.INVALIDMODELTOOLTIP"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA."
+"CONTENT.PRESETENTRYPREFAB.INVALIDMODELTOOLTIP"
 msgid "Preset not compatible with current duplicant model!"
-msgstr "预设与当前复制体模型不兼容！"
+msgstr "预设与当前复制人模型不兼容！"
 
 #. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.RENAMEPRESETTOOLTIP
-msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.RENAMEPRESETTOOLTIP"
+msgctxt ""
+"SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA."
+"CONTENT.PRESETENTRYPREFAB.RENAMEPRESETTOOLTIP"
 msgid "Rename Preset"
 msgstr "重命名预设"
 
@@ -958,7 +1424,7 @@ msgstr "团队预设"
 #. SetStartDupes.STRINGS.UI.STARTAGAIN.SIDESCREEN_TEXT
 msgctxt "SetStartDupes.STRINGS.UI.STARTAGAIN.SIDESCREEN_TEXT"
 msgid "Reselect start duplicants"
-msgstr "重新选择起始复制体"
+msgstr "重新选择起始复制人"
 
 #. SetStartDupes.STRINGS.UI.STARTAGAIN.SIDESCREEN_TOOLTIP
 msgctxt "SetStartDupes.STRINGS.UI.STARTAGAIN.SIDESCREEN_TOOLTIP"
