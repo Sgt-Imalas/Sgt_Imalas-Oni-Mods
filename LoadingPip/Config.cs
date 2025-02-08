@@ -3,6 +3,7 @@ using PeterHan.PLib.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -19,11 +20,15 @@ namespace LoadingPip
 		[Option("STRINGS.MODOPTIONS.LOADINGICON.NAME", "STRINGS.MODOPTIONS.LOADINGICON.TOOLTIP")]
 		[JsonProperty]
 		public string LoadingIdPrefabId { get; set; } = "Squirrel";
+		[Option("STRINGS.MODOPTIONS.LOADINGICON.NAME", "STRINGS.MODOPTIONS.LOADINGICON.TOOLTIP")]
+		[JsonProperty]
+		public bool RandomizedCritters { get; set; } = false;
 
 		[Option("STRINGS.MODOPTIONS.PRIMALASPID.NAME", "STRINGS.MODOPTIONS.PRIMALASPID.TOOLTIP")]
 		[JsonIgnore]
 		public System.Action<object> BUTTON_PRIMALASPID => (_) =>
 		{
+			RandomizedCritters = false;
 			LoadingIdPrefabId = "Primal Aspid";
 			POptions.WriteSettings(this);
 		};
@@ -39,17 +44,27 @@ namespace LoadingPip
 
 		public Tuple<Sprite,Color> GetTargetIcon()
 		{
-			if(SpecialIcons.TryGetValue(LoadingIdPrefabId, out var specialIcon) && Assets.GetSprite(specialIcon))
+			if (SpecialIcons.TryGetValue(LoadingIdPrefabId, out var specialIcon) && Assets.GetSprite(specialIcon))
 			{
 				SgtLogger.l("getting special icon: " + LoadingIdPrefabId);
 				return new(Assets.GetSprite(specialIcon), Color.white);
-			}			
-
+			}	
 
 			var prefab = Assets.GetPrefab(LoadingIdPrefabId);
+
+			if (RandomizedCritters)
+			{
+				List<GameObject> critters = new(Assets.GetPrefabsWithTag(GameTags.CreatureBrain));				
+                if (critters.Any())
+				{
+					SgtLogger.l("randomized critters active, picking a random critter entity");
+					prefab = critters.GetRandom();
+                }
+            }
+
 			if (prefab != null && Def.GetUISprite(prefab) != null) //is a valid prefab
 			{
-				SgtLogger.l("fetching image from id: "+LoadingIdPrefabId);
+				SgtLogger.l("fetching image from: "+ prefab.GetProperName());
 				return Def.GetUISprite(prefab);
 			}
 
