@@ -338,8 +338,8 @@ namespace SetStartDupes
 				}
 				public class FORCEPRINTINGMODEL
 				{
-					public static LocString NAME = "Print only Dupe-Type";
-					public static LocString TOOLTIP = "Force the printing pod to only produce duplicants of the selected type";
+					public static LocString NAME = "Print only specific duplicant models";
+					public static LocString TOOLTIP = "Force the printing pod to only produce duplicants of the selected model";
 				}
 				public class CAREPACKAGESONLY
 				{

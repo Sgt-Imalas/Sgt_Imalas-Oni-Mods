@@ -82,7 +82,7 @@ namespace SetStartDupes.DuplicityEditing
 						{
 							stats.StressTraitId = traitId;
 						}
-						else
+						else if(traitId != DUPLICANTSTATS.INVALID_TRAIT_VAL.id)
 							stats.Traits.Add(traitId);
 					}
 				}

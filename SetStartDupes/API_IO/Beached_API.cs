@@ -7,11 +7,9 @@ using UtilLibs;
 
 namespace Beached_ModAPI
 {
-
-	[HarmonyPatch(typeof(Db), nameof(Db.Initialize))]
-	static class InitBeachedAPI
+	public static class Beached_API
 	{
-		public static void Postfix()
+		public static void InitBeachedAPI()
 		{
 			if (Beached_API.TryInitialize())
 			{
@@ -23,9 +21,7 @@ namespace Beached_ModAPI
 				CrashMitigationPatches.FixBionicCrash.ExecutePatch(Mod.harmonyInstance);
 			}
 		}
-	}
-	public static class Beached_API
-	{
+
 		public delegate List<string> GetPossibleLifegoalTraitsDelegate(string category, bool logWarning);
 
 		/// <summary>

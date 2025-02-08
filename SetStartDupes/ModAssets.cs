@@ -414,7 +414,7 @@ namespace SetStartDupes
 
 		public static Color[] Rarities = new Color[]
 		{
-			UIUtils.rgb(127, 127, 127), //Trash, grey
+			UIUtils.rgb(127, 127, 127), //not available, grey
             Color.white, //Common
             UIUtils.rgb(30, 255, 0), //uncommon, green
             UIUtils.rgb(0, 112, 221), //rare, blue
@@ -554,12 +554,18 @@ namespace SetStartDupes
 		}
 		public static bool TraitAllowedInCurrentDLC(DUPLICANTSTATS.TraitVal trait)
 		{
-			if (trait.id == DUPLICANTSTATS.INVALID_TRAIT_VAL.id)
+			if (IsInvalidTrait(trait.id))
 				return false;
 
-			return string.IsNullOrEmpty(trait.dlcId) || DlcManager.IsDlcListValidForCurrentContent(new string[] { trait.dlcId });
+			return string.IsNullOrEmpty(trait.dlcId) || DlcManager.IsDlcListValidForCurrentContent( [trait.dlcId]);
 		}
-
+		public static bool IsInvalidTrait(string id)
+		{
+			id = id.ToLowerInvariant();
+			return id == "none" || id == "invalid";
+		}
+		public static bool IsInvalidTrait(DUPLICANTSTATS.TraitVal trait) => IsInvalidTrait(trait.id);
+		public static bool IsInvalidTrait(Trait trait) => IsInvalidTrait(trait.Id);
 		public static class Colors
 		{
 			public static Color gold = UIUtils.Darken(Util.ColorFromHex("ffdb6e"), 40);
@@ -860,7 +866,7 @@ namespace SetStartDupes
 		}
 
 		/// <summary>
-		/// removes dgsm to prevent crashes and incompatibilities
+		/// disables dgsm to prevent crashes and incompatibilities
 		/// </summary>
 		/// <param name="mods"></param>
 		internal static void RemoveCrashingIncompatibility(IReadOnlyList<KMod.Mod> mods)

@@ -75,7 +75,7 @@ namespace SetStartDupes
 
 		[Option("STRINGS.UI.DSS_OPTIONS.FORCEPRINTINGMODEL.NAME", "STRINGS.UI.DSS_OPTIONS.FORCEPRINTINGMODEL.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
 		[JsonProperty]
-		public MinionModelOverride OverridePrintingPodModels { get; set; } = MinionModelOverride.normal;
+		public MinionModelOverride OverridePrintingPodModels { get; set; } = MinionModelOverride.none;
 
 		public Tag[] GetViablePrinterModels()
 		{

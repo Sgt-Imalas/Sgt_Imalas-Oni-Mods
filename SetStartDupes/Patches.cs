@@ -227,21 +227,25 @@ namespace SetStartDupes
 		[HarmonyPatch(typeof(MinionStartingStats), nameof(MinionStartingStats.GenerateStats))]
 		public class RecalculateStatBoni
 		{
+			public static void Prefix(MinionStartingStats __instance)
+			{
+				if (ModAssets.ToShufflePersonality == null)
+				{
+					return;
+				}
+				__instance.personality = ModAssets.ToShufflePersonality;
+				ModAssets.ToShufflePersonality = null;
+			}
+
 			[HarmonyPriority(Priority.LowerThanNormal)]
 
 			public static void Postfix(MinionStartingStats __instance)
 			{
 				if (ModAssets.DupeTraitManagers.ContainsKey(__instance))
 					ModAssets.DupeTraitManagers[__instance].RecalculateAll();
-				//else
-				//SgtLogger.warning("no mng for " + __instance + " found!");
+				else
+				SgtLogger.warning("no mng for " + __instance + " found!");
 
-				if (ModAssets.ToShufflePersonality == null)
-				{
-					return;
-				}
-				ModAssets.ApplySkinFromPersonality(ToShufflePersonality, __instance, true);
-				ModAssets.ToShufflePersonality = null;
 			}
 		}
 

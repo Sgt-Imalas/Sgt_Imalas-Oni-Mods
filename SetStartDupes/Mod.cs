@@ -90,7 +90,6 @@ namespace SetStartDupes
 			CompatibilityNotifications.FlagLoggingPrevention(mods);
             CompatibilityNotifications.CheckAndAddIncompatibles("RePrint", "Duplicant Stat Selector", "Reprint");
             ModAssets.RemoveCrashingIncompatibility(mods);
-            //CheckAndAddIncompatibles(".Mod.WGSM", "WGSM");
         }
     }
 }

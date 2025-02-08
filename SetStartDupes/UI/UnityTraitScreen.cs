@@ -202,6 +202,11 @@ namespace SetStartDupes
 
         private void ChoseThis(Trait trait)
         {
+            if(currentStatManager == null)
+            {
+                SgtLogger.error("stat manager was null, cannot apply trait");
+			}
+
             switch (TraitCategory)
             {
                 case NextType.geneShufflerTrait:

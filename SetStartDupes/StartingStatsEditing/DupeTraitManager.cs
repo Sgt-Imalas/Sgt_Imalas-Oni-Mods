@@ -471,7 +471,7 @@ namespace SetStartDupes
 			}
 			else
 			{
-				if (ModAssets.IsMinionBaseTrait(trait.Id))
+				if (ModAssets.IsMinionBaseTrait(trait.Id)||ModAssets.IsInvalidTrait(trait))
 					return;
 
 				var type = ModAssets.GetTraitListOfTrait(trait.Id);
@@ -928,8 +928,8 @@ namespace SetStartDupes
 		}
 		public void RedoStatpointBonus(Trait trait)
 		{
-			ModAssets.GetTraitListOfTrait(trait.Id, out var list);
-			SgtLogger.l(trait.Name + ": " + list);
+			var nextType = ModAssets.GetTraitListOfTrait(trait.Id, out var list);
+			SgtLogger.l(trait.Name + ": " + nextType);
 			if (list == null)
 				return;
 
