@@ -135,7 +135,7 @@ namespace SetStartDupes
 
 			//old imports
 
-			var ToImportDirectory = new DirectoryInfo(Path.Combine(IO_Utils.ConfigFolder, "1838445101", "presets")); //steam version of that thing
+			var ToImportDirectory = new DirectoryInfo(Path.Combine(IO_Utils.ConfigsFolder, "1838445101", "presets")); //steam version of that thing
 			if (ToImportDirectory.Exists)
 			{
 				var toImport = ToImportDirectory.GetFiles();

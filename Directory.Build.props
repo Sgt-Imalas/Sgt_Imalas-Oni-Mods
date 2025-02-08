@@ -44,12 +44,6 @@
 		<AssemblyFirstpassPublicized>$(SolutionDir)/PublicisedAssembly/Assembly-CSharp-firstpass_public.dll</AssemblyFirstpassPublicized>
 	</PropertyGroup>
 
-	<ItemGroup Condition="'$(GenerateMetadata)' == 'true' ">
-		<PackageReference Include="Cairath.ONIMetadataFileGenerator" Version="1.0.0">
-			<ExcludeAssets>runtime</ExcludeAssets>
-		</PackageReference>
-	</ItemGroup>
-
 	<ItemGroup>
 		<Reference Include="Assembly-CSharp">
 			<!--Publicized version, run "Clean" on the 1_CycleComma project once to generate this-->

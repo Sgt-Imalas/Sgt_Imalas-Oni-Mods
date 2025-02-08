@@ -49,7 +49,6 @@ namespace SetStartDupes
 
             SgtLogger.log("Current Config Settings:");
             UtilMethods.ListAllPropertyValues(Config.Instance);
-
             SgtLogger.LogVersion(this, harmony);
             base.OnLoad(harmony);
 

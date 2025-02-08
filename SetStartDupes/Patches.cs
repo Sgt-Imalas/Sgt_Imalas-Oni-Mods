@@ -1464,6 +1464,8 @@ namespace SetStartDupes
 				bool is_starter = __instance.controller is MinionSelectScreen;
 
 				bool AllowModification = Config.Instance.ModifyDuringGame || (EditingSingleDupe && Config.Instance.JorgeAndCryopodDupes);
+				
+				bool modelDropdownEnabled = __instance.modelDropDown.transform.parent.gameObject.activeInHierarchy;
 
 				if (!is_starter && __instance.controller is ImmigrantScreen i && i.Telepad != null)
 				{
@@ -1529,7 +1531,6 @@ namespace SetStartDupes
 				};
 
 				UIUtils.AddActionToButton(skinBtn.transform, "", () => DupeSkinScreenAddon.ShowSkinScreen(__instance));
-				bool modelDropdownEnabled = __instance.modelDropDown.transform.parent.gameObject.activeInHierarchy;
 
 				if (is_starter || AllowModification)
 				{
@@ -1619,10 +1620,10 @@ namespace SetStartDupes
 				if (is_starter)
 				{
 					GameObject removeSlotButton = Util.KInstantiateUI(__instance.reshuffleButton.gameObject, __instance.reshuffleButton.transform.parent.gameObject, true);
-					removeSlotButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, -84, 40f);
-					removeSlotButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 0, 60f);
+					removeSlotButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, modelDropdownEnabled?-84:-42, 40f);
+					removeSlotButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 0, 80f);
 					var text = removeSlotButton.transform.Find("Text");
-					text.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 2, 58f);
+					text.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 2, 76f);
 					//text.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal,58);
 
 
@@ -1681,7 +1682,7 @@ namespace SetStartDupes
 							ele.ignoreLayout = true;
 						}
 
-						rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, modelDropdownEnabled ? 80 : 0, 40f);
+						rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 80, 40f);
 						rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, -44f, 40f);
 						UIUtils.AddSimpleTooltipToObject(lockPersonalityButton.transform, MODDEDIMMIGRANTSCREEN.LOCKPERSONALITY_TOOLTIP);
 

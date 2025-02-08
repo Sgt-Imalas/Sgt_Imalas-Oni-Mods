@@ -43,20 +43,20 @@ namespace _1LineCrasher
 		//	}
 		//}
 
-		[HarmonyPatch(typeof(SubworldZoneRenderData), nameof(SubworldZoneRenderData.GenerateTexture))]
-		public class SubworldZoneRenderData_GenerateTexture_Patch
-		{
-			public static void Prefix(SubworldZoneRenderData __instance)
-			{
+		//[HarmonyPatch(typeof(SubworldZoneRenderData), nameof(SubworldZoneRenderData.GenerateTexture))]
+		//public class SubworldZoneRenderData_GenerateTexture_Patch
+		//{
+		//	public static void Prefix(SubworldZoneRenderData __instance)
+		//	{
 
-				Debug.Log("Making the entire grid space exposure");
-				WorldDetailSave clusterDetailSave = SaveLoader.Instance.clusterDetailSave;
-				for(int i = 0; i < clusterDetailSave.overworldCells.Count; ++i)
-				{
-					clusterDetailSave.overworldCells[i].zoneType = ProcGen.SubWorld.ZoneType.Space;
-				}
-			}
-		}
+		//		Debug.Log("Making the entire grid space exposure");
+		//		WorldDetailSave clusterDetailSave = SaveLoader.Instance.clusterDetailSave;
+		//		for(int i = 0; i < clusterDetailSave.overworldCells.Count; ++i)
+		//		{
+		//			clusterDetailSave.overworldCells[i].zoneType = ProcGen.SubWorld.ZoneType.Space;
+		//		}
+		//	}
+		//}
 
 		//[HarmonyPatch(typeof(CodexEntryGenerator))]
 		//[HarmonyPatch(nameof(CodexEntryGenerator.PopulateCategoryEntries))]

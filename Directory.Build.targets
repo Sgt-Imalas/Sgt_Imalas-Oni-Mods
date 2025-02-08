@@ -2,19 +2,20 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<!--Generates the mod yaml files in the output folder-->
-	<Target Name="GenerateYAML" BeforeTargets="Build" Condition="'$(GenerateMetadata)' == 'true'">
-		<GenerateMetadataFiles
-			OutputPath="$(TargetDir)"
-
-			Title="$(ModName)"
-			Description="$(ModDescription)"
-			StaticID="$(AssemblyName)"      
-			
-			SupportedContent="$(SupportedContent)"
-			MinimumSupportedBuild="$(MinimumSupportedBuild)"
-			Version="$(FileVersion)"
-			APIVersion="$(APIVersion)"
-        />
+	<Target Name="GenerateYAML" BeforeTargets="Build">
+		<WriteLinesToFile
+			File="$(TargetDir)/mod.yaml"
+			Lines="title: $(ModName)
+description: $(ModDescription)
+staticID: $(AssemblyName)"
+			Overwrite="true"/>
+		<WriteLinesToFile
+		  File="$(TargetDir)/mod_info.yaml"
+		  Lines="supportedContent: $(SupportedContent)
+minimumSupportedBuild: $(TargetGameVersion)
+version: $(Version)
+APIVersion: 2"
+		  Overwrite="true"/>
 	</Target>
 
 	<!--Merges all dlls in the output folder into a single dll-->
@@ -66,22 +67,22 @@
 		<Message Text="Copied build files" Importance="High" />
 
 	</Target>
-	
+
 	<!--Create archive version-->
 	<Target Name="CopyModToArchive" AfterTargets="ILRepack" Condition="'$(AssemblyName)' != 'UtilLibs' and '$(AssemblyName)' != 'Util_TwitchIntegrationLib' and '$(GameLibsFolder)' != '../Lib'">
 
 		<Message Text="Creating archive release.." Importance="High"/>
-		
+
 		<PropertyGroup>
 			<CleanedModName>$(ModName.Replace('"','').Replace(";","").Replace(":",""))</CleanedModName>
 			<ArchiveTargetFolder>$(SolutionDir)Releases\$(CleanedModName)\$(CleanedModName)__$(Version)__$(MinimumSupportedBuild)\</ArchiveTargetFolder>
 		</PropertyGroup>
-			
+
 		<ItemGroup>
 			<ModAssets Include="$(TargetDir)\ModAssets\**\*.*" />
 		</ItemGroup>
-		
-		<MakeDir Directories="$(ArchiveTargetFolder)"/>		
+
+		<MakeDir Directories="$(ArchiveTargetFolder)"/>
 		<Message Text="Archive Target: $(ArchiveTargetFolder)" Importance="High"></Message>
 
 
@@ -95,7 +96,7 @@
 
 		<Message Text="Copy ModAssets to $(ArchiveTargetFolder)" Importance="High"></Message>
 
-		<Copy SourceFiles="@(ModAssets)" DestinationFolder="$(ArchiveTargetFolder)\%(RecursiveDir)" SkipUnchangedFiles="false" /> 
+		<Copy SourceFiles="@(ModAssets)" DestinationFolder="$(ArchiveTargetFolder)\%(RecursiveDir)" SkipUnchangedFiles="false" />
 
 		<Message Text="Copied archive files" Importance="High" />
 
