@@ -485,12 +485,12 @@ msgstr "选择你想要开始的复制人数量。"
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.FORCEPRINTINGMODEL.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.FORCEPRINTINGMODEL.NAME"
 msgid "Print only Dupe-Type"
-msgstr ""
+msgstr "仅打印自选范围的复制人蓝图"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.FORCEPRINTINGMODEL.TOOLTIP
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.FORCEPRINTINGMODEL.TOOLTIP"
 msgid "Force the printing pod to only produce duplicants of the selected type"
-msgstr ""
+msgstr "让打印舱只生成已选择的复制人蓝图。"
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.HERMITSKIN.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.HERMITSKIN.NAME"
