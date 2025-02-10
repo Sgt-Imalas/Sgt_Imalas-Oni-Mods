@@ -15,11 +15,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: Set SHORT_COMMIT environment variable
-      shell: pwsh
-      run: |
-        $SHORT_COMMIT = git rev-parse --short HEAD
-        echo "SHORT_COMMIT=$SHORT_COMMIT" >> $env:GITHUB_ENV
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v2
     
