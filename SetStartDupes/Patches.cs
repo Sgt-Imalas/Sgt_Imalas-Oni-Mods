@@ -1,4 +1,5 @@
 ﻿using Database;
+using FMOD;
 using HarmonyLib;
 using Klei.AI;
 using SetStartDupes.DuplicityEditing;
@@ -62,43 +63,6 @@ namespace SetStartDupes
 		[HarmonyPatch(nameof(Traits.OnSpawn))]
 		public class FixDupesWithoutDupeTrait
 		{
-			public static void Prefix(Traits __instance)
-			{
-				///if someone in the beta added a bionic exclusive overjoyed trait that is now missing anims because the dlc is not owned
-				if (!DlcManager.IsContentSubscribed(DlcManager.DLC3_ID))
-				{
-					string replacementJoyReaction = DUPLICANTSTATS.JOYTRAITS.Where(traitVal => DlcManager.IsContentSubscribed(traitVal.dlcId)).GetRandom().id;
-
-					if (__instance.TryGetComponent<MinionIdentity>(out var identity))
-					{
-						var personality = Db.Get().Personalities.Get(identity.personalityResourceId);
-						if (personality != null)
-						{
-							replacementJoyReaction = personality.joyTrait;
-						}
-					}
-
-					if (__instance.TraitIds.Contains("FlashMobber"))
-					{
-						SgtLogger.l("fixing unowned joyreaction: FlashMobber");
-						__instance.TraitIds.Remove("FlashMobber");
-						if (!__instance.TraitIds.Contains(replacementJoyReaction))
-						{
-							__instance.TraitIds.Add(replacementJoyReaction);
-						}
-
-					}
-					if (__instance.TraitIds.Contains("RoboDancer"))
-					{
-						SgtLogger.l("fixing unowned joyreaction: RoboDancer");
-						__instance.TraitIds.Remove("RoboDancer");
-						if (!__instance.TraitIds.Contains(replacementJoyReaction))
-						{
-							__instance.TraitIds.Add(replacementJoyReaction);
-						}
-					}
-				}
-			}
 			public static void Postfix(Traits __instance)
 			{
 				if (__instance.HasTrait("StickerBomber")
@@ -244,7 +208,7 @@ namespace SetStartDupes
 				if (ModAssets.DupeTraitManagers.ContainsKey(__instance))
 					ModAssets.DupeTraitManagers[__instance].RecalculateAll();
 				else
-				SgtLogger.warning("no mng for " + __instance + " found!");
+					SgtLogger.warning("no mng for " + __instance + " found!");
 
 			}
 		}
@@ -293,7 +257,7 @@ namespace SetStartDupes
 			static GameObject Spacer = null;
 			static GameObject SpacerTall = null;
 
-			static void ToggleSpacer(ImmigrantScreen __instance,bool on)
+			static void ToggleSpacer(ImmigrantScreen __instance, bool on)
 			{
 				bool tall = !EditingSingleDupe;
 				if (Spacer == null)
@@ -1048,7 +1012,7 @@ namespace SetStartDupes
 				var m_Postfix = AccessTools.Method(typeof(CharacterSelectionController_InitializeContainers_Patch), "Postfix");
 
 				harmony.Patch(m_TargetMethod, new HarmonyMethod(m_Prefix),
-				    new HarmonyMethod(m_Postfix),
+					new HarmonyMethod(m_Postfix),
 					new HarmonyMethod(m_Transpiler));
 			}
 
@@ -1464,20 +1428,20 @@ namespace SetStartDupes
 				bool is_starter = __instance.controller is MinionSelectScreen;
 
 				bool AllowModification = Config.Instance.ModifyDuringGame || (EditingSingleDupe && Config.Instance.JorgeAndCryopodDupes);
-				
+
 				bool modelDropdownEnabled = __instance.modelDropDown.transform.parent.gameObject.activeInHierarchy;
 
 				if (!is_starter && __instance.controller is ImmigrantScreen i && i.Telepad != null)
 				{
 					var overrideModels = Config.Instance.GetViablePrinterModels();
 					var personalitiesWithViableModels = Db.Get().Personalities.GetAll(true, false).FindAll((Personality personality) => overrideModels.Contains(personality.model));
-					if(personalitiesWithViableModels.Any())
+					if (personalitiesWithViableModels.Any())
 					{
 						if (!EditingSingleDupe)
 						{
 							SgtLogger.l("overriding minionmodels to " + Config.Instance.OverridePrintingPodModels);
 							__instance.permittedModels = overrideModels.ToList();
-							if(overrideModels.Length == 1 && __instance.selectedModelIcon.gameObject.activeInHierarchy)
+							if (overrideModels.Length == 1 && __instance.selectedModelIcon.gameObject.activeInHierarchy)
 							{
 								if (overrideModels[0] == GameTags.Minions.Models.Standard)
 									__instance.selectedModelIcon.sprite = Assets.GetSprite("ui_duplicant_minion_selection");
@@ -1620,7 +1584,7 @@ namespace SetStartDupes
 				if (is_starter)
 				{
 					GameObject removeSlotButton = Util.KInstantiateUI(__instance.reshuffleButton.gameObject, __instance.reshuffleButton.transform.parent.gameObject, true);
-					removeSlotButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, modelDropdownEnabled?-84:-42, 40f);
+					removeSlotButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, modelDropdownEnabled ? -84 : -42, 40f);
 					removeSlotButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 0, 80f);
 					var text = removeSlotButton.transform.Find("Text");
 					text.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 2, 76f);
@@ -2026,7 +1990,7 @@ namespace SetStartDupes
 		{
 			public static MinionStartingStats GenerateWithGuaranteedSkill(List<Tag> permittedModels, bool is_starter_minion, string guaranteedAptitudeID = null, string guaranteedTraitID = null, bool isDebugMinion = false, CharacterContainer __instance = null)
 			{
-				
+
 				SgtLogger.l($"generating new MinionStartingStats; types: {string.Concat(permittedModels)}, isStarter: {is_starter_minion}, guaranteed aptitude: {guaranteedAptitudeID ?? "none"}, isDebugMinion: {isDebugMinion}, guaranteed trait: {guaranteedTraitID ?? "none"} ");
 				if (__instance != null
 					&& UnityTraitRerollingScreen.GuaranteedTraitRoll.TryGetValue(__instance, out var trait))
