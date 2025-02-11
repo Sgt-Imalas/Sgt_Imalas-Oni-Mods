@@ -49,7 +49,7 @@ namespace UtilLibs.ModVersionCheck
 		/// PLib registry key for download path, Dictionary<string,string> with staticModD as key and direct download link as value
 		/// </summary>
 		//public const string ModDownloadFetchPathsKey = "Sgt_Imalas_ModDownloadFetchPathsKey";
-		public const int CurrentVersion = 8;
+		public const int CurrentVersion = 9;
 
 		public static bool OlderVersion => CurrentVersion < (PRegistry.GetData<int>(VersionCheckerVersion));
 
@@ -65,34 +65,33 @@ namespace UtilLibs.ModVersionCheck
 			if (currentMaxVersion < CurrentVersion)
 				PRegistry.PutData(VersionCheckerVersion, CurrentVersion);
 
-			if (!userMod.mod.IsDev)
+			if (userMod.mod.IsDev)
 			{
-				return;
-			}
-			///if dev mod; write to version file
-			try
-			{
-				var filepath = Path.Combine(IO_Utils.ConfigFolder, Dev_File_Local);
-
-				IO_Utils.ReadFromFile<JsonURLVersionChecker.ModVersions>(filepath, out var item);
-				if (item == null)
-					item = new JsonURLVersionChecker.ModVersions();
-
-				var versionData = new ModVersion
+				///if dev mod; write to version file
+				var filepath = Path.Combine(IO_Utils.ConfigsFolder, Dev_File_Local);
+				SgtLogger.l("version data filepath: " + filepath);
+				try
 				{
-					staticID = userMod.mod.staticID,
-					version = userMod.mod.packagedModInfo.version
-				};
+					IO_Utils.ReadFromFile<JsonURLVersionChecker.ModVersions>(filepath, out var item);
+					if (item == null)
+						item = new JsonURLVersionChecker.ModVersions();
+
+					var versionData = new ModVersion
+					{
+						staticID = userMod.mod.staticID,
+						version = userMod.mod.packagedModInfo.version
+					};
 
 
-				item.mods.RemoveAll(mod => mod.staticID == versionData.staticID);
+					item.mods.RemoveAll(mod => mod.staticID == versionData.staticID);
 
-				item.mods.Add(versionData);
-				IO_Utils.WriteToFile<JsonURLVersionChecker.ModVersions>(item, filepath);
-			}
-			catch (Exception ex)
-			{
-				SgtLogger.l(ex.Message);
+					item.mods.Add(versionData);
+					IO_Utils.WriteToFile<JsonURLVersionChecker.ModVersions>(item, filepath);
+				}
+				catch (Exception ex)
+				{
+					SgtLogger.l(ex.Message);
+				}
 			}
 		}
 		public static void HandleVersionChecking(KMod.UserMod2 userMod, Harmony harmony)

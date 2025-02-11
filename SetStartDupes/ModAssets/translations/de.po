@@ -116,6 +116,235 @@ msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.REROLLCAREPACKAGE"
 msgid "Reroll for a different Care Package"
 msgstr "Ein neues Hilfspaket würfeln"
 
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.BUTTONS.CLOSEBUTTON.TEXT
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.BUTTONS.CLOSEBUTTON.TEXT"
+msgid "Return"
+msgstr "Zurück"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.BUTTONS.CLOSEBUTTON.TOOLTIP
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.BUTTONS.CLOSEBUTTON.TOOLTIP"
+msgid "Close window"
+msgstr "Fenster schließen"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.BUTTONS.RESETBUTTON.TEXT
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.BUTTONS.RESETBUTTON.TEXT"
+msgid "Reset All Changes"
+msgstr "Alle Änderungen zurücksetzen"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.BUTTONS.RESETBUTTON.TOOLTIP
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.BUTTONS.RESETBUTTON.TOOLTIP"
+msgid "Reset all changes you have made to the care package selection"
+msgstr "Setze alle Hilfspaket-Änderungen auf den Standardwert zurück"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.CREATECAREPACKAGEPOPUP.INVALIDID
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.CREATECAREPACKAGEPOPUP.INVALIDID"
+msgid ""
+"Could not create new care package!\n"
+"\n"
+"There is no item with the Id or name \"{0}\""
+msgstr ""
+"Hilfspaket konnte nicht erstellt werden!\n"
+"\n"
+"Es gibt keinen Gegenstand mit der ID oder dem Namen \"{0}\""
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.CREATECAREPACKAGEPOPUP.SUCCESS
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.CREATECAREPACKAGEPOPUP.SUCCESS"
+msgid "Successfully created a new care package with {0}"
+msgstr "Ein neues Hilfspaket mit {0} wurde erfolgreich erstellt"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.CREATECAREPACKAGEPOPUP.TITLE
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.CREATECAREPACKAGEPOPUP.TITLE"
+msgid "Care Package Creation"
+msgstr "Hilfspaketerstellung"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.AMOUNTINPUT.LABEL
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.ITEMINFO."
+"SCROLLAREA.CONTENT.AMOUNTINPUT.LABEL"
+msgid "Amount:"
+msgstr "Menge:"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.ITEMDISCOVERED.LABEL
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.ITEMINFO."
+"SCROLLAREA.CONTENT.ITEMDISCOVERED.LABEL"
+msgid "Item Discovered"
+msgstr "Gegenstand entdeckt"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.REQUIREDDLCS.LABEL
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.ITEMINFO."
+"SCROLLAREA.CONTENT.REQUIREDDLCS.LABEL"
+msgid "Required Dlcs:"
+msgstr "Benötigte DLCs:"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.UNLOCKATCYCLE.LABEL
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.ITEMINFO."
+"SCROLLAREA.CONTENT.UNLOCKATCYCLE.LABEL"
+msgid "Unlocked at cycle:"
+msgstr "Freischaltung nach Zyklus:"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.UNLOCKCONDITIONSLABEL
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.ITEMINFO."
+"SCROLLAREA.CONTENT.UNLOCKCONDITIONSLABEL"
+msgid "Conditions required to unlock:"
+msgstr "Freischaltungsbedingungen:"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.ADDCAREPACKAGEBTN.TEXT
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST."
+"ADDCAREPACKAGEBTN.TEXT"
+msgid "Add new custom care package"
+msgstr "Neues Hilfspaket hinzufügen"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.ADDCAREPACKAGEBTN.TOOLTIP
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST."
+"ADDCAREPACKAGEBTN.TOOLTIP"
+msgid ""
+"Add a new custom care package.\n"
+"Enter the id of the item you want to add in the text field above."
+msgstr ""
+"Erstelle ein neues Hilfspaket.\n"
+"Gib die ID des Gegenstandes im Textfeld über dem Knopf ein."
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.CAREPACKAGEITEMID.TEXTAREA.PLACEHOLDER
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST."
+"CAREPACKAGEITEMID.TEXTAREA.PLACEHOLDER"
+msgid "insert new care package item Id or Name (experimental)..."
+msgstr "Hilfspaketgegenstand-ID oder Namen (experimentell) eingeben..."
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.CAREPACKAGEITEMID.TEXTAREA.TEXT
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST."
+"CAREPACKAGEITEMID.TEXTAREA.TEXT"
+msgid ""
+msgstr ""
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.NONEAVAILABLE.LABEL
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST."
+"SCROLLAREA.CONTENT.NONEAVAILABLE.LABEL"
+msgid "No custom care packages yet"
+msgstr "Noch keine eigenen Hilfspakete erstellt"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.DELETE_CARE_PACKAGE_TOOLTIP
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST."
+"SCROLLAREA.CONTENT.PRESETENTRYPREFAB.DELETE_CARE_PACKAGE_TOOLTIP"
+msgid "Delete Care Package"
+msgstr "Hilfspaket löschen"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.SEARCHBAR.CLEARTOOLTIP
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST."
+"SEARCHBAR.CLEARTOOLTIP"
+msgid "Clear search bar"
+msgstr "Suchleiste leeren"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.SEARCHBAR.INPUT.TEXTAREA.PLACEHOLDER
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST."
+"SEARCHBAR.INPUT.TEXTAREA.PLACEHOLDER"
+msgid "Filter care packages..."
+msgstr "Hilfspakete filtern..."
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.SEARCHBAR.INPUT.TEXTAREA.TEXT
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST."
+"SEARCHBAR.INPUT.TEXTAREA.TEXT"
+msgid ""
+msgstr ""
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.SHOWVANILLA.LABEL
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST."
+"SHOWVANILLA.LABEL"
+msgid "Show Vanilla Care Packages:"
+msgstr "Vanilla-Hilfspakete anzeigen:"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.SHOWVANILLA.TOOLTIP
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST."
+"SHOWVANILLA.TOOLTIP"
+msgid ""
+"Also show vanilla care packages in the list.\n"
+"Note that these cannot be modified."
+msgstr ""
+"Zeigt Vanilla-Hilfspakete in der Liste an.\n"
+"Diese können nicht bearbeitet werden."
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.RESETALLPACKAGES.TEXT
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.RESETALLPACKAGES.TEXT"
+msgid ""
+"Are you sure you want to reset all modifications you have done to the care "
+"package selection?"
+msgstr ""
+"Bist du sicher dass du alle Änderungen an den Hilfspaketen zurücksetzen "
+"willst?"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.RESETALLPACKAGES.TITLE
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.RESETALLPACKAGES.TITLE"
+msgid "Reset Care Packages"
+msgstr "Hilfspakete zurücksetzen"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.TITLE
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.TITLE"
+msgid "Care Package Editor"
+msgstr "Hilfspaket-Editor"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNKNOWN_ITEM_TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNKNOWN_ITEM_TOOLTIP"
+msgid ""
+"The item of this care package could not be found in the current game version."
+msgstr ""
+"Dieser Gegenstand konnte in der aktuellen Spielversion nicht gefunden werden."
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.ALWAYSAVAILABLE
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS."
+"ALWAYSAVAILABLE"
+msgid "This care package is always unlocked"
+msgstr "Dieses Hilfspaket ist immer freigeschaltet"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.AND
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.AND"
+msgid "AND"
+msgstr "UND"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.CYCLETHRESHOLD
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS."
+"CYCLETHRESHOLD"
+msgid "Cycle {0} has been reached"
+msgstr "Zyklus {0} erreicht wurde"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.DISCOVERY
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.DISCOVERY"
+msgid "{0} has been discovered"
+msgstr "{0} gefunden wurde"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.OR
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.OR"
+msgid "OR"
+msgstr "ODER"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.START
+msgctxt ""
+"SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.START"
+msgid "This care package unlocks after:"
+msgstr "Dieses Hilfspaket wird verfügbar, nachdem:"
+
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.ADDANDREMOVE.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.ADDANDREMOVE.NAME"
 msgid "Add/Remove Interests and Traits"
@@ -141,17 +370,31 @@ msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.ADDVACCILATORTRAITS.TOOLTIP"
 msgid "Allows adding Neural-Vaccilator-Traits with the \"Add Trait\" Feature."
 msgstr "Erlaubt, Duplikanten Neural-Oszillator-Eigenschaften zu geben."
 
-#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.BEYONDBIONICS.NAME
-msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.BEYONDBIONICS.NAME"
-msgid "Add normal traits to Bionic Duplicants"
-msgstr "Normale Eigenschaften für Bionische Duplikanten"
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGEEDITOR.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGEEDITOR.NAME"
+msgid "Open Care Package Editor"
+msgstr "Hilfspaket-Editor öffnen"
 
-#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.BEYONDBIONICS.TOOLTIP
-msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.BEYONDBIONICS.TOOLTIP"
-msgid "When active, allows adding regular traits to bionic duplicants."
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGEEDITOR.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGEEDITOR.TOOLTIP"
+msgid ""
+"View and modify the different additional care packages or create new ones."
 msgstr ""
-"Erlaubt das Hinzufügen von regulären Eigenschaften bei bionischen "
-"Duplikanten."
+"Bearbeitung der zusätzlichen Hilfspakete und Erstellung neuer Hilfspakete."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGEMULTIPLIER.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGEMULTIPLIER.NAME"
+msgid "Care Package Multiplier"
+msgstr "Hilfspaket-Multiplikator"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGEMULTIPLIER.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGEMULTIPLIER.TOOLTIP"
+msgid ""
+"Global multiplier for the amount of item amount inside of care packages.\n"
+"Default is 1."
+msgstr ""
+"Globaler Multiplikator für die Gegenstandsmenge in Hilfspaketen\n"
+"Standard ist 1."
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.NAME"
@@ -196,11 +439,11 @@ msgctxt ""
 "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLYPACKAGECAP.TOOLTIP"
 msgid ""
 "Only has an effect if \"Print Care Packages only\" is enabled.\n"
-"Set the number of care packages that generate when the cap is in effect"
+"Set the number of care packages that generate when the cap is in effect."
 msgstr ""
 "Hat nur einen Effekt, wenn \"Nur Hilfspakete drucken\" aktiviert ist.\n"
 "Legen Sie die Anzahl der Hilfspakete fest, die generiert werden, wenn die "
-"Obergrenze überschritten wurde"
+"Obergrenze überschritten wurde."
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CATEGORIES.A_GAMESTART
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CATEGORIES.A_GAMESTART"
@@ -226,6 +469,20 @@ msgstr "Aussehens-Optionen"
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CATEGORIES.E_UTIL"
 msgid "Extra Settings"
 msgstr "Extra Optionen"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.DIRECTATTRIBUTEEDITING.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.DIRECTATTRIBUTEEDITING.NAME"
+msgid "Direct Attribute Editing"
+msgstr "Direkte Attribut-Bearbeitung"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.DIRECTATTRIBUTEEDITING.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.DIRECTATTRIBUTEEDITING.TOOLTIP"
+msgid ""
+"Allows to directly edit the starting attributes of duplicants.\n"
+"Can be overpowered."
+msgstr ""
+"Erlaubt das direkte Bearbeiten von Startattributen\n"
+"Das kann OP sein."
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.DUPLICANTSTARTAMOUNT.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.DUPLICANTSTARTAMOUNT.NAME"
@@ -357,6 +614,18 @@ msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.NOJOYREACTION.TOOLTIP"
 msgid "Deactivates Overjoyed Responses on newly generated duplicants"
 msgstr "Neue Duplikanten generieren ohne Begeisterungsreaktion"
 
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.NORMALTRAITSONBIONICS.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.NORMALTRAITSONBIONICS.NAME"
+msgid "Allow normal traits on Bionic Duplicants"
+msgstr "Erlaube normale Eigenschaften für Bionische Duplikanten"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.NORMALTRAITSONBIONICS.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.NORMALTRAITSONBIONICS.TOOLTIP"
+msgid "When active, allows adding regular traits to bionic duplicants."
+msgstr ""
+"Erlaubt das Hinzufügen von regulären Eigenschaften bei bionischen "
+"Duplikanten."
+
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.NOSTRESSREACTION.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.NOSTRESSREACTION.NAME"
 msgid "Disable Stress Reactions"
@@ -366,6 +635,41 @@ msgstr "Deaktiviere Stressreaktionen"
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.NOSTRESSREACTION.TOOLTIP"
 msgid "Deactivates Stress Reactions on newly generated duplicants"
 msgstr "Neue Duplikanten generieren ohne Stressreaktion"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.OVERRIDEPRINTERCAREPACKAGECOUNT.NAME
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DSS_OPTIONS.OVERRIDEPRINTERCAREPACKAGECOUNT.NAME"
+msgid "Override printing pod care package count"
+msgstr "Drucker-Hilfspaket-Anzahl überschreiben"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.OVERRIDEPRINTERCAREPACKAGECOUNT.TOOLTIP
+msgctxt ""
+"SetStartDupes.STRINGS.UI.DSS_OPTIONS.OVERRIDEPRINTERCAREPACKAGECOUNT.TOOLTIP"
+msgid ""
+"Override the number of care packages offered in the printing pod.\n"
+"A value of 0 or lower disables this feature.\n"
+"Disabling care packages in the difficulty settings disables this feature.\n"
+"No effect if care packages only mode is active."
+msgstr ""
+"Überschreibe die Anzahl der im Biodrucker angebotenen Hilfspakete.\n"
+"Mit einem Wert von 0 oder weniger wird diese Funktion deaktiviert.\n"
+"Die Deaktivierung von Hilfspaketen in den Schwierigkeitseinstellungen "
+"deaktiviert diese Funktion.\n"
+"Keine Auswirkung, wenn die Option „Nur Hilfspakete“ aktiv ist."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.OVERRIDEPRINTERDUPECOUNT.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.OVERRIDEPRINTERDUPECOUNT.NAME"
+msgid "Override printing pod dupe count"
+msgstr "Drucker-Duplikanten-Anzahl überschreiben"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.OVERRIDEPRINTERDUPECOUNT.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.OVERRIDEPRINTERDUPECOUNT.TOOLTIP"
+msgid ""
+"Override the number of duplicants offered in the printing pod.\n"
+"A value of 0 or lower disables this feature."
+msgstr ""
+"Überschreibe die Anzahl der im Biodrucker angebotenen Duplikanten.\n"
+"Mit einem Wert von 0 oder weniger wird diese Funktion deaktiviert."
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.PAUSEONREADYTOPRING.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.PAUSEONREADYTOPRING.NAME"
@@ -456,6 +760,20 @@ msgid ""
 msgstr ""
 "Wenn das Aussehen eines Duplikanten angepasst wird, werden Stress- und "
 "Begeisterungsreaktion des neuen Aussehens mitübernommen."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.SORTEDPRINTINGPOD.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.SORTEDPRINTINGPOD.NAME"
+msgid "Sorted Printing Pod"
+msgstr "Sortierter Biodrucker"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.SORTEDPRINTINGPOD.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.SORTEDPRINTINGPOD.TOOLTIP"
+msgid ""
+"Printing pod entries are sorted by their type, dupes come first, then care "
+"packages."
+msgstr ""
+"Die Biodruckerauswahl wird nach Typ sortiert. Erst Duplikanten, dann "
+"Hilfspakete."
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.STARTUPRESOURCES.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.STARTUPRESOURCES.NAME"
@@ -952,6 +1270,11 @@ msgstr ""
 "Entfernt diesen Duplikanten-Slot, dies reduziert die Gesamtzahl der "
 "Startduplikanten um 1."
 
+#. SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.ROLLWITHTRAIT_LABEL
+msgctxt "SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.ROLLWITHTRAIT_LABEL"
+msgid "REROLL WITH TRAIT"
+msgstr "MIT EIGENSCH. WÜRFELN"
+
 #. SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.SELECTYOURCREW
 msgctxt "SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.SELECTYOURCREW"
 msgid "CHOOSE YOUR DUPLICANTS TO BEGIN"
@@ -1031,13 +1354,6 @@ msgid "Generate Preset"
 msgstr "Attributvorlage generieren"
 
 #. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TOOLTIP
-#, fuzzy
-#| msgctxt ""
-#| "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS."
-#| "GENERATEFROMCURRENT.TOOLTIP"
-#| msgid ""
-#| "Generate and store a new preset from the currenly displayed stats.\n"
-#| "Only has an effect if the preset doesn't exist yet"
 msgctxt ""
 "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS."
 "GENERATEFROMCURRENT.TOOLTIP"
@@ -1054,7 +1370,7 @@ msgctxt ""
 "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.CHECKBOXES."
 "NAMEOVERRIDE.LABEL"
 msgid "Preset overrides Name"
-msgstr ""
+msgstr "Vorlagen überschreiben Namen"
 
 #. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.CHECKBOXES.NAMEOVERRIDE.TOOLTIP
 msgctxt ""
@@ -1064,16 +1380,14 @@ msgid ""
 "If enabled, applying presets to duplicants also sets their name to that of "
 "the preset"
 msgstr ""
+"Wenn aktiviert, wird der Name der Vorlage auf den Duplikanten übertragen"
 
 #. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.CHECKBOXES.REACTIONOVERRIDE.LABEL
-#, fuzzy
-#| msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.NOSTRESSREACTION.NAME"
-#| msgid "Disable Stress Reactions"
 msgctxt ""
 "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.CHECKBOXES."
 "REACTIONOVERRIDE.LABEL"
 msgid "Preset overrides Reactions"
-msgstr "Deaktiviere Stressreaktionen"
+msgstr "Vorlagen überschreiben Reaktionen"
 
 #. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.CHECKBOXES.REACTIONOVERRIDE.TOOLTIP
 msgctxt ""
@@ -1083,6 +1397,8 @@ msgid ""
 "If enabled, applying presets to duplicants also overrides their inherited "
 "stress reaction and overjoyed response."
 msgstr ""
+"Wenn aktiviert, wird die Stress- und Begeisterungsreaktion des Duplikanten "
+"mit denen aus der Vorlage überschrieben."
 
 #. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.NOPRESETSAVAILABLE.LABEL
 msgctxt ""
@@ -1105,12 +1421,24 @@ msgctxt ""
 msgid "Delete Preset"
 msgstr "Vorlage löschen"
 
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.IMPORTEDPRESET
+msgctxt ""
+"SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA."
+"CONTENT.PRESETENTRYPREFAB.IMPORTEDPRESET"
+msgid ""
+"This crew preset was imported from your old dgsm presets, it cannot be "
+"modified directly."
+msgstr ""
+"Diese Mannschaftsvorlage wurde von deinen alten dgsm Vorlagen importiert und "
+"kann nicht direkt bearbeitet werden."
+
 #. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.INVALIDMODELTOOLTIP
 msgctxt ""
 "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA."
 "CONTENT.PRESETENTRYPREFAB.INVALIDMODELTOOLTIP"
 msgid "Preset not compatible with current duplicant model!"
 msgstr ""
+"Diese Vorlage ist nicht mit dem aktuellen Duplikantenmodell kompatibel!"
 
 #. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.RENAMEPRESETTOOLTIP
 msgctxt ""

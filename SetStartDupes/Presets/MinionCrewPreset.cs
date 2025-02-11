@@ -10,13 +10,18 @@ namespace SetStartDupes
 {
 	public class MinionCrewPreset
 	{
+		[JsonIgnore]
+		public bool Imported = false;
+		[JsonIgnore]
+		public FileInfo OriginalFilePath;
 
 		public string FileName;
 		public string CrewName;
+		public string CreationDate;
 
 		public MinionCrewPreset() { }
 
-		public List<Tuple<string, MinionStatConfig>> Crewmates;
+		public List<Tuple<string, MinionStatConfig>> Crewmates = new();
 
 		public void ApplyCrewPreset(CharacterSelectionController controller)
 		{
@@ -116,6 +121,7 @@ namespace SetStartDupes
 
 			preset.CrewName = crewTitle;
 			preset.FileName = FileNameWithHash(crewTitle);
+			preset.CreationDate = System.DateTime.Now.ToString("yyyy-MM-dd");
 			return preset;
 		}
 
@@ -194,10 +200,18 @@ namespace SetStartDupes
 		{
 			try
 			{
-				var path = Path.Combine(ModAssets.DupeGroupTemplatePath, FileName + ".json");
+				if (Imported && OriginalFilePath != null)
+				{
+					if(OriginalFilePath.Exists)
+						OriginalFilePath.Delete();
+				}
+				else
+				{
+					var path = Path.Combine(ModAssets.DupeGroupTemplatePath, FileName + ".json");
 
-				var fileInfo = new FileInfo(path);
-				fileInfo.Delete();
+					var fileInfo = new FileInfo(path);
+					fileInfo.Delete();
+				}
 			}
 			catch (Exception e)
 			{

@@ -18,7 +18,7 @@
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="PLib" Version="4.16.0">
+		<PackageReference Include="PLib" Version="4.17.1">
       <Private>false</Private>
     </PackageReference>
 	</ItemGroup>

@@ -17,7 +17,7 @@ namespace PaintYourPipes
 				ToggleOverlayColors = new PActionManager().CreateAction(
 					TRIGGER_FAKE_TACORAIN_IDENTIFIER,
 					STRINGS.HOTKEYACTIONS.TOGGLE_OVERLAY_COLOR,
-					new PKeyBinding(KKeyCode.C, Modifier.Shift));
+					new PKeyBinding());
 
 			}
 		}

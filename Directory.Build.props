@@ -21,8 +21,10 @@
 		<BionicBoostBeta>645088</BionicBoostBeta>
 		<BionicBoosterRelease>646687</BionicBoosterRelease>
 		<JanuaryHotfix1>648807</JanuaryHotfix1>
+		<JanuaryHotfix2>651155</JanuaryHotfix2>
+		<JanuaryHotfix3>652372</JanuaryHotfix3>
 		<!--Latest-->
-		<TargetGameVersion>$(JanuaryHotfix1)</TargetGameVersion>
+		<TargetGameVersion>$(JanuaryHotfix3)</TargetGameVersion>
 	</PropertyGroup>
 
 
@@ -41,12 +43,6 @@
 		<AssemblyPublicized>$(SolutionDir)/PublicisedAssembly/Assembly-CSharp_public.dll</AssemblyPublicized>
 		<AssemblyFirstpassPublicized>$(SolutionDir)/PublicisedAssembly/Assembly-CSharp-firstpass_public.dll</AssemblyFirstpassPublicized>
 	</PropertyGroup>
-
-	<ItemGroup Condition="'$(GenerateMetadata)' == 'true' ">
-		<PackageReference Include="Cairath.ONIMetadataFileGenerator" Version="1.0.0">
-			<ExcludeAssets>runtime</ExcludeAssets>
-		</PackageReference>
-	</ItemGroup>
 
 	<ItemGroup>
 		<Reference Include="Assembly-CSharp">

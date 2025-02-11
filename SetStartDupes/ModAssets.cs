@@ -2,6 +2,8 @@
 using Database;
 using Klei.AI;
 using SetStartDupes.API_IO;
+using SetStartDupes.CarePackageEditor;
+using SetStartDupes.DuplicityEditing.ScreenComponents;
 using STRINGS;
 using System;
 using System.Collections.Generic;
@@ -13,11 +15,13 @@ using static CharacterContainer;
 using static SetStartDupes.DupeTraitManager;
 using static SetStartDupes.STRINGS.UI;
 using static STRINGS.UI.DETAILTABS;
+using static TUNING.DUPLICANTSTATS;
 
 namespace SetStartDupes
 {
 	public class ModAssets
 	{
+		public static string ExtraCarePackageFileInfo;
 		public static string DupeTemplatePath;
 		public static string DupeTearTemplatePath;
 		public static string DupeGroupTemplatePath;
@@ -48,8 +52,11 @@ namespace SetStartDupes
 		public static GameObject TraitsWindowPrefab;
 		public static GameObject CrewDupeEntryPrefab;
 		public static GameObject DuplicityWindowPrefab;
+		public static GameObject CarePackageEditorWindowPrefab;
+		public static NumberInput EditNumberRowPrefab;
 
-		public static bool BeachedActive = false;
+		public static bool Beached_LifegoalsActive = false;
+		public static bool BeachedEnabled = false;
 		public static List<DUPLICANTSTATS.TraitVal> BEACHED_LIFEGOALS = new List<DUPLICANTSTATS.TraitVal>();
 
 		public static bool RainbowFartsActive = false;
@@ -99,98 +106,29 @@ namespace SetStartDupes
 			}
 		}
 
-        private static GameObject parentScreen = null;
-		public static CarePackageInfo[] GetAdditionalCarePackages()
-		{
-			bool Dlc1Active = DlcManager.IsExpansion1Active();
-			bool Dlc2ActiveForSave = SaveLoader.Instance.GameInfo.dlcIds.Contains(DlcManager.DLC2_ID);
-
-			var carePackages = new List<CarePackageInfo>()
-			{          
-                ///missing seeds:
-				
-				//Sporechid
-                new CarePackageInfo(EvilFlowerConfig.SEED_ID, 1f, () => Immigration.CycleCondition(96) && Immigration.DiscoveredCondition((Tag) EvilFlowerConfig.ID) || Immigration.CycleCondition(500)),
-				//Buddy Bud
-				new CarePackageInfo(BulbPlantConfig.SEED_ID, 1f, () => Immigration.CycleCondition(36) && Immigration.DiscoveredCondition((Tag) BulbPlantConfig.ID) || Immigration.CycleCondition(500)),
-				//Nosh Bean
-				new CarePackageInfo(BeanPlantConfig.SEED_ID, 3f, () => Immigration.CycleCondition(48) && Immigration.DiscoveredCondition((Tag) BeanPlantConfig.ID) || Immigration.CycleCondition(500)),
-				//Sleet Wheat
-				new CarePackageInfo(ColdWheatConfig.SEED_ID, 3f, () => Immigration.CycleCondition(48) && Immigration.DiscoveredCondition((Tag) ColdWheatConfig.ID) || Immigration.CycleCondition(500)),
-				//Waterweed
-				new CarePackageInfo(SeaLettuceConfig.SEED_ID, 3f, () => Immigration.CycleCondition(48) && Immigration.DiscoveredCondition((Tag) SeaLettuceConfig.ID) || Immigration.CycleCondition(500)),
-				//Dasha Saltvine
-				new CarePackageInfo(SaltPlantConfig.SEED_ID, 3f, () => Immigration.CycleCondition(48) && Immigration.DiscoveredCondition((Tag) SaltPlantConfig.ID) || Immigration.CycleCondition(500)),
-				//Mealwood
-				new CarePackageInfo(BasicSingleHarvestPlantConfig.SEED_ID, 3f, () => Immigration.CycleCondition(24) && Immigration.DiscoveredCondition((Tag) BasicSingleHarvestPlantConfig.ID) || Immigration.CycleCondition(500)),
-
-                ///missing minerals:
-                new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.Granite).tag.ToString(), 1000f, (Func<bool>) (() => Immigration.CycleCondition(24) && Immigration.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.Granite).tag)|| Immigration.CycleCondition(500))),
-				new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.Obsidian).tag.ToString(), 1000f, (Func<bool>) (() => Immigration.CycleCondition(24) && Immigration.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.Obsidian).tag)|| Immigration.CycleCondition(500))),
-				//Abyssalite
-				new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.Katairite).tag.ToString(), 1000f, (Func<bool>) (() => Immigration.CycleCondition(48) && Immigration.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.Katairite).tag)|| Immigration.CycleCondition(500))),
-
-                ///missing ores+metals
-                new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.IronOre).tag.ToString(), 2000f, (Func<bool>) (() => Immigration.CycleCondition(12) && Immigration.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.IronOre).tag)|| Immigration.CycleCondition(500))),
-				new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.Wolframite).tag.ToString(), 1000f, (Func<bool>) (() => Immigration.CycleCondition(48) && Immigration.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.Wolframite).tag)|| Immigration.CycleCondition(500))),
-				new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.Tungsten).tag.ToString(), 200f, (Func<bool>) (() => Immigration.CycleCondition(48) && Immigration.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.Tungsten).tag)|| Immigration.CycleCondition(500))),
-
-
-			};
-			if (Dlc1Active)
-			{
-				carePackages.AddRange(new List<CarePackageInfo>()
-				{
-                    ///missing ores
-                    new CarePackageInfo(ElementLoader.FindElementByHash(SimHashes.UraniumOre).tag.ToString(), 100f, () => Immigration.CycleCondition(48)&& Immigration.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.UraniumOre).tag) || Immigration.CycleCondition(500)),
-                    
-                    ///missing seeds
-                    
-					//Bog Bucket
-					new CarePackageInfo(SwampHarvestPlantConfig.SEED_ID, 3f, () => Immigration.CycleCondition(24) && Immigration.DiscoveredCondition((Tag) SwampHarvestPlantConfig.ID) || Immigration.CycleCondition(500)),
-					//Tranquil Toes
-					new CarePackageInfo(ToePlantConfig.SEED_ID, 3f, () => Immigration.CycleCondition(48) && Immigration.DiscoveredCondition((Tag) ToePlantConfig.ID) || Immigration.CycleCondition(500)),
-					//Saturn Critter Trap
-					new CarePackageInfo("CritterTrapPlantSeed", 1f, () => Immigration.CycleCondition(96)&& Immigration.DiscoveredCondition((Tag) CritterTrapPlantConfig.ID) || Immigration.CycleCondition(500)),
-					
-
-                    ///missing critters
-					
-					//Beetiny
-                    new CarePackageInfo(BabyBeeConfig.ID, 1f, () => Immigration.CycleCondition(24) && (Immigration.DiscoveredCondition(ElementLoader.FindElementByHash(SimHashes.UraniumOre).tag)||Immigration.DiscoveredCondition((Tag) BabyBeeConfig.ID)) || Immigration.CycleCondition(500)),
-
-				});
-			}
-
-			if (Dlc2ActiveForSave)
-			{
-				carePackages.AddRange(new List<CarePackageInfo>()
-				{
-					///Pikeapple
-					new CarePackageInfo(HardSkinBerryPlantConfig.SEED_ID, 1f, () => Immigration.CycleCondition(24)&& Immigration.DiscoveredCondition((Tag) HardSkinBerryPlantConfig.ID) || Immigration.CycleCondition(500)),
-
-                    ///carved lumen quartz
-                    new CarePackageInfo(PinkRockCarvedConfig.ID, 1f, () => Immigration.CycleCondition(48) || Immigration.CycleCondition(500))
-				});
-			}
-
-			return carePackages.ToArray();
-		}
+		private static GameObject parentScreen = null;
+		public static List<CarePackageInfo> GetAdditionalCarePackages() => CarePackageOutlineManager.GetAllAdditionalCarePackages();		
 		public static void LoadAssets()
 		{
 			AssetBundle bundle = AssetUtils.LoadAssetBundle("dss_uiassets", platformSpecific: true);
 
-
+			DupeTraitManager.NumberInputPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/StartAttributeEditing.prefab")?.transform.Find("NumberInputPrefab").gameObject;
 			PresetWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/PresetWindow.prefab");
 			TraitsWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/DupeSkillsPopUp.prefab");
 			CrewDupeEntryPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/DupePresetListItem.prefab");
 			DuplicityWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/DupeEditing.prefab");
-
+			CarePackageEditorWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/CarePackageEditor.prefab");
+			var numberInputGO = bundle.LoadAsset<GameObject>("Assets/UIs/StartAttributeEditing.prefab");
+			if (numberInputGO != null)
+				EditNumberRowPrefab = numberInputGO.AddOrGet<NumberInput>();
 
 			SgtLogger.Assert("PresetWindowPrefab was null!", PresetWindowPrefab);
 			SgtLogger.Assert("TraitsWindowPrefab was null!", TraitsWindowPrefab);
 			SgtLogger.Assert("CrewDupeEntryPrefab was null!", CrewDupeEntryPrefab);
 			SgtLogger.Assert("DuplicityWindowPrefab was null!", DuplicityWindowPrefab);
+			SgtLogger.Assert("CarePackageEditorWindowPrefab was null!", CarePackageEditorWindowPrefab);
+			SgtLogger.Assert("EditNumberRowPrefab was null!", EditNumberRowPrefab);
+
 
 
 			var TMPConverter = new TMPConverter();
@@ -198,6 +136,8 @@ namespace SetStartDupes
 			TMPConverter.ReplaceAllText(TraitsWindowPrefab);
 			TMPConverter.ReplaceAllText(CrewDupeEntryPrefab);
 			TMPConverter.ReplaceAllText(DuplicityWindowPrefab);
+			TMPConverter.ReplaceAllText(CarePackageEditorWindowPrefab);
+			TMPConverter.ReplaceAllText(EditNumberRowPrefab.gameObject);
 
 		}
 
@@ -330,6 +270,7 @@ namespace SetStartDupes
 			JoyResponseOutfitTarget.FromMinion(go).WriteFacadeId(joyResponseOutfitTarget.ReadFacadeId());
 		}
 
+
 		public static void ApplySkinFromPersonality(Personality personality, MinionStartingStats stats, bool ForceOverideReactions = false)
 		{
 			if (Config.Instance.SkinsDoReactions || ForceOverideReactions)
@@ -342,7 +283,7 @@ namespace SetStartDupes
 				{
 					stats.joyTrait = Db.Get().traits.TryGet(personality.joyTrait);
 				}
-				if (ModAssets.BeachedActive)
+				if (ModAssets.Beached_LifegoalsActive)
 				{
 					Beached_API.RemoveLifeGoal(stats);
 					Beached_API.SetLifeGoal(stats, Beached_API.GetLifeGoalFromPersonality(personality), false);
@@ -362,7 +303,19 @@ namespace SetStartDupes
 			}
 		}
 
+		public static List<string> GET_ALL_ATTRIBUTES()
+		{
+			var attributes = DUPLICANTSTATS.ALL_ATTRIBUTES.ToList();
 
+			if(!DlcManager.IsExpansion1Active())
+				attributes.Remove("SpaceNavigation");
+
+			if (BeachedEnabled && !attributes.Contains("Beached_Precision"))
+			{
+				attributes.Add("Beached_Precision");
+			}
+			return attributes;
+		}
 
 		public static int MinimumPointsPerInterest(MinionStartingStats stats, SkillGroup checkForMultiplesOf = null)
 		{
@@ -461,7 +414,7 @@ namespace SetStartDupes
 
 		public static Color[] Rarities = new Color[]
 		{
-			UIUtils.rgb(127, 127, 127), //Trash, grey
+			UIUtils.rgb(127, 127, 127), //not available, grey
             Color.white, //Common
             UIUtils.rgb(30, 255, 0), //uncommon, green
             UIUtils.rgb(0, 112, 221), //rare, blue
@@ -573,6 +526,9 @@ namespace SetStartDupes
 			if (stats == null)
 				return description;
 
+			if (!group.relevantAttributes.Any())
+				return description;
+
 			float startingLevel = (float)stats.StartingLevels[group.relevantAttributes[0].Id];
 			string attributes = group.relevantAttributes[0].Name + ": +" + startingLevel.ToString();
 			List<AttributeConverter> convertersForAttribute = Db.Get().AttributeConverters.GetConvertersForAttribute(group.relevantAttributes[0]);
@@ -598,12 +554,18 @@ namespace SetStartDupes
 		}
 		public static bool TraitAllowedInCurrentDLC(DUPLICANTSTATS.TraitVal trait)
 		{
-			if (trait.id == DUPLICANTSTATS.INVALID_TRAIT_VAL.id)
+			if (IsInvalidTrait(trait.id))
 				return false;
 
-			return string.IsNullOrEmpty(trait.dlcId) || DlcManager.IsDlcListValidForCurrentContent(new string[] { trait.dlcId });
+			return string.IsNullOrEmpty(trait.dlcId) || DlcManager.IsDlcListValidForCurrentContent( [trait.dlcId]);
 		}
-
+		public static bool IsInvalidTrait(string id)
+		{
+			id = id.ToLowerInvariant();
+			return id == "none" || id == "invalid";
+		}
+		public static bool IsInvalidTrait(DUPLICANTSTATS.TraitVal trait) => IsInvalidTrait(trait.id);
+		public static bool IsInvalidTrait(Trait trait) => IsInvalidTrait(trait.Id);
 		public static class Colors
 		{
 			public static Color gold = UIUtils.Darken(Util.ColorFromHex("ffdb6e"), 40);
@@ -647,8 +609,9 @@ namespace SetStartDupes
 		}
 		public static void InitBeached()
 		{
+			ModAssets.BeachedEnabled = true;
 			SgtLogger.l("Beached Found, initializing...");
-			ModAssets.BeachedActive = Beached_API.IsUsingLifeGoals.Invoke();
+			ModAssets.Beached_LifegoalsActive = Beached_API.IsUsingLifeGoals.Invoke();
 			SgtLogger.l(Beached_API.IsUsingLifeGoals.Invoke().ToString(), "Using Lifegoals");
 
 
@@ -726,6 +689,24 @@ namespace SetStartDupes
 			}
 		};
 
+		private static List<TUNING.DUPLICANTSTATS.TraitVal> _stressWithShocker = null;
+		static List<TUNING.DUPLICANTSTATS.TraitVal> StressWithShocker
+		{
+			get
+			{
+				if(_stressWithShocker == null)
+				{
+					_stressWithShocker = new(DUPLICANTSTATS.STRESSTRAITS);
+					_stressWithShocker.Add(new TraitVal
+					{
+						id = "StressShocker",
+						dlcId = "DLC3_ID"
+					});
+				}
+
+				return _stressWithShocker;
+			}
+		}
 		public static List<DUPLICANTSTATS.TraitVal> TryGetTraitsOfCategory(NextType type, Tag minionModel, bool overrideShowAll = false)
 		{
 			bool initializingUI = minionModel == null;
@@ -733,6 +714,8 @@ namespace SetStartDupes
 			{
 				if (!TraitsByType.ContainsKey(type))
 					return new List<DUPLICANTSTATS.TraitVal>();
+				else if ((initializingUI || minionModel == GameTags.Minions.Models.Bionic) && type == NextType.stress)
+					return StressWithShocker;
 				else
 					return TraitsByType[type];
 			}
@@ -747,12 +730,12 @@ namespace SetStartDupes
 				if (ModAssets.RainbowFartsActive)
 					returnValues.AddRange(TraitsByType[NextType.RainbowFart]);
 
-				if(minionModel == GameTags.Minions.Models.Bionic || initializingUI)
+				if (minionModel == GameTags.Minions.Models.Bionic || initializingUI)
 				{
 					returnValues.AddRange(TraitsByType[NextType.bionic_boost]);
 					returnValues.AddRange(TraitsByType[NextType.bionic_bug]);
 				}
-				if(minionModel == GameTags.Minions.Models.Standard || initializingUI)
+				if (minionModel == GameTags.Minions.Models.Standard || initializingUI || Config.Instance.BionicNormalTraits)
 				{
 					returnValues.AddRange(TraitsByType[NextType.posTrait]);
 					returnValues.AddRange(TraitsByType[NextType.needTrait]);
@@ -763,7 +746,11 @@ namespace SetStartDupes
 			}
 
 		}
-		static Dictionary<string, NextType> NextTypesPerTrait = new();
+		static Dictionary<string, NextType> NextTypesPerTrait = new()
+		{
+			{"StressShocker",NextType.stress }
+		};
+
 		public static NextType GetTraitListOfTrait(Trait trait) => GetTraitListOfTrait(trait.Id);
 		public static NextType GetTraitListOfTrait(string traitId)
 		{
@@ -784,7 +771,7 @@ namespace SetStartDupes
 			{
 				foreach (var possibility in TraitsByType)
 				{
-					var checkedCategory = possibility.Key; 
+					var checkedCategory = possibility.Key;
 					var traitValList = possibility.Value;
 					if (traitValList.FindIndex(t => t.id == traitId) != -1)
 					{
@@ -879,7 +866,7 @@ namespace SetStartDupes
 		}
 
 		/// <summary>
-		/// removes dgsm to prevent crashes and incompatibilities
+		/// disables dgsm to prevent crashes and incompatibilities
 		/// </summary>
 		/// <param name="mods"></param>
 		internal static void RemoveCrashingIncompatibility(IReadOnlyList<KMod.Mod> mods)
@@ -892,7 +879,7 @@ namespace SetStartDupes
 			}
 		}
 
-		static string[] possibleStickerTypes = [ "sticker", "glitter", "glowinthedark"];
+		static string[] possibleStickerTypes = ["sticker", "glitter", "glowinthedark"];
 		internal static string GetRandomStickerType()
 		{
 			return possibleStickerTypes.GetRandom();
@@ -915,7 +902,7 @@ namespace SetStartDupes
 		{
 			if (TraitRerollButtons.TryGetValue(container, out var rerollTraitBtn))
 			{
-				rerollTraitBtn.SetActive( visible);
+				rerollTraitBtn.SetActive(visible);
 			}
 		}
 
@@ -983,11 +970,11 @@ namespace SetStartDupes
 			{ GameTags.Any, "ui_duplicant_any_selection" },
 		};
 
-        internal static bool IsMinionBaseTrait(string id)
-        {
+		internal static bool IsMinionBaseTrait(string id)
+		{
 			return id.Contains("BaseTrait");
-        }
+		}
 
-        public static string UnlockIcon = "OpenLock";
+		public static string UnlockIcon = "OpenLock";
 	}
 }

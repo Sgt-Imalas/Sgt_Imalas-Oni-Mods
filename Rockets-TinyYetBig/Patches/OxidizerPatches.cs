@@ -44,6 +44,7 @@ namespace Rockets_TinyYetBig.Patches
 		[HarmonyPatch(typeof(OxidizerTankLiquidClusterConfig), nameof(OxidizerTankLiquidClusterConfig.DoPostConfigureComplete))]
 		public static class SwapTagInLiquidOxidizer
 		{
+			[HarmonyPriority(Priority.LowerThanNormal)]
 			public static void Postfix(GameObject go)
 			{
 				go.GetComponent<ConduitConsumer>().capacityTag = ModAssets.Tags.LOXTankOxidizer;

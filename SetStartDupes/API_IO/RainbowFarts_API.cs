@@ -54,20 +54,14 @@ namespace SetStartDupes.API_IO
 
 			return true;
 		}
-
-		[HarmonyPatch(typeof(Db), nameof(Db.Initialize))]
-		static class InitRainbowFartsAPI
+		public static void InitRainbowFartsAPI()
 		{
-			public static void Postfix()
+			if (RainbowFarts_API.TryInitialize())
 			{
-				if (RainbowFarts_API.TryInitialize())
-				{
-					ModAssets.InitRainbowFarts();
-				}
-				else
-					SgtLogger.l("Rainbow Farts mod not found, API is resting now, gn...zzz");
+				ModAssets.InitRainbowFarts();
 			}
+			else
+				SgtLogger.l("Rainbow Farts mod not found, API is resting now, gn...zzz");
 		}
-
 	}
 }

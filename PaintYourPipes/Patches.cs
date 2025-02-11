@@ -37,6 +37,7 @@ namespace PaintYourPipes
 		[HarmonyPatch]
 		public static class AddColorComponentToFinishedBuildings
 		{
+			static Tag MaterialColor_ExcludedTag = new Tag("NoPaint");
 			public static void ExecutePatch(Harmony harmony)
 			{
 				var DoPostConfigureUnderConstruction_Postfix = AccessTools.Method(typeof(AddColorComponentToFinishedBuildings), "DoPostConfigureUnderConstruction_Postfix");
@@ -71,10 +72,13 @@ namespace PaintYourPipes
 			public static void DoPostConfigureComplete_Postfix(GameObject go)
 			{
 				go.AddOrGet<ColorableConduit>();
+				go.AddOrGet<KPrefabID>().AddTag(MaterialColor_ExcludedTag);
+
 			}
 			public static void DoPostConfigureUnderConstruction_Postfix(GameObject go)
 			{
 				go.AddComponent<ColorableConduit_UnderConstruction>();
+				go.AddOrGet<KPrefabID>().AddTag(MaterialColor_ExcludedTag);
 			}
 
 			static List<Type> TargetBuildingTypes()

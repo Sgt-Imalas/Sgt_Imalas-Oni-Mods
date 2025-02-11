@@ -43,7 +43,7 @@ namespace SetStartDupes.DuplicityEditing
 					var attributes = Db.Get().Attributes;
 					//Attribute Levels
 					stats.AttributeLevels = new();
-					foreach (var attribute in AttributeHelper.GetEditableAttributes())
+					foreach (var attribute in AttributeHelper.GetEditableAttributes(stats.Model))
 					{
 						stats.AttributeLevels[attribute.Id] = attributeLevels.GetLevel(attribute);
 					}
@@ -74,15 +74,15 @@ namespace SetStartDupes.DuplicityEditing
 					stats.Traits = new HashSet<string>();
 					foreach (var traitId in traits.TraitIds)
 					{
-						if (DUPLICANTSTATS.JOYTRAITS.Any(trait => trait.id == traitId))
+						if (ModAssets.TryGetTraitsOfCategory(DupeTraitManager.NextType.joy, stats.Model).Any(trait => trait.id == traitId))
 						{
 							stats.JoyTraitId = traitId;
 						}
-						else if (DUPLICANTSTATS.STRESSTRAITS.Any(trait => trait.id == traitId))
+						else if (ModAssets.TryGetTraitsOfCategory(DupeTraitManager.NextType.stress, stats.Model).Any(trait => trait.id == traitId))
 						{
 							stats.StressTraitId = traitId;
 						}
-						else
+						else if(traitId != DUPLICANTSTATS.INVALID_TRAIT_VAL.id)
 							stats.Traits.Add(traitId);
 					}
 				}
@@ -229,7 +229,7 @@ namespace SetStartDupes.DuplicityEditing
 
 				//Attribute Levels
 
-				foreach (var attribute in AttributeHelper.GetEditableAttributes())
+				foreach (var attribute in AttributeHelper.GetEditableAttributes(Model))
 				{
 					if (!AttributeLevels.ContainsKey(attribute.Id))
 						continue;

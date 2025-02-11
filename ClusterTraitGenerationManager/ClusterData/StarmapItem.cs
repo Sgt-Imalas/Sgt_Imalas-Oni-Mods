@@ -743,7 +743,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 						{
 							if (rule.names != null && rule.names.Count() == 1 && rule.names[0] == "geysers/generic")
 							{
-								totalCountTraits += Mathf.FloorToInt(rule.times);
+								totalCountTraits += Mathf.FloorToInt(rule.times * CurrentSizeMultiplier);
 							}
 						}
 					}

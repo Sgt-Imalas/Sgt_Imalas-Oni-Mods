@@ -1357,7 +1357,6 @@ namespace ClusterTraitGenerationManager
 									{
 										SgtLogger.l("roll for additional spawn failed: " + chance * 100f, "POI Chance: " + newGeyserAmount.ToString("P"));
 									}
-									SgtLogger.l("final geyser spawn count: " + WorldTemplateRule.times);
 
 								}
 								else
@@ -1376,6 +1375,7 @@ namespace ClusterTraitGenerationManager
 										WorldTemplateRule.times = 0;
 									}
 								}
+								SgtLogger.l("final geyser spawn count: " + WorldTemplateRule.times);
 
 								//WorldTemplateRule.times = Math.Max(1, Mathf.RoundToInt(((float)OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names]) * (float)item.CurrentSizePreset / 100f));
 								//SgtLogger.l(string.Format("Adjusting geyser roll amount to worldsize for {0}; {1} -> {2}", WorldTemplateRule.names.FirstOrDefault(), OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names], WorldTemplateRule.times), item.id);

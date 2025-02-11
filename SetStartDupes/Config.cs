@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using PeterHan.PLib.Options;
+using SetStartDupes.CarePackageEditor.UI;
 using System;
+using System.Collections.Generic;
 
 namespace SetStartDupes
 {
@@ -38,6 +40,15 @@ namespace SetStartDupes
 		[JsonProperty]
 		public bool AddAdditionalCarePackages { get; set; }
 
+		[Option("STRINGS.UI.DSS_OPTIONS.CAREPACKAGEEDITOR.NAME", "STRINGS.UI.DSS_OPTIONS.CAREPACKAGEEDITOR.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
+		[JsonIgnore]
+		public System.Action<object> Button_OpenCarepackageEditor => CarePackageEditor_MainScreen.ShowCarePackageEditor;
+
+		[Option("STRINGS.UI.DSS_OPTIONS.CAREPACKAGEMULTIPLIER.NAME", "STRINGS.UI.DSS_OPTIONS.CAREPACKAGEMULTIPLIER.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
+		[JsonProperty]
+		[Limit(0.1f, 10f)]
+		public float CarePackageMultiplier { get; set; } = 1f;
+
 		[Option("STRINGS.UI.DSS_OPTIONS.PRINTINGPODRECHARGETIME.NAME", "STRINGS.UI.DSS_OPTIONS.PRINTINGPODRECHARGETIME.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
 		[JsonProperty]
 		public float PrintingPodRechargeTime { get; set; }
@@ -49,6 +60,46 @@ namespace SetStartDupes
 		[Option("STRINGS.UI.DSS_OPTIONS.PAUSEONREADYTOPRING.NAME", "STRINGS.UI.DSS_OPTIONS.PAUSEONREADYTOPRING.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
 		[JsonProperty]
 		public bool PauseOnReadyToPrint { get; set; }
+
+		[Option("STRINGS.UI.DSS_OPTIONS.SORTEDPRINTINGPOD.NAME", "STRINGS.UI.DSS_OPTIONS.SORTEDPRINTINGPOD.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
+		[JsonProperty]
+		public bool SortedPrintingPod { get; set; } = false;
+
+		[Option("STRINGS.UI.DSS_OPTIONS.OVERRIDEPRINTERDUPECOUNT.NAME", "STRINGS.UI.DSS_OPTIONS.OVERRIDEPRINTERDUPECOUNT.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
+		[JsonProperty]
+		[Limit(0, 10)]
+		public int OverridePrinterDupeCount { get; set; } = 0;
+		[Option("STRINGS.UI.DSS_OPTIONS.OVERRIDEPRINTERCAREPACKAGECOUNT.NAME", "STRINGS.UI.DSS_OPTIONS.OVERRIDEPRINTERCAREPACKAGECOUNT.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
+		[JsonProperty]
+		[Limit(0, 10)]
+		public int OverridePrinterCarePackageCount { get; set; } = 0;
+
+		[Option("STRINGS.UI.DSS_OPTIONS.FORCEPRINTINGMODEL.NAME", "STRINGS.UI.DSS_OPTIONS.FORCEPRINTINGMODEL.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
+		[JsonProperty]
+		public MinionModelOverride OverridePrintingPodModels { get; set; } = MinionModelOverride.none;
+
+		public Tag[] GetViablePrinterModels()
+		{
+			switch (OverridePrintingPodModels)
+			{
+				case MinionModelOverride.normal:
+					return [GameTags.Minions.Models.Standard];
+				case MinionModelOverride.bionic:
+					return [GameTags.Minions.Models.Bionic];
+				case MinionModelOverride.none:
+				default:
+					return GameTags.Minions.Models.AllModels;
+			}
+		}
+		public enum MinionModelOverride
+		{
+			[Option("STRINGS.UI.CHARACTERCONTAINER_ALL_MODELS")]
+			none = 0,
+			[Option("STRINGS.DUPLICANTS.MODEL.STANDARD.NAME")]
+			normal = 1,
+			[Option("STRINGS.DUPLICANTS.MODEL.BIONIC.NAME")]
+			bionic = 2,
+		}
 
 		[Option("STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.NAME", "STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
 		[JsonProperty]
@@ -90,18 +141,21 @@ namespace SetStartDupes
 		[Option("STRINGS.UI.DSS_OPTIONS.ADDANDREMOVE.NAME", "STRINGS.UI.DSS_OPTIONS.ADDANDREMOVE.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS")]
 		[JsonProperty]
 		public bool AddAndRemoveTraitsAndInterests { get; set; }
+		[Option("STRINGS.UI.DSS_OPTIONS.DIRECTATTRIBUTEEDITING.NAME", "STRINGS.UI.DSS_OPTIONS.DIRECTATTRIBUTEEDITING.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS")]
+		[JsonProperty]
+		public bool DirectAttributeEditing { get; set; } = false;
 
 		[Option("STRINGS.UI.DSS_OPTIONS.ADDVACCILATORTRAITS.NAME", "STRINGS.UI.DSS_OPTIONS.ADDVACCILATORTRAITS.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS")]
 		[JsonProperty]
 		public bool AddVaccilatorTraits { get; set; }
 
+		[Option("STRINGS.UI.DSS_OPTIONS.NORMALTRAITSONBIONICS.NAME", "STRINGS.UI.DSS_OPTIONS.NORMALTRAITSONBIONICS.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS")]
+		[JsonProperty]
+		public bool BionicNormalTraits { get; set; } = false;
+
 		[Option("STRINGS.UI.DSS_OPTIONS.INTERESTPOINTSBALANCING.NAME", "STRINGS.UI.DSS_OPTIONS.INTERESTPOINTSBALANCING.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS")]
 		[JsonProperty]
 		public bool BalanceAddRemove { get; set; }
-
-		//[Option("STRINGS.UI.DSS_OPTIONS.BEYONDBIONICS.NAME", "STRINGS.UI.DSS_OPTIONS.BEYONDBIONICS.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS")]
-		//[JsonProperty]
-		//public bool BionicNormalTraits = true;
 
 		[Option("STRINGS.UI.DSS_OPTIONS.NOJOYREACTION.NAME", "STRINGS.UI.DSS_OPTIONS.NOJOYREACTION.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS")]
 		[JsonProperty]

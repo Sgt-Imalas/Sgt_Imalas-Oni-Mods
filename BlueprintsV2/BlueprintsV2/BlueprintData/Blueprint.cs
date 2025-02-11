@@ -248,7 +248,7 @@ namespace BlueprintsV2.BlueprintData
 							{
 								BuildingConfig buildingConfig = new BuildingConfig();
 								buildingConfig.ReadJson((JObject)buildingToken);
-
+								
 								BuildingConfigurations.Add(buildingConfig);
 							}
 						}
@@ -283,7 +283,7 @@ namespace BlueprintsV2.BlueprintData
 
 				catch (Exception exception)
 				{
-					//Debug.Log("Error when loading blueprint: " + FilePath + ",\n" + nameof(exception) + ": " + exception.Message);
+					Debug.Log("Error when loading blueprint: " + FilePath + ",\n" + nameof(exception) + ": " + exception.Message);
 				}
 			}
 		}
@@ -522,7 +522,7 @@ namespace BlueprintsV2.BlueprintData
 
 			foreach (BuildingConfig buildingConfig in BuildingConfigurations)
 			{
-				Recipe buildingRecipe = buildingConfig.BuildingDef.CraftRecipe;
+				Recipe buildingRecipe = buildingConfig.BuildingDef?.CraftRecipe;
 				List<Tag> selectedElements = buildingConfig.SelectedElements;
 
 				if (buildingRecipe != null)

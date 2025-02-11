@@ -9,11 +9,111 @@ namespace BlueprintsV2.BlueprintData
 {
 	internal class DataTransferHelpers
 	{
-		//TODO:
-		//- disabled state
-		//- flower pot plant
-		//- pedestal item tag
-		//- bottler
+		internal class DataTransfer_BuildingEnabledButton
+		{
+			internal static JObject TryGetData(GameObject arg)
+			{
+				if (arg.TryGetComponent<BuildingEnabledButton>(out var component))
+				{
+					return new JObject()
+					{
+						{ "IsEnabled", component.IsEnabled},
+					};
+				}
+				return null;
+			}
+			public static void TryApplyData(GameObject building, JObject jObject)
+			{
+				if (jObject == null)
+					return;
+				if (building.TryGetComponent<BuildingEnabledButton>(out var targetComponent))
+				{
+
+					var t1 = jObject.GetValue("IsEnabled");
+					if (t1 == null)
+						return;
+					var IsEnabled = t1.Value<bool>();
+					targetComponent.IsEnabled = IsEnabled;
+				}
+			}
+		}
+		internal class DataTransfer_SingleEntityReceptacle
+		{
+			internal static JObject TryGetData(GameObject arg)
+			{
+				if (arg.TryGetComponent<SingleEntityReceptacle>(out var component))
+				{
+					var occupant = component.Occupant;
+
+					Tag requestedEntityTag = component.requestedEntityTag;
+					Tag additionalFilterTag = component.requestedEntityAdditionalFilterTag;
+					if (occupant != null && occupant.TryGetComponent<KPrefabID>(out var occupantPrefabID))
+					{
+						requestedEntityTag = occupantPrefabID.PrefabTag;
+						if (occupantPrefabID.TryGetComponent<SeedProducer>(out var seedProducer))
+						{
+							requestedEntityTag = TagManager.Create(seedProducer.seedInfo.seedId);
+
+							if (occupant.TryGetComponent<MutantPlant>(out var mutant))
+								additionalFilterTag = mutant.SubSpeciesID;
+							else
+								additionalFilterTag = Tag.Invalid;
+						}
+					}
+
+					if (requestedEntityTag == null)
+						requestedEntityTag = Tag.Invalid;
+					if (additionalFilterTag == null)
+						additionalFilterTag = Tag.Invalid;
+
+					string requestedEntityTagString = requestedEntityTag == Tag.Invalid ? string.Empty : requestedEntityTag.ToString();
+					string additionalFilterTagString = additionalFilterTag == Tag.Invalid ? string.Empty : additionalFilterTag.ToString();
+
+
+					return new JObject()
+					{
+                        //{ "activeLocations", JsonConvert.SerializeObject(component.activeLocations.Select(axial => new Tuple<int,int>(axial.Q,axial.R)))},
+                        { "requestedEntityTag", requestedEntityTagString},
+						{ "requestedEntityAdditionalFilterTag", additionalFilterTagString},
+						{ "autoReplaceEntity", component.autoReplaceEntity }
+					};
+				}
+				return null;
+			}
+			public static void TryApplyData(GameObject building, JObject jObject)
+			{
+				if (jObject == null)
+					return;
+				if (building.TryGetComponent<SingleEntityReceptacle>(out var targetComponent))
+				{
+
+					var t1 = jObject.GetValue("requestedEntityTag");
+					if (t1 == null)
+						return;
+					var requestedEntityTag = t1.Value<string>();
+
+					var t2 = jObject.GetValue("requestedEntityAdditionalFilterTag");
+					if (t2 == null)
+						return;
+					var requestedEntityAdditionalFilterTag = t2.Value<string>();
+
+					var t3 = jObject.GetValue("autoReplaceEntity");
+					if (t3 == null)
+						return;
+					var autoReplaceEntity = t3.Value<bool>();
+
+					SgtLogger.l("Requested Entity Tag: " + requestedEntityTag + ", extra filter: " + requestedEntityAdditionalFilterTag);
+
+					targetComponent.autoReplaceEntity = autoReplaceEntity;
+
+					var tagParsed = requestedEntityTag.IsNullOrWhiteSpace() ? Tag.Invalid : TagManager.Create(requestedEntityTag);
+					var extraTagParsed = requestedEntityAdditionalFilterTag.IsNullOrWhiteSpace() ? Tag.Invalid : TagManager.Create(requestedEntityAdditionalFilterTag);
+
+					if (targetComponent.Occupant == null && tagParsed.IsValid)
+						targetComponent.CreateOrder(tagParsed, extraTagParsed);
+				}
+			}
+		}
 		internal class DataTransfer_LogicClusterLocationSensor
 		{
 			//active locations are disabled since those vary for each game

@@ -4,10 +4,12 @@ using Klei;
 using KMod;
 using PeterHan.PLib.Core;
 using PeterHan.PLib.Options;
+using SetStartDupes.CarePackageEditor;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using UtilLibs;
+using UtilLibs.ModVersionCheck;
 using static Database.Personalities;
 
 namespace SetStartDupes
@@ -17,7 +19,7 @@ namespace SetStartDupes
         public static Harmony harmonyInstance;
         public override void OnLoad(Harmony harmony)
         {
-            harmonyInstance = harmony;
+			harmonyInstance = harmony;
             ModApi.RegisteringJorge();
 
             ModAssets.LoadAssets();
@@ -26,7 +28,10 @@ namespace SetStartDupes
 
             SgtLogger.debuglog("Initializing file paths..");
             ModAssets.DupeTemplatePath = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config"), "DuplicantStatPresets"));
-            ModAssets.DupeTearTemplatePath = FileSystem.Normalize(Path.Combine(ModAssets.DupeTemplatePath, "TearTravelers"));
+			ModAssets.ExtraCarePackageFileInfo = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config"), "DSS_ExtraCarePackages.json"));
+
+
+			ModAssets.DupeTearTemplatePath = FileSystem.Normalize(Path.Combine(ModAssets.DupeTemplatePath, "TearTravelers"));
             ModAssets.DupeGroupTemplatePath = FileSystem.Normalize(Path.Combine(ModAssets.DupeTemplatePath, "StartingLayoutPresets"));
             SgtLogger.debuglog(ModAssets.DupeTemplatePath, "Stat Preset Folder");
             SgtLogger.debuglog("Initializing folders..");
@@ -42,10 +47,8 @@ namespace SetStartDupes
             }
             SgtLogger.log("Folders succesfully initialized");
 
-
             SgtLogger.log("Current Config Settings:");
             UtilMethods.ListAllPropertyValues(Config.Instance);
-
             SgtLogger.LogVersion(this, harmony);
             base.OnLoad(harmony);
 
@@ -82,10 +85,10 @@ namespace SetStartDupes
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
         {
             base.OnAllModsLoaded(harmony, mods);
-            CompatibilityNotifications.FlagLoggingPrevention(mods);
+			CompatibilityNotifications.FixBrokenTimeout(harmony);
+			CompatibilityNotifications.FlagLoggingPrevention(mods);
             CompatibilityNotifications.CheckAndAddIncompatibles("RePrint", "Duplicant Stat Selector", "Reprint");
             ModAssets.RemoveCrashingIncompatibility(mods);
-            //CheckAndAddIncompatibles(".Mod.WGSM", "WGSM");
         }
     }
 }

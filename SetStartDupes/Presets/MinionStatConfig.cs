@@ -40,18 +40,23 @@ namespace SetStartDupes
 					if (place != -1)
 						newName = newName.Remove(place, 4);
 				}
-				this.ChangenName(newName);
+				this.ChangeName(newName);
 
 				if (callBackAction != null)
 					callBackAction.Invoke();
 			});
 		}
 
-		public void ChangenName(string newName)
+		public void SetName(string newName)
 		{
-			DeleteFile();
 			ConfigName = newName;
 			FileName = FileNameWithHash(newName);
+		}
+
+		public void ChangeName(string newName)
+		{
+			DeleteFile();
+			SetName(newName);
 			WriteToFile();
 		}
 
@@ -249,7 +254,7 @@ namespace SetStartDupes
 				startingStats.skillAptitudes.ToList(),
 				startingStats.personality.model);
 
-			if (ModAssets.BeachedActive)
+			if (ModAssets.Beached_LifegoalsActive)
 				config.Traits.Add(Beached_API.GetCurrentLifeGoal(startingStats).Id);
 
 			return config;
@@ -268,8 +273,6 @@ namespace SetStartDupes
 			referencedStats.Traits.Clear();
 			var traitRef = Db.Get().traits;
 
-
-			//TODO! Adjust for bionic dupes!
 
 			var baseTrait = BaseMinionConfig.GetMinionBaseTraitIDForModel(referencedStats.personality.model);
 			if (!Traits.Contains(baseTrait))
@@ -309,9 +312,22 @@ namespace SetStartDupes
 
 			SgtLogger.l("Applying starting levels");
 			referencedStats.StartingLevels.Clear();
+			HashSet<string> validAttributes = new HashSet<string>(ModAssets.GET_ALL_ATTRIBUTES());
 			foreach (var startLevel in this.StartingLevels)
 			{
-				referencedStats.StartingLevels[startLevel.Key] = startLevel.Value;
+				if (validAttributes.Contains(startLevel.Key))
+					referencedStats.StartingLevels[startLevel.Key] = startLevel.Value;
+				else
+					SgtLogger.warning("couldnt apply attribute level for " + startLevel.Key + " as it is not a valid attribute.");
+			}
+			foreach (var requiredAttribute in validAttributes)
+			{
+				if (!referencedStats.StartingLevels.ContainsKey(requiredAttribute))
+				{
+					
+					SgtLogger.l("adding missing attribute level " + requiredAttribute + ", defaulting to 0.");
+					referencedStats.StartingLevels[requiredAttribute] = 0;
+				}
 			}
 
 			SgtLogger.l("Applying joy reaction");
@@ -342,9 +358,9 @@ namespace SetStartDupes
 				referencedStats.stressTrait = traitRef.Get("None");
 			}
 
-			if (ModAssets.DupeTraitManagers.ContainsKey(referencedStats))
+			if (ModAssets.DupeTraitManagers.TryGetValue(referencedStats, out var mng))
 			{
-				ModAssets.DupeTraitManagers[referencedStats].ResetPool();
+				mng.ResetPool();
 			}
 
 			var AptitudeRef = Db.Get().SkillGroups;

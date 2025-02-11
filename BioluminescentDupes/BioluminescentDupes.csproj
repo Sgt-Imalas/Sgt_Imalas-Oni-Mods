@@ -1,0 +1,53 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<!-- General Package Properties -->
+	<PropertyGroup>
+		<PackageId>BioluminescentDupes</PackageId>
+		<Version>1.0.1</Version>
+		<Authors>Sgt_Imalas</Authors>
+		<Copyright>$(AssemblyCopyright)</Copyright>
+		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
+	</PropertyGroup>
+
+	<!-- Build Properties -->
+	<PropertyGroup>
+		<TargetFramework>net48</TargetFramework>
+		<Configurations>Debug;Release</Configurations>
+		<AssemblyName>BioluminescentDupes</AssemblyName>
+		<RootNamespace>BioluminescentDupes</RootNamespace>
+		<IsMod>true</IsMod>
+		<GenerateMetadata>true</GenerateMetadata>
+		<IsPacked>true</IsPacked>
+	</PropertyGroup>
+
+
+	<!-- Mod Info -->
+	<PropertyGroup>
+		<ModName>Extra Traits: Bioluminescence</ModName>
+		<ModDescription></ModDescription>
+		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
+		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
+		<APIVersion>2</APIVersion>
+	</PropertyGroup>
+
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<OutDir>bin</OutDir>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<LangVersion>preview</LangVersion>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Update="ILRepack.Lib.MSBuild.Task" Version="2.0.34.2">
+	    <PrivateAssets>all</PrivateAssets>
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
+	</ItemGroup>
+</Project>

@@ -60,16 +60,16 @@ namespace Util_TwitchIntegrationLib.Scripts
 			return false;
 		}
 
-		static int GetRandomLiveDupeCell(int fallback, out string doop)
+		static int GetRandomLiveDupeCell(int fallback, out string dupeName)
 		{
 			if (Components.LiveMinionIdentities.Count > 0)
 			{
 				var randomDupe = Components.LiveMinionIdentities.GetRandom();
-				doop = randomDupe.name;
+				dupeName = randomDupe.name;
 				return Grid.PosToCell(randomDupe);
 
 			}
-			doop = "";
+			dupeName = "";
 			return fallback;
 		}
 	}

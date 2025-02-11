@@ -5,6 +5,7 @@ using SetStartDupes.DuplicityEditing.ScreenComponents;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 using UtilLibs;
 using UtilLibs.UI.FUI;
 using UtilLibs.UIcmp;
@@ -398,7 +399,7 @@ namespace SetStartDupes.DuplicityEditing
 			AddNewAptitude = TraitsInterestContainer.transform.Find("Content/grp2/AddInterestButton").gameObject.AddOrGet<FButton>();
 			AddNewAptitude.OnClick += () => UnityDuplicitySelectionScreen.ShowWindow(UnityDuplicitySelectionScreen.OpenedFrom.Interest, (obj) => OnAddAptitude((string)obj), () => RebuildTraitsAptitudes());
 
-			foreach (var attribute in AttributeHelper.GetEditableAttributes())
+			foreach (var attribute in AttributeHelper.GetEditableAttributes(null))
 			{
 				var attributeInput = Util.KInstantiateUI<NumberInput>(NumberInputPrefab.gameObject, ParentContainer);
 				attributeInput.Text = attribute.Name;
@@ -538,11 +539,20 @@ namespace SetStartDupes.DuplicityEditing
 			if (Stats == null)
 				return;
 			RebuildTraitsAptitudes();
-			foreach (var attribute in AttributeHelper.GetEditableAttributes())
+
+			foreach(var attribute in attributeEditors)
 			{
-				attributeEditors[attribute].SetInputFieldValue(Stats.GetAttributeLevel(attribute).ToString());
+				attribute.Value.gameObject.SetActive(false);
+			}
+
+			foreach (var attribute in AttributeHelper.GetEditableAttributes(Stats.Model))
+			{
+                attributeEditors[attribute].gameObject.SetActive(true);
+                attributeEditors[attribute].SetInputFieldValue(Stats.GetAttributeLevel(attribute).ToString());
 			}
 		}
+
+
 		private void RebuildEffects()
 		{
 			foreach (var entry in EffectEntries.Values)
@@ -652,7 +662,7 @@ namespace SetStartDupes.DuplicityEditing
 				entry.Text = trait.Name;
 				entry.Tooltip = trait.description;
 				entry.backgroundColor = ModAssets.GetColourFromType(Type);
-				if (Type == NextType.undefined || Type == NextType.special || Type == NextType.bionic_boost || Type == NextType.bionic_bug)
+				if (Type == NextType.undefined || Type == NextType.special )
 				{
 					entry.HideDelete = true;
 				}

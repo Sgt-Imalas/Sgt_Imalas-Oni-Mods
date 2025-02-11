@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SetStartDupes.Presets;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -115,7 +116,6 @@ namespace SetStartDupes
 			List<MinionCrewPreset> minionStatConfigs = new List<MinionCrewPreset>();
 			var files = new DirectoryInfo(ModAssets.DupeGroupTemplatePath).GetFiles();
 
-
 			for (int i = 0; i < files.Count(); i++)
 			{
 				var File = files[i];
@@ -132,6 +132,26 @@ namespace SetStartDupes
 					SgtLogger.warning("Couln't load crew preset from: " + File.FullName + ", Error: " + e);
 				}
 			}
+
+			//old imports
+
+			var ToImportDirectory = new DirectoryInfo(Path.Combine(IO_Utils.ConfigsFolder, "1838445101", "presets")); //steam version of that thing
+			if (ToImportDirectory.Exists)
+			{
+				var toImport = ToImportDirectory.GetFiles();
+				foreach (var file in toImport)
+				{
+					if (file.Exists && PresetImportHelper.TryImportCrew(file, out var importedCrew))
+					{
+						minionStatConfigs.Add(importedCrew);
+					}
+					else
+					{
+						SgtLogger.warning("Failed to import old crew preset from " + file.Name);
+					}
+				}
+			}
+
 			return minionStatConfigs;
 		}
 
@@ -143,22 +163,33 @@ namespace SetStartDupes
 				PresetHolder.transform.Find("TraitImage").gameObject.SetActive(false);
 
 				UIUtils.TryChangeText(PresetHolder.transform, "Label", config.CrewName);
-				PresetHolder.transform.Find("RenameButton").FindOrAddComponent<FButton>().OnClick +=
-					() => config.OpenPopUpToChangeName(
-						() =>
-							{
-								UIUtils.TryChangeText(PresetHolder.transform, "Label", config.CrewName);
-								RebuildInformationPanel();
-							}
-						);
+
 
 				PresetHolder.transform.
 					//Find("AddThisTraitButton").
 					FindOrAddComponent<FButton>().OnClick += () => SetAsCurrent(config);
-				PresetHolder.transform.Find("DeleteButton").FindOrAddComponent<FButton>().OnClick += () => DeletePreset(config);
+				var deleteButton = PresetHolder.transform.Find("DeleteButton").FindOrAddComponent<FButton>();
+				var renameButton = PresetHolder.transform.Find("RenameButton").FindOrAddComponent<FButton>();
 
-				UIUtils.AddSimpleTooltipToObject(PresetHolder.transform.Find("RenameButton"), SCROLLAREA.CONTENT.PRESETENTRYPREFAB.RENAMEPRESETTOOLTIP);
-				UIUtils.AddSimpleTooltipToObject(PresetHolder.transform.Find("DeleteButton"), SCROLLAREA.CONTENT.PRESETENTRYPREFAB.DELETEPRESETTOOLTIP);
+				deleteButton.OnClick += () => DeletePreset(config);
+
+				if (config.Imported)
+				{
+					renameButton.SetInteractable(false);
+					//deleteButton.SetInteractable(false);
+				}
+				else
+				{
+					renameButton.OnClick += () => config.OpenPopUpToChangeName(
+						() =>
+						{
+							UIUtils.TryChangeText(PresetHolder.transform, "Label", config.CrewName);
+							RebuildInformationPanel();
+						});
+				}
+
+				UIUtils.AddSimpleTooltipToObject(renameButton.gameObject, config.Imported ? SCROLLAREA.CONTENT.PRESETENTRYPREFAB.IMPORTEDPRESET : SCROLLAREA.CONTENT.PRESETENTRYPREFAB.RENAMEPRESETTOOLTIP);
+				UIUtils.AddSimpleTooltipToObject(deleteButton.gameObject, SCROLLAREA.CONTENT.PRESETENTRYPREFAB.DELETEPRESETTOOLTIP);
 				Presets[config] = PresetHolder;
 				return true;
 			}

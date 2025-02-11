@@ -12,32 +12,37 @@ namespace SetStartDupes.Patches
 {
 	internal class BionicUpgradesMonitorPatches
 	{
+		/// <summary>
+		/// allow multiple bionic boosters to be spawned from the start
+		/// </summary>
+		[HarmonyPatch(typeof(BionicUpgradesMonitor), nameof(BionicUpgradesMonitor.SpawnAndInstallInitialUpgrade))]
+		public class BionicUpgradesMonitor_SpawnAndInstallInitialUpgrade_Patch
+		{
+			public static bool Prefix(BionicUpgradesMonitor.Instance smi)
+			{
+				var traits = smi.GetComponent<Traits>();
+				var traitIds = traits.GetTraitIds();
+				var assignableEntity = smi.GetComponent<IAssignableIdentity>();
 
-   //     [HarmonyPatch(typeof(BionicUpgradesMonitor), nameof(BionicUpgradesMonitor.SpawnAndInstallInitialUpgrade))]
-   //     public class BionicUpgradesMonitor_SpawnAndInstallInitialUpgrade_Patch
-   //     {
-   //         public static bool Prefix(BionicUpgradesMonitor.Instance smi)
-   //         {
-   //             var traits = smi.GetComponent<Traits>();
-   //             var traitIds = traits.GetTraitIds();
+				HashSet<string> bionicTraits = DUPLICANTSTATS.BIONICUPGRADETRAITS.Select(entry => entry.id).ToHashSet();
 
-   //             HashSet<string> bionicTraits = DUPLICANTSTATS.BIONICUPGRADETRAITS.Select(entry => entry.id).ToHashSet();
+				foreach (var traitID in traitIds)
+				{
+					if (!bionicTraits.Contains(traitID)) //not a bionic trait
+						continue;
 
-   //             foreach (var traitID in traitIds)
-   //             {
-   //                 if (!bionicTraits.Contains(traitID)) //not a bionic trait
-   //                     continue;
+					var upgradePrefab = Assets.GetPrefab(BionicUpgradeComponentConfig.GetBionicUpgradePrefabIDWithTraitID(traitID));
 
-			//		GameObject gameObject = Util.KInstantiate(Assets.GetPrefab(BionicUpgradeComponentConfig.GetBionicUpgradePrefabIDWithTraitID(traitID)), smi.master.transform.position);
-			//		gameObject.SetActive(true);
-			//		IAssignableIdentity component1 = smi.GetComponent<IAssignableIdentity>();
-			//		BionicUpgradeComponent component2 = gameObject.GetComponent<BionicUpgradeComponent>();
-			//		component2.Assign(component1);
-			//		smi.InstallUpgrade(component2);
-			//	}
-			//	smi.sm.InitialUpgradeSpawned.Set(true, smi);
-			//	return false;
-			//}
-   //     }
+					GameObject gameObject = Util.KInstantiate(upgradePrefab, smi.master.transform.position);
+					gameObject.SetActive(true);
+					BionicUpgradeComponent component2 = gameObject.GetComponent<BionicUpgradeComponent>();
+					component2.Assign(assignableEntity);
+					smi.InstallUpgrade(component2);
+				}
+				smi.sm.InitialUpgradeSpawned.Set(true, smi);
+				smi.GoTo(smi.sm.inactive);
+				return false;
+			}
+		}
 	}
 }

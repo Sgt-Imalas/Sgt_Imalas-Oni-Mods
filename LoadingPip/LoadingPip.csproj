@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>LoadingPip</PackageId>
-		<Version>1.1.0</Version>
+		<Version>1.2.0</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>$(AssemblyCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
@@ -52,5 +52,12 @@
 	  <None Update="ModAssets\assets\aspid.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Update="ILRepack.Lib.MSBuild.Task" Version="2.0.34.2">
+	    <PrivateAssets>all</PrivateAssets>
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
 	</ItemGroup>
 </Project>

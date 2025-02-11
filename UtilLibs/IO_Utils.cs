@@ -10,7 +10,7 @@ namespace UtilLibs
 	{
 		public static string ModPath => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 		public static string ModsFolder => KMod.Manager.GetDirectory();
-		public static string ConfigFolder => Path.Combine(ModsFolder, "config");
+		public static string ConfigsFolder => Path.Combine(ModsFolder, "config");
 
 		public static void PutToClipboard(string toPut)
 		{
@@ -24,15 +24,13 @@ namespace UtilLibs
 				tr.Method("Copy").GetValue();
 			}
 		}
-
-		public static bool ReadFromFile<T>(string FileOrigin, out T output, string forceExtensionTo = "")
+		public static bool ReadFromFile<T>(FileInfo filePath, out T output, string forceExtensionTo = "", JsonSerializerSettings converterSettings = null)
 		{
-			var filePath = new FileInfo(FileOrigin);
 			try
 			{
 				if (!filePath.Exists || (forceExtensionTo != string.Empty && filePath.Extension != forceExtensionTo))
 				{
-					SgtLogger.logwarning(FileOrigin, "File does not exist!");
+					SgtLogger.logwarning(filePath.FullName, "File does not exist!");
 					output = default(T);
 					return false;
 				}
@@ -42,27 +40,28 @@ namespace UtilLibs
 					using (var sr = new StreamReader(filestream))
 					{
 						string jsonString = sr.ReadToEnd();
-						output = JsonConvert.DeserializeObject<T>(jsonString);
+						output = JsonConvert.DeserializeObject<T>(jsonString, converterSettings);
 						return true;
 					}
 				}
 			}
 			catch (Exception ex)
 			{
-				SgtLogger.warning("failed reading " + FileOrigin + ":\n\n" + ex.Message);
+				SgtLogger.warning("failed reading " + filePath.FullName + ":\n\n" + ex.Message);
 				output = default(T);
 				return false;
 			}
 		}
-
-		public static bool WriteToFile<T>(T DataObject, string filePath)
+		public static bool ReadFromFile<T>(string FileOrigin, out T output, string forceExtensionTo = "", JsonSerializerSettings converterSettings = null) => ReadFromFile(new FileInfo(FileOrigin), out output, forceExtensionTo, converterSettings);
+		
+		public static bool WriteToFile<T>(T DataObject, string filePath, JsonSerializerSettings converterSettings = null)
 		{
 			try
 			{
 				var fileInfo = new FileInfo(filePath);
 				FileStream fcreate = fileInfo.Open(FileMode.Create);
 
-				var JsonString = JsonConvert.SerializeObject(DataObject, Formatting.Indented);
+				var JsonString = JsonConvert.SerializeObject(DataObject, Formatting.Indented, converterSettings);
 				using (var streamWriter = new StreamWriter(fcreate))
 				{
 					streamWriter.Write(JsonString);

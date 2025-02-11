@@ -1,7 +1,39 @@
-﻿namespace BlueprintsV2
+﻿using PeterHan.PLib.Options;
+
+namespace BlueprintsV2
 {
 	public class STRINGS
 	{
+		public class BLUEPRINTS_CONFIG
+		{
+			public class DEFAULTMENUSELECTION
+			{
+				public static LocString TITLE = "Default Menu Selections";
+				public static LocString TOOLTIP = "The default selections made when an advanced filter menu is opened.";
+				public static LocString DEFAULTMENUSELECTION_ALL = "All";
+				public static LocString DEFAULTMENUSELECTION_NONE = "None";
+			}
+			public class REQUIRECONSTRUCTABLE
+			{
+				public static LocString NAME = "Require Constructable";
+				public static LocString TOOLTIP = "Whether buildings must be constructable by the player to be used in blueprints.";
+			}
+			public class FXTIME
+			{
+				public static LocString NAME = "FX Time";
+				public static LocString TOOLTIP = "How long FX created by Blueprints remain on the screen. Measured in seconds.";
+			}
+			public class CREATEBLUEPRINTTOOLSYNC
+			{
+				public static LocString NAME = "Blueprint Tool Overlay Sync";
+				public static LocString TOOLTIP = "Whether the Blueprint Tool syncs with the current overlay. (configurable in game too)";
+			}
+			public class SNAPSHOTTOOLSYNC
+			{
+				public static LocString NAME = "Snapshot Tool Overlay Sync";
+				public static LocString TOOLTIP = "Whether the Snapshot Tool syncs with the current overlay. (configurable in game too)";
+			}
+		}
 		public class UI
 		{
 			public class DIALOGUE

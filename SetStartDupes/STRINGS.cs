@@ -3,22 +3,143 @@
 namespace SetStartDupes
 {
 	public class STRINGS
-    {
-        public static LocString BIONIC_STRESS_HARDWIRED = "Bionic duplicants have a hardwired stress reaction since they are mostly incompatible with normal stress reactions";
+	{
+		public static LocString BIONIC_STRESS_HARDWIRED = "Bionic duplicants have a hardwired stress reaction since they are mostly incompatible with normal stress reactions";
 
-        public static LocString UNNAMEDPRESET = "(Unnamed Preset)";
+		public static LocString UNNAMEDPRESET = "(Unnamed Preset)";
 		public static LocString MISSINGTRAIT = "Missing Trait!";
 		public static LocString MISSINGTRAITDESC = "This Trait could not be found: {0}";
 		public static LocString MISSINGSKILLGROUP = "Missing Attribute!";
 		public static LocString MISSINGSKILLGROUPDESC = "This Attribute could not be found: {0}";
 		public static LocString EXCLUSIVITY_RULE_CONFLICTING = "Mutual exclusivity detected:\nWith vanilla generation rules,\nthis would not be added, as it is mutually exclusive with:";
 
-        public class UI
+		public class UI
 		{
 			public class STARTAGAIN
 			{
 				public static LocString SIDESCREEN_TEXT = "Reselect start duplicants";
 				public static LocString SIDESCREEN_TOOLTIP = "Restart Light";
+			}
+
+			public class CAREPACKAGEEDITOR
+			{
+				public static LocString TITLE = "Care Package Editor";
+				public class RESETALLPACKAGES
+				{
+					public static LocString TITLE = "Reset Care Packages";
+					public static LocString TEXT = "Are you sure you want to reset all modifications you have done to the care package selection?";
+				}
+				public class CREATECAREPACKAGEPOPUP
+				{
+					public static LocString TITLE = "Care Package Creation";
+					public static LocString SUCCESS = "Successfully created a new care package with {0}";
+					public static LocString INVALIDID = "Could not create new care package!\n\nThere is no item with the Id or name \"{0}\"";
+				}
+
+				public static LocString UNKNOWN_ITEM_TOOLTIP = "The item of this care package could not be found in the current game version.";
+				public class UNLOCKCONDITIONTOOLTIPS
+				{
+					public static LocString ALWAYSAVAILABLE = "This care package is always unlocked";
+					public static LocString START = "This care package unlocks after:";
+					public static LocString DISCOVERY = "{0} has been discovered";
+					public static LocString CYCLETHRESHOLD = "Cycle {0} has been reached";
+					public static LocString AND = "AND";
+					public static LocString OR = "OR";
+				}
+
+				public class HORIZONTALLAYOUT
+				{
+					public class OBJECTLIST
+					{
+						public class SHOWVANILLA
+						{
+							public static LocString LABEL = "Show Vanilla Care Packages:";
+							public static LocString TOOLTIP = "Also show vanilla care packages in the list.\nNote that these cannot be modified.";
+						}
+						public class SCROLLAREA
+						{
+							public class CONTENT
+							{
+								public class NONEAVAILABLE
+								{
+									public static LocString LABEL = "No custom care packages yet";
+								}
+								public class PRESETENTRYPREFAB
+								{
+									public static LocString DELETE_CARE_PACKAGE_TOOLTIP = "Delete Care Package";
+								}
+							}
+						}
+
+						public class SEARCHBAR
+						{
+							public static LocString CLEARTOOLTIP = "Clear search bar";
+							public class INPUT
+							{
+								public class TEXTAREA
+								{
+									public static LocString PLACEHOLDER = "Filter care packages...";
+									public static LocString TEXT = "";
+								}
+							}
+						}
+						public class CAREPACKAGEITEMID
+						{
+							public class TEXTAREA
+							{
+								public static LocString PLACEHOLDER = "insert new care package item Id or Name (experimental)...";
+								public static LocString TEXT = "";
+							}
+						}
+
+						public class ADDCAREPACKAGEBTN
+						{
+							public static LocString TEXT = "Add new custom care package";
+							public static LocString TOOLTIP = "Add a new custom care package.\nEnter the id of the item you want to add in the text field above.";
+						}
+					}
+					public class ITEMINFO
+					{
+						public class SCROLLAREA
+						{
+							public class CONTENT
+							{
+								public class AMOUNTINPUT
+								{
+									public static LocString LABEL = "Amount:";
+								}
+								public class REQUIREDDLCS
+								{
+									public static LocString LABEL = "Required Dlcs:";
+								}
+								public static LocString UNLOCKCONDITIONSLABEL = "Conditions required to unlock:";
+								public class UNLOCKATCYCLE
+								{
+									public static LocString LABEL = "Unlocked at cycle:";
+								}
+								public class ITEMDISCOVERED
+								{
+									public static LocString LABEL = "Item Discovered";
+								}
+							}
+						}
+						
+					}
+					
+				}
+				public class BUTTONS
+				{
+					public class CLOSEBUTTON
+					{
+						public static LocString TEXT = "Return";
+						public static LocString TOOLTIP = "Close window";
+					}
+					public class RESETBUTTON
+					{
+						public static LocString TEXT = "Reset All Changes";
+						public static LocString TOOLTIP = "Reset all changes you have made to the care package selection";
+					}
+				}
 			}
 
 			public class DUPEEDITING
@@ -194,6 +315,11 @@ namespace SetStartDupes
 					public static LocString NAME = "First print time";
 					public static LocString TOOLTIP = "Time after the printing pod offers its first print, in cycles.\nDefault is 2.5 cycles.";
 				}
+				public class CAREPACKAGEMULTIPLIER
+				{
+					public static LocString NAME = "Care Package Multiplier";
+					public static LocString TOOLTIP = "Global multiplier for the amount of item amount inside of care packages.\nDefault is 1.";
+				}
 
 				public class PAUSEONREADYTOPRING
 				{
@@ -210,7 +336,11 @@ namespace SetStartDupes
 					public static LocString NAME = "NewGame+";
 					public static LocString TOOLTIP = "Start your game with dupes you sent through the tear in previous playthroughs.";
 				}
-
+				public class FORCEPRINTINGMODEL
+				{
+					public static LocString NAME = "Print only specific duplicant models";
+					public static LocString TOOLTIP = "Force the printing pod to only produce duplicants of the selected model";
+				}
 				public class CAREPACKAGESONLY
 				{
 					public static LocString NAME = "Print Care Packages only";
@@ -220,6 +350,26 @@ namespace SetStartDupes
 				{
 					public static LocString NAME = "Additional Care Package Types";
 					public static LocString TOOLTIP = "Adds a number of items to the list of care packages that would otherwise not be obtainable.";
+				}
+				public class CAREPACKAGEEDITOR
+				{
+					public static LocString NAME = "Open Care Package Editor";
+					public static LocString TOOLTIP = "View and modify the different additional care packages or create new ones.";
+				}
+				public class SORTEDPRINTINGPOD
+				{
+					public static LocString NAME = "Sorted Printing Pod";
+					public static LocString TOOLTIP = "Printing pod entries are sorted by their type, dupes come first, then care packages.";
+				}
+				public class OVERRIDEPRINTERDUPECOUNT
+				{
+					public static LocString NAME = "Override printing pod dupe count";
+					public static LocString TOOLTIP = "Override the number of duplicants offered in the printing pod.\nA value of 0 or lower disables this feature.";
+				}
+				public class OVERRIDEPRINTERCAREPACKAGECOUNT
+				{
+					public static LocString NAME = "Override printing pod care package count";
+					public static LocString TOOLTIP = "Override the number of care packages offered in the printing pod.\nA value of 0 or lower disables this feature.\nDisabling care packages in the difficulty settings disables this feature.\nNo effect if care packages only mode is active.";
 				}
 
 				public class CAREPACKAGESONLYDUPECAP
@@ -231,7 +381,7 @@ namespace SetStartDupes
 				public class CAREPACKAGESONLYPACKAGECAP
 				{
 					public static LocString NAME = "Number of care packages for care packages only";
-					public static LocString TOOLTIP = "Only has an effect if \"" + CAREPACKAGESONLY.NAME + "\" is enabled.\nSet the number of care packages that generate when the cap is in effect";
+					public static LocString TOOLTIP = "Only has an effect if \"" + CAREPACKAGESONLY.NAME + "\" is enabled.\nSet the number of care packages that generate when the cap is in effect.";
 				}
 				public class LIVEDUPESTATCHANGE
 				{
@@ -253,6 +403,11 @@ namespace SetStartDupes
 					public static LocString NAME = "Add/Remove Interests and Traits";
 					public static LocString TOOLTIP = "Allows to add new or remove existing Traits and Interests on Duplicants.\nCan be overpowered if used excessively.";
 				}
+				public class DIRECTATTRIBUTEEDITING
+				{
+					public static LocString NAME = "Direct Attribute Editing";
+					public static LocString TOOLTIP = "Allows to directly edit the starting attributes of duplicants.\nCan be overpowered.";
+				}
 				public class ADDVACCILATORTRAITS
 				{
 					public static LocString NAME = "Allow adding Vaccilator Traits";
@@ -263,9 +418,9 @@ namespace SetStartDupes
 					public static LocString NAME = "Interest Point Balancing";
 					public static LocString TOOLTIP = "Use the vanilla interest point bonus for active interests determined by active traits.\nDeactivate to override this point limit.";
 				}
-				public class BEYONDBIONICS
+				public class NORMALTRAITSONBIONICS
 				{
-					public static LocString NAME = "Add normal traits to Bionic Duplicants";
+					public static LocString NAME = "Allow normal traits on Bionic Duplicants";
 					public static LocString TOOLTIP = "When active, allows adding regular traits to bionic duplicants.";
 				}
 				public class NOJOYREACTION
@@ -362,6 +517,7 @@ namespace SetStartDupes
 									public static LocString INVALIDMODELTOOLTIP = "Preset not compatible with current duplicant model!";
 									public static LocString RENAMEPRESETTOOLTIP = "Rename Preset";
 									public static LocString DELETEPRESETTOOLTIP = "Delete Preset";
+									public static LocString IMPORTEDPRESET = "This crew preset was imported from your old dgsm presets, it cannot be modified directly.";
 
 								}
 							}
@@ -427,6 +583,7 @@ namespace SetStartDupes
 				public static LocString REMOVEDUPE = "REMOVE SLOT";
 				public static LocString REMOVEDUPETOOLTIP = "Remove this duplicant slot, reducing your total starting duplicant count by 1.";
 				public static LocString GUARANTEETRAIT = "Guarantee this trait to be rolled on a reroll.\nWorks in combination with the interest selector.";
+				public static LocString ROLLWITHTRAIT_LABEL = "REROLL WITH TRAIT";
 				public static LocString LOCKPERSONALITY_TOOLTIP = "Lock the current personality for rolls.\nWhile locked, all duplicants rolled will automatically have the locked personality.";
 				public static LocString PRINTINGPOD_SELECT = "The current planet the active printing pod is on.\nClick to change the active printing pod";
 			}

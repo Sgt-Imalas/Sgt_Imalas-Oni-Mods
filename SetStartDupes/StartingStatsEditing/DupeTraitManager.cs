@@ -1,18 +1,24 @@
 ﻿using Beached_ModAPI;
 using Database;
 using Klei.AI;
+using SetStartDupes.DuplicityEditing.ScreenComponents;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using TUNING;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
+using UtilLibs.UIcmp;
 
 namespace SetStartDupes
 {
 	public class DupeTraitManager : KMonoBehaviour
 	{
+
+		public static GameObject NumberInputPrefab = null;
+
 		#region UI_Handing
 		public bool CurrentlyEditing
 		{
@@ -25,7 +31,7 @@ namespace SetStartDupes
 				_currentlyEditing = value;
 				if (value)
 				{
-
+					this.RebuildUI();
 				}
 			}
 		}
@@ -35,11 +41,13 @@ namespace SetStartDupes
 			public SkillGroup SkillGroup;
 			public KButton plusButton, minusButton;
 			public LocText Label;
+			public ToolTip ToolTip;
 		}
 
 
-		Dictionary<Trait, GameObject> UI_TraitEntries = new Dictionary<Trait, GameObject>();
-		Dictionary<SkillGroup, UI_InterestLogic> UI_InterestEntries = new Dictionary<SkillGroup, UI_InterestLogic>();
+		Dictionary<Trait, GameObject> UI_TraitEntries = new ();
+		Dictionary<SkillGroup, UI_InterestLogic> UI_InterestEntries = new ();
+		Dictionary<Klei.AI.Attribute, NumberInput> UI_AttributeEntries = new();
 
 
 
@@ -60,6 +68,8 @@ namespace SetStartDupes
 		string TraitBalanceTooltip;
 
 
+		GameObject AttributeContainer;
+
 		GameObject InterestContainer;
 		GameObject TraitContainer;
 		GameObject OverjoyedContainer;
@@ -68,6 +78,7 @@ namespace SetStartDupes
 
 		GameObject AddNewTrait;
 		GameObject AddNewInterest;
+
 
 
 
@@ -105,14 +116,18 @@ namespace SetStartDupes
 
 			Debug.Assert(TraitContainer, "traitcontainer was null!");
 
+			AttributeContainer = InitContainer("AttributeContainer", global::STRINGS.UI.DETAILTABS.STATS.GROUPNAME_ATTRIBUTES);
+			AttributeContainer.transform.SetSiblingIndex(InterestContainer.transform.GetSiblingIndex());
+			AttributeContainer.SetActive(Config.Instance.DirectAttributeEditing);
+
 			OverjoyedContainer = InitContainer("OverjoyedContainer", string.Format(global::STRINGS.UI.CHARACTERCONTAINER_JOYTRAIT, string.Empty));
 			OverjoyedContainer.SetActive(!Config.Instance.NoJoyReactions);
 
-			StressContainer = InitContainer( "StressContainer", string.Format(global::STRINGS.UI.CHARACTERCONTAINER_STRESSTRAIT, string.Empty));
+			StressContainer = InitContainer("StressContainer", string.Format(global::STRINGS.UI.CHARACTERCONTAINER_STRESSTRAIT, string.Empty));
 			StressContainer.SetActive(!Config.Instance.NoStressReactions);
 
 			LifeGoalContainer = InitContainer("LifeGoalContainer", string.Format(Strings.Get("STRINGS.UI.CHARACTERCONTAINER_LIFEGOAL_TRAIT"), string.Empty));
-			LifeGoalContainer.SetActive(ModAssets.BeachedActive);
+			LifeGoalContainer.SetActive(ModAssets.Beached_LifegoalsActive);
 
 			if (InterestContainer.transform.gameObject.TryGetComponent<LayoutElement>(out LayoutElement layoutElement))
 			{
@@ -206,6 +221,7 @@ namespace SetStartDupes
 			imgAdd.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, (addbtnLE.preferredWidth / 2f) - (25f / 2f), 25);
 			UIUtils.AddActionToButton(AddNewTrait.transform, "", () => UnityTraitScreen.ShowWindow(ToEditMinionStats, () => UpdateUI(), DupeTraitManager: this, openedFrom: UnityTraitScreen.OpenedFrom.Trait));
 			AddNewTrait.TryGetComponent<ToolTip>(out var tt2);
+			AddNewTrait.SetActive(true);
 			tt2.enabled = true;
 			tt2.SetSimpleTooltip(STRINGS.UI.BUTTONS.ADDTOSTATS);
 
@@ -214,6 +230,30 @@ namespace SetStartDupes
 			TraitBalanceHeader = TraitBalanceHeaderGO.GetComponent<LocText>();
 			TraitBalanceTooltipCMP = UIUtils.AddSimpleTooltipToObject(TraitBalanceHeaderGO.gameObject, "tt");
 			RebuildUI();
+		}
+
+
+		GameObject AddInterestEditToggle(GameObject parent) //this started as something, not used
+		{
+			var interestToggle = Util.KInstantiateUI(ListEntryButtonPrefab, parent, true);
+			interestToggle.name = "ToggleInterestEditing";
+
+			interestToggle.TryGetComponent<LayoutElement>(out var LE);
+			LE.preferredWidth = 270;
+			UIUtils.AddSimpleTooltipToObject(interestToggle.transform, "Toggle raw attribute editing\nThis disables interest point redistribution when active.", true, onBottom: true);
+
+
+			interestToggle.GetComponent<KButton>().enabled = true;
+			UIUtils.AddActionToButton(interestToggle.transform, "", () =>
+			{
+
+			});
+			//ModAssets.ApplyTraitStyleByKey(interestToggle.GetComponent<KImage>(), Nexty);
+
+			//UIUtils.TryChangeText(interestToggle.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, trait.Name));
+			interestToggle.transform.Find("RemoveButton").gameObject.SetActive(false);
+
+			return interestToggle;
 		}
 
 		void UpdateReactions()
@@ -254,9 +294,8 @@ namespace SetStartDupes
 				StressTT.SetSimpleTooltip(ModAssets.GetTraitTooltip(ToEditMinionStats.stressTrait, ToEditMinionStats.stressTrait.Id));
 			}
 
-			if (ModAssets.BeachedActive)
+			if (ModAssets.Beached_LifegoalsActive)
 			{
-
 				Trait LifeGoalTrait = Beached_API.GetCurrentLifeGoal.Invoke(ToEditMinionStats);
 				if (GoalLabel == null)
 				{
@@ -336,11 +375,12 @@ namespace SetStartDupes
 				logic.Label.text = string.Format(STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY2, GetSkillGroupName(interest), FirstSkillGroupStat(interest), this.GetBonusValue(interest));
 				logic.minusButton.isInteractable = CanReduceInterest(interest);
 				logic.plusButton.isInteractable = CanIncreaseInterest();
+				logic.ToolTip.SetSimpleTooltip(ModAssets.GetSkillgroupDescription(interest, ToEditMinionStats));
 			}
 			RebuildInterestPointTooltip();
 		}
 
-		void AddInterestUI(SkillGroup interest)
+		void AddOrUpdateInterestUI(SkillGroup interest)
 		{
 			if (UI_InterestEntries.ContainsKey(interest))
 			{
@@ -362,7 +402,7 @@ namespace SetStartDupes
 				{
 					UnityTraitScreen.ShowWindow(ToEditMinionStats, () => UpdateUI(), currentGroup: interest, DupeTraitManager: this);
 				});
-				UIUtils.AddSimpleTooltipToObject(AptitudeEntry.transform, ModAssets.GetSkillgroupDescription(interest, ToEditMinionStats), true, onBottom: true);
+				var tt = UIUtils.AddSimpleTooltipToObject(AptitudeEntry.transform, ModAssets.GetSkillgroupDescription(interest, ToEditMinionStats), true, onBottom: true);
 				AptitudeEntry.GetComponent<KButton>().enabled = true;
 				ModAssets.ApplyDefaultStyle(AptitudeEntry.GetComponent<KImage>());
 				UIUtils.TryChangeText(AptitudeEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY2, GetSkillGroupName(interest), FirstSkillGroupStat(interest), this.GetBonusValue(interest)));
@@ -405,6 +445,7 @@ namespace SetStartDupes
 				logic.plusButton = interestPlusBtn;
 				logic.minusButton = interestMinusBtn;
 				logic.SkillGroup = interest;
+				logic.ToolTip = tt;
 
 				UI_InterestEntries[interest] = logic;
 
@@ -430,13 +471,13 @@ namespace SetStartDupes
 			}
 			else
 			{
-				if (ModAssets.IsMinionBaseTrait(trait.Id))
+				if (ModAssets.IsMinionBaseTrait(trait.Id)||ModAssets.IsInvalidTrait(trait))
 					return;
 
 				var type = ModAssets.GetTraitListOfTrait(trait.Id);
 
-				bool bionicTrait = (type == NextType.bionic_boost || type == NextType.bionic_bug);
-				var traitEntry = AddTraitContainerUI(trait, TraitContainer, type,!bionicTrait);
+				//bool bionicTrait = (type == NextType.bionic_boost || type == NextType.bionic_bug);
+				var traitEntry = AddTraitContainerUI(trait, TraitContainer, type);
 				traitEntry.TryGetComponent<LayoutElement>(out var LE);
 				UI_TraitEntries[trait] = traitEntry;
 
@@ -471,7 +512,7 @@ namespace SetStartDupes
 
 			UIUtils.TryChangeText(traitEntry.transform, "Label", string.Format(STRINGS.UI.DUPESETTINGSSCREEN.TRAIT, trait.Name));
 			traitEntry.transform.Find("RemoveButton").gameObject.SetActive(Config.Instance.AddAndRemoveTraitsAndInterests && !notEditable && enableDeleteButton);
-			
+
 			ModAssets.ApplyTraitStyleByKey(traitEntry.transform.Find("RemoveButton").gameObject.GetComponent<KImage>(), type);
 
 			UIUtils.AddActionToButton(traitEntry.transform, "RemoveButton", () =>
@@ -483,40 +524,114 @@ namespace SetStartDupes
 			return traitEntry;
 		}
 
-		void RebuildInterests()
+		void RebuildTypeSpecifics()
 		{
 			if (ToEditMinionStats == null)
 				return;
 
+			bool isBionic = ToEditMinionStats.personality.model == BionicMinionConfig.MODEL;
+
+			//AddNewTrait.SetActive(!isBionic || Config.Instance.BionicNormalTraits);
+
+			InterestContainer.SetActive(!isBionic);
+		}
+		void RebuildAttributes()
+		{
+			if (ToEditMinionStats == null || !Config.Instance.DirectAttributeEditing)
+				return;
+			foreach (var entry in UI_AttributeEntries.Values)
+			{
+				entry.gameObject.SetActive(false);
+			}
+			var attributesDb = Db.Get().Attributes;
+			foreach (var attributeID in ModAssets.GET_ALL_ATTRIBUTES())
+			{
+				var attribute = attributesDb.TryGet(attributeID);
+				if (attribute != null)
+					AddOrUpdateAttributeUI(attribute);
+				else
+					SgtLogger.error("attributeid " + attributeID + " not found in db!");
+			}
+
+		}
+		void UpdateAttributes()
+		{
+			RebuildAttributes();
+		}
+		void AddOrUpdateAttributeUI(Klei.AI.Attribute attribute)
+		{
+			if (!UI_AttributeEntries.ContainsKey(attribute))
+			{
+				var entryTransform = Util.KInstantiateUI(NumberInputPrefab, AttributeContainer);
+				var attributeInput = entryTransform.AddOrGet<NumberInput>();
+				attributeInput.Text = attribute.Name;
+				attributeInput.OnInputChanged += (text) => TryChangeAttribute(text, attribute);
+				UI_AttributeEntries[attribute] = attributeInput;
+			}
+
+			if (Stats == null)
+				return;
+			var input = UI_AttributeEntries[attribute];
+			input.gameObject.SetActive(true);
+
+			if (Stats.StartingLevels.TryGetValue(attribute.Id, out var attributeValue))
+			{
+				SgtLogger.l("setting value for " + attribute.Id + " " + attribute.Name + " to " + attributeValue);
+				input.SetInputFieldValue(attributeValue.ToString());
+			}
+			else
+			{
+				SgtLogger.error("Attribute " + attribute.Id + " not found in starting levels!");
+				input.SetInputFieldValue("0");
+			}
+		}
+		void TryChangeAttribute(string number, Klei.AI.Attribute attribute)
+		{
+			if (!float.TryParse(number, out var newVal))
+			{
+				UI_AttributeEntries[attribute].SetInputFieldValue("0");
+				return;
+			}
+
+			if (newVal > 10000)
+			{
+				newVal = 10000;
+				UI_AttributeEntries[attribute].SetInputFieldValue(newVal.ToString());
+			}
+			if (newVal < -10000)
+			{
+				newVal = -10000;
+				UI_AttributeEntries[attribute].SetInputFieldValue(newVal.ToString());
+			}
+
+
+			if (Stats.StartingLevels.TryGetValue(attribute.Id, out var oldVal))
+			{
+				if (newVal == oldVal)
+					return;
+				Stats.StartingLevels[attribute.Id] = (int)newVal;
+			}
+
+			UpdateInterestLabels();			
+		}
+
+		void RebuildInterests()
+		{
 			foreach (var entry in UI_InterestEntries.Values)
 			{
 				entry.gameObject.SetActive(false);
 			}
 
-			if(ToEditMinionStats.personality.model == BionicMinionConfig.MODEL
-				//&& !Config.Instance.BionicNormalTraits
-				)
-			{
-				AddNewTrait.SetActive(false);
-				InterestContainer.SetActive(false);
-				return;
-			}
-			else
-			{
-				AddNewTrait.SetActive(true);
-				InterestContainer.SetActive(true);
-			}
-
-
 			foreach (SkillGroup a in GetInterestsWithStats())
 			{
-				AddInterestUI(a);
+				AddOrUpdateInterestUI(a);
 			}
 		}
 
 		void UpdateUI()
 		{
 			UpdateInterestLabels();
+			UpdateAttributes();
 			UpdateReactions();
 			UpdateTraitSorting();
 			UpdateInterestSorting();
@@ -593,6 +708,8 @@ namespace SetStartDupes
 				return;
 			SgtLogger.l("Rebuilding UI");
 
+			RebuildTypeSpecifics();
+			RebuildAttributes();
 			RebuildInterests();
 			RebuildTraits();
 			RebuildInterestPointTooltip();
@@ -632,25 +749,37 @@ namespace SetStartDupes
 
 		public string PointPool => Config.Instance.BalanceAddRemove ? UIUtils.ColorNumber(skillPointPool) : UIUtils.ColorText("∞", UIUtils.number_green);
 
+
 		public enum NextType
 		{
+			//chatty + ancient knowledge
 			special,
+			//purple traits from gene shuffler
 			geneShufflerTrait,
-			posTrait,
-			needTrait,
-			negTrait,
-			joy,
-			stress,
-			undefined,
-			cogenital,
+
+			//bionic dupe traits
 			bionic_boost,
 			bionic_bug,
 
+			//regular dupe traits
+			posTrait,
+			needTrait,
+			negTrait,
 
+			//reactions
+			joy,
+			stress,
+
+
+			undefined, //catch
+			cogenital,  //unused
+
+			//fill type for all
 			allTraits,
 
-			Beached_LifeGoal,
-			RainbowFart
+			//mod integration types
+			Beached_LifeGoal, //lifegoal from akis beached mod
+			RainbowFart //rainbow fart from rainbow farts mod
 		}
 		internal void SetReferenceStats(MinionStartingStats referencedStats)
 		{
@@ -678,7 +807,7 @@ namespace SetStartDupes
 
 		void Beached_RecalculateLifeGoal()
 		{
-			if (ToEditMinionStats == null || ModAssets.BeachedActive)
+			if (ToEditMinionStats == null || ModAssets.Beached_LifegoalsActive)
 			{
 				Trait currentGoal = Beached_API.GetCurrentLifeGoal(ToEditMinionStats);
 				Beached_API.RemoveLifeGoal(ToEditMinionStats);
@@ -762,14 +891,14 @@ namespace SetStartDupes
 		}
 		public void RemoveLifeGoal()
 		{
-			if (ToEditMinionStats != null && ModAssets.BeachedActive)
+			if (ToEditMinionStats != null && ModAssets.Beached_LifegoalsActive)
 			{
 				Beached_API.RemoveLifeGoal(ToEditMinionStats);
 			}
 		}
 		public void AddLifeGoal(Trait trait)
 		{
-			if (ToEditMinionStats != null && ModAssets.BeachedActive)
+			if (ToEditMinionStats != null && ModAssets.Beached_LifegoalsActive)
 			{
 				Beached_API.SetLifeGoal(ToEditMinionStats, trait, true);
 			}
@@ -799,8 +928,8 @@ namespace SetStartDupes
 		}
 		public void RedoStatpointBonus(Trait trait)
 		{
-			ModAssets.GetTraitListOfTrait(trait.Id, out var list);
-			SgtLogger.l(trait.Name + ": " + list);
+			var nextType = ModAssets.GetTraitListOfTrait(trait.Id, out var list);
+			SgtLogger.l(trait.Name + ": " + nextType);
 			if (list == null)
 				return;
 
@@ -966,7 +1095,7 @@ namespace SetStartDupes
 			}
 			ResetPool();
 
-			AddInterestUI(interest);
+			AddOrUpdateInterestUI(interest);
 		}
 
 		public void RecalculateSkillPoints()
@@ -1149,7 +1278,6 @@ namespace SetStartDupes
 		/// <param name="startingLevels"></param>
 		internal void AddSkillLevels(ref Dictionary<string, int> startingLevels)
 		{
-			//Debug.Log("AAAAAAAAAAAAAAAA");
 			ToEditMinionStats.StartingLevels = startingLevels;
 			foreach (var skillGroup in startingLevels)
 			{
