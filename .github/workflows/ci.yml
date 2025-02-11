@@ -15,6 +15,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v2
+    
     - name: NuGet Restore
       run: msbuild -t:restore -property:Configuration=Release
     
@@ -41,8 +44,9 @@ jobs:
       with:
         tag_name: "AllMods_Automated_Build"
         release_name: "All Mods - Latest Build"
+        body: "Automated build of all mods, based on the latest code state"
         draft: false
-        prerelease: false
+        prerelease: true
     
     - name: Upload zip to release
       uses: actions/upload-release-asset@v1
