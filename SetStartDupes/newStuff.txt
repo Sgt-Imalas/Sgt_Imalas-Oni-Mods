@@ -32,6 +32,7 @@ Fixes, adjustments and minor improvements:
 - The vertical spacer in the cryopod screen has been adjusted in height to only provide space for the reroll button
 - interest tooltips in the stat editor now refresh their values properly if the attribute of the interest changes its value
 - the pdb file is now included
+- the "Lock Trait" button now says "lock trait" instead of "none" when the trait lock feature is not in use
 - updated a number of translations:
 	- updated german translation
 	- updated french translation (thanks to Ghultath and Pholith)
