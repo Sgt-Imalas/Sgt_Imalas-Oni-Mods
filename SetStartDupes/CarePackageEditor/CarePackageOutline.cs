@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 using static STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS;
+using System.Reflection;
 
 namespace SetStartDupes.CarePackageEditor
 {
@@ -58,7 +59,7 @@ namespace SetStartDupes.CarePackageEditor
 			sb.AppendLine();
 			sb.AppendLine(STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.OR);
 			sb.AppendLine();
-			sb.AppendLine(string.Format(STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.CYCLETHRESHOLD,500));
+			sb.AppendLine(string.Format(STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.CYCLETHRESHOLD, 500));
 			return sb.ToString();
 		}
 
@@ -165,7 +166,7 @@ namespace SetStartDupes.CarePackageEditor
 			Name = item?.GetProperName() ?? null;
 			Amount = amount;
 			UnlockConditions = null;
-			RefreshDLCs(item);			
+			RefreshDLCs(item);
 		}
 		void RefreshDLCs(GameObject item)
 		{
@@ -176,7 +177,7 @@ namespace SetStartDupes.CarePackageEditor
 				if (requiredDlcs != null)
 				{
 					requiredDlcs = requiredDlcs.Distinct().ToList();
-					if(requiredDlcs.Contains(DlcManager.VANILLA_ID) && requiredDlcs.Contains(DlcManager.EXPANSION1_ID)) //when in both SO and base game, remove those 2
+					if (requiredDlcs.Contains(DlcManager.VANILLA_ID) && requiredDlcs.Contains(DlcManager.EXPANSION1_ID)) //when in both SO and base game, remove those 2
 					{
 						requiredDlcs.Remove(DlcManager.EXPANSION1_ID);
 						requiredDlcs.Remove(DlcManager.VANILLA_ID);
@@ -236,7 +237,7 @@ namespace SetStartDupes.CarePackageEditor
 		{
 			if (RequiredDlcs == null)
 				RequiredDlcs = new(8);
-			if(!RequiredDlcs.Contains(dlc))
+			if (!RequiredDlcs.Contains(dlc))
 				RequiredDlcs.Add(dlc);
 			return this;
 		}
@@ -257,7 +258,7 @@ namespace SetStartDupes.CarePackageEditor
 			Name = item?.GetProperName() ?? null;
 			UnlockConditions = null;
 
-			if(item!=null && item.TryGetComponent<KPrefabID>(out var prefabID) && prefabID.requiredDlcIds != null)
+			if (item != null && item.TryGetComponent<KPrefabID>(out var prefabID) && prefabID.requiredDlcIds != null)
 			{
 				RequiredDlcs = new(prefabID.requiredDlcIds);
 			}
