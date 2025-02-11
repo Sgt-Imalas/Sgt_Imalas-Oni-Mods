@@ -1,15 +1,10 @@
-﻿- added some sorting to the interest list so interests with the same attribute are always on top of each other (vanilla issue)
-- added import for old crew presets created with dgsm
-
-
-
-
-Duplicant Stat Selector Update 8:
+﻿DSS Update 8 is released:
 
 New Features:
 - Care Package Editor
 	- edit extra care packages and their conditions
 	- add new care packages
+	- view vanilla care packages (not editable atm)  
 - Direct Attribute Editing:
 	- adjust the start attribute values of duplicants directly instead of them being tied to the selected interests. 
 	- this feature is toggled off in the config by default as it is slightly OP
@@ -20,14 +15,14 @@ New Features:
 	- also affects duplicity style editor
 - More Printing Pod Configurables:
 	- force a specific number of dupes to be available in the printing pod
-	- force a specific care packagesof dupes to be available in the printing pod
+	- force a specific number of care packages to be available in the printing pod
 	- global care package multiplier - increase or decrease the amount/mass contained in all care packages
 
 Fixes, adjustments and minor improvements:
 - crew presets from dgsm are now imported and will show up in your "Crew Presets" list
 - interests are now sorted by their attribute, so interests with the same attribute are always on top of each other and theres no lone entry without attribute value (visual vanilla issue)
 - the text color for neural vaccilator traits and need traits in the starter and printing pod screen has been unified with the colors in the stat editor (purple for vaccilator, yellow for need)
-- personality lock has been adjusted so the cogenital trait of the personality is included in the stat roll (e.g. Freya with her Frostproof trait)
+- personality lock has been adjusted so the congenital trait of the personality is included in the stat roll (e.g. Freya with her Frostproof trait)
 - when editing bionic dupes, the "Shocker" stress reaction can now be found in the stress reaction trait list of bionic dupes so it can be switched back to "Shocker" if it was changed
 - The vertical spacer in the cryopod screen has been adjusted in height to only provide space for the reroll button
 - interest tooltips in the stat editor now refresh their values properly if the attribute of the interest changes its value
