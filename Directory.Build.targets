@@ -5,8 +5,8 @@
 	<Target Name="GenerateYAML" BeforeTargets="Build">
 		<WriteLinesToFile
 			File="$(TargetDir)/mod.yaml"
-			Lines="title: $(ModName)
-description: $(ModDescription)
+			Lines="title: '$(ModName)'
+description: '$(ModDescription)'
 staticID: $(AssemblyName)"
 			Overwrite="true"/>
 		<WriteLinesToFile

@@ -49,7 +49,7 @@ namespace UtilLibs.ModVersionCheck
 		/// PLib registry key for download path, Dictionary<string,string> with staticModD as key and direct download link as value
 		/// </summary>
 		//public const string ModDownloadFetchPathsKey = "Sgt_Imalas_ModDownloadFetchPathsKey";
-		public const int CurrentVersion = 9;
+		public const int CurrentVersion = 10;
 
 		public static bool OlderVersion => CurrentVersion < (PRegistry.GetData<int>(VersionCheckerVersion));
 
@@ -286,40 +286,6 @@ namespace UtilLibs.ModVersionCheck
 				// List<string> modLabelIdsThatRequireUpdating = new List<string>();
 
 				int counter = 0;
-				//SgtLogger.l("checking for enabled outdated mods based on version data", "Sgt_Imalas-VersionChecker");
-				//foreach(var localModId in localVersionData.Keys)
-				//{
-				//    if (!serverVersionData.ContainsKey(localModId))
-				//        continue;
-
-				//    var localMod = manager.mods.FirstOrDefault(mod => mod.IsEnabledForActiveDlc() && mod.staticID == localModId);
-				//    if(localMod == null)
-				//        continue;
-
-				//    if (Version.TryParse(localVersionData[localModId], out var SourceVersion)
-				//            && Version.TryParse(serverVersionData[localModId], out var TargetVersion))
-				//    {
-				//        counter++;
-				//        //SgtLogger.l(localMod.title+": "+SourceVersion + " <- current - target ->" +  TargetVersion , "Sgt_Imalas-VersionChecker");
-				//        if (SourceVersion.CompareTo(TargetVersion) < 0)
-				//        {
-				//            AppendOutdatedMod(stringBuilder, localMod.title, TargetVersion.ToString(), SourceVersion.ToString(), ref linecount, ref modsOverLineCount, maxLines);
-				//            SgtLogger.warning(localMod.title + " is outdated! Found local version is " + SourceVersion.ToString() + ", but latest is " + TargetVersion.ToString());
-				//            //modLabelIdsThatRequireUpdating.Add(localMod.label.defaultStaticID);
-				//            outdatedModFound = true;
-				//        }
-				//    }
-				//    ///fallback check for if semver doesnt work
-				//    else if (localMod.packagedModInfo.version != serverVersionData[localModId])
-				//    {
-				//        var target = serverVersionData[localModId];
-				//        var source = localMod.packagedModInfo.version;
-				//        AppendOutdatedMod(stringBuilder, localMod.title, target, source, ref linecount, ref modsOverLineCount, maxLines);
-				//        SgtLogger.warning(localMod.title + " is not the target version! Found local version is " + source + ", but target is " + target.ToString());
-				//        //modLabelIdsThatRequireUpdating.Add(localMod.label.defaultStaticID);
-				//        outdatedModFound = true;
-				//    }
-				//}
 
 
 				//SgtLogger.l("checking for disabled outdated mods based on version data", "Sgt_Imalas-VersionChecker");
@@ -345,9 +311,25 @@ namespace UtilLibs.ModVersionCheck
 						if (localMod != null && localMod.packagedModInfo != null)
 						{
 							counter++;
+
+
+
 							///Semver version comparison
-							if (Version.TryParse(localMod.packagedModInfo.version, out var SourceVersion)
-							&& Version.TryParse(serverVersionData[localModId], out var TargetVersion))
+							///
+							string sourceVersionString = localMod.packagedModInfo.version;
+							if(sourceVersionString.Count(c => c == '.') < 3)
+							{
+								sourceVersionString += ".0";
+							}
+
+							string targetVersionString = serverVersionData[localModId]; 
+							if (targetVersionString.Count(c => c == '.') < 3)
+							{
+								targetVersionString += ".0";
+							}
+
+							if (Version.TryParse(sourceVersionString, out var SourceVersion)
+							&& Version.TryParse(targetVersionString, out var TargetVersion))
 							{
 
 								//SgtLogger.l(SourceVersion + "<->" +  TargetVersion , SourceVersion.CompareTo(TargetVersion));
