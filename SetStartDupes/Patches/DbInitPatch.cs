@@ -16,6 +16,7 @@ namespace SetStartDupes.Patches
         [HarmonyPatch(typeof(Db), nameof(Db.Initialize))]
         public class Db_Initialize_Patch
         {
+			[HarmonyPriority(Priority.LowerThanNormal)]
             public static void Postfix(Db __instance)
             {
 				RainbowFarts_API.InitRainbowFartsAPI();
