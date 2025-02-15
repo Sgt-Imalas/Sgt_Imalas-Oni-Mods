@@ -1970,17 +1970,19 @@ namespace SetStartDupes
 				}
 
 				ModAssets.SetContainerPersonalityLock(__instance, true);
-				string cogenitalTrait = ___stats.personality.congenitaltrait;
-				var traits = Db.Get().traits;
-				if (!cogenitalTrait.IsNullOrWhiteSpace() && traits.Get(cogenitalTrait) != null)
-				{
-					var cogenital = traits.Get(cogenitalTrait);
-					if (DlcManager.IsAllContentSubscribed(cogenital.requiredDlcIds))
-					{
-						UnityTraitRerollingScreen.GuaranteedTraitRoll[__instance] = cogenital;
-						ModAssets.UpdateTraitLockButton(__instance);
-					}
-				}
+				///no longer required because the congenital trait is now included with the personality lock
+				
+				//string congenitalTrait = ___stats.personality.congenitaltrait;
+				//var traits = Db.Get().traits;
+				//if (!congenitalTrait.IsNullOrWhiteSpace() && traits.Get(congenitalTrait) != null)
+				//{
+				//	var congenital = traits.Get(cogenitalTrait);
+				//	if (DlcManager.IsAllContentSubscribed(congenital.requiredDlcIds))
+				//	{
+				//		UnityTraitRerollingScreen.GuaranteedTraitRoll[__instance] = congenital;
+				//		ModAssets.UpdateTraitLockButton(__instance);
+				//	}
+				//}
 			}
 		}
 
