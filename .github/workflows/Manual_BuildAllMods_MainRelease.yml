@@ -1,8 +1,6 @@
-name: Build all mods for automated release
+name: Build all mods for full release
 
-on:
-  push:
-    branches: [ "master" ]
+on: workflow_dispatch
 
 permissions:
   contents: write # Grant write permission for creating releases
@@ -31,7 +29,7 @@ jobs:
       uses: dev-drprasad/delete-older-releases@v0.3.4
       with:
         keep_latest: 0
-        delete_tag_pattern: AllMods_Automated_Build*
+        delete_tag_pattern: AllMods_Automated_Build_FullRelease*
         delete_tags: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -42,11 +40,11 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: "AllMods_Automated_Build"
+        tag_name: "AllMods_Automated_Build_FullRelease"
         release_name: "All Mods - Latest Build"
         body: "Automated build of all mods, based on the latest code state"
         draft: false
-        prerelease: true
+        prerelease: false
     
     - name: Upload zip to release
       uses: actions/upload-release-asset@v1
@@ -58,12 +56,12 @@ jobs:
         asset_name: Sgt_Imalas_All_Mods_Nightly.zip
         asset_content_type: application/zip
 
-    - name: Delete workflow runs
-      uses: Mattraks/delete-workflow-runs@v2
-      with:
-        token: ${{ github.token }}
-        repository: ${{ github.repository }}
-        retain_days: 1
-        keep_minimum_runs: 3
+    # - name: Delete workflow runs
+    #   uses: Mattraks/delete-workflow-runs@v2
+    #   with:
+    #     token: ${{ github.token }}
+    #     repository: ${{ github.repository }}
+    #     retain_days: 1
+    #     keep_minimum_runs: 3
           
 

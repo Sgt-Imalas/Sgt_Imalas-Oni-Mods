@@ -1,0 +1,69 @@
+name: Build all mods for automated release as preview
+
+on:
+  push:
+    branches: [ "master" ]
+
+permissions:
+  contents: write # Grant write permission for creating releases
+  actions: write # Grant write permission to delete old workflow runs
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v2
+    
+    - name: NuGet Restore
+      run: msbuild -t:restore -property:Configuration=Release
+    
+    - name: Build project
+      run: msbuild -t:rebuild -property:Configuration=Release -property:GameLibsFolder="../Lib"
+
+    - name: Zip the directory
+      run: Compress-Archive -Path "Builds" -DestinationPath Sgt_Imalas_All_Mods_Nightly.zip  
+
+    - name: Delete old releases
+      uses: dev-drprasad/delete-older-releases@v0.3.4
+      with:
+        keep_latest: 0
+        delete_tag_pattern: AllMods_Automated_Build_Nightly*
+        delete_tags: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Create GitHub release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: "AllMods_Automated_Build_Nightly"
+        release_name: "All Mods - Latest Build"
+        body: "Automated build of all mods, based on the latest code state"
+        draft: false
+        prerelease: true
+    
+    - name: Upload zip to release
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: Sgt_Imalas_All_Mods_Nightly.zip
+        asset_name: Sgt_Imalas_All_Mods_Nightly.zip
+        asset_content_type: application/zip
+
+    # - name: Delete workflow runs
+    #   uses: Mattraks/delete-workflow-runs@v2
+    #   with:
+    #     token: ${{ github.token }}
+    #     repository: ${{ github.repository }}
+    #     retain_days: 1
+    #     keep_minimum_runs: 3
+          
+

@@ -1,4 +1,4 @@
-name: Build all mods on PR
+name: Build all mods on PR 
 
 on:
   pull_request:
@@ -24,12 +24,12 @@ jobs:
     - name: Build project
       run: msbuild -t:rebuild -property:Configuration=Release -property:GameLibsFolder="../Lib"
     
-    - name: Delete workflow runs
-      uses: Mattraks/delete-workflow-runs@v2
-      with:
-        token: ${{ github.token }}
-        repository: ${{ github.repository }}
-        retain_days: 1
-        keep_minimum_runs: 3
+    # - name: Delete workflow runs
+    #   uses: Mattraks/delete-workflow-runs@v2
+    #   with:
+    #     token: ${{ github.token }}
+    #     repository: ${{ github.repository }}
+    #     retain_days: 1
+    #     keep_minimum_runs: 3
           
 

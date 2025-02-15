@@ -9,11 +9,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UtilLibs", "UtilLibs\UtilLi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{24F61C11-CC87-4DFE-A4CF-659E31DFF121}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\ci.yml = .github\workflows\ci.yml
-		.github\workflows\ci_pr.yml = .github\workflows\ci_pr.yml
+		.github\workflows\Automatic_BuildOnCommit_PreviewRelease.yml = .github\workflows\Automatic_BuildOnCommit_PreviewRelease.yml
+		.github\workflows\Automatic_BuildOnPR.yml = .github\workflows\Automatic_BuildOnPR.yml
 		Directory.Build.props = Directory.Build.props
 		Directory.Build.props.default = Directory.Build.props.default
 		Directory.Build.targets = Directory.Build.targets
+		.github\workflows\Manual_BuildAllMods_MainRelease.yml = .github\workflows\Manual_BuildAllMods_MainRelease.yml
 		ModThatBroke.txt = ModThatBroke.txt
 		ModVersionData.json = ModVersionData.json
 		README.md = README.md
