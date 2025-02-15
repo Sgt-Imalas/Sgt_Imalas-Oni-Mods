@@ -18,7 +18,35 @@ using UtilLibs;
 namespace TinyFixes
 {
 	internal class Patches
-	{
+	{      
+		/// <summary>
+		/// fix moonlet absense crashing saving
+		/// </summary>
+		[HarmonyPatch(typeof(CustomGameSettings), nameof(CustomGameSettings.GetSettingsForMixingMetrics))]
+		public static class CustomGameSettings_GetSettingsForMixingMetrics_Patch
+		{
+			public static void Prefix(CustomGameSettings __instance)
+			{
+				var currentStorySetting = __instance.currentStoryLevelsBySetting.Keys.ToList();
+
+				foreach(var story in currentStorySetting)
+				{
+					if (!__instance.StorySettings.ContainsKey(story))
+					{
+						__instance.StorySettings.Remove(story);
+					}
+				}
+				var currentMixingSettings = __instance.CurrentMixingLevelsBySetting.Keys.ToList();
+
+				foreach (var mixing in currentMixingSettings)
+				{
+					if (!__instance.MixingSettings.ContainsKey(mixing))
+					{
+						__instance.CurrentMixingLevelsBySetting.Remove(mixing);
+					}
+				}
+			}
+		}
 		/// <summary>
 		/// Fix the reactor meter by removing that obsolete frame scale hack thing from an earlier reactor implementation
 		/// </summary>
