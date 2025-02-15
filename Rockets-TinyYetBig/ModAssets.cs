@@ -31,13 +31,16 @@ namespace Rockets_TinyYetBig
 			public static ModHashes OnStationPartConstructionFinished = new ModHashes("RTB_OnStationPartConstructionFinished");
 		}
 
-
 		public static GameObject ModuleSettingsWindowPrefab;
 		public static GameObject DockingSideScreenWindowPrefab;
+
+		//This is required to keep the GO of DupeTransferSecondarySideScreen from getting GCed!
 		public static GameObject DupeTransferSecondarySideScreenWindowPrefab;
 		public static KScreen DupeTransferSecondarySideScreen;
 
 		public static GameObject SpaceConstructionSideScreenWindowPrefab;
+
+		//This is required to keep the GO of SpaceConstructionTargetSecondarySideScreen from getting GCed!
 		public static GameObject SpaceConstructionTargetScreenWindowPrefab;
 		public static KScreen SpaceConstructionTargetSecondarySideScreen;
 

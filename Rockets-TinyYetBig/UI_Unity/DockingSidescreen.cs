@@ -151,6 +151,10 @@ namespace Rockets_TinyYetBig.UI_Unity
 			base.OnPrefabInit();
 			//titleKey = "STRINGS.UI_MOD.UISIDESCREENS.DOCKINGSIDESCREEN.TITLE";
 		}
+		public override string GetTitle()
+		{
+			return STRINGS.UI.DOCKINGSCREEN.TITLE.TITLETEXT; 
+		}
 
 		bool refsConnected = false;
 		void ConnectReference()
