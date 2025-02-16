@@ -43,7 +43,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: "AllMods_Automated_Build_Nightly"
-        release_name: "All Mods - Latest Build"
+        release_name: "All Mods - Nightly Build"
         body: "Automated build of all mods, based on the latest code state"
         draft: false
         prerelease: true

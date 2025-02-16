@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Application: Oxygen Not IncludedPOT Version: 2.0\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Poedit 3.5\n"
 
 #. Imalas_TwitchChaosEvents.STRINGS.BUILDINGS.PREFABS.WATERCOOLER.OPTION_TOOLTIPS.ITCE_INVERSE_WATER
 msgctxt ""
@@ -54,6 +54,16 @@ msgstr ""
 "\n"
 "Deaktivieren Sie diese Option hier, um ihn stumm zu schalten."
 
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOS_CONFIG.FOG_DURATION_NAME
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOS_CONFIG.FOG_DURATION_NAME"
+msgid "Fog Duration in cycles"
+msgstr "Nebel-Dauer in Zyklen"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOS_CONFIG.FOG_DURATION_TOOLTIP
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOS_CONFIG.FOG_DURATION_TOOLTIP"
+msgid "How long should the Fog from fog event last (wont go lower than 1)."
+msgstr "Wie lang sollte der Nebel dauern (in Zyklen, minimum 1)"
+
 #. Imalas_TwitchChaosEvents.STRINGS.CHAOS_CONFIG.TACORAIN_MUSIC_NAME
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOS_CONFIG.TACORAIN_MUSIC_NAME"
 msgid "Music on Taco Rain Event"
@@ -84,10 +94,10 @@ msgstr "Es ist ein Bienen-Geysir!"
 #. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.BEEVOLCANO.TOASTTEXT
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.BEEVOLCANO.TOASTTEXT"
 msgid ""
-"This looks very lickable..\n"
+"What a nice looking geyser..\n"
 "Wait... BEES???"
 msgstr ""
-"das sieht sehr lecker aus...\n"
+"Was für ein hübscher Geysir...\n"
 "Warte, Bienen???"
 
 #. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.BURNINGCURSOR.NAME
@@ -186,6 +196,21 @@ msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.FOG.TOASTTEXTENDING"
 msgid "The fog is starting to clear."
 msgstr "Der Nebel beginnt sich zu lichten."
 
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.HAIRLOSS.NAME
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.HAIRLOSS.NAME"
+msgid "Balding Dupes"
+msgstr "Haarraub"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.HAIRLOSS.TOAST
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.HAIRLOSS.TOAST"
+msgid "The Great Hair Robbery"
+msgstr "Der große Haar-Raub"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.HAIRLOSS.TOASTTEXT
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.HAIRLOSS.TOASTTEXT"
+msgid "All duplicants have lost their hair!"
+msgstr "Allen Duplikanten ist eine Glatze gewachsen!"
+
 #. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.HUNGRYROACHES.EVENTFAIL
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.HUNGRYROACHES.EVENTFAIL"
 msgid "Not enough food was available to attract any roaches."
@@ -235,6 +260,26 @@ msgstr "Tulf!"
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.INVERSEELEMENT.TOASTTEXT"
 msgid "<rotate=180>Something is off with this...</rotate>"
 msgstr "<rotate=180>Irgendwas ist hier komisch..</rotate>"
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.MOPED.MOPEDTEXT
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.MOPED.MOPEDTEXT"
+msgid "Moped "
+msgstr ""
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.MOPED.NAME
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.MOPED.NAME"
+msgid "Moped"
+msgstr ""
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.MOPED.TOAST
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.MOPED.TOAST"
+msgid "Moped!"
+msgstr ""
+
+#. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.MOPED.TOASTTEXT
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.MOPED.TOASTTEXT"
+msgid "Moped!"
+msgstr ""
 
 #. Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.RAINBOWLIQUIDS.NAME
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.RAINBOWLIQUIDS.NAME"
@@ -492,15 +537,27 @@ msgstr "Es riecht so schlimm, wie es aussieht..."
 
 #. Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_LIQUID_POOP.NAME
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_LIQUID_POOP.NAME"
-msgid "<link=\"ITCEINVERSEICE\">Diarrhea</link>"
-msgstr "<link=\"ITCEINVERSEICE\">Durchfall</link>"
+msgid "<link=\"ITCELIQUIDPOOP\">Liquid Poop</link>"
+msgstr "<link=\"ITCELIQUIDPOOP\">Durchfall</link>"
+
+#. Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_VOIDLIQUID.DESC
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_VOIDLIQUID.DESC"
+msgid ""
+msgstr ""
+
+#. Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_VOIDLIQUID.NAME
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_VOIDLIQUID.NAME"
+msgid "<link=\"ITCEVOIDLIQUID\">Void</link>"
+msgstr "<link=\"ITCEMOPED\">Leere</link>"
 
 #. Imalas_TwitchChaosEvents.STRINGS.ENTITIES.GEYSERS.ITCE_BEEGEYSER.DESC
+#, fuzzy
+#| msgctxt ""
+#| "Imalas_TwitchChaosEvents.STRINGS.ENTITIES.GEYSERS.ITCE_BEEGEYSER.DESC"
+#| msgid "Not the Bees, NOT THE BEES!!!"
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.ENTITIES.GEYSERS.ITCE_BEEGEYSER.DESC"
-msgid ""
-"Not the Bees, NOT THE BEES..\n"
-"Allthough... it looks kinda tasty."
-msgstr ""
+msgid "Not the Bees, NOT THE BEES.."
+msgstr "Nicht die Bienen, NICHT DIE BIENEN!!!"
 
 #. Imalas_TwitchChaosEvents.STRINGS.ENTITIES.GEYSERS.ITCE_BEEGEYSER.NAME
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.ENTITIES.GEYSERS.ITCE_BEEGEYSER.NAME"
@@ -549,10 +606,29 @@ msgstr ""
 "Eine leckere Mahlzeit voller wertvoller Vitamine der dem Konsumenten "
 "wertvolle Energie liefert."
 
+#. Imalas_TwitchChaosEvents.STRINGS.ITEMS.FOOD.ICT_TACO.DESC_DEHYDRATED
+#, fuzzy
+#| msgctxt "Imalas_TwitchChaosEvents.STRINGS.ITEMS.FOOD.ICT_TACO.DESC"
+#| msgid ""
+#| "A staple meal that provides vital nutrients and energy to those who "
+#| "consume it."
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.ITEMS.FOOD.ICT_TACO.DESC_DEHYDRATED"
+msgid ""
+"A staple meal that provides vital nutrients and energy to those who consume "
+"it, reduced to a preserving brick."
+msgstr ""
+"Eine leckere Mahlzeit voller wertvoller Vitamine der dem Konsumenten "
+"wertvolle Energie liefert."
+
 #. Imalas_TwitchChaosEvents.STRINGS.ITEMS.FOOD.ICT_TACO.NAME
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.ITEMS.FOOD.ICT_TACO.NAME"
 msgid "<link=\"ICTTACO\">Taco</link>"
 msgstr "<link=\"ICTTACO\">Taco</link>"
+
+#. Imalas_TwitchChaosEvents.STRINGS.ITEMS.FOOD.ICT_TACO.NAME_DEHYDRATED
+msgctxt "Imalas_TwitchChaosEvents.STRINGS.ITEMS.FOOD.ICT_TACO.NAME_DEHYDRATED"
+msgid "<link=\"ICTTACO\">Dehydrated Taco</link>"
+msgstr "<link=\"ICTTACO\">Taco (Dehydriert)</link>"
 
 #. Imalas_TwitchChaosEvents.STRINGS.ITEMS.FOOD.ICT_TACO_NONSPOILING.DESC
 msgctxt "Imalas_TwitchChaosEvents.STRINGS.ITEMS.FOOD.ICT_TACO_NONSPOILING.DESC"
@@ -598,10 +674,9 @@ msgctxt "Imalas_TwitchChaosEvents.STRINGS.ITEMS.ICT_OMEGASAWBLADE.NAME"
 msgid "<link=\"ICTOMEGASAWBLADE\">Omega Sawblade</link>"
 msgstr "<link=\"ICTOMEGASAWBLADE\">Omega Kreissäge</link>"
 
-#~ msgctxt ""
-#~ "Imalas_TwitchChaosEvents.STRINGS.ENTITIES.GEYSERS.ITCE_BEEGEYSER.DESC"
-#~ msgid "Not the Bees, NOT THE BEES!!!"
-#~ msgstr "Nicht die Bienen, NICHT DIE BIENEN!!!"
+#~ msgctxt "Imalas_TwitchChaosEvents.STRINGS.ELEMENTS.ITCE_LIQUID_POOP.NAME"
+#~ msgid "<link=\"ITCEINVERSEICE\">Diarrhea</link>"
+#~ msgstr "<link=\"ITCEINVERSEICE\">Durchfall</link>"
 
 #~ msgctxt "Imalas_TwitchChaosEvents.STRINGS.CHAOSEVENTS.BUZZSAW.TOASTTEXT"
 #~ msgid "Bzzzzt"

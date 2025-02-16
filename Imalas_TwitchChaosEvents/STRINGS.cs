@@ -216,8 +216,8 @@ namespace Imalas_TwitchChaosEvents
 			}
 			public class HAIRLOSS
 			{
-				public static LocString NAME = "Balding";
-				public static LocString TOAST = "Balding Duplicants";
+				public static LocString NAME = "Balding Dupes";
+				public static LocString TOAST = "The Great Hair Robbery";
 				public static LocString TOASTTEXT = "All duplicants have lost their hair!";
 			}
 			public class SHART
