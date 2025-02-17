@@ -20,7 +20,7 @@ namespace LoadingPip
 		[Option("STRINGS.MODOPTIONS.LOADINGICON.NAME", "STRINGS.MODOPTIONS.LOADINGICON.TOOLTIP")]
 		[JsonProperty]
 		public string LoadingIdPrefabId { get; set; } = "Squirrel";
-		[Option("STRINGS.MODOPTIONS.LOADINGICON.NAME", "STRINGS.MODOPTIONS.LOADINGICON.TOOLTIP")]
+		[Option("STRINGS.MODOPTIONS.RANDOMIZEDLOADINGICON.NAME", "STRINGS.MODOPTIONS.RANDOMIZEDLOADINGICON.TOOLTIP")]
 		[JsonProperty]
 		public bool RandomizedCritters { get; set; } = false;
 
