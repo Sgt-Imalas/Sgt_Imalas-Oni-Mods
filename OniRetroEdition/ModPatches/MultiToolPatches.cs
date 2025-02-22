@@ -19,6 +19,7 @@ namespace OniRetroEdition.ModPatches
 			public static void Postfix(Deconstructable __instance)
 			{
 				__instance.multitoolContext = DeconstructTool;
+				//__instance.multitoolHitEffectTag = DeconstructImpactEffect.ID; //broken; is offset on y axis and has no sound
 			}
 		}
 
@@ -91,7 +92,10 @@ namespace OniRetroEdition.ModPatches
                 var kbatchedAnimEventToggler = laserEffects.GetComponent<KBatchedAnimEventToggler>();
                 var kbac = prefab.GetComponent<KBatchedAnimController>();
 
-				InjectionMethods.AddLaserEffect("DeconstructEffect", (HashedString)DeconstructTool, kbatchedAnimEventToggler, kbac, "deconstruct_fx_kanim", "loop");
+				SoundUtils.CopySoundsToAnim("deconstruct_fx_kanim", "construct_beam_kanim");
+				SoundUtils.CopySoundsToAnim("deconstruct_impact_kanim", "sparks_radial_build_kanim");
+				SoundUtils.GetSounds();
+				InjectionMethods.AddLaserEffect("DeconstructEffect", (HashedString)DeconstructTool, kbatchedAnimEventToggler, kbac, "deconstruct_fx_kanim", "beam");
 			}
 		}
 	}

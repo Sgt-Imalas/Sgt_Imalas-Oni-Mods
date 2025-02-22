@@ -26,6 +26,7 @@ namespace OniRetroEdition
 			{
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Furniture, WallLampConfig.ID, CeilingLightConfig.ID);
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Food, GammaRayOvenConfig.ID, MicrobeMusherConfig.ID);
+				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Power, BatteryLargeConfig.ID, BatteryMediumConfig.ID);
 
 
 
@@ -71,7 +72,7 @@ namespace OniRetroEdition
 			{
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.Employment, RoleStationConfig.ID);
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Decor.GlassBlowing, WallLampConfig.ID);
-
+				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.AdvancedPowerRegulation, BatteryLargeConfig.ID);
 
 
 				foreach (var config in BuildingModifications.Instance.LoadedBuildingOverrides)

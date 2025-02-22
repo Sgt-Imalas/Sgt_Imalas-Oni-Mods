@@ -20,6 +20,15 @@ namespace OniRetroEdition
 		{
 			public class PREFABS
 			{
+				public class RETROONI_BATTERYLARGE
+				{
+					public static LocString NAME = FormatAsLink("Huge Battery", "RETROONI_BATTERYLARGE");
+
+					public static LocString DESC = "Huge batteries hold even more power and keep systems running longer before recharging.";
+
+					public static LocString EFFECT = "Stores " + FormatAsLink("Power", "POWER") + " from generators, then provides that power to buildings.\n\nSlightly loses charge over time.";
+				}
+
 				public class RETROONI_WALLLAMP
 				{
 					public static LocString NAME = FormatAsLink("Wall Lamp", nameof(RETROONI_WALLLAMP));
