@@ -227,8 +227,6 @@ namespace Dupery
                 CongenitalTrait = null;
             }
 
-            string congenitalTrait = CongenitalTrait != null ? CongenitalTrait : "None";
-
             if (Db.Get().traits.TryGet(StressTrait) == null)
             {
                 SgtLogger.warning("invalid StressTrait on dupery dupe: " + StressTrait);
@@ -330,7 +328,7 @@ namespace Dupery
                 stressTrait,
                 joyTrait,
                 stickerType,
-                congenitalTrait,
+				CongenitalTrait,
                 headShape,
                 mouth,
                 neck,
