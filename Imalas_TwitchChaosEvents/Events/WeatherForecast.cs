@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Util_TwitchIntegrationLib;
+using UtilLibs;
 
 namespace Imalas_TwitchChaosEvents.Events
 {
@@ -28,7 +29,10 @@ namespace Imalas_TwitchChaosEvents.Events
 			"NuclearWasteRain",
 			"ZoologicalMeteors",
 			"WaterBalloonMeteors",
-			"MoltenSlugMeteors"
+			"MoltenSlugMeteors",
+			//Solar storms from Twitchery by Aki:
+			"SolarStormMedium",
+			"SolarStormSmall",
 		};
 
 		public Action<object> EventAction => (obj) =>
@@ -41,8 +45,23 @@ namespace Imalas_TwitchChaosEvents.Events
 					weatherEvents.Add(eventInfo);
 				}
 			}
-			EventInfo EventToTrigger = weatherEvents.GetRandom();
-
+			weatherEvents.Shuffle();
+			EventInfo EventToTrigger = null;
+			for (int i = 0; i < weatherEvents.Count; i++)
+			{
+				var weatherEvent = weatherEvents[i];
+				if (weatherEvent.CheckCondition(null))
+				{
+					SgtLogger.l("executable weather event found: " + weatherEvent.FriendlyName);
+					EventToTrigger = weatherEvent;
+					break;
+				}
+			}
+			if (EventToTrigger == null)
+			{
+				SgtLogger.l("no executable weather event found, using first xecutable event: " + weatherEvents[0].FriendlyName);
+				EventToTrigger = weatherEvents[0];
+			}
 
 			ToastManager.InstantiateToast(STRINGS.CHAOSEVENTS.WEATHERFORECAST.TOAST, string.Format(STRINGS.CHAOSEVENTS.WEATHERFORECAST.TOASTTEXT, EventToTrigger.FriendlyName));
 			GameScheduler.Instance.Schedule("start weather", 20f, (_) => EventToTrigger.Trigger(null));
