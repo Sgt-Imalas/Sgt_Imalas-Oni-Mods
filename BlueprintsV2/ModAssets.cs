@@ -336,13 +336,13 @@ namespace BlueprintsV2
 				STRINGS.UI.ACTIONS.USE_TITLE, new PKeyBinding(KKeyCode.V, Modifier.Ctrl));
 
 			Actions.BlueprintsSnapshotAction = new PActionManager().CreateAction(ActionKeys.ACTION_SNAPSHOT_KEY,
-				STRINGS.UI.ACTIONS.SNAPSHOT_TITLE, new PKeyBinding(KKeyCode.C, Modifier.Ctrl | Modifier.Shift));
+				STRINGS.UI.ACTIONS.SNAPSHOT_TITLE, new PKeyBinding(KKeyCode.C, Modifier.Shift | Modifier.Ctrl));
 
 			Actions.BlueprintsReopenSelectionAction = new PActionManager().CreateAction(ActionKeys.ACTION_RESELECT_KEY,
-				STRINGS.UI.ACTIONS.SELECT_DIFFERENT_TITLE, new PKeyBinding(KKeyCode.E, Modifier.Shift));
+				STRINGS.UI.ACTIONS.SELECT_DIFFERENT_TITLE, new PKeyBinding(KKeyCode.E, Modifier.Ctrl));
 
 			Actions.BlueprintsSwapAnchorAction = new PActionManager().CreateAction(ActionKeys.ACTION_SWAP_ANCHOR_KEY,
-				STRINGS.UI.ACTIONS.CHANGE_ANCHOR_TITLE, new PKeyBinding(KKeyCode.R, Modifier.Shift));
+				STRINGS.UI.ACTIONS.CHANGE_ANCHOR_TITLE, new PKeyBinding(KKeyCode.R, Modifier.Ctrl));
 
 		}
 
@@ -421,12 +421,12 @@ namespace BlueprintsV2
 
 		public static class ActionKeys
 		{
-			public static string ACTION_CREATE_KEY = "Blueprints.create.opentool";
-			public static string ACTION_USE_KEY = "Blueprints.use.opentool";
-			public static string ACTION_SNAPSHOT_KEY = "Blueprints.snapshot.opentool";
-			public static string ACTION_RESELECT_KEY = "Blueprints.reselect";
-			public static string ACTION_SWAP_ANCHOR_KEY = "Blueprints.anchorswap";
-			public static string ACTION_ROTATE_BLUEPRINT_KEY = "Blueprints.rotate";
+			public static string ACTION_CREATE_KEY = "BlueprintsV2.create.opentool";
+			public static string ACTION_USE_KEY = "BlueprintsV2.use.opentool";
+			public static string ACTION_SNAPSHOT_KEY = "BlueprintsV2.snapshot.opentool";
+			public static string ACTION_RESELECT_KEY = "BlueprintsV2.reselect";
+			public static string ACTION_SWAP_ANCHOR_KEY = "BlueprintsV2.anchorswap";
+			public static string ACTION_ROTATE_BLUEPRINT_KEY = "BlueprintsV2.rotate";
 		}
 		public static class Actions
 		{
