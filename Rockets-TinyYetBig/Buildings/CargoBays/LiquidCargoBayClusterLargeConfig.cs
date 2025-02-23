@@ -55,6 +55,7 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
 			buildingDef.CanMove = true;
 			buildingDef.Cancellable = false;
 			buildingDef.ShowInBuildMenu = false;
+			ModAssets.AddCargoBayLogicPorts(buildingDef);
 			return buildingDef;
 		}
 
@@ -73,6 +74,8 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
 		{
 			go = BuildingTemplates.ExtendBuildingToClusterCargoBay(go, CAPACITY, STORAGEFILTERS.LIQUIDS, CargoBay.CargoType.Liquids);
 			BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MEGA);
+
+			go.AddOrGet<CargoBayStatusMonitor>();
 		}
 	}
 }

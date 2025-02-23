@@ -122,10 +122,11 @@ namespace RoboRockets.Rockets_TinyYetBig
 
 				if (Config.Instance.EnableWallAdapter)
 				{
-					InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, ConnectorWallAdapterConfig.ID, "rocketfueling");
-					InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, LoaderLadderAdapterConfig.ID, "rocketfueling");
 					InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, VerticalAdapterPieceConfig.ID, ModularLaunchpadPortBridgeConfig.ID);
 					InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, VerticalAdapterBaseConfig.ID, ModularLaunchpadPortBridgeConfig.ID);
+					InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, LoaderLadderAdapterConfig.ID, ModularLaunchpadPortBridgeConfig.ID);
+					InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, ConnectorWallAdapterConfig.ID, ModularLaunchpadPortBridgeConfig.ID);
+					InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, ConnectorWallAdapterBunkerConfig.ID, ModularLaunchpadPortBridgeConfig.ID);
 					//InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, LoaderTravelTubeAdapterConfig.ID, "rocketfueling"); ///Too buggy atm
 
 				}
@@ -240,6 +241,7 @@ namespace RoboRockets.Rockets_TinyYetBig
 				if (Config.Instance.EnableWallAdapter)
 				{
 					InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Gases.TemperatureModulation, ConnectorWallAdapterConfig.ID);
+					InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.SuperheatedForging, ConnectorWallAdapterBunkerConfig.ID);					
 					InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.Smelting, LoaderLadderAdapterConfig.ID);
 					InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.Smelting, VerticalAdapterBaseConfig.ID);
 					InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.Smelting, VerticalAdapterPieceConfig.ID);

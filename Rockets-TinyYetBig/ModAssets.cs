@@ -165,6 +165,17 @@ namespace Rockets_TinyYetBig
 
 		};
 
+		public static void AddCargoBayLogicPorts(BuildingDef def)
+		{
+			int xOffset = def.WidthInCells == 3 ? 1 : 2;
+
+			if (def.LogicOutputPorts == null)
+				def.LogicOutputPorts = new List<LogicPorts.Port>();
+			def.LogicOutputPorts.Add(LogicPorts.Port.OutputPort(CargoBayStatusMonitor.EMPTY_PORT_ID, new CellOffset(-xOffset, 0), STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.EMPTY.LOGIC_PORT, STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.EMPTY.LOGIC_PORT_ACTIVE, STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.EMPTY.LOGIC_PORT_INACTIVE, false));
+			def.LogicOutputPorts.Add(LogicPorts.Port.OutputPort(CargoBayStatusMonitor.FULL_PORT_ID, new CellOffset(xOffset, 0), STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.FULL.LOGIC_PORT, STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.FULL.LOGIC_PORT_ACTIVE, STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.FULL.LOGIC_PORT_INACTIVE, false));
+		}
+
+
 		public static float GetMiningPilotSkillMultiplier(Clustercraft clustercraft)
 		{
 			float multiplier = 1f;

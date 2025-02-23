@@ -164,6 +164,21 @@ namespace Rockets_TinyYetBig
 
 		public class BUILDINGS
 		{
+			public class RTB_CARGOBAY_LOGICPORTS
+			{
+				public class EMPTY
+				{
+					public static LocString LOGIC_PORT = (LocString)"Empty/Not Empty";
+					public static LocString LOGIC_PORT_ACTIVE = (LocString)("Sends a " + FormatAsAutomationState("Green Signal", AutomationState.Active) + " when completely empty");
+					public static LocString LOGIC_PORT_INACTIVE = (LocString)("Otherwise, sends a " + FormatAsAutomationState("Red Signal", AutomationState.Standby));
+				}
+				public class FULL
+				{
+					public static LocString LOGIC_PORT = (LocString)"Full/Not Full";
+					public static LocString LOGIC_PORT_ACTIVE = (LocString)("Sends a " + FormatAsAutomationState("Green Signal", AutomationState.Active) + " when completely full");
+					public static LocString LOGIC_PORT_INACTIVE = (LocString)("Otherwise, sends a " + FormatAsAutomationState("Red Signal", AutomationState.Standby));
+				}
+			}
 			public class PREFABS
 			{
 				public static LocString GENERATORLIMIT = "\n\n If there is atleast one battery connected, the generator will stop producing if the battery is above 95% charge.";
@@ -276,6 +291,12 @@ namespace Rockets_TinyYetBig
 					public static LocString NAME = FormatAsLink("Insulated Rocket Port Wall Adapter", nameof(RTB_WALLCONNECTIONADAPTER));
 					public static LocString DESC = "Insulated for convenience.";
 					public static LocString EFFECT = ("An insulated wall adapter to seal off rocket start areas.\n\nAutomatically links when built to the side of a " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + " or another " + global::STRINGS.BUILDINGS.PREFABS.MODULARLAUNCHPADPORT.NAME);
+				}
+				public class RTB_WALLCONNECTIONADAPTERBUNKER
+				{
+					public static LocString NAME = FormatAsLink("Bunkere Rocket Port Wall Adapter", nameof(RTB_WALLCONNECTIONADAPTERBUNKER));
+					public static LocString DESC = "Bunkered down for convenience.";
+					public static LocString EFFECT = ("A bunker wall adapter to seal off rocket start areas.\n\nAutomatically links when built to the side of a " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + " or another " + global::STRINGS.BUILDINGS.PREFABS.MODULARLAUNCHPADPORT.NAME);
 				}
 				public class RTB_LADDERCONNECTIONADAPTER
 				{

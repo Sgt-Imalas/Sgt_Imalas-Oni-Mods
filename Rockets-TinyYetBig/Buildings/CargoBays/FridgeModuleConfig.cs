@@ -35,6 +35,7 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
 			buildingDef.CanMove = true;
 			buildingDef.Cancellable = false;
 			buildingDef.EnergyConsumptionWhenActive = 120f;
+			ModAssets.AddCargoBayLogicPorts(buildingDef);
 			return buildingDef;
 		}
 
@@ -68,6 +69,8 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
 			go.AddOrGet<FridgeModule>();
 			//go.AddOrGet<FakeStorage>().LinkType = FakeStorage.RocketModuleLinkType.FreezerModule;
 			BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MINOR_PLUS);
+
+			go.AddOrGet<CargoBayStatusMonitor>();
 		}
 	}
 }

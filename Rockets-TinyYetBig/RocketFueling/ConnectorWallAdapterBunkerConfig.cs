@@ -3,25 +3,25 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.RocketFueling
 {
-	public class ConnectorWallAdapterConfig : IBuildingConfig
+	public class ConnectorWallAdapterBunkerConfig : IBuildingConfig
 	{
-		public const string ID = "RTB_WallConnectionAdapter";
+		public const string ID = "RTB_WallConnectionAdapterBunker";
 		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
 		public override BuildingDef CreateBuildingDef()
 		{
 
-			string[] Materials = new string[]
-			{
-				MATERIALS.BUILDABLERAW,
+			string[] Materials = [
+
+				SimHashes.Steel.ToString(),
 				MATERIALS.REFINED_METAL
-			};
-			float[] MaterialCosts = new float[] { 800, 100 };
+			];
+			float[] MaterialCosts = [800, 100 ];
 
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(
 					ID,
 					1,
 					2,
-					"rocket_loader_extension_insulated_kanim",
+					"rocket_loader_extension_bunker_kanim",
 					//	"loader_wall_adapter_tile_kanim",
 					200,
 					60f,
@@ -57,17 +57,9 @@ namespace Rockets_TinyYetBig.RocketFueling
 
 			SimCellOccupier simCellOccupier = go.AddOrGet<SimCellOccupier>();
 			simCellOccupier.doReplaceElement = true;
+			simCellOccupier.strengthMultiplier = 10f;
 			simCellOccupier.notifyOnMelt = true;
 
-			//MakeBaseSolid.Def solidBase = go.AddOrGetDef<MakeBaseSolid.Def>();
-			//solidBase.solidOffsets = new CellOffset[]
-			//{
-			//    new CellOffset(0, 0),
-			//    new CellOffset(0, 1)
-			//};
-
-			go.AddOrGet<Insulator>();
-			go.AddComponent<Insulator>().offset = new CellOffset(0, 1);
 			go.AddOrGet<TileTemperature>();
 			go.AddOrGet<BuildingHP>().destroyOnDamaged = true;
 
@@ -84,8 +76,10 @@ namespace Rockets_TinyYetBig.RocketFueling
 		public override void DoPostConfigureComplete(GameObject go)
 		{
 			SymbolOverrideControllerUtil.AddToPrefab(go);
-			go.AddOrGet<WallAdapter_TrueTilesHandler>();
-			go.GetComponent<KPrefabID>().AddTag(GameTags.FloorTiles);
+			go.TryGetComponent<KPrefabID>(out var prefabId);
+
+			prefabId.AddTag(GameTags.FloorTiles);
+			prefabId.AddTag(GameTags.Bunker);
 		}
 	}
 }

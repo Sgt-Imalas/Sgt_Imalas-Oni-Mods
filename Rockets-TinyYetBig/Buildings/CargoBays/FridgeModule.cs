@@ -23,7 +23,7 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
 				WasPreviouslyOperational = CurrentlyOperational;
 				if (CurrentlyOperational)
 				{
-					SgtLogger.debuglog("Changed to: " + CurrentlyOperational);
+					//SgtLogger.debuglog("Changed to: " + CurrentlyOperational);
 					fridgeStorage.SetDefaultStoredItemModifiers(new List<StoredItemModifier>
 					{
 						StoredItemModifier.Hide,

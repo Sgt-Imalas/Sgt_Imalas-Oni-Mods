@@ -20,7 +20,7 @@ namespace TinyFixes
 	internal class Patches
 	{      
 		/// <summary>
-		/// fix moonlet absense crashing saving
+		/// fix moonlet absence crashing saving
 		/// </summary>
 		[HarmonyPatch(typeof(CustomGameSettings), nameof(CustomGameSettings.GetSettingsForMixingMetrics))]
 		public static class CustomGameSettings_GetSettingsForMixingMetrics_Patch

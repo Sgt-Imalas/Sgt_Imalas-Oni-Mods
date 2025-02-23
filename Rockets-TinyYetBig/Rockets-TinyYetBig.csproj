@@ -170,6 +170,24 @@
 	  <None Update="ModAssets\anim\assets\rocket_habitat_plated_nosecone\rocket_habitat_plated_nosecone_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\anim\assets\rocket_loader_extension_bunker\rocket_loader_extension_bunker_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\rocket_loader_extension_bunker\rocket_loader_extension_bunker_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\rocket_loader_extension_bunker\rocket_loader_extension_bunker_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\rocket_loader_extension_insulated\rocket_loader_extension_insulated_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\rocket_loader_extension_insulated\rocket_loader_extension_insulated_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\assets\rocket_loader_extension_insulated\rocket_loader_extension_insulated_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\anim\assets\rocket_natgas_engine\rocket_natgas_engine_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
@@ -623,6 +641,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="ModAssets\anim\connector_buildings\" />
+	  <Folder Include="ModAssets\anim\space_station_stuff\" />
+	  <Folder Include="ModAssets\anim\standalone_buildings\" />
+	  <Folder Include="ModAssets\anim\rocket_modules\" />
 	  <Folder Include="SpaceStations\Construction\ModuleItems\" />
 	  <Folder Include="TwitchEvents\TwitchEventAddons\" />
 	</ItemGroup>
