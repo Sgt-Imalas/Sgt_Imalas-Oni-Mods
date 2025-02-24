@@ -16,6 +16,13 @@ namespace Imalas_TwitchChaosEvents
 						public static LocString ITCE_INVERSE_WATER = FormatAsLink("       <rotate=180>Water</rotate>", nameof(ELEMENTS.ITCE_INVERSE_WATER)) + "\nAww yeah, this drink is flippin' good!";
 					}
 				}
+				public static class CHAOSTWITCH_ANTICHEESEBACKWALL
+				{
+					public static LocString NAME = "\"" +global::STRINGS.BUILDINGS.PREFABS.EXTERIORWALL.NAME+"\"";
+					public static LocString DESC = "\"" + global::STRINGS.BUILDINGS.PREFABS.EXTERIORWALL.DESC + "\"";
+					public static LocString EFFECT = "\"" + global::STRINGS.BUILDINGS.PREFABS.EXTERIORWALL.EFFECT + "\"";
+
+				}
 			}
 		}
 
@@ -173,6 +180,13 @@ namespace Imalas_TwitchChaosEvents
 				public static LocString TOASTTEXT = "{0} really didnt like to be in space,\nso it appeared on {1} instead";
 				// public static LocString TOASTTEXT = "{0} hatte wirklich keine Lust auf den Weltraum,\ndeswegen ist es stattdessen auf {1} gelanded";
 			}
+			public class CHEESEBACKWALLTRIGGERED
+			{
+				public static LocString TOAST = "Woops";
+				//public static LocString TOAST = "Ihhh, Weltraum";
+				public static LocString TOASTTEXT = "You really tried cheesing that?!";
+				// public static LocString TOASTTEXT = "{0} hatte wirklich keine Lust auf den Weltraum,\ndeswegen ist es stattdessen auf {1} gelanded";
+			}
 
 			public class HUNGRYROACHES
 			{
@@ -195,6 +209,12 @@ namespace Imalas_TwitchChaosEvents
 				public static LocString TOASTTEXT = "the weather forecast will be {0}";
 			}
 			public class BEEVOLCANO
+			{
+				public static LocString NAME = "Beeyzer";
+				public static LocString TOAST = "Its a Bee Geyser!";
+				public static LocString TOASTTEXT = "What a nice looking geyser..\nWait... BEES???";
+			}
+			public class DEADLYELEMENTCREEPER
 			{
 				public static LocString NAME = "Beeyzer";
 				public static LocString TOAST = "Its a Bee Geyser!";
@@ -299,6 +319,12 @@ namespace Imalas_TwitchChaosEvents
 
 			public static LocString FOG_DURATION_NAME = "Fog Duration in cycles";
 			public static LocString FOG_DURATION_TOOLTIP = "How long should the Fog from fog event last (wont go lower than 1).";
+
+			public static LocString SKIP_MIN_CYCLE = "Skip minimum cycle requirements";
+			public static LocString SKIP_MIN_CYCLE_TOOLTIP = "Events lose their minimum cycle requirements.";
+
+			public static LocString SHOW_WARNINGS = "Show Warnings";
+			public static LocString SHOW_WARNINGS_TOOLTIP = "Certain events will warn you before they hit";
 		}
 	}
 }

@@ -65,6 +65,7 @@ namespace Imalas_TwitchChaosEvents.BeeGeyser
 
 			var bee = GameUtil.KInstantiate(Assets.GetPrefab(BeeConfig.ID), Grid.SceneLayer.Creatures);
 			bee.transform.SetPosition(this.transform.position + new Vector3(0.5f, 1));
+			bee.AddOrGet<BeeCoat>();
 			bee.SetActive(true);
 		}
 	}

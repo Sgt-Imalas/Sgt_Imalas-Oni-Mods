@@ -30,7 +30,7 @@ namespace Imalas_TwitchChaosEvents.Events
 
 			var rain = go.AddComponent<LiquidRainSpawner>();
 
-			rain.totalAmountRangeKg = (1000, 10000);
+			rain.totalAmountRangeKg = (10000, 40000);
 			rain.durationInSeconds = 40;
 			rain.dropletMassKg = 0.05f;
 			rain.elementId = ModElements.Creeper;
@@ -56,6 +56,8 @@ namespace Imalas_TwitchChaosEvents.Events
 						STRINGS.CHAOSEVENTS.SPACECHEESEDETECTED.TOAST,
 						string.Format(STRINGS.CHAOSEVENTS.SPACECHEESEDETECTED.TOASTTEXT, EventName, dupe), Grid.CellToPos(NEWcell));
 					});
+					if (!Config.Instance.ShowWarnings)
+						SoundUtils.PlaySound(ModAssets.SOUNDS.EVILSOUND, SoundUtils.GetSFXVolume() * 1.0f, true);
 				}
 				else
 				{
@@ -67,17 +69,20 @@ namespace Imalas_TwitchChaosEvents.Events
 
 				//AudioUtil.PlaySound(ModAssets.Sounds.SPLAT, ModAssets.GetSFXVolume() * 0.15f); // its loud
 			});
+			if (Config.Instance.ShowWarnings)
+			{
+				SoundUtils.PlaySound(ModAssets.SOUNDS.EVILSOUND, SoundUtils.GetSFXVolume() * 1.0f, true);
+				ToastManager.InstantiateToast(
+					STRINGS.CHAOSEVENTS.CREEPERRAIN.TOAST,
+					string.Format(STRINGS.CHAOSEVENTS.CREEPERRAIN.TOASTTEXT, ClusterManager.Instance.activeWorld.GetProperName()));
 
-			SoundUtils.PlaySound(ModAssets.SOUNDS.EVILSOUND, SoundUtils.GetSFXVolume() * 1.0f, true);
-			ToastManager.InstantiateToast(
-				STRINGS.CHAOSEVENTS.CREEPERRAIN.TOAST,
-				string.Format(STRINGS.CHAOSEVENTS.CREEPERRAIN.TOASTTEXT, ClusterManager.Instance.activeWorld.GetProperName()));
+			}
 		};
 
 		public Func<object, bool> Condition =>
 			(data) =>
 			{
-				return GameClock.Instance.GetCycle() > 150;
+				return Config.Instance.SkipMinCycle || GameClock.Instance.GetCycle() > 150;
 			};
 
 		public Danger EventDanger => Danger.Deadly;

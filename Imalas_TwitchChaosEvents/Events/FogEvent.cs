@@ -23,7 +23,7 @@ namespace Imalas_TwitchChaosEvents.Events
 
 		public Action<object> EventAction => (object data) =>
 		{
-			GameScheduler.Instance.Schedule("fog start", 8f, _ =>
+			GameScheduler.Instance.Schedule("fog start", 16f, _ =>
 			{
 				ToastManager.InstantiateToast(
 				STRINGS.CHAOSEVENTS.FOG.TOAST,

@@ -47,19 +47,19 @@ namespace Imalas_TwitchChaosEvents.Events
 			}
 			weatherEvents.Shuffle();
 			EventInfo EventToTrigger = null;
-			for (int i = 0; i < weatherEvents.Count; i++)
-			{
-				var weatherEvent = weatherEvents[i];
-				if (weatherEvent.CheckCondition(null))
-				{
-					SgtLogger.l("executable weather event found: " + weatherEvent.FriendlyName);
-					EventToTrigger = weatherEvent;
-					break;
-				}
-			}
+			//for (int i = 0; i < weatherEvents.Count; i++) //undo for now
+			//{
+			//	var weatherEvent = weatherEvents[i];
+			//	if (weatherEvent.CheckCondition(null))
+			//	{
+			//		SgtLogger.l("executable weather event found: " + weatherEvent.FriendlyName);
+			//		EventToTrigger = weatherEvent;
+			//		break;
+			//	}
+			//}
 			if (EventToTrigger == null)
 			{
-				SgtLogger.l("no executable weather event found, using first xecutable event: " + weatherEvents[0].FriendlyName);
+				SgtLogger.l("no executable weather event found, using first executable event: " + weatherEvents[0].FriendlyName);
 				EventToTrigger = weatherEvents[0];
 			}
 

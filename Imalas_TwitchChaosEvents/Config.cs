@@ -14,28 +14,32 @@ namespace Imalas_TwitchChaosEvents
 
 		[Option("STRINGS.CHAOS_CONFIG.TACORAIN_MUSIC_NAME", "STRINGS.CHAOS_CONFIG.TACORAIN_MUSIC_TOOLTIP")]
 		[JsonProperty]
-		public bool TacoEventMusic { get; set; }
+		public bool TacoEventMusic { get; set; } = true;
 		[Option("STRINGS.CHAOS_CONFIG.FAKE_TACORAIN_MUSIC_NAME", "STRINGS.CHAOS_CONFIG.FAKE_TACORAIN_MUSIC_TOOLTIP")]
 		[JsonProperty]
-		public bool FakeTacoEventMusic { get; set; }
+		public bool FakeTacoEventMusic { get; set; } = true;
 
 		[Option("STRINGS.CHAOS_CONFIG.FAKE_TACORAIN_DURATION_NAME", "STRINGS.CHAOS_CONFIG.FAKE_TACORAIN_DURATION_TOOLTIP")]
 		[JsonProperty]
-		public int FakeTacoEventDuration { get; set; }
+		public int FakeTacoEventDuration { get; set; } = 50;
 
 
 		[Option("STRINGS.CHAOS_CONFIG.FOG_DURATION_NAME", "STRINGS.CHAOS_CONFIG.FOG_DURATION_TOOLTIP")]
 		[JsonProperty]
-		public float FogDuration { get; set; }
+		public float FogDuration { get; set; } = 1;
+
+
+		[Option("STRINGS.CHAOS_CONFIG.SKIP_MIN_CYCLE", "STRINGS.CHAOS_CONFIG.SKIP_MIN_CYCLE_TOOLTIP")]
+		[JsonProperty]
+		public bool SkipMinCycle { get; set; } = true;
+
+		[Option("STRINGS.CHAOS_CONFIG.SHOW_WARNINGS", "STRINGS.CHAOS_CONFIG.SKIP_SHOW_WARNINGS_TOOLTIP")]
+		[JsonProperty]
+		public bool ShowWarnings { get; set; } = false;
 
 
 		public Config()
 		{
-			FakeTacoEventMusic = true;
-			TacoEventMusic = true;
-			FakeTacoEventDuration = 50;
-
-			FogDuration = 1.0f;
 		}
 
 	}

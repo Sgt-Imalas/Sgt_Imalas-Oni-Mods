@@ -99,6 +99,8 @@ namespace Imalas_TwitchChaosEvents.Events
 
 
 				return
+				Config.Instance.SkipMinCycle
+				||
 				(GameClock.Instance.GetCycle() > 50 && !ChaosTwitch_SaveGameStorage.Instance.hasUnlockedTacoRecipe)
 				||
 				(ChaosTwitch_SaveGameStorage.Instance.lastTacoRain + 75f > GameClock.Instance.GetTimeInCycles())
