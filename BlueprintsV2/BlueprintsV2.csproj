@@ -39,6 +39,16 @@
 		<LangVersion>preview</LangVersion>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="ModAssets\License_Blueprints.txt" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Include="ModAssets\License_Blueprints.txt">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Compile>
+	</ItemGroup>
 	
 	<ItemGroup>
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
