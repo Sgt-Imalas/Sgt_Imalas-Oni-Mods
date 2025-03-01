@@ -108,13 +108,19 @@ namespace Rockets_TinyYetBig.Patches
 			}
 		}
 
+		/// <summary>
+		/// undock all on landing
+		/// </summary>
 		[HarmonyPatch(typeof(Clustercraft))]
 		[HarmonyPatch(nameof(Clustercraft.SetCraftStatus))]
 		public static class UndockOnLand
 		{
 			public static void Postfix(Clustercraft __instance, CraftStatus craft_status)
 			{
-				if (__instance != null && __instance.gameObject != null && __instance.TryGetComponent<DockingSpacecraftHandler>(out var manager) && !craft_status.Equals(CraftStatus.InFlight))
+				if (__instance != null 
+					&& __instance.gameObject != null 
+					&& __instance.TryGetComponent<DockingSpacecraftHandler>(out var manager) 
+					&& !craft_status.Equals(CraftStatus.InFlight))
 				{
 					manager.UndockAll();
 				}

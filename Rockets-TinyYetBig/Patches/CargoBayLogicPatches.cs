@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UtilLibs;
 
 namespace Rockets_TinyYetBig.Patches
 {
@@ -57,6 +58,17 @@ namespace Rockets_TinyYetBig.Patches
 			public static void Postfix(GameObject go)
 			{
 				go.AddOrGet<CargoBayStatusMonitor>();
+			}
+		}
+		/// <summary>
+		/// Skip for invalid cells, doesnt usually happen but just in case, cant hurt to prevent this crash
+		/// </summary>
+		[HarmonyPatch(typeof(UtilityNetworkManager<LogicCircuitNetwork, LogicWire>), nameof(UtilityNetworkManager < LogicCircuitNetwork, LogicWire > .RemoveFromNetworks))]
+		public class UtilityNetworkManager_RemoveFromNetworks
+		{
+			public static bool Prefix(int cell)
+			{
+				return cell >= 0;
 			}
 		}
 	}

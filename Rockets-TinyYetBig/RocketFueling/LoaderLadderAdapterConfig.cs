@@ -1,4 +1,5 @@
-﻿using TUNING;
+﻿using Rockets_TinyYetBig.NonRocketBuildings;
+using TUNING;
 using UnityEngine;
 
 namespace Rockets_TinyYetBig.RocketFueling
@@ -20,7 +21,8 @@ namespace Rockets_TinyYetBig.RocketFueling
 					ID,
 					1,
 					2,
-					"loader_ladder_adapter_tile_kanim",
+					//"loader_ladder_adapter_tile_kanim",
+					"rocket_loader_extension_ladder_kanim",
 					200,
 					40f,
 					MaterialCosts,
@@ -32,13 +34,13 @@ namespace Rockets_TinyYetBig.RocketFueling
 
 			//BuildingTemplates.CreateLadderDef(buildingDef);
 			buildingDef.SceneLayer = Grid.SceneLayer.Building;
-			//buildingDef.ForegroundLayer = Grid.SceneLayer.TileMain;
+			buildingDef.ForegroundLayer = Grid.SceneLayer.BuildingFront+1; //render ladder above building connected to the right
 			//buildingDef.ForegroundLayer = Grid.SceneLayer.FXFront;
 			//buildingDef.OverheatTemperature = 2273.15f;
 			buildingDef.Floodable = false;
 			buildingDef.Overheatable = false;
 			buildingDef.Entombable = false;
-			buildingDef.DefaultAnimState = "on";
+			buildingDef.DefaultAnimState = "off";
 			buildingDef.AudioCategory = "Metal";
 			buildingDef.AudioSize = "small";
 			buildingDef.BaseTimeUntilRepair = -1f;
@@ -62,8 +64,8 @@ namespace Rockets_TinyYetBig.RocketFueling
 				CellOffset.none,
 				new CellOffset(0,1)
 			];
-			ladder.upwardsMovementSpeedMultiplier = 1.2f;
-			ladder.downwardsMovementSpeedMultiplier = 1.2f;
+			ladder.upwardsMovementSpeedMultiplier = 1.5f;
+			ladder.downwardsMovementSpeedMultiplier = 1.5f;
 
 			KPrefabID component = go.GetComponent<KPrefabID>();
 			component.AddTag(BaseModularLaunchpadPortConfig.LinkTag);
@@ -77,6 +79,10 @@ namespace Rockets_TinyYetBig.RocketFueling
 		}
 		public override void DoPostConfigureComplete(GameObject go)
 		{
+			var anim = go.AddOrGet<AnimTileable>();
+			anim.tags = [LoaderLadderAdapterConfig.ID,ReinforcedLadderConfig.ID];
+			go.GetComponent<KPrefabID>().AddTag(GameTags.Bunker);
+			go.AddOrGet<RocketPortLadderHider>();
 		}
 	}
 }

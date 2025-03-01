@@ -132,8 +132,6 @@ namespace UtilLibs
 		public static void FlagLoggingPrevention(IReadOnlyList<KMod.Mod> _mods)
 		{
 
-			//AddIncompatibleToList("Oxygen Not Included", "Ony Debug Console");
-
 			List<KMod.Mod> mods = _mods.ToList();
 
 			Mod faultyMod = mods.Find(mod => mod.staticID.ToUpperInvariant().Contains("DEBUGCONSOLE"));
@@ -153,10 +151,6 @@ namespace UtilLibs
 				return;
 
 			var current = new List<Tuple<string, string>>();
-			//foreach(var ass in AppDomain.CurrentDomain.GetAssemblies().ToList())
-			//{
-			//    SgtLogger.l(ass.FullName);
-			//}
 			PRegistry.PutData(CompatibilityDataKey, current);
 		}
 
@@ -204,10 +198,10 @@ namespace UtilLibs
 			{
 				if (item.Key == GameName)
 				{
-					StringBuilder message = new StringBuilder();
-					message.AppendLine($"The mod \"{item.Value}\" has been detected, please disable it as it prevents other mods from proper logging.");
-					KMod.Manager.Dialog(parent.gameObject, "Debug Console detected", message.ToString(),
-								STRINGS.UI.CONFIRMDIALOG.OK);
+					//StringBuilder message = new StringBuilder();
+					//message.AppendLine($"The mod \"{item.Value}\" has been detected, please disable it as it prevents other mods from proper logging.");
+					//KMod.Manager.Dialog(parent.gameObject, "Debug Console detected", message.ToString(),
+					//			STRINGS.UI.CONFIRMDIALOG.OK);
 				}
 				else
 				{
@@ -218,11 +212,7 @@ namespace UtilLibs
 								STRINGS.UI.CONFIRMDIALOG.OK);
 				}
 			}
-
-
 			PRegistry.PutData(CompatibilityDataKey, null);
-
-
 		}
 
 		[HarmonyPatch(typeof(MainMenu), "OnSpawn")]
@@ -236,6 +226,5 @@ namespace UtilLibs
 				DumpIncompatibilityMessage(__instance);
 			}
 		}
-
 	}
 }

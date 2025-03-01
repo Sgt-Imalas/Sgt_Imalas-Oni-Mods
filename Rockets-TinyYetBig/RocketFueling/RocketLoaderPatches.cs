@@ -85,20 +85,20 @@ namespace Rockets_TinyYetBig.RocketFueling
 							__instance.neighbourCheckCells.Add(portAttachment.TopCell);
 						if (!__instance.neighbourCheckCells.Contains(portAttachment.BottomCell))
 							__instance.neighbourCheckCells.Add(portAttachment.BottomCell);
-						SgtLogger.l($"added crosspiece vertical cells to chained building");
-						foreach (var item in __instance.neighbourCheckCells)
-						{
-							SgtLogger.l("Cell in list: " + item);
-						}
+						//SgtLogger.l($"added crosspiece vertical cells to chained building");
+						//foreach (var item in __instance.neighbourCheckCells)
+						//{
+						//	SgtLogger.l("Cell in list: " + item);
+						//}
 					}
 					else
 					{
 						__instance.neighbourCheckCells = [portAttachment.TopCell, portAttachment.BottomCell];
-						SgtLogger.l($"replaced neigbor cells with vertical cells in chained building");
-						foreach (var item in __instance.neighbourCheckCells)
-						{
-							SgtLogger.l("Cell in list: " + item);
-						}
+						//SgtLogger.l($"replaced neigbor cells with vertical cells in chained building");
+						//foreach (var item in __instance.neighbourCheckCells)
+						//{
+						//	SgtLogger.l("Cell in list: " + item);
+						//}
 					}
 				}
 			}
@@ -157,7 +157,7 @@ namespace Rockets_TinyYetBig.RocketFueling
 				{
 					GameScheduler.Instance?.scheduler?.Clear(scheduledTurnoff);
 					ScheduledTurnOffs.Remove(instance);
-					logicPorts.SendSignal(ROCKETPORTLOADER_ACTIVE, 1);
+					logicPorts?.SendSignal(ROCKETPORTLOADER_ACTIVE, 1);
 				}
 			}
 			else
@@ -166,7 +166,7 @@ namespace Rockets_TinyYetBig.RocketFueling
 				{
 					ScheduledTurnOffs[instance] = GameScheduler.Instance.Schedule("turn off loader logic port", 1, (_) =>
 					{
-						logicPorts.SendSignal(ROCKETPORTLOADER_ACTIVE, 0);
+						logicPorts?.SendSignal(ROCKETPORTLOADER_ACTIVE, 0);
 						ScheduledTurnOffs.Remove(instance);
 					});
 				}

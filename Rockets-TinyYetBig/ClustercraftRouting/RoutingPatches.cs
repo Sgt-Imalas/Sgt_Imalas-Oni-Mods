@@ -49,12 +49,11 @@ namespace Rockets_TinyYetBig.ClustercraftRouting
 		{
 			public static void Postfix(RocketClusterDestinationSelector __instance, ref bool __result)
 			{
-				if (!__result && __instance.TryGetComponent<DockingSpacecraftHandler>(out DockingSpacecraftHandler handler))
+				if (!__result && __instance.TryGetComponent(out DockingSpacecraftHandler handler))
 				{
 					__result = handler.IsLoading;
 				}
 			}
 		}
-
 	}
 }

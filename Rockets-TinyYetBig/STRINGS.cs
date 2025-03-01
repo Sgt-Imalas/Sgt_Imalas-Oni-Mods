@@ -286,6 +286,12 @@ namespace Rockets_TinyYetBig
 					public static LocString DESC = "Gantry Not Included";
 					public static LocString EFFECT = ("A rocket port adapter piece for vertical expansion.\n\nLinks up with other vertical adapter pieces above and below it.");
 				}
+				public class RTB_REINFORCEDLADDER
+				{					
+					public static LocString NAME = FormatAsLink("Reinforced Ladder", nameof(RTB_REINFORCEDLADDER));
+					public static LocString DESC = "Sturdy and quick to climb!";
+					public static LocString EFFECT = "Increases duplicant climbing speed. Immune to meteors";
+				}
 				public class RTB_WALLCONNECTIONADAPTER
 				{
 					public static LocString NAME = FormatAsLink("Insulated Rocket Port Wall Adapter", nameof(RTB_WALLCONNECTIONADAPTER));
