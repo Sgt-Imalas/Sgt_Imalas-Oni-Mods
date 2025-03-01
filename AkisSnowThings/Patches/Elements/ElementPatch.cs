@@ -24,10 +24,6 @@ namespace AkisSnowThings.Patches.Elements
                 var list = substanceTablesByDlc[DlcManager.VANILLA_ID].GetList();
                 SnowModElements.RegisterSubstances(list);
             }
-            public static void Postfix(ElementLoader __instance)
-            {
-                SgtElementUtil.FixTags();
-            }
         }
 
         // Credit: Heinermann (Blood mod)

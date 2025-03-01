@@ -33,11 +33,6 @@ namespace Imalas_TwitchChaosEvents.Elements
 				//SgtLogger.l("ElementList length after that method; " + substanceTablesByDlc[DlcManager.VANILLA_ID].GetList().Count);
 				//SgtLogger.l("ElementList SO length; " + substanceTablesByDlc[DlcManager.EXPANSION1_ID].GetList().Count);
 			}
-			public static void Postfix(ElementLoader __instance)
-			{
-				//SgtLogger.l("ElementList length in postfix; " + ElementLoader.elementTable.Count);
-				SgtElementUtil.FixTags();
-			}
 		}
 
 		// Credit: Heinermann (Blood mod)

@@ -122,17 +122,6 @@ namespace ElementUtilNamespace
 			}
 		}
 
-		// The game incorrectly assigns the display name to elements not in the original SimHashes table,
-		// so this needs to be changed to the actual ID. 
-		public static void FixTags()
-		{
-			foreach (var elem in elements)
-			{
-				SgtLogger.debuglog(elem.ToString() + " Ele " + elem.SimHash.ToString() + " new tag : " + TagManager.Create(elem.SimHash.ToString() + " substanceele? ") + elem + ", " + elem.Get());
-				elem.Get().substance.nameTag = TagManager.Create(elem.SimHash.ToString());
-			}
-		}
-
 		public static ElementsAudio.ElementAudioConfig GetCrystalAudioConfig(SimHashes id)
 		{
 			var crushedIce = ElementsAudio.Instance.GetConfigForElement(SimHashes.CrushedIce);

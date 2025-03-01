@@ -22,10 +22,6 @@ namespace Rockets_TinyYetBig.Elements
 				var list = substanceTablesByDlc[DlcManager.VANILLA_ID].GetList();
 				ModElements.RegisterSubstances(list, ref substanceList);
 			}
-			public static void Postfix(ElementLoader __instance)
-			{
-				SgtElementUtil.FixTags();
-			}
 		}
 
 
