@@ -1,0 +1,48 @@
+﻿using ElementUtilNamespace;
+using HarmonyLib;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Rockets_TinyYetBig.Patches.ElementPatches
+{
+	internal class Enum_Patch
+	{
+		/// <summary>
+		/// Required for Simhashes conversion to string to include the modded elements
+		/// </summary>
+		// Credit: Heinermann (Blood mod)
+		public static class EnumPatch
+		{
+			[HarmonyPatch(typeof(Enum), "ToString", new Type[] { })]
+			public class SimHashes_ToString_Patch
+			{
+				public static bool Prefix(ref Enum __instance, ref string __result)
+				{
+					if (__instance is SimHashes hashes)
+					{
+						return !SgtElementUtil.SimHashNameLookup.TryGetValue(hashes, out __result);
+					}
+
+					return true;
+				}
+			}
+
+			[HarmonyPatch(typeof(Enum), nameof(Enum.Parse), new Type[] { typeof(Type), typeof(string), typeof(bool) })]
+			private class SimHashes_Parse_Patch
+			{
+				private static bool Prefix(Type enumType, string value, ref object __result)
+				{
+					if (enumType.Equals(typeof(SimHashes)))
+					{
+						return !SgtElementUtil.ReverseSimHashNameLookup.TryGetValue(value, out __result);
+					}
+
+					return true;
+				}
+			}
+		}
+	}
+}

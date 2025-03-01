@@ -641,6 +641,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="Content\Defs\Entities\" />
+	  <Folder Include="Content\Scripts\Entities\" />
+	  <Folder Include="Content\Scripts\ModuleConditions\" />
+	  <Folder Include="Content\Scripts\UI\UnityUI\" />
 	  <Folder Include="SpaceStations\Construction\ModuleItems\" />
 	  <Folder Include="TwitchEvents\TwitchEventAddons\" />
 	</ItemGroup>

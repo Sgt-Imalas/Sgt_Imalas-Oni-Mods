@@ -21,10 +21,6 @@ namespace Cheese.ModElements
 				var list = substanceTablesByDlc[DlcManager.VANILLA_ID].GetList();
 				ModElementRegistration.RegisterSubstances(list);
 			}
-			public static void Postfix(ElementLoader __instance)
-			{
-				SgtElementUtil.FixTags();
-			}
 		}
 
 		[HarmonyPatch(typeof(SaveGame), nameof(SaveGame.OnPrefabInit))]

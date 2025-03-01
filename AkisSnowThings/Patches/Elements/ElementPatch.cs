@@ -24,29 +24,9 @@ namespace AkisSnowThings.Patches.Elements
                 var list = substanceTablesByDlc[DlcManager.VANILLA_ID].GetList();
                 SnowModElements.RegisterSubstances(list);
             }
-            public static void Postfix(ElementLoader __instance)
-            {
-                SgtElementUtil.FixTags();
-            }
         }
 
-        // Credit: Heinermann (Blood mod)
-        public static class EnumPatch
-        {
-            [HarmonyPatch(typeof(Enum), "ToString", new Type[] { })]
-            public class SimHashes_ToString_Patch
-            {
-                public static bool Prefix(ref Enum __instance, ref string __result)
-                {
-                    if (__instance is SimHashes hashes)
-                    {
-                        return !SgtElementUtil.SimHashNameLookup.TryGetValue(hashes, out __result);
-                    }
-
-                    return true;
-                }
-            }
-        }
+        
 
     }
 }
