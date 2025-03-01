@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using static Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED;
 
 namespace Rockets_TinyYetBig.Patches
 {
@@ -57,7 +58,8 @@ namespace Rockets_TinyYetBig.Patches
 			[HarmonyPostfix]
 			public static void Postfix(GameObject go)
 			{
-				go.AddOrGet<CargoBayStatusMonitor>();
+				if(Config.Instance.CargoBayLogicPorts)
+					go.AddOrGet<CargoBayStatusMonitor>();
 			}
 		}
 		/// <summary>

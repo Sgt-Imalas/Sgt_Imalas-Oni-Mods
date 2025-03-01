@@ -955,6 +955,11 @@ namespace Rockets_TinyYetBig
 				public static LocString TITLE = "Critter Containment Module Capacity";
 				public static LocString TOOLTIP = "Amount of critters the module can hold at once";
 			}
+			public class CARGOBAY_LOGICPORTS
+			{
+				public static LocString TITLE = "Cargobay logic ports";
+				public static LocString TOOLTIP = "Cargobays get two logic output ports, one for \"is full\" and one for \"is empty\"";
+			}
 			public class ENABLECRITTERSTORAGE
 			{
 				public static LocString TITLE = "Enable Critter Containment Module";
