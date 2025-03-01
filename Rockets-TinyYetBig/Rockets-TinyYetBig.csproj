@@ -53,22 +53,31 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="ModAssets\anim\assets\conduit_link_cross\conduit_link_cross_0.png">
+	  <None Update="ModAssets\anim\assets\loader_tube_adapter\loader_tube_adapter_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\conduit_link_cross\conduit_link_cross_anim.bytes">
+	  <None Update="ModAssets\anim\assets\loader_tube_adapter\loader_tube_adapter_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\conduit_link_cross\conduit_link_cross_build.bytes">
+	  <None Update="ModAssets\anim\assets\loader_tube_adapter\loader_tube_adapter_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\conduit_link_piece\conduit_link_piece_0.png">
+	  <None Update="ModAssets\anim\rocket_port_buildings\conduit_link_cross\conduit_link_cross_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\conduit_link_piece\conduit_link_piece_anim.bytes">
+	  <None Update="ModAssets\anim\rocket_port_buildings\conduit_link_cross\conduit_link_cross_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\conduit_link_piece\conduit_link_piece_build.bytes">
+	  <None Update="ModAssets\anim\rocket_port_buildings\conduit_link_cross\conduit_link_cross_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\rocket_port_buildings\conduit_link_piece\conduit_link_piece_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\rocket_port_buildings\conduit_link_piece\conduit_link_piece_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\rocket_port_buildings\conduit_link_piece\conduit_link_piece_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\anim\assets\eye_spice_effect\eye_spice_effect_0.png">
@@ -80,337 +89,310 @@
 	  <None Update="ModAssets\anim\assets\eye_spice_effect\eye_spice_effect_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\fridge_interface\fridge_interface_0.png">
+	  <None Update="ModAssets\anim\standalone_buildings\fridge_interface\fridge_interface_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\fridge_interface\fridge_interface_anim.bytes">
+	  <None Update="ModAssets\anim\standalone_buildings\fridge_interface\fridge_interface_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\fridge_interface\fridge_interface_build.bytes">
+	  <None Update="ModAssets\anim\standalone_buildings\fridge_interface\fridge_interface_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\ion_thrus_module\ion_thrus_module_0.png">
+	  <None Update="ModAssets\anim\rocket_modules\ion_thrus_module\ion_thrus_module_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\ion_thrus_module\ion_thrus_module_anim.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\ion_thrus_module\ion_thrus_module_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\ion_thrus_module\ion_thrus_module_build.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\ion_thrus_module\ion_thrus_module_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\liquid_chlorine_oxidizer\liquid_chlorine_oxidizer_0.png">
+	  <None Update="ModAssets\anim\rocket_modules\liquid_chlorine_oxidizer\liquid_chlorine_oxidizer_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\liquid_chlorine_oxidizer\liquid_chlorine_oxidizer_anim.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\liquid_chlorine_oxidizer\liquid_chlorine_oxidizer_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\liquid_chlorine_oxidizer\liquid_chlorine_oxidizer_build.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\liquid_chlorine_oxidizer\liquid_chlorine_oxidizer_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\loader_tube_adapter\loader_tube_adapter_0.png">
+	  <None Update="ModAssets\anim\standalone_buildings\poi_capacity_scanner\poi_capacity_scanner_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\loader_tube_adapter\loader_tube_adapter_anim.bytes">
+	  <None Update="ModAssets\anim\standalone_buildings\poi_capacity_scanner\poi_capacity_scanner_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\loader_tube_adapter\loader_tube_adapter_build.bytes">
+	  <None Update="ModAssets\anim\standalone_buildings\poi_capacity_scanner\poi_capacity_scanner_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\poi_capacity_scanner\poi_capacity_scanner_0.png">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_battery_pack\rocket_battery_pack_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\poi_capacity_scanner\poi_capacity_scanner_anim.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_battery_pack\rocket_battery_pack_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\poi_capacity_scanner\poi_capacity_scanner_build.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_battery_pack\rocket_battery_pack_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_battery_pack\rocket_battery_pack_0.png">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_battery_pack_small\rocket_battery_pack_small_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_battery_pack\rocket_battery_pack_anim.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_battery_pack_small\rocket_battery_pack_small_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_battery_pack\rocket_battery_pack_build.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_battery_pack_small\rocket_battery_pack_small_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_battery_pack_small\rocket_battery_pack_small_0.png">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_cluster_oxidizer_tank_liquid\rocket_cluster_oxidizer_tank_liquid_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_battery_pack_small\rocket_battery_pack_small_anim.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_cluster_oxidizer_tank_liquid\rocket_cluster_oxidizer_tank_liquid_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_battery_pack_small\rocket_battery_pack_small_build.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_cluster_oxidizer_tank_liquid\rocket_cluster_oxidizer_tank_liquid_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_cluster_oxidizer_tank_liquid\rocket_cluster_oxidizer_tank_liquid_0.png">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_drillcone_cargo_bay\rocket_drillcone_cargo_bay_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_cluster_oxidizer_tank_liquid\rocket_cluster_oxidizer_tank_liquid_anim.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_drillcone_cargo_bay\rocket_drillcone_cargo_bay_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_cluster_oxidizer_tank_liquid\rocket_cluster_oxidizer_tank_liquid_build.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_drillcone_cargo_bay\rocket_drillcone_cargo_bay_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_drillcone_cargo_bay\rocket_drillcone_cargo_bay_0.png">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_habitat_plated_nosecone\rocket_habitat_plated_nosecone_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_drillcone_cargo_bay\rocket_drillcone_cargo_bay_anim.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_habitat_plated_nosecone\rocket_habitat_plated_nosecone_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_drillcone_cargo_bay\rocket_drillcone_cargo_bay_build.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_habitat_plated_nosecone\rocket_habitat_plated_nosecone_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_habitat_plated_nosecone\rocket_habitat_plated_nosecone_0.png">
+	  <None Update="ModAssets\anim\rocket_port_buildings\rocket_loader_extension_bunker\rocket_loader_extension_bunker_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_habitat_plated_nosecone\rocket_habitat_plated_nosecone_anim.bytes">
+	  <None Update="ModAssets\anim\rocket_port_buildings\rocket_loader_extension_bunker\rocket_loader_extension_bunker_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_habitat_plated_nosecone\rocket_habitat_plated_nosecone_build.bytes">
+	  <None Update="ModAssets\anim\rocket_port_buildings\rocket_loader_extension_bunker\rocket_loader_extension_bunker_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_loader_extension_bunker\rocket_loader_extension_bunker_0.png">
+	  <None Update="ModAssets\anim\rocket_port_buildings\rocket_loader_extension_insulated\rocket_loader_extension_insulated_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_loader_extension_bunker\rocket_loader_extension_bunker_anim.bytes">
+	  <None Update="ModAssets\anim\rocket_port_buildings\rocket_loader_extension_insulated\rocket_loader_extension_insulated_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_loader_extension_bunker\rocket_loader_extension_bunker_build.bytes">
+	  <None Update="ModAssets\anim\rocket_port_buildings\rocket_loader_extension_insulated\rocket_loader_extension_insulated_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_loader_extension_insulated\rocket_loader_extension_insulated_0.png">
+	  <None Update="ModAssets\anim\rocket_port_buildings\rocket_loader_extension_ladder\loader_ladder_adapter_tile_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_loader_extension_insulated\rocket_loader_extension_insulated_anim.bytes">
+	  <None Update="ModAssets\anim\rocket_port_buildings\rocket_loader_extension_ladder\loader_ladder_adapter_tile_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_loader_extension_insulated\rocket_loader_extension_insulated_build.bytes">
+	  <None Update="ModAssets\anim\rocket_port_buildings\rocket_loader_extension_ladder\loader_ladder_adapter_tile_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_loader_extension_ladder\loader_ladder_adapter_tile_0.png">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_natgas_engine\rocket_natgas_engine_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_loader_extension_ladder\loader_ladder_adapter_tile_anim.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\coal_generator_module\coal_generator_module.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_loader_extension_ladder\loader_ladder_adapter_tile_build.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\coal_generator_module\coal_generator_module_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_natgas_engine\rocket_natgas_engine_0.png">
+	  <None Update="ModAssets\anim\rocket_modules\coal_generator_module\coal_generator_module_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\coal_generator_module\coal_generator_module.png">
+	  <None Update="ModAssets\anim\rocket_port_buildings\fuel_loader_fuel\fuel_loader_fuel_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\coal_generator_module\coal_generator_module_anim.bytes">
+	  <None Update="ModAssets\anim\rocket_port_buildings\fuel_loader_fuel\fuel_loader_fuel_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\coal_generator_module\coal_generator_module_build.bytes">
+	  <None Update="ModAssets\anim\rocket_port_buildings\fuel_loader_fuel\fuel_loader_fuel_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\fuel_loader_fuel\fuel_loader_fuel_0.png">
+	  <None Update="ModAssets\anim\rocket_port_buildings\fuel_loader_hep\fuel_loader_hep_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\fuel_loader_fuel\fuel_loader_fuel_anim.bytes">
+	  <None Update="ModAssets\anim\rocket_port_buildings\fuel_loader_hep\fuel_loader_hep_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\fuel_loader_fuel\fuel_loader_fuel_build.bytes">
+	  <None Update="ModAssets\anim\rocket_port_buildings\fuel_loader_hep\fuel_loader_hep_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\fuel_loader_hep\fuel_loader_hep_0.png">
+	  <None Update="ModAssets\anim\rocket_port_buildings\fuel_loader_oxidizer\fuel_loader_oxidizer_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\fuel_loader_hep\fuel_loader_hep_anim.bytes">
+	  <None Update="ModAssets\anim\rocket_port_buildings\fuel_loader_oxidizer\fuel_loader_oxidizer_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\fuel_loader_hep\fuel_loader_hep_build.bytes">
+	  <None Update="ModAssets\anim\rocket_port_buildings\fuel_loader_oxidizer\fuel_loader_oxidizer_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\fuel_loader_oxidizer\fuel_loader_oxidizer_0.png">
+	  <None Update="ModAssets\anim\rocket_modules\landing_gear_module\landing_gear_module_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\fuel_loader_oxidizer\fuel_loader_oxidizer_anim.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\landing_gear_module\landing_gear_module_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\fuel_loader_oxidizer\fuel_loader_oxidizer_build.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\landing_gear_module\landing_gear_module_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\landing_gear_module\landing_gear_module_0.png">
+	  <None Update="ModAssets\anim\rocket_modules\radbolt_battery_module\radbolt_battery_module.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\landing_gear_module\landing_gear_module_anim.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\radbolt_battery_module\radbolt_battery_module_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\landing_gear_module\landing_gear_module_build.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\radbolt_battery_module\radbolt_battery_module_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\loader_ladder_adapter_tile\loader_ladder_adapter_tile_0.png">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_cluster_liquid_fuel_tank_small\rocket_cluster_liquid_fuel_tank_small_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\loader_ladder_adapter_tile\loader_ladder_adapter_tile_anim.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_cluster_liquid_fuel_tank_small\rocket_cluster_liquid_fuel_tank_small_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\loader_ladder_adapter_tile\loader_ladder_adapter_tile_build.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_cluster_liquid_fuel_tank_small\rocket_cluster_liquid_fuel_tank_small_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\loader_wall_adapter_tile\loader_wall_adapter_tile_0.png">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_cluster_storage_gas_large\rocket_cluster_storage_gas_large_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\loader_wall_adapter_tile\loader_wall_adapter_tile_anim.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_cluster_storage_gas_large\rocket_cluster_storage_gas_large_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\loader_wall_adapter_tile\loader_wall_adapter_tile_build.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_cluster_storage_gas_large\rocket_cluster_storage_gas_large_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\radbolt_battery_module\radbolt_battery_module.png">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_cluster_storage_liquid_large\rocket_cluster_storage_liquid_large_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\radbolt_battery_module\radbolt_battery_module_anim.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_cluster_storage_liquid_large\rocket_cluster_storage_liquid_large_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\radbolt_battery_module\radbolt_battery_module_build.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_cluster_storage_liquid_large\rocket_cluster_storage_liquid_large_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_cluster_liquid_fuel_tank_small\rocket_cluster_liquid_fuel_tank_small_0.png">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_cluster_storage_solid_large\rocket_cluster_storage_solid_large_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_cluster_liquid_fuel_tank_small\rocket_cluster_liquid_fuel_tank_small_anim.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_cluster_storage_solid_large\rocket_cluster_storage_solid_large_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_cluster_liquid_fuel_tank_small\rocket_cluster_liquid_fuel_tank_small_build.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_cluster_storage_solid_large\rocket_cluster_storage_solid_large_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_cluster_storage_gas_large\rocket_cluster_storage_gas_large_0.png">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_co2_tank\rocket_co2_tank_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_cluster_storage_gas_large\rocket_cluster_storage_gas_large_anim.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_co2_tank\rocket_co2_tank_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_cluster_storage_gas_large\rocket_cluster_storage_gas_large_build.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_co2_tank\rocket_co2_tank_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_cluster_storage_liquid_large\rocket_cluster_storage_liquid_large_0.png">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_habitat_medium_module_extended\rocket_habitat_medium_module_extended.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_cluster_storage_liquid_large\rocket_cluster_storage_liquid_large_anim.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_habitat_medium_module_extended\rocket_habitat_medium_module_extended_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_cluster_storage_liquid_large\rocket_cluster_storage_liquid_large_build.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_habitat_medium_module_extended\rocket_habitat_medium_module_extended_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_cluster_storage_solid_large\rocket_cluster_storage_solid_large_0.png">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_habitat_stargazer\rocket_habitat_stargazer.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_cluster_storage_solid_large\rocket_cluster_storage_solid_large_anim.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_habitat_stargazer\rocket_habitat_stargazer_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_cluster_storage_solid_large\rocket_cluster_storage_solid_large_build.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_habitat_stargazer\rocket_habitat_stargazer_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_co2_tank\rocket_co2_tank_0.png">
+	  <None Update="ModAssets\anim\rocket_port_buildings\rocket_launchpad_advanced\rocket_launchpad_advanced_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_co2_tank\rocket_co2_tank_anim.bytes">
+	  <None Update="ModAssets\anim\rocket_port_buildings\rocket_launchpad_advanced\rocket_launchpad_advanced_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_co2_tank\rocket_co2_tank_build.bytes">
+	  <None Update="ModAssets\anim\rocket_port_buildings\rocket_launchpad_advanced\rocket_launchpad_advanced_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_habitat_medium_module_extended\rocket_habitat_medium_module_extended.png">
+	  <None Update="ModAssets\anim\rocket_port_buildings\rocket_launchpad_bunker\rocket_launchpad_bunker_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_habitat_medium_module_extended\rocket_habitat_medium_module_extended_anim.bytes">
+	  <None Update="ModAssets\anim\rocket_port_buildings\rocket_launchpad_bunker\rocket_launchpad_bunker_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_habitat_medium_module_extended\rocket_habitat_medium_module_extended_build.bytes">
+	  <None Update="ModAssets\anim\rocket_port_buildings\rocket_launchpad_bunker\rocket_launchpad_bunker_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_habitat_stargazer\rocket_habitat_stargazer.png">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_natgas_engine\rocket_natgas_engine_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_habitat_stargazer\rocket_habitat_stargazer_anim.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_natgas_engine\rocket_natgas_engine_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_habitat_stargazer\rocket_habitat_stargazer_build.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_nosecone_laser_harvest\rocket_nosecone_laser_harvest.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_launchpad_advanced\rocket_launchpad_advanced_0.png">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_nosecone_laser_harvest\rocket_nosecone_laser_harvest_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_launchpad_advanced\rocket_launchpad_advanced_anim.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_nosecone_laser_harvest\rocket_nosecone_laser_harvest_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_launchpad_advanced\rocket_launchpad_advanced_build.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_nosecone_small_extended\rocket_nosecone_small_extended.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_launchpad_bunker\rocket_launchpad_bunker_0.png">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_nosecone_small_extended\rocket_nosecone_small_extended_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_launchpad_bunker\rocket_launchpad_bunker_anim.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_nosecone_small_extended\rocket_nosecone_small_extended_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_launchpad_bunker\rocket_launchpad_bunker_build.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_nosecone_solar\rocket_nosecone_solar.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_natgas_engine\rocket_natgas_engine_anim.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_nosecone_solar\rocket_nosecone_solar_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_natgas_engine\rocket_natgas_engine_build.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_nosecone_solar\rocket_nosecone_solar_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_nosecone_laser_harvest\rocket_nosecone_laser_harvest.png">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_oxidizer_tank_small\rocket_oxidizer_tank_small_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_nosecone_laser_harvest\rocket_nosecone_laser_harvest_anim.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_oxidizer_tank_small\rocket_oxidizer_tank_small_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_nosecone_laser_harvest\rocket_nosecone_laser_harvest_build.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_oxidizer_tank_small\rocket_oxidizer_tank_small_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_nosecone_small_extended\rocket_nosecone_small_extended.png">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_solar_panel_module_wide\rocket_solar_panel_module_wide_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_nosecone_small_extended\rocket_nosecone_small_extended_anim.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_solar_panel_module_wide\rocket_solar_panel_module_wide_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_nosecone_small_extended\rocket_nosecone_small_extended_build.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rocket_solar_panel_module_wide\rocket_solar_panel_module_wide_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_nosecone_solar\rocket_nosecone_solar.png">
+	  <None Update="ModAssets\anim\standalone_buildings\rtb_docking_tube\rtb_docking_tube_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_nosecone_solar\rocket_nosecone_solar_anim.bytes">
+	  <None Update="ModAssets\anim\standalone_buildings\rtb_docking_tube\rtb_docking_tube_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_nosecone_solar\rocket_nosecone_solar_build.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_oxidizer_tank_small\rocket_oxidizer_tank_small_0.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_oxidizer_tank_small\rocket_oxidizer_tank_small_anim.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_oxidizer_tank_small\rocket_oxidizer_tank_small_build.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_solar_panel_module_wide\rocket_solar_panel_module_wide_0.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_solar_panel_module_wide\rocket_solar_panel_module_wide_anim.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\rocket_solar_panel_module_wide\rocket_solar_panel_module_wide_build.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\rtb_docking_tube\rtb_docking_tube_0.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\rtb_docking_tube\rtb_docking_tube_anim.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\rtb_docking_tube\rtb_docking_tube_build.bytes">
+	  <None Update="ModAssets\anim\standalone_buildings\rtb_docking_tube\rtb_docking_tube_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\anim\assets\RTB_Part_A\RTB_Part_A_0.png">
@@ -431,13 +413,13 @@
 	  <None Update="ModAssets\anim\assets\rtb_station_part_manufacturer\Part_Manufacturer_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rtg_module\rtg_module.png">
+	  <None Update="ModAssets\anim\rocket_modules\rtg_module\rtg_module.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rtg_module\rtg_module_anim.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rtg_module\rtg_module_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\rtg_module\rtg_module_build.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\rtg_module\rtg_module_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\anim\assets\space_stations\space_stations_0.png">
@@ -449,58 +431,58 @@
 	  <None Update="ModAssets\anim\assets\space_stations\space_stations_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\space_station_deployer\space_station_deployer_0.png">
+	  <None Update="ModAssets\anim\rocket_modules\space_station_deployer\space_station_deployer_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\space_station_deployer\space_station_deployer_anim.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\space_station_deployer\space_station_deployer_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\space_station_deployer\space_station_deployer_build.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\space_station_deployer\space_station_deployer_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\space_station_docking_door\space_station_docking_door_0.png">
+	  <None Update="ModAssets\anim\space_station_stuff\space_station_docking_door\space_station_docking_door_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\space_station_docking_door\space_station_docking_door_anim.bytes">
+	  <None Update="ModAssets\anim\space_station_stuff\space_station_docking_door\space_station_docking_door_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\space_station_docking_door\space_station_docking_door_build.bytes">
+	  <None Update="ModAssets\anim\space_station_stuff\space_station_docking_door\space_station_docking_door_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\space_station_large\space_station_large_0.png">
+	  <None Update="ModAssets\anim\space_station_stuff\space_station_large\space_station_large_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\space_station_large\space_station_large_anim.bytes">
+	  <None Update="ModAssets\anim\space_station_stuff\space_station_large\space_station_large_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\space_station_large\space_station_large_build.bytes">
+	  <None Update="ModAssets\anim\space_station_stuff\space_station_large\space_station_large_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\space_station_medium\space_station_medium_0.png">
+	  <None Update="ModAssets\anim\space_station_stuff\space_station_medium\space_station_medium_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\space_station_medium\space_station_medium_anim.bytes">
+	  <None Update="ModAssets\anim\space_station_stuff\space_station_medium\space_station_medium_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\space_station_medium\space_station_medium_build.bytes">
+	  <None Update="ModAssets\anim\space_station_stuff\space_station_medium\space_station_medium_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\space_station_small\space_station_small_0.png">
+	  <None Update="ModAssets\anim\space_station_stuff\space_station_small\space_station_small_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\space_station_small\space_station_small_anim.bytes">
+	  <None Update="ModAssets\anim\space_station_stuff\space_station_small\space_station_small_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\space_station_small\space_station_small_build.bytes">
+	  <None Update="ModAssets\anim\space_station_stuff\space_station_small\space_station_small_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\steam_generator_module\steam_generator_module_0.png">
+	  <None Update="ModAssets\anim\rocket_modules\steam_generator_module\steam_generator_module_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\steam_generator_module\steam_generator_module_anim.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\steam_generator_module\steam_generator_module_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\steam_generator_module\steam_generator_module_build.bytes">
+	  <None Update="ModAssets\anim\rocket_modules\steam_generator_module\steam_generator_module_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\anim\assets\unobtaniumalloy\unobtaniumalloy_0.png">
@@ -659,9 +641,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="ModAssets\anim\connector_buildings\" />
-	  <Folder Include="ModAssets\anim\space_station_stuff\" />
-	  <Folder Include="ModAssets\anim\rocket_modules\" />
 	  <Folder Include="SpaceStations\Construction\ModuleItems\" />
 	  <Folder Include="TwitchEvents\TwitchEventAddons\" />
 	</ItemGroup>
