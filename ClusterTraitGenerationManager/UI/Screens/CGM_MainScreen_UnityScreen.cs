@@ -1532,9 +1532,13 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			if (DlcManager.IsExpansion1Active() && SpacedOutStarmap != null)
 			{
 				bool planetEncased = CustomCluster.SO_Starmap.EncasedPlanet(out string encasedId);
+				bool adjacentAsteroids = CustomCluster.SO_Starmap.BorderingPlanet();
 
 				if (!CustomCluster.SO_Starmap.GenerationPossible & PlanetoidDict.TryGetValue(CustomCluster.SO_Starmap.FailedGenerationPlanetId, out var failLocation))
 					StartGameTooltip.SetSimpleTooltip(string.Format(GENERATECLUSTERBUTTON.TOOLTIP_CLUSTERPLACEMENTFAILED_ASTEROID, failLocation.DisplayName));
+
+				else if (adjacentAsteroids)
+					StartGameTooltip.SetSimpleTooltip(GENERATECLUSTERBUTTON.TOOLTIP_CLUSTERPLACEMENTFAILED_ADJACENTASTEROIDS);
 
 				else if (planetEncased && PlanetoidDict.TryGetValue(encasedId, out var plt))
 					StartGameTooltip.SetSimpleTooltip(string.Format(GENERATECLUSTERBUTTON.TOOLTIP_CLUSTERPLACEMENTFAILED_COMETS, plt.DisplayName));
@@ -1545,7 +1549,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				else
 					StartGameTooltip.SetSimpleTooltip(GENERATECLUSTERBUTTON.TOOLTIP);
 
-				GenerationPossible = CustomCluster.SO_Starmap.GenerationPossible && SpacedOutStarmap.TearOnMap && !planetEncased;
+				GenerationPossible = CustomCluster.SO_Starmap.GenerationPossible && SpacedOutStarmap.TearOnMap && !planetEncased && !adjacentAsteroids;
 				GenerateClusterButton.SetInteractable(GenerationPossible);
 
 			}

@@ -48,6 +48,29 @@ namespace ClusterTraitGenerationManager.UI.SO_StarmapEditor
 			encasedId = string.Empty;
 			return false;
 		}
+		public bool BorderingPlanet()
+		{
+			HashSet<AxialI> planetPlacements = new HashSet<AxialI>();
+			foreach (var entry in OverridePlacements)
+			{
+				if (!ModAssets.SO_POIs.ContainsKey(entry.Value))
+				{
+					planetPlacements.Add(entry.Key);
+				}
+			}
+			var directions = AxialI.DIRECTIONS;
+
+			foreach (AxialI planet in planetPlacements)
+			{
+				for (int i = 0; i < directions.Count; ++i)
+				{
+					if (planetPlacements.Contains(planet + directions[i]))
+						return true;
+
+				}
+			}
+			return false;
+		}
 
 
 		public SO_StarmapLayout(int seed)

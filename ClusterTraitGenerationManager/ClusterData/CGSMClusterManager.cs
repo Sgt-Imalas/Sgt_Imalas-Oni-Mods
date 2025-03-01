@@ -139,7 +139,6 @@ namespace ClusterTraitGenerationManager.ClusterData
 			{
 				case 0:
 					defaultCluster = "SandstoneDefault"; break;
-
 				case 1:
 					defaultCluster = "expansion1::clusters/VanillaSandstoneCluster"; break;
 				case 2:
@@ -1508,13 +1507,15 @@ namespace ClusterTraitGenerationManager.ClusterData
 		static int AdjustedClusterSize => CustomCluster.defaultRings + Mathf.Max(0, CustomCluster.AdjustedOuterExpansion / 4);
 		public static void InitializeGeneration()
 		{
+			AddCustomClusterAndInitializeClusterGen();
+			return;
 
+			/// placement failures are detected by the cluster map automatically
 			int randoPlanets = 0;
 			if (CustomCluster.HasStarmapItem(RandomKey + StarmapItemCategory.Outer.ToString(), out var item))
 			{
 				randoPlanets = -1;
 				randoPlanets += (int)item.InstancesToSpawn;
-
 			}
 
 			if (CustomCluster.OuterPlanets.Count + randoPlanets > 6 && CustomCluster.Rings < AdjustedClusterSize)

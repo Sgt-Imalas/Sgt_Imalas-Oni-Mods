@@ -682,6 +682,7 @@
 								public static LocString TEXT = "Start modified Game";
 								public static LocString TOOLTIP = "Start generating a modified Cluster based on selected parameters.\nModified Cluster Generation is only activated if this button here is used.";
 								public static LocString TOOLTIP_CLUSTERPLACEMENTFAILED = "The current asteroid placement rules do not allow a spot for all asteroids on the starmap.\nPlease adjust your asteroid placement rules or reduce the total amount of asteroids!";
+								public static LocString TOOLTIP_CLUSTERPLACEMENTFAILED_ADJACENTASTEROIDS = "You currently have at least 2 asteroids directly adjacent to each other.\nThis will lead to crashes when a rocket tries landing on either of them with roundtrip enabled.\nPlease adjust your asteroids positions so they are no longer directly adjacent!";
 								public static LocString TOOLTIP_CLUSTERPLACEMENTFAILED_ASTEROID = "The current asteroid placement rules for the {0} currently fail to place the asteroid on the starmap.\nPlease adjust its placements or reduce the total amount of asteroids!";
 								public static LocString TOOLTIP_CLUSTERPLACEMENTFAILED_COMETS = "The current asteroid placement rules do not allow meteors to reach the {0}.\nThis would cause a crash on the spawn of the first meteor shower that tries to target this unreachable asteroid.\nPlease adjust your starmap placements!";
 								public static LocString TOOLTIP_CLUSTERPLACEMENTFAILED_TEAR = "There is currently no temporal tear on the starmap.\nPlease add a temporal tear to the starmap!";
