@@ -2,6 +2,7 @@
 using Klei.AI;
 using System;
 using UnityEngine;
+using UtilLibs;
 
 
 namespace CrittersShedFurOnBrush
@@ -41,13 +42,15 @@ namespace CrittersShedFurOnBrush
 				{
 					RanchStation.Instance targetRanchStation = creature_go.GetSMI<RanchableMonitor.Instance>().TargetRanchStation;
 					RancherChore.RancherChoreStates.Instance smi = targetRanchStation.GetSMI<RancherChore.RancherChoreStates.Instance>();
-					double RancherSkillEffect = (double)targetRanchStation.GetSMI<RancherChore.RancherChoreStates.Instance>().sm.rancher.Get(smi).GetAttributes().Get(Db.Get().Attributes.Ranching.Id).GetTotalValue() * 0.1;
+					double RancherSkillEffect = (double)targetRanchStation.GetSMI<RancherChore.RancherChoreStates.Instance>().sm.rancher.Get(smi).GetAttributes().Get(Db.Get().Attributes.Ranching.Id).GetTotalValue() * 0.2;
 					float num = (float)(1.0f + RancherSkillEffect);
 					float rancherAmountEffect = 1f + (float)Math.Pow(RancherSkillEffect, 1.25f);
 					creature_go.GetComponent<Effects>().Add("Ranched", true).timeRemaining *= num;
+					float upgradableCritterMultiplier = ModIntegrations.UpgradableCritters_Integration.GetCritterUpgradeMultiplier(creature_go);
+					//SgtLogger.l("UpgradeMultiplier: " + upgradableCritterMultiplier);
 					if (IsSheddableCreature(creature_go, out var shedAmount, out Tag CreatureTag))
 					{
-						YeetWool(creature_go, shedAmount * rancherAmountEffect, CreatureTag);
+						YeetWool(creature_go, upgradableCritterMultiplier * shedAmount * rancherAmountEffect, CreatureTag);
 					}
 				};
 			}

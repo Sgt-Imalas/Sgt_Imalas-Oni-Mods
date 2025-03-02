@@ -30,11 +30,11 @@ namespace CrittersShedFurOnBrush
 					return;
 				}
 
-				var m_Upgrades = AccessTools.Field(_critterUpgradeTracker, "Upgrades");
+				var m_GetUpgradeLevel = AccessTools.Method(_critterUpgradeTracker, "GetUpgradeLevel");
 
-				if (m_Upgrades == null)
+				if (m_GetUpgradeLevel == null)
 				{
-					Debug.LogWarning("Field `Upgrades` not found on type CritterUpgradeTracker, aborting...");
+					Debug.LogWarning("Method `GetUpgradeLevel` not found on type CritterUpgradeTracker, aborting...");
 					return;
 				}
 
@@ -53,7 +53,7 @@ namespace CrittersShedFurOnBrush
 				if (upgradeCmp == null)
 					return 1;
 
-				var _upgradesValue = (int?)Traverse.Create(upgradeCmp)?.Field("Upgrades")?.GetValue();
+				var _upgradesValue = (int?)Traverse.Create(upgradeCmp)?.Method("GetUpgradeLevel")?.GetValue();
 
 				if (_upgradesValue == null)
 					return 1;
