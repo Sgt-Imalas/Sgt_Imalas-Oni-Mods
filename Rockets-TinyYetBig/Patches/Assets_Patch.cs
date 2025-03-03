@@ -10,7 +10,7 @@ namespace Rockets_TinyYetBig.Patches
 {
 	internal class Assets_Patch
 	{
-		[HarmonyPatch(typeof(Assets), nameof(Assets.OnPrefabInit)]
+		[HarmonyPatch(typeof(Assets), nameof(Assets.OnPrefabInit))]
 		public class Assets_OnPrefabInit_Patch
 		{
 			public static void Prefix(Assets __instance)
