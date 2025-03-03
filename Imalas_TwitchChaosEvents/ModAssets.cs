@@ -21,22 +21,16 @@ namespace Imalas_TwitchChaosEvents
 			{
 				{ ModElements.InverseWater.Tag, Chaos_Effects.FLIPPEDWATERDRINK }
 			};
-
-			[HarmonyPatch(typeof(Db))]
-			[HarmonyPatch(nameof(Db.Initialize))]
-			public class Db_init
+			public static void Register(Db __instance)
 			{
-				public static void Postfix(Db __instance)
-				{
-					var beverages = new List<Tuple<Tag, string>>();
+				var beverages = new List<Tuple<Tag, string>>();
 
-					foreach (var beverage in Beverages)
-						beverages.Add(new Tuple<Tag, string>(beverage.Key, beverage.Value));
+				foreach (var beverage in Beverages)
+					beverages.Add(new Tuple<Tag, string>(beverage.Key, beverage.Value));
 
-					WaterCoolerConfig.BEVERAGE_CHOICE_OPTIONS = WaterCoolerConfig.BEVERAGE_CHOICE_OPTIONS
-						.AddRangeToArray(beverages.ToArray())
-						.ToArray();
-				}
+				WaterCoolerConfig.BEVERAGE_CHOICE_OPTIONS = WaterCoolerConfig.BEVERAGE_CHOICE_OPTIONS
+					.AddRangeToArray(beverages.ToArray())
+					.ToArray();
 			}
 		}
 
@@ -78,6 +72,7 @@ namespace Imalas_TwitchChaosEvents
 				TACORAIN = "ICT_TACORAIN",
 				THUNDERSTRIKE = "ICT_ThunderStrike",
 				EVILSOUND = "ICT_EVILARRIVING",
+				CAVE_NOISE = "ICTE_CaveNoise.mp3",
 				NUKE_DETONATION = "ICT_NUKEDETONATION";
 		}
 		public static bool RainbowLiquids = false;
@@ -87,6 +82,7 @@ namespace Imalas_TwitchChaosEvents
 			SoundUtils.LoadSound(SOUNDS.TACORAIN, "ICT_TACORAIN.wav");
 			SoundUtils.LoadSound(SOUNDS.EVILSOUND, "ICT_EVIL.mp3");
 			SoundUtils.LoadSound(SOUNDS.THUNDERSTRIKE, "ICT_ThunderStrike.mp3");
+			SoundUtils.LoadSound(SOUNDS.CAVE_NOISE, "ICTE_CaveNoise.mp3");
 
 			LoadAssets();
 		}
@@ -140,7 +136,7 @@ namespace Imalas_TwitchChaosEvents
 				ToggleRainbowLiquid = new PActionManager().CreateAction(
 					TRIGGER_RAINBOWLIQUIDTOGGLE,
 					"DEBUG: Toggle Rainbow",
-					new PKeyBinding(KKeyCode.R, Modifier.Ctrl));
+					new PKeyBinding(KKeyCode.F10, Modifier.Ctrl));
 			}
 		}
 	}

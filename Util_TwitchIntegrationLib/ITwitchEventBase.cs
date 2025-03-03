@@ -8,7 +8,6 @@ namespace Util_TwitchIntegrationLib
 		string ID { get; }
 		string EventGroupID { get; }
 		string EventName { get; }
-		//string EventDescription { get; }
 		EventWeight EventWeight { get; }
 		Action<object> EventAction { get; }
 		Func<object, bool> Condition { get; }

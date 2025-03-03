@@ -212,17 +212,17 @@ elements:
     dlcId: ""
 
   - elementId: ITCE_VoidLiquid
-    maxMass: 1000
+    maxMass: 500
     liquidCompression: 1.01
     speed: 300
     minHorizontalFlow: 0.01
     minVerticalFlow: 0.01
-    specificHeatCapacity: 0.05
-    thermalConductivity: 1
+    specificHeatCapacity: 0.25
+    thermalConductivity: 0.005
     solidSurfaceAreaMultiplier: 1
     liquidSurfaceAreaMultiplier: 25
     gasSurfaceAreaMultiplier: 1
-    defaultTemperature: 363.15 # 30 C
+    defaultTemperature: 150.15 # -123 C
     offGasPercentage: 0
     defaultMass: 1000
     molarMass: 100

@@ -2,6 +2,7 @@
 using Imalas_TwitchChaosEvents.Elements;
 using ONITwitchLib;
 using ONITwitchLib.Utils;
+using ProcGen.Noise;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,9 +59,22 @@ namespace Imalas_TwitchChaosEvents.Events
 			Vector3 positionCbc = Grid.CellToPosCBC(cell, antiCheesePlate.SceneLayer);
 			GameObject building = antiCheesePlate.Create(positionCbc, null, [SimHashes.SandStone.CreateTag()], antiCheesePlate.CraftRecipe, 293.15f, antiCheesePlate.BuildingComplete);
 
+			string SpawnDeadlyElement = Strings.Get("STRINGS.ONITWITCH.TOASTS.ELEMENT_GROUP.TITLE");
+			string SpawnDeadlyElementTooltip = Strings.Get("STRINGS.ONITWITCH.TOASTS.ELEMENT_GROUP.BODY_FORMAT");
+
+			ToastManager.InstantiateToastWithPosTarget(
+			SpawnDeadlyElement,
+			string.Format(
+				SpawnDeadlyElementTooltip,
+				Util.StripTextFormatting(creeper.name)
+			), Grid.CellToPos(cell));
+
 		};
-		
-		public Func<object, bool> Condition => (_) => Config.Instance.SkipMinCycle || (GameClock.Instance.GetCycle() > 50);
+
+		public Func<object, bool> Condition => (data) =>
+		{
+			return Config.Instance.SkipMinCycle || GameClock.Instance.GetCycle() > 150;
+		};
 
 		public Danger EventDanger => Danger.Deadly;
 	}

@@ -118,6 +118,9 @@
 	  <None Update="ModAssets\anim\assets\taco_food\taco_food_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\assets\ICTE_CaveNoise.mp3">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\assets\ICT_EVIL.mp3">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
@@ -136,7 +139,7 @@
 	  <None Update="ModAssets\anim\assets\ITCE_Inverse_Ice\itce_inverse_ice_anim.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="ModAssets\anim\assets\ITCE_Inverse_Ice\itce_inverse_ice_.bytes">
+	  <None Update="ModAssets\anim\assets\ITCE_Inverse_Ice\itce_inverse_ice_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModAssets\assets\ICT_ThunderStrike.mp3">

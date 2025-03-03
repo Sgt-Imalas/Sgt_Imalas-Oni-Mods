@@ -17,8 +17,6 @@ namespace Imalas_TwitchChaosEvents.Events
 
 		public string EventName => STRINGS.CHAOSEVENTS.BURNINGCURSOR.NAME;
 
-		public string EventDescription => STRINGS.CHAOSEVENTS.BURNINGCURSOR.TOASTTEXT;
-
 		public EventWeight EventWeight => EventWeight.WEIGHT_UNCOMMON;
 
 		public Action<object> EventAction => (object data) =>

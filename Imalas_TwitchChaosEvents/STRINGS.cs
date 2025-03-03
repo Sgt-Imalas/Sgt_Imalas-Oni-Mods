@@ -37,6 +37,13 @@ namespace Imalas_TwitchChaosEvents
 					public static LocString NOTIFICATION_NAME = NAME;
 					public static LocString NOTIFICATION_TOOLTIP = TOOLTIP;
 				}
+				public class ITCE_HURTINGELEMENT_VOID
+				{
+					public static LocString NAME = "Void Touch";
+					public static LocString TOOLTIP = "The Void consumes!";
+					public static LocString NOTIFICATION_NAME = NAME;
+					public static LocString NOTIFICATION_TOOLTIP = TOOLTIP;
+				}
 			}
 			public static class MODIFIERS
 			{
@@ -161,7 +168,7 @@ namespace Imalas_TwitchChaosEvents
 			public class ITCE_VOIDLIQUID
 			{
 				public static LocString NAME = FormatAsLink("Void", nameof(ITCE_VOIDLIQUID));
-				public static LocString DESC = "";
+				public static LocString DESC = "The void hungers";
 			}
 			public class ITCE_CREEPYLIQUIDGAS
 			{
@@ -287,6 +294,16 @@ namespace Imalas_TwitchChaosEvents
 				public static LocString TOASTTEXT = "ALARM!\nThe Creeper is about to arrive on {0}";
 				public static LocString TOASTTEXT2 = "The Creeper has arrived on {0}!";
 			}
+			public class STAREDINTOTHEVOID
+			{
+				public static LocString NAME = "Void Incantation";
+				public static LocString TOAST = "The Void hungers";
+				public static LocString VOID_DAMAGE = "Void Damage";
+				public static LocString TOASTTEXT = "{0} has stared too deep into the Void\nThe Void has awoken\nThe Void stares back into {0}\nThe Void hungers\nThe Void will consume";
+				public static LocString CONSUME_SUCCESS = "The void has consumed {0} and is satisfied.. for now...";
+				public static LocString CONSUME_FAILURE = "The void failed to consume {0}, they will live for another day...";
+			}
+
 			public class TACORAIN
 			{
 				public static LocString NAME = "Taco Rain";

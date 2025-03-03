@@ -15,8 +15,6 @@ namespace Imalas_TwitchChaosEvents.Events
 
 		public string EventName => STRINGS.CHAOSEVENTS.RAINBOWLIQUIDS.NAME;
 
-		public string EventDescription => STRINGS.CHAOSEVENTS.RAINBOWLIQUIDS.TOASTTEXT;
-
 		public EventWeight EventWeight => EventWeight.WEIGHT_FREQUENT;
 
 		public Action<object> EventAction => (object data) =>

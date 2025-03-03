@@ -30,7 +30,7 @@ namespace Imalas_TwitchChaosEvents.Elements
 			waterH = waterH + 0.5f % 1f;
 			iceH = iceH + 0.5f % 1f;
 
-			var voidColor = Color.black;
+			var voidColor = new Color(0,0,0,4f);
 
 
 			InverseIce = ElementInfo.Solid("ITCE_Inverse_Ice", Color.HSVToRGB(iceH, iceS, iceV));

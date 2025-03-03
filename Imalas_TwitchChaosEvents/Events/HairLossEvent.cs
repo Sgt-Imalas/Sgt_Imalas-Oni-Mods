@@ -19,8 +19,6 @@ namespace Imalas_TwitchChaosEvents.Events
 
 		public string EventName => STRINGS.CHAOSEVENTS.HAIRLOSS.NAME;
 
-		public string EventDescription => STRINGS.CHAOSEVENTS.HAIRLOSS.TOASTTEXT;
-
 		public EventWeight EventWeight => EventWeight.WEIGHT_COMMON;
 
 		public Action<object> EventAction => (object data) =>

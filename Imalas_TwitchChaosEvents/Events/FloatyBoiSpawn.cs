@@ -18,8 +18,6 @@ namespace Imalas_TwitchChaosEvents.Events
 
 		public string EventName => STRINGS.CHAOSEVENTS.CREEPEREATINGBOI.NAME;
 
-		public string EventDescription => STRINGS.CHAOSEVENTS.CREEPEREATINGBOI.TOASTTEXT;
-
 		public EventWeight EventWeight => EventWeight.WEIGHT_ALMOST_NEVER;
 
 		public Action<object> EventAction => (object data) =>

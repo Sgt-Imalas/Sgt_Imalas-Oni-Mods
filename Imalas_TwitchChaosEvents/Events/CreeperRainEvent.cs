@@ -19,8 +19,6 @@ namespace Imalas_TwitchChaosEvents.Events
 
 		public string EventName => STRINGS.CHAOSEVENTS.CREEPERRAIN.NAME;
 
-		public string EventDescription => STRINGS.CHAOSEVENTS.CREEPERRAIN.TOASTTEXT;
-
 		//public EventWeight EventWeight => EventWeight.WEIGHT_VERY_RARE;
 		public EventWeight EventWeight => EventWeight.WEIGHT_RARE;
 
@@ -85,7 +83,7 @@ namespace Imalas_TwitchChaosEvents.Events
 				return Config.Instance.SkipMinCycle || GameClock.Instance.GetCycle() > 150;
 			};
 
-		public Danger EventDanger => Danger.Deadly;
+		public Danger EventDanger => Danger.Extreme;
 
 	}
 }

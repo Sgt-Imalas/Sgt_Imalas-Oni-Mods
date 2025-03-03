@@ -17,8 +17,6 @@ namespace Imalas_TwitchChaosEvents.Events
 
 		public string EventName => STRINGS.CHAOSEVENTS.HUNGRYROACHES.NAME;
 
-		public string EventDescription => STRINGS.CHAOSEVENTS.HUNGRYROACHES.TOASTTEXT;
-
 		public EventWeight EventWeight => EventWeight.WEIGHT_RARE;
 
 		public Action<object> EventAction => (object data) =>

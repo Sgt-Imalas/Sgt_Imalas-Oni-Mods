@@ -44,7 +44,10 @@ namespace Util_TwitchIntegrationLib
 			{
 				ITwitchEventBase Instance = (ITwitchEventBase)Activator.CreateInstance(eventType);
 				if (Instance != default)
+				{
 					RegisterEvent(Instance);
+					Debug.Log("["+nameSpace.Split('.').First() + "]: Registered event: "+Instance.EventName);
+				}
 			}
 			Debug.Log(nameSpace.Split('.').First() + ": Added " + events.Count + " Twitch Events");
 		}

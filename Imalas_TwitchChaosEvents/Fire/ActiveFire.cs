@@ -88,34 +88,36 @@ namespace Imalas_TwitchChaosEvents.Fire
 
 			int originCell = Grid.PosToCell(this);
 
-			float multiplier = FireManager.Instance.GetElementMultiplier(originCell);
-			float activeMP = multiplier < 0 ? dt * -multiplier : 1f / multiplier;
-
-			activeTime += dt * activeMP;
-
-			foreach (var HeatLocation in HeatZones)
+			float burnDurationMultiplier = FireManager.Instance.GetElementMultiplier(originCell);
+			if (burnDurationMultiplier > 0)
 			{
-				int cell = Grid.OffsetCell(originCell, HeatLocation.first);
-				SimMessages.ModifyEnergy(originCell, HeatLocation.second * energy * dt, UtilMethods.GetKelvinFromC(1200), SimMessages.EnergySourceID.Burner);
-				if (Grid.IsValidCellInWorld(cell, ClusterManager.Instance.activeWorldId))
-				{
-					float MaxHeat = (HeatLocation.second * ignitionEnergyPerSecond * dt);
-					//SgtLogger.l("" + Mathf.Lerp(MaxHeat, -MaxHeat * 0.1f, Mathf.Clamp01(TimeLerp * 5f)), "heat");
-					FireManager.Instance.ApplyIgnitionHeatToCell(cell, Mathf.Lerp(MaxHeat, -MaxHeat * 0.1f, Mathf.Clamp01(TimeLerp * 5f)));
+				activeTime += dt / burnDurationMultiplier;
 
-					if (ONITwitchLib.Utils.GridUtil.IsCellFoundationEmpty(cell))
+				foreach (var HeatLocation in HeatZones)
+				{
+					int cell = Grid.OffsetCell(originCell, HeatLocation.first);
+					SimMessages.ModifyEnergy(originCell, HeatLocation.second * energy * dt, UtilMethods.GetKelvinFromC(1200), SimMessages.EnergySourceID.Burner);
+					if (Grid.IsValidCellInWorld(cell, ClusterManager.Instance.activeWorldId))
 					{
-						SimMessages.ConsumeMass(cell, Grid.Element[cell].id, 0.1f * dt * multiplier, 1, -1);
-						if (!Grid.IsSolidCell(Grid.CellAbove(cell)))
+						float MaxHeat = (HeatLocation.second * ignitionEnergyPerSecond * dt);
+						//SgtLogger.l("" + Mathf.Lerp(MaxHeat, -MaxHeat * 0.1f, Mathf.Clamp01(TimeLerp * 5f)), "heat");
+						FireManager.Instance.ApplyIgnitionHeatToCell(cell, Mathf.Lerp(MaxHeat, -MaxHeat * 0.1f, Mathf.Clamp01(TimeLerp * 5f)));
+
+						if (ONITwitchLib.Utils.GridUtil.IsCellFoundationEmpty(cell))
 						{
-							SimMessages.ReplaceAndDisplaceElement(Grid.CellAbove(cell), SimHashes.CarbonDioxide, SpawnEvent, 0.1f * dt, UtilMethods.GetKelvinFromC(600));
+							SimMessages.ConsumeMass(cell, Grid.Element[cell].id, 0.1f * dt * burnDurationMultiplier, 1, -1);
+							if (!Grid.IsSolidCell(Grid.CellAbove(cell)))
+							{
+								SimMessages.ReplaceAndDisplaceElement(Grid.CellAbove(cell), SimHashes.CarbonDioxide, SpawnEvent, 0.1f * dt, UtilMethods.GetKelvinFromC(600));
+							}
 						}
 					}
 				}
 			}
+			
 
 
-			if (activeTime > burningtime)
+			if (activeTime > burningtime|| burnDurationMultiplier <= 0)
 			{
 				emission.rateOverTime = 0;
 				scheduledForDestruction = true;

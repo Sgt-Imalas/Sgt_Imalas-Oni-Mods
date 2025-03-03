@@ -39,14 +39,6 @@ namespace Imalas_TwitchChaosEvents
 				.AddMeteor(GhostlyTacoCometConfig.ID, 0.15f));
 
 		}
-		[HarmonyPatch(typeof(Db), "Initialize")]
-		public class Db_Initialize_Patch
-		{
-			public static void Postfix(Db __instance)
-			{
-				Register(__instance.GameplayEvents);
-			}
-		}
 
 		[HarmonyPatch(typeof(ComplexFabricatorSideScreen), nameof(ComplexFabricatorSideScreen.AnyRecipeRequirementsDiscovered))]
 		public class ComplexFabricatorSideScreen_AnyRecipeRequirementsDiscovered_Patch
@@ -100,22 +92,6 @@ namespace Imalas_TwitchChaosEvents
 		}
 
 
-		[HarmonyPatch(typeof(Db), nameof(Db.Initialize))]
-		public static class PatchCarnivoreAchievment
-		{
-			public static void Postfix(Db __instance)
-			{
-				var items = __instance.ColonyAchievements.EatkCalFromMeatByCycle100.requirementChecklist;
-				foreach (var requirement in items)
-				{
-					if (requirement is EatXCaloriesFromY foodRequirement)
-					{
-						foodRequirement.fromFoodType.Add(TacoConfig.ID);
-						break;
-					}
-				}
-			}
-		}
 
 		[HarmonyPatch(typeof(FoodDehydratorConfig), "ConfigureRecipes")]
 		public static class FoodDehydrator_ConfigureRecipes

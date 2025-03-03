@@ -41,22 +41,24 @@ namespace Imalas_TwitchChaosEvents.Fire
 
 		Dictionary<SimHashes, float> ElementMultiplier = new Dictionary<SimHashes, float>()
 		{
-			{ModElements.Creeper.SimHash, 200f},
-			{ModElements.CreeperGas.SimHash, 200f},
+			{ModElements.Creeper.SimHash, 2f},
+			{ModElements.CreeperGas.SimHash, 2f},
 			{SimHashes.Algae, 2f},
 			{SimHashes.SlimeMold, 2f},
 			{SimHashes.Carbon, 3f},
+			{SimHashes.WoodLog, 4f},
 			{SimHashes.RefinedCarbon, 3f},
 			{SimHashes.Dirt, 1.5f},
-			{SimHashes.Petroleum, 4f},
-			{SimHashes.Ethanol, 4f},
-			{SimHashes.CrudeOil, 3f},
-			{SimHashes.Syngas,4f},
-			{SimHashes.Methane, 4f},
-			{SimHashes.Hydrogen, 4f},
-			{SimHashes.CarbonDioxide, -100f},
-			{SimHashes.Helium, -10f},
-			{SimHashes.Vacuum, -100f},
+			{SimHashes.Oxygen, 1.5f},
+			{SimHashes.Petroleum, 5f},
+			{SimHashes.Ethanol, 5f},
+			{SimHashes.CrudeOil, 5f},
+			{SimHashes.Syngas,5f},
+			{SimHashes.Methane, 5f},
+			{SimHashes.Hydrogen, 5f},
+			{SimHashes.CarbonDioxide, 0f},
+			{SimHashes.Helium, 0f},
+			{SimHashes.Vacuum, 0f},
 		};
 		float GetElementMultiplier(Element element)
 		{
@@ -66,11 +68,11 @@ namespace Imalas_TwitchChaosEvents.Fire
 			}
 			if (element.IsLiquid)
 			{
-				return -10;
+				return 0.1f;
 			}
 			if (element.IsGas)
 			{
-				return 0.3f;
+				return 0.25f;
 			}
 
 			return 1f;

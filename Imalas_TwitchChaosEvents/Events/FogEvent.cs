@@ -17,8 +17,6 @@ namespace Imalas_TwitchChaosEvents.Events
 
 		public string EventName => STRINGS.CHAOSEVENTS.FOG.NAME;
 
-		public string EventDescription => STRINGS.CHAOSEVENTS.FOG.TOASTTEXT;
-
 		public EventWeight EventWeight => EventWeight.WEIGHT_COMMON;
 
 		public Action<object> EventAction => (object data) =>

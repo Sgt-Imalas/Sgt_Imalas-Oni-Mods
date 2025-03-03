@@ -16,20 +16,24 @@ namespace Imalas_TwitchChaosEvents.Attachments
 		KSelectable selectable;
 		[MyCmpGet]
 		KPrefabID kPrefabID;
+		[MyCmpGet]
+		MinionIdentity minionIdentiy;
+
+		float lastDamaged = 0;
+		float accumulatedDamage = 0;
+
 		public void Sim1000ms(float dt)
 		{
 			DamageChecker(dt);
 		}
 
-		public static void AddDamagingMaterial(SimHashes elementId, float minMassForDamage, float dps, float dpsSuited)
-		{
-			damagingMaterials[elementId] = new DamagingMaterial() { criticalMass = minMassForDamage, damagePerSecond = dps, damagePerSecondSuited = dpsSuited };
-		}
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
 			if (status_item == null)
 				status_item = MakeStatusItem();
+			if (status_item_void == null)
+				status_item_void = MakeStatusItemVoid();
 		}
 
 		public static Dictionary<SimHashes, DamagingMaterial> damagingMaterials = new Dictionary<SimHashes, DamagingMaterial>()
@@ -42,10 +46,22 @@ namespace Imalas_TwitchChaosEvents.Attachments
 					damagePerSecond = 100f/60f,
 					//damagePerSecondSuited= 100f/600f,
 				}
+			},
+			{
+				ModElements.VoidLiquid.SimHash,
+				new DamagingMaterial()
+				{
+					criticalMass = 0.1f,
+					damagePerSecond = 100f/300f,
+					damagePerSecondSuited= 100f/600f,
+					suitDurabilityDamage = 1f/60f,
+					isVoidDamage = true
+				}
 			}
 		};
 		public float lastBurnTime;
 		public static StatusItem status_item;
+		public static StatusItem status_item_void;
 
 		public static StatusItem MakeStatusItem()
 		{
@@ -53,16 +69,42 @@ namespace Imalas_TwitchChaosEvents.Attachments
 			statusItem.AddNotification();
 			return statusItem;
 		}
-
-		float DealHealthDamage(DamagingMaterial damagingElement, float dt)
+		public static StatusItem MakeStatusItemVoid()
 		{
+			StatusItem statusItem = new StatusItem("ITCE_HurtingElement_VOID", "DUPLICANTS", string.Empty, StatusItem.IconType.Exclamation, NotificationType.DuplicantThreatening, false, OverlayModes.None.ID, true, 63486);
+			statusItem.AddNotification();
+			return statusItem;
+		}
+
+		void DealHealthDamage(DamagingMaterial damagingElement, float dt, out bool suited)
+		{
+			suited = false;
 			float damage = damagingElement.damagePerSecond * dt;
 			if (suitEquipper != null && suitEquipper.IsWearingAirtightSuit())
 			{
+				var suit = suitEquipper.IsWearingAirtightSuit();
+
+				suited = true;
 				damage = damagingElement.damagePerSecondSuited * dt;
+
+				//damage suits when there is suit damage
+				if(suit.TryGetComponent<Durability> (out var durability) && damagingElement.suitDurabilityDamage > 0)
+				{
+					durability.durability = Mathf.Clamp01(durability.durability - damagingElement.suitDurabilityDamage);
+				}
 			}
-			_health.Damage(damage);
-			return damage;
+			if(damagingElement.isVoidDamage && minionIdentiy != null && minionIdentiy == RandomTickManager.Instance.Target)
+			{
+				damage *= 2f;
+			}
+			accumulatedDamage += damage;
+
+			if (Time.time - lastDamaged < 3.0)
+				return;
+
+			_health.Damage(accumulatedDamage);
+			accumulatedDamage = 0;
+			lastDamaged = Time.time;
 		}
 		public bool IsMinion()
 		{
@@ -74,17 +116,20 @@ namespace Imalas_TwitchChaosEvents.Attachments
 			DamagingMaterial damagingElement = this.DamagingElementSearch();
 			if (damagingElement != null)
 			{
-				DealHealthDamage(damagingElement, dt); 
-				if (IsMinion())
+				DealHealthDamage(damagingElement, dt, out bool suited); 
+				if (IsMinion() && !suited)
 				{
 					this.lastBurnTime = Time.time;
-					selectable.AddStatusItem(status_item, (object)this);
+					selectable.AddStatusItem(damagingElement.isVoidDamage ? status_item_void : status_item, (object)this);
 				}
 			}
 			else if(IsMinion())
 			{
 				if (Time.time - lastBurnTime > 5.0)
+				{
 					selectable.RemoveStatusItem(status_item, (bool)this);
+					selectable.RemoveStatusItem(status_item_void, (bool)this);
+				}
 			}
 		}
 
@@ -124,6 +169,8 @@ namespace Imalas_TwitchChaosEvents.Attachments
 			public float criticalMass = 0.0f;
 			public float damagePerSecond = 10f;
 			public float damagePerSecondSuited = 0f;
+			public float suitDurabilityDamage = 0f;
+			public bool isVoidDamage = false;
 		}
 	}
 }
