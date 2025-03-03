@@ -3,10 +3,15 @@ using KMod;
 using PeterHan.PLib.Core;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection.Emit;
+using System.Runtime.InteropServices;
 using System.Text;
+using UnityEngine;
 using UnityEngine.PlayerLoop;
+using static STRINGS.BUILDINGS.PREFABS;
+using static STRINGS.ELEMENTS;
 
 namespace UtilLibs
 {
@@ -45,16 +50,16 @@ namespace UtilLibs
 				Debug.Log("mod manager fix target type not found");
 				return;
 			}
-            var innerClass = targetType.GetNestedTypes(AccessTools.all).FirstOrDefault(t => !t.FullName.Contains("All") && t.FullName.Contains("<Update>"));
+			var innerClass = targetType.GetNestedTypes(AccessTools.all).FirstOrDefault(t => !t.FullName.Contains("All") && t.FullName.Contains("<Update>"));
 
-			if(innerClass == null)
+			if (innerClass == null)
 			{
 				Debug.Log("mod manager update inner type not found");
 				return;
 			}
 
 			var method = AccessTools.Method(innerClass, "MoveNext");
-			if(method  == null)
+			if (method == null)
 			{
 				Debug.Log("mod manager update method missing");
 				return;
@@ -62,7 +67,7 @@ namespace UtilLibs
 
 
 			Debug.Log("fixing broken timeout in mod manager...");
-			var methodtranspiler = AccessTools.Method(typeof(CompatibilityNotifications),nameof(BrokenTimeoutFixTranspiler));
+			var methodtranspiler = AccessTools.Method(typeof(CompatibilityNotifications), nameof(BrokenTimeoutFixTranspiler));
 
 			harmony.Patch(method, transpiler: new(methodtranspiler));
 
@@ -102,7 +107,7 @@ namespace UtilLibs
 		{
 			faultyId = faultyId.ToLowerInvariant();
 			var faultyMod = mods.FirstOrDefault(mod => mod.staticID.ToLowerInvariant().Contains(faultyId));
-			if (faultyMod != null)
+			if (faultyMod != null && faultyMod.IsEnabledForActiveDlc())
 			{
 				faultyMod.SetCrashed();
 				faultyMod.SetEnabledForActiveDlc(false);
@@ -112,36 +117,59 @@ namespace UtilLibs
 
 		public static void DisableLoggingPrevention(IReadOnlyList<KMod.Mod> _mods)
 		{
-
-			//AddIncompatibleToList("Oxygen Not Included", "Ony Debug Console");
-
-			List<KMod.Mod> mods = _mods.ToList();
-
-			Mod faultyMod = mods.Find(mod => mod.staticID.ToUpperInvariant().Contains("DEBUGCONSOLE"));
-
-			if (faultyMod != null && faultyMod.IsEnabledForActiveDlc())
+			try
 			{
-				Debug.Log("DebugConsole detected, disabling");
-				faultyMod.SetCrashed();
-				faultyMod.SetEnabledForDlc("", false);
-				faultyMod.SetEnabledForDlc("EXPANSION1_ID", false);
+				List<KMod.Mod> mods = _mods.ToList();
 
-				//App.instance.Restart();
+				Mod faultyMod = mods.FirstOrDefault(mod => mod.staticID.ToUpperInvariant().Contains("DEBUGCONSOLE"));
+				if (faultyMod == null)
+					return;
+				if (faultyMod.IsEnabledForActiveDlc())
+				{
+					new Harmony("logfix").UnpatchAll(faultyMod.staticID);
+					faultyMod.SetCrashed();
+				}
+			}
+			catch (Exception e)
+			{
+				//Debug.LogError("Error in DisableLoggingPrevention: " + e.Message);
 			}
 		}
 		public static void FlagLoggingPrevention(IReadOnlyList<KMod.Mod> _mods)
 		{
-
+			DisableLoggingPrevention(_mods);
 			List<KMod.Mod> mods = _mods.ToList();
+		}
 
-			Mod faultyMod = mods.Find(mod => mod.staticID.ToUpperInvariant().Contains("DEBUGCONSOLE"));
-
-			if (faultyMod != null && faultyMod.IsEnabledForActiveDlc())
+		static string BrokenLoggingFixed = "CrapConsole_LoggingPreventionFixed";
+		static int LoggingFixVersion = 1;
+		public static void FixLogging(Harmony harmony)
+		{
+			if (PRegistry.GetData<int>(BrokenLoggingFixed) >= LoggingFixVersion)
 			{
-				faultyMod.SetCrashed();
-				AddIncompatibleToList(GameName, faultyMod.title);
+				return;
+			}
+			PRegistry.PutData(BrokenLoggingFixed, LoggingFixVersion);
+
+			//this piece of garbage is preventing logging
+			var culprit = Global.Instance.modManager.mods.FirstOrDefault(m => m.staticID.Contains("DebugConsole"));
+			if (culprit == null)
+			{
+				//no mistakes were made
+				return;
+			}
+			var t1 = AccessTools.Method(typeof(KMod.Mod), nameof(KMod.Mod.IsEnabledForActiveDlc));
+			var skip = AccessTools.Method(typeof(CompatibilityNotifications), nameof(Skip));			
+			harmony.Patch(t1, postfix: new(skip, priority:Priority.Last));
+		}
+		static void Skip(KMod.Mod __instance, ref bool __result)
+		{
+			if (__instance.staticID.Contains("DebugConsole"))
+			{
+				__result = false;
 			}
 		}
+
 		static readonly string GameName = "OxygenNotIncluded_DebugConsole";
 
 

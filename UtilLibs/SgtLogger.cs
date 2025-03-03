@@ -33,6 +33,7 @@ namespace UtilLibs
 				//VersionChecker.Register(usermod, new JsonURLVersionChecker("https://raw.githubusercontent.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/master/ModVersionData.json")); //Currently partially broken
 				VersionChecker.Register(usermod, new SteamVersionChecker());
 			}
+			CompatibilityNotifications.FixLogging(harmony);
 			debuglog($"{usermod.mod.staticID} - Mod Version: {usermod.mod.packagedModInfo.version} ");
 		}
 		public static void l(string message, string assemblyOverride = "")
