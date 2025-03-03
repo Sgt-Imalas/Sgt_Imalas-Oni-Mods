@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UtilLibs;
 using static Rockets_TinyYetBig.Patches.BugfixPatches;
-using static Rockets_TinyYetBig.Patches.CompatibilityPatches.Rocketry_Interior_WeightLimit;
+using static Rockets_TinyYetBig.Patches.ModIntegration_Patches.Rocketry_Interior_WeightLimit;
 
 namespace Rockets_TinyYetBig
 {
@@ -56,7 +56,7 @@ namespace Rockets_TinyYetBig
 
 			if (mods.Any(mod => mod.staticID == "TC-1000's:Hydrocarbon_Rocket_Engines" && mod.IsEnabledForActiveDlc()))
 			{
-				CompatibilityPatches.Hydrocarbon_Rocket_Engines.ExecutePatch(harmony);
+				ModIntegration_Patches.Hydrocarbon_Rocket_Engines.ExecutePatch(harmony);
 			}
 			else
 				SgtLogger.l("TC-1000's:Hydrocarbon_Rocket_Engines not found");

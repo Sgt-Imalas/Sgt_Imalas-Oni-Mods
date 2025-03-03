@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using Rockets_TinyYetBig.Behaviours;
 using Rockets_TinyYetBig.Buildings.CargoBays;
+using Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -10,7 +11,7 @@ using UtilLibs;
 
 namespace Rockets_TinyYetBig
 {
-	class OldPatches
+    class OldPatches
 	{
 		/// <summary>
 		/// Extend rocket backwall to all wall buildings in rocket (glass, ports)

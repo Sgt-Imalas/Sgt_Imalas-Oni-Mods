@@ -1,10 +1,10 @@
 ﻿using Rockets_TinyYetBig.Behaviours;
 using Rockets_TinyYetBig.Buildings.CargoBays;
 using Rockets_TinyYetBig.Buildings.Utility;
+using Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens;
 using Rockets_TinyYetBig.NonRocketBuildings;
 using Rockets_TinyYetBig.RocketFueling;
 using Rockets_TinyYetBig.SpaceStations;
-using Rockets_TinyYetBig.UI_Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,7 +18,7 @@ using static Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS;
 
 namespace Rockets_TinyYetBig
 {
-	public class ModAssets
+    public class ModAssets
 	{
 		public class Hashes
 		{
