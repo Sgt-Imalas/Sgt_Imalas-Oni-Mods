@@ -62,7 +62,8 @@ namespace OniRetroEdition.BuildingDefModification
 						continue;
 
 					}
-					SkinsAdder.Instance.AddAnimForSoundCopy(entry.BuildingId, entry.Anim);
+					if(!entry.CopySoundFromBase.HasValue || entry.CopySoundFromBase.Value)
+						SkinsAdder.Instance.AddAnimForSoundCopy(entry.BuildingId, entry.Anim);
 					SgtLogger.l("adding skin: " + entry.SkinName + "(id: " + entry.SkinId + ")");
 					if (entry.WorkableAnimOverrides != null)
 						entry.WorkableAnimOverrides.ToList().ForEach(x => SgtLogger.l(x.Value, "workable override for: " + x.Key));
@@ -194,7 +195,8 @@ namespace OniRetroEdition.BuildingDefModification
 						{
 							{ nameof(NuclearResearchCenterWorkable),"RetroWorkableSkin"},
 							{ "OtherWorkableName","someWorkableAnimOverride"}
-						}
+						},
+						CopySoundFromBase = true,
 
 					}
 
@@ -221,5 +223,6 @@ namespace OniRetroEdition.BuildingDefModification
 		public string SkinDescription;
 		public string Anim;
 		public Dictionary<string, string> WorkableAnimOverrides;
+		public bool? CopySoundFromBase = true;
 	}
 }
