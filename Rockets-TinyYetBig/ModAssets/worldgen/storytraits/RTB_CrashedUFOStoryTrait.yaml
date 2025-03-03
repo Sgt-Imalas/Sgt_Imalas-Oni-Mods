@@ -1,39 +1,39 @@
-name: STRINGS.CODEX.STORY_TRAITS.RTB_CRASHEDUFOSTORYTRAIT.NAME
-description: STRINGS.CODEX.STORY_TRAITS.RTB_CRASHEDUFOSTORYTRAIT.DESCRIPTION
-icon: RTB_CrashedUFOStoryTrait_icon
-colorHex: FFFFFF
+# name: STRINGS.CODEX.STORY_TRAITS.RTB_CRASHEDUFOSTORYTRAIT.NAME
+# description: STRINGS.CODEX.STORY_TRAITS.RTB_CRASHEDUFOSTORYTRAIT.DESCRIPTION
+# icon: RTB_CrashedUFOStoryTrait_icon
+# colorHex: FFFFFF
 
-additionalWorldTemplateRules:
-  - names:
-      - storytraits/RTB_CrashedUFOStoryTrait
-    listRule: GuaranteeOne
-    priority: 200
-    useRelaxedFiltering: true
-    allowedCellsFilter:
-      - command: All
-      - command: ExceptWith
-        tagcommand: AtTag
-        tag: NoGlobalFeatureSpawning # this also excludes Space
-      - command: ExceptWith  # too close to start
-        tagcommand: DistanceFromTag
-        tag: AtStart
-        minDistance: 0
-        maxDistance: 2
-        optional: true # skip command on worlds without AtStart
-      - command: ExceptWith  # too far from start
-        tagcommand: DistanceFromTag
-        tag: AtStart
-        minDistance: 5
-        maxDistance: 99
-        optional: true # skip command on worlds without AtStart
-      - command: ExceptWith # too close to surface
-        tagcommand: DistanceFromTag
-        tag: AtSurface
-        minDistance: 0
-        maxDistance: 2
-      - command: ExceptWith
-        temperatureRanges:
-          - VeryHot
-          - ExtremelyHot
-      - command: ExceptWith
-        zoneTypes: [OilField]
+# additionalWorldTemplateRules:
+#   - names:
+#       - storytraits/RTB_CrashedUFOStoryTrait
+#     listRule: GuaranteeOne
+#     priority: 200
+#     useRelaxedFiltering: true
+#     allowedCellsFilter:
+#       - command: All
+#       - command: ExceptWith
+#         tagcommand: AtTag
+#         tag: NoGlobalFeatureSpawning # this also excludes Space
+#       - command: ExceptWith  # too close to start
+#         tagcommand: DistanceFromTag
+#         tag: AtStart
+#         minDistance: 0
+#         maxDistance: 2
+#         optional: true # skip command on worlds without AtStart
+#       - command: ExceptWith  # too far from start
+#         tagcommand: DistanceFromTag
+#         tag: AtStart
+#         minDistance: 5
+#         maxDistance: 99
+#         optional: true # skip command on worlds without AtStart
+#       - command: ExceptWith # too close to surface
+#         tagcommand: DistanceFromTag
+#         tag: AtSurface
+#         minDistance: 0
+#         maxDistance: 2
+#       - command: ExceptWith
+#         temperatureRanges:
+#           - VeryHot
+#           - ExtremelyHot
+#       - command: ExceptWith
+#         zoneTypes: [OilField]

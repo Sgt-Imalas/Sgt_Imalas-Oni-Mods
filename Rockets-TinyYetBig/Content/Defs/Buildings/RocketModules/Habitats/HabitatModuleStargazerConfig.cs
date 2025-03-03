@@ -2,7 +2,7 @@
 using TUNING;
 using UnityEngine;
 using UtilLibs;
-using static Rockets_TinyYetBig.Patches.CompatibilityPatches.Rocketry_Interior_WeightLimit;
+using static Rockets_TinyYetBig.Patches.ModIntegration_Patches.Rocketry_Interior_WeightLimit;
 
 namespace Rockets_TinyYetBig
 {

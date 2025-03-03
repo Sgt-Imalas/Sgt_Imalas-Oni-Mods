@@ -31,7 +31,7 @@
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>
 	<ItemGroup>
-	  <None Remove="SpaceStations\SpaceStation.cs~RF14458d6.TMP" />
+	  <None Remove="TODO\SpaceStations\SpaceStation.cs~RF14458d6.TMP" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -644,8 +644,9 @@
 	  <Folder Include="Content\Defs\Entities\" />
 	  <Folder Include="Content\Scripts\Entities\" />
 	  <Folder Include="Content\Scripts\ModuleConditions\" />
+	  <Folder Include="Content\Scripts\Research\" />
 	  <Folder Include="Content\Scripts\UI\UnityUI\" />
-	  <Folder Include="SpaceStations\Construction\ModuleItems\" />
+	  <Folder Include="TODO\SpaceStations\Construction\ModuleItems\" />
 	  <Folder Include="TwitchEvents\TwitchEventAddons\" />
 	</ItemGroup>
 

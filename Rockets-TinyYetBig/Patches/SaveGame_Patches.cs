@@ -2,6 +2,7 @@
 using Rockets_TinyYetBig.Behaviours;
 using Rockets_TinyYetBig.Docking;
 using Rockets_TinyYetBig.Elements;
+using Rockets_TinyYetBig.Science;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,7 @@ namespace Rockets_TinyYetBig.Patches
 				__instance.gameObject.AddOrGet<RainbowSpec>();
 				RTB_SavegameStoredSettings.Instance = __instance.gameObject.AddOrGet<RTB_SavegameStoredSettings>();
 				DockingManagerSingleton.Instance = __instance.gameObject.AddOrGet<DockingManagerSingleton>();
+				DeepSpaceScienceManager.Instance = __instance.gameObject.AddOrGet<DeepSpaceScienceManager>();
 			}
 		}
 	}

@@ -407,7 +407,7 @@ namespace Rockets_TinyYetBig.Patches
 							if (moduleGet.TryGetComponent<IFuelTank>(out var fueltank))
 							{
 								///Compatibility HydroCarbonEngines
-								FuelRemaining += CompatibilityPatches.Hydrocarbon_Rocket_Engines.GetEffectiveFuelTankCapacity(fueltank.Storage, FuelTag);
+								FuelRemaining += ModIntegration_Patches.Hydrocarbon_Rocket_Engines.GetEffectiveFuelTankCapacity(fueltank.Storage, FuelTag);
 								// FuelRemaining +=   fueltank.Storage.GetAmountAvailable(FuelTag);
 							}
 							if (RequiresOxidizer && moduleGet.TryGetComponent<OxidizerTank>(out var oxTanktank))
