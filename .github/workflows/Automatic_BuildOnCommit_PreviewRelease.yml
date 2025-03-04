@@ -23,11 +23,17 @@ jobs:
     
     - name: Build project
       run: msbuild -t:rebuild -property:Configuration=Release -property:GameLibsFolder="../Lib"
+    
+    - name: Create Zip target directory
+      run: mkdir BuildsZipped
+            
+    - name: Create AllInOne release file
+      run: Compress-Archive -Path 'Builds' -DestinationPath 'BuildsZipped/_All_Mods_Sgt_Imalas_Nightly.zip'  
 
     - name: Zip the directory
       run: |
             $source = './Builds'
-            $destination = $source
+            $destination = './BuildsZipped'
             $subfolders = Get-ChildItem $source -Directory
             foreach ($s in $subfolders) { 
             $folderpath = $s.FullName
