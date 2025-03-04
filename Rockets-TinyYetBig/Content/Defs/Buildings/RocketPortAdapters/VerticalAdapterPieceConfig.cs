@@ -64,9 +64,12 @@ namespace Rockets_TinyYetBig.RocketFueling
 			def.linkBuildingTag = BaseModularLaunchpadPortConfig.LinkTag;
 			def.objectLayer = ObjectLayer.Building;
 
-			Ladder ladder = go.AddOrGet<Ladder>();
-			ladder.upwardsMovementSpeedMultiplier = 0.75f; //same as ladder bed
-			ladder.downwardsMovementSpeedMultiplier = 0.75f;
+			if (Config.Instance.VerticalPortAdapterLadder)
+			{
+				Ladder ladder = go.AddOrGet<Ladder>();
+				ladder.upwardsMovementSpeedMultiplier = 0.75f; //same as ladder bed
+				ladder.downwardsMovementSpeedMultiplier = 0.75f;
+			}
 
 			go.AddOrGet<AnimTileable>();
 		}

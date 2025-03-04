@@ -900,6 +900,11 @@ namespace Rockets_TinyYetBig
 			{
 				public static LocString TITLE = "Enable Fuel Loaders";
 			}
+			public class VERTICALPORT_LADDER
+			{
+				public static LocString TITLE = "Vertical Port Adapter Ladder";
+				public static LocString TOOLTIP = "The vertical port adapter allows duplicants to climb it";
+			}
 			public class ENABLEEARLYGAMEFUELTANKS
 			{
 				public static LocString TITLE = "Enable early game Fuel Tanks";

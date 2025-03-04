@@ -56,15 +56,18 @@ namespace Rockets_TinyYetBig.RocketFueling
 			adapter.CrossPiece = true;
 			adapter.TopOffset = new CellOffset(0, 2);
 
-			Ladder ladder = go.AddOrGet<Ladder>();
-			ladder.offsets =
-			[
-				CellOffset.none,
+			if (Config.Instance.VerticalPortAdapterLadder)
+			{
+				Ladder ladder = go.AddOrGet<Ladder>();
+				ladder.offsets =
+				[
+					CellOffset.none,
 				new CellOffset(0,1)
-			];
-			ladder.upwardsMovementSpeedMultiplier = 0.75f; //same as ladder bed
-			ladder.downwardsMovementSpeedMultiplier = 0.75f;
+				];
+				ladder.upwardsMovementSpeedMultiplier = 0.75f; //same as ladder bed
+				ladder.downwardsMovementSpeedMultiplier = 0.75f;
 
+			}
 			KPrefabID component = go.GetComponent<KPrefabID>();
 			component.AddTag(BaseModularLaunchpadPortConfig.LinkTag);
 			component.AddTag(GameTags.ModularConduitPort);
