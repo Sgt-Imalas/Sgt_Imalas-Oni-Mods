@@ -25,7 +25,16 @@ jobs:
       run: msbuild -t:rebuild -property:Configuration=Release -property:GameLibsFolder="../Lib"
 
     - name: Zip the directory
-      run: Compress-Archive -Path "Builds" -DestinationPath Sgt_Imalas_All_Mods_Nightly.zip  
+      run: |
+            $source = './Builds'
+            $destination = $source
+            $subfolders = Get-ChildItem $source -Directory
+            foreach ($s in $subfolders) { 
+            $folderpath = $s.FullName
+            $foldername = $s.Name 
+            Compress-Archive `
+            -Path $folderpath `
+            -DestinationPath $destination\$foldername}
 
     - name: Delete old releases
       uses: dev-drprasad/delete-older-releases@v0.3.4
@@ -35,28 +44,18 @@ jobs:
         delete_tags: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Create GitHub release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Upload to github releases
+      uses: svenstaro/upload-release-action@v2
       with:
-        tag_name: "AllMods_Automated_Build_Nightly"
-        release_name: "All Mods - Nightly Build"
-        body: "Automated build of all mods, based on the latest code state"
-        draft: false
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: Builds/*.zip
+        file_glob: true
+        tag: AllMods_Automated_Build_Nightly
         prerelease: true
-    
-    - name: Upload zip to release
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: Sgt_Imalas_All_Mods_Nightly.zip
-        asset_name: Sgt_Imalas_All_Mods_Nightly.zip
-        asset_content_type: application/zip
+        overwrite: true
+        body: |      
+            Automated build of all mods, based on the latest code state
 
     # - name: Delete workflow runs
     #   uses: Mattraks/delete-workflow-runs@v2
