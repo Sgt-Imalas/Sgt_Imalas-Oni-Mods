@@ -69,7 +69,7 @@ jobs:
         tag: AllMods_Automated_Build_Nightly
         prerelease: true
         overwrite: true
-        body: $description
+        body: ${{ description }}
 
     # - name: Delete workflow runs
     #   uses: Mattraks/delete-workflow-runs@v2
