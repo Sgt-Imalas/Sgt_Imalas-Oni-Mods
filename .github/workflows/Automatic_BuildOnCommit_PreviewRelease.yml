@@ -34,9 +34,9 @@ jobs:
     - name: Create individual mod zips
       id: buildtext
       run: |
-            echo "Automated build of all mods, based on the latest code state" >> $env:GITHUB_OUTPUT
-            echo "| Folder | Mod Name |" >> $env:GITHUB_OUTPUT
-            echo "| ------------ | ------------ |" >> $env:GITHUB_OUTPUT
+            $releaseDescription = "Automated build of all mods, based on the latest code state"
+            $releaseDescription += "| Folder | Mod Name |"
+            $releaseDescription += "| ------------ | ------------ |"
 
             $source = './Builds'
             $destination = './BuildsZipped'
@@ -46,10 +46,11 @@ jobs:
             $foldername = $s.Name 
             $ModNameUnRefined = Get-Content -Path "$folderpath/mod.yaml" | Select-Object -First 1
             $ModName = $ModNameUnRefined.Replace('"','').Replace("title: ","").Replace("'","")
-            echo "| $foldername | $ModName |" >> $env:GITHUB_OUTPUT
+            $releaseDescription += "| $foldername | $ModName |"
             Compress-Archive `
             -Path $folderpath `
             -DestinationPath $destination\$foldername}    
+            echo "description=${releaseDescription}" >> $env:GITHUB_OUTPUT
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -74,7 +75,7 @@ jobs:
         tag: AllMods_Automated_Build_Nightly
         prerelease: true
         overwrite: true
-        body: ${{steps.buildtext.outputs}}
+        body: ${{steps.buildtext.outputs.description}}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
