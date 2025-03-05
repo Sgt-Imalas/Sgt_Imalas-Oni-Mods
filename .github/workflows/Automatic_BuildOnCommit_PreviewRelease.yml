@@ -44,7 +44,7 @@ jobs:
             foreach ($s in $subfolders) { 
             $folderpath = $s.FullName
             $foldername = $s.Name 
-            $ModNameUnRefined = Get-Content -Path "$foldername/mod.yaml" | Select-Object -First 1
+            $ModNameUnRefined = Get-Content -Path "$folderpath/mod.yaml" | Select-Object -First 1
             $ModName = $ModName.Replace('"','').Replace("title: ","").Replace("'","")
             $description += "|" +$foldername+"|"+ $ModName + "|\n"
             Compress-Archive `
