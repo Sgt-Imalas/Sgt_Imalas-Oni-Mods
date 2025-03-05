@@ -32,7 +32,7 @@ jobs:
     
 
     - name: Create individual mod zips
-      id: create_mod_zips
+      id: buildtext
       run: |
             echo "Automated build of all mods, based on the latest code state" >> $env:GITHUB_OUTPUT
             echo "| Folder | Mod Name |" >> $env:GITHUB_OUTPUT
