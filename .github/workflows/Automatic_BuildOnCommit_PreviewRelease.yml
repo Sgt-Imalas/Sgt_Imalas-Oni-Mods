@@ -29,6 +29,12 @@ jobs:
             
     - name: Create AllInOne release file
       run: Compress-Archive -Path 'Builds' -DestinationPath 'BuildsZipped/_All_Mods_Sgt_Imalas_Nightly.zip'  
+    
+    - name: Create description
+      run: |
+            $description = "Automated build of all mods, based on the latest code state\n\n"
+            $description += " | Folder | Mod Name |\n"
+            $description += "| ------------ | ------------ |\n"
 
     - name: Zip the directory
       run: |
@@ -38,6 +44,9 @@ jobs:
             foreach ($s in $subfolders) { 
             $folderpath = $s.FullName
             $foldername = $s.Name 
+            $ModNameUnRefined = Get-Content -Path "./mod.yaml" | Select-Object -First 1
+            $ModName = $ModName.Replace('"','').Replace("title: ","").Replace("'","")
+            $description += "|" +$foldername+"|"+ $ModName + "|\n"
             Compress-Archive `
             -Path $folderpath `
             -DestinationPath $destination\$foldername}
@@ -60,8 +69,7 @@ jobs:
         tag: AllMods_Automated_Build_Nightly
         prerelease: true
         overwrite: true
-        body: |      
-            Automated build of all mods, based on the latest code state
+        body: $description
 
     # - name: Delete workflow runs
     #   uses: Mattraks/delete-workflow-runs@v2
