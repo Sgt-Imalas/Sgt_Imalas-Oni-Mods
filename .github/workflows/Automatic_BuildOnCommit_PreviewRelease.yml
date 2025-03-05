@@ -37,6 +37,7 @@ jobs:
             echo "Automated build of all mods, based on the latest code state" >> $env:GITHUB_OUTPUT
             echo "| Folder | Mod Name |" >> $env:GITHUB_OUTPUT
             echo "| ------------ | ------------ |" >> $env:GITHUB_OUTPUT
+
             $source = './Builds'
             $destination = './BuildsZipped'
             $subfolders = Get-ChildItem $source -Directory
@@ -49,7 +50,6 @@ jobs:
             Compress-Archive `
             -Path $folderpath `
             -DestinationPath $destination\$foldername}    
-            echo 
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
