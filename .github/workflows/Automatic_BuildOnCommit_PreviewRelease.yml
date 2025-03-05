@@ -28,17 +28,15 @@ jobs:
       run: mkdir BuildsZipped
             
     - name: Create AllInOne release file
-      run: Compress-Archive -Path 'Builds' -DestinationPath 'BuildsZipped/_All_Mods_Sgt_Imalas_Nightly.zip'  
+      run: Compress-Archive -Path 'Builds' -DestinationPath 'BuildsZipped/All_Mods_Sgt_Imalas_Nightly.zip'  
     
-    - name: Create description
-      run: |
-            $description = "Automated build of all mods, based on the latest code state`n"
-            $description += "| Folder | Mod Name |`n"
-            $description += "| ------------ | ------------ |`n"
-            echo "${description}" >> $ENV:GITHUB_ENV
 
     - name: Create individual mod zips
+      id: create_mod_zips
       run: |
+            echo "Automated build of all mods, based on the latest code state" >> $env:GITHUB_OUTPUT
+            echo "| Folder | Mod Name |" >> $env:GITHUB_OUTPUT
+            echo "| ------------ | ------------ |" >> $env:GITHUB_OUTPUT
             $source = './Builds'
             $destination = './BuildsZipped'
             $subfolders = Get-ChildItem $source -Directory
@@ -47,13 +45,17 @@ jobs:
             $foldername = $s.Name 
             $ModNameUnRefined = Get-Content -Path "$folderpath/mod.yaml" | Select-Object -First 1
             $ModName = $ModNameUnRefined.Replace('"','').Replace("title: ","").Replace("'","")
-            echo "${env:description} | $foldername | $ModName |" >> $ENV:GITHUB_ENV
+            echo "| $foldername | $ModName |" >> $env:GITHUB_OUTPUT
             Compress-Archive `
             -Path $folderpath `
-            -DestinationPath $destination\$foldername}        
+            -DestinationPath $destination\$foldername}    
+            echo 
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+    - name: Create description
+      run: |
+    
     - name: Delete old releases
       uses: dev-drprasad/delete-older-releases@v0.3.4
       with:
@@ -72,7 +74,7 @@ jobs:
         tag: AllMods_Automated_Build_Nightly
         prerelease: true
         overwrite: true
-        body: ${{env.description}}
+        body: ${{jobs.buildtext.outputs}}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
