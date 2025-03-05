@@ -36,7 +36,7 @@ jobs:
             $description += " | Folder | Mod Name |\n"
             $description += "| ------------ | ------------ |\n"
 
-    - name: Zip the directory
+    - name: Create individual mod zips
       run: |
             $source = './Builds'
             $destination = './BuildsZipped'
@@ -45,7 +45,7 @@ jobs:
             $folderpath = $s.FullName
             $foldername = $s.Name 
             $ModNameUnRefined = Get-Content -Path "$folderpath/mod.yaml" | Select-Object -First 1
-            $ModName = $ModName.Replace('"','').Replace("title: ","").Replace("'","")
+            $ModName = $ModNameUnRefined.Replace('"','').Replace("title: ","").Replace("'","")
             $description += "|" +$foldername+"|"+ $ModName + "|\n"
             Compress-Archive `
             -Path $folderpath `
