@@ -418,6 +418,29 @@ namespace ClusterTraitGenerationManager
 			}
 		}
 
+		private static Dictionary<ProcGen.World.TemplateSpawnRules, int> _traitTemplateRules = null;
+		public static Dictionary<ProcGen.World.TemplateSpawnRules, int> TraitTemplateRules
+		{
+			get
+			{
+				if (_traitTemplateRules == null)
+				{
+					_traitTemplateRules = new();
+					foreach (var trait in SettingsCache.worldTraits.Values)
+					{
+						if (trait.additionalWorldTemplateRules.Any())
+						{
+							foreach(var templateRule in trait.additionalWorldTemplateRules)
+							{
+								_traitTemplateRules.Add(templateRule,templateRule.times);
+							}
+						}
+					}
+				}
+				return _traitTemplateRules;
+			}
+		}
+
 
 		public static Dictionary<string, GeyserDataEntry> AllGeysers = new();
 		public static List<string> AllGenericGeysers = new();

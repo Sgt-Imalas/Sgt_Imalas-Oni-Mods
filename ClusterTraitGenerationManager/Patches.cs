@@ -9,6 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 using UnityEngine.UI;
 using UtilLibs;
 using static ClusterTraitGenerationManager.ClusterData.CGSMClusterManager;
@@ -156,8 +157,8 @@ namespace ClusterTraitGenerationManager
 				}
 				else
 				{
-                    CGSMClusterManager.GenerateDefaultCluster();
-                }
+					CGSMClusterManager.GenerateDefaultCluster();
+				}
 			}
 		}
 		[HarmonyPatch(typeof(CustomGameSettings))]
@@ -191,7 +192,7 @@ namespace ClusterTraitGenerationManager
 				RegenerateCGM(__instance, config.id);
 			}
 		}
-		public static void RegenerateCGM(CustomGameSettings __instance, string changedConfigID, bool rerollTraits =true)
+		public static void RegenerateCGM(CustomGameSettings __instance, string changedConfigID, bool rerollTraits = true)
 		{
 			if (StillLoading || ApplyCustomGen.IsGenerating)
 				return;
@@ -1198,8 +1199,8 @@ namespace ClusterTraitGenerationManager
 					return inputNumber;
 
 				float newValue = item.ApplySizeMultiplierToValue((float)inputNumber);
-				
-				newValue = (float)Math.Round(newValue,4, MidpointRounding.ToEven);
+
+				newValue = (float)Math.Round(newValue, 4, MidpointRounding.ToEven);
 
 				SgtLogger.l($"changed input float: {inputNumber}, multiplied: {newValue}", "CGM WorldgenModifier");
 
@@ -1297,11 +1298,11 @@ namespace ClusterTraitGenerationManager
 
 		}
 
-		[HarmonyPatch(typeof(TemplateSpawning))]
-		[HarmonyPatch(nameof(TemplateSpawning.SpawnTemplatesFromTemplateRules))]
+		[HarmonyPatch(typeof(TemplateSpawning), nameof(TemplateSpawning.SpawnTemplatesFromTemplateRules))]
 		public static class AddSomeGeysers
 		{
-			static Dictionary<string, Dictionary<List<string>, int>> OriginalGeyserAmounts = new Dictionary<string, Dictionary<List<string>, int>>();
+			//static Dictionary<string, Dictionary<List<string>, int>> OriginalGeyserAmounts = new Dictionary<string, Dictionary<List<string>, int>>();
+			static Dictionary<ProcGen.World.TemplateSpawnRules, int> OriginalTemplateAmounts = new();
 			static Dictionary<ProcGen.World.TemplateSpawnRules, Vector2I> placementOverridesAdjustments = new Dictionary<ProcGen.World.TemplateSpawnRules, Vector2I>();
 			/// <summary>
 			/// Inserting Custom Traits
@@ -1311,76 +1312,109 @@ namespace ClusterTraitGenerationManager
 				const string geyserKey = "GEYSER";
 				if (CGSMClusterManager.LoadCustomCluster && CGSMClusterManager.CustomCluster != null)
 				{
-					if (!OriginalGeyserAmounts.ContainsKey(settings.world.filePath))
-						OriginalGeyserAmounts[settings.world.filePath] = new Dictionary<List<string>, int>();
+					//if (!OriginalGeyserAmounts.ContainsKey(settings.world.filePath))
+					//	OriginalGeyserAmounts[settings.world.filePath] = new Dictionary<List<string>, int>();
 
-					if (CGSMClusterManager.CustomCluster.HasStarmapItem(settings.world.filePath, out var item) && !item.DefaultDimensions && !Mathf.Approximately(item.CurrentSizeMultiplier, 1))
+					if (CGSMClusterManager.CustomCluster.HasStarmapItem(settings.world.filePath, out var item)
+						//	&& !item.DefaultDimensions && !Mathf.Approximately(item.CurrentSizeMultiplier, 1)
+						)
 					{
 						int seed = myRandom.seed;
 						SgtLogger.l(seed.ToString(), "geyserSeed");
 
+						bool customDimensions = (!item.DefaultDimensions && !Mathf.Approximately(item.CurrentSizeMultiplier, 1));
 						float SizeModifier = item.CurrentSizeMultiplier;
 
-						if (Mathf.Approximately(SizeModifier, 1))
-							return;
-						// if (SizeModifier < 1)
-						//   SizeModifier = (1 + SizeModifier) / 2;
-						///Geyser Penalty needs a better implementation...
+						if (customDimensions)
+						{
+							SgtLogger.l("Asteroid has custom size, adjusting geyser spawning rules", item.id);
+						}
 
 						foreach (var WorldTemplateRule in settings.world.worldTemplateRules)
 						{
-							if (WorldTemplateRule.names.Any(name => name.ToUpperInvariant().Contains(geyserKey)))
+							bool isWorldTraitRule = false;
+							float baseNumber = 0;
+							//These are shared between asteroids, so we need to reset them back to default
+							if (ModAssets.TraitTemplateRules.TryGetValue(WorldTemplateRule, out int targetTimesTrait) && WorldTemplateRule.times != targetTimesTrait)
 							{
-								if (!OriginalGeyserAmounts[settings.world.filePath].ContainsKey(WorldTemplateRule.names))
-								{
-									OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names] = WorldTemplateRule.times;
-								}
-
-								float newGeyserAmount = (((float)OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names]) * SizeModifier);
-								SgtLogger.l(string.Format("Adjusting geyser roll amount to worldsize for {0}; {1} -> {2}", WorldTemplateRule.names.FirstOrDefault(), OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names], newGeyserAmount), item.id);
-
-								float chance = ((float)new KRandom(seed + WorldTemplateRule.names.First().GetHashCode()).Next(100)) / 100f;
-
-								if (newGeyserAmount > 1)
-								{
-									WorldTemplateRule.times = Mathf.FloorToInt(newGeyserAmount);
-									SgtLogger.l("new Geyser amount has a chance of " + newGeyserAmount % 1f + " for an additional spawn, rolling...", "CGM WorldgenModifier");
-
-									SgtLogger.l("rolled: " + chance);
-									//chance = 0;///always atleast 1
-									if (chance <= (newGeyserAmount % 1f))
-									{
-										SgtLogger.l("roll for additional spawn succeeded: " + chance * 100f, "POI Chance: " + newGeyserAmount.ToString("P"));
-										WorldTemplateRule.times += 1;
-									}
-									else
-									{
-										SgtLogger.l("roll for additional spawn failed: " + chance * 100f, "POI Chance: " + newGeyserAmount.ToString("P"));
-									}
-
-								}
-								else
-								{
-									SgtLogger.l("new Geyser amount below 1, rolling for the geyser to appear at all...");
-									SgtLogger.l("rolled: " + chance);
-									//chance = 0;///always atleast 1
-									if (chance <= newGeyserAmount)
-									{
-										SgtLogger.l("roll succeeded: " + chance * 100f, "POI Chance: " + newGeyserAmount.ToString("P"));
-										WorldTemplateRule.times = 1;
-									}
-									else
-									{
-										SgtLogger.l("roll failed: " + chance * 100f, "POI Chance: " + newGeyserAmount.ToString("P"));
-										WorldTemplateRule.times = 0;
-									}
-								}
-								SgtLogger.l("final geyser spawn count: " + WorldTemplateRule.times);
-
-								//WorldTemplateRule.times = Math.Max(1, Mathf.RoundToInt(((float)OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names]) * (float)item.CurrentSizePreset / 100f));
-								//SgtLogger.l(string.Format("Adjusting geyser roll amount to worldsize for {0}; {1} -> {2}", WorldTemplateRule.names.FirstOrDefault(), OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names], WorldTemplateRule.times), item.id);
+								SgtLogger.l("Resetting trait template rule back to default value for " + WorldTemplateRule.ruleId + "; " + WorldTemplateRule.times + " -> " + targetTimesTrait, item.id);
+								WorldTemplateRule.times = targetTimesTrait;
+								isWorldTraitRule = true;
+								baseNumber = targetTimesTrait;
+							}
+							else if(OriginalTemplateAmounts.TryGetValue(WorldTemplateRule, out var originalAmount) && WorldTemplateRule.times != originalAmount)
+							{
+								SgtLogger.l("Resetting world template rule back for " + WorldTemplateRule.names.FirstOrDefault() + "; " + WorldTemplateRule.times + " -> " + originalAmount, item.id);
+								WorldTemplateRule.times = originalAmount;
+								baseNumber = originalAmount;
 							}
 
+
+							if (customDimensions)
+							{
+								//if the template places a geyser
+								if (WorldTemplateRule.names.Any(name => name.ToUpperInvariant().Contains(geyserKey)))
+								{
+									//create backup for non-trait rules
+									if (!isWorldTraitRule)
+									{
+										if (!OriginalTemplateAmounts.ContainsKey(WorldTemplateRule))
+											OriginalTemplateAmounts[WorldTemplateRule] = WorldTemplateRule.times;
+										baseNumber = OriginalTemplateAmounts[WorldTemplateRule];
+									}
+
+									if (!Mathf.Approximately(SizeModifier, 1))
+									{
+										float newGeyserAmount = baseNumber * SizeModifier;
+										SgtLogger.l(string.Format("Adjusting geyser roll amount to worldsize for {0}; {1} -> {2}", WorldTemplateRule.names.FirstOrDefault(), baseNumber, newGeyserAmount), item.id);
+
+										float chance = ((float)new KRandom(seed + WorldTemplateRule.names.First().GetHashCode()).Next(100)) / 100f;
+
+										if (newGeyserAmount > 1)
+										{
+											WorldTemplateRule.times = Mathf.FloorToInt(newGeyserAmount);
+											bool hasChanceToRoll = !Mathf.Approximately(newGeyserAmount % 1f, 0f);
+											if (hasChanceToRoll)
+											{
+												SgtLogger.l("new Geyser amount has a chance of " + newGeyserAmount % 1f + " for an additional spawn, rolling...", "CGM WorldgenModifier");
+												SgtLogger.l("rolled: " + chance);
+											}
+											//chance = 0;///always atleast 1
+											if (chance <= (newGeyserAmount % 1f))
+											{
+												SgtLogger.l("roll for additional spawn succeeded: " + chance * 100f, "POI Chance: " + (newGeyserAmount % 1f).ToString("P"));
+												WorldTemplateRule.times += 1;
+											}
+											else
+											{
+												if (hasChanceToRoll)
+													SgtLogger.l("roll for additional spawn failed: " + chance * 100f, "POI Chance: " + (newGeyserAmount % 1f).ToString("P"));
+											}
+
+										}
+										else
+										{
+											SgtLogger.l("new Geyser amount below 1, rolling for the geyser to appear at all...");
+											SgtLogger.l("rolled: " + chance);
+											//chance = 0;///always atleast 1
+											if (chance <= newGeyserAmount)
+											{
+												SgtLogger.l("roll succeeded: " + chance * 100f, "POI Chance: " + (newGeyserAmount % 1f).ToString("P"));
+												WorldTemplateRule.times = 1;
+											}
+											else
+											{
+												SgtLogger.l("roll failed: " + chance * 100f, "POI Chance: " + (newGeyserAmount % 1f).ToString("P"));
+												WorldTemplateRule.times = 0;
+											}
+										}
+										SgtLogger.l("final geyser spawn count: " + WorldTemplateRule.times);
+									}
+								}
+							}
+
+							///Fixed Templates on KleiFest2023 asteroid can only spawn once
+							///if it has a fixed position              this part here
 							if (WorldTemplateRule.overridePlacement != Vector2I.minusone)
 							{
 								if (!placementOverridesAdjustments.ContainsKey(WorldTemplateRule))
@@ -1388,40 +1422,41 @@ namespace ClusterTraitGenerationManager
 									SgtLogger.l(WorldTemplateRule.overridePlacement.ToString(), "vanilla override placement");
 									placementOverridesAdjustments[WorldTemplateRule] = (WorldTemplateRule.overridePlacement);
 								}
-								WorldTemplateRule.overridePlacement = new Vector2I(Mathf.RoundToInt(((float)WorldTemplateRule.overridePlacement.X) * (float)item.SizeMultiplierX()), Mathf.RoundToInt(((float)WorldTemplateRule.overridePlacement.Y) * (float)item.SizeMultiplierY()));
+								var original = placementOverridesAdjustments[WorldTemplateRule];
+								WorldTemplateRule.overridePlacement = new Vector2I(Mathf.RoundToInt(((float)original.X) * (float)item.SizeMultiplierX()), Mathf.RoundToInt(((float)original.Y) * (float)item.SizeMultiplierY()));
 								SgtLogger.l(WorldTemplateRule.overridePlacement.ToString(), "adjusted override placement, modifier: " + item.SizeMultiplierX());
+								if (WorldTemplateRule.times > 1)
+								{
+									WorldTemplateRule.times = 1;
+								}
 
-							}
-
-							///Fixed Templates on KleiFest2023 asteroid can only spawn once
-							///if it has a fixed position                                           this part here
-							if (WorldTemplateRule.times > 1 && WorldTemplateRule.overridePlacement != Vector2I.minusone)
-							{
-								WorldTemplateRule.times = 1;
+								float chance = ((float)new KRandom(seed + WorldTemplateRule.names.First().GetHashCode()).Next(100)) / 100f;
 							}
 						}
 					}
-
 				}
 				else
 				{
-					if (OriginalGeyserAmounts.ContainsKey(settings.world.filePath))
+					//apparently not necessary for the OriginalTemplateAmounts, because those get reloaded from the files between worldgens,
+					//very necessary for the trait template rules tho.
+					SgtLogger.l("resetting any custom values for vanilla generation on " + settings.world.filePath);
+					foreach (var WorldTemplateRule in settings.world.worldTemplateRules)
 					{
-						foreach (var WorldTemplateRule in settings.world.worldTemplateRules)
+						if (ModAssets.TraitTemplateRules.TryGetValue(WorldTemplateRule, out int targetTimesTrait)
+							&& WorldTemplateRule.times != targetTimesTrait
+							)
 						{
-							if (OriginalGeyserAmounts[settings.world.filePath].ContainsKey(WorldTemplateRule.names))
-							{
-								SgtLogger.l(string.Format("Resetting Geyser rules back for {0}; {1} -> {2}", WorldTemplateRule.names.FirstOrDefault(), WorldTemplateRule.times, OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names]), WorldTemplateRule.ruleId);
-								WorldTemplateRule.times = OriginalGeyserAmounts[settings.world.filePath][WorldTemplateRule.names];
-								OriginalGeyserAmounts.Remove(settings.world.filePath);
-							}
-							if (placementOverridesAdjustments.ContainsKey(WorldTemplateRule))
-							{
-								WorldTemplateRule.overridePlacement = placementOverridesAdjustments[WorldTemplateRule];
-								placementOverridesAdjustments.Remove(WorldTemplateRule);
-							}
+							SgtLogger.l("Resetting world template rule back for traitRule" + WorldTemplateRule.ruleId + "; " + WorldTemplateRule.times + " -> " + targetTimesTrait);
+							WorldTemplateRule.times = targetTimesTrait;
 						}
-						OriginalGeyserAmounts.Remove(settings.world.filePath);
+						else if (OriginalTemplateAmounts.TryGetValue(WorldTemplateRule, out int targetTimesGeyser) 
+							&& WorldTemplateRule.times != targetTimesGeyser
+							)
+						{
+							SgtLogger.l("Resetting world template rule back for " + WorldTemplateRule.ruleId + " on " + settings.world.filePath + "; " + WorldTemplateRule.times + " -> " + targetTimesTrait);
+							WorldTemplateRule.times = targetTimesTrait;
+							OriginalTemplateAmounts.Remove(WorldTemplateRule);
+						}
 					}
 				}
 			}
@@ -1469,7 +1504,7 @@ namespace ClusterTraitGenerationManager
 
 				//cap at double the plants & buried objects, dont decrease below original value
 				var modifiedMin = Mathf.Max(original.min, Mathf.Min(2, original.min * DensityMultiplier));
-				var modifiedMax = Mathf.Max(original.max, Mathf.Min(2, original.max * DensityMultiplier)); 
+				var modifiedMax = Mathf.Max(original.max, Mathf.Min(2, original.max * DensityMultiplier));
 
 				__result.density = new(modifiedMin, modifiedMax);
 				//SgtLogger.l("density multiplier for " + prefabID + ": multiplied with " + DensityMultiplier);
