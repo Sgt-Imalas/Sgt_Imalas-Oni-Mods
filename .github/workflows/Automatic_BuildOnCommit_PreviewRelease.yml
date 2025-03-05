@@ -31,12 +31,12 @@ jobs:
       run: Compress-Archive -Path 'Builds' -DestinationPath 'BuildsZipped/All_Mods_Sgt_Imalas_Nightly.zip'  
     
 
-    - name: Create individual mod zips
+    - name: Create individual mod zips and description
       id: buildtext
       run: |
-            $releaseDescription = "Automated build of all mods, based on the latest code state<br/><br/>"
-            $releaseDescription += "| Folder | Mod Name |<br/>"
-            $releaseDescription += "|-|-|<br/>"
+            echo "Automated build of all mods, based on the latest code state" >> Desc.md
+            echo "| Folder | Mod Name |" >> Desc.md
+            echo "|-|-|" >> Desc.md
 
             $source = './Builds'
             $destination = './BuildsZipped'
@@ -46,17 +46,13 @@ jobs:
             $foldername = $s.Name 
             $ModNameUnRefined = Get-Content -Path "$folderpath/mod.yaml" | Select-Object -First 1
             $ModName = $ModNameUnRefined.Replace('"','').Replace("title: ","").Replace("'","")
-            $releaseDescription += "| $foldername | $ModName |<br/>"
+            echo "| $foldername | $ModName |" >> Desc.md
             Compress-Archive `
             -Path $folderpath `
             -DestinationPath $destination\$foldername}    
-            echo "description=${releaseDescription}" >> $env:GITHUB_OUTPUT
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Create description
-      run: |
-    
     - name: Delete old releases
       uses: dev-drprasad/delete-older-releases@v0.3.4
       with:
@@ -66,7 +62,19 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
-    - name: Upload to github releases
+    - name: Create GitHub release
+      id: create_release
+      uses: actions/create-release@v1.1.4
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: "AllMods_Automated_Build_Nightly"
+        release_name: "All Mods - Nightly Build"
+        body_path: "Desc.md"
+        draft: false
+        prerelease: false
+
+    - name: Upload files to github release
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -75,7 +83,6 @@ jobs:
         tag: AllMods_Automated_Build_Nightly
         prerelease: true
         overwrite: true
-        body: ${{steps.buildtext.outputs.description}}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
