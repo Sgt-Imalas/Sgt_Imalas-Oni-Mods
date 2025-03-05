@@ -34,9 +34,9 @@ jobs:
     - name: Create individual mod zips
       id: buildtext
       run: |
-            $releaseDescription = "Automated build of all mods, based on the latest code state"
-            $releaseDescription += "| Folder | Mod Name |"
-            $releaseDescription += "| ------------ | ------------ |"
+            $releaseDescription = "Automated build of all mods, based on the latest code state`n`n"
+            $releaseDescription += "| Folder | Mod Name |`n"
+            $releaseDescription += "| ------------ | ------------ |`n"
 
             $source = './Builds'
             $destination = './BuildsZipped'
@@ -46,7 +46,7 @@ jobs:
             $foldername = $s.Name 
             $ModNameUnRefined = Get-Content -Path "$folderpath/mod.yaml" | Select-Object -First 1
             $ModName = $ModNameUnRefined.Replace('"','').Replace("title: ","").Replace("'","")
-            $releaseDescription += "| $foldername | $ModName |"
+            $releaseDescription += "| $foldername | $ModName |`n"
             Compress-Archive `
             -Path $folderpath `
             -DestinationPath $destination\$foldername}    
