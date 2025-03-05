@@ -70,7 +70,7 @@ jobs:
         prerelease: true
         overwrite: true
         body: |
-            ${{ description }}
+            $description
 
     # - name: Delete workflow runs
     #   uses: Mattraks/delete-workflow-runs@v2
