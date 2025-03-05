@@ -35,7 +35,7 @@ jobs:
             $description = "Automated build of all mods, based on the latest code state`n"
             $description += "| Folder | Mod Name |`n"
             $description += "| ------------ | ------------ |`n"
-            echo "${description} >> $ENV:GITHUB_ENV
+            echo "${description}" >> $ENV:GITHUB_ENV
 
     - name: Create individual mod zips
       run: |
