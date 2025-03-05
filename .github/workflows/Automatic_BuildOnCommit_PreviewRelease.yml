@@ -47,7 +47,7 @@ jobs:
             $foldername = $s.Name 
             $ModNameUnRefined = Get-Content -Path "$folderpath/mod.yaml" | Select-Object -First 1
             $ModName = $ModNameUnRefined.Replace('"','').Replace("title: ","").Replace("'","")
-            echo "CI_AllModsDescription=${env:CI_AllModsDescription} | $foldername | $ModName |<br/>" >> $ENV:GITHUB_ENV
+            echo "CI_AllModsDescription=$env:CI_AllModsDescription | $foldername | $ModName |<br/>" >> $ENV:GITHUB_ENV
             Compress-Archive `
             -Path $folderpath `
             -DestinationPath $destination\$foldername}        
