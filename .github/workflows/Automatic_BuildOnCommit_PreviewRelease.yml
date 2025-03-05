@@ -35,7 +35,7 @@ jobs:
             $description = "Automated build of all mods, based on the latest code state\n\n"
             $description += " | Folder | Mod Name |\n"
             $description += "| ------------ | ------------ |\n"
-            echo "CI_AllModsDescription=$description >> $ENV:GITHUB_ENV
+            echo "CI_AllModsDescription=$description >> $ENV:GITHUB_ENV"
 
     - name: Create individual mod zips
       run: |
@@ -47,8 +47,7 @@ jobs:
             $foldername = $s.Name 
             $ModNameUnRefined = Get-Content -Path "$folderpath/mod.yaml" | Select-Object -First 1
             $ModName = $ModNameUnRefined.Replace('"','').Replace("title: ","").Replace("'","")
-            echo "CI_AllModsDescription={{env.CI_AllModsDescription}} + "|" +$foldername+"|"+ $ModName + "|\n" >> $ENV:GITHUB_ENV
-
+            echo "CI_AllModsDescription={{env.CI_AllModsDescription}}" + "|" +$foldername+"|"+ $ModName + "|\n" >> $ENV:GITHUB_ENV.
             Compress-Archive `
             -Path $folderpath `
             -DestinationPath $destination\$foldername}
