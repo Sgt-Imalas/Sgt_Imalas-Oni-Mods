@@ -26,6 +26,7 @@
 		<ModName>Nukes Expanded</ModName>
 		<ModDescription>big boom</ModDescription>
 		<SupportedContent>EXPANSION1_ID</SupportedContent>
+		<DLCsRequired>EXPANSION1_ID</DLCsRequired>
 		<MinimumSupportedBuild>561558</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
