@@ -21,9 +21,35 @@ jobs:
     
     - name: Build project
       run: msbuild -t:rebuild -property:Configuration=Release -property:GameLibsFolder="../Lib"
+    
+    - name: Create Zip target directory
+      run: mkdir BuildsZipped
+            
+    - name: Create AllInOne release file
+      run: Compress-Archive -Path 'Builds' -DestinationPath 'BuildsZipped/All_Mods_Sgt_Imalas_Nightly.zip'  
+    
 
-    - name: Zip the directory
-      run: Compress-Archive -Path "Builds" -DestinationPath Sgt_Imalas_All_Mods_Nightly.zip  
+    - name: Create individual mod zips and description
+      id: buildtext
+      run: |
+            echo "Automated build of all mods" >> Desc.md
+            echo "| Folder | Mod Name |" >> Desc.md
+            echo "|-|-|" >> Desc.md
+
+            $source = './Builds'
+            $destination = './BuildsZipped'
+            $subfolders = Get-ChildItem $source -Directory
+            foreach ($s in $subfolders) { 
+            $folderpath = $s.FullName
+            $foldername = $s.Name 
+            $ModNameUnRefined = Get-Content -Path "$folderpath/mod.yaml" | Select-Object -First 1
+            $ModName = $ModNameUnRefined.Replace('"','').Replace("title: ","").Replace("'","")
+            echo "| $foldername | $ModName |" >> Desc.md
+            Compress-Archive `
+            -Path $folderpath `
+            -DestinationPath $destination\$foldername}    
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Delete old releases
       uses: dev-drprasad/delete-older-releases@v0.3.4
@@ -33,28 +59,30 @@ jobs:
         delete_tags: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+        
     - name: Create GitHub release
       id: create_release
-      uses: actions/create-release@v1
+      uses: actions/create-release@v1.1.4
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: "AllMods_Automated_Build_FullRelease"
         release_name: "All Mods - Latest Build"
-        body: "Automated build of all mods, based on the latest code state"
+        body_path: "Desc.md"
         draft: false
+        prerelease: true
+
+    - name: Upload files to github release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: BuildsZipped/*.zip
+        file_glob: true
+        tag: AllMods_Automated_Build_FullRelease
         prerelease: false
-    
-    - name: Upload zip to release
-      uses: actions/upload-release-asset@v1
+        overwrite: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: Sgt_Imalas_All_Mods_Nightly.zip
-        asset_name: Sgt_Imalas_All_Mods_Nightly.zip
-        asset_content_type: application/zip
 
     # - name: Delete workflow runs
     #   uses: Mattraks/delete-workflow-runs@v2

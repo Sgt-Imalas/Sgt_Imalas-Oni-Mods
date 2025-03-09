@@ -72,7 +72,7 @@ jobs:
         release_name: "All Mods - Nightly Build"
         body_path: "Desc.md"
         draft: false
-        prerelease: false
+        prerelease: true
 
     - name: Upload files to github release
       uses: svenstaro/upload-release-action@v2
