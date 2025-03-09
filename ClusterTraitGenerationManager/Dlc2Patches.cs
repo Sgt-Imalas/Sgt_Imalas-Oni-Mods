@@ -15,13 +15,13 @@ namespace ClusterTraitGenerationManager
 		[HarmonyPatch(typeof(RetiredColonyInfoScreen), nameof(RetiredColonyInfoScreen.IsAchievementValidForDLCContext))]
 		public static class Fix_existing_games_with_ceres
 		{
-			public static void Postfix(RetiredColonyInfoScreen __instance, ref bool __result, string[] dlcid, string clusterTag)
+			public static void Postfix(RetiredColonyInfoScreen __instance, ref bool __result, IHasDlcRestrictions restrictions, string clusterTag)
 			{
 				if (__result == false
 					&& clusterTag != null
 					&& Game.clusterId == CGSMClusterManager.CustomClusterID
 					&& DlcManager.IsContentSubscribed(DlcManager.DLC2_ID)
-					&& Game.IsAllDlcActiveForCurrentSave(dlcid)
+					&& Game.IsCorrectDlcActiveForCurrentSave(restrictions)
 					&& SaveGameData.Instance != null
 					)
 				{

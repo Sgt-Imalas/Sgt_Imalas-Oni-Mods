@@ -34,39 +34,44 @@ namespace ModProfileManager_Addon.API
 		}
 		internal static void RegisterCustomModOptionHandlers()
 		{
-			var q = AppDomain.CurrentDomain.GetAssemblies()
-				   .SelectMany(t => t.GetTypes());
-
-			SgtLogger.l("Loading custom option handlers");
-
-			foreach (var type in q)
+			try
 			{
-				///This method should return a JObject that contains all custom option data you want to store
-				var DataGetter = AccessTools.Method(type, "ModOptions_GetData");
+				var q = AppDomain.CurrentDomain.GetAssemblies()
+						.Where(a => !a.IsDynamic)
+					   .SelectMany(t => t.GetTypes());
 
-				///This method recieves the the JObject data that got stored with the method above.
-				var DataApplier = AccessTools.Method(type, "ModOptions_SetData",
-				new[]
+				SgtLogger.l("Loading custom option handlers");
+
+				foreach (var type in q)
 				{
-					typeof(JObject)
-				});
-				string typeName = type.Assembly.GetName().Name + "_" + type.Name;
+					if (type.IsInterface || type.IsNested)
+						continue;
+					///This method should return a JObject that contains all custom option data you want to store
+					var DataGetter = AccessTools.Method(type, "ModOptions_GetData");
 
+					///This method recieves the the JObject data that got stored with the method above.
+					var DataApplier = AccessTools.Method(type, "ModOptions_SetData", [typeof(JObject)]);
+					string typeName = type.Assembly.GetName().Name + "_" + type.Name;
 
-				if (DataGetter != null && DataApplier != null)
-				{
-					SgtLogger.l("trying to register additional mod option data for type " + typeName);
-					var getterDelegate = (GetCustomModOptionDataDelegate)Delegate.CreateDelegate(typeof(GetCustomModOptionDataDelegate), DataGetter);
-					var setterDelegate = (ApplyCustomModOptionData)Delegate.CreateDelegate(typeof(ApplyCustomModOptionData), DataApplier);
-					if (getterDelegate != null && setterDelegate != null)
+					if (DataGetter != null && DataApplier != null)
 					{
-						RegisterCustomModDataHandler(typeName, getterDelegate, setterDelegate);
-					}
-					else
-					{
-						SgtLogger.warning("failed to create delegates for " + typeName);
+						SgtLogger.l("trying to register additional mod option data for type " + typeName);
+						var getterDelegate = (GetCustomModOptionDataDelegate)Delegate.CreateDelegate(typeof(GetCustomModOptionDataDelegate), DataGetter);
+						var setterDelegate = (ApplyCustomModOptionData)Delegate.CreateDelegate(typeof(ApplyCustomModOptionData), DataApplier);
+						if (getterDelegate != null && setterDelegate != null)
+						{
+							RegisterCustomModDataHandler(typeName, getterDelegate, setterDelegate);
+						}
+						else
+						{
+							SgtLogger.warning("failed to create delegates for " + typeName);
+						}
 					}
 				}
+			}
+			catch(Exception e)
+			{
+				SgtLogger.logError("Error while registering custom mod option handlers\n"+e.Message);
 			}
 		}
 

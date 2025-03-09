@@ -123,37 +123,6 @@ namespace Rockets_TinyYetBig.Patches
 		//    }
 		//}
 
-
-		/// <summary>
-		/// Fixes freshly built rocket interior space exposure not working
-		/// </summary>
-		[HarmonyPatch(typeof(WorldContainer), "PlaceInteriorTemplate")]
-		public class WorldContainer_PlaceInteriorTemplate_Patch
-		{
-			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
-			{
-				var codes = orig.ToList();
-				MethodInfo SimMsgModifyCellWorldZone = AccessTools.Method(
-					typeof(SimMessages),
-					nameof(SimMessages.ModifyCellWorldZone));
-
-
-				for (var i = 1; i < codes.Count; ++i)
-				{
-					if (codes[i].Calls(SimMsgModifyCellWorldZone) && codes[i - 1].LoadsConstant(7))
-					{
-						codes[i - 1] = new CodeInstruction(OpCodes.Ldc_I4_S, 255);
-						return codes;
-					}
-				}
-
-				SgtLogger.warning("WorldContainer Transpiler failed!");
-				return codes;
-			}
-
-		}
-
-
 		/// <summary>
 		/// Only affects debug create rocket command, prevents crash when it tries to load element with combustibleliquid tag by converting it to petroleum
 		/// </summary>

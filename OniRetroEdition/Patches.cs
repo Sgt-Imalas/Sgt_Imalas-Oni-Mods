@@ -9,6 +9,9 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using UtilLibs;
+using static KAnim;
+using static ResearchTypes;
+using static STRINGS.DUPLICANTS.ATTRIBUTES;
 
 namespace OniRetroEdition
 {
@@ -231,7 +234,7 @@ namespace OniRetroEdition
 			}
 		}
 		[HarmonyPatch(typeof(GeyserGenericConfig))]
-		[HarmonyPatch(nameof(GeyserGenericConfig.CreateGeyser))]
+		[HarmonyPatch(nameof(GeyserGenericConfig.CreateGeyser), [typeof(string), typeof(string), typeof(int), typeof(int) , typeof(string ), typeof(string ), typeof(HashedString ), typeof(float ), typeof(string[] ), typeof(string[]) ])]
 		public static class GeyserResize
 		{
 			public static void Prefix(string id, ref int width, ref int height)
@@ -241,7 +244,6 @@ namespace OniRetroEdition
 					width = 3;
 					height = 3;
 				}
-
 			}
 		}
 

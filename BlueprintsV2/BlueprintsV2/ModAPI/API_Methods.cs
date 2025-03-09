@@ -300,7 +300,7 @@ namespace BlueprintsV2.ModAPI
 			RegisterAdditionalStorableBuildingData(ID, (GetBlueprintDataDelegate)Delegate.CreateDelegate(typeof(GetBlueprintDataDelegate), GetDataToStore.Method), (SetBlueprintDataDelegate)Delegate.CreateDelegate(typeof(SetBlueprintDataDelegate), ApplyStoredData.Method), OverridePriority);
 		}
 		private static void RegisterVanillaBuildings()
-		{			
+		{
 			RegisterInternally(nameof(Artable), SkinHelper.TryStoreArtableSkin, SkinHelper.TryApplyArtableSkin);
 			RegisterInternally(nameof(BuildingFacade), SkinHelper.TryStoreBuildingSkin, SkinHelper.TryApplyBuildingSkin);
 
@@ -345,54 +345,62 @@ namespace BlueprintsV2.ModAPI
 		internal static void RegisterExtraData()
 		{
 			RegisterVanillaBuildings();
-
-			var q = AppDomain.CurrentDomain.GetAssemblies()
+			try
+			{
+				var q = AppDomain.CurrentDomain.GetAssemblies()
+					.Where(a => !a.IsDynamic)
 				   .SelectMany(t => t.GetTypes());
 
-
-
-			foreach (var type in q)
-			{
-				///This method should return a JObject that contains all data the component on the given gameobject transfers to the blueprint, see the example at the top
-				var DataGetter = AccessTools.Method(type, "Blueprints_GetData",
-				new[]
+				foreach (var type in q)
 				{
+					if (type.IsInterface || type.IsNested)
+						continue;
+
+					///This method should return a JObject that contains all data the component on the given gameobject transfers to the blueprint, see the example at the top
+					var DataGetter = AccessTools.Method(type, "Blueprints_GetData",
+					new[]
+					{
 					typeof(GameObject)
-				});
+					});
 
-				///This method recieves the target gameobject and the JObject data it stored with the method above. it should apply the data from that JObject to the given gameobject, see the example at the top
-				var DataApplier = AccessTools.Method(type, "Blueprints_SetData",
-				new[]
-				{
+					///This method recieves the target gameobject and the JObject data it stored with the method above. it should apply the data from that JObject to the given gameobject, see the example at the top
+					var DataApplier = AccessTools.Method(type, "Blueprints_SetData",
+					new[]
+					{
 					typeof(GameObject)
 					, typeof(JObject)
-				});
-				string registrationID = type.Assembly.GetName().Name + "_" + type.Name;
+					});
+					string registrationID = type.Assembly.GetName().Name + "_" + type.Name;
 
-				var idOverrideMethod = AccessTools.Method(type, "Blueprints_ID");
-				if (idOverrideMethod != null)
-				{
-					object idOverrideObj = idOverrideMethod.Invoke(null, null);
-					if (idOverrideObj != null && idOverrideObj is string @override)
+					var idOverrideMethod = AccessTools.Method(type, "Blueprints_ID");
+					if (idOverrideMethod != null)
 					{
-						registrationID = @override;
+						object idOverrideObj = idOverrideMethod.Invoke(null, null);
+						if (idOverrideObj != null && idOverrideObj is string @override)
+						{
+							registrationID = @override;
+						}
+					}
+
+					if (DataGetter != null && DataApplier != null)
+					{
+						SgtLogger.l("trying to register additional blueprint data for type " + type.Name + " with the id ");
+						var getterDelegate = (GetBlueprintDataDelegate)Delegate.CreateDelegate(typeof(GetBlueprintDataDelegate), DataGetter);
+						var setterDelegate = (SetBlueprintDataDelegate)Delegate.CreateDelegate(typeof(SetBlueprintDataDelegate), DataApplier);
+						if (getterDelegate != null && setterDelegate != null)
+						{
+							RegisterAdditionalStorableBuildingData(registrationID, getterDelegate, setterDelegate);
+						}
+						else
+						{
+							SgtLogger.warning("failed to create delegates for " + type.Name);
+						}
 					}
 				}
-
-				if (DataGetter != null && DataApplier != null)
-				{
-					SgtLogger.l("trying to register additional blueprint data for type " + type.Name + " with the id ");
-					var getterDelegate = (GetBlueprintDataDelegate)Delegate.CreateDelegate(typeof(GetBlueprintDataDelegate), DataGetter);
-					var setterDelegate = (SetBlueprintDataDelegate)Delegate.CreateDelegate(typeof(SetBlueprintDataDelegate), DataApplier);
-					if (getterDelegate != null && setterDelegate != null)
-					{
-						RegisterAdditionalStorableBuildingData(registrationID, getterDelegate, setterDelegate);
-					}
-					else
-					{
-						SgtLogger.warning("failed to create delegates for " + type.Name);
-					}
-				}
+			}
+			catch (Exception e)
+			{
+				SgtLogger.logError("Error while registering custom data transfers:\n"+e.Message);
 			}
 			if (!Aki_DecorPackA_API_Integrated)
 			{
