@@ -1,4 +1,5 @@
 ﻿using LogicSatellites.Behaviours;
+using rail;
 using System.Collections.Generic;
 using UnityEngine;
 using static LogicSatellites.Behaviours.ModAssets;
@@ -6,11 +7,13 @@ using static LogicSatellites.STRINGS.ITEMS;
 
 namespace LogicSatellites.Entities
 {
-	public class SatelliteGridConfig : IEntityConfig, IListableOption
+	public class SatelliteGridConfig : IEntityConfig, IListableOption,IHasDlcRestrictions
 	{
 		public const string ID = "LS_SatelliteGrid";
 
-		public string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+		public string[] GetDlcIds() => null;
+		public string[] GetRequiredDlcIds() => [DlcManager.EXPANSION1_ID];
+		public string[] GetForbiddenDlcIds() => null;
 
 		public GameObject CreatePrefab()
 		{

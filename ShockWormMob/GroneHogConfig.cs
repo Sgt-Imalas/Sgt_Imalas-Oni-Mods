@@ -13,7 +13,7 @@ namespace ShockWormMob
     {
         public const string ID = "GroneHog";
         public const string BASE_TRAIT_ID = "GroneHogBaseTrait";
-        public string[] GetDlcIds() => DlcManager.AVAILABLE_ALL_VERSIONS;
+        public string[] GetDlcIds() => null;
 
         public GameObject CreatePrefab()
         {

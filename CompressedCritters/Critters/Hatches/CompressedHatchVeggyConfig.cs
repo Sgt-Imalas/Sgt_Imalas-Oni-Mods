@@ -32,10 +32,10 @@ namespace CompressedCritters.Critters.Hatches
             diet_infos.AddRange(BaseHatchConfig.FoodDiet(SimHashes.Carbon.CreateTag(), HatchVeggieConfig.CALORIES_PER_KG_OF_ORE, TUNING.CREATURES.CONVERSION_EFFICIENCY.GOOD_3, null, 0.0f));
             return BaseHatchConfig.SetupDiet(wildCreature, diet_infos, HatchVeggieConfig.CALORIES_PER_KG_OF_ORE, HatchVeggieConfig.MIN_POOP_SIZE_IN_KG);
         }
-        public GameObject CreatePrefab() => EntityTemplates.ExtendEntityToFertileCreature(CreateHatch(ID, STRINGS.COMPRESSEDCRITTER + global::STRINGS.CREATURES.SPECIES.HATCH.VARIANT_VEGGIE.NAME, STRINGS.COMPRESSEDCRITTER + global::STRINGS.CREATURES.SPECIES.HATCH.VARIANT_VEGGIE.DESC, "hatch_kanim", false), ID + "Egg", STRINGS.COMPRESSEDCRITTER + global::STRINGS.CREATURES.SPECIES.HATCH.VARIANT_VEGGIE.EGG_NAME, STRINGS.COMPRESSEDCRITTER + global::STRINGS.CREATURES.SPECIES.HATCH.VARIANT_VEGGIE.DESC, "egg_hatch_kanim", CompressedHatchTuning.EGG_MASS, ID + "Baby", 60f, 20f, CompressedHatchTuning.EGG_CHANCES_VEGGIE, HatchVeggieConfig
+        public GameObject CreatePrefab() => EntityTemplates.ExtendEntityToFertileCreature(CreateHatch(ID, STRINGS.COMPRESSEDCRITTER + global::STRINGS.CREATURES.SPECIES.HATCH.VARIANT_VEGGIE.NAME, STRINGS.COMPRESSEDCRITTER + global::STRINGS.CREATURES.SPECIES.HATCH.VARIANT_VEGGIE.DESC, "hatch_kanim", false),null, ID + "Egg", STRINGS.COMPRESSEDCRITTER + global::STRINGS.CREATURES.SPECIES.HATCH.VARIANT_VEGGIE.EGG_NAME, STRINGS.COMPRESSEDCRITTER + global::STRINGS.CREATURES.SPECIES.HATCH.VARIANT_VEGGIE.DESC, "egg_hatch_kanim", CompressedHatchTuning.EGG_MASS, ID + "Baby", 60f, 20f, CompressedHatchTuning.EGG_CHANCES_VEGGIE, HatchVeggieConfig
             .EGG_SORT_ORDER);
 
-        public string[] GetDlcIds() => DlcManager.AVAILABLE_ALL_VERSIONS;
+        public string[] GetDlcIds() => null;
 
         public void OnPrefabInit(GameObject inst)
         {

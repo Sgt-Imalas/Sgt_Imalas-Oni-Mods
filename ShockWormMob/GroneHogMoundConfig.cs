@@ -9,15 +9,17 @@ using UnityEngine;
 
 namespace ShockWormMob
 {
-    internal class GroneHogMoundConfig : IEntityConfig
+    internal class GroneHogMoundConfig : IEntityConfig,IHasDlcRestrictions
     {
 
         public const string ID = "GroneHogMound";
         public const string BASE_TRAIT_ID = "GroneHogMoundBaseTrait";
         private const int WIDTH = 3;
         private const int HEIGHT = 3;
-        public string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
-        public GameObject CreatePrefab()
+		public string[] GetDlcIds() => null;
+		public string[] GetRequiredDlcIds() => [DlcManager.EXPANSION1_ID];
+		public string[] GetForbiddenDlcIds() => null;
+		public GameObject CreatePrefab()
         {
             GameObject placedEntity = EntityTemplates.CreatePlacedEntity(ID, (string)"Volgus Cave", (string)"nutty putty cave", 100f, Assets.GetAnim((HashedString)"gronehogmound_kanim"), "idle", Grid.SceneLayer.Creatures, WIDTH, HEIGHT, TUNING.BUILDINGS.DECOR.BONUS.TIER0, NOISE_POLLUTION.NOISY.TIER0, defaultTemperature: TUNING.CREATURES.TEMPERATURE.FREEZING_3);
             KPrefabID kprefabId = placedEntity.AddOrGet<KPrefabID>();

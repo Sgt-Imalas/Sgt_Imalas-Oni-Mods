@@ -4,7 +4,7 @@ using static ComplexRecipe;
 
 namespace RoboRockets.LearningBrain
 {
-	class BrainConfig : IEntityConfig
+	class BrainConfig : IEntityConfig,IHasDlcRestrictions
 	{
 		public const string ID = "RR_BrainFlyer";
 		public static ComplexRecipe recipe;
@@ -49,7 +49,8 @@ namespace RoboRockets.LearningBrain
 			return prefab;
 		}
 
-		public string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+		public string[] GetRequiredDlcIds() => [DlcManager.EXPANSION1_ID];
+		public string[] GetDlcIds() => null;
 
 		public void OnPrefabInit(GameObject inst)
 		{
@@ -59,5 +60,7 @@ namespace RoboRockets.LearningBrain
 		{
 
 		}
+
+		public string[] GetForbiddenDlcIds() => null;
 	}
 }

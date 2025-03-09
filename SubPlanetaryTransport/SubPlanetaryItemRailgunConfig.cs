@@ -16,8 +16,6 @@ namespace SubPlanetaryTransport
         public static readonly HashedString FireInputPort = "SPT_FireInputPort";
         public static readonly HashedString CanFireOutputPort = "SPT_CanFireOutputPort";
 
-        public override string[] GetDlcIds() => DlcManager.AVAILABLE_ALL_VERSIONS;
-
 
         public override BuildingDef CreateBuildingDef()
         {

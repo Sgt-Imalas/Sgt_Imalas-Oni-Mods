@@ -7,13 +7,13 @@ using UnityEngine;
 
 namespace DupePodRailgun.Buildings
 {
-    internal class DupeRailgunBulletConfig : IEntityConfig
+    internal class DupeRailgunBulletConfig : IEntityConfig,IHasDlcRestrictions
     {
         public const string ID = "DPR_DupeRailGunPayload";
         public const float MASS = 300f;
         public const int LANDING_EDGE_PADDING = 3;
 
-        public string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+        public string[] GetDlcIds() => null;
 
         public GameObject CreatePrefab()
         {
@@ -52,5 +52,9 @@ namespace DupePodRailgun.Buildings
         public void OnSpawn(GameObject inst)
         {
         }
-    }
+
+        public string[] GetRequiredDlcIds() => [DlcManager.EXPANSION1_ID];
+
+        public string[] GetForbiddenDlcIds() => null;
+	}
 }

@@ -29,6 +29,11 @@
 		<MinimumSupportedBuild>561558</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
+	
+	<PropertyGroup>
+		<LangVersion>preview</LangVersion>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<OutDir>bin</OutDir>

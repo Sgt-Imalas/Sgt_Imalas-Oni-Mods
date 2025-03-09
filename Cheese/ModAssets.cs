@@ -39,41 +39,37 @@ namespace Cheese
 
 			public static EdiblesManager.FoodInfo CheeseEdible = new(
 				ModElements.ModElementRegistration.Cheese.ToString(),
-				DlcManager.VANILLA_ID,
 				CHEESE_KCAL_PER_KG * 1000f,
 				2,
 				255.15f,
 				277.15f,
 				4800f,
-				false);
+				false,null,null);
 
 			public static EdiblesManager.FoodInfo CheeseBurger =
 				new EdiblesManager.FoodInfo(CheeseBurgerConfig.ID,
-					DlcManager.VANILLA_ID,
 					CHEESEBURGER_KCAL_PER_KG * 1000f,
 					6,
 					255.15f,
 					277.15f, 2800f,
-					can_rot: true)
-				.AddEffects(new List<string> { "GoodEats" }, DlcManager.AVAILABLE_ALL_VERSIONS)
-				.AddEffects(new List<string> { "SeafoodRadiationResistance" }, DlcManager.AVAILABLE_EXPANSION1_ONLY);
+					can_rot: true, null, null)
+				.AddEffects(new List<string> { "GoodEats" })
+				.AddEffects(new List<string> { "SeafoodRadiationResistance" }, [DlcManager.EXPANSION1_ID]);
 
 			public static EdiblesManager.FoodInfo CheeseSandwich =
 				new EdiblesManager.FoodInfo(CheeseSandwichConfig.ID,
-					DlcManager.VANILLA_ID,
 					CHEESESANDWICH_KCAL_PER_KG * 1000f,
 					3,
 					255.15f,
 					277.15f, 2800f,
-					can_rot: true);
+					can_rot: true, null, null);
 			public static EdiblesManager.FoodInfo GrilledCheese =
 			   new EdiblesManager.FoodInfo(GrilledCheeseConfig.ID,
-				   DlcManager.VANILLA_ID,
 				   GRILLEDCHEESE_KCAL_PER_KG * 1000f,
 				   5,
 				   255.15f,
 				   277.15f, 2800f,
-				   can_rot: true);
+				   can_rot: true, null, null);
 
 		}
 		public static class SOUNDS

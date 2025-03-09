@@ -14,10 +14,9 @@ namespace ExplosiveMaterials.buildings
         public const string ID = "RemoteExplosive";
         public const string NAME = "Remote Explosive";
         public const string DESC = "place a explosive to trigger it remotely";
-        public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+        public override string[] GetRequiredDlcIds() => [DlcManager.EXPANSION1_ID];
 
-
-        public override BuildingDef CreateBuildingDef()
+		public override BuildingDef CreateBuildingDef()
         {
             string explosives =
                 ModAssets.Tags.BuildableExplosive.ToString();

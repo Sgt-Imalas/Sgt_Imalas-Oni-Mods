@@ -10,7 +10,7 @@ namespace Imalas_TwitchChaosEvents.Meteors
 		public const string ANIM_FILE = "dehydrated_food_berry_pie_kanim";
 		public const string INITIAL_ANIM = "idle";
 
-		public string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+		public string[] GetDlcIds() => null;
 
 		public void OnPrefabInit(GameObject inst)
 		{

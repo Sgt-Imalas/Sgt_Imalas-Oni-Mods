@@ -5,14 +5,14 @@
 		<PackageId>CannedFoods</PackageId>
 		<Version>4.0.0</Version>
 		<Authors>Sgt_Imalas</Authors>
-		     <Copyright>$(AssemblyCopyright)</Copyright>
+		<Copyright>$(AssemblyCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
 	</PropertyGroup>
 
 	<!-- Build Properties -->
 	<PropertyGroup>
 		<TargetFramework>net48</TargetFramework>
-    <Configurations>Debug;Release</Configurations>
+		<Configurations>Debug;Release</Configurations>
 		<AssemblyName>CannedFoods</AssemblyName>
 		<RootNamespace>CannedFoods</RootNamespace>
 		<IsMod>true</IsMod>
@@ -26,11 +26,14 @@
 		<ModName>Canned Food</ModName>
 		<ModDescription>Adds canned meat and fish.</ModDescription>
 		<SupportedContent>ALL</SupportedContent>
-		<MinimumSupportedBuild>561558</MinimumSupportedBuild>
+		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
-		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>
 
+	<PropertyGroup>
+		<LangVersion>preview</LangVersion>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<OutDir>bin</OutDir>
@@ -40,22 +43,22 @@
 
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-	  <OutDir>bin</OutDir>
-	  <OutputPath />
-	  <DocumentationFile />
+		<OutDir>bin</OutDir>
+		<OutputPath />
+		<DocumentationFile />
 	</PropertyGroup>
 
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2|AnyCPU'">
-	  <OutDir>bin</OutDir>
-	  <OutputPath />
-	  <DocumentationFile />
+		<OutDir>bin</OutDir>
+		<OutputPath />
+		<DocumentationFile />
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Aze.Publicise.MSBuild.Task" Version="1.1.0">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
 
@@ -64,66 +67,66 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="ModAssets\anim\assets\canned_bbq\canned_bbq.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\canned_bbq\canned_bbq_anim.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\canned_bbq\canned_bbq_build.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\canned_milk\canned_bread_0.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\canned_milk\canned_bread_anim.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\canned_milk\canned_bread_build.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\canned_beans\canned_bread_0.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\canned_beans\canned_bread_anim.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\canned_beans\canned_bread_build.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\canned_bread\canned_bread_0.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\canned_bread\canned_bread_anim.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\canned_bread\canned_bread_build.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\canned_tuna\canned_tuna.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\canned_tuna\canned_tuna_anim.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\canned_tuna\canned_tuna_build.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\can_scrap\can_scrap.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\can_scrap\can_scrap_anim.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\can_scrap\can_scrap_build.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
+		<None Update="ModAssets\anim\assets\canned_bbq\canned_bbq.png">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="ModAssets\anim\assets\canned_bbq\canned_bbq_anim.bytes">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="ModAssets\anim\assets\canned_bbq\canned_bbq_build.bytes">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="ModAssets\anim\assets\canned_milk\canned_bread_0.png">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="ModAssets\anim\assets\canned_milk\canned_bread_anim.bytes">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="ModAssets\anim\assets\canned_milk\canned_bread_build.bytes">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="ModAssets\anim\assets\canned_beans\canned_bread_0.png">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="ModAssets\anim\assets\canned_beans\canned_bread_anim.bytes">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="ModAssets\anim\assets\canned_beans\canned_bread_build.bytes">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="ModAssets\anim\assets\canned_bread\canned_bread_0.png">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="ModAssets\anim\assets\canned_bread\canned_bread_anim.bytes">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="ModAssets\anim\assets\canned_bread\canned_bread_build.bytes">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="ModAssets\anim\assets\canned_tuna\canned_tuna.png">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="ModAssets\anim\assets\canned_tuna\canned_tuna_anim.bytes">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="ModAssets\anim\assets\canned_tuna\canned_tuna_build.bytes">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="ModAssets\anim\assets\can_scrap\can_scrap.png">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="ModAssets\anim\assets\can_scrap\can_scrap_anim.bytes">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="ModAssets\anim\assets\can_scrap\can_scrap_build.bytes">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Update="ILRepack.Lib.MSBuild.Task" Version="2.0.37">
-	    <PrivateAssets>all</PrivateAssets>
-	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	  </PackageReference>
+		<PackageReference Update="ILRepack.Lib.MSBuild.Task" Version="2.0.37">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 	</ItemGroup>
 </Project>

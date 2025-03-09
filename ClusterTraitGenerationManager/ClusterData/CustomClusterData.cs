@@ -54,19 +54,19 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 		public bool IsCeresMixingActive()
 		{
-            foreach(var mixinsetting in CustomGameSettings.Instance.GetActiveWorldMixingSettings())
+			foreach (var mixinsetting in CustomGameSettings.Instance.GetActiveWorldMixingSettings())
 			{
 				if (mixinsetting.dlcIdFrom == DlcManager.DLC2_ID)
 					return true;
 			}
-			foreach( var subworldmixingsetting in CustomGameSettings.Instance.GetActiveSubworldMixingSettings())
+			foreach (var subworldmixingsetting in CustomGameSettings.Instance.GetActiveSubworldMixingSettings())
 			{
 
-                if (subworldmixingsetting.dlcIdFrom == DlcManager.DLC2_ID)
-                    return true;
-            }
+				if (subworldmixingsetting.dlcIdFrom == DlcManager.DLC2_ID)
+					return true;
+			}
 			return false;
-        }
+		}
 
 		[JsonIgnore] public bool HasCeresAsteroid => GetAllPlanets().Any(planet => planet.DlcID == DlcManager.DLC2_ID || planet.id.ToUpperInvariant().Contains("CERES")) || IsCeresMixingActive();
 		[JsonIgnore] public bool HasCeresStarter => StarterPlanet != null && (StarterPlanet.DlcID == DlcManager.DLC2_ID || StarterPlanet.id.ToUpperInvariant().Contains("CERES"));
@@ -100,7 +100,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 		public Dictionary<StarmapItem, StarmapItem> MixingWorldsWithTarget = new();
 		public Dictionary<string, StarmapItem> OuterPlanets = new Dictionary<string, StarmapItem>();
 		public Dictionary<string, StarmapItem> POIs = new Dictionary<string, StarmapItem>();
-		public string DLC_Id = DlcManager.GetHighestActiveDlcId();
+		public string DLC_Id = DlcManager.IsContentSubscribed(DlcManager.EXPANSION1_ID) ? DlcManager.EXPANSION1_ID : DlcManager.VANILLA_ID;
 
 		public Dictionary<int, List<string>> VanillaStarmapItems = new Dictionary<int, List<string>>();
 		public int MaxStarmapDistance;
@@ -114,10 +114,10 @@ namespace ClusterTraitGenerationManager.ClusterData
 			}
 
 			if (IsWorldMixingAsteroid(id)
-				&& PlanetoidDict.TryGetValue(id, out var mixingAsteroid) 
+				&& PlanetoidDict.TryGetValue(id, out var mixingAsteroid)
 				&& MixingWorldsWithTarget.TryGetValue(mixingAsteroid, out var mixingTarget))
 			{
-				if(HasStarmapItem(mixingTarget.id, out _))
+				if (HasStarmapItem(mixingTarget.id, out _))
 				{
 					starmapItem = mixingAsteroid;
 					return true;

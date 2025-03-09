@@ -20,7 +20,7 @@ namespace OniRetroEdition.SlurpTool
 			prefab.AddOrGet<Cancellable>();
 			return prefab;
 		}
-
+		public string[] GetDlcIds() => null;
 		public void OnPrefabInit(GameObject go)
 		{
 		}

@@ -11,7 +11,7 @@ namespace OniRetroEdition.Entities
 		private const PathFinder.PotentialPath.Flags suit_flags = PathFinder.PotentialPath.Flags.HasOxygenMask;
 		private AttributeModifier expertAthleticsModifier;
 
-		public string[] GetDlcIds() => DlcManager.AVAILABLE_ALL_VERSIONS;
+		public string[] GetDlcIds() => null;
 
 		public EquipmentDef CreateEquipmentDef()
 		{

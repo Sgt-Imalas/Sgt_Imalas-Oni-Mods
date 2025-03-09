@@ -6,7 +6,7 @@ namespace Cheese.ModElements
 	{
 		public SimHashes ElementID => ModElementRegistration.Cheese.SimHash;
 
-		public string[] GetDlcIds() => DlcManager.AVAILABLE_ALL_VERSIONS;
+		public string[] GetDlcIds() => null;
 
 		public static GameObject GetPrefabForRecipe()
 		{

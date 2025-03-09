@@ -4,13 +4,14 @@ using static EdiblesManager;
 
 namespace CannedFoods.Foods
 {
-	internal class CannedBeansConfig : IEntityConfig
+	internal class CannedBeansConfig : IEntityConfig, IHasDlcRestrictions
 	{
 		public const string ID = "CF_CannedBeans";
 		public static ComplexRecipe recipe;
 
 		public GameObject CreatePrefab()
 		{
+			
 			GameObject prefab = EntityTemplates.CreateLooseEntity(
 				id: ID,
 				name: STRINGS.ITEMS.FOOD.CF_CANNEDBEANS.NAME,
@@ -34,21 +35,21 @@ namespace CannedFoods.Foods
 
 			FoodInfo foodInfo = new FoodInfo(
 				id: ID,
-				dlcId: DlcManager.DLC2_ID,
 				caloriesPerUnit: TUNING.FOOD.FOOD_TYPES.DEEP_FRIED_NOSH.CaloriesPerUnit / 2f,
 				quality: TUNING.FOOD.FOOD_TYPES.DEEP_FRIED_NOSH.Quality,
 				preserveTemperatue: TUNING.FOOD.DEFAULT_PRESERVE_TEMPERATURE,
 				rotTemperature: TUNING.FOOD.DEFAULT_ROT_TEMPERATURE,
 				spoilTime: TUNING.FOOD.SPOIL_TIME.VERYSLOW,
-				can_rot: false);
+				can_rot: false,[DlcManager.DLC2_ID],null);
 
 			return EntityTemplates.ExtendEntityToFood(prefab, foodInfo);
 		}
 
-		public string[] GetDlcIds()
-		{
-			return DlcManager.AVAILABLE_DLC_2;
-		}
+		public string[] GetDlcIds() => null;//TODO: remove after U56
+
+		public string[] GetForbiddenDlcIds() => null;
+
+		public string[] GetRequiredDlcIds() => [DlcManager.DLC2_ID];
 
 		public void OnPrefabInit(GameObject inst)
 		{

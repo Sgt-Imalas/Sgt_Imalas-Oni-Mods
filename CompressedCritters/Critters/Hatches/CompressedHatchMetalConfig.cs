@@ -31,9 +31,9 @@ namespace CompressedCritters.Critters.Hatches
             List<Diet.Info> diet_infos = BaseHatchConfig.MetalDiet(GameTags.Metal, HatchMetalConfig.CALORIES_PER_KG_OF_ORE, TUNING.CREATURES.CONVERSION_EFFICIENCY.GOOD_1, null, 0.0f);
             return BaseHatchConfig.SetupDiet(wildCreature, diet_infos, HatchMetalConfig.CALORIES_PER_KG_OF_ORE, HatchMetalConfig.MIN_POOP_SIZE_IN_KG);
         }
-        public GameObject CreatePrefab() => EntityTemplates.ExtendEntityToFertileCreature(CreateHatch(ID, STRINGS.COMPRESSEDCRITTER + global::STRINGS.CREATURES.SPECIES.HATCH.VARIANT_METAL.NAME, STRINGS.COMPRESSEDCRITTER + global::STRINGS.CREATURES.SPECIES.HATCH.VARIANT_METAL.DESC, "hatch_kanim", false), ID + "Egg", STRINGS.COMPRESSEDCRITTER + global::STRINGS.CREATURES.SPECIES.HATCH.VARIANT_METAL.EGG_NAME, STRINGS.COMPRESSEDCRITTER + global::STRINGS.CREATURES.SPECIES.HATCH.VARIANT_METAL.DESC, "egg_hatch_kanim", CompressedHatchTuning.EGG_MASS, ID + "Baby", 60f, 20f, CompressedHatchTuning.EGG_CHANCES_METAL, HatchMetalConfig.EGG_SORT_ORDER);
+        public GameObject CreatePrefab() => EntityTemplates.ExtendEntityToFertileCreature(CreateHatch(ID, STRINGS.COMPRESSEDCRITTER + global::STRINGS.CREATURES.SPECIES.HATCH.VARIANT_METAL.NAME, STRINGS.COMPRESSEDCRITTER + global::STRINGS.CREATURES.SPECIES.HATCH.VARIANT_METAL.DESC, "hatch_kanim", false),null, ID + "Egg", STRINGS.COMPRESSEDCRITTER + global::STRINGS.CREATURES.SPECIES.HATCH.VARIANT_METAL.EGG_NAME, STRINGS.COMPRESSEDCRITTER + global::STRINGS.CREATURES.SPECIES.HATCH.VARIANT_METAL.DESC, "egg_hatch_kanim", CompressedHatchTuning.EGG_MASS, ID + "Baby", 60f, 20f, CompressedHatchTuning.EGG_CHANCES_METAL, HatchMetalConfig.EGG_SORT_ORDER);
 
-        public string[] GetDlcIds() => DlcManager.AVAILABLE_ALL_VERSIONS;
+        public string[] GetDlcIds() => null;
 
         public void OnPrefabInit(GameObject inst)
         {

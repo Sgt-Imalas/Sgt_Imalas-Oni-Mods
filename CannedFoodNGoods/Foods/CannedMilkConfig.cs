@@ -34,21 +34,17 @@ namespace CannedFoods.Foods
 
 			FoodInfo foodInfo = new FoodInfo(
 				id: ID,
-				dlcId: DlcManager.DLC2_ID,
 				caloriesPerUnit: TUNING.FOOD.FOOD_TYPES.SPICEBREAD.CaloriesPerUnit / 2f,
 				quality: TUNING.FOOD.FOOD_TYPES.SPICEBREAD.Quality,
 				preserveTemperatue: TUNING.FOOD.DEFAULT_PRESERVE_TEMPERATURE,
 				rotTemperature: TUNING.FOOD.DEFAULT_ROT_TEMPERATURE,
 				spoilTime: TUNING.FOOD.SPOIL_TIME.VERYSLOW,
-				can_rot: false);
+				can_rot: false, null,null);
 
 			return EntityTemplates.ExtendEntityToFood(prefab, foodInfo);
 		}
 
-		public string[] GetDlcIds()
-		{
-			return DlcManager.AVAILABLE_DLC_2;
-		}
+		public string[] GetDlcIds() => null;
 
 		public void OnPrefabInit(GameObject inst)
 		{

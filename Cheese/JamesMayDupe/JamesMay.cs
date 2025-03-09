@@ -36,9 +36,12 @@ namespace Cheese.JamesMayDupe
 				2,
 				2,
 				2,
+				2,
+				2,
 				STRINGS.DUPLICANTS.PERSONALITIES.JAMESCHEESE.DESC,
 				false,
-				"jams");
+				"jams",
+				GameTags.Minions.Models.Standard);
 				//jams.Disabled = true; // do not show up in menus and such
 
 				__instance.Personalities.Add(jams);

@@ -30,21 +30,17 @@ namespace Imalas_TwitchChaosEvents.Meteors
 
 			FoodInfo foodInfo = new FoodInfo(
 				id: ID,
-				dlcId: DlcManager.VANILLA_ID,
 				caloriesPerUnit: 5800000f,
 				quality: 6,
 				preserveTemperatue: 255.15f,
 				rotTemperature: 277.15f,
 				spoilTime: 4800f,
-				can_rot: false);
-			foodInfo.AddEffects(new List<string>() { "GoodEats" }, DlcManager.AVAILABLE_ALL_VERSIONS);
+				can_rot: false,null,null);
+			foodInfo.AddEffects(new List<string>() { "GoodEats" });
 			return EntityTemplates.ExtendEntityToFood(prefab, foodInfo);
 		}
 
-		public string[] GetDlcIds()
-		{
-			return DlcManager.AVAILABLE_ALL_VERSIONS;
-		}
+		public string[] GetDlcIds() => null;
 
 		public void OnPrefabInit(GameObject inst)
 		{

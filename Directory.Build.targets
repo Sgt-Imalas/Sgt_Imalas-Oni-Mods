@@ -68,13 +68,13 @@ APIVersion: 2"
 
 	</Target>
 
-	<!--Create archive version-->
+	<!--Create archive version--><!--
 	<Target Name="CopyModToArchive" AfterTargets="ILRepack" Condition="'$(AssemblyName)' != 'UtilLibs' and '$(AssemblyName)' != 'Util_TwitchIntegrationLib' and '$(GameLibsFolder)' != '../Lib'">
 
 		<Message Text="Creating archive release.." Importance="High"/>
 
 		<PropertyGroup>
-			<CleanedModName>$(ModName.Replace('"','').Replace(";","").Replace(":",""))</CleanedModName>
+			<CleanedModName>$(ModName.Replace('"','').Replace(";","").Replace(":","")</CleanedModName>
 			<ArchiveTargetFolder>$(SolutionDir)Releases\$(CleanedModName)\$(CleanedModName)__$(Version)__$(MinimumSupportedBuild)\</ArchiveTargetFolder>
 		</PropertyGroup>
 
@@ -100,7 +100,7 @@ APIVersion: 2"
 
 		<Message Text="Copied archive files" Importance="High" />
 
-	</Target>
+	</Target>-->
 
 	<!--Create folder for publicized dlls if not existing-->
 	<Target Name="PubliciseMKDIR" BeforeTargets ="Clean" Condition="'$(GameLibsFolder)' != '../Lib' ">

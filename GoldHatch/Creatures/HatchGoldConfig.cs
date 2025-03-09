@@ -16,12 +16,12 @@ namespace GoldHatch.Creatures
 		{
 
 			var entity = EntityTemplates.ExtendEntityToFertileCreature(
-				CreateHatch(ID, (string)STRINGS.CREATURES.SPECIES.HATCH.VARIANT_GOLD.NAME, (string)STRINGS.CREATURES.SPECIES.HATCH.VARIANT_GOLD.DESC, "hatch_gold_kanim", false), EGG_ID,
-				(string)STRINGS.CREATURES.SPECIES.HATCH.VARIANT_GOLD.EGG_NAME, (string)STRINGS.CREATURES.SPECIES.HATCH.VARIANT_GOLD.DESC, "egg_hatch_gold_kanim", HatchTuning.EGG_MASS, ID_BABY, 60f, 20f, GoldHatchTuning.EGG_CHANCES_GOLD, this.GetDlcIds(), HatchHardConfig.EGG_SORT_ORDER + 1);
+				CreateHatch(ID, (string)STRINGS.CREATURES.SPECIES.HATCH.VARIANT_GOLD.NAME, (string)STRINGS.CREATURES.SPECIES.HATCH.VARIANT_GOLD.DESC, "hatch_gold_kanim", false),
+				null, EGG_ID, STRINGS.CREATURES.SPECIES.HATCH.VARIANT_GOLD.EGG_NAME, STRINGS.CREATURES.SPECIES.HATCH.VARIANT_GOLD.DESC, "egg_hatch_gold_kanim", HatchTuning.EGG_MASS, ID_BABY, 60f, 20f, GoldHatchTuning.EGG_CHANCES_GOLD, HatchHardConfig.EGG_SORT_ORDER + 1);
 			return entity;
 		}
 
-		public string[] GetDlcIds() => DlcManager.AVAILABLE_ALL_VERSIONS;
+		public string[] GetDlcIds() => null;
 		public static GameObject CreateHatch(
 			string id,
 			string name,

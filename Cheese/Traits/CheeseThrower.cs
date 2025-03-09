@@ -16,8 +16,7 @@ namespace Cheese.Traits
 		{
 			return new DUPLICANTSTATS.TraitVal()
 			{
-				id = ID,
-				dlcId = DlcManager.VANILLA_ID
+				id = ID
 			};
 		}
 

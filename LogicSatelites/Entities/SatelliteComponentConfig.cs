@@ -4,12 +4,12 @@ using static LogicSatellites.STRINGS.ITEMS;
 
 namespace LogicSatellites.Entities
 {
-	class SatelliteComponentConfig : IEntityConfig
+	class SatelliteComponentConfig : IEntityConfig, IHasDlcRestrictions
 	{
 		public const string ID = "LS_ClusterSatellitePart";
 		public const float MASS = 30f;
 		public static ComplexRecipe recipe;
-		public string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+		public string[] GetDlcIds() => null;
 		public GameObject CreatePrefab()
 		{
 			GameObject looseEntity = EntityTemplates.CreateLooseEntity(
@@ -40,5 +40,9 @@ namespace LogicSatellites.Entities
 		{
 		}
 		public void OnSpawn(GameObject inst) { }
+
+		public string[] GetRequiredDlcIds() => [DlcManager.EXPANSION1_ID];
+
+		public string[] GetForbiddenDlcIds() => null;
 	}
 }

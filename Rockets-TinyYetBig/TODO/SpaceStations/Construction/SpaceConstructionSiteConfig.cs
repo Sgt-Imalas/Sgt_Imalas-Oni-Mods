@@ -2,11 +2,11 @@
 
 namespace Rockets_TinyYetBig.SpaceStations.Construction
 {
-	internal class SpaceConstructionSiteConfig : IEntityConfig
+	internal class SpaceConstructionSiteConfig : IEntityConfig, IHasDlcRestrictions
 	{
 		public const string ID = "RTB_StationConstructionSite";
 
-		public string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+		public string[] GetDlcIds() =>null;
 
 		public GameObject CreatePrefab()
 		{
@@ -35,5 +35,8 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
 		{
 		}
 
+		public string[] GetRequiredDlcIds() => [DlcManager.EXPANSION1_ID];
+
+		public string[] GetForbiddenDlcIds() => null;
 	}
 }

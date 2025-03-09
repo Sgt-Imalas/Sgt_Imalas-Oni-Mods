@@ -16,7 +16,6 @@ namespace Cheese.Traits
 				id = ID,
 				statBonus = DUPLICANTSTATS.SMALL_STATPOINT_BONUS,
 				rarity = DUPLICANTSTATS.RARITY_UNCOMMON,
-				dlcId = DlcManager.VANILLA_ID
 			};
 		}
 

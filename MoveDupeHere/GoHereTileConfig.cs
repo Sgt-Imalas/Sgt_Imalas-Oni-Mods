@@ -8,7 +8,6 @@ namespace LogicSatellites.Buildings
 	class GoHereTileConfig : IBuildingConfig
 	{
 		public const string ID = "MDH_GoHereTile";
-		public override string[] GetDlcIds() => DlcManager.AVAILABLE_ALL_VERSIONS;
 		public override BuildingDef CreateBuildingDef()
 		{
 			float[] materialMass = new float[2]

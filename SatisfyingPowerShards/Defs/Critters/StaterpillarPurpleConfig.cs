@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace SatisfyingPowerShards.Defs.Critters
 {
-	internal class StaterpillarPurpleConfig : IEntityConfig
+	internal class StaterpillarPurpleConfig : IEntityConfig, IHasDlcRestrictions
 	{
 		public const string ID = "StaterpillarPurple";
 		public const string BASE_TRAIT_ID = "StaterpillarPurpleBaseTrait";
@@ -45,7 +45,8 @@ namespace SatisfyingPowerShards.Defs.Critters
 			return go;
 		}
 
-		public string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+		public string[] GetDlcIds() => null;
+		public string[] GetRequiredDlcIds() => [DlcManager.EXPANSION1_ID];
 
 		public virtual GameObject CreatePrefab() =>
 			EntityTemplates.ExtendEntityToFertileCreature(
@@ -55,6 +56,7 @@ namespace SatisfyingPowerShards.Defs.Critters
 					STRINGS.CREATURES.SPECIES.STATERPILLAR.VARIANT_PURPLE.DESC,
 					"caterpillar_purple_kanim",
 					false),
+				null,
 				EGG_ID,
 				STRINGS.CREATURES.SPECIES.STATERPILLAR.VARIANT_PURPLE.EGG_NAME,
 				global::STRINGS.CREATURES.SPECIES.STATERPILLAR.DESC, "egg_caterpillar_purple_kanim",
@@ -63,7 +65,6 @@ namespace SatisfyingPowerShards.Defs.Critters
 				60f,
 				20f,
 				StaterpillarTuning.EGG_CHANCES_BASE,
-				this.GetDlcIds(),
 				5);
 
 		public void OnPrefabInit(GameObject prefab) => prefab.GetComponent<KBatchedAnimController>().SetSymbolVisiblity((KAnimHashedString)"gulp", false);
@@ -71,5 +72,6 @@ namespace SatisfyingPowerShards.Defs.Critters
 		public void OnSpawn(GameObject inst)
 		{
 		}
+		public string[] GetForbiddenDlcIds() => null;
 	}
 }

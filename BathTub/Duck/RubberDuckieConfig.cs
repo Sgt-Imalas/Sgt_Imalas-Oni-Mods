@@ -8,10 +8,7 @@ namespace BathTub.Duck
 	{
 		public const string ID = "BT_RubberDuckie";
 		public static ComplexRecipe recipe;
-		public string[] GetDlcIds()
-		{
-			return DlcManager.AVAILABLE_ALL_VERSIONS;
-		}
+		public string[] GetDlcIds() => null;
 
 		public GameObject CreatePrefab()
 		{

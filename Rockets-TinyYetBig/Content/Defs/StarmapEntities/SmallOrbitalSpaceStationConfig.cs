@@ -3,11 +3,12 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.SpaceStations
 {
-	class SpaceStationConfig : IEntityConfig, IListableOption
+	class SpaceStationConfig : IEntityConfig, IListableOption, IHasDlcRestrictions
 	{
 		public const string ID = "RTB_SpaceStationOrbitalSmall";
 
-		public string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+		public string[] GetDlcIds() => null;
+		public string[] GetRequiredDlcIds() => [DlcManager.EXPANSION1_ID];
 
 		public GameObject CreatePrefab()
 		{
@@ -58,5 +59,7 @@ namespace Rockets_TinyYetBig.SpaceStations
 		{
 			return "spacae";
 		}
+
+		public string[] GetForbiddenDlcIds() => null;
 	}
 }

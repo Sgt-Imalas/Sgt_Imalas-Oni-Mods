@@ -9,11 +9,11 @@ namespace SatisfyingPowerShards.Defs.Critters
 {
 
 	[EntityConfigOrder(2)]
-	internal class BabyStaterpillarYellowConfig : IEntityConfig
+	internal class BabyStaterpillarYellowConfig : IEntityConfig,IHasDlcRestrictions
 	{
 		public const string ID = "StaterpillarYellowBaby";
 
-		public string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+		public string[] GetDlcIds() => null;
 
 		public GameObject CreatePrefab()
 		{
@@ -29,5 +29,9 @@ namespace SatisfyingPowerShards.Defs.Critters
 		public void OnSpawn(GameObject inst)
 		{
 		}
+
+		public string[] GetRequiredDlcIds() => [DlcManager.EXPANSION1_ID];
+
+		public string[] GetForbiddenDlcIds() => null;
 	}
 }

@@ -21,7 +21,7 @@ namespace ClusterTraitGenerationManager
 					&& clusterTag != null
 					&& Game.clusterId == CGSMClusterManager.CustomClusterID
 					&& DlcManager.IsContentSubscribed(DlcManager.DLC2_ID)
-					&& SaveLoader.Instance.IsDlcListActiveForCurrentSave(dlcid)
+					&& Game.IsAllDlcActiveForCurrentSave(dlcid)
 					&& SaveGameData.Instance != null
 					)
 				{
@@ -39,7 +39,7 @@ namespace ClusterTraitGenerationManager
 					&& Game.clusterId == CGSMClusterManager.CustomClusterID
 					&& DlcManager.IsContentSubscribed(DlcManager.DLC2_ID)
 					&& SaveGameData.Instance != null
-					&& SaveLoader.Instance.IsDLCActiveForCurrentSave(DlcManager.DLC2_ID))
+					&& Game.IsDlcActiveForCurrentSave(DlcManager.DLC2_ID))
 				{
 					__result = SaveGameData.Instance.IsCeresAsteroidInCluster(__instance.clusterTag);
 				}
@@ -128,7 +128,7 @@ namespace ClusterTraitGenerationManager
 			[HarmonyPostfix]
 			public static void Postfix(GameObject inst)
 			{
-				if (SaveLoader.Instance.IsDLCActiveForCurrentSave("DLC2_ID") && SaveGameData.Instance != null && SaveGameData.Instance.IsCeresAsteroidInCluster("CeresCluster"))
+				if (Game.IsDlcActiveForCurrentSave("DLC2_ID") && SaveGameData.Instance != null && SaveGameData.Instance.IsCeresAsteroidInCluster("CeresCluster"))
 					inst.AddOrGet<KBatchedAnimController>().SwapAnims(new KAnimFile[1]
 					{
 					Assets.GetAnim((HashedString) "floppy_disc_ceres_kanim")

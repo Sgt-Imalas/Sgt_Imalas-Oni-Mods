@@ -8,11 +8,11 @@ using UnityEngine;
 namespace SatisfyingPowerShards.Defs.Critters
 {
 	[EntityConfigOrder(2)]
-	internal class BabyStaterpillarPurpleConfig:IEntityConfig
+	internal class BabyStaterpillarPurpleConfig : IEntityConfig, IHasDlcRestrictions
 	{
 		public const string ID = "StaterpillarPurpleBaby";
 
-		public string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+		public string[] GetDlcIds() => null;
 
 		public GameObject CreatePrefab()
 		{
@@ -28,5 +28,9 @@ namespace SatisfyingPowerShards.Defs.Critters
 		public void OnSpawn(GameObject inst)
 		{
 		}
+
+		public string[] GetRequiredDlcIds() => [DlcManager.EXPANSION1_ID];
+
+		public string[] GetForbiddenDlcIds() => null;
 	}
 }

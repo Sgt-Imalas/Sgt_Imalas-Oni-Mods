@@ -46,22 +46,18 @@ namespace NeuralVaccilatorExpanded
 					new DUPLICANTSTATS.TraitVal
 					{
 						id = SuperBrains,
-						dlcId = ""
 					},
 					new DUPLICANTSTATS.TraitVal
 					{
 						id = ExpertMechanic,
-						dlcId = ""
 					},
 					new DUPLICANTSTATS.TraitVal
 					{
 						id = GeniusShare,
-						dlcId = ""
 					},
 					new DUPLICANTSTATS.TraitVal
 					{
 						id = DaftPunk,
-						dlcId = ""
 					}
 				};
 

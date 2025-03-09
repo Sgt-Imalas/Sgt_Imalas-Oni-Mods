@@ -7,8 +7,6 @@ namespace ConveyorTiles
 	class ConveyorTileConfig : IBuildingConfig
 	{
 		public const string ID = "CT_ConveyorTile";
-		//public const string LOGIC_ID = "CT_ConveyorTile_RibbonInput";
-		public override string[] GetDlcIds() => DlcManager.AVAILABLE_ALL_VERSIONS;
 		public override BuildingDef CreateBuildingDef()
 		{
 			float[] materialMass = new float[]

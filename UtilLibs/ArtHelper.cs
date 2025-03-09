@@ -50,7 +50,8 @@ namespace UtilLibs
                 level.ToString(),
                 buildingId,
                 "ui",
-                DlcManager.AVAILABLE_ALL_VERSIONS
+				null,
+				null
                 );
             return skinID;
         }

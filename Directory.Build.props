@@ -23,6 +23,7 @@
 		<JanuaryHotfix1>648807</JanuaryHotfix1>
 		<JanuaryHotfix2>651155</JanuaryHotfix2>
 		<JanuaryHotfix3>652372</JanuaryHotfix3>
+		<FebruaryQOL_Beta>659075</FebruaryQOL_Beta>
 		<!--Latest-->
 		<TargetGameVersion>$(JanuaryHotfix3)</TargetGameVersion>
 	</PropertyGroup>

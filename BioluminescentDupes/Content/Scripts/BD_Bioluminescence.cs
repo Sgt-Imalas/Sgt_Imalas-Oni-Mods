@@ -21,7 +21,6 @@ namespace BioluminescentDupes.Content.Scripts
 				id = ID,
 				statBonus = DUPLICANTSTATS.NO_STATPOINT_BONUS,
 				rarity = DUPLICANTSTATS.RARITY_EPIC,
-				dlcId = DlcManager.VANILLA_ID,
 				mutuallyExclusiveTraits =[nameof(GlowStick)]
 			};
 		}

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace KnastoronOniMods
 {
-	class AiBrainConfig : IEntityConfig
+	class AiBrainConfig : IEntityConfig,IHasDlcRestrictions
 	{
 		public const string ID = "AiBrain";
 		public const string NAME = "Debug.BrainWorker";
@@ -17,7 +17,7 @@ namespace KnastoronOniMods
 		private const float HEIGHT = 2f;
 
 
-		public string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+		public string[] GetDlcIds() =>null;
 		public void OnPrefabInit(GameObject inst)
 		{
 			ChoreConsumer component = inst.GetComponent<ChoreConsumer>();
@@ -131,6 +131,10 @@ namespace KnastoronOniMods
 			basicEntity.AddOrGet<SnapOn>();
 			return basicEntity;
 		}
+
+		public string[] GetRequiredDlcIds() => [DlcManager.EXPANSION1_ID];
+
+		public string[] GetForbiddenDlcIds() => null;
 
 		public static readonly Tag AiBrain = TagManager.Create(nameof(AiBrain));
 	}

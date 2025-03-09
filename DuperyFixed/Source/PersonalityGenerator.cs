@@ -29,7 +29,7 @@ namespace Dupery
 			int randomIndex = UnityEngine.Random.Range(0, DUPLICANTSTATS.STRESSTRAITS.Count);
 
             var randomTrait = DUPLICANTSTATS.STRESSTRAITS[randomIndex];
-            if (DlcManager.IsContentSubscribed(randomTrait.dlcId))
+            if (DlcManager.IsCorrectDlcSubscribed(randomTrait.requiredDlcIds,randomTrait.forbiddenDlcIds))
                 return randomTrait.id;
             else return RollStressTrait();
 		}
@@ -39,7 +39,7 @@ namespace Dupery
 			int randomIndex = UnityEngine.Random.Range(0, DUPLICANTSTATS.JOYTRAITS.Count);
 			var randomTrait = DUPLICANTSTATS.JOYTRAITS[randomIndex];
 
-			if (DlcManager.IsContentSubscribed(randomTrait.dlcId))
+			if (DlcManager.IsCorrectDlcSubscribed(randomTrait.requiredDlcIds, randomTrait.forbiddenDlcIds))
 				return randomTrait.id;
 			else return RollJoyTrait();
 		}

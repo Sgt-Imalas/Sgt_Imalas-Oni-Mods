@@ -557,7 +557,7 @@ namespace SetStartDupes
 			if (IsInvalidTrait(trait.id))
 				return false;
 
-			return string.IsNullOrEmpty(trait.dlcId) || DlcManager.IsDlcListValidForCurrentContent( [trait.dlcId]);
+			return DlcManager.IsCorrectDlcSubscribed(trait.requiredDlcIds, trait.forbiddenDlcIds);
 		}
 		public static bool IsInvalidTrait(string id)
 		{
@@ -597,8 +597,7 @@ namespace SetStartDupes
 				{
 					var val = new DUPLICANTSTATS.TraitVal()
 					{
-						id = traitID,
-						dlcId = DlcManager.VANILLA_ID,
+						id = traitID
 					};
 					RAINBOWFARTS_FARTTRAITS.Add(val);
 				}
@@ -625,8 +624,7 @@ namespace SetStartDupes
 				{
 					var val = new DUPLICANTSTATS.TraitVal()
 					{
-						id = traitID,
-						dlcId = DlcManager.VANILLA_ID,
+						id = traitID
 					};
 					BEACHED_LIFEGOALS.Add(val);
 				}
@@ -700,7 +698,7 @@ namespace SetStartDupes
 					_stressWithShocker.Add(new TraitVal
 					{
 						id = "StressShocker",
-						dlcId = "DLC3_ID"
+						requiredDlcIds = [DlcManager.DLC3_ID]
 					});
 				}
 

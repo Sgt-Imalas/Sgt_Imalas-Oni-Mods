@@ -7,10 +7,7 @@ namespace CannedFoods.EmptyCans
 	{
 		public const string ID = "CF_EmptyCan";
 
-		public string[] GetDlcIds()
-		{
-			return DlcManager.AVAILABLE_ALL_VERSIONS;
-		}
+		public string[] GetDlcIds() => null;
 
 		public GameObject CreatePrefab()
 		{

@@ -71,7 +71,7 @@ namespace AkisSnowThings.Content.Defs.Plants
 			prefab.AddOrGet<StandardCropPlant>();
 
 			var seed = EntityTemplates.CreateAndRegisterSeedForPlant(
-				prefab,
+				prefab,null,
 				SeedProducer.ProductionType.Harvest,
 				SEED_ID,
 				SEEDS.SNOWSCULPTURES_EVERGREEN_TREE.NAME,
@@ -113,10 +113,7 @@ namespace AkisSnowThings.Content.Defs.Plants
 			return prefab;
 		}
 
-		public string[] GetDlcIds()
-		{
-			return DlcManager.AVAILABLE_ALL_VERSIONS;
-		}
+		public string[] GetDlcIds() => null;
 
 		public void OnPrefabInit(GameObject inst)
 		{

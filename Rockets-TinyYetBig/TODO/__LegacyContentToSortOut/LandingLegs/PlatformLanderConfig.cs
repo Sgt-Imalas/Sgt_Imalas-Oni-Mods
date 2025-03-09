@@ -4,14 +4,14 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.LandingLegs
 {
-	public class PlatformLanderConfig : IEntityConfig
+	public class PlatformLanderConfig : IEntityConfig, IHasDlcRestrictions
 	{
 
 		public const string ID = "RTB_LanderRocketPlatform";
 		public const string PREVIEW_ID = "RTB_LanderRocketPlatformScoutLander_Preview";
 		public const float MASS = 750f;
 
-		public string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
+		public string[] GetDlcIds() => null;
 		public GameObject CreatePrefab()
 		{
 			string name = (string)STRINGS.BUILDINGS.PREFABS.RTB_LANDERROCKETPLATFORM.NAME;
@@ -72,5 +72,10 @@ namespace Rockets_TinyYetBig.LandingLegs
 		public void OnSpawn(GameObject inst)
 		{
 		}
+
+
+		public string[] GetRequiredDlcIds() => [DlcManager.EXPANSION1_ID];
+
+		public string[] GetForbiddenDlcIds() => null;
 	}
 }

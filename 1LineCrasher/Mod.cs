@@ -9,7 +9,7 @@ namespace _1LineCrasher
 	{
 		public override void OnLoad(Harmony harmony)
 		{
-			base.OnLoad(harmony);
+			base.OnLoad(harmony);			
 		}
 	}
 

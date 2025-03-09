@@ -9,7 +9,7 @@ namespace AmogusMorb.TwitchEvents.TwitchEventAddons
 		public static string BASE_TRAIT_ID = "AMOGUS_Twitch_Crewmate";
 
 
-		public string[] GetDlcIds() => DlcManager.AVAILABLE_ALL_VERSIONS;
+		public string[] GetDlcIds() => null;
 
 		public GameObject CreatePrefab()
 		{

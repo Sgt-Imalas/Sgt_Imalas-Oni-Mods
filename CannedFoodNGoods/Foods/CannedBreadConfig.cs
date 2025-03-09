@@ -34,7 +34,6 @@ namespace CannedFoods.Foods
 
 			FoodInfo foodInfo = new FoodInfo(
 				id: ID,
-				dlcId: DlcManager.VANILLA_ID,
 				caloriesPerUnit: TUNING.FOOD.FOOD_TYPES.SPICEBREAD.CaloriesPerUnit / 2f,
 				quality: TUNING.FOOD.FOOD_TYPES.SPICEBREAD.Quality,
 				preserveTemperatue: TUNING.FOOD.DEFAULT_PRESERVE_TEMPERATURE,
@@ -45,10 +44,7 @@ namespace CannedFoods.Foods
 			return EntityTemplates.ExtendEntityToFood(prefab, foodInfo);
 		}
 
-		public string[] GetDlcIds()
-		{
-			return DlcManager.AVAILABLE_ALL_VERSIONS;
-		}
+		public string[] GetDlcIds() => null;
 
 		public void OnPrefabInit(GameObject inst)
 		{

@@ -34,24 +34,20 @@ namespace CannedFoods.Foods
 
 			FoodInfo foodInfo = new FoodInfo(
 				id: ID,
-				dlcId: DlcManager.VANILLA_ID,
 				caloriesPerUnit: TUNING.FOOD.FOOD_TYPES.COOKED_FISH.CaloriesPerUnit / 2f,
 				quality: TUNING.FOOD.FOOD_TYPES.COOKED_FISH.Quality,
 				preserveTemperatue: TUNING.FOOD.DEFAULT_PRESERVE_TEMPERATURE,
 				rotTemperature: TUNING.FOOD.DEFAULT_ROT_TEMPERATURE,
 				spoilTime: TUNING.FOOD.SPOIL_TIME.VERYSLOW,
-				can_rot: false).AddEffects(new List<string>
+				can_rot: false,null,null).AddEffects(new List<string>
 				{
 					"SeafoodRadiationResistance"
-				}, DlcManager.AVAILABLE_EXPANSION1_ONLY);
+				}, [DlcManager.EXPANSION1_ID]);
 
 			return EntityTemplates.ExtendEntityToFood(prefab, foodInfo);
 		}
 
-		public string[] GetDlcIds()
-		{
-			return DlcManager.AVAILABLE_ALL_VERSIONS;
-		}
+		public string[] GetDlcIds() => null;
 
 		public void OnPrefabInit(GameObject inst)
 		{

@@ -12,7 +12,7 @@ namespace CompressedCritters.Critters.Hatches
     {
         public static string ID = CompressedHatchConfig.ID + "Baby";
 
-        public string[] GetDlcIds() => DlcManager.AVAILABLE_ALL_VERSIONS;
+        public string[] GetDlcIds() => null;
 
         public GameObject CreatePrefab()
         {

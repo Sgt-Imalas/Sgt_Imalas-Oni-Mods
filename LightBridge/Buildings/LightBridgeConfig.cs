@@ -11,7 +11,6 @@ namespace LightBridge.Buildings
     internal class LightBridgeConfig : IBuildingConfig
     {
         public const string ID = "LB_LightBridgeEmitter";
-        public override string[] GetDlcIds() => DlcManager.AVAILABLE_ALL_VERSIONS;
         public override BuildingDef CreateBuildingDef()
         {
 

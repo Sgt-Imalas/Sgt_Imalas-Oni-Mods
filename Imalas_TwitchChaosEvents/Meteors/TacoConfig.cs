@@ -10,13 +10,12 @@ namespace Imalas_TwitchChaosEvents.Meteors
 		public static ComplexRecipe recipe;
 		public static FoodInfo foodInfo = new FoodInfo(
 				id: ID,
-				dlcId: DlcManager.VANILLA_ID,
 				caloriesPerUnit: 5800000f,
 				quality: 6,
 				preserveTemperatue: 255.15f,
 				rotTemperature: 277.15f,
 				spoilTime: 4800f,
-				can_rot: true)
+				can_rot: true,null,null)
 		{
 			Effects = new List<string>() { "GoodEats" }
 		};
@@ -44,10 +43,7 @@ namespace Imalas_TwitchChaosEvents.Meteors
 			return EntityTemplates.ExtendEntityToFood(prefab, foodInfo);
 		}
 
-		public string[] GetDlcIds()
-		{
-			return DlcManager.AVAILABLE_ALL_VERSIONS;
-		}
+		public string[] GetDlcIds() => null;
 
 		public void OnPrefabInit(GameObject inst)
 		{

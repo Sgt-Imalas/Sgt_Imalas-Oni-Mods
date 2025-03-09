@@ -14,7 +14,7 @@ namespace BawoonFwiend
 			fn = (Chore.PreconditionFn)((ref Chore.Precondition.Context context, object data) => !((UnityEngine.Object)context.consumerState.consumer == (UnityEngine.Object)null) && !context.consumerState.gameObject.GetComponent<Effects>().HasEffect("HasBalloon"))
 		};
 
-		public override string[] GetDlcIds() => DlcManager.AVAILABLE_ALL_VERSIONS;
+		public override string[] GetDlcIds() => null;
 
 
 		private void MakeNewBalloonChore(Chore chore)

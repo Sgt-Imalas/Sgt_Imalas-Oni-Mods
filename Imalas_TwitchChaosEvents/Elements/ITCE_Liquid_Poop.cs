@@ -8,7 +8,7 @@ namespace Imalas_TwitchChaosEvents.Creeper
 	{
 		public SimHashes ElementID => ModElements.LiquidPoop.SimHash;
 
-		public string[] GetDlcIds() => DlcManager.AVAILABLE_ALL_VERSIONS;
+		public string[] GetDlcIds() =>	null;
 
 		public GameObject CreatePrefab()
 		{

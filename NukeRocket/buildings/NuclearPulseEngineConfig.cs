@@ -18,8 +18,8 @@ namespace ExplosiveMaterials.buildings
         public Tag FUEL_TAG = ModAssets.Tags.NuclearFuel;
         public const float FUEL_CAPACITY = 400f;
 
-        public override string[] GetDlcIds() => DlcManager.AVAILABLE_EXPANSION1_ONLY;
-        public override BuildingDef CreateBuildingDef()
+		public override string[] GetRequiredDlcIds() => [DlcManager.EXPANSION1_ID];
+		public override BuildingDef CreateBuildingDef()
         {
             float[] engineMassLarge = BUILDINGS.ROCKETRY_MASS_KG.ENGINE_MASS_LARGE;
             string[] construction_materials = new string[1]

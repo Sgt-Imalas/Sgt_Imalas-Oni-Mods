@@ -12,19 +12,19 @@ namespace OniRetroEdition.Entities.Foods
 
 		public GameObject CreatePrefab()
 		{
-			MICROWAVEDLETTUCE = new FoodInfo(ID, "", 600000f, 1, 255.15f, 277.15f, 9600f, can_rot: true);
+			MICROWAVEDLETTUCE = new FoodInfo(ID, 600000f, 1, 255.15f, 277.15f, 9600f, can_rot: true);
 
 			List<string> effects1 = new List<string>
 			{
 				"SeafoodRadiationResistance"
 			};
-			MICROWAVEDLETTUCE = MICROWAVEDLETTUCE.AddEffects(effects1, DlcManager.AVAILABLE_EXPANSION1_ONLY);
+			MICROWAVEDLETTUCE = MICROWAVEDLETTUCE.AddEffects(effects1, [DlcManager.EXPANSION1_ID]);
 
 
 			return EntityTemplates.ExtendEntityToFood(EntityTemplates.CreateLooseEntity(ID, (string)global::STRINGS.ITEMS.FOOD.MICROWAVEDLETTUCE.NAME, (string)global::STRINGS.ITEMS.FOOD.MICROWAVEDLETTUCE.DESC, 1f, false, Assets.GetAnim((HashedString)"microwaved_lettuce_kanim"), "object", Grid.SceneLayer.Front, EntityTemplates.CollisionShape.RECTANGLE, 0.8f, 0.5f, true), MICROWAVEDLETTUCE);
 		}
 
-		public string[] GetDlcIds() => DlcManager.AVAILABLE_ALL_VERSIONS;
+		public string[] GetDlcIds() => null;
 
 		public void OnPrefabInit(GameObject inst)
 		{

@@ -58,7 +58,7 @@ namespace CrownMouldSkin
 					string animFile,
 					Dictionary<string, string> workables = null)
 				{
-					set.resources.Add(new BuildingFacadeResource(id, name, description, rarity, prefabId, animFile, DlcManager.AVAILABLE_ALL_VERSIONS, workables));
+					set.resources.Add(new BuildingFacadeResource(id, name, description, rarity, prefabId, animFile, workables, null, null));
 				}
 			}
 		}

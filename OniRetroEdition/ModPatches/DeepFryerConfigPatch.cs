@@ -19,7 +19,7 @@ namespace OniRetroEdition.ModPatches
 					new ComplexRecipe.RecipeElement((Tag) "Meat", 1f),
 					new ComplexRecipe.RecipeElement((Tag) "Tallow", 2f)	];
 				ComplexRecipe.RecipeElement[] products = [new ComplexRecipe.RecipeElement((Tag) "DeepFriedMeat", 1f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)];
-				DeepFriedMeatConfig.recipe = new ComplexRecipe(ComplexRecipeManager.MakeRecipeID("Deepfryer", (IList<ComplexRecipe.RecipeElement>)ingredients, (IList<ComplexRecipe.RecipeElement>)products), ingredients, products, DlcManager.AVAILABLE_DLC_2)
+				DeepFriedMeatConfig.recipe = new ComplexRecipe(ComplexRecipeManager.MakeRecipeID("Deepfryer", (IList<ComplexRecipe.RecipeElement>)ingredients, (IList<ComplexRecipe.RecipeElement>)products), ingredients, products, [DlcManager.DLC2_ID])
 				{
 					time = TUNING.FOOD.RECIPES.STANDARD_COOK_TIME,
 					description = global::STRINGS.ITEMS.FOOD.DEEPFRIEDMEAT.RECIPEDESC,

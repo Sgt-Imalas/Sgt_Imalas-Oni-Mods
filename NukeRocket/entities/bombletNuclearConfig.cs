@@ -13,10 +13,7 @@ namespace ExplosiveMaterials.entities
         public const string NAME = "Nuclear Bomblet";
         public const string DESC = "I wonder what this red button does";
         public static ComplexRecipe recipe;
-        public string[] GetDlcIds()
-        {
-            return DlcManager.AVAILABLE_EXPANSION1_ONLY;
-        }
+        public string[] GetDlcIds() => null;
 
         public GameObject CreatePrefab()
         {

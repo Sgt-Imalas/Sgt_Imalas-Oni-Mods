@@ -9,6 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UtilLibs", "UtilLibs\UtilLi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{24F61C11-CC87-4DFE-A4CF-659E31DFF121}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		.github\workflows\Automatic_BuildOnCommit_PreviewRelease.yml = .github\workflows\Automatic_BuildOnCommit_PreviewRelease.yml
 		.github\workflows\Automatic_BuildOnPR.yml = .github\workflows\Automatic_BuildOnPR.yml
 		Directory.Build.props = Directory.Build.props
@@ -198,7 +199,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuclearExpansion", "NukeRoc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SettingsSyncGroups", "SettingsSyncGroups\SettingsSyncGroups.csproj", "{D1D1654F-8217-4D77-914E-77D7C65CFBFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DupeModelAccessPermissions", "DupeModelAccessPermissions\DupeModelAccessPermissions.csproj", "{D0806A43-E606-4CA6-B42A-9391546717FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DupeModelAccessPermissions", "DupeModelAccessPermissions\DupeModelAccessPermissions.csproj", "{D0806A43-E606-4CA6-B42A-9391546717FC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

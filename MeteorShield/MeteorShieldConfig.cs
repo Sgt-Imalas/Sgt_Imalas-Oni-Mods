@@ -12,8 +12,6 @@ namespace MeteorShield
     {
         public const string ID = "MeteorShield_BubbleShield";
 
-        public override string[] GetDlcIds() => DlcManager.AVAILABLE_ALL_VERSIONS;
-
         public override BuildingDef CreateBuildingDef()
         {
             float[] tieR4 = TUNING.BUILDINGS.CONSTRUCTION_MASS_KG.TIER5;

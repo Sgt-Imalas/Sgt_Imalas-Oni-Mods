@@ -34,9 +34,9 @@ namespace CompressedCritters.Critters.Hatches
             go.AddTag(GameTags.OriginalCreature);
             return go;
         }
-        public GameObject CreatePrefab() => EntityTemplates.ExtendEntityToFertileCreature(CreateHatch(ID, STRINGS.COMPRESSEDCRITTER + global::STRINGS.CREATURES.SPECIES.HATCH.NAME, STRINGS.COMPRESSEDCRITTER + global::STRINGS.CREATURES.SPECIES.HATCH.DESC, "hatch_kanim", false), ID + "Egg", STRINGS.COMPRESSEDCRITTER + global::STRINGS.CREATURES.SPECIES.HATCH.EGG_NAME, STRINGS.COMPRESSEDCRITTER + global::STRINGS.CREATURES.SPECIES.HATCH.DESC, "egg_hatch_kanim", CompressedHatchTuning.EGG_MASS, "HatchBaby", 60f, 20f, CompressedHatchTuning.EGG_CHANCES_BASE, HatchConfig.EGG_SORT_ORDER);
+        public GameObject CreatePrefab() => EntityTemplates.ExtendEntityToFertileCreature(CreateHatch(ID, STRINGS.COMPRESSEDCRITTER + global::STRINGS.CREATURES.SPECIES.HATCH.NAME, STRINGS.COMPRESSEDCRITTER + global::STRINGS.CREATURES.SPECIES.HATCH.DESC, "hatch_kanim", false),null, ID + "Egg", STRINGS.COMPRESSEDCRITTER + global::STRINGS.CREATURES.SPECIES.HATCH.EGG_NAME, STRINGS.COMPRESSEDCRITTER + global::STRINGS.CREATURES.SPECIES.HATCH.DESC, "egg_hatch_kanim", CompressedHatchTuning.EGG_MASS, "HatchBaby", 60f, 20f, CompressedHatchTuning.EGG_CHANCES_BASE, HatchConfig.EGG_SORT_ORDER);
 
-        public string[] GetDlcIds() => DlcManager.AVAILABLE_ALL_VERSIONS;
+        public string[] GetDlcIds() => null;
 
         public void OnPrefabInit(GameObject inst)
         {

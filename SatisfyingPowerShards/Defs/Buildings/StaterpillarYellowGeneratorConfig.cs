@@ -17,10 +17,8 @@ namespace SatisfyingPowerShards.Defs.Buildings
 
 		public const int HEIGHT = 2;
 
-		public override string[] GetDlcIds()
-		{
-			return DlcManager.AVAILABLE_EXPANSION1_ONLY;
-		}
+		public override string[] GetRequiredDlcIds() => [DlcManager.EXPANSION1_ID];
+
 
 		public override BuildingDef CreateBuildingDef()
 		{

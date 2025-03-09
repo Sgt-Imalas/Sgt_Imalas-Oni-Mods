@@ -116,7 +116,7 @@ namespace ClusterTraitGenerationManager
 			Presets.Clear();
 			foreach (var loadedPreset in LoadPresets())
 			{
-				if (loadedPreset.PresetDLCId == DlcManager.GetHighestActiveDlcId())
+				if (DlcManager.IsCorrectDlcSubscribed([loadedPreset.PresetDLCId],null))
 					AddUiElementForPreset(loadedPreset);
 			}
 		}

@@ -27,7 +27,7 @@ namespace Cheese.CheeseRats
 		public static float CaloriesPerKg = GroneHogTuning.STANDARD_CALORIES_PER_CYCLE / KgEatenPerCycle;
 		public static float ProducedConversionRate = TUNING.CREATURES.CONVERSION_EFFICIENCY.BAD_1;
 		public const int EggSortOrder = 700;
-		public string[] GetDlcIds() => DlcManager.AVAILABLE_ALL_VERSIONS;
+		public string[] GetDlcIds() => null;
 
 		public static GameObject CreateGroneHog(string id, string name, string desc, string anim_file, bool is_baby)
 		{

@@ -11,7 +11,7 @@ namespace GoldHatch.Creatures
 			EntityTemplates.ExtendEntityToBeingABaby(hatch, (Tag)HatchGoldConfig.ID);
 			return hatch;
 		}
-		public string[] GetDlcIds() => DlcManager.AVAILABLE_ALL_VERSIONS;
+		public string[] GetDlcIds() => null;
 
 
 		public void OnPrefabInit(GameObject inst)
