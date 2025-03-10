@@ -205,7 +205,9 @@ namespace UtilLibs
 				if (TUNING.BUILDINGS.PLANSUBCATEGORYSORTING.ContainsKey(building_id))
 					TUNING.BUILDINGS.PLANSUBCATEGORYSORTING[building_id] = subcategoryID;
 				else
+				{
 					TUNING.BUILDINGS.PLANSUBCATEGORYSORTING.Add(building_id, subcategoryID);
+				}
 
 				ModUtil.AddBuildingToPlanScreen(category, building_id, subcategoryID, relativeBuildingId, ordering);
 			}
@@ -214,8 +216,9 @@ namespace UtilLibs
 				if (TUNING.BUILDINGS.PLANSUBCATEGORYSORTING.ContainsKey(building_id))
 					TUNING.BUILDINGS.PLANSUBCATEGORYSORTING[building_id] = subcategoryID;
 				else
+				{
 					TUNING.BUILDINGS.PLANSUBCATEGORYSORTING.Add(building_id, subcategoryID);
-
+				}
 				ModUtil.AddBuildingToPlanScreen(category, building_id, subcategoryID);
 			}
 			else

@@ -7,38 +7,20 @@ namespace Rockets_TinyYetBig.Elements
 	public class ModElements
 	{
 		public static ElementInfo
-			UnobtaniumDust,
-			SpaceStationForceField,
-			UnobtaniumAlloy;
+			UnobtaniumDust = ElementInfo.Solid("UnobtaniumDust", Color.black),
+			SpaceStationForceField  = ElementInfo.Solid("UnobtaniumAlloy", Color.grey),
+			UnobtaniumAlloy = ElementInfo.Solid("SpaceStationForceField", Color.blue);
 
-		public static void RegisterSubstances(List<Substance> list, ref System.Collections.Hashtable substanceList)
+		public static void RegisterSubstances(List<Substance> list)
 		{
-			//var gem = list.Find(e => e.elementID == SimHashes.Diamond).material;
-			var refined = list.Find(e => e.elementID == SimHashes.Steel).material;
 			var glass = list.Find(e => e.elementID == SimHashes.Diamond).material;
-
-			UnobtaniumDust = ElementInfo.Solid("UnobtaniumDust", Color.black);
-			UnobtaniumAlloy = ElementInfo.Solid("UnobtaniumAlloy", Color.grey);
-			SpaceStationForceField = ElementInfo.Solid("SpaceStationForceField", Color.blue);
-
-			var dustSubstance = UnobtaniumDust.CreateSubstance();
-			dustSubstance.idx = substanceList.Count;
-			substanceList.Add(UnobtaniumDust.SimHash, dustSubstance);
-
-			var forceFieldSubstance = SpaceStationForceField.CreateSubstance(true, glass);
-			forceFieldSubstance.idx = substanceList.Count;
-			substanceList.Add(SpaceStationForceField.SimHash, forceFieldSubstance);
-
-			var alloySubstance = UnobtaniumAlloy.CreateSubstance(true, glass);
-			alloySubstance.idx = substanceList.Count;
-			substanceList.Add(UnobtaniumAlloy.SimHash, alloySubstance);
-
 			var newElements = new HashSet<Substance>()
 			{
-				dustSubstance, forceFieldSubstance, alloySubstance
+				UnobtaniumDust.CreateSubstance(),
+				SpaceStationForceField.CreateSubstance(true, glass),
+				UnobtaniumAlloy.CreateSubstance(true, glass)
 			};
 			list.AddRange(newElements);
-
 			//SgtLogger.debuglog("2," + list + ", " + list.Count);
 
 		}

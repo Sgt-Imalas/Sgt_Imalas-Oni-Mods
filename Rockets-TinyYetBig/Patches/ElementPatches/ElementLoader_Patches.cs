@@ -22,7 +22,7 @@ namespace Rockets_TinyYetBig.Patches.ElementPatches
 			{
 				// Add my new elements
 				var list = substanceTablesByDlc[DlcManager.VANILLA_ID].GetList();
-				ModElements.RegisterSubstances(list, ref substanceList);
+				ModElements.RegisterSubstances(list);
 			}
 
 			/// <summary>

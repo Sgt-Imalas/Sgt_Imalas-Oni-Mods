@@ -20,8 +20,9 @@ namespace AkisSnowThings.Content.Scripts.Elements
 			var newElements = new HashSet<Substance>()
 			{
 				EvergreenTreeSapFrozen.CreateSubstance(),
-				EvergreenTreeSap.CreateSubstance()
+				EvergreenTreeSap.CreateSubstance()				
 			};
+
 			list.AddRange(newElements);
 
 			Rottable.AtmosphereModifier.Add((int)EvergreenTreeSap.SimHash, Rottable.RotAtmosphereQuality.Sterilizing);

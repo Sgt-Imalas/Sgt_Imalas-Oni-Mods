@@ -12,6 +12,28 @@ namespace ElementUtilNamespace
 		public static readonly Dictionary<SimHashes, string> SimHashNameLookup = new Dictionary<SimHashes, string>();
 		public static readonly Dictionary<string, object> ReverseSimHashNameLookup = new Dictionary<string, object>();
 		public static readonly List<ElementInfo> elements = new List<ElementInfo>();
+
+
+		public static bool SimHashToString_EnumPatch(Enum __instance, ref string __result)
+		{
+			if (__instance is SimHashes hashes)
+			{
+				return !SimHashNameLookup.TryGetValue(hashes, out __result);
+			}
+
+			return true;
+		}
+		public static bool SimhashParse_EnumPatch(Type enumType, string value, ref object __result)
+		{
+			if (enumType.Equals(typeof(SimHashes)))
+			{
+				return !SgtElementUtil.ReverseSimHashNameLookup.TryGetValue(value, out __result);
+			}
+			return true;
+		}
+
+
+
 		public static SimHashes RegisterSimHash(string name)
 		{
 			var simHash = (SimHashes)Hash.SDBMLower(name);
