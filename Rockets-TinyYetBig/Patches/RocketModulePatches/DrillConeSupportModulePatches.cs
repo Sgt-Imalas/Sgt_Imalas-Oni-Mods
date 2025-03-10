@@ -271,8 +271,7 @@ namespace Rockets_TinyYetBig.Patches.RocketModulePatches
                         code.Insert(i + 1, new CodeInstruction(OpCodes.Call, OverrideDefMiningSpeedMethod));
                     }
                 }
-
-                //TranspilerHelper.PrintInstructions(code);
+                
                 return code;
             }
             private static readonly FieldInfo ResourceHarvestModuleDef_harvestSpeed = AccessTools.Field(

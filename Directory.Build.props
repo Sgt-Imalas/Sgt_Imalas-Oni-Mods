@@ -25,7 +25,7 @@
 		<JanuaryHotfix3>652372</JanuaryHotfix3>
 		<FebruaryQOL_Beta>659075</FebruaryQOL_Beta>
 		<!--Latest-->
-		<TargetGameVersion>$(JanuaryHotfix3)</TargetGameVersion>
+		<TargetGameVersion>$(FebruaryQOL_Beta)</TargetGameVersion>
 	</PropertyGroup>
 
 

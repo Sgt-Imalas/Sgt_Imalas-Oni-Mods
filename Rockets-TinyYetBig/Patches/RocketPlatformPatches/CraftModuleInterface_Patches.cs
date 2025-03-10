@@ -71,8 +71,7 @@ namespace Rockets_TinyYetBig.Patches.RocketPlatformPatches
                     code.Insert(insertionIndex, new CodeInstruction(OpCodes.Ldarg_1));
                     code.Insert(insertionIndex, new CodeInstruction(OpCodes.Ldarg_0));
                     //code.Insert(insertionIndex, new CodeInstruction(OpCodes.Ldloc_S,evaluatedConditionIndex));
-                    //code.Insert(insertionIndex, new CodeInstruction(OpCodes.Ldarg_0));
-                    //TranspilerHelper.PrintInstructions(code);
+                    //code.Insert(insertionIndex, new CodeInstruction(OpCodes.Ldarg_0));                    
                 }
                 else SgtLogger.error("TRANSPILER FAILED: AdvancedRocketPlatformAutolaunchPatch");
 

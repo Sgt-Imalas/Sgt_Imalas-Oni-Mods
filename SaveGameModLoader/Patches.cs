@@ -143,7 +143,7 @@ namespace SaveGameModLoader
 			//		code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, saveFileRootIndex));//6
 			//		code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, ButtonLogic));
 
-			//		//TranspilerHelper.PrintInstructions(code,true);
+			//		
 			//	}
 			//	//foreach (var v in code) { SgtLogger.log(v.opcode + " -> " + v.operand); };
 
