@@ -1084,7 +1084,7 @@ namespace SetStartDupes
 					code.Insert(++insertionIndex2, new CodeInstruction(OpCodes.Call, AdjustNumbers));
 					code.Insert(++insertionIndex1, new CodeInstruction(OpCodes.Call, AdjustNumbers));
 
-					//TranspilerHelper.PrintInstructions(code);
+					
 				}
 				else
 				{
@@ -2030,7 +2030,7 @@ namespace SetStartDupes
 					SgtLogger.warning("TRANSPILER ERROR: minionStartingStatsReplacer not found");
 
 				//SgtLogger.warning("CharacterContainer.GenerateCharacter not found");
-				//TranspilerHelper.PrintInstructions(code);
+				
 				return code;
 			}
 

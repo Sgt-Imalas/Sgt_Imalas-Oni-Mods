@@ -104,7 +104,7 @@ namespace ExplosiveMaterials
                     code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Ldloc_S, primaryElementIndex));
                 }
                 // Debug.Log("DEBUGMETHOD: " + new CodeInstruction(OpCodes.Call, PacketSizeHelper));
-                //TranspilerHelper.PrintInstructions(code);
+                
                 return code;
             }
         }

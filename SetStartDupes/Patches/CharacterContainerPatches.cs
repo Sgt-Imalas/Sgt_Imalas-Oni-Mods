@@ -74,7 +74,6 @@ namespace SetStartDupes.Patches
 				//	new CodeInstruction(OpCodes.Call, m_ReplaceColorForTrait)
 				//});
 
-				TranspilerHelper.PrintInstructions(codes);
 				return codes;
 			}
 

@@ -62,7 +62,7 @@ namespace LogicSatellites
 				}
 
 				code[insertionIndex].operand = ReplaceMethod;
-				//TranspilerHelper.PrintInstructions(code,true);
+				
 				return code;
 			}
 

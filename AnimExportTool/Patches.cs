@@ -279,7 +279,7 @@ namespace AnimExportTool
 					code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, RegisterSpriteMethod));
 				}
 				// Debug.Log("DEBUGMETHOD: " + new CodeInstruction(OpCodes.Call, PacketSizeHelper));
-				//TranspilerHelper.PrintInstructions(code);
+				
 				return code;
 			}
 		}
@@ -317,7 +317,7 @@ namespace AnimExportTool
 					code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, RegisterSpriteMethod));
 				}
 				// Debug.Log("DEBUGMETHOD: " + new CodeInstruction(OpCodes.Call, PacketSizeHelper));
-				//TranspilerHelper.PrintInstructions(code);
+				
 				return code;
 			}
 		}

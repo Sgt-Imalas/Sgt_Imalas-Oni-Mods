@@ -74,7 +74,7 @@ namespace BetterCritterMorpher
                 {
                     SgtLogger.l("Critter Tag found");
                     code[insertionIndex] = new CodeInstruction(OpCodes.Call, AllowAllCritterTag);
-                    //TranspilerHelper.PrintInstructions(code);
+                    
                 }
 
                 return code;
@@ -155,7 +155,7 @@ namespace BetterCritterMorpher
                 var insertionIndex = code.FindIndex(ci => ci.opcode == OpCodes.Call && ci.operand is MethodInfo f && f == TargetMethod);
                 var insertionIndex2 = code.FindLastIndex(ci => ci.opcode == OpCodes.Call && ci.operand is MethodInfo f && f == TargetMethod);
 
-                //TranspilerHelper.PrintInstructions(code);
+                
 
                 if (insertionIndex != -1)
                 {
@@ -168,7 +168,7 @@ namespace BetterCritterMorpher
                     code[insertionIndex2] = new CodeInstruction(OpCodes.Call, RollEgg);
                     //code.Insert(insertionIndex2, new CodeInstruction(OpCodes.Ldarg_1));
                 }
-                //TranspilerHelper.PrintInstructions(code);
+                
 
                 return code;
             }
