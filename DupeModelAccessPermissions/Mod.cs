@@ -9,6 +9,7 @@ namespace DupeModelAccessPermissions
 {
 	public class Mod : UserMod2
 	{
+		public static HashSet<int> BionicMinionInstanceIds = new HashSet<int>();
 		public override void OnLoad(Harmony harmony)
 		{
 			base.OnLoad(harmony);
