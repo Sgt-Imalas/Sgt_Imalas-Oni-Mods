@@ -15,6 +15,16 @@ namespace PaintYourPipes
 	internal class Patches
 	{
 
+
+		[HarmonyPatch(typeof(Db), nameof(Db.Initialize))]
+		public class Db_Initialize_Patch
+		{
+			public static void Postfix(Db __instance)
+			{
+				OverrideBlobColor.ExecutePatch();
+			}
+		}
+
 		private static ObjectLayer _activeLayer = (ObjectLayer)(-1);
 		public static ObjectLayer ActiveOverlay
 		{
@@ -214,9 +224,6 @@ namespace PaintYourPipes
 			}
 		}
 
-
-
-
 		[HarmonyPatch(typeof(PlanScreen), "OnClickCopyBuilding")]
 		public static class PlanScreen_OnClickCopyBuilding_Patch
 		{
@@ -256,6 +263,47 @@ namespace PaintYourPipes
 				return true;
 			}
 			return false;
+		}
+
+
+		/// <summary>
+		/// Tint the blobs on pipes in the same color as the pipe
+		/// </summary>
+		//[HarmonyPatch(typeof(ConduitFlowVisualizer), nameof(ConduitFlowVisualizer.GetCellTintColour))]
+		public static class OverrideBlobColor
+		{
+			public static void ExecutePatch()
+			{
+				var m_TargetMethod = AccessTools.Method("ConduitFlowVisualizer, Assembly-CSharp:GetCellTintColour");
+				var m_Postfix = AccessTools.Method(typeof(OverrideBlobColor), "Postfix");
+				Mod.Harmony.Patch(m_TargetMethod, null, new HarmonyMethod(m_Postfix));
+			}
+			public static void Postfix(ConduitFlowVisualizer __instance, int cell, ref Color32 __result)
+			{
+				if (__instance == Game.Instance.liquidFlowVisualizer && ColorableConduit.ConduitsByLayer[(int)ObjectLayer.LiquidConduit].ContainsKey(cell))
+				{
+
+					var colorOverrider = ColorableConduit.ConduitsByLayer[(int)ObjectLayer.LiquidConduit][cell];
+					if (ActiveOverlay != ObjectLayer.LiquidConduit)
+					{
+						if (!Config.Instance.OverlayOnly)
+							__result = __result.Multiply(colorOverrider.TintColor);
+					}
+					else if (ColorableConduit.ShowOverlayTint)
+						__result = colorOverrider.TintColor;
+				}
+				else if (__instance == Game.Instance.gasFlowVisualizer && ColorableConduit.ConduitsByLayer[(int)ObjectLayer.GasConduit].ContainsKey(cell))
+				{
+					var colorOverrider = ColorableConduit.ConduitsByLayer[(int)ObjectLayer.GasConduit][cell];
+					if (ActiveOverlay != ObjectLayer.GasConduit)
+					{
+						if (!Config.Instance.OverlayOnly)
+							__result = __result.Multiply(colorOverrider.TintColor);
+					}
+					else if (ColorableConduit.ShowOverlayTint)
+						__result = colorOverrider.TintColor;
+				}
+			}
 		}
 
 		#region logicOverlay
@@ -532,40 +580,6 @@ namespace PaintYourPipes
 			}
 		}
 
-		/// <summary>
-		/// Tint the blobs on pipes in the same color as the pipe
-		/// </summary>
-		[HarmonyPatch(typeof(ConduitFlowVisualizer), nameof(ConduitFlowVisualizer.GetCellTintColour))]
-		public static class OverrideBlobColor
-		{
-			public static void Postfix(ConduitFlowVisualizer __instance, int cell, ref Color32 __result)
-			{
-
-				if (__instance == Game.Instance.liquidFlowVisualizer && ColorableConduit.ConduitsByLayer[(int)ObjectLayer.LiquidConduit].ContainsKey(cell))
-				{
-
-					var colorOverrider = ColorableConduit.ConduitsByLayer[(int)ObjectLayer.LiquidConduit][cell];
-					if (ActiveOverlay != ObjectLayer.LiquidConduit)
-					{
-						if (!Config.Instance.OverlayOnly)
-							__result = __result.Multiply(colorOverrider.TintColor);
-					}
-					else if (ColorableConduit.ShowOverlayTint)
-						__result = colorOverrider.TintColor;
-				}
-				else if (__instance == Game.Instance.gasFlowVisualizer && ColorableConduit.ConduitsByLayer[(int)ObjectLayer.GasConduit].ContainsKey(cell))
-				{
-					var colorOverrider = ColorableConduit.ConduitsByLayer[(int)ObjectLayer.GasConduit][cell];
-					if (ActiveOverlay != ObjectLayer.GasConduit)
-					{
-						if (!Config.Instance.OverlayOnly)
-							__result = __result.Multiply(colorOverrider.TintColor);
-					}
-					else if (ColorableConduit.ShowOverlayTint)
-						__result = colorOverrider.TintColor;
-				}
-			}
-		}
 		#endregion
 
 		#region Input_UI
@@ -684,7 +698,5 @@ namespace PaintYourPipes
 				LocalisationUtil.Translate(typeof(STRINGS), true);
 			}
 		}
-
-
 	}
 }
