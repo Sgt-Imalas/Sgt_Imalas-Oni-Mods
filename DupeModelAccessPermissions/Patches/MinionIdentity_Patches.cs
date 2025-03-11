@@ -11,9 +11,9 @@ namespace DupeModelAccessPermissions.Patches
 	internal class MinionIdentity_Patches
 	{
 
-        [HarmonyPatch(typeof(MinionIdentity), nameof(MinionIdentity.OnSpawn))]
-        public class MinionIdentity_OnSpawn_Patch
-        {
+        [HarmonyPatch(typeof(MinionIdentity), nameof(MinionIdentity.ValidateProxy))]
+        public class MinionIdentity_ValidateProxy_Patch
+		{
             public static void Postfix(MinionIdentity __instance)
             {
                 if(__instance.model == GameTags.Minions.Models.Bionic)
