@@ -20,9 +20,9 @@ namespace Rockets_TinyYetBig.Patches.RocketLoadingPatches
                 __instance.GetSMI<ChainedBuilding.StatesInstance>().GetLinkedBuildings(ref chain);
 
 
-                Action<bool> fillInProgressSetterAction = new Action<bool>((fillingOngoing) => __instance.sm.fillComplete.Set(fillingOngoing, __instance));
+                Action<bool> onFillComplete = new Action<bool>((fillingOngoing) => __instance.sm.fillComplete.Set(fillingOngoing, __instance));
                 //SgtLogger.l(__instance.gameObject.GetProperName());
-                ModAssets.ReplacedCargoLoadingMethod(craftInterface, chain, fillInProgressSetterAction);
+                ModAssets.ReplacedCargoLoadingMethod(craftInterface, chain, onFillComplete);
 
                 //PPatchTools.TryGetFieldValue(__instance.sm, "fillComplete", out StateMachine<LaunchPadMaterialDistributor, LaunchPadMaterialDistributor.Instance, IStateMachineTarget, LaunchPadMaterialDistributor.Def>.BoolParameter fillComplete);
                 //fillComplete.Set(!HasLoadingProcess, __instance);

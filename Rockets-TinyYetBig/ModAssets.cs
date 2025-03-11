@@ -29,6 +29,7 @@ namespace Rockets_TinyYetBig
 			public static ModHashes DockableRemoved = new ModHashes("RTB_DockableRemoved");
 			public static ModHashes OnStationPartConstructionStarted = new ModHashes("RTB_OnStationPartConstructionStarted");
 			public static ModHashes OnStationPartConstructionFinished = new ModHashes("RTB_OnStationPartConstructionFinished");
+			public static ModHashes OnRocketModuleMoved = new ModHashes("RTB_OnRocketModuleMoved");
 		}
 
 		public static GameObject ModuleSettingsWindowPrefab;
@@ -369,7 +370,7 @@ namespace Rockets_TinyYetBig
 						for (int index = AllItems.Count() - 1; index >= 0; --index)
 						{
 							GameObject toTransferFuel = AllItems[index];
-							if (!toTransferFuel.TryGetComponent<PrimaryElement>(out var primaryElement)||primaryElement.Element.IsVacuum)
+							if (!toTransferFuel.TryGetComponent<PrimaryElement>(out var primaryElement) || primaryElement.Element.IsVacuum)
 								continue;
 							//Mask out non-state related bits
 							var elementState = primaryElement.Element.state & Element.State.Solid;
@@ -377,9 +378,9 @@ namespace Rockets_TinyYetBig
 							foreach (FuelTank fueltank in FuelTanksPool[elementState])
 							{
 								float remainingCapacity = fueltank.Storage.RemainingCapacity();
-								float num1 = TotalMassStoredOfItems(AllItems);
+								float loaderItemsMass = TotalMassStoredOfItems(AllItems);
 								//SgtLogger.l($"{fueltank}; TankFuelType: {fueltank.fuelType} EngineTargetTag: {FuelTag}: {toTransferFuel.HasTag(FuelTag)} && has fueltank type: {toTransferFuel.HasTag(fueltank.fuelType)} ");
-								if ((double)remainingCapacity > 0.0 && (double)num1 > 0.0 && toTransferFuel.HasTag(FuelTag) && (fueltank.fuelType == null || toTransferFuel.HasTag(fueltank.fuelType)))
+								if (remainingCapacity > 0 && loaderItemsMass > 0 && toTransferFuel.HasTag(FuelTag) && (fueltank.fuelType == null || toTransferFuel.HasTag(fueltank.fuelType)))
 								{
 									isLoading = true;
 									HasLoadingProcess = true;
@@ -420,11 +421,11 @@ namespace Rockets_TinyYetBig
 							foreach (OxidizerTank oxTank in OxidizerTanks)
 							{
 								float remainingCapacity = oxTank.storage.RemainingCapacity();
-								float num1 = oxTank.supportsMultipleOxidizers ? fuelLoader.solidStorage.MassStored() : fuelLoader.liquidStorage.MassStored();
+								float massStoredLoader = oxTank.supportsMultipleOxidizers ? fuelLoader.solidStorage.MassStored() : fuelLoader.liquidStorage.MassStored();
 								bool tagAllowed = oxTank.supportsMultipleOxidizers
 									? storageItem.GetComponent<KPrefabID>().HasAnyTags(oxTank.GetComponent<FlatTagFilterable>().selectedTags)
 									: storageItem.HasTag(oxTank.GetComponent<ConduitConsumer>().capacityTag);
-								if ((double)remainingCapacity > 0.0 && (double)num1 > 0.0 && tagAllowed)
+								if (remainingCapacity > 0 && massStoredLoader > 0.0 && tagAllowed)
 								{
 									isLoading = true;
 									HasLoadingProcess = true;
@@ -448,9 +449,9 @@ namespace Rockets_TinyYetBig
 						foreach (var diamondStorage in DrillConeStorages)
 						{
 							float remainingCapacity = diamondStorage.RemainingCapacity();
-							float internalMassStored = conduitConsumerComponent.Storage.MassStored();
+							float loaderMassStored = conduitConsumerComponent.Storage.MassStored();
 							bool filterable = diamondStorage.storageFilters != null && diamondStorage.storageFilters.Count > 0;
-							if (remainingCapacity > 0f && internalMassStored > 0f && (filterable ? diamondStorage.storageFilters.Contains(gameObject.PrefabID()) : true))
+							if (remainingCapacity > 0f && loaderMassStored > 0f && (filterable ? diamondStorage.storageFilters.Contains(gameObject.PrefabID()) : true))
 							{
 								isLoading = true;
 								HasLoadingProcess = true;
@@ -468,9 +469,9 @@ namespace Rockets_TinyYetBig
 						foreach (CargoBayCluster cargoBayCluster in CargoBaysPool[CargoBayConduit.ElementToCargoMap[conduitConsumerComponent.ConduitType]])
 						{
 							float remainingCapacity = cargoBayCluster.RemainingCapacity;
-							float internalMassStored = conduitConsumerComponent.Storage.MassStored();
+							float loaderMassStored = conduitConsumerComponent.Storage.MassStored();
 
-							if (remainingCapacity > 0f && internalMassStored > 0f && cargoBayCluster.GetComponent<TreeFilterable>().AcceptedTags.Contains(gameObject.PrefabID()))
+							if (remainingCapacity > 0f && loaderMassStored > 0f && cargoBayCluster.GetComponent<TreeFilterable>().AcceptedTags.Contains(gameObject.PrefabID()))
 							{
 								isLoading = true;
 								HasLoadingProcess = true;
@@ -493,7 +494,6 @@ namespace Rockets_TinyYetBig
 			CargoBaysPool[CargoBay.CargoType.Liquids].Recycle();
 			CargoBaysPool[CargoBay.CargoType.Gasses].Recycle();
 			CargoBaysPool.Recycle();
-
 
 			FuelTanksPool[Element.State.Solid].Recycle();
 			FuelTanksPool[Element.State.Liquid].Recycle();

@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketPlatforms;
 using Rockets_TinyYetBig.RocketFueling;
 using System.Collections.Generic;
 using System.Reflection;
@@ -210,7 +211,9 @@ namespace Rockets_TinyYetBig.Patches.RocketLoadingPatches
 
                 ChainedBuilding.Def def = go.AddOrGetDef<ChainedBuilding.Def>();
                 def.headBuildingTag = ModAssets.Tags.RocketPlatformTag;
-            }
+
+				go.AddOrGet<LandedStateFixer>();
+			}
         }
 
         [HarmonyPatch(typeof(ModularLaunchpadPortBridgeConfig))]

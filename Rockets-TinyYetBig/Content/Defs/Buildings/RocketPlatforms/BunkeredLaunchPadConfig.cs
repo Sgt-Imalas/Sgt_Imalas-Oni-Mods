@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketPlatforms;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Rockets_TinyYetBig.NonRocketBuildings
@@ -91,6 +92,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 			go.AddOrGetDef<LaunchPadMaterialDistributor.Def>();
 			go.AddOrGet<UserNameable>();
 			go.AddOrGet<CharacterOverlay>().shouldShowName = true;
+			go.AddOrGet<LandedStateFixer>();
 
 			ModularConduitPortTiler conduitPortTiler = go.AddOrGet<ModularConduitPortTiler>();
 			conduitPortTiler.manageRightCap = true;
