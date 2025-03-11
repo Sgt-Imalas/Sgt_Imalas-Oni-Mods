@@ -4,7 +4,7 @@ using static EdiblesManager;
 
 namespace CannedFoods.Foods
 {
-	internal class CannedBeansConfig : IEntityConfig, IHasDlcRestrictions
+	internal class CannedBeansConfig : IEntityConfig
 	{
 		public const string ID = "CF_CannedBeans";
 		public static ComplexRecipe recipe;
@@ -46,10 +46,6 @@ namespace CannedFoods.Foods
 		}
 
 		public string[] GetDlcIds() => null;//TODO: remove after U56
-
-		public string[] GetForbiddenDlcIds() => null;
-
-		public string[] GetRequiredDlcIds() => [DlcManager.DLC2_ID];
 
 		public void OnPrefabInit(GameObject inst)
 		{
