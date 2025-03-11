@@ -211,7 +211,7 @@ namespace SaveGameModLoader
 
 
 					var tagSprite = Assets.GetSprite(SpritePatch.tagSymbol);
-					var tagButtonGO = Util.KInstantiateUI(FilterPatches._buttonPrefab, __instance.entryPrefab, true);
+					var tagButtonGO = Util.KInstantiateUI(FilterPatches._buttonPrefabStripped, __instance.entryPrefab, true);
 					tagButtonGO.name = "tagBtn";
 					var flatTransform = tagButtonGO.transform;
 
@@ -232,7 +232,7 @@ namespace SaveGameModLoader
 					ElementReference er_tagBgTransf = new() { behaviour = flatTransform.transform, Name = tagBgnTransform };
 
 
-					var btn = Util.KInstantiateUI(FilterPatches._buttonPrefab, __instance.entryPrefab, true);
+					var btn = Util.KInstantiateUI(FilterPatches._buttonPrefabStripped, __instance.entryPrefab, true);
 					btn.name = "PinBtn";
 					var tr = btn.transform;
 					//tr.SetSiblingIndex(2);
@@ -249,13 +249,30 @@ namespace SaveGameModLoader
 					if (!hr.GetReference<KButton>("ManageButton").TryGetComponent<KImage>(out var mngButtonImg))
 						SgtLogger.warning("manage button failed!");
 
+					if (!hr.GetReference<KButton>("ManageButton").TryGetComponent<LayoutElement>(out var lo))
+						SgtLogger.warning("manage button lo failed!");
+					lo.minWidth = 90;//100 is default;
+
 					button.ClearOnClick();
 
-					ElementReference managebtnImage = new() { behaviour = mngButtonImg, Name = MngBtImage };
+					ElementReference managebtnLo = new() { behaviour = lo, Name = ManageButtonLayoutElement };
+					ElementReference managebtnImage = new() { behaviour = mngButtonImg, Name = ManageButtonImage };
 
 					ElementReference pinButton = new() { behaviour = button, Name = PinButton };
 					ElementReference pinButtonTransform = new() { behaviour = tr, Name = PinTransform };
 
+					var folderBtnGo = Util.KInstantiateUI(FilterPatches._buttonPrefabRegular, __instance.entryPrefab, true);
+					var fBtGo = folderBtnGo.transform;
+					var folderLE = folderBtnGo.GetComponent<LayoutElement>();
+					folderLE.minWidth = 37;
+
+					UIUtils.AddSimpleTooltipToObject(folderBtnGo, global::STRINGS.UI.FRONTEND.MODS.MANAGE_LOCAL);
+
+					var folderBtn = fBtGo.GetComponent<KButton>();
+					folderBtn.ClearOnClick();
+					folderBtn.isInteractable = true;
+					folderBtn.transform.SetSiblingIndex(folderBtn.transform.GetSiblingIndex() - 1);
+					
 					ElementReference[] refs = new ElementReference[]
 					{
 						er_rightclickBt,
@@ -267,7 +284,9 @@ namespace SaveGameModLoader
 						er_tagBgTransf,
 						er_tagBg,
 						er_flagimg,
-						er_flagtt
+						er_flagtt,
+						managebtnLo,
+						new(){behaviour = folderBtn,Name = FolderButton}
 					};
 
 					hr.references = hr.references.AddRangeToArray(refs);
@@ -276,8 +295,10 @@ namespace SaveGameModLoader
 			const string
 				PinButtonImageBg = "MPM_PinButtonBg",
 				PinButton = "MPM_PinButton",
+				FolderButton = "MPM_FolderButton",
 				BgImage = "MPM_BackgroundImage",
-				MngBtImage = "MPM_ManageBtnImage",
+				ManageButtonImage = "MPM_ManageBtnImage",
+				ManageButtonLayoutElement = "MPM_ManageBtnGO",
 				PinTransform = "MPM_PinTransform",
 				tagBgnTransform = "MPM_tagBgnTransform",
 				tagBgn = "MPM_tagBgn",
@@ -307,9 +328,17 @@ namespace SaveGameModLoader
 					{
 						if (mod.IsLocal)
 						{
-							var modButtonBg = hier.GetReference<KImage>(MngBtImage);
+							var modButtonBg = hier.GetReference<KImage>(ManageButtonImage);
 							modButtonBg.colorStyleSetting = mod.label.distribution_platform == KMod.Label.DistributionPlatform.Dev ? yellow : blue;
 							modButtonBg.ApplyColorStyleSetting();
+							var folderButton = hier.GetReference<KButton>(FolderButton);
+							folderButton.gameObject.SetActive(false);
+							var le = hier.GetReference<LayoutElement>(ManageButtonLayoutElement);
+							le.minWidth = 137.5f;							
+						} 
+						else
+						{
+							hier.GetReference<KButton>(FolderButton).onClick += ()=> { SgtLogger.l("opening steam mod folder:" + mod.staticID); App.OpenWebURL("file://" + mod.ContentPath); };
 						}
 						var contextButton = hier.GetReference<FButton>(rightClickBtn);
 						contextButton.OnClick += () =>

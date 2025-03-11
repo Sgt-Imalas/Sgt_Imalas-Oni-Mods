@@ -32,17 +32,20 @@ namespace SaveGameModLoader.ModFilter
 						{
 							_copyToClipboardPrefab = Util.KInstantiateUI(btn.gameObject);
 
-							_buttonPrefab = Util.KInstantiateUI(btn.gameObject);
-							var bgImage = _buttonPrefab.transform.Find("GameObject").GetComponent<Image>();
+							_buttonPrefabRegular = Util.KInstantiateUI(btn.gameObject);
+							var bgImageReg = _buttonPrefabRegular.transform.Find("GameObject").GetComponent<Image>();
+							bgImageReg.sprite = Assets.GetSprite("icon_folder");
+							bgImageReg.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 30);
+							bgImageReg.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 30);
+
+							_buttonPrefabStripped = Util.KInstantiateUI(btn.gameObject);
+							var bgImage = _buttonPrefabStripped.transform.Find("GameObject").GetComponent<Image>();
 							bgImage.sprite = Assets.GetSprite(SpritePatch.pinSymbol);
 							bgImage.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 25);
 							bgImage.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 25);
 
-
-							UnityEngine.Object.Destroy(_buttonPrefab.GetComponent<Image>());
-							UnityEngine.Object.Destroy(_buttonPrefab.GetComponent<ToolTip>());
-
-
+							UnityEngine.Object.Destroy(_buttonPrefabStripped.GetComponent<Image>());
+							UnityEngine.Object.Destroy(_buttonPrefabStripped.GetComponent<ToolTip>());
 						}
 
 						UnityEngine.Object.Destroy(clone);
@@ -119,7 +122,8 @@ namespace SaveGameModLoader.ModFilter
 		//[HarmonyPatch(typeof(ModsScreen), "OnActivate")]
 
 		public static GameObject _copyToClipboardPrefab;
-		public static GameObject _buttonPrefab;
+		public static GameObject _buttonPrefabStripped;
+		public static GameObject _buttonPrefabRegular;
 		public static GameObject _prefab;
 		public static FilterManager _filterManager;
 		public static ModsScreen _modsScreen;
