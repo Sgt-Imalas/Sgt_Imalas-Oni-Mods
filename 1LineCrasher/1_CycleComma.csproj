@@ -28,7 +28,7 @@
 		<ModName>Void World</ModName>
 		<ModDescription></ModDescription>
 		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
-		<MinimumSupportedBuild>581698</MinimumSupportedBuild>
+		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>

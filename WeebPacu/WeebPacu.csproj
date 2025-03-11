@@ -26,7 +26,7 @@
 		<ModName>Weeb Pacu</ModName>
 		<ModDescription>imagine a weeb pacu-&gt; pacUwU?🐠👉👈</ModDescription>
 		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
-		<MinimumSupportedBuild>561558</MinimumSupportedBuild>
+		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 
