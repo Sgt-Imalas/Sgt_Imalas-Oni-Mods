@@ -8,6 +8,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 {
 	public class AdvancedRocketStatusProvider : KMonoBehaviour, ISim1000ms
 	{
+		[MyCmpGet] ModularConduitPortTiler mcpt;
 		[MyCmpGet] LaunchPad launchPad;
 		[MyCmpGet] LogicPorts logicPorts;
 		[MyCmpGet] KBatchedAnimController kbac;
@@ -21,10 +22,26 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 		[Serialize]
 		bool[] LaunchSignalBits = null;
 
+		private MeterController FuelStateMeter;
+		private MeterController CargoStateMeter;
+
 
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
+
+
+			this.CargoStateMeter = new MeterController(kbac,
+				"meter_target_cargo",
+				"meter_cargo"
+				, Meter.Offset.Infront,
+				Grid.SceneLayer.NoLayer, []);
+			this.FuelStateMeter = new MeterController(kbac,
+				"meter_target_fuel",
+				"meter_fuel"
+				, Meter.Offset.Infront,
+				Grid.SceneLayer.NoLayer, []);
+
 			var launchpadMaterialDistributor = gameObject.GetSMI<LaunchPadMaterialDistributor.Instance>();
 
 			OnOperationalChanged(null);
@@ -63,91 +80,180 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 			bool isEnabled = operational.IsOperational;
 
 			//colorblindness color support
-			var colourOn = (Color)GlobalAssets.Instance.colorSet.logicOn;
-			colourOn.a = 1; //a is 0 for these by default, but that doesnt allow tinting the symbols
+			var colourGood = (Color)GlobalAssets.Instance.colorSet.logicOn;
+			colourGood.a = 1; //a is 0 for these by default, but that doesnt allow tinting the symbols here
 
-			var colourOff = (Color)GlobalAssets.Instance.colorSet.logicOff;
-			colourOff.a = 1;
+			var colourBad = (Color)GlobalAssets.Instance.colorSet.logicOff;
+			colourBad.a = 1;
 
 			//no direct yellow in logic, using crop color yellow
 			var colourWarning = (Color)GlobalAssets.Instance.colorSet.cropGrowing;
 			colourWarning.a = 1;
 
-			kbac.SetSymbolVisiblity("logic_O_0_0_bloom", isEnabled);
-			kbac.SetSymbolVisiblity("logic_O_1_0_bloom", isEnabled);
-			kbac.SetSymbolVisiblity("logic_O_2_0_bloom", isEnabled);
-			kbac.SetSymbolVisiblity("logic_O_3_0_bloom", isEnabled);
-			kbac.SetSymbolVisiblity("logic_O_4_0_bloom", isEnabled);
-			kbac.SetSymbolVisiblity("logic_O_4_1_bloom", isEnabled);
-			kbac.SetSymbolVisiblity("logic_I_0_1_bloom", isEnabled);
-			kbac.SetSymbolVisiblity("logic_I_0_1_bloom", isEnabled);
-			kbac.SetSymbolVisiblity("logic_I_1_1_bloom", isEnabled);
-			kbac.SetSymbolVisiblity("logic_I_2_1_bloom", isEnabled);
-			kbac.SetSymbolVisiblity("logic_I_3_1_bloom", isEnabled);
+			//kbac.SetSymbolVisiblity("logic_O_0_0_bloom", isEnabled);
+			//kbac.SetSymbolVisiblity("logic_O_1_0_bloom", isEnabled);
+			//kbac.SetSymbolVisiblity("logic_O_2_0_bloom", isEnabled);
+			//kbac.SetSymbolVisiblity("logic_O_3_0_bloom", isEnabled);
+			//kbac.SetSymbolVisiblity("logic_O_4_0_bloom", isEnabled);
+			//kbac.SetSymbolVisiblity("logic_O_4_1_bloom", isEnabled);
+			//kbac.SetSymbolVisiblity("logic_I_0_1_bloom", isEnabled);
+			//kbac.SetSymbolVisiblity("logic_I_0_1_bloom", isEnabled);
+			//kbac.SetSymbolVisiblity("logic_I_1_1_bloom", isEnabled);
+			//kbac.SetSymbolVisiblity("logic_I_2_1_bloom", isEnabled);
+			//kbac.SetSymbolVisiblity("logic_I_3_1_bloom", isEnabled);
 
-			kbac.SetSymbolVisiblity("lights", isEnabled);
-			kbac.SetSymbolVisiblity("lights_bloom", isEnabled);
-			kbac.SetSymbolVisiblity("screen_bloom", isEnabled);
+			//kbac.SetSymbolVisiblity("lights", isEnabled);
+			//kbac.SetSymbolVisiblity("lights_bloom", isEnabled);
+			//kbac.SetSymbolVisiblity("screen_bloom", isEnabled);
 
 			if (!isEnabled)
+			{
 				return;
+			}
 
 			//rocket presence port (top left output)
 			var landedRocket = launchPad.LandedRocket;
 			bool hasLandedRocket = landedRocket != null;
-			kbac.SetSymbolTint("logic_O_0_0_bloom", hasLandedRocket ? colourOn : colourOff);
+			kbac.SetSymbolTint("logic_O_0_0_bloom", hasLandedRocket ? colourGood : colourBad);
 
 
 			//total flight status port (bottom right output)
-			var craftModuleInterface = landedRocket?.CraftInterface ?? null;
+			CraftModuleInterface craftModuleInterface = landedRocket?.CraftInterface ?? null;
 			bool automatedLaunchReady = landedRocket != null ? (craftModuleInterface.CheckReadyForAutomatedLaunch() || craftModuleInterface.HasTag(GameTags.RocketNotOnGround)) : false;
-			kbac.SetSymbolTint("logic_O_4_1_bloom", automatedLaunchReady ? colourOn : colourOff);
+			kbac.SetSymbolTint("logic_O_4_1_bloom", automatedLaunchReady ? colourGood : colourBad);
 
-			Color GetProcessConditionColor(Status status)
+			Color GetProcessConditionColor(Status status, bool includeWarning = false)
 			{
 				switch (status)
 				{
 					case Status.Ready:
-						return colourOn;
+						return colourGood;
 					case Status.Warning:
-						return colourWarning;
+						return includeWarning ? colourWarning : colourBad;
 					case Status.Failure:
 					default:
-						return colourOff;
+						return colourBad;
 				}
 			}
 
 			//individual flight status values (top right ribbon output)
 
-			kbac.SetSymbolTint("logic_O_1_0_bloom", !hasLandedRocket ? colourOff : GetProcessConditionColor(craftModuleInterface.EvaluateConditionSet(ProcessConditionType.RocketFlight)));
-			kbac.SetSymbolTint("logic_O_2_0_bloom", !hasLandedRocket ? colourOff : GetProcessConditionColor(craftModuleInterface.EvaluateConditionSet(ProcessConditionType.RocketPrep)));
-			kbac.SetSymbolTint("logic_O_3_0_bloom", !hasLandedRocket ? colourOff : GetProcessConditionColor(craftModuleInterface.EvaluateConditionSet(ProcessConditionType.RocketStorage)));
-			kbac.SetSymbolTint("logic_O_4_0_bloom", !hasLandedRocket ? colourOff : GetProcessConditionColor(craftModuleInterface.EvaluateConditionSet(ProcessConditionType.RocketBoard)));
+			kbac.SetSymbolTint("logic_O_1_0_bloom", !hasLandedRocket ? colourBad : GetProcessConditionColor(craftModuleInterface.EvaluateConditionSet(ProcessConditionType.RocketFlight)));
+			kbac.SetSymbolTint("logic_O_2_0_bloom", !hasLandedRocket ? colourBad : GetProcessConditionColor(craftModuleInterface.EvaluateConditionSet(ProcessConditionType.RocketPrep)));
+			kbac.SetSymbolTint("logic_O_3_0_bloom", !hasLandedRocket ? colourBad : GetProcessConditionColor(craftModuleInterface.EvaluateConditionSet(ProcessConditionType.RocketStorage)));
+			kbac.SetSymbolTint("logic_O_4_0_bloom", !hasLandedRocket ? colourBad : GetProcessConditionColor(craftModuleInterface.EvaluateConditionSet(ProcessConditionType.RocketBoard)));
+
+			//right cap symbols
+			if (mcpt.rightCapConduit.synchronizedController is KBatchedAnimController kbac2)
+			{
+				kbac2.SetSymbolTint("logic_O_4_1_bloom", automatedLaunchReady ? colourGood : colourBad);
+				kbac2.SetSymbolTint("logic_O_1_0_bloom", !hasLandedRocket ? colourBad : GetProcessConditionColor(craftModuleInterface.EvaluateConditionSet(ProcessConditionType.RocketFlight)));
+				kbac2.SetSymbolTint("logic_O_2_0_bloom", !hasLandedRocket ? colourBad : GetProcessConditionColor(craftModuleInterface.EvaluateConditionSet(ProcessConditionType.RocketPrep)));
+				kbac2.SetSymbolTint("logic_O_3_0_bloom", !hasLandedRocket ? colourBad : GetProcessConditionColor(craftModuleInterface.EvaluateConditionSet(ProcessConditionType.RocketStorage)));
+				kbac2.SetSymbolTint("logic_O_4_0_bloom", !hasLandedRocket ? colourBad : GetProcessConditionColor(craftModuleInterface.EvaluateConditionSet(ProcessConditionType.RocketBoard)));
+			}
+			else SgtLogger.l("no kbac :(");
 
 			//launch & overrides (bottom left ribbon input)
 
-			kbac.SetSymbolTint("logic_I_0_1_bloom", GetBitMaskValAtIndex(0) ? colourOn : colourOff);
-			kbac.SetSymbolTint("logic_I_1_1_bloom", GetBitMaskValAtIndex(1) ? colourOn : colourOff);
-			kbac.SetSymbolTint("logic_I_2_1_bloom", GetBitMaskValAtIndex(2) ? colourOn : colourOff);
-			kbac.SetSymbolTint("logic_I_3_1_bloom", GetBitMaskValAtIndex(3) ? colourOn : colourOff);
+			kbac.SetSymbolTint("logic_I_0_1_bloom", GetBitMaskValAtIndex(0) ? colourGood : colourBad);
+			kbac.SetSymbolTint("logic_I_1_1_bloom", GetBitMaskValAtIndex(1) ? colourGood : colourBad);
+			kbac.SetSymbolTint("logic_I_2_1_bloom", GetBitMaskValAtIndex(2) ? colourGood : colourBad);
+			kbac.SetSymbolTint("logic_I_3_1_bloom", GetBitMaskValAtIndex(3) ? colourGood : colourBad);
 
 
 			//Right Screen
-			kbac.SetSymbolTint("icon_rocket", automatedLaunchReady ? colourOn : colourOff);
-			kbac.SetSymbolTint("icon_platform", !hasLandedRocket ? colourWarning : automatedLaunchReady ? colourOn : colourOff);
-			kbac.SetSymbolTint("icon_checkmark_yes", colourOn);
-			kbac.SetSymbolTint("icon_checkmark_no", colourOff);
+
+			kbac.SetSymbolTint("icon_checkmark_yes", colourGood);
+			kbac.SetSymbolTint("icon_checkmark_no", colourBad);
 			kbac.SetSymbolTint("icon_warnin", colourWarning);
 
-			kbac.SetSymbolVisiblity("icon_rocket", hasLandedRocket);
-			kbac.SetSymbolVisiblity("icon_checkmark_yes", hasLandedRocket && automatedLaunchReady);
-			kbac.SetSymbolVisiblity("icon_checkmark_no", hasLandedRocket && !automatedLaunchReady);
-			kbac.SetSymbolVisiblity("icon_warnin", !hasLandedRocket);
+			if (hasLandedRocket && craftModuleInterface != null)
+			{
+				Status final = Status.Ready;
+				var prep = craftModuleInterface.EvaluateConditionSet(ProcessConditionType.RocketPrep);
+				if (prep < final)
+					final = prep;
+				var storage = craftModuleInterface.EvaluateConditionSet(ProcessConditionType.RocketStorage);
+				if (storage < final)
+					final = storage;
 
-			//Left Screen
-			kbac.SetSymbolTint("icon_cargo", GetBitMaskValAtIndex(1) ? colourWarning : Color.gray);
-			kbac.SetSymbolTint("icon_fuel", GetBitMaskValAtIndex(2) ? colourWarning : Color.gray);
+				kbac.SetSymbolTint("icon_platform", GetProcessConditionColor(final, true));
+				kbac.SetSymbolTint("icon_rocket", GetProcessConditionColor(final, true));
 
+				kbac.SetSymbolVisiblity("icon_rocket", true);
+				kbac.SetSymbolVisiblity("icon_checkmark_yes", final == Status.Ready);
+				kbac.SetSymbolVisiblity("icon_checkmark_no", final == Status.Failure);
+				kbac.SetSymbolVisiblity("icon_warnin", final == Status.Warning);
+			}
+			else
+			{
+				kbac.SetSymbolTint("icon_platform", colourGood);
+
+				kbac.SetSymbolVisiblity("icon_rocket", false);
+				kbac.SetSymbolVisiblity("icon_checkmark_yes", true);
+				kbac.SetSymbolVisiblity("icon_checkmark_no", false);
+				kbac.SetSymbolVisiblity("icon_warnin", false);
+			}
+
+
+			//Left Screen Meters
+
+			if (hasLandedRocket)
+			{
+				bool engineUsesOxidizer = true, engineFound = false;
+				float maxCargo = 0, maxFuel = 0, currentCargo = 0, currentEffectiveOxidizer = 0;
+				SgtLogger.l("RocketModuleCount: " + craftModuleInterface.clusterModules.Count);
+				foreach (var moduleRef in craftModuleInterface.clusterModules)
+				{
+					var module = moduleRef.Get();
+					if (module.TryGetComponent<CargoBayCluster>(out var cargoBay))
+					{
+						maxCargo += cargoBay.UserMaxCapacity;
+						currentCargo += cargoBay.AmountStored;
+						//SgtLogger.l("cargobay detected: " + cargoBay.UserMaxCapacity + " with " + cargoBay.AmountStored);
+					}
+					if (module.TryGetComponent<OxidizerTank>(out var oxidizerTank))
+					{
+						currentEffectiveOxidizer += oxidizerTank.TotalOxidizerPower;
+						//SgtLogger.l("OxidizerTank detected with " + oxidizerTank.TotalOxidizerPower + " capacity");
+					}
+					if (module.TryGetComponent<FuelTank>(out var fuelTank))
+					{
+						maxFuel += fuelTank.UserMaxCapacity;
+						//SgtLogger.l("FuelTank detected with " + fuelTank.UserMaxCapacity+ " capacity");
+					}
+					if (module.TryGetComponent<RocketEngineCluster>(out var rocketEngine))
+					{
+						engineFound = true;
+						engineUsesOxidizer = rocketEngine.requireOxidizer;
+					}
+				}
+				if (engineFound)
+				{
+					var currentFuel = craftModuleInterface.BurnableMassRemaining;
+					if (maxFuel <= 0)
+						FuelStateMeter.meterController.SetPositionPercent(0);
+					else
+						FuelStateMeter.meterController.SetPositionPercent(currentFuel / maxFuel);
+					SgtLogger.l("FuelState- Max: " + maxFuel + ", current: " + currentFuel);
+				}
+				else
+				{
+					CargoStateMeter.meterController.SetPositionPercent(0);
+				}
+
+				if (maxCargo <= 0)
+					CargoStateMeter.meterController.SetPositionPercent(0);
+				else
+					CargoStateMeter.meterController.SetPositionPercent(currentCargo / maxCargo);
+				SgtLogger.l("CargoStateMeter - Max: " + maxCargo + ", current: " + currentCargo);
+			}
+			else
+			{
+				CargoStateMeter.meterController.SetPositionPercent(0);
+				FuelStateMeter.meterController.SetPositionPercent(0);
+			}
 		}
 		public void Sim1000ms(float dt)
 		{
