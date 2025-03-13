@@ -90,6 +90,15 @@
 	  <None Update="ModAssets\anim\assets\eye_spice_effect\eye_spice_effect_build.bytes">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ModAssets\anim\rocket_port_buildings\rocket_launchpad\rocket_launchpad_0.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\rocket_port_buildings\rocket_launchpad\rocket_launchpad_anim.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModAssets\anim\rocket_port_buildings\rocket_launchpad\rocket_launchpad_build.bytes">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="ModAssets\anim\rocket_port_buildings\rocket_launchpad_advanced\rocket_launchpad_0.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
