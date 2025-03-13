@@ -38,16 +38,16 @@ namespace CannedFoods
 					public static LocString NAME = global::STRINGS.UI.FormatAsLink("Canned Bread", CannedBreadConfig.ID);
 					public static LocString DESC = global::STRINGS.UI.FormatAsLink(global::STRINGS.ITEMS.FOOD.SPICEBREAD.NAME, SpiceBreadConfig.ID) + " preserved for the ages.";
 				}
-				public class CF_CANNEDMILK
-				{
-					public static LocString NAME = global::STRINGS.UI.FormatAsLink("Canned condensed milk", CannedMilkConfig.ID);
-					public static LocString DESC = "Condensed " + UI.PRE_KEYWORD + "Brackene" + UI.PST_KEYWORD + " sweetened with " + UI.PRE_KEYWORD + "Nectar" + UI.PST_KEYWORD;
-				}
-				public class CF_CANNEDBEANS
-				{
-					public static LocString NAME = global::STRINGS.UI.FormatAsLink("Canned Beans", CannedBeansConfig.ID);
-					public static LocString DESC = global::STRINGS.UI.FormatAsLink(global::STRINGS.ITEMS.FOOD.DEEPFRIEDNOSH.NAME, DeepFriedNoshConfig.ID) + " preserved for the ages.";
-				}
+				//public class CF_CANNEDMILK
+				//{
+				//	public static LocString NAME = global::STRINGS.UI.FormatAsLink("Canned condensed milk", CannedMilkConfig.ID);
+				//	public static LocString DESC = "Condensed " + UI.PRE_KEYWORD + "Brackene" + UI.PST_KEYWORD + " sweetened with " + UI.PRE_KEYWORD + "Nectar" + UI.PST_KEYWORD;
+				//}
+				//public class CF_CANNEDBEANS
+				//{
+				//	public static LocString NAME = global::STRINGS.UI.FormatAsLink("Canned Beans", CannedBeansConfig.ID);
+				//	public static LocString DESC = global::STRINGS.UI.FormatAsLink(global::STRINGS.ITEMS.FOOD.DEEPFRIEDNOSH.NAME, DeepFriedNoshConfig.ID) + " preserved for the ages.";
+				//}
 			}
 		}
 	}
