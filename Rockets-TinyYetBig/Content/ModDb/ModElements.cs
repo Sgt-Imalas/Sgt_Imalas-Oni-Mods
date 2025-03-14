@@ -8,8 +8,8 @@ namespace Rockets_TinyYetBig.Elements
 	{
 		public static ElementInfo
 			UnobtaniumDust = ElementInfo.Solid("UnobtaniumDust", Color.black),
-			SpaceStationForceField  = ElementInfo.Solid("UnobtaniumAlloy", Color.grey),
-			UnobtaniumAlloy = ElementInfo.Solid("SpaceStationForceField", Color.blue);
+			UnobtaniumAlloy = ElementInfo.Solid("UnobtaniumAlloy", Color.grey),
+			SpaceStationForceField = ElementInfo.Solid("SpaceStationForceField", Color.blue);
 
 		public static void RegisterSubstances(List<Substance> list)
 		{

@@ -24,7 +24,7 @@ elements:
     - Metal
     - RefinedMetal
     - Noncrushable
-    - RTB_RadiationShieldingMaterial
+    - RTB_RadiationShieldingRocketConstructionMaterial
     - RTB_NeutroniumAlloyMaterial
     - BuildableAny
     - Insulator
