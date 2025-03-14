@@ -24,7 +24,7 @@
 	<!-- Mod Info -->
 	<PropertyGroup>
 		<ModName>Elemental Charcoal</ModName>
-		<ModDescription></ModDescription>
+		<ModDescription>wood transitions to carbon instead of co2</ModDescription>
 		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>

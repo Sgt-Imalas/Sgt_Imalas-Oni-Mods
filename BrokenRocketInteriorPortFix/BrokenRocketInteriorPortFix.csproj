@@ -24,7 +24,7 @@
 	<!-- Mod Info -->
 	<PropertyGroup>
 		<ModName>Help I accidentally broke my rocket interior ports and now the save crashes on load - Fix</ModName>
-		<ModDescription></ModDescription>
+		<ModDescription>Makes Rocket wall components deconstructable and adds them to the build menu</ModDescription>
 		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>

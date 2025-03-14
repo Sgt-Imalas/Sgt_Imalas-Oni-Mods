@@ -24,7 +24,7 @@
 	<!-- Mod Info -->
 	<PropertyGroup>
 		<ModName>Meteor Migration</ModName>
-		<ModDescription></ModDescription>
+		<ModDescription>Adds meteor showers to old savegames and cleans up broken meteor shower references</ModDescription>
 		<SupportedContent>EXPANSION1_ID</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>

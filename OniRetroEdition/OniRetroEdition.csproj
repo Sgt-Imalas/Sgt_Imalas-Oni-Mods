@@ -30,7 +30,7 @@
 	<!-- Mod Info -->
 	<PropertyGroup>
 		<ModName>Oni: Retro Edition</ModName>
-		<ModDescription></ModDescription>
+		<ModDescription>old, removed or scrapped oni features reborn</ModDescription>
 		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
