@@ -203,7 +203,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 			{
 				bool engineUsesOxidizer = true, engineFound = false;
 				float maxCargo = 0, maxFuel = 0, currentCargo = 0, currentEffectiveOxidizer = 0;
-				SgtLogger.l("RocketModuleCount: " + craftModuleInterface.clusterModules.Count);
+				//SgtLogger.l("RocketModuleCount: " + craftModuleInterface.clusterModules.Count);
 				foreach (var moduleRef in craftModuleInterface.clusterModules)
 				{
 					var module = moduleRef.Get();
@@ -236,7 +236,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 						FuelStateMeter.meterController.SetPositionPercent(0);
 					else
 						FuelStateMeter.meterController.SetPositionPercent(currentFuel / maxFuel);
-					SgtLogger.l("FuelState- Max: " + maxFuel + ", current: " + currentFuel);
+					//SgtLogger.l("FuelState- Max: " + maxFuel + ", current: " + currentFuel);
 				}
 				else
 				{
@@ -247,7 +247,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 					CargoStateMeter.meterController.SetPositionPercent(0);
 				else
 					CargoStateMeter.meterController.SetPositionPercent(currentCargo / maxCargo);
-				SgtLogger.l("CargoStateMeter - Max: " + maxCargo + ", current: " + currentCargo);
+				//SgtLogger.l("CargoStateMeter - Max: " + maxCargo + ", current: " + currentCargo);
 			}
 			else
 			{

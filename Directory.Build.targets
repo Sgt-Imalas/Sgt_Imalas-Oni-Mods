@@ -1,63 +1,28 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<!--Generates the mod yaml files in the output folder-->
-	<Target Name="GenerateYAML" BeforeTargets="Build">
-		
-		<!--Write mod.yaml file-->
-		<WriteLinesToFile
-			File="$(TargetDir)/mod.yaml"
-			Lines="title: '$(ModName)'
-description: '$(ModDescription)'
-staticID: $(AssemblyName)"
-			Overwrite="true"/>
-		<!--Write mod_info.yaml file-->
-		<WriteLinesToFile
-		  File="$(TargetDir)/mod_info.yaml"
-		  Lines="supportedContent: $(SupportedContent)
-minimumSupportedBuild: $(TargetGameVersion)
-version: $(Version)
-APIVersion: 2"
-		  Overwrite="true"/>
-		<!--Write required DLCs-->
-		<WriteLinesToFile
-			Condition="'$(DLCsRequired)' != ''"
-			File="$(TargetDir)/mod_info.yaml"
-			Lines="requiredDlcIds:"
-		Overwrite="false"/>
-
+	<!--Write mod.yaml file-->
+	<Target Name="GenerateModYaml" BeforeTargets="Build">
 		<ItemGroup>
-			<DlcsSplitRequired Include="$(DLCsRequired.Split(`,`))" />
+			<ModLines Include="title: '$(ModName)'"/>
+			<ModLines Include="description: '$(ModDescription)'"/>
+			<ModLines Include="staticID: $(AssemblyName)"/>
 		</ItemGroup>
-		
-		<MSBuild Projects="$(MSBuildProjectFile)"
-				Condition="'$(DLCsRequired)' != ''"
-				Properties="DLC=%(DlcsSplitRequired.Identity)"
-				Targets="WriteSingleRequirement">
-		</MSBuild>
-		<!--Write forbidden DLCs-->
-		<WriteLinesToFile
-			Condition="'$(DLCsForbidden)' != ''"
-			File="$(TargetDir)/mod_info.yaml"
-			Lines="forbiddenDlcIds:"
-		Overwrite="false"/>
-
-		<ItemGroup>
-			<DlcsSplitForbidden Include="$(DLCsForbidden.Split(`,`))" />
-		</ItemGroup>
-
-		<MSBuild Projects="$(MSBuildProjectFile)"
-				Condition="'$(DLCsForbidden)' != ''"
-				Properties="DLC=%(DlcsSplitForbidden.Identity)"
-				Targets="WriteSingleRequirement">
-		</MSBuild>
+		<WriteLinesToFile File="$(TargetDir)/mod.yaml" Overwrite="true" Lines="@(ModLines)"/>
 	</Target>
-
-	<Target Name="WriteSingleRequirement" Condition="'$(DLC)' != ''">
-		<WriteLinesToFile
-			File="$(TargetDir)/mod_info.yaml"
-			Lines=" - $(DLC)"
-			Overwrite="false"/>
+	<!--Write mod_info.yaml file-->
+	<Target Name="GenerateModInfoYaml" BeforeTargets="Build">
+		<ItemGroup>
+			<ModInfoLines Include="supportedContent: $(SupportedContent)"/> <!--RM with U56-->
+			<ModInfoLines Include="minimumSupportedBuild: $(TargetGameVersion)"/>
+			<ModInfoLines Include="version: $(Version)"/>
+			<ModInfoLines Include="APIVersion: 2"/>
+			<ModInfoLines Include="requiredDlcIds:" Condition="'$(RequiredDlcIds)' != ''"/>
+			<ModInfoLines Include="$([System.String]::Copy('$(RequiredDlcIds)').Insert(0,' - ').Replace(',','%0a- '))" Condition="'$(RequiredDlcIds)' != ''"/>
+			<ModInfoLines Include="forbiddenDlcIds:" Condition="'$(ForbiddenDlcIds)' != ''"/>
+			<ModInfoLines Include="$([System.String]::Copy('$(ForbiddenDlcIds)').Insert(0,' - ').Replace(',','%0a- '))" Condition="'$(ForbiddenDlcIds)' != ''"/>
+		</ItemGroup>
+		<WriteLinesToFile File="$(TargetDir)/mod_info.yaml" Overwrite="true" Lines="@(ModInfoLines)"/>
 	</Target>
 
 	<!--Merges all dlls in the output folder into a single dll-->
