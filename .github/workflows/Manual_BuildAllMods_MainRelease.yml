@@ -70,7 +70,7 @@ jobs:
         release_name: "All Mods - Latest Build"
         body_path: "Desc.md"
         draft: false
-        prerelease: true
+        prerelease: false
 
     - name: Upload files to github release
       uses: svenstaro/upload-release-action@v2
