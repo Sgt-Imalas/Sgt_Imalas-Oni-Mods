@@ -102,6 +102,8 @@ namespace AnimExportTool
 		}
 		static void WriteUISpriteToFile(Sprite sprite, string folder, string id, Color tint = default)
 		{
+			id = SanitationUtils.SanitizeName(id);
+
 			Directory.CreateDirectory(folder);
 			string fileName = Path.Combine(folder, id + ".png");
 			var tex = GetSingleSpriteFromTexture(sprite, tint);

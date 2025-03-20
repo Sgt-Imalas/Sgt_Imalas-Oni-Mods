@@ -47,26 +47,26 @@ namespace UtilLibs
 			var targetType = Type.GetType("Ony.OxygenNotIncluded.ModManager.Updater, Release_DLC1.Mod.ModManager");
 			if (targetType == null)
 			{
-				Debug.Log("mod manager fix target type not found");
+				//Debug.Log("mod manager fix target type not found");
 				return;
 			}
 			var innerClass = targetType.GetNestedTypes(AccessTools.all).FirstOrDefault(t => !t.FullName.Contains("All") && t.FullName.Contains("<Update>"));
 
 			if (innerClass == null)
 			{
-				Debug.Log("mod manager update inner type not found");
+				//Debug.Log("mod manager update inner type not found");
 				return;
 			}
 
 			var method = AccessTools.Method(innerClass, "MoveNext");
 			if (method == null)
 			{
-				Debug.Log("mod manager update method missing");
+				//Debug.Log("mod manager update method missing");
 				return;
 			}
 
 
-			Debug.Log("fixing broken timeout in mod manager...");
+			//Debug.Log("fixing broken timeout in mod manager...");
 			var methodtranspiler = AccessTools.Method(typeof(CompatibilityNotifications), nameof(BrokenTimeoutFixTranspiler));
 
 			harmony.Patch(method, transpiler: new(methodtranspiler));
@@ -115,34 +115,16 @@ namespace UtilLibs
 			}
 		}
 
-		public static void DisableLoggingPrevention(IReadOnlyList<KMod.Mod> _mods)
-		{
-			try
-			{
-				List<KMod.Mod> mods = _mods.ToList();
 
-				Mod faultyMod = mods.FirstOrDefault(mod => mod.staticID.ToUpperInvariant().Contains("DEBUGCONSOLE"));
-				if (faultyMod == null)
-					return;
-				if (faultyMod.IsEnabledForActiveDlc())
-				{
-					new Harmony("logfix").UnpatchAll(faultyMod.staticID);
-					faultyMod.SetCrashed();
-				}
-			}
-			catch (Exception e)
-			{
-				//Debug.LogError("Error in DisableLoggingPrevention: " + e.Message);
-			}
-		}
 		public static void FlagLoggingPrevention(IReadOnlyList<KMod.Mod> _mods)
 		{
-			DisableLoggingPrevention(_mods);
-			List<KMod.Mod> mods = _mods.ToList();
+			var hr = new Harmony(new Guid().ToString());
+			hr.UnpatchAll("OxygenNotIncluded_v0.1");
+			RemoveCrashingIncompatibility(hr, _mods, "DEBUGCONSOLE");
 		}
 
 		static string BrokenLoggingFixed = "CrapConsole_LoggingPreventionFixed";
-		static int LoggingFixVersion = 1;
+		static int LoggingFixVersion = 2;
 		public static void FixLogging(Harmony harmony)
 		{
 			if (PRegistry.GetData<int>(BrokenLoggingFixed) >= LoggingFixVersion)
@@ -158,6 +140,8 @@ namespace UtilLibs
 				//no mistakes were made
 				return;
 			}
+
+			culprit.foundInStackTrace = true;
 			var t1 = AccessTools.Method(typeof(KMod.Mod), nameof(KMod.Mod.IsEnabledForActiveDlc));
 			var skip = AccessTools.Method(typeof(CompatibilityNotifications), nameof(Skip));			
 			harmony.Patch(t1, postfix: new(skip, priority:Priority.Last));
