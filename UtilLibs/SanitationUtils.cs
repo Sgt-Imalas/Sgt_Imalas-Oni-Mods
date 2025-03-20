@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
+using static ResearchTypes;
 
 namespace UtilLibs
 {
@@ -26,6 +27,8 @@ namespace UtilLibs
 				ForbiddenCharacters.UnionWith(Path.GetInvalidFileNameChars());
 				ForbiddenCharacters.UnionWith(Path.GetInvalidFileNameChars());
 				ForbiddenCharacters.UnionWith(Path.GetInvalidPathChars());
+				ForbiddenCharacters.UnionWith(Util.defaultInvalidUserInputChars);
+				ForbiddenCharacters.UnionWith(Util.additionalInvalidUserInputChars);
 			}
 			for (int i = 0; i < name.Length; ++i)
 			{

@@ -371,3 +371,4 @@ FodyWeavers.xsd
 /InvertedItemFilter/Patches.cs
 /Builds
 /.editorconfig
+/UtilLibs/ErrorRemoval.cs
