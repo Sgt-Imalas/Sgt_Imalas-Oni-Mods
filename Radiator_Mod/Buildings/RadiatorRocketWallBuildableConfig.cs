@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Radiator_Mod
 {
-	public class RadiatorRocketWallBuildable : IBuildingConfig
+	public class RadiatorRocketWallBuildableConfig : IBuildingConfig
 	{
 		public const string ID = "RM_RadiatorRocketWallBuildable";
 
@@ -13,8 +13,7 @@ namespace Radiator_Mod
 
 		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
 		public override BuildingDef CreateBuildingDef()
-		{
-
+		{		
 			EffectorValues tieR2 = NOISE_POLLUTION.NONE;
 			EffectorValues none2 = BUILDINGS.DECOR.NONE;
 			EffectorValues noise = tieR2;

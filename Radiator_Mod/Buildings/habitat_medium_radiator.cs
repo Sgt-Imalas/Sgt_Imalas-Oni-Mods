@@ -15,8 +15,10 @@ namespace Radiator_Mod
 		private ConduitPortInfo liquidInputPort = new ConduitPortInfo(ConduitType.Liquid, new CellOffset(-2, 3));
 		private ConduitPortInfo liquidOutputPort = new ConduitPortInfo(ConduitType.Liquid, new CellOffset(2, 3));
 
-		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
 
+		public override string[] GetRequiredDlcIds() => [DlcManager.EXPANSION1_ID];
+
+		public override string[] GetForbiddenDlcIds() => null;
 		public override BuildingDef CreateBuildingDef()
 		{
 			float[] constructionMass = {

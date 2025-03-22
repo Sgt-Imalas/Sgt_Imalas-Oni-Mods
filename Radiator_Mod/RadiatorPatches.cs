@@ -16,7 +16,7 @@ namespace Radiator_Mod
 
 				if (DlcManager.IsExpansion1Active())
 				{
-					InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Liquids.LiquidTuning, RadiatorRocketWallBuildable.ID);
+					InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Liquids.LiquidTuning, RadiatorRocketWallBuildableConfig.ID);
 				}
 				//Debug.Log("Initialized");
 			}
@@ -37,7 +37,7 @@ namespace Radiator_Mod
 					//InjectionMethods.AddBuildingStrings(RadiatorRocketWallConfig.ID, RadiatorRocketWallConfig.NAME, RadiatorRocketWallConfig.DESC, RadiatorRocketWallConfig.EFFECT);
 					//InjectionMethods.AddBuildingStrings(HabitatMediumRadiator.ID, HabitatMediumRadiator.NAME, HabitatMediumRadiator.DESC, HabitatMediumRadiator.EFFECT);
 
-					InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Utilities, RadiatorRocketWallBuildable.ID, RadiatorBaseConfig.ID);
+					InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Utilities, RadiatorRocketWallBuildableConfig.ID, RadiatorBaseConfig.ID);
 					//add special habitat module
 					//RocketryUtils.AddRocketModuleToBuildList(HabitatMediumRadiator.ID, "HabitatModuleMedium", RocketryUtils.RocketCategory.habitats);
 				}

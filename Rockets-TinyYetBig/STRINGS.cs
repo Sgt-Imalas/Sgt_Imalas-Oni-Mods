@@ -244,6 +244,19 @@ namespace Rockets_TinyYetBig
 					public static LocString DESC = "Connecting with another (rocket) has never been easier.";
 					public static LocString EFFECT = ("Enables docking with other rockets and space stations\n\nBoth docking participants require a docking component to dock.\n\nDuplicants cannot use this docking connection.\n\nAdd it to an AI controlled rocket to allow it to dock.\n\nMultiple Modules allow multiple docking connections");
 				}
+				
+				public class RTB_SPACESTATIONDOCKINGDOOR
+				{
+					public static LocString NAME = FormatAsLink("[WIP] Orbital Docking Port", nameof(RTB_SPACESTATIONDOCKINGDOOR));
+					public static LocString DESC = "Connecting with another (rocket) has never been easier.";
+					public static LocString EFFECT = ("Enables docking with rockets to dock\n\nAllows loading and unloading docked rockets\n\nRockets require a docking component to dock.\n\nAssigning a duplicant forces it to use the docking bridge.");
+				}
+				public class RTB_SPACESTATIONDOCKINGDOOR_INDESTRUCTIBLE
+				{
+					public static LocString NAME = FormatAsLink("[WIP] Core Orbital Docking Port", nameof(RTB_SPACESTATIONDOCKINGDOOR_INDESTRUCTIBLE));
+					public static LocString DESC = "Connecting with another (rocket) has never been easier.";
+					public static LocString EFFECT = ("Enables docking with rockets to dock\n\nAllows loading and unloading docked rockets\n\nRockets require a docking component to dock.\n\nAssigning a duplicant forces it to use the docking bridge.");
+				}
 				public class RTB_DOCKINGTUBEDOOR
 				{
 					public static LocString NAME = FormatAsLink("Docking Bridge", nameof(RTB_DOCKINGTUBEDOOR));
@@ -255,6 +268,12 @@ namespace Rockets_TinyYetBig
 					public static LocString NAME = FormatAsLink("Natural Gas Engine", nameof(RTB_NATGASENGINECLUSTER));
 					public static LocString DESC = "Rockets can be used to send Duplicants into space and retrieve rare resources.";
 					public static LocString EFFECT = ("Burns " + FormatAsLink("Natural Gas", "METHANE") + " to propel rockets for mid-range space exploration.\n\nEngine must be built via " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME);
+				}
+				public class RTB_SPACESTATIONMODULEBUILDER
+				{
+					public static LocString NAME = FormatAsLink("[WIP] Orbital Construction Module", nameof(RTB_SPACESTATIONMODULEBUILDER));
+					public static LocString DESC = "TODO";
+					public static LocString EFFECT = "Allows construction in deep space.";
 				}
 				public class RTB_IONENGINECLUSTER
 				{

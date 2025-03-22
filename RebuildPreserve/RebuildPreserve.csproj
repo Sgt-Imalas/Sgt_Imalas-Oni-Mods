@@ -12,6 +12,7 @@
 	<!-- Build Properties -->
 	<PropertyGroup>
 		<TargetFramework>net48</TargetFramework>
+		<LangVersion>preview</LangVersion>
 		<Configurations>Debug;Release</Configurations>
 		<AssemblyName>RebuildPreserve</AssemblyName>
 		<RootNamespace>RebuildPreserve</RootNamespace>
