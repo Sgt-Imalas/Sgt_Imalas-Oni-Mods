@@ -26,7 +26,7 @@
 	<PropertyGroup>
 		<ModName>Space Radiator</ModName>
 		<ModDescription>Adds a space radiator building that radiates heat into space</ModDescription>
-		<SupportedContent>ALL</SupportedContent>
+		
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

@@ -25,7 +25,7 @@
 	<PropertyGroup>
 		<ModName>DupePodRailgun</ModName>
 		<ModDescription></ModDescription>
-		<SupportedContent>EXPANSION1_ID</SupportedContent>
+		<RequiredDlcIds>EXPANSION1_ID</RequiredDlcIds>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

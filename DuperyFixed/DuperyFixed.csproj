@@ -25,7 +25,6 @@
 	<PropertyGroup>
 		<ModName>DuperyFixed</ModName>
 		<ModDescription>Base Mod for custom duplicant mods</ModDescription>
-		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

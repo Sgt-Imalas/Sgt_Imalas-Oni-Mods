@@ -25,7 +25,6 @@
 	<PropertyGroup>
 		<ModName>Daily Routine</ModName>
 		<ModDescription>Set reoccuring production tasks to reoccur each day</ModDescription>
-		<SupportedContent>ALL</SupportedContent>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

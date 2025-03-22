@@ -25,7 +25,7 @@
 	<PropertyGroup>
 		<ModName>Mod Profile Manager</ModName>
 		<ModDescription>Manage your mods in profiles and synchronize your active mods with those used in your save games.</ModDescription>
-		<SupportedContent>ALL</SupportedContent>
+		
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

@@ -25,7 +25,7 @@
 	<PropertyGroup>
 		<ModName>&lt;color=#C7ADFF&gt;Universal Electrolyzer&lt;/color&gt;</ModName>
 		<ModDescription>Makes the Electrolyzer able to work with all types of water, with varying products</ModDescription>
-		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
+		 
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

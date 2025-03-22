@@ -25,8 +25,7 @@
 	<PropertyGroup>
 		<ModName>Power Shards</ModName>
 		<ModDescription>Efficiency!</ModDescription>
-		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
-		<SupportedContent>EXPANSION1_ID</SupportedContent>
+		<RequiredDlcIds>EXPANSION1_ID</RequiredDlcIds>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

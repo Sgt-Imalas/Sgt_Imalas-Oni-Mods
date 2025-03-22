@@ -25,7 +25,7 @@
 	<PropertyGroup>
 		<ModName>Skill Queue</ModName>
 		<ModDescription>Allows queueing skilles to be learned asap</ModDescription>
-		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
+		 
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

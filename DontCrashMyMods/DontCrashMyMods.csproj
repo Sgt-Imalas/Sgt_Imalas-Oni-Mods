@@ -25,7 +25,6 @@
 	<PropertyGroup>
 		<ModName>Help, none of my mod options are working after the DLC update - fix</ModName>
 		<ModDescription>prevents plib options crashing on certain old mods</ModDescription>
-		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

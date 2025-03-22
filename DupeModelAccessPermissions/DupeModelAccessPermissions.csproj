@@ -25,7 +25,6 @@
 	<PropertyGroup>
 		<ModName>Bionics Access Control</ModName>
 		<ModDescription>Splits default door permissions between bionic and regular dupes</ModDescription>
-		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

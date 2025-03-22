@@ -25,7 +25,6 @@
 	<PropertyGroup>
 		<ModName>Claim Notification</ModName>
 		<ModDescription>Auto popup when a new blueprint is available</ModDescription>
-		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

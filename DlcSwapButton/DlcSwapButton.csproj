@@ -25,7 +25,6 @@
 	<PropertyGroup>
 		<ModName>Old Dlc Toggle</ModName>
 		<ModDescription>The old spaced out toggle is back</ModDescription>
-		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
     <MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

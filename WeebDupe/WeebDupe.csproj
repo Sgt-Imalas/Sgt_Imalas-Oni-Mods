@@ -25,7 +25,7 @@
 	<PropertyGroup>
 		<ModName>Weeb Dupes</ModName>
 		<ModDescription>Cat Ear Dupes!</ModDescription>
-		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
+		 
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

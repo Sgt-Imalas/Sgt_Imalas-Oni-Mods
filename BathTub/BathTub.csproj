@@ -25,7 +25,6 @@
 	<PropertyGroup>
 		<ModName>Bubbles Bathtub</ModName>
 		<ModDescription>Upgrade from showers - the bathtub is there</ModDescription>
-		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

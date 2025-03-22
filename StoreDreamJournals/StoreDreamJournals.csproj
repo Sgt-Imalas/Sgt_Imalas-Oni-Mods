@@ -25,7 +25,7 @@
 	<PropertyGroup>
 		<ModName>Dream Journal Hitbox Fix</ModName>
 		<ModDescription>Fixes the Hitbox of Dream Journals</ModDescription>
-		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
+		 
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

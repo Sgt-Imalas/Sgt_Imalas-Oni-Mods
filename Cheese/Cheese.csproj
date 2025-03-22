@@ -25,7 +25,6 @@
 	<PropertyGroup>
 		<ModName>Cheese</ModName>
 		<ModDescription>All the things Cheese!</ModDescription>
-		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

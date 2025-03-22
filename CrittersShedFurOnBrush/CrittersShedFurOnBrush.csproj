@@ -25,7 +25,6 @@
 	<PropertyGroup>
 		<ModName>Critter Shedding</ModName>
 		<ModDescription>Fluffy Critters start dropping furballs when brushed</ModDescription>
-		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

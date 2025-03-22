@@ -25,7 +25,6 @@
 	<PropertyGroup>
 		<ModName>Decor Pack S - Winters Delight</ModName>
 		<ModDescription>Snow Sculptures, Snow Machines and a festive Tree to decorate your base with</ModDescription>
-		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

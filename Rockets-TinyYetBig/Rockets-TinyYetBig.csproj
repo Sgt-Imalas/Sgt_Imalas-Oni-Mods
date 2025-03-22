@@ -25,7 +25,6 @@
 	<PropertyGroup>
 		<ModName>Rocketry Expanded</ModName>
 		<ModDescription>Various QoL Additions to Rockets. Shrinks the border around rocket interiors and provides some larger variants to construct. Also adds several new modules and mechanics to rockets</ModDescription>
-		<SupportedContent>EXPANSION1_ID</SupportedContent>
 		<RequiredDlcIds>EXPANSION1_ID</RequiredDlcIds>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>

@@ -25,7 +25,7 @@
 	<PropertyGroup>
 		<ModName>Mod Preset Manager Light [MPML]</ModName>
 		<ModDescription>A lightweight mod management addon that focusses on switching mod presets. mutually compatible with mod profile manager</ModDescription>
-		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
+		 
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

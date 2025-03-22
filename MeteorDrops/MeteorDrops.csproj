@@ -25,7 +25,7 @@
 	<PropertyGroup>
 		<ModName>Meteor Drops</ModName>
 		<ModDescription>Meteors drop some of their mass when blasted</ModDescription>
-		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
+		 
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

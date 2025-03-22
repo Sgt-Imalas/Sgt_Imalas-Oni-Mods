@@ -25,7 +25,7 @@
 	<PropertyGroup>
 		<ModName>Loading Pip</ModName>
 		<ModDescription>Replace your loading screen icons</ModDescription>
-		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
+		 
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

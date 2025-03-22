@@ -1,17 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <CurrentYear>$([System.DateTime]::Now.ToString(`yyyy`))</CurrentYear>
-    <Author>3GuB,Sgt_Imalas</Author>
-    <RetroOniCopyright>Copyright ©$(Author) $(CurrentYear)</RetroOniCopyright>
-  </PropertyGroup>
-  
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>OniRetroEdition</PackageId>
 		<Version>1.0.0</Version>
 		<Authors>3GuB, Sgt_Imalas</Authors>
-    <Copyright>$(RetroOniCopyright)</Copyright>
+		<Copyright>$(RetroOniCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
 	</PropertyGroup>
 
@@ -31,7 +25,7 @@
 	<PropertyGroup>
 		<ModName>Oni: Retro Edition</ModName>
 		<ModDescription>old, removed or scrapped oni features reborn</ModDescription>
-		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
+		 
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

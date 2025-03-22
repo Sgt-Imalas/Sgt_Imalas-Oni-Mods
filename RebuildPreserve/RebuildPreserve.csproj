@@ -26,7 +26,7 @@
 	<PropertyGroup>
 		<ModName>Better Rebuilding</ModName>
 		<ModDescription>Keeps building settings on rebuild</ModDescription>
-		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
+		 
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

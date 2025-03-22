@@ -25,7 +25,6 @@
 	<PropertyGroup>
 		<ModName>Cluster Generation Manager [CGM]</ModName>
 		<ModDescription>Build your own Cluster/World where everything is configurable</ModDescription>
-		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

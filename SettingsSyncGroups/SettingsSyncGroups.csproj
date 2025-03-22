@@ -25,7 +25,7 @@
 	<PropertyGroup>
 		<ModName>Synchronized Building Groups</ModName>
 		<ModDescription>Factorios Setting Groups, now in ONI</ModDescription>
-		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
+		 
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
