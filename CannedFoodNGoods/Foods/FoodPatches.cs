@@ -16,7 +16,7 @@ namespace CannedFoods.Foods
 		{
 			public static void Postfix()
 			{
-				AddCanRecipes();
+				//AddCanRecipes();
 				AddCannedTunaRecipe();
 				AddCannedBBQRecipe();
 				AddCannedBreadRecipe();
@@ -25,15 +25,15 @@ namespace CannedFoods.Foods
 			private static void AddCanRecipes()
 			{
 				var metalTag = ElementLoader.FindElementByHash(ModAssets.ExportSettings.GetMaterialHashForCans()).tag;
-				RecipeElement[] input = new RecipeElement[]
-				{
+				RecipeElement[] input =
+				[
 						new RecipeElement(metalTag, 0.5f),
-				};
+				];
 
-				RecipeElement[] output = new RecipeElement[]
-				{
-						new RecipeElement(EmptyCanConfig.ID+metalTag.ToString(), 0.5f)
-				};
+				RecipeElement[] output =
+				[
+						new RecipeElement(EmptyCanConfig.ID, 0.5f)
+				];
 
 				string recipeID = ComplexRecipeManager.MakeRecipeID(CraftingTableConfig.ID, input, output);
 
@@ -50,16 +50,17 @@ namespace CannedFoods.Foods
 
 			private static void AddCannedTunaRecipe()
 			{
-				RecipeElement[] input = new RecipeElement[]
-				{
-					new RecipeElement(ModAssets.Tags.CanTag, 0.5f),
+				var metalTag = ElementLoader.FindElementByHash(ModAssets.ExportSettings.GetMaterialHashForCans()).tag;
+				RecipeElement[] input =
+				[
+					new RecipeElement(metalTag, 0.5f),
 					new RecipeElement(CookedFishConfig.ID, 0.5f)
-				};
+				];
 
-				RecipeElement[] output = new RecipeElement[]
-				{
+				RecipeElement[] output =
+				[
 					new RecipeElement(CannedTunaConfig.ID, 1f)
-				};
+				];
 
 				string recipeID = ComplexRecipeManager.MakeRecipeID(CraftingTableConfig.ID, input, output);
 
@@ -73,16 +74,17 @@ namespace CannedFoods.Foods
 			}
 			private static void AddCannedBBQRecipe()
 			{
-				RecipeElement[] input = new RecipeElement[]
-				{
-					new RecipeElement(ModAssets.Tags.CanTag, 0.5f),
+				var metalTag = ElementLoader.FindElementByHash(ModAssets.ExportSettings.GetMaterialHashForCans()).tag;
+				RecipeElement[] input =
+				[
+					new RecipeElement(metalTag, 0.5f),
 					new RecipeElement(CookedMeatConfig.ID, 0.5f)
-				};
+				];
 
-				RecipeElement[] output = new RecipeElement[]
-				{
+				RecipeElement[] output =
+				[
 					new RecipeElement(CannedBBQConfig.ID, 1f)
-				};
+				];
 
 				string recipeID = ComplexRecipeManager.MakeRecipeID(CraftingTableConfig.ID, input, output);
 
@@ -96,16 +98,17 @@ namespace CannedFoods.Foods
 			}
 			private static void AddCannedBreadRecipe()
 			{
-				RecipeElement[] input = new RecipeElement[]
-				{
-					new RecipeElement(ModAssets.Tags.CanTag, 0.5f),
+				var metalTag = ElementLoader.FindElementByHash(ModAssets.ExportSettings.GetMaterialHashForCans()).tag;
+				RecipeElement[] input =
+				[
+					new RecipeElement(metalTag, 0.5f),
 					new RecipeElement(SpiceBreadConfig.ID, 0.5f)
-				};
+				];
 
-				RecipeElement[] output = new RecipeElement[]
-				{
+				RecipeElement[] output =
+				[
 					new RecipeElement(CannedBreadConfig.ID, 1f)
-				};
+				];
 
 				string recipeID = ComplexRecipeManager.MakeRecipeID(CraftingTableConfig.ID, input, output);
 
@@ -158,13 +161,13 @@ namespace CannedFoods.Foods
 				var metalTag = ElementLoader.FindElementByHash(ExportSettings.GetMaterialHashForCans()).tag;
 				var input = new RecipeElement[]
 				{
-					new RecipeElement(TagManager.Create(CanScrapConfig.ID), 10f)
+					new(TagManager.Create(CanScrapConfig.ID), 10f)
 				};
 
 				var output = new RecipeElement[]
 				{
-					new RecipeElement(metalTag, 5f),
-					new RecipeElement(sandTag, 5f, RecipeElement.TemperatureOperation.AverageTemperature)
+					new(metalTag, 5f),
+					new(sandTag, 5f, RecipeElement.TemperatureOperation.AverageTemperature)
 				};
 
 				var recipeID = ComplexRecipeManager.MakeRecipeID(RockCrusherConfig.ID, input, output);
