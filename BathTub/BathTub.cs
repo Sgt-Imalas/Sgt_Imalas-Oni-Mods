@@ -107,6 +107,7 @@ namespace BathTub
 			Action<Chore> on_end = new Action<Chore>(this.OnSocialChoreEnd);
 			ScheduleBlockType schedule_block = Db.Get().ScheduleBlockTypes.Hygiene;
 			WorkChore<BathTubWorkable> chore = new WorkChore<BathTubWorkable>(Db.Get().ChoreTypes.Shower, target, on_end: on_end, allow_in_red_alert: false, schedule_block: schedule_block, allow_prioritization: false, priority_class: PriorityScreen.PriorityClass.high);
+			chore.AddPrecondition(ChorePreconditions.instance.IsNotABionic, (object) smi);
 			chore.AddPrecondition(ChorePreconditions.instance.CanDoWorkerPrioritizable, workable);
 			return chore;
 		}
