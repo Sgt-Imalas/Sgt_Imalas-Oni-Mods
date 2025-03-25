@@ -2,7 +2,7 @@
 
 	<!-- General Package Properties -->
 	<PropertyGroup>
-		<PackageId>_3GuBsVisualFixesNTweaks</PackageId>
+		<PackageId>VisualFixesNTweaks</PackageId>
 		<Version>1.0.0</Version>
 		<Authors>3GuB, Sgt_Imalas</Authors>
 		<Copyright>$(RetroOniCopyright)</Copyright>
@@ -13,7 +13,7 @@
 	<PropertyGroup>
 		<TargetFramework>net48</TargetFramework>
 		<Configurations>Debug;Release</Configurations>
-		<AssemblyName>_3GuBsVisualFixesNTweaks</AssemblyName>
+		<AssemblyName>VisualFixesNTweaks</AssemblyName>
 		<RootNamespace>_3GuBsVisualFixesNTweaks</RootNamespace>
 		<IsMod>true</IsMod>
 		<GenerateMetadata>true</GenerateMetadata>
@@ -23,8 +23,8 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>_3GuBsVisualFixesNTweaks</ModName>
-		<ModDescription></ModDescription>
+		<ModName>Visual Fixes and Tweaks</ModName>
+		<ModDescription>Collection of small animation fixes and adjustments</ModDescription>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

@@ -12,6 +12,19 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 	class TintableContents_Patches
 	{
 		static Dictionary<SimHashes, Color> CachedColors = new Dictionary<SimHashes, Color>();
+
+		public static Color GetElementColor(SimHashes simhash)
+		{
+			if (!CachedColors.TryGetValue(simhash, out var color))
+			{
+				var element = ElementLoader.GetElement(simhash.CreateTag());
+				color = element.substance.conduitColour;
+				CachedColors[simhash] = color;
+			}
+			return color;
+
+		}
+
 		[HarmonyPatch]
 		public static class AddTintableToBuildings
 		{
@@ -44,14 +57,8 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 						return;
 					}
 
-					if (!CachedColors.TryGetValue(element, out var color))
-					{
-						var elementSubstance = ElementLoader.GetElement(element.CreateTag());
-						color = elementSubstance.substance.conduitColour;
-						CachedColors[element] = color;
-					}
 
-					kbac.SetSymbolTint("tint", color);
+					kbac.SetSymbolTint("tint", GetElementColor(element));
 
 				}
 			}
@@ -75,17 +82,37 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 
 					if (contents.mass > 0f)
 					{
-						if (!CachedColors.TryGetValue(contents.element, out var color))
-						{
-							var element = ElementLoader.GetElement(contents.element.CreateTag());
-							color = element.substance.conduitColour;
-							CachedColors[contents.element] = color;
-						}
-
-						kbac.SetSymbolTint("tint", color);
+						kbac.SetSymbolTint("tint", GetElementColor(contents.element));
 					}
 					else
 						kbac.SetSymbolTint("tint", Color.clear);
+				}
+			}
+		}
+
+
+		[HarmonyPatch(typeof(SpaceHeater), nameof(SpaceHeater.AddSelfHeat))]
+		public class SpaceHeater_AddSelfHeat_Patch
+		{
+			public static void Postfix(SpaceHeater __instance)
+			{
+				if (!__instance.heatLiquid)
+					return;
+				if (!__instance.monitorCells.Any())
+					return;
+				int inputCell = __instance.monitorCells[0];
+				
+				if (!__instance.TryGetComponent<KBatchedAnimController>(out var kbac))
+					return;
+
+				var element = Grid.Element[inputCell];
+				if(!element.IsLiquid)
+				{
+					kbac.SetSymbolTint("tint",Color.clear);
+				}
+				else
+				{
+					kbac.SetSymbolTint("tint", GetElementColor(element.id));
 				}
 			}
 		}
