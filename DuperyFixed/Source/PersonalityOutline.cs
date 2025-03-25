@@ -188,7 +188,10 @@ namespace Dupery
                 Model = "Minion";
             Tag model = Model;
 
-            if(!DlcManager.IsContentSubscribed(DlcManager.DLC3_ID) && Model == "BionicMinion")
+            bool isBionic = Model == "BionicMinion";
+
+
+			if (!DlcManager.IsContentSubscribed(DlcManager.DLC3_ID) && isBionic)
             {
 				failReason = "BionicMinion model is not available without the Bionic Booster DLC";
 				outPersonality = null;
@@ -343,6 +346,9 @@ namespace Dupery
                 "",
                 model
             );
+
+            if(isBionic)
+                personality.requiredDlcId = DlcManager.DLC3_ID;
 
             if(RoboMouthConversation)
 			{
