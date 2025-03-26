@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using _3GuBsVisualFixesNTweaks.Scripts;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,24 +7,13 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UtilLibs;
 
 namespace _3GuBsVisualFixesNTweaks.Patches
 {
 	class TintableContents_Patches
 	{
-		static Dictionary<SimHashes, Color> CachedColors = new Dictionary<SimHashes, Color>();
 
-		public static Color GetElementColor(SimHashes simhash)
-		{
-			if (!CachedColors.TryGetValue(simhash, out var color))
-			{
-				var element = ElementLoader.GetElement(simhash.CreateTag());
-				color = element.substance.conduitColour;
-				CachedColors[simhash] = color;
-			}
-			return color;
-
-		}
 
 		[HarmonyPatch]
 		public static class AddTintableToBuildings
@@ -58,9 +48,28 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 					}
 
 
-					kbac.SetSymbolTint("tint", GetElementColor(element));
+					kbac.SetSymbolTint("tint", ModAssets.GetElementColor(element));
 
 				}
+			}
+		}
+
+
+		[HarmonyPatch(typeof(LiquidHeaterConfig), nameof(LiquidHeaterConfig.DoPostConfigureComplete))]
+		public class LiquidHeaterConfig_DoPostConfigureComplete_Patch
+		{
+			public static void Postfix(GameObject go)
+			{
+				go.AddOrGet<TintableByExterior>();
+			}
+		}
+
+		[HarmonyPatch(typeof(MetalRefineryConfig), nameof(MetalRefineryConfig.DoPostConfigureComplete))]
+		public class MetalRefineryConfig_DoPostConfigureComplete_Patch
+		{
+			public static void Postfix(GameObject go)
+			{
+				go.AddOrGet<MetalRefineryTint>();
 			}
 		}
 
@@ -82,7 +91,7 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 
 					if (contents.mass > 0f)
 					{
-						kbac.SetSymbolTint("tint", GetElementColor(contents.element));
+						kbac.SetSymbolTint("tint", ModAssets.GetElementColor(contents.element));
 					}
 					else
 						kbac.SetSymbolTint("tint", Color.clear);
@@ -91,31 +100,6 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 		}
 
 
-		[HarmonyPatch(typeof(SpaceHeater), nameof(SpaceHeater.AddSelfHeat))]
-		public class SpaceHeater_AddSelfHeat_Patch
-		{
-			public static void Postfix(SpaceHeater __instance)
-			{
-				if (!__instance.heatLiquid)
-					return;
-				if (!__instance.monitorCells.Any())
-					return;
-				int inputCell = __instance.monitorCells[0];
-				
-				if (!__instance.TryGetComponent<KBatchedAnimController>(out var kbac))
-					return;
-
-				var element = Grid.Element[inputCell];
-				if(!element.IsLiquid)
-				{
-					kbac.SetSymbolTint("tint",Color.clear);
-				}
-				else
-				{
-					kbac.SetSymbolTint("tint", GetElementColor(element.id));
-				}
-			}
-		}
 	}
 
 }

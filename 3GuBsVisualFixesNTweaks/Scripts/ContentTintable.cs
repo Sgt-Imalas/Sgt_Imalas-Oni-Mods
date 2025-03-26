@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace _3GuBsVisualFixesNTweaks
+namespace _3GuBsVisualFixesNTweaks.Scripts
 {
 	class ContentTintable : KMonoBehaviour
 	{
