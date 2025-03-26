@@ -3,29 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using static STRINGS.UI.TOOLS.FILTERLAYERS;
 
 namespace _3GuBsVisualFixesNTweaks.Scripts
 {
 	class MetalRefineryTint : KMonoBehaviour
 	{
+		[SerializeField] public Storage ProductStorage;
+
 		[MyCmpReq] LiquidCooledRefinery refinery;
 		[MyCmpReq] KBatchedAnimController kbac;
+		[MyCmpReq] SymbolOverrideController soc;
 		KBatchedAnimController kbacMeter;
 		public override void OnSpawn()
 		{
 			Subscribe((int)GameHashes.OnStorageChange, UpdateTint);
+			Subscribe(ModAssets.OnRefineryAnimPlayed, DropAllProducts);
 			base.OnSpawn();
 		}
 		public override void OnCleanUp()
 		{
 			Unsubscribe((int)GameHashes.OnStorageChange, UpdateTint);
+			Unsubscribe(ModAssets.OnRefineryAnimPlayed, DropAllProducts);
 			base.OnCleanUp();
 		}
 		void UpdateTint(object _)
 		{
 			UpdateCoolantTint();
 			UpdateMetalTint();
+		}
+		void DropAllProducts(object _)
+		{
+			ProductStorage.DropAll(offset: new(1.5f, 0));
 		}
 		void UpdateCoolantTint()
 		{
@@ -61,5 +71,6 @@ namespace _3GuBsVisualFixesNTweaks.Scripts
 
 			kbacMeter.SetSymbolTint("meter_target_metal", ModAssets.GetElementColor(oreElement.ElementID));
 		}
+
 	}
 }

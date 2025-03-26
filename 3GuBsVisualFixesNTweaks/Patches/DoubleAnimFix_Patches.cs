@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using static ComplexRecipe;
+using static STRINGS.MISC.STATUSITEMS;
 
 namespace _3GuBsVisualFixesNTweaks.Patches
 {
@@ -29,11 +31,11 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 				StateMachineController component = go.GetComponent<StateMachineController>();
 				if (component != null)
 				{
-					SgtLogger.l("removing PoweredActiveStoppableController from "+go.GetProperName());
+					SgtLogger.l("removing PoweredActiveStoppableController from " + go.GetProperName());
 					component.cmpdef?.defs?.RemoveAll(item => item.GetStateMachineType() == typeof(PoweredActiveStoppableController));
 				}
 				var workable = go.GetComponent<ComplexFabricatorWorkable>();
-				workable.synchronizeAnims = false;
+				//workable.synchronizeAnims = false;
 			}
 			[HarmonyTargetMethods]
 			internal static IEnumerable<MethodBase> TargetMethods()
@@ -46,6 +48,76 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 				yield return typeof(SuitFabricatorConfig).GetMethod(name);
 			}
 		}
+
+
+
+		[HarmonyPatch(typeof(LiquidCooledRefinery), nameof(LiquidCooledRefinery.SpawnOrderProduct))]
+		public class LiquidCooledRefinery_SpawnOrderProduct_Patch
+		{
+			[HarmonyPriority(Priority.LowerThanNormal)]
+			public static void Postfix(LiquidCooledRefinery __instance, List<GameObject> __result)
+			{
+				if (!__result.Any() || !__instance.TryGetComponent<MetalRefineryTint>(out var handler))
+					return;
+
+				foreach (var obj in __result)
+				{
+					handler.ProductStorage.Store(obj,true,true);
+				}
+			}
+		}
+		[HarmonyPatch(typeof(ComplexFabricatorSM.States), nameof(ComplexFabricatorSM.States.InitializeStates))]
+		public class ComplexFabricatorSM_States_InitializeStates_Patch
+		{
+			public static void Postfix(ComplexFabricatorSM.States __instance)
+			{
+				CleanAnimTransitions(__instance.operating.working_pst.enterActions);
+				//premake some override:
+				__instance.operating.working_loop.Enter(smi =>
+				{
+					var soc = smi.GetComponent<SymbolOverrideController>();
+					if (soc == null)
+						return;
+					var fab = smi.GetComponent<ComplexFabricator>();
+					if (fab == null) return;
+
+					var currentRecipe = fab.CurrentWorkingOrder;
+					if (currentRecipe == null) return;
+					var products = currentRecipe.results;
+					if (products == null||!products.Any()) return;
+					
+					var targetProduct = products[0].material;
+					var prefab = Assets.GetPrefab(targetProduct);
+					if (prefab == null)
+					{
+						SgtLogger.warning("prefab of "+targetProduct.name+" was null");
+						return;
+					}
+					ModAssets.RefreshOutputTracker(soc, prefab);
+
+				});
+				__instance.operating.working_pst.transitions?.Clear();
+				__instance.operating.working_pst
+					.Enter(smi =>
+					{
+						var complexFabricatorWorkable = smi.GetComponent<ComplexFabricatorWorkable>();
+						if (!complexFabricatorWorkable)
+							return;
+						if (!complexFabricatorWorkable.synchronizeAnims || !smi.GetComponent<ComplexFabricator>().duplicantOperated)
+						{
+							smi.GetComponent<KBatchedAnimController>().Play("working_pst");
+						}
+						else
+							smi.GoTo(__instance.operating.working_pst_complete);
+					})
+					.EventTransition(GameHashes.AnimQueueComplete, __instance.operating.working_pst_complete);
+				__instance.operating.working_pst_complete.transitions?.Clear();
+				__instance.operating.working_pst_complete.WorkableCompleteTransition((smi) => smi.master.fabricator.Workable, __instance.idle)
+					.OnAnimQueueComplete(__instance.idle)
+					.ScheduleAction("drop metal refinery products in sync with anim",2.55f,(smi)=> smi.Trigger(ModAssets.OnRefineryAnimPlayed))
+					;
+			}
+		}
 		[HarmonyPatch(typeof(WaterPurifierConfig), nameof(WaterPurifierConfig.DoPostConfigureComplete))]
 		public class WaterPurifierConfig_DoPostConfigureComplete_Patch
 		{
@@ -53,8 +125,8 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 			{
 
 				StateMachineController stateMachineController = go.AddOrGet<StateMachineController>();
-				
-				SgtLogger.l("removing PoweredActiveController from WaterPurifier" );
+
+				SgtLogger.l("removing PoweredActiveController from WaterPurifier");
 				stateMachineController.cmpdef.defs.RemoveAll(def => def.GetStateMachineType() == typeof(PoweredActiveController));
 			}
 

@@ -69,7 +69,8 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 		{
 			public static void Postfix(GameObject go)
 			{
-				go.AddOrGet<MetalRefineryTint>();
+				go.AddOrGet<MetalRefineryTint>().ProductStorage = go.AddComponent<Storage>();
+				
 			}
 		}
 
