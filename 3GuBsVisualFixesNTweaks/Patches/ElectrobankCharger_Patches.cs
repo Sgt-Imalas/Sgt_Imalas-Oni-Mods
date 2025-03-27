@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace _3GuBsVisualFixesNTweaks.Patches
 {
-    class BatteryCharger_Patches
+    class ElectrobankCharger_Patches
 	{
 		[HarmonyPatch(typeof(ElectrobankDischarger.States), nameof(ElectrobankDischarger.States.InitializeStates))]
 		public class ElectrobankDischarger_States_InitializeStates_Patch
