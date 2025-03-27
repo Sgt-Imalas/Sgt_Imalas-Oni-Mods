@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using UtilLibs;
 
 namespace Dupery
 {
@@ -36,6 +37,12 @@ namespace Dupery
 			for (int i = 0; i < personalitiesCount; i++)
 			{
 				Personality dbPersonality = Db.Get().Personalities[i];
+				if(!DlcManager.IsContentSubscribed(dbPersonality.requiredDlcId))
+				{
+					SgtLogger.l("Personality " + dbPersonality.Name + " requires dlc " + dbPersonality.requiredDlcId + ", but it isnt installed!");
+					continue;
+				}
+
 				stockPersonalities[dbPersonality.nameStringKey] = PersonalityOutline.FromStockPersonality(dbPersonality);
 			}
 

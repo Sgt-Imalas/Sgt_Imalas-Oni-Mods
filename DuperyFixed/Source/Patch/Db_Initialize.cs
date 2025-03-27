@@ -49,19 +49,18 @@ namespace Dupery
 					if (outline.Randomize)
 						name = $"{name} [RANDOMIZED]";
 
-					if (outline.Printable)
+					if (!outline.Printable)
 					{
-						personalities.Add(personality);
-						poolNames.Add(name);
-
-						if (outline.StartingMinion)
-						{
-							startingPersonalityCount++;
-						}
+						personality.Disabled = true;
+						++rejectCount;
 					}
-					else
+
+					personalities.Add(personality);
+					poolNames.Add(name);
+
+					if (outline.StartingMinion)
 					{
-						rejectCount++;
+						startingPersonalityCount++;
 					}
 				}
 			}
@@ -73,7 +72,7 @@ namespace Dupery
 			string poolReport = string.Join("\n", poolNames);
 			Logger.Log($"Pool contains {poolNames.Count} personalities ({startingPersonalityCount} starting personalities):\n{poolReport}");
 			if (rejectCount > 0)
-				Logger.Log($"{rejectCount} personalities have the property \"Printable = false\" and wont be used.");
+				Logger.Log($"{rejectCount} personalities have the property \"Printable = false\" and will only load as hidden.");
 
 			// Add random personalities if there aren't enough in the pool
 			while (startingPersonalityCount < PersonalityManager.MINIMUM_PERSONALITY_COUNT)
