@@ -73,6 +73,7 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 			}
 		}
 
+
 		/// <summary>
 		/// Register SOC
 		/// </summary>

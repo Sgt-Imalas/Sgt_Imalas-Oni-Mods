@@ -19,7 +19,7 @@ namespace _3GuBsVisualFixesNTweaks.Scripts
 			base.OnSpawn();
 			var extends = building.GetExtents();
 			List<int> cells = new List<int>();
-			SgtLogger.l($"Extends: X:{extends.x}, Y:{extends.y},width:{extends.width},height:{extends.height}");
+			//SgtLogger.l($"Extends: X:{extends.x}, Y:{extends.y},width:{extends.width},height:{extends.height}");
 			for (int x = 0; x < extends.width; x++)
 			{
 				for (int y = 0; y < extends.height; y++)

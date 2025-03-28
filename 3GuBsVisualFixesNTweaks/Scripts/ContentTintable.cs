@@ -16,12 +16,12 @@ namespace _3GuBsVisualFixesNTweaks.Scripts
 		KBatchedAnimController kbacFG;
 
 		private static readonly EventSystem.IntraObjectHandler<ContentTintable> OnStorageChangeDelegate = new EventSystem.IntraObjectHandler<ContentTintable>((tintable, data) => tintable.UpdateTint());
-		private static readonly EventSystem.IntraObjectHandler<ContentTintable> OnActiveChangedDelegate = new EventSystem.IntraObjectHandler<ContentTintable>((tintable, data) => tintable.ClearTint());
+		//private static readonly EventSystem.IntraObjectHandler<ContentTintable> OnActiveChangedDelegate = new EventSystem.IntraObjectHandler<ContentTintable>((tintable, data) => tintable.ClearTint());
 		public override void OnPrefabInit()
 		{
 			base.OnPrefabInit();
 			Subscribe((int)GameHashes.OnStorageChange, OnStorageChangeDelegate);
-			Subscribe((int)GameHashes.ActiveChanged, OnActiveChangedDelegate);
+			//Subscribe((int)GameHashes.ActiveChanged, OnActiveChangedDelegate);
 		}
 		public override void OnSpawn()
 		{
@@ -33,13 +33,14 @@ namespace _3GuBsVisualFixesNTweaks.Scripts
 					kbacFG = kbac2;
 				}
 			}
+			UpdateTint();
 		}
 
 		public override void OnCleanUp()
 		{
 			base.OnCleanUp();
 			Unsubscribe((int)GameHashes.OnStorageChange, OnStorageChangeDelegate);
-			Unsubscribe((int)GameHashes.ActiveChanged, OnActiveChangedDelegate);
+			//Unsubscribe((int)GameHashes.ActiveChanged, OnActiveChangedDelegate);
 		}
 
 		void UpdateTint()

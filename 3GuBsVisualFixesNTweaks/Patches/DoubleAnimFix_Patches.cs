@@ -15,7 +15,7 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 {
 	class DoubleAnimFix_Patches
 	{
-		static void CleanAnimTransitions(List<StateMachine.Action> enterActions)
+		public static void CleanAnimTransitions(List<StateMachine.Action> enterActions)
 		{
 
 			enterActions.RemoveAll(action => action.name.Contains("PlayAnim("));
