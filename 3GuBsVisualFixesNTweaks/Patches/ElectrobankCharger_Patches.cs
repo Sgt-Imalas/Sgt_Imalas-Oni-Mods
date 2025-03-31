@@ -73,17 +73,5 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 			}
 		}
 
-
-		/// <summary>
-		/// Register SOC
-		/// </summary>
-		[HarmonyPatch(typeof(ElectrobankChargerConfig), nameof(ElectrobankChargerConfig.DoPostConfigureComplete))]
-		public class ElectrobankChargerConfig_DoPostConfigureComplete_Patch
-		{
-			public static void Postfix(GameObject go)
-			{
-				SymbolOverrideControllerUtil.AddToPrefab(go);
-			}
-		}
 	}
 }

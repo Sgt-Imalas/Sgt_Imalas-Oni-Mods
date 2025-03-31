@@ -62,7 +62,7 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 
 				foreach (var obj in __result)
 				{
-					handler.ProductStorage.Store(obj,true,true);
+					handler.ProductStorage.Store(obj, true, true);
 				}
 			}
 		}
@@ -84,13 +84,13 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 					var currentRecipe = fab.CurrentWorkingOrder;
 					if (currentRecipe == null) return;
 					var products = currentRecipe.results;
-					if (products == null||!products.Any()) return;
-					
+					if (products == null || !products.Any()) return;
+
 					var targetProduct = products[0].material;
 					var prefab = Assets.GetPrefab(targetProduct);
 					if (prefab == null)
 					{
-						SgtLogger.warning("prefab of "+targetProduct.name+" was null");
+						SgtLogger.warning("prefab of " + targetProduct.name + " was null");
 						return;
 					}
 					ModAssets.RefreshOutputTracker(soc, prefab);
@@ -101,9 +101,7 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 					.Enter(smi =>
 					{
 						var complexFabricatorWorkable = smi.GetComponent<ComplexFabricatorWorkable>();
-						if (!complexFabricatorWorkable)
-							return;
-						if (!complexFabricatorWorkable.synchronizeAnims || !smi.GetComponent<ComplexFabricator>().duplicantOperated)
+						if (complexFabricatorWorkable == null || !complexFabricatorWorkable.synchronizeAnims || !smi.GetComponent<ComplexFabricator>().duplicantOperated)
 						{
 							smi.GetComponent<KBatchedAnimController>().Play("working_pst");
 						}
@@ -112,24 +110,13 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 					})
 					.EventTransition(GameHashes.AnimQueueComplete, __instance.operating.working_pst_complete);
 				__instance.operating.working_pst_complete.transitions?.Clear();
-				__instance.operating.working_pst_complete.WorkableCompleteTransition((smi) => smi.master.fabricator.Workable, __instance.idle)
-					.OnAnimQueueComplete(__instance.idle)
-					.ScheduleAction("drop metal refinery products in sync with anim",2.55f,(smi)=> smi.Trigger(ModAssets.OnRefineryAnimPlayed))
-					;
+				__instance.operating.working_pst_complete
+					.WorkableCompleteTransition((smi) => smi.master.fabricator.Workable, __instance.idle)
+						.OnAnimQueueComplete(__instance.idle)
+						.ScheduleAction("drop metal refinery products in sync with anim", 2.55f, (smi) => smi.Trigger(ModAssets.OnRefineryAnimPlayed))
+						;
 			}
 		}
-		[HarmonyPatch(typeof(WaterPurifierConfig), nameof(WaterPurifierConfig.DoPostConfigureComplete))]
-		public class WaterPurifierConfig_DoPostConfigureComplete_Patch
-		{
-			public static void Postfix(GameObject go)
-			{
 
-				StateMachineController stateMachineController = go.AddOrGet<StateMachineController>();
-
-				SgtLogger.l("removing PoweredActiveController from WaterPurifier");
-				stateMachineController.cmpdef.defs.RemoveAll(def => def.GetStateMachineType() == typeof(PoweredActiveController));
-			}
-
-		}
 	}
 }

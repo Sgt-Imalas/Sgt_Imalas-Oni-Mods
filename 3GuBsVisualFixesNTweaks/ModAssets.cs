@@ -1,4 +1,6 @@
-﻿using Klei.AI;
+﻿using _3GuBsVisualFixesNTweaks.Scripts;
+using HarmonyLib;
+using Klei.AI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,6 +16,9 @@ namespace _3GuBsVisualFixesNTweaks
     internal class ModAssets
 	{
 		static Dictionary<SimHashes, Color> CachedColors = new Dictionary<SimHashes, Color>();
+
+		static Dictionary<GameObject, KBatchedAnimController> CachedKBACs = new();
+		static Dictionary<GameObject, KBatchedAnimController> CachedFGKBACs = new();
 
 		public static Color GetElementColor(SimHashes simhash)
 		{
@@ -45,5 +50,85 @@ namespace _3GuBsVisualFixesNTweaks
 			else
 				soc.AddSymbolOverride("output_tracker", symbol);
 		}
+
+		public static void TryApplyConduitTint(ConduitType type, int conduitCell, KBatchedAnimController kbac, KBatchedAnimController kbac2, bool doForceElementColor = false, Color ForceElementColor = default, bool cleanupPrev = false)
+		{
+			if (doForceElementColor)
+			{
+				kbac.SetSymbolTint("tint", ForceElementColor);
+				kbac2?.SetSymbolTint("tint_fg", ForceElementColor);
+				return;
+			}
+
+
+			ConduitFlow flowManager = Conduit.GetFlowManager(type);
+			ConduitFlow.Conduit conduit = flowManager.GetConduit(conduitCell);
+			if (!flowManager.HasConduit(conduitCell))
+			{
+				if (cleanupPrev)
+				{
+					kbac.SetSymbolTint("tint", Color.clear);
+					kbac2?.SetSymbolTint("tint", Color.clear);
+				}
+				return;
+			}
+			ConduitFlow.ConduitContents contents = conduit.GetContents(flowManager);
+
+			if (contents.mass > 0f)
+			{
+				kbac.SetSymbolTint("tint", ModAssets.GetElementColor(contents.element));
+				kbac2?.SetSymbolTint("tint_fg", ModAssets.GetElementColor(contents.element));
+			}
+			else
+			{
+
+				if (cleanupPrev)
+				{
+					kbac.SetSymbolTint("tint", Color.clear);
+					kbac2?.SetSymbolTint("tint", Color.clear);
+				}
+			}
+		}
+
+		public static bool TryGetCachedKbacs(GameObject key, out KBatchedAnimController kbac, out KBatchedAnimController fg)
+		{
+			kbac = null;
+			fg = null;
+			if (!CachedKBACs.TryGetValue(key, out kbac))
+			{
+				if (key.TryGetComponent<KBatchedAnimController>(out kbac))
+				{
+					CachedKBACs.Add(key, kbac);
+					if (kbac.layering?.foregroundController is KBatchedAnimController kbac2)
+					{
+						CachedFGKBACs.Add(key, kbac2);
+						fg = kbac2;
+					}
+					else
+						SgtLogger.l("no fg kbac found for " + key.GetProperName());
+				}
+			}
+			if (kbac == null)
+				return false;
+
+			CachedFGKBACs.TryGetValue(key, out fg);
+			return true;
+
+		}
+
+		public static void AddGeneratorTint(GameObject go)
+		{
+			var gen = go.GetComponent<EnergyGenerator>();
+			var generatorConsumable = gen.formula.inputs?.FirstOrDefault();
+			Tag tintLimiter = null;
+			if (generatorConsumable != null && generatorConsumable.HasValue)
+			{
+				tintLimiter = generatorConsumable.Value.tag;
+			}
+			SgtLogger.l("Generator Tint tag: " + tintLimiter,go.GetProperName());
+			var tint = go.AddOrGet<ContentTintable>();
+			tint.TintTag = tintLimiter;
+			tint.TintGeneratorMeter = true;
+		}		
 	}
 }

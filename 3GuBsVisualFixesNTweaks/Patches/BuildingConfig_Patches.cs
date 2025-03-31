@@ -1,0 +1,99 @@
+﻿using _3GuBsVisualFixesNTweaks.Scripts;
+using HarmonyLib;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
+using UnityEngine;
+using UtilLibs;
+
+namespace _3GuBsVisualFixesNTweaks.Patches
+{
+    class BuildingConfig_Patches
+	{
+		[HarmonyPatch]
+		public static class AddTintableToBuildings
+		{
+			[HarmonyPrefix]
+			public static void Prefix(GameObject go)
+			{
+				go.AddOrGet<ContentTintable>();
+			}
+			[HarmonyTargetMethods]
+			internal static IEnumerable<MethodBase> TargetMethods()
+			{
+				const string name = nameof(IBuildingConfig.DoPostConfigureComplete);
+				yield return typeof(LiquidConditionerConfig).GetMethod(name);
+				yield return typeof(LiquidPumpConfig).GetMethod(name);
+				yield return typeof(LiquidMiniPumpConfig).GetMethod(name);
+			}
+		}
+
+		/// <summary>
+		/// Register SOC
+		/// </summary>
+		[HarmonyPatch(typeof(ElectrobankChargerConfig), nameof(ElectrobankChargerConfig.DoPostConfigureComplete))]
+		public class ElectrobankChargerConfig_DoPostConfigureComplete_Patch
+		{
+			public static void Postfix(GameObject go)
+			{
+				SymbolOverrideControllerUtil.AddToPrefab(go);
+			}
+		}
+
+		[HarmonyPatch(typeof(WaterPurifierConfig), nameof(WaterPurifierConfig.DoPostConfigureComplete))]
+		public class WaterPurifierConfig_DoPostConfigureComplete_Patch
+		{
+			public static void Postfix(GameObject go)
+			{
+
+				StateMachineController stateMachineController = go.AddOrGet<StateMachineController>();
+
+				SgtLogger.l("removing PoweredActiveController from WaterPurifier");
+				stateMachineController.cmpdef.defs.RemoveAll(def => def.GetStateMachineType() == typeof(PoweredActiveController));
+			}
+		}
+
+		[HarmonyPatch(typeof(MethaneGeneratorConfig), nameof(MethaneGeneratorConfig.DoPostConfigureComplete))]
+		public class MethaneGeneratorConfig_DoPostConfigureComplete_Patch
+		{
+			public static void Postfix(GameObject go)
+			{
+				//go.GetComponent<EnergyGenerator>().formula.inputs = [new EnergyGenerator.InputItem(GameTags.CombustibleGas, 0.09f, 0.9f)];
+				ModAssets.AddGeneratorTint(go);
+			}
+		}
+
+		[HarmonyPatch(typeof(PetroleumGeneratorConfig), nameof(PetroleumGeneratorConfig.DoPostConfigureComplete))]
+		public class PetroleumGeneratorConfig_DoPostConfigureComplete_Patch
+		{
+			public static void Postfix(GameObject go)
+			{
+				ModAssets.AddGeneratorTint(go);
+			}
+		}
+
+		/// <summary>
+		/// inject an extra storage that stores refinery products while the conveyor anim plays
+		/// </summary>
+		[HarmonyPatch(typeof(MetalRefineryConfig), nameof(MetalRefineryConfig.DoPostConfigureComplete))]
+		public class MetalRefineryConfig_DoPostConfigureComplete_Patch
+		{
+			public static void Postfix(GameObject go)
+			{
+				go.AddOrGet<MetalRefineryTint>().ProductStorage = go.AddComponent<Storage>();
+			}
+		}
+
+		[HarmonyPatch(typeof(LiquidHeaterConfig), nameof(LiquidHeaterConfig.DoPostConfigureComplete))]
+		public class LiquidHeaterConfig_DoPostConfigureComplete_Patch
+		{
+			public static void Postfix(GameObject go)
+			{
+				go.AddOrGet<TintableByExterior>();
+			}
+		}
+	}
+}

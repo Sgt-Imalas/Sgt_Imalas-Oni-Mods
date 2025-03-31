@@ -24,7 +24,7 @@
 	<!-- Mod Info -->
 	<PropertyGroup>
 		<ModName>Visual Fixes and Tweaks</ModName>
-		<ModDescription>Collection of small animation fixes and adjustments</ModDescription>
+		<ModDescription>This mod fixes a number of various animation related bugs and errors, while also providing visual enhancements and tweaks</ModDescription>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
