@@ -21,6 +21,7 @@ namespace _3GuBsVisualFixesNTweaks.Scripts
 			Subscribe((int)GameHashes.OnStorageChange, UpdateTint);
 			Subscribe(ModAssets.OnRefineryAnimPlayed, DropAllProducts);
 			base.OnSpawn();
+			UpdateTint(null);
 		}
 		public override void OnCleanUp()
 		{

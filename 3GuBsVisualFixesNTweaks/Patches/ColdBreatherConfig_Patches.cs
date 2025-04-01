@@ -9,7 +9,7 @@ using UtilLibs;
 
 namespace _3GuBsVisualFixesNTweaks.Patches
 {
-    class ColdBreather_Patches
+    class ColdBreatherConfig_Patches
     {
 
         [HarmonyPatch(typeof(ColdBreatherConfig), nameof(ColdBreatherConfig.CreatePrefab))]

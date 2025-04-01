@@ -9,12 +9,13 @@ namespace _3GuBsVisualFixesNTweaks
 {
     class STRINGS
     {
-        public class BUILDINGS
-        {
-            public class PREFABS
-            {
-                
-            }
-        }
-    }
+		public class VFNT_MODCONFIG
+		{
+			public class ROCKETPLATFORM_FRONT
+			{
+				public static LocString NAME = "Rocket Platform in Front of rockets";
+				public static LocString TOOLTIP = "Render the rocket platform in front of rocket engines and their exhaust";
+			}
+		}
+	}
 }

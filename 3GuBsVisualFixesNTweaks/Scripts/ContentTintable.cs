@@ -19,6 +19,7 @@ namespace _3GuBsVisualFixesNTweaks.Scripts
 
 		[SerializeField] public Tag TintTag = null;
 		[SerializeField] public bool TintGeneratorMeter = false;
+		[SerializeField] public bool TintPolymerizer = false;
 
 		private static readonly EventSystem.IntraObjectHandler<ContentTintable> OnStorageChangeDelegate = new EventSystem.IntraObjectHandler<ContentTintable>((tintable, data) => tintable.UpdateTint());
 		//private static readonly EventSystem.IntraObjectHandler<ContentTintable> OnActiveChangedDelegate = new EventSystem.IntraObjectHandler<ContentTintable>((tintable, data) => tintable.ClearTint());
@@ -42,9 +43,10 @@ namespace _3GuBsVisualFixesNTweaks.Scripts
 			{
 				kbacMeter = generator.meter.meterController;
 			}
-			else
-				SgtLogger.l("no tintable meter on " + gameObject.name);
-
+			else if (TintPolymerizer && TryGetComponent<Polymerizer>(out var polymerizer))
+			{
+				kbacMeter = polymerizer.oilMeter.meterController;
+			}
 			UpdateTint();
 		}
 

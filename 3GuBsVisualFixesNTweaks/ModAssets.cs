@@ -26,6 +26,7 @@ namespace _3GuBsVisualFixesNTweaks
 			{
 				var element = ElementLoader.GetElement(simhash.CreateTag());
 				color = element.substance.conduitColour;
+				color.a = 1f;
 				CachedColors[simhash] = color;
 			}
 			return color;
@@ -92,8 +93,13 @@ namespace _3GuBsVisualFixesNTweaks
 
 		public static bool TryGetCachedKbacs(GameObject key, out KBatchedAnimController kbac, out KBatchedAnimController fg)
 		{
+
 			kbac = null;
 			fg = null;
+
+			if (key == null)
+				return false;
+
 			if (!CachedKBACs.TryGetValue(key, out kbac))
 			{
 				if (key.TryGetComponent<KBatchedAnimController>(out kbac))
@@ -116,7 +122,7 @@ namespace _3GuBsVisualFixesNTweaks
 
 		}
 
-		public static void AddGeneratorTint(GameObject go)
+		public static ContentTintable AddGeneratorTint(GameObject go)
 		{
 			var gen = go.GetComponent<EnergyGenerator>();
 			var generatorConsumable = gen.formula.inputs?.FirstOrDefault();
@@ -129,6 +135,21 @@ namespace _3GuBsVisualFixesNTweaks
 			var tint = go.AddOrGet<ContentTintable>();
 			tint.TintTag = tintLimiter;
 			tint.TintGeneratorMeter = true;
-		}		
+			return tint;
+		}
+		public static ContentTintable AddElementConverterTint(GameObject go)
+		{
+			var gen = go.GetComponent<ElementConverter>();
+			var inputConsumable = gen.consumedElements?.FirstOrDefault();
+			Tag tintLimiter = null;
+			if (inputConsumable.HasValue)
+			{
+				tintLimiter = inputConsumable.Value.Tag;
+			}
+			SgtLogger.l("ElementConverter Tint tag: " + tintLimiter, go.GetProperName());
+			var tint = go.AddOrGet<ContentTintable>();
+			tint.TintTag = tintLimiter;
+			return tint;
+		}
 	}
 }

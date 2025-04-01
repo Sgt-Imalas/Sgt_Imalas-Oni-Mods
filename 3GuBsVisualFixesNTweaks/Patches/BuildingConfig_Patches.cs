@@ -11,7 +11,7 @@ using UtilLibs;
 
 namespace _3GuBsVisualFixesNTweaks.Patches
 {
-    class BuildingConfig_Patches
+	class BuildingConfig_Patches
 	{
 		[HarmonyPatch]
 		public static class AddTintableToBuildings
@@ -66,6 +66,32 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 			}
 		}
 
+		[HarmonyPatch(typeof(LaunchPadConfig), nameof(LaunchPadConfig.CreateBuildingDef))]
+		public class LaunchPadConfig_CreateBuildingDef_Patch
+		{
+			static bool Prepare() => Config.Instance.RocketPlatformRenderChange;
+
+			public static void Postfix(BuildingDef __result)
+			{
+				if (!Config.Instance.RocketPlatformRenderChange)
+					return;
+				var anim = Assets.GetAnim("rocket_launchpad_fg_kanim");
+				if (anim == null)
+					return;
+
+				__result.AnimFiles = [anim];
+				SoundUtils.CopySoundsToAnim("rocket_launchpad_fg_kanim", "rocket_launchpad_kanim"); //anim has no sound, cloning them from original				
+			}
+		}
+
+		[HarmonyPatch(typeof(PolymerizerConfig), nameof(PolymerizerConfig.DoPostConfigureComplete))]
+		public class PolymerizerConfig_DoPostConfigureComplete_Patch
+		{
+			public static void Postfix(GameObject go)
+			{
+				ModAssets.AddElementConverterTint(go).TintPolymerizer = true;
+			}
+		}
 		[HarmonyPatch(typeof(PetroleumGeneratorConfig), nameof(PetroleumGeneratorConfig.DoPostConfigureComplete))]
 		public class PetroleumGeneratorConfig_DoPostConfigureComplete_Patch
 		{

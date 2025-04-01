@@ -98,7 +98,7 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 		}
 
 		[HarmonyPatch(typeof(LimitValve), nameof(LimitValve.OnMassTransfer))]
-		public class LimitValve_ConduitUpdate_Patch
+		public class LimitValve_OnMassTransfer_Patch
 		{
 			public static void Prefix(LimitValve __instance, SimHashes element, float transferredMass)
 			{
@@ -106,11 +106,11 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 				{
 					if (transferredMass <= 0)
 					{
-						TryApplyConduitTint(__instance.conduitType, __instance.conduitBridge.inputCell, kbac, kbac2, true, Color.clear);
+						TryApplyConduitTint(__instance.conduitType, -1, kbac, kbac2, true, Color.clear);
 					}
 					else
 					{
-						TryApplyConduitTint(__instance.conduitType, __instance.conduitBridge.inputCell, kbac, kbac2, true, ModAssets.GetElementColor(element));
+						TryApplyConduitTint(__instance.conduitType, -1, kbac, kbac2, true, ModAssets.GetElementColor(element));
 					}
 				}
 			}
