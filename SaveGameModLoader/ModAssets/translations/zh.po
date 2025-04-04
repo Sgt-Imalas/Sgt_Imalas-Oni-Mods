@@ -14,7 +14,7 @@ msgstr ""
 #. SaveGameModLoader.STRINGS.MPM_CONFIG.APPLYPLIBCONFIG.NAME
 msgctxt "SaveGameModLoader.STRINGS.MPM_CONFIG.APPLYPLIBCONFIG.NAME"
 msgid "Profiles apply Mod Options"
-msgstr "配置文件应用Mod选项"
+msgstr "配置文件应用模式选项"
 
 #. SaveGameModLoader.STRINGS.MPM_CONFIG.APPLYPLIBCONFIG.TOOLTIP
 msgctxt "SaveGameModLoader.STRINGS.MPM_CONFIG.APPLYPLIBCONFIG.TOOLTIP"
