@@ -121,5 +121,14 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 				go.AddOrGet<TintableByExterior>();
 			}
 		}
+
+		[HarmonyPatch(typeof(CampfireConfig), nameof(CampfireConfig.ConfigureBuildingTemplate))]
+		public class CampfireConfig_ConfigureBuildingTemplate_Patch
+		{
+			public static void Postfix(GameObject go)
+			{
+				go.AddOrGet<StorageMeter>();
+			}
+		}
 	}
 }

@@ -17,12 +17,6 @@ namespace AkisSnowThings
 	{
 		public int SnowMachineMaxParticles { get; set; } = 256;
 
-		public HashSet<string> GlassCaseSealables { get; set; } = new HashSet<string>()
-		{
-			SnowSculptureConfig.ID,
-			IceSculptureConfig.ID
-		};
-
 		public RangedValue SnowMachineDecor { get; set; } = new RangedValue()
 		{
 			Range = 16,
