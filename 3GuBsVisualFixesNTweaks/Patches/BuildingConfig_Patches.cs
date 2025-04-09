@@ -59,6 +59,7 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 		[HarmonyPatch(typeof(MethaneGeneratorConfig), nameof(MethaneGeneratorConfig.DoPostConfigureComplete))]
 		public class MethaneGeneratorConfig_DoPostConfigureComplete_Patch
 		{
+			[HarmonyPriority(Priority.Low)]
 			public static void Postfix(GameObject go)
 			{
 				//go.GetComponent<EnergyGenerator>().formula.inputs = [new EnergyGenerator.InputItem(GameTags.CombustibleGas, 0.09f, 0.9f)];
@@ -128,6 +129,15 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 			public static void Postfix(GameObject go)
 			{
 				go.AddOrGet<StorageMeter>();
+			}
+		}
+
+		[HarmonyPatch(typeof(OxysconceConfig), nameof(OxysconceConfig.ConfigureBuildingTemplate))]
+		public class OxysconceConfig_ConfigureBuildingTemplate_Patch
+		{
+			public static void Postfix(GameObject go)
+			{
+				go.AddOrGet<SconceAnimator>();
 			}
 		}
 	}
