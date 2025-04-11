@@ -57,7 +57,8 @@ namespace OniRetroEdition.ModPatches
 				}
 
 
-				Trait needTrait = Db.Get().traits.TryGet(GetRandomNeedTrait().id);
+
+				Trait needTrait = Db.Get().traits.TryGet(GetRandomNeedTrait(__instance.personality.model).id);
 
 				//skip if need trait already added (ie. bio inks)
 				if (__instance.Traits.Any(trait => trait != null && needTraits.Contains(trait.Id)))
@@ -82,9 +83,14 @@ namespace OniRetroEdition.ModPatches
 				__instance.Traits.Add(needTrait);
 
 			}
-			public static DUPLICANTSTATS.TraitVal GetRandomNeedTrait()
+			public static DUPLICANTSTATS.TraitVal GetRandomNeedTrait(Tag minionModel)
 			{
-				return TUNING.DUPLICANTSTATS.NEEDTRAITS[random.Next(0, TUNING.DUPLICANTSTATS.NEEDTRAITS.Count)];
+				var randomTrait = TUNING.DUPLICANTSTATS.NEEDTRAITS[random.Next(0, TUNING.DUPLICANTSTATS.NEEDTRAITS.Count)];
+				if (minionModel == GameTags.Minions.Models.Bionic && randomTrait.id == "SolitarySleeper") //that trait crashes on bionics because they dont have a stamina monitor
+				{
+					return GetRandomNeedTrait(minionModel);
+				}
+				return randomTrait;
 			}
 
 		}

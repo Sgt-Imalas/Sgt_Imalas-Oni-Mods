@@ -1,5 +1,6 @@
 ﻿using KSerialization;
 using UnityEngine;
+using static Klei.SimUtil;
 
 namespace OniRetroEdition.Behaviors
 {
@@ -41,7 +42,8 @@ namespace OniRetroEdition.Behaviors
 				{
 					float toVent = Mathf.Min(element.Mass, amountToLose);
 					amountToLose -= toVent;
-					SimMessages.AddRemoveSubstance(Grid.PosToCell(pos), element.ElementID, CellEventLogger.Instance.Dumpable, toVent, element.Temperature, element.DiseaseIdx, element.DiseaseCount);
+					//SimMessages.AddRemoveSubstance(Grid.PosToCell(pos), element.ElementID, CellEventLogger.Instance.Dumpable, toVent, element.Temperature, element.DiseaseIdx, element.DiseaseCount);
+					SimMessages.AddRemoveSubstance(Grid.PosToCell(pos), element.ElementID, CellEventLogger.Instance.Dumpable, toVent, element.Temperature, DiseaseInfo.Invalid.idx, DiseaseInfo.Invalid.count);
 					element.Mass -= toVent;
 
 					if (amountToLose <= 0)
@@ -57,7 +59,7 @@ namespace OniRetroEdition.Behaviors
 		void DestroyOnEmpty()
 		{
 			var pos = transform.GetPosition();
-			primaryElement.Element.substance.SpawnResource(pos, 15f, primaryElement.Temperature, byte.MaxValue, 0, false);
+			primaryElement.Element.substance.SpawnResource(pos, 15f, primaryElement.Temperature, DiseaseInfo.Invalid.idx, DiseaseInfo.Invalid.count, false);
 			UnityEngine.Object.Destroy(this.gameObject);
 		}
 	}
