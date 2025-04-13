@@ -367,10 +367,15 @@ namespace ModProfileManager_Addon
 		public Dictionary<string, MPM_POptionDataEntry> ReadPlibOptions()
 		{
 			IEnumerable<PForwardedComponent> allComponents = PRegistry.Instance.GetAllComponents("PeterHan.PLib.Options.POptions");
+			SgtLogger.l("fetching plib config settings for mod profile");
+			if (allComponents == null || !allComponents.Any())
+			{
+				SgtLogger.l("no plib options found");
+				return new();
+			}
 
 			//static id + data object
 			Dictionary<string, MPM_POptionDataEntry> ModConfigs = new();
-			SgtLogger.l("fetching plib config settings for mod profile");
 			SgtLogger.l(allComponents.Count() + " components found");
 
 			foreach (var component in allComponents)
