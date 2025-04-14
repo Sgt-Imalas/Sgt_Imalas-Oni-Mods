@@ -15,6 +15,16 @@ namespace _3GuBsVisualFixesNTweaks
 {
     internal class ModAssets
 	{
+		public static class ModTags
+		{
+			//completely disable wall visualizers for the building (use if those are fully included in the building anim)
+			public static Tag PlacementVisualizerExcluded = TagManager.Create("VFNT_PlacementVisualizerExcluded");
+			//disable wall visualizers for the building, but only for vertical walls
+			public static Tag PlacementVisualizerExcludedVertical = TagManager.Create("VFNT_PlacementVisualizerExcludedVertical");
+			//disable wall visualizers for the building, but only for horizontal walls
+			public static Tag PlacementVisualizerExcludedHorizontal = TagManager.Create("VFNT_PlacementVisualizerExcludedHorizontal");
+		}
+
 		static Dictionary<SimHashes, Color> CachedColors = new Dictionary<SimHashes, Color>();
 
 		static Dictionary<GameObject, KBatchedAnimController> CachedKBACs = new();

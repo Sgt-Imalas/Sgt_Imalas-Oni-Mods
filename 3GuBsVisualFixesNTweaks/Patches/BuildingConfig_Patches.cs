@@ -30,6 +30,39 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 				yield return typeof(LiquidMiniPumpConfig).GetMethod(name);
 			}
 		}
+		[HarmonyPatch]
+		public static class ExcludeBuildingsFromFloorVis
+		{
+			[HarmonyPrefix]
+			public static void Prefix(GameObject go)
+			{
+				go.AddTag(ModAssets.ModTags.PlacementVisualizerExcluded);
+			}
+			[HarmonyTargetMethods]
+			internal static IEnumerable<MethodBase> TargetMethods()
+			{
+				const string name = nameof(IBuildingConfig.DoPostConfigureComplete);
+				yield return typeof(SteamTurbineConfig2).GetMethod(name);
+				yield return typeof(AutoMinerConfig).GetMethod(name);
+
+				yield return typeof(RocketInteriorGasInputConfig).GetMethod(name);
+				yield return typeof(RocketInteriorGasOutputConfig).GetMethod(name);
+				yield return typeof(RocketInteriorLiquidInputConfig).GetMethod(name);
+				yield return typeof(RocketInteriorLiquidOutputConfig).GetMethod(name);
+				yield return typeof(RocketInteriorSolidOutputConfig).GetMethod(name);
+				yield return typeof(RocketInteriorSolidInputConfig).GetMethod(name);
+				yield return typeof(RocketInteriorPowerPlugConfig).GetMethod(name);
+			}
+		}
+
+		[HarmonyPatch(typeof(WallToiletConfig), nameof(WallToiletConfig.DoPostConfigureComplete))]
+		public class WallToiletConfig_DoPostConfigureComplete_Patch
+		{
+			public static void Prefix(GameObject go)
+			{
+				go.AddTag(ModAssets.ModTags.PlacementVisualizerExcludedVertical);
+			}
+		}
 
 		/// <summary>
 		/// Register SOC

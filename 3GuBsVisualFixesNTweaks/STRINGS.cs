@@ -8,7 +8,15 @@ using System.Threading.Tasks;
 namespace _3GuBsVisualFixesNTweaks
 {
     class STRINGS
-    {
+	{
+		public class MISC
+		{
+			public class TAGS
+			{
+				public static LocString VFNT_PLACEMENTVISUALIZEREXCLUDED = "Hide Floor Visualizer";
+			}
+
+		}
 		public class VFNT_MODCONFIG
 		{
 			public class ROCKETPLATFORM_FRONT
