@@ -205,6 +205,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MissingElementFixer", "Miss
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3GuBsVisualFixesNTweaks", "3GuBsVisualFixesNTweaks\3GuBsVisualFixesNTweaks.csproj", "{067F1948-D20D-45E4-A00A-DEE95F46F78C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TakeThemPrinterOffers", "TakeThemPrinterOffers\TakeThemPrinterOffers.csproj", "{26A4806F-4F93-41DF-9E75-24BDB986328D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -571,6 +573,10 @@ Global
 		{067F1948-D20D-45E4-A00A-DEE95F46F78C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{067F1948-D20D-45E4-A00A-DEE95F46F78C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{067F1948-D20D-45E4-A00A-DEE95F46F78C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26A4806F-4F93-41DF-9E75-24BDB986328D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26A4806F-4F93-41DF-9E75-24BDB986328D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26A4806F-4F93-41DF-9E75-24BDB986328D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26A4806F-4F93-41DF-9E75-24BDB986328D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
