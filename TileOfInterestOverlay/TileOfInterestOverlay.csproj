@@ -24,8 +24,7 @@
 	<!-- Mod Info -->
 	<PropertyGroup>
 		<ModName>TileOfInterestOverlay</ModName>
-		<ModDescription></ModDescription>
-		 
+		<ModDescription></ModDescription>		 
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
@@ -33,11 +32,6 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<OutDir>bin</OutDir>
-	</PropertyGroup>
-
-	<PropertyGroup>
-		<LangVersion>preview</LangVersion>
-		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>
 	
 	<ItemGroup>

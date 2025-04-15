@@ -34,9 +34,6 @@
 		<OutDir>bin</OutDir>
 	</PropertyGroup>
 
-	<PropertyGroup>
-		<LangVersion>preview</LangVersion>
-	</PropertyGroup>
 
 	<ItemGroup>
 	  <PackageReference Include="Aze.Publicise.MSBuild.Task" Version="1.1.0">
@@ -49,24 +46,6 @@
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
 	</ItemGroup>
 	
-	<ItemGroup>
-	  <None Update="ModAssets\anim\assets\conveyorbelt\conveyorBelt_0.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\conveyorbelt\conveyorBelt_anim.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\conveyorbelt\conveyorBelt_build.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\translations\zh.po">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	</ItemGroup>
-	
-	<ItemGroup>
-	  <Folder Include="ModAssets\anim\assets\conveyorelevator\" />
-	</ItemGroup>
 	
 	<ItemGroup>
 	  <PackageReference Update="ILRepack.Lib.MSBuild.Task" Version="2.0.37">

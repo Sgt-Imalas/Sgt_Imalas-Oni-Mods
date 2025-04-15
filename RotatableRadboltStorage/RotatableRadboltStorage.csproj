@@ -35,10 +35,6 @@
 		<OutDir>bin</OutDir>
 	</PropertyGroup>
 
-	<PropertyGroup>
-		<LangVersion>preview</LangVersion>
-	</PropertyGroup>
-
 	<ItemGroup>
 	  <PackageReference Include="Aze.Publicise.MSBuild.Task" Version="1.1.0">
 	    <PrivateAssets>all</PrivateAssets>
@@ -49,19 +45,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
 	</ItemGroup>
-	
-	<ItemGroup>
-	  <None Update="ModAssets\anim\assets\radbolt_battery_rotatable\radbolt_battery_rotatable.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\radbolt_battery_rotatable\radbolt_battery_rotatable_anim.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\radbolt_battery_rotatable\radbolt_battery_rotatable_build.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	</ItemGroup>
-	
+		
 	<ItemGroup>
 	  <PackageReference Update="ILRepack.Lib.MSBuild.Task" Version="2.0.37">
 	    <PrivateAssets>all</PrivateAssets>

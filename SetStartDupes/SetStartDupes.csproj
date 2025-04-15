@@ -24,8 +24,7 @@
 	<!-- Mod Info -->
 	<PropertyGroup>
 		<ModName>Duplicant Stat Selector [DSS]</ModName>
-		<ModDescription>Adjust the amount of duplicants you start a game with and the stats of duplicants .</ModDescription>
-		
+		<ModDescription>Customize everything related to your duplicants and the printing pod</ModDescription>		
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
@@ -41,58 +40,10 @@
 		<OutDir>bin</OutDir>
 	</PropertyGroup>
 
-	<PropertyGroup>
-		<LangVersion>preview</LangVersion>
-		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-	</PropertyGroup>
-	
 	<ItemGroup>
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
 	</ItemGroup>
-	
-	<ItemGroup>
-	  <Folder Include="ModAssets\assets\linux\" />
-	</ItemGroup>
-	
-	<ItemGroup>
-	  <None Update="ModAssets\anim\assets\dss_mystery_minions_dupeselect\crewselect_backdrop_0.png">
-	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\dss_mystery_minions_dupeselect\crewselect_backdrop_anim.bytes">
-	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\dss_mystery_minions_dupeselect\crewselect_backdrop_build.bytes">
-	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\assets\linux\dss_uiassets">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\assets\mac\dss_uiassets">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\assets\OpenLock.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\assets\windows\dss_uiassets">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\translations\de.po">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\translations\es.po">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\translations\fr.po">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\translations\ru.po">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\translations\zh.po">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	</ItemGroup>
-	
+		
 	<ItemGroup>
 	  <PackageReference Update="ILRepack.Lib.MSBuild.Task" Version="2.0.37">
 	    <PrivateAssets>all</PrivateAssets>

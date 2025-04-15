@@ -35,36 +35,10 @@
 		<OutDir>bin</OutDir>
 	</PropertyGroup>
 
-	<PropertyGroup>
-		<LangVersion>preview</LangVersion>
-		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-	</PropertyGroup>
-	
 	<ItemGroup>
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
 	</ItemGroup>
-	
-	<ItemGroup>
-	  <None Update="ModAssets\anim\assets\old_liquidreservoir2\liquidreservoir_0.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\old_liquidreservoir2\liquidreservoir_anim.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\old_liquidreservoir2\liquidreservoir_build.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\old_liquidreservoir\liquidreservoir_0.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\old_liquidreservoir\liquidreservoir_anim.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\old_liquidreservoir\liquidreservoir_build.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	</ItemGroup>
-	
+		
 	<ItemGroup>
 	  <PackageReference Update="ILRepack.Lib.MSBuild.Task" Version="2.0.37">
 	    <PrivateAssets>all</PrivateAssets>

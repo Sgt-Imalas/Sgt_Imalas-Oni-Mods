@@ -33,28 +33,11 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<OutDir>bin</OutDir>
 	</PropertyGroup>
-
-	<PropertyGroup>
-		<LangVersion>preview</LangVersion>
-		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-	</PropertyGroup>
 	
 	<ItemGroup>
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
 	</ItemGroup>
-	
-	<ItemGroup>
-	  <None Update="ModAssets\assets\linux\dupe_prio_preset_window">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\assets\mac\dupe_prio_preset_window">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\assets\windows\dupe_prio_preset_window">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	</ItemGroup>
-	
+		
 	<ItemGroup>
 	  <PackageReference Update="ILRepack.Lib.MSBuild.Task" Version="2.0.37">
 	    <PrivateAssets>all</PrivateAssets>

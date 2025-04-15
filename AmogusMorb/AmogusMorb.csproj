@@ -56,55 +56,7 @@
 	    <HintPath>..\TwitchLib\ONITwitchLib.dll</HintPath>
 	  </Reference>
 	</ItemGroup>
-	
-	<ItemGroup>
-	  <None Update="ModAssets\anim\assets\amorbus_sus\amorbus_sus_0.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\amorbus_sus\amorbus_sus_anim.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\amorbus_sus\amorbus_sus_build.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\amorbus_sus_old\amorbus_sus_old_0.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\amorbus_sus_old\amorbus_sus_old_anim.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\amorbus_sus_old\amorbus_sus_old_build.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\moodlamp_amogus__sitting\moodlamp_amogus__sitting_0.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\moodlamp_amogus__sitting\moodlamp_amogus__sitting_anim.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\moodlamp_amogus__sitting\moodlamp_amogus__sitting_build.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\moodlamp_stickbug\stickbug_0.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\moodlamp_stickbug\stickbug_anim.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\moodlamp_stickbug\stickbug_build.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\twitch_imposter\twitch_imposter_0.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\twitch_imposter\twitch_imposter_anim.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\twitch_imposter\twitch_imposter_build.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	</ItemGroup>
-	
+		
 	<ItemGroup>
 	  <PackageReference Update="ILRepack.Lib.MSBuild.Task" Version="2.0.37">
 	    <PrivateAssets>all</PrivateAssets>

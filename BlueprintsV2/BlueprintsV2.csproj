@@ -34,55 +34,10 @@
 		<OutDir>bin</OutDir>
 	</PropertyGroup>
 
-	<PropertyGroup>
-		<LangVersion>preview</LangVersion>
-		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-	</PropertyGroup>
-
-	<ItemGroup>
-	  <None Remove="ModAssets\License_Blueprints.txt" />
-	</ItemGroup>
-	
 	<ItemGroup>
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
 	</ItemGroup>
-  <ItemGroup>
-        <EmbeddedResource Include="ModAssets\assets\createblueprint_button.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ModAssets\assets\createblueprint_visualizer.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ModAssets\assets\snapshot_button.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ModAssets\assets\snapshot_visualizer.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ModAssets\assets\useblueprint_button.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ModAssets\assets\useblueprint_visualizer.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ModAssets\License_Blueprints.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="ModAssets\assets\linux\blueprints_ui">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="ModAssets\assets\mac\blueprints_ui">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="ModAssets\assets\windows\blueprints_ui">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ModAssets\translations\" />
-  </ItemGroup>
+	
   <ItemGroup>
     <PackageReference Update="ILRepack.Lib.MSBuild.Task" Version="2.0.37">
       <PrivateAssets>all</PrivateAssets>

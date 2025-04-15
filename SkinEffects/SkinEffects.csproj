@@ -24,8 +24,7 @@
 	<!-- Mod Info -->
 	<PropertyGroup>
 		<ModName>Skin Effects</ModName>
-		<ModDescription></ModDescription>
-		 
+		<ModDescription>Adds lights to those trimming skins that look like fairy lights</ModDescription>		 
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
@@ -33,11 +32,6 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<OutDir>bin</OutDir>
-	</PropertyGroup>
-
-	<PropertyGroup>
-		<LangVersion>preview</LangVersion>
-		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>
 	
 	<ItemGroup>

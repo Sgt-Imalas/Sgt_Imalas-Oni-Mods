@@ -24,8 +24,7 @@
 	<!-- Mod Info -->
 	<PropertyGroup>
 		<ModName>LostContentTestingGround</ModName>
-		<ModDescription></ModDescription>
-		 
+		<ModDescription></ModDescription>		 
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
@@ -33,10 +32,6 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<OutDir>bin</OutDir>
-	</PropertyGroup>
-
-	<PropertyGroup>
-		<LangVersion>preview</LangVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -56,33 +51,4 @@
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
 	</ItemGroup>
 	
-	<ItemGroup>
-	  <None Update="ModAssets\anim\assets\gronehogmound\gronehogmound_0.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\gronehogmound\gronehogmound_anim.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\gronehogmound\gronehogmound_build.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\gronehog\gronehog_0.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\gronehog\gronehog_anim.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\gronehog\gronehog_build.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\shockworm\shockworm_0.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\shockworm\shockworm_anim.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\shockworm\shockworm_build.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	</ItemGroup>
 </Project>

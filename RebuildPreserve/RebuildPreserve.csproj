@@ -25,8 +25,7 @@
 	<!-- Mod Info -->
 	<PropertyGroup>
 		<ModName>Better Rebuilding</ModName>
-		<ModDescription>Keeps building settings on rebuild</ModDescription>
-		 
+		<ModDescription>Keeps building settings on rebuild</ModDescription>		 
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
@@ -35,26 +34,11 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<OutDir>bin</OutDir>
 	</PropertyGroup>
-
-	<PropertyGroup>
-		<LangVersion>preview</LangVersion>
-		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-	</PropertyGroup>
 	
 	<ItemGroup>
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
 	</ItemGroup>
-	
-	<ItemGroup>
-	  <Folder Include="ModAssets\translations\" />
-	</ItemGroup>
-	
-	<ItemGroup>
-	  <None Update="ModAssets\translations\ru.po">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	</ItemGroup>
-	
+		
 	<ItemGroup>
 	  <PackageReference Update="ILRepack.Lib.MSBuild.Task" Version="2.0.37">
 	    <PrivateAssets>all</PrivateAssets>

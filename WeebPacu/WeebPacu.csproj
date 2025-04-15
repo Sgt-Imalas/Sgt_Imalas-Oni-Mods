@@ -34,11 +34,7 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<OutDir>bin</OutDir>
 	</PropertyGroup>
-
-	<PropertyGroup>
-		<LangVersion>preview</LangVersion>
-	</PropertyGroup>
-
+	
 	<ItemGroup>
 	  <PackageReference Include="Aze.Publicise.MSBuild.Task" Version="1.1.0">
 	    <PrivateAssets>all</PrivateAssets>
@@ -48,18 +44,6 @@
 	
 	<ItemGroup>
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
-	</ItemGroup>
-	
-	<ItemGroup>
-	  <None Update="ModAssets\anim\assets\weeb_pacu\weeb_pacu_0.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\weeb_pacu\weeb_pacu_anim.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\weeb_pacu\weeb_pacu_build.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
 	</ItemGroup>
 	
 	<ItemGroup>

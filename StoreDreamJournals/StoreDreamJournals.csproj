@@ -23,9 +23,8 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>Dream Journal Hitbox Fix</ModName>
-		<ModDescription>Fixes the Hitbox of Dream Journals</ModDescription>
-		 
+		<ModName>Dream Journal Hitbox Fix [OBSOLETE!]</ModName>
+		<ModDescription>Fixes the Hitbox of Dream Journals</ModDescription>		 
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
@@ -33,10 +32,6 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<OutDir>bin</OutDir>
-	</PropertyGroup>
-
-	<PropertyGroup>
-		<LangVersion>preview</LangVersion>
 	</PropertyGroup>
 
 	<ItemGroup>

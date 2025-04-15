@@ -24,8 +24,7 @@
 	<!-- Mod Info -->
 	<PropertyGroup>
 		<ModName>MissingElementFixer</ModName>
-		<ModDescription></ModDescription>
-		 
+		<ModDescription>Allows loading savegames with missing building elements by replacing them with available ones</ModDescription>		 
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
@@ -33,11 +32,6 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<OutDir>bin</OutDir>
-	</PropertyGroup>
-
-	<PropertyGroup>
-		<LangVersion>preview</LangVersion>
-		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>
 
 	<ItemGroup>

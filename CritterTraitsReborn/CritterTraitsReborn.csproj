@@ -33,24 +33,9 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<OutDir>bin</OutDir>
 	</PropertyGroup>
-
-	<PropertyGroup>
-		<LangVersion>preview</LangVersion>
-		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-	</PropertyGroup>
 	
 	<ItemGroup>
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
-	</ItemGroup>
-	
-	<ItemGroup>
-	  <Folder Include="ModAssets\translations\" />
-	</ItemGroup>
-	
-	<ItemGroup>
-	  <None Update="ModAssets\translations\de.po">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
 	</ItemGroup>
 	
 	<ItemGroup>

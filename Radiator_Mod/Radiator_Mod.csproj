@@ -25,18 +25,13 @@
 	<!-- Mod Info -->
 	<PropertyGroup>
 		<ModName>Space Radiator</ModName>
-		<ModDescription>Adds a space radiator building that radiates heat into space</ModDescription>
-		
+		<ModDescription>Adds a space radiator building that radiates heat into space</ModDescription>		
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<OutDir>bin</OutDir>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-	  <OutDir>bin</OutDir>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2|AnyCPU'">
@@ -48,12 +43,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Remove="ModAssets\anim\assets\RadiatorPanel\**" />
-	  <EmbeddedResource Remove="ModAssets\anim\assets\RadiatorPanel\**" />
-	  <None Remove="ModAssets\anim\assets\RadiatorPanel\**" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <PackageReference Include="Aze.Publicise.MSBuild.Task" Version="1.1.0">
 	    <PrivateAssets>all</PrivateAssets>
 	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -63,43 +52,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <None Update="ModAssets\anim\assets\heat_radiator\heat_radiator.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\heat_radiator\heat_radiator_anim.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\heat_radiator\heat_radiator_build.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\heat_radiator_rocket_module\heat_radiator_rocket_module_0.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\heat_radiator_rocket_module\heat_radiator_rocket_module_anim.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\anim\assets\heat_radiator_rocket_module\heat_radiator_rocket_module_build.bytes">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\templates\interiors\habitat_medium_radiator.yaml">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\translations\fr.po">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\translations\ru.po">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="ModAssets\translations\zh.po">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="ModAssets\translations\" />
 	</ItemGroup>
 
 	<ItemGroup>

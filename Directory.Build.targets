@@ -54,7 +54,10 @@
 		<Message Text="Executing CopyDLLs task" Importance="High" />
 
 		<ItemGroup>
-			<ModAssets Include="$(TargetDir)\ModAssets\**\*.*" />
+			<ModAssets
+				Include = ".\ModAssets\**\*.*"
+				Exclude = ".\**\*.afphoto;.\**\*.mo"
+				/>
 		</ItemGroup>
 
 		<Copy

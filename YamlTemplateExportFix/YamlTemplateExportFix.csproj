@@ -24,8 +24,7 @@
 	<!-- Mod Info -->
 	<PropertyGroup>
 		<ModName>YAML Fix</ModName>
-		<ModDescription>MODDESCR</ModDescription>
-		<SupportedContent>ALL/</SupportedContent>
+		<ModDescription>fixes the template offset inside of rockets</ModDescription>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

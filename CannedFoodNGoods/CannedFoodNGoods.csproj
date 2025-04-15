@@ -29,10 +29,6 @@
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 
-	<PropertyGroup>
-		<LangVersion>preview</LangVersion>
-		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<OutDir>bin</OutDir>
@@ -63,63 +59,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Update="ModAssets\anim\assets\canned_bbq\canned_bbq.png">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="ModAssets\anim\assets\canned_bbq\canned_bbq_anim.bytes">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="ModAssets\anim\assets\canned_bbq\canned_bbq_build.bytes">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="ModAssets\anim\assets\canned_milk\canned_bread_0.png">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="ModAssets\anim\assets\canned_milk\canned_bread_anim.bytes">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="ModAssets\anim\assets\canned_milk\canned_bread_build.bytes">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="ModAssets\anim\assets\canned_beans\canned_bread_0.png">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="ModAssets\anim\assets\canned_beans\canned_bread_anim.bytes">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="ModAssets\anim\assets\canned_beans\canned_bread_build.bytes">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="ModAssets\anim\assets\canned_bread\canned_bread_0.png">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="ModAssets\anim\assets\canned_bread\canned_bread_anim.bytes">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="ModAssets\anim\assets\canned_bread\canned_bread_build.bytes">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="ModAssets\anim\assets\canned_tuna\canned_tuna.png">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="ModAssets\anim\assets\canned_tuna\canned_tuna_anim.bytes">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="ModAssets\anim\assets\canned_tuna\canned_tuna_build.bytes">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="ModAssets\anim\assets\can_scrap\can_scrap.png">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="ModAssets\anim\assets\can_scrap\can_scrap_anim.bytes">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="ModAssets\anim\assets\can_scrap\can_scrap_build.bytes">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
 	</ItemGroup>
 
 	<ItemGroup>

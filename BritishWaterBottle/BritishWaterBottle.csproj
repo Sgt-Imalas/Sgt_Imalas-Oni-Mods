@@ -24,7 +24,7 @@
 	<!-- Mod Info -->
 	<PropertyGroup>
 		<ModName>BritishWaterBottle</ModName>
-		<ModDescription>Bo'o' o' Wo'er M8</ModDescription>
+		<ModDescription>Bo`o` o` Wo`er M8</ModDescription>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
@@ -32,11 +32,6 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<OutDir>bin</OutDir>
-	</PropertyGroup>
-
-	<PropertyGroup>
-		<LangVersion>preview</LangVersion>
-		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>
 	
 	<ItemGroup>
