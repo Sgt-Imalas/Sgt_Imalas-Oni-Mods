@@ -14,8 +14,6 @@ namespace TakeThemPrinterOffers
 
 			base.OnLoad(harmony);
             SgtLogger.LogVersion(this, harmony);
-            ClusterManager.Instance.WorldContainers m_seasonIds
-
-		}
+        }
     }
 }
