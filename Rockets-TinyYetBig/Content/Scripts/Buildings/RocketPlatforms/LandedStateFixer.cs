@@ -10,13 +10,13 @@ using UtilLibs;
 namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketPlatforms
 {
 	/// <summary>
-	/// load order of buildings can lead to rocket platforms failing to detect the rocket above it because it hasnt been initialized yet.
+	/// load order of buildings can lead to rocket platforms failing to detect the rocket above it because its engine module hasnt been deserialized yet.
 	/// this causes the connection to fail-
 	/// this class fixes this by forcing a delayed recheck
 	/// </summary>
 	internal class LandedStateFixer : KMonoBehaviour
 	{
-		[MyCmpGet] LaunchPad launchPad;
+		[MyCmpReq] LaunchPad launchPad;
 		public override void OnSpawn()
 		{
 			base.OnSpawn();

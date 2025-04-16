@@ -56,20 +56,32 @@ namespace Rockets_TinyYetBig.Patches.RocketLoadingPatches
                 ref bool foundHead,
                 ChainedBuilding.StatesInstance ignoredLink = null)
             {
-                GameObject go = Grid.Objects[cell, (int)__instance.def.objectLayer];
-                if (go == null)
+                GameObject otherGO = Grid.Objects[cell, (int)__instance.def.objectLayer];
+                if (otherGO == null)
                     return false;
 
-                go.TryGetComponent<KPrefabID>(out var component);
+                otherGO.TryGetComponent<KPrefabID>(out var component);
+
+                var instancePosXY = Grid.CellToXY(Grid.PosToCell(__instance));
+                var otherGOPosXY = Grid.CellToXY(Grid.PosToCell(otherGO));
+
+                //SgtLogger.l($"Checking if {__instance.gameObject.name} is connected to {otherGO.name} ({cell}), Coordinates are: {instancePosXY.ToString()} and {otherGOPosXY}");
 
 
-                if (__instance.def.headBuildingTag != ModAssets.Tags.RocketPlatformTag
+				if (__instance.def.headBuildingTag != ModAssets.Tags.RocketPlatformTag
                     || !component.HasTag(__instance.def.linkBuildingTag) && !component.HasTag(__instance.def.headBuildingTag)
-                    || Grid.CellToXY(Grid.PosToCell(__instance)).Y != Grid.CellToXY(Grid.PosToCell(go)).Y && Grid.CellToXY(Grid.PosToCell(__instance)).X != Grid.CellToXY(Grid.PosToCell(go)).X
+                    || instancePosXY.Y != otherGOPosXY.Y && instancePosXY.X != otherGOPosXY.X
                     )
                     return false;
 
-                go.GetSMI<ChainedBuilding.StatesInstance>()?.CollectToChain(ref chain, ref foundHead, ignoredLink);
+
+
+                if(instancePosXY.Y != otherGOPosXY.Y && (__instance.gameObject.TryGetComponent<VerticalPortAttachment>(out _) != otherGO.TryGetComponent<VerticalPortAttachment>(out _)))
+				{
+					return false;
+				}
+
+                otherGO.GetSMI<ChainedBuilding.StatesInstance>()?.CollectToChain(ref chain, ref foundHead, ignoredLink);
                 return false;
             }
         }
@@ -87,20 +99,20 @@ namespace Rockets_TinyYetBig.Patches.RocketLoadingPatches
                             __instance.neighbourCheckCells.Add(portAttachment.TopCell);
                         if (!__instance.neighbourCheckCells.Contains(portAttachment.BottomCell))
                             __instance.neighbourCheckCells.Add(portAttachment.BottomCell);
-                        //SgtLogger.l($"added crosspiece vertical cells to chained building");
-                        //foreach (var item in __instance.neighbourCheckCells)
-                        //{
-                        //	SgtLogger.l("Cell in list: " + item);
-                        //}
+                        SgtLogger.l($"added crosspiece vertical cells to chained building");
+                        foreach (var item in __instance.neighbourCheckCells)
+                        {
+                            SgtLogger.l("Cell in list: " + item);
+                        }
                     }
                     else
                     {
                         __instance.neighbourCheckCells = [portAttachment.TopCell, portAttachment.BottomCell];
-                        //SgtLogger.l($"replaced neigbor cells with vertical cells in chained building");
-                        //foreach (var item in __instance.neighbourCheckCells)
-                        //{
-                        //	SgtLogger.l("Cell in list: " + item);
-                        //}
+                        SgtLogger.l($"replaced neigbor cells with vertical cells in chained building");
+                        foreach (var item in __instance.neighbourCheckCells)
+                        {
+                            SgtLogger.l("Cell in list: " + item);
+                        }
                     }
                 }
             }

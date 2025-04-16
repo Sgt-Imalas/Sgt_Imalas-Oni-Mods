@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>VisualFixesNTweaks</PackageId>
-		<Version>1.1.0</Version>
+		<Version>1.2.0</Version>
 		<Authors>3GuB, Sgt_Imalas</Authors>
 		<Copyright>$(RetroOniCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
