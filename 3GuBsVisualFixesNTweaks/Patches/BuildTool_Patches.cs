@@ -56,16 +56,22 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 			bool noVerticalWallPreviews = def.BuildingComplete.HasTag(ModAssets.ModTags.PlacementVisualizerExcludedVertical);
 			bool noHorizontalWallPreviews = def.BuildingComplete.HasTag(ModAssets.ModTags.PlacementVisualizerExcludedHorizontal);
 
-
+			var buildingDimensions = new CellOffset(def.WidthInCells, def.HeightInCells);
 			TargetRule = def.BuildLocationRule;
-			List<CellOffset> targetCellOfssets = new();
-			
+
+			//flowerpots are stoopid and override their placement offsets, so we need to use the original ones for the top row
+			if (!BuildingDef.placementOffsetsCache.TryGetValue(buildingDimensions, out var buildingOffsets))
+			{
+				new BuildingDef().GenerateOffsets(def.WidthInCells, def.HeightInCells);
+				buildingOffsets = BuildingDef.placementOffsetsCache[buildingDimensions];
+			}
+
 			switch (TargetRule)
 			{
 				case BuildLocationRule.OnFoundationRotatable:
 				case BuildLocationRule.OnRocketEnvelope:
 				case BuildLocationRule.OnFloor:
-					foreach (var cellOffset in def.PlacementOffsets)
+					foreach (var cellOffset in buildingOffsets)
 					{
 						if (cellOffset.y == 0 && !noHorizontalWallPreviews)
 							CreateWallIndicator(def, worldPos, cellOffset, Orientation.Neutral);
@@ -73,7 +79,7 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 					break;
 
 				case BuildLocationRule.OnWall:
-					foreach (var cellOffset in def.PlacementOffsets)
+					foreach (var cellOffset in buildingOffsets)
 					{
 						if (cellOffset.x == 0 && !noVerticalWallPreviews)
 							CreateWallIndicator(def, worldPos, cellOffset, Orientation.R270);
@@ -81,7 +87,7 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 					break;
 
 				case BuildLocationRule.OnCeiling:
-					foreach (var cellOffset in def.PlacementOffsets)
+					foreach (var cellOffset in buildingOffsets)
 					{
 						if (cellOffset.y == def.HeightInCells-1 && !noHorizontalWallPreviews)
 							CreateWallIndicator(def, worldPos, cellOffset, Orientation.R180);
@@ -89,12 +95,12 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 					break;
 
 				case BuildLocationRule.InCorner: //top left corner
-					foreach (var cellOffset in def.PlacementOffsets)
+					foreach (var cellOffset in buildingOffsets)
 					{
 						if (cellOffset.y == def.HeightInCells - 1 && !noHorizontalWallPreviews)
 							CreateWallIndicator(def, worldPos, cellOffset, Orientation.R180);
 					}
-					foreach (var cellOffset in def.PlacementOffsets)
+					foreach (var cellOffset in buildingOffsets)
 					{
 						if (cellOffset.x == 0 && !noVerticalWallPreviews)
 							CreateWallIndicator(def, worldPos, cellOffset, Orientation.R270);
@@ -102,12 +108,12 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 					break;
 
 				case BuildLocationRule.WallFloor: //bottom corner
-					foreach (var cellOffset in def.PlacementOffsets)
+					foreach (var cellOffset in buildingOffsets)
 					{
 						if (cellOffset.y == 0 && !noHorizontalWallPreviews)
 							CreateWallIndicator(def, worldPos, cellOffset, Orientation.Neutral);
 					}
-					foreach (var cellOffset in def.PlacementOffsets)
+					foreach (var cellOffset in buildingOffsets)
 					{
 						if (cellOffset.x == 0 && !noVerticalWallPreviews)
 							CreateWallIndicator(def, worldPos, cellOffset, Orientation.R270);

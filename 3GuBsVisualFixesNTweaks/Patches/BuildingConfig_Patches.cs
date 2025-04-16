@@ -44,6 +44,7 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 				const string name = nameof(IBuildingConfig.DoPostConfigureComplete);
 				yield return typeof(SteamTurbineConfig2).GetMethod(name);
 				yield return typeof(AutoMinerConfig).GetMethod(name);
+				yield return typeof(VerticalWindTunnelConfig).GetMethod(name);
 
 				yield return typeof(RocketInteriorGasInputConfig).GetMethod(name);
 				yield return typeof(RocketInteriorGasOutputConfig).GetMethod(name);

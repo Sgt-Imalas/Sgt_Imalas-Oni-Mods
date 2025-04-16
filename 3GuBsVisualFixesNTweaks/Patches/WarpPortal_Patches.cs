@@ -19,5 +19,17 @@ namespace _3GuBsVisualFixesNTweaks.Patches
                 __instance.gameObject.AddOrGet<WarpPortalMeterController>();
 			}
         }
+
+        [HarmonyPatch(typeof(WarpPortal.WarpPortalSM), nameof(WarpPortal.WarpPortalSM.InitializeStates))]
+        public class WarpPortal_WarpPortalSM_InitializeStates_Patch
+        {
+            public static void Postfix(WarpPortal.WarpPortalSM __instance)
+            {
+                __instance.recharging
+                    .PlayAnim("off")
+                    .QueueAnim("recharge", true);
+
+			}
+        }
     }
 }
