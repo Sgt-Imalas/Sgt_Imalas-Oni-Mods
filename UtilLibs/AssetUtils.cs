@@ -63,20 +63,20 @@ namespace UtilLibs
 			string spriteId = Path.GetFileNameWithoutExtension(file.Name);
 			var texture = AssetUtils.LoadTexture(file.FullName);
 
-			if (instance.TextureAssets.Any(foundsprite => foundsprite != null && foundsprite.name == spriteId))
+			if (instance.TextureAssets?.Any(foundsprite => foundsprite != null && foundsprite.name == spriteId)??false)
 			{
 				SgtLogger.l("removed existing TextureAsset: " + spriteId);
 				instance.TextureAssets.RemoveAll(foundsprite2 => foundsprite2 != null && foundsprite2.name == spriteId);
 			}
-			instance.TextureAssets.Add(texture);
-			if (Assets.Textures.Any(foundsprite => foundsprite != null && foundsprite.name == spriteId))
+			instance.TextureAssets?.Add(texture);
+			if (Assets.Textures?.Any(foundsprite => foundsprite != null && foundsprite.name == spriteId) ?? false)
 			{
 				SgtLogger.l("removed existing Texture: " + spriteId);
-				Assets.Textures.RemoveAll(foundsprite2 => foundsprite2 != null && foundsprite2.name == spriteId);
+				Assets.Textures?.RemoveAll(foundsprite2 => foundsprite2 != null && foundsprite2.name == spriteId);
 			}
-			Assets.Textures.Add(texture);
+			Assets.Textures?.Add(texture);
 
-			if (instance.TextureAtlasAssets.Any(TextureAtlas => TextureAtlas != null && TextureAtlas.texture != null && TextureAtlas.texture.name == spriteId))
+			if (instance.TextureAtlasAssets?.Any(TextureAtlas => TextureAtlas != null && TextureAtlas.texture != null && TextureAtlas.texture.name == spriteId) ?? false)
 			{
 				SgtLogger.l("replaced Texture Atlas Asset texture: " + spriteId);
 				var atlasInQuestion = instance.TextureAtlasAssets.First(TextureAtlas => TextureAtlas != null && TextureAtlas.texture != null && TextureAtlas.texture.name == spriteId);
@@ -87,40 +87,35 @@ namespace UtilLibs
 			}
 
 
-			if (Assets.TextureAtlases.Any(TextureAtlas => TextureAtlas != null && TextureAtlas.texture != null && TextureAtlas.texture.name == spriteId))
+			if (Assets.TextureAtlases?.Any(TextureAtlas => TextureAtlas != null && TextureAtlas.texture != null && TextureAtlas.texture.name == spriteId) ?? false)
 			{
 				var atlasInQuestion = Assets.TextureAtlases.First(TextureAtlas => TextureAtlas != null && TextureAtlas.texture != null && TextureAtlas.texture.name == spriteId);
 				if (atlasInQuestion != null)
 				{
 					atlasInQuestion.texture = texture;
 				}
-
 			}
 
 			var sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector3.zero);
 			sprite.name = spriteId;
 
-
-
-			if (instance.SpriteAssets.Any(foundsprite => foundsprite != null && foundsprite.name == spriteId))
+			if (instance.SpriteAssets?.Any(foundsprite => foundsprite != null && foundsprite.name == spriteId) ?? false)
 			{
 				SgtLogger.l("removed existing SpriteAsset" + spriteId);
 				instance.SpriteAssets.RemoveAll(foundsprite2 => foundsprite2 != null && foundsprite2.name == spriteId);
 			}
-			instance.SpriteAssets.Add(sprite);
+			instance.SpriteAssets?.Add(sprite);
 
 			if (Assets.Sprites.ContainsKey(spriteId))
 			{
 				SgtLogger.l("removed existing Sprite" + spriteId);
 				Assets.Sprites.Remove(spriteId);
 			}
-			if (Assets.TintedSprites.Any(foundsprite => foundsprite != null && foundsprite.name == spriteId))
+			if (Assets.TintedSprites?.Any(foundsprite => foundsprite != null && foundsprite.name == spriteId) ?? false)
 			{
 				Assets.TintedSprites.First(foundsprite => foundsprite != null && foundsprite.name == spriteId).sprite = sprite;
 			}
-
-
-			Assets.Sprites.Add(spriteId, sprite);
+			Assets.Sprites?.Add(spriteId, sprite);
 
 		}
 		public static bool TryLoadTexture(string path, out Texture2D texture)

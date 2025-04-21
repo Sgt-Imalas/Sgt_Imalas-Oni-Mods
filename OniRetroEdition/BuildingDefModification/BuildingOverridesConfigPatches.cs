@@ -45,7 +45,7 @@ namespace OniRetroEdition.BuildingDefModification
 
 				if (interacts.Count > 0)
 				{
-					InjectionMethods.RegisterCustomInteractAnim(
+					InjectionMethods.RegisterCustomInteractAnims(
 						__instance, interacts);
 				}
 			}
