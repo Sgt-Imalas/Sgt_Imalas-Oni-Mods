@@ -63,6 +63,9 @@ namespace Imalas_TwitchChaosEvents.BeeGeyser
 			if (s.hash != new HashedString("erupt").hash)
 				return;
 
+			if (BeeCoat.Coats.Count > 30)
+				return;
+
 			var bee = GameUtil.KInstantiate(Assets.GetPrefab(BeeConfig.ID), Grid.SceneLayer.Creatures);
 			bee.transform.SetPosition(this.transform.position + new Vector3(0.5f, 1));
 			bee.AddOrGet<BeeCoat>();
