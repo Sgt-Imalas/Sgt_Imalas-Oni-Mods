@@ -65,6 +65,42 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 			}
 		}
 
+		[HarmonyPatch(typeof(SolarPanelConfig), nameof(SolarPanelConfig.ConfigureBuildingTemplate))]
+		public class SolarPanelConfig_ConfigureBuildingTemplate_Patch
+		{
+			public static void Postfix(GameObject go)
+			{
+				go.AddOrGet<AnimTileable>();
+			}
+		}
+
+		[HarmonyPatch(typeof(LogicLightSensorConfig), nameof(LogicLightSensorConfig.DoPostConfigureComplete))]
+		public class LogicLightSensorConfig_DoPostConfigureComplete_Patch
+		{
+			public static void Postfix(GameObject go)
+			{
+				go.AddOrGet<AnimTileable>();
+			}
+		}
+
+		[HarmonyPatch]
+		public static class LadderAnimTilable_Patch
+		{
+			[HarmonyPrefix]
+			public static void Prefix(GameObject go)
+			{
+				go.AddOrGet<LadderAnimTileable>();
+			}
+			[HarmonyTargetMethods]
+			internal static IEnumerable<MethodBase> TargetMethods()
+			{
+				const string name = nameof(IBuildingConfig.ConfigureBuildingTemplate);
+				yield return typeof(LadderConfig).GetMethod(name);
+				yield return typeof(LadderFastConfig).GetMethod(name);
+				yield return typeof(FirePoleConfig).GetMethod(name);
+			}
+		}
+
 		/// <summary>
 		/// Register SOC
 		/// </summary>
