@@ -11,9 +11,9 @@ namespace Imalas_TwitchChaosEvents.Events
 	/// <summary>
 	/// Retaw flood
 	/// </summary>
-	internal class InverseElementEvent : ITwitchEventBase
+	internal class InverseElementFloodEvent : ITwitchEventBase
 	{
-		public string ID => "ChaosTwitch_InverseElement";
+		public string ID => "ChaosTwitch_InverseElementFlood";
 
 		public string EventGroupID => "core.flood";
 
@@ -72,10 +72,17 @@ namespace Imalas_TwitchChaosEvents.Events
 					element.defaultValues.temperature
 				);
 			}
+			string toastText = STRINGS.CHAOSEVENTS.INVERSEELEMENT.TOASTTEXT;
+
+			if (!ChaosTwitch_SaveGameStorage.Instance.InvertedWaterGotSpawned)
+			{
+				toastText += "\n\n" + string.Format(STRINGS.CHAOSEVENTS.INVERSEELEMENT.NEW_BUILDINGS,"2");
+			}
+
 
 			ToastManager.InstantiateToastWithPosTarget(
 				STRINGS.CHAOSEVENTS.INVERSEELEMENT.TOAST,
-				string.Format(STRINGS.CHAOSEVENTS.INVERSEELEMENT.TOASTTEXT),
+				toastText,
 				Grid.CellToPos(nearestCell)
 			);
 		};
@@ -83,7 +90,7 @@ namespace Imalas_TwitchChaosEvents.Events
 		public Func<object, bool> Condition =>
 			(data) =>
 			{
-				return true;
+				return Config.Instance.SkipMinCycle || GameClock.Instance.GetCycle() > 16;
 			};
 
 		public Danger EventDanger => Danger.Medium; //same as other floods

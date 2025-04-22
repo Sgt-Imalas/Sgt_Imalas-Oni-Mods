@@ -1,4 +1,5 @@
 ﻿using static Imalas_TwitchChaosEvents.STRINGS.ELEMENTS;
+using static STRINGS.BUILDINGS.PREFABS;
 using static STRINGS.UI;
 
 namespace Imalas_TwitchChaosEvents
@@ -22,6 +23,18 @@ namespace Imalas_TwitchChaosEvents
 					public static LocString DESC = "\"" + global::STRINGS.BUILDINGS.PREFABS.EXTERIORWALL.DESC + "\"";
 					public static LocString EFFECT = "\"" + global::STRINGS.BUILDINGS.PREFABS.EXTERIORWALL.EFFECT + "\"";
 
+				}
+				public static class ITCE_ELECTROLYZERINVERTED
+				{//			 										  Electrolyzer
+					public static LocString NAME = FormatAsLink("Flipped Electrolyzer", nameof(ITCE_ELECTROLYZERINVERTED));
+					public static LocString DESC = "Inverted Water goes in one end, life sustaining oxygen comes out the other.";
+					public static LocString EFFECT = ("Converts " + ITCE_INVERSE_WATER.NAME +" into " + FormatAsLink("Oxygen", "OXYGEN") + " and " + FormatAsLink("Hydrogen Gas", "HYDROGEN") + ".\n\nBecomes idle when the area reaches maximum pressure capacity.");
+				}
+				public static class ITCE_WATERPURIFIERINVERTED
+				{                                                   //Water Sieve
+					public static LocString NAME = FormatAsLink("Flipped Water Sieve", nameof(ITCE_WATERPURIFIERINVERTED));
+					public static LocString DESC = "Sieves cannot kill germs and pass any they receive into their waste and water output.";
+					public static LocString EFFECT = ("Produces clean " + FormatAsLink("Water", "WATER") + " from " + ITCE_INVERSE_WATER.NAME +".\n\nProduces traces of " + global::STRINGS.ELEMENTS.UNOBTANIUM.NAME + ".");
 				}
 			}
 		}
@@ -213,7 +226,7 @@ namespace Imalas_TwitchChaosEvents
 			{
 				public static LocString NAME = "Weather Forecast";
 				public static LocString TOAST = "Weather Forecasted";
-				public static LocString TOASTTEXT = "the weather forecast will be {0}";
+				public static LocString TOASTTEXT = "the forecasted weather is {0}";
 			}
 			public class BEEVOLCANO
 			{
@@ -264,7 +277,8 @@ namespace Imalas_TwitchChaosEvents
 			{
 				public static LocString NAME = "Doolf";
 				public static LocString TOAST = "Doolf!";
-				public static LocString TOASTTEXT = "<rotate=180>Something is off with this...</rotate>";
+				public static LocString TOASTTEXT = "Something is off with this...";
+				public static LocString NEW_BUILDINGS = "{0} New buildings have been unlocked!";
 			}
 			public class FOG
 			{

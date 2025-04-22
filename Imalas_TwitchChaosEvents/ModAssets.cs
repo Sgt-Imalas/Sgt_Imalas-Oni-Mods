@@ -54,12 +54,13 @@ namespace Imalas_TwitchChaosEvents
 			public static void RegisterEffects(ModifierSet set)
 			{
 				var db = Db.Get();
-				var athlethics = db.Attributes.Athletics.Id;
 
 				new EffectBuilder(FLIPPEDWATERDRINK, 300f, false)
 					.Modifier(db.Amounts.Stress.deltaAttribute.Id, 1f / 600f)
-					.Modifier(db.Attributes.Strength.Id, 5)
-					.Modifier(athlethics, -1)
+					.Modifier(db.Attributes.Learning.Id, 1)
+					.Modifier(db.Attributes.Machinery.Id, 1)
+					.Modifier(db.Attributes.Cooking.Id, 1)
+					.Modifier(db.Attributes.Caring.Id, 1)
 					.Add(set);
 			}
 		}

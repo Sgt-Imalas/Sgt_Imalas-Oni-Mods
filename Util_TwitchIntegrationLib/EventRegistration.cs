@@ -68,11 +68,6 @@ namespace Util_TwitchIntegrationLib
 				return;
 			}
 
-			foreach (var field in AccessTools.GetFieldNames(t_EventManager.GetType()))
-			{
-				Console.WriteLine("field in eventManager: "+field);
-			}
-
 			var regex = new Regex(@"(.*)\.(.*)");
 
 			try
@@ -82,9 +77,9 @@ namespace Util_TwitchIntegrationLib
 				Debug.Log("count: "+events.Count);
 				var eventmanager = EventManager.Instance;
 					
-				foreach (var nameSpacedEvent in events.Keys)
+				foreach (var nameSpacedEventId in events.Keys)
 				{
-					var eventIdWithNameSpace = nameSpacedEvent.ToString();
+					var eventIdWithNameSpace = nameSpacedEventId.ToString();
 					var result = regex.Match(eventIdWithNameSpace);
 
 

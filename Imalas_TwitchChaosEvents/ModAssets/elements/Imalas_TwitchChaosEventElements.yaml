@@ -77,6 +77,7 @@ elements:
     radiationAbsorptionFactor: 0.8
     radiationPer1000Mass: 0
     tags:
+    - AnyWater
     isDisabled: false
     state: Liquid
     localizationID: STRINGS.ELEMENTS.ITCE_INVERSE_WATER.NAME
