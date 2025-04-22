@@ -19,7 +19,7 @@ namespace Imalas_TwitchChaosEvents.Events
 
 		public string EventDescription => STRINGS.CHAOSEVENTS.TACORAIN.TOASTTEXT;
 
-		public EventWeight EventWeight => EventWeight.WEIGHT_FREQUENT;
+		public EventWeight EventWeight => EventWeight.WEIGHT_RARE;
 
 		public Action<object> EventAction => (object data) =>
 		{
@@ -99,11 +99,7 @@ namespace Imalas_TwitchChaosEvents.Events
 
 
 				return
-				Config.Instance.SkipMinCycle
-				||
-				(GameClock.Instance.GetCycle() > 50 && !ChaosTwitch_SaveGameStorage.Instance.hasUnlockedTacoRecipe)
-				||
-				(ChaosTwitch_SaveGameStorage.Instance.lastTacoRain + 75f > GameClock.Instance.GetTimeInCycles())
+				Config.Instance.SkipMinCycle || (GameClock.Instance.GetCycle() > 50)
 				;
 			};
 

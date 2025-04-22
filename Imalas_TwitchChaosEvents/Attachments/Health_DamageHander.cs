@@ -30,10 +30,6 @@ namespace Imalas_TwitchChaosEvents.Attachments
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
-			if (status_item == null)
-				status_item = MakeStatusItem();
-			if (status_item_void == null)
-				status_item_void = MakeStatusItemVoid();
 		}
 
 		public static Dictionary<SimHashes, DamagingMaterial> damagingMaterials = new Dictionary<SimHashes, DamagingMaterial>()
@@ -60,21 +56,6 @@ namespace Imalas_TwitchChaosEvents.Attachments
 			}
 		};
 		public float lastBurnTime;
-		public static StatusItem status_item;
-		public static StatusItem status_item_void;
-
-		public static StatusItem MakeStatusItem()
-		{
-			StatusItem statusItem = new StatusItem("ITCE_HurtingElement", "DUPLICANTS", string.Empty, StatusItem.IconType.Exclamation, NotificationType.DuplicantThreatening, false, OverlayModes.None.ID, true, 63486);
-			statusItem.AddNotification();
-			return statusItem;
-		}
-		public static StatusItem MakeStatusItemVoid()
-		{
-			StatusItem statusItem = new StatusItem("ITCE_HurtingElement_VOID", "DUPLICANTS", string.Empty, StatusItem.IconType.Exclamation, NotificationType.DuplicantThreatening, false, OverlayModes.None.ID, true, 63486);
-			statusItem.AddNotification();
-			return statusItem;
-		}
 
 		void DealHealthDamage(DamagingMaterial damagingElement, float dt, out bool suited)
 		{
@@ -120,15 +101,15 @@ namespace Imalas_TwitchChaosEvents.Attachments
 				if (IsMinion() && !suited)
 				{
 					this.lastBurnTime = Time.time;
-					selectable.AddStatusItem(damagingElement.isVoidDamage ? status_item_void : status_item, (object)this);
+					selectable.AddStatusItem(damagingElement.isVoidDamage ? ModAssets.StatusItems.VoidBurns : ModAssets.StatusItems.CreeperBurns, (object)this);
 				}
 			}
 			else if(IsMinion())
 			{
 				if (Time.time - lastBurnTime > 5.0)
 				{
-					selectable.RemoveStatusItem(status_item, (bool)this);
-					selectable.RemoveStatusItem(status_item_void, (bool)this);
+					selectable.RemoveStatusItem(ModAssets.StatusItems.VoidBurns, (bool)this);
+					selectable.RemoveStatusItem(ModAssets.StatusItems.CreeperBurns, (bool)this);
 				}
 			}
 		}

@@ -35,7 +35,7 @@ namespace Imalas_TwitchChaosEvents
 
 		[Option("STRINGS.CHAOS_CONFIG.SHOW_WARNINGS", "STRINGS.CHAOS_CONFIG.SKIP_SHOW_WARNINGS_TOOLTIP")]
 		[JsonProperty]
-		public bool ShowWarnings { get; set; } = false;
+		public bool ShowWarnings { get; set; } = true;
 
 
 		public Config()

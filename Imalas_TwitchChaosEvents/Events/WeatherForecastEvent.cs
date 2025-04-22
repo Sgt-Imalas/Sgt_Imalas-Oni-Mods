@@ -10,7 +10,7 @@ namespace Imalas_TwitchChaosEvents.Events
 	/// <summary>
 	/// Random Weather Event
 	/// </summary>
-	internal class WeatherForecast : ITwitchEventBase
+	internal class WeatherForecastEvent : ITwitchEventBase
 	{
 		public string ID => "ChaosTwitch_WeatherForecast";
 

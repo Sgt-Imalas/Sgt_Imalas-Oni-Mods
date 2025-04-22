@@ -20,6 +20,8 @@ namespace Imalas_TwitchChaosEvents.ModPatches
 				TacoMeteorPatches.Register(__instance.GameplayEvents);
 				RegisterTacoAsMeat(__instance);
 				ModAssets.WaterCoolerDrinks.Register(__instance);
+
+				ModAssets.StatusItems.CreateStatusItems();
 			}
 			public static void RegisterTacoAsMeat(Db __instance)
 			{

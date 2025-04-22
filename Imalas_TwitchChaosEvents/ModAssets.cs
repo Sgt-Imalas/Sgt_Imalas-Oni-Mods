@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using Imalas_TwitchChaosEvents.Elements;
 using PeterHan.PLib.Actions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -33,7 +34,6 @@ namespace Imalas_TwitchChaosEvents
 					.ToArray();
 			}
 		}
-
 
 		public static class Chaos_Effects
 		{
@@ -110,7 +110,38 @@ namespace Imalas_TwitchChaosEvents
 
 
 		}
+		public class StatusItems
+		{
+			public static StatusItem WorkerOnStrike;
+			public static StatusItem CreeperBurns;
+			public static StatusItem VoidBurns;
 
+			static List<string> StrikeDemands = [
+				STRINGS.DUPLICANTS.STATUSITEMS.ITCE_WORKERSTRIKE.STRIKE_REASON_0,
+				STRINGS.DUPLICANTS.STATUSITEMS.ITCE_WORKERSTRIKE.STRIKE_REASON_1,
+				STRINGS.DUPLICANTS.STATUSITEMS.ITCE_WORKERSTRIKE.STRIKE_REASON_2,
+				STRINGS.DUPLICANTS.STATUSITEMS.ITCE_WORKERSTRIKE.STRIKE_REASON_3,
+				STRINGS.DUPLICANTS.STATUSITEMS.ITCE_WORKERSTRIKE.STRIKE_REASON_4,
+				STRINGS.DUPLICANTS.STATUSITEMS.ITCE_WORKERSTRIKE.STRIKE_REASON_5,
+				];
+
+			public static void CreateStatusItems()
+			{
+				WorkerOnStrike = new StatusItem("ITCE_WorkerStrike", "DUPLICANTS", string.Empty, StatusItem.IconType.Exclamation, NotificationType.Bad, false, OverlayModes.None.ID, true);
+
+				WorkerOnStrike.SetResolveStringCallback((str, obj) =>
+				{
+					System.Random rand = new System.Random(Hash.SDBMLower(obj.ToString()));					
+					string randomReason = StrikeDemands[rand.Next(0, StrikeDemands.Count)];
+					return string.Format(str, randomReason);
+				});
+				CreeperBurns = new StatusItem("ITCE_HurtingElement", "DUPLICANTS", string.Empty, StatusItem.IconType.Exclamation, NotificationType.DuplicantThreatening, false, OverlayModes.None.ID, true, 63486);
+				CreeperBurns.AddNotification();
+
+				VoidBurns = new StatusItem("ITCE_HurtingElement_VOID", "DUPLICANTS", string.Empty, StatusItem.IconType.Exclamation, NotificationType.DuplicantThreatening, false, OverlayModes.None.ID, true, 63486);
+				VoidBurns.AddNotification();
+			}
+		}
 
 		public class HotKeys
 		{

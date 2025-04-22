@@ -19,7 +19,7 @@ namespace Imalas_TwitchChaosEvents
 				}
 				public static class CHAOSTWITCH_ANTICHEESEBACKWALL
 				{
-					public static LocString NAME = "\"" +global::STRINGS.BUILDINGS.PREFABS.EXTERIORWALL.NAME+"\"";
+					public static LocString NAME = "\"" + global::STRINGS.BUILDINGS.PREFABS.EXTERIORWALL.NAME + "\"";
 					public static LocString DESC = "\"" + global::STRINGS.BUILDINGS.PREFABS.EXTERIORWALL.DESC + "\"";
 					public static LocString EFFECT = "\"" + global::STRINGS.BUILDINGS.PREFABS.EXTERIORWALL.EFFECT + "\"";
 
@@ -28,13 +28,13 @@ namespace Imalas_TwitchChaosEvents
 				{//			 										  Electrolyzer
 					public static LocString NAME = FormatAsLink("Flipped Electrolyzer", nameof(ITCE_ELECTROLYZERINVERTED));
 					public static LocString DESC = "Inverted Water goes in one end, life sustaining oxygen comes out the other.";
-					public static LocString EFFECT = ("Converts " + ITCE_INVERSE_WATER.NAME +" into " + FormatAsLink("Oxygen", "OXYGEN") + " and " + FormatAsLink("Hydrogen Gas", "HYDROGEN") + ".\n\nBecomes idle when the area reaches maximum pressure capacity.");
+					public static LocString EFFECT = ("Converts " + ITCE_INVERSE_WATER.NAME + " into " + FormatAsLink("Oxygen", "OXYGEN") + " and " + FormatAsLink("Hydrogen Gas", "HYDROGEN") + ".\n\nBecomes idle when the area reaches maximum pressure capacity.");
 				}
 				public static class ITCE_WATERPURIFIERINVERTED
 				{                                                   //Water Sieve
 					public static LocString NAME = FormatAsLink("Flipped Water Sieve", nameof(ITCE_WATERPURIFIERINVERTED));
 					public static LocString DESC = "Sieves cannot kill germs and pass any they receive into their waste and water output.";
-					public static LocString EFFECT = ("Produces clean " + FormatAsLink("Water", "WATER") + " from " + ITCE_INVERSE_WATER.NAME +".\n\nProduces traces of " + global::STRINGS.ELEMENTS.UNOBTANIUM.NAME + ".");
+					public static LocString EFFECT = ("Produces clean " + FormatAsLink("Water", "WATER") + " from " + ITCE_INVERSE_WATER.NAME + ".\n\nProduces traces of " + global::STRINGS.ELEMENTS.UNOBTANIUM.NAME + ".");
 				}
 			}
 		}
@@ -56,6 +56,19 @@ namespace Imalas_TwitchChaosEvents
 					public static LocString TOOLTIP = "The Void consumes!";
 					public static LocString NOTIFICATION_NAME = NAME;
 					public static LocString NOTIFICATION_TOOLTIP = TOOLTIP;
+				}
+				public class ITCE_WORKERSTRIKE
+				{
+					public static LocString NAME = "Striking";
+					public static LocString TOOLTIP = "This duplicant is on strike!\n\nDemand: {0}";
+					public static LocString NOTIFICATION_NAME = NAME;
+					public static LocString NOTIFICATION_TOOLTIP = TOOLTIP;
+					public static LocString STRIKE_REASON_0 = "More time off!";
+					public static LocString STRIKE_REASON_1 = "Less dangerous task assignments!";
+					public static LocString STRIKE_REASON_2 = "higher quality food!";
+					public static LocString STRIKE_REASON_3 = "better decor!";
+					public static LocString STRIKE_REASON_4 = "include oxygen!";
+					public static LocString STRIKE_REASON_5 = "fish!";
 				}
 			}
 			public static class MODIFIERS
@@ -316,6 +329,12 @@ namespace Imalas_TwitchChaosEvents
 				public static LocString TOASTTEXT = "{0} has stared too deep into the Void\nThe Void has awoken\nThe Void stares back into {0}\nThe Void hungers\nThe Void will consume";
 				public static LocString CONSUME_SUCCESS = "The void has consumed {0} and is satisfied.. for now...";
 				public static LocString CONSUME_FAILURE = "The void failed to consume {0}, they will live for another day...";
+			}
+			public class WORKERSTRIKE
+			{
+				public static LocString NAME = "Worker Strike";
+				public static LocString TOASTTEXT = "The Dupe Workers Union (DWU) has called for a general strike!";
+				public static LocString TOASTTEXT_END = "Having voiced their demands to a sufficient degree, the duplicants have ended their strike.";
 			}
 
 			public class TACORAIN

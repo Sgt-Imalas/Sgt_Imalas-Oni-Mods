@@ -7,9 +7,9 @@ using UnityEngine;
 
 namespace Imalas_TwitchChaosEvents.Buildings
 {
-    class InvertedBuilding:KMonoBehaviour
-    {
-        [MyCmpReq] KBatchedAnimController kbac;
+	class InvertedBuilding : KMonoBehaviour
+	{
+		[MyCmpReq] KBatchedAnimController kbac;
 		[SerializeField] public float xOffset = 0.5f;
 		[SerializeField] public float yOffset = 0;
 

@@ -81,6 +81,12 @@ namespace Imalas_TwitchChaosEvents.Buildings
 			var flip = go.AddOrGet<InvertedBuilding>();
 			flip.yOffset = 2;
 		}
+		public override void DoPostConfigureUnderConstruction(GameObject go)
+		{
+			base.DoPostConfigureUnderConstruction(go);
+			var flip = go.AddOrGet<InvertedBuilding>();
+			flip.yOffset = 2;
+		}
 
 		public override void DoPostConfigureComplete(GameObject go)
 		{
