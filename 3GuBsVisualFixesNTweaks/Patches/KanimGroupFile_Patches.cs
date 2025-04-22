@@ -16,7 +16,7 @@ namespace _3GuBsVisualFixesNTweaks.Patches
         [HarmonyPatch(typeof(KAnimGroupFile), nameof(KAnimGroupFile.Load))]
         public class KAnimGroupFile_Load_Patch
 		{
-			private const string INTERACT_WARP_PORTAL = "anim_interacts_warp_portal_receiver_2_kanim";
+			private const string INTERACT_WARP_PORTAL = "anim_interacts_warp_portal_receiver_smoothed_kanim";
 			public static void Prefix(KAnimGroupFile __instance)
 			{
 				InjectionMethods.RegisterCustomInteractAnim(__instance, INTERACT_WARP_PORTAL);
@@ -32,10 +32,11 @@ namespace _3GuBsVisualFixesNTweaks.Patches
                 var codes = orig.ToList();
 
                 // find injection point
-                var index = codes.FindIndex(ci => ci.LoadsConstant("anim_interacts_warp_portal_receiver_kanim"));
+                var index = codes.FindIndex(ci => ci.opcode == OpCodes.Ldstr && ci.operand?.ToString() == "anim_interacts_warp_portal_receiver_kanim");
 
                 if (index == -1)
                 {
+                    SgtLogger.error("TRANSPILER FAILED: ReceiveWarpedDuplicant couldnt find interact");
                     return codes;
                 }
                 codes[index].operand = "anim_interacts_warp_portal_receiver_smoothed_kanim";

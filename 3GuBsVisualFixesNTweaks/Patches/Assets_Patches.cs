@@ -10,8 +10,8 @@ using UtilLibs;
 
 namespace _3GuBsVisualFixesNTweaks.Patches
 {
-    class Assets_Patches
-    {
+	class Assets_Patches
+	{
 		[HarmonyPatch(typeof(Assets), "OnPrefabInit")]
 		public class Assets_OnPrefabInit_Patch
 		{
@@ -21,7 +21,7 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 
 				SgtLogger.l(path, "PATH for imports");
 				var directory = new DirectoryInfo(path);
-				if(!directory.Exists)
+				if (!directory.Exists)
 				{
 					SgtLogger.logError("Directory does not exist: " + path);
 					return;
@@ -30,26 +30,22 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 				var files = directory.GetFiles();
 
 				SgtLogger.l(files.Count().ToString(), "Files to import and override");
-				string textureDirectory = FileSystem.Normalize(System.IO.Path.Combine(IO_Utils.ModPath, "assets"));
-				if (System.IO.Directory.Exists(textureDirectory))
+				foreach (var fileInfo in files)
 				{
-					foreach (var file in System.IO.Directory.GetFiles(textureDirectory))
+					if (fileInfo.Exists)
 					{
-						var fileInfo = new FileInfo(file);
-
-						if (fileInfo.Exists)
+						try
 						{
-							try
-							{
-								AssetUtils.OverrideSpriteTextures(__instance, fileInfo);
-							}
-							catch (Exception e)
-							{
-								SgtLogger.logError("Failed at importing sprite: " + fileInfo.FullName + ",\nError: " + e);
-							}
+							SgtLogger.l("importing texture: " + fileInfo.Name);
+							AssetUtils.OverrideSpriteTextures(__instance, fileInfo);
+						}
+						catch (Exception e)
+						{
+							SgtLogger.logError("Failed at importing sprite: " + fileInfo.FullName + ",\nError: " + e);
 						}
 					}
 				}
+
 			}
 		}
 	}
