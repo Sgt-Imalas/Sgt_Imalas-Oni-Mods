@@ -1,1 +1,2 @@
 ﻿- on bp placed, replace stuff that can be replaced (ladders with tiles)
+- create new blueprint with replacement materials button

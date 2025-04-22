@@ -401,7 +401,7 @@ namespace BlueprintsV2
 
 				foreach (Tag materialBuildingElement in GameTags.MaterialBuildingElements)
 				{
-					if (!(materialBuildingElement == actualTag))
+					if (materialBuildingElement != actualTag)
 					{
 						continue;
 					}

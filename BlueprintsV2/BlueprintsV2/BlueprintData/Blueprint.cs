@@ -248,7 +248,7 @@ namespace BlueprintsV2.BlueprintData
 							{
 								BuildingConfig buildingConfig = new BuildingConfig();
 								buildingConfig.ReadJson((JObject)buildingToken);
-								
+
 								BuildingConfigurations.Add(buildingConfig);
 							}
 						}
@@ -530,6 +530,8 @@ namespace BlueprintsV2.BlueprintData
 					for (int i = 0; i < buildingRecipe.Ingredients.Count; i++)
 					{
 						var ingredient = buildingRecipe.Ingredients[i];
+
+
 						Tag selectedElement = null;
 						if (i < selectedElements.Count)
 						{
@@ -540,6 +542,11 @@ namespace BlueprintsV2.BlueprintData
 							selectedElement = ingredient.tag;
 						}
 						var key = new BlueprintSelectedMaterial(selectedElement, ingredient.tag);
+
+						if (ModAssets.TryGetReplacementTag(key, out var replacement))
+						{
+							selectedElement = replacement;
+						}
 
 						if (BlueprintCost.ContainsKey(key))
 							BlueprintCost[key] += ingredient.amount;

@@ -61,12 +61,17 @@ namespace BlueprintsV2.UnityUI.Components
 		{
 			OnSelectElement?.Invoke(targetTag);
 		}
-		public void Refresh(Blueprint current, float requiredAmount, Tag original)
+		public void Refresh(Blueprint current, float requiredAmount, Tag original, Tag replacement = default)
 		{
-			if (current.CachedAbsTagCost.TryGetValue(targetTag, out float costs))
+			float catrequirement = requiredAmount;
+			if (current.CachedAbsTagCost.TryGetValue(targetTag, out float totalCachedCosts))
 			{
 				if (targetTag != original)
-					requiredAmount += costs;
+					requiredAmount += totalCachedCosts;
+			}
+			if(targetTag == replacement)//replacement material is currently selected, dont calculate requiredAmount increase here
+			{
+				requiredAmount -= catrequirement;
 			}
 
 			float currentWorldAmount = ClusterManager.Instance.activeWorld.worldInventory.GetAmount(targetTag, true);
