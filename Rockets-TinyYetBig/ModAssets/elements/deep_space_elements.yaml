@@ -76,6 +76,8 @@ elements:
     radiationAbsorptionFactor: 0
     radiationPer1000Mass: 0
     materialCategory: Special
+    tags:
+    - OniTwitchSurpriseBoxForceDisabled
     buildMenuSort: 1
     isDisabled: false
     state: Solid
