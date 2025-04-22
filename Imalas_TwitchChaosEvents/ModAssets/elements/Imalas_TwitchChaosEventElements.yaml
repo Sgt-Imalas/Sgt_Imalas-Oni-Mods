@@ -49,6 +49,8 @@ elements:
     radiationAbsorptionFactor: 0.8
     radiationPer1000Mass: 0
     tags:
+      - HideFromSpawnTool
+      - HideFromCodex
     isDisabled: false
     state: Liquid
     localizationID: STRINGS.ELEMENTS.ITCE_INVERSE_WATER.NAME
@@ -95,7 +97,6 @@ elements:
     highTemp: 572.5
     lowTempTransitionTarget: ITCE_Inverse_Water
     highTempTransitionTarget: Unobtanium
-
     defaultTemperature: 400
     defaultMass: 1000
     maxMass: 1100
