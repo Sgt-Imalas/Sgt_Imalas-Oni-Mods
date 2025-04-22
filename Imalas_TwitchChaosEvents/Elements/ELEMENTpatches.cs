@@ -99,6 +99,20 @@ namespace Imalas_TwitchChaosEvents.Elements
 				__instance.AddGrowthRule(poopRule);
 			}
 		}
+
+
+		[HarmonyPatch(typeof(GasLiquidExposureMonitor), nameof(GasLiquidExposureMonitor.InitializeCustomRates))]
+		public class GasLiquidExposureMonitor_InitializeCustomRates_Patch
+		{
+			public static void Postfix()
+			{
+				GasLiquidExposureMonitor.customExposureRates[ModElements.InverseWater.SimHash] = -1;
+				GasLiquidExposureMonitor.customExposureRates[ModElements.LiquidPoop.SimHash] = 3;
+				GasLiquidExposureMonitor.customExposureRates[ModElements.Creeper.SimHash] = 3;
+				GasLiquidExposureMonitor.customExposureRates[ModElements.VoidLiquid.SimHash] = 3;
+			}
+		}
+
 		[HarmonyPatch(typeof(Game), nameof(Game.InitializeFXSpawners))]
 		public static class Game_InitializeFXSpawners_Patch
 		{

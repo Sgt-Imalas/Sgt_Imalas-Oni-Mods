@@ -1,6 +1,7 @@
 ﻿using ONITwitchLib;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Util_TwitchIntegrationLib;
 using UtilLibs;
 
@@ -30,9 +31,14 @@ namespace Imalas_TwitchChaosEvents.Events
 			"ZoologicalMeteors",
 			"WaterBalloonMeteors",
 			"MoltenSlugMeteors",
-			//Solar storms from Twitchery by Aki:
+			//WeatherEvents from Twitchery by Aki:
 			"SolarStormMedium",
 			"SolarStormSmall",
+			"SandStormMedium",
+			"SandStormHigh",
+			"SandStormDeadly",
+			"BlizzardMedium",
+			"BlizzardDeadly",
 		};
 
 		public Action<object> EventAction => (obj) =>
@@ -42,26 +48,21 @@ namespace Imalas_TwitchChaosEvents.Events
 			{
 				if (EventRegistration.TryGetEvent(e, out var eventInfo))
 				{
-					weatherEvents.Add(eventInfo);
+					bool eventAllowed = eventInfo.CheckCondition(null);
+					SgtLogger.l("potential weather event: " + eventInfo.FriendlyName+", can it execute: "+ eventAllowed);
+					if(eventAllowed)
+						weatherEvents.Add(eventInfo);
 				}
 			}
 			weatherEvents.Shuffle();
-			EventInfo EventToTrigger = null;
-			//for (int i = 0; i < weatherEvents.Count; i++) //undo for now
-			//{
-			//	var weatherEvent = weatherEvents[i];
-			//	if (weatherEvent.CheckCondition(null))
-			//	{
-			//		SgtLogger.l("executable weather event found: " + weatherEvent.FriendlyName);
-			//		EventToTrigger = weatherEvent;
-			//		break;
-			//	}
-			//}
-			if (EventToTrigger == null)
+			if (!weatherEvents.Any())
 			{
-				SgtLogger.l("no executable weather event found, using first executable event: " + weatherEvents[0].FriendlyName);
-				EventToTrigger = weatherEvents[0];
+				SgtLogger.error("No available weather events found, aborting");
+				return;
 			}
+
+			EventInfo EventToTrigger = weatherEvents[0];
+			SgtLogger.l("found weather event: " + weatherEvents[0].FriendlyName);
 
 			ToastManager.InstantiateToast(STRINGS.CHAOSEVENTS.WEATHERFORECAST.TOAST, string.Format(STRINGS.CHAOSEVENTS.WEATHERFORECAST.TOASTTEXT, EventToTrigger.FriendlyName));
 			GameScheduler.Instance.Schedule("start weather", 20f, (_) => EventToTrigger.Trigger(null));
@@ -72,7 +73,7 @@ namespace Imalas_TwitchChaosEvents.Events
 			List<EventInfo> weatherEvents = new List<EventInfo>();
 			foreach (var e in WeatherEvents)
 			{
-				if (EventRegistration.TryGetEvent(e, out var eventInfo))
+				if (EventRegistration.TryGetEvent(e, out var eventInfo) && eventInfo.CheckCondition(null))
 				{
 					weatherEvents.Add(eventInfo);
 				}

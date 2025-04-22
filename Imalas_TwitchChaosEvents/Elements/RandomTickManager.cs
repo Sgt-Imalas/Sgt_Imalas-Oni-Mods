@@ -27,14 +27,6 @@ namespace Imalas_TwitchChaosEvents.Elements
 		private static int[] RandomCellAccess;
 		private static int ReshuffleIndex = 0;
 
-
-		static float MilkToCheeseRate = 1f / 4f;
-		static int GermsPerKGCheese = 100;
-		static float MaxMassCreatedKG = 20;
-		static int MinimumGermThreshold = 2000;
-		static float MaxPercentageBacteriaUsed = 0.5f;
-
-
 		public static RandomTickManager Instance;
 		[Serialize]
 		public bool DoVoidMultiplication = false;
