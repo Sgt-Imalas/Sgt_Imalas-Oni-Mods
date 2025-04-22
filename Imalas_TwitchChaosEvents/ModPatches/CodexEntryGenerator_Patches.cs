@@ -39,6 +39,7 @@ namespace Imalas_TwitchChaosEvents.ModPatches
 				{
 					return true;
 				}
+				///solids dont get their low temp transitions set, so thats null on the element instance.
 				__instance.sourceElement.lowTempTransition = ElementLoader.FindElementByHash(ModElements.InverseWater.SimHash);
 				if (__instance.transitionType == TransitionType.COOL && __instance.sourceElement.lowTempTransition == null)
 				{

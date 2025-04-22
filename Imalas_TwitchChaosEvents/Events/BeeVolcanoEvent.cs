@@ -222,7 +222,7 @@ namespace Imalas_TwitchChaosEvents.Events
 			return -1;
 		}
 
-		public Func<object, bool> Condition => (_) => Config.Instance.SkipMinCycle || GameClock.Instance.GetCycle() > 50;
+		public Func<object, bool> Condition => (_) => DlcManager.IsExpansion1Active() && (Config.Instance.SkipMinCycle || GameClock.Instance.GetCycle() > 30);
 
 		public Danger EventDanger => Danger.High;
 	}

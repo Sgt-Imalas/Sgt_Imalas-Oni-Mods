@@ -32,15 +32,17 @@ namespace Imalas_TwitchChaosEvents.BeeGeyser
 		}
 		void YeetOre(float amount)
 		{
+			if (DlcManager.IsExpansion1Active())
+			{
+				GameObject go = ElementLoader.FindElementByHash(SimHashes.EnrichedUranium).substance.SpawnResource(this.transform.position, amount, UtilLibs.UtilMethods.GetKelvinFromC(33f), byte.MaxValue, 0, false);
+				go.transform.SetPosition(Grid.CellToPosCCC(Grid.PosToCell(this), Grid.SceneLayer.Ore));
+				go.SetActive(true);
 
-			GameObject go = ElementLoader.FindElementByHash(SimHashes.EnrichedUranium).substance.SpawnResource(this.transform.position, amount, UtilLibs.UtilMethods.GetKelvinFromC(33f), byte.MaxValue, 0, false);
-			go.transform.SetPosition(Grid.CellToPosCCC(Grid.PosToCell(this), Grid.SceneLayer.Ore));
-			go.SetActive(true);
-
-			Vector2 initial_velocity = new Vector2(UnityEngine.Random.Range(-2f, 2f) * 1f, (float)((double)UnityEngine.Random.value * 2.5 + 3.0));
-			if (GameComps.Fallers.Has((object)go))
-				GameComps.Fallers.Remove(go);
-			GameComps.Fallers.Add(go, initial_velocity);
+				Vector2 initial_velocity = new Vector2(UnityEngine.Random.Range(-2f, 2f) * 1f, (float)((double)UnityEngine.Random.value * 2.5 + 3.0));
+				if (GameComps.Fallers.Has((object)go))
+					GameComps.Fallers.Remove(go);
+				GameComps.Fallers.Add(go, initial_velocity);
+			}
 		}
 		public void Sim200ms(float dt)
 		{
@@ -59,6 +61,9 @@ namespace Imalas_TwitchChaosEvents.BeeGeyser
 
 		private void SpawnBee(HashedString s)
 		{
+			if (!DlcManager.IsExpansion1Active())
+				return;
+
 			SgtLogger.l(s.ToString(), new HashedString("erupt").ToString());
 			if (s.hash != new HashedString("erupt").hash)
 				return;
