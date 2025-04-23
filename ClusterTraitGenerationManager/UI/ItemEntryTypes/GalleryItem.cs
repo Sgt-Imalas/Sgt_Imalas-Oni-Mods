@@ -67,7 +67,7 @@ namespace ClusterTraitGenerationManager.UI.ItemEntryTypes
 			float number = planet.InstancesToSpawn;
 			bool planetActive = inCluster;//CGSMClusterManager.CustomCluster.HasStarmapItem(planet.Id)
 
-			ActiveToggle.ChangeSelection(currentlySelected);
+			ActiveToggle.SetIsSelected(currentlySelected);
 			DisabledOverlay.SetActive(!planetActive);
 			ItemNumber.gameObject.SetActive(planetActive);
 			if (planetActive)

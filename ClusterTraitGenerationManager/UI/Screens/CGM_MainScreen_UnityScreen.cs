@@ -2462,7 +2462,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 			foreach (var state in StoryTraitToggleButtons)
 			{
-				state.Value.ChangeSelection(state.Key == data.ID);
+				state.Value.SetIsSelected(state.Key == data.ID);
 			}
 			RefreshDetails();
 		}

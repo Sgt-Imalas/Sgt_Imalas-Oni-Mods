@@ -45,11 +45,11 @@ namespace SetStartDupes.DuplicityEditing.ScreenComponents
 		}
 
 		public void SetActiveState(bool active) =>
-			toggle?.ChangeSelection(active);
+			toggle?.SetIsSelected(active);
 		internal void UpdateState(bool storedMinion, bool highlighted)
 		{
 			toggle.SetInteractable(!storedMinion);
-			toggle.ChangeSelection(highlighted);
+			toggle.SetIsSelected(highlighted);
 			toolTip.SetSimpleTooltip(storedMinion ? "stored minion" : "");
 		}
 	}

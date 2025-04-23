@@ -23,7 +23,7 @@ namespace ClusterTraitGenerationManager.UI.ItemEntryTypes
 		}
 		public void Refresh(StarmapItemCategory category, Sprite newSprite)
 		{
-			ActiveToggle.ChangeSelection(this.Category == category);
+			ActiveToggle.SetIsSelected(this.Category == category);
 			if (newSprite != null)
 			{
 				CategoryIcon.sprite = newSprite;

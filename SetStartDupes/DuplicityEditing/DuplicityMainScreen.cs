@@ -415,7 +415,7 @@ namespace SetStartDupes.DuplicityEditing
 			lastCategory = key;
 			foreach (var tab in Tabs)
 			{
-				tab.Value.ChangeSelection(tab.Key == key);
+				tab.Value.SetIsSelected(tab.Key == key);
 			}
 
 			foreach (var tabtype in (Tab[])Enum.GetValues(typeof(Tab)))

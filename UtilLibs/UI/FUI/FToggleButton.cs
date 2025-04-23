@@ -99,9 +99,9 @@ namespace UtilLibs.UI.FUI
 		public void ToggleSelection()
 		{
 			IsHighlighted = !IsHighlighted;
-			ChangeSelection(IsHighlighted);
+			SetIsSelected(IsHighlighted);
 		}
-		public void ChangeSelection(bool _isHighlighted = false)
+		public void SetIsSelected(bool _isHighlighted = false)
 		{
 			IsHighlighted = _isHighlighted;
 			SetColorState();
