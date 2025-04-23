@@ -81,7 +81,7 @@ namespace BlueprintsV2
 							public class BLUEPRINTENTRY
 							{
 								public static LocString TOOLTIP_DELETE = "Delete Blueprint.\nDeleting the last blueprint in a sub folder will also delete the folder.";
-								public static LocString TOOLTIP_MOVE = "Move Blueprint to other folder.\nWill create new folder if it does not exist\nleaving the new folder name empty will move the blueprint to the main folder";
+								public static LocString TOOLTIP_MOVE = "Move Blueprint to other folder.\nWill create new folder if it does not exist.\nLeaving the new folder name empty will move the blueprint to the main folder.";
 								public static LocString TOOLTIP_RENAME = "Rename Blueprint";
 							}
 						}
@@ -114,6 +114,10 @@ namespace BlueprintsV2
 					}
 					public class BUTTONS
 					{
+						public class CREATEMODIFIED
+						{
+							public static LocString TOOLTIP = "Create a copy of the current blueprint with all local material replacements applied to it.";
+						}
 						public class RESETBUTTON
 						{
 							public static LocString TEXT = "Reset Replacements";

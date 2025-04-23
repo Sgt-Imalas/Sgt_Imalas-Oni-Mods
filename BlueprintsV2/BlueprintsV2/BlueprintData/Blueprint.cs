@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Bson;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using UtilLibs;
 using static BlueprintsV2.ModAssets;
 
@@ -68,6 +70,11 @@ namespace BlueprintsV2.BlueprintData
 			else
 				Folder = Path.GetFileName(Path.GetDirectoryName(fileLocation)).ToLowerInvariant();
 			InferFriendlyName();
+		}
+
+		public Blueprint(StringBuilder sourceSerialized)
+		{
+			ReadJson(JObject.Parse(sourceSerialized.ToString()));
 		}
 
 		void CalculateDimensions()
@@ -218,6 +225,60 @@ namespace BlueprintsV2.BlueprintData
 		/// <summary>
 		/// Reads the contents of a JSON-formatted file and adds it to the blueprint.
 		/// </summary>
+		/// 
+
+		public void ReadJson(JObject rootObject)
+		{
+			JToken friendlyNameToken = rootObject.SelectToken("friendlyname");
+			JToken buildingsToken = rootObject.SelectToken("buildings");
+			JToken digCommandsToken = rootObject.SelectToken("digcommands");
+
+			if (friendlyNameToken != null && friendlyNameToken.Type == JTokenType.String)
+			{
+				FriendlyName = friendlyNameToken.Value<string>();
+			}
+
+			if (buildingsToken != null)
+			{
+				JArray buildingTokens = buildingsToken.Value<JArray>();
+
+				if (buildingTokens != null)
+				{
+					foreach (JToken buildingToken in buildingTokens)
+					{
+						BuildingConfig buildingConfig = new BuildingConfig();
+						buildingConfig.ReadJson((JObject)buildingToken);
+
+						BuildingConfigurations.Add(buildingConfig);
+					}
+				}
+			}
+
+			if (digCommandsToken != null)
+			{
+				JArray digCommandTokens = digCommandsToken.Value<JArray>();
+
+				if (digCommandTokens != null)
+				{
+					foreach (JToken digCommandToken in digCommandTokens)
+					{
+						JToken xToken = digCommandToken.SelectToken("x");
+						JToken yToken = digCommandToken.SelectToken("y");
+
+						if (xToken != null && xToken.Type == JTokenType.Integer || yToken != null && yToken.Type == JTokenType.Integer)
+						{
+							DigLocations.Add(new(xToken == null ? 0 : xToken.Value<int>(), yToken == null ? 0 : yToken.Value<int>()));
+						}
+
+						else if (xToken == null && yToken == null)
+						{
+							DigLocations.Add(new(0, 0));
+						}
+					}
+				}
+			}
+		}
+
 		public virtual void ReadJson()
 		{
 			if (File.Exists(FilePath))
@@ -226,58 +287,8 @@ namespace BlueprintsV2.BlueprintData
 				{
 					using StreamReader reader = File.OpenText(FilePath);
 					using JsonTextReader jsonReader = new JsonTextReader(reader);
-
 					JObject rootObject = (JObject)JToken.ReadFrom(jsonReader).Root;
-
-					JToken friendlyNameToken = rootObject.SelectToken("friendlyname");
-					JToken buildingsToken = rootObject.SelectToken("buildings");
-					JToken digCommandsToken = rootObject.SelectToken("digcommands");
-
-					if (friendlyNameToken != null && friendlyNameToken.Type == JTokenType.String)
-					{
-						FriendlyName = friendlyNameToken.Value<string>();
-					}
-
-					if (buildingsToken != null)
-					{
-						JArray buildingTokens = buildingsToken.Value<JArray>();
-
-						if (buildingTokens != null)
-						{
-							foreach (JToken buildingToken in buildingTokens)
-							{
-								BuildingConfig buildingConfig = new BuildingConfig();
-								buildingConfig.ReadJson((JObject)buildingToken);
-
-								BuildingConfigurations.Add(buildingConfig);
-							}
-						}
-					}
-
-					if (digCommandsToken != null)
-					{
-						JArray digCommandTokens = digCommandsToken.Value<JArray>();
-
-						if (digCommandTokens != null)
-						{
-							foreach (JToken digCommandToken in digCommandTokens)
-							{
-								JToken xToken = digCommandToken.SelectToken("x");
-								JToken yToken = digCommandToken.SelectToken("y");
-
-								if (xToken != null && xToken.Type == JTokenType.Integer || yToken != null && yToken.Type == JTokenType.Integer)
-								{
-									DigLocations.Add(new(xToken == null ? 0 : xToken.Value<int>(), yToken == null ? 0 : yToken.Value<int>()));
-								}
-
-								else if (xToken == null && yToken == null)
-								{
-									DigLocations.Add(new(0, 0));
-								}
-							}
-						}
-					}
-
+					ReadJson(rootObject);
 					CacheCost();
 				}
 
@@ -289,8 +300,9 @@ namespace BlueprintsV2.BlueprintData
 		}
 
 		/// <summary>
-		/// Writes a blueprint, selecting the correct format (binary or JSON) based upon user configuration.
+		/// Writes a blueprint
 		/// </summary>
+		/// 
 		public void Write()
 		{
 			ModAssets.BLUEPRINTS_AUTOFILE_IGNORE.Add(FilePath);
@@ -300,16 +312,7 @@ namespace BlueprintsV2.BlueprintData
 			{
 				Directory.CreateDirectory(folder!);
 			}
-
-			//if (Config.Instance.CompressBlueprints)
-			//{
-			//    WriteBinary();
-			//}
-
-			//else
-			//{
 			WriteJson();
-			//}
 		}
 
 		/// <summary>
@@ -331,13 +334,10 @@ namespace BlueprintsV2.BlueprintData
 		//}
 
 
-		/// <summary>
-		/// Writes the blueprint to a file using JSON formatting.
-		/// </summary>
-		public virtual void WriteJson()
+
+
+		public void WriteJsonString(TextWriter textWriter)
 		{
-			SgtLogger.l("writing json to " + FilePath);
-			using TextWriter textWriter = File.CreateText(FilePath);
 			using JsonTextWriter jsonWriter = new JsonTextWriter(textWriter)
 			{
 				Formatting = Formatting.Indented
@@ -384,6 +384,18 @@ namespace BlueprintsV2.BlueprintData
 			}
 
 			jsonWriter.WriteEndObject();
+		}
+
+		/// <summary>
+		/// Writes the blueprint to a file using JSON formatting.
+		/// </summary>
+		/// 
+
+		public virtual void WriteJson()
+		{
+			SgtLogger.l("writing json to " + FilePath);
+			using TextWriter textWriter = File.CreateText(FilePath);
+			WriteJsonString(textWriter);
 		}
 
 		/// <summary>
@@ -458,6 +470,26 @@ namespace BlueprintsV2.BlueprintData
 			}
 		}
 
+		public void ApplyGlobalMaterialOverrides()
+		{
+			foreach (var buildingConfig in BuildingConfigurations)
+			{
+				buildingConfig.ApplyGlobalMaterialOverrides();
+			}
+		}
+
+		public Blueprint GetClone()
+		{
+			var sb = new StringBuilder();
+			StringWriter sw = new StringWriter(sb);
+			WriteJsonString(sw);
+			var copy = new Blueprint(sb);
+			copy.Folder = Folder;
+			copy.InferFileLocation();
+			return copy;
+		}
+
+
 		/// <summary>
 		/// Infers the blueprint's file's location based upon the blueprint's name and folder.
 		/// <para>This method makes sure to account for existing files. 
@@ -501,7 +533,7 @@ namespace BlueprintsV2.BlueprintData
 		public void InferFriendlyName()
 		{
 			FileInfo fileInfo = new FileInfo(FilePath);
-			FriendlyName = fileInfo.Name.Substring(0, fileInfo.Name.Length - fileInfo.Extension.Length);
+			FriendlyName = Path.GetFileNameWithoutExtension(fileInfo.Name);
 		}
 
 		/// <summary>

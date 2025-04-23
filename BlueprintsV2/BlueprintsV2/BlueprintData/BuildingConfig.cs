@@ -1,4 +1,5 @@
-﻿using BlueprintsV2.ModAPI;
+﻿
+using BlueprintsV2.ModAPI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -14,9 +15,12 @@ namespace BlueprintsV2.BlueprintData
 	/// </summary>
 	public sealed class BuildingConfig : IEquatable<BuildingConfig>
 	{
+
 		/// <summary>
 		/// The offset from the bottom left of a blueprint.
 		/// </summary>
+		
+		[JsonConverter(typeof(Vector2IConverter))]
 		public Vector2I Offset { get; set; } = new Vector2I(0, 0);
 
 		/// <summary>
@@ -77,7 +81,34 @@ namespace BlueprintsV2.BlueprintData
 		//    });
 		//}
 
+		public void ApplyGlobalMaterialOverrides()
+		{
+			var ingredients = BuildingDef.CraftRecipe.Ingredients;
+			var elements = new List<Tag>(SelectedElements.Count);
+			for (int i = 0; i < ingredients.Count; ++i)
+			{
+				var ingredient = ingredients[i];
+				Tag selectedElement;
+				if (i < SelectedElements.Count)
+				{
+					selectedElement = SelectedElements[i];
+				}
+				else
+				{
+					//should never happen, just in case to prevent crash.
+					selectedElement = ModAssets.GetFirstAvailableMaterial(ingredient.tag, ingredient.amount);
+				}
+				var key = new BlueprintSelectedMaterial(selectedElement, ingredient.tag);
 
+				if (ModAssets.TryGetReplacementTag(key, out var replacement))
+				{
+					selectedElement = replacement;
+				}
+				elements.Add(selectedElement);
+			}
+			SelectedElements.Clear();
+			SelectedElements.AddRange(elements);
+		}
 
 		public bool IsValid()
 		{

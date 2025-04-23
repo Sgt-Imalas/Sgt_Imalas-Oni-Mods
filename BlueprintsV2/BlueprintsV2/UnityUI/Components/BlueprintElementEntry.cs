@@ -3,6 +3,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
+using UtilLibs.UI.FUI;
 using UtilLibs.UIcmp;
 using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.SCROLLAREA.CONTENT;
 
@@ -17,15 +18,20 @@ namespace BlueprintsV2.UnityUI.Components
 		float amount;
 		LocText ReplaceElementName;
 		GameObject warningIndicator, severeWarningIndicator;
-		FButton button;
+		FToggleButton button;
 		Image ElementIcon, ReplacementElementIcon;
 		ToolTip tooltip;
 		bool staticTag = false;
 		string staticTooltip;
 
+		public void SetSelected(bool isSelected)
+		{
+			button?.SetIsSelected(isSelected);
+		}
 		void OnClick()
 		{
 			OnEntryClicked?.Invoke(SelectedAndCategory, amount);
+			SetSelected(true);
 		}
 		static bool init = false;
 		public override void OnPrefabInit()
@@ -45,7 +51,7 @@ namespace BlueprintsV2.UnityUI.Components
 			ElementIcon = transform.Find("ElementIcon").gameObject.GetComponent<Image>();
 			ReplacementElementIcon = transform.Find("ReplaceElementIcon").gameObject.GetComponent<Image>();
 
-			button = gameObject.AddOrGet<FButton>();
+			button = gameObject.AddOrGet<FToggleButton>();
 
 			if (SelectedAndCategory != null)
 			{

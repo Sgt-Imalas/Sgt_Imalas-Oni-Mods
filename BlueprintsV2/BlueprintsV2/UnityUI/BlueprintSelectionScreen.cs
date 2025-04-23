@@ -1,5 +1,6 @@
 ﻿using BlueprintsV2.BlueprintData;
 using BlueprintsV2.UnityUI.Components;
+using STRINGS;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -8,7 +9,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
 using UtilLibs.UIcmp;
+using static BlueprintsV2.STRINGS.UI;
 using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR;
+using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.BUTTONS;
 
 namespace BlueprintsV2.UnityUI
 {
@@ -45,7 +48,7 @@ namespace BlueprintsV2.UnityUI
 		public GameObject WarningGO, ErrorGO;
 		public ToolTip SevereErrorTooltip, ErrorTooltip;
 		public BlueprintElementEntry ElementEntryPrefab;
-		public FButton ClearOverrides, PlaceBlueprint;
+		public FButton ClearOverrides, PlaceBlueprint, CreateNewBlueprintFromOverrides;
 		public LocText MaterialHeaderTitle;
 
 
@@ -85,9 +88,11 @@ namespace BlueprintsV2.UnityUI
 
 			OpenBlueprintFolder = transform.Find("FileHierarchy/SearchBar/FolderButton").FindOrAddComponent<FButton>();
 			OpenBlueprintFolder.OnClick += () => Process.Start(new ProcessStartInfo(ModAssets.BlueprintFileHandling.GetBlueprintDirectory()) { UseShellExecute = true });
+			UIUtils.AddSimpleTooltipToObject(OpenBlueprintFolder.gameObject, BLUEPRINTSELECTOR.FILEHIERARCHY.SEARCHBAR.OPENFOLDERTOOLTIP);
 
 			ClearBlueprintSearchbar = transform.Find("FileHierarchy/SearchBar/DeleteButton").FindOrAddComponent<FButton>();
 			ClearBlueprintSearchbar.OnClick += () => BlueprintSearchbar.Text = string.Empty;
+			UIUtils.AddSimpleTooltipToObject(ClearBlueprintSearchbar.gameObject, BLUEPRINTSELECTOR.FILEHIERARCHY.SEARCHBAR.CLEARTOOLTIP);
 
 			FolderUpBtn = transform.Find("FileHierarchy/ScrollArea/Content/FolderUp").FindOrAddComponent<FButton>();
 			FolderUpBtn.gameObject.SetActive(true);
@@ -100,6 +105,10 @@ namespace BlueprintsV2.UnityUI
 
 			PlaceBlueprint = transform.Find("MaterialSwitch/Buttons/PlaceBPbtn").FindOrAddComponent<FButton>();
 			PlaceBlueprint.OnClick += OnPlaceBlueprint;
+
+			CreateNewBlueprintFromOverrides = transform.Find("MaterialSwitch/Buttons/CreateModifiedBtn").FindOrAddComponent<FButton>();
+			CreateNewBlueprintFromOverrides.OnClick += OnCreateFromOverrides;
+			UIUtils.AddSimpleTooltipToObject(CreateNewBlueprintFromOverrides.gameObject, CREATEMODIFIED.TOOLTIP);
 
 			var hierarchyEntryGO = transform.Find("FileHierarchy/ScrollArea/Content/BlueprintEntryPrefab").gameObject;
 			hierarchyEntryGO.SetActive(false);
@@ -133,6 +142,8 @@ namespace BlueprintsV2.UnityUI
 
 			ClearReplacementElementSearchbar = transform.Find("MaterialReplacer/SearchBar/DeleteButton").FindOrAddComponent<FButton>();
 			ClearReplacementElementSearchbar.OnClick += () => ReplacementElementSearchbar.Text = string.Empty;
+			UIUtils.AddSimpleTooltipToObject(ClearReplacementElementSearchbar.gameObject, BLUEPRINTSELECTOR.FILEHIERARCHY.SEARCHBAR.CLEARTOOLTIP);
+
 			ReplacementElementsContainer = transform.Find("MaterialReplacer/ScrollArea/Content").gameObject;
 			ToReplaceName = transform.Find("MaterialReplacer/ToReplace/CurrentlyActive/Label").gameObject.GetComponent<LocText>();
 			NoItems = transform.Find("MaterialSwitch/ScrollArea/Content/NoElementsInBlueprint")?.gameObject;
@@ -254,7 +265,10 @@ namespace BlueprintsV2.UnityUI
 			foreach (var kvp in BlueprintEntries)
 			{
 				if (kvp.Value != null)
+				{
+					kvp.Value.SetSelected(kvp.Key == TargetBlueprint);
 					kvp.Value.gameObject.SetActive(false);
+				}
 
 			}
 			foreach (var kvp in FolderEntries)
@@ -373,6 +387,30 @@ namespace BlueprintsV2.UnityUI
 			return BlueprintEntries[blueprint];
 		}
 
+		void OnCreateFromOverrides()
+		{
+			if (TargetBlueprint == null)
+				return;
+
+			var clone = TargetBlueprint.GetClone();
+			clone.ApplyGlobalMaterialOverrides();
+			OpenRenameDialogue(clone, true);
+		}
+		void OpenRenameDialogue(Blueprint blueprint, bool cloneCreation = false)
+		{
+			DialogueOpen(true);
+			var RenameAction = (string result) =>
+			{
+				DialogueOpen(false);
+				if (result == blueprint.FriendlyName && !cloneCreation)
+					return;
+				blueprint.Rename(result);
+				if(cloneCreation)
+					ModAssets.BlueprintFileHandling.HandleBlueprintLoading(blueprint.FilePath);
+			};
+			DialogUtil.CreateTextInputDialog(STRINGS.UI.DIALOGUE.RENAMEBLUEPRINT_TITLE, blueprint.FriendlyName, null, false, RenameAction, () => DialogueOpen(false), ModAssets.ParentScreen, true, false);
+		}
+
 		void OnPlaceBlueprint()
 		{
 			ModAssets.SelectedBlueprint = TargetBlueprint;
@@ -382,7 +420,19 @@ namespace BlueprintsV2.UnityUI
 
 		void OnSelectBlueprint(Blueprint bp)
 		{
-			TargetBlueprint = bp;
+			if (bp != TargetBlueprint)
+			{
+				TargetBlueprint = bp;
+				foreach (var prev in BlueprintEntries)
+				{
+					prev.Value.SetSelected(prev.Key == TargetBlueprint);
+				}
+				foreach (var prev in ElementEntries)
+				{
+					prev.Value.SetSelected(false);
+				}
+
+			}
 			SetMaterialState();
 		}
 
@@ -430,7 +480,7 @@ namespace BlueprintsV2.UnityUI
 			PreviouslyActiveMaterialReplacementButtons.Clear();
 
 			var replacementTags = ModAssets.GetValidMaterials(materialTypeTag.CategoryTag);
-		
+
 			foreach (var replacementTag in replacementTags)
 			{
 				var btn = AddOrGetReplaceMaterialContainer(replacementTag);
@@ -443,7 +493,7 @@ namespace BlueprintsV2.UnityUI
 				btn.gameObject.SetActive(true);
 
 				if (ModAssets.TryGetReplacementTag(ToReplaceTag, out var cachedReplacement))
-					btn.Refresh(TargetBlueprint, amount, ToReplaceTag.SelectedTag,cachedReplacement);
+					btn.Refresh(TargetBlueprint, amount, ToReplaceTag.SelectedTag, cachedReplacement);
 				else
 					btn.Refresh(TargetBlueprint, amount, ToReplaceTag.SelectedTag);
 			}
@@ -472,6 +522,10 @@ namespace BlueprintsV2.UnityUI
 		public void StartSelectingReplacementTag(BlueprintSelectedMaterial materialToReplace, float amount)
 		{
 			ShowReplacementItems(true);
+			foreach (var prev in ElementEntries)
+			{
+				prev.Value.SetSelected(prev.Key == materialToReplace);
+			}
 			SetReplacementMaterials(materialToReplace, amount);
 		}
 

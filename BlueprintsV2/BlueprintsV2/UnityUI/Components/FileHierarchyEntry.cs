@@ -1,5 +1,6 @@
 ﻿using BlueprintsV2.BlueprintData;
 using UtilLibs;
+using UtilLibs.UI.FUI;
 using UtilLibs.UIcmp;
 using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.SCROLLAREA.CONTENT;
 using static BlueprintsV2.STRINGS.UI.DIALOGUE;
@@ -13,15 +14,22 @@ namespace BlueprintsV2.UnityUI.Components
 		public System.Action<bool> OnDialogueToggled;
 		public System.Action OnEntryClicked;
 		public System.Action<string> OnRenamed, OnMoved;
-		FButton button, deleteButton, renameButton, moveButton;
+		FButton deleteButton, renameButton, moveButton;
+		FToggleButton button;
 		LocText Label;
 		public System.Action<Blueprint> OnSelectBlueprint, OnDeleted;
+
+		public void SetSelected(bool enabled)
+		{
+			if (button != null)
+				button.SetIsSelected(enabled);
+		}
 
 		public override void OnPrefabInit()
 		{
 			base.OnPrefabInit();
 			Label = transform.Find("Label").gameObject.GetComponent<LocText>();
-			button = gameObject.AddComponent<FButton>();
+			button = gameObject.AddComponent<FToggleButton>();
 			renameButton = transform.Find("RenameButton").gameObject.AddComponent<FButton>();
 			deleteButton = transform.Find("DeleteButton").gameObject.AddComponent<FButton>();
 			moveButton = transform.Find("MoveFolderButton").gameObject.AddComponent<FButton>();
