@@ -36,7 +36,12 @@ namespace _3GuBsVisualFixesNTweaks.Scripts
 		}
 		void DropAllProducts(object _)
 		{
-			ProductStorage.DropAll(offset: new(1.5f, 0));
+			var cellRight = Grid.CellRight(Grid.CellRight(Grid.PosToCell(refinery.gameObject)));
+			var cellRightBottom = Grid.CellBelow(cellRight);
+			if (Grid.IsSolidCell(cellRight) || (!Grid.IsSolidCell(cellRightBottom)))
+				ProductStorage.DropAll(offset: new(1f, 0));
+			else
+				ProductStorage.DropAll(offset: new(1.5f, 0));
 		}
 		void UpdateCoolantTint()
 		{

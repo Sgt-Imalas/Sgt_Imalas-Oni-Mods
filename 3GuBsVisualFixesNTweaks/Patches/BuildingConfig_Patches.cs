@@ -101,6 +101,15 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 			}
 		}
 
+		[HarmonyPatch(typeof(LadderPOIConfig), nameof(LadderPOIConfig.CreatePrefab))]
+		public class LadderPOIConfig_CreatePrefab_Patch
+		{
+			public static void Postfix(GameObject __result)
+			{
+				__result.AddOrGet<LadderAnimTileable>();
+			}
+		}
+
 		/// <summary>
 		/// Register SOC
 		/// </summary>
