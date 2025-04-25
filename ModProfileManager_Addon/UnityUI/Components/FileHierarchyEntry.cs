@@ -79,7 +79,7 @@ namespace ModProfileManager_Addon.UnityUI.Components
 		{
 			bool selected = (ModAssets.SelectedModPack.Path == ModProfile.Path && ModAssets.SelectedModPack.ModList.ModlistPath == ModProfile.ModList.ModlistPath);
 
-			selectButton.ChangeSelection(selected);
+			selectButton.SetIsSelected(selected);
 		}
 		//private void ApplyPreset()
 		//{
