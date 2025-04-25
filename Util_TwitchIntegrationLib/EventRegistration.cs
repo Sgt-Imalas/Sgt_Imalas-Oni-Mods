@@ -156,7 +156,7 @@ namespace Util_TwitchIntegrationLib
 
 			ONITwitchLib.EventInfo _event;
 			ONITwitchLib.EventGroup _eventGroup;
-			if (twitchEvent.EventGroupID == null || twitchEvent.EventGroupID.Length == 0 || twitchEvent.EventGroupID == string.Empty)
+			if (twitchEvent.EventGroupID.IsNullOrWhiteSpace())
 			{
 				(_event, _eventGroup) = EventGroup.DefaultSingleEventGroup(twitchEvent.ID, (int)twitchEvent.EventWeight, twitchEvent.EventName);
 			}

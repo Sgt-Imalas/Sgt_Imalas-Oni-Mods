@@ -12,7 +12,6 @@ namespace Util_TwitchIntegrationLib
 		Action<object> EventAction { get; }
 		Func<object, bool> Condition { get; }
 		Danger EventDanger { get; }
-
 	}
 	public enum EventWeight
 	{

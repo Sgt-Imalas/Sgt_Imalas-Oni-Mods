@@ -1,4 +1,5 @@
-﻿using static Imalas_TwitchChaosEvents.STRINGS.ELEMENTS;
+﻿using STRINGS;
+using static Imalas_TwitchChaosEvents.STRINGS.ELEMENTS;
 using static STRINGS.BUILDINGS.PREFABS;
 using static STRINGS.UI;
 
@@ -69,6 +70,7 @@ namespace Imalas_TwitchChaosEvents
 					public static LocString STRIKE_REASON_3 = "better decor!";
 					public static LocString STRIKE_REASON_4 = "include oxygen!";
 					public static LocString STRIKE_REASON_5 = "fish!";
+					public static LocString STRIKE_REASON_6 = "Lick the Pufts!";
 				}
 			}
 			public static class MODIFIERS
@@ -345,6 +347,17 @@ namespace Imalas_TwitchChaosEvents
 				public static LocString NEWRECIPE = "\n\nThere is also a new recipe in the Gas Range.";
 
 			}
+			public class SPANISHINQUISITION
+			{
+				public static LocString NAME = "Something Unexpected";
+				public static LocString TOAST = "What did you expect?";
+				public static LocString TOASTTEXT = "Nobody expects the spanish inquisition!";
+				public static LocString TRAIT_NAME = "Inquisition Member";
+				public static LocString TRAIT_DESC = "This Duplicant is a member of the spanish inquisition - how unexpected!";
+				public static LocString INQUISITION_MEMBER_1 = "Cardinal Ximenez";
+				public static LocString INQUISITION_MEMBER_2 = "Cardinal Biggles";
+				public static LocString INQUISITION_MEMBER_3 = "Cardinal Fang";
+			}
 		}
 		public class HOTKEYACTIONS
 		{
@@ -352,6 +365,7 @@ namespace Imalas_TwitchChaosEvents
 			public static LocString UNLOCK_TACO_RECIPE = "Manually unlock Taco Recipe";
 			public static LocString UNLOCK_TACO_RECIPE_TITLE = "Tacos!";
 			public static LocString UNLOCK_TACO_RECIPE_BODY = "The Taco recipe has been unlocked in the Gas Range";
+
 
 		}
 		public class CHAOS_CONFIG

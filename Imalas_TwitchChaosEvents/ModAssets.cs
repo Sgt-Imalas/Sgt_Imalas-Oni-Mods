@@ -1,9 +1,11 @@
 ﻿using HarmonyLib;
 using Imalas_TwitchChaosEvents.Elements;
+using Klei.AI;
 using PeterHan.PLib.Actions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TUNING;
 using UnityEngine;
 using UtilLibs;
 
@@ -32,6 +34,14 @@ namespace Imalas_TwitchChaosEvents
 				WaterCoolerConfig.BEVERAGE_CHOICE_OPTIONS = WaterCoolerConfig.BEVERAGE_CHOICE_OPTIONS
 					.AddRangeToArray(beverages.ToArray())
 					.ToArray();
+			}
+		}
+		public class ModTraits
+		{
+			public static string InquisitionMember = "ITCE_InquisitionMember";
+			public static void RegisterTraits()
+			{
+				TUNING.TRAITS.TRAIT_CREATORS.Add(TraitUtil.CreateNamedTrait(InquisitionMember, STRINGS.CHAOSEVENTS.SPANISHINQUISITION.TRAIT_NAME, STRINGS.CHAOSEVENTS.SPANISHINQUISITION.TRAIT_DESC, positiveTrait: true));
 			}
 		}
 
@@ -74,7 +84,8 @@ namespace Imalas_TwitchChaosEvents
 				THUNDERSTRIKE = "ICT_ThunderStrike",
 				EVILSOUND = "ICT_EVILARRIVING",
 				CAVE_NOISE = "ICTE_CaveNoise.mp3",
-				NUKE_DETONATION = "ICT_NUKEDETONATION";
+				NUKE_DETONATION = "ICT_NUKEDETONATION",
+				SPANISH_INQUISITION = "ICTE_SPANISH_INQUISITION";
 		}
 		public static bool RainbowLiquids = false;
 
@@ -84,6 +95,7 @@ namespace Imalas_TwitchChaosEvents
 			SoundUtils.LoadSound(SOUNDS.EVILSOUND, "ICT_EVIL.mp3");
 			SoundUtils.LoadSound(SOUNDS.THUNDERSTRIKE, "ICT_ThunderStrike.mp3");
 			SoundUtils.LoadSound(SOUNDS.CAVE_NOISE, "ICTE_CaveNoise.mp3");
+			SoundUtils.LoadSound(SOUNDS.SPANISH_INQUISITION, "ITCE_SpanishInquisition.mp3");
 
 			LoadAssets();
 		}
@@ -123,6 +135,7 @@ namespace Imalas_TwitchChaosEvents
 				STRINGS.DUPLICANTS.STATUSITEMS.ITCE_WORKERSTRIKE.STRIKE_REASON_3,
 				STRINGS.DUPLICANTS.STATUSITEMS.ITCE_WORKERSTRIKE.STRIKE_REASON_4,
 				STRINGS.DUPLICANTS.STATUSITEMS.ITCE_WORKERSTRIKE.STRIKE_REASON_5,
+				STRINGS.DUPLICANTS.STATUSITEMS.ITCE_WORKERSTRIKE.STRIKE_REASON_6,
 				];
 
 			public static void CreateStatusItems()

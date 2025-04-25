@@ -181,7 +181,9 @@ namespace Imalas_TwitchChaosEvents.OmegaSawblade
 			{
 				BuildingHP component = tile_go.GetComponent<BuildingHP>();
 
-				float f = totalMultiplier * BuildingDamagePerSecond * dt;
+				bool bunker = (tile_go.GetComponent<KPrefabID>().HasTag(GameTags.Bunker));
+
+				float f = totalMultiplier * (bunker ? BunkerDamagePerSecond : BuildingDamagePerSecond) * dt;
 				component.gameObject.Trigger(-794517298, new BuildingHP.DamageSourceInfo()
 				{
 					damage = Mathf.Max(Mathf.RoundToInt(f), 1)
