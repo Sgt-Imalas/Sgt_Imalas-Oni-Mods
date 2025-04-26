@@ -15,22 +15,22 @@ namespace BlueprintsV2
 			}
 			public class REQUIRECONSTRUCTABLE
 			{
-				public static LocString NAME = "Require Constructable";
+				public static LocString TITLE = "Require Constructable";
 				public static LocString TOOLTIP = "Whether buildings must be constructable by the player to be used in blueprints.";
 			}
 			public class FXTIME
 			{
-				public static LocString NAME = "FX Time";
+				public static LocString TITLE = "FX Time";
 				public static LocString TOOLTIP = "How long FX created by Blueprints remain on the screen. Measured in seconds.";
 			}
 			public class CREATEBLUEPRINTTOOLSYNC
 			{
-				public static LocString NAME = "Blueprint Tool Overlay Sync";
+				public static LocString TITLE = "Blueprint Tool Overlay Sync";
 				public static LocString TOOLTIP = "Whether the Blueprint Tool syncs with the current overlay. (configurable in game too)";
 			}
 			public class SNAPSHOTTOOLSYNC
 			{
-				public static LocString NAME = "Snapshot Tool Overlay Sync";
+				public static LocString TITLE = "Snapshot Tool Overlay Sync";
 				public static LocString TOOLTIP = "Whether the Snapshot Tool syncs with the current overlay. (configurable in game too)";
 			}
 		}
@@ -175,6 +175,7 @@ namespace BlueprintsV2
 				public static LocString SNAPSHOT_TITLE = "Take Snapshot";
 				public static LocString SELECT_DIFFERENT_TITLE = "Select different Blueprint";
 				public static LocString CHANGE_ANCHOR_TITLE = "Change Blueprint Anchor";
+				public static LocString TOGGLE_FORCE = "Toggle force rebuild";
 				public static LocString ROTATE_BLUEPRINT_TITLE = "Rotate Blueprint";
 			}
 			public class TOOLS
@@ -206,6 +207,14 @@ namespace BlueprintsV2
 					public static LocString NOBLUEPRINTS = "No blueprints loaded!";
 					public static LocString NONESELECTED = "No blueprint selected!";
 					public static LocString SELECTEDBLUEPRINT = "Selected blueprint: {0}";
+
+					public static LocString FORCEREBUILD = "Force rebuild existing buildings with blueprint materials if different:\n{0} (hold {1})";
+					public static LocString REBUILD_ACTIVE = "Active";
+					public static LocString REBUILD_INACTIVE = "Disabled";
+
+
+					public static LocString SETTINGS_APPLIED = "settings applied!";
+
 				}
 				public class SNAPSHOT_TOOL
 				{

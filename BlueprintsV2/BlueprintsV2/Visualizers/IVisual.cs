@@ -11,6 +11,9 @@ namespace BlueprintsV2.Visualizers
 
 		bool IsPlaceable(int cellParam);
 		void MoveVisualizer(int cellParam, bool forceRedraw);
+
+		void ForceRedraw();
+
 		bool TryUse(int cellParam);
 
 	}

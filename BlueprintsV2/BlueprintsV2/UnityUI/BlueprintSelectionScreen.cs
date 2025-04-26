@@ -166,7 +166,7 @@ namespace BlueprintsV2.UnityUI
 		{
 			if (Instance == null)
 			{
-				var screen = Util.KInstantiateUI(ModAssets.BlueprintSelectionScreen, ModAssets.ParentScreen, true);
+				var screen = Util.KInstantiateUI(ModAssets.BlueprintSelectionScreenGO, ModAssets.ParentScreen, true);
 				Instance = screen.AddOrGet<BlueprintSelectionScreen>();
 				Instance.Init();
 			}

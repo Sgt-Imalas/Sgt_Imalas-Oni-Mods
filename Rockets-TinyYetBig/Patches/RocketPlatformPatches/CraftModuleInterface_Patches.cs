@@ -37,7 +37,8 @@ namespace Rockets_TinyYetBig.Patches.RocketPlatformPatches
                                 return ProcessCondition.Status.Ready;
                         }
                         if (evaluator.GetBitMaskValAtIndex(2)
-                            && (conditionType == ProcessCondition.ProcessConditionType.RocketStorage || condition.GetType() == typeof(ConditionHasRadbolts)) && condition.EvaluateCondition() != ProcessCondition.Status.Failure)
+                            && (conditionType == ProcessCondition.ProcessConditionType.RocketStorage //regular storage conditions
+                            || condition.GetType() == typeof(ConditionHasRadbolts)) && condition.EvaluateCondition() != ProcessCondition.Status.Failure) //radbolt storage
                         {
                             return ProcessCondition.Status.Ready;
                         }

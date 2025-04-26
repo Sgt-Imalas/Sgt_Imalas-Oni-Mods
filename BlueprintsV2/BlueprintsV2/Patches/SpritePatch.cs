@@ -7,6 +7,7 @@ namespace BlueprintsV2.Patches
 	internal class SpritePatch
 	{
 		public static string createblueprint_button = "createblueprint_button";
+		public static string apply_settings_sprite = "apply_blueprint_settings";
 		public static string createblueprint_visualizer = "createblueprint_visualizer";
 		public static string snapshot_button = "snapshot_button";
 		public static string snapshot_visualizer = "snapshot_visualizer";
@@ -20,7 +21,7 @@ namespace BlueprintsV2.Patches
 			[HarmonyPriority(Priority.LowerThanNormal)]
 			public static void Prefix(Assets __instance)
 			{
-
+				ModAssets.BLUEPRINTS_APPLY_SETTINGS_SPRITE = InjectionMethods.AddSpriteToAssets(__instance, apply_settings_sprite);
 				ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE = InjectionMethods.AddSpriteToAssets(__instance, createblueprint_button);
 				ModAssets.BLUEPRINTS_CREATE_VISUALIZER_SPRITE = InjectionMethods.AddSpriteToAssets(__instance, createblueprint_visualizer);
 

@@ -1,8 +1,10 @@
 ﻿using BlueprintsV2.ModAPI;
 using BlueprintsV2.Tools;
 using BlueprintsV2.Visualizers;
+using Epic.OnlineServices.Sessions;
 using System.Collections.Generic;
 using UnityEngine;
+using static STRINGS.BUILDING.STATUSITEMS;
 
 namespace BlueprintsV2.BlueprintData
 {
@@ -139,6 +141,33 @@ namespace BlueprintsV2.BlueprintData
 			return blueprint;
 		}
 
+		/// <summary>
+		/// TODO!
+		/// </summary>
+		public	static void TryRotateBlueprint()
+		{
+
+		}
+
+		public enum Rotatability
+		{
+			Unrotatable,
+			FlippableX,
+			FlippableY,
+			Rotatable90,
+			Rotatable360,
+		}
+		public static void DetermineBlueprintRotatability()
+		{
+
+		}
+
+
+		public static void RefreshBlueprintVisualizers()
+		{
+			BlueprintState.UpdateVisual(lastBlueprintPos,true);
+		}
+
 		public static void VisualizeBlueprint(Vector2I topLeft, Blueprint blueprint)
 		{
 			if (blueprint == null)
@@ -268,9 +297,10 @@ namespace BlueprintsV2.BlueprintData
 			return newVector;
 		}
 
-
+		static Vector2I lastBlueprintPos;
 		public static void UpdateVisual(Vector2I topLeft, bool forcingRedraw = false, Blueprint snapshotBp = null)
 		{
+			lastBlueprintPos = topLeft;
 			CleanDirtyVisuals();
 			topLeft = GetShiftedPositions(topLeft, snapshotBp);
 

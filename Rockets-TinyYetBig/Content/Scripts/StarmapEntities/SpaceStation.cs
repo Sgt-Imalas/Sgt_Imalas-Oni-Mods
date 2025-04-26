@@ -235,7 +235,7 @@ namespace Rockets_TinyYetBig.SpaceStations
 		const int lvl2Width = 70;
 		const int lvl3Width = 100;
 
-		bool CanUpgrade => this._currentSpaceStationType == 0 && ModAssets.Techs.SpaceStationTechMedium.IsComplete() || this._currentSpaceStationType == 1 && ModAssets.Techs.SpaceStationTechLarge.IsComplete();
+		bool CanUpgrade => this._currentSpaceStationType == 0 && (ModAssets.Techs.SpaceStationTechMedium?.IsComplete()??false) || this._currentSpaceStationType == 1 && (ModAssets.Techs.SpaceStationTechLarge?.IsComplete()??false);
 
 		void UpgradeStation()
 		{

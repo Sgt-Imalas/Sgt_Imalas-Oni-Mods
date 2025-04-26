@@ -1,2 +1,5 @@
 ﻿- on bp placed, replace stuff that can be replaced (ladders with tiles)
-- create new blueprint with replacement materials button
+- shift for Forcebuild -> rebuild tiles/buildings instead of trying buggy construction task
+- flipping/rotation based on individual buildings
+
+

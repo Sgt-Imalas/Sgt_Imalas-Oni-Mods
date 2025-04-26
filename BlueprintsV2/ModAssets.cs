@@ -1,4 +1,5 @@
 ﻿using BlueprintsV2.BlueprintData;
+using BlueprintsV2.UnityUI;
 using PeterHan.PLib.Actions;
 using System.Collections.Generic;
 using System.IO;
@@ -13,6 +14,7 @@ namespace BlueprintsV2
 
 		public static Sprite BLUEPRINTS_CREATE_ICON_SPRITE;
 		public static Sprite BLUEPRINTS_CREATE_VISUALIZER_SPRITE;
+		public static Sprite BLUEPRINTS_APPLY_SETTINGS_SPRITE;
 
 		public static Sprite BLUEPRINTS_USE_ICON_SPRITE;
 		public static Sprite BLUEPRINTS_USE_VISUALIZER_SPRITE;
@@ -25,6 +27,8 @@ namespace BlueprintsV2
 		public static Color BLUEPRINTS_COLOR_NOTECH = new Color32(30, 144, 255, 255);
 		public static Color BLUEPRINTS_COLOR_NOMATERIALS = UIUtils.rgb(255, 107, 8);
 		public static Color BLUEPRINTS_COLOR_NOTALLOWEDINWORLD = UIUtils.rgb(135, 97, 79);
+		public static Color BLUEPRINTS_COLOR_CAN_APPLY_SETTINGS = Color.yellow;
+
 		public static Color BLUEPRINTS_COLOR_BLUEPRINT_DRAG = new Color32(0, 119, 145, 255);
 
 		public static HashSet<char> BLUEPRINTS_FILE_DISALLOWEDCHARACTERS;
@@ -49,16 +53,17 @@ namespace BlueprintsV2
 
 		}
 
-		public static GameObject BlueprintSelectionScreen;
+
+		public static GameObject BlueprintSelectionScreenGO;
 		public static void LoadAssets()
 		{
 			var bundle = AssetUtils.LoadAssetBundle("blueprints_ui", platformSpecific: true);
-			BlueprintSelectionScreen = bundle.LoadAsset<GameObject>("Assets/UIs/blueprintSelector.prefab");
+			BlueprintSelectionScreenGO = bundle.LoadAsset<GameObject>("Assets/UIs/blueprintSelector.prefab");
 
 			//UIUtils.ListAllChildren(Assets.transform);
 
 			var TMPConverter = new TMPConverter();
-			TMPConverter.ReplaceAllText(BlueprintSelectionScreen);
+			TMPConverter.ReplaceAllText(BlueprintSelectionScreenGO);
 		}
 
 
@@ -310,7 +315,7 @@ namespace BlueprintsV2
 						}
 						folder.AddBlueprint(blueprint);
 					}
-					BlueprintsV2.UnityUI.BlueprintSelectionScreen.RefreshOnBpAdded();
+					BlueprintSelectionScreen.RefreshOnBpAdded();
 				}
 				else
 					SgtLogger.warning("not a blueprint");
@@ -344,6 +349,8 @@ namespace BlueprintsV2
 			Actions.BlueprintsSwapAnchorAction = new PActionManager().CreateAction(ActionKeys.ACTION_SWAP_ANCHOR_KEY,
 				STRINGS.UI.ACTIONS.CHANGE_ANCHOR_TITLE, new PKeyBinding(KKeyCode.R, Modifier.Ctrl));
 
+			Actions.BlueprintsToggleForce = new PActionManager().CreateAction(ActionKeys.ACTION_FORCE_TOGGLE_KEY,
+				STRINGS.UI.ACTIONS.TOGGLE_FORCE, new PKeyBinding(KKeyCode.F));
 		}
 
 		internal static bool IsStaticTag(BlueprintSelectedMaterial tagMaterial, out string name, out string desc, out Sprite icon)
@@ -426,6 +433,7 @@ namespace BlueprintsV2
 			public static string ACTION_SNAPSHOT_KEY = "BlueprintsV2.snapshot.opentool";
 			public static string ACTION_RESELECT_KEY = "BlueprintsV2.reselect";
 			public static string ACTION_SWAP_ANCHOR_KEY = "BlueprintsV2.anchorswap";
+			public static string ACTION_FORCE_TOGGLE_KEY = "BlueprintsV2.toggleforce";
 			public static string ACTION_ROTATE_BLUEPRINT_KEY = "BlueprintsV2.rotate";
 		}
 		public static class Actions
@@ -435,6 +443,7 @@ namespace BlueprintsV2
 			public static PAction BlueprintsSnapshotAction { get; set; }
 			public static PAction BlueprintsReopenSelectionAction { get; set; }
 			public static PAction BlueprintsSwapAnchorAction { get; set; }
+			public static PAction BlueprintsToggleForce { get; set; }
 		}
 	}
 }

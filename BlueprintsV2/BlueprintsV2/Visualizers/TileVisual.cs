@@ -1,5 +1,6 @@
 ﻿
 using BlueprintsV2.BlueprintData;
+using BlueprintsV2.Tools;
 using UnityEngine;
 
 namespace BlueprintsV2.Visualizers
@@ -20,6 +21,10 @@ namespace BlueprintsV2.Visualizers
 			UpdateGrid(cell);
 		}
 
+		public override void ForceRedraw()
+		{
+			VisualsUtilities.SetTileColor(cell, GetVisualizerColor(cell), buildingConfig);
+		}
 
 		public override void MoveVisualizer(int cellParam, bool forceRedraw)
 		{
@@ -84,7 +89,6 @@ namespace BlueprintsV2.Visualizers
 		private void UpdateGrid(int cell)
 		{
 			Clean();
-
 			if (Grid.IsValidBuildingCell(cell))
 			{
 				bool visualizerSeated = false;
@@ -104,6 +108,11 @@ namespace BlueprintsV2.Visualizers
 					{
 						if (buildingConfig.BuildingDef.BlockTileAtlas != null)
 						{
+							if (!BlueprintState.InstantBuild && (UseBlueprintTool.Instance?.ForceMaterialChange ?? false) && CanRebuildWithMaterial(cell, out _))
+							{
+								VisualsUtilities.SetVisualizerColor(cell, ModAssets.BLUEPRINTS_COLOR_VALIDPLACEMENT, Visualizer, buildingConfig);
+							}
+
 							if (!ValidCell(cell))
 							{
 								VisualsUtilities.SetVisualizerColor(cell, ModAssets.BLUEPRINTS_COLOR_INVALIDPLACEMENT, Visualizer, buildingConfig);

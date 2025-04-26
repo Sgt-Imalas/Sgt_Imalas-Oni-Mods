@@ -92,7 +92,6 @@ namespace BlueprintsV2.Patches
 						string.Format(STRINGS.UI.TOOLS.SNAPSHOT_TOOL.TOOLTIP, "{Hotkey}"),
 						false
 					));
-
 				BlueprintFileHandling.ReloadBlueprints(false);
 			}
 		}

@@ -28,6 +28,7 @@ namespace BlueprintsV2.Visualizers
 			Visualizer.transform.SetPosition(Grid.CellToPosCBC(cellParam, DigTool.Instance.visualizerLayer));
 			Visualizer.SetActive(IsPlaceable(cellParam));
 		}
+		public void ForceRedraw() { }
 
 		public bool TryUse(int cellParam)
 		{

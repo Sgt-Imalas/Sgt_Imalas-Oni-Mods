@@ -2,16 +2,19 @@
 using BlueprintsV2.BlueprintData;
 using BlueprintsV2.UnityUI;
 using UnityEngine;
+using UtilLibs;
 
 namespace BlueprintsV2.Tools
 {
 	public class UseBlueprintTool : InterfaceTool
 	{
 		public static UseBlueprintTool Instance { get; private set; }
+		public bool ForceMaterialChange = false;
 
 		public UseBlueprintTool()
 		{
 			Instance = this;
+			ForceMaterialChange = false;
 		}
 
 		public UseBlueprintToolHoverCard HoverCard;
@@ -127,9 +130,18 @@ namespace BlueprintsV2.Tools
 		{
 			if (ModAssets.BlueprintFileHandling.HasBlueprints())
 			{
+				if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsToggleForce.GetKAction()))
+				{
+					ForceMaterialChange = true;
+					BlueprintState.RefreshBlueprintVisualizers(); 
+				}
 				if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsReopenSelectionAction.GetKAction()))
 				{
 					ShowBlueprintsWindow();
+				}
+				if (buttonEvent.TryConsume(Action.RotateBuilding))
+				{
+					BlueprintState.TryRotateBlueprint();
 				}
 
 				if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsSwapAnchorAction.GetKAction()))
@@ -139,6 +151,17 @@ namespace BlueprintsV2.Tools
 			}
 
 			base.OnKeyDown(buttonEvent);
+		}
+
+		public override void OnKeyUp(KButtonEvent buttonEvent)
+		{
+			if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsToggleForce.GetKAction()))
+			{
+				SgtLogger.l("disable force material change");
+				ForceMaterialChange = false;
+				BlueprintState.RefreshBlueprintVisualizers();
+
+			}
 		}
 	}
 }

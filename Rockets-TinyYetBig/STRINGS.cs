@@ -319,7 +319,7 @@ namespace Rockets_TinyYetBig
 				}
 				public class RTB_WALLCONNECTIONADAPTERBUNKER
 				{
-					public static LocString NAME = FormatAsLink("Bunkere Rocket Port Wall Adapter", nameof(RTB_WALLCONNECTIONADAPTERBUNKER));
+					public static LocString NAME = FormatAsLink("Bunkered Rocket Port Wall Adapter", nameof(RTB_WALLCONNECTIONADAPTERBUNKER));
 					public static LocString DESC = "Bunkered down for convenience.";
 					public static LocString EFFECT = ("A bunker wall adapter to seal off rocket start areas.\n\nAutomatically links when built to the side of a " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + " or another " + global::STRINGS.BUILDINGS.PREFABS.MODULARLAUNCHPADPORT.NAME);
 				}

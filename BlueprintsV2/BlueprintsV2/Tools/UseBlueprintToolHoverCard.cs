@@ -46,6 +46,12 @@ namespace BlueprintsV2.Tools
 					}
 
 					drawer.NewLine(32);
+					bool forceRebuild = UseBlueprintTool.Instance?.ForceMaterialChange ?? false;
+					
+					drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.FORCEREBUILD, (forceRebuild ? STRINGS.UI.TOOLS.USE_TOOL.REBUILD_ACTIVE : STRINGS.UI.TOOLS.USE_TOOL.REBUILD_INACTIVE ), UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsToggleForce.GetKAction()) + "]")), Styles_Instruction.Standard);
+
+
+					drawer.NewLine(32);
 					drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.SELECTEDBLUEPRINT, ModAssets.SelectedBlueprint.FriendlyName), Styles_Instruction.Standard);
 				}
 
