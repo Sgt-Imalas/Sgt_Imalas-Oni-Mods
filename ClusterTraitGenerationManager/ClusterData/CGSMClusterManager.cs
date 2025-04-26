@@ -878,7 +878,11 @@ namespace ClusterTraitGenerationManager.ClusterData
 			}
 		}
 
-		public static void RegenerateAllPOIData() => RegeneratePOIDataFrom(LastPresetGenerated);
+		public static void RegenerateAllPOIData()
+		{
+			SgtLogger.l("Regenerating all POI Data");
+			RegeneratePOIDataFrom(LastPresetGenerated);
+		}
 
 		public static void RegeneratePOIDataFrom(string clusterID, string singleItemId = "")
 		{
@@ -1082,6 +1086,11 @@ namespace ClusterTraitGenerationManager.ClusterData
 		}
 		public static void ToggleWorldgenAffectingDlc(bool enabled, SettingConfig dlc)
 		{
+			var dlcSetting = dlc as ToggleSettingConfig;
+			var currentLevel = CustomGameSettings.Instance.GetCurrentMixingSettingLevel(dlc.id);
+			if ((currentLevel == dlcSetting.on_level && enabled) || (currentLevel == dlcSetting.off_level && !enabled))
+				return;
+
 			SetMixingSetting(dlc, enabled);
 			RegenerateAllPOIData();
 			CGM_Screen?.RebuildStarmap(true);

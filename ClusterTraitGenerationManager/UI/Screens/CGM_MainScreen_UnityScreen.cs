@@ -2008,11 +2008,9 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			ResetStarmapButton = buttons.Find("StarmapButton").FindOrAddComponent<FButton>();
 			ResetStarmapButton.OnClick += () =>
 			{
-
 				RegenerateAllPOIData();
 				RebuildStarmap(true);
 				RefreshView();
-
 			};
 
 			ResetAllButton = buttons.Find("ResetClusterButton").FindOrAddComponent<FButton>();
