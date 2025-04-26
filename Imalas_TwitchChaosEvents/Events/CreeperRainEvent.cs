@@ -28,7 +28,7 @@ namespace Imalas_TwitchChaosEvents.Events
 
 			var rain = go.AddComponent<LiquidRainSpawner>();
 
-			rain.totalAmountRangeKg = (10000, 40000);
+			rain.totalAmountRangeKg = (1000, 4000);
 			rain.durationInSeconds = 40;
 			rain.dropletMassKg = 0.05f;
 			rain.elementId = ModElements.Creeper;

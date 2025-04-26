@@ -191,7 +191,7 @@ namespace Imalas_TwitchChaosEvents
 			public class ITCE_CREEPYLIQUID
 			{
 				public static LocString NAME = FormatAsLink("Creeper", nameof(ITCE_CREEPYLIQUID));
-				public static LocString DESC = "The Creeper.\nDeadly to all living things\nWeak to the cold.";
+				public static LocString DESC = "The Creeper.\nDeadly to all living things\n\nWeak to the cold.\nHighly Flammable.";
 			}
 			public class ITCE_VOIDLIQUID
 			{

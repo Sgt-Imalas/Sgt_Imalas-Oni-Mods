@@ -180,6 +180,7 @@ elements:
     radiationAbsorptionFactor: 0.73
     radiationPer1000Mass: 150
     tags:
+    - CombustibleLiquid
     isDisabled: false
     state: Liquid
     localizationID: STRINGS.ELEMENTS.ITCE_CREEPYLIQUID.NAME

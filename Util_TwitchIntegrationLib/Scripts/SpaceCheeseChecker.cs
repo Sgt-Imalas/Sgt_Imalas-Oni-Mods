@@ -6,15 +6,27 @@ namespace Util_TwitchIntegrationLib.Scripts
 {
 	public static class SpaceCheeseChecker
 	{
+
+		static bool IsSpaceCell(int cell)
+		{
+			if (!Grid.IsValidCell(cell))
+				return false;
+
+			bool isSpaceCell = World.Instance.zoneRenderData.worldZoneTypes[cell] == SubWorld.ZoneType.Space;
+			bool notSolid = !Grid.IsSolidCell(cell) && !Grid.IsLiquid(cell);
+			bool tileOrBackwall = Grid.Objects[cell, (int)ObjectLayer.Backwall] != null || Grid.Objects[cell, (int)ObjectLayer.FoundationTile] != null;
+
+			return isSpaceCell && notSolid && !tileOrBackwall;
+		}
+
 		public static bool HasThereBeenAttemptedSpaceCheese(int sourceCell, out int targetCell, out string dupeName, int radius = 7, int checks = 6, bool instaFail = true, int thresholdFail = -1)
 		{
 			targetCell = sourceCell;
 
 			Debug.Log($"World.Instance.zoneRenderData.worldZoneTypes[sourceCell]: ({Grid.CellToXY(sourceCell)}) " + World.Instance.zoneRenderData.worldZoneTypes[sourceCell]);
 
-			if (World.Instance.zoneRenderData.worldZoneTypes[sourceCell] == SubWorld.ZoneType.Space)
+			if (IsSpaceCell(sourceCell))
 			{
-
 				targetCell = GetRandomLiveDupeCell(sourceCell, out dupeName);
 				return true;
 			}
@@ -26,7 +38,7 @@ namespace Util_TwitchIntegrationLib.Scripts
 
 				Debug.Log($"World.Instance.zoneRenderData.worldZoneTypes[randomCheckPos]: ({Grid.CellToXY(randomCheckPos)}) " + World.Instance.zoneRenderData.worldZoneTypes[randomCheckPos]);
 
-				if (World.Instance.zoneRenderData.worldZoneTypes[randomCheckPos] == SubWorld.ZoneType.Space)
+				if (IsSpaceCell(randomCheckPos))
 				{
 					if (instaFail)
 					{
