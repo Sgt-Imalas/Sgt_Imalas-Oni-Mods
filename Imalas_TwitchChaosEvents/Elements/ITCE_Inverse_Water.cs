@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Imalas_TwitchChaosEvents.Elements
 {
-    class ITCE_Inverse_Water : IOreConfig
+	class ITCE_Inverse_Water : IOreConfig
 	{
 		public SimHashes ElementID => ModElements.InverseWater.SimHash;
 
