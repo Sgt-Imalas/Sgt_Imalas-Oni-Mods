@@ -171,11 +171,11 @@ namespace BlueprintsV2
 
 			public static void DeleteBlueprint(Blueprint bp)
 			{
-				bp.RemoveFromFolder();
 				Blueprints.Remove(bp);
 				if (SelectedBlueprint == bp)
 					SelectedBlueprint = null;
 				bp.DeleteFile();
+				bp.RemoveFromFolder();
 			}
 
 			public static bool TryGetFolder(Blueprint bp, out BlueprintFolder folder)

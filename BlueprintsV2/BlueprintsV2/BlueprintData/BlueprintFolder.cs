@@ -62,15 +62,16 @@ namespace BlueprintsV2.BlueprintData
 
 			if (deleteIfEmpty && BlueprintCount == 0)
 			{
-
 				//Delete the backing folder if it is not the root folder.
 				if (Name != "")
 				{
 					//Remove the folder from the global blueprint folder list.
 
 					BlueprintFileHandling.BlueprintFolders.Remove(this);
+					if (SelectedFolder == this)
+						SelectedFolder = null;
 					string path = Path.Combine(BlueprintFileHandling.GetBlueprintDirectory(), Name);
-
+	
 					if (Directory.Exists(path))
 					{
 						Directory.Delete(path);
