@@ -265,14 +265,14 @@ namespace BlueprintsV2.Visualizers
 			{
 				return PlacePlannedBuilding(cellParam);
 			}
-			else if ((UseBlueprintTool.Instance?.ForceMaterialChange ?? false) && CanRebuildWithMaterial(cellParam,out _))
+			else if (BlueprintState.ForceMaterialChange && CanRebuildWithMaterial(cellParam,out _))
 			{
 				return TryReconstructExistingBuilding(cellParam);
 			}
 			else if (SameBuildingAlreadyInPlace(cellParam, out var bc))
 			{
 				ApplyBuildingData(bc.gameObject);
-				if(buildingConfig.AdditionalBuildingData.Any())
+				if(buildingConfig.HasAnyBuildingData)
 					PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_APPLY_SETTINGS_SPRITE, STRINGS.UI.TOOLS.USE_TOOL.SETTINGS_APPLIED, null, offset: PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);
 
 				return true;
@@ -450,11 +450,11 @@ namespace BlueprintsV2.Visualizers
 		public virtual Color GetVisualizerColor(int cellParam)
 		{
 			UpdateRequirementsState();
-			if (!BlueprintState.InstantBuild && (UseBlueprintTool.Instance?.ForceMaterialChange ?? false) && CanRebuildWithMaterial(cellParam, out _))
+			if (!BlueprintState.InstantBuild && BlueprintState.ForceMaterialChange && CanRebuildWithMaterial(cellParam, out _))
 			{
 				return ModAssets.BLUEPRINTS_COLOR_VALIDPLACEMENT;
 			}
-			else if(SameBuildingAlreadyInPlace(cellParam,out _))
+			else if(SameBuildingAlreadyInPlace(cellParam,out _) && buildingConfig.HasAnyBuildingData)
 			{
 				return ModAssets.BLUEPRINTS_COLOR_CAN_APPLY_SETTINGS;
 			}

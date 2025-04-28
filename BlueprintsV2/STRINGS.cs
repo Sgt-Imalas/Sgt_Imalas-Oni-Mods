@@ -208,9 +208,9 @@ namespace BlueprintsV2
 					public static LocString NONESELECTED = "No blueprint selected!";
 					public static LocString SELECTEDBLUEPRINT = "Selected blueprint: {0}";
 
-					public static LocString FORCEREBUILD = "Force rebuild existing buildings with blueprint materials if different:\n{0} (hold {1})";
+					public static LocString FORCEREBUILD = "Force rebuild existing buildings with blueprint materials if different:\n{0} (hold {1} to enable)";
 					public static LocString REBUILD_ACTIVE = "Active";
-					public static LocString REBUILD_INACTIVE = "Disabled";
+					public static LocString REBUILD_INACTIVE = "Inactive";
 
 
 					public static LocString SETTINGS_APPLIED = "settings applied!";

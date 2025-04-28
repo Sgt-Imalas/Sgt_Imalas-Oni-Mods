@@ -28,6 +28,9 @@ namespace BlueprintsV2.BlueprintData
 
 		public static bool InstantBuild => DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive && SandboxToolParameterMenu.instance.settings.InstantBuild;
 
+
+		public static bool ForceMaterialChange = false;
+
 		private static readonly List<IVisual> FoundationVisuals = new();
 		private static readonly List<IVisual> DependentVisuals = new();
 		private static readonly List<ICleanableVisual> CleanableVisuals = new();

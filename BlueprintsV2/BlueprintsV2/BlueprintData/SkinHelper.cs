@@ -165,7 +165,6 @@ namespace BlueprintsV2.BlueprintData
 			string skinId = string.Empty;
 			if (arg.TryGetComponent<BuildingFacade>(out var buildingFacade) && !buildingFacade.IsOriginal)
 			{
-
 				skinId = buildingFacade.CurrentFacade;
 			}
 			if (!ValidFacadeId(skinId))

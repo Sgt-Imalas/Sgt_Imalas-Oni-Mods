@@ -3,6 +3,7 @@ using HarmonyLib;
 using PeterHan.PLib.Options;
 using System.Reflection;
 using UnityEngine;
+using UtilLibs;
 
 namespace BlueprintsV2.Tools
 {
@@ -16,6 +17,7 @@ namespace BlueprintsV2.Tools
 		public SnapshotTool()
 		{
 			Instance = this;
+			BlueprintState.ForceMaterialChange = false;
 		}
 
 		public static void DestroyInstance()
@@ -109,6 +111,7 @@ namespace BlueprintsV2.Tools
 		public override void OnDeactivateTool(InterfaceTool newTool)
 		{
 			base.OnDeactivateTool(newTool);
+			BlueprintState.ForceMaterialChange = true;
 
 			BlueprintState.ClearVisuals();
 			blueprint = null;
@@ -203,17 +206,40 @@ namespace BlueprintsV2.Tools
 
 		public override void OnKeyDown(KButtonEvent buttonEvent)
 		{
-			if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsReopenSelectionAction.GetKAction()))
+			if (ModAssets.BlueprintFileHandling.HasBlueprints())
 			{
-				DeleteBlueprint();
-				GridCompositor.Instance.ToggleMajor(false);
-			}
-			if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsSwapAnchorAction.GetKAction()))
-			{
-				BlueprintState.NextAnchorState(blueprint);
+				if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsReopenSelectionAction.GetKAction()))
+				{
+					DeleteBlueprint();
+					GridCompositor.Instance.ToggleMajor(false);
+				}
+				if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsToggleForce.GetKAction()))
+				{
+					BlueprintState.ForceMaterialChange = true;
+					BlueprintState.RefreshBlueprintVisualizers();
+				}
+				if (buttonEvent.TryConsume(Action.RotateBuilding))
+				{
+					BlueprintState.TryRotateBlueprint();
+				}
+
+				if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsSwapAnchorAction.GetKAction()))
+				{
+					BlueprintState.NextAnchorState();
+				}
 			}
 
 			base.OnKeyDown(buttonEvent);
+		}
+
+		public override void OnKeyUp(KButtonEvent buttonEvent)
+		{
+			if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsToggleForce.GetKAction()))
+			{
+				BlueprintState.ForceMaterialChange = false;
+				BlueprintState.RefreshBlueprintVisualizers();
+
+			}
 		}
 
 		public override void OnSyncChanged(bool synced)

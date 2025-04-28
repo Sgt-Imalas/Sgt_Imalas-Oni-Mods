@@ -9,12 +9,11 @@ namespace BlueprintsV2.Tools
 	public class UseBlueprintTool : InterfaceTool
 	{
 		public static UseBlueprintTool Instance { get; private set; }
-		public bool ForceMaterialChange = false;
 
 		public UseBlueprintTool()
 		{
 			Instance = this;
-			ForceMaterialChange = false;
+			BlueprintState.ForceMaterialChange = false;
 		}
 
 		public UseBlueprintToolHoverCard HoverCard;
@@ -100,6 +99,7 @@ namespace BlueprintsV2.Tools
 		public override void OnDeactivateTool(InterfaceTool newTool)
 		{
 			base.OnDeactivateTool(newTool);
+			BlueprintState.ForceMaterialChange = true;
 
 			BlueprintState.ClearVisuals();
 			ToolMenu.Instance.PriorityScreen.Show(false);
@@ -132,7 +132,7 @@ namespace BlueprintsV2.Tools
 			{
 				if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsToggleForce.GetKAction()))
 				{
-					ForceMaterialChange = true;
+					BlueprintState.ForceMaterialChange = true;
 					BlueprintState.RefreshBlueprintVisualizers(); 
 				}
 				if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsReopenSelectionAction.GetKAction()))
@@ -157,10 +157,8 @@ namespace BlueprintsV2.Tools
 		{
 			if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsToggleForce.GetKAction()))
 			{
-				SgtLogger.l("disable force material change");
-				ForceMaterialChange = false;
+				BlueprintState.ForceMaterialChange = true;
 				BlueprintState.RefreshBlueprintVisualizers();
-
 			}
 		}
 	}

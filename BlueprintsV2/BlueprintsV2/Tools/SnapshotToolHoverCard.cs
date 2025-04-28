@@ -1,4 +1,5 @@
 ﻿
+using BlueprintsV2.BlueprintData;
 using STRINGS;
 using System.Collections.Generic;
 
@@ -36,6 +37,10 @@ namespace BlueprintsV2.Tools
 
 				drawer.NewLine(32);
 				drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.ACTION_CHANGE_ANCHOR, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsSwapAnchorAction.GetKAction()) + "]")), Styles_Instruction.Standard);
+
+				drawer.NewLine(32);
+				bool forceRebuild = BlueprintState.ForceMaterialChange;
+				drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.FORCEREBUILD, (forceRebuild ? STRINGS.UI.TOOLS.USE_TOOL.REBUILD_ACTIVE : STRINGS.UI.TOOLS.USE_TOOL.REBUILD_INACTIVE), UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsToggleForce.GetKAction()) + "]")), Styles_Instruction.Standard);
 
 			}
 

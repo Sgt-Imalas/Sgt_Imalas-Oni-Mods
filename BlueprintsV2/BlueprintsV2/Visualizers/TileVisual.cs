@@ -108,7 +108,7 @@ namespace BlueprintsV2.Visualizers
 					{
 						if (buildingConfig.BuildingDef.BlockTileAtlas != null)
 						{
-							if (!BlueprintState.InstantBuild && (UseBlueprintTool.Instance?.ForceMaterialChange ?? false) && CanRebuildWithMaterial(cell, out _))
+							if (!BlueprintState.InstantBuild && BlueprintState.ForceMaterialChange && CanRebuildWithMaterial(cell, out _))
 							{
 								VisualsUtilities.SetVisualizerColor(cell, ModAssets.BLUEPRINTS_COLOR_VALIDPLACEMENT, Visualizer, buildingConfig);
 							}

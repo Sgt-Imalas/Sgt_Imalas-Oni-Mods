@@ -45,6 +45,8 @@ namespace BlueprintsV2.BlueprintData
 		/// </summary>
 		public Dictionary<string, JObject> AdditionalBuildingData = null;
 
+		public bool HasAnyBuildingData => AdditionalBuildingData != null && AdditionalBuildingData.Any();
+
 		public bool TryGetDataValue(string id, out JObject data)
 		{
 			data = null;
