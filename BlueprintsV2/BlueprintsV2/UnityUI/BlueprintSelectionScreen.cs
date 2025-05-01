@@ -11,6 +11,7 @@ using UtilLibs;
 using UtilLibs.UIcmp;
 using static BlueprintsV2.STRINGS.UI;
 using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR;
+using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH;
 using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.BUTTONS;
 
 namespace BlueprintsV2.UnityUI
@@ -50,6 +51,7 @@ namespace BlueprintsV2.UnityUI
 		public BlueprintElementEntry ElementEntryPrefab;
 		public FButton ClearOverrides, PlaceBlueprint, CreateNewBlueprintFromOverrides;
 		public LocText MaterialHeaderTitle;
+		public FToggle AdvancedReplacementToggle;
 
 
 		//ReplacementList
@@ -121,6 +123,12 @@ namespace BlueprintsV2.UnityUI
 
 			ElementEntryContainer = transform.Find("MaterialSwitch/ScrollArea/Content").gameObject;
 			MaterialHeaderTitle = transform.Find("MaterialSwitch/MaterialsHeader/Label").gameObject.AddOrGet<LocText>();
+
+			AdvancedReplacementToggle = transform.Find("MaterialSwitch/PerBuildingOverrides").gameObject.AddOrGet<FToggle>();
+			AdvancedReplacementToggle.SetCheckmark("Checkbox/Checkmark");
+			AdvancedReplacementToggle.SetOnFromCode(BlueprintState.AdvancedMaterialReplacement);
+			UIUtils.AddSimpleTooltipToObject(transform.Find("MaterialSwitch/PerBuildingOverrides/Label").gameObject, PERBUILDINGOVERRIDES.TOOLTIP);
+			AdvancedReplacementToggle.OnChange += OnAdvancedReplacementToggleChanged;
 
 			WarningGO = transform.Find("MaterialSwitch/MaterialsHeader/WarningSevere").gameObject;
 			SevereErrorTooltip = UIUtils.AddSimpleTooltipToObject(WarningGO.transform, MATERIALSWITCH.WARNINGSEVERE);
@@ -331,6 +339,13 @@ namespace BlueprintsV2.UnityUI
 			});
 		}
 
+		private void OnAdvancedReplacementToggleChanged(bool enabled)
+		{
+			BlueprintState.AdvancedMaterialReplacement = enabled;
+			TargetBlueprint?.CacheCost();
+			ClearUIState();
+		}
+
 		public void SelectFolder(BlueprintFolder folder)
 		{
 			ModAssets.SelectedFolder = folder;
@@ -423,6 +438,7 @@ namespace BlueprintsV2.UnityUI
 			if (bp != TargetBlueprint)
 			{
 				TargetBlueprint = bp;
+				TargetBlueprint.CacheCost();
 				foreach (var prev in BlueprintEntries)
 				{
 					prev.Value.SetSelected(prev.Key == TargetBlueprint);
@@ -431,7 +447,6 @@ namespace BlueprintsV2.UnityUI
 				{
 					prev.Value.SetSelected(false);
 				}
-
 			}
 			SetMaterialState();
 		}

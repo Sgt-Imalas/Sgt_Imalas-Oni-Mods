@@ -97,10 +97,10 @@ namespace BlueprintsV2.BlueprintData
 				}
 				else
 				{
-					//should never happen, just in case to prevent crash.
+					//should never happen in vanilla, just in case to prevent crash. (can potentially happen if another mod adds a new ingredient to the recipe or alters it)
 					selectedElement = ModAssets.GetFirstAvailableMaterial(ingredient.tag, ingredient.amount);
 				}
-				var key = new BlueprintSelectedMaterial(selectedElement, ingredient.tag);
+				var key = BlueprintSelectedMaterial.GetBlueprintSelectedMaterial(selectedElement, ingredient.tag, BuildingDef.PrefabID);
 
 				if (ModAssets.TryGetReplacementTag(key, out var replacement))
 				{

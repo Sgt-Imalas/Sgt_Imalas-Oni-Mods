@@ -28,8 +28,10 @@ namespace BlueprintsV2.BlueprintData
 
 		public static bool InstantBuild => DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive && SandboxToolParameterMenu.instance.settings.InstantBuild;
 
-
+		public static bool AdvancedMaterialReplacement = false;
 		public static bool ForceMaterialChange = false;
+		private static bool _IsPlacingSnapshot = false;
+		public static bool IsPlacingSnapshot => _IsPlacingSnapshot;
 
 		private static readonly List<IVisual> FoundationVisuals = new();
 		private static readonly List<IVisual> DependentVisuals = new();
@@ -162,8 +164,38 @@ namespace BlueprintsV2.BlueprintData
 		}
 		public static void DetermineBlueprintRotatability()
 		{
+			var rotatability = Rotatability.Rotatable360;
 
+
+			BuildingDef def;
+			foreach(var visualizer in FoundationVisuals)
+			{
+				if(visualizer is not BuildingVisual buildingVisualizer)
+				{
+					continue;
+				}
+				def = buildingVisualizer.BuildingDef;
+			}
+			foreach (var visualizer in DependentVisuals)
+			{
+				if (visualizer is not BuildingVisual buildingVisualizer)
+				{
+					continue;
+				}
+				def = buildingVisualizer.BuildingDef;
+			}
 		}
+		//public static Rotatability GetBuildingRotatability(BuildingDef def, Rotatability current)
+		//{
+		//	if (def == null)
+		//	{
+		//		return current;
+		//	}
+		//	if(def.rul)
+
+
+		//	return current;
+		//}
 
 
 		public static void RefreshBlueprintVisualizers()
@@ -320,6 +352,7 @@ namespace BlueprintsV2.BlueprintData
 		}
 		public static void UseBlueprint(Vector2I topLeft, Blueprint snapshotBp = null)
 		{
+			_IsPlacingSnapshot = (snapshotBp != null);
 			CleanDirtyVisuals();
 			topLeft = GetShiftedPositions(topLeft, snapshotBp);
 			FoundationVisuals.ForEach(foundationVisual =>

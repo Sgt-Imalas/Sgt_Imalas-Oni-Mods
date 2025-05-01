@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using UtilLibs;
 using static BlueprintsV2.ModAssets;
 
 namespace BlueprintsV2.BlueprintData
@@ -71,10 +72,18 @@ namespace BlueprintsV2.BlueprintData
 					if (SelectedFolder == this)
 						SelectedFolder = null;
 					string path = Path.Combine(BlueprintFileHandling.GetBlueprintDirectory(), Name);
-	
-					if (Directory.Exists(path))
+
+					try
 					{
-						Directory.Delete(path);
+						if (Directory.Exists(path))
+						{
+							Directory.Delete(path);
+						}
+					}
+					catch (Exception e)
+					{
+						//Log the error to the console if we fail to delete the folder.
+						SgtLogger.error($"Failed to delete folder {Name} at {path}.\n{e.Message}");
 					}
 				}
 			}

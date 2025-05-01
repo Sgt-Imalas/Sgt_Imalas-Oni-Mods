@@ -1,4 +1,5 @@
 ﻿using BlueprintsV2.BlueprintData;
+using BlueprintsV2.Tools;
 using BlueprintsV2.UnityUI;
 using PeterHan.PLib.Actions;
 using System.Collections.Generic;
@@ -95,6 +96,9 @@ namespace BlueprintsV2
 		public static bool TryGetReplacementTag(BlueprintSelectedMaterial tag, out Tag replacement)
 		{
 			replacement = null;
+			if (SelectedBlueprint == null|| BlueprintState.IsPlacingSnapshot) //only do replacement in regular blueprint tool, not in snapshot tool
+				return false;
+
 			if (DynamicReplacementTags.ContainsKey(tag))
 			{
 				replacement = DynamicReplacementTags[tag];

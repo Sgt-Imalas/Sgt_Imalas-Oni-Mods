@@ -21,6 +21,8 @@ namespace BlueprintsV2.Visualizers
 
 		protected readonly BuildingConfig buildingConfig;
 
+		public BuildingDef BuildingDef => buildingConfig?.BuildingDef;
+
 		public BuildingVisual(BuildingConfig buildingConfig, int cell)
 		{
 			Offset = buildingConfig.Offset;
@@ -91,7 +93,7 @@ namespace BlueprintsV2.Visualizers
 					//should never happen, just in case to prevent crash.
 					selectedElement = ModAssets.GetFirstAvailableMaterial(ingredient.tag, ingredient.amount);
 				}
-				var key = new BlueprintSelectedMaterial(selectedElement, ingredient.tag);
+				var key = BlueprintSelectedMaterial.GetBlueprintSelectedMaterial(selectedElement, ingredient.tag, buildingConfig.BuildingDef.PrefabID);
 
 				if (ModAssets.TryGetReplacementTag(key, out var replacement))
 				{

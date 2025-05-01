@@ -19,7 +19,7 @@ namespace BlueprintsV2.UnityUI.Components
 		LocText ReplaceElementName;
 		GameObject warningIndicator, severeWarningIndicator;
 		FToggleButton button;
-		Image ElementIcon, ReplacementElementIcon;
+		Image ElementIcon, ReplacementElementIcon, BuildingIcon;
 		ToolTip tooltip;
 		bool staticTag = false;
 		string staticTooltip;
@@ -50,6 +50,7 @@ namespace BlueprintsV2.UnityUI.Components
 			severeWarningIndicator = transform.Find("WarningSevere").gameObject;
 			ElementIcon = transform.Find("ElementIcon").gameObject.GetComponent<Image>();
 			ReplacementElementIcon = transform.Find("ReplaceElementIcon").gameObject.GetComponent<Image>();
+			BuildingIcon = transform.Find("BuildingIcon").gameObject.GetComponent<Image>();
 
 			button = gameObject.AddOrGet<FToggleButton>();
 
@@ -61,7 +62,7 @@ namespace BlueprintsV2.UnityUI.Components
 
 				if (ModAssets.IsStaticTag(SelectedAndCategory, out string name, out string desc, out Sprite sprite))
 				{
-					ElementName?.SetText(name);
+					SetElementNameText(name);
 					tooltip = UIUtils.AddSimpleTooltipToObject(this.gameObject, desc);
 					ElementIcon.sprite = sprite;
 					button.SetInteractable(false);
@@ -85,12 +86,12 @@ namespace BlueprintsV2.UnityUI.Components
 							SgtLogger.warning("no ui sprite found for " + prefab.name);
 
 
-						ElementName?.SetText(prefab.GetProperName());
+						SetElementNameText(prefab.GetProperName());
 						tooltip = UIUtils.AddSimpleTooltipToObject(this.gameObject, GameUtil.GetMaterialTooltips(selectedTag));
 					}
 					else
 					{
-						ElementName?.SetText(selectedTag.Name);
+						SetElementNameText(selectedTag.Name);
 						ElementIcon.sprite = Assets.GetSprite("Unknown");
 					}
 				}
@@ -117,14 +118,41 @@ namespace BlueprintsV2.UnityUI.Components
 			base.OnSpawn();
 		}
 
+		void SetElementNameText(string text)
+		{
+			if (BlueprintState.AdvancedMaterialReplacement && SelectedAndCategory.BuildingIdTag != null)
+			{
+				var prefab = Assets.TryGetPrefab(SelectedAndCategory.BuildingIdTag);
+				if (prefab != null)
+				{
+					string prefabname = prefab.GetProperName();
+					text = prefabname + ": " + text;
+					BuildingIcon.sprite = Def.GetUISprite(prefab)?.first;
+				}
+				else
+				{
+					BuildingIcon.gameObject.SetActive(false);
+				}
+
+			}
+			else
+			{
+				BuildingIcon.gameObject.SetActive(false);
+			}
+
+			if (ElementName != null)
+				ElementName.SetText(text);
+		}
+
 
 		public int Refresh(Blueprint current)
 		{
-
 			if (current == null)
 				return 0;
 
 			Tag targetTag = SelectedAndCategory.SelectedTag;
+
+			
 
 			if (ModAssets.TryGetReplacementTag(SelectedAndCategory, out var replacement))
 			{

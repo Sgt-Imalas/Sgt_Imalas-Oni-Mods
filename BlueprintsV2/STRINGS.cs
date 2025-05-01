@@ -112,6 +112,11 @@ namespace BlueprintsV2
 							}
 						}
 					}
+					public class PERBUILDINGOVERRIDES
+					{
+						public static LocString LABEL = "Advanced Material Overrides:";
+						public static LocString TOOLTIP = "Enabling this allows selecting replacement materials per building type.";
+					}
 					public class BUTTONS
 					{
 						public class CREATEMODIFIED
@@ -177,6 +182,7 @@ namespace BlueprintsV2
 				public static LocString CHANGE_ANCHOR_TITLE = "Change Blueprint Anchor";
 				public static LocString TOGGLE_FORCE = "Toggle force rebuild";
 				public static LocString ROTATE_BLUEPRINT_TITLE = "Rotate Blueprint";
+				public static LocString FLIP_BLUEPRINT_TITLE = "FLIP Blueprint";
 			}
 			public class TOOLS
 			{

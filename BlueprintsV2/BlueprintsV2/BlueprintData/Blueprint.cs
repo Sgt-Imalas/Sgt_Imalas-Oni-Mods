@@ -573,7 +573,7 @@ namespace BlueprintsV2.BlueprintData
 						{
 							selectedElement = ingredient.tag;
 						}
-						var key = new BlueprintSelectedMaterial(selectedElement, ingredient.tag);
+						var key = BlueprintSelectedMaterial.GetBlueprintSelectedMaterial(selectedElement, ingredient.tag, buildingConfig.BuildingDef.PrefabID);
 
 						if (ModAssets.TryGetReplacementTag(key, out var replacement))
 						{
