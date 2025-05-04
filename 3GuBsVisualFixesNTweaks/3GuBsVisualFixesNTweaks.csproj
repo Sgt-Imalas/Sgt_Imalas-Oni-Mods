@@ -20,7 +20,6 @@
 		<IsPacked>true</IsPacked>
 	</PropertyGroup>
 
-
 	<!-- Mod Info -->
 	<PropertyGroup>
 		<ModName>Visual Fixes and Tweaks</ModName>
@@ -28,7 +27,6 @@
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
-
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<OutDir>bin</OutDir>

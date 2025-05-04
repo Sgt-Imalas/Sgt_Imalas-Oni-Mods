@@ -161,6 +161,14 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 			}
 		}
 
+		[HarmonyPatch(typeof(BuildTool), nameof(BuildTool.SetToolOrientation))]
+		public class BuildTool_SetToolOrientation_Patch
+		{
+			public static void Postfix(BuildTool __instance)
+			{
+				UpdateRotations(__instance.buildingOrientation);
+			}
+		}
 		[HarmonyPatch(typeof(BuildTool), nameof(BuildTool.TryRotate))]
 		public class BuildTool_TryRotate_Patch
 		{
@@ -187,6 +195,7 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 			public static void Postfix(BuildTool __instance)
 			{
 				DeleteVisualizerIfActive();
+
 			}
 		}
 
