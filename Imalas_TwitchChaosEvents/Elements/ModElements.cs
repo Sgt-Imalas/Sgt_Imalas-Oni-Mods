@@ -40,7 +40,7 @@ namespace Imalas_TwitchChaosEvents.Elements
 			InverseSteam = ElementInfo.Gas("ITCE_Inverse_Steam", Color.HSVToRGB(steamH, steamS, steamV));
 			CreeperGas = ElementInfo.Gas("ITCE_CreepyLiquidGas", new Color(121f / 255f, 74f / 255f, 230f / 255f));
 			Creeper = ElementInfo.Liquid("ITCE_CreepyLiquid", new Color(100f / 255f, 62f / 255f, 191f / 255f));
-			LiquidPoop = new ElementInfo("ITCE_Liquid_Poop", "ITCE_liquid_poop_kanim", Element.State.Liquid, new Color(128f / 255f, 61f / 255f, 43f / 255f));
+			LiquidPoop = new ElementInfo("ITCE_Liquid_Poop", "itce_liquid_poop_kanim", Element.State.Liquid, new Color(128f / 255f, 61f / 255f, 43f / 255f));
 			VoidLiquid = ElementInfo.Liquid("ITCE_VoidLiquid", voidColor);
 
 

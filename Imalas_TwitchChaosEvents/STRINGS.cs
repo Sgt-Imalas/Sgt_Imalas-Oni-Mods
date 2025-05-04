@@ -211,23 +211,18 @@ namespace Imalas_TwitchChaosEvents
 			public class SPACECHEESEDETECTED
 			{
 				public static LocString TOAST = "Yuck, Space";
-				//public static LocString TOAST = "Ihhh, Weltraum";
 				public static LocString TOASTTEXT = "{0} really didnt like to be in space,\nso it appeared on {1} instead";
-				// public static LocString TOASTTEXT = "{0} hatte wirklich keine Lust auf den Weltraum,\ndeswegen ist es stattdessen auf {1} gelanded";
 			}
 			public class CHEESEBACKWALLTRIGGERED
 			{
 				public static LocString TOAST = "Woops";
-				//public static LocString TOAST = "Ihhh, Weltraum";
 				public static LocString TOASTTEXT = "You really tried cheesing that?!";
-				// public static LocString TOASTTEXT = "{0} hatte wirklich keine Lust auf den Weltraum,\ndeswegen ist es stattdessen auf {1} gelanded";
 			}
 
 			public class HUNGRYROACHES
 			{
 				public static LocString NAME = "Roach Infestation";
 				public static LocString TOAST = "Roach Infestation!";
-				//public static LocString TOASTTEXT = "Hungry Roaches have taken a liking to your food supply.";
 				public static LocString TOASTTEXT =
 					"Your kitchen fridge, it holds some pastry\n" +
 					"the roaches come, it looks them tasty!" +
@@ -345,7 +340,6 @@ namespace Imalas_TwitchChaosEvents
 				public static LocString TOAST = "Taco Rain!";
 				public static LocString TOASTTEXT = "It's raining Tacos!";
 				public static LocString NEWRECIPE = "\n\nThere is also a new recipe in the Gas Range.";
-
 			}
 			public class SPANISHINQUISITION
 			{
@@ -357,6 +351,12 @@ namespace Imalas_TwitchChaosEvents
 				public static LocString INQUISITION_MEMBER_1 = "Cardinal Ximenez";
 				public static LocString INQUISITION_MEMBER_2 = "Cardinal Biggles";
 				public static LocString INQUISITION_MEMBER_3 = "Cardinal Fang";
+			}
+			public class VERYEVILTREE
+			{
+				public static LocString NAME = "Seeds of Yggdrasil";
+				public static LocString TOASTTEXT = "Yggdrasil has shed its seeds on your asteroid!";
+				public static LocString TOASTTEXT_SPROUT = "The Seed of Yggdrasil has sprouted!";
 			}
 		}
 		public class HOTKEYACTIONS
