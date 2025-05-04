@@ -105,6 +105,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 		{
 			if (init) return;
 			init = true;
+			transform.Find("Toggle")?.gameObject?.SetActive(false);
 			GeyserEntryPrefab = transform.Find("ScrollArea/Content/ListViewEntryPrefab").gameObject;
 			GeyserEntryPrefab.SetActive(false);
 			PossibleGeyserUIEntriesContainer = transform.Find("ScrollArea/Content").gameObject;

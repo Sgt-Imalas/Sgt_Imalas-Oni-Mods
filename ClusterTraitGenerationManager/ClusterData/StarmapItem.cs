@@ -625,10 +625,10 @@ namespace ClusterTraitGenerationManager.ClusterData
 		}
 		public void SetGeyserBlacklistAffectsNonGenerics(bool affectsNongenerics)
 		{
-			if(IsMixed)
+			if (IsMixed)
 				MixingAsteroidSource.SetGeyserBlacklistAffectsNonGenerics(affectsNongenerics);
 			else
-			 _geyserBlacklistAffectsNonGenerics = affectsNongenerics;
+				_geyserBlacklistAffectsNonGenerics = affectsNongenerics;
 		}
 
 		public void AddGeyserBlacklist(string geyserID)
@@ -992,7 +992,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 		}
 
 
-		public static List<WorldTrait> AllowedWorldTraitsFor(List<string> currentTraits, ProcGen.World world)
+		public static List<WorldTrait> AllowedWorldTraitsFor(List<string> currentTraits, ProcGen.World world, bool ignoreWorldRules = false)
 		{
 			List<WorldTrait> AllTraits = ModAssets.AllTraitsWithRandomValuesOnly;
 
@@ -1020,20 +1020,23 @@ namespace ClusterTraitGenerationManager.ClusterData
 				if (trait == ModAssets.CGM_RandomTrait) //random trait is mutually exclusive with everything else
 					return new List<WorldTrait>();
 			}
-
-			foreach (ProcGen.World.TraitRule rule in world.worldTraitRules)
+			if (!ignoreWorldRules)
 			{
+				foreach (ProcGen.World.TraitRule rule in world.worldTraitRules)
+				{
 
-				TagSet requiredTags = ((rule.requiredTags != null) ? new TagSet(rule.requiredTags) : null);
-				TagSet forbiddenTags = ((rule.forbiddenTags != null) ? new TagSet(rule.forbiddenTags) : null);
+					TagSet requiredTags = ((rule.requiredTags != null) ? new TagSet(rule.requiredTags) : null);
+					TagSet forbiddenTags = ((rule.forbiddenTags != null) ? new TagSet(rule.forbiddenTags) : null);
 
-				AllTraits.RemoveAll((WorldTrait trait) =>
-					(requiredTags != null && !trait.traitTagsSet.ContainsAll(requiredTags))
-					|| (forbiddenTags != null && trait.traitTagsSet.ContainsOne(forbiddenTags))
-					|| (rule.forbiddenTraits != null && rule.forbiddenTraits.Contains(trait.filePath))
-					|| !trait.IsValid(world, logErrors: true));
+					AllTraits.RemoveAll((WorldTrait trait) =>
+						(requiredTags != null && !trait.traitTagsSet.ContainsAll(requiredTags))
+						|| (forbiddenTags != null && trait.traitTagsSet.ContainsOne(forbiddenTags))
+						|| (rule.forbiddenTraits != null && rule.forbiddenTraits.Contains(trait.filePath))
+						|| !trait.IsValid(world, logErrors: true));
 
+				}
 			}
+
 			AllTraits = AllTraits.Union(AlwaysAvailableTraits).ToList();
 			AllTraits.RemoveAll((WorldTrait trait) =>
 				 !trait.IsValid(world, logErrors: true)
@@ -1041,12 +1044,10 @@ namespace ClusterTraitGenerationManager.ClusterData
 				|| currentTraits.Contains(trait.filePath)
 				|| trait.exclusiveWith.Any(x => currentTraits.Any(y => y == x))
 				);
-
-
 			return AllTraits;
 
 		}
-		[JsonIgnore] public List<WorldTrait> AllowedPlanetTraits => AllowedWorldTraitsFor(currentPlanetTraits, world);
+		public List<WorldTrait> AllowedPlanetTraits(bool ignoreWorldRules = false) => AllowedWorldTraitsFor(currentPlanetTraits, world, ignoreWorldRules);
 
 		public bool RemoveWorldTrait(WorldTrait trait)
 		{

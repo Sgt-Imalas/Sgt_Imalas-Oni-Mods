@@ -1,11 +1,13 @@
 ﻿using ClusterTraitGenerationManager.ClusterData;
 using ProcGen;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
 using UtilLibs.UIcmp;
 using static ClusterTraitGenerationManager.ClusterData.CGSMClusterManager;
+using static ClusterTraitGenerationManager.STRINGS.UI.CGMEXPORT_SIDEMENUS;
 using static ClusterTraitGenerationManager.STRINGS.UI.CGMEXPORT_SIDEMENUS.TRAITPOPUP.SCROLLAREA.CONTENT.LISTVIEWENTRYPREFAB;
 
 namespace ClusterTraitGenerationManager.UI.Screens
@@ -59,12 +61,16 @@ namespace ClusterTraitGenerationManager.UI.Screens
 		Dictionary<string, BlacklistTrait> BlacklistedRandomTraits = new Dictionary<string, BlacklistTrait>();
 		public static TraitSelectorScreen Instance { get; private set; }
 
+		public FToggle ToggleTraitRule;
+
 
 		Dictionary<string, GameObject> Traits = new Dictionary<string, GameObject>();
 		public StarmapItem SelectedPlanet;
 		public static System.Action OnCloseAction;
 
 		public bool IsCurrentlyActive = false;
+		bool isEditingRandomBlacklist = false;
+		bool ignoreWorldTraitRules = false;
 
 		public static void InitializeView(StarmapItem _planet, System.Action onclose, bool editingRandomBlacklist = false)
 		{
@@ -80,24 +86,13 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			Instance.SelectedPlanet = _planet;
 			Instance.ConsumeMouseScroll = true;
 			Instance.transform.SetAsLastSibling();
+			Instance.isEditingRandomBlacklist = editingRandomBlacklist;
+			Instance.SetUIState();
+		}
 
-
-			if (_planet != null && CustomCluster.HasStarmapItem(_planet.id, out var item))
-			{
-				foreach (var traitContainer in Instance.BlacklistedRandomTraits.Values)
-				{
-					traitContainer.gameObject.SetActive(false);
-				}
-				foreach (var traitContainer in Instance.Traits.Values)
-				{
-					traitContainer.SetActive(false);
-				}
-				foreach (var activeTrait in item.AllowedPlanetTraits)
-				{
-					Instance.Traits[activeTrait.filePath].SetActive(true);
-				}
-			}
-			if (editingRandomBlacklist)
+		void SetUIState()
+		{
+			if (isEditingRandomBlacklist)
 			{
 				foreach (var traitContainer in Instance.Traits.Values)
 				{
@@ -108,8 +103,23 @@ namespace ClusterTraitGenerationManager.UI.Screens
 					traitContainer.gameObject.SetActive(true);
 					traitContainer.RefreshState();
 				}
+				return;
 			}
-
+			else if (SelectedPlanet != null && CustomCluster.HasStarmapItem(SelectedPlanet.id, out var item))
+			{
+				foreach (var traitContainer in Instance.BlacklistedRandomTraits.Values)
+				{
+					traitContainer.gameObject.SetActive(false);
+				}
+				foreach (var traitContainer in Instance.Traits.Values)
+				{
+					traitContainer.SetActive(false);
+				}
+				foreach (var activeTrait in item.AllowedPlanetTraits(ignoreWorldTraitRules))
+				{
+					Instance.Traits[activeTrait.filePath].SetActive(true);
+				}
+			}
 		}
 
 		private GameObject TraitPrefab;
@@ -124,6 +134,11 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			TraitPrefab = transform.Find("ScrollArea/Content/ListViewEntryPrefab").gameObject;
 			TraitPrefab.SetActive(false);
 			PossibleTraitsContainer = transform.Find("ScrollArea/Content").gameObject;
+			ToggleTraitRule = transform.Find("Toggle/Background")?.gameObject?.AddOrGet<FToggle>();
+			ToggleTraitRule.SetCheckmark("Checkmark");
+			ToggleTraitRule.SetOnFromCode(false);
+			ToggleTraitRule.OnClick += ToggleTraitRuleOverride;
+			UIUtils.AddSimpleTooltipToObject(transform.Find("Toggle").gameObject, TRAITPOPUP.TOGGLE.TOOLTIP);
 
 			var closeButton = transform.Find("CancelButton").FindOrAddComponent<FButton>();
 			closeButton.OnClick += () =>
@@ -142,7 +157,11 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 			Init();
 		}
-
+		void ToggleTraitRuleOverride(bool overrideEnabled)
+		{
+			ignoreWorldTraitRules = overrideEnabled;
+			SetUIState();
+		}
 		void InitializeTraitContainer()
 		{
 			foreach (var kvp in ModAssets.AllTraitsWithRandom)
@@ -178,7 +197,9 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			}
 
 
-			foreach (var kvp in SettingsCache.worldTraits)
+			var worldTraits = SettingsCache.worldTraits.OrderBy(kvp => Strings.Get(kvp.Value.name).ToString());
+
+			foreach (var kvp in worldTraits)
 			{
 				var TraitHolder = Util.KInstantiateUI(TraitPrefab, PossibleTraitsContainer, true);
 				var blacklistContainer = TraitHolder.AddOrGet<BlacklistTrait>();

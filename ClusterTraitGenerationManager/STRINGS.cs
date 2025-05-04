@@ -777,6 +777,11 @@
 				public class TRAITPOPUP
 				{
 					public static LocString TEXT = "available Traits:";
+					public class TOGGLE
+					{
+						public static LocString LABEL = "Override asteroid trait rules:";
+						public static LocString TOOLTIP = "Force overrides the trait rules for the asteroids,\nallowing to add traits that would not be allowed by vanilla generation.\nCaution; might increase worldgen failure rates or result in weird asteroid layouts, depending on the trait.";
+					}
 					public class SCROLLAREA
 					{
 						public class CONTENT

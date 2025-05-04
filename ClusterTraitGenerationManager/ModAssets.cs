@@ -445,6 +445,7 @@ namespace ClusterTraitGenerationManager
 		public static Dictionary<string, GeyserDataEntry> AllGeysers = new();
 		public static List<string> AllGenericGeysers = new();
 
+
 		public static string GetGenericGeyserAt(int seed, Vector2I position, HashSet<string> geyserBlacklist = null)
 		{
 			int num = 0;
@@ -493,8 +494,8 @@ namespace ClusterTraitGenerationManager
 				{
 					new KeyValuePair<string, WorldTrait>(ModAssets.CGM_RandomTrait, ModAssets.RandomizedTraitsTrait)
 				};
-				traits.AddRange(SettingsCache.worldTraits.ToList());
-				return traits;
+				traits.AddRange(SettingsCache.worldTraits.ToList());				
+				return traits.OrderBy(kvp => global::Strings.Get(kvp.Value.name).ToString()).ToList();
 			}
 		}
 		public static List<WorldTrait> AllTraitsWithRandomValuesOnly

@@ -59,6 +59,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			init = true;
 			SeasonPrefab = transform.Find("ScrollArea/Content/ListViewEntryPrefab").gameObject;
 			PossibleSeasonContainer = transform.Find("ScrollArea/Content").gameObject;
+			transform.Find("Toggle")?.gameObject?.SetActive(false);
 			UIUtils.TryChangeText(transform, "Text", METEORSEASONCYCLE.CONTENT.TITLE);
 			UIUtils.TryChangeText(PossibleSeasonContainer.transform, "NoTraitAvailable/Label", METEORSEASONCYCLE.CONTENT.NOSEASONTYPESAVAILABLE);
 

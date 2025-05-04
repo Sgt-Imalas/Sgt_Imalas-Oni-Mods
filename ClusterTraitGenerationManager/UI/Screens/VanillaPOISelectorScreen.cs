@@ -108,6 +108,8 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			SeasonPrefab = transform.Find("ScrollArea/Content/ListViewEntryPrefab").gameObject;
 			PossibleSeasonContainer = transform.Find("ScrollArea/Content").gameObject;
 
+			transform.Find("Toggle")?.gameObject?.SetActive(false);
+
 			UIUtils.TryChangeText(transform, "Text", STARMAPITEMDESCRIPTOR.POIPLURAL);
 			UIUtils.TryChangeText(PossibleSeasonContainer.transform, "NoTraitAvailable/Label", STARMAPITEMDESCRIPTOR.NOPOISAVAILABLE);
 

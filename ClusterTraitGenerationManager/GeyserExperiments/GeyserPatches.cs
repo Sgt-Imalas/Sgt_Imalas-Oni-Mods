@@ -14,64 +14,23 @@ namespace ClusterTraitGenerationManager.GeyserExperiments
 	[HarmonyPatch(typeof(GeyserGenericConfig), nameof(GeyserGenericConfig.GenerateConfigs))]
 	public static class CheckInitPoint
 	{
-		[HarmonyPriority(Priority.VeryLow)] //grab all the mod added configs
+		[HarmonyPriority(Priority.VeryLow)] //make sure to grab all the mod added configs
 		public static void Postfix(List<GeyserPrefabParams> __result)
 		{
-			foreach (var entry in __result)
-			{
-				SgtLogger.l("creating geyser data entry: " + entry.id);
-				ModAssets.AllGeysers[entry.id] = new GeyserDataEntry(entry.id, Strings.Get(entry.nameStringKey), Strings.Get(entry.descStringKey), entry.anim, entry.isGenericGeyser);
-			}
-			SgtLogger.l("AllGeysersCount: " + __result.Count);
+			var sortedGeysers = __result.OrderBy(g => global::STRINGS.UI.StripLinkFormatting(Strings.Get(g.nameStringKey).ToString()));
 			ModAssets.AllGenericGeysers = new();
-			foreach (var entry in __result)
+			foreach (var entry in sortedGeysers)
 			{
+				SgtLogger.l("creating geyser data entry: " + entry.id+", isGeneric: "+entry.isGenericGeyser);
+				ModAssets.AllGeysers[entry.id] = new GeyserDataEntry(entry.id, Strings.Get(entry.nameStringKey), Strings.Get(entry.descStringKey), entry.anim, entry.isGenericGeyser);
+
 				if (entry.isGenericGeyser)
 					ModAssets.AllGenericGeysers.Add(entry.id);
 			}
+			SgtLogger.l("AllGeysersCount: " + sortedGeysers.Count());
 			SgtLogger.l("GenericGeysersCount: " + ModAssets.AllGenericGeysers.Count);
 		}
 	}
-	//[HarmonyPatch(typeof(GeyserGenericConfig), nameof(GeyserGenericConfig.CreatePrefabs))]
-	//public static class Test_CreatePrefabs
-	//{
-	//    public static bool Prefix(ref List<GameObject> __result, GeyserGenericConfig __instance)
-	//    {
-	//        SgtLogger.l("geyserGeneric CreatePrefabs");
-	//        List<GameObject> list = new List<GameObject>();
-	//        List<GeyserPrefabParams> configs = __instance.GenerateConfigs();
-	//        foreach (GeyserPrefabParams item in configs)
-	//        {
-	//            list.Add(CreateGeyser(item.id, item.anim, item.width, item.height, Strings.Get(item.nameStringKey), Strings.Get(item.descStringKey), item.geyserType.idHash, item.geyserType.geyserTemperature));
-	//        }
-
-	//        configs.RemoveAll((GeyserPrefabParams x) => !x.isGenericGeyser);
-	//        GameObject gameObject = EntityTemplates.CreateEntity("GeyserGeneric", "Random Geyser Spawner");
-	//        gameObject.AddOrGet<SaveLoadRoot>();
-	//        gameObject.GetComponent<KPrefabID>().prefabInitFn += delegate (GameObject inst)
-	//        {
-	//            SgtLogger.l("geyserGeneric OnSpawn");
-	//            int num = 0;
-	//            if (SaveLoader.Instance.clusterDetailSave != null)
-	//            {
-	//                num = SaveLoader.Instance.clusterDetailSave.globalWorldSeed;
-	//            }
-	//            else
-	//            {
-	//                Debug.LogWarning("Could not load global world seed for geysers");
-	//            }
-
-	//            num = num + (int)inst.transform.GetPosition().x + (int)inst.transform.GetPosition().y;
-	//            int index = new KRandom(num).Next(0, configs.Count);
-	//            SgtLogger.l(configs[index].id + " "+(int)inst.transform.GetPosition().x+", " + (int)inst.transform.GetPosition().y+", seed: "+ SaveLoader.Instance.clusterDetailSave.globalWorldSeed, "GEYSERGENERIC ONSPAWNTYPE");
-	//            GameUtil.KInstantiate(Assets.GetPrefab(configs[index].id), inst.transform.GetPosition(), Grid.SceneLayer.BuildingBack).SetActive(value: true);
-	//            inst.DeleteObject();
-	//        };
-	//        list.Add(gameObject);
-	//        __result = list;
-	//        return false;
-	//    }
-	//}
 	[HarmonyPatch(typeof(WorldGen), "GenerateOffline")]
 	public static class WorldGen_GrabPlanet
 	{
