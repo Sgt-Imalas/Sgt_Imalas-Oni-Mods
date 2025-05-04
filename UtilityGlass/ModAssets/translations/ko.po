@@ -1,0 +1,61 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Nubula\n"
+"Language-Team: \n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#. UtilityGlass.STRINGS.BUILDINGS.PREFABS.UG_EXTERIORGLASSWALL.DESC
+msgctxt "UtilityGlass.STRINGS.BUILDINGS.PREFABS.UG_EXTERIORGLASSWALL.DESC"
+msgid ""
+"Drywall can be used in conjunction with tiles to build airtight rooms on the "
+"surface."
+msgstr ""
+"타일과 함께 사용하여 우주에서 밀폐된 방을 만들 수 있습니다."
+
+#. UtilityGlass.STRINGS.BUILDINGS.PREFABS.UG_EXTERIORGLASSWALL.EFFECT
+msgctxt "UtilityGlass.STRINGS.BUILDINGS.PREFABS.UG_EXTERIORGLASSWALL.EFFECT"
+msgid ""
+"Prevents <link=\"ELEMENTSGAS\">Gas</link> and "
+"<link=\"ELEMENTSLIQUID\">Liquid</link> loss in space.\n"
+"\n"
+"Builds an insulating backwall behind buildings."
+msgstr ""
+"우주에서 <link=\"ELEMENTSGAS\">기체</link>와 <link=\"ELEMENTSLIQUID\">액체</link>가 손실되는 것을 방지합니다.\n\n"
+"시설물 뒤에 뒷벽을 만듭니다."
+
+#. UtilityGlass.STRINGS.BUILDINGS.PREFABS.UG_EXTERIORGLASSWALL.NAME
+msgctxt "UtilityGlass.STRINGS.BUILDINGS.PREFABS.UG_EXTERIORGLASSWALL.NAME"
+msgid "<link=\"UGEXTERIORGLASSWALL\">Window Wall</link>"
+msgstr "<link=\"UGEXTERIORGLASSWALL\">창문 벽채</link>"
+
+#. UtilityGlass.STRINGS.BUILDINGS.PREFABS.UG_REINFORCEDGLASS.DESC
+msgctxt "UtilityGlass.STRINGS.BUILDINGS.PREFABS.UG_REINFORCEDGLASS.DESC"
+msgid "\"Transparent Aluminum\""
+msgstr "\"투명 알루미늄\""
+
+#. UtilityGlass.STRINGS.BUILDINGS.PREFABS.UG_REINFORCEDGLASS.EFFECT
+msgctxt "UtilityGlass.STRINGS.BUILDINGS.PREFABS.UG_REINFORCEDGLASS.EFFECT"
+msgid ""
+"Used to build the walls and floors of rooms.\n"
+"\n"
+"Allows <link=\"LIGHT\">Light</link> and <link=\"DECOR\">Decor</link> to pass "
+"through.\n"
+"\n"
+"Can withstand extreme pressures and impacts."
+msgstr ""
+"방의 벽과 바닥을 만들기 위해 사용됩니다.\n\n"
+"<link=\"LIGHT\">빛</link>과 <link=\"DECOR\">장식</link> 수치가 통과됩니다.\n\n"
+"극심한 압력과 충격도 견딜 수 있습니다."
+
+#. UtilityGlass.STRINGS.BUILDINGS.PREFABS.UG_REINFORCEDGLASS.NAME
+msgctxt "UtilityGlass.STRINGS.BUILDINGS.PREFABS.UG_REINFORCEDGLASS.NAME"
+msgid "<link=\"UGREINFORCEDGLASS\">Reinforced Window Tile</link>"
+msgstr "<link=\"UGREINFORCEDGLASS\">강화 창 타일</link>"
