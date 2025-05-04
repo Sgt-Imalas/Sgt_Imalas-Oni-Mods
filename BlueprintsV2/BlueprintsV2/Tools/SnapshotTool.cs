@@ -216,11 +216,11 @@ namespace BlueprintsV2.Tools
 				if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsToggleForce.GetKAction()))
 				{
 					BlueprintState.ForceMaterialChange = true;
-					BlueprintState.RefreshBlueprintVisualizers();
+					BlueprintState.RefreshBlueprintVisualizers(blueprint);
 				}
 				if (buttonEvent.TryConsume(Action.RotateBuilding))
 				{
-					BlueprintState.TryRotateBlueprint();
+					//BlueprintState.TryRotateBlueprint();
 				}
 
 				if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsSwapAnchorAction.GetKAction()))
@@ -237,7 +237,7 @@ namespace BlueprintsV2.Tools
 			if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsToggleForce.GetKAction()))
 			{
 				BlueprintState.ForceMaterialChange = false;
-				BlueprintState.RefreshBlueprintVisualizers();
+				BlueprintState.RefreshBlueprintVisualizers(blueprint);
 
 			}
 		}

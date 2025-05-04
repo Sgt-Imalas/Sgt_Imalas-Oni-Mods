@@ -16,7 +16,7 @@ using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.BUTTONS;
 
 namespace BlueprintsV2.UnityUI
 {
-	internal class BlueprintSelectionScreen : FScreen
+	internal class BlueprintSelectionScreen : FScreen, IRender1000ms
 	{
 #pragma warning disable IDE0051 // Remove unused private members
 #pragma warning disable CS0414 // Remove unused private members
@@ -274,7 +274,6 @@ namespace BlueprintsV2.UnityUI
 			{
 				if (kvp.Value != null)
 				{
-					kvp.Value.SetSelected(kvp.Key == TargetBlueprint);
 					kvp.Value.gameObject.SetActive(false);
 				}
 
@@ -313,7 +312,7 @@ namespace BlueprintsV2.UnityUI
 				var uiEntry = AddOrGetBlueprintEntry(bp);
 				uiEntry.transform.SetAsLastSibling();
 				uiEntry.gameObject.SetActive(true);
-
+				uiEntry.SetSelected(bp == TargetBlueprint);
 			}
 			this.ConsumeMouseScroll = true;
 			LockCam();
@@ -642,12 +641,21 @@ namespace BlueprintsV2.UnityUI
 			}
 		}
 
-		internal static void RefreshOnBpAdded()
+		internal static void RefreshOnBpChanges()
 		{
 			if (Instance != null && Instance.CurrentlyActive)
 			{
-				Instance.ClearUIState();
+				Instance.RefreshRequested = true;
 			}
+		}
+		public bool RefreshRequested = false;
+		public void Render1000ms(float dt)
+		{
+			if(!RefreshRequested)
+				return;
+
+			RefreshRequested = false;
+			ClearUIState();
 		}
 	}
 }

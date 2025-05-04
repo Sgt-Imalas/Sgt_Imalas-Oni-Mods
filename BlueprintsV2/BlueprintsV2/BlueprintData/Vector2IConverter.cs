@@ -6,6 +6,7 @@ namespace BlueprintsV2.BlueprintData
 {
 	/// <summary>
 	/// Custom JSON converter for the Vector2I class.
+	/// unused for now, but may be useful in the future.
 	/// </summary>
 	public class Vector2IConverter : JsonConverter
 	{

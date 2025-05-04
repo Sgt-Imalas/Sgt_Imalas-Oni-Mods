@@ -146,61 +146,9 @@ namespace BlueprintsV2.BlueprintData
 			return blueprint;
 		}
 
-		/// <summary>
-		/// TODO!
-		/// </summary>
-		public	static void TryRotateBlueprint()
+		public static void RefreshBlueprintVisualizers(Blueprint snapshot = null)
 		{
-
-		}
-
-		public enum Rotatability
-		{
-			Unrotatable,
-			FlippableX,
-			FlippableY,
-			Rotatable90,
-			Rotatable360,
-		}
-		public static void DetermineBlueprintRotatability()
-		{
-			var rotatability = Rotatability.Rotatable360;
-
-
-			BuildingDef def;
-			foreach(var visualizer in FoundationVisuals)
-			{
-				if(visualizer is not BuildingVisual buildingVisualizer)
-				{
-					continue;
-				}
-				def = buildingVisualizer.BuildingDef;
-			}
-			foreach (var visualizer in DependentVisuals)
-			{
-				if (visualizer is not BuildingVisual buildingVisualizer)
-				{
-					continue;
-				}
-				def = buildingVisualizer.BuildingDef;
-			}
-		}
-		//public static Rotatability GetBuildingRotatability(BuildingDef def, Rotatability current)
-		//{
-		//	if (def == null)
-		//	{
-		//		return current;
-		//	}
-		//	if(def.rul)
-
-
-		//	return current;
-		//}
-
-
-		public static void RefreshBlueprintVisualizers()
-		{
-			BlueprintState.UpdateVisual(lastBlueprintPos,true);
+			BlueprintState.UpdateVisual(lastBlueprintPos,true, snapshot);
 		}
 
 		public static void VisualizeBlueprint(Vector2I topLeft, Blueprint blueprint)

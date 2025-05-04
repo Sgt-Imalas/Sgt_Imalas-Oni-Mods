@@ -113,7 +113,7 @@ namespace BlueprintsV2
 		{
 			public static BlueprintFolder RootFolder;
 			public static HashSet<BlueprintFolder> BlueprintFolders = new();
-			public static HashSet<Blueprint> Blueprints = new();
+			//public static HashSet<Blueprint> Blueprints = new();
 
 
 			public static string GetBlueprintDirectory()
@@ -141,7 +141,7 @@ namespace BlueprintsV2
 
 				ModAssets.BLUEPRINTS_AUTOFILE_WATCHER.Created += (sender, eventArgs) =>
 				{
-					SgtLogger.l("file watcher triggered on " + eventArgs.Name + ", " + eventArgs.FullPath, "BP FileWatcher");
+					SgtLogger.l("file watcher creation event triggered on " + eventArgs.Name + ", " + eventArgs.FullPath, "BP FileWatcher");
 					if (ModAssets.BLUEPRINTS_AUTOFILE_IGNORE.Contains(eventArgs.FullPath))
 					{
 						ModAssets.BLUEPRINTS_AUTOFILE_IGNORE.Remove(eventArgs.FullPath);
@@ -153,6 +153,19 @@ namespace BlueprintsV2
 						HandleBlueprintLoading(eventArgs.FullPath);
 					}
 				};
+				ModAssets.BLUEPRINTS_AUTOFILE_WATCHER.Deleted += (sender, eventArgs) =>
+				{
+					SgtLogger.l("file watcher deletion event triggered on " + eventArgs.Name + ", " + eventArgs.FullPath, "BP FileWatcher");
+					if (ModAssets.BLUEPRINTS_AUTOFILE_IGNORE.Contains(eventArgs.FullPath))
+					{
+						ModAssets.BLUEPRINTS_AUTOFILE_IGNORE.Remove(eventArgs.FullPath);
+					}
+
+					if (eventArgs.FullPath.EndsWith(".blueprint") || eventArgs.FullPath.EndsWith(".json"))
+					{
+						HandleBlueprintDeletion(eventArgs.FullPath);
+					}
+				};
 
 				ModAssets.BLUEPRINTS_AUTOFILE_WATCHER.EnableRaisingEvents = true;
 				return false;
@@ -162,7 +175,7 @@ namespace BlueprintsV2
 			{
 				RootFolder = null;
 				BlueprintFolders.Clear();
-				Blueprints.Clear();
+				//Blueprints.Clear();
 				LoadFolder(GetBlueprintDirectory());
 
 				if (ingame)
@@ -175,7 +188,7 @@ namespace BlueprintsV2
 
 			public static void DeleteBlueprint(Blueprint bp)
 			{
-				Blueprints.Remove(bp);
+				//Blueprints.Remove(bp);
 				if (SelectedBlueprint == bp)
 					SelectedBlueprint = null;
 				bp.DeleteFile();
@@ -246,6 +259,9 @@ namespace BlueprintsV2
 				{
 					if (file.EndsWith(".blueprint") || file.EndsWith(".json"))
 					{
+						if (file.StartsWith("._")) //Mac specific metadata files that are created on non macOs-native filesystems
+							continue;
+
 						if (LoadBlueprint(file, out Blueprint blueprint))
 						{
 							CurrentFolder.AddBlueprint(blueprint);
@@ -319,11 +335,33 @@ namespace BlueprintsV2
 						}
 						folder.AddBlueprint(blueprint);
 					}
-					BlueprintSelectionScreen.RefreshOnBpAdded();
+					BlueprintSelectionScreen.RefreshOnBpChanges();
 				}
 				else
 					SgtLogger.warning("not a blueprint");
 			}
+			public static void HandleBlueprintDeletion(string fileLocation)
+			{
+				SgtLogger.l("Path: " + fileLocation, "BP FileWatcher Deletion");
+				Blueprint ToRemove = null;
+				foreach (var folder in BlueprintFileHandling.BlueprintFolders)
+				{
+					foreach(var bp in folder.Blueprints)
+					{
+						if (bp.FilePath == fileLocation)
+						{
+							ToRemove = bp;
+							break;
+						}
+					}
+				}
+				if (ToRemove != null)
+				{
+					DeleteBlueprint(ToRemove);
+					BlueprintSelectionScreen.RefreshOnBpChanges();
+				}
+			}
+
 
 			public static bool LoadBlueprint(string blueprintLocation, out Blueprint blueprint)
 			{

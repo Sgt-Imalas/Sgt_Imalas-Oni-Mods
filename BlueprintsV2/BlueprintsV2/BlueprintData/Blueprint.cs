@@ -173,11 +173,19 @@ namespace BlueprintsV2.BlueprintData
 				returnString += ModAssets.BLUEPRINTS_FILE_DISALLOWEDCHARACTERS.Contains(character) ? '_' : character;
 			}
 
+			if(returnString.StartsWith("._")) //Macs create these ._[filename] files to store file information on exFat systems, dont let blueprints be confused with them
+			{
+				returnString = returnString.Substring(2);
+			}
+			if(returnString.Trim().Length<=0)
+				return "unnamed";
+
 			return returnString.Trim().ToLowerInvariant();
 		}
 
 		/// <summary>
 		/// Reads the contents of a binary-formatted file and adds its contents to the blueprint.
+		/// Kept in for compatibility with older blueprints.
 		/// </summary>
 		/// <returns>True if the read succeeded, false otherwise</returns>
 		public bool ReadBinary()
@@ -294,7 +302,7 @@ namespace BlueprintsV2.BlueprintData
 
 				catch (Exception exception)
 				{
-					Debug.Log("Error when loading blueprint: " + FilePath + ",\n" + nameof(exception) + ": " + exception.Message);
+					SgtLogger.warning("Could not load blueprint from file: " + FilePath + "\n" + nameof(exception) + ": " + exception.Message);
 				}
 			}
 		}

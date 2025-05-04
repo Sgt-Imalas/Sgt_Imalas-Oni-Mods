@@ -71,7 +71,7 @@ namespace BlueprintsV2.ModAPI
 		/// Allows you to register data under a specific key
 		/// </summary>
 		/// <param name="source"></param>
-		/// <returns></returns>
+		/// <returns>custom data key</returns>
 		public static string Blueprints_ID()
 		{
 			return "Blueprints_ExampleDataKey";
@@ -108,7 +108,7 @@ namespace BlueprintsV2.ModAPI
 		public static Dictionary<string, System.Func<BuildingDef, bool>> AllReq_IsBuildableExtensions = new();
 
 		/// <summary>
-		/// Register 
+		/// Register a separate check for buildings to be considered capturable by blueprints
 		/// </summary>
 		/// <param name="ID"></param>
 		/// <param name="AlwaysAllowIfTrue"></param>
@@ -354,7 +354,9 @@ namespace BlueprintsV2.ModAPI
 				foreach (var type in q)
 				{
 					if (type.IsInterface || type.IsNested)
+					{
 						continue;
+					}
 
 					///This method should return a JObject that contains all data the component on the given gameobject transfers to the blueprint, see the example at the top
 					var DataGetter = AccessTools.Method(type, "Blueprints_GetData",
@@ -363,6 +365,9 @@ namespace BlueprintsV2.ModAPI
 					typeof(GameObject)
 					});
 
+					if (DataGetter == null)
+						continue;
+
 					///This method recieves the target gameobject and the JObject data it stored with the method above. it should apply the data from that JObject to the given gameobject, see the example at the top
 					var DataApplier = AccessTools.Method(type, "Blueprints_SetData",
 					new[]
@@ -370,6 +375,11 @@ namespace BlueprintsV2.ModAPI
 					typeof(GameObject)
 					, typeof(JObject)
 					});
+
+					if (DataApplier == null)
+						continue;
+
+
 					string registrationID = type.Assembly.GetName().Name + "_" + type.Name;
 
 					var idOverrideMethod = AccessTools.Method(type, "Blueprints_ID");

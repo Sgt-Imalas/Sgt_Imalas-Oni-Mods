@@ -141,7 +141,7 @@ namespace BlueprintsV2.Tools
 				}
 				if (buttonEvent.TryConsume(Action.RotateBuilding))
 				{
-					BlueprintState.TryRotateBlueprint();
+					//BlueprintState.TryRotateBlueprint();
 				}
 
 				if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsSwapAnchorAction.GetKAction()))

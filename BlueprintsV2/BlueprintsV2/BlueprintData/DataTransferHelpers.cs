@@ -1,7 +1,9 @@
 ﻿using HarmonyLib;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UtilLibs;
 
@@ -516,9 +518,19 @@ namespace BlueprintsV2.BlueprintData
 			{
 				if (arg.TryGetComponent<AccessControl>(out var component) && component.controlEnabled)
 				{
+					var customPermissions = component.savedPermissions
+						.Where(entry => entry.Key != null && entry.Key.GetId() != 0)
+						.ToDictionary(entry => entry.Key.GetId(), entry => (int)entry.Value);
+
+					foreach (var item in customPermissions)
+					{
+						SgtLogger.l("" + item.Key + " " + item.Value);
+					}
+
 					return new JObject()
 					{
-						{ "DefaultPermission", (int)component.DefaultPermission}
+						{ "DefaultPermission", (int)component.DefaultPermission},
+						{ "savedPermissions", JsonConvert.SerializeObject(customPermissions)}
 					};
 				}
 				return null;
@@ -536,6 +548,40 @@ namespace BlueprintsV2.BlueprintData
 
 					//applying values
 					targetComponent.DefaultPermission = (AccessControl.Permission)DefaultPermission;
+
+					var t2 = jObject.GetValue("savedPermissions");
+					if (t2 == null)
+						return;
+					try
+					{
+						var customPermissions = JsonConvert.DeserializeObject<Dictionary<int, AccessControl.Permission>>(t2.Value<string>());
+
+						foreach (var item in customPermissions)
+						{
+							SgtLogger.l("" + item.Key + " " + item.Value);
+						}
+						bool customPermissionSet = false;
+
+						foreach (var entry in customPermissions)
+						{
+							var targetMinionProxy = Components.MinionAssignablesProxy.FirstOrDefault(x => x.GetComponent<KPrefabID>()?.InstanceID == entry.Key);
+							if (targetMinionProxy == null)
+								continue;
+
+							SgtLogger.l("minion found: "+targetMinionProxy.target.GetProperName());
+							targetComponent.SetPermission(targetMinionProxy, entry.Value);
+							customPermissionSet = true;
+						}
+						if (customPermissionSet)
+						{
+
+						}
+					}
+					catch (Exception e)
+					{
+						SgtLogger.error("Error while applying saved door permissions:\n" + e);
+					}
+
 				}
 			}
 		}
@@ -897,7 +943,7 @@ namespace BlueprintsV2.BlueprintData
 		}
 		internal class DataTransfer_HighEnergyParticleRedirector
 		{
-			internal static JObject TryGetData(GameObject arg)
+			public static JObject TryGetData(GameObject arg)
 			{
 				if (arg.TryGetComponent<HighEnergyParticleRedirector>(out var component))
 				{

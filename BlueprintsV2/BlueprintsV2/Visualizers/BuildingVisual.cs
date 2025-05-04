@@ -155,7 +155,12 @@ namespace BlueprintsV2.Visualizers
 
 			if (buildingConfig.BuildingDef.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>() != null && building.TryGetComponent<KAnimGraphTileVisualizer>(out var vis) && buildingConfig.GetConduitFlags(out var flags))
 			{
-				vis.UpdateConnections((UtilityConnections)flags);
+				var newConnections = (UtilityConnections)flags;
+				if (vis.Connections != newConnections)
+				{
+					vis.UpdateConnections(newConnections);
+					vis.Refresh();
+				}
 			}
 
 			if (isPlanned && ToolMenu.Instance != null)
@@ -216,7 +221,7 @@ namespace BlueprintsV2.Visualizers
 			return false;
 		}
 
-		public virtual bool SameBuildingAlreadyInPlace(int cellParam, out BuildingComplete bc)
+		public virtual bool SameBuildingAlreadyInPlace(int cellParam, out BuildingComplete bc, bool excludeConduits)
 		{
 			bc = null;
 			var def = buildingConfig.BuildingDef;
@@ -226,6 +231,9 @@ namespace BlueprintsV2.Visualizers
 				//is same def AND the building cell is alligned with the visualizer cell (aka the building is in the exact same spot as the vis.)
 				if (bc.Def == def && Grid.PosToCell(existingBuilding) == cellParam)
 				{
+					if (excludeConduits)
+						return !bc.TryGetComponent<IHaveUtilityNetworkMgr>(out _);
+
 					return true;
 				}
 			}
@@ -236,7 +244,7 @@ namespace BlueprintsV2.Visualizers
 		{
 			reconstructable = null;
 			var def = buildingConfig.BuildingDef;
-			if (SameBuildingAlreadyInPlace(cellParam, out var bc))
+			if (SameBuildingAlreadyInPlace(cellParam, out var bc, false))
 			{
 				if (bc.Def == def
 					&& bc.TryGetComponent<Reconstructable>(out reconstructable)
@@ -252,7 +260,10 @@ namespace BlueprintsV2.Visualizers
 
 		public virtual bool TryUse(int cellParam)
 		{
-			if (BlueprintState.InstantBuild && ValidCell(cellParam) && AllowedInWorld())
+			if (!Grid.IsValidCell(cellParam))
+				return false;
+
+			if (BlueprintState.InstantBuild && ValidCell(cellParam) && AllowedInWorld()) //sandbox insta build
 			{
 				for (int index = 0; index < buildingConfig.BuildingDef.PlacementOffsets.Length; ++index)
 				{
@@ -263,19 +274,21 @@ namespace BlueprintsV2.Visualizers
 				}
 				return PlaceFinishedBuilding(cellParam);
 			}
-			else if (IsPlaceable(cellParam))
+			else if (IsPlaceable(cellParam)) //regular placing
 			{
 				return PlacePlannedBuilding(cellParam);
 			}
-			else if (BlueprintState.ForceMaterialChange && CanRebuildWithMaterial(cellParam,out _))
+			else if (BlueprintState.ForceMaterialChange && CanRebuildWithMaterial(cellParam,out _)) //force rebuild with new materials
 			{
 				return TryReconstructExistingBuilding(cellParam);
 			}
-			else if (SameBuildingAlreadyInPlace(cellParam, out var bc))
+			else if (SameBuildingAlreadyInPlace(cellParam, out var bc,true)) //apply building settings to existing, does not apply to conduits
 			{
 				ApplyBuildingData(bc.gameObject);
-				if(buildingConfig.HasAnyBuildingData)
+				if (buildingConfig.HasAnyBuildingData)
+				{
 					PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_APPLY_SETTINGS_SPRITE, STRINGS.UI.TOOLS.USE_TOOL.SETTINGS_APPLIED, null, offset: PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);
+				}
 
 				return true;
 			}
@@ -456,7 +469,7 @@ namespace BlueprintsV2.Visualizers
 			{
 				return ModAssets.BLUEPRINTS_COLOR_VALIDPLACEMENT;
 			}
-			else if(SameBuildingAlreadyInPlace(cellParam,out _) && buildingConfig.HasAnyBuildingData)
+			else if(SameBuildingAlreadyInPlace(cellParam,out _,true) && buildingConfig.HasAnyBuildingData)
 			{
 				return ModAssets.BLUEPRINTS_COLOR_CAN_APPLY_SETTINGS;
 			}
