@@ -11,7 +11,7 @@ using static AccessControl;
 
 namespace DupeModelAccessPermissions.Content.Scripts
 {
-	internal class AccessControl_Extension : KMonoBehaviour
+	public class AccessControl_Extension : KMonoBehaviour
 	{
 		// -1 is regular default, using -2 for default bionics
 		public static int DefaultBionicsInstanceID = -2;
@@ -96,7 +96,7 @@ namespace DupeModelAccessPermissions.Content.Scripts
 		}
 
 		///BlueprintsV2 integration
-		internal static JObject TryGetData(GameObject arg)
+		public static JObject Blueprints_GetData(GameObject arg)
 		{
 			if (arg.TryGetComponent<AccessControl_Extension>(out var component) && component.accessControl.controlEnabled)
 			{
@@ -107,7 +107,7 @@ namespace DupeModelAccessPermissions.Content.Scripts
 			}
 			return null;
 		}
-		public static void TryApplyData(GameObject building, JObject jObject)
+		public static void Blueprints_SetData(GameObject building, JObject jObject)
 		{
 			if (jObject == null)
 				return;
