@@ -99,7 +99,7 @@ namespace BlueprintsV2.Tools
 		public override void OnDeactivateTool(InterfaceTool newTool)
 		{
 			base.OnDeactivateTool(newTool);
-			BlueprintState.ForceMaterialChange = true;
+			BlueprintState.ForceMaterialChange = false;
 
 			BlueprintState.ClearVisuals();
 			ToolMenu.Instance.PriorityScreen.Show(false);
@@ -157,7 +157,7 @@ namespace BlueprintsV2.Tools
 		{
 			if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsToggleForce.GetKAction()))
 			{
-				BlueprintState.ForceMaterialChange = true;
+				BlueprintState.ForceMaterialChange = false;
 				BlueprintState.RefreshBlueprintVisualizers();
 			}
 		}

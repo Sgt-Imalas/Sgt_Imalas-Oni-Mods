@@ -111,8 +111,7 @@ namespace BlueprintsV2.Tools
 		public override void OnDeactivateTool(InterfaceTool newTool)
 		{
 			base.OnDeactivateTool(newTool);
-			BlueprintState.ForceMaterialChange = true;
-
+			BlueprintState.ForceMaterialChange = false;
 			BlueprintState.ClearVisuals();
 			blueprint = null;
 
