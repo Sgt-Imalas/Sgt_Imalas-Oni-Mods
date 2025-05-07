@@ -13,8 +13,8 @@ namespace ComplexFabricatorRibbonController
             base.OnLoad(harmony);
             SgtLogger.LogVersion(this, harmony);
             ModAssets.LoadAssets();
-        }       
-        
+			GameTags.MaterialBuildingElements.Add(ModAssets.Microchip_Buildable);
+		}
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
         {
 			base.OnAllModsLoaded(harmony, mods);

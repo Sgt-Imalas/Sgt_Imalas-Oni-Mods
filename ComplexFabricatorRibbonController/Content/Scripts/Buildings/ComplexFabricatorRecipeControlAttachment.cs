@@ -1,18 +1,20 @@
-﻿using ComplexFabricatorRibbonController.Defs.Buildings;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KSerialization;
+using ComplexFabricatorRibbonController.Content.Defs.Buildings;
+using UnityEngine;
 
-namespace ComplexFabricatorRibbonController.Scripts.Buildings
+namespace ComplexFabricatorRibbonController.Content.Scripts.Buildings
 {
 	class ComplexFabricatorRecipeControlAttachment : KMonoBehaviour
 	{
 		[MyCmpReq] LogicPorts logicPorts;
 		[MyCmpGet] KSelectable selectable;
+		[MyCmpGet] KBatchedAnimController kbac;
 
 		ComplexFabricator ParentFab;
 		public bool HasParentFab => ParentFab != null;
@@ -33,15 +35,15 @@ namespace ComplexFabricatorRibbonController.Scripts.Buildings
 			base.OnSpawn();
 			TryReattach();
 			AllAttachments.Add(this);
-			this.Subscribe((int)GameHashes.LogicEvent, OnLogicValueChanged);
-
+			Subscribe((int)GameHashes.LogicEvent, OnLogicValueChanged);
+			UpdateSymbolColors();
 			RefreshRecipeOrders();
 		}
 		public override void OnCleanUp()
 		{
 			AllAttachments.Remove(this);
 			base.OnCleanUp();
-			this.Unsubscribe((int)GameHashes.LogicEvent, OnLogicValueChanged);
+			Unsubscribe((int)GameHashes.LogicEvent, OnLogicValueChanged);
 		}
 
 		void SetStatusItem()
@@ -51,7 +53,7 @@ namespace ComplexFabricatorRibbonController.Scripts.Buildings
 
 		void RefreshRecipeOrders()
 		{
-			SetStatusItem();
+			SetStatusItem();			
 			if (!HasParentFab)
 				return;
 
@@ -76,7 +78,7 @@ namespace ComplexFabricatorRibbonController.Scripts.Buildings
 		{
 			ParentFab = null;
 			var pos = Grid.PosToCell(this);
-			var go = Grid.Objects[pos, ((int)ObjectLayer.Building)];
+			var go = Grid.Objects[pos, (int)ObjectLayer.Building];
 			if (go == null)
 			{
 				return;
@@ -156,7 +158,22 @@ namespace ComplexFabricatorRibbonController.Scripts.Buildings
 			if (logicValueChanged.portID != ComplexFabricatorRecipeControlAttachmentConfig.PORT_ID)
 				return;
 			UpdateSignalBitmap();
+			UpdateSymbolColors();
 			RefreshRecipeOrders();
+		}
+		void UpdateSymbolColors()
+		{
+			var colourOn = (Color)GlobalAssets.Instance.colorSet.logicOn;
+			colourOn.a = 1; //a is 0 for these by default, but that doesnt allow tinting the symbols here
+
+			var colourOff = (Color)GlobalAssets.Instance.colorSet.logicOff;
+			colourOff.a = 1; //a is 0 for these by default, but that doesnt allow tinting the symbols here
+			for(int i = 0; i < selectedRecipeIds.Length; ++i)
+			{
+				var enabled = GetBitState(i);
+				kbac.SetSymbolTint($"input{i+1}_bloom", enabled ? colourOn : colourOff);
+			}
+
 		}
 		public bool GetBitState(int index)
 		{

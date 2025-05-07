@@ -1,4 +1,4 @@
-﻿using ComplexFabricatorRibbonController.UI;
+﻿using ComplexFabricatorRibbonController.Content.UI;
 using Klei.AI;
 using System;
 using System.Collections;
@@ -41,6 +41,22 @@ namespace ComplexFabricatorRibbonController
 					  false,
 					  OverlayModes.None.ID);
 		}
+
+		private static Tag _microchip_Buildable = null;
+
+		public static Tag Microchip_Buildable
+		{
+			get
+			{
+				if (_microchip_Buildable == null)
+				{
+					_microchip_Buildable = TagManager.Create("CFRC_Microchip_Buildable");
+				}
+				return _microchip_Buildable;
+			}
+
+		}
+
 		public static void LoadAssets()
 		{
 			SgtLogger.l("Loading UI from asset bundle");

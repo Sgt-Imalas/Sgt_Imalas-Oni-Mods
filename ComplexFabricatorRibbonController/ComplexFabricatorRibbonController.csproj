@@ -23,8 +23,8 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>ComplexFabricatorRibbonController</ModName>
-		<ModDescription></ModDescription>
+		<ModName>Fabricator Recipe Controller</ModName>
+		<ModDescription>Adds a new attachable building that allows controlling production in fabricators via logic wires</ModDescription>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

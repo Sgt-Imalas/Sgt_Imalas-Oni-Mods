@@ -7,7 +7,7 @@ using UtilLibs.UIcmp;
 using UtilLibs;
 using UnityEngine.UI;
 
-namespace ComplexFabricatorRibbonController.UI.Components
+namespace ComplexFabricatorRibbonController.Content.UI.Components
 {
     class RecipeEntry : KMonoBehaviour
 	{

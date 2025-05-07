@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs.UIcmp;
 using UtilLibs;
-using ComplexFabricatorRibbonController.UI.Components;
-using ComplexFabricatorRibbonController.Scripts.Buildings;
+using ComplexFabricatorRibbonController.Content.Scripts.Buildings;
+using ComplexFabricatorRibbonController.Content.UI.Components;
 
-namespace ComplexFabricatorRibbonController.UI
+namespace ComplexFabricatorRibbonController.Content.UI
 {
     public class RibbonRecipeController_SecondarySidescreen : KScreen
 	{

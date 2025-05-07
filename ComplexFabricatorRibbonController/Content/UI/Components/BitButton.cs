@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs.UIcmp;
 
-namespace ComplexFabricatorRibbonController.UI.Components
+namespace ComplexFabricatorRibbonController.Content.UI.Components
 {
 	class BitButton : KMonoBehaviour
 	{

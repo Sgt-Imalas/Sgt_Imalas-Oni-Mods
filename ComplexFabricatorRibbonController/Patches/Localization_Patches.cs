@@ -14,7 +14,8 @@ namespace ComplexFabricatorRibbonController.Patches
 		{
 			public static void Postfix()
 			{
-				UtilLibs.LocalisationUtil.Translate(typeof(STRINGS), true);
+				UtilLibs.LocalisationUtil.Translate(typeof(STRINGS), true); 
+				Strings.Add("STRINGS.MISC.TAGS.CFRC_MICROCHIP_BUILDABLE", global::STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.POWER_STATION_TOOLS.NAME);
 			}
 		}
 	}

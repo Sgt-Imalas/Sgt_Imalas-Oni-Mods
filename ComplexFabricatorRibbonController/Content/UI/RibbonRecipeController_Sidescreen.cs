@@ -1,5 +1,5 @@
-﻿using ComplexFabricatorRibbonController.Scripts.Buildings;
-using ComplexFabricatorRibbonController.UI.Components;
+﻿using ComplexFabricatorRibbonController.Content.Scripts.Buildings;
+using ComplexFabricatorRibbonController.Content.UI.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ using UnityEngine;
 using UtilLibs;
 using UtilLibs.UIcmp;
 
-namespace ComplexFabricatorRibbonController.UI
+namespace ComplexFabricatorRibbonController.Content.UI
 {
 	class RibbonRecipeController_Sidescreen : SideScreenContent, IRender200ms
 	{
@@ -37,14 +37,14 @@ namespace ComplexFabricatorRibbonController.UI
 		{
 			base.SetTarget(target);
 			if (target.TryGetComponent<ComplexFabricatorRecipeControlAttachment>(out var carrier))
-				this.TargetComponent = carrier;
+				TargetComponent = carrier;
 			Refresh();
 		}
 		void EnableSecondarySideScreen(bool enable, int bit)
 		{
 			if (SecondarySideScreen == null || enable)
 			{
-				SecondarySideScreen = (RibbonRecipeController_SecondarySidescreen)DetailsScreen.Instance.SetSecondarySideScreen(ModAssets.RecipeSelectionSecondarySidescreen, string.Format(STRINGS.UI.RIBBONSELECTIONSECONDARYSIDESCREEN.TITLE,(bit+1)));
+				SecondarySideScreen = (RibbonRecipeController_SecondarySidescreen)DetailsScreen.Instance.SetSecondarySideScreen(ModAssets.RecipeSelectionSecondarySidescreen, string.Format(STRINGS.UI.RIBBONSELECTIONSECONDARYSIDESCREEN.TITLE,bit+1));
 				SecondarySideScreen.OnConfirm = recipe => OnRecipeSelected(recipe, bit);
 				SecondarySideScreen.SetOpenedFrom(TargetComponent,bit);
 			}

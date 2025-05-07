@@ -1,4 +1,4 @@
-﻿using ComplexFabricatorRibbonController.Scripts.Buildings;
+﻿using ComplexFabricatorRibbonController.Content.Scripts.Buildings;
 using STRINGS;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using TUNING;
 using UnityEngine;
 using BUILDINGS = TUNING.BUILDINGS;
 
-namespace ComplexFabricatorRibbonController.Defs.Buildings
+namespace ComplexFabricatorRibbonController.Content.Defs.Buildings
 {
 	class ComplexFabricatorRecipeControlAttachmentConfig : IBuildingConfig
 	{
@@ -19,13 +19,13 @@ namespace ComplexFabricatorRibbonController.Defs.Buildings
 		public const string ID = "CFRC_ComplexFabricatorRecipeControlAttachment";
 		public override BuildingDef CreateBuildingDef()
 		{
-			string[] Materials = [MATERIALS.REFINED_METAL];
-			float[] MaterialCosts = [150f];
+			string[] Materials = [MATERIALS.REFINED_METAL, ModAssets.Microchip_Buildable.ToString()];
+			float[] MaterialCosts = [50,1];
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(
 					ID,
 					1,
 					1,
-					"critter_sensor_kanim",
+					"logic_fabricator_controller_kanim",
 					30,
 					15f,
 					MaterialCosts,
@@ -35,6 +35,7 @@ namespace ComplexFabricatorRibbonController.Defs.Buildings
 					noise: NOISE_POLLUTION.NONE,
 					decor: BUILDINGS.DECOR.PENALTY.TIER0);
 
+			buildingDef.PermittedRotations = PermittedRotations.R90;
 			buildingDef.SceneLayer = Grid.SceneLayer.TransferArm;
 			buildingDef.Floodable = false;
 			buildingDef.Overheatable = false;

@@ -1,4 +1,4 @@
-﻿using ComplexFabricatorRibbonController.Defs.Buildings;
+﻿using ComplexFabricatorRibbonController.Content.Defs.Buildings;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
