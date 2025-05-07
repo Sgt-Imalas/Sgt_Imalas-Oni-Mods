@@ -56,8 +56,6 @@
 			public class RADIATIONVOMITING
 			{
 				public static LocString CATEGORY = global::STRINGS.DUPLICANTS.STATUSITEMS.RADIATIONVOMITING.NOTIFICATION_NAME + "-" + global::STRINGS.BUILDINGS.PREFABS.LOGICALARM.LOGIC_PORT;
-				//public static LocString THRESHOLD = "Ra Threshold";
-				//public static LocString THRESHOLD_TOOLTIP = "Stress level where the notification triggers in percent.\nDefault is 80%";
 			}
 			public class SCALDING
 			{

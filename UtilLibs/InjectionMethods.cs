@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Reflection.Emit;
 using System.Reflection;
 using UnityEngine;
+using Database;
 
 namespace UtilLibs
 {
@@ -121,15 +122,18 @@ namespace UtilLibs
 			Strings.Add("STRINGS." + category + ".STATUSITEMS." + status_id + ".TOOLTIP", desc);
 		}
 
-        /// <summary>
-        /// Add SpriteOnly Item to techs
-        /// </summary>
-        /// <param name="techId"></param>
-        /// <param name="name"></param>
-        /// <param name="description"></param>
-        /// <param name="spriteName"></param>
-        /// <param name="awailableDLCs">DlcManager.</param>
-        public static TechItem AddItemToTechnologySprite(string techItemId, string techId, string name, string description, string spriteName, string[] requiredDLcs = null, string[] forbiddenDlc = null, bool isPoiUnlock = false)
+		static HashSet<string> ResearchablesFromMod = new();
+		public static bool IsFromThisMod(string id) => ResearchablesFromMod.Contains(id);
+
+		/// <summary>
+		/// Add SpriteOnly Item to techs
+		/// </summary>
+		/// <param name="techId"></param>
+		/// <param name="name"></param>
+		/// <param name="description"></param>
+		/// <param name="spriteName"></param>
+		/// <param name="awailableDLCs">DlcManager.</param>
+		public static TechItem AddItemToTechnologySprite(string techItemId, string techId, string name, string description, string spriteName, string[] requiredDLcs = null, string[] forbiddenDlc = null, bool isPoiUnlock = false)
 		{
 			AddBuildingToTechnology(techId, techItemId);
 			return Db.Get().TechItems.AddTechItem(techItemId, name, description, GetSpriteFnBuilder(spriteName), requiredDLcs, forbiddenDlc, isPoiUnlock);
@@ -245,7 +249,8 @@ namespace UtilLibs
 		}
 
 		public static void AddBuildingToTechnology(string techId, string buildingId)
-		{ 
+		{
+			ResearchablesFromMod.Add(buildingId);
 			Db.Get().Techs.Get(techId).unlockedItemIDs.Add(buildingId);
 		}
 		public static Sprite AddSpriteToAssets(Assets instance, string spriteid, bool overrideExisting = false)
