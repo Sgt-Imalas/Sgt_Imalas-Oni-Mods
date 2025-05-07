@@ -361,8 +361,12 @@ namespace Rockets_TinyYetBig
 
 		public void OnOptionsChanged()
 		{
-			if (SpaceStationsAndTech && !SpaceStationRequirements)
-				SpaceStationsAndTech = false;
+			if (SpaceStationsAndTech)
+			{
+				CompressInteriors = true;
+				EnableAdvWorldSelector = true;
+				NeutroniumMaterial = true;
+			}
 
 			Instance = this;
 		}

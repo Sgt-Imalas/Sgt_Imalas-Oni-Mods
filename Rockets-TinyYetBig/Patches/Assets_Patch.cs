@@ -15,6 +15,7 @@ namespace Rockets_TinyYetBig.Patches
 		{
 			public static void Prefix(Assets __instance)
 			{
+				InjectionMethods.AddSpriteToAssets(__instance, "rtb_dlc_banner");
 				InjectionMethods.AddSpriteToAssets(__instance, "research_type_deep_space_icon");
 				InjectionMethods.AddSpriteToAssets(__instance, "research_type_deep_space_icon_unlock");
 				InjectionMethods.AddSpriteToAssets(__instance, "RTB_CrashedUFOStoryTrait_icon");

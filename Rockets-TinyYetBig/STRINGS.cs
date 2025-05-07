@@ -1,5 +1,6 @@
 ﻿using Rockets_TinyYetBig.Buildings.CargoBays;
 using Rockets_TinyYetBig.Buildings.Nosecones;
+using UtilLibs;
 using static STRINGS.BUILDINGS.PREFABS;
 using static STRINGS.ELEMENTS;
 using static STRINGS.UI;
@@ -608,6 +609,7 @@ namespace Rockets_TinyYetBig
 
 		public class UI
 		{
+			public static LocString TOOLTIP_ADDON_RTB = UIUtils.ColorText(UIUtils.EmboldenText("Rocketry Expanded"), "a0a0a0") + " Content"; //light grey
 			public class KLEI_INVENTORY_SCREEN
 			{
 				public class SUBCATEGORIES
