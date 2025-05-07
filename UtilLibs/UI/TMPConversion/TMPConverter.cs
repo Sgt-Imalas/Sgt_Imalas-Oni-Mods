@@ -45,18 +45,23 @@ namespace UtilLibs
 					LT.fontSize = data.FontSize;
 					LT.maxVisibleLines = data.MaxVisibleLines;
 					LT.enableWordWrapping = data.EnableWordWrapping;
-					LT.autoSizeTextContainer = data.AutoSizeTextContainer;
 					LT.text = "";
+					LT.overflowMode = data.Overflow;
 					LT.color = new Color(data.Color[0], data.Color[1], data.Color[2]);
+					LT.fontSizeMin = data.VariableFontSizeMinimum;
+					LT.fontSizeMax = data.VariableFontSizeMaximum;
 					LT.key = data.Content.Replace(" ", string.Empty);
 					// alignment isn't carried over instantiation, so it's applied later
 					if (realign)
 					{
-						LT.gameObject.AddComponent<TMPImportFix>().alignment = data.Alignment;
+						var importFix = LT.gameObject.AddComponent<TMPImportFix>();
+						
+						importFix.alignment = data.Alignment;
+						importFix.textOverflow = data.Overflow;
+						importFix.fontSizeMin = data.VariableFontSizeMinimum;
+						importFix.fontSizeMax = data.VariableFontSizeMaximum;
+						importFix.autoResize = data.VariableFontSize;
 					}
-					LT.autoSizeTextContainer = data.VariableFontSize;
-					LT.fontSizeMin = data.VariableFontSizeMinimum;
-					LT.fontSizeMax = data.VariableFontSizeMaximum;
 				}
 			}
 		}

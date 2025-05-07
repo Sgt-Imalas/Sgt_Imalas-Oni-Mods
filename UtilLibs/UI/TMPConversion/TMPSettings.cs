@@ -1,9 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿
+using Newtonsoft.Json;
 using System;
 using TMPro;
 
-namespace UtilLibs.UIcmp //Source: Aki
+namespace UtilLibs
 {
+
 	[Serializable]
 	public class TMPSettings
 	{
@@ -39,5 +41,15 @@ namespace UtilLibs.UIcmp //Source: Aki
 
 		[JsonProperty]
 		public float[] Color { get; set; }
+
+		[JsonProperty]
+		public bool VariableFontSize { get; set; }
+		[JsonProperty]
+		public float VariableFontSizeMaximum { get; set; }
+		[JsonProperty]
+		public float VariableFontSizeMinimum { get; set; }
+		[JsonProperty]
+		public TextOverflowModes Overflow { get; set; }
 	}
 }
+
