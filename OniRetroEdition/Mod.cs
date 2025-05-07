@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using UtilLibs;
 using static StatusItem;
+using static STRINGS.BUILDINGS.PREFABS;
 
 namespace OniRetroEdition
 {
@@ -19,6 +20,8 @@ namespace OniRetroEdition
 		public static Harmony HarmonyInstance;
 		public override void OnLoad(Harmony harmony)
 		{
+			STEAMTURBINE.NAME = global::STRINGS.UI.FormatAsLink("Steam Turbine", nameof(STEAMTURBINE));			
+			STEAMTURBINE.EFFECT = STEAMTURBINE.EFFECT.Replace("THIS BUILDING HAS BEEN DEPRECATED AND CANNOT BE BUILT.\n\n", string.Empty);
 			HarmonyInstance = harmony;
 			PUtil.InitLibrary(false);
 			new POptions().RegisterOptions(this, typeof(Config));

@@ -83,7 +83,11 @@ namespace OniRetroEdition.ModPatches
 				var hitEffect = GameUtil.KInstantiate(Assets.GetPrefab(effectId), targetPoint, Grid.SceneLayer.Ore);
 				hitEffect.TryGetComponent<KBatchedAnimController>(out var component2);
 				hitEffect.SetActive(true);
-				component2.sceneLayer = Grid.SceneLayer.Ore;
+				component2.sceneLayer = Grid.SceneLayer.Building;
+				component2.Offset = new Vector3(0, 0, -0.1f);
+				// alt: 
+				//component2.sceneLayer = Grid.SceneLayer.Ore;
+
 				component2.enabled = false;
 				component2.enabled = true;
 				return hitEffect;

@@ -11,7 +11,7 @@ namespace OniRetroEdition.SlurpTool
 		private KSelectable Selectable;
 		[MyCmpAdd]
 		private Prioritizable prioritizable;
-		public float amountMoppedPerTick = 1000f;
+		public float amountMoppedPerTick = 20f;
 		private HandleVector<int>.Handle partitionerEntry;
 		private SchedulerHandle destroyHandle;
 		private float amountMopped;
@@ -37,8 +37,10 @@ namespace OniRetroEdition.SlurpTool
 			this.skillExperienceSkillGroup = Db.Get().SkillGroups.Basekeeping.Id;
 			this.skillExperienceMultiplier = SKILLS.PART_DAY_EXPERIENCE;
 			this.childRenderer = this.GetComponentInChildren<MeshRenderer>();
+			this.requireMinionToWork = true;
 			Prioritizable.AddRef(this.gameObject);
 		}
+
 
 		public override void OnSpawn()
 		{

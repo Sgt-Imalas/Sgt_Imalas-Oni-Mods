@@ -106,9 +106,9 @@ namespace OniRetroEdition.Buildings
 					description = global::STRINGS.ITEMS.FOOD.GAMMAMUSH.RECIPEDESC,
 					nameDisplay = ComplexRecipe.RecipeNameDisplay.Result,
 					fabricators = new List<Tag>()
-				{
-					(Tag) ID
-				},
+					{
+						ID
+					},
 					sortOrder = 1
 				};
 			}

@@ -1,10 +1,20 @@
 ﻿using HarmonyLib;
+using UnityEngine;
 using UtilLibs;
 
 namespace OniRetroEdition.ModPatches
 {
 	internal class OldSteamTurbinePatches
 	{
+		[HarmonyPatch(typeof(SteamTurbineConfig), nameof(SteamTurbineConfig.DoPostConfigureComplete))]
+		public class SteamTurbineConfig_DoPostConfigureComplete_Patch
+		{
+			public static void Postfix(GameObject go)
+			{
+				Tinkerable.MakePowerTinkerable(go);
+			}
+		}
+
 		[HarmonyPatch(typeof(Turbine), nameof(Turbine.ResolveStrings))]
 		public static class TurbineStringFix
 		{
