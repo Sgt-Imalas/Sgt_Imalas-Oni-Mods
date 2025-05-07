@@ -34,7 +34,6 @@ namespace SettingsSyncGroups.UI.Components
 			if (init)
 				return;
 			init = true;
-			UIUtils.ListAllChildren(this.transform);
 			Label = transform.Find("Label")?.gameObject.GetComponent<LocText>();
 			NumLabel = transform.Find("NumLabel")?.gameObject.GetComponent<LocText>();
 			SelectButton = gameObject.AddOrGet<FButton>();
