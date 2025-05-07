@@ -106,6 +106,8 @@ namespace UtilLibs.UI.FUI
 			IsHighlighted = _isHighlighted;
 			SetColorState();
 		}
+
+		public void Refresh()=>SetColorState();
 		void SetColorState()
 		{
 			if (image == null)

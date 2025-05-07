@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
+using UtilLibs;
 using UtilLibs.UIcmp;
 
 namespace ComplexFabricatorRibbonController.Content.UI.Components
@@ -16,6 +17,7 @@ namespace ComplexFabricatorRibbonController.Content.UI.Components
 		FButton SelectButton;
 		public Action<int> OpenSelectionScreen;
 		private bool init = false;
+		ToolTip toolTip;
 
 		public override void OnPrefabInit()
 		{
@@ -38,6 +40,7 @@ namespace ComplexFabricatorRibbonController.Content.UI.Components
 			Off = transform.Find("Off")?.gameObject.GetComponent<Image>();
 			On = transform.Find("On")?.gameObject.GetComponent<Image>();
 			SelectButton = gameObject.AddOrGet<FButton>();
+			toolTip = UIUtils.AddSimpleTooltipToObject(gameObject, "");
 			SelectButton.OnClick += OnButtonClicked;
 		}
 		public void UpdateUI(ComplexRecipe recipe, bool logicOn)
@@ -57,11 +60,13 @@ namespace ComplexFabricatorRibbonController.Content.UI.Components
 			{
 				SelectedRecipe.sprite = Assets.GetSprite("unknown");
 				SelectedRecipe.color = Color.white;
+				toolTip.SetSimpleTooltip(global::STRINGS.UI.UISIDESCREENS.FILTERSIDESCREEN.NO_SELECTION);
 			}
 			else
 			{
 				SelectedRecipe.sprite = recipe.GetUIIcon();
 				SelectedRecipe.color = recipe.GetUIColor();
+				toolTip.SetSimpleTooltip(recipe.GetUIName(false));
 			}
 			On.gameObject.SetActive(logicOn);
 			Off.gameObject.SetActive(!logicOn);

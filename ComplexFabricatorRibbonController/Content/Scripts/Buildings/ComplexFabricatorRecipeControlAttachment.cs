@@ -53,7 +53,7 @@ namespace ComplexFabricatorRibbonController.Content.Scripts.Buildings
 
 		void RefreshRecipeOrders()
 		{
-			SetStatusItem();			
+			SetStatusItem();
 			if (!HasParentFab)
 				return;
 
@@ -109,11 +109,14 @@ namespace ComplexFabricatorRibbonController.Content.Scripts.Buildings
 			RefreshRecipeOrders();
 		}
 
-		public List<ComplexRecipe> GetAvailableRecipes()
+		
+		public bool TryGetAvailableRecipes(out List<Tuple<ComplexRecipe,int,bool>> recipeList)
 		{
-			var list = new List<ComplexRecipe>();
+			//recipe, inUseOnBit, inUseOnOwnComponent
+			recipeList = new();
+
 			if (ParentFab == null)
-				return list;
+				return false;
 
 			foreach (var recipe in ParentFab.GetRecipes())
 			{
@@ -124,26 +127,30 @@ namespace ComplexFabricatorRibbonController.Content.Scripts.Buildings
 					continue;
 				}
 
-				bool recipeSelected = false;
+				bool recipeSelectedOnOwn = false;
+				int recipeSelectedOnBit = -1;
+
 				foreach (var attachment in AllAttachments)
 				{
 					if (attachment.ParentFab != ParentFab)
 						continue;
 
-					if (attachment.IsRecipeSelected(recipe))
+					if (attachment.IsRecipeSelected(recipe, out int onBit))
 					{
-						recipeSelected = true;
+						recipeSelectedOnOwn = (attachment == this);
+						recipeSelectedOnBit = onBit;
 						break;
 					}
-				}
-				if (!recipeSelected)
-					list.Add(recipe);
+				}				
+				recipeList.Add(new(recipe,recipeSelectedOnBit, recipeSelectedOnOwn));
+
 			}
-			return list;
+			return recipeList.Any();
 		}
 
-		public bool IsRecipeSelected(ComplexRecipe recipe)
+		public bool IsRecipeSelected(ComplexRecipe recipe, out int bit)
 		{
+			bit = Array.IndexOf(selectedRecipeIds, recipe.id);
 			if (ParentFab == null)
 				return false;
 			if (recipe == null)
@@ -168,10 +175,10 @@ namespace ComplexFabricatorRibbonController.Content.Scripts.Buildings
 
 			var colourOff = (Color)GlobalAssets.Instance.colorSet.logicOff;
 			colourOff.a = 1; //a is 0 for these by default, but that doesnt allow tinting the symbols here
-			for(int i = 0; i < selectedRecipeIds.Length; ++i)
+			for (int i = 0; i < selectedRecipeIds.Length; ++i)
 			{
 				var enabled = GetBitState(i);
-				kbac.SetSymbolTint($"input{i+1}_bloom", enabled ? colourOn : colourOff);
+				kbac.SetSymbolTint($"input{i + 1}_bloom", enabled ? colourOn : colourOff);
 			}
 
 		}

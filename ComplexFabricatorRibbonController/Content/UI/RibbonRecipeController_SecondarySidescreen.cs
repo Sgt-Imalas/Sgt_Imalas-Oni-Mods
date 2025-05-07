@@ -11,7 +11,7 @@ using ComplexFabricatorRibbonController.Content.UI.Components;
 
 namespace ComplexFabricatorRibbonController.Content.UI
 {
-    public class RibbonRecipeController_SecondarySidescreen : KScreen
+	public class RibbonRecipeController_SecondarySidescreen : KScreen
 	{
 		ComplexFabricatorRecipeControlAttachment Target;
 		public Action<ComplexRecipe> OnConfirm;
@@ -42,7 +42,7 @@ namespace ComplexFabricatorRibbonController.Content.UI
 			if (NoneUIEntry == null)
 			{
 				NoneUIEntry = AddOrGetGroupEntry(null);
-				NoneUIEntry.RecipeLabel.SetText(global::STRINGS.UI.UISIDESCREENS.FILTERSIDESCREEN.NO_SELECTION);
+				NoneUIEntry.RecipeLabel.SetText(STRINGS.UI.RFRC_NO_RECIPE);
 			}
 		}
 		internal void SetOpenedFrom(ComplexFabricatorRecipeControlAttachment targetComponent, int bit)
@@ -64,15 +64,21 @@ namespace ComplexFabricatorRibbonController.Content.UI
 			{
 				entry.Value.gameObject.SetActive(false);
 			}
-			foreach (var recipe in Target.GetAvailableRecipes())
-			{
-				AddOrGetGroupEntry(recipe);
-			}
 			var currentRecipe = Target.GetRecipe(OpenedFromBit);
-			if(currentRecipe != null)
+			if (Target.TryGetAvailableRecipes(out var fabricatorRecipes))
 			{
-				AddOrGetGroupEntry(currentRecipe);
+				foreach (var recipeInfo in fabricatorRecipes)
+				{
+					var recipe = recipeInfo.first;
+					int currentlySelectedOnBit = recipeInfo.second;
+					bool currentlySelectedOnOwnComponent = recipeInfo.third;
+
+					bool currentlySelectedRecipe = recipe == currentRecipe;
+					AddOrGetGroupEntry(recipe)
+						.UpdateInUseState(currentlySelectedOnBit,currentlySelectedOnOwnComponent,currentlySelectedRecipe);
+				}
 			}
+			NoneUIEntry.UpdateInUseState(-1, false, (currentRecipe == null));
 		}
 		void SelectComplexRecipe(ComplexRecipe current)
 		{
@@ -82,7 +88,7 @@ namespace ComplexFabricatorRibbonController.Content.UI
 		RecipeEntry AddOrGetGroupEntry(ComplexRecipe recipe)
 		{
 			string recipeId = string.Empty;
-			if(recipe != null)
+			if (recipe != null)
 				recipeId = recipe.id;
 
 

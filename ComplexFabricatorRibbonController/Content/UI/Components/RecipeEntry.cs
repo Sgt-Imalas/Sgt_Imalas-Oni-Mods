@@ -6,15 +6,19 @@ using System.Threading.Tasks;
 using UtilLibs.UIcmp;
 using UtilLibs;
 using UnityEngine.UI;
+using UtilLibs.UI.FUI;
+using UnityEngine;
+using static ComplexFabricatorRibbonController.STRINGS.UI;
 
 namespace ComplexFabricatorRibbonController.Content.UI.Components
 {
-    class RecipeEntry : KMonoBehaviour
+	class RecipeEntry : KMonoBehaviour
 	{
 		public ComplexRecipe targetRecipe;
 		public LocText RecipeLabel;
+		public ToolTip ToolTip;
 		public Image RecipeIcon;
-		FButton SelectButton;
+		FToggleButton SelectButton;
 		public Action<ComplexRecipe> SelectRecipe;
 		private bool init = false;
 
@@ -36,9 +40,28 @@ namespace ComplexFabricatorRibbonController.Content.UI.Components
 			init = true;
 			RecipeLabel = transform.Find("Label")?.gameObject.GetComponent<LocText>();
 			RecipeIcon = transform.Find("Image")?.gameObject.GetComponent<Image>();
-			SelectButton = gameObject.AddOrGet<FButton>();
+			SelectButton = gameObject.AddOrGet<FToggleButton>();
 			SelectButton.OnClick += OnEntryClicked;
+			ToolTip = UIUtils.AddSimpleTooltipToObject(gameObject, "");
 		}
+
+
+		public void UpdateInUseState(int inUseBit = -1, bool sameMachine = false, bool isSelected = false)
+		{
+			bool inUse = inUseBit >= 0;
+			SelectButton.SetIsSelected(isSelected);
+			SelectButton.SetInteractable(!inUse || isSelected);
+
+			if (inUse)
+			{
+				ToolTip.SetSimpleTooltip(string.Format(sameMachine ? RIBBONSELECTIONSECONDARYSIDESCREEN.USETOOLTIPS.ALREADYINUSE : RIBBONSELECTIONSECONDARYSIDESCREEN.USETOOLTIPS.ALREADYINUSEOTHER, ++inUseBit));
+			}
+			else
+			{
+				ToolTip.SetSimpleTooltip("");
+			}
+		}
+
 		public void UpdateUI()
 		{
 			if (!init)
@@ -46,12 +69,13 @@ namespace ComplexFabricatorRibbonController.Content.UI.Components
 				InitUi();
 			}
 			//SgtLogger.l("Group Name: " + GroupName);
-			if(targetRecipe != null)
+			if (targetRecipe != null)
 			{
 				RecipeIcon.sprite = targetRecipe.GetUIIcon();
 				RecipeIcon.color = targetRecipe.GetUIColor();
 				RecipeLabel.SetText(targetRecipe.GetUIName(false));
 			}
+			UpdateInUseState();
 		}
 	}
 }

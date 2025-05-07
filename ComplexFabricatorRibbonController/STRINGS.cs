@@ -39,6 +39,7 @@ namespace ComplexFabricatorRibbonController
 		}
 		public class UI
 		{
+			public static LocString RFRC_NO_RECIPE = "No Recipe";
 			public class RIBBONSELECTIONSIDESCREEN
 			{
 				public static LocString TITLE = "Fabricator Recipe Control";
@@ -51,6 +52,12 @@ namespace ComplexFabricatorRibbonController
 			public class RIBBONSELECTIONSECONDARYSIDESCREEN
 			{
 				public static LocString TITLE = "Recipe Selection for Bit {0}";
+				public class USETOOLTIPS
+				{
+					public static LocString CURRENTRECIPE = "Currently selected for this Bit";
+					public static LocString ALREADYINUSE = "This recipe is already controlled by Bit {0}";
+					public static LocString ALREADYINUSEOTHER = "This recipe is already controlled by Bit {0}\non a different Recipe Controller that is attached to the same fabricator.";
+				}
 			}
 		}
 	}
