@@ -22,7 +22,7 @@ namespace ComplexFabricatorRibbonController.Content.UI.Components
 		public override void OnPrefabInit()
 		{
 			base.OnPrefabInit();
-			UpdateUI(null,false);
+			UpdateUI(null, false);
 		}
 
 		void OnButtonClicked()
@@ -40,7 +40,7 @@ namespace ComplexFabricatorRibbonController.Content.UI.Components
 			Off = transform.Find("Off")?.gameObject.GetComponent<Image>();
 			On = transform.Find("On")?.gameObject.GetComponent<Image>();
 			SelectButton = gameObject.AddOrGet<FButton>();
-			toolTip = UIUtils.AddSimpleTooltipToObject(gameObject, "");
+			toolTip = UIUtils.AddSimpleTooltipToObject(gameObject, "",true,240, false);
 			SelectButton.OnClick += OnButtonClicked;
 		}
 		public void UpdateUI(ComplexRecipe recipe, bool logicOn)
@@ -60,13 +60,13 @@ namespace ComplexFabricatorRibbonController.Content.UI.Components
 			{
 				SelectedRecipe.sprite = Assets.GetSprite("unknown");
 				SelectedRecipe.color = Color.white;
-				toolTip.SetSimpleTooltip(global::STRINGS.UI.UISIDESCREENS.FILTERSIDESCREEN.NO_SELECTION);
+				toolTip.SetSimpleTooltip(string.Format(STRINGS.UI.RIBBONSELECTIONSECONDARYSIDESCREEN.TITLE, targetBit + 1) + "\n" + global::STRINGS.UI.UISIDESCREENS.FILTERSIDESCREEN.NO_SELECTION);
 			}
 			else
 			{
 				SelectedRecipe.sprite = recipe.GetUIIcon();
 				SelectedRecipe.color = recipe.GetUIColor();
-				toolTip.SetSimpleTooltip(recipe.GetUIName(false));
+				toolTip.SetSimpleTooltip(string.Format(STRINGS.UI.RIBBONSELECTIONSECONDARYSIDESCREEN.TITLE, targetBit + 1) + "\n" + recipe.GetUIName(true) + "\n" + recipe.description);
 			}
 			On.gameObject.SetActive(logicOn);
 			Off.gameObject.SetActive(!logicOn);

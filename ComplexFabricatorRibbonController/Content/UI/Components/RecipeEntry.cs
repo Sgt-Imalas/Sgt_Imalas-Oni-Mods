@@ -51,14 +51,19 @@ namespace ComplexFabricatorRibbonController.Content.UI.Components
 			bool inUse = inUseBit >= 0;
 			SelectButton.SetIsSelected(isSelected);
 			SelectButton.SetInteractable(!inUse || isSelected);
+			string targetRecipeDesc = targetRecipe != null ? targetRecipe.description : STRINGS.UI.RFRC_NO_RECIPE;
 
-			if (inUse)
+			if (isSelected)
 			{
-				ToolTip.SetSimpleTooltip(string.Format(sameMachine ? RIBBONSELECTIONSECONDARYSIDESCREEN.USETOOLTIPS.ALREADYINUSE : RIBBONSELECTIONSECONDARYSIDESCREEN.USETOOLTIPS.ALREADYINUSEOTHER, ++inUseBit));
+				ToolTip.SetSimpleTooltip(targetRecipeDesc + "\n\n" + RIBBONSELECTIONSECONDARYSIDESCREEN.USETOOLTIPS.CURRENTRECIPE);
 			}
+			else if (inUse)
+			{
+				ToolTip.SetSimpleTooltip(targetRecipeDesc + "\n\n" + string.Format(sameMachine ? RIBBONSELECTIONSECONDARYSIDESCREEN.USETOOLTIPS.ALREADYINUSE : RIBBONSELECTIONSECONDARYSIDESCREEN.USETOOLTIPS.ALREADYINUSEOTHER, ++inUseBit));
+			}			
 			else
 			{
-				ToolTip.SetSimpleTooltip("");
+				ToolTip.SetSimpleTooltip(targetRecipeDesc);
 			}
 		}
 

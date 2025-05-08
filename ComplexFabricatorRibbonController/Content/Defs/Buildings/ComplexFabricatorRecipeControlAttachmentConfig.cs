@@ -52,6 +52,7 @@ namespace ComplexFabricatorRibbonController.Content.Defs.Buildings
 				STRINGS.BUILDINGS.PREFABS.CFRC_COMPLEXFABRICATORRECIPECONTROLATTACHMENT.LOGIC_PORTS_DESCRIPTION,
 				STRINGS.BUILDINGS.PREFABS.CFRC_COMPLEXFABRICATORRECIPECONTROLATTACHMENT.LOGIC_PORTS_ACTIVE,
 				STRINGS.BUILDINGS.PREFABS.CFRC_COMPLEXFABRICATORRECIPECONTROLATTACHMENT.LOGIC_PORTS_INACTIVE, true)];
+			GeneratedBuildings.RegisterWithOverlay(OverlayModes.Logic.HighlightItemIDs, ID);
 			return buildingDef;
 		}
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
