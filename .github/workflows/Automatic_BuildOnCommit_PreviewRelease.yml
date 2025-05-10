@@ -34,28 +34,46 @@ jobs:
     - name: Create individual mod zips and description
       id: buildtext
       run: |    
+            # install yaml parser for mod info files
             Install-Module powershell-yaml -Force
-
+            # start creation of release desc. file
             echo "Automated build of all mods, based on the latest code state" >> Desc.md
             echo "| Folder | Mod Name | Mod Description |" >> Desc.md
             echo "|-|-|-|" >> Desc.md
+            
+            #create version info json file
+            echo "[" >> ./BuildsZipped/ReleaseVersionInfoData.json
 
+            #iterate through the built mod folders to individually zip them and grep their info
             $source = './Builds'
             $destination = './BuildsZipped'
             $subfolders = Get-ChildItem $source -Directory
             foreach ($s in $subfolders) { 
             $folderpath = $s.FullName
-            $foldername = $s.Name 
             
-            $modInfo = ConvertFrom-Yaml -Yaml $(Get-Content -Raw "$folderpath/mod_info.yaml") -AllDocuments
+            #parse the mod info files
+            $modInfoData = ConvertFrom-Yaml -Yaml $(Get-Content -Raw "$folderpath/mod_info.yaml") -AllDocuments
             $modData = ConvertFrom-Yaml -Yaml $(Get-Content -Raw "$folderpath/mod.yaml") -AllDocuments
-
+            
+            $modId= $modData."staticID"
             $ModName = $modData."title"
             $ModDesc = $modData."description"
-            echo "| $foldername | $ModName | $ModDesc |" >> Desc.md
+
+            #write the mod info to the desc file
+            echo "| $modId | $ModName | $ModDesc |" >> Desc.md
+
+            #write version data to version json file
+            $minGameVersion= $modInfoData."minimumSupportedBuild"
+            $modVersion= $modInfoData."version"
+            echo '{"staticId":"$modId","version":"$minGameVersion","minimumSupportedBuild":"$minimumSupportedBuild"} '>> ./BuildsZipped/ReleaseVersionInfoData.json
+            
+            #create zip file
             Compress-Archive `
             -Path $folderpath `
-            -DestinationPath $destination\$foldername}    
+            -DestinationPath $destination\$modId}   
+                        
+            #finalize version info json file
+            echo "]" >> ./BuildsZipped/ReleaseVersionInfoData.json
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -70,7 +88,7 @@ jobs:
         
     - name: Create GitHub release
       id: create_release
-      uses: actions/create-release@v1.1.4
+      uses: actions/create-release@v2.0.5
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -79,12 +97,12 @@ jobs:
         body_path: "Desc.md"
         draft: false
         prerelease: true
-
+        
     - name: Upload files to github release
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: BuildsZipped/*.zip
+        file: BuildsZipped/*.zip + BuildsZipped/ReleaseVersionInfoData.json
         file_glob: true
         tag: AllMods_Automated_Build_Nightly
         prerelease: true
