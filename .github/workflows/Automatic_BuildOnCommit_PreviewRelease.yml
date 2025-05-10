@@ -102,7 +102,7 @@ jobs:
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: BuildsZipped/*.zip | BuildsZipped/ReleaseVersionInfoData.json
+        file: BuildsZipped/*.[zip][json]
         file_glob: true
         tag: AllMods_Automated_Build_Nightly
         prerelease: true
