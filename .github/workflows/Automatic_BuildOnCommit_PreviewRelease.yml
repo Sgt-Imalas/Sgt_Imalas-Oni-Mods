@@ -33,13 +33,12 @@ jobs:
 
     - name: Create individual mod zips and description
       id: buildtext
-      shell: pwsh
       run: |    
-            Install-Module powershell-yaml -Confirm
+            Install-Module powershell-yaml -Force
 
             echo "Automated build of all mods, based on the latest code state" >> Desc.md
-            echo "| Folder | Mod Name |" >> Desc.md
-            echo "|-|-|" >> Desc.md
+            echo "| Folder | Mod Name | Mod Description |" >> Desc.md
+            echo "|-|-|-|" >> Desc.md
 
             $source = './Builds'
             $destination = './BuildsZipped'
@@ -52,7 +51,8 @@ jobs:
             $modData = ConvertFrom-Yaml -Yaml $(Get-Content -Raw "$folderpath/mod.yaml") -AllDocuments
 
             $ModName = $modData."title"
-            echo "| $foldername | $ModName |" >> Desc.md
+            $ModDesc = $modData."description"
+            echo "| $foldername | $ModName | $ModDesc |" >> Desc.md
             Compress-Archive `
             -Path $folderpath `
             -DestinationPath $destination\$foldername}    
