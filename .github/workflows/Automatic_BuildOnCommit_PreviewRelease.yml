@@ -19,82 +19,82 @@ jobs:
       uses: microsoft/setup-msbuild@v2
             
     - name: Install Yaml parser
-      run: Install-Module powershell-yaml
+      run: Install-Module powershell-yaml -y
     
-    - name: NuGet Restore
-      run: msbuild -t:restore -property:Configuration=Release
+    # - name: NuGet Restore
+    #   run: msbuild -t:restore -property:Configuration=Release
     
-    - name: Build project
-      run: msbuild -t:rebuild -property:Configuration=Release -property:GameLibsFolder="../Lib"
+    # - name: Build project
+    #   run: msbuild -t:rebuild -property:Configuration=Release -property:GameLibsFolder="../Lib"
     
-    - name: Create Zip target directory
-      run: mkdir BuildsZipped
+    # - name: Create Zip target directory
+    #   run: mkdir BuildsZipped
             
-    - name: Create AllInOne release file
-      run: Compress-Archive -Path 'Builds' -DestinationPath 'BuildsZipped/All_Mods_Sgt_Imalas_Nightly.zip'  
+    # - name: Create AllInOne release file
+    #   run: Compress-Archive -Path 'Builds' -DestinationPath 'BuildsZipped/All_Mods_Sgt_Imalas_Nightly.zip'  
     
 
-    - name: Create individual mod zips and description
-      id: buildtext
-      run: |
-            echo "Automated build of all mods, based on the latest code state" >> Desc.md
-            echo "| Folder | Mod Name |" >> Desc.md
-            echo "|-|-|" >> Desc.md
+    # - name: Create individual mod zips and description
+    #   id: buildtext
+    #   run: |
+    #         echo "Automated build of all mods, based on the latest code state" >> Desc.md
+    #         echo "| Folder | Mod Name |" >> Desc.md
+    #         echo "|-|-|" >> Desc.md
 
-            $source = './Builds'
-            $destination = './BuildsZipped'
-            $subfolders = Get-ChildItem $source -Directory
-            foreach ($s in $subfolders) { 
-            $folderpath = $s.FullName
-            $foldername = $s.Name 
-            $ModNameUnRefined = Get-Content -Path "$folderpath/mod.yaml" | Select-Object -First 1
-            $ModName = $ModNameUnRefined.Replace('"','').Replace("title: ","").Replace("'","")
-            echo "| $foldername | $ModName |" >> Desc.md
-            Compress-Archive `
-            -Path $folderpath `
-            -DestinationPath $destination\$foldername}    
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #         $source = './Builds'
+    #         $destination = './BuildsZipped'
+    #         $subfolders = Get-ChildItem $source -Directory
+    #         foreach ($s in $subfolders) { 
+    #         $folderpath = $s.FullName
+    #         $foldername = $s.Name 
+    #         $ModNameUnRefined = Get-Content -Path "$folderpath/mod.yaml" | Select-Object -First 1
+    #         $ModName = $ModNameUnRefined.Replace('"','').Replace("title: ","").Replace("'","")
+    #         echo "| $foldername | $ModName |" >> Desc.md
+    #         Compress-Archive `
+    #         -Path $folderpath `
+    #         -DestinationPath $destination\$foldername}    
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Delete old releases
-      uses: dev-drprasad/delete-older-releases@v0.3.4
-      with:
-        keep_latest: 0
-        delete_tag_pattern: AllMods_Automated_Build_Nightly*
-        delete_tags: true
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        
-    - name: Create GitHub release
-      id: create_release
-      uses: actions/create-release@v1.1.4
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: "AllMods_Automated_Build_Nightly"
-        release_name: "All Mods - Nightly Build"
-        body_path: "Desc.md"
-        draft: false
-        prerelease: true
-
-    - name: Upload files to github release
-      uses: svenstaro/upload-release-action@v2
-      with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: BuildsZipped/*.zip
-        file_glob: true
-        tag: AllMods_Automated_Build_Nightly
-        prerelease: true
-        overwrite: true
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    # - name: Delete workflow runs
-    #   uses: Mattraks/delete-workflow-runs@v2
+    # - name: Delete old releases
+    #   uses: dev-drprasad/delete-older-releases@v0.3.4
     #   with:
-    #     token: ${{ github.token }}
-    #     repository: ${{ github.repository }}
-    #     retain_days: 1
-    #     keep_minimum_runs: 3
+    #     keep_latest: 0
+    #     delete_tag_pattern: AllMods_Automated_Build_Nightly*
+    #     delete_tags: true
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    # - name: Create GitHub release
+    #   id: create_release
+    #   uses: actions/create-release@v1.1.4
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   with:
+    #     tag_name: "AllMods_Automated_Build_Nightly"
+    #     release_name: "All Mods - Nightly Build"
+    #     body_path: "Desc.md"
+    #     draft: false
+    #     prerelease: true
+
+    # - name: Upload files to github release
+    #   uses: svenstaro/upload-release-action@v2
+    #   with:
+    #     repo_token: ${{ secrets.GITHUB_TOKEN }}
+    #     file: BuildsZipped/*.zip
+    #     file_glob: true
+    #     tag: AllMods_Automated_Build_Nightly
+    #     prerelease: true
+    #     overwrite: true
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    # # - name: Delete workflow runs
+    # #   uses: Mattraks/delete-workflow-runs@v2
+    # #   with:
+    # #     token: ${{ github.token }}
+    # #     repository: ${{ github.repository }}
+    # #     retain_days: 1
+    # #     keep_minimum_runs: 3
           
 
