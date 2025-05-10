@@ -42,7 +42,7 @@ jobs:
             echo "|-|-|-|" >> Desc.md
             
             #create version info json file
-            echo "[" >> ./BuildsZipped/ReleaseVersionInfoData.json
+            echo "[" >> ./BuildsZipped/_ReleaseVersionInfoData.json
 
             #iterate through the built mod folders to individually zip them and grep their info
             $source = './Builds'
@@ -65,7 +65,7 @@ jobs:
             #write version data to version json file
             $minGameVersion= $modInfoData."minimumSupportedBuild"
             $modVersion= $modInfoData."version"
-            echo '{"staticId":"$modId","version":"$minGameVersion","minimumSupportedBuild":"$minimumSupportedBuild"} '>> ./BuildsZipped/ReleaseVersionInfoData.json
+            echo "{`"staticId`":`"$modId`",`"version`":`"$modVersion`",`"minimumSupportedBuild`":`"$minGameVersion`"},">> ./BuildsZipped/_ReleaseVersionInfoData.json
             
             #create zip file
             Compress-Archive `
@@ -73,7 +73,7 @@ jobs:
             -DestinationPath $destination\$modId}   
                         
             #finalize version info json file
-            echo "]" >> ./BuildsZipped/ReleaseVersionInfoData.json
+            echo "]" >> ./BuildsZipped/_ReleaseVersionInfoData.json
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
