@@ -69,7 +69,7 @@ jobs:
             
             #create zip file
             Compress-Archive `
-            -Path $folderpath `
+            -Path $folderpath/* `
             -DestinationPath $destination\$modId}   
                         
             #finalize version info json file
