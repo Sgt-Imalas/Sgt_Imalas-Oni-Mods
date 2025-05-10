@@ -55,6 +55,7 @@ jobs:
             $modInfoData = ConvertFrom-Yaml -Yaml $(Get-Content -Raw "$folderpath/mod_info.yaml") -AllDocuments
             $modData = ConvertFrom-Yaml -Yaml $(Get-Content -Raw "$folderpath/mod.yaml") -AllDocuments
             
+            #grep data from mod.yaml file
             $modId= $modData."staticID"
             $ModName = $modData."title"
             $ModDesc = $modData."description"
