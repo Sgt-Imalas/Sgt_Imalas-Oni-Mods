@@ -33,6 +33,7 @@ jobs:
 
     - name: Create individual mod zips and description
       id: buildtext
+      shell: pwsh
       run: |    
             Install-Module powershell-yaml -Confirm
 
