@@ -78,7 +78,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Delete old releases
-      uses: dev-drprasad/delete-older-releases
+      uses: dev-drprasad/delete-older-releases@v0.3.4
       with:
         keep_latest: 0
         delete_tag_pattern: AllMods_Automated_Build_Nightly*
@@ -88,7 +88,7 @@ jobs:
         
     - name: Create GitHub release
       id: create_release
-      uses: actions/create-release@v2.0.5
+      uses: actions/create-release@v2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
