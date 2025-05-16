@@ -73,7 +73,7 @@ msgstr "标签筛选器"
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.ACTIVE
 msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.ACTIVE"
 msgid "Active"
-msgstr "启用的（模组）"
+msgstr "已激活的（模组）"
 
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.ALL
 msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.ALL"
@@ -88,7 +88,7 @@ msgstr "开发中的（模组）"
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.INACTIVE
 msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.INACTIVE"
 msgid "Inactive"
-msgstr "禁用的（模组）"
+msgstr "未激活的（模组）"
 
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.INCOMPATIBLE
 msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.INCOMPATIBLE"
@@ -133,12 +133,12 @@ msgstr "Steam"
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_ACTIVE
 msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_ACTIVE"
 msgid "Hide active Mods"
-msgstr "隐藏启用的模组"
+msgstr "隐藏已激活的模组"
 
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_ACTIVE_TOOLTIP
 msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_ACTIVE_TOOLTIP"
 msgid "Hide or unhide active mods."
-msgstr "隐藏或显示启用的模组。"
+msgstr "隐藏或显示已激活的模组。"
 
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_DEV
 msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_DEV"
@@ -155,12 +155,12 @@ msgstr "隐藏或显示开发中的模组。"
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_INACTIVE
 msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_INACTIVE"
 msgid "Hide inactive Mods"
-msgstr "隐藏禁用的模组"
+msgstr "隐藏未激活的模组"
 
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_INACTIVE_TOOLTIP
 msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_INACTIVE_TOOLTIP"
 msgid "Hide or unhide inactive mods."
-msgstr "隐藏或显示禁用的模组。"
+msgstr "隐藏或显示未激活的模组。"
 
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_INCOMPATIBLE
 msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_INCOMPATIBLE"
@@ -207,7 +207,7 @@ msgstr "隐藏或显示来自Steam的模组。"
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.UNHIDE_ACTIVE
 msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.UNHIDE_ACTIVE"
 msgid "Unhide active Mods"
-msgstr "显示启用的模组"
+msgstr "显示已激活的模组"
 
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.UNHIDE_DEV
 msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.UNHIDE_DEV"
@@ -217,7 +217,7 @@ msgstr "显示开发中的模组"
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.UNHIDE_INACTIVE
 msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.UNHIDE_INACTIVE"
 msgid "Unhide inactive Mods"
-msgstr "显示禁用的模组"
+msgstr "显示未激活的模组"
 
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.UNHIDE_INCOMPATIBLE
 msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.UNHIDE_INCOMPATIBLE"
@@ -245,7 +245,7 @@ msgid ""
 "Copies a list of all active mods to the clipboard.\n"
 "Double click to include their workshop links"
 msgstr ""
-"将所有启用模组的列表复制到剪贴板。\n"
+"将已激活模组的列表复制到剪贴板。\n"
 "双击可包含它们在创意工坊的链接"
 
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.EXPORTMODLISTBUTTON
@@ -529,7 +529,7 @@ msgstr "删除"
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.MODTAGS.TAGEDITWINDOW.FILTERMODE_INVERTED
 msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODTAGS.TAGEDITWINDOW.FILTERMODE_INVERTED"
 msgid "Hide when active"
-msgstr "启用时隐藏"
+msgstr "激活时隐藏"
 
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.MODTAGS.TAGEDITWINDOW.FILTERMODE_INVERTED_TOOLTIP
 msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODTAGS.TAGEDITWINDOW.FILTERMODE_INVERTED_TOOLTIP"
@@ -639,7 +639,7 @@ msgstr "应用配置文件"
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.SYNCLISTADDITIVE
 msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.SYNCLISTADDITIVE"
 msgid "Make all active"
-msgstr "启用全部"
+msgstr "激活全部"
 
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.SYNCLISTADDITIVETOOLTIP
 msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.SYNCLISTADDITIVETOOLTIP"

@@ -24,7 +24,7 @@ msgstr ""
 #. SkillingQueue.STRINGS.SKILLQUEUE.QUEUE
 msgctxt "SkillingQueue.STRINGS.SKILLQUEUE.QUEUE"
 msgid "Hold <style=\"KKeyword\">{0}</style> and click to add to skill queue"
-msgstr "按住<style=\"KKeyword\">{0}</style>并左键从添加到技能队列"
+msgstr "按住<style=\"KKeyword\">{0}</style>并左键添加到队列"
 
 #. SkillingQueue.STRINGS.SKILLQUEUE_CONFIG.NOTIFICATION_ON_QUEUE_COMPLETE.DESCRIPTION
 msgctxt "SkillingQueue.STRINGS.SKILLQUEUE_CONFIG.NOTIFICATION_ON_QUEUE_COMPLETE.DESCRIPTION"
