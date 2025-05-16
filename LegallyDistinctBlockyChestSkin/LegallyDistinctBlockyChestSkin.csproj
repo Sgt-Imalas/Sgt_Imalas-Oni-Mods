@@ -25,7 +25,7 @@
 	<PropertyGroup>
 		<ModName>Blocky Chest Skin</ModName>
 		<ModDescription>I am placing tiles and shit cause I´m in fucking oni... I am placing tiles and shit cause I´m in fucking oni... Oh mah gawd.... Is that... fucking Hatch??... Because Iiiii´m fucking Meep...I am fucking Meep... Fuuck Yeaaaah... I am building shiiit...I am fuckiiing Meep.. Yes indeed...</ModDescription>
-		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>ssss
+		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 
