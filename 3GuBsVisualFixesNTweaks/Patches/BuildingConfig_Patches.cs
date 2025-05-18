@@ -122,19 +122,6 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 			}
 		}
 
-		[HarmonyPatch(typeof(WaterPurifierConfig), nameof(WaterPurifierConfig.DoPostConfigureComplete))]
-		public class WaterPurifierConfig_DoPostConfigureComplete_Patch
-		{
-			public static void Postfix(GameObject go)
-			{
-
-				StateMachineController stateMachineController = go.AddOrGet<StateMachineController>();
-
-				SgtLogger.l("removing PoweredActiveController from WaterPurifier");
-				stateMachineController.cmpdef.defs.RemoveAll(def => def.GetStateMachineType() == typeof(PoweredActiveController));
-			}
-		}
-
 		[HarmonyPatch(typeof(MethaneGeneratorConfig), nameof(MethaneGeneratorConfig.DoPostConfigureComplete))]
 		public class MethaneGeneratorConfig_DoPostConfigureComplete_Patch
 		{

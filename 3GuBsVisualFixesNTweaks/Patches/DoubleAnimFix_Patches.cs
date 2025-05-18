@@ -34,8 +34,6 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 					SgtLogger.l("removing PoweredActiveStoppableController from " + go.GetProperName());
 					component.cmpdef?.defs?.RemoveAll(item => item.GetStateMachineType() == typeof(PoweredActiveStoppableController));
 				}
-				var workable = go.GetComponent<ComplexFabricatorWorkable>();
-				//workable.synchronizeAnims = false;
 			}
 			[HarmonyTargetMethods]
 			internal static IEnumerable<MethodBase> TargetMethods()
@@ -49,7 +47,47 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 			}
 		}
 
+		[HarmonyPatch(typeof(DesalinatorConfig), nameof(DesalinatorConfig.DoPostConfigureComplete))]
+		public class DesalinatorConfig_DoPostConfigureComplete_Patch
+		{
+			public static void Postfix(GameObject go)
+			{
+				StateMachineController stateMachineController = go.AddOrGet<StateMachineController>();
+				SgtLogger.l("removing PoweredActiveController from Desalinator");
+				stateMachineController.cmpdef.defs.RemoveAll(def => def.GetStateMachineType() == typeof(PoweredActiveController));
+			}
+		}
 
+		[HarmonyPatch(typeof(Desalinator.States), nameof(Desalinator.States.InitializeStates))]
+		public class Desalinator_States_InitializeStates_Patch
+		{
+			public static void Postfix(Desalinator.States __instance)
+			{
+				__instance.on.working
+					.Enter(smi => smi.GetComponent<KSelectable>().AddStatusItem(Db.Get().BuildingStatusItems.Working))
+					.Exit(smi => smi.GetComponent<KSelectable>().RemoveStatusItem(Db.Get().BuildingStatusItems.Working));
+			}
+		}
+		[HarmonyPatch(typeof(WaterPurifierConfig), nameof(WaterPurifierConfig.DoPostConfigureComplete))]
+		public class WaterPurifierConfig_DoPostConfigureComplete_Patch
+		{
+			public static void Postfix(GameObject go)
+			{
+				StateMachineController stateMachineController = go.AddOrGet<StateMachineController>();
+				SgtLogger.l("removing PoweredActiveController from WaterPurifier");
+				stateMachineController.cmpdef.defs.RemoveAll(def => def.GetStateMachineType() == typeof(PoweredActiveController));
+			}
+		}
+		[HarmonyPatch(typeof(FertilizerMakerConfig), nameof(FertilizerMakerConfig.DoPostConfigureComplete))]
+		public class FertilizerMakerConfig_DoPostConfigureComplete_Patch
+		{
+			public static void Postfix(GameObject go)
+			{
+				StateMachineController stateMachineController = go.AddOrGet<StateMachineController>();
+				SgtLogger.l("removing PoweredActiveController from FertilizerMaker");
+				stateMachineController.cmpdef.defs.RemoveAll(def => def.GetStateMachineType() == typeof(PoweredActiveController));
+			}
+		}
 
 		[HarmonyPatch(typeof(LiquidCooledRefinery), nameof(LiquidCooledRefinery.SpawnOrderProduct))]
 		public class LiquidCooledRefinery_SpawnOrderProduct_Patch
