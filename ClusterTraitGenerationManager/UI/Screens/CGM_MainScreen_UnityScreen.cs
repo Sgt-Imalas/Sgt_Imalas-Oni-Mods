@@ -2451,11 +2451,16 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				return;
 			var data = CurrentlySelectedItemData as SelectedStoryTrait;
 
-			StoryTraitToggle.On = StoryTraitEnabled(data.ID);
+			bool hasPump = CGMWorldGenUtils.HasGeothermalPumpInCluster(CustomCluster.GetAllPlanets().Select(planet=> planet.placement).ToList());
+
+			StoryTraitToggle.SetInteractable(CGMWorldGenUtils.ShouldStoryBeInteractable(data.ID, hasPump));
+			StoryTraitToggle.SetOnFromCode(StoryTraitEnabled(data.ID));
 
 			foreach (var state in StoryTraitToggleCheckmarks)
 			{
-				state.Value.On = StoryTraitEnabled(state.Key);
+				string storyId = state.Key;
+				state.Value.SetInteractable(CGMWorldGenUtils.ShouldStoryBeInteractable(storyId, hasPump));
+				state.Value.SetOnFromCode(StoryTraitEnabled(storyId));
 			}
 
 			foreach (var state in StoryTraitToggleButtons)

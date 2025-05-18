@@ -13,6 +13,7 @@ using UtilLibs;
 using static ClusterTraitGenerationManager.STRINGS.UI;
 using static ProcGen.ClusterLayout;
 using static ProcGen.WorldPlacement;
+using static ResearchTypes;
 
 namespace ClusterTraitGenerationManager.ClusterData
 {
@@ -1084,6 +1085,18 @@ namespace ClusterTraitGenerationManager.ClusterData
 			//SgtLogger.l("changing " + ConfigToSet.id.ToString() + " from " + CustomGameSettings.Instance.GetCurrentMixingSettingLevel(ConfigToSet).id + " to " + valueToSet.ToString());
 			CustomGameSettings.Instance.SetMixingSetting(ConfigToSet, valueToSet);
 		}
+
+		public static void DisableModdedGeopumpStoryTrait()
+		{
+			if (!CustomGameSettings.Instance.StorySettings.TryGetValue(CGMWorldGenUtils.CGM_Heatpump_StoryTrait, out var storyTrait))
+				return;
+			bool isCurrentlyEnabled = CustomGameSettings.Instance.GetCurrentStoryTraitSetting(storyTrait).id == StoryContentPanel.StoryState.Guaranteed.ToString();
+			
+			if (!isCurrentlyEnabled)
+				return;
+			CustomGameSettings.Instance.SetStorySetting(storyTrait, false);
+		}
+
 		public static void ToggleWorldgenAffectingDlc(bool enabled, SettingConfig dlc)
 		{
 			var dlcSetting = dlc as ToggleSettingConfig;
@@ -1109,6 +1122,11 @@ namespace ClusterTraitGenerationManager.ClusterData
 			{
 				if (!CustomCluster.HasStarmapItem(ToAdd.id, out _)) //enable dlc2 for when a ceres asteroid was added
 				{
+					if (CGMWorldGenUtils.HasGeothermalPump(ToAdd.world))//geothermal pump from mod
+					{
+						DisableModdedGeopumpStoryTrait();
+					}
+
 					ToggleWorldgenAffectingDlc(true, CustomMixingSettingsConfigs.DLC2Mixing);
 				}
 			}
