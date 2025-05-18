@@ -50,7 +50,7 @@ namespace OniRetroEdition
 
 				if(timeTillNextReact <= 0 && !smi.HasTag(GameTags.InTransitTube) && decibils >= 100)
 				{
-					smi.sm.timeUntilNextExposureReact.Set(120f, smi);
+					//smi.sm.timeUntilNextExposureReact.Set(120f, smi);
 					smi.master.gameObject.GetSMI<ReactionMonitor.Instance>()
 						.AddSelfEmoteReactable(smi.master.gameObject, (HashedString) "NoiseLevelHighReact", Emotes_Patches.High_Noise_React, true, Db.Get().ChoreTypes.EmoteHighPriority);
 				}

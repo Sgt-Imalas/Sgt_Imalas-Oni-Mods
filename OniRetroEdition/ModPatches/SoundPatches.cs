@@ -6,12 +6,13 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 using UtilLibs;
+using static OverlayModes;
 
 namespace OniRetroEdition.ModPatches
 {
 	internal class SoundPatches
 	{
-		[HarmonyPatch(typeof(OverlayScreen), "RegisterModes")]
+		[HarmonyPatch(typeof(OverlayScreen), nameof(OverlayScreen.RegisterModes))]
 		public static class OverlayScreen_RegisterModes_Patch
 		{
 			public static void Postfix(OverlayScreen __instance)
@@ -86,6 +87,43 @@ namespace OniRetroEdition.ModPatches
 			public static bool Prefix(SaveLoadRoot item)
 			{
 				return item != null && item.gameObject != null && item.TryGetComponent<NoisePolluter>(out _);
+			}
+		}
+
+		[HarmonyPatch(typeof(OverlayModes.Sound), MethodType.Constructor)]
+		public class OverlayModes_Sound_Constructor_Patch
+		{
+			public static void Postfix(OverlayModes.Sound __instance)
+			{
+				__instance.highlightConditions = [new ColorHighlightCondition(delegate(KMonoBehaviour np)
+			{
+				Color black = Color.black;
+				Color maxHighlight = Color.black;
+				float t = 0.8f;
+				if (np != null)
+				{
+					int cell = Grid.PosToCell(CameraController.Instance.baseCamera.ScreenToWorldPoint(KInputManager.GetMousePos()));
+					if ((np as NoisePolluter)?.GetNoiseForCell(cell) > 36f)
+					{
+						t = 1f;
+						maxHighlight = new Color(0.4f, 0.4f, 0.4f);
+					}
+				}
+				return Color.Lerp(black, maxHighlight, t);
+			}, delegate(KMonoBehaviour np)
+			{
+				List<GameObject> highlightedObjects = SelectToolHoverTextCard.highlightedObjects;
+				bool result = false;
+				for (int i = 0; i < highlightedObjects.Count; i++)
+				{
+					if (highlightedObjects[i] != null && highlightedObjects[i] == np.gameObject)
+					{
+						result = true;
+						break;
+					}
+				}
+				return result;
+			})];
 			}
 		}
 
@@ -171,23 +209,23 @@ namespace OniRetroEdition.ModPatches
 			}
 
 
-			private static readonly FieldInfo InfoId = AccessTools.Field(typeof(OverlayModes.Sound), nameof(OverlayModes.Sound.ID));
+			//private static readonly FieldInfo InfoId = AccessTools.Field(typeof(OverlayModes.Sound), nameof(OverlayModes.Sound.ID));
 
-			private static readonly FieldInfo LogicId = AccessTools.Field(
-				typeof(OverlayModes.Logic),
-				nameof(OverlayModes.Logic.ID)
-			);
+			//private static readonly FieldInfo LogicId = AccessTools.Field(
+			//	typeof(OverlayModes.Logic),
+			//	nameof(OverlayModes.Logic.ID)
+			//);
 
-			private static readonly MethodInfo HashEq = AccessTools.Method(
-				typeof(HashedString),
-				"op_Equality",
-				new[] { typeof(HashedString), typeof(HashedString) }
-			);
+			//private static readonly MethodInfo HashEq = AccessTools.Method(
+			//	typeof(HashedString),
+			//	"op_Equality",
+			//	new[] { typeof(HashedString), typeof(HashedString) }
+			//);
 
-			private static readonly MethodInfo Helper = AccessTools.Method(
-				typeof(SelectToolHoverTextCard_UpdateHoverElements_Patch),
-				nameof(DrawerHelper)
-			);
+			//private static readonly MethodInfo Helper = AccessTools.Method(
+			//	typeof(SelectToolHoverTextCard_UpdateHoverElements_Patch),
+			//	nameof(DrawerHelper)
+			//);
 
 			//  public static IEnumerable<CodeInstruction> Transpiler(
 			//      IEnumerable<CodeInstruction> orig,

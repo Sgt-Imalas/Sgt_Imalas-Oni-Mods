@@ -358,8 +358,7 @@ namespace OniRetroEdition
 		//            );
 		//    }
 		//}
-		[HarmonyPatch(typeof(MinionConfig))]
-		[HarmonyPatch(nameof(MinionConfig.CreatePrefab))]
+		[HarmonyPatch(typeof(BaseMinionConfig), nameof(BaseMinionConfig.BaseMinion))]
 		public static class MinionConfig_AddModNoiseListener
 		{
 			public static void Postfix(ref GameObject __result)

@@ -22,11 +22,15 @@ namespace OniRetroEdition
 		{
 			STEAMTURBINE.NAME = global::STRINGS.UI.FormatAsLink("Steam Turbine", nameof(STEAMTURBINE));			
 			STEAMTURBINE.EFFECT = STEAMTURBINE.EFFECT.Replace("THIS BUILDING HAS BEEN DEPRECATED AND CANNOT BE BUILT.\n\n", string.Empty);
+
 			HarmonyInstance = harmony;
+
 			PUtil.InitLibrary(false);
 			new POptions().RegisterOptions(this, typeof(Config));
+
 			BuildingModifications.InitializeFolderPath();
 			SkinsAdder.InitializeFolderPath();
+
 			base.OnLoad(harmony);
 			SgtLogger.LogVersion(this, harmony);
 
