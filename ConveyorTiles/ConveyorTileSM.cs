@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using FMODUnity;
+using HarmonyLib;
 using KSerialization;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,11 @@ namespace ConveyorTiles
 	internal class ConveyorTileSM : StateMachineComponent<ConveyorTileSM.StatesInstance>, ISaveLoadable, ICheckboxControl
 	//, IGameObjectEffectDescriptor
 	{
+		public enum ConveyorTileMode
+		{
+			Horizontal = 0,
+			Vertical = 1
+		}
 		[HarmonyPatch(typeof(Game))]
 		[HarmonyPatch(nameof(Game.DestroyInstances))]
 		public class Game_OnDestroy
@@ -82,6 +88,7 @@ namespace ConveyorTiles
 
 		[Serialize] bool LogicControllsDirection = false;
 		float TileSpeedInternal = 1;
+		[SerializeField][Serialize] public ConveyorTileMode Mode = ConveyorTileMode.Horizontal;
 
 		/// <summary>
 		/// Factorio belt arrow colors
@@ -157,22 +164,42 @@ namespace ConveyorTiles
 
 		public static bool HasTileableNeighbor(ConveyorTileSM a, ConveyorTileSM b)
 		{
-			return a.flipped == b.flipped && a.isOperational == b.isOperational && Mathf.Approximately(a.TileSpeedInternal, b.TileSpeedInternal);
+			return a.flipped == b.flipped && a.isOperational == b.isOperational && Mathf.Approximately(a.TileSpeedInternal, b.TileSpeedInternal) && a.Mode == b.Mode;
 		}
 
 		public void RefreshEndCaps()
 		{
 			if (this.transform == null) return;
 
-			int left = Grid.CellLeft(myCell);
-			int right = Grid.CellRight(myCell);
-			if (TileSMs.ContainsKey(left))
+			if (Mode == ConveyorTileMode.Horizontal)
 			{
-				TileSMs[left]?.UpdateEndCaps();
+				int left = Grid.CellLeft(myCell);
+				int right = Grid.CellRight(myCell);
+				if (TileSMs.ContainsKey(left))
+				{
+					if (TileSMs[left].Mode == this.Mode)
+						TileSMs[left]?.UpdateEndCaps();
+				}
+				if (TileSMs.ContainsKey(right))
+				{
+					if (TileSMs[right].Mode == this.Mode)
+						TileSMs[right]?.UpdateEndCaps();
+				}
 			}
-			if (TileSMs.ContainsKey(right))
+			if (Mode == ConveyorTileMode.Vertical)
 			{
-				TileSMs[right]?.UpdateEndCaps();
+				int below = Grid.CellBelow(myCell);
+				int abovel = Grid.CellAbove(myCell);
+				if (TileSMs.ContainsKey(below))
+				{
+					if (TileSMs[below].Mode == this.Mode)
+						TileSMs[below]?.UpdateEndCaps();
+				}
+				if (TileSMs.ContainsKey(abovel))
+				{
+					if (TileSMs[abovel].Mode == this.Mode)
+						TileSMs[abovel]?.UpdateEndCaps();
+				}
 			}
 			UpdateEndCaps();
 		}
@@ -250,7 +277,6 @@ namespace ConveyorTiles
 			RefreshEndCaps();
 		}
 
-		void TogglePause(bool pause) => kbac.stopped = pause;
 		bool ValidItemCell(int cell) => Grid.IsValidCell(cell) && !Grid.IsSolidCell(cell);
 
 		private void OnPickupablesChanged(object data, float dt)
@@ -278,7 +304,7 @@ namespace ConveyorTiles
 							continue;
 						}
 						//if config disables conveyor for critters
-						if (component.HasTag(GameTags.Creature) && Config.Instance.ImmuneCritters)
+						if (component.HasTag(GameTags.Creature) && (Config.Instance.ImmuneCritters || (component.GetSMI<RanchedStates.Instance>()?.IsRunning() ?? false)))
 						{
 							continue;
 						}
@@ -288,9 +314,14 @@ namespace ConveyorTiles
 							continue;
 						}
 						///Working dupes that have started working are immune (doesnt affect walkers)
-						if (pickupable.TryGetComponent<WorkerBase>(out var worker) && worker.GetWorkable() != null && (worker.GetWorkable().GetPercentComplete() > 0||Grid.PosToCell(worker.GetWorkable()) == Grid.PosToCell(component)))
+						if (pickupable.TryGetComponent<WorkerBase>(out var worker) && worker.GetWorkable() != null
+							&& (worker.GetWorkable().GetPercentComplete() > 0)
+							)
 						{
-							
+							continue;
+						}
+						if (pickupable.TryGetComponent<ChoreDriver>(out var choreDriver) && choreDriver.GetCurrentChore() != null && choreDriver.GetCurrentChore().GetReportName() == "Ranch")
+						{
 							continue;
 						}
 					}
@@ -306,8 +337,6 @@ namespace ConveyorTiles
 			}
 			gathered_entries.Recycle();
 		}
-
-
 
 		public override void OnCleanUp()
 		{
