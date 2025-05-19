@@ -20,6 +20,7 @@ using PeterHan.PLib.Core;
 using PeterHan.PLib.UI;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using static MassMoveTo.STRINGS.UI;
@@ -332,8 +333,13 @@ namespace MassMoveTo.Tools.SweepByType
 		private void UpdateCategory(Tag category, string overrideName = null)
 		{
 			if (DiscoveredResources.Instance.TryGetDiscoveredResourcesFromTag(category,
-					out HashSet<Tag> found) && found.Count > 0)
+					out var found))
 			{
+				if (category == GameTags.MiscPickupable) //hack to include interplanetary payloads
+					found.Add(RailGunPayloadConfig.ID);
+				
+				if (!found.Any())
+					return;
 				// Attempt to add to type select control
 				if (!children.TryGetValue(category, out TypeSelectCategory current))
 				{

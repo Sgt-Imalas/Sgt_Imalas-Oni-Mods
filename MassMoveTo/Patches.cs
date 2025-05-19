@@ -67,6 +67,7 @@ namespace MassMoveTo
 			}
 		}
 
+
 		/// <summary>
 		/// Init. auto translation
 		/// </summary>

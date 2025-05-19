@@ -101,7 +101,9 @@ namespace MassMoveTo.Tools.SweepByType
 		/// <param name="priority">The priority to set the sweep errand.</param>
 		private void MarkForMove(GameObject content, PrioritySetting priority)
 		{
-			if (content.TryGetComponent<Movable>(out var movable) && !movable.IsMarkedForMove && (cachedAll || cachedTypes.Contains(content.PrefabID())))
+			if (content.TryGetComponent<Movable>(out var movable)
+				&& !movable.IsMarkedForMove  //check if not already marked
+				&& (cachedAll || cachedTypes.Contains(content.PrefabID()))) //check if the filter type is selected
 			{
 				ModAssets.MarkForMove(movable, priority);
 			}
@@ -168,10 +170,14 @@ namespace MassMoveTo.Tools.SweepByType
 
 		public override void OnDragTool(int cell, int distFromOrigin)
 		{
+			//ignore entombed items
+			if (Grid.Solid[cell])
+				return;
+
 			var gameObject = Grid.Objects[cell, (int)ObjectLayer.Pickupables];
 			if (gameObject != null && TypeSelect != null)
 			{
-				// Linked list of debris in layer 3
+				// item in a linked list of all debris in layer 3/ObjectLayer.Pickupables
 				var objectListNode = gameObject.GetComponent<Pickupable>().objectLayerListItem;
 				var priority = ToolMenu.Instance.PriorityScreen.GetLastSelectedPriority();
 				if (cachedTypes == null)
