@@ -218,7 +218,7 @@ namespace SaveGameModLoader
 
 			if (isList)
 			{
-				KMod.Manager.Dialog(Global.Instance.globalCanvas,
+				KMod.Manager.Dialog(GameScreenManager.Instance.GetParent(GameScreenManager.UIRenderTarget.ScreenSpaceOverlay),
 				WORKSHOPACTIONS.TITLE,
 				string.Format(WORKSHOPACTIONS.INFOLIST, missingMods.Count),
 				WORKSHOPACTIONS.SUBLIST,
@@ -231,7 +231,7 @@ namespace SaveGameModLoader
 			}
 			else
 			{
-				KMod.Manager.Dialog(Global.Instance.globalCanvas,
+				KMod.Manager.Dialog(GameScreenManager.Instance.GetParent(GameScreenManager.UIRenderTarget.ScreenSpaceOverlay),
 				WORKSHOPACTIONS.TITLE,
 				WORKSHOPACTIONS.INFO,
 				WORKSHOPACTIONS.SUB,

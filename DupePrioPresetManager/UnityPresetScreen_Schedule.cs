@@ -138,7 +138,7 @@ namespace DupePrioPresetManager
             }
             if (ToGenerates.Count == 0)
             {
-                KMod.Manager.Dialog(Global.Instance.globalCanvas,
+                KMod.Manager.Dialog(GameScreenManager.Instance.GetParent(GameScreenManager.UIRenderTarget.ScreenSpaceOverlay),
                SCHEDULESTRINGS.GENERATEALL,
                SCHEDULESTRINGS.ALLGENERATED,
                SAVESCREEN.CANCELNAME,

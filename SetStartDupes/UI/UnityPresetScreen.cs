@@ -189,7 +189,7 @@ namespace SetStartDupes
 			System.Action nothing = () =>
 			{ };
 
-			KMod.Manager.Dialog(Global.Instance.globalCanvas,
+			KMod.Manager.Dialog(GameScreenManager.Instance.GetParent(GameScreenManager.UIRenderTarget.ScreenSpaceOverlay),
 		   string.Format(DELETEWINDOW.TITLE, config.ConfigName),
 		   string.Format(DELETEWINDOW.DESC, config.ConfigName),
 		   DELETEWINDOW.YES,

@@ -353,7 +353,7 @@ namespace SaveGameModLoader
 			else
 			{
 				NormalSyncing(enableAll, restartAfter, dontDisableActiveMods);
-				KMod.Manager.Dialog(Global.Instance.globalCanvas,
+				KMod.Manager.Dialog(GameScreenManager.Instance.GetParent(GameScreenManager.UIRenderTarget.ScreenSpaceOverlay),
 			   SINGLEMODLIST.POPUPSYNCEDTITLE,
 			   dontDisableActiveMods ? SINGLEMODLIST.POPUPSYNCEDTEXTENABLEONLY : SINGLEMODLIST.POPUPSYNCEDTEXT,
 			   SINGLEMODLIST.RETURNTWO,

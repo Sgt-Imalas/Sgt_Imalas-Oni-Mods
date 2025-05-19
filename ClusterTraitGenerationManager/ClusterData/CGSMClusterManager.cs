@@ -1566,7 +1566,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 				};
 
 
-				KMod.Manager.Dialog(Global.Instance.globalCanvas,
+				KMod.Manager.Dialog(GameScreenManager.Instance.GetParent(GameScreenManager.UIRenderTarget.ScreenSpaceOverlay),
 			   GENERATIONWARNING.WINDOWNAME,
 			   GENERATIONWARNING.DESCRIPTION,
 			   GENERATIONWARNING.YES,

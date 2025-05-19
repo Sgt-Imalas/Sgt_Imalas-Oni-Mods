@@ -17,7 +17,7 @@ namespace DupePrioPresetManager
 
 		public void OpenPopUpToChangeName(System.Action callBackAction = null)
 		{
-			FileNameDialog fileNameDialog = (FileNameDialog)KScreenManager.Instance.StartScreen(ScreenPrefabs.Instance.FileNameDialog.gameObject, Global.Instance.globalCanvas);
+			FileNameDialog fileNameDialog = (FileNameDialog)KScreenManager.Instance.StartScreen(ScreenPrefabs.Instance.FileNameDialog.gameObject, GameScreenManager.Instance.GetParent(GameScreenManager.UIRenderTarget.ScreenSpaceOverlay));
 			fileNameDialog.SetTextAndSelect(ConfigName);
 			fileNameDialog.onConfirm = (System.Action<string>)(newName =>
 			{

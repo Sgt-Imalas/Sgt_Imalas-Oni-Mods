@@ -82,7 +82,7 @@ namespace SaveGameModLoader
 				{
 					var doYouWantToImport = string.Format(STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.IMPORTYESNO_LOCAL, ModAssets.GetSanitizedNamePath(cut), list.Count);
 
-					KMod.Manager.Dialog(Global.Instance.globalCanvas,
+					KMod.Manager.Dialog(GameScreenManager.Instance.GetParent(GameScreenManager.UIRenderTarget.ScreenSpaceOverlay),
 					STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.VALIDCOLLECTIONHEADER_FILE, doYouWantToImport, null, () =>
 					{
 						ModlistManager.Instance.CreateOrAddToModPacks(ModAssets.GetSanitizedNamePath(cut), list);
@@ -323,7 +323,7 @@ namespace SaveGameModLoader
 
 		static void CreatePopup(string title, string content)
 		{
-			KMod.Manager.Dialog(Global.Instance.globalCanvas,
+			KMod.Manager.Dialog(GameScreenManager.Instance.GetParent(GameScreenManager.UIRenderTarget.ScreenSpaceOverlay),
 				title, content);
 		}
 
