@@ -1,5 +1,7 @@
-﻿using HarmonyLib;
+﻿using Database;
+using HarmonyLib;
 using Klei.CustomSettings;
+using ProcGenGame;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,16 +14,7 @@ namespace GeothermalStoryTrait.Patches
 {
 	class StoryContentPanel_Patches
 	{
-
-		[HarmonyPatch(typeof(ColonyDestinationSelectScreen), nameof(ColonyDestinationSelectScreen.OnAsteroidClicked))]
-		public class ColonyDestinationSelectScreen_OnAsteroidClicked_Patch
-		{
-			public static void Postfix(ColonyDestinationSelectScreen __instance)
-			{
-				DisableHeatpumpOnCeres(__instance.storyContentPanel);
-			}
-		}
-
+		static bool PendingOnToggle = false;
 		/// <summary>			
 		/// disable custom heatpump story trait if it got rolled randomly on a cluster that already has a heatpump			
 		/// </summary>
@@ -30,14 +23,27 @@ namespace GeothermalStoryTrait.Patches
 		{
 			public static void Postfix(StoryContentPanel __instance, bool useBias)
 			{
-				DisableHeatpumpOnCeres(__instance);
+				string clusterId = __instance.mainScreen.newGameSettingsPanel.GetSetting(CustomGameSettingConfigs.ClusterLayout);
+				DisableHeatpumpOnCeres(clusterId, __instance);
 			}
 		}
 
 
+		[HarmonyPatch(typeof(CustomGameSettings), nameof(CustomGameSettings.SetQualitySetting), [typeof(SettingConfig), typeof(string), typeof(bool)])]
+		public class CustomGameSettings_SetQualitySetting_Patch
+		{
+			public static void Postfix(CustomGameSettings __instance, SettingConfig config, string value)
+			{
+				if (config != CustomGameSettingConfigs.ClusterLayout)
+					return;
+				
+				DisableHeatpumpOnCeres(value);
+			}
+		}
+
 		[HarmonyPatch(typeof(StoryContentPanel), nameof(StoryContentPanel.SetStoryState))]
 		public class StoryContentPanel_SetStoryState_Patch
-		{
+		{			
 			public static bool Prefix(StoryContentPanel __instance, string storyId, StoryState state)
 			{
 				if (storyId != CGMWorldGenUtils.CGM_Heatpump_StoryTrait)
@@ -48,34 +54,67 @@ namespace GeothermalStoryTrait.Patches
 
 				var clusterId = __instance.mainScreen.newGameSettingsPanel.GetSetting(CustomGameSettingConfigs.ClusterLayout);
 				if (CGMWorldGenUtils.HasGeothermalPumpInCluster(clusterId))
+				{
+					PendingOnToggle = true;
 					return false;
+				}
 				return true;
 			}
 		}
 
-		public static void DisableHeatpumpOnCeres(StoryContentPanel __instance)
+		public static void DisableHeatpumpOnCeres(string clusterId, StoryContentPanel __instance = null)
 		{
-			if (!__instance.storyStates.ContainsKey(CGMWorldGenUtils.CGM_Heatpump_StoryTrait))
+			var settings = CustomGameSettings.Instance;
+			if (!settings.StorySettings.ContainsKey(CGMWorldGenUtils.CGM_Heatpump_StoryTrait))
+			{
 				return;
-			var clusterId = __instance.mainScreen.newGameSettingsPanel.GetSetting(CustomGameSettingConfigs.ClusterLayout);
+			}
 
 			if (CGMWorldGenUtils.HasGeothermalPumpInCluster(clusterId))
 			{
-				if (__instance.storyStates[CGMWorldGenUtils.CGM_Heatpump_StoryTrait] == StoryContentPanel.StoryState.Forbidden)
+				var story = settings.StorySettings[CGMWorldGenUtils.CGM_Heatpump_StoryTrait];
+				var storyState = settings.GetCurrentStoryTraitSetting(story);
+
+				bool currentlyEnabled = storyState.id == "Guaranteed";
+				//SgtLogger.l("story trait is enabled: " + currentlyEnabled);
+				if (!currentlyEnabled && !PendingOnToggle)
 					return;
 
-				__instance.SetStoryState(CGMWorldGenUtils.CGM_Heatpump_StoryTrait, StoryContentPanel.StoryState.Forbidden);
+				if (__instance == null)
+				{
+					settings.SetStorySetting(story, false);
+					foreach(var setting in settings.StorySettings)
+					{
+						SgtLogger.l(setting.Key + " " + setting.Value.id+ " -> "+ settings.GetCurrentStoryTraitSetting(setting.Key).id);
+					}
 
-				var currentlyDisabledTraits = __instance.storyStates
-					.Where(pair => pair.Value == StoryContentPanel.StoryState.Forbidden && pair.Key != CGMWorldGenUtils.CGM_Heatpump_StoryTrait);
-				if (currentlyDisabledTraits == null || !currentlyDisabledTraits.Any())
-					return;
+					var currentlyDisabledTraits = settings.StorySettings
+							.Where(pair => settings.GetCurrentStoryTraitSetting(pair.Key).id == "Disabled" && pair.Key != CGMWorldGenUtils.CGM_Heatpump_StoryTrait);
+
+					if (currentlyDisabledTraits == null || !currentlyDisabledTraits.Any())
+						return;
 
 					var enableRandomOtherInstead = currentlyDisabledTraits
-						.Select(pair => pair.Key)
 						.GetRandom();
-				__instance.SetStoryState(enableRandomOtherInstead, StoryContentPanel.StoryState.Guaranteed);
 
+					settings.SetStorySetting(enableRandomOtherInstead.Value, true);
+				}
+				else
+				{
+					__instance.SetStoryState(CGMWorldGenUtils.CGM_Heatpump_StoryTrait, StoryContentPanel.StoryState.Forbidden);
+
+					var currentlyDisabledTraits = __instance.storyStates
+						.Where(pair => pair.Value == StoryContentPanel.StoryState.Forbidden && pair.Key != CGMWorldGenUtils.CGM_Heatpump_StoryTrait);
+
+					if (currentlyDisabledTraits == null || !currentlyDisabledTraits.Any())
+						return;
+
+					var enableRandomOtherInstead = currentlyDisabledTraits
+						.GetRandom();
+
+					__instance.SetStoryState(enableRandomOtherInstead.Key, StoryContentPanel.StoryState.Guaranteed);
+				}
+				PendingOnToggle = false;
 			}
 		}
 	}

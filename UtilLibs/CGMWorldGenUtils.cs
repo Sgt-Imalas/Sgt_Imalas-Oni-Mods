@@ -43,6 +43,7 @@ namespace UtilLibs
 		}
 		public static bool HasGeothermalPump(ProcGen.World world)
 		{
+			
 			foreach (var rule in world.worldTemplateRules)
 			{
 				if (rule.names == null || !rule.names.Any())
@@ -53,9 +54,11 @@ namespace UtilLibs
 					)
 
 				{
+					//SgtLogger.l("world " + world.name + " has geothermal pump");
 					return true;
 				}
 			}
+			//SgtLogger.l("world " + world.name + " has no geothermal pump!");
 			return false;
 		}
 
@@ -73,8 +76,9 @@ namespace UtilLibs
 				return false;
 			}
 			bool hasGeothermalPump = HasGeothermalPumpInCluster(cluster.worldPlacements);
+			SgtLogger.l("cluster " + clusterID + " has geothermal pump: " + hasGeothermalPump);
 			CachedPumpInfo[clusterID] = hasGeothermalPump;
-			return false;
+			return hasGeothermalPump;
 		}
 	}
 }
