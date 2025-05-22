@@ -28,6 +28,7 @@ namespace AkiTrueTiles_SkinSelectorAddon.Patches
 				yield return typeof(CarpetTileConfig).GetMethod(name);
 				yield return typeof(MetalTileConfig).GetMethod(name);
 				yield return typeof(InsulationTileConfig).GetMethod(name);
+				yield return typeof(GlassTileConfig).GetMethod(name);
 				yield return typeof(GasPermeableMembraneConfig).GetMethod(name); //airflow tile
 			}
 		}
