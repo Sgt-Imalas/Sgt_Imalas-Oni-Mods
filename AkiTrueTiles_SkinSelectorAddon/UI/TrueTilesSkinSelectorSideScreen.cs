@@ -19,7 +19,7 @@ namespace AkiTrueTiles_SkinSelectorAddon.UI
 		TrueTiles_OverrideStorage Target;
 
 
-		public override bool IsValidForTarget(GameObject target) => Mod.TrueTilesEnabled && target.TryGetComponent<TrueTiles_OverrideStorage>(out var store) && store.GetAvailableElementOverrides().Count > 1;
+		public override bool IsValidForTarget(GameObject target) => Mod.TrueTilesEnabled && target.TryGetComponent<TrueTiles_OverrideStorage>(out _);
 
 		public override void OnSpawn()
 		{

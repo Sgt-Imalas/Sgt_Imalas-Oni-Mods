@@ -134,9 +134,9 @@ namespace AkiTrueTiles_SkinSelectorAddon
 
 			//remove old block
 			SimHashes toRemoveBlock = HasOverride && !init ? OverrideElement : OriginalElement;
-			SgtLogger.l("Removing block for " + toRemoveBlock.ToString() + " at " + Cell);
+			//SgtLogger.l("Removing block for " + toRemoveBlock.ToString() + " at " + Cell);
 			World.Instance.blockTileRenderer.RemoveBlock(Def, IsReplacementTile, toRemoveBlock, Cell);
-			SgtLogger.l("Adding block for " + newElement.ToString() + " at " + Cell);
+			//SgtLogger.l("Adding block for " + newElement.ToString() + " at " + Cell);
 			World.Instance.blockTileRenderer.AddBlock(gameObject.layer, Def, IsReplacementTile, newElement, cell);
 
 			if (newElement == OriginalElement)

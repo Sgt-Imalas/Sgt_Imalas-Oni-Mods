@@ -109,7 +109,7 @@ namespace AkiTrueTiles_SkinSelectorAddon.Patches
 					var specularTex = traverse.Field<Texture2D>("specular").Value;
 					var buildingDef = Assets.GetBuildingDef(def);
 
-					if (def == null || mainTex == null)
+					if (def == null)
 					{
 						return;
 					}
