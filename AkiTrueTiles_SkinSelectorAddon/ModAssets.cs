@@ -1,4 +1,5 @@
-﻿using Klei.AI;
+﻿using AkiTrueTiles_SkinSelectorAddon.UI;
+using Klei.AI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UtilLibs;
 using static UnityEngine.UI.Image;
 
 namespace AkiTrueTiles_SkinSelectorAddon
@@ -18,20 +20,10 @@ namespace AkiTrueTiles_SkinSelectorAddon
 			public static readonly Tag texturedTile = TagManager.Create("truetiles_texturedTile");
 		}
 
-		/// <summary>
-		/// mirror structure from TrueTiles to avoid reflection
-		/// </summary>
-		public static int[] TrueTilesElementIdx = [-1];
-
-
 		public static HashSet<int> DirtyCells = new HashSet<int>();
 
 		static bool RefreshScheduled = false;
-
-		public static void RemoveAll(int cell)
-		{
-			TT_Remove(cell);
-		}
+		
 		public static void ScheduleCellRefresh(int cell)
 		{
 			if (Grid.IsValidCell(cell))
@@ -55,23 +47,8 @@ namespace AkiTrueTiles_SkinSelectorAddon
 		}
 
 
-		public static void TT_Add(int cell, SimHashes element)
-		{
-			TrueTilesElementIdx[cell] = SimMessages.GetElementIndex(element);
-		}
-		public static void TT_Remove(int cell)
-		{
-			TrueTilesElementIdx[cell] = -1;
-		}
-		public static void TT_Initialize()
-		{
-			TrueTilesElementIdx = new int[Grid.CellCount];
-
-			for (var i = 0; i < TrueTilesElementIdx.Length; i++)
-				TrueTilesElementIdx[i] = -1;
-		}
-
 		#region sprite util
+
 		static Dictionary<BuildingDef, Dictionary<SimHashes, Sprite>> AtlasSprites = new Dictionary<BuildingDef, Dictionary<SimHashes, Sprite>>();
 
 		public static bool GetSpriteForTile(BuildingDef def, SimHashes element, out Sprite sprite)
@@ -131,10 +108,16 @@ namespace AkiTrueTiles_SkinSelectorAddon
 		{
 			var defaultAtlas = Assets.GetTextureAtlas("tiles_solid");
 			var atlas = CreateAtlas(defaultAtlas, mainTex);
-			if(!AtlasSprites.ContainsKey(def))
+			if (!AtlasSprites.ContainsKey(def))
+			{
+				SgtLogger.l("adding skin override component to " + def.BuildingComplete.GetProperName());
+				def.BuildingComplete.AddOrGet<TrueTiles_OverrideStorage>();
 				AtlasSprites[def] = new Dictionary<SimHashes, Sprite>();
+			}
 			AtlasSprites[def][element] = GetSpriteForAtlas(atlas);
+
 		}
+
 		private static TextureAtlas CreateAtlas(TextureAtlas original, Texture2D texture)
 		{
 			var atlas = ScriptableObject.CreateInstance<TextureAtlas>();

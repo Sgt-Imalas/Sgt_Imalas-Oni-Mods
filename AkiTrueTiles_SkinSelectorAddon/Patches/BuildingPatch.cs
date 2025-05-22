@@ -9,7 +9,9 @@ namespace AkiTrueTiles_SkinSelectorAddon.Patches
 {
     class BuildingPatch
     {
-
+        /// <summary>
+        /// sets the visualisation element to an override element if applicable
+        /// </summary>
         [HarmonyPatch(typeof(Building), nameof(Building.GetVisualizationElementID))]
         public class Building_GetVisualizationElementID_Patch
         {

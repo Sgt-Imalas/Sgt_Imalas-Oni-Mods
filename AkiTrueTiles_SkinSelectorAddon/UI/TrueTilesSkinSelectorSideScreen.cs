@@ -85,6 +85,8 @@ namespace AkiTrueTiles_SkinSelectorAddon.UI
 		private void GenerateStateButtons()
 		{
 			ClearButtons();
+			if (Target == null)
+				return;
 			foreach (var elementOverride in Target.GetAvailableElementOverrides())
 			{
 				AddButton(elementOverride, Target.IsCurrentOverride(elementOverride),

@@ -14,8 +14,17 @@ namespace AkiTrueTiles_SkinSelectorAddon
 {
 	class TrueTiles_OverrideStorage : KMonoBehaviour
 	{
-		
+		/// <summary>
+		/// Cached dictionary of all override storage components
+		/// </summary>
 		public static Dictionary<int, TrueTiles_OverrideStorage> Cmps = new Dictionary<int, TrueTiles_OverrideStorage>();
+
+		/// <summary>
+		/// Get the element used for visualisation of the tile at the given cell if it exists, use override if applicable
+		/// </summary>
+		/// <param name="cell"></param>
+		/// <param name="element"></param>
+		/// <returns></returns>
 		public static bool TryGetElement(int cell, out SimHashes element)
 		{
 			if (Cmps.TryGetValue(cell, out var cmp))

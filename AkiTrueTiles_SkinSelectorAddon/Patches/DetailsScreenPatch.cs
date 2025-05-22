@@ -11,6 +11,9 @@ namespace AkiTrueTiles_SkinSelectorAddon.Patches
 {
     class DetailsScreenPatch
     {
+		/// <summary>
+		/// Inject custom sidescreen
+		/// </summary>
 		[HarmonyPatch(typeof(DetailsScreen), "OnPrefabInit")]
 		public static class CustomSideScreenPatch_SatelliteCarrier
 		{
