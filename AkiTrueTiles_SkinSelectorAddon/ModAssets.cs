@@ -23,7 +23,7 @@ namespace AkiTrueTiles_SkinSelectorAddon
 		public static HashSet<int> DirtyCells = new HashSet<int>();
 
 		static bool RefreshScheduled = false;
-		
+
 		public static void ScheduleCellRefresh(int cell)
 		{
 			if (Grid.IsValidCell(cell))
@@ -55,6 +55,10 @@ namespace AkiTrueTiles_SkinSelectorAddon
 		{
 			sprite = null;
 			if (AtlasSprites.TryGetValue(def, out var dic) && dic.TryGetValue(element, out sprite))
+			{
+				return true;
+			}
+			else if (AtlasSprites.TryGetValue(def, out dic) && dic.TryGetValue(SimHashes.Void, out sprite))
 			{
 				return true;
 			}
@@ -107,12 +111,14 @@ namespace AkiTrueTiles_SkinSelectorAddon
 		internal static void RegisterSprite(BuildingDef def, Texture2D mainTex, SimHashes element)
 		{
 			var defaultAtlas = Assets.GetTextureAtlas("tiles_solid");
-			var atlas = CreateAtlas(defaultAtlas, mainTex);
+			var atlas = mainTex != null ? CreateAtlas(defaultAtlas, mainTex) : def.BlockTileAtlas;
 			if (!AtlasSprites.ContainsKey(def))
 			{
-				SgtLogger.l("adding skin override component to " + def.BuildingComplete.GetProperName());
+				SgtLogger.l("adding skin override component to " + def.PrefabID);
 				def.BuildingComplete.AddOrGet<TrueTiles_OverrideStorage>();
 				AtlasSprites[def] = new Dictionary<SimHashes, Sprite>();
+				//fallback default texture for non-initialized elements
+				AtlasSprites[def][SimHashes.Void] = GetSpriteForAtlas(def.BlockTileAtlas);
 			}
 			AtlasSprites[def][element] = GetSpriteForAtlas(atlas);
 
