@@ -3,6 +3,7 @@
 		<TargetFramework>net48</TargetFramework>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 		<Configurations>Debug;Release;Release2</Configurations>
+		<DoNotBuildAsMod>true</DoNotBuildAsMod>
 	</PropertyGroup>
 	<PropertyGroup>
 		<LangVersion>preview</LangVersion>
