@@ -23,8 +23,8 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>AkiTrueTiles_SkinSelectorAddon</ModName>
-		<ModDescription></ModDescription>
+		<ModName>True Tiles Skin Selector</ModName>
+		<ModDescription>This addon mod for true tiles allows to select the skin of the tiles independent of their material</ModDescription>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
