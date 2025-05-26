@@ -1,1 +1,0 @@
-- add zh tranlation to: RE, conveyor tile, canned food
