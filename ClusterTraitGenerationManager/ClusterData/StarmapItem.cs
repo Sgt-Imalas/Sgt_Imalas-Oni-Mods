@@ -38,7 +38,11 @@ namespace ClusterTraitGenerationManager.ClusterData
 		[JsonIgnore] public Vector2I originalWorldDimensions;
 		[JsonIgnore] public float originalWorldTraitScale;
 		[JsonIgnore] public string ModName = string.Empty;
-		[JsonIgnore] public string DlcID = "";
+		[JsonIgnore] private string DlcID = "";
+
+		public string GetMainDlcID() => DlcID;
+
+		public bool IsDlcRequired(string dlcId) => DlcID == dlcId ||(world_internal?.GetRequiredDlcIds()?.Contains(dlcId)??false) || (world_mixing?.IsDlcRequired(dlcId) ?? false);
 
 		public WorldPlacement placement;
 
@@ -879,7 +883,6 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 		#endregion
 
-
 		#region PlanetMeteors
 
 		public List<MeteorShowerSeason> CurrentMeteorSeasons
@@ -973,6 +976,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 
 		#endregion
+
 		#region PlanetTraits
 
 		private List<string> currentPlanetTraits = new List<string>();

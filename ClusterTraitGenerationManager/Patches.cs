@@ -161,24 +161,28 @@ namespace ClusterTraitGenerationManager
 				}
 			}
 		}
-		[HarmonyPatch(typeof(CustomGameSettings))]
-		[HarmonyPatch(nameof(CustomGameSettings.SetMixingSetting))]
-		[HarmonyPatch(new Type[] { typeof(SettingConfig), typeof(string) })]
+		[HarmonyPatch(typeof(CustomGameSettings), nameof(CustomGameSettings.SetMixingSetting), [typeof(SettingConfig), typeof(string), typeof(bool)])]
 		public static class RegenerateOnMixingSettingsChanged
 		{
+			static string PreviousValue = string.Empty;
+			public static void Prefix(CustomGameSettings __instance, SettingConfig config, string value)
+			{
+				if (__instance == null || LoadCustomCluster)
+					return;
+				PreviousValue = __instance.GetCurrentMixingSettingLevel(config).id;
+			}
+
 			public static void Postfix(CustomGameSettings __instance, SettingConfig config, string value)
 			{
-				if (__instance == null || LoadCustomCluster || __instance.GetCurrentMixingSettingLevel(config).id == value)
+				if (__instance == null || LoadCustomCluster || PreviousValue == value)
 					return;
-				RegenerateCGM(__instance, "Mixing Setting " + config.id, rerollTraits: false);
+				RegenerateCGM(__instance, "Mixing Setting" + config.id, rerollTraits: false);
 			}
 		}
 		/// <summary>
 		/// Regenerates Custom cluster with newly created traits on seed shuffle
 		/// </summary>
-		[HarmonyPatch(typeof(CustomGameSettings))]
-		[HarmonyPatch(nameof(CustomGameSettings.SetQualitySetting))]
-		[HarmonyPatch(new Type[] { typeof(SettingConfig), typeof(string) })]
+		[HarmonyPatch(typeof(CustomGameSettings), nameof(CustomGameSettings.SetQualitySetting), [typeof(SettingConfig), typeof(string)])]
 		public static class RegenerateOnSeedOrClusterChanged
 		{
 			public static void Postfix(CustomGameSettings __instance, SettingConfig config, string value)
@@ -374,22 +378,30 @@ namespace ClusterTraitGenerationManager
 
 
 
-		///// <summary>
-		///// make WorldMixing (not subworld mixing!) disable with cgm cluster
-		///// </summary>
-		//[HarmonyPatch(typeof(SettingsCache))]
-		//[HarmonyPatch(nameof(SettingsCache.LoadWorldMixingSettings))]
-		//public static class LoadWorldMixingSettings_Postfix_Exclusion
-		//{
-		//    public static void Postfix()
-		//    {
-		//        foreach(var worldMixingSetting in SettingsCache.worldMixingSettings.Values)
-		//        {
-		//            if (worldMixingSetting != null && worldMixingSetting.forbiddenClusterTags != null && !worldMixingSetting.forbiddenClusterTags.Contains(CustomClusterClusterTag))
-		//                worldMixingSetting.forbiddenClusterTags.Add(CustomClusterClusterTag);
-		//        }
-		//    }
-		//}
+		/// <summary>
+		/// make WorldMixing (not subworld mixing!) disable with cgm cluster
+		/// </summary>
+		[HarmonyPatch(typeof(SettingsCache))]
+		[HarmonyPatch(nameof(SettingsCache.LoadWorldMixingSettings))]
+		public static class LoadWorldMixingSettings_Postfix_Exclusion
+		{
+			public static void Postfix()
+			{
+				foreach (var worldMixingSetting in SettingsCache.worldMixingSettings.Values)
+				{
+					if (worldMixingSetting != null)
+					{
+						if (worldMixingSetting.forbiddenClusterTags == null)
+							worldMixingSetting.forbiddenClusterTags = new List<string>();
+
+						if (!worldMixingSetting.forbiddenClusterTags.Contains(CustomClusterClusterTag))
+						{
+							worldMixingSetting.forbiddenClusterTags.Add(CustomClusterClusterTag);
+						}
+					}
+				}
+			}
+		}
 
 		/// <summary>
 		/// Prevents the normal cluster menu from closing when the custom cluster menu is open
@@ -489,6 +501,9 @@ namespace ClusterTraitGenerationManager
 				}
 			}
 
+			/// <summary>
+			/// Populate the dictionary with the other two variants for each asteroid
+			/// </summary>
 			public static void InitWorlds()
 			{
 				if (initialized)
@@ -1653,37 +1668,44 @@ namespace ClusterTraitGenerationManager
 
 					IsGenerating = true;
 
-					//doesnt work, gotta do it manually
-					//CustomGameSettings.Instance.RemoveInvalidMixingSettings();
 
+					///old and not very functional solution to preventing the game from overriding the mixing settings of the custom cluster with the vanilla ruling (which could lead to mixings overriding each other). 
+					///mixing is now handled by cgm and prohibited by adding the cgm cluster tag to the prohibited mixing tags of all world mixings
+
+					//world mixing worlds are added to the cluster as regulars, so we disable the mixing setting level to prevent them overriding eachother
 					//foreach (var worldMixingSetting in SettingsCache.worldMixingSettings.Values)
 					//{
-					//    if (worldMixingSetting != null && worldMixingSetting.forbiddenClusterTags != null && !worldMixingSetting.forbiddenClusterTags.Contains(CustomClusterClusterTag))
-					//        worldMixingSetting.forbiddenClusterTags.Add(CustomClusterClusterTag);
+					//	if (worldMixingSetting != null && worldMixingSetting.forbiddenClusterTags != null && !worldMixingSetting.forbiddenClusterTags.Contains(CustomClusterClusterTag))
+					//		worldMixingSetting.forbiddenClusterTags.Add(CustomClusterClusterTag);
 					//}
 					//List<string> ToDisableMixings = new();
-					//foreach(var mix in CustomGameSettings.Instance.CurrentMixingLevelsBySetting)
+					//foreach (var mix in SettingsCache.worldMixingSettings)
 					//{
-					//    var mixingSetting = SettingsCache.TryGetCachedWorldMixingSetting(mix.Key);
-					//    if (mixingSetting != null)
-					//    {
-					//        SgtLogger.l("disabling " + mix.Key);
-					//        ToDisableMixings.Add(mix.Key);
-					//    }
+					//	var mixingSetting = SettingsCache.TryGetCachedWorldMixingSetting(mix.Key);
+					//	if (mixingSetting != null)
+					//	{
+					//		ToDisableMixings.Add(mix.Key);
+					//		mixingSetting.forbiddenClusterTags.add
+					//	}
 
-					//    SgtLogger.l(mix.Key+": " + mix.Value, "current mixing setting");
+					//	SgtLogger.l(mix.Key + ": " + mix.Value, "current mixing setting");
 					//}
-					//foreach(var todisable in ToDisableMixings)
+					//foreach (var todisable in ToDisableMixings)
 					//{
+					//	if(CustomGameSettings.Instance.CurrentMixingLevelsBySetting.TryGetValue(todisable, out var current) && current != WorldMixingSettingConfig.DisabledLevelId)
+					//	{
+					//		SgtLogger.l("disabling world mixing to prevent double replacement: " + todisable);
+					//		CustomGameSettings.Instance.CurrentMixingLevelsBySetting[todisable] = WorldMixingSettingConfig.DisabledLevelId;
+					//	}
 					//}
 
-					//dirty manual exclusion to fix crash
-					CustomGameSettings.Instance.CurrentMixingLevelsBySetting["CeresAsteroidMixing"] = WorldMixingSettingConfig.DisabledLevelId;
-					if (DlcManager.IsContentOwned(DlcManager.DLC2_ID) && DlcManager.IsContentSubscribed(DlcManager.DLC2_ID) && CustomCluster.HasCeresAsteroid)
-					{
-						SgtLogger.l("Enabling Frosty Planet for Custom Cluster");
-						CustomGameSettings.Instance.CurrentMixingLevelsBySetting["DLC2_ID"] = DlcMixingSettingConfig.EnabledLevelId;
-					}
+
+					//CustomGameSettings.Instance.CurrentMixingLevelsBySetting["CeresAsteroidMixing"] = WorldMixingSettingConfig.DisabledLevelId;
+					//if (DlcManager.IsContentOwned(DlcManager.DLC2_ID) && DlcManager.IsContentSubscribed(DlcManager.DLC2_ID) && CustomCluster.HasCeresAsteroid)
+					//{
+					//	SgtLogger.l("Enabling Frosty Planet for Custom Cluster");
+					//	CustomGameSettings.Instance.CurrentMixingLevelsBySetting["DLC2_ID"] = DlcMixingSettingConfig.EnabledLevelId;
+					//}
 					//if (CGSMClusterManager.CustomCluster == null)
 					//{
 					//    ///Generating custom cluster if null
@@ -1692,6 +1714,10 @@ namespace ClusterTraitGenerationManager
 					clusterName = CGSMClusterManager.CustomClusterID;
 					SgtLogger.l(clusterName, "CGM CLUSTERID");
 					IsGenerating = true;
+				}
+				else
+				{
+					SgtLogger.l("CGM inactive, vanilla generation will be active");
 				}
 			}
 		}
@@ -1714,6 +1740,13 @@ namespace ClusterTraitGenerationManager
 		[HarmonyPatch(typeof(Cluster), nameof(Cluster.InitializeWorlds))]
 		public class Cluster_InitializeWorlds_Patch
 		{
+			public static void Prefix()
+			{
+				if (!CGSMClusterManager.LoadCustomCluster)
+					return;
+				SgtLogger.l("Preconsuming CGM Mixings");
+
+			}
 			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
 			{
 				var codes = orig.ToList();

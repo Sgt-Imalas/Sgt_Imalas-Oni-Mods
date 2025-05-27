@@ -137,7 +137,6 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				//SgtLogger.l(kvp.Key, "INIT");
 				var geyserEntry = kvp.Value;
 				var TraitHolder = Util.KInstantiateUI(GeyserEntryPrefab, PossibleGeyserUIEntriesContainer, true);
-				//UIUtils.ListAllChildrenWithComponents(TraitHolder.transform);
 				var AddTraitButton = TraitHolder.FindOrAddComponent<FButton>();
 				Strings.TryGet(geyserEntry.Name, out var name);
 				Strings.TryGet(geyserEntry.Description, out var description);

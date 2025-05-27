@@ -477,9 +477,9 @@ namespace ClusterTraitGenerationManager
 		internal static bool GetBannerColor(StarmapItem planet, out Color color)
 		{
 			color = default;
-			if (planet.DlcID == DlcManager.DLC2_ID)
+			if (DlcManager.DLC_PACKS.ContainsKey(planet.GetMainDlcID()))
 			{
-				color = DlcManager.GetDlcBannerColor(planet.DlcID);
+				color = DlcManager.GetDlcBannerColor(planet.GetMainDlcID());
 				return true;
 			}
 			return false;
