@@ -78,7 +78,7 @@ namespace ComplexFabricatorRibbonController.Content.UI.Components
 			{
 				RecipeIcon.sprite = targetRecipe.GetUIIcon();
 				RecipeIcon.color = targetRecipe.GetUIColor();
-				RecipeLabel.SetText(targetRecipe.GetUIName(false));
+				RecipeLabel.SetText(ModAssets.GetRecipeText(targetRecipe,false));
 			}
 			UpdateInUseState();
 		}

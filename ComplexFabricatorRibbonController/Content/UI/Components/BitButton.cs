@@ -56,17 +56,18 @@ namespace ComplexFabricatorRibbonController.Content.UI.Components
 			colourOff.a = 1; //a is 0 for these by default, but that doesnt allow tinting the symbols here
 			On.color = colourOn;
 			Off.color = colourOff;
+
 			if (recipe == null)
 			{
 				SelectedRecipe.sprite = Assets.GetSprite("unknown");
 				SelectedRecipe.color = Color.white;
-				toolTip.SetSimpleTooltip(string.Format(STRINGS.UI.RIBBONSELECTIONSECONDARYSIDESCREEN.TITLE, targetBit + 1) + "\n" + global::STRINGS.UI.UISIDESCREENS.FILTERSIDESCREEN.NO_SELECTION);
+				toolTip.SetSimpleTooltip(string.Format(STRINGS.UI.RIBBONSELECTIONSECONDARYSIDESCREEN.TITLE, targetBit + 1) + "\n\n" + global::STRINGS.UI.UISIDESCREENS.FILTERSIDESCREEN.NO_SELECTION);
 			}
 			else
 			{
 				SelectedRecipe.sprite = recipe.GetUIIcon();
 				SelectedRecipe.color = recipe.GetUIColor();
-				toolTip.SetSimpleTooltip(string.Format(STRINGS.UI.RIBBONSELECTIONSECONDARYSIDESCREEN.TITLE, targetBit + 1) + "\n" + recipe.GetUIName(true) + "\n" + recipe.description);
+				toolTip.SetSimpleTooltip(string.Format(STRINGS.UI.RIBBONSELECTIONSECONDARYSIDESCREEN.TITLE, targetBit + 1) + "\n\n" + ModAssets.GetRecipeText(recipe, true));
 			}
 			On.gameObject.SetActive(logicOn);
 			Off.gameObject.SetActive(!logicOn);
