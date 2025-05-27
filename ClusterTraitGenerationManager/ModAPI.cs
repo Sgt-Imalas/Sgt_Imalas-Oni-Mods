@@ -129,6 +129,7 @@ namespace ClusterTraitGenerationManager
 		public const string DefaultForestWarpBiome = "expansion1::subworlds/forest/ForestWarpStart";
 
 		public const string DefaultCeresStartBiome = "dlc2::subworlds/icecaves/IceCavesStart";
+		public const string DefaultPrehistoricStartBiome = "dlc4::subworlds/garden/GardenStart";
 
 		public enum StartAreaType
 		{
@@ -256,6 +257,8 @@ namespace ClusterTraitGenerationManager
 			{
 				if (world.worldTags != null && world.worldTags.Contains("Ceres"))
 					return DefaultCeresStartBiome;
+				if (world.worldTags != null && world.worldTags.Contains("Prehistoric"))
+					return DefaultPrehistoricStartBiome;
 
 
 				if (world.defaultsOverrides != null && world.defaultsOverrides.data != null && world.defaultsOverrides.data.Count > 0)
@@ -310,6 +313,8 @@ namespace ClusterTraitGenerationManager
 		public const string DefaultForestWater = "subworlds/forest/ForestMiniWater";
 
 		public const string DefaultCeresWater = "dlc2::subworlds/icecaves/IceCavesMiniWater";
+		
+		public const string DefaultPrehistoricWater = "dlc4::subworlds/garden/GardenMiniWater";
 
 		public static string GetStartAreaWaterSubworld(ProcGen.World world)
 		{
@@ -317,6 +322,9 @@ namespace ClusterTraitGenerationManager
 			{
 				if (world.worldTags != null && world.worldTags.Contains("Ceres"))
 					return DefaultCeresWater;
+
+				if (world.worldTags != null && world.worldTags.Contains("Prehistoric"))
+					return DefaultPrehistoricWater;
 
 
 				if (world.defaultsOverrides != null && world.defaultsOverrides.data != null && world.defaultsOverrides.data.Count > 0)

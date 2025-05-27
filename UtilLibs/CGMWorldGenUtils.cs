@@ -11,17 +11,77 @@ namespace UtilLibs
 {
 	public class CGMWorldGenUtils
 	{
+		/// <summary>
+		/// Prehistoric Planet giant asteroid as a story trait
+		/// </summary>
+		public static readonly string CGM_Impactor_StoryTrait = "CGM_ImpactorStoryTrait";
+		/// <summary>
+		/// Frosty Planet Heatpump Story Trait
+		/// </summary>
 		public static readonly string CGM_Heatpump_StoryTrait = "CGM_GeothermalHeatPump";
+
+		/// <summary>
+		/// Caches whether a cluster has a geothermal pump or not to avoid repeatedly checking the same cluster.
+		/// </summary>
 		static Dictionary<string, bool> CachedPumpInfo = new();
-		public static bool ShouldStoryBeInteractable(string storyId, bool hasHeatpump)
+		/// <summary>
+		/// caches whether a cluster has an impactor shower or not to avoid repeatedly checking the same cluster.
+		/// </summary>
+		static Dictionary<string, bool> CachedImpactorInfo = new();
+		public static bool ShouldStoryBeInteractable(string storyId, List<WorldPlacement> worlds)
 		{
 			if (storyId == CGM_Heatpump_StoryTrait)
 			{
-				return !hasHeatpump;
+				return !HasGeothermalPumpInCluster(worlds);
+			}
+			else if (storyId == CGM_Impactor_StoryTrait)
+			{
+				return !HasImpactorShowerInCluster(worlds);
 			}
 			return true;
 		}
+		
 
+		public static bool HasImpactorShower(ProcGen.World world) => world != null && world.seasons.Contains("LargeImpactor");
+
+		public static bool HasImpactorShowerInCluster(List<WorldPlacement> worldPlacements)
+		{
+			foreach (WorldPlacement placement in worldPlacements)
+			{
+				var world = placement.world;
+				var worldData = SettingsCache.worlds.GetWorldData(world);
+				if (worldData == null)
+				{
+					SgtLogger.warning("world " + world + " not found in world layouts");
+					continue;
+				}
+				if (HasImpactorShower(worldData))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
+		public static bool HasImpactorShowerInCluster(string clusterID)
+		{
+			if (CachedImpactorInfo.TryGetValue(clusterID, out bool hasImpactor))
+			{
+				return hasImpactor;
+			}
+
+			var cluster = SettingsCache.clusterLayouts.GetClusterData(clusterID);
+			if (cluster == null)
+			{
+				SgtLogger.warning("cluster " + clusterID + " not found in cluster layouts");
+				return false;
+			}
+			hasImpactor = HasImpactorShowerInCluster(cluster.worldPlacements);
+			SgtLogger.l("cluster " + clusterID + " has largeimpactor shower: " + hasImpactor);
+			CachedImpactorInfo[clusterID] = hasImpactor;
+			return hasImpactor;
+		}
+		#region DLC2
 		public static bool HasGeothermalPumpInCluster(List<WorldPlacement> worldPlacements)
 		{
 			foreach (WorldPlacement placement in worldPlacements)
@@ -33,7 +93,7 @@ namespace UtilLibs
 					SgtLogger.warning("world " + world + " not found in world layouts");
 					continue;
 				}
-				if(HasGeothermalPump(worldData))
+				if (HasGeothermalPump(worldData))
 				{
 					return true;
 				}
@@ -43,7 +103,7 @@ namespace UtilLibs
 		}
 		public static bool HasGeothermalPump(ProcGen.World world)
 		{
-			
+
 			foreach (var rule in world.worldTemplateRules)
 			{
 				if (rule.names == null || !rule.names.Any())
@@ -80,5 +140,6 @@ namespace UtilLibs
 			CachedPumpInfo[clusterID] = hasGeothermalPump;
 			return hasGeothermalPump;
 		}
+		#endregion
 	}
 }

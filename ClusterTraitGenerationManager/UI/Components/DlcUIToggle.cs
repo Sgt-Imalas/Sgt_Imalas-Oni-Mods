@@ -41,7 +41,7 @@ namespace ClusterTraitGenerationManager.UI.Components
 			DlcIcon.sprite = Assets.GetSprite(iconName);
 			DlcToggle.OnClick += (enabled) =>
 			{
-				CGSMClusterManager.ToggleWorldgenAffectingDlc(enabled, setting);
+				CGSMClusterManager.ToggleWorldgenAffectingDlc(enabled, setting.id);
 			};
 			SetInteractable(true);
 			RefreshOnState();

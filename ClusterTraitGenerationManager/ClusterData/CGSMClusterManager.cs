@@ -296,7 +296,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 		///Random Asteroids stay random in preview
 
-		public static ClusterLayout GenerateDummyCluster(bool spacedOut, bool ceres)
+		public static ClusterLayout GenerateDummyCluster(bool spacedOut, bool ceres, bool prehistoric)
 		{
 			ClusterLayout clusterLayout = new ClusterLayout();
 			clusterLayout.filePath = CustomClusterID;
@@ -316,6 +316,10 @@ namespace ClusterTraitGenerationManager.ClusterData
 					stingerDay = "Stinger_Day_DLC2",
 					stingerNight = "Stinger_Loop_Night_DLC2"
 				};
+			}
+			if (prehistoric)
+			{
+				clusterLayout.clusterTags.Add("PrehistoricCluster");
 			}
 			return clusterLayout;
 		}
@@ -583,27 +587,8 @@ namespace ClusterTraitGenerationManager.ClusterData
 					SgtLogger.l(item.PredefinedPlacementOrder.ToString(), item.id);
 				}
 			}
-			foreach (var item in allPlanets)
-			{
-				var world = item.world;
-				if (item.IsDlcRequired(DlcManager.DLC2_ID) || world != null && world.worldTags.Contains("Ceres"))
-				{
-					if (!layout.clusterTags.Contains("CeresCluster"))
-					{
+			PostProcessCluster(layout, allPlanets);
 
-						layout.clusterTags.Add("CeresCluster");
-						layout.clusterTags.Add("GeothermalImperative");
-						layout.clusterAudio = new ClusterAudioSettings()
-						{
-							musicWelcome = "Music_WattsonMessage_DLC2",
-							musicFirst = "Ice_Planet",
-							stingerDay = "Stinger_Day_DLC2",
-							stingerNight = "Stinger_Loop_Night_DLC2"
-						};
-
-					}
-				}
-			}
 
 			if (CustomCluster.GetAllPlanets().All(item => item.PredefinedPlacementOrder != -1))
 			{
@@ -648,6 +633,44 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 			lastWorldGenFailed = false;
 			return layout;
+		}
+
+		private static void PostProcessCluster(ClusterLayout layout, List<StarmapItem> planets)
+		{
+			foreach (var item in planets)
+			{
+				var world = item.world;
+				if(world == null)
+				{
+					SgtLogger.warning("World for item " + item.id + " is null, skipping post processing");
+					continue;
+				}
+
+				if (item.IsDlcRequired(DlcManager.DLC2_ID) || world != null && world.worldTags.Contains("Ceres"))
+				{
+					if (!layout.clusterTags.Contains("CeresCluster"))
+					{
+
+						layout.clusterTags.Add("CeresCluster");
+						layout.clusterTags.Add("GeothermalImperative");
+						layout.clusterAudio = new ClusterAudioSettings()
+						{
+							musicWelcome = "Music_WattsonMessage_DLC2",
+							musicFirst = "Ice_Planet",
+							stingerDay = "Stinger_Day_DLC2",
+							stingerNight = "Stinger_Loop_Night_DLC2"
+						};
+
+					}
+				}
+				if (item.IsDlcRequired(DlcManager.DLC4_ID) || world != null && world.worldTags.Contains("Prehistoric"))
+				{
+					if (!layout.clusterTags.Contains("CeresCluster"))
+					{
+						layout.clusterTags.Add("PrehistoricCluster");
+					}
+				}
+			}
 		}
 
 		static string LastPresetGenerated = string.Empty;
@@ -1090,6 +1113,35 @@ namespace ClusterTraitGenerationManager.ClusterData
 			CustomGameSettings.Instance.SetMixingSetting(ConfigToSet, valueToSet);
 		}
 
+		public static void PreProcessAsteroidAdding(StarmapItem adding)
+		{
+			foreach(var dlcID in DlcManager.DLC_PACKS.Keys)
+			{
+				if (adding.IsDlcRequired(dlcID))
+				{
+					ToggleWorldgenAffectingDlc(true, dlcID);
+				}
+			}
+
+			if (CGMWorldGenUtils.HasGeothermalPump(adding.world))//geothermal pump story trait from mod
+			{
+				DisableModdedGeopumpStoryTrait();
+			}
+			if(CGMWorldGenUtils.HasImpactorShower(adding.world)) //impactor shower from potential mod in the future
+			{
+				DisableModdedImpactorShowerStoryTrait();
+			}
+		}
+		public static void DisableModdedImpactorShowerStoryTrait()
+		{
+			if (!CustomGameSettings.Instance.StorySettings.TryGetValue(CGMWorldGenUtils.CGM_Impactor_StoryTrait, out var storyTrait))
+				return;
+			bool isCurrentlyEnabled = CustomGameSettings.Instance.GetCurrentStoryTraitSetting(storyTrait).id == StoryContentPanel.StoryState.Guaranteed.ToString();
+
+			if (!isCurrentlyEnabled)
+				return;
+			CustomGameSettings.Instance.SetStorySetting(storyTrait, false);
+		}
 		public static void DisableModdedGeopumpStoryTrait()
 		{
 			if (!CustomGameSettings.Instance.StorySettings.TryGetValue(CGMWorldGenUtils.CGM_Heatpump_StoryTrait, out var storyTrait))
@@ -1101,14 +1153,21 @@ namespace ClusterTraitGenerationManager.ClusterData
 			CustomGameSettings.Instance.SetStorySetting(storyTrait, false);
 		}
 
-		public static void ToggleWorldgenAffectingDlc(bool enabled, SettingConfig dlc)
+		public static void ToggleWorldgenAffectingDlc(bool enabled, string dlcId)
 		{
-			var dlcSetting = dlc as ToggleSettingConfig;
-			var currentLevel = CustomGameSettings.Instance.GetCurrentMixingSettingLevel(dlc.id);
+			var settingsInstance = CustomGameSettings.Instance;
+			if(!settingsInstance.MixingSettings.ContainsKey(dlcId))
+			{
+				SgtLogger.error("Tried to toggle a non-existing DLC mixing setting: " + dlcId);
+				return;
+			}
+
+			var dlcSetting =  CustomGameSettings.Instance.MixingSettings[dlcId] as ToggleSettingConfig;
+			var currentLevel = CustomGameSettings.Instance.GetCurrentMixingSettingLevel(dlcId);
 			if ((currentLevel == dlcSetting.on_level && enabled) || (currentLevel == dlcSetting.off_level && !enabled))
 				return;
 
-			SetMixingSetting(dlc, enabled);
+			SetMixingSetting(dlcSetting, enabled);
 			RegenerateAllPOIData();
 			CGM_Screen?.RebuildStarmap(true);
 		}
@@ -1121,19 +1180,10 @@ namespace ClusterTraitGenerationManager.ClusterData
 		{
 			var item = GivePrefilledItem(ToAdd); ///Prefilled
 												 ///only one starter at a time
-												 ///
-			if (item.IsDlcRequired(DlcManager.DLC2_ID))
-			{
-				if (!CustomCluster.HasStarmapItem(ToAdd.id, out _)) //enable dlc2 for when a ceres asteroid was added
-				{
-					if (CGMWorldGenUtils.HasGeothermalPump(ToAdd.world))//geothermal pump from mod
-					{
-						DisableModdedGeopumpStoryTrait();
-					}
 
-					ToggleWorldgenAffectingDlc(true, CustomMixingSettingsConfigs.DLC2Mixing);
-				}
-			}
+			if (!CustomCluster.HasStarmapItem(ToAdd.id, out _))
+				PreProcessAsteroidAdding(item);
+
 
 			CustomCluster.SO_Starmap = null;
 			if (item.category == StarmapItemCategory.Starter)

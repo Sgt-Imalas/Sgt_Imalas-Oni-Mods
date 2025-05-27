@@ -2460,15 +2460,15 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				return;
 			var data = CurrentlySelectedItemData as SelectedStoryTrait;
 
-			bool hasPump = CGMWorldGenUtils.HasGeothermalPumpInCluster(CustomCluster.GetAllPlanets().Select(planet => planet.placement).ToList());
+			var currentPlacements = CustomCluster.GetAllPlanets().Select(planet => planet.placement).ToList();
 
-			StoryTraitToggle.SetInteractable(CGMWorldGenUtils.ShouldStoryBeInteractable(data.ID, hasPump));
+			StoryTraitToggle.SetInteractable(CGMWorldGenUtils.ShouldStoryBeInteractable(data.ID, currentPlacements));
 			StoryTraitToggle.SetOnFromCode(StoryTraitEnabled(data.ID));
 
 			foreach (var state in StoryTraitToggleCheckmarks)
 			{
 				string storyId = state.Key;
-				state.Value.SetInteractable(CGMWorldGenUtils.ShouldStoryBeInteractable(storyId, hasPump));
+				state.Value.SetInteractable(CGMWorldGenUtils.ShouldStoryBeInteractable(storyId, currentPlacements));
 				state.Value.SetOnFromCode(StoryTraitEnabled(storyId));
 			}
 
@@ -2596,7 +2596,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			///SeasonContainer
 			foreach (var gameplaySeason in Db.Get().GameplaySeasons.resources)
 			{
-				if (!(gameplaySeason is MeteorShowerSeason) || gameplaySeason.Id.Contains("Fullerene") || gameplaySeason.Id.Contains("TemporalTear") || !DlcManager.IsContentSubscribed(gameplaySeason.dlcId))
+				if (!(gameplaySeason is MeteorShowerSeason) || gameplaySeason.Id.Contains("Fullerene") || gameplaySeason.Id.Contains("TemporalTear") || !DlcManager.IsCorrectDlcSubscribed(gameplaySeason.GetRequiredDlcIds(),gameplaySeason.GetForbiddenDlcIds()))
 					continue;
 
 				var meteorSeason = gameplaySeason as MeteorShowerSeason;
