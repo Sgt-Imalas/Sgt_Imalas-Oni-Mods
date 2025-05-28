@@ -20,15 +20,14 @@ namespace CompressedCritters
                 SgtLogger.error("butcherable not found on critter");
                 return null;
             }
-            int arrayLength = butcherable.drops.Length;
-            int repeatCount = multiplier / arrayLength; 
+            Dictionary<string, float> outputs = new Dictionary<string, float>();
 
-            List<string> outputs = new List<string>();
-            foreach(var entry in  butcherable.drops)
+			foreach (var entry in  butcherable.drops)
             {
-                outputs.AddRange(Enumerable.Repeat(entry, repeatCount));
-            }
-            butcherable.SetDrops(outputs.ToArray());
+                outputs[entry.Key] = entry.Value * multiplier;
+
+			}
+            butcherable.SetDrops(outputs);
             return gameObject;
         }
     }

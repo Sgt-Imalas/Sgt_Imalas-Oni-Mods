@@ -1,12 +1,26 @@
 ﻿using HarmonyLib;
+using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
 
 namespace UtilLibs
 {
-	public class TranspilerHelper
+	public static class TranspilerHelper
 	{
-
+		public static bool CallsConstructor(this CodeInstruction code, ConstructorInfo constructor)
+		{
+			if((object)constructor == null)
+			{
+				throw new ArgumentNullException("constructor");
+			}
+			if(code.opcode != OpCodes.Newobj)
+			{
+				return false;	
+			}
+			return object.Equals(code.operand, constructor);
+		}
 
 		public static int FindIndexOfNextLocalIndex(List<CodeInstruction> codeInstructions, int insertionIndex, bool goingBackwards = true) => FindIndicesOfLocalsByIndex(codeInstructions, insertionIndex, 1, goingBackwards)[0];
 
