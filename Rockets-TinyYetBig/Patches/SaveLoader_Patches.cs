@@ -35,38 +35,52 @@ namespace Rockets_TinyYetBig.Patches
 			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
 			{
 				var codes = orig.ToList();
+				int injectionCount = 0;
 
-				// find injection point
+				SgtLogger.l("SaveLoader_Load_Patch.Transpiler called, injecting code to conditionally increase grid size");
+				// find injection points
 				for (var i = codes.Count - 1; i >= 0; i--)
 				{
 					var instruction = codes[i];
-					if (instruction.LoadsField(m_SaveFileRoot_HeightInCells))
+					if (instruction.LoadsField(m_SaveFileRoot_HeightInCells)) //called in two locations
 					{
+						injectionCount++;
 						SgtLogger.l("Increasing grid height by " + GridHeightIncrease.ToString());
 						codes.Insert(i + 1, new(OpCodes.Call, m_IncreaseGridSize));
 					}
-					else if (instruction.StoresField(m_Grid_Visible))
+					else if (instruction.StoresField(m_Grid_Visible)) //called once
 					{
+						injectionCount++;
 						SgtLogger.l("Increasing grid size on Visible array");
 						codes.Insert(i + 1, new CodeInstruction(OpCodes.Call, m_ResizeVisible));
 					}
-					else if (instruction.StoresField(m_Grid_Spawnable))
+					else if (instruction.StoresField(m_Grid_Spawnable))//called once
 					{
+						injectionCount++;
 						SgtLogger.l("Increasing grid size on Spawnable array");
 						codes.Insert(i + 1, new CodeInstruction(OpCodes.Call, m_ResizeSpawnable));
 					}
-					else if (instruction.StoresField(m_Grid_Damage))
+					else if (instruction.StoresField(m_Grid_Damage))//called once
 					{
+						injectionCount++;
 						SgtLogger.l("Increasing grid size on Damage array");
 						codes.Insert(i + 1, new CodeInstruction(OpCodes.Call, m_ResizeDamage));
 					}
-					else if (instruction.CallsConstructor(m_SaveFileRoot_Constructor))
+					else if (instruction.CallsConstructor(m_SaveFileRoot_Constructor))//called once
 					{
+						injectionCount++;
 						SgtLogger.l("Fetching SaveFileRoot");
 						codes.Insert(i + 1, new CodeInstruction(OpCodes.Call, m_FetchSaveFileRootReference));
 					}
 
 				}
+
+				if(injectionCount != 6)
+				{
+					SgtLogger.error("SAVELOADER TRANSPILER FAILED: Expected 6 code injections, but found " + injectionCount);
+				}
+				else
+					SgtLogger.l("SaveLoader Load Patch Transpiler Successfull");
 				return codes;
 			}
 
