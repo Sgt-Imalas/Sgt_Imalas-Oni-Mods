@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace CritterTraitsReborn.Patches
 {
-	[HarmonyPatch(typeof(EntityTemplates), nameof(EntityTemplates.ExtendEntityToBasicCreature), new Type[]{
+	[HarmonyPatch(typeof(EntityTemplates), nameof(EntityTemplates.ExtendEntityToBasicCreature), [
+	  typeof(bool),
 	  typeof(GameObject),
 	  typeof(FactionManager.FactionID),
 	  typeof(string) ,
@@ -20,25 +21,10 @@ namespace CritterTraitsReborn.Patches
 	  typeof(float ),
 	  typeof(float ),
 	  typeof(float )
-})]
+])]
 	class EntityTemplates_ExtendEntityToBasicCreature
 	{
-		static void Postfix(ref GameObject __result,
-		  GameObject template,
-		  FactionManager.FactionID faction,
-		  string initialTraitID,
-		  string NavGridName,
-		  NavType navType,
-		  int max_probing_radius,
-		  float moveSpeed,
-		  string onDeathDropID,
-		  int onDeathDropCount,
-		  bool drownVulnerable,
-		  bool entombVulnerable,
-		  float warningLowTemperature,
-		  float warningHighTemperature,
-		  float lethalLowTemperature,
-		  float lethalHighTemperature)
+		static void Postfix(ref GameObject __result)
 		{
 			__result.AddOrGet<Components.CritterTraits>();
 		}
