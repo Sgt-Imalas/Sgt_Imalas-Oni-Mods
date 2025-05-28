@@ -103,7 +103,8 @@ namespace UtilLibs
 		}
 		public static bool HasGeothermalPump(ProcGen.World world)
 		{
-
+			if (world == null)
+				return false; 
 			foreach (var rule in world.worldTemplateRules)
 			{
 				if (rule.names == null || !rule.names.Any())

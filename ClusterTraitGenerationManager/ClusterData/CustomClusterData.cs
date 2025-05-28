@@ -40,7 +40,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 			//so that it wont throw errors in these saves if the mod is removed.
 			//goes in effect if warp or outer ceres is used since those contain a heatpump
 
-			bool hasPump = CGMWorldGenUtils.HasGeothermalPumpInCluster(GetAllPlanets().Select(planet => planet.placement).ToList());
+			bool hasPump = CGMWorldGenUtils.HasGeothermalPumpInCluster(GetAllPlanets().Where(planet => planet.placement != null).Select(planet => planet.placement).ToList());
 			SgtLogger.l($"HasCeresAsteroid: {HasCeresAsteroid}, HasCeresStarter: {HasCeresStarter}, has pump in cluster: {hasPump}");
 
 			if (HasCeresAsteroid && !HasCeresStarter && hasPump)

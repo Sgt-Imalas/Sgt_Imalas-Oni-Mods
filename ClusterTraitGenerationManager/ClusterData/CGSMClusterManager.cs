@@ -882,7 +882,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 					{
 						WorldTrait cachedWorldTrait = SettingsCache.GetCachedWorldTrait(planetTrait, true);
 						FoundPlanet.AddWorldTrait(cachedWorldTrait);
-						SgtLogger.l(planetTrait, FoundPlanet.DisplayName);
+						//SgtLogger.l(planetTrait, FoundPlanet.id);
 					}
 					FoundPlanet.SetPlanetSizeToPreset(WorldSizePresets.Normal);
 					FoundPlanet.SetPlanetRatioToPreset(WorldRatioPresets.Normal);
@@ -1411,10 +1411,8 @@ namespace ClusterTraitGenerationManager.ClusterData
 			}
 		}
 
-		public static StarmapItemCategory DeterminePlanetType(ProcGen.World world)
+		public static StarmapItemCategory DeterminePlanetType(ProcGen.World world, bool log = false)
 		{
-
-
 
 			StarmapItemCategory category = StarmapItemCategory.Outer;
 
@@ -1444,7 +1442,8 @@ namespace ClusterTraitGenerationManager.ClusterData
 			{
 				category = StarmapItemCategory.Outer;
 			}
-
+			if(log)
+			SgtLogger.l(world.filePath + " is of category: " + category.ToString());
 			return category;
 		}
 

@@ -1,9 +1,11 @@
 ﻿using Klei.AI;
+using KMod;
 using Newtonsoft.Json;
 using ObjectCloner;
 using ProcGen;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using TUNING;
 using UnityEngine;
@@ -84,6 +86,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 						if (ModName != string.Empty)
 							name += " " + UIUtils.ColorText(STRINGS.UI.SPACEDESTINATIONS.MODDEDPLANET, UIUtils.rgb(212, 244, 199));
+						
 
 						return name;
 					}
@@ -132,8 +135,14 @@ namespace ClusterTraitGenerationManager.ClusterData
 					if (Strings.TryGet(world.description, out var description))
 					{
 						desc += description.String;
+						if (Mod.Instance.IsDev)
+						{
+							desc += "\n\n";
+							desc += System.IO.Path.GetFileName(world.filePath);
+						}
 						return desc;
 					}
+
 				}
 				//else if (_poiID != null)
 				//{

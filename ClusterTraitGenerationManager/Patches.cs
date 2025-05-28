@@ -517,7 +517,7 @@ namespace ClusterTraitGenerationManager
 				int ceresMoonletCounter = 0;
 
 				SgtLogger.l("Initializing generation of additional planetoids, current count: " + __instance.worldCache.Count());
-				List<KeyValuePair<string, ProcGen.World>> toAdd = new List<KeyValuePair<string, ProcGen.World>>();
+				Dictionary<string, ProcGen.World> toAdd = new();
 				foreach (var sourceWorld in __instance.worldCache)
 				{
 
@@ -560,40 +560,59 @@ namespace ClusterTraitGenerationManager
 
 
 
-					var TypeToIgnore = DeterminePlanetType(sourceWorld.Value);
-					if (TypeToIgnore == StarmapItemCategory.Starter)
+					var OriginPlanetType = DeterminePlanetType(sourceWorld.Value, true);
+
+					
+					string starterName = BaseName + "Start";
+					string warpName = BaseName + "Warp";
+					string outerName = BaseName + "Outer";
+
+					bool hasStarterAlready = __instance.worldCache.ContainsKey(starterName) || toAdd.ContainsKey(starterName);
+					bool hasWarpAlready = __instance.worldCache.ContainsKey(warpName) || toAdd.ContainsKey(warpName);
+					bool hasOuterAlready = __instance.worldCache.ContainsKey(outerName) || toAdd.ContainsKey(outerName);
+					
+					bool hasBaseAlready = __instance.worldCache.TryGetValue(BaseName, out var existingBase) || toAdd.TryGetValue(BaseName, out existingBase);
+
+					if (hasBaseAlready)
 					{
-						if (
-						__instance.worldCache.ContainsKey(sourceWorld.Key.Replace("Start", "")) && sourceWorld.Key.Contains("Start")
-						|| __instance.worldCache.ContainsKey(sourceWorld.Key.Replace("Start", "").Replace("Outer", "") + "Warp")
-						)
-						{
-							SgtLogger.l($"skipping {sourceWorld.Key} bc there is already a warp and normal asteroid");
-							continue;
-						}
+						var basePlanetType = DeterminePlanetType(existingBase);
+						if(basePlanetType == StarmapItemCategory.Starter)
+							hasStarterAlready = true;
+						else if (basePlanetType == StarmapItemCategory.Outer)
+							hasOuterAlready = true;
+						else if (basePlanetType == StarmapItemCategory.Warp)
+							hasWarpAlready = true;
 					}
-					else if (TypeToIgnore == StarmapItemCategory.Warp)
-					{
-						if (
-						__instance.worldCache.ContainsKey(sourceWorld.Key.Replace("Warp", "")) && sourceWorld.Key.Contains("Warp")
-						|| __instance.worldCache.ContainsKey(sourceWorld.Key.Replace("Warp", "").Replace("Outer", "") + "Start")
-						)
-						{
-							SgtLogger.l($"skipping {sourceWorld.Key} bc there is already a start and outer asteroid");
-							continue;
-						}
-					}
-					else if (TypeToIgnore == StarmapItemCategory.Outer)
-					{
-						if (
-						   __instance.worldCache.ContainsKey(sourceWorld.Key + "Warp")
-						|| __instance.worldCache.ContainsKey(sourceWorld.Key + "Start")
-						)
-						{
-							SgtLogger.l($"skipping {sourceWorld.Key} there is already a warp and Start asteroid");
-							continue;
-						}
-					}
+
+
+
+					//if (TypeToIgnore == StarmapItemCategory.Starter)
+					//{
+					//	if (__instance.worldCache.ContainsKey(warpName) || __instance.worldCache.ContainsKey(outerName)
+					//	)
+					//	{
+					//		SgtLogger.l($"skipping {sourceWorld.Key} bc there is already a warp and normal asteroid");
+					//		continue;
+					//	}
+					//}
+					//else if (TypeToIgnore == StarmapItemCategory.Warp)
+					//{
+					//	if (__instance.worldCache.ContainsKey(starterName) || __instance.worldCache.ContainsKey(outerName)							
+					//	)
+					//	{
+					//		SgtLogger.l($"skipping {sourceWorld.Key} bc there is already a start and outer asteroid");
+					//		continue;
+					//	}
+					//}
+					//else if (TypeToIgnore == StarmapItemCategory.Outer)
+					//{
+					//	if (__instance.worldCache.ContainsKey(starterName) || __instance.worldCache.ContainsKey(warpName)
+					//	)
+					//	{
+					//		SgtLogger.l($"skipping {sourceWorld.Key} there is already a warp and Start asteroid");
+					//		continue;
+					//	}
+					//}
 
 					List<string> additionalTemplates = new List<string>();
 
@@ -603,11 +622,10 @@ namespace ClusterTraitGenerationManager
 						additionalTemplates.Add(sourceWorld.Value.startingBaseTemplate);
 					}
 
-					//StartWorld
-
-					if (TypeToIgnore != StarmapItemCategory.Starter)
+					///StartWorld
+					if (OriginPlanetType != StarmapItemCategory.Starter && !hasStarterAlready)
 					{
-						string newWorldPath_Start = BaseName + "Start";
+						string newWorldPath_Start = starterName;
 
 						var StartWorld = new ProcGen.World();
 
@@ -756,16 +774,17 @@ namespace ClusterTraitGenerationManager
 
 						StartWorld.worldTemplateRules.Insert(0, TeleporterSpawn);
 
-						toAdd.Add(new(newWorldPath_Start, StartWorld));
-						ModAssets.ModPlanetOriginPaths.Add(newWorldPath_Start, sourceWorld.Key);
+						toAdd.Add(newWorldPath_Start, StartWorld);
+						ModAssets.AddModPlanetOrigin(newWorldPath_Start, sourceWorld.Key);
 
 						SgtLogger.l(newWorldPath_Start, "Created Starter Planet Variant");
 
 					}
+					else SgtLogger.l("Skipping Starter variant for " + sourceWorld.Key + " because it already exists");
 					///Warp planet variant
-					if (TypeToIgnore != StarmapItemCategory.Warp)
+					if (OriginPlanetType != StarmapItemCategory.Warp && !hasWarpAlready)
 					{
-						string newWorldPath_Warp = BaseName + "Warp";
+						string newWorldPath_Warp = warpName;
 
 						var WarpWorld = new ProcGen.World();
 
@@ -896,16 +915,17 @@ namespace ClusterTraitGenerationManager
 
 						WarpWorld.worldTemplateRules.Insert(0, TeleporterSpawn);
 
-						toAdd.Add(new(newWorldPath_Warp, WarpWorld));
-						ModAssets.ModPlanetOriginPaths.Add(newWorldPath_Warp, sourceWorld.Key);
+						toAdd.Add(newWorldPath_Warp, WarpWorld);
+						ModAssets.AddModPlanetOrigin(newWorldPath_Warp, sourceWorld.Key);
 
 						SgtLogger.l(newWorldPath_Warp, "Created Warp Planet Variant");
 
 					}
+					else SgtLogger.l("Skipping Warp variant for " + sourceWorld.Key + " because it already exists");
 
-					if (TypeToIgnore != StarmapItemCategory.Outer)
+					if (OriginPlanetType != StarmapItemCategory.Outer && !hasOuterAlready)
 					{
-						string newWorldPath_Outer = BaseName + "Outer";
+						string newWorldPath_Outer = outerName;
 
 						var OuterWorld = new ProcGen.World();
 
@@ -946,18 +966,28 @@ namespace ClusterTraitGenerationManager
 
 						//StartWorld.worldTemplateRules.RemoveAll(cellsfilter => cellsfilter.allowedCellsFilter.Any(item=> item.tag=="AtStart"));
 
-						toAdd.Add(new(newWorldPath_Outer, OuterWorld));
-						ModAssets.ModPlanetOriginPaths.Add(newWorldPath_Outer, sourceWorld.Key);
+						toAdd.Add(newWorldPath_Outer, OuterWorld);
+						ModAssets.AddModPlanetOrigin(newWorldPath_Outer, sourceWorld.Key);
 
 						SgtLogger.l(newWorldPath_Outer, "Created Outer Planet Variant");
 					}
+					else SgtLogger.l("Skipping Outer variant for " + sourceWorld.Key + " because it already exists");
 
 
 				}
 				foreach (var item in toAdd)
 				{
-					item.Value.isModded = true;
-					__instance.worldCache[item.Key] = item.Value;
+					if (!__instance.worldCache.ContainsKey(item.Key))
+					{
+						SgtLogger.l("Adding " + item.Key + " to world cache");
+
+						item.Value.isModded = true;
+						__instance.worldCache.Add(item.Key, item.Value);
+					}
+					else
+					{
+						SgtLogger.warning("" + item.Key + " already existed in world cache");
+					}
 				}
 			}
 			static void CopyValues<T>(T targetObject, T sourceObject)
@@ -1357,7 +1387,7 @@ namespace ClusterTraitGenerationManager
 								isWorldTraitRule = true;
 								baseNumber = targetTimesTrait;
 							}
-							else if(OriginalTemplateAmounts.TryGetValue(WorldTemplateRule, out var originalAmount) && WorldTemplateRule.times != originalAmount)
+							else if (OriginalTemplateAmounts.TryGetValue(WorldTemplateRule, out var originalAmount) && WorldTemplateRule.times != originalAmount)
 							{
 								SgtLogger.l("Resetting world template rule back for " + WorldTemplateRule.names.FirstOrDefault() + "; " + WorldTemplateRule.times + " -> " + originalAmount, item.id);
 								WorldTemplateRule.times = originalAmount;
@@ -1464,7 +1494,7 @@ namespace ClusterTraitGenerationManager
 							SgtLogger.l("Resetting world template rule back for traitRule" + WorldTemplateRule.ruleId + "; " + WorldTemplateRule.times + " -> " + targetTimesTrait);
 							WorldTemplateRule.times = targetTimesTrait;
 						}
-						else if (OriginalTemplateAmounts.TryGetValue(WorldTemplateRule, out int targetTimesGeyser) 
+						else if (OriginalTemplateAmounts.TryGetValue(WorldTemplateRule, out int targetTimesGeyser)
 							&& WorldTemplateRule.times != targetTimesGeyser
 							)
 						{

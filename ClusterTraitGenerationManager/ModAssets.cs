@@ -30,6 +30,17 @@ namespace ClusterTraitGenerationManager
 
 		//origin paths of dynamically generated asteroids and modded planets
 		public static Dictionary<string, string> ModPlanetOriginPaths = new Dictionary<string, string>();
+		public static void AddModPlanetOrigin(string modifiedWorld, string original)
+		{
+			if(!ModPlanetOriginPaths.ContainsKey(modifiedWorld))
+			{
+				ModPlanetOriginPaths.Add(modifiedWorld, original);
+			}
+			else
+			{
+				SgtLogger.warning("Tried to add modded planet origin path for " + modifiedWorld + " but it was already present");
+			}
+		}
 
 
 		/// <summary>
