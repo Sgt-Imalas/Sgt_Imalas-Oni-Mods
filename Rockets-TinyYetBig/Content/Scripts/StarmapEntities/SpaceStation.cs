@@ -45,7 +45,8 @@ namespace Rockets_TinyYetBig.SpaceStations
 		[Serialize]
 		public Vector2I topRightCorner;
 
-		public Vector2I InteriorSize = new Vector2I(102, 103);
+		public static Vector2I SpaceStationDefaultSize = new Vector2I(102, 103);
+		public Vector2I InteriorSize = SpaceStationDefaultSize;
 		// public string InteriorTemplate = "emptySpacefor100"; 
 		public string InteriorTemplate = Path.Combine("interiors", "emptySpaceStationPrefab");
 
