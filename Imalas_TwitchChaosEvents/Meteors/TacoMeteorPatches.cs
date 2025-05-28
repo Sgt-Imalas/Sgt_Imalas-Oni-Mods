@@ -93,7 +93,7 @@ namespace Imalas_TwitchChaosEvents
 
 
 
-		[HarmonyPatch(typeof(FoodDehydratorConfig), "ConfigureRecipes")]
+		[HarmonyPatch(typeof(FoodDehydratorConfig), nameof(FoodDehydratorConfig.ConfigureRecipes))]
 		public static class FoodDehydrator_ConfigureRecipes
 		{
 			public static void Postfix()
@@ -105,17 +105,17 @@ namespace Imalas_TwitchChaosEvents
 				var foodInfo = TacoConfig.foodInfo;
 				var material = TacoDehydratedConfig.ID;
 
-				RecipeElement[] input = new RecipeElement[2]
-				{
+				RecipeElement[] input =
+				[
 					new RecipeElement(foodInfo, 6000000f / foodInfo.CaloriesPerUnit),
 					new RecipeElement(SimHashes.Polypropylene.CreateTag(), 12f)
-				};
-				RecipeElement[] output = new RecipeElement[2]
-				{
+				];
+				RecipeElement[] output =
+				[
 					new RecipeElement(material, 6f, ComplexRecipe.RecipeElement.TemperatureOperation.Dehydrated),
 					new RecipeElement(SimHashes.Water.CreateTag(), 6f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-				};
-				TacoDehydratedConfig.recipe = new ComplexRecipe(ComplexRecipeManager.MakeRecipeID("FoodDehydrator", (IList<RecipeElement>)input, (IList<RecipeElement>)output), input, output)
+				];
+				TacoDehydratedConfig.recipe = new ComplexRecipe(ComplexRecipeManager.MakeRecipeID("FoodDehydrator", input, output), input, output)
 				{
 					time = 250f,
 					nameDisplay = ComplexRecipe.RecipeNameDisplay.Custom,
@@ -142,19 +142,19 @@ namespace Imalas_TwitchChaosEvents
 			}
 			private static void AddTacoRecipe()
 			{
-				RecipeElement[] input = new RecipeElement[]
-				{
+				RecipeElement[] input =
+				[
 					new RecipeElement((Tag) "ColdWheatSeed", 4f),
 					new RecipeElement( TableSaltConfig.ID, 0.01f),
 					new RecipeElement((Tag) "Lettuce", 1f),
 					new RecipeElement((Tag) "CookedMeat", 1f),
 					new RecipeElement((Tag) SpiceNutConfig.ID, 1f)
-				};
+				];
 
-				RecipeElement[] output = new RecipeElement[]
-				{
+				RecipeElement[] output =
+				[
 					new RecipeElement(TacoConfig.ID, 1f)
-				};
+				];
 
 				string recipeID = ComplexRecipeManager.MakeRecipeID(GourmetCookingStationConfig.ID, input, output);
 
