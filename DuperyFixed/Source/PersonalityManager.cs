@@ -230,16 +230,18 @@ namespace Dupery
 			}
 		}
 
-		static HashSet<HashedString> RoboMouthUsers = new();
-		public static bool UseRoboMouthConversation(HashedString? personalityResourceId)
+		static Dictionary<HashedString,string> CustomSpeechMonitorAnims = new();
+		public static bool UseCustomSpeechMonitorKanim(HashedString? personalityResourceId, out string kanimName)
 		{
+			
+			kanimName = string.Empty;
 			if (personalityResourceId == null) return false;
-			return RoboMouthUsers.Contains(personalityResourceId.Value);
+			return CustomSpeechMonitorAnims.TryGetValue(personalityResourceId.Value, out kanimName);
 		}
-		public static void RegisterRoboMouthConversationUsage(HashedString personalityId)
+		public static void RegisterCustomSpeechMonitorKanim(HashedString personalityId, string kanimName)
 		{
-			if (!RoboMouthUsers.Contains(personalityId))
-				RoboMouthUsers.Add(personalityId);
+			if (!CustomSpeechMonitorAnims.ContainsKey(personalityId))
+				CustomSpeechMonitorAnims.Add(personalityId, kanimName);
 		}
 	}
 }
