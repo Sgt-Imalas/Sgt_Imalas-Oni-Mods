@@ -47,6 +47,7 @@ namespace Rockets_TinyYetBig.RocketFueling
 
 			buildingDef.SceneLayer = Grid.SceneLayer.BuildingBack;
 			buildingDef.ForegroundLayer = Grid.SceneLayer.TileMain;
+			buildingDef.UseStructureTemperature = false;
 
 			buildingDef.CanMove = false;
 			return buildingDef;

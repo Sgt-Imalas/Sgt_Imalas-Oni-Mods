@@ -27,6 +27,7 @@ namespace Rockets_TinyYetBig.RocketFueling
 			buildingDef.EnergyConsumptionWhenActive = 120f;
 			buildingDef.SelfHeatKilowattsWhenActive = 0.5f;
 			buildingDef.ExhaustKilowattsWhenActive = 0.125f;
+			buildingDef.UseStructureTemperature = false;
 
 			if (Config.Instance.EnableRocketLoaderLogicOutputs)
 			{

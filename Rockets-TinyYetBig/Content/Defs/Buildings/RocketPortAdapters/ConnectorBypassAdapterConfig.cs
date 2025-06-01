@@ -50,6 +50,7 @@ namespace Rockets_TinyYetBig.Content.Defs.Buildings.RocketPortAdapters
 			buildingDef.CanMove = false;
 
 			buildingDef.PlacementOffsets = buildingDef.PlacementOffsets.Where(offset => offset.x != 0).ToArray();
+			buildingDef.UseStructureTemperature = false;
 
 			return buildingDef;
 		}

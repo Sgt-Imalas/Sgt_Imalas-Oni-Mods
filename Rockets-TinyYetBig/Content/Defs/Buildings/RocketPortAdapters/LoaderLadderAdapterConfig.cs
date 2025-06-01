@@ -47,6 +47,7 @@ namespace Rockets_TinyYetBig.RocketFueling
 
 			buildingDef.ObjectLayer = ObjectLayer.Building;
 			buildingDef.CanMove = false;
+			buildingDef.UseStructureTemperature = false;
 			return buildingDef;
 		}
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)

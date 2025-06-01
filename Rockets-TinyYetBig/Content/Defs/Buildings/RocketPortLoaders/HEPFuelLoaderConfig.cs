@@ -19,6 +19,8 @@ namespace Rockets_TinyYetBig.RocketFueling
 			buildingDef.RequiresPowerInput = true;
 			buildingDef.DefaultAnimState = "idle";
 			buildingDef.CanMove = false;
+			buildingDef.UseStructureTemperature = false;
+			
 			//buildingDef.UtilityInputOffset = new CellOffset(0, 1);
 			buildingDef.PowerInputOffset = new CellOffset(0, 1);
 			buildingDef.EnergyConsumptionWhenActive = 120f;

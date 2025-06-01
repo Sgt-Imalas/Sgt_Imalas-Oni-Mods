@@ -42,6 +42,7 @@ namespace Rockets_TinyYetBig.RocketFueling
 			buildingDef.AudioCategory = "Metal";
 			buildingDef.AudioSize = "small";
 			buildingDef.BaseTimeUntilRepair = -1f;
+			buildingDef.UseStructureTemperature = false;
 
 			buildingDef.ObjectLayer = ObjectLayer.Building;
 			buildingDef.CanMove = false;
