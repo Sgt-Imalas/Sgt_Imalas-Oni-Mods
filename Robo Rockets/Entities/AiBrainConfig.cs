@@ -85,7 +85,7 @@ namespace KnastoronOniMods
 			trait.Add(new AttributeModifier(Db.Get().Amounts.HitPoints.maxAttribute.Id, 100f, (string)NAME));
 			component2.initialTraits.Add(AiBrainConfig.ROVER_BASE_TRAIT_ID);
 			basicEntity.AddOrGet<AttributeConverters>();
-			basicEntity.AddOrGet<WorkerBase>(); //RocketPiloting1
+			basicEntity.AddOrGet<StandardWorker>(); //RocketPiloting1
 			basicEntity.AddOrGet<Effects>();//Db.Get().SkillPerks.CanUseRocketControlStation
 			basicEntity.AddOrGet<Traits>();
 			basicEntity.AddOrGet<AnimEventHandler>();
