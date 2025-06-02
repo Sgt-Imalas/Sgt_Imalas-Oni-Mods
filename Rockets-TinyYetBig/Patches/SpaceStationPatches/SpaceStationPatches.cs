@@ -17,33 +17,7 @@ namespace Rockets_TinyYetBig.Patches.SpaceStationPatches
 
     class SpaceStationPatches
     {
-        /// <summary>
-        /// Allows for "Space Station Only Buildings"
-        /// </summary>
-        [HarmonyPatch(typeof(PlanScreen), "GetBuildableStateForDef")]
-        public static class AllowCertainBuildingsInSpaceStations
-        {
-            public static void Postfix(BuildingDef def, ref PlanScreen.RequirementsState __result)
-            {
-                if (def.BuildingComplete.HasTag(ModAssets.Tags.SpaceStationOnlyInteriorBuilding) && SpaceStationManager.ActiveWorldIsSpaceStationInterior())
-                {
-                    //SgtLogger.debuglog(def.PrefabID + " - Is SpaceStationBuilding; state: " + __result);
 
-                    if (
-                        def.BuildingComplete.HasTag(GameTags.NotRocketInteriorBuilding) && def.BuildingComplete.HasTag(ModAssets.Tags.SpaceStationOnlyInteriorBuilding))
-                    {
-                        if (!DebugHandler.InstantBuildMode && !Game.Instance.SandboxModeActive && !ProductInfoScreen.MaterialsMet(def.CraftRecipe))
-                            __result = PlanScreen.RequirementsState.Materials;
-                        else
-                            __result = PlanScreen.RequirementsState.Complete;
-                    }
-                }
-                if (def.BuildingComplete.HasTag(ModAssets.Tags.SpaceStationOnlyInteriorBuilding) && SpaceStationManager.ActiveWorldIsRocketInterior() || def.BuildingComplete.HasTag(ModAssets.Tags.RocketInteriorOnlyBuilding) && SpaceStationManager.ActiveWorldIsSpaceStationInterior())
-                {
-                    __result = PlanScreen.RequirementsState.RocketInteriorForbidden;
-                }
-            }
-        }
         /// <summary>
         /// prevents a crash when a rocket starts from inside a station and its control station was selected previously
         /// </summary>

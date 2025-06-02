@@ -71,6 +71,8 @@ namespace Rockets_TinyYetBig.RocketFueling
 			KPrefabID component = go.GetComponent<KPrefabID>();
 			component.AddTag(BaseModularLaunchpadPortConfig.LinkTag);
 			component.AddTag(GameTags.ModularConduitPort);
+			component.AddTag(GameTags.NotRocketInteriorBuilding);
+			component.AddTag(ModAssets.Tags.SpaceStationOnlyInteriorBuilding);
 
 			ChainedBuilding.Def def = go.AddOrGetDef<ChainedBuilding.Def>();
 			def.headBuildingTag = ModAssets.Tags.RocketPlatformTag;

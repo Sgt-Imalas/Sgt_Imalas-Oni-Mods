@@ -59,6 +59,8 @@ namespace Rockets_TinyYetBig.RocketFueling
 			component.AddTag(ModAssets.Tags.VerticalPortAttachementPoint);
 			component.AddTag(BaseModularLaunchpadPortConfig.LinkTag);
 			component.AddTag(GameTags.ModularConduitPort);
+			component.AddTag(GameTags.NotRocketInteriorBuilding);
+			component.AddTag(ModAssets.Tags.SpaceStationOnlyInteriorBuilding);
 
 			ChainedBuilding.Def def = go.AddOrGetDef<ChainedBuilding.Def>();
 			def.headBuildingTag = ModAssets.Tags.RocketPlatformTag;

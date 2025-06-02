@@ -56,6 +56,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 			if (go.TryGetComponent<KPrefabID>(out var component))
 			{
 				component.AddTag(GameTags.RocketInteriorBuilding);
+				component.AddTag(ModAssets.Tags.RocketInteriorOnlyBuilding);
 				component.AddTag(GameTags.UniquePerWorld);
 			}
 		}
