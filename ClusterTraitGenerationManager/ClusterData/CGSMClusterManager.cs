@@ -720,8 +720,19 @@ namespace ClusterTraitGenerationManager.ClusterData
 			foreach (var dlcmixing in CustomGameSettings.Instance.GetCurrentDlcMixingIds())
 			{
 				DlcMixingSettings dlcMixingSettings = SettingsCache.GetCachedDlcMixingSettings(dlcmixing);
-				placements.AddRange(dlcMixingSettings.spacePois);
-				SgtLogger.l(dlcmixing + " is enabled, adding space pois");
+				if(dlcMixingSettings != null && dlcMixingSettings.spacePois != null && dlcMixingSettings.spacePois.Any())
+				{
+					//no ceres mixing pois on ceres cluster / dlc4 mixing on dlc4is enabled, 
+					if (cluster.requiredDlcIds != null && cluster.requiredDlcIds.Contains(dlcmixing))
+					{
+						SgtLogger.l("skipping "+dlcmixing + " mixing space pois because the cluster is from that dlc");
+						continue;
+					}
+					Immigration
+					placements.AddRange(dlcMixingSettings.spacePois);
+					SgtLogger.l(dlcmixing + " is enabled, adding mixing space pois");
+				}
+
 			}
 
 			foreach (SpaceMapPOIPlacement pOIPlacement in placements)
