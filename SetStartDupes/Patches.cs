@@ -436,7 +436,7 @@ namespace SetStartDupes
 				{
 					WorldContainer world = telepad.GetMyWorld();
 					var button = printerSelectButtonGO.GetComponent<KButton>();
-					var availablePrinters = Components.Telepads.Where(telepad => telepad != null && (!telepad.TryGetComponent<Activatable>(out var activatable)||activatable.IsActivated))
+					var availablePrinters = Components.Telepads.Where(telepad => telepad != null && (!telepad.TryGetComponent<Activatable>(out var activatable) || activatable.IsActivated));
 
 
 					button.isInteractable = (availablePrinters.Count() > 1);
