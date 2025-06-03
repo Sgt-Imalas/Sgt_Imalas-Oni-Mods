@@ -727,8 +727,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 					{
 						SgtLogger.l("skipping "+dlcmixing + " mixing space pois because the cluster is from that dlc");
 						continue;
-					}
-					Immigration
+					}					
 					placements.AddRange(dlcMixingSettings.spacePois);
 					SgtLogger.l(dlcmixing + " is enabled, adding mixing space pois");
 				}
