@@ -30,6 +30,7 @@ namespace Rockets_TinyYetBig
 			public static ModHashes OnStationPartConstructionStarted = new ModHashes("RTB_OnStationPartConstructionStarted");
 			public static ModHashes OnStationPartConstructionFinished = new ModHashes("RTB_OnStationPartConstructionFinished");
 			public static ModHashes OnRocketModuleMoved = new ModHashes("RTB_OnRocketModuleMoved");
+			public static ModHashes OnStationMove = new ModHashes("RTB_OnStationMove");
 		}
 
 		public static GameObject ModuleSettingsWindowPrefab;
@@ -535,6 +536,7 @@ namespace Rockets_TinyYetBig
 
 			public static Tag NoBuildingAllowed = TagManager.Create("RTB_NoBuildingAllowed");
 
+
 			public static Tag SpaceStationOnlyInteriorBuilding = TagManager.Create("RTB_SpaceStationInteriorOnly");
 			public static Tag RocketInteriorOnlyBuilding = TagManager.Create("RTB_RocketInteriorOnly");
 
@@ -635,8 +637,8 @@ namespace Rockets_TinyYetBig
 
 				new SpaceStationWithStats(
 				"RTB_SpaceStationSmall",
-				"Small Space Station",
-				"a tiny space station",
+				"Space Station Construction",
+				"A tiny habitat in the vast emptyness of space",
 				new Vector2I (30,30),
 				new Dictionary<string,float> { [SimHashes.Steel.CreateTag().ToString()]= 500f },
 				"space_station_small_kanim",
@@ -649,8 +651,8 @@ namespace Rockets_TinyYetBig
 
 				new SpaceStationWithStats(
 					"RTB_SpaceStationMedium",
-					"Medium Space Station",
-					"a medium sized space station",
+					"Medium Space Station Upgrade",
+					"Increase the maximum size of your space stations",
 					new Vector2I (45,45),
 					new Dictionary<string,float> { [SimHashes.Steel.CreateTag().ToString()]= 750f,
 												   [SimHashes.Niobium.CreateTag().ToString()]= 500f },
@@ -664,8 +666,8 @@ namespace Rockets_TinyYetBig
 
 			new SpaceStationWithStats(
 				"RTB_SpaceStationLarge",
-				"Large Space Station",
-				"a large space station",
+				"Large Space Station Upgrade",
+				"Increase the maximum size of your space stations even further",
 				new Vector2I (60,60),
 				new Dictionary<string,float> { [SimHashes.Steel.CreateTag().ToString()]= 1000f,
 											   [SimHashes.TempConductorSolid.CreateTag().ToString()]= 500f,

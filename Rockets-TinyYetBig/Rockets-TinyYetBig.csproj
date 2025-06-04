@@ -64,8 +64,4 @@
 	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	  </PackageReference>
 	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Content\Defs\Entities\" />
-	</ItemGroup>
 </Project>

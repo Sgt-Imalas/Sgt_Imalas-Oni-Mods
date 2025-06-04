@@ -14,6 +14,10 @@ namespace Rockets_TinyYetBig.Patches
         [HarmonyPatch(typeof(Db), nameof(Db.Initialize))]
         public class Db_Initialize_Patch
         {
+			public static void Prefix()
+			{
+				//SpaceStationRoomsDB.PatchRoomsConstructor();
+			}
             public static void Postfix(Db __instance)
 			{
 				BuildingInjection.AddBuildingsToTech();
