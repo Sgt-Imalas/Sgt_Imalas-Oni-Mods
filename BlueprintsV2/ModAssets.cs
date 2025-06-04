@@ -107,7 +107,7 @@ namespace BlueprintsV2
 			return false;
 		}
 
-		public static GameObject ParentScreen => PauseScreen.Instance.transform.parent.gameObject;// GameScreenManager.Instance.transform.Find("ScreenSpaceOverlayCanvas/MiddleCenter - InFrontOfEverything").gameObject;
+		public static GameObject ParentScreen => GameScreenManager.Instance.GetParent(GameScreenManager.UIRenderTarget.ScreenSpaceOverlay);
 
 		public static class BlueprintFileHandling
 		{
