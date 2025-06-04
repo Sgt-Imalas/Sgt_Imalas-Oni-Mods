@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using static UtilLibs.RocketryUtils;
 using UtilLibs;
 using Rockets_TinyYetBig.Content.Defs.Buildings.RocketPortAdapters;
+using Rockets_TinyYetBig.Content.Defs.Buildings.Research;
 
 namespace Rockets_TinyYetBig.Content.ModDb
 {
@@ -104,10 +105,11 @@ namespace Rockets_TinyYetBig.Content.ModDb
 				//AddRocketModuleToBuildList(AI_DockingPortConfig.ID, RocketCategory.utility, ScannerModuleConfig.ID);
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, DockingTubeDoorConfig.ID, GantryConfig.ID);
 			}
-			if (
-				Config.SpaceStationsPossible
-				)
+			if (Config.SpaceStationsPossible)
 			{
+				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Stations, DeepSpaceResearchCenterConfig.ID, DLC1CosmicResearchCenterConfig.ID);
+				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Stations, DeepSpaceResearchTelescopeConfig.ID, DLC1CosmicResearchCenterConfig.ID);
+
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, SpaceStationDockingDoorConfig.ID, DockingTubeDoorConfig.ID);
 				AddRocketModuleToBuildList(SpaceStationBuilderModuleConfig.ID, new RocketCategory[] { RocketCategory.deployables, RocketCategory.utility }, OrbitalCargoModuleConfig.ID);
 			}
