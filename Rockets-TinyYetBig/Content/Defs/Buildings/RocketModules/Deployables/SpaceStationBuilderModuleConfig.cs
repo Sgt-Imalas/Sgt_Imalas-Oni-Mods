@@ -27,7 +27,7 @@ namespace Rockets_TinyYetBig.SpaceStations
 				id: ID,
 				width: 5,
 				height: 6,
-				anim: "space_station_deployer_kanim",
+				anim: "space_station_constructor_module_kanim",
 				hitpoints: 1000,
 				construction_time: 60f,
 				construction_mass: cargoMass,
@@ -68,6 +68,7 @@ namespace Rockets_TinyYetBig.SpaceStations
 		{
 			BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MONUMENTAL);
 			go.AddOrGet<SpaceStationBuilder>();
+			go.AddOrGet<ExtendedClusterModuleAnimator>();
 			go.GetComponent<ReorderableBuilding>().buildConditions.Add((SelectModuleCondition)new OneModulePerRocket(ID));
 		}
 
