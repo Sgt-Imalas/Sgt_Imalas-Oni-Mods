@@ -106,7 +106,7 @@ namespace UtilLibs
 			}
 			instance.SpriteAssets?.Add(sprite);
 
-			if (Assets.Sprites.ContainsKey(spriteId))
+			if (Assets.Sprites?.ContainsKey(spriteId)??false)
 			{
 				SgtLogger.l("removed existing Sprite" + spriteId);
 				Assets.Sprites.Remove(spriteId);
