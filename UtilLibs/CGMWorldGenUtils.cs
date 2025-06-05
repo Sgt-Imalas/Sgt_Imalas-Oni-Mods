@@ -42,7 +42,8 @@ namespace UtilLibs
 		}
 		
 
-		public static bool HasImpactorShower(ProcGen.World world) => world != null && world.seasons.Contains("LargeImpactor");
+		public static bool HasImpactorShower(ProcGen.World world) => world != null && world.seasons != null && HasImpactorShower(world.seasons);
+		public static bool HasImpactorShower(List<string> seasons) =>  seasons.Contains("LargeImpactor");
 
 		public static bool HasImpactorShowerInCluster(List<WorldPlacement> worldPlacements)
 		{

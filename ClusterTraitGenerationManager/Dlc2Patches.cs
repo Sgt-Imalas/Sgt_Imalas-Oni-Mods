@@ -36,8 +36,8 @@ namespace ClusterTraitGenerationManager
 			{
 				if (__result == false
 					&& __instance.clusterTag != null
-					&& Game.clusterId == CGSMClusterManager.CustomClusterID
-					&& SaveGameData.Instance != null)
+					&& SaveGameData.Instance != null
+					&& SaveGameData.IsCustomCluster())
 				{
 					__result = SaveGameData.Instance.IsClusterTagAsteroidInCluster(__instance.clusterTag);
 				}

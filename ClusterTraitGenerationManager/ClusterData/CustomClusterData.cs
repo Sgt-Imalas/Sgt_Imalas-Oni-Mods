@@ -41,16 +41,23 @@ namespace ClusterTraitGenerationManager.ClusterData
 			//goes in effect if warp or outer ceres is used since those contain a heatpump
 
 			bool hasPump = CGMWorldGenUtils.HasGeothermalPumpInCluster(GetAllPlanets().Where(planet => planet.placement != null).Select(planet => planet.placement).ToList());
+			bool hasImpactor = CGMWorldGenUtils.HasImpactorShowerInCluster(GetAllPlanets().Where(planet => planet.placement != null).Select(planet => planet.placement).ToList());
 			SgtLogger.l($"HasCeresAsteroid: {HasCeresAsteroid}, HasCeresStarter: {HasCeresStarter}, has pump in cluster: {hasPump}");
 
-			if (HasCeresAsteroid && !HasCeresStarter && hasPump)
+			if (HasDlcRequiringContentActive(DlcManager.DLC2_ID, false) && !StarterPlanet.IsDlcRequired(DlcManager.DLC2_ID))
 			{
 				return spacedOutActive ? "dlc2::clusters/CeresClassicCluster" : "dlc2::clusters/CeresBaseGameCluster";
+			}
+			if (HasDlcRequiringContentActive(DlcManager.DLC4_ID, false) && !StarterPlanet.IsDlcRequired(DlcManager.DLC4_ID))
+			{
+				return spacedOutActive ? "dlc4::clusters/PrehistoricSpacedOutCluster" : "dlc4::clusters/PrehistoricBaseGameCluster";
 			}
 			if (CGSMClusterManager.TryGetClusterForStarter(StarterPlanet, out var clusterID))
 			{
 				return clusterID;
 			}
+
+
 			return spacedOutActive ? "expansion1::clusters/SandstoneStartCluster" : "clusters/SandstoneDefault"; //final fallback
 		}
 
@@ -71,9 +78,9 @@ namespace ClusterTraitGenerationManager.ClusterData
 			return false;
 		}
 
-		public bool HasDlcRequiringContentActive(string dlcId)
+		public bool HasDlcRequiringContentActive(string dlcId, bool checkMixing = true)
 		{
-			if (AnyMixingRequiresDlc(dlcId))
+			if (checkMixing && AnyMixingRequiresDlc(dlcId))
 				return true;
 			var asteroids = GetAllPlanets();
 			if (asteroids.Any(planet => planet.IsDlcRequired(dlcId)))
@@ -81,7 +88,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 			return false;
 
 		}
-		[JsonIgnore] public bool HasCeresAsteroid => GetAllPlanets().Any(planet => planet != null && planet.IsDlcRequired(DlcManager.DLC2_ID )|| planet.id.ToUpperInvariant().Contains("CERES")) || AnyMixingRequiresDlc(DLC_Id);
+		[JsonIgnore] public bool HasCeresAsteroid => GetAllPlanets().Any(planet => planet != null && planet.IsDlcRequired(DlcManager.DLC2_ID) || planet.id.ToUpperInvariant().Contains("CERES")) || AnyMixingRequiresDlc(DLC_Id);
 		[JsonIgnore] public bool HasCeresStarter => StarterPlanet != null && (StarterPlanet.IsDlcRequired(DlcManager.DLC2_ID) || StarterPlanet.id.ToUpperInvariant().Contains("CERES"));
 		[JsonIgnore] public bool HasTear => POIs != null && POIs.Any(item => item.Value.placementPOI != null && item.Value.placementPOI.pois != null && item.Value.placementPOI.pois.Contains("TemporalTear"));
 		[JsonIgnore] public bool HasTeapot => POIs != null && POIs.Any(item => item.Value.placementPOI != null && item.Value.placementPOI.pois != null && item.Value.placementPOI.pois.Contains("ArtifactSpacePOI_RussellsTeapot"));

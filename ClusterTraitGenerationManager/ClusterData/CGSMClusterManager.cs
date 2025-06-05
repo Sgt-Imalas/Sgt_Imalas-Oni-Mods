@@ -43,6 +43,30 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 		public static int MaxClassicOuterPlanets = 3, CurrentClassicOuterPlanets = 0;
 
+
+		static Dictionary<string, WorldPlacement> PredefinedPlacementData
+		{
+			get
+			{
+				if(_predefinedPlacementData == null)
+					PopulatePredefinedClusterPlacements();
+				return _predefinedPlacementData;
+			}
+		}
+		static Dictionary<string, WorldPlacement> _predefinedPlacementData = null;
+
+		static Dictionary<string, ClusterAudioSettings> DlcAudioSettings
+		{
+			get
+			{
+				if (_dlcAudioSettings == null)
+					PopulatePredefinedClusterPlacements();
+				return _dlcAudioSettings;
+			}
+		}
+
+		static Dictionary<string, ClusterAudioSettings> _dlcAudioSettings = null;
+
 		public static bool LoadCustomCluster
 		{
 			get
@@ -309,17 +333,13 @@ namespace ClusterTraitGenerationManager.ClusterData
 			{
 				clusterLayout.clusterTags.Add("CeresCluster");
 				clusterLayout.clusterTags.Add("GeothermalImperative");
-				clusterLayout.clusterAudio = new ClusterAudioSettings()
-				{
-					musicWelcome = "Music_WattsonMessage_DLC2",
-					musicFirst = "Ice_Planet",
-					stingerDay = "Stinger_Day_DLC2",
-					stingerNight = "Stinger_Loop_Night_DLC2"
-				};
+				clusterLayout.clusterAudio = DlcAudioSettings[DlcManager.DLC2_ID];
 			}
 			if (prehistoric)
 			{
 				clusterLayout.clusterTags.Add("PrehistoricCluster");
+				clusterLayout.clusterTags.Add("DemoliorImperative");
+				clusterLayout.clusterAudio = DlcAudioSettings[DlcManager.DLC4_ID];
 			}
 			return clusterLayout;
 		}
@@ -400,7 +420,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 				seed++;
 			}
 			else
-				SgtLogger.warning("No start planetData selected");
+				SgtLogger.error("No start planetData selected");
 
 			if (CustomCluster.WarpPlanet != null)
 			{
@@ -587,7 +607,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 					SgtLogger.l(item.PredefinedPlacementOrder.ToString(), item.id);
 				}
 			}
-			PostProcessCluster(layout, allPlanets);
+			PostProcessCluster(layout, allPlanets, CustomCluster.StarterPlanet);
 
 
 			if (CustomCluster.GetAllPlanets().All(item => item.PredefinedPlacementOrder != -1))
@@ -635,40 +655,35 @@ namespace ClusterTraitGenerationManager.ClusterData
 			return layout;
 		}
 
-		private static void PostProcessCluster(ClusterLayout layout, List<StarmapItem> planets)
+		private static void PostProcessCluster(ClusterLayout layout, List<StarmapItem> planets, StarmapItem starterPlanet)
 		{
+			foreach(var reqDlc in starterPlanet.world.requiredDlcIds)
+			{
+				if(DlcAudioSettings.TryGetValue(reqDlc, out var audioSettings))
+				{
+					layout.clusterAudio = audioSettings;
+					break;
+				}
+			}
+
 			foreach (var item in planets)
 			{
 				var world = item.world;
-				if(world == null)
+				if (world == null)
 				{
 					SgtLogger.warning("World for item " + item.id + " is null, skipping post processing");
 					continue;
 				}
 
-				if (item.IsDlcRequired(DlcManager.DLC2_ID) || world != null && world.worldTags.Contains("Ceres"))
+				if (CGMWorldGenUtils.HasGeothermalPump(world) && !layout.clusterTags.Contains("CeresCluster"))
 				{
-					if (!layout.clusterTags.Contains("CeresCluster"))
-					{
-
-						layout.clusterTags.Add("CeresCluster");
-						layout.clusterTags.Add("GeothermalImperative");
-						layout.clusterAudio = new ClusterAudioSettings()
-						{
-							musicWelcome = "Music_WattsonMessage_DLC2",
-							musicFirst = "Ice_Planet",
-							stingerDay = "Stinger_Day_DLC2",
-							stingerNight = "Stinger_Loop_Night_DLC2"
-						};
-
-					}
+					layout.clusterTags.Add("CeresCluster");
+					layout.clusterTags.Add("GeothermalImperative");
 				}
-				if (item.IsDlcRequired(DlcManager.DLC4_ID) || world != null && world.worldTags.Contains("Prehistoric"))
+				if(CGMWorldGenUtils.HasImpactorShower(world) && !layout.clusterTags.Contains("PrehistoricCluster"))
 				{
-					if (!layout.clusterTags.Contains("CeresCluster"))
-					{
-						layout.clusterTags.Add("PrehistoricCluster");
-					}
+					layout.clusterTags.Add("PrehistoricCluster");
+					layout.clusterTags.Add("DemoliorImperative");
 				}
 			}
 		}
@@ -720,14 +735,14 @@ namespace ClusterTraitGenerationManager.ClusterData
 			foreach (var dlcmixing in CustomGameSettings.Instance.GetCurrentDlcMixingIds())
 			{
 				DlcMixingSettings dlcMixingSettings = SettingsCache.GetCachedDlcMixingSettings(dlcmixing);
-				if(dlcMixingSettings != null && dlcMixingSettings.spacePois != null && dlcMixingSettings.spacePois.Any())
+				if (dlcMixingSettings != null && dlcMixingSettings.spacePois != null && dlcMixingSettings.spacePois.Any())
 				{
 					//no ceres mixing pois on ceres cluster / dlc4 mixing on dlc4is enabled, 
 					if (cluster.requiredDlcIds != null && cluster.requiredDlcIds.Contains(dlcmixing))
 					{
-						SgtLogger.l("skipping "+dlcmixing + " mixing space pois because the cluster is from that dlc");
+						SgtLogger.l("skipping " + dlcmixing + " mixing space pois because the cluster is from that dlc");
 						continue;
-					}					
+					}
 					placements.AddRange(dlcMixingSettings.spacePois);
 					SgtLogger.l(dlcmixing + " is enabled, adding mixing space pois");
 				}
@@ -1057,8 +1072,6 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 		public static StarmapItem GivePrefilledItem(StarmapItem ToAdd)
 		{
-			PopulatePredefinedClusterPlacements();
-
 			if (ToAdd.id.Contains(RandomKey))
 				return ToAdd;
 
@@ -1125,7 +1138,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 		public static void PreProcessAsteroidAdding(StarmapItem adding)
 		{
-			foreach(var dlcID in DlcManager.DLC_PACKS.Keys)
+			foreach (var dlcID in DlcManager.DLC_PACKS.Keys)
 			{
 				if (adding.IsDlcRequired(dlcID))
 				{
@@ -1137,7 +1150,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 			{
 				DisableModdedGeopumpStoryTrait();
 			}
-			if(CGMWorldGenUtils.HasImpactorShower(adding.world)) //impactor shower from potential mod in the future
+			if (CGMWorldGenUtils.HasImpactorShower(adding.world)) //impactor shower from potential mod in the future
 			{
 				DisableModdedImpactorShowerStoryTrait();
 			}
@@ -1166,13 +1179,13 @@ namespace ClusterTraitGenerationManager.ClusterData
 		public static void ToggleWorldgenAffectingDlc(bool enabled, string dlcId)
 		{
 			var settingsInstance = CustomGameSettings.Instance;
-			if(!settingsInstance.MixingSettings.ContainsKey(dlcId))
+			if (!settingsInstance.MixingSettings.ContainsKey(dlcId))
 			{
 				SgtLogger.error("Tried to toggle a non-existing DLC mixing setting: " + dlcId);
 				return;
 			}
 
-			var dlcSetting =  CustomGameSettings.Instance.MixingSettings[dlcId] as ToggleSettingConfig;
+			var dlcSetting = CustomGameSettings.Instance.MixingSettings[dlcId] as ToggleSettingConfig;
 			var currentLevel = CustomGameSettings.Instance.GetCurrentMixingSettingLevel(dlcId);
 			if ((currentLevel == dlcSetting.on_level && enabled) || (currentLevel == dlcSetting.off_level && !enabled))
 				return;
@@ -1237,8 +1250,6 @@ namespace ClusterTraitGenerationManager.ClusterData
 			return;
 		}
 
-
-		static Dictionary<string, WorldPlacement> PredefinedPlacementData = null;
 		public static List<StarmapItem> GetActivePlanetsStarmapitems()
 		{
 			var planets = new List<StarmapItem>();
@@ -1277,24 +1288,27 @@ namespace ClusterTraitGenerationManager.ClusterData
 			if (PredefinedPlacementData != null) { return; }
 
 			SgtLogger.l("Populating cluster placements");
-			PredefinedPlacementData = new Dictionary<string, WorldPlacement>();
+			_predefinedPlacementData = new Dictionary<string, WorldPlacement>();
 			//PredefinedPlacementDataPOI = new Dictionary<string, SpaceMapPOIPlacement>();
+			_dlcAudioSettings = new();
 
 			foreach (var ClusterLayout in SettingsCache.clusterLayouts.clusterCache.ToList())
 			{
+				var clusterId = ClusterLayout.Key;
+				var clusterData = ClusterLayout.Value;
 				if (DlcManager.IsExpansion1Active())
 				{
-
-					if (ClusterLayout.Key.Contains("clusters/SandstoneDefault") // Comment out when klei removes the default cluster
-						|| ClusterLayout.Value.forbiddenDlcIds != null && ClusterLayout.Value.forbiddenDlcIds.Contains(DlcManager.EXPANSION1_ID))
+					if (clusterId.Contains("clusters/SandstoneDefault") // Comment out when klei removes the default cluster
+						|| clusterData.forbiddenDlcIds != null && clusterData.forbiddenDlcIds.Contains(DlcManager.EXPANSION1_ID)
+						|| !DlcManager.IsCorrectDlcSubscribed(clusterData))
 					{
 						continue;
 					}
 				}
-				bool disablesStoryTraits = ClusterLayout.Value.disableStoryTraits;
-				var tags = ClusterLayout.Value.clusterTags;
+				bool disablesStoryTraits = clusterData.disableStoryTraits;
+				var tags = clusterData.clusterTags;
 
-				foreach (var planet in ClusterLayout.Value.worldPlacements)
+				foreach (var planet in clusterData.worldPlacements)
 				{
 					if (PlanetsAndPOIs.TryGetValue(planet.world, out StarmapItem starmapItem))
 					{
@@ -1314,8 +1328,21 @@ namespace ClusterTraitGenerationManager.ClusterData
 					PredefinedPlacementData[planetPlacement.world] = planetPlacement;
 				}
 
-				if (ClusterLayout.Value.poiPlacements == null)
-					continue;
+				if(clusterData.clusterAudio != null
+					&& !clusterData.dlcIdFrom.IsNullOrWhiteSpace() 
+					&& !clusterData.dlcIdFrom.Contains("DLC") //no basegame/spacedout 
+					&& _dlcAudioSettings.ContainsKey(clusterData.dlcIdFrom))
+				{
+					SgtLogger.l("Caching audio data for dlc: " + clusterData.dlcIdFrom);
+					var sourceAudio = clusterData.clusterAudio;
+					_dlcAudioSettings[clusterData.dlcIdFrom] = new()
+					{
+						musicWelcome = sourceAudio.musicWelcome,
+						musicFirst = sourceAudio.musicFirst,
+						stingerDay = sourceAudio.stingerDay,
+						stingerNight = sourceAudio.stingerNight
+					};
+				}
 			}
 		}
 
@@ -1452,8 +1479,8 @@ namespace ClusterTraitGenerationManager.ClusterData
 			{
 				category = StarmapItemCategory.Outer;
 			}
-			if(log)
-			SgtLogger.l(world.filePath + " is of category: " + category.ToString());
+			if (log)
+				SgtLogger.l(world.filePath + " is of category: " + category.ToString());
 			return category;
 		}
 
@@ -1587,8 +1614,6 @@ namespace ClusterTraitGenerationManager.ClusterData
 						else
 							SgtLogger.l("skipping worlditemCreation: " + KeyUpper);
 					}
-
-					PopulatePredefinedClusterPlacements();
 				}
 				return PlanetsAndPOIs;
 			}

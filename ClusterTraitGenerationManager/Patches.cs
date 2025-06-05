@@ -46,7 +46,7 @@ namespace ClusterTraitGenerationManager
 
 			public static void Postfix(ref List<Tuple<string, TextStyleSetting>> __result, SaveGame __instance)
 			{
-				if (Game.clusterId == CustomClusterID || SaveGameData.IsCustomCluster())
+				if (SaveGameData.IsCustomCluster())
 				{
 					var array = __result.ToArray();
 					array[1] = new Tuple<string, TextStyleSetting>((string)STRINGS.CLUSTER_NAMES.CGM.NAME, ToolTipScreen.Instance.defaultTooltipBodyStyle);
@@ -94,7 +94,7 @@ namespace ClusterTraitGenerationManager
 		{
 			public static void Postfix(PauseScreen __instance)
 			{
-				if (Game.clusterId == CustomClusterID || SaveGameData.IsCustomCluster())
+				if (SaveGameData.IsCustomCluster())
 				{
 					var inst = CustomGameSettings.Instance;
 					SettingLevel currentQualitySetting2 = inst.GetCurrentQualitySetting(CustomGameSettingConfigs.WorldgenSeed);

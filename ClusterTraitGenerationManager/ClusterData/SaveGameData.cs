@@ -31,7 +31,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 		{
 			if (Instance != null)
 				return Instance._isCustomCluster;
-			return false;
+			return Game.clusterId == CGSMClusterManager.CustomClusterID;
 
 		}
 
@@ -92,15 +92,16 @@ namespace ClusterTraitGenerationManager.ClusterData
 					}
 				}
 			}
-			if (clusterTag == "PrehistoricCluster")
+			if (clusterTag == "PrehistoricCluster"||clusterTag == "DemoliorImperative")
 			{
 				foreach (WorldContainer planet in ClusterManager.Instance.WorldContainers)
 				{
-					if (planet.worldTags != null && planet.worldTags.Contains("Prehistoric"))
+					if(CGMWorldGenUtils.HasImpactorShower(planet.GetSeasonIds()))					
 					{
 						//Retroactively adding those to cgm clusters
 						SgtLogger.l("prehistoric asteroid found");
 						CGM_ClusterTags.Add("PrehistoricCluster");
+						CGM_ClusterTags.Add("DemoliorImperative");
 						return true;
 					}
 				}

@@ -42,7 +42,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 		[JsonIgnore] public string ModName = string.Empty;
 		[JsonIgnore] private string DlcID = "";
 
-		public string GetMainDlcID() => DlcID;
+		public string GetMainDlcID() => DlcID;		
 
 		public bool IsDlcRequired(string dlcId) => DlcID == dlcId ||(world_internal?.GetRequiredDlcIds()?.Contains(dlcId)??false) || (world_mixing?.IsDlcRequired(dlcId) ?? false);
 
