@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using RonivansLegacy_ChemicalProcessing;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 using static LogicGate.LogicGateDescriptions;
 using static RonivansLegacy_ChemicalProcessing.Content.ModDb.ModElements;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INGREDIENTS;
@@ -104,14 +106,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		//==== [ CHEMICAL: ADVANCED METAL REFINERY RECIPES | Ore to Metal Ratio: 92,5% ] =========================================================== 
 		private void ConfigureRecipes()
 		{
-			//those elements have special conversion rates, for all others its the same
-			HashSet<SimHashes> specialRecipes = [SimHashes.Electrum, SimHashes.FoolsGold, Galena_Solid.SimHash];
-			//those ores have weird natural conversions, so the target has to be overriden
-			Dictionary<SimHashes, SimHashes> genericTargetOverrides = new()
-			{
-				{Argentite_Solid.SimHash, Silver_Solid.SimHash},
-				{Aurichalcite_Solid.SimHash, Zinc_Solid.SimHash},
-			};
 
 			//---- [ Advanced Generic Ore Refining ] --------------------------------------------------------------------------------------------------------- 
 			// Ingredient: Ore		           - 400kg
@@ -120,44 +114,27 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Result: Refined Metal   - 370kg
 			//         Slag            - 130kg
 			//-------------------------------------------------------------------------------------------------------------------------------------------
+			var specialOres = RefinementRecipeHelper.GetSpecialOres();
+
 			foreach (var element in ElementLoader.elements.FindAll(e => e.IsSolid && e.HasTag(GameTags.Ore)))
 			{
 
-				if (specialRecipes.Contains(element.id) || element.HasTag(GameTags.Noncrushable) || element.HasTag(ModAssets.Tags.RandomSand))
+				if (specialOres.Contains(element.id) || element.HasTag(GameTags.Noncrushable) || element.HasTag(ModAssets.Tags.RandomSand))
 				{
 					continue;
 				}
 
 				Element refinedElement = element.highTempTransition.lowTempTransition;
 
-				if (genericTargetOverrides.TryGetValue(element.id, out SimHashes genericTarget))
-				{
-					refinedElement = ElementLoader.FindElementByHash(genericTarget);
-				}
-
-				ComplexRecipe.RecipeElement[] ingredients = [
-				new ComplexRecipe.RecipeElement(element.tag, 400f),
-				new ComplexRecipe.RecipeElement(SimHashes.RefinedCarbon.CreateTag(), 50f),
-				new ComplexRecipe.RecipeElement(SimHashes.Sand.CreateTag(), 50f)
-				];
-
-				ComplexRecipe.RecipeElement[] products = [
-				new ComplexRecipe.RecipeElement(refinedElement.tag, 370f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, false),
-				new ComplexRecipe.RecipeElement(Slag_Solid.Tag, 130f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, false)
-				];
-				var recipe = new ComplexRecipe(ComplexRecipeManager.MakeRecipeID(ID, ingredients, products), ingredients, products)
-				{
-					time = 40f,
-					description = string.Format(RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.THREE_MIXTURE_SMELT_WASTE,
-					element.tag.ProperName(),
-					SimHashes.Carbon.CreateTag().ProperName(),
-					SimHashes.Sand.CreateTag().ProperName(),
-					refinedElement.tag.ProperName(),
-					Slag_Solid.Tag.ProperName()),
-					nameDisplay = ComplexRecipe.RecipeNameDisplay.IngredientToResult,
-					fabricators = new List<Tag> { ID },
-				};
-
+				RecipeBuilder.Create(ID, 40)
+					.Input(element.tag, 400f)
+					.Input(SimHashes.RefinedCarbon.CreateTag(), 50f)
+					.Input(SimHashes.Sand.CreateTag(), 50f)
+					.Output(refinedElement.tag, 370f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+					.Output(Slag_Solid.Tag, 130f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+					.Description3I2O(RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.THREE_MIXTURE_SMELT_WASTE)
+					.Build();
 			}
 
 

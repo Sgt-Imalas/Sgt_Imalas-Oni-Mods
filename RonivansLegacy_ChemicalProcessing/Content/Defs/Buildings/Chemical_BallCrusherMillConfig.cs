@@ -319,6 +319,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Input(SimHashes.Regolith, 300f)
 				.Input(SimHashes.Water, 100f)
 				.Input(ModElements.NitricAcid_Liquid, 50f)
+				.Input(ModElements.SulphuricAcid_Liquid, 50f)
 				.Output(ModElements.ToxicMix_Liquid, 10f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description(RandomRecipeResults.GetBallCrusherResultsString)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)

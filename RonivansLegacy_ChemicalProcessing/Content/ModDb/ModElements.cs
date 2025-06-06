@@ -151,5 +151,87 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			list.AddRange(ChemicalProcessing_Elements);
 
 		}
+		public static void OverrideDebrisAnims()
+		{
+			Substance regolith_substance = ElementLoader.FindElementByHash(SimHashes.Regolith).substance;
+			KAnimFile regolith_anim = Assets.GetAnim("regolith_new_kanim");
+			if (regolith_anim != null)
+			{
+				regolith_substance.anim = regolith_anim;
+			}
+			else
+			{
+				Debug.LogError("KAnimFile not found");
+			}
+		}
+
+		internal static void ModifyExistingElements()
+		{
+			//=[ SYNGAS ENABLING PATCH ]===============================================
+			Element syngas_material = ElementLoader.FindElementByHash(SimHashes.Syngas);
+			List<Tag> syngas_tags = [.. syngas_material.oreTags];
+			syngas_tags.Add(GameTags.CombustibleGas);
+			syngas_material.oreTags = [.. syngas_tags];
+			syngas_material.disabled = false;
+
+			//=[ PROPANE PATCH ]=======================================================
+			Element propane_material = ElementLoader.FindElementByHash(SimHashes.Propane);
+			List<Tag> propane_tags = [.. propane_material.oreTags];
+			propane_tags.Add(GameTags.CombustibleGas);
+			propane_material.oreTags = [.. propane_tags];
+			propane_material.disabled = false;
+
+			//=[ NAPHTHA PATCH ]=======================================================
+			Element naphtha_material = ElementLoader.FindElementByHash(SimHashes.Naphtha);
+			List<Tag> naphtha_tags = [.. naphtha_material.oreTags];
+			naphtha_tags.Add(GameTags.CombustibleLiquid);
+			naphtha_material.oreTags = [.. naphtha_tags];
+			naphtha_material.disabled = false;
+
+			//=[ FIBERGLASS AS A PLASTIC TAG PATCH ]===================================
+			Element fiberglass_a_material = ElementLoader.FindElementByHash(FiberGlass_Solid);
+			List<Tag> fiberglass_tags = [.. fiberglass_a_material.oreTags];
+			fiberglass_tags.Add(GameTags.Plastic);
+			fiberglass_a_material.oreTags = [.. fiberglass_tags];
+
+			//=[ ENABLING ELECTRUM ]===================================================
+			Element electrum_material = ElementLoader.FindElementByHash(SimHashes.Electrum);
+			electrum_material.highTempTransitionOreID = ModElements.Silver_Solid;
+			electrum_material.highTempTransitionOreMassConversion = 0.6f;
+			electrum_material.disabled = false;
+
+			//=[ BITUMEN PATCH ]=======================================================
+			Element bitumen_material = ElementLoader.FindElementByHash(SimHashes.Bitumen);
+			bitumen_material.materialCategory = GameTags.ManufacturedMaterial;
+			bitumen_material.disabled = false;
+			List<Tag> bitumen_tags = [.. bitumen_material.oreTags];
+			bitumen_tags.Add(GameTags.ManufacturedMaterial);
+			bitumen_material.oreTags = [.. bitumen_tags];
+
+			//=[ CRUSHED ROCK PATCH ]====================================================
+			Element crushedRock_material = ElementLoader.FindElementByHash(SimHashes.CrushedRock);
+			List<Tag> crushedRock_tags = [.. crushedRock_material.oreTags];
+			crushedRock_material.oreTags = [.. crushedRock_tags];
+			crushedRock_material.disabled = false;
+
+			//=[ PHOSPHATE NODULES PATCH ]================================================
+			Element phosphate_material = ElementLoader.FindElementByHash(SimHashes.PhosphateNodules);
+			List<Tag> phosphate_tags = [.. phosphate_material.oreTags];
+			phosphate_tags.Add(GameTags.ConsumableOre);
+			phosphate_material.oreTags = [.. phosphate_tags];
+			phosphate_material.disabled = false;
+
+			//=[ PLASTEEL PATCH ]==========================================================
+			Element plasteel_material = ElementLoader.FindElementByHash(Plasteel_Solid);
+			List<Tag> plasteel_tags = [.. plasteel_material.oreTags];
+			plasteel_tags.Add(GameTags.Steel);
+			plasteel_material.oreTags = [.. plasteel_tags];
+
+			//=[ MAFIC ROCK PATCH ]==========================================================
+			Element mafic_material = ElementLoader.FindElementByHash(SimHashes.MaficRock);
+			List<Tag> mafic_tags = [.. plasteel_material.oreTags];
+			mafic_tags.Add(GameTags.Crushable);
+			mafic_material.oreTags = [.. mafic_tags];
+		}
 	}
 }

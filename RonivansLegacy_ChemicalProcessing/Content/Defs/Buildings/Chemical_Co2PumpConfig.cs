@@ -29,7 +29,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			def1.UtilityOutputOffset = new CellOffset(0, 0);
 			def1.PowerInputOffset = new CellOffset(0, 0);
 			def1.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(0, 01));
-			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.GasVentIDs, "GasMiniPump");
+			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.GasVentIDs, ID);
 			return def1;
 		}
 

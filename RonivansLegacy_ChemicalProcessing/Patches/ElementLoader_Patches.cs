@@ -20,5 +20,14 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				ModElements.RegisterSubstances(list);
 			}
 		}
+
+        [HarmonyPatch(typeof(ElementLoader), nameof(ElementLoader.FinaliseElementsTable))]
+        public class ElementLoader_FinaliseElementsTable_Patch
+        {
+            public static void Postfix()
+            {
+				ModElements.ModifyExistingElements();
+            }
+        }
     }
 }

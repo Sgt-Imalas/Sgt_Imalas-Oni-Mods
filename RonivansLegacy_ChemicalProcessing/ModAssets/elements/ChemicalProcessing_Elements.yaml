@@ -332,7 +332,7 @@ elements:
     highTemp: 1193.15
     highTempTransitionTarget: ZincGas
     highTempTransitionOreId: MoltenCopper
-    highTempTransitionOreMassConversion: 0.66
+    highTempTransitionOreMassConversion: 0.7
     defaultTemperature: 296
     defaultMass: 200
     maxMass: 1000
@@ -367,7 +367,7 @@ elements:
     highTemp: 1322.15
     highTempTransitionTarget: MoltenLead
     highTempTransitionOreId: MoltenCopper
-    highTempTransitionOreMassConversion: 0.98
+    highTempTransitionOreMassConversion: 0.80
     defaultTemperature: 296
     defaultMass: 200
     maxMass: 1000
@@ -847,7 +847,7 @@ elements:
     gasSurfaceAreaMultiplier: 1
     strength: 0.7
     highTemp: 1192.15
-    highTempTransitionTarget: ZincGas
+    highTempTransitionTarget: MoltenZinc
     highTempTransitionOreId: MoltenCopper
     highTempTransitionOreMassConversion: 0.4
     defaultTemperature: 296
@@ -876,9 +876,9 @@ elements:
     gasSurfaceAreaMultiplier: 1
     strength: 0.7
     highTemp: 1236.15
-    highTempTransitionTarget: SulfurGas
-    highTempTransitionOreId: SolidSilver
-    highTempTransitionOreMassConversion: 0.8
+    highTempTransitionTarget: MoltenSilver
+    highTempTransitionOreId: SulfurGas
+    highTempTransitionOreMassConversion: 0.2
     defaultTemperature: 296
     defaultMass: 800
     maxMass: 1840
@@ -948,7 +948,6 @@ elements:
     materialCategory: BuildableRaw
     tags:
     - Plumbable
-    - Crushable
     - BuildableAny
     buildMenuSort: 3
     isDisabled: false
@@ -976,7 +975,6 @@ elements:
     materialCategory: BuildableRaw
     tags:
     - Plumbable
-    - Crushable
     - BuildableAny
     buildMenuSort: 21
     isDisabled: false
@@ -1035,7 +1033,6 @@ elements:
     - Metal
     - RefinedMetal
     - Plumbable
-    - Crushable
     - Insulator
     buildMenuSort: 59
     isDisabled: false

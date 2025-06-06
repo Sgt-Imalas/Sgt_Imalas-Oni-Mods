@@ -20,6 +20,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			public static void Postfix(Db __instance)
 			{
 				BuildingInjection.AddBuildingsToTech();
+				ModElements.OverrideDebrisAnims();
 			}
 		}
 	}

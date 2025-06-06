@@ -16,10 +16,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			randomResult = null;
 			if (recipe.fabricators.Contains(Chemical_BallCrusherMillConfig.ID))
 			{
-				if( BallCrusher_RandomResults.TryGetValue(recipe.ingredients[0].material, out randomResult))
-				{
-					return true;
-				} 
+				return BallCrusher_RandomResults.TryGetValue(recipe.ingredients[0].material, out randomResult);
 			}
 			return false;
 		}

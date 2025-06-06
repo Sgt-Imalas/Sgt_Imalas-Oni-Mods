@@ -47,12 +47,46 @@ namespace UtilLibs
 
 			return builder;
 		}
+		public RecipeBuilder Description(string desc)
+		{
+			if (desc != null)
+			{
+				description = desc;
+			}
+			return this;
+		}
 		public RecipeBuilder Description(System.Func<RecipeElement[], RecipeElement[], string> descriptionAction)
 		{
 			if (descriptionAction != null)
 			{
 				description = descriptionAction(inputs.ToArray(), outputs.ToArray());
 			}
+			return this;
+		}
+		public RecipeBuilder Description1I1O(string ToFormat)
+		{
+			description = string.Format(ToFormat, inputs[0].material.ProperName(), outputs[0].material.ProperName());
+			return this;
+		}
+		
+		public RecipeBuilder Description1I4O(string ToFormat)
+		{
+			description = string.Format(ToFormat, inputs[0].material.ProperName(), outputs[0].material.ProperName(), outputs[1].material.ProperName(), outputs[2].material.ProperName(), outputs[3].material.ProperName());
+			return this;
+		}
+		public RecipeBuilder Description1I3O(string ToFormat)
+		{
+			description = string.Format(ToFormat, inputs[0].material.ProperName(), outputs[0].material.ProperName(), outputs[1].material.ProperName(), outputs[2].material.ProperName());
+			return this;
+		}
+		public RecipeBuilder Description2I2O(string ToFormat)
+		{
+			description = string.Format(ToFormat, inputs[0].material.ProperName(), inputs[1].material.ProperName(), outputs[0].material.ProperName(), outputs[1].material.ProperName());
+			return this;
+		}
+		public RecipeBuilder Description3I2O(string ToFormat)
+		{
+			description = string.Format(ToFormat, inputs[0].material.ProperName(), inputs[1].material.ProperName(), inputs[2].material.ProperName(), outputs[0].material.ProperName(), outputs[1].material.ProperName());
 			return this;
 		}
 
@@ -78,6 +112,11 @@ namespace UtilLibs
 		public RecipeBuilder Input(Tag tag, float amount, bool inheritElement = true)
 		{
 			inputs.Add(new RecipeElement(tag, amount, inheritElement));
+			return this;
+		}
+		public RecipeBuilder Input(IEnumerable<Tag> tags, float amount)
+		{
+			inputs.Add(new RecipeElement(tags.ToArray(), amount));
 			return this;
 		}
 		public RecipeBuilder Input(SimHashes simhash, float amount, bool inheritElement = true)
