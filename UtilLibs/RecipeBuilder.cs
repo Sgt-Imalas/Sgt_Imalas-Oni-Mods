@@ -34,6 +34,28 @@ namespace UtilLibs
 
 			return builder;
 		}
+		public static RecipeBuilder Create(string fabricatorID, float time)
+		{
+			var builder = new RecipeBuilder
+			{
+				fabricator = fabricatorID,
+				time = time,
+				nameDisplay = RecipeNameDisplay.IngredientToResult,
+				inputs = new List<RecipeElement>(),
+				outputs = new List<RecipeElement>()
+			};
+
+			return builder;
+		}
+		public RecipeBuilder Description(System.Func<RecipeElement[], RecipeElement[], string> descriptionAction)
+		{
+			if (descriptionAction != null)
+			{
+				description = descriptionAction(inputs.ToArray(), outputs.ToArray());
+			}
+			return this;
+		}
+
 
 		public RecipeBuilder NameDisplay(RecipeNameDisplay nameDisplay)
 		{
@@ -58,10 +80,20 @@ namespace UtilLibs
 			inputs.Add(new RecipeElement(tag, amount, inheritElement));
 			return this;
 		}
+		public RecipeBuilder Input(SimHashes simhash, float amount, bool inheritElement = true)
+		{
+			inputs.Add(new RecipeElement(simhash.CreateTag(), amount, inheritElement));
+			return this;
+		}
 
 		public RecipeBuilder Output(Tag tag, float amount, TemperatureOperation tempOp = TemperatureOperation.AverageTemperature, bool storeElement = false)
 		{
 			outputs.Add(new RecipeElement(tag, amount, tempOp, storeElement));
+			return this;
+		}
+		public RecipeBuilder Output(SimHashes simhash, float amount, TemperatureOperation tempOp = TemperatureOperation.AverageTemperature, bool storeElement = false)
+		{
+			outputs.Add(new RecipeElement(simhash.CreateTag(), amount, tempOp, storeElement));
 			return this;
 		}
 

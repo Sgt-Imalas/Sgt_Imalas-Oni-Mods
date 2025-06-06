@@ -1,0 +1,31 @@
+﻿using HarmonyLib;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UnityEngine;
+
+namespace RonivansLegacy_ChemicalProcessing.Patches
+{
+    class SelectedRecipeQueueScreen_Patches
+    {
+
+        [HarmonyPatch(typeof(SelectedRecipeQueueScreen), nameof(SelectedRecipeQueueScreen.GetResultDescriptions))]
+        public class SelectedRecipeQueueScreen_GetResultDescriptions_Patch
+        {
+            public static void Postfix(SelectedRecipeQueueScreen __instance, List<SelectedRecipeQueueScreen.DescriptorWithSprite> __result, ComplexRecipe recipe)
+            {
+                if(RandomRecipeResults.GetRandomResultsforRecipe(recipe, out var result))
+				{
+                    __result.Add(new SelectedRecipeQueueScreen.DescriptorWithSprite(
+                        new(result.GetProductCompositionName(),
+						result.GetProductCompositionDescription()),
+                        new(Assets.GetSprite("unknown"), Color.black))
+                        );
+				}
+			}
+        }
+    }
+}
