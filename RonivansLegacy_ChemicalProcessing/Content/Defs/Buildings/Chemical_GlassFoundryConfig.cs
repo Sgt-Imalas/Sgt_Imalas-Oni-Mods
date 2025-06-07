@@ -74,21 +74,16 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			fabricator.duplicantOperated = true;
 
-			Storage storage = go.AddOrGet<Storage>();
-			storage.storageFilters = STORAGEFILTERS.LIQUIDS;
-			storage.capacityKg = 2000f;
-
 			BuildingTemplates.CreateComplexFabricatorStorage(go, fabricator);
 			fabricator.outStorage.capacityKg = 2000f;
 			fabricator.storeProduced = true;
 			fabricator.inStorage.SetDefaultStoredItemModifiers(FoundryStoredItemModifiers);
 			fabricator.buildStorage.SetDefaultStoredItemModifiers(FoundryStoredItemModifiers);
-			fabricator.outStorage = storage;
 			fabricator.outputOffset = new Vector3(1f, 0.5f);
 			fabricator.heatedTemperature = 296.15f;
 
 			PipedConduitDispenser dispenser = go.AddComponent<PipedConduitDispenser>();
-			dispenser.storage = storage;
+			dispenser.storage = fabricator.outStorage;
 			dispenser.elementFilter = null;
 			dispenser.AssignPort(GlassOutputPort);
 			dispenser.alwaysDispense = true;
@@ -101,7 +96,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			PipedOptionalExhaust exhaustWater = go.AddComponent<PipedOptionalExhaust>();
 			exhaustWater.dispenser = dispenser;
-			exhaustWater.elementTag = GameTags.IceOre;
+			exhaustWater.elementTag = GameTags.AnyWater;
 			exhaustWater.capacity = 500f;
 
 			this.AttachPort(go);
@@ -118,7 +113,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//----------------------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, 30f)
 				.Input(SimHashes.Sand.CreateTag(), 300f)
-				.Output(SimHashes.MoltenGlass.CreateTag(), 100f, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, false)
+				.Output(SimHashes.MoltenGlass.CreateTag(), 100f, ComplexRecipe.RecipeElement.TemperatureOperation.Melted)
 				.Description1I1O(ARCFURNACE_SMELT)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
 				.Build();
@@ -128,14 +123,14 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Result: Water - 500kg
 			//------------------------------------------------------------------------------------------------------------------------
 
-			foreach(var element in ElementLoader.elements.FindAll(e => e.IsSolid && e.HasTag(GameTags.IceOre)))
+			foreach(var element in ElementLoader.elements.FindAll(e => e.IsSolid && e.HasTag(GameTags.IceOre) && e.highTempTransition.HasTag(GameTags.AnyWater)))
 			{
 				var ownTag = element.id.CreateTag();
 				var meltsTo = element.highTempTransitionTarget.CreateTag();
 
 				RecipeBuilder.Create(ID, 30f)
 					.Input(ownTag, 500f)
-					.Output(meltsTo, 500f, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, false)
+					.Output(meltsTo, 500f, ComplexRecipe.RecipeElement.TemperatureOperation.Melted)
 					.Description1I1O(ARCFURNACE_MELT)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
 					.Build();

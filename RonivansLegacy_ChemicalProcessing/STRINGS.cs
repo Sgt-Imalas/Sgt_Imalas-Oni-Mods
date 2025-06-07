@@ -428,7 +428,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString ARCFURNACE_SMELT = "Smelt {0} to produce {1}.";
 				public static LocString ARCFURNACE_MELT = "Melt {0} to produce {1}.";
 
-				public static LocString JAWCRUSHERMILL_MILLING_1_3 = "Grind down {0} and extract small amounts of {1}.\nProduces {2} and {3} as waste products.";
+				public static LocString JAWCRUSHERMILL_MILLING_1_1_2 = "Grind down {0} and extract small amounts of {1}.\nProduces {2} and {3} as waste products.";
 				public static LocString JAWCRUSHERMILL_MILLING_1_1 = "Grind down {0} to {1}.";
 				public static LocString JAWCRUSHERMILL_MILLING_1_1_BREAK = "Break down {0} to {1}.";
 				public static LocString JAWCRUSHERMILL_MILLING_1_2 = "Break down {0} to {1} and {2}.";

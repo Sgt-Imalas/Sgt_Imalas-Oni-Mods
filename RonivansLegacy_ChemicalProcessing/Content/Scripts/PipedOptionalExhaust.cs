@@ -5,22 +5,30 @@ using System.Text;
 using System.Threading.Tasks;
 using static STRINGS.UI;
 using UnityEngine;
+using UtilLibs;
+using KSerialization;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {
 	class PipedOptionalExhaust : KMonoBehaviour, ISim200ms
 	{
 		[SerializeField]
+		[Serialize]
 		internal PipedConduitDispenser dispenser;
 
 		[SerializeField]
+		[Serialize]
 		public Tag elementTag;
 
 		[SerializeField]
+		[Serialize]
 		public float capacity;
 
-		[MyCmpAdd]
-		private Storage storage;
+		[SerializeField]
+		[Serialize]
+		public Storage storage;
+
+		[MyCmpGet] ComplexFabricator complexfab;
 
 		private static readonly Operational.Flag outputFlag = new Operational.Flag("output_blocked", Operational.Flag.Type.Functional);
 
@@ -31,6 +39,28 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 	"Chemical_ExhaustSpawned",
 	"Spawned by piped optional exhaust",
 	true);
+
+		public override void OnSpawn()
+		{
+			base.OnSpawn();
+			if (storage == null)
+			{
+				if (dispenser != null)
+				{
+					storage = dispenser.storage;
+				}
+				else if(complexfab != null)
+				{
+					storage = complexfab.outStorage;
+				}
+				else
+				{
+					storage = this.gameObject.AddOrGet<Storage>();
+				}
+			}
+
+		}
+
 		public void Sim200ms(float dt)
 		{
 			GameObject storedObject = this.storage.FindFirst(elementTag);
@@ -41,6 +71,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				component = storedObject.GetComponent<PrimaryElement>();
 				stored = component.Mass;
 			}
+			
 
 			if (stored > 0f && dispenser != null)
 			{
@@ -53,18 +84,17 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 					int outputCell = dispenser.UtilityCell;
 
-					if (element.IsGas)
+					if (element.IsGas || element.IsLiquid)
 					{
 						SimMessages.ReplaceAndDisplaceElement(outputCell, element.id, SpawnEvent, stored, temperature, idx, disease);
 					}
-					else if (element.IsLiquid)
+					else if(element.IsLiquid)
 					{
-						int elementIndex = ElementLoader.GetElementIndex(element.id);
-						FallingWater.instance.AddParticle(outputCell, (byte)elementIndex, stored, temperature, idx, disease, true, false, false, false);
+						FallingWater.instance.AddParticle(outputCell, element.idx, stored, temperature, idx, disease, true);
 					}
 					else
 					{
-						element.substance.SpawnResource(Grid.CellToPosCCC(outputCell, Grid.SceneLayer.Front), stored, temperature, idx, disease, true, false, false);
+						element.substance.SpawnResource(Grid.CellToPosCCC(outputCell, Grid.SceneLayer.Ore), stored, temperature, idx, disease, true, false, false);
 					}
 					storage.ConsumeIgnoringDisease(storedObject);
 					stored = 0f;
@@ -72,7 +102,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 
 			}
-			bool overfilled = stored >= capacity;
+			bool overfilled = stored >= capacity && capacity > 0;
 
 			this.operational.SetFlag(outputFlag, !overfilled);
 		}

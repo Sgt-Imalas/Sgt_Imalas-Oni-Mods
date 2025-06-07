@@ -229,7 +229,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			//=[ MAFIC ROCK PATCH ]==========================================================
 			Element mafic_material = ElementLoader.FindElementByHash(SimHashes.MaficRock);
-			List<Tag> mafic_tags = [.. plasteel_material.oreTags];
+			List<Tag> mafic_tags = [.. mafic_material.oreTags];
 			mafic_tags.Add(GameTags.Crushable);
 			mafic_material.oreTags = [.. mafic_tags];
 		}

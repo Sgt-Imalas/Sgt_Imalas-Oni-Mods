@@ -65,27 +65,56 @@ namespace UtilLibs
 		}
 		public RecipeBuilder Description1I1O(string ToFormat)
 		{
+			if (inputs.Count < 1 || outputs.Count < 1)
+			{
+				throw new InvalidOperationException("Recipe must have at least one input and one output to use Description1I1O.");
+			}
 			description = string.Format(ToFormat, inputs[0].material.ProperName(), outputs[0].material.ProperName());
 			return this;
 		}
-		
+
+		public RecipeBuilder Description1I2O(string ToFormat)
+		{
+			if (inputs.Count < 1 || outputs.Count < 2)
+			{
+				throw new InvalidOperationException("Recipe must have at least one input and two outputs to use Description1I2O.");
+			}
+			description = string.Format(ToFormat, inputs[0].material.ProperName(), outputs[0].material.ProperName(), outputs[1].material.ProperName());
+			return this;
+		}
 		public RecipeBuilder Description1I4O(string ToFormat)
 		{
+			if (inputs.Count < 1 || outputs.Count < 4)
+			{
+				throw new InvalidOperationException("Recipe must have at least one input and four outputs to use Description1I4O.");
+			}
 			description = string.Format(ToFormat, inputs[0].material.ProperName(), outputs[0].material.ProperName(), outputs[1].material.ProperName(), outputs[2].material.ProperName(), outputs[3].material.ProperName());
 			return this;
 		}
 		public RecipeBuilder Description1I3O(string ToFormat)
 		{
+			if (inputs.Count < 1 || outputs.Count < 3)
+			{
+				throw new InvalidOperationException("Recipe must have at least one input and three outputs to use Description1I3O.");
+			}
 			description = string.Format(ToFormat, inputs[0].material.ProperName(), outputs[0].material.ProperName(), outputs[1].material.ProperName(), outputs[2].material.ProperName());
 			return this;
 		}
 		public RecipeBuilder Description2I2O(string ToFormat)
 		{
+			if (inputs.Count < 2 || outputs.Count < 2)
+			{
+				throw new InvalidOperationException("Recipe must have at least two inputs and two outputs to use Description2I2O.");
+			}
 			description = string.Format(ToFormat, inputs[0].material.ProperName(), inputs[1].material.ProperName(), outputs[0].material.ProperName(), outputs[1].material.ProperName());
 			return this;
 		}
 		public RecipeBuilder Description3I2O(string ToFormat)
 		{
+			if (inputs.Count < 3 || outputs.Count < 2)
+			{
+				throw new InvalidOperationException("Recipe must have at least three inputs and two outputs to use Description3I2O.");
+			}
 			description = string.Format(ToFormat, inputs[0].material.ProperName(), inputs[1].material.ProperName(), inputs[2].material.ProperName(), outputs[0].material.ProperName(), outputs[1].material.ProperName());
 			return this;
 		}
