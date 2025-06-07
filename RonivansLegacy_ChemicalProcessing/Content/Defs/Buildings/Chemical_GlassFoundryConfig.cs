@@ -79,6 +79,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			fabricator.storeProduced = true;
 			fabricator.inStorage.SetDefaultStoredItemModifiers(FoundryStoredItemModifiers);
 			fabricator.buildStorage.SetDefaultStoredItemModifiers(FoundryStoredItemModifiers);
+			fabricator.outStorage.SetDefaultStoredItemModifiers(FoundryStoredItemModifiers);
 			fabricator.outputOffset = new Vector3(1f, 0.5f);
 			fabricator.heatedTemperature = 296.15f;
 
