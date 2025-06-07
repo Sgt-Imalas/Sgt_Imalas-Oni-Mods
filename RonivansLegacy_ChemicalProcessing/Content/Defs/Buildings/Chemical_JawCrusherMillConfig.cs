@@ -187,19 +187,19 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Result: Crushed Rock - 100kg
 			//-------------------------------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, CHEMICAL_COMPLEXFABRICATOR_STRINGS.CRUSHEDROCK_FROM_RAW_MINERAL_DESCRIPTION, 40)
-				.Input(ElementLoader.elements.Where(e => e.IsSolid && e.HasTag(GameTags.Crushable)).Select(e => e.id.CreateTag()), 100f)
+				.Input(RefinementRecipeHelper.GetCrushables().Select(e => e.id.CreateTag()), 100f)
 				.Output(SimHashes.CrushedRock, 100f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.NameOverride(CHEMICAL_COMPLEXFABRICATOR_STRINGS.CRUSHEDROCK_FROM_RAW_MINERAL_NAME)
 				.SortOrder(0)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
 				.Build();
-			var specialOres = RefinementRecipeHelper.GetSpecialOres();
 
 			//---- [ Ore Crushing ] -----------------------------------------------------------------------------------------------------
 			// Ingredient: Ore - 100kg
 			// Result: RefinedMetal - 50kg
 			//         Sand - 50g
 			//----------------------------------------------------------------------------------------------------------------------------------
+			var specialOres = RefinementRecipeHelper.GetSpecialOres();
 			foreach (var element in ElementLoader.elements.FindAll(e => e.IsSolid && e.HasTag(GameTags.Ore)))
 			{
 				if (specialOres.Contains(element.id) || element.HasTag(GameTags.Noncrushable) || element.HasTag(ModAssets.Tags.RandomSand))

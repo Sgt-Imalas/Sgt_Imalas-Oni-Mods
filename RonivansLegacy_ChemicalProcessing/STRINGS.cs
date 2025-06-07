@@ -384,6 +384,22 @@ namespace RonivansLegacy_ChemicalProcessing
 						" in to useful materials and industrial ingredients."
 						});
 				}
+				public class CHEMICAL_NAPHTHAREFORMER
+				{
+					public static LocString NAME = FormatAsLink("Naphtha Reformer", nameof(CHEMICAL_NAPHTHAREFORMER));
+					public static LocString DESC = "An industrial petrochemical plant responsible for rearranging hydrocarbon molecules of Naphtha in to Petroleum.";
+					public static LocString EFFECT = string.Concat(new string[]
+						{
+							"Second Stage refinement plant is capable of furter refine ",FormatAsLink("Naphtha", "NAPHTHA"), ":\n "+
+							"- 45% ",FormatAsLink("Petroleum", "PETROLEUM"), "\n" +
+							"- 10% ",FormatAsLink("Natural Gas", "METHANE"), "\n" +
+							"- 45% ",FormatAsLink("Bitumen", "BITUMEN"),".\n\n" +
+							
+							"The process requires ", FormatAsLink("Hydrogen", "HYDROGEN")," to buffer the reaction." +
+							"IMPORTANT: The building require all pipes ports to be connected with their respective pipes in order for it to operate."
+						});
+				}
+
 			}
 		}
 
