@@ -12,18 +12,19 @@ namespace DuperyFixed.Source.Patch
 	internal class SpeechMonitor_Patch
     {
 		/// <summary>
-		/// Register custom mouth for personalities that have RoboMouthConversation marked as true.
+		/// Register custom mouth for personalities that have custom mouths defined.
+		/// also swap anim files for the speech monitor if the personality has a custom conversation kanim defined.
 		/// </summary>
-		[HarmonyPatch(typeof(SpeechMonitor.Instance), nameof(SpeechMonitor.Instance.SetMouthId))]
+		[HarmonyPatch(typeof(SpeechMonitor), nameof(SpeechMonitor.CreateMouth))]
         public class SpeechMonitor_SetMouthId_Patch
 		{
-            public static void Postfix(SpeechMonitor.Instance __instance)
+            public static void Postfix(SpeechMonitor.Instance smi)
             {
-				var personalityResourceId = __instance.smi.Get<MinionIdentity>().personalityResourceId;
+				var personalityResourceId = smi.Get<MinionIdentity>().personalityResourceId;
 				Personality personality = Db.Get().Personalities.Get(personalityResourceId);
 				if (personality.speech_mouth > 0)
 				{
-					__instance.mouthId = $"_{personality.speech_mouth:000}";
+					smi.mouthId = $"_{personality.speech_mouth:000}";
 				}
 
 
@@ -36,7 +37,7 @@ namespace DuperyFixed.Source.Patch
 						return;
 					}
 					SgtLogger.l("setting custom conversation kanim: " + kanim + " for "+ personalityResourceId);
-					__instance.mouth.AnimFiles = [animFile];
+					smi.mouth.AnimFiles = [animFile];
 				}
 			}
         }
