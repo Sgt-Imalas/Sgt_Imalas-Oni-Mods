@@ -657,6 +657,13 @@ namespace BlueprintsV2.UnityUI
 			RefreshRequested = false;
 			ClearUIState();
 		}
+
+		internal static bool HasBlueprintSelected()
+		{
+			if (Instance == null)
+				return false;
+			return Instance.TargetBlueprint != null;
+		}
 	}
 }
 

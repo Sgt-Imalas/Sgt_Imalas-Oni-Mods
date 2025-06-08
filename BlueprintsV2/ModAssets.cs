@@ -96,7 +96,7 @@ namespace BlueprintsV2
 		public static bool TryGetReplacementTag(BlueprintSelectedMaterial tag, out Tag replacement)
 		{
 			replacement = null;
-			if ((SelectedBlueprint == null && BlueprintSelectionScreen.Instance.TargetBlueprint == null) || BlueprintState.IsPlacingSnapshot) //only do replacement in regular blueprint tool, not in snapshot tool
+			if ((SelectedBlueprint == null && !BlueprintSelectionScreen.HasBlueprintSelected()) || BlueprintState.IsPlacingSnapshot) //only do replacement in regular blueprint tool, not in snapshot tool
 			{
 				return false;
 			}
