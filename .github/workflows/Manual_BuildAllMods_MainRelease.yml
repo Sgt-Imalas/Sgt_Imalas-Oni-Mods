@@ -40,7 +40,7 @@ jobs:
             echo "|-|-|-|" >> Desc.md
             
             #create version info json file
-            echo "{`"mods:`"[" >> ./BuildsZipped/_ReleaseVersionInfoData.json
+            echo "{`"mods`:"[" >> ./BuildsZipped/_ReleaseVersionInfoData.json
 
             #iterate through the built mod folders to individually zip them and grep their info
             $source = './Builds'
