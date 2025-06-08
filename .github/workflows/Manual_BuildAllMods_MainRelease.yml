@@ -64,8 +64,8 @@ jobs:
             #write version data to version json file
             $minGameVersion= $modInfoData."minimumSupportedBuild"
             $modVersion= $modInfoData."version"
-            echo "{`"staticId`":`"$modId`",`"version`":`"$modVersion`",`"minimumSupportedBuild`":`"$minGameVersion`,`"modName`":`"$ModName`",`"modDesc`":`"$ModDesc`"},">> ./BuildsZipped/_ReleaseVersionInfoData.json
-            
+            echo "{`"staticId`":`"$modId`",`"version`":`"$modVersion`",`"minimumSupportedBuild`":`"$minGameVersion`",`"modName`":`"$ModName`",`"modDesc`":`"$ModDesc`"},">> ./BuildsZipped/_ReleaseVersionInfoData.json
+
             #create zip file
             Compress-Archive `
             -Path $folderpath/* `
