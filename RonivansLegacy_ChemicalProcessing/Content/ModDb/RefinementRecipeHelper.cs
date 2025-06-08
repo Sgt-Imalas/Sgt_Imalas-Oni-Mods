@@ -15,5 +15,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		}
 		public static IEnumerable<Element> GetCrushables() => ElementLoader.elements.Where(e => e.IsSolid && e.HasTag(GameTags.Crushable));
 
+
 	}
 }

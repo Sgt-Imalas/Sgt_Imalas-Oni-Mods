@@ -1,4 +1,5 @@
-﻿using STRINGS;
+﻿using Dupes_Industrial_Overhaul.Chemical_Processing.Chemicals;
+using STRINGS;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -394,11 +395,84 @@ namespace RonivansLegacy_ChemicalProcessing
 							"- 45% ",FormatAsLink("Petroleum", "PETROLEUM"), "\n" +
 							"- 10% ",FormatAsLink("Natural Gas", "METHANE"), "\n" +
 							"- 45% ",FormatAsLink("Bitumen", "BITUMEN"),".\n\n" +
-							
+
 							"The process requires ", FormatAsLink("Hydrogen", "HYDROGEN")," to buffer the reaction." +
 							"IMPORTANT: The building require all pipes ports to be connected with their respective pipes in order for it to operate."
 						});
 				}
+				public class CHEMICAL_PROPANEREFORMER
+				{
+					public static LocString NAME = FormatAsLink("Propane Reformer", nameof(CHEMICAL_PROPANEREFORMER));
+					public static LocString DESC = "An industrial petrochemical plant responsible for oxidative steam reforming process of Propane to Hydrogen.";
+					public static LocString EFFECT = string.Concat(new string[]
+						{
+							"Reforming process of ",FormatAsLink("Propane", "PROPANE"), " in to:\n "+
+							"- 60% ",FormatAsLink("Hydrogen", "HYDROGEN"), "\n" +
+							"- 30% ",FormatAsLink("Polluted Water", "DIRTYWATER"), " waste\n" +
+							"- 10% ",FormatAsLink("Carbon Dioxide", "CARBONDIOXIDE")," waste\n" +
+
+							"The process require ",FormatAsLink("Steam", "STEAM")," for the operation.\n\n" +
+							"IMPORTANT: The building require all pipes ports to be connected with their respective pipes in order for it to operate."
+						});
+				}
+				public class CHEMICAL_PYROLYSISKILN
+				{
+					public static LocString NAME = FormatAsLink("Pyrolysis Kiln", nameof(CHEMICAL_PYROLYSISKILN));
+					public static LocString DESC = "A basic kiln that uses pyrolysis process to convert woodlogs to usable coal.";
+					public static LocString EFFECT = string.Concat(new string[]
+						{
+							"Cook ",
+							FormatAsLink("Woodlog", "WOODLOG"),
+							" to ",
+							FormatAsLink("Coal", "CARBON"),
+							"."
+						});
+				}
+				public class CHEMICAL_RAWGASREFINERY
+				{
+					public static LocString NAME = FormatAsLink("Raw Gas Refinery", nameof(CHEMICAL_RAWGASREFINERY));
+					public static LocString DESC = "An industrial process plant responsible for refining the impure raw natural gas extracted from wells.";
+					public static LocString EFFECT = string.Concat(new string[]
+						{
+							"This refinement plant is capable of the following production: \n " +
+							"- 50% ",FormatAsLink("Natural Gas", "METHANE"), "\n" +
+							"- 35% ",FormatAsLink("Propane", "PROPANE"), "\n" +
+							"- 15% ",FormatAsLink("Sour Water", "SOURWATER")," waste\n" +
+							"The process require ",FormatAsLink("Steam", "STEAM")," for the operation.\n\n" +
+
+							"IMPORTANT: The building require all pipes ports to be connected with their respective pipes in order for it to operate."
+
+						});
+				}
+				public class CHEMICAL_RAYONLOOM
+				{
+					public static LocString NAME = FormatAsLink("Rayon Loom", nameof(CHEMICAL_RAYONLOOM));
+					public static LocString DESC = "A chemical loom capable of producing celulose fibers with Viscose process.";
+					public static LocString EFFECT = string.Concat(new string[]
+						{
+							"Produces ",
+							FormatAsLink("Rayon Fiber", RayonFabricConfig.TAG.ProperName()),
+							" from ",
+							global::STRINGS.ELEMENTS.WOODLOG.NAME,
+							" pulp through a complex chemical reaction. Requires ",
+							FormatAsLink("Synthetic Gas", "SYNGAS"),
+							" and constantly outputs ",
+							FormatAsLink("Steam", "STEAM"),
+							" while operational."
+						});
+				}
+				public class CHEMICAL_SELECTIVEARCFURNACE
+				{
+					public static LocString NAME = FormatAsLink("Selective Arc-Furnace", nameof(CHEMICAL_SELECTIVEARCFURNACE));
+					public static LocString DESC = "A specialized furnace that heats material by means of an electric arc. Its delicate heat control structure allows mixture of metal alloys, as well separating metals from an homogeneous mixture of scraps. Since the furnace is air-cooled, it releases a lot of heat into its surroundings.";
+					public static LocString EFFECT = string.Concat(new string[]
+						{
+							"Special works with ",
+							FormatAsLink("Refined Metals", "REFINEDMETAL"),
+							" and in the manufacture of metal alloys."
+						});
+				}
+
 
 			}
 		}
@@ -450,13 +524,27 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString JAWCRUSHERMILL_MILLING_1_2 = "Break down {0} to {1} and {2}.";
 				public static LocString JAWCRUSHERMILL_MILLING_1_4 = "Break down {0} to:\n• {1}\n• {2}\n• {3}\n• {4}";
 				public static LocString CRUSHEDROCK_FROM_RAW_MINERAL_NAME = FormatAsLink("Raw Mineral", "BUILDABLERAW") + " to " + global::STRINGS.ELEMENTS.CRUSHEDROCK.NAME;
-				public static LocString CRUSHEDROCK_FROM_RAW_MINERAL_DESCRIPTION = "Crushes " + FormatAsLink("Raw Minerals", "BUILDABLERAW") + " into " + global::STRINGS.ELEMENTS.CRUSHEDROCK.DESC;
+				public static LocString CRUSHEDROCK_FROM_RAW_MINERAL_DESCRIPTION = "Crushes " + FormatAsLink("Raw Minerals", "BUILDABLERAW") + " into " + global::STRINGS.ELEMENTS.CRUSHEDROCK.NAME;
+				public static LocString RAYON_LOOM_FIBER = "Produces {0} from the pulp of {1}.";
+				
+				public static LocString ARCFURNACE_SMELT_2_1 = "Smelt {0} and {1} to produce {2}";
+				public static LocString ARCFURNACE_SMELT_3_1 = "Smelt {0} and {1} with addition of {2} to produce {3}";
+				public static LocString ARCFURNACE_STEEL_1 = "Refine {0} to {3} with a mixture of of {1} and {2} ";
+				public static LocString ARCFURNACE_STEEL_2 = "Refine {0} to {4} with a mixture of of {1}, {2} and {3}";
+				public static LocString ARCFURNACE_RANDOM_RECIPE =
+					"Smelt {0} into random products.\n" +
+					"The Furnace system will separate the mixture in different portions based on each layer composition.\n" +
+					"The smelting process has a random chance of yelding the following materials: {1}\n" +
+					"\nProduces {2} as waste.";
+				public static LocString ARCFURNACE_NIOBIUM = "Smelt down {0} alloy to basic {1} metal.";
+
 
 				public class RANDOMRECIPERESULT
 				{
 					public static LocString NAME = "Random Composition: {0}";
 					public static LocString DESC = "This recipe yields {0} of random amounts of the following elements:";
 					public static LocString DESC_MAX_COUNT = "This recipe yields {0} of random amounts of {1} of the following elements:";
+					public static LocString DESC_RANGE = "{0} - {1}";
 					public static LocString COMPOSITION_ENTRY = "• {0}, {1} - {2}";
 					public static LocString COMPOSITION_ENTRY_CHANCE = "• {0}: {1} - {2}, {3} Chance";
 				}

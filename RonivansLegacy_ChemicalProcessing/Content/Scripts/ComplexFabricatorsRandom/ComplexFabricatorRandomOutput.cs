@@ -7,11 +7,14 @@ using static ComplexRecipe;
 using static Klei.SimUtil;
 using UnityEngine;
 using UtilLibs;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRandom
 {
 	class ComplexFabricatorRandomOutput : ComplexFabricator
 	{
+		[MyCmpGet] Building building;
+
 		public RecipeRandomResult DefaultOutput = null;
 		protected void SpawnRandomProductsFromCurrentRecipe()
 		{
@@ -58,9 +61,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 				return;
 			SpawnRandomProductsFromCurrentRecipe();
 		}
-		public virtual Dictionary<Tag, RecipeRandomResult> GetRandomOutputSelection()
+		public Dictionary<Tag, RecipeRandomResult> GetRandomOutputSelection()
 		{
-			return	new();
+			if(RandomRecipeResults.GetRandomResultList(building.Def.PrefabID, out var recipeSelection))
+				return recipeSelection;
+			return new();
 		}
 	}
 }

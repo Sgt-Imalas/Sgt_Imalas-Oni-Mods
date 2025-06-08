@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using static ComplexRecipe.RecipeElement;
 using static ComplexRecipe;
 
-namespace UtilLibs 
+namespace UtilLibs
 {
 	public class RecipeBuilder //Source: Aki
 	{
@@ -55,7 +55,7 @@ namespace UtilLibs
 			}
 			return this;
 		}
-		public RecipeBuilder Description(System.Func<RecipeElement[], RecipeElement[], string> descriptionAction)
+		public RecipeBuilder DescriptionFunc(System.Func<RecipeElement[], RecipeElement[], string> descriptionAction)
 		{
 			if (descriptionAction != null)
 			{
@@ -63,62 +63,64 @@ namespace UtilLibs
 			}
 			return this;
 		}
-		public RecipeBuilder Description1I1O(string ToFormat)
-		{
-			if (inputs.Count < 1 || outputs.Count < 1)
-			{
-				throw new InvalidOperationException("Recipe must have at least one input and one output to use Description1I1O.");
-			}
-			description = string.Format(ToFormat, inputs[0].material.ProperName(), outputs[0].material.ProperName());
-			return this;
-		}
 
-		public RecipeBuilder Description1I2O(string ToFormat)
+		public RecipeBuilder Description(string ToFormat, int inputCount,int outputCount)
 		{
-			if (inputs.Count < 1 || outputs.Count < 2)
+			if (inputs.Count < inputCount || outputs.Count < outputCount)
 			{
-				throw new InvalidOperationException("Recipe must have at least one input and two outputs to use Description1I2O.");
+				throw new InvalidOperationException($"Recipe must have at least {inputCount} inputs and {outputCount} outputs to use Description.");
 			}
-			description = string.Format(ToFormat, inputs[0].material.ProperName(), outputs[0].material.ProperName(), outputs[1].material.ProperName());
+			description = string.Format(ToFormat, GetFormatArgs(inputCount, outputCount));
 			return this;
 		}
-		public RecipeBuilder Description1I4O(string ToFormat)
+		public string[] GetFormatArgs(int inputCount, int outputCount)
 		{
-			if (inputs.Count < 1 || outputs.Count < 4)
+			if (inputCount > inputs.Count || outputCount > outputs.Count)
 			{
-				throw new InvalidOperationException("Recipe must have at least one input and four outputs to use Description1I4O.");
+				throw new InvalidOperationException($"Recipe must have at least {inputCount} inputs and {outputCount} outputs to use GetFormatArgs.");
 			}
-			description = string.Format(ToFormat, inputs[0].material.ProperName(), outputs[0].material.ProperName(), outputs[1].material.ProperName(), outputs[2].material.ProperName(), outputs[3].material.ProperName());
-			return this;
-		}
-		public RecipeBuilder Description1I3O(string ToFormat)
-		{
-			if (inputs.Count < 1 || outputs.Count < 3)
-			{
-				throw new InvalidOperationException("Recipe must have at least one input and three outputs to use Description1I3O.");
-			}
-			description = string.Format(ToFormat, inputs[0].material.ProperName(), outputs[0].material.ProperName(), outputs[1].material.ProperName(), outputs[2].material.ProperName());
-			return this;
-		}
-		public RecipeBuilder Description2I2O(string ToFormat)
-		{
-			if (inputs.Count < 2 || outputs.Count < 2)
-			{
-				throw new InvalidOperationException("Recipe must have at least two inputs and two outputs to use Description2I2O.");
-			}
-			description = string.Format(ToFormat, inputs[0].material.ProperName(), inputs[1].material.ProperName(), outputs[0].material.ProperName(), outputs[1].material.ProperName());
-			return this;
-		}
-		public RecipeBuilder Description3I2O(string ToFormat)
-		{
-			if (inputs.Count < 3 || outputs.Count < 2)
-			{
-				throw new InvalidOperationException("Recipe must have at least three inputs and two outputs to use Description3I2O.");
-			}
-			description = string.Format(ToFormat, inputs[0].material.ProperName(), inputs[1].material.ProperName(), inputs[2].material.ProperName(), outputs[0].material.ProperName(), outputs[1].material.ProperName());
-			return this;
-		}
+			var result = new string[inputCount + outputCount];
 
+			for (int i = 0; i < inputCount; i++)
+			{
+				var input = inputs[i];
+				if (input == null)
+					throw new InvalidOperationException($"Input {i} is null in GetFormatArgs.");
+				var tag = input.material;
+				var item = Assets.GetPrefab(tag);
+				if (item != null)
+				{
+					result[i] = item.GetProperName();
+				}
+				else
+				{
+					result[i] = tag.ProperName();
+				}
+			}
+			for (int i = 0; i < outputCount; i++)
+			{
+				var output = outputs[i];
+				if (output == null)
+					throw new InvalidOperationException($"Output {i} is null in GetFormatArgs.");
+				var tag = output.material;
+				var item = Assets.GetPrefab(tag);
+				if (item != null)
+				{
+					result[inputCount + i] = item.GetProperName();
+				}
+				else
+				{
+					result[inputCount + i] = tag.ProperName();
+				}
+			}
+			return result;
+		}
+		public RecipeBuilder Description1I1O(string ToFormat) => Description(ToFormat, 1, 1);
+		public RecipeBuilder Description1I2O(string ToFormat) => Description(ToFormat, 1, 2);
+		public RecipeBuilder Description1I3O(string ToFormat) => Description(ToFormat, 1, 3);
+		public RecipeBuilder Description1I4O(string ToFormat) => Description(ToFormat, 1, 4);
+		public RecipeBuilder Description2I2O(string ToFormat) => Description(ToFormat, 2, 2);
+		public RecipeBuilder Description3I2O(string ToFormat) => Description(ToFormat, 3, 2);
 
 		public RecipeBuilder NameDisplay(RecipeNameDisplay nameDisplay)
 		{
@@ -148,6 +150,22 @@ namespace UtilLibs
 			inputs.Add(new RecipeElement(tags.ToArray(), amount));
 			return this;
 		}
+		public RecipeBuilder InputSO(SimHashes simHashes, float amount, bool inheritElement = true)
+		{
+			if (DlcManager.IsExpansion1Active())
+				return Input(simHashes, amount, inheritElement);
+			else
+				return this;
+		}
+		public RecipeBuilder InputBase(SimHashes simHashes, float amount, bool inheritElement = true)
+		{
+			if (DlcManager.IsPureVanilla())
+				return Input(simHashes, amount, inheritElement);
+			else
+				return this;
+		}
+
+
 		public RecipeBuilder Input(SimHashes simhash, float amount, bool inheritElement = true)
 		{
 			inputs.Add(new RecipeElement(simhash.CreateTag(), amount, inheritElement));

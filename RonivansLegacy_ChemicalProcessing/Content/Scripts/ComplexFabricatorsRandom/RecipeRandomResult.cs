@@ -13,21 +13,28 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 		public float TotalMass { get; private set; }
 		public float MinTemp { get; private set; }
 		public float MaxTemp { get; private set; }
-		public int TotalRequiredProducts { get; private set; }
+
+		public int RequiredProductsMin = -1, RequiredProductsMax = -1;
+
 		public Dictionary<SimHashes, Tuple<float, float, float>> RandomProductsRange;
 
-		public RecipeRandomResult(float _totalMass, float minTempC, float maxTempC, int totalProds = -1)
+		public RecipeRandomResult(float _totalMass, float minTempC, float maxTempC)
 		{
 			TotalMass = _totalMass;
 			RandomProductsRange = new();
 			MaxTemp = UtilMethods.GetKelvinFromC(maxTempC);
 			MinTemp = UtilMethods.GetKelvinFromC(minTempC);
-			TotalRequiredProducts = totalProds;
+		}
+		public RecipeRandomResult ProductCount(int count) => ProductCountRange(count, count);
+
+		public RecipeRandomResult ProductCountRange(int countMin, int countMax) 
+		{
+			RequiredProductsMin = countMin;
+			RequiredProductsMax = countMax;
+			return this;
 		}
 
-
-		static StringBuilder sb;
-
+		StringBuilder sb = null;
 		public string GetProductCompositionName()
 		{
 			return string.Format(STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.NAME, GameUtil.GetFormattedMass(TotalMass, massFormat: GameUtil.MetricMassFormat.Kilogram));
@@ -42,9 +49,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 
 			string totalMass = GameUtil.GetFormattedMass(TotalMass, massFormat: GameUtil.MetricMassFormat.Kilogram);
 
-			if (TotalRequiredProducts > 0)
+			if (RequiredProductsMax > 0)
 			{
-				sb.AppendLine(string.Format(STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.DESC_MAX_COUNT, totalMass, TotalRequiredProducts));
+				string count = RequiredProductsMax == RequiredProductsMin
+					? RequiredProductsMax.ToString()
+					: string.Format(STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.DESC_RANGE, RequiredProductsMin, RequiredProductsMax);
+				sb.AppendLine(string.Format(STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.DESC_MAX_COUNT, totalMass, count));
 			}
 			else
 			{
@@ -54,7 +64,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 
 			foreach (var product in RandomProductsRange)
 			{
-
 				var element = product.Key.CreateTag().ProperName();
 				var range = product.Value;
 				var minAmount = GameUtil.GetFormattedMass(range.first, massFormat: GameUtil.MetricMassFormat.Kilogram);
@@ -69,7 +78,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 					sb.AppendLine(string.Format(STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.COMPOSITION_ENTRY, element, minAmount, maxAmount));
 				}
 			}
-			return sb.ToString() ;
+			return sb.ToString();
 		}
 
 		public RecipeRandomResult AddProduct(SimHashes product, float minAmount, float maxAmount, float chanceToAppear = 1)
@@ -81,16 +90,18 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 			RandomProductsRange[product] = new Tuple<float, float, float>(minAmount, maxAmount, chanceToAppear);
 			return this;
 		}
+		public bool HasMaxProductCount => RequiredProductsMax > 0;
+
 		public List<Tuple<SimHashes, float>> GetRandomProducts()
 		{
 			List<Tuple<SimHashes, float>> products = new();
 
-			var randomProducts = this.RandomProductsRange.Keys.Shuffle();
 			HashSet<SimHashes> alreadyAdded = new HashSet<SimHashes>();
-			bool loopForRequiredProductNumber = TotalRequiredProducts > 0;
+			int numRequiredProducts = UnityEngine.Random.Range(RequiredProductsMin,RequiredProductsMax+1);
 
 			do
 			{
+				var randomProducts = this.RandomProductsRange.Keys.Shuffle();
 				foreach (var product in randomProducts)
 				{
 					if (alreadyAdded.Contains(product))
@@ -105,7 +116,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 					if (randomAmount <= 0)
 						continue;
 
-					if (loopForRequiredProductNumber && products.Count >= TotalRequiredProducts)
+					if (HasMaxProductCount && products.Count >= numRequiredProducts)
 					{
 						break; // Limit the number of products to TotalProducts
 					}
@@ -117,7 +128,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 					alreadyAdded.Add(product); // Mark product as added
 					products.Add(new Tuple<SimHashes, float>(product, randomAmount));
 				}
-			} while (loopForRequiredProductNumber && products.Count() < TotalRequiredProducts);
+			} while (HasMaxProductCount && products.Count() < numRequiredProducts);
 
 
 			var totalMassProducts = products.Sum(x => x.second);
