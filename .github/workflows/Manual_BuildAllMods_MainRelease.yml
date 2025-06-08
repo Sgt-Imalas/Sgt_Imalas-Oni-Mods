@@ -62,7 +62,7 @@ jobs:
             echo "| $modId | $ModName | $ModDesc |" >> Desc.md
             
             $ModNameCleaned = $ModName.Replace('''','').Replace('"','')
-            $$ModDescCleaned = $ModDesc.Replace('''','').Replace('"','')
+            $ModDescCleaned = $ModDesc.Replace('''','').Replace('"','')
 
             #write version data to version json file
             $minGameVersion= $modInfoData."minimumSupportedBuild"
