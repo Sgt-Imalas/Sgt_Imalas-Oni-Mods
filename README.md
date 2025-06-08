@@ -10,7 +10,9 @@ Mods for Oxygen Not Included and ONI - Spaced Out.
 
 
 ## Mods in this Repository
-My mods can be found on the [Steam Workshop](https://steamcommunity.com/id/Sgt_Imalas/myworkshopfiles/?p=1&numperpage=30)
+My mods can be found on the [Steam Workshop](https://steamcommunity.com/id/Sgt_Imalas/myworkshopfiles/?p=1&numperpage=30).
+
 For direct downloads, there are both [nightly builds](https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases/tag/AllMods_Automated_Build_Nightly) and [full releases](https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases/tag/AllMods_Automated_Build_FullRelease).
+
 
 Downloads for older ONI versions can also be found in [releases](https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases).
