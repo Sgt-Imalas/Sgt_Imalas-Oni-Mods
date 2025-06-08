@@ -25,7 +25,7 @@
 	<PropertyGroup>
 		<ModName>Loading Pip</ModName>
 		<ModDescription>Replace your loading screen icons</ModDescription>
-		 
+		<SteamId>3408518726</SteamId>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

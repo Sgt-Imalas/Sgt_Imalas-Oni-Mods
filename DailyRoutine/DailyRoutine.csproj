@@ -25,6 +25,7 @@
 	<PropertyGroup>
 		<ModName>Daily Routine</ModName>
 		<ModDescription>Set reoccuring production tasks to reoccur each day</ModDescription>
+		<SteamId>2863383492</SteamId>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

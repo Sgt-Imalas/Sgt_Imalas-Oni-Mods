@@ -25,6 +25,7 @@
 	<PropertyGroup>
 		<ModName>Modify Difficulty Settings</ModName>
 		<ModDescription>Change difficulty settings of existing games</ModDescription>
+		<SteamId>2962220957</SteamId>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

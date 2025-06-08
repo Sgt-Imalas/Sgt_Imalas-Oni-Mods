@@ -26,6 +26,7 @@
 		<ModName>Extra Moulding Skins</ModName>
 		<ModDescription>More skin designs for the corner trim</ModDescription>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
+		<SteamId>2930191391</SteamId>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 

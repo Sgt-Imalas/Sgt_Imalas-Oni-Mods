@@ -24,7 +24,8 @@
 	<!-- Mod Info -->
 	<PropertyGroup>
 		<ModName>Duplicant Stat Selector [DSS]</ModName>
-		<ModDescription>Customize everything related to your duplicants and the printing pod</ModDescription>		
+		<ModDescription>Customize everything related to your duplicants and the printing pod</ModDescription>
+		<SteamId>2856555858</SteamId>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

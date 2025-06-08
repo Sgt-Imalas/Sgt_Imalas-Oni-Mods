@@ -25,6 +25,7 @@
 	<PropertyGroup>
 		<ModName>Decor Pack S - Winters Delight</ModName>
 		<ModDescription>Snow Sculptures, Snow Machines and a festive Tree to decorate your base with</ModDescription>
+		<SteamId>3390581599</SteamId>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

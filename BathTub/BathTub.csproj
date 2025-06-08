@@ -25,6 +25,7 @@
 	<PropertyGroup>
 		<ModName>Bubbles Bathtub</ModName>
 		<ModDescription>Upgrade from showers - the bathtub is there</ModDescription>
+		<SteamId>3286559448</SteamId>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

@@ -26,6 +26,7 @@
 		<ModName>ConveyorTiles</ModName>
 		<ModDescription>Conveyor Tiles that move items around</ModDescription>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
+		<SteamId>3196698830</SteamId>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 

@@ -25,7 +25,7 @@
 	<PropertyGroup>
 		<ModName>&lt;color=#C7ADFF&gt;Universal Electrolyzer&lt;/color&gt;</ModName>
 		<ModDescription>Makes the Electrolyzer able to work with all types of water, with varying products</ModDescription>
-		 
+		<SteamId>3052201693</SteamId>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

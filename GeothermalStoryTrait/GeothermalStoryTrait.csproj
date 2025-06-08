@@ -26,6 +26,7 @@
 	<PropertyGroup>
 		<ModName>Geothermal Story Trait</ModName>
 		<ModDescription>Adds the geothermal power plant from the frosty planet pack to the story trait list</ModDescription>
+		<SteamId>3485474178</SteamId>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

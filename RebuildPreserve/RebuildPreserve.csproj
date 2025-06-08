@@ -25,7 +25,8 @@
 	<!-- Mod Info -->
 	<PropertyGroup>
 		<ModName>Better Rebuilding</ModName>
-		<ModDescription>Keeps building settings on rebuild</ModDescription>		 
+		<ModDescription>Keeps building settings on rebuild</ModDescription>
+		<SteamId>3204497859</SteamId> 
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

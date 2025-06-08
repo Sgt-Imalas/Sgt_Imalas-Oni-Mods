@@ -16,6 +16,7 @@
 		<AssemblyName>BlueprintsV2</AssemblyName>
 		<RootNamespace>BlueprintsV2</RootNamespace>
 		<IsMod>true</IsMod>
+		<SteamId>3468585385</SteamId>
 		<GenerateMetadata>true</GenerateMetadata>
 		<IsPacked>true</IsPacked>
 	</PropertyGroup>

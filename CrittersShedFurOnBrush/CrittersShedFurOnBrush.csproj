@@ -26,6 +26,7 @@
 		<ModName>Critter Shedding</ModName>
 		<ModDescription>Fluffy Critters start dropping furballs when brushed</ModDescription>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
+		<SteamId>2915844170</SteamId>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 

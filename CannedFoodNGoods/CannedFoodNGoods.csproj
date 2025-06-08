@@ -17,6 +17,7 @@
 		<RootNamespace>CannedFoods</RootNamespace>
 		<IsMod>true</IsMod>
 		<GenerateMetadata>true</GenerateMetadata>
+		<SteamId>2818855295</SteamId>
 		<IsPacked>true</IsPacked>
 	</PropertyGroup>
 

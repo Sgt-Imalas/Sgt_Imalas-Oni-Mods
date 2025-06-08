@@ -26,6 +26,7 @@
 		<ModName>Critter Traits</ModName>
 		<ModDescription>Those Critters have traits now!</ModDescription>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
+		<SteamId>2954005789</SteamId>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 

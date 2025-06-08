@@ -26,6 +26,7 @@
 		<ModName>Rotatable Radbolt Chamber Output</ModName>
 		<ModDescription>This mod adds an adjustable output direction to the radbolt storage</ModDescription>
 		<RequiredDlcIds>EXPANSION1_ID</RequiredDlcIds>
+		<SteamId>2886144715</SteamId>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
