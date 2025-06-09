@@ -7,12 +7,36 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<UseWPF>true</UseWPF>
 		<DoNotBuildAsMod>true</DoNotBuildAsMod>
+		<Optimize>false</Optimize>
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+	  <PackageReference Include="YamlDotNet" Version="16.3.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Remove="Assembly-CSharp" />
+		<Reference Remove="Assembly-CSharp-firstpass" />
 		<Reference Include="UnityEngine.SharedInternalsModule">
 			<HintPath>X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\UnityEngine.SharedInternalsModule.dll</HintPath>
 		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Properties\Settings.Designer.cs">
+	    <DesignTimeSharedInput>True</DesignTimeSharedInput>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Settings.settings</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Properties\Settings.settings">
+	    <Generator>SettingsSingleFileGenerator</Generator>
+	    <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+	  </None>
 	</ItemGroup>
 
 </Project>

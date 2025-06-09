@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using _SgtsModUpdater.Model;
+using _SgtsModUpdater.Model.Update;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,10 +21,24 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-    }
+		PackView.ItemsSource = ModManager.Instance.Repos;
+		ModListView.ItemsSource = ModManager.Instance.CurrentRepoMods;
+		ModManager.Instance.FetchRepos();
 
-	private void RefreshButton_Click(object sender, RoutedEventArgs e)
+
+	}
+	private void PackView_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
 	{
+		var item = (sender as ListView).SelectedItem;
+		if (item is ModRepoListInfo info)
+			ModManager.Instance.SelectRepo(info);
+	}
 
+
+	private void Mod_Action_Click(object sender, RoutedEventArgs e)
+	{
+		var rowItem = (sender as Button).DataContext as VersionInfoWeb;
+
+		rowItem.TryInstallUpdate();
 	}
 }
