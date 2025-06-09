@@ -16,6 +16,16 @@ namespace _SgtsModUpdater.Model.Update
 {
 	public class VersionInfoWeb : INotifyPropertyChanged
 	{
+		public VersionInfoWeb() { }
+		public VersionInfoWeb(string _staticId, string _version,string _minimumSupportedBuild, string _modName, string _modDesc)
+		{
+			staticID = _staticId;
+			version = _version;
+			minimumSupportedBuild = _minimumSupportedBuild;
+			modName = _modName;
+			modDesc = _modDesc;
+		}
+
 		public string staticID, version, minimumSupportedBuild, modName, modDesc;
 
 		LocalMod localInstall = null;
@@ -33,10 +43,14 @@ namespace _SgtsModUpdater.Model.Update
 		{
 			_fetchUrl = releaseUrl + "/" + zipFileName;
 		}
+		public void SetFetchUrl(string fetchUrl)
+		{
+			_fetchUrl = fetchUrl;
+		}
 		private bool downloading = false;
 		public bool Downloading { get { return downloading; } set { downloading = value; OnPropertyChanged("DownloadingVisibility"); } }
 		public Visibility DownloadingVisibility => Downloading ? Visibility.Visible : Visibility.Hidden;
-
+		public string LocalModType => localInstall == null ? " - " : localInstall.ModType;
 
 		public string zipFileName => staticID + ".zip";
 
@@ -81,6 +95,7 @@ namespace _SgtsModUpdater.Model.Update
 			OnPropertyChanged("InstalledVersion"); 
 			OnPropertyChanged("GetActionString");
 			OnPropertyChanged("InstallButtonInteractable");
+			OnPropertyChanged("LocalModType");
 
 		}
 		private void OnPropertyChanged(string info)

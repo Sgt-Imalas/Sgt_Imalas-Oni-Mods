@@ -89,5 +89,16 @@ namespace _SgtsModUpdater
 
 			}
 		}
+
+		internal void AddRepoIfNotExist(List<FetchableRepoInfo> repoInfos)
+		{
+			foreach(var repo in repoInfos)
+			{
+				if (_reposToFetch.Any(existing => existing.ReleaseInfo == repo.ReleaseInfo))
+					continue;
+				_reposToFetch.Add(repo);
+			}
+
+		}
 	}
 }

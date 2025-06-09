@@ -11,6 +11,7 @@ using System.Net.Http;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using YamlDotNet.Serialization;
 
 namespace _SgtsModUpdater.Model
@@ -42,6 +43,10 @@ namespace _SgtsModUpdater.Model
 				mod.SetUrl(repo.RepoUrl);
 				CurrentRepoMods.Add(mod);
 			}
+			//var fastTrack = new VersionInfoWeb("FastTrack", "0.15.10.0", "0", "Fast Track", "The ultimate optimization mod");
+			//fastTrack.SetFetchUrl("https://github.com/peterhaneve/ONIMods/releases/download/FastTrackBeta/FastTrack.zip");
+
+			//CurrentRepoMods.Add(fastTrack);
 
 			foreach (var mod in CurrentRepoMods)
 			{
@@ -107,6 +112,18 @@ namespace _SgtsModUpdater.Model
 			{
 				var deserializer = new DeserializerBuilder().IgnoreUnmatchedProperties().Build();
 
+				var RepoDataPath = Path.Combine(modFolder, "repoinfo.json");
+				if (File.Exists(RepoDataPath))
+				{
+					try
+					{
+						var repoInfos = deserializer.Deserialize<List<FetchableRepoInfo>>(RepoDataPath);
+						if (repoInfos != null)
+							AppSettings.Instance.AddRepoIfNotExist(repoInfos);
+					}
+					catch { }
+				}
+
 				string modYamlFile = Path.Combine(modFolder, "mod.yaml");
 				if (!File.Exists(modYamlFile))
 					return null;
@@ -169,16 +186,67 @@ namespace _SgtsModUpdater.Model
 			}
 
 			string targetfolder = targetMod.LocalMod != null ? targetMod.LocalMod.FolderPath : Path.Combine(Paths.LocalModsFolder, targetMod.staticID);
+
+
 			if (File.Exists(targetMod.zipFileName))
-				ZipFile.ExtractToDirectory(targetMod.zipFileName, targetfolder, true);
+			{
+				var localExtractionFolder = Path.Combine(Directory.GetCurrentDirectory(), targetMod.staticID);
+				ZipFile.ExtractToDirectory(targetMod.zipFileName, localExtractionFolder, true);
+
+				//check for one layer too deep files
+				if (FindModZipDirectory(localExtractionFolder, out string adjustedSource))
+				{
+					CopyFilesRecursively(adjustedSource, targetfolder);
+				}
+
+			}
 
 			targetMod.SetInstalledMod(RefreshLocalModInfo(targetfolder));
+
+
 
 			if (File.Exists(targetMod.zipFileName))
 			{
 				File.Delete(targetMod.zipFileName);
 			}
 			targetMod.Downloading = false;
+		}
+		private static bool FindModZipDirectory(string currentPath, out string foundModPath)
+		{
+			foundModPath = string.Empty;
+			string modYamlFile = Path.Combine(currentPath, "mod.yaml");
+			string modInfoYamlFile = Path.Combine(currentPath, "mod_info.yaml");
+			if (File.Exists(modYamlFile) && File.Exists(modInfoYamlFile))
+			{
+				foundModPath = currentPath;
+				return true;
+			}
+
+			foreach (string dirPath in Directory.GetDirectories(currentPath))
+			{
+				if (FindModZipDirectory(dirPath, out foundModPath))
+					return true;
+
+			}
+			return false;
+		}
+
+		private static void CopyFilesRecursively(string sourcePath, string targetPath)			
+		{
+
+			Directory.CreateDirectory(targetPath);
+
+			//Now Create all of the directories
+			foreach (string dirPath in Directory.GetDirectories(sourcePath, "*", SearchOption.AllDirectories))
+			{
+				Directory.CreateDirectory(dirPath.Replace(sourcePath, targetPath));
+			}
+
+			//Copy all the files & Replaces any files with the same name
+			foreach (string newPath in Directory.GetFiles(sourcePath, "*.*", SearchOption.AllDirectories))
+			{
+				File.Copy(newPath, newPath.Replace(sourcePath, targetPath), true);
+			}
 		}
 	}
 }

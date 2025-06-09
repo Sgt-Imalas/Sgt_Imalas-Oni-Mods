@@ -8,40 +8,32 @@
 		mc:Ignorable="d"
         Title="ONI Mod Updater for local mods" Height="450" Width="800">
 	<Grid>
-		<DockPanel>
-			<Menu DockPanel.Dock="Top">
-				<MenuItem Header="_Option">
-					<MenuItem Header="_New" />
-					<MenuItem Header="_Open" />
-					<MenuItem Header="_Save" />
-					<Separator />
-					<MenuItem Header="_Exit" />
-				</MenuItem>
-			</Menu>
-			<TextBox AcceptsReturn="True" />
-		</DockPanel>
-		<Grid>
-
-			<Grid>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="3*" />
-				</Grid.ColumnDefinitions>
-				<ListView Grid.Column="0" Name="PackView" HorizontalContentAlignment="Center" PreviewMouseLeftButtonUp="PackView_PreviewMouseLeftButtonUp"></ListView>
-				<ListView Grid.Column="1" Name="ModListView" >
+		<Grid Margin="1,1,1,2">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="3*" />
+			</Grid.ColumnDefinitions>
+			<DockPanel Margin="0,0,0,0" Grid.Column="0" >
+				<Button DockPanel.Dock="Bottom" Content="Add new Repo" Height="20" IsEnabled="False"/>
+				<ListView  Name="PackView" HorizontalContentAlignment="Center" PreviewMouseLeftButtonUp="PackView_PreviewMouseLeftButtonUp"></ListView>
+			</DockPanel>
+			<DockPanel Margin="3,0,0,0" Grid.Column="1" >
+				<TextBox DockPanel.Dock="Top" Margin="0,0,0,4" Name="txtFilter" TextChanged="txtFilter_TextChanged" />
+				<ListView Name="ModListView">
 					<ListView.ItemContainerStyle>
 						<Style TargetType="ListViewItem">
 							<Setter Property="ToolTip" Value="{Binding Path=ModDesc}" />
 						</Style>
 					</ListView.ItemContainerStyle>
-					<ListView.View>
+					<ListView.View >
 
 						<GridView AllowsColumnReorder="False" ColumnHeaderToolTip="Repo Mod Information">
 
-							<GridViewColumn DisplayMemberBinding="{Binding Path=ModName}" Header="Mod Name" Width="200"/>
-							<GridViewColumn DisplayMemberBinding="{Binding Path=InstalledVersion}" Width="100" Header="Installed Version"/>
-							<GridViewColumn DisplayMemberBinding="{Binding Path=Version}" Width="100" Header="Latest Version"/>
-							<GridViewColumn Header="Action">
+							<GridViewColumn DisplayMemberBinding="{Binding Path=ModName}" Header="Mod Name" Width="180"/>
+							<GridViewColumn DisplayMemberBinding="{Binding Path=InstalledVersion}" Width="90" Header="Installed Version"/>
+							<GridViewColumn DisplayMemberBinding="{Binding Path=Version}" Width="80" Header="Latest Version"/>
+							<GridViewColumn DisplayMemberBinding="{Binding Path=LocalModType}" Header="Type"/>
+							<GridViewColumn Header="Mod Action" Width="120" >
 								<GridViewColumn.CellTemplate>
 									<DataTemplate>
 										<Grid>
@@ -54,14 +46,14 @@
 												IsEnabled="{Binding Path=InstallButtonInteractable}"/>
 											<fa:ImageAwesome Visibility="{Binding Path=DownloadingVisibility}" Icon="Refresh" Spin="True" Height="24" Width="24" />
 										</Grid>
-										
+
 									</DataTemplate>
 								</GridViewColumn.CellTemplate>
 							</GridViewColumn>
 						</GridView>
 					</ListView.View>
 				</ListView>
-			</Grid>
+			</DockPanel>
 		</Grid>
 	</Grid>
 </Window>

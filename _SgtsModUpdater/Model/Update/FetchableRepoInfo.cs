@@ -16,7 +16,6 @@ namespace _SgtsModUpdater.Model.Update
             Name = name;
 			Url = url.Substring(0, url.LastIndexOf("/"));
             ReleaseInfo = url;
-
         }
     }
 }
