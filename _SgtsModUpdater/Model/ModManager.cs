@@ -198,11 +198,11 @@ namespace _SgtsModUpdater.Model
 				{
 					CopyFilesRecursively(adjustedSource, targetfolder);
 				}
+				Directory.Delete(localExtractionFolder, true);
 
 			}
 
 			targetMod.SetInstalledMod(RefreshLocalModInfo(targetfolder));
-
 
 
 			if (File.Exists(targetMod.zipFileName))
