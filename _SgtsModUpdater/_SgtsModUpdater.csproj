@@ -7,6 +7,8 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<UseWPF>true</UseWPF>
 		<DoNotBuildAsMod>true</DoNotBuildAsMod>
+    <PublishSingleFile>true</PublishSingleFile>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
 		<Optimize>false</Optimize>
 	</PropertyGroup>
 

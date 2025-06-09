@@ -31,7 +31,7 @@ namespace _SgtsModUpdater.Model
 		}
 		public ObservableCollection<ModRepoListInfo> Repos = new();
 		public ObservableCollection<VersionInfoWeb> CurrentRepoMods = new();
-		public Dictionary<string,LocalMod> CurrentLocalInstalledMods = new();
+		public Dictionary<string, LocalMod> CurrentLocalInstalledMods = new();
 
 		public void SelectRepo(ModRepoListInfo repo)
 		{
@@ -43,9 +43,9 @@ namespace _SgtsModUpdater.Model
 				CurrentRepoMods.Add(mod);
 			}
 
-			foreach(var mod in CurrentRepoMods)
+			foreach (var mod in CurrentRepoMods)
 			{
-				if(CurrentLocalInstalledMods.TryGetValue(mod.staticID, out var localMod))
+				if (CurrentLocalInstalledMods.TryGetValue(mod.staticID, out var localMod))
 				{
 					mod.SetInstalledMod(localMod);
 				}
@@ -78,7 +78,7 @@ namespace _SgtsModUpdater.Model
 				}
 			}
 			catch (Exception e)
-			{}
+			{ }
 		}
 		public void RefreshLocalModInfoList()
 		{
@@ -92,23 +92,52 @@ namespace _SgtsModUpdater.Model
 			{
 				RefreshLocalModInfo(modFolder);
 			}
+			if (!Directory.Exists(Paths.SteamModsFolder))
+			{
+				return;
+			}
+			foreach (var modFolder in Directory.GetDirectories(Paths.SteamModsFolder))
+			{
+				RefreshLocalModInfo(modFolder);
+			}
 		}
 		LocalMod RefreshLocalModInfo(string modFolder)
 		{
-			var deserializer = new DeserializerBuilder().IgnoreUnmatchedProperties().Build();
+			try
+			{
+				var deserializer = new DeserializerBuilder().IgnoreUnmatchedProperties().Build();
 
-			string modYamlFile = Path.Combine(modFolder, "mod.yaml");
-			string modYaml = File.ReadAllText(modYamlFile);
-			ModYaml modYamlData = deserializer.Deserialize<ModYaml>(modYaml);
+				string modYamlFile = Path.Combine(modFolder, "mod.yaml");
+				if (!File.Exists(modYamlFile))
+					return null;
+
+				string modYaml = File.ReadAllText(modYamlFile);
+				ModYaml modYamlData = deserializer.Deserialize<ModYaml>(modYaml);
 
 
-			string modInfoYamlFile = Path.Combine(modFolder, "mod_info.yaml");
-			string modInfoYaml = File.ReadAllText(modInfoYamlFile);
-			ModInfoYaml modInfoYamlData = deserializer.Deserialize<ModInfoYaml>(modInfoYaml);
-			var localModInfo = new LocalMod (modYamlData, modInfoYamlData, modFolder);
+				string modInfoYamlFile = Path.Combine(modFolder, "mod_info.yaml");
+				if (!File.Exists(modInfoYamlFile))
+					return null;
 
-			CurrentLocalInstalledMods.Add(modYamlData.staticID, localModInfo);
-			return localModInfo;
+				string modInfoYaml = File.ReadAllText(modInfoYamlFile);
+				ModInfoYaml modInfoYamlData = deserializer.Deserialize<ModInfoYaml>(modInfoYaml);
+				var localModInfo = new LocalMod(modYamlData, modInfoYamlData, modFolder);
+				if (modYamlData.staticID == null)
+				{
+					return null;
+				}
+
+				if (CurrentLocalInstalledMods.ContainsKey(modYamlData.staticID))
+					CurrentLocalInstalledMods.Remove(modYamlData.staticID);
+
+				CurrentLocalInstalledMods.Add(modYamlData.staticID, localModInfo);
+				return localModInfo;
+
+			}
+			catch (Exception e)
+			{
+				return null;
+			}
 		}
 
 		internal async Task TryInstallUpdate(VersionInfoWeb targetMod)

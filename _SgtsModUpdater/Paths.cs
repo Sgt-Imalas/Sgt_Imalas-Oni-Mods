@@ -11,6 +11,7 @@ namespace _SgtsModUpdater
     {
 		public static string GameDocumentsFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Klei","OxygenNotIncluded");
 		public static string ModsFolder = Path.Combine(GameDocumentsFolder, "mods");
-		public static string LocalModsFolder = Path.Combine(ModsFolder, "local");
-    }
+		public static string LocalModsFolder = Path.Combine(ModsFolder, "Local");
+		public static string SteamModsFolder = Path.Combine(ModsFolder, "Steam");
+	}
 }
