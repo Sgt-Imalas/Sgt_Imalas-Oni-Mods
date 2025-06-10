@@ -37,6 +37,23 @@ namespace TrainMod.Content.Scripts.PathSystem
 			}
 
 		}
+
+		public static bool TryGetConnection(TrackStation source, TrackStation destination, out List<TrackPiece> route)
+		{
+			int src = TrackManager.TrackPieces.IndexOf(source);
+			int dest = TrackManager.TrackPieces.IndexOf(destination);
+			var path = Dijkstar(ConnectionMatrix, src, dest);
+			route = new List<TrackPiece>();
+			if (!path.Any())
+				return false;
+
+			foreach (var piece in path) 
+			{
+				route.Add(TrackManager.TrackPieces[piece]);
+			}
+			return true;
+		}
+
 		public int miniDist(int[] distance, bool[] tset)
 		{
 			int minimum = int.MaxValue;
@@ -51,7 +68,7 @@ namespace TrainMod.Content.Scripts.PathSystem
 			}
 			return index;
 		}
-		public List<int> Dijkstar(int?[,] graph, int src, int dest)
+		public static List<int> Dijkstar(int[,] graph, int src, int dest)
 		{
 			int length = graph.GetLength(0);
 			int[] distance = new int[length];
@@ -106,14 +123,6 @@ namespace TrainMod.Content.Scripts.PathSystem
             }
 
             return result;
-        }
-        static void WalkChildren(TrackPiece target, TrackPiece previous, HashSet<TrackPiece> walkedPieces, List<Tuple<TrackPiece,TrackPiece>> backtracking)
-        {
-            walkedPieces.Add(target);
-            backtracking.Add()
-
-            foreach(var connected in target.GetAllConnections()) 
-                WalkChildren(connected, target, walkedPieces, backtracking);
         }
 
 
