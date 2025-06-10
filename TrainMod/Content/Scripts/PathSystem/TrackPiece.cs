@@ -22,18 +22,18 @@ namespace TrainMod.Content.Scripts.PathSystem
 		[SerializeField]
 		public CellOffset[] OutputCellOffsets;
 
-		//[Serialize]
-		//private string _guid;
+		[Serialize]
+		private string _guid;
 
-		//public string Guid
-		//{
-		//	get
-		//	{
-		//		if (_guid == null)
-		//			_guid = new Guid().ToString();
-		//		return _guid;
-		//	}
-		//}
+		public string Guid
+		{
+			get
+			{
+				if (_guid == null)
+					_guid = new Guid().ToString();
+				return _guid;
+			}
+		}
 
 		int inputCell;
 		int[] outputCells;
@@ -42,7 +42,25 @@ namespace TrainMod.Content.Scripts.PathSystem
 
 		TrackPiece InputConnection = null;
 		List<TrackPiece> OutputConnections = new();
+		public bool IsDivider => OutputConnections.Count > 1;
 
+		public List<TrackPiece> GetOutputConnections()=> OutputConnections;
+		public List<TrackPiece> GetInputConnections() => [InputConnection];
+		public bool GetReachableConnectionsFrom(TrackPiece connectedSource, out List<TrackPiece> others)
+		{
+			others = null;
+			if(connectedSource == InputConnection)
+			{
+				others = OutputConnections;
+				return others.Any();
+			}
+			if(OutputConnections.Contains(connectedSource))
+			{
+				others = [InputConnection];
+				return others.Any();
+			}
+			return false;
+		}
 
 		public override void OnSpawn()
 		{
@@ -90,6 +108,12 @@ namespace TrainMod.Content.Scripts.PathSystem
 			foreach (var connection in OutputConnections)
 				connection.RemoveConnection(this);
 			OutputConnections.Clear();
+		}
+		public bool InvertedConnection(TrackPiece other)
+		{
+			bool InputOwn = InputConnection == other;
+			bool InputOther = other.InputConnection == this;
+			return InputOwn == InputOther;
 		}
 	}
 }
