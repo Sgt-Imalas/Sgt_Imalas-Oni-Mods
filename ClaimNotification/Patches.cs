@@ -36,8 +36,8 @@ namespace ClaimNotification
 						System.Action ShowScreen = () => UnityEngine.Object.FindObjectOfType<KleiItemDropScreen>(true).Show(true);
 						System.Action close = () => { };
 
-						KMod.Manager.Dialog(GameScreenManager.Instance.GetParent(GameScreenManager.UIRenderTarget.ScreenSpaceOverlay),
-					   CLAIMNOTIFICATION.TITLE,
+						DialogUtil.CreateConfirmDialog(
+							   CLAIMNOTIFICATION.TITLE,
 					   CLAIMNOTIFICATION.TEXT,
 				CLAIMNOTIFICATION.CONFIRM,
 					   ShowScreen

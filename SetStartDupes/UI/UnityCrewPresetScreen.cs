@@ -210,13 +210,14 @@ namespace SetStartDupes
 			System.Action nothing = () =>
 			{ };
 
-			KMod.Manager.Dialog(GameScreenManager.Instance.GetParent(GameScreenManager.UIRenderTarget.ScreenSpaceOverlay),
-		   string.Format(DELETEWINDOW.TITLE, config.CrewName),
+			DialogUtil.CreateConfirmDialogFrontend(
+	   string.Format(DELETEWINDOW.TITLE, config.CrewName),
 		   string.Format(DELETEWINDOW.DESC, config.CrewName),
 		   DELETEWINDOW.YES,
 		   Delete,
 		   DELETEWINDOW.CANCEL
 		   , nothing
+		   , useScreenSpaceOverlay: true
 		   );
 		}
 
