@@ -47,8 +47,7 @@ namespace ModProfileManager_Addon.Patches
 				LocalisationUtil.Translate(typeof(STRINGS), true);
 			}
 		}
-		[HarmonyPatch(typeof(FileNameDialog))]
-		[HarmonyPatch(nameof(FileNameDialog.OnActivate))]
+		[HarmonyPatch(typeof(FileNameDialog), nameof(FileNameDialog.OnActivate))]
 		public static class FixCrashOnActivate
 		{
 			public static bool Prefix(FileNameDialog __instance)
@@ -63,8 +62,7 @@ namespace ModProfileManager_Addon.Patches
 				return true;
 			}
 		}
-		[HarmonyPatch(typeof(FileNameDialog))]
-		[HarmonyPatch(nameof(FileNameDialog.OnDeactivate))]
+		[HarmonyPatch(typeof(FileNameDialog), nameof(FileNameDialog.OnDeactivate))]
 		public static class FixCrashOnDeactivate
 		{
 			public static bool Prefix(FileNameDialog __instance)

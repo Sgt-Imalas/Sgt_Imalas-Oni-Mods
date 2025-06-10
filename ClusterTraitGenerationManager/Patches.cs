@@ -1058,8 +1058,7 @@ namespace ClusterTraitGenerationManager
 			}
 		}
 
-		[HarmonyPatch(typeof(FileNameDialog))]
-		[HarmonyPatch(nameof(FileNameDialog.OnActivate))]
+		[HarmonyPatch(typeof(FileNameDialog), nameof(FileNameDialog.OnActivate))]
 		public static class FixCrashOnActivate
 		{
 			private static bool Prefix(FileNameDialog __instance)
@@ -1074,8 +1073,7 @@ namespace ClusterTraitGenerationManager
 				return true;
 			}
 		}
-		[HarmonyPatch(typeof(FileNameDialog))]
-		[HarmonyPatch(nameof(FileNameDialog.OnDeactivate))]
+		[HarmonyPatch(typeof(FileNameDialog), nameof(FileNameDialog.OnDeactivate))]
 		public static class FixCrashOnDeactivate
 		{
 			private static bool Prefix(FileNameDialog __instance)
