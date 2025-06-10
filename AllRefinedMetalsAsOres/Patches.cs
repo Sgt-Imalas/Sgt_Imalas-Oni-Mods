@@ -24,8 +24,7 @@ namespace AllRefinedMetalsAsOres
 				foreach (var refinedMetal in refinedMetals)
 				{
 					List<Tag> oreTags = refinedMetal.oreTags.ToList();
-					if (!oreTags.Contains(GameTags.Metal))
-						oreTags.Add(GameTags.Metal);
+					oreTags.Add(GameTags.Metal);
 					refinedMetal.oreTags = oreTags.ToArray();
 				}
 			}
