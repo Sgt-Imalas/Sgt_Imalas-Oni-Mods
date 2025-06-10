@@ -221,6 +221,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Planticants", "Planticants\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AllRefinedMetalsAsOres", "AllRefinedMetalsAsOres\AllRefinedMetalsAsOres.csproj", "{8302CB59-4BD0-43F5-AC3D-752E5887B5FB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainMod", "TrainMod\TrainMod.csproj", "{0CAF55F5-65E0-4CAD-8364-859C625BCC75}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -619,6 +621,9 @@ Global
 		{8302CB59-4BD0-43F5-AC3D-752E5887B5FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8302CB59-4BD0-43F5-AC3D-752E5887B5FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8302CB59-4BD0-43F5-AC3D-752E5887B5FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CAF55F5-65E0-4CAD-8364-859C625BCC75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CAF55F5-65E0-4CAD-8364-859C625BCC75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CAF55F5-65E0-4CAD-8364-859C625BCC75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
