@@ -19,8 +19,8 @@ namespace SaveGameModLoader
 		public override void OnActivate()
 		{
 #if DEBUG
-            //SgtLogger.log("StoreModPackScreen:");
-            //UIUtils.ListAllChildren(this.transform);
+			//SgtLogger.log("StoreModPackScreen:");
+			//UIUtils.ListAllChildren(this.transform);
 #endif
 			var TitleBar = transform.Find("Panel/Title_BG");
 
@@ -82,17 +82,17 @@ namespace SaveGameModLoader
 				{
 					var doYouWantToImport = string.Format(STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.IMPORTYESNO_LOCAL, ModAssets.GetSanitizedNamePath(cut), list.Count);
 
-					KMod.Manager.Dialog(GameScreenManager.Instance.GetParent(GameScreenManager.UIRenderTarget.ScreenSpaceOverlay),
-					STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.VALIDCOLLECTIONHEADER_FILE, doYouWantToImport, null, () =>
-					{
-						ModlistManager.Instance.CreateOrAddToModPacks(ModAssets.GetSanitizedNamePath(cut), list);
-						parent.RefreshModlistView();
-						((KScreen)this).Deactivate();
-						CreatePopup(STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.SUCCESSTITLE, string.Format(STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.ADDEDNEW, ModAssets.GetSanitizedNamePath(cut), list.Count()));
-					}, null, () =>
-					{
-						((KScreen)this).Deactivate();
-					});
+					DialogUtil.CreateConfirmDialogFrontend(
+						STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.VALIDCOLLECTIONHEADER_FILE, doYouWantToImport, null, () =>
+						{
+							ModlistManager.Instance.CreateOrAddToModPacks(ModAssets.GetSanitizedNamePath(cut), list);
+							parent.RefreshModlistView();
+							((KScreen)this).Deactivate();
+							CreatePopup(STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.SUCCESSTITLE, string.Format(STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.ADDEDNEW, ModAssets.GetSanitizedNamePath(cut), list.Count()));
+						}, null, () =>
+						{
+							((KScreen)this).Deactivate();
+						});
 				}
 				else
 					ThrowErrorPopup();
@@ -323,7 +323,7 @@ namespace SaveGameModLoader
 
 		static void CreatePopup(string title, string content)
 		{
-			KMod.Manager.Dialog(GameScreenManager.Instance.GetParent(GameScreenManager.UIRenderTarget.ScreenSpaceOverlay),
+				DialogUtil.CreateConfirmDialogFrontend(
 				title, content);
 		}
 
@@ -375,7 +375,7 @@ namespace SaveGameModLoader
 					{
 						string CollectionAuthor = SteamFriends.GetFriendPersonaName(id);
 #if DEBUG
-                        SgtLogger.log(CollectionAuthor + " AUTOR");
+						SgtLogger.log(CollectionAuthor + " AUTOR");
 #endif
 						if (CollectionAuthor == "" || CollectionAuthor == "[unknown]")
 							LoadName(id);
@@ -402,9 +402,9 @@ namespace SaveGameModLoader
 			List<ulong> ModList = new();
 
 #if DEBUG
-            SgtLogger.log("QUERY CALL " + constructable.GetProgress() + " DONE");
-            SgtLogger.log(ioError + " <- Error?");
-            SgtLogger.log(EResult.k_EResultOK + " <- Result?");
+			SgtLogger.log("QUERY CALL " + constructable.GetProgress() + " DONE");
+			SgtLogger.log(ioError + " <- Error?");
+			SgtLogger.log(EResult.k_EResultOK + " <- Result?");
 #endif
 			if (ioError)
 			{
@@ -425,9 +425,9 @@ namespace SaveGameModLoader
 						}
 
 #if DEBUG
-                        SgtLogger.log("Title: " + details.m_rgchTitle);
-                        if(details.m_unNumChildren>0)
-                            SgtLogger.log("ChildrenCount: " + details.m_unNumChildren);
+						SgtLogger.log("Title: " + details.m_rgchTitle);
+						if (details.m_unNumChildren > 0)
+							SgtLogger.log("ChildrenCount: " + details.m_unNumChildren);
 #endif
 
 						if (details.m_eFileType == EWorkshopFileType.k_EWorkshopFileTypeCollection && constructable.GetProgress() == 0)
@@ -460,12 +460,12 @@ namespace SaveGameModLoader
 			onInitialQueryComplete = null;
 			onMissingQueryComplete = null;
 #if DEBUG
-            SgtLogger.log("PRog: " + constructable.GetProgress());
+			SgtLogger.log("PRog: " + constructable.GetProgress());
 #endif
 			if (missingIds.Count > 0 && constructable.GetProgress() == 3)
 			{
 #if DEBUG
-                SgtLogger.log("Inserting missing IDs");
+				SgtLogger.log("Inserting missing IDs");
 #endif
 				constructable.InsertMissingIDs(missingIds);
 

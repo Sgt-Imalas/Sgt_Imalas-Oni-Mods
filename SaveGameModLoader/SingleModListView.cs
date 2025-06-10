@@ -214,11 +214,13 @@ namespace SaveGameModLoader
 		void MissingModWorkshopHandler(string singleMod) => MissingModWorkshopHandler(new List<string> { singleMod });
 		void MissingModWorkshopHandler(List<string> missingMods)
 		{
-			bool isList = missingMods.Count > 1;
+			if (missingMods == null || !missingMods.Any() )
+				return;
 
+			bool isList = missingMods.Count > 1;
 			if (isList)
 			{
-				KMod.Manager.Dialog(GameScreenManager.Instance.GetParent(GameScreenManager.UIRenderTarget.ScreenSpaceOverlay),
+				DialogUtil.CreateConfirmDialogFrontend(
 				WORKSHOPACTIONS.TITLE,
 				string.Format(WORKSHOPACTIONS.INFOLIST, missingMods.Count),
 				WORKSHOPACTIONS.SUBLIST,
@@ -231,7 +233,7 @@ namespace SaveGameModLoader
 			}
 			else
 			{
-				KMod.Manager.Dialog(GameScreenManager.Instance.GetParent(GameScreenManager.UIRenderTarget.ScreenSpaceOverlay),
+				DialogUtil.CreateConfirmDialogFrontend(
 				WORKSHOPACTIONS.TITLE,
 				WORKSHOPACTIONS.INFO,
 				WORKSHOPACTIONS.SUB,
