@@ -20,7 +20,7 @@ public partial class MainWindow : Window
 {
     public MainWindow()
     {
-        InitializeComponent();
+		InitializeComponent();
 		PackView.ItemsSource = ModManager.Instance.Repos;
 		ModListView.ItemsSource = ModManager.Instance.CurrentRepoMods;
 		ModManager.Instance.FetchRepos();
