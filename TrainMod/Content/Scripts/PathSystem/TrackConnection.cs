@@ -6,18 +6,58 @@ using System.Threading.Tasks;
 
 namespace TrainMod.Content.Scripts.PathSystem
 {
-    class TrackConnection
-    {
+	class TrackConnection
+	{
 
-        static int[,] ConnectionMatrix;
-        public TrackStation Source, Destination;
-        public int PathCost;
-        public List<TrackPiece> Pieces;
+		static bool?[,] ConnectionMatrix;
 
-        public static void BuildMatrix()
+		public static bool PathFinding(TrackPiece startNode, TrackPiece TargetNode, out List<TrackPiece> validPath)
+		{
+			validPath = null;
+			var openList = new List<TrackPiece>();
+			var closedList = new List<TrackPiece>();
+			var nodesWithParents = new List<Tuple<TrackPiece, TrackPiece>>();
+
+
+			openList.Add(startNode);
+			while (openList.Count > 0)
+			{
+				var currenNode = openList.First();
+
+
+				if (currenNode == TargetNode)
+				{
+					validPath = [currenNode];
+					var backtrackingNode = currenNode;
+					while (nodesWithParents.Any(nod => nod.first == backtrackingNode))
+					{
+						backtrackingNode = nodesWithParents.First(nod => nod.first == backtrackingNode).second;
+						validPath.Add(backtrackingNode);
+					}
+
+					return true;
+				}
+				else
+				{
+					foreach (var link in currenNode.GetAllConnections())
+					{
+						if (!closedList.Contains(link))
+						{
+							openList.Add(link);
+							nodesWithParents.Add(new Tuple<TrackPiece, TrackPiece>(link, currenNode));
+						}
+					}
+					openList.RemoveAt(0);
+					closedList.Add(currenNode);
+				}
+			}
+			return false;
+
+		}
+		public static void BuildMatrix()
 		{
 
-			ConnectionMatrix = new int[TrackManager.TrackPieces.Count, TrackManager.TrackPieces.Count];
+			ConnectionMatrix = new bool?[TrackManager.TrackPieces.Count, TrackManager.TrackPieces.Count];
 
 			for (int i = 0; i < TrackManager.TrackPieces.Count; i++)
 			{
@@ -31,109 +71,10 @@ namespace TrainMod.Content.Scripts.PathSystem
 
 					if (arc != null)
 					{
-						ConnectionMatrix[i, j] = arc.PathCost;
+						ConnectionMatrix[i, j] = true;
 					}
 				}
 			}
-
-		}
-
-		public static bool TryGetConnection(TrackStation source, TrackStation destination, out List<TrackPiece> route)
-		{
-			int src = TrackManager.TrackPieces.IndexOf(source);
-			int dest = TrackManager.TrackPieces.IndexOf(destination);
-			var path = Dijkstar(ConnectionMatrix, src, dest);
-			route = new List<TrackPiece>();
-			if (!path.Any())
-				return false;
-
-			foreach (var piece in path) 
-			{
-				route.Add(TrackManager.TrackPieces[piece]);
-			}
-			return true;
-		}
-
-		public int miniDist(int[] distance, bool[] tset)
-		{
-			int minimum = int.MaxValue;
-			int index = 0;
-			for (int k = 0; k < distance.Length; k++)
-			{
-				if (!tset[k] && distance[k] <= minimum)
-				{
-					minimum = distance[k];
-					index = k;
-				}
-			}
-			return index;
-		}
-		public static List<int> Dijkstar(int[,] graph, int src, int dest)
-		{
-			int length = graph.GetLength(0);
-			int[] distance = new int[length];
-			bool[] used = new bool[length];
-			int[] prev = new int[length];
-
-			for (int i = 0; i < length; i++)
-			{
-				distance[i] = int.MaxValue;
-				used[i] = false;
-				prev[i] = -1;
-			}
-			distance[src] = 0;
-
-			for (int k = 0; k < length - 1; k++)
-			{
-				int minNode = miniDist(distance, used);
-				used[minNode] = true;
-				for (int i = 0; i < length; i++)
-				{
-					if (graph[minNode, i] > 0)
-					{
-						int shortestToMinNode = distance[minNode];
-						int? distanceToNextNode = (int?)graph[minNode, i];
-						int? totalDistance = shortestToMinNode + distanceToNextNode;
-						if (totalDistance < distance[i])
-						{
-							distance[i] = (int)totalDistance;
-							prev[i] = minNode;
-						}
-					}
-				}
-			}
-			if (distance[dest] == int.MaxValue)
-			{
-				return new List<int>();
-			}
-			var path = new LinkedList<int>();
-			int currentNode = dest;
-			while (currentNode != -1)
-			{
-				path.AddFirst(currentNode);
-				currentNode = prev[currentNode];
-			}
-			return path.ToList();
-		}
-		public static List<TrackConnection> WalkTrackPathsAStart(TrackStation source)
-        {
-			var result = new List<TrackConnection>();
-            foreach(var output in source.GetAllConnections())
-            {
-            }
-
-            return result;
-        }
-
-
-		internal static Dictionary<TrackStation, List<TrackConnection>> PopulateConnections()
-		{
-            var result = new Dictionary<TrackStation, List<TrackConnection>>();
-            foreach(var station in TrackManager.TrackStations)
-            {
-                result[station]  = WalkTrackPathsAStart(station);
-			}
-            return result;
 
 		}
 	}
