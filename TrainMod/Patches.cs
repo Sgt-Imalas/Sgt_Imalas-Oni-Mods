@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TrainMod.Content.Defs.Buildings;
 using UnityEngine;
 using UtilLibs;
 using static TrainMod.ModAssets;
@@ -24,8 +25,12 @@ namespace TrainMod
 
             public static void Prefix()
             {   
-                //ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.XXXX, XXXX.ID);
-            }
+                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, RailStationConfig.ID);
+                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, RailPieceConfig.ID);
+				ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, RailCurveConfig.ID);
+                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, RailSwitchLeftConfig.ID);
+                ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, RailSwitchRightConfig.ID);
+			}
         }
         /// <summary>
         /// Init. auto translation

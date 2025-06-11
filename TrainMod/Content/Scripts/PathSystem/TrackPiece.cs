@@ -5,11 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UtilLibs;
 
 namespace TrainMod.Content.Scripts.PathSystem
 {
 	public class TrackPiece : KMonoBehaviour
 	{
+		[MyCmpGet] KBatchedAnimController kbac;
 
 		[SerializeField]
 		public int PathCost = 10;
@@ -20,7 +22,11 @@ namespace TrainMod.Content.Scripts.PathSystem
 		[SerializeField]
 		public CellOffset InputCellOffset;
 		[SerializeField]
+		public CellOffset InputCellOffsetConnectsTo;
+		[SerializeField]
 		public CellOffset[] OutputCellOffsets;
+		[SerializeField]
+		public CellOffset[] OutputCellOffsetsConnectsTo;
 
 		[Serialize]
 		private string _guid;
@@ -40,21 +46,27 @@ namespace TrainMod.Content.Scripts.PathSystem
 		public int InputCell => inputCell;
 		public int[] OutputCells => outputCells;
 
+		int inputConnectionCell;
+		int[] outputConnectionCells;
+		public int InputConnectionCell => inputConnectionCell;
+		public int[] OutputConnectionCells => outputConnectionCells;
+
 		TrackPiece InputConnection = null;
 		List<TrackPiece> OutputConnections = new();
 		public bool IsDivider => OutputConnections.Count > 1;
 
-		public List<TrackPiece> GetOutputConnections()=> OutputConnections;
+		public List<TrackPiece> GetOutputConnections() => OutputConnections;
 		public List<TrackPiece> GetInputConnections() => [InputConnection];
 		public bool GetReachableConnectionsFrom(TrackPiece connectedSource, out List<TrackPiece> others)
 		{
+			SgtLogger.l(message: "MMMM");
 			others = null;
-			if(connectedSource == InputConnection)
+			if (connectedSource == InputConnection)
 			{
 				others = OutputConnections;
 				return others.Any();
 			}
-			if(OutputConnections.Contains(connectedSource))
+			if (OutputConnections.Contains(connectedSource))
 			{
 				others = [InputConnection];
 				return others.Any();
@@ -78,11 +90,26 @@ namespace TrainMod.Content.Scripts.PathSystem
 			int cell = Grid.PosToCell(this);
 			inputCell = Grid.OffsetCell(cell, rotatable.GetRotatedCellOffset(InputCellOffset));
 			outputCells = OutputCellOffsets.Select(offset => Grid.OffsetCell(cell, rotatable.GetRotatedCellOffset(offset))).ToArray();
+			inputConnectionCell = Grid.OffsetCell(cell, rotatable.GetRotatedCellOffset(InputCellOffsetConnectsTo));
+			outputConnectionCells = OutputCellOffsetsConnectsTo.Select(offset => Grid.OffsetCell(cell, rotatable.GetRotatedCellOffset(offset))).ToArray();
 		}
 		public void AddConnection(TrackPiece other, int cell)
 		{
-			if (other == null)
+			if (other == null || other == this)
 				return;
+			if (cell == InputCell || cell == inputConnectionCell)
+				InputConnection = other;
+
+			for (int i = 0; i < outputCells.Length; i++)
+			{
+				var outputCell = OutputCells[i];
+				var outputConnectionCel = OutputConnectionCells[i];
+				if (outputCell == cell || outputConnectionCel == cell)
+				{
+					OutputConnections.Add(other);
+					break;
+				}
+			}
 		}
 		public void RemoveConnection(TrackPiece other)
 		{
@@ -114,6 +141,30 @@ namespace TrainMod.Content.Scripts.PathSystem
 			bool InputOwn = InputConnection == other;
 			bool InputOther = other.InputConnection == this;
 			return InputOwn == InputOther;
+		}
+
+		internal bool ConnectsFromTo(int othersConnection, int othersInput)
+		{
+			if (InputCell == othersConnection && InputConnectionCell == othersInput)
+				return true;
+
+			for (int i = 0; i < OutputCells.Length; ++i)
+			{
+				var outputCell = OutputCells[i];
+				var outputConnectionCel = OutputConnectionCells[i];
+				if (outputCell == othersConnection && outputConnectionCel == othersInput)
+					return true;
+			}
+			return false;
+		}
+		public void Tint(Color? color)
+		{
+			if (color.HasValue)
+			{
+				kbac.TintColour = color.Value;
+			}
+			else
+				kbac.TintColour = Color.white;
 		}
 	}
 }

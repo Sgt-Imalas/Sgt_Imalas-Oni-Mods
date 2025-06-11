@@ -131,8 +131,10 @@ namespace TrainMod.Content.Scripts.PathSystem.Dijkstar
 		//	}
 		//	Console.Write("\r\n");
 		//}
-		public bool TryFindPath(ref int?[,] graph, List<TrackPiece> tracks, TrackPiece src, TrackPiece dest, out List<TrackPiece> path)
+		//public bool TryFindPath(ref int?[,] graph, List<TrackPiece> tracks, TrackPiece src, TrackPiece dest, out List<TrackPiece> path)
+		public bool TryFindPath( List<TrackPiece> tracks, TrackPiece src, TrackPiece dest, out List<TrackPiece> path)
 		{
+			var graph = CreateAdjMatrix();
 			int source = tracks.IndexOf( src);
 			int destination = tracks.IndexOf(dest);
 
