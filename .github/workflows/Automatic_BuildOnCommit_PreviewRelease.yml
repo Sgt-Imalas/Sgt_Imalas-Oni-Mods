@@ -37,9 +37,9 @@ jobs:
             # install yaml parser for mod info files
             Install-Module powershell-yaml -Force
             # start creation of release desc. file
-            echo "Automated build of all mods, based on the latest code state" >> ./Desc.md
-            echo "| Folder | Mod Name | Mod Description |" >> ./Desc.md
-            echo "|-|-|-|" >> ./Desc.md
+            echo "Automated build of all mods, based on the latest code state" >> Desc.md
+            echo "| Folder | Mod Name | Mod Description |" >> Desc.md
+            echo "|-|-|-|" >> Desc.md
             
             #create version info json file
             echo "[" >> ./BuildsZipped/_ReleaseVersionInfoData.json
@@ -61,7 +61,7 @@ jobs:
             $ModDesc = $modData."description"
 
             #write the mod info to the desc file
-            echo "| $modId | $ModName | $ModDesc |" >> ./Desc.md
+            echo "| $modId | $ModName | $ModDesc |" >> Desc.md
 
             #write version data to version json file
             $minGameVersion= $modInfoData."minimumSupportedBuild"
