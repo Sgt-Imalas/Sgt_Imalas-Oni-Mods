@@ -199,8 +199,6 @@ namespace TrainMod.Content.Scripts.PathSystem
 			if (other.AllConnectionCells.Any(connection => connection.second == InputCell.first && connection.first == InputCell.second))
 			{
 				InputConnection = other;
-				var ownNodeInDirection = TrackManager.ConnectionGraph.AddOrGetNode(this, false);
-				ownNodeInDirection.AddNewEdge(TrackManager.ConnectionGraph.AddOrGetNode(other, false), this.PathCost);
 				SgtLogger.l("adding edge from " + this + " to " + other);
 			}
 			foreach (var outputCell in OutputCells)
@@ -208,9 +206,6 @@ namespace TrainMod.Content.Scripts.PathSystem
 				if (other.AllConnectionCells.Any(connection => connection.second == outputCell.first && connection.first == outputCell.second))
 				{
 					OutputConnections.Add(other);
-
-					var ownNodeInDirection = TrackManager.ConnectionGraph.AddOrGetNode(this, true);
-					ownNodeInDirection.AddNewEdge(TrackManager.ConnectionGraph.AddOrGetNode(other, true), this.PathCost);
 					SgtLogger.l("adding edge from " + this + " to " + other);
 					break;
 				}
@@ -220,11 +215,13 @@ namespace TrainMod.Content.Scripts.PathSystem
 		{
 			if (other == null)
 				return;
+			
 			if (InputConnection == other)
 				InputConnection = null;
 
 			if (OutputConnections.Contains(other))
 				OutputConnections.Remove(other);
+
 		}
 
 		public List<TrackPiece> GetAllConnections()
@@ -238,6 +235,7 @@ namespace TrainMod.Content.Scripts.PathSystem
 			InputConnection?.RemoveConnection(this);
 			foreach (var connection in OutputConnections)
 				connection.RemoveConnection(this);
+
 			OutputConnections.Clear();
 		}
 		public bool InvertedConnection(TrackPiece other)

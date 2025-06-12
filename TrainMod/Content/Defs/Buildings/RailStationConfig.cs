@@ -27,10 +27,8 @@ namespace TrainMod.Content.Defs.Buildings
 			buildingDef.AudioCategory = "Metal";
 			buildingDef.AudioSize = "small";
 			buildingDef.BaseTimeUntilRepair = 0.0f;
-			buildingDef.UtilityInputOffset = new CellOffset(0, 0);
-			buildingDef.UtilityOutputOffset = new CellOffset(0, 0);
 			buildingDef.SceneLayer = Grid.SceneLayer.BuildingBack;
-			buildingDef.PermittedRotations = PermittedRotations.R90;
+			buildingDef.PermittedRotations = PermittedRotations.R360;
 			buildingDef.DragBuild = true;
 			return buildingDef;
 		}

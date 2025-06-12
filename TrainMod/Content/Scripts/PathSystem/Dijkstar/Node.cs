@@ -41,9 +41,13 @@ namespace TrainMod.Content.Scripts.PathSystem.Dijkstar
 			return this;
 		}
 
+		internal int RemoveAllEdgesTo(TrackPiece trackPiece)
+		{
+			return Edges.RemoveAll(edge => edge.Parent.Track == trackPiece || edge.Child.Track == trackPiece);
+		}
 		public override string ToString()
 		{
-			return Track.ToString()+", in2out: "+ConnectionIsInputToOutput;
+			return Track.ToString() + ", in2out: " + ConnectionIsInputToOutput;
 		}
 
 		#region equality
@@ -63,6 +67,7 @@ namespace TrainMod.Content.Scripts.PathSystem.Dijkstar
 		public bool Equals(Node x, Node y) => x == y;
 
 		public int GetHashCode(Node obj) => obj.GetHashCode();
+
 		#endregion
 	}
 }

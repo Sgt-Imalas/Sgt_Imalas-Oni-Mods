@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TrainMod.Content.Scripts.PathSystem.Segmentation;
+using UtilLibs;
 
 namespace TrainMod.Content.Scripts.PathSystem.Dijkstar
 {
@@ -52,7 +53,9 @@ namespace TrainMod.Content.Scripts.PathSystem.Dijkstar
 			int index = 0;
 			for (int k = 0; k < distance.Length; k++)
 			{
-				if (!tset[k] && distance[k] <= minimum)
+				if (!tset[k] && distance[k] <= minimum
+					//required if stations are in nonconnected graphs
+					&& distance[k] != int.MaxValue)
 				{
 					minimum = distance[k];
 					index = k;
@@ -100,11 +103,14 @@ namespace TrainMod.Content.Scripts.PathSystem.Dijkstar
 			}
 			var path = new LinkedList<int>();
 			int currentNode = dest;
+
+
 			while (currentNode != -1)
 			{
 				path.AddFirst(currentNode);
 				currentNode = prev[currentNode];
 			}
+
 			return path.ToList();
 		}
 		public void PrintMatrix(ref int?[,] matrix, string[] labels, int count)
@@ -158,8 +164,16 @@ namespace TrainMod.Content.Scripts.PathSystem.Dijkstar
 					Console.Write($"{AllNodes[paths[i]]} [{length}] -> ");
 					path.Add(AllNodes[paths[i]].Track);
 				}
+				
+				if(!path.Contains(src.Track))
+				{
+					path = null;
+					Console.WriteLine("No Path");
+					return false;
+				}
 				Console.WriteLine($"{AllNodes[destination]} (Distance {path_length})");
-				return true;
+
+				return path != null;
 			}
 			else
 			{
@@ -167,6 +181,19 @@ namespace TrainMod.Content.Scripts.PathSystem.Dijkstar
 				Console.WriteLine("No Path");
 				return false;
 			}
+		}
+
+		internal void RemoveAllEntriesFor(TrackPiece trackPiece)
+		{
+			int count = 0;
+			foreach (var node in AllNodes)
+			{
+				count += node.RemoveAllEdgesTo(trackPiece);
+			}
+			SgtLogger.l("removed "+count+" edges for " + trackPiece);
+
+			var nodesRemoved = AllNodes.RemoveAll(node => node.Track == trackPiece);
+			SgtLogger.l("removed " + nodesRemoved + " nodes for " + trackPiece);
 		}
 	}
 }

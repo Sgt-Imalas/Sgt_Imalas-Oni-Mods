@@ -20,14 +20,17 @@ namespace TrainMod.Content.Scripts.PathSystem
 
 		public static List<TrackPiece> Pathfind(TrackPiece origin, TrackPiece target, bool forwards)
 		{
+			if (forwards && !origin.GetOutputConnections().Any())
+				return null;
+			if(!forwards &&  !origin.GetInputConnections().Any())
+				return null;
+
+
 			var src = ConnectionGraph.AddOrGetNode(origin, forwards);
 			var dest = ConnectionGraph.AddOrGetNode(target, forwards);
-			var dest2 = ConnectionGraph.AddOrGetNode(target, !forwards);
 
 			if (ConnectionGraph.TryFindPath(src, dest, out var path))
 				return path;
-			if (ConnectionGraph.TryFindPath(src, dest2, out var path2))
-				return path2;
 			return null;
 		}
 
@@ -49,7 +52,7 @@ namespace TrainMod.Content.Scripts.PathSystem
 				{
 					SgtLogger.l("---> " + edge.Child.ToString());
 				}
-				if(!node.Edges.Any())
+				if (!node.Edges.Any())
 					SgtLogger.l("---> X");
 
 			}
@@ -143,6 +146,7 @@ namespace TrainMod.Content.Scripts.PathSystem
 
 		public static void UnregisterTrack(TrackPiece trackPiece)
 		{
+			TrackManager.ConnectionGraph.RemoveAllEntriesFor(trackPiece);
 			if (trackPiece is TrackStation station)
 				TrackStations.Remove(station);
 			TrackPieces.Remove(trackPiece);
@@ -152,6 +156,7 @@ namespace TrainMod.Content.Scripts.PathSystem
 					cell.Remove(trackPiece);
 			}
 			trackPiece.RemoveAllConnections();
+			RemoveAllNodes(trackPiece);
 			RecalculatePaths();
 		}
 		public static void ConnectTracks(TrackPiece track1, TrackPiece track2)
@@ -162,7 +167,67 @@ namespace TrainMod.Content.Scripts.PathSystem
 
 			track1.TryAddConnection(track2);
 			track2.TryAddConnection(track1);
+			ConnectNodes(track1, track2);
 
+		}
+
+		static void RemoveAllNodes(TrackPiece trackPiece)
+		{
+			ConnectionGraph.RemoveAllEntriesFor(trackPiece);
+		}
+
+		static void ConnectNodes(TrackPiece track1, TrackPiece track2)
+		{
+			if (track1 == track2) return;
+
+			var in2outNode1 = ConnectionGraph.AddOrGetNode(track1, true);
+			var in2outNode2 = ConnectionGraph.AddOrGetNode(track2, true);
+
+			var out2inNode1 = ConnectionGraph.AddOrGetNode(track1, false);
+			var out2inNode2 = ConnectionGraph.AddOrGetNode(track2, false);
+
+			bool con1Is_input = track1.GetInputConnections().Contains(track2);
+			bool con1Is_output = track1.GetOutputConnections().Contains(track2);
+
+			bool con2Is_input = track2.GetInputConnections().Contains(track1);
+			bool con2Is_output = track2.GetOutputConnections().Contains(track1);
+
+			if (con1Is_output)
+			{
+				if (con2Is_input)
+					in2outNode1.AddNewEdge(in2outNode2, track1.PathCost);
+				else
+				if (con2Is_output)
+					in2outNode1.AddNewEdge(out2inNode2, track1.PathCost);
+			}
+			else
+			if (con1Is_input)
+			{
+				if (con2Is_output)
+					out2inNode1.AddNewEdge(out2inNode2, track1.PathCost);
+				else
+				if (con2Is_input)
+					out2inNode1.AddNewEdge(in2outNode2, track1.PathCost);
+			}
+
+
+			if (con2Is_output)
+			{
+				if (con1Is_input)
+					in2outNode2.AddNewEdge(in2outNode1, track2.PathCost);
+				else													 
+				if (con1Is_output)										 
+					in2outNode2.AddNewEdge(out2inNode1, track2.PathCost);
+			}															 
+			else														 
+			if (con2Is_input)											 
+			{															 
+				if (con1Is_output)										 
+					out2inNode2.AddNewEdge(out2inNode1, track2.PathCost);
+				else													 
+				if (con1Is_input)										 
+					out2inNode2.AddNewEdge(in2outNode1, track2.PathCost);
+			}
 		}
 	}
 }

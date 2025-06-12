@@ -23,20 +23,15 @@ namespace TrainMod.Content.Scripts.PathSystem
 			foreach (var piece in TrackManager.TrackPieces)
 				piece.Tint(null);
 
-			var target = TrackManager.TrackStations.FirstOrDefault(station => station != this && (null != TrackManager.Pathfind(this, station, true) || null != TrackManager.Pathfind(this, station, false)));
+			var target = TrackManager.TrackStations.FirstOrDefault(station => station != this && TrackManager.Pathfind(this, station, true) != null);
 			if (target != null)
 			{
-				var trackpieces = TrackManager.Pathfind(this, target, true);
-				var trackpieces2 = TrackManager.Pathfind(this, target, false);
 
-				if (trackpieces != null && trackpieces.Any())
+				var trackpieces = TrackManager.Pathfind(this, target, true);
+
+				if (trackpieces != null)
 				{
 					StartCoroutine(TintBuildings(trackpieces));
-				}
-				else if (trackpieces2 != null && trackpieces2.Any())
-				{
-
-					StartCoroutine(TintBuildings(trackpieces2));
 				}
 				else
 				{
@@ -55,7 +50,7 @@ namespace TrainMod.Content.Scripts.PathSystem
 		{
 			foreach (var piece in remaining)
 			{
-				yield return (object)new WaitForSecondsRealtime(0.2f);
+				yield return (object)new WaitForSecondsRealtime(0.1f);
 				piece.Tint(Color.green);
 			}
 		}
