@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using YamlDotNet.Core;
 
 namespace TrainMod.Content.Scripts.PathSystem
 {
@@ -41,15 +42,14 @@ namespace TrainMod.Content.Scripts.PathSystem
 			}
 		}
 
-		int inputCell;
-		int[] outputCells;
-		public int InputCell => inputCell;
-		public int[] OutputCells => outputCells;
+		public override string ToString()
+		{
+			return this.GetProperName() + ": " + Grid.CellToXY(Grid.PosToCell(this));
+		}
 
-		int inputConnectionCell;
-		int[] outputConnectionCells;
-		public int InputConnectionCell => inputConnectionCell;
-		public int[] OutputConnectionCells => outputConnectionCells;
+		public Tuple<int, int> InputCell;
+		public Tuple<int, int>[] OutputCells;
+		public List<Tuple<int, int>> AllConnectionCells;
 
 		TrackPiece InputConnection = null;
 		List<TrackPiece> OutputConnections = new();
@@ -57,16 +57,25 @@ namespace TrainMod.Content.Scripts.PathSystem
 
 		public List<TrackPiece> GetOutputConnections() => OutputConnections;
 		public List<TrackPiece> GetInputConnections() => InputConnection != null ? [InputConnection] : new();
+
+		/// <summary>
+		/// returns the pieces a train coming from the source can drive towards
+		/// </summary>
+		/// <param name="connectedSource"></param>
+		/// <param name="others"></param>
+		/// <returns></returns>
 		public bool GetReachableConnectionsFrom(TrackPiece connectedSource, out List<TrackPiece> others)
 		{
 			others = null;
 			if (connectedSource == InputConnection)
 			{
+				//SgtLogger.l(connectedSource.GetProperName() + " sits as input, returning output connections");
 				others = GetOutputConnections();
 				return others != null && others.Any();
 			}
 			if (OutputConnections.Contains(connectedSource))
 			{
+				//SgtLogger.l(connectedSource.GetProperName() + " sits at output, returning input connections");
 				others = GetInputConnections();
 				return others != null && others.Any();
 			}
@@ -121,12 +130,12 @@ namespace TrainMod.Content.Scripts.PathSystem
 				connected.Tint(Color.yellow);
 
 			return;
-			indicators.Add(spawnRenderer(InputCell, UIUtils.Darken(Color.green, 50)));
-			indicators.Add(spawnRenderer(InputConnectionCell, Color.green));
-			foreach (var cell in OutputCells)
-				indicators.Add(spawnRenderer(cell, UIUtils.Darken(Color.red, 50)));
-			foreach (var cell in outputConnectionCells)
-				indicators.Add(spawnRenderer(cell, Color.red));
+			//indicators.Add(spawnRenderer(InputCell, UIUtils.Darken(Color.green, 50)));
+			//indicators.Add(spawnRenderer(InputConnectionCell, Color.green));
+			//foreach (var cell in OutputCells)
+			//	indicators.Add(spawnRenderer(cell, UIUtils.Darken(Color.red, 50)));
+			//foreach (var cell in outputConnectionCells)
+			//	indicators.Add(spawnRenderer(cell, Color.red));
 
 		}
 
@@ -162,26 +171,47 @@ namespace TrainMod.Content.Scripts.PathSystem
 		void CacheConnectionCells()
 		{
 			int cell = Grid.PosToCell(this);
-			inputCell = Grid.OffsetCell(cell, rotatable.GetRotatedCellOffset(InputCellOffset));
-			outputCells = OutputCellOffsets.Select(offset => Grid.OffsetCell(cell, rotatable.GetRotatedCellOffset(offset))).ToArray();
+			InputCell =
+				new(Grid.OffsetCell(cell, rotatable.GetRotatedCellOffset(InputCellOffset)),
+				Grid.OffsetCell(cell, rotatable.GetRotatedCellOffset(InputCellOffsetConnectsTo)));
 
-			inputConnectionCell = Grid.OffsetCell(cell, rotatable.GetRotatedCellOffset(InputCellOffsetConnectsTo));
-			outputConnectionCells = OutputCellOffsetsConnectsTo.Select(offset => Grid.OffsetCell(cell, rotatable.GetRotatedCellOffset(offset))).ToArray();
+
+			List<Tuple<int, int>> outputCells = new(3);
+			for (int i = 0; i < OutputCellOffsets.Length; i++)
+			{
+				var offset = OutputCellOffsets[i];
+				var offsetConnectsTo = OutputCellOffsetsConnectsTo[i];
+				outputCells.Add(new Tuple<int, int>(
+					Grid.OffsetCell(cell, rotatable.GetRotatedCellOffset(offset)),
+					Grid.OffsetCell(cell, rotatable.GetRotatedCellOffset(offsetConnectsTo))
+					));
+			}
+			OutputCells = outputCells.ToArray();
+			outputCells.Add(InputCell);
+
+			AllConnectionCells = outputCells;
+
 		}
-		public void AddConnection(TrackPiece other, int cell, int connectionCell)
+		public void TryAddConnection(TrackPiece other)
 		{
 			if (other == null || other == this)
 				return;
-			if (cell == InputCell && connectionCell == InputConnectionCell || cell == InputConnectionCell && connectionCell == InputCell)
-				InputConnection = other;
-
-			for (int i = 0; i < outputCells.Length; i++)
+			if (other.AllConnectionCells.Any(connection => connection.second == InputCell.first && connection.first == InputCell.second))
 			{
-				var outputCell = OutputCells[i];
-				var outputConnectionCel = OutputConnectionCells[i];
-				if (outputCell == cell && outputConnectionCel == connectionCell || outputConnectionCel == cell && outputCell == connectionCell)
+				InputConnection = other;
+				var ownNodeInDirection = TrackManager.ConnectionGraph.AddOrGetNode(this, false);
+				ownNodeInDirection.AddNewEdge(TrackManager.ConnectionGraph.AddOrGetNode(other, false), this.PathCost);
+				SgtLogger.l("adding edge from " + this + " to " + other);
+			}
+			foreach (var outputCell in OutputCells)
+			{
+				if (other.AllConnectionCells.Any(connection => connection.second == outputCell.first && connection.first == outputCell.second))
 				{
 					OutputConnections.Add(other);
+
+					var ownNodeInDirection = TrackManager.ConnectionGraph.AddOrGetNode(this, true);
+					ownNodeInDirection.AddNewEdge(TrackManager.ConnectionGraph.AddOrGetNode(other, true), this.PathCost);
+					SgtLogger.l("adding edge from " + this + " to " + other);
 					break;
 				}
 			}
@@ -203,7 +233,6 @@ namespace TrainMod.Content.Scripts.PathSystem
 				return OutputConnections.Append(InputConnection).ToList();
 			return OutputConnections;
 		}
-
 		internal void RemoveAllConnections()
 		{
 			InputConnection?.RemoveConnection(this);
@@ -218,20 +247,6 @@ namespace TrainMod.Content.Scripts.PathSystem
 			return InputOwn == InputOther;
 		}
 
-		internal bool ConnectsFromTo(int othersConnection, int othersInput)
-		{
-			if (InputCell == othersConnection && InputConnectionCell == othersInput || InputCell == othersInput && InputConnectionCell == othersConnection)
-				return true;
-
-			for (int i = 0; i < OutputCells.Length; ++i)
-			{
-				var outputCell = OutputCells[i];
-				var outputConnectionCel = OutputConnectionCells[i];
-				if (outputCell == othersConnection && outputConnectionCel == othersInput || outputCell == othersInput && outputConnectionCel == othersConnection)
-					return true;
-			}
-			return false;
-		}
 		public void Tint(Color? color)
 		{
 			if (color.HasValue)

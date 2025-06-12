@@ -16,13 +16,18 @@ namespace TrainMod.Content.Scripts.PathSystem
 		public static List<TrackPiece> TrackPieces = new();
 		public static HashSet<TrackStation> TrackStations = new();
 
-		static Graph Forward, Backward;
+		public static Graph ConnectionGraph = new();
 
 		public static List<TrackPiece> Pathfind(TrackPiece origin, TrackPiece target, bool forwards)
 		{
-			var graph = forwards ? Forward : Backward;
-			if (graph.TryFindPath(TrackPieces, origin, target, out var path))
+			var src = ConnectionGraph.AddOrGetNode(origin, forwards);
+			var dest = ConnectionGraph.AddOrGetNode(target, forwards);
+			var dest2 = ConnectionGraph.AddOrGetNode(target, !forwards);
+
+			if (ConnectionGraph.TryFindPath(src, dest, out var path))
 				return path;
+			if (ConnectionGraph.TryFindPath(src, dest2, out var path2))
+				return path2;
 			return null;
 		}
 
@@ -35,58 +40,76 @@ namespace TrainMod.Content.Scripts.PathSystem
 		/// </summary>
 		static void CreateSegmentations() ///This should function in theory...
 		{
-			var trackPiecesToSort = (TrackPieces).ToHashSet();
-			var trackPiecesToSort2 = (TrackPieces).ToHashSet();
-
-			Forward = new Graph(); Backward = new Graph();
-
-			while (trackPiecesToSort.Any())
+			SgtLogger.l("Current Nodes: ");
+			foreach (Node node in ConnectionGraph.AllNodes)
 			{
-				var root = trackPiecesToSort.First();
-
-				var rootNode = Forward.CreateNode(root);
-				CollectNodesRecursively(root, rootNode, trackPiecesToSort, root.GetInputConnections(), Forward);
+				SgtLogger.l(" ");
+				SgtLogger.l(node.ToString());
+				foreach (var edge in node.Edges)
+				{
+					SgtLogger.l("---> " + edge.Child.ToString());
+				}
+				if(!node.Edges.Any())
+					SgtLogger.l("---> X");
 
 			}
-			while (trackPiecesToSort2.Any())
-			{
-				var root2 = trackPiecesToSort2.First();
-				var root2Node = Backward.CreateNode(root2);
-				CollectNodesRecursively(root2, root2Node, trackPiecesToSort2, root2.GetOutputConnections(), Backward);
-			}
+
+			string[] labels = ConnectionGraph.AllNodes.Select(s => s.Track.ToString()).ToArray();
+
+			int?[,] adj = ConnectionGraph.CreateAdjMatrix();
+
+			ConnectionGraph.PrintMatrix(ref adj, labels, ConnectionGraph.AllNodes.Count);
+
+			//var trackPiecesToSort = (TrackStations).ToHashSet();
+			//var trackPiecesToSort2 = (TrackStations).ToHashSet();
+
+			//Forward = new Graph(); Backward = new Graph();
+
+			//while (trackPiecesToSort.Any())
+			//{
+			//	SgtLogger.l("Path tracer going backwards");
+			//	var root = trackPiecesToSort.First();
+			//	CollectNodesRecursively(root, null, trackPiecesToSort, root.GetOutputConnections(), Backward);
+
+			//}
+			//while (trackPiecesToSort2.Any())
+			//{
+			//	SgtLogger.l("Path tracer going forwards");
+			//	var root2 = trackPiecesToSort2.First();
+			//	CollectNodesRecursively(root2, null, trackPiecesToSort2, root2.GetInputConnections(), Forward);
+			//}
 		}
-		static void CollectNodesRecursively(TrackPiece current, Node parentNode, HashSet<TrackPiece> remaining, List<TrackPiece> childPiecesToCheck, Graph graph)
-		{
-			SgtLogger.l(current.GetProperName() + " at " + Grid.PosToCell(current) + ": " + childPiecesToCheck.Count + " side nodes");
-			remaining.Remove(current);
+		//static void CollectNodesRecursively(TrackPiece current, Node parentNode, HashSet<TrackStation> remaining, List<TrackPiece> childPiecesToCheck, Graph graph)
+		//{
+		//	SgtLogger.l(current.GetProperName() + " at " + Grid.PosToCell(current) + ": " + childPiecesToCheck.Count + " side nodes");
+		//	if (current is TrackStation station)
+		//		remaining.Remove(station);
 
-			var node = graph.CreateNode(current);
-			if (parentNode != null)
-				parentNode.AddEdge(node, current.PathCost);
+		//	var node = graph.AddOrGetNode(current);
+		//	if (parentNode != null)
+		//		parentNode.AddEdge(node, current.PathCost);
 
-			if (childPiecesToCheck == null)
-				return;
+		//	if (childPiecesToCheck == null || !remaining.Any())
+		//		return;
 
-			foreach (var childConnection in childPiecesToCheck)
-			{
-				//SgtLogger.l("child node " + global::STRINGS.UI.StripLinkFormatting(childConnection.GetProperName()) + " at cell: " + Grid.PosToCell(childConnection));
-				if (childConnection.GetReachableConnectionsFrom(current, out var newChildren))
-					CollectNodesRecursively(childConnection, node, remaining, newChildren, graph);
-			}
-		}
+		//	foreach (var childConnection in childPiecesToCheck)
+		//	{
+		//		//SgtLogger.l("child node " + global::STRINGS.UI.StripLinkFormatting(childConnection.GetProperName()) + " at cell: " + Grid.PosToCell(childConnection));
+		//		if (childConnection.GetReachableConnectionsFrom(current, out var newChildren))
+		//			CollectNodesRecursively(childConnection, node, remaining, newChildren, graph);
+		//	}
+		//}
 
 		public static void RegisterTrack(TrackPiece newTrackPiece)
 		{
 			TrackPieces.Add(newTrackPiece);
-
 			if (newTrackPiece is TrackStation station)
 				TrackStations.Add(station);
 
-			int inputConnectsToCell = newTrackPiece.InputConnectionCell;
-			int inputCell = newTrackPiece.InputCell;
+			int inputCell = newTrackPiece.InputCell.first;
+			int inputConnectsToCell = newTrackPiece.InputCell.second;
 
 			var outputCells = newTrackPiece.OutputCells;
-			var outputConnectionCells = newTrackPiece.OutputConnectionCells;
 
 			if (!CellsWithTrackPieceConnectors.ContainsKey(inputCell))
 				CellsWithTrackPieceConnectors[inputCell] = new HashSet<TrackPiece>();
@@ -96,14 +119,13 @@ namespace TrainMod.Content.Scripts.PathSystem
 
 			foreach (var existingTrackPiece in CellsWithTrackPieceConnectors[inputConnectsToCell])
 			{
-				if (existingTrackPiece.ConnectsFromTo(inputConnectsToCell, inputCell))
-					ConnectTracks(newTrackPiece, existingTrackPiece, inputCell, inputConnectsToCell);
+				ConnectTracks(newTrackPiece, existingTrackPiece);
 			}
 			CellsWithTrackPieceConnectors[inputCell].Add(newTrackPiece);
 			for (int i = 0; i < outputCells.Length; i++)
 			{
-				var outputCell = outputCells[i];
-				var outputConnectionCell = outputConnectionCells[i];
+				var outputCell = outputCells[i].first;
+				var outputConnectionCell = outputCells[i].second;
 
 				if (!CellsWithTrackPieceConnectors.ContainsKey(outputCell))
 					CellsWithTrackPieceConnectors[outputCell] = new HashSet<TrackPiece>();
@@ -112,8 +134,7 @@ namespace TrainMod.Content.Scripts.PathSystem
 
 				foreach (var existingTrackPiece in CellsWithTrackPieceConnectors[outputConnectionCell])
 				{
-					if (existingTrackPiece.ConnectsFromTo(inputConnectsToCell, inputCell))
-						ConnectTracks(newTrackPiece, existingTrackPiece, outputCell, inputConnectsToCell);
+					ConnectTracks(newTrackPiece, existingTrackPiece);
 				}
 				CellsWithTrackPieceConnectors[outputCell].Add(newTrackPiece);
 			}
@@ -133,14 +154,15 @@ namespace TrainMod.Content.Scripts.PathSystem
 			trackPiece.RemoveAllConnections();
 			RecalculatePaths();
 		}
-		public static void ConnectTracks(TrackPiece track1, TrackPiece track2, int cell, int connectionCell)
+		public static void ConnectTracks(TrackPiece track1, TrackPiece track2)
 		{
 
 			if (track1 == track2) return;
 			SgtLogger.l("connecting " + track1 + " and " + track2);
 
-			track1.AddConnection(track2, cell, connectionCell);
-			track2.AddConnection(track1, cell, connectionCell);
+			track1.TryAddConnection(track2);
+			track2.TryAddConnection(track1);
+
 		}
 	}
 }

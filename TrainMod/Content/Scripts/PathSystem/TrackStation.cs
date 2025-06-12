@@ -23,7 +23,7 @@ namespace TrainMod.Content.Scripts.PathSystem
 			foreach (var piece in TrackManager.TrackPieces)
 				piece.Tint(null);
 
-			var target = TrackManager.TrackStations.FirstOrDefault(station => station != this);
+			var target = TrackManager.TrackStations.FirstOrDefault(station => station != this && (null != TrackManager.Pathfind(this, station, true) || null != TrackManager.Pathfind(this, station, false)));
 			if (target != null)
 			{
 				var trackpieces = TrackManager.Pathfind(this, target, true);
@@ -44,13 +44,18 @@ namespace TrainMod.Content.Scripts.PathSystem
 					Tint(Color.red);
 				}
 			}
+			else
+			{
+				SgtLogger.error("Pathfinder Failed!!!!");
+				Tint(Color.red);
+			}
 		}
 
 		IEnumerator TintBuildings(List<TrackPiece> remaining)
 		{
 			foreach (var piece in remaining)
 			{
-				yield return (object)new WaitForSecondsRealtime(1);
+				yield return (object)new WaitForSecondsRealtime(0.2f);
 				piece.Tint(Color.green);
 			}
 		}

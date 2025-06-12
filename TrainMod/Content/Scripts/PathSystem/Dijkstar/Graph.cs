@@ -7,14 +7,19 @@ using TrainMod.Content.Scripts.PathSystem.Segmentation;
 
 namespace TrainMod.Content.Scripts.PathSystem.Dijkstar
 {
-	class Graph
+	public class Graph
 	{
 		public List<Node> AllNodes = new List<Node>();
 
 
-		public Node CreateNode(TrackPiece track)
+		public Node AddOrGetNode(TrackPiece track, bool InputToOutput)
 		{
-			var n = new Node(track);
+			var n = new Node(track, InputToOutput);
+
+			int existingIndex = AllNodes.IndexOf(n);
+			if (existingIndex > -1)
+				return AllNodes[existingIndex];
+
 			AllNodes.Add(n);
 			return n;
 		}
@@ -102,41 +107,42 @@ namespace TrainMod.Content.Scripts.PathSystem.Dijkstar
 			}
 			return path.ToList();
 		}
-		//public void PrintMatrix(ref int?[,] matrix, string[] labels, int count)
-		//{
-		//	Console.Write("       ");
-		//	for (int i = 0; i < count; i++)
-		//	{
-		//		Console.Write($" {labels[i]} ");
-		//	}
-		//	Console.WriteLine();
+		public void PrintMatrix(ref int?[,] matrix, string[] labels, int count)
+		{
+			Console.Write("       ");
+			for (int i = 0; i < count; i++)
+			{
+				Console.Write($" {labels[i]} ");
+			}
+			Console.WriteLine();
 
-		//	for (int i = 0; i < count; i++)
-		//	{
-		//		Console.Write($" {labels[i]} | [ ");
+			for (int i = 0; i < count; i++)
+			{
+				Console.Write($" {labels[i]} | [ ");
 
-		//		for (int j = 0; j < count; j++)
-		//		{
-		//			if (matrix[i, j] == null)
-		//			{
-		//				Console.Write(" ,");
-		//			}
-		//			else
-		//			{
-		//				Console.Write($" {matrix[i, j]},");
-		//			}
+				for (int j = 0; j < count; j++)
+				{
+					if (matrix[i, j] == null)
+					{
+						Console.Write(" ,");
+					}
+					else
+					{
+						Console.Write($" {matrix[i, j]},");
+					}
 
-		//		}
-		//		Console.Write(" ]\r\n");
-		//	}
-		//	Console.Write("\r\n");
-		//}
+				}
+				Console.Write(" ]\r\n");
+			}
+			Console.Write("\r\n");
+		}
 		//public bool TryFindPath(ref int?[,] graph, List<TrackPiece> tracks, TrackPiece src, TrackPiece dest, out List<TrackPiece> path)
-		public bool TryFindPath( List<TrackPiece> tracks, TrackPiece src, TrackPiece dest, out List<TrackPiece> path)
+		public bool TryFindPath(Node src, Node dest, out List<TrackPiece> path)
 		{
 			var graph = CreateAdjMatrix();
-			int source = tracks.IndexOf( src);
-			int destination = tracks.IndexOf(dest);
+
+			int source = AllNodes.IndexOf(src); 
+			int destination = AllNodes.IndexOf(dest);
 
 			//Console.Write($" Shortest Path of [{src} -> {dest}] is : ");
 			var paths = Dijkstar(graph, source, destination);
@@ -149,10 +155,10 @@ namespace TrainMod.Content.Scripts.PathSystem.Dijkstar
 				{
 					int? length = (int?)graph[paths[i], paths[i + 1]];
 					path_length += length;
-					Console.Write($"{Grid.CellToXY(Grid.PosToCell(tracks[paths[i]]))} [{length}] -> ");
-					path.Add(tracks[paths[i]]);
+					Console.Write($"{AllNodes[paths[i]]} [{length}] -> ");
+					path.Add(AllNodes[paths[i]].Track);
 				}
-				Console.WriteLine($"{tracks[destination]} (Distance {path_length})");
+				Console.WriteLine($"{AllNodes[destination]} (Distance {path_length})");
 				return true;
 			}
 			else
