@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>AmogusMorb</PackageId>
-		<Version>2.2.3</Version>
+		<Version>2.2.4</Version>
 		<Authors>Sgt_Imalas</Authors>
 		     <Copyright>$(AssemblyCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>

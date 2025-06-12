@@ -50,6 +50,12 @@ namespace Dupery
 
 		public int LoadAccessories(string animName, bool saveToCache = false)
 		{
+			//custom mouth flap
+			if (animName.Contains("anim_mouth_") && animName.Contains("flap_kanim"))
+				return 0;
+			//custom blink
+			if (animName.Contains("anim_") && animName.Contains("_blinks_kanim"))
+				return 0;
 
 			ResourceSet accessories = Db.Get().Accessories;
 

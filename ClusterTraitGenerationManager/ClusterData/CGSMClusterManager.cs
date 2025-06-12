@@ -48,7 +48,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 		{
 			get
 			{
-				if(_predefinedPlacementData == null)
+				if (_predefinedPlacementData == null)
 					PopulatePredefinedClusterPlacements();
 				return _predefinedPlacementData;
 			}
@@ -657,12 +657,15 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 		private static void PostProcessCluster(ClusterLayout layout, List<StarmapItem> planets, StarmapItem starterPlanet)
 		{
-			foreach(var reqDlc in starterPlanet.world.requiredDlcIds)
+			if (starterPlanet.world.requiredDlcIds != null)
 			{
-				if(DlcAudioSettings.TryGetValue(reqDlc, out var audioSettings))
+				foreach (var reqDlc in starterPlanet.world.requiredDlcIds)
 				{
-					layout.clusterAudio = audioSettings;
-					break;
+					if (DlcAudioSettings.TryGetValue(reqDlc, out var audioSettings))
+					{
+						layout.clusterAudio = audioSettings;
+						break;
+					}
 				}
 			}
 
@@ -675,17 +678,20 @@ namespace ClusterTraitGenerationManager.ClusterData
 					continue;
 				}
 
+				SgtLogger.l("AAAAAAAAAAAAA");
 				if (CGMWorldGenUtils.HasGeothermalPump(world) && !layout.clusterTags.Contains("CeresCluster"))
 				{
 					layout.clusterTags.Add("CeresCluster");
 					layout.clusterTags.Add("GeothermalImperative");
 				}
-				if(CGMWorldGenUtils.HasImpactorShower(world) && !layout.clusterTags.Contains("PrehistoricCluster"))
+				SgtLogger.l("AAAAAAAAAAAAA");
+				if (CGMWorldGenUtils.HasImpactorShower(world) && !layout.clusterTags.Contains("PrehistoricCluster"))
 				{
 					layout.clusterTags.Add("PrehistoricCluster");
 					layout.clusterTags.Add("DemoliorImperative");
 				}
 			}
+			SgtLogger.l("AAAAAAAAAAAAA");
 		}
 
 		static string LastPresetGenerated = string.Empty;
@@ -1328,8 +1334,8 @@ namespace ClusterTraitGenerationManager.ClusterData
 					PredefinedPlacementData[planetPlacement.world] = planetPlacement;
 				}
 
-				if(clusterData.clusterAudio != null
-					&& !clusterData.dlcIdFrom.IsNullOrWhiteSpace() 
+				if (clusterData.clusterAudio != null
+					&& !clusterData.dlcIdFrom.IsNullOrWhiteSpace()
 					&& !clusterData.dlcIdFrom.Contains("DLC") //no basegame/spacedout 
 					&& _dlcAudioSettings.ContainsKey(clusterData.dlcIdFrom))
 				{
