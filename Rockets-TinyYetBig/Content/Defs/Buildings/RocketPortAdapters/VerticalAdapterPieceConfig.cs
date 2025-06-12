@@ -45,6 +45,7 @@ namespace Rockets_TinyYetBig.RocketFueling
 
 			buildingDef.ObjectLayer = ObjectLayer.Building;
 			buildingDef.CanMove = false;
+			buildingDef.UseStructureTemperature = false;
 			return buildingDef;
 		}
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
@@ -58,6 +59,8 @@ namespace Rockets_TinyYetBig.RocketFueling
 			component.AddTag(ModAssets.Tags.VerticalPortAttachementPoint);
 			component.AddTag(BaseModularLaunchpadPortConfig.LinkTag);
 			component.AddTag(GameTags.ModularConduitPort);
+			component.AddTag(GameTags.NotRocketInteriorBuilding);
+			component.AddTag(ModAssets.Tags.SpaceStationOnlyInteriorBuilding);
 
 			ChainedBuilding.Def def = go.AddOrGetDef<ChainedBuilding.Def>();
 			def.headBuildingTag = ModAssets.Tags.RocketPlatformTag;

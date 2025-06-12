@@ -26,6 +26,7 @@
 		<ModName>Fabricator Recipe Controller</ModName>
 		<ModDescription>Adds a new attachable building that allows controlling production in fabricators via logic wires</ModDescription>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
+		<SteamId>3478214979</SteamId>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 

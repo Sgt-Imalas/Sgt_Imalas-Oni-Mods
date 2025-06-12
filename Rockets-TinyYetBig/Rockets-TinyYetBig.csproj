@@ -27,6 +27,7 @@
 		<ModDescription>Various QoL Additions to Rockets. Shrinks the border around rocket interiors and provides some larger variants to construct. Also adds several new modules and mechanics to rockets</ModDescription>
 		<RequiredDlcIds>EXPANSION1_ID</RequiredDlcIds>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
+		<SteamId>2837919908</SteamId>
 		<APIVersion>2</APIVersion>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>
@@ -63,9 +64,5 @@
 	    <PrivateAssets>all</PrivateAssets>
 	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	  </PackageReference>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Content\Defs\Entities\" />
 	</ItemGroup>
 </Project>

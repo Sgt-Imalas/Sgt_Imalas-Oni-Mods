@@ -31,7 +31,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 		{
 			if (Instance != null)
 				return Instance._isCustomCluster;
-			return false;
+			return Game.clusterId == CGSMClusterManager.CustomClusterID;
 
 		}
 
@@ -64,12 +64,20 @@ namespace ClusterTraitGenerationManager.ClusterData
 			Instance = null;
 		}
 
-		internal bool IsCeresAsteroidInCluster(string clusterTag)
+		internal bool IsClusterTagAsteroidInCluster(string clusterTag)
 		{
 			if (CGM_ClusterTags.Contains(clusterTag))
 			{
 				return true;
 			}
+			string worldTag = clusterTag.Replace("Cluster", "");
+			if (ClusterManager.Instance.WorldContainers.Any(world => world.worldTags != null && world.worldTags.Contains(worldTag)))
+			{
+				SgtLogger.l("Assigning missing "+ clusterTag + " to CGM custom cluster");
+				CGM_ClusterTags.Add(clusterTag);
+				return true;
+			}
+
 			if (clusterTag == "CeresCluster" || clusterTag == "GeothermalImperative")
 			{
 				foreach (WorldContainer planet in ClusterManager.Instance.WorldContainers)
@@ -80,6 +88,20 @@ namespace ClusterTraitGenerationManager.ClusterData
 						SgtLogger.l("ceres asteroid found");
 						CGM_ClusterTags.Add("CeresCluster");
 						CGM_ClusterTags.Add("GeothermalImperative");
+						return true;
+					}
+				}
+			}
+			if (clusterTag == "PrehistoricCluster"||clusterTag == "DemoliorImperative")
+			{
+				foreach (WorldContainer planet in ClusterManager.Instance.WorldContainers)
+				{
+					if(CGMWorldGenUtils.HasImpactorShower(planet.GetSeasonIds()))					
+					{
+						//Retroactively adding those to cgm clusters
+						SgtLogger.l("prehistoric asteroid found");
+						CGM_ClusterTags.Add("PrehistoricCluster");
+						CGM_ClusterTags.Add("DemoliorImperative");
 						return true;
 					}
 				}

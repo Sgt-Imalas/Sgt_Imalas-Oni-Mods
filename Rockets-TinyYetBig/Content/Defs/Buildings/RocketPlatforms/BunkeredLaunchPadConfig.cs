@@ -61,10 +61,11 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 		{
 			BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof(RequiresFoundation), prefab_tag);
 			go.AddOrGet<LoopingSounds>();
-			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
-			go.GetComponent<KPrefabID>().AddTag(GameTags.NotRocketInteriorBuilding);
-			go.GetComponent<KPrefabID>().AddTag(ModAssets.Tags.RocketPlatformTag);
-			go.GetComponent<KPrefabID>().AddTag(ModAssets.Tags.SpaceStationOnlyInteriorBuilding);
+			var prefab = go.GetComponent<KPrefabID>();
+			prefab.AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
+			prefab.AddTag(GameTags.NotRocketInteriorBuilding);
+			prefab.AddTag(ModAssets.Tags.RocketPlatformTag);
+			prefab.AddTag(ModAssets.Tags.SpaceStationOnlyInteriorBuilding);
 			go.AddOrGet<Storage>().SetDefaultStoredItemModifiers(new List<Storage.StoredItemModifier>()
 			{
 				Storage.StoredItemModifier.Hide,

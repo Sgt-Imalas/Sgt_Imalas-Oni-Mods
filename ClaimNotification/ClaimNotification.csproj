@@ -16,6 +16,7 @@
 		<AssemblyName>ClaimNotification</AssemblyName>
 		<RootNamespace>ClaimNotification</RootNamespace>
 		<IsMod>true</IsMod>
+		<SteamId>2955304767</SteamId>
 		<GenerateMetadata>true</GenerateMetadata>
 		<IsPacked>true</IsPacked>
 	</PropertyGroup>

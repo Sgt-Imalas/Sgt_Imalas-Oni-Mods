@@ -78,12 +78,22 @@ namespace SaveGameModLoader
 				if (btn != null)
 				{
 					var colonyList = ModlistManager.Instance.TryGetColonyModlist(baseName);
+					bool hasStoredModlist = colonyList != null && colonyList.TryGetModListEntry(fileName, out _);
+					//only allow changes in main menu
 
-					btn.isInteractable = colonyList != null && colonyList.TryGetModListEntry(fileName, out _) && App.GetCurrentSceneName() == "frontend";
-					btn.onClick += (() =>
+					bool CanLoadSave = App.GetCurrentSceneName() == "frontend" && FileDetails.FileInfo.IsCompatableWithCurrentDlcConfiguration(out _, out _);
+
+					btn.isInteractable = CanLoadSave;
+					if (CanLoadSave)
 					{
-						ModlistManager.Instance.InstantiateModViewForPathOnly(fileName);
-					});
+						btn.onClick += (() =>
+						{
+							if (hasStoredModlist)
+								ModlistManager.Instance.InstantiateModViewForPathOnly(fileName);
+							else
+								ModlistManager.Instance.InstantiateModViewForListOnly(fileName, ModAssets.GetModsFromSaveHeader(fileName));
+						});
+					}
 				}
 			}
 			//public static readonly MethodInfo ButtonLogic = AccessTools.Method(
@@ -720,7 +730,7 @@ namespace SaveGameModLoader
 				string colonyName = SaveGameModList.GetModListFileName(path);
 
 				var colony = ModlistManager.Instance.TryGetColonyModlist(colonyName);
-				bool interactable = colony != null && colony.TryGetModListEntry(path, out _);
+				bool hasStoredModlist = colony != null && colony.TryGetModListEntry(path, out _);
 
 				var button = bt.GetComponent<KButton>();
 				bt.name = "SyncAndContinue";
@@ -728,13 +738,16 @@ namespace SaveGameModLoader
 
 				internalText.text = STRINGS.UI.FRONTEND.MODSYNCING.CONTINUEANDSYNC;
 
-				button.isInteractable = interactable;
+				//button.isInteractable = hasStoredModlist;
 				button.ClearOnClick();
 				var autoResumeOnSync = () => __instance.ResumeGame();
 				button.onClick +=
 				() =>
 				{
-					ModlistManager.Instance.InstantiateModViewForPathOnly(path, autoResumeOnSync);
+					if (hasStoredModlist)
+						ModlistManager.Instance.InstantiateModViewForPathOnly(path, autoResumeOnSync);
+					else
+						ModlistManager.Instance.InstantiateModViewForListOnly(path,ModAssets.GetModsFromSaveHeader(path),autoResumeOnSync);
 				};
 				ModlistManager.Instance.ParentObjectRef = __instance.gameObject;
 				var SaveGameName = button.transform.Find("SaveNameText").gameObject;

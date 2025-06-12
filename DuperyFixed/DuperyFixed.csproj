@@ -25,6 +25,7 @@
 	<PropertyGroup>
 		<ModName>Dupery Fixed</ModName>
 		<ModDescription>Base Mod for custom duplicant mods</ModDescription>
+		<SteamId>3172734005</SteamId>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

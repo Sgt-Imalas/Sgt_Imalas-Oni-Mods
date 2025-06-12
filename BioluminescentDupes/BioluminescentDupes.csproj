@@ -26,6 +26,7 @@
 		<ModName>Extra Traits: Bioluminescence</ModName>
 		<ModDescription>new trait that makes dupes glow</ModDescription>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
+		<SteamId>3417626005</SteamId>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 

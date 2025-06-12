@@ -34,10 +34,10 @@ namespace ComplexFabricatorRibbonController
 			_notAttachedToFabricator = new StatusItem(
 					  "CFRC_NotAttached",
 					  STRINGS.BUILDING.STATUSITEMS.CFRC_NOTLINKEDTOHEAD.NAME,
-					  STRINGS.BUILDING.STATUSITEMS.CFRC_NOTLINKEDTOHEAD.TOOLTIP, 
-					  "status_item_not_linked", 
-					  StatusItem.IconType.Custom, 
-					  NotificationType.BadMinor, 
+					  STRINGS.BUILDING.STATUSITEMS.CFRC_NOTLINKEDTOHEAD.TOOLTIP,
+					  "status_item_not_linked",
+					  StatusItem.IconType.Custom,
+					  NotificationType.BadMinor,
 					  false,
 					  OverlayModes.None.ID);
 		}
@@ -83,6 +83,46 @@ namespace ComplexFabricatorRibbonController
 			TMPConverter.ReplaceAllText(SelectRecipeSecondarySidescreenGO);
 
 			RecipeSelectionSecondarySidescreen = SelectRecipeSecondarySidescreenGO.AddComponent<RibbonRecipeController_SecondarySidescreen>();
+		}
+		public static string GetRecipeText(ComplexRecipe recipe, bool includeDesc)
+		{
+			if (recipe == null)
+			{
+				return STRINGS.UI.RFRC_NO_RECIPE;
+			}
+			string desc = recipe.description;
+			string text = string.Empty; //recipe.GetUIName(false);
+
+			string ingredients = string.Empty, products = string.Empty;
+
+
+			foreach (var ingredient in recipe.ingredients)
+			{
+				if (ingredient.amount > 0 && ingredient.material != null)
+				{
+					ingredients += ingredient.material.ProperName();
+					ingredients += " & ";
+				}
+			}
+			ingredients = ingredients.Trim(['&', ' ']);
+			foreach (var result in recipe.results)
+			{
+				if (result.amount > 0 && result.material != null)
+				{
+					products += result.material.ProperName();
+					products += " & ";
+				}
+			}
+			products = products.Trim(['&', ' ']);
+
+			text = string.Format(global::STRINGS.UI.UISIDESCREENS.REFINERYSIDESCREEN.RECIPE_WITH, ingredients, products);
+
+			if (includeDesc && !string.IsNullOrEmpty(desc))
+			{
+				text += "\n\n" + desc;
+			}
+
+			return text;
 		}
 	}
 }

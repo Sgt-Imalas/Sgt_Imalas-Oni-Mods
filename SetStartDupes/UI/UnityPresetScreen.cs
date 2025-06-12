@@ -148,7 +148,7 @@ namespace SetStartDupes
 
 				bool isValidForModel = config.Model == ReferencedStats.personality.model;
 
-				if(!isValidForModel) 
+				if (!isValidForModel)
 					UIUtils.AddSimpleTooltipToObject(PresetHolder.transform, SCROLLAREA.CONTENT.PRESETENTRYPREFAB.INVALIDMODELTOOLTIP);
 
 
@@ -189,13 +189,15 @@ namespace SetStartDupes
 			System.Action nothing = () =>
 			{ };
 
-			KMod.Manager.Dialog(GameScreenManager.Instance.GetParent(GameScreenManager.UIRenderTarget.ScreenSpaceOverlay),
+
+			DialogUtil.CreateConfirmDialogFrontend(
 		   string.Format(DELETEWINDOW.TITLE, config.ConfigName),
 		   string.Format(DELETEWINDOW.DESC, config.ConfigName),
 		   DELETEWINDOW.YES,
 		   Delete,
 		   DELETEWINDOW.CANCEL
 		   , nothing
+		   , useScreenSpaceOverlay: true
 		   );
 		}
 

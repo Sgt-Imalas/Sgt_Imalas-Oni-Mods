@@ -35,7 +35,7 @@ namespace Cheese.Foods
 
 				string recipeID = ComplexRecipeManager.MakeRecipeID(fabricatorID, input, output);
 
-				ModAssets.Foods.CheeseRecipe = new ComplexRecipe(recipeID, input, output)
+				ModAssets.Foods.CheeseRecipe = new ComplexRecipe(recipeID, input, output,"cheese_kanim")
 				{
 					time = TUNING.FOOD.RECIPES.SMALL_COOK_TIME,
 					description = STRINGS.ITEMS.FOOD.CHEESE.DESC,
@@ -43,7 +43,7 @@ namespace Cheese.Foods
 					fabricators = new List<Tag> { fabricatorID },
 					sortOrder = 5
 				};
-				ModAssets.Foods.CheeseRecipe.FabricationVisualizer = MushBarConfig.CreateFabricationVisualizer(CheeseDebris.GetPrefabForRecipe());
+				//ModAssets.Foods.CheeseRecipe.FabricationVisualizer = MushBarConfig.CreateFabricationVisualizer(CheeseDebris.GetPrefabForRecipe());
 			}
 		}
 		[HarmonyPatch(typeof(GourmetCookingStationConfig), nameof(GourmetCookingStationConfig.ConfigureRecipes))]

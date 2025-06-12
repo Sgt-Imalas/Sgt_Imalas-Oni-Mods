@@ -25,7 +25,7 @@
 	<PropertyGroup>
 		<ModName>Frostbite Tweaks</ModName>
 		<ModDescription>Allows togging/changing certain features of the reworked cold damage system</ModDescription>
-		 
+		<SteamId>3294665522</SteamId>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

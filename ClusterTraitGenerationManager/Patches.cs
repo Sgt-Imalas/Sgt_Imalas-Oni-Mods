@@ -46,7 +46,7 @@ namespace ClusterTraitGenerationManager
 
 			public static void Postfix(ref List<Tuple<string, TextStyleSetting>> __result, SaveGame __instance)
 			{
-				if (Game.clusterId == CustomClusterID || SaveGameData.IsCustomCluster())
+				if (SaveGameData.IsCustomCluster())
 				{
 					var array = __result.ToArray();
 					array[1] = new Tuple<string, TextStyleSetting>((string)STRINGS.CLUSTER_NAMES.CGM.NAME, ToolTipScreen.Instance.defaultTooltipBodyStyle);
@@ -94,7 +94,7 @@ namespace ClusterTraitGenerationManager
 		{
 			public static void Postfix(PauseScreen __instance)
 			{
-				if (Game.clusterId == CustomClusterID || SaveGameData.IsCustomCluster())
+				if (SaveGameData.IsCustomCluster())
 				{
 					var inst = CustomGameSettings.Instance;
 					SettingLevel currentQualitySetting2 = inst.GetCurrentQualitySetting(CustomGameSettingConfigs.WorldgenSeed);
@@ -161,24 +161,28 @@ namespace ClusterTraitGenerationManager
 				}
 			}
 		}
-		[HarmonyPatch(typeof(CustomGameSettings))]
-		[HarmonyPatch(nameof(CustomGameSettings.SetMixingSetting))]
-		[HarmonyPatch(new Type[] { typeof(SettingConfig), typeof(string) })]
+		[HarmonyPatch(typeof(CustomGameSettings), nameof(CustomGameSettings.SetMixingSetting), [typeof(SettingConfig), typeof(string), typeof(bool)])]
 		public static class RegenerateOnMixingSettingsChanged
 		{
+			static string PreviousValue = string.Empty;
+			public static void Prefix(CustomGameSettings __instance, SettingConfig config, string value)
+			{
+				if (__instance == null || LoadCustomCluster)
+					return;
+				PreviousValue = __instance.GetCurrentMixingSettingLevel(config).id;
+			}
+
 			public static void Postfix(CustomGameSettings __instance, SettingConfig config, string value)
 			{
-				if (__instance == null || LoadCustomCluster || __instance.GetCurrentMixingSettingLevel(config).id == value)
+				if (__instance == null || LoadCustomCluster || PreviousValue == value)
 					return;
-				RegenerateCGM(__instance, "Mixing Setting " + config.id, rerollTraits: false);
+				RegenerateCGM(__instance, "Mixing Setting" + config.id, rerollTraits: false);
 			}
 		}
 		/// <summary>
 		/// Regenerates Custom cluster with newly created traits on seed shuffle
 		/// </summary>
-		[HarmonyPatch(typeof(CustomGameSettings))]
-		[HarmonyPatch(nameof(CustomGameSettings.SetQualitySetting))]
-		[HarmonyPatch(new Type[] { typeof(SettingConfig), typeof(string) })]
+		[HarmonyPatch(typeof(CustomGameSettings), nameof(CustomGameSettings.SetQualitySetting), [typeof(SettingConfig), typeof(string)])]
 		public static class RegenerateOnSeedOrClusterChanged
 		{
 			public static void Postfix(CustomGameSettings __instance, SettingConfig config, string value)
@@ -374,22 +378,30 @@ namespace ClusterTraitGenerationManager
 
 
 
-		///// <summary>
-		///// make WorldMixing (not subworld mixing!) disable with cgm cluster
-		///// </summary>
-		//[HarmonyPatch(typeof(SettingsCache))]
-		//[HarmonyPatch(nameof(SettingsCache.LoadWorldMixingSettings))]
-		//public static class LoadWorldMixingSettings_Postfix_Exclusion
-		//{
-		//    public static void Postfix()
-		//    {
-		//        foreach(var worldMixingSetting in SettingsCache.worldMixingSettings.Values)
-		//        {
-		//            if (worldMixingSetting != null && worldMixingSetting.forbiddenClusterTags != null && !worldMixingSetting.forbiddenClusterTags.Contains(CustomClusterClusterTag))
-		//                worldMixingSetting.forbiddenClusterTags.Add(CustomClusterClusterTag);
-		//        }
-		//    }
-		//}
+		/// <summary>
+		/// make WorldMixing (not subworld mixing!) disable with cgm cluster
+		/// </summary>
+		[HarmonyPatch(typeof(SettingsCache))]
+		[HarmonyPatch(nameof(SettingsCache.LoadWorldMixingSettings))]
+		public static class LoadWorldMixingSettings_Postfix_Exclusion
+		{
+			public static void Postfix()
+			{
+				foreach (var worldMixingSetting in SettingsCache.worldMixingSettings.Values)
+				{
+					if (worldMixingSetting != null)
+					{
+						if (worldMixingSetting.forbiddenClusterTags == null)
+							worldMixingSetting.forbiddenClusterTags = new List<string>();
+
+						if (!worldMixingSetting.forbiddenClusterTags.Contains(CustomClusterClusterTag))
+						{
+							worldMixingSetting.forbiddenClusterTags.Add(CustomClusterClusterTag);
+						}
+					}
+				}
+			}
+		}
 
 		/// <summary>
 		/// Prevents the normal cluster menu from closing when the custom cluster menu is open
@@ -489,6 +501,9 @@ namespace ClusterTraitGenerationManager
 				}
 			}
 
+			/// <summary>
+			/// Populate the dictionary with the other two variants for each asteroid
+			/// </summary>
 			public static void InitWorlds()
 			{
 				if (initialized)
@@ -502,7 +517,7 @@ namespace ClusterTraitGenerationManager
 				int ceresMoonletCounter = 0;
 
 				SgtLogger.l("Initializing generation of additional planetoids, current count: " + __instance.worldCache.Count());
-				List<KeyValuePair<string, ProcGen.World>> toAdd = new List<KeyValuePair<string, ProcGen.World>>();
+				Dictionary<string, ProcGen.World> toAdd = new();
 				foreach (var sourceWorld in __instance.worldCache)
 				{
 
@@ -545,40 +560,59 @@ namespace ClusterTraitGenerationManager
 
 
 
-					var TypeToIgnore = DeterminePlanetType(sourceWorld.Value);
-					if (TypeToIgnore == StarmapItemCategory.Starter)
+					var OriginPlanetType = DeterminePlanetType(sourceWorld.Value, true);
+
+					
+					string starterName = BaseName + "Start";
+					string warpName = BaseName + "Warp";
+					string outerName = BaseName + "Outer";
+
+					bool hasStarterAlready = __instance.worldCache.ContainsKey(starterName) || toAdd.ContainsKey(starterName);
+					bool hasWarpAlready = __instance.worldCache.ContainsKey(warpName) || toAdd.ContainsKey(warpName);
+					bool hasOuterAlready = __instance.worldCache.ContainsKey(outerName) || toAdd.ContainsKey(outerName);
+					
+					bool hasBaseAlready = __instance.worldCache.TryGetValue(BaseName, out var existingBase) || toAdd.TryGetValue(BaseName, out existingBase);
+
+					if (hasBaseAlready)
 					{
-						if (
-						__instance.worldCache.ContainsKey(sourceWorld.Key.Replace("Start", "")) && sourceWorld.Key.Contains("Start")
-						|| __instance.worldCache.ContainsKey(sourceWorld.Key.Replace("Start", "").Replace("Outer", "") + "Warp")
-						)
-						{
-							SgtLogger.l($"skipping {sourceWorld.Key} bc there is already a warp and normal asteroid");
-							continue;
-						}
+						var basePlanetType = DeterminePlanetType(existingBase);
+						if(basePlanetType == StarmapItemCategory.Starter)
+							hasStarterAlready = true;
+						else if (basePlanetType == StarmapItemCategory.Outer)
+							hasOuterAlready = true;
+						else if (basePlanetType == StarmapItemCategory.Warp)
+							hasWarpAlready = true;
 					}
-					else if (TypeToIgnore == StarmapItemCategory.Warp)
-					{
-						if (
-						__instance.worldCache.ContainsKey(sourceWorld.Key.Replace("Warp", "")) && sourceWorld.Key.Contains("Warp")
-						|| __instance.worldCache.ContainsKey(sourceWorld.Key.Replace("Warp", "").Replace("Outer", "") + "Start")
-						)
-						{
-							SgtLogger.l($"skipping {sourceWorld.Key} bc there is already a start and outer asteroid");
-							continue;
-						}
-					}
-					else if (TypeToIgnore == StarmapItemCategory.Outer)
-					{
-						if (
-						   __instance.worldCache.ContainsKey(sourceWorld.Key + "Warp")
-						|| __instance.worldCache.ContainsKey(sourceWorld.Key + "Start")
-						)
-						{
-							SgtLogger.l($"skipping {sourceWorld.Key} there is already a warp and Start asteroid");
-							continue;
-						}
-					}
+
+
+
+					//if (TypeToIgnore == StarmapItemCategory.Starter)
+					//{
+					//	if (__instance.worldCache.ContainsKey(warpName) || __instance.worldCache.ContainsKey(outerName)
+					//	)
+					//	{
+					//		SgtLogger.l($"skipping {sourceWorld.Key} bc there is already a warp and normal asteroid");
+					//		continue;
+					//	}
+					//}
+					//else if (TypeToIgnore == StarmapItemCategory.Warp)
+					//{
+					//	if (__instance.worldCache.ContainsKey(starterName) || __instance.worldCache.ContainsKey(outerName)							
+					//	)
+					//	{
+					//		SgtLogger.l($"skipping {sourceWorld.Key} bc there is already a start and outer asteroid");
+					//		continue;
+					//	}
+					//}
+					//else if (TypeToIgnore == StarmapItemCategory.Outer)
+					//{
+					//	if (__instance.worldCache.ContainsKey(starterName) || __instance.worldCache.ContainsKey(warpName)
+					//	)
+					//	{
+					//		SgtLogger.l($"skipping {sourceWorld.Key} there is already a warp and Start asteroid");
+					//		continue;
+					//	}
+					//}
 
 					List<string> additionalTemplates = new List<string>();
 
@@ -588,11 +622,10 @@ namespace ClusterTraitGenerationManager
 						additionalTemplates.Add(sourceWorld.Value.startingBaseTemplate);
 					}
 
-					//StartWorld
-
-					if (TypeToIgnore != StarmapItemCategory.Starter)
+					///StartWorld
+					if (OriginPlanetType != StarmapItemCategory.Starter && !hasStarterAlready)
 					{
-						string newWorldPath_Start = BaseName + "Start";
+						string newWorldPath_Start = starterName;
 
 						var StartWorld = new ProcGen.World();
 
@@ -741,16 +774,17 @@ namespace ClusterTraitGenerationManager
 
 						StartWorld.worldTemplateRules.Insert(0, TeleporterSpawn);
 
-						toAdd.Add(new(newWorldPath_Start, StartWorld));
-						ModAssets.ModPlanetOriginPaths.Add(newWorldPath_Start, sourceWorld.Key);
+						toAdd.Add(newWorldPath_Start, StartWorld);
+						ModAssets.AddModPlanetOrigin(newWorldPath_Start, sourceWorld.Key);
 
 						SgtLogger.l(newWorldPath_Start, "Created Starter Planet Variant");
 
 					}
+					else SgtLogger.l("Skipping Starter variant for " + sourceWorld.Key + " because it already exists");
 					///Warp planet variant
-					if (TypeToIgnore != StarmapItemCategory.Warp)
+					if (OriginPlanetType != StarmapItemCategory.Warp && !hasWarpAlready)
 					{
-						string newWorldPath_Warp = BaseName + "Warp";
+						string newWorldPath_Warp = warpName;
 
 						var WarpWorld = new ProcGen.World();
 
@@ -881,16 +915,17 @@ namespace ClusterTraitGenerationManager
 
 						WarpWorld.worldTemplateRules.Insert(0, TeleporterSpawn);
 
-						toAdd.Add(new(newWorldPath_Warp, WarpWorld));
-						ModAssets.ModPlanetOriginPaths.Add(newWorldPath_Warp, sourceWorld.Key);
+						toAdd.Add(newWorldPath_Warp, WarpWorld);
+						ModAssets.AddModPlanetOrigin(newWorldPath_Warp, sourceWorld.Key);
 
 						SgtLogger.l(newWorldPath_Warp, "Created Warp Planet Variant");
 
 					}
+					else SgtLogger.l("Skipping Warp variant for " + sourceWorld.Key + " because it already exists");
 
-					if (TypeToIgnore != StarmapItemCategory.Outer)
+					if (OriginPlanetType != StarmapItemCategory.Outer && !hasOuterAlready)
 					{
-						string newWorldPath_Outer = BaseName + "Outer";
+						string newWorldPath_Outer = outerName;
 
 						var OuterWorld = new ProcGen.World();
 
@@ -931,18 +966,28 @@ namespace ClusterTraitGenerationManager
 
 						//StartWorld.worldTemplateRules.RemoveAll(cellsfilter => cellsfilter.allowedCellsFilter.Any(item=> item.tag=="AtStart"));
 
-						toAdd.Add(new(newWorldPath_Outer, OuterWorld));
-						ModAssets.ModPlanetOriginPaths.Add(newWorldPath_Outer, sourceWorld.Key);
+						toAdd.Add(newWorldPath_Outer, OuterWorld);
+						ModAssets.AddModPlanetOrigin(newWorldPath_Outer, sourceWorld.Key);
 
 						SgtLogger.l(newWorldPath_Outer, "Created Outer Planet Variant");
 					}
+					else SgtLogger.l("Skipping Outer variant for " + sourceWorld.Key + " because it already exists");
 
 
 				}
 				foreach (var item in toAdd)
 				{
-					item.Value.isModded = true;
-					__instance.worldCache[item.Key] = item.Value;
+					if (!__instance.worldCache.ContainsKey(item.Key))
+					{
+						SgtLogger.l("Adding " + item.Key + " to world cache");
+
+						item.Value.isModded = true;
+						__instance.worldCache.Add(item.Key, item.Value);
+					}
+					else
+					{
+						SgtLogger.warning("" + item.Key + " already existed in world cache");
+					}
 				}
 			}
 			static void CopyValues<T>(T targetObject, T sourceObject)
@@ -1013,8 +1058,7 @@ namespace ClusterTraitGenerationManager
 			}
 		}
 
-		[HarmonyPatch(typeof(FileNameDialog))]
-		[HarmonyPatch(nameof(FileNameDialog.OnActivate))]
+		[HarmonyPatch(typeof(FileNameDialog), nameof(FileNameDialog.OnActivate))]
 		public static class FixCrashOnActivate
 		{
 			private static bool Prefix(FileNameDialog __instance)
@@ -1029,8 +1073,7 @@ namespace ClusterTraitGenerationManager
 				return true;
 			}
 		}
-		[HarmonyPatch(typeof(FileNameDialog))]
-		[HarmonyPatch(nameof(FileNameDialog.OnDeactivate))]
+		[HarmonyPatch(typeof(FileNameDialog), nameof(FileNameDialog.OnDeactivate))]
 		public static class FixCrashOnDeactivate
 		{
 			private static bool Prefix(FileNameDialog __instance)
@@ -1342,7 +1385,7 @@ namespace ClusterTraitGenerationManager
 								isWorldTraitRule = true;
 								baseNumber = targetTimesTrait;
 							}
-							else if(OriginalTemplateAmounts.TryGetValue(WorldTemplateRule, out var originalAmount) && WorldTemplateRule.times != originalAmount)
+							else if (OriginalTemplateAmounts.TryGetValue(WorldTemplateRule, out var originalAmount) && WorldTemplateRule.times != originalAmount)
 							{
 								SgtLogger.l("Resetting world template rule back for " + WorldTemplateRule.names.FirstOrDefault() + "; " + WorldTemplateRule.times + " -> " + originalAmount, item.id);
 								WorldTemplateRule.times = originalAmount;
@@ -1449,7 +1492,7 @@ namespace ClusterTraitGenerationManager
 							SgtLogger.l("Resetting world template rule back for traitRule" + WorldTemplateRule.ruleId + "; " + WorldTemplateRule.times + " -> " + targetTimesTrait);
 							WorldTemplateRule.times = targetTimesTrait;
 						}
-						else if (OriginalTemplateAmounts.TryGetValue(WorldTemplateRule, out int targetTimesGeyser) 
+						else if (OriginalTemplateAmounts.TryGetValue(WorldTemplateRule, out int targetTimesGeyser)
 							&& WorldTemplateRule.times != targetTimesGeyser
 							)
 						{
@@ -1653,37 +1696,44 @@ namespace ClusterTraitGenerationManager
 
 					IsGenerating = true;
 
-					//doesnt work, gotta do it manually
-					//CustomGameSettings.Instance.RemoveInvalidMixingSettings();
 
+					///old and not very functional solution to preventing the game from overriding the mixing settings of the custom cluster with the vanilla ruling (which could lead to mixings overriding each other). 
+					///mixing is now handled by cgm and prohibited by adding the cgm cluster tag to the prohibited mixing tags of all world mixings
+
+					//world mixing worlds are added to the cluster as regulars, so we disable the mixing setting level to prevent them overriding eachother
 					//foreach (var worldMixingSetting in SettingsCache.worldMixingSettings.Values)
 					//{
-					//    if (worldMixingSetting != null && worldMixingSetting.forbiddenClusterTags != null && !worldMixingSetting.forbiddenClusterTags.Contains(CustomClusterClusterTag))
-					//        worldMixingSetting.forbiddenClusterTags.Add(CustomClusterClusterTag);
+					//	if (worldMixingSetting != null && worldMixingSetting.forbiddenClusterTags != null && !worldMixingSetting.forbiddenClusterTags.Contains(CustomClusterClusterTag))
+					//		worldMixingSetting.forbiddenClusterTags.Add(CustomClusterClusterTag);
 					//}
 					//List<string> ToDisableMixings = new();
-					//foreach(var mix in CustomGameSettings.Instance.CurrentMixingLevelsBySetting)
+					//foreach (var mix in SettingsCache.worldMixingSettings)
 					//{
-					//    var mixingSetting = SettingsCache.TryGetCachedWorldMixingSetting(mix.Key);
-					//    if (mixingSetting != null)
-					//    {
-					//        SgtLogger.l("disabling " + mix.Key);
-					//        ToDisableMixings.Add(mix.Key);
-					//    }
+					//	var mixingSetting = SettingsCache.TryGetCachedWorldMixingSetting(mix.Key);
+					//	if (mixingSetting != null)
+					//	{
+					//		ToDisableMixings.Add(mix.Key);
+					//		mixingSetting.forbiddenClusterTags.add
+					//	}
 
-					//    SgtLogger.l(mix.Key+": " + mix.Value, "current mixing setting");
+					//	SgtLogger.l(mix.Key + ": " + mix.Value, "current mixing setting");
 					//}
-					//foreach(var todisable in ToDisableMixings)
+					//foreach (var todisable in ToDisableMixings)
 					//{
+					//	if(CustomGameSettings.Instance.CurrentMixingLevelsBySetting.TryGetValue(todisable, out var current) && current != WorldMixingSettingConfig.DisabledLevelId)
+					//	{
+					//		SgtLogger.l("disabling world mixing to prevent double replacement: " + todisable);
+					//		CustomGameSettings.Instance.CurrentMixingLevelsBySetting[todisable] = WorldMixingSettingConfig.DisabledLevelId;
+					//	}
 					//}
 
-					//dirty manual exclusion to fix crash
-					CustomGameSettings.Instance.CurrentMixingLevelsBySetting["CeresAsteroidMixing"] = WorldMixingSettingConfig.DisabledLevelId;
-					if (DlcManager.IsContentOwned(DlcManager.DLC2_ID) && DlcManager.IsContentSubscribed(DlcManager.DLC2_ID) && CustomCluster.HasCeresAsteroid)
-					{
-						SgtLogger.l("Enabling Frosty Planet for Custom Cluster");
-						CustomGameSettings.Instance.CurrentMixingLevelsBySetting["DLC2_ID"] = DlcMixingSettingConfig.EnabledLevelId;
-					}
+
+					//CustomGameSettings.Instance.CurrentMixingLevelsBySetting["CeresAsteroidMixing"] = WorldMixingSettingConfig.DisabledLevelId;
+					//if (DlcManager.IsContentOwned(DlcManager.DLC2_ID) && DlcManager.IsContentSubscribed(DlcManager.DLC2_ID) && CustomCluster.HasCeresAsteroid)
+					//{
+					//	SgtLogger.l("Enabling Frosty Planet for Custom Cluster");
+					//	CustomGameSettings.Instance.CurrentMixingLevelsBySetting["DLC2_ID"] = DlcMixingSettingConfig.EnabledLevelId;
+					//}
 					//if (CGSMClusterManager.CustomCluster == null)
 					//{
 					//    ///Generating custom cluster if null
@@ -1692,6 +1742,10 @@ namespace ClusterTraitGenerationManager
 					clusterName = CGSMClusterManager.CustomClusterID;
 					SgtLogger.l(clusterName, "CGM CLUSTERID");
 					IsGenerating = true;
+				}
+				else
+				{
+					SgtLogger.l("CGM inactive, vanilla generation will be active");
 				}
 			}
 		}
@@ -1714,6 +1768,13 @@ namespace ClusterTraitGenerationManager
 		[HarmonyPatch(typeof(Cluster), nameof(Cluster.InitializeWorlds))]
 		public class Cluster_InitializeWorlds_Patch
 		{
+			public static void Prefix()
+			{
+				if (!CGSMClusterManager.LoadCustomCluster)
+					return;
+				SgtLogger.l("Preconsuming CGM Mixings");
+
+			}
 			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
 			{
 				var codes = orig.ToList();

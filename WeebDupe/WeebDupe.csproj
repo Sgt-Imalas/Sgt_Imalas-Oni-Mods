@@ -25,7 +25,7 @@
 	<PropertyGroup>
 		<ModName>Weeb Dupes</ModName>
 		<ModDescription>Cat Ear Dupes!</ModDescription>
-		 
+		<SteamId>3208492885</SteamId>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

@@ -50,6 +50,7 @@ namespace Rockets_TinyYetBig.Content.Defs.Buildings.RocketPortAdapters
 			buildingDef.CanMove = false;
 
 			buildingDef.PlacementOffsets = buildingDef.PlacementOffsets.Where(offset => offset.x != 0).ToArray();
+			buildingDef.UseStructureTemperature = false;
 
 			return buildingDef;
 		}
@@ -61,6 +62,8 @@ namespace Rockets_TinyYetBig.Content.Defs.Buildings.RocketPortAdapters
 			KPrefabID component = go.GetComponent<KPrefabID>();
 			component.AddTag(BaseModularLaunchpadPortConfig.LinkTag);
 			component.AddTag(GameTags.ModularConduitPort);
+			component.AddTag(GameTags.NotRocketInteriorBuilding);
+			component.AddTag(ModAssets.Tags.SpaceStationOnlyInteriorBuilding);
 
 			ChainedBuilding.Def def = go.AddOrGetDef<ChainedBuilding.Def>();
 			def.headBuildingTag = ModAssets.Tags.RocketPlatformTag;

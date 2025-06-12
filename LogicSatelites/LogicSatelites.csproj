@@ -27,6 +27,7 @@
 		<ModName>Scan &amp; Relay Satellites</ModName>
 		<ModDescription>Deployable Satellites to relay logic signals and reveal the space around them</ModDescription>
 		<RequiredDlcIds>EXPANSION1_ID</RequiredDlcIds>
+		<SteamId>2840104621</SteamId>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>

@@ -96,8 +96,10 @@ namespace BlueprintsV2
 		public static bool TryGetReplacementTag(BlueprintSelectedMaterial tag, out Tag replacement)
 		{
 			replacement = null;
-			if (SelectedBlueprint == null|| BlueprintState.IsPlacingSnapshot) //only do replacement in regular blueprint tool, not in snapshot tool
+			if ((SelectedBlueprint == null && !BlueprintSelectionScreen.HasBlueprintSelected()) || BlueprintState.IsPlacingSnapshot) //only do replacement in regular blueprint tool, not in snapshot tool
+			{
 				return false;
+			}
 
 			if (DynamicReplacementTags.ContainsKey(tag))
 			{
@@ -107,7 +109,7 @@ namespace BlueprintsV2
 			return false;
 		}
 
-		public static GameObject ParentScreen => PauseScreen.Instance.transform.parent.gameObject;// GameScreenManager.Instance.transform.Find("ScreenSpaceOverlayCanvas/MiddleCenter - InFrontOfEverything").gameObject;
+		public static GameObject ParentScreen => GameScreenManager.Instance.GetParent(GameScreenManager.UIRenderTarget.ScreenSpaceOverlay);
 
 		public static class BlueprintFileHandling
 		{
@@ -346,7 +348,7 @@ namespace BlueprintsV2
 				Blueprint ToRemove = null;
 				foreach (var folder in BlueprintFileHandling.BlueprintFolders)
 				{
-					foreach(var bp in folder.Blueprints)
+					foreach (var bp in folder.Blueprints)
 					{
 						if (bp.FilePath == fileLocation)
 						{

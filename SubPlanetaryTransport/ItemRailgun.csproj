@@ -23,8 +23,8 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>SubPlanetaryTransport</ModName>
-		<ModDescription></ModDescription>
+		<ModName>Sub-Planetary Transport</ModName>
+		<ModDescription>Adds a railgun building that allows shooting items across the asteroid.</ModDescription>
 		 
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>

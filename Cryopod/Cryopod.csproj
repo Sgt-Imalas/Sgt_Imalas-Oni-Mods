@@ -27,6 +27,7 @@
 		<ModDescription>Adds buildable Cryopods to the game</ModDescription>
 		<RequiredDlcIds>EXPANSION1_ID</RequiredDlcIds>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
+		<SteamId>2847621082</SteamId>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 

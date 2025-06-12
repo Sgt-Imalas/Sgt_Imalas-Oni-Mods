@@ -142,10 +142,6 @@ namespace SetStartDupes.CarePackageEditor
 			ExtraCarePackages.Add(new CarePackageOutline(ColdWheatConfig.SEED_ID, 3).CycleCondition(48).DiscoverCondition());
 			//Waterweed
 			ExtraCarePackages.Add(new CarePackageOutline(SeaLettuceConfig.SEED_ID, 3).CycleCondition(48).DiscoverCondition());
-			//Dasha Saltvine
-			ExtraCarePackages.Add(new CarePackageOutline(SaltPlantConfig.SEED_ID, 3).CycleCondition(48).DiscoverCondition());
-			//Mealwood
-			ExtraCarePackages.Add(new CarePackageOutline(BasicSingleHarvestPlantConfig.SEED_ID, 3).CycleCondition(24).DiscoverCondition());
 			//GasGrass
 			ExtraCarePackages.Add(new CarePackageOutline(GasGrassConfig.SEED_ID, 3).CycleCondition(96).DiscoverCondition());
 

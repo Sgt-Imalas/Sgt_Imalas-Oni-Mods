@@ -64,7 +64,6 @@ namespace Rockets_TinyYetBig.Derelicts
 			spst.InteriorSize = size;
 			spst.InteriorTemplate = template;
 			spst.m_Anim = initialAnim;
-			spst.InteriorSize = size;
 			spst.bottomLeftCorner = new Vector2I(0, 0);
 			spst.topRightCorner = new Vector2I(size.x - 1, size.y - 1);
 			spst.poiID = ID.Replace(DerelictTemplateName, string.Empty).Replace("ArtifactSpacePOI_", string.Empty);

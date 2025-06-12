@@ -257,21 +257,21 @@ namespace BlueprintsV2.ModAPI
 
 					if (isUnderConstruction)
 					{
-						//storing on component to be applied on finished construction
+						//storing all data on storage component to reapply it on finished construction (needed for components that dont exist yet on the underConstruction building)
 						transfer.SetDataToApply(key, data);
 					}
-					else
+
+					//directly apply data to either finished buildings
+					//or under construction buildings that have some form of data transfer that is between two underConstruction buildings, eg. chain tool order
+					try
 					{
-						//directly apply data to finished gameObject
-						try
-						{
-							DataHandler.ApplyStoredData(gameObject, data);
-						}
-						catch (Exception e)
-						{
-							SgtLogger.error($"Error while trying to apply data for {key}:\n{e.Message}");
-						}
+						DataHandler.ApplyStoredData(gameObject, data);
 					}
+					catch (Exception e)
+					{
+						SgtLogger.error($"Error while trying to apply data for {key}:\n{e.Message}");
+					}
+
 				}
 			}
 		}
@@ -394,7 +394,7 @@ namespace BlueprintsV2.ModAPI
 
 					if (DataGetter != null && DataApplier != null)
 					{
-						SgtLogger.l("trying to register additional blueprint data for type " + type.Name + " with the id ");
+						SgtLogger.l("trying to register additional blueprint data for type " + type.Name + " with the id " + registrationID);
 						var getterDelegate = (GetBlueprintDataDelegate)Delegate.CreateDelegate(typeof(GetBlueprintDataDelegate), DataGetter);
 						var setterDelegate = (SetBlueprintDataDelegate)Delegate.CreateDelegate(typeof(SetBlueprintDataDelegate), DataApplier);
 						if (getterDelegate != null && setterDelegate != null)
@@ -410,7 +410,7 @@ namespace BlueprintsV2.ModAPI
 			}
 			catch (Exception e)
 			{
-				SgtLogger.logError("Error while registering custom data transfers:\n"+e.Message);
+				SgtLogger.logError("Error while registering custom data transfers:\n" + e.Message);
 			}
 			if (!Aki_DecorPackA_API_Integrated)
 			{

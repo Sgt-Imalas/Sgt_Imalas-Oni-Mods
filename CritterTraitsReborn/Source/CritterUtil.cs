@@ -1,4 +1,5 @@
 ﻿using Klei.AI;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -56,25 +57,18 @@ namespace CritterTraitsReborn
 			}
 
 			// Drops
-			if (go.TryGetComponent<Butcherable>(out var butcherable ))
+			if (go.TryGetComponent<Butcherable>(out var butcherable))
 			{
 				// If a mod uses non-meat drops then we should take that into account
-				var drops = butcherable.drops;
-				var dropId = drops.FirstOrDefault() ?? MeatConfig.ID;
-
-				if (scale < 1.0f)
+				var drops = new Dictionary<string,float>();
+				foreach (var drop in butcherable.drops)
 				{
-					int numDropsToRemove = (int)((1.0f - scale) / 0.25f);
-					drops = drops.Take(drops.Length - numDropsToRemove).ToArray();
-				}
-				else if (scale > 1.0f)
-				{
-					int numDropsToAdd = (int)((scale - 1.0f) / 0.25f);
-					for (int i = 0; i < numDropsToAdd; ++i)
+					if (drop.Value > 0)
 					{
-						drops = drops.Append(dropId);
+						drops[drop.Key] = drop.Value * scale;
 					}
 				}
+
 				butcherable.SetDrops(drops);
 			}
 

@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using Klei;
+using Klei.CustomSettings;
 using ProcGenGame;
 using System;
 using System.Collections.Generic;
@@ -422,6 +423,22 @@ namespace AnimExportTool
 				public Dictionary<string, float> Ressources_Elements;
 				public Dictionary<string, int> Ressources_Entities;
 			}
+			public class GameSettingExport
+			{
+				public class SettingLevel
+				{
+					public string Id;
+					public string Name;
+					public string Description;
+				}
+
+				public string Id;
+				public string Name;
+				public string Description;
+				public long coordinate_range;
+				public string[] requiredDlcs;
+				public List<SettingLevel> Levels;
+			}
 
 
 			public class Asteroid
@@ -494,6 +511,10 @@ namespace AnimExportTool
 				toStrip = STRINGS.UI.StripLinkFormatting(toStrip);
 				toStrip = toStrip.Replace(STRINGS.UI.PRE_KEYWORD, string.Empty);
 				toStrip = toStrip.Replace(STRINGS.UI.PST_KEYWORD, string.Empty);
+				toStrip = toStrip.Replace(STRINGS.UI.PRE_POS_MODIFIER, string.Empty);
+				toStrip = toStrip.Replace(STRINGS.UI.PST_POS_MODIFIER, string.Empty);
+				toStrip = toStrip.Replace("<i>", string.Empty);
+				toStrip = toStrip.Replace("</i>", string.Empty);
 				return toStrip;
 			}
             public static void Postfix()
@@ -607,6 +628,25 @@ namespace AnimExportTool
 				
 				Console.WriteLine("BBBBBBBBBBBBBBBBBB");
 				Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(starmapExport));
+
+				var mixingList = new List<GameSettingExport>();
+
+				foreach(var coordinatedMixingSetting in CustomGameSettings.Instance.CoordinatedMixingSettings)
+				{
+					SettingConfig mixingSetting = CustomGameSettings.Instance.MixingSettings[coordinatedMixingSetting];
+					mixingList.Add(new()
+					{
+						Id = mixingSetting.id,
+						Name = StripFormatting(mixingSetting.label),
+						Description = StripFormatting(mixingSetting.tooltip),
+						coordinate_range = mixingSetting.coordinate_range,
+						requiredDlcs = mixingSetting.required_content,
+						Levels = mixingSetting.GetLevels().Select(l => new GameSettingExport.SettingLevel() { Id = l.id, Name = StripFormatting(l.label), Description = StripFormatting(l.tooltip) }).ToList()
+					});
+				}
+				Console.WriteLine("CCCCCCCCCCCCCCCCCCC");
+				Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(mixingList));
+
 			}
 		}
 

@@ -1,6 +1,7 @@
 ﻿using Rockets_TinyYetBig.Buildings.CargoBays;
 using Rockets_TinyYetBig.Buildings.Nosecones;
 using UtilLibs;
+using static Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS;
 using static STRINGS.BUILDINGS.PREFABS;
 using static STRINGS.ELEMENTS;
 using static STRINGS.UI;
@@ -9,6 +10,47 @@ namespace Rockets_TinyYetBig
 {
 	public class STRINGS
 	{
+		public class ITEMS
+		{
+			public class INDUSTRIAL_PRODUCTS
+			{
+				public class RTB_EMPTYDATACARD
+				{
+					public static LocString NAME = FormatAsLink("Empty Data Card", "RTB_EMPTYDATACARD");
+					public static LocString NAME_PLURAL = FormatAsLink("Empty Data Cards", "RTB_EMPTYDATACARD");
+					public static LocString DESC = "Empty data card that is required to capture " + RTB_DEEPSPACEINSIGHT.NAME + " at the Deep Space Analyzer";
+					public static LocString RECIPE_DESC = "Empty Data Cards, ready to store insights about the depths of space";
+				}
+				public class RTB_DEEPSPACEINSIGHT
+				{
+					public static LocString NAME = FormatAsLink("Deep Space Insight", "RTB_DEEPSPACEINSIGHT");
+					public static LocString NAME_PLURAL = FormatAsLink("Deep Space Insights", "RTB_DEEPSPACEINSIGHT");
+					public static LocString DESC = "Deep space research data that can be processed into " + DEEPSPACERESEARCH.NAME + " points.";
+					public static LocString RECIPE_DESC = NAME_PLURAL+ " generated from analyzing the depths of space with a Deep Space Analyzer";
+				}
+			}			
+		}
+
+		public class ROOMS
+		{
+			public class TYPES
+			{
+				public class RTB_SPACESTATIONRESEARCHROOM
+				{
+					public static LocString NAME = "Orbital Research Lab";
+					public static LocString EFFECT = "- Efficiency bonus";
+					public static LocString TOOLTIP = "Science buildings built in an Orbital Research Lab function more efficiently\n\nAn Orbital Research Lab enables Deep Space Analyzer use";
+					public class ROOMCONSTRAINT
+					{
+						public static LocString NAME = "Four " + FormatAsLink("science buildings", "REQUIREMENTCLASSSCIENCEBUILDING");
+
+						public static LocString DESCRIPTION = "Requires four or more science buildings";
+
+						public static LocString CONFLICT_DESCRIPTION = NAME;
+					}
+				}
+			}
+		}
 		public class CODEX
 		{
 			public class STORY_TRAITS
@@ -68,10 +110,10 @@ namespace Rockets_TinyYetBig
 		}
 		public class DEEPSPACERESEARCH
 		{
-			public static LocString NAME = "Deep Space Research";
+			public static LocString NAME = FormatAsLink("Deep Space Research",nameof(DEEPSPACERESEARCH));
 			public static LocString UNLOCKNAME = (PRE_KEYWORD + NAME + PST_KEYWORD + " Capability");
 			public static LocString UNLOCKDESC = ("Allows " + PRE_KEYWORD + NAME + PST_KEYWORD + " points to be accumulated, unlocking higher technology tiers.\nCan be accumulated before research completion via artifact analysis.");
-			public static LocString DESC = FormatAsLink("Deep Space Research", nameof(DEEPSPACERESEARCH)) + " is conducted by analyzing the deeper meanings behind mysterious artefacts found in the vastness of deep space and by conducting various experiments in the low artifical gravity of a space station.";
+			public static LocString DESC = FormatAsLink("Deep Space Research", nameof(DEEPSPACERESEARCH)) + " is conducted by analyzing the deeper meanings behind mysterious artefacts found in the vastness of deep space and by conducting deep space analysis research in the low artifical gravity of a space station.";
 			public static LocString RECIPEDESC = "Unlocks new breakthroughs in space construction";
 
 		}
@@ -311,6 +353,18 @@ namespace Rockets_TinyYetBig
 					public static LocString NAME = FormatAsLink("Reinforced Ladder", nameof(RTB_REINFORCEDLADDER));
 					public static LocString DESC = "Sturdy and quick to climb!";
 					public static LocString EFFECT = "Increases duplicant climbing speed. Immune to meteors";
+				}
+				public class RTB_DEEPSPACERESEARCHTELESCOPE
+				{
+					public static LocString NAME = FormatAsLink("Deep Space Analysis Station", nameof(RTB_DEEPSPACERESEARCHTELESCOPE));
+					public static LocString DESC = "Deep space analysis stations scan and collect data on deep space anomalies";
+					public static LocString EFFECT = ("Allows " + DEEPSPACERESEARCH.NAME + " to be accumulated.\n\nRequires a " + RTB_DEEPSPACEINSIGHT.NAME + " to function.");
+				}
+				public class RTB_DEEPSPACERESEARCHCENTER
+				{
+					public static LocString NAME = FormatAsLink("Quantum Computer", nameof(RTB_DEEPSPACERESEARCHCENTER));
+					public static LocString DESC = "Quantum computers unlock new breakthroughs from the analysis of deep space anomalies.\n\nRequires active cooling to function optimally";
+					public static LocString EFFECT = ("Conducts " + DEEPSPACERESEARCH.NAME + " to unlock new technologies.\n\nConsumes " + RTB_DEEPSPACEINSIGHT.NAME_PLURAL + ".\n\nAssigned Duplicants must possess the " + global::STRINGS.DUPLICANTS.ROLES.SPACE_RESEARCHER.NAME + " skill.");
 				}
 				public class RTB_WALLCONNECTIONADAPTER
 				{
@@ -609,6 +663,14 @@ namespace Rockets_TinyYetBig
 
 		public class UI
 		{
+			public static LocString PRODUCTINFO_SPACE_STATION_INTERIOR = "Space station interior only";
+			public static LocString PRODUCTINFO_SPACE_STATION_NOT_INTERIOR = "Cannot build inside space station";
+			public class RTB_RESEACH_UNLOCK
+			{
+				public static LocString TEXT = "Eureka! We've decrypted the abandoned station computer's salvageable data.\n\nWe now have the ability to construct habitat stations in the vast emptyness of space!\n\nNew Research has become available.";
+				
+			}
+
 			public static LocString TOOLTIP_ADDON_RTB = UIUtils.ColorText(UIUtils.EmboldenText("Rocketry Expanded"), "a0a0a0") + " Content"; //light grey
 			public class KLEI_INVENTORY_SCREEN
 			{
@@ -616,7 +678,6 @@ namespace Rockets_TinyYetBig
 				{
 					public static LocString RTB_MODULE_SKINS = "Rocket Modules";
 				}
-
 			}
 			public static class DRILLCONE_MODEHANDLER_SIDESCREEN
 			{

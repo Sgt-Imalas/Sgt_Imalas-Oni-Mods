@@ -1,12 +1,4 @@
 ﻿
-Features:
-- added FP toggle to the CGM screen
-- Geyser Override: allows you to guarantee certain geysers to spawn by overriding the spawn rules for generic geysers
-- Geyser Blacklist: prevent geyser types from spawning
-- disabling starmap rerolling now also exists for the spaced out starmap
-- spaced out POIs can now be marked as "guaranteed", allowing them to spawn even if regular poi rules dont allow it.
-
-Fixes:
-- fixed world trait rules not copying to dynamically generated asteroids
-- fixed vanilla asteroids showing up in the asteroid selection list, leading to a crash on opening the starmap if selected.
-
+- changed dlc check logic for frosty planet to be generic for all dlcs in various locations. 
+- dlc toggles in the UI are now constructed dynamically on screen creation, this automates their creation.
+- fixed togging a mixing asteroid (asteroid fragments) not applying it to the custom cluster until the seed was changed

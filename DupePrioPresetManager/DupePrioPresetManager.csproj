@@ -25,6 +25,7 @@
 	<PropertyGroup>
 		<ModName>Preset Manager</ModName>
 		<ModDescription>Adds the option to store presets for various dupe related screens (schedule, consumables, priorities)</ModDescription>
+		<SteamId>2977728791</SteamId>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

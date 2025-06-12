@@ -26,6 +26,7 @@
 		<ModName>AI Controlled Rockets</ModName>
 		<ModDescription>Adds in 3 Control Modules that allows Rockets to fly without a Pilot</ModDescription>
 		<RequiredDlcIds>EXPANSION1_ID</RequiredDlcIds>
+		<SteamId>2765256496</SteamId>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>

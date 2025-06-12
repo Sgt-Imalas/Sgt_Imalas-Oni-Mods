@@ -1,4 +1,5 @@
 ﻿using System;
+using UtilLibs;
 
 namespace BlueprintsV2.BlueprintData
 {
@@ -41,11 +42,13 @@ namespace BlueprintsV2.BlueprintData
 		}
 		public override bool Equals(object obj) => obj is BlueprintSelectedMaterial other && Equals(other);
 
-		public static bool operator ==(BlueprintSelectedMaterial a, BlueprintSelectedMaterial b) => a?.CategoryTag == b?.CategoryTag && a?.SelectedTag == b?.SelectedTag && a._buildingIdTag == b._buildingIdTag;
+		public static bool operator ==(BlueprintSelectedMaterial a, BlueprintSelectedMaterial b) => a?.CategoryTag == b?.CategoryTag && a?.SelectedTag == b?.SelectedTag && a?._buildingIdTag == b?._buildingIdTag;
 		public static bool operator !=(BlueprintSelectedMaterial a, BlueprintSelectedMaterial b) => !(a == b);
 		public override int GetHashCode()
 		{
-			return SelectedTag.GetHashCode() ^ CategoryTag.GetHashCode() ^ BuildingIdTag.GetHashCode();
+			var val= SelectedTag.GetHashCode() ^ CategoryTag.GetHashCode() ^ BuildingIdTag.GetHashCode();
+			//SgtLogger.l("mat hash for "+SelectedTag+", "+CategoryTag+", "+BuildingIdTag+": "+val);
+			return val;
 		}
 		//public bool Equals(BlueprintSelectedMaterial x, BlueprintSelectedMaterial y)
 		//{

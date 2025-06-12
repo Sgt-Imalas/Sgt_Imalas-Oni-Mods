@@ -25,6 +25,7 @@
 	<PropertyGroup>
 		<ModName>Bionics Access Control</ModName>
 		<ModDescription>Splits default door permissions between bionic and regular dupes</ModDescription>
+		<SteamId>3438001141</SteamId>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

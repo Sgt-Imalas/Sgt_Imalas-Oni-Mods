@@ -1,6 +1,7 @@
 ﻿using ClusterTraitGenerationManager.ClusterData;
 using Klei.AI;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
@@ -85,11 +86,21 @@ namespace ClusterTraitGenerationManager.UI.Screens
 		{
 			foreach (var gameplaySeason in Db.Get().GameplaySeasons.resources)
 			{
-				if (!(gameplaySeason is MeteorShowerSeason)
+				//if(gameplaySeason.Id == "LargeImpactor" && DlcManager.IsCorrectDlcSubscribed(gameplaySeason.GetRequiredDlcIds(), gameplaySeason.GetForbiddenDlcIds()))
+				//{
+				//	var Dlc4ImpactorGO = Util.KInstantiateUI(SeasonPrefab, PossibleSeasonContainer, true);
+
+				//	UIUtils.TryChangeText(Dlc4ImpactorGO.transform, "Label", name);
+				//	continue;
+				//}
+
+
+				if (!(gameplaySeason is MeteorShowerSeason season)
 					|| gameplaySeason.Id.Contains("Fullerene")
 					|| gameplaySeason.Id.Contains("TemporalTear")
-					|| !DlcManager.IsContentSubscribed(gameplaySeason.dlcId)
-					|| (gameplaySeason.dlcId == DlcManager.VANILLA_ID && DlcManager.IsExpansion1Active())
+					|| !DlcManager.IsCorrectDlcSubscribed(gameplaySeason.GetRequiredDlcIds(), gameplaySeason.GetForbiddenDlcIds())
+					|| (gameplaySeason.GetRequiredDlcIds() != null && gameplaySeason.GetRequiredDlcIds().Contains(DlcManager.VANILLA_ID) && DlcManager.IsExpansion1Active())
+					|| season.clusterTravelDuration <= 0 && DlcManager.IsExpansion1Active()
 					)
 					continue;
 				var meteorSeason = gameplaySeason as MeteorShowerSeason;

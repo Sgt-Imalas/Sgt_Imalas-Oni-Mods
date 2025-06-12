@@ -26,6 +26,7 @@
 		<ModName>Help I accidentally broke my rocket interior ports and now the save crashes on load - Fix</ModName>
 		<ModDescription>Makes Rocket wall components deconstructable and adds them to the build menu</ModDescription>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
+		<SteamId>3021827424</SteamId>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 

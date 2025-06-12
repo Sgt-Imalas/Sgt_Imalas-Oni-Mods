@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>BlueprintsV2</PackageId>
-		<Version>1.3.2</Version>
+		<Version>1.3.4</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>$(AssemblyCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
@@ -16,6 +16,7 @@
 		<AssemblyName>BlueprintsV2</AssemblyName>
 		<RootNamespace>BlueprintsV2</RootNamespace>
 		<IsMod>true</IsMod>
+		<SteamId>3468585385</SteamId>
 		<GenerateMetadata>true</GenerateMetadata>
 		<IsPacked>true</IsPacked>
 	</PropertyGroup>

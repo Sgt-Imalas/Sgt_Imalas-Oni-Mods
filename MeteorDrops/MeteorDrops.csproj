@@ -24,7 +24,8 @@
 	<!-- Mod Info -->
 	<PropertyGroup>
 		<ModName>Meteor Drops</ModName>
-		<ModDescription>Meteors drop some of their mass when blasted</ModDescription>		 
+		<ModDescription>Meteors drop some of their mass when blasted</ModDescription>
+		<SteamId>2961505956</SteamId>	 
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

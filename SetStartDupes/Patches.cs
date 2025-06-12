@@ -436,7 +436,10 @@ namespace SetStartDupes
 				{
 					WorldContainer world = telepad.GetMyWorld();
 					var button = printerSelectButtonGO.GetComponent<KButton>();
-					button.isInteractable = (Components.Telepads.Count > 1);
+					var availablePrinters = Components.Telepads.Where(telepad => telepad != null && (!telepad.TryGetComponent<Activatable>(out var activatable) || activatable.IsActivated));
+
+
+					button.isInteractable = (availablePrinters.Count() > 1);
 					if (world != null && world.TryGetComponent<ClusterGridEntity>(out var starmapEntity))
 					{
 						var sprite = starmapEntity.GetUISprite();
@@ -447,7 +450,7 @@ namespace SetStartDupes
 						button.ClearOnClick();
 						button.onClick += () =>
 						{
-							var list = Components.Telepads.ToList();
+							var list = availablePrinters.ToList();
 							int index = list.FindIndex(t => __instance.telepad == t);
 							index++;
 							if (index >= list.Count)

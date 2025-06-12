@@ -25,7 +25,7 @@
 	<PropertyGroup>
 		<ModName>Warning Notification Manager</ModName>
 		<ModDescription>Adjust the game behavior for the warning notifications; mute, camera pan, auto pause</ModDescription>
-		 
+		<SteamId>2968008945</SteamId>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

@@ -24,7 +24,8 @@
 	<!-- Mod Info -->
 	<PropertyGroup>
 		<ModName>"Move Here" Command Tile</ModName>
-		<ModDescription>a new logic building that gives duplicants a move command on green signal</ModDescription>		 
+		<ModDescription>a new logic building that gives duplicants a move command on green signal</ModDescription>
+		<SteamId>2901813453</SteamId>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

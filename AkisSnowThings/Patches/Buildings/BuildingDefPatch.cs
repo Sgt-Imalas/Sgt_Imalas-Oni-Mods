@@ -16,8 +16,8 @@ namespace AkisSnowThings.Patches
         /// only takes effect if the tag string exists
         /// </summary>
         [HarmonyPatch(typeof(BuildingDef), nameof(BuildingDef.IsAreaClear),
-            [typeof(GameObject),typeof(int), typeof(Orientation), typeof(ObjectLayer), typeof(ObjectLayer), typeof(bool), typeof(bool), typeof(string)],
-            [ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Out])]
+            [typeof(GameObject),typeof(int), typeof(Orientation), typeof(ObjectLayer), typeof(ObjectLayer), typeof(bool), typeof(bool), typeof(string), typeof(bool)],
+            [ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Out, ArgumentType.Normal])]
         public class BuildingDef_IsAreaClear_Patch
 		{
             public static void Postfix(BuildingDef __instance, ref string fail_reason, ref bool __result)

@@ -3,35 +3,57 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:local="clr-namespace:_SgtsModUpdater" xmlns:model="clr-namespace:_SgtsModUpdater.Model"
 		mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-		<DockPanel>
-			<Menu DockPanel.Dock="Top">
-				<MenuItem Header="_Option">
-					<MenuItem Header="_New" />
-					<MenuItem Header="_Open" />
-					<MenuItem Header="_Save" />
-					<Separator />
-					<MenuItem Header="_Exit" />
-				</MenuItem>
-			</Menu>
-			<TextBox AcceptsReturn="True" />
-		</DockPanel>
-		<Grid>
-			
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="3*" />
-                </Grid.ColumnDefinitions>
-				<ListView Grid.Column="0" Name="PackView" HorizontalContentAlignment="Center" ItemsSource="{Binding ModManager.Instance.Repos}" >
-					<Button Name="RefreshButton" Content="Refresh" Click="RefreshButton_Click" />
+        Title="ONI Mod Updater for local mods" Height="450" Width="800">
+	<Grid>
+		<Grid Margin="1,1,1,2">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="3*" />
+			</Grid.ColumnDefinitions>
+			<DockPanel Margin="0,0,0,0" Grid.Column="0" >
+				<Button DockPanel.Dock="Bottom" Content="Add new Repo" Height="20" IsEnabled="False"/>
+				<ListView  Name="PackView" HorizontalContentAlignment="Center" PreviewMouseLeftButtonUp="PackView_PreviewMouseLeftButtonUp"></ListView>
+			</DockPanel>
+			<DockPanel Margin="3,0,0,0" Grid.Column="1" >
+				<TextBox DockPanel.Dock="Top" Margin="0,0,0,4" Name="txtFilter" TextChanged="txtFilter_TextChanged"/>
+				<ListView Name="ModListView">
+					<ListView.ItemContainerStyle>
+						<Style TargetType="ListViewItem">
+							<Setter Property="ToolTip" Value="{Binding Path=ModDesc}" />
+						</Style>
+					</ListView.ItemContainerStyle>
+					<ListView.View >
+
+						<GridView AllowsColumnReorder="False" ColumnHeaderToolTip="Repo Mod Information">
+
+							<GridViewColumn DisplayMemberBinding="{Binding Path=ModName}" Header="Mod Name" Width="180"/>
+							<GridViewColumn DisplayMemberBinding="{Binding Path=InstalledVersion}" Width="90" Header="Installed Version"/>
+							<GridViewColumn DisplayMemberBinding="{Binding Path=Version}" Width="80" Header="Latest Version"/>
+							<GridViewColumn DisplayMemberBinding="{Binding Path=LocalModType}" Header="Type"/>
+							<GridViewColumn Header="Mod Action" Width="120" >
+								<GridViewColumn.CellTemplate>
+									<DataTemplate>
+										<Grid>
+											<Button
+												Content="{Binding Path=GetActionString}"
+												Margin="0"
+												VerticalAlignment="Center"
+												Click="Mod_Action_Click" 
+												Width="100"
+												IsEnabled="{Binding Path=InstallButtonInteractable}"/>
+											<fa:ImageAwesome Visibility="{Binding Path=DownloadingVisibility}" Icon="Refresh" Spin="True" Height="24" Width="24" />
+										</Grid>
+
+									</DataTemplate>
+								</GridViewColumn.CellTemplate>
+							</GridViewColumn>
+						</GridView>
+					</ListView.View>
 				</ListView>
-				<ListView Grid.Column="1" Name="ModListView" >
-				</ListView>
-			</Grid>
+			</DockPanel>
 		</Grid>
 	</Grid>
 </Window>

@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<!-- General Package Properties -->
+	<PropertyGroup>
+		<PackageId>AllRefinedMetalsAsOres</PackageId>
+		<Version>1.0.0</Version>
+		<Authors>Sgt_Imalas</Authors>
+		<Copyright>$(AssemblyCopyright)</Copyright>
+		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
+	</PropertyGroup>
+
+	<!-- Build Properties -->
+	<PropertyGroup>
+		<TargetFramework>net48</TargetFramework>
+		<Configurations>Debug;Release</Configurations>
+		<AssemblyName>AllRefinedMetalsAsOres</AssemblyName>
+		<RootNamespace>AllRefinedMetalsAsOres</RootNamespace>
+		<IsMod>true</IsMod>
+		<GenerateMetadata>true</GenerateMetadata>
+		<IsPacked>true</IsPacked>
+	</PropertyGroup>
+
+
+	<!-- Mod Info -->
+	<PropertyGroup>
+		<ModName>Use Refined Metals as Ores</ModName>
+		<ModDescription>Allows using any refined metal in place of an ore in building</ModDescription>
+		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
+		<APIVersion>2</APIVersion>
+	</PropertyGroup>
+
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<OutDir>bin</OutDir>
+	</PropertyGroup>
+</Project>

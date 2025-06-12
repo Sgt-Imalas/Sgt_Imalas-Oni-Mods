@@ -107,7 +107,7 @@ jobs:
         file: BuildsZipped/*.*
         file_glob: true
         tag: AllMods_Automated_Build_FullRelease
-        prerelease: true
+        prerelease: false
         overwrite: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

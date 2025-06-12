@@ -16,6 +16,7 @@ namespace ComplexFabricatorRibbonController.Patches
 			{
 				UtilLibs.LocalisationUtil.Translate(typeof(STRINGS), true); 
 				Strings.Add("STRINGS.MISC.TAGS.CFRC_MICROCHIP_BUILDABLE", global::STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.POWER_STATION_TOOLS.NAME);
+				Strings.Add("STRINGS.MISC.TAGS.CFRC_MICROCHIP_BUILDABLE_DESC", global::STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.POWER_STATION_TOOLS.DESC);
 			}
 		}
 	}

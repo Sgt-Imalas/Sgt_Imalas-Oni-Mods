@@ -24,7 +24,8 @@
 	<!-- Mod Info -->
 	<PropertyGroup>
 		<ModName>Paint your Pipes &amp; Wires</ModName>
-		<ModDescription>Allows painting pipes, wires and cables</ModDescription>		 
+		<ModDescription>Allows painting pipes, wires and cables</ModDescription>
+		<SteamId>3160195957</SteamId>	 
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

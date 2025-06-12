@@ -1,9 +1,11 @@
 ﻿using Klei.AI;
+using KMod;
 using Newtonsoft.Json;
 using ObjectCloner;
 using ProcGen;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using TUNING;
 using UnityEngine;
@@ -38,7 +40,11 @@ namespace ClusterTraitGenerationManager.ClusterData
 		[JsonIgnore] public Vector2I originalWorldDimensions;
 		[JsonIgnore] public float originalWorldTraitScale;
 		[JsonIgnore] public string ModName = string.Empty;
-		[JsonIgnore] public string DlcID = "";
+		[JsonIgnore] private string DlcID = "";
+
+		public string GetMainDlcID() => DlcID;		
+
+		public bool IsDlcRequired(string dlcId) => DlcID == dlcId ||(world_internal?.GetRequiredDlcIds()?.Contains(dlcId)??false) || (world_mixing?.IsDlcRequired(dlcId) ?? false);
 
 		public WorldPlacement placement;
 
@@ -80,6 +86,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 						if (ModName != string.Empty)
 							name += " " + UIUtils.ColorText(STRINGS.UI.SPACEDESTINATIONS.MODDEDPLANET, UIUtils.rgb(212, 244, 199));
+						
 
 						return name;
 					}
@@ -128,8 +135,14 @@ namespace ClusterTraitGenerationManager.ClusterData
 					if (Strings.TryGet(world.description, out var description))
 					{
 						desc += description.String;
+						if (Mod.Instance.IsDev)
+						{
+							desc += "\n\n";
+							desc += System.IO.Path.GetFileName(world.filePath);
+						}
 						return desc;
 					}
+
 				}
 				//else if (_poiID != null)
 				//{
@@ -879,7 +892,6 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 		#endregion
 
-
 		#region PlanetMeteors
 
 		public List<MeteorShowerSeason> CurrentMeteorSeasons
@@ -973,6 +985,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 
 		#endregion
+
 		#region PlanetTraits
 
 		private List<string> currentPlanetTraits = new List<string>();

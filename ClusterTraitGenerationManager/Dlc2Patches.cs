@@ -20,12 +20,12 @@ namespace ClusterTraitGenerationManager
 				if (__result == false
 					&& clusterTag != null
 					&& Game.clusterId == CGSMClusterManager.CustomClusterID
-					&& DlcManager.IsContentSubscribed(DlcManager.DLC2_ID)
+					&& DlcManager.IsCorrectDlcSubscribed(restrictions.GetRequiredDlcIds(),restrictions.GetForbiddenDlcIds())
 					&& Game.IsCorrectDlcActiveForCurrentSave(restrictions)
 					&& SaveGameData.Instance != null
 					)
 				{
-					__result = SaveGameData.Instance.IsCeresAsteroidInCluster(clusterTag);
+					__result = SaveGameData.Instance.IsClusterTagAsteroidInCluster(clusterTag);
 				}
 			}
 		}
@@ -36,12 +36,10 @@ namespace ClusterTraitGenerationManager
 			{
 				if (__result == false
 					&& __instance.clusterTag != null
-					&& Game.clusterId == CGSMClusterManager.CustomClusterID
-					&& DlcManager.IsContentSubscribed(DlcManager.DLC2_ID)
 					&& SaveGameData.Instance != null
-					&& Game.IsDlcActiveForCurrentSave(DlcManager.DLC2_ID))
+					&& SaveGameData.IsCustomCluster())
 				{
-					__result = SaveGameData.Instance.IsCeresAsteroidInCluster(__instance.clusterTag);
+					__result = SaveGameData.Instance.IsClusterTagAsteroidInCluster(__instance.clusterTag);
 				}
 			}
 		}
@@ -56,17 +54,19 @@ namespace ClusterTraitGenerationManager
 				SettingLevel currentQualitySetting = CustomGameSettings.Instance.GetCurrentQualitySetting((SettingConfig)CustomGameSettingConfigs.ClusterLayout);
 				if (currentQualitySetting.id == CGSMClusterManager.CustomClusterID)
 				{
-					bool ceres = false;
+					
+					bool ceres = false, prehistoric = false;
 					if (SaveGameData.Instance != null)
 					{
-						ceres = SaveGameData.Instance.IsCeresAsteroidInCluster("CeresCluster");
+						ceres = SaveGameData.Instance.IsClusterTagAsteroidInCluster("CeresCluster");
+						prehistoric = SaveGameData.Instance.IsClusterTagAsteroidInCluster("PrehistoricCluster");
 					}
 					else
 					{
 						SgtLogger.warning("savegamedata was null!");
 					}
 
-					__result = CGSMClusterManager.GenerateDummyCluster(DlcManager.IsExpansion1Active(), ceres);
+					__result = CGSMClusterManager.GenerateDummyCluster(DlcManager.IsExpansion1Active(), ceres, prehistoric);
 				}
 			}
 		}
@@ -81,17 +81,18 @@ namespace ClusterTraitGenerationManager
 				//SgtLogger.l(name, "currentQualitySetting");
 				if (name == CGSMClusterManager.CustomClusterID)
 				{
-					bool ceres = false;
+					bool ceres = false, prehistoric = false;
 					if (SaveGameData.Instance != null)
 					{
-						ceres = SaveGameData.Instance.IsCeresAsteroidInCluster("CeresCluster");
+						ceres = SaveGameData.Instance.IsClusterTagAsteroidInCluster("CeresCluster");
+						prehistoric = SaveGameData.Instance.IsClusterTagAsteroidInCluster("PrehistoricCluster");
 					}
 					else
 					{
 						SgtLogger.warning("savegamedata was null!");
 					}
 
-					__result = CGSMClusterManager.GenerateDummyCluster(DlcManager.IsExpansion1Active(), ceres);
+					__result = CGSMClusterManager.GenerateDummyCluster(DlcManager.IsExpansion1Active(), ceres, prehistoric);
 				}
 			}
 		}
@@ -107,17 +108,18 @@ namespace ClusterTraitGenerationManager
 					if (clusterDefaultName != CGSMClusterManager.CustomClusterID)
 						return;
 
-					bool ceres = false;
+					bool ceres = false, prehistoric = false;
 					if (SaveGameData.Instance != null)
 					{
-						ceres = SaveGameData.Instance.IsCeresAsteroidInCluster("CeresCluster");
+						ceres = SaveGameData.Instance.IsClusterTagAsteroidInCluster("CeresCluster");
+						prehistoric = SaveGameData.Instance.IsClusterTagAsteroidInCluster("PrehistoricCluster");
 					}
 					else
 					{
 						SgtLogger.warning("savegamedata was null!");
 					}
 					SgtLogger.l("creating dummy cluster for savegame, ceres active: " + ceres);
-					SettingsCache.clusterLayouts.clusterCache[CGSMClusterManager.CustomClusterID] = CGSMClusterManager.GenerateDummyCluster(DlcManager.IsExpansion1Active(), ceres);
+					SettingsCache.clusterLayouts.clusterCache[CGSMClusterManager.CustomClusterID] = CGSMClusterManager.GenerateDummyCluster(DlcManager.IsExpansion1Active(), ceres, prehistoric);
 				}
 			}
 		}
@@ -128,7 +130,7 @@ namespace ClusterTraitGenerationManager
 			[HarmonyPostfix]
 			public static void Postfix(GameObject inst)
 			{
-				if (Game.IsDlcActiveForCurrentSave("DLC2_ID") && SaveGameData.Instance != null && SaveGameData.Instance.IsCeresAsteroidInCluster("CeresCluster"))
+				if (Game.IsDlcActiveForCurrentSave("DLC2_ID") && SaveGameData.Instance != null && SaveGameData.Instance.IsClusterTagAsteroidInCluster("CeresCluster"))
 					inst.AddOrGet<KBatchedAnimController>().SwapAnims(new KAnimFile[1]
 					{
 					Assets.GetAnim((HashedString) "floppy_disc_ceres_kanim")

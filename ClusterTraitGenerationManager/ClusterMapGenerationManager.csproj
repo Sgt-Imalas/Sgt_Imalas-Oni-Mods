@@ -26,6 +26,7 @@
 		<ModName>Cluster Generation Manager [CGM]</ModName>
 		<ModDescription>Build your own Cluster/World where everything is configurable</ModDescription>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
+		<SteamId>2947429297</SteamId>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 
@@ -49,9 +50,5 @@
 	    <PrivateAssets>all</PrivateAssets>
 	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	  </PackageReference>
-	</ItemGroup>
-	
-	<ItemGroup>
-	  <Folder Include="UI\Components\" />
 	</ItemGroup>
 </Project>

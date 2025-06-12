@@ -26,6 +26,7 @@
 		<ModName>Drywall Colours</ModName>
 		<ModDescription>More Skins for the Drywall</ModDescription>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
+		<SteamId>2942359329</SteamId>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 
