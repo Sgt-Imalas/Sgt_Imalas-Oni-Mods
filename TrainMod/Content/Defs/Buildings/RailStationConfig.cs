@@ -20,7 +20,7 @@ namespace TrainMod.Content.Defs.Buildings
 			EffectorValues none1 = NOISE_POLLUTION.NONE;
 			EffectorValues none2 = BUILDINGS.DECOR.NONE;
 			EffectorValues noise = none1;
-			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 1, 1, "rail_piece_kanim", 200, 3f, tieR2, rawMetals, 1600f, BuildLocationRule.Anywhere, none2, noise);
+			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 1, 1, "rail_station_kanim", 200, 3f, tieR2, rawMetals, 1600f, BuildLocationRule.Anywhere, none2, noise);
 			buildingDef.Floodable = false;
 			buildingDef.Overheatable = false;
 			buildingDef.ObjectLayer = ObjectLayer.Building;
@@ -49,7 +49,7 @@ namespace TrainMod.Content.Defs.Buildings
 		{
 			var track = go.AddOrGet<TrackStation>();
 			track.PathCost = 1;
-			track.InputCellOffset = new CellOffset(-0, 0);
+			track.InputCellOffset = new CellOffset(0, 0);
 			track.InputCellOffsetConnectsTo = new CellOffset(-1, 0);
 			track.OutputCellOffsets = [new CellOffset(0, 0)];
 			track.OutputCellOffsetsConnectsTo = [new CellOffset(1,0)];

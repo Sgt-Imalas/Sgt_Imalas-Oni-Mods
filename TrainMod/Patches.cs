@@ -40,7 +40,7 @@ namespace TrainMod
         {
             public static void Postfix()
             {
-                LocalisationUtil.Translate(typeof(STRINGS), true);
+                LocalisationUtil.Translate(typeof(STRINGS));
             }
         }
     }

@@ -29,17 +29,20 @@ namespace TrainMod.Content.Scripts.PathSystem
 				var trackpieces = TrackManager.Pathfind(this, target, true);
 				var trackpieces2 = TrackManager.Pathfind(this, target, false);
 
-				if (trackpieces != null)
+				if (trackpieces != null && trackpieces.Any())
 				{
 					StartCoroutine(TintBuildings(trackpieces));
 				}
-				else if (trackpieces2 != null)
+				else if (trackpieces2 != null && trackpieces2.Any())
 				{
 
 					StartCoroutine(TintBuildings(trackpieces2));
 				}
 				else
+				{
 					SgtLogger.error("Pathfinder Failed!!!!");
+					Tint(Color.red);
+				}
 			}
 		}
 

@@ -149,7 +149,7 @@ namespace TrainMod.Content.Scripts.PathSystem.Dijkstar
 				{
 					int? length = (int?)graph[paths[i], paths[i + 1]];
 					path_length += length;
-					//Console.Write($"{tracks[paths[i]]} [{length}] -> ");
+					Console.Write($"{Grid.CellToXY(Grid.PosToCell(tracks[paths[i]]))} [{length}] -> ");
 					path.Add(tracks[paths[i]]);
 				}
 				Console.WriteLine($"{tracks[destination]} (Distance {path_length})");

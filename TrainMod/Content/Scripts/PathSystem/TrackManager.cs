@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TrainMod.Content.Scripts.PathSystem.Dijkstar;
 using TrainMod.Content.Scripts.PathSystem.Segmentation;
 using UtilLibs;
+using static STRINGS.INPUT_BINDINGS;
 
 namespace TrainMod.Content.Scripts.PathSystem
 {
@@ -35,34 +36,40 @@ namespace TrainMod.Content.Scripts.PathSystem
 		static void CreateSegmentations() ///This should function in theory...
 		{
 			var trackPiecesToSort = (TrackPieces).ToHashSet();
+			var trackPiecesToSort2 = (TrackPieces).ToHashSet();
 
 			Forward = new Graph(); Backward = new Graph();
 
 			while (trackPiecesToSort.Any())
 			{
 				var root = trackPiecesToSort.First();
-				CollectNodesRecursively(root, null, trackPiecesToSort, root.GetInputConnections(), Forward);
-				CollectNodesRecursively(root, null, trackPiecesToSort, root.GetOutputConnections(), Backward);
+
+				var rootNode = Forward.CreateNode(root);
+				CollectNodesRecursively(root, rootNode, trackPiecesToSort, root.GetInputConnections(), Forward);
+
+			}
+			while (trackPiecesToSort2.Any())
+			{
+				var root2 = trackPiecesToSort2.First();
+				var root2Node = Backward.CreateNode(root2);
+				CollectNodesRecursively(root2, root2Node, trackPiecesToSort2, root2.GetOutputConnections(), Backward);
 			}
 		}
 		static void CollectNodesRecursively(TrackPiece current, Node parentNode, HashSet<TrackPiece> remaining, List<TrackPiece> childPiecesToCheck, Graph graph)
 		{
-			SgtLogger.l("AAAAAAAAAAA");
+			SgtLogger.l(current.GetProperName() + " at " + Grid.PosToCell(current) + ": " + childPiecesToCheck.Count + " side nodes");
 			remaining.Remove(current);
 
-			SgtLogger.l("BBBBBBB");
 			var node = graph.CreateNode(current);
-			SgtLogger.l(message: "CCCCCC");
 			if (parentNode != null)
 				parentNode.AddEdge(node, current.PathCost);
-			SgtLogger.l(message: "DDDDD");
 
 			if (childPiecesToCheck == null)
 				return;
 
 			foreach (var childConnection in childPiecesToCheck)
 			{
-				SgtLogger.l(message: "EEEEEE");
+				//SgtLogger.l("child node " + global::STRINGS.UI.StripLinkFormatting(childConnection.GetProperName()) + " at cell: " + Grid.PosToCell(childConnection));
 				if (childConnection.GetReachableConnectionsFrom(current, out var newChildren))
 					CollectNodesRecursively(childConnection, node, remaining, newChildren, graph);
 			}
@@ -90,10 +97,10 @@ namespace TrainMod.Content.Scripts.PathSystem
 			foreach (var existingTrackPiece in CellsWithTrackPieceConnectors[inputConnectsToCell])
 			{
 				if (existingTrackPiece.ConnectsFromTo(inputConnectsToCell, inputCell))
-					ConnectTracks(newTrackPiece, existingTrackPiece, inputCell);
+					ConnectTracks(newTrackPiece, existingTrackPiece, inputCell, inputConnectsToCell);
 			}
-			CellsWithTrackPieceConnectors[newTrackPiece.InputCell].Add(newTrackPiece);
-			for(int i = 0; i< outputCells.Length; i++)
+			CellsWithTrackPieceConnectors[inputCell].Add(newTrackPiece);
+			for (int i = 0; i < outputCells.Length; i++)
 			{
 				var outputCell = outputCells[i];
 				var outputConnectionCell = outputConnectionCells[i];
@@ -106,12 +113,11 @@ namespace TrainMod.Content.Scripts.PathSystem
 				foreach (var existingTrackPiece in CellsWithTrackPieceConnectors[outputConnectionCell])
 				{
 					if (existingTrackPiece.ConnectsFromTo(inputConnectsToCell, inputCell))
-						ConnectTracks(newTrackPiece, existingTrackPiece, outputCell);
+						ConnectTracks(newTrackPiece, existingTrackPiece, outputCell, inputConnectsToCell);
 				}
 				CellsWithTrackPieceConnectors[outputCell].Add(newTrackPiece);
 			}
-			if (newTrackPiece is TrackStation)
-				RecalculatePaths();
+			RecalculatePaths();
 		}
 
 		public static void UnregisterTrack(TrackPiece trackPiece)
@@ -125,16 +131,16 @@ namespace TrainMod.Content.Scripts.PathSystem
 					cell.Remove(trackPiece);
 			}
 			trackPiece.RemoveAllConnections();
-			if (trackPiece is TrackStation)
-				RecalculatePaths();
+			RecalculatePaths();
 		}
-		public static void ConnectTracks(TrackPiece track1, TrackPiece track2, int cell)
+		public static void ConnectTracks(TrackPiece track1, TrackPiece track2, int cell, int connectionCell)
 		{
 
 			if (track1 == track2) return;
+			SgtLogger.l("connecting " + track1 + " and " + track2);
 
-			track1.AddConnection(track2, cell);
-			track2.AddConnection(track1, cell);
+			track1.AddConnection(track2, cell, connectionCell);
+			track2.AddConnection(track1, cell, connectionCell);
 		}
 	}
 }
