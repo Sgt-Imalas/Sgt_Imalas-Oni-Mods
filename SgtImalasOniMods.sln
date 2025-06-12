@@ -19,6 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		ModThatBroke.txt = ModThatBroke.txt
 		ModVersionData.json = ModVersionData.json
 		README.md = README.md
+		steam_compat.md = steam_compat.md
 		TODO.txt = TODO.txt
 		UpdatedOniTemplate.zip = UpdatedOniTemplate.zip
 	EndProjectSection
