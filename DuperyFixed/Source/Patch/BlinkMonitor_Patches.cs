@@ -18,7 +18,7 @@ namespace DuperyFixed.Source.Patch
 			/// Register custom mouth for personalities that have custom mouths defined.
 			/// also swap anim files for the speech monitor if the personality has a custom conversation kanim defined.
 			/// </summary>
-			[HarmonyPatch(typeof(FaceGraph), nameof(FaceGraph.ApplyShape))]
+			[HarmonyPatch(typeof(FaceGraph), nameof(FaceGraph.ApplyShape), [])]
 			public class BlinkMonitor_BlinkMonitor_Patch
 			{
 				public static void Postfix(FaceGraph __instance)
