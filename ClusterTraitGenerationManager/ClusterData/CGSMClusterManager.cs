@@ -346,7 +346,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 			return clusterLayout;
 		}
 
-		public static ClusterLayout GenerateClusterLayoutFromCustomData(bool log)
+		public static ClusterLayout GenerateClusterLayoutFromCustomData(bool log, bool logPois = false)
 		{
 			if (log)
 				SgtLogger.l("Started generating custom cluster layout");
@@ -554,13 +554,13 @@ namespace ClusterTraitGenerationManager.ClusterData
 					float rolledChance = new System.Random(seed).Next(1, 101) / 100f;
 					if (rolledChance < percentageAdditional)
 					{
-						if (log)
+						if (log && logPois)
 							SgtLogger.l(poi.Value.id + ", succeeded: " + rolledChance * 100f, "POI Chance: " + percentageAdditional.ToString("P"));
 						poi.Value.placementPOI.numToSpawn += 1;
 					}
 					else
 					{
-						if (log)
+						if (log && logPois)
 							SgtLogger.l(poi.Value.id + ", failed: " + rolledChance * 100f, "POI Chance: " + percentageAdditional.ToString("P"));
 					}
 					seed++;
@@ -569,7 +569,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 				{
 					poi.Value.placementPOI.canSpawnDuplicates = true;
 				}
-				if (log)
+				if (log && logPois)
 					poi.Value.placementPOI.pois.ForEach(poi => SgtLogger.l(poi, "poi in group"));
 
 				if (poi.Value.placementPOI.pois.Count == 0)
@@ -583,7 +583,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 
 
-				if (log)
+				if (log && logPois)
 					SgtLogger.l($"\navoidClumping: {poi.Value.placementPOI.avoidClumping},\nguarantee: {poi.Value.placementPOI.guarantee},\nallowDuplicates: {poi.Value.placementPOI.canSpawnDuplicates},\nRings: {poi.Value.placementPOI.allowedRings}\nNumberToSpawn: {poi.Value.placementPOI.numToSpawn}", "POIGroup " + poi.Key.Substring(0, 8));
 
 				if (poi.Value.placementPOI.numToSpawn >= 1)
@@ -592,11 +592,11 @@ namespace ClusterTraitGenerationManager.ClusterData
 				}
 			}
 
-			if (log)
+			if (log && logPois)
 				SgtLogger.l("POI Placements done");
 			layout.numRings = CustomCluster.Rings + 1;
 
-			if (log)
+			if (log && logPois)
 				SgtLogger.l("Ordering Asteroids");
 
 			List<StarmapItem> allPlanets = CustomCluster.GetAllPlanets();
@@ -884,8 +884,8 @@ namespace ClusterTraitGenerationManager.ClusterData
 					}
 					FoundPlanet.PredefinedPlacementOrder = i;
 
-					SetMixingWorld(FoundPlanet, null);
 					FoundPlanet.AddItemWorldPlacement(planetPlacement);
+					SetMixingWorld(FoundPlanet, null);
 
 					if (isWorldMixed && PlanetoidDict.TryGetValue(mixingAsteroid, out StarmapItem _mixingItem))
 					{
@@ -941,6 +941,10 @@ namespace ClusterTraitGenerationManager.ClusterData
 					OldTarget.SetWorldMixing(null);
 				}
 				CustomCluster.MixingWorldsWithTarget[mixingSource] = target;
+			}
+			else
+			{
+				SgtLogger.l("clearing mixing on "+target.DisplayName);
 			}
 			target.SetWorldMixing(mixingSource);
 		}
@@ -1013,17 +1017,24 @@ namespace ClusterTraitGenerationManager.ClusterData
 		public static bool RerollStarmapWithSeedChange = true;
 		public static bool RerollTraitsWithSeedChange = true;
 		public static bool RerollMixingsWithSeedChange = true;
-		public static void RerollMixings()
-		{
-			if (CustomCluster == null || !RerollMixingsWithSeedChange && CGM_Screen.IsCurrentlyActive)
-				return;
 
+		public static void RemoveActiveMixingAsteroids()
+		{
+			SgtLogger.l("Clearing all asteroid remixes");
 			//undo all ongoing worldmixings
 			foreach (var planet in CustomCluster.GetAllPlanets())
 			{
 				if (planet == null || planet.world == null || planet.placement == null) continue;
 				SetMixingWorld(planet, null);
 			}
+		}
+		public static void RerollMixings()
+		{
+			if (CustomCluster == null || !RerollMixingsWithSeedChange && CGM_Screen.IsCurrentlyActive)
+				return;
+
+			///!!ALWAYS clear mixings before applying them en masse
+			RemoveActiveMixingAsteroids();
 
 			int seed = int.Parse(CustomGameSettings.Instance.GetCurrentQualitySetting(CustomGameSettingConfigs.WorldgenSeed).id);
 

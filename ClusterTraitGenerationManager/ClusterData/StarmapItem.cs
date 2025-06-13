@@ -598,7 +598,6 @@ namespace ClusterTraitGenerationManager.ClusterData
 		}
 		public StarmapItem SetWorldMixing(StarmapItem mix)
 		{
-			world_mixing = mix;
 			if (placement != null)
 			{
 				//clearing previous mixing
@@ -614,6 +613,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 					mix.PredefinedPlacementOrder = this.PredefinedPlacementOrder;
 				}
 			}
+			world_mixing = mix;
 			return this;
 		}
 
