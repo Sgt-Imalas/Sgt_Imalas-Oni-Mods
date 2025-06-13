@@ -368,9 +368,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 			layout.description = "STRINGS.CLUSTER_NAMES.CGM.DESCRIPTION";
 			layout.worldPlacements = new List<WorldPlacement>();
 			layout.coordinatePrefix = CustomClusterIDCoordinate;
-
 			layout.clusterTags = [CustomClusterClusterTag];
-
 
 			if (DlcManager.IsExpansion1Active())
 				layout.requiredDlcIds = [DlcManager.EXPANSION1_ID];
@@ -688,7 +686,13 @@ namespace ClusterTraitGenerationManager.ClusterData
 				if (CGMWorldGenUtils.HasImpactorShower(world) && !layout.clusterTags.Contains("PrehistoricCluster"))
 				{
 					layout.clusterTags.Add("PrehistoricCluster");
-					layout.clusterTags.Add("DemoliorImperative");
+					if (world.filePath.ToLowerInvariant().Contains("shattered")) //lab relica with 10 cycles of impact
+					{
+						layout.clusterTags.Add("DemoliorImminentImpact");
+						layout.clusterTags.Add("DemoliorSurivedAchievement");
+					}
+					else
+						layout.clusterTags.Add("DemoliorImperative");
 				}
 			}
 			SgtLogger.l("PostProcessing finished");
@@ -926,15 +930,19 @@ namespace ClusterTraitGenerationManager.ClusterData
 		}
 		public static void SetMixingWorld(StarmapItem target, StarmapItem mixingSource)
 		{
-			target.SetWorldMixing(mixingSource);
+			SgtLogger.l(target.id + " is getting remixed with " + (mixingSource?.id ?? "nothing"));
 			if (mixingSource != null)
 			{
-				if (CustomCluster.MixingWorldsWithTarget.TryGetValue(mixingSource, out var OldTarget) && OldTarget != target)
+				if (CustomCluster.MixingWorldsWithTarget.TryGetValue(mixingSource, out var OldTarget)
+					&& OldTarget != target
+					&& OldTarget.MixingAsteroidSource == mixingSource
+					)
 				{
 					OldTarget.SetWorldMixing(null);
 				}
 				CustomCluster.MixingWorldsWithTarget[mixingSource] = target;
 			}
+			target.SetWorldMixing(mixingSource);
 		}
 
 		public static void RegenerateAllPOIData()
@@ -1021,9 +1029,15 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 			//grab the unmixed layout
 			var layout = GeneratedLayout;
+			//temporarily remove the cluster tag so it can roll the mixings
+			layout.clusterTags.Remove(CustomClusterClusterTag);
+			var mutated = new MutatedClusterLayout(layout);
 			//throw it throught the mixer to apply all the mixings , todo: grab biome mixings somewhere
-			var mutated = WorldgenMixing.DoWorldMixing(layout, seed, true, true);
+			WorldgenMixing.RefreshWorldMixing(mutated, seed, true, true);
+			//readd cluster tags
+			mutated.layout.clusterTags.Add(CustomClusterClusterTag);
 
+			Dictionary<string, string> mixingTargets = new Dictionary<string, string>();
 			foreach (var planetPlacement in mutated.layout.worldPlacements)
 			{
 				bool isWorldMixed = false;
@@ -1035,21 +1049,28 @@ namespace ClusterTraitGenerationManager.ClusterData
 					planetpath = planetPlacement.worldMixing.previousWorld;
 					isWorldMixed = true;
 					SgtLogger.l(planetpath, "Mixed original");
-
+					mixingTargets[planetpath] = mixingAsteroid;
 				}
 				//apply mixing relations for UI
 				if (CustomCluster.HasStarmapItem(planetpath, out var FoundPlanet))
 				{
 					SetMixingWorld(FoundPlanet, null);
-					//SgtLogger.l(FoundPlanet.category.ToString() + " -> " + FoundPlanet.DisplayName);
-					if (isWorldMixed && PlanetoidDict.TryGetValue(mixingAsteroid, out StarmapItem _mixingItem))
-					{
-						SetMixingWorld(FoundPlanet, _mixingItem);
-					}
 				}
 				else
 					SgtLogger.warning(planetpath + " not found for mixing relation!");
 			}
+			foreach (var target in mixingTargets)
+			{
+				if (CustomCluster.HasStarmapItem(target.Key, out var mixTarget)
+					&& PlanetoidDict.TryGetValue(target.Value, out var mixing))
+				{
+					SgtLogger.l("Mixing " + mixing.DisplayName + " into " + mixTarget.DisplayName);
+					SetMixingWorld(mixTarget, mixing);
+				}
+				else
+					SgtLogger.error("could not mix " + target.Value + " into " + target.Key);
+			}
+
 		}
 		public static void RerollTraits()
 		{
