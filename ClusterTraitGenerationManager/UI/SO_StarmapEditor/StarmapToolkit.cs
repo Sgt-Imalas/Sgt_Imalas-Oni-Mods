@@ -216,6 +216,7 @@ namespace ClusterTraitGenerationManager.UI.SO_StarmapEditor
 		{
 			if (_init) return;
 			_init = true;
+			SgtLogger.l("Initializing Starmap toolkit");
 
 			FooterGO = transform.Find("Footer").gameObject;
 			HexGridGO = transform.Find("SpacedOutStarmapContent").gameObject;
@@ -260,11 +261,11 @@ namespace ClusterTraitGenerationManager.UI.SO_StarmapEditor
 				toolkitItem.SetMissing(true);
 			}
 
-			POIFilterTextInput = transform.Find("Footer/Toolbox/BoxOfPoi/Input").FindOrAddComponent<FInputField2>();
+			POIFilterTextInput = transform.Find("Footer/Toolbox/BoxOfPoi/Input").gameObject.AddOrGet<FInputField2>();
 			POIFilterTextInput.OnValueChanged.AddListener(ApplyFilter);
 			POIFilterTextInput.Text = string.Empty;
 
-			deleteFilter = transform.Find("Footer/Toolbox/BoxOfPoi/DeleteButton").FindOrAddComponent<FButton>();
+			deleteFilter = transform.Find("Footer/Toolbox/BoxOfPoi/DeleteButton").gameObject.AddOrGet<FButton>();
 			deleteFilter.OnClick += () => ClearFilter();
 		}
 	}

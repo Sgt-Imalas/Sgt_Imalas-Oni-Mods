@@ -43,7 +43,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 		public static int MaxClassicOuterPlanets = 3, CurrentClassicOuterPlanets = 0;
 
-
+		static bool PlacementDataInitialized => _predefinedPlacementData != null;
 		static Dictionary<string, WorldPlacement> PredefinedPlacementData
 		{
 			get
@@ -55,17 +55,19 @@ namespace ClusterTraitGenerationManager.ClusterData
 		}
 		static Dictionary<string, WorldPlacement> _predefinedPlacementData = null;
 
-		static Dictionary<string, ClusterAudioSettings> DlcAudioSettings
+		public static Dictionary<string, CustomClusterAudio> DlcAudioSettings
 		{
 			get
 			{
 				if (_dlcAudioSettings == null)
+				{
 					PopulatePredefinedClusterPlacements();
+				}
 				return _dlcAudioSettings;
 			}
 		}
 
-		static Dictionary<string, ClusterAudioSettings> _dlcAudioSettings = null;
+		static Dictionary<string, CustomClusterAudio> _dlcAudioSettings = null;
 
 		public static bool LoadCustomCluster
 		{
@@ -333,13 +335,13 @@ namespace ClusterTraitGenerationManager.ClusterData
 			{
 				clusterLayout.clusterTags.Add("CeresCluster");
 				clusterLayout.clusterTags.Add("GeothermalImperative");
-				clusterLayout.clusterAudio = DlcAudioSettings[DlcManager.DLC2_ID];
+				clusterLayout.clusterAudio = DlcAudioSettings[DlcManager.DLC2_ID].ToAudioSetting();
 			}
 			if (prehistoric)
 			{
 				clusterLayout.clusterTags.Add("PrehistoricCluster");
 				clusterLayout.clusterTags.Add("DemoliorImperative");
-				clusterLayout.clusterAudio = DlcAudioSettings[DlcManager.DLC4_ID];
+				clusterLayout.clusterAudio = DlcAudioSettings[DlcManager.DLC4_ID].ToAudioSetting();
 			}
 			return clusterLayout;
 		}
@@ -657,18 +659,19 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 		private static void PostProcessCluster(ClusterLayout layout, List<StarmapItem> planets, StarmapItem starterPlanet)
 		{
+			SgtLogger.l("PostProcessing custom cluster");
 			if (starterPlanet.world.requiredDlcIds != null)
 			{
 				foreach (var reqDlc in starterPlanet.world.requiredDlcIds)
 				{
 					if (DlcAudioSettings.TryGetValue(reqDlc, out var audioSettings))
 					{
-						layout.clusterAudio = audioSettings;
+						SgtLogger.l("found custom audio setting");
+						layout.clusterAudio = audioSettings.ToAudioSetting();
 						break;
 					}
 				}
 			}
-
 			foreach (var item in planets)
 			{
 				var world = item.world;
@@ -677,21 +680,18 @@ namespace ClusterTraitGenerationManager.ClusterData
 					SgtLogger.warning("World for item " + item.id + " is null, skipping post processing");
 					continue;
 				}
-
-				SgtLogger.l("AAAAAAAAAAAAA");
 				if (CGMWorldGenUtils.HasGeothermalPump(world) && !layout.clusterTags.Contains("CeresCluster"))
 				{
 					layout.clusterTags.Add("CeresCluster");
 					layout.clusterTags.Add("GeothermalImperative");
 				}
-				SgtLogger.l("AAAAAAAAAAAAA");
 				if (CGMWorldGenUtils.HasImpactorShower(world) && !layout.clusterTags.Contains("PrehistoricCluster"))
 				{
 					layout.clusterTags.Add("PrehistoricCluster");
 					layout.clusterTags.Add("DemoliorImperative");
 				}
 			}
-			SgtLogger.l("AAAAAAAAAAAAA");
+			SgtLogger.l("PostProcessing finished");
 		}
 
 		static string LastPresetGenerated = string.Empty;
@@ -1291,7 +1291,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 		public static void PopulatePredefinedClusterPlacements()
 		{
-			if (PredefinedPlacementData != null) { return; }
+			if (PlacementDataInitialized) { return; }
 
 			SgtLogger.l("Populating cluster placements");
 			_predefinedPlacementData = new Dictionary<string, WorldPlacement>();
