@@ -46,7 +46,6 @@ namespace SetStartDupes.Presets
                 preset.Imported = true;
                 preset.OriginalFilePath = filePath;
 
-
 				return preset;
             }
             public List<ImportedCrewMember> Info = new();
@@ -106,7 +105,7 @@ namespace SetStartDupes.Presets
                 }
                 foreach (var hashedkvp in SkillAptitudes)
                 {
-                    var aptitude = db.SkillGroups.Get(new HashedString(hashedkvp.Key));
+                    var aptitude = db.SkillGroups.TryGet(new HashedString(hashedkvp.Key));
                     if (aptitude != null)
                     {
                         statConfig.skillAptitudes.Add(new(aptitude.Id, 1));
