@@ -44,11 +44,11 @@ namespace ClusterTraitGenerationManager.ClusterData
 			bool hasImpactor = CGMWorldGenUtils.HasImpactorShowerInCluster(GetAllPlanets().Where(planet => planet.placement != null).Select(planet => planet.placement).ToList());
 			SgtLogger.l($"HasCeresAsteroid: {HasCeresAsteroid}, HasCeresStarter: {HasCeresStarter}, has pump in cluster: {hasPump}");
 
-			if (HasDlcRequiringContentActive(DlcManager.DLC2_ID, false) && !StarterPlanet.IsDlcRequired(DlcManager.DLC2_ID))
+			if (HasDlcRequiringContentActive(DlcManager.DLC2_ID, false) && !StarterPlanet.IsDlcRequired(DlcManager.DLC2_ID) && hasPump)
 			{
 				return spacedOutActive ? "dlc2::clusters/CeresClassicCluster" : "dlc2::clusters/CeresBaseGameCluster";
 			}
-			if (HasDlcRequiringContentActive(DlcManager.DLC4_ID, false) && !StarterPlanet.IsDlcRequired(DlcManager.DLC4_ID))
+			if (HasDlcRequiringContentActive(DlcManager.DLC4_ID, false) && !StarterPlanet.IsDlcRequired(DlcManager.DLC4_ID) && hasImpactor)
 			{
 				return spacedOutActive ? "dlc4::clusters/PrehistoricSpacedOutCluster" : "dlc4::clusters/PrehistoricBaseGameCluster";
 			}
