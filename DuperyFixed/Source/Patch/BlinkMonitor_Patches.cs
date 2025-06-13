@@ -24,8 +24,13 @@ namespace DuperyFixed.Source.Patch
 				public static void Postfix(FaceGraph __instance)
 				{
 					var blinkMonitor = __instance.m_blinkMonitor;
+					if (blinkMonitor == null)
+						return;
 
 					var personalityResource = __instance.GetComponent<MinionIdentity>();
+					if (personalityResource == null)
+						return;
+
 					var personalityResourceId = personalityResource.personalityResourceId;
 
 
