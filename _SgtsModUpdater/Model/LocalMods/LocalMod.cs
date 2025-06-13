@@ -10,11 +10,15 @@ namespace _SgtsModUpdater.Model.LocalMods
     public class LocalMod
     {
         public string FolderPath;
-        public string Version => ModInfoYaml.version;
+        public string Version => !string.IsNullOrWhiteSpace(DllVersion) ? DllVersion : ModInfoYaml.version;
         public ModInfoYaml ModInfoYaml { get; private set; }
 		public ModYaml ModYaml { get; private set; }
 
         public string ModType { get; private set; }
+
+        public string DllVersion = string.Empty;
+        public bool Deletable => ModType.ToUpperInvariant() == "LOCAL"; //no steam mod deletion!
+
 
 		public LocalMod(ModYaml modYaml, ModInfoYaml modInfoYaml, string path)
         {

@@ -34,14 +34,15 @@ namespace _SgtsModUpdater
 				if (_reposToFetch == null || !_reposToFetch.Any())
 				{
 					_reposToFetch = [
-						new FetchableRepoInfo("Sgts Mods Nightly","https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases/download/AllMods_Automated_Build_Nightly/_ReleaseVersionInfoData.json"),
-			new ("Sgts Mods Full",  "https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases/download/AllMods_Automated_Build_FullRelease/_ReleaseVersionInfoData.json")
+						new("Sgts Mods Nightly","https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases/download/AllMods_Automated_Build_Nightly/_ReleaseVersionInfoData.json"),
+						new ("Sgts Mods Full",  "https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases/download/AllMods_Automated_Build_FullRelease/_ReleaseVersionInfoData.json"),
+						new ("MapsNotIncluded",  "https://github.com/barratt/mapsnotincluded.org/releases/download/MNI_Mod_Automatic_Release/_ReleaseVersionInfoData.json"),
+						new("Sgt Mods U55","https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases/download/AllMods_U55/_ReleaseVersionInfoData.json")
 					];
 				}
 				return _reposToFetch;
 			}
 		}
-
 
 		private static string GetSettingsFile()
 		{
@@ -97,6 +98,7 @@ namespace _SgtsModUpdater
 				if (_reposToFetch.Any(existing => existing.ReleaseInfo == repo.ReleaseInfo))
 					continue;
 				_reposToFetch.Add(repo);
+				Save();
 			}
 
 		}

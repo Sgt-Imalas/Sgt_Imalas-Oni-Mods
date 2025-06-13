@@ -5,19 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:local="clr-namespace:_SgtsModUpdater" xmlns:model="clr-namespace:_SgtsModUpdater.Model"
+
 		mc:Ignorable="d"
-        Title="ONI Mod Updater for local mods" Height="450" Width="800">
+        Title="ONI Mod Updater for local mods" Height="450" Width="1200">
 	<Grid>
 		<Grid Margin="1,1,1,2">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="3*" />
+				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
-			<DockPanel Margin="0,0,0,0" Grid.Column="0" >
-				<Button DockPanel.Dock="Bottom" Content="Add new Repo" Height="20" IsEnabled="False"/>
-				<ListView  Name="PackView" HorizontalContentAlignment="Center" PreviewMouseLeftButtonUp="PackView_PreviewMouseLeftButtonUp"></ListView>
+			<DockPanel Margin="3,3,3,3" Grid.Column="0" >
+				<Button Name="CreateAddPopup" DockPanel.Dock="Bottom" Content="Add new Repo" Height="20" Click="CreateAddPopup_Click"/>
+				<ListView  Name="PackView" HorizontalContentAlignment="Center" PreviewMouseLeftButtonUp="PackView_PreviewMouseLeftButtonUp" PreviewMouseRightButtonUp="PackView_PreviewMouseLeftButtonUp">
+
+
+				</ListView>
 			</DockPanel>
-			<DockPanel Margin="3,0,0,0" Grid.Column="1" >
+			<DockPanel Margin="0,3,0,3" Grid.Column="1" >
 				<TextBox DockPanel.Dock="Top" Margin="0,0,0,4" Name="txtFilter" TextChanged="txtFilter_TextChanged"/>
 				<ListView Name="ModListView">
 					<ListView.ItemContainerStyle>
@@ -29,23 +34,59 @@
 
 						<GridView AllowsColumnReorder="False" ColumnHeaderToolTip="Repo Mod Information">
 
+							<GridViewColumn Header="" Width="33">
+								<GridViewColumn.CellTemplate>
+									<DataTemplate>
+										<Label Foreground="{Binding Path=StatusColor}">⬤</Label>
+									</DataTemplate>
+								</GridViewColumn.CellTemplate>
+							</GridViewColumn>
 							<GridViewColumn DisplayMemberBinding="{Binding Path=ModName}" Header="Mod Name" Width="180"/>
 							<GridViewColumn DisplayMemberBinding="{Binding Path=InstalledVersion}" Width="90" Header="Installed Version"/>
 							<GridViewColumn DisplayMemberBinding="{Binding Path=Version}" Width="80" Header="Latest Version"/>
-							<GridViewColumn DisplayMemberBinding="{Binding Path=LocalModType}" Header="Type"/>
-							<GridViewColumn Header="Mod Action" Width="120" >
+							<GridViewColumn DisplayMemberBinding="{Binding Path=LocalModType}" Width="50" Header="Type"/>
+							<GridViewColumn Header="Mod Action" Width="150" >
 								<GridViewColumn.CellTemplate>
 									<DataTemplate>
-										<Grid>
-											<Button
-												Content="{Binding Path=GetActionString}"
-												Margin="0"
+										<StackPanel Orientation="Horizontal"  >
+											<StackPanel.Children>
+												<Button
 												VerticalAlignment="Center"
 												Click="Mod_Action_Click" 
-												Width="100"
-												IsEnabled="{Binding Path=InstallButtonInteractable}"/>
-											<fa:ImageAwesome Visibility="{Binding Path=DownloadingVisibility}" Icon="Refresh" Spin="True" Height="24" Width="24" />
-										</Grid>
+												Width="90"
+												Height="20"
+												IsEnabled="{Binding Path=InstallButtonInteractable}">
+													<Grid>
+														<TextBlock Text="{Binding Path=GetActionString}"></TextBlock>
+														<fa:ImageAwesome Margin="-30" Visibility="{Binding Path=DownloadingVisibility}" Icon="Refresh" Spin="True" Height="20" Width="20" />
+													</Grid>
+												</Button>
+
+												<Button
+													Name="OpenFolderButton"
+													Margin="3,0,0,0"
+													VerticalAlignment="Center"
+													Click="OpenFolderButton_Click" 
+													Width="20"
+													Height="20"
+													ToolTip="Open the mods local folder"
+													IsEnabled="{Binding Path=HasLocalMod}">
+													<fa:ImageAwesome Foreground="DarkBlue" Icon="FolderOutlinepenOutline"></fa:ImageAwesome>
+												</Button>
+												<Button
+													Margin="3,0,0,0"
+													VerticalAlignment="Center"
+													Click="Delete_Mod_Click" 
+													Width="20"
+													Height="20"
+													Background="DarkOrange"
+													ToolTip="Delete installed files"													
+													IsEnabled="{Binding Path=CanDeleteLocal}">
+													<fa:ImageAwesome Foreground="Black" Icon="TrashOutline"></fa:ImageAwesome>
+
+												</Button>
+											</StackPanel.Children>
+										</StackPanel>
 
 									</DataTemplate>
 								</GridViewColumn.CellTemplate>
@@ -53,6 +94,9 @@
 						</GridView>
 					</ListView.View>
 				</ListView>
+			</DockPanel>
+			<DockPanel Margin="3,3,3,3" Grid.Column="2">
+				<TextBox Name="ConsoleOutputTextbox" IsReadOnly="True" VerticalScrollBarVisibility="Visible" TextWrapping="Wrap" FontFamily="Nirmala UI" FontSize="10"></TextBox>
 			</DockPanel>
 		</Grid>
 	</Grid>

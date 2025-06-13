@@ -3,6 +3,7 @@ using _SgtsModUpdater.Model.Update;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -56,14 +57,14 @@ namespace _SgtsModUpdater.Model
 				}
 			}
 		}
-		internal void FetchRepos()
+		internal async void FetchRepos()
 		{
 			foreach (var repo in AppSettings.Instance.ReposToFetch)
 			{
-				FetchRepo(repo);
+				await FetchRepo(repo);
 			}
 		}
-		async void FetchRepo(FetchableRepoInfo repo)
+		public async Task<bool> FetchRepo(FetchableRepoInfo repo)
 		{
 			try
 			{
@@ -77,18 +78,24 @@ namespace _SgtsModUpdater.Model
 						var repoInfo = new ModRepoListInfo(repo.Name, repo.Url);
 						foreach (var mod in data.mods)
 							repoInfo.Mods.Add(mod);
+						Console.WriteLine("Found " + data.mods.Count + " mods in repo " + repo.Name);
 						Repos.Add(repoInfo);
+						return true;
 					}
 
 				}
 			}
 			catch (Exception e)
-			{ }
+			{
+				Console.WriteLine("Failed to fetch repo info of " + repo.Name+" from url "+repo.ReleaseInfo);
+			}
+			return false;
 		}
 		public void RefreshLocalModInfoList()
 		{
 			CurrentLocalInstalledMods.Clear();
 
+			Console.WriteLine("Refreshing info on local mods..");
 			if (!Directory.Exists(Paths.LocalModsFolder))
 			{
 				return;
@@ -105,6 +112,7 @@ namespace _SgtsModUpdater.Model
 			{
 				RefreshLocalModInfo(modFolder);
 			}
+			Console.WriteLine(CurrentLocalInstalledMods.Count + " installed mods found");
 		}
 		LocalMod RefreshLocalModInfo(string modFolder)
 		{
@@ -143,11 +151,26 @@ namespace _SgtsModUpdater.Model
 				{
 					return null;
 				}
+				foreach (var file in Directory.GetFiles(modFolder))
+				{
+					var lower = file.ToLowerInvariant();
+					if (lower.Contains("plib"))
+						continue;
+					var info = new FileInfo(file);
+					if (info.Extension != "dll")
+						continue;
+					string dllVersion = FileVersionInfo.GetVersionInfo(file).FileVersion;
+					if (dllVersion != null)
+					{
+						localModInfo.DllVersion = dllVersion;
+					}
+				}
 
 				if (CurrentLocalInstalledMods.ContainsKey(modYamlData.staticID))
 					CurrentLocalInstalledMods.Remove(modYamlData.staticID);
 
 				CurrentLocalInstalledMods.Add(modYamlData.staticID, localModInfo);
+
 				return localModInfo;
 
 			}
@@ -155,6 +178,19 @@ namespace _SgtsModUpdater.Model
 			{
 				return null;
 			}
+		}
+
+		internal async Task TryDeleteLocalMod(VersionInfoWeb targetMod)
+		{
+			if (!targetMod.CanDeleteLocal)
+				return;
+			Console.WriteLine("Deleting local installation of " + targetMod.modName + "...");
+
+			string targetfolder = targetMod.LocalMod != null ? targetMod.LocalMod.FolderPath : Path.Combine(Paths.LocalModsFolder, targetMod.staticID);
+
+			Console.WriteLine("Deleting folder " + targetfolder + "...");
+			Directory.Delete(targetfolder, true);
+			targetMod.SetInstalledMod(RefreshLocalModInfo(targetfolder));
 		}
 
 		internal async Task TryInstallUpdate(VersionInfoWeb targetMod)
@@ -165,8 +201,10 @@ namespace _SgtsModUpdater.Model
 			{
 				File.Delete(targetMod.zipFileName);
 			}
-			targetMod.Downloading = true;
+			Console.WriteLine("Starting installation of " + targetMod.modName + "...");
 
+			targetMod.Downloading = true;
+			Console.WriteLine("Fetching from " + targetMod.FetchUrl);
 			try
 			{
 				using (HttpClient client = new HttpClient())
@@ -176,17 +214,27 @@ namespace _SgtsModUpdater.Model
 						using (var fs = new FileStream(targetMod.zipFileName, FileMode.CreateNew))
 						{
 							await s.CopyToAsync(fs);
-
 						}
 					}
 				}
 			}
-			catch
+			catch (Exception e)
 			{
+				Console.WriteLine("Mod download failed! Exception: " + e.Message);
+				return;
 			}
+			if (!File.Exists(targetMod.zipFileName))
+			{
+				targetMod.Downloading = false;
+				Console.WriteLine("We downloaded the mod, but the zip file " + targetMod.zipFileName + " does not exist! how did this happen??");
+				return;
+			}
+
+			Console.WriteLine("Mod zip download successful. File size: " + GetReadableFileSize(new FileInfo(targetMod.zipFileName).Length));
 
 			string targetfolder = targetMod.LocalMod != null ? targetMod.LocalMod.FolderPath : Path.Combine(Paths.LocalModsFolder, targetMod.staticID);
 
+			Console.WriteLine("Starting mod extraction. Target folder: " + targetfolder);
 
 			if (File.Exists(targetMod.zipFileName))
 			{
@@ -199,14 +247,15 @@ namespace _SgtsModUpdater.Model
 					CopyFilesRecursively(adjustedSource, targetfolder);
 				}
 				Directory.Delete(localExtractionFolder, true);
-
 			}
 
 			targetMod.SetInstalledMod(RefreshLocalModInfo(targetfolder));
 
+			Console.WriteLine(targetMod.ModName + " Version " + targetMod.version + " has been installed successfully");
 
 			if (File.Exists(targetMod.zipFileName))
 			{
+				Console.WriteLine("Removing downloaded zip file.");
 				File.Delete(targetMod.zipFileName);
 			}
 			targetMod.Downloading = false;
@@ -230,8 +279,19 @@ namespace _SgtsModUpdater.Model
 			}
 			return false;
 		}
+		public static string GetReadableFileSize(double len)
+		{
+			string[] sizes = { "B", "KB", "MB", "GB", "TB" };
+			int order = 0;
+			while (len >= 1024 && order < sizes.Length - 1)
+			{
+				order++;
+				len = len / 1024;
+			}
+			return String.Format("{0:0.##} {1}", len, sizes[order]);
+		}
 
-		private static void CopyFilesRecursively(string sourcePath, string targetPath)			
+		private static void CopyFilesRecursively(string sourcePath, string targetPath)
 		{
 
 			Directory.CreateDirectory(targetPath);

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace _SgtsModUpdater.Model.Update
 	public class VersionInfoWeb : INotifyPropertyChanged
 	{
 		public VersionInfoWeb() { }
-		public VersionInfoWeb(string _staticId, string _version,string _minimumSupportedBuild, string _modName, string _modDesc)
+		public VersionInfoWeb(string _staticId, string _version, string _minimumSupportedBuild, string _modName, string _modDesc)
 		{
 			staticID = _staticId;
 			version = _version;
@@ -30,8 +31,11 @@ namespace _SgtsModUpdater.Model.Update
 
 		LocalMod localInstall = null;
 		public LocalMod LocalMod => localInstall;
+		public bool HasLocalMod => localInstall != null;
 		public string InstalledVersion => localInstall == null ? "not installed" : localInstall.Version;
 
+		//Hex string color for status dot
+		public string StatusColor => ColorTranslator.ToHtml(localInstall == null ? Color.Red : IsNewVersionAvailable() ? Color.Yellow : Color.Green);
 		public string GetActionString => GetActionText();
 		public string Version => version;
 		public string ModName => string.IsNullOrWhiteSpace(modName) ? staticID : modName;
@@ -43,14 +47,12 @@ namespace _SgtsModUpdater.Model.Update
 		{
 			_fetchUrl = releaseUrl + "/" + zipFileName;
 		}
-		public void SetFetchUrl(string fetchUrl)
-		{
-			_fetchUrl = fetchUrl;
-		}
 		private bool downloading = false;
 		public bool Downloading { get { return downloading; } set { downloading = value; OnPropertyChanged("DownloadingVisibility"); } }
 		public Visibility DownloadingVisibility => Downloading ? Visibility.Visible : Visibility.Hidden;
 		public string LocalModType => localInstall == null ? " - " : localInstall.ModType;
+
+		public bool CanDeleteLocal => localInstall != null && localInstall.Deletable;
 
 		public string zipFileName => staticID + ".zip";
 
@@ -92,12 +94,28 @@ namespace _SgtsModUpdater.Model.Update
 		internal async void TryInstallUpdate()
 		{
 			await ModManager.Instance.TryInstallUpdate(this);
-			OnPropertyChanged("InstalledVersion"); 
+			RefreshProperties();
+		}
+		internal async void TryDeleteLocal()
+		{
+			if (!CanDeleteLocal)
+				return;
+			await ModManager.Instance.TryDeleteLocalMod(this);
+			RefreshProperties();
+
+		}
+
+		public void RefreshProperties()
+		{
+			OnPropertyChanged("InstalledVersion");
 			OnPropertyChanged("GetActionString");
 			OnPropertyChanged("InstallButtonInteractable");
 			OnPropertyChanged("LocalModType");
-
+			OnPropertyChanged("StatusColor");
+			OnPropertyChanged("CanDeleteLocal");
+			OnPropertyChanged("HasLocalMod");
 		}
+
 		private void OnPropertyChanged(string info)
 		{
 			if (PropertyChanged != null)

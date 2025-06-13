@@ -11,11 +11,14 @@ namespace _SgtsModUpdater.Model.Update
         public string Name;
         public string ReleaseInfo;
         public string Url;
+
+        public FetchableRepoInfo() { }
         public FetchableRepoInfo(string name, string url)
         {
             Name = name;
-			Url = url.Substring(0, url.LastIndexOf("/"));
             ReleaseInfo = url;
+			Url = url.Substring(0, url.LastIndexOf("/"));
+
         }
     }
 }
