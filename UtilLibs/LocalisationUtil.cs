@@ -1,8 +1,13 @@
 ﻿using HarmonyLib;
+using Klei.CustomSettings;
 using KMod;
+using Mono.Cecil.Cil;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Text;
 using static global::STRINGS.ROOMS;
 
 namespace UtilLibs
@@ -10,13 +15,155 @@ namespace UtilLibs
 	public static class LocalisationUtil
 	{
 		static Type stringType;
+		public static void FixTranslationStrings()
+		{
+			if (Localization.GetSelectedLanguageType() == Localization.SelectedLanguageType.None)
+				return;
+
+				FixRoomConstrains();
+			FixSettingsTranslations();
+		}
+
+		static void FixSettingsTranslations()
+		{
+			ReapplyTranslatedStrings(CustomGameSettingConfigs.WorldgenSeed, "WORLDGEN_SEED");
+			ReapplyTranslatedStrings(CustomGameSettingConfigs.ClusterLayout, "CLUSTER_CHOICE");
+			ReapplyTranslatedStrings(CustomGameSettingConfigs.SandboxMode);
+			ReapplyTranslatedStrings(CustomGameSettingConfigs.FastWorkersMode);
+			ReapplyTranslatedStrings(CustomGameSettingConfigs.SaveToCloud);
+			ReapplyTranslatedStrings(CustomGameSettingConfigs.CalorieBurn, "CALORIE_BURN");
+			ReapplyTranslatedStrings(CustomGameSettingConfigs.BionicWattage, "BIONICPOWERUSE");
+			ReapplyTranslatedStrings(CustomGameSettingConfigs.ImmuneSystem);
+			ReapplyTranslatedStrings(CustomGameSettingConfigs.Morale);
+			ReapplyTranslatedStrings(CustomGameSettingConfigs.Durability);
+			ReapplyTranslatedStrings(CustomGameSettingConfigs.Radiation);
+			ReapplyTranslatedStrings(CustomGameSettingConfigs.Stress);
+			ReapplyTranslatedStrings(CustomGameSettingConfigs.StressBreaks, "STRESS_BREAKS");
+			ReapplyTranslatedStrings(CustomGameSettingConfigs.CarePackages);
+			ReapplyTranslatedStrings(CustomGameSettingConfigs.Teleporters);
+			ReapplyTranslatedStrings(CustomGameSettingConfigs.MeteorShowers, null, new() { { "ClearSkies", "CLEAR_SKIES" } });
+			ReapplyTranslatedStrings(CustomGameSettingConfigs.DemoliorDifficulty);
+		}
+
+		const string settingLevelsKey = "LEVELS.";
+		const string generalSettingsRoot = "STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.";
+		static void ReapplyTranslatedStrings(SettingConfig config, string settingsStringId = null, Dictionary<string, string> LevelIdOverrides = null)
+		{
+			if (settingsStringId == null)
+				settingsStringId = config.id;
+
+			settingsStringId = settingsStringId.ToUpperInvariant() + ".";
+
+			if (TryGetTranslatedString(generalSettingsRoot + settingsStringId + "NAME", out var configLabel))
+				config.label = configLabel;
+			if (TryGetTranslatedString(generalSettingsRoot + settingsStringId + "TOOLTIP", out var configTooltip))
+				config.tooltip = configTooltip;
+			if (config is ToggleSettingConfig toggleSetting)
+			{
+				List<SettingLevel> levels = [toggleSetting.off_level, toggleSetting.on_level];
+
+				foreach (var level in levels)
+				{
+					string labelId = level.id.ToUpperInvariant() + ".";
+					if (LevelIdOverrides != null && LevelIdOverrides.TryGetValue(level.id, out var idOverride))
+					{
+						labelId = idOverride.ToUpperInvariant() + ".";
+					}
+					if (TryGetTranslatedString(generalSettingsRoot + settingsStringId + settingLevelsKey + labelId + "NAME", out var levelLabel))
+						level.label = levelLabel;
+					if (TryGetTranslatedString(generalSettingsRoot + settingsStringId + settingLevelsKey + labelId + "TOOLTIP", out var levelTooltip))
+						level.tooltip = levelTooltip;
+				}
+			}
+
+			else if (config is ListSettingConfig listSettingConfig && listSettingConfig.levels != null && listSettingConfig.levels.Any())
+			{
+				foreach (var level in listSettingConfig.levels)
+				{
+					string labelId = level.id.ToUpperInvariant() + ".";
+					if (LevelIdOverrides != null && LevelIdOverrides.TryGetValue(level.id, out var idOverride))
+					{
+						labelId = idOverride.ToUpperInvariant() + ".";
+					}
+					if (TryGetTranslatedString(generalSettingsRoot + settingsStringId + settingLevelsKey + labelId + "NAME", out var levelLabel))
+						level.label = levelLabel;
+					if (TryGetTranslatedString(generalSettingsRoot + settingsStringId + settingLevelsKey + labelId + "TOOLTIP", out var levelTooltip))
+						level.tooltip = levelTooltip;
+				}
+			}
+		}
+
+		static Dictionary<string, string> LocalizedStrings = null;
+
+		/// <summary>
+		/// Loads the current localization to get translated strings for the custom game settings fixing
+		/// </summary>
+		/// <param name="key"></param>
+		/// <param name="translatedString"></param>
+		/// <returns></returns>
+		public static bool TryGetTranslatedString(string key, out string translatedString)
+		{
+			translatedString = null;
+			if (LocalizedStrings == null)
+			{
+				LocalizedStrings = new Dictionary<string, string>();
+				var languageType = Localization.GetSelectedLanguageType();
+				if (languageType == Localization.SelectedLanguageType.None)
+					return false;
+
+				var code = Localization.GetCurrentLanguageCode();
+				if (languageType == Localization.SelectedLanguageType.Preinstalled && !string.IsNullOrEmpty(code) && code != Localization.DEFAULT_LANGUAGE_CODE)
+				{
+					var translationFile = Localization.GetPreinstalledLocalizationFilePath(code);
+					if (!File.Exists(translationFile))
+						return false;
+					try
+					{
+						var data = File.ReadAllLines(translationFile, Encoding.UTF8);
+						LocalizedStrings = Localization.ExtractTranslatedStrings(data, false);
+					}
+					catch (Exception ex)
+					{
+						SgtLogger.error("Error while trying to fix translations: \n" + ex.Message);
+					}
+				}
+				else if (languageType == Localization.SelectedLanguageType.UGC && LanguageOptionsScreen.HasInstalledLanguage())
+				{
+					string savedLanguageMod = LanguageOptionsScreen.GetSavedLanguageMod();
+					try
+					{
+						KMod.Mod mod = Global.Instance.modManager.mods.Find((Predicate<KMod.Mod>)(m => m.label.id == savedLanguageMod));
+						if (mod == null)
+						{
+							Debug.LogWarning((object)("Tried loading a translation from a non-existent mod id: " + savedLanguageMod));
+							return false;
+						}
+						string translationFile = LanguageOptionsScreen.GetLanguageFilename(mod);
+						if (!File.Exists(translationFile))
+							return false;
+						var data = File.ReadAllLines(translationFile, Encoding.UTF8);
+						LocalizedStrings = Localization.ExtractTranslatedStrings(data, false);
+					}
+					catch (Exception ex)
+					{
+						SgtLogger.error("Error while trying to fix translations: \n" + ex.Message);
+					}
+				}
+				SgtLogger.l("Localization reloaded:");
+				foreach (var kvp in LocalizedStrings)
+				{
+					SgtLogger.l(kvp.Value, kvp.Key);
+				}
+			}
+			return LocalizedStrings.TryGetValue(key, out translatedString);
+		}
 
 		/// <summary>
 		/// Rebuild those strings bc they didn't translate from loading the class to early..
 		/// </summary>
 		public static void FixRoomConstrains()
 		{
-			SgtLogger.l("fixing room constraint strings");
+			//SgtLogger.l("fixing room constraint strings");
 			RoomConstraints.CEILING_HEIGHT_4.name = string.Format(CRITERIA.CEILING_HEIGHT.NAME, "4");
 			RoomConstraints.CEILING_HEIGHT_4.description = string.Format(CRITERIA.CEILING_HEIGHT.DESCRIPTION, "4");
 			RoomConstraints.CEILING_HEIGHT_6.name = string.Format(CRITERIA.CEILING_HEIGHT.NAME, "6");
@@ -73,6 +220,7 @@ namespace UtilLibs
 			RoomConstraints.WILDPLANT.name = CRITERIA.WILDPLANT.NAME; RoomConstraints.WILDPLANT.description = CRITERIA.WILDPLANT.DESCRIPTION;
 			RoomConstraints.WILDPLANTS.name = CRITERIA.WILDPLANTS.NAME; RoomConstraints.WILDPLANTS.description = CRITERIA.WILDPLANTS.DESCRIPTION;
 		}
+		
 
 		public static void ManualTranslationPatch(Harmony harmony, Type type)
 		{
@@ -103,7 +251,7 @@ namespace UtilLibs
 				Localization.GenerateStringsTemplate(root, Path.Combine(Manager.GetDirectory(), "strings_templates"));
 				Localization.GenerateStringsTemplate(root.Namespace, Assembly.GetExecutingAssembly(), Path.Combine(IO_Utils.ModPath, "translation_template.pot"), null);
 				Localization.GenerateStringsTemplate(root.Namespace, Assembly.GetExecutingAssembly(), Path.Combine(translationFolder, "translation_template.pot"), null);
-            }
+			}
 		}
 
 		// Loads user created translations
