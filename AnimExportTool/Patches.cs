@@ -11,6 +11,9 @@ using System.Reflection.Emit;
 using System.Text;
 using UnityEngine;
 using UtilLibs;
+using static KleiMetrics;
+using static STRINGS.BUILDINGS.PREFABS.EXTERIORWALL.FACADES;
+using static STRINGS.UI.SPACEARTIFACTS;
 
 namespace AnimExportTool
 {
@@ -26,6 +29,51 @@ namespace AnimExportTool
 
 
 		//}
+
+
+		[HarmonyPatch(typeof(SubworldZoneRenderData), nameof(SubworldZoneRenderData.OnSpawn))]
+		public class SubworldZoneRenderData_TargetMethod_Patch
+		{
+			public class ZoneColorInfo
+			{
+				public int Id;
+				public string IdName;
+				public string Name;
+				public string Desc;
+				public string ColorHex;
+				public ZoneColorInfo(int id, string idName, Color color)
+				{
+					Id = id;
+					IdName = idName;
+					ColorHex =Util.ToHexString( color).Substring(0,6);
+
+					Name = Strings.Get(string.Format("STRINGS.SUBWORLDS.{0}.NAME", idName.ToUpperInvariant()));
+					Desc = Strings.Get(string.Format("STRINGS.SUBWORLDS.{0}.DESC", idName.ToUpperInvariant()));
+				}
+			}
+
+			public static void Postfix(SubworldZoneRenderData __instance)
+			{
+
+				Console.WriteLine("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC");
+				Console.WriteLine("Biome Color Mapping:");
+				Console.WriteLine();
+				List<ZoneColorInfo> data = new();
+
+				foreach (ProcGen.SubWorld.ZoneType zoneType in Enum.GetValues(typeof(ProcGen.SubWorld.ZoneType)))
+				{
+					data.Add(new((int)zoneType, zoneType.ToString(), __instance.zoneColours[(int)zoneType]));
+				}
+				Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(data));
+
+				Console.WriteLine();
+				Console.WriteLine();
+
+			}
+		}
+
+
+
 
 		static Dictionary<Texture2D, Texture2D> Copies = new Dictionary<Texture2D, Texture2D>();
 		public static Texture2D GetReadableCopy(Texture2D source)
@@ -282,7 +330,7 @@ namespace AnimExportTool
 					code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, RegisterSpriteMethod));
 				}
 				// Debug.Log("DEBUGMETHOD: " + new CodeInstruction(OpCodes.Call, PacketSizeHelper));
-				
+
 				return code;
 			}
 		}
@@ -320,7 +368,7 @@ namespace AnimExportTool
 					code.Insert(++insertionIndex, new CodeInstruction(OpCodes.Call, RegisterSpriteMethod));
 				}
 				// Debug.Log("DEBUGMETHOD: " + new CodeInstruction(OpCodes.Call, PacketSizeHelper));
-				
+
 				return code;
 			}
 		}
@@ -402,11 +450,11 @@ namespace AnimExportTool
 			public class StarmapGeneratorData
 			{
 				public Dictionary<string, VanillaStarmapLocation> Locations = new();
-				public Dictionary<string, ElementData> Elements= new();
+				public Dictionary<string, ElementData> Elements = new();
 			}
 			public class ElementData
 			{
-				public ElementData(string id,string name)
+				public ElementData(string id, string name)
 				{
 					Id = id;
 					Name = name;
@@ -423,6 +471,15 @@ namespace AnimExportTool
 				public Dictionary<string, float> Ressources_Elements;
 				public Dictionary<string, int> Ressources_Entities;
 			}
+			public class SpacedOutStarmapLocation
+			{
+				public string Id;
+				public string Name;
+				public string Description;
+				public string Image;
+				public Dictionary<string, float> Ressources_Elements;
+			}
+
 			public class GameSettingExport
 			{
 				public class SettingLevel
@@ -449,6 +506,7 @@ namespace AnimExportTool
 				public bool DisableWorldTraits = false;
 				public List<ProcGen.World.TraitRule> TraitRules;
 				public float worldTraitScale;
+				public List<string> SpecialPOIs;
 			}
 			public class ClusterLayout
 			{
@@ -493,19 +551,19 @@ namespace AnimExportTool
 				return $"<data name=\"{key}\" xml:space=\"preserve\"><value>{value}</value></data>";
 			}
 
-            static void GetAnimsFromRecoverable(GameObject geyserPrefab) =>
-                    GetAnimsFromEntity(geyserPrefab, "StarmapDestinationRecoverablesById", "StarmapDestinationRecoverablesByName");
-            static void GetAnimsFromStarmapLocation(string spriteName, string fileName, string idPath = "StarmapDestinationsById")
-            {
-                Sprite UISprite = Assets.GetSprite(spriteName);
+			static void GetAnimsFromRecoverable(GameObject geyserPrefab) =>
+					GetAnimsFromEntity(geyserPrefab, "StarmapDestinationRecoverablesById", "StarmapDestinationRecoverablesByName");
+			static void GetAnimsFromStarmapLocation(string spriteName, string fileName, string idPath = "StarmapDestinationsById")
+			{
+				Sprite UISprite = Assets.GetSprite(spriteName);
 
-                var id = Path.GetFileName(fileName).ToString();
+				var id = Path.GetFileName(fileName).ToString();
 
-                if (UISprite != null && UISprite != Assets.GetSprite("unknown"))
-                {
-                    WriteUISpriteToFile(UISprite, Path.Combine(UtilMethods.ModPath, idPath), id);
-                }
-            }
+				if (UISprite != null && UISprite != Assets.GetSprite("unknown"))
+				{
+					WriteUISpriteToFile(UISprite, Path.Combine(UtilMethods.ModPath, idPath), id);
+				}
+			}
 			public static string StripFormatting(string toStrip)
 			{
 				toStrip = STRINGS.UI.StripLinkFormatting(toStrip);
@@ -515,9 +573,116 @@ namespace AnimExportTool
 				toStrip = toStrip.Replace(STRINGS.UI.PST_POS_MODIFIER, string.Empty);
 				toStrip = toStrip.Replace("<i>", string.Empty);
 				toStrip = toStrip.Replace("</i>", string.Empty);
+				toStrip = toStrip.Replace("<sup>", string.Empty);
+				toStrip = toStrip.Replace("</sup>", string.Empty);
 				return toStrip;
 			}
-            public static void Postfix()
+
+			//static SpacedOutStarmapLocation GetPoiData(GameObject item)
+			//{
+			//	if (item.TryGetComponent<ClusterGridEntity>(out var component1))
+			//	{
+			//		SpacedOutStarmapLocation data = new SpacedOutStarmapLocation();
+
+			//		data.Id = component1.PrefabID().ToString();
+
+			//		var animName = component1.AnimConfigs.First().initialAnim;
+			//		var animFile = component1.AnimConfigs.First().animFile;
+
+			//		if (data.Id.Contains(HarvestablePOIConfig.CarbonAsteroidField)) ///carbon field fix
+			//			animName = "carbon_asteroid_field";
+
+			//		if (animName == "closed_loop")///Temporal tear
+			//			animName = "ui";
+
+			//		data.Sprite = Def.GetUISpriteFromMultiObjectAnim(animFile, animName, true);
+
+			//		if (item.TryGetComponent<HarvestablePOIConfigurator>(out var harvest))
+			//		{
+			//			var HarvestableConfig = HarvestablePOIConfigurator.FindType(harvest.presetType);
+			//			data.Mineables = new(HarvestableConfig.harvestableElements);
+			//			data.CapacityMin = HarvestableConfig.poiCapacityMin;
+			//			data.CapacityMax = HarvestableConfig.poiCapacityMax;
+			//			data.RechargeMin = HarvestableConfig.poiRechargeMin;
+			//			data.RechargeMax = HarvestableConfig.poiRechargeMax;
+			//		}
+			//		if (item.TryGetComponent<ArtifactPOIConfigurator>(out _))
+			//		{
+			//			data.HasArtifacts = true;
+			//		}
+
+			//		if (item.TryGetComponent<InfoDescription>(out var descHolder))
+			//		{
+			//			data.Description = descHolder.description;
+			//			data.Name = component1.Name;
+			//		}
+			//		if (component1 is ArtifactPOIClusterGridEntity && data.Name == null)
+			//		{
+			//			string artifact_ID = component1.PrefabID().ToString().Replace("ArtifactSpacePOI_", string.Empty);
+			//			data.Name = global::Strings.Get(new StringKey("STRINGS.UI.SPACEDESTINATIONS.ARTIFACT_POI." + artifact_ID.ToUpper() + ".NAME"));
+			//			data.Description = global::Strings.Get(new StringKey("STRINGS.UI.SPACEDESTINATIONS.ARTIFACT_POI." + artifact_ID.ToUpper() + ".DESC"));
+			//		}
+			//		if (component1 is TemporalTear && data.Name == null)
+			//		{
+			//			data.Name = global::Strings.Get(new StringKey("STRINGS.UI.SPACEDESTINATIONS.WORMHOLE.NAME"));
+			//			data.Description = global::Strings.Get(new StringKey("STRINGS.UI.SPACEDESTINATIONS.WORMHOLE.DESCRIPTION"));
+			//		}
+
+			//		return data;
+			//	}
+			//	return null;
+			//}
+			//static List<SpacedOutStarmapLocation> GrabSpacedOutStarmapLocations()
+			//{
+			//	foreach (var item in Assets.GetPrefabsWithComponent<HarvestablePOIClusterGridEntity>())
+			//	{
+			//		var data = GetPoiData(item);
+			//		if (data != null && !_so_POIs.ContainsKey(data.Id))
+			//		{
+			//			_so_POIs.Add(data.Id, data);
+			//			_nonUniquePOI_Ids.Add(data.Id);
+			//		}
+			//		if (data != null && !_so_POI_IDs.Contains(data.Id))
+			//			_so_POI_IDs.Add(data.Id);
+
+			//	}
+			//	foreach (var item in Assets.GetPrefabsWithComponent<ArtifactPOIClusterGridEntity>())
+			//	{
+			//		var data = GetPoiData(item);
+			//		if (data != null && !_so_POIs.ContainsKey(data.Id))
+			//		{
+			//			_so_POIs.Add(data.Id, data);
+			//			if (data.Id != TeapotId)
+			//				_nonUniquePOI_Ids.Add(data.Id);
+			//		}
+			//		if (data != null && !_so_POI_IDs.Contains(data.Id))
+			//			_so_POI_IDs.Add(data.Id);
+			//	}
+			//	foreach (var item in Assets.GetPrefabsWithComponent<TemporalTear>())
+			//	{
+			//		var data = GetPoiData(item);
+			//		if (data != null && !_so_POIs.ContainsKey(data.Id))
+			//		{
+			//			_so_POIs.Add(data.Id, data);
+			//		}
+			//		if (data != null && !_so_POI_IDs.Contains(data.Id))
+			//			_so_POI_IDs.Add(data.Id);
+			//	}
+			//}
+
+			static List<string> AccumulatePOIdata(ProcGen.World asteroid)
+			{
+				var list = new List<string>();
+				if (asteroid.worldTemplateRules.Any(rules => rules.names.Any(rule => rule.Contains("warp/receiver") || rule.Contains("warp/sender"))))
+					list.Add("Teleporter");
+				if (asteroid.seasons.Contains("LargeImpactor"))
+					list.Add("LargeImpactor");
+				if (asteroid.worldTemplateRules.Any(rules => rules.names.Any(rule => rule.Contains("geothermal_controller"))))
+					list.Add("GeothermalController");
+				return list;
+			}
+
+			public static void Postfix()
 			{
 				StringBuilder loc = new StringBuilder();
 				var export = new DataExport();
@@ -527,7 +692,7 @@ namespace AnimExportTool
 					bool strippedMoonlet = false;
 					string clusterName = Strings.Get(cluster.name);
 					{
-						if(clusterName.Contains("Moonlet Cluster - ") || clusterName.Contains("Mini Cluster - "))
+						if (clusterName.Contains("Moonlet Cluster - ") || clusterName.Contains("Mini Cluster - "))
 						{
 							strippedMoonlet = true;
 							clusterName = clusterName.ToString().Replace("Moonlet Cluster - ", string.Empty).Replace("Mini Cluster - ", string.Empty);
@@ -550,7 +715,7 @@ namespace AnimExportTool
 					data.fixedCoordinate = cluster.fixedCoordinate;
 					export.clusters.Add(data);
 					loc.Append(GenerateLocalizedEntry(data.Name, data.Name));
-                }
+				}
 				foreach (var world in ProcGen.SettingsCache.worlds.worldCache.Values)
 				{
 					var data = new Asteroid();
@@ -559,10 +724,10 @@ namespace AnimExportTool
 					data.DisableWorldTraits = world.disableWorldTraits;
 					data.TraitRules = world.worldTraitRules;
 					data.worldTraitScale = world.worldTraitScale;
-
+					data.SpecialPOIs = AccumulatePOIdata(world);
 					export.asteroids.Add(data);
-                    loc.Append(GenerateLocalizedEntry(data.Name, data.Name));
-                }
+					loc.Append(GenerateLocalizedEntry(data.Name, data.Name));
+				}
 				foreach (var trait in ProcGen.SettingsCache.worldTraits.Values)
 				{
 					var data = new WorldTrait();
@@ -577,14 +742,15 @@ namespace AnimExportTool
 					data.globalFeatureMods = trait.globalFeatureMods;
 
 					export.worldTraits.Add(data);
-                    loc.Append(GenerateLocalizedEntry(data.Name, data.Name));
-                }
+					loc.Append(GenerateLocalizedEntry(data.Name, data.Name));
+				}
+
 				Console.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 				Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(export));
 				Console.WriteLine("LOC:");
 				Console.WriteLine(loc.ToString());
-                var starmapExport = new StarmapGeneratorData();
-				
+				var starmapExport = new StarmapGeneratorData();
+
 				foreach (var location in Db.Get().SpaceDestinationTypes.resources)
 				{
 					var locationData = new VanillaStarmapLocation()
@@ -595,9 +761,9 @@ namespace AnimExportTool
 						Image = location.spriteName,
 					};
 					if (location.elementTable != null)
-                    {
+					{
 						locationData.Ressources_Elements = location.elementTable.ToDictionary(kvp => kvp.Key.ToString(), kvp => kvp.Value.min);
-						foreach(var  elementK in location.elementTable)
+						foreach (var elementK in location.elementTable)
 						{
 							var element = ElementLoader.GetElement(elementK.Key.CreateTag());
 							starmapExport.Elements[element.id.ToString()] = new(element.id.ToString(), StripFormatting(element.name));
@@ -605,10 +771,10 @@ namespace AnimExportTool
 					}
 
 					if (location.recoverableEntities != null)
-                    {
+					{
 						locationData.Ressources_Entities = new(location.recoverableEntities);
 
-                        foreach (var entity in location.recoverableEntities)
+						foreach (var entity in location.recoverableEntities)
 						{
 							var prefab = Assets.GetPrefab(entity.Key);
 							if (prefab != null)
@@ -622,16 +788,16 @@ namespace AnimExportTool
 
 						}
 					}
-					starmapExport.Locations.Add(location.Id,locationData);
-					GetAnimsFromStarmapLocation(location.spriteName,location.Id);
+					starmapExport.Locations.Add(location.Id, locationData);
+					GetAnimsFromStarmapLocation(location.spriteName, location.Id);
 				}
-				
+
 				Console.WriteLine("BBBBBBBBBBBBBBBBBB");
 				Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(starmapExport));
 
 				var mixingList = new List<GameSettingExport>();
 
-				foreach(var coordinatedMixingSetting in CustomGameSettings.Instance.CoordinatedMixingSettings)
+				foreach (var coordinatedMixingSetting in CustomGameSettings.Instance.CoordinatedMixingSettings)
 				{
 					SettingConfig mixingSetting = CustomGameSettings.Instance.MixingSettings[coordinatedMixingSetting];
 					mixingList.Add(new()

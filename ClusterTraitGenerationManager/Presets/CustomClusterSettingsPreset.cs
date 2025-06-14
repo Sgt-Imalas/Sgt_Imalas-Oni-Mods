@@ -266,7 +266,7 @@ namespace ClusterTraitGenerationManager
 				var toggle = ConfigToSet as ToggleSettingConfig;
 				valueToSet = val ? toggle.on_level.id : toggle.off_level.id;
 			}
-			SgtLogger.l("changing " + ConfigToSet.id.ToString() + " from " + CustomGameSettings.Instance.GetCurrentMixingSettingLevel(ConfigToSet).id + " to " + valueToSet.ToString());			
+			SgtLogger.l("changing " + ConfigToSet.id.ToString() + " from " + CustomGameSettings.Instance.GetCurrentMixingSettingLevel(ConfigToSet).id + " to " + valueToSet.ToString());
 			CustomGameSettings.Instance.SetMixingSetting(ConfigToSet, valueToSet);
 		}
 		private void SetCustomGameSettings(SettingConfig ConfigToSet, object valueId, bool isStoryTrait = false)
@@ -606,9 +606,12 @@ namespace ClusterTraitGenerationManager
 			var dict = PlanetoidDict;
 
 			var cluster = CGSMClusterManager.CustomCluster;
+			RemoveActiveMixingAsteroids();
 			cluster.defaultRings = DefaultRings;
 			cluster.SetRings(this.Rings);
 			cluster.DLC_Id = PresetDLCId;
+
+			//RemoveActiveMixings();
 
 			if (StarterPlanet != null)
 			{
@@ -617,8 +620,8 @@ namespace ClusterTraitGenerationManager
 				var StarterPlanetItem = dict.ContainsKey(itemId) ? dict[itemId] : null;
 				if (StarterPlanetItem != null)
 				{
-					ApplyDataToStarmapItem(StarterPlanet, StarterPlanetItem);
-					cluster.StarterPlanet = StarterPlanetItem;
+					SgtLogger.l("setting start planet from preset");
+					cluster.StarterPlanet = ApplyDataToStarmapItem(StarterPlanet, StarterPlanetItem); ;
 				}
 				else
 				{
@@ -639,8 +642,8 @@ namespace ClusterTraitGenerationManager
 				var WarpPlanetItem = dict.ContainsKey(itemId) ? dict[itemId] : null;
 				if (WarpPlanetItem != null)
 				{
-					ApplyDataToStarmapItem(WarpPlanet, WarpPlanetItem);
-					cluster.WarpPlanet = WarpPlanetItem;
+					SgtLogger.l("setting warp planet from preset");
+					cluster.WarpPlanet = ApplyDataToStarmapItem(WarpPlanet, WarpPlanetItem); 
 				}
 				else
 				{
@@ -662,8 +665,8 @@ namespace ClusterTraitGenerationManager
 				var outerItem = dict.ContainsKey(itemId) ? (dict[itemId]) : null;
 				if (outerItem != null)
 				{
-					ApplyDataToStarmapItem(outerplanet.Value, outerItem);
-					cluster.OuterPlanets[outerplanet.Key] = outerItem;
+					SgtLogger.l("setting outer planet from preset");
+					cluster.OuterPlanets[outerplanet.Key] = ApplyDataToStarmapItem(outerplanet.Value, outerItem);
 				}
 				else
 				{
@@ -732,20 +735,21 @@ namespace ClusterTraitGenerationManager
 			}
 
 		}
-		void ApplyDataToStarmapItem(SerializableStarmapItem item, StarmapItem reciverToLookup)
+		StarmapItem ApplyDataToStarmapItem(SerializableStarmapItem item, StarmapItem reciverToLookup)
 		{
-			if (item.mixedBy != null && PlanetoidDict.TryGetValue(item.mixedBy, out StarmapItem _mixingItem))
-			{		
-				SetMixingWorld(reciverToLookup, _mixingItem);			
-			}
-
+			SgtLogger.l("applying preset data from serialized item: "+item.itemID);
 
 			item.minRing = Math.Max(0, item.minRing);
 			item.maxRing = Math.Max(0, item.maxRing);
 			if (item.category != StarmapItemCategory.POI)
 				item.buffer = Math.Max(0, item.buffer);
 
+
 			var reciever = GivePrefilledItem(reciverToLookup);
+			if (item.mixedBy != null && PlanetoidDict.TryGetValue(item.mixedBy, out StarmapItem _mixingItem))
+			{
+				SetMixingWorld(reciever, _mixingItem);
+			}
 
 			SgtLogger.l("setting starmap item rings: min->" + item.minRing + ", max->" + item.maxRing + ", buffer: " + item.buffer, reciever.id);
 
@@ -787,6 +791,7 @@ namespace ClusterTraitGenerationManager
 				//reciever.MaxNumberOfInstances = item.maxNumberToSpawn;
 				reciever.SetSpawnNumber(item.numberToSpawn);
 			}
+			return reciever;
 		}
 
 

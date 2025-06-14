@@ -33,8 +33,6 @@ namespace BritishWaterBottle
                     Element element = ElementLoader.FindElementByHash(elementID);
                     selectable.SetName("Bo'oh'  o'  " + element.name);
                 }
-
-                //ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.XXXX, XXXX.ID);
             }
         }
         /// <summary>
@@ -45,10 +43,10 @@ namespace BritishWaterBottle
         {
             public static void Postfix()
             {
-                global::STRINGS.ELEMENTS.WATER.NAME = "Wo'ah";
-                global::STRINGS.ELEMENTS.DIRTYWATER.NAME = "Perloo'ed  Wo'ah";
-                global::STRINGS.ELEMENTS.SALTWATER.NAME = "Serl'  Wo'ah";
-            }
+                global::STRINGS.ELEMENTS.WATER.NAME = global::STRINGS.UI.FormatAsLink("Wo'ah", "WATER");
+                global::STRINGS.ELEMENTS.DIRTYWATER.NAME = global::STRINGS.UI.FormatAsLink("Perloo'ed  Wo'ah", "DIRTYWATER"); 
+                global::STRINGS.ELEMENTS.SALTWATER.NAME = global::STRINGS.UI.FormatAsLink("Serl'  Wo'ah", "SALTWATER");
+			}
         }
     }
 }

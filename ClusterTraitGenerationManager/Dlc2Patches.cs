@@ -19,10 +19,10 @@ namespace ClusterTraitGenerationManager
 			{
 				if (__result == false
 					&& clusterTag != null
-					&& Game.clusterId == CGSMClusterManager.CustomClusterID
 					&& DlcManager.IsCorrectDlcSubscribed(restrictions.GetRequiredDlcIds(),restrictions.GetForbiddenDlcIds())
 					&& Game.IsCorrectDlcActiveForCurrentSave(restrictions)
 					&& SaveGameData.Instance != null
+					&& SaveGameData.IsCustomCluster()
 					)
 				{
 					__result = SaveGameData.Instance.IsClusterTagAsteroidInCluster(clusterTag);
@@ -87,7 +87,7 @@ namespace ClusterTraitGenerationManager
 						ceres = SaveGameData.Instance.IsClusterTagAsteroidInCluster("CeresCluster");
 						prehistoric = SaveGameData.Instance.IsClusterTagAsteroidInCluster("PrehistoricCluster");
 					}
-					else
+					else 
 					{
 						SgtLogger.warning("savegamedata was null!");
 					}

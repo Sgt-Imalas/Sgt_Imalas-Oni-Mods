@@ -25,7 +25,7 @@
 	<PropertyGroup>
 		<ModName>Mass Move Tool</ModName>
 		<ModDescription>new tool that allows mass selection for relocation tasks</ModDescription>
-		 
+		<SteamId>3301490799</SteamId>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

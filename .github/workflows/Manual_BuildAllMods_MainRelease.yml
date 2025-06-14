@@ -40,7 +40,7 @@ jobs:
             echo "|-|-|-|" >> Desc.md
             
             #create version info json file
-            echo "[" >> ./BuildsZipped/_ReleaseVersionInfoData.json
+            echo "{`"mods`":[" >> ./BuildsZipped/_ReleaseVersionInfoData.json
 
             #iterate through the built mod folders to individually zip them and grep their info
             $source = './Builds'
@@ -60,19 +60,22 @@ jobs:
 
             #write the mod info to the desc file
             echo "| $modId | $ModName | $ModDesc |" >> Desc.md
+            
+            $ModNameCleaned = $ModName.Replace('''','').Replace('"','')
+            $ModDescCleaned = $ModDesc.Replace('''','').Replace('"','')
 
             #write version data to version json file
             $minGameVersion= $modInfoData."minimumSupportedBuild"
             $modVersion= $modInfoData."version"
-            echo "{`"staticId`":`"$modId`",`"version`":`"$modVersion`",`"minimumSupportedBuild`":`"$minGameVersion`"},">> ./BuildsZipped/_ReleaseVersionInfoData.json
-            
+            echo "{`"staticID`":`"$modId`",`"version`":`"$modVersion`",`"minimumSupportedBuild`":`"$minGameVersion`",`"modName`":`"$ModNameCleaned`",`"modDesc`":`"$ModDescCleaned`"},">> ./BuildsZipped/_ReleaseVersionInfoData.json
+
             #create zip file
             Compress-Archive `
             -Path $folderpath/* `
             -DestinationPath $destination\$modId}   
                         
             #finalize version info json file
-            echo "]" >> ./BuildsZipped/_ReleaseVersionInfoData.json
+            echo "]}" >> ./BuildsZipped/_ReleaseVersionInfoData.json
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -104,7 +107,7 @@ jobs:
         file: BuildsZipped/*.*
         file_glob: true
         tag: AllMods_Automated_Build_FullRelease
-        prerelease: true
+        prerelease: false
         overwrite: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

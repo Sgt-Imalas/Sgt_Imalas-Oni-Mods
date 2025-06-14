@@ -26,8 +26,9 @@
 		<JanuaryHotfix3>652372</JanuaryHotfix3>
 		<FebruaryQOL_Beta>659075</FebruaryQOL_Beta>
 		<FebruaryQOL_Hotfix3>661174</FebruaryQOL_Hotfix3>
+		<PrehistoricRelease>674504</PrehistoricRelease>
 		<!--Latest-->
-		<TargetGameVersion>$(FebruaryQOL_Hotfix3)</TargetGameVersion>
+		<TargetGameVersion>$(PrehistoricRelease)</TargetGameVersion>
 	</PropertyGroup>
 
 

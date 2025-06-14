@@ -25,6 +25,7 @@
 	<PropertyGroup>
 		<ModName>True Tiles Skin Selector</ModName>
 		<ModDescription>This addon mod for true tiles allows to select the skin of the tiles independent of their material</ModDescription>
+		<SteamId>3487819075</SteamId>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

@@ -25,7 +25,7 @@
 	<PropertyGroup>
 		<ModName>Skill Queue</ModName>
 		<ModDescription>Allows queueing skilles to be learned asap</ModDescription>
-		 
+		<SteamId>3135906971</SteamId>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

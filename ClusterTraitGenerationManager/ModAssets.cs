@@ -140,6 +140,7 @@ namespace ClusterTraitGenerationManager
 
 		private static void InitPOIs()
 		{
+			SgtLogger.l("Initializing Spaced Out POIs");
 			_nonUniquePOI_Ids = new();
 			_so_POIs = new Dictionary<string, POI_Data>();
 			_so_POI_IDs = new();

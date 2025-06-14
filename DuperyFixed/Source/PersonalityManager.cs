@@ -243,5 +243,18 @@ namespace Dupery
 			if (!CustomSpeechMonitorAnims.ContainsKey(personalityId))
 				CustomSpeechMonitorAnims.Add(personalityId, kanimName);
 		}
+
+		static Dictionary<HashedString, string> CustomBlinkMonitorAnims = new();
+		public static bool UseCustomBlinkMonitorKanim(HashedString? personalityResourceId, out string kanimName)
+		{
+			kanimName = string.Empty;
+			if (personalityResourceId == null) return false;
+			return CustomBlinkMonitorAnims.TryGetValue(personalityResourceId.Value, out kanimName);
+		}
+		public static void RegisterCustomBlinkMonitorKanim(HashedString personalityId, string kanimName)
+		{
+			if (!CustomBlinkMonitorAnims.ContainsKey(personalityId))
+				CustomBlinkMonitorAnims.Add(personalityId, kanimName);
+		}
 	}
 }

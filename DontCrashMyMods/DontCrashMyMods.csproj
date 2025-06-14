@@ -25,6 +25,7 @@
 	<PropertyGroup>
 		<ModName>Help, none of my mod options are working after the DLC update - fix</ModName>
 		<ModDescription>prevents plib options crashing on certain old mods</ModDescription>
+		<SteamId>3291978062</SteamId>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

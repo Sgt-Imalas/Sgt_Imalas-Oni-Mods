@@ -353,7 +353,7 @@ namespace SaveGameModLoader
 			else
 			{
 				NormalSyncing(enableAll, restartAfter, dontDisableActiveMods);
-				KMod.Manager.Dialog(GameScreenManager.Instance.GetParent(GameScreenManager.UIRenderTarget.ScreenSpaceOverlay),
+				DialogUtil.CreateConfirmDialogFrontend(
 			   SINGLEMODLIST.POPUPSYNCEDTITLE,
 			   dontDisableActiveMods ? SINGLEMODLIST.POPUPSYNCEDTEXTENABLEONLY : SINGLEMODLIST.POPUPSYNCEDTEXT,
 			   SINGLEMODLIST.RETURNTWO,
@@ -596,6 +596,10 @@ namespace SaveGameModLoader
 				return;
 			}
 			InstantiateModView(list, referencedPath, AutoResumeOnSync: autoResumeAction, _plibConfigSource: new(mods, referencedPath));
+		}
+		public void InstantiateModViewForListOnly(string filePath,List<Label> list, System.Action autoResumeAction = null)
+		{
+			InstantiateModView(list, filePath, AutoResumeOnSync: autoResumeAction);
 		}
 
 		public void GetAllStoredModlists()

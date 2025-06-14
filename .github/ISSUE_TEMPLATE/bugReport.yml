@@ -41,7 +41,7 @@ body:
 
         You find your log file under the following path:
         on Windows:
-          C:\Users%username%\AppData\LocalLow\Klei\Oxygen Not Included\Player.log
+          C:\Users\%username%\AppData\LocalLow\Klei\Oxygen Not Included\Player.log
         on Mac:
           ~/Library/Logs/Klei/Oxygen Not Included/Player.log
         on Linux:

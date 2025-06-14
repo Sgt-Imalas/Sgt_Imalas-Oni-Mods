@@ -24,7 +24,8 @@
 	<!-- Mod Info -->
 	<PropertyGroup>
 		<ModName>Pedestal Filter</ModName>
-		<ModDescription>Adds a filter to the pedestal</ModDescription>		 
+		<ModDescription>Adds a filter to the pedestal</ModDescription>
+		<SteamId>3260591912</SteamId>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

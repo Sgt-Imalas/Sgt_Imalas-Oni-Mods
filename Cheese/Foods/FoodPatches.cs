@@ -43,7 +43,7 @@ namespace Cheese.Foods
 					fabricators = new List<Tag> { fabricatorID },
 					sortOrder = 5
 				};
-				ModAssets.Foods.CheeseRecipe.FabricationVisualizer = MushBarConfig.CreateFabricationVisualizer(CheeseDebris.GetPrefabForRecipe());
+				ModAssets.Foods.CheeseRecipe.SetFabricationAnim("cheese_kanim");
 			}
 		}
 		[HarmonyPatch(typeof(GourmetCookingStationConfig), nameof(GourmetCookingStationConfig.ConfigureRecipes))]

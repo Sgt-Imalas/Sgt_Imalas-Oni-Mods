@@ -26,6 +26,7 @@
 		<ModName>Balloon Dispenser</ModName>
 		<ModDescription>Adds a Rec. Building that hands out balloons.</ModDescription>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
+		<SteamId>2938304376</SteamId>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 

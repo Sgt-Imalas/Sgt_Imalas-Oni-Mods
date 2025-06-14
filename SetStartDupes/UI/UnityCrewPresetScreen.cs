@@ -141,13 +141,21 @@ namespace SetStartDupes
 				var toImport = ToImportDirectory.GetFiles();
 				foreach (var file in toImport)
 				{
-					if (file.Exists && PresetImportHelper.TryImportCrew(file, out var importedCrew))
+					try
 					{
-						minionStatConfigs.Add(importedCrew);
+						if (file.Exists && PresetImportHelper.TryImportCrew(file, out var importedCrew))
+						{
+							minionStatConfigs.Add(importedCrew);
+						}
+						else
+						{
+							SgtLogger.warning("Failed to import old crew preset from " + file.Name);
+						}
 					}
-					else
+					catch (Exception ex)
+
 					{
-						SgtLogger.warning("Failed to import old crew preset from " + file.Name);
+						SgtLogger.error("Failed to import old crew preset from " + file.Name + "\nError:\n" + ex.Message);
 					}
 				}
 			}
@@ -210,13 +218,14 @@ namespace SetStartDupes
 			System.Action nothing = () =>
 			{ };
 
-			KMod.Manager.Dialog(GameScreenManager.Instance.GetParent(GameScreenManager.UIRenderTarget.ScreenSpaceOverlay),
-		   string.Format(DELETEWINDOW.TITLE, config.CrewName),
+			DialogUtil.CreateConfirmDialogFrontend(
+	   string.Format(DELETEWINDOW.TITLE, config.CrewName),
 		   string.Format(DELETEWINDOW.DESC, config.CrewName),
 		   DELETEWINDOW.YES,
 		   Delete,
 		   DELETEWINDOW.CANCEL
 		   , nothing
+		   , useScreenSpaceOverlay: true
 		   );
 		}
 

@@ -70,7 +70,8 @@ namespace SubPlanetaryTransport
 
         public float jouleCapacity = 1f;
         public float joulesPerLaunch = 1f;
-        public float kDTUPerShot = 20000f;
+		public float PiercingValueShot = 1000f;
+		public float kDTUPerShot = 200000f;
         public float TimeForFullRotationSecs = 15f;
         public float MinimumRotationTimeSecs = 5f;
         public float TimeBetweenShotsSecs = 8f;
@@ -358,7 +359,7 @@ namespace SubPlanetaryTransport
                HeatAndTransferCoolant();
 
                Vector2I target = Grid.CellToXY(GetWorldBorderTargetCell()), source = Grid.CellToXY(ProjectileSourceCell);
-               var shotPos = BresenhamsDmg(source.x, source.y, target.x, target.y, 400f);
+               var shotPos = BresenhamsDmg(source.x, source.y, target.x, target.y, PiercingValueShot);
                TransferItemsToTarget(new Vector3(shotPos.Last().X, shotPos.Last().Y, (float)Grid.SceneLayer.Ore));
            });
         }

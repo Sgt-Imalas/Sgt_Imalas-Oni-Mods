@@ -314,6 +314,19 @@ namespace Dupery
 					SgtLogger.l("no custom speech monitor anim found for " + Mouth);
 
 				}
+			}
+			if (Eyes != null && Eyes.Length > 1)
+			{
+				string customBlinkAnim = $"anim_{Eyes}_blinks_kanim";
+				if (Assets.GetAnim(customBlinkAnim))
+				{
+					SgtLogger.l("adding CustomBlinkMonitorKanimOverride: " + customBlinkAnim + " to personality: " + nameStringKey);
+					PersonalityManager.RegisterCustomBlinkMonitorKanim(nameStringKey, customBlinkAnim);
+				}
+				else
+				{
+					SgtLogger.l("no custom blink monitor anim found for " + Eyes);
+				}
 
 			}
 

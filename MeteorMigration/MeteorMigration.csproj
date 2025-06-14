@@ -25,6 +25,7 @@
 	<PropertyGroup>
 		<ModName>Meteor Migration</ModName>
 		<ModDescription>Adds meteor showers to old savegames and cleans up broken meteor shower references</ModDescription>
+		<SteamId>2955350267</SteamId>
 		<RequiredDlcIds>EXPANSION1_ID</RequiredDlcIds>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>

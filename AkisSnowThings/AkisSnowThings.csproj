@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>AkisSnowThings</PackageId>
-		<Version>1.5.1</Version>
+		<Version>1.5.2</Version>
 		<Authors>Sgt_Imalas &amp; Aki</Authors>
 		<Copyright>$(AssemblyCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
@@ -25,6 +25,7 @@
 	<PropertyGroup>
 		<ModName>Decor Pack S - Winters Delight</ModName>
 		<ModDescription>Snow Sculptures, Snow Machines and a festive Tree to decorate your base with</ModDescription>
+		<SteamId>3390581599</SteamId>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

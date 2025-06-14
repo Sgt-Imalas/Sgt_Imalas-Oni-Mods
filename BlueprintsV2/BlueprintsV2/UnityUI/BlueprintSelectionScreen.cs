@@ -67,7 +67,7 @@ namespace BlueprintsV2.UnityUI
 
 		public bool CurrentlyActive;
 		public bool DialogueCurrentlyOpen;
-		Blueprint TargetBlueprint;
+		public Blueprint TargetBlueprint;
 
 		private void Init()
 		{
@@ -419,7 +419,7 @@ namespace BlueprintsV2.UnityUI
 				if (result == blueprint.FriendlyName && !cloneCreation)
 					return;
 				blueprint.Rename(result);
-				if(cloneCreation)
+				if (cloneCreation)
 					ModAssets.BlueprintFileHandling.HandleBlueprintLoading(blueprint.FilePath);
 			};
 			DialogUtil.CreateTextInputDialog(STRINGS.UI.DIALOGUE.RENAMEBLUEPRINT_TITLE, blueprint.FriendlyName, null, false, RenameAction, () => DialogueOpen(false), ModAssets.ParentScreen, true, false);
@@ -651,11 +651,18 @@ namespace BlueprintsV2.UnityUI
 		public bool RefreshRequested = false;
 		public void Render1000ms(float dt)
 		{
-			if(!RefreshRequested)
+			if (!RefreshRequested)
 				return;
 
 			RefreshRequested = false;
 			ClearUIState();
+		}
+
+		internal static bool HasBlueprintSelected()
+		{
+			if (Instance == null)
+				return false;
+			return Instance.TargetBlueprint != null;
 		}
 	}
 }

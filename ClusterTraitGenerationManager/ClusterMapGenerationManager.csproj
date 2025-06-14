@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>ClusterTraitGenerationManager</PackageId>
-		<Version>5.5.1.0</Version>
+		<Version>5.6.2.2</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>$(AssemblyCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
@@ -26,6 +26,7 @@
 		<ModName>Cluster Generation Manager [CGM]</ModName>
 		<ModDescription>Build your own Cluster/World where everything is configurable</ModDescription>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
+		<SteamId>2947429297</SteamId>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 
@@ -49,5 +50,9 @@
 	    <PrivateAssets>all</PrivateAssets>
 	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	  </PackageReference>
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <Folder Include="ModPatches\" />
 	</ItemGroup>
 </Project>

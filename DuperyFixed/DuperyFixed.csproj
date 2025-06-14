@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>DuperyFixed</PackageId>
-		<Version>1.6.2</Version>
+		<Version>1.7.1</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>$(AssemblyCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
@@ -25,6 +25,7 @@
 	<PropertyGroup>
 		<ModName>Dupery Fixed</ModName>
 		<ModDescription>Base Mod for custom duplicant mods</ModDescription>
+		<SteamId>3172734005</SteamId>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

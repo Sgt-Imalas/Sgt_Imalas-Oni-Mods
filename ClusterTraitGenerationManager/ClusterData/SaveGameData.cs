@@ -32,7 +32,6 @@ namespace ClusterTraitGenerationManager.ClusterData
 			if (Instance != null)
 				return Instance._isCustomCluster;
 			return Game.clusterId == CGSMClusterManager.CustomClusterID;
-
 		}
 
 		public static void WriteCustomClusterTags(List<string> tags)
@@ -73,10 +72,14 @@ namespace ClusterTraitGenerationManager.ClusterData
 			string worldTag = clusterTag.Replace("Cluster", "");
 			if (ClusterManager.Instance.WorldContainers.Any(world => world.worldTags != null && world.worldTags.Contains(worldTag)))
 			{
-				SgtLogger.l("Assigning missing "+ clusterTag + " to CGM custom cluster");
+				SgtLogger.l("Assigning missing " + clusterTag + " to CGM custom cluster");
 				CGM_ClusterTags.Add(clusterTag);
 				return true;
 			}
+
+			if (clusterTag == "DemoliorImperative" && CGM_ClusterTags.Contains("DemoliorImminentImpact")
+				|| clusterTag == "DemoliorImminentImpact" && CGM_ClusterTags.Contains("DemoliorImperative"))
+				return false;
 
 			if (clusterTag == "CeresCluster" || clusterTag == "GeothermalImperative")
 			{
@@ -92,11 +95,11 @@ namespace ClusterTraitGenerationManager.ClusterData
 					}
 				}
 			}
-			if (clusterTag == "PrehistoricCluster"||clusterTag == "DemoliorImperative")
+			if (clusterTag == "PrehistoricCluster" || clusterTag == "DemoliorImperative")
 			{
 				foreach (WorldContainer planet in ClusterManager.Instance.WorldContainers)
 				{
-					if(CGMWorldGenUtils.HasImpactorShower(planet.GetSeasonIds()))					
+					if (CGMWorldGenUtils.HasImpactorShower(planet.GetSeasonIds()))
 					{
 						//Retroactively adding those to cgm clusters
 						SgtLogger.l("prehistoric asteroid found");

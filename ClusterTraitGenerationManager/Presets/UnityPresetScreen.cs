@@ -210,8 +210,9 @@ namespace ClusterTraitGenerationManager
 			System.Action nothing = () =>
 			{ };
 
-			KMod.Manager.Dialog(GameScreenManager.Instance.GetParent(GameScreenManager.UIRenderTarget.ScreenSpaceOverlay),
-		   string.Format(STRINGS.UI.CGMEXPORT_SIDEMENUS.PRESETWINDOWCGM.DELETEWINDOW.TITLE, config.ConfigName),
+
+			DialogUtil.CreateConfirmDialogFrontend(
+	   string.Format(STRINGS.UI.CGMEXPORT_SIDEMENUS.PRESETWINDOWCGM.DELETEWINDOW.TITLE, config.ConfigName),
 		   string.Format(STRINGS.UI.CGMEXPORT_SIDEMENUS.PRESETWINDOWCGM.DELETEWINDOW.DESC, config.ConfigName),
 		   STRINGS.UI.CGMEXPORT_SIDEMENUS.PRESETWINDOWCGM.DELETEWINDOW.YES,
 		   Delete,

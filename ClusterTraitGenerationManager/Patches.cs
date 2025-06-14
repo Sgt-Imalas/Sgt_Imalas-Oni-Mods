@@ -1058,8 +1058,7 @@ namespace ClusterTraitGenerationManager
 			}
 		}
 
-		[HarmonyPatch(typeof(FileNameDialog))]
-		[HarmonyPatch(nameof(FileNameDialog.OnActivate))]
+		[HarmonyPatch(typeof(FileNameDialog), nameof(FileNameDialog.OnActivate))]
 		public static class FixCrashOnActivate
 		{
 			private static bool Prefix(FileNameDialog __instance)
@@ -1074,8 +1073,7 @@ namespace ClusterTraitGenerationManager
 				return true;
 			}
 		}
-		[HarmonyPatch(typeof(FileNameDialog))]
-		[HarmonyPatch(nameof(FileNameDialog.OnDeactivate))]
+		[HarmonyPatch(typeof(FileNameDialog), nameof(FileNameDialog.OnDeactivate))]
 		public static class FixCrashOnDeactivate
 		{
 			private static bool Prefix(FileNameDialog __instance)
@@ -1754,12 +1752,12 @@ namespace ClusterTraitGenerationManager
 		//[HarmonyPatch(typeof(WorldgenMixing), nameof(WorldgenMixing.DoWorldMixingInternal))]
 		//public static class Worldmixing_Patch
 		//{
-		//	public static bool Prefix(MutatedClusterLayout mutatedClusterLayout, int seed , MutatedClusterLayout __result) 
+		//	public static bool Prefix(MutatedClusterLayout mutatedClusterLayout, ref MutatedClusterLayout __result)
 		//	{
-		//		if (CGSMClusterManager.LoadCustomCluster)
+		//		if (CGSMClusterManager.LoadCustomCluster && ApplyCustomGen.IsGenerating)
 		//		{
 		//			__result = mutatedClusterLayout;
-		//                  return false; 
+		//			return false;
 		//		}
 
 		//		return true;
@@ -1807,7 +1805,7 @@ namespace ClusterTraitGenerationManager
 
 			private static WorldPlacement InjectedMethod(WorldPlacement placement)
 			{
-				if (!CGSMClusterManager.LoadCustomCluster)
+				if (!CGSMClusterManager.LoadCustomCluster && ApplyCustomGen.IsGenerating)
 					return placement;
 
 

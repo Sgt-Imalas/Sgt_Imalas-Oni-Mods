@@ -1,4 +1,6 @@
 ﻿using HarmonyLib;
+using Klei;
+using KSerialization;
 using SaveGameModLoader.ModFilter;
 using SaveGameModLoader.Patches;
 using System;
@@ -10,6 +12,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
+using static SaveGame;
 
 namespace SaveGameModLoader
 {
@@ -208,6 +211,65 @@ namespace SaveGameModLoader
 				tr.Method("SelectAll").GetValue();
 				tr.Method("Copy").GetValue();
 			}
+		}
+
+
+		public static List<KMod.Label> GetModsFromSaveHeader(string filePath)
+		{
+			if (!File.Exists(filePath))
+			{
+				SgtLogger.error("Filepath for save was empty!: " + filePath);
+				return null;
+			}
+			try
+			{
+				byte[] saveBytes = File.ReadAllBytes(filePath);
+				IReader reader = new FastReader(saveBytes);
+				SaveGame.Header header;
+				//read the gameInfo to advance the filereader
+				var GameInfo = SaveGame.GetHeader(reader, out header, filePath);
+				KSerialization.Manager.DeserializeDirectory(reader);
+				if (header.IsCompressed)
+				{
+					int length = saveBytes.Length - reader.Position;
+					byte[] compressedBytes = new byte[length];
+					Array.Copy((Array)saveBytes, reader.Position, compressedBytes, 0, length);
+					byte[] uncompressedBytes = SaveLoader.DecompressContents(compressedBytes);
+					return Load(new FastReader(uncompressedBytes), GameInfo);
+				}
+				else
+				{
+					return Load(reader, GameInfo);
+				}
+
+			}
+			catch (Exception ex)
+			{
+				SgtLogger.error("Error while trying to fetch modlist for save "+filePath+":\n"+ex.Message);
+				return null;
+			}
+		}
+		private static List<KMod.Label> Load(IReader reader, GameInfo gameInfo)
+		{
+
+			Debug.Assert(reader.ReadKleiString() == "world");
+			Deserializer deserializer = new Deserializer(reader);
+			SaveFileRoot saveFileRoot = new SaveFileRoot();
+			deserializer.Deserialize((object)saveFileRoot);
+			if ((gameInfo.saveMajorVersion == 7 || gameInfo.saveMinorVersion < 8) && saveFileRoot.requiredMods != null)
+			{
+				saveFileRoot.active_mods = new List<KMod.Label>();
+				foreach (ModInfo requiredMod in saveFileRoot.requiredMods)
+					saveFileRoot.active_mods.Add(new KMod.Label()
+					{
+						id = requiredMod.assetID,
+						version = (long)requiredMod.lastModifiedTime,
+						distribution_platform = KMod.Label.DistributionPlatform.Steam,
+						title = requiredMod.description
+					});
+				saveFileRoot.requiredMods.Clear();
+			}
+			return new(saveFileRoot.active_mods);
 		}
 	}
 }

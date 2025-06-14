@@ -2,16 +2,17 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<!--Write mod.yaml file-->
-	<Target Name="GenerateModYaml" BeforeTargets="Build">
+	<Target Name="GenerateModYaml" BeforeTargets="Build" Condition="'$(DoNotBuildAsMod)' != 'true'">
 		<ItemGroup>
 			<ModLines Include="title: '$(ModName)'"/>
 			<ModLines Include="description: '$(ModDescription)'"/>
 			<ModLines Include="staticID: $(AssemblyName)"/>
+			<!--<ModLines Include="steamID: $(SteamId)" Condition="'$(SteamId)' != ''"/>--> <!--Causes recoverable parse errors :/-->
 		</ItemGroup>
 		<WriteLinesToFile File="$(TargetDir)/mod.yaml" Overwrite="true" Lines="@(ModLines)"/>
 	</Target>
 	<!--Write mod_info.yaml file-->
-	<Target Name="GenerateModInfoYaml" BeforeTargets="Build">
+	<Target Name="GenerateModInfoYaml" BeforeTargets="Build" Condition="'$(DoNotBuildAsMod)' != 'true'">
 		<ItemGroup>
 			<ModInfoLines Include="minimumSupportedBuild: $(TargetGameVersion)"/>
 			<ModInfoLines Include="version: $(Version)"/>

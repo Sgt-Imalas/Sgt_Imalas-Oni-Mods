@@ -24,8 +24,8 @@
 	<!-- Mod Info -->
 	<PropertyGroup>
 		<ModName>Elemental Charcoal</ModName>
-		<ModDescription>wood transitions to carbon instead of co2</ModDescription>
-		 
+		<ModDescription>wood transitions to carbon instead of co2</ModDescription>		 
+		<SteamId>3357294645</SteamId>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

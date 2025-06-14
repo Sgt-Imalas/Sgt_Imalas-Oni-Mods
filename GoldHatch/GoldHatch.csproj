@@ -25,7 +25,7 @@
 	<PropertyGroup>
 		<ModName>Gold Hatch</ModName>
 		<ModDescription>Adds the gold hatch, an alchemic new morph</ModDescription>
-		 
+		<SteamId>3344327222</SteamId>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

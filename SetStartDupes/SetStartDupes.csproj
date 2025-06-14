@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>SetStartDupes</PackageId>
-		<Version>8.0.2.0</Version>
+		<Version>8.0.3.0</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>$(AssemblyCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
@@ -24,7 +24,8 @@
 	<!-- Mod Info -->
 	<PropertyGroup>
 		<ModName>Duplicant Stat Selector [DSS]</ModName>
-		<ModDescription>Customize everything related to your duplicants and the printing pod</ModDescription>		
+		<ModDescription>Customize everything related to your duplicants and the printing pod</ModDescription>
+		<SteamId>2856555858</SteamId>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
