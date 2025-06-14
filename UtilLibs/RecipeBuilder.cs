@@ -15,7 +15,7 @@ namespace UtilLibs
 		private RecipeNameDisplay nameDisplay;
 		private string description;
 		private string name;
-		private int sortOrder;
+		private int sortOrder = 0;
 
 		private List<RecipeElement> inputs;
 		private List<RecipeElement> outputs;
@@ -150,6 +150,11 @@ namespace UtilLibs
 			inputs.Add(new RecipeElement(tags.ToArray(), amount));
 			return this;
 		}
+		public RecipeBuilder Input(IEnumerable<SimHashes> tags, float amount)
+		{
+			inputs.Add(new RecipeElement(tags.Select(simhash=> simhash.CreateTag()).ToArray(), amount));
+			return this;
+		}
 		public RecipeBuilder InputSO(SimHashes simHashes, float amount, bool inheritElement = true)
 		{
 			if (DlcManager.IsExpansion1Active())
@@ -196,7 +201,7 @@ namespace UtilLibs
 
 			string recipeID = facadeID.IsNullOrWhiteSpace() ? ComplexRecipeManager.MakeRecipeID(fabricator, i, o) : ComplexRecipeManager.MakeRecipeID(fabricator, i, o, facadeID);
 
-			return new ComplexRecipe(recipeID, i, o)
+			var recipe = new ComplexRecipe(recipeID, i, o)
 			{
 				time = time,
 				description = description,
@@ -204,6 +209,11 @@ namespace UtilLibs
 				nameDisplay = nameDisplay,
 				fabricators = new List<Tag> { fabricator }
 			};
+			if (this.sortOrder > 0)
+			{
+				recipe.sortOrder = this.sortOrder;
+			}
+			return recipe;
 		}
 	}
 }
