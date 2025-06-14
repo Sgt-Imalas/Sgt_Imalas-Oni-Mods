@@ -32,7 +32,6 @@ namespace ClusterTraitGenerationManager.ClusterData
 			if (Instance != null)
 				return Instance._isCustomCluster;
 			return Game.clusterId == CGSMClusterManager.CustomClusterID;
-
 		}
 
 		public static void WriteCustomClusterTags(List<string> tags)
