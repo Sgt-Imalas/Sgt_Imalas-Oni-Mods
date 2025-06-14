@@ -119,6 +119,7 @@
 				public const string Filtration = "AdvancedFiltration";
 				public const string LiquidBasedRefinementProcess = "LiquidFiltering";
 				public const string Distillation = "Distillation";
+				public const string Emulsification = "AdvancedDistillation";
 				public const string ImprovedPlumbing = "ImprovedLiquidPiping";
 				public const string LiquidTuning = "LiquidTemperature";
 				public const string AdvancedCaffeination = "PrecisionPlumbing";
