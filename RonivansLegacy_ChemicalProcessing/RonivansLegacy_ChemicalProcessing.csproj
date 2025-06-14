@@ -5,7 +5,7 @@
 		<PackageId>RonivansLegacy_ProcessingAIO</PackageId>
 		<Version>1.0.0</Version>
 		<Authors>Ronivan</Authors>
-		<Copyright>$(AssemblyCopyright)</Copyright>
+		<Copyright>$(RonivanCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
 	</PropertyGroup>
 

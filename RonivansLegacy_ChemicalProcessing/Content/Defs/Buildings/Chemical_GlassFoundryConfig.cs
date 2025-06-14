@@ -27,7 +27,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		private static readonly List<Storage.StoredItemModifier> FoundryStoredItemModifiers;
 
 		//--[ Special Settings ]------------------------------------------------------------------------------------
-		private static readonly PortDisplayOutput GlassOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(0, -2));
+		static readonly CellOffset GlassOutputOffset = new CellOffset(0, -2);
+		private static readonly PortDisplayOutput GlassOutputPort = new PortDisplayOutput(ConduitType.Liquid, GlassOutputOffset);
 
 		static Chemical_GlassFoundryConfig()
 		{
@@ -42,8 +43,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		//--[ Building Definitions ]---------------------------------------------------------------------------------
 		public override BuildingDef CreateBuildingDef()
 		{
-			float[] singleArray1 = new float[] { 500f, 200f };
-			string[] textArray1 = new string[] { SimHashes.Ceramic.ToString(), "RefinedMetal" };
+			float[] singleArray1 = [500f, 200f];
+			string[] textArray1 = [SimHashes.Ceramic.ToString(), "RefinedMetal"];
 
 			EffectorValues noise = TUNING.NOISE_POLLUTION.NOISY.TIER6;
 			BuildingDef def = BuildingTemplates.CreateBuildingDef(ID, 3, 3, "glass_foundry_kanim", 60, 90f, singleArray1, textArray1, 2400f, BuildLocationRule.OnFloor, TUNING.BUILDINGS.DECOR.PENALTY.TIER2, noise, 0.2f);
@@ -64,11 +65,14 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			go.AddOrGet<FabricatorIngredientStatusManager>();
 			go.AddOrGet<CopyBuildingSettings>();
 
-			GlassForge fabricator = go.AddOrGet<GlassForge>();
+			Chemical_GlassForge fabricator = go.AddOrGet<Chemical_GlassForge>();
+			fabricator.MeltingTemperature = ElementLoader.FindElementByHash(SimHashes.MoltenGlass).lowTemp;
+			fabricator.HeatedOutputOffset = GlassOutputOffset;
+
 			fabricator.sideScreenStyle = ComplexFabricatorSideScreen.StyleSetting.ListQueueHybrid;
 
 			ComplexFabricatorWorkable workable = go.AddOrGet<ComplexFabricatorWorkable>();
-			workable.overrideAnims = new KAnimFile[] { Assets.GetAnim("anim_interacts_fabricator_generic_kanim") };
+			workable.overrideAnims = [Assets.GetAnim("anim_interacts_fabricator_generic_kanim")];
 
 			go.AddOrGet<LoopingSounds>();
 

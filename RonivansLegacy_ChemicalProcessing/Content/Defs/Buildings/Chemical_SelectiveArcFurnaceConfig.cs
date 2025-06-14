@@ -52,7 +52,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			go.AddOrGet<CopyBuildingSettings>();
 			ComplexFabricatorWorkable complexFabricatorWorkable = go.AddOrGet<ComplexFabricatorWorkable>();
 			BuildingTemplates.CreateComplexFabricatorStorage(go, complexFabricator);
-			workable.overrideAnims = new KAnimFile[] { Assets.GetAnim("anim_interacts_metalrefinery_kanim") };
+			workable.overrideAnims = [Assets.GetAnim("anim_interacts_metalrefinery_kanim")];
 			this.ConfigureRecipes();
 			Prioritizable.AddRef(go);
 		}

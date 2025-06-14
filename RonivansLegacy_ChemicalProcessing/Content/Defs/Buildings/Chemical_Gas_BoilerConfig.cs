@@ -40,8 +40,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		//--[ Building Definitions ]-------------------------------------------
 		public override BuildingDef CreateBuildingDef()
 		{
-			float[] singleArray1 = new float[] { 1200f, 1000f };
-			string[] textArray1 = new string[] { "RefinedMetal", SimHashes.Ceramic.ToString() };
+			float[] singleArray1 = [1200f, 1000f];
+			string[] textArray1 = ["RefinedMetal", SimHashes.Ceramic.ToString()];
 
 			EffectorValues noise = NOISE_POLLUTION.NOISY.TIER3;
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 4, "gas_boiler_b_kanim", 100, 30f, singleArray1, textArray1, 800f, BuildLocationRule.OnFloor, TUNING.BUILDINGS.DECOR.PENALTY.TIER2, noise, 0.2f);
@@ -92,11 +92,11 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			//-----[ Element Converter Section ]---------------------------------
 			ElementConverter converter = go.AddOrGet<ElementConverter>();
-			converter.consumedElements = new ElementConverter.ConsumedElement[] {
+			converter.consumedElements = [
 				new ElementConverter.ConsumedElement(GameTags.CombustibleGas, 0.09f),
-				new ElementConverter.ConsumedElement(SimHashes.Water.CreateTag(), 3f) };
-			converter.outputElements = new ElementConverter.OutputElement[] {
-				new ElementConverter.OutputElement(3f, SimHashes.Steam, 474.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0) };
+				new ElementConverter.ConsumedElement(SimHashes.Water.CreateTag(), 3f) ];
+			converter.outputElements = [
+				new ElementConverter.OutputElement(3f, SimHashes.Steam, 474.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0) ];
 
 			//-------------------------------------------------------------------
 
@@ -108,7 +108,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			PipedConduitDispenser dispenser = go.AddComponent<PipedConduitDispenser>();
 			dispenser.storage = storage;
-			dispenser.elementFilter = new SimHashes[] { SimHashes.Steam };
+			dispenser.elementFilter = [SimHashes.Steam];
 			dispenser.AssignPort(steamOutputPort);
 			dispenser.alwaysDispense = true;
 			dispenser.SkipSetOperational = true;

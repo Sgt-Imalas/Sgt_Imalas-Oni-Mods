@@ -272,7 +272,8 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = FormatAsLink("Carbon Recycling Unit", nameof(CHEMICAL_CO2RECYCLER));
 					public static LocString DESC = "An autonomous chemical device capable of executing both Bosch and Sabatier Reactions based on the input conditions.";
-					public static LocString EFFECT = string.Concat(
+					public static LocString BASEGAME_RECIPE =
+						string.Concat(
 					"Sabatier Reaction: \n " +
 						FormatAsLink("Liquid Carbon Dioxide", "LIQUIDCARBONDIOXIDE"), ", " +
 						FormatAsLink("Hydrogen", "HYDROGEN"), " and " +
@@ -288,12 +289,34 @@ namespace RonivansLegacy_ChemicalProcessing
 						"produce ", FormatAsLink("Steam", "STEAM"), ", " +
 						FormatAsLink("Refined Coal", "REFINEDCARBON"), " and " +
 						FormatAsLink("Rust", "RUST"), " as waste product.");
+					public static LocString SPACEDOUT_RECIPE = string.Concat(
+						"THIS BUILDING HAS BEEN DEPRECATED AND CANNOT BE BUILT. INSTEAD, USE THE REGULAR " + CHEMICAL_CO2RECYCLER.NAME + "\n\n",
+
+					"Sabatier Reaction: \n " +
+						FormatAsLink("Liquid Carbon Dioxide", "LIQUIDCARBONDIOXIDE"), ", " +
+						FormatAsLink("Hydrogen", "HYDROGEN"), " and " +
+						FormatAsLink("Iron", "IRON"), " as catalyst. The Sabatier Reaction " +
+						"produce ", FormatAsLink("Water", "WATER"), ", " +
+						FormatAsLink("Natural Gas", "METHANE"), " and " +
+						FormatAsLink("Rust", "RUST"), " as waste product.\n\n" +
+
+						"Bosch Reaction: \n" +
+						FormatAsLink("Carbon Dioxide", "CARBONDIOXIDE"), ", " +
+						FormatAsLink("Hydrogen", "HYDROGEN"), " and " +
+						FormatAsLink("Iron", "IRON"), " as catalyst. The Bosch Reaction " +
+						"produce ", FormatAsLink("Steam", "STEAM"), ", " +
+						FormatAsLink("Graphite", "GRAPHITE"), " and " +
+						FormatAsLink("Rust", "RUST"), " as waste product.");
+
+					public static LocString EFFECT => DlcManager.IsExpansion1Active() ? SPACEDOUT_RECIPE : BASEGAME_RECIPE;
 				}
 				public class CHEMICAL_CO2RECYCLERDLC1
 				{
-					public static LocString NAME = FormatAsLink("Carbon Recycling Unit", nameof(CHEMICAL_CO2RECYCLERDLC1));
+					public static LocString NAME = FormatAsLink("[DEPRECATED] SpacedOut Carbon Recycling Unit", nameof(CHEMICAL_CO2RECYCLERDLC1));
 					public static LocString DESC = "An autonomous chemical device capable of executing both Bosch and Sabatier Reactions based on the input conditions.";
 					public static LocString EFFECT = string.Concat(
+						"THIS BUILDING HAS BEEN DEPRECATED AND CANNOT BE BUILT. INSTEAD, USE THE REGULAR " + CHEMICAL_CO2RECYCLER.NAME+ "\n\n",
+
 					"Sabatier Reaction: \n " +
 						FormatAsLink("Liquid Carbon Dioxide", "LIQUIDCARBONDIOXIDE"), ", " +
 						FormatAsLink("Hydrogen", "HYDROGEN"), " and " +
@@ -341,56 +364,56 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = FormatAsLink("Endothermic Unit", nameof(CHEMICAL_ENDOTHERMICUNIT));
 					public static LocString DESC = "A device that uses endothermical chemical reaction to cool itself and its surroundings.";
-					public static LocString EFFECT = string.Concat(new string[] { "Creates an endothermical reaction from a mixture of ", FormatAsLink("Nitrate Nodules", "AMMONIUMSALT"), " and ", FormatAsLink("Water", "WATER"), ". \nOutputs ", FormatAsLink("Ammonium Water", "AMMONIUMWATER"), " as result." });
+					public static LocString EFFECT = string.Concat(["Creates an endothermical reaction from a mixture of ", FormatAsLink("Nitrate Nodules", "AMMONIUMSALT"), " and ", FormatAsLink("Water", "WATER"), ". \nOutputs ", FormatAsLink("Ammonium Water", "AMMONIUMWATER"), " as result."]);
 				}
 				public class CHEMICAL_FLOCCULATIONSIEVE
 				{
 					public static LocString NAME = FormatAsLink("Flocculation Sieve", nameof(CHEMICAL_FLOCCULATIONSIEVE));
 					public static LocString DESC = "A dedicated industrial sieve that flocculates colloidal particles out of suspension to sediment under the form of floc. Strong filter media further improves the cleaning process of liquids.";
-					public static LocString EFFECT = string.Concat(new string[]
-					{
+					public static LocString EFFECT = string.Concat(
+					[
 						"Treat ",
 						FormatAsLink("Polluted Water", "DIRTYWATER"), " or " +
 						"Toxic Slurry using special filter and chemicals. " +
 						"Sieve process also completely removes", FormatAsLink("Germs", "DISEASE"),"."
-					});
+					]);
 				}
 				public class CHEMICAL_GAS_BOILER
 				{
 					public static LocString NAME = FormatAsLink("Gas-fueled Steam Boiler", nameof(CHEMICAL_GAS_BOILER));
 					public static LocString DESC = "An industrial grade boiler that generates thermal energy by burning Combustible Gases.";
-					public static LocString EFFECT = string.Concat(new string[] { "Boils ", FormatAsLink("Water", "WATER"), " to ", FormatAsLink("Steam", "STEAM"), " at 200 °C. This particular boiler uses ", FormatAsLink("Natural Gas", "METHANE"), " as fuel, but may as well work with other combustible gases." });
+					public static LocString EFFECT = string.Concat(["Boils ", FormatAsLink("Water", "WATER"), " to ", FormatAsLink("Steam", "STEAM"), " at 200 °C. This particular boiler uses ", FormatAsLink("Natural Gas", "METHANE"), " as fuel, but may as well work with other combustible gases."]);
 				}
 				public class CHEMICAL_GLASSFOUNDRY
 				{
 					public static LocString NAME = FormatAsLink("Glass Foundry", nameof(CHEMICAL_GLASSFOUNDRY));
 					public static LocString DESC = "A plasma arc furnace uses low-temperature plasma flow created by an electric arc heater (plasmatron).";
-					public static LocString EFFECT = string.Concat(new string[]
-						{
+					public static LocString EFFECT = string.Concat(
+						[
 							"This techlogical advanced glass foundry is capable more than melt ",
 							FormatAsLink("Sand", "SAND"),
 							" in to ",
 							FormatAsLink("Molten Glass", "MOLTENGLASS"),
 							", but a wide range of other applications."
-						});
+						]);
 				}
 				public class CHEMICAL_SMALLCRUSHERMILL
 				{
 					public static LocString NAME = FormatAsLink("Jaw Crusher Mill", nameof(CHEMICAL_SMALLCRUSHERMILL));
 					public static LocString DESC = "A jaw crusher uses compressive force for breaking of stone and other raw minerals.";
-					public static LocString EFFECT = string.Concat(new string[]
-						{
+					public static LocString EFFECT = string.Concat(
+						[
 						"Crush down ",
 						FormatAsLink("Raw Minerals", "RAWMINERAL"),
 						" in to useful materials and industrial ingredients."
-						});
+						]);
 				}
 				public class CHEMICAL_NAPHTHAREFORMER
 				{
 					public static LocString NAME = FormatAsLink("Naphtha Reformer", nameof(CHEMICAL_NAPHTHAREFORMER));
 					public static LocString DESC = "An industrial petrochemical plant responsible for rearranging hydrocarbon molecules of Naphtha in to Petroleum.";
-					public static LocString EFFECT = string.Concat(new string[]
-						{
+					public static LocString EFFECT = string.Concat(
+						[
 							"Second Stage refinement plant is capable of furter refine ",FormatAsLink("Naphtha", "NAPHTHA"), ":\n "+
 							"- 45% ",FormatAsLink("Petroleum", "PETROLEUM"), "\n" +
 							"- 10% ",FormatAsLink("Natural Gas", "METHANE"), "\n" +
@@ -398,14 +421,14 @@ namespace RonivansLegacy_ChemicalProcessing
 
 							"The process requires ", FormatAsLink("Hydrogen", "HYDROGEN")," to buffer the reaction." +
 							"IMPORTANT: The building require all pipes ports to be connected with their respective pipes in order for it to operate."
-						});
+						]);
 				}
 				public class CHEMICAL_PROPANEREFORMER
 				{
 					public static LocString NAME = FormatAsLink("Propane Reformer", nameof(CHEMICAL_PROPANEREFORMER));
 					public static LocString DESC = "An industrial petrochemical plant responsible for oxidative steam reforming process of Propane to Hydrogen.";
-					public static LocString EFFECT = string.Concat(new string[]
-						{
+					public static LocString EFFECT = string.Concat(
+						[
 							"Reforming process of ",FormatAsLink("Propane", "PROPANE"), " in to:\n "+
 							"- 60% ",FormatAsLink("Hydrogen", "HYDROGEN"), "\n" +
 							"- 30% ",FormatAsLink("Polluted Water", "DIRTYWATER"), " waste\n" +
@@ -413,27 +436,27 @@ namespace RonivansLegacy_ChemicalProcessing
 
 							"The process require ",FormatAsLink("Steam", "STEAM")," for the operation.\n\n" +
 							"IMPORTANT: The building require all pipes ports to be connected with their respective pipes in order for it to operate."
-						});
+						]);
 				}
 				public class CHEMICAL_PYROLYSISKILN
 				{
 					public static LocString NAME = FormatAsLink("Pyrolysis Kiln", nameof(CHEMICAL_PYROLYSISKILN));
 					public static LocString DESC = "A basic kiln that uses pyrolysis process to convert woodlogs to usable coal.";
-					public static LocString EFFECT = string.Concat(new string[]
-						{
+					public static LocString EFFECT = string.Concat(
+						[
 							"Cook ",
 							FormatAsLink("Woodlog", "WOODLOG"),
 							" to ",
 							FormatAsLink("Coal", "CARBON"),
 							"."
-						});
+						]);
 				}
 				public class CHEMICAL_RAWGASREFINERY
 				{
 					public static LocString NAME = FormatAsLink("Raw Gas Refinery", nameof(CHEMICAL_RAWGASREFINERY));
 					public static LocString DESC = "An industrial process plant responsible for refining the impure raw natural gas extracted from wells.";
-					public static LocString EFFECT = string.Concat(new string[]
-						{
+					public static LocString EFFECT = string.Concat(
+						[
 							"This refinement plant is capable of the following production: \n " +
 							"- 50% ",FormatAsLink("Natural Gas", "METHANE"), "\n" +
 							"- 35% ",FormatAsLink("Propane", "PROPANE"), "\n" +
@@ -442,14 +465,14 @@ namespace RonivansLegacy_ChemicalProcessing
 
 							"IMPORTANT: The building require all pipes ports to be connected with their respective pipes in order for it to operate."
 
-						});
+						]);
 				}
 				public class CHEMICAL_RAYONLOOM
 				{
 					public static LocString NAME = FormatAsLink("Rayon Loom", nameof(CHEMICAL_RAYONLOOM));
 					public static LocString DESC = "A chemical loom capable of producing celulose fibers with Viscose process.";
-					public static LocString EFFECT = string.Concat(new string[]
-						{
+					public static LocString EFFECT = string.Concat(
+						[
 							"Produces ",
 							FormatAsLink("Rayon Fiber", RayonFabricConfig.TAG.ProperName()),
 							" from ",
@@ -459,21 +482,140 @@ namespace RonivansLegacy_ChemicalProcessing
 							" and constantly outputs ",
 							FormatAsLink("Steam", "STEAM"),
 							" while operational."
-						});
+						]);
 				}
 				public class CHEMICAL_SELECTIVEARCFURNACE
 				{
 					public static LocString NAME = FormatAsLink("Selective Arc-Furnace", nameof(CHEMICAL_SELECTIVEARCFURNACE));
 					public static LocString DESC = "A specialized furnace that heats material by means of an electric arc. Its delicate heat control structure allows mixture of metal alloys, as well separating metals from an homogeneous mixture of scraps. Since the furnace is air-cooled, it releases a lot of heat into its surroundings.";
-					public static LocString EFFECT = string.Concat(new string[]
-						{
+					public static LocString EFFECT = string.Concat(
+						[
 							"Special works with ",
 							FormatAsLink("Refined Metals", "REFINEDMETAL"),
 							" and in the manufacture of metal alloys."
+						]);
+				}
+				public class CHEMICAL_SOILMIXER
+				{
+					public static LocString NAME = FormatAsLink("Soil Mixer", nameof(CHEMICAL_SOILMIXER));
+					public static LocString DESC = "A mixer designed for uniform blending of a wide variety of solid materials, while treating them with chemicals.";
+					public static LocString EFFECT = string.Concat(
+					[
+						"A solid material mixer designed for agricultural purpose, mainly for the production of ",
+						FormatAsLink("Dirt", "DIRT"),
+						" and ",
+						FormatAsLink("Fertilizer", "FERTILIZER"),
+						"." ]);
+
+				}
+				public class CHEMICAL_SOURWATERSTRIPPER
+				{
+					public static LocString NAME = FormatAsLink("Sour Water Stripper", nameof(CHEMICAL_SOURWATERSTRIPPER));
+					public static LocString DESC = "A heavy industrial device that uses a combination of pH control and heat, direct injection of steam to drives off the ammonia and hydrogen sulfide from the water. Also fitted with a filter mechanism to ensure the quality of the stripped water.";
+					public static LocString EFFECT = string.Concat(
+						[
+						"Separate clean ",FormatAsLink("Water", "WATER")," from "
+						,FormatAsLink("Sour Water", "SOURWATER"), " using hot "
+						,FormatAsLink("Steam", "STEAM"), ".\n " +
+						"The stripping process also produces "
+						,FormatAsLink("Sour Gas", "SOURGAS"), " from the separation.\n"
+						,FormatAsLink("Sand", "SAND"), " is required to further filter the water from any other contaminants it may still have, which is then released as  "
+						,FormatAsLink("Polluted Dirty", "TOXICSAND"), " afterwards.\n" +
+						"IMPORTANT: The building require all pipes ports to be connected with their respective pipes in order for it to operate."
+						]);
+				}
+				public class CHEMICAL_SYNGASREFINERY
+				{
+					public static LocString NAME = FormatAsLink("Syngas Refinery", nameof(CHEMICAL_SYNGASREFINERY));
+					public static LocString DESC = "A refinery capable of catalytic partial oxidation reactions to produce Syngas.";
+					public static LocString EFFECT = "Produce Synthetic Gas from a variety of Organic and Mineral materials.";
+
+				}
+				public class CHEMICAL_SYNTHESIZERNITRIC
+				{
+					public static LocString NAME = FormatAsLink("Nitric Acid Synthesizer", nameof(CHEMICAL_SYNTHESIZERNITRIC));
+					public static LocString DESC = "A chemical synthesizer device capable of producing Nitric Acid.";
+					public static LocString EFFECT = string.Concat(new string[]
+						{
+							"Produces industrial grade ",
+							FormatAsLink("Nitric Acid", "LIQUIDNITRIC"), " using provided " +
+							FormatAsLink("Sulfuric Acid", "LIQUIDSULFURIC")," and " +
+							FormatAsLink("Ammonia", "AMMONIAGAS"),"."
 						});
 				}
+				public class CHEMICAL_SYNTHESIZERSALTWATER
+				{
+					public static LocString NAME = FormatAsLink("Salt Water Mixer", nameof(CHEMICAL_SYNTHESIZERSALTWATER));
+					public static LocString DESC = "A simple device capable of producing high-quality salt water.";
+					public static LocString EFFECT =
+						"Produces " + FormatAsLink("Salt Water", "SALTWATER") + " using provided " +
+						FormatAsLink("Water", "WATER") + " and " +
+						FormatAsLink("Salt", "SALT") + ".";
+				}
+				public class CHEMICAL_SYNTHESIZERSULFURIC
+				{
+					public static LocString NAME = FormatAsLink("Sulfuric Acid Synthesizer", nameof(CHEMICAL_SYNTHESIZERSULFURIC));
+					public static LocString DESC = "A chemical synthesizer device capable of producing Sulfuric Acid.";
+					public static LocString EFFECT = string.Concat(new string[]
+						{
+							"Produces industrial grade ",
+							FormatAsLink("Sulfuric Acid", "LIQUIDSULFURIC"), " using provided " +
+							FormatAsLink("Steam", "STEAM")," and " +
+							FormatAsLink("Sulfur", "SULFUR"), "."
+						});
+				}
+				public class CHEMICAL_THERMALDESALINATOR
+				{
+					public static LocString NAME = FormatAsLink("Thermal Desalinator", nameof(CHEMICAL_THERMALDESALINATOR));
+					public static LocString DESC = "A basic desalinator that uses Vapor-compression evaporation to archive the separation of clean, usable water from the solution it is currently mixed.";
+					public static LocString EFFECT = string.Concat(new string[]
+						{
+							"Uses ",
+							FormatAsLink("Steam", "STEAM"), " as buffer for the Desalination process of either " +
+							FormatAsLink("Salt Water", "SALTWATER")," or Ammonium Water, releasing fresh " +
+							FormatAsLink("Water", "WATER"), " and concentrated ",FormatAsLink("Brine", "BRINE"),
+							" in return."
+						});
+				}
+				public class CHEMICAL_WOODEN_BOILER
+				{
+					public static LocString NAME = FormatAsLink("Wood-fueled Steam Boiler", nameof(CHEMICAL_WOODEN_BOILER));
+					public static LocString DESC = "An industrial grade boiler that generates thermal energy by burning wood.";
+					public static LocString EFFECT =  "Boils "+ FormatAsLink("Water", "WATER")+ " to "+ FormatAsLink("Steam", "STEAM")+ " at 200 °C. This particular boiler uses "+FormatAsLink("Wood", "WOODLOG")+" as fuel.";
+				}
+				public class CUSTOM_OILWELLCAP
+				{
+					public static LocString ANY_WATER_DESC = "Extracts " + FormatAsLink("Crude Oil", "CRUDEOIL") + " using any form of water.\n\nMust be built atop an " + FormatAsLink("Oil Reservoir", "OIL_WELL") + ".";
+					public static LocString NAME = FormatAsLink("[DEPRECATED] Custom Oil Well Pump", nameof(CUSTOM_OILWELLCAP));
+					public static LocString DESC = "A large device capable to extract oil from the attached well using liquid pumped in. Liquid pumped into an oil reservoir cannot be recovered. ";
+					public static LocString EFFECT = "THIS BUILDING HAS BEEN DEPRECATED AND CANNOT BE BUILT. INSTEAD, USE THE REGULAR " + FormatAsLink("Oil Well", "OILWELLCAP") + "\n\n" + ANY_WATER_DESC;
+				}
+				public class CUSTOM_POLYMERIZER
+				{
+					public static LocString NAME = FormatAsLink("Ethanol Polymer Press", nameof(CUSTOM_POLYMERIZER));
+					public static LocString DESC = "A custom polymerization press capable of producing polymer from Ethanol.";
+					public static LocString EFFECT = string.Concat(new string[]
+						{
+							"Special modifications allows the polymerization of ",
+							FormatAsLink("Ethanol", "ETHANOL"),
+							" into raw ",
+							FormatAsLink("Plastic", "POLYPROPYLENE"),
+							"with the addition of ",
+							FormatAsLink("Chlorine Gas", "CHLORINE"),"."
 
+						});
+				}
+				public class CUSTOM_METALREFINERY
+				{
+					public static LocString NAME = FormatAsLink("[DEPRECATED] Custom Metal Refinery", nameof(CUSTOM_METALREFINERY));
+					public static LocString DESC = global::STRINGS.BUILDINGS.PREFABS.METALREFINERY.DESC;
+					public static LocString EFFECT = string.Concat(new string[]
+						{
+							"THIS BUILDING HAS BEEN DEPRECATED AND CANNOT BE BUILT. INSTEAD, USE THE REGULAR " + FormatAsLink("METAL REFINERY", "METALREFINERY"),"\n\n",
+							global::STRINGS.BUILDINGS.PREFABS.METALREFINERY.EFFECT
 
+						});
+				}
 			}
 		}
 
@@ -520,13 +662,13 @@ namespace RonivansLegacy_ChemicalProcessing
 
 				public static LocString JAWCRUSHERMILL_MILLING_1_1_2 = "Grind down {0} and extract small amounts of {1}.\nProduces {2} and {3} as waste products.";
 				public static LocString JAWCRUSHERMILL_MILLING_1_1 = "Grind down {0} to {1}.";
-				public static LocString JAWCRUSHERMILL_MILLING_1_1_BREAK = "Break down {0} to {1}.";
-				public static LocString JAWCRUSHERMILL_MILLING_1_2 = "Break down {0} to {1} and {2}.";
-				public static LocString JAWCRUSHERMILL_MILLING_1_4 = "Break down {0} to:\n• {1}\n• {2}\n• {3}\n• {4}";
+				public static LocString JAWCRUSHERMILL_MILLING_1_1_BREAK = "Break down {0} into {1}.";
+				public static LocString JAWCRUSHERMILL_MILLING_1_2 = "Break down {0} into {1} and {2}.";
+				public static LocString JAWCRUSHERMILL_MILLING_1_4 = "Break down {0} into:\n• {1}\n• {2}\n• {3}\n• {4}";
 				public static LocString CRUSHEDROCK_FROM_RAW_MINERAL_NAME = FormatAsLink("Raw Mineral", "BUILDABLERAW") + " to " + global::STRINGS.ELEMENTS.CRUSHEDROCK.NAME;
 				public static LocString CRUSHEDROCK_FROM_RAW_MINERAL_DESCRIPTION = "Crushes " + FormatAsLink("Raw Minerals", "BUILDABLERAW") + " into " + global::STRINGS.ELEMENTS.CRUSHEDROCK.NAME;
 				public static LocString RAYON_LOOM_FIBER = "Produces {0} from the pulp of {1}.";
-				
+
 				public static LocString ARCFURNACE_SMELT_2_1 = "Smelt {0} and {1} to produce {2}";
 				public static LocString ARCFURNACE_SMELT_3_1 = "Smelt {0} and {1} with addition of {2} to produce {3}";
 				public static LocString ARCFURNACE_STEEL_1 = "Refine {0} to {3} with a mixture of of {1} and {2} ";
@@ -538,6 +680,15 @@ namespace RonivansLegacy_ChemicalProcessing
 					"\nProduces {2} as waste.";
 				public static LocString ARCFURNACE_NIOBIUM = "Smelt down {0} alloy to basic {1} metal.";
 
+				public static LocString SOILMIXER_3_1 = "Address a mixture of {0}, {1} and {2}, to produce {3}.";
+				public static LocString SOILMIXER_4_1 = "Address a mixture of {0}, {1}, {2} and {3}, to produce {4}.";
+
+				public static LocString SYNGASREFINERY_1_1_1 = "Refine {0} to {1}. Produces {2} as waste product.";
+				public static LocString SYNGASREFINERY_1_1_2 = "Refine {0} to {1}. Produces {2} and {3} as by-product.";
+
+
+				public static LocString METALREFINERY_2_1_1 = "Smelt a mixture of {0} and {1}, to produce {2}.\nProduces {3} as waste.";
+				public static LocString METALREFINERY_2_2_1 = "Smelt a mixture of {0} and {1}, to produce {2} and {3}.\nProduces {4} as waste.";
 
 				public class RANDOMRECIPERESULT
 				{

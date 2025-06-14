@@ -19,7 +19,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			public static void Postfix()
 			{
 				LocalisationUtil.Translate(typeof(STRINGS), true);
-				LocalisationUtil.FixRoomConstrains();
+				LocalisationUtil.FixTranslationStrings();
 			}
 		}
 	}

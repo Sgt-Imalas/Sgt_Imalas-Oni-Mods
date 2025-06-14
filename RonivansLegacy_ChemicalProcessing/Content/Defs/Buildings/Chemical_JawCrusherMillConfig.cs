@@ -124,7 +124,13 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			.Output(ModElements.Borax_Solid, 5f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 			.Output(SimHashes.Sand, 94.95f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 			.Output(TableSaltConfig.ID.ToTag(), 0.05f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-			.Description1I3O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1_2)
+			.Description(
+				string.Format(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1_2, 
+				SimHashes.Salt.CreateTag().ProperName(),
+				ModElements.Borax_Solid.Tag.ProperName(),
+				SimHashes.Sand.CreateTag().ProperName(),
+				global::STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.TABLE_SALT.NAME
+				))
 			.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 			.Build();
 
@@ -213,7 +219,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 					.Output(refinedElement.id, 50f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Output(SimHashes.Sand, 50f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Description1I1O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1_BREAK)
-					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
+					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 					.Build();
 
 			}
@@ -229,7 +235,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 					.Output(SimHashes.Gold, 25f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Output(ModElements.Silver_Solid, 15f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Output(SimHashes.Sand, 50f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-					.Description1I1O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1)
+					.Description1I2O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_2)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 					.Build();
 
@@ -258,7 +264,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 					.Output(SimHashes.Iron, 30f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Output(SimHashes.Sand, 70f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Description1I1O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1)
-					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
+					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 					.Build();
 		}
 

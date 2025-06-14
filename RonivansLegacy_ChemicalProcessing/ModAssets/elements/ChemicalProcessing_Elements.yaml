@@ -345,7 +345,8 @@ elements:
     tags:
     - Metal
     - RefinedMetal
-    - BuildableAny
+    - BuildableAny 
+    - Noncrushable
     buildMenuSort: 3
     isDisabled: false
     state: Solid
@@ -380,7 +381,8 @@ elements:
     tags:
     - Metal
     - RefinedMetal
-    - BuildableAny
+    - BuildableAny    
+    - Noncrushable
     buildMenuSort: 4
     isDisabled: false
     state: Solid
@@ -415,7 +417,8 @@ elements:
     tags:
     - Metal
     - RefinedMetal
-    - BuildableAny
+    - BuildableAny 
+    - Noncrushable
     buildMenuSort: 11
     isDisabled: false
     state: Solid
@@ -1032,6 +1035,7 @@ elements:
     - BuildableAny
     - Metal
     - RefinedMetal
+    - Noncrushable
     - Plumbable
     - Insulator
     buildMenuSort: 59

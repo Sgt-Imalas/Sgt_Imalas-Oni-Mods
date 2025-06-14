@@ -13,6 +13,12 @@ using UtilLibs.BuildingPortUtils;
 
 namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 {
+	/// <summary>
+	/// This building is deprecated, because its a clone of the regular building with a single element change.
+	/// the regular Chemical_Co2Recycler has been adjusted to have both cofigurations, depending on the dlc active.
+	/// the building is kept in the mod for compatibility, but cannot be constructed
+	/// </summary>
+
 	//==== [ CHEMICAL: CARBON RECYCLING UNIT DLC1 CONFIG ] ===============================================================
 	[SerializationConfig(MemberSerialization.OptIn)]
 	public class Chemical_Co2RecyclerDLC1Config : IBuildingConfig
@@ -50,8 +56,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 		public override BuildingDef CreateBuildingDef()
 		{
-			float[] ingredient_mass = new float[] { 800f, 400f };
-			string[] ingredient_types = new string[] { SimHashes.Ceramic.ToString(), SimHashes.Steel.ToString() };
+			float[] ingredient_mass = [800f, 400f];
+			string[] ingredient_types = [SimHashes.Ceramic.ToString(), SimHashes.Steel.ToString()];
 
 			EffectorValues tier = NOISE_POLLUTION.NOISY.TIER6;
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 7, 4, "co2_recycler_kanim", 100, 30f, ingredient_mass, ingredient_types, 800f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.PENALTY.TIER2, tier, 0.2f);
@@ -66,6 +72,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.UtilityInputOffset = new CellOffset(-3, 2);
 			buildingDef.OutputConduitType = ConduitType.Liquid;
 			buildingDef.UtilityOutputOffset = new CellOffset(3, 0);
+			buildingDef.Deprecated = true;
 			return buildingDef;
 		}
 
@@ -115,24 +122,24 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			//-----[ Element Converter Section ]---------------------------------
 			ElementConverter sabatier = go.AddComponent<ElementConverter>();
-			sabatier.consumedElements = new ElementConverter.ConsumedElement[] {
+			sabatier.consumedElements = [
 				new ElementConverter.ConsumedElement(SimHashes.LiquidCarbonDioxide.CreateTag(), 0.2f),
 				new ElementConverter.ConsumedElement(SimHashes.Hydrogen.CreateTag(), 0.6f),
-				new ElementConverter.ConsumedElement(catalyst, 0.025f) };
-			sabatier.outputElements = new ElementConverter.OutputElement[] {
+				new ElementConverter.ConsumedElement(catalyst, 0.025f) ];
+			sabatier.outputElements = [
 				new ElementConverter.OutputElement(0.5f, SimHashes.Water, 337.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0),
 				new ElementConverter.OutputElement(0.3f, SimHashes.Methane, 367.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0),
-				new ElementConverter.OutputElement(0.025f, SimHashes.Rust, 319.15f, false, true, 0f, 0.5f, 0.25f, 0xff, 0) };
+				new ElementConverter.OutputElement(0.025f, SimHashes.Rust, 319.15f, false, true, 0f, 0.5f, 0.25f, 0xff, 0) ];
 
 			ElementConverter bosch = go.AddComponent<ElementConverter>();
-			bosch.consumedElements = new ElementConverter.ConsumedElement[] {
+			bosch.consumedElements = [
 				new ElementConverter.ConsumedElement(SimHashes.CarbonDioxide.CreateTag(), 0.4f),
 				new ElementConverter.ConsumedElement(SimHashes.Hydrogen.CreateTag(), 0.4f),
-				new ElementConverter.ConsumedElement(catalyst, 0.025f) };
-			bosch.outputElements = new ElementConverter.OutputElement[] {
+				new ElementConverter.ConsumedElement(catalyst, 0.025f) ];
+			bosch.outputElements = [
 				new ElementConverter.OutputElement(0.4f, SimHashes.Steam, 382.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0),
 				new ElementConverter.OutputElement(0.3f, SimHashes.Graphite, 319.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0),
-				new ElementConverter.OutputElement(0.025f, SimHashes.Rust, 319.15f, false, true, 0f, 0.5f, 0.25f, 0xff, 0) };
+				new ElementConverter.OutputElement(0.025f, SimHashes.Rust, 319.15f, false, true, 0f, 0.5f, 0.25f, 0xff, 0) ];
 			//--------------------------------------------------------------------
 
 			ElementDropper rustDropper = go.AddComponent<ElementDropper>();
@@ -152,20 +159,21 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			ConduitDispenser waterOutput = go.AddOrGet<ConduitDispenser>();
 			waterOutput.conduitType = ConduitType.Liquid;
 			waterOutput.storage = outputStorage;
-			waterOutput.elementFilter = new SimHashes[] { SimHashes.Water };
+			waterOutput.elementFilter = [SimHashes.Water];
 
 			PipedConduitDispenser steamOutput = go.AddComponent<PipedConduitDispenser>();
 			steamOutput.conduitType = ConduitType.Gas;
 			steamOutput.alwaysDispense = true;
-			steamOutput.elementFilter = new SimHashes[] { SimHashes.Steam };
+			steamOutput.elementFilter = [SimHashes.Steam];
 			steamOutput.AssignPort(steamOutputPort);
 
 			PipedConduitDispenser methaneOutput = go.AddComponent<PipedConduitDispenser>();
 			methaneOutput.conduitType = ConduitType.Gas;
 			methaneOutput.alwaysDispense = true;
-			methaneOutput.elementFilter = new SimHashes[] { SimHashes.Methane };
+			methaneOutput.elementFilter = [SimHashes.Methane];
 			methaneOutput.AssignPort(methaneOutputPort);
 
+			go.AddOrGet<DeprecationTint>();
 			Prioritizable.AddRef(go);
 			this.AttachPort(go);
 		}

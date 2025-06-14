@@ -18,9 +18,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 	{
 		//--[ Base Information ]---------------------------------------------------------------------------
 		public static string ID = "Chemical_Co2Recycler";
-		
+
 		//--[ Identification and DLC stuff ]--------------------------------------------------------------
-		
+
 		public static readonly List<Storage.StoredItemModifier> RecyclerStoredItemModifiers;
 
 		//--[ Special Settings ]-----------------------------------------------
@@ -130,7 +130,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				new ElementConverter.ConsumedElement(catalyst, 0.025f) ];
 			bosch.outputElements = [
 				new ElementConverter.OutputElement(0.4f, SimHashes.Steam, 382.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0),
-				new ElementConverter.OutputElement(0.3f, SimHashes.RefinedCarbon, 319.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0),
+				new ElementConverter.OutputElement(0.3f, DlcManager.IsExpansion1Active() ? SimHashes.Graphite : SimHashes.RefinedCarbon, 319.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0),
 				new ElementConverter.OutputElement(0.025f, SimHashes.Rust, 319.15f, false, true, 0f, 0.5f, 0.25f, 0xff, 0) ];
 			//--------------------------------------------------------------------
 
@@ -139,9 +139,15 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			rustDropper.emitTag = SimHashes.Rust.CreateTag();
 			rustDropper.emitOffset = new Vector3(0f, 1f, 0f);
 
+			//ref carbon in base game,
+			ElementDropper RefinedCarbonDropper = go.AddComponent<ElementDropper>();
+			RefinedCarbonDropper.emitMass = 10f;
+			RefinedCarbonDropper.emitTag = SimHashes.RefinedCarbon.CreateTag();
+			RefinedCarbonDropper.emitOffset = new Vector3(0f, 1f, 0f);
+			//graphite in spaced out
 			ElementDropper graphiteDropper = go.AddComponent<ElementDropper>();
 			graphiteDropper.emitMass = 10f;
-			graphiteDropper.emitTag = SimHashes.RefinedCarbon.CreateTag();
+			graphiteDropper.emitTag = SimHashes.Graphite.CreateTag();
 			graphiteDropper.emitOffset = new Vector3(0f, 1f, 0f);
 
 			Storage outputStorage = go.AddOrGet<Storage>();

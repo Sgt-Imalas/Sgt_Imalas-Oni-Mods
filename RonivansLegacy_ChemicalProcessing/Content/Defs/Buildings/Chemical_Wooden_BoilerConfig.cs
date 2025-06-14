@@ -10,20 +10,20 @@ using TUNING;
 using UnityEngine;
 using UtilLibs.BuildingPortUtils;
 
+
 namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 {
-	//===[ CHEMICAL: COAL BOILER CONFIG ]=====================================================================
+	//===[ CHEMICAL: WOODEN BOILER CONFIG ]=====================================================================
 	[SerializationConfig(MemberSerialization.OptIn)]
-	public class Chemical_Coal_BoilerConfig : IBuildingConfig
+	public class Chemical_Wooden_BoilerConfig : IBuildingConfig
 	{
-		//--[ Base Information ]-----------------------------------------------
-		public static string ID = "Chemical_Coal_Boiler";
+		public static string ID = "Chemical_Wooden_Boiler";
 		
 
 		//--[ Special Settings ]-----------------------------------------------
 		private static readonly PortDisplayOutput steamOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(0, 3));
-		public static readonly List<Storage.StoredItemModifier> ChemCoalBoilerStorageModifiers;
-		static Chemical_Coal_BoilerConfig()
+		public static readonly List<Storage.StoredItemModifier> ChemWoodBoilerStorageModifiers;
+		static Chemical_Wooden_BoilerConfig()
 		{
 			Color? steamPortColor = new Color32(167, 180, 201, 255);
 			steamOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(0, 3), null, steamPortColor);
@@ -32,7 +32,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			list1.Add(Storage.StoredItemModifier.Hide);
 			list1.Add(Storage.StoredItemModifier.Seal);
 			list1.Add(Storage.StoredItemModifier.Insulate);
-			ChemCoalBoilerStorageModifiers = list1;
+			ChemWoodBoilerStorageModifiers = list1;
 		}
 
 		//--[ Building Definitions ]-------------------------------------------
@@ -42,7 +42,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			string[] textArray1 = ["RefinedMetal", SimHashes.Ceramic.ToString()];
 
 			EffectorValues noise = NOISE_POLLUTION.NOISY.TIER3;
-			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 4, "coal_boiler_b_kanim", 100, 30f, singleArray1, textArray1, 800f, BuildLocationRule.OnFloor, TUNING.BUILDINGS.DECOR.PENALTY.TIER2, noise, 0.2f);
+			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 4, "wooden_boiler_b_kanim", 100, 30f, singleArray1, textArray1, 800f, BuildLocationRule.OnFloor, TUNING.BUILDINGS.DECOR.PENALTY.TIER2, noise, 0.2f);
 			buildingDef.ExhaustKilowattsWhenActive = 8f;
 			buildingDef.SelfHeatKilowattsWhenActive = 1f;
 			buildingDef.AudioCategory = "HollowMetal";
@@ -53,7 +53,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			List<LogicPorts.Port> list1 = new List<LogicPorts.Port>();
 			list1.Add(LogicPorts.Port.OutputPort(SmartReservoir.PORT_ID, new CellOffset(1, 0), (string)STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.LOGIC_PORT, (string)STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.LOGIC_PORT_ACTIVE, (string)STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.LOGIC_PORT_INACTIVE, false, false));
 			buildingDef.LogicOutputPorts = list1;
-			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.LiquidVentIDs, ID);
+			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.LiquidVentIDs, "WaterPurifier");
 			return buildingDef;
 		}
 
@@ -61,8 +61,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		{
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery, false);
 			Storage storage = BuildingTemplates.CreateDefaultStorage(go, false);
-			storage.SetDefaultStoredItemModifiers(ChemCoalBoilerStorageModifiers);
-			storage.capacityKg = 1000f;
+			storage.SetDefaultStoredItemModifiers(ChemWoodBoilerStorageModifiers);
+			storage.capacityKg = 10000f;
 			storage.showCapacityStatusItem = true;
 			storage.showCapacityAsMainStatus = true;
 			storage.showDescriptor = true;
@@ -71,12 +71,12 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			go.AddOrGet<WaterPurifier>();
 			Prioritizable.AddRef(go);
 
-			ManualDeliveryKG coalDelivery = go.AddComponent<ManualDeliveryKG>();
-			coalDelivery.SetStorage(storage);
-			coalDelivery.RequestedItemTag = SimHashes.Carbon.CreateTag();
-			coalDelivery.capacity = 900f;
-			coalDelivery.refillMass = 300f;
-			coalDelivery.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
+			ManualDeliveryKG woodDelivery = go.AddComponent<ManualDeliveryKG>();
+			woodDelivery.SetStorage(storage);
+			woodDelivery.RequestedItemTag = SimHashes.WoodLog.CreateTag();
+			woodDelivery.capacity = 800f;
+			woodDelivery.refillMass = 350f;
+			woodDelivery.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
 
 			ConduitConsumer waterInput = go.AddOrGet<ConduitConsumer>();
 			waterInput.conduitType = ConduitType.Liquid;
@@ -89,14 +89,14 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//-----[ Element Converter Section ]---------------------------------
 			ElementConverter converter = go.AddOrGet<ElementConverter>();
 			converter.consumedElements = [
-				new ElementConverter.ConsumedElement(SimHashes.Carbon.CreateTag(), 0.85f),
-				new ElementConverter.ConsumedElement(SimHashes.Water.CreateTag(), 3f) ];
+				new ElementConverter.ConsumedElement(SimHashes.WoodLog.CreateTag(), 1f),
+				new ElementConverter.ConsumedElement(SimHashes.Water.CreateTag(), 2f) ];
 			converter.outputElements = [
-				new ElementConverter.OutputElement(3f, SimHashes.Steam, 474.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0) ];
+				new ElementConverter.OutputElement(2f, SimHashes.Steam, 474.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0) ];
 			//-------------------------------------------------------------------
 
 			BuildingElementEmitter co2emitter = go.AddOrGet<BuildingElementEmitter>();
-			co2emitter.emitRate = 0.0067f;
+			co2emitter.emitRate = 0.06f;
 			co2emitter.temperature = 383.15f;
 			co2emitter.element = SimHashes.CarbonDioxide;
 			co2emitter.modifierOffset = new Vector2(-1f, 2f);

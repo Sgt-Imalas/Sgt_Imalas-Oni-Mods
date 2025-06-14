@@ -38,8 +38,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 		public override BuildingDef CreateBuildingDef()
 		{
-			float[] singleArray1 = new float[] { 200f, 100f };
-			string[] textArray1 = new string[] { SimHashes.Ceramic.ToString(), "RefinedMetal" };
+			float[] singleArray1 = [200f, 100f];
+			string[] textArray1 = [SimHashes.Ceramic.ToString(), "RefinedMetal"];
 
 			EffectorValues noise = NOISE_POLLUTION.NOISY.TIER1;
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 2, 3, "electric_boiler_kanim", 100, 30f, singleArray1, textArray1, 800f, BuildLocationRule.OnFloor, TUNING.BUILDINGS.DECOR.PENALTY.TIER1, noise, 0.2f);
@@ -80,12 +80,12 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			waterInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 
 			ElementConverter converter = go.AddOrGet<ElementConverter>();
-			converter.consumedElements = new ElementConverter.ConsumedElement[] { new ElementConverter.ConsumedElement(SimHashes.Water.CreateTag(), 1f) };
-			converter.outputElements = new ElementConverter.OutputElement[] { new ElementConverter.OutputElement(1f, SimHashes.Steam, 379.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0) };
+			converter.consumedElements = [new ElementConverter.ConsumedElement(SimHashes.Water.CreateTag(), 1f)];
+			converter.outputElements = [new ElementConverter.OutputElement(1f, SimHashes.Steam, 379.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0)];
 
 			PipedConduitDispenser dispenser = go.AddComponent<PipedConduitDispenser>();
 			dispenser.storage = storage;
-			dispenser.elementFilter = new SimHashes[] { SimHashes.Steam };
+			dispenser.elementFilter = [SimHashes.Steam];
 			dispenser.AssignPort(steamOutputPort);
 			dispenser.alwaysDispense = true;
 			dispenser.SkipSetOperational = true;

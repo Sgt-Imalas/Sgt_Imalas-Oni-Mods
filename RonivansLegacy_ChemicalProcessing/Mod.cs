@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using KMod;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using System;
 using UtilLibs;
 using UtilLibs.BuildingPortUtils;
@@ -13,6 +14,8 @@ namespace RonivansLegacy_ChemicalProcessing
             base.OnLoad(harmony);
             SgtLogger.LogVersion(this, harmony);
 			ConduitDisplayPortPatching.PatchAll(harmony);
+			BuildingInjection.RegisterAdditionalBuildingElements();
+
 		}
-    }
+	}
 }

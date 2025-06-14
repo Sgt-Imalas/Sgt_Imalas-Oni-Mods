@@ -44,8 +44,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		//--[ Building Definitions ]-------------------------------------------
 		public override BuildingDef CreateBuildingDef()
 		{
-			float[] ingredient_mass = new float[] { 300f, 100f };
-			string[] ingredient_types = new string[] { "RefinedMetal", SimHashes.Steel.ToString() };
+			float[] ingredient_mass = [300f, 100f];
+			string[] ingredient_types = ["RefinedMetal", SimHashes.Steel.ToString()];
 
 			EffectorValues tier = NOISE_POLLUTION.NOISY.TIER6;
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 4, 7, "naphtha_reformer_kanim", 100, 30f, ingredient_mass, ingredient_types, 800f, BuildLocationRule.Anywhere, BUILDINGS.DECOR.PENALTY.TIER2, tier, 0.2f);
@@ -88,13 +88,13 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			//-----[ Element Converter Section ]---------------------------------
 			ElementConverter naphtha_reforming = go.AddComponent<ElementConverter>();
-			naphtha_reforming.consumedElements = new ElementConverter.ConsumedElement[] {
+			naphtha_reforming.consumedElements = [
 				new ElementConverter.ConsumedElement(SimHashes.Naphtha.CreateTag(), 2.5f),
-				new ElementConverter.ConsumedElement(SimHashes.Hydrogen.CreateTag(), 0.210f) };
-			naphtha_reforming.outputElements = new ElementConverter.OutputElement[] {
+				new ElementConverter.ConsumedElement(SimHashes.Hydrogen.CreateTag(), 0.210f) ];
+			naphtha_reforming.outputElements = [
 				new ElementConverter.OutputElement(1.125f, SimHashes.Petroleum, 371.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0),
 				new ElementConverter.OutputElement(0.25f, SimHashes.Methane, 388.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0),
-				new ElementConverter.OutputElement(1.125f, SimHashes.Bitumen, 343.15f, true, true, 0f, 0.5f, 0.25f, 0xff, 0)};
+				new ElementConverter.OutputElement(1.125f, SimHashes.Bitumen, 343.15f, true, true, 0f, 0.5f, 0.25f, 0xff, 0)];
 			//--------------------------------------------------------------------
 
 			ElementDropper bitumenDropper = go.AddComponent<ElementDropper>();
@@ -109,13 +109,13 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			ConduitDispenser petrolOutput = go.AddOrGet<ConduitDispenser>();
 			petrolOutput.conduitType = ConduitType.Liquid;
 			petrolOutput.storage = outputStorage;
-			petrolOutput.elementFilter = new SimHashes[] { SimHashes.Petroleum };
+			petrolOutput.elementFilter = [SimHashes.Petroleum];
 
 			PipedConduitDispenser methaneOutput = go.AddComponent<PipedConduitDispenser>();
 			methaneOutput.storage = outputStorage;
 			methaneOutput.conduitType = ConduitType.Gas;
 			methaneOutput.alwaysDispense = true;
-			methaneOutput.elementFilter = new SimHashes[] { SimHashes.Methane };
+			methaneOutput.elementFilter = [SimHashes.Methane];
 			methaneOutput.AssignPort(methaneGasOutputPort);
 
 			Prioritizable.AddRef(go);
