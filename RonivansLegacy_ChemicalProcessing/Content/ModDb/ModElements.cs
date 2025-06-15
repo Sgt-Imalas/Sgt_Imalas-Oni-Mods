@@ -10,6 +10,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
 	class ModElements
 	{
+		/// Chemical Processing Industrial overhaul
 		public static readonly Color32 LOWGRADESAND_COLOR = new Color32(59, 46, 12, 255);
 		public static readonly Color32 BASEGRADESAND_COLOR = new Color32(74, 66, 60, 255);
 		public static readonly Color32 HIGHGRADESAND_COLOR = new Color32(130, 73, 92, 255);
@@ -40,6 +41,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		public static readonly Color32 TOXIC_COLOR = new Color32(130, 51, 5, 255);
 		public static readonly Color32 ZINC_COLOR = new Color32(201, 201, 195, 255);
 
+
+		/// Chemical Processing Industrial overhaul
+
+
+		/// Chemical Processing Industrial overhaul
 		public static ElementInfo
 			//GradeSands
 			LowGradeSand_Solid = ElementInfo.Solid("LowGradeSand", "solid_lowgradesand_kanim", LOWGRADESAND_COLOR),

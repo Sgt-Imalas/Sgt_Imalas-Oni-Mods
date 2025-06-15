@@ -16,7 +16,6 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			public static void Postfix(GameObject go)
 			{
 				go.GetComponent<EnergyGenerator>().formula.inputs = [new EnergyGenerator.InputItem(GameTags.CombustibleGas, 0.09f, 0.9f)];
-
 				var dispenser = go.AddOrGet<ConduitDispenser>();
 				dispenser.elementFilter = dispenser.elementFilter.Append(SimHashes.Propane);
 			}

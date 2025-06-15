@@ -30,7 +30,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 		public static void AddBuildingsToPlanscreen()
 		{
-			AddBuildingsToPlanscreen_ChemicalProcessingIndustrialOverhaul();
+			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+					AddBuildingsToPlanscreen_ChemicalProcessingIndustrialOverhaul();
 
 			RegisterCustomPiping();
 		}
@@ -76,7 +77,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 		public static void AddBuildingsToTech()
 		{
-			AddBuildingsToTech_ChemicalProcessingIndustrialOverhaul();
+			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+				AddBuildingsToTech_ChemicalProcessingIndustrialOverhaul();
 		}
 		private static void AddBuildingsToTech_ChemicalProcessingIndustrialOverhaul()
 		{

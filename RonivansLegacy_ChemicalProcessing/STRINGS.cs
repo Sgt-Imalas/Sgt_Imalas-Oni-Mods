@@ -747,6 +747,16 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString COMPOSITION_ENTRY_CHANCE = "• {0}: {1} - {2}, {3} Chance";
 				}
 			}
+			public class SPACEDESTINATIONS
+			{
+				public class COMETS
+				{
+					public class HEAVYCOMET
+					{
+						public static LocString NAME = "Heavy Comet";
+					}
+				}
+			}
 		}
 	}
 }

@@ -15,12 +15,12 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		{
 			public static void Prefix()
 			{
-				//SpaceStationRoomsDB.PatchRoomsConstructor();
 			}
 			public static void Postfix(Db __instance)
 			{
 				BuildingInjection.AddBuildingsToTech();
 				ModElements.OverrideDebrisAnims();
+				HarvestablePOIAdditions.AddExtraPOIElements();
 			}
 		}
 	}

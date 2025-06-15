@@ -21,8 +21,11 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				ref List<Diet.Info> __result)
 			{
 				//--[ Chloroschist Diet ]-----------------------------------------------------
-				__result.Add(new Diet.Info([ModElements.Chloroschist_Solid.Tag], SimHashes.BleachStone.CreateTag(), caloriesPerKg, 0.25f, diseaseId, diseasePerKgProduced));
-				__result.Add(new Diet.Info([ModElements.Slag_Solid.Tag], ModElements.AmmoniumSalt_Solid.Tag, caloriesPerKg, 0.9f, diseaseId, diseasePerKgProduced));
+				if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+				{
+					__result.Add(new Diet.Info([ModElements.Chloroschist_Solid.Tag], SimHashes.BleachStone.CreateTag(), caloriesPerKg, 0.25f, diseaseId, diseasePerKgProduced));
+					__result.Add(new Diet.Info([ModElements.Slag_Solid.Tag], ModElements.AmmoniumSalt_Solid.Tag, caloriesPerKg, 0.9f, diseaseId, diseasePerKgProduced));
+				}
 			}
 		}
 
@@ -35,6 +38,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				float diseasePerKgProduced,
 				ref List<Diet.Info> __result)
 			{
+				if(Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
 				__result.Add(new Diet.Info([SimHashes.Salt.CreateTag()], ModElements.Borax_Solid.Tag, caloriesPerKg, 0.5f, diseaseId, diseasePerKgProduced));
 			}
 		}

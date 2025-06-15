@@ -6,31 +6,38 @@ using System.Threading.Tasks;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
-    class ModGeysers
-    {
-        public static void RegisterGeysers(List<GeyserGenericConfig.GeyserPrefabParams> configs)
+	class ModGeysers
+	{
+
+		public static void RegisterGeysers(List<GeyserGenericConfig.GeyserPrefabParams> configs)
+		{
+			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+				RegisterGeysers_IndustrialOverhaul(configs);
+		}
+
+		public static void RegisterGeysers_IndustrialOverhaul(List<GeyserGenericConfig.GeyserPrefabParams> configs)
 		{
 			//===[ CHEMICAL: AMMONIA GEYSER ]=====================================================================
 			configs.Add(new("geyser_ammonia_kanim", 4, 2,
-                new GeyserConfigurator.GeyserType("AmmoniaGeyser",
-                ModElements.Ammonia_Liquid,
-                GeyserConfigurator.GeyserShape.Liquid,
-                210.15f,
-                1f, //modeled after oildrip(leaky oil fissure) i assume
-                250f,
-                250,
-                null,
-                null,
+				new GeyserConfigurator.GeyserType("AmmoniaGeyser",
+				ModElements.Ammonia_Liquid,
+				GeyserConfigurator.GeyserShape.Liquid,
+				210.15f,
+				1f, //modeled after oildrip(leaky oil fissure) i assume
+				250f,
+				250,
+				null,
+				null,
 				50,
-                600,
-                0.1f,
-                0.4f,
-                15000,
-                135000,
-                0.4f,
-                0.8f,
-                210.15f),
-                true));
+				600,
+				0.1f,
+				0.4f,
+				15000,
+				135000,
+				0.4f,
+				0.8f,
+				210.15f),
+				true));
 
 			//===[ CHEMICAL: AMMONIUM WATER GEYSER ]=====================================================================
 			configs.Add(new("geyser_ammonium_water_kanim", 4, 2,
