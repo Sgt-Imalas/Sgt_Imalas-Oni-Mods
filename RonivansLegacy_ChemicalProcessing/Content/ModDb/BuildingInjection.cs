@@ -7,10 +7,11 @@ using static UtilLibs.RocketryUtils;
 using UtilLibs;
 using Dupes_Industrial_Overhaul.Chemical_Processing.Buildings;
 using HarmonyLib;
+using Biochemistry.Buildings;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
-    class BuildingInjection
+	class BuildingInjection
 	{
 		/// <summary>
 		/// Registers these as building tags, otherwise the name strings of those elements break
@@ -20,7 +21,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			GameTags.MaterialBuildingElements.Add(SimHashes.Ceramic.CreateTag());
 		}
 
-		static void RegisterCustomPiping()
+		static void RegisterOilWellCapCustomPiping()
 		{
 			var oilWell = Assets.GetBuildingDef(OilWellCapConfig.ID);
 			Custom_OilWellCapConfig.AttachPorts(oilWell.BuildingPreview);
@@ -31,10 +32,15 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		public static void AddBuildingsToPlanscreen()
 		{
 			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
-					AddBuildingsToPlanscreen_ChemicalProcessingIndustrialOverhaul();
+			{
+				AddBuildingsToPlanscreen_ChemicalProcessingIndustrialOverhaul();
+				RegisterOilWellCapCustomPiping();
+			}
+			if (Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
+				AddBuildingsToPlanscreen_ChemicalProcessingBioChemistry();
 
-			RegisterCustomPiping();
 		}
+
 		private static void AddBuildingsToPlanscreen_ChemicalProcessingIndustrialOverhaul()
 		{
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Chemical_AdvancedKilnConfig.ID, KilnConfig.ID);
@@ -61,7 +67,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Chemical_PyrolysisKilnConfig.ID, KilnConfig.ID);
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Chemical_RawGasRefineryConfig.ID, OilRefineryConfig.ID);
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Chemical_RayonLoomConfig.ID, EthanolDistilleryConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Chemical_SelectiveArcFurnaceConfig.ID, SupermaterialRefineryConfig.ID, ordering:ModUtil.BuildingOrdering.Before) ;
+			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Chemical_SelectiveArcFurnaceConfig.ID, SupermaterialRefineryConfig.ID, ordering: ModUtil.BuildingOrdering.Before);
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Chemical_SoilMixerConfig.ID, CompostConfig.ID);
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Chemical_SourWaterStripperConfig.ID, WaterPurifierConfig.ID);
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Chemical_SyngasRefineryConfig.ID, OilRefineryConfig.ID);
@@ -72,11 +78,20 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Chemical_Wooden_BoilerConfig.ID, Chemical_Coal_BoilerConfig.ID);
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Custom_PolymerizerConfig.ID, PolymerizerConfig.ID);
 		}
+
+		private static void AddBuildingsToPlanscreen_ChemicalProcessingBioChemistry()
+		{
+			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Oxygen, Biochemistry_AlgaeGrowingBasinConfig.ID, AlgaeHabitatConfig.ID);
+			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Biochemistry_AnaerobicDigesterConfig.ID, FertilizerMakerConfig.ID);
+			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Power, Biochemistry_BiodieselGeneratorConfig.ID, PetroleumGeneratorConfig.ID);
+			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Biochemistry_BiodieselRefineryConfig.ID, OilRefineryConfig.ID);
+			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Biochemistry_BioplasticPrinterConfig.ID, PolymerizerConfig.ID);
+		}
 		
-
-
 		public static void AddBuildingsToTech()
 		{
+			if (Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
+				AddBuildingsToTech_ChemicalProcessingBioChemistry();
 			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
 				AddBuildingsToTech_ChemicalProcessingIndustrialOverhaul();
 		}
@@ -116,6 +131,15 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Liquids.LiquidBasedRefinementProcess, Chemical_ThermalDesalinatorConfig.ID);
 			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.FossilFuels, Chemical_Wooden_BoilerConfig.ID);
 			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.PlasticManufacturing, Custom_PolymerizerConfig.ID);
-		}		
+		}
+		private static void AddBuildingsToTech_ChemicalProcessingBioChemistry()
+		{
+			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Food.Agriculture, Biochemistry_AlgaeGrowingBasinConfig.ID);
+			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Food.FoodRepurposing, Biochemistry_AnaerobicDigesterConfig.ID);
+			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.FossilFuels, Biochemistry_BiodieselGeneratorConfig.ID);
+			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.FossilFuels, Biochemistry_BiodieselRefineryConfig.ID);
+			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.PlasticManufacturing, Biochemistry_BioplasticPrinterConfig.ID);
+
+		}
 	}
 }

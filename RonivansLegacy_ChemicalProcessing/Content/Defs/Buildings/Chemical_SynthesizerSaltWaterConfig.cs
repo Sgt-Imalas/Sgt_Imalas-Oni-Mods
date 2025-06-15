@@ -77,15 +77,15 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			//-----[ Element Converter Section ]---------------------------------
 			ElementConverter converter = go.AddOrGet<ElementConverter>();
-			converter.consumedElements = new ElementConverter.ConsumedElement[] { new ElementConverter.ConsumedElement(SimHashes.Water.CreateTag(), 4.65f), new ElementConverter.ConsumedElement(SimHashes.Salt.CreateTag(), 0.35f) };
-			converter.outputElements = new ElementConverter.OutputElement[] { new ElementConverter.OutputElement(5f, SimHashes.SaltWater, 300.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0) };
+			converter.consumedElements = [new ElementConverter.ConsumedElement(SimHashes.Water.CreateTag(), 4.65f), new ElementConverter.ConsumedElement(SimHashes.Salt.CreateTag(), 0.35f)];
+			converter.outputElements = [new ElementConverter.OutputElement(5f, SimHashes.SaltWater, 300.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0)];
 			//-------------------------------------------------------------------
 
 			ConduitDispenser dispenser = go.AddOrGet<ConduitDispenser>();
 			dispenser.conduitType = ConduitType.Liquid;
 			dispenser.alwaysDispense = true;
 			dispenser.storage = storage;
-			dispenser.elementFilter = new SimHashes[] { SimHashes.SaltWater };
+			dispenser.elementFilter = [SimHashes.SaltWater];
 		}
 
 		public override void DoPostConfigurePreview(BuildingDef def, GameObject go)

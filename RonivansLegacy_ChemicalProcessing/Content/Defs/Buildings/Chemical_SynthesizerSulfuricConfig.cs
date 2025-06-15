@@ -35,8 +35,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		//--[ Building Definitions ]-------------------------------------------
 		public override BuildingDef CreateBuildingDef()
 		{
-			float[] ingredient_mass = new float[] { 100f, 200f };
-			string[] ingredient_types = new string[] { SimHashes.Ceramic.ToString(), "RefinedMetal" };
+			float[] ingredient_mass = [100f, 200f];
+			string[] ingredient_types = [SimHashes.Ceramic.ToString(), "RefinedMetal"];
 
 			EffectorValues tier = NOISE_POLLUTION.NOISY.TIER5;
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 1, 4, "mixer_sulfuric_kanim", 100, 30f, ingredient_mass, ingredient_types, 800f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.PENALTY.TIER2, tier, 0.2f);
@@ -82,15 +82,15 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			//-----[ Element Converter Section ]---------------------------------
 			ElementConverter converter = go.AddOrGet<ElementConverter>();
-			converter.consumedElements = new ElementConverter.ConsumedElement[] { new ElementConverter.ConsumedElement(SimHashes.Steam.CreateTag(), 0.4f), new ElementConverter.ConsumedElement(SimHashes.Sulfur.CreateTag(), 0.6f) };
-			converter.outputElements = new ElementConverter.OutputElement[] { new ElementConverter.OutputElement(1f, ModElements.SulphuricAcid_Liquid, 345.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0) };
+			converter.consumedElements = [new ElementConverter.ConsumedElement(SimHashes.Steam.CreateTag(), 0.4f), new ElementConverter.ConsumedElement(SimHashes.Sulfur.CreateTag(), 0.6f)];
+			converter.outputElements = [new ElementConverter.OutputElement(1f, ModElements.SulphuricAcid_Liquid, 345.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0)];
 			//-------------------------------------------------------------------
 
 			ConduitDispenser dispenser = go.AddOrGet<ConduitDispenser>();
 			dispenser.conduitType = ConduitType.Liquid;
 			dispenser.alwaysDispense = true;
 			dispenser.storage = storage;
-			dispenser.elementFilter = new SimHashes[] { ModElements.SulphuricAcid_Liquid };
+			dispenser.elementFilter = [ModElements.SulphuricAcid_Liquid];
 		}
 
 		public override void DoPostConfigurePreview(BuildingDef def, GameObject go)

@@ -90,10 +90,10 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			conduitDispenser.storage = standardStorage;
 			conduitDispenser.conduitType = ConduitType.Gas;
 			conduitDispenser.invertElementFilter = false;
-			conduitDispenser.elementFilter = new SimHashes[] { SimHashes.Syngas };
+			conduitDispenser.elementFilter = [SimHashes.Syngas];
 
 			PipedConduitDispenser LiquidDispenser = go.AddComponent<PipedConduitDispenser>();
-			LiquidDispenser.elementFilter = new SimHashes[] { SimHashes.Petroleum };
+			LiquidDispenser.elementFilter = [SimHashes.Petroleum];
 			LiquidDispenser.AssignPort(LiquidOilOutputPort);
 			LiquidDispenser.alwaysDispense = true;
 			LiquidDispenser.SkipSetOperational = true;

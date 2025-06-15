@@ -156,7 +156,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				//-------------------------------------------------------------------------------------------------------------------
 				RecipeBuilder.Create(ID, 30)
 					.Input(SimHashes.Sand, 260)
-					.Input(ModElements.BioPlastic, 100)
+					.Input(ModElements.BioPlastic_Solid, 100)
 					.Input(ModElements.Borax_Solid, 30)
 					.Output(ModElements.FiberGlass_Solid, 300, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Description(THREE_MIXTURE_FUSE, 3, 1)

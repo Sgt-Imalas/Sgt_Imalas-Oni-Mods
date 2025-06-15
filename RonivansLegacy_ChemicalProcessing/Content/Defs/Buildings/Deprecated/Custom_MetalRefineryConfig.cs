@@ -88,10 +88,10 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			liquidCooledRefinery.buildStorage.SetDefaultStoredItemModifiers(RefineryStoredItemModifiers);
 			liquidCooledRefinery.outStorage.SetDefaultStoredItemModifiers(RefineryStoredItemModifiers);
 			liquidCooledRefinery.outputOffset = new Vector3(1f, 0.5f);
-			workable.overrideAnims = new KAnimFile[]
-			{
+			workable.overrideAnims =
+			[
 			Assets.GetAnim("anim_interacts_metalrefinery_kanim")
-			};
+			];
 			go.AddOrGet<RequireOutputs>().ignoreFullPipe = true;
 			ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
 			conduitConsumer.capacityTag = GameTags.Liquid;
