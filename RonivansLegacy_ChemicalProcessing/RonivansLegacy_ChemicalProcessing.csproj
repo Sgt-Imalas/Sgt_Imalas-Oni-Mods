@@ -43,9 +43,4 @@
 	<ItemGroup>
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
 	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Content\Defs\Buildings\ChemicalProcessing_IO\" />
-	  <Folder Include="Content\Defs\Buildings\ChemicalProcessing_BioChem\" />
-	</ItemGroup>
 </Project>
