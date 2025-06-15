@@ -62,6 +62,19 @@ namespace RonivansLegacy_ChemicalProcessing
 							"."
 						});
 				}
+				public class BIOCHEMISTRY_EXPELLERPRESS
+				{
+					public static LocString NAME = FormatAsLink("Expeller Press", nameof(BIOCHEMISTRY_EXPELLERPRESS));
+					public static LocString DESC = "A mechanical device built to extract oil from raw materials. The raw materials are squeezed under high pressure through a caged barrel-like cavity.";
+					public static LocString EFFECT = string.Concat(new string[]
+						{
+							"Extract ",
+							FormatAsLink("Vegetable Oil", "LIQUIDVEGEOIL"),
+							" from raw food ingredients. The amount of oil, and the solid waste in the form of ",
+							FormatAsLink("Compressed Biomass", "SOLIDBIOMASS"),
+							" depends of the ingredient choosen."
+						});
+				}
 				public class BIOCHEMISTRY_BIODIESELREFINERY
 				{
 					public static LocString NAME = FormatAsLink("Biodiesel Refinery", nameof(BIOCHEMISTRY_BIODIESELREFINERY));

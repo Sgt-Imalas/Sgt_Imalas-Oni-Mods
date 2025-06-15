@@ -86,6 +86,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Power, Biochemistry_BiodieselGeneratorConfig.ID, PetroleumGeneratorConfig.ID);
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Biochemistry_BiodieselRefineryConfig.ID, OilRefineryConfig.ID);
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Biochemistry_BioplasticPrinterConfig.ID, PolymerizerConfig.ID);
+			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Biochemistry_ExpellerPressConfig.ID, Biochemistry_AnaerobicDigesterConfig.ID);
 		}
 		
 		public static void AddBuildingsToTech()
@@ -139,6 +140,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.FossilFuels, Biochemistry_BiodieselGeneratorConfig.ID);
 			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.FossilFuels, Biochemistry_BiodieselRefineryConfig.ID);
 			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.PlasticManufacturing, Biochemistry_BioplasticPrinterConfig.ID);
+			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.BruteForceRefinement, Biochemistry_ExpellerPressConfig.ID);
 
 		}
 	}

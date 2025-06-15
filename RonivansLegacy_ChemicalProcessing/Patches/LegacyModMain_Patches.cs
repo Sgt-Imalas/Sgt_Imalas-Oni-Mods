@@ -65,7 +65,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		{
 			public static void Postfix(LegacyModMain __instance)
 			{
-				AdditionalRecipes.RegisterRecipes_AnaerobicDigester();
+				AdditionalRecipes.RegisterDynamicFoodRecipes();
 			}
 		}
     }
