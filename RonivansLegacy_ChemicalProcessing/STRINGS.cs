@@ -411,40 +411,43 @@ namespace RonivansLegacy_ChemicalProcessing
 		{
 			public class SPECIES
 			{
-				public class AMMONIAGEYSER
+				public class GEYSER
 				{
-					public static LocString NAME = FormatAsLink("Ammonia Geyser", "GeyserGeneric_"+nameof(AMMONIAGEYSER));
-					public static LocString DESC = $"A highly pressurized cryogeyser that periodically erupts with cold liquid {FormatAsLink("Ammonia", "LIQUIDAMMONIA")}.";
-				}
-				public class AMMONIUMWATERGEYSER
-				{
-					public static LocString NAME = FormatAsLink("Ammonium Water Geyser", "GeyserGeneric_" + nameof(AMMONIUMWATERGEYSER));
-					public static LocString DESC = $"A highly pressurized cryogeyser that periodically erupts with cold {FormatAsLink("Ammonium Water", "AMMONIUMWATER")}.";
-				}
-				public class HOTMERCURYGASVENT
-				{
-					public static LocString NAME = FormatAsLink("Hot Mercury Gas Vent", "GeyserGeneric_" + nameof(HOTMERCURYGASVENT));
-					public static LocString DESC = $"A highly pressurized geothermal vent that periodically erupts with hot {FormatAsLink("Mercury Gas", "MERCURYGAS")}.";
-				}
-				public class MOLTENSALTGEYSER
-				{
-					public static LocString NAME = FormatAsLink("Molten Salt Geyser", "GeyserGeneric_" + nameof(MOLTENSALTGEYSER));
-					public static LocString DESC = $"A highly pressurized hot fissure that periodically erupts with {FormatAsLink("Molten Salt", "MOLTENSALT")}.";
-				}
-				public class PHOSPHORUSGEYSER
-				{
-					public static LocString NAME = FormatAsLink("Liquid Phosphorus Geyser", "GeyserGeneric_" + nameof(PHOSPHORUSGEYSER));
-					public static LocString DESC = $"A highly pressurized hot fissure that periodically erupts with {FormatAsLink("Liquid Phosphorus", "LIQUIDPHOSPHORUS")}.";
-				}
-				public class RAWGASVENT
-				{
-					public static LocString NAME = FormatAsLink("Hot Raw Natural Gas Vent", "GeyserGeneric_" + nameof(RAWGASVENT));
-					public static LocString DESC = $"A highly pressurized geothermal vent that periodically erupts with hot {FormatAsLink("Raw Natural Gas", "RAWNATURALGAS")}.";
-				}
-				public class SOURWATERGEYSER
-				{
-					public static LocString NAME = FormatAsLink("Sour Water Geyser", "GeyserGeneric_" + nameof(SOURWATERGEYSER));
-					public static LocString DESC = $"A highly pressurized geyser that periodically erupts with cold {FormatAsLink("Sour Water", "SOURWATER")}.";
+					public class AMMONIAGEYSER
+					{
+						public static LocString NAME = FormatAsLink("Ammonia Geyser", "GeyserGeneric_" + nameof(AMMONIAGEYSER));
+						public static LocString DESC = $"A highly pressurized cryogeyser that periodically erupts with cold liquid {FormatAsLink("Ammonia", "LIQUIDAMMONIA")}.";
+					}
+					public class AMMONIUMWATERGEYSER
+					{
+						public static LocString NAME = FormatAsLink("Ammonium Water Geyser", "GeyserGeneric_" + nameof(AMMONIUMWATERGEYSER));
+						public static LocString DESC = $"A highly pressurized cryogeyser that periodically erupts with cold {FormatAsLink("Ammonium Water", "AMMONIUMWATER")}.";
+					}
+					public class HOTMERCURYGASVENT
+					{
+						public static LocString NAME = FormatAsLink("Hot Mercury Gas Vent", "GeyserGeneric_" + nameof(HOTMERCURYGASVENT));
+						public static LocString DESC = $"A highly pressurized geothermal vent that periodically erupts with hot {FormatAsLink("Mercury Gas", "MERCURYGAS")}.";
+					}
+					public class MOLTENSALTGEYSER
+					{
+						public static LocString NAME = FormatAsLink("Molten Salt Geyser", "GeyserGeneric_" + nameof(MOLTENSALTGEYSER));
+						public static LocString DESC = $"A highly pressurized hot fissure that periodically erupts with {FormatAsLink("Molten Salt", "MOLTENSALT")}.";
+					}
+					public class PHOSPHORUSGEYSER
+					{
+						public static LocString NAME = FormatAsLink("Liquid Phosphorus Geyser", "GeyserGeneric_" + nameof(PHOSPHORUSGEYSER));
+						public static LocString DESC = $"A highly pressurized hot fissure that periodically erupts with {FormatAsLink("Liquid Phosphorus", "LIQUIDPHOSPHORUS")}.";
+					}
+					public class RAWGASVENT
+					{
+						public static LocString NAME = FormatAsLink("Hot Raw Natural Gas Vent", "GeyserGeneric_" + nameof(RAWGASVENT));
+						public static LocString DESC = $"A highly pressurized geothermal vent that periodically erupts with hot {FormatAsLink("Raw Natural Gas", "RAWNATURALGAS")}.";
+					}
+					public class SOURWATERGEYSER
+					{
+						public static LocString NAME = FormatAsLink("Sour Water Geyser", "GeyserGeneric_" + nameof(SOURWATERGEYSER));
+						public static LocString DESC = $"A highly pressurized geyser that periodically erupts with cold {FormatAsLink("Sour Water", "SOURWATER")}.";
+					}
 				}
 			}
 		}
