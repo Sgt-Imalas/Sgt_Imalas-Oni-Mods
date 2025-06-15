@@ -2,6 +2,7 @@
 using Klei.CustomSettings;
 using KMod;
 using Mono.Cecil.Cil;
+using PeterHan.PLib.Core;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,40 +15,80 @@ namespace UtilLibs
 {
 	public static class LocalisationUtil
 	{
+		static readonly string TranslationsFixedKey = "LocalisationUtil.TranslationsFixed";
 		static Type stringType;
 		public static void FixTranslationStrings()
 		{
 			if (Localization.GetSelectedLanguageType() == Localization.SelectedLanguageType.None)
 				return;
 
-				FixRoomConstrains();
+			bool alreadyFixed = PRegistry.GetData<bool>(TranslationsFixedKey);
+			if (alreadyFixed)
+				return;
+			PRegistry.PutData(TranslationsFixedKey, true);
+
+			FixRoomConstrains();
+			FixTraitTranslations();
 			FixSettingsTranslations();
+		}
+		static void FixTraitTranslations()
+		{
+			foreach (var trait in Db.Get().traits.resources)
+			{
+				string traitId = trait.Id.ToUpperInvariant();
+				//skip base traits of critters and dupes
+				if (traitId.Contains("BASE"))
+					continue;
+
+				///usually traits are under this structure
+				string nameStringKey = $"STRINGS.DUPLICANTS.TRAITS.{traitId}.NAME";
+				string descStringKey = $"STRINGS.DUPLICANTS.TRAITS.{traitId}.DESC";
+				if (!Strings.TryGet(nameStringKey, out _))
+				{
+					//need traits are under here
+					nameStringKey = $"STRINGS.DUPLICANTS.TRAITS.NEEDS.{traitId}.NAME";
+					descStringKey = $"STRINGS.DUPLICANTS.TRAITS.NEEDS.{traitId}.DESC";
+					if (!Strings.TryGet(nameStringKey, out _))
+					{
+						//usually unusued, but old congenitals are here
+						nameStringKey = $"STRINGS.DUPLICANTS.TRAITS.CONGENITALTRAITS.{traitId}.NAME";
+						//skip the trait if we dont find traits at any of these locations
+						if (!Strings.TryGet(nameStringKey, out _))
+							continue;
+						descStringKey = $"STRINGS.DUPLICANTS.TRAITS.CONGENITALTRAITS.{traitId}.DESC";
+					}
+				}
+				if (TryGetTranslatedString(nameStringKey, out var translatedName))
+					trait.Name = translatedName;
+				if (TryGetTranslatedString(descStringKey, out var translatedDesc))
+					trait.description = translatedDesc;
+			}
 		}
 
 		static void FixSettingsTranslations()
 		{
-			ReapplyTranslatedStrings(CustomGameSettingConfigs.WorldgenSeed, "WORLDGEN_SEED");
-			ReapplyTranslatedStrings(CustomGameSettingConfigs.ClusterLayout, "CLUSTER_CHOICE");
-			ReapplyTranslatedStrings(CustomGameSettingConfigs.SandboxMode);
-			ReapplyTranslatedStrings(CustomGameSettingConfigs.FastWorkersMode);
-			ReapplyTranslatedStrings(CustomGameSettingConfigs.SaveToCloud);
-			ReapplyTranslatedStrings(CustomGameSettingConfigs.CalorieBurn, "CALORIE_BURN");
-			ReapplyTranslatedStrings(CustomGameSettingConfigs.BionicWattage, "BIONICPOWERUSE");
-			ReapplyTranslatedStrings(CustomGameSettingConfigs.ImmuneSystem);
-			ReapplyTranslatedStrings(CustomGameSettingConfigs.Morale);
-			ReapplyTranslatedStrings(CustomGameSettingConfigs.Durability);
-			ReapplyTranslatedStrings(CustomGameSettingConfigs.Radiation);
-			ReapplyTranslatedStrings(CustomGameSettingConfigs.Stress);
-			ReapplyTranslatedStrings(CustomGameSettingConfigs.StressBreaks, "STRESS_BREAKS");
-			ReapplyTranslatedStrings(CustomGameSettingConfigs.CarePackages);
-			ReapplyTranslatedStrings(CustomGameSettingConfigs.Teleporters);
-			ReapplyTranslatedStrings(CustomGameSettingConfigs.MeteorShowers, null, new() { { "ClearSkies", "CLEAR_SKIES" } });
-			ReapplyTranslatedStrings(CustomGameSettingConfigs.DemoliorDifficulty);
+			ReapplyTranslatedSettingStrings(CustomGameSettingConfigs.WorldgenSeed, "WORLDGEN_SEED");
+			ReapplyTranslatedSettingStrings(CustomGameSettingConfigs.ClusterLayout, "CLUSTER_CHOICE");
+			ReapplyTranslatedSettingStrings(CustomGameSettingConfigs.SandboxMode);
+			ReapplyTranslatedSettingStrings(CustomGameSettingConfigs.FastWorkersMode);
+			ReapplyTranslatedSettingStrings(CustomGameSettingConfigs.SaveToCloud);
+			ReapplyTranslatedSettingStrings(CustomGameSettingConfigs.CalorieBurn, "CALORIE_BURN");
+			ReapplyTranslatedSettingStrings(CustomGameSettingConfigs.BionicWattage, "BIONICPOWERUSE");
+			ReapplyTranslatedSettingStrings(CustomGameSettingConfigs.ImmuneSystem);
+			ReapplyTranslatedSettingStrings(CustomGameSettingConfigs.Morale);
+			ReapplyTranslatedSettingStrings(CustomGameSettingConfigs.Durability);
+			ReapplyTranslatedSettingStrings(CustomGameSettingConfigs.Radiation);
+			ReapplyTranslatedSettingStrings(CustomGameSettingConfigs.Stress);
+			ReapplyTranslatedSettingStrings(CustomGameSettingConfigs.StressBreaks, "STRESS_BREAKS");
+			ReapplyTranslatedSettingStrings(CustomGameSettingConfigs.CarePackages);
+			ReapplyTranslatedSettingStrings(CustomGameSettingConfigs.Teleporters);
+			ReapplyTranslatedSettingStrings(CustomGameSettingConfigs.MeteorShowers, null, new() { { "ClearSkies", "CLEAR_SKIES" } });
+			ReapplyTranslatedSettingStrings(CustomGameSettingConfigs.DemoliorDifficulty);
 		}
 
 		const string settingLevelsKey = "LEVELS.";
 		const string generalSettingsRoot = "STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.";
-		static void ReapplyTranslatedStrings(SettingConfig config, string settingsStringId = null, Dictionary<string, string> LevelIdOverrides = null)
+		static void ReapplyTranslatedSettingStrings(SettingConfig config, string settingsStringId = null, Dictionary<string, string> LevelIdOverrides = null)
 		{
 			if (settingsStringId == null)
 				settingsStringId = config.id;
@@ -220,7 +261,7 @@ namespace UtilLibs
 			RoomConstraints.WILDPLANT.name = CRITERIA.WILDPLANT.NAME; RoomConstraints.WILDPLANT.description = CRITERIA.WILDPLANT.DESCRIPTION;
 			RoomConstraints.WILDPLANTS.name = CRITERIA.WILDPLANTS.NAME; RoomConstraints.WILDPLANTS.description = CRITERIA.WILDPLANTS.DESCRIPTION;
 		}
-		
+
 
 		public static void ManualTranslationPatch(Harmony harmony, Type type)
 		{

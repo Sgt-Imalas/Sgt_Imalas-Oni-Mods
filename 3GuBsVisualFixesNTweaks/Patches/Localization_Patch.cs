@@ -15,6 +15,7 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 			public static void Postfix()
 			{
 				UtilLibs.LocalisationUtil.Translate(typeof(STRINGS), true);
+				UtilLibs.LocalisationUtil.FixTranslationStrings();
 			}
 		}
 	}
