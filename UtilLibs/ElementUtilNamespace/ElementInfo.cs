@@ -16,6 +16,7 @@ namespace ElementUtilNamespace
 
 		public SimHashes SimHash { get; private set; }
 
+		public Tag CreateTag() => Tag;
 		public Tag Tag { get; private set; }
 
 		public ElementInfo(string id, string anim, Element.State state, Color color)

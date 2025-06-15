@@ -18,6 +18,81 @@ namespace RonivansLegacy_ChemicalProcessing
 		{
 			public class PREFABS
 			{
+				public class BIOCHEMISTRY_ALGAEGROWINGBASIN
+				{
+					public static LocString NAME = FormatAsLink("Algae Growing Basin", nameof(BIOCHEMISTRY_ALGAEGROWINGBASIN));
+					public static LocString DESC = "A wide, automated biological tank design to grow organic masses of algae.";
+					public static LocString EFFECT = string.Concat(
+						[
+							"Grows ",
+							FormatAsLink("Algae", "ALGAE")," using ",
+							"a constant supply of  ",
+							FormatAsLink("Vegetable Oil", "LIQUIDVEGEOIL"),
+							" that serves as serves as nourishment for the photosynthetic organisms within.",
+							"\nRequires ",FormatAsLink("Light", "LIGHT")," and a strict control of ",
+							FormatAsLink("Temperature", "HEAT"),
+							" as to provide proper environment for the production."
+						]);
+				}
+				public class BIOCHEMISTRY_ANAEROBICDIGESTER
+				{
+					public static LocString NAME = FormatAsLink("Anaerobic Digester", nameof(BIOCHEMISTRY_ANAEROBICDIGESTER));
+					public static LocString DESC = "Anaerobic digestion is processes by which microorganisms break down biodegradable organic materials in the absence of oxygen.";
+					public static LocString EFFECT = string.Concat(
+						[
+							"Breaks down most basic ",
+							FormatAsLink("Food", "FOOD"),
+							" stored within to  ",
+							FormatAsLink("Natural Gas", "METHANE"),
+							"\nThe amount produced depends of the ingredient choosen."
+						]);
+				}
+				public class BIOCHEMISTRY_BIODIESELGENERATOR
+				{
+					public static LocString NAME = FormatAsLink("Biodiesel Generator", nameof(BIOCHEMISTRY_BIODIESELGENERATOR));
+					public static LocString DESC = "An advanced power generator that uses biofuel. Has a built-in scrubber system that allows it to produce no gaseous exhaust.";
+					public static LocString EFFECT = string.Concat(new string[]
+						{
+							"Converts ",
+							FormatAsLink("Organic Fuels", "CHEMICALPROCESSING_BIODIESEL_COMPOSITION"),
+							" into electrical ",
+							FormatAsLink("Power", "POWER"),
+							".\n\nProduces only ",
+							FormatAsLink("Polluted Water", "DIRTYWATER"),
+							"."
+						});
+				}
+				public class BIOCHEMISTRY_BIODIESELREFINERY
+				{
+					public static LocString NAME = FormatAsLink("Biodiesel Refinery", nameof(BIOCHEMISTRY_BIODIESELREFINERY));
+					public static LocString DESC = "A refinery capable of transesterification of the vegetable oil in to a mix of mono-alkyl esters of long chain fatty acids.";
+					public static LocString EFFECT = string.Concat(new string[]
+						{
+							"Transesterify ",
+							FormatAsLink("Biodiesel", "LIQUIDBIODIESEL"),
+							" from ",
+							FormatAsLink("Organic Oils", "CHEMICALPROCESSING_BIOOIL_COMPOSITION"),
+							" and ",
+							FormatAsLink("Ethanol", "ETHANOL"),"."
+						});
+				}
+				public class BIOCHEMISTRY_BIOPLASTICPRINTER
+				{
+					public static LocString NAME = FormatAsLink("Bioplastic Printer", nameof(BIOCHEMISTRY_BIOPLASTICPRINTER));
+					public static LocString DESC = "A device that uses organic oil and bacterial enzymes to print small sheets of lipid derived biopolymers which are compressed in to a solid block.";
+					public static LocString EFFECT = string.Concat(new string[]
+						{
+							"Synthesizes ",
+							FormatAsLink("Bioplastic", "BIOPLASTIC"),
+							" from ",
+							FormatAsLink("Organic Oils", "CHEMICALPROCESSING_BIOOIL_COMPOSITION"),
+							" and ",
+							FormatAsLink("Carbon Dioxide", "CARBONDIOXIDE"),
+							"\nThe enzymes requires a microbial medium in the form of ",
+							FormatAsLink("Mush Bar", "MUSHBAR"),"."
+						});
+				}
+
 				public class CHEMICAL_ADVANCEDKILN
 				{
 					public static LocString NAME = FormatAsLink("Advanced Kiln", nameof(CHEMICAL_ADVANCEDKILN));
@@ -324,13 +399,13 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = FormatAsLink("Nitric Acid Synthesizer", nameof(CHEMICAL_SYNTHESIZERNITRIC));
 					public static LocString DESC = "A chemical synthesizer device capable of producing Nitric Acid.";
-					public static LocString EFFECT = string.Concat(new string[]
-						{
+					public static LocString EFFECT = string.Concat(
+						[
 							"Produces industrial grade ",
 							FormatAsLink("Nitric Acid", "LIQUIDNITRIC"), " using provided " +
 							FormatAsLink("Sulfuric Acid", "LIQUIDSULFURIC")," and " +
 							FormatAsLink("Ammonia", "AMMONIAGAS"),"."
-						});
+						]);
 				}
 				public class CHEMICAL_SYNTHESIZERSALTWATER
 				{
@@ -345,26 +420,26 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = FormatAsLink("Sulfuric Acid Synthesizer", nameof(CHEMICAL_SYNTHESIZERSULFURIC));
 					public static LocString DESC = "A chemical synthesizer device capable of producing Sulfuric Acid.";
-					public static LocString EFFECT = string.Concat(new string[]
-						{
+					public static LocString EFFECT = string.Concat(
+						[
 							"Produces industrial grade ",
 							FormatAsLink("Sulfuric Acid", "LIQUIDSULFURIC"), " using provided " +
 							FormatAsLink("Steam", "STEAM")," and " +
 							FormatAsLink("Sulfur", "SULFUR"), "."
-						});
+						]);
 				}
 				public class CHEMICAL_THERMALDESALINATOR
 				{
 					public static LocString NAME = FormatAsLink("Thermal Desalinator", nameof(CHEMICAL_THERMALDESALINATOR));
 					public static LocString DESC = "A basic desalinator that uses Vapor-compression evaporation to archive the separation of clean, usable water from the solution it is currently mixed.";
-					public static LocString EFFECT = string.Concat(new string[]
-						{
+					public static LocString EFFECT = string.Concat(
+						[
 							"Uses ",
 							FormatAsLink("Steam", "STEAM"), " as buffer for the Desalination process of either " +
 							FormatAsLink("Salt Water", "SALTWATER")," or Ammonium Water, releasing fresh " +
 							FormatAsLink("Water", "WATER"), " and concentrated ",FormatAsLink("Brine", "BRINE"),
 							" in return."
-						});
+						]);
 				}
 				public class CHEMICAL_WOODEN_BOILER
 				{
@@ -383,8 +458,8 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = FormatAsLink("Ethanol Polymer Press", nameof(CUSTOM_POLYMERIZER));
 					public static LocString DESC = "A custom polymerization press capable of producing polymer from Ethanol.";
-					public static LocString EFFECT = string.Concat(new string[]
-						{
+					public static LocString EFFECT = string.Concat(
+						[
 							"Special modifications allows the polymerization of ",
 							FormatAsLink("Ethanol", "ETHANOL"),
 							" into raw ",
@@ -392,18 +467,18 @@ namespace RonivansLegacy_ChemicalProcessing
 							"with the addition of ",
 							FormatAsLink("Chlorine Gas", "CHLORINE"),"."
 
-						});
+						]);
 				}
 				public class CUSTOM_METALREFINERY
 				{
 					public static LocString NAME = FormatAsLink("[DEPRECATED] Custom Metal Refinery", nameof(CUSTOM_METALREFINERY));
 					public static LocString DESC = global::STRINGS.BUILDINGS.PREFABS.METALREFINERY.DESC;
-					public static LocString EFFECT = string.Concat(new string[]
-						{
+					public static LocString EFFECT = string.Concat(
+						[
 							"THIS BUILDING HAS BEEN DEPRECATED AND CANNOT BE BUILT. INSTEAD, USE THE REGULAR " + FormatAsLink("METAL REFINERY", "METALREFINERY"),"\n\n",
 							global::STRINGS.BUILDINGS.PREFABS.METALREFINERY.EFFECT
 
-						});
+						]);
 				}
 			}
 		}
@@ -782,6 +857,7 @@ namespace RonivansLegacy_ChemicalProcessing
 
 
 				public static LocString SUPERMATERIALREFINERY_3_1 = "Molecularly reassemble a mixture of {0} and {1} with addition of {2} to produce {3}.";
+				public static LocString ANAEROBIC_DIGESTER_1_2 = "Break down {0} producing {1} and {2}.";
 
 				public class RANDOMRECIPERESULT
 				{
