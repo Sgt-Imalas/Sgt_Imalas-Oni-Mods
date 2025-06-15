@@ -9,6 +9,7 @@ namespace LogicSatellites.Entities
 		public const string ID = "LS_ClusterSatellitePart";
 		public const float MASS = 30f;
 		public static ComplexRecipe recipe;
+		public static Tag ComponentTag = TagManager.Create(ID);
 		public string[] GetDlcIds() => null;
 		public GameObject CreatePrefab()
 		{

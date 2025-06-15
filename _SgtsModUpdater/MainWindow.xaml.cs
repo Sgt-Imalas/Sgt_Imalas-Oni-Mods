@@ -36,11 +36,33 @@ public partial class MainWindow : Window
 		Console.SetOut(ConsoleHandler);
 
 		ModManager.Instance.FetchRepos();
+		ModManager.Instance.UpdateProgressbar = new Progress<float>(value => UpdateProgressBar(value));
+		ModManager.Instance.GetDownloadSize = SetProgressBarMax;
 
 		CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(ModListView.ItemsSource);
 		view.Filter = UserFilter;
 
 	}
+
+
+	string _downloadProgress = "-";
+	public string DownloadProgressString { get { return _downloadProgress; } set { _downloadProgress = value; } }
+	//public float DownloadProgress
+
+
+	long MaxBytes = 0;
+	void UpdateProgressBar(float progress)
+	{
+		string max = Paths.GetReadableFileSize(MaxBytes);
+		string current = Paths.GetReadableFileSize(progress * MaxBytes);
+		DownloadProgressText.Text = current + " / " + max;
+		DownloadProgressbar.Value = progress;
+	}
+	void SetProgressBarMax(long byteCount)
+	{
+		MaxBytes = byteCount;
+	}
+
 	private bool UserFilter(object item)
 	{
 		if (String.IsNullOrEmpty(txtFilter.Text))
@@ -56,11 +78,15 @@ public partial class MainWindow : Window
 	}
 
 
-	private void Mod_Action_Click(object sender, RoutedEventArgs e)
+	private async void Mod_Action_Click(object sender, RoutedEventArgs e)
 	{
 		var rowItem = (sender as Button).DataContext as VersionInfoWeb;
-
-		rowItem.TryInstallUpdate();
+		await rowItem.TryInstallUpdate();
+		//Thread thread = new Thread(() =>
+		//{
+		//	rowItem.TryInstallUpdate();
+		//});
+		//thread.Start();
 	}
 
 	private void txtFilter_TextChanged(object sender, TextChangedEventArgs e)

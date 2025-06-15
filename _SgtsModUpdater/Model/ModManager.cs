@@ -1,4 +1,5 @@
-﻿using _SgtsModUpdater.Model.LocalMods;
+﻿using _SgtsModUpdater.Extensions;
+using _SgtsModUpdater.Model.LocalMods;
 using _SgtsModUpdater.Model.Update;
 using System;
 using System.Collections.Generic;
@@ -87,7 +88,7 @@ namespace _SgtsModUpdater.Model
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine("Failed to fetch repo info of " + repo.Name+" from url "+repo.ReleaseInfo);
+				Console.WriteLine("Failed to fetch repo info of " + repo.Name + " from url " + repo.ReleaseInfo);
 			}
 			return false;
 		}
@@ -193,6 +194,9 @@ namespace _SgtsModUpdater.Model
 			targetMod.SetInstalledMod(RefreshLocalModInfo(targetfolder));
 		}
 
+		public Progress<float> UpdateProgressbar = null;
+		public System.Action<long> GetDownloadSize = null;
+
 		internal async Task TryInstallUpdate(VersionInfoWeb targetMod)
 		{
 			if (!targetMod.IsNewVersionAvailable())
@@ -209,18 +213,20 @@ namespace _SgtsModUpdater.Model
 			{
 				using (HttpClient client = new HttpClient())
 				{
-					using (var s = await client.GetStreamAsync(targetMod.FetchUrl))
-					{
-						using (var fs = new FileStream(targetMod.zipFileName, FileMode.CreateNew))
-						{
-							await s.CopyToAsync(fs);
-						}
-					}
+					client.Timeout = TimeSpan.FromMinutes(5);
+
+					using (var fs = new FileStream(targetMod.zipFileName, FileMode.CreateNew))
+						await client.DownloadAsync(targetMod.FetchUrl, fs, UpdateProgressbar,default, GetDownloadSize);
+
 				}
 			}
 			catch (Exception e)
 			{
 				Console.WriteLine("Mod download failed! Exception: " + e.Message);
+				if (File.Exists(targetMod.zipFileName))
+					File.Delete(targetMod.zipFileName);
+				
+				targetMod.Downloading = false;
 				return;
 			}
 			if (!File.Exists(targetMod.zipFileName))
@@ -230,7 +236,7 @@ namespace _SgtsModUpdater.Model
 				return;
 			}
 
-			Console.WriteLine("Mod zip download successful. File size: " + GetReadableFileSize(new FileInfo(targetMod.zipFileName).Length));
+			Console.WriteLine("Mod zip download successful. File size: " + Paths.GetReadableFileSize(new FileInfo(targetMod.zipFileName).Length));
 
 			string targetfolder = targetMod.LocalMod != null ? targetMod.LocalMod.FolderPath : Path.Combine(Paths.LocalModsFolder, targetMod.staticID);
 
@@ -278,17 +284,6 @@ namespace _SgtsModUpdater.Model
 
 			}
 			return false;
-		}
-		public static string GetReadableFileSize(double len)
-		{
-			string[] sizes = { "B", "KB", "MB", "GB", "TB" };
-			int order = 0;
-			while (len >= 1024 && order < sizes.Length - 1)
-			{
-				order++;
-				len = len / 1024;
-			}
-			return String.Format("{0:0.##} {1}", len, sizes[order]);
 		}
 
 		private static void CopyFilesRecursively(string sourcePath, string targetPath)

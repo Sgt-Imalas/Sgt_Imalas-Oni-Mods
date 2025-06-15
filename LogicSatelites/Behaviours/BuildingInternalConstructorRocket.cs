@@ -49,11 +49,11 @@ namespace LogicSatellites.Behaviours
 		public class Def : StateMachine.BaseDef
 		{
 			public DefComponent<Storage> storage;
-			public float constructionUnits;
+			public float constructionMass;
 			public List<Tag> outputIDs;
 			public bool spawnIntoStorage;
 			public string constructionSymbol;
-			public string ConstructionMatID;
+			public Tag ConstructionMaterial;
 		}
 
 		public class OperationalStates :
@@ -72,13 +72,13 @@ namespace LogicSatellites.Behaviours
 			private Storage storage;
 			[Serialize]
 			private float constructionElapsed;
-			private string constructionMaterial;
+			private Tag constructionMaterial;
 			private ProgressBar progressBar;
 
 			public Instance(IStateMachineTarget master, BuildingInternalConstructorRocket.Def def)
 			  : base(master, def)
 			{
-				this.constructionMaterial = def.ConstructionMatID;
+				this.constructionMaterial = def.ConstructionMaterial;
 				this.storage = def.storage.Get((StateMachine.Instance)this);
 				this.GetComponent<RocketModule>().AddModuleCondition(ProcessCondition.ProcessConditionType.RocketPrep, (ProcessCondition)new SatelliteConstructionCompleteCondition(this));
 			}
@@ -114,57 +114,22 @@ namespace LogicSatellites.Behaviours
 					}
 				}
 
-				DropConstructionUnits((Tag)def.ConstructionMatID, mass);
+				DropConstructionUnits((Tag)def.ConstructionMaterial, mass);
 				base.OnCleanUp();
 			}
 
 			public FetchList2 CreateFetchList()
 			{
-				FetchList2 fetchList = new FetchList2(this.storage, Db.Get().ChoreTypes.Fetch);
-				fetchList.Add(constructionMaterial, amount: this.def.constructionUnits);
+				FetchList2 fetchList = new FetchList2(this.storage, Db.Get().ChoreTypes.BuildFetch);
+				fetchList.Add(constructionMaterial, amount: this.def.constructionMass);
 				return fetchList;
 			}
 
-			public PrimaryElement GetMassForConstruction() => FindFirstWithUnitCount(this.storage, def.ConstructionMatID, this.def.constructionUnits);
+			public PrimaryElement GetMassForConstruction() => storage.FindFirstWithMass(def.ConstructionMaterial, this.def.constructionMass);
 
 
-			public PrimaryElement FindFirstWithUnitCount(Storage storage, Tag tag, float units = 0.0f)
-			{
-				PrimaryElement firstWithUnits = (PrimaryElement)null;
-				for (int index = 0; index < storage.items.Count; ++index)
-				{
-					GameObject go = storage.items[index];
-					if (!((UnityEngine.Object)go == (UnityEngine.Object)null) && go.HasTag(tag))
-					{
-						PrimaryElement component = go.GetComponent<PrimaryElement>();
-						if ((double)component.Units > 0.0 && (double)component.Units >= (double)units)
-						{
-							firstWithUnits = component;
-							break;
-						}
-					}
-				}
-				return firstWithUnits;
-			}
-
-			public bool HasOutputInStorage() => (bool)(UnityEngine.Object)this.storage.FindFirst(this.def.outputIDs[0]);
-			//public bool HasOutputInStorage()
-			//{
-			//    if ((bool)(UnityEngine.Object)this.storage.FindFirst(this.def.outputIDs[0]))
-			//    {
-			//        return true;
-			//    }
-			//    var carrierModule = gameObject.GetSMI<ISatelliteCarrier>();
-
-			//    if (carrierModule != null) { 
-			//        Debug.Log("HasSatellite? " + carrierModule.HoldingSatellite()); 
-			//        return carrierModule.HoldingSatellite(); 
-			//    }
-
-			//    Debug.Log("HasSatellite? NOPE,not found");
-			//    return false;
-
-			//}
+			public bool HasOutputInStorage() => (bool)this.storage.FindFirst(this.def.outputIDs[0]);
+			
 			public bool IsRequestingConstruction()
 			{
 				this.sm.constructionRequested.Get(this);
@@ -176,9 +141,11 @@ namespace LogicSatellites.Behaviours
 				if (!force)
 				{
 					PrimaryElement massForConstruction = this.GetMassForConstruction();
-					float mass = massForConstruction.Units;
-					double num1 = (double)massForConstruction.Temperature * (double)massForConstruction.Mass;
-					massForConstruction.Units -= this.def.constructionUnits;
+					///klei broke this so it spawns weird ghost entities.. delete it instead.
+					//massForConstruction.TryGetComponent<Pickupable>(out var pickupable);
+					//pickupable.Take(def.constructionMass);
+					UnityEngine.Object.Destroy(massForConstruction.gameObject);
+
 				}
 				foreach (var outputId in this.def.outputIDs)
 				{

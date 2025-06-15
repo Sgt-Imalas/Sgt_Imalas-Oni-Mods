@@ -51,8 +51,8 @@ namespace LogicSatellites.Buildings
 			go.AddOrGet<SatelliteCarrierModule>();
 
 			BuildingInternalConstructorRocket.Def def1 = go.AddOrGetDef<BuildingInternalConstructorRocket.Def>();
-			def1.constructionUnits = 20f;
-			def1.ConstructionMatID = SatelliteComponentConfig.ID;
+			def1.constructionMass = 600f;
+			def1.ConstructionMaterial = SatelliteComponentConfig.ComponentTag;
 			def1.outputIDs = new List<Tag>()
 			{
 				SatelliteKitConfig.ID.ToTag()
