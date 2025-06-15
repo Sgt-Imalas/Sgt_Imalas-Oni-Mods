@@ -111,7 +111,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			BioMass_Solid = ElementInfo.Solid("SolidBiomass", "biomass_kanim", BIOMASS_COLOR),
 
-			BioPlastic = ElementInfo.Solid("Bioplastic", "bioplastic_kanim", BIOPLASTIC_COLOR),
+			BioPlastic_Solid = ElementInfo.Solid("Bioplastic", "bioplastic_kanim", BIOPLASTIC_COLOR),
 
 			VegetableOil_Solid = ElementInfo.Solid("SolidVegeOil", "solid_veg_oil_kanim", VEGEOIL_COLOR),
 			VegetableOil_Liquid = ElementInfo.Liquid("LiquidVegeOil", VEGEOIL_COLOR),
@@ -179,7 +179,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 				BioMass_Solid.CreateSubstanceFromElementTinted(SimHashes.Algae),
 
-				BioPlastic.CreateSubstanceFromElementTinted(SimHashes.Polypropylene),
+				BioPlastic_Solid.CreateSubstanceFromElementTinted(SimHashes.Polypropylene),
 
 				VegetableOil_Solid.CreateSubstanceFromElementTinted(SimHashes.Isoresin),
 				VegetableOil_Liquid.CreateSubstance(),

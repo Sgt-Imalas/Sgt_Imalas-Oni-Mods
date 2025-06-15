@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using Klei.AI;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,5 +55,18 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				plasteel.attributeModifiers.Add(plasteelTempModifier);
 			}
         }
+
+
+		/// <summary>
+		/// patch here to have the food entities initialized
+		/// </summary>
+		[HarmonyPatch(typeof(LegacyModMain), nameof(LegacyModMain.LoadEntities))]
+		public class LegacyModMain_LoadEntities_Patch
+		{
+			public static void Postfix(LegacyModMain __instance)
+			{
+				AdditionalRecipes.RegisterRecipes_AnaerobicDigester();
+			}
+		}
     }
 }
