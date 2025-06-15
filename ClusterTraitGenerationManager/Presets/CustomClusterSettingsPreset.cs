@@ -46,6 +46,7 @@ namespace ClusterTraitGenerationManager
 		public Dictionary<int, List<string>> VanillaStarmapLocations;
 		public Dictionary<string, string> StoryTraits;
 		public Dictionary<string, string> MixingSettings;
+		public Dictionary<string, string> DifficultySettings;
 		public List<string> BlacklistedTraits;
 
 		void PopulatePresetData(CustomClusterData data)
@@ -82,156 +83,24 @@ namespace ClusterTraitGenerationManager
 		private void LoadCurrentGameSettings()
 		{
 			BlacklistedTraits = CGSMClusterManager.BlacklistedTraits.ToList();
+
+
 			var instance = CustomGameSettings.Instance;
 			bool isNoSweat = instance.customGameMode == CustomGameMode.Nosweat;
+			DifficultySettings = new();
+			foreach (var qualitySetting in instance.QualitySettings)
 			{
-				///ImmuneSystem
-				if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.ImmuneSystem.id))
-				{
-					ImmuneSystem = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.ImmuneSystem).id;
-				}
-				else
-				{
-					ImmuneSystem = isNoSweat ? CustomGameSettingConfigs.ImmuneSystem.GetNoSweatDefaultLevelId() : CustomGameSettingConfigs.ImmuneSystem.GetDefaultLevelId();
-				}
+				string id = qualitySetting.Key;
+				if (id == CustomGameSettingConfigs.ClusterLayout.id)
+					continue;
 
-				///CalorieBurn
-				if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.CalorieBurn.id))
-				{
-					CalorieBurn = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.CalorieBurn).id;
-				}
-				else
-				{
-					CalorieBurn = isNoSweat ? CustomGameSettingConfigs.CalorieBurn.GetNoSweatDefaultLevelId() : CustomGameSettingConfigs.CalorieBurn.GetDefaultLevelId();
-				}
+				if (!DlcManager.IsAllContentSubscribed(qualitySetting.Value.required_content))
+					continue;
+				SettingConfig setting = qualitySetting.Value;
 
-				///Morale
-				if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.Morale.id))
-				{
-					Morale = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.Morale).id;
-				}
-				else
-				{
-					Morale = isNoSweat ? CustomGameSettingConfigs.Morale.GetNoSweatDefaultLevelId() : CustomGameSettingConfigs.Morale.GetDefaultLevelId();
-				}
-
-				///Durability (suits)
-				if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.Durability.id))
-				{
-					Durability = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.Durability).id;
-				}
-				else
-				{
-					Durability = isNoSweat ? CustomGameSettingConfigs.Durability.GetNoSweatDefaultLevelId() : CustomGameSettingConfigs.Durability.GetDefaultLevelId();
-				}
-
-				///MeteorShowers
-				if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.MeteorShowers.id))
-				{
-					MeteorShowers = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.MeteorShowers).id;
-				}
-				else
-				{
-					MeteorShowers = isNoSweat ? CustomGameSettingConfigs.MeteorShowers.GetNoSweatDefaultLevelId() : CustomGameSettingConfigs.MeteorShowers.GetDefaultLevelId();
-				}
-
-				///Radiation
-				if (DlcManager.IsExpansion1Active())
-				{
-					if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.Radiation.id))
-					{
-						Radiation = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.Radiation).id;
-					}
-					else
-					{
-						Radiation = isNoSweat ? CustomGameSettingConfigs.Radiation.GetNoSweatDefaultLevelId() : CustomGameSettingConfigs.Radiation.GetDefaultLevelId();
-					}
-				}
-
-				///Stress
-				if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.Stress.id))
-				{
-					Stress = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.Stress).id;
-				}
-				else
-				{
-					Stress = isNoSweat ? CustomGameSettingConfigs.Stress.GetNoSweatDefaultLevelId() : CustomGameSettingConfigs.Stress.GetDefaultLevelId();
-				}
-
-				///StressBreaks
-				if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.StressBreaks.id))
-				{
-					StressBreaks = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.StressBreaks).id;
-				}
-				else
-				{
-					StressBreaks = isNoSweat ? CustomGameSettingConfigs.StressBreaks.GetNoSweatDefaultLevelId() : CustomGameSettingConfigs.StressBreaks.GetDefaultLevelId();
-				}
-
-				///CarePackages
-				if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.CarePackages.id))
-				{
-					CarePackages = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.CarePackages).id;
-				}
-				else
-				{
-					CarePackages = isNoSweat
-						? CustomGameSettingConfigs.CarePackages.GetNoSweatDefaultLevelId()
-						: CustomGameSettingConfigs.CarePackages.GetDefaultLevelId();
-				}
-
-				///Fast Workers
-				if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.FastWorkersMode.id))
-				{
-					FastWorkersMode = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.FastWorkersMode).id;
-				}
-				else
-				{
-					FastWorkersMode = isNoSweat
-						? CustomGameSettingConfigs.FastWorkersMode.GetNoSweatDefaultLevelId()
-						: CustomGameSettingConfigs.FastWorkersMode.GetDefaultLevelId();
-				}
-
-				///Save to Cloud
-				if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.SaveToCloud.id))
-				{
-					SaveToCloud = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.SaveToCloud).id;
-				}
-				else
-				{
-					SaveToCloud = isNoSweat
-						? CustomGameSettingConfigs.SaveToCloud.GetNoSweatDefaultLevelId()
-						: CustomGameSettingConfigs.SaveToCloud.GetDefaultLevelId();
-				}
-
-				///Teleporters
-				if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.Teleporters.id))
-				{
-					Teleporters = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.Teleporters).id;
-				}
-				else
-				{
-					Teleporters = isNoSweat
-						? CustomGameSettingConfigs.Teleporters.GetNoSweatDefaultLevelId()
-						: CustomGameSettingConfigs.Teleporters.GetDefaultLevelId();
-				}
-
-				///Sandbox
-				if (instance.QualitySettings.ContainsKey(CustomGameSettingConfigs.SandboxMode.id))
-				{
-					SandboxMode = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.SandboxMode).id;
-				}
-				else
-				{
-					SandboxMode = isNoSweat
-						? CustomGameSettingConfigs.SandboxMode.GetNoSweatDefaultLevelId()
-						: CustomGameSettingConfigs.SandboxMode.GetDefaultLevelId();
-				}
-
+				string settingValue = instance.GetCurrentQualitySetting(setting).id;
+				DifficultySettings[setting.id] = settingValue;
 			}
-
-			Seed = instance.GetCurrentQualitySetting(CustomGameSettingConfigs.WorldgenSeed).id;
-
 			StoryTraits = new Dictionary<string, string>();
 			foreach (var story in instance.StorySettings)
 			{
@@ -306,7 +175,7 @@ namespace ClusterTraitGenerationManager
 				BlacklistedTraits = new List<string>();
 
 			CGSMClusterManager.BlacklistedTraits = new(this.BlacklistedTraits);
-
+			#region legacySettings
 			///ImmuneSystem
 			if (ImmuneSystem != null && ImmuneSystem.Length > 0)
 				SetCustomGameSettings(CustomGameSettingConfigs.ImmuneSystem, ImmuneSystem);
@@ -364,6 +233,23 @@ namespace ClusterTraitGenerationManager
 			///Seed
 			if (Seed != null && Seed.Length > 0)
 				SetCustomGameSettings(CustomGameSettingConfigs.WorldgenSeed, Seed);
+			#endregion
+
+			foreach (var qualitySetting in instance.QualitySettings)
+			{
+				string id = qualitySetting.Key;
+				if (id == CustomGameSettingConfigs.ClusterLayout.id)
+					continue;
+
+				if (!DlcManager.IsAllContentSubscribed(qualitySetting.Value.required_content))
+					continue;
+
+				if(DifficultySettings != null && DifficultySettings.TryGetValue(id, out var difficultyLevel))
+				{
+					SetCustomGameSettings(qualitySetting.Value, difficultyLevel);
+				}
+			}
+
 
 
 			if (StoryTraits != null && StoryTraits.Count > 0)
@@ -643,7 +529,7 @@ namespace ClusterTraitGenerationManager
 				if (WarpPlanetItem != null)
 				{
 					SgtLogger.l("setting warp planet from preset");
-					cluster.WarpPlanet = ApplyDataToStarmapItem(WarpPlanet, WarpPlanetItem); 
+					cluster.WarpPlanet = ApplyDataToStarmapItem(WarpPlanet, WarpPlanetItem);
 				}
 				else
 				{
@@ -737,7 +623,7 @@ namespace ClusterTraitGenerationManager
 		}
 		StarmapItem ApplyDataToStarmapItem(SerializableStarmapItem item, StarmapItem reciverToLookup)
 		{
-			SgtLogger.l("applying preset data from serialized item: "+item.itemID);
+			SgtLogger.l("applying preset data from serialized item: " + item.itemID);
 
 			item.minRing = Math.Max(0, item.minRing);
 			item.maxRing = Math.Max(0, item.maxRing);
