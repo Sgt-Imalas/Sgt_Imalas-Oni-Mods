@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Klei.CustomSettings;
 using KMod;
 using System;
 using System.IO;
@@ -10,13 +11,90 @@ namespace UtilLibs
 	public static class LocalisationUtil
 	{
 		static Type stringType;
+		public static void FixTranslationStrings()
+		{
+			if (Localization.GetSelectedLanguageType() == Localization.SelectedLanguageType.None)
+				return;
+
+			FixRoomConstrains();
+			FixSettingsTranslations();
+		}
+
+		static void FixSettingsTranslations()
+		{
+			ReapplyTranslatedStrings(CustomGameSettingConfigs.WorldgenSeed, "WORLDGEN_SEED");
+			ReapplyTranslatedStrings(CustomGameSettingConfigs.ClusterLayout, "CLUSTER_CHOICE");
+			ReapplyTranslatedStrings(CustomGameSettingConfigs.SandboxMode);
+			ReapplyTranslatedStrings(CustomGameSettingConfigs.FastWorkersMode);
+			ReapplyTranslatedStrings(CustomGameSettingConfigs.SaveToCloud);
+			ReapplyTranslatedStrings(CustomGameSettingConfigs.CalorieBurn, "CALORIE_BURN");
+			ReapplyTranslatedStrings(CustomGameSettingConfigs.BionicWattage, "BIONICPOWERUSE");
+			ReapplyTranslatedStrings(CustomGameSettingConfigs.ImmuneSystem);
+			ReapplyTranslatedStrings(CustomGameSettingConfigs.Morale);
+			ReapplyTranslatedStrings(CustomGameSettingConfigs.Durability);
+			ReapplyTranslatedStrings(CustomGameSettingConfigs.Radiation);
+			ReapplyTranslatedStrings(CustomGameSettingConfigs.Stress);
+			ReapplyTranslatedStrings(CustomGameSettingConfigs.StressBreaks, "STRESS_BREAKS");
+			ReapplyTranslatedStrings(CustomGameSettingConfigs.CarePackages);
+			ReapplyTranslatedStrings(CustomGameSettingConfigs.Teleporters);
+			ReapplyTranslatedStrings(CustomGameSettingConfigs.MeteorShowers, null, new() { { "ClearSkies", "CLEAR_SKIES" } });
+			ReapplyTranslatedStrings(CustomGameSettingConfigs.DemoliorDifficulty);
+		}
+
+		const string settingLevelsKey = "LEVELS.";
+		const string generalSettingsRoot = "STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.";
+		static void ReapplyTranslatedStrings(SettingConfig config, string settingsStringId = null, Dictionary<string, string> LevelIdOverrides = null)
+		{
+			if (settingsStringId == null)
+				settingsStringId = config.id;
+
+			settingsStringId = settingsStringId.ToUpperInvariant() + ".";
+
+			if (TryGetTranslatedString(generalSettingsRoot + settingsStringId + "NAME", out var configLabel))
+				config.label = configLabel;
+			if (TryGetTranslatedString(generalSettingsRoot + settingsStringId + "TOOLTIP", out var configTooltip))
+				config.tooltip = configTooltip;
+			if (config is ToggleSettingConfig toggleSetting)
+			{
+				List<SettingLevel> levels = [toggleSetting.off_level, toggleSetting.on_level];
+
+				foreach (var level in levels)
+				{
+					string labelId = level.id.ToUpperInvariant() + ".";
+					if (LevelIdOverrides != null && LevelIdOverrides.TryGetValue(level.id, out var idOverride))
+					{
+						labelId = idOverride.ToUpperInvariant() + ".";
+					}
+					if (TryGetTranslatedString(generalSettingsRoot + settingsStringId + settingLevelsKey + labelId + "NAME", out var levelLabel))
+						level.label = levelLabel;
+					if (TryGetTranslatedString(generalSettingsRoot + settingsStringId + settingLevelsKey + labelId + "TOOLTIP", out var levelTooltip))
+						level.tooltip = levelTooltip;
+				}
+			}
+
+			else if (config is ListSettingConfig listSettingConfig && listSettingConfig.levels != null && listSettingConfig.levels.Any())
+			{
+				foreach (var level in listSettingConfig.levels)
+				{
+					string labelId = level.id.ToUpperInvariant() + ".";
+					if (LevelIdOverrides != null && LevelIdOverrides.TryGetValue(level.id, out var idOverride))
+					{
+						labelId = idOverride.ToUpperInvariant() + ".";
+					}
+					if (TryGetTranslatedString(generalSettingsRoot + settingsStringId + settingLevelsKey + labelId + "NAME", out var levelLabel))
+						level.label = levelLabel;
+					if (TryGetTranslatedString(generalSettingsRoot + settingsStringId + settingLevelsKey + labelId + "TOOLTIP", out var levelTooltip))
+						level.tooltip = levelTooltip;
+				}
+			}
+		}
 
 		/// <summary>
 		/// Rebuild those strings bc they didn't translate from loading the class to early..
 		/// </summary>
 		public static void FixRoomConstrains()
 		{
-			SgtLogger.l("fixing room constraint strings");
+			//SgtLogger.l("fixing room constraint strings");
 			RoomConstraints.CEILING_HEIGHT_4.name = string.Format(CRITERIA.CEILING_HEIGHT.NAME, "4");
 			RoomConstraints.CEILING_HEIGHT_4.description = string.Format(CRITERIA.CEILING_HEIGHT.DESCRIPTION, "4");
 			RoomConstraints.CEILING_HEIGHT_6.name = string.Format(CRITERIA.CEILING_HEIGHT.NAME, "6");
