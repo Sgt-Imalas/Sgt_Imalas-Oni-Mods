@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using KSerialization;
+using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
@@ -146,7 +147,25 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Description(SYNGASREFINERY_1_1_2, 1, 3)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 				.Build();
+
+			if (Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
+			{
+				//---- [ BIOMASS TO SYNGAS ] -------------------------------------------------------------------------------------------
+				// Ingredient: Compressed Biomass - 100kg
+				// Result: Syngas - 25kg
+				//         Polluted Dirt - 75kg
+				//----------------------------------------------------------------------------------------------------------------------
+				RecipeBuilder.Create(ID, 30)
+					.Input(ModElements.BioMass_Solid, 100)
+					.Output(SimHashes.Syngas,25)
+					.Output(SimHashes.ToxicSand,75)
+					.Description(SYNGASREFINERY_1_1_1,1,2)
+					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
+					.Build();
+			}
 		}
+
+
 
 		private void AttachPort(GameObject go)
 		{

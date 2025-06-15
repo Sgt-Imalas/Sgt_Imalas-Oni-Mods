@@ -1,5 +1,6 @@
 ﻿using Dupes_Industrial_Overhaul.Chemical_Processing.Chemicals;
 using HarmonyLib;
+using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using System;
 using System.Collections.Generic;
@@ -144,6 +145,24 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 					.Description(string.Format(THREE_MIXTURE_COMPRESS_COOKING,SimHashes.Polypropylene.CreateTag().ProperName(),SimHashes.Fullerene.CreateTag().ProperName(),RAYONFIBER.NAME_PLURAL,CarbonFiber_Solid.Tag.ProperName()))
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
 					.Build();
+
+			if (Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
+			{
+				//---- [ Fiberglass ] --------------------------------------------------------------------------------------------
+				// Ingredient: Sand         - 270kg
+				//             Bioplastic   - 100kg
+				//             Borax        - 30kg
+				// Result: Fiberglass       - 300g
+				//-------------------------------------------------------------------------------------------------------------------
+				RecipeBuilder.Create(ID, 30)
+					.Input(SimHashes.Sand, 260)
+					.Input(ModElements.BioPlastic, 100)
+					.Input(ModElements.Borax_Solid, 30)
+					.Output(ModElements.FiberGlass_Solid, 300, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+					.Description(THREE_MIXTURE_FUSE, 3, 1)
+					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+					.Build();
+			}
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)

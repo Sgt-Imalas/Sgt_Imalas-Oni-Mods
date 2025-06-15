@@ -42,7 +42,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		public static readonly Color32 ZINC_COLOR = new Color32(201, 201, 195, 255);
 
 
-		/// Chemical Processing Industrial overhaul
+		/// Chemical Processing BioChemistry
+		public static readonly Color32 BIODIESEL_COLOR = new Color32(149, 245, 66, 255);
+		public static readonly Color32 BIOMASS_COLOR = new Color32(148, 124, 58, 255);
+		public static readonly Color32 BIOPLASTIC_COLOR = new Color32(201, 201, 195, 255);
+		public static readonly Color32 VEGEOIL_COLOR = new Color32(201, 235, 52, 255);
 
 
 		/// Chemical Processing Industrial overhaul
@@ -100,10 +104,22 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			Zinc_Liquid = ElementInfo.Liquid("MoltenZinc", ZINC_COLOR),
 			Zinc_Gas = ElementInfo.Gas("ZincGas", ZINC_COLOR)
 			;
+		//Chemical Processing Bio Chemistry
+		public static ElementInfo
+			BioDiesel_Solid = ElementInfo.Solid("SolidBiodiesel", "solid_biodiesel_kanim", BIODIESEL_COLOR),
+			BioDiesel_Liquid = ElementInfo.Liquid("LiquidBiodiesel", BIODIESEL_COLOR),
 
+			BioMass_Solid = ElementInfo.Solid("SolidBiomass", "biomass_kanim", BIOMASS_COLOR),
+
+			BioPlastic = ElementInfo.Solid("Bioplastic", "bioplastic_kanim", BIOPLASTIC_COLOR),
+
+			VegetableOil_Solid = ElementInfo.Solid("SolidVegeOil", "solid_veg_oil_kanim", VEGEOIL_COLOR),
+			VegetableOil_Liquid = ElementInfo.Liquid("LiquidVegeOil", VEGEOIL_COLOR),
+			VegetableOil_Gas = ElementInfo.Gas("VegeOilGas", VEGEOIL_COLOR)
+			;
 		public static void RegisterSubstances(List<Substance> list)
 		{
-			var ChemicalProcessing_Elements = new HashSet<Substance>()
+			var ChemicalProcessing_IO_Elements = new HashSet<Substance>()
 			{
 				BaseGradeSand_Solid.CreateSubstanceFromElementTinted(SimHashes.FoolsGold),
 				HighGradeSand_Solid.CreateSubstanceFromElementTinted(SimHashes.Steel),
@@ -154,7 +170,24 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				Zinc_Liquid.CreateSubstance(),
 				Zinc_Gas.CreateSubstance()
 			};
-			list.AddRange(ChemicalProcessing_Elements);
+
+
+			var ChemicalProcessing_BioChem_Elements = new HashSet<Substance>()
+			{
+				BioDiesel_Solid.CreateSubstanceFromElementTinted(SimHashes.SuperInsulator),
+				BioDiesel_Liquid.CreateSubstance(),
+
+				BioMass_Solid.CreateSubstanceFromElementTinted(SimHashes.Algae),
+
+				BioPlastic.CreateSubstanceFromElementTinted(SimHashes.Polypropylene),
+
+				VegetableOil_Solid.CreateSubstanceFromElementTinted(SimHashes.Isoresin),
+				VegetableOil_Liquid.CreateSubstance(),
+				VegetableOil_Gas.CreateSubstance(),
+			};
+
+			list.AddRange(ChemicalProcessing_IO_Elements);
+			list.AddRange(ChemicalProcessing_BioChem_Elements);
 
 		}
 		public static void OverrideDebrisAnims()
@@ -194,30 +227,17 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		{
 			//=[ SYNGAS ENABLING PATCH ]===============================================
 			Element syngas_material = ElementLoader.FindElementByHash(SimHashes.Syngas);
-			List<Tag> syngas_tags = [.. syngas_material.oreTags];
-			syngas_tags.Add(GameTags.CombustibleGas);
-			syngas_material.oreTags = [.. syngas_tags];
+			syngas_material.oreTags = syngas_material.oreTags.Append(GameTags.CombustibleGas);
 			syngas_material.disabled = false;
 
 			//=[ PROPANE PATCH ]=======================================================
 			Element propane_material = ElementLoader.FindElementByHash(SimHashes.Propane);
-			List<Tag> propane_tags = [.. propane_material.oreTags];
-			propane_tags.Add(GameTags.CombustibleGas);
-			propane_material.oreTags = [.. propane_tags];
+			propane_material.oreTags = syngas_material.oreTags.Append(GameTags.CombustibleGas);
 			propane_material.disabled = false;
 
 			//=[ NAPHTHA PATCH ]=======================================================
 			Element naphtha_material = ElementLoader.FindElementByHash(SimHashes.Naphtha);
-			List<Tag> naphtha_tags = [.. naphtha_material.oreTags];
-			naphtha_tags.Add(GameTags.CombustibleLiquid);
-			naphtha_material.oreTags = [.. naphtha_tags];
-			naphtha_material.disabled = false;
-
-			//=[ FIBERGLASS AS A PLASTIC TAG PATCH ]===================================
-			Element fiberglass_a_material = ElementLoader.FindElementByHash(FiberGlass_Solid);
-			List<Tag> fiberglass_tags = [.. fiberglass_a_material.oreTags];
-			fiberglass_tags.Add(GameTags.Plastic);
-			fiberglass_a_material.oreTags = [.. fiberglass_tags];
+			naphtha_material.oreTags = naphtha_material.oreTags.Append(GameTags.CombustibleLiquid);
 
 			//=[ ENABLING ELECTRUM ]===================================================
 			Element electrum_material = ElementLoader.FindElementByHash(SimHashes.Electrum);
@@ -228,35 +248,31 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			//=[ BITUMEN PATCH ]=======================================================
 			Element bitumen_material = ElementLoader.FindElementByHash(SimHashes.Bitumen);
 			bitumen_material.materialCategory = GameTags.ManufacturedMaterial;
+			bitumen_material.oreTags = bitumen_material.oreTags.Append(GameTags.ManufacturedMaterial);
 			bitumen_material.disabled = false;
-			List<Tag> bitumen_tags = [.. bitumen_material.oreTags];
-			bitumen_tags.Add(GameTags.ManufacturedMaterial);
-			bitumen_material.oreTags = [.. bitumen_tags];
 
 			//=[ CRUSHED ROCK PATCH ]====================================================
 			Element crushedRock_material = ElementLoader.FindElementByHash(SimHashes.CrushedRock);
-			List<Tag> crushedRock_tags = [.. crushedRock_material.oreTags];
-			crushedRock_material.oreTags = [.. crushedRock_tags];
 			crushedRock_material.disabled = false;
 
 			//=[ PHOSPHATE NODULES PATCH ]================================================
 			Element phosphate_material = ElementLoader.FindElementByHash(SimHashes.PhosphateNodules);
-			List<Tag> phosphate_tags = [.. phosphate_material.oreTags];
-			phosphate_tags.Add(GameTags.ConsumableOre);
-			phosphate_material.oreTags = [.. phosphate_tags];
+			phosphate_material.oreTags = phosphate_material.oreTags.Append(GameTags.ConsumableOre);
 			phosphate_material.disabled = false;
 
-			//=[ PLASTEEL PATCH ]==========================================================
-			Element plasteel_material = ElementLoader.FindElementByHash(Plasteel_Solid);
-			List<Tag> plasteel_tags = [.. plasteel_material.oreTags];
-			plasteel_tags.Add(GameTags.Steel);
-			plasteel_material.oreTags = [.. plasteel_tags];
 
 			//=[ MAFIC ROCK PATCH ]==========================================================
 			Element mafic_material = ElementLoader.FindElementByHash(SimHashes.MaficRock);
-			List<Tag> mafic_tags = [.. mafic_material.oreTags];
-			mafic_tags.Add(GameTags.Crushable);
-			mafic_material.oreTags = [.. mafic_tags];
+			mafic_material.oreTags = mafic_material.oreTags.Append(GameTags.Crushable);
+
+			//=[ PHYTO OIL PATCH ]==========================================================
+			Element phytooil_material = ElementLoader.FindElementByHash(SimHashes.PhytoOil);
+			phytooil_material.oreTags = phytooil_material.oreTags.Append(ModAssets.Tags.BioOil_Composition);
+
+
+			//=[ BIODIESEL PATCH ]==========================================================
+			Element biodiesel_material = ElementLoader.FindElementByHash(SimHashes.RefinedLipid);
+			biodiesel_material.oreTags = biodiesel_material.oreTags.Append(ModAssets.Tags.Biodiesel_Composition);
 
 		}
 	}

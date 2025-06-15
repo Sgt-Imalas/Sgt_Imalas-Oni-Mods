@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using KSerialization;
+using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using System;
 using System.Collections.Generic;
@@ -208,6 +209,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//             Water - 20kg
 			// Result: Dirt - 100kg
 			//------------------------------------------------------------------------------------------------------------------
+
 			RecipeBuilder.Create(ID, 60)
 				.Input(SimHashes.CrushedRock, 40)
 				.Input(SimHashes.ToxicSand, 20)
@@ -232,7 +234,26 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Output(SimHashes.ToxicSand, 100)
 				.Description(SOILMIXER_3_1, 3, 1)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
-				.Build();			
+				.Build();
+
+			if (Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
+			{
+				//---- [ Dirt Recipe C ] -------------------------------------------------------------------------------------------
+				// Ingredient: Crushed Rock - 50kg
+				//             Biomass - 40kg
+				//             Water - 10kg
+				// Result: Dirt - 100kg
+				//------------------------------------------------------------------------------------------------------------------
+
+				RecipeBuilder.Create(ID, 60)
+					.Input(SimHashes.CrushedRock, 50)
+					.Input(ModElements.BioMass_Solid, 40)
+					.Input(SimHashes.Water, 10)
+					.Output(SimHashes.Dirt, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+					.Description(SOILMIXER_3_1, 3, 1)
+					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+					.Build();
+			}
 		}
 
 		private void AttachPort(GameObject go)
