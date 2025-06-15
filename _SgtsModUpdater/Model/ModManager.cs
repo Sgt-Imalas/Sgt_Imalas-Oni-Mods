@@ -223,6 +223,10 @@ namespace _SgtsModUpdater.Model
 			catch (Exception e)
 			{
 				Console.WriteLine("Mod download failed! Exception: " + e.Message);
+				if (File.Exists(targetMod.zipFileName))
+					File.Delete(targetMod.zipFileName);
+				
+				targetMod.Downloading = false;
 				return;
 			}
 			if (!File.Exists(targetMod.zipFileName))
