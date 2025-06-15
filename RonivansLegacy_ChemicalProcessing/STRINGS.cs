@@ -547,7 +547,6 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString DESC = "A composite of " + FormatAsLink("Plastic", "POLYPROPYLENE") + " stabilized fibers grown into a " + FormatAsLink("Steel", "Steel") + " crystal structure. It is much more stronger and lighter than standard metals alloys, and has a very low thermal conductivity.";
 			}
 			//===== [ Special ] ==============================
-
 			public class ISOPROPANEGAS
 			{
 				public static LocString NAME = FormatAsLink("Isopropane", nameof(ISOPROPANEGAS));
@@ -666,16 +665,62 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString NAME = FormatAsLink("Meteor Ore", nameof(METEORORE));
 				public static LocString DESC = "A dense stony mass formed when various types of dust and small grains in the early Solar System accreted to form primitive asteroids. Despite their stony nature, these collision remnants contain traces of rare metals.";
 			}
+
+			//===== [ Vegetable Oil ] ================================
+			public class SOLIDVEGEOIL
+			{
+				public static LocString NAME = FormatAsLink("Frozen Vegetable Oil", nameof(SOLIDVEGEOIL));
+				public static LocString DESC = "Frozen solid oil extracted from vegetable biomass, composed of triglycerides and monounsaturated fatty acids.";
+			}
+			public class LIQUIDVEGEOIL
+			{
+				public static LocString NAME = FormatAsLink("Vegetable Oil", nameof(LIQUIDVEGEOIL));
+				public static LocString DESC = "Liquid oil extracted from vegetable biomass, composed of triglycerides and monounsaturated fatty acids.";
+			}
+			public class VEGEOILGAS
+			{
+				public static LocString NAME = FormatAsLink("Oily Gas", nameof(VEGEOILGAS));
+				public static LocString DESC = "Gaseous oil extracted from vegetable biomass, composed of triglycerides and monounsaturated fatty acids.";
+			}
+
+			//===== [ Biodiesel ] ========================================
+			public class SOLIDBIODIESEL
+			{
+				public static LocString NAME = FormatAsLink("Frozen Renewable Diesel", nameof(SOLIDBIODIESEL));
+				public static LocString DESC = "Biodiesel is a renewable biofuel from biological sources like vegetable oils. Frozen solid on its present form.";
+			}
+			public class LIQUIDBIODIESEL
+			{
+				public static LocString NAME = FormatAsLink("Renewable Diesel", nameof(LIQUIDBIODIESEL));
+				public static LocString DESC = "Renewable diesel is a renewable biofuel from biological sources like vegetable oils. Used as an alternative to fossil fuels.";
+			}
+
+			//===== [ Bioplastic ] ========================================
+			public class BIOPLASTIC
+			{
+				public static LocString NAME = FormatAsLink("Bioplastic", nameof(BIOPLASTIC));
+				public static LocString DESC = "A synthetic biopolymer produced from renewable biomass sources, such as vegetable fats and oils, and enzymes from bacterial biosynthesis. Unlike traditional plastics, which are derived from fossil fuels, bioplastics are obtained from renewable resources.";
+			}
+
+			//===== [ Biomass ] ==========================================
+			public class SOLIDBIOMASS
+			{
+				public static LocString NAME = FormatAsLink("Compressed Biomass", nameof(SOLIDBIOMASS));
+				public static LocString DESC = "A dried, hard pressed clump of organic mass from vegetable origin. Has almost no moinsture and can be used as burnable fuel or can be turned to dirt through composting.";
+			}
 		}
 		public class MISC
 		{
 			public class TAGS
 			{
-				public static LocString CHEMICALPROCESSING_RANDOMSAND = "Metallic Sand";
+				public static LocString CHEMICALPROCESSING_RANDOMSAND = FormatAsLink("Metallic Sand", nameof(CHEMICALPROCESSING_RANDOMSAND));
 				public static LocString CHEMICALPROCESSING_RANDOMSAND_DESC = "Sandy materials composed of a various number of metallic grains";
+				public static LocString CHEMICALPROCESSING_BIODIESEL_COMPOSITION = FormatAsLink("Organic Fuel", nameof(CHEMICALPROCESSING_BIODIESEL_COMPOSITION));
+				public static LocString CHEMICALPROCESSING_BIODIESEL_COMPOSITION_DESC = "Organic fuels serve as a renewable alternative to petrochemicals.";
+				public static LocString CHEMICALPROCESSING_BIOOIL_COMPOSITION = FormatAsLink("Organic Oil", nameof(CHEMICALPROCESSING_BIOOIL_COMPOSITION));
+				public static LocString CHEMICALPROCESSING_BIOOIL_COMPOSITION_DESC = "Organic Oils are extracted from renewable biomass.";
 			}
 		}
-
 		public class ITEMS
 		{
 			public class INGREDIENTS
@@ -688,6 +733,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				}
 			}
 		}
+
 		public class UI
 		{
 			public class CHEMICAL_COMPLEXFABRICATOR_STRINGS

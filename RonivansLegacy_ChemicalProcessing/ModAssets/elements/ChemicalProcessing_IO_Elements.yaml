@@ -419,6 +419,7 @@ elements:
     - RefinedMetal
     - BuildableAny 
     - Noncrushable
+    - Steel
     buildMenuSort: 11
     isDisabled: false
     state: Solid
@@ -691,6 +692,7 @@ elements:
     - Ore
     - BuildableAny
     - ChemicalProcessing_RandomSand
+    - Noncrushable
     buildMenuSort: 5
     isDisabled: false
     state: Solid
@@ -721,6 +723,7 @@ elements:
     - Ore
     - BuildableAny
     - ChemicalProcessing_RandomSand
+    - Noncrushable
     buildMenuSort: 5
     isDisabled: false
     state: Solid
@@ -751,6 +754,7 @@ elements:
     - Ore
     - BuildableAny
     - ChemicalProcessing_RandomSand
+    - Noncrushable
     buildMenuSort: 5
     isDisabled: false
     state: Solid

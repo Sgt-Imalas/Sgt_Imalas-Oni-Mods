@@ -1,0 +1,35 @@
+id: "COMBUSTIBLELIQUID"
+title: STRINGS.MISC.TAGS.COMBUSTIBLELIQUID
+category: "ELEMENTTYPES"
+parentId: "ELEMENTTYPES"
+contentContainers:
+#-----------------------------
+  - contentLayout: Vertical
+    lockID:
+
+    content:
+      - !CodexText
+          stringKey: STRINGS.MISC.TAGS.COMBUSTIBLELIQUID
+          style: Title
+      - !CodexText
+          stringKey: STRINGS.MISC.TAGS.COMBUSTIBLELIQUID
+          style: Subtitle
+      - !CodexDividerLine
+          preferredWidth: -1
+      - !CodexImage
+          batchedAnimPrefabSourceID: PETROLEUM
+          preferredWidth: 128
+          preferredHeight: 128
+#-----------------------------
+  - contentLayout: Vertical
+    lockID:
+
+    content:
+      - !CodexText
+          stringKey: STRINGS.MISC.TAGS.COMBUSTIBLELIQUID_DESC
+          style: Body
+      - !CodexElementCategoryList
+          categoryTag: COMBUSTIBLELIQUID
+
+contentMadeAndUsed:
+  - tag: CombustibleLiquid

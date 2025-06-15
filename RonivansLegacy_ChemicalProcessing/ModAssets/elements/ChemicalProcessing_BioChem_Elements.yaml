@@ -1,0 +1,187 @@
+---
+elements:
+  - elementId: SolidVegeOil
+    specificHeatCapacity: 1.92
+    thermalConductivity: 32
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 0.1
+    highTemp: 258.15
+    highTempTransitionTarget: LiquidVegeOil
+    defaultTemperature: 200
+    defaultMass: 800
+    maxMass: 8000
+    hardness: 1
+    molarMass: 82
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.8
+    radiationPer1000Mass: 0
+    materialCategory: Liquifiable
+    buildMenuSort: 3
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.SOLIDVEGEOIL.NAME
+    dlcId: ""
+
+  - elementId: LiquidVegeOil
+    specificHeatCapacity: 1.07
+    thermalConductivity: 2
+    liquidCompression: 1.01
+    speed: 100
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 25
+    gasSurfaceAreaMultiplier: 1
+    strength: 0.7
+    highTemp: 574.15
+    lowTemp: 257.15
+    highTempTransitionTarget: VegeOilGas
+    lowTempTransitionTarget: SolidVegeOil
+    defaultTemperature: 296.15
+    defaultMass: 800
+    maxMass: 8000
+    molarMass: 86.2
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.8
+    radiationPer1000Mass: 0
+    tags:
+    - Slippery
+    - LubricatingOil
+    - UnrefinedOil
+    - ChemicalProcessing_BioOil_Composition
+    isDisabled: false
+    state: Liquid
+    localizationID: STRINGS.ELEMENTS.LIQUIDVEGEOIL.NAME
+    dlcId: ""
+
+  - elementId: VegeOilGas
+    specificHeatCapacity: 0.846
+    thermalConductivity: 0.0146
+    solidSurfaceAreaMultiplier: 25
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    flow: 0.1
+    lowTemp: 572.15
+    toxicity: 0
+    lowTempTransitionTarget: LiquidVegeOil
+    defaultTemperature: 600.15
+    molarMass: 72
+    lightAbsorptionFactor: 0.5
+    radiationAbsorptionFactor: 0.8
+    radiationPer1000Mass: 0
+    materialCategory: Unbreathable
+    isDisabled: false
+    state: Gas
+    localizationID: STRINGS.ELEMENTS.VEGEOILGAS.NAME
+    dlcId: ""
+
+  - elementId: SolidBiodiesel
+    specificHeatCapacity: 1.92
+    thermalConductivity: 22
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 0.2
+    highTemp: 275.15
+    highTempTransitionTarget: LiquidBiodiesel
+    defaultTemperature: 220.15
+    defaultMass: 800
+    maxMass: 8000
+    hardness: 1
+    molarMass: 92.14
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.8
+    radiationPer1000Mass: 0
+    materialCategory: Liquifiable
+    buildMenuSort: 4
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.SOLIDBIODIESEL.NAME
+    dlcId: ""
+
+  - elementId: LiquidBiodiesel
+    specificHeatCapacity: 0.234
+    thermalConductivity: 7
+    liquidCompression: 1.01
+    speed: 100
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 25
+    gasSurfaceAreaMultiplier: 1
+    strength: 0.6
+    highTemp: 630.15
+    lowTemp: 274.15
+    highTempTransitionTarget: VegeOilGas
+    highTempTransitionOreId: CarbonDioxide
+    highTempTransitionOreMassConversion: 0.3
+    lowTempTransitionTarget: SolidBiodiesel
+    defaultTemperature: 296.15
+    defaultMass: 800
+    maxMass: 8000
+    molarMass: 79.14
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.8
+    radiationPer1000Mass: 0
+    tags:
+    - CombustibleLiquid
+    - Slippery
+    - ChemicalProcessing_Biodiesel_Composition
+    isDisabled: false
+    state: Liquid
+    localizationID: STRINGS.ELEMENTS.LIQUIDBIODIESEL.NAME
+    dlcId: ""
+
+  - elementId: Bioplastic
+    specificHeatCapacity: 1.22
+    thermalConductivity: 0.75
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 0.3
+    highTemp: 377.15
+    highTempTransitionTarget: LiquidVegeOil
+    highTempTransitionOreId: CarbonDioxide
+    highTempTransitionOreMassConversion: 0.2
+    defaultTemperature: 296
+    defaultMass: 920
+    maxMass: 9200
+    hardness: 2
+    molarMass: 32.34
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.8
+    radiationPer1000Mass: 0
+    materialCategory: ManufacturedMaterial
+    tags:
+    - Antiseptic
+    - Plastic
+    - BuildableAny
+    buildMenuSort: 5
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.BIOPLASTIC.NAME
+    dlcId: ""
+
+  - elementId: SolidBiomass
+    specificHeatCapacity: 0.88
+    thermalConductivity: 1.25
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 0.6
+    highTemp: 523.15
+    highTempTransitionTarget: CarbonDioxide
+    defaultTemperature: 296.15
+    defaultMass: 600
+    maxMass: 6000
+    hardness: 2
+    molarMass: 21
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.5
+    radiationPer1000Mass: 0
+    materialCategory: Organics
+    tags:
+    - Compostable
+    buildMenuSort: 6
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.SOLIDBIOMASS.NAME
+    dlcId: ""
