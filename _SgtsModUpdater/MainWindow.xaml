@@ -96,7 +96,16 @@
 				</ListView>
 			</DockPanel>
 			<DockPanel Margin="3,3,3,3" Grid.Column="2">
-				<TextBox Name="ConsoleOutputTextbox" IsReadOnly="True" VerticalScrollBarVisibility="Visible" TextWrapping="Wrap" FontFamily="Nirmala UI" FontSize="10"></TextBox>
+				<DockPanel LastChildFill="True">
+					<Grid Height="20" Margin="0,3,0,0" DockPanel.Dock="Bottom">
+
+						<ProgressBar Name="DownloadProgressbar" Height="20" Value="0.0" Minimum="0" Maximum="1" />
+						<TextBlock DockPanel.Dock="Bottom" Margin="3,0,0,0" HorizontalAlignment="Left">Active Download</TextBlock>
+						<TextBlock Name="DownloadProgressText" DockPanel.Dock="Bottom" Margin="0,0,3,0" HorizontalAlignment="Right" > -</TextBlock>
+					</Grid>	
+					<TextBox Name="ConsoleOutputTextbox" IsReadOnly="True" VerticalScrollBarVisibility="Visible" TextWrapping="Wrap" FontFamily="Nirmala UI" FontSize="10"></TextBox>
+				</DockPanel>
+				
 			</DockPanel>
 		</Grid>
 	</Grid>

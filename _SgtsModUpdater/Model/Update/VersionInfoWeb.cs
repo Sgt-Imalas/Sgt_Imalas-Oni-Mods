@@ -54,7 +54,7 @@ namespace _SgtsModUpdater.Model.Update
 
 		public bool CanDeleteLocal => localInstall != null && localInstall.Deletable;
 
-		public string zipFileName => staticID + ".zip";
+		public string zipFileName => staticID.Replace(' ','.') + ".zip";
 
 		string GetActionText()
 		{
@@ -91,7 +91,7 @@ namespace _SgtsModUpdater.Model.Update
 			localInstall = localMod;
 		}
 
-		internal async void TryInstallUpdate()
+		internal async Task TryInstallUpdate()
 		{
 			await ModManager.Instance.TryInstallUpdate(this);
 			RefreshProperties();
