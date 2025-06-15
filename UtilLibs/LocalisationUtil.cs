@@ -1,9 +1,13 @@
 ﻿using HarmonyLib;
 using Klei.CustomSettings;
 using KMod;
+using Mono.Cecil.Cil;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Text;
 using static global::STRINGS.ROOMS;
 
 namespace UtilLibs
@@ -89,6 +93,71 @@ namespace UtilLibs
 			}
 		}
 
+		static Dictionary<string, string> LocalizedStrings = null;
+
+		/// <summary>
+		/// Loads the current localization to get translated strings for the custom game settings fixing
+		/// </summary>
+		/// <param name="key"></param>
+		/// <param name="translatedString"></param>
+		/// <returns></returns>
+		public static bool TryGetTranslatedString(string key, out string translatedString)
+		{
+			translatedString = null;
+			if (LocalizedStrings == null)
+			{
+				LocalizedStrings = new Dictionary<string, string>();
+				var languageType = Localization.GetSelectedLanguageType();
+				if (languageType == Localization.SelectedLanguageType.None)
+					return false;
+
+				var code = Localization.GetCurrentLanguageCode();
+				if (languageType == Localization.SelectedLanguageType.Preinstalled && !string.IsNullOrEmpty(code) && code != Localization.DEFAULT_LANGUAGE_CODE)
+				{
+					var translationFile = Localization.GetPreinstalledLocalizationFilePath(code);
+					if (!File.Exists(translationFile))
+						return false;
+					try
+					{
+						var data = File.ReadAllLines(translationFile, Encoding.UTF8);
+						LocalizedStrings = Localization.ExtractTranslatedStrings(data, false);
+					}
+					catch (Exception ex)
+					{
+						SgtLogger.error("Error while trying to fix translations: \n" + ex.Message);
+					}
+				}
+				else if (languageType == Localization.SelectedLanguageType.UGC && LanguageOptionsScreen.HasInstalledLanguage())
+				{
+					string savedLanguageMod = LanguageOptionsScreen.GetSavedLanguageMod();
+					try
+					{
+						KMod.Mod mod = Global.Instance.modManager.mods.Find((Predicate<KMod.Mod>)(m => m.label.id == savedLanguageMod));
+						if (mod == null)
+						{
+							Debug.LogWarning((object)("Tried loading a translation from a non-existent mod id: " + savedLanguageMod));
+							return false;
+						}
+						string translationFile = LanguageOptionsScreen.GetLanguageFilename(mod);
+						if (!File.Exists(translationFile))
+							return false;
+						var data = File.ReadAllLines(translationFile, Encoding.UTF8);
+						LocalizedStrings = Localization.ExtractTranslatedStrings(data, false);
+					}
+					catch (Exception ex)
+					{
+						SgtLogger.error("Error while trying to fix translations: \n" + ex.Message);
+					}
+				}
+				SgtLogger.l("Localization reloaded:");
+				foreach (var kvp in LocalizedStrings)
+				{
+					SgtLogger.l(kvp.Value, kvp.Key);
+				}
+			}
+			return LocalizedStrings.TryGetValue(key, out translatedString);
+		}
+
 		/// <summary>
 		/// Rebuild those strings bc they didn't translate from loading the class to early..
 		/// </summary>
@@ -151,6 +220,7 @@ namespace UtilLibs
 			RoomConstraints.WILDPLANT.name = CRITERIA.WILDPLANT.NAME; RoomConstraints.WILDPLANT.description = CRITERIA.WILDPLANT.DESCRIPTION;
 			RoomConstraints.WILDPLANTS.name = CRITERIA.WILDPLANTS.NAME; RoomConstraints.WILDPLANTS.description = CRITERIA.WILDPLANTS.DESCRIPTION;
 		}
+		
 
 		public static void ManualTranslationPatch(Harmony harmony, Type type)
 		{
@@ -181,7 +251,7 @@ namespace UtilLibs
 				Localization.GenerateStringsTemplate(root, Path.Combine(Manager.GetDirectory(), "strings_templates"));
 				Localization.GenerateStringsTemplate(root.Namespace, Assembly.GetExecutingAssembly(), Path.Combine(IO_Utils.ModPath, "translation_template.pot"), null);
 				Localization.GenerateStringsTemplate(root.Namespace, Assembly.GetExecutingAssembly(), Path.Combine(translationFolder, "translation_template.pot"), null);
-            }
+			}
 		}
 
 		// Loads user created translations

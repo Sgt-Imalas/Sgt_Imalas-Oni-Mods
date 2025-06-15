@@ -357,7 +357,11 @@ namespace Dupery
 			DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Hair.Id, Hair);
 			DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Eyes.Id, Eyes);
 			DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Mouth.Id, Mouth);
+
 			DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Body.Id, Body);
+			DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Arm.Id, Body);
+			DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.ArmLower.Id, Body);
+
 			DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.HeadShape.Id, HeadShape);
 			DuperyPatches.AccessoryManager.RegisterPersonalityForCustomCheeks(nameStringKey, Mouth);
 
