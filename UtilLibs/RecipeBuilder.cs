@@ -119,6 +119,7 @@ namespace UtilLibs
 		public RecipeBuilder Description1I2O(string ToFormat) => Description(ToFormat, 1, 2);
 		public RecipeBuilder Description1I3O(string ToFormat) => Description(ToFormat, 1, 3);
 		public RecipeBuilder Description1I4O(string ToFormat) => Description(ToFormat, 1, 4);
+		public RecipeBuilder Description2I1O(string ToFormat) => Description(ToFormat, 2, 1);
 		public RecipeBuilder Description2I2O(string ToFormat) => Description(ToFormat, 2, 2);
 		public RecipeBuilder Description3I2O(string ToFormat) => Description(ToFormat, 3, 2);
 

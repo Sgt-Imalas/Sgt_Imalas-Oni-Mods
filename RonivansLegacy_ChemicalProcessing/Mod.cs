@@ -15,6 +15,7 @@ namespace RonivansLegacy_ChemicalProcessing
             SgtLogger.LogVersion(this, harmony);
 			ConduitDisplayPortPatching.PatchAll(harmony);
 			BuildingInjection.RegisterAdditionalBuildingElements();
+            AdditionalRecipes.RegisterTags();
 
 		}
 	}

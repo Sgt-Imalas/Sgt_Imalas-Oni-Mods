@@ -153,11 +153,30 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		}
 		public static void OverrideDebrisAnims()
 		{
+			///Regolith
 			Substance regolith_substance = ElementLoader.FindElementByHash(SimHashes.Regolith).substance;
 			KAnimFile regolith_anim = Assets.GetAnim("regolith_new_kanim");
 			if (regolith_anim != null)
 			{
 				regolith_substance.anim = regolith_anim;
+			}
+			else
+			{
+				Debug.LogError("KAnimFile not found");
+			}
+
+			///Yellowcake
+			Substance yellowcake_substance = ElementLoader.FindElementByHash(SimHashes.Yellowcake).substance;
+			Material material = new Material(ElementLoader.FindElementByHash(SimHashes.Sulfur).substance.material)
+			{
+				name = "matYellowcake",
+				mainTexture = Assets.GetAnim("occuring_yellowcake_kanim").textureList[0]
+			};
+			yellowcake_substance.material = material;
+			KAnimFile yellowcake_anim = Assets.GetAnim("solid_chemical_yellowcake_kanim");
+			if (yellowcake_anim != null)
+			{
+				yellowcake_substance.anim = yellowcake_anim;
 			}
 			else
 			{
@@ -232,6 +251,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			List<Tag> mafic_tags = [.. mafic_material.oreTags];
 			mafic_tags.Add(GameTags.Crushable);
 			mafic_material.oreTags = [.. mafic_tags];
+
 		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using Klei.AI;
+using RonivansLegacy_ChemicalProcessing;
 using STRINGS;
 using System;
 using System.Collections.Generic;
@@ -11,18 +12,19 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Chemicals
 	public class RayonFabricConfig : IEntityConfig
 	{
 		public static string ID = "RayonFiber";
-		public static readonly Tag TAG = TagManager.Create("RayonFiber");
-		private AttributeModifier decorModifier = new AttributeModifier("Decor", 0.1f, Strings.Get("INGREDIENTS.RAYONFIBER.NAME"), true, false, true);
+		public static readonly Tag TAG = TagManager.Create(ID);
+		private AttributeModifier decorModifier = new AttributeModifier("Decor", 0.1f, INGREDIENTS.RAYONFIBER.NAME, true);
 
 		public GameObject CreatePrefab()
 		{
-			GameObject go = EntityTemplates.CreateLooseEntity(ID, INGREDIENTS.RAYONFIBER.NAME, INGREDIENTS.RAYONFIBER.DESC, 1f, false, Assets.GetAnim("rayon_fiber_kanim"), "object", Grid.SceneLayer.Front, EntityTemplates.CollisionShape.CIRCLE, 0.35f, 0.35f, true, 0, SimHashes.Creature, new List<Tag>
+			GameObject go = EntityTemplates.CreateLooseEntity(ID, INGREDIENTS.RAYONFIBER.NAME, INGREDIENTS.RAYONFIBER.DESC, 1f, true, Assets.GetAnim("rayon_fiber_kanim"), "object", Grid.SceneLayer.Front, EntityTemplates.CollisionShape.CIRCLE, 0.35f, 0.35f, true, 0, SimHashes.Creature, new List<Tag>
 			{
 				GameTags.IndustrialIngredient,
 				GameTags.BuildingFiber
 			});
 			go.AddOrGet<EntitySplitter>();
 			go.AddOrGet<SimpleMassStatusItem>();
+			go.AddOrGet<PrefabAttributeModifiers>().AddAttributeDescriptor(this.decorModifier);
 			return go;
 		}
 

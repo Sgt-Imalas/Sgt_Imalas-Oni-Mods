@@ -690,6 +690,9 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString METALREFINERY_2_1_1 = "Smelt a mixture of {0} and {1}, to produce {2}.\nProduces {3} as waste.";
 				public static LocString METALREFINERY_2_2_1 = "Smelt a mixture of {0} and {1}, to produce {2} and {3}.\nProduces {4} as waste.";
 
+
+				public static LocString SUPERMATERIALREFINERY_3_1 = "Molecularly reassemble a mixture of {0} and {1} with addition of {2} to produce {3}.";
+
 				public class RANDOMRECIPERESULT
 				{
 					public static LocString NAME = "Random Composition: {0}";

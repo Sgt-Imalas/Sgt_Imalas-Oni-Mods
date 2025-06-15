@@ -58,12 +58,12 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			go.AddOrGet<FabricatorIngredientStatusManager>();
 			go.AddOrGet<CopyBuildingSettings>();
 			BuildingTemplates.CreateComplexFabricatorStorage(go, complexFabricator);
-			this.ConfigureRecipes();
+			ConfigureRecipes(ID);
 			Prioritizable.AddRef(go);
 		}
 
 		//===[ CHEMICAL: SMALL CRUSHER MILL RECIPES ]====================================================================
-		private void ConfigureRecipes()
+		public static void ConfigureRecipes(string ID)
 		{
 			//---- [ Egg Shell Milling ] --------------------------------------------------------------------------------
 			// Ingredient: Eggshell  - 5kg

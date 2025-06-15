@@ -8,8 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 using static RonivansLegacy_ChemicalProcessing.Content.ModDb.ModElements;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INGREDIENTS;
+using static RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS;
 
 
 namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
@@ -72,50 +74,26 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Ingredient: Coal - 500kg        
 			// Result: Refined Coal - 500kg
 			//-----------------------------------------------------------------------------------------------------------
-			{
-				ComplexRecipe.RecipeElement[] inputs =
-				[
-				new ComplexRecipe.RecipeElement(SimHashes.Carbon.CreateTag(), 500f)
-				];
-				ComplexRecipe.RecipeElement[] results =
-				[
-				new ComplexRecipe.RecipeElement(SimHashes.RefinedCarbon.CreateTag(), 500f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, false)
-				];
-				var recipe_1 = new ComplexRecipe(ComplexRecipeManager.MakeRecipeID(ID, inputs, results), inputs, results)
-				{
-					time = 30f,
-					description = string.Format(RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.HEAT_REFINE, SimHashes.Carbon.CreateTag().ProperName(), SimHashes.RefinedCarbon.CreateTag().ProperName()),
-					nameDisplay = ComplexRecipe.RecipeNameDisplay.Result,
-					fabricators = new List<Tag> { ID },
-					sortOrder = 1
-				};
-			}
+			RecipeBuilder.Create(ID, 30)
+				.Input(SimHashes.Carbon, 500)
+				.Output(SimHashes.RefinedCarbon, 500, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.Description1I1O(HEAT_REFINE)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+				.Build();
+
 
 			//---- [ Ceramic ] -------------------------------------------------------------------------------------------
 			// Ingredient: Clay - 300kg
 			//             Sand - 200kg
 			// Result: Ceramic  - 500kg
 			//------------------------------------------------------------------------------------------------------------
-			{
-				ComplexRecipe.RecipeElement[] inputs =
-				[
-				new ComplexRecipe.RecipeElement(SimHashes.Clay.CreateTag(), 300f),
-				new ComplexRecipe.RecipeElement(SimHashes.Sand.CreateTag(), 200f)
-				];
-				ComplexRecipe.RecipeElement[] results =
-				[
-				new ComplexRecipe.RecipeElement(SimHashes.Ceramic.CreateTag(), 500f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, false)
-				];
-				var recipe_2 = new ComplexRecipe(ComplexRecipeManager.MakeRecipeID(ID, inputs, results), inputs, results)
-				{
-					time = 30f,
-					description = string.Format(RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.HEAT_REFINE,
-					SimHashes.Clay.CreateTag().ProperName(), SimHashes.Ceramic.CreateTag().ProperName()),
-					nameDisplay = ComplexRecipe.RecipeNameDisplay.Result,
-					fabricators = new List<Tag> { ID },
-					sortOrder = 2
-				};
-			}
+			RecipeBuilder.Create(ID, 30)
+				.Input(SimHashes.Clay, 300)
+				.Input(SimHashes.Sand, 200)
+				.Output(SimHashes.Ceramic, 500, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.Description1I1O(HEAT_REFINE)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+				.Build();
 
 			//---- [ Concrete Block ] --------------------------------------------------------------------------------------
 			// Ingredient: Sand         - 100kg
@@ -124,31 +102,15 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//             Water        -  25kg
 			// Result: Concrete Block   - 500kg
 			//---------------------------------------------------------------------------------------------------------------
-			{
-				ComplexRecipe.RecipeElement[] inputs =
-				[
-					new ComplexRecipe.RecipeElement(SimHashes.Sand.CreateTag(), 100f),
-				new ComplexRecipe.RecipeElement(SimHashes.CrushedRock.CreateTag(), 200f),
-				new ComplexRecipe.RecipeElement(Slag_Solid.Tag, 200f),
-				new ComplexRecipe.RecipeElement(SimHashes.Water.CreateTag(), 25f)
-				];
-				ComplexRecipe.RecipeElement[] results =
-				[
-				new ComplexRecipe.RecipeElement(ConcreteBlock_Solid.Tag, 500f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, false)
-				];
-				var recipe_3 = new ComplexRecipe(ComplexRecipeManager.MakeRecipeID(ID, inputs, results), inputs, results)
-				{
-					time = 30f,
-					description = string.Format(RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.THREE_MIXTURE_COMPRESS_COOKING,
-						SimHashes.Sand.CreateTag().ProperName(), 
-						SimHashes.CrushedRock.CreateTag().ProperName(),
-						Slag_Solid.Tag.ProperName(),
-						ConcreteBlock_Solid.Tag.ProperName()),					
-					nameDisplay = ComplexRecipe.RecipeNameDisplay.Result,
-					fabricators = new List<Tag> { ID },
-					sortOrder = 3
-				};
-			}
+			RecipeBuilder.Create(ID, 30)
+				.Input(SimHashes.Sand, 100)
+				.Input(SimHashes.CrushedRock, 200)
+				.Input(Slag_Solid, 200)
+				.Input(SimHashes.Water, 25)
+				.Output(ConcreteBlock_Solid, 500, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.Description(THREE_MIXTURE_COMPRESS_COOKING,3,1)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+				.Build();
 
 			//---- [ Fiberglass ] --------------------------------------------------------------------------------------------
 			// Ingredient: Sand         - 270kg
@@ -156,28 +118,14 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//             Borax        - 30kg
 			// Result: Fiberglass       - 300g
 			//-------------------------------------------------------------------------------------------------------------------
-			ComplexRecipe.RecipeElement[] array7 =
-			[
-				new ComplexRecipe.RecipeElement(SimHashes.Sand.CreateTag(), 270f),
-				new ComplexRecipe.RecipeElement(SimHashes.Polypropylene.CreateTag(), 100f),
-				new ComplexRecipe.RecipeElement(ModElements.Borax_Solid.Tag, 30f)
-			];
-			ComplexRecipe.RecipeElement[] array8 =
-			[
-			new ComplexRecipe.RecipeElement(ModElements.FiberGlass_Solid.Tag, 100f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, false)
-			];
-			var recipe_4 = new ComplexRecipe(ComplexRecipeManager.MakeRecipeID(ID, array7, array8), array7, array8)
-			{
-				time = 30f,
-				description = string.Format(RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.THREE_MIXTURE_FUSE,
-					SimHashes.Sand.CreateTag().ProperName(),
-					Borax_Solid.Tag.ProperName(),
-					SimHashes.Polypropylene.CreateTag().ProperName(),
-					FiberGlass_Solid.Tag.ProperName()),
-				nameDisplay = ComplexRecipe.RecipeNameDisplay.Result,
-				fabricators = new List<Tag> { ID },
-				sortOrder = 4
-			};
+			RecipeBuilder.Create(ID, 30)
+				.Input(SimHashes.Sand, 270)
+				.Input(SimHashes.Polypropylene, 100f)
+				.Input(Borax_Solid, 30)
+				.Output(FiberGlass_Solid, 400, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.Description(THREE_MIXTURE_FUSE, 3, 1)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+				.Build();
 
 			//---- [ Carbon Fibre ] --------------------------------------------------------------------------------------------
 			// Ingredient: Bitumen      - 100kg
@@ -186,29 +134,16 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//             Isoresin     -  15kg
 			// Result: Carbon Fiber     - 100kg
 			//-------------------------------------------------------------------------------------------------------------------
-			ComplexRecipe.RecipeElement[] array9 =
-			[
-				new ComplexRecipe.RecipeElement(SimHashes.Polypropylene.CreateTag(), 100f),
-				new ComplexRecipe.RecipeElement(SimHashes.Fullerene.CreateTag(), 20f),
-				new ComplexRecipe.RecipeElement(SimHashes.Isoresin.CreateTag(), 15f),
-				new ComplexRecipe.RecipeElement(RayonFabricConfig.ID.ToTag(), 10f)
-			];
-			ComplexRecipe.RecipeElement[] array10 =
-			[
-			new ComplexRecipe.RecipeElement(CarbonFiber_Solid.Tag, 100f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, false)
-			];
-			var recipe_7 = new ComplexRecipe(ComplexRecipeManager.MakeRecipeID(ID, array9, array10), array9, array10)
-			{
-				time = 30f,
-				description = string.Format(RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.THREE_MIXTURE_COMPRESS_COOKING,
-					SimHashes.Polypropylene.CreateTag().ProperName(),
-					SimHashes.Fullerene.CreateTag().ProperName(),
-					RAYONFIBER.NAME_PLURAL,
-					CarbonFiber_Solid.Tag.ProperName()),
-				nameDisplay = ComplexRecipe.RecipeNameDisplay.Result,
-				fabricators = new List<Tag> { ID },
-				sortOrder = 7
-			};
+
+			RecipeBuilder.Create(ID, 30)
+					.Input(SimHashes.Polypropylene, 100)
+					.Input(SimHashes.Fullerene, 25f)
+					.Input(SimHashes.Isoresin, 15f)
+					.Input(RayonFabricConfig.ID.ToTag(), 10f)
+					.Output(CarbonFiber_Solid, 150, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+					.Description(string.Format(THREE_MIXTURE_COMPRESS_COOKING,SimHashes.Polypropylene.CreateTag().ProperName(),SimHashes.Fullerene.CreateTag().ProperName(),RAYONFIBER.NAME_PLURAL,CarbonFiber_Solid.Tag.ProperName()))
+					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+					.Build();
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)
