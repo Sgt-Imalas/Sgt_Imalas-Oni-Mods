@@ -14,217 +14,6 @@ namespace RonivansLegacy_ChemicalProcessing
 {
 	class STRINGS
 	{
-		public class ELEMENTS
-		{
-			//===== [ Zinc ] ================================
-			public class SOLIDZINC
-			{
-				public static LocString NAME = FormatAsLink("Zinc", nameof(SOLIDZINC));
-				public static LocString DESC = "(Zn) Zinc is a bluish-white, lustrous, diamagnetic metal, slightly brittle metal.";
-			}
-			public class MOLTENZINC
-			{
-				public static LocString NAME = FormatAsLink("Molten Zinc", nameof(MOLTENZINC));
-				public static LocString DESC = "(Zn) Zinc is a bluish-white, lustrous, diamagnetic metal in its molten state.";
-			}
-			public class ZINCGAS
-			{
-				public static LocString NAME = FormatAsLink("Zinc Gas", nameof(ZINCGAS));
-				public static LocString DESC = "(Zn) Zinc is a bluish-white, lustrous, diamagnetic metal in its gaseous state.";
-			}
-			//===== [ Silver ] ==============================
-			public class SOLIDSILVER
-			{
-				public static LocString NAME = FormatAsLink("Silver", nameof(SOLIDSILVER));
-				public static LocString DESC = "(Ag) Silver is soft, white, lustrous transition metal, that exhibits a high electrical and thermal conductivity.";
-			}
-			public class MOLTENSILVER
-			{
-				public static LocString NAME = FormatAsLink("Molten Silver", nameof(MOLTENSILVER));
-				public static LocString DESC = "(Ag) Silver is soft, white, lustrous transition metal, in its molten state.";
-			}
-			public class SILVERGAS
-			{
-				public static LocString NAME = FormatAsLink("Silver Gas", nameof(SILVERGAS));
-				public static LocString DESC = "(Ag) Silver is soft, white, lustrous transition metal, in its gaseous state.";
-			}
-			//===== [ Ammonia ] =============================
-			public class SOLIDAMMONIA
-			{
-				public static LocString NAME = FormatAsLink("Ammonia Snow", nameof(SOLIDAMMONIA));
-				public static LocString DESC = "(NH<sub>3</sub>) Ammonia is an inorganic compound of nitrogen and hydrogen, currently its its cold, solid state.";
-			}
-			public class LIQUIDAMMONIA
-			{
-				public static LocString NAME = FormatAsLink("Liquid Ammonia", nameof(LIQUIDAMMONIA));
-				public static LocString DESC = "(NH<sub>3</sub>) Ammonia is an inorganic compound of nitrogen and hydrogen, currently in its cold, liquid state.";
-			}
-			public class AMMONIAGAS
-			{
-				public static LocString NAME = FormatAsLink("Ammonia", nameof(AMMONIAGAS));
-				public static LocString DESC = "(NH<sub>3</sub>) Ammonia is an inorganic compound of nitrogen and hydrogen. A stable binary hydride, and the simplest pnictogen hydride, ammonia is a gas with a distinct pungent smell.";
-			}
-			//===== [ Toxic Waste ] ==========================
-			public class TOXICCLAY
-			{
-				public static LocString NAME = FormatAsLink("Toxic Clay", nameof(TOXICCLAY));
-				public static LocString DESC = "A sick looking, brittle clay produced as waste product from industrial operations, composed of many different chemical substances.";
-			}
-			public class TOXICSLURRY
-			{
-				public static LocString NAME = FormatAsLink("Toxic Slurry", nameof(TOXICSLURRY));
-				public static LocString DESC = "A thick, toxic slurry produced as waste product from industrial operations, composed of many different chemical substances.";
-			}
-			public class TOXICGAS
-			{
-				public static LocString NAME = FormatAsLink("Toxic Gas", nameof(TOXICGAS));
-				public static LocString DESC = "A heavy, foul smelling gas produced as waste product from industrial operations, composed of many different chemical substances.";
-			}
-			//===== [ Alloy ] ================================
-			public class SOLIDBRASS
-			{
-				public static LocString NAME = FormatAsLink("Brass", nameof(SOLIDBRASS));
-				public static LocString DESC = "Brass is an alloy of " + FormatAsLink("Copper", "COPPER") + " and " + FormatAsLink("Zinc", "SOLIDZINC") + ", widely used to make utensils due to properties such as having a low melting point, high workability, durability, and electrical and thermal conductivity.";
-			}
-			public class PHOSPHORBRONZE
-			{
-				public static LocString NAME = FormatAsLink("Phosphor Bronze", nameof(PHOSPHORBRONZE));
-				public static LocString DESC = "An alloy composed of " + FormatAsLink("Copper", "COPPER") + ", " + FormatAsLink("Lead", "LEAD") + " and " + FormatAsLink("Phosphorus", "PHOSPHORUS") + ". Among copper based alloys it is remarkable tough, and has a relative low thermal conductivity.";
-			}
-			public class PLASTEEL
-			{
-				public static LocString NAME = FormatAsLink("Plasteel", nameof(PLASTEEL));
-				public static LocString DESC = "A composite of " + FormatAsLink("Plastic", "POLYPROPYLENE") + " stabilized fibers grown into a " + FormatAsLink("Steel", "Steel") + " crystal structure. It is much more stronger and lighter than standard metals alloys, and has a very low thermal conductivity.";
-			}
-			//===== [ Special ] ==============================
-
-			public class ISOPROPANEGAS
-			{
-				public static LocString NAME = FormatAsLink("Isopropane", nameof(ISOPROPANEGAS));
-				public static LocString DESC = "(HC(CH<sub>3</sub>)<sub>3</sub>) Isopropane is a petrochemical refrigerant gas suitable for a variety of purposes. Degrades to " + FormatAsLink("Propane", "PROPANE") + " at higher temperatures.";
-			}
-			public class SOLIDSLAG
-			{
-				public static LocString NAME = FormatAsLink("Slag", nameof(SOLIDSLAG));
-				public static LocString DESC = "Slag is a by-product of smelting (pyrometallurgical) ores and used metals. Despite being a waste product, it has many applications, such as aggregate in " + FormatAsLink("Concrete Blocks", "CONCRETEBLOCK") + ".";
-			}
-			public class MOLTENSLAG
-			{
-				public static LocString NAME = FormatAsLink("Molten Slag", nameof(MOLTENSLAG));
-				public static LocString DESC = "Molten Slag is a by-product of smelting (pyrometallurgical) ores and used metals. Present in molten state, this waste materail needs to be cooled down to solid " + FormatAsLink("Slag", "SOLIDSLAG") + " before can be used.";
-			}
-			public class SOLIDBORAX
-			{
-				public static LocString NAME = FormatAsLink("Borax", nameof(SOLIDBORAX));
-				public static LocString DESC = "Borax, also known as sodium borate, is an important boron compound, mainly used in the manufacture of " + FormatAsLink("Fiberglass", "SOLIDFIBERGLASS") + ", and as a flux in metallurgy.";
-			}
-			public class SOLIDOILSHALE
-			{
-				public static LocString NAME = FormatAsLink("Oil Shale", nameof(SOLIDOILSHALE));
-				public static LocString DESC = "Oil shale is an organic-rich fine-grained sedimentary rock containing heavy crude oil, sulfur compounds and heavy metals.";
-			}
-			public class SOLIDFIBERGLASS
-			{
-				public static LocString NAME = FormatAsLink("Fiberglass", nameof(SOLIDFIBERGLASS));
-				public static LocString DESC = "Fiberglass is a thermoset polymer matrix made by a poltrusion of boronsilicate " + FormatAsLink("Glass", "GLASS") + " and " + FormatAsLink("Plastic", "POLYPROPYLENE") + ". Although the fiber is weak in compression, this composite material has moderate insulating properties, and can be easily used in many different applications due to its relative flexibility.";
-			}
-			public class AMMONIUMWATER
-			{
-				public static LocString NAME = FormatAsLink("Ammonium Water", nameof(AMMONIUMWATER));
-				public static LocString DESC = "(NH<sub>4</sub>OH) Ammonium hydroxide is a solution of " + FormatAsLink("Ammonia", "AMMONIAGAS") + " and " + FormatAsLink("Salt Water", "SALTWATER") + ".";
-			}
-			public class AMMONIUMSALT
-			{
-				public static LocString NAME = FormatAsLink("Nitrate Nodules", nameof(AMMONIUMSALT));
-				public static LocString DESC = "(NH<sub>4</sub>NO<sub>3</sub>) Nodules of dirt containing high concentrations of Ammonium Nitrate.";
-			}
-			public class RAWNATURALGAS
-			{
-				public static LocString NAME = FormatAsLink("Raw Natural Gas", nameof(RAWNATURALGAS));
-				public static LocString DESC = "A fossil gas consisting of gaseous hydrocarbons and other impurites. The majority of the gas mass is composed of " + FormatAsLink("Methane", "METHANE") + ", " + FormatAsLink("Propane", "PROPANE") + " and " + FormatAsLink("Sour Gas", "SOURGAS") + ".";
-			}
-			public class CONCRETEBLOCK
-			{
-				public static LocString NAME = FormatAsLink("Concrete Block", nameof(CONCRETEBLOCK));
-				public static LocString DESC = "Concrete blocks are standard-size rectangular blocks used in building construction. A versatile component made from different aggregates that are often considered waste products.";
-			}
-			public class CARBONFIBER
-			{
-				public static LocString NAME = FormatAsLink("Carbon Composite", nameof(CARBONFIBER));
-				public static LocString DESC = "Carbon fiber-reinforced polymers blocks are extremely strong and light fiber-reinforced plastics that contain carbon fibers. Used on wherever high strength-to-weight ratio and stiffness (rigidity) are required, such as aerospace. Its composition of allotropes of carbon make it extremely resistant to heat.";
-			}
-			public class SOURWATER
-			{
-				public static LocString NAME = FormatAsLink("Sour Water", nameof(SOURWATER));
-				public static LocString DESC = "An aqueous solution of Hydrogen Sulfide (H<sub>2</sub>S>) and Ammonia (NH<sub>3</sub>). May occur naturally from aquifers exposed to hydrogen sulfide sources, but it is more common as a wastewater from industrial processes.";
-			}
-			//===== [ Metallic Sands ] =======================
-			public class LOWGRADESAND
-			{
-				public static LocString NAME = FormatAsLink("Low-Grade Metallic Sand", nameof(LOWGRADESAND));
-				public static LocString DESC = "A sandy material composed mostly of low quality metallic grains, mixed with other finer mineral particles.";
-			}
-			public class BASEGRADESAND
-			{
-				public static LocString NAME = FormatAsLink("Base-Grade Metallic Sand", nameof(BASEGRADESAND));
-				public static LocString DESC = "A heavy sandy material composed mostly of common metallic grains, mixed with other finer mineral particles.";
-			}
-			public class HIGHGRADESAND
-			{
-				public static LocString NAME = FormatAsLink("High-Grade Metallic Sand", nameof(HIGHGRADESAND));
-				public static LocString DESC = "A glimmering sandy material composed mostly of high quality metallic grains, mixed with other finer mineral particles.";
-			}
-			//===== [ Acids ] ================================
-			public class LIQUIDSULFURIC
-			{
-				public static LocString NAME = FormatAsLink("Sulfuric Acid", nameof(LIQUIDSULFURIC));
-				public static LocString DESC = "(H<sub>2</sub>SO<sub>4</sub>) A mineral acid composed of the elements sulfur, oxygen and hydrogen. Presented in its liquid state, it is a very dangerous chemical for its corrosive nature.";
-			}
-			public class SULFURICGAS
-			{
-				public static LocString NAME = FormatAsLink("Sulfuric Gas", nameof(SULFURICGAS));
-				public static LocString DESC = "(H<sub>2</sub>SO<sub>4</sub>) An acidic gas composed of the elements sulfur, oxygen and hydrogen. Presented in its gaseous state, it is a very dangerous chemical for its corrosive nature.";
-			}
-			public class LIQUIDNITRIC
-			{
-				public static LocString NAME = FormatAsLink("Nitric Acid", nameof(LIQUIDNITRIC));
-				public static LocString DESC = "(HNO<sub>3</sub>) An inorganic mineral acid composed of the elements nitrogen, oxygen and hydrogen. Presented in its liquid state, is the primary reagent used for nitration – the addition of a nitro group, typically to an organic molecule.";
-			}
-			//===== [ Raw Minerals ] =========================
-			public class ARGENTITEORE
-			{
-				public static LocString NAME = FormatAsLink("Silver Ore", nameof(ARGENTITEORE));
-				public static LocString DESC = "(Ag<sub>2</sub>S) Argentite is a cubic silver sulfide is a conductive metal, and the main source of refined " + FormatAsLink("Silver", "SOLIDSILVER") + " metal.";
-			}
-			public class AURICHALCITEORE
-			{
-				public static LocString NAME = FormatAsLink("Zinc Ore", nameof(AURICHALCITEORE));
-				public static LocString DESC = "((Zn,Cu)<sub>5</sub>(CO<sub>3</sub>)<sub>2</sub>(OH)<sub>6</sub>) Aurichalcite is a carbonate mineral, and the main source of refined " + FormatAsLink("Zinc", "SOLIDZINC") + " metal.";
-			}
-			public class GALENA
-			{
-				public static LocString NAME = FormatAsLink("Galena", nameof(GALENA));
-				public static LocString DESC = "Galena is the natural mineral form of lead(II) sulfide (PbS).It is the most important ore of " + FormatAsLink("Lead", "LEAD") + " and an important source of " + FormatAsLink("Silver", "SOLIDSILVER") + ".";
-			}
-			public class CHLOROSCHIST
-			{
-				public static LocString NAME = FormatAsLink("Chloroschist", nameof(CHLOROSCHIST));
-				public static LocString DESC = "A dense medium-grained metamorphic rock showing pronounced schistosity. This sample has a high content of chloride minerals within its compacted layers.";
-			}
-			public class METEORORE
-			{
-				public static LocString NAME = FormatAsLink("Meteor Ore", nameof(METEORORE));
-				public static LocString DESC = "A dense stony mass formed when various types of dust and small grains in the early Solar System accreted to form primitive asteroids. Despite their stony nature, these collision remnants contain traces of rare metals.";
-			}
-		}
-		public class MISC
-		{
-			public class TAGS
-			{
-				public static LocString CHEMICALPROCESSING_RANDOMSAND = "Metallic Sand";
-				public static LocString CHEMICALPROCESSING_RANDOMSAND_DESC = "Sandy materials composed of a various number of metallic grains";
-			}
-		}
 		public class BUILDINGS
 		{
 			public class PREFABS
@@ -315,7 +104,7 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString NAME = FormatAsLink("[DEPRECATED] SpacedOut Carbon Recycling Unit", nameof(CHEMICAL_CO2RECYCLERDLC1));
 					public static LocString DESC = "An autonomous chemical device capable of executing both Bosch and Sabatier Reactions based on the input conditions.";
 					public static LocString EFFECT = string.Concat(
-						"THIS BUILDING HAS BEEN DEPRECATED AND CANNOT BE BUILT. INSTEAD, USE THE REGULAR " + CHEMICAL_CO2RECYCLER.NAME+ "\n\n",
+						"THIS BUILDING HAS BEEN DEPRECATED AND CANNOT BE BUILT. INSTEAD, USE THE REGULAR " + CHEMICAL_CO2RECYCLER.NAME + "\n\n",
 
 					"Sabatier Reaction: \n " +
 						FormatAsLink("Liquid Carbon Dioxide", "LIQUIDCARBONDIOXIDE"), ", " +
@@ -581,7 +370,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = FormatAsLink("Wood-fueled Steam Boiler", nameof(CHEMICAL_WOODEN_BOILER));
 					public static LocString DESC = "An industrial grade boiler that generates thermal energy by burning wood.";
-					public static LocString EFFECT =  "Boils "+ FormatAsLink("Water", "WATER")+ " to "+ FormatAsLink("Steam", "STEAM")+ " at 200 °C. This particular boiler uses "+FormatAsLink("Wood", "WOODLOG")+" as fuel.";
+					public static LocString EFFECT = "Boils " + FormatAsLink("Water", "WATER") + " to " + FormatAsLink("Steam", "STEAM") + " at 200 °C. This particular boiler uses " + FormatAsLink("Wood", "WOODLOG") + " as fuel.";
 				}
 				public class CUSTOM_OILWELLCAP
 				{
@@ -618,16 +407,44 @@ namespace RonivansLegacy_ChemicalProcessing
 				}
 			}
 		}
-
-		public class ITEMS
+		public class CREATURES
 		{
-			public class INGREDIENTS
+			public class SPECIES
 			{
-				public class RAYONFIBER
+				public class AMMONIAGEYSER
 				{
-					public static LocString NAME = FormatAsLink("Rayon Fiber", nameof(RAYONFIBER));
-					public static LocString NAME_PLURAL = FormatAsLink("Rayon Fibers", nameof(RAYONFIBER));
-					public static LocString DESC = "Rayon is a synthetic fiber, chemically made from regenerated cellulose extracted from Lumber.";
+					public static LocString NAME = FormatAsLink("Ammonia Geyser", "GeyserGeneric_"+nameof(AMMONIAGEYSER));
+					public static LocString DESC = $"A highly pressurized cryogeyser that periodically erupts with cold liquid {FormatAsLink("Ammonia", "LIQUIDAMMONIA")}.";
+				}
+				public class AMMONIUMWATERGEYSER
+				{
+					public static LocString NAME = FormatAsLink("Ammonium Water Geyser", "GeyserGeneric_" + nameof(AMMONIUMWATERGEYSER));
+					public static LocString DESC = $"A highly pressurized cryogeyser that periodically erupts with cold {FormatAsLink("Ammonium Water", "AMMONIUMWATER")}.";
+				}
+				public class HOTMERCURYGASVENT
+				{
+					public static LocString NAME = FormatAsLink("Hot Mercury Gas Vent", "GeyserGeneric_" + nameof(HOTMERCURYGASVENT));
+					public static LocString DESC = $"A highly pressurized geothermal vent that periodically erupts with hot {FormatAsLink("Mercury Gas", "MERCURYGAS")}.";
+				}
+				public class MOLTENSALTGEYSER
+				{
+					public static LocString NAME = FormatAsLink("Molten Salt Geyser", "GeyserGeneric_" + nameof(MOLTENSALTGEYSER));
+					public static LocString DESC = $"A highly pressurized hot fissure that periodically erupts with {FormatAsLink("Molten Salt", "MOLTENSALT")}.";
+				}
+				public class PHOSPHORUSGEYSER
+				{
+					public static LocString NAME = FormatAsLink("Liquid Phosphorus Geyser", "GeyserGeneric_" + nameof(PHOSPHORUSGEYSER));
+					public static LocString DESC = $"A highly pressurized hot fissure that periodically erupts with {FormatAsLink("Liquid Phosphorus", "LIQUIDPHOSPHORUS")}.";
+				}
+				public class RAWGASVENT
+				{
+					public static LocString NAME = FormatAsLink("Hot Raw Natural Gas Vent", "GeyserGeneric_" + nameof(RAWGASVENT));
+					public static LocString DESC = $"A highly pressurized geothermal vent that periodically erupts with hot {FormatAsLink("Raw Natural Gas", "RAWNATURALGAS")}.";
+				}
+				public class SOURWATERGEYSER
+				{
+					public static LocString NAME = FormatAsLink("Sour Water Geyser", "GeyserGeneric_" + nameof(SOURWATERGEYSER));
+					public static LocString DESC = $"A highly pressurized geyser that periodically erupts with cold {FormatAsLink("Sour Water", "SOURWATER")}.";
 				}
 			}
 		}
@@ -641,6 +458,230 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString NOTIFICATION_TOOLTIP = "Duplicants have been exposed to acids.";
 					public static LocString NAME = "Acid Burns";
 					public static LocString TOOLTIP = "This duplicant has been injured from their recent exposure to corrosive acids.";
+				}
+			}
+		}
+		public class ELEMENTS
+		{
+			//===== [ Zinc ] ================================
+			public class SOLIDZINC
+			{
+				public static LocString NAME = FormatAsLink("Zinc", nameof(SOLIDZINC));
+				public static LocString DESC = "(Zn) Zinc is a bluish-white, lustrous, diamagnetic metal, slightly brittle metal.";
+			}
+			public class MOLTENZINC
+			{
+				public static LocString NAME = FormatAsLink("Molten Zinc", nameof(MOLTENZINC));
+				public static LocString DESC = "(Zn) Zinc is a bluish-white, lustrous, diamagnetic metal in its molten state.";
+			}
+			public class ZINCGAS
+			{
+				public static LocString NAME = FormatAsLink("Zinc Gas", nameof(ZINCGAS));
+				public static LocString DESC = "(Zn) Zinc is a bluish-white, lustrous, diamagnetic metal in its gaseous state.";
+			}
+			//===== [ Silver ] ==============================
+			public class SOLIDSILVER
+			{
+				public static LocString NAME = FormatAsLink("Silver", nameof(SOLIDSILVER));
+				public static LocString DESC = "(Ag) Silver is soft, white, lustrous transition metal, that exhibits a high electrical and thermal conductivity.";
+			}
+			public class MOLTENSILVER
+			{
+				public static LocString NAME = FormatAsLink("Molten Silver", nameof(MOLTENSILVER));
+				public static LocString DESC = "(Ag) Silver is soft, white, lustrous transition metal, in its molten state.";
+			}
+			public class SILVERGAS
+			{
+				public static LocString NAME = FormatAsLink("Silver Gas", nameof(SILVERGAS));
+				public static LocString DESC = "(Ag) Silver is soft, white, lustrous transition metal, in its gaseous state.";
+			}
+			//===== [ Ammonia ] =============================
+			public class SOLIDAMMONIA
+			{
+				public static LocString NAME = FormatAsLink("Ammonia Snow", nameof(SOLIDAMMONIA));
+				public static LocString DESC = "(NH<sub>3</sub>) Ammonia is an inorganic compound of nitrogen and hydrogen, currently its its cold, solid state.";
+			}
+			public class LIQUIDAMMONIA
+			{
+				public static LocString NAME = FormatAsLink("Liquid Ammonia", nameof(LIQUIDAMMONIA));
+				public static LocString DESC = "(NH<sub>3</sub>) Ammonia is an inorganic compound of nitrogen and hydrogen, currently in its cold, liquid state.";
+			}
+			public class AMMONIAGAS
+			{
+				public static LocString NAME = FormatAsLink("Ammonia", nameof(AMMONIAGAS));
+				public static LocString DESC = "(NH<sub>3</sub>) Ammonia is an inorganic compound of nitrogen and hydrogen. A stable binary hydride, and the simplest pnictogen hydride, ammonia is a gas with a distinct pungent smell.";
+			}
+			//===== [ Toxic Waste ] ==========================
+			public class TOXICCLAY
+			{
+				public static LocString NAME = FormatAsLink("Toxic Clay", nameof(TOXICCLAY));
+				public static LocString DESC = "A sick looking, brittle clay produced as waste product from industrial operations, composed of many different chemical substances.";
+			}
+			public class TOXICSLURRY
+			{
+				public static LocString NAME = FormatAsLink("Toxic Slurry", nameof(TOXICSLURRY));
+				public static LocString DESC = "A thick, toxic slurry produced as waste product from industrial operations, composed of many different chemical substances.";
+			}
+			public class TOXICGAS
+			{
+				public static LocString NAME = FormatAsLink("Toxic Gas", nameof(TOXICGAS));
+				public static LocString DESC = "A heavy, foul smelling gas produced as waste product from industrial operations, composed of many different chemical substances.";
+			}
+			//===== [ Alloy ] ================================
+			public class SOLIDBRASS
+			{
+				public static LocString NAME = FormatAsLink("Brass", nameof(SOLIDBRASS));
+				public static LocString DESC = "Brass is an alloy of " + FormatAsLink("Copper", "COPPER") + " and " + FormatAsLink("Zinc", "SOLIDZINC") + ", widely used to make utensils due to properties such as having a low melting point, high workability, durability, and electrical and thermal conductivity.";
+			}
+			public class PHOSPHORBRONZE
+			{
+				public static LocString NAME = FormatAsLink("Phosphor Bronze", nameof(PHOSPHORBRONZE));
+				public static LocString DESC = "An alloy composed of " + FormatAsLink("Copper", "COPPER") + ", " + FormatAsLink("Lead", "LEAD") + " and " + FormatAsLink("Phosphorus", "PHOSPHORUS") + ". Among copper based alloys it is remarkable tough, and has a relative low thermal conductivity.";
+			}
+			public class PLASTEEL
+			{
+				public static LocString NAME = FormatAsLink("Plasteel", nameof(PLASTEEL));
+				public static LocString DESC = "A composite of " + FormatAsLink("Plastic", "POLYPROPYLENE") + " stabilized fibers grown into a " + FormatAsLink("Steel", "Steel") + " crystal structure. It is much more stronger and lighter than standard metals alloys, and has a very low thermal conductivity.";
+			}
+			//===== [ Special ] ==============================
+
+			public class ISOPROPANEGAS
+			{
+				public static LocString NAME = FormatAsLink("Isopropane", nameof(ISOPROPANEGAS));
+				public static LocString DESC = "(HC(CH<sub>3</sub>)<sub>3</sub>) Isopropane is a petrochemical refrigerant gas suitable for a variety of purposes. Degrades to " + FormatAsLink("Propane", "PROPANE") + " at higher temperatures.";
+			}
+			public class SOLIDSLAG
+			{
+				public static LocString NAME = FormatAsLink("Slag", nameof(SOLIDSLAG));
+				public static LocString DESC = "Slag is a by-product of smelting (pyrometallurgical) ores and used metals. Despite being a waste product, it has many applications, such as aggregate in " + FormatAsLink("Concrete Blocks", "CONCRETEBLOCK") + ".";
+			}
+			public class MOLTENSLAG
+			{
+				public static LocString NAME = FormatAsLink("Molten Slag", nameof(MOLTENSLAG));
+				public static LocString DESC = "Molten Slag is a by-product of smelting (pyrometallurgical) ores and used metals. Present in molten state, this waste materail needs to be cooled down to solid " + FormatAsLink("Slag", "SOLIDSLAG") + " before can be used.";
+			}
+			public class SOLIDBORAX
+			{
+				public static LocString NAME = FormatAsLink("Borax", nameof(SOLIDBORAX));
+				public static LocString DESC = "Borax, also known as sodium borate, is an important boron compound, mainly used in the manufacture of " + FormatAsLink("Fiberglass", "SOLIDFIBERGLASS") + ", and as a flux in metallurgy.";
+			}
+			public class SOLIDOILSHALE
+			{
+				public static LocString NAME = FormatAsLink("Oil Shale", nameof(SOLIDOILSHALE));
+				public static LocString DESC = "Oil shale is an organic-rich fine-grained sedimentary rock containing heavy crude oil, sulfur compounds and heavy metals.";
+			}
+			public class SOLIDFIBERGLASS
+			{
+				public static LocString NAME = FormatAsLink("Fiberglass", nameof(SOLIDFIBERGLASS));
+				public static LocString DESC = "Fiberglass is a thermoset polymer matrix made by a poltrusion of boronsilicate " + FormatAsLink("Glass", "GLASS") + " and " + FormatAsLink("Plastic", "POLYPROPYLENE") + ". Although the fiber is weak in compression, this composite material has moderate insulating properties, and can be easily used in many different applications due to its relative flexibility.";
+			}
+			public class AMMONIUMWATER
+			{
+				public static LocString NAME = FormatAsLink("Ammonium Water", nameof(AMMONIUMWATER));
+				public static LocString DESC = "(NH<sub>4</sub>OH) Ammonium hydroxide is a solution of " + FormatAsLink("Ammonia", "AMMONIAGAS") + " and " + FormatAsLink("Salt Water", "SALTWATER") + ".";
+			}
+			public class AMMONIUMSALT
+			{
+				public static LocString NAME = FormatAsLink("Nitrate Nodules", nameof(AMMONIUMSALT));
+				public static LocString DESC = "(NH<sub>4</sub>NO<sub>3</sub>) Nodules of dirt containing high concentrations of Ammonium Nitrate.";
+			}
+			public class RAWNATURALGAS
+			{
+				public static LocString NAME = FormatAsLink("Raw Natural Gas", nameof(RAWNATURALGAS));
+				public static LocString DESC = "A fossil gas consisting of gaseous hydrocarbons and other impurites. The majority of the gas mass is composed of " + FormatAsLink("Methane", "METHANE") + ", " + FormatAsLink("Propane", "PROPANE") + " and " + FormatAsLink("Sour Gas", "SOURGAS") + ".";
+			}
+			public class CONCRETEBLOCK
+			{
+				public static LocString NAME = FormatAsLink("Concrete Block", nameof(CONCRETEBLOCK));
+				public static LocString DESC = "Concrete blocks are standard-size rectangular blocks used in building construction. A versatile component made from different aggregates that are often considered waste products.";
+			}
+			public class CARBONFIBER
+			{
+				public static LocString NAME = FormatAsLink("Carbon Composite", nameof(CARBONFIBER));
+				public static LocString DESC = "Carbon fiber-reinforced polymers blocks are extremely strong and light fiber-reinforced plastics that contain carbon fibers. Used on wherever high strength-to-weight ratio and stiffness (rigidity) are required, such as aerospace. Its composition of allotropes of carbon make it extremely resistant to heat.";
+			}
+			public class SOURWATER
+			{
+				public static LocString NAME = FormatAsLink("Sour Water", nameof(SOURWATER));
+				public static LocString DESC = "An aqueous solution of Hydrogen Sulfide (H<sub>2</sub>S>) and Ammonia (NH<sub>3</sub>). May occur naturally from aquifers exposed to hydrogen sulfide sources, but it is more common as a wastewater from industrial processes.";
+			}
+			//===== [ Metallic Sands ] =======================
+			public class LOWGRADESAND
+			{
+				public static LocString NAME = FormatAsLink("Low-Grade Metallic Sand", nameof(LOWGRADESAND));
+				public static LocString DESC = "A sandy material composed mostly of low quality metallic grains, mixed with other finer mineral particles.";
+			}
+			public class BASEGRADESAND
+			{
+				public static LocString NAME = FormatAsLink("Base-Grade Metallic Sand", nameof(BASEGRADESAND));
+				public static LocString DESC = "A heavy sandy material composed mostly of common metallic grains, mixed with other finer mineral particles.";
+			}
+			public class HIGHGRADESAND
+			{
+				public static LocString NAME = FormatAsLink("High-Grade Metallic Sand", nameof(HIGHGRADESAND));
+				public static LocString DESC = "A glimmering sandy material composed mostly of high quality metallic grains, mixed with other finer mineral particles.";
+			}
+			//===== [ Acids ] ================================
+			public class LIQUIDSULFURIC
+			{
+				public static LocString NAME = FormatAsLink("Sulfuric Acid", nameof(LIQUIDSULFURIC));
+				public static LocString DESC = "(H<sub>2</sub>SO<sub>4</sub>) A mineral acid composed of the elements sulfur, oxygen and hydrogen. Presented in its liquid state, it is a very dangerous chemical for its corrosive nature.";
+			}
+			public class SULFURICGAS
+			{
+				public static LocString NAME = FormatAsLink("Sulfuric Gas", nameof(SULFURICGAS));
+				public static LocString DESC = "(H<sub>2</sub>SO<sub>4</sub>) An acidic gas composed of the elements sulfur, oxygen and hydrogen. Presented in its gaseous state, it is a very dangerous chemical for its corrosive nature.";
+			}
+			public class LIQUIDNITRIC
+			{
+				public static LocString NAME = FormatAsLink("Nitric Acid", nameof(LIQUIDNITRIC));
+				public static LocString DESC = "(HNO<sub>3</sub>) An inorganic mineral acid composed of the elements nitrogen, oxygen and hydrogen. Presented in its liquid state, is the primary reagent used for nitration – the addition of a nitro group, typically to an organic molecule.";
+			}
+			//===== [ Raw Minerals ] =========================
+			public class ARGENTITEORE
+			{
+				public static LocString NAME = FormatAsLink("Silver Ore", nameof(ARGENTITEORE));
+				public static LocString DESC = "(Ag<sub>2</sub>S) Argentite is a cubic silver sulfide is a conductive metal, and the main source of refined " + FormatAsLink("Silver", "SOLIDSILVER") + " metal.";
+			}
+			public class AURICHALCITEORE
+			{
+				public static LocString NAME = FormatAsLink("Zinc Ore", nameof(AURICHALCITEORE));
+				public static LocString DESC = "((Zn,Cu)<sub>5</sub>(CO<sub>3</sub>)<sub>2</sub>(OH)<sub>6</sub>) Aurichalcite is a carbonate mineral, and the main source of refined " + FormatAsLink("Zinc", "SOLIDZINC") + " metal.";
+			}
+			public class GALENA
+			{
+				public static LocString NAME = FormatAsLink("Galena", nameof(GALENA));
+				public static LocString DESC = "Galena is the natural mineral form of lead(II) sulfide (PbS).It is the most important ore of " + FormatAsLink("Lead", "LEAD") + " and an important source of " + FormatAsLink("Silver", "SOLIDSILVER") + ".";
+			}
+			public class CHLOROSCHIST
+			{
+				public static LocString NAME = FormatAsLink("Chloroschist", nameof(CHLOROSCHIST));
+				public static LocString DESC = "A dense medium-grained metamorphic rock showing pronounced schistosity. This sample has a high content of chloride minerals within its compacted layers.";
+			}
+			public class METEORORE
+			{
+				public static LocString NAME = FormatAsLink("Meteor Ore", nameof(METEORORE));
+				public static LocString DESC = "A dense stony mass formed when various types of dust and small grains in the early Solar System accreted to form primitive asteroids. Despite their stony nature, these collision remnants contain traces of rare metals.";
+			}
+		}
+		public class MISC
+		{
+			public class TAGS
+			{
+				public static LocString CHEMICALPROCESSING_RANDOMSAND = "Metallic Sand";
+				public static LocString CHEMICALPROCESSING_RANDOMSAND_DESC = "Sandy materials composed of a various number of metallic grains";
+			}
+		}
+
+		public class ITEMS
+		{
+			public class INGREDIENTS
+			{
+				public class RAYONFIBER
+				{
+					public static LocString NAME = FormatAsLink("Rayon Fiber", nameof(RAYONFIBER));
+					public static LocString NAME_PLURAL = FormatAsLink("Rayon Fibers", nameof(RAYONFIBER));
+					public static LocString DESC = "Rayon is a synthetic fiber, chemically made from regenerated cellulose extracted from Lumber.";
 				}
 			}
 		}
