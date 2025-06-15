@@ -35,8 +35,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 		}
 
 		StringBuilder sb = null;
-		public string GetProductCompositionName()
+		public string GetProductCompositionName(bool massOnly = false)
 		{
+			if (massOnly)
+				return GameUtil.GetFormattedMass(TotalMass, massFormat: GameUtil.MetricMassFormat.Kilogram);
 			return string.Format(STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.NAME, GameUtil.GetFormattedMass(TotalMass, massFormat: GameUtil.MetricMassFormat.Kilogram));
 		}
 		public string GetProductCompositionDescription()

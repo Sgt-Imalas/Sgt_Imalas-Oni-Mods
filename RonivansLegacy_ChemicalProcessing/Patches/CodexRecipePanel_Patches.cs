@@ -1,0 +1,45 @@
+﻿using HarmonyLib;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.UI;
+using UtilLibs;
+
+namespace RonivansLegacy_ChemicalProcessing.Patches
+{
+	class CodexRecipePanel_Patches
+	{
+		[HarmonyPatch(typeof(CodexRecipePanel), nameof(CodexRecipePanel.ConfigureComplexRecipe))]
+		public class CodexRecipePanel_ConfigureComplexRecipe_Patch
+		{
+			public static void Postfix(CodexRecipePanel __instance)
+			{
+				if (__instance == null || __instance.complexRecipe == null)
+					return;
+
+				if (RandomRecipeResults.GetRandomResultsforRecipe(__instance.complexRecipe, out var result))
+				{
+					HierarchyReferences component = Util.KInstantiateUI(__instance.materialPrefab, __instance.resultsContainer, true)
+						.GetComponent<HierarchyReferences>();
+					Tuple<Sprite, Color> uiSprite = new(Assets.GetSprite("unknown"), Color.black);
+					var icon = component.GetReference<Image>("Icon");
+					icon.sprite = uiSprite.first;
+					icon.color = uiSprite.second;
+
+					var amount = component.GetReference<LocText>("Amount");
+					amount.text = result.GetProductCompositionName(true);
+					amount.color = Color.black;
+
+					component.GetReference<ToolTip>("Tooltip").toolTip = result.GetProductCompositionDescription();
+					component.GetReference<KButton>("Button").interactable = false;
+
+					__instance.title.text = __instance.complexRecipe.ingredients[0].material.ProperName();
+				}
+			}
+		}
+	}
+}
