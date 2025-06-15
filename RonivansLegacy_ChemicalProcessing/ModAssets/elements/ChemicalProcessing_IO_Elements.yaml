@@ -19,7 +19,6 @@ elements:
     radiationPer1000Mass: 0
     materialCategory: RefinedMetal
     tags:
-    - Metal
     - RefinedMetal
     - BuildableAny
     buildMenuSort: 2
@@ -101,7 +100,6 @@ elements:
     radiationPer1000Mass: 0
     materialCategory: RefinedMetal
     tags:
-    - Metal
     - RefinedMetal
     - BuildableAny
     buildMenuSort: 3
@@ -352,11 +350,6 @@ elements:
     state: Solid
     localizationID: STRINGS.ELEMENTS.SOLIDBRASS.NAME
     dlcId: ""
-    composition:
-      - elementID: MoltenCopper
-        percentage: 0.66
-      - elementID: ZincGas
-        percentage: 0.44
 
   - elementId: PhosphorBronze
     specificHeatCapacity: 0.380
@@ -388,11 +381,6 @@ elements:
     state: Solid
     localizationID: STRINGS.ELEMENTS.PHOSPHORBRONZE.NAME
     dlcId: ""
-    composition:
-      - elementID: MoltenCopper
-        percentage: 0.98
-      - elementID: MoltenLead
-        percentage: 0.02
 
   - elementId: Plasteel
     specificHeatCapacity: 0.21
@@ -425,11 +413,6 @@ elements:
     state: Solid
     localizationID: STRINGS.ELEMENTS.PLASTEEL.NAME
     dlcId: ""
-    composition:
-      - elementID: MoltenSteel
-        percentage: 0.97
-      - elementID: CarbonDioxide
-        percentage: 0.03
 
   - elementId: IsopropaneGas
     specificHeatCapacity: 9.76
@@ -552,11 +535,6 @@ elements:
     state: Solid
     localizationID: STRINGS.ELEMENTS.SOLIDOILSHALE.NAME
     dlcId: ""
-    composition:
-      - elementID: CrudeOil
-        percentage: 0.8
-      - elementID: SourGas
-        percentage: 0.2
 
   - elementId: SolidFiberglass
     specificHeatCapacity: 0.4
