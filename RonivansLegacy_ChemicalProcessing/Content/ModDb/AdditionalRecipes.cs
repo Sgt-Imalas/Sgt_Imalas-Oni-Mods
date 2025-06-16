@@ -221,6 +221,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				if (item.GetComponent<Navigator>() != null)
 					continue;
 
+				if (!PlantProductsConsumption.TryGetValue(product, out var plantProductsConsumption))
+					continue;
+
+				float totalMassConsumedByPlant = plantProductsConsumption.TotalMassPerSecond() * cropVal.cropDuration;
+				SgtLogger.l("adding custom expeller press recipe for: " + product.Name + ", plant consumes " + totalMassConsumedByPlant +"kg of fertilizer over "+cropVal.cropDuration/600f+" cycles");
+				float massConsumedByPlantPerProduct = totalMassConsumedByPlant / ((float)cropVal.numProduced);
+
+				
 
 			}
 
