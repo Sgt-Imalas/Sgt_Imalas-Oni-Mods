@@ -1,0 +1,29 @@
+name: STRINGS.CODEX.STORY_TRAITS.CGM_IMPACTOR.NAME
+description: STRINGS.CODEX.STORY_TRAITS.CGM_IMPACTOR.DESCRIPTION
+icon: CGM_Impactor_icon
+colorHex: FFFFFF
+
+traitTags:
+  - StartWorldOnly
+
+additionalWorldTemplateRules:
+  # Blaster Ruins
+  - names:
+    - dlc4::poi/blaster_ruins
+    listRule: GuaranteeOne
+    priority: 500 
+    useRelaxedFiltering: true
+    allowExtremeTemperatureOverlap: true
+    overrideOffset:
+       X: 0
+       Y: -7
+    allowedCellsFilter:
+      - command: Replace
+        tag: AtSurface
+        minDistance: 1
+        maxDistance: 1
+      - command: ExceptWith
+        tagcommand: DistanceFromTag
+        tag: AtEdge
+        minDistance: 0
+        maxDistance: 3
