@@ -9,8 +9,9 @@ traitTags:
 additionalWorldTemplateRules:
   # Blaster Ruins
   - names:
-    - dlc4::poi/blaster_ruins
-    listRule: GuaranteeOne
+    - poi/blaster_ruins_cgm_impactor_story_trait
+    listRule: TryOne
+    times: 1
     priority: 500 
     useRelaxedFiltering: true
     allowExtremeTemperatureOverlap: true
@@ -19,6 +20,7 @@ additionalWorldTemplateRules:
        Y: -7
     allowedCellsFilter:
       - command: Replace
+        tagcommand: DistanceFromTag
         tag: AtSurface
         minDistance: 1
         maxDistance: 1
@@ -26,4 +28,17 @@ additionalWorldTemplateRules:
         tagcommand: DistanceFromTag
         tag: AtEdge
         minDistance: 0
-        maxDistance: 3
+        maxDistance: 1
+  - names:
+      - poi/prehistoric_research_unlock_cgm_impactor_story_trait     
+    listRule: GuaranteeAll
+    priority: 100
+    allowNearStart: true
+    allowExtremeTemperatureOverlap: true
+    useRelaxedFiltering: true
+    allowedCellsFilter:
+      - command: Replace
+        tagcommand: AtTag
+        tag: AtStart
+        minDistance: 0
+        maxDistance: 1

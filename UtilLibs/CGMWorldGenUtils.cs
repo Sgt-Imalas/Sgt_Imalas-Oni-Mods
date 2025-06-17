@@ -40,8 +40,8 @@ namespace UtilLibs
 			}
 			return true;
 		}
-		
 
+		#region DLC4
 		public static bool HasImpactorShower(ProcGen.World world) => world != null && world.seasons != null && HasImpactorShower(world.seasons);
 		public static bool HasImpactorShower(List<string> seasons) =>  seasons.Contains("LargeImpactor");
 
@@ -82,6 +82,7 @@ namespace UtilLibs
 			CachedImpactorInfo[clusterID] = hasImpactor;
 			return hasImpactor;
 		}
+		#endregion
 		#region DLC2
 		public static bool HasGeothermalPumpInCluster(List<WorldPlacement> worldPlacements)
 		{

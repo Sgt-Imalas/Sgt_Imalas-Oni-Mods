@@ -20,15 +20,6 @@ namespace DemoliorStoryTrait.Patches
 				InjectionMethods.AddSpriteToAssets(__instance, "CGM_Impactor_image");
 				InjectionMethods.AddSpriteToAssets(__instance, "ImpactorPip");
 			}
-		}
-
-		[HarmonyPatch(typeof(ParallaxBackgroundObject), nameof(ParallaxBackgroundObject.Initialize))]
-		public class ParallaxBackgroundObject_Initialize_Patch
-		{
-			public static void Prefix(ParallaxBackgroundObject __instance, ref string texture)
-			{
-				texture = "ImpactorPip";
-			}
-		}
+		}		
 	}
 }

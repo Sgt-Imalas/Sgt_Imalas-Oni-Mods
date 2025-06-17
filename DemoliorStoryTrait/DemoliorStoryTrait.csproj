@@ -15,6 +15,7 @@
 		<Configurations>Debug;Release</Configurations>
 		<AssemblyName>DemoliorStoryTrait</AssemblyName>
 		<RootNamespace>DemoliorStoryTrait</RootNamespace>
+		<RequiredDlcIds>DLC4_ID</RequiredDlcIds>
 		<IsMod>true</IsMod>
 		<GenerateMetadata>true</GenerateMetadata>
 		<IsPacked>true</IsPacked>
