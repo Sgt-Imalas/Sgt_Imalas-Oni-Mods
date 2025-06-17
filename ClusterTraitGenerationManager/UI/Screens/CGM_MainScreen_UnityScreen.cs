@@ -531,7 +531,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			Instance = this;
 			canBackoutWithRightClick = true;
 			ConsumeMouseScroll = true;
-			
+
 			OnResize();
 		}
 		public void DoAndRefreshView(System.Action action)
@@ -664,7 +664,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				categoryToggle.Value.Refresh(SelectedCategory, PlanetSprite);
 			}
 
-			foreach(var dlcToggle in contentDlcToggles)
+			foreach (var dlcToggle in contentDlcToggles)
 			{
 				dlcToggle.Value.Refresh();
 			}
@@ -673,12 +673,12 @@ namespace ClusterTraitGenerationManager.UI.Screens
 		public DlcUIToggle AddOrGetDlcToggle(DlcMixingSettingConfig dlcMixing)
 		{
 			string dlc = dlcMixing.dlcIdFrom;
-			if(!DlcManager.IsContentSubscribed(dlc))
+			if (!DlcManager.IsContentSubscribed(dlc))
 			{
 				SgtLogger.l("DLC " + dlc + " is not subscribed, skipping toggle creation");
 				return null;
 			}
-			var toggle = Util.KInstantiateUI<DlcUIToggle>(Instance.DlcPrefab, Instance.DlcEntryContainer,true);
+			var toggle = Util.KInstantiateUI<DlcUIToggle>(Instance.DlcPrefab, Instance.DlcEntryContainer, true);
 			toggle.SetDlc(dlcMixing);
 
 
@@ -2462,14 +2462,17 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 			var currentPlacements = CustomCluster.GetAllPlanets().Select(planet => planet.placement).ToList();
 
-			StoryTraitToggle.SetInteractable(CGMWorldGenUtils.ShouldStoryBeInteractable(data.ID, currentPlacements));
-			StoryTraitToggle.SetOnFromCode(StoryTraitEnabled(data.ID));
+			bool SelectedToggleable = CGMWorldGenUtils.ShouldStoryBeInteractable(data.ID, currentPlacements);
+			StoryTraitToggle.SetInteractable(SelectedToggleable);
+			StoryTraitToggle.SetOnFromCode(StoryTraitEnabled(data.ID) || !SelectedToggleable);
 
 			foreach (var state in StoryTraitToggleCheckmarks)
 			{
 				string storyId = state.Key;
-				state.Value.SetInteractable(CGMWorldGenUtils.ShouldStoryBeInteractable(storyId, currentPlacements));
-				state.Value.SetOnFromCode(StoryTraitEnabled(storyId));
+				bool Interactable = CGMWorldGenUtils.ShouldStoryBeInteractable(storyId, currentPlacements);
+
+				state.Value.SetInteractable(Interactable);
+				state.Value.SetOnFromCode(StoryTraitEnabled(storyId) || !Interactable);
 			}
 
 			foreach (var state in StoryTraitToggleButtons)
@@ -2512,7 +2515,8 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			foreach (StarmapItemCategory category in AvailableStarmapItemCategories)
 			{
 				AddCategoryItem(category);
-			};
+			}
+			;
 			AddCategoryItem(DlcManager.IsExpansion1Active() ? StarmapItemCategory.POI : StarmapItemCategory.VanillaStarmap);
 			if (DlcManager.IsExpansion1Active())
 				SpacedOutStarmap_CategoryToggle = AddCategoryItem(StarmapItemCategory.SpacedOutStarmap);
@@ -2596,7 +2600,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			///SeasonContainer
 			foreach (var gameplaySeason in Db.Get().GameplaySeasons.resources)
 			{
-				if (!(gameplaySeason is MeteorShowerSeason) || gameplaySeason.Id.Contains("Fullerene") || gameplaySeason.Id.Contains("TemporalTear") || !DlcManager.IsCorrectDlcSubscribed(gameplaySeason.GetRequiredDlcIds(),gameplaySeason.GetForbiddenDlcIds()))
+				if (!(gameplaySeason is MeteorShowerSeason) || gameplaySeason.Id.Contains("Fullerene") || gameplaySeason.Id.Contains("TemporalTear") || !DlcManager.IsCorrectDlcSubscribed(gameplaySeason.GetRequiredDlcIds(), gameplaySeason.GetForbiddenDlcIds()))
 					continue;
 
 				var meteorSeason = gameplaySeason as MeteorShowerSeason;
