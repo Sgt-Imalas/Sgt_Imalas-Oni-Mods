@@ -15,6 +15,7 @@ namespace UtilLibs
 		private RecipeNameDisplay nameDisplay;
 		private string description;
 		private string name;
+		private string spritePrefabId;
 		private int sortOrder = 0;
 
 		private List<RecipeElement> inputs;
@@ -64,7 +65,7 @@ namespace UtilLibs
 			return this;
 		}
 
-		public RecipeBuilder Description(string ToFormat, int inputCount,int outputCount)
+		public RecipeBuilder Description(string ToFormat, int inputCount, int outputCount)
 		{
 			if (inputs.Count < inputCount || outputs.Count < outputCount)
 			{
@@ -134,6 +135,12 @@ namespace UtilLibs
 			this.name = name;
 			return this;
 		}
+		public RecipeBuilder IconPrefabOverride(Tag prefabId) => IconPrefabOverride(prefabId.ToString());
+		public RecipeBuilder IconPrefabOverride(string prefabId)
+		{
+			this.spritePrefabId = prefabId;
+			return this;
+		}
 
 		public RecipeBuilder SortOrder(int sortOrder)
 		{
@@ -153,7 +160,7 @@ namespace UtilLibs
 		}
 		public RecipeBuilder Input(IEnumerable<SimHashes> tags, float amount)
 		{
-			inputs.Add(new RecipeElement(tags.Select(simhash=> simhash.CreateTag()).ToArray(), amount));
+			inputs.Add(new RecipeElement(tags.Select(simhash => simhash.CreateTag()).ToArray(), amount));
 			return this;
 		}
 		public RecipeBuilder InputSO(SimHashes simHashes, float amount, bool inheritElement = true)
@@ -214,6 +221,8 @@ namespace UtilLibs
 			{
 				recipe.sortOrder = this.sortOrder;
 			}
+			if(!spritePrefabId.IsNullOrWhiteSpace())
+				recipe.customSpritePrefabID = spritePrefabId;
 			return recipe;
 		}
 	}

@@ -794,7 +794,7 @@ namespace RonivansLegacy_ChemicalProcessing
 			public class SOLIDBIOMASS
 			{
 				public static LocString NAME = FormatAsLink("Compressed Biomass", nameof(SOLIDBIOMASS));
-				public static LocString DESC = "A dried, hard pressed clump of organic mass from vegetable origin. Has almost no moinsture and can be used as burnable fuel or can be turned to dirt through composting.";
+				public static LocString DESC = "A dried, hard pressed clump of organic mass from vegetable origin. Has almost no moisture and can be used as burnable fuel or can be turned to dirt through composting.";
 			}
 		}
 		public class MISC
@@ -871,6 +871,8 @@ namespace RonivansLegacy_ChemicalProcessing
 
 				public static LocString SUPERMATERIALREFINERY_3_1 = "Molecularly reassemble a mixture of {0} and {1} with addition of {2} to produce {3}.";
 				public static LocString ANAEROBIC_DIGESTER_1_2 = "Break down {0} producing {1} and {2}.";
+				public static LocString EXPELLER_PRESS_1_2 = "Press down {0} and extract {1}. Produces {2} as waste.";
+				public static LocString EXPELLER_PRESS_SEEDTOOIL = FormatAsLink("Seeds", "SEED") + " to " + ELEMENTS.LIQUIDVEGEOIL.NAME;
 
 				public class RANDOMRECIPERESULT
 				{

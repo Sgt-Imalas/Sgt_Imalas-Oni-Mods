@@ -9,6 +9,12 @@ using Dupes_Industrial_Overhaul.Chemical_Processing.Chemicals;
 using Biochemistry.Buildings;
 using TUNING;
 using UnityEngine;
+using static ResearchTypes;
+using static STRINGS.ITEMS.FOOD;
+using static STRINGS.CODEX;
+using static STRINGS.UI.TOOLS.FILTERLAYERS;
+using UtilLibs.UIcmp;
+using static STRINGS.ITEMS.INGREDIENTS;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
@@ -197,9 +203,194 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					.Build();
 
 		}
+
+
+		public static void AddPrefefinedExpellerPressRecipe(Tag PlantProduct, float OilAmount, float BiomassAmount, float InputAmount) => PredefinedExpellerPressRecipes[PlantProduct] = new(OilAmount, BiomassAmount, InputAmount);
+		public static void AddPrefefinedExpellerPressRecipe(Tag PlantProduct, float OilAmount, float BiomassAmount) => PredefinedExpellerPressRecipes[PlantProduct] = new(OilAmount, BiomassAmount, 1);
+
+		static Dictionary<Tag, Tuple<float, float, float>> PredefinedExpellerPressRecipes = new();
 		public static void RegisterRecipes_ExpellerPress()
 		{
-			string ID = Biochemistry_AnaerobicDigesterConfig.ID;
+			string ID = Biochemistry_ExpellerPressConfig.ID;
+			//----[ MEAL LICE PRESSING ]---------------------------------------------
+			// Mealwood requires 3 cycles to produce 1kg of Meal Lice, using a total of 30kg of Dirt
+			// 50% of the Dirt mass consumed will be turned to Biomass waste of 15kg
+			// 10% of the remaining mass will turn to Vegetable Oil of 1,5kg
+			// 40% remaining mass is lost.
+			// -------------------------------
+			// Ingredient: Meal Lice -> 1kg
+			// Result:     Vegetable Oil -> 1,5kg
+			//             Biomass -> 15kg
+			//------------------------------------------------------------------------
+			AddPrefefinedExpellerPressRecipe(BasicPlantFoodConfig.ID, 1.5f, 15f);
+			//----[ SLEET WHEAT GRAIN PRESSING ]---------------------------------------------
+			// Sleet Wheat requires 18 cycles to produce 18kg of Sleet Wheat Grain, using a total of 90kg of Dirt and 360kg of Water.
+			// 25% of the Dirt mass consumed will be turned to Biomass waste of 1,25kg (22,5 / 18). 
+			// 35% of the remaining mass will turn to Vegetable Oil of 1,31kg (23,635 / 18).
+			// 40% remaining mass is lost.
+			//------------------------------------
+			// Ingredient: Sleet Wheat Grain -> 1kg
+			// Result:     Vegetable Oil -> 23.6kg / 18 
+			//             Biomass -> 22,5kg / 18
+			//-------------------------------------------------------------------------------
+			AddPrefefinedExpellerPressRecipe(ColdWheatConfig.SEED_ID, 1.31f, 1.25f);
+			//----[ NOSH BEAN PRESSING ]-----------------------------------------------------
+			// Nosh Sprout requires 21 cycles to produce 12kg of Nosh Beans, using a total of 105kg of Dirt and 420kg of Ethanol.
+			// 20% of the Dirt mass consumed will be turned to Biomass waste of 1,75kg (21 / 12).
+			// 40% of the remaining mass will turn to Vegetable Oil of 2,8kg (33,6 / 12).
+			// 40% remaining mass is lost.
+			//------------------------------------
+			// Ingredient: Nosh Bean -> 1kg
+			// Result:     Vegetable Oil -> 2,8kg
+			//             Biomass -> 1,75
+			//-------------------------------------------------------------------------------
+			AddPrefefinedExpellerPressRecipe(BeanPlantConfig.SEED_ID, 2.8f, 1.75f);
+			// ---- [PINCHA PEPPERNUT PRESSING]---------------------------------------------------- -
+			// Pincha Pepper Plant requires 8 cycles to produce 4kg of Pincha Pepper Nuts, using a total of 8kg of Phosphorite and 280kg of Polluted Water.
+			// This recipe will consider the total mass of 288kg / 4 = 72kg.
+			// 25% of the mass will be turned to Biomass waste of 4,5kg (18 / 4).
+			// 35% of the remaining mass will be turned to Vegetable Oil of 4,72kg (18,9 / 4)  
+			// 60% remaining mass is lost.
+			//------------------------------------
+			// Ingredient: Pincha Pepper Nut -> 1kg
+			// Result:     Vegetable Oil -> 4,72kg
+			//             Biomass -> 4,5kg
+			//---------------------------------------------------------------------------------------
+			AddPrefefinedExpellerPressRecipe(SpiceNutConfig.ID, 4.72f, 4.5f);
+			//----[ BALM LILY FLOWER PRESSING ]-----------------------------------------------------
+			// Balm Lilies require 12 cycles to produce 2kg of Balm Lily Flowers, using nothing.
+			// From the mass of 1kg, 65%% will turn to Biomass waste of 650g.
+			// Remaining mass will turn to vegetable oil of 350g.
+			//------------------------------------
+			// Ingredient: Balm Lily Flower -> 1kg
+			// Result:     Vegetable Oil -> 950g
+			//             Biomass -> 50g
+			//---------------------------------------------------------------------------------------
+			AddPrefefinedExpellerPressRecipe(SwampLilyFlowerConfig.ID, 0.35f, 0.65f);
+
+			///those are the values for regular grubfruit; moving spindly over to a more oily recipy
+			//----[ ~~SPINDLY~~ GRUBFRUIT PRESSING ]-----------------------------------------------------  
+			// Spindly Grubfruit Plant require 8 cycles to produce 8kg of Spindly Grubfruits, using a total of 80kg Sulfur.
+			// 34% of the mass will be turned to Biomass waste of 3,4kg (27,2 / 8).
+			// 26% of the remaining mass will be turned to Vegetable Oil of 1,06kg (8,448 / 8)  
+
+			//------------------------------------
+			// Ingredient: Spindly Grubfruit -> 1kg
+			// Result:     Vegetable Oil -> 1,06kg
+			//             Biomass -> 3,4kg
+			//---------------------------------------------------------------------------------------
+			AddPrefefinedExpellerPressRecipe(WormSuperFruitConfig.ID, 1.06f, 3.4f);
+			//----[ PIKEAPPLE PRESSING ]------------------------------------------------------------
+			// Pikeapple Plant require ~12~ -> 3 cycles to produce 1kg of Pikeapple, using a total of ~60kg~ 15kg Phosphorite.
+			// 40% of the mass will be turned to Biomass waste of ~24kg~ .
+			// 1,7% of the remaining mass will be turned to Vegetable Oil of 1,02kg
+			//------------------------------------
+			// Ingredient: Pikeapple -> 1kg
+			// Result:     Vegetable Oil -> 1,02kg
+			//             Biomass -> 24kg
+			//---------------------------------------------------------------------------------------  
+			AddPrefefinedExpellerPressRecipe(HardSkinBerryConfig.ID, 1.02f, 6f);
+			//----[ PLUME SQUASH PRESSING ]---------------------------------------------------------
+			// Plume squashes require 9 cycles to produce 1kg of Plume Squash, using a total of 135kg of Ethanol.
+			// 20% of the mass will be turned to Biomass waste of 27kg.
+			// 1,7% of the remaining mass will be turned to Vegetable Oil of 900g
+			//------------------------------------
+			// Ingredient: Plume Squash -> 1kg
+			// Result:     Vegetable Oil -> 0.9kg
+			//             Biomass -> 650g
+			//--------------------------------------------------------------------------------------- 
+			AddPrefefinedExpellerPressRecipe(CarrotConfig.ID, 0.9f, 27f);
+
+
+			//^^ those are from the original mod, now to my own additions:
+
+			///Info on All current product plants:
+
+
+
+			///GasGrassHarvested,Gas Grass, plant consumes 102kg of fertilizer(solid mass: 100, liquid mass: 2) over 4 cycles, making 1 items
+			///Percentages:  20% for biomass, 6% oil 
+			///Reason: looks rather seedy/like a nut, pincha has high percentage, very high dirt consumption
+			AddPrefefinedExpellerPressRecipe(GasGrassHarvestedConfig.ID, 6.12f, 20.4f);
+
+			///PlantMeat,Plant Meat, plant consumes 300kg of fertilizer(solid mass: 0, liquid mass: 300) over 30 cycles, making 10 items
+			///Per Item thats 30kg fertilizer
+			///Percentages: 40% for biomass, 3% oil 
+			///Reason: very "meaty/fruity, not much oil in that, but lots of biomass
+			AddPrefefinedExpellerPressRecipe(PlantMeatConfig.ID, 0.9f, 12.0f);
+
+			///WormBasicFruit,Spindly Grubfruit, plant consumes 40kg of fertilizer(solid mass: 40, liquid mass: 0) over 4 cycles, making 1 items
+			///Percentages: 15% for biomass, 18% oil 
+			///Reason: winging it to similar values in pincha
+			AddPrefefinedExpellerPressRecipe(WormBasicFruitConfig.ID, 7.2f, 6f);
+
+			///GardenFoodPlantFood,Sweatcorn, plant consumes 30kg of fertilizer(solid mass: 30, liquid mass: 0) over 3 cycles, making 1 items
+			///Percentages: 25% for biomass, 35% oil 
+			///Reason: alternative to sleet wheat - similar properties
+			AddPrefefinedExpellerPressRecipe(GardenFoodPlantFoodConfig.ID, 10.5f, 7.5f);
+
+			///Kelp,Seakomb Leaf, plant consumes 50kg of fertilizer(solid mass: 50, liquid mass: 0) over 5 cycles, making 50 items
+			///normal Seakomb has a 1-4 conversion with 3/4 of water; 25kg Seakomb + 75kg water become 100kg of phyto oil
+			///lets assume only 20% of the fertilizer is lost; that becomes 800g of biomass
+			///
+			AddPrefefinedExpellerPressRecipe(KelpConfig.ID, 3.85f, 0.8f);
+
+
+			foreach (var recipe in PredefinedExpellerPressRecipes)
+			{
+				Tag ingredient = recipe.Key;
+				var data = recipe.Value;
+				float oil = data.first;
+				float biomass = data.second;
+				float ingredientmass = data.third;
+
+				RecipeBuilder.Create(ID, 25)
+					.Input(ingredient, ingredientmass)
+					.Output(ModElements.VegetableOil_Liquid, oil)
+					.Output(ModElements.BioMass_Solid, biomass)
+					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
+					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_1_2, 1, 2)
+					.Build();
+			}
+			HashSet<Tag> seeds = new();
+			foreach (var seed in Assets.GetPrefabsWithTag(GameTags.CropSeed))
+			{
+				var prefabTag = seed.PrefabID();
+				if (!PredefinedExpellerPressRecipes.ContainsKey(prefabTag))
+					seeds.Add(prefabTag);
+			}
+			//seeds.Add("ForestTreeSeed");
+			//seeds.Add("SpaceTreeSeed");
+
+			//----[ SEEDS PRESSING ]-----------------------------------------------------------------
+			// All seeds have 1kg mass.
+			// 5% of the mass will be turned to Biomass waste of 50g.
+			// 95%% of the remaining mass will be turned to Vegetable Oil of 950g
+			//------------------------------------
+			// Ingredient: Seeds -> 1kg
+			// Result:     Vegetable Oil -> 950g
+			//             Biomass -> 50g
+			//--------------------------------------------------------------------------------------- 
+
+			RecipeBuilder.Create(ID, 25)
+				.Input(seeds.ToArray(), 1)
+				.Output(ModElements.VegetableOil_Liquid, 0.95f)
+				.Output(ModElements.BioMass_Solid, 0.05f)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
+				.NameOverride(CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_SEEDTOOIL)
+				.IconPrefabOverride(ModElements.BioMass_Solid.Tag)
+				.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_1_2, 1, 2)
+				.Build();
+
+		}
+
+		/// <summary>
+		/// unused
+		/// </summary>
+		public static void RegisterRecipes_ExpellerPress_GENERIC_ATTEMPT()
+		{
+			string ID = Biochemistry_ExpellerPressConfig.ID;
+			SgtLogger.l("Listing generic crops:");
 
 			foreach (var cropVal in CROPS.CROP_TYPES)
 			{
@@ -225,13 +416,25 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					continue;
 
 				float totalMassConsumedByPlant = plantProductsConsumption.TotalMassPerSecond() * cropVal.cropDuration;
-				SgtLogger.l("adding custom expeller press recipe for: " + product.Name + ", plant consumes " + totalMassConsumedByPlant +"kg of fertilizer over "+cropVal.cropDuration/600f+" cycles");
+				float liquidMassConsumedByPlant = plantProductsConsumption.LiquidMassPerSecond() * cropVal.cropDuration;
+				float solidMassConsumedByPlant = plantProductsConsumption.SolidMassPerSecond() * cropVal.cropDuration;
+
+				//SgtLogger.l(product+","+global::STRINGS.UI.StripLinkFormatting(Assets.GetPrefab(product).GetProperName()) + ", plant consumes " + totalMassConsumedByPlant + "kg of fertilizer (solid mass: " + solidMassConsumedByPlant + ", liquid mass: " + liquidMassConsumedByPlant + ") over " + cropVal.cropDuration / 600f + " cycles, making " + cropVal.numProduced + " items");
+				Console.WriteLine(cropVal.numProduced + "," + plantProductsConsumption.TotalMassPerSecond() * 600 + "," + product + "," + global::STRINGS.UI.StripLinkFormatting(Assets.GetPrefab(product).GetProperName()) + ";");
 				float massConsumedByPlantPerProduct = totalMassConsumedByPlant / ((float)cropVal.numProduced);
 
-				
 
+
+
+				//generic fallbacK: 6% to oil, 9% to biomass
+				RecipeBuilder.Create(ID, 25)
+					.Input(product, 1)
+					.Output(ModElements.VegetableOil_Liquid, massConsumedByPlantPerProduct * 0.06f)
+					.Output(ModElements.BioMass_Solid, massConsumedByPlantPerProduct * 0.09f)
+					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
+					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_1_2, 1, 2)
+					.Build();
 			}
-
 		}
 		public class PlantConsumptionInfo
 		{
@@ -244,14 +447,50 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				}
 				return val;
 			}
+			public float SolidMassPerSecond()
+			{
+				float val = 0;
+				foreach (var item in MassPerSecondPerItemSolid)
+				{
+					val += item.Value;
+				}
+				return val;
+			}
+			public float LiquidMassPerSecond()
+			{
+				float val = 0;
+				foreach (var item in MassPerSecondPerItemLiquid)
+				{
+					val += item.Value;
+				}
+				return val;
+			}
+
+
 			public Dictionary<Tag, float> MassPerSecondPerItem = new();
+			public Dictionary<Tag, float> MassPerSecondPerItemLiquid = new();
+			public Dictionary<Tag, float> MassPerSecondPerItemSolid = new();
 			public void AddOrIncreasConsumption(Tag tag, float val)
 			{
 				if (MassPerSecondPerItem.ContainsKey(tag))
 					MassPerSecondPerItem[tag] += val;
 				else MassPerSecondPerItem[tag] = val;
-			}
 
+
+				if (ElementLoader.GetElement(tag) != null && ElementLoader.GetElement(tag).IsLiquid)
+				{
+					if (MassPerSecondPerItemLiquid.ContainsKey(tag))
+						MassPerSecondPerItemLiquid[tag] += val;
+					else MassPerSecondPerItemLiquid[tag] = val;
+				}
+				else
+				{
+
+					if (MassPerSecondPerItemSolid.ContainsKey(tag))
+						MassPerSecondPerItemSolid[tag] += val;
+					else MassPerSecondPerItemSolid[tag] = val;
+				}
+			}
 		}
 		public static PlantConsumptionInfo AddOrGetPlantConsumptionInfo(Tag crop, Tag consumes, float amount)
 		{
@@ -261,7 +500,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				PlantProductsConsumption[crop] = consumptionInfo;
 			}
 			//SgtLogger.l("registering Consumption rate for "+crop+"; "+consumes+" x "+amount+" per second");
-			consumptionInfo.AddOrIncreasConsumption(consumes,amount);
+			consumptionInfo.AddOrIncreasConsumption(consumes, amount);
 			return consumptionInfo;
 		}
 
