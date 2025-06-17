@@ -61,11 +61,11 @@ namespace DemoliorStoryTrait.Patches
 				if (__result == null)
 					return;
 
-
 				ClusterMapLargeImpactor.Def def = __result.AddOrGetDef<ClusterMapLargeImpactor.Def>();
-
 				foreach (var worldcontainer in ClusterManager.Instance.WorldContainers)
 				{
+					SgtLogger.l(worldcontainer.id + " : " + string.Join(",", worldcontainer.GetSeasonIds()));
+
 					//there can only be one asteroid targeted by the impactor in the cluster at the same time
 					if (worldcontainer.GetSeasonIds().Contains("LargeImpactor"))
 					{
@@ -97,34 +97,6 @@ namespace DemoliorStoryTrait.Patches
 			}
 
 		}
-		[HarmonyPatch(typeof(LargeImpactorVisualizerEffect), nameof(LargeImpactorVisualizerEffect.SetLargeImpactObjectFromEventInstance))]
-		public class LargeImpactorVisualizerEffect_SetLargeImpactObjectFromEventInstance_Patch
-		{
-			public static bool Prefix(LargeImpactorVisualizerEffect __instance, GameplayEventInstance eventInstance, ref bool __result)
-			{
-				if (eventInstance == null)
-				{
-
-					SgtLogger.error("EVENT INSTANCE WAS NULL!");
-					return false;
-				}
-				LargeImpactorEvent.StatesInstance smi1 = (LargeImpactorEvent.StatesInstance)eventInstance.smi;
-				__instance.rangeVisualizer = smi1.impactorInstance.GetComponent<LargeImpactorVisualizer>();
-				LargeImpactorNotificationMonitor.Instance smi2 = smi1.impactorInstance.GetSMI<LargeImpactorNotificationMonitor.Instance>();
-				if ((UnityEngine.Object)__instance.rangeVisualizer != (UnityEngine.Object)null)
-				{
-					SgtLogger.l("settng range vis starting values");
-					__instance.material.SetFloat("_EntryStartTime", -1f);
-					__instance.material.SetFloat("_ZoneWasRevealed", smi2.HasRevealSequencePlayed ? 1f : 0.0f);
-				}
-				else
-					SgtLogger.error("RANGE VISUALIZER WAS NULL!!");
-				smi1.impactorInstance.Subscribe(-467702038, new System.Action<object>(__instance.OnAnySequenceRelatedToImpactorCompleted));
-				__result = true;
-				return false;
-			}
-		}
-
 
 		/// <summary>
 		/// override the printer survival on moonlets to avoid the impactor getting cut off in the middle
