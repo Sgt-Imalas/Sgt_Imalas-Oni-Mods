@@ -15,14 +15,14 @@ namespace Dupery
 			AddAccessoryIfMissing(dupe, Db.Get().AccessorySlots.Mouth, personality.nameStringKey, bodyData.mouth);
 			AddAccessoryIfMissing(dupe, Db.Get().AccessorySlots.Neck, personality.nameStringKey, bodyData.neck);
 			AddAccessoryIfMissing(dupe, Db.Get().AccessorySlots.Body, personality.nameStringKey, bodyData.body);
-			AddAccessoryIfMissing(dupe, Db.Get().AccessorySlots.Body, personality.nameStringKey, bodyData.arms);
-			AddAccessoryIfMissing(dupe, Db.Get().AccessorySlots.Body, personality.nameStringKey, bodyData.armslower);
+			AddAccessoryIfMissing(dupe, Db.Get().AccessorySlots.Arm, personality.nameStringKey, bodyData.arms);
+			AddAccessoryIfMissing(dupe, Db.Get().AccessorySlots.ArmLower, personality.nameStringKey, bodyData.armslower);
 			AddAccessoryIfMissing(dupe, Db.Get().AccessorySlots.ArmLowerSkin, personality.nameStringKey, bodyData.armLowerSkin);
 			AddAccessoryIfMissing(dupe, Db.Get().AccessorySlots.ArmUpperSkin, personality.nameStringKey, bodyData.armUpperSkin);
 			AddAccessoryIfMissing(dupe, Db.Get().AccessorySlots.LegSkin, personality.nameStringKey, bodyData.legSkin);
 			AddAccessoryIfMissing(dupe, Db.Get().AccessorySlots.Belt, personality.nameStringKey, bodyData.belt);
 			AddAccessoryIfMissing(dupe, Db.Get().AccessorySlots.Pelvis, personality.nameStringKey, bodyData.pelvis);
-			AddAccessoryIfMissing(dupe, Db.Get().AccessorySlots.Pelvis, personality.nameStringKey, bodyData.legs);
+			AddAccessoryIfMissing(dupe, Db.Get().AccessorySlots.Leg, personality.nameStringKey, bodyData.legs);
 			AddAccessoryIfMissing(dupe, Db.Get().AccessorySlots.Foot, personality.nameStringKey, bodyData.foot);
 			AddAccessoryIfMissing(dupe, Db.Get().AccessorySlots.Hand, personality.nameStringKey, bodyData.hand);
 			AddAccessoryIfMissing(dupe, Db.Get().AccessorySlots.Cuff, personality.nameStringKey, bodyData.cuff);

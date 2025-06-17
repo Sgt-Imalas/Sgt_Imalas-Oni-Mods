@@ -358,9 +358,14 @@ namespace Dupery
 			DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Eyes.Id, Eyes);
 			DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Mouth.Id, Mouth);
 
-			DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Body.Id, Body);
-			DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Arm.Id, Body);
-			DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.ArmLower.Id, Body);
+			if(Body != null && Body.Length > 1 && Body.Contains("torso"))
+			{
+				DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Body.Id, Body);
+				string armId = Body.Replace("torso", "arm_sleeve");
+				DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Arm.Id, armId);
+				string armlowerId = Body.Replace("torso", "arm_lower_sleeve");
+				DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.ArmLower.Id, armlowerId);
+			}
 
 			DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.HeadShape.Id, HeadShape);
 			DuperyPatches.AccessoryManager.RegisterPersonalityForCustomCheeks(nameStringKey, Mouth);
