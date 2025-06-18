@@ -1,4 +1,5 @@
 ﻿using Database;
+using FMOD.Studio;
 using HarmonyLib;
 using ProcGen;
 using ProcGenGame;
@@ -17,21 +18,7 @@ namespace DemoliorStoryTrait.Patches
 	class MutatedWorldData_Patches
 	{
 		/// <summary>
-		/// apply the fixed trait to the target asteroid of the story trait
-		/// </summary>
-		[HarmonyPatch(typeof(WorldContainer), nameof(WorldContainer.SetWorldDetails))]
-		public class WorldContainer_SetWorldDetails_Patch
-		{
-			public static void Postfix(WorldContainer __instance, WorldGen world)
-			{
-				if (__instance.WorldTraitIds.Contains(Stories_Patches.CGM_Impactor_Path))
-					__instance.largeImpactorFragmentsFixedTrait = FIXEDTRAITS.LARGEIMPACTORFRAGMENTS.NAME.ALLOWED;
-
-			}
-		}
-
-		/// <summary>
-		/// add the extra season to the target asteroid of the story trait
+		/// add the extra impactor data to the target asteroid of the story trait
 		/// </summary>
 		[HarmonyPatch(typeof(WorldGenSettings), nameof(WorldGenSettings.ApplyStoryTrait))]
 		public class WorldGenSettings_ApplyStoryTrait_Patch
@@ -42,18 +29,17 @@ namespace DemoliorStoryTrait.Patches
 				{
 					if (__instance.worldType != WorldPlacement.LocationType.Startworld)
 					{
-						SgtLogger.warning("cannot place large impactor story trait on "+__instance.world.filePath + ", it is not a startworld!");
+						SgtLogger.warning("cannot place large impactor story trait on " + __instance.world.filePath + ", it is not a startworld!");
 					}
 					else
 					{
-						__instance.mutatedWorldData.world.AddSeasons(["LargeImpactor"]);
-						SgtLogger.l("Adding extra season for impactor story trait to " +__instance.mutatedWorldData.world.filePath);
+						__instance.world.AddSeasons(["LargeImpactor"]);
+						SgtLogger.l("Adding extra season for impactor story trait to " + __instance.mutatedWorldData.world.filePath);
 					}
 				}
 			}
-			
-		}
 
+		}
 		/// <summary>
 		/// Prevent the story trait from landing on other asteroids that arent the startworld
 		/// </summary>

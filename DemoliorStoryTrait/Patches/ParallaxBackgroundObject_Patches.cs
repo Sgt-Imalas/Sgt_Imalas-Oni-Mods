@@ -14,7 +14,7 @@ namespace DemoliorStoryTrait.Patches
 		{
 			public static void Prefix(ParallaxBackgroundObject __instance, ref string texture)
 			{
-				if (Config.Instance.PipReplaceDemoliorSprite)
+				if (Config.Instance.PipReplaceDemoliorSprite) 
 					texture = "ImpactorPip";
 			}
 		}
