@@ -119,22 +119,52 @@ namespace DemoliorStoryTrait.Patches
 				int posY = __result.Y;
 				int posX = __result.X;
 
-
+				int worldXMin = impactorTarget.WorldOffset.X;
+				int worldXMax = impactorTarget.WorldOffset.X + impactorTarget.WorldSize.X;
 
 				int worldYMin = impactorTarget.WorldOffset.Y;
 				int worldYMax = impactorTarget.WorldOffset.Y + impactorTarget.WorldSize.Y;
 
 				int ImpactMaxY = posY + (templateBounds.height / 2);
+				int ImpactMaxX = posX + (templateBounds.width / 2);
+				int ImpactMinX = posX - (templateBounds.width / 2);
+
 				SgtLogger.l("Upper world border: " + worldYMax + ", upper asteroid impact zone: " + ImpactMaxY);
+				SgtLogger.l("Current coordinate: " + __result.ToString());
 
-				if (ImpactMaxY <= worldYMax + 10) 
-					return;
+				int XBorderBuffer = 5;
 
-				while (ImpactMaxY > worldYMax + 10)
-					--ImpactMaxY;
+				bool YNeedsTweaking = ImpactMaxY >= worldYMax - 10;
+				bool XNeedsTweaking = worldXMin+ XBorderBuffer > ImpactMinX || worldXMax- XBorderBuffer < ImpactMaxX;
 
-				posY = ImpactMaxY - templateBounds.height;
+				if (YNeedsTweaking)
+				{
+					SgtLogger.l("Tweaking Y position of impactor");
+					while (ImpactMaxY > worldYMax - 10)
+						--ImpactMaxY;
+					posY = ImpactMaxY - (templateBounds.height / 2); 
+				}
+				if (XNeedsTweaking)
+				{
+					if (worldXMin + XBorderBuffer > ImpactMinX)
+					{
+						SgtLogger.l("Tweaking X position of impactor left site");
+						while (ImpactMinX < worldXMin + XBorderBuffer)
+							++ImpactMinX;
 
+						posX = ImpactMinX + (templateBounds.width / 2);
+
+					}
+					else if (worldXMax - XBorderBuffer < ImpactMaxX)
+					{
+						SgtLogger.l("Tweaking X position of impactor right site");
+						while (ImpactMaxX -XBorderBuffer  > worldXMax)
+							--ImpactMaxX;
+						posX = ImpactMaxX - (templateBounds.width / 2);
+					}
+				}
+
+				SgtLogger.l("Final impactor position: " + posX + ", " + posY);
 				var adjustedPos = new Vector2I(posX, posY);
 				__result = adjustedPos;
 
@@ -148,6 +178,15 @@ namespace DemoliorStoryTrait.Patches
 			{
 				__instance.traveler?.MarkPathDirty();
 				destinationWorldID = ModAssets.GetImpactorWorldID();
+			}
+		}
+
+		[HarmonyPatch(typeof(LargeImpactorStatus), nameof(LargeImpactorStatus.InitializeStates))]
+		public class LargeImpactorStatus_InitializeStates_Patch
+		{
+			public static void Postfix(LargeImpactorStatus __instance)
+			{
+				//__instance.alive.GoTo(__instance.landing);
 			}
 		}
 

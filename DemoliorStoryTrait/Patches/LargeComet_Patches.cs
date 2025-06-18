@@ -17,7 +17,7 @@ namespace DemoliorStoryTrait.Patches
             {
                 if(Config.Instance.PipReplaceDemoliorSprite)
                 {
-                    __instance.largeCometTexture = Assets.GetSprite("Pipmolior_Final_Impact");
+                    __instance.largeCometTexture = Assets.GetSprite("ImpactorPip");
                 }
             }
         }
