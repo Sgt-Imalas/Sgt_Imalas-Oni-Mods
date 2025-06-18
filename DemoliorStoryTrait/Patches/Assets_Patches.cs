@@ -18,7 +18,7 @@ namespace DemoliorStoryTrait.Patches
 			{
 				InjectionMethods.AddSpriteToAssets(__instance, "CGM_Impactor_icon");
 				InjectionMethods.AddSpriteToAssets(__instance, "CGM_Impactor_image");
-				InjectionMethods.AddSpriteToAssets(__instance, "ImpactorPip");
+				AssetUtils.AddSpriteToAssets(__instance, "ImpactorPip", false,UnityEngine.TextureWrapMode.Clamp);
 				//InjectionMethods.AddSpriteToAssets(__instance, "Pipmolior_Final_Impact");
 			}
 		}		

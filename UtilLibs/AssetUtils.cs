@@ -41,10 +41,11 @@ namespace UtilLibs
 		}
 
 		//use in prefix
-		public static Sprite AddSpriteToAssets(Assets instance, string spriteid, bool overrideExisting = false)
+		public static Sprite AddSpriteToAssets(Assets instance, string spriteid, bool overrideExisting = false, TextureWrapMode mode = TextureWrapMode.Repeat)
 		{
 			var path = Path.Combine(UtilMethods.ModPath, "assets");
 			var texture = LoadTexture(spriteid, path);
+			texture.wrapMode = mode;
 			var sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector3.zero);
 			sprite.name = spriteid;
 			if (!overrideExisting && instance.SpriteAssets.Any(spritef => spritef != null && spritef.name == spriteid))
