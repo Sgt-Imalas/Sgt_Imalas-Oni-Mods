@@ -23,7 +23,7 @@ namespace DemoliorStoryTrait.Patches
 			public static void Postfix(StoryContentPanel __instance, bool useBias)
 			{
 				string clusterId = __instance.mainScreen.newGameSettingsPanel.GetSetting(CustomGameSettingConfigs.ClusterLayout);
-				DisableImpactorOnRelica(clusterId, __instance);
+				TryDisableImpactorOnRelica(clusterId, __instance);
 			}
 		}
 
@@ -36,14 +36,14 @@ namespace DemoliorStoryTrait.Patches
 				if (config != CustomGameSettingConfigs.ClusterLayout)
 					return;
 
-				DisableImpactorOnRelica(value);
+				TryDisableImpactorOnRelica(value);
 			}
 		}
 
 		[HarmonyPatch(typeof(StoryContentPanel), nameof(StoryContentPanel.SetStoryState))]
 		public class StoryContentPanel_SetStoryState_Patch
 		{
-			public static bool Prefix(StoryContentPanel __instance, string storyId, StoryState state)
+			public static bool Prefix(StoryContentPanel __instance, string storyId, StoryState state, ref bool __state)
 			{
 				if (storyId != CGMWorldGenUtils.CGM_Impactor_StoryTrait)
 					return true;
@@ -57,11 +57,33 @@ namespace DemoliorStoryTrait.Patches
 					PendingOnToggle = true;
 					return false;
 				}
+				__state = true;
 				return true;
+			}
+			public static void Postfix(bool __state)
+			{
+				if(__state)
+				{
+					var dlc4State = CustomGameSettings.Instance.GetCurrentMixingSettingLevel(CustomMixingSettingsConfigs.DLC4Mixing);
+					if(dlc4State.id == DlcMixingSettingConfig.DisabledLevelId)
+					{
+						CustomGameSettings.Instance.SetMixingSetting(CustomMixingSettingsConfigs.DLC4Mixing, DlcMixingSettingConfig.EnabledLevelId);
+					}
+				}
 			}
 		}
 
-		public static void DisableImpactorOnRelica(string clusterId, StoryContentPanel __instance = null)
+		[HarmonyPatch(typeof(CustomGameSettings), nameof(CustomGameSettings.SetMixingSetting), [typeof(SettingConfig), typeof(string), typeof(bool)])]
+		public class CustomGameSettings_SetMixingSetting_Patch
+		{
+			public static void Postfix(CustomGameSettings __instance, SettingConfig config, string value)
+			{
+				if (config != CustomMixingSettingsConfigs.DLC4Mixing)
+					return;
+				TryDisableImpactorOnRelica(value);
+			}
+		}
+		public static void TryDisableImpactorOnRelica(string clusterId, StoryContentPanel __instance = null)
 		{
 			var settings = CustomGameSettings.Instance;
 			if (!settings.StorySettings.ContainsKey(CGMWorldGenUtils.CGM_Impactor_StoryTrait))
@@ -69,7 +91,7 @@ namespace DemoliorStoryTrait.Patches
 				return;
 			}
 
-			if (CGMWorldGenUtils.HasImpactorShowerInCluster(clusterId))
+			if (CGMWorldGenUtils.HasImpactorShowerInCluster(clusterId) || settings.GetCurrentMixingSettingLevel(CustomMixingSettingsConfigs.DLC4Mixing).id == DlcMixingSettingConfig.DisabledLevelId)
 			{
 				var story = settings.StorySettings[CGMWorldGenUtils.CGM_Impactor_StoryTrait];
 				var storyState = settings.GetCurrentStoryTraitSetting(story);

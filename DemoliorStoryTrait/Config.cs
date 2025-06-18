@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using DemoliorStoryTrait.Patches;
+using Newtonsoft.Json;
 using PeterHan.PLib.Options;
 using System;
 using System.Collections.Generic;
@@ -14,8 +15,8 @@ namespace DemoliorStoryTrait
 	public class Config : SingletonOptions<Config>
 	{
 
-		[Option("PIPMOLIOR","Custom Demolior Shape: Pip")]
+		[Option(Localization_Patches.SettingNameKey)]
 		[JsonProperty]
-		public bool PipReplaceDemoliorSprite { get; set; } = false;
+		public bool PipReplaceDemoliorSprite { get; set; } = true;
 	}
 }

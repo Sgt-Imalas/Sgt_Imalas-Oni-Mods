@@ -139,7 +139,7 @@ namespace DemoliorStoryTrait.Patches
 
 				if (YNeedsTweaking)
 				{
-					SgtLogger.l("Tweaking Y position of impactor");
+					SgtLogger.l("Tweaking Y position of impactor, it was out of bounds");
 					while (ImpactMaxY > worldYMax - 10)
 						--ImpactMaxY;
 					posY = ImpactMaxY - (templateBounds.height / 2); 
@@ -148,7 +148,7 @@ namespace DemoliorStoryTrait.Patches
 				{
 					if (worldXMin + XBorderBuffer > ImpactMinX)
 					{
-						SgtLogger.l("Tweaking X position of impactor left site");
+						SgtLogger.l("Tweaking X position of impactor left site, it was out of bounds");
 						while (ImpactMinX < worldXMin + XBorderBuffer)
 							++ImpactMinX;
 
@@ -157,7 +157,7 @@ namespace DemoliorStoryTrait.Patches
 					}
 					else if (worldXMax - XBorderBuffer < ImpactMaxX)
 					{
-						SgtLogger.l("Tweaking X position of impactor right site");
+						SgtLogger.l("Tweaking X position of impactor right site, it was out of bounds");
 						while (ImpactMaxX -XBorderBuffer  > worldXMax)
 							--ImpactMaxX;
 						posX = ImpactMaxX - (templateBounds.width / 2);

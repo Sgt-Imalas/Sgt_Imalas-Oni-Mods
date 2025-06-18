@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using Klei;
 using Klei.CustomSettings;
-using ProcGenGame;
+using PeterHan.PLib.Core;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,9 +11,7 @@ using System.Reflection.Emit;
 using System.Text;
 using UnityEngine;
 using UtilLibs;
-using static KleiMetrics;
-using static STRINGS.BUILDINGS.PREFABS.EXTERIORWALL.FACADES;
-using static STRINGS.UI.SPACEARTIFACTS;
+using static AnimExportTool.Patches.MainMenu_OnPrefabInit.GameSettingExport;
 
 namespace AnimExportTool
 {
@@ -45,7 +43,7 @@ namespace AnimExportTool
 				{
 					Id = id;
 					IdName = idName;
-					ColorHex =Util.ToHexString( color).Substring(0,6);
+					ColorHex = Util.ToHexString(color).Substring(0, 6);
 
 					Name = Strings.Get(string.Format("STRINGS.SUBWORLDS.{0}.NAME", idName.ToUpperInvariant()));
 					Desc = Strings.Get(string.Format("STRINGS.SUBWORLDS.{0}.DESC", idName.ToUpperInvariant()));
@@ -444,6 +442,72 @@ namespace AnimExportTool
 		//}
 
 
+
+
+
+
+		public static StringBuilder EntityIdBuilder
+		{
+			get
+			{
+				if (EntityIdBuilder == null)
+				{
+					_entityIdBuilder = new StringBuilder();
+					_entityIdBuilder.Append("| Name | Id | DLC |");
+					_entityIdBuilder.Append("| :--: | :--:| :--:|");
+				}
+				return EntityIdBuilder;
+			}
+
+		}
+		private static StringBuilder _entityIdBuilder = null;
+		public static string StripFormatting(string toStrip)
+		{
+			toStrip = STRINGS.UI.StripLinkFormatting(toStrip);
+			toStrip = toStrip.Replace(STRINGS.UI.PRE_KEYWORD, string.Empty);
+			toStrip = toStrip.Replace(STRINGS.UI.PST_KEYWORD, string.Empty);
+			toStrip = toStrip.Replace(STRINGS.UI.PRE_POS_MODIFIER, string.Empty);
+			toStrip = toStrip.Replace(STRINGS.UI.PST_POS_MODIFIER, string.Empty);
+			toStrip = toStrip.Replace("<i>", string.Empty);
+			toStrip = toStrip.Replace("</i>", string.Empty);
+			toStrip = toStrip.Replace("<sup>", string.Empty);
+			toStrip = toStrip.Replace("</sup>", string.Empty);
+			toStrip = toStrip.Replace("<smallcaps>", string.Empty);
+			toStrip = toStrip.Replace("</smallcaps>", string.Empty);
+			return toStrip;
+		}
+
+		static List<Tuple<string, string, string[]>> EntitiesByName = new();
+
+		static void RegisterNames(GameObject go)
+		{
+			var prefab = go.GetComponent<KPrefabID>();
+			string[] requiredDlcIds = prefab.requiredDlcIds;
+			if (requiredDlcIds == null)
+				requiredDlcIds = [];
+
+			EntitiesByName.Add(new(StripFormatting(prefab.GetProperName()), prefab.PrefabTag.ToString(), requiredDlcIds));
+		}
+
+		//[HarmonyPatch(typeof(IEntityConfig), nameof(IEntityConfig.CreatePrefab))]
+		//public class IEntityConfig_CreatePrefab_Patch
+		//{
+		//	public static void Postfix(GameObject __result)
+		//	{
+		//		RegisterNames(__result);
+		//	}
+		//}
+
+		//[HarmonyPatch(typeof(IMultiEntityConfig), nameof(IMultiEntityConfig.CreatePrefabs))]
+		//public class IMultiEntityConfig_CreatePrefabs_Patch
+		//{
+		//	public static void Postfix(List<GameObject> __result)
+		//	{
+		//		foreach(var en in __result)
+		//			RegisterNames(en);
+		//	}
+		//}
+
 		[HarmonyPatch(typeof(MainMenu), nameof(MainMenu.OnPrefabInit))]
 		public class MainMenu_OnPrefabInit
 		{
@@ -493,8 +557,25 @@ namespace AnimExportTool
 				public string Name;
 				public string Description;
 				public long coordinate_range;
-				public string[] requiredDlcs;
+				public string DlcIdFrom;
+				public string Icon;
 				public List<SettingLevel> Levels;
+				public string[] MixingTags;
+				public string[] ForbiddenClusterTags;
+				public string WorldMixing;
+				public string SubworldMixing;
+
+
+				public MixingType SettingType = MixingType.None;
+				//public MixingData
+
+				public enum MixingType
+				{
+					None = -1,
+					DLC = 0,
+					Subworld = 1,
+					World = 2,
+				}
 			}
 
 
@@ -520,6 +601,7 @@ namespace AnimExportTool
 				public List<string> WorldPlacementIDs;
 				public int clusterCategory;
 				public int fixedCoordinate;
+				public string[] ClusterTags;
 			}
 			public class DataExport
 			{
@@ -564,19 +646,7 @@ namespace AnimExportTool
 					WriteUISpriteToFile(UISprite, Path.Combine(UtilMethods.ModPath, idPath), id);
 				}
 			}
-			public static string StripFormatting(string toStrip)
-			{
-				toStrip = STRINGS.UI.StripLinkFormatting(toStrip);
-				toStrip = toStrip.Replace(STRINGS.UI.PRE_KEYWORD, string.Empty);
-				toStrip = toStrip.Replace(STRINGS.UI.PST_KEYWORD, string.Empty);
-				toStrip = toStrip.Replace(STRINGS.UI.PRE_POS_MODIFIER, string.Empty);
-				toStrip = toStrip.Replace(STRINGS.UI.PST_POS_MODIFIER, string.Empty);
-				toStrip = toStrip.Replace("<i>", string.Empty);
-				toStrip = toStrip.Replace("</i>", string.Empty);
-				toStrip = toStrip.Replace("<sup>", string.Empty);
-				toStrip = toStrip.Replace("</sup>", string.Empty);
-				return toStrip;
-			}
+
 
 			//static SpacedOutStarmapLocation GetPoiData(GameObject item)
 			//{
@@ -682,6 +752,8 @@ namespace AnimExportTool
 				return list;
 			}
 
+
+
 			public static void Postfix()
 			{
 				StringBuilder loc = new StringBuilder();
@@ -713,6 +785,7 @@ namespace AnimExportTool
 					data.WorldPlacementIDs = cluster.worldPlacements.Select(pl => pl.world).ToList();
 					data.clusterCategory = (int)cluster.clusterCategory;
 					data.fixedCoordinate = cluster.fixedCoordinate;
+					data.ClusterTags = cluster.clusterTags.ToArray();
 					export.clusters.Add(data);
 					loc.Append(GenerateLocalizedEntry(data.Name, data.Name));
 				}
@@ -744,6 +817,23 @@ namespace AnimExportTool
 					export.worldTraits.Add(data);
 					loc.Append(GenerateLocalizedEntry(data.Name, data.Name));
 				}
+
+				var entityConfigInterface = typeof(IEntityConfig);
+				var multintityConfigInterface = typeof(IMultiEntityConfig);
+				var hasDlcRestrictionsInterface = typeof(IHasDlcRestrictions);
+				var types = AppDomain.CurrentDomain.GetAssemblies()
+					.SelectMany(s => s.GetTypes())
+					.Where(p => (entityConfigInterface.IsAssignableFrom(p) || multintityConfigInterface.IsAssignableFrom(p)) && p.IsClass);
+
+
+				Console.WriteLine("ENTITIES:");
+				//foreach(var en in EntitiesByName)
+				//{
+				//	EntityIdBuilder.Append($"| {en.first} | {en.second}| {string.Join(", ", en.third)}|");
+				//}
+
+				//Console.WriteLine(EntityIdBuilder.ToString());
+
 
 				Console.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 				Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(export));
@@ -800,15 +890,39 @@ namespace AnimExportTool
 				foreach (var coordinatedMixingSetting in CustomGameSettings.Instance.CoordinatedMixingSettings)
 				{
 					SettingConfig mixingSetting = CustomGameSettings.Instance.MixingSettings[coordinatedMixingSetting];
-					mixingList.Add(new()
+					MixingType mixingType = MixingType.DLC;
+
+					var setting = new GameSettingExport()
 					{
 						Id = mixingSetting.id,
 						Name = StripFormatting(mixingSetting.label),
 						Description = StripFormatting(mixingSetting.tooltip),
 						coordinate_range = mixingSetting.coordinate_range,
-						requiredDlcs = mixingSetting.required_content,
-						Levels = mixingSetting.GetLevels().Select(l => new GameSettingExport.SettingLevel() { Id = l.id, Name = StripFormatting(l.label), Description = StripFormatting(l.tooltip) }).ToList()
-					});
+						DlcIdFrom = mixingSetting.GetRequiredDlcIds().FirstOrDefault(),
+						Levels = mixingSetting.GetLevels().Select(l => new GameSettingExport.SettingLevel() { Id = l.id, Name = StripFormatting(l.label), Description = StripFormatting(l.tooltip) }).ToList(),
+
+					};
+					if (mixingSetting is SubworldMixingSettingConfig subworldMixing)
+					{
+						setting.ForbiddenClusterTags = subworldMixing.forbiddenClusterTags?.ToArray();
+						setting.Icon = subworldMixing.icon.name;
+
+						mixingType = MixingType.Subworld;
+						ProcGen.SubworldMixingSettings worldgenData = ProcGen.SettingsCache.GetCachedSubworldMixingSetting(subworldMixing.worldgenPath);
+						setting.SubworldMixing = worldgenData?.subworld?.name;
+					}
+					else if (mixingSetting is WorldMixingSettingConfig worldMixing)
+					{
+						setting.ForbiddenClusterTags = worldMixing.forbiddenClusterTags?.ToArray();
+						setting.Icon = worldMixing.icon.name;
+						ProcGen.WorldMixingSettings worldgenData = ProcGen.SettingsCache.GetCachedWorldMixingSetting(worldMixing.worldgenPath);
+						mixingType = MixingType.World;
+						setting.WorldMixing = worldgenData?.world;
+					}
+					setting.SettingType = mixingType;
+
+					mixingList.Add(setting);
+
 				}
 				Console.WriteLine("CCCCCCCCCCCCCCCCCCC");
 				Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(mixingList));
