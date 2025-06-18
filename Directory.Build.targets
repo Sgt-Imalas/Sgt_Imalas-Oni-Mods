@@ -57,7 +57,7 @@
 		<ItemGroup>
 			<ModAssets
 				Include = ".\ModAssets\**\*.*"
-				Exclude = ".\**\*.afphoto;.\**\*.mo"
+				Exclude = ".\**\*.afphoto;.\**\*.mo;.\**\*.afphoto~lock~"
 				/>
 		</ItemGroup>
 
