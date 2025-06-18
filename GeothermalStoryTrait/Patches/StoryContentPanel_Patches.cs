@@ -44,7 +44,7 @@ namespace GeothermalStoryTrait.Patches
 		[HarmonyPatch(typeof(StoryContentPanel), nameof(StoryContentPanel.SetStoryState))]
 		public class StoryContentPanel_SetStoryState_Patch
 		{			
-			public static bool Prefix(StoryContentPanel __instance, string storyId, StoryState state)
+			public static bool Prefix(StoryContentPanel __instance, string storyId, StoryState state, ref bool __state)
 			{
 				if (storyId != CGMWorldGenUtils.CGM_Heatpump_StoryTrait)
 					return true;
@@ -58,7 +58,30 @@ namespace GeothermalStoryTrait.Patches
 					PendingOnToggle = true;
 					return false;
 				}
+				__state = true;
 				return true;
+			}
+			public static void Postfix(bool __state)
+			{
+				if (__state)
+				{
+					var dlc4State = CustomGameSettings.Instance.GetCurrentMixingSettingLevel(CustomMixingSettingsConfigs.DLC2Mixing);
+					if (dlc4State.id == DlcMixingSettingConfig.DisabledLevelId)
+					{
+						CustomGameSettings.Instance.SetMixingSetting(CustomMixingSettingsConfigs.DLC2Mixing, DlcMixingSettingConfig.EnabledLevelId);
+					}
+				}
+			}
+		}
+
+		[HarmonyPatch(typeof(CustomGameSettings), nameof(CustomGameSettings.SetMixingSetting), [typeof(SettingConfig), typeof(string), typeof(bool)])]
+		public class CustomGameSettings_SetMixingSetting_Patch
+		{
+			public static void Postfix(CustomGameSettings __instance, SettingConfig config, string value)
+			{
+				if (config != CustomMixingSettingsConfigs.DLC2Mixing)
+					return;
+				DisableHeatpumpOnCeres(value);
 			}
 		}
 
@@ -70,7 +93,7 @@ namespace GeothermalStoryTrait.Patches
 				return;
 			}
 
-			if (CGMWorldGenUtils.HasGeothermalPumpInCluster(clusterId))
+			if (CGMWorldGenUtils.HasGeothermalPumpInCluster(clusterId) || settings.GetCurrentMixingSettingLevel(CustomMixingSettingsConfigs.DLC2Mixing).id == DlcMixingSettingConfig.DisabledLevelId)
 			{
 				var story = settings.StorySettings[CGMWorldGenUtils.CGM_Heatpump_StoryTrait];
 				var storyState = settings.GetCurrentStoryTraitSetting(story);
