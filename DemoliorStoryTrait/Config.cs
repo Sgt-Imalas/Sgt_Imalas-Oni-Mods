@@ -17,6 +17,6 @@ namespace DemoliorStoryTrait
 
 		[Option(Localization_Patches.SettingNameKey)]
 		[JsonProperty]
-		public bool PipReplaceDemoliorSprite { get; set; } = true;
+		public bool PipReplaceDemoliorSprite { get; set; } = false;
 	}
 }

@@ -181,14 +181,5 @@ namespace DemoliorStoryTrait.Patches
 			}
 		}
 
-		[HarmonyPatch(typeof(LargeImpactorStatus), nameof(LargeImpactorStatus.InitializeStates))]
-		public class LargeImpactorStatus_InitializeStates_Patch
-		{
-			public static void Postfix(LargeImpactorStatus __instance)
-			{
-				//__instance.alive.GoTo(__instance.landing);
-			}
-		}
-
 	}
 }
