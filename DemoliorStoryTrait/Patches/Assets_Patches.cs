@@ -19,7 +19,7 @@ namespace DemoliorStoryTrait.Patches
 				InjectionMethods.AddSpriteToAssets(__instance, "CGM_Impactor_icon");
 				InjectionMethods.AddSpriteToAssets(__instance, "CGM_Impactor_image");
 				InjectionMethods.AddSpriteToAssets(__instance, "ImpactorPip");
-				InjectionMethods.AddSpriteToAssets(__instance, "Pipmolior_Final_Impact");
+				//InjectionMethods.AddSpriteToAssets(__instance, "Pipmolior_Final_Impact");
 			}
 		}		
 	}

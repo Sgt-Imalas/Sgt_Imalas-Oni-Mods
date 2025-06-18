@@ -14,8 +14,8 @@ namespace DemoliorStoryTrait
 	public class Config : SingletonOptions<Config>
 	{
 
-		[Option("PIPMOLIOR")]
+		[Option("PIPMOLIOR","Custom Demolior Shape: Pip")]
 		[JsonProperty]
-		public bool PipReplaceDemoliorSprite { get; set; } = true;
+		public bool PipReplaceDemoliorSprite { get; set; } = false;
 	}
 }
