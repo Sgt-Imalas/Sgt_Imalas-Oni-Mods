@@ -65,7 +65,7 @@ namespace Rockets_TinyYetBig.Content.Defs.Buildings.Research
 			var researchCenter = go.AddOrGet<DeepSpaceResearchCenter>();
 			researchCenter.overrideAnims =
 			[
-				Assets.GetAnim((HashedString) "anim_interacts_research_space_kanim")
+				Assets.GetAnim((HashedString) "anim_interacts_metalrefinery_kanim")
 			];
 			researchCenter.research_point_type_id = ModAssets.DeepSpaceScienceID;
 			researchCenter.inputMaterial = INPUT_MATERIAL;

@@ -18,7 +18,7 @@ namespace Rockets_TinyYetBig.Content.Defs.Entities
 		public static string ID = "RTB_TechUnlock";
 		public GameObject CreatePrefab()
 		{
-			GameObject gameObject = EntityTemplates.CreatePlacedEntity(ID, global::STRINGS.BUILDINGS.PREFABS.DLC4POITECHUNLOCKS.NAME, global::STRINGS.BUILDINGS.PREFABS.DLC4POITECHUNLOCKS.DESC, 100f, decor: TUNING.BUILDINGS.DECOR.BONUS.TIER0, noise: NOISE_POLLUTION.NOISY.TIER0, anim: Assets.GetAnim("research_unlock_dino_kanim"), initialAnim: "on", sceneLayer: Grid.SceneLayer.Building, width: 3, height: 3, element: SimHashes.Creature, additionalTags: new List<Tag>
+			GameObject gameObject = EntityTemplates.CreatePlacedEntity(ID, global::STRINGS.BUILDINGS.PREFABS.DLC4POITECHUNLOCKS.NAME, global::STRINGS.BUILDINGS.PREFABS.DLC4POITECHUNLOCKS.DESC, 100f, decor: TUNING.BUILDINGS.DECOR.BONUS.TIER0, noise: NOISE_POLLUTION.NOISY.TIER0, anim: Assets.GetAnim("gravitas_desk_podium_kanim"), initialAnim: "off", sceneLayer: Grid.SceneLayer.Building, width: 1, height: 2, element: SimHashes.Creature, additionalTags: new List<Tag>
 		{
 			GameTags.Gravitas,
 			RoomConstraints.ConstraintTags.LightSource,
@@ -31,7 +31,7 @@ namespace Rockets_TinyYetBig.Content.Defs.Entities
 			occupyArea.objectLayers = new ObjectLayer[1] { ObjectLayer.Building };
 			gameObject.AddOrGet<Demolishable>();
 			POITechItemUnlockWorkable pOITechItemUnlockWorkable = gameObject.AddOrGet<POITechItemUnlockWorkable>();
-			pOITechItemUnlockWorkable.overrideAnims = new KAnimFile[1] { Assets.GetAnim("anim_interacts_research_unlock_kanim") };
+			pOITechItemUnlockWorkable.overrideAnims = new KAnimFile[1] { Assets.GetAnim("anim_interacts_metalrefinery_kanim") };
 			POITechItemUnlocks.Def def = gameObject.AddOrGetDef<POITechItemUnlocks.Def>();
 			def.POITechUnlockIDs = [ModAssets.DeepSpaceScienceID];
 			def.PopUpName = "Abandoned Station Computer";
