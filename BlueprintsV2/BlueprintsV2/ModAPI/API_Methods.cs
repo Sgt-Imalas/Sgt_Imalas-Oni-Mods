@@ -186,6 +186,16 @@ namespace BlueprintsV2.ModAPI
 			}
 		}
 
+		public static HashSet<string> GetDataHandlerIDs()
+		{
+			if (RegisteredDataHandlerIDs == null)
+				RegisteredDataHandlerIDs = new HashSet<string>(AdditionalBuildingDataEntries.Keys);
+			return RegisteredDataHandlerIDs;
+		}
+		private static HashSet<string> RegisteredDataHandlerIDs = null;
+
+		public static bool HasDataHandler(string typeName) => AdditionalBuildingDataEntries.ContainsKey(typeName);
+
 		public static Dictionary<string, BuildingDataStorage> AdditionalBuildingDataEntries = new();
 
 		/// <summary>
@@ -222,15 +232,30 @@ namespace BlueprintsV2.ModAPI
 		/// <param name="buildingConfig">the blueprint data where the additional data entries are added via key-value system</param>
 		public static void StoreAdditionalBuildingData(GameObject gameObject, BuildingConfig buildingConfig)
 		{
+			foreach(var dataEntry in GetAdditionalBuildingData(gameObject))
+			{
+				buildingConfig.AddBuildingData(dataEntry.Key, dataEntry.Value);
+			}
+		}
+
+		/// <summary>
+		/// Returns any registered building data values in the blueprint building
+		/// </summary>
+		/// <param name="gameObject">the gameobject of the building</param>
+		/// <param name="buildingConfig">the blueprint data where the additional data entries are added via key-value system</param>
+		public static Dictionary<string, JObject> GetAdditionalBuildingData(GameObject gameObject)
+		{
+			var buildingData = new Dictionary<string, JObject>();
 			foreach (var kvp in AdditionalBuildingDataEntries)
 			{
 				var DataHandler = kvp.Value;
 
 				var data = DataHandler.GetDataToStore(gameObject);
 				if (data != null)
-					buildingConfig.AddBuildingData(kvp.Key, data);
+					buildingData.Add(kvp.Key, data);
 
 			}
+			return buildingData;
 		}
 
 		/// <summary>
@@ -337,6 +362,8 @@ namespace BlueprintsV2.ModAPI
 			RegisterInternally(nameof(HighEnergyParticleRedirector), DataTransfer_HighEnergyParticleRedirector.TryGetData, DataTransfer_HighEnergyParticleRedirector.TryApplyData);
 			RegisterInternally(nameof(HEPBattery), DataTransfer_HEPBattery.TryGetData, DataTransfer_HEPBattery.TryApplyData);
 
+			RegisterInternally(nameof(UserNameable), DataTransfer_UserNameable.TryGetData, DataTransfer_UserNameable.TryApplyData);
+
 		}
 		public static bool
 			Aki_DecorPackA_API_Integrated = false,
@@ -421,6 +448,7 @@ namespace BlueprintsV2.ModAPI
 			{
 				RegisterInternally("Backwalls_Backwall", SkinHelper.TryStoreBackwall, SkinHelper.TryApplyBackwall, -10);
 			}
+
 		}
 
 	}

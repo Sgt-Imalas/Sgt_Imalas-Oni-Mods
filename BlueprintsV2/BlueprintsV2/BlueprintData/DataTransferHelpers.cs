@@ -11,6 +11,33 @@ namespace BlueprintsV2.BlueprintData
 {
 	internal class DataTransferHelpers
 	{
+		internal class DataTransfer_UserNameable
+		{
+			internal static JObject TryGetData(GameObject arg)
+			{
+				if (arg.TryGetComponent<UserNameable>(out var component))
+				{
+					return new JObject()
+					{
+						{ "savedName", component.savedName},
+					};
+				}
+				return null;
+			}
+			public static void TryApplyData(GameObject building, JObject jObject)
+			{
+				if (jObject == null)
+					return;
+				if (building.TryGetComponent<UserNameable>(out var targetComponent))
+				{
+					var t1 = jObject.GetValue("savedName");
+					if (t1 == null)
+						return;
+					var savedName = t1.Value<string>();
+					targetComponent.SetName(savedName);
+				}
+			}
+		}
 		internal class DataTransfer_BuildingEnabledButton
 		{
 			internal static JObject TryGetData(GameObject arg)
