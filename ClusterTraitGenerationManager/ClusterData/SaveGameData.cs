@@ -1,4 +1,6 @@
-﻿using KSerialization;
+﻿using Database;
+using HarmonyLib;
+using KSerialization;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -33,6 +35,10 @@ namespace ClusterTraitGenerationManager.ClusterData
 				return Instance._isCustomCluster;
 			return Game.clusterId == CGSMClusterManager.CustomClusterID;
 		}
+
+
+
+
 
 		public static void WriteCustomClusterTags(List<string> tags)
 		{
