@@ -388,7 +388,7 @@ namespace BlueprintsV2
 				STRINGS.UI.ACTIONS.SNAPSHOT_TITLE, new PKeyBinding(KKeyCode.C, Modifier.Ctrl));
 
 			Actions.BlueprintsSnapshotReuseAction = new PActionManager().CreateAction(ActionKeys.ACTION_SNAPSHOT_KEY,
-				STRINGS.UI.ACTIONS.SNAPSHOT_TITLE, new PKeyBinding(KKeyCode.V, Modifier.Ctrl));
+				STRINGS.UI.ACTIONS.SNAPSHOT_REUSE_TITLE, new PKeyBinding(KKeyCode.V, Modifier.Ctrl));
 
 			Actions.BlueprintsReopenSelectionAction = new PActionManager().CreateAction(ActionKeys.ACTION_RESELECT_KEY,
 				STRINGS.UI.ACTIONS.SELECT_DIFFERENT_TITLE, new PKeyBinding(KKeyCode.E, Modifier.Ctrl));
