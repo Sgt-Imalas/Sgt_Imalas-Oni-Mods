@@ -69,6 +69,7 @@ namespace Rockets_TinyYetBig
 			{
 				public static LocString RTB_DOCKINGTUBEATTACHMENTSLOT = "Spacefarer Docking Tube Attachment Port";
 				public static LocString RTB_RADIATIONSHIELDINGROCKETCONSTRUCTIONMATERIAL = "Radiation Shielding";
+				public static LocString RTB_RADIATIONSHIELDINGROCKETCONSTRUCTIONMATERIAL_DESC = "Materials that posses great radiation shielding properties";
 
 				public static LocString RTB_NEUTRONIUMALLOYMATERIAL = "Neutronium Alloy";
 				public static LocString RTB_NEUTRONIUMALLOYMATERIAL_DESC = "Neutronium Alloy is an insanely durable " + FormatAsLink("Solid Material", "ELEMENTS_SOLID") + " used in the construction of large space structures.";
@@ -356,13 +357,13 @@ namespace Rockets_TinyYetBig
 				}
 				public class RTB_DEEPSPACERESEARCHTELESCOPE
 				{
-					public static LocString NAME = FormatAsLink("Deep Space Analysis Station", nameof(RTB_DEEPSPACERESEARCHTELESCOPE));
+					public static LocString NAME = FormatAsLink("[WIP] Deep Space Analysis Station", nameof(RTB_DEEPSPACERESEARCHTELESCOPE));
 					public static LocString DESC = "Deep space analysis stations scan and collect data on deep space anomalies";
 					public static LocString EFFECT = ("Allows " + DEEPSPACERESEARCH.NAME + " to be accumulated.\n\nRequires a " + RTB_DEEPSPACEINSIGHT.NAME + " to function.");
 				}
 				public class RTB_DEEPSPACERESEARCHCENTER
 				{
-					public static LocString NAME = FormatAsLink("Quantum Computer", nameof(RTB_DEEPSPACERESEARCHCENTER));
+					public static LocString NAME = FormatAsLink("[WIP] Quantum Computer", nameof(RTB_DEEPSPACERESEARCHCENTER));
 					public static LocString DESC = "Quantum computers unlock new breakthroughs from the analysis of deep space anomalies.\n\nRequires active cooling to function optimally";
 					public static LocString EFFECT = ("Conducts " + DEEPSPACERESEARCH.NAME + " to unlock new technologies.\n\nConsumes " + RTB_DEEPSPACEINSIGHT.NAME_PLURAL + ".\n\nAssigned Duplicants must possess the " + global::STRINGS.DUPLICANTS.ROLES.SPACE_RESEARCHER.NAME + " skill.");
 				}
