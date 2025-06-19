@@ -4,7 +4,7 @@ This mod adds a new story trait that allows adding the Demolior impactor asteroi
 
 [img]https://raw.githubusercontent.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/refs/heads/master/Compat_All_DLC4_Required.png[/img]
 
-[h1]Current latest Version: 1.0.0[/h1]
+[h1]Current latest Version: 1.0.1[/h1]
 
 [hr][/hr]
 
@@ -12,9 +12,14 @@ This mod adds a new story trait that allows adding the Demolior impactor asteroi
 [list][*] New Story Trait: Demolior (or Pipmolior)
 [*] Requires the prehistoric planet pack dlc to be installed
 [*] Can be added to any cluster that doesn't contain a demolior asteroid already
+[*] Adds 1-2 POIs to the world: research portal for meteor blaster tech and optionally the surface ruins. On moonlet clusters, the surface ruin has a high chance to not show up since moonlets are too small for it
 [*] Alternative Shape: Pipmolior - the demolior asteroid is now a Pip, featuring a menacing stare and a custom impact template. Needs to be enabled in the mod config. Will apply to existing clusters and relica worlds when activated.
 [*] Integration with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2947429297]CGM[/url] included
 [/list]
+
+[h1]Credits[/h1]
+Options made with PLib by PeterHan, available under MIT license
+Pipmolior drawn by [url=https://steamcommunity.com/id/akisnothere/myworkshopfiles/?appid=457140]Aki[/url], thanks for that :D
 
 
 [h1]Bug Reports & Local Download[/h1]

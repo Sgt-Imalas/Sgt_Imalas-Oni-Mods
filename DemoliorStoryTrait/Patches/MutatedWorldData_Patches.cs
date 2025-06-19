@@ -51,7 +51,9 @@ namespace DemoliorStoryTrait.Patches
 				ref HashSet<string> usedTemplates,
 				ref bool __result)
 			{
-				if (rule.names.Any(rule => rule.Contains("cgm_impactor_story_trait")) && settings.worldType != WorldPlacement.LocationType.Startworld)
+				bool isStartWorld = (settings.worldType == WorldPlacement.LocationType.Startworld || DlcManager.IsPureVanilla());
+
+				if (rule.names.Any(rule => rule.Contains("cgm_impactor_story_trait")) && !isStartWorld)
 				{
 					SgtLogger.warning(settings.world.filePath + " was not a startworld!");
 					__result = false;
