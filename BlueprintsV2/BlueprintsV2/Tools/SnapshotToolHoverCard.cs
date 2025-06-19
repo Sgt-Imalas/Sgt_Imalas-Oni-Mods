@@ -30,11 +30,14 @@ namespace BlueprintsV2.Tools
 			drawer.DrawIcon(screenInstance.GetSprite("icon_mouse_right"), 20);
 			drawer.DrawText(STRINGS.UI.TOOLS.USE_TOOL.ACTION_BACK, Styles_Instruction.Standard);
 
+			drawer.NewLine(32);
+			drawer.DrawText(string.Format(STRINGS.UI.TOOLS.SNAPSHOT_TOOL.REUSELASTSNAPSHOT, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsSnapshotReuseAction.GetKAction()) + "]")), Styles_Instruction.Standard);
+
 			if (UsingSnapshot)
 			{
 				drawer.NewLine(32);
 				drawer.DrawText(string.Format(STRINGS.UI.TOOLS.SNAPSHOT_TOOL.NEWSNAPSHOT, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsReopenSelectionAction.GetKAction()) + "]")), Styles_Instruction.Standard);
-
+				
 				drawer.NewLine(32);
 				drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.ACTION_CHANGE_ANCHOR, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsSwapAnchorAction.GetKAction()) + "]")), Styles_Instruction.Standard);
 

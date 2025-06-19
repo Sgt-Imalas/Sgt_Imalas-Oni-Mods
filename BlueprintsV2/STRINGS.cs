@@ -178,6 +178,7 @@ namespace BlueprintsV2
 				public static LocString CREATE_TITLE = "Create Blueprint";
 				public static LocString USE_TITLE = "Use Blueprint";
 				public static LocString SNAPSHOT_TITLE = "Take Snapshot";
+				public static LocString SNAPSHOT_REUSE_TITLE = "Use last Snapshot";
 				public static LocString SELECT_DIFFERENT_TITLE = "Select different Blueprint";
 				public static LocString CHANGE_ANCHOR_TITLE = "Change Blueprint Anchor";
 				public static LocString TOGGLE_FORCE = "Toggle force rebuild";
@@ -225,11 +226,12 @@ namespace BlueprintsV2
 				public class SNAPSHOT_TOOL
 				{
 					public static LocString NAME = "Take Snapshot";
-					public static LocString TOOLTIP = "Take snapshot {0} \n\nCreate a blueprint and quickly place it elsewhere while not cluttering your blueprint collection! \nSnapshots do not persist between games or worlds.";
+					public static LocString TOOLTIP = "Take snapshot {0} or reuse last snapshot {1} \n\nCreate a blueprint and quickly place it elsewhere\nwhile not cluttering your blueprint collection!\nSnapshots do not persist between games or worlds.";
 					public static LocString EMPTY = "Snapshot would have been empty!";
 					public static LocString TAKEN = "Snapshot taken!";
 					public static LocString TOOLTIP_TITLE = "SNAPSHOT TOOL";
 					public static LocString NEWSNAPSHOT = "Press {0} to take new snapshot.";
+					public static LocString REUSELASTSNAPSHOT = "Press {0} to reuse your last taken snapshot.";
 				}
 				public class FILTERLAYERS
 				{

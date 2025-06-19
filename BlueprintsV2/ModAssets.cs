@@ -379,13 +379,16 @@ namespace BlueprintsV2
 		internal static void RegisterActions()
 		{
 			Actions.BlueprintsCreateAction = new PActionManager().CreateAction(ActionKeys.ACTION_CREATE_KEY,
-				STRINGS.UI.ACTIONS.CREATE_TITLE, new PKeyBinding(KKeyCode.C, Modifier.Ctrl));
+				STRINGS.UI.ACTIONS.CREATE_TITLE, new PKeyBinding(KKeyCode.C, Modifier.Shift | Modifier.Ctrl));
 
 			Actions.BlueprintsUseAction = new PActionManager().CreateAction(ActionKeys.ACTION_USE_KEY,
-				STRINGS.UI.ACTIONS.USE_TITLE, new PKeyBinding(KKeyCode.V, Modifier.Ctrl));
+				STRINGS.UI.ACTIONS.USE_TITLE, new PKeyBinding(KKeyCode.V, Modifier.Shift | Modifier.Ctrl));
 
 			Actions.BlueprintsSnapshotAction = new PActionManager().CreateAction(ActionKeys.ACTION_SNAPSHOT_KEY,
-				STRINGS.UI.ACTIONS.SNAPSHOT_TITLE, new PKeyBinding(KKeyCode.C, Modifier.Shift | Modifier.Ctrl));
+				STRINGS.UI.ACTIONS.SNAPSHOT_TITLE, new PKeyBinding(KKeyCode.C, Modifier.Ctrl));
+
+			Actions.BlueprintsSnapshotReuseAction = new PActionManager().CreateAction(ActionKeys.ACTION_SNAPSHOT_KEY,
+				STRINGS.UI.ACTIONS.SNAPSHOT_TITLE, new PKeyBinding(KKeyCode.V, Modifier.Ctrl));
 
 			Actions.BlueprintsReopenSelectionAction = new PActionManager().CreateAction(ActionKeys.ACTION_RESELECT_KEY,
 				STRINGS.UI.ACTIONS.SELECT_DIFFERENT_TITLE, new PKeyBinding(KKeyCode.E, Modifier.Ctrl));
@@ -485,6 +488,7 @@ namespace BlueprintsV2
 			public static PAction BlueprintsCreateAction { get; set; }
 			public static PAction BlueprintsUseAction { get; set; }
 			public static PAction BlueprintsSnapshotAction { get; set; }
+			public static PAction BlueprintsSnapshotReuseAction { get; set; }
 			public static PAction BlueprintsReopenSelectionAction { get; set; }
 			public static PAction BlueprintsSwapAnchorAction { get; set; }
 			public static PAction BlueprintsToggleForce { get; set; }

@@ -1,6 +1,8 @@
 ﻿using BlueprintsV2.BlueprintData;
+using Database;
 using HarmonyLib;
 using PeterHan.PLib.Options;
+using STRINGS;
 using System.Reflection;
 using UnityEngine;
 using UtilLibs;
@@ -9,10 +11,12 @@ namespace BlueprintsV2.Tools
 {
 	public sealed class SnapshotTool : MultiFilteredDragTool
 	{
-		private Blueprint blueprint;
+		public static bool HasPreviousSnapshot => Instance != null && Instance.lastPreviousSnapshotBlueprint != null && !Instance.lastPreviousSnapshotBlueprint.IsEmpty();
+		private Blueprint snapshotBlueprint, lastPreviousSnapshotBlueprint;
 		private SnapshotToolHoverCard hoverCard;
 
 		public static SnapshotTool Instance { get; private set; }
+		float shiftX = 0, shiftY = 0;
 
 		public SnapshotTool()
 		{
@@ -60,10 +64,17 @@ namespace BlueprintsV2.Tools
 			Destroy(visualizer);
 			visualizer = null;
 		}
-
+		public void SetLastUsedBlueprint(Blueprint blueprint)
+		{
+			if (blueprint != null && !blueprint.IsEmpty())
+			{
+				lastPreviousSnapshotBlueprint = blueprint;
+			}
+		}
 		public void DeleteBlueprint()
 		{
-			blueprint = null;
+			SetLastUsedBlueprint(snapshotBlueprint);
+			snapshotBlueprint = null;
 
 			hoverCard.UsingSnapshot = false;
 
@@ -115,7 +126,7 @@ namespace BlueprintsV2.Tools
 			BlueprintState.ForceMaterialChange = false;
 			BlueprintState.IsPlacingSnapshot = false;
 			BlueprintState.ClearVisuals();
-			blueprint = null;
+			snapshotBlueprint = null;
 
 			MultiToolParameterMenu.Instance.HideMenu();
 			ToolMenu.Instance.PriorityScreen.Show(false);
@@ -131,12 +142,10 @@ namespace BlueprintsV2.Tools
 				Grid.PosToXY(cursorDown, out int x0, out int y0);
 				Grid.PosToXY(cursorUp, out int x1, out int y1);
 
-				float shiftX = 0, shiftY = 0;
 				if (x0 < x1)
 					shiftX = 1;
 				if (y0 < y1)
 					shiftY = 1;
-
 
 				if (x0 > x1)
 				{
@@ -148,45 +157,67 @@ namespace BlueprintsV2.Tools
 					Util.Swap(ref y0, ref y1);
 				}
 
-				var blueprint1 = BlueprintState.CreateBlueprint(new Vector2I(x0, y0), new Vector2I(x1, y1), MultiToolParameterMenu.Instance);
-				if (blueprint1.IsEmpty())
-				{
-					PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE, STRINGS.UI.TOOLS.SNAPSHOT_TOOL.EMPTY, null, offset: PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);
-				}
-				else
-				{
-					BlueprintState.VisualizeBlueprint(Grid.PosToXY(PlayerController.GetCursorPos(KInputManager.GetMousePos())), blueprint1);
-					BlueprintState.SetAnchorState(shiftX, shiftY, blueprint1);
-
-					MultiToolParameterMenu.Instance.HideMenu();
-					ToolMenu.Instance.PriorityScreen.Show();
-
-					hoverCard.UsingSnapshot = true;
-					DestroyVisualizer();
-
-					PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE, STRINGS.UI.TOOLS.SNAPSHOT_TOOL.TAKEN, null, PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);
-					GridCompositor.Instance.ToggleMajor(true);
-					blueprint = blueprint1;
-				}
+				var bp = BlueprintState.CreateBlueprint(new Vector2I(x0, y0), new Vector2I(x1, y1), MultiToolParameterMenu.Instance);
+				SetLastUsedBlueprint(bp);
+				Visualize(bp);
 			}
 		}
 
+		public void TryVisualizeLastSnapshot()
+		{
+			if (lastPreviousSnapshotBlueprint != null && !lastPreviousSnapshotBlueprint.IsEmpty())
+			{
+				Visualize(lastPreviousSnapshotBlueprint,false);
+			}
+			else
+			{
+				PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE, STRINGS.UI.TOOLS.SNAPSHOT_TOOL.EMPTY, null, offset: PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);
+			}
+		}
+
+		public void Visualize(Blueprint blueprintToVisualize, bool spawnFX = true)
+		{
+			if (blueprintToVisualize.IsEmpty())
+			{
+				snapshotBlueprint = null;
+				if (spawnFX)
+					PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE, STRINGS.UI.TOOLS.SNAPSHOT_TOOL.EMPTY, null, offset: PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);
+			}
+			else
+			{
+				BlueprintState.VisualizeBlueprint(Grid.PosToXY(PlayerController.GetCursorPos(KInputManager.GetMousePos())), blueprintToVisualize);
+				BlueprintState.SetAnchorState(shiftX, shiftY, blueprintToVisualize);
+
+				MultiToolParameterMenu.Instance.HideMenu();
+				ToolMenu.Instance.PriorityScreen.Show();
+
+				hoverCard.UsingSnapshot = true;
+				DestroyVisualizer();
+
+				if (spawnFX)
+					PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE, STRINGS.UI.TOOLS.SNAPSHOT_TOOL.TAKEN, null, PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);
+				GridCompositor.Instance.ToggleMajor(true);
+				snapshotBlueprint = blueprintToVisualize;
+			}
+		}
+
+
 		public override void OnLeftClickDown(Vector3 cursorPos)
 		{
-			if (blueprint == null)
+			if (snapshotBlueprint == null)
 			{
 				base.OnLeftClickDown(cursorPos);
 			}
 
 			else if (hasFocus)
 			{
-				BlueprintState.UseBlueprint(Grid.PosToXY(cursorPos), blueprint);
+				BlueprintState.UseBlueprint(Grid.PosToXY(cursorPos), snapshotBlueprint);
 			}
 		}
 
 		public override void OnLeftClickUp(Vector3 cursorPos)
 		{
-			if (blueprint == null)
+			if (snapshotBlueprint == null)
 			{
 				base.OnLeftClickUp(cursorPos);
 			}
@@ -194,14 +225,14 @@ namespace BlueprintsV2.Tools
 
 		public override void OnMouseMove(Vector3 cursorPos)
 		{
-			if (blueprint == null)
+			if (snapshotBlueprint == null)
 			{
 				base.OnMouseMove(cursorPos);
 			}
 
 			else if (hasFocus)
 			{
-				BlueprintState.UpdateVisual(Grid.PosToXY(cursorPos), false, blueprint);
+				BlueprintState.UpdateVisual(Grid.PosToXY(cursorPos), false, snapshotBlueprint);
 			}
 		}
 
@@ -209,6 +240,10 @@ namespace BlueprintsV2.Tools
 		{
 			if (ModAssets.BlueprintFileHandling.HasBlueprints())
 			{
+				if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsSnapshotReuseAction.GetKAction()))
+				{
+					TryVisualizeLastSnapshot();
+				}
 				if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsReopenSelectionAction.GetKAction()))
 				{
 					DeleteBlueprint();
@@ -217,7 +252,7 @@ namespace BlueprintsV2.Tools
 				if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsToggleForce.GetKAction()))
 				{
 					BlueprintState.ForceMaterialChange = true;
-					BlueprintState.RefreshBlueprintVisualizers(blueprint);
+					BlueprintState.RefreshBlueprintVisualizers(snapshotBlueprint);
 				}
 				if (buttonEvent.TryConsume(Action.RotateBuilding))
 				{
@@ -238,7 +273,7 @@ namespace BlueprintsV2.Tools
 			if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsToggleForce.GetKAction()))
 			{
 				BlueprintState.ForceMaterialChange = false;
-				BlueprintState.RefreshBlueprintVisualizers(blueprint);
+				BlueprintState.RefreshBlueprintVisualizers(snapshotBlueprint);
 
 			}
 		}
