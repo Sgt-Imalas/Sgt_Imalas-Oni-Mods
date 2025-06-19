@@ -99,6 +99,7 @@ namespace BlueprintsV2.Tools
 		public override void OnActivateTool()
 		{
 			base.OnActivateTool();
+			BlueprintState.IsPlacingSnapshot = true;
 
 			if (visualizer == null)
 			{
@@ -112,6 +113,7 @@ namespace BlueprintsV2.Tools
 		{
 			base.OnDeactivateTool(newTool);
 			BlueprintState.ForceMaterialChange = false;
+			BlueprintState.IsPlacingSnapshot = false;
 			BlueprintState.ClearVisuals();
 			blueprint = null;
 
