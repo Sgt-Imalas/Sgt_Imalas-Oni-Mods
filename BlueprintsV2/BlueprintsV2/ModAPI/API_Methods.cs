@@ -332,6 +332,7 @@ namespace BlueprintsV2.ModAPI
 			RegisterInternally(nameof(BuildingEnabledButton), DataTransfer_BuildingEnabledButton.TryGetData, DataTransfer_BuildingEnabledButton.TryApplyData);
 			RegisterInternally(nameof(SingleEntityReceptacle), DataTransfer_SingleEntityReceptacle.TryGetData, DataTransfer_SingleEntityReceptacle.TryApplyData);
 			RegisterInternally(nameof(Filterable), DataTransfer_Filterable.TryGetData, DataTransfer_Filterable.TryApplyData);
+			RegisterInternally(nameof(FoodStorage), DataTransfer_FoodStorage .TryGetData, DataTransfer_FoodStorage.TryApplyData);
 			RegisterInternally(nameof(TreeFilterable), DataTransfer_TreeFilterable.TryGetData, DataTransfer_TreeFilterable.TryApplyData);
 			RegisterInternally(nameof(Valve), DataTransfer_Valve.TryGetData, DataTransfer_Valve.TryApplyData);
 			RegisterInternally(nameof(LimitValve), DataTransfer_LimitValve.TryGetData, DataTransfer_LimitValve.TryApplyData);
