@@ -1,4 +1,5 @@
-﻿using BlueprintsV2.ModAPI;
+﻿using BlueprintsV2.BlueprintsV2.BlueprintData;
+using BlueprintsV2.ModAPI;
 using KSerialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -7,7 +8,8 @@ using UnityEngine;
 
 namespace BlueprintsV2.BlueprintData
 {
-	internal class UnderConstructionDataTransfer : KMonoBehaviour
+	public class UnderConstructionDataTransfer : KMonoBehaviour
+	, ISidescreenButtonControl
 	{
 		public static Dictionary<Tuple<int, ObjectLayer>, UnderConstructionDataTransfer> RegisteredTransferPlans = new();
 
@@ -17,10 +19,9 @@ namespace BlueprintsV2.BlueprintData
 		public Dictionary<string, string> ToApplyData = new();
 
 		[MyCmpGet]
-		public Building building;
+		public BuildingUnderConstruction building;
 
 		Tuple<int, ObjectLayer> currentPos;
-
 
 		public override void OnPrefabInit()
 		{
@@ -28,11 +29,19 @@ namespace BlueprintsV2.BlueprintData
 			currentPos = new(Grid.PosToCell(this), building.Def.ObjectLayer);
 			RegisteredTransferPlans[currentPos] = this;
 		}
+		public override void OnSpawn()
+		{
+			base.OnSpawn();
+			//Subscribe((int)GameHashes.SelectObject, OnSelectObject);
+		}
+
 		public override void OnCleanUp()
 		{
 			RegisteredTransferPlans.Remove(currentPos);
+			//Unsubscribe((int)GameHashes.SelectObject, OnSelectObject);
 			base.OnCleanUp();
 		}
+
 		public void SetDataToApply(string id, JObject value)
 		{
 			//SgtLogger.l("registering stored data for " + id);
@@ -57,5 +66,25 @@ namespace BlueprintsV2.BlueprintData
 				API_Methods.TryApplyingStoredData(targetBuilding, data.Key, JObject.Parse(data.Value));
 			}
 		}
+		#region DataSetter
+		public string SidescreenButtonText => STRINGS.UI.PRECONFIGURE_UNDERCONSTRUCTION.TITLE;
+		public string SidescreenButtonTooltip => STRINGS.UI.PRECONFIGURE_UNDERCONSTRUCTION.TOOLTIP;
+		public void SetButtonTextOverride(ButtonMenuTextOverride textOverride)
+		{
+		}
+
+		public bool SidescreenEnabled() => UnderConstructionDataSettingHelper.HasDataTransferComponents(building);
+
+		public bool SidescreenButtonInteractable() => true;
+
+		public void OnSidescreenButtonPressed()
+		{
+			UnderConstructionDataSettingHelper.StartEditingUnderConstructionData(this);
+		}
+
+		public int HorizontalGroupID() => -1;
+
+		public int ButtonSideScreenSortOrder() => 22;
+		#endregion
 	}
 }
