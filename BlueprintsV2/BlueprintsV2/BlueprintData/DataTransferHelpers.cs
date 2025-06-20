@@ -11,6 +11,33 @@ namespace BlueprintsV2.BlueprintData
 {
 	internal class DataTransferHelpers
 	{
+		internal class DataTransfer_UserNameable
+		{
+			internal static JObject TryGetData(GameObject arg)
+			{
+				if (arg.TryGetComponent<UserNameable>(out var component))
+				{
+					return new JObject()
+					{
+						{ "savedName", component.savedName},
+					};
+				}
+				return null;
+			}
+			public static void TryApplyData(GameObject building, JObject jObject)
+			{
+				if (jObject == null)
+					return;
+				if (building.TryGetComponent<UserNameable>(out var targetComponent))
+				{
+					var t1 = jObject.GetValue("savedName");
+					if (t1 == null)
+						return;
+					var savedName = t1.Value<string>();
+					targetComponent.SetName(savedName);
+				}
+			}
+		}
 		internal class DataTransfer_BuildingEnabledButton
 		{
 			internal static JObject TryGetData(GameObject arg)
@@ -449,6 +476,33 @@ namespace BlueprintsV2.BlueprintData
 				}
 			}
 		}
+		internal class DataTransfer_FoodStorage
+		{
+			internal static JObject TryGetData(GameObject arg)
+			{
+				if (arg.TryGetComponent<FoodStorage>(out var component))
+				{
+					return new JObject()
+					{
+						{ "SpicedFoodOnly", component.SpicedFoodOnly},
+					};
+				}
+				return null;
+			}
+			public static void TryApplyData(GameObject building, JObject jObject)
+			{
+				if (jObject == null)
+					return;
+				if (building.TryGetComponent<FoodStorage>(out var targetComponent))
+				{
+					var t1 = jObject.GetValue("SpicedFoodOnly");
+					if (t1 != null)
+					{
+						targetComponent.SpicedFoodOnly = t1.Value<bool>();
+					}
+				}
+			}
+		}
 		internal class DataTransfer_TreeFilterable
 		{
 			internal static JObject TryGetData(GameObject arg)
@@ -457,9 +511,15 @@ namespace BlueprintsV2.BlueprintData
 				{
 					if (!component.copySettingsEnabled)
 						return null;
+
+					var tags = component.GetTags();
+					var targetStorage = component.GetFilterStorage();
+					bool onlyFetchMarkedItems = targetStorage.allowSettingOnlyFetchMarkedItems ? targetStorage.onlyFetchMarkedItems : false;
+
 					return new JObject()
 					{
-						{ "acceptedTagSet", JsonConvert.SerializeObject(component.GetTags())},
+						{ "acceptedTagSet", JsonConvert.SerializeObject(tags)},
+						{ "onlyFetchMarkedItems", onlyFetchMarkedItems},
 					};
 				}
 				return null;
@@ -474,11 +534,22 @@ namespace BlueprintsV2.BlueprintData
 						return;
 
 					var t1 = jObject.GetValue("acceptedTagSet");
-					if (t1 == null)
-						return;
-					var acceptedTagSetJson = t1.Value<string>();
-					var acceptedTagSet = JsonConvert.DeserializeObject<HashSet<Tag>>(acceptedTagSetJson);
-					targetComponent.UpdateFilters(acceptedTagSet);
+					if (t1 != null)
+					{
+						var acceptedTagSetJson = t1.Value<string>();
+						var acceptedTagSet = JsonConvert.DeserializeObject<HashSet<Tag>>(acceptedTagSetJson);
+						targetComponent.UpdateFilters(acceptedTagSet);
+					}
+					var t2 = jObject.GetValue("onlyFetchMarkedItems");
+					if (t2 != null)
+					{
+						var storage = targetComponent.GetFilterStorage();
+						if(storage.allowSettingOnlyFetchMarkedItems)
+						{
+							var onlyFetchMarkedItems = t2.Value<bool>();
+							storage.SetOnlyFetchMarkedItems(onlyFetchMarkedItems);
+						}
+					}
 				}
 			}
 		}
@@ -568,7 +639,7 @@ namespace BlueprintsV2.BlueprintData
 							if (targetMinionProxy == null)
 								continue;
 
-							SgtLogger.l("minion found: "+targetMinionProxy.target.GetProperName());
+							SgtLogger.l("minion found: " + targetMinionProxy.target.GetProperName());
 							targetComponent.SetPermission(targetMinionProxy, entry.Value);
 							customPermissionSet = true;
 						}
