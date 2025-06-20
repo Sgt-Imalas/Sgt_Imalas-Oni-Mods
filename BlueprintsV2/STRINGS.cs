@@ -34,8 +34,14 @@ namespace BlueprintsV2
 				public static LocString TOOLTIP = "Whether the Snapshot Tool syncs with the current overlay. (configurable in game too)";
 			}
 		}
+			
 		public class UI
 		{
+			public class PRECONFIGURE_UNDERCONSTRUCTION
+			{
+				public static LocString TITLE = "Preconfigure building settings";
+				public static LocString TOOLTIP = "Use blueprint data transfer to preconfigure this building";
+			}
 			public class DIALOGUE
 			{
 				public class CONFIRMDELETE
