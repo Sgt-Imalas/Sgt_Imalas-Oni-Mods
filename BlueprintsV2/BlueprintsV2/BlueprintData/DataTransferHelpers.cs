@@ -101,8 +101,7 @@ namespace BlueprintsV2.BlueprintData
 
 					return new JObject()
 					{
-                        //{ "activeLocations", JsonConvert.SerializeObject(component.activeLocations.Select(axial => new Tuple<int,int>(axial.Q,axial.R)))},
-                        { "requestedEntityTag", requestedEntityTagString},
+						{ "requestedEntityTag", requestedEntityTagString},
 						{ "requestedEntityAdditionalFilterTag", additionalFilterTagString},
 						{ "autoReplaceEntity", component.autoReplaceEntity }
 					};
@@ -193,9 +192,9 @@ namespace BlueprintsV2.BlueprintData
 				{
 					return new JObject()
 					{
-						{ "maxCount", JsonConvert.SerializeObject(component.maxCount)},
-						{ "resetCountAtMax", JsonConvert.SerializeObject(component.resetCountAtMax)},
-						{ "advancedMode", JsonConvert.SerializeObject(component.advancedMode)},
+						{ "maxCount", component.maxCount},
+						{ "resetCountAtMax", component.resetCountAtMax},
+						{ "advancedMode", component.advancedMode},
 					};
 				}
 				return null;
@@ -544,7 +543,7 @@ namespace BlueprintsV2.BlueprintData
 					if (t2 != null)
 					{
 						var storage = targetComponent.GetFilterStorage();
-						if(storage.allowSettingOnlyFetchMarkedItems)
+						if (storage.allowSettingOnlyFetchMarkedItems)
 						{
 							var onlyFetchMarkedItems = t2.Value<bool>();
 							storage.SetOnlyFetchMarkedItems(onlyFetchMarkedItems);
