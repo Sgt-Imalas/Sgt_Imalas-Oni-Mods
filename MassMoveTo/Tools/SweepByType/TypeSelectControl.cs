@@ -67,6 +67,17 @@ namespace MassMoveTo.Tools.SweepByType
 		/// </summary>
 		internal const int ROW_SPACING = 2;
 
+		internal string FilterText = string.Empty;
+
+		public void ClearFilterText() => OnFilterTextChanged(null, string.Empty);
+		public void OnFilterTextChanged(GameObject source,string newText)
+		{
+			FilterText = newText;
+			UpdateFromChildren();
+
+        }
+
+
 		/// <summary>
 		/// Gets the sprite for a particular element tag.
 		/// </summary>
@@ -174,7 +185,14 @@ namespace MassMoveTo.Tools.SweepByType
 				FlexSize = Vector2.right,
 				// Background ensures that scrolling works properly!
 				BackColor = PUITuning.Colors.BackgroundLight
-			}.AddChild(new PCheckBox("SelectAll")
+			}.AddChild(new PTextField("TextFilter")
+            {
+                Text = FilterText,
+                MinWidth = 450,
+                TextAlignment = TMPro.TextAlignmentOptions.CenterGeoAligned,
+                OnTextChanged = OnFilterTextChanged
+            })			
+			.AddChild(new PCheckBox("SelectAll")
 			{
 				Text = global::STRINGS.UI.UISIDESCREENS.TREEFILTERABLESIDESCREEN.ALLBUTTON,
 				CheckSize = ROW_SIZE,
@@ -366,7 +384,24 @@ namespace MassMoveTo.Tools.SweepByType
 		internal void UpdateFromChildren()
 		{
 			UpdateAllItems(allItems, children.Values);
+			UpdateVisibility();
 			SaveTypes();
+		}
+
+		void UpdateVisibility()
+		{
+			bool hasFilter = !FilterText.IsNullOrWhiteSpace() && FilterText.Length > 0;
+			var filterUpper = FilterText.ToUpperInvariant();
+			foreach(var item in children)
+			{
+				foreach(var entry in item.Value.children)
+				{
+
+                    bool filterFulfilled = !hasFilter || entry.Key.Name.ToUpperInvariant().Contains(filterUpper);
+                    entry.Value.CheckBox.SetActive(filterFulfilled);
+
+                }
+			}
 		}
 
 		/// <summary>
