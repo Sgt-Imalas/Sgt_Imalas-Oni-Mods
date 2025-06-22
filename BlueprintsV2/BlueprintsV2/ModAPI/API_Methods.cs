@@ -232,7 +232,7 @@ namespace BlueprintsV2.ModAPI
 		/// <param name="buildingConfig">the blueprint data where the additional data entries are added via key-value system</param>
 		public static void StoreAdditionalBuildingData(GameObject gameObject, BuildingConfig buildingConfig)
 		{
-			foreach(var dataEntry in GetAdditionalBuildingData(gameObject))
+			foreach (var dataEntry in GetAdditionalBuildingData(gameObject))
 			{
 				buildingConfig.AddBuildingData(dataEntry.Key, dataEntry.Value);
 			}
@@ -329,11 +329,13 @@ namespace BlueprintsV2.ModAPI
 			RegisterInternally(nameof(Artable), SkinHelper.TryStoreArtableSkin, SkinHelper.TryApplyArtableSkin);
 			RegisterInternally(nameof(BuildingFacade), SkinHelper.TryStoreBuildingSkin, SkinHelper.TryApplyBuildingSkin);
 
+			RegisterInternally(nameof(Prioritizable), DataTransfer_Prioritizable.TryGetData, DataTransfer_Prioritizable.TryApplyData);
 			RegisterInternally(nameof(BuildingEnabledButton), DataTransfer_BuildingEnabledButton.TryGetData, DataTransfer_BuildingEnabledButton.TryApplyData);
 			RegisterInternally(nameof(SingleEntityReceptacle), DataTransfer_SingleEntityReceptacle.TryGetData, DataTransfer_SingleEntityReceptacle.TryApplyData);
 			RegisterInternally(nameof(Filterable), DataTransfer_Filterable.TryGetData, DataTransfer_Filterable.TryApplyData);
-			RegisterInternally(nameof(FoodStorage), DataTransfer_FoodStorage .TryGetData, DataTransfer_FoodStorage.TryApplyData);
+			RegisterInternally(nameof(FoodStorage), DataTransfer_FoodStorage.TryGetData, DataTransfer_FoodStorage.TryApplyData);
 			RegisterInternally(nameof(TreeFilterable), DataTransfer_TreeFilterable.TryGetData, DataTransfer_TreeFilterable.TryApplyData);
+			RegisterInternally(nameof(FlatTagFilterable), DataTransfer_FlatTagFilterable.TryGetData, DataTransfer_FlatTagFilterable.TryApplyData);
 			RegisterInternally(nameof(Valve), DataTransfer_Valve.TryGetData, DataTransfer_Valve.TryApplyData);
 			RegisterInternally(nameof(LimitValve), DataTransfer_LimitValve.TryGetData, DataTransfer_LimitValve.TryApplyData);
 			RegisterInternally(nameof(AccessControl), DataTransfer_AccessControl.TryGetData, DataTransfer_AccessControl.TryApplyData);

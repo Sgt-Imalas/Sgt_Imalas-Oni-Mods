@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using static BlueprintsV2.BlueprintData.DataTransferHelpers;
 using static Grid;
 
 namespace BlueprintsV2.BlueprintsV2.BlueprintData
@@ -17,7 +18,8 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 	{
 		public static List<string> ComponentsToIgnore =
 			[
-			"BuildingEnabledButton"
+			nameof(BuildingEnabledButton)
+			,nameof(Prioritizable)
 			,API_Consts.ConduitFlagID
 
 			];
@@ -29,6 +31,8 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 		public static bool HasDataTransferComponents(BuildingUnderConstruction building)
 		{
 			if (building == null)
+				return false;
+			if (!API_Methods.AllowedByRules(building.Def))
 				return false;
 			var completeVersion = building.Def.BuildingComplete;
 			var data = API_Methods.GetAdditionalBuildingData(completeVersion);
@@ -48,22 +52,22 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 				temporaryTargetBuilding = null;
 			}
 
-			//var leftCell = Grid.CellLeft(Grid.PosToCell(origin));
+			int cell = def.WidthInCells; //spawn it close to the origin, but dont let it clip into negative cell indicies
 
-			temporaryTargetBuilding = def.Create(Grid.CellToPos(0), null, [SimHashes.Unobtanium.CreateTag()], null, 100, def.BuildingComplete);
+			temporaryTargetBuilding = def.Create(Grid.CellToPos(cell), null, [SimHashes.Unobtanium.CreateTag()], null, 100, def.BuildingComplete);
 			bool isPaused = SpeedControlScreen.Instance.IsPaused;
-			//if (isPaused)
-			//	SpeedControlScreen.Instance.Unpause(false);
 
 			UnderConstructionDataTransfer.TransferDataTo(temporaryTargetBuilding, origin.GetStoredData());
 			TemporarySelectable = temporaryTargetBuilding.GetComponent<KSelectable>();
-			DetailsScreen.Instance.Refresh(temporaryTargetBuilding);
+			Game.Instance.Trigger((int)GameHashes.SelectObject, (object)temporaryTargetBuilding);
+
 			Game.Instance.Subscribe((int)GameHashes.SelectObject, HandleDeselection);
-			//if (isPaused)
-			//	SpeedControlScreen.Instance.Pause(false);
 		}
 		public static void HandleDeselection(object data)
 		{
+			if (data != null && (data is GameObject target) && target == temporaryTargetBuilding)
+				return;
+
 			Game.Instance.Unsubscribe((int)GameHashes.SelectObject, HandleDeselection);
 			var buildingSettingData = API_Methods.GetAdditionalBuildingData(temporaryTargetBuilding);
 			UnityEngine.Object.Destroy(temporaryTargetBuilding);
@@ -78,6 +82,20 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 		{
 			public static bool Prefix(KSelectable __instance) => TemporarySelectable != __instance;
 		}
+		[HarmonyPatch(typeof(Prioritizable), nameof(Prioritizable.IsPrioritizable))]
+		public class Prioritizable_IsPrioritizable_Patch
+		{
+			public static bool Prefix(Prioritizable __instance, ref bool __result)
+			{
+				if (__instance.gameObject == temporaryTargetBuilding)
+				{
+					__result = true;
+					return false;
+				}
+				return true;
+			}
+		}
+
 
 	}
 }

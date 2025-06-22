@@ -502,6 +502,38 @@ namespace BlueprintsV2.BlueprintData
 				}
 			}
 		}
+		internal class DataTransfer_Prioritizable
+		{
+			internal static JObject TryGetData(GameObject arg)
+			{
+				if (arg.TryGetComponent<Prioritizable>(out var component))
+				{
+					var prio = component.GetMasterPriority();
+					SgtLogger.l("Getting prio " + prio.priority_value + " from " + arg.name);
+					return new JObject()
+					{
+						{ "masterPrioritySetting", JsonConvert.SerializeObject(prio)},
+					};
+				}
+				return null;
+			}
+			public static void TryApplyData(GameObject building, JObject jObject)
+			{
+				if (jObject == null)
+					return;
+				if (building.TryGetComponent<Prioritizable>(out var targetComponent))
+				{
+					var t1 = jObject.GetValue("masterPrioritySetting");
+					if (t1 != null)
+					{
+						var masterPrioritySettingJson = t1.Value<string>();
+						var masterPrioritySetting = JsonConvert.DeserializeObject<PrioritySetting>(masterPrioritySettingJson);
+						SgtLogger.l("applying prio: " + masterPrioritySetting.priority_value);
+						targetComponent.SetMasterPriority(masterPrioritySetting);
+					}
+				}
+			}
+		}
 		internal class DataTransfer_TreeFilterable
 		{
 			internal static JObject TryGetData(GameObject arg)
@@ -513,7 +545,7 @@ namespace BlueprintsV2.BlueprintData
 
 					var tags = component.GetTags();
 					var targetStorage = component.GetFilterStorage();
-					bool onlyFetchMarkedItems = targetStorage.allowSettingOnlyFetchMarkedItems ? targetStorage.onlyFetchMarkedItems : false;
+					bool onlyFetchMarkedItems = targetStorage != null && targetStorage.allowSettingOnlyFetchMarkedItems ? targetStorage.onlyFetchMarkedItems : false;
 
 					return new JObject()
 					{
@@ -552,6 +584,52 @@ namespace BlueprintsV2.BlueprintData
 				}
 			}
 		}
+		internal class DataTransfer_FlatTagFilterable
+		{
+			internal static JObject TryGetData(GameObject arg)
+			{
+				if (arg.TryGetComponent<FlatTagFilterable>(out var component))
+				{
+					if (!component.currentlyUserAssignable)
+						return null;
+
+					var selectedTags = component.selectedTags;
+
+					return new JObject()
+					{
+						{ "selectedTags", JsonConvert.SerializeObject(selectedTags)},
+					};
+				}
+				return null;
+			}
+			public static void TryApplyData(GameObject building, JObject jObject)
+			{
+				if (jObject == null)
+					return;
+				if (building.TryGetComponent<FlatTagFilterable>(out var targetComponent))
+				{
+					if (!targetComponent.currentlyUserAssignable)
+						return;
+					var t1 = jObject.GetValue("selectedTags");
+					if (t1 != null)
+					{
+						var selectedTagstJson = t1.Value<string>();
+						var selectedTags = JsonConvert.DeserializeObject<HashSet<Tag>>(selectedTagstJson);
+
+						targetComponent.selectedTags.Clear();
+						foreach (Tag selectedTag in selectedTags)
+						{
+							if (!targetComponent.tagOptions.Contains(selectedTag))
+								targetComponent.tagOptions.Add(selectedTag);
+							targetComponent.SelectTag(selectedTag, state: true);
+						}
+						targetComponent.GetComponent<TreeFilterable>().UpdateFilters([.. selectedTags]);
+					}
+
+				}
+			}
+		}
+
 		internal class DataTransfer_Filterable
 		{
 			internal static JObject TryGetData(GameObject arg)
