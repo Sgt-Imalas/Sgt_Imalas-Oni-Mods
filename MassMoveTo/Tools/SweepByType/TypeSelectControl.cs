@@ -21,6 +21,7 @@ using PeterHan.PLib.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static MassMoveTo.STRINGS.UI;
@@ -69,13 +70,12 @@ namespace MassMoveTo.Tools.SweepByType
 
 		internal string FilterText = string.Empty;
 
-		public void ClearFilterText() => OnFilterTextChanged(null, string.Empty);
-		public void OnFilterTextChanged(GameObject source,string newText)
+		public void ClearFilterText() => OnFilterTextChanged(string.Empty);
+		public void OnFilterTextChanged(string newText)
 		{
 			FilterText = newText;
-			UpdateFromChildren();
-
-        }
+			UpdateVisibility();
+		}
 
 
 		/// <summary>
@@ -186,12 +186,15 @@ namespace MassMoveTo.Tools.SweepByType
 				// Background ensures that scrolling works properly!
 				BackColor = PUITuning.Colors.BackgroundLight
 			}.AddChild(new PTextField("TextFilter")
-            {
-                Text = FilterText,
-                MinWidth = 450,
-                TextAlignment = TMPro.TextAlignmentOptions.CenterGeoAligned,
-                OnTextChanged = OnFilterTextChanged
-            })			
+			{
+				Text = FilterText,
+				MinWidth = 180,
+				FlexSize = new Vector2(1,0),
+				TextAlignment = TMPro.TextAlignmentOptions.MidlineLeft,
+			}.AddOnRealize((go)=>
+			{
+				go.GetComponent<TMP_InputField>().onValueChanged.AddListener(text => OnFilterTextChanged(text));
+			}))
 			.AddChild(new PCheckBox("SelectAll")
 			{
 				Text = global::STRINGS.UI.UISIDESCREENS.TREEFILTERABLESIDESCREEN.ALLBUTTON,
@@ -355,7 +358,7 @@ namespace MassMoveTo.Tools.SweepByType
 			{
 				if (category == GameTags.MiscPickupable) //hack to include interplanetary payloads
 					found.Add(RailGunPayloadConfig.ID);
-				
+
 				if (!found.Any())
 					return;
 				// Attempt to add to type select control
@@ -384,7 +387,6 @@ namespace MassMoveTo.Tools.SweepByType
 		internal void UpdateFromChildren()
 		{
 			UpdateAllItems(allItems, children.Values);
-			UpdateVisibility();
 			SaveTypes();
 		}
 
@@ -392,15 +394,21 @@ namespace MassMoveTo.Tools.SweepByType
 		{
 			bool hasFilter = !FilterText.IsNullOrWhiteSpace() && FilterText.Length > 0;
 			var filterUpper = FilterText.ToUpperInvariant();
-			foreach(var item in children)
+			foreach (var item in children)
 			{
-				foreach(var entry in item.Value.children)
+				bool shouldBeVisible = false;
+
+				foreach (var entry in item.Value.children)
 				{
+					bool filterFulfilled = !hasFilter || entry.Key.ProperName().ToUpperInvariant().Contains(filterUpper);
+					entry.Value.CheckBox.SetActive(filterFulfilled);
+					if (filterFulfilled)
+						shouldBeVisible = true;
+				}
+				item.Value.Header.SetActive(shouldBeVisible);
+				if(shouldBeVisible)
+					item.Value.SetToggleState(shouldBeVisible && hasFilter);
 
-                    bool filterFulfilled = !hasFilter || entry.Key.Name.ToUpperInvariant().Contains(filterUpper);
-                    entry.Value.CheckBox.SetActive(filterFulfilled);
-
-                }
 			}
 		}
 
@@ -439,11 +447,18 @@ namespace MassMoveTo.Tools.SweepByType
 			/// </summary>
 			public GameObject Header { get; }
 
+			public GameObject Toggle { get; private set; }
+
 			/// <summary>
 			/// The child elements.
 			/// </summary>
 			internal readonly SortedList<Tag, TypeSelectElement> children;
 
+			public void SetToggleState(bool open)
+			{
+				PToggle.SetToggleState(Toggle, open);
+				OnToggle(Toggle,open);
+			}
 			internal TypeSelectCategory(TypeSelectControl parent, Tag categoryTag,
 					string overrideName = null)
 			{
@@ -468,6 +483,7 @@ namespace MassMoveTo.Tools.SweepByType
 					ROW_SIZE.y * 0.5f),
 					Color = PUITuning.Colors.ComponentLightStyle
 				};
+				showHide.OnRealize += (obj)=> { Toggle = obj; };
 				Header = new PRelativePanel("TypeSelectCategory") { DynamicSize = false }.
 					AddChild(showHide).AddChild(selectBox)
 					.SetLeftEdge(showHide, fraction: 0.0f)
