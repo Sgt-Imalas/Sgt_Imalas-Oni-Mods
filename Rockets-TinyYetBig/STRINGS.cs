@@ -1011,8 +1011,8 @@ namespace Rockets_TinyYetBig
 			}
 			public class ETHANOLENGINES
 			{
-				public static LocString TITLE = "Burn Ethanol as fuel";
-				public static LocString TOOLTIP = "Allows Petroleum Engines to also burn Ethanol as fuel.";
+				public static LocString TITLE = "Burn Combustible Liquids as fuel";
+				public static LocString TOOLTIP = "Allows Petroleum Engines to also burn other combustible liquids as fuel.";
 			}
 			public class BUFFLARGEOXIDIZER
 			{
