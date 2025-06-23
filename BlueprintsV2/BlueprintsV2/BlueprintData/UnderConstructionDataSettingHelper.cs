@@ -35,12 +35,18 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 			if (!API_Methods.AllowedByRules(building.Def))
 				return false;
 			var completeVersion = building.Def.BuildingComplete;
-			var data = API_Methods.GetAdditionalBuildingData(completeVersion);
-
-			foreach (var entry in ComponentsToIgnore)
-				data.Remove(entry);
-
-			return data.Any();
+			try
+			{
+				var data = API_Methods.GetAdditionalBuildingData(completeVersion);
+				foreach (var entry in ComponentsToIgnore)
+					data.Remove(entry);
+				return data.Any();
+			}
+			catch
+			{
+				return false;
+			}
+;
 		}
 		public static void StartEditingUnderConstructionData(UnderConstructionDataTransfer origin)
 		{

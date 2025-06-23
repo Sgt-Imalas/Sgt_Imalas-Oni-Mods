@@ -342,6 +342,7 @@ namespace BlueprintsV2.ModAPI
 
 
 			RegisterInternally(nameof(Switch), DataTransfer_Switch.TryGetData, DataTransfer_Switch.TryApplyData);
+			RegisterInternally(nameof(LogicAlarm), DataTransfer_LogicAlarm.TryGetData, DataTransfer_LogicAlarm.TryApplyData);
 			RegisterInternally(nameof(LogicCritterCountSensor), DataTransfer_LogicCritterCountSensor.TryGetData, DataTransfer_LogicCritterCountSensor.TryApplyData);
 			RegisterInternally(nameof(LogicTimeOfDaySensor), DataTransfer_LogicTimeOfDaySensor.TryGetData, DataTransfer_LogicTimeOfDaySensor.TryApplyData);
 			RegisterInternally(nameof(LogicTimerSensor), DataTransfer_LogicTimerSensor.TryGetData, DataTransfer_LogicTimerSensor.TryApplyData);

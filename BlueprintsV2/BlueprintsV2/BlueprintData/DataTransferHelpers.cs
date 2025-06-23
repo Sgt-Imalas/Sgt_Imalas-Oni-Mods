@@ -843,6 +843,70 @@ namespace BlueprintsV2.BlueprintData
 				}
 			}
 		}
+		internal class DataTransfer_LogicAlarm
+		{
+			internal static JObject TryGetData(GameObject arg)
+			{
+				if (arg.TryGetComponent<LogicAlarm>(out var component))
+				{
+					return new JObject()
+					{
+						{ "notificationName", component.notificationName},
+						{ "notificationTooltip", component.notificationTooltip},
+						{ "notificationType", (int)component.notificationType},
+						{ "pauseOnNotify", component.pauseOnNotify},
+						{ "zoomOnNotify", component.zoomOnNotify},
+						{ "cooldown", component.cooldown},
+					};
+				}
+				return null;
+			}
+			public static void TryApplyData(GameObject building, JObject jObject)
+			{
+				if (jObject == null)
+					return;
+				if (building.TryGetComponent<LogicAlarm>(out var targetComponent))
+				{
+					var t1 = jObject.GetValue("notificationName");
+					if (t1 != null)
+					{
+						string notificationName = t1.Value<string>();
+						targetComponent.notificationName = notificationName;
+					}
+					var t2 = jObject.GetValue("notificationTooltip");
+					if (t2 != null)
+					{
+						string notificationTooltip = t2.Value<string>();
+						targetComponent.notificationTooltip = notificationTooltip;
+					}
+					var t3 = jObject.GetValue("notificationType");
+					if (t3 != null)
+					{
+						NotificationType notificationType = (NotificationType)t3.Value<int>();
+						targetComponent.notificationType = notificationType;
+					}
+					var t4 = jObject.GetValue("pauseOnNotify");
+					if (t4 != null)
+					{
+						bool pauseOnNotify = t4.Value<bool>();
+						targetComponent.pauseOnNotify = pauseOnNotify;
+					}
+					var t5 = jObject.GetValue("zoomOnNotify");
+					if (t5 != null)
+					{
+						bool zoomOnNotify = t5.Value<bool>();
+						targetComponent.zoomOnNotify = zoomOnNotify;
+					}
+					var t6 = jObject.GetValue("cooldown");
+					if (t6 != null)
+					{
+						float cooldown = t6.Value<float>();
+						targetComponent.cooldown = cooldown;
+					}
+					targetComponent.UpdateNotification(true);
+				}
+			}
+		}
 		internal class DataTransfer_Switch
 		{
 			internal static JObject TryGetData(GameObject arg)
