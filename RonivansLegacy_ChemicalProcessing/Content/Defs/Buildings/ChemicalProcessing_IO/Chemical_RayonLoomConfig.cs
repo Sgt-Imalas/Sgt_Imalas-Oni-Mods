@@ -75,7 +75,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		public override BuildingDef CreateBuildingDef()
 		{
 			EffectorValues noise = NOISE_POLLUTION.NOISY.TIER3;
-			BuildingDef def = BuildingTemplates.CreateBuildingDef("Chemical_RayonLoom", 6, 4, "viscose_frame_kanim", 30, 30f, TUNING.BUILDINGS.CONSTRUCTION_MASS_KG.TIER5, MATERIALS.REFINED_METALS, 1600f, BuildLocationRule.OnFloor, TUNING.BUILDINGS.DECOR.NONE, noise, 0.2f);
+			BuildingDef def = BuildingTemplates.CreateBuildingDef("Chemical_RayonLoom", 6, 4, "viscose_frame_kanim", 30, 30f, TUNING.BUILDINGS.CONSTRUCTION_MASS_KG.TIER5, MATERIALS.REFINED_METALS, 1600f, BuildLocationRule.OnFloor, TUNING.BUILDINGS.DECOR.NONE, noise);
 			BuildingTemplates.CreateElectricalBuildingDef(def);
 			def.AudioCategory = "Metal";
 			def.AudioSize = "large";

@@ -34,7 +34,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		public override BuildingDef CreateBuildingDef()
 		{
 			EffectorValues tier = NOISE_POLLUTION.NOISY.TIER5;
-			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 3, 3, "fabricator_generic_kanim", 100, 30f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER3, MATERIALS.REFINED_METALS, 800f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.PENALTY.TIER1, tier, 0.2f);
+			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 3, 3, "fabricator_generic_kanim", 100, 30f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER3, MATERIALS.REFINED_METALS, 800f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.PENALTY.TIER1, tier);
 			def1.Overheatable = false;
 			def1.RequiresPowerInput = true;
 			def1.EnergyConsumptionWhenActive = 800f;

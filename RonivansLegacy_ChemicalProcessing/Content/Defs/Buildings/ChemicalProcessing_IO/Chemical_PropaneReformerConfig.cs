@@ -54,7 +54,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			string[] ingredient_types = ["RefinedMetal", SimHashes.Steel.ToString()];
 
 			EffectorValues tier = NOISE_POLLUTION.NOISY.TIER6;
-			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 4, 7, "propane_reformer_kanim", 100, 30f, ingredient_mass, ingredient_types, 800f, BuildLocationRule.Anywhere, BUILDINGS.DECOR.PENALTY.TIER2, tier, 0.2f);
+			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 4, 7, "propane_reformer_kanim", 100, 30f, ingredient_mass, ingredient_types, 800f, BuildLocationRule.Anywhere, BUILDINGS.DECOR.PENALTY.TIER2, tier);
 			buildingDef.Overheatable = false;
 			buildingDef.RequiresPowerInput = true;
 			buildingDef.EnergyConsumptionWhenActive = 320f;

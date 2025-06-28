@@ -33,7 +33,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		public override BuildingDef CreateBuildingDef()
 		{
 			EffectorValues tier = NOISE_POLLUTION.NOISY.TIER0;
-			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 2, 2, "endothermic_mixer_kanim", 100, 30f, TUNING.BUILDINGS.CONSTRUCTION_MASS_KG.TIER4, MATERIALS.REFINED_METALS, 800f, BuildLocationRule.Anywhere, BUILDINGS.DECOR.PENALTY.TIER2, tier, 0.2f);
+			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 2, 2, "endothermic_mixer_kanim", 100, 30f, TUNING.BUILDINGS.CONSTRUCTION_MASS_KG.TIER4, MATERIALS.REFINED_METALS, 800f, BuildLocationRule.Anywhere, BUILDINGS.DECOR.PENALTY.TIER2, tier);
 			buildingDef.RequiresPowerInput = true;
 			buildingDef.Floodable = false;
 			buildingDef.EnergyConsumptionWhenActive = 50f;

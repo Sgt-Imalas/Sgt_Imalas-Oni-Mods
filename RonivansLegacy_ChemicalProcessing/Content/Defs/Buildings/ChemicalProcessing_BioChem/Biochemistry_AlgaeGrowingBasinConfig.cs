@@ -33,7 +33,7 @@ namespace Biochemistry.Buildings
 		public override BuildingDef CreateBuildingDef()
 		{
 			EffectorValues tier = NOISE_POLLUTION.NOISY.TIER5;
-			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 9, 3, "algaegrower_basin_kanim", 100, 30f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER4, MATERIALS.REFINED_METALS, 800f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.PENALTY.TIER1, tier, 0.2f);
+			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 9, 3, "algaegrower_basin_kanim", 100, 30f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER4, MATERIALS.REFINED_METALS, 800f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.PENALTY.TIER1, tier);
 			buildingDef.Overheatable = true;
 			buildingDef.OverheatTemperature = 313.15f;
 			buildingDef.Floodable = true;

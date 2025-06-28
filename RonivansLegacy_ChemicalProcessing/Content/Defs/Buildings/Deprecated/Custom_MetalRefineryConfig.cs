@@ -51,7 +51,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			float melting_point = 2400f;
 			BuildLocationRule build_location_rule = BuildLocationRule.OnFloor;
 			EffectorValues tier2 = NOISE_POLLUTION.NOISY.TIER6;
-			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(id, width, height, anim, hitpoints, construction_time, tier, all_MINERALS, melting_point, build_location_rule, TUNING.BUILDINGS.DECOR.PENALTY.TIER2, tier2, 0.2f);
+			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(id, width, height, anim, hitpoints, construction_time, tier, all_MINERALS, melting_point, build_location_rule, TUNING.BUILDINGS.DECOR.PENALTY.TIER2, tier2);
 			buildingDef.RequiresPowerInput = true;
 			buildingDef.EnergyConsumptionWhenActive = 800f;
 			buildingDef.SelfHeatKilowattsWhenActive = 8f;

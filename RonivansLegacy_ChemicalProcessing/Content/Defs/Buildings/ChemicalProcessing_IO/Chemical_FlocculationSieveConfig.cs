@@ -48,7 +48,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			string[] ingredient_types = [SimHashes.Steel.ToString(), "Plastic"];
 
 			EffectorValues tier = NOISE_POLLUTION.NOISY.TIER2;
-			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 4, 3, "flocculation_tank_kanim", 100, 30f, ingredient_mass, ingredient_types, 800f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.PENALTY.TIER1, tier, 0.2f);
+			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 4, 3, "flocculation_tank_kanim", 100, 30f, ingredient_mass, ingredient_types, 800f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.PENALTY.TIER1, tier);
 			buildingDef.Overheatable = false;
 			buildingDef.RequiresPowerInput = true;
 			buildingDef.EnergyConsumptionWhenActive = 240f;

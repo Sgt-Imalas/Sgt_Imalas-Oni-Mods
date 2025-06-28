@@ -45,7 +45,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		public override BuildingDef CreateBuildingDef()
 		{
 			EffectorValues noise = NOISE_POLLUTION.NOISY.TIER2;
-			BuildingDef def = BuildingTemplates.CreateBuildingDef(ID, 4, 4, "geyser_oil_cap_kanim", 100, 120f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER3, MATERIALS.REFINED_METALS, 1600f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.NONE, noise, 0.2f);
+			BuildingDef def = BuildingTemplates.CreateBuildingDef(ID, 4, 4, "geyser_oil_cap_kanim", 100, 120f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER3, MATERIALS.REFINED_METALS, 1600f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.NONE, noise);
 			BuildingTemplates.CreateElectricalBuildingDef(def);
 			def.SceneLayer = Grid.SceneLayer.BuildingFront;
 			def.ViewMode = OverlayModes.LiquidConduits.ID;
