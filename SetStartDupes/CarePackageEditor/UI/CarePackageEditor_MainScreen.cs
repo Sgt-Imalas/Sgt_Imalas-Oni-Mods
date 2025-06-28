@@ -97,7 +97,15 @@ namespace SetStartDupes.CarePackageEditor.UI
 		{
 			SelectedOutline = null;
 			CarePackageOutlineManager.ResetExtraCarePackages();
-			var activeOutlines = CarePackageOutlineManager.GetExtraCarePackageOutlines().ToHashSet();
+			ResetEntriesUI();
+		}
+		void ResetEntriesUI()
+		{
+			var activeOutlines = 
+				CarePackageOutlineManager
+				.GetExtraCarePackageOutlines()
+				.OrderBy((outline) => outline.GetDescriptionString())
+				.ToHashSet();
 			foreach (var entry in OutlineEntries)
 			{
 				Util.KDestroyGameObject(entry.Value.gameObject);

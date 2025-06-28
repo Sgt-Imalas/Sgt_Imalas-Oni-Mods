@@ -112,7 +112,7 @@ namespace SetStartDupes.CarePackageEditor
 			var TargetItem = Assets.GetPrefab(ItemId);
 			if (TargetItem != null)
 			{
-				SgtLogger.l(TargetItem.GetProperName());
+				//SgtLogger.l(TargetItem.GetProperName());
 				var image = Def.GetUISprite(TargetItem);
 				if (image != null)
 				{
