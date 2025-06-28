@@ -14,7 +14,8 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				float caloriesPerKg,
 				string diseaseId,
 				float diseasePerKgProduced,
-				ref List<Diet.Info> __result) =>
+				ref List<Diet.Info> __result)
+		{
 			__result.Add(
 				new Diet.Info(
 					[ModElements.Slag_Solid.Tag],
@@ -23,18 +24,54 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 					0.75f,
 					diseaseId,
 					diseasePerKgProduced));
+		}
+		public static void RegisterBiomassDiet(
+				float caloriesPerKg,
+				string diseaseId,
+				float diseasePerKgProduced,
+				ref List<Diet.Info> __result)
+		{
+			__result.Add(
+				new Diet.Info(
+					[ModElements.BioMass_Solid.Tag],
+					SimHashes.Sand.CreateTag(),
+					caloriesPerKg,
+					0.75f,
+					diseaseId,
+					diseasePerKgProduced));
+		}
 
 
 
 		[HarmonyPatch(typeof(BaseCrabConfig), nameof(BaseCrabConfig.BasicDiet))]
 		public class BaseCrabConfig_BasicDiet_Patch
 		{
-			public static void Postfix(float caloriesPerKg, string diseaseId, float diseasePerKgProduced, ref List<Diet.Info> __result) => RegisterSlagDiet(caloriesPerKg, diseaseId, diseasePerKgProduced, ref __result);			
+			public static void Postfix(float caloriesPerKg, string diseaseId, float diseasePerKgProduced, ref List<Diet.Info> __result)
+			{
+				if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+				{
+					RegisterSlagDiet(caloriesPerKg, diseaseId, diseasePerKgProduced, ref __result);
+				}
+				if (Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
+				{
+					RegisterBiomassDiet(caloriesPerKg, diseaseId, diseasePerKgProduced, ref __result);
+				}
+			}
 		}
 		[HarmonyPatch(typeof(BaseCrabConfig), nameof(BaseCrabConfig.DietWithSlime))]
 		public class BaseCrabConfig_DietWithSlime_Patch
 		{
-			public static void Postfix(float caloriesPerKg, string diseaseId, float diseasePerKgProduced, ref List<Diet.Info> __result) => RegisterSlagDiet(caloriesPerKg, diseaseId, diseasePerKgProduced, ref __result);
+			public static void Postfix(float caloriesPerKg, string diseaseId, float diseasePerKgProduced, ref List<Diet.Info> __result)
+			{
+				if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+				{
+					RegisterSlagDiet(caloriesPerKg, diseaseId, diseasePerKgProduced, ref __result);
+				}
+				if (Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
+				{
+					RegisterBiomassDiet(caloriesPerKg, diseaseId, diseasePerKgProduced, ref __result);
+				}
+			}
 		}
 	}
 }

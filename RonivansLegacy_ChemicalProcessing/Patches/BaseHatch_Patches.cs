@@ -26,6 +26,10 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 					__result.Add(new Diet.Info([ModElements.Chloroschist_Solid.Tag], SimHashes.BleachStone.CreateTag(), caloriesPerKg, 0.25f, diseaseId, diseasePerKgProduced));
 					__result.Add(new Diet.Info([ModElements.Slag_Solid.Tag], ModElements.AmmoniumSalt_Solid.Tag, caloriesPerKg, 0.9f, diseaseId, diseasePerKgProduced));
 				}
+				if (Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
+				{
+					__result.Add(new Diet.Info([ModElements.BioMass_Solid.Tag], SimHashes.Carbon.CreateTag(), caloriesPerKg, 1f, diseaseId, diseasePerKgProduced));
+				}
 			}
 		}
 
