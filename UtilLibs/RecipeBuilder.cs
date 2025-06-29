@@ -148,9 +148,11 @@ namespace UtilLibs
 			return this;
 		}
 
-		public RecipeBuilder Input(Tag tag, float amount, bool inheritElement = true)
+		public RecipeBuilder Input(Tag tag, float amount, bool inheritElement = true, bool doNotConsume = false)
 		{
-			inputs.Add(new RecipeElement(tag, amount, inheritElement));
+			var element = new RecipeElement(tag, amount, inheritElement);
+			element.doNotConsume = doNotConsume;
+			inputs.Add(element);
 			return this;
 		}
 		public RecipeBuilder Input(IEnumerable<Tag> tags, float amount)
@@ -163,17 +165,21 @@ namespace UtilLibs
 			inputs.Add(new RecipeElement(tags.Select(simhash => simhash.CreateTag()).ToArray(), amount));
 			return this;
 		}
-		public RecipeBuilder InputSO(SimHashes simHashes, float amount, bool inheritElement = true)
+		public RecipeBuilder InputSO(SimHashes simHashes, float amount, bool inheritElement = true) => InputConditional(simHashes, amount, DlcManager.IsExpansion1Active, inheritElement);
+		public RecipeBuilder InputBase(SimHashes simHashes, float amount, bool inheritElement = true) => InputConditional(simHashes, amount, DlcManager.IsPureVanilla, inheritElement);
+		public RecipeBuilder InputConditional(SimHashes simhash, float amount, Func<bool> condition, bool inheritElement = true) => InputConditional(simhash,amount, condition(), inheritElement);
+		public RecipeBuilder InputConditional(SimHashes simhash, float amount, bool condition, bool inheritElement = true)
 		{
-			if (DlcManager.IsExpansion1Active())
-				return Input(simHashes, amount, inheritElement);
+			if (condition)
+				return Input(simhash, amount, inheritElement);
 			else
 				return this;
 		}
-		public RecipeBuilder InputBase(SimHashes simHashes, float amount, bool inheritElement = true)
+		public RecipeBuilder InputConditional(IEnumerable<SimHashes> hashes, float amount, Func<bool> condition) => InputConditional(hashes, amount, condition());
+		public RecipeBuilder InputConditional(IEnumerable<SimHashes> hashes, float amount, bool condition)
 		{
-			if (DlcManager.IsPureVanilla())
-				return Input(simHashes, amount, inheritElement);
+			if (condition)
+				return Input(hashes, amount);
 			else
 				return this;
 		}
