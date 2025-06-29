@@ -8,6 +8,7 @@ using UtilLibs;
 using Dupes_Industrial_Overhaul.Chemical_Processing.Buildings;
 using HarmonyLib;
 using Biochemistry.Buildings;
+using Mineral_Processing_Mining.Buildings;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
@@ -38,8 +39,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			}
 			if (Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
 				AddBuildingsToPlanscreen_ChemicalProcessingBioChemistry();
+			if(Config.Instance.MineralProcessing_Mining_Enabled)
+				AddBuildingsToPlanscreen_MineralProcessingMining();
 
 		}
+
 
 		private static void AddBuildingsToPlanscreen_ChemicalProcessingIndustrialOverhaul()
 		{
@@ -88,13 +92,20 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Biochemistry_BioplasticPrinterConfig.ID, PolymerizerConfig.ID);
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Biochemistry_ExpellerPressConfig.ID, Biochemistry_AnaerobicDigesterConfig.ID);
 		}
-		
+		private static void AddBuildingsToPlanscreen_MineralProcessingMining()
+		{
+			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Mining_CNCMachineConfig.ID, SupermaterialRefineryConfig.ID,ordering:ModUtil.BuildingOrdering.Before);
+			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Utilities, Mining_AugerDrillConfig.ID, SweepBotStationConfig.ID);
+		}
+
 		public static void AddBuildingsToTech()
 		{
 			if (Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
 				AddBuildingsToTech_ChemicalProcessingBioChemistry();
 			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
 				AddBuildingsToTech_ChemicalProcessingIndustrialOverhaul();
+			if (Config.Instance.MineralProcessing_Mining_Enabled)
+				AddBuildingsToTech_MineralProcessingMining();
 		}
 		private static void AddBuildingsToTech_ChemicalProcessingIndustrialOverhaul()
 		{
@@ -141,7 +152,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.FossilFuels, Biochemistry_BiodieselRefineryConfig.ID);
 			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.PlasticManufacturing, Biochemistry_BioplasticPrinterConfig.ID);
 			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.BruteForceRefinement, Biochemistry_ExpellerPressConfig.ID);
-
+		}
+		private static void AddBuildingsToTech_MineralProcessingMining()
+		{
+			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.SolidManagement, Mining_CNCMachineConfig.ID);
+			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.SolidManagement, Mining_AugerDrillConfig.ID);
 		}
 	}
 }

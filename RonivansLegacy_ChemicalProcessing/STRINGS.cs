@@ -105,7 +105,6 @@ namespace RonivansLegacy_ChemicalProcessing
 							FormatAsLink("Mush Bar", "MUSHBAR"),"."
 						});
 				}
-
 				public class CHEMICAL_ADVANCEDKILN
 				{
 					public static LocString NAME = FormatAsLink("Advanced Kiln", nameof(CHEMICAL_ADVANCEDKILN));
@@ -493,6 +492,26 @@ namespace RonivansLegacy_ChemicalProcessing
 
 						]);
 				}
+				public class MINING_CNCMACHINE
+				{
+					public static LocString NAME = FormatAsLink("CNC Machining Station", nameof(MINING_CNCMACHINE));
+					public static LocString DESC = "An advanced CNC (Computer Numerical Control) Machining production station. Capable of managing different tools using specific directives by graphical computer-aided design software.";
+					public static LocString EFFECT = "Capable of producing specialty gadgets and other advanced tools. Requires the Mechatronics Engineering knowledge skill to be operated.";
+				}
+				public class MINING_AUGERDRILL
+				{
+					public static LocString NAME = FormatAsLink("Asteroid Drill Rig Mk-II", nameof(MINING_AUGERDRILL));
+					public static LocString DESC = "A giant machinery engineered in the old world for asteroid mining. Has a self propelled drilling head fitted with a sensorial system and actuators that helps it to travel through the asteroid crust in search for resources of interest.  ";
+					public static LocString EFFECT = string.Concat(new string[]
+						{
+							"This rig uses specialized Drillbits to mine useful resources from the asteroid crust. Retrived resources are released upon the Drill Head return.\n"+
+							"Require a constant supply of either ",FormatAsLink("Petroleum", "PETROLEUM"),
+							" or ",FormatAsLink("Ethanol", "ETHANOL")," for its to function.\n"+
+
+							"Results: resources are delivered upon Drillhead return.\n"+
+							"Occurrence: resources are spawned during Drillhead operation."
+						});
+				}
 			}
 		}
 		public class CREATURES
@@ -807,6 +826,9 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString CHEMICALPROCESSING_BIODIESEL_COMPOSITION_DESC = "Organic fuels serve as a renewable alternative to petrochemicals.";
 				public static LocString CHEMICALPROCESSING_BIOOIL_COMPOSITION = FormatAsLink("Organic Oil", nameof(CHEMICALPROCESSING_BIOOIL_COMPOSITION));
 				public static LocString CHEMICALPROCESSING_BIOOIL_COMPOSITION_DESC = "Organic Oils are extracted from renewable biomass.";
+
+				public static LocString MINERALPROCESSING_GUIDANCEUNIT = FormatAsLink("Guidance Device", nameof(MINERALPROCESSING_GUIDANCEUNIT));
+				public static LocString MINERALPROCESSING_GUIDANCEUNIT_DESC = "Guidance Devices allow the the mining drillhead to be programmed to target mine specific asteroid sectors";
 			}
 		}
 		public class ITEMS
@@ -818,12 +840,67 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString NAME = FormatAsLink("Rayon Fiber", nameof(RAYONFIBER));
 					public static LocString NAME_PLURAL = FormatAsLink("Rayon Fibers", nameof(RAYONFIBER));
 					public static LocString DESC = "Rayon is a synthetic fiber, chemically made from regenerated cellulose extracted from Lumber.";
+					public static LocString RECIPE_DESC = "Produces " + NAME_PLURAL + " from the pulp of {0}.";
+				}
+			}
+			public class INDUSTRIAL_PRODUCTS
+			{
+				public class MINING_DRILLBITS_TUNGSTEN_ITEM
+				{
+					public static LocString NAME = FormatAsLink("Tungsten Drillbits", nameof(MINING_DRILLBITS_TUNGSTEN_ITEM));
+					public static LocString DESC = "A set of sturdy drill bits made for extremely hard rock mining operations.\nHas no guidance system and call drill through deep, very hard rocks stratum even at high temperature."; 
+					public static LocString RECIPE_DESC = "Instruct the computer to produce Tungsten Drillbits.";
+
+				}
+				public class MINING_DRILLBITS_STEEL_ITEM
+				{
+					public static LocString NAME = FormatAsLink("Steel Drillbits", nameof(MINING_DRILLBITS_STEEL_ITEM));
+					public static LocString DESC = "A set of sturdy drill bits made for hard rock mining operations.\nHas no guidance system and call drill through hard rocks stratum.";
+					public static LocString RECIPE_DESC = "Instruct the computer to produce Steel Drillbits.";
+				}
+				public class MINING_DRILLBITS_BASIC_ITEM
+				{
+					public static LocString NAME = FormatAsLink("Basic Drillbits", nameof(MINING_DRILLBITS_BASIC_ITEM));
+					public static LocString DESC = "A set of sturdy drill bits made for basic mining operations.\nHas no guidance system and call drill through soft rocks stratum.";
+					public static LocString RECIPE_DESC = "Instruct the computer to produce Basic Drillbits.\nThis instruction is meant for Copper variation.";
+				}
+				public class MINING_DRILLBITS_GUIDANCEDEVICE_ITEM
+				{
+					public static LocString NAME = FormatAsLink("Guidance Device (unprogrammed)", nameof(MINING_DRILLBITS_GUIDANCEDEVICE_ITEM));
+					public static LocString NAME_PROGRAMMED = FormatAsLink("Guidance Device (Target: {0})", nameof(MINING_DRILLBITS_GUIDANCEDEVICE_ITEM));
+					public static LocString DESC = "A sofisticated electronic module that aids the Mining Drillhead to navigate while operating.\nIn general, the guidance system computes the instructions for the Drillhead control system, which comprises its actuators, increasing the performance and detecting element resources from its surroundings.\n\nIt can be programmed by a skilled Duplicant or by the CNC machine";
+					public static LocString DESC_PROGRAMMED = "A sofisticated electronic module that aids the Mining Drillhead to navigate while operating.\nIn general, the guidance system computes the instructions for the Drillhead control system, which comprises its actuators, increasing the performance and detecting element resources from its surroundings.\n\nThis guidance device is programmed to target the {0}";
+					public static LocString RECIPE_DESC = "Instruct the computer to produce a Guidance Device.";
+					public static LocString RECIPE_DESC_PROGRAM = "Instruct the computer to load the target program for the {0} into the Guidance Device";
 				}
 			}
 		}
 
 		public class UI
 		{
+			public class MININGGUIDANCEDEVICEPROGRAMSELECTORSIDESCREEN
+			{
+				public static LocString TITLE = "Reprogram guidance device";
+				public static LocString APPLY = "Reprogram";
+			}
+			public class MINING_SMART_DRILL_LOCATIONS
+			{
+				public static LocString MANTLE = "Deep Mantle";
+				public static LocString SOFT_STRATUM = "Soft Stratum";
+				public static LocString HARD_STRATUM = "Hard Stratum";
+				public static LocString AQUIFER = "Aquifer";
+				public static LocString OIL_RESERVES = "Oil Reserves";
+				public static LocString CRYOSPHERE = "Cryosphere";
+			}
+			public class MINING_AUGUR_DRILL
+			{
+				public static LocString BASIC_DRILLING = "Basic Drilling";
+				public static LocString STEEL_DRILLING = "Steel Drilling";
+				public static LocString TUNGSTEN_DRILLING = "Tungsten Drilling";
+				public static LocString SMART_DRILLING = "Smart Drilling: {0}";
+				public static LocString TARGET_DESC = "Direct the drill towards specific areas of the asteroid, targeting the {0}.";
+			}
+
 			public class CHEMICAL_COMPLEXFABRICATOR_STRINGS
 			{
 				public static LocString HEAT_REFINE = "Refine {0} with intense heat, producing {1}.";
@@ -845,7 +922,6 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString JAWCRUSHERMILL_MILLING_1_4 = "Break down {0} into:\n• {1}\n• {2}\n• {3}\n• {4}";
 				public static LocString CRUSHEDROCK_FROM_RAW_MINERAL_NAME = FormatAsLink("Raw Mineral", "BUILDABLERAW") + " to " + global::STRINGS.ELEMENTS.CRUSHEDROCK.NAME;
 				public static LocString CRUSHEDROCK_FROM_RAW_MINERAL_DESCRIPTION = "Crushes " + FormatAsLink("Raw Minerals", "BUILDABLERAW") + " into " + global::STRINGS.ELEMENTS.CRUSHEDROCK.NAME;
-				public static LocString RAYON_LOOM_FIBER = "Produces {0} from the pulp of {1}.";
 
 				public static LocString ARCFURNACE_SMELT_2_1 = "Smelt {0} and {1} to produce {2}";
 				public static LocString ARCFURNACE_SMELT_3_1 = "Smelt {0} and {1} with addition of {2} to produce {3}";
@@ -877,8 +953,10 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class RANDOMRECIPERESULT
 				{
 					public static LocString NAME = "Random Composition: {0}";
+					public static LocString NAME_OCCURENCE = "Random Occurence: {0}";
 					public static LocString DESC = "This recipe yields {0} of random amounts of the following elements:";
 					public static LocString DESC_MAX_COUNT = "This recipe yields {0} of random amounts of {1} of the following elements:";
+					public static LocString DESC_OCCURENCE = "During production, the machine will generate {0} of random amounts of the following byproducts every second:";
 					public static LocString DESC_RANGE = "{0} - {1}";
 					public static LocString COMPOSITION_ENTRY = "• {0}, {1} - {2}";
 					public static LocString COMPOSITION_ENTRY_CHANCE = "• {0}: {1} - {2}, {3} Chance";

@@ -204,7 +204,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 		}
 
-
 		public static void AddPrefefinedExpellerPressRecipe(Tag PlantProduct, float OilAmount, float BiomassAmount, float InputAmount) => PredefinedExpellerPressRecipes[PlantProduct] = new(OilAmount, BiomassAmount, InputAmount);
 		public static void AddPrefefinedExpellerPressRecipe(Tag PlantProduct, float OilAmount, float BiomassAmount) => PredefinedExpellerPressRecipes[PlantProduct] = new(OilAmount, BiomassAmount, 1);
 

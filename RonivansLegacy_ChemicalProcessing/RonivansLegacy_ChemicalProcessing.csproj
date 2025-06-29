@@ -43,4 +43,9 @@
 	<ItemGroup>
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Content\Scripts\Buildings\" />
+	  <Folder Include="Content\Scripts\Entities\" />
+	</ItemGroup>
 </Project>

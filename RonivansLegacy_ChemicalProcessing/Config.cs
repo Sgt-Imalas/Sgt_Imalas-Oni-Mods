@@ -14,12 +14,15 @@ namespace RonivansLegacy_ChemicalProcessing
 	public class Config : SingletonOptions<Config>
 	{
 
-		[Option("ChemicalProcessing Industrial Overhaul Enabled")]
+		[Option("Chemical Processing - Industrial Overhaul: Enabled")]
 		[JsonProperty]
 		public bool ChemicalProcessing_IndustrialOverhaul_Enabled { get; set; } = true;
-		[Option("ChemicalProcessing BioChemistry Enabled")]
+		[Option("Chemical Processing - BioChemistry: Enabled")]
 		[JsonProperty]
 		public bool ChemicalProcessing_BioChemistry_Enabled { get; set; } = true;
+		[Option("Mineral Processing - Mining: Enabled")]
+		[JsonProperty]
+		public bool MineralProcessing_Mining_Enabled { get; set; } = true;
 
 	}
 }

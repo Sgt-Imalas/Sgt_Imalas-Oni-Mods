@@ -13,9 +13,64 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 {
 	class ComplexFabricatorRandomOutput : ComplexFabricator
 	{
+		public enum OutputType
+		{
+			None,
+			SpawnOnOrderCompletion,
+			SpawnDuringProduction,
+			SpawnOnOrderCompletionAndDuringProduction
+		}
+
+		[SerializeField] int ByproductSpawnChancePerSecond = 100;
+
 		[MyCmpGet] Building building;
 
+		[SerializeField] public bool StoreRandomOutputs = false;
+
 		public RecipeRandomResult DefaultOutput = null;
+
+		public override List<GameObject> SpawnOrderProduct(ComplexRecipe recipe)
+		{
+			SpawnAdditionalRandomProducts();
+			return base.SpawnOrderProduct(recipe);
+		}
+
+		public override void Sim1000ms(float dt)
+		{
+			base.Sim1000ms(dt);
+			SpawnFabricationByproducts();
+		}
+
+
+		public void SpawnProductsFor(RecipeRandomResult recipeRandomResult)
+		{
+			var products = recipeRandomResult.GetRandomProducts();
+			foreach (var productInfo in products)
+			{
+
+				var element = ElementLoader.FindElementByHash(productInfo.first);
+				var pos = Grid.CellToPosCCC(Grid.PosToCell(this), Grid.SceneLayer.Ore) + outputOffset;
+				var product = element.substance.SpawnResource(pos, productInfo.second, recipeRandomResult.GetRandomOutputTemperature(element), 0, 0);
+
+				if (StoreRandomOutputs || !element.IsSolid)
+				{
+					outStorage.Store(product);
+				}
+			}
+		}
+		#region onRecipeCompleted
+		public void SpawnAdditionalRandomProducts()
+		{
+			if (CurrentWorkingOrder == null)
+				return;
+			SpawnRandomProductsFromCurrentRecipe();
+		}
+		public Dictionary<Tag, RecipeRandomResult> GetRandomOutputSelection()
+		{
+			if (RandomRecipeResults.GetRandomResultList(building.Def.PrefabID, out var recipeSelection))
+				return recipeSelection;
+			return new();
+		}
 		protected void SpawnRandomProductsFromCurrentRecipe()
 		{
 			var outputSelection = GetRandomOutputSelection();
@@ -26,46 +81,49 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 			}
 
 			var randomSourceIngredient = this.CurrentWorkingOrder.ingredients[0];
-			if(outputSelection.TryGetValue(randomSourceIngredient.material, out var recipeRandomResult))
+			if (outputSelection.TryGetValue(randomSourceIngredient.material, out var recipeRandomResult))
 				SpawnProductsFor(recipeRandomResult);
 			else if (DefaultOutput != null)
 				SpawnProductsFor(DefaultOutput);
 		}
-		public override List<GameObject> SpawnOrderProduct(ComplexRecipe recipe)
-		{
-			SpawnRandomProductsFromCurrentRecipe();
-			return base.SpawnOrderProduct(recipe);
-		}
-
-		public void SpawnProductsFor(RecipeRandomResult recipeRandomResult)
-		{
-			var products = recipeRandomResult.GetRandomProducts();
-			foreach (var productInfo in products)
-			{
-
-				var element = ElementLoader.FindElementByHash(productInfo.first);
-				var pos = Grid.CellToPosCCC(Grid.PosToCell(this), Grid.SceneLayer.Ore) + outputOffset;
-				var product = element.substance.SpawnResource(pos, productInfo.second, recipeRandomResult.GetRandomOutputTemperature(), 0, 0);
-
-				if (
-					 //storeProduced ||
-					 !element.IsSolid)
-				{
-					outStorage.Store(product);
-				}
-			}
-		}
-		public void SpawnAdditionalRandomProducts()
+		#endregion
+		#region RandomByproductsDuringRecipeProcess
+		public void SpawnFabricationByproducts()
 		{
 			if (CurrentWorkingOrder == null)
 				return;
-			SpawnRandomProductsFromCurrentRecipe();
+
+			var rollSpawnChance = UnityEngine.Random.Range(1, 101);
+			if (rollSpawnChance > ByproductSpawnChancePerSecond)
+				return;
+
+			SpawnProgressByproductsFromCurrentRecipe();
 		}
-		public Dictionary<Tag, RecipeRandomResult> GetRandomOutputSelection()
+
+		public Dictionary<Tag, RecipeRandomResult> GetRandomFabricationByproductSelection()
 		{
-			if(RandomRecipeResults.GetRandomResultList(building.Def.PrefabID, out var recipeSelection))
+			if (RandomRecipeResults.GetRandomResultList(building.Def.PrefabID, out var recipeSelection))
 				return recipeSelection;
 			return new();
 		}
+		protected void SpawnProgressByproductsFromCurrentRecipe()
+		{
+			if (CurrentWorkingOrder == null)
+				return;
+
+			var outputSelection = GetRandomFabricationByproductSelection();
+			if (outputSelection == null)
+			{
+				SgtLogger.warning("ComplexFabricatorRandomOutput: GetRandomOutputSelection returned null. This is not expected.");
+				return;
+			}
+
+			var randomSourceIngredient = this.CurrentWorkingOrder.ingredients[0];
+			if (outputSelection.TryGetValue(randomSourceIngredient.material, out var recipeRandomResult))
+				SpawnProductsFor(recipeRandomResult);
+			else if (DefaultOutput != null)
+				SpawnProductsFor(DefaultOutput);
+		}
+		#endregion
 	}
 }

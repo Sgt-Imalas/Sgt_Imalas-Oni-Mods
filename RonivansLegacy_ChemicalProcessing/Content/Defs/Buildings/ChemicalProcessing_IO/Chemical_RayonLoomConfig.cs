@@ -36,7 +36,10 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		{
 			go.AddOrGet<DropAllWorkable>();
 			go.AddOrGet<BuildingComplete>().isManuallyOperated = false;
-			Chemical_FueledFabricator fabricator = go.AddOrGet<Chemical_FueledFabricator>();
+			var fuelConsumer = go.AddOrGet<Chemical_FueledFabricatorAddon>();
+			fuelConsumer.fuelTag = this.FUEL_TAG;
+
+			ComplexFabricator fabricator = go.AddOrGet<ComplexFabricator>();
 			fabricator.heatedTemperature = 368.15f;
 			fabricator.duplicantOperated = false;
 			fabricator.sideScreenStyle = ComplexFabricatorSideScreen.StyleSetting.ListQueueHybrid;
@@ -44,7 +47,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			go.AddOrGet<CopyBuildingSettings>();
 			go.AddOrGet<ComplexFabricatorWorkable>();
 			BuildingTemplates.CreateComplexFabricatorStorage(go, fabricator);
-			fabricator.fuelTag = this.FUEL_TAG;
 			fabricator.outStorage.capacityKg = 10f;
 			fabricator.inStorage.SetDefaultStoredItemModifiers(Chemical_RayonLoomStoredItemModifiers);
 			fabricator.buildStorage.SetDefaultStoredItemModifiers(Chemical_RayonLoomStoredItemModifiers);
@@ -68,7 +70,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Input(SimHashes.WoodLog, 150)
 				.Output(RayonFabricConfig.TAG, 1, ComplexRecipe.RecipeElement.TemperatureOperation.AverageTemperature, false)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
-				.Description(RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RAYON_LOOM_FIBER, 1, 1)
+				.Description(RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INGREDIENTS.RAYONFIBER.RECIPE_DESC, 1, 0)
 				.Build();
 		}
 
