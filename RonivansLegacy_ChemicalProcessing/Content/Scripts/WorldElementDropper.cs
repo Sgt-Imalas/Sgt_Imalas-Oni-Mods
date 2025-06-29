@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
+using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {
 	class WorldElementDropper : KMonoBehaviour
 	{
 		public Storage TargetStorage;
+		[SerializeField]
 		public bool DropSolids = false;
+		[SerializeField]
 		public bool DropLiquids = false;
+		[SerializeField]
 		public bool DropGases = false;
 
 		public override void OnCleanUp()
@@ -27,20 +32,21 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		void OnStorageChanged(object data)
 		{
 			var tagsInStorage = TargetStorage.GetAllIDsInStorage();
+			HashSet<Tag> toDrop = new();
 
 			foreach (var tag in tagsInStorage) 
 			{
 				var element = ElementLoader.GetElement(tag);
 				if (element == null)
 					continue;
-				if (element.IsSolid && !DropSolids)
-					tagsInStorage.Remove(tag);
-				else if (element.IsLiquid && !DropLiquids)
-					tagsInStorage.Remove(tag);
-				else if (element.IsGas && !DropGases)
-					tagsInStorage.Remove(tag);
+				if (element.IsSolid && DropSolids)
+					toDrop.Add(tag);
+				else if (element.IsLiquid && DropLiquids)
+					toDrop.Add(tag);
+				else if (element.IsGas && DropGases)
+					toDrop.Add(tag);
 			}
-			foreach(var dropIt in tagsInStorage)
+			foreach(var dropIt in toDrop)
 			{
 				TargetStorage.DropSome(dropIt, 9999999999, true,true);
 			}

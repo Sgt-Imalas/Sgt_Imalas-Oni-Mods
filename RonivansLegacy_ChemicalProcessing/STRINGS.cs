@@ -829,6 +829,10 @@ namespace RonivansLegacy_ChemicalProcessing
 
 				public static LocString MINERALPROCESSING_GUIDANCEUNIT = FormatAsLink("Guidance Device", nameof(MINERALPROCESSING_GUIDANCEUNIT));
 				public static LocString MINERALPROCESSING_GUIDANCEUNIT_DESC = "Guidance Devices allow the the mining drillhead to be programmed to target mine specific asteroid sectors";
+
+				public static LocString RANDOMRECIPEINGREDIENT_DESTROYONCANCEL = FormatAsLink("Non-refundable Ingredient", nameof(RANDOMRECIPEINGREDIENT_DESTROYONCANCEL));
+				public static LocString RANDOMRECIPEINGREDIENT_DESTROYONCANCEL_DESC = "This ingredient gets used up during its use, if a recipe with it gets canceled, it is lost.";
+				
 			}
 		}
 		public class ITEMS
@@ -899,6 +903,14 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString TUNGSTEN_DRILLING = "Tungsten Drilling";
 				public static LocString SMART_DRILLING = "Smart Drilling: {0}";
 				public static LocString TARGET_DESC = "Direct the drill towards specific areas of the asteroid, targeting the {0}.";
+
+				public static LocString RECIPE_1I = "Engage a drilling operation using {0}.";
+				public static LocString RECIPE_3I = "Engage a guided {0} drilling operation using {1} and {2}.";
+				public static LocString RECIPE_LIQUID = "This drilling has a much higher chance to produce occurances in form of liquids.";
+				public static LocString RECIPE_LIQUID_DANGER = "This DANGEROUS drilling has a much higher chance to produce occurences in form of high temperature liquids.";
+				public static LocString RECIPE_RESULTS = "Standard Results:";
+				public static LocString RECIPE_OCCURENCES = "Occurences during mining:";
+
 			}
 
 			public class CHEMICAL_COMPLEXFABRICATOR_STRINGS
@@ -953,11 +965,12 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class RANDOMRECIPERESULT
 				{
 					public static LocString NAME = "Random Composition: {0}";
-					public static LocString NAME_OCCURENCE = "Random Occurence: {0}";
+					public static LocString NAME_OCCURENCE_FORMAT = "Random Occurence: {0}";
+					public static LocString OCCURENCE_RANDOM_AMOUNT = "{0}/s";
 					public static LocString DESC = "This recipe yields {0} of random amounts of the following elements:";
 					public static LocString DESC_MAX_COUNT = "This recipe yields {0} of random amounts of {1} of the following elements:";
-					public static LocString DESC_OCCURENCE = "During production, the machine will generate {0} of random amounts of the following byproducts every second:";
-					public static LocString DESC_RANGE = "{0} - {1}";
+					public static LocString DESC_OCCURENCE = "During production, the machine will generate random amounts of the following byproducts every second:";
+					public static LocString DESC_RANGE = "~{0}";
 					public static LocString COMPOSITION_ENTRY = "• {0}, {1} - {2}";
 					public static LocString COMPOSITION_ENTRY_CHANCE = "• {0}: {1} - {2}, {3} Chance";
 				}

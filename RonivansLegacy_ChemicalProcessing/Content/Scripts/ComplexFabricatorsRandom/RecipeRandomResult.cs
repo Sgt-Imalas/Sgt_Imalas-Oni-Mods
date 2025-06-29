@@ -11,8 +11,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 	public class RecipeRandomResult
 	{
 		public float TotalMass { get; private set; }
-		public float MinTemp { get; private set; }
-		public float MaxTemp { get; private set; }
+		public float MinTemp { get; private set; } = -1;
+		public float MaxTemp { get; private set; } = -1;
 
 		public int RequiredProductsMin = -1, RequiredProductsMax = -1;
 
@@ -21,6 +21,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 
 		public Dictionary<SimHashes, Tuple<float, float, float>> RandomProductsRange;
 
+		public RecipeRandomResult(float _totalMass)
+		{
+			TotalMass = _totalMass;
+			RandomProductsRange = new();
+		}
 		public RecipeRandomResult(float _totalMass, float minTempC, float maxTempC)
 		{
 			TotalMass = _totalMass;
@@ -32,13 +37,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 		{
 			// This constructor is used when no specific total mass is set.
 		}
-		public RecipeRandomResult() : this(-1, -1, -1)
+		public RecipeRandomResult() : this(-1)
 		{
-			// This constructor is used when no specific total mass or temperature range is set.
-		}
-		public RecipeRandomResult(float _totalMass):this(_totalMass, -1, -1)
-		{
-			// This constructor is used when only total mass is set.
 		}
 		public RecipeRandomResult ProductCount(int count) => ProductCountRange(count, count);
 
@@ -48,7 +48,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 			RequiredProductsMax = countMaxInclusive;
 			return this;
 		}
-		public RecipeRandomResult MinRequiredProducts (int countMinInclusive)
+		public RecipeRandomResult MinRequiredProducts(int countMinInclusive)
 		{
 			RequiredProductsMin = countMinInclusive;
 			return this;
@@ -68,18 +68,18 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 			foreach (var product in RandomProductsRange)
 			{
 				var range = product.Value;
-				bool hasChance = range.third < 1;
-
-				if(!hasChance)
-					min += range.first;
-				max += range.second;
+				float chance = range.third;
+				
+				min += range.first * chance;
+				max += range.second * chance;
 			}
+			float mean = (min + max) / 2f;
 			if (min == max)
 				return GameUtil.GetFormattedMass(min, massFormat: GameUtil.MetricMassFormat.Kilogram);
 			else
-				return string.Format(STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.DESC_RANGE, GameUtil.GetFormattedMass(min, massFormat: GameUtil.MetricMassFormat.Kilogram), GameUtil.GetFormattedMass(max, massFormat: GameUtil.MetricMassFormat.Kilogram));
+				return string.Format(STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.DESC_RANGE, GameUtil.GetFormattedMass(mean, massFormat: GameUtil.MetricMassFormat.Kilogram));
 
-		}	
+		}
 
 		StringBuilder sb = null;
 		public string GetProductCompositionName(bool massOnly = false)
@@ -90,14 +90,15 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 		}
 		public string GetOccurenceCompositionName(bool massOnly = false)
 		{
+			var massAmount = string.Format(STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.OCCURENCE_RANDOM_AMOUNT, GetMassString());
 			if (massOnly)
-				return GetMassString();
-			return string.Format(STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.NAME_OCCURENCE, GetMassString());
+				return massAmount;
+			return string.Format(STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.NAME_OCCURENCE_FORMAT, massAmount);
 		}
-		public string GetOccurenceCompositionDescription() => GetCompositionDescription(STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.DESC_OCCURENCE, STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.DESC_MAX_COUNT);
+		public string GetOccurenceCompositionDescription() => GetCompositionDescription(STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.DESC_OCCURENCE, null, true);
 		public string GetProductCompositionDescription() => GetCompositionDescription(STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.DESC, STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.DESC_MAX_COUNT);
 
-		public string GetCompositionDescription(string single, string maxCount)
+		public string GetCompositionDescription(string single, string maxCount, bool ignoreTotal = false)
 		{
 			if (sb == null)
 				sb = new StringBuilder();
@@ -105,22 +106,15 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 				sb.Clear();
 
 
-			string totalMass = GetMassString();	
-
-			if (RequiredProductsMax > 0)
-			{
-				bool hasRange = RequiredProductsMax != RequiredProductsMin && RequiredProductsMax > RequiredProductsMin; 
-
-				string count = !hasRange
-					? RequiredProductsMin.ToString()
-					: string.Format(STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.DESC_RANGE, RequiredProductsMin, RequiredProductsMax);
-				sb.AppendLine(string.Format(maxCount, totalMass, count));
-			}
-			else
+			string totalMass = GetMassString();
+			if (!ignoreTotal)
 			{
 				sb.AppendLine(string.Format(single, totalMass));
 			}
-
+			else
+			{
+				sb.AppendLine(single);
+			}
 
 			foreach (var product in RandomProductsRange)
 			{
@@ -168,7 +162,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 
 			HashSet<SimHashes> alreadyAdded = new HashSet<SimHashes>();
 
-			int numRequiredProducts = RequiredProductsMin < RequiredProductsMax ? UnityEngine.Random.Range(RequiredProductsMin, RequiredProductsMax + 1) : RequiredProductsMin	;
+			int numRequiredProducts = RequiredProductsMin < RequiredProductsMax ? UnityEngine.Random.Range(RequiredProductsMin, RequiredProductsMax + 1) : RequiredProductsMin;
 			bool hasMaxRequirement = HasMaxProductCount;
 			do
 			{
@@ -199,7 +193,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 					alreadyAdded.Add(product); // Mark product as added
 					products.Add(new Tuple<SimHashes, float>(product, randomAmount));
 				}
-				if(HasMinProductCount && !HasMaxProductCount && products.Count() < numRequiredProducts)
+				if (HasMinProductCount && !HasMaxProductCount && products.Count() < numRequiredProducts)
 				{
 					///if we dont have the minimum count yet and the maximum count isnt set, we loop only until the min number is satisfied, then abort
 					hasMaxRequirement = true;
@@ -221,10 +215,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 
 		internal float GetRandomOutputTemperature(Element element)
 		{
-			if(HasRandomTemperatureRange)
+			if (HasRandomTemperatureRange)
+			{
 				return UnityEngine.Random.Range(MinTemp, MaxTemp);
+			}
 			else
+			{
 				return element.defaultValues.temperature;
+			}
 		}
 	}
 }

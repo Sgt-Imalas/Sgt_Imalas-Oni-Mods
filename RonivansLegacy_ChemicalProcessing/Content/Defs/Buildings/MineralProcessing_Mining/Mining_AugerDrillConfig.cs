@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRandom;
 using System;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.UI.MINING_AUGUR_DRILL;
+using static RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS;
 
 
 namespace Mineral_Processing_Mining.Buildings
@@ -89,6 +91,7 @@ namespace Mineral_Processing_Mining.Buildings
 			drillRig.inStorage.SetDefaultStoredItemModifiers(DrillStoredItemModifiers);
 			drillRig.buildStorage.SetDefaultStoredItemModifiers(DrillStoredItemModifiers);
 			drillRig.outStorage.SetDefaultStoredItemModifiers(DrillStoredItemModifiers);
+			//drillRig.showProgressBar = true;
 
 			ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
 			conduitConsumer.capacityTag = this.fuelTag;
@@ -110,7 +113,7 @@ namespace Mineral_Processing_Mining.Buildings
 
 			ConfigurableSolidConduitDispenser solidDispenser = go.AddOrGet<ConfigurableSolidConduitDispenser>();
 			solidDispenser.alwaysDispense = true;
-			solidDispenser.massDispensed = 100f;
+			solidDispenser.massDispensed = 200f;
 			solidDispenser.storage = drillRig.outStorage;
 			solidDispenser.solidOnly = true;
 			solidDispenser.elementFilter = null;
@@ -149,12 +152,14 @@ namespace Mineral_Processing_Mining.Buildings
 			//                     Polluted Water
 			//------------------------------------------------------------------------------------------------------------------------
 
-			RecipeBuilder.Create(ID,120)
+			RecipeBuilder.Create(ID, 120)
 				.Input(Mining_Drillbits_Basic_ItemConfig.TAG, 1)
 				.Output(SimHashes.CrushedRock.CreateTag(), 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, true)
 				.SortOrder(count++)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
+				.IconPrefabOverride(Mining_Drillbits_Basic_ItemConfig.TAG)
 				.NameOverride(BASIC_DRILLING)
+				.Description(RandomRecipeResults.GetAugerDrillRandomResultString(Mining_Drillbits_Basic_ItemConfig.TAG, MINING_DRILLBITS_BASIC_ITEM.NAME))
 				.Build();
 
 
@@ -181,7 +186,9 @@ namespace Mineral_Processing_Mining.Buildings
 				.Output(SimHashes.CrushedRock.CreateTag(), 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, true)
 				.SortOrder(count++)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
+				.IconPrefabOverride(Mining_Drillbits_Steel_ItemConfig.TAG)
 				.NameOverride(STEEL_DRILLING)
+				.Description(RandomRecipeResults.GetAugerDrillRandomResultString(Mining_Drillbits_Steel_ItemConfig.TAG, MINING_DRILLBITS_STEEL_ITEM.NAME))
 				.Build();
 
 			//---- [ Tungsten Drilling ] ---------------------------------------------------------------------------------------------
@@ -206,7 +213,9 @@ namespace Mineral_Processing_Mining.Buildings
 			.Output(SimHashes.CrushedRock.CreateTag(), 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, true)
 			.SortOrder(count++)
 			.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
+			.IconPrefabOverride(Mining_Drillbits_Tungsten_ItemConfig.TAG)
 			.NameOverride(TUNGSTEN_DRILLING)
+			.Description(RandomRecipeResults.GetAugerDrillRandomResultString(Mining_Drillbits_Tungsten_ItemConfig.TAG, MINING_DRILLBITS_TUNGSTEN_ITEM.NAME))
 			.Build();
 
 			//---- [ Smart Drilling: Soft Stratum ] --------------------------------------------------------------------------------
@@ -234,7 +243,9 @@ namespace Mineral_Processing_Mining.Buildings
 			.Output(SimHashes.CrushedRock.CreateTag(), 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, true)
 			.SortOrder(count++)
 			.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
-			.NameOverride(string.Format(SMART_DRILLING,Mining_Drillbits_GuidanceDevice_ItemConfig.GetTargetName(Mining_Drillbits_GuidanceDevice_ItemConfig.SoftStratumTag)))
+			.NameOverride(string.Format(SMART_DRILLING, Mining_Drillbits_GuidanceDevice_ItemConfig.GetTargetName(Mining_Drillbits_GuidanceDevice_ItemConfig.SoftStratumTag)))
+			.IconPrefabOverride(Mining_Drillbits_GuidanceDevice_ItemConfig.SoftStratumTag)
+			.Description(RandomRecipeResults.GetAugerDrillRandomResultString(Mining_Drillbits_GuidanceDevice_ItemConfig.SoftStratumTag, MINING_DRILLBITS_BASIC_ITEM.NAME, true))
 			.Build();
 
 			//---- [ Smart Drilling: Aquifers ] --------------------------------------------------------------------------------
@@ -260,6 +271,8 @@ namespace Mineral_Processing_Mining.Buildings
 			.SortOrder(count++)
 			.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
 			.NameOverride(string.Format(SMART_DRILLING, Mining_Drillbits_GuidanceDevice_ItemConfig.GetTargetName(Mining_Drillbits_GuidanceDevice_ItemConfig.AquiferTag)))
+			.IconPrefabOverride(Mining_Drillbits_GuidanceDevice_ItemConfig.AquiferTag)
+			.Description(RandomRecipeResults.GetAugerDrillRandomResultString(Mining_Drillbits_GuidanceDevice_ItemConfig.AquiferTag, MINING_DRILLBITS_BASIC_ITEM.NAME, true, true))
 			.Build();
 
 			//---- [ Smart Drilling: Hard Stratum ] --------------------------------------------------------------------------------
@@ -289,6 +302,8 @@ namespace Mineral_Processing_Mining.Buildings
 			.SortOrder(count++)
 			.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
 			.NameOverride(string.Format(SMART_DRILLING, Mining_Drillbits_GuidanceDevice_ItemConfig.GetTargetName(Mining_Drillbits_GuidanceDevice_ItemConfig.HardStratumTag)))
+			.IconPrefabOverride(Mining_Drillbits_GuidanceDevice_ItemConfig.HardStratumTag)
+			.Description(RandomRecipeResults.GetAugerDrillRandomResultString(Mining_Drillbits_GuidanceDevice_ItemConfig.HardStratumTag, MINING_DRILLBITS_STEEL_ITEM.NAME, true))
 			.Build();
 
 			//---- [ Smart Drilling: Oil Reserves ] --------------------------------------------------------------------------------
@@ -304,7 +319,7 @@ namespace Mineral_Processing_Mining.Buildings
 			//                     Methane Gas
 			//                     Sour Gas
 			//----------------------------------------------------------------------------------------------------------------------
-			
+
 			RecipeBuilder.Create(ID, 120)
 			.Input(Mining_Drillbits_GuidanceDevice_ItemConfig.OilReservesTag, 1, doNotConsume: true)
 			.Input(Mining_Drillbits_Steel_ItemConfig.TAG, 1)
@@ -312,6 +327,8 @@ namespace Mineral_Processing_Mining.Buildings
 			.SortOrder(count++)
 			.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
 			.NameOverride(string.Format(SMART_DRILLING, Mining_Drillbits_GuidanceDevice_ItemConfig.GetTargetName(Mining_Drillbits_GuidanceDevice_ItemConfig.OilReservesTag)))
+			.IconPrefabOverride(Mining_Drillbits_GuidanceDevice_ItemConfig.OilReservesTag)
+			.Description(RandomRecipeResults.GetAugerDrillRandomResultString(Mining_Drillbits_GuidanceDevice_ItemConfig.OilReservesTag, MINING_DRILLBITS_STEEL_ITEM.NAME, true, true))
 			.Build();
 
 			//---- [ Smart Drilling: Cryosphere ] --------------------------------------------------------------------------------
@@ -338,6 +355,8 @@ namespace Mineral_Processing_Mining.Buildings
 			.SortOrder(count++)
 			.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
 			.NameOverride(string.Format(SMART_DRILLING, Mining_Drillbits_GuidanceDevice_ItemConfig.GetTargetName(Mining_Drillbits_GuidanceDevice_ItemConfig.CryosphereTag)))
+			.IconPrefabOverride(Mining_Drillbits_GuidanceDevice_ItemConfig.CryosphereTag)
+			.Description(RandomRecipeResults.GetAugerDrillRandomResultString(Mining_Drillbits_GuidanceDevice_ItemConfig.CryosphereTag, MINING_DRILLBITS_TUNGSTEN_ITEM.NAME, true))
 			.Build();
 
 			//---- [ Smart Drilling: Mantle ] -------------------------------------------------------------------------------------
@@ -365,6 +384,8 @@ namespace Mineral_Processing_Mining.Buildings
 			.SortOrder(count++)
 			.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
 			.NameOverride(string.Format(SMART_DRILLING, Mining_Drillbits_GuidanceDevice_ItemConfig.GetTargetName(Mining_Drillbits_GuidanceDevice_ItemConfig.MantleTag)))
+			.IconPrefabOverride(Mining_Drillbits_GuidanceDevice_ItemConfig.MantleTag)
+			.Description(RandomRecipeResults.GetAugerDrillRandomResultString(Mining_Drillbits_GuidanceDevice_ItemConfig.MantleTag, MINING_DRILLBITS_TUNGSTEN_ITEM.NAME, true, false, true))
 			.Build();
 		}
 

@@ -18,7 +18,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
         {
             public static void Postfix(SelectedRecipeQueueScreen __instance, List<SelectedRecipeQueueScreen.DescriptorWithSprite> __result, ComplexRecipe recipe)
 			{
-				if (RandomRecipeResults.GetRandomResultsforRecipe(recipe, out var occurence))
+				if (RandomRecipeResults.GetRandomOccurencesforRecipe(recipe, out var occurence))
 				{
 					__result.Add(new SelectedRecipeQueueScreen.DescriptorWithSprite(
 						new(occurence.GetOccurenceCompositionName(),

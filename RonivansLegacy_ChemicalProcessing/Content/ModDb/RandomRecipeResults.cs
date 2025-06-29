@@ -55,18 +55,18 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			return _randomRecipeResultsCollection.TryGetValue(buildingID, out results);
 		}
 
-		public static bool GetRandomFabricationByproductsforRecipe(ComplexRecipe recipe, out RecipeRandomResult randomResult)
+		public static bool GetRandomOccurencesforRecipe(ComplexRecipe recipe, out RecipeRandomResult randomResult)
 		{
 			randomResult = null;
 			foreach (var fabricator in recipe.fabricators)
 			{
-				if (GetRandomFabricationByproductList(fabricator, out var results)
+				if (GetRandomOccurenceList(fabricator, out var results)
 					&& results.TryGetValue(recipe.ingredients[0].material, out randomResult))
 					return true;
 			}
 			return false;
 		}
-		public static bool GetRandomFabricationByproductList(Tag buildingID, out Dictionary<Tag, RecipeRandomResult> results)
+		public static bool GetRandomOccurenceList(Tag buildingID, out Dictionary<Tag, RecipeRandomResult> results)
 		{
 			results = null;
 			if (_randomFabricationByproductsCollection == null)
@@ -136,27 +136,37 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					guaranteed.ProperName());
 		}
 
+		static StringBuilder sb;
+		public static string GetAugerDrillRandomResultString(Tag inputElement, string drillbit, bool IsGuidance = false, bool liquid = false, bool dangerousliquid = false)
+		{
+			if (sb == null)
+				sb = new StringBuilder();
+			else
+				sb.Clear();
 
-		//public static string GetAugerDrillRandomResultString(Tag inputElement, string drillbit,string guidance, bool liquid = false, bool dangerousliquid = false)
-		//{
-		//	if (!GetRandomResultList(Mining_AugerDrillConfig.ID, out var recipes) || !recipes.TryGetValue(inputElement, out RecipeRandomResult result)
-		//	|| !GetRandomFabricationByproductList(Mining_AugerDrillConfig.ID, out var occurenceList) || !occurenceList.TryGetValue(inputElement, out RecipeRandomResult occurenceResult))
-		//	{
-		//		return string.Empty;
-		//	}
+			if (!GetRandomResultList(Mining_AugerDrillConfig.ID, out var recipes) || !recipes.TryGetValue(inputElement, out RecipeRandomResult result)
+			|| !GetRandomOccurenceList(Mining_AugerDrillConfig.ID, out var occurenceList) || !occurenceList.TryGetValue(inputElement, out RecipeRandomResult occurenceResult))
+			{
+				return string.Empty;
+			}
 
-		//	string potentialResults = string.Empty;
-		//	foreach (var potentialResult in result.RandomProductsRange)
-		//	{
-		//		var elementTag = potentialResult.Key.CreateTag();
-		//		potentialResults += "\n• " + elementTag.ProperName();
-				
-		//	}
-		//	return string.Format(STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.ARCFURNACE_RANDOM_RECIPE,
-		//			recipeIngredients[0].material.ProperName(),
-		//			potentialResults,
-		//			guaranteed.ProperName());
-		//}
+			if (!IsGuidance)
+				sb.AppendLine(string.Format(STRINGS.UI.MINING_AUGUR_DRILL.RECIPE_1I, drillbit));
+			else
+				sb.AppendLine(string.Format(STRINGS.UI.MINING_AUGUR_DRILL.RECIPE_3I, Mining_Drillbits_GuidanceDevice_ItemConfig.GetTargetName(inputElement), drillbit, Mining_Drillbits_GuidanceDevice_ItemConfig.GetGuidanceItemName(inputElement)));
+
+			if(liquid)
+				sb.AppendLine(STRINGS.UI.MINING_AUGUR_DRILL.RECIPE_LIQUID);
+			if (dangerousliquid)
+				sb.AppendLine(STRINGS.UI.MINING_AUGUR_DRILL.RECIPE_LIQUID_DANGER);
+			sb.Append(STRINGS.UI.MINING_AUGUR_DRILL.RECIPE_RESULTS);
+
+
+			var products = result.GetCompositionDescription(sb.ToString(), null, true);
+			products += STRINGS.UI.MINING_AUGUR_DRILL.RECIPE_OCCURENCES;
+
+			return occurenceResult.GetCompositionDescription(products,null,true);
+		}
 
 		private static Dictionary<Tag, RecipeRandomResult> InitRandomResults_BallCrusher()
 		{

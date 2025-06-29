@@ -15,7 +15,7 @@ namespace Mineral_Processing_Mining.Buildings
 	public class Mining_Drillbits_GuidanceDevice_ItemConfig : IMultiEntityConfig
 	{
 		public static string ID = "Mining_Drillbits_GuidanceDevice_Item";
-		public static Tag TAG => TagManager.Create("GuidanceDevice");
+		public static Tag TAG => TagManager.Create(ID);
 
 		public static string ProgrammedPrefix = "Mining_GuidanceDevice_";
 
@@ -51,7 +51,7 @@ namespace Mineral_Processing_Mining.Buildings
 				kanim = $"guidance_device_{targetID.ToLowerInvariant()}_kanim";
 			}
 
-			GameObject go = EntityTemplates.CreateLooseEntity(id, name, desc, 1f, false, Assets.GetAnim(kanim), "object", Grid.SceneLayer.Front, EntityTemplates.CollisionShape.RECTANGLE, 0.65f, 0.65f, true, 0, SimHashes.Creature, [GameTags.IndustrialProduct, ModAssets.Tags.MineralProcessing_GuidanceUnit]);
+			GameObject go = EntityTemplates.CreateLooseEntity(id, name, desc, 1f, true, Assets.GetAnim(kanim), "object", Grid.SceneLayer.Front, EntityTemplates.CollisionShape.RECTANGLE, 0.65f, 0.65f, true, 0, SimHashes.Creature, [GameTags.IndustrialProduct, ModAssets.Tags.MineralProcessing_GuidanceUnit]);
 			go.AddOrGet<EntitySplitter>();
 			go.AddOrGet<SimpleMassStatusItem>();
 			go.AddComponent<Durability>();
@@ -87,6 +87,11 @@ namespace Mineral_Processing_Mining.Buildings
 		{
 			string targetID = programmable.ToString().Replace(ProgrammedPrefix, "");
 			return Strings.Get("STRINGS.UI.MINING_SMART_DRILL_LOCATIONS." + targetID.ToUpperInvariant());
+		}
+		internal static string GetGuidanceItemName(Tag programmable)
+		{
+			string target = GetTargetName(programmable);
+			return string.Format(MINING_DRILLBITS_GUIDANCEDEVICE_ITEM.NAME_PROGRAMMED, target);
 		}
 	}
 }

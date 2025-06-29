@@ -22,7 +22,10 @@ namespace RonivansLegacy_ChemicalProcessing
 			public static Tag BioOil_Composition = TagManager.Create("ChemicalProcessing_BioOil_Composition");
 
 			///group tag for guidance units
-			public static Tag MineralProcessing_GuidanceUnit = TagManager.Create("MineralProcessing_GuidanceUnit");			
+			public static Tag MineralProcessing_GuidanceUnit = TagManager.Create("MineralProcessing_GuidanceUnit");
+
+			///Prevents free material cheesing from drill by destroying the drillbit on cancellation of the recipe
+			public static Tag RandomRecipeIngredient_DestroyOnCancel = TagManager.Create("RandomRecipeIngredient_DestroyOnCancel");
 		}       
     }
 }

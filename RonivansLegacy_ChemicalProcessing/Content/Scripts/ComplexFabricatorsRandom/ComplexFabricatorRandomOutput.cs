@@ -36,7 +36,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 		}
 
 		public override void Sim1000ms(float dt)
-		{
+		{			
 			base.Sim1000ms(dt);
 			SpawnFabricationByproducts();
 		}
@@ -54,7 +54,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 
 				if (StoreRandomOutputs || !element.IsSolid)
 				{
-					outStorage.Store(product);
+					outStorage.Store(product, true);
 				}
 			}
 		}
@@ -90,7 +90,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 		#region RandomByproductsDuringRecipeProcess
 		public void SpawnFabricationByproducts()
 		{
-			if (CurrentWorkingOrder == null)
+			if (CurrentWorkingOrder == null || !operational.IsActive)
 				return;
 
 			var rollSpawnChance = UnityEngine.Random.Range(1, 101);
@@ -100,9 +100,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 			SpawnProgressByproductsFromCurrentRecipe();
 		}
 
-		public Dictionary<Tag, RecipeRandomResult> GetRandomFabricationByproductSelection()
+		public Dictionary<Tag, RecipeRandomResult> GetRandomOccurenceSelection()
 		{
-			if (RandomRecipeResults.GetRandomResultList(building.Def.PrefabID, out var recipeSelection))
+			if (RandomRecipeResults.GetRandomOccurenceList(building.Def.PrefabID, out var recipeSelection))
 				return recipeSelection;
 			return new();
 		}
@@ -111,7 +111,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 			if (CurrentWorkingOrder == null)
 				return;
 
-			var outputSelection = GetRandomFabricationByproductSelection();
+			var outputSelection = GetRandomOccurenceSelection();
 			if (outputSelection == null)
 			{
 				SgtLogger.warning("ComplexFabricatorRandomOutput: GetRandomOutputSelection returned null. This is not expected.");
@@ -125,5 +125,18 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 				SpawnProductsFor(DefaultOutput);
 		}
 		#endregion
+
+		internal void DestroyFragileIngredientsOnCancel()
+		{
+			var items = buildStorage.DropHasTags([ModAssets.Tags.RandomRecipeIngredient_DestroyOnCancel]);
+			for(int i = items.Length - 1; i >= 0; i--)
+			{
+				var item = items[i];
+				if (item != null)
+				{
+					Util.KDestroyGameObject(item);
+				}
+			}
+		}
 	}
 }

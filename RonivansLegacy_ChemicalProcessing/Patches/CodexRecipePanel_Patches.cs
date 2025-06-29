@@ -21,9 +21,12 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				if (__instance == null || __instance.complexRecipe == null)
 					return;
 
-				if (RandomRecipeResults.GetRandomFabricationByproductsforRecipe(__instance.complexRecipe, out var occurence))
+				if (RandomRecipeResults.GetRandomOccurencesforRecipe(__instance.complexRecipe, out var occurence))
 				{
-					HierarchyReferences component = Util.KInstantiateUI(__instance.materialPrefab, __instance.resultsContainer, true)
+					//expand the width of the container to fit the occurence entry
+					__instance.fabricatorContainer.gameObject.GetComponent<LayoutElement>().preferredWidth = 160f;
+
+					HierarchyReferences component = Util.KInstantiateUI(__instance.materialPrefab, __instance.fabricatorContainer, true)
 						.GetComponent<HierarchyReferences>();
 					Tuple<Sprite, Color> uiSprite = new(Assets.GetSprite("icon_mining_occurence"), UIUtils.rgb(204, 127, 5));
 					var icon = component.GetReference<Image>("Icon");

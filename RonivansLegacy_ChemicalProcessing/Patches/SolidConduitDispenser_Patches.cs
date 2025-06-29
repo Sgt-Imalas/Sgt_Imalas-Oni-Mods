@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
+using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Patches
 {
@@ -20,7 +21,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
             {
                 if (__instance is ConfigurableSolidConduitDispenser dispenser)
                 {
-                    dispenserInstance = dispenser;
+					dispenserInstance = dispenser;
                 }
                 else
                     dispenserInstance = null;
@@ -34,12 +35,15 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				for (int i = codes.Count - 1; i >= 0; i--)
 				{
 					var current = codes[i];
-                    if (current.LoadsConstant(20))
+                    double nr = 20;
+
+					if (current.LoadsConstant(nr))
                     {
                         codes.Insert(i + 1, new CodeInstruction(OpCodes.Call, m_InjectedMethod));
 					}
 				}
-                return codes;
+                TranspilerHelper.PrintInstructions(codes);
+				return codes;
             }
 
             private static double ReplaceCapacityConditionally(double input)

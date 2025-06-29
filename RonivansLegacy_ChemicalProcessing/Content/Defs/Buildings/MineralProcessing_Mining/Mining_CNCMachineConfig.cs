@@ -24,7 +24,7 @@ namespace Mineral_Processing_Mining.Buildings
 		public override BuildingDef CreateBuildingDef()
 		{
 			EffectorValues tier = NOISE_POLLUTION.NOISY.TIER6;
-			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 4, "cnc_machine_kanim", 100, 30f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER3, MATERIALS.ALL_METALS, 800f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.PENALTY.TIER2, tier);
+			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 7, 4, "cnc_machine_kanim", 100, 30f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER3, MATERIALS.ALL_METALS, 800f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.PENALTY.TIER2, tier);
 			buildingDef.Overheatable = true;
 			buildingDef.OverheatTemperature = 348.15f;
 			buildingDef.RequiresPowerInput = true;
