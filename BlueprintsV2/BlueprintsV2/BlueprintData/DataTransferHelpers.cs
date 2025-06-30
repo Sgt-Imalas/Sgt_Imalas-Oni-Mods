@@ -44,9 +44,14 @@ namespace BlueprintsV2.BlueprintData
 			{
 				if (arg.TryGetComponent<BuildingEnabledButton>(out var component))
 				{
+					bool shouldBeEnabled = component.IsEnabled;
+					if(component.queuedToggle)
+						shouldBeEnabled = !shouldBeEnabled; //queued toggle means it will be toggled to the opposite state, so we need to invert it here
+					SgtLogger.l("Is enabled: "+component.IsEnabled+", toggled: "+ component.queuedToggle);
+
 					return new JObject()
 					{
-						{ "IsEnabled", component.buildingEnabled}, //grabbing buildingEnabled because thats the state it wants to be in, IsEnabled is the actual enabled state that can lag behind
+						{ "IsEnabled", shouldBeEnabled},
 					};
 				}
 				return null;
@@ -62,7 +67,6 @@ namespace BlueprintsV2.BlueprintData
 					if (t1 == null)
 						return;
 					var IsEnabled = t1.Value<bool>();
-					targetComponent.buildingEnabled = IsEnabled;
 					targetComponent.IsEnabled = IsEnabled;
 				}
 			}
