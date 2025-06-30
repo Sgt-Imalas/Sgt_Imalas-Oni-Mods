@@ -261,6 +261,11 @@ namespace SetStartDupes
 								public static LocString TEXT = "Save Changes";
 								public static LocString TOOLTIP = "";
 							}
+							public class CLEANSLATEBUTTON
+							{
+								public static LocString TEXT = "Clear Everything";
+								public static LocString TOOLTIP = "Sets all the attributes to 0 and clears all skills, interests, effects and traits.\nIntended for sandbox testing to provide a \"clean slate\"";
+							}
 						}
 					}
 				}

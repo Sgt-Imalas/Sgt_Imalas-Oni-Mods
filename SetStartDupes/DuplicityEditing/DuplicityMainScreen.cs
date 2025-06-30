@@ -89,13 +89,15 @@ namespace SetStartDupes.DuplicityEditing
 		Dictionary<AccessorySlot, AppearanceEntry> MinionAnimCategories = new();
 
 		//Footer
-		FButton CloseBtn, ResetBtn, SaveBtn;
+		FButton CloseBtn, ResetBtn, SaveBtn, CleanSlateBtn;
+
+		public static GameObject ParentGO => GameScreenManager.Instance.transform.Find("ScreenSpaceOverlayCanvas/MiddleCenter - InFrontOfEverything").gameObject;
 
 		public static void ShowWindow(GameObject SourceDupe, System.Action onClose)
 		{
 			if (Instance == null)
 			{
-				var screen = Util.KInstantiateUI(ModAssets.DuplicityWindowPrefab, GameScreenManager.Instance.transform.Find("ScreenSpaceOverlayCanvas/MiddleCenter - InFrontOfEverything").gameObject, true);
+				var screen = Util.KInstantiateUI(ModAssets.DuplicityWindowPrefab, ParentGO, true);
 				Instance = screen.AddOrGet<DuplicityMainScreen>();
 				Instance.Init();
 				Instance.name = "DSS_DuplicityEditor_MainScreen";
@@ -152,11 +154,16 @@ namespace SetStartDupes.DuplicityEditing
 			STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.DISCARDCHANGES,
 				   () => DiscardAndClose(),
 				   STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.CANCEL,
-				   () => { });
+				   () => { }, parent: ParentGO);
 			}
 			else
 				DiscardAndClose();
 
+		}
+		void ClearAll()
+		{
+			Stats.ClearAll();
+			UpdateCategoryButtons();
 		}
 
 		void ApplyAndClose()
@@ -189,6 +196,10 @@ namespace SetStartDupes.DuplicityEditing
 
 			CloseBtn = transform.Find("Details/Footer/Buttons/ExitButton").gameObject.AddOrGet<FButton>();
 			CloseBtn.OnClick += TryClose;
+
+			CleanSlateBtn = transform.Find("Details/Footer/Buttons/CleanSlateButton").gameObject.AddOrGet<FButton>();
+			UIUtils.AddSimpleTooltipToObject(CleanSlateBtn.gameObject, STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS.CLEANSLATEBUTTON.TOOLTIP);
+			CleanSlateBtn.OnClick += ClearAll;
 
 			InitPrefabs();
 
@@ -914,7 +925,7 @@ namespace SetStartDupes.DuplicityEditing
 			STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.DISCARDCHANGES,
 				   () => GenerateMinionEditStats(newMinion),
 			STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.CANCEL,
-				   () => { });
+				   () => { } ,parent: ParentGO);
 			}
 			else
 			{
