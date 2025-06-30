@@ -1,6 +1,7 @@
 ﻿using Database;
 using Klei.AI;
 using SetStartDupes.DuplicityEditing.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TUNING;
@@ -72,7 +73,7 @@ namespace SetStartDupes.DuplicityEditing
 				{
 					//Traits
 					stats.Traits = new HashSet<string>();
-					foreach (var traitId in traits.TraitIds)
+					foreach (var traitId in traits.GetTraitIds())
 					{
 						if (ModAssets.TryGetTraitsOfCategory(DupeTraitManager.NextType.joy, stats.Model).Any(trait => trait.id == traitId))
 						{
@@ -361,6 +362,7 @@ namespace SetStartDupes.DuplicityEditing
 						SgtLogger.warning("trait to remove not existing: " + toRemoveTrait);
 						continue;
 					}
+					SgtLogger.l("removing "+toRemoveTrait);
 					traits.Remove(trait);
 					ModAssets.PurgingTraitComponentIfExists(toRemoveTrait, go);
 				}
@@ -394,12 +396,12 @@ namespace SetStartDupes.DuplicityEditing
 					{
 						if (shouldHaveSkill)
 						{
-							SgtLogger.l(skill.Key, "mastering");
+							SgtLogger.l("learning new skill: "+skill.Key);
 							minionResume.MasterSkill(skill.Key);
 						}
 						else
 						{
-							SgtLogger.l(skill.Key, "unmastering");
+							SgtLogger.l("unlearning existing skill: "+skill.Key);
 							minionResume.UnmasterSkill(skill.Key);
 						}
 					}
@@ -485,6 +487,31 @@ namespace SetStartDupes.DuplicityEditing
 		{
 			Accessories[slot] = accessory;
 			AppearancePending = true;
+		}
+
+		internal void ClearAll()
+		{
+			SkillsPending = true;
+			AttributesPending = true;
+			EffectsPending = true;
+
+			totalExperience = 0;
+			foreach(var key in AttributeLevels.Keys.ToList())
+			{
+				AttributeLevels[key] = 0;
+			}
+			foreach(var skill in MasteryBySkillID.Keys.ToList())
+			{
+				MasteryBySkillID[skill] = false;
+			}
+
+			AptitudeBySkillGroup.Clear();
+			Effects.Clear();
+			StressTraitId = null;
+			JoyTraitId = null;
+
+			Traits.Clear();
+
 		}
 	}
 }

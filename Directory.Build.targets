@@ -24,6 +24,18 @@
 		</ItemGroup>
 		<WriteLinesToFile File="$(TargetDir)/mod_info.yaml" Overwrite="true" Lines="@(ModInfoLines)"/>
 	</Target>
+	<!--Write LauncherMetadata.json file for Romen ModLauncher and SgtsModUpdater-->
+	<Target Name="GenerateLauncherMetadata" BeforeTargets="Build" Condition="'$(DoNotBuildAsMod)' != 'true'">
+		<ItemGroup>
+			<LauncherMetadataLines Include='{'/>
+			<LauncherMetadataLines Include='"UpdateIndexURL":"https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases/download/AllMods_Automated_Build_FullRelease/_ReleaseVersionInfoData.json",'/>
+			<LauncherMetadataLines Include='"BugReportURL":"https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues/new/choose",'/>
+			<LauncherMetadataLines Include='"RepoURL":"https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods",'/>
+			<LauncherMetadataLines Include='"Author":"$(Authors)"'/>			
+			<LauncherMetadataLines Include='}'/>
+		</ItemGroup>
+		<WriteLinesToFile File="$(TargetDir)/LauncherMetadata.json" Overwrite="true" Lines="@(LauncherMetadataLines)"/>
+	</Target>
 
 	<!--Merges all dlls in the output folder into a single dll-->
 	<Target Name="ILRepack" AfterTargets="Build" Condition="'$(IsPacked)' == 'true'">
@@ -66,7 +78,9 @@
 			$(TargetDir)$(TargetName).dll;
 			$(TargetDir)$(TargetName).pdb;
 			$(TargetDir)mod.yaml;
-			$(TargetDir)mod_info.yaml;"
+			$(TargetDir)mod_info.yaml;
+			$(TargetDir)LauncherMetadata.json;			
+		  "
 		  
 		  DestinationFolder="$(TargetFolder)"/>
 

@@ -44,9 +44,14 @@ namespace BlueprintsV2.BlueprintData
 			{
 				if (arg.TryGetComponent<BuildingEnabledButton>(out var component))
 				{
+					bool shouldBeEnabled = component.IsEnabled;
+					if(component.queuedToggle)
+						shouldBeEnabled = !shouldBeEnabled; //queued toggle means it will be toggled to the opposite state, so we need to invert it here
+					SgtLogger.l("Is enabled: "+component.IsEnabled+", toggled: "+ component.queuedToggle);
+
 					return new JObject()
 					{
-						{ "IsEnabled", component.IsEnabled},
+						{ "IsEnabled", shouldBeEnabled},
 					};
 				}
 				return null;
@@ -63,6 +68,55 @@ namespace BlueprintsV2.BlueprintData
 						return;
 					var IsEnabled = t1.Value<bool>();
 					targetComponent.IsEnabled = IsEnabled;
+				}
+			}
+		}
+		internal class DataTransfer_Repairable
+		{
+			internal static JObject TryGetData(GameObject arg)
+			{
+				if (arg.TryGetComponent<Repairable>(out var component))
+				{
+					bool repairForbiddenState = false;
+					if (component.smi != null)
+					{
+						try
+						{
+							repairForbiddenState = component.smi?.GetCurrentState() == component.smi?.sm?.forbidden;
+						}
+						catch (Exception e)
+						{
+							SgtLogger.l("Error getting repairable state: " + e.Message);
+						}
+					}
+					return new JObject()
+					{
+						{ "ForbiddenRepair", repairForbiddenState},
+					};
+				}
+				return null;
+			}
+			public static void TryApplyData(GameObject building, JObject jObject)
+			{
+				if (jObject == null)
+					return;
+				if (building.TryGetComponent<Repairable>(out var targetComponent))
+				{
+
+					var t1 = jObject.GetValue("ForbiddenRepair");
+					if (t1 == null)
+						return;
+					var RepairForbidden = t1.Value<bool>();
+					if(targetComponent.smi == null)
+					{
+						SgtLogger.l("Repairable component has no state machine, skipping repair state transfer.");
+						return;
+					}
+
+					if (RepairForbidden)
+						targetComponent.CancelRepair();
+					else
+						targetComponent.AllowRepair();
 				}
 			}
 		}
@@ -409,7 +463,6 @@ namespace BlueprintsV2.BlueprintData
 				}
 			}
 		}
-
 		internal class DataTransfer_IActivationRangeTarget
 		{
 			internal static JObject TryGetData(GameObject arg)
@@ -502,6 +555,66 @@ namespace BlueprintsV2.BlueprintData
 				}
 			}
 		}
+		internal class DataTransfer_AutoDisinfectable
+		{
+			internal static JObject TryGetData(GameObject arg)
+			{
+				if (arg.TryGetComponent<AutoDisinfectable>(out var component))
+				{
+					return new JObject()
+					{
+						{ "enableAutoDisinfect", component.enableAutoDisinfect},
+					};
+				}
+				return null;
+			}
+			public static void TryApplyData(GameObject building, JObject jObject)
+			{
+				if (jObject == null)
+					return;
+				if (building.TryGetComponent<AutoDisinfectable>(out var targetComponent))
+				{
+					var t1 = jObject.GetValue("enableAutoDisinfect");
+					if (t1 != null)
+					{
+						bool enableAutoDisinfect = t1.Value<bool>();
+						if (enableAutoDisinfect)
+							targetComponent.EnableAutoDisinfect();
+						else
+							targetComponent.DisableAutoDisinfect();
+					}
+				}
+			}
+		}
+		internal class DataTransfer_DirectionControl
+		{
+			internal static JObject TryGetData(GameObject arg)
+			{
+				if (arg.TryGetComponent<DirectionControl>(out var component))
+				{
+					return new JObject()
+					{
+						{ "allowedDirection", (int)component.allowedDirection},
+					};
+				}
+				return null;
+			}
+			public static void TryApplyData(GameObject building, JObject jObject)
+			{
+				if (jObject == null)
+					return;
+				if (building.TryGetComponent<DirectionControl>(out var targetComponent))
+				{
+					var t1 = jObject.GetValue("allowedDirection");
+					if (t1 != null)
+					{
+						WorkableReactable.AllowedDirection allowedDirection = (WorkableReactable.AllowedDirection)t1.Value<int>();
+						targetComponent.SetAllowedDirection(allowedDirection);
+					}
+				}
+			}
+		}
+
 		internal class DataTransfer_Prioritizable
 		{
 			internal static JObject TryGetData(GameObject arg)

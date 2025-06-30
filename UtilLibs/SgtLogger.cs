@@ -27,7 +27,7 @@ namespace UtilLibs
 		public static void LogVersion(UserMod2 usermod, Harmony _harmony, bool VersionChecking = true)
 		{
 			harmony = _harmony;
-			usermod.mod.packagedModInfo.version = usermod.assembly.GetFileVersion();
+			//usermod.mod.packagedModInfo.version = usermod.assembly.GetFileVersion();
 			if (VersionChecking)
 			{
 				ModVersionCheck.VersionChecker.HandleVersionChecking(usermod, harmony);
