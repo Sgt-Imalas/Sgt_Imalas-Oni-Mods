@@ -19,8 +19,7 @@
 				<Button Name="CreateAddPopup" DockPanel.Dock="Bottom" Content="Add new Repo" Height="20" Click="CreateAddPopup_Click"/>
 				<ListView  Name="PackView" HorizontalContentAlignment="Stretch" PreviewMouseLeftButtonUp="PackView_PreviewMouseLeftButtonUp" PreviewMouseRightButtonUp="PackView_PreviewMouseLeftButtonUp">
 					<ListView.ItemTemplate>
-						<DataTemplate>
-							
+						<DataTemplate>							
 							<DockPanel LastChildFill="True" >
 								<DockPanel.Children>
 									<Button

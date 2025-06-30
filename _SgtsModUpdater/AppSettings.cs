@@ -38,6 +38,7 @@ namespace _SgtsModUpdater
 						new ("Sgts Mods Full",  "https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases/download/AllMods_Automated_Build_FullRelease/_ReleaseVersionInfoData.json"),
 						new ("MapsNotIncluded",  "https://github.com/barratt/mapsnotincluded.org/releases/download/MNI_Mod_Automatic_Release/_ReleaseVersionInfoData.json"),
 					];
+					Save();
 				}
 				return _reposToFetch;
 			}
@@ -90,23 +91,22 @@ namespace _SgtsModUpdater
 			}
 		}
 
-		internal void AddRepoIfNotExist(List<FetchableRepoInfo> repoInfos)
+		internal void AddRepoIfNotExist(FetchableRepoInfo repo)
 		{
-			foreach (var repo in repoInfos)
-			{
-				if (_reposToFetch.Any(existing => existing.UpdateIndexUrl == repo.UpdateIndexUrl))
-					continue;
-				Console.WriteLine("Adding repo " + repo.Name + " with url " + repo.UpdateIndexUrl);
-				_reposToFetch.Add(repo);
-				Save();
-			}
-
+			if (_reposToFetch.Any(existing => existing.UpdateIndexURL == repo.UpdateIndexURL))
+				return;
+			Console.WriteLine("Adding repo " + repo.UpdateIndexName + " with url " + repo.UpdateIndexURL);
+			_reposToFetch.Add(repo);
+			Save();
 		}
 
 		internal void DeleteRepo(ModRepoListInfo? rowItem)
 		{
 			if (rowItem != null)
-				ReposToFetch.RemoveAll(item => item.ReleaseInfo == rowItem.RepoUrl);
+				ReposToFetch.RemoveAll(item => item.RepoUrl == rowItem.RepoUrl);
+
+			Console.WriteLine("Deleting repo " + rowItem?.RepoName);
+			Save();
 		}
 	}
 }

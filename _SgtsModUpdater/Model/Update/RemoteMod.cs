@@ -48,7 +48,7 @@ namespace _SgtsModUpdater.Model.Update
 			if (downloadURL != null && downloadURL.Length > 0)
 				return;
 			///otherwise assume release url + static Id .zip
-			downloadURL = releaseUrl + "/" + zipFileName;
+			downloadURL = releaseUrl + "/" + staticID.Replace(' ', '.') + ".zip";
 		}
 		private bool downloading = false;
 		public bool Downloading { get { return downloading; } set { downloading = value; OnPropertyChanged("DownloadingVisibility"); } }
@@ -57,7 +57,7 @@ namespace _SgtsModUpdater.Model.Update
 
 		public bool CanDeleteLocal => localInstall != null && localInstall.Deletable;
 
-		public string zipFileName => staticID.Replace(' ','.') + ".zip";
+		public string zipFileName => Path.GetFileName(downloadURL);
 
 		string GetActionText()
 		{

@@ -32,7 +32,6 @@ public partial class MainWindow : Window
 		ConsoleHandler.AddWriter(new FileWriter());
 
 		ConsoleOutputTextbox.TextChanged += (_, _) => ConsoleOutputTextbox.ScrollToEnd();
-
 		Console.SetOut(ConsoleHandler);
 
 		ModManager.Instance.FetchRepos();
@@ -109,7 +108,7 @@ public partial class MainWindow : Window
 			var fetchable = dialog.GetFetchableResult();
 			if (fetchable != null)
 				if (await ModManager.Instance.FetchRepo(fetchable))
-					AppSettings.Instance.AddRepoIfNotExist([fetchable]);
+					AppSettings.Instance.AddRepoIfNotExist(fetchable);
 		}
 	}
 

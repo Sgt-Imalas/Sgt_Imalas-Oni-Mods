@@ -25,6 +25,5 @@ namespace _SgtsModUpdater.Model.Update
 			return string.Format("{0}, {1} mods", RepoName, Mods.Count);
 		}
 		public string UIEntry => ToString();
-
 	}
 }
