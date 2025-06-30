@@ -26,7 +26,7 @@ namespace SetStartDupes.CarePackageEditor
 			ImmigrationPatch.GeneratingFrontendList = true;
 
 			var managerCarrier = Util.NewGameObject(null, "ImmigrationCarrier");
-			var immigrationInstance = managerCarrier.AddComponent<Immigration>();
+			var immigrationInstance = managerCarrier.AddComponent<DummyImmigration>();
 			VanillaCarePackagesByDlc = new();
 
 			if (!DlcManager.IsExpansion1Active())

@@ -204,11 +204,6 @@ namespace SetStartDupes
 			var BioInks_ImmigrationModifier_Type = Type.GetType("PrintingPodRecharge.Content.Cmps.ImmigrationModifier, PrintingPodRecharge", false, false);
 			if (BioInks_ImmigrationModifier_Type != null)
 			{
-				/////Gets all types + namespace 
-				//var q = AppDomain.CurrentDomain.GetAssemblies()
-				//       .SelectMany(t => t.GetTypes());
-				//q.ToList().ForEach(t => SgtLogger.l(t.Name, t.Namespace));
-
 				SgtLogger.l("initializing Bio Inks Care Packages");
 				var ModifiersInstance = BioInks_ImmigrationModifier_Type.GetProperty("Instance").GetValue(null, null);
 
@@ -221,6 +216,16 @@ namespace SetStartDupes
 				}
 				SgtLogger.l("Bio Inks Care Packages initialized!");
 			}
+
+			allCarePackages.Sort((a, b) =>
+			{
+				var first = Assets.GetPrefab(a.id);
+				var second = Assets.GetPrefab(b.id);
+				string firstName = first != null ? global::STRINGS.UI.StripLinkFormatting(first.GetProperName()): a.id.ToString();
+				string secondName = second != null ? global::STRINGS.UI.StripLinkFormatting(second.GetProperName()) : b.id.ToString();
+				return firstName.CompareTo(secondName);
+			});
+
 			foreach (CarePackageInfo carePackage in allCarePackages)
 			{
 				AddUiContainer(carePackage);
