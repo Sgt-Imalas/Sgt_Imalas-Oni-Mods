@@ -128,4 +128,11 @@ public partial class MainWindow : Window
 		System.Diagnostics.Process.Start(Environment.GetEnvironmentVariable("WINDIR") +
 		@"\explorer.exe", pathToFolder);
 	}
+
+	private void Delete_Repo_Click(object sender, RoutedEventArgs e)
+	{
+		var rowItem = (sender as Button).DataContext as ModRepoListInfo;
+		AppSettings.Instance.DeleteRepo(rowItem);
+		ModManager.Instance.Repos.Remove(rowItem);
+	}
 }

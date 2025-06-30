@@ -37,7 +37,6 @@ namespace _SgtsModUpdater
 						new("Sgts Mods Nightly","https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases/download/AllMods_Automated_Build_Nightly/_ReleaseVersionInfoData.json"),
 						new ("Sgts Mods Full",  "https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases/download/AllMods_Automated_Build_FullRelease/_ReleaseVersionInfoData.json"),
 						new ("MapsNotIncluded",  "https://github.com/barratt/mapsnotincluded.org/releases/download/MNI_Mod_Automatic_Release/_ReleaseVersionInfoData.json"),
-						new("Sgt Mods U55","https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases/download/AllMods_U55/_ReleaseVersionInfoData.json")
 					];
 				}
 				return _reposToFetch;
@@ -93,7 +92,7 @@ namespace _SgtsModUpdater
 
 		internal void AddRepoIfNotExist(List<FetchableRepoInfo> repoInfos)
 		{
-			foreach(var repo in repoInfos)
+			foreach (var repo in repoInfos)
 			{
 				if (_reposToFetch.Any(existing => existing.UpdateIndexUrl == repo.UpdateIndexUrl))
 					continue;
@@ -107,7 +106,7 @@ namespace _SgtsModUpdater
 		internal void DeleteRepo(ModRepoListInfo? rowItem)
 		{
 			if (rowItem != null)
-				ReposToFetch.RemoveAll(item => item.UpdateIndexUrl == rowItem.RepoUrl);
+				ReposToFetch.RemoveAll(item => item.ReleaseInfo == rowItem.RepoUrl);
 		}
 	}
 }
