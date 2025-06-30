@@ -44,7 +44,7 @@ jobs:
             #create version info json file
             echo "{`"mods`":[" >> ./BuildsZipped/_ReleaseVersionInfoData.json
             
-            $releaseUrl = 'https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases/tag/AllMods_Automated_Build_Nightly/'
+            $releaseUrl = 'https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases/download/AllMods_Automated_Build_Nightly/'
             #iterate through the built mod folders to individually zip them and grep their info
             $source = './Builds'
             $destination = './BuildsZipped'
