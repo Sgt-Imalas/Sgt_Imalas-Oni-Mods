@@ -343,7 +343,9 @@ namespace BlueprintsV2.ModAPI
 			RegisterInternally(nameof(AutoDisinfectable), DataTransfer_AutoDisinfectable.TryGetData, DataTransfer_AutoDisinfectable.TryApplyData);
 			RegisterInternally(nameof(DirectionControl), DataTransfer_DirectionControl.TryGetData, DataTransfer_DirectionControl.TryApplyData);
 			RegisterInternally(nameof(Repairable), DataTransfer_Repairable.TryGetData, DataTransfer_Repairable.TryApplyData);
-			
+			RegisterInternally(nameof(Door), DataTransfer_Door.TryGetData, DataTransfer_Door.TryApplyData);
+			RegisterInternally(nameof(Clinic), DataTransfer_Clinic.TryGetData, DataTransfer_Clinic.TryApplyData);
+
 
 			RegisterInternally(nameof(Switch), DataTransfer_Switch.TryGetData, DataTransfer_Switch.TryApplyData);
 			RegisterInternally(nameof(LogicAlarm), DataTransfer_LogicAlarm.TryGetData, DataTransfer_LogicAlarm.TryApplyData);

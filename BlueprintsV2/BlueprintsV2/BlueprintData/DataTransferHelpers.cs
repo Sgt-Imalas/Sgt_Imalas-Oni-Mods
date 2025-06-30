@@ -113,10 +113,8 @@ namespace BlueprintsV2.BlueprintData
 						return;
 					}
 
-					if (RepairForbidden)
+					if (RepairForbidden) ///enabled is default and this smi is buggy af, so we only set it if its forbidden
 						targetComponent.CancelRepair();
-					else
-						targetComponent.AllowRepair();
 				}
 			}
 		}
@@ -495,6 +493,34 @@ namespace BlueprintsV2.BlueprintData
 				}
 			}
 		}
+		internal class DataTransfer_Clinic
+		{
+			internal static JObject TryGetData(GameObject arg)
+			{
+				if (arg.TryGetComponent<Clinic>(out var component))
+				{
+					return new JObject()
+					{
+						{ "sicknessSliderValue", component.sicknessSliderValue},
+					};
+				}
+				return null;
+			}
+			public static void TryApplyData(GameObject building, JObject jObject)
+			{
+				if (jObject == null)
+					return;
+				if (building.TryGetComponent<Clinic>(out var targetComponent))
+				{
+					var t1 = jObject.GetValue("sicknessSliderValue");
+					if (t1 == null)
+						return;
+
+					var sicknessSliderValue = t1.Value<float>();
+					(targetComponent as ISliderControl).SetSliderValue(sicknessSliderValue, 0);
+				}
+			}
+		}
 		internal class DataTransfer_EnergyGenerator
 		{
 			internal static JObject TryGetData(GameObject arg)
@@ -582,6 +608,40 @@ namespace BlueprintsV2.BlueprintData
 							targetComponent.EnableAutoDisinfect();
 						else
 							targetComponent.DisableAutoDisinfect();
+					}
+				}
+			}
+		}
+		internal class DataTransfer_Door
+		{
+			internal static JObject TryGetData(GameObject arg)
+			{
+				if (arg.TryGetComponent<Door>(out var component))
+				{
+					if (!component.hasComplexUserControls)
+						return null;
+					return new JObject()
+					{
+						{ "requestedState", (int)component.RequestedState},
+					};
+				}
+				return null;
+			}
+			public static void TryApplyData(GameObject building, JObject jObject)
+			{
+				if (jObject == null)
+					return;
+				if (building.TryGetComponent<Door>(out var targetComponent))
+				{
+					if (!targetComponent.hasComplexUserControls)
+						return;
+
+					var t1 = jObject.GetValue("requestedState");
+					if (t1 != null)
+					{
+						var requestedState = (Door.ControlState)t1.Value<int>();
+						targetComponent.requestedState = requestedState;
+						targetComponent.ApplyRequestedControlState();
 					}
 				}
 			}
