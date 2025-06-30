@@ -28,6 +28,7 @@
 	<Target Name="GenerateLauncherMetadata" BeforeTargets="Build" Condition="'$(DoNotBuildAsMod)' != 'true'">
 		<ItemGroup>
 			<LauncherMetadataLines Include='{'/>
+			<LauncherMetadataLines Include='"UpdateIndexName":"Mods by Sgt_Imalas",'/>
 			<LauncherMetadataLines Include='"UpdateIndexURL":"https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases/download/AllMods_Automated_Build_FullRelease/_ReleaseVersionInfoData.json",'/>
 			<LauncherMetadataLines Include='"BugReportURL":"https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues/new/choose",'/>
 			<LauncherMetadataLines Include='"RepoURL":"https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods",'/>
