@@ -95,12 +95,19 @@ namespace _SgtsModUpdater
 		{
 			foreach(var repo in repoInfos)
 			{
-				if (_reposToFetch.Any(existing => existing.ReleaseInfo == repo.ReleaseInfo))
+				if (_reposToFetch.Any(existing => existing.UpdateIndexUrl == repo.UpdateIndexUrl))
 					continue;
+				Console.WriteLine("Adding repo " + repo.Name + " with url " + repo.UpdateIndexUrl);
 				_reposToFetch.Add(repo);
 				Save();
 			}
 
+		}
+
+		internal void DeleteRepo(ModRepoListInfo? rowItem)
+		{
+			if (rowItem != null)
+				ReposToFetch.RemoveAll(item => item.UpdateIndexUrl == rowItem.RepoUrl);
 		}
 	}
 }

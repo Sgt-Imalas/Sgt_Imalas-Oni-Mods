@@ -15,19 +15,20 @@ using System.Windows;
 
 namespace _SgtsModUpdater.Model.Update
 {
-	public class VersionInfoWeb : INotifyPropertyChanged
+	public class RemoteMod : INotifyPropertyChanged
 	{
-		public VersionInfoWeb() { }
-		public VersionInfoWeb(string _staticId, string _version, string _minimumSupportedBuild, string _modName, string _modDesc)
+		public RemoteMod() { }
+		public RemoteMod(string _staticId, string _version, string _minimumSupportedBuild, string _modName, string _modDesc, string _downloadURL)
 		{
 			staticID = _staticId;
 			version = _version;
 			minimumSupportedBuild = _minimumSupportedBuild;
 			modName = _modName;
 			modDesc = _modDesc;
+			downloadURL = _downloadURL;
 		}
 
-		public string staticID, version, minimumSupportedBuild, modName, modDesc;
+		public string staticID, version, minimumSupportedBuild, modName, modDesc, downloadURL;
 
 		LocalMod localInstall = null;
 		public LocalMod LocalMod => localInstall;
@@ -41,11 +42,13 @@ namespace _SgtsModUpdater.Model.Update
 		public string ModName => string.IsNullOrWhiteSpace(modName) ? staticID : modName;
 		public string ModDesc => modDesc;
 
-		public string FetchUrl => _fetchUrl;
-		private string _fetchUrl = "";
-		public void SetUrl(string releaseUrl)
+		public void InferDownloadUrlIfMissing(string releaseUrl)
 		{
-			_fetchUrl = releaseUrl + "/" + zipFileName;
+			///assuming the url is valid, dont do anything
+			if (downloadURL != null && downloadURL.Length > 0)
+				return;
+			///otherwise assume release url + static Id .zip
+			downloadURL = releaseUrl + "/" + zipFileName;
 		}
 		private bool downloading = false;
 		public bool Downloading { get { return downloading; } set { downloading = value; OnPropertyChanged("DownloadingVisibility"); } }
@@ -124,6 +127,6 @@ namespace _SgtsModUpdater.Model.Update
 			}
 		}
 
-		public event PropertyChangedEventHandler PropertyChanged;
+		public event PropertyChangedEventHandler? PropertyChanged;
 	}
 }
