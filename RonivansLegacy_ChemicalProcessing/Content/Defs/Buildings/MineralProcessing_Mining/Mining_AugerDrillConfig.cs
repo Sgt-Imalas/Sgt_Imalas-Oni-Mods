@@ -43,7 +43,7 @@ namespace Mineral_Processing_Mining.Buildings
 			float[] material_amount = [5000f];
 
 			EffectorValues noise = TUNING.NOISE_POLLUTION.NOISY.TIER5;
-			BuildingDef def = BuildingTemplates.CreateBuildingDef(ID, 13, 10, "auger_drill_kanim", 100, 480f, material_amount, construction_materials, 9999f, BuildLocationRule.Anywhere, TUNING.BUILDINGS.DECOR.PENALTY.TIER2, noise, 0.2f);
+			BuildingDef def = BuildingTemplates.CreateBuildingDef(ID, 13, 10, "auger_drill_kanim", 100, 480f, material_amount, construction_materials, 9999f, BuildLocationRule.Anywhere, TUNING.BUILDINGS.DECOR.PENALTY.TIER2, noise);
 			def.RequiresPowerInput = false;
 			def.ObjectLayer = ObjectLayer.Building;
 			def.UseStructureTemperature = false;
@@ -122,6 +122,8 @@ namespace Mineral_Processing_Mining.Buildings
 			worldElementDropper.DropGases = true;
 			worldElementDropper.DropLiquids = true;
 			worldElementDropper.TargetStorage = drillRig.outStorage;
+			worldElementDropper.SpawnOffset = new CellOffset(4, 1);
+			
 
 			var guidanceDeviceHandler = go.AddOrGet<GuidanceDeviceWearHandler>();
 			guidanceDeviceHandler.SourceStorage = drillRig.outStorage;

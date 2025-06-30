@@ -10,6 +10,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {
 	class WorldElementDropper : KMonoBehaviour
 	{
+		[MyCmpGet] Rotatable rotatable;
+
 		public Storage TargetStorage;
 		[SerializeField]
 		public bool DropSolids = false;
@@ -17,6 +19,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		public bool DropLiquids = false;
 		[SerializeField]
 		public bool DropGases = false;
+
+		[SerializeField]
+		public CellOffset SpawnOffset = CellOffset.none;
 
 		public override void OnCleanUp()
 		{
@@ -33,6 +38,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		{
 			var tagsInStorage = TargetStorage.GetAllIDsInStorage();
 			HashSet<Tag> toDrop = new();
+			var rotatedOffset = rotatable.GetRotatedCellOffset(SpawnOffset);
+			var offset = rotatedOffset.ToVector3();
 
 			foreach (var tag in tagsInStorage) 
 			{
@@ -48,7 +55,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			}
 			foreach(var dropIt in toDrop)
 			{
-				TargetStorage.DropSome(dropIt, 9999999999, true,true);
+				TargetStorage.DropSome(dropIt, 9999999999, true,true, offset);
 			}
 		}
 	}
