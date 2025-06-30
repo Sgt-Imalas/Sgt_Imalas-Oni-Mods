@@ -339,7 +339,11 @@ namespace BlueprintsV2.ModAPI
 			RegisterInternally(nameof(Valve), DataTransfer_Valve.TryGetData, DataTransfer_Valve.TryApplyData);
 			RegisterInternally(nameof(LimitValve), DataTransfer_LimitValve.TryGetData, DataTransfer_LimitValve.TryApplyData);
 			RegisterInternally(nameof(AccessControl), DataTransfer_AccessControl.TryGetData, DataTransfer_AccessControl.TryApplyData);
-
+			RegisterInternally(nameof(EnergyGenerator), DataTransfer_EnergyGenerator.TryGetData, DataTransfer_EnergyGenerator.TryApplyData);
+			RegisterInternally(nameof(AutoDisinfectable), DataTransfer_AutoDisinfectable.TryGetData, DataTransfer_AutoDisinfectable.TryApplyData);
+			RegisterInternally(nameof(DirectionControl), DataTransfer_DirectionControl.TryGetData, DataTransfer_DirectionControl.TryApplyData);
+			RegisterInternally(nameof(Repairable), DataTransfer_Repairable.TryGetData, DataTransfer_Repairable.TryApplyData);
+			
 
 			RegisterInternally(nameof(Switch), DataTransfer_Switch.TryGetData, DataTransfer_Switch.TryApplyData);
 			RegisterInternally(nameof(LogicAlarm), DataTransfer_LogicAlarm.TryGetData, DataTransfer_LogicAlarm.TryApplyData);
