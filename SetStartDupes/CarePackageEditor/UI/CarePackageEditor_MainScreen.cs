@@ -72,7 +72,7 @@ namespace SetStartDupes.CarePackageEditor.UI
 			Instance.Show(true);
 			Instance.ConsumeMouseScroll = true;
 			Instance.transform.SetAsLastSibling();
-			Instance.ApplyBlueprintFilter();
+			Instance.ClearFilter();
 			Instance.SelectOutline(null);
 		}
 
@@ -88,7 +88,18 @@ namespace SetStartDupes.CarePackageEditor.UI
 				var uiElement = AddOrGetCarePackageOutlineUIEntry(outline);
 				uiElement.UpdateUI();
 			}
+			SortEntryList();
 		}
+		public void SortEntryList()
+		{
+			var editorOutlines = CarePackageOutlineManager.GetExtraCarePackageOutlines().OrderBy((outline) => outline.GetItemName()).ToHashSet();
+			foreach (var outline in editorOutlines)
+			{
+				var uiElement = AddOrGetCarePackageOutlineUIEntry(outline);
+				uiElement.transform.SetAsLastSibling();
+			}
+		}
+
 		void TryResetEntries()
 		{
 			DialogUtil.CreateConfirmDialogFrontend(STRINGS.UI.CAREPACKAGEEDITOR.RESETALLPACKAGES.TITLE, STRINGS.UI.CAREPACKAGEEDITOR.RESETALLPACKAGES.TEXT,on_confirm: ResetEntries, on_cancel: () => { });
@@ -101,11 +112,6 @@ namespace SetStartDupes.CarePackageEditor.UI
 		}
 		void ResetEntriesUI()
 		{
-			var activeOutlines = 
-				CarePackageOutlineManager
-				.GetExtraCarePackageOutlines()
-				.OrderBy((outline) => outline.GetDescriptionString())
-				.ToHashSet();
 			foreach (var entry in OutlineEntries)
 			{
 				Util.KDestroyGameObject(entry.Value.gameObject);
@@ -117,7 +123,7 @@ namespace SetStartDupes.CarePackageEditor.UI
 			}
 			VanillaOutlineEntries.Clear();
 			UpdateEntryList();
-			Instance.ApplyBlueprintFilter(FilterBar.Text);
+			Instance.ApplyCarePackageFilter(FilterBar.Text);
 		}
 
 		private bool initialized = false;
@@ -171,7 +177,7 @@ namespace SetStartDupes.CarePackageEditor.UI
 			AmountUnitLabel = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/AmountInput/AmountLabel").FindOrAddComponent<LocText>();
 
 			FilterBar = transform.Find("HorizontalLayout/ObjectList/SearchBar/Input").FindOrAddComponent<FInputField2>();
-			FilterBar.OnValueChanged.AddListener(ApplyBlueprintFilter);
+			FilterBar.OnValueChanged.AddListener(ApplyCarePackageFilter);
 			FilterBar.Text = string.Empty;
 
 			AddCarePackageInput = transform.Find("HorizontalLayout/ObjectList/CarePackageItemId").FindOrAddComponent<FInputField2>();
@@ -221,8 +227,13 @@ namespace SetStartDupes.CarePackageEditor.UI
 			}
 			AddCarePackageInput.Text = (string.Empty);
 		}
+		public void ClearFilter()
+		{
+			FilterBar.Text = string.Empty;
+			ApplyCarePackageFilter();
+		}
 
-		public void ApplyBlueprintFilter(string filterstring = "")
+		public void ApplyCarePackageFilter(string filterstring = "")
 		{
 			foreach (var go in OutlineEntries)
 			{
@@ -313,7 +324,7 @@ namespace SetStartDupes.CarePackageEditor.UI
 		public void SetVanillaCarePackagesEnabled(bool enabled)
 		{
 			VanillaCarePackagesShown = enabled;
-			ApplyBlueprintFilter(FilterBar.Text);//ui refresh
+			ApplyCarePackageFilter(FilterBar.Text);//ui refresh
 		}
 
 		public override void OnKeyDown(KButtonEvent e)

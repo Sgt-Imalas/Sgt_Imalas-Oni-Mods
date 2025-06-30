@@ -121,6 +121,7 @@ namespace SetStartDupes.CarePackageEditor
 			}
 			return new(Assets.GetSprite("unknown"), Color.white);
 		}
+		public string GetItemName() => global::STRINGS.UI.StripLinkFormatting((Name ?? ItemId));
 		public string GetDescriptionString()
 		{
 			var item = Assets.GetPrefab(ItemId);

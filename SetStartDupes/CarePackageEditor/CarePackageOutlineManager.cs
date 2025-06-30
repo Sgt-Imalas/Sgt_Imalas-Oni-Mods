@@ -208,6 +208,8 @@ namespace SetStartDupes.CarePackageEditor
 			ExtraCarePackages.Add(newOutline);
 			SaveCarePackagesToFile();
 			CarePackageEditor_MainScreen.Instance?.AddOrGetCarePackageOutlineUIEntry(newOutline);
+			CarePackageEditor_MainScreen.Instance?.SortEntryList();
+			CarePackageEditor_MainScreen.Instance?.SelectOutline(newOutline);
 		}
 	}
 }
