@@ -50,11 +50,11 @@ namespace ClusterTraitGenerationManager.GeyserExperiments
 			ReplaceNonGenerics = false;
 
 			string planetID = __instance.Settings.world.filePath;
-			SgtLogger.l("generating " + planetID);
+			SgtLogger.l("generating " + planetID+", geyser override initializing");
 			if (CGSMClusterManager.LoadCustomCluster && CGSMClusterManager.CustomCluster.HasStarmapItem(planetID, out var planet))
 			{
 				GeysersToOverride = new(planet.GeyserOverrideIDs);
-				BlacklistedGeysers = new HashSet<string>(planet.GeyserBlacklistIDs);
+				BlacklistedGeysers = CGSMClusterManager.GetBlacklistedGeyserIdsFor(planet);
 				ReplaceNonGenerics = planet.GeyserBlacklistAffectsNonGenerics;
 				SgtLogger.l("override geyser count: " + GeysersToOverride.Count);
 			}

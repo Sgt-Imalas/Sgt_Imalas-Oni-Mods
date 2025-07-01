@@ -102,18 +102,22 @@ namespace ClusterTraitGenerationManager.ClusterData
 				return true;
 			}
 		}
-		public static bool RandomGeyserInBlacklist(string traitId) => BlacklistedGeysers.Contains(traitId);
-		public static bool ToggleRandomGeyserBlacklist(string traitID)
+		public static void SetSharedGeyserBlacklistState(string geyserId, bool blacklisted)
 		{
-			if (BlacklistedGeysers.Contains(traitID))
+			if(blacklisted)
+				BlacklistedGeysers.Add(geyserId);
+			else
+				BlacklistedGeysers.Remove(geyserId);
+		}
+		public static HashSet<string> GetBlacklistedGeyserIdsFor(StarmapItem asteroid)
+		{
+			if(asteroid.GeyserBlacklistShared)
 			{
-				BlacklistedGeysers.Remove(traitID);
-				return false;
+				return BlacklistedGeysers;
 			}
 			else
 			{
-				BlacklistedGeysers.Add(traitID);
-				return true;
+				return asteroid.BlacklistedGeyserIds;
 			}
 		}
 
@@ -1183,7 +1187,6 @@ namespace ClusterTraitGenerationManager.ClusterData
 					ToggleWorldgenAffectingDlc(true, dlcID);
 				}
 			}
-
 			if (CGMWorldGenUtils.HasGeothermalPump(adding.world))//geothermal pump story trait from mod
 			{
 				DisableModdedGeopumpStoryTrait();

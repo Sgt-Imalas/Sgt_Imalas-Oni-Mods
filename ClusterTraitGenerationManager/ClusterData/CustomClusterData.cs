@@ -108,6 +108,8 @@ namespace ClusterTraitGenerationManager.ClusterData
 		public int defaultOuterPlanets = 6;
 		public int Rings { get; private set; }
 
+		public HashSet<string> SharedBlacklistedGeysers = new();
+
 		[JsonIgnore] private SO_StarmapLayout _so_Starmap;
 		[JsonIgnore]
 		public SO_StarmapLayout SO_Starmap

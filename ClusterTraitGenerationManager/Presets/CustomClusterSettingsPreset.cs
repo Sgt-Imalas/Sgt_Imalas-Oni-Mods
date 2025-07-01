@@ -48,6 +48,7 @@ namespace ClusterTraitGenerationManager
 		public Dictionary<string, string> MixingSettings;
 		public Dictionary<string, string> DifficultySettings;
 		public List<string> BlacklistedTraits;
+		public List<string> SharedBlacklistedGeysers;
 
 		void PopulatePresetData(CustomClusterData data)
 		{
@@ -83,7 +84,7 @@ namespace ClusterTraitGenerationManager
 		private void LoadCurrentGameSettings()
 		{
 			BlacklistedTraits = CGSMClusterManager.BlacklistedTraits.ToList();
-
+			SharedBlacklistedGeysers = CGSMClusterManager.BlacklistedGeysers.ToList();
 
 			var instance = CustomGameSettings.Instance;
 			bool isNoSweat = instance.customGameMode == CustomGameMode.Nosweat;
@@ -174,7 +175,9 @@ namespace ClusterTraitGenerationManager
 			if (BlacklistedTraits == null)
 				BlacklistedTraits = new List<string>();
 
-			CGSMClusterManager.BlacklistedTraits = new(this.BlacklistedTraits);
+			CGSMClusterManager.BlacklistedTraits = [.. this.BlacklistedTraits];
+			CGSMClusterManager.BlacklistedGeysers = [.. this.SharedBlacklistedGeysers];
+
 			#region legacySettings
 			///ImmuneSystem
 			if (ImmuneSystem != null && ImmuneSystem.Length > 0)
@@ -250,8 +253,6 @@ namespace ClusterTraitGenerationManager
 				}
 			}
 
-
-
 			if (StoryTraits != null && StoryTraits.Count > 0)
 			{
 				foreach (var story in StoryTraits)
@@ -280,31 +281,32 @@ namespace ClusterTraitGenerationManager
 			public List<string> pois;
 			public List<string> geysers;
 			public List<string> geyserBlacklists;
-			public bool geyserBlacklistAffectsNonGenerics;
+			public bool geyserBlacklistAffectsNonGenerics, useSharedGeyserBlacklist;
 			public bool allowDuplicates, avoidClumping, guarantee;
 			public string mixedBy = null;
 
 			public SerializableStarmapItem AddGeysers(List<string> geyserIDs)
 			{
-				geysers = new List<string>(geyserIDs);
+				geysers = [.. geyserIDs];
 				return this;
 			}
-			public SerializableStarmapItem AddGeyserBlacklists(List<string> geyserIDs, bool nonGenerics)
+			public SerializableStarmapItem AddGeyserBlacklists(HashSet<string> geyserIDs, bool nonGenerics, bool sharedBlacklist)
 			{
-				geyserBlacklists = new List<string>(geyserIDs);
+				geyserBlacklists = [.. geyserIDs];
 				geyserBlacklistAffectsNonGenerics = nonGenerics;
+				useSharedGeyserBlacklist = sharedBlacklist;
 				return this;
 			}
 			public SerializableStarmapItem AddMeteors(List<string> meteorSeasonÍDs)
 			{
-				meteorSeasons = new List<string>(meteorSeasonÍDs);
+				meteorSeasons = [.. meteorSeasonÍDs];
 				return this;
 			}
 			private SerializableStarmapItem AddSkyTraits(StarmapItem poiItem)
 			{
 				if (poiItem != null && poiItem.world != null)
 				{
-					FixedSkyTraits = new(poiItem.world.fixedTraits);
+					FixedSkyTraits = [.. poiItem.world.fixedTraits];
 				}
 				return this;
 			}
@@ -319,7 +321,7 @@ namespace ClusterTraitGenerationManager
 
 			public SerializableStarmapItem AddTraits(List<string> _traitIDs)
 			{
-				planetTraits = new List<string>(_traitIDs);
+				planetTraits = [.. _traitIDs];
 				return this;
 			}
 			public SerializableStarmapItem AddPlanetSizeData(
@@ -337,7 +339,7 @@ namespace ClusterTraitGenerationManager
 			{
 				avoidClumping = _avoidClumping;
 				allowDuplicates = _canSpawnDuplicates;
-				pois = new(POIs);
+				pois = [.. POIs];
 				guarantee = _guarantee;
 				return this;
 			}
@@ -420,7 +422,7 @@ namespace ClusterTraitGenerationManager
 					poiItem.CustomY)
 					.AddMeteors(poiItem.world.seasons)
 					.AddGeysers(poiItem.GeyserOverrideIDs)
-					.AddGeyserBlacklists(poiItem.GeyserBlacklistIDs, poiItem.GeyserBlacklistAffectsNonGenerics)
+					.AddGeyserBlacklists(poiItem.BlacklistedGeyserIds, poiItem.GeyserBlacklistAffectsNonGenerics, poiItem.GeyserBlacklistShared)
 					.AddTraits(poiItem.CurrentTraits)
 					.AddSkyTraits(poiItem)
 					.InitMixedState(poiItem);
@@ -671,6 +673,7 @@ namespace ClusterTraitGenerationManager
 				reciever.SetGeyserOverrides(item.geysers);
 				reciever.SetGeyserBlacklist(item.geyserBlacklists);
 				reciever.SetGeyserBlacklistAffectsNonGenerics(item.geyserBlacklistAffectsNonGenerics);
+				reciever.SetIsGeyserBlacklistShared(item.useSharedGeyserBlacklist);
 			}
 			else
 			{

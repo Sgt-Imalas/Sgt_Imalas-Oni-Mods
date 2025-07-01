@@ -48,6 +48,8 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			}
 			//SgtLogger.l("changing " + ConfigToSet.id.ToString() + " from " + CustomGameSettings.Instance.GetCurrentMixingSettingLevel(ConfigToSet).id + " to " + valueToSet.ToString());			
 			CustomGameSettings.Instance.SetMixingSetting(ConfigToSet, valueToSet);
+			if(ConfigToSet is MixingSettingConfig msc)
+				ToggleWorldgenAffectingDlc(true, msc.dlcIdFrom);
 			RefreshCategories();
 		}
 
@@ -98,15 +100,21 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			var transform = MixingSettingsContainer.transform;
 			MixingSettingsContainer.SetActive(true);
 			GameObject CyclePrefab = transform.Find("SwitchPrefab").gameObject;
+			GameObject headerPrefab = transform.Find("HeaderPrefab").gameObject;
 
 			SgtLogger.Assert("CyclePrefab missing", CyclePrefab);
 
 			CyclePrefab.SetActive(false);
+			headerPrefab.SetActive(false);
+
+			var asteroidMixingHeader = Util.KInstantiateUI(headerPrefab, MixingSettingsContainer, true).transform;
+			UIUtils.TryChangeText( asteroidMixingHeader,"Label",global::STRINGS.UI.FRONTEND.COLONYDESTINATIONSCREEN.MIXING_WORLDMIXING_HEADER);
+
+			var biomeMixingHeader = Util.KInstantiateUI(headerPrefab, MixingSettingsContainer, true).transform;
+			UIUtils.TryChangeText(biomeMixingHeader, "Label", global::STRINGS.UI.FRONTEND.COLONYDESTINATIONSCREEN.MIXING_SUBWORLDMIXING_HEADER);
 
 			foreach (var mixingSetting in CustomGameSettings.Instance.MixingSettings)
 			{
-
-
 				string settingID = mixingSetting.Key;
 				if (mixingSetting.Value is DlcMixingSettingConfig)
 					continue;
@@ -116,7 +124,12 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 				if (mixingSetting.Value is MixingSettingConfig listSetting)
 				{
-					MixingCycleConfigs[settingID] = AddListMixingSettingsContainer(CyclePrefab, MixingSettingsContainer, listSetting);
+					var mixing = AddListMixingSettingsContainer(CyclePrefab, MixingSettingsContainer, listSetting);
+					MixingCycleConfigs[settingID] = mixing;
+					if(listSetting is WorldMixingSettingConfig)
+						mixing.transform.SetSiblingIndex(asteroidMixingHeader.GetSiblingIndex() + 1);
+					else
+						mixing.transform.SetSiblingIndex(biomeMixingHeader.GetSiblingIndex() + 1);
 				}
 				else
 				{
@@ -131,13 +144,15 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 			var settingLabel = cycle.transform.Find("Label").gameObject.AddOrGet<LocText>();
 			cycle.transform.Find("Image").GetComponent<Image>().sprite = ConfigToSet.icon;
+			cycle.transform.Find("DlcBanner").GetComponent<Image>().color = DlcManager.GetDlcBannerColor(ConfigToSet.dlcIdFrom);
+
 			settingLabel.text = ConfigToSet.label;
 			UIUtils.AddSimpleTooltipToObject(settingLabel.transform, ConfigToSet.tooltip, alignCenter: true, onBottom: true);
 			cycle.Initialize(
 				cycle.transform.Find("Left").gameObject.AddOrGet<FButton>(),
 				cycle.transform.Find("Right").gameObject.AddOrGet<FButton>(),
 				cycle.transform.Find("ChoiceLabel").gameObject.AddOrGet<LocText>()
-				//	,cycle.transform.Find("ChoiceLabel/Description").gameObject.AddOrGet<LocText>()
+					,cycle.transform.Find("ChoiceLabel/Description").gameObject.AddOrGet<LocText>()
 				);
 
 			cycle.Options = new List<FCycle.Option>();
@@ -146,7 +161,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				cycle.Options.Add(new FCycle.Option(config.id, config.label, config.tooltip));
 			}
 			cycle.OnChange += () =>
-			{
+			{				
 				SetMixingSetting(ConfigToSet, cycle.Value);
 			};
 			return cycle;
@@ -509,11 +524,13 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 		private LocText CapacityText;
 
+		private LocText BlacklistTitle;
+
 		private GameObject ActiveGeyserBlacklistContainer;
 		private GameObject GeyserBlacklistPrefab;
 		private Dictionary<string, GameObject> ActiveGeyserBlacklists = new();
 		private FButton AddBlacklistedGeysers;
-		private FToggle BlacklistAffectsNonGenerics;
+		private FToggle BlacklistAffectsNonGenerics, BlacklistShared;
 
 		//BiomeMixings
 		private GameObject BiomeMixingContainer;
@@ -663,7 +680,10 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				}
 				categoryToggle.Value.Refresh(SelectedCategory, PlanetSprite);
 			}
-
+			RefreshDlcToggles();
+		}
+		void RefreshDlcToggles()
+		{
 			foreach (var dlcToggle in contentDlcToggles)
 			{
 				dlcToggle.Value.Refresh();
@@ -1973,7 +1993,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 			ActiveBiomesContainer = transform.Find("Details/Content/ScrollRectContainer/AsteroidBiomes/Content/TraitContainer/ScrollArea/Content").gameObject;
 			BiomePrefab = transform.Find("Details/Content/ScrollRectContainer/AsteroidBiomes/Content/TraitContainer/ScrollArea/Content/Item").gameObject;
-
+			BiomePrefab.SetActive(false);	
 			AddSeasonButton = transform.Find("Details/Content/ScrollRectContainer/MeteorSeasonCycle/Content/Seasons/SeasonScrollArea/Content/AddSeasonButton").FindOrAddComponent<FButton>();
 			UIUtils.AddSimpleTooltipToObject(AddSeasonButton.transform, METEORSEASONCYCLE.DESCRIPTOR.TOOLTIP);
 			AddSeasonButton.OnClick += () =>
@@ -2155,11 +2175,26 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			BlacklistAffectsNonGenerics.OnClick += SetCurrentGeyserBlacklistEffect;
 			UIUtils.AddSimpleTooltipToObject(BlacklistAffectsNonGenerics.gameObject, ASTEROIDGEYSERS.CONTENT.BLACKLIST.BLACKLISTAFFECTNONGENERICS.TOOLTIP);
 
+			BlacklistShared = transform.Find("Details/Content/ScrollRectContainer/AsteroidGeysers/Content/Blacklist/SharedBlacklist").gameObject.AddOrGet<FToggle>();
+			BlacklistShared.SetCheckmark("Background/Checkmark");
+			BlacklistShared.OnClick += SetCurrentGeyserBlacklistShared;
+			UIUtils.AddSimpleTooltipToObject(BlacklistShared.gameObject, ASTEROIDGEYSERS.CONTENT.BLACKLIST.SHAREDBLACKLIST.TOOLTIP);
+
+			BlacklistTitle = transform.Find("Details/Content/ScrollRectContainer/AsteroidGeysers/Content/Blacklist/Descriptor/Label").gameObject.GetComponent<LocText>();
+
 			UIUtils.AddSimpleTooltipToObject(transform.Find("Details/Content/ScrollRectContainer/AsteroidGeysers/Content/Blacklist/Descriptor/InfoImage").gameObject, ASTEROIDGEYSERS.CONTENT.BLACKLIST.DESCRIPTOR.INFOTOOLTIP);
 
 			foreach (var entry in ModAssets.AllGeysers)
 			{
 				AddGeyserBlacklistContainer(entry.Key).SetActive(false);
+			}
+		}
+		void SetCurrentGeyserBlacklistShared(bool useSharedList)
+		{
+			if (CustomCluster.HasStarmapItem(CurrentStarmapItem.id, out var item))
+			{
+				item.SetIsGeyserBlacklistShared(useSharedList);
+				RefreshGeyserOverrides();
 			}
 		}
 		void SetCurrentGeyserBlacklistEffect(bool affectsNonGenerics)
@@ -2747,6 +2782,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			AddGeyserOverrideButton.SetInteractable(maxSlots - currentSlots > 0 && hasItem);
 			AddBlacklistedGeysers.SetInteractable(hasItem);
 			BlacklistAffectsNonGenerics.SetInteractable(hasItem);
+			BlacklistShared.SetInteractable(hasItem);
 
 			for (int i = 0; i < CurrentStarmapItem.GeyserOverrideIDs.Count; i++)
 			{
@@ -2758,6 +2794,10 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				blacklistedEntry.Value.SetActive(CurrentStarmapItem.HasGeyserBlacklisted(blacklistedEntry.Key));
 			}
 			BlacklistAffectsNonGenerics.SetOnFromCode(CurrentStarmapItem.GeyserBlacklistAffectsNonGenerics);
+			BlacklistShared.SetOnFromCode(CurrentStarmapItem.GeyserBlacklistShared);
+			BlacklistTitle.SetText(CurrentStarmapItem.GeyserBlacklistShared ?
+				ASTEROIDGEYSERS.CONTENT.BLACKLIST.DESCRIPTOR.LABEL_SHARED :
+				ASTEROIDGEYSERS.CONTENT.BLACKLIST.DESCRIPTOR.LABEL);
 		}
 		public void RefreshPlanetBiomes()
 		{

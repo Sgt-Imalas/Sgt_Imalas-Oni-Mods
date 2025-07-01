@@ -541,12 +541,18 @@
 										public class DESCRIPTOR
 										{
 											public static LocString LABEL = "Blacklist:";
-											public static LocString INFOTOOLTIP = "Prevent geyser types from generating as fully random geysers.\nThese are then replaced with random (generic) geysers.\nHas no effect on semi-random, curated geysers unless toggled on";
+											public static LocString LABEL_SHARED = "Blacklist (shared):";
+											public static LocString INFOTOOLTIP = "Prevent geyser types from generating as fully random geysers.\nThese are then replaced with random (generic) geysers.\nHas no effect on semi-random, curated geysers unless toggled on.\nAsteroids will share a central blacklist unless toggled off.";
 										}
 										public class BLACKLISTAFFECTNONGENERICS
 										{
 											public static LocString LABEL = "Blacklist affects all geysers";
-											public static LocString TOOLTIP = "If enabled, the blacklist will also replace predetermined and curated geysers from the blacklist with random geysers.";
+											public static LocString TOOLTIP = "If enabled, the blacklist will also replace predetermined and curated geysers <b>on this asteroid</b> from the blacklist with random geysers.";
+										}
+										public class SHAREDBLACKLIST
+										{
+											public static LocString LABEL = "Use shared blacklist for asteroid";
+											public static LocString TOOLTIP = "If disabled, the asteroid will use an individual blacklist.\nOtherwise it will share a blacklist with other asteroids";
 										}
 										public class SCROLLAREA
 										{
