@@ -361,6 +361,11 @@ namespace SetStartDupes
 					public static LocString NAME = "Open Care Package Editor";
 					public static LocString TOOLTIP = "View and modify the different additional care packages or create new ones.";
 				}
+				public class SORTEDCAREPACKAGES
+				{
+					public static LocString NAME = "Sorted Care Package Lists";
+					public static LocString TOOLTIP = "Care packages listings are sorted alphabetically.\nAffects care package editor and printing pod selection\nCare packages in the editor can be sorted manually when this option is turned off.";
+				}
 				public class SORTEDPRINTINGPOD
 				{
 					public static LocString NAME = "Sorted Printing Pod";

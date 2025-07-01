@@ -216,15 +216,15 @@ namespace SetStartDupes
 				}
 				SgtLogger.l("Bio Inks Care Packages initialized!");
 			}
-
-			allCarePackages.Sort((a, b) =>
-			{
-				var first = Assets.GetPrefab(a.id);
-				var second = Assets.GetPrefab(b.id);
-				string firstName = first != null ? global::STRINGS.UI.StripLinkFormatting(first.GetProperName()): a.id.ToString();
-				string secondName = second != null ? global::STRINGS.UI.StripLinkFormatting(second.GetProperName()) : b.id.ToString();
-				return firstName.CompareTo(secondName);
-			});
+			if (Config.Instance.CarePackageEntriesSorted)
+				allCarePackages.Sort((a, b) =>
+				{
+					var first = Assets.GetPrefab(a.id);
+					var second = Assets.GetPrefab(b.id);
+					string firstName = first != null ? global::STRINGS.UI.StripLinkFormatting(first.GetProperName()) : a.id.ToString();
+					string secondName = second != null ? global::STRINGS.UI.StripLinkFormatting(second.GetProperName()) : b.id.ToString();
+					return firstName.CompareTo(secondName);
+				});
 
 			foreach (CarePackageInfo carePackage in allCarePackages)
 			{

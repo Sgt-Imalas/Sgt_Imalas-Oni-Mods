@@ -74,7 +74,7 @@ namespace SetStartDupes.CarePackageEditor.UI
 		{
 			if (TargetOutline == null)
 			{
-				SgtLogger.l("aborting ui update, target was null");
+				//SgtLogger.l("aborting ui update, target was null");
 				return;
 			}
 			if (!init)

@@ -40,6 +40,9 @@ namespace SetStartDupes
 		[JsonProperty]
 		public bool AddAdditionalCarePackages { get; set; }
 
+		
+		[Option("STRINGS.UI.DSS_OPTIONS.SORTEDCAREPACKAGES.NAME", "STRINGS.UI.DSS_OPTIONS.SORTEDCAREPACKAGES.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
+		public bool CarePackageEntriesSorted { get; set; } = true;
 		[Option("STRINGS.UI.DSS_OPTIONS.CAREPACKAGEEDITOR.NAME", "STRINGS.UI.DSS_OPTIONS.CAREPACKAGEEDITOR.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
 		[JsonIgnore]
 		public System.Action<object> Button_OpenCarepackageEditor => CarePackageEditor_MainScreen.ShowCarePackageEditor;
