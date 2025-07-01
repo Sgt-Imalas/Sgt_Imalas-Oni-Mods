@@ -25,6 +25,11 @@
 		}
 		public class UI
 		{
+			public class GENERIC_YESNO
+			{
+				public static LocString YES = "Yes";
+				public static LocString NO = "No";
+			}
 			public class INFOTOOLTIPS
 			{
 				public static LocString INFO_ONLY = "These are for info only and are not configurable.";
@@ -547,7 +552,7 @@
 										public class BLACKLISTAFFECTNONGENERICS
 										{
 											public static LocString LABEL = "Blacklist affects all geysers";
-											public static LocString TOOLTIP = "If enabled, the blacklist will also replace predetermined and curated geysers <b>on this asteroid</b> from the blacklist with random geysers.";
+											public static LocString TOOLTIP = "If enabled, the blacklist will also replace predetermined and curated geysers from the blacklist with random geysers.";
 										}
 										public class SHAREDBLACKLIST
 										{

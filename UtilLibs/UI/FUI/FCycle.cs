@@ -25,6 +25,11 @@ namespace UtilLibs.UIcmp //Source: Aki
 		[SerializeField]
 		public List<Option> Options;
 
+		[SerializeField]
+		public Func<string, string> DescriptionFormatter = null;
+		[SerializeField]
+		public Func<string, string> NameFormatter = null;
+
 		[Serializable]
 		public class Option
 		{
@@ -39,6 +44,7 @@ namespace UtilLibs.UIcmp //Source: Aki
 				this.description = description;
 			}
 		}
+
 
 		public void Initialize(FButton leftButton, FButton rightButton, LocText label, LocText description = null)
 		{
@@ -129,13 +135,33 @@ namespace UtilLibs.UIcmp //Source: Aki
 			{
 				Value = Options[currentIndex].id;
 
-				label.SetText(Options[currentIndex].title);
+				string title = Options[currentIndex].title;
+				if(NameFormatter != null)
+				{
+					title = NameFormatter(title);
+				}
+				label.SetText(title);
 
 				if (description != null)
 				{
-					description.SetText(Options[currentIndex].description);
+					string desc = Options[currentIndex].description;
+					if(DescriptionFormatter != null)
+					{
+						desc = DescriptionFormatter(desc);
+					}
+					description.SetText(desc);
 				}
 			}
 		}
+
+		public void SetDescriptionFormatter(Func<string, string> formatDescription)
+		{
+			DescriptionFormatter = formatDescription;
+		}
+		public void SetNameFormatter(Func<string, string> formatName)
+		{
+			NameFormatter = formatName;
+		}
+		
 	}
 }

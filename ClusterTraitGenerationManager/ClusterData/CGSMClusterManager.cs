@@ -40,6 +40,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 		public static HashSet<string> BlacklistedTraits = new HashSet<string>();
 		public static HashSet<string> BlacklistedGeysers = new HashSet<string>();
+		public static bool BlacklistAffectsNonGenerics = false;
 
 		public static int MaxClassicOuterPlanets = 3, CurrentClassicOuterPlanets = 0;
 
@@ -104,14 +105,14 @@ namespace ClusterTraitGenerationManager.ClusterData
 		}
 		public static void SetSharedGeyserBlacklistState(string geyserId, bool blacklisted)
 		{
-			if(blacklisted)
+			if (blacklisted)
 				BlacklistedGeysers.Add(geyserId);
 			else
 				BlacklistedGeysers.Remove(geyserId);
 		}
 		public static HashSet<string> GetBlacklistedGeyserIdsFor(StarmapItem asteroid)
 		{
-			if(asteroid.GeyserBlacklistShared)
+			if (asteroid.GeyserBlacklistShared)
 			{
 				return BlacklistedGeysers;
 			}
@@ -948,7 +949,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 			}
 			else
 			{
-				SgtLogger.l("clearing mixing on "+target.DisplayName);
+				SgtLogger.l("clearing mixing on " + target.DisplayName);
 			}
 			target.SetWorldMixing(mixingSource);
 		}

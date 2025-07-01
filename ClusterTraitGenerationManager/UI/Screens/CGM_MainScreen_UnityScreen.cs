@@ -125,6 +125,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				if (mixingSetting.Value is MixingSettingConfig listSetting)
 				{
 					var mixing = AddListMixingSettingsContainer(CyclePrefab, MixingSettingsContainer, listSetting);
+					mixing.SetDescriptionFormatter(desc=> desc.Replace("\n\n", "\n"));
 					MixingCycleConfigs[settingID] = mixing;
 					if(listSetting is WorldMixingSettingConfig)
 						mixing.transform.SetSiblingIndex(asteroidMixingHeader.GetSiblingIndex() + 1);
@@ -279,6 +280,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 		{
 			var cycle = Util.KInstantiateUI(prefab, parent, true).AddOrGet<FCycle>();
 
+			cycle.SetDescriptionFormatter(desc => desc.Replace("\n\n", "\n"));
 			var settingLabel = cycle.transform.Find("Label").gameObject.AddOrGet<LocText>();
 			settingLabel.text = ConfigToSet.label;
 			UIUtils.AddSimpleTooltipToObject(settingLabel.transform, ConfigToSet.tooltip, alignCenter: true, onBottom: true);
@@ -1886,6 +1888,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				AsteroidSky_NorthernLights.transform.Find("Left").gameObject.AddOrGet<FButton>(),
 				AsteroidSky_NorthernLights.transform.Find("Right").gameObject.AddOrGet<FButton>(),
 				AsteroidSky_NorthernLights.transform.Find("ChoiceLabel").gameObject.AddOrGet<LocText>());
+			AsteroidSky_NorthernLights.SetNameFormatter(name => name == "0" ? STRINGS.UI.GENERIC_YESNO.NO : STRINGS.UI.GENERIC_YESNO.YES);
 
 			var northernLightOptions = new List<FCycle.Option>();
 			foreach (var setting in ModAssets.NorthernLightsFixedTraits)
@@ -2458,7 +2461,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			{
 				var entry = Util.KInstantiateUI(StoryTraitEntryPrefab, StoryTraitGridContainer);
 				UIUtils.TryChangeText(entry.transform, "Label", Strings.Get(Story.StoryTrait.name));
-				entry.transform.Find("Image").GetComponent<Image>().sprite = Assets.GetSprite(Story.StoryTrait.icon);
+				entry.transform.Find("ImageContainer/Image").GetComponent<Image>().sprite = Assets.GetSprite(Story.StoryTrait.icon);
 				var btn = entry.gameObject.AddOrGet<FToggleButton>();
 				FToggle toggle = entry.transform.Find("Background").gameObject.AddOrGet<FToggle>();
 				toggle.SetCheckmark("Checkmark");

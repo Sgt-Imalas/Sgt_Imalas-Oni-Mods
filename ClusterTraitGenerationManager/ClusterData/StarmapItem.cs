@@ -624,7 +624,10 @@ namespace ClusterTraitGenerationManager.ClusterData
 		private bool _geyserBlacklistShared = true;
 
 		private bool _geyserBlacklistAffectsNonGenerics = false;
-		public bool GeyserBlacklistAffectsNonGenerics => IsMixed ? MixingAsteroidSource._geyserBlacklistAffectsNonGenerics : _geyserBlacklistAffectsNonGenerics;
+		public bool GeyserBlacklistAffectsNonGenerics => 
+			IsMixed 
+			? MixingAsteroidSource._geyserBlacklistAffectsNonGenerics 
+			: GeyserBlacklistShared ? CGSMClusterManager.BlacklistAffectsNonGenerics : _geyserBlacklistAffectsNonGenerics;
 		public bool GeyserBlacklistShared => IsMixed ? MixingAsteroidSource._geyserBlacklistShared : _geyserBlacklistShared;
 
 		private HashSet<string> _geyserBlacklistIDs = new();
@@ -644,6 +647,8 @@ namespace ClusterTraitGenerationManager.ClusterData
 		{
 			if (IsMixed)
 				MixingAsteroidSource.SetGeyserBlacklistAffectsNonGenerics(affectsNongenerics);
+			else if(GeyserBlacklistShared)
+				CGSMClusterManager.BlacklistAffectsNonGenerics = affectsNongenerics;
 			else
 				_geyserBlacklistAffectsNonGenerics = affectsNongenerics;
 		}

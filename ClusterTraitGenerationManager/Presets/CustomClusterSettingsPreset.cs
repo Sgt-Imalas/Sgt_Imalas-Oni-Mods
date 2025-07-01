@@ -49,6 +49,7 @@ namespace ClusterTraitGenerationManager
 		public Dictionary<string, string> DifficultySettings;
 		public List<string> BlacklistedTraits;
 		public List<string> SharedBlacklistedGeysers;
+		public bool SharedBlacklistAffectsNonGenerics;
 
 		void PopulatePresetData(CustomClusterData data)
 		{
@@ -85,6 +86,7 @@ namespace ClusterTraitGenerationManager
 		{
 			BlacklistedTraits = CGSMClusterManager.BlacklistedTraits.ToList();
 			SharedBlacklistedGeysers = CGSMClusterManager.BlacklistedGeysers.ToList();
+			SharedBlacklistAffectsNonGenerics = CGSMClusterManager.BlacklistAffectsNonGenerics;
 
 			var instance = CustomGameSettings.Instance;
 			bool isNoSweat = instance.customGameMode == CustomGameMode.Nosweat;
@@ -177,6 +179,7 @@ namespace ClusterTraitGenerationManager
 
 			CGSMClusterManager.BlacklistedTraits = [.. this.BlacklistedTraits];
 			CGSMClusterManager.BlacklistedGeysers = [.. this.SharedBlacklistedGeysers];
+			CGSMClusterManager.BlacklistAffectsNonGenerics = this.SharedBlacklistAffectsNonGenerics;
 
 			#region legacySettings
 			///ImmuneSystem
