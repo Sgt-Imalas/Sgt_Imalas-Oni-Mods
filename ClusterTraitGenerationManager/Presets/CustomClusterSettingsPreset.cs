@@ -173,12 +173,10 @@ namespace ClusterTraitGenerationManager
 		}
 		private void ApplyGameSettings()
 		{
-
-			if (BlacklistedTraits == null)
-				BlacklistedTraits = new List<string>();
-
-			CGSMClusterManager.BlacklistedTraits = [.. this.BlacklistedTraits];
-			CGSMClusterManager.BlacklistedGeysers = [.. this.SharedBlacklistedGeysers];
+			if (this.BlacklistedTraits != null)
+				CGSMClusterManager.BlacklistedTraits = [.. this.BlacklistedTraits];
+			if (this.SharedBlacklistedGeysers != null)
+				CGSMClusterManager.BlacklistedGeysers = [.. this.SharedBlacklistedGeysers];
 			CGSMClusterManager.BlacklistAffectsNonGenerics = this.SharedBlacklistAffectsNonGenerics;
 
 			#region legacySettings
