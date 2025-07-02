@@ -521,8 +521,7 @@ namespace BlueprintsV2.BlueprintData
 
 					var t1 = jObject.GetValue("CurrentPowerConsumption");
 					if (t1 == null)
-						return;
-					ModularConduitPortTiler
+						return;					
 					var CurrentPowerConsumption = t1.Value<float>();
 					targetComponent.SetUserSpecifiedPowerConsumptionValue(CurrentPowerConsumption);
 				}

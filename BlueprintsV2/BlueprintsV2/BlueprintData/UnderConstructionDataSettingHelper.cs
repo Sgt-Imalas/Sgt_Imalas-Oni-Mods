@@ -154,5 +154,29 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 					hoverObjects.Remove(TemporarySelectable);
 			}
 		}
+
+		/// <summary>
+		/// Prevents the ModularConduitPortTiler from updating endcaps if the visualizers are not initialized as that would crash the game.
+		/// this happens if 2 or more launchpads are placed via blueprint
+		/// </summary>
+		[HarmonyPatch(typeof(ModularConduitPortTiler), nameof(ModularConduitPortTiler.UpdateEndCaps))]
+		public class ModularConduitPortTiler_UpdateEndCaps_Patch
+		{
+			public static bool Prefix(ModularConduitPortTiler __instance)
+			{
+				bool hasVisualizersInitialized = true;
+				if (__instance.manageLeftCap)
+				{
+					if(__instance.leftCapDefault == null || __instance.leftCapConduit == null || __instance.leftCapLaunchpad == null)
+						hasVisualizersInitialized = false;
+				}
+				if (__instance.manageRightCap)
+				{
+					if (__instance.rightCapDefault == null || __instance.rightCapConduit == null || __instance.rightCapLaunchpad == null)
+						hasVisualizersInitialized = false;
+				}
+				return hasVisualizersInitialized;
+			}
+		}
 	}
 }
