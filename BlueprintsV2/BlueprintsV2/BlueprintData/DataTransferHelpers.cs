@@ -47,7 +47,6 @@ namespace BlueprintsV2.BlueprintData
 					bool shouldBeEnabled = component.IsEnabled;
 					if(component.queuedToggle)
 						shouldBeEnabled = !shouldBeEnabled; //queued toggle means it will be toggled to the opposite state, so we need to invert it here
-					SgtLogger.l("Is enabled: "+component.IsEnabled+", toggled: "+ component.queuedToggle);
 
 					return new JObject()
 					{
@@ -490,6 +489,42 @@ namespace BlueprintsV2.BlueprintData
 					if (t2 == null)
 						return;
 					targetComponent.ActivateValue = t2.Value<int>();
+				}
+			}
+		}
+		internal class DataTransfer_SpaceHeater
+		{
+			internal static JObject TryGetData(GameObject arg)
+			{
+				if (arg.TryGetComponent<SpaceHeater>(out var component))
+				{
+					SgtLogger.l("heater produce heat: " + component.produceHeat);
+					if (!component.produceHeat)
+						return null;
+
+					return new JObject()
+					{
+						{ "CurrentPowerConsumption", component.CurrentPowerConsumption},
+					};
+				}
+				return null;
+			}
+			public static void TryApplyData(GameObject building, JObject jObject)
+			{
+				if (jObject == null)
+					return;
+				if (building.TryGetComponent<SpaceHeater>(out var targetComponent))
+				{
+					SgtLogger.l("heater produce heat, applying: " + targetComponent.produceHeat);
+					if (!targetComponent.produceHeat)
+						return;
+
+					var t1 = jObject.GetValue("CurrentPowerConsumption");
+					if (t1 == null)
+						return;
+					ModularConduitPortTiler
+					var CurrentPowerConsumption = t1.Value<float>();
+					targetComponent.SetUserSpecifiedPowerConsumptionValue(CurrentPowerConsumption);
 				}
 			}
 		}

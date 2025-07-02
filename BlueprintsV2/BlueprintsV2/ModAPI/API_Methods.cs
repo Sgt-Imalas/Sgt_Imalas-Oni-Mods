@@ -345,6 +345,7 @@ namespace BlueprintsV2.ModAPI
 			RegisterInternally(nameof(Repairable), DataTransfer_Repairable.TryGetData, DataTransfer_Repairable.TryApplyData);
 			RegisterInternally(nameof(Door), DataTransfer_Door.TryGetData, DataTransfer_Door.TryApplyData);
 			RegisterInternally(nameof(Clinic), DataTransfer_Clinic.TryGetData, DataTransfer_Clinic.TryApplyData);
+			RegisterInternally(nameof(SpaceHeater), DataTransfer_SpaceHeater.TryGetData, DataTransfer_SpaceHeater.TryApplyData);
 
 
 			RegisterInternally(nameof(Switch), DataTransfer_Switch.TryGetData, DataTransfer_Switch.TryApplyData);
