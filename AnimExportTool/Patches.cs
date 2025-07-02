@@ -1,7 +1,11 @@
 ﻿using HarmonyLib;
 using Klei;
 using Klei.CustomSettings;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using PeterHan.PLib.Core;
+using ProcGen;
+using ProcGenGame;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -588,6 +592,7 @@ namespace AnimExportTool
 				public bool DisableWorldTraits = false;
 				public List<ProcGen.World.TraitRule> TraitRules;
 				public float worldTraitScale;
+				public List<string> worldTags;
 				public List<string> SpecialPOIs;
 			}
 			public class ClusterLayout
@@ -597,19 +602,21 @@ namespace AnimExportTool
 				public string Prefix;
 				public int menuOrder;
 				public int startWorldIndex;
-				public string[] RequiredDlcsIDs;
-				public string[] ForbiddenDlcIDs;
-				public List<string> WorldPlacementIDs;
+				public int numRings;
+				public List<string> RequiredDlcsIDs;
+				public List<string> ForbiddenDlcIDs;
+				public List<ProcGen.WorldPlacement> worldPlacements;
+				public List<ProcGen.SpaceMapPOIPlacement> poiPlacements;
 				public int clusterCategory;
+				public bool disableStoryTraits;
 				public int fixedCoordinate;
-				public string[] ClusterTags;
+				public string[] clusterTags;
 			}
 			public class DataExport
 			{
 				public List<ClusterLayout> clusters = new();
 				public List<Asteroid> asteroids = new();
 				public List<WorldTrait> worldTraits = new();
-
 			}
 			public class WorldTrait
 			{
@@ -752,13 +759,31 @@ namespace AnimExportTool
 					list.Add("GeothermalController");
 				return list;
 			}
+			public class DynamicContractResolver : DefaultContractResolver
+			{
 
+				private HashSet<Type> _typesToIgnore;
+				public DynamicContractResolver(Type[] typesToIgnore)
+				{
+					_typesToIgnore = typesToIgnore.ToHashSet();
+				}
+
+				protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
+				{
+					IList<JsonProperty> properties = base.CreateProperties(type, memberSerialization);
+
+					properties = properties.Where(p => !_typesToIgnore.Contains( p.PropertyType)) .ToList();
+
+					return properties;
+				}
+			}
 
 
 			public static void Postfix()
 			{
 				StringBuilder loc = new StringBuilder();
 				var export = new DataExport();
+				SgtLogger.l("Fetching Clusters");
 				foreach (var cluster in ProcGen.SettingsCache.clusterLayouts.clusterCache.Values)
 				{
 
@@ -778,18 +803,27 @@ namespace AnimExportTool
 					data.Name = StripFormatting(clusterName);
 					data.Prefix = cluster.coordinatePrefix;
 					data.menuOrder = cluster.menuOrder;
-					data.RequiredDlcsIDs = cluster.requiredDlcIds;
-					data.ForbiddenDlcIDs = cluster.forbiddenDlcIds;
-					//data.WorldPlacements = cluster.worldPlacements;
+					data.RequiredDlcsIDs = cluster.requiredDlcIds?.ToList();
+					data.ForbiddenDlcIDs = cluster.forbiddenDlcIds?.ToList();
 					data.startWorldIndex = cluster.startWorldIndex;
-
-					data.WorldPlacementIDs = cluster.worldPlacements.Select(pl => pl.world).ToList();
+					data.worldPlacements = [.. cluster.worldPlacements];
 					data.clusterCategory = (int)cluster.clusterCategory;
 					data.fixedCoordinate = cluster.fixedCoordinate;
-					data.ClusterTags = cluster.clusterTags.ToArray();
+					data.clusterTags = cluster.clusterTags?.ToArray();
+					data.startWorldIndex = cluster.startWorldIndex;
+					data.menuOrder = cluster.menuOrder;
+					data.numRings = cluster.numRings;
+					if (cluster.poiPlacements != null)
+						data.poiPlacements = [.. cluster.poiPlacements];
+					else
+						data.poiPlacements = new List<ProcGen.SpaceMapPOIPlacement>();
+					data.disableStoryTraits = cluster.disableStoryTraits;
+
+
 					export.clusters.Add(data);
 					loc.Append(GenerateLocalizedEntry(data.Name, data.Name));
 				}
+				SgtLogger.l("Fetching Asteroids");
 				foreach (var world in ProcGen.SettingsCache.worlds.worldCache.Values)
 				{
 					var data = new Asteroid();
@@ -798,10 +832,15 @@ namespace AnimExportTool
 					data.DisableWorldTraits = world.disableWorldTraits;
 					data.TraitRules = world.worldTraitRules;
 					data.worldTraitScale = world.worldTraitScale;
+					if (world.worldTags == null)
+						data.worldTags = new List<string>();
+					else
+						data.worldTags = [.. world.worldTags];
 					data.SpecialPOIs = AccumulatePOIdata(world);
 					export.asteroids.Add(data);
 					loc.Append(GenerateLocalizedEntry(data.Name, data.Name));
 				}
+				SgtLogger.l("Fetching World Traits");
 				foreach (var trait in ProcGen.SettingsCache.worldTraits.Values)
 				{
 					var data = new WorldTrait();
@@ -834,10 +873,10 @@ namespace AnimExportTool
 				//}
 
 				//Console.WriteLine(EntityIdBuilder.ToString());
-
+				WorldgenMixing
 
 				Console.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-				Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(export));
+				Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(export,new JsonSerializerSettings { ContractResolver = new DynamicContractResolver([typeof(Vector2I)]) }));
 				Console.WriteLine("LOC:");
 				Console.WriteLine(loc.ToString());
 				var starmapExport = new StarmapGeneratorData();
