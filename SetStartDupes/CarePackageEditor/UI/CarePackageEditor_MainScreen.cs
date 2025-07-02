@@ -157,23 +157,22 @@ namespace SetStartDupes.CarePackageEditor.UI
 
 
 			OutlineEntryContainer = transform.Find("HorizontalLayout/ObjectList/ScrollArea/Content").gameObject;
-			if (!Config.Instance.CarePackageEntriesSorted)
-			{
-				Reorderable = OutlineEntryContainer.AddOrGet<ReorderableList>();
-				Reorderable.ContentLayout = OutlineEntryContainer.FindComponent<VerticalLayoutGroup>();
-				Reorderable.IsDraggable = true;
-				Reorderable.IsDropable = true;
-				Reorderable.OnElementDropped.AddListener(dropEvent =>
-				{
-					SgtLogger.l("ReorderableList: Element dropped from " + dropEvent.FromIndex + " to " + dropEvent.ToIndex);
-					int oldUIIndex = dropEvent.FromIndex;
-					int newUIIndex = dropEvent.ToIndex;
-					if (oldUIIndex == newUIIndex)
-						return;
 
-					CarePackageOutlineManager.HandleRepositioning(oldUIIndex, newUIIndex);
-				});
-			}
+			Reorderable = OutlineEntryContainer.AddOrGet<ReorderableList>();
+			Reorderable.ContentLayout = OutlineEntryContainer.FindComponent<VerticalLayoutGroup>();
+			Reorderable.IsDraggable = true;
+			Reorderable.IsDropable = true;
+			Reorderable.OnElementDropped.AddListener(dropEvent =>
+			{
+				SgtLogger.l("ReorderableList: Element dropped from " + dropEvent.FromIndex + " to " + dropEvent.ToIndex);
+				int oldUIIndex = dropEvent.FromIndex;
+				int newUIIndex = dropEvent.ToIndex;
+				if (oldUIIndex == newUIIndex)
+					return;
+
+				CarePackageOutlineManager.HandleRepositioning(oldUIIndex, newUIIndex);
+			});
+
 
 
 			UIUtils.AddSimpleTooltipToObject(transform.Find("HorizontalLayout/ObjectList/ShowVanilla/Label").gameObject, SHOWVANILLA.TOOLTIP);
@@ -259,7 +258,7 @@ namespace SetStartDupes.CarePackageEditor.UI
 
 		public void ApplyCarePackageFilter(string filterstring = "")
 		{
-			Reorderable.IsDraggable = !VanillaCarePackagesShown && filterstring.Length == 0;
+			Reorderable.IsDraggable = !VanillaCarePackagesShown && filterstring.Length == 0 && !Config.Instance.CarePackageEntriesSorted;
 			foreach (var go in OutlineEntries)
 			{
 				go.Value.gameObject.SetActive(filterstring == string.Empty ? true : ShowInFilter(filterstring, go.Key.GetDescriptionString()));
@@ -346,7 +345,7 @@ namespace SetStartDupes.CarePackageEditor.UI
 		public void SetVanillaCarePackagesEnabled(bool enabled)
 		{
 			VanillaCarePackagesShown = enabled;
-			if(enabled)
+			if (enabled)
 			{
 				var vanillaCarePackageOutlines = CarePackageOutlineManager.GetVanillaCarePackageOutlines();
 				vanillaCarePackageOutlines.Reverse();
