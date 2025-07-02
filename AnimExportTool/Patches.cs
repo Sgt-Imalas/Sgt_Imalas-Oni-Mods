@@ -551,6 +551,7 @@ namespace AnimExportTool
 					public string Id;
 					public string Name;
 					public string Description;
+					public long coordinate_value;
 				}
 
 				public string Id;
@@ -899,7 +900,7 @@ namespace AnimExportTool
 						Description = StripFormatting(mixingSetting.tooltip),
 						coordinate_range = mixingSetting.coordinate_range,
 						DlcIdFrom = mixingSetting.GetRequiredDlcIds().FirstOrDefault(),
-						Levels = mixingSetting.GetLevels().Select(l => new GameSettingExport.SettingLevel() { Id = l.id, Name = StripFormatting(l.label), Description = StripFormatting(l.tooltip) }).ToList(),
+						Levels = mixingSetting.GetLevels().Select(l => new GameSettingExport.SettingLevel() { Id = l.id, Name = StripFormatting(l.label), Description = StripFormatting(l.tooltip), coordinate_value = l.coordinate_value }).ToList(),
 
 					};
 					if (mixingSetting is SubworldMixingSettingConfig subworldMixing)
