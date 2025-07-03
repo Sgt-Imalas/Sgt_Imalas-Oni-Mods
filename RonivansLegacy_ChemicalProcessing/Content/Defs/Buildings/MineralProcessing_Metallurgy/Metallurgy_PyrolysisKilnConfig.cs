@@ -10,9 +10,9 @@ using UnityEngine;
 namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 {
 	//==== [ CHEMICAL: PYROLYSIS KILN CONFIG ] =====================================================================
-	public class Chemical_PyrolysisKilnConfig : IBuildingConfig
+	public class Metallurgy_PyrolysisKilnConfig : IBuildingConfig
 	{
-		public static string ID = "Chemical_PyrolysisKiln";
+		public static string ID = "Metallurgy_PyrolysisKiln";
 
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{

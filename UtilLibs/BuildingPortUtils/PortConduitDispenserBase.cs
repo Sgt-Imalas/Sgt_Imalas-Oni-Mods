@@ -27,6 +27,9 @@ namespace UtilLibs.BuildingPortUtils
 		public SimHashes[] elementFilter = null;
 
 		[SerializeField]
+		public Tag[] tagFilter = null;
+
+		[SerializeField]
 		public bool invertElementFilter;
 
 		[SerializeField]
@@ -179,26 +182,46 @@ namespace UtilLibs.BuildingPortUtils
 			for (int i = 0; i < count; i++)
 			{
 				int index = (i + this.elementOutputOffset) % count;
-				PrimaryElement component = items[index].GetComponent<PrimaryElement>();
-				if (component != null && component.Mass > 0f && ((this.conduitType != ConduitType.Liquid) ? component.Element.IsGas : component.Element.IsLiquid) && (this.elementFilter == null || this.elementFilter.Length == 0 || (!this.invertElementFilter && this.IsFilteredElement(component.ElementID)) || (this.invertElementFilter && !this.IsFilteredElement(component.ElementID))))
+				var item = items[index];
+				if (item == null || !item.TryGetComponent<PrimaryElement>(out var primaryElement))
+					continue;
+
+				if (primaryElement.Mass <= 0f || primaryElement.Element == null)
+					continue;
+
+				if (((this.conduitType == ConduitType.Liquid) ? primaryElement.Element.IsLiquid : primaryElement.Element.IsGas) && ElementAllowedByFilter(primaryElement))
 				{
+
 					this.elementOutputOffset = (this.elementOutputOffset + 1) % count;
-					return component;
+					return primaryElement;
 				}
 			}
 			return null;
 		}
 
-		private bool IsFilteredElement(SimHashes element)
+		private bool ElementAllowedByFilter(PrimaryElement primaryelement)
 		{
+			var element = primaryelement.ElementID;
+
+			if ((elementFilter == null || this.elementFilter.Length == 0) && (tagFilter == null || tagFilter.Length == 0))
+			{
+				return true;
+			}
+
+			if (tagFilter != null)
+			{
+				return primaryelement.HasAnyTags(tagFilter) != invertElementFilter;
+			}
+
+			bool simhashAllowed = false;
 			for (int num = 0; num != this.elementFilter.Length; num++)
 			{
 				if (this.elementFilter[num] == element)
 				{
-					return true;
+					simhashAllowed = true;
 				}
 			}
-			return false;
+			return simhashAllowed != invertElementFilter;
 		}
 	}
 }

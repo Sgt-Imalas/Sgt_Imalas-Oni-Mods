@@ -8,11 +8,13 @@ using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {
-	class Chemical_GlassForge : ComplexFabricator
+	class Chemical_GlassForge : KMonoBehaviour
 	{
 		public Guid statusHandle;
 		[SerializeField]
-		public CellOffset HeatedOutputOffset = new(0,0);
+		public CellOffset HeatedOutputOffset = new(0, 0);
+		[SerializeField]
+		public CellOffset? HeatedSecondaryOutputOffset = null;
 		[SerializeField]
 		public float MeltingTemperature = UtilMethods.GetKelvinFromC(1000);
 
@@ -36,17 +38,28 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		{
 			KSelectable component = GetComponent<KSelectable>();
 			int cell = Grid.OffsetCell(Grid.PosToCell(this), HeatedOutputOffset);
-			GameObject gameObject = Grid.Objects[cell, 16];
-			if (gameObject != null)
+			GameObject primaryPipe = Grid.Objects[cell, 16];
+			bool setStatusItem = false;
+			GameObject secondaryPipe = null;
+
+			if (HeatedSecondaryOutputOffset.HasValue)
 			{
-				if (gameObject.GetComponent<PrimaryElement>().Element.highTemp > MeltingTemperature)
-				{
-					component.RemoveStatusItem(statusHandle);
-				}
-				else
-				{
-					statusHandle = component.AddStatusItem(Db.Get().BuildingStatusItems.PipeMayMelt);
-				}
+				int cell2 = Grid.OffsetCell(Grid.PosToCell(this), HeatedSecondaryOutputOffset.Value);
+				secondaryPipe = Grid.Objects[cell2, 16];
+			}
+
+			if (primaryPipe != null && primaryPipe.GetComponent<PrimaryElement>().Element.highTemp <= MeltingTemperature)
+			{
+				setStatusItem = true;
+			}
+			if (secondaryPipe != null && secondaryPipe.GetComponent<PrimaryElement>().Element.highTemp <= MeltingTemperature)
+			{
+				setStatusItem = true;
+			}
+
+			if (setStatusItem)
+			{
+				statusHandle = component.AddStatusItem(Db.Get().BuildingStatusItems.PipeMayMelt);
 			}
 			else
 			{

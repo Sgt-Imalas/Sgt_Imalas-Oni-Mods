@@ -65,10 +65,11 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			go.AddOrGet<FabricatorIngredientStatusManager>();
 			go.AddOrGet<CopyBuildingSettings>();
 
-			Chemical_GlassForge fabricator = go.AddOrGet<Chemical_GlassForge>();
-			fabricator.MeltingTemperature = ElementLoader.FindElementByHash(SimHashes.MoltenGlass).lowTemp;
-			fabricator.HeatedOutputOffset = GlassOutputOffset;
+			Chemical_GlassForge glassforge = go.AddOrGet<Chemical_GlassForge>();
+			glassforge.MeltingTemperature = ElementLoader.FindElementByHash(SimHashes.MoltenGlass).lowTemp;
+			glassforge.HeatedOutputOffset = GlassOutputOffset;
 
+			ComplexFabricator fabricator = go.AddOrGet<ComplexFabricator>();
 			fabricator.sideScreenStyle = ComplexFabricatorSideScreen.StyleSetting.ListQueueHybrid;
 
 			ComplexFabricatorWorkable workable = go.AddOrGet<ComplexFabricatorWorkable>();
