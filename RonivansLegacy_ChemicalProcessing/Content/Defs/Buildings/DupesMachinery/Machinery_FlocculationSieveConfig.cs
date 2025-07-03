@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using KSerialization;
+using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using System;
 using System.Collections.Generic;
@@ -15,11 +16,11 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 {
 	//==== [ CHEMICAL: FLOCCULATION SIEVE CONFIG ] =================================================================
 	[SerializationConfig(MemberSerialization.OptIn)]
-	public class Chemical_FlocculationSieveConfig : IBuildingConfig
+	public class Machinery_FlocculationSieveConfig : IBuildingConfig
 	{
 		//--[ Base Information ]-----------------------------------------------
-		public static string ID = "Chemical_FlocculationSieve";
-		
+		public static string ID = "FlocculationSieve";
+
 		//--[ Identification and DLC stuff ]-----------------------------------
 		public static readonly List<Storage.StoredItemModifier> SieveStoredItemModifiers;
 
@@ -27,7 +28,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		private static readonly PortDisplayInput pollutedWaterInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(2, 1));
 		private static readonly PortDisplayInput toxicSlurryInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(2, 0));
 
-		static Chemical_FlocculationSieveConfig()
+		static Machinery_FlocculationSieveConfig()
 		{
 			Color? pollutedPortColor = new Color32(181, 155, 7, 255);
 			pollutedWaterInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(2, 1), null, pollutedPortColor);
@@ -125,28 +126,45 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			SandmanualDeliveryKG.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
 
 			//-----[ Element Converter Section ]---------------------------------
-			ElementConverter pollutedWaterTreatment = go.AddComponent<ElementConverter>();
-			pollutedWaterTreatment.consumedElements = [
-				new ElementConverter.ConsumedElement(SimHashes.DirtyWater.CreateTag(), 5f),
+			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+			{
+				///complex flocculation recipe found in industrial overhaul code
+				ElementConverter pollutedWaterTreatment = go.AddComponent<ElementConverter>();
+				pollutedWaterTreatment.consumedElements = [
+					new ElementConverter.ConsumedElement(SimHashes.DirtyWater.CreateTag(), 5f),
 				new ElementConverter.ConsumedElement(SimHashes.ChlorineGas.CreateTag(), 0.0025f),
 				new ElementConverter.ConsumedElement(SimHashes.CrushedRock.CreateTag(), 0.024f),
 				new ElementConverter.ConsumedElement(SimHashes.RefinedCarbon.CreateTag(), 0.034f),
 				new ElementConverter.ConsumedElement(SimHashes.Sand.CreateTag(), 0.042f) ];
-			pollutedWaterTreatment.outputElements = [
-				new ElementConverter.OutputElement(4.9f, SimHashes.Water, 0f, false, true, 0f, 0.5f, 0f, 0xff, 0),
+				pollutedWaterTreatment.outputElements = [
+					new ElementConverter.OutputElement(4.9f, SimHashes.Water, 0f, false, true, 0f, 0.5f, 0f, 0xff, 0),
 				new ElementConverter.OutputElement(0.11f, SimHashes.Clay, 0f, false, true, 0f, 0.5f, 0f, 0xff, 0) ];
 
-			ElementConverter toxicSlurryTreatment = go.AddComponent<ElementConverter>();
-			toxicSlurryTreatment.consumedElements = [
-				new ElementConverter.ConsumedElement(ModElements.ToxicMix_Liquid.Tag, 5f),
+				ElementConverter toxicSlurryTreatment = go.AddComponent<ElementConverter>();
+				toxicSlurryTreatment.consumedElements = [
+					new ElementConverter.ConsumedElement(ModElements.ToxicMix_Liquid.Tag, 5f),
 				new ElementConverter.ConsumedElement(SimHashes.ChlorineGas.CreateTag(), 0.0025f),
 				new ElementConverter.ConsumedElement(SimHashes.CrushedRock.CreateTag(), 0.024f),
 				new ElementConverter.ConsumedElement(SimHashes.RefinedCarbon.CreateTag(), 0.034f),
 				new ElementConverter.ConsumedElement(SimHashes.Sand.CreateTag(), 0.042f) ];
-			toxicSlurryTreatment.outputElements = [
-				new ElementConverter.OutputElement(2f, SimHashes.Water, 0f, false, true, 0f, 0.5f, 0f, 0xff, 0),
+				toxicSlurryTreatment.outputElements = [
+					new ElementConverter.OutputElement(2f, SimHashes.Water, 0f, false, true, 0f, 0.5f, 0f, 0xff, 0),
 				new ElementConverter.OutputElement(3.1f, ModElements.Slag_Solid, 0f, false, true, 0f, 0.5f, 0f, 0xff, 0) ];
-			//--------------------------------------------------------------------
+			}
+			else
+			{
+				//if chem processing is not enabled, use the default recipe described in the workshop page
+				//-----[ Element Converter Section ]---------------------------------
+				ElementConverter pollutedWaterTreatment = go.AddComponent<ElementConverter>();
+				pollutedWaterTreatment.consumedElements = [
+				new ElementConverter.ConsumedElement(SimHashes.DirtyWater.CreateTag(), 5f),
+				new ElementConverter.ConsumedElement(SimHashes.ChlorineGas.CreateTag(), 0.0025f),
+				new ElementConverter.ConsumedElement(SimHashes.Sand.CreateTag(), 0.1f) ];
+				pollutedWaterTreatment.outputElements = [
+				new ElementConverter.OutputElement(5f, SimHashes.Water, 0f, false, true, 0f, 0.5f, 0f, 0xff, 0),
+				new ElementConverter.OutputElement(0.1f, SimHashes.Clay, 0f, false, true, 0f, 0.5f, 0f, 0xff, 0) ];
+				//--------------------------------------------------------------------
+			}
 
 			ElementDropper clayDropper = go.AddComponent<ElementDropper>();
 			clayDropper.emitMass = 10f;
@@ -191,5 +209,5 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			this.AttachPort(go);
 		}
 	}
-	
+
 }

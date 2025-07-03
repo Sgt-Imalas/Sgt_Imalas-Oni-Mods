@@ -4,6 +4,8 @@ using Biochemistry.Buildings;
 using Mineral_Processing_Mining.Buildings;
 using Metallurgy.Buildings;
 using HarmonyLib;
+using Dupes_Machinery.Biological_Vats;
+using Dupes_Machinery.Ethanol_Still;
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
 	class BuildingInjection
@@ -37,21 +39,21 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				AddBuildingsToPlanscreen_MineralProcessingMining();
 			if (Config.Instance.MineralProcessing_Metallurgy_Enabled)
 				AddBuildingsToPlanscreen_MineralProcessingMetallurgy();
-
+			if(Config.Instance.DupesMachinery_Enabled)
+				AddBuildingsToPlanscreen_DupesMachinery();
 		}
 
 		private static void AddBuildingsToPlanscreen_ChemicalProcessingIndustrialOverhaul()
 		{
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Chemical_AdvancedKilnConfig.ID, KilnConfig.ID);
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Chemical_AdvancedMetalRefineryConfig.ID, MetalRefineryConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Chemical_BallCrusherMillConfig.ID, MetalRefineryConfig.ID);
+			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Chemical_BallCrusherMillConfig.ID, RockCrusherConfig.ID);
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Oxygen, Chemical_Co2PumpConfig.ID, CO2ScrubberConfig.ID);
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Chemical_Co2RecyclerConfig.ID, OxyliteRefineryConfig.ID);
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Chemical_Coal_BoilerConfig.ID, OilRefineryConfig.ID);
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Chemical_CrudeOilRefineryConfig.ID, OilRefineryConfig.ID);
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Chemical_ElectricBoilerConfig.ID, Chemical_Coal_BoilerConfig.ID);
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Utilities, Chemical_EndothermicUnitConfig.ID, LiquidConditionerConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Chemical_FlocculationSieveConfig.ID, WaterPurifierConfig.ID);
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Chemical_Gas_BoilerConfig.ID, Chemical_ElectricBoilerConfig.ID);
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Chemical_GlassFoundryConfig.ID, GlassForgeConfig.ID);
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Chemical_SmallCrusherMillConfig.ID, RockCrusherConfig.ID);
@@ -59,7 +61,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Chemical_PropaneReformerConfig.ID, Chemical_NaphthaReformerConfig.ID);
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Chemical_RawGasRefineryConfig.ID, OilRefineryConfig.ID);
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Chemical_RayonLoomConfig.ID, EthanolDistilleryConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Chemical_SelectiveArcFurnaceConfig.ID, SupermaterialRefineryConfig.ID, ordering: ModUtil.BuildingOrdering.Before);
+			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Chemical_SelectiveArcFurnaceConfig.ID, SupermaterialRefineryConfig.ID);
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Chemical_SoilMixerConfig.ID, CompostConfig.ID);
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Chemical_SourWaterStripperConfig.ID, WaterPurifierConfig.ID);
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Chemical_SyngasRefineryConfig.ID, OilRefineryConfig.ID);
@@ -81,8 +83,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		}
 		private static void AddBuildingsToPlanscreen_MineralProcessingMining()
 		{
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Mining_CNCMachineConfig.ID, SupermaterialRefineryConfig.ID,ordering:ModUtil.BuildingOrdering.Before);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Utilities, Mining_AugerDrillConfig.ID, SweepBotStationConfig.ID);
+			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Mining_CNCMachineConfig.ID, SupermaterialRefineryConfig.ID);
+			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Utilities, Mining_AugerDrillConfig.ID, OilWellCapConfig.ID);
 		}
 
 		private static void AddBuildingsToPlanscreen_MineralProcessingMetallurgy()
@@ -90,6 +92,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Metallurgy_PlasmaFurnaceConfig.ID, GlassForgeConfig.ID);
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Metallurgy_PyrolysisKilnConfig.ID, KilnConfig.ID);
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Metallurgy_BasicOilRefineryConfig.ID, OilRefineryConfig.ID,ordering:ModUtil.BuildingOrdering.Before);
+		}
+		private static void AddBuildingsToPlanscreen_DupesMachinery()
+		{
+			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Machinery_FlocculationSieveConfig.ID, WaterPurifierConfig.ID);
+			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Oxygen, Machinery_AlgaeVatConfig.ID, AlgaeHabitatConfig.ID);
+			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Machinery_CoralVatConfig.ID, ChlorinatorConfig.ID);
+			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Machinery_SlimeVatConfig.ID, AlgaeDistilleryConfig.ID);
+			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Machinery_EthanolStillConfig.ID, EthanolDistilleryConfig.ID);
 		}
 
 		public static void AddBuildingsToTech()
@@ -102,6 +112,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				AddBuildingsToTech_MineralProcessingMining();
 			if (Config.Instance.MineralProcessing_Metallurgy_Enabled)
 				AddBuildingsToTech_MineralProcessingMetallurgy();
+			if (Config.Instance.DupesMachinery_Enabled)
+				AddBuildingsToTech_DupesMachinery();
 		}
 		private static void AddBuildingsToTech_ChemicalProcessingIndustrialOverhaul()
 		{
@@ -120,7 +132,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.FossilFuels, Chemical_CrudeOilRefineryConfig.ID);
 			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.FossilFuels, Chemical_ElectricBoilerConfig.ID);
 			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Liquids.LiquidTuning, Chemical_EndothermicUnitConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Liquids.LiquidBasedRefinementProcess, Chemical_FlocculationSieveConfig.ID);
 			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.FossilFuels, Chemical_Gas_BoilerConfig.ID);
 			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.SuperheatedForging, Chemical_GlassFoundryConfig.ID);
 			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.BruteForceRefinement, Chemical_SmallCrusherMillConfig.ID);
@@ -158,6 +169,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		{
 			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.SolidManagement, Mining_CNCMachineConfig.ID);
 			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.SolidManagement, Mining_AugerDrillConfig.ID);
+		}
+		private static void AddBuildingsToTech_DupesMachinery()
+		{
+			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Liquids.LiquidBasedRefinementProcess, Machinery_FlocculationSieveConfig.ID);
+			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Liquids.AirSystems, Machinery_AlgaeVatConfig.ID);
+			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Liquids.LiquidBasedRefinementProcess, Machinery_CoralVatConfig.ID);
+			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Liquids.LiquidBasedRefinementProcess, Machinery_SlimeVatConfig.ID);
+			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Liquids.Distillation, EthanolDistilleryConfig.ID);
 		}
 	}
 }

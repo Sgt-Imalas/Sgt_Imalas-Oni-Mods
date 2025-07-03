@@ -23,7 +23,7 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>Chemical Processing - All In One Pack</ModName>
+		<ModName>Ronivan Processing - All In One</ModName>
 		<ModDescription></ModDescription>
 		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>

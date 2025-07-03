@@ -167,8 +167,6 @@ namespace RonivansLegacy_ChemicalProcessing
 						FormatAsLink("Refined Coal", "REFINEDCARBON"), " and " +
 						FormatAsLink("Rust", "RUST"), " as waste product.");
 					public static LocString SPACEDOUT_RECIPE = string.Concat(
-						"THIS BUILDING HAS BEEN DEPRECATED AND CANNOT BE BUILT. INSTEAD, USE THE REGULAR " + CHEMICAL_CO2RECYCLER.NAME + "\n\n",
-
 					"Sabatier Reaction: \n " +
 						FormatAsLink("Liquid Carbon Dioxide", "LIQUIDCARBONDIOXIDE"), ", " +
 						FormatAsLink("Hydrogen", "HYDROGEN"), " and " +
@@ -185,7 +183,7 @@ namespace RonivansLegacy_ChemicalProcessing
 						FormatAsLink("Graphite", "GRAPHITE"), " and " +
 						FormatAsLink("Rust", "RUST"), " as waste product.");
 
-					public static LocString EFFECT => DlcManager.IsExpansion1Active() ? SPACEDOUT_RECIPE : BASEGAME_RECIPE;
+					public static LocString EFFECT = DlcManager.IsExpansion1Active() ? SPACEDOUT_RECIPE : BASEGAME_RECIPE;
 				}
 				public class CHEMICAL_CO2RECYCLERDLC1
 				{
@@ -242,18 +240,6 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString NAME = FormatAsLink("Endothermic Unit", nameof(CHEMICAL_ENDOTHERMICUNIT));
 					public static LocString DESC = "A device that uses endothermical chemical reaction to cool itself and its surroundings.";
 					public static LocString EFFECT = string.Concat(["Creates an endothermical reaction from a mixture of ", FormatAsLink("Nitrate Nodules", "AMMONIUMSALT"), " and ", FormatAsLink("Water", "WATER"), ". \nOutputs ", FormatAsLink("Ammonium Water", "AMMONIUMWATER"), " as result."]);
-				}
-				public class CHEMICAL_FLOCCULATIONSIEVE
-				{
-					public static LocString NAME = FormatAsLink("Flocculation Sieve", nameof(CHEMICAL_FLOCCULATIONSIEVE));
-					public static LocString DESC = "A dedicated industrial sieve that flocculates colloidal particles out of suspension to sediment under the form of floc. Strong filter media further improves the cleaning process of liquids.";
-					public static LocString EFFECT = string.Concat(
-					[
-						"Treat ",
-						FormatAsLink("Polluted Water", "DIRTYWATER"), " or " +
-						"Toxic Slurry using special filter and chemicals. " +
-						"Sieve process also completely removes", FormatAsLink("Germs", "DISEASE"),"."
-					]);
 				}
 				public class CHEMICAL_GAS_BOILER
 				{
@@ -546,6 +532,52 @@ namespace RonivansLegacy_ChemicalProcessing
 							"Occurrence: resources are spawned during Drillhead operation."
 						]);
 				}
+				#region DupesMachinery
+				/// <summary>
+				/// Dupes machinery is not namespaced
+				/// </summary>
+				public class FLOCCULATIONSIEVE
+				{
+					public static LocString NAME = FormatAsLink("Flocculation Sieve", nameof(FLOCCULATIONSIEVE));
+					public static LocString DESC = "A dedicated industrial sieve that flocculates colloidal particles out of suspension to sediment under the form of floc. Strong filter media further improves the cleaning process of liquids.";
+					public static LocString EFFECT = string.Concat(
+					[
+						"Treat ",
+						FormatAsLink("Polluted Water", "DIRTYWATER"), " or " +
+						"Toxic Slurry using special filter and chemicals. " +
+						"Sieve process also completely removes", FormatAsLink("Germs", "DISEASE"),"."
+					]);
+				}
+				public class SLIMEVAT
+				{
+					public static LocString NAME = FormatAsLink("Slime Vat", nameof(SLIMEVAT));
+					public static LocString DESC = "An advanced biological vat that grows a culture of mucopolysaccharides and multicelular fungi mould. This unit also uses advanced filter to extract Polluted Oxygen from its surroundings, albeit its not necessery for it to function. ";
+					public static LocString EFFECT = string.Concat(new string[] { "Slime Vat needs ", FormatAsLink("Water", "WATER"), " and ", FormatAsLink("Mush Bar", "MUSHBAR"), " to grow, producing ", FormatAsLink("Slime", "SLIMEMOLD"), " outgrowth that is collected from the botton. Due to its nature, the slime its produce will be contaminated with Slimelung." });
+
+				}
+				public class CORALVAT
+				{
+					public static LocString NAME = FormatAsLink("Coral Vat", nameof(CORALVAT));
+					public static LocString DESC = "An advanced biological vat that grows a special colony of marine invertebrates, engineered from the Earth species of the class Anthozoa. This unit also uses advanced filter to extract Chlorine Gas from its surroundings, albeit its not necessery for it to function.";
+					public static LocString EFFECT = string.Concat(new string[] { "Coral colony needs ", FormatAsLink("Salt Water", "SALTWATER"), " or ", FormatAsLink("Brine", "BRINE"), " to grow, producing a fair amount of clean ", FormatAsLink("Water", "WATER"), " as result of its biological functions. The coral colony will also excreate tiny particles of ", FormatAsLink("Bleach Stone", "BLEACHSTONE"), ", which are filtered from the water and later released as a solid mass." });
+
+				}
+				public class ALGAEVAT
+				{
+					public static LocString NAME = FormatAsLink("Algae Vat", nameof(ALGAEVAT));
+					public static LocString DESC = "An advanced biological vat that grows algae. Due to the controlled atmospheric condition, this algae formation produces oxygen more efficiently than the standard terrarium. This unit also uses advanced filter to extract Carbon Dioxide from its surroundings, albeit its not necessery for it to function. ";
+					public static LocString EFFECT = string.Concat(new string[] { "Algae patch needs ", FormatAsLink("Water", "WATER"), " to grow, producing a fair amount of clean ", FormatAsLink("Oxygen", "OXYGEN"), " as result of its biological functions. Excess water is expelled in the form of ", FormatAsLink("Polluted Water", "DIRTYWATER"), "." });
+
+				}
+				public class ETHANOLSTILL
+				{
+					public static LocString NAME = FormatAsLink("Ethanol Stil", nameof(ETHANOLSTILL));
+					public static LocString DESC = "A solid metal still capable of distillation by selective temperature.";
+					public static LocString EFFECT = string.Concat(new string[] { "Distills ", FormatAsLink("Ethanol", "ETHANOL"), " from a fermented mixture of ", FormatAsLink("Sucrose", "SUCROSE"), " and ", FormatAsLink("Water", "WATER"), ". The fermenting process occurs with ", FormatAsLink("Slime", "SLIMEMOLD"), " bacterias by the degradation of organic nutrients anaerobically." });
+
+				}
+				#endregion
+
 			}
 		}
 		public class CREATURES
