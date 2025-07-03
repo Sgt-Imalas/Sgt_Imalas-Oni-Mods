@@ -17,6 +17,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 		public static void RegisterGeysers_IndustrialOverhaul(List<GeyserGenericConfig.GeyserPrefabParams> configs)
 		{
+			bool generic = Config.Instance.ModGeysersGeneric;
+
 			//===[ CHEMICAL: AMMONIA GEYSER ]=====================================================================
 			configs.Add(new("geyser_ammonia_kanim", 4, 2,
 				new GeyserConfigurator.GeyserType("AmmoniaGeyser",
@@ -37,7 +39,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				0.4f,
 				0.8f,
 				210.15f),
-				true));
+				generic));
 
 			//===[ CHEMICAL: AMMONIUM WATER GEYSER ]=====================================================================
 			configs.Add(new("geyser_ammonium_water_kanim", 4, 2,
@@ -59,7 +61,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				0.4f,
 				0.8f,
 				272.15f),
-				true));
+				generic));
 
 			//===[ CHEMICAL: HOT MERCURY GAS VENT ]=====================================================================
 			configs.Add(new("geyser_hot_mercurygas_kanim", 4, 2,
@@ -81,7 +83,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				0.4f,
 				0.8f,
 				272.15f),
-				true));
+				generic));
 
 			//===[ CHEMICAL: MOLTEN SALT GEYSER ]=====================================================================
 			configs.Add(new("geyser_molten_salt_kanim", 4, 2,
@@ -103,7 +105,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				0.4f,
 				0.8f,
 				1300.15f),
-				true));
+				generic));
 
 			//===[ CHEMICAL: LIQUID PHOSPHORUS GEYSER ]=====================================================================
 			configs.Add(new("geyser_liquidPhosphorus_kanim", 4, 2,
@@ -125,7 +127,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				0.4f,
 				0.8f,
 				392.15f),
-				true));
+				generic));
 
 			//===[ CHEMICAL: HOT RAW NATURAL GAS VENT ]=====================================================================
 			configs.Add(new("geyser_rawnaturalgas_kanim", 4, 2,
@@ -147,7 +149,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				0.4f,
 				0.8f,
 				773.15f),
-				true));
+				generic));
 
 			//===[ CHEMICAL: SOUR WATER GEYSER ]=====================================================================
 			configs.Add(new("geyser_sour_water_kanim", 4, 2,
@@ -169,7 +171,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				0.4f,
 				0.8f,
 				278.15f),
-				true));
+				generic));
 
 		}
 	}

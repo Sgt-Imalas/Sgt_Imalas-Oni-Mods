@@ -24,5 +24,9 @@ namespace RonivansLegacy_ChemicalProcessing
 		[JsonProperty]
 		public bool MineralProcessing_Mining_Enabled { get; set; } = true;
 
+
+		[Option("STRINGS.RONIVANL_AIO_MODCONFIG.GEYSERS.NAME","STRINGS.RONIVANL_AIO_MODCONFIG.GEYSERS.TOOLTIP", "STRINGS.RONIVANL_AIO_MODCONFIG.A_CATEGORY_GENERIC")]
+		public bool ModGeysersGeneric { get; set; } = true;
+
 	}
 }

@@ -47,10 +47,6 @@ namespace Mineral_Processing_Mining.Buildings
 			def.RequiresPowerInput = false;
 			def.ObjectLayer = ObjectLayer.Building;
 			def.UseStructureTemperature = false;
-			def.ThermalConductivity = 0.01f;
-			def.ExhaustKilowattsWhenActive = 0f;
-			def.SelfHeatKilowattsWhenActive = 0f;
-			def.Overheatable = false;
 			def.InputConduitType = ConduitType.Liquid;
 			def.UtilityInputOffset = new CellOffset(0, 0);
 			def.OutputConduitType = ConduitType.Solid;
@@ -58,10 +54,12 @@ namespace Mineral_Processing_Mining.Buildings
 			def.ViewMode = OverlayModes.Power.ID;
 			def.AudioCategory = "HollowMetal";
 			def.AudioSize = "large";
+			def.Overheatable = false;
 			def.Floodable = false;
 			def.Entombable = false;
 			def.Breakable = false;
 			def.Invincible = true;
+			//this ONLY toggles of the build tool afterwards, you need to add the UniquePerWorld tag to the building definition to make it a world exclusive building.
 			def.OnePerWorld = true;
 			return def;
 		}
@@ -69,6 +67,9 @@ namespace Mineral_Processing_Mining.Buildings
 		//--[ Building Operation Definitions ]-----------------------------------------------------------------------------------------------------
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
+
+			KPrefabID component = go.GetComponent<KPrefabID>();
+			component.AddTag(GameTags.UniquePerWorld);
 
 			go.AddOrGet<DropAllWorkable>();
 			go.AddOrGet<BuildingComplete>().isManuallyOperated = false;

@@ -1,4 +1,5 @@
 ﻿using Dupes_Industrial_Overhaul.Chemical_Processing.Chemicals;
+using HarmonyLib;
 using STRINGS;
 using System;
 using System.Collections.Generic;
@@ -879,7 +880,6 @@ namespace RonivansLegacy_ChemicalProcessing
 				}
 			}
 		}
-
 		public class UI
 		{
 			public class MININGGUIDANCEDEVICEPROGRAMSELECTORSIDESCREEN
@@ -984,6 +984,21 @@ namespace RonivansLegacy_ChemicalProcessing
 						public static LocString NAME = "Heavy Comet";
 					}
 				}
+			}
+		}
+
+		public class RONIVANL_AIO_MODCONFIG
+		{
+			public static LocString A_CATEGORY_GENERIC = "Overarching Settings";
+			public static LocString B_CATEGORY_IO = "Chemical Processing - Industrial Overhaul";
+			public static LocString C_CATEGORY_BIOCHEM = "Chemical Processing - Biochemistry";
+			public static LocString D_CATEGORY_METALLURGY = "Mineral Processing - Metallurgy";
+			public static LocString E_CATEGORY_MINING = "Mineral Processing - Mining";
+			public static LocString F_CATEGORY_NUCLEAR = "Nuclear Processing";
+			public class GEYSERS
+			{
+				public static LocString NAME = "Generic Mod Geysers";
+				public static LocString TOOLTIP = "New Geysers are added to the pool of randomly spawned geysers.\nThis will affect worldgen if active (different random geysers are chosen compared to vanilla)\nTurning it off will prevent those geysers from showing up from worldgen naturally unless you use a different mod to add them manually (e.g. customize geyser or CGM)";
 			}
 		}
 	}
