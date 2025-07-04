@@ -15,6 +15,24 @@ namespace RonivansLegacy_ChemicalProcessing
 {
 	class STRINGS
 	{
+		public class DUPLICANTS
+		{
+			public class PROCESSING_AIO_RONIVAN
+			{
+				public static LocString NAME = "Ronivan";
+				public static LocString DESC = "{0}s are great artists who enjoy creating things, even during their free time.";
+			}
+			public class STATUSITEMS
+			{
+				public class ACIDBURNS
+				{
+					public static LocString NOTIFICATION_NAME = "Chemical Burns";
+					public static LocString NOTIFICATION_TOOLTIP = "Duplicants have been exposed to acids.";
+					public static LocString NAME = "Acid Burns";
+					public static LocString TOOLTIP = "This duplicant has been injured from their recent exposure to corrosive acids.";
+				}
+			}
+		}
 		public class BUILDINGS
 		{
 			public class PREFABS
@@ -636,20 +654,7 @@ namespace RonivansLegacy_ChemicalProcessing
 					}
 				}
 			}
-		}
-		public class DUPLICANTS
-		{
-			public class STATUSITEMS
-			{
-				public class ACIDBURNS
-				{
-					public static LocString NOTIFICATION_NAME = "Chemical Burns";
-					public static LocString NOTIFICATION_TOOLTIP = "Duplicants have been exposed to acids.";
-					public static LocString NAME = "Acid Burns";
-					public static LocString TOOLTIP = "This duplicant has been injured from their recent exposure to corrosive acids.";
-				}
-			}
-		}
+		}		
 		public class ELEMENTS
 		{
 			//===== [ Zinc ] ================================
@@ -1086,6 +1091,11 @@ namespace RonivansLegacy_ChemicalProcessing
 			{
 				public static LocString NAME = "Generic Mod Geysers";
 				public static LocString TOOLTIP = "New Geysers are added to the pool of randomly spawned geysers.\nThis will affect worldgen if active (different random geysers are chosen compared to vanilla)\nTurning it off will prevent those geysers from showing up from worldgen naturally unless you use a different mod to add them manually (e.g. customize geyser or CGM)";
+			}
+			public class RONIVANDUPE
+			{
+				public static LocString NAME = "Ronivan Duplicant";
+				public static LocString TOOLTIP = "Ronivan joins the pool of available duplicants, a tribute to his impact on the ONI Community.";
 			}
 		}
 	}

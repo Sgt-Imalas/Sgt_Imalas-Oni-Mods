@@ -17,6 +17,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
             public static void Prefix(Assets __instance)
 			{
 				InjectionMethods.AddSpriteToAssets(__instance, "icon_mining_occurence");
+				InjectionMethods.AddSpriteToAssets(__instance, "dreamIcon_Processing_AIO_Ronivan");
 			}
         }
     }

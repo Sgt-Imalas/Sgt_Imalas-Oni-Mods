@@ -18,6 +18,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			}
 			public static void Postfix(Db __instance)
 			{
+				ModPersonalities.Register(__instance.Personalities);
 				BuildingInjection.AddBuildingsToTech();
 				ModElements.OverrideDebrisAnims();
 				HarvestablePOIAdditions.AddExtraPOIElements();
