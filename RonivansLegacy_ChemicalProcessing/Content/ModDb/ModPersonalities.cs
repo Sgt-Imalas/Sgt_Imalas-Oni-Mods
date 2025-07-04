@@ -19,7 +19,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				"Male",
 				"Sweet",
 				"StressVomiter",
-				"StickerBomber",
+				"SuperProductive",
 				"glitter",
 				"GrantSkill_Engineering1", //congenital mechatronics engineering
 				3,
