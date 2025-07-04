@@ -28,7 +28,7 @@ namespace UtilLibs
 			PRegistry.PutData(TranslationsFixedKey, true);
 
 			FixRoomConstrains();
-			FixTraitTranslations();
+			//FixTraitTranslations(); //needs to be called after dbinit ...
 			FixSettingsTranslations();
 		}
 		static void FixTraitTranslations()
@@ -190,11 +190,11 @@ namespace UtilLibs
 						SgtLogger.error("Error while trying to fix translations: \n" + ex.Message);
 					}
 				}
-				SgtLogger.l("Localization reloaded:");
-				foreach (var kvp in LocalizedStrings)
-				{
-					SgtLogger.l(kvp.Value, kvp.Key);
-				}
+				//SgtLogger.l("Localization reloaded:");
+				//foreach (var kvp in LocalizedStrings)
+				//{
+				//	SgtLogger.l(kvp.Value, kvp.Key);
+				//}
 			}
 			return LocalizedStrings.TryGetValue(key, out translatedString);
 		}

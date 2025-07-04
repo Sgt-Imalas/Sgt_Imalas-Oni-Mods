@@ -14,6 +14,8 @@ using UtilLibs.UIcmp;
 using static SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT;
 using static STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS;
 using static SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST;
+using UtilLibs.UI.FUI.Unity_UI_Extensions.Scripts.Controls.ReorderableList;
+using static OldNoteEntriesV5;
 
 namespace SetStartDupes.CarePackageEditor.UI
 {
@@ -42,11 +44,12 @@ namespace SetStartDupes.CarePackageEditor.UI
 		public LocText AmountUnitLabel;
 		public LocText RequiredDlcsText;
 
+		GameObject NoneEntry;
 
 		FInputField2 UnlockAtCycleNumberInput;
 		FToggle UnlockAtCycleEnabled;
 		FToggle UnlockDiscoveredEnabled;
-
+		ReorderableList Reorderable;
 
 		GameObject Details;
 
@@ -72,44 +75,51 @@ namespace SetStartDupes.CarePackageEditor.UI
 			Instance.Show(true);
 			Instance.ConsumeMouseScroll = true;
 			Instance.transform.SetAsLastSibling();
-			Instance.ApplyBlueprintFilter();
+			Instance.ClearFilter();
 			Instance.SelectOutline(null);
 		}
-
 		public void UpdateEntryList()
 		{
-			foreach (var outline in CarePackageOutlineManager.GetVanillaCarePackageOutlines())
-			{
-				var uiElement = AddOrGetVanillaCarePackageOutlineUIEntry(outline);
-				uiElement.UpdateUI();
-			}
 			foreach (var outline in CarePackageOutlineManager.GetExtraCarePackageOutlines())
 			{
 				var uiElement = AddOrGetCarePackageOutlineUIEntry(outline);
 				uiElement.UpdateUI();
 			}
+			NoneEntry.SetActive(OutlineEntries.Any());
+			SortEntryList();
+			ClearFilter();
 		}
+		public void SortEntryList()
+		{
+			if (!Config.Instance.CarePackageEntriesSorted)
+				return;
+			var editorOutlines = CarePackageOutlineManager.GetExtraCarePackageOutlines().OrderBy((outline) => outline.GetItemName()).ToHashSet();
+			foreach (var outline in editorOutlines)
+			{
+				var uiElement = AddOrGetCarePackageOutlineUIEntry(outline);
+				uiElement.transform.SetAsLastSibling();
+			}
+		}
+
 		void TryResetEntries()
 		{
-			DialogUtil.CreateConfirmDialogFrontend(STRINGS.UI.CAREPACKAGEEDITOR.RESETALLPACKAGES.TITLE, STRINGS.UI.CAREPACKAGEEDITOR.RESETALLPACKAGES.TEXT,on_confirm: ResetEntries, on_cancel: () => { });
+			DialogUtil.CreateConfirmDialogFrontend(STRINGS.UI.CAREPACKAGEEDITOR.RESETALLPACKAGES.TITLE, STRINGS.UI.CAREPACKAGEEDITOR.RESETALLPACKAGES.TEXT, on_confirm: ResetEntries, on_cancel: () => { });
 		}
 		public void ResetEntries()
 		{
 			SelectedOutline = null;
 			CarePackageOutlineManager.ResetExtraCarePackages();
-			var activeOutlines = CarePackageOutlineManager.GetExtraCarePackageOutlines().ToHashSet();
+			ResetEntriesUI();
+		}
+		void ResetEntriesUI()
+		{
 			foreach (var entry in OutlineEntries)
 			{
-				Util.KDestroyGameObject(entry.Value.gameObject);
+				UnityEngine.Object.DestroyImmediate(entry.Value.gameObject);
 			}
 			OutlineEntries.Clear();
-			foreach (var entry in VanillaOutlineEntries)
-			{
-				Util.KDestroyGameObject(entry.Value.gameObject);
-			}
-			VanillaOutlineEntries.Clear();
 			UpdateEntryList();
-			Instance.ApplyBlueprintFilter(FilterBar.Text);
+			Instance.ApplyCarePackageFilter(FilterBar.Text);
 		}
 
 		private bool initialized = false;
@@ -125,16 +135,43 @@ namespace SetStartDupes.CarePackageEditor.UI
 			var ResetAllButton = transform.Find("Buttons/ResetButton").gameObject.AddOrGet<FButton>();
 			ResetAllButton.OnClick += TryResetEntries;
 
-			OutlineEntryPrefab = transform.Find("HorizontalLayout/ObjectList/ScrollArea/Content/PresetEntryPrefab").gameObject;
+			NoneEntry = transform.Find("HorizontalLayout/ObjectList/ScrollArea/NoneAvailable").gameObject;
+			UIUtils.TryChangeText(NoneEntry.transform, "Label", SCROLLAREA.CONTENT.NONEAVAILABLE.LABEL);
+			var noneelement = NoneEntry.AddOrGet<ReorderableListElement>();
+			noneelement.IsGrabbable = false;
+			noneelement.isDroppableInSpace = false;
+			noneelement.IsTransferable = false;
+
+			OutlineEntryPrefab = transform.Find("HorizontalLayout/ObjectList/ScrollArea/PresetEntryPrefab").gameObject;
 			OutlineEntryPrefab.AddOrGet<CarePackageOutlineEntry>();
 			OutlineEntryPrefab.SetActive(false);
+			var element = OutlineEntryPrefab.AddOrGet<ReorderableListElement>();
+			element.IsGrabbable = !Config.Instance.CarePackageEntriesSorted;
 
-			VanillaOutlineEntryPrefab = transform.Find("HorizontalLayout/ObjectList/ScrollArea/Content/PresetEntryUneditablePrefab").gameObject;
+			VanillaOutlineEntryPrefab = transform.Find("HorizontalLayout/ObjectList/ScrollArea/PresetEntryUneditablePrefab").gameObject;
 			VanillaOutlineEntryPrefab.AddOrGet<VanillaCarePackageOutlineEntry>();
+			var element2 = VanillaOutlineEntryPrefab.AddOrGet<ReorderableListElement>();
+			element2.IsGrabbable = false; // vanilla entries are not draggable
+
 			VanillaOutlineEntryPrefab.SetActive(false);
 
 
-			OutlineEntryContainer = OutlineEntryPrefab.transform.parent.gameObject;
+			OutlineEntryContainer = transform.Find("HorizontalLayout/ObjectList/ScrollArea/Content").gameObject;
+
+			Reorderable = OutlineEntryContainer.AddOrGet<ReorderableList>();
+			Reorderable.ContentLayout = OutlineEntryContainer.FindComponent<VerticalLayoutGroup>();
+			Reorderable.IsDraggable = true;
+			Reorderable.IsDropable = true;
+			Reorderable.OnElementDropped.AddListener(dropEvent =>
+			{
+				SgtLogger.l("ReorderableList: Element dropped from " + dropEvent.FromIndex + " to " + dropEvent.ToIndex);
+				int oldUIIndex = dropEvent.FromIndex;
+				int newUIIndex = dropEvent.ToIndex;
+				if (oldUIIndex == newUIIndex)
+					return;
+
+				CarePackageOutlineManager.HandleRepositioning(oldUIIndex, newUIIndex);
+			});
 
 
 
@@ -163,7 +200,7 @@ namespace SetStartDupes.CarePackageEditor.UI
 			AmountUnitLabel = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/AmountInput/AmountLabel").FindOrAddComponent<LocText>();
 
 			FilterBar = transform.Find("HorizontalLayout/ObjectList/SearchBar/Input").FindOrAddComponent<FInputField2>();
-			FilterBar.OnValueChanged.AddListener(ApplyBlueprintFilter);
+			FilterBar.OnValueChanged.AddListener(ApplyCarePackageFilter);
 			FilterBar.Text = string.Empty;
 
 			AddCarePackageInput = transform.Find("HorizontalLayout/ObjectList/CarePackageItemId").FindOrAddComponent<FInputField2>();
@@ -199,7 +236,7 @@ namespace SetStartDupes.CarePackageEditor.UI
 				CarePackageOutlineManager.AddNewCarePackage(itemID);
 				DialogUtil.CreateConfirmDialogFrontend(STRINGS.UI.CAREPACKAGEEDITOR.CREATECAREPACKAGEPOPUP.TITLE, string.Format(STRINGS.UI.CAREPACKAGEEDITOR.CREATECAREPACKAGEPOPUP.SUCCESS, CarePackageItemHelper.GetSpawnableName(itemID)));
 			}
-			else if(NameIdHelper.TryGetIdFromName(itemID, out var id) && Assets.GetPrefab(id))
+			else if (NameIdHelper.TryGetIdFromName(itemID, out var id) && Assets.GetPrefab(id))
 			{
 				if (Assets.GetPrefab(id))
 				{
@@ -213,19 +250,22 @@ namespace SetStartDupes.CarePackageEditor.UI
 			}
 			AddCarePackageInput.Text = (string.Empty);
 		}
-
-		public void ApplyBlueprintFilter(string filterstring = "")
+		public void ClearFilter()
 		{
+			FilterBar.Text = string.Empty;
+			ApplyCarePackageFilter();
+		}
+
+		public void ApplyCarePackageFilter(string filterstring = "")
+		{
+			Reorderable.IsDraggable = !VanillaCarePackagesShown && filterstring.Length == 0 && !Config.Instance.CarePackageEntriesSorted;
 			foreach (var go in OutlineEntries)
 			{
 				go.Value.gameObject.SetActive(filterstring == string.Empty ? true : ShowInFilter(filterstring, go.Key.GetDescriptionString()));
 			}
 			foreach (var go in VanillaOutlineEntries)
 			{
-				if(!VanillaCarePackagesShown)
-					go.Value.gameObject.SetActive(false);
-				else
-					go.Value.gameObject.SetActive(filterstring == string.Empty ? true : ShowInFilter(filterstring, go.Key.GetDescriptionString()));
+				go.Value.gameObject.SetActive(filterstring == string.Empty ? true : ShowInFilter(filterstring, go.Key.GetDescriptionString()));
 			}
 		}
 
@@ -268,7 +308,7 @@ namespace SetStartDupes.CarePackageEditor.UI
 			}
 			OnOutlineEntryUpdated();
 		}
-		void UpdateItemCount (string text)
+		void UpdateItemCount(string text)
 		{
 			if (SelectedOutline == null)
 				return;
@@ -305,7 +345,26 @@ namespace SetStartDupes.CarePackageEditor.UI
 		public void SetVanillaCarePackagesEnabled(bool enabled)
 		{
 			VanillaCarePackagesShown = enabled;
-			ApplyBlueprintFilter(FilterBar.Text);//ui refresh
+			if (enabled)
+			{
+				var vanillaCarePackageOutlines = CarePackageOutlineManager.GetVanillaCarePackageOutlines();
+				vanillaCarePackageOutlines.Reverse();
+				foreach (var outline in vanillaCarePackageOutlines)
+				{
+					var uiElement = AddOrGetVanillaCarePackageOutlineUIEntry(outline);
+					uiElement.UpdateUI();
+				}
+			}
+			else
+			{
+				foreach (var entry in VanillaOutlineEntries)
+				{
+					UnityEngine.Object.DestroyImmediate(entry.Value.gameObject);
+				}
+				VanillaOutlineEntries.Clear();
+			}
+
+			ApplyCarePackageFilter(FilterBar.Text);//ui refresh
 		}
 
 		public override void OnKeyDown(KButtonEvent e)
@@ -326,6 +385,7 @@ namespace SetStartDupes.CarePackageEditor.UI
 				return entry;
 
 			var newEntry = Util.KInstantiateUI<VanillaCarePackageOutlineEntry>(VanillaOutlineEntryPrefab.gameObject, OutlineEntryContainer, true);
+			newEntry.transform.SetAsFirstSibling();
 			newEntry.UpdateOutline(outline);
 			VanillaOutlineEntries.Add(outline, newEntry);
 			return newEntry;
@@ -344,7 +404,7 @@ namespace SetStartDupes.CarePackageEditor.UI
 		}
 		internal void RemoveOutlineEntry(CarePackageOutline targetOutline)
 		{
-			if(OutlineEntries.TryGetValue(targetOutline, out var UIEntry))
+			if (OutlineEntries.TryGetValue(targetOutline, out var UIEntry))
 			{
 				OutlineEntries.Remove(targetOutline);
 				Util.KDestroyGameObject(UIEntry.gameObject);

@@ -63,6 +63,7 @@ namespace BlueprintsV2.Tools
 		public override void OnActivateTool()
 		{
 			base.OnActivateTool();
+			BlueprintState.IsPlacingSnapshot = false;
 
 			ToolMenu.Instance.PriorityScreen.Show();
 			ShowBlueprintsWindow();

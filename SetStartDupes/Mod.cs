@@ -27,8 +27,8 @@ namespace SetStartDupes
             new POptions().RegisterOptions(this, typeof(Config));
 
             SgtLogger.debuglog("Initializing file paths..");
-            ModAssets.DupeTemplatePath = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config"), "DuplicantStatPresets"));
-			ModAssets.ExtraCarePackageFileInfo = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config"), "DSS_ExtraCarePackages.json"));
+            ModAssets.DupeTemplatePath = FileSystem.Normalize(Path.Combine(Manager.GetDirectory(), "config", "DuplicantStatPresets"));
+			ModAssets.ExtraCarePackageFileInfo = FileSystem.Normalize(Path.Combine(Manager.GetDirectory(), "config", "DSS_ExtraCarePackages.json"));
 
 
 			ModAssets.DupeTearTemplatePath = FileSystem.Normalize(Path.Combine(ModAssets.DupeTemplatePath, "TearTravelers"));

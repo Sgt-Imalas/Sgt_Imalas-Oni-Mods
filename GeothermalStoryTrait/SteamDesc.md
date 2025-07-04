@@ -1,4 +1,4 @@
-[h1]Fabricator Recipe Control[/h1]
+[h1]Geothermal Story Trait[/h1]
 
 This mod adds a new story trait that allows adding the geothermal heat pump to other clusters.
 

@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using KMod;
 using PeterHan.PLib.AVC;
+using PeterHan.PLib.Core;
 using System;
 using System.Reflection;
 using System.Threading;
@@ -26,6 +27,7 @@ namespace UtilLibs
 		public static void LogVersion(UserMod2 usermod, Harmony _harmony, bool VersionChecking = true)
 		{
 			harmony = _harmony;
+			//usermod.mod.packagedModInfo.version = usermod.assembly.GetFileVersion();
 			if (VersionChecking)
 			{
 				ModVersionCheck.VersionChecker.HandleVersionChecking(usermod, harmony);
@@ -33,6 +35,7 @@ namespace UtilLibs
 				//VersionChecker.Register(usermod, new JsonURLVersionChecker("https://raw.githubusercontent.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/master/ModVersionData.json")); //Currently partially broken
 				VersionChecker.Register(usermod, new SteamVersionChecker());
 			}
+			//ModVersionCheck.VersionChecker.FixVersionPatch(usermod, harmony);
 			CompatibilityNotifications.FixLogging(harmony);
 			debuglog($"{usermod.mod.staticID} - Mod Version: {usermod.mod.packagedModInfo.version} ");
 		}

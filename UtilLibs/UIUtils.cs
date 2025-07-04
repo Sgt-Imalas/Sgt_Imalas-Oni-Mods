@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using PeterHan.PLib.Actions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,17 @@ using static KAnim.Build;
 
 namespace UtilLibs
 {
-	public class UIUtils
+	public static class UIUtils
 	{
+		public static string GetFormattedPActionDescription(this PAction action)
+		{
+			if (action == null)
+				return string.Empty;
+			return global::STRINGS.UI.FormatAsHotkey("[" + GameUtil.GetActionString(action.GetKAction()) + "]");
+		}
+
+
+
 		public static ColorStyleSetting BuildColorStyleFromColor(Color color)
 		{
 			var ColorStyle = (ColorStyleSetting)ScriptableObject.CreateInstance("ColorStyleSetting");

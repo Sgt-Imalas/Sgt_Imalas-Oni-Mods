@@ -186,6 +186,16 @@ namespace BlueprintsV2.ModAPI
 			}
 		}
 
+		public static HashSet<string> GetDataHandlerIDs()
+		{
+			if (RegisteredDataHandlerIDs == null)
+				RegisteredDataHandlerIDs = new HashSet<string>(AdditionalBuildingDataEntries.Keys);
+			return RegisteredDataHandlerIDs;
+		}
+		private static HashSet<string> RegisteredDataHandlerIDs = null;
+
+		public static bool HasDataHandler(string typeName) => AdditionalBuildingDataEntries.ContainsKey(typeName);
+
 		public static Dictionary<string, BuildingDataStorage> AdditionalBuildingDataEntries = new();
 
 		/// <summary>
@@ -222,15 +232,30 @@ namespace BlueprintsV2.ModAPI
 		/// <param name="buildingConfig">the blueprint data where the additional data entries are added via key-value system</param>
 		public static void StoreAdditionalBuildingData(GameObject gameObject, BuildingConfig buildingConfig)
 		{
+			foreach (var dataEntry in GetAdditionalBuildingData(gameObject))
+			{
+				buildingConfig.AddBuildingData(dataEntry.Key, dataEntry.Value);
+			}
+		}
+
+		/// <summary>
+		/// Returns any registered building data values in the blueprint building
+		/// </summary>
+		/// <param name="gameObject">the gameobject of the building</param>
+		/// <param name="buildingConfig">the blueprint data where the additional data entries are added via key-value system</param>
+		public static Dictionary<string, JObject> GetAdditionalBuildingData(GameObject gameObject)
+		{
+			var buildingData = new Dictionary<string, JObject>();
 			foreach (var kvp in AdditionalBuildingDataEntries)
 			{
 				var DataHandler = kvp.Value;
 
 				var data = DataHandler.GetDataToStore(gameObject);
 				if (data != null)
-					buildingConfig.AddBuildingData(kvp.Key, data);
+					buildingData.Add(kvp.Key, data);
 
 			}
+			return buildingData;
 		}
 
 		/// <summary>
@@ -304,16 +329,27 @@ namespace BlueprintsV2.ModAPI
 			RegisterInternally(nameof(Artable), SkinHelper.TryStoreArtableSkin, SkinHelper.TryApplyArtableSkin);
 			RegisterInternally(nameof(BuildingFacade), SkinHelper.TryStoreBuildingSkin, SkinHelper.TryApplyBuildingSkin);
 
+			RegisterInternally(nameof(Prioritizable), DataTransfer_Prioritizable.TryGetData, DataTransfer_Prioritizable.TryApplyData);
 			RegisterInternally(nameof(BuildingEnabledButton), DataTransfer_BuildingEnabledButton.TryGetData, DataTransfer_BuildingEnabledButton.TryApplyData);
 			RegisterInternally(nameof(SingleEntityReceptacle), DataTransfer_SingleEntityReceptacle.TryGetData, DataTransfer_SingleEntityReceptacle.TryApplyData);
 			RegisterInternally(nameof(Filterable), DataTransfer_Filterable.TryGetData, DataTransfer_Filterable.TryApplyData);
+			RegisterInternally(nameof(FoodStorage), DataTransfer_FoodStorage.TryGetData, DataTransfer_FoodStorage.TryApplyData);
 			RegisterInternally(nameof(TreeFilterable), DataTransfer_TreeFilterable.TryGetData, DataTransfer_TreeFilterable.TryApplyData);
+			RegisterInternally(nameof(FlatTagFilterable), DataTransfer_FlatTagFilterable.TryGetData, DataTransfer_FlatTagFilterable.TryApplyData);
 			RegisterInternally(nameof(Valve), DataTransfer_Valve.TryGetData, DataTransfer_Valve.TryApplyData);
 			RegisterInternally(nameof(LimitValve), DataTransfer_LimitValve.TryGetData, DataTransfer_LimitValve.TryApplyData);
 			RegisterInternally(nameof(AccessControl), DataTransfer_AccessControl.TryGetData, DataTransfer_AccessControl.TryApplyData);
+			RegisterInternally(nameof(EnergyGenerator), DataTransfer_EnergyGenerator.TryGetData, DataTransfer_EnergyGenerator.TryApplyData);
+			RegisterInternally(nameof(AutoDisinfectable), DataTransfer_AutoDisinfectable.TryGetData, DataTransfer_AutoDisinfectable.TryApplyData);
+			RegisterInternally(nameof(DirectionControl), DataTransfer_DirectionControl.TryGetData, DataTransfer_DirectionControl.TryApplyData);
+			RegisterInternally(nameof(Repairable), DataTransfer_Repairable.TryGetData, DataTransfer_Repairable.TryApplyData);
+			RegisterInternally(nameof(Door), DataTransfer_Door.TryGetData, DataTransfer_Door.TryApplyData);
+			RegisterInternally(nameof(Clinic), DataTransfer_Clinic.TryGetData, DataTransfer_Clinic.TryApplyData);
+			RegisterInternally(nameof(SpaceHeater), DataTransfer_SpaceHeater.TryGetData, DataTransfer_SpaceHeater.TryApplyData);
 
 
 			RegisterInternally(nameof(Switch), DataTransfer_Switch.TryGetData, DataTransfer_Switch.TryApplyData);
+			RegisterInternally(nameof(LogicAlarm), DataTransfer_LogicAlarm.TryGetData, DataTransfer_LogicAlarm.TryApplyData);
 			RegisterInternally(nameof(LogicCritterCountSensor), DataTransfer_LogicCritterCountSensor.TryGetData, DataTransfer_LogicCritterCountSensor.TryApplyData);
 			RegisterInternally(nameof(LogicTimeOfDaySensor), DataTransfer_LogicTimeOfDaySensor.TryGetData, DataTransfer_LogicTimeOfDaySensor.TryApplyData);
 			RegisterInternally(nameof(LogicTimerSensor), DataTransfer_LogicTimerSensor.TryGetData, DataTransfer_LogicTimerSensor.TryApplyData);
@@ -336,6 +372,8 @@ namespace BlueprintsV2.ModAPI
 			RegisterInternally(nameof(HighEnergyParticleSpawner), DataTransfer_HighEnergyParticleSpawner.TryGetData, DataTransfer_HighEnergyParticleSpawner.TryApplyData);
 			RegisterInternally(nameof(HighEnergyParticleRedirector), DataTransfer_HighEnergyParticleRedirector.TryGetData, DataTransfer_HighEnergyParticleRedirector.TryApplyData);
 			RegisterInternally(nameof(HEPBattery), DataTransfer_HEPBattery.TryGetData, DataTransfer_HEPBattery.TryApplyData);
+
+			RegisterInternally(nameof(UserNameable), DataTransfer_UserNameable.TryGetData, DataTransfer_UserNameable.TryApplyData);
 
 		}
 		public static bool
@@ -421,6 +459,7 @@ namespace BlueprintsV2.ModAPI
 			{
 				RegisterInternally("Backwalls_Backwall", SkinHelper.TryStoreBackwall, SkinHelper.TryApplyBackwall, -10);
 			}
+
 		}
 
 	}

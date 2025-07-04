@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using KMod;
 using Newtonsoft.Json;
 using PeterHan.PLib.AVC;
 using PeterHan.PLib.Core;
@@ -10,6 +11,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using static PeterHan.PLib.AVC.JsonURLVersionChecker;
+using static UtilLibs.ModVersionCheck.OutdatedVersionInfoPatches;
 
 namespace UtilLibs.ModVersionCheck
 {
@@ -317,12 +319,12 @@ namespace UtilLibs.ModVersionCheck
 							///Semver version comparison
 							///
 							string sourceVersionString = localMod.packagedModInfo.version;
-							if(sourceVersionString.Count(c => c == '.') < 3)
+							if (sourceVersionString.Count(c => c == '.') < 3)
 							{
 								sourceVersionString += ".0";
 							}
 
-							string targetVersionString = serverVersionData[localModId]; 
+							string targetVersionString = serverVersionData[localModId];
 							if (targetVersionString.Count(c => c == '.') < 3)
 							{
 								targetVersionString += ".0";
@@ -406,5 +408,27 @@ namespace UtilLibs.ModVersionCheck
 		internal static bool UI_Built() => PRegistry.GetData<bool>(UIInitializedKey);
 
 		internal static void SetUIConstructed(bool constructed) => PRegistry.PutData(UIInitializedKey, constructed);
+
+		internal static void FixVersionPatch(UserMod2 usermod, Harmony harmony)
+		{
+			This = usermod;
+			var m_TargetMethod = AccessTools.Method(typeof(KMod.Mod), "ScanContent");
+			if (m_TargetMethod == null)
+			{
+				SgtLogger.warning("KMod.Mod.ScanContent was null!");
+				return;
+			}
+
+			var m_Postfix = AccessTools.Method(typeof(VersionChecker), nameof(VersionChecker.FixVersionPostfix));
+
+			harmony.Patch(m_TargetMethod, postfix: new HarmonyMethod(m_Postfix, Priority.LowerThanNormal)
+				);
+		}
+		static KMod.UserMod2 This;
+		static void FixVersionPostfix(KMod.Mod __instance)
+		{
+			if (__instance.label.id == This.mod.label.id && __instance.label.distribution_platform == This.mod.label.distribution_platform)
+				__instance.packagedModInfo.version = This.assembly.GetFileVersion();
+		}
 	}
 }

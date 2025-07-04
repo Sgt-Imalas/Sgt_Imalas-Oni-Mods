@@ -11,15 +11,46 @@ namespace BlueprintsV2.BlueprintData
 {
 	internal class DataTransferHelpers
 	{
+		internal class DataTransfer_UserNameable
+		{
+			internal static JObject TryGetData(GameObject arg)
+			{
+				if (arg.TryGetComponent<UserNameable>(out var component))
+				{
+					return new JObject()
+					{
+						{ "savedName", component.savedName},
+					};
+				}
+				return null;
+			}
+			public static void TryApplyData(GameObject building, JObject jObject)
+			{
+				if (jObject == null)
+					return;
+				if (building.TryGetComponent<UserNameable>(out var targetComponent))
+				{
+					var t1 = jObject.GetValue("savedName");
+					if (t1 == null)
+						return;
+					var savedName = t1.Value<string>();
+					targetComponent.SetName(savedName);
+				}
+			}
+		}
 		internal class DataTransfer_BuildingEnabledButton
 		{
 			internal static JObject TryGetData(GameObject arg)
 			{
 				if (arg.TryGetComponent<BuildingEnabledButton>(out var component))
 				{
+					bool shouldBeEnabled = component.IsEnabled;
+					if(component.queuedToggle)
+						shouldBeEnabled = !shouldBeEnabled; //queued toggle means it will be toggled to the opposite state, so we need to invert it here
+
 					return new JObject()
 					{
-						{ "IsEnabled", component.IsEnabled},
+						{ "IsEnabled", shouldBeEnabled},
 					};
 				}
 				return null;
@@ -36,6 +67,53 @@ namespace BlueprintsV2.BlueprintData
 						return;
 					var IsEnabled = t1.Value<bool>();
 					targetComponent.IsEnabled = IsEnabled;
+				}
+			}
+		}
+		internal class DataTransfer_Repairable
+		{
+			internal static JObject TryGetData(GameObject arg)
+			{
+				if (arg.TryGetComponent<Repairable>(out var component))
+				{
+					bool repairForbiddenState = false;
+					if (component.smi != null)
+					{
+						try
+						{
+							repairForbiddenState = component.smi?.GetCurrentState() == component.smi?.sm?.forbidden;
+						}
+						catch (Exception e)
+						{
+							SgtLogger.l("Error getting repairable state: " + e.Message);
+						}
+					}
+					return new JObject()
+					{
+						{ "ForbiddenRepair", repairForbiddenState},
+					};
+				}
+				return null;
+			}
+			public static void TryApplyData(GameObject building, JObject jObject)
+			{
+				if (jObject == null)
+					return;
+				if (building.TryGetComponent<Repairable>(out var targetComponent))
+				{
+
+					var t1 = jObject.GetValue("ForbiddenRepair");
+					if (t1 == null)
+						return;
+					var RepairForbidden = t1.Value<bool>();
+					if(targetComponent.smi == null)
+					{
+						SgtLogger.l("Repairable component has no state machine, skipping repair state transfer.");
+						return;
+					}
+
+					if (RepairForbidden) ///enabled is default and this smi is buggy af, so we only set it if its forbidden
+						targetComponent.CancelRepair();
 				}
 			}
 		}
@@ -74,8 +152,7 @@ namespace BlueprintsV2.BlueprintData
 
 					return new JObject()
 					{
-                        //{ "activeLocations", JsonConvert.SerializeObject(component.activeLocations.Select(axial => new Tuple<int,int>(axial.Q,axial.R)))},
-                        { "requestedEntityTag", requestedEntityTagString},
+						{ "requestedEntityTag", requestedEntityTagString},
 						{ "requestedEntityAdditionalFilterTag", additionalFilterTagString},
 						{ "autoReplaceEntity", component.autoReplaceEntity }
 					};
@@ -166,9 +243,9 @@ namespace BlueprintsV2.BlueprintData
 				{
 					return new JObject()
 					{
-						{ "maxCount", JsonConvert.SerializeObject(component.maxCount)},
-						{ "resetCountAtMax", JsonConvert.SerializeObject(component.resetCountAtMax)},
-						{ "advancedMode", JsonConvert.SerializeObject(component.advancedMode)},
+						{ "maxCount", component.maxCount},
+						{ "resetCountAtMax", component.resetCountAtMax},
+						{ "advancedMode", component.advancedMode},
 					};
 				}
 				return null;
@@ -383,7 +460,6 @@ namespace BlueprintsV2.BlueprintData
 				}
 			}
 		}
-
 		internal class DataTransfer_IActivationRangeTarget
 		{
 			internal static JObject TryGetData(GameObject arg)
@@ -413,6 +489,69 @@ namespace BlueprintsV2.BlueprintData
 					if (t2 == null)
 						return;
 					targetComponent.ActivateValue = t2.Value<int>();
+				}
+			}
+		}
+		internal class DataTransfer_SpaceHeater
+		{
+			internal static JObject TryGetData(GameObject arg)
+			{
+				if (arg.TryGetComponent<SpaceHeater>(out var component))
+				{
+					SgtLogger.l("heater produce heat: " + component.produceHeat);
+					if (!component.produceHeat)
+						return null;
+
+					return new JObject()
+					{
+						{ "CurrentPowerConsumption", component.CurrentPowerConsumption},
+					};
+				}
+				return null;
+			}
+			public static void TryApplyData(GameObject building, JObject jObject)
+			{
+				if (jObject == null)
+					return;
+				if (building.TryGetComponent<SpaceHeater>(out var targetComponent))
+				{
+					SgtLogger.l("heater produce heat, applying: " + targetComponent.produceHeat);
+					if (!targetComponent.produceHeat)
+						return;
+
+					var t1 = jObject.GetValue("CurrentPowerConsumption");
+					if (t1 == null)
+						return;					
+					var CurrentPowerConsumption = t1.Value<float>();
+					targetComponent.SetUserSpecifiedPowerConsumptionValue(CurrentPowerConsumption);
+				}
+			}
+		}
+		internal class DataTransfer_Clinic
+		{
+			internal static JObject TryGetData(GameObject arg)
+			{
+				if (arg.TryGetComponent<Clinic>(out var component))
+				{
+					return new JObject()
+					{
+						{ "sicknessSliderValue", component.sicknessSliderValue},
+					};
+				}
+				return null;
+			}
+			public static void TryApplyData(GameObject building, JObject jObject)
+			{
+				if (jObject == null)
+					return;
+				if (building.TryGetComponent<Clinic>(out var targetComponent))
+				{
+					var t1 = jObject.GetValue("sicknessSliderValue");
+					if (t1 == null)
+						return;
+
+					var sicknessSliderValue = t1.Value<float>();
+					(targetComponent as ISliderControl).SetSliderValue(sicknessSliderValue, 0);
 				}
 			}
 		}
@@ -449,6 +588,159 @@ namespace BlueprintsV2.BlueprintData
 				}
 			}
 		}
+		internal class DataTransfer_FoodStorage
+		{
+			internal static JObject TryGetData(GameObject arg)
+			{
+				if (arg.TryGetComponent<FoodStorage>(out var component))
+				{
+					return new JObject()
+					{
+						{ "SpicedFoodOnly", component.SpicedFoodOnly},
+					};
+				}
+				return null;
+			}
+			public static void TryApplyData(GameObject building, JObject jObject)
+			{
+				if (jObject == null)
+					return;
+				if (building.TryGetComponent<FoodStorage>(out var targetComponent))
+				{
+					var t1 = jObject.GetValue("SpicedFoodOnly");
+					if (t1 != null)
+					{
+						targetComponent.SpicedFoodOnly = t1.Value<bool>();
+					}
+				}
+			}
+		}
+		internal class DataTransfer_AutoDisinfectable
+		{
+			internal static JObject TryGetData(GameObject arg)
+			{
+				if (arg.TryGetComponent<AutoDisinfectable>(out var component))
+				{
+					return new JObject()
+					{
+						{ "enableAutoDisinfect", component.enableAutoDisinfect},
+					};
+				}
+				return null;
+			}
+			public static void TryApplyData(GameObject building, JObject jObject)
+			{
+				if (jObject == null)
+					return;
+				if (building.TryGetComponent<AutoDisinfectable>(out var targetComponent))
+				{
+					var t1 = jObject.GetValue("enableAutoDisinfect");
+					if (t1 != null)
+					{
+						bool enableAutoDisinfect = t1.Value<bool>();
+						if (enableAutoDisinfect)
+							targetComponent.EnableAutoDisinfect();
+						else
+							targetComponent.DisableAutoDisinfect();
+					}
+				}
+			}
+		}
+		internal class DataTransfer_Door
+		{
+			internal static JObject TryGetData(GameObject arg)
+			{
+				if (arg.TryGetComponent<Door>(out var component))
+				{
+					if (!component.hasComplexUserControls)
+						return null;
+					return new JObject()
+					{
+						{ "requestedState", (int)component.RequestedState},
+					};
+				}
+				return null;
+			}
+			public static void TryApplyData(GameObject building, JObject jObject)
+			{
+				if (jObject == null)
+					return;
+				if (building.TryGetComponent<Door>(out var targetComponent))
+				{
+					if (!targetComponent.hasComplexUserControls)
+						return;
+
+					var t1 = jObject.GetValue("requestedState");
+					if (t1 != null)
+					{
+						var requestedState = (Door.ControlState)t1.Value<int>();
+						targetComponent.requestedState = requestedState;
+						targetComponent.ApplyRequestedControlState();
+					}
+				}
+			}
+		}
+		internal class DataTransfer_DirectionControl
+		{
+			internal static JObject TryGetData(GameObject arg)
+			{
+				if (arg.TryGetComponent<DirectionControl>(out var component))
+				{
+					return new JObject()
+					{
+						{ "allowedDirection", (int)component.allowedDirection},
+					};
+				}
+				return null;
+			}
+			public static void TryApplyData(GameObject building, JObject jObject)
+			{
+				if (jObject == null)
+					return;
+				if (building.TryGetComponent<DirectionControl>(out var targetComponent))
+				{
+					var t1 = jObject.GetValue("allowedDirection");
+					if (t1 != null)
+					{
+						WorkableReactable.AllowedDirection allowedDirection = (WorkableReactable.AllowedDirection)t1.Value<int>();
+						targetComponent.SetAllowedDirection(allowedDirection);
+					}
+				}
+			}
+		}
+
+		internal class DataTransfer_Prioritizable
+		{
+			internal static JObject TryGetData(GameObject arg)
+			{
+				if (arg.TryGetComponent<Prioritizable>(out var component))
+				{
+					var prio = component.GetMasterPriority();
+					SgtLogger.l("Getting prio " + prio.priority_value + " from " + arg.name);
+					return new JObject()
+					{
+						{ "masterPrioritySetting", JsonConvert.SerializeObject(prio)},
+					};
+				}
+				return null;
+			}
+			public static void TryApplyData(GameObject building, JObject jObject)
+			{
+				if (jObject == null)
+					return;
+				if (building.TryGetComponent<Prioritizable>(out var targetComponent))
+				{
+					var t1 = jObject.GetValue("masterPrioritySetting");
+					if (t1 != null)
+					{
+						var masterPrioritySettingJson = t1.Value<string>();
+						var masterPrioritySetting = JsonConvert.DeserializeObject<PrioritySetting>(masterPrioritySettingJson);
+						SgtLogger.l("applying prio: " + masterPrioritySetting.priority_value);
+						targetComponent.SetMasterPriority(masterPrioritySetting);
+					}
+				}
+			}
+		}
 		internal class DataTransfer_TreeFilterable
 		{
 			internal static JObject TryGetData(GameObject arg)
@@ -457,9 +749,15 @@ namespace BlueprintsV2.BlueprintData
 				{
 					if (!component.copySettingsEnabled)
 						return null;
+
+					var tags = component.GetTags();
+					var targetStorage = component.GetFilterStorage();
+					bool onlyFetchMarkedItems = targetStorage != null && targetStorage.allowSettingOnlyFetchMarkedItems ? targetStorage.onlyFetchMarkedItems : false;
+
 					return new JObject()
 					{
-						{ "acceptedTagSet", JsonConvert.SerializeObject(component.GetTags())},
+						{ "acceptedTagSet", JsonConvert.SerializeObject(tags)},
+						{ "onlyFetchMarkedItems", onlyFetchMarkedItems},
 					};
 				}
 				return null;
@@ -474,14 +772,71 @@ namespace BlueprintsV2.BlueprintData
 						return;
 
 					var t1 = jObject.GetValue("acceptedTagSet");
-					if (t1 == null)
-						return;
-					var acceptedTagSetJson = t1.Value<string>();
-					var acceptedTagSet = JsonConvert.DeserializeObject<HashSet<Tag>>(acceptedTagSetJson);
-					targetComponent.UpdateFilters(acceptedTagSet);
+					if (t1 != null)
+					{
+						var acceptedTagSetJson = t1.Value<string>();
+						var acceptedTagSet = JsonConvert.DeserializeObject<HashSet<Tag>>(acceptedTagSetJson);
+						targetComponent.UpdateFilters(acceptedTagSet);
+					}
+					var t2 = jObject.GetValue("onlyFetchMarkedItems");
+					if (t2 != null)
+					{
+						var storage = targetComponent.GetFilterStorage();
+						if (storage.allowSettingOnlyFetchMarkedItems)
+						{
+							var onlyFetchMarkedItems = t2.Value<bool>();
+							storage.SetOnlyFetchMarkedItems(onlyFetchMarkedItems);
+						}
+					}
 				}
 			}
 		}
+		internal class DataTransfer_FlatTagFilterable
+		{
+			internal static JObject TryGetData(GameObject arg)
+			{
+				if (arg.TryGetComponent<FlatTagFilterable>(out var component))
+				{
+					if (!component.currentlyUserAssignable)
+						return null;
+
+					var selectedTags = component.selectedTags;
+
+					return new JObject()
+					{
+						{ "selectedTags", JsonConvert.SerializeObject(selectedTags)},
+					};
+				}
+				return null;
+			}
+			public static void TryApplyData(GameObject building, JObject jObject)
+			{
+				if (jObject == null)
+					return;
+				if (building.TryGetComponent<FlatTagFilterable>(out var targetComponent))
+				{
+					if (!targetComponent.currentlyUserAssignable)
+						return;
+					var t1 = jObject.GetValue("selectedTags");
+					if (t1 != null)
+					{
+						var selectedTagstJson = t1.Value<string>();
+						var selectedTags = JsonConvert.DeserializeObject<HashSet<Tag>>(selectedTagstJson);
+
+						targetComponent.selectedTags.Clear();
+						foreach (Tag selectedTag in selectedTags)
+						{
+							if (!targetComponent.tagOptions.Contains(selectedTag))
+								targetComponent.tagOptions.Add(selectedTag);
+							targetComponent.SelectTag(selectedTag, state: true);
+						}
+						targetComponent.GetComponent<TreeFilterable>().UpdateFilters([.. selectedTags]);
+					}
+
+				}
+			}
+		}
+
 		internal class DataTransfer_Filterable
 		{
 			internal static JObject TryGetData(GameObject arg)
@@ -568,7 +923,7 @@ namespace BlueprintsV2.BlueprintData
 							if (targetMinionProxy == null)
 								continue;
 
-							SgtLogger.l("minion found: "+targetMinionProxy.target.GetProperName());
+							SgtLogger.l("minion found: " + targetMinionProxy.target.GetProperName());
 							targetComponent.SetPermission(targetMinionProxy, entry.Value);
 							customPermissionSet = true;
 						}
@@ -692,6 +1047,70 @@ namespace BlueprintsV2.BlueprintData
 					targetComponent.offDuration = offDuration;
 					targetComponent.timeElapsedInCurrentState = timeElapsedInCurrentState;
 					targetComponent.displayCyclesMode = displayCyclesMode;
+				}
+			}
+		}
+		internal class DataTransfer_LogicAlarm
+		{
+			internal static JObject TryGetData(GameObject arg)
+			{
+				if (arg.TryGetComponent<LogicAlarm>(out var component))
+				{
+					return new JObject()
+					{
+						{ "notificationName", component.notificationName},
+						{ "notificationTooltip", component.notificationTooltip},
+						{ "notificationType", (int)component.notificationType},
+						{ "pauseOnNotify", component.pauseOnNotify},
+						{ "zoomOnNotify", component.zoomOnNotify},
+						{ "cooldown", component.cooldown},
+					};
+				}
+				return null;
+			}
+			public static void TryApplyData(GameObject building, JObject jObject)
+			{
+				if (jObject == null)
+					return;
+				if (building.TryGetComponent<LogicAlarm>(out var targetComponent))
+				{
+					var t1 = jObject.GetValue("notificationName");
+					if (t1 != null)
+					{
+						string notificationName = t1.Value<string>();
+						targetComponent.notificationName = notificationName;
+					}
+					var t2 = jObject.GetValue("notificationTooltip");
+					if (t2 != null)
+					{
+						string notificationTooltip = t2.Value<string>();
+						targetComponent.notificationTooltip = notificationTooltip;
+					}
+					var t3 = jObject.GetValue("notificationType");
+					if (t3 != null)
+					{
+						NotificationType notificationType = (NotificationType)t3.Value<int>();
+						targetComponent.notificationType = notificationType;
+					}
+					var t4 = jObject.GetValue("pauseOnNotify");
+					if (t4 != null)
+					{
+						bool pauseOnNotify = t4.Value<bool>();
+						targetComponent.pauseOnNotify = pauseOnNotify;
+					}
+					var t5 = jObject.GetValue("zoomOnNotify");
+					if (t5 != null)
+					{
+						bool zoomOnNotify = t5.Value<bool>();
+						targetComponent.zoomOnNotify = zoomOnNotify;
+					}
+					var t6 = jObject.GetValue("cooldown");
+					if (t6 != null)
+					{
+						float cooldown = t6.Value<float>();
+						targetComponent.cooldown = cooldown;
+					}
+					targetComponent.UpdateNotification(true);
 				}
 			}
 		}

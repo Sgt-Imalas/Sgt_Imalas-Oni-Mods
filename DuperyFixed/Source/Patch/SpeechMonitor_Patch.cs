@@ -24,6 +24,7 @@ namespace DuperyFixed.Source.Patch
 				Personality personality = Db.Get().Personalities.Get(personalityResourceId);
 				if (personality.speech_mouth > 0)
 				{
+					///this is buggy in vanilla, it assigns the mouth, not the speech_mouth
 					smi.mouthId = $"_{personality.speech_mouth:000}";
 				}
 

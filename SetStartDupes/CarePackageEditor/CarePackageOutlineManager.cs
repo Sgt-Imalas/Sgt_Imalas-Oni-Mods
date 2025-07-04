@@ -26,7 +26,7 @@ namespace SetStartDupes.CarePackageEditor
 			ImmigrationPatch.GeneratingFrontendList = true;
 
 			var managerCarrier = Util.NewGameObject(null, "ImmigrationCarrier");
-			var immigrationInstance = managerCarrier.AddComponent<Immigration>();
+			var immigrationInstance = managerCarrier.AddComponent<DummyImmigration>();
 			VanillaCarePackagesByDlc = new();
 
 			if (!DlcManager.IsExpansion1Active())
@@ -125,6 +125,7 @@ namespace SetStartDupes.CarePackageEditor
 			ExtraCarePackages = new();
 			ExtraCarePackages.Clear();
 			AddExtraCarePackages();
+			SaveCarePackagesToFile();
 		}
 		public static void AddExtraCarePackages()
 		{
@@ -208,6 +209,19 @@ namespace SetStartDupes.CarePackageEditor
 			ExtraCarePackages.Add(newOutline);
 			SaveCarePackagesToFile();
 			CarePackageEditor_MainScreen.Instance?.AddOrGetCarePackageOutlineUIEntry(newOutline);
+			CarePackageEditor_MainScreen.Instance?.SortEntryList();
+			CarePackageEditor_MainScreen.Instance?.SelectOutline(newOutline);
+		}
+
+		internal static void HandleRepositioning(int oldIndex, int newIndex)
+		{
+			SgtLogger.l("Moving Care package entry from " + oldIndex + " to " + newIndex);
+			Debug.Assert(oldIndex >= 0, "item index was <0");
+			Debug.Assert(oldIndex < ExtraCarePackages.Count, "item index was larger than list size");
+			var item = ExtraCarePackages[oldIndex];
+			ExtraCarePackages.RemoveAt(oldIndex);
+			ExtraCarePackages.Insert(newIndex, item);
+			SaveCarePackagesToFile();
 		}
 	}
 }

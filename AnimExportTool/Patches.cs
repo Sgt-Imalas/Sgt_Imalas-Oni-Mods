@@ -1,6 +1,9 @@
 ﻿using HarmonyLib;
 using Klei;
 using Klei.CustomSettings;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using PeterHan.PLib.Core;
 using ProcGenGame;
 using System;
 using System.Collections.Generic;
@@ -11,9 +14,7 @@ using System.Reflection.Emit;
 using System.Text;
 using UnityEngine;
 using UtilLibs;
-using static KleiMetrics;
-using static STRINGS.BUILDINGS.PREFABS.EXTERIORWALL.FACADES;
-using static STRINGS.UI.SPACEARTIFACTS;
+using static AnimExportTool.Patches.MainMenu_OnPrefabInit.GameSettingExport;
 
 namespace AnimExportTool
 {
@@ -45,7 +46,7 @@ namespace AnimExportTool
 				{
 					Id = id;
 					IdName = idName;
-					ColorHex =Util.ToHexString( color).Substring(0,6);
+					ColorHex = Util.ToHexString(color).Substring(0, 6);
 
 					Name = Strings.Get(string.Format("STRINGS.SUBWORLDS.{0}.NAME", idName.ToUpperInvariant()));
 					Desc = Strings.Get(string.Format("STRINGS.SUBWORLDS.{0}.DESC", idName.ToUpperInvariant()));
@@ -444,6 +445,72 @@ namespace AnimExportTool
 		//}
 
 
+
+
+
+
+		public static StringBuilder EntityIdBuilder
+		{
+			get
+			{
+				if (EntityIdBuilder == null)
+				{
+					_entityIdBuilder = new StringBuilder();
+					_entityIdBuilder.Append("| Name | Id | DLC |");
+					_entityIdBuilder.Append("| :--: | :--:| :--:|");
+				}
+				return EntityIdBuilder;
+			}
+
+		}
+		private static StringBuilder _entityIdBuilder = null;
+		public static string StripFormatting(string toStrip)
+		{
+			toStrip = STRINGS.UI.StripLinkFormatting(toStrip);
+			toStrip = toStrip.Replace(STRINGS.UI.PRE_KEYWORD, string.Empty);
+			toStrip = toStrip.Replace(STRINGS.UI.PST_KEYWORD, string.Empty);
+			toStrip = toStrip.Replace(STRINGS.UI.PRE_POS_MODIFIER, string.Empty);
+			toStrip = toStrip.Replace(STRINGS.UI.PST_POS_MODIFIER, string.Empty);
+			toStrip = toStrip.Replace("<i>", string.Empty);
+			toStrip = toStrip.Replace("</i>", string.Empty);
+			toStrip = toStrip.Replace("<sup>", string.Empty);
+			toStrip = toStrip.Replace("</sup>", string.Empty);
+			toStrip = toStrip.Replace("<smallcaps>", string.Empty);
+			toStrip = toStrip.Replace("</smallcaps>", string.Empty);
+			return toStrip;
+		}
+
+		static List<Tuple<string, string, string[]>> EntitiesByName = new();
+
+		static void RegisterNames(GameObject go)
+		{
+			var prefab = go.GetComponent<KPrefabID>();
+			string[] requiredDlcIds = prefab.requiredDlcIds;
+			if (requiredDlcIds == null)
+				requiredDlcIds = [];
+
+			EntitiesByName.Add(new(StripFormatting(prefab.GetProperName()), prefab.PrefabTag.ToString(), requiredDlcIds));
+		}
+
+		//[HarmonyPatch(typeof(IEntityConfig), nameof(IEntityConfig.CreatePrefab))]
+		//public class IEntityConfig_CreatePrefab_Patch
+		//{
+		//	public static void Postfix(GameObject __result)
+		//	{
+		//		RegisterNames(__result);
+		//	}
+		//}
+
+		//[HarmonyPatch(typeof(IMultiEntityConfig), nameof(IMultiEntityConfig.CreatePrefabs))]
+		//public class IMultiEntityConfig_CreatePrefabs_Patch
+		//{
+		//	public static void Postfix(List<GameObject> __result)
+		//	{
+		//		foreach(var en in __result)
+		//			RegisterNames(en);
+		//	}
+		//}
+
 		[HarmonyPatch(typeof(MainMenu), nameof(MainMenu.OnPrefabInit))]
 		public class MainMenu_OnPrefabInit
 		{
@@ -487,14 +554,32 @@ namespace AnimExportTool
 					public string Id;
 					public string Name;
 					public string Description;
+					public long coordinate_value;
 				}
 
 				public string Id;
 				public string Name;
 				public string Description;
 				public long coordinate_range;
-				public string[] requiredDlcs;
+				public string DlcIdFrom;
+				public string Icon;
 				public List<SettingLevel> Levels;
+				public string[] MixingTags;
+				public string[] ForbiddenClusterTags;
+				public string WorldMixing;
+				public string SubworldMixing;
+
+
+				public MixingType SettingType = MixingType.None;
+				//public MixingData
+
+				public enum MixingType
+				{
+					None = -1,
+					DLC = 0,
+					Subworld = 1,
+					World = 2,
+				}
 			}
 
 
@@ -506,6 +591,7 @@ namespace AnimExportTool
 				public bool DisableWorldTraits = false;
 				public List<ProcGen.World.TraitRule> TraitRules;
 				public float worldTraitScale;
+				public List<string> worldTags;
 				public List<string> SpecialPOIs;
 			}
 			public class ClusterLayout
@@ -515,18 +601,21 @@ namespace AnimExportTool
 				public string Prefix;
 				public int menuOrder;
 				public int startWorldIndex;
-				public string[] RequiredDlcsIDs;
-				public string[] ForbiddenDlcIDs;
-				public List<string> WorldPlacementIDs;
+				public int numRings;
+				public List<string> RequiredDlcsIDs;
+				public List<string> ForbiddenDlcIDs;
+				public List<ProcGen.WorldPlacement> worldPlacements;
+				public List<ProcGen.SpaceMapPOIPlacement> poiPlacements;
 				public int clusterCategory;
+				public bool disableStoryTraits;
 				public int fixedCoordinate;
+				public string[] clusterTags;
 			}
 			public class DataExport
 			{
 				public List<ClusterLayout> clusters = new();
 				public List<Asteroid> asteroids = new();
 				public List<WorldTrait> worldTraits = new();
-
 			}
 			public class WorldTrait
 			{
@@ -564,19 +653,7 @@ namespace AnimExportTool
 					WriteUISpriteToFile(UISprite, Path.Combine(UtilMethods.ModPath, idPath), id);
 				}
 			}
-			public static string StripFormatting(string toStrip)
-			{
-				toStrip = STRINGS.UI.StripLinkFormatting(toStrip);
-				toStrip = toStrip.Replace(STRINGS.UI.PRE_KEYWORD, string.Empty);
-				toStrip = toStrip.Replace(STRINGS.UI.PST_KEYWORD, string.Empty);
-				toStrip = toStrip.Replace(STRINGS.UI.PRE_POS_MODIFIER, string.Empty);
-				toStrip = toStrip.Replace(STRINGS.UI.PST_POS_MODIFIER, string.Empty);
-				toStrip = toStrip.Replace("<i>", string.Empty);
-				toStrip = toStrip.Replace("</i>", string.Empty);
-				toStrip = toStrip.Replace("<sup>", string.Empty);
-				toStrip = toStrip.Replace("</sup>", string.Empty);
-				return toStrip;
-			}
+
 
 			//static SpacedOutStarmapLocation GetPoiData(GameObject item)
 			//{
@@ -681,11 +758,31 @@ namespace AnimExportTool
 					list.Add("GeothermalController");
 				return list;
 			}
+			public class DynamicContractResolver : DefaultContractResolver
+			{
+
+				private HashSet<Type> _typesToIgnore;
+				public DynamicContractResolver(Type[] typesToIgnore)
+				{
+					_typesToIgnore = typesToIgnore.ToHashSet();
+				}
+
+				protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
+				{
+					IList<JsonProperty> properties = base.CreateProperties(type, memberSerialization);
+
+					properties = properties.Where(p => !_typesToIgnore.Contains( p.PropertyType)) .ToList();
+
+					return properties;
+				}
+			}
+
 
 			public static void Postfix()
 			{
 				StringBuilder loc = new StringBuilder();
 				var export = new DataExport();
+				SgtLogger.l("Fetching Clusters");
 				foreach (var cluster in ProcGen.SettingsCache.clusterLayouts.clusterCache.Values)
 				{
 
@@ -705,17 +802,27 @@ namespace AnimExportTool
 					data.Name = StripFormatting(clusterName);
 					data.Prefix = cluster.coordinatePrefix;
 					data.menuOrder = cluster.menuOrder;
-					data.RequiredDlcsIDs = cluster.requiredDlcIds;
-					data.ForbiddenDlcIDs = cluster.forbiddenDlcIds;
-					//data.WorldPlacements = cluster.worldPlacements;
+					data.RequiredDlcsIDs = cluster.requiredDlcIds?.ToList();
+					data.ForbiddenDlcIDs = cluster.forbiddenDlcIds?.ToList();
 					data.startWorldIndex = cluster.startWorldIndex;
-
-					data.WorldPlacementIDs = cluster.worldPlacements.Select(pl => pl.world).ToList();
+					data.worldPlacements = [.. cluster.worldPlacements];
 					data.clusterCategory = (int)cluster.clusterCategory;
 					data.fixedCoordinate = cluster.fixedCoordinate;
+					data.clusterTags = cluster.clusterTags?.ToArray();
+					data.startWorldIndex = cluster.startWorldIndex;
+					data.menuOrder = cluster.menuOrder;
+					data.numRings = cluster.numRings;
+					if (cluster.poiPlacements != null)
+						data.poiPlacements = [.. cluster.poiPlacements];
+					else
+						data.poiPlacements = new List<ProcGen.SpaceMapPOIPlacement>();
+					data.disableStoryTraits = cluster.disableStoryTraits;
+
+
 					export.clusters.Add(data);
 					loc.Append(GenerateLocalizedEntry(data.Name, data.Name));
 				}
+				SgtLogger.l("Fetching Asteroids");
 				foreach (var world in ProcGen.SettingsCache.worlds.worldCache.Values)
 				{
 					var data = new Asteroid();
@@ -724,10 +831,15 @@ namespace AnimExportTool
 					data.DisableWorldTraits = world.disableWorldTraits;
 					data.TraitRules = world.worldTraitRules;
 					data.worldTraitScale = world.worldTraitScale;
+					if (world.worldTags == null)
+						data.worldTags = new List<string>();
+					else
+						data.worldTags = [.. world.worldTags];
 					data.SpecialPOIs = AccumulatePOIdata(world);
 					export.asteroids.Add(data);
 					loc.Append(GenerateLocalizedEntry(data.Name, data.Name));
 				}
+				SgtLogger.l("Fetching World Traits");
 				foreach (var trait in ProcGen.SettingsCache.worldTraits.Values)
 				{
 					var data = new WorldTrait();
@@ -745,8 +857,24 @@ namespace AnimExportTool
 					loc.Append(GenerateLocalizedEntry(data.Name, data.Name));
 				}
 
+				var entityConfigInterface = typeof(IEntityConfig);
+				var multintityConfigInterface = typeof(IMultiEntityConfig);
+				var hasDlcRestrictionsInterface = typeof(IHasDlcRestrictions);
+				var types = AppDomain.CurrentDomain.GetAssemblies()
+					.SelectMany(s => s.GetTypes())
+					.Where(p => (entityConfigInterface.IsAssignableFrom(p) || multintityConfigInterface.IsAssignableFrom(p)) && p.IsClass);
+
+
+				Console.WriteLine("ENTITIES:");
+				//foreach(var en in EntitiesByName)
+				//{
+				//	EntityIdBuilder.Append($"| {en.first} | {en.second}| {string.Join(", ", en.third)}|");
+				//}
+
+				//Console.WriteLine(EntityIdBuilder.ToString());
+				
 				Console.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-				Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(export));
+				Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(export,new JsonSerializerSettings { ContractResolver = new DynamicContractResolver([typeof(Vector2I)]) }));
 				Console.WriteLine("LOC:");
 				Console.WriteLine(loc.ToString());
 				var starmapExport = new StarmapGeneratorData();
@@ -800,15 +928,39 @@ namespace AnimExportTool
 				foreach (var coordinatedMixingSetting in CustomGameSettings.Instance.CoordinatedMixingSettings)
 				{
 					SettingConfig mixingSetting = CustomGameSettings.Instance.MixingSettings[coordinatedMixingSetting];
-					mixingList.Add(new()
+					MixingType mixingType = MixingType.DLC;
+
+					var setting = new GameSettingExport()
 					{
 						Id = mixingSetting.id,
 						Name = StripFormatting(mixingSetting.label),
 						Description = StripFormatting(mixingSetting.tooltip),
 						coordinate_range = mixingSetting.coordinate_range,
-						requiredDlcs = mixingSetting.required_content,
-						Levels = mixingSetting.GetLevels().Select(l => new GameSettingExport.SettingLevel() { Id = l.id, Name = StripFormatting(l.label), Description = StripFormatting(l.tooltip) }).ToList()
-					});
+						DlcIdFrom = mixingSetting.GetRequiredDlcIds().FirstOrDefault(),
+						Levels = mixingSetting.GetLevels().Select(l => new GameSettingExport.SettingLevel() { Id = l.id, Name = StripFormatting(l.label), Description = StripFormatting(l.tooltip), coordinate_value = l.coordinate_value }).ToList(),
+
+					};
+					if (mixingSetting is SubworldMixingSettingConfig subworldMixing)
+					{
+						setting.ForbiddenClusterTags = subworldMixing.forbiddenClusterTags?.ToArray();
+						setting.Icon = subworldMixing.icon.name;
+
+						mixingType = MixingType.Subworld;
+						ProcGen.SubworldMixingSettings worldgenData = ProcGen.SettingsCache.GetCachedSubworldMixingSetting(subworldMixing.worldgenPath);
+						setting.SubworldMixing = worldgenData?.subworld?.name;
+					}
+					else if (mixingSetting is WorldMixingSettingConfig worldMixing)
+					{
+						setting.ForbiddenClusterTags = worldMixing.forbiddenClusterTags?.ToArray();
+						setting.Icon = worldMixing.icon.name;
+						ProcGen.WorldMixingSettings worldgenData = ProcGen.SettingsCache.GetCachedWorldMixingSetting(worldMixing.worldgenPath);
+						mixingType = MixingType.World;
+						setting.WorldMixing = worldgenData?.world;
+					}
+					setting.SettingType = mixingType;
+
+					mixingList.Add(setting);
+
 				}
 				Console.WriteLine("CCCCCCCCCCCCCCCCCCC");
 				Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(mixingList));

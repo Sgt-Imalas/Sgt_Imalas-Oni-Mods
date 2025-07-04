@@ -112,7 +112,7 @@ namespace SetStartDupes.CarePackageEditor
 			var TargetItem = Assets.GetPrefab(ItemId);
 			if (TargetItem != null)
 			{
-				SgtLogger.l(TargetItem.GetProperName());
+				//SgtLogger.l(TargetItem.GetProperName());
 				var image = Def.GetUISprite(TargetItem);
 				if (image != null)
 				{
@@ -121,6 +121,7 @@ namespace SetStartDupes.CarePackageEditor
 			}
 			return new(Assets.GetSprite("unknown"), Color.white);
 		}
+		public string GetItemName() => global::STRINGS.UI.StripLinkFormatting((Name ?? ItemId));
 		public string GetDescriptionString()
 		{
 			var item = Assets.GetPrefab(ItemId);

@@ -11,6 +11,7 @@ using TUNING;
 using UnityEngine;
 using UtilLibs;
 using static ClusterTraitGenerationManager.ClusterData.CGSMClusterManager;
+using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.CONTENT;
 
 namespace ClusterTraitGenerationManager.ClusterData
 {
@@ -42,9 +43,9 @@ namespace ClusterTraitGenerationManager.ClusterData
 		[JsonIgnore] public string ModName = string.Empty;
 		[JsonIgnore] private string DlcID = "";
 
-		public string GetMainDlcID() => DlcID;		
+		public string GetMainDlcID() => DlcID;
 
-		public bool IsDlcRequired(string dlcId) => DlcID == dlcId ||(world_internal?.GetRequiredDlcIds()?.Contains(dlcId)??false) || (world_mixing?.IsDlcRequired(dlcId) ?? false);
+		public bool IsDlcRequired(string dlcId) => DlcID == dlcId || (world_internal?.GetRequiredDlcIds()?.Contains(dlcId) ?? false) || (world_mixing?.IsDlcRequired(dlcId) ?? false);
 
 		public WorldPlacement placement;
 
@@ -86,7 +87,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 						if (ModName != string.Empty)
 							name += " " + UIUtils.ColorText(STRINGS.UI.SPACEDESTINATIONS.MODDEDPLANET, UIUtils.rgb(212, 244, 199));
-						
+
 
 						return name;
 					}
@@ -620,11 +621,17 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 		#region GeyserBlacklist
 
-		private bool _geyserBlacklistAffectsNonGenerics = false;
-		public bool GeyserBlacklistAffectsNonGenerics => IsMixed ? MixingAsteroidSource._geyserBlacklistAffectsNonGenerics : _geyserBlacklistAffectsNonGenerics;
+		private bool _geyserBlacklistShared = true;
 
-		private List<string> _geyserBlacklistIDs = new();
-		public List<string> GeyserBlacklistIDs => IsMixed ? MixingAsteroidSource.GeyserBlacklistIDs : _geyserBlacklistIDs;
+		private bool _geyserBlacklistAffectsNonGenerics = false;
+		public bool GeyserBlacklistAffectsNonGenerics => 
+			IsMixed 
+			? MixingAsteroidSource._geyserBlacklistAffectsNonGenerics 
+			: GeyserBlacklistShared ? CGSMClusterManager.BlacklistAffectsNonGenerics : _geyserBlacklistAffectsNonGenerics;
+		public bool GeyserBlacklistShared => IsMixed ? MixingAsteroidSource._geyserBlacklistShared : _geyserBlacklistShared;
+
+		private HashSet<string> _geyserBlacklistIDs = new();
+		public HashSet<string> BlacklistedGeyserIds => IsMixed ? MixingAsteroidSource.BlacklistedGeyserIds : _geyserBlacklistIDs;
 
 		public void SetGeyserBlacklist(List<string> NEWs)
 		{
@@ -634,27 +641,41 @@ namespace ClusterTraitGenerationManager.ClusterData
 				return;
 			}
 			if (NEWs == null) NEWs = new List<string>();
-			_geyserBlacklistIDs = NEWs;
+			_geyserBlacklistIDs = NEWs.ToHashSet();
 		}
 		public void SetGeyserBlacklistAffectsNonGenerics(bool affectsNongenerics)
 		{
 			if (IsMixed)
 				MixingAsteroidSource.SetGeyserBlacklistAffectsNonGenerics(affectsNongenerics);
+			else if(GeyserBlacklistShared)
+				CGSMClusterManager.BlacklistAffectsNonGenerics = affectsNongenerics;
 			else
 				_geyserBlacklistAffectsNonGenerics = affectsNongenerics;
+		}
+		public void SetIsGeyserBlacklistShared(bool isShared)
+		{
+			if (IsMixed)
+				MixingAsteroidSource.SetIsGeyserBlacklistShared(isShared);
+			else
+				_geyserBlacklistShared = isShared;
 		}
 
 		public void AddGeyserBlacklist(string geyserID)
 		{
 			if (IsMixed)
 				MixingAsteroidSource.AddGeyserBlacklist(geyserID);
+			else if (GeyserBlacklistShared)
+				CGSMClusterManager.SetSharedGeyserBlacklistState(geyserID, true);
 			else
 				_geyserBlacklistIDs.Add(geyserID);
+
 		}
 		public void RemoveGeyserBlacklist(string geyserID)
 		{
 			if (IsMixed)
 				MixingAsteroidSource.RemoveGeyserBlacklist(geyserID);
+			else if (GeyserBlacklistShared)
+				CGSMClusterManager.SetSharedGeyserBlacklistState(geyserID, false);
 			else
 				_geyserBlacklistIDs.Remove(geyserID);
 		}
@@ -662,10 +683,8 @@ namespace ClusterTraitGenerationManager.ClusterData
 		{
 			if (IsMixed)
 				return MixingAsteroidSource.HasGeyserBlacklisted(geyserID);
-			else
-				return GeyserBlacklistIDs.Contains(geyserID);
+			return CGSMClusterManager.GetBlacklistedGeyserIdsFor(this).Contains(geyserID);
 		}
-
 		#endregion
 
 		#region GeyserOverrides
@@ -697,7 +716,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 		public void ClearGeyserOverrides()
 		{
 			GeyserOverrideIDs.Clear();
-			GeyserBlacklistIDs.Clear();
+			BlacklistedGeyserIds.Clear();
 			_geyserBlacklistAffectsNonGenerics = false;
 		}
 

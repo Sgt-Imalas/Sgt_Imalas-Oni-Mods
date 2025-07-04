@@ -30,8 +30,7 @@ namespace BlueprintsV2.BlueprintData
 
 		public static bool AdvancedMaterialReplacement = false;
 		public static bool ForceMaterialChange = false;
-		private static bool _IsPlacingSnapshot = false;
-		public static bool IsPlacingSnapshot => _IsPlacingSnapshot;
+		public static bool IsPlacingSnapshot { get; set; }
 
 		private static readonly List<IVisual> FoundationVisuals = new();
 		private static readonly List<IVisual> DependentVisuals = new();
@@ -300,7 +299,6 @@ namespace BlueprintsV2.BlueprintData
 		}
 		public static void UseBlueprint(Vector2I topLeft, Blueprint snapshotBp = null)
 		{
-			_IsPlacingSnapshot = (snapshotBp != null);
 			CleanDirtyVisuals();
 			topLeft = GetShiftedPositions(topLeft, snapshotBp);
 			FoundationVisuals.ForEach(foundationVisual =>

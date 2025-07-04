@@ -33,7 +33,7 @@ namespace _SgtsModUpdater.Model
 			}
 		}
 		public ObservableCollection<ModRepoListInfo> Repos = new();
-		public ObservableCollection<VersionInfoWeb> CurrentRepoMods = new();
+		public ObservableCollection<RemoteMod> CurrentRepoMods = new();
 		public Dictionary<string, LocalMod> CurrentLocalInstalledMods = new();
 
 		public void SelectRepo(ModRepoListInfo repo)
@@ -42,7 +42,7 @@ namespace _SgtsModUpdater.Model
 			CurrentRepoMods.Clear();
 			foreach (var mod in repo.Mods)
 			{
-				mod.SetUrl(repo.RepoUrl);
+				mod.InferDownloadUrlIfMissing(repo.RepoUrl);
 				CurrentRepoMods.Add(mod);
 			}
 			//var fastTrack = new VersionInfoWeb("FastTrack", "0.15.10.0", "0", "Fast Track", "The ultimate optimization mod");
@@ -60,6 +60,9 @@ namespace _SgtsModUpdater.Model
 		}
 		internal async void FetchRepos()
 		{
+			Console.WriteLine("Fetching mod repos..");
+			RefreshLocalModInfoList(true);
+
 			foreach (var repo in AppSettings.Instance.ReposToFetch)
 			{
 				await FetchRepo(repo);
@@ -71,15 +74,15 @@ namespace _SgtsModUpdater.Model
 			{
 				using (var wc = new HttpClient())
 				{
-					var json = await wc.GetStringAsync(repo.ReleaseInfo);
+					var json = await wc.GetStringAsync(repo.UpdateIndexURL);
 
 					var data = Newtonsoft.Json.JsonConvert.DeserializeObject<VersionInfoWebCollection>(json);
 					if (data != null && data.mods.Any())
 					{
-						var repoInfo = new ModRepoListInfo(repo.Name, repo.Url);
+						var repoInfo = new ModRepoListInfo(repo.UpdateIndexName, repo.RepoUrl);
 						foreach (var mod in data.mods)
 							repoInfo.Mods.Add(mod);
-						Console.WriteLine("Found " + data.mods.Count + " mods in repo " + repo.Name);
+						Console.WriteLine("Found " + data.mods.Count + " mods in repo " + repo.UpdateIndexName);
 						Repos.Add(repoInfo);
 						return true;
 					}
@@ -88,11 +91,11 @@ namespace _SgtsModUpdater.Model
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine("Failed to fetch repo info of " + repo.Name + " from url " + repo.ReleaseInfo);
+				Console.WriteLine("Failed to fetch repo info of " + repo.UpdateIndexName + " from url " + repo.UpdateIndexURL);
 			}
 			return false;
 		}
-		public void RefreshLocalModInfoList()
+		public void RefreshLocalModInfoList(bool collectRepos = false)
 		{
 			CurrentLocalInstalledMods.Clear();
 
@@ -103,7 +106,7 @@ namespace _SgtsModUpdater.Model
 			}
 			foreach (var modFolder in Directory.GetDirectories(Paths.LocalModsFolder))
 			{
-				RefreshLocalModInfo(modFolder);
+				RefreshLocalModInfo(modFolder, collectRepos);
 			}
 			if (!Directory.Exists(Paths.SteamModsFolder))
 			{
@@ -111,26 +114,35 @@ namespace _SgtsModUpdater.Model
 			}
 			foreach (var modFolder in Directory.GetDirectories(Paths.SteamModsFolder))
 			{
-				RefreshLocalModInfo(modFolder);
+				RefreshLocalModInfo(modFolder, collectRepos);
 			}
 			Console.WriteLine(CurrentLocalInstalledMods.Count + " installed mods found");
 		}
-		LocalMod RefreshLocalModInfo(string modFolder)
+		LocalMod RefreshLocalModInfo(string modFolder, bool collectRepos = false)
 		{
 			try
 			{
 				var deserializer = new DeserializerBuilder().IgnoreUnmatchedProperties().Build();
 
-				var RepoDataPath = Path.Combine(modFolder, "repoinfo.json");
-				if (File.Exists(RepoDataPath))
+				if (collectRepos)
 				{
-					try
+					var RepoDataPath = Path.Combine(modFolder, "LauncherMetadata.json");
+					if (File.Exists(RepoDataPath))
 					{
-						var repoInfos = deserializer.Deserialize<List<FetchableRepoInfo>>(RepoDataPath);
-						if (repoInfos != null)
-							AppSettings.Instance.AddRepoIfNotExist(repoInfos);
+						try
+						{
+							string repoData = File.ReadAllText(RepoDataPath);
+							var repoInfos = deserializer.Deserialize<FetchableRepoInfo>(repoData);
+							if (repoInfos != null)
+							{
+								repoInfos.InferMissing();
+								AppSettings.Instance.AddRepoIfNotExist(repoInfos);
+							}
+						}
+						catch (Exception e)
+						{
+						}
 					}
-					catch { }
 				}
 
 				string modYamlFile = Path.Combine(modFolder, "mod.yaml");
@@ -181,7 +193,7 @@ namespace _SgtsModUpdater.Model
 			}
 		}
 
-		internal async Task TryDeleteLocalMod(VersionInfoWeb targetMod)
+		internal async Task TryDeleteLocalMod(RemoteMod targetMod)
 		{
 			if (!targetMod.CanDeleteLocal)
 				return;
@@ -197,7 +209,7 @@ namespace _SgtsModUpdater.Model
 		public Progress<float> UpdateProgressbar = null;
 		public System.Action<long> GetDownloadSize = null;
 
-		internal async Task TryInstallUpdate(VersionInfoWeb targetMod)
+		internal async Task TryInstallUpdate(RemoteMod targetMod)
 		{
 			if (!targetMod.IsNewVersionAvailable())
 				return;
@@ -208,7 +220,7 @@ namespace _SgtsModUpdater.Model
 			Console.WriteLine("Starting installation of " + targetMod.modName + "...");
 
 			targetMod.Downloading = true;
-			Console.WriteLine("Fetching from " + targetMod.FetchUrl);
+			Console.WriteLine("Fetching from " + targetMod.downloadURL);
 			try
 			{
 				using (HttpClient client = new HttpClient())
@@ -216,7 +228,7 @@ namespace _SgtsModUpdater.Model
 					client.Timeout = TimeSpan.FromMinutes(5);
 
 					using (var fs = new FileStream(targetMod.zipFileName, FileMode.CreateNew))
-						await client.DownloadAsync(targetMod.FetchUrl, fs, UpdateProgressbar,default, GetDownloadSize);
+						await client.DownloadAsync(targetMod.downloadURL, fs, UpdateProgressbar, default, GetDownloadSize);
 
 				}
 			}
@@ -225,7 +237,7 @@ namespace _SgtsModUpdater.Model
 				Console.WriteLine("Mod download failed! Exception: " + e.Message);
 				if (File.Exists(targetMod.zipFileName))
 					File.Delete(targetMod.zipFileName);
-				
+
 				targetMod.Downloading = false;
 				return;
 			}

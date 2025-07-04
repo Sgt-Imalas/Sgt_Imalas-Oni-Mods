@@ -26,7 +26,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.Research
 
 			float calcTemperature = Mathf.Clamp(primaryElement.Temperature,maxEfficiencyTemp,minEfficiencyTemp);
 			float efficiencyMultiplier = Mathf.InverseLerp(minEfficiencyTemp,maxEfficiencyTemp,calcTemperature);
-			SgtLogger.l("Efficiency: " + efficiencyMultiplier);
+			//SgtLogger.l("Efficiency: " + efficiencyMultiplier);
 			researchPerInsight /= efficiencyMultiplier;
 
 			mass_per_point = researchPerInsight;

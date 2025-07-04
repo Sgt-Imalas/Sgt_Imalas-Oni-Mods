@@ -55,7 +55,7 @@ namespace SetStartDupes.CarePackageEditor.UI
 			DeleteButton = transform.Find("DeleteButton")?.gameObject?.AddOrGet<FButton>();
 			SelectButton = gameObject.AddOrGet<FButton>();
 			SelectButton.OnClick += SelectOutline;
-			SgtLogger.l("Ui initialized!");
+			//SgtLogger.l("Ui initialized!");
 		}
 
 		void SelectOutline()
@@ -74,7 +74,7 @@ namespace SetStartDupes.CarePackageEditor.UI
 		{
 			if (TargetOutline == null)
 			{
-				SgtLogger.l("aborting ui update, target was null");
+				//SgtLogger.l("aborting ui update, target was null");
 				return;
 			}
 			if (!init)
@@ -86,7 +86,7 @@ namespace SetStartDupes.CarePackageEditor.UI
 			var TargetItem = Assets.GetPrefab(TargetOutline.ItemId);
 			if (TargetItem != null)
 			{
-				SgtLogger.l(TargetItem.GetProperName());
+				//SgtLogger.l(TargetItem.GetProperName());
 				var image = Def.GetUISprite(TargetItem);
 				if (image != null)
 				{

@@ -21,7 +21,7 @@ namespace ClusterTraitGenerationManager.UI.ItemEntryTypes
 		StarmapItem _item;
 		public void Init(StarmapItem item)
 		{
-			SgtLogger.l(item.id, "initializing poi");
+			//SgtLogger.l(item.id, "initializing poi");
 			this.id = item.id;
 			this.ActivePOIsInBand.Clear();
 			POIContainer = gameObject;

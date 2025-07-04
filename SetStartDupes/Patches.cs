@@ -98,7 +98,7 @@ namespace SetStartDupes
 			{
 				if (stickerType == null || stickerType.Length == 0)
 				{
-					SgtLogger.l("assigning random sticker type to dupe to avoid invisibile stickers");
+					//SgtLogger.l("assigning random sticker type to dupe to avoid invisibile stickers");
 					stickerType = ModAssets.GetRandomStickerType();
 				}
 			}
@@ -207,7 +207,7 @@ namespace SetStartDupes
 			{
 				if (ModAssets.DupeTraitManagers.ContainsKey(__instance))
 					ModAssets.DupeTraitManagers[__instance].RecalculateAll();
-				else
+				else if(Config.Instance.ModifyDuringGame)
 					SgtLogger.warning("no mng for " + __instance + " found!");
 
 			}
@@ -2047,12 +2047,13 @@ namespace SetStartDupes
 			[HarmonyPriority(Priority.Low - 1)]
 			public static void Postfix(CharacterContainer __instance)
 			{
+				ModAssets.UpdatePersonalityLockButton(__instance);
 				var mngt = __instance.transform.Find("ModifyDupeStats");
 				if (mngt == null)
 				{
-
-					SgtLogger.log("StatManager not found, skipping assignment..")
-					  ; return;
+					if (Config.Instance.ModifyDuringGame)
+						SgtLogger.log("StatManager not found, skipping assignment..");
+					  return;
 				}
 				var mng = mngt.gameObject.GetComponent<DupeTraitManager>();
 				if (mng != null)
@@ -2063,7 +2064,6 @@ namespace SetStartDupes
 					SgtLogger.warning("dupe mng was null!");
 
 
-				ModAssets.UpdatePersonalityLockButton(__instance);
 				//ToggleVisibilityTraitLockButton(__instance, __instance.stats.personality.model != GameTags.Minions.Models.Bionic);
 			}
 

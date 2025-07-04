@@ -32,7 +32,6 @@ public partial class MainWindow : Window
 		ConsoleHandler.AddWriter(new FileWriter());
 
 		ConsoleOutputTextbox.TextChanged += (_, _) => ConsoleOutputTextbox.ScrollToEnd();
-
 		Console.SetOut(ConsoleHandler);
 
 		ModManager.Instance.FetchRepos();
@@ -68,7 +67,7 @@ public partial class MainWindow : Window
 		if (String.IsNullOrEmpty(txtFilter.Text))
 			return true;
 		else
-			return ((item as VersionInfoWeb).ModName.IndexOf(txtFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0);
+			return ((item as RemoteMod).ModName.IndexOf(txtFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0);
 	}
 	private void PackView_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
 	{
@@ -80,7 +79,7 @@ public partial class MainWindow : Window
 
 	private async void Mod_Action_Click(object sender, RoutedEventArgs e)
 	{
-		var rowItem = (sender as Button).DataContext as VersionInfoWeb;
+		var rowItem = (sender as Button).DataContext as RemoteMod;
 		await rowItem.TryInstallUpdate();
 		//Thread thread = new Thread(() =>
 		//{
@@ -96,7 +95,7 @@ public partial class MainWindow : Window
 
 	private void Delete_Mod_Click(object sender, RoutedEventArgs e)
 	{
-		var rowItem = (sender as Button).DataContext as VersionInfoWeb;
+		var rowItem = (sender as Button).DataContext as RemoteMod;
 
 		rowItem.TryDeleteLocal();
 	}
@@ -109,13 +108,13 @@ public partial class MainWindow : Window
 			var fetchable = dialog.GetFetchableResult();
 			if (fetchable != null)
 				if (await ModManager.Instance.FetchRepo(fetchable))
-					AppSettings.Instance.AddRepoIfNotExist([fetchable]);
+					AppSettings.Instance.AddRepoIfNotExist(fetchable);
 		}
 	}
 
 	private void OpenFolderButton_Click(object sender, RoutedEventArgs e)
 	{
-		var rowItem = (sender as Button).DataContext as VersionInfoWeb;
+		var rowItem = (sender as Button).DataContext as RemoteMod;
 
 		if (rowItem.HasLocalMod)
 		{
@@ -127,5 +126,12 @@ public partial class MainWindow : Window
 	{
 		System.Diagnostics.Process.Start(Environment.GetEnvironmentVariable("WINDIR") +
 		@"\explorer.exe", pathToFolder);
+	}
+
+	private void Delete_Repo_Click(object sender, RoutedEventArgs e)
+	{
+		var rowItem = (sender as Button).DataContext as ModRepoListInfo;
+		AppSettings.Instance.DeleteRepo(rowItem);
+		ModManager.Instance.Repos.Remove(rowItem);
 	}
 }

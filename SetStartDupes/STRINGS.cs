@@ -261,6 +261,11 @@ namespace SetStartDupes
 								public static LocString TEXT = "Save Changes";
 								public static LocString TOOLTIP = "";
 							}
+							public class CLEANSLATEBUTTON
+							{
+								public static LocString TEXT = "Clear Everything";
+								public static LocString TOOLTIP = "Sets all the attributes to 0 and clears all skills, interests, effects and traits.\nIntended for sandbox testing to provide a \"clean slate\"";
+							}
 						}
 					}
 				}
@@ -355,6 +360,11 @@ namespace SetStartDupes
 				{
 					public static LocString NAME = "Open Care Package Editor";
 					public static LocString TOOLTIP = "View and modify the different additional care packages or create new ones.";
+				}
+				public class SORTEDCAREPACKAGES
+				{
+					public static LocString NAME = "Sorted Care Package Lists";
+					public static LocString TOOLTIP = "Care packages listings are sorted alphabetically.\nAffects care package editor and printing pod selection\nCare packages in the editor can be sorted manually when this option is turned off.";
 				}
 				public class SORTEDPRINTINGPOD
 				{

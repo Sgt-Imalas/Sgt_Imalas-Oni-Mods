@@ -17,8 +17,26 @@
 			</Grid.ColumnDefinitions>
 			<DockPanel Margin="3,3,3,3" Grid.Column="0" >
 				<Button Name="CreateAddPopup" DockPanel.Dock="Bottom" Content="Add new Repo" Height="20" Click="CreateAddPopup_Click"/>
-				<ListView  Name="PackView" HorizontalContentAlignment="Center" PreviewMouseLeftButtonUp="PackView_PreviewMouseLeftButtonUp" PreviewMouseRightButtonUp="PackView_PreviewMouseLeftButtonUp">
-
+				<ListView  Name="PackView" HorizontalContentAlignment="Stretch" PreviewMouseLeftButtonUp="PackView_PreviewMouseLeftButtonUp" PreviewMouseRightButtonUp="PackView_PreviewMouseLeftButtonUp">
+					<ListView.ItemTemplate>
+						<DataTemplate>							
+							<DockPanel LastChildFill="True" >
+								<DockPanel.Children>
+									<Button
+									DockPanel.Dock="Right"
+									VerticalAlignment="Center"
+									Click="Delete_Repo_Click" 
+									Width="20"
+									Height="20"
+									Background="DarkOrange"
+									ToolTip="Delete Repo from list">
+										<fa:ImageAwesome Foreground="Black" Icon="TrashOutline"></fa:ImageAwesome>
+									</Button>
+									<TextBlock ToolTip="{Binding Path=RepoUrl}" Text="{Binding Path=UIEntry}" FontSize="14" FontWeight="Bold" Margin="0,0,0,0" HorizontalAlignment="Stretch"/>
+								</DockPanel.Children>
+							</DockPanel>
+						</DataTemplate>
+					</ListView.ItemTemplate>
 
 				</ListView>
 			</DockPanel>
@@ -102,10 +120,10 @@
 						<ProgressBar Name="DownloadProgressbar" Height="20" Value="0.0" Minimum="0" Maximum="1" />
 						<TextBlock DockPanel.Dock="Bottom" Margin="3,0,0,0" HorizontalAlignment="Left">Active Download</TextBlock>
 						<TextBlock Name="DownloadProgressText" DockPanel.Dock="Bottom" Margin="0,0,3,0" HorizontalAlignment="Right" > -</TextBlock>
-					</Grid>	
+					</Grid>
 					<TextBox Name="ConsoleOutputTextbox" IsReadOnly="True" VerticalScrollBarVisibility="Visible" TextWrapping="Wrap" FontFamily="Nirmala UI" FontSize="10"></TextBox>
 				</DockPanel>
-				
+
 			</DockPanel>
 		</Grid>
 	</Grid>

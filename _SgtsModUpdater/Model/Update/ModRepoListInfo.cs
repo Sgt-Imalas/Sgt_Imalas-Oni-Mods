@@ -19,11 +19,11 @@ namespace _SgtsModUpdater.Model.Update
 			_repoUrl = repoUrl;
 		}
 
-		public ObservableCollection<VersionInfoWeb> Mods = new();
+		public ObservableCollection<RemoteMod> Mods = new();
 		public override string ToString()
 		{
 			return string.Format("{0}, {1} mods", RepoName, Mods.Count);
 		}
-
+		public string UIEntry => ToString();
 	}
 }

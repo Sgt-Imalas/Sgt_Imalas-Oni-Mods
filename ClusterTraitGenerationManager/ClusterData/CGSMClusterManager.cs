@@ -40,6 +40,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 		public static HashSet<string> BlacklistedTraits = new HashSet<string>();
 		public static HashSet<string> BlacklistedGeysers = new HashSet<string>();
+		public static bool BlacklistAffectsNonGenerics = false;
 
 		public static int MaxClassicOuterPlanets = 3, CurrentClassicOuterPlanets = 0;
 
@@ -102,18 +103,22 @@ namespace ClusterTraitGenerationManager.ClusterData
 				return true;
 			}
 		}
-		public static bool RandomGeyserInBlacklist(string traitId) => BlacklistedGeysers.Contains(traitId);
-		public static bool ToggleRandomGeyserBlacklist(string traitID)
+		public static void SetSharedGeyserBlacklistState(string geyserId, bool blacklisted)
 		{
-			if (BlacklistedGeysers.Contains(traitID))
+			if (blacklisted)
+				BlacklistedGeysers.Add(geyserId);
+			else
+				BlacklistedGeysers.Remove(geyserId);
+		}
+		public static HashSet<string> GetBlacklistedGeyserIdsFor(StarmapItem asteroid)
+		{
+			if (asteroid.GeyserBlacklistShared)
 			{
-				BlacklistedGeysers.Remove(traitID);
-				return false;
+				return BlacklistedGeysers;
 			}
 			else
 			{
-				BlacklistedGeysers.Add(traitID);
-				return true;
+				return asteroid.BlacklistedGeyserIds;
 			}
 		}
 
@@ -911,7 +916,12 @@ namespace ClusterTraitGenerationManager.ClusterData
 					FoundPlanet.ClearGeyserOverrides();
 
 					//SgtLogger.l("Grabbing Traits");
-					int seedTrait = FoundPlanet.IsMixed ? seed - 1 : seed + i; //mixing target is not in cluster -> position will be -1 in original code (potentially adjust in the future)
+					//int seedTrait = FoundPlanet.IsMixed ? seed - 1 : seed + i; //mixing target is not in cluster -> position will be -1 in original code (potentially adjust in the future)
+					
+					///The statement above is what the start screen uses - this is a bug.
+					///during worldgen it uses the index of the replaced asteroid, yielding different traits than shown
+					///using the coordinate everywhere yields the proper mirrored result
+					int seedTrait = seed + i;
 					var traits = SettingsCache.GetRandomTraits(seedTrait, FoundPlanet.world);
 					foreach (var planetTrait in traits)
 					{
@@ -944,7 +954,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 			}
 			else
 			{
-				SgtLogger.l("clearing mixing on "+target.DisplayName);
+				SgtLogger.l("clearing mixing on " + target.DisplayName);
 			}
 			target.SetWorldMixing(mixingSource);
 		}
@@ -1183,7 +1193,6 @@ namespace ClusterTraitGenerationManager.ClusterData
 					ToggleWorldgenAffectingDlc(true, dlcID);
 				}
 			}
-
 			if (CGMWorldGenUtils.HasGeothermalPump(adding.world))//geothermal pump story trait from mod
 			{
 				DisableModdedGeopumpStoryTrait();

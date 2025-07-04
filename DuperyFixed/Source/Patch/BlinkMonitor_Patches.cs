@@ -45,7 +45,6 @@ namespace DuperyFixed.Source.Patch
 							return;
 						}
 						SgtLogger.l("setting custom blink kanim file: " + kanim + " for " + personalityResourceId+" with anim: "+eyes);
-
 						blinkMonitor.eyes.AnimFiles = [animFile];
 						blinkMonitor.eye_anim = eyes;
 					}

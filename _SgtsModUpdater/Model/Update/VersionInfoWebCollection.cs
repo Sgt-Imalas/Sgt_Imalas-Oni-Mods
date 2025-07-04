@@ -8,6 +8,6 @@ namespace _SgtsModUpdater.Model.Update
 {
     class VersionInfoWebCollection
     {
-        public List<VersionInfoWeb> mods;
+        public List<RemoteMod> mods;
     }
 }
