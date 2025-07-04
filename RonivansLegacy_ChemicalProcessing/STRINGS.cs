@@ -490,7 +490,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				}
 				public class METALLURGY_BALLCRUSHERMILL
 				{
-					public static LocString NAME = FormatAsLink("Ball Crusher Mill (Mechanical Separator)", nameof(METALLURGY_BALLCRUSHERMILL));
+					public static LocString NAME = FormatAsLink("Ball Crusher Mill (Mechanical Separation)", nameof(METALLURGY_BALLCRUSHERMILL));
 					public static LocString DESC = "A large sized industrial mill that crushes raw ores using steel balls and special vibrating separation device to sort out possible useful resources.";
 					public static LocString EFFECT = string.Concat("Crush down ", FormatAsLink("Raw Minerals", "RAWMINERAL"), " in to useful materials and industrial ingredients.");
 				}
