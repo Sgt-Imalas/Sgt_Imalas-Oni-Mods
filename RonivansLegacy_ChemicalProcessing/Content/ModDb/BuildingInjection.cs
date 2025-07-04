@@ -6,6 +6,7 @@ using Metallurgy.Buildings;
 using HarmonyLib;
 using Dupes_Machinery.Biological_Vats;
 using Dupes_Machinery.Ethanol_Still;
+using System;
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
 	class BuildingInjection
@@ -16,6 +17,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		internal static void RegisterAdditionalBuildingElements()
 		{
 			GameTags.MaterialBuildingElements.Add(SimHashes.Ceramic.CreateTag());
+			GameTags.MaterialBuildingElements.Add(SimHashes.Tungsten.CreateTag());
+		}
+		internal static void RegisterBuildinTags()
+		{
+			Strings.Add("STRINGS.MISC.TAGS.TUNGSTEN", global::STRINGS.ELEMENTS.TUNGSTEN.NAME);
 		}
 
 		static void RegisterOilWellCapCustomPiping()
@@ -178,5 +184,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Liquids.LiquidBasedRefinementProcess, Machinery_SlimeVatConfig.ID);
 			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Liquids.Distillation, EthanolDistilleryConfig.ID);
 		}
+
+		
 	}
 }

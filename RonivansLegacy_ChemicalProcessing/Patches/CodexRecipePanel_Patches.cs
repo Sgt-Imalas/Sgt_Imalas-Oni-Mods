@@ -21,7 +21,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				if (__instance == null || __instance.complexRecipe == null)
 					return;
 
-				if (RandomRecipeResults.GetRandomOccurencesforRecipe(__instance.complexRecipe, out var occurence))
+				if (RandomRecipeProducts.GetRandomOccurencesforRecipe(__instance.complexRecipe, out var occurence))
 				{
 					//expand the width of the container to fit the occurence entry
 					__instance.fabricatorContainer.gameObject.GetComponent<LayoutElement>().preferredWidth = 160f;
@@ -40,7 +40,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 					component.GetReference<ToolTip>("Tooltip").toolTip = occurence.GetOccurenceCompositionDescription();
 					component.GetReference<KButton>("Button").interactable = false;
 				}
-				if (RandomRecipeResults.GetRandomResultsforRecipe(__instance.complexRecipe, out var result))
+				if (RandomRecipeProducts.GetRandomResultsforRecipe(__instance.complexRecipe, out var result))
 				{
 					HierarchyReferences component = Util.KInstantiateUI(__instance.materialPrefab, __instance.resultsContainer, true)
 						.GetComponent<HierarchyReferences>();

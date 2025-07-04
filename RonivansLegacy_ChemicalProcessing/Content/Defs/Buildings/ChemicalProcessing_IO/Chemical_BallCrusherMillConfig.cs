@@ -207,7 +207,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Input(SimHashes.Water, 100f)
 				.Input(ModElements.SulphuricAcid_Liquid, 50f)
 				.Output(ModElements.ToxicMix_Liquid, 10f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-				.DescriptionFunc(RandomRecipeResults.GetBallCrusherRandomResultsString)
+				.DescriptionFunc(RandomRecipeProducts.GetBallCrusherRandomResultsString)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 				.Build();
 
@@ -224,7 +224,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Input(SimHashes.Water, 100f)
 				.Input(ModElements.SulphuricAcid_Liquid, 50f)
 				.Output(ModElements.ToxicMix_Liquid, 10f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-				.DescriptionFunc(RandomRecipeResults.GetBallCrusherRandomResultsString)
+				.DescriptionFunc(RandomRecipeProducts.GetBallCrusherRandomResultsString)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 				.Build();
 
@@ -233,7 +233,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Input(SimHashes.Water, 100f)
 				.Input(ModElements.SulphuricAcid_Liquid, 50f)
 				.Output(ModElements.ToxicMix_Liquid, 10f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-				.DescriptionFunc(RandomRecipeResults.GetBallCrusherRandomResultsString)
+				.DescriptionFunc(RandomRecipeProducts.GetBallCrusherRandomResultsString)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 				.Build();
 
@@ -249,7 +249,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Input(SimHashes.Water, 100f)
 				.Input(ModElements.SulphuricAcid_Liquid, 50f)
 				.Output(ModElements.ToxicMix_Liquid, 10f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-				.DescriptionFunc(RandomRecipeResults.GetBallCrusherRandomResultsString)
+				.DescriptionFunc(RandomRecipeProducts.GetBallCrusherRandomResultsString)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 				.Build();
 
@@ -266,7 +266,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Input(SimHashes.Water, 100f)
 				.Input(ModElements.NitricAcid_Liquid, 50f)
 				.Output(ModElements.ToxicMix_Liquid, 10f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-				.DescriptionFunc(RandomRecipeResults.GetBallCrusherRandomResultsString)
+				.DescriptionFunc(RandomRecipeProducts.GetBallCrusherRandomResultsString)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 				.Build();
 
@@ -283,7 +283,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Input(SimHashes.Water, 100f)
 				.Input(ModElements.NitricAcid_Liquid, 50f)
 				.Output(ModElements.ToxicMix_Liquid, 10f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-				.DescriptionFunc(RandomRecipeResults.GetBallCrusherRandomResultsString)
+				.DescriptionFunc(RandomRecipeProducts.GetBallCrusherRandomResultsString)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 				.Build();
 
@@ -302,7 +302,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Input(ModElements.NitricAcid_Liquid, 25f)
 				.Input(ModElements.SulphuricAcid_Liquid, 25f)
 				.Output(ModElements.ToxicMix_Liquid, 10f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-				.DescriptionFunc(RandomRecipeResults.GetBallCrusherRandomResultsString)
+				.DescriptionFunc(RandomRecipeProducts.GetBallCrusherRandomResultsString)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 				.Build();
 
@@ -321,7 +321,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Input(ModElements.NitricAcid_Liquid, 50f)
 				.Input(ModElements.SulphuricAcid_Liquid, 50f)
 				.Output(ModElements.ToxicMix_Liquid, 10f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-				.DescriptionFunc(RandomRecipeResults.GetBallCrusherRandomResultsString)
+				.DescriptionFunc(RandomRecipeProducts.GetBallCrusherRandomResultsString)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 				.Build();
 
@@ -340,7 +340,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Input(ModElements.NitricAcid_Liquid, 50f)
 				.Input(ModElements.SulphuricAcid_Liquid, 50f)
 				.Output(ModElements.ToxicMix_Liquid, 10f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-				.DescriptionFunc(RandomRecipeResults.GetBallCrusherRandomResultsString)
+				.DescriptionFunc(RandomRecipeProducts.GetBallCrusherRandomResultsString)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 				.Build();
 		}

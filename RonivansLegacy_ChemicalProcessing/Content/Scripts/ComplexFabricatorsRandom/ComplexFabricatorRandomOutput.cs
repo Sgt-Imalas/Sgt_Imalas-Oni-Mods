@@ -67,7 +67,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 		}
 		public Dictionary<Tag, RecipeRandomResult> GetRandomOutputSelection()
 		{
-			if (RandomRecipeResults.GetRandomResultList(building.Def.PrefabID, out var recipeSelection))
+			if (RandomRecipeProducts.GetRandomResultList(building.Def.PrefabID, out var recipeSelection))
 				return recipeSelection;
 			return new();
 		}
@@ -102,7 +102,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 
 		public Dictionary<Tag, RecipeRandomResult> GetRandomOccurenceSelection()
 		{
-			if (RandomRecipeResults.GetRandomOccurenceList(building.Def.PrefabID, out var recipeSelection))
+			if (RandomRecipeProducts.GetRandomOccurenceList(building.Def.PrefabID, out var recipeSelection))
 				return recipeSelection;
 			return new();
 		}

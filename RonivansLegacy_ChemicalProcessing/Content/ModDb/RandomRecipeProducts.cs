@@ -7,11 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UtilLibs;
 using static RonivansLegacy_ChemicalProcessing.Content.ModDb.ModElements;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
-	public static class RandomRecipeResults
+	public static class RandomRecipeProducts
 	{
 		/// <summary>
 		/// random outputs at recipe completion
@@ -40,6 +41,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			randomResult = null;
 			foreach (var fabricator in recipe.fabricators)
 			{
+				if(recipe.ingredients.Count() == 0)
+				{
+					SgtLogger.error("GetRandomResultsforRecipe called with a recipe that has no ingredients! " + recipe.id);
+					continue; //no ingredients, no results
+				}
+
 				if (GetRandomResultList(fabricator, out var results)
 					&& results.TryGetValue(recipe.ingredients[0].material, out randomResult))
 					return true;

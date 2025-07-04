@@ -130,7 +130,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Input(ModElements.LowGradeSand_Solid, 100)
 				.Input(ModElements.Borax_Solid, 10)
 				.Output(ModElements.Slag_Solid, 20, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-				.DescriptionFunc(RandomRecipeResults.GetArcFurnaceRandomResultString)
+				.DescriptionFunc(RandomRecipeProducts.GetArcFurnaceRandomResultString)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 				.Build();
 
@@ -144,7 +144,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Input(ModElements.BaseGradeSand_Solid, 100)
 				.Input(ModElements.Borax_Solid, 10)
 				.Output(ModElements.Slag_Solid, 20, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-				.DescriptionFunc(RandomRecipeResults.GetArcFurnaceRandomResultString)
+				.DescriptionFunc(RandomRecipeProducts.GetArcFurnaceRandomResultString)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 				.Build();
 
@@ -161,7 +161,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Input(ModElements.Borax_Solid, 10)
 				.InputBase(SimHashes.Lime,10).InputSO(SimHashes.Graphite, 10)
 				.Output(ModElements.Slag_Solid, 30, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-				.DescriptionFunc(RandomRecipeResults.GetArcFurnaceRandomResultString)
+				.DescriptionFunc(RandomRecipeProducts.GetArcFurnaceRandomResultString)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 				.Build();
 

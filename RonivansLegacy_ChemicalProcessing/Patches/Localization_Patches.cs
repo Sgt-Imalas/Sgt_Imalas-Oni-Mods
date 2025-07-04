@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			{
 				LocalisationUtil.Translate(typeof(STRINGS), true);
 				LocalisationUtil.FixTranslationStrings();
+				BuildingInjection.RegisterBuildinTags();
 			}
 		}
 	}

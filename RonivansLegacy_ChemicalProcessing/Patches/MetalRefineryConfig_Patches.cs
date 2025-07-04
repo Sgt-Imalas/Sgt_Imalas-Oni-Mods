@@ -26,10 +26,8 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 					var recipeManager = ComplexRecipeManager.Get();
 					if (recipeManager == null)
 						return;
-					foreach (var item in recipeManager.preProcessRecipes)
-					{
-						item.fabricators.Remove(MetalRefineryConfig.ID);
-					}
+					recipeManager.preProcessRecipes.RemoveWhere(r => r.fabricators.Contains(MetalRefineryConfig.ID));
+
 					Custom_MetalRefineryConfig.ConfigureRecipes(MetalRefineryConfig.ID);
 
 

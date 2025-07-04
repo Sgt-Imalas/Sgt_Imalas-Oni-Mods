@@ -128,6 +128,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				}
 
 				Element refinedElement = element.highTempTransition.lowTempTransition;
+
 				RecipeBuilder.Create(ID, 40)
 					.Input(element.id, 100f)
 					.Input(SimHashes.Carbon, 20f)

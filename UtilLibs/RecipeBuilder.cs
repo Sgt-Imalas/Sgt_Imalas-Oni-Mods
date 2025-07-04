@@ -201,6 +201,14 @@ namespace UtilLibs
 			outputs.Add(new RecipeElement(simhash.CreateTag(), amount, tempOp, storeElement));
 			return this;
 		}
+		public RecipeBuilder OutputConditional(SimHashes hashes, float amount, Func<bool> condition, TemperatureOperation tempOp = TemperatureOperation.AverageTemperature, bool storeElement = false) => OutputConditional(hashes, amount, condition(), tempOp,storeElement);
+		public RecipeBuilder OutputConditional(SimHashes hashes, float amount, bool condition, TemperatureOperation tempOp = TemperatureOperation.AverageTemperature, bool storeElement = false)
+		{
+			if (condition)
+				return Output(hashes, amount);
+			else
+				return this;
+		}
 
 		public RecipeBuilder FacadeOutput(Tag tag, float amount, string facadeID = "", bool storeElement = false, TemperatureOperation tempOp = TemperatureOperation.AverageTemperature)
 		{

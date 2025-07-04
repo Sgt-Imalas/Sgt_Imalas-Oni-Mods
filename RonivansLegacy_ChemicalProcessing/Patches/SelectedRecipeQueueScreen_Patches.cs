@@ -18,7 +18,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
         {
             public static void Postfix(SelectedRecipeQueueScreen __instance, List<SelectedRecipeQueueScreen.DescriptorWithSprite> __result, ComplexRecipe recipe)
 			{
-				if (RandomRecipeResults.GetRandomOccurencesforRecipe(recipe, out var occurence))
+				if (RandomRecipeProducts.GetRandomOccurencesforRecipe(recipe, out var occurence))
 				{
 					__result.Add(new SelectedRecipeQueueScreen.DescriptorWithSprite(
 						new(occurence.GetOccurenceCompositionName(),
@@ -26,7 +26,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 						new(Assets.GetSprite("icon_mining_occurence"), UIUtils.rgb(204, 127, 5)))
 						);
 				}
-				if (RandomRecipeResults.GetRandomResultsforRecipe(recipe, out var result))
+				if (RandomRecipeProducts.GetRandomResultsforRecipe(recipe, out var result))
 				{
                     __result.Add(new SelectedRecipeQueueScreen.DescriptorWithSprite(
                         new(result.GetProductCompositionName(),

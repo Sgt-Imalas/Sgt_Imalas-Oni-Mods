@@ -19,6 +19,7 @@ namespace RonivansLegacy_ChemicalProcessing
 		{
 			public class PREFABS
 			{
+				#region Biochemistry
 				public class BIOCHEMISTRY_ALGAEGROWINGBASIN
 				{
 					public static LocString NAME = FormatAsLink("Algae Growing Basin", nameof(BIOCHEMISTRY_ALGAEGROWINGBASIN));
@@ -106,6 +107,8 @@ namespace RonivansLegacy_ChemicalProcessing
 							FormatAsLink("Mush Bar", "MUSHBAR"),"."
 						]);
 				}
+#endregion
+				#region ChemicalProcessing
 				public class CHEMICAL_ADVANCEDKILN
 				{
 					public static LocString NAME = FormatAsLink("Advanced Kiln", nameof(CHEMICAL_ADVANCEDKILN));
@@ -130,8 +133,8 @@ namespace RonivansLegacy_ChemicalProcessing
 				}
 				public class CHEMICAL_BALLCRUSHERMILL
 				{
-					public static LocString NAME = FormatAsLink("Ball Crusher Mill", nameof(CHEMICAL_BALLCRUSHERMILL));
-					public static LocString DESC = "A large sized industrial mill that crushes raw ores using steel balls and special mixture of acids. Capable to process much more than the standar mill, as well more efficient in the extraction of valuable minerals from the raw more sludge.";
+					public static LocString NAME = FormatAsLink("Ball Crusher Mill (Chemical Washing)", nameof(CHEMICAL_BALLCRUSHERMILL));
+					public static LocString DESC = "A large sized industrial mill that crushes raw ores using steel balls and special mixture of acids. Capable to process much more than the standard mill, as well more efficient in the extraction of valuable minerals from the raw more sludge.";
 					public static LocString EFFECT = string.Concat("Crush down ", FormatAsLink("Raw Minerals", "RAWMINERAL"), " in to useful materials and industrial ingredients.");
 				}
 				public class CHEMICAL_CO2PUMP
@@ -466,6 +469,8 @@ namespace RonivansLegacy_ChemicalProcessing
 
 						]);
 				}
+				#endregion
+				#region Metallurgy
 				public class METALLURGY_PLASMAFURNACE
 				{
 					public static LocString NAME = FormatAsLink("Plasma Furnace", nameof(METALLURGY_PLASMAFURNACE));
@@ -482,6 +487,12 @@ namespace RonivansLegacy_ChemicalProcessing
 							FormatAsLink("Hydrogen", "HYDROGEN"),
 							" as carrier gas.\n\nMain products are dispensed in molten state directly in the floor below the building while the liquid waste is released in a separated port."
 						]);
+				}
+				public class METALLURGY_BALLCRUSHERMILL
+				{
+					public static LocString NAME = FormatAsLink("Ball Crusher Mill (Mechanical Separator)", nameof(METALLURGY_BALLCRUSHERMILL));
+					public static LocString DESC = "A large sized industrial mill that crushes raw ores using steel balls and special vibrating separation device to sort out possible useful resources.";
+					public static LocString EFFECT = string.Concat("Crush down ", FormatAsLink("Raw Minerals", "RAWMINERAL"), " in to useful materials and industrial ingredients.");
 				}
 				public class METALLURGY_BASICOILREFINERY
 				{
@@ -512,6 +523,8 @@ namespace RonivansLegacy_ChemicalProcessing
 							"."
 						]);
 				}
+#endregion
+				#region Mining
 				public class MINING_CNCMACHINE
 				{
 					public static LocString NAME = FormatAsLink("CNC Machining Station", nameof(MINING_CNCMACHINE));
@@ -532,6 +545,7 @@ namespace RonivansLegacy_ChemicalProcessing
 							"Occurrence: resources are spawned during Drillhead operation."
 						]);
 				}
+				#endregion
 				#region DupesMachinery
 				/// <summary>
 				/// Dupes machinery is not namespaced
@@ -577,7 +591,6 @@ namespace RonivansLegacy_ChemicalProcessing
 
 				}
 				#endregion
-
 			}
 		}
 		public class CREATURES
@@ -1027,8 +1040,13 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString EXPELLER_PRESS_1_2 = "Press down {0} and extract {1}. Produces {2} as waste.";
 				public static LocString EXPELLER_PRESS_SEEDTOOIL = FormatAsLink("Seeds", "SEED") + " to " + ELEMENTS.LIQUIDVEGEOIL.NAME;
 
+				public static LocString PLASMAFURNACE_1_1 = "Smelts raw {0} to produce high purity {1}.";
+				public static LocString PLASMAFURNACE_2_1 = "Smelt an uniform mixture of {0} and {1} to produce high purity {2}.";
 				public static LocString PLASMAFURNACE_2_1_1 = "Smelt an uniform mixture of {0} and {1} to produce high purity {2}.\nProduces {3} as waste.";
 				public static LocString PLASMAFURNACE_2_2_1 = "Smelt an uniform mixture of {0} and {1} to produce high purity {2} and {3}.\nProduces {4} as waste.";
+				public static LocString PLASMAFURNACE_1_1_1 = "Smelt raw {0} to produce high purity {1}.\nProduces {2} as waste.";
+				public static LocString PLASMAFURNACE_1_2 = "Smelt raw {0} to produce high purity {1} and {2}.";
+				public static LocString PLASMAFURNACE_STEEL = "Smelt a mixture of {0} and {1}, with {2} as flux, to produce high purity {3}.";
 
 				public class RANDOMRECIPERESULT
 				{
