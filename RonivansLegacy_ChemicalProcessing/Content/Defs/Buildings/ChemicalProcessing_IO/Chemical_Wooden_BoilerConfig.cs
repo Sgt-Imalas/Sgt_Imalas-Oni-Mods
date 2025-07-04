@@ -42,7 +42,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			string[] textArray1 = ["RefinedMetal", SimHashes.Ceramic.ToString()];
 
 			EffectorValues noise = NOISE_POLLUTION.NOISY.TIER3;
-			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 4, "wooden_boiler_b_kanim", 100, 30f, singleArray1, textArray1, 800f, BuildLocationRule.OnFloor, TUNING.BUILDINGS.DECOR.PENALTY.TIER2, noise);
+			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 4, "wooden_boiler_kanim", 100, 30f, singleArray1, textArray1, 800f, BuildLocationRule.OnFloor, TUNING.BUILDINGS.DECOR.PENALTY.TIER2, noise);
 			buildingDef.ExhaustKilowattsWhenActive = 8f;
 			buildingDef.SelfHeatKilowattsWhenActive = 1f;
 			buildingDef.AudioCategory = "HollowMetal";

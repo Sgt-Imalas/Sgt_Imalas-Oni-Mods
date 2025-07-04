@@ -311,7 +311,7 @@ namespace Metallurgy.Buildings
 			// Result:     Molten Steel - 500kg
 			//----------------------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID,10)
-				.Input(SimHashes.MoltenIron, 425f)
+				.Input(SimHashes.Iron, 425f)
 				.Input(SimHashes.RefinedCarbon, 50f)
 				.Input(SimHashes.Lime, 25f)
 				.Output(SimHashes.MoltenSteel, 500f, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)

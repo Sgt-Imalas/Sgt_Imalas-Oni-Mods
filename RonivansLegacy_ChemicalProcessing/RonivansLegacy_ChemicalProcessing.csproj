@@ -4,7 +4,7 @@
 	<PropertyGroup>
 		<PackageId>RonivansLegacy_ProcessingAIO</PackageId>
 		<Version>1.0.0</Version>
-		<Authors>Ronivan</Authors>
+		<Authors>Ronivan, Sgt_Imalas</Authors>
 		<Copyright>$(RonivanCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
 	</PropertyGroup>
@@ -23,9 +23,8 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>Ronivan Processing - All In One</ModName>
-		<ModDescription></ModDescription>
-		<SupportedContent>ALL</SupportedContent> <!-- Use "EXPANSION1_ID" for dlc only -->
+		<ModName>Ronivans Processing - All In One Pack</ModName>
+		<ModDescription>All Refinement mods created by Ronivan, now collected into one configurable modpack.</ModDescription>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

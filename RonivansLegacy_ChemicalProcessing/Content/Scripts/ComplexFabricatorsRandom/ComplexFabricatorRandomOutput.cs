@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static ComplexRecipe;
-using static Klei.SimUtil;
 using UnityEngine;
 using UtilLibs;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
@@ -22,12 +20,16 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 		}
 
 		[SerializeField] int ByproductSpawnChancePerSecond = 100;
+		//evry x seconds, spawn a byproduct if the chance above is rolled ^
+		[SerializeField] float ByproductSpawnIntervalSeconds = 4;
 
 		[MyCmpGet] Building building;
 
 		[SerializeField] public bool StoreRandomOutputs = false;
 
 		public RecipeRandomResult DefaultOutput = null;
+
+		public float currentByproductSpawnTimer = 0f;
 
 		public override List<GameObject> SpawnOrderProduct(ComplexRecipe recipe)
 		{
@@ -38,9 +40,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 		public override void Sim1000ms(float dt)
 		{			
 			base.Sim1000ms(dt);
-			SpawnFabricationByproducts();
+			SpawnFabricationOccurences(dt);
 		}
-
 
 		public void SpawnProductsFor(RecipeRandomResult recipeRandomResult)
 		{
@@ -88,10 +89,17 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 		}
 		#endregion
 		#region RandomByproductsDuringRecipeProcess
-		public void SpawnFabricationByproducts()
+		public void SpawnFabricationOccurences(float dt)
 		{
 			if (CurrentWorkingOrder == null || !operational.IsActive)
 				return;
+
+			if(currentByproductSpawnTimer > 0)
+			{
+				currentByproductSpawnTimer -= dt;
+				return;
+			}
+			currentByproductSpawnTimer += ByproductSpawnIntervalSeconds;
 
 			var rollSpawnChance = UnityEngine.Random.Range(1, 101);
 			if (rollSpawnChance > ByproductSpawnChancePerSecond)

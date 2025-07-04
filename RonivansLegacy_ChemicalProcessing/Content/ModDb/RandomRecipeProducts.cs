@@ -1,5 +1,6 @@
 ﻿using Dupes_Industrial_Overhaul.Chemical_Processing.Buildings;
 using Mineral_Processing_Mining.Buildings;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.MineralProcessing_Metallurgy;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRandom;
 using System;
 using System.Collections.Generic;
@@ -26,8 +27,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		{
 			_randomRecipeResultsCollection = new()
 			{
-				{Chemical_BallCrusherMillConfig.ID,InitRandomResults_BallCrusher() },
+				{Chemical_BallCrusherMillConfig.ID,InitRandomResults_BallCrusher_Chemical() },
 				{Chemical_SelectiveArcFurnaceConfig.ID,InitRandomResults_SelectiveArcFurnace() },
+				{Metallurgy_BallCrusherMillConfig.ID,InitRandomResults_BallCrusher_Metallurgy() },
 				{Mining_AugerDrillConfig.ID,InitRandomResults_AugerDrill() },
 			};
 			_randomFabricationByproductsCollection = new()
@@ -41,7 +43,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			randomResult = null;
 			foreach (var fabricator in recipe.fabricators)
 			{
-				if(recipe.ingredients.Count() == 0)
+				if (recipe.ingredients.Count() == 0)
 				{
 					SgtLogger.error("GetRandomResultsforRecipe called with a recipe that has no ingredients! " + recipe.id);
 					continue; //no ingredients, no results
@@ -82,7 +84,27 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			return _randomFabricationByproductsCollection.TryGetValue(buildingID, out results);
 		}
 
-		public static string GetBallCrusherRandomResultsString(ComplexRecipe.RecipeElement[] recipeIngredients, ComplexRecipe.RecipeElement[] recipeResults)
+		public static string GetMetallurgyBallCrusherRandomResultsString(ComplexRecipe.RecipeElement[] recipeIngredients, ComplexRecipe.RecipeElement[] recipeResults)
+		{
+			var inputElement = recipeIngredients[0].material;
+
+			if (!GetRandomResultList(Metallurgy_BallCrusherMillConfig.ID, out var recipes) || !recipes.TryGetValue(inputElement, out RecipeRandomResult result))
+			{
+				return string.Empty;
+			}
+
+			string potentialResults = string.Empty;
+			foreach (var potentialResult in result.RandomProductsRange)
+			{
+				var elementTag = potentialResult.Key.CreateTag();
+				potentialResults += "\n• " + elementTag.ProperName();
+			}
+			return string.Format(STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.BALLCRUSHER_MILLING_1INGREDIENT,
+				inputElement.ProperName(),
+				GameUtil.GetFormattedMass(result.TotalMass),
+				potentialResults);
+		}
+		public static string GetChemicalBallCrusherRandomResultsString(ComplexRecipe.RecipeElement[] recipeIngredients, ComplexRecipe.RecipeElement[] recipeResults)
 		{
 			var inputElement = recipeIngredients[0].material;
 			var guaranteed = recipeResults[0].material;
@@ -108,6 +130,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					recipeIngredients[1].material.ProperName(),
 					recipeIngredients[2].material.ProperName(),
 					recipeIngredients[3].material.ProperName(),
+					GameUtil.GetFormattedMass(result.TotalMass),
 					potentialResults,
 					guaranteed.ProperName());
 			else
@@ -115,6 +138,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					recipeIngredients[0].material.ProperName(),
 					recipeIngredients[1].material.ProperName(),
 					recipeIngredients[2].material.ProperName(),
+					GameUtil.GetFormattedMass(result.TotalMass),
 					potentialResults,
 					guaranteed.ProperName());
 		}
@@ -162,7 +186,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			else
 				sb.AppendLine(string.Format(STRINGS.UI.MINING_AUGUR_DRILL.RECIPE_3I, Mining_Drillbits_GuidanceDevice_ItemConfig.GetTargetName(inputElement), drillbit, Mining_Drillbits_GuidanceDevice_ItemConfig.GetGuidanceItemName(inputElement)));
 
-			if(liquid)
+			if (liquid)
 				sb.AppendLine(STRINGS.UI.MINING_AUGUR_DRILL.RECIPE_LIQUID);
 			if (dangerousliquid)
 				sb.AppendLine(STRINGS.UI.MINING_AUGUR_DRILL.RECIPE_LIQUID_DANGER);
@@ -172,10 +196,132 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			var products = result.GetCompositionDescription(sb.ToString(), null, true);
 			products += STRINGS.UI.MINING_AUGUR_DRILL.RECIPE_OCCURENCES;
 
-			return occurenceResult.GetCompositionDescription(products,null,true);
+			return occurenceResult.GetCompositionDescription(products, null, true);
 		}
 
-		private static Dictionary<Tag, RecipeRandomResult> InitRandomResults_BallCrusher()
+		private static Dictionary<Tag, RecipeRandomResult> InitRandomResults_BallCrusher_Metallurgy()
+		{
+			var results = new Dictionary<Tag, RecipeRandomResult>();
+			///rates taken from ronivans dictionary solution
+
+			bool soEnabled = DlcManager.IsExpansion1Active();
+
+			//===: SANDSTONE RANDOM RESULTS :============================================================ < 500 kg >
+			//---[ Possible Results Elements: ]
+			// - Copper Ore
+			// - Electrum
+			// - Fertilizer
+			// - Crushed Rock
+			// - Sand
+			//-------------------------------------------------------------------------------------
+			results.Add(SimHashes.SandStone.CreateTag(),
+				new RecipeRandomResult(500, 20, 50)
+				.AddProduct(SimHashes.CrushedRock,150, 310)
+				.AddProduct(SimHashes.Sand,175, 310)
+				.AddProduct(SimHashes.Cuprite,20,40, 3f/9f)
+				.AddProduct(SimHashes.Electrum,15,30, 3f/9f)
+				.AddProduct(SimHashes.Fertilizer, 10,20, 2f/9f)
+				);
+			//===: SEDIMENTARY ROCK RANDOM RESULTS :======================================================== < 500 kg >
+			//---[ Possible Results Elements: ]
+			// - Gold Amalgam
+			// - Pyrite
+			// - Cobalt Ore
+			// - Salt
+			// - Crushed Rock
+			// - Clay
+			//------------------------------------------------------------------------------------------
+			results.Add(SimHashes.SedimentaryRock.CreateTag(),
+				new RecipeRandomResult(500, 20, 50)
+				.AddProduct(SimHashes.CrushedRock, 160, 320)
+				.AddProduct(SimHashes.Clay, 150, 310)
+				.AddProduct(SimHashes.GoldAmalgam, 10, 30, 2f / 9f)
+				.AddProduct(SimHashes.FoolsGold, 20, 40, 2f / 9f)
+				.AddProductConditional(soEnabled, SimHashes.Cobaltite, 25, 35, 2f / 9f)
+				.AddProduct(SimHashes.Salt, 40, 50, 1f / 9f)
+				);
+			///Shale: mirror of sedimentary rock bc it is described as sedimentary in its desc
+			results.Add(SimHashes.Shale.CreateTag(),
+				new RecipeRandomResult(500, 20, 50)
+				.AddProduct(SimHashes.CrushedRock, 160, 320)
+				.AddProduct(SimHashes.Clay, 150, 310)
+				.AddProduct(SimHashes.GoldAmalgam, 10, 30, 2f / 9f)
+				.AddProduct(SimHashes.FoolsGold, 20, 40, 2f / 9f)
+				.AddProductConditional(soEnabled, SimHashes.Cobaltite, 25, 35, 2f / 9f)
+				.AddProduct(SimHashes.Salt, 40, 50, 1f / 9f)
+				);
+			//===: IGNEOUS ROCK RANDOM RESULTS :========================================================= < 500 kg >
+			//---[ Possible Results Elements: ]
+			// - Pyrite
+			// - Iron Ore
+			// - Obsidian
+			// - Sulfur
+			// - Crushed Rock
+			// - Sand
+			//--------------------------------------------------------------------------------------
+			results.Add(SimHashes.IgneousRock.CreateTag(),
+				new RecipeRandomResult(500, 20, 50)
+				.AddProduct(SimHashes.CrushedRock, 250, 350)
+				.AddProduct(SimHashes.Sand, 50, 150)
+				.AddProduct(SimHashes.FoolsGold, 15, 25, 4f / 9f)
+				.AddProduct(SimHashes.Sulfur, 25, 75, 4f / 9f)
+				.AddProduct(SimHashes.IronOre, 15, 20, 2f / 9f)
+				.AddProduct(SimHashes.Obsidian, 65, 95, 3f / 9f)
+				);
+			//===: GRANITE RANDOM RESULTS :============================================================= < 500 kg >
+			//---[ Possible Results Elements: ]
+			// - Aluminum 
+			// - Iron Ore
+			// - Obsidian
+			// - Crushed Rock
+			// - Sand
+			results.Add(SimHashes.Granite.CreateTag(),
+				new RecipeRandomResult(500, 20, 50)
+				.AddProduct(SimHashes.CrushedRock, 270, 370)
+				.AddProduct(SimHashes.Sand, 50, 250)
+				.AddProduct(SimHashes.AluminumOre, 15, 25, 4f / 8f)
+				.AddProduct(SimHashes.IronOre, 15, 25, 2f / 8f)
+				.AddProduct(SimHashes.Obsidian, 65, 95, 2f / 8f)
+				);
+			//===: MAFIC ROCK RANDOM RESULTS :========================================================== < 500 kg >
+			//---[ Possible Results Elements: ]
+			// - Aluminum Ore
+			// - Phosphorus 
+			// - Electrum
+			// - Crushed Rock
+			// - Sand
+			results.Add(SimHashes.MaficRock.CreateTag(),
+				new RecipeRandomResult(500, 20, 50)
+				.AddProduct(SimHashes.CrushedRock, 250, 350)
+				.AddProduct(SimHashes.Sand, 100, 200)
+				.AddProduct(SimHashes.AluminumOre, 15, 25, 2f / 8f)
+				.AddProduct(SimHashes.Electrum, 25, 35, 2f / 8f)
+				.AddProduct(SimHashes.Phosphorus, 50, 100, 3f / 8f)
+				);
+			//===: ABYSSALITE RANDOM RESULTS :========================================================== < 500 kg >
+			//---[ Possible Results Elements: ]
+			// - Wolframite
+			// - Tungsten
+			// - Phosphorus
+			// - Obsidian
+			// - Diamond
+			// - Crushed Rock
+			// - Sand
+
+			results.Add(SimHashes.Katairite.CreateTag(),
+				new RecipeRandomResult(500, 20, 50)
+				.AddProduct(SimHashes.Wolframite, 5, 15, 1f / 9f)
+				.AddProduct(SimHashes.Tungsten, 5, 15, 1f / 9f)
+				.AddProduct(SimHashes.Phosphorus, 70, 110, 4f / 9f)
+				.AddProduct(SimHashes.Obsidian, 70, 120, 3f / 9f)
+				.AddProduct(SimHashes.Diamond, 20, 25, 1f / 9f)
+				.AddProduct(SimHashes.CrushedRock, 200, 420)
+				.AddProduct(SimHashes.Sand, 120, 180, 4f/9f)
+				);
+
+			return results;
+		}
+		private static Dictionary<Tag, RecipeRandomResult> InitRandomResults_BallCrusher_Chemical()
 		{
 			var results = new Dictionary<Tag, RecipeRandomResult>();
 			///rates taken from ronivans dictionary solution

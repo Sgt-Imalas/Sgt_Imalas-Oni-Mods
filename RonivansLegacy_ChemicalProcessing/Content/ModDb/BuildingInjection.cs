@@ -7,6 +7,7 @@ using HarmonyLib;
 using Dupes_Machinery.Biological_Vats;
 using Dupes_Machinery.Ethanol_Still;
 using System;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.MineralProcessing_Metallurgy;
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
 	class BuildingInjection
@@ -39,12 +40,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				AddBuildingsToPlanscreen_ChemicalProcessingIndustrialOverhaul();
 				RegisterOilWellCapCustomPiping();
 			}
+			if (Config.Instance.MineralProcessing_Metallurgy_Enabled)
+				AddBuildingsToPlanscreen_MineralProcessingMetallurgy();
 			if (Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
 				AddBuildingsToPlanscreen_ChemicalProcessingBioChemistry();
 			if(Config.Instance.MineralProcessing_Mining_Enabled)
 				AddBuildingsToPlanscreen_MineralProcessingMining();
-			if (Config.Instance.MineralProcessing_Metallurgy_Enabled)
-				AddBuildingsToPlanscreen_MineralProcessingMetallurgy();
 			if(Config.Instance.DupesMachinery_Enabled)
 				AddBuildingsToPlanscreen_DupesMachinery();
 		}
@@ -98,6 +99,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Metallurgy_PlasmaFurnaceConfig.ID, GlassForgeConfig.ID);
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Metallurgy_PyrolysisKilnConfig.ID, KilnConfig.ID);
 			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Metallurgy_BasicOilRefineryConfig.ID, OilRefineryConfig.ID,ordering:ModUtil.BuildingOrdering.Before);
+			InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, Metallurgy_BallCrusherMillConfig.ID, RockCrusherConfig.ID);
 		}
 		private static void AddBuildingsToPlanscreen_DupesMachinery()
 		{
@@ -125,6 +127,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		{
 			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.Smelting, Chemical_AdvancedKilnConfig.ID);
 			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.SuperheatedForging, Chemical_AdvancedMetalRefineryConfig.ID);
+			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.BruteForceRefinement, Chemical_SmallCrusherMillConfig.ID);
 			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.SuperheatedForging, Chemical_BallCrusherMillConfig.ID);
 			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Food.Agriculture, Chemical_Co2PumpConfig.ID);
 
@@ -140,7 +143,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Liquids.LiquidTuning, Chemical_EndothermicUnitConfig.ID);
 			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.FossilFuels, Chemical_Gas_BoilerConfig.ID);
 			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.SuperheatedForging, Chemical_GlassFoundryConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.BruteForceRefinement, Chemical_SmallCrusherMillConfig.ID);
 			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.FossilFuels, Chemical_NaphthaReformerConfig.ID);
 			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.FossilFuels, Chemical_PropaneReformerConfig.ID);
 			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.FossilFuels, Chemical_RawGasRefineryConfig.ID);
@@ -161,6 +163,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Gases.Catalytics, Metallurgy_PlasmaFurnaceConfig.ID);
 			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.BruteForceRefinement, Metallurgy_PyrolysisKilnConfig.ID);
 			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.FossilFuels, Metallurgy_BasicOilRefineryConfig.ID);
+			InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.SuperheatedForging, Metallurgy_BallCrusherMillConfig.ID);
 		}
 		private static void AddBuildingsToTech_ChemicalProcessingBioChemistry()
 		{

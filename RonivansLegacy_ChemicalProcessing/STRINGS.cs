@@ -557,8 +557,8 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString EFFECT = string.Concat(
 					[
 						"Treat ",
-						FormatAsLink("Polluted Water", "DIRTYWATER"), " or " +
-						"Toxic Slurry using special filter and chemicals. " +
+						FormatAsLink("Polluted Water", "DIRTYWATER"), " or " +FormatAsLink("Toxic Slurry", "TOXICSLURRY"),
+						" using special filter and chemicals. " +
 						"Sieve process also completely removes", FormatAsLink("Germs", "DISEASE"),"."
 					]);
 				}
@@ -999,9 +999,10 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString THREE_MIXTURE_FUSE = "Fuse together a mixture of {0} and {1}, with addition of {2} to produce {3}.";
 				public static LocString THREE_MIXTURE_TWO_PRODUCTS_SMELT_WASTE = "Smelt a mixture of {0}, {1} and {2}, to produce {3} and {4}. Produces {5} as waste.";
 				public static LocString THREE_MIXTURE_SMELT_WASTE = "Smelt a mixture of {0}, {1} and {2}, to produce {3}. Produces {4} as waste.";
-
-				public static LocString BALLCRUSHER_MILLING_2INGREDIENTS = "Mill down {0} with a mixture of {1} and {2}.\nThe milling process has a random chance of yielding random amounts of the following materials:\n{3}\n\nProduces large amounts of {4} as waste product.";
-				public static LocString BALLCRUSHER_MILLING_3INGREDIENTS = "Mill down {0} with a mixture of {1}, {2} and {3}.\nThe milling process has a random chance of yielding random amounts of the following materials:\n{4}\n\nProduces large amounts of {5} as waste product.";
+				
+				public static LocString BALLCRUSHER_MILLING_1INGREDIENT = "Mill down {0}.\nThe milling process will yield {1} of random amounts of the following materials:\n{2}";
+				public static LocString BALLCRUSHER_MILLING_2INGREDIENTS = "Mill down {0} with a mixture of {1} and {2}.\nThe milling process will yield {3} of random amounts of the following materials:\n{4}\n\nProduces large amounts of {5} as waste product.";
+				public static LocString BALLCRUSHER_MILLING_3INGREDIENTS = "Mill down {0} with a mixture of {1}, {2} and {3}.\nThe milling process will yield {4} of random amounts of the following materials:\n{5}\n\nProduces large amounts of {6} as waste product.";
 				public static LocString ARCFURNACE_SMELT = "Smelt {0} to produce {1}.";
 				public static LocString ARCFURNACE_MELT = "Melt {0} to produce {1}.";
 
