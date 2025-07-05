@@ -42,7 +42,6 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
                         codes.Insert(i + 1, new CodeInstruction(OpCodes.Call, m_InjectedMethod));
 					}
 				}
-                TranspilerHelper.PrintInstructions(codes);
 				return codes;
             }
 

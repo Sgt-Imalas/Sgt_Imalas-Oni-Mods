@@ -17,11 +17,11 @@ namespace RonivansLegacy_ChemicalProcessing
 	{
 		public class DUPLICANTS
 		{
-			public class PROCESSING_AIO_RONIVAN
-			{
-				public static LocString NAME = "Ronivan";
-				public static LocString DESC = "{0}s are great artists who enjoy creating things, even during their free time.";
-			}
+			//public class PROCESSING_AIO_RONIVAN
+			//{
+			//	public static LocString NAME = "Ronivan";
+			//	public static LocString DESC = "{0}s are great artists who enjoy creating things, even during their free time.";
+			//}
 			public class STATUSITEMS
 			{
 				public class ACIDBURNS
@@ -298,7 +298,7 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString DESC = "An industrial petrochemical plant responsible for rearranging hydrocarbon molecules of Naphtha in to Petroleum.";
 					public static LocString EFFECT = string.Concat(
 						[
-							"Second Stage refinement plant is capable of furter refine ",FormatAsLink("Naphtha", "NAPHTHA"), ":\n "+
+							"This second stage refinement plant is capable of furter refining ",FormatAsLink("Naphtha", "NAPHTHA"), ":\n "+
 							"- 45% ",FormatAsLink("Petroleum", "PETROLEUM"), "\n" +
 							"- 10% ",FormatAsLink("Natural Gas", "METHANE"), "\n" +
 							"- 45% ",FormatAsLink("Bitumen", "BITUMEN"),".\n\n" +
@@ -535,7 +535,7 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString EFFECT = string.Concat(
 						[
 							"Cook ",
-							FormatAsLink("Woodlog", "WOODLOG"),
+							global::STRINGS.ELEMENTS.WOODLOG.NAME,
 							" to ",
 							FormatAsLink("Coal", "CARBON"),
 							"."
@@ -965,6 +965,76 @@ namespace RonivansLegacy_ChemicalProcessing
 		}
 		public class UI
 		{
+			public class BUILDINGEDITOR
+			{
+				public static LocString TITLE = "Building Configuration Editor";
+
+				public static LocString PARENT_MOD_DISABLED = "Building disabled by category.\nThe parent mod this building is from is turned off in the config.";
+				public static LocString MOD_ORIGIN_TEXT = "This building could originally be found in:";
+				public static LocString BUILDINGCONFIGURABLE = "This building has settings that can be modified.";
+				public class RESETALLCHANGES
+				{
+					public static LocString TITLE = "Reset Changes";
+					public static LocString TEXT = "Are you sure you want to reset all modifications you have done to the building configuration?";
+				}
+
+
+
+				public class HORIZONTALLAYOUT
+				{
+					public class OBJECTLIST
+					{
+						public class SEARCHBAR
+						{
+							public static LocString CLEARTOOLTIP = "Clear search bar";
+							public class INPUT
+							{
+								public class TEXTAREA
+								{
+									public static LocString PLACEHOLDER = "Filter buildings...";
+									public static LocString TEXT = "";
+								}
+							}
+						}
+					}
+					public class ITEMINFO
+					{
+						public class SCROLLAREA
+						{
+							public class CONTENT
+							{
+								public class AMOUNTINPUT
+								{
+									public static LocString LABEL = "Amount:";
+								}
+								public class REQUIREDDLCS
+								{
+									public static LocString LABEL = "Required Dlcs:";
+								}
+								public static LocString ENABLEBUILDING = "Enable Building:";
+								public LocString CAPACITYSETTINGS = "Storage Capacity:";
+								public LocString WATTAGESETTINGS = "Power Consumption:";
+							}
+						}
+
+					}
+
+				}
+				public class BUTTONS
+				{
+					public class CLOSEBUTTON
+					{
+						public static LocString TEXT = "Return";
+						public static LocString TOOLTIP = "Close window";
+					}
+					public class RESETBUTTON
+					{
+						public static LocString TEXT = "Reset All Changes";
+						public static LocString TOOLTIP = "Reset all changes you have made";
+					}
+				}
+
+			}
 			public class MININGGUIDANCEDEVICEPROGRAMSELECTORSIDESCREEN
 			{
 				public static LocString TITLE = "Reprogram guidance device";
@@ -1079,7 +1149,7 @@ namespace RonivansLegacy_ChemicalProcessing
 			}
 		}
 
-		public class RONIVANL_AIO_MODCONFIG
+		public class RONIVAN_AIO_MODCONFIG
 		{
 			public static LocString A_CATEGORY_GENERIC = "Overarching Settings";
 			public static LocString B_CATEGORY_IO = "Chemical Processing - Industrial Overhaul";
@@ -1096,6 +1166,11 @@ namespace RonivansLegacy_ChemicalProcessing
 			{
 				public static LocString NAME = "Ronivan Duplicant";
 				public static LocString TOOLTIP = "Ronivan joins the pool of available duplicants, a tribute to his impact on the ONI Community.";
+			}
+			public class BUILDINGEDITOR
+			{
+				public static LocString NAME = "Building Editor";
+				public static LocString TOOLTIP = "Open the building editor to individually toggle all buildings added by the mod and change settings on some.\nAll changes done here require a restart!";
 			}
 		}
 	}

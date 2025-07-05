@@ -1,4 +1,5 @@
 ﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRandom;
 using System;
 using System.Collections.Generic;

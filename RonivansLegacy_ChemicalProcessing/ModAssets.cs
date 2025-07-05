@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing
 {
@@ -26,6 +27,21 @@ namespace RonivansLegacy_ChemicalProcessing
 
 			///Prevents free material cheesing from drill by destroying the drillbit on cancellation of the recipe
 			public static Tag RandomRecipeIngredient_DestroyOnCancel = TagManager.Create("RandomRecipeIngredient_DestroyOnCancel");
-		}       
-    }
+		}
+		public static GameObject BuildingEditorWindowPrefab;
+
+		public static void LoadAssets()
+		{
+			AssetBundle bundle = AssetUtils.LoadAssetBundle("ronivan_aio", platformSpecific: true);
+
+			BuildingEditorWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/BuildingEditor.prefab");
+
+			SgtLogger.Assert(BuildingEditorWindowPrefab, "BuildingEditorWindowPrefab");
+
+
+			var TMPConverter = new TMPConverter();
+			TMPConverter.ReplaceAllText(BuildingEditorWindowPrefab);
+
+		}
+	}
 }

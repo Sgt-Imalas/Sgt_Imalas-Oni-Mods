@@ -50,6 +50,13 @@ namespace UtilLibs
 				warning($"Assert failed, {name} is null");
 			}
 		}
+		public static void Assert(object arg, string name)
+		{
+			if (arg == null)
+			{
+				warning($"Assert failed, {name} is null");
+			}
+		}
 
 		public static void debuglog(object a, object b = null, object c = null, object d = null)
 		{

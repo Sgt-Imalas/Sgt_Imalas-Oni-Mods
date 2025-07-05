@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using PeterHan.PLib.Options;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,9 @@ namespace RonivansLegacy_ChemicalProcessing
 	[ConfigFile(SharedConfigLocation: true)]
 	public class Config : SingletonOptions<Config>
 	{
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.TOOLTIP")]
+		[JsonIgnore]
+		public System.Action<object> Button_OpenCarepackageEditor => BuildingEditor_MainScreen.ShowBuildingEditor;
 
 		[Option("Chemical Processing - Industrial Overhaul: Enabled")]
 		[JsonProperty]
@@ -31,9 +35,9 @@ namespace RonivansLegacy_ChemicalProcessing
 		public bool DupesMachinery_Enabled { get; set; } = true;
 
 
-		[Option("STRINGS.RONIVANL_AIO_MODCONFIG.GEYSERS.NAME","STRINGS.RONIVANL_AIO_MODCONFIG.GEYSERS.TOOLTIP", "STRINGS.RONIVANL_AIO_MODCONFIG.A_CATEGORY_GENERIC")]
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.GEYSERS.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.GEYSERS.TOOLTIP", "STRINGS.RONIVANL_AIO_MODCONFIG.A_CATEGORY_GENERIC")]
 		public bool ModGeysersGeneric { get; set; } = true;
-		[Option("STRINGS.RONIVANL_AIO_MODCONFIG.RONIVANDUPE.NAME", "STRINGS.RONIVANL_AIO_MODCONFIG.RONIVANDUPE.TOOLTIP", "STRINGS.RONIVANL_AIO_MODCONFIG.A_CATEGORY_GENERIC")]
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.RONIVANDUPE.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.RONIVANDUPE.TOOLTIP", "STRINGS.RONIVANL_AIO_MODCONFIG.A_CATEGORY_GENERIC")]
 		public bool RonivanDuplicant { get; set; } = true;
 
 	}

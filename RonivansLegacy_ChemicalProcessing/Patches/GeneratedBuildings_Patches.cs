@@ -19,7 +19,9 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		{
 			public static void Postfix()
 			{
-				BuildingInjection.AddBuildingsToPlanscreen();
+				//BuildingDatabase.AddBuildingsToPlanscreen();
+				BuildingDatabase.RegisterOilWellCapCustomPiping();
+				BuildingManager.AddBuildingsToPlanScreen();
 			}
 		}
 	}
