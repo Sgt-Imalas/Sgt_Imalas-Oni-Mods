@@ -30,6 +30,10 @@ namespace RonivansLegacy_ChemicalProcessing
 		[Option("Mineral Processing - Mining: Enabled")]
 		[JsonProperty]
 		public bool MineralProcessing_Mining_Enabled { get; set; } = true;
+		[Option("Nuclear Processing: Enabled")]
+		[JsonProperty]
+		public bool NuclearProcessing_Enabled { get; set; } = true;
+
 		[Option("Dupes Machinery: Enabled")]
 		[JsonProperty]
 		public bool DupesMachinery_Enabled { get; set; } = true;

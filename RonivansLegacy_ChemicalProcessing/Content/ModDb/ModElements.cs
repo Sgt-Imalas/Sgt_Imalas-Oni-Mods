@@ -203,6 +203,17 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			{
 				Debug.LogError("KAnimFile not found");
 			}
+			///Radium
+			Substance radium_substance = ElementLoader.FindElementByHash(SimHashes.Radium).substance;
+			KAnimFile radium_anim = Assets.GetAnim("solid_radium_kanim");
+			if (regolith_anim != null)
+			{
+				radium_substance.anim = radium_anim;
+			}
+			else
+			{
+				Debug.LogError("KAnimFile not found");
+			}
 
 			///Yellowcake
 			Substance yellowcake_substance = ElementLoader.FindElementByHash(SimHashes.Yellowcake).substance;
@@ -273,6 +284,22 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			//=[ BIODIESEL PATCH ]==========================================================
 			Element biodiesel_material = ElementLoader.FindElementByHash(SimHashes.RefinedLipid);
 			biodiesel_material.oreTags = biodiesel_material.oreTags.Append(ModAssets.Tags.Biodiesel_Composition);
+
+
+			//=[ ENABLING RADIUM ]===================================================
+			var radium = ElementLoader.FindElementByHash(SimHashes.Radium);
+			if (radium != null)
+			{
+				radium.disabled = DlcManager.IsPureVanilla();
+				radium.oreTags = [GameTags.ConsumableOre];
+			}
+			//=[ ENABLING YellowCake ]===================================================
+			var yellowcake = ElementLoader.FindElementByHash(SimHashes.Yellowcake);
+			if (yellowcake != null)
+			{
+				yellowcake.disabled = DlcManager.IsPureVanilla();
+				yellowcake.oreTags = [GameTags.ManufacturedMaterial];
+			}
 
 		}
 	}

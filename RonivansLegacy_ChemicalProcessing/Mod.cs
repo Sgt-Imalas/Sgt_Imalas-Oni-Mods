@@ -14,6 +14,8 @@ namespace RonivansLegacy_ChemicalProcessing
 		public static Harmony HarmonyInstance;
 		public override void OnLoad(Harmony harmony)
 		{
+			//Patches.Reactor_Patches.PatchInnerMeltdownLoop.FindReactorMeltdownLoop();
+
 			ModAssets.LoadAssets();
 			PUtil.InitLibrary(false);
 			new POptions().RegisterOptions(this, typeof(Config));

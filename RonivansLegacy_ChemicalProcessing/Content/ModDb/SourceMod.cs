@@ -18,6 +18,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
         DupesLogistics,
         CustomReservoirs,
         CustomRefrigeration,
-        CustomGenerators,
+        CustomGenerators,        
 	}
 }

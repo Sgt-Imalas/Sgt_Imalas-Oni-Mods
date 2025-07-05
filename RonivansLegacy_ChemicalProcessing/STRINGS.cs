@@ -15,6 +15,21 @@ namespace RonivansLegacy_ChemicalProcessing
 {
 	class STRINGS
 	{
+		public class AIO_MODSOURCE
+		{
+			public static LocString ChemicalProcessing_IO = "Chemical Processing - Industrial Overhaul";
+			public static LocString CHEMICALPROCESSING_BIOCHEMISTRY = "Chemical Processing - Biochemistry";
+			public static LocString MINERALPROCESSING_METALLURGY = "Mineral Processing - Metallurgy";
+			public static LocString MINERALPROCESSING_MINING = "Mineral Processing - Mining";
+			public static LocString NUCLEARPROCESSING = "Nuclear Processing";
+			public static LocString DUPESMACHINERY = "Dupes Machinery";
+			public static LocString DUPESENGINEERING = "Dupes Engineering";
+			public static LocString DUPESLOGISTICS = "Dupes Logistics";
+			public static LocString CUSTOMRESERVOIRS = "Custom Reservoirs";
+			public static LocString CUSTOMREFRIGERATION = "Custom Refrigeration";
+			public static LocString CUSTOMGENERATORS = "Custom Generators";
+		}
+
 		public class DUPLICANTS
 		{
 			//public class PROCESSING_AIO_RONIVAN
@@ -584,29 +599,78 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = FormatAsLink("Slime Vat", nameof(SLIMEVAT));
 					public static LocString DESC = "An advanced biological vat that grows a culture of mucopolysaccharides and multicelular fungi mould. This unit also uses advanced filter to extract Polluted Oxygen from its surroundings, albeit its not necessery for it to function. ";
-					public static LocString EFFECT = string.Concat(new string[] { "Slime Vat needs ", FormatAsLink("Water", "WATER"), " and ", FormatAsLink("Mush Bar", "MUSHBAR"), " to grow, producing ", FormatAsLink("Slime", "SLIMEMOLD"), " outgrowth that is collected from the botton. Due to its nature, the slime its produce will be contaminated with Slimelung." });
+					public static LocString EFFECT = string.Concat(["Slime Vat needs ", FormatAsLink("Water", "WATER"), " and ", FormatAsLink("Mush Bar", "MUSHBAR"), " to grow, producing ", FormatAsLink("Slime", "SLIMEMOLD"), " outgrowth that is collected from the botton. Due to its nature, the slime its produce will be contaminated with Slimelung."]);
 
 				}
 				public class CORALVAT
 				{
 					public static LocString NAME = FormatAsLink("Coral Vat", nameof(CORALVAT));
 					public static LocString DESC = "An advanced biological vat that grows a special colony of marine invertebrates, engineered from the Earth species of the class Anthozoa. This unit also uses advanced filter to extract Chlorine Gas from its surroundings, albeit its not necessery for it to function.";
-					public static LocString EFFECT = string.Concat(new string[] { "Coral colony needs ", FormatAsLink("Salt Water", "SALTWATER"), " or ", FormatAsLink("Brine", "BRINE"), " to grow, producing a fair amount of clean ", FormatAsLink("Water", "WATER"), " as result of its biological functions. The coral colony will also excreate tiny particles of ", FormatAsLink("Bleach Stone", "BLEACHSTONE"), ", which are filtered from the water and later released as a solid mass." });
+					public static LocString EFFECT = string.Concat(["Coral colony needs ", FormatAsLink("Salt Water", "SALTWATER"), " or ", FormatAsLink("Brine", "BRINE"), " to grow, producing a fair amount of clean ", FormatAsLink("Water", "WATER"), " as result of its biological functions. The coral colony will also excreate tiny particles of ", FormatAsLink("Bleach Stone", "BLEACHSTONE"), ", which are filtered from the water and later released as a solid mass."]);
 
 				}
 				public class ALGAEVAT
 				{
 					public static LocString NAME = FormatAsLink("Algae Vat", nameof(ALGAEVAT));
 					public static LocString DESC = "An advanced biological vat that grows algae. Due to the controlled atmospheric condition, this algae formation produces oxygen more efficiently than the standard terrarium. This unit also uses advanced filter to extract Carbon Dioxide from its surroundings, albeit its not necessery for it to function. ";
-					public static LocString EFFECT = string.Concat(new string[] { "Algae patch needs ", FormatAsLink("Water", "WATER"), " to grow, producing a fair amount of clean ", FormatAsLink("Oxygen", "OXYGEN"), " as result of its biological functions. Excess water is expelled in the form of ", FormatAsLink("Polluted Water", "DIRTYWATER"), "." });
+					public static LocString EFFECT = string.Concat(["Algae patch needs ", FormatAsLink("Water", "WATER"), " to grow, producing a fair amount of clean ", FormatAsLink("Oxygen", "OXYGEN"), " as result of its biological functions. Excess water is expelled in the form of ", FormatAsLink("Polluted Water", "DIRTYWATER"), "."]);
 
 				}
 				public class ETHANOLSTILL
 				{
 					public static LocString NAME = FormatAsLink("Ethanol Stil", nameof(ETHANOLSTILL));
 					public static LocString DESC = "A solid metal still capable of distillation by selective temperature.";
-					public static LocString EFFECT = string.Concat(new string[] { "Distills ", FormatAsLink("Ethanol", "ETHANOL"), " from a fermented mixture of ", FormatAsLink("Sucrose", "SUCROSE"), " and ", FormatAsLink("Water", "WATER"), ". The fermenting process occurs with ", FormatAsLink("Slime", "SLIMEMOLD"), " bacterias by the degradation of organic nutrients anaerobically." });
+					public static LocString EFFECT = string.Concat(["Distills ", FormatAsLink("Ethanol", "ETHANOL"), " from a fermented mixture of ", FormatAsLink("Sucrose", "SUCROSE"), " and ", FormatAsLink("Water", "WATER"), ". The fermenting process occurs with ", FormatAsLink("Slime", "SLIMEMOLD"), " bacterias by the degradation of organic nutrients anaerobically."]);
 
+				}
+				#endregion
+				#region NuclearProcessing
+				/// <summary>
+				/// nuclear processing is not namespaced
+				/// </summary>
+				public class LIGHTREACTOR
+				{
+					public static LocString NAME = FormatAsLink("ABWR Reactor", nameof(LIGHTREACTOR));
+					public static LocString DESC = "The advanced boiling water reactor (ABWR) uses non-pressurized coolant for steam production. Its comparative small size favors for a quicker heating of the coolant, however, it also increases the odds of a Meltdown in the absence of cooling. Releases Steam in the area directly below its central tile segment.";
+					public static LocString EFFECT = string.Concat(
+					[
+						"Uses ",
+						FormatAsLink("Enriched Uranium", "ENRICHEDURANIUM"),
+						" to produce ",
+						FormatAsLink("Steam", "STEAM"),
+						" for electrical purpose."
+						]);
+				}
+				public class HEPPROJECTOR
+				{
+					public static LocString NAME = FormatAsLink("Rad Projector", nameof(HEPPROJECTOR));
+					public static LocString DESC = "A radiactive source containing radionuclids which emits ionizing radiation.";
+					public static LocString EFFECT = string.Concat(
+					[
+							"This device uses " + FormatAsLink("Uranium Ore", "URANIUMORE"),
+							". As the fuel decays, it turns to liquid " + FormatAsLink("Nuclear Waste", "NUCLEARWASTE"),
+							", which is piped out of the source."
+						]);
+				}
+				public class HEPCENTRIFUGE
+				{
+					public static LocString NAME = FormatAsLink("Zippe-Type Centrifuge", nameof(HEPCENTRIFUGE));
+					public static LocString DESC = "A gas centrifuge is a device that performs isotope separation of gases. A centrifuge relies on the principles of centripetal force accelerating molecules so that particles of different masses are physically separated in a gradient along the radius of a rotating container.";
+					public static LocString EFFECT = string.Concat(
+					[
+						"The Zippe-type centrifuge is a gas device designed to enrich the rare fissile " + FormatAsLink("Enriched Uranium", "ENRICHEDURANIUM"),
+						" from the mixture of isotopes found in the manufactured ",
+						FormatAsLink("Yellow Cake", "YELLOWCAKE"),
+						". The separation process releases small amounts of",
+						FormatAsLink("Depleted Uranium", "DEPLETEDURANIUM"),
+						"as waste product."
+						]);
+				}
+				public class HEPCALCINATOR
+				{
+					public static LocString NAME = FormatAsLink("Voloxidation Calcinator", nameof(HEPCALCINATOR));
+					public static LocString DESC = "Voloxidation process can separate uranium oxides from nuclear waste, along with other heavy elements. Produces waves of contaminating radiation while operational.";
+					public static LocString EFFECT = "An advanced kiln capable of volumetric oxidation with heavy nuclear waste by alternating different stages of oxidation and reduction.";
 				}
 				#endregion
 			}
@@ -1123,6 +1187,9 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString PLASMAFURNACE_1_1_1 = "Smelt raw {0} to produce high purity {1}.\nProduces {2} as waste.";
 				public static LocString PLASMAFURNACE_1_2 = "Smelt raw {0} to produce high purity {1} and {2}.";
 				public static LocString PLASMAFURNACE_STEEL = "Smelt a mixture of {0} and {1}, with {2} as flux, to produce high purity {3}.";
+
+				public static LocString CALCINATOR_1_1 = "Submit {0} to high temperature oxidation reduction to produce {1}.";
+				public static LocString CALCINATOR_2_1 = "Submit a mixture of {0} and {1} to high temperature oxidation degradation to produce {2}.";
 
 				public class RANDOMRECIPERESULT
 				{

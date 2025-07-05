@@ -112,7 +112,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 			for(int i = 0; i < ModsFrom.Count; i++)
 			{
 				var mod = ModsFrom[i];
-				string entry = "\n- "+mod.ToString();
+				var ModName = Strings.Get($"STRINGS.AIO_MODSOURCE.{mod.ToString().ToUpperInvariant()}").ToString();
+				if(ModName.Contains("MISSING"))
+					ModName = mod.ToString(); // Fallback to mod name if translation is missing
+
+				string entry = "\n- "+ ModName;
 				if(i== 0)
 					entry = UIUtils.EmboldenText(entry);
 				text += entry;

@@ -89,10 +89,10 @@ namespace Metallurgy.Buildings
 			crudeoil_refining.consumedElements = [
 				new ElementConverter.ConsumedElement(SimHashes.CrudeOil.CreateTag(), 5f),
 				new ElementConverter.ConsumedElement(SimHashes.Carbon.CreateTag(), 0.1f) ];
-			crudeoil_refining.outputElements = new ElementConverter.OutputElement[] {
+			crudeoil_refining.outputElements = [
 				new ElementConverter.OutputElement(2.5f, SimHashes.Petroleum, 371.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0),
 				new ElementConverter.OutputElement(0.05f, SimHashes.CarbonDioxide, 367.15f, true, true, 0f, 0.5f, 0.75f, 0xff, 0),
-				new ElementConverter.OutputElement(0.09f, SimHashes.Methane, 388.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0)};
+				new ElementConverter.OutputElement(0.09f, SimHashes.Methane, 388.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0)];
 			//--------------------------------------------------------------------
 
 
@@ -100,7 +100,7 @@ namespace Metallurgy.Buildings
 			petrolOutput.conduitType = ConduitType.Liquid;
 			petrolOutput.storage = storage;
 			petrolOutput.alwaysDispense = true;
-			petrolOutput.elementFilter = new SimHashes[] { SimHashes.Petroleum };
+			petrolOutput.elementFilter = [SimHashes.Petroleum];
 
 			PipedConduitDispenser co2Output = go.AddComponent<PipedConduitDispenser>();
 			co2Output.storage = storage;

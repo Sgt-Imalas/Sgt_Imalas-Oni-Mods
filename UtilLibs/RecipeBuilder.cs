@@ -17,6 +17,8 @@ namespace UtilLibs
 		private string name;
 		private string spritePrefabId;
 		private int sortOrder = 0;
+		private int hepConsumed = 0;
+		private int hepProduced = 0;
 
 		private List<RecipeElement> inputs;
 		private List<RecipeElement> outputs;
@@ -129,7 +131,16 @@ namespace UtilLibs
 			this.nameDisplay = nameDisplay;
 			return this;
 		}
-
+		public RecipeBuilder InputHEP(int hep)
+		{
+			this.hepConsumed = hep;
+			return this;
+		}
+		public RecipeBuilder OutputHEP(int hep)
+		{
+			this.hepProduced = hep;
+			return this;
+		}
 		public RecipeBuilder NameOverride(string name)
 		{
 			this.name = name;
@@ -223,7 +234,7 @@ namespace UtilLibs
 
 			string recipeID = facadeID.IsNullOrWhiteSpace() ? ComplexRecipeManager.MakeRecipeID(fabricator, i, o) : ComplexRecipeManager.MakeRecipeID(fabricator, i, o, facadeID);
 
-			var recipe = new ComplexRecipe(recipeID, i, o)
+			var recipe = new ComplexRecipe(recipeID, i, o,hepConsumed,hepProduced)
 			{
 				time = time,
 				description = description,

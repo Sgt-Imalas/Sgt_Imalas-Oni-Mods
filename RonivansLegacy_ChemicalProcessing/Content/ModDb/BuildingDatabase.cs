@@ -9,6 +9,7 @@ using Dupes_Machinery.Ethanol_Still;
 using System;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.MineralProcessing_Metallurgy;
 using static UtilLibs.GameStrings;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProcessing;
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
 	class BuildingDatabase
@@ -50,6 +51,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				RegisterBuildings_MineralProcessingMining();
 			if (Config.Instance.DupesMachinery_Enabled)
 				RegisterBuildings_DupesMachinery();
+			if(Config.Instance.NuclearProcessing_Enabled)
+				RegisterBuildings_NuclearProcessing();
 		}
 		private static void RegisterBuildings_ChemicalProcessingIndustrialOverhaul()
 		{
@@ -256,6 +259,32 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToTech(Technology.Liquids.Distillation)
 				.AddModFrom(SourceMod.DupesMachinery);
 		}
+		private static void RegisterBuildings_NuclearProcessing()
+		{
+			if (DlcManager.IsPureVanilla())
+				return;
+
+			BuildingManager.CreateEntry<HepCalcinatorConfig>()
+				.AddToCategory(PlanMenuCategory.Radiation, UraniumCentrifugeConfig.ID)
+				.AddToTech(Technology.ColonyDevelopment.RadiationRefinement)
+				.AddModFrom(SourceMod.NuclearProcessing);
+
+			BuildingManager.CreateEntry<HepCentrifugeConfig>()
+				.AddToCategory(PlanMenuCategory.Radiation, UraniumCentrifugeConfig.ID)
+				.AddToTech(Technology.ColonyDevelopment.RadiationRefinement)
+				.AddModFrom(SourceMod.NuclearProcessing);
+
+			BuildingManager.CreateEntry<HepProjectorConfig>()
+				.AddToCategory(PlanMenuCategory.Radiation, RadiationLightConfig.ID)
+				.AddToTech(Technology.ColonyDevelopment.RadiationRefinement)
+				.AddModFrom(SourceMod.NuclearProcessing);
+			
+			BuildingManager.CreateEntry<LightReactorConfig>()
+				.AddToCategory(PlanMenuCategory.Radiation, NuclearReactorConfig.ID)
+				.AddToTech(Technology.ColonyDevelopment.RadiationRefinement)
+				.AddModFrom(SourceMod.NuclearProcessing);
+		}
+
 
 		#region oldBuildingRegistration
 		public static void AddBuildingsToPlanscreen()

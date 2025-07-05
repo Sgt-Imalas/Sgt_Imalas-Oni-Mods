@@ -94,16 +94,16 @@ namespace Biochemistry.Buildings
 			mushbar_delivery.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
 
 			ElementConverter elementConverter = go.AddOrGet<ElementConverter>();
-			elementConverter.consumedElements = new ElementConverter.ConsumedElement[]
-			{
+			elementConverter.consumedElements =
+			[
 			new ElementConverter.ConsumedElement(ModAssets.Tags.BioOil_Composition, 0.35f, true),
 			new ElementConverter.ConsumedElement(SimHashes.CarbonDioxide.CreateTag(), 0.10f, true),
 			new ElementConverter.ConsumedElement(MushBarConfig.ID.ToTag(), 0.05f, true)
-			};
-			elementConverter.outputElements = new ElementConverter.OutputElement[]
-			{
+			];
+			elementConverter.outputElements =
+			[
 			new ElementConverter.OutputElement(0.5f, ModElements.BioPlastic_Solid, 296.15f, false, true, 0f, 0.5f, 1f, byte.MaxValue, 0, true)
-			};
+			];
 
 			ElementDropper elementDropper = go.AddComponent<ElementDropper>();
 			elementDropper.emitMass = 25f;
