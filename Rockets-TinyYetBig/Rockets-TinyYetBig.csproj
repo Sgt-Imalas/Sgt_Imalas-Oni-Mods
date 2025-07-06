@@ -35,13 +35,6 @@
 	  <None Remove="TODO\SpaceStations\SpaceStation.cs~RF14458d6.TMP" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Aze.Publicise.MSBuild.Task" Version="1.1.0">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-	</ItemGroup>
-
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<OutDir>bin</OutDir>
 		<OutputPath></OutputPath>
@@ -57,12 +50,5 @@
 	  <Reference Include="ONITwitchLib">
 	    <HintPath>..\TwitchLib\ONITwitchLib.dll</HintPath>
 	  </Reference>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <PackageReference Update="ILRepack.Lib.MSBuild.Task" Version="2.0.37">
-	    <PrivateAssets>all</PrivateAssets>
-	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	  </PackageReference>
 	</ItemGroup>
 </Project>
