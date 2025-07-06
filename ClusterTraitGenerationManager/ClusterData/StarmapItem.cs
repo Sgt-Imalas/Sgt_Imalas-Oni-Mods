@@ -623,7 +623,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 		private bool _geyserBlacklistShared = true;
 
-		private bool _geyserBlacklistAffectsNonGenerics = false;
+		private bool _geyserBlacklistAffectsNonGenerics = true;
 		public bool GeyserBlacklistAffectsNonGenerics => 
 			IsMixed 
 			? MixingAsteroidSource._geyserBlacklistAffectsNonGenerics 
@@ -662,6 +662,8 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 		public void AddGeyserBlacklist(string geyserID)
 		{
+			SgtLogger.l($"adding geyser {geyserID} to blacklist of {id} (shared: {GeyserBlacklistShared})");
+
 			if (IsMixed)
 				MixingAsteroidSource.AddGeyserBlacklist(geyserID);
 			else if (GeyserBlacklistShared)
@@ -672,6 +674,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 		}
 		public void RemoveGeyserBlacklist(string geyserID)
 		{
+			SgtLogger.l(geyserID + " removed from geyser blacklist of " + id + " (shared: " + GeyserBlacklistShared + ")");
 			if (IsMixed)
 				MixingAsteroidSource.RemoveGeyserBlacklist(geyserID);
 			else if (GeyserBlacklistShared)
@@ -717,11 +720,12 @@ namespace ClusterTraitGenerationManager.ClusterData
 		{
 			GeyserOverrideIDs.Clear();
 			BlacklistedGeyserIds.Clear();
-			_geyserBlacklistAffectsNonGenerics = false;
+			_geyserBlacklistAffectsNonGenerics = true;
 		}
 
 		public void AddGeyserOverride(string geyserID)
 		{
+			SgtLogger.l($"adding geyser override {geyserID} to {id}");
 			if (IsMixed)
 				MixingAsteroidSource.AddGeyserOverride(geyserID);
 			else
@@ -729,6 +733,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 		}
 		public void RemoveGeyserOverrideAt(int index)
 		{
+			SgtLogger.l($"removing geyser override at {index} from {id}");
 			if (IsMixed)
 				MixingAsteroidSource.RemoveGeyserOverrideAt(index);
 			else

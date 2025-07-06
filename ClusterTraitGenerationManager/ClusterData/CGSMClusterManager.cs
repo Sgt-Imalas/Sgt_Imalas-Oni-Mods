@@ -40,7 +40,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 		public static HashSet<string> BlacklistedTraits = new HashSet<string>();
 		public static HashSet<string> BlacklistedGeysers = new HashSet<string>();
-		public static bool BlacklistAffectsNonGenerics = false;
+		public static bool BlacklistAffectsNonGenerics = true;
 
 		public static int MaxClassicOuterPlanets = 3, CurrentClassicOuterPlanets = 0;
 
@@ -102,6 +102,12 @@ namespace ClusterTraitGenerationManager.ClusterData
 				BlacklistedTraits.Add(traitID);
 				return true;
 			}
+		}
+
+		public static void ResetSharedGeyserOverrides()
+		{
+			BlacklistedGeysers.Clear();
+			BlacklistAffectsNonGenerics = true;
 		}
 		public static void SetSharedGeyserBlacklistState(string geyserId, bool blacklisted)
 		{
@@ -824,7 +830,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 					ResetMeteorSeasons(planet.world);
 					ResetSkyFixedTraits(planet.world);
 				}
-
+				ResetSharedGeyserOverrides();
 				ResetStarmap();
 			}
 			else
