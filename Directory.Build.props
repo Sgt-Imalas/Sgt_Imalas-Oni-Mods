@@ -137,8 +137,18 @@
 	</ItemGroup>
 
 
+        <ItemGroup Condition="'$(IsMod)' == 'true'">
+		<PackageReference Include="Aze.Publicise.MSBuild.Task" Version="*">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+        </ItemGroup>
+
 	<ItemGroup Condition="'$(IsPacked)' == 'true'">
-		<PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.37" />
+		<PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="*">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 	</ItemGroup>
 
 </Project>

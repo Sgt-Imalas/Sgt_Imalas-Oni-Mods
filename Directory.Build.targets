@@ -129,43 +129,85 @@
 	</Target>-->
 
 	<!--Create folder for publicized dlls if not existing-->
-	<Target Name="PubliciseMKDIR" BeforeTargets ="Clean" Condition="'$(GameLibsFolder)' != '../Lib' ">
-		<MakeDir
-				Directories="$(SolutionDir)\PublicisedAssembly"/>
+	<Target Name="PubliciseMKDIR"
+		BeforeTargets="Publicise"
+		Condition="'$(GameLibsFolder)' != '../Lib' and '$(IsMod)' == 'true'"
+		>
+		<MakeDir Directories="$(SolutionDir)\PublicisedAssembly"/>
 	</Target>
 
 	<!--Creates publicized dlls from the game dlls-->
-	<Target Name="Publicise" AfterTargets="Clean" Condition="'$(AssemblyName)' == 'CycleComma' and '$(GameLibsFolder)' != '../Lib' ">
-		<ItemGroup>
-			<PubliciseInputAssemblies
-					 Include="
-				$(GameLibsFolder)/Assembly-CSharp.dll;
-				$(GameLibsFolder)/Assembly-CSharp-firstpass.dll;
-         "/>
-		</ItemGroup>
+	<ItemGroup>
+		<PubliciseAssemblies       Include="Assembly-CSharp.dll;Assembly-CSharp-firstpass.dll;"/>
+		<PubliciseAssembliesInputs Include="@(PubliciseAssemblies->'$(GameLibsFolder)/%(Filename)%(Extension)')"/>
+	</ItemGroup>
+	<Target Name="Publicise"
+		BeforeTargets="BeforeResolveReferences"
+		Inputs="@(PubliciseAssembliesInputs)"
+		Outputs="@(PubliciseAssembliesInputs->'$(SolutionDir)PublicisedAssembly\%(Filename)_public%(Extension)')"
+		Condition="'$(GameLibsFolder)' != '../Lib' and '$(IsMod)' == 'true'"
+		>
 
 		<Publicise
-			   InputAssemblies="@(PubliciseInputAssemblies)"
-			   OutputPath="$(SolutionDir)\PublicisedAssembly"
-			   PubliciseCompilerGenerated="false"/>
+			InputAssemblies="@(PubliciseAssembliesInputs)"
+			OutputPath="$(SolutionDir)\PublicisedAssembly"
+			PubliciseCompilerGenerated="false"
+			/>
+		<!--
+		    Publicise also does internal incremental "compilation", and
+		    doesn't change the timestamp on the target file when it does
+		    nothing.  Which happens if, say, you were to test this by
+		    touching the input DLL, so publicise sees no change (because
+		    it checks the hash of the file), but MSBuild does.
+		-->
+		<!-- 
+		     Worse, gotta copy the Outputs transform here, becuase MSBuild is terrible:
+		     - it only identifies a mapping between input and output if `Outputs` is a transform, and
+		     - it filters the `Inputs` list implicitly inside itself when incremental.
+		-->
+		<Touch Files="@(PubliciseAssembliesInputs->'$(SolutionDir)PublicisedAssembly\%(Filename)_public%(Extension)')" />
 	</Target>
 
-	<Target Name="GenerateRefAssemblies" AfterTargets="Clean" Condition="'$(AssemblyName)' == 'CycleComma' and '$(GameLibsFolder)' != '../Lib' and '$(RefasmerInstalled)' != '0'">
-		<PropertyGroup>
-			<!--Workaround for paths containing spaces, e.g. "Program Files (x86)"-->
-			<!--For some reason, adding the quotes to GameLibsFolder does not work-->
-			<SaneGameLibsFolder>"$(GameLibsFolder)"</SaneGameLibsFolder>
-		</PropertyGroup>
-		<Exec Command="Refasmer -v -O ../Lib --all -c ../PublicisedAssembly/Assembly-CSharp_public.dll ../PublicisedAssembly/Assembly-CSharp-firstpass_public.dll ^
-			$(SaneGameLibsFolder)/Assembly-CSharp.dll $(SaneGameLibsFolder)/Assembly-CSharp-firstpass.dll $(SaneGameLibsFolder)/0Harmony.dll ^
-			$(SaneGameLibsFolder)/FMODUnity.dll $(SaneGameLibsFolder)/Newtonsoft.Json.dll $(SaneGameLibsFolder)/UnityEngine.dll ^
-			$(SaneGameLibsFolder)/UnityEngine.CoreModule.dll $(SaneGameLibsFolder)/UnityEngine.ImageConversionModule.dll ^
-			$(SaneGameLibsFolder)/UnityEngine.AssetBundleModule.dll $(SaneGameLibsFolder)/UnityEngine.PhysicsModule.dll ^
-			$(SaneGameLibsFolder)/UnityEngine.Physics2DModule.dll $(SaneGameLibsFolder)/UnityEngine.ParticleSystemModule.dll ^
-			$(SaneGameLibsFolder)/UnityEngine.InputLegacyModule.dll $(SaneGameLibsFolder)/Unity.TextMeshPro.dll ^
-			$(SaneGameLibsFolder)/UnityEngine.TextRenderingModule.dll $(SaneGameLibsFolder)/UnityEngine.UI.dll ^
-			$(SaneGameLibsFolder)/UnityEngine.UIModule.dll $(SaneGameLibsFolder)/UnityEngine.UnityWebRequestModule.dll ^
-			$(SaneGameLibsFolder)/Ionic.Zip.dll $(SaneGameLibsFolder)/Newtonsoft.Json.dll $(SaneGameLibsFolder)/com.rlabrecque.steamworks.net.dll $(SaneGameLibsFolder)/netstandard.dll" />
-	</Target>
+	<ItemGroup>
+		<GameRefAssemblies Include="
+					    Assembly-CSharp.dll;
+					    Assembly-CSharp-firstpass.dll;
+					    0Harmony.dll;
+					    FMODUnity.dll;
+					    Newtonsoft.Json.dll;
+					    UnityEngine.dll;
+					    UnityEngine.CoreModule.dll;
+					    UnityEngine.ImageConversionModule.dll;
+					    UnityEngine.AssetBundleModule.dll;
+					    UnityEngine.PhysicsModule.dll;
+					    UnityEngine.Physics2DModule.dll;
+					    UnityEngine.ParticleSystemModule.dll;
+					    UnityEngine.InputLegacyModule.dll;
+					    Unity.TextMeshPro.dll;
+					    UnityEngine.TextRenderingModule.dll;
+					    UnityEngine.UI.dll;
+					    UnityEngine.UIModule.dll;
+					    UnityEngine.UnityWebRequestModule.dll;
+					    Ionic.Zip.dll;
+					    Newtonsoft.Json.dll;
+					    com.rlabrecque.steamworks.net.dll;
+					    netstandard.dll
+					    " />
+		<RefAssemblies Include="../PublicisedAssembly/*.dll; @(GameRefAssemblies->'$(GameLibsFolder)\%(Identity)')" />
+	</ItemGroup>
+	<Target Name="GenerateRefAssemblies"
+		Inputs="@(RefAssemblies)"
+		Outputs="@(RefAssemblies->'../Lib/%(Filename)%(Extension)')"
+		AfterTargets="Publicise"
+		BeforeTargets="BeforeResolveReferences"
+		Condition="'$(GameLibsFolder)' != '../Lib' and '$(RefasmerInstalled)' != '0' and '$(IsMod)' == 'true'">
 
+		<!--Workaround for paths containing spaces, e.g. "Program Files (x86)"-->
+		<!--For some reason, adding the quotes to GameLibsFolder does not work-->
+		<ItemGroup>
+			<RefAsmerArguments Include="@(RefAssemblies -> '&quot;%(FullPath)&quot;', ' ')" />
+		</ItemGroup>
+
+		<Exec Command="Refasmer -v -O ../Lib --all -c @(RefAsmerArguments)" />
+	</Target>
 </Project>
