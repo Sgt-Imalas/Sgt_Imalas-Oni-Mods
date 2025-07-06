@@ -15,13 +15,9 @@
 	  <None Remove="Properties\**" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Aze.Publicise.MSBuild.Task" Version="1.1.0">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
 		<PackageReference Include="PLib" Version="4.17.1">
-      <Private>false</Private>
-    </PackageReference>
+			<Private>false</Private>
+		</PackageReference>
 	</ItemGroup>
 	<ItemGroup>
 	  <Reference Include="System.Net.Http" />
