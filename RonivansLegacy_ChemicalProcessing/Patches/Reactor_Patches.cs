@@ -179,8 +179,23 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				//__instance.meltdown.loop.updateActions
 
 			}
+
+			/// <summary>
+			/// alternative to that transpiler above;
+			/// replacing the entire update method, but thats a bit destructive...
+			/// </summary>
+			/// <param name="smi"></param>
+			/// <param name="dt"></param>
+
 			public static void ConfigurableMeltdownFunc(Reactor.StatesInstance smi, float dt)
 			{
+
+				double radGermsBaseMultiplier = 50f;
+				if(smi.master is LightReactor lightReactor)
+				{
+					radGermsBaseMultiplier = lightReactor.GetRadGermMultiplierRads(radGermsBaseMultiplier);
+				}
+
 				smi.master.timeSinceMeltdownEmit += dt;
 				float num = 0.5f;
 				float b = 5f;
@@ -215,7 +230,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 					{
 						if (num2 >= 0.001f)
 						{
-							SimMessages.AddRemoveSubstance(Grid.PosToCell(smi.master.transform.position + Vector3.up * 3f + Vector3.right * j * 2f), SimHashes.NuclearWaste, CellEventLogger.Instance.ElementEmitted, num2 / 3f, 3000f, Db.Get().Diseases.GetIndex(Db.Get().Diseases.RadiationPoisoning.Id), Mathf.RoundToInt(50f * (num2 / 3f)));
+							SimMessages.AddRemoveSubstance(Grid.PosToCell(smi.master.transform.position + Vector3.up * 3f + Vector3.right * j * 2f), SimHashes.NuclearWaste, CellEventLogger.Instance.ElementEmitted, num2 / 3f, 3000f, Db.Get().Diseases.GetIndex(Db.Get().Diseases.RadiationPoisoning.Id), Mathf.RoundToInt((float)radGermsBaseMultiplier * (num2 / 3f)));
 						}
 					}
 				}
