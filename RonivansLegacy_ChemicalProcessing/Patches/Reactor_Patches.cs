@@ -139,6 +139,17 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			//these run after the vanilla states are set, so we can conditionally override them
 			public static void Postfix(Reactor.States __instance)
 			{
+				__instance.root.EventHandler(GameHashes.OnStorageChange,(smi =>
+				{
+					if (smi.master is not LightReactor lightReactor)
+						return;
+						PrimaryElement storedCoolant = smi.master.GetStoredCoolant();
+					if (!storedCoolant)
+						smi.master.waterMeter.SetPositionPercent(0.0f);
+					else
+						smi.master.waterMeter.SetPositionPercent(storedCoolant.Mass / 30f);
+				}));
+
 				__instance.on
 					.Enter(smi =>
 					{
