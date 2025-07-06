@@ -10,6 +10,7 @@ namespace UtilLibs
 {
 	public class RecipeBuilder //Source: Aki
 	{
+		private string techRequirement;
 		private string fabricator;
 		private float time;
 		private RecipeNameDisplay nameDisplay;
@@ -126,6 +127,12 @@ namespace UtilLibs
 		public RecipeBuilder Description2I2O(string ToFormat) => Description(ToFormat, 2, 2);
 		public RecipeBuilder Description3I2O(string ToFormat) => Description(ToFormat, 3, 2);
 
+		public RecipeBuilder RequiresTech(string techId)
+		{
+			techRequirement = techId;
+			return this;
+		}
+
 		public RecipeBuilder NameDisplay(RecipeNameDisplay nameDisplay)
 		{
 			this.nameDisplay = nameDisplay;
@@ -159,7 +166,7 @@ namespace UtilLibs
 			return this;
 		}
 
-		public RecipeBuilder Input(Tag tag, float amount, bool inheritElement = true, bool doNotConsume = false)
+		public RecipeBuilder Input(Tag tag, float amount, bool inheritElement = false, bool doNotConsume = false)
 		{
 			var element = new RecipeElement(tag, amount, inheritElement);
 			element.doNotConsume = doNotConsume;
@@ -176,10 +183,10 @@ namespace UtilLibs
 			inputs.Add(new RecipeElement(tags.Select(simhash => simhash.CreateTag()).ToArray(), amount));
 			return this;
 		}
-		public RecipeBuilder InputSO(SimHashes simHashes, float amount, bool inheritElement = true) => InputConditional(simHashes, amount, DlcManager.IsExpansion1Active, inheritElement);
-		public RecipeBuilder InputBase(SimHashes simHashes, float amount, bool inheritElement = true) => InputConditional(simHashes, amount, DlcManager.IsPureVanilla, inheritElement);
-		public RecipeBuilder InputConditional(SimHashes simhash, float amount, Func<bool> condition, bool inheritElement = true) => InputConditional(simhash,amount, condition(), inheritElement);
-		public RecipeBuilder InputConditional(SimHashes simhash, float amount, bool condition, bool inheritElement = true)
+		public RecipeBuilder InputSO(SimHashes simHashes, float amount, bool inheritElement = false) => InputConditional(simHashes, amount, DlcManager.IsExpansion1Active, inheritElement);
+		public RecipeBuilder InputBase(SimHashes simHashes, float amount, bool inheritElement = false) => InputConditional(simHashes, amount, DlcManager.IsPureVanilla, inheritElement);
+		public RecipeBuilder InputConditional(SimHashes simhash, float amount, Func<bool> condition, bool inheritElement = false) => InputConditional(simhash, amount, condition(), inheritElement);
+		public RecipeBuilder InputConditional(SimHashes simhash, float amount, bool condition, bool inheritElement = false)
 		{
 			if (condition)
 				return Input(simhash, amount, inheritElement);
@@ -196,7 +203,7 @@ namespace UtilLibs
 		}
 
 
-		public RecipeBuilder Input(SimHashes simhash, float amount, bool inheritElement = true)
+		public RecipeBuilder Input(SimHashes simhash, float amount, bool inheritElement = false)
 		{
 			inputs.Add(new RecipeElement(simhash.CreateTag(), amount, inheritElement));
 			return this;
@@ -248,6 +255,9 @@ namespace UtilLibs
 			}
 			if(!spritePrefabId.IsNullOrWhiteSpace())
 				recipe.customSpritePrefabID = spritePrefabId;
+			if(!techRequirement.IsNullOrWhiteSpace())
+				recipe.requiredTech = techRequirement;
+
 			return recipe;
 		}
 	}

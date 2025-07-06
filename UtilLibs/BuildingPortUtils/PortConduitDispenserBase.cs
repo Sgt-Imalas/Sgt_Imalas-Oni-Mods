@@ -30,7 +30,7 @@ namespace UtilLibs.BuildingPortUtils
 		public Tag[] tagFilter = null;
 
 		[SerializeField]
-		public bool invertElementFilter;
+		public bool invertElementFilter = false;
 
 		[SerializeField]
 		public bool alwaysDispense;
@@ -46,6 +46,7 @@ namespace UtilLibs.BuildingPortUtils
 		readonly private Operational operational;
 
 		[MyCmpReq]
+		[SerializeField]
 		public Storage storage;
 
 		private HandleVector<int>.Handle partitionerEntry;
@@ -177,6 +178,21 @@ namespace UtilLibs.BuildingPortUtils
 
 		protected virtual PrimaryElement FindSuitableElement()
 		{
+			//var fab = this.GetComponent<ComplexFabricator>();
+			//if (fab != null)
+			//{
+			//	if (storage == fab.inStorage)
+			//		SgtLogger.l(gameObject.GetProperName() + " conduit port dispenser using inStorage");
+			//	if (storage == fab.buildStorage)
+			//		SgtLogger.l(gameObject.GetProperName() + " conduit port dispenser using buildStorage");
+			//	if (storage == fab.outStorage)
+			//		SgtLogger.l(gameObject.GetProperName() + " conduit port dispenser using outStorage");
+
+			//	SgtLogger.l("currently " + storage.items.Count + " items in storage");
+
+			//}
+
+
 			List<GameObject> items = this.storage.items;
 			int count = items.Count;
 			for (int i = 0; i < count; i++)
@@ -184,14 +200,23 @@ namespace UtilLibs.BuildingPortUtils
 				int index = (i + this.elementOutputOffset) % count;
 				var item = items[index];
 				if (item == null || !item.TryGetComponent<PrimaryElement>(out var primaryElement))
+				{
+					//SgtLogger.l("item " + index + " was null");
 					continue;
+				}
 
 				if (primaryElement.Mass <= 0f || primaryElement.Element == null)
 					continue;
 
-				if (((this.conduitType == ConduitType.Liquid) ? primaryElement.Element.IsLiquid : primaryElement.Element.IsGas) && ElementAllowedByFilter(primaryElement))
-				{
+				bool correctElementType = false;
+				if (conduitType == ConduitType.Liquid)
+					correctElementType = primaryElement.Element.IsLiquid;
+				else if (conduitType == ConduitType.Gas)
+					correctElementType = primaryElement.Element.IsGas;
+				//SgtLogger.l(conduitType + " was correct for element " + primaryElement.GetProperName() + "= " + correctElementType);
 
+				if (correctElementType && ElementAllowedByFilter(primaryElement))
+				{
 					this.elementOutputOffset = (this.elementOutputOffset + 1) % count;
 					return primaryElement;
 				}
@@ -203,13 +228,21 @@ namespace UtilLibs.BuildingPortUtils
 		{
 			var element = primaryelement.ElementID;
 
-			if ((elementFilter == null || this.elementFilter.Length == 0) && (tagFilter == null || tagFilter.Length == 0))
+			//SgtLogger.l(gameObject.GetProperName()+ " - checking element: " + primaryelement.GetProperName() + ", " + primaryelement.ElementID);
+			//SgtLogger.l("Filters are: ");
+			//if (elementFilter != null)
+			//	foreach (var filter in elementFilter)
+			//		SgtLogger.l(filter.ToString());
+
+			if ((elementFilter == null || !elementFilter.Any()) && (tagFilter == null || !tagFilter.Any()))
 			{
+				//SgtLogger.l("filters null");
 				return true;
 			}
 
-			if (tagFilter != null)
+			if (tagFilter != null && tagFilter.Any())
 			{
+				//SgtLogger.l("Tagfilter not null");
 				return primaryelement.HasAnyTags(tagFilter) != invertElementFilter;
 			}
 
@@ -221,6 +254,7 @@ namespace UtilLibs.BuildingPortUtils
 					simhashAllowed = true;
 				}
 			}
+			//SgtLogger.l("Simhash is allowed: " + simhashAllowed + " + filter is inverted? " + invertElementFilter + ", result: " + (simhashAllowed != invertElementFilter).ToString());
 			return simhashAllowed != invertElementFilter;
 		}
 	}
