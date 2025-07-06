@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static HarvestablePOIConfig;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
@@ -71,6 +72,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				else if (param.poiType.id == HarvestablePOIConfig.GasGiantCloud)
 				{
 					param.poiType.harvestableElements.Add(ModElements.Ammonia_Gas, 0.3f);
+					param.poiType.harvestableElements.Add(ModElements.Nitrogen_Gas, 1f);
 				}
 				//=: CHLORINE CLOUD FIELD :======================================================================
 				else if (param.poiType.id == HarvestablePOIConfig.ChlorineCloud)
@@ -120,6 +122,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				//=: FROZEN ORE FIELD :==========================================================================
 				else if (param.poiType.id == HarvestablePOIConfig.FrozenOreField)
 				{
+					param.poiType.harvestableElements.Add(ModElements.Nitrogen_Liquid, 1f);
 					param.poiType.harvestableElements.Add(ModElements.Ammonia_Liquid, 0.4f);
 				}
 				//=: SAND ORE ASTEROID FIELD :===================================================================

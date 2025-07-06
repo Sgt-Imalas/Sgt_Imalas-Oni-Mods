@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UtilLibs.BuildingPortUtils;
 using static STRINGS.CODEX;
 using static STRINGS.UI;
 
@@ -164,11 +165,32 @@ namespace RonivansLegacy_ChemicalProcessing
 					" piped into it.\n\nDuplicants will not fabricate items unless recipes are queued."
 					);
 				}
+				public class CHEMICAL_AMMONIABREAKER
+				{
+					public static LocString NAME = FormatAsLink("Ammonia Breaker", nameof(CHEMICAL_AMMONIABREAKER));
+					public static LocString DESC = "An advanced catalytic cracking furnace which the ammonia synthesis reaction is reversed at elevated temperatures.";
+					public static LocString EFFECT = "Break down " + FormatAsLink("Ammonia", "AMMONIAGAS") + " into " + FormatAsLink("Hydrogen", "HYDROGEN")
+						+ " and " + FormatAsLink("Nitrogen", "NITROGENGAS") + " using " + FormatAsLink("Iron", "IRON") + " as catalyst. " +
+						"\nThe cracking process exudes a lot of heat.\n\nIMPORTANT: The building require all pipes ports to be connected with their respective pipes in order for it to operate.";
+				}
+				public class CHEMICAL_AMMONIACOMPRESSOR
+				{
+					public static LocString NAME = FormatAsLink("Ammonia Compressor", nameof(CHEMICAL_AMMONIACOMPRESSOR));
+					public static LocString DESC = "An industrial grade rotatory compressor unit that criticaly increase the pressure of a gas by reducing its volume, while cooling it down until liquid state is reached.";
+					public static LocString EFFECT = "Compresses Ammonia gas and cool it down to liquid Ammonia. This device is also capable of storing liquid with complete insulation.";
+				}
 				public class CHEMICAL_BALLCRUSHERMILL
 				{
 					public static LocString NAME = FormatAsLink("Ball Crusher Mill (Chemical Washing)", nameof(CHEMICAL_BALLCRUSHERMILL));
 					public static LocString DESC = "A large sized industrial mill that crushes raw ores using steel balls and special mixture of acids. Capable to process much more than the standard mill, as well more efficient in the extraction of valuable minerals from the raw more sludge.";
 					public static LocString EFFECT = string.Concat("Crush down ", FormatAsLink("Raw Minerals", "RAWMINERAL"), " in to useful materials and industrial ingredients.");
+				}
+
+				public class CHEMICAL_CARBONDIOXIDECOMPRESSOR
+				{
+					public static LocString NAME = FormatAsLink("Carbon Dioxide Compressor", nameof(CHEMICAL_CARBONDIOXIDECOMPRESSOR));
+					public static LocString DESC = "An industrial grade rotatory compressor unit that criticaly increase the pressure of a gas by reducing its volume, while cooling it down until liquid state is reached.";
+					public static LocString EFFECT = "Compresses " + FormatAsLink("Carbon Dioxide", "CARBONDIOXIDE") + " gas and cool it down to" + FormatAsLink("Liquid Carbon Dioxide", "LIQUIDCARBONDIOXIDE") + ". This device is also capable of storing liquid with complete insulation.";
 				}
 				public class CHEMICAL_CO2PUMP
 				{
@@ -202,6 +224,7 @@ namespace RonivansLegacy_ChemicalProcessing
 						"produce ", FormatAsLink("Steam", "STEAM"), ", " +
 						FormatAsLink("Refined Coal", "REFINEDCARBON"), " and " +
 						FormatAsLink("Rust", "RUST"), " as waste product.");
+
 					public static LocString SPACEDOUT_RECIPE = string.Concat(
 					"Sabatier Reaction: \n " +
 						FormatAsLink("Liquid Carbon Dioxide", "LIQUIDCARBONDIOXIDE"), ", " +
@@ -261,10 +284,28 @@ namespace RonivansLegacy_ChemicalProcessing
 						"- 10% ", FormatAsLink("Natural Gas", "METHANE"), "\n" +
 						"- 10% ", FormatAsLink("Sour Water", "SOURWATER"), " waste.\n" +
 						"- 5% ", FormatAsLink("Bitumen", "BITUMEN"), " waste.\n\n" +
-						"The process require ", FormatAsLink("Steam", "STEAM"), " for the operation.\n\n" +
+						"The process requires ", FormatAsLink("Steam", "STEAM"), " for the operation.\n\n" +
 						"IMPORTANT: The building require all pipes ports to be connected with their respective pipes in order for it to operate.");
 
 				}
+				public class CHEMICAL_CRUDEOILREFINERYSTAGED
+				{
+					public static LocString NAME = FormatAsLink("Multi-Stage Crude Oil Refinery", nameof(CHEMICAL_CRUDEOILREFINERYSTAGED));
+					public static LocString DESC = "An industrial process plant responsible for refining raw oil extracted from wells.";
+					public static LocString EFFECT = "The refinery has two stages: \n\n" +
+						"First Stage: " + FormatAsLink("Crude Oil", "CRUDEOIL") + " is first refined to:\n" +
+						"- 50% " + FormatAsLink("Petroleum", "PETROLEUM") + "\n" +
+						"- 25% " + FormatAsLink("Naphtha", "NAPHTHA") + "\n" +
+						"- 10% " + FormatAsLink("Natural Gas", "METHANE") + "\n" +
+						"- 15% " + FormatAsLink("Bitumen", "BITUMEN") + ".\n\n" +
+						"Second Stage: " + FormatAsLink("Naphtha", "NAPHTHA") + " is furter refined:\n" +
+						"- 45% " + FormatAsLink("Petroleum", "PETROLEUM") + "\n" +
+						"- 10% " + FormatAsLink("Natural Gas", "METHANE") + "\n" +
+						"- 45% " + FormatAsLink("Bitumen", "BITUMEN") + ".\n\n" +
+						"The first stage uses " + FormatAsLink("Steam", "STEAM") + " for the distillation process, while the second Stage uses " + FormatAsLink("Hydrogen", "HYDROGEN") + " to buffer the reaction.";
+
+				}
+
 				public class CHEMICAL_ELECTRICBOILER
 				{
 					public static LocString NAME = FormatAsLink("Electric Steam Boiler", nameof(CHEMICAL_ELECTRICBOILER));
@@ -307,6 +348,13 @@ namespace RonivansLegacy_ChemicalProcessing
 						" in to useful materials and industrial ingredients."
 						]);
 				}
+
+				public class CHEMICAL_MIXINGUNIT
+				{
+					public static LocString NAME = FormatAsLink("Chemical Mixing Unit", nameof(CHEMICAL_MIXINGUNIT));
+					public static LocString DESC = "This chemical fabricator has several functions in petrochemical industry.";
+					public static LocString EFFECT  = "An industrial aparatus capable to address several chemical reactions. Its large array of pipes allows safe handling of dangerous liquids and gases.";
+				}
 				public class CHEMICAL_NAPHTHAREFORMER
 				{
 					public static LocString NAME = FormatAsLink("Naphtha Reformer", nameof(CHEMICAL_NAPHTHAREFORMER));
@@ -347,11 +395,24 @@ namespace RonivansLegacy_ChemicalProcessing
 							"- 50% ",FormatAsLink("Natural Gas", "METHANE"), "\n" +
 							"- 35% ",FormatAsLink("Propane", "PROPANE"), "\n" +
 							"- 15% ",FormatAsLink("Sour Water", "SOURWATER")," waste\n" +
-							"The process require ",FormatAsLink("Steam", "STEAM")," for the operation.\n\n" +
+							"The process requires ",FormatAsLink("Steam", "STEAM")," for the operation.\n\n" +
 
 							"IMPORTANT: The building require all pipes ports to be connected with their respective pipes in order for it to operate."
 
 						]);
+				}
+				public class CHEMICAL_RAWGASREFINERYSTAGED
+				{
+					public static LocString NAME = FormatAsLink("Multi-Stage Raw Gas Refinery", nameof(CHEMICAL_RAWGASREFINERYSTAGED));
+					public static LocString DESC = "An industrial process plant responsible for refining the impure raw natural gas extracted from wells.";
+					public static LocString EFFECT = "The refinery has three stages:\n\n" +
+						"First Stage: Raw Natural Gas is first refined to: " +
+						"\n- 50% " + FormatAsLink("Natural Gas", "PETROLEUM") + 
+						"\n- 40% " + FormatAsLink("Propane", "PROPANE") + 
+						"\n- 10% " + FormatAsLink("Sour Gas", "SOURGAS") + 
+						"\nSecond Stage: " + FormatAsLink("Propane", "PROPANE") + " is mixed with " + FormatAsLink("Hydrogen", "Hydrogen") + " resulting in a complete conversion to " + FormatAsLink("Methane", "METHANE") + 
+						"\nThird Stage reacts the remaining " + FormatAsLink("Sour Gas", "SOURGAS") + " with Nitric Acid, producing Ammonia Gas.";
+
 				}
 				public class CHEMICAL_RAYONLOOM
 				{
@@ -529,7 +590,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				}
 				public class METALLURGY_BASICOILREFINERY
 				{
-					public static LocString NAME = FormatAsLink("Basic Oil Refinery", nameof(METALLURGY_PLASMAFURNACE));
+					public static LocString NAME = FormatAsLink("Basic Oil Refinery", nameof(METALLURGY_BASICOILREFINERY));
 					public static LocString DESC = "A basic oil refinery that uses burning solids as heat source."; 
 					public static LocString EFFECT = string.Concat(
 						[
@@ -769,6 +830,22 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString NAME = FormatAsLink("Ammonia", nameof(AMMONIAGAS));
 				public static LocString DESC = "(NH<sub>3</sub>) Ammonia is an inorganic compound of nitrogen and hydrogen. A stable binary hydride, and the simplest pnictogen hydride, ammonia is a gas with a distinct pungent smell.";
 			}
+			//===== [ Nitrogen ] =============================
+			public class SOLIDNITROGEN
+			{
+				public static LocString NAME = FormatAsLink("Solid Nitrogen", nameof(SOLIDNITROGEN));
+				public static LocString DESC = "(N<sub>2</sub>) Nitrogen is a nonmetal and the lightest member of group 15 of the periodic table, currently its its cold, solid state.";
+			}
+			public class LIQUIDNITROGEN
+			{
+				public static LocString NAME = FormatAsLink("Liquid Nitrogen", nameof(LIQUIDNITROGEN));
+				public static LocString DESC = "(N<sub>2</sub>) Nitrogen is a nonmetal and the lightest member of group 15 of the periodic table, currently in its cold, liquid state.";
+			}
+			public class NITROGENGAS
+			{
+				public static LocString NAME = FormatAsLink("Nitrogen", nameof(NITROGENGAS));
+				public static LocString DESC = "(N<sub>2</sub>) Nitrogen is a nonmetal and the lightest member of group 15 of the periodic table.";
+			}     
 			//===== [ Toxic Waste ] ==========================
 			public class TOXICCLAY
 			{
@@ -1190,6 +1267,10 @@ namespace RonivansLegacy_ChemicalProcessing
 
 				public static LocString CALCINATOR_1_1 = "Submit {0} to high temperature oxidation reduction to produce {1}.";
 				public static LocString CALCINATOR_2_1 = "Submit a mixture of {0} and {1} to high temperature oxidation degradation to produce {2}.";
+
+				public static LocString CHEMICAL_MIXINGUNIT_2_1 = "Mix {0} and {1} to produce {2}.";
+				public static LocString CHEMICAL_MIXINGUNIT_3_1 = "React a mixture of {0} and {1} with the addition of {2} to produce {3}.";
+				public static LocString CHEMICAL_MIXINGUNIT_FERTILIZER = "Treat a portion of {0} with {1}, {1} and {2} additives, producing {3}.";
 
 				public class RANDOMRECIPERESULT
 				{

@@ -23,33 +23,18 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 		//--[ Identification and DLC stuff ]-----------------------------------
 		private void ConfigureRecipes() { }
-		public static readonly List<Storage.StoredItemModifier> GasRefineryStoredItemModifiers;
-
-		//--[ Special Settings ]-----------------------------------------------
-		private static readonly PortDisplayInput steamGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(2, 1));
-
-		private static readonly PortDisplayOutput propaneGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(2, 3));
-		private static readonly PortDisplayOutput SourWaterLiquidOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(-1, 1));
-
-		static Chemical_RawGasRefineryConfig()
-		{
-			Color? steamPortColor = new Color32(167, 180, 201, 255);
-			steamGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(2, 1), null, steamPortColor);  //Steam Input
-
-			Color? propaneGasOutputPortColor = new Color32(3, 44, 252, 255);
-			propaneGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(2, 3), null, propaneGasOutputPortColor); //Propane Output
-
-			Color? SourWaterOutputPortColor = new Color32(130, 104, 65, 255);
-			SourWaterLiquidOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(-1, 1), null, SourWaterOutputPortColor);
-
-			List<Storage.StoredItemModifier> list1 =
-			[
+		public static readonly List<Storage.StoredItemModifier> GasRefineryStoredItemModifiers = [
 				Storage.StoredItemModifier.Hide,
 				Storage.StoredItemModifier.Seal,
 				Storage.StoredItemModifier.Insulate,
 			];
-			GasRefineryStoredItemModifiers = list1;
-		}
+
+		//--[ Special Settings ]-----------------------------------------------
+		private static readonly PortDisplayInput steamGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(2, 1), null, new Color32(167, 180, 201, 255));  //Steam Input
+
+		private static readonly PortDisplayOutput propaneGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(2, 3), null, new Color32(3, 44, 252, 255)); //Propane Output
+		private static readonly PortDisplayOutput SourWaterLiquidOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(-1, 1), null, new Color32(130, 104, 65, 255));
+
 
 		//--[ Building Definitions ]-------------------------------------------
 		public override BuildingDef CreateBuildingDef()
@@ -104,12 +89,12 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//-----[ Element Converter Section ]---------------------------------
 			ElementConverter rawGasRefining = go.AddComponent<ElementConverter>();
 			rawGasRefining.consumedElements = [
-				new ElementConverter.ConsumedElement(ModElements.RawNaturalGas_Gas.Tag, 1f),
-				new ElementConverter.ConsumedElement(SimHashes.Steam.CreateTag(), 0.5f) ];
+				new (ModElements.RawNaturalGas_Gas.Tag, 1f),
+				new (SimHashes.Steam.CreateTag(), 0.5f) ];
 			rawGasRefining.outputElements = [
-				new ElementConverter.OutputElement(0.75f, SimHashes.Methane, 371.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0),
-				new ElementConverter.OutputElement(0.525f, SimHashes.Propane, 367.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0),
-				new ElementConverter.OutputElement(0.225f, ModElements.SourWater_Liquid, 307.15f, true, true, 0f, 0.5f, 0.75f, 0xff, 0) ];
+				new (0.75f, SimHashes.Methane, 371.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0),
+				new (0.525f, SimHashes.Propane, 367.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0),
+				new (0.225f, ModElements.SourWater_Liquid, 307.15f, true, true, 0f, 0.5f, 0.75f, 0xff, 0) ];
 			//--------------------------------------------------------------------
 
 			Storage outputStorage = go.AddOrGet<Storage>();

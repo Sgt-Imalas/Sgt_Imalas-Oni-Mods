@@ -424,7 +424,7 @@ elements:
     lowTemp: 0
     toxicity: 0
     highTemp: 363.15
-    highTempTransitionTarget: ChlorineGas
+    highTempTransitionTarget: Propane
     defaultTemperature: 254.15
     molarMass: 137.86
     lightAbsorptionFactor: 0.5
@@ -1054,4 +1054,76 @@ elements:
     isDisabled: false
     state: Liquid
     localizationID: STRINGS.ELEMENTS.SOURWATER.NAME
+    dlcId: ""
+  - elementId: NitrogenGas
+    specificHeatCapacity: 1.85
+    thermalConductivity: 0.175
+    solidSurfaceAreaMultiplier: 25
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    flow: 0.1
+    lowTemp: 77.35
+    toxicity: 0
+    lowTempTransitionTarget: LiquidNitrogen
+    defaultTemperature: 66.15
+    molarMass: 14.0067
+    lightAbsorptionFactor: 0.5
+    radiationAbsorptionFactor: 0.3
+    radiationPer1000Mass: 0
+    materialCategory: Unbreathable
+    tags:
+    isDisabled: false
+    state: Gas
+    localizationID: STRINGS.ELEMENTS.NITROGENGAS.NAME
+    dlcId: ""
+
+  - elementId: LiquidNitrogen
+    specificHeatCapacity: 2
+    thermalConductivity: 0.259
+    liquidCompression: 1.01
+    speed: 100
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 25
+    gasSurfaceAreaMultiplier: 1
+    strength: 0.7
+    highTemp: 77.65
+    lowTemp: 63.25
+    highTempTransitionTarget: NitrogenGas
+    lowTempTransitionTarget: SolidNitrogen
+    defaultTemperature: 69.15
+    defaultMass: 870
+    maxMass: 9970
+    molarMass: 1.68704
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.3
+    radiationPer1000Mass: 0
+    tags:
+    isDisabled: false
+    state: Liquid
+    localizationID: STRINGS.ELEMENTS.LIQUIDNITROGEN.NAME
+    dlcId: ""
+
+  - elementId: SolidNitrogen
+    specificHeatCapacity: 92
+    thermalConductivity: 72
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 0.7
+    highTemp: 63.45
+    highTempTransitionTarget: LiquidNitrogen
+    defaultTemperature: 58.15
+    defaultMass: 870
+    maxMass: 9970
+    hardness: 2
+    molarMass: 56.86
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.5
+    radiationPer1000Mass: 0
+    materialCategory: Liquifiable
+    tags:
+    buildMenuSort: 3
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.SOLIDNITROGEN.NAME
     dlcId: ""

@@ -23,8 +23,8 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>Ronivans Processing - All In One Pack</ModName>
-		<ModDescription>All Refinement mods created by Ronivan, now collected into one configurable modpack.</ModDescription>
+		<ModName>Ronivans Legacy - All In One Pack</ModName>
+		<ModDescription>All industrial mods created by Ronivan, now collected into one configurable modpack.</ModDescription>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

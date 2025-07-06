@@ -49,17 +49,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.SortOrder(1)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 				.Build();
-
-
-				RecipeBuilder.Create(ID, 50)
-				.Input(SimHashes.Propane, 50)
-				.Input(SimHashes.Petroleum, 45)
-				.Input(SimHashes.Isoresin, 5)
-				.Output(ModElements.Isopropane_Gas, 100f)
-				.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.SUPERMATERIALREFINERY_3_1, 3, 1)
-				.SortOrder(1)
-				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
-				.Build();
 			}
 		}
 

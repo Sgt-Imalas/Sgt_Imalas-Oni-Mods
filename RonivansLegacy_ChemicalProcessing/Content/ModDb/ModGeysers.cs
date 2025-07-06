@@ -89,7 +89,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			configs.Add(new("geyser_molten_salt_kanim", 4, 2,
 				new GeyserConfigurator.GeyserType("MoltenSaltGeyser",
 				SimHashes.MoltenSalt,
-				GeyserConfigurator.GeyserShape.Liquid,
+				GeyserConfigurator.GeyserShape.Molten,
 				1300.15f,
 				70f,
 				120f,
@@ -155,7 +155,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			configs.Add(new("geyser_sour_water_kanim", 4, 2,
 				new GeyserConfigurator.GeyserType("SourWaterGeyser",
 				ModElements.RawNaturalGas_Gas,
-				GeyserConfigurator.GeyserShape.Gas,
+				GeyserConfigurator.GeyserShape.Liquid,
 				278.15f,
 				1000f,
 				2000f,
@@ -173,6 +173,27 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				278.15f),
 				generic));
 
+			//===[ CHEMICAL: HOT NITROGEN VENT ]=====================================================================
+			configs.Add(new("vent_hot_nitrogen_kanim", 2, 4,
+				new GeyserConfigurator.GeyserType("NitrogenVent",
+				ModElements.Nitrogen_Gas,
+				GeyserConfigurator.GeyserShape.Gas,
+				673.15f,
+				70,
+				200f,
+				100,
+				null,
+				null,
+				60,
+				1140,
+				0.1f,
+				0.9f,
+				15000,
+				135000,
+				0.4f,
+				0.8f,
+				320.15f),
+				generic));
 		}
 	}
 }

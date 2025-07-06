@@ -40,6 +40,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		public static readonly Color32 SULFURIC_COLOR = new Color32(252, 252, 3, 255);
 		public static readonly Color32 TOXIC_COLOR = new Color32(130, 51, 5, 255);
 		public static readonly Color32 ZINC_COLOR = new Color32(201, 201, 195, 255);
+		//unburied from older version:
+		public static readonly Color32 NITROGEN_COLOR = new Color32(205, 194, 255, 255);
 
 
 		/// Chemical Processing BioChemistry
@@ -102,8 +104,16 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			Zinc_Solid = ElementInfo.Solid("SolidZinc", "solid_zinc_kanim", ZINC_COLOR),
 			Zinc_Liquid = ElementInfo.Liquid("MoltenZinc", ZINC_COLOR),
-			Zinc_Gas = ElementInfo.Gas("ZincGas", ZINC_COLOR)
+			Zinc_Gas = ElementInfo.Gas("ZincGas", ZINC_COLOR),
+
+			//unburied from older version:
+			Nitrogen_Solid = ElementInfo.Solid("SolidNitrogen", "solid_nitrogen_kanim", NITROGEN_COLOR),
+			Nitrogen_Liquid = ElementInfo.Liquid("LiquidNitrogen", NITROGEN_COLOR),
+			Nitrogen_Gas = ElementInfo.Gas("NitrogenGas", NITROGEN_COLOR)
 			;
+
+
+
 		//Chemical Processing Bio Chemistry
 		public static ElementInfo
 			BioDiesel_Solid = ElementInfo.Solid("SolidBiodiesel", "solid_biodiesel_kanim", BIODIESEL_COLOR),
@@ -168,7 +178,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 				Zinc_Solid.CreateSubstanceFromElementTinted(SimHashes.Gold),
 				Zinc_Liquid.CreateSubstance(),
-				Zinc_Gas.CreateSubstance()
+				Zinc_Gas.CreateSubstance(),
+
+				//unburied from older version:
+				Nitrogen_Solid.CreateSubstanceFromElementTinted(SimHashes.SolidHydrogen),
+				Nitrogen_Liquid.CreateSubstance(),
+				Nitrogen_Gas.CreateSubstance(),
 			};
 
 
