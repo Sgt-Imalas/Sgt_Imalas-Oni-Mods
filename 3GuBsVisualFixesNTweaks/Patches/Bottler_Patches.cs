@@ -16,7 +16,7 @@ namespace _3GuBsVisualFixesNTweaks.Patches
         {
             public static void Postfix(Bottler __instance, WorkerBase worker)
 			{
-				if (worker != null && worker.TryGetComponent<Transform>(out var workerTransform))
+				if (worker != null && worker.TryGetComponent<Transform>(out var workerTransform) && worker.TryGetComponent<MinionIdentity>(out _))
 				{
 					var pos = workerTransform.position;
 					pos.x -= 0.5f;
