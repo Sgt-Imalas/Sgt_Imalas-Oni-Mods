@@ -1,6 +1,8 @@
 ﻿using Database;
 using HarmonyLib;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using UnityEngine;
 using static IceCooledFan.States;
@@ -35,24 +37,21 @@ namespace UtilLibs
 			int sortkey = -1;
 			private List<SkinEntry> skins;
 
-			public static SkinCollection Create(string buildingID) => new SkinCollection(buildingID);
-			public SkinCollection(string buildingID)
+			public static SkinCollection Create(string buildingID, string _subcategoryId) => new SkinCollection(buildingID, _subcategoryId);
+			public static SkinCollection CategoryInit(string _mainCategory, string _subcategoryID, Sprite icon, int _sortkey) => new SkinCollection("", _subcategoryID).NewCategory(_mainCategory, icon, _sortkey);
+			public SkinCollection(string buildingID, string _subcategoryID)
 			{
-				buildingId = buildingID; 
-				skins = []; 
-				SkinSets.Add(this); }
-			public SkinCollection AddAsNew(string _mainCategory, string _subcategoryID, Sprite icon, int _sortkey)
+				buildingId = buildingID;
+				subcategoryID = _subcategoryID;
+				skins = [];
+				SkinSets.Add(this);
+			}
+			public SkinCollection NewCategory(string _mainCategory, Sprite icon, int _sortkey)
 			{
 				mainCategoryID = _mainCategory;
-				subcategoryID = _subcategoryID;
 				newCategoryIcon = icon;
 				sortkey = _sortkey;
 				isMainCategory = true;
-				return this;
-			}
-			public SkinCollection AddToExisting(string _subcategoryID)
-			{
-				subcategoryID = _subcategoryID;
 				return this;
 			}
 			public SkinCollection Skin(string Id, string name, string description, string kanimFile, Dictionary<string, string> workables = null)
@@ -62,28 +61,22 @@ namespace UtilLibs
 			}
 			public void RegisterCategory()
 			{
-				if (!skins.Any())
-					return;
-
 				string[] skinIDs = [.. skins.Select(entry => entry.ID)];
 				if (isMainCategory)
 				{
-					SgtLogger.Assert(mainCategoryID, "mainCategoryID");
-					SgtLogger.Assert(subcategoryID, "subcategoryID");
-					SgtLogger.Assert(newCategoryIcon, "newCategoryIcon");
+					SgtLogger.Assert("mainCategoryID",mainCategoryID);
+					SgtLogger.Assert("subcategoryID",subcategoryID);
+					SgtLogger.Assert("newCategoryIcon",newCategoryIcon);
 					AddSubcategory(mainCategoryID, subcategoryID, newCategoryIcon, sortkey, skinIDs);
 				}
 				else
 				{
-					SgtLogger.Assert(subcategoryID, "subcategoryID");
+					SgtLogger.Assert("subcategoryID", subcategoryID);
 					AddItemsToSubcategory(subcategoryID, skinIDs);
 				}
 			}
 			public void RegisterSkins(ResourceSet<BuildingFacadeResource> set)
 			{
-				if (!skins.Any())
-					return;
-
 				foreach (var skin in skins)
 				{
 					set.resources.Add(new BuildingFacadeResource(skin.ID, skin.Name, skin.Description, PermitRarity.Universal, buildingId, skin.KanimFile, skin.Workables, null, null));
@@ -91,6 +84,7 @@ namespace UtilLibs
 			}
 			public static void RegisterAllSkins()
 			{
+				SgtLogger.l("Patching Skin Injection..");
 				var harmony = new Harmony("SgtImalas_SupplyClosetUtils");
 				{
 					var targetType = AccessTools.TypeByName("Database.BuildingFacades");
@@ -108,8 +102,10 @@ namespace UtilLibs
 			public static void BuildingFacades_Postfix(object __instance)
 			{
 				var resource = (ResourceSet<BuildingFacadeResource>)__instance;
+				SgtLogger.l("Registering " + SkinSets.Count + " skin collections");
 				foreach (var collection in SkinSets)
 				{
+					SgtLogger.l("Registering skins for " + collection.buildingId);
 					collection.RegisterSkins(resource);
 				}
 			}
@@ -124,6 +120,8 @@ namespace UtilLibs
 
 		public static void AddItemsToSubcategory(string subcategoryID, string[] permitIDs)
 		{
+			SgtLogger.Assert(subcategoryIdToPermitIdsMap, "subcategoryIdToPermitIdsMap");
+
 			if (!subcategoryIdToPermitIdsMap.ContainsKey(subcategoryID))
 			{
 				SgtLogger.error("Supply Closet Item subcategory not found! Use AddSubcategory instead");
@@ -137,9 +135,8 @@ namespace UtilLibs
 			}
 		}
 
-		public static void AddSubcategory(string mainCategory, string subcategoryID, Sprite icon, int sortkey, string[] permitIDs)
+		public static void AddSubcategory(string mainCategory, string subcategoryID, Sprite icon, int sortkey, string[] permitIDs, bool logWarning = true)
 		{
-
 			if (categoryIdToSubcategoryIdsMap.ContainsKey(mainCategory))
 			{
 				if (!subcategoryIdToPermitIdsMap.ContainsKey(subcategoryID))
@@ -149,18 +146,19 @@ namespace UtilLibs
 
 					if (!categoryIdToSubcategoryIdsMap[mainCategory].Contains(subcategoryID))
 						categoryIdToSubcategoryIdsMap[mainCategory].Add(subcategoryID);
-					else
+					else if (logWarning)
 						SgtLogger.warning("How did this happen? subcategory is registered to this main category but didnt exist?!");
 
 				}
-				else
+				else if (logWarning)
 				{
 					SgtLogger.warning("Supply Closet Item subcategory already existing! Use AddItemsToSubcategory instead");
 				}
-				for (int i = 0; i < permitIDs.Length; i++)
-				{
-					subcategoryIdToPermitIdsMap[subcategoryID].Add(permitIDs[i]);
-				}
+				if (permitIDs.Any())
+					for (int i = 0; i < permitIDs.Length; i++)
+					{
+						subcategoryIdToPermitIdsMap[subcategoryID].Add(permitIDs[i]);
+					}
 			}
 			else
 				SgtLogger.error("Supply Closet Main Category not found!");

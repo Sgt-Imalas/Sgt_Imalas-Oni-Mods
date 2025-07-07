@@ -10,6 +10,7 @@ using System;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.MineralProcessing_Metallurgy;
 using static UtilLibs.GameStrings;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProcessing;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineering;
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
 	class BuildingDatabase
@@ -22,9 +23,17 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			GameTags.MaterialBuildingElements.Add(SimHashes.Ceramic.CreateTag());
 			GameTags.MaterialBuildingElements.Add(SimHashes.Tungsten.CreateTag());
 		}
-		internal static void RegisterBuildinTags()
+		internal static void RegisterExtraStrings()
 		{
 			Strings.Add("STRINGS.MISC.TAGS.TUNGSTEN", global::STRINGS.ELEMENTS.TUNGSTEN.NAME);
+
+			global::STRINGS.BUILDINGS.PREFABS.TILEPOI.NAME = STRINGS.BUILDINGS.PREFABS.MOSAICTILESTRINGS.NAME;
+			global::STRINGS.BUILDINGS.PREFABS.TILEPOI.DESC = STRINGS.BUILDINGS.PREFABS.MOSAICTILESTRINGS.DESC;
+			global::STRINGS.BUILDINGS.PREFABS.TILEPOI.EFFECT = STRINGS.BUILDINGS.PREFABS.MOSAICTILESTRINGS.EFFECT;
+
+			global::STRINGS.BUILDINGS.PREFABS.MOULDINGTILE.NAME = STRINGS.BUILDINGS.PREFABS.MARBLETILESTRINGS.NAME;
+			global::STRINGS.BUILDINGS.PREFABS.MOULDINGTILE.DESC = STRINGS.BUILDINGS.PREFABS.MARBLETILESTRINGS.DESC;
+			global::STRINGS.BUILDINGS.PREFABS.MOULDINGTILE.EFFECT = STRINGS.BUILDINGS.PREFABS.MARBLETILESTRINGS.EFFECT;
 		}
 
 		public static void RegisterOilWellCapCustomPiping()
@@ -53,6 +62,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				RegisterBuildings_DupesMachinery();
 			if(Config.Instance.NuclearProcessing_Enabled)
 				RegisterBuildings_NuclearProcessing();
+			if(Config.Instance.DupesMachinery_Enabled)
+				RegisterBuildings_DupesEngineering();
 		}
 		private static void RegisterBuildings_ChemicalProcessingIndustrialOverhaul()
 		{
@@ -196,7 +207,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddModFrom(SourceMod.ChemicalProcessing_IO)
 				.AddModFrom(SourceMod.DupesMachinery);
 		}
-
 		private static void RegisterBuildings_ChemicalProcessingBioChemistry()
 		{
 			BuildingManager.CreateEntry<Biochemistry_AlgaeGrowingBasinConfig>()
@@ -224,7 +234,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToTech(Technology.SolidMaterial.BruteForceRefinement)
 				.AddModFrom(SourceMod.ChemicalProcessing_BioChemistry);
 		}
-
 		private static void RegisterBuildings_MineralProcessingMining()
 		{
 			BuildingManager.CreateEntry<Mining_CNCMachineConfig>()
@@ -236,7 +245,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToTech(Technology.SolidMaterial.SolidManagement)
 				.AddModFrom(SourceMod.MineralProcessing_Mining);
 		}
-
 		private static void RegisterBuildings_MineralProcessingMetallurgy()
 		{
 			BuildingManager.CreateEntry<Metallurgy_PlasmaFurnaceConfig>()
@@ -258,7 +266,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToTech(Technology.SolidMaterial.SuperheatedForging)
 				.AddModFrom(SourceMod.MineralProcessing_Metallurgy);
 		}
-
 		private static void RegisterBuildings_DupesMachinery()
 		{
 			BuildingManager.CreateEntry<Machinery_FlocculationSieveConfig>()
@@ -307,7 +314,47 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToTech(Technology.ColonyDevelopment.RadiationRefinement)
 				.AddModFrom(SourceMod.NuclearProcessing);
 		}
+		private static void RegisterBuildings_DupesEngineering()
+		{
+			///Doors
 
+			BuildingManager.CreateEntry<GlassDoorComplexConfig>()
+				.AddToCategory(PlanMenuCategory.Base, PressureDoorConfig.ID)
+				.AddToTech(Technology.Exosuits.TransitTubes)
+				.AddModFrom(SourceMod.DupesEngineering);
+
+			BuildingManager.CreateEntry<GravitasDoorConfig>()
+				.AddToCategory(PlanMenuCategory.Base, DoorConfig.ID)
+				.AddToTech(Technology.Exosuits.TransitTubes)
+				.AddModFrom(SourceMod.DupesEngineering);
+
+			BuildingManager.CreateEntry<WoodenDoorConfig>()
+				.AddToCategory(PlanMenuCategory.Base, DoorConfig.ID)
+				.AddToTech(Technology.Decor.InteriorDecor)
+				.AddModFrom(SourceMod.DupesEngineering);
+
+			BuildingManager.CreateEntry<GlassDoorSimpleConfig>()
+				.AddToCategory(PlanMenuCategory.Base, DoorConfig.ID)
+				.AddToTech(Technology.Exosuits.TransitTubes)
+				.AddModFrom(SourceMod.DupesEngineering);
+
+			BuildingManager.CreateEntry<FacilityDoorConfig>()
+				.AddToCategory(PlanMenuCategory.Base, DoorConfig.ID)
+				.AddToTech(Technology.Gases.Ventilation)
+				.AddModFrom(SourceMod.DupesEngineering);
+
+			///Tiles
+
+			BuildingManager.CreateEntry<MouldingTileConfig>()
+				.AddToCategory(PlanMenuCategory.Base, CarpetTileConfig.ID).ForceCategory()
+				.AddToTech(Technology.Decor.RenaissanceArt)
+				.AddModFrom(SourceMod.DupesEngineering);
+
+			BuildingManager.CreateEntry<TilePOIConfig>()
+				.AddToCategory(PlanMenuCategory.Base, CarpetTileConfig.ID).ForceCategory()
+				.AddToTech(Technology.Decor.HomeLuxuries)
+				.AddModFrom(SourceMod.DupesEngineering);
+		}
 
 		#region oldBuildingRegistration
 		public static void AddBuildingsToPlanscreen()

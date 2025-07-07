@@ -15,6 +15,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		{
 			public static void Prefix()
 			{
+				SkinDatabase.AddSkins();
 			}
 			public static void Postfix(Db __instance)
 			{
@@ -23,7 +24,6 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				BuildingManager.AddBuildingsToTechs();
 				ModElements.OverrideDebrisAnims();
 				HarvestablePOIAdditions.AddExtraPOIElements();
-				SkinDatabase.AddSkins();
 			}
 		}
 	}

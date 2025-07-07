@@ -37,6 +37,9 @@ namespace RonivansLegacy_ChemicalProcessing
 		[Option("Dupes Machinery: Enabled")]
 		[JsonProperty]
 		public bool DupesMachinery_Enabled { get; set; } = true;
+		[Option("Dupes Engineering: Enabled")]
+		[JsonProperty]
+		public bool DupesEngineering_Enabled { get; set; } = true;
 
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.GEYSERS.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.GEYSERS.TOOLTIP", "STRINGS.RONIVANL_AIO_MODCONFIG.A_CATEGORY_GENERIC")]

@@ -21,7 +21,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			{
 				LocalisationUtil.Translate(typeof(STRINGS), true);
 				LocalisationUtil.FixTranslationStrings();
-				BuildingDatabase.RegisterBuildinTags();
+				BuildingDatabase.RegisterExtraStrings();
 			}
 		}
 	}

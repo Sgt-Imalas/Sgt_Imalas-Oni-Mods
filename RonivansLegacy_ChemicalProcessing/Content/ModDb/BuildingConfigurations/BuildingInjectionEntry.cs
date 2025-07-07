@@ -9,6 +9,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 {
     public class BuildingInjectionEntry
 	{
+		bool MoveExisting = false;
 		string BuildingID;
         string TechID;
         string PlanScreenCategory;
@@ -27,7 +28,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 			TechID = techID;
 			return this;
 		}
-        public BuildingInjectionEntry AddToCategory(string category, string relativeBuildingID, ModUtil.BuildingOrdering ordering = ModUtil.BuildingOrdering.After)
+		public BuildingInjectionEntry ForceCategory(bool move = true)
+		{
+			MoveExisting = move;
+			return this;
+		}
+		public BuildingInjectionEntry AddToCategory(string category, string relativeBuildingID, ModUtil.BuildingOrdering ordering = ModUtil.BuildingOrdering.After)
         {
 			PlanScreenCategory = category;
 			PlanScreenRelativeBuildingID = relativeBuildingID;
@@ -61,7 +67,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 			{
 				return;
 			}
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanScreenCategory,BuildingID,PlanScreenRelativeBuildingID,ordering:BuildingOrdering);
+			if(MoveExisting)
+				InjectionMethods.MoveExistingBuildingToNewCategory(PlanScreenCategory,BuildingID,PlanScreenRelativeBuildingID,ordering: BuildingOrdering);
+			else
+				InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanScreenCategory, BuildingID, PlanScreenRelativeBuildingID, ordering: BuildingOrdering);
 		}
 	}
 }

@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs.BuildingPortUtils;
+using static STRINGS.BUILDINGS.PREFABS;
 using static STRINGS.CODEX;
 using static STRINGS.UI;
 
@@ -51,6 +52,15 @@ namespace RonivansLegacy_ChemicalProcessing
 		}
 		public class BUILDINGS
 		{
+			public class FACADES_STANDALONE
+			{
+				public class PETROLEUMDISTILLERY
+				{
+					public static LocString NAME = FormatAsLink("Petroleum Distillery", nameof(PETROLEUMDISTILLERY));
+					public static LocString DESC = "A distillation plant that uses induction to produce Petroleum from Crude Oil";
+				}
+			}
+
 			public class PREFABS
 			{
 				#region Biochemistry
@@ -141,7 +151,7 @@ namespace RonivansLegacy_ChemicalProcessing
 							FormatAsLink("Mush Bar", "MUSHBAR"),"."
 						]);
 				}
-#endregion
+				#endregion
 				#region ChemicalProcessing
 				public class CHEMICAL_ADVANCEDKILN
 				{
@@ -353,7 +363,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = FormatAsLink("Chemical Mixing Unit", nameof(CHEMICAL_MIXINGUNIT));
 					public static LocString DESC = "This chemical fabricator has several functions in petrochemical industry.";
-					public static LocString EFFECT  = "An industrial aparatus capable to address several chemical reactions. Its large array of pipes allows safe handling of dangerous liquids and gases.";
+					public static LocString EFFECT = "An industrial aparatus capable to address several chemical reactions. Its large array of pipes allows safe handling of dangerous liquids and gases.";
 				}
 				public class CHEMICAL_NAPHTHAREFORMER
 				{
@@ -407,10 +417,10 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString DESC = "An industrial process plant responsible for refining the impure raw natural gas extracted from wells.";
 					public static LocString EFFECT = "The refinery has three stages:\n\n" +
 						"First Stage: Raw Natural Gas is first refined to: " +
-						"\n- 50% " + FormatAsLink("Natural Gas", "PETROLEUM") + 
-						"\n- 40% " + FormatAsLink("Propane", "PROPANE") + 
-						"\n- 10% " + FormatAsLink("Sour Gas", "SOURGAS") + 
-						"\nSecond Stage: " + FormatAsLink("Propane", "PROPANE") + " is mixed with " + FormatAsLink("Hydrogen", "Hydrogen") + " resulting in a complete conversion to " + FormatAsLink("Methane", "METHANE") + 
+						"\n- 50% " + FormatAsLink("Natural Gas", "PETROLEUM") +
+						"\n- 40% " + FormatAsLink("Propane", "PROPANE") +
+						"\n- 10% " + FormatAsLink("Sour Gas", "SOURGAS") +
+						"\nSecond Stage: " + FormatAsLink("Propane", "PROPANE") + " is mixed with " + FormatAsLink("Hydrogen", "Hydrogen") + " resulting in a complete conversion to " + FormatAsLink("Methane", "METHANE") +
 						"\nThird Stage reacts the remaining " + FormatAsLink("Sour Gas", "SOURGAS") + " with Nitric Acid, producing Ammonia Gas.";
 
 				}
@@ -591,7 +601,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class METALLURGY_BASICOILREFINERY
 				{
 					public static LocString NAME = FormatAsLink("Basic Oil Refinery", nameof(METALLURGY_BASICOILREFINERY));
-					public static LocString DESC = "A basic oil refinery that uses burning solids as heat source."; 
+					public static LocString DESC = "A basic oil refinery that uses burning solids as heat source.";
 					public static LocString EFFECT = string.Concat(
 						[
 						"Refines "
@@ -603,7 +613,6 @@ namespace RonivansLegacy_ChemicalProcessing
 						"IMPORTANT: The Gases output ports piping is optional. If no Gas Pipe is attached to them, the output gases will be released directly on the environment."
 						]);
 				}
-
 				public class METALLURGY_PYROLYSISKILN
 				{
 					public static LocString NAME = FormatAsLink("Pyrolysis Kiln", nameof(METALLURGY_PYROLYSISKILN));
@@ -617,7 +626,7 @@ namespace RonivansLegacy_ChemicalProcessing
 							"."
 						]);
 				}
-#endregion
+				#endregion
 				#region Mining
 				public class MINING_CNCMACHINE
 				{
@@ -734,6 +743,62 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString EFFECT = "An advanced kiln capable of volumetric oxidation with heavy nuclear waste by alternating different stages of oxidation and reduction.";
 				}
 				#endregion
+				#region DupesEngineering
+				public class FACILITYDOOR
+				{
+					public static LocString NAME = FormatAsLink("Facility Door", nameof(FACILITYDOOR));
+					public static LocString DESC = "A light-weight door with intricate designs that suggests it bellongs to a industrial facility.";
+					public static LocString EFFECT = "A high-tech light door";
+					public class FACADES
+					{
+						public class FACILITYDOORWHITE
+						{
+							public static LocString NAME = FormatAsLink("White Facility Door", nameof(FACILITYDOORWHITE));
+							public static LocString DESC = "A high-tech light door with white tint.";
+						}
+						public class FACILITYDOORYELLOW
+						{
+							public static LocString NAME = FormatAsLink("Yellow Facility Door", nameof(FACILITYDOORYELLOW));
+							public static LocString DESC = "A high-tech light door with yellow tint.";
+						}
+						public class FACILITYDOORRED
+						{
+							public static LocString NAME = FormatAsLink("Red Facility Door", nameof(FACILITYDOORRED));
+							public static LocString DESC = "A high-tech light door with red tint.";
+						}
+					}
+				}
+				public class GLASSDOORCOMPLEX
+				{
+					public static LocString NAME = FormatAsLink("Security Glass Door", nameof(GLASSDOORCOMPLEX));
+					public static LocString DESC = "Functions as a Manual Airlock when no Power is available.";
+					public static LocString EFFECT = "A mechanized airlock door made with " + FormatAsLink("Glass", "GLASS") + " panels. Blocks Liquid and Gas flow, maintaining pressure between areas. Sets Duplicant Access Permissions for area restriction.";
+				}
+				public class GLASSDOORSIMPLE
+				{
+					public static LocString NAME = FormatAsLink("Simple Glass Door", nameof(GLASSDOORSIMPLE));
+					public static LocString DESC = "Wild Critters cannot pass through doors. Door controls can be used to prevent Duplicants from entering restricted areas.";
+					public static LocString EFFECT = "A simple door made with " + FormatAsLink("Glass", "GLASS") + " panels. Encloses areas without blocking Liquid or Gas flow. Sets Duplicant Access Permissions for area restriction.";
+				}
+				public class WOODENDOOR
+				{
+					public static LocString NAME = FormatAsLink("Wooden Door", nameof(WOODENDOOR));
+					public static LocString DESC = "Be careful with splinters!";
+					public static LocString EFFECT = "A pretty wooden door that encloses areas without blocking Liquid or Gas flow. Sets Duplicant Access Permissions for area restriction.";
+				}
+				public class MOSAICTILESTRINGS
+				{
+					public static LocString NAME = FormatAsLink("Mosaic Tile", nameof(TILEPOI));
+					public static LocString DESC = "A fine tile made from glazed stones.";
+					public static LocString EFFECT = "Used as floor and wall tile to build rooms.\n\nSignificantly increases Duplicant runspeed.";
+				}
+				public class MARBLETILESTRINGS
+				{
+					public static LocString NAME = FormatAsLink("Marble Tile", nameof(MOULDINGTILE));
+					public static LocString DESC = "A fine tile made from polished quality stones.";
+					public static LocString EFFECT = "Used as floor and wall tile to build rooms.\n\nSignificantly increases Duplicant runspeed.";
+				}
+				#endregion
 			}
 		}
 		public class CREATURES
@@ -779,7 +844,7 @@ namespace RonivansLegacy_ChemicalProcessing
 					}
 				}
 			}
-		}		
+		}
 		public class ELEMENTS
 		{
 			//===== [ Zinc ] ================================
@@ -845,7 +910,7 @@ namespace RonivansLegacy_ChemicalProcessing
 			{
 				public static LocString NAME = FormatAsLink("Nitrogen", nameof(NITROGENGAS));
 				public static LocString DESC = "(N<sub>2</sub>) Nitrogen is a nonmetal and the lightest member of group 15 of the periodic table.";
-			}     
+			}
 			//===== [ Toxic Waste ] ==========================
 			public class TOXICCLAY
 			{
@@ -1106,6 +1171,13 @@ namespace RonivansLegacy_ChemicalProcessing
 		}
 		public class UI
 		{
+			public class KLEI_INVENTORY_SCREEN
+			{
+				public class SUBCATEGORIES
+				{
+					public static LocString RONIVAN_AIO_SKINS = "Ronivans Legacy - All In One";
+				}
+			}
 			public class BUILDINGEDITOR
 			{
 				public static LocString TITLE = "Building Configuration Editor";
@@ -1215,7 +1287,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString THREE_MIXTURE_FUSE = "Fuse together a mixture of {0} and {1}, with addition of {2} to produce {3}.";
 				public static LocString THREE_MIXTURE_TWO_PRODUCTS_SMELT_WASTE = "Smelt a mixture of {0}, {1} and {2}, to produce {3} and {4}. Produces {5} as waste.";
 				public static LocString THREE_MIXTURE_SMELT_WASTE = "Smelt a mixture of {0}, {1} and {2}, to produce {3}. Produces {4} as waste.";
-				
+
 				public static LocString BALLCRUSHER_MILLING_1INGREDIENT = "Mill down {0}.\nThe milling process will yield {1} of random amounts of the following materials:\n{2}";
 				public static LocString BALLCRUSHER_MILLING_2INGREDIENTS = "Mill down {0} with a mixture of {1} and {2}.\nThe milling process will yield {3} of random amounts of the following materials:\n{4}\n\nProduces large amounts of {5} as waste product.";
 				public static LocString BALLCRUSHER_MILLING_3INGREDIENTS = "Mill down {0} with a mixture of {1}, {2} and {3}.\nThe milling process will yield {4} of random amounts of the following materials:\n{5}\n\nProduces large amounts of {6} as waste product.";
@@ -1276,10 +1348,10 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = "Random Composition: {0}";
 					public static LocString NAME_OCCURENCE_FORMAT = "Random Occurence: {0}";
-					public static LocString OCCURENCE_RANDOM_AMOUNT = "{0}/s";
+					public static LocString OCCURENCE_RANDOM_AMOUNT = "{0}/{1} s";
 					public static LocString DESC = "This recipe yields {0} of random amounts of the following elements:";
 					public static LocString DESC_MAX_COUNT = "This recipe yields {0} of random amounts of {1} of the following elements:";
-					public static LocString DESC_OCCURENCE = "During production, the machine will generate random amounts of the following byproducts every second:";
+					public static LocString DESC_OCCURENCE = "During production, the machine will generate random amounts of the following byproducts every {0} seconds:";
 					public static LocString DESC_RANGE = "~{0}";
 					public static LocString COMPOSITION_ENTRY = "• {0}, {1} - {2}";
 					public static LocString COMPOSITION_ENTRY_CHANCE = "• {0}: {1} - {2}, {3} Chance";

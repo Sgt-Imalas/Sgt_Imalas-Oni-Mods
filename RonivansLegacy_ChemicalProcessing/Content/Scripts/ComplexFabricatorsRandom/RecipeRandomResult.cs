@@ -10,6 +10,17 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 {
 	public class RecipeRandomResult
 	{
+		public class OccurenceRandomResult : RecipeRandomResult
+		{
+			public OccurenceRandomResult(int rateInseconds) : base() 
+			{
+				OccurenceRateInSeconds = rateInseconds;
+			}
+		}
+
+
+		public int OccurenceRateInSeconds;
+
 		public float TotalMass { get; private set; }
 		public float MinTemp { get; private set; } = -1;
 		public float MaxTemp { get; private set; } = -1;
@@ -37,6 +48,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 		{
 			// This constructor is used when no specific total mass is set.
 		}
+
 		public RecipeRandomResult() : this(-1)
 		{
 		}
@@ -90,7 +102,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 		}
 		public string GetOccurenceCompositionName(bool massOnly = false)
 		{
-			var massAmount = string.Format(STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.OCCURENCE_RANDOM_AMOUNT, GetMassString());
+			var massAmount = string.Format(STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.OCCURENCE_RANDOM_AMOUNT, GetMassString(), OccurenceRateInSeconds);
 			if (massOnly)
 				return massAmount;
 			return string.Format(STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.NAME_OCCURENCE_FORMAT, massAmount);
@@ -141,6 +153,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 			{
 				return AddProduct(product, minAmount, maxAmount, chanceToAppear);
 			}
+			return this;
+		}
+		public RecipeRandomResult OccurenceRateSecsUIOnly(int rate)
+		{
+			OccurenceRateInSeconds = rate;
 			return this;
 		}
 

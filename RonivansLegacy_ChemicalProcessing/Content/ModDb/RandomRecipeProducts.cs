@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 using static RonivansLegacy_ChemicalProcessing.Content.ModDb.ModElements;
+using static RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRandom.RecipeRandomResult;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
@@ -671,7 +672,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			// -    Polluted Water
 			//-------------------------------------------------------------------------------------------------
 			results.Add(Mining_Drillbits_Basic_ItemConfig.TAG,
-			new RecipeRandomResult()
+			new OccurenceRandomResult(4)
 				.ProductCount(1)
 				.AddProduct(SimHashes.CrushedRock, 25, 100, 27f / 29f)
 				.AddProduct(SimHashes.Water, 250, 600, 1f / 29f)
@@ -685,7 +686,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			// -    Carbon Dioxide
 			//-------------------------------------------------------------------------------------------------
 			results.Add(Mining_Drillbits_Steel_ItemConfig.TAG,
-			new RecipeRandomResult()
+			new OccurenceRandomResult(4)
 				.ProductCount(1)
 				.AddProduct(SimHashes.CrushedRock, 25, 100, 27f / 29f)
 				.AddProduct(SimHashes.Steam, 50, 500, 1f / 29f)
@@ -699,7 +700,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			// -    Sulfur Gas
 			//-------------------------------------------------------------------------------------------------
 			results.Add(Mining_Drillbits_Tungsten_ItemConfig.TAG,
-			new RecipeRandomResult()
+			new OccurenceRandomResult(4)
 				.ProductCount(1)
 				.AddProduct(SimHashes.CrushedRock, 25, 100, 27f / 29f)
 				.AddProduct(SimHashes.Methane, 50, 500, 1f / 29f)
@@ -716,7 +717,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			// -    Hydrogen
 			//-------------------------------------------------------------------------------------------------
 			results.Add(Mining_Drillbits_GuidanceDevice_ItemConfig.SoftStratumTag,
-			new RecipeRandomResult()
+			new OccurenceRandomResult(4)
 				.ProductCount(1)
 				.AddProduct(SimHashes.CrushedRock, 25, 100, 21f / 25f)
 				.AddProduct(SimHashes.ContaminatedOxygen, 25, 90, 1f / 25f)
@@ -733,7 +734,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			// -    Brine
 			//-------------------------------------------------------------------------------------------------
 			results.Add(Mining_Drillbits_GuidanceDevice_ItemConfig.AquiferTag,
-			new RecipeRandomResult()
+			new OccurenceRandomResult(4)
 				.ProductCount(1)
 				.AddProduct(SimHashes.CrushedRock, 25, 100, 8f / 20f)
 				.AddProduct(SimHashes.Water, 25, 50, 4f / 20f)
@@ -749,7 +750,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			// -    Mercury Gas
 			//-------------------------------------------------------------------------------------------------
 			results.Add(Mining_Drillbits_GuidanceDevice_ItemConfig.HardStratumTag,
-			new RecipeRandomResult()
+			new OccurenceRandomResult(4)
 				.ProductCount(1)
 				.AddProduct(SimHashes.CrushedRock, 25, 100, 11f / 14f)
 				.AddProduct(SimHashes.CarbonDioxide, 100, 400, 1f / 14f)
@@ -765,7 +766,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			// -    Carbon Dioxide
 			//-------------------------------------------------------------------------------------------------
 			results.Add(Mining_Drillbits_GuidanceDevice_ItemConfig.OilReservesTag,
-			new RecipeRandomResult()
+			new OccurenceRandomResult(4)
 				.ProductCount(1)
 				.AddProduct(SimHashes.CrushedRock, 25, 100, 6f / 15f)
 				.AddProduct(SimHashes.CarbonDioxide, 5, 20, 4f / 15f)
@@ -781,7 +782,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			///adding some other ices....
 			//-------------------------------------------------------------------------------------------------
 			results.Add(Mining_Drillbits_GuidanceDevice_ItemConfig.CryosphereTag,
-			new RecipeRandomResult()
+			new OccurenceRandomResult(4)
 				.ProductCount(1)
 				.AddProduct(SimHashes.CrushedRock, 25, 100, 4f / 7f)
 				.AddProduct(SimHashes.CrushedIce, 15, 75, 3f / 7f)
@@ -797,7 +798,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			// -      Molten Niobium
 			//-------------------------------------------------------------------------------------------------
 			results.Add(Mining_Drillbits_GuidanceDevice_ItemConfig.MantleTag,
-			new RecipeRandomResult()
+			new OccurenceRandomResult(4)
 				.ProductCount(1)
 				.AddProduct(SimHashes.CrushedRock, 25, 100, 10f / 30f)
 				.AddProduct(SimHashes.Magma, 25, 300, 6f / 30f)
