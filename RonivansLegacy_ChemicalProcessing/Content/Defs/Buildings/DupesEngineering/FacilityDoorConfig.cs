@@ -10,7 +10,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 {
     class FacilityDoorConfig : IBuildingConfig
 	{
-		public static string ID = "FacilityDoor";
+		public static string ID = "AIO_FacilityDoor";
 		public override BuildingDef CreateBuildingDef()
 		{
 			EffectorValues nONE = TUNING.NOISE_POLLUTION.NONE;

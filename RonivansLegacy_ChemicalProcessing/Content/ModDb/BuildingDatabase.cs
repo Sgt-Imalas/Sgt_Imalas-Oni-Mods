@@ -328,11 +328,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToTech(Technology.Exosuits.TransitTubes)
 				.AddModFrom(SourceMod.DupesEngineering);
 
-			BuildingManager.CreateEntry<GravitasDoorConfig>()
-				.AddToCategory(PlanMenuCategory.Base, DoorConfig.ID)
-				.AddToTech(Technology.Exosuits.TransitTubes)
-				.AddModFrom(SourceMod.DupesEngineering);
-
 			BuildingManager.CreateEntry<WoodenDoorConfig>()
 				.AddToCategory(PlanMenuCategory.Base, DoorConfig.ID)
 				.AddToTech(Technology.Decor.InteriorDecor)
@@ -346,6 +341,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingManager.CreateEntry<FacilityDoorConfig>()
 				.AddToCategory(PlanMenuCategory.Base, DoorConfig.ID)
 				.AddToTech(Technology.Gases.Ventilation)
+				.AddModFrom(SourceMod.DupesEngineering);
+
+			///Warning LED
+
+			BuildingManager.CreateEntry<LogicAlertLightConfig>()
+				.AddToCategory(PlanMenuCategory.Automation, LogicAlarmConfig.ID)
+				.AddToTech(Technology.Computers.SmartHome)
 				.AddModFrom(SourceMod.DupesEngineering);
 
 			///Tiles

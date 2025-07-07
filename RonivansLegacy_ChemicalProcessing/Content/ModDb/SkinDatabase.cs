@@ -6,10 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using static InventoryOrganization;
 using static UtilLibs.SupplyClosetUtils;
-using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.FACILITYDOOR.FACADES;
+using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FACILITYDOOR.FACADES;
+using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LOGICALERTLIGHT.FACADES;
 
 using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS;
 using UtilLibs;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+using UnityEngine;
+using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LOGICALERTLIGHT.FACADES;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
@@ -31,6 +35,16 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			SkinCollection.Create(OilRefineryConfig.ID, SubCategoryID)
 				.Skin("ChemicalProcessing_Refinery", STRINGS.BUILDINGS.FACADES_STANDALONE.PETROLEUMDISTILLERY.NAME, STRINGS.BUILDINGS.FACADES_STANDALONE.PETROLEUMDISTILLERY.DESC, "petroleum_distillery_kanim");
+
+
+			SkinCollection.Create(LogicAlertLightConfig.ID, SubCategoryID)
+				.Skin("AlertLightGreen", LOGICALERTLIGHTGREEN.NAME, LOGICALERTLIGHTGREEN.DESC, "alert_light_green_kanim")
+				.Skin("AlertLightYellow", LOGICALERTLIGHTYELLOW.NAME, LOGICALERTLIGHTYELLOW.DESC, "alert_light_yellow_kanim")
+				.Skin("AlertLightRed", LOGICALERTLIGHTRED.NAME, LOGICALERTLIGHTRED.DESC, "alert_light_red_kanim");
+
+			LEDTint.AddSkinLightTint("AlertLightGreen", Color.green);
+			LEDTint.AddSkinLightTint("AlertLightYellow", Color.yellow);
+			LEDTint.AddSkinLightTint("AlertLightRed", Color.red);
 
 			SkinCollection.RegisterAllSkins();
 		}

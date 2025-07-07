@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs.BuildingPortUtils;
+using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FACILITYDOOR.FACADES;
 using static STRINGS.BUILDINGS.PREFABS;
 using static STRINGS.CODEX;
 using static STRINGS.UI;
@@ -751,9 +752,9 @@ namespace RonivansLegacy_ChemicalProcessing
 				}
 				#endregion
 				#region DupesEngineering
-				public class FACILITYDOOR
+				public class AIO_FACILITYDOOR
 				{
-					public static LocString NAME = FormatAsLink("Facility Door", nameof(FACILITYDOOR));
+					public static LocString NAME = FormatAsLink("Facility Door", nameof(AIO_FACILITYDOOR));
 					public static LocString DESC = "A light-weight door with intricate designs that suggests it bellongs to a industrial facility.";
 					public static LocString EFFECT = "A high-tech light door";
 					public class FACADES
@@ -772,6 +773,30 @@ namespace RonivansLegacy_ChemicalProcessing
 						{
 							public static LocString NAME = FormatAsLink("Red Facility Door", nameof(FACILITYDOORRED));
 							public static LocString DESC = "A high-tech light door with red tint.";
+						}
+					}
+				}
+				public class LOGICALERTLIGHT
+				{
+					public static LocString NAME = FormatAsLink("Alert LED", nameof(LOGICALERTLIGHT));
+					public static LocString DESC = "A white colored alert light.";
+					public static LocString EFFECT = "A led light that servers as alert. Produces no significant luminosity.";
+					public class FACADES
+					{
+						public class LOGICALERTLIGHTRED
+						{
+							public static LocString NAME = FormatAsLink("Red Alert LED", nameof(LOGICALERTLIGHTRED));
+							public static LocString DESC = "A red colored alert light.";
+						}
+						public class LOGICALERTLIGHTYELLOW
+						{
+							public static LocString NAME = FormatAsLink("Yellow Alert LED", nameof(LOGICALERTLIGHTYELLOW));
+							public static LocString DESC = "A yellow colored alert light.";
+						}
+						public class LOGICALERTLIGHTGREEN
+						{
+							public static LocString NAME = FormatAsLink("Green Alert LED", nameof(LOGICALERTLIGHTGREEN));
+							public static LocString DESC = "A green colored alert light.";
 						}
 					}
 				}
@@ -805,6 +830,7 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString DESC = "A fine tile made from polished quality stones.";
 					public static LocString EFFECT = "Used as floor and wall tile to build rooms.\n\nSignificantly increases Duplicant runspeed.";
 				}
+
 				#endregion
 			}
 		}

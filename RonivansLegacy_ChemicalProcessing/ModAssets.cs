@@ -12,6 +12,8 @@ namespace RonivansLegacy_ChemicalProcessing
 {
     internal class ModAssets
     {
+		public static ModHashes OnBuildingFacadeChanged = new ModHashes("RonivanAIO_OnBuildingFacadeChanged");
+
         public class Tags
 		{
 			///group tag for metal sands
