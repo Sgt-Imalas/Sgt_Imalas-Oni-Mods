@@ -117,51 +117,42 @@ namespace UtilLibs
 				}
 			}
 		}
+		private static HashSet<string> AddOrGetSubCategory(string subCategory, string mainCategory = null, Sprite icon = null, int sortkey = 850)
+		{
+			if (!InventoryOrganization.subcategoryIdToPermitIdsMap.ContainsKey(subCategory))
+			{
+				if (mainCategory == null)
+					mainCategory = "UNCATEGORIZED";
+				if (icon == null)
+					icon = Assets.GetSprite("unknown");
 
+
+				InventoryOrganization.AddSubcategory(
+					subCategory,
+					icon,
+					sortkey,
+					[]);
+
+				InventoryOrganization.categoryIdToSubcategoryIdsMap[mainCategory].Add(subCategory);
+			}
+			return InventoryOrganization.subcategoryIdToPermitIdsMap[subCategory];
+		}
 		public static void AddItemsToSubcategory(string subcategoryID, string[] permitIDs)
 		{
-			SgtLogger.Assert(subcategoryIdToPermitIdsMap, "subcategoryIdToPermitIdsMap");
-
-			if (!subcategoryIdToPermitIdsMap.ContainsKey(subcategoryID))
+			var categoryItems = AddOrGetSubCategory(subcategoryID);
+			for (int i = 0; i < permitIDs.Length; i++)
 			{
-				SgtLogger.error("Supply Closet Item subcategory not found! Use AddSubcategory instead");
-			}
-			else
-			{
-				for (int i = 0; i < permitIDs.Length; i++)
-				{
-					subcategoryIdToPermitIdsMap[subcategoryID].Add(permitIDs[i]);
-				}
+				categoryItems.Add(permitIDs[i]);
 			}
 		}
 
-		public static void AddSubcategory(string mainCategory, string subcategoryID, Sprite icon, int sortkey, string[] permitIDs, bool logWarning = true)
+		public static void AddSubcategory(string mainCategory, string subcategoryID, Sprite icon, int sortkey, string[] permitIDs)
 		{
-			if (categoryIdToSubcategoryIdsMap.ContainsKey(mainCategory))
+			var categoryItems = AddOrGetSubCategory(subcategoryID, mainCategory, icon,sortkey);
+			for (int i = 0; i < permitIDs.Length; i++)
 			{
-				if (!subcategoryIdToPermitIdsMap.ContainsKey(subcategoryID))
-				{
-					subcategoryIdToPresentationDataMap.Add(subcategoryID, new SubcategoryPresentationData(subcategoryID, icon, sortkey));
-					subcategoryIdToPermitIdsMap.Add(subcategoryID, new HashSet<string>());
-
-					if (!categoryIdToSubcategoryIdsMap[mainCategory].Contains(subcategoryID))
-						categoryIdToSubcategoryIdsMap[mainCategory].Add(subcategoryID);
-					else if (logWarning)
-						SgtLogger.warning("How did this happen? subcategory is registered to this main category but didnt exist?!");
-
-				}
-				else if (logWarning)
-				{
-					SgtLogger.warning("Supply Closet Item subcategory already existing! Use AddItemsToSubcategory instead");
-				}
-				if (permitIDs.Any())
-					for (int i = 0; i < permitIDs.Length; i++)
-					{
-						subcategoryIdToPermitIdsMap[subcategoryID].Add(permitIDs[i]);
-					}
+				categoryItems.Add(permitIDs[i]);
 			}
-			else
-				SgtLogger.error("Supply Closet Main Category not found!");
 		}
 	}
 }

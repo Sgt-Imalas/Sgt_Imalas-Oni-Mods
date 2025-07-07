@@ -38,7 +38,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		{
 			var tagsInStorage = TargetStorage.GetAllIDsInStorage();
 			HashSet<Tag> toDrop = new();
-			var rotatedOffset = rotatable.GetRotatedCellOffset(SpawnOffset);
+			var rotatedOffset = rotatable == null ? SpawnOffset : rotatable.GetRotatedCellOffset(SpawnOffset);
 			var offset = rotatedOffset.ToVector3();
 
 			foreach (var tag in tagsInStorage) 

@@ -12,9 +12,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 	{
 		public class OccurenceRandomResult : RecipeRandomResult
 		{
-			public OccurenceRandomResult(int rateInseconds) : base() 
+			public OccurenceRandomResult(int rateInSeconds) : base() 
 			{
-				OccurenceRateInSeconds = rateInseconds;
+				OccurenceRateInSeconds = rateInSeconds;
 			}
 		}
 
@@ -44,6 +44,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 			MaxTemp = UtilMethods.GetKelvinFromC(maxTempC);
 			MinTemp = UtilMethods.GetKelvinFromC(minTempC);
 		}
+		public RecipeRandomResult TempRange(float minTempC, float maxTempC)
+		{
+			MaxTemp = UtilMethods.GetKelvinFromC(maxTempC);
+			MinTemp = UtilMethods.GetKelvinFromC(minTempC);
+			return this;
+		}
 		public RecipeRandomResult(float minTempC, float maxTempC) : this(-1, minTempC, maxTempC)
 		{
 			// This constructor is used when no specific total mass is set.
@@ -71,20 +77,49 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 			return this;
 		}
 
+		public float GetChanceMultiplier()
+		{
+
+			float chanceMultiplier = 1;
+			float totalChance = 0;
+			foreach (var product in RandomProductsRange)
+			{
+				totalChance += product.Value.third;
+			}
+
+			if (RequiredProductsMin > 0)
+			{
+				if ((float)RequiredProductsMin > totalChance)
+				{
+					chanceMultiplier *= (float)RequiredProductsMin / totalChance;
+				}
+			}
+			if (RequiredProductsMax > 0)
+			{
+				if ((float)RequiredProductsMax < totalChance)
+				{
+					chanceMultiplier *= (float)RequiredProductsMax / totalChance;
+				}
+			}
+			return chanceMultiplier;
+		}
+
 		public string GetMassString()
 		{
 			if (HasUnifiedProductMass)
 				return GameUtil.GetFormattedMass(TotalMass, massFormat: GameUtil.MetricMassFormat.Kilogram);
 
 			float min = 0, max = 0;
+			float chanceMultiplier = GetChanceMultiplier();			
 			foreach (var product in RandomProductsRange)
 			{
 				var range = product.Value;
-				float chance = range.third;
+				float chance = range.third * chanceMultiplier;
 				
 				min += range.first * chance;
 				max += range.second * chance;
 			}
+
 			float mean = (min + max) / 2f;
 			if (min == max)
 				return GameUtil.GetFormattedMass(min, massFormat: GameUtil.MetricMassFormat.Kilogram);
@@ -107,7 +142,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 				return massAmount;
 			return string.Format(STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.NAME_OCCURENCE_FORMAT, massAmount);
 		}
-		public string GetOccurenceCompositionDescription() => GetCompositionDescription(STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.DESC_OCCURENCE, null, true);
+		public string GetOccurenceCompositionDescription() => GetCompositionDescription(string.Format(STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.DESC_OCCURENCE,OccurenceRateInSeconds), null, true);
 		public string GetProductCompositionDescription() => GetCompositionDescription(STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.DESC, STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.DESC_MAX_COUNT);
 
 		public string GetCompositionDescription(string single, string maxCount, bool ignoreTotal = false)
@@ -128,14 +163,17 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 				sb.AppendLine(single);
 			}
 
+			float chanceMultiplier = GetChanceMultiplier();
 			foreach (var product in RandomProductsRange)
 			{
 				var element = product.Key.CreateTag().ProperName();
 				var range = product.Value;
 				var minAmount = GameUtil.GetFormattedMass(range.first, massFormat: GameUtil.MetricMassFormat.Kilogram);
 				var maxAmount = GameUtil.GetFormattedMass(range.second, massFormat: GameUtil.MetricMassFormat.Kilogram);
-				var chance = GameUtil.GetFormattedPercent(range.third * 100);
-				if (range.third < 1)
+				var chancenum = range.third * chanceMultiplier;
+
+				var chance = GameUtil.GetFormattedPercent(chancenum * 100);
+				if (chancenum < 1)
 				{
 					sb.AppendLine(string.Format(STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.COMPOSITION_ENTRY_CHANCE, element, minAmount, maxAmount, chance));
 				}

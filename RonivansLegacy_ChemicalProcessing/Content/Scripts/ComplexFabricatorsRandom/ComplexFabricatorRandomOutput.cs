@@ -11,17 +11,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 {
 	class ComplexFabricatorRandomOutput : ComplexFabricator
 	{
-		public enum OutputType
-		{
-			None,
-			SpawnOnOrderCompletion,
-			SpawnDuringProduction,
-			SpawnOnOrderCompletionAndDuringProduction
-		}
-
 		[SerializeField] int ByproductSpawnChancePerSecond = 100;
 		//evry x seconds, spawn a byproduct if the chance above is rolled ^
-		[SerializeField] float ByproductSpawnIntervalSeconds = 4;
+		[SerializeField] public float ByproductSpawnIntervalSeconds = 4;
 
 		[MyCmpGet] Building building;
 

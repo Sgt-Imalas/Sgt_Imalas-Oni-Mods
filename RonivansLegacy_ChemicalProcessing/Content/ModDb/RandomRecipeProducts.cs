@@ -1,4 +1,5 @@
 ﻿using Dupes_Industrial_Overhaul.Chemical_Processing.Buildings;
+using Mineral_Processing;
 using Mineral_Processing_Mining.Buildings;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.MineralProcessing_Metallurgy;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRandom;
@@ -36,6 +37,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			_randomFabricationByproductsCollection = new()
 			{
 				{Mining_AugerDrillConfig.ID,InitRandomFabricationByproducts_AugerDrill() },
+				{Mining_MineralDrillConfig.ID,InitRandomFabricationByproducts_MineralDrill() },
 			};
 		}
 
@@ -169,18 +171,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		}
 
 		static StringBuilder sb;
-		public static string GetAugerDrillRandomResultString(Tag inputElement, string drillbit, bool IsGuidance = false, bool liquid = false, bool dangerousliquid = false)
+		public static string GetAugerDrillRandomResultString(string drillID, Tag inputElement, string drillbit, bool IsGuidance = false, bool liquid = false, bool dangerousliquid = false)
 		{
 			if (sb == null)
 				sb = new StringBuilder();
 			else
 				sb.Clear();
-
-			if (!GetRandomResultList(Mining_AugerDrillConfig.ID, out var recipes) || !recipes.TryGetValue(inputElement, out RecipeRandomResult result)
-			|| !GetRandomOccurenceList(Mining_AugerDrillConfig.ID, out var occurenceList) || !occurenceList.TryGetValue(inputElement, out RecipeRandomResult occurenceResult))
-			{
-				return string.Empty;
-			}
 
 			if (!IsGuidance)
 				sb.AppendLine(string.Format(STRINGS.UI.MINING_AUGUR_DRILL.RECIPE_1I, drillbit));
@@ -191,13 +187,22 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				sb.AppendLine(STRINGS.UI.MINING_AUGUR_DRILL.RECIPE_LIQUID);
 			if (dangerousliquid)
 				sb.AppendLine(STRINGS.UI.MINING_AUGUR_DRILL.RECIPE_LIQUID_DANGER);
-			sb.Append(STRINGS.UI.MINING_AUGUR_DRILL.RECIPE_RESULTS);
+			string products = string.Empty;
+			if (GetRandomResultList(drillID, out var recipes) && recipes.TryGetValue(inputElement, out RecipeRandomResult result))
+			{
+				sb.Append(STRINGS.UI.MINING_AUGUR_DRILL.RECIPE_RESULTS);
+				products = result.GetCompositionDescription(sb.ToString(), null, true);
+			}
+			else
+				products = sb.ToString();
 
 
-			var products = result.GetCompositionDescription(sb.ToString(), null, true);
-			products += STRINGS.UI.MINING_AUGUR_DRILL.RECIPE_OCCURENCES;
-
-			return occurenceResult.GetCompositionDescription(products, null, true);
+			if (GetRandomOccurenceList(drillID, out var occurenceList) && occurenceList.TryGetValue(inputElement, out RecipeRandomResult occurenceResult))
+			{
+				products += STRINGS.UI.MINING_AUGUR_DRILL.RECIPE_OCCURENCES;
+				return occurenceResult.GetCompositionDescription(products, null, true);
+			}
+			return products;
 		}
 
 		private static Dictionary<Tag, RecipeRandomResult> InitRandomResults_BallCrusher_Metallurgy()
@@ -217,11 +222,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			//-------------------------------------------------------------------------------------
 			results.Add(SimHashes.SandStone.CreateTag(),
 				new RecipeRandomResult(500, 20, 50)
-				.AddProduct(SimHashes.CrushedRock,150, 310)
-				.AddProduct(SimHashes.Sand,175, 310)
-				.AddProduct(SimHashes.Cuprite,20,40, 3f/9f)
-				.AddProduct(SimHashes.Electrum,15,30, 3f/9f)
-				.AddProduct(SimHashes.Fertilizer, 10,20, 2f/9f)
+				.AddProduct(SimHashes.CrushedRock, 150, 310)
+				.AddProduct(SimHashes.Sand, 175, 310)
+				.AddProduct(SimHashes.Cuprite, 20, 40, 3f / 9f)
+				.AddProduct(SimHashes.Electrum, 15, 30, 3f / 9f)
+				.AddProduct(SimHashes.Fertilizer, 10, 20, 2f / 9f)
 				);
 			//===: SEDIMENTARY ROCK RANDOM RESULTS :======================================================== < 500 kg >
 			//---[ Possible Results Elements: ]
@@ -317,7 +322,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.Obsidian, 70, 120, 3f / 9f)
 				.AddProduct(SimHashes.Diamond, 20, 25, 1f / 9f)
 				.AddProduct(SimHashes.CrushedRock, 200, 420)
-				.AddProduct(SimHashes.Sand, 120, 180, 4f/9f)
+				.AddProduct(SimHashes.Sand, 120, 180, 4f / 9f)
 				);
 
 			return results;
@@ -810,6 +815,82 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.MoltenNiobium, 10, 30, 1f / 30f)
 				);
 
+			return results;
+		}
+
+		private static Dictionary<Tag, RecipeRandomResult> InitRandomFabricationByproducts_MineralDrill()
+		{
+			///rates here are a mix of the rates from the recipe descriptions and the actual code found in an older version of the mod where the drill existed
+
+			bool isSO = DlcManager.IsExpansion1Active();
+
+			var results = new Dictionary<Tag, RecipeRandomResult>();
+			//"Engage a drilling operation using " + SimHashes.Copper.CreateTag().ProperName() + " as drill bits." +
+			//"Possible minerals availabe at this layer:\n"
+			//+ SimHashes.Sand.CreateTag().ProperName() + ": 37.5%.\n"
+			//+ SimHashes.Dirt.CreateTag().ProperName() + ": 22.5%.\n"
+			//+ SimHashes.CrushedRock.CreateTag().ProperName() + ": 11%.\n"
+			//+ SimHashes.Carbon.CreateTag().ProperName() + ": 11%.\n"
+			//+ SimHashes.Sulfur.CreateTag().ProperName() + ": 11%.\n"
+			//+ SimHashes.Algae.CreateTag().ProperName() + ": 11%.\n")
+
+			results.Add(SimHashes.Copper.CreateTag(),
+			new OccurenceRandomResult(10)
+				.MaxRequiredProducts(1)
+				.TempRange(20, 50)
+				.AddProduct(SimHashes.SedimentaryRock, 200, 500, 0.375f)
+				.AddProduct(SimHashes.Dirt, 200, 500, 0.225f)
+				.AddProduct(SimHashes.CrushedRock, 200, 500, 0.22f)
+				.AddProduct(SimHashes.SandStone, 200, 500, 0.22f)
+				.AddProduct(isSO ? SimHashes.ToxicMud : SimHashes.ToxicSand, 200, 500, 0.22f)
+				.AddProduct(isSO ? SimHashes.Mud : SimHashes.Sand, 200, 500, 0.22f)
+				.AddProduct(SimHashes.Carbon, 200, 500, 0.11f)
+				.AddProduct(SimHashes.PhosphateNodules, 200, 500, 0.11f)
+				.AddProduct(SimHashes.Sulfur, 200, 500, 0.11f)
+				.AddProduct(SimHashes.Algae, 200, 500, 0.11f)
+				);
+			//"Engage a drilling operation using " + SimHashes.Iron.CreateTag().ProperName() + " as drill bits.
+			//Possible minerals availabe at this layer:\n"
+			//+ SimHashes.CrushedRock.CreateTag().ProperName() + ": 22%.\n"
+			//+ SimHashes.GoldAmalgam.CreateTag().ProperName() + ": 7%.\n"
+			//+ SimHashes.IronOre.CreateTag().ProperName() + ": 7%.\n"
+			//+ SimHashes.AluminumOre.CreateTag().ProperName() + ": 7%.\n"
+			//+ SimHashes.Cuprite.CreateTag().ProperName() + ": 7%.\n"
+			//+ SimHashes.Salt.CreateTag().ProperName() + ": 7%.\n"
+
+			results.Add(SimHashes.Iron.CreateTag(),
+			new OccurenceRandomResult(10)
+				.TempRange(30, 60)
+				.MaxRequiredProducts(1)
+				.AddProduct(SimHashes.CrushedRock, 200, 500, 0.22f)
+				.AddProduct(SimHashes.Granite, 200, 500, 0.22f)
+				.AddProduct(SimHashes.Katairite, 200, 500, 0.22f)
+				.AddProduct(SimHashes.GoldAmalgam, 200, 500, 0.07f)
+				.AddProduct(SimHashes.IronOre, 200, 500, 0.07f)
+				.AddProduct(SimHashes.AluminumOre, 200, 500, 0.07f)
+				.AddProduct(SimHashes.Cuprite, 200, 500, 0.07f)
+				.AddProduct(SimHashes.Salt, 200, 500, 0.07f)
+				);
+			//"Engage a drilling operation using " + SimHashes.Steel.CreateTag().ProperName() + " as drill bits.
+			//Possible minerals availabe at this layer:\n" 
+			//+ SimHashes.CrushedRock.CreateTag().ProperName() + ": 22.5%.\n"
+			//+ SimHashes.Fossil.CreateTag().ProperName() + ": 11%.\n" 
+			//+ SimHashes.Phosphorite.CreateTag().ProperName() + ": 11%.\n" 
+			//+ SimHashes.Wolframite.CreateTag().ProperName() + ": 11%.\n")
+			results.Add(SimHashes.Steel.CreateTag(),
+			new OccurenceRandomResult(10)
+				.TempRange(40,70)
+				.MaxRequiredProducts(1)
+				.AddProduct(SimHashes.CrushedRock, 200, 500, 0.225f)
+				.AddProduct(SimHashes.Obsidian, 200, 500, 0.11f)
+				.AddProduct(SimHashes.Granite, 200, 500, 0.11f)
+				.AddProduct(SimHashes.MaficRock, 200, 500, 0.11f)
+				.AddProduct(SimHashes.FoolsGold, 200, 500, 0.11f)
+				.AddProduct(SimHashes.Electrum, 200, 500, 0.11f)
+				.AddProduct(SimHashes.Fossil, 200, 500, 0.11f)
+				.AddProduct(SimHashes.Phosphorite, 200, 500, 0.11f)
+				.AddProduct(SimHashes.Wolframite, 200, 500, 0.11f)
+				);
 			return results;
 		}
 	}

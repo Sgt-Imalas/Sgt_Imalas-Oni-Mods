@@ -19,7 +19,7 @@ namespace RonivansLegacy_ChemicalProcessing
 	{
 		public class AIO_MODSOURCE
 		{
-			public static LocString ChemicalProcessing_IO = "Chemical Processing - Industrial Overhaul";
+			public static LocString CHEMICALPROCESSING_IO = "Chemical Processing - Industrial Overhaul";
 			public static LocString CHEMICALPROCESSING_BIOCHEMISTRY = "Chemical Processing - Biochemistry";
 			public static LocString MINERALPROCESSING_METALLURGY = "Mineral Processing - Metallurgy";
 			public static LocString MINERALPROCESSING_MINING = "Mineral Processing - Mining";
@@ -648,6 +648,13 @@ namespace RonivansLegacy_ChemicalProcessing
 							"Occurrence: resources are spawned during Drillhead operation."
 						]);
 				}
+				public class MINING_MINERALDRILL
+				{
+					public static LocString NAME = FormatAsLink("Asteroid Auger Drill", nameof(MINING_MINERALDRILL));
+					public static LocString DESC = "Drills into Deep Mineral Deposits to extract solid resources.";
+					public static LocString EFFECT = "A strong drilling apparatus engineered with self guidance sensors for mineral ores, and retrieval of resources while operational. The type of the drill head determines the dept of the drilling, retriving resources from other parts of the Asteroid that are inaccessible by normal means. The drill sensors have a limited range, and retrieval of useful ores are not guaranteed.";
+				}
+
 				#endregion
 				#region DupesMachinery
 				/// <summary>
@@ -1270,7 +1277,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString SMART_DRILLING = "Smart Drilling: {0}";
 				public static LocString TARGET_DESC = "Direct the drill towards specific areas of the asteroid, targeting the {0}.";
 
-				public static LocString RECIPE_1I = "Engage a drilling operation using {0}.";
+				public static LocString RECIPE_1I = "Engage a drilling operation using {0} as drillbit.";
 				public static LocString RECIPE_3I = "Engage a guided {0} drilling operation using {1} and {2}.";
 				public static LocString RECIPE_LIQUID = "This drilling has a much higher chance to produce occurances in form of liquids.";
 				public static LocString RECIPE_LIQUID_DANGER = "This DANGEROUS drilling has a much higher chance to produce occurences in form of high temperature liquids.";

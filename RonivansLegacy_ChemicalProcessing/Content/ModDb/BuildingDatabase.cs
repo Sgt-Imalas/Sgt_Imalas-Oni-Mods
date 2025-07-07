@@ -11,6 +11,7 @@ using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.MineralProcessing
 using static UtilLibs.GameStrings;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineering;
+using Mineral_Processing;
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
 	class BuildingDatabase
@@ -241,6 +242,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToTech(Technology.SolidMaterial.SolidManagement)
 				.AddModFrom(SourceMod.MineralProcessing_Mining);
 			BuildingManager.CreateEntry<Mining_AugerDrillConfig>()
+				.AddToCategory(PlanMenuCategory.Utilities, OilWellCapConfig.ID)
+				.AddToTech(Technology.SolidMaterial.SolidManagement)
+				.AddModFrom(SourceMod.MineralProcessing_Mining);
+			BuildingManager.CreateEntry<Mining_MineralDrillConfig>()
 				.AddToCategory(PlanMenuCategory.Utilities, OilWellCapConfig.ID)
 				.AddToTech(Technology.SolidMaterial.SolidManagement)
 				.AddModFrom(SourceMod.MineralProcessing_Mining);
