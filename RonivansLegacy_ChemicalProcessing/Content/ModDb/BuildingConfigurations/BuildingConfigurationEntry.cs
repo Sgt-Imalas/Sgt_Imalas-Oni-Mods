@@ -11,7 +11,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 	class BuildingConfigurationEntry
 	{
 		public string BuildingID;
-		public List<SourceMod> ModsFrom = new();
+		public List<SourceModInfo> ModsFrom = new();
 		public bool BuildingEnabled = true;
 		public float BuildingMassCapacity = -1;
 		public float BuildingWattage = -1;

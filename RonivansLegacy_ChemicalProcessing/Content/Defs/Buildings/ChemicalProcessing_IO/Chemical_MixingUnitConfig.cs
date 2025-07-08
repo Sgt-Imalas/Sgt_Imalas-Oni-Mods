@@ -88,12 +88,12 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 		public override BuildingDef CreateBuildingDef()
 		{
-			float[] construction_mass = new float[2] { 400f, 600f };
-			string[] construction_materials = new string[2]
-			{
+			float[] construction_mass = [400f, 600f];
+			string[] construction_materials =
+			[
 				SimHashes.Steel.ToString(),
 				"RefinedMetal"
-			};
+			];
 			EffectorValues tieR6 = NOISE_POLLUTION.NOISY.TIER6;
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef("Chemical_MixingUnit", 6, 4, "chemical_plant_kanim", 100, 30f, construction_mass, construction_materials, 800f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.PENALTY.TIER2, tieR6);
 			buildingDef.Overheatable = false;
@@ -121,10 +121,10 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 
 			var workable = go.AddOrGet<ComplexFabricatorWorkable>();
-			workable.overrideAnims = new KAnimFile[1]
-			{
+			workable.overrideAnims =
+			[
 				Assets.GetAnim((HashedString) "anim_interacts_research2_kanim")
-			};
+			];
 			fabricator.duplicantOperated = true;
 			fabricator.heatedTemperature = 298.15f;
 			BuildingTemplates.CreateComplexFabricatorStorage(go, fabricator);
@@ -205,10 +205,10 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			pipedDispenser.conduitType = ConduitType.Gas;
 			pipedDispenser.storage = outpuStorage;
 			pipedDispenser.alwaysDispense = true;
-			pipedDispenser.elementFilter = new SimHashes[1]
-			{
+			pipedDispenser.elementFilter =
+			[
 				ModElements.Isopropane_Gas
-			};
+			];
 			pipedDispenser.AssignPort(simpleOutputPort);
 			Prioritizable.AddRef(go);
 			this.AttachPort(go);

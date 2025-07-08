@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
-    public enum SourceMod
+    public enum SourceModInfo
     {
         ChemicalProcessing_IO,
 		ChemicalProcessing_BioChemistry,

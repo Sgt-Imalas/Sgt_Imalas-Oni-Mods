@@ -23,6 +23,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				__result.BaseDecor = 15;
 				__result.BaseDecorRadius = 3;
 				__result.MaterialCategory = MATERIALS.PRECIOUS_ROCKS;
+				__result.AnimFiles = [Assets.GetAnim("glassy_tile_kanim")];
 			}
 		}
 		[HarmonyPatch(typeof(TilePOIConfig), nameof(TilePOIConfig.DoPostConfigureComplete))]

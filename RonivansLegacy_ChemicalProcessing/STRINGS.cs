@@ -60,6 +60,31 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString NAME = FormatAsLink("Petroleum Distillery", nameof(PETROLEUMDISTILLERY));
 					public static LocString DESC = "A distillation plant that uses induction to produce Petroleum from Crude Oil";
 				}
+				public class WOODENLADDER
+				{
+					public static LocString NAME = "Wooden Ladder";
+					public static LocString DESC = "A pretty ladder made of wood.";
+				}
+
+				public class EXTERIORWALL
+				{
+					public class WOODENDRYWALL_B
+					{
+						public static LocString NAME = FormatAsLink("Parquet Drywall", nameof(WOODENDRYWALL_B));
+						public static LocString DESC = "A dry wall covered with a pretty wooden panel in Parquet design.";
+					}
+					public class WOODENDRYWALL
+					{
+						public static LocString NAME = FormatAsLink("Wooden Panel Wall", nameof(WOODENDRYWALL));
+						public static LocString DESC = "A dry wall covered with a pretty wooden panel.";
+					}
+
+					public class BRICKWALL
+					{
+						public static LocString NAME = FormatAsLink("Brick Wall", nameof(BRICKWALL));
+						public static LocString DESC = "A pretty dry wall made with fine bricks.";
+					}
+				}
 			}
 
 			public class PREFABS
@@ -841,7 +866,8 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString NAME = FormatAsLink("Compacted Tile", nameof(MONOELEMENTTILE));
 					public static LocString DESC = "A fine tile made from compacted stones.";
 					public static LocString EFFECT = "A tile composed out of compacted minerals\n\nIncreases Duplicant runspeed.";
-				}				public class CUSTOMGRANITETILE
+				}
+				public class CUSTOMGRANITETILE
 				{
 					public static LocString NAME = FormatAsLink("Compacted Granite Tile", nameof(CUSTOMGRANITETILE));
 					public static LocString DESC = "Granite tiles are aesthetically pleasing while remaining a good insulator.";
@@ -870,6 +896,118 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString NAME = FormatAsLink("Compacted Brick Tile", nameof(CUSTOMBRICKTILE));
 					public static LocString DESC = "A notable tile made exclusively out of Bricks.";
 					public static LocString EFFECT = "A smooth tile made with several bricks carefully placed together.";
+				}
+				public class REINFORCEDCONCRETETILE
+				{
+					public static LocString NAME = FormatAsLink("Reinforced Concrete Tile", nameof(REINFORCEDCONCRETETILE));
+					public static LocString DESC = "Concrete tiles are not aesthetically pleasing, but they make up for strength and thermal resistance.";
+					public static LocString EFFECT = "A rock hard composite tile made with coarse aggregate bonded together with a fluid cement.\nThe concrete's relatively low tensile strength and ductility are compensated for by the inclusion of a internal rebar reinforcement having higher tensile strength or ductility.";
+				}
+				public class STRUCTURETILE
+				{
+					public static LocString NAME = FormatAsLink("Structure Tile", nameof(REINFORCEDCONCRETETILE));
+					public static LocString DESC = "A solid structural tile wrought from refined metal. Use to build the walls and floors of rooms.";
+					public static LocString EFFECT = "This steel structure is commonly used as a simple, yet strong tile for buildings. The frame structure will not hold any gas or liquid.";
+				}
+				public class WOODENCOMPOSITIONTILE
+				{
+					public static LocString NAME = FormatAsLink("Wood Composite Tile", nameof(WOODENCOMPOSITIONTILE));
+					public static LocString DESC = "Tiles composed of minerals and wooden adornments.";
+					public static LocString EFFECT = "Used to build the walls and floors of rooms. Increases Decor, contributing to Morale.\nIts composition gives it excellent insulation.";
+				}
+				public class WOODENGASTILE
+				{
+					public static LocString NAME = FormatAsLink("Wooden Airflow Tile", nameof(WOODENGASTILE));
+					public static LocString DESC = "Building with wooden airflow tiles promotes better gas circulation within a colony.";
+					public static LocString EFFECT = "A semipermeable wooden tile, used to build walls and floors of rooms. \n\nBlocks Liquid flow without obstructing Gas.";
+				}
+				public class WOODENMESHTILE
+				{
+					public static LocString NAME = FormatAsLink("Wooden Mesh Tile", nameof(WOODENMESHTILE));
+					public static LocString DESC = "Building with hollow wooden tiles promotes better gas circulation within a colony.";
+					public static LocString EFFECT = "A permeable wooden tile, used to build walls and floors of rooms. \n\nAllows the flow of both liquid and Gas.";
+				}
+				public class SPACERTILESOLID
+				{
+					public static LocString NAME = FormatAsLink("Solid Spacer Tile", nameof(SPACERTILESOLID));
+					public static LocString DESC = "";
+					public static LocString EFFECT = "";
+				}
+				public class SPACERTILEWINDOW
+				{
+					public static LocString NAME = FormatAsLink("Transparent Spacer Tile", nameof(SPACERTILEWINDOW));
+					public static LocString DESC = "";
+					public static LocString EFFECT = "";
+				}
+				public class INSULATIONCOMPOSITIONTILE
+				{
+					public static LocString NAME = FormatAsLink("Insulation Composite Tile", nameof(INSULATIONCOMPOSITIONTILE));
+					public static LocString DESC = "Used to build the walls and floors of rooms. Reduces heat transfer between walls, retaining ambient heat in an area.";
+					public static LocString EFFECT = "A solid tile assembled in a range of materials and radiative pattern that reduce the heat transfer.";
+				}
+				public class WOODENCEILING
+				{
+					public static LocString NAME = "Wooden Ceiling";
+					public static LocString DESC = "Wood work used to decorate the ceilings of rooms. Increases Decor, contributing to Morale.";
+					public static LocString EFFECT = "This ceiling is a beautiful masonry and wood work, but serves only as a decorative purpose.";
+				}
+
+				public class WOODENCORNERARCH
+				{
+					public static LocString NAME = "Wooden Corner Arch";
+					public static LocString DESC = "A wooden arch used to decorate the ceiling corners of rooms. Increases Decor, contributing to Morale.";
+					public static LocString EFFECT = "This corner ceiling arch is beautiful masonry and wood work, but serves only as a decorative purpose.";
+				}
+
+				public class SPACERWALL
+				{
+					public static LocString NAME = FormatAsLink("Spacer Wall", nameof(SPACERWALL));
+					public static LocString DESC = "A small sized spacer wall.";
+					public static LocString EFFECT = "A solid wall panel wrought from steel. Hermetically sealed joints prevent gas leakage into space.";
+					public class FACADES
+					{
+						public class SPACERDANGER
+						{
+							public static LocString NAME = FormatAsLink("Spacer Perimeter Wall", nameof(SPACERDANGER));
+							public static LocString DESC = "This spacer wall is fitted with a perimeter stripped demarcation. Can be flipped around.";
+						}
+						public class SPACERDANGERCORNER
+						{
+							public static LocString NAME = FormatAsLink("Spacer Perimeter Wall Corner", nameof(SPACERDANGERCORNER));
+							public static LocString DESC = "This spacer wall is fitted with a corner perimeter stripped demarcation destined to corners. Can be flipped around.";
+						}
+						public class SPACERPANEL
+						{
+							public static LocString NAME = FormatAsLink("Spacer Panel", nameof(SPACERPANEL));
+							public static LocString DESC = "A small sized spacer panel.";
+						}
+					}
+				}
+				public class SPACERWINDOWWALL
+				{
+					public static LocString NAME = FormatAsLink("Spacer Window", nameof(SPACERWINDOWWALL));
+					public static LocString DESC = "A small sized spacer window..";
+					public static LocString EFFECT = "A solid wall wrought from steel and fitted with thick layers of glass. Hermetically sealed joints prevent gas leakage into space.";
+					public class FACADES
+					{
+						public class SPACERWINDOW_B
+						{
+							public static LocString NAME = FormatAsLink("Spacer Window Alt.", nameof(SPACERWINDOW_B));
+							public static LocString DESC = "A small sized spacer window. This is the B model.";
+						}
+					}
+				}
+				public class SPACERWALLLARGE
+				{
+					public static LocString NAME = FormatAsLink("Large Spacer Panel", nameof(SPACERWALLLARGE));
+					public static LocString DESC = "A large sized spacer panel.";
+					public static LocString EFFECT = "A large solid wall wrought from steel. Hermetically sealed joints prevent gas leakage into space.";
+				}
+				public class SPACERWINDOWLARGE
+				{
+					public static LocString NAME = FormatAsLink("Large Spacer Window", nameof(SPACERWINDOWLARGE));
+					public static LocString DESC = "A large sized spacer window.";
+					public static LocString EFFECT = "A solid window wrought from steel and fitted with thick layers of glass. Hermetically sealed joints prevent gas leakage into space.";
 				}
 
 				#endregion

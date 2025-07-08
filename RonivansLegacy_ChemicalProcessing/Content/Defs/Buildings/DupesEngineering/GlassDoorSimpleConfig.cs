@@ -13,8 +13,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 		public static string ID = "GlassDoorSimple";
 		public override BuildingDef CreateBuildingDef()
 		{
-			float[] material_mass = new float[] { 100, 25f };
-			string[] construction_materials = new string[] { "RefinedMetal", "Transparent" };
+			float[] material_mass = [100, 25f];
+			string[] construction_materials = ["RefinedMetal", "Transparent"];
 			EffectorValues nONE = TUNING.NOISE_POLLUTION.NONE;
 			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 1, 2, "glass_door_simple_kanim", 30, 10f, material_mass, construction_materials, 1600f, BuildLocationRule.Tile, TUNING.BUILDINGS.DECOR.BONUS.TIER1, nONE, 1f);
 			def1.Entombable = true;

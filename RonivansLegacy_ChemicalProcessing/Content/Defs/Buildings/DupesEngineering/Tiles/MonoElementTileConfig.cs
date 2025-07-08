@@ -55,7 +55,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 			string[] cost = isDefaultID ? defaultCost : [Element.ToString()];
 			SgtLogger.l("Kanimname: " + kanim);
 
-			BuildingDef def = BuildingTemplates.CreateBuildingDef(ID, 1, 1, kanim, 100, 5f, [300], cost, 1600f, BuildLocationRule.Tile, BUILDINGS.DECOR.BONUS.TIER1, NOISE_POLLUTION.NONE);
+			BuildingDef def = BuildingTemplates.CreateBuildingDef(ID, 1, 1, kanim, 100, 5f, [200], cost, 1600f, BuildLocationRule.Tile, BUILDINGS.DECOR.BONUS.TIER1, NOISE_POLLUTION.NONE);
 			BuildingTemplates.CreateFoundationTileDef(def);
 			def.Floodable = false;
 			def.Overheatable = false;

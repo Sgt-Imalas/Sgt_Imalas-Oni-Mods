@@ -33,7 +33,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 			go.AddOrGet<BuildingComplete>().isManuallyOperated = true;
 
 			ComplexFabricatorWorkable workable = go.AddOrGet<ComplexFabricatorWorkable>();
-			workable.overrideAnims = new KAnimFile[] { Assets.GetAnim("anim_interacts_metalrefinery_kanim") };
+			workable.overrideAnims = [Assets.GetAnim("anim_interacts_metalrefinery_kanim")];
 
 			go.AddOrGet<LoopingSounds>();
 

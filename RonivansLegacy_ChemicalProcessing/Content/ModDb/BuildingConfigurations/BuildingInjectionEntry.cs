@@ -15,7 +15,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
         string PlanScreenCategory;
         string PlanScreenRelativeBuildingID;
 		ModUtil.BuildingOrdering BuildingOrdering = ModUtil.BuildingOrdering.After;
-		List<SourceMod> ModsFrom = new();
+		List<SourceModInfo> ModsFrom = new();
 
         public static BuildingInjectionEntry Create(string buildingID)
 		{
@@ -40,7 +40,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 			BuildingOrdering = ordering;
 			return this;			
         }
-		public BuildingInjectionEntry AddModFrom(SourceMod mod)
+		public BuildingInjectionEntry AddModFrom(SourceModInfo mod)
 		{
 			if(!ModsFrom.Contains(mod))
 			{
@@ -48,7 +48,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 			}
 			return this;
 		}
-		public List<SourceMod> GetModsFrom()
+		public List<SourceModInfo> GetModsFrom()
 		{
 			return ModsFrom;
 		}
