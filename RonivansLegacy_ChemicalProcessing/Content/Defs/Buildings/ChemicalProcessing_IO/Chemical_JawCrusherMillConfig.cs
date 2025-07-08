@@ -72,7 +72,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			RecipeBuilder.Create(ID, 30)
 				.Input(EggShellConfig.ID, 5f)
 				.Output(SimHashes.Lime, 5f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-				.Description1I1O(global::STRINGS.BUILDINGS.PREFABS.ROCKCRUSHER.LIME_RECIPE_DESCRIPTION)
+				.Description(string.Format(global::STRINGS.BUILDINGS.PREFABS.ROCKCRUSHER.LIME_RECIPE_DESCRIPTION, 
+				global::STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.EGG_SHELL.NAME,
+				global::STRINGS.ELEMENTS.LIME.NAME))
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 				.Build();
 
@@ -83,7 +85,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			RecipeBuilder.Create(ID, 40)
 				.Input(CrabShellConfig.ID, 1f)
 				.Output(SimHashes.Lime, 10f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-				.Description1I1O(global::STRINGS.BUILDINGS.PREFABS.ROCKCRUSHER.LIME_RECIPE_DESCRIPTION)
+				.Description(string.Format(global::STRINGS.BUILDINGS.PREFABS.ROCKCRUSHER.LIME_RECIPE_DESCRIPTION,
+				global::STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.CRAB_SHELL.NAME,
+				global::STRINGS.ELEMENTS.LIME.NAME))
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 				.Build();
 
@@ -94,7 +98,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			RecipeBuilder.Create(ID, 30)
 				.Input(CrabWoodShellConfig.ID, 5f)
 				.Output(SimHashes.WoodLog, 500f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-				.Description1I1O(global::STRINGS.BUILDINGS.PREFABS.ROCKCRUSHER.LIME_RECIPE_DESCRIPTION)
+				.Description(string.Format(global::STRINGS.BUILDINGS.PREFABS.ROCKCRUSHER.LIME_RECIPE_DESCRIPTION,
+				global::STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.CRAB_SHELL.VARIANT_WOOD.NAME,
+				global::STRINGS.ELEMENTS.LIME.NAME))
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 				.Build();
 
@@ -266,6 +272,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 					.Description1I1O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 					.Build();
+
+			//Cement from crushing slag
+			AdditionalRecipes.SlagCementRecipe(ID);
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)

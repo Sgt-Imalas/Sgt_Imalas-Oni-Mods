@@ -102,6 +102,7 @@ elements:
     tags:
     - RefinedMetal
     - BuildableAny
+    - Antiseptic
     buildMenuSort: 3
     isDisabled: false
     state: Solid
@@ -132,6 +133,7 @@ elements:
     - Metal
     - RefinedMetal
     - EmitsLight
+    - Antiseptic
     isDisabled: false
     state: Liquid
     localizationID: STRINGS.ELEMENTS.MOLTENSILVER.NAME
@@ -157,6 +159,7 @@ elements:
     - Metal
     - RefinedMetal
     - EmitsLight
+    - Antiseptic
     isDisabled: false
     state: Gas
     localizationID: STRINGS.ELEMENTS.SILVERGAS.NAME
@@ -876,6 +879,7 @@ elements:
     tags:
     - BuildableAny
     - Ore
+    - Antiseptic
     buildMenuSort: 2
     isDisabled: false
     state: Solid

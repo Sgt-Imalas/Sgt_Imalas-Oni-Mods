@@ -836,6 +836,41 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString DESC = "A fine tile made from polished quality stones.";
 					public static LocString EFFECT = "Used as floor and wall tile to build rooms.\n\nSignificantly increases Duplicant runspeed.";
 				}
+				public class MONOELEMENTTILE
+				{
+					public static LocString NAME = FormatAsLink("Compacted Tile", nameof(MONOELEMENTTILE));
+					public static LocString DESC = "A fine tile made from compacted stones.";
+					public static LocString EFFECT = "A tile composed out of compacted minerals\n\nIncreases Duplicant runspeed.";
+				}				public class CUSTOMGRANITETILE
+				{
+					public static LocString NAME = FormatAsLink("Compacted Granite Tile", nameof(CUSTOMGRANITETILE));
+					public static LocString DESC = "Granite tiles are aesthetically pleasing while remaining a good insulator.";
+					public static LocString EFFECT = "A smooth tile made with several granite stones carefully placed together.";
+				}
+				public class CUSTOMIGNEOUSROCKTILE
+				{
+					public static LocString NAME = FormatAsLink("Compacted Igneous Tile", nameof(CUSTOMIGNEOUSROCKTILE));
+					public static LocString DESC = "A notable tile made exclusively with Igneous Rock.";
+					public static LocString EFFECT = "Igneous tiles enhance not only the environmental beauty, but also increases duplicants walking speed.";
+				}
+				public class CUSTOMOBSIDIANTILE
+				{
+					public static LocString NAME = FormatAsLink("Compacted Obsidian Tile", nameof(CUSTOMOBSIDIANTILE));
+					public static LocString DESC = "A notable tile made exclusively with Obsidian, a form of volcanic glass.";
+					public static LocString EFFECT = "Obsidian tiles enhance not only the environmental beauty, but also increases duplicants walking speed.";
+				}
+				public class CUSTOMSANDSTONETILE
+				{
+					public static LocString NAME = FormatAsLink("Compacted Sandstone Tile", nameof(CUSTOMSANDSTONETILE));
+					public static LocString DESC = "A notable tile made exclusively with Sandstone.";
+					public static LocString EFFECT = "Sandstone tiles enhance not only the environmental beauty, but also increases duplicants walking speed.";
+				}
+				public class CUSTOMBRICKTILE
+				{
+					public static LocString NAME = FormatAsLink("Compacted Brick Tile", nameof(CUSTOMBRICKTILE));
+					public static LocString DESC = "A notable tile made exclusively out of Bricks.";
+					public static LocString EFFECT = "A smooth tile made with several bricks carefully placed together.";
+				}
 
 				#endregion
 			}
@@ -1334,7 +1369,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString ARCFURNACE_MELT = "Melt {0} to produce {1}.";
 
 				public static LocString JAWCRUSHERMILL_MILLING_1_1_2 = "Grind down {0} and extract small amounts of {1}.\nProduces {2} and {3} as waste products.";
-				public static LocString JAWCRUSHERMILL_MILLING_1_1 = "Grind down {0} to {1}.";
+				public static LocString JAWCRUSHERMILL_MILLING_1_1 = "Grind down {0} into {1}.";
 				public static LocString JAWCRUSHERMILL_MILLING_1_1_BREAK = "Break down {0} into {1}.";
 				public static LocString JAWCRUSHERMILL_MILLING_1_2 = "Break down {0} into {1} and {2}.";
 				public static LocString JAWCRUSHERMILL_MILLING_1_4 = "Break down {0} into:\n• {1}\n• {2}\n• {3}\n• {4}";
@@ -1383,7 +1418,10 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString CHEMICAL_MIXINGUNIT_3_1 = "React a mixture of {0} and {1} with the addition of {2} to produce {3}.";
 				public static LocString CHEMICAL_MIXINGUNIT_FERTILIZER = "Treat a portion of {0} with {1}, {1} and {2} additives, producing {3}.";
 
-				public static LocString CEMENT_MIXER_CEMENT = "Produce {4} from a mixture of\n {0}, {1}, {2} and a bit of {3}.";
+				public static LocString CEMENT_MIXER_CEMENT_3 = "Produce {3} from a mixture of\n {0}, {1} and {2}.";
+				public static LocString OILSHALE_CEMENT = "Oil Shale Cement";
+				public static LocString SLAG_CEMENT = "Slag Cement";
+				public static LocString CRUSHEDROCK_CEMENT = " Limestone Cement";
 
 				public class RANDOMRECIPERESULT
 				{

@@ -12,6 +12,7 @@ using static UtilLibs.GameStrings;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineering;
 using Mineral_Processing;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineering.Tiles;
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
 	class BuildingDatabase
@@ -26,7 +27,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		}
 		internal static void RegisterExtraStrings()
 		{
+			//registering element names as tags
 			Strings.Add("STRINGS.MISC.TAGS.TUNGSTEN", global::STRINGS.ELEMENTS.TUNGSTEN.NAME);
+			Strings.Add("STRINGS.MISC.TAGS.SANDSTONE", global::STRINGS.ELEMENTS.SANDSTONE.NAME);
+			Strings.Add("STRINGS.MISC.TAGS.GRANITE", global::STRINGS.ELEMENTS.GRANITE.NAME);
+			Strings.Add("STRINGS.MISC.TAGS.CEMENT", global::STRINGS.ELEMENTS.CEMENT.NAME);
+			Strings.Add("STRINGS.MISC.TAGS.IGNEOUSROCK", global::STRINGS.ELEMENTS.IGNEOUSROCK.NAME);
+			Strings.Add("STRINGS.MISC.TAGS.BRICK", global::STRINGS.ELEMENTS.BRICK.NAME);
 
 			global::STRINGS.BUILDINGS.PREFABS.TILEPOI.NAME = STRINGS.BUILDINGS.PREFABS.MOSAICTILESTRINGS.NAME;
 			global::STRINGS.BUILDINGS.PREFABS.TILEPOI.DESC = STRINGS.BUILDINGS.PREFABS.MOSAICTILESTRINGS.DESC;
@@ -367,6 +374,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingManager.CreateEntry<TilePOIConfig>()
 				.AddToCategory(PlanMenuCategory.Base, CarpetTileConfig.ID).ForceCategory()
 				.AddToTech(Technology.Decor.HomeLuxuries)
+				.AddModFrom(SourceMod.DupesEngineering);
+
+			BuildingManager.CreateEntry<MonoElementTileConfig>()
+				.AddToCategory(PlanMenuCategory.Base, TileConfig.ID)
+				.AddToTech(Technology.Decor.HighCulture)
 				.AddModFrom(SourceMod.DupesEngineering);
 		}
 

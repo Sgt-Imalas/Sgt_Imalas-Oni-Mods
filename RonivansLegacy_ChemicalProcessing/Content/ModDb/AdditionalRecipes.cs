@@ -20,6 +20,58 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
 	public class AdditionalRecipes
 	{
+		public static void BurnedOilShaleCementRecipe(string ID)
+		{
+			///Cement from Oilshale
+			RecipeBuilder.Create(ID, 40)
+				.Input(ModElements.OilShale_Solid, 100f)
+				.Output(SimHashes.Cement, 70)
+				.Output(SimHashes.CrudeOil, 5)
+				.Output(ModElements.LowGradeSand_Solid, 10)
+				.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.HEAT_REFINE, 1, 1)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
+				.NameOverride(CHEMICAL_COMPLEXFABRICATOR_STRINGS.OILSHALE_CEMENT)
+				.Build();
+		}
+		public static void SlagCementRecipe(string ID)
+		{
+			///Cement from Slag
+			RecipeBuilder.Create(ID, 40)
+				.Input(ModElements.Slag_Solid, 100)
+				.Input(SimHashes.CrushedRock, 20)
+				.Output(SimHashes.Cement, 80)
+				.Output(ModElements.BaseGradeSand_Solid, 12.5f)
+				.Output(ModElements.HighGradeSand_Solid, 7.5f)
+				.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1, 1, 1)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
+				.NameOverride(CHEMICAL_COMPLEXFABRICATOR_STRINGS.SLAG_CEMENT)
+				.Build();
+
+		}
+		public static void BrickRecipes(string ID, bool burnMaterial)
+		{
+			List<SimHashes> burnables = [SimHashes.Carbon, SimHashes.WoodLog, SimHashes.Peat];
+
+			///Brick from clay
+			RecipeBuilder.Create(ID, 40)
+				.Input(SimHashes.Clay, 100)
+				.InputConditional(burnables,25,burnMaterial)
+				.Output(SimHashes.Brick, 33)
+				.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.HEAT_REFINE, 1, 1)
+				.Build();
+
+		}
+
+		public static void AdditionalKilnRecipes(string ID, bool burnMaterial = false)
+		{
+			BurnedOilShaleCementRecipe(ID);
+			BrickRecipes(ID, burnMaterial);
+		}
+		public static void RegisterRecipes_Kiln()
+		{
+			AdditionalKilnRecipes(KilnConfig.ID, true);
+		}
+
 		public static void RegisterRecipes_RockCrusher()
 		{
 			string ID = RockCrusherConfig.ID;
@@ -32,6 +84,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.SortOrder(1)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
 				.Build();
+
+				SlagCementRecipe(ID);
 			}
 		}
 		public static void RegisterRecipes_SuperMaterialRefinery()

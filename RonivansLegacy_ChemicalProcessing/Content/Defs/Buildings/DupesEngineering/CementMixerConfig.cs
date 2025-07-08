@@ -71,22 +71,35 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 				.Input(RefinementRecipeHelper.GetCrushables().Select(e => e.id.CreateTag()), 25f)
 				.Input(SimHashes.Sand,60)
 				.Input(SimHashes.Lime,5)
-				.Input(SimHashes.Water,10)
 				.Output(SimHashes.Cement,100)
-				.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.CEMENT_MIXER_CEMENT,4,1)
-				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+				.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.CEMENT_MIXER_CEMENT_3, 3,1)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
+				.NameOverride(CHEMICAL_COMPLEXFABRICATOR_STRINGS.CRUSHEDROCK_CEMENT)
 				.Build();
 
 			//---- [ Cement from Crushed Rock ] ----------------------------------------------------------------------------------------------------------
+			///Cement from "Limestone"
 			RecipeBuilder.Create(ID, 40)
 				.Input(SimHashes.CrushedRock, 25f)
 				.Input(SimHashes.Sand, 60)
 				.Input(SimHashes.Lime, 5)
-				.Input(SimHashes.Water, 10)
 				.Output(SimHashes.Cement, 100)
-				.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.CEMENT_MIXER_CEMENT, 4, 1)
-				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
-				.Build();			
+				.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.CEMENT_MIXER_CEMENT_3, 3, 1)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
+				.NameOverride(CHEMICAL_COMPLEXFABRICATOR_STRINGS.CRUSHEDROCK_CEMENT)
+				.Build();
+
+			//new recipes:
+
+			RecipeBuilder.Create(ID, 30)
+				.Input(SimHashes.Cement, 100)
+				.Input(SimHashes.Sand, 200)
+				.Input(SimHashes.CrushedRock, 300)
+				.Input(SimHashes.Water, 25)
+				.Output(ModElements.ConcreteBlock_Solid, 600, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.ARCFURNACE_STEEL_2, 4, 1)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+				.Build();
 		}
 	}
 }

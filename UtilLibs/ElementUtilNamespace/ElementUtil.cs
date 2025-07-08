@@ -55,7 +55,7 @@ namespace ElementUtilNamespace
 
 		public static void SetTexture_NormalNoise(Material material, string normal) => SetTexture(material, normal, "_NormalNoise");
 
-		public static Substance CreateSubstance(SimHashes id, bool specular, string anim, Element.State state, Color color, Material material, Color uiColor, Color conduitColor, Color? specularColor, string normal)
+		public static Substance CreateSubstance(SimHashes id, bool specular, string anim, Element.State state, Color color, Material material, Color uiColor, Color conduitColor, Color? specularColor, string normal, bool isCloned = false)
 		{
 			var animFile = Assets.Anims.Find(a => a.name == anim);
 
@@ -66,7 +66,7 @@ namespace ElementUtilNamespace
 
 			var newMaterial = new Material(material);
 
-			if (state == Element.State.Solid)
+			if (state == Element.State.Solid && !isCloned)
 			{
 				SetTexture_Main(newMaterial, id.ToString().ToLowerInvariant());
 

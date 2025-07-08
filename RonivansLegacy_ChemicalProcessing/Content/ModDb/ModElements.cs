@@ -1,10 +1,12 @@
 ﻿using ElementUtilNamespace;
+using Klei.AI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
@@ -142,7 +144,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				AmmoniumSalt_Solid.CreateSubstanceFromElementTinted(SimHashes.SolidOxygen),
 				AmmoniumWater_Liquid.CreateSubstance(),
 
-				Argentite_Solid.CreateSubstanceFromElementTinted(SimHashes.Aluminum),
+				Argentite_Solid.CreateSubstanceFromElementTinted(SimHashes.Electrum, SILVER_COLOR),
 				Aurichalcite_Solid.CreateSubstanceFromElementTinted(SimHashes.Lead),
 				Borax_Solid.CreateSubstanceFromElementTinted(SimHashes.SolidCarbonDioxide),
 				Brass_Solid.CreateSubstanceFromElementTinted(SimHashes.Aluminum),
@@ -155,12 +157,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				Galena_Solid.CreateSubstanceFromElementTinted(SimHashes.Rust),
 				MeteorOre_Solid.CreateSubstanceFromElementTinted(SimHashes.CrushedRock),
 				NitricAcid_Liquid.CreateSubstance(),
-				OilShale_Solid.CreateSubstanceFromElementTinted(SimHashes.MaficRock),
+				OilShale_Solid.CreateSubstanceFromElementTinted(SimHashes.SolidCrudeOil),
 				PhosphorBronze.CreateSubstanceFromElementTinted(SimHashes.FoolsGold),
 				Plasteel_Solid.CreateSubstanceFromElementTinted(SimHashes.Aluminum),
 				RawNaturalGas_Gas.CreateSubstance(),
 
-				Silver_Solid.CreateSubstanceFromElementTinted(SimHashes.Electrum),
+				Silver_Solid.CreateSubstanceFromElementTinted(SimHashes.Gold),
 				Silver_Liquid.CreateSubstance(),
 				Silver_Gas.CreateSubstance(),
 
@@ -232,16 +234,52 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			///Yellowcake
 			Substance yellowcake_substance = ElementLoader.FindElementByHash(SimHashes.Yellowcake).substance;
-			Material material = new Material(ElementLoader.FindElementByHash(SimHashes.Sulfur).substance.material)
+			Material material_yellowcake = new Material(ElementLoader.FindElementByHash(SimHashes.Sulfur).substance.material)
 			{
 				name = "matYellowcake",
 				mainTexture = Assets.GetAnim("new_yellowcake_kanim").textureList[0]
 			};
-			yellowcake_substance.material = material;
+			yellowcake_substance.material = material_yellowcake;
 			KAnimFile yellowcake_anim = Assets.GetAnim("solid_yellowcake_kanim");
 			if (yellowcake_anim != null)
 			{
 				yellowcake_substance.anim = yellowcake_anim;
+			}
+			else
+			{
+				Debug.LogError("KAnimFile not found");
+			}
+
+			///Cement
+			Substance cement_substance = ElementLoader.FindElementByHash(SimHashes.Cement).substance;
+			Material material_cement = new Material(ElementLoader.FindElementByHash(SimHashes.Cement).substance.material)
+			{
+				name = "matCement",
+				mainTexture = Assets.GetAnim("new_cement_kanim").textureList[0]
+			};
+			cement_substance.material = material_cement;
+			KAnimFile cement_anim = Assets.GetAnim("solid_cement_kanim");
+			if (cement_anim != null)
+			{
+				cement_substance.anim = cement_anim;
+			}
+			else
+			{
+				Debug.LogError("KAnimFile not found");
+			}
+			///Brick
+			Substance brick_substance = ElementLoader.FindElementByHash(SimHashes.Brick).substance;
+			Material material_brick = new Material(ElementLoader.FindElementByHash(SimHashes.Brick).substance.material)
+			{
+				name = "matBrick",
+				mainTexture = Assets.GetAnim("new_brick_kanim").textureList[0]
+			}; 
+			brick_substance.material = material_brick;
+
+			KAnimFile brick_anim = Assets.GetAnim("solid_brick_kanim");
+			if (brick_anim != null)
+			{
+				brick_substance.anim = brick_anim;
 			}
 			else
 			{
@@ -316,8 +354,65 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				yellowcake.oreTags = [GameTags.ManufacturedMaterial];
 			}
 			//=[ ENABLING Cement ]===================================================
-			ElementLoader.FindElementByHash(SimHashes.Cement).disabled = false;
+			var cement = ElementLoader.FindElementByHash(SimHashes.Cement);
+			cement.disabled = false;
+			cement.thermalConductivity = 3.11f;
+			cement.radiationAbsorptionFactor = 1;
 
+			//=[ ENABLING Bricks ]===================================================
+			///https://material-properties.org/brick-density-heat-capacity-thermal-conductivity/
+			var brick = ElementLoader.FindElementByHash(SimHashes.Brick);
+			brick.disabled = false;
+			brick.highTemp = 2000;
+			brick.oreTags = brick.oreTags.Concat([GameTags.Crushable, GameTags.Insulator, GameTags.BuildableRaw]);
+
+		}
+
+		internal static void ConfigureElements()
+		{
+			var attributeModifiers = Db.Get().BuildingAttributes;
+
+			Element silver = ElementLoader.FindElementByHash(Silver_Solid);
+			Element brass = ElementLoader.FindElementByHash(Brass_Solid);
+			Element galena = ElementLoader.FindElementByHash(Galena_Solid);
+			Element carbonFiber = ElementLoader.FindElementByHash(CarbonFiber_Solid);
+			Element plasteel = ElementLoader.FindElementByHash(Plasteel_Solid);
+			Element concrete = ElementLoader.FindElementByHash(ConcreteBlock_Solid);
+			Element cement = ElementLoader.FindElementByHash(ConcreteBlock_Solid);
+			Element brick = ElementLoader.FindElementByHash(SimHashes.Brick);
+
+
+			concrete.attributeModifiers.Add(new(attributeModifiers.Decor.Id, -0.2f, null, true, false, true));
+			concrete.attributeModifiers.Add(new(attributeModifiers.OverheatTemperature.Id, 100f, carbonFiber.name));
+
+			brick.attributeModifiers.Add(new(attributeModifiers.Decor.Id, 0.1f, null, true, false, true));
+			brick.attributeModifiers.Add(new(attributeModifiers.OverheatTemperature.Id, 100f, carbonFiber.name));
+
+			//=: Giving Silver Decor and Temperature modifications :====================================================
+			AttributeModifier silverDecorModifier = new AttributeModifier(attributeModifiers.Decor.Id, 0.4f, null, true, false, true);
+			AttributeModifier silverTempModifier = new AttributeModifier(attributeModifiers.OverheatTemperature.Id, -30f, silver.name);
+			silver.attributeModifiers.Add(silverDecorModifier);
+			silver.attributeModifiers.Add(silverTempModifier);
+
+			//=: Giving Brass Decor and Temperature modifications :=====================================================
+			AttributeModifier BrassDecorModifier = new AttributeModifier(attributeModifiers.Decor.Id, 0.25f, null, true, false, true);
+			AttributeModifier BrassTempModifier = new AttributeModifier(attributeModifiers.OverheatTemperature.Id, -10f, brass.name);
+			brass.attributeModifiers.Add(BrassDecorModifier);
+			brass.attributeModifiers.Add(BrassTempModifier);
+
+			//=: Giving Galena Temperature modifications :==============================================================
+			AttributeModifier GalenaDecorModifier = new AttributeModifier(attributeModifiers.Decor.Id, 0.1f, null, true, false, true);
+			AttributeModifier GalenaTempModifier = new AttributeModifier(attributeModifiers.OverheatTemperature.Id, -30f, galena.name);
+			galena.attributeModifiers.Add(GalenaDecorModifier);
+			galena.attributeModifiers.Add(GalenaTempModifier);
+
+			//=: Giving Carbon Fibre Temperature modifications :========================================================
+			AttributeModifier carbonFibreTempModifier = new AttributeModifier(attributeModifiers.OverheatTemperature.Id, 5000f, carbonFiber.name);
+			carbonFiber.attributeModifiers.Add(carbonFibreTempModifier);
+
+			//=: Giving Plasteel Temperature modifications :============================================================
+			AttributeModifier plasteelTempModifier = new AttributeModifier(attributeModifiers.OverheatTemperature.Id, 800f, plasteel.name);
+			plasteel.attributeModifiers.Add(plasteelTempModifier);
 		}
 	}
 }

@@ -57,7 +57,7 @@ namespace ElementUtilNamespace
 		/// <param name="originalElement"></param>
 		/// <param name="color"></param>
 		/// <returns></returns>
-		public Material CreateTintedMaterialCopy(SimHashes originalElement)
+		public Material CreateTintedMaterialCopy(SimHashes originalElement, Color? overrideColor = null)
 		{
 			var baseSubstance = Assets.instance.substanceTable.GetSubstance(originalElement);
 			if(baseSubstance == null)
@@ -67,7 +67,9 @@ namespace ElementUtilNamespace
 			}
 			var material = new Material(baseSubstance.material);
 
-			Texture2D newTexture = TintTextureWithColor(material.mainTexture, id, color);
+			var tintColor = overrideColor.HasValue ? overrideColor.Value : color;
+
+			Texture2D newTexture = TintTextureWithColor(material.mainTexture, id, tintColor);
 			material.mainTexture = newTexture;
 			material.name = "mat"+id;
 
@@ -137,22 +139,24 @@ namespace ElementUtilNamespace
 			return readableText;
 		}
 
-		public Substance CreateSubstanceFromElementTinted(SimHashes clonedMaterial) => CreateSubstance(false, CreateTintedMaterialCopy(clonedMaterial), null, null, null, null, clonedMaterial);
+		public Substance CreateSubstanceFromElementTinted(SimHashes clonedMaterial, Color? overrideColor = null) => CreateSubstance(false, CreateTintedMaterialCopy(clonedMaterial, overrideColor), null, null, null, null, clonedMaterial, overrideColor);
 
-		public Substance CreateSubstance(bool specular = false, Material material = null, Color? uiColor = null, Color? conduitColor = null, Color? specularColor = null, string normal = null,SimHashes cloneMaterialOrigin = SimHashes.Void)
+		public Substance CreateSubstance(bool specular = false, Material material = null, Color? uiColor = null, Color? conduitColor = null, Color? specularColor = null, string normal = null,SimHashes cloneMaterialOrigin = SimHashes.Void, Color? clonedMaterialColorOverride = null)
 		{
+			bool isCloned = cloneMaterialOrigin == SimHashes.Void;
+
 			if (material == null)
 			{
 				material = state == Element.State.Solid ? Assets.instance.substanceTable.solidMaterial : Assets.instance.substanceTable.liquidMaterial;
-				if(cloneMaterialOrigin != SimHashes.Void && state == Element.State.Solid)
+				if(isCloned && state == Element.State.Solid)
 				{
-					material = CreateTintedMaterialCopy(cloneMaterialOrigin);
+					material = CreateTintedMaterialCopy(cloneMaterialOrigin, clonedMaterialColorOverride);
 				}
 			}
 
 			isInitialized = true;
 
-			return SgtElementUtil.CreateSubstance(SimHash, specular, anim, state, color, material, uiColor ?? color, conduitColor ?? color, specularColor, normal);
+			return SgtElementUtil.CreateSubstance(SimHash, specular, anim, state, color, material, uiColor ?? color, conduitColor ?? color, specularColor, normal, true);
 		}
 
 		public Substance CreateSubstance(Color uiColor, Color conduitColor)

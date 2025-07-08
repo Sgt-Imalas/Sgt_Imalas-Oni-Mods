@@ -103,15 +103,19 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//             Water        -  25kg
 			// Result: Concrete Block   - 500kg
 			//---------------------------------------------------------------------------------------------------------------
-			RecipeBuilder.Create(ID, 30)
-				.Input(SimHashes.Sand, 100)
-				.Input(SimHashes.CrushedRock, 200)
-				.Input(Slag_Solid, 200)
-				.Input(SimHashes.Water, 25)
-				.Output(ConcreteBlock_Solid, 500, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-				.Description(THREE_MIXTURE_COMPRESS_COOKING,3,1)
-				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
-				.Build();
+
+			if (!Config.Instance.DupesEngineering_Enabled) //that mod adds cement mixer with a more realistic concrete recipe
+			{
+				RecipeBuilder.Create(ID, 30)
+					.Input(SimHashes.Sand, 100)
+					.Input(SimHashes.CrushedRock, 200)
+					.Input(Slag_Solid, 200)
+					.Input(SimHashes.Water, 25)
+					.Output(ConcreteBlock_Solid, 500, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+					.Description(THREE_MIXTURE_COMPRESS_COOKING, 3, 1)
+					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+					.Build();
+			}
 
 			//---- [ Fiberglass ] --------------------------------------------------------------------------------------------
 			// Ingredient: Sand         - 270kg
@@ -142,7 +146,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 					.Input(SimHashes.Isoresin, 15f)
 					.Input(RayonFabricConfig.ID.ToTag(), 10f)
 					.Output(CarbonFiber_Solid, 150, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-					.Description(string.Format(THREE_MIXTURE_COMPRESS_COOKING,SimHashes.Polypropylene.CreateTag().ProperName(),SimHashes.Fullerene.CreateTag().ProperName(),RAYONFIBER.NAME_PLURAL,CarbonFiber_Solid.Tag.ProperName()))
+					.Description(string.Format(THREE_MIXTURE_COMPRESS_COOKING, SimHashes.Polypropylene.CreateTag().ProperName(), SimHashes.Fullerene.CreateTag().ProperName(), RAYONFIBER.NAME_PLURAL, CarbonFiber_Solid.Tag.ProperName()))
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
 					.Build();
 
@@ -163,6 +167,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
 					.Build();
 			}
+
+			///Cement from burning oilshale
+			AdditionalRecipes.AdditionalKilnRecipes(ID);
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)
