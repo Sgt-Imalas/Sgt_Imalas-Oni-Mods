@@ -44,6 +44,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="Content\Defs\Buildings\CustomReservoirs\" />
 	  <Folder Include="Content\Scripts\Entities\" />
 	</ItemGroup>
 </Project>

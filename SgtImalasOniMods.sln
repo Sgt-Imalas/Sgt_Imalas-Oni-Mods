@@ -226,7 +226,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainMod", "TrainMod\TrainM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoliorStoryTrait", "DemoliorStoryTrait\DemoliorStoryTrait.csproj", "{3351AFAB-B264-439E-8B3D-F2E5FEDC5096}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RonivansLegacy_ChemicalProcessing", "RonivansLegacy_ChemicalProcessing\RonivansLegacy_ChemicalProcessing.csproj", "{ABBA5127-CA3E-479A-B0A2-04F43997874D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RonivansLegacy_AllInOne", "RonivansLegacy_ChemicalProcessing\RonivansLegacy_AllInOne.csproj", "{ABBA5127-CA3E-479A-B0A2-04F43997874D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
