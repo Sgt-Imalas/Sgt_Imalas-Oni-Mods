@@ -13,8 +13,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			//those elements have special conversion rates, for all others its the same
 			return [SimHashes.Electrum, SimHashes.FoolsGold, ModElements.Galena_Solid];
 		}
-		public static IEnumerable<Element> GetCrushables() => ElementLoader.elements.Where(e => e.IsSolid && e.HasTag(GameTags.Crushable));
-
+		public static IEnumerable<Element> GetCrushables() => 
+			ElementLoader.elements.Where(e => e.IsSolid && e.HasTag(GameTags.Crushable) && e.id != SimHashes.SuperInsulator);
 
 	}
 }

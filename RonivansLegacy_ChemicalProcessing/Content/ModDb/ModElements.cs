@@ -315,6 +315,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				yellowcake.disabled = DlcManager.IsPureVanilla();
 				yellowcake.oreTags = [GameTags.ManufacturedMaterial];
 			}
+			//=[ ENABLING Cement ]===================================================
+			ElementLoader.FindElementByHash(SimHashes.Cement).disabled = false;
 
 		}
 	}

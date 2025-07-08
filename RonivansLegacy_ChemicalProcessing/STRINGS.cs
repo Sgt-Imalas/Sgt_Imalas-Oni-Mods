@@ -818,6 +818,12 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString DESC = "Be careful with splinters!";
 					public static LocString EFFECT = "A pretty wooden door that encloses areas without blocking Liquid or Gas flow. Sets Duplicant Access Permissions for area restriction.";
 				}
+				public class CEMENTMIXER
+				{
+					public static LocString NAME = FormatAsLink("Cement Mixer", nameof(CEMENTMIXER));
+					public static LocString DESC = "Cement is a quite old building material, but still pretty much useful.";
+					public static LocString EFFECT = "A device that can homogeneously combine several solid and liquid ingredients used in the production of cement.";
+				}
 				public class MOSAICTILESTRINGS
 				{
 					public static LocString NAME = FormatAsLink("Mosaic Tile", nameof(TILEPOI));
@@ -1376,6 +1382,8 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString CHEMICAL_MIXINGUNIT_2_1 = "Mix {0} and {1} to produce {2}.";
 				public static LocString CHEMICAL_MIXINGUNIT_3_1 = "React a mixture of {0} and {1} with the addition of {2} to produce {3}.";
 				public static LocString CHEMICAL_MIXINGUNIT_FERTILIZER = "Treat a portion of {0} with {1}, {1} and {2} additives, producing {3}.";
+
+				public static LocString CEMENT_MIXER_CEMENT = "Produce {4} from a mixture of\n {0}, {1}, {2} and a bit of {3}.";
 
 				public class RANDOMRECIPERESULT
 				{

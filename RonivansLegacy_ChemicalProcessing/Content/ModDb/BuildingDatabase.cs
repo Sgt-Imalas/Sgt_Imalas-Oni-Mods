@@ -350,6 +350,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToTech(Technology.Computers.SmartHome)
 				.AddModFrom(SourceMod.DupesEngineering);
 
+			///Cement Mixer
+
+			BuildingManager.CreateEntry<CementMixerConfig>()
+				.AddToCategory(PlanMenuCategory.Refinement, MilkPressConfig.ID)
+				.AddToTech(Technology.SolidMaterial.BruteForceRefinement)
+				.AddModFrom(SourceMod.DupesEngineering);
+
 			///Tiles
 
 			BuildingManager.CreateEntry<MouldingTileConfig>()
