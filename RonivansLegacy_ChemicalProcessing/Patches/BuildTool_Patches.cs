@@ -1,10 +1,12 @@
 ﻿using HarmonyLib;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineering.Tiles;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Patches
 {
@@ -17,12 +19,20 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		{
 			public static void Prefix(BuildTool __instance, ref BuildingDef def, IList<Tag> selected_elements)
 			{
-				if (def.PrefabID == MonoElementTileConfig.DEFAULT_ID)
-				{
-					RemoveVisualizer(__instance);
+				var selectedMaterial = selected_elements[0];
 
-					if (MonoElementTileConfig.TryGetBuildingVariant(selected_elements[0], out var buildingTag))
-						def = Assets.GetBuildingDef(buildingTag.ToString());
+				if (MultivariantBuildings.HasMaterialVariant(def.Tag, selectedMaterial, out var targetForMaterial))
+				{
+					if (def.isKAnimTile)
+						RemoveVisualizer(__instance);
+					def = Assets.GetBuildingDef(targetForMaterial.ToString());
+
+				}
+				if(MultivariantBuildings.HasFacadeVariant(def.Tag, __instance.facadeID, out var targetForFacade))
+				{
+					if (def.isKAnimTile)
+						RemoveVisualizer(__instance);
+					def = Assets.GetBuildingDef(targetForFacade.ToString());
 				}
 			}
 

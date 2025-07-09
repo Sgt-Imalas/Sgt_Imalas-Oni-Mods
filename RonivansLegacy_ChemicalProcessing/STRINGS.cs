@@ -11,7 +11,6 @@ using UnityEngine;
 using UtilLibs.BuildingPortUtils;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FACILITYDOOR.FACADES;
 using static STRINGS.BUILDINGS.PREFABS;
-using static STRINGS.CODEX;
 using static STRINGS.UI;
 
 namespace RonivansLegacy_ChemicalProcessing
@@ -1010,6 +1009,26 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString EFFECT = "A solid window wrought from steel and fitted with thick layers of glass. Hermetically sealed joints prevent gas leakage into space.";
 				}
 
+				#endregion
+				#region CustomReservoirs
+				public class SMALLGASRESERVOIRDEFAULT
+				{
+					public static LocString NAME = FormatAsLink("Small Gas Reservoir", nameof(SMALLGASRESERVOIRDEFAULT));
+					public static LocString DESC = "A small sized reservoir. Reservoirs cannot receive manually delivered resources.";
+					public static LocString EFFECT = "Stores any " + FormatAsLink("Gas", "ELEMENTS_GAS") + " resources piped into it.";
+				}
+				public class SMALLGASRESERVOIR
+				{
+					public static LocString NAME = FormatAsLink("Small Gas Reservoir A", nameof(SMALLGASRESERVOIR));
+					public static LocString DESC = "A small sized reservoir. This variant has top to bottom flow";
+					public static LocString EFFECT = "Stores any " + FormatAsLink("Gas", "ELEMENTS_GAS") + " resources piped into it.";
+				}
+				public class INVERTEDSMALLGASRESERVOIR
+				{
+					public static LocString NAME = FormatAsLink("Small Gas Reservoir B", nameof(INVERTEDSMALLGASRESERVOIR));
+					public static LocString DESC = "A small sized reservoir. This variant has bottom to top flow";
+					public static LocString EFFECT = "Stores any " + FormatAsLink("Gas", "ELEMENTS_GAS") + " resources piped into it.";
+				}
 				#endregion
 			}
 		}

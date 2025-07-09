@@ -14,9 +14,11 @@ using UnityEngine;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SPACERWALL.FACADES;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.FACADES_STANDALONE;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineering.Walls;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservoirs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
+
 	class SkinDatabase
 	{
 		static readonly string SubCategoryID = "RONIVAN_AIO_SKINS";
@@ -63,8 +65,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.Skin("WoodenLadder", WOODENLADDER.NAME, WOODENLADDER.DESC, "ladder_wooden_kanim")
 				;
 			SkinCollection.Create(SpacerWindowSmallConfig.ID, SubCategoryID)
-				.Skin("SpacerWindow_B", SPACERWINDOWWALL.FACADES.SPACERWINDOW_B.NAME, SPACERWINDOWWALL.FACADES.SPACERWINDOW_B.DESC, "spacer_window_B_kanim")
-				;			
+				.Skin("SpacerWindow_B", SPACERWINDOWWALL.FACADES.SPACERWINDOW_B.NAME, SPACERWINDOWWALL.FACADES.SPACERWINDOW_B.DESC, "spacer_window_B_kanim");
+
+			SkinCollection.Create(SmallGasReservoirConfig.ID, SubCategoryID)
+				.Skin(SmallGasReservoirInvertedConfig.NORMAL, SMALLGASRESERVOIR.NAME, SMALLGASRESERVOIR.DESC, SmallGasReservoirInvertedConfig.KANIMNORMAL)
+				.Skin(SmallGasReservoirInvertedConfig.INVERTED, INVERTEDSMALLGASRESERVOIR.NAME, INVERTEDSMALLGASRESERVOIR.DESC, SmallGasReservoirInvertedConfig.KANIMINVERTED);
 
 			SkinCollection.RegisterAllSkins();
 		}

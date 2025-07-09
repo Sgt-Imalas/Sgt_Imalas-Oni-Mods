@@ -14,6 +14,7 @@ using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineering;
 using Mineral_Processing;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineering.Tiles;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineering.Walls;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservoirs;
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
 	class BuildingDatabase
@@ -72,8 +73,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				RegisterBuildings_DupesMachinery();
 			if(Config.Instance.NuclearProcessing_Enabled)
 				RegisterBuildings_NuclearProcessing();
-			if(Config.Instance.DupesMachinery_Enabled)
+			if(Config.Instance.DupesEngineering_Enabled)
 				RegisterBuildings_DupesEngineering();
+			if (Config.Instance.CustomReservoirs)
+				RegisterBuildings_CustomReservoirs();
 		}
 		private static void RegisterBuildings_ChemicalProcessingIndustrialOverhaul()
 		{
@@ -457,6 +460,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddModFrom(SourceModInfo.DupesEngineering);
 
 		}
+		private static void RegisterBuildings_CustomReservoirs()
+		{
+			BuildingManager.CreateEntry<SmallGasReservoirDefaultConfig>()
+				.AddToCategory(PlanMenuCategory.Base, GasReservoirConfig.ID)
+				.AddToTech(Technology.Gases.Ventilation)
+				.AddModFrom(SourceModInfo.CustomReservoirs);
+		}
+
 
 		#region oldBuildingRegistration
 		public static void AddBuildingsToPlanscreen()

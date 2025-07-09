@@ -12,18 +12,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 {
 	class MonoElementTileConfig : IBuildingConfig
 	{
-		public static HashSet<string> VariantIDs = new();
-		public static bool TryGetBuildingVariant(Tag elementId, out Tag targetBuilding)
-		{
-			targetBuilding = null;
-			if (TileTypes.Contains(elementId))
-			{
-				targetBuilding = $"Custom{elementId}Tile";
-				return Assets.GetBuildingDef(targetBuilding.ToString());
-			}
-			return false;
-		}
-
 		public static string DEFAULT_ID = "MonoElementTile";
 		public static string ID = DEFAULT_ID;
 
@@ -43,7 +31,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 			if (Element != SimHashes.Void)
 			{
 				ID = $"Custom{Element}Tile";
-				VariantIDs.Add(ID);
+				MultivariantBuildings.RegisterMaterialVariant(DEFAULT_ID, ID, Element.CreateTag());
 			}
 
 			bool isDefaultID = ID == DEFAULT_ID;
@@ -77,6 +65,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 			def.DragBuild = true;
 			if (isDefaultID)
 				return def;
+
 			AssetUtils.AddCustomTileAtlas(def, atlasId, false, "tiles_solid");
 			AssetUtils.AddCustomTileTops(def, topsId, false, "tiles_bunker_tops_decor_info");
 			def.AddSearchTerms((string)global::STRINGS.SEARCH_TERMS.TILE);
