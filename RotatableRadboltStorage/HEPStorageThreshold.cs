@@ -19,43 +19,69 @@ namespace RotatableRadboltStorage
 		private HighEnergyParticleStorage targetHEPStorage;
 		public float PercentFull => targetHEPStorage.Particles / targetHEPStorage.capacity;
 
-		void ISim200ms.Sim200ms(float dt)
+		private static readonly EventSystem.IntraObjectHandler<HEPStorageThreshold> OnCopySettingsDelegate = new((component, data) => component.OnCopySettings(data));
+		private static readonly EventSystem.IntraObjectHandler<HEPStorageThreshold> UpdateLogicCircuitDelegate = new((component, data) => component.UpdateLogicCircuit(data));
+
+		public override void OnSpawn()
 		{
-			this.UpdateLogicCircuit((object)null);
+			base.OnSpawn();
+			this.Subscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate);
+			this.Subscribe((int)GameHashes.OperationalChanged, UpdateLogicCircuitDelegate);
+
+		}
+		public override void OnCleanUp()
+		{
+			this.Unsubscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate);
+			this.Unsubscribe((int)GameHashes.OperationalChanged, UpdateLogicCircuitDelegate);
+			base.OnCleanUp();
 		}
 
+		public void Sim200ms(float dt)
+		{
+			this.UpdateLogicCircuit(null);
+		}
+		private void OnCopySettings(object data)
+		{
+			HEPStorageThreshold component = ((GameObject)data).GetComponent<HEPStorageThreshold>();
+			if (!(component != null))
+				return;
+			this.ActivateValue = component.ActivateValue;
+			this.DeactivateValue = component.DeactivateValue;
+		}
 		private void UpdateLogicCircuit(object data)
 		{
-			float num = (float)Mathf.RoundToInt(this.PercentFull * 100f);
+			float num = Mathf.RoundToInt(this.PercentFull * 100f);
 			if (this.activated)
 			{
-				if ((double)num >= (double)this.deactivateValue)
+				if (num >= deactivateValue)
 					this.activated = false;
 			}
-			else if ((double)num <= (double)this.activateValue)
+
+			else if (num <= activateValue)
 				this.activated = true;
+
 			bool flag = this.activated & this.operational.IsOperational;
+
 			logicPorts.SendSignal(targetHEPStorage.PORT_ID, flag ? 1 : 0);
 		}
 
-
 		public float ActivateValue
 		{
-			get => (float)this.deactivateValue;
+			get => deactivateValue;
 			set
 			{
 				this.deactivateValue = (int)value;
-				this.UpdateLogicCircuit((object)null);
+				this.UpdateLogicCircuit(null);
 			}
 		}
 
 		public float DeactivateValue
 		{
-			get => (float)this.activateValue;
+			get => activateValue;
 			set
 			{
 				this.activateValue = (int)value;
-				this.UpdateLogicCircuit((object)null);
+				this.UpdateLogicCircuit(null);
 			}
 		}
 
