@@ -1168,8 +1168,8 @@ namespace Rockets_TinyYetBig
 		}
 		public class MODIFIEDVANILLASTRINGS
 		{
-			public static LocString KEROSENEENGINECLUSTERSMALL_EFFECT = ("Burns either " + FormatAsLink("Petroleum", "PETROLEUM") + " or " + FormatAsLink("Ethanol", "ETHANOL") + " to propel rockets for mid-range space exploration.\n\nSmall Petroleum Engines possess the same speed as a " + FormatAsLink("Petroleum Engines", "KEROSENEENGINE") + " but have smaller height restrictions.\n\nEngine must be built via " + (string)global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + ". \n\nOnce the engine has been built, more rocket modules can be added.");
-			public static LocString KEROSENEENGINECLUSTER_EFFECT = ("Burns either " + FormatAsLink("Petroleum", "PETROLEUM") + " or " + FormatAsLink("Ethanol", "ETHANOL") + " to propel rockets for mid-range space exploration.\n\nPetroleum Engines have generous height restrictions, ideal for hauling many modules.\n\nEngine must be built via " + (string)global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + ". \n\nOnce the engine has been built, more rocket modules can be added.");
+			public static LocString KEROSENEENGINECLUSTERSMALL_EFFECT = "Burns any " + FormatAsLink("Combustible Liquid", "COMBUSTIBLELIQUID") + " to propel rockets for mid-range space exploration.\n\nSmall Petroleum Engines possess the same speed as a " + FormatAsLink("Petroleum Engines", "KEROSENEENGINE") + " but have smaller height restrictions.\n\nEngine must be built via " + (string)global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + ". \n\nOnce the engine has been built, more rocket modules can be added.";
+			public static LocString KEROSENEENGINECLUSTER_EFFECT = "Burns any " + FormatAsLink("Combustible Liquid", "COMBUSTIBLELIQUID") + " to propel rockets for mid-range space exploration.\n\nPetroleum Engines have generous height restrictions, ideal for hauling many modules.\n\nEngine must be built via " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + ". \n\nOnce the engine has been built, more rocket modules can be added.";
 		}
 		public class RESEARCH
 		{
