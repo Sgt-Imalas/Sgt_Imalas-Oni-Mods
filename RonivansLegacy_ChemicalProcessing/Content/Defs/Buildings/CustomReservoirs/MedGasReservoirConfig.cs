@@ -1,6 +1,7 @@
 ﻿using PeterHan.PLib.Options;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +14,15 @@ using UtilLibs.BuildingPortUtils;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservoirs
 {
-	class MedGasReservoirConfig : IBuildingConfig
+	class MedGasReservoirConfig : IBuildingConfig, IHasConfigurableStorageCapacity
 	{
+		static float StorageCapacity = 1000f * (3f / 4f); //visually 3/4 of vanilla gas reservoir; 750
+		public float GetStorageCapacity() => StorageCapacity;
+		public void SetStorageCapacity(float mass) => StorageCapacity = mass;
+
 		public static string ID = "MedGasReservoir";
 		public string KANIM = "medium_gas_reservoir_kanim";
-		public int Width = 3, Height = 3;
+		public int Width = 3, Height = 4;
 
 
 		public PortDisplayInput PrimaryInputPort = new (ConduitType.Gas,new CellOffset(-1,3));
@@ -50,7 +55,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservo
 			Storage storage = BuildingTemplates.CreateDefaultStorage(go, false);
 			storage.showDescriptor = true;
 			storage.storageFilters = STORAGEFILTERS.GASES;
-			storage.capacityKg = 800;
+			storage.capacityKg = GetStorageCapacity();
 			storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			storage.showCapacityStatusItem = true;
 			storage.showCapacityAsMainStatus = true;

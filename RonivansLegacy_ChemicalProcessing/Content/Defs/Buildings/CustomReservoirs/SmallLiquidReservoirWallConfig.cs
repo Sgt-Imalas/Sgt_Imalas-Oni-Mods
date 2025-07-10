@@ -1,6 +1,7 @@
 ﻿using PeterHan.PLib.Options;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,12 @@ using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservoirs
 {
-	class SmallLiquidReservoirWallConfig : IBuildingConfig
+	class SmallLiquidReservoirWallConfig : IBuildingConfig, IHasConfigurableStorageCapacity
 	{
+		static float StorageCapacity = 2500 * 0.6f; //visually 60% of small liquid reservoir; 1500
+		public float GetStorageCapacity() => StorageCapacity;
+		public void SetStorageCapacity(float mass) => StorageCapacity = mass;
+
 		public static string ID = "WallLiquidTank";
 		public string KANIM = "wall_liquid_tank_kanim";
 		public int Width = 3, Height = 1;
@@ -50,7 +55,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservo
 			Storage storage = BuildingTemplates.CreateDefaultStorage(go, false);
 			storage.showDescriptor = true;
 			storage.storageFilters = STORAGEFILTERS.LIQUIDS;
-			storage.capacityKg = 800;
+			storage.capacityKg = GetStorageCapacity();
 			storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			storage.showCapacityStatusItem = true;
 			storage.showCapacityAsMainStatus = true;

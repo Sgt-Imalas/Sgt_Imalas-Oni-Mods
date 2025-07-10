@@ -141,9 +141,9 @@ namespace ElementUtilNamespace
 
 		public Substance CreateSubstanceFromElementTinted(SimHashes clonedMaterial, Color? overrideColor = null) => CreateSubstance(false, CreateTintedMaterialCopy(clonedMaterial, overrideColor), null, null, null, null, clonedMaterial, overrideColor);
 
-		public Substance CreateSubstance(bool specular = false, Material material = null, Color? uiColor = null, Color? conduitColor = null, Color? specularColor = null, string normal = null,SimHashes cloneMaterialOrigin = SimHashes.Void, Color? clonedMaterialColorOverride = null)
+		public Substance CreateSubstance(bool specular = false, Material material = null, Color? uiColor = null, Color? conduitColor = null, Color? specularColor = null, string normal = null, SimHashes cloneMaterialOrigin = SimHashes.Void, Color? clonedMaterialColorOverride = null)
 		{
-			bool isCloned = cloneMaterialOrigin == SimHashes.Void;
+			bool isCloned = cloneMaterialOrigin != SimHashes.Void;
 
 			if (material == null)
 			{
