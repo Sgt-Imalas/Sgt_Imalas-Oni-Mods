@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
@@ -38,9 +39,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				throw new ArgumentException($"Building type {buildingType.Name} does not have a static ID field.");
 			}
 			var buildingId = (string)IdField.GetValue(null);
-			BuildingConfigurationEntry entry = AddOrGetEntry(buildingId);
 
-			if (buildingType.IsAssignableFrom(typeof(IHasConfigurableWattage)))
+			BuildingConfigurationEntry entry = AddOrGetEntry(buildingId);
+			if (typeof(IHasConfigurableWattage).IsAssignableFrom(buildingType))
 			{
 				var wattageConfigurator = (IHasConfigurableWattage)Activator.CreateInstance(buildingType);
 				if(wattageConfigurator != default)
@@ -51,7 +52,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					wattageConfigurator.SetWattage(entry.GetWattage());
 				}
 			}
-			if (buildingType.IsAssignableFrom(typeof(IHasConfigurableStorageCapacity)))
+			if (typeof(IHasConfigurableStorageCapacity).IsAssignableFrom(buildingType))
 			{
 				var storageConfigurator = (IHasConfigurableStorageCapacity)Activator.CreateInstance(buildingType);
 				if (storageConfigurator != default)

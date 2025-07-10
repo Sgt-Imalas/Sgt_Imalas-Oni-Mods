@@ -35,8 +35,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			if (init)
 				return;
 			init = true;
-
-			DisplayImage = transform.Find("DisplayImage")?.GetComponent<Image>();
+			DisplayImage = transform.Find("DisplayImageContainer/DisplayImage")?.GetComponent<Image>();
 			Label = transform.Find("Label")?.GetComponent<LocText>();			
 			ToolTip = UIUtils.AddSimpleTooltipToObject(gameObject, "");
 			Gear = transform.Find("Gear")?.gameObject;

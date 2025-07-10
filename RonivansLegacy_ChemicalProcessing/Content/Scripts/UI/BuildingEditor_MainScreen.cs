@@ -89,6 +89,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			ConfigEntries.Clear();
 			UpdateEntryList();
 			Instance.ApplyCarePackageFilter(FilterBar.Text);
+			RefreshDetails();
 		}
 
 		private bool initialized = false;
@@ -125,7 +126,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			SelectedEntryModOriginDisplay = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/ModFromContainer").gameObject.GetComponent<LocText>();
 
 			WattageContainer = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/WattageSettings").gameObject;
-			WattageInput = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/CapacitySettings/Input").FindOrAddComponent<FInputField2>();
+			WattageInput = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/WattageSettings/Input").FindOrAddComponent<FInputField2>();
 			WattageInput.Text = "0";
 			WattageInput.OnValueChanged.AddListener(UpdateItemWattage);
 			transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/WattageSettings/Unit").gameObject.GetComponent<LocText>().SetText("W");

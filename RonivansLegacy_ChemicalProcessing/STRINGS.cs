@@ -1031,7 +1031,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class WALLGASTANK
 				{
 					public static LocString NAME = FormatAsLink("Wall Gas Reservoir", nameof(WALLGASTANK));
-					public static LocString DESC = "A small sized reservoir designed for all placement, which don't require foundation.";
+					public static LocString DESC = "A small sized reservoir designed for all placements, which does not require any foundation.";
 					public static LocString EFFECT = "Stores any " + FormatAsLink("Gas", "ELEMENTS_GAS") + " resources piped into it.";
 				}
 				public class SMALLLIQUIDRESERVOIRDEFAULT
@@ -1054,8 +1054,8 @@ namespace RonivansLegacy_ChemicalProcessing
 				}
 				public class WALLLIQUIDTANK
 				{
-					public static LocString NAME = FormatAsLink("Wall Gas Reservoir", nameof(WALLLIQUIDTANK));
-					public static LocString DESC = "A small sized reservoir designed for all placement, which don't require foundation.";
+					public static LocString NAME = FormatAsLink("Wall Liquid Reservoir", nameof(WALLLIQUIDTANK));
+					public static LocString DESC = "A small sized reservoir designed for all placements, which does not require any foundation.";
 					public static LocString EFFECT = "Stores any " + FormatAsLink("Liquid", "ELEMENTS_LIQUID") + " resources piped into it.";
 				}
 				public class MEDGASRESERVOIR
@@ -1488,17 +1488,9 @@ namespace RonivansLegacy_ChemicalProcessing
 						{
 							public class CONTENT
 							{
-								public class AMOUNTINPUT
-								{
-									public static LocString LABEL = "Amount:";
-								}
-								public class REQUIREDDLCS
-								{
-									public static LocString LABEL = "Required Dlcs:";
-								}
 								public static LocString ENABLEBUILDING = "Enable Building:";
-								public LocString CAPACITYSETTINGS = "Storage Capacity:";
-								public LocString WATTAGESETTINGS = "Power Consumption:";
+								public static LocString CAPACITYSETTINGS = "Storage Capacity:";
+								public static LocString WATTAGESETTINGS = "Power Consumption:";
 							}
 						}
 
