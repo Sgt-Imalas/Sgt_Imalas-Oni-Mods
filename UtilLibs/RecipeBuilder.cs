@@ -53,7 +53,7 @@ namespace UtilLibs
 			return this;
 		}
 
-		public RecipeBuilder Input(Tag tag, float amount, bool inheritElement = true)
+		public RecipeBuilder Input(Tag tag, float amount, bool inheritElement = false)
 		{
 			inputs.Add(new RecipeElement(tag, amount, inheritElement));
 			return this;
