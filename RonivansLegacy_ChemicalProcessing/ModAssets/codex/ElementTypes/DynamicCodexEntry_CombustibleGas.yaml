@@ -17,7 +17,7 @@ contentContainers:
       - !CodexDividerLine
           preferredWidth: -1
       - !CodexImage
-          elementIcon: METHANE
+          spriteName: ui_combustible_gases
           preferredWidth: 128
           preferredHeight: 128
 #-----------------------------

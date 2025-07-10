@@ -17,7 +17,7 @@ contentContainers:
       - !CodexDividerLine
           preferredWidth: -1
       - !CodexImage
-          batchedAnimPrefabSourceID: PETROLEUM
+          spriteName: ui_combustible_liquids
           preferredWidth: 128
           preferredHeight: 128
 #-----------------------------
