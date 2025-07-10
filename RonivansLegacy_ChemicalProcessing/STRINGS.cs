@@ -677,7 +677,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = FormatAsLink("Asteroid Auger Drill", nameof(MINING_MINERALDRILL));
 					public static LocString DESC = "Drills into Deep Mineral Deposits to extract solid resources.";
-					public static LocString EFFECT = "A strong drilling apparatus engineered with self guidance sensors for mineral ores, and retrieval of resources while operational. The type of the drill head determines the dept of the drilling, retriving resources from other parts of the Asteroid that are inaccessible by normal means. The drill sensors have a limited range, and retrieval of useful ores are not guaranteed.";
+					public static LocString EFFECT = "A strong drilling apparatus engineered with self guidance sensors for mineral ores, and retrieval of resources while operational.\nThe type of the drill head determines the dept of the drilling, retriving resources from other parts of the Asteroid that are inaccessible by normal means.\nThe drill sensors have a limited range, and retrieval of useful ores are not guaranteed.";
 				}
 
 				#endregion

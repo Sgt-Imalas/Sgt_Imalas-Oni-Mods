@@ -16,7 +16,7 @@ namespace Dupes_Machinery.Biological_Vats
 		public override BuildingDef CreateBuildingDef()
 		{
 			float[] singleArray1 = [200f, 300f];
-			string[] textArray1 = [ "RefinedMetal", "Filterable"];
+			string[] textArray1 = [GameTags.RefinedMetal.ToString(), GameTags.Filter.ToString()];
 
 			EffectorValues noise = NOISE_POLLUTION.NOISY.TIER0;
 			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 3, 4, "bio_coral_vat_kanim", 30, 90f, singleArray1, textArray1, 1600f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.PENALTY.TIER1, noise, 0.2f);

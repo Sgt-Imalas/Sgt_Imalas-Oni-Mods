@@ -66,8 +66,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			RecipeBuilder.Create(ID, 50)
 				.Input(SimHashes.Propane, 50)
-				.Input(SimHashes.Petroleum, 45)
-				.Input(SimHashes.Fullerene, 5)
+				.Input(SimHashes.Petroleum, 49)
+				.Input(SimHashes.Fullerene, 1)
 				.Output(ModElements.Isopropane_Gas, 100f, storeElement: true)
 				.Description(CHEMICAL_MIXINGUNIT_3_1, 3, 1)
 				.RequiresTech(GameStrings.Technology.Gases.Catalytics)

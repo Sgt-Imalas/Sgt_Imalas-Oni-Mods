@@ -27,6 +27,10 @@ namespace RonivansLegacy_ChemicalProcessing
 			ConduitDisplayPortPatching.PatchAll(harmony);
 			BuildingDatabase.RegisterAdditionalBuildingElements();
 			AdditionalRecipes.RegisterTags();
+
+			SharedTweaks.ResearchNotificationMessageFix.ExecutePatch(harmony); 
+			SharedTweaks.ResearchScreenCollapseEntries.ExecutePatch(harmony);
+			SharedTweaks.ElementConverterDescriptionImprovement.ExecutePatch(harmony);
 		}
 	}
 }

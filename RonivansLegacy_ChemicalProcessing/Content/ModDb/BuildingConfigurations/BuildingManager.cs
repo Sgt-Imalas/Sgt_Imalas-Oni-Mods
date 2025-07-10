@@ -28,7 +28,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				return newEntry;
 			}
 		}
-
 		public static BuildingInjectionEntry CreateEntry<T>()
 		{
 			var buildingType = typeof(T);
@@ -95,6 +94,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			{
 				config.ResetChanges();
 			}
+			ConfigCollection.WriteToFile();
 		}
 	}
 }
