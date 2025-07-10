@@ -12,36 +12,20 @@ using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservoirs
 {
-	class SmallGasReservoirDefaultConfig : IBuildingConfig
+	class SmallGasReservoirWallConfig : IBuildingConfig
 	{
-		public const string DEFAULT_ID = "SmallGasReservoirDefault";
+		public static string ID = "WallGasTank";
+		public string KANIM = "wall_gas_tank_kanim";
+		public int Width = 3, Height = 1;
 
-		public const string NORMAL = "SmallGasReservoir";
-		public const string INVERTED = "InvertedSmallGasReservoir";
 
-		public const string KANIMNORMAL = "small_gas_reservoir_kanim";
-		public const string KANIMINVERTED = "small_gas_reservoir_inverted_kanim";
-
-		public int Width = 1, Height = 3;
-
-		public static string ID = DEFAULT_ID;
-		public string KANIM = KANIMNORMAL;
-
-		public CellOffset UtilityInputOffset = new CellOffset(0, 2);
-		public CellOffset UtilityOutputOffset = new CellOffset(0, 0);
-		public PermittedRotations Rotations = PermittedRotations.Unrotatable;
-		public BuildLocationRule buildLocationRule = BuildLocationRule.OnFloor;
+		public CellOffset UtilityInputOffset = new CellOffset(-1, 0);
+		public CellOffset UtilityOutputOffset = new CellOffset(1, 0);
+		public PermittedRotations Rotations = PermittedRotations.R360;
+		public BuildLocationRule buildLocationRule = BuildLocationRule.Anywhere;
 
 		public override BuildingDef CreateBuildingDef()
 		{
-			SgtLogger.l(this.GetType().Name+" registers building with ID "+ID);
-			bool isDefaultID = ID == DEFAULT_ID;
-
-			if (!isDefaultID)
-			{
-				MultivariantBuildings.RegisterSkinVariant(DEFAULT_ID, ID, ID);
-			}
-
 			BuildingDef def = BuildingTemplates.CreateBuildingDef(ID, Width, Height, KANIM, 50, 60f, TUNING.BUILDINGS.CONSTRUCTION_MASS_KG.TIER2, MATERIALS.ALL_METALS, 800f, buildLocationRule, TUNING.BUILDINGS.DECOR.PENALTY.TIER1, TUNING.NOISE_POLLUTION.NOISY.TIER0);
 			def.InputConduitType = ConduitType.Gas;
 			def.OutputConduitType = ConduitType.Gas;
@@ -87,26 +71,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservo
 			go.AddOrGetDef<StorageController.Def>();
 			go.GetComponent<KPrefabID>().AddTag(GameTags.OverlayBehindConduits, false);
 			go.AddOrGet<ContentBasedReservoirTint>();
-		}
-	}
-	class SmallGasReservoirInvertedConfig : SmallGasReservoirDefaultConfig
-	{
-		public SmallGasReservoirInvertedConfig()
-		{
-			ID = INVERTED;
-			KANIM = KANIMNORMAL;
-			UtilityInputOffset = new CellOffset(0, 0);
-			UtilityOutputOffset = new CellOffset(0, 2); 
-		}
-	}
-	class SmallGasReservoirConfig : SmallGasReservoirDefaultConfig
-	{
-		public SmallGasReservoirConfig()
-		{
-			ID = NORMAL;
-			KANIM = KANIMINVERTED;
-			UtilityInputOffset = new CellOffset(0, 2);
-			UtilityOutputOffset = new CellOffset(0, 0);
 		}
 	}
 }

@@ -9,49 +9,33 @@ using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
+using UtilLibs.BuildingPortUtils;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservoirs
 {
-	class SmallGasReservoirDefaultConfig : IBuildingConfig
+	class MedGasReservoirConfig : IBuildingConfig
 	{
-		public const string DEFAULT_ID = "SmallGasReservoirDefault";
+		public static string ID = "MedGasReservoir";
+		public string KANIM = "medium_gas_reservoir_kanim";
+		public int Width = 3, Height = 3;
 
-		public const string NORMAL = "SmallGasReservoir";
-		public const string INVERTED = "InvertedSmallGasReservoir";
 
-		public const string KANIMNORMAL = "small_gas_reservoir_kanim";
-		public const string KANIMINVERTED = "small_gas_reservoir_inverted_kanim";
+		public PortDisplayInput PrimaryInputPort = new (ConduitType.Gas,new CellOffset(-1,3));
+		public PortDisplayInput SecondaryInputPort = new(ConduitType.Gas,new CellOffset(1,3));
+		public PortDisplayOutput PrimaryOutputPort = new (ConduitType.Gas,new CellOffset(-1,0));
+		public PortDisplayOutput SecondaryOutputPort = new(ConduitType.Gas,new CellOffset(1,0));
 
-		public int Width = 1, Height = 3;
-
-		public static string ID = DEFAULT_ID;
-		public string KANIM = KANIMNORMAL;
-
-		public CellOffset UtilityInputOffset = new CellOffset(0, 2);
-		public CellOffset UtilityOutputOffset = new CellOffset(0, 0);
 		public PermittedRotations Rotations = PermittedRotations.Unrotatable;
 		public BuildLocationRule buildLocationRule = BuildLocationRule.OnFloor;
 
 		public override BuildingDef CreateBuildingDef()
 		{
-			SgtLogger.l(this.GetType().Name+" registers building with ID "+ID);
-			bool isDefaultID = ID == DEFAULT_ID;
-
-			if (!isDefaultID)
-			{
-				MultivariantBuildings.RegisterSkinVariant(DEFAULT_ID, ID, ID);
-			}
-
 			BuildingDef def = BuildingTemplates.CreateBuildingDef(ID, Width, Height, KANIM, 50, 60f, TUNING.BUILDINGS.CONSTRUCTION_MASS_KG.TIER2, MATERIALS.ALL_METALS, 800f, buildLocationRule, TUNING.BUILDINGS.DECOR.PENALTY.TIER1, TUNING.NOISE_POLLUTION.NOISY.TIER0);
-			def.InputConduitType = ConduitType.Gas;
-			def.OutputConduitType = ConduitType.Gas;
 			def.Floodable = false;
 			def.Overheatable = false;
 			def.PermittedRotations = Rotations;
 			def.ViewMode = OverlayModes.GasConduits.ID;
 			def.AudioCategory = "HollowMetal";
-			def.UtilityInputOffset = UtilityInputOffset;
-			def.UtilityOutputOffset = UtilityOutputOffset;
 			List<LogicPorts.Port> list1 = new List<LogicPorts.Port>();
 			list1.Add(LogicPorts.Port.OutputPort(SmartReservoir.PORT_ID, new CellOffset(0, 0), global::STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.LOGIC_PORT, global::STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.LOGIC_PORT_ACTIVE, global::STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.LOGIC_PORT_INACTIVE, false, false));
 			def.LogicOutputPorts = list1;
@@ -72,41 +56,54 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservo
 			storage.showCapacityAsMainStatus = true;
 			go.AddOrGet<SmartReservoir>();
 
-			ConduitConsumer consumer = go.AddOrGet<ConduitConsumer>();
-			consumer.conduitType = ConduitType.Gas;
-			consumer.ignoreMinMassCheck = true;
-			consumer.forceAlwaysSatisfied = true;
-			consumer.alwaysConsume = true;
-			consumer.capacityKG = storage.capacityKg;
-			ConduitDispenser dispenser = go.AddOrGet<ConduitDispenser>();
-			dispenser.conduitType = ConduitType.Gas;
-			dispenser.elementFilter = null;
+			PortConduitConsumer consumer1 = go.AddComponent<PortConduitConsumer>();
+			consumer1.conduitType = ConduitType.Gas;
+			consumer1.ignoreMinMassCheck = true;
+			consumer1.forceAlwaysSatisfied = true;
+			consumer1.alwaysConsume = true;
+			consumer1.capacityKG = storage.capacityKg;
+			consumer1.AssignPort(PrimaryInputPort);
+
+			PortConduitConsumer consumer2 = go.AddComponent<PortConduitConsumer>();
+			consumer2.conduitType = ConduitType.Gas;
+			consumer2.ignoreMinMassCheck = true;
+			consumer2.forceAlwaysSatisfied = true;
+			consumer2.alwaysConsume = true;
+			consumer2.capacityKG = storage.capacityKg;
+			consumer2.AssignPort(SecondaryInputPort);
+					
+
+			go.AddComponent<PipedConduitDispenser>().AssignPort(PrimaryOutputPort);
+			go.AddComponent<PipedConduitDispenser>().AssignPort(SecondaryOutputPort);
+
+			AttachPorts(go);
 		}
 		public override void DoPostConfigureComplete(GameObject go)
 		{
 			go.AddOrGetDef<StorageController.Def>();
 			go.GetComponent<KPrefabID>().AddTag(GameTags.OverlayBehindConduits, false);
 			go.AddOrGet<ContentBasedReservoirTint>();
+			AttachPorts(go);
 		}
-	}
-	class SmallGasReservoirInvertedConfig : SmallGasReservoirDefaultConfig
-	{
-		public SmallGasReservoirInvertedConfig()
+		public override void DoPostConfigurePreview(BuildingDef def, GameObject go)
 		{
-			ID = INVERTED;
-			KANIM = KANIMNORMAL;
-			UtilityInputOffset = new CellOffset(0, 0);
-			UtilityOutputOffset = new CellOffset(0, 2); 
+			base.DoPostConfigurePreview(def, go);
+			AttachPorts(go);
 		}
-	}
-	class SmallGasReservoirConfig : SmallGasReservoirDefaultConfig
-	{
-		public SmallGasReservoirConfig()
+		public override void DoPostConfigureUnderConstruction(GameObject go)
 		{
-			ID = NORMAL;
-			KANIM = KANIMINVERTED;
-			UtilityInputOffset = new CellOffset(0, 2);
-			UtilityOutputOffset = new CellOffset(0, 0);
+			base.DoPostConfigureUnderConstruction(go);
+			AttachPorts(go);
+		}
+
+		void AttachPorts(GameObject go)
+		{
+			PortDisplayController portDisplayController = go.AddComponent<PortDisplayController>();
+			portDisplayController.Init(go);
+			portDisplayController.AssignPort(go, PrimaryOutputPort);
+			portDisplayController.AssignPort(go, PrimaryInputPort);
+			portDisplayController.AssignPort(go, SecondaryOutputPort);
+			portDisplayController.AssignPort(go, SecondaryInputPort);
 		}
 	}
 }

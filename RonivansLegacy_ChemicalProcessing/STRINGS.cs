@@ -723,7 +723,6 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString NAME = FormatAsLink("Ethanol Stil", nameof(ETHANOLSTILL));
 					public static LocString DESC = "A solid metal still capable of distillation by selective temperature.";
 					public static LocString EFFECT = string.Concat(["Distills ", FormatAsLink("Ethanol", "ETHANOL"), " from a fermented mixture of ", FormatAsLink("Sucrose", "SUCROSE"), " and ", FormatAsLink("Water", "WATER"), ". The fermenting process occurs with ", FormatAsLink("Slime", "SLIMEMOLD"), " bacterias by the degradation of organic nutrients anaerobically."]);
-
 				}
 				#endregion
 				#region NuclearProcessing
@@ -1019,15 +1018,57 @@ namespace RonivansLegacy_ChemicalProcessing
 				}
 				public class SMALLGASRESERVOIR
 				{
-					public static LocString NAME = FormatAsLink("Small Gas Reservoir A", nameof(SMALLGASRESERVOIR));
+					public static LocString NAME = FormatAsLink("Small Gas Reservoir B", nameof(SMALLGASRESERVOIR));
 					public static LocString DESC = "A small sized reservoir. This variant has top to bottom flow";
 					public static LocString EFFECT = "Stores any " + FormatAsLink("Gas", "ELEMENTS_GAS") + " resources piped into it.";
 				}
 				public class INVERTEDSMALLGASRESERVOIR
 				{
-					public static LocString NAME = FormatAsLink("Small Gas Reservoir B", nameof(INVERTEDSMALLGASRESERVOIR));
+					public static LocString NAME = FormatAsLink("Small Gas Reservoir A", nameof(INVERTEDSMALLGASRESERVOIR));
 					public static LocString DESC = "A small sized reservoir. This variant has bottom to top flow";
 					public static LocString EFFECT = "Stores any " + FormatAsLink("Gas", "ELEMENTS_GAS") + " resources piped into it.";
+				}
+				public class WALLGASTANK
+				{
+					public static LocString NAME = FormatAsLink("Wall Gas Reservoir", nameof(WALLGASTANK));
+					public static LocString DESC = "A small sized reservoir designed for all placement, which don't require foundation.";
+					public static LocString EFFECT = "Stores any " + FormatAsLink("Gas", "ELEMENTS_GAS") + " resources piped into it.";
+				}
+				public class SMALLLIQUIDRESERVOIRDEFAULT
+				{
+					public static LocString NAME = FormatAsLink("Small Liquid Reservoir", nameof(SMALLLIQUIDRESERVOIRDEFAULT));
+					public static LocString DESC = "A small sized reservoir. Reservoirs cannot receive manually delivered resources.";
+					public static LocString EFFECT = "Stores any " + FormatAsLink("Liquid", "ELEMENTS_LIQUID") + " resources piped into it.";
+				}
+				public class SMALLLIQUIDRESERVOIR
+				{
+					public static LocString NAME = FormatAsLink("Small Liquid Reservoir B", nameof(SMALLLIQUIDRESERVOIR));
+					public static LocString DESC = "A small sized reservoir. This variant has top to bottom flow";
+					public static LocString EFFECT = "Stores any " + FormatAsLink("Liquid", "ELEMENTS_LIQUID") + " resources piped into it.";
+				}
+				public class INVERTEDSMALLLIQUIDRESERVOIR
+				{
+					public static LocString NAME = FormatAsLink("Small Liquid Reservoir A", nameof(INVERTEDSMALLLIQUIDRESERVOIR));
+					public static LocString DESC = "A small sized reservoir. This variant has bottom to top flow";
+					public static LocString EFFECT = "Stores any " + FormatAsLink("Liquid", "ELEMENTS_LIQUID") + " resources piped into it.";
+				}
+				public class WALLLIQUIDTANK
+				{
+					public static LocString NAME = FormatAsLink("Wall Gas Reservoir", nameof(WALLLIQUIDTANK));
+					public static LocString DESC = "A small sized reservoir designed for all placement, which don't require foundation.";
+					public static LocString EFFECT = "Stores any " + FormatAsLink("Liquid", "ELEMENTS_LIQUID") + " resources piped into it.";
+				}
+				public class MEDGASRESERVOIR
+				{
+					public static LocString NAME = FormatAsLink("Medium Gas Reservoir", nameof(MEDGASRESERVOIR));
+					public static LocString DESC = "A medium sized reservoir with double amount of input and output ports.";
+					public static LocString EFFECT = "Stores any " + FormatAsLink("Gas", "ELEMENTS_GAS") + " resources piped into it.";
+				}
+				public class MEDLIQUIDRESERVOIR
+				{
+					public static LocString NAME = FormatAsLink("Medium Liquid Reservoir", nameof(MEDLIQUIDRESERVOIR));
+					public static LocString DESC = "A medium sized reservoir with double amount of input and output ports.";
+					public static LocString EFFECT = "Stores any " + FormatAsLink("Liquid", "ELEMENTS_LIQUID") + " resources piped into it.";
 				}
 				#endregion
 			}

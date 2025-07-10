@@ -67,9 +67,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			SkinCollection.Create(SpacerWindowSmallConfig.ID, SubCategoryID)
 				.Skin("SpacerWindow_B", SPACERWINDOWWALL.FACADES.SPACERWINDOW_B.NAME, SPACERWINDOWWALL.FACADES.SPACERWINDOW_B.DESC, "spacer_window_B_kanim");
 
-			SkinCollection.Create(SmallGasReservoirConfig.ID, SubCategoryID)
-				.Skin(SmallGasReservoirInvertedConfig.NORMAL, SMALLGASRESERVOIR.NAME, SMALLGASRESERVOIR.DESC, SmallGasReservoirInvertedConfig.KANIMNORMAL)
-				.Skin(SmallGasReservoirInvertedConfig.INVERTED, INVERTEDSMALLGASRESERVOIR.NAME, INVERTEDSMALLGASRESERVOIR.DESC, SmallGasReservoirInvertedConfig.KANIMINVERTED);
+			SkinCollection.Create(SmallGasReservoirDefaultConfig.ID, SubCategoryID)
+				.Skin(SmallGasReservoirDefaultConfig.NORMAL, SMALLGASRESERVOIR.NAME, SMALLGASRESERVOIR.DESC, SmallGasReservoirInvertedConfig.KANIMNORMAL)
+				.Skin(SmallGasReservoirDefaultConfig.INVERTED, INVERTEDSMALLGASRESERVOIR.NAME, INVERTEDSMALLGASRESERVOIR.DESC, SmallGasReservoirInvertedConfig.KANIMINVERTED);
+			
+			SkinCollection.Create(SmallLiquidReservoirDefaultConfig.ID, SubCategoryID)
+				.Skin(SmallLiquidReservoirDefaultConfig.NORMAL, SMALLLIQUIDRESERVOIR.NAME, SMALLLIQUIDRESERVOIR.DESC, SmallLiquidReservoirDefaultConfig.KANIMNORMAL)
+				.Skin(SmallLiquidReservoirDefaultConfig.INVERTED, INVERTEDSMALLLIQUIDRESERVOIR.NAME, INVERTEDSMALLLIQUIDRESERVOIR.DESC, SmallLiquidReservoirDefaultConfig.KANIMINVERTED);
 
 			SkinCollection.RegisterAllSkins();
 		}

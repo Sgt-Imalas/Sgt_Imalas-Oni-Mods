@@ -467,9 +467,36 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		}
 		private static void RegisterBuildings_CustomReservoirs()
 		{
+
+			BuildingManager.CreateEntry<SmallGasReservoirWallConfig>()
+				.AddToCategory(PlanMenuCategory.Base, GasReservoirConfig.ID)
+				.AddToTech(Technology.Gases.ImprovedVentilation)
+				.AddModFrom(SourceModInfo.CustomReservoirs);
+
 			BuildingManager.CreateEntry<SmallGasReservoirDefaultConfig>()
 				.AddToCategory(PlanMenuCategory.Base, GasReservoirConfig.ID)
 				.AddToTech(Technology.Gases.Ventilation)
+				.AddModFrom(SourceModInfo.CustomReservoirs);
+
+			BuildingManager.CreateEntry<MedGasReservoirConfig>()
+				.AddToCategory(PlanMenuCategory.Base, GasReservoirConfig.ID)
+				.AddToTech(Technology.Gases.ImprovedVentilation)
+				.AddModFrom(SourceModInfo.CustomReservoirs);
+
+
+			BuildingManager.CreateEntry<SmallLiquidReservoirWallConfig>()
+				.AddToCategory(PlanMenuCategory.Base, LiquidReservoirConfig.ID)
+				.AddToTech(Technology.Liquids.ImprovedPlumbing)
+				.AddModFrom(SourceModInfo.CustomReservoirs);
+
+			BuildingManager.CreateEntry<SmallLiquidReservoirDefaultConfig>()
+				.AddToCategory(PlanMenuCategory.Base, LiquidReservoirConfig.ID)
+				.AddToTech(Technology.Liquids.Plumbing)
+				.AddModFrom(SourceModInfo.CustomReservoirs);
+
+			BuildingManager.CreateEntry<MedLiquidReservoirConfig>()
+				.AddToCategory(PlanMenuCategory.Base, LiquidReservoirConfig.ID)
+				.AddToTech(Technology.Liquids.ImprovedPlumbing)
 				.AddModFrom(SourceModInfo.CustomReservoirs);
 		}
 

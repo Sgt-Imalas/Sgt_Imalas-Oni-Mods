@@ -163,14 +163,14 @@ namespace UtilLibs.BuildingPortUtils
 				{
 					primaryElement.KeepZeroMassObject = true;
 					ConduitFlow conduitManager = this.GetConduitManager();
-					float num = conduitManager.AddElement(this.utilityCell, primaryElement.ElementID, primaryElement.Mass, primaryElement.Temperature, primaryElement.DiseaseIdx, primaryElement.DiseaseCount);
-					if (num > 0f)
+					float massAddedToConduit = conduitManager.AddElement(this.utilityCell, primaryElement.ElementID, primaryElement.Mass, primaryElement.Temperature, primaryElement.DiseaseIdx, primaryElement.DiseaseCount);
+					if (massAddedToConduit > 0f)
 					{
-						float num2 = num / primaryElement.Mass;
-						int num3 = (int)(num2 * (float)primaryElement.DiseaseCount);
-						primaryElement.ModifyDiseaseCount(-num3, "CustomConduitDispenser.ConduitUpdate");
-						primaryElement.Mass -= num;
-						base.Trigger(-1697596308, primaryElement.gameObject);
+						float percentageMassAdded = massAddedToConduit / primaryElement.Mass;
+						int diseaseCountTransferred = (int)(percentageMassAdded * primaryElement.DiseaseCount);
+						primaryElement.ModifyDiseaseCount(-diseaseCountTransferred, "CustomConduitDispenser.ConduitUpdate");
+						primaryElement.Mass -= massAddedToConduit;
+						base.Trigger((int)GameHashes.OnStorageChange, primaryElement.gameObject);
 					}
 				}
 			}

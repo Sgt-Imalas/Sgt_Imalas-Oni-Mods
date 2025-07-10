@@ -12,15 +12,15 @@ using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservoirs
 {
-	class SmallGasReservoirDefaultConfig : IBuildingConfig
+	class SmallLiquidReservoirDefaultConfig : IBuildingConfig
 	{
-		public const string DEFAULT_ID = "SmallGasReservoirDefault";
+		public const string DEFAULT_ID = "SmallLiquidReservoirDefault";
 
-		public const string NORMAL = "SmallGasReservoir";
-		public const string INVERTED = "InvertedSmallGasReservoir";
+		public const string NORMAL = "SmallLiquidReservoir";
+		public const string INVERTED = "InvertedSmallLiquidReservoir";
 
-		public const string KANIMNORMAL = "small_gas_reservoir_kanim";
-		public const string KANIMINVERTED = "small_gas_reservoir_inverted_kanim";
+		public const string KANIMNORMAL = "small_liquid_reservoir_kanim";
+		public const string KANIMINVERTED = "small_liquid_reservoir_inverted_kanim";
 
 		public int Width = 1, Height = 3;
 
@@ -43,19 +43,19 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservo
 			}
 
 			BuildingDef def = BuildingTemplates.CreateBuildingDef(ID, Width, Height, KANIM, 50, 60f, TUNING.BUILDINGS.CONSTRUCTION_MASS_KG.TIER2, MATERIALS.ALL_METALS, 800f, buildLocationRule, TUNING.BUILDINGS.DECOR.PENALTY.TIER1, TUNING.NOISE_POLLUTION.NOISY.TIER0);
-			def.InputConduitType = ConduitType.Gas;
-			def.OutputConduitType = ConduitType.Gas;
+			def.InputConduitType = ConduitType.Liquid;
+			def.OutputConduitType = ConduitType.Liquid;
 			def.Floodable = false;
 			def.Overheatable = false;
 			def.PermittedRotations = Rotations;
-			def.ViewMode = OverlayModes.GasConduits.ID;
+			def.ViewMode = OverlayModes.LiquidConduits.ID;
 			def.AudioCategory = "HollowMetal";
 			def.UtilityInputOffset = UtilityInputOffset;
 			def.UtilityOutputOffset = UtilityOutputOffset;
 			List<LogicPorts.Port> list1 = new List<LogicPorts.Port>();
 			list1.Add(LogicPorts.Port.OutputPort(SmartReservoir.PORT_ID, new CellOffset(0, 0), global::STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.LOGIC_PORT, global::STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.LOGIC_PORT_ACTIVE, global::STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.LOGIC_PORT_INACTIVE, false, false));
 			def.LogicOutputPorts = list1;
-			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.GasVentIDs, ID);
+			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.LiquidVentIDs, ID);
 			def.DefaultAnimState = "off";
 			return def;
 		}
@@ -65,7 +65,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservo
 			go.AddOrGet<Reservoir>();
 			Storage storage = BuildingTemplates.CreateDefaultStorage(go, false);
 			storage.showDescriptor = true;
-			storage.storageFilters = STORAGEFILTERS.GASES;
+			storage.storageFilters = STORAGEFILTERS.LIQUIDS;
 			storage.capacityKg = 800;
 			storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			storage.showCapacityStatusItem = true;
@@ -73,13 +73,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservo
 			go.AddOrGet<SmartReservoir>();
 
 			ConduitConsumer consumer = go.AddOrGet<ConduitConsumer>();
-			consumer.conduitType = ConduitType.Gas;
+			consumer.conduitType = ConduitType.Liquid;
 			consumer.ignoreMinMassCheck = true;
 			consumer.forceAlwaysSatisfied = true;
 			consumer.alwaysConsume = true;
 			consumer.capacityKG = storage.capacityKg;
 			ConduitDispenser dispenser = go.AddOrGet<ConduitDispenser>();
-			dispenser.conduitType = ConduitType.Gas;
+			dispenser.conduitType = ConduitType.Liquid;
 			dispenser.elementFilter = null;
 		}
 		public override void DoPostConfigureComplete(GameObject go)
@@ -89,9 +89,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservo
 			go.AddOrGet<ContentBasedReservoirTint>();
 		}
 	}
-	class SmallGasReservoirInvertedConfig : SmallGasReservoirDefaultConfig
+	class SmallLiquidReservoirInvertedConfig : SmallLiquidReservoirDefaultConfig
 	{
-		public SmallGasReservoirInvertedConfig()
+		public SmallLiquidReservoirInvertedConfig()
 		{
 			ID = INVERTED;
 			KANIM = KANIMNORMAL;
@@ -99,9 +99,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservo
 			UtilityOutputOffset = new CellOffset(0, 2); 
 		}
 	}
-	class SmallGasReservoirConfig : SmallGasReservoirDefaultConfig
+	class SmallLiquidReservoirConfig : SmallLiquidReservoirDefaultConfig
 	{
-		public SmallGasReservoirConfig()
+		public SmallLiquidReservoirConfig()
 		{
 			ID = NORMAL;
 			KANIM = KANIMINVERTED;
