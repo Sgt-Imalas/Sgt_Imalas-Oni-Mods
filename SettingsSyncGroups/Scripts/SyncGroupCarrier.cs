@@ -89,7 +89,7 @@ namespace SettingsSyncGroups.Scripts
 			return result;
 		}
 
-		public void SetAndSyncFromGroup(string newGroup)
+		public void SetAndSyncFromGroup(string newGroup, bool refreshUIAfter = false)
 		{
 			_assignedGroupName = newGroup;
 			if (TryGetGroupName(out var groupName))
@@ -102,8 +102,11 @@ namespace SettingsSyncGroups.Scripts
 					SgtLogger.l("Applying from existing group: " + groupName);
 					_assignedGroupName = newGroup;
 					this.Trigger((int)GameHashes.CopySettings, source.gameObject);
-					SelectTool.Instance.Select(null);
-					SelectTool.Instance.Select(selectable);
+					if (refreshUIAfter)
+					{
+						SelectTool.Instance.Select(null);
+						SelectTool.Instance.Select(selectable);
+					}
 				}
 				else
 					SgtLogger.l("no existing carrier of group " + groupName + " found");

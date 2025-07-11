@@ -1120,9 +1120,13 @@ namespace BlueprintsV2.BlueprintData
 			{
 				if (arg.TryGetComponent<Switch>(out var component))
 				{
+					bool isSwitchedOn = component.IsSwitchedOn;
+					if(component is IPlayerControlledToggle playerControlledToggle && playerControlledToggle.ToggleRequested)
+						isSwitchedOn = !isSwitchedOn;
+
 					return new JObject()
 					{
-						{ "switchedOn", component.switchedOn}
+						{ "switchedOn", isSwitchedOn}
 					};
 				}
 				return null;
@@ -1139,7 +1143,8 @@ namespace BlueprintsV2.BlueprintData
 					var switchedOn = t1.Value<bool>();
 
 					//applying values
-					targetComponent.SetState(switchedOn);
+					if (switchedOn != targetComponent.switchedOn)
+						targetComponent.Toggle();
 				}
 			}
 		}

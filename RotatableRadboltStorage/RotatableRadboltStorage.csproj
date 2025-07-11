@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>RotatableRadboltStorage</PackageId>
-		<Version>1.2.0</Version>
+		<Version>2.0.0</Version>
 		<Authors>Sgt_Imalas</Authors>
 		     <Copyright>$(AssemblyCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
@@ -23,8 +23,8 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>Rotatable Radbolt Chamber Output</ModName>
-		<ModDescription>This mod adds an adjustable output direction to the radbolt storage</ModDescription>
+		<ModName>Improved Radbolt Handling</ModName>
+		<ModDescription>Rotatable Radbolt storage output, reservoir logic and logic controlled direction</ModDescription>
 		<RequiredDlcIds>EXPANSION1_ID</RequiredDlcIds>
 		<SteamId>2886144715</SteamId>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>

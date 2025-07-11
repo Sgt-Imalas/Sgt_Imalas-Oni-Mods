@@ -25,6 +25,8 @@ namespace SettingsSyncGroups.UI
 		{
 			return target.TryGetComponent<SyncGroupCarrier>(out var carrier) && carrier.IsValid;
 		}
+		public override int GetSideScreenSortOrder() => -900;
+
 		public override void ClearTarget()
 		{
 			SyncGroupCarrier.SynchronizeAll(TargetComponent);			
@@ -55,7 +57,7 @@ namespace SettingsSyncGroups.UI
 		void OnNewGroupName(string newName)
 		{
 			ClearSecondarySideScreen();
-			TargetComponent.SetAndSyncFromGroup(newName);
+			TargetComponent.SetAndSyncFromGroup(newName, true);
 			Refresh();
 		}
 
@@ -71,6 +73,7 @@ namespace SettingsSyncGroups.UI
 				return;
 			init = true;
 			Label = transform.Find("Content/Label").gameObject.GetComponent<LocText>();
+			Label.SetText(STRINGS.UI.GROUPASSIGNMENT_SECONDARYSIDESCREEN.NO_GROUP_ASSIGNED);
 			Button = transform.Find("Content/Button").gameObject.AddOrGet<FButton>();
 			Button.OnClick += () =>
 			{

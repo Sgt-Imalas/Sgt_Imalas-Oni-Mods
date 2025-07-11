@@ -308,7 +308,7 @@ namespace BlueprintsV2.BlueprintData
 						if (key == null || key.Length == 0 || value == null)
 							continue;
 
-						AddBuildingData(key, value);
+						SetBuildingData(key, value);
 					}
 				}
 			}
@@ -323,7 +323,7 @@ namespace BlueprintsV2.BlueprintData
 		{
 			return otherBuildingConfig != null && Offset == otherBuildingConfig.Offset && BuildingDef == otherBuildingConfig.BuildingDef && Orientation == otherBuildingConfig.Orientation;
 		}
-		internal void AddBuildingData(string Id, JObject data)
+		internal void SetBuildingData(string Id, JObject data)
 		{
 			if (Id.IsNullOrWhiteSpace() || data == null)
 				return;
@@ -335,7 +335,7 @@ namespace BlueprintsV2.BlueprintData
 		}
 		internal void SetConduitFlags(int flag)
 		{
-			AddBuildingData(API_Consts.ConduitFlagID,
+			SetBuildingData(API_Consts.ConduitFlagID,
 				new JObject()
 				{
 					{ API_Consts.ConduitFlagID, flag }

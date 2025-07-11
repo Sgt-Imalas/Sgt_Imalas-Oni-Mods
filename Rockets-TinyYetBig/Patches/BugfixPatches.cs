@@ -87,18 +87,38 @@ namespace Rockets_TinyYetBig.Patches
 		/// <summary>
 		/// Only affects debug create rocket command, prevents crash when it tries to load element with combustibleliquid tag by converting it to petroleum
 		/// </summary>
-		[HarmonyPatch(typeof(ElementLoader), "GetElement")]
-		public static class FixAutoRocket
+		[HarmonyPatch(typeof(AutoRocketUtility), nameof(AutoRocketUtility.AddEngine))]
+		public class AutoRocketUtility_AddEngine_Patch
 		{
-			public static void Postfix(Tag tag, ref Element __result)
+			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
 			{
-				if (tag == GameTags.CombustibleLiquid && __result == default(Element))
+				var codes = orig.ToList();
+				var targetMethod = AccessTools.Method(typeof(ElementLoader), nameof(ElementLoader.GetElement), [typeof(Tag)]);
+
+				// find injection point
+				var index = codes.FindIndex(ci => ci.Calls(targetMethod));
+
+				if (index == -1)
 				{
-					ElementLoader.elementTagTable.TryGetValue(SimHashes.Petroleum.CreateTag(), out __result);
+					SgtLogger.error("TRANSPILER FAILED: AutoRocketUtility_AddEngine_Patch");
+					return codes;
 				}
+
+				var m_InjectedMethod = AccessTools.DeclaredMethod(typeof(AutoRocketUtility_AddEngine_Patch), "InjectedMethod");
+
+				// inject right after the found index
+				codes.InsertRange(index, [new CodeInstruction(OpCodes.Call, m_InjectedMethod)]);
+
+				return codes;
 			}
 
+			private static Tag InjectedMethod(Tag combustibleLiquidTag)
+			{
+				return SimHashes.Petroleum.CreateTag();
+			}
 		}
+
+
 
 		public static void AttemptOxidizerTaskBugfixPatch(Harmony harmony, bool alreadyFixed)
 		{

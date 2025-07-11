@@ -85,6 +85,14 @@ namespace BlueprintsV2.BlueprintData
 		public int HorizontalGroupID() => -1;
 
 		public int ButtonSideScreenSortOrder() => 22;
+
+		internal void TransferStoredDataToBlueprintEntry(BuildingConfig buildingConfig)
+		{
+			foreach (var data in GetStoredData())
+			{
+				buildingConfig.SetBuildingData(data.Key, JObject.Parse(data.Value));
+			}
+		}
 		#endregion
 	}
 }

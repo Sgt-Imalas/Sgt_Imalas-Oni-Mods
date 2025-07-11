@@ -234,7 +234,11 @@ namespace BlueprintsV2.ModAPI
 		{
 			foreach (var dataEntry in GetAdditionalBuildingData(gameObject))
 			{
-				buildingConfig.AddBuildingData(dataEntry.Key, dataEntry.Value);
+				buildingConfig.SetBuildingData(dataEntry.Key, dataEntry.Value);
+			}
+			if(gameObject.TryGetComponent<UnderConstructionDataTransfer>(out var dataCarrier))
+			{
+				dataCarrier.TransferStoredDataToBlueprintEntry(buildingConfig);
 			}
 		}
 
