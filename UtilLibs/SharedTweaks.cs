@@ -1,7 +1,9 @@
 ﻿using HarmonyLib;
 using PeterHan.PLib.Core;
 using PeterHan.PLib.UI;
+using ProcGen;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
@@ -23,6 +25,7 @@ namespace UtilLibs
 		/// </summary>
 		public static class ResearchNotificationMessageFix
 		{
+
 			static readonly string RegistryKey = "RegistryKey_ResearchNotificationMessageFix";
 			public static void ExecutePatch(Harmony harmony)
 			{
@@ -103,7 +106,10 @@ namespace UtilLibs
 					CollectedIcons[__instance] = new(8);
 				CollectedIcons[__instance].Add(__result);
 			}
-			public static void TurnOffPostfix(ResearchEntry __instance) => CollapseExcessEntries(__instance, true);
+			public static void TurnOffPostfix(ResearchEntry __instance)
+			{
+				CollapseExcessEntries(__instance, true);
+			}
 			public static void TurnOnPrefix(ResearchEntry __instance, bool entered, Tech hoverSource)
 			{
 				if (!entered) return;
@@ -113,7 +119,47 @@ namespace UtilLibs
 
 				CollapseExcessEntries(__instance, false);
 			}
-			static void CollapseExcessEntries(ResearchEntry entry, bool setCollapsed)
+			static void HandleFastTrack(ResearchEntry entry, bool enableOldLayout)
+			{
+
+				if (entry.TryGetComponent<LayoutElement>(out var frozenLayout)
+					&& entry.TryGetComponent<LayoutGroup>(out var realLayout)
+					&& entry.transform.parent.TryGetComponent<KChildFitter>(out var cf))
+				{
+					if(frozenLayout.enabled == realLayout.enabled)
+					{
+						return;
+					}
+
+					if (enableOldLayout)
+					{
+						SetFreezeState(frozenLayout, realLayout, false);
+						cf.FitSize();
+					}
+					else
+					{
+						SetFreezeState(frozenLayout, realLayout, true);
+						cf.FitSize();
+					}
+				}
+			}
+			static void SetFreezeState(LayoutElement frozenLayout, LayoutGroup realLayout, bool freeze)
+			{
+				///forced rebuild is required or the entry distorts
+				LayoutRebuilder.ForceRebuildLayoutImmediate(realLayout.rectTransform());
+				if (freeze)
+				{
+					realLayout.enabled = false;
+					frozenLayout.enabled = true;
+				}
+				else
+				{
+					frozenLayout.enabled = false;
+					realLayout.enabled = true;
+				}
+			}
+
+			static void CollapseExcessEntries(ResearchEntry entry, bool collapseEntries)
 			{
 				///do not adress techs with 8 or less items
 				if (entry.targetTech?.unlockedItems.Count() <= 8)
@@ -122,16 +168,17 @@ namespace UtilLibs
 				if (!CollapsedIndicators.TryGetValue(entry, out var collapsedIcon))
 					collapsedIcon = CreateCollapseIcon(entry);
 
-				collapsedIcon.SetActive(setCollapsed);
-
 				if (!CollectedIcons.TryGetValue(entry, out var icons))
 					return;
 
+
+				collapsedIcon.SetActive(collapseEntries);
+
 				for (int i = icons.Count - 1; i >= 7; i--)
 				{
-					icons[i].SetActive(!setCollapsed);
+					icons[i].SetActive(!collapseEntries);
 				}
-
+				HandleFastTrack(entry, !collapseEntries);
 			}
 
 			/// <summary>
@@ -162,11 +209,14 @@ namespace UtilLibs
 				infoText.enableAutoSizing = false;
 				infoText.fontSize = 32;
 				infoText.alignment = TextAlignmentOptions.Center;
+				infoText.enableWordWrapping = false;
+				infoText.overflowMode = TextOverflowModes.Overflow;
 
 				CollapsedIndicators[entry] = freeIcon;
 				return freeIcon;
 
 			}
+
 		}
 		/// <summary>
 		/// Improve elementconverter description strings
