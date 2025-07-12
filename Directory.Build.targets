@@ -2,7 +2,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<!--Write mod.yaml file-->
-	<Target Name="GenerateModYaml" BeforeTargets="Build" Condition="'$(DoNotBuildAsMod)' != 'true'">
+	<Target Name="GenerateModYaml" BeforeTargets="PrepareForRun" Condition="'$(DoNotBuildAsMod)' != 'true'">
 		<ItemGroup>
 			<ModLines Include="title: '$(ModName)'"/>
 			<ModLines Include="description: '$(ModDescription)'"/>
@@ -10,9 +10,12 @@
 			<!--<ModLines Include="steamID: $(SteamId)" Condition="'$(SteamId)' != ''"/>--> <!--Causes recoverable parse errors :/-->
 		</ItemGroup>
 		<WriteLinesToFile File="$(TargetDir)/mod.yaml" Overwrite="true" Lines="@(ModLines)"/>
+    <ItemGroup>
+      <FileWrites Include="$(TargetDir)/mod.yaml" Condition="Exists('$(TargetDir)/mod.yaml')"/>
+    </ItemGroup>
 	</Target>
 	<!--Write mod_info.yaml file-->
-	<Target Name="GenerateModInfoYaml" BeforeTargets="Build" Condition="'$(DoNotBuildAsMod)' != 'true'">
+	<Target Name="GenerateModInfoYaml" BeforeTargets="PrepareForRun" Condition="'$(DoNotBuildAsMod)' != 'true'">
 		<ItemGroup>
 			<ModInfoLines Include="minimumSupportedBuild: $(TargetGameVersion)"/>
 			<ModInfoLines Include="version: $(Version)"/>
@@ -23,9 +26,12 @@
 			<ModInfoLines Include="$([System.String]::Copy('$(ForbiddenDlcIds)').Insert(0,' - ').Replace(',','%0a- '))" Condition="'$(ForbiddenDlcIds)' != ''"/>
 		</ItemGroup>
 		<WriteLinesToFile File="$(TargetDir)/mod_info.yaml" Overwrite="true" Lines="@(ModInfoLines)"/>
+    <ItemGroup>
+      <FileWrites Include="$(TargetDir)/mod_info.yaml" Condition="Exists('$(TargetDir)/mod_info.yaml')"/>
+    </ItemGroup>
 	</Target>
 	<!--Write LauncherMetadata.json file for Romen ModLauncher and SgtsModUpdater-->
-	<Target Name="GenerateLauncherMetadata" BeforeTargets="Build" Condition="'$(DoNotBuildAsMod)' != 'true'">
+	<Target Name="GenerateLauncherMetadata" BeforeTargets="PrepareForRun" Condition="'$(DoNotBuildAsMod)' != 'true'">
 		<ItemGroup>
 			<LauncherMetadataLines Include='{'/>
 			<LauncherMetadataLines Include='"UpdateIndexName":"Mods by Sgt_Imalas",'/>
@@ -36,6 +42,9 @@
 			<LauncherMetadataLines Include='}'/>
 		</ItemGroup>
 		<WriteLinesToFile File="$(TargetDir)/LauncherMetadata.json" Overwrite="true" Lines="@(LauncherMetadataLines)"/>
+    <ItemGroup>
+      <FileWrites Include="$(TargetDir)/LauncherMetadata.json" Condition="Exists('$(TargetDir)/LauncherMetadata.json')"/>
+    </ItemGroup>
 	</Target>
 
 	<!--Merges all dlls in the output folder into a single dll-->
