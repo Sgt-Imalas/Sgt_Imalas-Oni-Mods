@@ -34,16 +34,16 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 			buildingDef.SceneLayer = Grid.SceneLayer.Backwall;
 			buildingDef.PermittedRotations = PermittedRotations.R360;
 			buildingDef.ReplacementLayer = ObjectLayer.ReplacementBackwall;
-			//buildingDef.ReplacementCandidateLayers = new List<ObjectLayer>()
-			//{
-			//	ObjectLayer.FoundationTile,
-			//	ObjectLayer.Backwall
-			//};
-			//buildingDef.ReplacementTags = new List<Tag>()
-			//{
-			//	GameTags.FloorTiles,
-			//	GameTags.Backwall
-			//};
+			buildingDef.ReplacementCandidateLayers = new List<ObjectLayer>()
+			{
+				ObjectLayer.FoundationTile,
+				ObjectLayer.Backwall
+			};
+			buildingDef.ReplacementTags = new List<Tag>()
+			{
+				GameTags.FloorTiles,
+				GameTags.Backwall
+			};
 			return buildingDef;
 		}
 

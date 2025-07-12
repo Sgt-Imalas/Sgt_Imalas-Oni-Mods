@@ -30,8 +30,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 			obj.SceneLayer = Grid.SceneLayer.Backwall;
 			obj.PermittedRotations = PermittedRotations.R360;
 			obj.ReplacementLayer = ObjectLayer.ReplacementBackwall;
-			//obj.ReplacementCandidateLayers = [ObjectLayer.FoundationTile,ObjectLayer.Backwall];
-			//obj.ReplacementTags = [GameTags.FloorTiles,GameTags.Backwall];
+			obj.ReplacementCandidateLayers = [ObjectLayer.FoundationTile,ObjectLayer.Backwall];
+			obj.ReplacementTags = [GameTags.FloorTiles,GameTags.Backwall];
 			obj.AddSearchTerms(SEARCH_TERMS.TILE);
 			return obj;
 		}
