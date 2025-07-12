@@ -60,6 +60,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		//====[ CHEMICAL: SELECTIVE ARC-FURNACE RECIPES ]========================================================================
 		private void ConfigureRecipes()
 		{
+			int index = 0;
+
 			//---- [ Brass ] ----------------------------------------------------------------------------------------------------
 			// Ingredient: Copper    - 70kg
 			//             Zinc      - 30kg
@@ -71,6 +73,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Output(ModElements.Brass_Solid, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
 				.Description(ARCFURNACE_SMELT_2_1,2,1)
+				.SortOrder(index++)
 				.Build();
 
 			//---- [ Phosphor Bronze ] --------------------------------------------------------------------------------------------
@@ -86,6 +89,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Output(ModElements.PhosphorBronze, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
 				.Description(ARCFURNACE_SMELT_3_1, 3, 1)
+				.SortOrder(index++)
 				.Build();
 
 			//---- [ Steel #1 ] -----------------------------------------------------------------------------------------------------
@@ -101,6 +105,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Output(SimHashes.Steel, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
 				.Description(ARCFURNACE_STEEL_1, 3, 1)
+				.SortOrder(index++)
 				.Build();
 
 			//---- [ Steel #2 ] --------------------------------------------------------------------------------------------------------
@@ -118,6 +123,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Output(SimHashes.Steel, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
 				.Description(ARCFURNACE_STEEL_2, 4, 1)
+				.SortOrder(index++)
 				.Build();
 
 			//---- [ Low-Grade Metallic Sand ] --------------------------------------------------------------------------------------------
@@ -132,6 +138,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Output(ModElements.Slag_Solid, 20, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.DescriptionFunc(RandomRecipeProducts.GetArcFurnaceRandomResultString)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
+				.SortOrder(index++)
 				.Build();
 
 			//---- [ Base-Grade Metallic Sand ] ---------------------------------------------------------------------------------------------
@@ -146,6 +153,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Output(ModElements.Slag_Solid, 20, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.DescriptionFunc(RandomRecipeProducts.GetArcFurnaceRandomResultString)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
+				.SortOrder(index++)
 				.Build();
 
 			//---- [ High-Grade Metallic Sand ] -------------------------------------------------------------------------------
@@ -163,6 +171,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Output(ModElements.Slag_Solid, 30, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.DescriptionFunc(RandomRecipeProducts.GetArcFurnaceRandomResultString)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
+				.SortOrder(index++)
 				.Build();
 
 
@@ -176,6 +185,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Output(SimHashes.Niobium,100)
 				.Description1I1O(ARCFURNACE_NIOBIUM)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+				.SortOrder(index++)
 				.Build();
 		}
 
