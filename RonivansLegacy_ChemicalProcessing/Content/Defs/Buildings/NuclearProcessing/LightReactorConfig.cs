@@ -104,6 +104,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProces
 			def.solidOffsets = new CellOffset[2];
 			for (int x = 0; x < 2; ++x)
 				def.solidOffsets[x] = new CellOffset(x, 0);
+			go.AddOrGet<ColliderOffsetHandler>().ColliderOffsetY = -3;
 		}
 	}
 }

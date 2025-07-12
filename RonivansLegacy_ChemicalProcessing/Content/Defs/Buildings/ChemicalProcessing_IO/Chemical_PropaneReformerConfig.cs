@@ -66,6 +66,12 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.UtilityInputOffset = new CellOffset(2, -2);
 			buildingDef.OutputConduitType = ConduitType.Gas;
 			buildingDef.UtilityOutputOffset = new CellOffset(-1, 1);
+
+
+			for (int i = 0; i < buildingDef.PlacementOffsets.Length; i++)
+			{
+				buildingDef.PlacementOffsets[i] = new CellOffset(buildingDef.PlacementOffsets[i].x, buildingDef.PlacementOffsets[i].y - 2);
+			}
 			return buildingDef;
 		}
 
@@ -150,6 +156,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			{
 				def.solidOffsets[i] = new CellOffset(i - 1, 0);
 			}
+			go.AddOrGet<ColliderOffsetHandler>().ColliderOffsetY = -2;
 		}
 
 		public override void DoPostConfigurePreview(BuildingDef def, GameObject go)

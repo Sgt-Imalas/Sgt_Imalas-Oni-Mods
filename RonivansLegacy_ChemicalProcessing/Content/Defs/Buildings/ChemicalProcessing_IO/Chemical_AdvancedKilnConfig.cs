@@ -70,13 +70,13 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 		//===[ CHEMICAL: ADVANCED KILN RECIPES ]=========================================================================
 		private void ConfigureRecipes()
-		{
+		{			
 			//---- [ Refined Coal ] -------------------------------------------------------------------------------------
 			// Ingredient: Coal - 500kg        
 			// Result: Refined Coal - 500kg
 			//-----------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, 30)
-				.Input(SimHashes.Carbon, 500)
+				.Input([SimHashes.Carbon,SimHashes.WoodLog,SimHashes.Peat], 500)
 				.Output(SimHashes.RefinedCarbon, 500, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description1I1O(HEAT_REFINE)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
