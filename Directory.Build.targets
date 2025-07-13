@@ -48,12 +48,10 @@
 		</ItemGroup>
 
 		<ILRepack
-		  TargetPlatformVersion="v4"
 		  TargetKind="SameAsPrimaryAssembly"
 		  InputAssemblies="@(InputAssemblies)"
 		  Wildcards="true"
 		  LibraryPath="$(GameLibsFolder)"
-		  Parallel="true"
 		  OutputFile="$(TargetPath)"/>
 	</Target>
 
