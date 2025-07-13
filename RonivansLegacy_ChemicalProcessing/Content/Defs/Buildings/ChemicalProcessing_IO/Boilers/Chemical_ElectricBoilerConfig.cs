@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 using UtilLibs.BuildingPortUtils;
 
 namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
@@ -45,7 +46,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 2, 3, "electric_boiler_kanim", 100, 30f, singleArray1, textArray1, 800f, BuildLocationRule.OnFloor, TUNING.BUILDINGS.DECOR.PENALTY.TIER1, noise, 0.2f);
 			buildingDef.Overheatable = false;
 			buildingDef.RequiresPowerInput = true;
-			buildingDef.EnergyConsumptionWhenActive = 820f;
+			buildingDef.EnergyConsumptionWhenActive = 850f;
 			buildingDef.ExhaustKilowattsWhenActive = 0.12f;
 			buildingDef.SelfHeatKilowattsWhenActive = 0.8f;
 			buildingDef.PowerInputOffset = new CellOffset(0, 0);
@@ -54,7 +55,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.InputConduitType = ConduitType.Liquid;
 			buildingDef.UtilityInputOffset = new CellOffset(1, 2);
 			buildingDef.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(0, 0));
-			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.LiquidVentIDs, "WaterPurifier");
+			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.LiquidVentIDs, ID);
 			return buildingDef;
 		}
 
@@ -67,7 +68,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			storage.showCapacityStatusItem = true;
 			storage.showCapacityAsMainStatus = true;
 			storage.showDescriptor = true;
-			go.AddOrGet<Reservoir>();
 			go.AddOrGet<SmartReservoir>();
 			go.AddOrGet<WaterPurifier>();
 			Prioritizable.AddRef(go);
@@ -81,7 +81,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			ElementConverter converter = go.AddOrGet<ElementConverter>();
 			converter.consumedElements = [new ElementConverter.ConsumedElement(SimHashes.Water.CreateTag(), 1f)];
-			converter.outputElements = [new ElementConverter.OutputElement(1f, SimHashes.Steam, 379.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0)];
+			converter.outputElements = [new ElementConverter.OutputElement(1f, SimHashes.Steam, UtilMethods.GetKelvinFromC(106), false, true, 0f, 0.5f, 0.75f, 0xff, 0)];
 
 			PipedConduitDispenser dispenser = go.AddComponent<PipedConduitDispenser>();
 			dispenser.storage = storage;

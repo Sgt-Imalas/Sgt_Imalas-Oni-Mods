@@ -28,6 +28,11 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 						__result.first = Assets.GetSprite("ui_combustible_liquids");
 						__result.second = Color.white;
 					}
+					else if (t == GameTags.CombustibleSolid)
+					{
+						__result.first = Assets.GetSprite("ui_combustible_solids");
+						__result.second = Color.white;
+					}
 				}
 			}
 		}

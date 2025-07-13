@@ -43,12 +43,17 @@ namespace RonivansLegacy_ChemicalProcessing
 
 		[Option("Custom Reservoirs: Enabled")]
 		public bool CustomReservoirs { get; set; } = true;
+		[Option("Dupes Logistics: Enabled")]
+		public bool DupesLogistics { get; set; } = true;
 
-		
 
 
-		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.GEYSERS.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.GEYSERS.TOOLTIP", "STRINGS.RONIVANL_AIO_MODCONFIG.A_CATEGORY_GENERIC")]
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.GEYSERS.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.GEYSERS.TOOLTIP")]
 		public bool ModGeysersGeneric { get; set; } = true;
+
+
+
 		//[Option("STRINGS.RONIVAN_AIO_MODCONFIG.RONIVANDUPE.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.RONIVANDUPE.TOOLTIP", "STRINGS.RONIVANL_AIO_MODCONFIG.A_CATEGORY_GENERIC")]
 		//public bool RonivanDuplicant { get; set; } = true;
 

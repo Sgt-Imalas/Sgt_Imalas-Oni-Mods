@@ -15,6 +15,8 @@ using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SPACERW
 using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.FACADES_STANDALONE;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineering.Walls;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservoirs;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistics;
+using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STORAGEPOD.FACADES;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
@@ -74,6 +76,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			SkinCollection.Create(SmallLiquidReservoirDefaultConfig.ID, SubCategoryID)
 				.Skin(SmallLiquidReservoirDefaultConfig.NORMAL, SMALLLIQUIDRESERVOIR.NAME, SMALLLIQUIDRESERVOIR.DESC, SmallLiquidReservoirDefaultConfig.KANIMNORMAL)
 				.Skin(SmallLiquidReservoirDefaultConfig.INVERTED, INVERTEDSMALLLIQUIDRESERVOIR.NAME, INVERTEDSMALLLIQUIDRESERVOIR.DESC, SmallLiquidReservoirDefaultConfig.KANIMINVERTED);
+
+
+			SkinCollection.Create(StoragePodConfig.ID, SubCategoryID)
+				.Skin("StoragePod_A", STORAGEPOD_A.NAME, STORAGEPOD_A.DESC, "storage_pod_a_kanim")
+				.Skin("StoragePod_B", STORAGEPOD_B.NAME, STORAGEPOD_B.DESC, "storage_pod_b_kanim")
+				.Skin("StoragePod_C", STORAGEPOD_C.NAME, STORAGEPOD_C.DESC, "storage_pod_c_kanim");
 
 			SkinCollection.RegisterAllSkins();
 		}

@@ -222,14 +222,17 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			}
 			///Radium
 			Substance radium_substance = ElementLoader.FindElementByHash(SimHashes.Radium).substance;
-			KAnimFile radium_anim = Assets.GetAnim("solid_radium_kanim");
-			if (regolith_anim != null)
+			if (radium_substance != null)
 			{
-				radium_substance.anim = radium_anim;
-			}
-			else
-			{
-				Debug.LogError("KAnimFile not found");
+				KAnimFile radium_anim = Assets.GetAnim("solid_radium_kanim");
+				if (regolith_anim != null)
+				{
+					radium_substance.anim = radium_anim;
+				}
+				else
+				{
+					Debug.LogError("KAnimFile not found");
+				}
 			}
 
 			///Yellowcake
@@ -239,15 +242,18 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				name = "matYellowcake",
 				mainTexture = Assets.GetAnim("new_yellowcake_kanim").textureList[0]
 			};
-			yellowcake_substance.material = material_yellowcake;
-			KAnimFile yellowcake_anim = Assets.GetAnim("solid_yellowcake_kanim");
-			if (yellowcake_anim != null)
+			if (yellowcake_substance != null)
 			{
-				yellowcake_substance.anim = yellowcake_anim;
-			}
-			else
-			{
-				Debug.LogError("KAnimFile not found");
+				yellowcake_substance.material = material_yellowcake;
+				KAnimFile yellowcake_anim = Assets.GetAnim("solid_yellowcake_kanim");
+				if (yellowcake_anim != null)
+				{
+					yellowcake_substance.anim = yellowcake_anim;
+				}
+				else
+				{
+					Debug.LogError("KAnimFile not found");
+				}
 			}
 
 			///Cement
@@ -273,8 +279,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			{
 				name = "matBrick",
 				mainTexture = Assets.GetAnim("new_brick_kanim").textureList[0]
-			}; 
-			brick_substance.material = material_brick;
+			};
+			if (brick_substance != null)
+				brick_substance.material = material_brick;
 
 			KAnimFile brick_anim = Assets.GetAnim("solid_brick_kanim");
 			if (brick_anim != null)
@@ -366,6 +373,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			brick.highTemp = 2000;
 			brick.oreTags = brick.oreTags.Concat([GameTags.Crushable, GameTags.Insulator, GameTags.BuildableRaw]);
 
+
+			// adding combustible solid tag to coal and peat
+			var coal = ElementLoader.FindElementByHash(SimHashes.Carbon);
+			coal.oreTags = coal.oreTags.Append(GameTags.CombustibleSolid);
+			var peat = ElementLoader.FindElementByHash(SimHashes.Peat);
+			peat.oreTags = peat.oreTags.Append(GameTags.CombustibleSolid);
 		}
 
 		internal static void ConfigureElements()

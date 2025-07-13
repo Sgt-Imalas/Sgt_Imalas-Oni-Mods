@@ -28,7 +28,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			def1.OutputConduitType = ConduitType.Gas;
 			def1.UtilityOutputOffset = new CellOffset(0, 0);
 			def1.PowerInputOffset = new CellOffset(0, 0);
-			def1.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(0, 01));
+			def1.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(0, 0));
 			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.GasVentIDs, ID);
 			return def1;
 		}

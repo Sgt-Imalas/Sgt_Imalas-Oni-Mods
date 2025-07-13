@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TUNING;
 using UnityEngine;
 using UtilLibs;
 
@@ -44,6 +45,10 @@ namespace RonivansLegacy_ChemicalProcessing
 			var TMPConverter = new TMPConverter();
 			TMPConverter.ReplaceAllText(BuildingEditorWindowPrefab);
 
+		}
+		public static List<Tag> GetNonLiquifiableSolids()
+		{
+			return STORAGEFILTERS.NOT_EDIBLE_SOLIDS.Where(item => item != GameTags.Liquifiable).ToList();
 		}
 	}
 }

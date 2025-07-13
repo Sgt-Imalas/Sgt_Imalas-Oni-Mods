@@ -532,7 +532,7 @@ elements:
     lightAbsorptionFactor: 1
     radiationAbsorptionFactor: 0.7
     radiationPer1000Mass: 0
-    materialCategory: Other
+    materialCategory: ConsumableOre
     buildMenuSort: 1
     isDisabled: false
     state: Solid
@@ -923,9 +923,9 @@ elements:
     gasSurfaceAreaMultiplier: 1
     strength: 1
     highTemp: 1683
-    highTempTransitionTarget: Chlorine
-    highTempTransitionOreId: Magma
-    highTempTransitionOreMassConversion: 0.9
+    highTempTransitionTarget: Magma 
+    highTempTransitionOreId: Chlorine
+    highTempTransitionOreMassConversion: 0.1
     defaultTemperature: 296
     defaultMass: 1840
     maxMass: 1840

@@ -8,10 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 using UtilLibs.BuildingPortUtils;
 
 namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 {
+	/// <summary>
+	/// all combustion boilers now produce 1350W in steam power, while burning the equivalent of 900W of their respective generators in fuel
+	/// The efficiency is a bonus from "higher efficiency" that is granted due to the higher level infrastructure required to maintain such a generator
+	/// </summary>
+
+
+
 	//===[ CHEMICAL: COAL BOILER CONFIG ]=====================================================================
 	[SerializationConfig(MemberSerialization.OptIn)]
 	public class Chemical_Coal_BoilerConfig : IBuildingConfig
@@ -62,11 +70,10 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery, false);
 			Storage storage = BuildingTemplates.CreateDefaultStorage(go, false);
 			storage.SetDefaultStoredItemModifiers(ChemCoalBoilerStorageModifiers);
-			storage.capacityKg = 1000f;
+			storage.capacityKg = 10000f;
 			storage.showCapacityStatusItem = true;
 			storage.showCapacityAsMainStatus = true;
 			storage.showDescriptor = true;
-			go.AddOrGet<Reservoir>();
 			go.AddOrGet<SmartReservoir>();
 			go.AddOrGet<WaterPurifier>();
 			Prioritizable.AddRef(go);
@@ -74,8 +81,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			ManualDeliveryKG coalDelivery = go.AddComponent<ManualDeliveryKG>();
 			coalDelivery.SetStorage(storage);
 			coalDelivery.RequestedItemTag = SimHashes.Carbon.CreateTag();
-			coalDelivery.capacity = 900f;
-			coalDelivery.refillMass = 300f;
+			coalDelivery.capacity = 1500f;
+			coalDelivery.refillMass = 600f;
 			coalDelivery.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
 
 			ConduitConsumer waterInput = go.AddOrGet<ConduitConsumer>();
@@ -89,17 +96,15 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//-----[ Element Converter Section ]---------------------------------
 			ElementConverter converter = go.AddOrGet<ElementConverter>();
 			converter.consumedElements = [
-				new ElementConverter.ConsumedElement(SimHashes.Carbon.CreateTag(), 0.85f),
-				new ElementConverter.ConsumedElement(SimHashes.Water.CreateTag(), 3f) ];
+				new (GameTags.CombustibleSolid, 1.5f),
+				new (SimHashes.Water.CreateTag(), 4f)];
 			converter.outputElements = [
-				new ElementConverter.OutputElement(3f, SimHashes.Steam, 474.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0) ];
+				new(4f, SimHashes.Steam, UtilMethods.GetKelvinFromC(200), false, true, 0f, 0.5f, 0.75f, 0xff, 0), 
+				new(0.2f ,SimHashes.CarbonDioxide,UtilMethods.GetKelvinFromC(110),false, false,-1,2)
+				];
 			//-------------------------------------------------------------------
 
-			BuildingElementEmitter co2emitter = go.AddOrGet<BuildingElementEmitter>();
-			co2emitter.emitRate = 0.0067f;
-			co2emitter.temperature = 383.15f;
-			co2emitter.element = SimHashes.CarbonDioxide;
-			co2emitter.modifierOffset = new Vector2(-1f, 2f);
+			go.AddOrGet<SolidDeliverySelection>().Options = [SimHashes.Carbon.CreateTag(),SimHashes.Peat.CreateTag()];
 
 			PipedConduitDispenser dispenser = go.AddComponent<PipedConduitDispenser>();
 			dispenser.storage = storage;

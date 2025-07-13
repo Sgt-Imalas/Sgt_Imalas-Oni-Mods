@@ -8,16 +8,16 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
     public enum SourceModInfo
     {
-        ChemicalProcessing_IO,
-		ChemicalProcessing_BioChemistry,
-		MineralProcessing_Metallurgy,
-        MineralProcessing_Mining,
-		NuclearProcessing,
-		DupesMachinery,
-        DupesEngineering,
+        ChemicalProcessing_IO, //done
+		ChemicalProcessing_BioChemistry, //done
+		MineralProcessing_Metallurgy, //done
+        MineralProcessing_Mining, //done
+		NuclearProcessing, //done
+		DupesMachinery, //done
+        DupesEngineering, //done
         DupesLogistics,
-        CustomReservoirs,
-        CustomRefrigeration,
+        CustomReservoirs, //done
+        DupesRefrigeration,
         CustomGenerators,        
 	}
 }

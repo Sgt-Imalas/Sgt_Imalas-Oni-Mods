@@ -15,6 +15,7 @@ using Mineral_Processing;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineering.Tiles;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineering.Walls;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservoirs;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistics;
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
 	class BuildingDatabase
@@ -77,6 +78,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				RegisterBuildings_DupesEngineering();
 			if (Config.Instance.CustomReservoirs)
 				RegisterBuildings_CustomReservoirs();
+			if (Config.Instance.DupesLogistics)
+				RegisterBuildings_DupesLogistics();
 		}
 		private static void RegisterBuildings_ChemicalProcessingIndustrialOverhaul()
 		{
@@ -105,7 +108,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingManager.CreateEntry<Chemical_CarbonDioxideCompressorConfig>()
 				.AddToCategory(PlanMenuCategory.Refinement, WaterPurifierConfig.ID)
 				.AddToTech(Technology.Gases.TemperatureModulation)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+				.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
+				.AddModFrom(SourceModInfo.DupesRefrigeration);
 			BuildingManager.CreateEntry<Chemical_Co2PumpConfig>()
 				.AddToCategory(PlanMenuCategory.Oxygen, CO2ScrubberConfig.ID)
 				.AddToTech(Technology.Food.Agriculture)
@@ -467,7 +471,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		}
 		private static void RegisterBuildings_CustomReservoirs()
 		{
-
 			BuildingManager.CreateEntry<SmallGasReservoirWallConfig>()
 				.AddToCategory(PlanMenuCategory.Base, GasReservoirConfig.ID)
 				.AddToTech(Technology.Gases.ImprovedVentilation)
@@ -499,161 +502,24 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToTech(Technology.Liquids.ImprovedPlumbing)
 				.AddModFrom(SourceModInfo.CustomReservoirs);
 		}
+		private static void RegisterBuildings_DupesLogistics()
+		{
 
+			BuildingManager.CreateEntry<CabinetFrozenConfig>()
+				.AddToCategory(PlanMenuCategory.Base, StorageLockerSmartConfig.ID)
+				.AddToTech(Technology.SolidMaterial.SmartStorage)
+				.AddModFrom(SourceModInfo.DupesLogistics);
 
-		#region oldBuildingRegistration
-		public static void AddBuildingsToPlanscreen()
-		{
-			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
-			{
-				AddBuildingsToPlanscreen_ChemicalProcessingIndustrialOverhaul();
-				RegisterOilWellCapCustomPiping();
-			}
-			if (Config.Instance.MineralProcessing_Metallurgy_Enabled)
-				AddBuildingsToPlanscreen_MineralProcessingMetallurgy();
-			if (Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
-				AddBuildingsToPlanscreen_ChemicalProcessingBioChemistry();
-			if (Config.Instance.MineralProcessing_Mining_Enabled)
-				AddBuildingsToPlanscreen_MineralProcessingMining();
-			if (Config.Instance.DupesMachinery_Enabled)
-				AddBuildingsToPlanscreen_DupesMachinery();
-		}
-		private static void AddBuildingsToPlanscreen_ChemicalProcessingIndustrialOverhaul()
-		{
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Chemical_AdvancedKilnConfig.ID, KilnConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Chemical_AdvancedMetalRefineryConfig.ID, MetalRefineryConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Chemical_BallCrusherMillConfig.ID, RockCrusherConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Oxygen, Chemical_Co2PumpConfig.ID, CO2ScrubberConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Chemical_Co2RecyclerConfig.ID, OxyliteRefineryConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Chemical_Coal_BoilerConfig.ID, OilRefineryConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Chemical_CrudeOilRefineryConfig.ID, OilRefineryConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Chemical_ElectricBoilerConfig.ID, Chemical_Coal_BoilerConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Utilities, Chemical_EndothermicUnitConfig.ID, LiquidConditionerConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Chemical_Gas_BoilerConfig.ID, Chemical_ElectricBoilerConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Chemical_GlassFoundryConfig.ID, GlassForgeConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Chemical_SmallCrusherMillConfig.ID, RockCrusherConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Chemical_NaphthaReformerConfig.ID, OilRefineryConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Chemical_PropaneReformerConfig.ID, Chemical_NaphthaReformerConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Chemical_RawGasRefineryConfig.ID, OilRefineryConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Chemical_RayonLoomConfig.ID, EthanolDistilleryConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Chemical_SelectiveArcFurnaceConfig.ID, SupermaterialRefineryConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Chemical_SoilMixerConfig.ID, CompostConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Chemical_SourWaterStripperConfig.ID, WaterPurifierConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Chemical_SyngasRefineryConfig.ID, OilRefineryConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Chemical_SynthesizerNitricConfig.ID, ChemicalRefineryConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Chemical_SynthesizerSaltWaterConfig.ID, DesalinatorConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Chemical_SynthesizerSulfuricConfig.ID, ChemicalRefineryConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Chemical_ThermalDesalinatorConfig.ID, DesalinatorConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Chemical_Wooden_BoilerConfig.ID, Chemical_Coal_BoilerConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Custom_PolymerizerConfig.ID, PolymerizerConfig.ID);
-		}
-		private static void AddBuildingsToPlanscreen_ChemicalProcessingBioChemistry()
-		{
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Oxygen, Biochemistry_AlgaeGrowingBasinConfig.ID, AlgaeHabitatConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Biochemistry_AnaerobicDigesterConfig.ID, FertilizerMakerConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Power, Biochemistry_BiodieselGeneratorConfig.ID, PetroleumGeneratorConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Biochemistry_BiodieselRefineryConfig.ID, OilRefineryConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Biochemistry_BioplasticPrinterConfig.ID, PolymerizerConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Biochemistry_ExpellerPressConfig.ID, Biochemistry_AnaerobicDigesterConfig.ID);
-		}
-		private static void AddBuildingsToPlanscreen_MineralProcessingMining()
-		{
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Mining_CNCMachineConfig.ID, SupermaterialRefineryConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Utilities, Mining_AugerDrillConfig.ID, OilWellCapConfig.ID);
-		}
+			BuildingManager.CreateEntry<CabinetNormalConfig>()
+				.AddToCategory(PlanMenuCategory.Base, StorageLockerSmartConfig.ID)
+				.AddToTech(Technology.SolidMaterial.BruteForceRefinement)
+				.AddModFrom(SourceModInfo.DupesLogistics);
 
-		private static void AddBuildingsToPlanscreen_MineralProcessingMetallurgy()
-		{
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Metallurgy_PlasmaFurnaceConfig.ID, GlassForgeConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Metallurgy_PyrolysisKilnConfig.ID, KilnConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Metallurgy_BasicOilRefineryConfig.ID, OilRefineryConfig.ID, ordering: ModUtil.BuildingOrdering.Before);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Metallurgy_BallCrusherMillConfig.ID, RockCrusherConfig.ID);
-		}
-		private static void AddBuildingsToPlanscreen_DupesMachinery()
-		{
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Machinery_FlocculationSieveConfig.ID, WaterPurifierConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Oxygen, Machinery_AlgaeVatConfig.ID, AlgaeHabitatConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Machinery_CoralVatConfig.ID, ChlorinatorConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Machinery_SlimeVatConfig.ID, AlgaeDistilleryConfig.ID);
-			InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanMenuCategory.Refinement, Machinery_EthanolStillConfig.ID, EthanolDistilleryConfig.ID);
-		}
-		public static void AddBuildingsToTech()
-		{
-			if (Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
-				AddBuildingsToTech_ChemicalProcessingBioChemistry();
-			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
-				AddBuildingsToTech_ChemicalProcessingIndustrialOverhaul();
-			if (Config.Instance.MineralProcessing_Mining_Enabled)
-				AddBuildingsToTech_MineralProcessingMining();
-			if (Config.Instance.MineralProcessing_Metallurgy_Enabled)
-				AddBuildingsToTech_MineralProcessingMetallurgy();
-			if (Config.Instance.DupesMachinery_Enabled)
-				AddBuildingsToTech_DupesMachinery();
-		}
-		private static void AddBuildingsToTech_ChemicalProcessingIndustrialOverhaul()
-		{
-			InjectionMethods.AddBuildingToTechnology(Technology.SolidMaterial.Smelting, Chemical_AdvancedKilnConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(Technology.SolidMaterial.SuperheatedForging, Chemical_AdvancedMetalRefineryConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(Technology.SolidMaterial.BruteForceRefinement, Chemical_SmallCrusherMillConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(Technology.SolidMaterial.SuperheatedForging, Chemical_BallCrusherMillConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(Technology.Food.Agriculture, Chemical_Co2PumpConfig.ID);
+			BuildingManager.CreateEntry<StoragePodConfig>()
+				.AddToCategory(PlanMenuCategory.Base, StorageTileConfig.ID)
+				.AddToTech(Technology.SolidMaterial.BruteForceRefinement)
+				.AddModFrom(SourceModInfo.DupesLogistics);
 
-			///consolidate the two buildings into one bc its only an element change in the converter
-			//if (DlcManager.IsExpansion1Active())
-			//	InjectionMethods.AddBuildingToTechnology(Technology.Gases.PortableGasses, Chemical_Co2RecyclerDLC1Config.ID);
-			//else
-			InjectionMethods.AddBuildingToTechnology(Technology.Gases.PortableGasses, Chemical_Co2RecyclerConfig.ID);
-
-			InjectionMethods.AddBuildingToTechnology(Technology.Power.FossilFuels, Chemical_Coal_BoilerConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(Technology.Power.FossilFuels, Chemical_CrudeOilRefineryConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(Technology.Power.FossilFuels, Chemical_ElectricBoilerConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(Technology.Liquids.LiquidTuning, Chemical_EndothermicUnitConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(Technology.Power.FossilFuels, Chemical_Gas_BoilerConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(Technology.SolidMaterial.SuperheatedForging, Chemical_GlassFoundryConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(Technology.Power.FossilFuels, Chemical_NaphthaReformerConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(Technology.Power.FossilFuels, Chemical_PropaneReformerConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(Technology.Power.FossilFuels, Chemical_RawGasRefineryConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(Technology.Decor.TextileProduction, Chemical_RayonLoomConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(Technology.SolidMaterial.Smelting, Chemical_SelectiveArcFurnaceConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(Technology.Food.Agriculture, Chemical_SoilMixerConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(Technology.Liquids.LiquidBasedRefinementProcess, Chemical_SourWaterStripperConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(Technology.Liquids.Distillation, Chemical_SyngasRefineryConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(Technology.Liquids.Emulsification, Chemical_SynthesizerNitricConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(Technology.Liquids.Distillation, Chemical_SynthesizerSaltWaterConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(Technology.Liquids.Emulsification, Chemical_SynthesizerSulfuricConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(Technology.Liquids.LiquidBasedRefinementProcess, Chemical_ThermalDesalinatorConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(Technology.Power.FossilFuels, Chemical_Wooden_BoilerConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(Technology.Power.PlasticManufacturing, Custom_PolymerizerConfig.ID);
 		}
-		private static void AddBuildingsToTech_MineralProcessingMetallurgy()
-		{
-			InjectionMethods.AddBuildingToTechnology(Technology.Gases.Catalytics, Metallurgy_PlasmaFurnaceConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(Technology.SolidMaterial.BruteForceRefinement, Metallurgy_PyrolysisKilnConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(Technology.Power.FossilFuels, Metallurgy_BasicOilRefineryConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(Technology.SolidMaterial.SuperheatedForging, Metallurgy_BallCrusherMillConfig.ID);
-		}
-		private static void AddBuildingsToTech_ChemicalProcessingBioChemistry()
-		{
-			InjectionMethods.AddBuildingToTechnology(Technology.Food.Agriculture, Biochemistry_AlgaeGrowingBasinConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(Technology.Food.FoodRepurposing, Biochemistry_AnaerobicDigesterConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(Technology.Power.FossilFuels, Biochemistry_BiodieselGeneratorConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(Technology.Power.FossilFuels, Biochemistry_BiodieselRefineryConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(Technology.Power.PlasticManufacturing, Biochemistry_BioplasticPrinterConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(Technology.SolidMaterial.BruteForceRefinement, Biochemistry_ExpellerPressConfig.ID);
-		}
-		private static void AddBuildingsToTech_MineralProcessingMining()
-		{
-			InjectionMethods.AddBuildingToTechnology(Technology.SolidMaterial.SolidManagement, Mining_CNCMachineConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(Technology.SolidMaterial.SolidManagement, Mining_AugerDrillConfig.ID);
-		}
-		private static void AddBuildingsToTech_DupesMachinery()
-		{
-			InjectionMethods.AddBuildingToTechnology(Technology.Liquids.LiquidBasedRefinementProcess, Machinery_FlocculationSieveConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(Technology.Liquids.AirSystems, Machinery_AlgaeVatConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(Technology.Liquids.LiquidBasedRefinementProcess, Machinery_CoralVatConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(Technology.Liquids.LiquidBasedRefinementProcess, Machinery_SlimeVatConfig.ID);
-			InjectionMethods.AddBuildingToTechnology(Technology.Liquids.Distillation, EthanolDistilleryConfig.ID);
-		}
-		#endregion
 	}
 }

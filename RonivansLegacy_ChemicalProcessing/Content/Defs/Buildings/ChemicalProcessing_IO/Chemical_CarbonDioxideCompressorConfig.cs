@@ -17,7 +17,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		{
 			Storage.StoredItemModifier.Hide,
 			Storage.StoredItemModifier.Seal,
-			Storage.StoredItemModifier.Insulate,
 			Storage.StoredItemModifier.Preserve
 		};
 
@@ -55,7 +54,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			defaultStorage.showCapacityStatusItem = true;
 			defaultStorage.showCapacityAsMainStatus = true;
 			defaultStorage.showDescriptor = true;
-			go.AddOrGet<Reservoir>();
 			go.AddOrGet<SmartReservoir>();
 			go.AddOrGet<WaterPurifier>();
 			Prioritizable.AddRef(go);
@@ -74,7 +72,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			conduitConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 			ElementConverter elementConverter = go.AddOrGet<ElementConverter>();
 			elementConverter.consumedElements = [new(SimHashes.CarbonDioxide.CreateTag(), 0.5f)];
-			elementConverter.outputElements = [new (0.5f, SimHashes.LiquidCarbonDioxide, 217.15f, storeOutput: true, diseaseWeight: 0.75f)];
+			elementConverter.outputElements = [new (0.5f, SimHashes.LiquidCarbonDioxide, 217.15f, storeOutput: true)];
 			ConduitDispenser conduitDispenser = go.AddOrGet<ConduitDispenser>();
 			conduitDispenser.conduitType = ConduitType.Liquid;
 			conduitDispenser.storage = defaultStorage;

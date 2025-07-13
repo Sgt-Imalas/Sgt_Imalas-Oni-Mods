@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs.BuildingPortUtils;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FACILITYDOOR.FACADES;
+using static RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS;
 using static STRINGS.BUILDINGS.PREFABS;
 using static STRINGS.UI;
 
@@ -28,7 +29,7 @@ namespace RonivansLegacy_ChemicalProcessing
 			public static LocString DUPESENGINEERING = "Dupes Engineering";
 			public static LocString DUPESLOGISTICS = "Dupes Logistics";
 			public static LocString CUSTOMRESERVOIRS = "Custom Reservoirs";
-			public static LocString CUSTOMREFRIGERATION = "Custom Refrigeration";
+			public static LocString DUPESREFRIGERATION = "Dupes Refrigeration";
 			public static LocString CUSTOMGENERATORS = "Custom Generators";
 		}
 
@@ -153,7 +154,7 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString EFFECT = string.Concat(
 						[
 							"Transesterify ",
-							FormatAsLink("Biodiesel", "LIQUIDBIODIESEL"),
+							FormatAsLink("Renewable Diesel", "LIQUIDBIODIESEL"),
 							" from ",
 							FormatAsLink("Organic Oils", "CHEMICALPROCESSING_BIOOIL_COMPOSITION"),
 							" and ",
@@ -304,9 +305,9 @@ namespace RonivansLegacy_ChemicalProcessing
 				}
 				public class CHEMICAL_COAL_BOILER
 				{
-					public static LocString NAME = FormatAsLink("Coal-fueled Steam Boiler", nameof(CHEMICAL_COAL_BOILER));
-					public static LocString DESC = "An industrial grade boiler that generates thermal energy by burning Coal.";
-					public static LocString EFFECT = string.Concat("Boils ", FormatAsLink("Water", "WATER"), " to ", FormatAsLink("Steam", "STEAM"), " at 200 °C.\nThis particular boiler uses ", FormatAsLink("Coal", "CARBON"), " as fuel.");
+					public static LocString NAME = FormatAsLink("Carbon fueled Steam Boiler", nameof(CHEMICAL_COAL_BOILER));
+					public static LocString DESC = "An industrial grade boiler that generates thermal energy by burning solid fossil fuels.";
+					public static LocString EFFECT = string.Concat("Boils ", FormatAsLink("Water", "WATER"), " to ", FormatAsLink("Steam", "STEAM"), " at 200 °C.\nThis particular boiler uses ", FormatAsLink("Combustustable Solids", "COMBUSTIBLESOLID"), " as fuel.");
 				}
 				public class CHEMICAL_CRUDEOILREFINERY
 				{
@@ -357,7 +358,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = FormatAsLink("Gas-fueled Steam Boiler", nameof(CHEMICAL_GAS_BOILER));
 					public static LocString DESC = "An industrial grade boiler that generates thermal energy by burning Combustible Gases.";
-					public static LocString EFFECT = string.Concat(["Boils ", FormatAsLink("Water", "WATER"), " to ", FormatAsLink("Steam", "STEAM"), " at 200 °C. This particular boiler uses ", FormatAsLink("Natural Gas", "METHANE"), " as fuel, but may as well work with other combustible gases."]);
+					public static LocString EFFECT = string.Concat(["Boils ", FormatAsLink("Water", "WATER"), " to ", FormatAsLink("Steam", "STEAM"), " at 200 °C. This particular boiler uses ", FormatAsLink("Combustible Gases", "COMBUSTIBLEGAS"), " as fuel, but may as well work with other combustible gases."]);
 				}
 				public class CHEMICAL_GLASSFOUNDRY
 				{
@@ -1071,6 +1072,51 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString EFFECT = "Stores any " + FormatAsLink("Liquid", "ELEMENTS_LIQUID") + " resources piped into it.";
 				}
 				#endregion
+
+				#region DupesLogistics
+				public class CABINETFROZEN
+				{
+					public static LocString NAME = FormatAsLink("Refrigerated Storage Cabinet", nameof(CABINETFROZEN));
+					public static LocString DESC = "Store solids and other industrial materials at a constant temperature moderation.";
+					public static LocString EFFECT = "Store the " +
+						 FormatAsLink("Solid Materials", "ELEMENTS_SOLID") +
+						 " of your choosing.\n\nConsumes " +
+						 FormatAsLink("Power", "POWER") +
+						 " to refrigrate the contents down to 24°C.\n\nCannot store" +
+						 " any liquefiable solids.";
+				}
+				public class CABINETNORMAL
+				{
+					public static LocString NAME = FormatAsLink("Insulated Storage Cabinet", nameof(CABINETNORMAL));
+					public static LocString DESC = "Store solids and other industrial materials at a constant temperature moderation.";
+					public static LocString EFFECT = "Store the "+FormatAsLink("Solid Materials", "ELEMENTS_SOLID")+" of your choosing. The cabinet prevents temperature exchange with the environment, as well gas leakage.";
+				}
+				public class STORAGEPOD
+				{
+					public static LocString NAME = FormatAsLink("Storage Pod", nameof(STORAGEPOD));
+					public static LocString DESC = "Store solids and other industrial materials.";
+					public static LocString EFFECT = "A versatile and convenient storage pod that can be built on walls. Store the " + FormatAsLink("Solid Materials", "ELEMENTS_SOLID") + " of your choosing.\nThe pod prevents temperature exchange with the environment, as well gas leakage.";
+					public class FACADES
+					{
+						public class STORAGEPOD_A
+						{
+							public static LocString NAME = FormatAsLink("Green Storage Pod", nameof(STORAGEPOD_A));
+							public static LocString DESC = "A green colored storage pod.";
+						}
+						public class STORAGEPOD_B
+						{
+							public static LocString NAME = FormatAsLink("Brown Storage Pod", nameof(STORAGEPOD_B));
+							public static LocString DESC = "A brown colored storage pod.";
+						}
+						public class STORAGEPOD_C
+						{
+							public static LocString NAME = FormatAsLink("Yellow Storage Pod", nameof(STORAGEPOD_C));
+							public static LocString DESC = "A yellow colored storage pod.";
+						}
+					}
+				}
+
+				#endregion
 			}
 		}
 		public class CREATURES
@@ -1093,6 +1139,11 @@ namespace RonivansLegacy_ChemicalProcessing
 					{
 						public static LocString NAME = FormatAsLink("Hot Mercury Gas Vent", "GeyserGeneric_" + nameof(HOTMERCURYGASVENT));
 						public static LocString DESC = $"A highly pressurized geothermal vent that periodically erupts with hot {FormatAsLink("Mercury Gas", "MERCURYGAS")}.";
+					}
+					public class NITROGENVENT
+					{
+						public static LocString NAME = FormatAsLink("Nitrogen Vent", "GeyserGeneric_" + nameof(NITROGENVENT));
+						public static LocString DESC = $"A highly pressurized vent that periodically erupts with {FormatAsLink("Nitrogen", nameof(NITROGENGAS))}.";
 					}
 					public class MOLTENSALTGEYSER
 					{
