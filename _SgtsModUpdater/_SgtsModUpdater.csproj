@@ -22,7 +22,7 @@
 		<Reference Remove="Assembly-CSharp" />
 		<Reference Remove="Assembly-CSharp-firstpass" />
 		<Reference Include="UnityEngine.SharedInternalsModule">
-			<HintPath>X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\UnityEngine.SharedInternalsModule.dll</HintPath>
+			<HintPath>$(GameLibsFolder)\UnityEngine.SharedInternalsModule.dll</HintPath>
 		</Reference>
 	</ItemGroup>
 

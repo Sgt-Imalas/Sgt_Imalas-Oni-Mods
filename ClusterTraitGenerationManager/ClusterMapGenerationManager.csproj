@@ -41,7 +41,7 @@
 	
 	<ItemGroup>
 	  <Reference Include="UnityEngine.InputLegacyModule">
-	    <HintPath>X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+	    <HintPath>$(GameLibsFolder)\UnityEngine.InputLegacyModule.dll</HintPath>
 	  </Reference>
 	</ItemGroup>
 
