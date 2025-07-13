@@ -201,8 +201,25 @@ namespace UtilLibs
 			else
 				return this;
 		}
+		public RecipeBuilder AltInput(SimHashes simHashes, float amount) => AltInput(simHashes.CreateTag(), amount);
+		public RecipeBuilder AltInput(Tag tag, float amount)
+		{
+			var lastInput = inputs.Last();
+			if(lastInput == null)
+			{
+				throw new InvalidOperationException("Cannot add alt input when there is no previous ingredient!");
+			}
+			inputs.Remove(lastInput);
+			var previousTags = lastInput.possibleMaterials;
+			var previousAmounts = lastInput.amount > 0 ? [lastInput.amount] : lastInput.possibleMaterialAmounts;
 
+			previousTags = previousTags.Concat([tag]);
+			previousAmounts = previousAmounts.Concat([amount]);
+			var composite = new RecipeElement(previousTags, previousAmounts);
+			composite.inheritElement = lastInput.inheritElement;
+			return this;
 
+		}
 		public RecipeBuilder Input(SimHashes simhash, float amount, bool inheritElement = false)
 		{
 			inputs.Add(new RecipeElement(simhash.CreateTag(), amount, inheritElement));

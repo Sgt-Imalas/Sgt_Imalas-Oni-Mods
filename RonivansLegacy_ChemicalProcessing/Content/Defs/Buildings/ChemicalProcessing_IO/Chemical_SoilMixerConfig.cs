@@ -213,7 +213,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			RecipeBuilder.Create(ID, 60)
 				.Input(SimHashes.CrushedRock, 40)
 				.Input(SimHashes.ToxicSand, 20)
-				.Input([SimHashes.Carbon,SimHashes.WoodLog], 20)
+				.Input([SimHashes.Carbon, SimHashes.Peat], 20)
 				.Input(SimHashes.Water, 20)
 				.Output(SimHashes.Dirt, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description(SOILMIXER_4_1, 4, 1)

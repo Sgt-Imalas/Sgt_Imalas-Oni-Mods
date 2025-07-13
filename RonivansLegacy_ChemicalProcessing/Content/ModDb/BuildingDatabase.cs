@@ -16,6 +16,7 @@ using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineering.
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineering.Walls;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservoirs;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistics;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureApplications;
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
 	class BuildingDatabase
@@ -72,14 +73,16 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				RegisterBuildings_MineralProcessingMining();
 			if (Config.Instance.DupesMachinery_Enabled)
 				RegisterBuildings_DupesMachinery();
-			if(Config.Instance.NuclearProcessing_Enabled)
+			if (Config.Instance.NuclearProcessing_Enabled)
 				RegisterBuildings_NuclearProcessing();
-			if(Config.Instance.DupesEngineering_Enabled)
+			if (Config.Instance.DupesEngineering_Enabled)
 				RegisterBuildings_DupesEngineering();
 			if (Config.Instance.CustomReservoirs)
 				RegisterBuildings_CustomReservoirs();
 			if (Config.Instance.DupesLogistics)
 				RegisterBuildings_DupesLogistics();
+			if (Config.Instance.HighPressureApplications)
+				RegisterBuildings_HighPressureApplications();
 		}
 		private static void RegisterBuildings_ChemicalProcessingIndustrialOverhaul()
 		{
@@ -156,7 +159,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingManager.CreateEntry<Chemical_RawGasRefineryStagedConfig>()
 				.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
 				.AddToTech(Technology.Power.FossilFuels)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO); 
+				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
 			BuildingManager.CreateEntry<Chemical_RawGasRefineryConfig>()
 				.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
 				.AddToTech(Technology.Power.FossilFuels)
@@ -198,7 +201,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingManager.CreateEntry<Chemical_ThermalDesalinatorConfig>()
 				.AddToCategory(PlanMenuCategory.Refinement, DesalinatorConfig.ID)
 				.AddToTech(Technology.Liquids.LiquidBasedRefinementProcess)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);			
+				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
 			BuildingManager.CreateEntry<Custom_PolymerizerConfig>()
 				.AddToCategory(PlanMenuCategory.Refinement, PolymerizerConfig.ID)
 				.AddToTech(Technology.Power.PlasticManufacturing)
@@ -334,7 +337,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToCategory(PlanMenuCategory.Radiation, RadiationLightConfig.ID)
 				.AddToTech(Technology.ColonyDevelopment.RadiationRefinement)
 				.AddModFrom(SourceModInfo.NuclearProcessing);
-			
+
 			BuildingManager.CreateEntry<LightReactorConfig>()
 				.AddToCategory(PlanMenuCategory.Radiation, NuclearReactorConfig.ID)
 				.AddToTech(Technology.ColonyDevelopment.RadiationRefinement)
@@ -519,6 +522,61 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToCategory(PlanMenuCategory.Base, StorageTileConfig.ID)
 				.AddToTech(Technology.SolidMaterial.BruteForceRefinement)
 				.AddModFrom(SourceModInfo.DupesLogistics);
+
+		}
+		private static void RegisterBuildings_HighPressureApplications()
+		{		
+			//gas
+			BuildingManager.CreateEntry<HPAVentGasConfig>()
+				.AddToCategory(PlanMenuCategory.Ventilation, GasVentHighPressureConfig.ID)
+				.AddToTech(Technology.Gases.HVAC)
+				.AddModFrom(SourceModInfo.HighPressureApplications);
+
+			BuildingManager.CreateEntry<PressureGasPumpConfig>()
+				.AddToCategory(PlanMenuCategory.Ventilation, GasPumpConfig.ID)
+				.AddToTech(Technology.Power.ValveMiniaturization)
+				.AddModFrom(SourceModInfo.HighPressureApplications);
+
+			BuildingManager.CreateEntry<DecompressionGasValveConfig>()
+				.AddToCategory(PlanMenuCategory.Ventilation, GasConduitBridgeConfig.ID)
+				.AddToTech(Technology.Gases.HVAC)
+				.AddModFrom(SourceModInfo.HighPressureApplications);
+
+			BuildingManager.CreateEntry<HighPressureGasConduitConfig>()
+				.AddToCategory(PlanMenuCategory.Ventilation, GasConduitRadiantConfig.ID)
+				.AddToTech(Technology.Gases.ImprovedVentilation)
+				.AddModFrom(SourceModInfo.HighPressureApplications);
+
+			BuildingManager.CreateEntry<HighPressureGasConduitBridgeConfig>()
+				.AddToCategory(PlanMenuCategory.Ventilation, GasConduitBridgeConfig.ID)
+				.AddToTech(Technology.Gases.ImprovedVentilation)
+				.AddModFrom(SourceModInfo.HighPressureApplications);
+
+			//liquid
+			BuildingManager.CreateEntry<HPAVentLiquidConfig>()
+				.AddToCategory(PlanMenuCategory.Plumbing, LiquidVentConfig.ID)
+				.AddToTech(Technology.Liquids.ImprovedPlumbing)
+				.AddModFrom(SourceModInfo.HighPressureApplications);
+
+			BuildingManager.CreateEntry<PressureLiquidPumpConfig>()
+				.AddToCategory(PlanMenuCategory.Plumbing, LiquidPumpConfig.ID)
+				.AddToTech(Technology.Power.ValveMiniaturization)
+				.AddModFrom(SourceModInfo.HighPressureApplications);
+
+			BuildingManager.CreateEntry<DecompressionGasValveConfig>()
+				.AddToCategory(PlanMenuCategory.Plumbing, LiquidConduitBridgeConfig.ID)
+				.AddToTech(Technology.Liquids.LiquidTuning)
+				.AddModFrom(SourceModInfo.HighPressureApplications);
+
+			BuildingManager.CreateEntry<HighPressureLiquidConduitConfig>()
+				.AddToCategory(PlanMenuCategory.Plumbing, LiquidConduitRadiantConfig.ID)
+				.AddToTech(Technology.Liquids.ImprovedPlumbing)
+				.AddModFrom(SourceModInfo.HighPressureApplications);
+
+			BuildingManager.CreateEntry<HighPressureLiquidConduitBridgeConfig>()
+				.AddToCategory(PlanMenuCategory.Plumbing, LiquidConduitBridgeConfig.ID)
+				.AddToTech(Technology.Liquids.ImprovedPlumbing)
+				.AddModFrom(SourceModInfo.HighPressureApplications);
 
 		}
 	}

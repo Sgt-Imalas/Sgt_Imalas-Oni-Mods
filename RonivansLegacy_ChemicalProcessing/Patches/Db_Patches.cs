@@ -19,11 +19,10 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			}
 			public static void Postfix(Db __instance)
 			{
-				//ModPersonalities.Register(__instance.Personalities);
-				//BuildingDatabase.AddBuildingsToTech();
 				BuildingManager.AddBuildingsToTechs();
 				ModElements.OverrideDebrisAnims();
 				HarvestablePOIAdditions.AddExtraPOIElements();
+				StatusItemsDatabase.CreateStatusItems();
 			}
 		}
 	}

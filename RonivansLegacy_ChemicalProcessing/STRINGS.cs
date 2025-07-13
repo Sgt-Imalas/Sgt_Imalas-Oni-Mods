@@ -1,5 +1,7 @@
 ﻿using Dupes_Industrial_Overhaul.Chemical_Processing.Chemicals;
 using HarmonyLib;
+using PeterHan.PLib.Options;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureApplications;
 using STRINGS;
 using System;
 using System.Collections.Generic;
@@ -18,6 +20,7 @@ namespace RonivansLegacy_ChemicalProcessing
 {
 	class STRINGS
 	{
+
 		public class AIO_MODSOURCE
 		{
 			public static LocString CHEMICALPROCESSING_IO = "Chemical Processing - Industrial Overhaul";
@@ -31,6 +34,7 @@ namespace RonivansLegacy_ChemicalProcessing
 			public static LocString CUSTOMRESERVOIRS = "Custom Reservoirs";
 			public static LocString DUPESREFRIGERATION = "Dupes Refrigeration";
 			public static LocString CUSTOMGENERATORS = "Custom Generators";
+			public static LocString HighPressureApplications = "High Pressure Applications";
 		}
 
 		public class DUPLICANTS
@@ -1117,6 +1121,138 @@ namespace RonivansLegacy_ChemicalProcessing
 				}
 
 				#endregion
+				#region HighPressureApplications
+
+				public class DECOMPRESSIONGASVALVE
+				{
+					public static LocString NAME = FormatAsLink("Decompression Gas Valve", nameof(DECOMPRESSIONGASVALVE));
+					public static LocString DESC = "A mechanical valve capable of reducing the flow of gas from a pressurized pipe to a normal pipe, avoid it to break.";
+					public static LocString EFFECT = "Allows " +
+					FormatAsLink("Gases", "ELEMENTS_GAS") +
+					" to be transfered from " +
+					FormatAsLink("High Pressure Gas Pipe", HighPressureGasConduitConfig.ID) +
+					" to normal " +
+					FormatAsLink("Pipes", "GASCONDUIT") +
+					".";
+				}
+				public class DECOMPRESSIONLIQUIDVALVE
+				{
+					public static LocString NAME = FormatAsLink("Decompression Liquid Valve", nameof(DECOMPRESSIONLIQUIDVALVE));
+					public static LocString DESC = "A mechanical valve capable of reducing the flow of liquid from a pressurized pipe to a normal pipe, avoid it to break.";
+					public static LocString EFFECT = string.Concat(new string[]
+						{
+							"Allows ",
+							FormatAsLink("Liquid", "ELEMENTS_LIQUID"),
+							" to be transfered from ",
+							FormatAsLink("High Pressure Liquid Pipe", HighPressureLiquidConduitConfig.ID),
+							" to normal ",
+							FormatAsLink("Pipes", "LIQUIDCONDUIT"),
+							"."
+						});
+				}
+				public class HIGHPRESSUREGASCONDUITBRIDGE
+				{
+					public static LocString NAME = FormatAsLink("High Pressure Gas Conduit Bridge", nameof(HIGHPRESSUREGASCONDUITBRIDGE));
+					public static LocString DESC = "A reinforced gas pipe bridge capable of handling high pressure flow.\nComposite nature of the pipe prevents gas contents from significantly changing temperature in transit.";
+					public static LocString EFFECT = "Runs one High Pressure Gas Pipe section over another without joining them.\n\nCan be run through wall and floor tile.";
+				}
+				public class HIGHPRESSUREGASCONDUIT
+				{
+					public static LocString NAME = FormatAsLink("High Pressure Gas Conduit", nameof(HIGHPRESSUREGASCONDUIT));
+					public static LocString DESC = "A reinforced gas pipe capable of handling high pressure flow.\nComposite nature of the pipe prevents gas contents from significantly changing temperature in transit.";
+					public static LocString EFFECT = string.Concat(new string[]
+						{
+							"Carries a maximum of " +
+							Config.Instance.HPA_Capacity_Gas,
+							"kg of ",
+							FormatAsLink("Gas", "ELEMENTS_GAS"),
+							" with minimal change in ",
+							FormatAsLink("Temperature", "HEAT"),
+							".\n\nCan be run through wall and floor tile."
+						});
+				}
+				public class HIGHPRESSURELIQUIDCONDUITBRIDGE
+				{
+					public static LocString NAME = FormatAsLink("High Pressure Liquid Conduit Bridge", nameof(HIGHPRESSURELIQUIDCONDUITBRIDGE));
+					public static LocString DESC = "A reinforced liquid pipe bridge capable of handling high pressure flow. Composite nature of the pipe prevents liquid contents from significantly changing temperature in transit.";
+					public static LocString EFFECT = "Runs one High Pressure Liquid Pipe section over another without joining them.\n\nCan be run through wall and floor tile.";
+				}
+				public class HIGHPRESSURELIQUIDCONDUIT
+				{
+					public static LocString NAME = FormatAsLink("High Pressure Liquid Pipe", nameof(HIGHPRESSURELIQUIDCONDUIT));
+					public static LocString DESC = "A reinforced liquid pipe capable of handling high pressure flow. Composite nature of the pipe prevents liquid contents from significantly changing temperature in transit.";
+					public static LocString EFFECT = string.Concat(new string[]
+						{
+							"Carries a maximum of " +
+							Config.Instance.HPA_Capacity_Liquid,
+							"kg of ",
+							FormatAsLink("Liquid", "ELEMENTS_LIQUID"),
+							" with minimal change in ",
+							FormatAsLink("Temperature", "HEAT"),
+							".\n\nCan be run through wall and floor tile."
+						});
+				}
+				public class PRESSUREGASPUMP
+				{
+					public static LocString NAME = FormatAsLink("High Pressure Gas Pump", nameof(PRESSUREGASPUMP));
+					public static LocString DESC = "An advanced pump that perform mechanical work to compress and move gases. More powerful than the standard pump, this one is capable of moving large amounts of gases, although this is only archived through the "+ FormatAsLink("High Pressure Gas Pipe", HighPressureGasConduitConfig.ID)+ ".";
+					public static LocString EFFECT = string.Concat(new string[]
+						{
+							"Draws in ",
+							FormatAsLink("Gas", "ELEMENTS_GAS"),
+							" and runs it through ",
+							FormatAsLink("High Pressure Gas Pipe", HighPressureGasConduitConfig.ID),
+							".\n\nMust be submerged in ",
+							FormatAsLink("Gas", "ELEMENTS_GAS"),
+							"."
+						});
+				}
+				public class PRESSURELIQUIDPUMP
+				{
+					public static LocString NAME = FormatAsLink("High Pressure Liquid Pump", nameof(PRESSURELIQUIDPUMP));
+					public static LocString DESC = "An advanced pump that perform mechanical work to compress and move fluids. More powerful than the standard pump, this one is capable of moving large amounts of liquids, although this is only archived through the "+FormatAsLink("High Pressure Liquid Pipe", HighPressureLiquidConduitConfig.ID)+ "." ;
+					public static LocString EFFECT = string.Concat(new string[]
+						{
+							"Draws in ",
+							FormatAsLink("Liquid", "ELEMENTS_LIQUID"),
+							" and runs it through ",
+							FormatAsLink("High Pressure Liquid Pipe", HighPressureLiquidConduitConfig.ID),
+							".\n\nMust be submerged in ",
+							FormatAsLink("Liquid", "ELEMENTS_LIQUID"),
+							"."
+						});
+				}
+				#endregion
+			}
+		}
+
+		public class BUILDING
+		{
+			public class STATUSITEMS
+			{
+				public class HPA_NEEDGASIN
+				{
+					public static LocString NAME = (LocString)"No High Pressure Gas Intake";
+					public static LocString TOOLTIP = (LocString)("This building's " + PRE_KEYWORD + "Gas Intake" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSUREGASCONDUIT.NAME + " connected");
+				}
+
+				public class HPA_NEEDGASOUT
+				{
+					public static LocString NAME = (LocString)"No High Pressure Gas Output";
+					public static LocString TOOLTIP = (LocString)("This building's " + PRE_KEYWORD + "Gas Output" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSUREGASCONDUIT.NAME + " connected");
+				}
+
+				public class HPA_NEEDLIQUIDIN
+				{
+					public static LocString NAME = (LocString)"No High Pressure Liquid Intake";
+					public static LocString TOOLTIP = (LocString)("This building's " + PRE_KEYWORD + "Liquid Intake" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSURELIQUIDCONDUIT.NAME + " connected");
+				}
+
+				public class HPA_NEEDLIQUIDOUT
+				{
+					public static LocString NAME = (LocString)"No High Pressure Liquid Output";
+					public static LocString TOOLTIP = (LocString)("This building's " + PRE_KEYWORD + "Liquid Output" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSURELIQUIDCONDUIT.NAME + " connected");
+				}
 			}
 		}
 		public class CREATURES

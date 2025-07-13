@@ -78,6 +78,8 @@ namespace Metallurgy.Buildings
 			coalFetch.refillMass = 100f;
 			coalFetch.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
 
+			go.AddOrGet<SolidDeliverySelection>().Options = [SimHashes.Carbon.CreateTag(), SimHashes.Peat.CreateTag()];
+
 			ConduitConsumer crudeOilInput = go.AddComponent<ConduitConsumer>();
 			crudeOilInput.capacityTag = SimHashes.CrudeOil.CreateTag();
 			crudeOilInput.capacityKG = 50f;
@@ -88,7 +90,7 @@ namespace Metallurgy.Buildings
 			ElementConverter crudeoil_refining = go.AddComponent<ElementConverter>();
 			crudeoil_refining.consumedElements = [
 				new ElementConverter.ConsumedElement(SimHashes.CrudeOil.CreateTag(), 5f),
-				new ElementConverter.ConsumedElement(SimHashes.Carbon.CreateTag(), 0.1f) ];
+				new ElementConverter.ConsumedElement(GameTags.CombustibleSolid, 0.1f) ];
 			crudeoil_refining.outputElements = [
 				new ElementConverter.OutputElement(2.5f, SimHashes.Petroleum, 371.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0),
 				new ElementConverter.OutputElement(0.05f, SimHashes.CarbonDioxide, 367.15f, true, true, 0f, 0.5f, 0.75f, 0xff, 0),

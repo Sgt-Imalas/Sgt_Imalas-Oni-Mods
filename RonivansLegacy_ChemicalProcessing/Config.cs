@@ -46,11 +46,24 @@ namespace RonivansLegacy_ChemicalProcessing
 		[Option("Dupes Logistics: Enabled")]
 		public bool DupesLogistics { get; set; } = true;
 
-
+		[Option("High Pressure Applications: Enabled")]
+		public bool HighPressureApplications { get; set; } = true;		
 
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.GEYSERS.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.GEYSERS.TOOLTIP")]
 		public bool ModGeysersGeneric { get; set; } = true;
+
+
+		[Option("High Pressure Gas Capacity")]
+		[Limit(2, 20)]
+		public int HPA_Capacity_Gas { get; set; } = 10;
+		[Option("High Pressure Liquid Capacity")]
+		[Limit(11, 200)]
+		public int HPA_Capacity_Liquid { get; set; } = 40;
+
+		[Option("High Pressure Pump base Wattage", "the base wattage value is multiplied with the respective pipe capacity. For the liquid pump, it is additionally divided by 10")]
+		[Limit(10, 1000)]
+		public int HPA_Pump_Base_Mult { get; set; } = 240;
 
 
 
