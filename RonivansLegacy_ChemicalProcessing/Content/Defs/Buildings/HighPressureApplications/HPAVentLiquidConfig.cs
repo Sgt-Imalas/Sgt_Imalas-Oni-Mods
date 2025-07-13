@@ -26,8 +26,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			buildingDef.ViewMode = OverlayModes.LiquidConduits.ID;
 			buildingDef.AudioCategory = "Metal";
 			buildingDef.UtilityInputOffset = new CellOffset(0, 0);
-			buildingDef.UtilityOutputOffset = new CellOffset(0, 0);
 			buildingDef.EnergyConsumptionWhenActive = 120;
+			buildingDef.RequiresPowerInput = true;
+			buildingDef.ExhaustKilowattsWhenActive = 0f;
+			buildingDef.SelfHeatKilowattsWhenActive = 0f;
 			buildingDef.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(0, 0));
 			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.LiquidVentIDs, ID);
 			SoundEventVolumeCache.instance.AddVolume("hpa_vent_liquid_kanim", "GasVent_clunk", NOISE_POLLUTION.NOISY.TIER0);
@@ -38,7 +40,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 		{
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 			go.AddOrGet<LoopingSounds>();
-			go.AddOrGet<Exhaust>();
+			go.AddOrGet<PoweredExhaust>();
 			go.AddOrGet<LogicOperationalController>();
 			Vent vent = go.AddOrGet<Vent>();
 			vent.conduitType = ConduitType.Liquid;
@@ -55,7 +57,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 		{
 			go.AddOrGetDef<VentController.Def>();
 			go.GetComponent<KPrefabID>().AddTag(GameTags.OverlayInFrontOfConduits);
-			go.AddOrGet<HighPressurePipeRequirement>();
+			go.AddOrGet<HighPressureInput>();
 		}
 	}
 }

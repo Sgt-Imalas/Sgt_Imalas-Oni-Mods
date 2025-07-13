@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -50,6 +51,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof(RequiresFoundation), prefab_tag);
 			ConduitBridge conduitBridge = go.AddOrGet<ConduitBridge>();
 			conduitBridge.type = CONDUIT_TYPE;
+			go.AddOrGet<HighPressureConduit>();
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)

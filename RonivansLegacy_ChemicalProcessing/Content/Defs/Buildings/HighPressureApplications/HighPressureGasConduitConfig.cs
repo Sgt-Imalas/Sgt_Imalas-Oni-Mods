@@ -1,4 +1,5 @@
 ﻿using PeterHan.PLib.Options;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -66,6 +67,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			kAnimGraphTileVisualizer.isPhysicalBuilding = true;
 			go.GetComponent<KPrefabID>().AddTag(GameTags.Vents);
 			LiquidConduitConfig.CommonConduitPostConfigureComplete(go);
+			go.AddOrGet<HighPressureConduit>();
 		}
 
 		public override void DoPostConfigureUnderConstruction(GameObject go)

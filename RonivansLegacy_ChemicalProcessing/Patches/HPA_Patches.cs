@@ -40,16 +40,16 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		{
 			if (__instance.conduitType == ConduitType.Gas)
 			{
-				float flowRate = Config.Instance.HPA_Capacity_Gas / 1;
+				float flowRate = Config.Instance.HPA_Capacity_Gas / ConduitFlow.MAX_GAS_MASS;
 				if (increaseStorage)
-					__instance.Storage.capacityKg *= flowRate;
+					__instance.GetComponent<Storage>().capacityKg *= flowRate;
 				__instance.consumptionRate *= flowRate;
 			}
 			else if (__instance.conduitType == ConduitType.Liquid)
 			{
-				float flowRate = Config.Instance.HPA_Capacity_Liquid / 10;
+				float flowRate = Config.Instance.HPA_Capacity_Liquid / ConduitFlow.MAX_LIQUID_MASS;
 				if (increaseStorage)
-					__instance.Storage.capacityKg *= flowRate;
+					__instance.GetComponent<Storage>().capacityKg *= flowRate;
 				__instance.consumptionRate *= flowRate;
 			}
 		}
@@ -69,7 +69,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		{
 			public static void Postfix(GameObject go)
 			{
-				IncreaseConsumerInput(go.GetComponent<ConduitConsumer>(), true);
+				IncreaseConsumerInput(go.GetComponent<ConduitConsumer>(), false);
 			}
 		}
 
@@ -116,7 +116,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		{
 			public static void Postfix()
 			{
-				HPA_Util.ClearStaticInfo();
+				HighPressureConduitComponent.FlushDictionary();
 			}
 		}
 	}

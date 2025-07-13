@@ -1,4 +1,5 @@
 ﻿using PeterHan.PLib.Options;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,6 +56,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			local2.alwaysDispense = true;
 			local2.elementFilter = null;
 			go.AddOrGetDef<OperationalController.Def>();
+			go.AddOrGet<HighPressureOutput>();
 			go.GetComponent<KPrefabID>().AddTag(GameTags.OverlayBehindConduits, false);
 		}
 	}

@@ -1222,6 +1222,32 @@ namespace RonivansLegacy_ChemicalProcessing
 							"."
 						});
 				}
+				public class HPAVENTLIQUID
+				{
+					public static LocString NAME = FormatAsLink("Compressor Liquid Vent", nameof(HPAVENTLIQUID));
+					public static LocString DESC = "A reinforced liquid vent with a built in compression pump, capable of dispensing liquids even in high pressure environments";
+					public static LocString EFFECT = string.Concat(new string[]
+						{
+							"Dispenses ",
+							FormatAsLink("Gases", "ELEMENTS_GAS"),
+							" in high pressure environments.\n\nMust be connected to a ",
+							FormatAsLink("High Pressure Gas Pipe", HighPressureGasConduitConfig.ID),
+							".\n\nRequires power to function."
+						});
+				}
+				public class HPAVENTGAS
+				{
+					public static LocString NAME = FormatAsLink("Compressor Gas Vent", nameof(HPAVENTGAS));
+					public static LocString DESC = "A reinforced liquid vent with a built in compression pump, capable of dispensing gases even in high pressure environments";
+					public static LocString EFFECT = string.Concat(new string[]
+						{
+							"Dispenses ",
+							FormatAsLink("Liquids", "ELEMENTS_LIQUID"),
+							" in high pressure environments.\n\nMust be connected to a ",
+							FormatAsLink("High Pressure Liquid Pipe", HighPressureLiquidConduitConfig.ID),
+							".\n\nRequires power to function."
+						});
+				}
 				#endregion
 			}
 		}
@@ -1233,25 +1259,25 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class HPA_NEEDGASIN
 				{
 					public static LocString NAME = (LocString)"No High Pressure Gas Intake";
-					public static LocString TOOLTIP = (LocString)("This building's " + PRE_KEYWORD + "Gas Intake" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSUREGASCONDUIT.NAME + " connected");
+					public static LocString TOOLTIP = (LocString)("This building's " + PRE_KEYWORD + "High Pressure Gas Intake" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSUREGASCONDUIT.NAME + " connected");
 				}
 
 				public class HPA_NEEDGASOUT
 				{
 					public static LocString NAME = (LocString)"No High Pressure Gas Output";
-					public static LocString TOOLTIP = (LocString)("This building's " + PRE_KEYWORD + "Gas Output" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSUREGASCONDUIT.NAME + " connected");
+					public static LocString TOOLTIP = (LocString)("This building's " + PRE_KEYWORD + "High Pressure Gas Output" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSUREGASCONDUIT.NAME + " connected");
 				}
 
 				public class HPA_NEEDLIQUIDIN
 				{
 					public static LocString NAME = (LocString)"No High Pressure Liquid Intake";
-					public static LocString TOOLTIP = (LocString)("This building's " + PRE_KEYWORD + "Liquid Intake" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSURELIQUIDCONDUIT.NAME + " connected");
+					public static LocString TOOLTIP = (LocString)("This building's " + PRE_KEYWORD + "High Pressure Liquid Intake" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSURELIQUIDCONDUIT.NAME + " connected");
 				}
 
 				public class HPA_NEEDLIQUIDOUT
 				{
 					public static LocString NAME = (LocString)"No High Pressure Liquid Output";
-					public static LocString TOOLTIP = (LocString)("This building's " + PRE_KEYWORD + "Liquid Output" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSURELIQUIDCONDUIT.NAME + " connected");
+					public static LocString TOOLTIP = (LocString)("This building's " + PRE_KEYWORD + "High Pressure Liquid Output" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSURELIQUIDCONDUIT.NAME + " connected");
 				}
 			}
 		}

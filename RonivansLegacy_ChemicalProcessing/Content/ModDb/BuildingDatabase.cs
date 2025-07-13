@@ -563,7 +563,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToTech(Technology.Power.ValveMiniaturization)
 				.AddModFrom(SourceModInfo.HighPressureApplications);
 
-			BuildingManager.CreateEntry<DecompressionGasValveConfig>()
+			BuildingManager.CreateEntry<DecompressionLiquidValveConfig>()
 				.AddToCategory(PlanMenuCategory.Plumbing, LiquidConduitBridgeConfig.ID)
 				.AddToTech(Technology.Liquids.LiquidTuning)
 				.AddModFrom(SourceModInfo.HighPressureApplications);

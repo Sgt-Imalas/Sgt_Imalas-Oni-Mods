@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,7 +28,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			buildingDef.UtilityInputOffset = new CellOffset(0, 0);
 			buildingDef.UtilityOutputOffset = new CellOffset(1, 0);
 			buildingDef.PermittedRotations = PermittedRotations.R360;
-			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.GasVentIDs, buildingDef.PrefabID);
+			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.GasVentIDs, ID);
 			return buildingDef;
 		}
 
@@ -58,6 +59,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 		{
 			go.AddOrGetDef<StorageController.Def>();
 			go.GetComponent<KPrefabID>().AddTag(GameTags.OverlayBehindConduits, false);
+			go.AddOrGet<HighPressureInput>();
 		}
 	}
 }
