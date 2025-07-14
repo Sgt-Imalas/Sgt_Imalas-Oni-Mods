@@ -40,12 +40,6 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-	  <Reference Include="UnityEngine.InputLegacyModule">
-	    <HintPath>$(GameLibsFolder)\UnityEngine.InputLegacyModule.dll</HintPath>
-	  </Reference>
-	</ItemGroup>
-
-	<ItemGroup>
 	  <Folder Include="ModPatches\" />
 	</ItemGroup>
 </Project>

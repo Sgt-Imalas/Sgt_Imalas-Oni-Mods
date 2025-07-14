@@ -21,9 +21,23 @@
 	<ItemGroup>
 		<Reference Remove="Assembly-CSharp" />
 		<Reference Remove="Assembly-CSharp-firstpass" />
-		<Reference Include="UnityEngine.SharedInternalsModule">
-			<HintPath>$(GameLibsFolder)\UnityEngine.SharedInternalsModule.dll</HintPath>
-		</Reference>
+		<Reference Remove="0Harmony" />
+		<Reference Remove="com.rlabrecque.steamworks.net" />
+		<Reference Remove="FMODUnity" />
+		<Reference Remove="UnityEngine" />
+		<Reference Remove="UnityEngine.AssetBundleModule" />
+		<Reference Remove="Unity.TextMeshPro" />
+		<Reference Remove="UnityEngine.CoreModule" />
+		<Reference Remove="UnityEngine.ImageConversionModule" />
+		<Reference Remove="UnityEngine.ParticleSystemModule" />
+		<Reference Remove="UnityEngine.Physics2DModule" />
+		<Reference Remove="UnityEngine.PhysicsModule" />
+		<Reference Remove="UnityEngine.UI" />
+		<Reference Remove="UnityEngine.UIModule" />
+		<Reference Remove="UnityEngine.TextRenderingModule" />
+		<Reference Remove="Newtonsoft.Json" />
+		<Reference Remove="netstandard" />
+		<Reference Remove="UnityEngine.WebRequestModule" />
 	</ItemGroup>
 
 	<ItemGroup>
