@@ -40,12 +40,6 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-	  <Reference Include="UnityEngine.InputLegacyModule">
-	    <HintPath>X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
-	  </Reference>
-	</ItemGroup>
-
-	<ItemGroup>
 	  <Folder Include="ModPatches\" />
 	</ItemGroup>
 </Project>

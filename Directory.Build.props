@@ -54,13 +54,11 @@
 
 	<ItemGroup>
 		<Reference Include="Assembly-CSharp">
-			<!--Publicized version, run "Clean" on the 1_CycleComma project once to generate this-->
 			<HintPath>$(AssemblyPublicized)</HintPath>
 			<HintPath Condition="'$(GameLibsFolder)' == '../Lib'">$(GameLibsFolder)/Assembly-CSharp_public.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
 		<Reference Include="Assembly-CSharp-firstpass">
-			<!--Publicized version, run "Clean" on the 1_CycleComma project once to generate this-->
 			<HintPath>$(AssemblyFirstpassPublicized)</HintPath>
 			<HintPath Condition="'$(GameLibsFolder)' == '../Lib'">$(GameLibsFolder)/Assembly-CSharp-firstpass_public.dll</HintPath>
 			<Private>False</Private>
