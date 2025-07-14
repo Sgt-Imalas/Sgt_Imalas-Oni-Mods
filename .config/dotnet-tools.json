@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "isRoot": true,
+  "tools": {
+    "jetbrains.refasmer.clitool": {
+      "version": "2.0.2",
+      "commands": [
+        "refasmer"
+      ],
+      "rollForward": false
+    }
+  }
+}
