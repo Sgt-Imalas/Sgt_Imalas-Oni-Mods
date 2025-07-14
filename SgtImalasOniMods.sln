@@ -15,6 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Directory.Build.props = Directory.Build.props
 		Directory.Build.props.default = Directory.Build.props.default
 		Directory.Build.targets = Directory.Build.targets
+		global.json = global.json
 		.github\workflows\Manual_BuildAllMods_MainRelease.yml = .github\workflows\Manual_BuildAllMods_MainRelease.yml
 		ModThatBroke.txt = ModThatBroke.txt
 		ModVersionData.json = ModVersionData.json
