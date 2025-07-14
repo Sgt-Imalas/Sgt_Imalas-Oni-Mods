@@ -22,7 +22,11 @@ jobs:
       run: msbuild -t:restore -property:Configuration=Release
     
     - name: Build project
-      run: msbuild -t:rebuild -property:Configuration=Release -property:GameLibsFolder="../Lib"
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '4.8.0'
+      run: dotnet build -c:Release -p:GameLibsFolder="../Lib"
+      #run: msbuild -t:rebuild -property:Configuration=Release -property:GameLibsFolder="../Lib"
     
     - name: Create Zip target directory
       run: mkdir BuildsZipped
