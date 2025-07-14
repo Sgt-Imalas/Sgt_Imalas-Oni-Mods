@@ -65,7 +65,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				//  were barely over 100%
 				if (contents.mass > targetCapacity)
 				{
-					if (contents.mass > targetCapacity * 1.1)
+					if (contents.mass > targetCapacity * 1.1f)
 						HighPressureConduitComponent.ScheduleForDamage(bridge.gameObject);
 
 					float initial = contents.mass;

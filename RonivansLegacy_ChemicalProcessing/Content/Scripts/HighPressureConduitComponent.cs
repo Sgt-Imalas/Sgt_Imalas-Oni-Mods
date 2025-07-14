@@ -114,6 +114,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			base.OnSpawn();
 			CheckRequirements();
 		}
+		public override void OnCleanUp()
+		{
+			base.OnCleanUp();
+			ConduitsByLayer[(int)buildingComplete.Def.ObjectLayer].Remove(buildingComplete.PlacementCells.Min());
+			ConduitsByLayer[(int)buildingComplete.Def.ObjectLayer].Remove(buildingComplete.PlacementCells.Max());
+			AllConduitGOs.Remove(this.gameObject);
+			AllConduits.Remove(this);
+		}
 
 		void CacheConduitCells()
 		{
@@ -216,11 +224,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		{
 			if (type == ConduitType.Gas)
 			{
-				return Grid.Objects[cell, isBridge ? (int)ObjectLayer.GasConduit : (int)ObjectLayer.GasConduitConnection];
+				return Grid.Objects[cell, isBridge ? (int)ObjectLayer.GasConduitConnection : (int)ObjectLayer.GasConduit];
 			}
 			else if (type == ConduitType.Liquid)
 			{
-				return Grid.Objects[cell, isBridge ? (int)ObjectLayer.LiquidConduit : (int)ObjectLayer.LiquidConduitConnection];
+				return Grid.Objects[cell, isBridge ?  (int)ObjectLayer.LiquidConduitConnection : (int)ObjectLayer.LiquidConduit];
 			}
 			throw new NotImplementedException("Tried getting invalid conduit type");
 		}
@@ -318,14 +326,53 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			}
 		}
 
+
+		static List<GameObject> DamageTargets = new();
+
+		static SchedulerHandle? handle = null;
 		internal static void ScheduleForDamage(GameObject receiver)
 		{
-			//throw new NotImplementedException();
+			DamageTargets.Add(receiver);
+			if (handle != null)
+				return;
+
+			GameScheduler.Instance.ScheduleNextFrame("DamageAccumulation", (_) => DealAccumulatedDamage());
+		}
+
+		private static BuildingHP.DamageSourceInfo? ConduitPressureDamage = null;
+		public static BuildingHP.DamageSourceInfo GetPressureDamageSource()
+		{
+			if(ConduitPressureDamage == null)
+			{
+				ConduitPressureDamage = new()
+				{
+					damage = 1,
+					source = global::STRINGS.BUILDINGS.DAMAGESOURCES.LIQUID_PRESSURE,
+					popString = global::STRINGS.UI.GAMEOBJECTEFFECTS.DAMAGE_POPS.LIQUID_PRESSURE
+				};
+			}
+			return ConduitPressureDamage.Value;
+		}
+
+
+		static void DealAccumulatedDamage()
+		{
+			SgtLogger.l(DamageTargets.Count + " items queued for damage");
+
+			for (int i = DamageTargets.Count - 1; i >= 0; i--)
+			{
+				SgtLogger.l("index: " + i);
+				var target = DamageTargets[i];
+				SgtLogger.l("Target: "+target);
+				target.Trigger((int)GameHashes.DoBuildingDamage, GetPressureDamageSource());
+			}
+			handle = null;
+			DamageTargets.Clear();
 		}
 
 		internal static void CancelPendingPressureDamage()
 		{
-			//throw new NotImplementedException();
+			DamageTargets.Clear();
 		}
 
 		internal static void PressureDamageHandling(GameObject receiver, float sentMass, float receiverMax)
@@ -352,15 +399,20 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		/// <returns></returns>
 		internal static float GetNormalizedPercentageMass(float absPipeMass, ConduitType currentConduitType)
 		{
+			return absPipeMass / GetConduitMultiplier(currentConduitType);
+		}
+
+		public static float GetConduitMultiplier(ConduitType currentConduitType) 
+		{
 			if (currentConduitType == ConduitType.Gas)
 			{
-				return absPipeMass / ((float)Config.Instance.HPA_Capacity_Gas / ConduitFlow.MAX_GAS_MASS);
+				return (Config.Instance.HPA_Capacity_Gas / ConduitFlow.MAX_GAS_MASS);
 			}
 			else if (currentConduitType == ConduitType.Liquid)
 			{
-				return absPipeMass / ((float)Config.Instance.HPA_Capacity_Liquid / ConduitFlow.MAX_LIQUID_MASS);
+				return (Config.Instance.HPA_Capacity_Liquid / ConduitFlow.MAX_LIQUID_MASS);
 			}
-			return absPipeMass;
+			return 1;
 		}
 	}
 }

@@ -95,15 +95,9 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			public static bool Prepare() => Config.Instance.HighPressureApplications;
 			public static void Postfix(OperationalValve __instance)
             {
-				if (__instance.conduitType == ConduitType.Gas)
+				if (__instance.conduitType == ConduitType.Gas || __instance.conduitType == ConduitType.Liquid)
 				{
-					float flowRate = Config.Instance.HPA_Capacity_Gas;
-					__instance.maxFlow *= flowRate;
-				}
-				else if (__instance.conduitType == ConduitType.Liquid)
-				{
-					float flowRate = Config.Instance.HPA_Capacity_Liquid / 10;
-					__instance.maxFlow *= flowRate;
+					__instance.maxFlow *= HighPressureConduitComponent.GetConduitMultiplier(__instance.conduitType);
 				}
 			}
         }
@@ -115,8 +109,8 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			public static bool Prepare() => Config.Instance.HighPressureApplications;
 			public static void Prefix(WarpConduitSender __instance)
 			{
-				__instance.gasStorage.capacityKg *= Config.Instance.HPA_Capacity_Gas;
-				__instance.liquidStorage.capacityKg *= Config.Instance.HPA_Capacity_Liquid / 10;
+				__instance.gasStorage.capacityKg *= HighPressureConduitComponent.GetConduitMultiplier(ConduitType.Gas);
+				__instance.liquidStorage.capacityKg *= HighPressureConduitComponent.GetConduitMultiplier(ConduitType.Liquid);
 			}
 		}
 

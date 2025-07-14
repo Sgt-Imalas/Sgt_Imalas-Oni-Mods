@@ -8,6 +8,7 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UtilLibs;
 using static UnityEngine.UI.Image;
 
 namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
@@ -23,12 +24,12 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 			[HarmonyPrepare]
 			public static bool Prepare() => Config.Instance.HighPressureApplications;
 			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
-            {
-                var conduitFlow_GetContents = AccessTools.Method(typeof(ConduitFlow), nameof(ConduitFlow.GetContents));
+			{
+				var ConduitFlow_Conduit_GetContents = AccessTools.Method(typeof(ConduitFlow.Conduit), nameof(ConduitFlow.Conduit.GetContents));
 				MethodInfo overPressurePatch = AccessTools.Method(typeof(ValveBase_ConduitUpdate_Patch), nameof(OperationalValveOverPressure));
 				foreach (var code in orig) 
                 {
-                    if (code.Calls(conduitFlow_GetContents))
+                    if (code.Calls(ConduitFlow_Conduit_GetContents))
 					{
 						//Integrate patch when the following line is called:
 						//  ConduitFlow.ConduitContents contents = conduit.GetContents(flowManager)
