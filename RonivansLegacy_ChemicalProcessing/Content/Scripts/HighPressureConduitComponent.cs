@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
+using UtilLibs;
 using static FlowUtilityNetwork;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
@@ -31,6 +33,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			RequiresHighPressureInput = false;
 			RequiresHighPressureOutput = false;
 		}
+		public override void OnSpawn()
+		{
+			base.OnSpawn();
+		}
+		public override void OnCleanUp()
+		{
+			base.OnCleanUp();
+		}
 		protected override void CheckRequirements()
 		{
 			//skip on high pressure conduits
@@ -48,9 +58,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			{ (int)ObjectLayer.Building,new Dictionary<int, HighPressureConduitComponent>() },
 
 		};
-		public static void FlushDictionary()
+		public static void ClearEverything()
 		{
+			CancelPendingPressureDamage();
 			AllConduits.Clear();
+			AllConduitGOs.Clear();
 			ConduitsByLayer = new()
 			{
 			{ (int)ObjectLayer.GasConduit,new Dictionary<int, HighPressureConduitComponent>() },
@@ -61,7 +73,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			};
 		}
 
+
 		public static HashSet<HighPressureConduitComponent> AllConduits = [];
+		public static HashSet<GameObject> AllConduitGOs = [];
 
 		private static readonly Operational.Flag highPressureInputConnected = new Operational.Flag("highPressureInputConnected", Operational.Flag.Type.Requirement);
 		private static readonly Operational.Flag highPressureOutputConnected = new Operational.Flag("highPressureOutputConnected", Operational.Flag.Type.Requirement);
@@ -92,7 +106,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 			ConduitsByLayer[(int)buildingComplete.Def.ObjectLayer][buildingComplete.PlacementCells.Min()] = this;
 			ConduitsByLayer[(int)buildingComplete.Def.ObjectLayer][buildingComplete.PlacementCells.Max()] = this;
+			SgtLogger.l("Registering bounds: min: " + buildingComplete.PlacementCells.Min() + ", max: " + buildingComplete.PlacementCells.Max());
 
+			AllConduitGOs.Add(this.gameObject);
 			AllConduits.Add(this);
 			CacheConduitCells();
 			base.OnSpawn();
@@ -121,7 +137,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 			if (RequiresHighPressureInput && consumerCell > 0)
 			{
-				bool hasHighPressureInput = !consumer.enabled || consumer.IsConnected && HasHighPressureConduitAt(consumerCell, inputType);
+				bool hasHighPressureInput = !consumer.enabled || consumer.IsConnected && HasHighPressureConduitAt(consumerCell, inputType, out _);
 
 				if (previouslyConnectedHPInput != hasHighPressureInput)
 				{
@@ -143,7 +159,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			}
 			if (RequiresHighPressureOutput && dispenserCell > 0)
 			{
-				bool hasHighPressureOutput = !dispenser.enabled || dispenser.IsConnected && HasHighPressureConduitAt(dispenserCell, outputType);
+				bool hasHighPressureOutput = !dispenser.enabled || dispenser.IsConnected && HasHighPressureConduitAt(dispenserCell, outputType, out _);
 
 				if (previouslyConnectedHPOutput != hasHighPressureOutput)
 				{
@@ -164,17 +180,168 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				}
 			}
 		}
-		static bool HasHighPressureConduitAt(int cell, ConduitType type)
+
+		public static float GetMaxCapacityAt(int cell, ConduitType type, out GameObject go)
 		{
 			if (type == ConduitType.Gas)
 			{
-				return ConduitsByLayer[(int)ObjectLayer.GasConduit].ContainsKey(cell);
+				if (ConduitsByLayer[(int)ObjectLayer.GasConduit].TryGetValue(cell, out var cmp))
+				{
+					go = cmp.gameObject;
+					return CachedHPAConduitCapacity(type);
+				}
+				else
+				{
+					go = GetConduitAt(cell, type);
+					return CachedRegularConduitCapacity(type);
+				}
 			}
 			else if (type == ConduitType.Liquid)
 			{
-				return ConduitsByLayer[(int)ObjectLayer.LiquidConduit].ContainsKey(cell);
+				if (ConduitsByLayer[(int)ObjectLayer.LiquidConduit].TryGetValue(cell, out var cmp))
+				{
+					go = cmp.gameObject;
+					return CachedHPAConduitCapacity(type);
+				}
+				else
+				{
+					go = GetConduitAt(cell, type);
+					return CachedRegularConduitCapacity(type);
+				}
+			}
+			throw new NotImplementedException("Tried getting capacity from invalid conduit type");
+		}
+
+		static GameObject GetConduitAt(int cell, ConduitType type, bool isBridge = false)
+		{
+			if (type == ConduitType.Gas)
+			{
+				return Grid.Objects[cell, isBridge ? (int)ObjectLayer.GasConduit : (int)ObjectLayer.GasConduitConnection];
+			}
+			else if (type == ConduitType.Liquid)
+			{
+				return Grid.Objects[cell, isBridge ? (int)ObjectLayer.LiquidConduit : (int)ObjectLayer.LiquidConduitConnection];
+			}
+			throw new NotImplementedException("Tried getting invalid conduit type");
+		}
+
+		public static bool HasHighPressureConduitAt(int cell, ConduitType type, out float capacity, bool bridge = false)
+		{
+			capacity = CachedHPAConduitCapacity(type);
+			if (type == ConduitType.Gas)
+			{
+				return ConduitsByLayer[bridge ? (int)ObjectLayer.GasConduitConnection : (int)ObjectLayer.GasConduit].ContainsKey(cell);
+			}
+			else if (type == ConduitType.Liquid)
+			{
+				return ConduitsByLayer[bridge ? (int)ObjectLayer.LiquidConduitConnection : (int)ObjectLayer.LiquidConduit].ContainsKey(cell);
 			}
 			return false;
 		}
+		public static bool HasHighPressureConduitAt(int cell, ConduitType type, bool bridge = false)
+		{
+			if (type == ConduitType.Gas)
+			{
+				return ConduitsByLayer[bridge ? (int)ObjectLayer.GasConduitConnection : (int)ObjectLayer.GasConduit].ContainsKey(cell);
+			}
+			else if (type == ConduitType.Liquid)
+			{
+				return ConduitsByLayer[bridge ? (int)ObjectLayer.LiquidConduitConnection : (int)ObjectLayer.LiquidConduit].ContainsKey(cell);
+			}
+			return false;
+		}
+		public static bool HasHighPressureConduitAt(int cell, ConduitType type, bool showContents, out Color32 tint)
+		{
+			if (type == ConduitType.Gas && ConduitsByLayer[(int)ObjectLayer.GasConduit].ContainsKey(cell))
+			{
+				tint = GetColorForConduitType(type,showContents);
+				return true;
+			}
+			else if (type == ConduitType.Liquid && ConduitsByLayer[(int)ObjectLayer.LiquidConduit].ContainsKey(cell))
+			{
+				tint = GetColorForConduitType(type, showContents);
+				return true;
+			}
+			tint = Color.white;
+			return false;
+		}
+		public static Color32 GetColorForConduitType(ConduitType conduitType, bool overlay)
+		{
+			if (conduitType == ConduitType.Gas)
+				return overlay ? _gasFlowOverlay : _gasFlowTint;
+			else if (conduitType == ConduitType.Liquid)
+				return overlay ? _liquidFlowOverlay : _liquidFlowTint;
+			return Color.white;
+		}
+
+		//cache this to avoid calling config.instance each time
+		private static bool _capInit = false;
+		private static float _gasCap_hp = -1, _liquidCap_hp = -1;
+		private static float _gasCap_reg = -1, _liquidCap_reg = -1;
+		private static Color32 _gasFlowOverlay = new Color32(169, 209, 251, 0), _gasFlowTint = new Color32(176, 176, 176, 255),
+			_liquidFlowOverlay = new Color32(92, 144, 121, 0), _liquidFlowTint = new Color32(92, 144, 121, 255);
+
+
+		static float CachedHPAConduitCapacity(ConduitType type)
+		{
+			InitCache();
+			switch (type)
+			{
+				case ConduitType.Gas:
+					return _gasCap_hp;
+				case ConduitType.Liquid:
+					return _liquidCap_hp;
+			}
+			return 1;
+		}
+		static float CachedRegularConduitCapacity(ConduitType type)
+		{
+			InitCache();
+			switch (type)
+			{
+				case ConduitType.Gas:
+					return _gasCap_reg;
+				case ConduitType.Liquid:
+					return _liquidCap_reg;
+			}
+			return 1;
+		}
+		private static void InitCache()
+		{
+			if (!_capInit)
+			{
+				_capInit = true;
+				_gasCap_hp = Config.Instance.HPA_Capacity_Gas;
+				_liquidCap_hp = Config.Instance.HPA_Capacity_Liquid;
+				_gasCap_reg = Conduit.GetFlowManager(ConduitType.Gas).MaxMass;
+				_liquidCap_reg = Conduit.GetFlowManager(ConduitType.Liquid).MaxMass;
+			}
+		}
+
+		internal static void ScheduleForDamage(GameObject receiver)
+		{
+			//throw new NotImplementedException();
+		}
+
+		internal static void CancelPendingPressureDamage()
+		{
+			//throw new NotImplementedException();
+		}
+
+		internal static void PressureDamageHandling(GameObject receiver, float sentMass, float receiverMax)
+		{
+			//33% chance to damage the receiver when sender has double its capacity if the receiver is not a bridge
+			//if receiver is a bridge, 33% to damage the bridge if the sender's contents are above the bridge's capacity at all
+			if (sentMass >= receiverMax * 2f && UnityEngine.Random.Range(0f, 1f) < 0.33f)
+			{
+				//This damage CANNOT be dealt immediately, or it will cause the game to crash. This code execution occurs during an UpdateNetworkTask execution and does not seem to support executing Triggers
+				//The damage will instead be queued and dealt by a scheduler on the next tick
+				ScheduleForDamage(receiver);
+			}
+		}
+
+		internal static bool IsHighPressureConduit(GameObject currentItem) => AllConduitGOs.Contains(currentItem);
+
+
 	}
 }

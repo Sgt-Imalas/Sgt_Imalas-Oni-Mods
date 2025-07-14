@@ -20,8 +20,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			string anim = "pressure_gas_bridge_kanim";
 			int hitpoints = 10;
 			float construction_time = 45f;
-			float[] tIER = { 10f, 5f };
-			string[] constructionMaterial = { GameTags.Steel.ToString(), MATERIALS.PLASTIC };
+			float[] tIER = [10f, 5f];
+			string[] constructionMaterial = [GameTags.Steel.ToString(), MATERIALS.PLASTIC];
 			float melting_point = 1600f;
 			BuildLocationRule build_location_rule = BuildLocationRule.Conduit;
 			EffectorValues nONE = NOISE_POLLUTION.NONE;

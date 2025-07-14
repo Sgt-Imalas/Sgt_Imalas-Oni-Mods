@@ -16,8 +16,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 
 		public override BuildingDef CreateBuildingDef()
 		{
-			float[] quantity1 = new float[] { 400f, 200f };
-			string[] materials1 = new string[] { GameTags.Steel.ToString(),GameTags.Plastic.ToString() };
+			float[] quantity1 = [400f, 200f];
+			string[] materials1 = [GameTags.Steel.ToString(),GameTags.Plastic.ToString()];
 			EffectorValues nONE = NOISE_POLLUTION.NONE;
 			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 2, 3, "pressure_liquid_pump_kanim", 240, 120f, quantity1, materials1, 1600f, BuildLocationRule.Anywhere, BUILDINGS.DECOR.PENALTY.TIER1, nONE, 0.2f);
 			def1.RequiresPowerInput = true;

@@ -10,13 +10,18 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 {
 	class VentController_Patches
 	{
+		[HarmonyPrepare]
+		public static bool Prepare() => Config.Instance.HighPressureApplications;
 
 		[HarmonyPatch(typeof(VentController), nameof(VentController.InitializeStates))]
 		public class VentController_InitializeStatesd_Patch
 		{
 			public static void Postfix(VentController __instance)
 			{
-				__instance.working_loop.Enter(smi => SetPoweredExhaustActive(smi, true));
+				__instance.working_loop
+					.Enter(smi => SetPoweredExhaustActive(smi, true))
+					.Exit(smi => SetPoweredExhaustActive(smi, false))
+					;
 			}
 		}
 		static void SetPoweredExhaustActive(VentController.Instance smi, bool setActive)

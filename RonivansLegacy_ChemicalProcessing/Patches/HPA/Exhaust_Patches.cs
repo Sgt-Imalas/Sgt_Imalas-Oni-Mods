@@ -15,8 +15,11 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
         /// </summary>
         [HarmonyPatch(typeof(Exhaust), nameof(Exhaust.OnConduitStateChanged))]
         public class Exhaust_OnConduitStateChanged_Patch
-        {
-            public static bool Prefix(Exhaust __instance)
+		{
+			[HarmonyPrepare]
+			public static bool Prepare() => Config.Instance.HighPressureApplications;
+
+			public static bool Prefix(Exhaust __instance)
             {   
                 if (__instance is PoweredExhaust)
                     return false;

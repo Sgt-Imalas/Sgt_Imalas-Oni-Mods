@@ -17,7 +17,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 		public override BuildingDef CreateBuildingDef()
 		{
 			float[] quantity1 = [50f, 20f];
-			string[] materials1 = new string[] { GameTags.Steel.ToString(), GameTags.Plastic.ToString() };
+			string[] materials1 = [GameTags.Steel.ToString(), GameTags.Plastic.ToString()];
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 2, 1, "deco_gas_valve_kanim", 100, 50f, quantity1, materials1, 800f, BuildLocationRule.Anywhere, TUNING.BUILDINGS.DECOR.PENALTY.TIER1, NOISE_POLLUTION.NOISY.TIER0, 0.2f);
 			buildingDef.Floodable = false;
 			buildingDef.Overheatable = false;

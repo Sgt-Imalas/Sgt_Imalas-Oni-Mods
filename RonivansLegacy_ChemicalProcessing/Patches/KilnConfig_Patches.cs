@@ -13,8 +13,11 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 
         [HarmonyPatch(typeof(KilnConfig), nameof(KilnConfig.ConfigureRecipes))]
         public class KilnConfig_ConfigureRecipes_Patch
-        {
-            public static void Postfix(KilnConfig __instance)
+		{
+			[HarmonyPrepare]
+			public static bool Prepare() => Config.Instance.DupesMachinery_Enabled;
+
+			public static void Postfix(KilnConfig __instance)
             {
                 AdditionalRecipes.RegisterRecipes_Kiln();
             }
