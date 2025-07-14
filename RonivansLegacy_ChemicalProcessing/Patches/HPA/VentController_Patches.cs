@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace RonivansLegacy_ChemicalProcessing.Patches
 {
+	/// <summary>
+	/// Set active state on powered exhaust to have it only consume power while exhausting.
+	/// by default vents are always active otherwise for some reason
+	/// </summary>
 	class VentController_Patches
 	{
 		[HarmonyPrepare]

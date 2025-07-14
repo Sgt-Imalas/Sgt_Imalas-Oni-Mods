@@ -14,10 +14,14 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 {
 	class ConduitFlowVisualizer_Patches
 	{
-
+		/// <summary>
+		/// This patch overrides the colored border of the blobs to the custom overlay colors of the HPA conduits
+		/// </summary>
 		[HarmonyPatch(typeof(ConduitFlowVisualizer), nameof(ConduitFlowVisualizer.GetCellTintColour))]
 		public class ConduitFlowVisualizer_GetCellTintColour_Patch
 		{
+			[HarmonyPrepare]
+			public static bool Prepare() => Config.Instance.HighPressureApplications;
 			public static bool Prefix(ConduitFlowVisualizer __instance, int cell, ref Color32 __result)
 			{
 				if (HighPressureConduitComponent.HasHighPressureConduitAt(cell, __instance.flowManager.conduitType, __instance.showContents, out var changedTint))
@@ -29,10 +33,16 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 			}
 		}
 
+
+		/// <summary>
+		/// this patch overrides the tinting color the high pressure conduits receive in their respective conduit overlays
+		/// </summary>
         [HarmonyPatch(typeof(OverlayModes.ConduitMode), nameof(OverlayModes.ConduitMode.Update))]
         public class OverlayModes_ConduitMode_Update_Patch
-        {
-            static OverlayModes.ConduitMode Instance;
+		{
+			[HarmonyPrepare]
+			public static bool Prepare() => Config.Instance.HighPressureApplications;
+			static OverlayModes.ConduitMode Instance;
             public static void Prefix(OverlayModes.ConduitMode __instance)
             {
                 Instance = __instance;
@@ -47,17 +57,14 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 
 				var codes = orig.ToList();
 
-				var locIndexSearch = codes.FindIndex(ci => ci.Calls(GetComponent));
-				///this is broken, fix!
-				int locIndex = TranspilerHelper.FindIndexOfNextLocalIndex(codes,locIndexSearch);
-
-				locIndex = 12;
+				// SaveLoadRoot layerTarget;
+				int layerTargetIdx = 12;
 				foreach (CodeInstruction original in orig)
 				{
 					if (original.Calls(Colorset_GetColorByName))
 					{
 						yield return original; //puts the color on the stack
-						yield return new CodeInstruction(OpCodes.Ldloc_S,locIndex); //current layer target 
+						yield return new CodeInstruction(OpCodes.Ldloc_S, layerTargetIdx); //current layer target 
 						yield return new CodeInstruction(OpCodes.Call, ReplaceConduitColor); //SetMaxFlow(flowManager.GetContents
 					}
 					else
@@ -65,7 +72,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				}
 			}
 
-            private static Color32 ReplaceHPConduitColor(Color32 oldColor, SaveLoadRoot currentItem)
+			private static Color32 ReplaceHPConduitColor(Color32 oldColor, SaveLoadRoot currentItem)
             {
 				if (HighPressureConduitComponent.IsHighPressureConduit(currentItem.gameObject))
 				{
@@ -80,6 +87,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				}
 				return oldColor;
             }
+
         }
 	}
 }

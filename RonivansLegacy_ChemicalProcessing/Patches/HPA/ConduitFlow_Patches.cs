@@ -18,10 +18,12 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		private static readonly MethodInfo replaceMaxMassAtCell = AccessTools.Method(typeof(ConduitFlow_Patches), nameof(ReplaceMaxMassAtCell));
 		private static readonly MethodInfo doOverpressureDamageAtCell = AccessTools.Method(typeof(ConduitFlow_Patches), nameof(DoOverpressureDamageAtCell));
 
-		//Modify MaxMass if needed for pressurized pipes when determining if the conduit is full.
+		///Modify MaxMass if needed for pressurized pipes when determining if the conduit is full.
 		[HarmonyPatch(typeof(ConduitFlow), nameof(ConduitFlow.IsConduitFull))]
 		public class ConduitFlow_IsConduitFull_Patch
 		{
+			[HarmonyPrepare]
+			public static bool Prepare() => Config.Instance.HighPressureApplications;
 			public static void Postfix(ConduitFlow __instance, ref bool __result, int cell_idx)
 			{
 				if (__result && HighPressureConduitComponent.HasHighPressureConduitAt(cell_idx, __instance.conduitType, out var increasedCap))
@@ -31,12 +33,14 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 			}
 		}
 
-		//When Deserializing the contents inside of Conduits, the method will normally prevent the deserialized data from being higher than the built-in ConduitFlow MaxMass.
-		//Instead, replace the max mass with infinity so the serialized mass will always be used.
-		//Must be done this way because OnDeserialized is called before the Conduits are spawned, so no information is available as to what the max mass is supposed to be
+		///When Deserializing the contents inside of Conduits, the method will normally prevent the deserialized data from being higher than the built-in ConduitFlow MaxMass.
+		///Instead, replace the max mass with infinity so the serialized mass will always be used.
+		///Must be done this way because OnDeserialized is called before the Conduits are spawned, so no information is available as to what the max mass is supposed to be
 		[HarmonyPatch(typeof(ConduitFlow), nameof(ConduitFlow.OnDeserialized))]
 		public class ConduitFlow_OnDeserialized_Patch
 		{
+			[HarmonyPrepare]
+			public static bool Prepare() => Config.Instance.HighPressureApplications;
 			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
 			{
 				var codes = orig.ToList();
@@ -65,6 +69,8 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		[HarmonyPatch(typeof(ConduitFlow), nameof(ConduitFlow.UpdateConduit))]
 		public class ConduitFlow_UpdateConduit_Patch
 		{
+			[HarmonyPrepare]
+			public static bool Prepare() => Config.Instance.HighPressureApplications;
 			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
 			{
 				var codes = orig.ToList();
@@ -90,6 +96,8 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		[HarmonyPatch(typeof(ConduitFlow), nameof(ConduitFlow.AddElement))]
 		public class ConduitFlow_AddElement_Patch
 		{
+			[HarmonyPrepare]
+			public static bool Prepare() => Config.Instance.HighPressureApplications;
 			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
 			{
 				CodeInstruction getCellInstruction = new CodeInstruction(OpCodes.Ldarg_1); //int cell_idx : The first argument of the method being called (Ldarg_0 is the instance (this) reference)
@@ -103,14 +111,12 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 			}
 		}
 
-
-
-		//Replace references of ConduitFlow.MaxMass with a custom handler to determine if the MaxMass should be higher for pressurized pipes
+		///Replace references of ConduitFlow.MaxMass with a custom handler to determine if the MaxMass should be higher for pressurized pipes
 		internal static IEnumerable<CodeInstruction> HandleMaxCapacityAndPressureDamage(CodeInstruction original, CodeInstruction getCellInstruction, bool isUpdateConduit = false)
 		{
-			//If the load field operand is being used to retrieve the maxMass field, override the maxMass value with our own max mass if necessary.
-			//For example, if looking at a high pressure gas pipe, max mass will return 1000, even though we want the max mass of the high pressure pipe to be 3000.
-			//The "toGetCell" code instruction will load the variable containing the cell index we need to look at
+			///If the load field operand is being used to retrieve the maxMass field, override the maxMass value with our own max mass if necessary.
+			///For example, if looking at a high pressure gas pipe, max mass will return 1000, even though we want the max mass of the high pressure pipe to be 3000.
+			///The "toGetCell" code instruction will load the variable containing the cell index we need to look at
 			if (original.LoadsField(maxMass))
 			{
 				yield return original; //old amount on stack
@@ -120,8 +126,8 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 
 			}
 
-			//During the UpdateConduit method, the ConduitContents.AddMass method is called to move the contents from one pipe to the next.
-			//In order to integrate an overpressure functionality, hook on just after the masses are added, and determine if overpressure damage needs to be dealt to the receiving conduit.
+			///During the UpdateConduit method, the ConduitContents.AddMass method is called to move the contents from one pipe to the next.
+			///In order to integrate an overpressure functionality, hook on just after the masses are added, and determine if overpressure damage needs to be dealt to the receiving conduit.
 			else if (isUpdateConduit && original.Calls(conduitContentsAddMass))
 			{
 				yield return original;
@@ -142,10 +148,10 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 			return increasedCap;
 		}
 
-		//Based on the passed variables, determine if overpressure damage should be dealt to the receiving conduit
+		///Based on the passed variables, determine if overpressure damage should be dealt to the receiving conduit
 		private static void DoOverpressureDamageAtCell(ConduitFlow conduitFlow, ConduitFlow.GridNode sender, int cell_idx)
 		{
-			//if the conduit is not high pressure, this check fails, therefore it should receive damage
+			///if the conduit is not high pressure, this check fails, therefore it should receive damage
 
 			float receiverMax = HighPressureConduitComponent.GetMaxCapacityAt(cell_idx, conduitFlow.conduitType, out var receiver);
 			float sentMass = sender.contents.mass;

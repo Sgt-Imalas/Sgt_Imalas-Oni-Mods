@@ -254,7 +254,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		{
 			if (type == ConduitType.Gas && ConduitsByLayer[(int)ObjectLayer.GasConduit].ContainsKey(cell))
 			{
-				tint = GetColorForConduitType(type,showContents);
+				tint = GetColorForConduitType(type, showContents);
 				return true;
 			}
 			else if (type == ConduitType.Liquid && ConduitsByLayer[(int)ObjectLayer.LiquidConduit].ContainsKey(cell))
@@ -340,7 +340,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			}
 		}
 
-		internal static bool IsHighPressureConduit(GameObject currentItem) => AllConduitGOs.Contains(currentItem);
+		internal static bool IsHighPressureConduit(GameObject currentItem) => currentItem == null ? false : AllConduitGOs.Contains(currentItem);
 
 
 	}

@@ -14,11 +14,15 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 {
     class ValveBase_Patches
     {
-
-        [HarmonyPatch(typeof(ValveBase), nameof(ValveBase.ConduitUpdate))]
+		/// <summary>
+		/// Handle overpressure damage on OperationalValves receiver pipes
+		/// </summary>
+		[HarmonyPatch(typeof(ValveBase), nameof(ValveBase.ConduitUpdate))]
         public class ValveBase_ConduitUpdate_Patch
-        {
-            public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
+		{
+			[HarmonyPrepare]
+			public static bool Prepare() => Config.Instance.HighPressureApplications;
+			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
             {
                 var conduitFlow_GetContents = AccessTools.Method(typeof(ConduitFlow), nameof(ConduitFlow.GetContents));
 				MethodInfo overPressurePatch = AccessTools.Method(typeof(ValveBase_ConduitUpdate_Patch), nameof(OperationalValveOverPressure));

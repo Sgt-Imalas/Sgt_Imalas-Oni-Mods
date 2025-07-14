@@ -20,6 +20,8 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		[HarmonyPatch(typeof(ConduitBridge), nameof(ConduitBridge.ConduitUpdate))]
         public class ConduitBridge_ConduitUpdate_Patch
 		{
+			[HarmonyPrepare]
+			public static bool Prepare() => Config.Instance.HighPressureApplications;
 			internal static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
 			{
 				MethodInfo ConduitFlow_GetContents = AccessTools.Method(typeof(ConduitFlow), nameof(ConduitFlow.GetContents));
