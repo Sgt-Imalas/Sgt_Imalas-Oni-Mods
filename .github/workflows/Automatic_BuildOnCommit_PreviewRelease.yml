@@ -24,7 +24,7 @@ jobs:
     - name: Setup DotNet
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '4.8.0'
+        dotnet-version: '8.0.0'
 
     - name: Build project
       run: dotnet build -c:Release -p:GameLibsFolder="../Lib"
