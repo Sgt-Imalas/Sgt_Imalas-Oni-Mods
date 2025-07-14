@@ -342,6 +342,25 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 		internal static bool IsHighPressureConduit(GameObject currentItem) => currentItem == null ? false : AllConduitGOs.Contains(currentItem);
 
-
+		/// <summary>
+		/// returns the mass a regular pipe would have if it had the same fill state as the high pressure pipe of this type
+		/// example: liquid capacity of 40, half filled with 20kg; 20kg/s -> 20 / (40/10) -> 20kg / 4 -> 5kg
+		/// normal pipe half filled is 5kg
+		/// </summary>
+		/// <param name="absPipeMass"></param>
+		/// <param name="currentConduitType"></param>
+		/// <returns></returns>
+		internal static float GetNormalizedPercentageMass(float absPipeMass, ConduitType currentConduitType)
+		{
+			if (currentConduitType == ConduitType.Gas)
+			{
+				return absPipeMass / ((float)Config.Instance.HPA_Capacity_Gas / ConduitFlow.MAX_GAS_MASS);
+			}
+			else if (currentConduitType == ConduitType.Liquid)
+			{
+				return absPipeMass / ((float)Config.Instance.HPA_Capacity_Liquid / ConduitFlow.MAX_LIQUID_MASS);
+			}
+			return absPipeMass;
+		}
 	}
 }

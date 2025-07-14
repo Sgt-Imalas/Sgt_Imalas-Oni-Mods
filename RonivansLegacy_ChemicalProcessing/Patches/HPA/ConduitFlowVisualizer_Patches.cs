@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using static ConduitFlowVisualizer;
 
 namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 {
@@ -98,6 +99,15 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		[HarmonyPatch(typeof(ConduitFlowVisualizer.RenderMeshBatchJob), nameof(ConduitFlowVisualizer.RenderMeshBatchJob.RunItem))]
 		public class ConduitFlowVisualizer_RenderMeshBatchJob_TargetMethod_Patch
 		{
+			[HarmonyPrepare]
+			public static bool Prepare() => Config.Instance.HighPressureApplications;
+
+			static ConduitType CurrentConduitType;
+			public static void Prefix(RenderMeshContext shared_data)
+			{
+				CurrentConduitType = shared_data.outer.flowManager.conduitType;
+			}
+
 			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
 			{
 				MethodInfo ConduitFlowVisualite_CalculateMassScale = AccessTools.Method(typeof(ConduitFlowVisualizer), nameof(ConduitFlowVisualizer.CalculateMassScale));
@@ -109,7 +119,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				int searchIndex = codes.FindIndex(ci => ci.Calls(Conduit_GetCell));
 
 				//either 17 or 7
-				int cellidx_index = TranspilerHelper.FindIndexOfNextLocalIndex(codes, searchIndex);
+				int cellidx_index = TranspilerHelper.FindIndexOfNextLocalIndex(codes, searchIndex,false);
 				SgtLogger.l("RenderMeshBatchJob cellidx: " + cellidx_index);
 
 				///Inject a check if the pipe is a high pressure pipe.
@@ -127,10 +137,13 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				}
 			}
 
+			//switches out the high pressure amount with the fullness amount a regular pipe would have relative to its max capacity
 			private static float NormalizeFillState(float absPipeMass, int cell)
 			{
-				//If IsHPA 
-				// return absPipeMass/= HPACapacity
+				if(HighPressureConduitComponent.HasHighPressureConduitAt(cell, CurrentConduitType))
+				{
+					return HighPressureConduitComponent.GetNormalizedPercentageMass(absPipeMass, CurrentConduitType);
+				}
 
 				return absPipeMass;
 			}
