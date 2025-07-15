@@ -115,6 +115,17 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		}
 
 
+		[HarmonyPatch(typeof(RocketConduitSender), nameof(RocketConduitSender.OnSpawn))]
+		public class RocketConduitSender_OnSpawn_Patch
+		{
+			[HarmonyPrepare]
+			public static bool Prepare() => Config.Instance.HighPressureApplications;
+			public static void Prefix(RocketConduitSender __instance)
+			{
+				__instance.conduitStorage.capacityKg *= HighPressureConduitComponent.GetConduitMultiplier(__instance.conduitPortInfo.conduitType);
+			}
+		}
+
 		[HarmonyPatch(typeof(Game), nameof(Game.OnLoadLevel))]
 		public class Game_OnLoadLevel_Patch
 		{
