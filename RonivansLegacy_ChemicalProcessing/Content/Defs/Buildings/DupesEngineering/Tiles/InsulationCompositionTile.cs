@@ -17,7 +17,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 		{
 			string kanim = "floor_insulating_kanim";
 			float[] mass = [350,50];
-			string[] cost = [GameTags.BuildableRaw.ToString(), GameTags.Insulator.ToString()];
+			string[] cost = [GameTags.BuildableRaw.ToString(), GameTags.PreciousRock.ToString()];
 
 			BuildingDef def = BuildingTemplates.CreateBuildingDef(ID, 1, 1, kanim, 100, 5f, mass, cost, 1600f, BuildLocationRule.Tile, BUILDINGS.DECOR.PENALTY.TIER1, NOISE_POLLUTION.NONE);
 			BuildingTemplates.CreateFoundationTileDef(def);

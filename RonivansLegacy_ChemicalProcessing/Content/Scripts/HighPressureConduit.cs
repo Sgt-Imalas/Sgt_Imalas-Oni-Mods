@@ -78,33 +78,28 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 		public static float GetMaxConduitCapacityAt(int cell, ConduitType type, out GameObject go, bool isBridge = false)
 		{
-			if (HasHighPressureConduitAt(cell, type, isBridge))
+			int targetLayer = -1;
+			switch (type)
 			{
-				int targetLayer = -1;
-
-				switch (type)
-				{
-					case ConduitType.Gas:
-						targetLayer = isBridge ? (int)ObjectLayer.GasConduitConnection : (int)ObjectLayer.GasConduit; break;
-					case ConduitType.Liquid:
-						targetLayer = isBridge ? (int)ObjectLayer.LiquidConduitConnection : (int)ObjectLayer.LiquidConduit; break;
-					case ConduitType.Solid:
-						targetLayer = isBridge ? (int)ObjectLayer.SolidConduitConnection : (int)ObjectLayer.SolidConduitConnection; break;
-					default:
-						throw new NotImplementedException("Invalid conduit target type");
-				}
-				if (ConduitsByLayer[targetLayer].TryGetValue(cell, out var cmp))
-				{
-					go = cmp.gameObject;
-					return CachedHPAConduitCapacity(type);
-				}
-				else
-				{
-					go = GetConduitAt(cell, type);
-					return CachedRegularConduitCapacity(type);
-				}
-			}			
-			throw new NotImplementedException("Tried getting capacity from invalid conduit type");
+				case ConduitType.Gas:
+					targetLayer = isBridge ? (int)ObjectLayer.GasConduitConnection : (int)ObjectLayer.GasConduit; break;
+				case ConduitType.Liquid:
+					targetLayer = isBridge ? (int)ObjectLayer.LiquidConduitConnection : (int)ObjectLayer.LiquidConduit; break;
+				case ConduitType.Solid:
+					targetLayer = isBridge ? (int)ObjectLayer.SolidConduitConnection : (int)ObjectLayer.SolidConduitConnection; break;
+				default:
+					throw new NotImplementedException("Invalid conduit target type");
+			}
+			if (ConduitsByLayer[targetLayer].TryGetValue(cell, out var cmp))
+			{
+				go = cmp.gameObject;
+				return CachedHPAConduitCapacity(type);
+			}
+			else
+			{
+				go = GetConduitAt(cell, type);
+				return CachedRegularConduitCapacity(type);
+			}
 		}
 		public static GameObject GetConduitAt(int cell, ConduitType type, bool isBridge = false)
 		{
@@ -171,7 +166,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		private static float _gasCap_reg = -1, _liquidCap_reg = -1, _solidCap_reg = -1;
 		private static Color32 _gasFlowOverlay = new Color32(169, 209, 251, 0), _gasFlowTint = new Color32(176, 176, 176, 255),
 			_liquidFlowOverlay = new Color32(92, 144, 121, 0), _liquidFlowTint = new Color32(92, 144, 121, 255),
-			_solidOverlayTint = new (154, 255, 167,0);
+			_solidOverlayTint = new(154, 255, 167, 0);
 
 
 		public static float CachedHPAConduitCapacity(ConduitType type, HighPressureConduit cmp = null)
@@ -212,8 +207,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				_solidCap_hp = Config.Instance.Rail_Capacity_HPA;
 				_solidCap_logistic = Config.Instance.Rail_Capacity_Logistic;
 
-				_gasCap_reg = Conduit.GetFlowManager(ConduitType.Gas).MaxMass;
-				_liquidCap_reg = Conduit.GetFlowManager(ConduitType.Liquid).MaxMass;
+				_gasCap_reg = ConduitFlow.MAX_GAS_MASS;
+				_liquidCap_reg = ConduitFlow.MAX_LIQUID_MASS;
 				_solidCap_reg = SolidConduitFlow.MAX_SOLID_MASS;
 			}
 		}
