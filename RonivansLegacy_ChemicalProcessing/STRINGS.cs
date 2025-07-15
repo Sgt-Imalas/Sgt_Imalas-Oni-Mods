@@ -20,7 +20,6 @@ namespace RonivansLegacy_ChemicalProcessing
 {
 	class STRINGS
 	{
-
 		public class AIO_MODSOURCE
 		{
 			public static LocString CHEMICALPROCESSING_IO = "Chemical Processing - Industrial Overhaul";
@@ -1076,7 +1075,6 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString EFFECT = "Stores any " + FormatAsLink("Liquid", "ELEMENTS_LIQUID") + " resources piped into it.";
 				}
 				#endregion
-
 				#region DupesLogistics
 				public class CABINETFROZEN
 				{
@@ -1119,7 +1117,39 @@ namespace RonivansLegacy_ChemicalProcessing
 						}
 					}
 				}
-
+				public class LOGISTICBRIDGE
+				{
+					public static LocString NAME = FormatAsLink("Logistic Solid Bridge", nameof(LOGISTICBRIDGE));
+					public static LocString DESC = "Separating rail systems helps ensure materials go to the intended destinations.";
+					public static LocString EFFECT = "Runs one " + FormatAsLink("Conveyor Rail", "SOLIDCONDUIT") + " section over another without joining them.\n\nCan be run through wall and floor tile.";
+				}
+				public class LOGISTICFILTER
+				{
+					public static LocString NAME = FormatAsLink("Logistic Solid Filter", nameof(LOGISTICFILTER));
+					public static LocString DESC = "All solids are sent into the building's output conveyor, except the solid chosen for filtering.";
+					public static LocString EFFECT = "Separates one " + FormatAsLink("Solid Material", "ELEMENTS_SOLID") + " from the conveyor, sending it into a dedicated solid conduit.";
+				}
+				public class LOGISTICLOADER
+				{
+					public static LocString NAME = FormatAsLink("Logistic Loader", nameof(LOGISTICLOADER));
+					public static LocString DESC = "Material filters can be used to determine what resources are sent down the rail.";
+					public static LocString EFFECT = "Loads " +
+					FormatAsLink("Solid Materials", "ELEMENTS_SOLID") +
+					" onto " +
+					FormatAsLink("Logistic Conveyor Rails", "SOLIDCONDUIT") +
+					" for transport.\n\nOnly loads the resources of your choosing.";
+				}
+				public class LOGISTICOUTBOX
+				{
+					public static LocString NAME = FormatAsLink("Logistic Receptacle", nameof(LOGISTICOUTBOX));
+					public static LocString DESC = "When materials reach the end of a rail they enter a receptacle to be used by Duplicants.";
+					public static LocString EFFECT =
+					"Unloads " +
+					FormatAsLink("Solid Materials", "ELEMENTS_SOLID")+
+					" from a "+
+					FormatAsLink("Logistic Conveyor Rail", "SOLIDCONDUIT")+
+					" into storage.";
+				}
 				#endregion
 				#region HighPressureApplications
 
@@ -1668,7 +1698,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString TITLE = "Building Configuration Editor";
 
 				public static LocString PARENT_MOD_DISABLED = "Building disabled by category.\nThe parent mod this building is from is turned off in the config.";
-				public static LocString MOD_ORIGIN_TEXT = "This building could originally be found in:";
+				public static LocString MOD_ORIGIN_TEXT = "This building is part of:";
 				public static LocString BUILDINGCONFIGURABLE = "This building has settings that can be modified.";
 				public class RESETALLCHANGES
 				{

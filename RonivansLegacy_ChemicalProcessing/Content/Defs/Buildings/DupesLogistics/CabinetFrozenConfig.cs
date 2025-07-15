@@ -14,11 +14,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 {
 	class CabinetFrozenConfig : IBuildingConfig, IHasConfigurableStorageCapacity
 	{
-		public static string ID = "CabinetFrozen";
 		public static float StorageCapacity = 15000; //75% of regular locker as compensation for other features; configurable
 		public float GetStorageCapacity() => StorageCapacity;
 		public void SetStorageCapacity(float mass) => StorageCapacity = mass;
 
+		public static string ID = "CabinetFrozen";
 		public override BuildingDef CreateBuildingDef()
 		{
 			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 1, 2, "cabinet_frozen_kanim", 30, 60f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER1, MATERIALS.ALL_METALS, 1600f, BuildLocationRule.OnFloor, TUNING.BUILDINGS.DECOR.PENALTY.TIER1, TUNING.NOISE_POLLUTION.NONE);
