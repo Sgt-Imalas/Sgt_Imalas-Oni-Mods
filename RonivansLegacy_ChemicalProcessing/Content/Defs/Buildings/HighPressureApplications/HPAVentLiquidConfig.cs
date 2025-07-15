@@ -51,6 +51,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			conduitConsumer.ignoreMinMassCheck = true;
 			BuildingTemplates.CreateDefaultStorage(go).showInUI = true;
 			go.AddOrGet<SimpleVent>();
+			var inputs = go.AddOrGet<RequireInputs>();
+			inputs.requireConduitHasMass = false;
+			inputs.requireConduit = false; //handled by highPressureInput
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)

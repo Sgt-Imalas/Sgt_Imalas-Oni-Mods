@@ -49,7 +49,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				{
 					if (op.CurrentFlow > 0f)
 					{
-						float receiverMax = HighPressureConduitComponent.GetMaxCapacityAt(valveBase.outputCell, valveBase.conduitType, out var receiver);
+						float receiverMax = HighPressureConduitComponent.GetMaxConduitCapacityAt(valveBase.outputCell, valveBase.conduitType, out var receiver);
 						float inputMass = contents.mass;
 						//If there is greater than 200% of the outputs capacity inside the shutoff valves input pipe, deal overpressure damage 33% of the time.
 						HighPressureConduitComponent.PressureDamageHandling(receiver, inputMass, receiverMax);

@@ -58,6 +58,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			go.AddOrGetDef<OperationalController.Def>();
 			go.GetComponent<KPrefabID>().AddTag(GameTags.OverlayBehindConduits, false);
 			go.AddOrGet<HighPressureOutput>();
+			UnityEngine.Object.DestroyImmediate(go.GetComponent<RequireOutputs>());//handled by HighPressureOutput
 		}
 	}
 }

@@ -189,7 +189,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			}
 		}
 
-		public static float GetMaxCapacityAt(int cell, ConduitType type, out GameObject go)
+		public static float GetMaxConduitCapacityAt(int cell, ConduitType type, out GameObject go)
 		{
 			if (type == ConduitType.Gas)
 			{
@@ -357,13 +357,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 		static void DealAccumulatedDamage()
 		{
-			SgtLogger.l(DamageTargets.Count + " items queued for damage");
 
 			for (int i = DamageTargets.Count - 1; i >= 0; i--)
 			{
-				SgtLogger.l("index: " + i);
 				var target = DamageTargets[i];
-				SgtLogger.l("Target: "+target);
 				target.Trigger((int)GameHashes.DoBuildingDamage, GetPressureDamageSource());
 			}
 			handle = null;

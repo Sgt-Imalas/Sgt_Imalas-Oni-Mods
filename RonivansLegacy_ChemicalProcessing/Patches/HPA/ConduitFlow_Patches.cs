@@ -153,7 +153,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		{
 			///if the conduit is not high pressure, this check fails, therefore it should receive damage
 
-			float receiverMax = HighPressureConduitComponent.GetMaxCapacityAt(cell_idx, conduitFlow.conduitType, out var receiver);
+			float receiverMax = HighPressureConduitComponent.GetMaxConduitCapacityAt(cell_idx, conduitFlow.conduitType, out var receiver);
 			float sentMass = sender.contents.mass;
 
 			HighPressureConduitComponent.PressureDamageHandling(receiver, sentMass, receiverMax);

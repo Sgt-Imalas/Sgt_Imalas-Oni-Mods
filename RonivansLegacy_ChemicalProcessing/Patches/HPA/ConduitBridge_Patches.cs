@@ -51,7 +51,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 					return contents;
 				}
 
-				float targetCapacity = HighPressureConduitComponent.GetMaxCapacityAt(bridge.outputCell, bridge.type, out var targetObject);
+				float targetCapacity = HighPressureConduitComponent.GetMaxConduitCapacityAt(bridge.outputCell, bridge.type, out var targetObject);
 				//no pipe at output cell of bridge
 				if (targetObject == null)
 					return contents;
