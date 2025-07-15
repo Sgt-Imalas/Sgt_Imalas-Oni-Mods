@@ -45,7 +45,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			Vent vent = go.AddOrGet<Vent>();
 			vent.conduitType = ConduitType.Liquid;
 			vent.endpointType = Endpoint.Sink;
-			vent.overpressureMass = Config.Instance.HPA_Capacity_Liquid * HighPressureConduitComponent.GetConduitMultiplier(ConduitType.Liquid);
+			vent.overpressureMass = LiquidVentConfig.OVERPRESSURE_MASS * HighPressureConduit.GetConduitMultiplier(ConduitType.Liquid);
 			ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
 			conduitConsumer.conduitType = ConduitType.Liquid;
 			conduitConsumer.ignoreMinMassCheck = true;
@@ -60,7 +60,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 		{
 			go.AddOrGetDef<VentController.Def>();
 			go.GetComponent<KPrefabID>().AddTag(GameTags.OverlayInFrontOfConduits);
-			go.AddOrGet<HighPressureInput>();
+			go.AddOrGet<HPA_ConduitRequirement>().RequiresHighPressureInput = true;
 			go.AddOrGet<VentTintable>();
 		}
 	}

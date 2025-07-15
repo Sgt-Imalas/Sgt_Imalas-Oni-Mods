@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,13 @@ using UnityEngine;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistics
 {
-    class LogisticFilterConfig : IBuildingConfig
+    class LogisticFilterConfig : IBuildingConfig, IHasConfigurableWattage
 	{
+		public static float Wattage = 30; // 1/4 of regular filter
+
+		public float GetWattage() => Wattage;
+		public void SetWattage(float mass) => Wattage = mass;
+	
 		public static string ID = "LogisticFilter";
 
 		private const ConduitType CONDUIT_TYPE = ConduitType.Solid;
@@ -21,7 +27,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			EffectorValues noise = NOISE_POLLUTION.NOISY.TIER1;
 			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 3, 1, "logistic_filter_kanim", 30, 10f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER1, MATERIALS.RAW_METALS, 1600f, BuildLocationRule.Anywhere, BUILDINGS.DECOR.PENALTY.TIER0, noise, 0.2f);
 			def1.RequiresPowerInput = true;
-			def1.EnergyConsumptionWhenActive = 20f;
+			def1.EnergyConsumptionWhenActive = Wattage;
 			def1.SelfHeatKilowattsWhenActive = 0f;
 			def1.ExhaustKilowattsWhenActive = 0f;
 			def1.InputConduitType = ConduitType.Solid;

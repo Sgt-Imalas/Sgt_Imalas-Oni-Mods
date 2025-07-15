@@ -79,10 +79,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				RegisterBuildings_DupesEngineering();
 			if (Config.Instance.CustomReservoirs)
 				RegisterBuildings_CustomReservoirs();
-			if (Config.Instance.DupesLogistics)
-				RegisterBuildings_DupesLogistics();
 			if (Config.Instance.HighPressureApplications)
 				RegisterBuildings_HighPressureApplications();
+			if (Config.Instance.DupesLogistics)
+				RegisterBuildings_DupesLogistics();
 		}
 		private static void RegisterBuildings_ChemicalProcessingIndustrialOverhaul()
 		{
@@ -278,12 +278,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddModFrom(SourceModInfo.MineralProcessing_Metallurgy)
 				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
 			BuildingManager.CreateEntry<Metallurgy_PyrolysisKilnConfig>()
-				.AddToCategory(PlanMenuCategory.Refinement, KilnConfig.ID)
+				.AddToCategory(PlanMenuCategory.Refinement, KilnConfig.ID, ModUtil.BuildingOrdering.Before)
 				.AddToTech(Technology.SolidMaterial.BruteForceRefinement)
 				.AddModFrom(SourceModInfo.MineralProcessing_Metallurgy)
 				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
 			BuildingManager.CreateEntry<Metallurgy_BasicOilRefineryConfig>()
-				.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
+				.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID,ModUtil.BuildingOrdering.Before)
 				.AddToTech(Technology.Power.FossilFuels)
 				.AddModFrom(SourceModInfo.MineralProcessing_Metallurgy);
 			BuildingManager.CreateEntry<Metallurgy_BallCrusherMillConfig>()
@@ -507,7 +507,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		}
 		private static void RegisterBuildings_DupesLogistics()
 		{
-
+			///storages
 			BuildingManager.CreateEntry<CabinetFrozenConfig>()
 				.AddToCategory(PlanMenuCategory.Base, StorageLockerSmartConfig.ID)
 				.AddToTech(Technology.SolidMaterial.SmartStorage)
@@ -521,6 +521,42 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingManager.CreateEntry<StoragePodConfig>()
 				.AddToCategory(PlanMenuCategory.Base, StorageTileConfig.ID)
 				.AddToTech(Technology.SolidMaterial.BruteForceRefinement)
+				.AddModFrom(SourceModInfo.DupesLogistics);
+
+			///logistic rails
+			BuildingManager.CreateEntry<LogisticTransferArmConfig>()
+				.AddToCategory(PlanMenuCategory.Shipping, SolidTransferArmConfig.ID)
+				.AddToTech(Technology.SolidMaterial.SmartStorage, ModUtil.BuildingOrdering.Before)
+				.AddModFrom(SourceModInfo.DupesLogistics);
+
+			BuildingManager.CreateEntry<LogisticRailConfig>()
+				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitConfig.ID)
+				.AddToTech(Technology.SolidMaterial.SmartStorage, ModUtil.BuildingOrdering.Before)
+				.AddModFrom(SourceModInfo.DupesLogistics);
+
+			BuildingManager.CreateEntry<LogisticBridgeConfig>()
+				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitBridgeConfig.ID)
+				.AddToTech(Technology.SolidMaterial.SmartStorage, ModUtil.BuildingOrdering.Before)
+				.AddModFrom(SourceModInfo.DupesLogistics);
+
+			BuildingManager.CreateEntry<LogisticLoaderConfig>()
+				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitInboxConfig.ID)
+				.AddToTech(Technology.SolidMaterial.SmartStorage, ModUtil.BuildingOrdering.Before)
+				.AddModFrom(SourceModInfo.DupesLogistics);
+
+			BuildingManager.CreateEntry<LogisticOutBoxConfig>()
+				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitOutboxConfig.ID)
+				.AddToTech(Technology.SolidMaterial.SmartStorage, ModUtil.BuildingOrdering.Before)
+				.AddModFrom(SourceModInfo.DupesLogistics);
+
+			BuildingManager.CreateEntry<LogisticFilterConfig>()
+				.AddToCategory(PlanMenuCategory.Shipping, SolidFilterConfig.ID)
+				.AddToTech(Technology.SolidMaterial.SolidManagement, ModUtil.BuildingOrdering.Before)
+				.AddModFrom(SourceModInfo.DupesLogistics);
+
+			BuildingManager.CreateEntry<LogisticVentConfig>()
+				.AddToCategory(PlanMenuCategory.Shipping, SolidVentConfig.ID)
+				.AddToTech(Technology.SolidMaterial.SmartStorage, ModUtil.BuildingOrdering.Before)
 				.AddModFrom(SourceModInfo.DupesLogistics);
 
 		}

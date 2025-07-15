@@ -61,9 +61,31 @@ namespace RonivansLegacy_ChemicalProcessing
 		[Limit(11, 200)]
 		public int HPA_Capacity_Liquid { get; set; } = 40;
 
-		[Option("High Pressure Pump base Wattage", "the base wattage value is multiplied with the respective pipe capacity. For the liquid pump, it is additionally divided by 10")]
+		[Option("High Pressure Gas Pump base Wattage", "the base wattage value is multiplied with the respective pipe capacity. For the liquid pump, it is additionally divided by 10")]
 		[Limit(10, 1000)]
-		public int HPA_Pump_Base_Mult { get; set; } = 240;
+		public int HPA_Pump_Base_Mult_Gas { get; set; } = 240;
+
+		[Option("High Pressure Liquid Pump base Wattage", "the base wattage value is multiplied with the respective pipe capacity. For the liquid pump, it is additionally divided by 10")]
+		[Limit(10, 1000)]
+		public int HPA_Pump_Base_Mult_Liquid { get; set; } = 240;
+
+
+		[Option("Logistic Rail Capacity", "Logistic Rails serve as an early game version to conveyor rails, lacking the mechatronic requirements and unlocking earlier.")]
+		[Limit(1, 20)]
+		public int Rail_Capacity_Logistic { get; set; } = 5;
+
+		[Option("Heavy Duty Rail Capacity", "Logistic Rails serve as an late game alternative to conveyor rails, having a much higher throughput at the cost of more complex build requirements.")]
+		[Limit(20, 200)]
+		public int Rail_Capacity_HPA { get; set; } = 100;
+
+		[Option("Logistic Auto-Sweeper Range", "The Logistic Auto-Sweeper serves as an early game version of the autosweeper, trading reduced carrying capacity for a lack of a mechatronics requirement")]
+		[Limit(2, 12)]
+		public int Logistic_Arm_Range { get; set; } = 4; //vanilla arm range, only capcaity is nerfed by default
+
+
+		[Option("Heavy Duty Auto-Sweeper Range", "The Heavy Duty Auto-Sweeper serves as a late game version of the autosweeper, having higher range and throughput at the cost of more complex build requirements")]
+		[Limit(6, 24)]
+		public int HPA_Arm_Range { get; set; } = 10;
 
 
 

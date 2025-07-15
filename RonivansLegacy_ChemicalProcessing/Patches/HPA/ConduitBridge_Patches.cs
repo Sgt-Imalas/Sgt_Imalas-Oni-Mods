@@ -50,30 +50,41 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 					contents.RemoveMass(contents.mass);
 					return contents;
 				}
+				var type = bridge.type;
+				var cell = bridge.outputCell;
 
-				float targetCapacity = HighPressureConduitComponent.GetMaxConduitCapacityAt(bridge.outputCell, bridge.type, out var targetObject);
+				bool isHPBridge = HighPressureConduit.HasHighPressureConduitAt(cell, type, true);
+				bool hasHPTargetConduit = HighPressureConduit.HasHighPressureConduitAt(cell,type);
+
+				//target conduit is high pressure, bridge is high pressure -> no damage case
+				if (isHPBridge && hasHPTargetConduit)
+					return contents;
+
+
+				float targetConduitCapacity = HighPressureConduit.GetMaxConduitCapacityAt(bridge.outputCell, bridge.type, out var targetConduit);
+
 				//no pipe at output cell of bridge
-				if (targetObject == null)
+				if (targetConduit == null)
 					return contents;
 
-				//bridge is HP bride; no damage
-				if (HighPressureConduitComponent.HasHighPressureConduitAt(bridge.outputCell, bridge.type, out _, true))
-					return contents;
+				float targetBridgeCapacity = HighPressureConduit.GetMaxConduitCapacityAt(bridge.outputCell, bridge.type, out _, true);
+
+				//damage the bridge when the target pipe is a HPA bridge 
+				if (contents.mass > targetBridgeCapacity * 1.1f)
+					HighPressureConduit.ScheduleForDamage(bridge.gameObject);
 
 				//If the ConduitBridge is not supposed to support the amount of fluid currently in the contents, only make the bridge's intended max visible
 				//Also immediately deal damage if the current contents are higher than 110% of the intended max (110% is set because at 100%, a system with no pressurized pipes would seem to randomly deal damage as if the contents
 				//  were barely over 100%
-				if (contents.mass > targetCapacity)
+				if (contents.mass > targetBridgeCapacity)
 				{
-					if (contents.mass > targetCapacity * 1.1f)
-						HighPressureConduitComponent.ScheduleForDamage(bridge.gameObject);
-
 					float initial = contents.mass;
-					float removed = contents.RemoveMass(initial - targetCapacity);
+					float removed = contents.RemoveMass(initial - targetBridgeCapacity);
 					float ratio = removed / initial;
 					contents.diseaseCount = (int)((float)contents.diseaseCount * ratio);
 				}
-				HighPressureConduitComponent.PressureDamageHandling(targetObject, contents.mass, targetCapacity);
+				///damage target conduit if it got too much mass transfered to it
+				HighPressureConduit.PressureDamageHandling(targetConduit, contents.mass, targetConduitCapacity);
 				return contents;
 			}
 		}

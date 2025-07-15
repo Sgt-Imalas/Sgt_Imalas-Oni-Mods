@@ -1134,22 +1134,70 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString NAME = FormatAsLink("Logistic Loader", nameof(LOGISTICLOADER));
 					public static LocString DESC = "Material filters can be used to determine what resources are sent down the rail.";
 					public static LocString EFFECT = "Loads " +
-					FormatAsLink("Solid Materials", "ELEMENTS_SOLID") +
-					" onto " +
-					FormatAsLink("Logistic Conveyor Rails", "SOLIDCONDUIT") +
-					" for transport.\n\nOnly loads the resources of your choosing.";
+							FormatAsLink("Solid Materials", "ELEMENTS_SOLID") +
+							" onto " +
+							FormatAsLink("Logistic Conveyor Rails", "LOGISTICRAIL") +
+							" for transport.\n\nOnly loads the resources of your choosing.";
 				}
 				public class LOGISTICOUTBOX
 				{
 					public static LocString NAME = FormatAsLink("Logistic Receptacle", nameof(LOGISTICOUTBOX));
 					public static LocString DESC = "When materials reach the end of a rail they enter a receptacle to be used by Duplicants.";
 					public static LocString EFFECT =
-					"Unloads " +
-					FormatAsLink("Solid Materials", "ELEMENTS_SOLID")+
-					" from a "+
-					FormatAsLink("Logistic Conveyor Rail", "SOLIDCONDUIT")+
-					" into storage.";
+							"Unloads " +
+							FormatAsLink("Solid Materials", "ELEMENTS_SOLID")+
+							" from a "+
+							FormatAsLink("Logistic Rail", "LOGISTICRAIL") +
+							" into storage.";
 				}
+				public class LOGISTICRAIL
+				{
+					public static LocString NAME = FormatAsLink("Logistic Rail", nameof(LOGISTICRAIL));
+					public static LocString DESC = "Rails move materials where they'll be needed most, saving Duplicants the walk.";
+					public static LocString EFFECT = string.Concat(
+						[
+							"Transports ",
+							FormatAsLink("Solid Materials", "ELEMENTS_SOLID"),
+							" on a track between ",
+							FormatAsLink("Logistic Loader", "LOGISTICLOADER"),
+							" and ",
+							FormatAsLink("Logistic Receptacle", "LOGISTICOUTBOX"),
+							".\n\nCan be run through wall and floor tile."
+						]);
+				}
+				public class LOGISTICTRANSFERARM
+				{
+					public static LocString NAME = FormatAsLink("Logistic Auto-Sweeper", nameof(LOGISTICTRANSFERARM));
+					public static LocString DESC = "An auto-sweeper's range can be viewed at any time by clicking on the building.";
+					public static LocString EFFECT = string.Concat(
+						[
+							"Automates ",
+							FormatAsLink("Sweeping", "CHORES"),
+							" and ",
+							FormatAsLink("Supplying", "CHORES"),
+							" errands by sucking up all nearby ",
+							FormatAsLink("Debris", "DECOR"),
+							".\n\nMaterials are automatically delivered to any ",
+							FormatAsLink("Logistic Loader", "LOGISTICLOADER"),
+							", ",
+							FormatAsLink("Logistic Receptacle", "LOGISTICOUTBOX"),
+							", storage, or buildings within range."
+						]);
+				}
+				public class LOGISTICVENT
+				{
+					public static LocString NAME = FormatAsLink("Logistic Chute", nameof(LOGISTICVENT));
+					public static LocString DESC = "When materials reach the end of a rail, they are dropped back into the world.";
+					public static LocString EFFECT = string.Concat(
+						[
+							"Unloads ",
+							FormatAsLink("Solid Materials", "ELEMENTS_SOLID"),
+							" from a ",
+							FormatAsLink("Logistic Rail", "LOGISTICRAIL"),
+							" onto the floor."
+						]);
+				}
+
 				#endregion
 				#region HighPressureApplications
 
@@ -1308,6 +1356,16 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = (LocString)"No High Pressure Liquid Output";
 					public static LocString TOOLTIP = (LocString)("This building's " + PRE_KEYWORD + "High Pressure Liquid Output" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSURELIQUIDCONDUIT.NAME + " connected");
+				}
+				public class HPA_NEEDSOLIDIN
+				{
+					public static LocString NAME = (LocString)"No Heavy Duty Solid Intake";
+					public static LocString TOOLTIP = (LocString)("This building's " + PRE_KEYWORD + "Heavy Duty Solid Intake" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSURELIQUIDCONDUIT.NAME + " connected");
+				}
+				public class HPA_NEEDLSOLIDOUT
+				{
+					public static LocString NAME = (LocString)"No Heavy Duty Solid Output";
+					public static LocString TOOLTIP = (LocString)("This building's " + PRE_KEYWORD + "Heavy Duty Solid Output" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSURELIQUIDCONDUIT.NAME + " connected");
 				}
 			}
 		}

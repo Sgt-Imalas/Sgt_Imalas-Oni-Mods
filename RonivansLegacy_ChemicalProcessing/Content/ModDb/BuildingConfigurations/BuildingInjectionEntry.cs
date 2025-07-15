@@ -23,8 +23,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 			entry.BuildingID = buildingID;
 			return entry;
 		}
-        public BuildingInjectionEntry AddToTech(string techID)
+        public BuildingInjectionEntry AddToTech(string techID, ModUtil.BuildingOrdering ordering = ModUtil.BuildingOrdering.After)
 		{
+			BuildingOrdering = ordering;
 			TechID = techID;
 			return this;
 		}

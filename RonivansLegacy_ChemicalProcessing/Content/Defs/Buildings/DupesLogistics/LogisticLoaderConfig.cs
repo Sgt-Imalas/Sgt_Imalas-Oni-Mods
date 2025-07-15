@@ -9,8 +9,13 @@ using UnityEngine;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistics
 {
-	public class LogisticLoaderConfig : IBuildingConfig, IHasConfigurableStorageCapacity
+	public class LogisticLoaderConfig : IBuildingConfig, IHasConfigurableStorageCapacity, IHasConfigurableWattage
 	{
+		public static float Wattage = 30; // 1/4 of regular inbox
+
+		public float GetWattage() => Wattage;
+		public void SetWattage(float mass) => Wattage = mass;
+	
 		public static float StorageCapacity = 250; // 1/4 of regular loader capacity
 		public float GetStorageCapacity() => StorageCapacity;
 		public void SetStorageCapacity(float mass) => StorageCapacity = mass;
@@ -21,7 +26,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			EffectorValues nONE = NOISE_POLLUTION.NONE;
 			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 1, 2, "logistic_loader_kanim", 100, 60f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER3, MATERIALS.ALL_METALS, 1600f, BuildLocationRule.Anywhere, BUILDINGS.DECOR.PENALTY.TIER1, nONE, 0.2f);
 			def1.RequiresPowerInput = true;
-			def1.EnergyConsumptionWhenActive = 20f;
+			def1.EnergyConsumptionWhenActive = Wattage;
 			def1.ExhaustKilowattsWhenActive = 0f;
 			def1.SelfHeatKilowattsWhenActive = 0f;
 			def1.Overheatable = false;

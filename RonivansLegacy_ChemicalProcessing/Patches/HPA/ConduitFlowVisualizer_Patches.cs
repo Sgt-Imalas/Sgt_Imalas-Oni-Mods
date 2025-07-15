@@ -26,7 +26,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 			public static bool Prepare() => Config.Instance.HighPressureApplications;
 			public static bool Prefix(ConduitFlowVisualizer __instance, int cell, ref Color32 __result)
 			{
-				if (HighPressureConduitComponent.HasHighPressureConduitAt(cell, __instance.flowManager.conduitType, __instance.showContents, out var changedTint))
+				if (HighPressureConduit.HasHighPressureConduitAt(cell, __instance.flowManager.conduitType, __instance.showContents, out var changedTint))
 				{
 					__result = changedTint;
 					return false;
@@ -76,15 +76,15 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 
 			private static Color32 ReplaceHPConduitColor(Color32 oldColor, SaveLoadRoot currentItem)
             {
-				if (HighPressureConduitComponent.IsHighPressureConduit(currentItem.gameObject))
+				if (HighPressureConduit.IsHighPressureConduit(currentItem.gameObject))
 				{
 					if (Instance.ViewMode() == OverlayModes.LiquidConduits.ID)
 					{
-						return HighPressureConduitComponent.GetColorForConduitType(ConduitType.Liquid, true);
+						return HighPressureConduit.GetColorForConduitType(ConduitType.Liquid, true);
 					}
 					else if (Instance.ViewMode() == OverlayModes.GasConduits.ID)
 					{
-						return HighPressureConduitComponent.GetColorForConduitType(ConduitType.Gas, true);
+						return HighPressureConduit.GetColorForConduitType(ConduitType.Gas, true);
 					}
 				}
 				return oldColor;
@@ -140,9 +140,9 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 			//switches out the high pressure amount with the fullness amount a regular pipe would have relative to its max capacity
 			private static float NormalizeFillState(float absPipeMass, int cell)
 			{
-				if(HighPressureConduitComponent.HasHighPressureConduitAt(cell, CurrentConduitType))
+				if(HighPressureConduit.HasHighPressureConduitAt(cell, CurrentConduitType))
 				{
-					return HighPressureConduitComponent.GetNormalizedPercentageMass(absPipeMass, CurrentConduitType);
+					return HighPressureConduit.GetNormalizedPercentageMass(absPipeMass, CurrentConduitType);
 				}
 
 				return absPipeMass;
