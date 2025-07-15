@@ -10,12 +10,6 @@ using static FlowUtilityNetwork;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {
-
-	public class LowPressureConduit : HighPressureConduit
-	{
-
-	}
-
 	public class HighPressureConduit : KMonoBehaviour
 	{
 		public static Dictionary<int, Dictionary<int, HighPressureConduit>> ConduitsByLayer = new()
@@ -24,8 +18,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			{ (int)ObjectLayer.LiquidConduit,new Dictionary<int, HighPressureConduit>() },
 			{ (int)ObjectLayer.GasConduitConnection,new Dictionary<int, HighPressureConduit>() },
 			{ (int)ObjectLayer.LiquidConduitConnection,new Dictionary<int, HighPressureConduit>() },
-			//{ (int)ObjectLayer.Building,new Dictionary<int, HighPressureConduit>() },
-
+			{ (int)ObjectLayer.SolidConduit,new Dictionary<int, HighPressureConduit>() },
+			{ (int)ObjectLayer.SolidConduitConnection,new Dictionary<int, HighPressureConduit>() },
 		};
 		public static void ClearEverything()
 		{
@@ -38,10 +32,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			{ (int)ObjectLayer.LiquidConduit,new Dictionary<int, HighPressureConduit>() },
 			{ (int)ObjectLayer.GasConduitConnection,new Dictionary<int, HighPressureConduit>() },
 			{ (int)ObjectLayer.LiquidConduitConnection,new Dictionary<int, HighPressureConduit>() },
-			//{ (int)ObjectLayer.Building,new Dictionary<int, HighPressureConduit>() },
+			{ (int)ObjectLayer.SolidConduit,new Dictionary<int, HighPressureConduit>() },
+			{ (int)ObjectLayer.SolidConduitConnection,new Dictionary<int, HighPressureConduit>() },
 			};
 		}
-
 
 		public static HashSet<HighPressureConduit> AllConduits = [];
 		public static HashSet<GameObject> AllConduitGOs = [];
@@ -51,6 +45,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 		public override void OnSpawn()
 		{
+			RegisterBuilding();
+		}
+
+		void RegisterBuilding()
+		{
 			if (!ConduitsByLayer.ContainsKey((int)buildingComplete.Def.ObjectLayer))
 				ConduitsByLayer.Add((int)buildingComplete.Def.ObjectLayer, new());
 
@@ -59,25 +58,42 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			ConduitsByLayer[(int)buildingComplete.Def.ObjectLayer][buildingComplete.PlacementCells.Max()] = this;
 
 			//SgtLogger.l($"Registering high pressure conduit for layer {buildingComplete.Def.ObjectLayer} for cells {buildingComplete.PlacementCells.Min()} and {buildingComplete.PlacementCells.Max()}");
-
 			AllConduitGOs.Add(this.gameObject);
 			AllConduits.Add(this);
 			base.OnSpawn();
 		}
-		public override void OnCleanUp()
+		void UnregisterBuilding()
 		{
-			base.OnCleanUp();
 			ConduitsByLayer[(int)buildingComplete.Def.ObjectLayer].Remove(buildingComplete.PlacementCells.Min());
 			ConduitsByLayer[(int)buildingComplete.Def.ObjectLayer].Remove(buildingComplete.PlacementCells.Max());
 			AllConduitGOs.Remove(this.gameObject);
 			AllConduits.Remove(this);
 		}
 
+		public override void OnCleanUp()
+		{
+			base.OnCleanUp();
+			UnregisterBuilding();
+		}
+
 		public static float GetMaxConduitCapacityAt(int cell, ConduitType type, out GameObject go, bool isBridge = false)
 		{
-			if (type == ConduitType.Gas)
+			if (HasHighPressureConduitAt(cell, type, isBridge))
 			{
-				if (ConduitsByLayer[isBridge ? (int)ObjectLayer.GasConduitConnection : (int)ObjectLayer.GasConduit].TryGetValue(cell, out var cmp))
+				int targetLayer = -1;
+
+				switch (type)
+				{
+					case ConduitType.Gas:
+						targetLayer = isBridge ? (int)ObjectLayer.GasConduitConnection : (int)ObjectLayer.GasConduit; break;
+					case ConduitType.Liquid:
+						targetLayer = isBridge ? (int)ObjectLayer.LiquidConduitConnection : (int)ObjectLayer.LiquidConduit; break;
+					case ConduitType.Solid:
+						targetLayer = isBridge ? (int)ObjectLayer.SolidConduitConnection : (int)ObjectLayer.SolidConduitConnection; break;
+					default:
+						throw new NotImplementedException("Invalid conduit target type");
+				}
+				if (ConduitsByLayer[targetLayer].TryGetValue(cell, out var cmp))
 				{
 					go = cmp.gameObject;
 					return CachedHPAConduitCapacity(type);
@@ -87,20 +103,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 					go = GetConduitAt(cell, type);
 					return CachedRegularConduitCapacity(type);
 				}
-			}
-			else if (type == ConduitType.Liquid)
-			{
-				if (ConduitsByLayer[isBridge ? (int)ObjectLayer.LiquidConduitConnection : (int)ObjectLayer.LiquidConduit].TryGetValue(cell, out var cmp))
-				{
-					go = cmp.gameObject;
-					return CachedHPAConduitCapacity(type);
-				}
-				else
-				{
-					go = GetConduitAt(cell, type);
-					return CachedRegularConduitCapacity(type);
-				}
-			}
+			}			
 			throw new NotImplementedException("Tried getting capacity from invalid conduit type");
 		}
 		public static GameObject GetConduitAt(int cell, ConduitType type, bool isBridge = false)
@@ -113,12 +116,20 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			{
 				return Grid.Objects[cell, isBridge ? (int)ObjectLayer.LiquidConduitConnection : (int)ObjectLayer.LiquidConduit];
 			}
+			else if (type == ConduitType.Solid)
+			{
+				return Grid.Objects[cell, isBridge ? (int)ObjectLayer.SolidConduitConnection : (int)ObjectLayer.SolidConduit];
+			}
 			throw new NotImplementedException("Tried getting invalid conduit type");
 		}
 
 		public static bool HasHighPressureConduitAt(int cell, ConduitType type, out float capacity, bool bridge = false)
 		{
 			capacity = CachedHPAConduitCapacity(type);
+			return HasHighPressureConduitAt(cell, type, bridge);
+		}
+		public static bool HasHighPressureConduitAt(int cell, ConduitType type, bool bridge = false)
+		{
 			if (type == ConduitType.Gas)
 			{
 				return ConduitsByLayer[bridge ? (int)ObjectLayer.GasConduitConnection : (int)ObjectLayer.GasConduit].ContainsKey(cell);
@@ -127,28 +138,15 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			{
 				return ConduitsByLayer[bridge ? (int)ObjectLayer.LiquidConduitConnection : (int)ObjectLayer.LiquidConduit].ContainsKey(cell);
 			}
-			return false;
-		}
-		public static bool HasHighPressureConduitAt(int cell, ConduitType type, bool bridge = false)
-		{
-			if (type == ConduitType.Gas)
+			else if (type == ConduitType.Solid)
 			{
-				return ConduitsByLayer[bridge ? (int)ObjectLayer.GasConduitConnection : (int)ObjectLayer.GasConduit].ContainsKey(cell); ;
-			}
-			else if (type == ConduitType.Liquid)
-			{
-				return ConduitsByLayer[bridge ? (int)ObjectLayer.LiquidConduitConnection : (int)ObjectLayer.LiquidConduit].ContainsKey(cell);
+				return ConduitsByLayer[bridge ? (int)ObjectLayer.SolidConduitConnection : (int)ObjectLayer.SolidConduit].ContainsKey(cell);
 			}
 			return false;
 		}
 		public static bool HasHighPressureConduitAt(int cell, ConduitType type, bool showContents, out Color32 tint)
 		{
-			if (type == ConduitType.Gas && ConduitsByLayer[(int)ObjectLayer.GasConduit].ContainsKey(cell))
-			{
-				tint = GetColorForConduitType(type, showContents);
-				return true;
-			}
-			else if (type == ConduitType.Liquid && ConduitsByLayer[(int)ObjectLayer.LiquidConduit].ContainsKey(cell))
+			if (HasHighPressureConduitAt(cell, type, false))
 			{
 				tint = GetColorForConduitType(type, showContents);
 				return true;
@@ -162,18 +160,21 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				return overlay ? _gasFlowOverlay : _gasFlowTint;
 			else if (conduitType == ConduitType.Liquid)
 				return overlay ? _liquidFlowOverlay : _liquidFlowTint;
+			else if (conduitType == ConduitType.Solid)
+				return _solidOverlayTint;
 			return Color.white;
 		}
 
 		//cache this to avoid calling config.instance each time
 		private static bool _capInit = false;
-		private static float _gasCap_hp = -1, _liquidCap_hp = -1;
-		private static float _gasCap_reg = -1, _liquidCap_reg = -1;
+		private static float _gasCap_hp = -1, _liquidCap_hp = -1, _solidCap_hp = -1, _solidCap_logistic;
+		private static float _gasCap_reg = -1, _liquidCap_reg = -1, _solidCap_reg = -1;
 		private static Color32 _gasFlowOverlay = new Color32(169, 209, 251, 0), _gasFlowTint = new Color32(176, 176, 176, 255),
-			_liquidFlowOverlay = new Color32(92, 144, 121, 0), _liquidFlowTint = new Color32(92, 144, 121, 255);
+			_liquidFlowOverlay = new Color32(92, 144, 121, 0), _liquidFlowTint = new Color32(92, 144, 121, 255),
+			_solidOverlayTint = new (154, 255, 167,0);
 
 
-		public static float CachedHPAConduitCapacity(ConduitType type)
+		public static float CachedHPAConduitCapacity(ConduitType type, HighPressureConduit cmp = null)
 		{
 			InitCache();
 			switch (type)
@@ -182,6 +183,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 					return _gasCap_hp;
 				case ConduitType.Liquid:
 					return _liquidCap_hp;
+				case ConduitType.Solid:
+					return _solidCap_hp;
 			}
 			return 1;
 		}
@@ -194,6 +197,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 					return _gasCap_reg;
 				case ConduitType.Liquid:
 					return _liquidCap_reg;
+				case ConduitType.Solid:
+					return _solidCap_reg;
 			}
 			return 1;
 		}
@@ -204,8 +209,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				_capInit = true;
 				_gasCap_hp = Config.Instance.HPA_Capacity_Gas;
 				_liquidCap_hp = Config.Instance.HPA_Capacity_Liquid;
+				_solidCap_hp = Config.Instance.Rail_Capacity_HPA;
+				_solidCap_logistic = Config.Instance.Rail_Capacity_Logistic;
+
 				_gasCap_reg = Conduit.GetFlowManager(ConduitType.Gas).MaxMass;
 				_liquidCap_reg = Conduit.GetFlowManager(ConduitType.Liquid).MaxMass;
+				_solidCap_reg = SolidConduitFlow.MAX_SOLID_MASS;
 			}
 		}
 
@@ -281,15 +290,25 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 		public static float GetConduitMultiplier(ConduitType currentConduitType)
 		{
+			InitCache();
 			if (currentConduitType == ConduitType.Gas)
 			{
-				return (Config.Instance.HPA_Capacity_Gas / ConduitFlow.MAX_GAS_MASS);
+				return (_gasCap_hp / _gasCap_reg);
 			}
 			else if (currentConduitType == ConduitType.Liquid)
 			{
-				return (Config.Instance.HPA_Capacity_Liquid / ConduitFlow.MAX_LIQUID_MASS);
+				return (_liquidCap_hp / _liquidCap_reg);
+			}
+			else if (currentConduitType == ConduitType.Solid)
+			{
+				return (_solidCap_hp / _solidCap_reg);
 			}
 			return 1;
+		}
+		public static float GetLogisticConduitMultiplier()
+		{
+			InitCache();
+			return _solidCap_logistic / _solidCap_reg;
 		}
 	}
 }

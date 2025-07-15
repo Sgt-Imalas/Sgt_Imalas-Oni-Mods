@@ -21,7 +21,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 		public override BuildingDef CreateBuildingDef()
 		{
 			EffectorValues nONE = NOISE_POLLUTION.NONE;
-			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 1, 1, "logistic_vent_kanim", 30, 30f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER1, MATERIALS.ALL_METALS, 1600f, BuildLocationRule.Anywhere, BUILDINGS.DECOR.PENALTY.TIER1, nONE, 0.2f);
+			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 1, 1, "logistic_vent_kanim", 30, 30f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER2, MATERIALS.ALL_METALS, 1600f, BuildLocationRule.Anywhere, BUILDINGS.DECOR.PENALTY.TIER1, nONE, 0.2f);
 			def1.InputConduitType = ConduitType.Solid;
 			def1.Floodable = false;
 			def1.Overheatable = false;

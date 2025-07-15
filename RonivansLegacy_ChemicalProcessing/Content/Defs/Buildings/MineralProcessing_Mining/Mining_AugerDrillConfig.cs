@@ -11,6 +11,7 @@ using UnityEngine;
 using UtilLibs;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.UI.MINING_AUGUR_DRILL;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS;
+using RonivansLegacy_ChemicalProcessing;
 
 
 namespace Mineral_Processing_Mining.Buildings
@@ -114,10 +115,13 @@ namespace Mineral_Processing_Mining.Buildings
 
 			ConfigurableSolidConduitDispenser solidDispenser = go.AddOrGet<ConfigurableSolidConduitDispenser>();
 			solidDispenser.alwaysDispense = true;
-			solidDispenser.massDispensed = 200f;
+			solidDispenser.massDispensed = Config.Instance.Rail_Capacity_HPA;
 			solidDispenser.storage = drillRig.outStorage;
 			solidDispenser.solidOnly = true;
 			solidDispenser.elementFilter = null;
+
+			if (Config.Instance.HighPressureApplications)
+				go.AddOrGet<HPA_SolidConduitRequirement>().RequiresHighPressureOutput = true;
 
 			var worldElementDropper = go.AddOrGet<WorldElementDropper>();
 			worldElementDropper.DropGases = true;
@@ -130,6 +134,7 @@ namespace Mineral_Processing_Mining.Buildings
 			guidanceDeviceHandler.SourceStorage = drillRig.outStorage;
 			guidanceDeviceHandler.TargetStorage = drillRig.inStorage;
 
+			go.AddOrGet<HPA_ConduitRequirement>().RequiresHighPressureOutput = true;
 			Prioritizable.AddRef(go);
 			this.ConfigureRecipes();
 

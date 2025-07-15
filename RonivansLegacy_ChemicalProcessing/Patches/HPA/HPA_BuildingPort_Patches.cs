@@ -34,6 +34,12 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 					if (cmp.targetLevel > 0)
 						cmp.targetLevel = tweakedCapacity;
 					break;
+				case CargoBay.CargoType.Solids:
+					tweakedCapacity = Config.Instance.Rail_Capacity_HPA;
+					cmp.storage.capacityKg = tweakedCapacity;
+					if (cmp.targetLevel > 0)
+						cmp.targetLevel = tweakedCapacity;
+					break;
 			}
         }
 		public static void IncreaseConsumerInput(ConduitConsumer __instance, bool increaseStorage)
@@ -134,6 +140,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			public static void Postfix()
 			{
 				HighPressureConduit.ClearEverything();
+				LogisticConduit.ClearEverything();
 			}
 		}
 	}

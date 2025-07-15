@@ -20,7 +20,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 		public override BuildingDef CreateBuildingDef()
 		{
 			EffectorValues nONE = NOISE_POLLUTION.NONE;
-			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 3, 1, "logistic_bridge_kanim", 10, 30f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER2, MATERIALS.ALL_METALS, 1600f, BuildLocationRule.Conduit, BUILDINGS.DECOR.NONE, nONE, 0.2f);
+			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 3, 1, "logistic_bridge_kanim", 10, 30f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER3, MATERIALS.ALL_METALS, 1600f, BuildLocationRule.Conduit, BUILDINGS.DECOR.NONE, nONE, 0.2f);
 			def1.ObjectLayer = ObjectLayer.SolidConduitConnection;
 			def1.SceneLayer = Grid.SceneLayer.SolidConduitBridges;
 			def1.InputConduitType = ConduitType.Solid;

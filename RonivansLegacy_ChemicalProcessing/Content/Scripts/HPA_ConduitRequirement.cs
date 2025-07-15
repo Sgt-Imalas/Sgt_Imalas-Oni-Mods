@@ -9,11 +9,47 @@ using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {
+	public class HPA_SolidConduitRequirement : HPA_ConduitRequirement
+	{
+		[MyCmpGet]
+		public SolidConduitConsumer solidconsumer;
+		[MyCmpGet]
+		public SolidConduitDispenser soliddispenser;
+		protected override void CacheConduitCells()
+		{
+			if (RequiresHighPressureInput && solidconsumer != null)
+			{
+				consumerCell = solidconsumer.GetInputCell();
+				inputType = ConduitType.Solid;
+			}
+			if (RequiresHighPressureOutput && dispenser != null)
+			{
+				dispenserCell = soliddispenser.GetOutputCell();
+				outputType = ConduitType.Solid;
+			}
+		}
+		protected override bool ConsumerConnected()
+		{
+			return solidconsumer.IsConnected;
+		}
+		protected override bool ConsumerDisabled()
+		{
+			return !solidconsumer.enabled;
+		}
+		protected override bool DispenserConnected()
+		{
+			return soliddispenser.IsConnected;
+		}
+		protected override bool DispenserDisabled()
+		{
+			return !soliddispenser.enabled;
+		}
+	}
+
 	public class HPA_ConduitRequirement : KMonoBehaviour, ISim200ms
 	{
 		private static readonly Operational.Flag highPressureInputConnected = new Operational.Flag("highPressureInputConnected", Operational.Flag.Type.Requirement);
 		private static readonly Operational.Flag highPressureOutputConnected = new Operational.Flag("highPressureOutputConnected", Operational.Flag.Type.Requirement);
-
 
 		[MyCmpReq]
 		KSelectable selectable;
@@ -28,9 +64,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 		public bool RequiresHighPressureInput = false, RequiresHighPressureOutput = false;
 
-		private int consumerCell = -1, dispenserCell = -1;
-		private ConduitType inputType = ConduitType.None, outputType = ConduitType.None;
-		private bool previouslyConnectedHPInput = true, previouslyConnectedHPOutput = true;
+		protected int consumerCell = -1, dispenserCell = -1;
+		protected ConduitType inputType = ConduitType.None, outputType = ConduitType.None;
+		protected bool previouslyConnectedHPInput = true, previouslyConnectedHPOutput = true;
 
 		public override void OnSpawn()
 		{
@@ -38,7 +74,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			base.OnSpawn();
 			CheckRequirements();
 		}
-		void CacheConduitCells()
+		protected virtual void CacheConduitCells()
 		{
 			if (RequiresHighPressureInput && consumer != null)
 			{
@@ -58,7 +94,23 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			bool hasHPA = HighPressureConduit.HasHighPressureConduitAt(cell, type);
 			return hasHPA;
 		}
-		
+		protected virtual bool ConsumerConnected()
+		{
+			return consumer.IsConnected;
+		}
+		protected virtual bool ConsumerDisabled()
+		{
+			return !consumer.enabled;
+		}
+		protected virtual bool DispenserConnected()
+		{
+			return dispenser.IsConnected;
+		}
+		protected virtual bool DispenserDisabled()
+		{
+			return !dispenser.enabled;
+		}
+
 		public void CheckRequirements()
 		{
 			if (!RequiresHighPressureInput && !RequiresHighPressureOutput)
@@ -66,7 +118,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 			if (RequiresHighPressureInput && consumerCell > 0)
 			{
-				bool hasHighPressureInput = !consumer.enabled || consumer.IsConnected && HasPressureConduitAt(consumerCell, inputType);
+				bool hasHighPressureInput = ConsumerDisabled() || ConsumerConnected() && HasPressureConduitAt(consumerCell, inputType);
 
 				if (previouslyConnectedHPInput != hasHighPressureInput)
 				{
@@ -91,7 +143,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			}
 			if (RequiresHighPressureOutput && dispenserCell > 0)
 			{
-				bool hasHighPressureOutput = !dispenser.enabled || dispenser.IsConnected && HasPressureConduitAt(dispenserCell, outputType);
+				bool hasHighPressureOutput = !DispenserDisabled() || DispenserConnected() && HasPressureConduitAt(dispenserCell, outputType);
 
 				if (previouslyConnectedHPOutput != hasHighPressureOutput)
 				{

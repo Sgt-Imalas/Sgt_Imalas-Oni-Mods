@@ -1,4 +1,5 @@
-﻿using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
+﻿using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 {
     class LogisticFilterConfig : IBuildingConfig, IHasConfigurableWattage
 	{
-		public static float Wattage = 30; // 1/4 of regular filter
+		public static float Wattage = HighPressureConduit.GetLogisticConduitMultiplier() * 120f;
 
 		public float GetWattage() => Wattage;
 		public void SetWattage(float mass) => Wattage = mass;
@@ -25,7 +26,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 		public override BuildingDef CreateBuildingDef()
 		{
 			EffectorValues noise = NOISE_POLLUTION.NOISY.TIER1;
-			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 3, 1, "logistic_filter_kanim", 30, 10f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER1, MATERIALS.RAW_METALS, 1600f, BuildLocationRule.Anywhere, BUILDINGS.DECOR.PENALTY.TIER0, noise, 0.2f);
+			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 3, 1, "logistic_filter_kanim", 30, 10f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER2, MATERIALS.RAW_METALS, 1600f, BuildLocationRule.Anywhere, BUILDINGS.DECOR.PENALTY.TIER0, noise, 0.2f);
 			def1.RequiresPowerInput = true;
 			def1.EnergyConsumptionWhenActive = Wattage;
 			def1.SelfHeatKilowattsWhenActive = 0f;

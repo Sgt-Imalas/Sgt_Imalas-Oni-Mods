@@ -1,4 +1,5 @@
-﻿using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
+﻿using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +12,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 {
 	public class LogisticLoaderConfig : IBuildingConfig, IHasConfigurableStorageCapacity, IHasConfigurableWattage
 	{
-		public static float Wattage = 30; // 1/4 of regular inbox
+		public static float Wattage = HighPressureConduit.GetLogisticConduitMultiplier() * 120f;
 
 		public float GetWattage() => Wattage;
 		public void SetWattage(float mass) => Wattage = mass;
 	
-		public static float StorageCapacity = 250; // 1/4 of regular loader capacity
+		public static float StorageCapacity = HighPressureConduit.GetLogisticConduitMultiplier() * 1000; // 1/2 of regular loader capacity by default
 		public float GetStorageCapacity() => StorageCapacity;
 		public void SetStorageCapacity(float mass) => StorageCapacity = mass;
 	
@@ -60,7 +61,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			storage.showCapacityAsMainStatus = true;
 			go.AddOrGet<TreeFilterable>();
 			go.AddOrGet<SolidConduitInbox>();
-			go.AddOrGet<SolidConduitDispenser>();
+			go.AddOrGet<ConfigurableSolidConduitDispenser>().massDispensed = Config.Instance.Rail_Capacity_Logistic;
 		}
 
 		public override void DoPostConfigureUnderConstruction(GameObject go)

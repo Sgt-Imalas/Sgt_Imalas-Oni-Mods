@@ -14,7 +14,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 {
 	public class LogisticTransferArmConfig : IBuildingConfig, IHasConfigurableStorageCapacity, IHasConfigurableWattage
 	{
-		public static float Wattage = 30; // 1/4 of regular transfer arm
+		public static float Wattage = HighPressureConduit.GetLogisticConduitMultiplier() * 120f; // 1/2 of regular transfer arm by default
 
 		public float GetWattage() => Wattage;
 		public void SetWattage(float mass) => Wattage = mass;
