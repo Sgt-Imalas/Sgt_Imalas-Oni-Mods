@@ -17,6 +17,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 	class SolidConduitFlow_Patches
 	{
 		public static SolidConduitFlow Instance;
+		public static SolidConduitFlow.Conduit Source;
 		//Drop items off conveyor rail and damage the rail if it doesnt support the capacity
 		[HarmonyPatch(typeof(SolidConduitFlow), nameof(SolidConduitFlow.UpdateConduit))]
 		public class SolidConduitFlow_UpdateConduit_Patch
@@ -24,7 +25,10 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 			[HarmonyPrepare]
 			public static bool Prepare() => Config.Instance.HighPressureApplications || Config.Instance.DupesLogistics;
 
-			public static void Prefix(SolidConduitFlow __instance) => Instance = __instance;
+			public static void Prefix(SolidConduitFlow __instance, SolidConduitFlow.Conduit conduit)
+			{
+				Instance = __instance;
+			}
 
 
 			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig, MethodBase __originalMethod)
@@ -32,17 +36,18 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				var codes = orig.ToList();
 				MethodInfo dropExcessRailMaterialsAtCell = AccessTools.Method(typeof(SolidConduitFlow_Patches), nameof(DropExcessRailMaterialsAtCell));
 				MethodInfo SolidConduitFlow_RemoveFromGrid = AccessTools.Method(typeof(SolidConduitFlow), nameof(SolidConduitFlow.RemoveFromGrid));
-				var conduitIndex = __originalMethod.GetMethodBody().LocalVariables.Last(variable => variable.LocalType == typeof(SolidConduitFlow.Conduit)).LocalIndex;
-				var targetCellIndex = __originalMethod.GetMethodBody().LocalVariables.Last(variable => variable.LocalType == typeof(int)).LocalIndex;
 
-				SgtLogger.l("conduit index: " + conduitIndex + ", targetcell index: " + targetCellIndex);
+				///this results in the wrong target, bc we need the one at index 2, but its nice to copy it later
+				//var targetCellIndex = __originalMethod.GetMethodBody().LocalVariables.Last(variable => variable.LocalType == typeof(int)).LocalIndex;
+
+				var targetCellIndex = 4; //int cell = this.soaInfo.GetCell(conduitFromDirection1.idx); // cell iterator
+
 
 				foreach (CodeInstruction ci in orig)
 				{
 					if (ci.Calls(SolidConduitFlow_RemoveFromGrid))
 					{
 						yield return ci;
-						yield return new CodeInstruction(OpCodes.Ldloc_S, conduitIndex); //Conduit
 						yield return new CodeInstruction(OpCodes.Ldloc_S, targetCellIndex); //cell
 						yield return new CodeInstruction(OpCodes.Call, dropExcessRailMaterialsAtCell);
 					}
@@ -51,9 +56,9 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				}
 			}
 		}
-		private static SolidConduitFlow.ConduitContents DropExcessRailMaterialsAtCell(SolidConduitFlow.ConduitContents contents, SolidConduitFlow.Conduit source, int targetcell)
+		private static SolidConduitFlow.ConduitContents DropExcessRailMaterialsAtCell(SolidConduitFlow.ConduitContents contents, int targetcell)
 		{
-			int sourceCell = Instance.soaInfo.GetCell(source.idx);
+			int sourceCell = Instance.soaInfo.GetCell(Source.idx);
 			Pickupable pickupable = Instance.GetPickupable(contents.pickupableHandle);
 			///ignore items that have a custom weight per unit
 			if (pickupable.PrimaryElement.MassPerUnit != 1)
@@ -66,21 +71,15 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 			GameObject targetRail;
 
 			if (!LogisticConduit.TryGetLogisticConduitAt(targetcell, false, out targetRail))
-			{
 				maxTargetRailCapacity = HighPressureConduit.GetMaxConduitCapacityAt(targetcell, ConduitType.Solid, out targetRail);
-				SgtLogger.l("rail at targetcell " + targetcell + " is regular rail");
 
-			}
-			else
-				SgtLogger.l("rail at targetcell " + targetcell + " is logistic rail");
 
-				maxTargetRailCapacity += 0.01f; //adding 10 grams to avoid floating point errors dropping micrograms of items
-
-			SgtLogger.l("Current Item Weight: "+weight+", target weight: "+maxTargetRailCapacity);
+			maxTargetRailCapacity += 0.0001f; //adding a tiny amount to avoid floating point errors dropping micrograms of items
+			SgtLogger.l("Current Item Weight: " + weight + ", target weight: " + maxTargetRailCapacity);
 
 			if (weight <= maxTargetRailCapacity)
 				return contents;
-			
+
 			if (weight > maxTargetRailCapacity)
 			{
 				float additionalWeightToRemove = (weight - maxTargetRailCapacity);
