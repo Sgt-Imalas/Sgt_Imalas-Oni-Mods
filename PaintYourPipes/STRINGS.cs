@@ -18,7 +18,7 @@
 		}
 		public class MODCONFIG
 		{
-			public static LocString OVERLAYONLYNAME = "Color Overlays Only";
+			public static LocString OVERLAYONLYNAME = "Paint Overlays Only";
 			public static LocString OVERLAYONLYDESC = "Only show colors in overlays";
 
 		}

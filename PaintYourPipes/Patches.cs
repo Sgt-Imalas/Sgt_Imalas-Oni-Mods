@@ -82,13 +82,15 @@ namespace PaintYourPipes
 			public static void DoPostConfigureComplete_Postfix(GameObject go)
 			{
 				go.AddOrGet<ColorableConduit>();
-				go.AddOrGet<KPrefabID>().AddTag(MaterialColor_ExcludedTag);
+				if(!Config.Instance.OverlayOnly)
+					go.AddOrGet<KPrefabID>().AddTag(MaterialColor_ExcludedTag);
 
 			}
 			public static void DoPostConfigureUnderConstruction_Postfix(GameObject go)
 			{
 				go.AddComponent<ColorableConduit_UnderConstruction>();
-				go.AddOrGet<KPrefabID>().AddTag(MaterialColor_ExcludedTag);
+				if (!Config.Instance.OverlayOnly)
+					go.AddOrGet<KPrefabID>().AddTag(MaterialColor_ExcludedTag);
 			}
 
 			static List<Type> TargetBuildingTypes()
@@ -189,7 +191,14 @@ namespace PaintYourPipes
 				var HighPressureLiquidConduitConfig = AccessTools.TypeByName("HighPressureLiquidConduitConfig");
 				if (HighPressureLiquidConduitConfig != null)
 					values.Add(HighPressureLiquidConduitConfig);
-
+			
+				//PlasticUtilities
+				var PlasticGasConduitConfig = AccessTools.TypeByName("PlasticGasConduitConfig");
+				if (PlasticGasConduitConfig != null)
+					values.Add(PlasticGasConduitConfig);
+				var PlasticLiquidConduitConfig = AccessTools.TypeByName("PlasticLiquidConduitConfig");
+				if (PlasticLiquidConduitConfig != null)
+					values.Add(PlasticLiquidConduitConfig);
 
 				return values;
 			}
