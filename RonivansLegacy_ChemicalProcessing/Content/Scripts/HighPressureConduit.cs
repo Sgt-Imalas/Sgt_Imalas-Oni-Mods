@@ -12,15 +12,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {
 	public class HighPressureConduit : KMonoBehaviour
 	{
-		public static Dictionary<int, Dictionary<int, HighPressureConduit>> ConduitsByLayer = new()
+		public HighPressureConduit()
 		{
-			{ (int)ObjectLayer.GasConduit,new Dictionary<int, HighPressureConduit>() },
-			{ (int)ObjectLayer.LiquidConduit,new Dictionary<int, HighPressureConduit>() },
-			{ (int)ObjectLayer.GasConduitConnection,new Dictionary<int, HighPressureConduit>() },
-			{ (int)ObjectLayer.LiquidConduitConnection,new Dictionary<int, HighPressureConduit>() },
-			{ (int)ObjectLayer.SolidConduit,new Dictionary<int, HighPressureConduit>() },
-			{ (int)ObjectLayer.SolidConduitConnection,new Dictionary<int, HighPressureConduit>() },
-		};
+			ClearEverything();
+			InitCache();
+		}
+
+		public static Dictionary<int, Dictionary<int, HighPressureConduit>> ConduitsByLayer;
 		public static void ClearEverything()
 		{
 			CancelPendingPressureDamage();
@@ -162,12 +160,15 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 		//cache this to avoid calling config.instance each time
 		private static bool _capInit = false;
-		private static float _gasCap_hp = -1, _liquidCap_hp = -1, _solidCap_hp = -1, _solidCap_logistic;
+		private static float _gasCap_hp = -1, _liquidCap_hp = -1, _solidCap_hp = -1, _solidCap_logistic = -1;
 		private static float _gasCap_reg = -1, _liquidCap_reg = -1, _solidCap_reg = -1;
 		private static Color32 _gasFlowOverlay = new Color32(169, 209, 251, 0), _gasFlowTint = new Color32(176, 176, 176, 255),
 			_liquidFlowOverlay = new Color32(92, 144, 121, 0), _liquidFlowTint = new Color32(92, 144, 121, 255),
 			_solidOverlayTint = new(154, 255, 167, 0);
 
+		public static float SolidCap_HP => _solidCap_hp;
+		public static float SolidCap_Logistic => _solidCap_logistic;	
+		public static float SolidCap_Regular => _solidCap_reg;
 
 		public static float CachedHPAConduitCapacity(ConduitType type, HighPressureConduit cmp = null)
 		{
@@ -305,5 +306,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			InitCache();
 			return _solidCap_logistic / _solidCap_reg;
 		}
+
 	}
 }

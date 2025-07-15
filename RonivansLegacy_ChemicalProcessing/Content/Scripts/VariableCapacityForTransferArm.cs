@@ -7,13 +7,13 @@ using UnityEngine;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {
-    class VariableCapacityTransferArm : SolidTransferArm
+    class VariableCapacityForTransferArm : KMonoBehaviour
 	{
 		[SerializeField] public float TargetCarryCapacity = 1000; //1000 is vanilla arm default
 
 		public override void OnPrefabInit()
 		{
-			this.max_carry_weight = TargetCarryCapacity;
+			gameObject.GetComponent< SolidTransferArm >().max_carry_weight = TargetCarryCapacity;
 			base.OnPrefabInit();
 		}
 	}

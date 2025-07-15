@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -44,6 +45,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			local1.connectionSource = KAnimGraphTileVisualizer.ConnectionSource.Solid;
 			local1.isPhysicalBuilding = true;
 			LiquidConduitConfig.CommonConduitPostConfigureComplete(go);
+			go.AddOrGet<LogisticConduit>();
 		}
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{

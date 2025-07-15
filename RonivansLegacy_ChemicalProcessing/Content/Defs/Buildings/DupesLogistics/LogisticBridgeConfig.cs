@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,6 +43,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 		public override void DoPostConfigureComplete(GameObject go)
 		{
 			go.AddOrGet<SolidConduitBridge>();
+			go.AddOrGet<LogisticConduit>();
 		}
 
 		public override void DoPostConfigureUnderConstruction(GameObject go)

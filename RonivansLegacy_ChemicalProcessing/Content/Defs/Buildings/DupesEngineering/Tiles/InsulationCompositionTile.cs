@@ -16,10 +16,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 		public override BuildingDef CreateBuildingDef()
 		{
 			string kanim = "floor_insulating_kanim";
-			float[] mass = [350,50];
+			float[] mass = [375,75];
 			string[] cost = [GameTags.BuildableRaw.ToString(), GameTags.PreciousRock.ToString()];
 
-			BuildingDef def = BuildingTemplates.CreateBuildingDef(ID, 1, 1, kanim, 100, 5f, mass, cost, 1600f, BuildLocationRule.Tile, BUILDINGS.DECOR.PENALTY.TIER1, NOISE_POLLUTION.NONE);
+			BuildingDef def = BuildingTemplates.CreateBuildingDef(ID, 1, 1, kanim, 100, 5f, mass, cost, 1600f, BuildLocationRule.Tile, BUILDINGS.DECOR.BONUS.TIER0, NOISE_POLLUTION.NONE);
 			BuildingTemplates.CreateFoundationTileDef(def);
 			def.ThermalConductivity = 0.01f; // THERMAL CONDUCTIVITY
 			def.Floodable = false;

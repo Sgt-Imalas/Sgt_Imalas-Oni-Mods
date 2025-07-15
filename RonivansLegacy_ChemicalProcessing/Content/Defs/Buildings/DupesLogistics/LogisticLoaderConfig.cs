@@ -29,8 +29,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			def1.RequiresPowerInput = true;
 			def1.EnergyConsumptionWhenActive = Wattage;
 			def1.ExhaustKilowattsWhenActive = 0f;
-			def1.SelfHeatKilowattsWhenActive = 0f;
-			def1.Overheatable = false;
+			def1.SelfHeatKilowattsWhenActive = HighPressureConduit.GetLogisticConduitMultiplier()*2f;
 			def1.Floodable = false;
 			def1.ViewMode = OverlayModes.SolidConveyor.ID;
 			def1.AudioCategory = "Metal";
@@ -49,7 +48,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			Prioritizable.AddRef(go);
 			go.AddOrGet<EnergyConsumer>();
 			go.AddOrGet<Automatable>();
-			List<Tag> tagList = [.. STORAGEFILTERS.NOT_EDIBLE_SOLIDS, .. STORAGEFILTERS.FOOD];
+			List<Tag> tagList = [.. STORAGEFILTERS.STORAGE_LOCKERS_STANDARD, .. STORAGEFILTERS.FOOD];
 			Storage storage = go.AddOrGet<Storage>();
 			storage.capacityKg = GetStorageCapacity();
 			storage.showInUI = true;

@@ -674,6 +674,7 @@ elements:
     - BuildableAny
     - ChemicalProcessing_RandomSand
     - Noncrushable
+    - Unstable
     buildMenuSort: 5
     isDisabled: false
     state: Solid
@@ -705,6 +706,7 @@ elements:
     - BuildableAny
     - ChemicalProcessing_RandomSand
     - Noncrushable
+    - Unstable
     buildMenuSort: 5
     isDisabled: false
     state: Solid
@@ -736,6 +738,7 @@ elements:
     - BuildableAny
     - ChemicalProcessing_RandomSand
     - Noncrushable
+    - Unstable
     buildMenuSort: 5
     isDisabled: false
     state: Solid
@@ -965,6 +968,7 @@ elements:
     tags:
     - Plumbable
     - BuildableAny
+    - PreciousRock
     buildMenuSort: 21
     isDisabled: false
     state: Solid

@@ -20,10 +20,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 		public void SetWattage(float mass) => Wattage = mass;
 
 
-		public static float StorageCapacity = 250; // 1/4 of regular transfer arm carry weight
+		public static float StorageCapacity = HighPressureConduit.GetLogisticConduitMultiplier() * 1000f; // 1/2 of regular transfer arm carry weight
 		public float GetStorageCapacity() => StorageCapacity;
 		public void SetStorageCapacity(float mass) => StorageCapacity = mass;
-	
+
 		public static string ID = "LogisticTransferArm";
 
 		public override BuildingDef CreateBuildingDef()
@@ -60,8 +60,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 		public override void DoPostConfigureComplete(GameObject go)
 		{
 			go.AddOrGet<LogicOperationalController>();
-			var arm = go.AddOrGet<VariableCapacityTransferArm>();
-			arm.TargetCarryCapacity = StorageCapacity;
+			var capacity = go.AddOrGet<VariableCapacityForTransferArm>();
+			capacity.TargetCarryCapacity = StorageCapacity;
+			var arm = go.AddOrGet<SolidTransferArm>();
 			arm.pickupRange = Config.Instance.Logistic_Arm_Range;
 			AddVisualizer(go, false);
 		}
