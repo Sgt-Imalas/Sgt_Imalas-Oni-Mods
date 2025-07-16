@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 using UtilLibs.BuildingPortUtils;
 
 namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
@@ -61,11 +62,12 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.OutputConduitType = ConduitType.Liquid;
 			buildingDef.UtilityOutputOffset = new CellOffset(-1, -2);
 
+			ColliderOffsetHandler.GenerateBuildingDefOffsets(buildingDef, -2, 0);
 
-			for (int i = 0; i < buildingDef.PlacementOffsets.Length; i++)
-			{
-				buildingDef.PlacementOffsets[i] = new CellOffset(buildingDef.PlacementOffsets[i].x, buildingDef.PlacementOffsets[i].y - 2);
-			}
+			//for (int i = 0; i < buildingDef.PlacementOffsets.Length; i++)
+			//{
+			//	buildingDef.PlacementOffsets[i] = new CellOffset(buildingDef.PlacementOffsets[i].x, buildingDef.PlacementOffsets[i].y - 2);
+			//}
 			return buildingDef;
 		}
 
@@ -158,6 +160,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 		public override void DoPostConfigureUnderConstruction(GameObject go)
 		{
+			go.AddOrGet<ColliderOffsetHandler>().ColliderOffsetY = -2;
 			base.DoPostConfigureUnderConstruction(go);
 			this.AttachPort(go);
 		}

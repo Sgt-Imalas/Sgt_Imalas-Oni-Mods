@@ -67,11 +67,12 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.OutputConduitType = ConduitType.Gas;
 			buildingDef.UtilityOutputOffset = new CellOffset(-1, 1);
 
+			ColliderOffsetHandler.GenerateBuildingDefOffsets(buildingDef, -2, 0);
 
-			for (int i = 0; i < buildingDef.PlacementOffsets.Length; i++)
-			{
-				buildingDef.PlacementOffsets[i] = new CellOffset(buildingDef.PlacementOffsets[i].x, buildingDef.PlacementOffsets[i].y - 2);
-			}
+			//for (int i = 0; i < buildingDef.PlacementOffsets.Length; i++)
+			//{
+			//	buildingDef.PlacementOffsets[i] = new CellOffset(buildingDef.PlacementOffsets[i].x, buildingDef.PlacementOffsets[i].y - 2);
+			//}
 			return buildingDef;
 		}
 
@@ -169,6 +170,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		{
 			base.DoPostConfigureUnderConstruction(go);
 			this.AttachPort(go);
+			go.AddOrGet<ColliderOffsetHandler>().ColliderOffsetY = -2;
 		}
 	}
 }

@@ -41,10 +41,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProces
 			buildingDef.Breakable = false;
 			buildingDef.Invincible = true;
 			buildingDef.Deprecated = !Sim.IsRadiationEnabled();
-			for(int i = 0; i< buildingDef.PlacementOffsets.Length; i++)
-			{
-				buildingDef.PlacementOffsets[i] = new CellOffset(buildingDef.PlacementOffsets[i].x, buildingDef.PlacementOffsets[i].y - 3);
-			}
+
+			ColliderOffsetHandler.GenerateBuildingDefOffsets(buildingDef, -3, 0);
 
 			return buildingDef;
 		}
@@ -104,6 +102,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProces
 			def.solidOffsets = new CellOffset[2];
 			for (int x = 0; x < 2; ++x)
 				def.solidOffsets[x] = new CellOffset(x, 0);
+			go.AddOrGet<ColliderOffsetHandler>().ColliderOffsetY = -3;
+		}
+		public override void DoPostConfigureUnderConstruction(GameObject go)
+		{
+			base.DoPostConfigureUnderConstruction(go);
 			go.AddOrGet<ColliderOffsetHandler>().ColliderOffsetY = -3;
 		}
 	}
