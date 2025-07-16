@@ -60,19 +60,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			ElementConverter converter = go.AddOrGet<ElementConverter>();
 			converter.consumedElements = [new ElementConverter.ConsumedElement(this.FUEL_TAG, 0.8f)];
 			converter.outputElements = [new ElementConverter.OutputElement(0.025f, SimHashes.Steam, 373.15f, false, false, 0f, 3f, 1f, 0xff, 0)];
-			this.ConfigureRecipes();
 			Prioritizable.AddRef(go);
 		}
 
-		private void ConfigureRecipes()
-		{
-			RecipeBuilder.Create(ID, 50)
-				.Input(SimHashes.WoodLog, 150)
-				.Output(RayonFabricConfig.TAG, 1, ComplexRecipe.RecipeElement.TemperatureOperation.AverageTemperature, false)
-				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
-				.Description(RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INGREDIENTS.RAYONFIBER.RECIPE_DESC, 1, 0)
-				.Build();
-		}
 
 		public override BuildingDef CreateBuildingDef()
 		{

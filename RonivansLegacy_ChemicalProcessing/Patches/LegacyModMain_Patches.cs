@@ -33,7 +33,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		{
 			public static void Postfix(LegacyModMain __instance)
 			{
-				AdditionalRecipes.RegisterDynamicFoodRecipes();
+				AdditionalRecipes.RegisterRecipes_PostLoadEntities();
 			}
 		}
     }

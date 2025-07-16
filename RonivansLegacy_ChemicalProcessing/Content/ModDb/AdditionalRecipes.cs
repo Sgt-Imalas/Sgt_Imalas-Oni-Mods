@@ -15,6 +15,7 @@ using static STRINGS.CODEX;
 using static STRINGS.UI.TOOLS.FILTERLAYERS;
 using UtilLibs.UIcmp;
 using static STRINGS.ITEMS.INGREDIENTS;
+using Dupes_Industrial_Overhaul.Chemical_Processing.Buildings;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
@@ -72,6 +73,37 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			AdditionalKilnRecipes(KilnConfig.ID, true);
 		}
 
+		private static void RegisterRecipes_RayonLoom()
+		{
+			string ID = Chemical_RayonLoomConfig.ID;
+			RecipeBuilder.Create(ID, 50)
+				.Input(SimHashes.WoodLog, 150)
+				.Output(RayonFabricConfig.TAG, 1, ComplexRecipe.RecipeElement.TemperatureOperation.AverageTemperature, false)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+				.Description(RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INGREDIENTS.RAYONFIBER.RECIPE_DESC, 1, 0)
+				.Build();
+
+			if (DlcManager.IsExpansion1Active())
+			{
+				RecipeBuilder.Create(ID, 50)
+				.Input(PlantMeatConfig.ID, 1)
+				.Output(RayonFabricConfig.TAG, 1, ComplexRecipe.RecipeElement.TemperatureOperation.AverageTemperature, false)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+				.Description(RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INGREDIENTS.RAYONFIBER.RECIPE_DESC, 1, 0)
+				.Build();
+			}
+			if (DlcManager.IsContentSubscribed(DlcManager.DLC4_ID))
+			{
+				RecipeBuilder.Create(ID, 50)
+				.Input(KelpConfig.ID, 20)
+				.Output(RayonFabricConfig.TAG, 1, ComplexRecipe.RecipeElement.TemperatureOperation.AverageTemperature, false)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+				.Description(RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INGREDIENTS.RAYONFIBER.RECIPE_DESC, 1, 0)
+				.Build();
+			}
+		}
+
+
 		public static void RegisterRecipes_RockCrusher()
 		{
 			string ID = RockCrusherConfig.ID;
@@ -107,12 +139,16 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		}
 
 
-		public static void RegisterDynamicFoodRecipes()
+		public static void RegisterRecipes_PostLoadEntities()
 		{
 			if (Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
 			{
 				RegisterRecipes_AnaerobicDigester();
 				RegisterRecipes_ExpellerPress();
+			}
+			if(Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+			{
+				RegisterRecipes_RayonLoom();
 			}
 		}
 		public static void RegisterRecipes_AnaerobicDigester()
