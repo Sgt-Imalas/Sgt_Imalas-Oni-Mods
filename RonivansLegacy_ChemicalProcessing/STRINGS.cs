@@ -13,6 +13,7 @@ using UnityEngine;
 using UtilLibs.BuildingPortUtils;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FACILITYDOOR.FACADES;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS;
+using static STRINGS.BUILDING.STATUSITEMS;
 using static STRINGS.BUILDINGS.PREFABS;
 using static STRINGS.UI;
 
@@ -20,6 +21,8 @@ namespace RonivansLegacy_ChemicalProcessing
 {
 	class STRINGS
 	{
+		public static LocString RONIVANSLEGACY_AIO_NAME = "Ronivan's Legacy - All In One Pack";
+		public static LocString RONIVANSLEGACY_AIO_DESC = "All the mods created by Ronivan, now collected and remastered into one configurable modpack.";
 		public class AIO_MODSOURCE
 		{
 			public static LocString CHEMICALPROCESSING_IO = "Chemical Processing - Industrial Overhaul";
@@ -33,7 +36,7 @@ namespace RonivansLegacy_ChemicalProcessing
 			public static LocString CUSTOMRESERVOIRS = "Custom Reservoirs";
 			public static LocString DUPESREFRIGERATION = "Dupes Refrigeration";
 			public static LocString CUSTOMGENERATORS = "Custom Generators";
-			public static LocString HighPressureApplications = "High Pressure Applications";
+			public static LocString HIGHPRESSUREAPPLICATIONS = "High Pressure Applications";
 		}
 
 		public class DUPLICANTS
@@ -1336,6 +1339,46 @@ namespace RonivansLegacy_ChemicalProcessing
 							".\n\nRequires power to function."
 						]);
 				}
+
+				public class HPA_SOLIDRAIL
+				{
+					public static LocString NAME = FormatAsLink("Heavy Duty Rail", nameof(HPA_SOLIDRAIL));
+					public static LocString DESC = "Rails move materials where they'll be needed most, saving Duplicants the walk.";
+					public static LocString EFFECT = string.Concat(
+						[
+							"Transports large quantities of ",FormatAsLink("Solid Materials", "ELEMENTS_SOLID"),
+							".\n\nCan not be run through wall and floor tiles."
+						]);
+				}
+				public class HPA_SOLIDRAIL_INSULATED
+				{
+					public static LocString NAME = FormatAsLink("Insulated Heavy Duty Rail", nameof(HPA_SOLIDRAIL_INSULATED));
+					public static LocString DESC = "Rails move materials where they'll be needed most, saving Duplicants the walk.";
+					public static LocString EFFECT = string.Concat(
+						[
+							"Transports large quantities of ",FormatAsLink("Solid Materials", "ELEMENTS_SOLID"),
+							".\n\nCan not be run through wall and floor tiles.\n\nTransported items are fully insulated."
+						]);
+				}
+				public class HPA_SOLIDRAILBRIDGE
+				{
+					public static LocString NAME = FormatAsLink("Heavy Duty Joint Plate", nameof(HPA_SOLIDRAILBRIDGE));
+					public static LocString DESC = "Joint plates can run Heavi Duty rails through walls without leaking gas or liquid.";
+					public static LocString EFFECT = "Allows " + HPA_SOLIDRAIL.NAME+" and "+ HPA_SOLIDRAIL_INSULATED.NAME + " to be run through wall and floor tile.\n\nFunctions as regular tile.";
+				}
+				public class HPA_SOLIDRAILVALVE
+				{
+					public static LocString NAME = FormatAsLink("Heavy Duty Reduction Valve", nameof(HPA_SOLIDRAILVALVE));
+					public static LocString DESC = "A mechanical valve capable of reducing the flow of mass from a heavy duty rail to to a conveyor rail, avoiding it dropping items.";
+					public static LocString EFFECT = "Allows " +
+					FormatAsLink("Solid Materials", "ELEMENTS_SOLID") +
+					" to be transfered from " +
+					FormatAsLink("Heavy Duty Rails", "HPA_SOLIDRAIL") +
+					" to normal" +
+					FormatAsLink("Conveyor Rails", "SOLIDCONDUIT") +
+					".";
+				}
+
 				#endregion
 				#region DupesRefrigeration
 
@@ -1440,12 +1483,12 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class HPA_NEEDSOLIDIN
 				{
 					public static LocString NAME ="No Heavy Duty Solid Intake";
-					public static LocString TOOLTIP =("This building's " + PRE_KEYWORD + "Heavy Duty Solid Intake" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSURELIQUIDCONDUIT.NAME + " connected");
+					public static LocString TOOLTIP =("This building's " + PRE_KEYWORD + "Heavy Duty Solid Intake" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HPA_SOLIDRAIL.NAME + " connected");
 				}
 				public class HPA_NEEDLSOLIDOUT
 				{
 					public static LocString NAME ="No Heavy Duty Solid Output";
-					public static LocString TOOLTIP =("This building's " + PRE_KEYWORD + "Heavy Duty Solid Output" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSURELIQUIDCONDUIT.NAME + " connected");
+					public static LocString TOOLTIP =("This building's " + PRE_KEYWORD + "Heavy Duty Solid Output" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HPA_SOLIDRAIL.NAME + " connected");
 				}
 
 				public class HPA_SOLIDCONDUITITEMDROPPED
@@ -2055,6 +2098,46 @@ namespace RonivansLegacy_ChemicalProcessing
 			{
 				public static LocString NAME = "Building Editor";
 				public static LocString TOOLTIP = "Open the building editor to individually toggle all buildings added by the mod and change settings on some.\nAll changes done here require a restart!";
+			}
+			public class LOGISTIC_RAIL_CAPACITY
+			{
+				public static LocString NAME = "Logistic Rail Capacity";
+				public static LocString TOOLTIP = "Logistic Rails serve as an early game version to conveyor rails, lacking the mechatronic requirements and unlocking earlier at the cost of lower maximum throughput.";
+			}
+			public class LOGISTIC_SWEEPER_RANGE
+			{
+				public static LocString NAME = "Logistic Auto-Sweeper Range";
+				public static LocString TOOLTIP = "The Logistic Auto-Sweeper serves as an early game version of the autosweeper, trading reduced carrying capacity for a lack of a mechatronics requirement.";
+			}
+			public class HP_GAS_CAPACITY
+			{
+				public static LocString NAME = "High Pressure Gas Capacity";
+				public static LocString TOOLTIP = "High pressure gas pipes allow pumping gases at much higher pipe throughput than regular pipes, at the cost of more expensive building materials.";
+			}
+			public class HP_GAS_PUMPCOST
+			{
+				public static LocString NAME = "Base Wattage: High Pressure Gas Pump";
+				public static LocString TOOLTIP = "The total pump wattage is calculated by multiplying the base wattage value with the respective pipe capacity multiplier (compared to regular pipes)";
+			}
+			public class HP_LIQUID_CAPACITY
+			{
+				public static LocString NAME = "High Pressure Liquid Capacity";
+				public static LocString TOOLTIP = "High pressure liquid pipes allow pumping liquids at much higher pipe throughput than regular pipes, at the cost of more expensive building materials.";
+			}
+			public class HP_LIQUID_PUMPCOST
+			{
+				public static LocString NAME = "Base Wattage: High Pressure Liquid Pump";
+				public static LocString TOOLTIP = "The total pump wattage is calculated by multiplying the base wattage value with the respective pipe capacity multiplier (compared to regular pipes)";
+			}
+			public class HP_SOLID_CAPACITY
+			{
+				public static LocString NAME = "Heavy Duty Rail Capacity";
+				public static LocString TOOLTIP = "Heavy Duty Rails serve as an late game upgrade to conveyor rails, having a much higher throughput at the cost of more complex build requirements.";
+			}
+			public class HP_SOLID_ARMRANGE
+			{
+				public static LocString NAME = "Heavy Duty Auto-Sweeper Range";
+				public static LocString TOOLTIP = "The Heavy Duty Auto-Sweeper serves as a late game version of the autosweeper, having higher range and throughput at the cost of more complex build requirements";
 			}
 		}
 	}

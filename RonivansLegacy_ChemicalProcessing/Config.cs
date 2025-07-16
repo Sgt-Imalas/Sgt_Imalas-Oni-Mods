@@ -18,84 +18,90 @@ namespace RonivansLegacy_ChemicalProcessing
 		[JsonIgnore]
 		public System.Action<object> Button_OpenCarepackageEditor => BuildingEditor_MainScreen.ShowBuildingEditor;
 
-		[Option("Chemical Processing - Industrial Overhaul: Enabled")]
+		
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME","STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_IO")]
 		[JsonProperty]
 		public bool ChemicalProcessing_IndustrialOverhaul_Enabled { get; set; } = true;
-		[Option("Chemical Processing - BioChemistry: Enabled")]
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_BIOCHEMISTRY")]
 		[JsonProperty]
 		public bool ChemicalProcessing_BioChemistry_Enabled { get; set; } = true;
-		[Option("Mineral Processing - Metallurgy: Enabled")]
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.MINERALPROCESSING_METALLURGY")]
 		[JsonProperty]
 		public bool MineralProcessing_Metallurgy_Enabled { get; set; } = true;
-		[Option("Mineral Processing - Mining: Enabled")]
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.MINERALPROCESSING_MINING")]
 		[JsonProperty]
 		public bool MineralProcessing_Mining_Enabled { get; set; } = true;
-		[Option("Nuclear Processing: Enabled")]
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.NUCLEARPROCESSING")]
 		[JsonProperty]
 		public bool NuclearProcessing_Enabled { get; set; } = true;
 
-		[Option("Dupes Machinery: Enabled")]
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESMACHINERY")]
 		[JsonProperty]
 		public bool DupesMachinery_Enabled { get; set; } = true;
-		[Option("Dupes Engineering: Enabled")]
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESENGINEERING")]
 		[JsonProperty]
 		public bool DupesEngineering_Enabled { get; set; } = true;
 
-		[Option("Custom Reservoirs: Enabled")]
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.CUSTOMRESERVOIRS")]
 		public bool CustomReservoirs_Enabled { get; set; } = true;
-		[Option("Dupes Logistics: Enabled")]
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESLOGISTICS")]
 		public bool DupesLogistics_Enabled { get; set; } = true;
 
-		[Option("High Pressure Applications: Enabled")]
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS")]
 		public bool HighPressureApplications_Enabled { get; set; } = true;
 
-
-		[Option("Dupes Refrigeration: Enabled")]
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESREFRIGERATION")]
 		public bool DupesRefrigeration_Enabled { get; set; } = true;
 
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.CUSTOMGENERATORS")]
+		public bool CustomGenerators_Enabled { get; set; } = true;
 
 
-		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.GEYSERS.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.GEYSERS.TOOLTIP")]
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.GEYSERS.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.GEYSERS.TOOLTIP", "STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_IO")]
 		public bool ModGeysersGeneric { get; set; } = true;
 
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.MODELEMENTSWORLDGEN.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.MODELEMENTSWORLDGEN.TOOLTIP", "STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_IO")]
+		public bool WorldgenElementInjection { get; set; } = true;
 
-		[Option("High Pressure Gas Capacity")]
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.HP_GAS_CAPACITY.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.HP_GAS_CAPACITY.TOOLTIP", "STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS")]
 		[Limit(2, 20)]
 		public int HPA_Capacity_Gas { get; set; } = 10;
-		[Option("High Pressure Liquid Capacity")]
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.HP_LIQUID_CAPACITY.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.HP_LIQUID_CAPACITY.TOOLTIP", "STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS")]
 		[Limit(11, 200)]
 		public int HPA_Capacity_Liquid { get; set; } = 40;
 
-		[Option("High Pressure Gas Pump base Wattage", "the base wattage value is multiplied with the respective pipe capacity. For the liquid pump, it is additionally divided by 10")]
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.HP_GAS_PUMPCOST.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.HP_GAS_PUMPCOST.TOOLTIP", "STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS")]
 		[Limit(10, 1000)]
 		public int HPA_Pump_Base_Mult_Gas { get; set; } = 240;
 
-		[Option("High Pressure Liquid Pump base Wattage", "the base wattage value is multiplied with the respective pipe capacity. For the liquid pump, it is additionally divided by 10")]
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.HP_LIQUID_PUMPCOST.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.HP_LIQUID_PUMPCOST.TOOLTIP", "STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS")]
 		[Limit(10, 1000)]
 		public int HPA_Pump_Base_Mult_Liquid { get; set; } = 240;
 
 
-		[Option("Logistic Rail Capacity", "Logistic Rails serve as an early game version to conveyor rails, lacking the mechatronic requirements and unlocking earlier at the cost of lower throughput")]
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_RAIL_CAPACITY.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_RAIL_CAPACITY.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESLOGISTICS")]
 		[Limit(1, 20)]
 		public int Rail_Capacity_Logistic { get; set; } = 10;
 
-		[Option("Heavy Duty Rail Capacity", "Logistic Rails serve as an late game alternative to conveyor rails, having a much higher throughput at the cost of more complex build requirements.")]
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_CAPACITY.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_CAPACITY.TOOLTIP", "STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS")]
 		[Limit(20, 400)]
 		public int Rail_Capacity_HPA { get; set; } = 200;
 
-		[Option("Logistic Auto-Sweeper Range", "The Logistic Auto-Sweeper serves as an early game version of the autosweeper, trading reduced carrying capacity for a lack of a mechatronics requirement")]
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_SWEEPER_RANGE.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_SWEEPER_RANGE.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESLOGISTICS")]
 		[Limit(2, 12)]
 		public int Logistic_Arm_Range { get; set; } = 4; //vanilla arm range, only capcaity is nerfed by default
 
 
-		[Option("Heavy Duty Auto-Sweeper Range", "The Heavy Duty Auto-Sweeper serves as a late game version of the autosweeper, having higher range and throughput at the cost of more complex build requirements")]
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_ARMRANGE.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_CAPACITY.TOOLTIP", "STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS")]
 		[Limit(6, 24)]
 		public int HPA_Arm_Range { get; set; } = 10;
-
-
-
-		//[Option("STRINGS.RONIVAN_AIO_MODCONFIG.RONIVANDUPE.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.RONIVANDUPE.TOOLTIP", "STRINGS.RONIVANL_AIO_MODCONFIG.A_CATEGORY_GENERIC")]
-		//public bool RonivanDuplicant { get; set; } = true;
-
 	}
 }
