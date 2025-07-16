@@ -105,12 +105,12 @@ namespace Mineral_Processing_Mining.Buildings
 
 			ElementConverter elementConverter = go.AddOrGet<ElementConverter>();
 			elementConverter.consumedElements =
-			[
-			new ElementConverter.ConsumedElement(this.fuelTag, 2f, true)
+			[ ///Equivalent of 3KW
+			new ElementConverter.ConsumedElement(this.fuelTag, 3f, true)
 			];
 			elementConverter.outputElements =
 			[
-			new ElementConverter.OutputElement(0.5f, SimHashes.CarbonDioxide, 348.15f, false, false, 0f, 2f, 1f, byte.MaxValue, 0, true)
+			new ElementConverter.OutputElement(0.75f, SimHashes.CarbonDioxide, UtilMethods.GetKelvinFromC(80), false, false, 0f, 2f, 1f, byte.MaxValue, 0, true)
 			];
 
 			ConfigurableSolidConduitDispenser solidDispenser = go.AddOrGet<ConfigurableSolidConduitDispenser>();
@@ -120,7 +120,7 @@ namespace Mineral_Processing_Mining.Buildings
 			solidDispenser.solidOnly = true;
 			solidDispenser.elementFilter = null;
 
-			if (Config.Instance.HighPressureApplications)
+			if (Config.Instance.HighPressureApplications_Enabled)
 				go.AddOrGet<HPA_SolidConduitRequirement>().RequiresHighPressureOutput = true;
 
 			var worldElementDropper = go.AddOrGet<WorldElementDropper>();

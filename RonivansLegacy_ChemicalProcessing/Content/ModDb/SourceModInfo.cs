@@ -15,10 +15,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		NuclearProcessing, //done
 		DupesMachinery, //done
         DupesEngineering, //done
-        DupesLogistics,
+        DupesLogistics, //done
         CustomReservoirs, //done
-        DupesRefrigeration,
+        DupesRefrigeration, //done
         CustomGenerators,  
-        HighPressureApplications,
+        HighPressureApplications, // done (high pressure rails no buildings yet)
 	}
 }

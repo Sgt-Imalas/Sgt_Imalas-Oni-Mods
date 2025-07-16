@@ -23,7 +23,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		public class SolidConduitFlow_UpdateConduit_Patch
 		{
 			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.HighPressureApplications;// || Config.Instance.DupesLogistics;
+			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;// || Config.Instance.DupesLogistics;
 
 			public static void Prefix(SolidConduitFlow __instance, SolidConduitFlow.Conduit conduit)
 			{

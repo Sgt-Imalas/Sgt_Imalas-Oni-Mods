@@ -23,7 +23,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		public class ConduitFlow_IsConduitFull_Patch
 		{
 			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.HighPressureApplications;
+			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
 			public static void Postfix(ConduitFlow __instance, ref bool __result, int cell_idx)
 			{
 				if (__result && HighPressureConduit.HasHighPressureConduitAt(cell_idx, __instance.conduitType, out var increasedCap))
@@ -40,7 +40,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		public class ConduitFlow_OnDeserialized_Patch
 		{
 			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.HighPressureApplications;
+			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
 			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
 			{
 				var codes = orig.ToList();
@@ -70,7 +70,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		public class ConduitFlow_UpdateConduit_Patch
 		{
 			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.HighPressureApplications;
+			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
 			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
 			{
 				var codes = orig.ToList();
@@ -97,7 +97,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		public class ConduitFlow_AddElement_Patch
 		{
 			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.HighPressureApplications;
+			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
 			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
 			{
 				CodeInstruction getCellInstruction = new CodeInstruction(OpCodes.Ldarg_1); //int cell_idx : The first argument of the method being called (Ldarg_0 is the instance (this) reference)

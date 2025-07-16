@@ -42,12 +42,17 @@ namespace RonivansLegacy_ChemicalProcessing
 		public bool DupesEngineering_Enabled { get; set; } = true;
 
 		[Option("Custom Reservoirs: Enabled")]
-		public bool CustomReservoirs { get; set; } = true;
+		public bool CustomReservoirs_Enabled { get; set; } = true;
 		[Option("Dupes Logistics: Enabled")]
-		public bool DupesLogistics { get; set; } = true;
+		public bool DupesLogistics_Enabled { get; set; } = true;
 
 		[Option("High Pressure Applications: Enabled")]
-		public bool HighPressureApplications { get; set; } = true;		
+		public bool HighPressureApplications_Enabled { get; set; } = true;
+
+
+		[Option("Dupes Refrigeration: Enabled")]
+		public bool DupesRefrigeration_Enabled { get; set; } = true;
+
 
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.GEYSERS.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.GEYSERS.TOOLTIP")]

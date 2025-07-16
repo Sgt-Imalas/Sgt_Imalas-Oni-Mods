@@ -18,7 +18,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		public class SolidConduitBridge_ConduitUpdate_Patch
 		{
 			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.HighPressureApplications;
+			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
 			internal static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
 			{
 				MethodInfo SolidConduitFlow_RemovePickupable = AccessTools.Method(typeof(SolidConduitFlow), nameof(SolidConduitFlow.RemovePickupable));

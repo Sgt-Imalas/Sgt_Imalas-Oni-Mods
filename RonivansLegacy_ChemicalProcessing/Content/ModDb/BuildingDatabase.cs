@@ -17,6 +17,7 @@ using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineering.
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservoirs;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistics;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureApplications;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefrigeration;
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
 	class BuildingDatabase
@@ -77,12 +78,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				RegisterBuildings_NuclearProcessing();
 			if (Config.Instance.DupesEngineering_Enabled)
 				RegisterBuildings_DupesEngineering();
-			if (Config.Instance.CustomReservoirs)
+			if (Config.Instance.CustomReservoirs_Enabled)
 				RegisterBuildings_CustomReservoirs();
-			if (Config.Instance.HighPressureApplications)
+			if (Config.Instance.HighPressureApplications_Enabled)
 				RegisterBuildings_HighPressureApplications();
-			if (Config.Instance.DupesLogistics)
+			if (Config.Instance.DupesLogistics_Enabled)
 				RegisterBuildings_DupesLogistics();
+			if(Config.Instance.DupesRefrigeration_Enabled)
+				RegisterBuildings_DupesRefrigeration();
 		}
 		private static void RegisterBuildings_ChemicalProcessingIndustrialOverhaul()
 		{
@@ -620,6 +623,36 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToTech(Technology.Liquids.ImprovedPlumbing)
 				.AddModFrom(SourceModInfo.HighPressureApplications);
 
+		}
+
+		private static void RegisterBuildings_DupesRefrigeration()
+		{
+			BuildingManager.CreateEntry<HightechBigFridgeConfig>()
+				.AddToCategory(PlanMenuCategory.Food, RefrigeratorConfig.ID)
+				.AddToTech(Technology.Food.GourmetMealPreparation)
+				.AddModFrom(SourceModInfo.DupesRefrigeration);
+			BuildingManager.CreateEntry<HightechSmallFridgeConfig>()
+				.AddToCategory(PlanMenuCategory.Food, RefrigeratorConfig.ID)
+				.AddToTech(Technology.Food.GourmetMealPreparation)
+				.AddModFrom(SourceModInfo.DupesRefrigeration);
+
+			BuildingManager.CreateEntry<FridgeLargeConfig>()
+				.AddToCategory(PlanMenuCategory.Food, RefrigeratorConfig.ID)
+				.AddToTech(Technology.Food.FoodRepurposing)
+				.AddModFrom(SourceModInfo.DupesRefrigeration);
+			BuildingManager.CreateEntry<FridgeSmallConfig>()
+				.AddToCategory(PlanMenuCategory.Food, RefrigeratorConfig.ID)
+				.AddToTech(Technology.Food.FoodRepurposing)
+				.AddModFrom(SourceModInfo.DupesRefrigeration);
+			BuildingManager.CreateEntry<FridgePodConfig>()
+				.AddToCategory(PlanMenuCategory.Food, RefrigeratorConfig.ID)
+				.AddToTech(Technology.Food.FoodRepurposing)
+				.AddModFrom(SourceModInfo.DupesRefrigeration);
+
+			BuildingManager.CreateEntry<SpaceBoxConfig>()
+				.AddToCategory(PlanMenuCategory.Food, RationBoxConfig.ID)
+				.AddToTech(Technology.Food.Agriculture)
+				.AddModFrom(SourceModInfo.DupesRefrigeration);
 		}
 	}
 }

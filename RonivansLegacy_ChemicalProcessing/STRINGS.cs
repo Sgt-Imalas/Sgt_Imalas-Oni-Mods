@@ -1021,13 +1021,13 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class SMALLGASRESERVOIR
 				{
 					public static LocString NAME = FormatAsLink("Small Gas Reservoir B", nameof(SMALLGASRESERVOIR));
-					public static LocString DESC = "A small sized reservoir. This variant has top to bottom flow";
+					public static LocString DESC = "A small sized reservoir. This variant has top to bottom flow.";
 					public static LocString EFFECT = "Stores any " + FormatAsLink("Gas", "ELEMENTS_GAS") + " resources piped into it.";
 				}
 				public class INVERTEDSMALLGASRESERVOIR
 				{
 					public static LocString NAME = FormatAsLink("Small Gas Reservoir A", nameof(INVERTEDSMALLGASRESERVOIR));
-					public static LocString DESC = "A small sized reservoir. This variant has bottom to top flow";
+					public static LocString DESC = "A small sized reservoir. This variant has bottom to top flow.";
 					public static LocString EFFECT = "Stores any " + FormatAsLink("Gas", "ELEMENTS_GAS") + " resources piped into it.";
 				}
 				public class WALLGASTANK
@@ -1313,7 +1313,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class HPAVENTLIQUID
 				{
 					public static LocString NAME = FormatAsLink("Compressor Liquid Vent", nameof(HPAVENTLIQUID));
-					public static LocString DESC = "A reinforced liquid vent with a built in compression pump, capable of dispensing liquids even in high pressure environments";
+					public static LocString DESC = "A reinforced liquid vent with a built in compression pump, capable of dispensing liquids even in high pressure environments.";
 					public static LocString EFFECT = string.Concat(
 						[
 							"Dispenses ",
@@ -1326,7 +1326,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class HPAVENTGAS
 				{
 					public static LocString NAME = FormatAsLink("Compressor Gas Vent", nameof(HPAVENTGAS));
-					public static LocString DESC = "A reinforced liquid vent with a built in compression pump, capable of dispensing gases even in high pressure environments";
+					public static LocString DESC = "A reinforced liquid vent with a built in compression pump, capable of dispensing gases even in high pressure environments.";
 					public static LocString EFFECT = string.Concat(
 						[
 							"Dispenses ",
@@ -1335,6 +1335,76 @@ namespace RonivansLegacy_ChemicalProcessing
 							FormatAsLink("High Pressure Liquid Pipe", HighPressureLiquidConduitConfig.ID),
 							".\n\nRequires power to function."
 						]);
+				}
+				#endregion
+				#region DupesRefrigeration
+
+				public class AIO_FRIDGELARGE
+				{
+					public static LocString NAME = FormatAsLink("Household Fridge", nameof(AIO_FRIDGELARGE));
+					public static LocString DESC = "A quality fridge commonly seen in the old world days. Still, this vintage building does the same job as a modern variant, which is the preservation of food.";
+					public static LocString EFFECT = "The sealed storage of this fridge keeps food very cold, but not in sterile atmospheric conditions.";
+					public class FACADES
+					{
+						public class FRIDGELARGE_STICKERS
+						{
+							public static LocString NAME = FormatAsLink("Stickered Household Fridge", nameof(FRIDGELARGE_STICKERS));
+							public static LocString DESC = "A variant of the Household Fridge that has been plastered with a large variety of stickers";
+						}
+						public class FRIDGELARGE_BLUE
+						{
+							public static LocString NAME = FormatAsLink("Blue Household Fridge", nameof(FRIDGELARGE_BLUE));
+							public static LocString DESC = "A blue variant of the Household Fridge";
+						}
+						public class FRIDGELARGE_RED
+						{
+							public static LocString NAME = FormatAsLink("Red Household Fridge", nameof(FRIDGELARGE_RED));
+							public static LocString DESC = "A red variant of the Household Fridge";
+						}
+						public class FRIDGELARGE_YELLOW
+						{
+							public static LocString NAME = FormatAsLink("Yellow Household Fridge", nameof(FRIDGELARGE_YELLOW));
+							public static LocString DESC = "A yellow variant of the Household Fridge";
+						}
+					}
+				}
+				public class FRIDGEPOD
+				{
+					public static LocString NAME = FormatAsLink("Fridge Pod", nameof(FRIDGEPOD));
+					public static LocString DESC = "A tiny wall pod capable of preserving food at low temperatures.";
+					public static LocString EFFECT = "The sealed storage of this pod keeps food very cold, but not in sterile atmospheric conditions.";
+				}
+				public class SIMPLEFRIDGE
+				{
+					public static LocString NAME = FormatAsLink("Home Fridge", nameof(SIMPLEFRIDGE));
+					public static LocString DESC = "A plain old-style home fridge. Still, this vintage building does the same job as a modern variant, which is preservation the of food.";
+					public static LocString EFFECT = "The sealed storage of this fridge keeps food very cold, but not in sterile atmospheric conditions.";
+					public class FACADES
+					{
+						public class SIMPLEFRIDGE_STICKERS
+						{
+							public static LocString NAME = FormatAsLink("Stickered Home Fridge", nameof(SIMPLEFRIDGE_STICKERS));
+							public static LocString DESC = "A variant of the Home Fridge that has been plastered with a large variety of stickers";
+						}
+					}
+				}
+				public class SPACEBOX
+				{
+					public static LocString NAME = FormatAsLink("Spacefaring Food Box", nameof(SPACEBOX));
+					public static LocString DESC = "A high-grade polymer box used for storing food inside spacecraft. Requires placement inside Space Module.";
+					public static LocString EFFECT = "The sealed storage compartment of this box allows complete vacuum through connection with the spacecraft hulk, thus completely preserving the food within.";
+				}
+				public class HIGHTECHSMALLFRIDGE
+				{
+					public static LocString NAME = FormatAsLink("Hightech Fridge", nameof(HIGHTECHSMALLFRIDGE));
+					public static LocString DESC = "A fancy fridge with a sci-fi design";
+					public static LocString EFFECT = "The sealed storage of this fridge keeps food very cold, but not in sterile atmospheric conditions.\nallows food intake via conveyor rail.";
+				}
+				public class HIGHTECHBIGFRIDGE
+				{
+					public static LocString NAME = FormatAsLink("Hightech Refrigerator", nameof(HIGHTECHBIGFRIDGE));
+					public static LocString DESC = "A fancy refrigerator with a sci-fi design.";
+					public static LocString EFFECT = "The sealed storage of this fridge keeps food very cold, but not in sterile atmospheric conditions\nProvides water bottles as long there a pipe linked to it.\nallows food intake via conveyor rail.";
 				}
 				#endregion
 			}
@@ -1740,28 +1810,28 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class MINING_DRILLBITS_TUNGSTEN_ITEM
 				{
 					public static LocString NAME = FormatAsLink("Tungsten Drillbits", nameof(MINING_DRILLBITS_TUNGSTEN_ITEM));
-					public static LocString DESC = "A set of sturdy drill bits made for extremely hard rock mining operations.\nHas no own guidance system and call drill through deep, very hard rocks stratum even at high temperature.";
+					public static LocString DESC = "A set of sturdy drill bits made for extremely hard rock mining operations.\nHas no own guidance system and can drill through deep, very hard rocks stratum even at high temperature.";
 					public static LocString RECIPE_DESC = "Instruct the computer to produce Tungsten Drillbits.";
 
 				}
 				public class MINING_DRILLBITS_STEEL_ITEM
 				{
 					public static LocString NAME = FormatAsLink("Steel Drillbits", nameof(MINING_DRILLBITS_STEEL_ITEM));
-					public static LocString DESC = "A set of sturdy drill bits made for hard rock mining operations.\nHas no own guidance system and call drill through hard rocks stratum.";
+					public static LocString DESC = "A set of sturdy drill bits made for hard rock mining operations.\nHas no own guidance system and can drill through hard rocks stratum.";
 					public static LocString RECIPE_DESC = "Instruct the computer to produce Steel Drillbits.";
 				}
 				public class MINING_DRILLBITS_BASIC_ITEM
 				{
 					public static LocString NAME = FormatAsLink("Basic Drillbits", nameof(MINING_DRILLBITS_BASIC_ITEM));
-					public static LocString DESC = "A set of sturdy drill bits made for basic mining operations.\nHas no own guidance system and call drill through soft rocks stratum.";
+					public static LocString DESC = "A set of sturdy drill bits made for basic mining operations.\nHas no own guidance system and can drill through soft rocks stratum.";
 					public static LocString RECIPE_DESC = "Instruct the computer to produce Basic Drillbits.\nThis instruction is meant for Copper variation.";
 				}
 				public class MINING_DRILLBITS_GUIDANCEDEVICE_ITEM
 				{
 					public static LocString NAME = FormatAsLink("Guidance Device (Unprogrammed)", "MINERALPROCESSING_GUIDANCEUNIT");
 					public static LocString NAME_PROGRAMMED = FormatAsLink("Guidance Device (Target: {0})", "MINERALPROCESSING_GUIDANCEUNIT");
-					public static LocString DESC = "A sofisticated electronic module that aids the Mining Drillhead to navigate while operating.\nIn general, the guidance system computes the instructions for the Drillhead control system, which comprises its actuators, increasing the performance and detecting element resources from its surroundings.\n\nIt can be programmed by a skilled Duplicant or by the CNC machine";
-					public static LocString DESC_PROGRAMMED = "A sofisticated electronic module that aids the Mining Drillhead to navigate while operating.\nIn general, the guidance system computes the instructions for the Drillhead control system, which comprises its actuators, increasing the performance and detecting element resources from its surroundings.\n\nThis guidance device is programmed to target the {0}";
+					public static LocString DESC = "A sophisticated electronic module that aids the Mining Drillhead to navigate while operating.\nIn general, the guidance system computes the instructions for the Drillhead control system, which comprises its actuators, increasing the performance and detecting element resources from its surroundings.\n\nIt can be programmed by a skilled Duplicant or by the CNC machine.";
+					public static LocString DESC_PROGRAMMED = "A sophisticated electronic module that aids the Mining Drillhead to navigate while operating.\nIn general, the guidance system computes the instructions for the Drillhead control system, which comprises its actuators, increasing the performance and detecting element resources from its surroundings.\n\nThis guidance device is programmed to target the {0}.";
 					public static LocString RECIPE_DESC = "Instruct the computer to produce a Guidance Device.";
 					public static LocString RECIPE_DESC_PROGRAM = "Instruct the computer to load the target program for the {0} into the Guidance Device";
 				}
@@ -1966,21 +2036,20 @@ namespace RonivansLegacy_ChemicalProcessing
 
 		public class RONIVAN_AIO_MODCONFIG
 		{
-			public static LocString A_CATEGORY_GENERIC = "Overarching Settings";
-			public static LocString B_CATEGORY_IO = "Chemical Processing - Industrial Overhaul";
-			public static LocString C_CATEGORY_BIOCHEM = "Chemical Processing - Biochemistry";
-			public static LocString D_CATEGORY_METALLURGY = "Mineral Processing - Metallurgy";
-			public static LocString E_CATEGORY_MINING = "Mineral Processing - Mining";
-			public static LocString F_CATEGORY_NUCLEAR = "Nuclear Processing";
+			public class ENABLEMOD
+			{
+				public static LocString NAME = "Enable Mod Content";
+				public static LocString TOOLTIP = "The mod is enabled, this includes buildings, research, recipes and other mod specific mechanics.\nYou can still disable individual buildings of the mod in the building editor, separate from this setting.";
+			}
 			public class GEYSERS
 			{
 				public static LocString NAME = "Generic Mod Geysers";
 				public static LocString TOOLTIP = "New Geysers are added to the pool of randomly spawned geysers.\nThis will affect worldgen if active (different random geysers are chosen compared to vanilla)\nTurning it off will prevent those geysers from showing up from worldgen naturally unless you use a different mod to add them manually (e.g. customize geyser or CGM)";
 			}
-			public class RONIVANDUPE
+			public class MODELEMENTSWORLDGEN
 			{
-				public static LocString NAME = "Ronivan Duplicant";
-				public static LocString TOOLTIP = "Ronivan joins the pool of available duplicants, a tribute to his impact on the ONI Community.";
+				public static LocString NAME = "Modified Biome Composition";
+				public static LocString TOOLTIP = "New mod elements are embedded into the biomes during worldgen.";
 			}
 			public class BUILDINGEDITOR
 			{

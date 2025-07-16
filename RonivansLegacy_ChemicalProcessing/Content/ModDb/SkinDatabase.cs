@@ -17,6 +17,9 @@ using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineering.
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservoirs;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistics;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STORAGEPOD.FACADES;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefrigeration;
+using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FRIDGELARGE.FACADES;
+using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SIMPLEFRIDGE.FACADES;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
@@ -82,6 +85,18 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.Skin("StoragePod_A", STORAGEPOD_A.NAME, STORAGEPOD_A.DESC, "storage_pod_a_kanim")
 				.Skin("StoragePod_B", STORAGEPOD_B.NAME, STORAGEPOD_B.DESC, "storage_pod_b_kanim")
 				.Skin("StoragePod_C", STORAGEPOD_C.NAME, STORAGEPOD_C.DESC, "storage_pod_c_kanim");
+
+
+			SkinCollection.Create(FridgeLargeConfig.ID, SubCategoryID)
+				.Skin("FridgeLarge_Sticker", FRIDGELARGE_STICKERS.NAME, FRIDGELARGE_STICKERS.DESC, "advanced_refrigerator_stickers_kanim")
+				.Skin("FridgeLarge_Blue", FRIDGELARGE_BLUE.NAME, FRIDGELARGE_BLUE.DESC, "blue_advanced_fridge_kanim")
+				.Skin("FridgeLarge_Red", FRIDGELARGE_RED.NAME, FRIDGELARGE_RED.DESC, "red_advanced_fridge_kanim")
+				.Skin("FridgeLarge_Yellow", FRIDGELARGE_YELLOW.NAME, FRIDGELARGE_YELLOW.DESC, "yellow_advanced_fridge_kanim")
+				;
+
+			SkinCollection.Create(FridgeSmallConfig.ID, SubCategoryID)
+				.Skin("FridgeSmall_Sticker", SIMPLEFRIDGE_STICKERS.NAME, SIMPLEFRIDGE_STICKERS.DESC, "simple_fridge_stickers_kanim")
+				;
 
 			SkinCollection.RegisterAllSkins();
 		}

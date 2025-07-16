@@ -15,7 +15,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 	class VentController_Patches
 	{
 		[HarmonyPrepare]
-		public static bool Prepare() => Config.Instance.HighPressureApplications;
+		public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
 
 		[HarmonyPatch(typeof(VentController), nameof(VentController.InitializeStates))]
 		public class VentController_InitializeStatesd_Patch

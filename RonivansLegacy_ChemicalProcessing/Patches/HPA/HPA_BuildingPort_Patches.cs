@@ -65,7 +65,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		public class LiquidConditionerConfig_ConfigureBuildingTemplate_Patch
 		{
 			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.HighPressureApplications;
+			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
 			public static void Postfix(GameObject go)
 			{
 				IncreaseConsumerInput(go.GetComponent<ConduitConsumer>(),true);
@@ -76,7 +76,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		public class AirConditionerConfig_ConfigureBuildingTemplate_Patch
 		{
 			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.HighPressureApplications;
+			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
 			public static void Postfix(GameObject go)
 			{
 				IncreaseConsumerInput(go.GetComponent<ConduitConsumer>(), false);
@@ -87,7 +87,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		public class RocketConduitStorageAccess_OnSpawn_Patch
 		{
 			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.HighPressureApplications;
+			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
 			public static void Postfix(RocketConduitStorageAccess __instance)
 			{
 				IncreaseRocketConduitTarget(__instance);
@@ -98,7 +98,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
         public class OperationalValve_OnSpawn_Patch
 		{
 			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.HighPressureApplications;
+			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
 			public static void Postfix(OperationalValve __instance)
             {
 				if (__instance.conduitType == ConduitType.Gas || __instance.conduitType == ConduitType.Liquid)
@@ -112,7 +112,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		public class WarpConduitSender_OnSpawn_Patch
 		{
 			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.HighPressureApplications;
+			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
 			public static void Prefix(WarpConduitSender __instance)
 			{
 				__instance.gasStorage.capacityKg *= HighPressureConduit.GetConduitMultiplier(ConduitType.Gas);
@@ -125,7 +125,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		public class RocketConduitSender_OnSpawn_Patch
 		{
 			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.HighPressureApplications;
+			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
 			public static void Prefix(RocketConduitSender __instance)
 			{
 				__instance.conduitStorage.capacityKg *= HighPressureConduit.GetConduitMultiplier(__instance.conduitPortInfo.conduitType);
@@ -136,7 +136,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		public class Game_OnLoadLevel_Patch
 		{
 			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.HighPressureApplications;
+			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
 			public static void Postfix()
 			{
 				HighPressureConduit.ClearEverything();

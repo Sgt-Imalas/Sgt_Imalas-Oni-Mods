@@ -23,7 +23,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		public class ConduitFlowVisualizer_GetCellTintColour_Patch
 		{
 			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.HighPressureApplications;
+			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
 			public static bool Prefix(ConduitFlowVisualizer __instance, int cell, ref Color32 __result)
 			{
 				if (HighPressureConduit.HasHighPressureConduitAt(cell, __instance.flowManager.conduitType, __instance.showContents, out var changedTint))
@@ -42,7 +42,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
         public class OverlayModes_ConduitMode_Update_Patch
 		{
 			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.HighPressureApplications;
+			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
 			static OverlayModes.ConduitMode Instance;
             public static void Prefix(OverlayModes.ConduitMode __instance)
             {
@@ -99,7 +99,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		public class ConduitFlowVisualizer_RenderMeshBatchJob_TargetMethod_Patch
 		{
 			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.HighPressureApplications;
+			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
 
 			static ConduitType CurrentConduitType;
 			public static void Prefix(RenderMeshContext shared_data)
