@@ -27,6 +27,8 @@ namespace RonivansLegacy_ChemicalProcessing
 
 			///group tag for guidance units
 			public static Tag MineralProcessing_GuidanceUnit = TagManager.Create("MineralProcessing_GuidanceUnit");
+			///group tag for drillbits
+			public static Tag MineralProcessing_Drillbit = TagManager.Create("MineralProcessing_Drillbit");
 
 			///Prevents free material cheesing from drill by destroying the drillbit on cancellation of the recipe
 			public static Tag RandomRecipeIngredient_DestroyOnCancel = TagManager.Create("RandomRecipeIngredient_DestroyOnCancel");

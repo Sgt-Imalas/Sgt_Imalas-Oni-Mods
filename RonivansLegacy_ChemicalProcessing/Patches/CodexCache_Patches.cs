@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using Klei;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,8 +18,18 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		public class CodexCache_CollectEntries_Patch
 		{
 			public static void Postfix(string folder, List<CodexEntry> __result)
-			{				
-				CodexUtils.CollectModdedCodexEntries(folder,__result, true);
+			{
+				SgtLogger.l("Collecting Codex Entries for " + folder);
+				CodexUtils.CollectModdedCodexEntries(folder,__result, true);				
+			}
+		}
+
+		[HarmonyPatch(typeof(CodexCache), nameof(CodexCache.CollectSubEntries))]
+		public class CodexCache_CollectSubEntries_Patch
+		{
+			public static void Postfix()
+			{
+				CodexDatabase.GenerateGuidanceDeviceEntries();
 			}
 		}
 	}

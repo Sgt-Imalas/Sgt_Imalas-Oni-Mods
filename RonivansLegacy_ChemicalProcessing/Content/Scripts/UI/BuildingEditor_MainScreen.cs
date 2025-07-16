@@ -118,6 +118,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 
 			ClearFilterButton = transform.Find("HorizontalLayout/ObjectList/SearchBar/DeleteButton").FindOrAddComponent<FButton>();
 			ClearFilterButton.OnClick += () => FilterBar.Text = string.Empty;
+			UIUtils.AddSimpleTooltipToObject(ClearFilterButton.gameObject, STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.OBJECTLIST.SEARCHBAR.CLEARTOOLTIP);
 
 
 			SelectedEntryNameDisplay = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/TitleWithIcon/Label").gameObject.GetComponent<LocText>();
@@ -129,14 +130,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			WattageInput = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/WattageSettings/Input").FindOrAddComponent<FInputField2>();
 			WattageInput.Text = "0";
 			WattageInput.OnValueChanged.AddListener(UpdateItemWattage);
-			transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/WattageSettings/Unit").gameObject.GetComponent<LocText>().SetText("W");
+			transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/WattageSettings/Unit").gameObject.GetComponent<LocText>().SetText(global::STRINGS.UI.UNITSUFFIXES.ELECTRICAL.WATT);
 			WattageContainer.SetActive(false);
 
 			StorageCapacityContainer = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/CapacitySettings").gameObject;
 			StorageCapacityInput = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/CapacitySettings/Input").FindOrAddComponent<FInputField2>();
 			StorageCapacityInput.Text = "0";
 			StorageCapacityInput.OnValueChanged.AddListener(UpdateItemCapacity);
-			transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/CapacitySettings/Unit").gameObject.GetComponent<LocText>().SetText("kg");
+			transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/CapacitySettings/Unit").gameObject.GetComponent<LocText>().SetText(global::STRINGS.UI.UNITSUFFIXES.MASS.KILOGRAM);
 			StorageCapacityContainer.gameObject.SetActive(false);
 
 			BuildingEnabledToggle = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/EnableBuilding/Checkbox").gameObject.AddOrGet<FToggle>();

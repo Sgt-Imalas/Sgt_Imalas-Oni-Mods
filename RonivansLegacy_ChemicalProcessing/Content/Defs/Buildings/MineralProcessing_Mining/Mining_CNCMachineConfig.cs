@@ -55,6 +55,9 @@ namespace Mineral_Processing_Mining.Buildings
 
 		private void ConfigureRecipes()
 		{
+			var combustibles = ElementLoader.elements.FindAll(e => e.HasTag(GameTags.CombustibleLiquid)).Select(element => element.id);
+			var plastics = ElementLoader.elements.FindAll(e => e.IsSolid && e.HasTag(GameTags.Plastic)).Select(element => element.id);
+
 			int pos = 0;
 			//===[ Basic Drill Bits ]===========================================================================================================================
 			// Ingredients: Iron - 250kg
@@ -65,7 +68,7 @@ namespace Mineral_Processing_Mining.Buildings
 			RecipeBuilder.Create(ID,50)
 				.Input(SimHashes.Iron, 250)
 				.Input(SimHashes.Copper, 50)
-				.Input(SimHashes.Petroleum, 20)
+				.Input(combustibles, 20)
 				.Output(Mining_Drillbits_Basic_ItemConfig.TAG, 2, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, false)
 				.Description(MINING_DRILLBITS_BASIC_ITEM.RECIPE_DESC)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
@@ -81,7 +84,7 @@ namespace Mineral_Processing_Mining.Buildings
 			RecipeBuilder.Create(ID, 50)
 				.Input(SimHashes.Steel, 250)
 				.Input(SimHashes.Iron, 50)
-				.Input(SimHashes.Petroleum, 20)
+				.Input(combustibles, 20)
 				.Output(Mining_Drillbits_Steel_ItemConfig.TAG, 2, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, false)
 				.Description(MINING_DRILLBITS_STEEL_ITEM.RECIPE_DESC)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
@@ -97,7 +100,7 @@ namespace Mineral_Processing_Mining.Buildings
 			RecipeBuilder.Create(ID, 50)
 				.Input(SimHashes.Tungsten, 200)
 				.Input(SimHashes.Steel, 100)
-				.Input(SimHashes.Petroleum, 20)
+				.Input(combustibles, 20)
 				.Output(Mining_Drillbits_Tungsten_ItemConfig.TAG, 2, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, false)
 				.Description(MINING_DRILLBITS_TUNGSTEN_ITEM.RECIPE_DESC)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
@@ -118,8 +121,7 @@ namespace Mineral_Processing_Mining.Buildings
 				.Input(SimHashes.Steel, 50)
 				.Input(SimHashes.Gold, 20)
 				.Input(SimHashes.Glass, 10)
-				.InputConditional(SimHashes.Polypropylene, 10, !isBioChemistryEnabled) //allow bioplastic if biochemistry is enabled
-				.InputConditional([SimHashes.Polypropylene, ModElements.BioPlastic_Solid], 10, isBioChemistryEnabled)
+				.Input(plastics, 10)
 				.Output(Mining_Drillbits_GuidanceDevice_ItemConfig.TAG, 1, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, false)
 				.Description(MINING_DRILLBITS_GUIDANCEDEVICE_ITEM.RECIPE_DESC)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)

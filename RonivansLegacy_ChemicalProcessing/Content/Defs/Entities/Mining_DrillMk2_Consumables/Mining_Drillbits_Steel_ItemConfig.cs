@@ -12,11 +12,11 @@ namespace Mineral_Processing_Mining.Buildings
 	public class Mining_Drillbits_Steel_ItemConfig : IEntityConfig
 	{
 		public static string ID = "Mining_Drillbits_Steel_Item";
-		public static readonly Tag TAG = TagManager.Create(ID, "SteelBit");
+		public static readonly Tag TAG = TagManager.Create(ID);
 
 		public GameObject CreatePrefab()
 		{
-			GameObject go = EntityTemplates.CreateLooseEntity(ID, MINING_DRILLBITS_STEEL_ITEM.NAME, MINING_DRILLBITS_STEEL_ITEM.DESC, 1f, false, Assets.GetAnim("drillbits_steel_kanim"), "object", Grid.SceneLayer.Front, EntityTemplates.CollisionShape.CIRCLE, 0.35f, 0.35f, true, 0, SimHashes.Creature, [GameTags.IndustrialProduct,ModAssets.Tags.RandomRecipeIngredient_DestroyOnCancel]);
+			GameObject go = EntityTemplates.CreateLooseEntity(ID, MINING_DRILLBITS_STEEL_ITEM.NAME, MINING_DRILLBITS_STEEL_ITEM.DESC, 1f, true, Assets.GetAnim("drillbits_steel_kanim"), "object", Grid.SceneLayer.Front, EntityTemplates.CollisionShape.CIRCLE, 0.35f, 0.35f, true, 0, SimHashes.Creature, [GameTags.IndustrialProduct,ModAssets.Tags.RandomRecipeIngredient_DestroyOnCancel, ModAssets.Tags.MineralProcessing_Drillbit]);
 			go.AddOrGet<EntitySplitter>();
 			go.AddOrGet<SimpleMassStatusItem>();
 			return go;

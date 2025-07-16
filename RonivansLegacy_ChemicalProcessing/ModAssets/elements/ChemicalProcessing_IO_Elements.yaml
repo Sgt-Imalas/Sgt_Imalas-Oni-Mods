@@ -1100,7 +1100,7 @@ elements:
     lowTempTransitionTarget: SolidNitrogen
     defaultTemperature: 69.15
     defaultMass: 870
-    maxMass: 9970
+    maxMass: 997
     molarMass: 1.68704
     lightAbsorptionFactor: 1
     radiationAbsorptionFactor: 0.3
@@ -1122,7 +1122,7 @@ elements:
     highTempTransitionTarget: LiquidNitrogen
     defaultTemperature: 58.15
     defaultMass: 870
-    maxMass: 9970
+    maxMass: 997
     hardness: 2
     molarMass: 56.86
     lightAbsorptionFactor: 1

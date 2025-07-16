@@ -11,7 +11,7 @@ elements:
     highTempTransitionTarget: LiquidVegeOil
     defaultTemperature: 200
     defaultMass: 800
-    maxMass: 8000
+    maxMass: 800
     hardness: 1
     molarMass: 82
     lightAbsorptionFactor: 1
@@ -39,7 +39,7 @@ elements:
     lowTempTransitionTarget: SolidVegeOil
     defaultTemperature: 296.15
     defaultMass: 800
-    maxMass: 8000
+    maxMass: 800
     molarMass: 86.2
     lightAbsorptionFactor: 1
     radiationAbsorptionFactor: 0.8
@@ -86,7 +86,7 @@ elements:
     highTempTransitionTarget: LiquidBiodiesel
     defaultTemperature: 220.15
     defaultMass: 800
-    maxMass: 8000
+    maxMass: 800
     hardness: 1
     molarMass: 92.14
     lightAbsorptionFactor: 1
@@ -116,7 +116,7 @@ elements:
     lowTempTransitionTarget: SolidBiodiesel
     defaultTemperature: 296.15
     defaultMass: 800
-    maxMass: 8000
+    maxMass: 800
     molarMass: 79.14
     lightAbsorptionFactor: 1
     radiationAbsorptionFactor: 0.8

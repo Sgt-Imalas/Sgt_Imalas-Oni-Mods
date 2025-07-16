@@ -185,11 +185,12 @@ namespace UtilLibs
 		}
 		public RecipeBuilder InputSO(SimHashes simHashes, float amount, bool inheritElement = false) => InputConditional(simHashes, amount, DlcManager.IsExpansion1Active, inheritElement);
 		public RecipeBuilder InputBase(SimHashes simHashes, float amount, bool inheritElement = false) => InputConditional(simHashes, amount, DlcManager.IsPureVanilla, inheritElement);
-		public RecipeBuilder InputConditional(SimHashes simhash, float amount, Func<bool> condition, bool inheritElement = false) => InputConditional(simhash, amount, condition(), inheritElement);
-		public RecipeBuilder InputConditional(SimHashes simhash, float amount, bool condition, bool inheritElement = false)
+		public RecipeBuilder InputConditional(SimHashes simhash, float amount, Func<bool> condition, bool inheritElement = false) => InputConditional(simhash.CreateTag(), amount, condition(), inheritElement);
+		public RecipeBuilder InputConditional(SimHashes simhash, float amount, bool condition, bool inheritElement = false) => InputConditional(simhash.CreateTag(), amount, condition, inheritElement);
+		public RecipeBuilder InputConditional(Tag tag, float amount, bool condition, bool inheritElement = false)
 		{
 			if (condition)
-				return Input(simhash, amount, inheritElement);
+				return Input(tag, amount, inheritElement);
 			else
 				return this;
 		}

@@ -29,7 +29,7 @@ namespace Mineral_Processing
 		public override BuildingDef CreateBuildingDef()
 		{
 			EffectorValues tieR2 = NOISE_POLLUTION.NOISY.TIER2;
-			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 4, 6, "mineral_drill_kanim", 100, 120f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER6, ["Steel"], 1600f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.NONE, tieR2);
+			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 4, 5, "mineral_drill_kanim", 100, 120f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER6, ["Steel"], 1600f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.NONE, tieR2);
 			BuildingTemplates.CreateElectricalBuildingDef(buildingDef);
 			buildingDef.SceneLayer = Grid.SceneLayer.BuildingFront;
 			buildingDef.EnergyConsumptionWhenActive = 1200f;
@@ -40,7 +40,7 @@ namespace Mineral_Processing
 			buildingDef.AudioCategory = "Metal";
 			buildingDef.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(0, 0));
 			buildingDef.BuildLocationRule = BuildLocationRule.OnFloor;
-			buildingDef.OnePerWorld = true;
+			//buildingDef.OnePerWorld = true;
 			return buildingDef;
 		}
 
@@ -52,7 +52,7 @@ namespace Mineral_Processing
 
 			KPrefabID component = go.GetComponent<KPrefabID>();
 			component.AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
-			component.AddTag(GameTags.UniquePerWorld);
+			//component.AddTag(GameTags.UniquePerWorld);
 
 			go.AddOrGet<DropAllWorkable>();
 			go.AddOrGet<BuildingComplete>().isManuallyOperated = false;

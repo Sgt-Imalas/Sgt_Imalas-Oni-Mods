@@ -1,0 +1,34 @@
+id: "MineralProcessing_Drillbit"
+title: STRINGS.MISC.TAGS.MINERALPROCESSING_DRILLBIT
+
+contentContainers:
+#-----------------------------
+  - contentLayout: Vertical
+    lockID:
+
+    content:
+      - !CodexText
+          stringKey: STRINGS.MISC.TAGS.MINERALPROCESSING_DRILLBIT
+          style: Title
+      - !CodexText
+          stringKey: STRINGS.MISC.TAGS.MINERALPROCESSING_DRILLBIT
+          style: Subtitle
+      - !CodexDividerLine
+          preferredWidth: -1
+      - !CodexImage
+          batchedAnimPrefabSourceID: Mining_Drillbits_Basic_Item
+          preferredWidth: 128
+          preferredHeight: 128
+#-----------------------------
+  - contentLayout: Vertical
+    lockID:
+
+    content:
+      - !CodexText
+          stringKey: STRINGS.MISC.TAGS.MINERALPROCESSING_DRILLBIT_DESC
+          style: Body
+      - !CodexElementCategoryList
+          categoryTag: MINERALPROCESSING_DRILLBIT
+
+contentMadeAndUsed:
+  - tag: MINERALPROCESSING_DRILLBIT

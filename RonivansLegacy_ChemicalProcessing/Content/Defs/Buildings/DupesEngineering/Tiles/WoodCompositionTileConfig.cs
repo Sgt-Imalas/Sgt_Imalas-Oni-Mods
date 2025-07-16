@@ -17,7 +17,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 		public override BuildingDef CreateBuildingDef()
 		{
 			string kanim = "floor_wooden_kanim";
-			float[] mass = [350,50];
+			float[] mass = [375,75];
 			string[] cost = [GameTags.BuildableRaw.ToString(),GameTags.BuildingWood.ToString()];
 
 			BuildingDef def = BuildingTemplates.CreateBuildingDef(ID, 1, 1, kanim, 100, 5f, mass, cost, 1600f, BuildLocationRule.Tile, BUILDINGS.DECOR.BONUS.TIER1, NOISE_POLLUTION.NONE);
@@ -54,6 +54,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 			simCellOccupier.notifyOnMelt = true;
 			simCellOccupier.doReplaceElement = true;
 			simCellOccupier.movementSpeedMultiplier = 1.2f; //== DUPLICANTSTATS.MOVEMENT_MODIFIERS.BONUS_5;
+			go.AddOrGet<Insulator>();
 
 			go.AddOrGet<TileTemperature>();
 			go.AddOrGet<KAnimGridTileVisualizer>().blockTileConnectorID = Hash.SDBMLower("tiles_wooden_comp_tops");

@@ -669,11 +669,10 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString EFFECT = string.Concat(
 						[
 							"This rig uses specialized Drillbits to mine useful resources from the asteroid crust. Retrived resources are released upon the Drill Head return.\n"+
-							"Require a constant supply of either ",FormatAsLink("Petroleum", "PETROLEUM"),
-							" or ",FormatAsLink("Ethanol", "ETHANOL")," for its to function.\n"+
-
-							"Results: resources are delivered upon Drillhead return.\n"+
-							"Occurrence: resources are spawned during Drillhead operation."
+							"Require a constant supply of ",FormatAsLink("Combustable Fuel", "COMBUSTIBLELIQUID")
+							+" to function.\n"+
+							"Results: resources that are delivered upon Drillhead return.\n"+
+							"Occurrence: resources that are generated during Drillhead operation."
 						]);
 				}
 				public class MINING_MINERALDRILL
@@ -1701,7 +1700,11 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString CHEMICALPROCESSING_BIOOIL_COMPOSITION_DESC = "Organic Oils are extracted from renewable biomass.";
 
 				public static LocString MINERALPROCESSING_GUIDANCEUNIT = FormatAsLink("Guidance Device", nameof(MINERALPROCESSING_GUIDANCEUNIT));
-				public static LocString MINERALPROCESSING_GUIDANCEUNIT_DESC = "Guidance Devices allow the the mining drillhead to be programmed to target mine specific asteroid sectors";
+				public static LocString MINERALPROCESSING_GUIDANCEUNIT_DESC = "Guidance Devices allow the the mining drillhead to be programmed to target mine specific asteroid sectors.";
+
+				public static LocString MINERALPROCESSING_DRILLBIT = FormatAsLink("Drillbit", nameof(MINERALPROCESSING_DRILLBIT));
+				public static LocString MINERALPROCESSING_DRILLBIT_DESC = "Self-Propelled Drillbits that are used by the Asteroid Drill Rig to extract resources from otherwise unreachable sectors of the asteroid.";
+				
 
 				public static LocString RANDOMRECIPEINGREDIENT_DESTROYONCANCEL = FormatAsLink("Non-refundable Ingredient", nameof(RANDOMRECIPEINGREDIENT_DESTROYONCANCEL));
 				public static LocString RANDOMRECIPEINGREDIENT_DESTROYONCANCEL_DESC = "This ingredient gets used up during its use, if a recipe with it gets canceled, it is lost.";
@@ -1725,26 +1728,26 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class MINING_DRILLBITS_TUNGSTEN_ITEM
 				{
 					public static LocString NAME = FormatAsLink("Tungsten Drillbits", nameof(MINING_DRILLBITS_TUNGSTEN_ITEM));
-					public static LocString DESC = "A set of sturdy drill bits made for extremely hard rock mining operations.\nHas no guidance system and call drill through deep, very hard rocks stratum even at high temperature.";
+					public static LocString DESC = "A set of sturdy drill bits made for extremely hard rock mining operations.\nHas no own guidance system and call drill through deep, very hard rocks stratum even at high temperature.";
 					public static LocString RECIPE_DESC = "Instruct the computer to produce Tungsten Drillbits.";
 
 				}
 				public class MINING_DRILLBITS_STEEL_ITEM
 				{
 					public static LocString NAME = FormatAsLink("Steel Drillbits", nameof(MINING_DRILLBITS_STEEL_ITEM));
-					public static LocString DESC = "A set of sturdy drill bits made for hard rock mining operations.\nHas no guidance system and call drill through hard rocks stratum.";
+					public static LocString DESC = "A set of sturdy drill bits made for hard rock mining operations.\nHas no own guidance system and call drill through hard rocks stratum.";
 					public static LocString RECIPE_DESC = "Instruct the computer to produce Steel Drillbits.";
 				}
 				public class MINING_DRILLBITS_BASIC_ITEM
 				{
 					public static LocString NAME = FormatAsLink("Basic Drillbits", nameof(MINING_DRILLBITS_BASIC_ITEM));
-					public static LocString DESC = "A set of sturdy drill bits made for basic mining operations.\nHas no guidance system and call drill through soft rocks stratum.";
+					public static LocString DESC = "A set of sturdy drill bits made for basic mining operations.\nHas no own guidance system and call drill through soft rocks stratum.";
 					public static LocString RECIPE_DESC = "Instruct the computer to produce Basic Drillbits.\nThis instruction is meant for Copper variation.";
 				}
 				public class MINING_DRILLBITS_GUIDANCEDEVICE_ITEM
 				{
-					public static LocString NAME = FormatAsLink("Guidance Device (unprogrammed)", nameof(MINING_DRILLBITS_GUIDANCEDEVICE_ITEM));
-					public static LocString NAME_PROGRAMMED = FormatAsLink("Guidance Device (Target: {0})", nameof(MINING_DRILLBITS_GUIDANCEDEVICE_ITEM));
+					public static LocString NAME = FormatAsLink("Guidance Device (Unprogrammed)", "MINERALPROCESSING_GUIDANCEUNIT");
+					public static LocString NAME_PROGRAMMED = FormatAsLink("Guidance Device (Target: {0})", "MINERALPROCESSING_GUIDANCEUNIT");
 					public static LocString DESC = "A sofisticated electronic module that aids the Mining Drillhead to navigate while operating.\nIn general, the guidance system computes the instructions for the Drillhead control system, which comprises its actuators, increasing the performance and detecting element resources from its surroundings.\n\nIt can be programmed by a skilled Duplicant or by the CNC machine";
 					public static LocString DESC_PROGRAMMED = "A sofisticated electronic module that aids the Mining Drillhead to navigate while operating.\nIn general, the guidance system computes the instructions for the Drillhead control system, which comprises its actuators, increasing the performance and detecting element resources from its surroundings.\n\nThis guidance device is programmed to target the {0}";
 					public static LocString RECIPE_DESC = "Instruct the computer to produce a Guidance Device.";

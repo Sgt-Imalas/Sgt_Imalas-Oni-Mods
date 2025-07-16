@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,26 +15,9 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		[HarmonyPatch(typeof(Def), nameof(Def.GetUISprite), [typeof(object), typeof(string), typeof(bool)])]
 		public class Def_GetUISprite_Patch
 		{
-			public static void Postfix(object item, Tuple<Sprite, Color> __result)
+			public static void Postfix(object item, ref Tuple<Sprite, Color> __result)
 			{
-				if(__result.first.name == "unknown" && item is Tag t)
-				{
-					if(t == GameTags.CombustibleGas)
-					{
-						__result.first = Assets.GetSprite("ui_combustible_gases");
-						__result.second = Color.white;
-					} 
-					else if (t == GameTags.CombustibleLiquid)
-					{
-						__result.first = Assets.GetSprite("ui_combustible_liquids");
-						__result.second = Color.white;
-					}
-					else if (t == GameTags.CombustibleSolid)
-					{
-						__result.first = Assets.GetSprite("ui_combustible_solids");
-						__result.second = Color.white;
-					}
-				}
+				ModTagUiSprites.SetMissingTagSprites(item, ref __result);
 			}
 		}
 	}

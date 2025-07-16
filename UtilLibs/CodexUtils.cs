@@ -64,7 +64,7 @@ namespace UtilLibs
 							}
 
 							result.Add(codexEntry);
-							SgtLogger.l("added modded codex entry: " + codexEntry.title + " to category " + category);
+							SgtLogger.l("added modded codex entry: " + codexEntry.id + " to category " + category);
 						}
 					}
 					catch (Exception ex)
