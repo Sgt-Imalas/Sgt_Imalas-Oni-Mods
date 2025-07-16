@@ -1196,6 +1196,18 @@ namespace RonivansLegacy_ChemicalProcessing
 						]);
 				}
 
+				public class LOGISTICRAILVALVE
+				{
+					public static LocString NAME = FormatAsLink("Logistic Reduction Valve", nameof(LOGISTICRAILVALVE));
+					public static LocString DESC = "A mechanical valve capable of reducing the flow of mass from a conveyor rail to to a logistic rail, avoiding it dropping items.";
+					public static LocString EFFECT = "Allows " +
+					FormatAsLink("Solid Materials", "ELEMENTS_SOLID") +
+					" to be transfered from normal " +
+					FormatAsLink("Conveyor Rails", "SOLIDCONDUIT") +
+					" to " +
+					FormatAsLink("Logistic Rails", "LOGISTICRAIL") +
+					".";
+				}
 				#endregion
 				#region HighPressureApplications
 

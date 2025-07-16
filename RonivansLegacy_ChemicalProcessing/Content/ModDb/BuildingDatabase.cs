@@ -525,38 +525,44 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			///logistic rails
 			BuildingManager.CreateEntry<LogisticTransferArmConfig>()
-				.AddToCategory(PlanMenuCategory.Shipping, SolidTransferArmConfig.ID)
-				.AddToTech(Technology.SolidMaterial.SmartStorage, ModUtil.BuildingOrdering.Before)
+				.AddToCategory(PlanMenuCategory.Shipping, SolidTransferArmConfig.ID, ModUtil.BuildingOrdering.Before)
+				.AddToTech(Technology.SolidMaterial.SmartStorage)
 				.AddModFrom(SourceModInfo.DupesLogistics);
 
 			BuildingManager.CreateEntry<LogisticRailConfig>()
-				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitConfig.ID)
-				.AddToTech(Technology.SolidMaterial.SmartStorage, ModUtil.BuildingOrdering.Before)
+				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitConfig.ID, ModUtil.BuildingOrdering.Before)
+				.AddToTech(Technology.SolidMaterial.SmartStorage)
 				.AddModFrom(SourceModInfo.DupesLogistics);
 
 			BuildingManager.CreateEntry<LogisticBridgeConfig>()
-				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitBridgeConfig.ID)
-				.AddToTech(Technology.SolidMaterial.SmartStorage, ModUtil.BuildingOrdering.Before)
-				.AddModFrom(SourceModInfo.DupesLogistics);
+				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitBridgeConfig.ID, ModUtil.BuildingOrdering.Before)
+				.AddToTech(Technology.SolidMaterial.SmartStorage)
+				.AddModFrom(SourceModInfo.DupesLogistics);			
 
 			BuildingManager.CreateEntry<LogisticLoaderConfig>()
-				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitInboxConfig.ID)
-				.AddToTech(Technology.SolidMaterial.SmartStorage, ModUtil.BuildingOrdering.Before)
+				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitInboxConfig.ID, ModUtil.BuildingOrdering.Before)
+				.AddToTech(Technology.SolidMaterial.SmartStorage)
 				.AddModFrom(SourceModInfo.DupesLogistics);
 
 			BuildingManager.CreateEntry<LogisticOutBoxConfig>()
-				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitOutboxConfig.ID)
-				.AddToTech(Technology.SolidMaterial.SmartStorage, ModUtil.BuildingOrdering.Before)
+				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitOutboxConfig.ID, ModUtil.BuildingOrdering.Before)
+				.AddToTech(Technology.SolidMaterial.SmartStorage)
 				.AddModFrom(SourceModInfo.DupesLogistics);
 
 			BuildingManager.CreateEntry<LogisticFilterConfig>()
-				.AddToCategory(PlanMenuCategory.Shipping, SolidFilterConfig.ID)
-				.AddToTech(Technology.SolidMaterial.SolidManagement, ModUtil.BuildingOrdering.Before)
+				.AddToCategory(PlanMenuCategory.Shipping, SolidFilterConfig.ID, ModUtil.BuildingOrdering.Before)
+				.AddToTech(Technology.SolidMaterial.SolidManagement)
 				.AddModFrom(SourceModInfo.DupesLogistics);
 
 			BuildingManager.CreateEntry<LogisticVentConfig>()
-				.AddToCategory(PlanMenuCategory.Shipping, SolidVentConfig.ID)
-				.AddToTech(Technology.SolidMaterial.SmartStorage, ModUtil.BuildingOrdering.Before)
+				.AddToCategory(PlanMenuCategory.Shipping, SolidVentConfig.ID, ModUtil.BuildingOrdering.Before)
+				.AddToTech(Technology.SolidMaterial.SmartStorage)
+				.AddModFrom(SourceModInfo.DupesLogistics);
+
+
+			BuildingManager.CreateEntry<LogisticRailValveConfig>()
+				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitBridgeConfig.ID)
+				.AddToTech(Technology.SolidMaterial.SmartStorage)
 				.AddModFrom(SourceModInfo.DupesLogistics);
 
 		}
