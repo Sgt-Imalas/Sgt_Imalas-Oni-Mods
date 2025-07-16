@@ -35,7 +35,6 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 			}
 		}
 
-
 		/// <summary>
 		/// this patch overrides the tinting color the high pressure conduits receive in their respective conduit overlays
 		/// </summary>

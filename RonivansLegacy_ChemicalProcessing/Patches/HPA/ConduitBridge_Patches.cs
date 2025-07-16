@@ -71,7 +71,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 
 				//damage the bridge when the target pipe is a HPA bridge 
 				if (contents.mass > targetBridgeCapacity * 1.1f)
-					HighPressureConduit.ScheduleForDamage(bridge.gameObject);
+					HighPressureConduit.ScheduleForDamage(bridge.gameObject, (int)contents.mass, (int)targetBridgeCapacity);
 
 				//If the ConduitBridge is not supposed to support the amount of fluid currently in the contents, only make the bridge's intended max visible
 				//Also immediately deal damage if the current contents are higher than 110% of the intended max (110% is set because at 100%, a system with no pressurized pipes would seem to randomly deal damage as if the contents

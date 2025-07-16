@@ -89,7 +89,6 @@ namespace RonivansLegacy_ChemicalProcessing
 					}
 				}
 			}
-
 			public class PREFABS
 			{
 				#region Biochemistry
@@ -1336,36 +1335,47 @@ namespace RonivansLegacy_ChemicalProcessing
 			{
 				public class HPA_NEEDGASIN
 				{
-					public static LocString NAME = (LocString)"No High Pressure Gas Intake";
-					public static LocString TOOLTIP = (LocString)("This building's " + PRE_KEYWORD + "High Pressure Gas Intake" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSUREGASCONDUIT.NAME + " connected");
+					public static LocString NAME ="No High Pressure Gas Intake";
+					public static LocString TOOLTIP =("This building's " + PRE_KEYWORD + "High Pressure Gas Intake" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSUREGASCONDUIT.NAME + " connected");
 				}
 
 				public class HPA_NEEDGASOUT
 				{
-					public static LocString NAME = (LocString)"No High Pressure Gas Output";
-					public static LocString TOOLTIP = (LocString)("This building's " + PRE_KEYWORD + "High Pressure Gas Output" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSUREGASCONDUIT.NAME + " connected");
+					public static LocString NAME ="No High Pressure Gas Output";
+					public static LocString TOOLTIP =("This building's " + PRE_KEYWORD + "High Pressure Gas Output" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSUREGASCONDUIT.NAME + " connected");
 				}
 
 				public class HPA_NEEDLIQUIDIN
 				{
-					public static LocString NAME = (LocString)"No High Pressure Liquid Intake";
-					public static LocString TOOLTIP = (LocString)("This building's " + PRE_KEYWORD + "High Pressure Liquid Intake" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSURELIQUIDCONDUIT.NAME + " connected");
+					public static LocString NAME ="No High Pressure Liquid Intake";
+					public static LocString TOOLTIP =("This building's " + PRE_KEYWORD + "High Pressure Liquid Intake" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSURELIQUIDCONDUIT.NAME + " connected");
 				}
 
 				public class HPA_NEEDLIQUIDOUT
 				{
-					public static LocString NAME = (LocString)"No High Pressure Liquid Output";
-					public static LocString TOOLTIP = (LocString)("This building's " + PRE_KEYWORD + "High Pressure Liquid Output" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSURELIQUIDCONDUIT.NAME + " connected");
+					public static LocString NAME ="No High Pressure Liquid Output";
+					public static LocString TOOLTIP =("This building's " + PRE_KEYWORD + "High Pressure Liquid Output" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSURELIQUIDCONDUIT.NAME + " connected");
 				}
 				public class HPA_NEEDSOLIDIN
 				{
-					public static LocString NAME = (LocString)"No Heavy Duty Solid Intake";
-					public static LocString TOOLTIP = (LocString)("This building's " + PRE_KEYWORD + "Heavy Duty Solid Intake" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSURELIQUIDCONDUIT.NAME + " connected");
+					public static LocString NAME ="No Heavy Duty Solid Intake";
+					public static LocString TOOLTIP =("This building's " + PRE_KEYWORD + "Heavy Duty Solid Intake" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSURELIQUIDCONDUIT.NAME + " connected");
 				}
 				public class HPA_NEEDLSOLIDOUT
 				{
-					public static LocString NAME = (LocString)"No Heavy Duty Solid Output";
-					public static LocString TOOLTIP = (LocString)("This building's " + PRE_KEYWORD + "Heavy Duty Solid Output" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSURELIQUIDCONDUIT.NAME + " connected");
+					public static LocString NAME ="No Heavy Duty Solid Output";
+					public static LocString TOOLTIP =("This building's " + PRE_KEYWORD + "Heavy Duty Solid Output" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSURELIQUIDCONDUIT.NAME + " connected");
+				}
+
+				public class HPA_SOLIDCONDUITITEMDROPPED
+				{
+					public static LocString NAME = "Rail Capacity Exceeded!";
+					public static LocString TOOLTIP = "This conveyor rail failed at transporting a debris chunk that was too heavy for it\nThe incoming item was {0} kg, but it could only hold {1} kg of that.\nExcess mass was dropped (WORK IN PROGRESS TEXT!)";
+				}
+				public class HPA_CONDUITOVERPRESSURIZED
+				{
+					public static LocString NAME = "Pipe Overpressurized!";
+					public static LocString TOOLTIP = "This pipe tried to take in too high pressure!\nThe incoming package was {0} kg, but it could only contain {1} kg!";
 				}
 			}
 		}

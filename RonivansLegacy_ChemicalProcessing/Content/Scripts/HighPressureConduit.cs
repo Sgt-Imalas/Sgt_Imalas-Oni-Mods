@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 using static FlowUtilityNetwork;
+using static UnityEngine.GraphicsBuffer;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {
@@ -17,10 +18,19 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			ClearEverything();
 			InitCache();
 		}
-
+		public static bool IsSolidConduitBroken(int cell) => BrokenRails.Contains(cell);
+		static HashSet<int> BrokenRails = [];
+		public static void RegisterRailBrokenState(SolidConduit conduit, bool broken)
+		{
+			if (broken)
+				BrokenRails.Add(conduit.NaturalBuildingCell());
+			else
+				BrokenRails.Remove(conduit.NaturalBuildingCell());
+		}
 		public static Dictionary<int, Dictionary<int, HighPressureConduit>> ConduitsByLayer;
 		public static void ClearEverything()
 		{
+			BrokenRails.Clear();
 			CancelPendingPressureDamage();
 			AllConduits.Clear();
 			AllConduitGOs.Clear();
@@ -96,6 +106,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			else
 			{
 				go = GetConduitAt(cell, type);
+				if (LogisticConduit.HasLogisticConduitAt(cell, isBridge))
+					return SolidCap_Logistic;
 				return CachedRegularConduitCapacity(type);
 			}
 		}
@@ -167,7 +179,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			_solidOverlayTint = new(154, 255, 167, 0);
 
 		public static float SolidCap_HP => _solidCap_hp;
-		public static float SolidCap_Logistic => _solidCap_logistic;	
+		public static float SolidCap_Logistic => _solidCap_logistic;
 		public static float SolidCap_Regular => _solidCap_reg;
 
 		public static float CachedHPAConduitCapacity(ConduitType type, HighPressureConduit cmp = null)
@@ -214,47 +226,90 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			}
 		}
 
-		static List<GameObject> DamageTargets = new();
+		interface IScheduledEvent
+		{
+			GameObject Target { get; set; }
+			void ExecuteEventAction();
+		}
+		class NotificationEvent : IScheduledEvent
+		{
+			static Dictionary<GameObject, float> PreviousEventTriggerTimes = [];
+			public Notification Notification { get; set; }
+			public GameObject Target { get; set; }
+			public NotificationEvent(GameObject target, string notificationName, string notificationDescription, NotificationType type = NotificationType.Bad)
+			{
+				Target = target;
+				Notification = new Notification(notificationName, type, (_, _) => notificationDescription, click_focus: target.transform);
+			}
+			public void ExecuteEventAction()
+			{
+				float currentTime = KTime.Instance.UnscaledGameTime;
+
+				if (PreviousEventTriggerTimes.TryGetValue(Target, out float prevTime) && prevTime + 15 > currentTime)
+					return;
+
+				PreviousEventTriggerTimes[Target] = KTime.Instance.UnscaledGameTime;
+				Target.AddOrGet<Notifier>().Add(Notification);
+			}
+		}
+		class DamageEvent : IScheduledEvent
+		{
+			public DamageEvent(GameObject target, string eventName)
+			{
+				Target = target;
+				EventDisplayName = eventName;
+			}
+			public GameObject Target { get; set; }
+			public string EventDisplayName;
+			public void ExecuteEventAction()
+			{
+				Target.Trigger((int)GameHashes.DoBuildingDamage, GetPressureDamageSource(EventDisplayName));
+			}
+		}
+
+		static List<IScheduledEvent> ScheduledEvents = new();
 
 		static SchedulerHandle? handle = null;
-		internal static void ScheduleForDamage(GameObject receiver)
+		public static void ScheduleDropNotification(GameObject notificationSource, int mass, int capacity)
 		{
-			DamageTargets.Add(receiver);
+			ScheduledEvents.Add(new NotificationEvent(notificationSource, STRINGS.BUILDING.STATUSITEMS.HPA_SOLIDCONDUITITEMDROPPED.NAME, string.Format(STRINGS.BUILDING.STATUSITEMS.HPA_SOLIDCONDUITITEMDROPPED.TOOLTIP, mass, capacity)));
+			TriggerEventScheduler();
+		}
+		public static void ScheduleForDamage(GameObject receiver, int mass, int capacity)
+		{
+			ScheduledEvents.Add(new NotificationEvent(receiver, STRINGS.BUILDING.STATUSITEMS.HPA_CONDUITOVERPRESSURIZED.NAME, string.Format(STRINGS.BUILDING.STATUSITEMS.HPA_CONDUITOVERPRESSURIZED.TOOLTIP, mass, capacity)));
+			ScheduledEvents.Add(new DamageEvent(receiver, global::STRINGS.UI.GAMEOBJECTEFFECTS.DAMAGE_POPS.LIQUID_PRESSURE));
+			TriggerEventScheduler();
+		}
+		static void TriggerEventScheduler()
+		{
 			if (handle != null)
 				return;
-
-			GameScheduler.Instance.ScheduleNextFrame("DamageAccumulation", (_) => DealAccumulatedDamage());
+			GameScheduler.Instance.ScheduleNextFrame("ExecuteQueuedEvents", (_) => ExecuteQueuedEventActions());
 		}
 
-		private static BuildingHP.DamageSourceInfo? ConduitPressureDamage = null;
-		public static BuildingHP.DamageSourceInfo GetPressureDamageSource()
+		public static BuildingHP.DamageSourceInfo GetPressureDamageSource(string popString)
 		{
-			if (ConduitPressureDamage == null)
+			return new()
 			{
-				ConduitPressureDamage = new()
-				{
-					damage = 1,
-					source = global::STRINGS.BUILDINGS.DAMAGESOURCES.LIQUID_PRESSURE,
-					popString = global::STRINGS.UI.GAMEOBJECTEFFECTS.DAMAGE_POPS.LIQUID_PRESSURE
-				};
-			}
-			return ConduitPressureDamage.Value;
+				damage = 1,
+				source = global::STRINGS.BUILDINGS.DAMAGESOURCES.LIQUID_PRESSURE,
+				popString = popString,
+			};
 		}
 
-		static void DealAccumulatedDamage()
+		static void ExecuteQueuedEventActions()
 		{
-			for (int i = DamageTargets.Count - 1; i >= 0; i--)
-			{
-				var target = DamageTargets[i];
-				target.Trigger((int)GameHashes.DoBuildingDamage, GetPressureDamageSource());
-			}
+			foreach (var targetedEvent in ScheduledEvents)
+				targetedEvent.ExecuteEventAction();
 			handle = null;
-			DamageTargets.Clear();
+			ScheduledEvents.Clear();
 		}
 
 		internal static void CancelPendingPressureDamage()
 		{
-			DamageTargets.Clear();
+			handle = null;
+			ScheduledEvents.Clear();
 		}
 
 		internal static void PressureDamageHandling(GameObject receiver, float sentMass, float receiverMax)
@@ -265,7 +320,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			{
 				//This damage CANNOT be dealt immediately, or it will cause the game to crash. This code execution occurs during an UpdateNetworkTask execution and does not seem to support executing Triggers
 				//The damage will instead be queued and dealt by a scheduler on the next tick
-				ScheduleForDamage(receiver);
+				ScheduleForDamage(receiver, (int)sentMass, (int)receiverMax);
 			}
 		}
 

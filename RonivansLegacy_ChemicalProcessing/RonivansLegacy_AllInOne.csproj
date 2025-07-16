@@ -46,5 +46,6 @@
 	<ItemGroup>
 	  <Folder Include="Content\Defs\Buildings\HighPressureApplications\HighCapacityLogisticRails\" />
 	  <Folder Include="Content\Scripts\Entities\" />
+	  <Folder Include="Content\Scripts\ConduitHandling\" />
 	</ItemGroup>
 </Project>

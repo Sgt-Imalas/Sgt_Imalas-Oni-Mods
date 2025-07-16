@@ -77,7 +77,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		{
 			if(bridge)
 				return Bridges.ContainsKey(cell);
-			return Conduits[cell];
+			return Conduits.ContainsKey(cell);
 		}
 		public static bool TryGetLogisticConduitAt(int cell, bool bridge, out LogisticConduit conduit)
 		{
