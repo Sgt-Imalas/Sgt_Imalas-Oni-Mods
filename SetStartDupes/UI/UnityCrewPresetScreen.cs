@@ -47,7 +47,7 @@ namespace SetStartDupes
 		CharacterSelectionController ReferencedCrewController = null;
 
 
-		Dictionary<MinionCrewPreset, GameObject> Presets = new Dictionary<MinionCrewPreset, GameObject>();
+		Dictionary<MinionCrewPreset, GameObject> Presets = [];
 		List<GameObject> InformationObjects = new List<GameObject>();
 
 
@@ -100,6 +100,7 @@ namespace SetStartDupes
 
 		void LoadAllPresets()
 		{
+			SgtLogger.l($"clearing {Presets.Count} preset ui entries");
 			foreach (var existing in Presets.Values)
 			{
 				Destroy(existing.gameObject);
@@ -109,6 +110,7 @@ namespace SetStartDupes
 			{
 				AddUiElementForPreset(loadedPreset);
 			}
+			SgtLogger.l($"added {Presets.Count} preset ui entries");
 		}
 
 		List<MinionCrewPreset> LoadPresets()

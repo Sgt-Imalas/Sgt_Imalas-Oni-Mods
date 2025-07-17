@@ -20,9 +20,13 @@ namespace SetStartDupes.Patches
         {
             public static void Postfix(Immigration __instance)
             {
-                if(Config.Instance.AddAdditionalCarePackages && !GeneratingFrontendList)
-                    __instance.carePackages.AddRange(ModAssets.GetAdditionalCarePackages());
+                if (!GeneratingFrontendList)
+                {
+                    CarePackageOutlineManager.RemoveDisabledVanillaPackages(__instance.carePackages);
 
+					if (Config.Instance.AddAdditionalCarePackages)
+						__instance.carePackages.AddRange(CarePackageOutlineManager.GetAllAdditionalCarePackages());
+				}
             }
         }
         [HarmonyPatch(typeof(Immigration), nameof(Immigration.OnPrefabInit))]

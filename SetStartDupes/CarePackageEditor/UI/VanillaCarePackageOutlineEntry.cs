@@ -16,7 +16,7 @@ namespace SetStartDupes.CarePackageEditor.UI
 
 		Image DisplayImage;
 		LocText Label;
-
+		FToggle Toggle;
 
 		public override void OnPrefabInit()
 		{
@@ -32,14 +32,16 @@ namespace SetStartDupes.CarePackageEditor.UI
 			init = true;
 
 			DisplayImage = transform.Find("DisplayImage")?.GetComponent<Image>();
-			Label = transform.Find("Label")?.GetComponent<LocText>();			
+			Label = transform.Find("Label")?.GetComponent<LocText>();
+			Toggle = transform.Find("Checkbox").gameObject.AddComponent<FToggle>();
+			Toggle.SetCheckmark("Checkmark");
+			Toggle.OnChange += SetVanillaCarePackageEnabled;
 		}
-
-		void SelectOutline()
+		void SetVanillaCarePackageEnabled(bool enabled)
 		{
 			if (TargetOutline == null)
 				return;
-			CarePackageOutlineManager.TrySelectOutline(TargetOutline);
+			CarePackageOutlineManager.ToggleVanillaOutlineEnabled(TargetOutline);
 		}
 
 		public void UpdateOutline(CarePackageOutline newOutline)
@@ -59,7 +61,7 @@ namespace SetStartDupes.CarePackageEditor.UI
 				InitUi();
 			}
 			Label?.SetText(TargetOutline.GetDescriptionString());
-
+			Toggle.SetOnFromCode(CarePackageOutlineManager.IsVanillaCarePackageEnabled(TargetOutline));
 			var TargetItem = Assets.GetPrefab(TargetOutline.ItemId);
 			if (TargetItem != null)
 			{
@@ -76,6 +78,6 @@ namespace SetStartDupes.CarePackageEditor.UI
 				DisplayImage.sprite = Assets.GetSprite("unknown");
 				DisplayImage.color = Color.white;
 			}
-		}
+		}		
 	}
 }

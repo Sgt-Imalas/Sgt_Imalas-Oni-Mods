@@ -20,6 +20,9 @@ namespace SetStartDupes.CarePackageEditor
 		private static List<CarePackageOutline> VanillaCarePackages = null;
 
 		private static List<CarePackageOutline> ExtraCarePackages = null;
+		private static VanillaCarePackageInformation DisabledVanillaPackages = null;
+
+
 
 		public static void FetchVanillaCarePackages()
 		{
@@ -76,6 +79,24 @@ namespace SetStartDupes.CarePackageEditor
 			}
 			return VanillaCarePackages;
 		}
+		public static void RemoveDisabledVanillaPackages(List<CarePackageInfo> currentList)
+		{
+			if (DisabledVanillaPackages == null)
+				LoadDisabledVanillaCarePackagesFile();
+
+			for (int i = currentList.Count - 1; i >= 0; i--)
+			{
+				var entry = currentList[i];
+				if (DisabledVanillaPackages.CarePackageDisabled(entry))
+				{
+					SgtLogger.l($"removing vanilla care package that adds {entry.quantity}x {entry.id}")
+					currentList.RemoveAt(i);
+				}
+			}
+		}
+
+
+
 		public static List<CarePackageInfo> GetAllAdditionalCarePackages()
 		{
 			if (ExtraCarePackages == null)
@@ -118,6 +139,21 @@ namespace SetStartDupes.CarePackageEditor
 			}
 			SgtLogger.l("loaded " + ExtraCarePackages.Count + " care packages");
 		}
+		internal static void LoadDisabledVanillaCarePackagesFile()
+		{
+			var file = new FileInfo(ModAssets.DisabledVanillaCarePackages);
+			if (file.Exists && IO_Utils.ReadFromFile<VanillaCarePackageInformation>(file, out var disabledVanillaPackageList, converterSettings: new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto }))
+			{
+				SgtLogger.l("loaded vanilla care package file with " + disabledVanillaPackageList.GetCount() + " entries");
+				DisabledVanillaPackages = disabledVanillaPackageList;
+			}
+			else
+			{
+				SgtLogger.l("no care package file found or failed to load existing one, creating new empty one");
+				DisabledVanillaPackages = new();
+			}
+			DisabledVanillaPackages.Initialize();
+		}
 
 
 		public static void ResetExtraCarePackages()
@@ -126,6 +162,8 @@ namespace SetStartDupes.CarePackageEditor
 			ExtraCarePackages.Clear();
 			AddExtraCarePackages();
 			SaveCarePackagesToFile();
+			DisabledVanillaPackages.ClearAll();
+			SaveDisabledVanillaPackagesToFile();
 		}
 		public static void AddExtraCarePackages()
 		{
@@ -196,6 +234,23 @@ namespace SetStartDupes.CarePackageEditor
 		public static void SaveCarePackagesToFile()
 		{
 			IO_Utils.WriteToFile(ExtraCarePackages, ModAssets.ExtraCarePackageFileInfo, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto });
+		}
+		public static void SaveDisabledVanillaPackagesToFile()
+		{
+			IO_Utils.WriteToFile(DisabledVanillaPackages, ModAssets.DisabledVanillaCarePackages, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto });
+		}
+		public static void ToggleVanillaOutlineEnabled(CarePackageOutline vanillaOutline)
+		{
+			if(DisabledVanillaPackages == null)
+				LoadDisabledVanillaCarePackagesFile();
+			DisabledVanillaPackages.ToggleVanillaCarePackage(vanillaOutline);
+			SaveDisabledVanillaPackagesToFile();
+		}
+		public static bool IsVanillaCarePackageEnabled(CarePackageOutline vanillaOutline)
+		{
+			if (DisabledVanillaPackages == null)
+				LoadDisabledVanillaCarePackagesFile();
+			return !DisabledVanillaPackages.CarePackageDisabled(vanillaOutline);
 		}
 
 		internal static void TrySelectOutline(CarePackageOutline targetOutline)

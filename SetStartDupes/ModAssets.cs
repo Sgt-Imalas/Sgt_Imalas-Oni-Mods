@@ -22,6 +22,7 @@ namespace SetStartDupes
 	public class ModAssets
 	{
 		public static string ExtraCarePackageFileInfo;
+		public static string DisabledVanillaCarePackages;
 		public static string DupeTemplatePath;
 		public static string DupeTearTemplatePath;
 		public static string DupeGroupTemplatePath;
@@ -106,8 +107,7 @@ namespace SetStartDupes
 			}
 		}
 
-		private static GameObject parentScreen = null;
-		public static List<CarePackageInfo> GetAdditionalCarePackages() => CarePackageOutlineManager.GetAllAdditionalCarePackages();		
+		private static GameObject parentScreen = null;	
 		public static void LoadAssets()
 		{
 			AssetBundle bundle = AssetUtils.LoadAssetBundle("dss_uiassets", platformSpecific: true);

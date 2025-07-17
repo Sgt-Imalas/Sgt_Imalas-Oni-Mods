@@ -16,7 +16,7 @@ namespace SetStartDupes
 		public FileInfo OriginalFilePath;
 
 		public string FileName;
-		public string CrewName;
+		public string CrewName = "Unnamed Crew";
 		public string CreationDate;
 
 		public MinionCrewPreset() { }
@@ -153,6 +153,7 @@ namespace SetStartDupes
 			WriteToFile();
 		}
 
+
 		static string FileNameWithHash(string filename)
 		{
 			return filename.Replace(" ", "_");
@@ -172,10 +173,19 @@ namespace SetStartDupes
 				{
 					string jsonString = sr.ReadToEnd();
 					MinionCrewPreset crew = JsonConvert.DeserializeObject<MinionCrewPreset>(jsonString);
+					crew.PostProcess(Path.GetFileNameWithoutExtension(filePath.Name));
 					return crew;
 				}
 			}
 		}
+		public void PostProcess(string fileName)
+		{
+			if (FileName.IsNullOrWhiteSpace())
+				FileName = fileName;
+			if (CrewName.IsNullOrWhiteSpace())
+				CrewName = FileName;
+		}
+
 		public void WriteToFile()
 		{
 			try
@@ -202,7 +212,7 @@ namespace SetStartDupes
 			{
 				if (Imported && OriginalFilePath != null)
 				{
-					if(OriginalFilePath.Exists)
+					if (OriginalFilePath.Exists)
 						OriginalFilePath.Delete();
 				}
 				else

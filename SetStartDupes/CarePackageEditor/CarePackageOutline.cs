@@ -16,7 +16,7 @@ namespace SetStartDupes.CarePackageEditor
 		public string ItemId;
 		public string Name;
 		public List<string> RequiredDlcs = null;
-		public int Amount;
+		public float Amount;
 		public List<List<ICarePackageUnlockCondition>> UnlockConditions = null;
 
 
@@ -145,14 +145,14 @@ namespace SetStartDupes.CarePackageEditor
 			}
 			return true;
 		}
-		public CarePackageOutline(string itemId, int amount, List<ICarePackageUnlockCondition> unlockConditions)
+		public CarePackageOutline(string itemId, float amount, List<ICarePackageUnlockCondition> unlockConditions)
 		{
 			ItemId = itemId;
 			Name = Assets.GetPrefab(itemId)?.GetProperName() ?? null;
 			Amount = amount;
 			UnlockConditions = new() { unlockConditions };
 		}
-		public static CarePackageOutline ElementCarePackage(SimHashes elementHash, int amount = 1)
+		public static CarePackageOutline ElementCarePackage(SimHashes elementHash, float amount = 1)
 		{
 			var element = ElementLoader.FindElementByHash(elementHash);
 			if (element == null)
@@ -160,7 +160,7 @@ namespace SetStartDupes.CarePackageEditor
 			else
 				return new CarePackageOutline(element.tag.ToString(), amount);
 		}
-		public CarePackageOutline(string itemId, int amount = 1)
+		public CarePackageOutline(string itemId, float amount = 1)
 		{
 			ItemId = itemId;
 			var item = Assets.GetPrefab(itemId);
