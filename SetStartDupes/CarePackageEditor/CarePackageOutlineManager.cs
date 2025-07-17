@@ -89,7 +89,7 @@ namespace SetStartDupes.CarePackageEditor
 				var entry = currentList[i];
 				if (DisabledVanillaPackages.CarePackageDisabled(entry))
 				{
-					SgtLogger.l($"removing vanilla care package that adds {entry.quantity}x {entry.id}")
+					SgtLogger.l($"removing vanilla care package that adds {entry.quantity}x {entry.id}");
 					currentList.RemoveAt(i);
 				}
 			}
