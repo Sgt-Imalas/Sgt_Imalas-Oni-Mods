@@ -762,6 +762,7 @@ elements:
     highTemp: 610.15
     lowTemp: 283.46
     lowTempTransitionTarget: DirtyWater
+    lowTempTransitionOreId: Sulfur
     lowTempTransitionOreMassConversion: 0.18
     highTempTransitionTarget: SulfuricGas
     defaultTemperature: 296.15
@@ -789,7 +790,6 @@ elements:
     lowTempTransitionTarget: LiquidSulfuric
     highTemp: 828.15
     highTempTransitionTarget: ContaminatedOxygen
-    highTempTransitionOreMassConversion: 0.18
     toxicity: 0
     defaultTemperature: 658.15
     molarMass: 28.32
@@ -812,13 +812,13 @@ elements:
     solidSurfaceAreaMultiplier: 1
     liquidSurfaceAreaMultiplier: 25
     gasSurfaceAreaMultiplier: 1
-    highTemp: 356.15
+    highTemp: 394.15
     lowTemp: 231.15
-    lowTempTransitionTarget: Hydrogen
-    lowTempTransitionOreId: ContaminatedOxygen
+    lowTempTransitionTarget: NitrogenGas
+    lowTempTransitionOreId: DirtyIce
     lowTempTransitionOreMassConversion: 0.5
-    highTempTransitionTarget: Hydrogen
-    highTempTransitionOreId: ContaminatedOxygen
+    highTempTransitionTarget: NitrogenGas
+    highTempTransitionOreId: Water
     highTempTransitionOreMassConversion: 0.5
     defaultTemperature: 296.15
     defaultMass: 600
@@ -1077,7 +1077,7 @@ elements:
     lowTemp: 77.35
     toxicity: 0
     lowTempTransitionTarget: LiquidNitrogen
-    defaultTemperature: 66.15
+    defaultTemperature: 350
     molarMass: 14.0067
     lightAbsorptionFactor: 0.5
     radiationAbsorptionFactor: 0.3
