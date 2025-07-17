@@ -22,9 +22,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		public static string ID = "Chemical_SourWaterStripper";
 	
 
-		//--[ Identification and DLC stuff ]-----------------------------------
-		public static readonly List<Storage.StoredItemModifier> StripperItemModifiers;
-
 		//--[ Special Settings ]-----------------------------------------------
 		private static readonly PortDisplayInput steamGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(3, 0));
 
@@ -44,13 +41,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			ammoniaGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(-2, 1), null, ammoniaGasOutputPortColor); //Ammonia Output
 
 
-			List<Storage.StoredItemModifier> list1 =
-			[
-				Storage.StoredItemModifier.Hide,
-				Storage.StoredItemModifier.Seal,
-				Storage.StoredItemModifier.Insulate,
-			];
-			StripperItemModifiers = list1;
 		}
 
 		//--[ Building Definitions ]-------------------------------------------
@@ -92,7 +82,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			crudeOilInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 
 			Storage solidStorage = go.AddOrGet<Storage>();
-			solidStorage.SetDefaultStoredItemModifiers(StripperItemModifiers);
+			solidStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			solidStorage.showInUI = true;
 
 			PortConduitConsumer steamInput = go.AddComponent<PortConduitConsumer>();
@@ -130,7 +120,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			toxicDropper.emitOffset = new Vector3(0f, 1f, 0f);
 
 			Storage outputStorage = go.AddOrGet<Storage>();
-			outputStorage.SetDefaultStoredItemModifiers(StripperItemModifiers);
+			outputStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			outputStorage.showInUI = true;
 
 			ConduitDispenser petrolOutput = go.AddOrGet<ConduitDispenser>();

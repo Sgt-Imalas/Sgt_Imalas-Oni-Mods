@@ -58,7 +58,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 					storage = this.gameObject.AddOrGet<Storage>();
 				}
 			}
-
+			if(dispenser != null)
+				dispenser.SkipSetOperational = true;
 		}
 
 		public void Sim200ms(float dt)

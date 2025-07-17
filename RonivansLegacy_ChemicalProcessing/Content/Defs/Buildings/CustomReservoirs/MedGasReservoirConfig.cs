@@ -25,10 +25,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservo
 		public int Width = 3, Height = 4;
 
 
-		public PortDisplayInput PrimaryInputPort = new (ConduitType.Gas,new CellOffset(-1,3));
-		public PortDisplayInput SecondaryInputPort = new(ConduitType.Gas,new CellOffset(1,3));
-		public PortDisplayOutput PrimaryOutputPort = new (ConduitType.Gas,new CellOffset(-1,0));
-		public PortDisplayOutput SecondaryOutputPort = new(ConduitType.Gas,new CellOffset(1,0));
+		public PortDisplayInput PrimaryInputPort = new(ConduitType.Gas, new CellOffset(-1, 3));
+		public PortDisplayInput SecondaryInputPort = new(ConduitType.Gas, new CellOffset(1, 3));
+		public PortDisplayOutput PrimaryOutputPort = new(ConduitType.Gas, new CellOffset(-1, 0));
+		public PortDisplayOutput SecondaryOutputPort = new(ConduitType.Gas, new CellOffset(1, 0));
 
 		public PermittedRotations Rotations = PermittedRotations.Unrotatable;
 		public BuildLocationRule buildLocationRule = BuildLocationRule.OnFloor;
@@ -76,10 +76,15 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservo
 			consumer2.alwaysConsume = true;
 			consumer2.capacityKG = storage.capacityKg;
 			consumer2.AssignPort(SecondaryInputPort);
-					
 
-			go.AddComponent<PipedConduitDispenser>().AssignPort(PrimaryOutputPort);
-			go.AddComponent<PipedConduitDispenser>().AssignPort(SecondaryOutputPort);
+
+			var pcd1 = go.AddComponent<PipedConduitDispenser>();
+			pcd1.AssignPort(PrimaryOutputPort);
+			pcd1.SkipSetOperational = true;
+			var pcd2 = go.AddComponent<PipedConduitDispenser>();
+			pcd2.AssignPort(SecondaryOutputPort);
+			pcd2.SkipSetOperational = true;
+
 
 			AttachPorts(go);
 		}

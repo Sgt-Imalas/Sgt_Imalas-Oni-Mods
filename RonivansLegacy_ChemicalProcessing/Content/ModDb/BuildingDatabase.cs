@@ -18,6 +18,7 @@ using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservoirs;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistics;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureApplications;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefrigeration;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerators;
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
 	class BuildingDatabase
@@ -658,6 +659,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		}
 		private static void RegisterBuildings_CustomGenerators()
 		{
+			BuildingManager.CreateEntry<CustomDieselGeneratorConfig>()
+				.AddToCategory(PlanMenuCategory.Power, PetroleumGeneratorConfig.ID,ModUtil.BuildingOrdering.Before)
+				.AddToTech(Technology.Power.InternalCombustion)
+				.AddModFrom(SourceModInfo.CustomGenerators);
 		}		
 	}
 }

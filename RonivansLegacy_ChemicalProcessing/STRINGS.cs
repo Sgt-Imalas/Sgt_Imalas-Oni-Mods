@@ -1202,7 +1202,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class LOGISTICRAILVALVE
 				{
 					public static LocString NAME = FormatAsLink("Logistic Reduction Valve", nameof(LOGISTICRAILVALVE));
-					public static LocString DESC = "A mechanical valve capable of reducing the flow of mass from a conveyor rail to to a logistic rail, avoiding it dropping items.";
+					public static LocString DESC = "A mechanical valve capable of reducing the flow of mass from a conveyor rail to to a logistic rail, to avoid dropping items.";
 					public static LocString EFFECT = "Allows " +
 					FormatAsLink("Solid Materials", "ELEMENTS_SOLID") +
 					" to be transfered from normal " +
@@ -1369,7 +1369,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class HPA_SOLIDRAILVALVE
 				{
 					public static LocString NAME = FormatAsLink("Heavy Duty Reduction Valve", nameof(HPA_SOLIDRAILVALVE));
-					public static LocString DESC = "A mechanical valve capable of reducing the flow of mass from a heavy duty rail to to a conveyor rail, avoiding it dropping items.";
+					public static LocString DESC = "A mechanical valve capable of reducing the flow of mass from a heavy duty rail to to a conveyor rail, to avoid dropping items.";
 					public static LocString EFFECT = "Allows " +
 					FormatAsLink("Solid Materials", "ELEMENTS_SOLID") +
 					" to be transfered from " +
@@ -1448,6 +1448,14 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString NAME = FormatAsLink("Hightech Refrigerator", nameof(HIGHTECHBIGFRIDGE));
 					public static LocString DESC = "A fancy refrigerator with a sci-fi design.";
 					public static LocString EFFECT = "The sealed storage of this fridge keeps food very cold, but not in sterile atmospheric conditions\nProvides water bottles as long there a pipe linked to it.\nallows food intake via conveyor rail.";
+				}
+				#endregion
+				#region CustomGenerators
+				public class CUSTOMPETROLEUMGENERATOR
+				{
+					public static LocString NAME = FormatAsLink("Custom Combustion Generator", nameof(CUSTOMPETROLEUMGENERATOR));
+					public static LocString DESC = "A small, custom Combustible Liquid generator. This rather versatile generator has piped outputs.";
+					public static LocString EFFECT = "Converts "+ FormatAsLink("Combustable Fuel", "COMBUSTIBLELIQUID")+ " into Power.\nThe waste products are either released into the world or inserted into pipes.";
 				}
 				#endregion
 			}
@@ -2047,7 +2055,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString CHEMICAL_MIXINGUNIT_3_1 = "React a mixture of {0} and {1} with the addition of {2} to produce {3}.";
 				public static LocString CHEMICAL_MIXINGUNIT_FERTILIZER = "Treat a portion of {0} with {1}, {1} and {2} additives, producing {3}.";
 
-				public static LocString CEMENT_MIXER_CEMENT_3 = "Produce {3} from a mixture of\n {0}, {1} and {2}.";
+				public static LocString CEMENT_MIXER_CEMENT_3 = "Produce {3} from a mixture of\n{0}, {1} and {2}.";
 				public static LocString OILSHALE_CEMENT = "Oil Shale Cement";
 				public static LocString SLAG_CEMENT = "Slag Cement";
 				public static LocString CRUSHEDROCK_CEMENT = " Limestone Cement";

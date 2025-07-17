@@ -113,7 +113,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			go.AddOrGet<DropAllWorkable>();
 			go.AddOrGet<BuildingComplete>().isManuallyOperated = true;
-			ComplexFabricator fabricator = go.AddOrGet<ComplexFabricator>();
+			PipedComplexFabricator fabricator = go.AddOrGet<PipedComplexFabricator>();
+
+
 			fabricator.sideScreenStyle = ComplexFabricatorSideScreen.StyleSetting.ListQueueHybrid;
 			go.AddOrGet<FabricatorIngredientStatusManager>();
 			go.AddOrGet<CopyBuildingSettings>();
@@ -129,6 +131,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			fabricator.heatedTemperature = 298.15f;
 			BuildingTemplates.CreateComplexFabricatorStorage(go, fabricator);
 			fabricator.keepExcessLiquids = true;
+			fabricator.keepExcessGasses = true;	
 			fabricator.inStorage.capacityKg = 1000f;
 			fabricator.buildStorage.capacityKg = 1000f;
 			fabricator.outStorage.capacityKg = 1000f;

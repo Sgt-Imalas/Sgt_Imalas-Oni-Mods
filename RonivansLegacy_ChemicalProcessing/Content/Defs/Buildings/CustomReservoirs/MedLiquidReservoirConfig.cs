@@ -66,6 +66,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservo
 			consumer1.ignoreMinMassCheck = true;
 			consumer1.forceAlwaysSatisfied = true;
 			consumer1.alwaysConsume = true;
+			consumer1.SkipSetOperational = true;
 			consumer1.capacityKG = storage.capacityKg;
 			consumer1.AssignPort(PrimaryInputPort);
 
@@ -74,12 +75,18 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservo
 			consumer2.ignoreMinMassCheck = true;
 			consumer2.forceAlwaysSatisfied = true;
 			consumer2.alwaysConsume = true;
+			consumer2.SkipSetOperational = true;
 			consumer2.capacityKG = storage.capacityKg;
 			consumer2.AssignPort(SecondaryInputPort);
-					
 
-			go.AddComponent<PipedConduitDispenser>().AssignPort(PrimaryOutputPort);
-			go.AddComponent<PipedConduitDispenser>().AssignPort(SecondaryOutputPort);
+
+			var pcd1 = go.AddComponent<PipedConduitDispenser>();
+			pcd1.AssignPort(PrimaryOutputPort);
+			pcd1.SkipSetOperational = true;
+
+			var pcd2 = go.AddComponent<PipedConduitDispenser>();
+			pcd2.AssignPort(SecondaryOutputPort);
+			pcd2.SkipSetOperational = true;
 
 			AttachPorts(go);
 		}

@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static Operational;
+using static STRINGS.BUILDINGS.PREFABS.CONDUIT;
 
 namespace UtilLibs.BuildingPortUtils
 {
@@ -14,6 +16,14 @@ namespace UtilLibs.BuildingPortUtils
 	[SerializationConfig(MemberSerialization.OptIn)]
 	public abstract class PortConduitDispenserBase : KMonoBehaviour, ISaveLoadable
 	{
+		/// <summary>
+		/// DO NOT USE FOR SOLIDS.
+		/// </summary>
+
+
+		protected Guid hasPipeGuid;
+		protected Guid pipeEmptyGuid;
+
 		[SerializeField]
 		public CellOffset conduitOffset;
 
@@ -36,9 +46,12 @@ namespace UtilLibs.BuildingPortUtils
 		public bool alwaysDispense;
 
 		[SerializeField]
+		public bool showFullPipeNotification = true;
+
+		[SerializeField]
 		public bool SkipSetOperational = false;
 
-		private static readonly Operational.Flag outputConduitFlag = new Operational.Flag("output_conduit", Operational.Flag.Type.Functional);
+		private Operational.Flag outputConduitFlag;
 
 		private FlowUtilityNetwork.NetworkItem networkItem;
 
@@ -55,6 +68,9 @@ namespace UtilLibs.BuildingPortUtils
 
 		private int elementOutputOffset;
 
+		[MyCmpReq]
+		private KSelectable selectable;
+
 		public void AssignPort(PortDisplayOutput port)
 		{
 			this.conduitType = port.type;
@@ -70,14 +86,6 @@ namespace UtilLibs.BuildingPortUtils
 			}
 		}
 
-		public ConduitFlow.ConduitContents ConduitContents
-		{
-			get
-			{
-				return this.GetConduitManager().GetContents(this.utilityCell);
-			}
-		}
-
 		public int UtilityCell
 		{
 			get
@@ -90,8 +98,8 @@ namespace UtilLibs.BuildingPortUtils
 		{
 			get
 			{
-				GameObject gameObject = Grid.Objects[this.utilityCell, (this.conduitType != ConduitType.Gas) ? 16 : 12];
-				return gameObject != null && gameObject.GetComponent<BuildingComplete>() != null;
+				GameObject gameObject = Grid.Objects[this.utilityCell, GetConduitLayer()];
+				return gameObject != null && gameObject.TryGetComponent<BuildingComplete>(out _);
 			}
 		}
 
@@ -100,28 +108,39 @@ namespace UtilLibs.BuildingPortUtils
 			this.conduitType = type;
 		}
 
+		public int GetConduitLayer()
+		{
+			switch (this.conduitType)
+			{
+				case ConduitType.Gas:
+					return (int)ObjectLayer.GasConduit;
+				case ConduitType.Liquid:
+					return (int)ObjectLayer.LiquidConduit;
+					//case ConduitType.Solid:
+					//	return (int)ObjectLayer.SolidConduit;
+			}
+			return -1;
+		}
+
+
 		public ConduitFlow GetConduitManager()
 		{
-			ConduitType conduitType = this.conduitType;
-			if (conduitType == ConduitType.Gas)
+			switch (this.conduitType)
 			{
-				return Game.Instance.gasConduitFlow;
+				case ConduitType.Gas:
+					return Game.Instance.gasConduitFlow;
+				case ConduitType.Liquid:
+					return Game.Instance.liquidConduitFlow;
+					//case ConduitType.Solid:
+					//	return Game.Instance.solidConduitFlow;
 			}
-			if (conduitType != ConduitType.Liquid)
-			{
-				return null;
-			}
-			return Game.Instance.liquidConduitFlow;
+			return null;
 		}
 
 		private void OnConduitConnectionChanged(object data)
 		{
 			base.Trigger(-2094018600, this.IsConnected);
-		}
-
-		public virtual CellOffset GetUtilityCellOffset()
-		{
-			return new CellOffset(0, 1);
+			UpdateNotifications(false);
 		}
 
 		public override void OnSpawn()
@@ -130,6 +149,8 @@ namespace UtilLibs.BuildingPortUtils
 
 			var building = base.GetComponent<Building>();
 			this.utilityCell = building.GetCellWithOffset(building.Orientation == Orientation.Neutral ? this.conduitOffset : this.conduitOffsetFlipped);
+			outputConduitFlag = new Operational.Flag($"output_conduit_{utilityCell}_{conduitType}", Operational.Flag.Type.Functional);
+
 			IUtilityNetworkMgr networkManager = Conduit.GetNetworkManager(this.conduitType);
 			this.networkItem = new FlowUtilityNetwork.NetworkItem(this.conduitType, Endpoint.Source, this.utilityCell, base.gameObject);
 			networkManager.AddToNetworks(this.utilityCell, this.networkItem, true);
@@ -138,6 +159,7 @@ namespace UtilLibs.BuildingPortUtils
 			this.partitionerEntry = GameScenePartitioner.Instance.Add("ConduitConsumer.OnSpawn", base.gameObject, this.utilityCell, layer, new Action<object>(this.OnConduitConnectionChanged));
 			this.GetConduitManager().AddConduitUpdater(new Action<float>(this.ConduitUpdate), ConduitFlowPriority.LastPostUpdate);
 			this.OnConduitConnectionChanged(null);
+			UpdateNotifications(false);
 		}
 
 		public override void OnCleanUp()
@@ -152,18 +174,25 @@ namespace UtilLibs.BuildingPortUtils
 
 		protected virtual void ConduitUpdate(float dt)
 		{
+			bool outputFull = false;
 			if (!SkipSetOperational)
 			{
-				this.operational.SetFlag(PortConduitDispenserBase.outputConduitFlag, this.IsConnected);
+				if (wasConnected != IsConnected)
+				{
+					wasConnected = IsConnected;
+					this.operational.SetFlag(outputConduitFlag, wasConnected);
+				}
 			}
 			if (this.operational.IsOperational || this.alwaysDispense)
 			{
 				PrimaryElement primaryElement = this.FindSuitableElement();
 				if (primaryElement != null)
 				{
+					var conduitFlow = GetConduitManager();
+					//if (iFlow is ConduitFlow conduitFlow)
+					//{
 					primaryElement.KeepZeroMassObject = true;
-					ConduitFlow conduitManager = this.GetConduitManager();
-					float massAddedToConduit = conduitManager.AddElement(this.utilityCell, primaryElement.ElementID, primaryElement.Mass, primaryElement.Temperature, primaryElement.DiseaseIdx, primaryElement.DiseaseCount);
+					float massAddedToConduit = conduitFlow.AddElement(this.utilityCell, primaryElement.ElementID, primaryElement.Mass, primaryElement.Temperature, primaryElement.DiseaseIdx, primaryElement.DiseaseCount);
 					if (massAddedToConduit > 0f)
 					{
 						float percentageMassAdded = massAddedToConduit / primaryElement.Mass;
@@ -172,27 +201,57 @@ namespace UtilLibs.BuildingPortUtils
 						primaryElement.Mass -= massAddedToConduit;
 						base.Trigger((int)GameHashes.OnStorageChange, primaryElement.gameObject);
 					}
+					else
+						outputFull = true;
+					//}
+					//else if(iFlow is SolidConduitFlow solidConduitFlow && solidConduitFlow.IsConduitEmpty(utilityCell))
+					//{
+
+					//}
+				}
+			}
+
+			UpdateNotifications(outputFull);
+		}
+		bool wasFull = false;
+		bool wasConnected = true;
+		public virtual void UpdateNotifications(bool isFull)
+		{
+			if (!SkipSetOperational)
+			{
+				if (wasConnected != IsConnected)
+				{
+					wasConnected = IsConnected;
+
+					StatusItem status_item = null;
+					switch (this.conduitType)
+					{
+						case ConduitType.Gas:
+							status_item = Db.Get().BuildingStatusItems.NeedGasOut;
+							break;
+						case ConduitType.Liquid:
+							status_item = Db.Get().BuildingStatusItems.NeedLiquidOut;
+							break;
+							//case ConduitType.Solid:
+							//	status_item = Db.Get().BuildingStatusItems.NeedSolidOut;
+							//	break;
+					}
+					if (status_item != null)
+						this.hasPipeGuid = this.selectable.ToggleStatusItem(status_item, this.hasPipeGuid, !this.wasConnected, this);
+				}
+			}
+			if (showFullPipeNotification)
+			{
+				if (wasFull != isFull)
+				{
+					wasFull = isFull;
+					pipeEmptyGuid = this.selectable.ToggleStatusItem(Db.Get().BuildingStatusItems.ConduitBlocked, this.pipeEmptyGuid, isFull);
 				}
 			}
 		}
 
 		protected virtual PrimaryElement FindSuitableElement()
 		{
-			//var fab = this.GetComponent<ComplexFabricator>();
-			//if (fab != null)
-			//{
-			//	if (storage == fab.inStorage)
-			//		SgtLogger.l(gameObject.GetProperName() + " conduit port dispenser using inStorage");
-			//	if (storage == fab.buildStorage)
-			//		SgtLogger.l(gameObject.GetProperName() + " conduit port dispenser using buildStorage");
-			//	if (storage == fab.outStorage)
-			//		SgtLogger.l(gameObject.GetProperName() + " conduit port dispenser using outStorage");
-
-			//	SgtLogger.l("currently " + storage.items.Count + " items in storage");
-
-			//}
-
-
 			List<GameObject> items = this.storage.items;
 			int count = items.Count;
 			for (int i = 0; i < count; i++)

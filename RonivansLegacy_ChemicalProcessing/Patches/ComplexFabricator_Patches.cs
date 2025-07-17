@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRandom;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,21 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
                     fabricatorRandomOutput.DestroyFragileIngredientsOnCancel();
 				}
 			}
+        }
+
+        [HarmonyPatch(typeof(ComplexFabricator), nameof(ComplexFabricator.DropExcessIngredients))]
+        public class ComplexFabricator_DropExcessIngredients_Patch
+        {
+            public static bool Prefix(ComplexFabricator __instance, Storage storage)
+            {
+                if(__instance is PipedComplexFabricator p)
+
+				{
+                    p.DropExcessIngredients(storage);
+                    return false;
+                }
+                return true;
+            }
         }
     }
 }

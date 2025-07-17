@@ -10,12 +10,17 @@ namespace UtilLibs.BuildingPortUtils
 	[SkipSaveFileSerialization]
 	public class PortConduitConsumer : KMonoBehaviour
 	{
+		protected Guid hasPipeGuid;
+		protected Guid pipeBlockedGuid;
 		public enum WrongElementResult
 		{
 			Destroy,
 			Dump,
 			Store
 		}
+
+		[SerializeField]
+		public bool showEmptyPipeNotification = false;
 
 		[SerializeField]
 		public CellOffset conduitOffset;
@@ -36,10 +41,13 @@ namespace UtilLibs.BuildingPortUtils
 		public float capacityKG = float.PositiveInfinity;
 
 		[SerializeField]
-		public bool forceAlwaysSatisfied;
+		public bool forceAlwaysSatisfied = false;
 
 		[SerializeField]
-		public bool alwaysConsume;
+		public bool SkipSetOperational = false;
+
+		[SerializeField]
+		public bool alwaysConsume = false;
 
 		[SerializeField]
 		public bool keepZeroMassObject = true;
@@ -58,11 +66,14 @@ namespace UtilLibs.BuildingPortUtils
 		[MyCmpGet]
 		public Storage storage;
 
+		[MyCmpReq]
+		private KSelectable selectable;
+
 		private int utilityCell = -1;
 
 		public float consumptionRate = float.PositiveInfinity;
 
-		public static readonly Operational.Flag elementRequirementFlag = new Operational.Flag("elementRequired", Operational.Flag.Type.Requirement);
+		Operational.Flag inputConduitFlag;
 
 		private HandleVector<int>.Handle partitionerEntry;
 
@@ -81,8 +92,8 @@ namespace UtilLibs.BuildingPortUtils
 		{
 			get
 			{
-				GameObject gameObject = Grid.Objects[this.utilityCell, (this.conduitType != ConduitType.Gas) ? 16 : 12];
-				return gameObject != null && gameObject.GetComponent<BuildingComplete>() != null;
+				GameObject gameObject = Grid.Objects[this.utilityCell, GetConduitLayer()];
+				return gameObject != null && gameObject.TryGetComponent<BuildingComplete>(out _);
 			}
 		}
 
@@ -90,13 +101,7 @@ namespace UtilLibs.BuildingPortUtils
 		{
 			get
 			{
-				bool result = false;
-				if (this.IsConnected)
-				{
-					ConduitFlow conduitManager = this.GetConduitManager();
-					result = (conduitManager.GetContents(this.utilityCell).mass > 0f);
-				}
-				return result;
+				return IsConnected && MassAvailable > 0;
 			}
 		}
 
@@ -149,8 +154,16 @@ namespace UtilLibs.BuildingPortUtils
 			get
 			{
 				int inputCell = this.GetInputCell();
-				ConduitFlow conduitManager = this.GetConduitManager();
-				return conduitManager.GetContents(inputCell).mass;
+				IConduitFlow iconduitManager = this.GetConduitManager();
+				if (iconduitManager is ConduitFlow flow)
+					return flow.GetContents(inputCell).mass;
+				if (iconduitManager is SolidConduitFlow solidConduitFlow)
+				{
+					var content = solidConduitFlow.GetPickupable(solidConduitFlow.GetContents(inputCell).pickupableHandle);
+					if (content != null)
+						return content.TotalAmount;
+				}
+				return 0;
 			}
 		}
 
@@ -158,19 +171,32 @@ namespace UtilLibs.BuildingPortUtils
 		{
 			this.conduitType = type;
 		}
-
-		private ConduitFlow GetConduitManager()
+		public int GetConduitLayer()
 		{
-			ConduitType conduitType = this.conduitType;
-			if (conduitType == ConduitType.Gas)
+			switch (this.conduitType)
 			{
-				return Game.Instance.gasConduitFlow;
+				case ConduitType.Gas:
+					return (int)ObjectLayer.GasConduit;
+				case ConduitType.Liquid:
+					return (int)ObjectLayer.LiquidConduit;
+					//case ConduitType.Solid:
+					//	return (int)ObjectLayer.SolidConduit;
 			}
-			if (conduitType != ConduitType.Liquid)
+			return -1;
+		}
+
+		public ConduitFlow GetConduitManager()
+		{
+			switch (this.conduitType)
 			{
-				return null;
+				case ConduitType.Gas:
+					return Game.Instance.gasConduitFlow;
+				case ConduitType.Liquid:
+					return Game.Instance.liquidConduitFlow;
+					//case ConduitType.Solid:
+					//	return Game.Instance.solidConduitFlow;
 			}
-			return Game.Instance.liquidConduitFlow;
+			return null;
 		}
 
 		private int GetInputCell()
@@ -183,15 +209,18 @@ namespace UtilLibs.BuildingPortUtils
 		{
 			base.OnSpawn();
 			this.utilityCell = this.GetInputCell();
+			inputConduitFlag = new Operational.Flag($"input_conduit_connected_{utilityCell}_{conduitType}", Operational.Flag.Type.Functional);
 
 			IUtilityNetworkMgr networkManager = Conduit.GetNetworkManager(this.conduitType);
 			this.networkItem = new FlowUtilityNetwork.NetworkItem(this.conduitType, Endpoint.Sink, this.utilityCell, base.gameObject);
 			networkManager.AddToNetworks(this.utilityCell, this.networkItem, true);
 
-			ScenePartitionerLayer layer = GameScenePartitioner.Instance.objectLayers[(this.conduitType != ConduitType.Gas) ? 16 : 12];
+			ScenePartitionerLayer layer = GameScenePartitioner.Instance.objectLayers[GetConduitLayer()];
 			this.partitionerEntry = GameScenePartitioner.Instance.Add("ConduitConsumer.OnSpawn", base.gameObject, this.utilityCell, layer, new Action<object>(this.OnConduitConnectionChanged));
 			this.GetConduitManager().AddConduitUpdater(new Action<float>(this.ConduitUpdate), ConduitFlowPriority.Default);
 			this.OnConduitConnectionChanged(null);
+
+			UpdateNotifications();
 		}
 
 		public override void OnCleanUp()
@@ -207,17 +236,63 @@ namespace UtilLibs.BuildingPortUtils
 		private void OnConduitConnectionChanged(object data)
 		{
 			base.Trigger(-2094018600, this.IsConnected);
+			UpdateNotifications();
 		}
+		public virtual void UpdateNotifications()
+		{
+			if (!SkipSetOperational)
+			{
+				if (IsConnected != wasConnected)
+				{
+					wasConnected = IsConnected;
+					StatusItem status_item = null;
+					switch (this.conduitType)
+					{
+						case ConduitType.Gas:
+							status_item = Db.Get().BuildingStatusItems.NeedGasIn;
+							break;
+						case ConduitType.Liquid:
+							status_item = Db.Get().BuildingStatusItems.NeedLiquidIn;
+							break;
+						case ConduitType.Solid:
+							status_item = Db.Get().BuildingStatusItems.NeedSolidIn;
+							break;
+					}
+
+					this.hasPipeGuid = this.selectable.ToggleStatusItem(status_item, this.hasPipeGuid, !wasConnected, new Tuple<ConduitType, Tag>(this.conduitType, this.capacityTag));
+					SgtLogger.l(capacityTag + " has pipe: " + hasPipeGuid+" has pipe: "+wasConnected);
+				}
+			}
+			if (showEmptyPipeNotification)
+			{
+				if (wasSatisfied != IsSatisfied)
+				{
+					wasSatisfied = IsSatisfied;
+					pipeBlockedGuid = this.selectable.ToggleStatusItem(Db.Get().BuildingStatusItems.ConduitBlockedMultiples, this.pipeBlockedGuid, !wasSatisfied);
+				}
+			}
+
+		}
+		bool wasSatisfied = true;
+		bool wasConnected = true;
 
 		private void ConduitUpdate(float dt)
 		{
+			if (!SkipSetOperational)
+			{
+				if (wasConnected != IsConnected)
+				{
+					wasConnected = IsConnected;
+					this.operational.SetFlag(inputConduitFlag, wasConnected);
+				}
+			}
 			if (this.isConsuming)
 			{
 				ConduitFlow conduitManager = this.GetConduitManager();
 				this.Consume(dt, conduitManager);
 			}
+			UpdateNotifications();
 		}
-
 		private void Consume(float dt, ConduitFlow conduit_mgr)
 		{
 			if (this.building.Def.CanMove)

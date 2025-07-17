@@ -16,23 +16,36 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		[HarmonyPatch(typeof(PlanScreen), nameof(PlanScreen.OnClickCopyBuilding))]
 		public static class PlanScreen_OnClickCopyBuilding_Patch
 		{
-			public static bool Prefix()
+			public static bool Prefix(PlanScreen __instance)
 			{
-				if (SelectTool.Instance?.selected == null)
+				Building lastBuilding = null;
+
+				if(!__instance.LastSelectedBuilding.IsNullOrDestroyed() && __instance.LastSelectedBuilding.gameObject.activeInHierarchy && (!__instance.lastSelectedBuilding.Def.DebugOnly || DebugHandler.InstantBuildMode))
+				{
+					if(__instance.LastSelectedBuilding.TryGetComponent(out Building building))
+					{
+						lastBuilding = building;
+					}
+				}
+				else if (__instance.lastSelectedBuildingDef != null && (!__instance.lastSelectedBuildingDef.DebugOnly || DebugHandler.InstantBuildMode))
+				{
+					if(__instance.lastSelectedBuildingDef.BuildingComplete.TryGetComponent<Building>(out Building fromprefab))
+					{
+						lastBuilding = fromprefab;
+					}
+				}
+				if (lastBuilding == null)
 					return true;
 
-				if (SelectTool.Instance?.selected?.TryGetComponent(out Building building) ?? false)
+				if (MultivariantBuildings.IsMaterialVariant(lastBuilding.Def.PrefabID, out var parent))
 				{
-					if(MultivariantBuildings.IsMaterialVariant(building.Def.PrefabID, out var parent))
-					{
-						OpenBuildMenu(building, parent, true, false);
-						return false;
-					}
-					if (MultivariantBuildings.IsFacadeVariant(building.Def.PrefabID, out var parent2))
-					{
-						OpenBuildMenu(building, parent2, false, true);
-						return false;
-					}
+					OpenBuildMenu(lastBuilding, parent, true, false);
+					return false;
+				}
+				else if (MultivariantBuildings.IsFacadeVariant(lastBuilding.Def.PrefabID, out var parent2))
+				{
+					OpenBuildMenu(lastBuilding, parent2, false, true);
+					return false;
 				}
 
 				return true;

@@ -67,12 +67,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 		private void ConfigureRecipes()
 		{
 			//---- [ Cement from Crushables ] ----------------------------------------------------------------------------------------------------------
+
 			RecipeBuilder.Create(ID, 40)
 				.Input(RefinementRecipeHelper.GetCrushables().Select(e => e.id.CreateTag()), 25f)
 				.Input(SimHashes.Sand,60)
 				.Input(SimHashes.Lime,5)
 				.Output(SimHashes.Cement,100)
-				.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.CEMENT_MIXER_CEMENT_3, 3,1)
+				.Description(string.Format(CHEMICAL_COMPLEXFABRICATOR_STRINGS.CEMENT_MIXER_CEMENT_3, global::STRINGS.ELEMENTS.CRUSHEDROCK.NAME, global::STRINGS.ELEMENTS.SAND.NAME, global::STRINGS.ELEMENTS.LIME.NAME, global::STRINGS.ELEMENTS.CEMENT.NAME))
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
 				.NameOverride(CHEMICAL_COMPLEXFABRICATOR_STRINGS.CRUSHEDROCK_CEMENT)
 				.Build();
