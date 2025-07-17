@@ -156,7 +156,7 @@ namespace ElementUtilNamespace
 
 			isInitialized = true;
 
-			return SgtElementUtil.CreateSubstance(SimHash, specular, anim, state, color, material, uiColor ?? color, conduitColor ?? color, specularColor, normal, true);
+			return SgtElementUtil.CreateSubstance(SimHash, specular, anim, state, color, material, uiColor ?? color, conduitColor ?? color, specularColor, normal, isCloned);
 		}
 
 		public Substance CreateSubstance(Color uiColor, Color conduitColor)
