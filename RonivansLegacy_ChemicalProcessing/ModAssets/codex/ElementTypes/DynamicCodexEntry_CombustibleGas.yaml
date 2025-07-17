@@ -11,9 +11,6 @@ contentContainers:
       - !CodexText
           stringKey: STRINGS.MISC.TAGS.COMBUSTIBLEGAS
           style: Title
-      - !CodexText
-          stringKey: STRINGS.MISC.TAGS.COMBUSTIBLEGAS
-          style: Subtitle
       - !CodexDividerLine
           preferredWidth: -1
       - !CodexImage

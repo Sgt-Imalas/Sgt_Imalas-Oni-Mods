@@ -1,5 +1,5 @@
-id: "COMBUSTIBLESOLID"
-title: STRINGS.MISC.TAGS.COMBUSTIBLESOLID
+id: "COMBUSTIBLELIQUID"
+title: STRINGS.MISC.TAGS.COMBUSTIBLELIQUID
 category: "ELEMENTTYPES"
 parentId: "ELEMENTTYPES"
 contentContainers:
@@ -9,15 +9,12 @@ contentContainers:
 
     content:
       - !CodexText
-          stringKey: STRINGS.MISC.TAGS.COMBUSTIBLESOLID
+          stringKey: STRINGS.MISC.TAGS.COMBUSTIBLELIQUID
           style: Title
-      - !CodexText
-          stringKey: STRINGS.MISC.TAGS.COMBUSTIBLESOLID
-          style: Subtitle
       - !CodexDividerLine
           preferredWidth: -1
       - !CodexImage
-          spriteName: ui_combustible_solids
+          spriteName: ui_combustible_liquids
           preferredWidth: 128
           preferredHeight: 128
 #-----------------------------
@@ -26,10 +23,10 @@ contentContainers:
 
     content:
       - !CodexText
-          stringKey: STRINGS.MISC.TAGS.COMBUSTIBLESOLID_DESC
+          stringKey: STRINGS.MISC.TAGS.COMBUSTIBLELIQUID_DESC
           style: Body
       - !CodexElementCategoryList
-          categoryTag: COMBUSTIBLESOLID
+          categoryTag: COMBUSTIBLELIQUID
 
 contentMadeAndUsed:
-  - tag: CombustibleSolid
+  - tag: CombustibleLiquid

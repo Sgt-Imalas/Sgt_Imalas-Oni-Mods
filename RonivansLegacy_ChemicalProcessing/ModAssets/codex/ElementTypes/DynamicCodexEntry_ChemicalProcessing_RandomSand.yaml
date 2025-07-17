@@ -11,9 +11,6 @@ contentContainers:
       - !CodexText
           stringKey: STRINGS.MISC.TAGS.CHEMICALPROCESSING_RANDOMSAND
           style: Title
-      - !CodexText
-          stringKey: STRINGS.MISC.TAGS.CHEMICALPROCESSING_RANDOMSAND
-          style: Subtitle
       - !CodexDividerLine
           preferredWidth: -1
       - !CodexImage

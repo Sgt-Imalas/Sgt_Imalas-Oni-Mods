@@ -10,9 +10,6 @@ contentContainers:
       - !CodexText
           stringKey: STRINGS.MISC.TAGS.MINERALPROCESSING_DRILLBIT
           style: Title
-      - !CodexText
-          stringKey: STRINGS.MISC.TAGS.MINERALPROCESSING_DRILLBIT
-          style: Subtitle
       - !CodexDividerLine
           preferredWidth: -1
       - !CodexImage

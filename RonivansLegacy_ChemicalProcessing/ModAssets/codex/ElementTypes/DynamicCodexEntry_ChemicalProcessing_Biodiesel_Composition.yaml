@@ -11,9 +11,6 @@ contentContainers:
       - !CodexText
           stringKey: STRINGS.MISC.TAGS.CHEMICALPROCESSING_BIODIESEL_COMPOSITION
           style: Title
-      - !CodexText
-          stringKey: STRINGS.MISC.TAGS.CHEMICALPROCESSING_BIODIESEL_COMPOSITION
-          style: Subtitle
       - !CodexDividerLine
           preferredWidth: -1
       - !CodexImage
