@@ -1320,22 +1320,22 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString EFFECT = string.Concat(
 						[
 							"Dispenses ",
-							FormatAsLink("Gases", "ELEMENTS_GAS"),
+							FormatAsLink("Liquids", "ELEMENTS_LIQUID"),
 							" in high pressure environments.\n\nMust be connected to a ",
-							FormatAsLink("High Pressure Gas Pipe", HighPressureGasConduitConfig.ID),
+							FormatAsLink("High Pressure Liquid Pipe", HighPressureLiquidConduitConfig.ID),
 							".\n\nRequires power to function."
 						]);
 				}
 				public class HPAVENTGAS
 				{
 					public static LocString NAME = FormatAsLink("Compressor Gas Vent", nameof(HPAVENTGAS));
-					public static LocString DESC = "A reinforced liquid vent with a built in compression pump, capable of dispensing gases even in high pressure environments.";
+					public static LocString DESC = "A reinforced gas vent with a built in compression pump, capable of dispensing gases even in high pressure environments.";
 					public static LocString EFFECT = string.Concat(
 						[
 							"Dispenses ",
-							FormatAsLink("Liquids", "ELEMENTS_LIQUID"),
+							FormatAsLink("Gases", "ELEMENTS_GAS"),
 							" in high pressure environments.\n\nMust be connected to a ",
-							FormatAsLink("High Pressure Liquid Pipe", HighPressureLiquidConduitConfig.ID),
+							FormatAsLink("High Pressure Gas Pipe", HighPressureGasConduitConfig.ID),
 							".\n\nRequires power to function."
 						]);
 				}

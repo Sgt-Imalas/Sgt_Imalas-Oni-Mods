@@ -21,6 +21,7 @@ elements:
     tags:
     - RefinedMetal
     - BuildableAny
+    - Conductor #gigawatt wire
     buildMenuSort: 2
     isDisabled: false
     state: Solid
@@ -103,6 +104,7 @@ elements:
     - RefinedMetal
     - BuildableAny
     - Antiseptic
+    - Conductor #gigawatt wire
     buildMenuSort: 3
     isDisabled: false
     state: Solid
@@ -348,6 +350,7 @@ elements:
     - RefinedMetal
     - BuildableAny 
     - Noncrushable
+    - Conductor #gigawatt wire
     buildMenuSort: 3
     isDisabled: false
     state: Solid
@@ -379,6 +382,7 @@ elements:
     - RefinedMetal
     - BuildableAny    
     - Noncrushable
+    - Conductor #gigawatt wire
     buildMenuSort: 4
     isDisabled: false
     state: Solid
