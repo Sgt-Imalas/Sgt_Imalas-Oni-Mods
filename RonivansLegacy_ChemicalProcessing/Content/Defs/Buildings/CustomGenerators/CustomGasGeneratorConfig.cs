@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs.BuildingPortUtils;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerators
 {
@@ -26,37 +27,38 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 		private static readonly PortDisplayOutput pWaterPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(0, 1));
 		private static readonly PortDisplayOutput co2Port = new PortDisplayOutput(ConduitType.Gas, new CellOffset(0, 3));
 
-		const float conduitInputRate = 10;
+		const float conduitInputRate = 1;
 
 		public override BuildingDef CreateBuildingDef()
 		{
 			//hide coal gen slider
-			SingleSliderSideScreen_Patches.AddGeneratorToIgnore(ID);
+			GeneratorList.AddGeneratorToIgnore(ID);
+			GeneratorList.AddCombustionGenerator(ID);
 
-			float[] construction_mass = [200];
+			float[] construction_mass = [100];
 			string[] construction_materials = [GameTags.Metal.ToString()];
 
 			EffectorValues decor = TUNING.BUILDINGS.DECOR.PENALTY.TIER1;
 			EffectorValues noise = NOISE_POLLUTION.NOISY.TIER5;
 			BuildingDef buildingDef =
 				BuildingTemplates.CreateBuildingDef(ID, 1, 4,
-				"custom_petro_generator_kanim",
+				"custom_gas_generator_kanim",
 				(int)(100 * SizeMultiplier),
-				(int)(480f * SizeMultiplier),
+				(int)(120f * SizeMultiplier),
 				construction_mass, construction_materials,
 				2400f, BuildLocationRule.OnFloor, decor, noise);
 
 			buildingDef.GeneratorWattageRating = GetWattage();
 			buildingDef.GeneratorBaseCapacity = buildingDef.GeneratorWattageRating;
-			buildingDef.ExhaustKilowattsWhenActive = 4f * SizeMultiplier;
-			buildingDef.SelfHeatKilowattsWhenActive = 16f * SizeMultiplier;
+			buildingDef.ExhaustKilowattsWhenActive = 2f * SizeMultiplier;
+			buildingDef.SelfHeatKilowattsWhenActive = 8f * SizeMultiplier;
 			buildingDef.ViewMode = OverlayModes.Power.ID;
 			buildingDef.AudioCategory = "Metal";
 			buildingDef.UtilityInputOffset = new CellOffset(0, 0);
 			buildingDef.RequiresPowerOutput = true;
 			buildingDef.PowerOutputOffset = new CellOffset(0, 0);
 			buildingDef.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(0, 0));
-			buildingDef.InputConduitType = ConduitType.Liquid;
+			buildingDef.InputConduitType = ConduitType.Gas;
 			buildingDef.AddSearchTerms((string)SEARCH_TERMS.POWER);
 			buildingDef.AddSearchTerms((string)SEARCH_TERMS.GENERATOR);
 			return buildingDef;
@@ -77,7 +79,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 			ConduitConsumer consumer = go.AddOrGet<ConduitConsumer>();
 			consumer.conduitType = go.GetComponent<Building>().Def.InputConduitType;
 			consumer.consumptionRate = conduitInputRate;
-			consumer.capacityTag = GameTags.CombustibleLiquid;
+			consumer.capacityTag = GameTags.CombustibleGas;
 			consumer.capacityKG = conduitInputRate * 2;
 			consumer.forceAlwaysSatisfied = true;
 			consumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
@@ -96,9 +98,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 
 			generator.formula = new EnergyGenerator.Formula()
 			{
-				inputs = [new(GameTags.CombustibleLiquid, 2f * SizeMultiplier, conduitInputRate * 2)],
-				outputs = [new(SimHashes.CarbonDioxide, 0.5f * SizeMultiplier, true, new CellOffset(0, 0), 383.15f),
-										new (SimHashes.DirtyWater, 0.75f * SizeMultiplier, true, new CellOffset(0, 0), 313.15f)]
+				inputs = [new(GameTags.CombustibleGas, 0.09f * SizeMultiplier, conduitInputRate * 2)],
+				outputs = [new(SimHashes.CarbonDioxide, 0.0225f * SizeMultiplier, true, new CellOffset(0, 0), 383.15f),
+										new (SimHashes.DirtyWater, 0.0675f * SizeMultiplier, true, new CellOffset(0, 0), 313.15f)]
 			};
 
 			PipedConduitDispenser co2Dispenser = go.AddOrGet<PipedConduitDispenser>();
