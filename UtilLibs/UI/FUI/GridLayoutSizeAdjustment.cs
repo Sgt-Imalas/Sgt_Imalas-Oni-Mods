@@ -10,9 +10,11 @@ namespace UtilLibs.UI.FUI
 	public class GridLayoutSizeAdjustment : KMonoBehaviour
 	{
 		[MyCmpReq]
+#pragma warning disable IDE0044 
 		GridLayoutGroup referencedLayoutGroup;
 		[MyCmpGet]
 		RectTransform rectTransform;
+#pragma warning restore IDE0044 
 
 		int paddingTop, paddingBottom, paddingLeft, paddingRight;
 		float WidthToHeightRatio;
@@ -97,13 +99,11 @@ namespace UtilLibs.UI.FUI
 
 			referencedLayoutGroup.cellSize = NewCellSize;
 
-			return;
-			if (allignWithWidth)
-				referencedLayoutGroup.SetLayoutHorizontal();
-			else
-				referencedLayoutGroup.SetLayoutVertical();
-
-
+			//return;
+			//if (allignWithWidth)
+			//	referencedLayoutGroup.SetLayoutHorizontal();
+			//else
+			//	referencedLayoutGroup.SetLayoutVertical();
 		}
 	}
 }

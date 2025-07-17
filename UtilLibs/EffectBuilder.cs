@@ -31,7 +31,16 @@ namespace UtilLibs
 			this.ID = ID;
 			customIcon = "";
 		}
-
+		public EffectBuilder CustomIcon(string icon)
+		{
+			this.customIcon = icon;
+			return this;
+		}
+		public EffectBuilder StompGroup(string Group)
+		{
+			this.stompGroup = Group;
+			return this;
+		}
 		public EffectBuilder Name(string name)
 		{
 			this.name = name;

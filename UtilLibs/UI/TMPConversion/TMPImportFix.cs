@@ -19,7 +19,9 @@ namespace UtilLibs
 		public bool autoResize;
 
 		[MyCmpReq]
+#pragma warning disable IDE0044
 		private LocText text;
+#pragma warning restore IDE0044
 
 		public override void OnSpawn()
 		{
