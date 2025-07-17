@@ -1,4 +1,5 @@
-﻿using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
 using RonivansLegacy_ChemicalProcessing.Patches;
 using STRINGS;
@@ -32,7 +33,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 		public override BuildingDef CreateBuildingDef()
 		{
 			//hide coal gen slider
-			SingleSliderSideScreen_Patches.AddGeneratorToIgnore(ID);
+			GeneratorList.AddGeneratorToIgnore(ID);
+			GeneratorList.AddCombustionGenerator(ID);
 
 			float[] construction_mass = [200];
 			string[] construction_materials = [GameTags.Metal.ToString()];

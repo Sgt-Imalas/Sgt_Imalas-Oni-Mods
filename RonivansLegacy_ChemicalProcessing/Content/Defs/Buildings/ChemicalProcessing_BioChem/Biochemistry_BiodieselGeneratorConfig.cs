@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using RonivansLegacy_ChemicalProcessing;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +33,8 @@ namespace Biochemistry.Buildings
 
 		public override BuildingDef CreateBuildingDef()
 		{
+			GeneratorList.AddGeneratorToIgnore(ID);
+			GeneratorList.AddCombustionGenerator(ID);
 			EffectorValues tier = NOISE_POLLUTION.NOISY.TIER5;
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 7, 4, "biodiesel_generator_kanim", 100, 30f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER4, MATERIALS.REFINED_METALS, 800f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.PENALTY.TIER1, tier);
 			buildingDef.GeneratorWattageRating = 3200f;

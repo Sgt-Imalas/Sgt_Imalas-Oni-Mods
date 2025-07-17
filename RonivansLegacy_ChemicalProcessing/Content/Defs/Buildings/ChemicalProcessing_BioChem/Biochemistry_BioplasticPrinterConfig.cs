@@ -98,7 +98,7 @@ namespace Biochemistry.Buildings
 			[
 			new ElementConverter.ConsumedElement(ModAssets.Tags.BioOil_Composition, 0.35f, true),
 			new ElementConverter.ConsumedElement(SimHashes.CarbonDioxide.CreateTag(), 0.10f, true),
-			new ElementConverter.ConsumedElement(MushBarConfig.ID.ToTag(), 0.05f, true)
+			new ElementConverter.ConsumedElement(MushBarConfig.ID.ToTag(), 0.005f, true)
 			];
 			elementConverter.outputElements =
 			[

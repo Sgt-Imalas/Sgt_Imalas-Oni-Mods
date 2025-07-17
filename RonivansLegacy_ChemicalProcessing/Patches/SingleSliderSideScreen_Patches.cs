@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +12,6 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 {
 	class SingleSliderSideScreen_Patches
 	{
-		public static void AddGeneratorToIgnore(string ID) { GeneratorsToIgnore.Add(ID); SgtLogger.l("Adding generator to screen ignore list: " + ID); }
-		static HashSet<string> GeneratorsToIgnore = [];
 		[HarmonyPatch(typeof(SingleSliderSideScreen), nameof(SingleSliderSideScreen.IsValidForTarget))]
 		public class SingleSliderSideScreen_IsValidForTarget_Patch
 		{
@@ -23,7 +22,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 
 				if (!target.TryGetComponent<KPrefabID>(out var prefab))
 					return;
-				foreach (var gen in GeneratorsToIgnore)
+				foreach (var gen in GeneratorList.GeneratorsToIgnore)
 				{
 					if (prefab.IsPrefabID(gen))
 					{

@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace RonivansLegacy_ChemicalProcessing.Patches
 {
-    class ElementLoader_Patches
-    {
+	class ElementLoader_Patches
+	{
 
-        [HarmonyPatch(typeof(ElementLoader), nameof(ElementLoader.Load))]
-        public class ElementLoader_Load_Patch
-        {
+		[HarmonyPatch(typeof(ElementLoader), nameof(ElementLoader.Load))]
+		public class ElementLoader_Load_Patch
+		{
 			public static void Prefix(Dictionary<string, SubstanceTable> substanceTablesByDlc)
 			{
 				var list = substanceTablesByDlc[DlcManager.VANILLA_ID].GetList();
@@ -21,13 +21,13 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			}
 		}
 
-        [HarmonyPatch(typeof(ElementLoader), nameof(ElementLoader.FinaliseElementsTable))]
-        public class ElementLoader_FinaliseElementsTable_Patch
-        {
-            public static void Postfix()
-            {
+		[HarmonyPatch(typeof(ElementLoader), nameof(ElementLoader.FinaliseElementsTable))]
+		public class ElementLoader_FinaliseElementsTable_Patch
+		{
+			public static void Postfix()
+			{
 				ModElements.ModifyExistingElements();
-            }
-        }
-    }
+			}
+		}
+	}
 }
