@@ -34,7 +34,9 @@ namespace UtilLibs.BuildingPortUtils
 		// Get the index of the layer with the connectors (ports) for the conduit type in question 
 		internal static bool IsConnected(this ConduitType conduitType, int cell)
 		{
-			return Grid.Objects[cell, conduitType.GetConduitObjectLayer()] != null;
+			GameObject building = Grid.Objects[cell, conduitType.GetConduitObjectLayer()];
+
+			return building != null && building.TryGetComponent<BuildingComplete>(out _);
 		}
 
 		// Get a cell of a building. Takes rotation into account
