@@ -56,7 +56,7 @@ namespace Biochemistry.Buildings
 
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
-			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery, false);
+			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 			Polymerizer polymerizer = go.AddOrGet<Polymerizer>();
 			polymerizer.emitMass = 30f;
 			polymerizer.emitTag = GameTagExtensions.Create(ModElements.BioPlastic_Solid);

@@ -64,7 +64,7 @@ namespace Metallurgy.Buildings
 
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
-			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery, false);
+			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 			Storage storage = BuildingTemplates.CreateDefaultStorage(go, false);
 			storage.capacityKg = 4000f;
 			storage.SetDefaultStoredItemModifiers(BasicRefineryStoredItemModifiers);

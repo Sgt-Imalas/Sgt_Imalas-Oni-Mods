@@ -43,7 +43,7 @@ namespace Dupes_Machinery.Biological_Vats
 
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
-			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery, false);
+			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 			go.AddOrGet<BuildingComplete>().isManuallyOperated = false;
 			Tag tag = SimHashes.Sand.CreateTag();
 			go.AddOrGet<Desalinator>();
