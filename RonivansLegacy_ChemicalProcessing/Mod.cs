@@ -24,7 +24,9 @@ namespace RonivansLegacy_ChemicalProcessing
 
 			BuildingDatabase.RegisterBuildings();
 			HarmonyInstance = harmony;
+
 			base.OnLoad(harmony);
+
 			SgtLogger.LogVersion(this, harmony);
 			ConduitDisplayPortPatching.PatchAll(harmony);
 			BuildingDatabase.RegisterAdditionalBuildingElements();

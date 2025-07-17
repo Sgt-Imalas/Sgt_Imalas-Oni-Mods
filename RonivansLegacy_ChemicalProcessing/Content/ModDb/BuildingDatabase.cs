@@ -84,8 +84,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				RegisterBuildings_HighPressureApplications();
 			if (Config.Instance.DupesLogistics_Enabled)
 				RegisterBuildings_DupesLogistics();
-			if(Config.Instance.DupesRefrigeration_Enabled)
+			if (Config.Instance.DupesRefrigeration_Enabled)
 				RegisterBuildings_DupesRefrigeration();
+			if (Config.Instance.CustomGenerators_Enabled)
+				RegisterBuildings_CustomGenerators();
 		}
 		private static void RegisterBuildings_ChemicalProcessingIndustrialOverhaul()
 		{
@@ -286,7 +288,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddModFrom(SourceModInfo.MineralProcessing_Metallurgy)
 				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
 			BuildingManager.CreateEntry<Metallurgy_BasicOilRefineryConfig>()
-				.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID,ModUtil.BuildingOrdering.Before)
+				.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID, ModUtil.BuildingOrdering.Before)
 				.AddToTech(Technology.Power.FossilFuels)
 				.AddModFrom(SourceModInfo.MineralProcessing_Metallurgy);
 			BuildingManager.CreateEntry<Metallurgy_BallCrusherMillConfig>()
@@ -540,7 +542,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingManager.CreateEntry<LogisticBridgeConfig>()
 				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitBridgeConfig.ID, ModUtil.BuildingOrdering.Before)
 				.AddToTech(Technology.SolidMaterial.SmartStorage)
-				.AddModFrom(SourceModInfo.DupesLogistics);			
+				.AddModFrom(SourceModInfo.DupesLogistics);
 
 			BuildingManager.CreateEntry<LogisticLoaderConfig>()
 				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitInboxConfig.ID, ModUtil.BuildingOrdering.Before)
@@ -570,7 +572,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 		}
 		private static void RegisterBuildings_HighPressureApplications()
-		{		
+		{
 			//gas
 			BuildingManager.CreateEntry<HPAVentGasConfig>()
 				.AddToCategory(PlanMenuCategory.Ventilation, GasVentHighPressureConfig.ID)
@@ -654,5 +656,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToTech(Technology.Food.Agriculture)
 				.AddModFrom(SourceModInfo.DupesRefrigeration);
 		}
+		private static void RegisterBuildings_CustomGenerators()
+		{
+		}		
 	}
 }

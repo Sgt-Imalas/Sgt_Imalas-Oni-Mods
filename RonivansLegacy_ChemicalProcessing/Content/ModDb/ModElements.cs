@@ -377,6 +377,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			// adding combustible solid tag to coal and peat
 			var coal = ElementLoader.FindElementByHash(SimHashes.Carbon);
 			coal.oreTags = coal.oreTags.Append(GameTags.CombustibleSolid);
+
 			var peat = ElementLoader.FindElementByHash(SimHashes.Peat);
 			peat.oreTags = peat.oreTags.Append(GameTags.CombustibleSolid);
 		}
@@ -391,7 +392,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			Element carbonFiber = ElementLoader.FindElementByHash(CarbonFiber_Solid);
 			Element plasteel = ElementLoader.FindElementByHash(Plasteel_Solid);
 			Element concrete = ElementLoader.FindElementByHash(ConcreteBlock_Solid);
-			Element cement = ElementLoader.FindElementByHash(ConcreteBlock_Solid);
+			Element cement = ElementLoader.FindElementByHash(SimHashes.Cement);
 			Element brick = ElementLoader.FindElementByHash(SimHashes.Brick);
 
 

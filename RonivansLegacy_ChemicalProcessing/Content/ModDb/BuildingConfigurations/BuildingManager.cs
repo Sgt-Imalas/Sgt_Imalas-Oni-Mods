@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
@@ -63,6 +64,35 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					storageConfigurator.SetStorageCapacity(entry.GetStorageCapacity());
 				}
 			}
+#if DEBUG
+			if (typeof(IBuildingConfig).IsAssignableFrom(buildingType))
+			{
+				var buildingConfig = (IBuildingConfig)Activator.CreateInstance(buildingType);
+				if (buildingConfig != default)
+				{
+					var buildingDef = buildingConfig.CreateBuildingDef();
+					GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(BuildingConfigManager.Instance.baseTemplate);
+					KPrefabID component = gameObject.GetComponent<KPrefabID>();
+					component.PrefabTag = buildingDef.Tag;
+					component.SetDlcRestrictions((IHasDlcRestrictions)buildingDef);
+					gameObject.GetComponent<Building>().Def = buildingDef;
+					gameObject.GetComponent<OccupyArea>().SetCellOffsets(buildingDef.PlacementOffsets);
+					gameObject.AddTag(GameTags.RoomProberBuilding);
+
+					buildingConfig.ConfigureBuildingTemplate(gameObject, buildingDef.Tag);
+
+					List<ElementConverter.ConsumedElement> Consumes = [];
+					List<ElementConverter.OutputElement> Creates = [];
+
+					foreach (var converter in gameObject.GetComponents<ElementConverter>()) 
+					{
+						Consumes.AddRange(converter.consumedElements);
+						Creates.AddRange(converter.outputElements);
+					}
+					UnityEngine.Object.Destroy(gameObject);
+				}
+			}
+#endif
 			BuildingInjectionEntry injection = BuildingInjectionEntry.Create(buildingId);
 			entry.SetInjection(injection);
 

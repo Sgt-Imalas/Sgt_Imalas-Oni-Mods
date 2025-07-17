@@ -1363,7 +1363,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class HPA_SOLIDRAILBRIDGE
 				{
 					public static LocString NAME = FormatAsLink("Heavy Duty Joint Plate", nameof(HPA_SOLIDRAILBRIDGE));
-					public static LocString DESC = "Joint plates can run Heavi Duty rails through walls without leaking gas or liquid.";
+					public static LocString DESC = "Joint plates can run Heavy Duty rails through walls without leaking gas or liquid.";
 					public static LocString EFFECT = "Allows " + HPA_SOLIDRAIL.NAME+" and "+ HPA_SOLIDRAIL_INSULATED.NAME + " to be run through wall and floor tile.\n\nFunctions as regular tile.";
 				}
 				public class HPA_SOLIDRAILVALVE
