@@ -210,7 +210,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		public static void OverrideDebrisAnims()
 		{
 			///Regolith
-			Substance regolith_substance = ElementLoader.FindElementByHash(SimHashes.Regolith).substance;
+			Substance regolith_substance = ElementLoader.FindElementByHash(SimHashes.Regolith)?.substance;
 			KAnimFile regolith_anim = Assets.GetAnim("regolith_new_kanim");
 			if (regolith_anim != null)
 			{
@@ -221,7 +221,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				Debug.LogError("KAnimFile not found");
 			}
 			///Radium
-			Substance radium_substance = ElementLoader.FindElementByHash(SimHashes.Radium).substance;
+			Substance radium_substance = ElementLoader.FindElementByHash(SimHashes.Radium)?.substance;
 			if (radium_substance != null)
 			{
 				KAnimFile radium_anim = Assets.GetAnim("solid_radium_kanim");
@@ -236,7 +236,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			}
 
 			///Yellowcake
-			Substance yellowcake_substance = ElementLoader.FindElementByHash(SimHashes.Yellowcake).substance;
+			Substance yellowcake_substance = ElementLoader.FindElementByHash(SimHashes.Yellowcake)?.substance;
 			Material material_yellowcake = new Material(ElementLoader.FindElementByHash(SimHashes.Sulfur).substance.material)
 			{
 				name = "matYellowcake",
@@ -257,8 +257,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			}
 
 			///Cement
-			Substance cement_substance = ElementLoader.FindElementByHash(SimHashes.Cement).substance;
-			Material material_cement = new Material(ElementLoader.FindElementByHash(SimHashes.Cement).substance.material)
+			Substance cement_substance = ElementLoader.FindElementByHash(SimHashes.Cement)?.substance;
+			Material material_cement = new Material(ElementLoader.FindElementByHash(SimHashes.Cement)?.substance.material)
 			{
 				name = "matCement",
 				mainTexture = Assets.GetAnim("new_cement_kanim").textureList[0]
@@ -274,8 +274,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				Debug.LogError("KAnimFile not found");
 			}
 			///Brick
-			Substance brick_substance = ElementLoader.FindElementByHash(SimHashes.Brick).substance;
-			Material material_brick = new Material(ElementLoader.FindElementByHash(SimHashes.Brick).substance.material)
+			Substance brick_substance = ElementLoader.FindElementByHash(SimHashes.Brick)?.substance;
+			Material material_brick = new Material(ElementLoader.FindElementByHash(SimHashes.Brick)?.substance.material)
 			{
 				name = "matBrick",
 				mainTexture = Assets.GetAnim("new_brick_kanim").textureList[0]
@@ -325,41 +325,24 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			//=[ CRUSHED ROCK PATCH ]====================================================
 			Element crushedRock_material = ElementLoader.FindElementByHash(SimHashes.CrushedRock);
 			crushedRock_material.disabled = false;
+			AddTagToElementAndEnable(SimHashes.CrushedRock, GameTags.ConsumableOre);
 
 			//=[ PHOSPHATE NODULES PATCH ]================================================
-			Element phosphate_material = ElementLoader.FindElementByHash(SimHashes.PhosphateNodules);
-			phosphate_material.oreTags = phosphate_material.oreTags.Append(GameTags.ConsumableOre);
-			phosphate_material.disabled = false;
-
+			AddTagToElementAndEnable(SimHashes.PhosphateNodules, GameTags.ConsumableOre);
 
 			//=[ MAFIC ROCK PATCH ]==========================================================
-			Element mafic_material = ElementLoader.FindElementByHash(SimHashes.MaficRock);
-			mafic_material.oreTags = mafic_material.oreTags.Append(GameTags.Crushable);
+			AddTagToElementAndEnable(SimHashes.MaficRock, GameTags.Crushable);
 
 			//=[ PHYTO OIL PATCH ]==========================================================
-			Element phytooil_material = ElementLoader.FindElementByHash(SimHashes.PhytoOil);
-			phytooil_material.oreTags = phytooil_material.oreTags.Append(ModAssets.Tags.BioOil_Composition);
-
+			AddTagToElementAndEnable(SimHashes.PhytoOil, ModAssets.Tags.BioOil_Composition);
 
 			//=[ BIODIESEL PATCH ]==========================================================
-			Element biodiesel_material = ElementLoader.FindElementByHash(SimHashes.RefinedLipid);
-			biodiesel_material.oreTags = biodiesel_material.oreTags.Append(ModAssets.Tags.Biodiesel_Composition);
-
+			AddTagToElementAndEnable(SimHashes.RefinedLipid, ModAssets.Tags.Biodiesel_Composition);
 
 			//=[ ENABLING RADIUM ]===================================================
-			var radium = ElementLoader.FindElementByHash(SimHashes.Radium);
-			if (radium != null)
-			{
-				radium.disabled = DlcManager.IsPureVanilla();
-				radium.oreTags = [GameTags.ConsumableOre];
-			}
+			AddTagToElementAndEnable(SimHashes.Radium, GameTags.ConsumableOre);
 			//=[ ENABLING YellowCake ]===================================================
-			var yellowcake = ElementLoader.FindElementByHash(SimHashes.Yellowcake);
-			if (yellowcake != null)
-			{
-				yellowcake.disabled = DlcManager.IsPureVanilla();
-				yellowcake.oreTags = [GameTags.ManufacturedMaterial];
-			}
+			AddTagToElementAndEnable(SimHashes.Yellowcake, GameTags.ManufacturedMaterial);
 			//=[ ENABLING Cement ]===================================================
 			var cement = ElementLoader.FindElementByHash(SimHashes.Cement);
 			cement.disabled = false;
@@ -369,17 +352,27 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			//=[ ENABLING Bricks ]===================================================
 			///https://material-properties.org/brick-density-heat-capacity-thermal-conductivity/
 			var brick = ElementLoader.FindElementByHash(SimHashes.Brick);
-			brick.disabled = false;
 			brick.highTemp = 2000;
-			brick.oreTags = brick.oreTags.Concat([GameTags.Crushable, GameTags.Insulator, GameTags.BuildableRaw]);
+			AddTagsToElementAndEnable(SimHashes.Brick,[GameTags.Crushable, GameTags.Insulator, GameTags.BuildableRaw]);
 
 
 			// adding combustible solid tag to coal and peat
-			var coal = ElementLoader.FindElementByHash(SimHashes.Carbon);
-			coal.oreTags = coal.oreTags.Append(GameTags.CombustibleSolid);
+			AddTagToElementAndEnable(SimHashes.Carbon, GameTags.CombustibleSolid);
+			AddTagToElementAndEnable(SimHashes.Peat, GameTags.CombustibleSolid);
+		}
+		static void AddTagToElementAndEnable(SimHashes element, Tag tag) => AddTagsToElementAndEnable(element, [tag]);
 
-			var peat = ElementLoader.FindElementByHash(SimHashes.Peat);
-			peat.oreTags = peat.oreTags.Append(GameTags.CombustibleSolid);
+		static void AddTagsToElementAndEnable(SimHashes element, Tag[] tags)
+		{
+			var elementMaterial = ElementLoader.FindElementByHash(element);
+			if (elementMaterial == null)
+				return;
+			elementMaterial.disabled = false;
+
+			if (elementMaterial.oreTags == null)
+				elementMaterial.oreTags = tags;
+			else if(tags.Any())
+				elementMaterial.oreTags = elementMaterial.oreTags.Concat(tags).ToArray();
 		}
 
 		internal static void ConfigureElements()

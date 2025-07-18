@@ -265,9 +265,10 @@ namespace UtilLibs.BuildingPortUtils
 			}
 			if (showEmptyPipeNotification)
 			{
-				if (wasSatisfied != IsSatisfied)
+				bool connectedAndSatisfied = IsConnected && IsSatisfied;
+				if (wasSatisfied != connectedAndSatisfied)
 				{
-					wasSatisfied = IsSatisfied;
+					wasSatisfied = connectedAndSatisfied;
 					pipeBlockedGuid = this.selectable.ToggleStatusItem(Db.Get().BuildingStatusItems.ConduitBlockedMultiples, this.pipeBlockedGuid, !wasSatisfied);
 				}
 			}
