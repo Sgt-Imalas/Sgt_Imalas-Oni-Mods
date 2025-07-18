@@ -66,7 +66,7 @@
 				public const string SolidTransport = "SolidTransport";
 				public const string SuperheatedForging = "HighTempForging";
 				public const string PressurizedForging = "HighPressureForging";
-				public const string SolidSpaceTransport = "SolidSpace";
+				public const string SolidControl = "SolidSpace";
 				public const string SolidManagement = "SolidManagement";
 				public const string HighVelocityTransport = "HighVelocityTransport";
 

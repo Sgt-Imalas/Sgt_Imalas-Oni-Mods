@@ -1,4 +1,5 @@
-﻿using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
+﻿using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,15 +14,20 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
     class CabinetNormalConfig : IBuildingConfig, IHasConfigurableStorageCapacity
 	{
 		public static string ID = "CabinetNormal";
-		public static float StorageCapacity = 15000; //75% of regular locker as compensation for other features; configurable
+		public static float StorageCapacity = 20000;
 		public float GetStorageCapacity() => StorageCapacity;
 		public void SetStorageCapacity(float mass) => StorageCapacity = mass;
 		public override BuildingDef CreateBuildingDef()
 		{
-			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 1, 2, "cabinet_normal_kanim", 30, 10f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER1, MATERIALS.ALL_METALS, 1600f, BuildLocationRule.OnFloor, TUNING.BUILDINGS.DECOR.PENALTY.TIER1, TUNING.NOISE_POLLUTION.NONE);
+			float[] cost = [200, 200];
+			string[] materials = [GameTags.RefinedMetal.ToString(),GameTags.BuildableRaw.ToString()];
+			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 1, 2, "cabinet_normal_kanim", 30, 10f, cost, materials, 1600f, BuildLocationRule.OnFloor, TUNING.BUILDINGS.DECOR.PENALTY.TIER1, TUNING.NOISE_POLLUTION.NONE);
 			def1.Floodable = false;
 			def1.AudioCategory = "Metal";
 			def1.Overheatable = false;
+
+			def1.InputConduitType = ConduitType.Solid;
+			def1.UtilityInputOffset = new CellOffset(0, 0);
 			return def1;			
 		}
 
@@ -43,6 +49,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			storage.capacityKg = StorageCapacity;
 			go.AddOrGet<CopyBuildingSettings>().copyGroupTag = GameTags.StorageLocker;
 			go.AddOrGet<StorageLocker>();
+
+			//filtered solid conduit input
+			go.AddOrGet<FilteredSolidConduitConsumer>();
 		}
 	}
 }

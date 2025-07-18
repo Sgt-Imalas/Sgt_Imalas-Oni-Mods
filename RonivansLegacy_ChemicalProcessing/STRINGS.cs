@@ -1086,13 +1086,13 @@ namespace RonivansLegacy_ChemicalProcessing
 						 " of your choosing.\n\nConsumes " +
 						 FormatAsLink("Power", "POWER") +
 						 " to cool the contents down to 24°C.\n\nCannot store" +
-						 " any liquefiable solids.";
+						 " any liquefiable solids.\nTakes items from conveyor rails based on its filters.";
 				}
 				public class CABINETNORMAL
 				{
 					public static LocString NAME = FormatAsLink("Insulated Storage Cabinet", nameof(CABINETNORMAL));
 					public static LocString DESC = "Store solids and other industrial materials at a constant temperature moderation.";
-					public static LocString EFFECT = "Store the "+FormatAsLink("Solid Materials", "ELEMENTS_SOLID")+" of your choosing. The cabinet prevents temperature exchange with the environment, as well gas leakage.";
+					public static LocString EFFECT = "Store the "+FormatAsLink("Solid Materials", "ELEMENTS_SOLID")+ " of your choosing.\nThe cabinet prevents temperature exchange with the environment, as well gas leakage.\nTakes items from conveyor rails based on its filters.";
 				}
 				public class STORAGEPOD
 				{
@@ -1456,13 +1456,13 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = FormatAsLink("Hightech Fridge", nameof(HIGHTECHSMALLFRIDGE));
 					public static LocString DESC = "A fancy fridge with a sci-fi design";
-					public static LocString EFFECT = "The sealed storage of this fridge keeps food very cold, but not in sterile atmospheric conditions.\nallows food intake via conveyor rail.";
+					public static LocString EFFECT = "The sealed storage of this fridge keeps food very cold, but not in sterile atmospheric conditions.\nTakes food items from conveyor rails based on its filters.";
 				}
 				public class HIGHTECHBIGFRIDGE
 				{
 					public static LocString NAME = FormatAsLink("Large Hightech Refrigerator", nameof(HIGHTECHBIGFRIDGE));
 					public static LocString DESC = "A fancy refrigerator with a sci-fi design.";
-					public static LocString EFFECT = "The sealed storage of this fridge keeps food very cold, but not in sterile atmospheric conditions\nProvides water bottles as long there a pipe linked to it.\nallows food intake via conveyor rail.";
+					public static LocString EFFECT = "The sealed storage of this fridge keeps food very cold, but not in sterile atmospheric conditions\nProvides water bottles as long there a pipe linked to it.\nTakes food items from conveyor rails based on its filters.";
 				}
 				#endregion
 				#region CustomGenerators

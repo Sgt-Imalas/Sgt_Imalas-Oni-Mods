@@ -95,7 +95,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 			go.AddOrGetDef<RocketUsageRestriction.Def>().restrictOperational = false;
 			go.AddOrGetDef<StorageController.Def>();
 
-
+			//filtered solid conduit input
 			go.AddOrGet<FilteredSolidConduitConsumer>();
 
 			var inputs = go.AddOrGet<RequireInputs>();

@@ -1,5 +1,6 @@
 ﻿using PeterHan.PLib.Options;
 using ProcGen;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
 using System;
 using System.Collections.Generic;
@@ -14,14 +15,17 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 {
 	class CabinetFrozenConfig : IBuildingConfig, IHasConfigurableStorageCapacity
 	{
-		public static float StorageCapacity = 15000; //75% of regular locker as compensation for other features; configurable
+		public static float StorageCapacity = 20000; 
 		public float GetStorageCapacity() => StorageCapacity;
 		public void SetStorageCapacity(float mass) => StorageCapacity = mass;
 
 		public static string ID = "CabinetFrozen";
 		public override BuildingDef CreateBuildingDef()
 		{
-			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 1, 2, "cabinet_frozen_kanim", 30, 60f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER1, MATERIALS.ALL_METALS, 1600f, BuildLocationRule.OnFloor, TUNING.BUILDINGS.DECOR.PENALTY.TIER1, TUNING.NOISE_POLLUTION.NONE);
+			float[] cost = [200, 200];
+			string[] materials = [GameTags.RefinedMetal.ToString(), GameTags.BuildableRaw.ToString()];
+
+			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 1, 2, "cabinet_frozen_kanim", 30, 60f, cost, materials, 1600f, BuildLocationRule.OnFloor, TUNING.BUILDINGS.DECOR.PENALTY.TIER1, TUNING.NOISE_POLLUTION.NONE);
 			def1.Floodable = false;
 			def1.AudioCategory = "Metal";
 			def1.Overheatable = false;
@@ -34,9 +38,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 				global::STRINGS.BUILDINGS.PREFABS.STORAGELOCKERSMART.LOGIC_PORT, 
 				global::STRINGS.BUILDINGS.PREFABS.STORAGELOCKERSMART.LOGIC_PORT_ACTIVE, 
 				global::STRINGS.BUILDINGS.PREFABS.STORAGELOCKERSMART.LOGIC_PORT_INACTIVE, true, false)];
+
+			def1.InputConduitType = ConduitType.Solid;
+			def1.UtilityInputOffset = new CellOffset(0, 0);
 			return def1;
 		}
-
 		public override void DoPostConfigureComplete(GameObject go)
 		{
 			SoundEventVolumeCache.instance.AddVolume("cabinet_frozen_kanim", "StorageLocker_Hit_metallic_low", TUNING.NOISE_POLLUTION.NOISY.TIER1);
@@ -61,7 +67,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			local2.coolingHeatKW = 0.375f;
 			local2.steadyHeatKW = 0f;
 			local2.simulatedInternalTemperature = UtilMethods.GetKelvinFromC(24);
-			local2.simulatedThermalConductivity = 10000f;			
+			local2.simulatedThermalConductivity = 10000f;
+
+
+			//filtered solid conduit input
+			go.AddOrGet<FilteredSolidConduitConsumer>();
 		}
 	}
 }

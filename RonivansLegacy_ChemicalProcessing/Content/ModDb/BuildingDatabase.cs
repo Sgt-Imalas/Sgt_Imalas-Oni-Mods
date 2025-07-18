@@ -517,13 +517,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		{
 			///storages
 			BuildingManager.CreateEntry<CabinetFrozenConfig>()
-				.AddToCategory(PlanMenuCategory.Base, StorageLockerSmartConfig.ID)
-				.AddToTech(Technology.SolidMaterial.SmartStorage)
+				.AddToCategory(PlanMenuCategory.Shipping, StorageLockerSmartConfig.ID)
+				.AddToTech(Technology.SolidMaterial.SolidControl)
 				.AddModFrom(SourceModInfo.DupesLogistics);
 
 			BuildingManager.CreateEntry<CabinetNormalConfig>()
-				.AddToCategory(PlanMenuCategory.Base, StorageLockerSmartConfig.ID)
-				.AddToTech(Technology.SolidMaterial.BruteForceRefinement)
+				.AddToCategory(PlanMenuCategory.Shipping, StorageLockerSmartConfig.ID)
+				.AddToTech(Technology.SolidMaterial.SolidControl)
 				.AddModFrom(SourceModInfo.DupesLogistics);
 
 			BuildingManager.CreateEntry<StoragePodConfig>()
