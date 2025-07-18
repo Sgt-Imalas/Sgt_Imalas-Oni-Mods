@@ -95,7 +95,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomGameSettingsModifier"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DirtyBrine", "DirtyBrine\DirtyBrine.csproj", "{3B9174A5-647B-400D-A996-82EC3FD98F91}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SGTIM_NotificationManager", "SGTIM_NotificationManager\SGTIM_NotificationManager.csproj", "{015F3844-DD84-46E4-90BF-1C1948229C2D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarningNotificationManager", "SGTIM_NotificationManager\WarningNotificationManager.csproj", "{015F3844-DD84-46E4-90BF-1C1948229C2D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DupePrioPresetManager", "DupePrioPresetManager\DupePrioPresetManager.csproj", "{C3614197-712C-462F-AD31-6930BE5627C3}"
 EndProject
