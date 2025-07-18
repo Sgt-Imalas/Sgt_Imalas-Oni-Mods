@@ -21,9 +21,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		//--[ Base Information ]-----------------------------------------------
 		public static string ID = "FlocculationSieve";
 
-		//--[ Identification and DLC stuff ]-----------------------------------
-		public static readonly List<Storage.StoredItemModifier> SieveStoredItemModifiers;
-
 		//--[ Special Settings ]-----------------------------------------------
 		private static readonly PortDisplayInput pollutedWaterInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(2, 1));
 		private static readonly PortDisplayInput toxicSlurryInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(2, 0));
@@ -34,19 +31,13 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			pollutedWaterInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(2, 1), null, pollutedPortColor);
 			Color? toxicPortColor = new Color32(130, 51, 5, 255);
 			toxicSlurryInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(2, 0), null, toxicPortColor);
-
-			List<Storage.StoredItemModifier> list1 = new List<Storage.StoredItemModifier>();
-			list1.Add(Storage.StoredItemModifier.Hide);
-			list1.Add(Storage.StoredItemModifier.Seal);
-			list1.Add(Storage.StoredItemModifier.Insulate);
-			SieveStoredItemModifiers = list1;
 		}
 
 		//--[ Building Definitions ]-------------------------------------------
 		public override BuildingDef CreateBuildingDef()
 		{
 			float[] ingredient_mass = [200f, 100f];
-			string[] ingredient_types = [SimHashes.Steel.ToString(), "Plastic"];
+			string[] ingredient_types = [GameTags.Steel.ToString(), GameTags.Plastic.ToString()];
 
 			EffectorValues tier = NOISE_POLLUTION.NOISY.TIER2;
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 4, 3, "flocculation_tank_kanim", 100, 30f, ingredient_mass, ingredient_types, 800f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.PENALTY.TIER1, tier);
@@ -67,16 +58,18 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		//--[ Building Operation Definitions ]---------------------------------
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
+			bool chemproc = Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled;
+
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 			go.AddOrGet<BuildingComplete>().isManuallyOperated = false;
 			go.AddOrGet<Desalinator>();
 			Prioritizable.AddRef(go);
 
 			Storage standardStorage = go.AddOrGet<Storage>();
-			standardStorage.SetDefaultStoredItemModifiers(SieveStoredItemModifiers);
-			standardStorage.showCapacityStatusItem = true;
-			standardStorage.showCapacityAsMainStatus = true;
-			standardStorage.showDescriptor = true;
+			standardStorage.SetDefaultStoredItemModifiers(Storage.StandardSealedStorage);
+			//standardStorage.showCapacityStatusItem = true;
+			//standardStorage.showCapacityAsMainStatus = true;
+			//standardStorage.showDescriptor = true;
 
 			ConduitConsumer chlorineInput = go.AddOrGet<ConduitConsumer>();
 			chlorineInput.conduitType = ConduitType.Gas;
@@ -94,29 +87,32 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			pollutedWaterInput.forceAlwaysSatisfied = true;
 			pollutedWaterInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 			pollutedWaterInput.AssignPort(pollutedWaterInputPort);
+			
+			if (chemproc)
+			{
+				PortConduitConsumer toxicSlurryInput = go.AddComponent<PortConduitConsumer>();
+				toxicSlurryInput.conduitType = ConduitType.Liquid;
+				toxicSlurryInput.consumptionRate = 10f;
+				toxicSlurryInput.capacityKG = 50f;
+				toxicSlurryInput.capacityTag = ModElements.ToxicMix_Liquid.Tag;
+				toxicSlurryInput.forceAlwaysSatisfied = true;
+				toxicSlurryInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
+				toxicSlurryInput.AssignPort(toxicSlurryInputPort);
 
-			PortConduitConsumer toxicSlurryInput = go.AddComponent<PortConduitConsumer>();
-			toxicSlurryInput.conduitType = ConduitType.Liquid;
-			toxicSlurryInput.consumptionRate = 10f;
-			toxicSlurryInput.capacityKG = 50f;
-			toxicSlurryInput.capacityTag = ModElements.ToxicMix_Liquid.Tag;
-			toxicSlurryInput.forceAlwaysSatisfied = true;
-			toxicSlurryInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
-			toxicSlurryInput.AssignPort(toxicSlurryInputPort);
+				ManualDeliveryKG CrushedRockmanualDeliveryKG = go.AddComponent<ManualDeliveryKG>();
+				CrushedRockmanualDeliveryKG.SetStorage(standardStorage);
+				CrushedRockmanualDeliveryKG.RequestedItemTag = SimHashes.CrushedRock.CreateTag();
+				CrushedRockmanualDeliveryKG.capacity = 200f;
+				CrushedRockmanualDeliveryKG.refillMass = 50f;
+				CrushedRockmanualDeliveryKG.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
 
-			ManualDeliveryKG CrushedRockmanualDeliveryKG = go.AddComponent<ManualDeliveryKG>();
-			CrushedRockmanualDeliveryKG.SetStorage(standardStorage);
-			CrushedRockmanualDeliveryKG.RequestedItemTag = SimHashes.CrushedRock.CreateTag();
-			CrushedRockmanualDeliveryKG.capacity = 200f;
-			CrushedRockmanualDeliveryKG.refillMass = 50f;
-			CrushedRockmanualDeliveryKG.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
-
-			ManualDeliveryKG CoalmanualDeliveryKG = go.AddComponent<ManualDeliveryKG>();
-			CoalmanualDeliveryKG.SetStorage(standardStorage);
-			CoalmanualDeliveryKG.RequestedItemTag = SimHashes.RefinedCarbon.CreateTag();
-			CoalmanualDeliveryKG.capacity = 200f;
-			CoalmanualDeliveryKG.refillMass = 50f;
-			CoalmanualDeliveryKG.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
+				ManualDeliveryKG CoalmanualDeliveryKG = go.AddComponent<ManualDeliveryKG>();
+				CoalmanualDeliveryKG.SetStorage(standardStorage);
+				CoalmanualDeliveryKG.RequestedItemTag = SimHashes.RefinedCarbon.CreateTag();
+				CoalmanualDeliveryKG.capacity = 200f;
+				CoalmanualDeliveryKG.refillMass = 50f;
+				CoalmanualDeliveryKG.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
+			}
 
 			ManualDeliveryKG SandmanualDeliveryKG = go.AddComponent<ManualDeliveryKG>();
 			SandmanualDeliveryKG.SetStorage(standardStorage);
@@ -126,30 +122,31 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			SandmanualDeliveryKG.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
 
 			//-----[ Element Converter Section ]---------------------------------
-			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+			if (chemproc)
 			{
 				///complex flocculation recipe found in industrial overhaul code
 				ElementConverter pollutedWaterTreatment = go.AddComponent<ElementConverter>();
+
 				pollutedWaterTreatment.consumedElements = [
 					new ElementConverter.ConsumedElement(SimHashes.DirtyWater.CreateTag(), 5f),
-				new ElementConverter.ConsumedElement(SimHashes.ChlorineGas.CreateTag(), 0.0025f),
-				new ElementConverter.ConsumedElement(SimHashes.CrushedRock.CreateTag(), 0.024f),
-				new ElementConverter.ConsumedElement(SimHashes.RefinedCarbon.CreateTag(), 0.034f),
-				new ElementConverter.ConsumedElement(SimHashes.Sand.CreateTag(), 0.042f) ];
+					new ElementConverter.ConsumedElement(SimHashes.ChlorineGas.CreateTag(), 0.0025f),
+					new ElementConverter.ConsumedElement(SimHashes.CrushedRock.CreateTag(), 0.024f),
+					new ElementConverter.ConsumedElement(SimHashes.RefinedCarbon.CreateTag(), 0.034f),
+					new ElementConverter.ConsumedElement(SimHashes.Sand.CreateTag(), 0.042f) ];
 				pollutedWaterTreatment.outputElements = [
 					new ElementConverter.OutputElement(4.9f, SimHashes.Water, 0f, false, true, 0f, 0.5f, 0f, 0xff, 0),
-				new ElementConverter.OutputElement(0.11f, SimHashes.Clay, 0f, false, true, 0f, 0.5f, 0f, 0xff, 0) ];
+					new ElementConverter.OutputElement(0.11f, SimHashes.Clay, 0f, false, true, 0f, 0.5f, 0f, 0xff, 0) ];
 
 				ElementConverter toxicSlurryTreatment = go.AddComponent<ElementConverter>();
 				toxicSlurryTreatment.consumedElements = [
 					new ElementConverter.ConsumedElement(ModElements.ToxicMix_Liquid.Tag, 5f),
-				new ElementConverter.ConsumedElement(SimHashes.ChlorineGas.CreateTag(), 0.0025f),
-				new ElementConverter.ConsumedElement(SimHashes.CrushedRock.CreateTag(), 0.024f),
-				new ElementConverter.ConsumedElement(SimHashes.RefinedCarbon.CreateTag(), 0.034f),
-				new ElementConverter.ConsumedElement(SimHashes.Sand.CreateTag(), 0.042f) ];
+					new ElementConverter.ConsumedElement(SimHashes.ChlorineGas.CreateTag(), 0.0025f),
+					new ElementConverter.ConsumedElement(SimHashes.CrushedRock.CreateTag(), 0.024f),
+					new ElementConverter.ConsumedElement(SimHashes.RefinedCarbon.CreateTag(), 0.034f),
+					new ElementConverter.ConsumedElement(SimHashes.Sand.CreateTag(), 0.042f) ];
 				toxicSlurryTreatment.outputElements = [
 					new ElementConverter.OutputElement(2f, SimHashes.Water, 0f, false, true, 0f, 0.5f, 0f, 0xff, 0),
-				new ElementConverter.OutputElement(3.1f, ModElements.Slag_Solid, 0f, false, true, 0f, 0.5f, 0f, 0xff, 0) ];
+					new ElementConverter.OutputElement(3.1f, ModElements.Slag_Solid, 0f, false, true, 0f, 0.5f, 0f, 0xff, 0) ];
 			}
 			else
 			{
@@ -189,7 +186,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			PortDisplayController controller = go.AddComponent<PortDisplayController>();
 			controller.Init(go);
 			controller.AssignPort(go, pollutedWaterInputPort);
-			controller.AssignPort(go, toxicSlurryInputPort);
+
+			if(Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+				controller.AssignPort(go, toxicSlurryInputPort);
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)

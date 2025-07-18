@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
@@ -62,6 +63,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		[MyCmpGet]
 		public ConduitDispenser dispenser;
 
+		[SerializeField]
 		public bool RequiresHighPressureInput = false, RequiresHighPressureOutput = false;
 
 		protected int consumerCell = -1, dispenserCell = -1;
@@ -70,9 +72,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 		public override void OnSpawn()
 		{
-			CacheConduitCells();
 			base.OnSpawn();
-			CheckRequirements();
+			CacheConduitCells();
+			CheckRequirements(true);
+		}
+		public override void OnCleanUp()
+		{
+			base.OnCleanUp();	
 		}
 		protected virtual void CacheConduitCells()
 		{
@@ -111,7 +117,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			return !dispenser.enabled;
 		}
 
-		public void CheckRequirements()
+		public void CheckRequirements(bool force = false)
 		{
 			if (!RequiresHighPressureInput && !RequiresHighPressureOutput)
 				return;
@@ -120,7 +126,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			{
 				bool hasHighPressureInput = ConsumerDisabled() || ConsumerConnected() && HasPressureConduitAt(consumerCell, inputType);
 
-				if (previouslyConnectedHPInput != hasHighPressureInput)
+				if (previouslyConnectedHPInput != hasHighPressureInput || force)
 				{
 					previouslyConnectedHPInput = hasHighPressureInput;
 					StatusItem status_item = null;
@@ -143,9 +149,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			}
 			if (RequiresHighPressureOutput && dispenserCell > 0)
 			{
-				bool hasHighPressureOutput = !DispenserDisabled() || DispenserConnected() && HasPressureConduitAt(dispenserCell, outputType);
-
-				if (previouslyConnectedHPOutput != hasHighPressureOutput)
+				bool hasHighPressureOutput = DispenserDisabled() || DispenserConnected() && HasPressureConduitAt(dispenserCell, outputType);
+				if (previouslyConnectedHPOutput != hasHighPressureOutput || force)
 				{
 					previouslyConnectedHPOutput = hasHighPressureOutput;
 					StatusItem status_item = null;

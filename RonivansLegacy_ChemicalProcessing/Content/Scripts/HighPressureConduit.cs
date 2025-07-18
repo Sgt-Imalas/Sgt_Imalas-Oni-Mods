@@ -13,7 +13,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {
 	public class HighPressureConduit : KMonoBehaviour
 	{
-		public HighPressureConduit()
+		static HighPressureConduit()
 		{
 			ClearEverything();
 			InitCache();
@@ -184,7 +184,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 		public static float CachedHPAConduitCapacity(ConduitType type, HighPressureConduit cmp = null)
 		{
-			InitCache();
 			switch (type)
 			{
 				case ConduitType.Gas:
@@ -198,7 +197,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		}
 		public static float CachedRegularConduitCapacity(ConduitType type)
 		{
-			InitCache();
 			switch (type)
 			{
 				case ConduitType.Gas:

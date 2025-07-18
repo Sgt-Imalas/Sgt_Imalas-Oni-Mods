@@ -88,7 +88,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			dispenser.elementFilter = [SimHashes.Steam];
 			dispenser.AssignPort(steamOutputPort);
 			dispenser.alwaysDispense = true;
-			dispenser.SkipSetOperational = true;
+			//dispenser.SkipSetOperational = true;
 
 			this.AttachPort(go);
 		}

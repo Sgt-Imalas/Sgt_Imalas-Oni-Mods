@@ -54,7 +54,8 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
                 var Colorset_GetColorByName = AccessTools.Method(typeof(ColorSet),nameof(ColorSet.GetColorByName));
                 var ReplaceConduitColor = AccessTools.Method(typeof(OverlayModes_ConduitMode_Update_Patch),nameof(ReplaceHPConduitColor));
 
-				var GetComponent = AccessTools.Method(typeof(GameObject), nameof(GameObject.GetComponent), []).MakeGenericMethod(typeof(IBridgedNetworkItem));
+				var GetColorByName = AccessTools.Method(typeof(ColorSet), nameof(ColorSet.GetColorByName));
+				//var set_TintColour = AccessTools.PropertySetter(typeof(KAnimControllerBase), nameof(KAnimControllerBase.TintColour));
 
 				var codes = orig.ToList();
 
@@ -62,11 +63,11 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				int layerTargetIdx = 12;
 				foreach (CodeInstruction original in orig)
 				{
-					if (original.Calls(Colorset_GetColorByName))
+					if (original.Calls(GetColorByName))
 					{
 						yield return original; //puts the color on the stack
 						yield return new CodeInstruction(OpCodes.Ldloc_S, layerTargetIdx); //current layer target 
-						yield return new CodeInstruction(OpCodes.Call, ReplaceConduitColor); //SetMaxFlow(flowManager.GetContents
+						yield return new CodeInstruction(OpCodes.Call, ReplaceConduitColor); //ReplaceHPConduitColor
 					}
 					else
 						yield return original;

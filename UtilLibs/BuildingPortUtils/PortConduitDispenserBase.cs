@@ -175,14 +175,6 @@ namespace UtilLibs.BuildingPortUtils
 		protected virtual void ConduitUpdate(float dt)
 		{
 			bool outputFull = false;
-			if (!SkipSetOperational)
-			{
-				if (wasConnected != IsConnected)
-				{
-					wasConnected = IsConnected;
-					this.operational.SetFlag(outputConduitFlag, wasConnected);
-				}
-			}
 			if (this.operational.IsOperational || this.alwaysDispense)
 			{
 				PrimaryElement primaryElement = this.FindSuitableElement();
@@ -222,6 +214,7 @@ namespace UtilLibs.BuildingPortUtils
 				if (wasConnected != IsConnected)
 				{
 					wasConnected = IsConnected;
+					this.operational.SetFlag(outputConduitFlag, wasConnected);
 
 					StatusItem status_item = null;
 					switch (this.conduitType)

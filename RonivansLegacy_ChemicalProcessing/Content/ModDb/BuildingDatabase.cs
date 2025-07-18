@@ -41,6 +41,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			Strings.Add("STRINGS.MISC.TAGS.IGNEOUSROCK", global::STRINGS.ELEMENTS.IGNEOUSROCK.NAME);
 			Strings.Add("STRINGS.MISC.TAGS.CONCRETEBLOCK", STRINGS.ELEMENTS.CONCRETEBLOCK.NAME);
 			Strings.Add("STRINGS.MISC.TAGS.BRICK", global::STRINGS.ELEMENTS.BRICK.NAME);
+			Strings.Add("STRINGS.MISC.TAGS.BITUMEN", global::STRINGS.ELEMENTS.BITUMEN.NAME);
 
 			global::STRINGS.BUILDINGS.PREFABS.TILEPOI.NAME = STRINGS.BUILDINGS.PREFABS.MOSAICTILESTRINGS.NAME;
 			global::STRINGS.BUILDINGS.PREFABS.TILEPOI.DESC = STRINGS.BUILDINGS.PREFABS.MOSAICTILESTRINGS.DESC;
@@ -302,7 +303,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingManager.CreateEntry<Machinery_FlocculationSieveConfig>()
 				.AddToCategory(PlanMenuCategory.Refinement, WaterPurifierConfig.ID)
 				.AddToTech(Technology.Liquids.LiquidBasedRefinementProcess)
-				.AddModFrom(SourceModInfo.DupesMachinery);
+				.AddModFrom(SourceModInfo.DupesMachinery)
+				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
 
 			BuildingManager.CreateEntry<Machinery_AlgaeVatConfig>()
 				.AddToCategory(PlanMenuCategory.Oxygen, AlgaeHabitatConfig.ID)

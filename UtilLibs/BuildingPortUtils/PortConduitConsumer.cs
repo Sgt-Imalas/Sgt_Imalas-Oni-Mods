@@ -245,22 +245,9 @@ namespace UtilLibs.BuildingPortUtils
 				if (IsConnected != wasConnected)
 				{
 					wasConnected = IsConnected;
-					StatusItem status_item = null;
-					switch (this.conduitType)
-					{
-						case ConduitType.Gas:
-							status_item = Db.Get().BuildingStatusItems.NeedGasIn;
-							break;
-						case ConduitType.Liquid:
-							status_item = Db.Get().BuildingStatusItems.NeedLiquidIn;
-							break;
-						case ConduitType.Solid:
-							status_item = Db.Get().BuildingStatusItems.NeedSolidIn;
-							break;
-					}
-
+					StatusItem status_item = ConduitDisplayPortPatching.GetInputStatusItem(conduitType);
 					this.hasPipeGuid = this.selectable.ToggleStatusItem(status_item, this.hasPipeGuid, !wasConnected, new Tuple<ConduitType, Tag>(this.conduitType, this.capacityTag));
-					SgtLogger.l(capacityTag + " has pipe: " + hasPipeGuid+" has pipe: "+wasConnected);
+					this.operational.SetFlag(inputConduitFlag, wasConnected);
 				}
 			}
 			if (showEmptyPipeNotification)
@@ -279,14 +266,6 @@ namespace UtilLibs.BuildingPortUtils
 
 		private void ConduitUpdate(float dt)
 		{
-			if (!SkipSetOperational)
-			{
-				if (wasConnected != IsConnected)
-				{
-					wasConnected = IsConnected;
-					this.operational.SetFlag(inputConduitFlag, wasConnected);
-				}
-			}
 			if (this.isConsuming)
 			{
 				ConduitFlow conduitManager = this.GetConduitManager();

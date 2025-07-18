@@ -1,14 +1,17 @@
-﻿using HarmonyLib;
+﻿using Database;
+using HarmonyLib;
+using PeterHan.PLib.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static STRINGS.BUILDING.STATUSITEMS;
 
 namespace UtilLibs.BuildingPortUtils
 {
-    public static class ConduitDisplayPortPatching
+	public static class ConduitDisplayPortPatching
 	{
 		private static HashSet<string> buildings = new HashSet<string>();
 		internal static bool HasBuilding(string name)
@@ -22,16 +25,28 @@ namespace UtilLibs.BuildingPortUtils
 			buildings.Add(ID);
 		}
 
+		static readonly string PLib_Registry_StatusItems = "PLib_Registry_PipeStatusItems";
+
 		public static void PatchAll(Harmony harmony)
 		{
 			var target = AccessTools.Method(typeof(EntityCellVisualizer), nameof(EntityCellVisualizer.DrawIcons));
 			harmony.Patch(target, new HarmonyMethod(typeof(ConduitDisplayPortPatching), nameof(PortDrawPrefix)));
 
 			var target2 = AccessTools.Method(typeof(BuildingDef), nameof(BuildingDef.MarkArea));
-			harmony.Patch(target2, null,new HarmonyMethod(typeof(ConduitDisplayPortPatching), nameof(MarkAreaPostfix)));
+			harmony.Patch(target2, null, new HarmonyMethod(typeof(ConduitDisplayPortPatching), nameof(MarkAreaPostfix)));
 
 			var target3 = AccessTools.Method(typeof(BuildingDef), nameof(BuildingDef.AreConduitPortsInValidPositions));
 			harmony.Patch(target3, null, new HarmonyMethod(typeof(ConduitDisplayPortPatching), nameof(AreConduitPortsInValidPositionsPostfix)));
+
+			if (!PRegistry.GetData<bool>(PLib_Registry_StatusItems))
+			{
+				var createStatusItems = AccessTools.Method(typeof(BuildingStatusItems), nameof(BuildingStatusItems.CreateStatusItems));
+				harmony.Patch(createStatusItems, null, new HarmonyMethod(typeof(ConduitDisplayPortPatching), nameof(CreatePortStatusItemsPostfix)));
+
+				var injectStatusItemStrings = AccessTools.Method(typeof(Localization), nameof(Localization.Initialize));
+				harmony.Patch(injectStatusItemStrings, null, new HarmonyMethod(typeof(ConduitDisplayPortPatching), nameof(CreateStatusItemStrings)));
+				PRegistry.PutData(PLib_Registry_StatusItems, true);
+			}
 		}
 
 		public static bool PortDrawPrefix(EntityCellVisualizer __instance, HashedString mode)
@@ -75,6 +90,64 @@ namespace UtilLibs.BuildingPortUtils
 					}
 				}
 			}
+		}
+
+
+		public static StatusItem GetInputStatusItem(ConduitType type)
+		{
+			switch (type)
+			{
+				case ConduitType.Gas:
+					if(M_NeedGasIn == null)
+						M_NeedGasIn = Db.Get().BuildingStatusItems.Get(M_NeedGasIn_Key);
+					return M_NeedGasIn;
+				case ConduitType.Liquid:
+					if(M_NeedLiquidIn == null)
+						M_NeedLiquidIn = Db.Get().BuildingStatusItems.Get(M_NeedLiquidIn_Key);
+					return M_NeedLiquidIn;
+				case ConduitType.Solid:
+					if(M_NeedSolidIn == null)
+						M_NeedSolidIn = Db.Get().BuildingStatusItems.Get(M_NeedSolidIn_Key);	
+					return M_NeedSolidIn;
+				default:
+					throw new ArgumentException($"Unknown conduit type: {type}");
+			}
+		}
+
+
+		public static StatusItem M_NeedSolidIn, M_NeedLiquidIn, M_NeedGasIn;
+		public static string M_NeedSolidIn_Key = nameof(M_NeedSolidIn), M_NeedLiquidIn_Key = nameof(M_NeedLiquidIn), M_NeedGasIn_Key = nameof(M_NeedGasIn);
+		public static void CreatePortStatusItemsPostfix(BuildingStatusItems __instance)
+		{
+			M_NeedGasIn = __instance.CreateStatusItem(M_NeedGasIn_Key, "BUILDING", "status_item_need_supply_in", StatusItem.IconType.Custom, NotificationType.BadMinor, allow_multiples: true, OverlayModes.GasConduits.ID);
+			M_NeedGasIn.resolveStringCallback = delegate (string str, object data)
+			{
+				Tuple<ConduitType, Tag> tuple2 = (Tuple<ConduitType, Tag>)data;
+				string newValue12 = string.Format(NEEDGASIN.LINE_ITEM, tuple2.second.ProperName());
+				str = str.Replace("{GasRequired}", newValue12);
+				return str;
+			};
+			M_NeedLiquidIn = __instance.CreateStatusItem(M_NeedLiquidIn_Key, "BUILDING", "status_item_need_supply_in", StatusItem.IconType.Custom, NotificationType.BadMinor, allow_multiples: true, OverlayModes.LiquidConduits.ID);
+			M_NeedLiquidIn.resolveStringCallback = delegate (string str, object data)
+			{
+				Tuple<ConduitType, Tag> tuple = (Tuple<ConduitType, Tag>)data;
+				string newValue11 = string.Format(NEEDLIQUIDIN.LINE_ITEM, tuple.second.ProperName());
+				str = str.Replace("{LiquidRequired}", newValue11);
+				return str;
+			};
+			M_NeedSolidIn = __instance.CreateStatusItem(M_NeedSolidIn_Key, "BUILDING", "status_item_need_supply_in", StatusItem.IconType.Custom, NotificationType.BadMinor, allow_multiples: true, OverlayModes.SolidConveyor.ID);
+
+		}
+		public static void CreateStatusItemStrings()
+		{
+			Strings.Add("STRINGS.BUILDING.STATUSITEMS.M_NEEDGASIN.NAME", STRINGS.BUILDING.STATUSITEMS.NEEDGASIN.NAME);
+			Strings.Add("STRINGS.BUILDING.STATUSITEMS.M_NEEDGASIN.TOOLTIP", STRINGS.BUILDING.STATUSITEMS.NEEDGASIN.TOOLTIP);
+
+			Strings.Add("STRINGS.BUILDING.STATUSITEMS.M_NEEDLIQUIDIN.NAME", STRINGS.BUILDING.STATUSITEMS.NEEDLIQUIDIN.NAME);
+			Strings.Add("STRINGS.BUILDING.STATUSITEMS.M_NEEDLIQUIDIN.TOOLTIP", STRINGS.BUILDING.STATUSITEMS.NEEDLIQUIDIN.TOOLTIP);
+
+			Strings.Add("STRINGS.BUILDING.STATUSITEMS.M_NEEDSOLIDIN.NAME", STRINGS.BUILDING.STATUSITEMS.NEEDSOLIDIN.NAME);
+			Strings.Add("STRINGS.BUILDING.STATUSITEMS.M_NEEDSOLIDIN.TOOLTIP", STRINGS.BUILDING.STATUSITEMS.NEEDSOLIDIN.TOOLTIP);
 		}
 	}
 }
