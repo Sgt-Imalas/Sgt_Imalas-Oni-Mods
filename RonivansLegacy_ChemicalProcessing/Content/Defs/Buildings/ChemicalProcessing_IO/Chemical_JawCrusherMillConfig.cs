@@ -65,6 +65,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		//===[ CHEMICAL: SMALL CRUSHER MILL RECIPES ]====================================================================
 		public static void ConfigureRecipes(string ID)
 		{
+			int index = 0;
 			//---- [ Egg Shell Milling ] --------------------------------------------------------------------------------
 			// Ingredient: Eggshell  - 5kg
 			// Result: Lime          - 5kg
@@ -72,9 +73,10 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			RecipeBuilder.Create(ID, 30)
 				.Input(EggShellConfig.ID, 5f)
 				.Output(SimHashes.Lime, 5f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-				.Description(string.Format(global::STRINGS.BUILDINGS.PREFABS.ROCKCRUSHER.LIME_RECIPE_DESCRIPTION, 
+				.Description(string.Format(global::STRINGS.BUILDINGS.PREFABS.ROCKCRUSHER.LIME_RECIPE_DESCRIPTION,
 				global::STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.EGG_SHELL.NAME,
 				global::STRINGS.ELEMENTS.LIME.NAME))
+				.SortOrder(index++)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 				.Build();
 
@@ -88,6 +90,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Description(string.Format(global::STRINGS.BUILDINGS.PREFABS.ROCKCRUSHER.LIME_RECIPE_DESCRIPTION,
 				global::STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.CRAB_SHELL.NAME,
 				global::STRINGS.ELEMENTS.LIME.NAME))
+				.SortOrder(index++)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 				.Build();
 
@@ -101,6 +104,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Description(string.Format(global::STRINGS.BUILDINGS.PREFABS.ROCKCRUSHER.LIME_RECIPE_DESCRIPTION,
 				global::STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.CRAB_SHELL.VARIANT_WOOD.NAME,
 				global::STRINGS.ELEMENTS.LIME.NAME))
+				.SortOrder(index++)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 				.Build();
 
@@ -116,6 +120,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			.Output(SimHashes.CrushedRock, 70f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 			.Output(SimHashes.Bitumen, 25f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 			.Description1I3O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1_2)
+			.SortOrder(index++)
 			.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 			.Build();
 
@@ -131,13 +136,14 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			.Output(SimHashes.Sand, 94.95f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 			.Output(TableSaltConfig.ID.ToTag(), 0.05f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 			.Description(
-				string.Format(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1_2, 
+				string.Format(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1_2,
 				SimHashes.Salt.CreateTag().ProperName(),
 				ModElements.Borax_Solid.Tag.ProperName(),
 				SimHashes.Sand.CreateTag().ProperName(),
 				global::STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.TABLE_SALT.NAME
 				))
 			.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+			.SortOrder(index++)
 			.Build();
 
 			//---- [ Phosphate Nodules Milling ] ----------------------------------------------------------------------------------
@@ -151,17 +157,19 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Output(SimHashes.CrushedRock, 30f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description1I1O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
+				.SortOrder(index++)
 				.Build();
 
 			//---- [ Crushed Rock Milling ] ------------------------------------------------------------------------------------------
 			// Ingredient: Crushed Rock - 100kg
 			// Result: Sand - 100kg
 			//------------------------------------------------------------------------------------------------------------------------
-			RecipeBuilder.Create(ID,30)
+			RecipeBuilder.Create(ID, 30)
 				.Input(SimHashes.CrushedRock, 100f)
 				.Output(SimHashes.Sand, 100f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description1I1O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
+				.SortOrder(index++)
 				.Build();
 
 			//---- [ Obsidian Milling ] ------------------------------------------------------------------------------------------------
@@ -173,6 +181,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Output(SimHashes.Sand, 100f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description1I1O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
+				.SortOrder(index++)
 				.Build();
 
 			//---- [ Chloroschist Milling ] ----------------------------------------------------------------------------------------------
@@ -190,6 +199,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Output(SimHashes.Salt, 14.5f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description1I4O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_4)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
+				.SortOrder(index++)
 				.Build();
 
 
@@ -204,6 +214,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.NameOverride(CHEMICAL_COMPLEXFABRICATOR_STRINGS.CRUSHEDROCK_FROM_RAW_MINERAL_NAME)
 				.SortOrder(0)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
+				.SortOrder(index++)
 				.Build();
 
 			//---- [ Ore Crushing ] -----------------------------------------------------------------------------------------------------
@@ -220,12 +231,13 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				}
 
 				Element refinedElement = element.highTempTransition.lowTempTransition;
-				RecipeBuilder.Create(ID,40)
+				RecipeBuilder.Create(ID, 40)
 					.Input(element.id, 100f)
 					.Output(refinedElement.id, 50f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Output(SimHashes.Sand, 50f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Description1I1O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1_BREAK)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+					.SortOrder(index++)
 					.Build();
 
 			}
@@ -243,6 +255,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 					.Output(SimHashes.Sand, 50f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Description1I2O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_2)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
+					.SortOrder(index++)
 					.Build();
 
 			//---- [ Galena Crushing ] ---------------------------------------------------------------------------------------------------------
@@ -258,6 +271,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 					.Output(SimHashes.Sand, 50f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Description1I2O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_2)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
+					.SortOrder(index++)
 					.Build();
 
 			//---- [ Pyrite Crushing ] -----------------------------------------------------------------------------------------------------
@@ -271,6 +285,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 					.Output(SimHashes.Sand, 70f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Description1I1O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+					.SortOrder(index++)
 					.Build();
 
 			//Cement from crushing slag

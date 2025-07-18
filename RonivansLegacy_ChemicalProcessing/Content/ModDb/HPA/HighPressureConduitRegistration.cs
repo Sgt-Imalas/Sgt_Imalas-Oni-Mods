@@ -62,7 +62,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			}
 		}
 
-		public static float CachedHPAConduitCapacity(ConduitType type, HighPressureConduit cmp = null)
+		public static float CachedHPAConduitCapacity(ConduitType type)
 		{
 			switch (type)
 			{
@@ -120,6 +120,35 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		internal static float GetNormalizedPercentageMass(float absPipeMass, ConduitType currentConduitType)
 		{
 			return absPipeMass / GetConduitMultiplier(currentConduitType);
+		}
+
+		public static float GetMaxConduitCapacity(ConduitType type, bool highPressure)
+		{
+			if (highPressure)
+			{
+				switch (type)
+				{
+					case ConduitType.Gas:
+						return _gasCap_hp;
+					case ConduitType.Liquid:
+						return _liquidCap_hp;
+					case ConduitType.Solid:
+						return _solidCap_hp;
+				}
+			}
+			else
+			{
+				switch (type)
+				{
+					case ConduitType.Gas:
+						return _gasCap_reg;
+					case ConduitType.Liquid:
+						return _liquidCap_reg;
+					case ConduitType.Solid:
+						return _solidCap_reg;
+				}
+			}
+			return 1;
 		}
 
 		public static float GetConduitMultiplier(ConduitType currentConduitType)

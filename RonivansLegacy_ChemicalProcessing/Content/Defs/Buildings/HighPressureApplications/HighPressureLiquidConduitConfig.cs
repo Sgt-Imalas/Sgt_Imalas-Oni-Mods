@@ -13,6 +13,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 	public class HighPressureLiquidConduitConfig : IBuildingConfig
 	{
 		public static string ID = "HighPressureLiquidConduit";
+		private const ConduitType CONDUIT_TYPE = ConduitType.Liquid;
 
 		public override BuildingDef CreateBuildingDef()
 		{
@@ -56,7 +57,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			GeneratedBuildings.MakeBuildingAlwaysOperational(go);
 			BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof(RequiresFoundation), prefab_tag);
 			Conduit conduit = go.AddOrGet<Conduit>();
-			conduit.type = ConduitType.Liquid;
+			conduit.type = CONDUIT_TYPE;
+			var cap = go.AddOrGet<ConduitCapacityDescriptor>();
+			cap.Conduit = CONDUIT_TYPE;
+			cap.CachedConduitCapacity = HighPressureConduitRegistration.CachedHPAConduitCapacity(CONDUIT_TYPE);
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)

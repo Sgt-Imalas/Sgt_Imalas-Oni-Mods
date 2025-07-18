@@ -130,7 +130,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				new ElementConverter.ConsumedElement(catalyst, 0.025f) ];
 			bosch.outputElements = [
 				new ElementConverter.OutputElement(0.4f, SimHashes.Steam, 382.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0),
-				new ElementConverter.OutputElement(0.3f, DlcManager.IsExpansion1Active() ? SimHashes.Graphite : SimHashes.RefinedCarbon, 319.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0),
+				new ElementConverter.OutputElement(0.3f, DlcManager.IsExpansion1Active() ? SimHashes.Graphite : SimHashes.Fullerene, 319.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0),
 				new ElementConverter.OutputElement(0.025f, SimHashes.Rust, 319.15f, false, true, 0f, 0.5f, 0.25f, 0xff, 0) ];
 			//--------------------------------------------------------------------
 

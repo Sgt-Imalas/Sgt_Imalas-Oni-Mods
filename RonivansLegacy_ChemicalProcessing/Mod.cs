@@ -41,6 +41,7 @@ namespace RonivansLegacy_ChemicalProcessing
 			base.OnAllModsLoaded(harmony, mods);
 			CompatibilityNotifications.FlagLoggingPrevention(mods);
 			CompatibilityNotifications.FixBrokenTimeout(harmony);
+
 		}
 
 		internal static void RegisterLocalizedDescription()

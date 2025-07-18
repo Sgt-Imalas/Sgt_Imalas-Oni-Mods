@@ -207,6 +207,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 		private static Dictionary<Tag, RecipeRandomResult> InitRandomResults_BallCrusher_Metallurgy()
 		{
+			bool chemproc = Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled;
 			var results = new Dictionary<Tag, RecipeRandomResult>();
 			///rates taken from ronivans dictionary solution
 
@@ -242,6 +243,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.CrushedRock, 160, 320)
 				.AddProduct(SimHashes.Clay, 150, 310)
 				.AddProduct(SimHashes.GoldAmalgam, 10, 30, 2f / 9f)
+				.AddProductConditional(chemproc, ModElements.Argentite_Solid, 10, 30, 2f / 9f)
 				.AddProduct(SimHashes.FoolsGold, 20, 40, 2f / 9f)
 				.AddProductConditional(soEnabled, SimHashes.Cobaltite, 25, 35, 2f / 9f)
 				.AddProduct(SimHashes.Salt, 40, 50, 1f / 9f)
@@ -252,6 +254,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.CrushedRock, 160, 320)
 				.AddProduct(SimHashes.Clay, 150, 310)
 				.AddProduct(SimHashes.GoldAmalgam, 10, 30, 2f / 9f)
+				.AddProductConditional(chemproc, ModElements.Argentite_Solid,10, 30, 2f / 9f)
 				.AddProduct(SimHashes.FoolsGold, 20, 40, 2f / 9f)
 				.AddProductConditional(soEnabled, SimHashes.Cobaltite, 25, 35, 2f / 9f)
 				.AddProduct(SimHashes.Salt, 40, 50, 1f / 9f)
@@ -287,6 +290,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.Sand, 50, 250)
 				.AddProduct(SimHashes.AluminumOre, 15, 25, 4f / 8f)
 				.AddProduct(SimHashes.IronOre, 15, 25, 2f / 8f)
+				.AddProductConditional(chemproc, ModElements.Aurichalcite_Solid, 15, 25, 2f / 8f)
 				.AddProduct(SimHashes.Obsidian, 65, 95, 2f / 8f)
 				);
 			//===: MAFIC ROCK RANDOM RESULTS :========================================================== < 500 kg >
@@ -302,6 +306,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.Sand, 100, 200)
 				.AddProduct(SimHashes.AluminumOre, 15, 25, 2f / 8f)
 				.AddProduct(SimHashes.Electrum, 25, 35, 2f / 8f)
+				.AddProductConditional(chemproc, ModElements.Aurichalcite_Solid, 15, 25, 2f / 8f)
+				.AddProductConditional(chemproc, ModElements.Galena_Solid, 15, 25, 2f / 8f)
 				.AddProduct(SimHashes.Phosphorus, 50, 100, 3f / 8f)
 				);
 			//===: ABYSSALITE RANDOM RESULTS :========================================================== < 500 kg >

@@ -16,6 +16,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 		{
 			GeneratedBuildings.MakeBuildingAlwaysOperational(go);
 			BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof(RequiresFoundation), prefab_tag);
+
+			var cap = go.AddOrGet<ConduitCapacityDescriptor>();
+			cap.Conduit = ConduitType.Solid;
+			cap.CachedConduitCapacity = HighPressureConduitRegistration.SolidCap_Logistic;
 		}
 
 		public override BuildingDef CreateBuildingDef()

@@ -22,6 +22,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			base.OnSpawn();
 			RegisterLogisticConduit();
 		}
+		public override void OnPrefabInit()
+		{
+			base.OnPrefabInit();
+			gameObject.AddOrGet<ConduitCapacityDescriptor>();
+		}
 
 		void RegisterLogisticConduit()
 		{

@@ -53,6 +53,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			ConduitBridge conduitBridge = go.AddOrGet<ConduitBridge>();
 			conduitBridge.type = CONDUIT_TYPE;
 			go.AddOrGet<HighPressureConduit>();
+			var cap = go.AddOrGet<ConduitCapacityDescriptor>();
+			cap.Conduit = CONDUIT_TYPE;
+			cap.CachedConduitCapacity = HighPressureConduitRegistration.CachedHPAConduitCapacity(CONDUIT_TYPE);
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)

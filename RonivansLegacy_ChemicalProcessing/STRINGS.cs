@@ -263,7 +263,7 @@ namespace RonivansLegacy_ChemicalProcessing
 						FormatAsLink("Hydrogen", "HYDROGEN"), " and " +
 						FormatAsLink("Iron", "IRON"), " as catalyst. The Bosch Reaction " +
 						"produce ", FormatAsLink("Steam", "STEAM"), ", " +
-						FormatAsLink("Refined Coal", "REFINEDCARBON"), " and " +
+						FormatAsLink("Fullerene", "FULLERENE"), " and " +
 						FormatAsLink("Rust", "RUST"), " as waste product.");
 
 					public static LocString SPACEDOUT_RECIPE = string.Concat(
@@ -767,7 +767,7 @@ namespace RonivansLegacy_ChemicalProcessing
 						"The Zippe-type centrifuge is a gas device designed to enrich the rare fissile " + FormatAsLink("Enriched Uranium", "ENRICHEDURANIUM"),
 						" from the mixture of isotopes found in the manufactured ",
 						FormatAsLink("Yellow Cake", "YELLOWCAKE"),
-						". The separation process releases small amounts of",
+						". The separation process releases small amounts of ",
 						FormatAsLink("Depleted Uranium", "DEPLETEDURANIUM"),
 						"as waste product."
 						]);
@@ -1085,7 +1085,7 @@ namespace RonivansLegacy_ChemicalProcessing
 						 FormatAsLink("Solid Materials", "ELEMENTS_SOLID") +
 						 " of your choosing.\n\nConsumes " +
 						 FormatAsLink("Power", "POWER") +
-						 " to refrigrate the contents down to 24°C.\n\nCannot store" +
+						 " to cool the contents down to 24°C.\n\nCannot store" +
 						 " any liquefiable solids.";
 				}
 				public class CABINETNORMAL
@@ -1157,7 +1157,7 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString DESC = "Rails move materials where they'll be needed most, saving Duplicants the walk.";
 					public static LocString EFFECT = string.Concat(
 						[
-							"Transports ",
+							"Transports small amounts of ",
 							FormatAsLink("Solid Materials", "ELEMENTS_SOLID"),
 							" on a track between ",
 							FormatAsLink("Logistic Loader", "LOGISTICLOADER"),
@@ -1346,7 +1346,10 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString DESC = "Rails move materials where they'll be needed most, saving Duplicants the walk.";
 					public static LocString EFFECT = string.Concat(
 						[
-							"Transports large quantities of ",FormatAsLink("Solid Materials", "ELEMENTS_SOLID"),
+							"Transports large quantities of ",FormatAsLink("Solid Materials", "ELEMENTS_SOLID")," on a track between ",
+							FormatAsLink("Heavy Duty Loaders", "HPA_INBOX"),
+							" and ",
+							FormatAsLink("Heavy Duty Receptacles", "HPA_OUTBOX"),
 							".\n\nCan not be run through wall and floor tiles."
 						]);
 				}
@@ -1365,6 +1368,18 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString NAME = FormatAsLink("Heavy Duty Joint Plate", nameof(HPA_SOLIDRAILBRIDGE));
 					public static LocString DESC = "Joint plates can run Heavy Duty rails through walls without leaking gas or liquid.";
 					public static LocString EFFECT = "Allows " + HPA_SOLIDRAIL.NAME+" and "+ HPA_SOLIDRAIL_INSULATED.NAME + " to be run through wall and floor tile.\n\nFunctions as regular tile.";
+				}
+				public class HPA_INBOX
+				{
+					public static LocString NAME = FormatAsLink("Heavy Duty Loader", nameof(HPA_INBOX));
+					public static LocString DESC = "";
+					public static LocString EFFECT = "";
+				}
+				public class HPA_OUTBOX
+				{
+					public static LocString NAME = FormatAsLink("Heavy Duty Receptacle", nameof(HPA_OUTBOX));
+					public static LocString DESC = "";
+					public static LocString EFFECT = "";
 				}
 				public class HPA_SOLIDRAILVALVE
 				{
@@ -1445,7 +1460,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				}
 				public class HIGHTECHBIGFRIDGE
 				{
-					public static LocString NAME = FormatAsLink("Hightech Refrigerator", nameof(HIGHTECHBIGFRIDGE));
+					public static LocString NAME = FormatAsLink("Large Hightech Refrigerator", nameof(HIGHTECHBIGFRIDGE));
 					public static LocString DESC = "A fancy refrigerator with a sci-fi design.";
 					public static LocString EFFECT = "The sealed storage of this fridge keeps food very cold, but not in sterile atmospheric conditions\nProvides water bottles as long there a pipe linked to it.\nallows food intake via conveyor rail.";
 				}
@@ -1469,6 +1484,19 @@ namespace RonivansLegacy_ChemicalProcessing
 
 		public class BUILDING
 		{
+			public class EFFECTS
+			{
+				public class TRANSFER_CAPACITY_LIMIT
+				{
+					public static LocString NAME = "Maximum Pipe Capacity: {0}";
+					public static LocString TOOLTIP = "This pipe can transport up to {0} per second.";
+				}
+				public class SOLID_TRANSFER_CAPACITY_LIMIT
+				{
+					public static LocString NAME = "Maximum Item Weight {0}";
+					public static LocString TOOLTIP = "This conveyor rail can transport items up to {0}.";
+				}
+			}
 			public class STATUSITEMS
 			{
 				public class HPA_NEEDGASIN

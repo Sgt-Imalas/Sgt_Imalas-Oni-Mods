@@ -36,7 +36,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 			buildingDef.ExhaustKilowattsWhenActive = 0f;
 			buildingDef.LogicOutputPorts = new List<LogicPorts.Port>
 			{
-				LogicPorts.Port.OutputPort(FilteredStorage.FULL_PORT_ID, new CellOffset(0, 1),
+				LogicPorts.Port.OutputPort(FilteredStorage.FULL_PORT_ID, new CellOffset(0, 0),
 				REFRIGERATOR.LOGIC_PORT,
 			REFRIGERATOR.LOGIC_PORT_ACTIVE,
 			REFRIGERATOR.LOGIC_PORT_INACTIVE,
