@@ -23,7 +23,9 @@ namespace UtilLibs.YeetUtils
 		[SerializeField]
 		public bool stopOnLand = true;
 
+#pragma warning disable IDE0044 
 		[MyCmpGet] private KBatchedAnimController animController;
+#pragma warning restore IDE0044 
 
 		public override void OnPrefabInit()
 		{

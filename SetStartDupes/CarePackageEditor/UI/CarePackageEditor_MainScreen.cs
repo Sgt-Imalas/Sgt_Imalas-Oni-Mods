@@ -117,6 +117,9 @@ namespace SetStartDupes.CarePackageEditor.UI
 			{
 				UnityEngine.Object.DestroyImmediate(entry.Value.gameObject);
 			}
+			foreach (var entry in VanillaOutlineEntries)
+				entry.Value.UpdateUI();
+
 			OutlineEntries.Clear();
 			UpdateEntryList();
 			Instance.ApplyCarePackageFilter(FilterBar.Text);

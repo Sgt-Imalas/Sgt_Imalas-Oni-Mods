@@ -45,6 +45,7 @@ namespace SetStartDupes.Presets
                     preset.Crewmates.ForEach(item => item.second.DLCID = DlcManager.EXPANSION1_ID);
                 preset.Imported = true;
                 preset.OriginalFilePath = filePath;
+                preset.PostProcess(Path.GetFileNameWithoutExtension(filePath.Name));
 
 				return preset;
             }

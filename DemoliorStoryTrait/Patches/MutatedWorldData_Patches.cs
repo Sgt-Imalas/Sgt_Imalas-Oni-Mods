@@ -17,6 +17,8 @@ namespace DemoliorStoryTrait.Patches
 {
 	class MutatedWorldData_Patches
 	{
+		static bool WorldTypeIsStartWorld(WorldPlacement.LocationType type) => DlcManager.IsPureVanilla() || type == WorldPlacement.LocationType.Startworld;
+
 		/// <summary>
 		/// add the extra impactor data to the target asteroid of the story trait
 		/// </summary>
@@ -27,14 +29,14 @@ namespace DemoliorStoryTrait.Patches
 			{
 				if (storyTrait.filePath == Stories_Patches.CGM_Impactor_Path)
 				{
-					if (__instance.worldType != WorldPlacement.LocationType.Startworld)
-					{
-						SgtLogger.warning("cannot place large impactor story trait on " + __instance.world.filePath + ", it is not a startworld!");
-					}
-					else
+					if (WorldTypeIsStartWorld(__instance.worldType))
 					{
 						__instance.world.AddSeasons(["LargeImpactor"]);
 						SgtLogger.l("Adding extra season for impactor story trait to " + __instance.mutatedWorldData.world.filePath);
+					}
+					else
+					{
+						SgtLogger.warning("cannot place large impactor story trait on " + __instance.world.filePath + ", it is not a startworld!");
 					}
 				}
 			}
@@ -51,7 +53,7 @@ namespace DemoliorStoryTrait.Patches
 				ref HashSet<string> usedTemplates,
 				ref bool __result)
 			{
-				bool isStartWorld = (settings.worldType == WorldPlacement.LocationType.Startworld || DlcManager.IsPureVanilla());
+				bool isStartWorld = WorldTypeIsStartWorld(settings.worldType);
 
 				if (rule.names.Any(rule => rule.Contains("cgm_impactor_story_trait")) && !isStartWorld)
 				{

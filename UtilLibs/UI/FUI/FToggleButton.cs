@@ -20,8 +20,9 @@ namespace UtilLibs.UI.FUI
 		private Image image;
 
 		[MyCmpGet]
+#pragma warning disable IDE0044 
 		private Button button;
-
+#pragma warning restore IDE0044 
 		[SerializeField]
 		bool IsHighlighted = false;
 

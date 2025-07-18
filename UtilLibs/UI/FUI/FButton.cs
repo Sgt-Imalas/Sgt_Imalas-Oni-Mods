@@ -20,7 +20,9 @@ namespace UtilLibs.UIcmp //Source: Aki
 		private Image image;
 
 		[MyCmpGet]
+#pragma warning disable IDE0044
 		private Button button;
+#pragma warning restore IDE0044
 
 		[SerializeField]
 		public Color disabledColor = new Color(0.78f, 0.78f, 0.78f);

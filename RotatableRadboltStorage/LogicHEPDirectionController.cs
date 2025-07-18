@@ -36,7 +36,6 @@ namespace RotatableRadboltStorage
 				return;
 
 			int portValue = logicPorts.GetInputValue(firstInputPort.id);
-			SgtLogger.l(gameObject.name + ": " + portValue);
 			int stateValue = 0;
 			if (LogicCircuitNetwork.IsBitActive(1, portValue))
 				stateValue += 1;

@@ -24,7 +24,6 @@ namespace ModProfileManager_Addon
 			System.IO.Directory.CreateDirectory(ModAssets.ModPath);
 			System.IO.Directory.CreateDirectory(ModAssets.ModPacksPath);
 			ModAssets.LoadAssets();
-			DialogUtil.PatchDialogCrash();
 
 			ModSyncUtils.RegisterModAsSyncMod(this.mod);
 		}

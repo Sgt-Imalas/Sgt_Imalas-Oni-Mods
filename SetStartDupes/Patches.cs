@@ -1119,7 +1119,8 @@ namespace SetStartDupes
 			{
 				dupeCount = __instance.aNewHopeEvents.Count;
 				adjustedDelaySecs = (((float)defaultCount) * defaultDelaySecs) / dupeCount;
-				SgtLogger.l("adjustedDelay: " + adjustedDelaySecs);
+				if(adjustedDelaySecs != float.PositiveInfinity)
+					SgtLogger.l("adjusted delay between spawn intervals: " + adjustedDelaySecs);
 
 			}
 			[HarmonyPriority(Priority.VeryLow)]
