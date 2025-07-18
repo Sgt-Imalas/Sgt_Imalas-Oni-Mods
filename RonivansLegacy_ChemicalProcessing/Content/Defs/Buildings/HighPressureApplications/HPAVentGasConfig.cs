@@ -45,7 +45,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			Vent vent = go.AddOrGet<Vent>();
 			vent.conduitType = ConduitType.Gas;
 			vent.endpointType = Endpoint.Sink;
-			vent.overpressureMass = HighPressureConduit.GetConduitMultiplier(ConduitType.Gas) * GasVentHighPressureConfig.OVERPRESSURE_MASS;
+			vent.overpressureMass = HighPressureConduitRegistration.GetConduitMultiplier(ConduitType.Gas) * GasVentHighPressureConfig.OVERPRESSURE_MASS;
 			ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
 			conduitConsumer.conduitType = ConduitType.Gas;
 			conduitConsumer.ignoreMinMassCheck = true;

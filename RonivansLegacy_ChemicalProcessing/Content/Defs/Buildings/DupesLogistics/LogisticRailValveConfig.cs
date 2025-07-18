@@ -35,7 +35,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			Storage storage = BuildingTemplates.CreateDefaultStorage(go, false);
 			storage.showDescriptor = false;
 			storage.storageFilters = null;
-			storage.capacityKg = HighPressureConduit.SolidCap_Regular;
+			storage.capacityKg = HighPressureConduitRegistration.SolidCap_Regular;
 			storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			storage.showCapacityStatusItem = false;
 			storage.showCapacityAsMainStatus = false;

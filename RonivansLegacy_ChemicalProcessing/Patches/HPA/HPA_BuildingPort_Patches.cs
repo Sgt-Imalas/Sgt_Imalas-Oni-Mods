@@ -103,7 +103,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
             {
 				if (__instance.conduitType == ConduitType.Gas || __instance.conduitType == ConduitType.Liquid)
 				{
-					__instance.maxFlow *= HighPressureConduit.GetConduitMultiplier(__instance.conduitType);
+					__instance.maxFlow *= HighPressureConduitRegistration.GetConduitMultiplier(__instance.conduitType);
 				}
 			}
         }
@@ -115,8 +115,8 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
 			public static void Prefix(WarpConduitSender __instance)
 			{
-				__instance.gasStorage.capacityKg *= HighPressureConduit.GetConduitMultiplier(ConduitType.Gas);
-				__instance.liquidStorage.capacityKg *= HighPressureConduit.GetConduitMultiplier(ConduitType.Liquid);
+				__instance.gasStorage.capacityKg *= HighPressureConduitRegistration.GetConduitMultiplier(ConduitType.Gas);
+				__instance.liquidStorage.capacityKg *= HighPressureConduitRegistration.GetConduitMultiplier(ConduitType.Liquid);
 			}
 		}
 
@@ -128,7 +128,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
 			public static void Prefix(RocketConduitSender __instance)
 			{
-				__instance.conduitStorage.capacityKg *= HighPressureConduit.GetConduitMultiplier(__instance.conduitPortInfo.conduitType);
+				__instance.conduitStorage.capacityKg *= HighPressureConduitRegistration.GetConduitMultiplier(__instance.conduitPortInfo.conduitType);
 			}
 		}
 
@@ -139,7 +139,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
 			public static void Postfix()
 			{
-				HighPressureConduit.ClearEverything();
+				HighPressureConduitRegistration.ClearEverything();
 				LogisticConduit.ClearEverything();
 			}
 		}

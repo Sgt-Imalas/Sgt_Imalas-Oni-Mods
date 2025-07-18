@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb.HPA;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
 using System.Collections.Generic;
@@ -49,10 +50,10 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				{
 					if (op.CurrentFlow > 0f)
 					{
-						float receiverMax = HighPressureConduit.GetMaxConduitCapacityAt(valveBase.outputCell, valveBase.conduitType, out var receiver);
+						float receiverMax = HighPressureConduitRegistration.GetMaxConduitCapacityWithConduitGOAt(valveBase.outputCell, valveBase.conduitType, out var receiver);
 						float inputMass = contents.mass;
 						//If there is greater than 200% of the outputs capacity inside the shutoff valves input pipe, deal overpressure damage 33% of the time.
-						HighPressureConduit.PressureDamageHandling(receiver, inputMass, receiverMax);
+						HighPressureConduitEventHandler.PressureDamageHandling(receiver, inputMass, receiverMax);
 					}
 				}
 				//since this patch consumed the contents variable on the stack, return the contents back to prevent issues with the next code statement in IL

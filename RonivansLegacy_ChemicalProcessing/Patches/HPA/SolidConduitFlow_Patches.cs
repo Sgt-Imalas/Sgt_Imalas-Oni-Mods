@@ -68,11 +68,11 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				return contents;
 			}
 			float weight = pickupable.TotalAmount;
-			float maxTargetRailCapacity = HighPressureConduit.SolidCap_Logistic;
+			float maxTargetRailCapacity = HighPressureConduitRegistration.SolidCap_Logistic;
 			GameObject sourceRail;
 
 			if (!LogisticConduit.TryGetLogisticConduitAt(sourceCell, false, out sourceRail))
-				maxTargetRailCapacity = HighPressureConduit.GetMaxConduitCapacityAt(sourceCell, ConduitType.Solid, out sourceRail);
+				maxTargetRailCapacity = HighPressureConduitRegistration.GetMaxConduitCapacityWithConduitGOAt(sourceCell, ConduitType.Solid, out sourceRail);
 
 
 			maxTargetRailCapacity += 0.0001f; //adding a tiny amount to avoid floating point errors dropping micrograms of items

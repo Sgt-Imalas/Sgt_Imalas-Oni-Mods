@@ -22,7 +22,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 2, 3, "pressure_liquid_pump_kanim", 240, 120f, quantity1, materials1, 1600f, BuildLocationRule.Anywhere, BUILDINGS.DECOR.PENALTY.TIER1, nONE, 0.2f);
 			def1.RequiresPowerInput = true;
 			def1.Overheatable = false;
-			def1.EnergyConsumptionWhenActive = Config.Instance.HPA_Pump_Base_Mult_Liquid * HighPressureConduit.GetConduitMultiplier(ConduitType.Liquid);
+			def1.EnergyConsumptionWhenActive = Config.Instance.HPA_Pump_Base_Mult_Liquid * HighPressureConduitRegistration.GetConduitMultiplier(ConduitType.Liquid);
 			def1.ExhaustKilowattsWhenActive = 0f;
 			def1.SelfHeatKilowattsWhenActive = 2f;
 			def1.OutputConduitType = ConduitType.Liquid;

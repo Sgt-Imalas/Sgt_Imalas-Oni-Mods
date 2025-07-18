@@ -97,7 +97,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 		bool HasPressureConduitAt(int cell, ConduitType type)
 		{
-			bool hasHPA = HighPressureConduit.HasHighPressureConduitAt(cell, type);
+			bool hasHPA = HighPressureConduitRegistration.HasHighPressureConduitAt(cell, type);
 			return hasHPA;
 		}
 		protected virtual bool ConsumerConnected()

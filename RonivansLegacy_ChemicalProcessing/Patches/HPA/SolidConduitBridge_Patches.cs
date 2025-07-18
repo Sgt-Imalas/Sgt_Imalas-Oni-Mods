@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb.HPA;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using Steamworks;
 using System;
@@ -57,20 +58,20 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				//}
 				var cell = bridge.outputCell;
 
-				bool isHPBridge = HighPressureConduit.HasHighPressureConduitAt(cell, ConduitType.Solid, true);
-				bool hasHPTargetConduit = HighPressureConduit.HasHighPressureConduitAt(cell, ConduitType.Solid);
+				bool isHPBridge = HighPressureConduitRegistration.HasHighPressureConduitAt(cell, ConduitType.Solid, true);
+				bool hasHPTargetConduit = HighPressureConduitRegistration.HasHighPressureConduitAt(cell, ConduitType.Solid);
 
 				//target conduit is high pressure, bridge is high pressure -> no damage case
 				if (isHPBridge && hasHPTargetConduit)
 					return item;
 
-				float targetConduitCapacity = HighPressureConduit.GetMaxConduitCapacityAt(bridge.outputCell, ConduitType.Solid, out var targetConduit);
+				float targetConduitCapacity = HighPressureConduitRegistration.GetMaxConduitCapacityWithConduitGOAt(bridge.outputCell, ConduitType.Solid, out var targetConduit);
 
 				//no pipe at output cell of bridge
 				if (targetConduit == null)
 					return item;
 
-				float targetBridgeCapacity = HighPressureConduit.GetMaxConduitCapacityAt(bridge.outputCell, ConduitType.Solid, out _, true);
+				float targetBridgeCapacity = HighPressureConduitRegistration.GetMaxConduitCapacityWithConduitGOAt(bridge.outputCell, ConduitType.Solid, out _, true);
 
 				float targetMass = Mathf.Min(targetConduitCapacity, targetBridgeCapacity);
 
@@ -97,7 +98,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				///drop excess mass
 				droppedExcess.transform.SetPosition(Grid.CellToPosCCC(dumpCell, Grid.SceneLayer.Ore));
 				SolidConduit.GetFlowManager().DumpPickupable(droppedExcess);
-				HighPressureConduit.ScheduleDropNotification(target,(int) mass, (int)targetMass);
+				HighPressureConduitEventHandler.ScheduleDropNotification(target,(int) mass, (int)targetMass);
 				return pickupable;
 			}
 		}

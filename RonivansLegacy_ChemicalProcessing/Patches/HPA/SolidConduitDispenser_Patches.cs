@@ -55,7 +55,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				}
 				else if (dispenserInstance != null && LogisticConduit.HasLogisticConduitAt(dispenserInstance.utilityCell))
 				{
-					return HighPressureConduit.SolidCap_Logistic;
+					return HighPressureConduitRegistration.SolidCap_Logistic;
 				}
 				return input;
 			}

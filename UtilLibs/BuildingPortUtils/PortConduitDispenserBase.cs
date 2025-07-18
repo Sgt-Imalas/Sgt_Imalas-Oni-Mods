@@ -78,6 +78,24 @@ namespace UtilLibs.BuildingPortUtils
 			this.conduitOffsetFlipped = port.offsetFlipped;
 		}
 
+		List<Tag> GetFilterTags()
+		{
+			if (!invertElementFilter)
+			{
+				var result = new List<Tag>();
+				if (elementFilter != null)
+				{
+					result.AddRange(elementFilter.Select(s => s.CreateTag()));
+				}
+				if(tagFilter != null)
+				{
+					result.AddRange(tagFilter);
+				}
+				return result;
+			}
+			return [];
+		}
+
 		public ConduitType TypeOfConduit
 		{
 			get
@@ -216,21 +234,9 @@ namespace UtilLibs.BuildingPortUtils
 					wasConnected = IsConnected;
 					this.operational.SetFlag(outputConduitFlag, wasConnected);
 
-					StatusItem status_item = null;
-					switch (this.conduitType)
-					{
-						case ConduitType.Gas:
-							status_item = Db.Get().BuildingStatusItems.NeedGasOut;
-							break;
-						case ConduitType.Liquid:
-							status_item = Db.Get().BuildingStatusItems.NeedLiquidOut;
-							break;
-							//case ConduitType.Solid:
-							//	status_item = Db.Get().BuildingStatusItems.NeedSolidOut;
-							//	break;
-					}
+					StatusItem status_item = ConduitDisplayPortPatching.GetOutputStatusItem(conduitType); 
 					if (status_item != null)
-						this.hasPipeGuid = this.selectable.ToggleStatusItem(status_item, this.hasPipeGuid, !this.wasConnected, this);
+						this.hasPipeGuid = this.selectable.ToggleStatusItem(status_item, this.hasPipeGuid, !this.wasConnected, new Tuple<ConduitType, List<Tag>>(this.conduitType, this.GetFilterTags()));
 				}
 			}
 			if (showFullPipeNotification)

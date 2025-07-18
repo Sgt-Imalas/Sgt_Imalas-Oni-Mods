@@ -12,7 +12,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 {
     class LogisticFilterConfig : IBuildingConfig, IHasConfigurableWattage
 	{
-		public static float Wattage = HighPressureConduit.GetLogisticConduitMultiplier() * 120f;
+		public static float Wattage = HighPressureConduitRegistration.GetLogisticConduitMultiplier() * 120f;
 
 		public float GetWattage() => Wattage;
 		public void SetWattage(float mass) => Wattage = mass;

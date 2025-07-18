@@ -14,13 +14,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 {
 	public class LogisticTransferArmConfig : IBuildingConfig, IHasConfigurableStorageCapacity, IHasConfigurableWattage
 	{
-		public static float Wattage = HighPressureConduit.GetLogisticConduitMultiplier() * 120f; // 1/2 of regular transfer arm by default
+		public static float Wattage = HighPressureConduitRegistration.GetLogisticConduitMultiplier() * 120f; // 1/2 of regular transfer arm by default
 
 		public float GetWattage() => Wattage;
 		public void SetWattage(float mass) => Wattage = mass;
 
 
-		public static float StorageCapacity = HighPressureConduit.GetLogisticConduitMultiplier() * 1000f; // 1/2 of regular transfer arm carry weight
+		public static float StorageCapacity = HighPressureConduitRegistration.GetLogisticConduitMultiplier() * 1000f; // 1/2 of regular transfer arm carry weight
 		public float GetStorageCapacity() => StorageCapacity;
 		public void SetStorageCapacity(float mass) => StorageCapacity = mass;
 

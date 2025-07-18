@@ -115,6 +115,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 			waterInput.conduitType = ConduitType.Liquid;
 			waterInput.ignoreMinMassCheck = true;
 			waterInput.forceAlwaysSatisfied = true;
+			waterInput.SkipSetOperational = true;
+			waterInput.capacityTag = SimHashes.Water.CreateTag();
 			//waterInput.alwaysConsume = true;
 			waterInput.capacityKG = liquidStorage.capacityKg;
 			waterInput.AssignPort(WaterConsumer);

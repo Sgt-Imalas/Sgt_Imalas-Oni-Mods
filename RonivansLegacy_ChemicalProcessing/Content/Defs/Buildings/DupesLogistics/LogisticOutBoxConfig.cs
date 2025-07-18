@@ -14,7 +14,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 {
 	public class LogisticOutBoxConfig : IBuildingConfig, IHasConfigurableStorageCapacity
 	{
-		public static float StorageCapacity = HighPressureConduit.GetLogisticConduitMultiplier() * 100f; // regular SolidConduitOutbox capacity/2
+		public static float StorageCapacity = HighPressureConduitRegistration.GetLogisticConduitMultiplier() * 100f; // regular SolidConduitOutbox capacity/2
 		public float GetStorageCapacity() => StorageCapacity;
 		public void SetStorageCapacity(float mass) => StorageCapacity = mass;
 		public static string ID = "LogisticOutBox";

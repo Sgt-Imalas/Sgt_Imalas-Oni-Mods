@@ -12,12 +12,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 {
 	public class LogisticLoaderConfig : IBuildingConfig, IHasConfigurableStorageCapacity, IHasConfigurableWattage
 	{
-		public static float Wattage = HighPressureConduit.GetLogisticConduitMultiplier() * 120f;
+		public static float Wattage = HighPressureConduitRegistration.GetLogisticConduitMultiplier() * 120f;
 
 		public float GetWattage() => Wattage;
 		public void SetWattage(float mass) => Wattage = mass;
 	
-		public static float StorageCapacity = HighPressureConduit.GetLogisticConduitMultiplier() * 1000; // 1/2 of regular loader capacity by default
+		public static float StorageCapacity = HighPressureConduitRegistration.GetLogisticConduitMultiplier() * 1000; // 1/2 of regular loader capacity by default
 		public float GetStorageCapacity() => StorageCapacity;
 		public void SetStorageCapacity(float mass) => StorageCapacity = mass;
 	
@@ -29,7 +29,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			def1.RequiresPowerInput = true;
 			def1.EnergyConsumptionWhenActive = Wattage;
 			def1.ExhaustKilowattsWhenActive = 0f;
-			def1.SelfHeatKilowattsWhenActive = HighPressureConduit.GetLogisticConduitMultiplier()*2f;
+			def1.SelfHeatKilowattsWhenActive = HighPressureConduitRegistration.GetLogisticConduitMultiplier()*2f;
 			def1.Floodable = false;
 			def1.ViewMode = OverlayModes.SolidConveyor.ID;
 			def1.AudioCategory = "Metal";

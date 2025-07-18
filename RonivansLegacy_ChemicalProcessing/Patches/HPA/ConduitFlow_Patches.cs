@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb.HPA;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
 			public static void Postfix(ConduitFlow __instance, ref bool __result, int cell_idx)
 			{
-				if (__result && HighPressureConduit.HasHighPressureConduitAt(cell_idx, __instance.conduitType, out var increasedCap))
+				if (__result && HighPressureConduitRegistration.TryGetHPACapacityAt(cell_idx, __instance.conduitType, out var increasedCap))
 				{
 					__result = increasedCap - __instance.grid[cell_idx].contents.mass <= 0;
 				}
@@ -143,7 +144,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		///Replace max mass check if the conduit is HighPressure
 		private static float ReplaceMaxMassAtCell(float standardMax, ConduitFlow conduitFlow, int cell_idx)
 		{
-			if(!HighPressureConduit.HasHighPressureConduitAt(cell_idx, conduitFlow.conduitType, out var increasedCap))
+			if(!HighPressureConduitRegistration.TryGetHPACapacityAt(cell_idx, conduitFlow.conduitType, out var increasedCap))
 				return standardMax;
 			return increasedCap;
 		}
@@ -153,10 +154,10 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		{
 			///if the conduit is not high pressure, this check fails, therefore it should receive damage
 
-			float receiverMax = HighPressureConduit.GetMaxConduitCapacityAt(cell_idx, conduitFlow.conduitType, out var receiver);
+			float receiverMax = HighPressureConduitRegistration.GetMaxConduitCapacityWithConduitGOAt(cell_idx, conduitFlow.conduitType, out var receiver);
 			float sentMass = sender.contents.mass;
 
-			HighPressureConduit.PressureDamageHandling(receiver, sentMass, receiverMax);
+			HighPressureConduitEventHandler.PressureDamageHandling(receiver, sentMass, receiverMax);
 		}		
 	}
 }
