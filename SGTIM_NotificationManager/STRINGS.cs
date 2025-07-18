@@ -25,6 +25,8 @@
 				public static LocString CATEGORY = "Alerts";
 				public static LocString MUTEYELLOWALERT = "Mute Yellow Alert Sound";
 				public static LocString MUTEREDALERT = "Mute Red Alert Sound";
+				//public static LocString OFFWORLD_WARNING = "Mute Offworld warnings (SpacedOut only)";
+				//public static LocString OFFWORLD_WARNING_TOOLTIP = "Mutes the warning sound, when a warning event is triggered on another asteroid";
 
 			}
 
@@ -76,6 +78,10 @@
 			public class PLANTDEATH
 			{
 				public static LocString CATEGORY = global::STRINGS.CREATURES.STATUSITEMS.PLANTDEATH.NOTIFICATION + "-" + global::STRINGS.BUILDINGS.PREFABS.LOGICALARM.LOGIC_PORT;
+			}
+			public class FOODROT
+			{
+				public static LocString CATEGORY = global::STRINGS.MISC.NOTIFICATIONS.FOODROT.NAME + "-" + global::STRINGS.BUILDINGS.PREFABS.LOGICALARM.LOGIC_PORT;
 			}
 		}
 	}
