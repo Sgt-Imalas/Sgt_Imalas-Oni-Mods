@@ -11,6 +11,7 @@ using TUNING;
 using UnityEngine;
 using UtilLibs.BuildingPortUtils;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerators
 {
@@ -61,6 +62,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 			buildingDef.InputConduitType = ConduitType.Gas;
 			buildingDef.AddSearchTerms((string)SEARCH_TERMS.POWER);
 			buildingDef.AddSearchTerms((string)SEARCH_TERMS.GENERATOR);
+
+			SoundUtils.CopySoundsToAnim("custom_gas_generator_kanim", "generatormethane_kanim");
 			return buildingDef;
 
 		}

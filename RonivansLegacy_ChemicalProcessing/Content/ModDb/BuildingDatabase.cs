@@ -663,8 +663,25 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		{
 			BuildingManager.CreateEntry<CustomDieselGeneratorConfig>()
 				.AddToCategory(PlanMenuCategory.Power, PetroleumGeneratorConfig.ID,ModUtil.BuildingOrdering.Before)
-				.AddToTech(Technology.Power.InternalCombustion)
+				.AddToTech(Technology.Power.FossilFuels)
 				.AddModFrom(SourceModInfo.CustomGenerators);
+
+			BuildingManager.CreateEntry<CustomGasGeneratorConfig>()
+				.AddToCategory(PlanMenuCategory.Power, MethaneGeneratorConfig.ID, ModUtil.BuildingOrdering.Before)
+				.AddToTech(Technology.Power.FossilFuels)
+				.AddModFrom(SourceModInfo.CustomGenerators);
+
+			BuildingManager.CreateEntry<CustomSolarPanelConfig>()
+				.AddToCategory(PlanMenuCategory.Power, SolarPanelConfig.ID, ModUtil.BuildingOrdering.Before)
+				.AddToTech(Technology.Power.RenewableEnergy)
+				.AddModFrom(SourceModInfo.CustomGenerators);
+
+
+			BuildingManager.CreateEntry<CustomSteamGeneratorConfig>()
+				.AddToCategory(PlanMenuCategory.Power, SteamTurbineConfig2.ID, ModUtil.BuildingOrdering.Before)
+				.AddToTech(Technology.Power.RenewableEnergy)
+				.AddModFrom(SourceModInfo.CustomGenerators);
+
 		}		
 	}
 }

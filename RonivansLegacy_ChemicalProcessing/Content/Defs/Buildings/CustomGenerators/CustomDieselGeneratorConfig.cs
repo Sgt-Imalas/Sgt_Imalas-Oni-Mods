@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 using UtilLibs.BuildingPortUtils;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerators
@@ -62,6 +63,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 			buildingDef.InputConduitType = ConduitType.Liquid;
 			buildingDef.AddSearchTerms((string)SEARCH_TERMS.POWER);
 			buildingDef.AddSearchTerms((string)SEARCH_TERMS.GENERATOR);
+
+			SoundUtils.CopySoundsToAnim("custom_petro_generator_kanim", "generatorpetrol_kanim");
 			return buildingDef;
 
 		}

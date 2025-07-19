@@ -1478,6 +1478,18 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString DESC = "A small, custom Combustible Gas generator. This rather versatile generator has piped outputs.";
 					public static LocString EFFECT = "Converts " + FormatAsLink("Combustible Gas", "COMBUSTIBLEGAS") + " into Power.\nThe waste products are either released into the world or inserted into pipes.";
 				}
+				public class CUSTOMSOLARPANEL
+				{
+					public static LocString NAME = FormatAsLink("Custom Solar Panel", nameof(CUSTOMSOLARPANEL));
+					public static LocString DESC = "Solar panels convert high intensity sunlight into power and produce zero waste.";
+					public static LocString EFFECT = "Converts " + FormatAsLink("Sunlight", "LIGHT") + " into electrical " + FormatAsLink("Power", "POWER") + ".\n\nCan be rotated.";
+				}
+				public class CUSTOMSTEAMGENERATOR
+				{
+					public static LocString NAME = FormatAsLink("Custom Steam Turbine", nameof(CUSTOMSTEAMGENERATOR));
+					public static LocString DESC = "Useful for converting the geothermal energy into usable power.";
+					public static LocString EFFECT = "Draws in " + FormatAsLink("Steam", "STEAM") + " from the tiles directly below the machine's foundation and uses it to generate electrical " + FormatAsLink("Power", "POWER") + ".\n\nOutputs " + FormatAsLink("Water", "WATER") + ".";
+				}
 				#endregion
 			}
 		}

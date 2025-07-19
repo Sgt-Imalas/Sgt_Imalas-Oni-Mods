@@ -23,6 +23,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				LocalisationUtil.FixTranslationStrings();
 				BuildingDatabase.RegisterExtraStrings();
 				Mod.RegisterLocalizedDescription();
+				StatusItemsDatabase.RegisterClonedStatusStrings();
 			}
 		}
 	}
