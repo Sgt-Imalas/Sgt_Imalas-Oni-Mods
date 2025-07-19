@@ -54,6 +54,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			def.ViewMode = OverlayModes.Power.ID;
 			def.AudioCategory = "HollowMetal";
 			def.AudioSize = "large";
+			SoundUtils.CopySoundsToAnim("glass_foundry_kanim", "glassrefinery_kanim");
 			return def;
 		}
 

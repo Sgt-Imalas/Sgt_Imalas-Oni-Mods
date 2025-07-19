@@ -20,6 +20,7 @@ using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STORAGE
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefrigeration;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FRIDGELARGE.FACADES;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SIMPLEFRIDGE.FACADES;
+using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
@@ -42,7 +43,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			SkinCollection.Create(OilRefineryConfig.ID, SubCategoryID)
 				.Skin("ChemicalProcessing_Refinery", PETROLEUMDISTILLERY.NAME, PETROLEUMDISTILLERY.DESC, "petroleum_distillery_kanim");
-
+			SoundUtils.CopySoundsToAnim("petroleum_distillery_kanim", "oilrefinery_kanim");
 
 			SkinCollection.Create(LogicAlertLightConfig.ID, SubCategoryID)
 				.Skin("AlertLightGreen", LOGICALERTLIGHTGREEN.NAME, LOGICALERTLIGHTGREEN.DESC, "alert_light_green_kanim")

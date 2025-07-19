@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 
 namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
@@ -47,6 +48,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			{
 				LogicPorts.Port.OutputPort(SmartReservoir.PORT_ID, new CellOffset(1, 0), (string) STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.LOGIC_PORT, (string) STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.LOGIC_PORT_ACTIVE, (string) STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.LOGIC_PORT_INACTIVE)
 			};
+			SoundUtils.CopySoundsToAnim("ammonia_compressor_kanim", "airconditioner_kanim");
 			return buildingDef;
 		}
 

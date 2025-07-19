@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 using UtilLibs.BuildingPortUtils;
 using static STRINGS.ELEMENTS;
 
@@ -47,6 +48,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.AudioCategory = "Metal";
 			buildingDef.InputConduitType = ConduitType.Liquid;
 			buildingDef.UtilityInputOffset = new CellOffset(2, 0);
+			SoundUtils.CopySoundsToAnim("crudeoil_refinery_kanim", "oilrefinery_kanim");
 			return buildingDef;
 		}
 

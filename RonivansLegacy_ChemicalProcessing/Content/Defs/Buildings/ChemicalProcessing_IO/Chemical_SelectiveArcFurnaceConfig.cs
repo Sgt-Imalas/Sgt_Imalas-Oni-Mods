@@ -35,6 +35,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.SelfHeatKilowattsWhenActive = 8f;
 			buildingDef.AudioCategory = "Metal";
 			buildingDef.PermittedRotations = PermittedRotations.FlipH;
+			SoundUtils.CopySoundsToAnim("arc_smelter_kanim", "suit_maker_kanim");
 			return buildingDef;
 		}
 

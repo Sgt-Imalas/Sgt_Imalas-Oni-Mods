@@ -42,6 +42,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.ExhaustKilowattsWhenActive = 16f;
 			buildingDef.SelfHeatKilowattsWhenActive = 4f;
 			buildingDef.AudioCategory = "Metal";
+			SoundUtils.CopySoundsToAnim("jawcrusher_mill_kanim", "rockrefinery_kanim");
 			return buildingDef;
 		}
 

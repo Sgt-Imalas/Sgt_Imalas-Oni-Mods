@@ -105,6 +105,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.AudioCategory = "Metal";
 			buildingDef.OutputConduitType = ConduitType.Liquid;
 			buildingDef.UtilityOutputOffset = new CellOffset(1, 0);
+			SoundUtils.CopySoundsToAnim("chemical_plant_kanim", "chemistry_lab_kanim");
 			return buildingDef;
 		}
 

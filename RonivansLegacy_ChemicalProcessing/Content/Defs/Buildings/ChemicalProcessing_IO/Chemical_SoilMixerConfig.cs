@@ -58,6 +58,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.AudioCategory = "Metal";
 			buildingDef.InputConduitType = ConduitType.Liquid;
 			buildingDef.UtilityInputOffset = new CellOffset(1, 0);
+			SoundUtils.CopySoundsToAnim("soil_mixer_kanim", "fertilizer_maker_kanim");
 			return buildingDef;
 		}
 

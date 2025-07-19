@@ -56,6 +56,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.UtilityInputOffset = new CellOffset(1, 2);
 			buildingDef.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(0, 0));
 			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.LiquidVentIDs, ID);
+			SoundUtils.CopySoundsToAnim("electric_boiler_kanim", "spaceheater_kanim");
 			return buildingDef;
 		}
 

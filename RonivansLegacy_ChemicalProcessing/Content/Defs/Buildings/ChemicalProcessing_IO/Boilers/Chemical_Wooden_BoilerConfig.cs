@@ -62,6 +62,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			list1.Add(LogicPorts.Port.OutputPort(SmartReservoir.PORT_ID, new CellOffset(1, 0), (string)STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.LOGIC_PORT, (string)STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.LOGIC_PORT_ACTIVE, (string)STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.LOGIC_PORT_INACTIVE, false, false));
 			buildingDef.LogicOutputPorts = list1; 
 			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.LiquidVentIDs, ID);
+			SoundUtils.CopySoundsToAnim("wooden_boiler_kanim", "generatorwood_kanim");
 			return buildingDef;
 		}
 

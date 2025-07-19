@@ -24,15 +24,11 @@ namespace Biochemistry.Buildings
 
 		private static readonly List<Storage.StoredItemModifier> BioRefineryStoredItemModifiers;
 
-		private static readonly PortDisplayInput ethanolLiquidInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(-3, 3));
-		private static readonly PortDisplayOutput pollutedWaterLiquidOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(3, 1));
+		private static readonly PortDisplayInput ethanolLiquidInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(-3, 3), null, new Color32(185, 239, 185, 255));
+		private static readonly PortDisplayOutput pollutedWaterLiquidOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(3, 1), null, new Color32(137, 137, 66, 255));
 
 		static Biochemistry_BiodieselRefineryConfig()
 		{
-			Color? ethanolInputPortColor = new Color32(185, 239, 185, 255);
-			ethanolLiquidInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(-3, 3), null, ethanolInputPortColor);
-			Color? pollutedWaterPortColor = new Color32(137, 137, 66, 255);
-			pollutedWaterLiquidOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(3, 1), null, pollutedWaterPortColor);
 
 			List<Storage.StoredItemModifier> list1 = new List<Storage.StoredItemModifier>();
 			list1.Add(Storage.StoredItemModifier.Hide);

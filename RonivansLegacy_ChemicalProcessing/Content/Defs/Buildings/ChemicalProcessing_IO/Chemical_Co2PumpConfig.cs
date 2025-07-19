@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 
 namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
@@ -30,6 +31,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			def1.PowerInputOffset = new CellOffset(0, 0);
 			def1.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(0, 0));
 			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.GasVentIDs, ID);
+			SoundUtils.CopySoundsToAnim("co2_pump_kanim", "minigaspump_kanim");
 			return def1;
 		}
 

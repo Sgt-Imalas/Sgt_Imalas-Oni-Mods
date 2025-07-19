@@ -155,7 +155,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class BIOCHEMISTRY_BIODIESELREFINERY
 				{
 					public static LocString NAME = FormatAsLink("Biodiesel Refinery", nameof(BIOCHEMISTRY_BIODIESELREFINERY));
-					public static LocString DESC = "A refinery capable of transesterification of the vegetable oil in to a mix of mono-alkyl esters of long chain fatty acids.";
+					public static LocString DESC = "A refinery capable of transesterification of organic oils into a mix of mono-alkyl esters of long chain fatty acids.";
 					public static LocString EFFECT = string.Concat(
 						[
 							"Transesterify ",
