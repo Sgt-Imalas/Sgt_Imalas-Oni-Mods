@@ -56,64 +56,6 @@ namespace SGTIM_NotificationManager
 		}
 
 
-		//[HarmonyPatch(typeof(StressMonitor.Instance))]
-		//[HarmonyPatch(nameof(StressMonitor.Instance.IsStressed))]
-		//public static class IsStressed
-		//{
-		//    public static bool Prefix(StressMonitor.Instance __instance, ref bool __result)
-		//    {
-		//        __result = __instance.GetCurrentState().GetType() == typeof(ExtendedStressMonitor.Stressed);
-		//        return false;
-		//    }
-		//}
-
-
-		//[HarmonyPatch(typeof(StressMonitor))]
-		//[HarmonyPatch(nameof(StressMonitor.InitializeStates))]
-		//public static class ExtendedStressMonitor
-		//{
-		//    public class Stressed : GameStateMachine<StressMonitor, StressMonitor.Instance, IStateMachineTarget, object>.State
-		//    {
-		//        public GameStateMachine<StressMonitor, StressMonitor.Instance, IStateMachineTarget, object>.State tier1 = new GameStateMachine<StressMonitor, StressMonitor.Instance, IStateMachineTarget, object>.State();
-		//        public GameStateMachine<StressMonitor, StressMonitor.Instance, IStateMachineTarget, object>.State tier2 = new GameStateMachine<StressMonitor, StressMonitor.Instance, IStateMachineTarget, object>.State();
-		//        public GameStateMachine<StressMonitor, StressMonitor.Instance, IStateMachineTarget, object>.State tier3 = new GameStateMachine<StressMonitor, StressMonitor.Instance, IStateMachineTarget, object>.State();
-		//    }
-		//    public static void Postfix(StressMonitor __instance)
-		//    {
-		//        //for(int i = __instance.states.Count- 1; i >= 0;i--)
-		//        //{
-		//        //    var state = __instance.states[i];
-		//        //    if (state.name.Contains("stressed"))
-		//        //    {
-		//        //        __instance.states.RemoveAt(i);
-		//        //    }
-		//        //}
-		//        Stressed stressed2 = new Stressed();
-
-
-		//        stressed2
-		//            .ToggleStatusItem(Db.Get().DuplicantStatusItems.Stressed)
-		//            .Transition(__instance.satisfied, (smi => (double)smi.stress.value < 60.0))
-		//            .ToggleReactable((smi => smi.CreateConcernReactable())).TriggerOnEnter(GameHashes.Stressed);
-
-		//        stressed2.tier1
-		//            //.Transition(__instance.satisfied, (smi => (double)smi.stress.value < 60.0))
-		//            .Transition(stressed2.tier2, (smi => (double)smi.stress.value >= 90.0));
-		//        stressed2.tier2
-		//            .Transition(stressed2.tier1, (smi => (double)smi.stress.value < 90.0))
-		//            .Transition(stressed2.tier3, (smi => smi.HasHadEnough()));
-		//        stressed2.tier3
-		//                .TriggerOnEnter(GameHashes.StressedHadEnough)
-		//                .Transition(stressed2.tier2, (smi => !smi.HasHadEnough()));
-
-		//        __instance.satisfied.transitions.Clear();
-		//        __instance.satisfied.Transition(stressed2.tier1, (smi => (double)smi.stress.value >= 60.0));
-
-		//        __instance.states.Add(stressed2);
-		//        __instance.stressed.GoTo(stressed2);
-		//    }
-		//}
-
 		[HarmonyPatch(typeof(CalorieMonitor))]
 		[HarmonyPatch(nameof(CalorieMonitor.InitializeStates))]
 		public static class StarvationMonitorStates
@@ -214,34 +156,7 @@ namespace SGTIM_NotificationManager
                 );
             }
         }
-
-        //[HarmonyPatch(typeof(SuffocationMonitor.Instance))]
-        //[HarmonyPatch(nameof(SuffocationMonitor.Instance.IsSuffocating))]
-        //public static class SuffocationNotification
-        //{
-        //    public static bool Prefix(SuffocationMonitor.Instance __instance, ref bool __result)
-        //    {
-        //        float breathValuePercentage = ((float)Config.Instance.SUFFOCATION_THRESHOLD) * 100f / 110f;
-        //        if (__instance.breath.deltaAttribute.GetTotalValue() <= 0f)
-        //        {
-        //            return __instance.breath.value <= breathValuePercentage;
-        //        }
-        //        __result = false;
-        //        return false;
-        //    }
-        //}
-
-        //[HarmonyPatch(typeof(SuitSuffocationMonitor.Instance))]
-        //[HarmonyPatch(nameof(SuitSuffocationMonitor.Instance.IsSuffocating))]
-        //public static class SuffocationNotificationSuit
-        //{
-        //    public static bool Prefix(SuffocationMonitor.Instance __instance, ref bool __result)
-        //    {
-        //        float breathValuePercentage = ((float)Config.Instance.SUFFOCATION_THRESHOLD) * 100f / 110f;
-        //        __result = (double)__instance.breath.value <= breathValuePercentage;
-        //        return false;
-        //    }
-        //}
+		        
 
         [HarmonyPatch(typeof(NotificationScreen), nameof(NotificationScreen.PlayDingSound))]
 		public static class MuteDingSound
@@ -305,7 +220,10 @@ namespace SGTIM_NotificationManager
 				else if (notification.titleText == global::STRINGS.DUPLICANTS.STATUSITEMS.RADIATIONVOMITING.NOTIFICATION_NAME)
 				{
 					skipAudio = Config.Instance.MUTE_RADIATIONVOMITING_SOUND;
-
+				}
+				else if(notification.titleText == global::STRINGS.MISC.NOTIFICATIONS.FOODROT.NAME)
+				{
+					skipAudio = Config.Instance.MUTE_FOODROT_SOUND;
 				}
 
 				notification.playSound = !skipAudio;
@@ -377,6 +295,11 @@ namespace SGTIM_NotificationManager
 				{
 					pause = Config.Instance.PAUSE_ON_RADIATIONVOMITING;
 					moveCam = Config.Instance.PAN_TO_RADIATIONVOMITING;
+				}
+				else if (notification.titleText == global::STRINGS.MISC.NOTIFICATIONS.FOODROT.NAME)
+				{
+					pause = Config.Instance.PAUSE_ON_FOODROT;
+					moveCam = Config.Instance.PAN_TO_FOODROT;
 				}
 
 				if (GameClock.Instance != null)
