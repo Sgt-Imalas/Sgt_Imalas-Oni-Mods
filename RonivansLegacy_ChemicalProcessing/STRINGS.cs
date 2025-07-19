@@ -462,7 +462,7 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString EFFECT = string.Concat(
 						[
 							"Produces ",
-							FormatAsLink("Rayon Fiber", RayonFabricConfig.TAG.ProperName()),
+							FormatAsLink("Rayon Fiber", "RAYONFIBER"),
 							" from ",
 							global::STRINGS.ELEMENTS.WOODLOG.NAME,
 							" pulp through a complex chemical reaction. Requires ",

@@ -70,7 +70,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		{
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 			go.AddOrGet<BuildingComplete>().isManuallyOperated = false;
-			go.AddOrGet<Desalinator>();
+
 			Tag filter = SimHashes.Sand.CreateTag();
 
 			ConduitConsumer crudeOilInput = go.AddOrGet<ConduitConsumer>();

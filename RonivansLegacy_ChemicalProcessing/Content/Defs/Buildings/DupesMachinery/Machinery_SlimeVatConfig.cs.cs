@@ -31,7 +31,6 @@ namespace Dupes_Machinery.Biological_Vats
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 			go.AddOrGet<BuildingComplete>().isManuallyOperated = false;
 			Tag tag = SimHashes.Dirt.CreateTag();
-			go.AddOrGet<Desalinator>();
 
 			Storage local1 = go.AddOrGet<Storage>();
 			local1.SetDefaultStoredItemModifiers(SlimeVatStorageModifiers);

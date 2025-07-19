@@ -53,7 +53,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 		public override BuildingDef CreateBuildingDef()
 		{
-			float[] construction_mass = [300f, 100f];
+			float[] construction_mass = [500f, 200f];
 			string[] construction_materials =
 			[
 				"RefinedMetal",
@@ -79,7 +79,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		{
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 			go.AddOrGet<BuildingComplete>().isManuallyOperated = false;
-			go.AddOrGet<Desalinator>();
+
 			Storage storage1 = go.AddOrGet<Storage>();
 			storage1.capacityKg = 500f;
 			storage1.SetDefaultStoredItemModifiers(GasRefineryStoredItemModifiers);

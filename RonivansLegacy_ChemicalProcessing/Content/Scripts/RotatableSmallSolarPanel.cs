@@ -47,8 +47,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				"meter_frame",
 				"meter_OL"
 			});
-			SgtLogger.l("onspawn");
 			SetLightBlockIfHorizontal(true);
+			//AddSolidBaseTile();
 		}
 		void SetLightBlockIfHorizontal(bool blockLight)
 		{
@@ -72,9 +72,33 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				}
 			}
 		}
+		//public void AddSolidBaseTile()
+		//{			
+		//	int cell = Grid.PosToCell(this); 
+		//	SimMessages.ReplaceAndDisplaceElement(cell, SimHashes.Vacuum, CellEventLogger.Instance.SimCellOccupierOnSpawn, 0f, 0f);
+		//	Grid.Foundation[cell] = true;
+		//	Grid.SetSolid(cell, solid: true, CellEventLogger.Instance.SimCellOccupierForceSolid);
+		//	SimMessages.SetCellProperties(cell, 103);
+		//	Grid.RenderedByWorld[cell] = false;
+		//	World.Instance.OnSolidChanged(cell);
+		//	GameScenePartitioner.Instance.TriggerEvent(cell, GameScenePartitioner.Instance.solidChangedLayer, null);
+		//}
 
+		//public void RemoveSolidBaseTile()
+		//{
+		//	int cell = Grid.PosToCell(this);
+		//	SimMessages.ReplaceAndDisplaceElement(cell, SimHashes.Vacuum, CellEventLogger.Instance.SimCellOccupierOnSpawn, 0f);
+		//	Grid.Objects[cell, 9] = null;
+		//	Grid.Foundation[cell] = false;
+		//	Grid.SetSolid(cell, solid: false, CellEventLogger.Instance.SimCellOccupierDestroy);
+		//	SimMessages.ClearCellProperties(cell, 103);
+		//	Grid.RenderedByWorld[cell] = true;
+		//	World.Instance.OnSolidChanged(cell);
+		//	GameScenePartitioner.Instance.TriggerEvent(cell, GameScenePartitioner.Instance.solidChangedLayer, null);
+		//}
 		public override void OnCleanUp()
 		{
+			//RemoveSolidBaseTile();
 			SetLightBlockIfHorizontal(false);
 			this.smi.StopSM("cleanup");
 			Game.Instance.accumulators.Remove(this.accumulator);

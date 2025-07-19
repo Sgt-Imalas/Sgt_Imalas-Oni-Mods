@@ -21,26 +21,12 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		public static string ID = "Chemical_NaphthaReformer";
 
 		//--[ Identification and DLC stuff ]-----------------------------------
-		public static readonly List<Storage.StoredItemModifier> NaphthaReformerStoredItemModifiers;
 
 		//--[ Special Settings ]-----------------------------------------------
-		private static readonly PortDisplayInput HydrogenGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(2, 1));
-		private static readonly PortDisplayOutput methaneGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(-1, 1));
-
-		static Chemical_NaphthaReformerConfig()
-		{
-			Color? HydrogenInputPortColor = new Color32(197, 31, 139, 255);
-			HydrogenGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(2, 1), null, HydrogenInputPortColor);
-
-			Color? methanePortColor = new Color32(255, 114, 33, 255);
-			methaneGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(-1, 1), null, methanePortColor);
-
-			List<Storage.StoredItemModifier> list1 = new List<Storage.StoredItemModifier>();
-			list1.Add(Storage.StoredItemModifier.Hide);
-			list1.Add(Storage.StoredItemModifier.Seal);
-			list1.Add(Storage.StoredItemModifier.Insulate);
-			NaphthaReformerStoredItemModifiers = list1;
-		}
+		private static readonly PortDisplayInput HydrogenGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(2, 1), null, new Color32(197, 31, 139, 255));
+		private static readonly PortDisplayOutput methaneGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(-1, 1), null, new Color32(255, 114, 33, 255));
+		private static readonly PortDisplayInput naphthaLiquidInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(2, -3), null, new Color32(176, 0, 255, 255));
+		private static readonly PortDisplayOutput PetroleumLiquidOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(-1, -3), null, new Color32(255, 195, 37, 255));
 
 		//--[ Building Definitions ]-------------------------------------------
 		public override BuildingDef CreateBuildingDef()
@@ -57,10 +43,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.SelfHeatKilowattsWhenActive = 6f;
 			buildingDef.PowerInputOffset = new CellOffset(1, 1);
 			buildingDef.AudioCategory = "Metal";
-			buildingDef.InputConduitType = ConduitType.Liquid;
-			buildingDef.UtilityInputOffset = new CellOffset(2, -2);
-			buildingDef.OutputConduitType = ConduitType.Liquid;
-			buildingDef.UtilityOutputOffset = new CellOffset(-1, -2);
 
 			ColliderOffsetHandler.GenerateBuildingDefOffsets(buildingDef, -2, 0);
 
@@ -75,24 +57,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		{
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 			go.AddOrGet<BuildingComplete>().isManuallyOperated = false;
-			go.AddOrGet<Desalinator>();
 
-			ConduitConsumer crudeOilInput = go.AddOrGet<ConduitConsumer>();
-			crudeOilInput.conduitType = ConduitType.Liquid;
-			crudeOilInput.consumptionRate = 10f;
-			crudeOilInput.capacityKG = 50f;
-			crudeOilInput.capacityTag = SimHashes.Naphtha.CreateTag();
-			crudeOilInput.forceAlwaysSatisfied = true;
-			crudeOilInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
-
-			PortConduitConsumer HydrogenInput = go.AddComponent<PortConduitConsumer>();
-			HydrogenInput.conduitType = ConduitType.Gas;
-			HydrogenInput.consumptionRate = 10f;
-			HydrogenInput.capacityKG = 50f;
-			HydrogenInput.capacityTag = SimHashes.Hydrogen.CreateTag();
-			HydrogenInput.forceAlwaysSatisfied = true;
-			HydrogenInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
-			HydrogenInput.AssignPort(HydrogenGasInputPort);
 
 			//-----[ Element Converter Section ]---------------------------------
 			ElementConverter naphtha_reforming = go.AddComponent<ElementConverter>();
@@ -111,13 +76,35 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			bitumenDropper.emitOffset = new Vector3(0f, 1f, 0f);
 
 			Storage outputStorage = go.AddOrGet<Storage>();
-			outputStorage.SetDefaultStoredItemModifiers(NaphthaReformerStoredItemModifiers);
+			outputStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			outputStorage.showInUI = true;
 
-			ConduitDispenser petrolOutput = go.AddOrGet<ConduitDispenser>();
+
+			PortConduitConsumer crudeOilInput = go.AddOrGet<PortConduitConsumer>();
+			crudeOilInput.conduitType = ConduitType.Liquid;
+			crudeOilInput.consumptionRate = 10f;
+			crudeOilInput.capacityKG = 50f;
+			crudeOilInput.capacityTag = SimHashes.Naphtha.CreateTag();
+			crudeOilInput.forceAlwaysSatisfied = true;
+			crudeOilInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
+			crudeOilInput.AssignPort(naphthaLiquidInputPort);
+
+			PortConduitConsumer HydrogenInput = go.AddComponent<PortConduitConsumer>();
+			HydrogenInput.conduitType = ConduitType.Gas;
+			HydrogenInput.consumptionRate = 10f;
+			HydrogenInput.capacityKG = 50f;
+			HydrogenInput.capacityTag = SimHashes.Hydrogen.CreateTag();
+			HydrogenInput.forceAlwaysSatisfied = true;
+			HydrogenInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
+			HydrogenInput.AssignPort(HydrogenGasInputPort);
+
+
+			PipedConduitDispenser petrolOutput = go.AddOrGet<PipedConduitDispenser>();
 			petrolOutput.conduitType = ConduitType.Liquid;
 			petrolOutput.storage = outputStorage;
+			petrolOutput.alwaysDispense = true;
 			petrolOutput.elementFilter = [SimHashes.Petroleum];
+			petrolOutput.AssignPort(PetroleumLiquidOutputPort);
 
 			PipedConduitDispenser methaneOutput = go.AddComponent<PipedConduitDispenser>();
 			methaneOutput.storage = outputStorage;
@@ -136,6 +123,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			controller.Init(go);
 			controller.AssignPort(go, HydrogenGasInputPort);
 			controller.AssignPort(go, methaneGasOutputPort);
+			controller.AssignPort(go, PetroleumLiquidOutputPort);
+			controller.AssignPort(go, naphthaLiquidInputPort);
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)

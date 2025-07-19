@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs.BuildingPortUtils;
+using static STRINGS.ELEMENTS;
 
 namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 {
@@ -20,37 +21,14 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		//--[ Base Information ]-----------------------------------------------
 		public static string ID = "Chemical_CrudeOilRefinery";
 
-		//--[ Identification and DLC stuff ]-----------------------------------
-		public static readonly List<Storage.StoredItemModifier> OilRefineryStoredItemModifiers;
-
 		//--[ Special Settings ]-----------------------------------------------
-		private static readonly PortDisplayInput steamGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(2, 1));
-		private static readonly PortDisplayOutput SourWaterLiquidOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(-1, 0));
-		private static readonly PortDisplayOutput naphthaLiquidOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(2, 3));
-		private static readonly PortDisplayOutput methaneGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(-1, 3));
+		private static readonly PortDisplayInput steamGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(2, 1), null, new Color32(167, 180, 201, 255));
+		private static readonly PortDisplayOutput SourWaterLiquidOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(-1, 0), null, new Color32(130, 104, 65, 255));
+		private static readonly PortDisplayOutput methaneGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(-1, 3), null, new Color32(255, 114, 33, 255));
+		private static readonly PortDisplayOutput naphthaLiquidOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(2, 3), null, new Color32(176, 0, 255, 255));
+		private static readonly PortDisplayOutput PetroleumLiquidOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(-1, 1), null, new Color32(255, 195, 37, 255));
 
 
-
-		static Chemical_CrudeOilRefineryConfig()
-		{
-			Color? steamInputPortColor = new Color32(167, 180, 201, 255);
-			steamGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(2, 1), null, steamInputPortColor);
-
-			Color? SourWaterOutputPortColor = new Color32(130, 104, 65, 255);
-			SourWaterLiquidOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(-1, 0), null, SourWaterOutputPortColor);
-
-			Color? naphthaPortColor = new Color32(92, 81, 90, 255);
-			naphthaLiquidOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(2, 3), null, naphthaPortColor);
-
-			Color? methanePortColor = new Color32(255, 114, 33, 255);
-			methaneGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(-1, 3), null, methanePortColor);
-
-			List<Storage.StoredItemModifier> list1 = new List<Storage.StoredItemModifier>();
-			list1.Add(Storage.StoredItemModifier.Hide);
-			list1.Add(Storage.StoredItemModifier.Seal);
-			list1.Add(Storage.StoredItemModifier.Insulate);
-			OilRefineryStoredItemModifiers = list1;
-		}
 
 		//--[ Building Definitions ]-------------------------------------------
 		public override BuildingDef CreateBuildingDef()
@@ -69,8 +47,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.AudioCategory = "Metal";
 			buildingDef.InputConduitType = ConduitType.Liquid;
 			buildingDef.UtilityInputOffset = new CellOffset(2, 0);
-			buildingDef.OutputConduitType = ConduitType.Liquid;
-			buildingDef.UtilityOutputOffset = new CellOffset(-1, 1);
 			return buildingDef;
 		}
 
@@ -78,7 +54,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		{
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 			go.AddOrGet<BuildingComplete>().isManuallyOperated = false;
-			go.AddOrGet<Desalinator>();
 
 			ConduitConsumer crudeOilInput = go.AddOrGet<ConduitConsumer>();
 			crudeOilInput.conduitType = ConduitType.Liquid;
@@ -116,13 +91,15 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			bitumenDropper.emitOffset = new Vector3(0f, 1f, 0f);
 
 			Storage outputStorage = go.AddOrGet<Storage>();
-			outputStorage.SetDefaultStoredItemModifiers(OilRefineryStoredItemModifiers);
+			outputStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			outputStorage.showInUI = true;
 
-			ConduitDispenser petrolOutput = go.AddOrGet<ConduitDispenser>();
-			petrolOutput.conduitType = ConduitType.Liquid;
-			petrolOutput.storage = outputStorage;
-			petrolOutput.elementFilter = [SimHashes.Petroleum];
+			PipedConduitDispenser petroleumOutput = go.AddComponent<PipedConduitDispenser>();
+			petroleumOutput.storage = outputStorage;
+			petroleumOutput.conduitType = ConduitType.Liquid;
+			petroleumOutput.alwaysDispense = true;
+			petroleumOutput.elementFilter = [SimHashes.Petroleum];
+			petroleumOutput.AssignPort(PetroleumLiquidOutputPort);
 
 			PipedConduitDispenser sourWaterOutput = go.AddComponent<PipedConduitDispenser>();
 			sourWaterOutput.storage = outputStorage;
@@ -157,6 +134,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			controller.AssignPort(go, SourWaterLiquidOutputPort);
 			controller.AssignPort(go, naphthaLiquidOutputPort);
 			controller.AssignPort(go, methaneGasOutputPort);
+			controller.AssignPort(go, PetroleumLiquidOutputPort);
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)

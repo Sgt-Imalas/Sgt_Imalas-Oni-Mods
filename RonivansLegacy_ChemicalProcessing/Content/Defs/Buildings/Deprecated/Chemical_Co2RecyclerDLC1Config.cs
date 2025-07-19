@@ -81,7 +81,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 			go.AddOrGet<BuildingComplete>().isManuallyOperated = false;
 			Tag catalyst = SimHashes.Iron.CreateTag();
-			go.AddOrGet<Desalinator>();
 
 			Storage solidStorage = go.AddOrGet<Storage>();
 			solidStorage.SetDefaultStoredItemModifiers(RecyclerStoredItemModifiers);

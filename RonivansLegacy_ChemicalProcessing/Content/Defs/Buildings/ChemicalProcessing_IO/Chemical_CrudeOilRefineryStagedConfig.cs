@@ -23,15 +23,16 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				Storage.StoredItemModifier.Seal,
 				Storage.StoredItemModifier.Insulate
 			};
-		private static readonly PortDisplayInput steamGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(3, 1), color: new Color?((Color)new Color32((byte)167, (byte)180, (byte)201, byte.MaxValue)));
-		private static readonly PortDisplayInput hydrogenGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(3, 2), color: new Color?((Color)new Color32((byte)224, (byte)67, (byte)203, byte.MaxValue)));
-		private static readonly PortDisplayInput naphthaInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(-2, 2), color: new Color?((Color)new Color32((byte)92, (byte)81, (byte)90, byte.MaxValue)));
-		private static readonly PortDisplayOutput naphthaLiquidOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(-2, 1), color: new Color?((Color)new Color32((byte)92, (byte)81, (byte)90, byte.MaxValue)));
-		private static readonly PortDisplayOutput methaneGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(3, 3), color: new Color?((Color)new Color32(byte.MaxValue, (byte)114, (byte)33, byte.MaxValue)));
+		private static readonly PortDisplayInput steamGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(3, 1), color:new Color32(167, 180, 201, byte.MaxValue));
+		private static readonly PortDisplayInput hydrogenGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(3, 2), color: new Color32(224, 67, 203, byte.MaxValue));
+		private static readonly PortDisplayInput naphthaInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(-2, 2), color: new Color32(176, 0, 255, 255));
+		private static readonly PortDisplayOutput naphthaLiquidOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(-2, 1), color: new Color32(176, 0, 255, 255));
+		private static readonly PortDisplayOutput methaneGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(3, 3), color: new Color32(byte.MaxValue, 114, 33, byte.MaxValue));
+		private static readonly PortDisplayOutput PetroleumLiquidOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(-2, 0), null, new Color32(255, 195, 37, 255));
 
 		public override BuildingDef CreateBuildingDef()
 		{
-			float[] construction_mass = [300f, 100f];
+			float[] construction_mass = [500f, 200f];
 			string[] construction_materials =
 			[
 				"RefinedMetal",
@@ -48,8 +49,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.AudioCategory = "Metal";
 			buildingDef.InputConduitType = ConduitType.Liquid;
 			buildingDef.UtilityInputOffset = new CellOffset(3, 0);
-			buildingDef.OutputConduitType = ConduitType.Liquid;
-			buildingDef.UtilityOutputOffset = new CellOffset(-2, 0);
 			return buildingDef;
 		}
 
@@ -57,7 +56,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		{
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 			go.AddOrGet<BuildingComplete>().isManuallyOperated = false;
-			go.AddOrGet<Desalinator>();
+
 			ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
 			conduitConsumer.conduitType = ConduitType.Liquid;
 			conduitConsumer.consumptionRate = 10f;
@@ -122,10 +121,12 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			storage.SetDefaultStoredItemModifiers(OilRefineryStoredItemModifiers);
 			storage.showInUI = true;
 
-			ConduitDispenser conduitDispenser = go.AddOrGet<ConduitDispenser>();
+			PipedConduitDispenser conduitDispenser = go.AddComponent<PipedConduitDispenser>();
 			conduitDispenser.conduitType = ConduitType.Liquid;
 			conduitDispenser.storage = storage;
+			conduitDispenser.alwaysDispense = true;
 			conduitDispenser.elementFilter = [SimHashes.Petroleum];
+			conduitDispenser.AssignPort(PetroleumLiquidOutputPort);
 
 			PipedConduitDispenser pipedDispenser1 = go.AddComponent<PipedConduitDispenser>();
 			pipedDispenser1.storage = storage;
@@ -154,6 +155,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			displayController.AssignPort(go, naphthaInputPort);
 			displayController.AssignPort(go, naphthaLiquidOutputPort);
 			displayController.AssignPort(go, methaneGasOutputPort);
+			displayController.AssignPort(go, PetroleumLiquidOutputPort);
 		}
 
 		public override void DoPostConfigureComplete(GameObject go) => go.AddOrGetDef<PoweredActiveController.Def>().showWorkingStatus = true;

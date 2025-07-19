@@ -80,7 +80,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		{
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 			go.AddOrGet<BuildingComplete>().isManuallyOperated = false;
-			go.AddOrGet<Desalinator>();
 
 			ConduitConsumer propaneGasInput = go.AddOrGet<ConduitConsumer>();
 			propaneGasInput.conduitType = ConduitType.Gas;
