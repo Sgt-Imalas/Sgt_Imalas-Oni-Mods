@@ -682,6 +682,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToTech(Technology.Power.RenewableEnergy)
 				.AddModFrom(SourceModInfo.CustomGenerators);
 
+			BuildingManager.CreateEntry<CustomSolidGeneratorConfig>()
+				.AddToCategory(PlanMenuCategory.Power, GeneratorConfig.ID)
+				.AddToTech(Technology.Power.InternalCombustion)
+				.AddModFrom(SourceModInfo.CustomGenerators);
+
 		}		
 	}
 }

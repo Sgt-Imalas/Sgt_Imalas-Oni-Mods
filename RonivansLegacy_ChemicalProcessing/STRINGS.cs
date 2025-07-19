@@ -1490,6 +1490,12 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString DESC = "Useful for converting the geothermal energy into usable power.";
 					public static LocString EFFECT = "Draws in " + FormatAsLink("Steam", "STEAM") + " from the tiles directly below the machine's foundation and uses it to generate electrical " + FormatAsLink("Power", "POWER") + ".\n\nOutputs " + FormatAsLink("Water", "WATER") + ".";
 				}
+				public class CUSTOMSOLIDGENERATOR
+				{
+					public static LocString NAME = FormatAsLink("Custom Carbon Generator", nameof(CUSTOMSOLIDGENERATOR));
+					public static LocString DESC = "A small, custom Refined Carbon generator. This rather versatile generator has piped outputs.";
+					public static LocString EFFECT = "Converts " + FormatAsLink("Refined Carbon", "REFINEDCARBON") + " into Power.\nThe waste products are either released into the world or inserted into pipes.";
+				}
 				#endregion
 			}
 		}
