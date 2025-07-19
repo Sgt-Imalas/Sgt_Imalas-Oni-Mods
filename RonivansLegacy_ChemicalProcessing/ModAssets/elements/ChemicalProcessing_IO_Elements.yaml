@@ -774,6 +774,7 @@ elements:
     radiationPer1000Mass: 0
     tags:
     - Mixture
+    - Beached_VeryCorrosive #Beached Acid simulation
     isDisabled: false
     state: Liquid
     localizationID: STRINGS.ELEMENTS.LIQUIDSULFURIC.NAME
@@ -829,6 +830,7 @@ elements:
     radiationPer1000Mass: 0
     tags:
     - Mixture
+    - Beached_VeryCorrosive #Beached Acid simulation
     isDisabled: false
     state: Liquid
     localizationID: STRINGS.ELEMENTS.LIQUIDNITRIC.NAME
