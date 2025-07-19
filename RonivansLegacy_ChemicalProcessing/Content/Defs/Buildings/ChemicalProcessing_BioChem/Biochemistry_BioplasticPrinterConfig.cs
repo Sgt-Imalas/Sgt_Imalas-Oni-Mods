@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 using UtilLibs.BuildingPortUtils;
 
 
@@ -20,24 +21,16 @@ namespace Biochemistry.Buildings
 	{
 		public static string ID = "Biochemistry_BioplasticPrinter";
 
-		private const SimHashes PRODUCED_ELEMENT = SimHashes.Polypropylene;
 
-		private static readonly List<Storage.StoredItemModifier> BioRefineryStoredItemModifiers;
+		private static readonly List<Storage.StoredItemModifier> BioRefineryStoredItemModifiers = [
+				Storage.StoredItemModifier.Hide,
+				Storage.StoredItemModifier.Preserve,
+				Storage.StoredItemModifier.Insulate,
+				Storage.StoredItemModifier.Seal,
+			];
 
-		private static readonly PortDisplayInput co2GasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(1, 0));
+		private static readonly PortDisplayInput co2GasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(1, 0), null, new Color32(110, 110, 110, 255));
 
-		static Biochemistry_BioplasticPrinterConfig()
-		{
-			Color? co2InputPortColor = new Color32(110, 110, 110, 255);
-			co2GasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(1, 0), null, co2InputPortColor);
-
-			List<Storage.StoredItemModifier> list1 = new List<Storage.StoredItemModifier>();
-			list1.Add(Storage.StoredItemModifier.Hide);
-			list1.Add(Storage.StoredItemModifier.Preserve);
-			list1.Add(Storage.StoredItemModifier.Insulate);
-			list1.Add(Storage.StoredItemModifier.Seal);
-			BioRefineryStoredItemModifiers = list1;
-		}
 
 		public override BuildingDef CreateBuildingDef()
 		{
@@ -51,6 +44,7 @@ namespace Biochemistry.Buildings
 			buildingDef.AudioCategory = "HollowMetal";
 			buildingDef.InputConduitType = ConduitType.Liquid;
 			buildingDef.UtilityInputOffset = new CellOffset(2, 0);
+			SoundUtils.CopySoundsToAnim("bioplastic_printer_kanim", "plasticrefinery_kanim");
 			return buildingDef;
 		}
 
@@ -89,8 +83,8 @@ namespace Biochemistry.Buildings
 			ManualDeliveryKG mushbar_delivery = go.AddOrGet<ManualDeliveryKG>();
 			mushbar_delivery.RequestedItemTag = MushBarConfig.ID.ToTag();
 			mushbar_delivery.SetStorage(storage);
-			mushbar_delivery.capacity = 5f;
-			mushbar_delivery.refillMass = 2f;
+			mushbar_delivery.capacity = 2f;
+			mushbar_delivery.refillMass = 1f;
 			mushbar_delivery.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
 
 			ElementConverter elementConverter = go.AddOrGet<ElementConverter>();
@@ -98,7 +92,7 @@ namespace Biochemistry.Buildings
 			[
 			new ElementConverter.ConsumedElement(ModAssets.Tags.BioOil_Composition, 0.35f, true),
 			new ElementConverter.ConsumedElement(SimHashes.CarbonDioxide.CreateTag(), 0.10f, true),
-			new ElementConverter.ConsumedElement(MushBarConfig.ID.ToTag(), 0.005f, true)
+			new ElementConverter.ConsumedElement(MushBarConfig.ID.ToTag(), 0.002f, true)
 			];
 			elementConverter.outputElements =
 			[

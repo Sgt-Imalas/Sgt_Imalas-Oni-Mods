@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistics
 {
@@ -27,6 +28,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			buildingDef.UtilityOutputOffset = new CellOffset(0, 1);
 			buildingDef.PermittedRotations = PermittedRotations.R360;
 			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.SolidConveyorIDs, ID);
+			SoundUtils.CopySoundsToAnim("logistic_rail_kanim", "filter_material_conveyor_kanim");
 			return buildingDef;
 		}
 

@@ -7,6 +7,7 @@ using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS;
 using TUNING;
 using UnityEngine;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProcessing
 {
@@ -44,6 +45,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProces
 			buildingDef.AudioCategory = "Metal";
 			buildingDef.PermittedRotations = PermittedRotations.R90;
 			buildingDef.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(0, 0));
+			SoundUtils.CopySoundsToAnim("hep_projector_kanim", "radiation_lamp_kanim");
 			return buildingDef;
 		}
 

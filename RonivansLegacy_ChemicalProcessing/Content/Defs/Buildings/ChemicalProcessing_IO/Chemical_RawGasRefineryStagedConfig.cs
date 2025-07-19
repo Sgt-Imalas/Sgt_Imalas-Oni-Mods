@@ -225,6 +225,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			pipedDispenser4.AssignPort(waterLiquidOutputPort);
 
 			Prioritizable.AddRef(go);
+			go.AddOrGet<ElementConversionBuilding>(); //Handles element converter
 			this.AttachPort(go);
 		}
 

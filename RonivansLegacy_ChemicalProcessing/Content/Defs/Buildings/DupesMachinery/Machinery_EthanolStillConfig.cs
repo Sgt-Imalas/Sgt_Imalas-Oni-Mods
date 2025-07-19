@@ -1,5 +1,6 @@
 ﻿using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 namespace Dupes_Machinery.Ethanol_Still
 {
@@ -19,7 +21,7 @@ namespace Dupes_Machinery.Ethanol_Still
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 			Storage storage = BuildingTemplates.CreateDefaultStorage(go, false);
 			storage.SetDefaultStoredItemModifiers(Storage.StandardSealedStorage);
-			go.AddOrGet<WaterPurifier>();
+			go.AddOrGet<ElementConversionBuilding>();
 			Prioritizable.AddRef(go);
 
 			SimHashes WasteElement = DlcManager.IsExpansion1Active() 
@@ -86,6 +88,7 @@ namespace Dupes_Machinery.Ethanol_Still
 			def.UtilityInputOffset = new CellOffset(0, 0);
 			def.UtilityOutputOffset = new CellOffset(2, 0);
 			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.LiquidVentIDs, "EthanolStill");
+			SoundUtils.CopySoundsToAnim("ethanol_still_kanim", "algae_distillery_kanim");
 			return def;
 		}
 

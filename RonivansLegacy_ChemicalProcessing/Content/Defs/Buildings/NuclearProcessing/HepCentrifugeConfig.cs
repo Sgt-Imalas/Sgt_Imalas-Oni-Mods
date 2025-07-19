@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProcessing
 {
@@ -38,6 +39,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProces
 			buildingDef.AudioCategory = "HollowMetal";
 			buildingDef.PowerInputOffset = new CellOffset(0, 0);
 			buildingDef.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(0, 0));
+			SoundUtils.CopySoundsToAnim("hep_centrifuge_kanim", "enrichmentCentrifuge_kanim");
 			return buildingDef;
 		}
 

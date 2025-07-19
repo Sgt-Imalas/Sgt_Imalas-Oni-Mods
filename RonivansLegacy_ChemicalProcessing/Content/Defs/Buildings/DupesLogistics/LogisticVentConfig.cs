@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistics
 {
@@ -31,6 +32,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			def1.UtilityOutputOffset = new CellOffset(0, 0);
 			def1.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(0, 0));
 			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.SolidConveyorIDs, ID);
+			SoundUtils.CopySoundsToAnim("logistic_vent_kanim", "conveyer_dropper_kanim");
 			return def1;
 		}
 

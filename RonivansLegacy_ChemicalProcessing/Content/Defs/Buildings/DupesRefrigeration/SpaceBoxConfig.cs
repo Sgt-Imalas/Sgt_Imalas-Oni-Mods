@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefrigeration
 {
@@ -49,6 +50,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 			buildingDef.Floodable = false;
 			buildingDef.ViewMode = OverlayModes.Power.ID;
 			buildingDef.AudioCategory = "Metal";
+			SoundUtils.CopySoundsToAnim("simple_techfridge_kanim", "rationbox_kanim");
 			return buildingDef;
 		}
 

@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,7 +59,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			storage.showCapacityStatusItem = true;
 			storage.showCapacityAsMainStatus = true;
 			storage.showDescriptor = true;
-			go.AddOrGet<WaterPurifier>();
+			go.AddOrGet<ElementConversionBuilding>();
 			Prioritizable.AddRef(go);
 
 			ConduitConsumer steamInput = go.AddOrGet<ConduitConsumer>();

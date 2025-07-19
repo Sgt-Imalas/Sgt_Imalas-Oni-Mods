@@ -44,6 +44,7 @@ namespace Biochemistry.Buildings
 			buildingDef.OutputConduitType = ConduitType.Gas;
 			buildingDef.PowerInputOffset = new CellOffset(0, 0);
 			buildingDef.UtilityOutputOffset = new CellOffset(1, 0);
+			SoundUtils.CopySoundsToAnim("anaerobic_digester_kanim", "algae_distillery_kanim");
 			return buildingDef;
 		}
 

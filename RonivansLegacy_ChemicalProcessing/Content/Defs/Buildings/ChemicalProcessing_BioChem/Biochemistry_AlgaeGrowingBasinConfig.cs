@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 
 namespace Biochemistry.Buildings
@@ -47,16 +49,17 @@ namespace Biochemistry.Buildings
 			buildingDef.InputConduitType = ConduitType.Liquid;
 			buildingDef.PowerInputOffset = new CellOffset(0, 0);
 			buildingDef.UtilityInputOffset = new CellOffset(0, 0);
-			SoundEventVolumeCache.instance.AddVolume("algaefarm_kanim", "AlgaeHabitat_bubbles", NOISE_POLLUTION.NOISY.TIER0);
-			SoundEventVolumeCache.instance.AddVolume("algaefarm_kanim", "AlgaeHabitat_algae_in", NOISE_POLLUTION.NOISY.TIER0);
-			SoundEventVolumeCache.instance.AddVolume("algaefarm_kanim", "AlgaeHabitat_algae_out", NOISE_POLLUTION.NOISY.TIER0);
+			SoundEventVolumeCache.instance.AddVolume("algaegrower_basin_kanim", "AlgaeHabitat_bubbles", NOISE_POLLUTION.NOISY.TIER0);
+			SoundEventVolumeCache.instance.AddVolume("algaegrower_basin_kanim", "AlgaeHabitat_algae_in", NOISE_POLLUTION.NOISY.TIER0);
+			SoundEventVolumeCache.instance.AddVolume("algaegrower_basin_kanim", "AlgaeHabitat_algae_out", NOISE_POLLUTION.NOISY.TIER0);
+			SoundUtils.CopySoundsToAnim("algaegrower_basin_kanim", "algaefarm_kanim");
 			return buildingDef;
 		}
 
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
-			go.AddOrGet<WaterPurifier>();
+			go.AddOrGet<ElementConversionBuilding>();
 
 			Storage storage = go.AddOrGet<Storage>();
 			storage.SetDefaultStoredItemModifiers(BasinStoredItemModifiers);

@@ -113,6 +113,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			methaneOutput.elementFilter = [SimHashes.Methane];
 			methaneOutput.AssignPort(methaneGasOutputPort);
 
+			go.AddOrGet<ElementConversionBuilding>(); //Handles element converter
 			Prioritizable.AddRef(go);
 			this.AttachPort(go);
 		}

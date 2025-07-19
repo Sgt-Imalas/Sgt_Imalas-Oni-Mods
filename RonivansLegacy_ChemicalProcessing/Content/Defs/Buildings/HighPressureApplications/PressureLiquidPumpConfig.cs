@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureApplications
 {
@@ -34,6 +35,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			def1.PermittedRotations = PermittedRotations.R90;
 			def1.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(0, 1));
 			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.LiquidVentIDs, ID);
+			SoundUtils.CopySoundsToAnim("pressure_liquid_pump_kanim", "pumpliquid_kanim");
 			return def1;
 		}
 

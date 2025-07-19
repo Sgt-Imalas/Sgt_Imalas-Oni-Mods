@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureApplications
 {
@@ -33,6 +34,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			buildingDef.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(0, 0));
 			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.GasVentIDs, ID);
 			SoundEventVolumeCache.instance.AddVolume("hpa_vent_gas_kanim", "GasVent_clunk", NOISE_POLLUTION.NOISY.TIER0);
+			SoundUtils.CopySoundsToAnim("hpa_vent_gas_kanim", "ventgas_powered_kanim");
 			return buildingDef;
 		}
 

@@ -44,6 +44,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.MineralProces
 			buildingDef.SelfHeatKilowattsWhenActive = 2f;
 			buildingDef.PowerInputOffset = new CellOffset(-2, 0);
 			buildingDef.AudioCategory = "Metal";
+			SoundUtils.CopySoundsToAnim("metallurgy_ball_mill_kanim", "orescrubber_kanim");
 			return buildingDef;
 		}
 

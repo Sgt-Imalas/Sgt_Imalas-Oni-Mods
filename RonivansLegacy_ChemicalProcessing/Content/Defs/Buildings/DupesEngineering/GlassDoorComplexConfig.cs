@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineering
 {
@@ -31,8 +32,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 			def.ForegroundLayer = Grid.SceneLayer.InteriorWall;
 			def.SceneLayer = Grid.SceneLayer.TileMain;
 			def.LogicInputPorts = DoorConfig.CreateSingleInputPortList(new CellOffset(0, 0));
-			SoundEventVolumeCache.instance.AddVolume("door_external_kanim", "Open_DoorPressure", NOISE_POLLUTION.NOISY.TIER2);
-			SoundEventVolumeCache.instance.AddVolume("door_external_kanim", "Close_DoorPressure", NOISE_POLLUTION.NOISY.TIER2);
+			SoundEventVolumeCache.instance.AddVolume("glass_door_complex_kanim", "Open_DoorPressure", NOISE_POLLUTION.NOISY.TIER2);
+			SoundEventVolumeCache.instance.AddVolume("glass_door_complex_kanim", "Close_DoorPressure", NOISE_POLLUTION.NOISY.TIER2);
+			SoundUtils.CopySoundsToAnim("glass_door_complex_kanim", "door_external_kanim");
 			return def;
 		}
 

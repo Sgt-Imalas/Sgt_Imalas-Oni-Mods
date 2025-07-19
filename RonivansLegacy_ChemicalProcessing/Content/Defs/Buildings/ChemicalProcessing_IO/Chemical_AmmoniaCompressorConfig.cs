@@ -1,4 +1,5 @@
 ﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,7 +62,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			go.AddOrGet<Reservoir>();
 			go.AddOrGet<SmartReservoir>();
-			go.AddOrGet<WaterPurifier>();
+			go.AddOrGet<ElementConversionBuilding>();
 			Prioritizable.AddRef(go);
 			RefrigeratorController.Def def = go.AddOrGetDef<RefrigeratorController.Def>();
 			def.powerSaverEnergyUsage = 60f;

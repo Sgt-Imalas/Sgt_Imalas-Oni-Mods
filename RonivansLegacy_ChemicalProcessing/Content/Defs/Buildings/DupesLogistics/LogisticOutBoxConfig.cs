@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistics
 {
@@ -31,6 +32,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			def1.UtilityInputOffset = new CellOffset(0, 0);
 			def1.PermittedRotations = PermittedRotations.R360;
 			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.SolidConveyorIDs, ID);
+			SoundUtils.CopySoundsToAnim("logistic_outbox_kanim", "conveyorout_kanim");
 			return def1;
 		}
 

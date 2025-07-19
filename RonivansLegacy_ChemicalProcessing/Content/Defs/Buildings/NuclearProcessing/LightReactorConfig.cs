@@ -41,6 +41,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProces
 			buildingDef.Breakable = false;
 			buildingDef.Invincible = true;
 			buildingDef.Deprecated = !Sim.IsRadiationEnabled();
+			SoundUtils.CopySoundsToAnim("light_reactor_kanim", "generatornuclear_kanim");
 
 			ColliderOffsetHandler.GenerateBuildingDefOffsets(buildingDef, -3, 0);
 

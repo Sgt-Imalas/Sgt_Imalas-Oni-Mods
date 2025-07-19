@@ -46,6 +46,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservo
 			def.LogicOutputPorts = list1;
 			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.LiquidVentIDs, ID);
 			def.DefaultAnimState = "off";
+			SoundUtils.CopySoundsToAnim(KANIM, "liquidreservoir_kanim");
 			return def;
 		}
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)

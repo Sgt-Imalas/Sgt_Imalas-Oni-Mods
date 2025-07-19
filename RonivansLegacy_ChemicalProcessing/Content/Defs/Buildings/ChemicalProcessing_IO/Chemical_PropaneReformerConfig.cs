@@ -132,6 +132,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			co2GasOutput.elementFilter = [SimHashes.CarbonDioxide];
 			co2GasOutput.AssignPort(co2GasOutputPort);
 
+			go.AddOrGet<ElementConversionBuilding>(); //Handles element converter
 			Prioritizable.AddRef(go);
 			this.AttachPort(go);
 		}

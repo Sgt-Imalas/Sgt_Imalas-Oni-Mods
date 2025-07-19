@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 using UtilLibs.BuildingPortUtils;
 
 
@@ -40,9 +41,10 @@ namespace Dupes_Machinery.Biological_Vats
 			def1.UtilityOutputOffset = new CellOffset(1, 0);
 			def1.PowerInputOffset = new CellOffset(0, 0);
 			def1.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(0, 0));
-			SoundEventVolumeCache.instance.AddVolume("algaefarm_kanim", "AlgaeHabitat_bubbles", NOISE_POLLUTION.NOISY.TIER0);
-			SoundEventVolumeCache.instance.AddVolume("algaefarm_kanim", "AlgaeHabitat_algae_in", NOISE_POLLUTION.NOISY.TIER0);
-			SoundEventVolumeCache.instance.AddVolume("algaefarm_kanim", "AlgaeHabitat_algae_out", NOISE_POLLUTION.NOISY.TIER0);
+			SoundEventVolumeCache.instance.AddVolume("bio_algae_vat_kanim", "AlgaeHabitat_bubbles", NOISE_POLLUTION.NOISY.TIER0);
+			SoundEventVolumeCache.instance.AddVolume("bio_algae_vat_kanim", "AlgaeHabitat_algae_in", NOISE_POLLUTION.NOISY.TIER0);
+			SoundEventVolumeCache.instance.AddVolume("bio_algae_vat_kanim", "AlgaeHabitat_algae_out", NOISE_POLLUTION.NOISY.TIER0);
+			SoundUtils.CopySoundsToAnim("bio_algae_vat_kanim", "algaefarm_kanim");
 			return def1;
 		}
 
@@ -52,7 +54,6 @@ namespace Dupes_Machinery.Biological_Vats
 			go.AddOrGet<BuildingComplete>().isManuallyOperated = false;
 			Storage storage = BuildingTemplates.CreateDefaultStorage(go, false);
 			storage.SetDefaultStoredItemModifiers(Storage.StandardSealedStorage);
-			go.AddOrGet<WaterPurifier>();
 
 			ManualDeliveryKG local1 = go.AddComponent<ManualDeliveryKG>();
 			local1.SetStorage(storage);
@@ -63,7 +64,7 @@ namespace Dupes_Machinery.Biological_Vats
 
 			ConduitConsumer local2 = go.AddComponent<ConduitConsumer>();
 			local2.capacityTag = SimHashes.Water.CreateTag();
-			local2.capacityKG = 1000f;
+			local2.capacityKG = 500f;
 			local2.forceAlwaysSatisfied = true;
 			local2.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 
@@ -105,6 +106,7 @@ namespace Dupes_Machinery.Biological_Vats
 			exhaust.elementTag = SimHashes.Oxygen.CreateTag();
 			exhaust.capacity = 0.20f;
 			this.AttachPort(go);
+			go.AddOrGet<ElementConversionBuilding>(); //Handles element converter
 
 			Prioritizable.AddRef(go);
 		}

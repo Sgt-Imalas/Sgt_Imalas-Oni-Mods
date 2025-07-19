@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureApplications
 {
@@ -42,6 +43,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			buildingDef.UtilityOutputOffset = new CellOffset(1, 0);
 			buildingDef.ThermalConductivity = 1.0e-05f;
 			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.GasVentIDs, buildingDef.PrefabID);
+			SoundUtils.CopySoundsToAnim(anim, "utilityliquidbridge_kanim");
 			return buildingDef;
 		}
 

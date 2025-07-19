@@ -40,6 +40,7 @@ namespace Mineral_Processing
 			buildingDef.AudioCategory = "Metal";
 			buildingDef.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(0, 0));
 			buildingDef.BuildLocationRule = BuildLocationRule.OnFloor;
+			SoundUtils.CopySoundsToAnim("mineral_drill_kanim", "rockrefinery_kanim");
 			//buildingDef.OnePerWorld = true;
 			return buildingDef;
 		}

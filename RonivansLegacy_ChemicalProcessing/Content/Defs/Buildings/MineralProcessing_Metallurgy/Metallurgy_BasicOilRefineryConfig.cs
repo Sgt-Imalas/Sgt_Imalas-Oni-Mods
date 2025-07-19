@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 using UtilLibs.BuildingPortUtils;
 
 
@@ -59,6 +60,7 @@ namespace Metallurgy.Buildings
 			buildingDef.UtilityInputOffset = new CellOffset(1, 0);
 			buildingDef.OutputConduitType = ConduitType.Liquid;
 			buildingDef.UtilityOutputOffset = new CellOffset(-1, 0);
+			SoundUtils.CopySoundsToAnim("basic_oil_refinery_kanim", "oilrefinery_kanim");
 			return buildingDef;
 		}
 
@@ -68,7 +70,7 @@ namespace Metallurgy.Buildings
 			Storage storage = BuildingTemplates.CreateDefaultStorage(go, false);
 			storage.capacityKg = 4000f;
 			storage.SetDefaultStoredItemModifiers(BasicRefineryStoredItemModifiers);
-			go.AddOrGet<WaterPurifier>();
+			go.AddOrGet<ElementConversionBuilding>();
 			Prioritizable.AddRef(go);
 
 			ManualDeliveryKG coalFetch = go.AddComponent<ManualDeliveryKG>();

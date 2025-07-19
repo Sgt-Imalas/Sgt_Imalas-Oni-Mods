@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 using static STRINGS.BUILDINGS.PREFABS;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefrigeration
@@ -48,6 +49,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 			buildingDef.AudioCategory = "Metal";
 			SoundEventVolumeCache.instance.AddVolume("simple_fridge_kanim", "Refrigerator_open", NOISE_POLLUTION.NOISY.TIER1);
 			SoundEventVolumeCache.instance.AddVolume("simple_fridge_kanim", "Refrigerator_close", NOISE_POLLUTION.NOISY.TIER1);
+			SoundUtils.CopySoundsToAnim("simple_fridge_kanim", "fridge_kanim");
 			return buildingDef;
 		}
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)

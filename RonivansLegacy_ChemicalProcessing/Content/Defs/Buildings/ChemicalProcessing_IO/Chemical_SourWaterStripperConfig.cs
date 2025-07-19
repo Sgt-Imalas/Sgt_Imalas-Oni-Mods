@@ -142,6 +142,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			ammoniaGasOutput.elementFilter = [ModElements.Ammonia_Gas];
 			ammoniaGasOutput.AssignPort(ammoniaGasOutputPort);
 
+			go.AddOrGet<ElementConversionBuilding>(); //Handles element converter
 			Prioritizable.AddRef(go);
 			this.AttachPort(go);
 		}

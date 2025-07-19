@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 
 namespace Biochemistry.Buildings
@@ -50,6 +51,7 @@ namespace Biochemistry.Buildings
 			buildingDef.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(-1, 0));
 			buildingDef.InputConduitType = ConduitType.Liquid;
 			buildingDef.OutputConduitType = ConduitType.Liquid;
+			SoundUtils.CopySoundsToAnim("biodiesel_generator_kanim", "generatorpetrol_kanim");
 			return buildingDef;
 		}
 

@@ -80,6 +80,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			def.InputConduitType = ConduitType.Gas;
 			def.UtilityInputOffset = new CellOffset(-1, 0);
 			def.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(0, 1));
+			SoundUtils.CopySoundsToAnim("viscose_frame_kanim", "clothingfactory_kanim");
 			return def;
 		}
 

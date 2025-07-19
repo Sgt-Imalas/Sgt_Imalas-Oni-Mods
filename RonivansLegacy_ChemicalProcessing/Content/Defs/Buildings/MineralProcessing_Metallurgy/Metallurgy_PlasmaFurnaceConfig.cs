@@ -65,6 +65,7 @@ namespace Metallurgy.Buildings
 			buildingDef.ViewMode = OverlayModes.Power.ID;
 			buildingDef.AudioCategory = "HollowMetal";
 			buildingDef.AudioSize = "large";
+			SoundUtils.CopySoundsToAnim("plasma_furnace_kanim", "suit_maker_kanim");
 			return buildingDef;
 		}
 
@@ -83,13 +84,16 @@ namespace Metallurgy.Buildings
 			fuelConsumer.fuelTag = this.FUEL_TAG;
 
 			var furnace = go.AddOrGet<ComplexFabricator>();
-
 			furnace.heatedTemperature = 368.15f;
 			furnace.duplicantOperated = true;
 			furnace.sideScreenStyle = ComplexFabricatorSideScreen.StyleSetting.ListQueueHybrid;
+			
+
 			go.AddOrGet<FabricatorIngredientStatusManager>();
 			go.AddOrGet<CopyBuildingSettings>();
 			ComplexFabricatorWorkable workable = go.AddOrGet<ComplexFabricatorWorkable>();
+			workable.synchronizeAnims = false;
+
 			workable.overrideAnims = [Assets.GetAnim("anim_interacts_fabricator_generic_kanim")];
 			BuildingTemplates.CreateComplexFabricatorStorage(go, furnace);
 			furnace.outStorage.capacityKg = 2000f;

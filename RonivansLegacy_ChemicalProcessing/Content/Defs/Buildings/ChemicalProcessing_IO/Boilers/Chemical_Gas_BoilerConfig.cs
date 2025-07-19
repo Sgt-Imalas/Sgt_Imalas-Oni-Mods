@@ -78,7 +78,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			storage.showCapacityAsMainStatus = true;
 			storage.showDescriptor = true;
 			go.AddOrGet<SmartReservoir>();
-			go.AddOrGet<WaterPurifier>();
+			go.AddOrGet<ElementConversionBuilding>();
 			Prioritizable.AddRef(go);
 
 			ConduitConsumer waterInput = go.AddOrGet<ConduitConsumer>();

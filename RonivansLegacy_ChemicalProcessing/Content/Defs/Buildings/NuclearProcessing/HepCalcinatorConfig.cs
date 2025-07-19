@@ -51,6 +51,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProces
 			buildingDef.AudioCategory = "HollowMetal";
 			buildingDef.PowerInputOffset = new CellOffset(1, 0);
 			buildingDef.LogicOutputPorts = [LogicPorts.Port.OutputPort(HEPStorageThreshold.PORT_ID, new CellOffset(1, 1), global::STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.LOGIC_PORT, global::STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.LOGIC_PORT_ACTIVE, global::STRINGS. BUILDINGS.PREFABS.SMARTRESERVOIR.LOGIC_PORT_INACTIVE)];
+
+			SoundUtils.CopySoundsToAnim("hep_calcinator_kanim", "suit_maker_kanim");
 			return buildingDef;
 		}
 

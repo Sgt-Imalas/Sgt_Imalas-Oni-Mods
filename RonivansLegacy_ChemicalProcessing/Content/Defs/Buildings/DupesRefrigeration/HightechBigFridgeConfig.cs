@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 using UtilLibs.BuildingPortUtils;
 using static STRINGS.BUILDINGS.PREFABS;
 
@@ -54,6 +55,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 
 			SoundEventVolumeCache.instance.AddVolume("advanced_techfridge_kanim", "Refrigerator_open", NOISE_POLLUTION.NOISY.TIER1);
 			SoundEventVolumeCache.instance.AddVolume("advanced_techfridge_kanim", "Refrigerator_close", NOISE_POLLUTION.NOISY.TIER1);
+			SoundUtils.CopySoundsToAnim("advanced_techfridge_kanim", "smartstoragelocker_kanim");
 			return buildingDef;
 		}
 		public override void DoPostConfigurePreview(BuildingDef def, GameObject go)

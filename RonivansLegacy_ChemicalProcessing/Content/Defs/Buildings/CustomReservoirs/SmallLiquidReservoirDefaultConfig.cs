@@ -61,6 +61,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservo
 			list1.Add(LogicPorts.Port.OutputPort(SmartReservoir.PORT_ID, new CellOffset(0, 0), global::STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.LOGIC_PORT, global::STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.LOGIC_PORT_ACTIVE, global::STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.LOGIC_PORT_INACTIVE, false, false));
 			def.LogicOutputPorts = list1;
 			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.LiquidVentIDs, ID);
+			SoundUtils.CopySoundsToAnim(KANIM, "liquidreservoir_kanim");
 			def.DefaultAnimState = "off";
 			return def;
 		}

@@ -47,7 +47,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 			this.ConfigureRecipes();
 			Prioritizable.AddRef(go);
 
-
+			SoundUtils.CopySoundsToAnim("cement_mixer_kanim", "orescrubber_kanim");
+			
 		}
 		public override void DoPostConfigureComplete(GameObject go)
 		{

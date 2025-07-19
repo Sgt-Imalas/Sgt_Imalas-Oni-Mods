@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 
 namespace Dupes_Machinery.Biological_Vats
@@ -78,6 +80,7 @@ namespace Dupes_Machinery.Biological_Vats
 
 			go.AddOrGet<KBatchedAnimController>().randomiseLoopedOffset = true;
 			go.AddOrGet<AnimTileable>();
+			go.AddOrGet<ElementConversionBuilding>(); //Handles element converter
 
 			Prioritizable.AddRef(go);
 		}
@@ -102,9 +105,10 @@ namespace Dupes_Machinery.Biological_Vats
 			def1.UtilityInputOffset = new CellOffset(0, 0);
 			def1.PowerInputOffset = new CellOffset(0, 0);
 			def1.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(0, 0));
-			SoundEventVolumeCache.instance.AddVolume("algaefarm_kanim", "AlgaeHabitat_bubbles", NOISE_POLLUTION.NOISY.TIER0);
-			SoundEventVolumeCache.instance.AddVolume("algaefarm_kanim", "AlgaeHabitat_algae_in", NOISE_POLLUTION.NOISY.TIER0);
-			SoundEventVolumeCache.instance.AddVolume("algaefarm_kanim", "AlgaeHabitat_algae_out", NOISE_POLLUTION.NOISY.TIER0);
+			SoundEventVolumeCache.instance.AddVolume("bio_slime_vat_kanim", "AlgaeHabitat_bubbles", NOISE_POLLUTION.NOISY.TIER0);
+			SoundEventVolumeCache.instance.AddVolume("bio_slime_vat_kanim", "AlgaeHabitat_algae_in", NOISE_POLLUTION.NOISY.TIER0);
+			SoundEventVolumeCache.instance.AddVolume("bio_slime_vat_kanim", "AlgaeHabitat_algae_out", NOISE_POLLUTION.NOISY.TIER0);
+			SoundUtils.CopySoundsToAnim("bio_slime_vat_kanim", "algae_distillery_kanim");
 			return def1;
 		}
 

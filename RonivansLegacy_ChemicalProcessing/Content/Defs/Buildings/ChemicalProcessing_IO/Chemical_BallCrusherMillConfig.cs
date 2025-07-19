@@ -60,6 +60,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.UtilityInputOffset = new CellOffset(-2, 2);
 			buildingDef.OutputConduitType = ConduitType.Liquid;
 			buildingDef.UtilityOutputOffset = new CellOffset(3, 2);
+			SoundUtils.CopySoundsToAnim("ball_mill_kanim", "orescrubber_kanim");
 			return buildingDef;
 		}
 

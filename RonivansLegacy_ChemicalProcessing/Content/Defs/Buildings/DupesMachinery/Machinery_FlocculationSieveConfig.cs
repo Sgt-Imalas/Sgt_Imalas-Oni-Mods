@@ -2,6 +2,7 @@
 using KSerialization;
 using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 using UtilLibs.BuildingPortUtils;
 
 
@@ -52,6 +54,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.UtilityInputOffset = new CellOffset(-1, 1);
 			buildingDef.OutputConduitType = ConduitType.Liquid;
 			buildingDef.UtilityOutputOffset = new CellOffset(-1, 0);
+			SoundUtils.CopySoundsToAnim("flocculation_tank_kanim", "waterpurifier_kanim");
 			return buildingDef;
 		}
 
@@ -177,6 +180,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			dispenser.elementFilter = [SimHashes.Water];
 			dispenser.alwaysDispense = true;
 
+			go.AddOrGet<ElementConversionBuilding>(); //Handles element converter
 			this.AttachPort(go);
 		}
 

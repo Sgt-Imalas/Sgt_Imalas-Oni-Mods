@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineering
 {
@@ -23,8 +24,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 			def.PermittedRotations = PermittedRotations.R90;
 			def.ForegroundLayer = Grid.SceneLayer.InteriorWall;
 			def.LogicInputPorts = CreateSingleInputPortList(new CellOffset(0, 0));
-			SoundEventVolumeCache.instance.AddVolume("door_internal_kanim", "Open_DoorInternal", TUNING.NOISE_POLLUTION.NOISY.TIER2);
-			SoundEventVolumeCache.instance.AddVolume("door_internal_kanim", "Close_DoorInternal", TUNING.NOISE_POLLUTION.NOISY.TIER2);
+			SoundEventVolumeCache.instance.AddVolume("facility_door_grey_kanim", "Open_DoorInternal", TUNING.NOISE_POLLUTION.NOISY.TIER2);
+			SoundEventVolumeCache.instance.AddVolume("facility_door_grey_kanim", "Close_DoorInternal", TUNING.NOISE_POLLUTION.NOISY.TIER2);
+			SoundUtils.CopySoundsToAnim("facility_door_grey_kanim", "door_internal_kanim");
+			SoundUtils.CopySoundsToAnim("facility_door_white_kanim", "door_internal_kanim");
+			SoundUtils.CopySoundsToAnim("facility_door_yellow_kanim", "door_internal_kanim");
+			SoundUtils.CopySoundsToAnim("facility_door_red_kanim", "door_internal_kanim");
 			return def;
 		}
 

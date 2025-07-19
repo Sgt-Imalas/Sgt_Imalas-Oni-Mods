@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 {
@@ -57,6 +58,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			def.Overheatable = false;
 			def.AudioCategory = "HollowMetal";
 			def.Breakable = true;
+			SoundUtils.CopySoundsToAnim("pyrolysis_kiln_kanim", "kiln_kanim");
 			return def;
 		}
 

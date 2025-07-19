@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 
 namespace Biochemistry.Buildings
@@ -42,6 +43,7 @@ namespace Biochemistry.Buildings
 			buildingDef.OutputConduitType = ConduitType.Liquid;
 			buildingDef.PowerInputOffset = new CellOffset(-1, 0);
 			buildingDef.UtilityOutputOffset = new CellOffset(2, 0);
+			SoundUtils.CopySoundsToAnim("oil_presser_kanim", "fertilizer_maker_kanim");
 			return buildingDef;
 		}
 

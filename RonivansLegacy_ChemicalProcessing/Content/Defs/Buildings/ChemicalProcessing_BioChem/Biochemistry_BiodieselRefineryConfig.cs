@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 using UtilLibs.BuildingPortUtils;
 
 
@@ -55,13 +56,14 @@ namespace Biochemistry.Buildings
 			buildingDef.UtilityInputOffset = new CellOffset(-3, 1);
 			buildingDef.OutputConduitType = ConduitType.Liquid;
 			buildingDef.UtilityOutputOffset = new CellOffset(3, 3);
+			SoundUtils.CopySoundsToAnim("biodiesel_generator_kanim", "oilrefinery_kanim");
 			return buildingDef;
 		}
 
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
-			go.AddOrGet<WaterPurifier>();
+			go.AddOrGet<ElementConversionBuilding>();
 			Prioritizable.AddRef(go);
 
 			Storage storage = BuildingTemplates.CreateDefaultStorage(go, false);

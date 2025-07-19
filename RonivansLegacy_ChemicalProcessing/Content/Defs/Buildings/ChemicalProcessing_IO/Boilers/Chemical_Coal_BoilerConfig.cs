@@ -75,7 +75,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			storage.showCapacityAsMainStatus = true;
 			storage.showDescriptor = true;
 			go.AddOrGet<SmartReservoir>();
-			go.AddOrGet<WaterPurifier>();
+			go.AddOrGet<ElementConversionBuilding>();
 			Prioritizable.AddRef(go);
 
 			ManualDeliveryKG coalDelivery = go.AddComponent<ManualDeliveryKG>();

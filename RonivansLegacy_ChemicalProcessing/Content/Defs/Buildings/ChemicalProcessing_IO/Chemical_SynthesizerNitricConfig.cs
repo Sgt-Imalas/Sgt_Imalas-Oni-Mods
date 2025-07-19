@@ -79,7 +79,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			storage.showCapacityStatusItem = true;
 			storage.showCapacityAsMainStatus = true;
 			storage.showDescriptor = true;
-			go.AddOrGet<WaterPurifier>();
+			go.AddOrGet<ElementConversionBuilding>();
 			Prioritizable.AddRef(go);
 
 			ConduitConsumer ammoniaInput = go.AddOrGet<ConduitConsumer>();

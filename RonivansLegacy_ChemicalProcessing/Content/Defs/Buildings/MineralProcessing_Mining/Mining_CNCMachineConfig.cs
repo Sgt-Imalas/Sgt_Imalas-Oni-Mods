@@ -33,6 +33,7 @@ namespace Mineral_Processing_Mining.Buildings
 			buildingDef.SelfHeatKilowattsWhenActive = 4f;
 			buildingDef.PowerInputOffset = new CellOffset(0, 0);
 			buildingDef.AudioCategory = "Metal";
+			SoundUtils.CopySoundsToAnim("cnc_machine_kanim", "supermaterial_refinery_kanim");
 			return buildingDef;
 		}
 

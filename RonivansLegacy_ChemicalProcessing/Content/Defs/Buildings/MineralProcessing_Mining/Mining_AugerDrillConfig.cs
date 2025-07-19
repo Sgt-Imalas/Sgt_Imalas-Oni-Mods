@@ -62,6 +62,9 @@ namespace Mineral_Processing_Mining.Buildings
 			def.Invincible = true;
 			//this ONLY toggles of the build tool afterwards, you need to add the UniquePerWorld tag to the building definition to make it a world exclusive building.
 			def.OnePerWorld = true;
+			SoundUtils.CopySoundsToAnim("auger_drill_kanim", "rockrefinery_kanim");
+
+
 			return def;
 		}
 

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistics
 {
@@ -26,6 +27,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			def.Overheatable = false;			
 			def.AddSearchTerms((string)SEARCH_TERMS.STORAGE);
 			def.ConstructionOffsetFilter = BuildingDef.ConstructionOffsetFilter_OneDown;
+			SoundUtils.CopySoundsToAnim("storage_pod_kanim", "storagelocker_kanim");
 			return def;
 		}
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)

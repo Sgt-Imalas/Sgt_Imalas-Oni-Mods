@@ -28,6 +28,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 
 			def1.InputConduitType = ConduitType.Solid;
 			def1.UtilityInputOffset = new CellOffset(0, 0);
+			SoundUtils.CopySoundsToAnim("cabinet_normal_kanim", "storagelocker_kanim");
 			return def1;			
 		}
 

@@ -172,6 +172,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			methaneOutput.elementFilter = [SimHashes.Methane];
 			methaneOutput.AssignPort(methaneOutputPort);
 
+			go.AddOrGet<ElementConversionBuilding>(); //Handles element converter
 			go.AddOrGet<DeprecationTint>();
 			Prioritizable.AddRef(go);
 			this.AttachPort(go);
