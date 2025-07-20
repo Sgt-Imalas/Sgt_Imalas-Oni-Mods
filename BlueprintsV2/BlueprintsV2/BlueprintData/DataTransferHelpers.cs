@@ -108,7 +108,7 @@ namespace BlueprintsV2.BlueprintData
 					var RepairForbidden = t1.Value<bool>();
 					if(targetComponent.smi == null)
 					{
-						SgtLogger.l("Repairable component has no state machine, skipping repair state transfer.");
+						//SgtLogger.l("Repairable component has no state machine, skipping repair state transfer.");
 						return;
 					}
 
@@ -181,7 +181,7 @@ namespace BlueprintsV2.BlueprintData
 						return;
 					var autoReplaceEntity = t3.Value<bool>();
 
-					SgtLogger.l("Requested Entity Tag: " + requestedEntityTag + ", extra filter: " + requestedEntityAdditionalFilterTag);
+					//SgtLogger.l("Requested Entity Tag: " + requestedEntityTag + ", extra filter: " + requestedEntityAdditionalFilterTag);
 
 					targetComponent.autoReplaceEntity = autoReplaceEntity;
 
@@ -735,7 +735,7 @@ namespace BlueprintsV2.BlueprintData
 					{
 						var masterPrioritySettingJson = t1.Value<string>();
 						var masterPrioritySetting = JsonConvert.DeserializeObject<PrioritySetting>(masterPrioritySettingJson);
-						SgtLogger.l("applying prio: " + masterPrioritySetting.priority_value);
+						//SgtLogger.l("applying prio: " + masterPrioritySetting.priority_value);
 						targetComponent.SetMasterPriority(masterPrioritySetting);
 					}
 				}
