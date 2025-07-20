@@ -40,7 +40,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 		{
 			GeneratedBuildings.MakeBuildingAlwaysOperational(go);
 			go.AddOrGet<SolidConduitOutbox>();
-			go.AddOrGet<SolidConduitConsumer>();
+			go.AddOrGet<SolidConduitConsumer>().capacityKG = HighPressureConduitRegistration.SolidCap_Logistic;
 			Storage storage1 = BuildingTemplates.CreateDefaultStorage(go, false);
 			storage1.capacityKg = GetStorageCapacity();
 			storage1.showInUI = true;
@@ -52,6 +52,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 		{
 			Prioritizable.AddRef(go);
 			go.AddOrGet<Automatable>();
+			var requirement = go.AddOrGet<HPA_SolidConduitRequirement>();
+			requirement.RequiresHighPressureInput = true;
+			requirement.IsLogisticRail = true;
 		}
 
 		public override void DoPostConfigureUnderConstruction(GameObject go)

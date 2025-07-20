@@ -63,6 +63,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			go.AddOrGet<TreeFilterable>();
 			go.AddOrGet<SolidConduitInbox>();
 			go.AddOrGet<ConfigurableSolidConduitDispenser>().massDispensed = Config.Instance.Rail_Capacity_Logistic;
+
+			var requirement = go.AddOrGet<HPA_SolidConduitRequirement>();
+			requirement.RequiresHighPressureOutput = true;
+			requirement.IsLogisticRail = true;
 		}
 
 		public override void DoPostConfigureUnderConstruction(GameObject go)

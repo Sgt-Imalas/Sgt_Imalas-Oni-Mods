@@ -119,6 +119,7 @@ namespace Biochemistry.Buildings
 		{
 			go.AddOrGet<LogicOperationalController>();
 			go.AddOrGetDef<PoweredActiveController.Def>();
+			go.AddOrGet<LightEfficiencyConverter>();
 		}
 	}
 }

@@ -153,7 +153,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddModFrom(SourceModInfo.MineralProcessing_Metallurgy);
 			BuildingManager.CreateEntry<Chemical_MixingUnitConfig>()
 				.AddToCategory(PlanMenuCategory.Refinement, ChemicalRefineryConfig.ID)
-				.AddToTech(Technology.Liquids.Distillation)
+				.AddToTech(Technology.Liquids.Emulsification)
 				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
 			BuildingManager.CreateEntry<Chemical_NaphthaReformerConfig>()
 				.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)

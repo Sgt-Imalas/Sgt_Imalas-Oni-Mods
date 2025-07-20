@@ -16,6 +16,7 @@ using static RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS;
 using static STRINGS.BUILDING.STATUSITEMS;
 using static STRINGS.BUILDINGS.PREFABS;
 using static STRINGS.UI;
+using static STRINGS.UI.NEWBUILDCATEGORIES;
 
 namespace RonivansLegacy_ChemicalProcessing
 {
@@ -1550,7 +1551,16 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString NAME ="No Heavy Duty Solid Output";
 					public static LocString TOOLTIP =("This building's " + PRE_KEYWORD + "Heavy Duty Solid Output" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HPA_SOLIDRAIL.NAME + " connected");
 				}
-
+				public class LOGISTIC_NEEDSOLIDIN
+				{
+					public static LocString NAME = "No Logistic Rail Intake";
+					public static LocString TOOLTIP = ("This building's " + PRE_KEYWORD + "Logistic Solid Intake" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.LOGISTICRAIL.NAME + " connected");
+				}
+				public class LOGISTIC_NEEDSOLIDOUT
+				{
+					public static LocString NAME = "No Logistic Rail Output";
+					public static LocString TOOLTIP = ("This building's " + PRE_KEYWORD + "Logistic Solid Output" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.LOGISTICRAIL.NAME + " connected");
+				}
 				public class HPA_SOLIDCONDUITITEMDROPPED
 				{
 					public static LocString NAME = "Rail Capacity Exceeded!";
@@ -1560,6 +1570,11 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = "Pipe Overpressurized!";
 					public static LocString TOOLTIP = "This pipe tried to take in too high pressure!\nThe incoming package was {0} kg, but it could only contain {1} kg!";
+				}
+				public class ALGAEGROWER_LIGHTEFFICIENCY
+				{
+					public static LocString NAME = "Growth Efficiency {0}";
+					public static LocString TOOLTIP = "The algae growth in this building is currently at {0} efficiency.\nThis is dependent on the light the building receives.";
 				}
 			}
 		}

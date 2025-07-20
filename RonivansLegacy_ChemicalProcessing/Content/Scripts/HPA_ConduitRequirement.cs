@@ -7,15 +7,53 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using static AccessControlSideScreen.MinionIdentitySort;
+using static RoomTracker;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {
+	public class HPA_SolidFilterRequirement : HPA_SolidConduitRequirement
+	{
+		public HPA_SolidFilterRequirement()
+		{
+			RequiresHighPressureInput = true;
+			RequiresHighPressureOutput = true;
+		}
+
+		[MyCmpReq]
+		public Building building;
+		[MyCmpReq]
+		public ElementFilter filter;
+		protected override void CacheConduitCells()
+		{
+			base.CacheConduitCells();
+			if (filter != null)
+			{
+				inputType = building.Def.InputConduitType;
+				outputType = building.Def.OutputConduitType;
+
+				dispenserCell = building.GetUtilityOutputCell();
+				consumerCell = building.GetUtilityInputCell();
+			}
+		}
+		protected override bool DispenserDisabled()
+		{
+			return !filter.enabled;
+		}
+		override protected bool ConsumerDisabled()
+		{
+			return !filter.enabled;
+		}
+	}
+
 	public class HPA_SolidConduitRequirement : HPA_ConduitRequirement
 	{
 		[MyCmpGet]
 		public SolidConduitConsumer solidconsumer;
 		[MyCmpGet]
 		public SolidConduitDispenser soliddispenser;
+		[SerializeField]
+		public bool IsLogisticRail = false;
 		protected override void CacheConduitCells()
 		{
 			if (RequiresHighPressureInput && solidconsumer != null)
@@ -28,22 +66,43 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				dispenserCell = soliddispenser.GetOutputCell();
 				outputType = ConduitType.Solid;
 			}
-		}
-		protected override bool ConsumerConnected()
-		{
-			return solidconsumer.IsConnected;
+			base.CacheConduitCells();
 		}
 		protected override bool ConsumerDisabled()
 		{
-			return !solidconsumer.enabled;
-		}
-		protected override bool DispenserConnected()
-		{
-			return soliddispenser.IsConnected;
+			return !(solidconsumer?.enabled ?? false);
 		}
 		protected override bool DispenserDisabled()
 		{
-			return !soliddispenser.enabled;
+			return !(soliddispenser?.enabled ?? false);
+		}
+		protected override StatusItem GetConduitStatusItem(ConduitType type, bool isInput)
+		{
+			if (isInput)
+			{
+				if (IsLogisticRail)
+					return StatusItemsDatabase.LOGISTIC_NeedSolidIn;
+				else
+					return StatusItemsDatabase.HPA_NeedSolidIn;
+			}
+			else
+			{
+				if (IsLogisticRail)
+					return StatusItemsDatabase.LOGISTIC_NeedSolidOut;
+				else
+					return StatusItemsDatabase.HPA_NeedSolidOut;
+			}
+		}
+		protected override bool ConduitConditionSatisfied(bool isInput)
+		{
+			if (IsLogisticRail)
+			{
+				if (isInput)
+					return ConsumerConnected() && LogisticConduit.HasLogisticConduitAt(consumerCell);
+				else
+					return ConsumerConnected() && LogisticConduit.HasLogisticConduitAt(dispenserCell);
+			}
+			return base.ConduitConditionSatisfied(isInput);
 		}
 	}
 
@@ -66,6 +125,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		[SerializeField]
 		public bool RequiresHighPressureInput = false, RequiresHighPressureOutput = false;
 
+
 		protected int consumerCell = -1, dispenserCell = -1;
 		protected ConduitType inputType = ConduitType.None, outputType = ConduitType.None;
 		protected bool previouslyConnectedHPInput = true, previouslyConnectedHPOutput = true;
@@ -78,7 +138,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		}
 		public override void OnCleanUp()
 		{
-			base.OnCleanUp();	
+			base.OnCleanUp();
 		}
 		protected virtual void CacheConduitCells()
 		{
@@ -100,21 +160,39 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			bool hasHPA = HighPressureConduitRegistration.HasHighPressureConduitAt(cell, type);
 			return hasHPA;
 		}
-		protected virtual bool ConsumerConnected()
-		{
-			return consumer.IsConnected;
-		}
+		protected virtual bool ConsumerConnected() => RequireOutputs.IsConnected(consumerCell, inputType);
+
 		protected virtual bool ConsumerDisabled()
 		{
-			return !consumer.enabled;
+			return !(consumer?.enabled ?? false);
 		}
-		protected virtual bool DispenserConnected()
-		{
-			return dispenser.IsConnected;
-		}
+		protected virtual bool DispenserConnected() => RequireOutputs.IsConnected(dispenserCell, outputType);
+
 		protected virtual bool DispenserDisabled()
 		{
-			return !dispenser.enabled;
+			return !(dispenser?.enabled ?? false);
+		}
+		protected virtual StatusItem GetConduitStatusItem(ConduitType type, bool isInput)
+		{
+			switch (type)
+			{
+				case ConduitType.Gas:
+					return isInput ? StatusItemsDatabase.HPA_NeedGasIn : StatusItemsDatabase.HPA_NeedGasOut;
+				case ConduitType.Liquid:
+					return isInput ? StatusItemsDatabase.HPA_NeedLiquidIn : StatusItemsDatabase.HPA_NeedLiquidOut;
+				case ConduitType.Solid:
+					return isInput ? StatusItemsDatabase.HPA_NeedSolidIn : StatusItemsDatabase.HPA_NeedSolidOut;
+				default:
+					return null;
+			}
+		}
+
+		protected virtual bool ConduitConditionSatisfied(bool isInput)
+		{
+			if (isInput)
+				return ConsumerDisabled() || ConsumerConnected() && HasPressureConduitAt(consumerCell, inputType);
+			else
+				return DispenserDisabled() || DispenserConnected() && HasPressureConduitAt(dispenserCell, outputType);
 		}
 
 		public void CheckRequirements(bool force = false)
@@ -124,24 +202,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 			if (RequiresHighPressureInput && consumerCell > 0)
 			{
-				bool hasHighPressureInput = ConsumerDisabled() || ConsumerConnected() && HasPressureConduitAt(consumerCell, inputType);
+				bool hasHighPressureInput = ConduitConditionSatisfied(true);
 
 				if (previouslyConnectedHPInput != hasHighPressureInput || force)
 				{
 					previouslyConnectedHPInput = hasHighPressureInput;
-					StatusItem status_item = null;
-					switch (inputType)
-					{
-						case ConduitType.Gas:
-							status_item = StatusItemsDatabase.HPA_NeedGasIn;
-							break;
-						case ConduitType.Liquid:
-							status_item = StatusItemsDatabase.HPA_NeedLiquidIn;
-							break;
-						case ConduitType.Solid:
-							status_item = StatusItemsDatabase.HPA_NeedSolidIn;
-							break;
-					}
+					StatusItem status_item = GetConduitStatusItem(inputType, true);
 					if (status_item != null)
 						this.selectable.ToggleStatusItem(status_item, !hasHighPressureInput);
 					this.operational.SetFlag(highPressureInputConnected, hasHighPressureInput);
@@ -149,23 +215,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			}
 			if (RequiresHighPressureOutput && dispenserCell > 0)
 			{
-				bool hasHighPressureOutput = DispenserDisabled() || DispenserConnected() && HasPressureConduitAt(dispenserCell, outputType);
+				bool hasHighPressureOutput = ConduitConditionSatisfied(false);
 				if (previouslyConnectedHPOutput != hasHighPressureOutput || force)
 				{
 					previouslyConnectedHPOutput = hasHighPressureOutput;
-					StatusItem status_item = null;
-					switch (outputType)
-					{
-						case ConduitType.Gas:
-							status_item = StatusItemsDatabase.HPA_NeedGasOut;
-							break;
-						case ConduitType.Liquid:
-							status_item = StatusItemsDatabase.HPA_NeedLiquidOut;
-							break;
-						case ConduitType.Solid:
-							status_item = StatusItemsDatabase.HPA_NeedSolidOut;
-							break;
-					}
+					StatusItem status_item = GetConduitStatusItem(inputType, false);
 					if (status_item != null)
 						this.selectable.ToggleStatusItem(status_item, !hasHighPressureOutput);
 					this.operational.SetFlag(highPressureOutputConnected, hasHighPressureOutput);

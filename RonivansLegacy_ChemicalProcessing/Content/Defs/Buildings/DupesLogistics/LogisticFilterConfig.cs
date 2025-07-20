@@ -59,6 +59,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 		public override void DoPostConfigureComplete(GameObject go)
 		{
 			go.AddOrGetDef<PoweredActiveController.Def>().showWorkingStatus = true;
+			var requirement = go.AddOrGet<HPA_SolidFilterRequirement>();
+			requirement.RequiresHighPressureInput = true;
+			requirement.RequiresHighPressureOutput = true;
+			requirement.IsLogisticRail = true;
 		}
 
 		public override void DoPostConfigurePreview(BuildingDef def, GameObject go)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -44,6 +45,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			Storage storage1 = BuildingTemplates.CreateDefaultStorage(go, false);
 			storage1.capacityKg = 100f;
 			storage1.showInUI = true;
+			var requirement = go.AddOrGet<HPA_SolidConduitRequirement>();
+			requirement.RequiresHighPressureInput = true;
+			requirement.IsLogisticRail = true;
 		}
 
 		public override void DoPostConfigureUnderConstruction(GameObject go)

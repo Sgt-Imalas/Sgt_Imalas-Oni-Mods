@@ -17,7 +17,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 {
     class CustomGasGeneratorConfig : IBuildingConfig, IHasConfigurableWattage
 	{
-		public const float SizeMultiplier = 1f / 5f; // 1/5 of the width
+		public const float SizeMultiplier = 1f / 3f; // percentage of the original area
 
 		public static float Wattage = 800f * SizeMultiplier;
 		public float GetWattage() => Wattage;

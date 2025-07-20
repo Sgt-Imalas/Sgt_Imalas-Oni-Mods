@@ -17,7 +17,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 {
 	class CustomDieselGeneratorConfig : IBuildingConfig, IHasConfigurableWattage
 	{
-		public const float SizeMultiplier = 1f / 5f; // 1/5 of the width
+		public const float SizeMultiplier = 1f / 3f; // percentage of the vanilla gen
 
 		public static float Wattage = 2000f * SizeMultiplier;
 		public float GetWattage() => Wattage;

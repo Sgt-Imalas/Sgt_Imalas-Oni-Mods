@@ -16,7 +16,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		public static StatusItem HPA_NeedLiquidOut;
 		public static StatusItem HPA_NeedSolidIn;
 		public static StatusItem HPA_NeedSolidOut;
+		public static StatusItem LOGISTIC_NeedSolidIn;
+		public static StatusItem LOGISTIC_NeedSolidOut;  
+		
 		public static StatusItem CG_RotatableSolarPanelWattage;
+		public static StatusItem AlgaeGrower_LightEfficiency;
 
 		public static void CreateStatusItems()
 		{
@@ -25,10 +29,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			HPA_NeedGasIn = bsi.CreateStatusItem("HPA_NeedGasIn", "BUILDING", "status_item_need_supply_in", StatusItem.IconType.Custom, NotificationType.BadMinor, false, OverlayModes.GasConduits.ID);
 			HPA_NeedLiquidIn = bsi.CreateStatusItem("HPA_NeedLiquidIn", "BUILDING", "status_item_need_supply_in", StatusItem.IconType.Custom, NotificationType.BadMinor, false, OverlayModes.LiquidConduits.ID);
 			HPA_NeedSolidIn = bsi.CreateStatusItem("HPA_NeedSolidIn", "BUILDING", "status_item_need_supply_out", StatusItem.IconType.Custom, NotificationType.BadMinor, false, OverlayModes.SolidConveyor.ID);
+			LOGISTIC_NeedSolidIn = bsi.CreateStatusItem("LOGISTIC_NeedSolidIn", "BUILDING", "status_item_need_supply_out", StatusItem.IconType.Custom, NotificationType.BadMinor, false, OverlayModes.SolidConveyor.ID);
 			
 			HPA_NeedGasOut = bsi.CreateStatusItem("HPA_NeedGasOut", "BUILDING", "status_item_need_supply_out", StatusItem.IconType.Custom, NotificationType.BadMinor, false, OverlayModes.GasConduits.ID);
 			HPA_NeedLiquidOut = bsi.CreateStatusItem("HPA_NeedLiquidOut", "BUILDING", "status_item_need_supply_out", StatusItem.IconType.Custom, NotificationType.BadMinor, false, OverlayModes.LiquidConduits.ID);
 			HPA_NeedSolidOut = bsi.CreateStatusItem("HPA_NeedSolidOut", "BUILDING", "status_item_need_supply_out", StatusItem.IconType.Custom, NotificationType.BadMinor, false, OverlayModes.SolidConveyor.ID);
+			LOGISTIC_NeedSolidOut = bsi.CreateStatusItem("LOGISTIC_NeedSolidOut", "BUILDING", "status_item_need_supply_out", StatusItem.IconType.Custom, NotificationType.BadMinor, false, OverlayModes.SolidConveyor.ID);
 
 			CG_RotatableSolarPanelWattage = bsi.CreateStatusItem("CG_RotatableSolarPanelWattage", "BUILDING", "", StatusItem.IconType.Info, NotificationType.Neutral, allow_multiples: false, OverlayModes.Power.ID);
 			CG_RotatableSolarPanelWattage.resolveStringCallback = delegate (string str, object data)
@@ -37,6 +43,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				str = str.Replace("{Wattage}", GameUtil.GetFormattedWattage(solarPanel.CurrentWattage));
 				return str;
 			};
+
+			AlgaeGrower_LightEfficiency = bsi.CreateStatusItem("AlgaeGrower_LightEfficiency", STRINGS.BUILDING.STATUSITEMS.ALGAEGROWER_LIGHTEFFICIENCY.NAME, STRINGS.BUILDING.STATUSITEMS.ALGAEGROWER_LIGHTEFFICIENCY.TOOLTIP, "", StatusItem.IconType.Info, NotificationType.Neutral, allow_multiples: false, OverlayModes.None.ID);
+			AlgaeGrower_LightEfficiency.resolveStringCallback = delegate (string str, object obj)
+			 {
+				 LightEfficiencyConverter converter = obj as LightEfficiencyConverter;
+				 return str.Replace("{0}", GameUtil.GetFormattedPercent(converter.LightEfficiency * 100f));
+			 };
 		}
 
 		internal static void RegisterClonedStatusStrings()

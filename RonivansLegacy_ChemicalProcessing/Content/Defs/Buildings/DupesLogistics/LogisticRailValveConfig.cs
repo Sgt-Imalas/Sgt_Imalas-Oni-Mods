@@ -56,6 +56,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 		{
 			go.AddOrGetDef<StorageController.Def>();
 			go.GetComponent<KPrefabID>().AddTag(GameTags.OverlayBehindConduits, false);
+			var requirement = go.AddOrGet<HPA_SolidConduitRequirement>();
+			requirement.RequiresHighPressureOutput = true;
+			requirement.IsLogisticRail = true;
 		}
 	}
 }
