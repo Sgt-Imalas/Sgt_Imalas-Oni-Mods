@@ -227,6 +227,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.Sand, 175, 310)
 				.AddProduct(SimHashes.Cuprite, 20, 40, 3f / 9f)
 				.AddProduct(SimHashes.Electrum, 15, 30, 3f / 9f)
+				.AddProductConditional(chemproc, ModElements.Argentite_Solid, 10, 30, 3f / 9f)
 				.AddProduct(SimHashes.Fertilizer, 10, 20, 2f / 9f)
 				);
 			//===: SEDIMENTARY ROCK RANDOM RESULTS :======================================================== < 500 kg >
@@ -243,10 +244,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.CrushedRock, 160, 320)
 				.AddProduct(SimHashes.Clay, 150, 310)
 				.AddProduct(SimHashes.GoldAmalgam, 10, 30, 2f / 9f)
-				.AddProductConditional(chemproc, ModElements.Argentite_Solid, 10, 30, 2f / 9f)
 				.AddProduct(SimHashes.FoolsGold, 20, 40, 2f / 9f)
 				.AddProductConditional(soEnabled, SimHashes.Cobaltite, 25, 35, 2f / 9f)
 				.AddProduct(SimHashes.Salt, 40, 50, 1f / 9f)
+				.AddProductConditional(chemproc, ModElements.Chloroschist_Solid, 40, 50, 1f / 9f)
+				.AddProductConditional(chemproc, ModElements.Aurichalcite_Solid, 25, 35, 2f / 9f)
 				);
 			///Shale: mirror of sedimentary rock bc it is described as sedimentary in its desc
 			results.Add(SimHashes.Shale.CreateTag(),
@@ -254,10 +256,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.CrushedRock, 160, 320)
 				.AddProduct(SimHashes.Clay, 150, 310)
 				.AddProduct(SimHashes.GoldAmalgam, 10, 30, 2f / 9f)
-				.AddProductConditional(chemproc, ModElements.Argentite_Solid,10, 30, 2f / 9f)
 				.AddProduct(SimHashes.FoolsGold, 20, 40, 2f / 9f)
 				.AddProductConditional(soEnabled, SimHashes.Cobaltite, 25, 35, 2f / 9f)
 				.AddProduct(SimHashes.Salt, 40, 50, 1f / 9f)
+				.AddProductConditional(chemproc, ModElements.Chloroschist_Solid, 40, 50, 1f / 9f)
+				.AddProductConditional(chemproc, ModElements.Aurichalcite_Solid, 25, 35, 2f / 9f)
 				);
 			//===: IGNEOUS ROCK RANDOM RESULTS :========================================================= < 500 kg >
 			//---[ Possible Results Elements: ]
@@ -276,6 +279,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.Sulfur, 25, 75, 4f / 9f)
 				.AddProduct(SimHashes.IronOre, 15, 20, 2f / 9f)
 				.AddProduct(SimHashes.Obsidian, 65, 95, 3f / 9f)
+				.AddProductConditional(chemproc, ModElements.Galena_Solid, 15, 25, 2f / 8f)
+				.AddProductConditional(chemproc, ModElements.OilShale_Solid, 25, 75, 2f / 8f)
 				);
 			//===: GRANITE RANDOM RESULTS :============================================================= < 500 kg >
 			//---[ Possible Results Elements: ]
@@ -290,6 +295,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.Sand, 50, 250)
 				.AddProduct(SimHashes.AluminumOre, 15, 25, 4f / 8f)
 				.AddProduct(SimHashes.IronOre, 15, 25, 2f / 8f)
+				.AddProductConditional(chemproc, ModElements.Chloroschist_Solid, 40, 50, 2f / 8f)
 				.AddProductConditional(chemproc, ModElements.Aurichalcite_Solid, 15, 25, 2f / 8f)
 				.AddProduct(SimHashes.Obsidian, 65, 95, 2f / 8f)
 				);
@@ -307,7 +313,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.AluminumOre, 15, 25, 2f / 8f)
 				.AddProduct(SimHashes.Electrum, 25, 35, 2f / 8f)
 				.AddProductConditional(chemproc, ModElements.Aurichalcite_Solid, 15, 25, 2f / 8f)
-				.AddProductConditional(chemproc, ModElements.Galena_Solid, 15, 25, 2f / 8f)
 				.AddProduct(SimHashes.Phosphorus, 50, 100, 3f / 8f)
 				);
 			//===: ABYSSALITE RANDOM RESULTS :========================================================== < 500 kg >
@@ -431,6 +436,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		}
 		private static Dictionary<Tag, RecipeRandomResult> InitRandomResults_AugerDrill()
 		{
+			bool chemproc = Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled;
 			var results = new Dictionary<Tag, RecipeRandomResult>();
 			//===: BASIC DRILLBITS RANDOM RESULTS :============================================================
 			//---[ Possible Results Elements: ]
@@ -460,6 +466,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.FoolsGold, 25, 200, 2f / 6f)
 				.AddProduct(SimHashes.GoldAmalgam, 25, 200, 1f / 6f)
 				.AddProduct(SimHashes.AluminumOre, 25, 200, 1f / 6f)
+				.AddProductConditional(chemproc, ModElements.Aurichalcite_Solid, 25, 200, 1f / 6f)
+				.AddProductConditional(chemproc, ModElements.Argentite_Solid, 25, 200, 1f / 6f)
 				);
 
 			//===: STEEL DRILLBITS RANDOM RESULTS :=============================================================
@@ -486,6 +494,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.GoldAmalgam, 75, 300, 2f / 9f)
 				.AddProduct(SimHashes.Electrum, 75, 300, 2f / 9f)
 				.AddProduct(SimHashes.Sulfur, 50, 400, 3f / 9f)
+				.AddProductConditional(chemproc, ModElements.Aurichalcite_Solid, 25, 300, 2f / 9f)
+				.AddProductConditional(chemproc, ModElements.Argentite_Solid, 25, 300, 2f / 9f)
 				//low chance
 				.AddProduct(SimHashes.IgneousRock, 25, 400, 2f / 9f)
 				.AddProduct(SimHashes.Granite, 25, 400, 3f / 9f)
@@ -545,6 +555,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.ToxicSand, 100, 500, 1f / 3f)
 				.AddProduct(SimHashes.Algae, 100, 500, 1f / 3f)
 				.AddProduct(SimHashes.SlimeMold, 100, 500, 1f / 3f)
+				.AddProductConditional(chemproc, ModElements.Chloroschist_Solid, 100, 500, 1f / 3f)
 			);
 			//===: SMART DRILLBITS AQUIFER RANDOM RESULTS :=========================================================
 			//---[ Possible Results Elements: ]
@@ -562,6 +573,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.SedimentaryRock, 50, 200, 1f / 3f)
 				.AddProduct(SimHashes.Granite, 50, 200, 1f / 3f)
 				.AddProduct(SimHashes.SandStone, 50, 200, 1f / 3f)
+				.AddProductConditional(chemproc, ModElements.Chloroschist_Solid, 50, 200, 1f / 3f)
 			);
 			//===: SMART DRILLBITS HARD STRATUM RANDOM RESULTS :======================================================
 			//---[ Possible Results Elements: ]
@@ -593,6 +605,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.Rust, 100, 500, 1f / 3f)
 				.AddProduct(SimHashes.Fossil, 100, 500, 1f / 3f)
 				.AddProduct(SimHashes.Salt, 100, 500, 1f / 3f)
+				.AddProductConditional(chemproc, Argentite_Solid, 100, 500, 1f / 3f)
+				.AddProductConditional(chemproc, Aurichalcite_Solid, 100, 500, 1f / 3f)
 			);
 			//===: SMART DRILLBITS OIL RESERVES RANDOM RESULTS :======================================================
 			//---[ Possible Results Elements: ]
@@ -604,12 +618,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			//---------------------------------------------------------------------------------------------------------
 			results.Add(Mining_Drillbits_GuidanceDevice_ItemConfig.OilReservesTag,
 			new RecipeRandomResult()
-				.MinRequiredProducts(6)
+				.MinRequiredProducts(4)
 				.AddProduct(SimHashes.IgneousRock, 50, 200, 1f / 2f)
 				.AddProduct(SimHashes.Obsidian, 50, 200)
 				.AddProduct(SimHashes.Sulfur, 50, 200, 1f / 2f)
 				.AddProduct(SimHashes.Granite, 50, 200, 1f / 2f)
 				.AddProduct(SimHashes.Fossil, 50, 200, 1f / 2f)
+				.AddProductConditional(chemproc, OilShale_Solid, 100, 300, 1)
+				.AddProductConditional(chemproc, Galena_Solid, 50, 200, 1f / 2f)
 			);
 			//===: SMART DRILLBITS CRYOSPHERE RANDOM RESULTS :================================================
 			//---[ Possible Results Elements: ]
@@ -640,7 +656,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.BrineIce, 100, 500, 4f / 10f)
 				.AddProduct(SimHashes.Snow, 100, 500, 4f / 10f)
 				.AddProduct(SimHashes.Regolith, 100, 500, 4f / 10f)
-				//low chance
+				.AddProductConditional(chemproc, Ammonia_Solid, 100, 500, 4f / 10f) //ammonia snow
+																					//low chance
 				.AddProduct(SimHashes.SolidCrudeOil, 100, 750, 2f / 10f)
 				.AddProduct(SimHashes.SolidCarbonDioxide, 100, 500, 1f / 10f)
 				.AddProduct(SimHashes.SolidMercury, 100, 900, 1f / 10f)
@@ -675,6 +692,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		/// <returns></returns>
 		private static Dictionary<Tag, RecipeRandomResult> InitRandomFabricationByproducts_AugerDrill()
 		{
+			bool chemproc = Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled;
+
 			var results = new Dictionary<Tag, RecipeRandomResult>();
 			//===: BASIC DRILLBITS RANDOM SPAWN :==============================================================
 			//---[ Possible Results Elements: ]
@@ -748,10 +767,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			new OccurenceRandomResult(4)
 				.ProductCount(1)
 				.AddProduct(SimHashes.CrushedRock, 25, 100, 8f / 20f)
-				.AddProduct(SimHashes.Water, 25, 50, 4f / 20f)
-				.AddProduct(SimHashes.DirtyWater, 25, 50, 3f / 20f)
-				.AddProduct(SimHashes.SaltWater, 25, 50, 3f / 20f)
-				.AddProduct(SimHashes.Brine, 25, 50, 2f / 20f)
+				.AddProduct(SimHashes.Water, 25, 100, 4f / 20f)
+				.AddProduct(SimHashes.DirtyWater, 25, 100, 3f / 20f)
+				.AddProduct(SimHashes.SaltWater, 25, 100, 3f / 20f)
+				.AddProduct(SimHashes.Brine, 25, 100, 2f / 20f)
 				);
 			//===: SMART DRILLBITS: HARD STRATUM RANDOM SPAWN :===============================================
 			//---[ Possible Results Elements: ]
@@ -784,6 +803,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.CrudeOil, 5, 20, 3f / 15f)
 				.AddProduct(SimHashes.Methane, 5, 20, 1f / 15f)
 				.AddProduct(SimHashes.SourGas, 5, 20, 1f / 15f)
+				.AddProductConditional(chemproc, RawNaturalGas_Gas, 5, 20, 1f / 15f)
 				);
 
 			//===: SMART DRILLBITS: CRYOSPHERE RANDOM SPAWN :=================================================
@@ -819,6 +839,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.MoltenGold, 25, 75, 2f / 30f)
 				.AddProduct(SimHashes.MoltenAluminum, 25, 75, 2f / 30f)
 				.AddProduct(SimHashes.MoltenNiobium, 10, 30, 1f / 30f)
+				.AddProductConditional(chemproc, Silver_Liquid, 25, 75, 2f / 30f)
+				.AddProductConditional(chemproc, Zinc_Liquid, 25, 75, 2f / 30f)
 				);
 
 			return results;
@@ -829,6 +851,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			///rates here are a mix of the rates from the recipe descriptions and the actual code found in an older version of the mod where the drill existed
 
 			bool isSO = DlcManager.IsExpansion1Active();
+			bool chemproc = Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled;
 
 			var results = new Dictionary<Tag, RecipeRandomResult>();
 			//"Engage a drilling operation using " + SimHashes.Copper.CreateTag().ProperName() + " as drill bits." +
@@ -876,6 +899,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.AluminumOre, 200, 500, 0.07f)
 				.AddProduct(SimHashes.Cuprite, 200, 500, 0.07f)
 				.AddProduct(SimHashes.Salt, 200, 500, 0.07f)
+				.AddProductConditional(chemproc, Argentite_Solid, 200, 500, 0.07f)
+				.AddProductConditional(chemproc, Aurichalcite_Solid, 200, 500, 0.07f)
 				);
 			//"Engage a drilling operation using " + SimHashes.Steel.CreateTag().ProperName() + " as drill bits.
 			//Possible minerals availabe at this layer:\n" 
@@ -885,7 +910,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			//+ SimHashes.Wolframite.CreateTag().ProperName() + ": 11%.\n")
 			results.Add(SimHashes.Steel.CreateTag(),
 			new OccurenceRandomResult(10)
-				.TempRange(40,70)
+				.TempRange(40, 70)
 				.MaxRequiredProducts(1)
 				.AddProduct(SimHashes.CrushedRock, 200, 500, 0.225f)
 				.AddProduct(SimHashes.Obsidian, 200, 500, 0.11f)
@@ -896,6 +921,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.Fossil, 200, 500, 0.11f)
 				.AddProduct(SimHashes.Phosphorite, 200, 500, 0.11f)
 				.AddProduct(SimHashes.Wolframite, 200, 500, 0.11f)
+				.AddProductConditional(chemproc, Galena_Solid, 200, 500, 0.11f)
 				);
 			return results;
 		}
