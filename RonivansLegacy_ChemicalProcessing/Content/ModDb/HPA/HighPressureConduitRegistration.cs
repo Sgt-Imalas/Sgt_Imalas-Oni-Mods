@@ -275,5 +275,29 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			AllConduitGOs.Remove(conduit.gameObject);
 			AllConduits.Remove(conduit);
 		}
+
+		internal static Pickupable SetSealedInsulationState(Pickupable pickupable, bool sealAndInsulate)
+		{
+			if(pickupable == null || pickupable.gameObject == null)
+				return pickupable;
+
+			if(pickupable.TryGetComponent<SimTemperatureTransfer>(out var simTempTransfer))
+				simTempTransfer.enabled = !sealAndInsulate;
+
+			if(pickupable.TryGetComponent<KPrefabID>(out var prefab))
+			{
+				if (sealAndInsulate)
+				{
+					prefab.AddTag(GameTags.Sealed);
+					prefab.AddTag(GameTags.Preserved);
+				}
+				else
+				{
+					prefab.RemoveTag(GameTags.Sealed);
+					prefab.RemoveTag(GameTags.Preserved);
+				}
+			}
+			return pickupable;
+		}
 	}
 }

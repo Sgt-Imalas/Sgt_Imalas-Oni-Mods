@@ -105,5 +105,44 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 			}
 			return contents;
 		}
+
+
+		[HarmonyPatch(typeof(SolidConduitFlow), nameof(SolidConduitFlow.DumpPickupable))]
+		public class SolidConduitFlow_DumpPickupable_Patch
+		{
+			[HarmonyPrepare]
+			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
+			public static void Prefix(SolidConduitFlow __instance, Pickupable pickupable)
+			{
+				HighPressureConduitRegistration.SetSealedInsulationState(pickupable, false);
+			}
+		}
+
+		[HarmonyPatch(typeof(SolidConduitFlow), nameof(SolidConduitFlow.EmptyConduit))]
+		public class SolidConduitFlow_EmptyConduit_Patch
+		{
+			[HarmonyPrepare]
+			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
+			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
+			{
+				var codes = orig.ToList();
+				MethodInfo restoreHeatTransfer = AccessTools.Method(typeof(SolidConduitFlow_EmptyConduit_Patch), nameof(RestoreHeatTransfer));
+				MethodInfo SolidConduitFlow_RemovePickupable = AccessTools.Method(typeof(SolidConduitFlow), nameof(SolidConduitFlow.RemovePickupable));
+
+
+				foreach (CodeInstruction ci in orig)
+				{
+					if (ci.Calls(SolidConduitFlow_RemovePickupable))
+					{
+						yield return ci;
+						yield return new CodeInstruction(OpCodes.Call, restoreHeatTransfer);
+					}
+					else
+						yield return ci;
+				}
+			}
+
+			private static Pickupable RestoreHeatTransfer(Pickupable itemToRestore) => HighPressureConduitRegistration.SetSealedInsulationState(itemToRestore, false);
+		}
 	}
 }

@@ -1364,11 +1364,11 @@ namespace RonivansLegacy_ChemicalProcessing
 							".\n\nCan not be run through wall and floor tiles.\n\nTransported items are fully insulated."
 						]);
 				}
-				public class HPA_SOLIDRAILBRIDGE
+				public class HPA_SOLIDRAILBRIDGETILE
 				{
-					public static LocString NAME = FormatAsLink("Heavy Duty Joint Plate", nameof(HPA_SOLIDRAILBRIDGE));
+					public static LocString NAME = FormatAsLink("Heavy Duty Joint Plate", nameof(HPA_SOLIDRAILBRIDGETILE));
 					public static LocString DESC = "Joint plates can run Heavy Duty rails through walls without leaking gas or liquid.";
-					public static LocString EFFECT = "Allows " + HPA_SOLIDRAIL.NAME+" and "+ HPA_SOLIDRAIL_INSULATED.NAME + " to be run through wall and floor tile.\n\nFunctions as regular tile.";
+					public static LocString EFFECT = "Allows " + HPA_SOLIDRAIL.NAME+" and "+ HPA_SOLIDRAIL_INSULATED.NAME + " to be run through wall and floor tile.\n\nFunctions as regular insulated tile.";
 				}
 				public class HPA_INBOX
 				{

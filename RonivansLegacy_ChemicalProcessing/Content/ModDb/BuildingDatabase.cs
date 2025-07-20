@@ -19,6 +19,7 @@ using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistics;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureApplications;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefrigeration;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerators;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureApplications.HighCapacityLogisticRails;
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
 	class BuildingDatabase
@@ -627,7 +628,15 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToCategory(PlanMenuCategory.Plumbing, LiquidConduitBridgeConfig.ID)
 				.AddToTech(Technology.Liquids.ImprovedPlumbing)
 				.AddModFrom(SourceModInfo.HighPressureApplications);
-
+			//solid
+			BuildingManager.CreateEntry<HPARailConfig>()
+				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitConfig.ID)
+				.AddToTech(Technology.SolidMaterial.SolidManagement)
+				.AddModFrom(SourceModInfo.HighPressureApplications);
+			BuildingManager.CreateEntry<HPABridgeTileConfig>()
+				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitBridgeConfig.ID)
+				.AddToTech(Technology.SolidMaterial.SolidManagement)
+				.AddModFrom(SourceModInfo.HighPressureApplications);
 		}
 
 		private static void RegisterBuildings_DupesRefrigeration()

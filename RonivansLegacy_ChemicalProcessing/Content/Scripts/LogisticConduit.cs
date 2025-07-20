@@ -80,6 +80,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		}
 		public static bool HasLogisticConduitAt(int cell, bool bridge = false)
 		{
+			
 			if(bridge)
 				return Bridges.ContainsKey(cell);
 			return Conduits.ContainsKey(cell);
