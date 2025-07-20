@@ -527,7 +527,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddModFrom(SourceModInfo.DupesLogistics);
 
 			BuildingManager.CreateEntry<StoragePodConfig>()
-				.AddToCategory(PlanMenuCategory.Base, StorageTileConfig.ID)
+				.AddToCategory(PlanMenuCategory.Base, StorageLockerConfig.ID)
 				.AddToTech(Technology.SolidMaterial.BruteForceRefinement)
 				.AddModFrom(SourceModInfo.DupesLogistics);
 

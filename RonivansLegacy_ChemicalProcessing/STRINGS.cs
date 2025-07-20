@@ -1574,7 +1574,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class ALGAEGROWER_LIGHTEFFICIENCY
 				{
 					public static LocString NAME = "Growth Efficiency {0}";
-					public static LocString TOOLTIP = "The algae growth in this building is currently at {0} efficiency.\nThis is dependent on the light the building receives.";
+					public static LocString TOOLTIP = "The algae growth in this building is currently at {0} efficiency.\nThis is dependent on the light the building receives.\nRequires at minimum {1}.";
 				}
 			}
 		}

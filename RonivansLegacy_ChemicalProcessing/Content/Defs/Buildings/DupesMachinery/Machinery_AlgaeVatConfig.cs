@@ -132,6 +132,7 @@ namespace Dupes_Machinery.Biological_Vats
 		{
 			go.AddOrGet<LogicOperationalController>();
 			go.AddOrGetDef<PoweredActiveController.Def>();
+			AttachPort(go);
 		}
 	}
 }

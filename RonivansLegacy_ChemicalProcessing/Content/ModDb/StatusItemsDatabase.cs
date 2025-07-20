@@ -48,7 +48,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			AlgaeGrower_LightEfficiency.resolveStringCallback = delegate (string str, object obj)
 			 {
 				 LightEfficiencyConverter converter = obj as LightEfficiencyConverter;
-				 return str.Replace("{0}", GameUtil.GetFormattedPercent(converter.LightEfficiency * 100f));
+				 return string.Format(str, GameUtil.GetFormattedPercent(converter.LightEfficiency * 100f), GameUtil.GetFormattedLux((int)converter.MiniumLightRequirement));
 			 };
 		}
 

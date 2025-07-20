@@ -48,6 +48,16 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 			go.AddOrGet<LoopingSounds>();
 			Prioritizable.AddRef(go);
 		}
+		public override void DoPostConfigurePreview(BuildingDef def, GameObject go)
+		{
+			base.DoPostConfigurePreview(def, go);
+			AddVisualizer(go);
+		}
+		public override void DoPostConfigureUnderConstruction(GameObject go)
+		{
+			base.DoPostConfigureUnderConstruction(go);
+			AddVisualizer(go);
+		}
 
 		public override void DoPostConfigureComplete(GameObject go)
 		{
@@ -61,6 +71,16 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 			def.solidOffsets = [new(0, 0)];
 
 			go.AddOrGet<KBatchedAnimController>().randomiseLoopedOffset = true;
+			AddVisualizer(go);
+		}
+		private static void AddVisualizer(GameObject go1)
+		{
+			RangeVisualizer rangeVisualizer = go1.AddOrGet<RangeVisualizer>();
+			rangeVisualizer.RangeMin.x = 0;
+			rangeVisualizer.RangeMin.y = 2;
+			rangeVisualizer.RangeMax.x = 0;
+			rangeVisualizer.RangeMax.y = 4;
+			rangeVisualizer.TestLineOfSight = false;
 		}
 	}
 }

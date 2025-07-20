@@ -109,10 +109,12 @@ namespace Biochemistry.Buildings
 
 		public override void DoPostConfigurePreview(BuildingDef def, GameObject go)
 		{
+			AddVisualizer(go);
 		}
 
 		public override void DoPostConfigureUnderConstruction(GameObject go)
 		{
+			AddVisualizer(go);
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)
@@ -120,6 +122,16 @@ namespace Biochemistry.Buildings
 			go.AddOrGet<LogicOperationalController>();
 			go.AddOrGetDef<PoweredActiveController.Def>();
 			go.AddOrGet<LightEfficiencyConverter>();
+			AddVisualizer(go);
+		}
+		private static void AddVisualizer(GameObject go1)
+		{
+			RangeVisualizer rangeVisualizer = go1.AddOrGet<RangeVisualizer>();
+			rangeVisualizer.RangeMin.x = -4;
+			rangeVisualizer.RangeMin.y = 1;
+			rangeVisualizer.RangeMax.x = 4;
+			rangeVisualizer.RangeMax.y = 1;
+			rangeVisualizer.TestLineOfSight = false;
 		}
 	}
 }

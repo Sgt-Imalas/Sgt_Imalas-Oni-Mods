@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {
@@ -19,10 +20,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		[MyCmpReq]
 		ElementConverter converter;
 
-		int[] cells;
+		int[] LightCells;
 		public float LightEfficiency;
 
-		public float MiniumLightRequirement = 1000f, MaximumLightRequirement = 20000f;
+		public float MiniumLightRequirement = 900f, MaximumLightRequirement = 20000f;
 
 		public override void OnSpawn()
 		{
@@ -32,11 +33,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			var lightCells = new List<int>();
 			foreach (var cell in buildingComplete.PlacementCells)
 			{
-				if (Grid.CellToXY(cell).Y != pos.Y)
+				if (Grid.CellToXY(cell).Y == pos.Y+1)
 				{
 					lightCells.Add(cell);
 				}
 			}
+			LightCells = lightCells.ToArray();
 			RecalculateLightEfficiency();
 		}
 
@@ -47,13 +49,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		void RecalculateLightEfficiency()
 		{
 			float totalCount = 0, lighted = 0;
-			foreach (var cell in buildingComplete.PlacementCells)
+			foreach (var cell in LightCells)
 			{
 				if (!Grid.IsValidCell(cell))
 					continue;
 				totalCount++;
 				float LightIntensity = Grid.LightIntensity[cell];
-
 
 				if (LightIntensity >= MiniumLightRequirement)
 				{
@@ -68,6 +69,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			LightEfficiency = Mathf.Max(0.1f, totalCount > 0 ? lighted / totalCount : 0);
 			converter.SetWorkSpeedMultiplier(LightEfficiency); //minimum of 5% efficiency
 			selectable.SetStatusItem(Db.Get().StatusItemCategories.Yield, StatusItemsDatabase.AlgaeGrower_LightEfficiency, this);
+
 		}
 	}
 }
