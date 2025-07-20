@@ -64,8 +64,8 @@ namespace PedestalFilter
 			}
 			public static void Postfix(ReceptacleSideScreen __instance)
 			{
-				if (__instance.GetType().IsSubclassOf(typeof(ReceptacleSideScreen)))
-					return;
+				//if (__instance.GetType().IsSubclassOf(typeof(ReceptacleSideScreen)))
+				//	return;
 
 
 				if (SearchBar != null)
@@ -162,8 +162,8 @@ namespace PedestalFilter
 		{
 			public static bool Prefix(ReceptacleSideScreen __instance)
 			{
-				if (__instance.GetType().IsSubclassOf(typeof(ReceptacleSideScreen)))
-					return true;
+				//if (__instance.GetType().IsSubclassOf(typeof(ReceptacleSideScreen)))
+				//	return true;
 
 				return __instance.requestObjectList.GetComponent("VirtualScroll") != null;
 			}
@@ -172,8 +172,8 @@ namespace PedestalFilter
 			[HarmonyPriority(90)]
 			public static void Postfix(ReceptacleSideScreen __instance, ref bool __result)
 			{
-				if (__instance.GetType().IsSubclassOf(typeof(ReceptacleSideScreen)))
-					return;
+				//if (__instance.GetType().IsSubclassOf(typeof(ReceptacleSideScreen)))
+				//	return;
 
 
 				Component fastTrackVirtualScroll = __instance.requestObjectList.GetComponent("VirtualScroll");
