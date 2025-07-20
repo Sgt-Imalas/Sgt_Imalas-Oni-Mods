@@ -208,8 +208,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				{
 					previouslyConnectedHPInput = hasHighPressureInput;
 					StatusItem status_item = GetConduitStatusItem(inputType, true);
-					if (status_item != null)
-						this.selectable.ToggleStatusItem(status_item, !hasHighPressureInput);
+					this.selectable.ToggleStatusItem(status_item, !hasHighPressureInput);
 					this.operational.SetFlag(highPressureInputConnected, hasHighPressureInput);
 				}
 			}
@@ -219,9 +218,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				if (previouslyConnectedHPOutput != hasHighPressureOutput || force)
 				{
 					previouslyConnectedHPOutput = hasHighPressureOutput;
-					StatusItem status_item = GetConduitStatusItem(inputType, false);
-					if (status_item != null)
-						this.selectable.ToggleStatusItem(status_item, !hasHighPressureOutput);
+					StatusItem status_item = GetConduitStatusItem(outputType, false);
+					this.selectable.ToggleStatusItem(status_item, !hasHighPressureOutput);
 					this.operational.SetFlag(highPressureOutputConnected, hasHighPressureOutput);
 				}
 			}
