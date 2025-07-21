@@ -5,7 +5,7 @@
 	<Target Name="GenerateModYaml" BeforeTargets="PrepareForRun" Condition="'$(DoNotBuildAsMod)' != 'true'">
 		<ItemGroup>
 			<ModLines Include="title: '$(ModName)'"/>
-			<ModLines Include="description: '$(ModDescription)'"/>
+			<ModLines Include="description: &quot;$([System.String]::Copy('$(ModDescription)').Replace('&quot;', '\&quot;'))&quot;"/>
 			<ModLines Include="staticID: $(AssemblyName)"/>
 			<!--<ModLines Include="steamID: $(SteamId)" Condition="'$(SteamId)' != ''"/>--> <!--Causes recoverable parse errors :/-->
 		</ItemGroup>
