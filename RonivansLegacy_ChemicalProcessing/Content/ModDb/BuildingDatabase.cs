@@ -633,11 +633,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitConfig.ID)
 				.AddToTech(Technology.SolidMaterial.SolidManagement)
 				.AddModFrom(SourceModInfo.HighPressureApplications);
-			BuildingManager.CreateEntry<HPABridgeTileConfig>()
+			BuildingManager.CreateEntry<HPARailBridgeTileConfig>()
 				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitBridgeConfig.ID)
 				.AddToTech(Technology.SolidMaterial.SolidManagement)
 				.AddModFrom(SourceModInfo.HighPressureApplications);
-			BuildingManager.CreateEntry<HPABridgeConfig>()
+			BuildingManager.CreateEntry<HPARailBridgeConfig>()
 				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitBridgeConfig.ID)
 				.AddToTech(Technology.SolidMaterial.SolidManagement)
 				.AddModFrom(SourceModInfo.HighPressureApplications);
