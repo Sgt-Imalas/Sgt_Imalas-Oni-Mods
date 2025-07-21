@@ -25,6 +25,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 				Storage.StoredItemModifier.Preserve,
 			];
 
+		public override string[] GetRequiredDlcIds() => [DlcManager.EXPANSION1_ID];
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
 			go.GetComponent<KPrefabID>();
