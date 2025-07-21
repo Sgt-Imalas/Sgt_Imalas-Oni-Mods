@@ -89,11 +89,13 @@ namespace Biochemistry.Buildings
 			{
 				inputs =
 				[
-				new EnergyGenerator.InputItem( ModAssets.Tags.Biodiesel_Composition, 0.38f, 32f)
+				//new EnergyGenerator.InputItem( ModAssets.Tags.Biodiesel_Composition, 0.38f, 32f)
+				new EnergyGenerator.InputItem( ModAssets.Tags.Biodiesel_Composition, 3.2f, 32f)
 				],
 				outputs =
 				[
-				new EnergyGenerator.OutputItem(SimHashes.DirtyWater, 0.14428f, true, new CellOffset(1, 1), 313.15f)
+				//new EnergyGenerator.OutputItem(SimHashes.DirtyWater, 0.14428f, true, new CellOffset(1, 1), 313.15f)
+				new EnergyGenerator.OutputItem(SimHashes.DirtyWater, 1.215f, true, new CellOffset(1, 1), 313.15f)
 				]
 			};
 			Tinkerable.MakePowerTinkerable(go);
