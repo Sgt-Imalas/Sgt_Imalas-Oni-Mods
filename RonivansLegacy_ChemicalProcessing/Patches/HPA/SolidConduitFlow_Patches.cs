@@ -131,15 +131,15 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 			}
 		}
 
-		[HarmonyPatch(typeof(SolidConduitFlow), nameof(SolidConduitFlow.EmptyConduit))]
-		public class SolidConduitFlow_EmptyConduit_Patch
+		[HarmonyPatch(typeof(SolidConduitFlow), nameof(SolidConduitFlow.DumpPipeContents))]
+		public class SolidConduitFlow_DumpPipeContents_Patch
 		{
 			[HarmonyPrepare]
 			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
 			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
 			{
 				var codes = orig.ToList();
-				MethodInfo restoreHeatTransfer = AccessTools.Method(typeof(SolidConduitFlow_EmptyConduit_Patch), nameof(RestoreHeatTransfer));
+				MethodInfo restoreHeatTransfer = AccessTools.Method(typeof(SolidConduitFlow_DumpPipeContents_Patch), nameof(RestoreHeatTransfer));
 				MethodInfo SolidConduitFlow_RemovePickupable = AccessTools.Method(typeof(SolidConduitFlow), nameof(SolidConduitFlow.RemovePickupable));
 
 
