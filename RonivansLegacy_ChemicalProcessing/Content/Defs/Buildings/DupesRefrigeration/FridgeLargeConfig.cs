@@ -1,6 +1,7 @@
 ﻿using PeterHan.PLib.Options;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts.Descriptors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,7 +74,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 			go.AddOrGet<FoodStorage>();
 			go.AddOrGet<Refrigerator>();
 			RefrigeratorController.Def def = go.AddOrGetDef<RefrigeratorController.Def>();
-			def.powerSaverEnergyUsage = GetWattage() / 12f;
+			def.powerSaverEnergyUsage = GetWattage() / 6f;
 			def.coolingHeatKW = 0.375f * BaseFridgeMultiplier;
 			def.steadyHeatKW = 0f;
 			def.simulatedInternalHeatCapacity = 1000f;
@@ -83,6 +84,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 			go.AddOrGet<DropAllWorkable>();
 			go.AddOrGetDef<RocketUsageRestriction.Def>().restrictOperational = false;
 			go.AddOrGetDef<StorageController.Def>();
+			go.AddOrGet<FridgeSaverDescriptor>().Cache();
 		}
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using PeterHan.PLib.Options;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts.Descriptors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 {
     class HightechSmallFridgeConfig : IBuildingConfig, IHasConfigurableStorageCapacity, IHasConfigurableWattage
 	{
-		public static float Wattage = 240;
+		public static float Wattage = 480;
 		public float GetWattage() => Wattage;
 		public void SetWattage(float mass) => Wattage = mass;
 		public static float StorageCapacity = 200; 
@@ -86,7 +87,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 			go.AddOrGet<FoodStorage>();
 			go.AddOrGet<Refrigerator>();
 			RefrigeratorController.Def def = go.AddOrGetDef<RefrigeratorController.Def>();
-			def.powerSaverEnergyUsage = GetWattage() / 12f;
+			def.powerSaverEnergyUsage = GetWattage() / 6f;
 			def.coolingHeatKW = 0.375f * BaseFridgeMultiplier;
 			def.steadyHeatKW = 0f;
 			def.simulatedInternalHeatCapacity = 1000f;
@@ -123,6 +124,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 			waterInput.capacityKG = liquidStorage.capacityKg;
 			waterInput.AssignPort(WaterConsumer);
 			AttachPort(go);
+			go.AddOrGet<FridgeSaverDescriptor>().Cache();
 
 		}
 		private void AttachPort(GameObject go)
