@@ -1,4 +1,5 @@
 ﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb.HPA.ConduitEvents;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,18 +47,26 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.HPA
 			ScheduledEvents.Clear();
 		}
 
+		internal static void PressureDamageHandling(int cell, ConduitType type, float sentMass, float receiverMax)
+		{
+			if (sentMass >= receiverMax * 2f && UnityEngine.Random.Range(0f, 1f) < 0.33f)
+			{
+				//This damage CANNOT be dealt immediately, or it will cause the game to crash. This code execution occurs during an UpdateNetworkTask execution and does not seem to support executing Triggers
+				//The damage will instead be queued and dealt by a scheduler on the next tick
+				ScheduleForDamage(HighPressureConduitRegistration.GetConduitAt(cell, type), (int)sentMass, (int)receiverMax);
+			}
+		}
+		internal static void PressureDamageHandling(KMonoBehaviour receiver, float sentMass, float receiverMax) => PressureDamageHandling(receiver?.gameObject, sentMass, receiverMax);
 		internal static void PressureDamageHandling(GameObject receiver, float sentMass, float receiverMax)
 		{
 			//33% chance to damage the receiver when sender has double its capacity if the receiver is not a bridge
 			//if receiver is a bridge, 33% to damage the bridge if the sender's contents are above the bridge's capacity at all
-			if (sentMass >= receiverMax * 2f && UnityEngine.Random.Range(0f, 1f) < 0.33f)
+			if (receiver != null && sentMass >= receiverMax * 2f && UnityEngine.Random.Range(0f, 1f) < 0.33f)
 			{
 				//This damage CANNOT be dealt immediately, or it will cause the game to crash. This code execution occurs during an UpdateNetworkTask execution and does not seem to support executing Triggers
 				//The damage will instead be queued and dealt by a scheduler on the next tick
 				ScheduleForDamage(receiver, (int)sentMass, (int)receiverMax);
 			}
 		}
-
-
 	}
 }

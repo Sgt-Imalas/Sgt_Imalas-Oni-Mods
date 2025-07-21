@@ -56,6 +56,10 @@ namespace RonivansLegacy_ChemicalProcessing
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS")]
 		public bool HighPressureApplications_Enabled { get; set; } = true;
 
+		[JsonIgnore]
+		public bool HPA_Rails_Enabled => HighPressureApplications_Enabled && true;
+
+
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESREFRIGERATION")]
 		public bool DupesRefrigeration_Enabled { get; set; } = true;
 

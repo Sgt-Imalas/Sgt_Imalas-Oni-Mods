@@ -43,10 +43,10 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		{
 			[HarmonyPrepare]
 			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
-			static OverlayModes.ConduitMode Instance;
+			static HashedString ViewMode;
             public static void Prefix(OverlayModes.ConduitMode __instance)
             {
-                Instance = __instance;
+				ViewMode = __instance.ViewMode();
             }
 
             public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
@@ -78,11 +78,11 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
             {
 				if (HighPressureConduitRegistration.IsHighPressureConduit(currentItem.gameObject))
 				{
-					if (Instance.ViewMode() == OverlayModes.LiquidConduits.ID)
+					if (ViewMode == OverlayModes.LiquidConduits.ID)
 					{
 						return HighPressureConduitRegistration.GetColorForConduitType(ConduitType.Liquid, true);
 					}
-					else if (Instance.ViewMode() == OverlayModes.GasConduits.ID)
+					else if (ViewMode == OverlayModes.GasConduits.ID)
 					{
 						return HighPressureConduitRegistration.GetColorForConduitType(ConduitType.Gas, true);
 					}

@@ -15,7 +15,6 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 {
     class HPA_BuildingPort_Patches
     {
-
 		static void IncreaseRocketConduitTarget(RocketConduitStorageAccess cmp)
         {
 			float tweakedCapacity;

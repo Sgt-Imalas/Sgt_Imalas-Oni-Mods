@@ -19,7 +19,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		public class SolidConduitBridge_ConduitUpdate_Patch
 		{
 			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
+			public static bool Prepare() => Config.Instance.HPA_Rails_Enabled;
 			internal static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
 			{
 				MethodInfo SolidConduitFlow_RemovePickupable = AccessTools.Method(typeof(SolidConduitFlow), nameof(SolidConduitFlow.RemovePickupable));
@@ -38,13 +38,20 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				}
 			}
 
+			static bool SourceCellInsulated, TargetCellInsulated, isHPBridge, hasHPTargetConduit;
+			static int bridge_inputCell, bridge_outputCell;
+			static float mass, targetMass, targetConduitCapacity, targetBridgeCapacity;
+			static GameObject cachedConduitGO;
+
 			private static Pickupable SetMaxFlowForBridge(Pickupable item, SolidConduitBridge bridge)
 			{
 				if (item == null)
 					return item;
+				bridge_inputCell = bridge.inputCell;
+				bridge_outputCell = bridge.outputCell;
 
-				bool SourceCellInsulated = HighPressureConduitRegistration.IsInsulatedRail(bridge.inputCell);
-				bool TargetCellInsulated = HighPressureConduitRegistration.IsInsulatedRail(bridge.outputCell);
+				SourceCellInsulated = HighPressureConduitRegistration.IsInsulatedRail(bridge_inputCell);
+				TargetCellInsulated = HighPressureConduitRegistration.IsInsulatedRail(bridge_outputCell);
 				if (TargetCellInsulated != SourceCellInsulated)
 				{
 					HighPressureConduitRegistration.SetInsulatedState(item, TargetCellInsulated);
@@ -57,30 +64,29 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 					return item;
 				}
 
-				var mass = item.TotalAmount;
+				mass = item.TotalAmount;
 				//If the bridge is broken, prevent the bridge from operating by limiting what it sees.
 				//if (bridge.GetComponent<BuildingHP>().IsBroken)
 				//{
 				//	return DumpItem(item, mass, bridge.inputCell, bridge.gameObject);
 				//}
-				var cell = bridge.outputCell;
 
-				bool isHPBridge = HighPressureConduitRegistration.HasHighPressureConduitAt(cell, ConduitType.Solid, true);
-				bool hasHPTargetConduit = HighPressureConduitRegistration.HasHighPressureConduitAt(cell, ConduitType.Solid);
+				isHPBridge = HighPressureConduitRegistration.HasHighPressureConduitAt(bridge_outputCell, ConduitType.Solid, true);
+				hasHPTargetConduit = HighPressureConduitRegistration.HasHighPressureConduitAt(bridge_outputCell, ConduitType.Solid);
 
 				//target conduit is high pressure, bridge is high pressure -> no damage case
 				if (isHPBridge && hasHPTargetConduit)
 					return item;
-
-				float targetConduitCapacity = HighPressureConduitRegistration.GetMaxConduitCapacityWithConduitGOAt(bridge.outputCell, ConduitType.Solid, out var targetConduit);
+								
+				targetConduitCapacity = HighPressureConduitRegistration.GetMaxConduitCapacityAt(bridge_outputCell, ConduitType.Solid);
 
 				//no pipe at output cell of bridge
-				if (targetConduit == null)
+				if (!HighPressureConduitRegistration.HasConduitAt(bridge_outputCell, ConduitType.Solid))
 					return item;
 
-				float targetBridgeCapacity = HighPressureConduitRegistration.GetMaxConduitCapacityWithConduitGOAt(bridge.outputCell, ConduitType.Solid, out _, true);
+				targetBridgeCapacity = HighPressureConduitRegistration.GetMaxConduitCapacityAt(bridge_outputCell, ConduitType.Solid, true);
 
-				float targetMass = Mathf.Min(targetConduitCapacity, targetBridgeCapacity);
+				targetMass = Mathf.Min(targetConduitCapacity, targetBridgeCapacity);
 
 
 				///damage the bridge when the amount transferred is higher than the bridge can support
@@ -92,7 +98,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				//  were barely over 100%
 				if (mass > targetMass)
 				{
-					return DumpItem(item, mass, targetMass, bridge.inputCell, bridge.gameObject);
+					return DumpItem(item, mass, targetMass, bridge_inputCell, bridge.gameObject);
 				}
 				///damage target conduit if it got too much mass transfered to it
 				//HighPressureConduit.PressureDamageHandling(targetConduit, mass, targetConduitCapacity);

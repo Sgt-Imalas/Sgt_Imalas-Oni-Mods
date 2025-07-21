@@ -23,7 +23,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		public class SolidConduitFlow_UpdateConduit_Patch
 		{
 			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;// || Config.Instance.DupesLogistics;
+			public static bool Prepare() => Config.Instance.HPA_Rails_Enabled;
 
 			public static void Prefix(SolidConduitFlow __instance, SolidConduitFlow.Conduit conduit)
 			{
@@ -57,13 +57,17 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				}
 			}
 		}
+		static float maxTargetRailCapacity, weight, additionalWeightToRemove;
+		static bool SourceCellInsulated, TargetCellInsulated;
+		static Pickupable droppedExcess;
+
 		private static SolidConduitFlow.ConduitContents DropExcessRailMaterialsAtCell(SolidConduitFlow.ConduitContents contents, int targetcell)
 		{
 			int sourceCell = Instance.soaInfo.GetCell(Conduit.idx);
 			Pickupable pickupable = Instance.GetPickupable(contents.pickupableHandle);
 
-			bool SourceCellInsulated = HighPressureConduitRegistration.IsInsulatedRail(sourceCell);
-			bool TargetCellInsulated = HighPressureConduitRegistration.IsInsulatedRail(targetcell);
+			SourceCellInsulated = HighPressureConduitRegistration.IsInsulatedRail(sourceCell);
+			TargetCellInsulated = HighPressureConduitRegistration.IsInsulatedRail(targetcell);
 			if (TargetCellInsulated != SourceCellInsulated)
 			{
 				HighPressureConduitRegistration.SetInsulatedState(pickupable, TargetCellInsulated);
@@ -75,21 +79,14 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				//SgtLogger.l(pickupable.gameObject.GetProperName() + " had a special unit mass");
 				return contents;
 			}
-			float weight = pickupable.TotalAmount;
-			float maxTargetRailCapacity = HighPressureConduitRegistration.SolidCap_Logistic;
-			GameObject sourceRail, targetRail;
+			weight = pickupable.TotalAmount;
+			maxTargetRailCapacity = HighPressureConduitRegistration.SolidCap_Logistic;
 
-			if (!LogisticConduit.TryGetLogisticConduitAt(sourceCell, false, out sourceRail))
-				maxTargetRailCapacity = HighPressureConduitRegistration.GetMaxConduitCapacityWithConduitGOAt(sourceCell, ConduitType.Solid, out sourceRail);
-
-			HighPressureConduitRegistration.GetMaxConduitCapacityWithConduitGOAt(sourceCell, ConduitType.Solid, out targetRail);
-
-			
+			if (!LogisticConduit.HasLogisticConduitAt(sourceCell, false))
+				maxTargetRailCapacity = HighPressureConduitRegistration.GetMaxConduitCapacityAt(sourceCell, ConduitType.Solid);
 
 			maxTargetRailCapacity += 0.0001f; //adding a tiny amount to avoid floating point errors dropping micrograms of items
 			//SgtLogger.l("Current Item Weight: " + weight + ", target weight: " + maxTargetRailCapacity+" with source and target: "+sourceCell+","+targetcell);
-
-
 
 			if (weight <= maxTargetRailCapacity)
 				return contents;
@@ -109,11 +106,11 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				
 				///using this variant for now because the rail system doesnt react to damage...
 				///alt variant: drop only excess amount if weight too hight, keep target limit on the rail
-				float additionalWeightToRemove = (weight - maxTargetRailCapacity);
-				var droppedExcess = pickupable.Take(additionalWeightToRemove);
+				additionalWeightToRemove = (weight - maxTargetRailCapacity);
+				droppedExcess = pickupable.Take(additionalWeightToRemove);
 				///drop excess mass
 				Instance.DumpPickupable(droppedExcess);
-				float ratio = additionalWeightToRemove / weight;
+				//float ratio = additionalWeightToRemove / weight;
 				////SgtLogger.l($"Dropped {ratio * 100}% of mass on solid conduit");
 			}
 			return contents;
@@ -124,7 +121,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		public class SolidConduitFlow_DumpPickupable_Patch
 		{
 			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
+			public static bool Prepare() => Config.Instance.HPA_Rails_Enabled;
 			public static void Prefix(SolidConduitFlow __instance, Pickupable pickupable)
 			{
 				HighPressureConduitRegistration.SetInsulatedState(pickupable, false);
@@ -135,7 +132,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		public class SolidConduitFlow_DumpPipeContents_Patch
 		{
 			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
+			public static bool Prepare() => Config.Instance.HPA_Rails_Enabled;
 			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
 			{
 				var codes = orig.ToList();
@@ -161,6 +158,8 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		[HarmonyPatch(typeof(SolidConduitFlow), nameof(SolidConduitFlow.AddPickupable))]
 		public class SolidConduitFlow_AddPickupable_Patch
 		{
+			[HarmonyPrepare]
+			public static bool Prepare() => Config.Instance.HPA_Rails_Enabled;
 			public static void Postfix(SolidConduitFlow __instance, int cell_idx, Pickupable pickupable)
 			{
 				if(HighPressureConduitRegistration.IsInsulatedRail(cell_idx))

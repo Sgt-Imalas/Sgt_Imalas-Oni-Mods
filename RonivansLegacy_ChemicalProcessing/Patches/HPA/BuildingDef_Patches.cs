@@ -44,10 +44,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 			{
 				if (!__result)
 					return;
-				SgtLogger.l(__instance.ObjectLayer + " - " + __instance.BuildLocationRule + " - " + __instance.UtilityInputOffset + " - " + __instance.UtilityOutputOffset);
 				__result = IsValidHPABridgeLocation(__instance, cell, source_go, orientation, ref fail_reason);
-
-
 			}
 		}
 		static bool IsValidHPABridgeLocation(BuildingDef __instance, int cell, GameObject source_go, Orientation orientation, ref string fail_reason)
@@ -86,7 +83,6 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 			{
 				if (!__result)
 					return;
-				SgtLogger.l(__instance.ObjectLayer + " - " + __instance.BuildLocationRule + " - " + __instance.UtilityInputOffset + " - " + __instance.UtilityOutputOffset);
 				__result = IsValidHPABridgeLocation(__instance, cell, source_go, orientation, ref fail_reason);
 			}
 		}

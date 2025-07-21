@@ -41,38 +41,44 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 						yield return original;
 				}
 			}
+			static float targetConduitCapacity, targetBridgeCapacity, conduitMass;
+			static bool isHPBridge, hasHPTargetConduit;
+			static int sourceCell, targetCell;
+			static ConduitType type;
 
 			private static ConduitFlow.ConduitContents SetMaxFlowForBridge(ConduitFlow.ConduitContents contents, ConduitBridge bridge, ConduitFlow manager)
 			{
 				//If the bridge is broken, prevent the bridge from operating by limiting what it sees.
+				conduitMass = contents.mass;
+
 				if (bridge.GetComponent<BuildingHP>().IsBroken)
 				{
 					//does not actually remove mass from the conduit, just causes the bridge to assume there is no mass available to move.
-					contents.RemoveMass(contents.mass);
+					contents.RemoveMass(conduitMass);
 					return contents;
 				}
-				var type = bridge.type;
-				var cell = bridge.outputCell;
+				type = bridge.type;
+				targetCell = bridge.outputCell;
 
-				bool isHPBridge = HighPressureConduitRegistration.HasHighPressureConduitAt(cell, type, true);
-				bool hasHPTargetConduit = HighPressureConduitRegistration.HasHighPressureConduitAt(cell,type);
+				isHPBridge = HighPressureConduitRegistration.HasHighPressureConduitAt(targetCell, type, true);
+				hasHPTargetConduit = HighPressureConduitRegistration.HasHighPressureConduitAt(targetCell, type);
 
 				//target conduit is high pressure, bridge is high pressure -> no damage case
 				if (isHPBridge && hasHPTargetConduit)
 					return contents;
 
 
-				float targetConduitCapacity = HighPressureConduitRegistration.GetMaxConduitCapacityWithConduitGOAt(bridge.outputCell, bridge.type, out var targetConduit);
+				targetConduitCapacity = HighPressureConduitRegistration.GetMaxConduitCapacityAt(targetCell, type);
 
 				//no pipe at output cell of bridge
-				if (targetConduit == null)
+				if (!HighPressureConduitRegistration.HasConduitAt(targetCell,type))
 					return contents;
 
-				float targetBridgeCapacity = HighPressureConduitRegistration.GetMaxConduitCapacityWithConduitGOAt(bridge.outputCell, bridge.type, out _, true);
+				targetBridgeCapacity = HighPressureConduitRegistration.GetMaxConduitCapacityAt(targetCell, type,true);
 
 				//damage the bridge when the target pipe is a HPA bridge 
-				if (contents.mass > targetBridgeCapacity * 1.1f)
-					HighPressureConduitEventHandler.ScheduleForDamage(bridge.gameObject, (int)contents.mass, (int)targetBridgeCapacity);
+				if (conduitMass > targetBridgeCapacity * 1.1f)
+					HighPressureConduitEventHandler.ScheduleForDamage(bridge.gameObject, (int)conduitMass, (int)targetBridgeCapacity);
 
 				//If the ConduitBridge is not supposed to support the amount of fluid currently in the contents, only make the bridge's intended max visible
 				//Also immediately deal damage if the current contents are higher than 110% of the intended max (110% is set because at 100%, a system with no pressurized pipes would seem to randomly deal damage as if the contents
@@ -85,7 +91,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 					contents.diseaseCount = (int)((float)contents.diseaseCount * ratio);
 				}
 				///damage target conduit if it got too much mass transfered to it
-				HighPressureConduitEventHandler.PressureDamageHandling(targetConduit, contents.mass, targetConduitCapacity);
+				HighPressureConduitEventHandler.PressureDamageHandling(targetCell, type, contents.mass, targetConduitCapacity);
 				return contents;
 			}
 		}

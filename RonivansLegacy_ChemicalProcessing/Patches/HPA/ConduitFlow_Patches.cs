@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
@@ -25,9 +26,10 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		{
 			[HarmonyPrepare]
 			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
+			static float increasedCap;
 			public static void Postfix(ConduitFlow __instance, ref bool __result, int cell_idx)
 			{
-				if (__result && HighPressureConduitRegistration.TryGetHPACapacityAt(cell_idx, __instance.conduitType, out var increasedCap))
+				if (__result && HighPressureConduitRegistration.TryGetHPACapacityAt(cell_idx, __instance.conduitType, out increasedCap))
 				{
 					__result = increasedCap - __instance.grid[cell_idx].contents.mass <= 0;
 				}
@@ -142,22 +144,24 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		}
 
 		///Replace max mass check if the conduit is HighPressure
+		static float increasedCap;
 		private static float ReplaceMaxMassAtCell(float standardMax, ConduitFlow conduitFlow, int cell_idx)
 		{
-			if(!HighPressureConduitRegistration.TryGetHPACapacityAt(cell_idx, conduitFlow.conduitType, out var increasedCap))
+			if(!HighPressureConduitRegistration.TryGetHPACapacityAt(cell_idx, conduitFlow.conduitType, out increasedCap))
 				return standardMax;
 			return increasedCap;
 		}
 
 		///Based on the passed variables, determine if overpressure damage should be dealt to the receiving conduit
+
+		static float receiverMax;
 		private static void DoOverpressureDamageAtCell(ConduitFlow conduitFlow, ConduitFlow.GridNode sender, int cell_idx)
 		{
 			///if the conduit is not high pressure, this check fails, therefore it should receive damage
-
-			float receiverMax = HighPressureConduitRegistration.GetMaxConduitCapacityWithConduitGOAt(cell_idx, conduitFlow.conduitType, out var receiver);
+			receiverMax = HighPressureConduitRegistration.GetMaxConduitCapacityAt(cell_idx, conduitFlow.conduitType);
 			float sentMass = sender.contents.mass;
 
-			HighPressureConduitEventHandler.PressureDamageHandling(receiver, sentMass, receiverMax);
+			HighPressureConduitEventHandler.PressureDamageHandling(cell_idx,conduitFlow.conduitType, sentMass, receiverMax);
 		}		
 	}
 }

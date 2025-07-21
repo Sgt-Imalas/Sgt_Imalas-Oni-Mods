@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {
@@ -39,9 +40,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		public static HashSet<HighPressureConduit> AllConduits = [];
 		public static HashSet<GameObject> AllConduitGOs = [];
 
-
-		public static HashSet<HighPressureConduit> AllInsulatedSolidConduits = [];
-		public static HashSet<GameObject> AllInsulatedSolidConduitGOs = [];
 		public static HashSet<int> AllInsulatedSolidConduitCells = [];
 
 		public static Dictionary<int, Dictionary<int, HighPressureConduit>> ConduitsByLayer;
@@ -176,7 +174,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		{
 			return _solidCap_logistic / _solidCap_reg;
 		}
-		public static float GetMaxConduitCapacityWithConduitGOAt(int cell, ConduitType type, out GameObject go, bool isBridge = false)
+
+		public static float GetMaxConduitCapacityAt(int cell, ConduitType type, bool isBridge = false)
 		{
 			int targetLayer = -1;
 			switch (type)
@@ -190,14 +189,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				default:
 					throw new NotImplementedException("Invalid conduit target type");
 			}
-			if (ConduitsByLayer[targetLayer].TryGetValue(cell, out var cmp))
+			if (ConduitsByLayer[targetLayer].ContainsKey(cell))
 			{
-				go = cmp.gameObject;
 				return CachedHPAConduitCapacity(type);
 			}
 			else
 			{
-				go = GetConduitAt(cell, type);
 				if (LogisticConduit.HasLogisticConduitAt(cell, isBridge))
 					return SolidCap_Logistic;
 				return CachedRegularConduitCapacity(type);
@@ -241,6 +238,25 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			}
 			return false;
 		}
+		public static bool HasConduitAt(int cell, ConduitType type, bool bridge = false)
+		{
+			if (type == ConduitType.Gas)
+			{
+				return Grid.Objects[cell,bridge ? (int)ObjectLayer.GasConduitConnection : (int)ObjectLayer.GasConduit] != null;
+			}
+			else if (type == ConduitType.Liquid)
+			{
+				return Grid.Objects[cell, bridge ? (int)ObjectLayer.LiquidConduitConnection : (int)ObjectLayer.LiquidConduit] != null;
+			}
+			else if (type == ConduitType.Solid)
+			{
+				return Grid.Objects[cell, bridge ? (int)ObjectLayer.SolidConduitConnection : (int)ObjectLayer.SolidConduitConnection] != null;
+			}
+			return false;
+		}
+
+
+
 		public static bool HasHighPressureConduitAt(int cell, ConduitType type, bool showContents, out Color32 tint)
 		{
 			if (HasHighPressureConduitAt(cell, type, false))
@@ -274,8 +290,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			AllConduits.Add(conduit);
 			if(conduit.InsulateSolidContents)
 			{
-				AllInsulatedSolidConduitGOs.Add(conduit.gameObject);
-				AllInsulatedSolidConduits.Add(conduit);
 				AllInsulatedSolidConduitCells.Add(conduit.buildingComplete.PlacementCells.Min());
 			}
 		}
@@ -287,43 +301,38 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			AllConduits.Remove(conduit);
 			if (conduit.InsulateSolidContents)
 			{
-				AllInsulatedSolidConduitGOs.Remove(conduit.gameObject);
-				AllInsulatedSolidConduits.Remove(conduit);
 				AllInsulatedSolidConduitCells.Remove(conduit.buildingComplete.PlacementCells.Min());
 			}
 		}
 
+		static Tuple<SimTemperatureTransfer, KPrefabID> cached = null;
+		static Dictionary<Pickupable,Tuple<SimTemperatureTransfer, KPrefabID>> _insulatedPickupables = new(2048);
 		internal static Pickupable SetInsulatedState(Pickupable pickupable, bool sealAndInsulate)
 		{
-			if(pickupable == null || pickupable.gameObject == null)
+			if (pickupable == null || pickupable.gameObject == null)
 				return pickupable;
 
-			if(pickupable.TryGetComponent<SimTemperatureTransfer>(out var simTempTransfer))
-				simTempTransfer.enabled = !sealAndInsulate;
-
-			if(pickupable.TryGetComponent<KPrefabID>(out var prefab))
+			if(_insulatedPickupables.TryGetValue(pickupable, out cached))
 			{
-				if (sealAndInsulate)
+				if (cached.first != null)
+					cached.first.enabled = !sealAndInsulate;
+				if (cached.second != null)
 				{
-					prefab.AddTag(GameTags.Sealed);
-					//prefab.AddTag(GameTags.Preserved);
+					if (sealAndInsulate)
+						cached.second.AddTag(GameTags.Sealed);
+					else
+						cached.second.RemoveTag(GameTags.Sealed);
 				}
-				else
-				{
-					prefab.RemoveTag(GameTags.Sealed);
-					//prefab.RemoveTag(GameTags.Preserved);
-				}
+				return pickupable;
+			}
+			if (pickupable.TryGetComponent<SimTemperatureTransfer>(out var _tempTransfer) && pickupable.TryGetComponent<KPrefabID>(out var _kPrefab))
+			{
+				_insulatedPickupables[pickupable] = new Tuple<SimTemperatureTransfer, KPrefabID>(_tempTransfer, _kPrefab);
+				return SetInsulatedState(pickupable, sealAndInsulate);
 			}
 			return pickupable;
 		}
 
-		internal static bool IsInsulatedRail(GameObject railGO)
-		{
-			if (railGO == null)
-				return false;
-
-			return AllInsulatedSolidConduitGOs.Contains(railGO);
-		}
 		internal static bool IsInsulatedRail(int cell)
 		{
 			if (cell < 0)
