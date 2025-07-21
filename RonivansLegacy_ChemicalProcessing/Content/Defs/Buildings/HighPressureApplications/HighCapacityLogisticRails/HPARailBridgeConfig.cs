@@ -34,7 +34,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 3, 1, "hpa_rail_bridge_kanim", 100, 30f, costs, mats, 1600f, BuildLocationRule.NotInTiles, BUILDINGS.DECOR.NONE, nONE, 0.2f);
 
 			def1.ObjectLayer = ObjectLayer.SolidConduitConnection;
-			def1.SceneLayer = Grid.SceneLayer.SolidConduitBridges;
+			//def1.SceneLayer = Grid.SceneLayer.SolidConduitBridges;
+			def1.SceneLayer = Grid.SceneLayer.Wires;
 			def1.InputConduitType = ConduitType.Solid;
 			def1.OutputConduitType = ConduitType.Solid;
 			def1.Floodable = false;

@@ -16,8 +16,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 		public override BuildingDef CreateBuildingDef()
 		{
 			EffectorValues nONE = NOISE_POLLUTION.NONE;
-			string[] mats = [GameTags.Steel.ToString(), MATERIALS.TRANSPARENT];
-			float[] costs = [100, 25];
+			string[] mats = [GameTags.Steel.ToString()];
+			float[] costs = [100];
 			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 1, 1, "hpa_rail_kanim", 10, 3f, costs, mats, 1600f, BuildLocationRule.NotInTiles, BUILDINGS.DECOR.NONE, nONE, 0.2f);
 			def1.Overheatable = false;
 			def1.Floodable = false;
@@ -36,9 +36,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			def1.isUtility = true;
 			def1.DragBuild = true;
 			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.SolidConveyorIDs, ID);
-			SoundUtils.CopySoundsToAnim("hp_rail_kanim", "utilities_conveyor_kanim");
+			SoundUtils.CopySoundsToAnim("hpa_rail_kanim", "utilities_conveyor_kanim");
 			return def1;
 		}
+
 
 		public override void DoPostConfigureComplete(GameObject go)
 		{

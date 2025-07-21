@@ -43,6 +43,13 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				if (item == null)
 					return item;
 
+				bool SourceCellInsulated = HighPressureConduitRegistration.IsInsulatedRail(bridge.inputCell);
+				bool TargetCellInsulated = HighPressureConduitRegistration.IsInsulatedRail(bridge.outputCell);
+				if (TargetCellInsulated != SourceCellInsulated)
+				{
+					HighPressureConduitRegistration.SetInsulatedState(item, TargetCellInsulated);
+				}
+
 				///ignore items with custom unit mass
 				if (item.PrimaryElement.MassPerUnit != 1)
 				{

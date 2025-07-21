@@ -39,6 +39,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		public static HashSet<HighPressureConduit> AllConduits = [];
 		public static HashSet<GameObject> AllConduitGOs = [];
 
+
+		public static HashSet<HighPressureConduit> AllInsulatedSolidConduits = [];
+		public static HashSet<GameObject> AllInsulatedSolidConduitGOs = [];
+		public static HashSet<int> AllInsulatedSolidConduitCells = [];
+
 		public static Dictionary<int, Dictionary<int, HighPressureConduit>> ConduitsByLayer;
 
 		static HighPressureConduitRegistration()
@@ -267,6 +272,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			ConduitsByLayer[(int)conduit.buildingComplete.Def.ObjectLayer][conduit.buildingComplete.PlacementCells.Max()] = conduit;
 			AllConduitGOs.Add(conduit.gameObject);
 			AllConduits.Add(conduit);
+			if(conduit.InsulateSolidContents)
+			{
+				AllInsulatedSolidConduitGOs.Add(conduit.gameObject);
+				AllInsulatedSolidConduits.Add(conduit);
+				AllInsulatedSolidConduitCells.Add(conduit.buildingComplete.PlacementCells.Min());
+			}
 		}
 		public static void UnregisterHighPressureConduit(HighPressureConduit conduit)
 		{
@@ -274,9 +285,15 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			ConduitsByLayer[(int)conduit.buildingComplete.Def.ObjectLayer].Remove(conduit.buildingComplete.PlacementCells.Max());
 			AllConduitGOs.Remove(conduit.gameObject);
 			AllConduits.Remove(conduit);
+			if (conduit.InsulateSolidContents)
+			{
+				AllInsulatedSolidConduitGOs.Remove(conduit.gameObject);
+				AllInsulatedSolidConduits.Remove(conduit);
+				AllInsulatedSolidConduitCells.Remove(conduit.buildingComplete.PlacementCells.Min());
+			}
 		}
 
-		internal static Pickupable SetSealedInsulationState(Pickupable pickupable, bool sealAndInsulate)
+		internal static Pickupable SetInsulatedState(Pickupable pickupable, bool sealAndInsulate)
 		{
 			if(pickupable == null || pickupable.gameObject == null)
 				return pickupable;
@@ -289,15 +306,30 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				if (sealAndInsulate)
 				{
 					prefab.AddTag(GameTags.Sealed);
-					prefab.AddTag(GameTags.Preserved);
+					//prefab.AddTag(GameTags.Preserved);
 				}
 				else
 				{
 					prefab.RemoveTag(GameTags.Sealed);
-					prefab.RemoveTag(GameTags.Preserved);
+					//prefab.RemoveTag(GameTags.Preserved);
 				}
 			}
 			return pickupable;
+		}
+
+		internal static bool IsInsulatedRail(GameObject railGO)
+		{
+			if (railGO == null)
+				return false;
+
+			return AllInsulatedSolidConduitGOs.Contains(railGO);
+		}
+		internal static bool IsInsulatedRail(int cell)
+		{
+			if (cell < 0)
+				return false;
+
+			return AllInsulatedSolidConduitCells.Contains(cell);
 		}
 	}
 }

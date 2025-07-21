@@ -13,22 +13,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
     class HPARailBridgeTileConfig : IBuildingConfig
 	{
 		public static string ID = "HPA_SolidRailBridgeTile";
-		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
-		{
-			BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof(RequiresFoundation), prefab_tag);
-
-			var cap = go.AddOrGet<ConduitCapacityDescriptor>();
-			cap.Conduit = ConduitType.Solid;
-			cap.CachedConduitCapacity = HighPressureConduitRegistration.SolidCap_HP; 
-			
-			GeneratedBuildings.MakeBuildingAlwaysOperational(go);
-			SimCellOccupier simCellOccupier = go.AddOrGet<SimCellOccupier>();
-			simCellOccupier.doReplaceElement = true;
-			simCellOccupier.movementSpeedMultiplier = DUPLICANTSTATS.MOVEMENT_MODIFIERS.PENALTY_3;
-			simCellOccupier.notifyOnMelt = true;
-			go.AddOrGet<BuildingHP>().destroyOnDamaged = true;
-			go.AddOrGet<TileTemperature>();
-		}
 
 		public override BuildingDef CreateBuildingDef()
 		{
@@ -56,13 +40,32 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			def1.PermittedRotations = PermittedRotations.R360;
 			def1.UtilityInputOffset = new CellOffset(-1, 0);
 			def1.UtilityOutputOffset = new CellOffset(1, 0);
-			def1.SceneLayer = Grid.SceneLayer.SolidConduitBridges;
+			//def1.SceneLayer = Grid.SceneLayer.SolidConduitBridges;
+			def1.SceneLayer = Grid.SceneLayer.Wires;
 			def1.ForegroundLayer = Grid.SceneLayer.TileMain;
 			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.SolidConveyorIDs, ID);
 			SoundUtils.CopySoundsToAnim("logistic_bridge_kanim", "utilities_conveyorbridge_kanim");
 			return def1;
 		}
 
+		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
+		{
+			BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof(RequiresFoundation), prefab_tag);
+
+			var cap = go.AddOrGet<ConduitCapacityDescriptor>();
+			cap.Conduit = ConduitType.Solid;
+			cap.CachedConduitCapacity = HighPressureConduitRegistration.SolidCap_HP;
+
+			go.AddOrGet<Insulator>();
+			GeneratedBuildings.MakeBuildingAlwaysOperational(go);
+			SimCellOccupier simCellOccupier = go.AddOrGet<SimCellOccupier>();
+
+			simCellOccupier.doReplaceElement = true;
+			simCellOccupier.movementSpeedMultiplier = DUPLICANTSTATS.MOVEMENT_MODIFIERS.PENALTY_3;
+			simCellOccupier.notifyOnMelt = true;
+			go.AddOrGet<BuildingHP>().destroyOnDamaged = true;
+			go.AddOrGet<TileTemperature>();
+		}
 		public override void DoPostConfigureComplete(GameObject go)
 		{
 			go.AddOrGet<SolidConduitBridge>();

@@ -13,9 +13,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {
 	public class HighPressureConduit : KMonoBehaviour
 	{	
-
 		[MyCmpReq]
 		public BuildingComplete buildingComplete;
+		[SerializeField]
+		public bool InsulateSolidContents = false;
 
 		public override void OnSpawn()
 		{

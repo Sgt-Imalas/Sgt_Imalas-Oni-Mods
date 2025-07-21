@@ -1361,7 +1361,7 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString EFFECT = string.Concat(
 						[
 							"Transports large quantities of ",FormatAsLink("Solid Materials", "ELEMENTS_SOLID"),
-							".\n\nCan not be run through wall and floor tiles.\n\nTransported items are fully insulated."
+							".\n\nCan not be run through wall and floor tiles.\n\nBeing held in a vaccuum, transported items are fully insulated."
 						]);
 				}
 				public class HPA_SOLIDRAILBRIDGETILE

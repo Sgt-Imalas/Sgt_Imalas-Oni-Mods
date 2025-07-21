@@ -61,6 +61,14 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		{
 			int sourceCell = Instance.soaInfo.GetCell(Conduit.idx);
 			Pickupable pickupable = Instance.GetPickupable(contents.pickupableHandle);
+
+			bool SourceCellInsulated = HighPressureConduitRegistration.IsInsulatedRail(sourceCell);
+			bool TargetCellInsulated = HighPressureConduitRegistration.IsInsulatedRail(targetcell);
+			if (TargetCellInsulated != SourceCellInsulated)
+			{
+				HighPressureConduitRegistration.SetInsulatedState(pickupable, TargetCellInsulated);
+			}
+
 			///ignore items that have a custom weight per unit
 			if (pickupable.PrimaryElement.MassPerUnit != 1)
 			{
@@ -69,14 +77,19 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 			}
 			float weight = pickupable.TotalAmount;
 			float maxTargetRailCapacity = HighPressureConduitRegistration.SolidCap_Logistic;
-			GameObject sourceRail;
+			GameObject sourceRail, targetRail;
 
 			if (!LogisticConduit.TryGetLogisticConduitAt(sourceCell, false, out sourceRail))
 				maxTargetRailCapacity = HighPressureConduitRegistration.GetMaxConduitCapacityWithConduitGOAt(sourceCell, ConduitType.Solid, out sourceRail);
 
+			HighPressureConduitRegistration.GetMaxConduitCapacityWithConduitGOAt(sourceCell, ConduitType.Solid, out targetRail);
+
+			
 
 			maxTargetRailCapacity += 0.0001f; //adding a tiny amount to avoid floating point errors dropping micrograms of items
 			//SgtLogger.l("Current Item Weight: " + weight + ", target weight: " + maxTargetRailCapacity+" with source and target: "+sourceCell+","+targetcell);
+
+
 
 			if (weight <= maxTargetRailCapacity)
 				return contents;
@@ -114,7 +127,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
 			public static void Prefix(SolidConduitFlow __instance, Pickupable pickupable)
 			{
-				HighPressureConduitRegistration.SetSealedInsulationState(pickupable, false);
+				HighPressureConduitRegistration.SetInsulatedState(pickupable, false);
 			}
 		}
 
@@ -142,7 +155,24 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				}
 			}
 
-			private static Pickupable RestoreHeatTransfer(Pickupable itemToRestore) => HighPressureConduitRegistration.SetSealedInsulationState(itemToRestore, false);
+			private static Pickupable RestoreHeatTransfer(Pickupable itemToRestore) => HighPressureConduitRegistration.SetInsulatedState(itemToRestore, false);
 		}
+
+		[HarmonyPatch(typeof(SolidConduitFlow), nameof(SolidConduitFlow.AddPickupable))]
+		public class SolidConduitFlow_AddPickupable_Patch
+		{
+			public static void Postfix(SolidConduitFlow __instance, int cell_idx, Pickupable pickupable)
+			{
+				if(HighPressureConduitRegistration.IsInsulatedRail(cell_idx))
+				{
+					HighPressureConduitRegistration.SetInsulatedState(pickupable, true);
+				}
+				else
+				{
+					HighPressureConduitRegistration.SetInsulatedState(pickupable, false);
+				}
+			}
+		}
+
 	}
 }
