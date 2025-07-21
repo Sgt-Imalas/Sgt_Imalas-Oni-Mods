@@ -574,8 +574,8 @@ elements:
     dlcId: ""
 
   - elementId: AmmoniumWater        
-    specificHeatCapacity: 12.446
-    thermalConductivity: 9.997
+    specificHeatCapacity: 3.8 #slightly better than brine
+    thermalConductivity: 0.609 #brine
     liquidCompression: 1.01
     speed: 100
     solidSurfaceAreaMultiplier: 1

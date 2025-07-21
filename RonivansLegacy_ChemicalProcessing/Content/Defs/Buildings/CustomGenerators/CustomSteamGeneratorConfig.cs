@@ -17,13 +17,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
     class CustomSteamGeneratorConfig : IBuildingConfig
 	{
 		
-		public const float SizeMultiplier = 1f / 5f; // 1/5 of the width
+		public const float SizeMultiplier = 1f / 3f; // 1/3 of the area
 		public static float Wattage = 850f * SizeMultiplier;
 
 		public static string ID = "CustomSteamGenerator";
-
-		private static readonly PortDisplayOutput pWaterPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(0, 1));
-		private static readonly PortDisplayOutput co2Port = new PortDisplayOutput(ConduitType.Gas, new CellOffset(0, 3));
 
 		const float conduitInputRate = 1;
 
@@ -32,7 +29,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 			//hide coal gen slider
 			GeneratorList.AddGeneratorToIgnore(ID);
 
-			float[] construction_mass = [75, 25];
+			float[] construction_mass = [250, 50];
 			string[] construction_materials = [GameTags.RefinedMetal.ToString(), GameTags.Plastic.ToString()];
 
 			EffectorValues decor = TUNING.BUILDINGS.DECOR.NONE;
@@ -45,7 +42,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 				construction_mass, construction_materials,
 				1600f, BuildLocationRule.OnFloor, decor, noise);
 			buildingDef.OutputConduitType = ConduitType.Liquid;
-			buildingDef.UtilityOutputOffset = new CellOffset(0, 2);
+			buildingDef.UtilityOutputOffset = new CellOffset(0, 4);
 			buildingDef.GeneratorWattageRating = Wattage;
 			buildingDef.GeneratorBaseCapacity = Wattage;
 			buildingDef.Entombable = true;

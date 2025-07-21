@@ -25,8 +25,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		//--[ Special Settings ]-----------------------------------------------
 		private static readonly PortDisplayInput HydrogenGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(2, 1), null, new Color32(197, 31, 139, 255));
 		private static readonly PortDisplayOutput methaneGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(-1, 1), null, new Color32(255, 114, 33, 255));
-		private static readonly PortDisplayInput naphthaLiquidInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(2, -3), null, new Color32(176, 0, 255, 255));
-		private static readonly PortDisplayOutput PetroleumLiquidOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(-1, -3), null, new Color32(255, 195, 37, 255));
+		private static readonly PortDisplayInput naphthaLiquidInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(2, -2), null, new Color32(176, 0, 255, 255));
+		private static readonly PortDisplayOutput PetroleumLiquidOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(-1, -2), null, new Color32(255, 195, 37, 255));
 
 		//--[ Building Definitions ]-------------------------------------------
 		public override BuildingDef CreateBuildingDef()
