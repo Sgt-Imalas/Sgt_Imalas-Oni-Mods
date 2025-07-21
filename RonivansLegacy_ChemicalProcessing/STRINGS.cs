@@ -1343,20 +1343,20 @@ namespace RonivansLegacy_ChemicalProcessing
 
 				public class HPA_SOLIDRAIL
 				{
-					public static LocString NAME = FormatAsLink("Heavy Duty Rail", nameof(HPA_SOLIDRAIL));
+					public static LocString NAME = FormatAsLink("Heavy-Duty Rail", nameof(HPA_SOLIDRAIL));
 					public static LocString DESC = "Rails move materials where they'll be needed most, saving Duplicants the walk.";
 					public static LocString EFFECT = string.Concat(
 						[
 							"Transports large quantities of ",FormatAsLink("Solid Materials", "ELEMENTS_SOLID")," on a track between ",
-							FormatAsLink("Heavy Duty Loaders", "HPA_INBOX"),
+							FormatAsLink("Heavy-Duty Loaders", "HPA_INBOX"),
 							" and ",
-							FormatAsLink("Heavy Duty Receptacles", "HPA_OUTBOX"),
+							FormatAsLink("Heavy-Duty Receptacles", "HPA_OUTBOX"),
 							".\n\nCan not be run through wall and floor tiles."
 						]);
 				}
 				public class HPA_SOLIDRAIL_INSULATED
 				{
-					public static LocString NAME = FormatAsLink("Insulated Heavy Duty Rail", nameof(HPA_SOLIDRAIL_INSULATED));
+					public static LocString NAME = FormatAsLink("Insulated Heavy-Duty Rail", nameof(HPA_SOLIDRAIL_INSULATED));
 					public static LocString DESC = "Rails move materials where they'll be needed most, saving Duplicants the walk.";
 					public static LocString EFFECT = string.Concat(
 						[
@@ -1366,30 +1366,36 @@ namespace RonivansLegacy_ChemicalProcessing
 				}
 				public class HPA_SOLIDRAILBRIDGETILE
 				{
-					public static LocString NAME = FormatAsLink("Heavy Duty Joint Plate", nameof(HPA_SOLIDRAILBRIDGETILE));
-					public static LocString DESC = "Joint plates can run Heavy Duty rails through walls without leaking gas or liquid.";
+					public static LocString NAME = FormatAsLink("Heavy-Duty Joint Plate", nameof(HPA_SOLIDRAILBRIDGETILE));
+					public static LocString DESC = "Joint plates can run Heavy-Duty rails through walls without leaking gas or liquid.";
 					public static LocString EFFECT = "Allows " + HPA_SOLIDRAIL.NAME+" and "+ HPA_SOLIDRAIL_INSULATED.NAME + " to be run through wall and floor tile.\n\nFunctions as regular insulated tile.";
+				}
+				public class HPA_SOLIDRAILBRIDGE
+				{
+					public static LocString NAME = FormatAsLink("Heavy-Duty Bridge", nameof(HPA_SOLIDRAILBRIDGE));
+					public static LocString DESC = "Separating rail systems helps ensure materials go to the intended destinations.";
+					public static LocString EFFECT = "Allows " + HPA_SOLIDRAIL.NAME + " and " + HPA_SOLIDRAIL_INSULATED.NAME + " to run one section over another without joining them.\n\nCanot be run through wall and floor tile.";
 				}
 				public class HPA_INBOX
 				{
-					public static LocString NAME = FormatAsLink("Heavy Duty Loader", nameof(HPA_INBOX));
+					public static LocString NAME = FormatAsLink("Heavy-Duty Loader", nameof(HPA_INBOX));
 					public static LocString DESC = "";
 					public static LocString EFFECT = "";
 				}
 				public class HPA_OUTBOX
 				{
-					public static LocString NAME = FormatAsLink("Heavy Duty Receptacle", nameof(HPA_OUTBOX));
+					public static LocString NAME = FormatAsLink("Heavy-Duty Receptacle", nameof(HPA_OUTBOX));
 					public static LocString DESC = "";
 					public static LocString EFFECT = "";
 				}
 				public class HPA_SOLIDRAILVALVE
 				{
-					public static LocString NAME = FormatAsLink("Heavy Duty Reduction Valve", nameof(HPA_SOLIDRAILVALVE));
-					public static LocString DESC = "A mechanical valve capable of reducing the flow of mass from a heavy duty rail to to a conveyor rail, to avoid dropping items.";
+					public static LocString NAME = FormatAsLink("Heavy-Duty Reduction Valve", nameof(HPA_SOLIDRAILVALVE));
+					public static LocString DESC = "A mechanical valve capable of reducing the flow of mass from a Heavy-Duty rail to to a conveyor rail, to avoid dropping items.";
 					public static LocString EFFECT = "Allows " +
 					FormatAsLink("Solid Materials", "ELEMENTS_SOLID") +
 					" to be transfered from " +
-					FormatAsLink("Heavy Duty Rails", "HPA_SOLIDRAIL") +
+					FormatAsLink("Heavy-Duty Rails", "HPA_SOLIDRAIL") +
 					" to normal" +
 					FormatAsLink("Conveyor Rails", "SOLIDCONDUIT") +
 					".";
@@ -1543,13 +1549,13 @@ namespace RonivansLegacy_ChemicalProcessing
 				}
 				public class HPA_NEEDSOLIDIN
 				{
-					public static LocString NAME ="No Heavy Duty Solid Intake";
-					public static LocString TOOLTIP =("This building's " + PRE_KEYWORD + "Heavy Duty Solid Intake" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HPA_SOLIDRAIL.NAME + " connected");
+					public static LocString NAME ="No Heavy-Duty Solid Intake";
+					public static LocString TOOLTIP =("This building's " + PRE_KEYWORD + "Heavy-Duty Solid Intake" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HPA_SOLIDRAIL.NAME + " connected");
 				}
 				public class HPA_NEEDLSOLIDOUT
 				{
-					public static LocString NAME ="No Heavy Duty Solid Output";
-					public static LocString TOOLTIP =("This building's " + PRE_KEYWORD + "Heavy Duty Solid Output" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HPA_SOLIDRAIL.NAME + " connected");
+					public static LocString NAME ="No Heavy-Duty Solid Output";
+					public static LocString TOOLTIP =("This building's " + PRE_KEYWORD + "Heavy-Duty Solid Output" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HPA_SOLIDRAIL.NAME + " connected");
 				}
 				public class LOGISTIC_NEEDSOLIDIN
 				{
@@ -1957,6 +1963,10 @@ namespace RonivansLegacy_ChemicalProcessing
 		}
 		public class UI
 		{
+			public class TOOLTIPS
+			{
+				public static LocString HELP_BUILDLOCATION_HPA_RAIL = "Obstructed by Heavy-Duty Rail";
+			}
 			public class KLEI_INVENTORY_SCREEN
 			{
 				public class SUBCATEGORIES
@@ -2206,13 +2216,13 @@ namespace RonivansLegacy_ChemicalProcessing
 			}
 			public class HP_SOLID_CAPACITY
 			{
-				public static LocString NAME = "Heavy Duty Rail Capacity";
-				public static LocString TOOLTIP = "Heavy Duty Rails serve as an late game upgrade to conveyor rails, having a much higher throughput at the cost of more complex build requirements.";
+				public static LocString NAME = "Heavy-Duty Rail Capacity";
+				public static LocString TOOLTIP = "Heavy-Duty Rails serve as an late game upgrade to conveyor rails, having a much higher throughput at the cost of more complex build requirements.";
 			}
 			public class HP_SOLID_ARMRANGE
 			{
-				public static LocString NAME = "Heavy Duty Auto-Sweeper Range";
-				public static LocString TOOLTIP = "The Heavy Duty Auto-Sweeper serves as a late game version of the autosweeper, having higher range and throughput at the cost of more complex build requirements";
+				public static LocString NAME = "Heavy-Duty Auto-Sweeper Range";
+				public static LocString TOOLTIP = "The Heavy-Duty Auto-Sweeper serves as a late game version of the autosweeper, having higher range and throughput at the cost of more complex build requirements";
 			}
 		}
 	}

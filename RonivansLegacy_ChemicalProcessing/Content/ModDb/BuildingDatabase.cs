@@ -637,6 +637,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitBridgeConfig.ID)
 				.AddToTech(Technology.SolidMaterial.SolidManagement)
 				.AddModFrom(SourceModInfo.HighPressureApplications);
+			BuildingManager.CreateEntry<HPABridgeConfig>()
+				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitBridgeConfig.ID)
+				.AddToTech(Technology.SolidMaterial.SolidManagement)
+				.AddModFrom(SourceModInfo.HighPressureApplications);
 		}
 
 		private static void RegisterBuildings_DupesRefrigeration()

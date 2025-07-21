@@ -65,6 +65,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			KAnimGraphTileVisualizer local1 = go.AddComponent<KAnimGraphTileVisualizer>();
 			local1.connectionSource = KAnimGraphTileVisualizer.ConnectionSource.Solid;
 			local1.isPhysicalBuilding = false;
+			go.GetComponent<Constructable>().requiredSkillPerk = Db.Get().SkillPerks.ConveyorBuild.Id;
 		}
 	}
 }

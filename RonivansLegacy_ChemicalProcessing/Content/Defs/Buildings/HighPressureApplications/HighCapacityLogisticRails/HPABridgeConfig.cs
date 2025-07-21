@@ -10,9 +10,9 @@ using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureApplications.HighCapacityLogisticRails
 {
-    class HPABridgeTileConfig : IBuildingConfig
+    class HPABridgeConfig : IBuildingConfig
 	{
-		public static string ID = "HPA_SolidRailBridgeTile";
+		public static string ID = "HPA_SolidRailBridge";
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
 			BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof(RequiresFoundation), prefab_tag);
@@ -22,33 +22,24 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			cap.CachedConduitCapacity = HighPressureConduitRegistration.SolidCap_HP; 
 			
 			GeneratedBuildings.MakeBuildingAlwaysOperational(go);
-			SimCellOccupier simCellOccupier = go.AddOrGet<SimCellOccupier>();
-			simCellOccupier.doReplaceElement = true;
-			simCellOccupier.movementSpeedMultiplier = DUPLICANTSTATS.MOVEMENT_MODIFIERS.PENALTY_3;
-			simCellOccupier.notifyOnMelt = true;
-			go.AddOrGet<BuildingHP>().destroyOnDamaged = true;
-			go.AddOrGet<TileTemperature>();
 		}
 
 		public override BuildingDef CreateBuildingDef()
 		{
 			EffectorValues nONE = NOISE_POLLUTION.NONE;
 
-			string[] mats = [GameTags.BuildableRaw.ToString(),GameTags.Steel.ToString(), MATERIALS.TRANSPARENT];
-			float[] costs = [400, 100, 50];
+			string[] mats = [GameTags.Steel.ToString(), MATERIALS.TRANSPARENT];
+			float[] costs = [100, 50];
 
-			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 1, 1, "hpa_rail_tile_bridge_kanim", 100, 30f, costs, mats, 1600f, BuildLocationRule.NotInTiles, BUILDINGS.DECOR.NONE, nONE, 0.2f);
-			BuildingTemplates.CreateFoundationTileDef(def1);
-			def1.Overheatable = false;
-			def1.UseStructureTemperature = false;
-			def1.Floodable = false;
-			def1.Entombable = false;
-			def1.ThermalConductivity = 0.01f;
-			def1.PermittedRotations = PermittedRotations.R360;
+			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 3, 1, "hpa_rail_bridge_kanim", 100, 30f, costs, mats, 1600f, BuildLocationRule.NotInTiles, BUILDINGS.DECOR.NONE, nONE, 0.2f);
+
 			def1.ObjectLayer = ObjectLayer.SolidConduitConnection;
-
+			def1.SceneLayer = Grid.SceneLayer.SolidConduitBridges;
 			def1.InputConduitType = ConduitType.Solid;
 			def1.OutputConduitType = ConduitType.Solid;
+			def1.Floodable = false;
+			def1.Entombable = false;
+			def1.Overheatable = false;
 			def1.ViewMode = OverlayModes.SolidConveyor.ID;
 			def1.AudioCategory = "Metal";
 			def1.AudioSize = "small";
@@ -56,10 +47,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			def1.PermittedRotations = PermittedRotations.R360;
 			def1.UtilityInputOffset = new CellOffset(-1, 0);
 			def1.UtilityOutputOffset = new CellOffset(1, 0);
-			def1.SceneLayer = Grid.SceneLayer.SolidConduitBridges;
-			def1.ForegroundLayer = Grid.SceneLayer.TileMain;
 			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.SolidConveyorIDs, ID);
-			SoundUtils.CopySoundsToAnim("logistic_bridge_kanim", "utilities_conveyorbridge_kanim");
+			SoundUtils.CopySoundsToAnim("hpa_rail_bridge_kanim", "utilities_conveyorbridge_kanim");
 			return def1;
 		}
 
