@@ -23,7 +23,7 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>Ronivans Legacy - All In One Pack</ModName>
+		<ModName>Ronivans Legacy - Industrial Revolution</ModName>
 		<ModDescription>All industrial mods created by Ronivan, now collected into one configurable modpack.</ModDescription>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
