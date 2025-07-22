@@ -19,7 +19,7 @@ namespace Dupes_Machinery.Biological_Vats
 	{
 		public static string ID = "AlgaeVat";
 		
-		private static readonly PortDisplayOutput outputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(0, 4));
+		private static readonly PortDisplayOutput outputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(0, 3));
 
 		public override BuildingDef CreateBuildingDef()
 		{
@@ -32,7 +32,7 @@ namespace Dupes_Machinery.Biological_Vats
 			def1.Floodable = true;
 			def1.ViewMode = OverlayModes.Oxygen.ID;
 			def1.AudioCategory = "HollowMetal";
-			def1.EnergyConsumptionWhenActive = 70f;
+			def1.EnergyConsumptionWhenActive = 60f;
 			def1.SelfHeatKilowattsWhenActive = 2f;
 			def1.ExhaustKilowattsWhenActive = 0f;
 			def1.InputConduitType = ConduitType.Liquid;
@@ -69,9 +69,9 @@ namespace Dupes_Machinery.Biological_Vats
 			local2.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 
 			ElementConverter converter = go.AddComponent<ElementConverter>();
-			converter.consumedElements = [new ElementConverter.ConsumedElement(SimHashes.Algae.CreateTag(), 0.06f), new ElementConverter.ConsumedElement(SimHashes.Water.CreateTag(), 0.8f)];
-			converter.outputElements = [new ElementConverter.OutputElement(0.16f, SimHashes.Oxygen, 303.15f, false, true, 0f, 1f, 1f, 0xff, 0),
-				new ElementConverter.OutputElement(0.77f, SimHashes.DirtyWater, 303.15f, false, true, 0f, 1f, 1f, 0xff, 0)];
+			converter.consumedElements = [new ElementConverter.ConsumedElement(SimHashes.Algae.CreateTag(), 0.075f), new ElementConverter.ConsumedElement(SimHashes.Water.CreateTag(), 0.8f)];
+			converter.outputElements = [new ElementConverter.OutputElement(0.20f, SimHashes.Oxygen, 303.15f, false, true, 0f, 1f, 1f, 0xff, 0),
+				new ElementConverter.OutputElement(0.9625f, SimHashes.DirtyWater, 303.15f, false, true, 0f, 1f, 1f, 0xff, 0)];
 
 			ElementConverter converter2 = go.AddComponent<ElementConverter>();
 			converter2.consumedElements = [new ElementConverter.ConsumedElement(SimHashes.CarbonDioxide.CreateTag(), 0.0085f)];
@@ -104,7 +104,7 @@ namespace Dupes_Machinery.Biological_Vats
 			PipedOptionalExhaust exhaust = go.AddComponent<PipedOptionalExhaust>();
 			exhaust.dispenser = dispenser;
 			exhaust.elementTag = SimHashes.Oxygen.CreateTag();
-			exhaust.capacity = 0.20f;
+			exhaust.capacity = 0.40f;
 			this.AttachPort(go);
 			go.AddOrGet<ElementConversionBuilding>(); //Handles element converter
 
