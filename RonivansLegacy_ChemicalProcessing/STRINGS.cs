@@ -934,14 +934,14 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class SPACERTILESOLID
 				{
 					public static LocString NAME = FormatAsLink("Solid Spacer Tile", nameof(SPACERTILESOLID));
-					public static LocString DESC = "";
-					public static LocString EFFECT = "";
+					public static LocString DESC = "A durable tile made for vacuum-exposed environments.";
+					public static LocString EFFECT = "This solid tile is specially engineered to withstand the harsh conditions of space.\n\nBlocks Gas and Liquid while offering minimal thermal insulation.";
 				}
 				public class SPACERTILEWINDOW
 				{
 					public static LocString NAME = FormatAsLink("Transparent Spacer Tile", nameof(SPACERTILEWINDOW));
-					public static LocString DESC = "";
-					public static LocString EFFECT = "";
+					public static LocString DESC = "A transparent tile designed for external observation in vacuum-exposed environments.";
+					public static LocString EFFECT = "This windowed tile allows light and visibility through while maintaining a strong barrier against the vacuum of space.\n\nBlocks Gas and Liquid while offering minimal thermal insulation.";
 				}
 				public class INSULATIONCOMPOSITIONTILE
 				{
@@ -2168,6 +2168,8 @@ namespace RonivansLegacy_ChemicalProcessing
 			{
 				public static LocString NAME = "Enable Mod Content";
 				public static LocString TOOLTIP = "The mod is enabled, this includes buildings, research, recipes and other mod specific mechanics.\nYou can still disable individual buildings of the mod in the building editor, separate from this setting.";
+				public static LocString TOOLTIP_ELEMENTS = "The mod is enabled, this includes buildings, research, recipes, elements, comets and other mod specific mechanics.\nYou can still disable individual buildings of the mod in the building editor, separate from this setting.\nWarning: when this mod is enabled, worldgen will be altered by new elements";
+				
 			}
 			public class GEYSERS
 			{
@@ -2213,6 +2215,11 @@ namespace RonivansLegacy_ChemicalProcessing
 			{
 				public static LocString NAME = "Base Wattage: High Pressure Liquid Pump";
 				public static LocString TOOLTIP = "The total pump wattage is calculated by multiplying the base wattage value with the respective pipe capacity multiplier (compared to regular pipes)";
+			}
+			public class HP_SOLID_ENABLE
+			{
+				public static LocString NAME = "Enable Heavy-Duty Rails";
+				public static LocString TOOLTIP = "Heavy-Duty Rails serve as an late game upgrade to conveyor rails, having a much higher throughput at the cost of more complex build requirements.";
 			}
 			public class HP_SOLID_CAPACITY
 			{

@@ -123,7 +123,7 @@ namespace Mineral_Processing_Mining.Buildings
 			solidDispenser.solidOnly = true;
 			solidDispenser.elementFilter = null;
 
-			if (Config.Instance.HighPressureApplications_Enabled)
+			if (Config.Instance.HPA_Rails_Enabled)
 				go.AddOrGet<HPA_SolidConduitRequirement>().RequiresHighPressureOutput = true;
 
 			var worldElementDropper = go.AddOrGet<WorldElementDropper>();

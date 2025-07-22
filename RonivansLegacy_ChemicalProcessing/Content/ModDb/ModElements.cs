@@ -296,64 +296,79 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 		internal static void ModifyExistingElements()
 		{
-			//=[ SYNGAS ENABLING PATCH ]===============================================
-			Element syngas_material = ElementLoader.FindElementByHash(SimHashes.Syngas);
-			syngas_material.oreTags = syngas_material.oreTags.Append(GameTags.CombustibleGas);
-			syngas_material.disabled = false;
 
-			//=[ PROPANE PATCH ]=======================================================
-			Element propane_material = ElementLoader.FindElementByHash(SimHashes.Propane);
-			propane_material.oreTags = syngas_material.oreTags.Append(GameTags.CombustibleGas);
-			propane_material.disabled = false;
 
-			//=[ NAPHTHA PATCH ]=======================================================
-			Element naphtha_material = ElementLoader.FindElementByHash(SimHashes.Naphtha);
-			naphtha_material.oreTags = naphtha_material.oreTags.Append(GameTags.CombustibleLiquid);
+			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+			{
+				//=[ SYNGAS ENABLING PATCH ]===============================================
+				Element syngas_material = ElementLoader.FindElementByHash(SimHashes.Syngas);
+				syngas_material.oreTags = syngas_material.oreTags.Append(GameTags.CombustibleGas);
+				syngas_material.disabled = false;
 
-			//=[ ENABLING ELECTRUM ]===================================================
-			Element electrum_material = ElementLoader.FindElementByHash(SimHashes.Electrum);
-			electrum_material.highTempTransitionOreID = ModElements.Silver_Solid;
-			electrum_material.highTempTransitionOreMassConversion = 0.6f;
-			electrum_material.disabled = false;
+				//=[ PROPANE PATCH ]=======================================================
+				Element propane_material = ElementLoader.FindElementByHash(SimHashes.Propane);
+				propane_material.oreTags = syngas_material.oreTags.Append(GameTags.CombustibleGas);
+				propane_material.disabled = false;
 
-			//=[ BITUMEN PATCH ]=======================================================
-			Element bitumen_material = ElementLoader.FindElementByHash(SimHashes.Bitumen);
-			bitumen_material.materialCategory = GameTags.ManufacturedMaterial;
-			bitumen_material.oreTags = bitumen_material.oreTags.Append(GameTags.ManufacturedMaterial);
-			bitumen_material.disabled = false;
+				//=[ NAPHTHA PATCH ]=======================================================
+				Element naphtha_material = ElementLoader.FindElementByHash(SimHashes.Naphtha);
+				naphtha_material.oreTags = naphtha_material.oreTags.Append(GameTags.CombustibleLiquid);
 
-			//=[ CRUSHED ROCK PATCH ]====================================================
-			Element crushedRock_material = ElementLoader.FindElementByHash(SimHashes.CrushedRock);
-			crushedRock_material.disabled = false;
-			AddTagToElementAndEnable(SimHashes.CrushedRock, GameTags.ConsumableOre);
+				//=[ ENABLING ELECTRUM ]===================================================
+				Element electrum_material = ElementLoader.FindElementByHash(SimHashes.Electrum);
+				electrum_material.highTempTransitionOreID = ModElements.Silver_Solid;
+				electrum_material.highTempTransitionOreMassConversion = 0.6f;
+				electrum_material.disabled = false;
 
-			//=[ PHOSPHATE NODULES PATCH ]================================================
-			AddTagToElementAndEnable(SimHashes.PhosphateNodules, GameTags.ConsumableOre);
+				//=[ BITUMEN PATCH ]=======================================================
+				Element bitumen_material = ElementLoader.FindElementByHash(SimHashes.Bitumen);
+				bitumen_material.materialCategory = GameTags.ManufacturedMaterial;
+				bitumen_material.oreTags = bitumen_material.oreTags.Append(GameTags.ManufacturedMaterial);
+				bitumen_material.disabled = false;
 
-			//=[ MAFIC ROCK PATCH ]==========================================================
-			AddTagToElementAndEnable(SimHashes.MaficRock, GameTags.Crushable);
+				//=[ PHOSPHATE NODULES PATCH ]================================================
+				AddTagToElementAndEnable(SimHashes.PhosphateNodules, GameTags.ConsumableOre);
 
-			//=[ PHYTO OIL PATCH ]==========================================================
-			AddTagToElementAndEnable(SimHashes.PhytoOil, ModAssets.Tags.BioOil_Composition);
+				//=[ MAFIC ROCK PATCH ]==========================================================
+				AddTagToElementAndEnable(SimHashes.MaficRock, GameTags.Crushable);
+			}
+			if (Config.Instance.DupesEngineering_Enabled || Config.Instance.DupesMachinery_Enabled || Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+			{
+				//=[ CRUSHED ROCK PATCH ]====================================================
+				Element crushedRock_material = ElementLoader.FindElementByHash(SimHashes.CrushedRock);
+				crushedRock_material.disabled = false;
+				AddTagToElementAndEnable(SimHashes.CrushedRock, GameTags.ConsumableOre);
+			}
 
-			//=[ BIODIESEL PATCH ]==========================================================
-			AddTagToElementAndEnable(SimHashes.RefinedLipid, ModAssets.Tags.Biodiesel_Composition);
+			if (Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
+			{
+				//=[ PHYTO OIL PATCH ]==========================================================
+				AddTagToElementAndEnable(SimHashes.PhytoOil, ModAssets.Tags.BioOil_Composition);
 
-			//=[ ENABLING RADIUM ]===================================================
-			AddTagToElementAndEnable(SimHashes.Radium, GameTags.ConsumableOre);
-			//=[ ENABLING YellowCake ]===================================================
-			AddTagToElementAndEnable(SimHashes.Yellowcake, GameTags.ManufacturedMaterial);
-			//=[ ENABLING Cement ]===================================================
-			var cement = ElementLoader.FindElementByHash(SimHashes.Cement);
-			cement.disabled = false;
-			cement.thermalConductivity = 3.11f;
-			cement.radiationAbsorptionFactor = 1;
+				//=[ BIODIESEL PATCH ]==========================================================
+				AddTagToElementAndEnable(SimHashes.RefinedLipid, ModAssets.Tags.Biodiesel_Composition);
+			}
+			if (DlcManager.IsExpansion1Active() && Config.Instance.NuclearProcessing_Enabled)
+			{//=[ ENABLING RADIUM ]===================================================
+				AddTagToElementAndEnable(SimHashes.Radium, GameTags.ConsumableOre);
+				//=[ ENABLING YellowCake ]===================================================
+				AddTagToElementAndEnable(SimHashes.Yellowcake, GameTags.ManufacturedMaterial);
+			}
 
-			//=[ ENABLING Bricks ]===================================================
-			///https://material-properties.org/brick-density-heat-capacity-thermal-conductivity/
-			var brick = ElementLoader.FindElementByHash(SimHashes.Brick);
-			brick.highTemp = 2000;
-			AddTagsToElementAndEnable(SimHashes.Brick,[GameTags.Crushable, GameTags.Insulator, GameTags.BuildableRaw]);
+			if (Config.Instance.DupesEngineering_Enabled)
+			{
+				//=[ ENABLING Cement ]===================================================
+				var cement = ElementLoader.FindElementByHash(SimHashes.Cement);
+				cement.disabled = false;
+				cement.thermalConductivity = 3.11f;
+				cement.radiationAbsorptionFactor = 1;
+
+				//=[ ENABLING Bricks ]===================================================
+				///https://material-properties.org/brick-density-heat-capacity-thermal-conductivity/
+				var brick = ElementLoader.FindElementByHash(SimHashes.Brick);
+				brick.highTemp = 2000;
+				AddTagsToElementAndEnable(SimHashes.Brick, [GameTags.Crushable, GameTags.Insulator, GameTags.BuildableRaw]);
+			}
 
 
 			// adding combustible solid tag to coal and peat
@@ -371,55 +386,70 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			if (elementMaterial.oreTags == null)
 				elementMaterial.oreTags = tags;
-			else if(tags.Any())
+			else if (tags.Any())
 				elementMaterial.oreTags = elementMaterial.oreTags.Concat(tags).ToArray();
 		}
 
+		public static void AddElementOverheatModifier(SimHashes element, float degreeIncrease)
+		{
+			var elementMaterial = ElementLoader.FindElementByHash(element);
+			if (elementMaterial == null)
+				return;
+			var attributeModifiers = Db.Get().BuildingAttributes;
+			AttributeModifier overheatModifier = new AttributeModifier(attributeModifiers.OverheatTemperature.Id, degreeIncrease, elementMaterial.name);
+			elementMaterial.attributeModifiers.Add(overheatModifier);
+		}
+		public static void AddElementDecorModifier(SimHashes element, float decorBonusMultiplier)
+		{
+			var elementMaterial = ElementLoader.FindElementByHash(element);
+			if (elementMaterial == null)
+				return;
+			var attributeModifiers = Db.Get().BuildingAttributes;
+			AttributeModifier decorModifier = new AttributeModifier(attributeModifiers.Decor.Id, decorBonusMultiplier, elementMaterial.name, true, false, true);
+			elementMaterial.attributeModifiers.Add(decorModifier);
+		}
 		internal static void ConfigureElements()
 		{
-			var attributeModifiers = Db.Get().BuildingAttributes;
+			AddElementOverheatModifier(ConcreteBlock_Solid, 100);
+			AddElementDecorModifier(ConcreteBlock_Solid, -0.25f);
 
-			Element silver = ElementLoader.FindElementByHash(Silver_Solid);
-			Element brass = ElementLoader.FindElementByHash(Brass_Solid);
-			Element galena = ElementLoader.FindElementByHash(Galena_Solid);
-			Element carbonFiber = ElementLoader.FindElementByHash(CarbonFiber_Solid);
-			Element plasteel = ElementLoader.FindElementByHash(Plasteel_Solid);
-			Element concrete = ElementLoader.FindElementByHash(ConcreteBlock_Solid);
-			Element cement = ElementLoader.FindElementByHash(SimHashes.Cement);
-			Element brick = ElementLoader.FindElementByHash(SimHashes.Brick);
-
-
-			concrete.attributeModifiers.Add(new(attributeModifiers.Decor.Id, -0.2f, null, true, false, true));
-			concrete.attributeModifiers.Add(new(attributeModifiers.OverheatTemperature.Id, 100f, carbonFiber.name));
-
-			brick.attributeModifiers.Add(new(attributeModifiers.Decor.Id, 0.1f, null, true, false, true));
-			brick.attributeModifiers.Add(new(attributeModifiers.OverheatTemperature.Id, 100f, carbonFiber.name));
-
-			//=: Giving Silver Decor and Temperature modifications :====================================================
-			AttributeModifier silverDecorModifier = new AttributeModifier(attributeModifiers.Decor.Id, 0.4f, null, true, false, true);
-			AttributeModifier silverTempModifier = new AttributeModifier(attributeModifiers.OverheatTemperature.Id, -30f, silver.name);
-			silver.attributeModifiers.Add(silverDecorModifier);
-			silver.attributeModifiers.Add(silverTempModifier);
+			AddElementOverheatModifier(SimHashes.Brick, 100);
+			AddElementDecorModifier(SimHashes.Brick, 0.1f);
 
 			//=: Giving Brass Decor and Temperature modifications :=====================================================
-			AttributeModifier BrassDecorModifier = new AttributeModifier(attributeModifiers.Decor.Id, 0.25f, null, true, false, true);
-			AttributeModifier BrassTempModifier = new AttributeModifier(attributeModifiers.OverheatTemperature.Id, -10f, brass.name);
-			brass.attributeModifiers.Add(BrassDecorModifier);
-			brass.attributeModifiers.Add(BrassTempModifier);
-
+			AddElementDecorModifier(Brass_Solid, 0.25f);
+			AddElementOverheatModifier(Brass_Solid, 80);
+			
 			//=: Giving Galena Temperature modifications :==============================================================
-			AttributeModifier GalenaDecorModifier = new AttributeModifier(attributeModifiers.Decor.Id, 0.1f, null, true, false, true);
-			AttributeModifier GalenaTempModifier = new AttributeModifier(attributeModifiers.OverheatTemperature.Id, -30f, galena.name);
-			galena.attributeModifiers.Add(GalenaDecorModifier);
-			galena.attributeModifiers.Add(GalenaTempModifier);
+			AddElementDecorModifier(Galena_Solid, 0.1f);
+			AddElementOverheatModifier(Galena_Solid, -30);
 
 			//=: Giving Carbon Fibre Temperature modifications :========================================================
-			AttributeModifier carbonFibreTempModifier = new AttributeModifier(attributeModifiers.OverheatTemperature.Id, 5000f, carbonFiber.name);
-			carbonFiber.attributeModifiers.Add(carbonFibreTempModifier);
+			AddElementOverheatModifier(CarbonFiber_Solid, 5000);
 
 			//=: Giving Plasteel Temperature modifications :============================================================
-			AttributeModifier plasteelTempModifier = new AttributeModifier(attributeModifiers.OverheatTemperature.Id, 800f, plasteel.name);
-			plasteel.attributeModifiers.Add(plasteelTempModifier);
+			AddElementOverheatModifier(Plasteel_Solid, 800);
+
+
+			float silverDegreeBonus = 35;
+			///---own additions----
+			///Silver as slightly worse gold
+			AddElementDecorModifier(Silver_Solid, 0.45f);
+			AddElementOverheatModifier(Silver_Solid, silverDegreeBonus);
+
+			/// zinc - vanilla refined metal multiplers
+			AddElementDecorModifier(Zinc_Solid, 0.2f);
+			AddElementOverheatModifier(Zinc_Solid, 50);
+			///ores:
+			///zinc ore
+			AddElementDecorModifier(Aurichalcite_Solid, 0.1f);
+			///silver ore - mirroring gold in slightly worse
+			AddElementDecorModifier(Argentite_Solid, 0.1f);
+			AddElementOverheatModifier(Argentite_Solid, silverDegreeBonus);
+			///mirroring brass, less heat because it contains lead, compensating with higher decor
+			AddElementDecorModifier(PhosphorBronze, 0.35f);
+			AddElementOverheatModifier(PhosphorBronze, 30);
 		}
+
 	}
 }

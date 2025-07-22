@@ -629,6 +629,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToTech(Technology.Liquids.ImprovedPlumbing)
 				.AddModFrom(SourceModInfo.HighPressureApplications);
 			//solid
+			if (!Config.Instance.HPA_Rails_Enabled)
+				return;
 			BuildingManager.CreateEntry<HPARailInsulatedConfig>()
 				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitConfig.ID)
 				.AddToTech(Technology.SolidMaterial.SolidManagement)

@@ -382,7 +382,7 @@ elements:
     - RefinedMetal
     - BuildableAny    
     - Noncrushable
-    - Conductor #gigawatt wire
+    - Steel
     buildMenuSort: 4
     isDisabled: false
     state: Solid
