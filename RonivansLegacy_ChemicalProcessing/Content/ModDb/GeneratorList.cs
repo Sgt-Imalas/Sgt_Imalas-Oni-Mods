@@ -15,12 +15,16 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		public static void AddCombustionGenerator(string ID) { CombustionGenerators.Add(ID); SgtLogger.l("Adding generator to combustion generator list: " + ID); }
 		public static HashSet<string> GeneratorsToIgnore = [];
 		public static HashSet<string> CombustionGenerators = [];
-		internal static void AppendCombustionGenerators(List<Tag> disallowedBuildings)
+		internal static void AppendCombustionGenerators(ref List<Tag> disallowedBuildings)
 		{
-			foreach(var gen in CombustionGenerators)
+			SgtLogger.l("Appending combustion generators to supersustainable list, entry count: "+CombustionGenerators.Count);
+			foreach (var gen in CombustionGenerators)
 			{
 				if (!disallowedBuildings.Contains(gen))
+				{
+					SgtLogger.l("Adding combustion generator to supersustainables list: " + gen);
 					disallowedBuildings.Add(gen);
+				}
 			}
 		}
 	}

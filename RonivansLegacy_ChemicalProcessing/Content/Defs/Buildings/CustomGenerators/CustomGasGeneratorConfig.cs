@@ -29,13 +29,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 		private static readonly PortDisplayOutput co2Port = new PortDisplayOutput(ConduitType.Gas, new CellOffset(0, 3));
 
 		const float conduitInputRate = 1 * SizeMultiplier;
-
-		public override BuildingDef CreateBuildingDef()
+		static CustomGasGeneratorConfig()
 		{
 			//hide coal gen slider
 			GeneratorList.AddGeneratorToIgnore(ID);
 			GeneratorList.AddCombustionGenerator(ID);
-
+		}
+		public override BuildingDef CreateBuildingDef()
+		{
 			float[] construction_mass = [100];
 			string[] construction_materials = [GameTags.Metal.ToString()];
 

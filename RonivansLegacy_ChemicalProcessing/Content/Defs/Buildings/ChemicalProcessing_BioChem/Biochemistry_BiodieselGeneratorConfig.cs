@@ -21,21 +21,19 @@ namespace Biochemistry.Buildings
 
 		static Biochemistry_BiodieselGeneratorConfig()
 		{
-
-
 			List<Storage.StoredItemModifier> list1 = new List<Storage.StoredItemModifier>();
 			list1.Add(Storage.StoredItemModifier.Hide);
 			list1.Add(Storage.StoredItemModifier.Preserve);
 			list1.Add(Storage.StoredItemModifier.Insulate);
 			list1.Add(Storage.StoredItemModifier.Seal);
 			BioGeneratorStoredItemModifiers = list1;
-		}
 
+			GeneratorList.AddGeneratorToIgnore(ID);
+			GeneratorList.AddCombustionGenerator(ID);
+		}
 
 		public override BuildingDef CreateBuildingDef()
 		{
-			GeneratorList.AddGeneratorToIgnore(ID);
-			GeneratorList.AddCombustionGenerator(ID);
 			EffectorValues tier = NOISE_POLLUTION.NOISY.TIER5;
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 7, 4, "biodiesel_generator_kanim", 100, 30f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER4, MATERIALS.REFINED_METALS, 800f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.PENALTY.TIER1, tier);
 			buildingDef.GeneratorWattageRating = 3200f;
