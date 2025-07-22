@@ -37,12 +37,29 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		#endregion
 
 
-		public static HashSet<HighPressureConduit> AllConduits = [];
-		public static HashSet<GameObject> AllConduitGOs = [];
+		public static HashSet<GameObject> AllHighPressureConduitGOs = [];
 
 		public static HashSet<int> AllInsulatedSolidConduitCells = [];
 
-		public static Dictionary<int, Dictionary<int, HighPressureConduit>> ConduitsByLayer;
+		static HashSet<int>
+			HPA_Solid = [],
+			HPA_Liquid = [],
+			HPA_Gas = [],
+
+			HPA_SolidBridge = [],
+			HPA_LiquidBridge = [],
+			HPA_GasBridge = [],
+
+			All_Solid = [],
+			All_Liquid = [],
+			All_Gas = [],
+
+			All_SolidBridge = [],
+			All_LiquidBridge = [],
+			All_GasBridge = [];
+
+		//public static Dictionary<int, HashSet<int>> HighPressureConduitsByLayer;
+		//public static Dictionary<int, HashSet<int>> AllConduitsByLayer;
 
 		static HighPressureConduitRegistration()
 		{
@@ -94,23 +111,31 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 		public static void ClearEverything()
 		{
+			AllHighPressureConduitGOs.Clear();
 			BrokenRails.Clear();
 			HighPressureConduitEventHandler.CancelPendingEvents();
-			AllConduits.Clear();
-			AllConduitGOs.Clear();
-			ConduitsByLayer = new()
-			{
-			{ (int)ObjectLayer.GasConduit,new Dictionary<int, HighPressureConduit>() },
-			{ (int)ObjectLayer.LiquidConduit,new Dictionary<int, HighPressureConduit>() },
-			{ (int)ObjectLayer.GasConduitConnection,new Dictionary<int, HighPressureConduit>() },
-			{ (int)ObjectLayer.LiquidConduitConnection,new Dictionary<int, HighPressureConduit>() },
-			{ (int)ObjectLayer.SolidConduit,new Dictionary<int, HighPressureConduit>() },
-			{ (int)ObjectLayer.SolidConduitConnection,new Dictionary<int, HighPressureConduit>() },
-			};
+			//HighPressureConduitsByLayer = new()
+			//{
+			//{ (int)ObjectLayer.GasConduit,[] },
+			//{ (int)ObjectLayer.LiquidConduit,[] },
+			//{ (int)ObjectLayer.GasConduitConnection,[] },
+			//{ (int)ObjectLayer.LiquidConduitConnection,[] },
+			//{ (int)ObjectLayer.SolidConduit,[] },
+			//{ (int)ObjectLayer.SolidConduitConnection,[] },
+			//}; 
+			//AllConduitsByLayer = new()
+			//{
+			//{ (int)ObjectLayer.GasConduit,[] },
+			//{ (int)ObjectLayer.LiquidConduit,[] },
+			//{ (int)ObjectLayer.GasConduitConnection,[] },
+			//{ (int)ObjectLayer.LiquidConduitConnection,[] },
+			//{ (int)ObjectLayer.SolidConduit,[] },
+			//{ (int)ObjectLayer.SolidConduitConnection,[] },
+			//};
 		}
 
 
-		internal static bool IsHighPressureConduit(GameObject currentItem) => currentItem == null ? false : AllConduitGOs.Contains(currentItem);
+		internal static bool IsHighPressureConduit(GameObject currentItem) => currentItem == null ? false : AllHighPressureConduitGOs.Contains(currentItem);
 
 		/// <summary>
 		/// returns the mass a regular pipe would have if it had the same fill state as the high pressure pipe of this type
@@ -178,26 +203,31 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		public static float GetMaxConduitCapacityAt(int cell, ConduitType type, bool isBridge = false)
 		{
 			int targetLayer = -1;
+			bool isHP = false;
 			switch (type)
 			{
 				case ConduitType.Gas:
-					targetLayer = isBridge ? (int)ObjectLayer.GasConduitConnection : (int)ObjectLayer.GasConduit; break;
+					isHP = isBridge ? HPA_GasBridge.Contains(cell) : HPA_Gas.Contains(cell);
+					if(isHP)
+						return CachedHPAConduitCapacity(type);
+					else
+						return CachedRegularConduitCapacity(type);
 				case ConduitType.Liquid:
-					targetLayer = isBridge ? (int)ObjectLayer.LiquidConduitConnection : (int)ObjectLayer.LiquidConduit; break;
+					isHP = isBridge ? HPA_LiquidBridge.Contains(cell) : HPA_Liquid.Contains(cell);
+					if (isHP)
+						return CachedHPAConduitCapacity(type);
+					else
+						return CachedRegularConduitCapacity(type);
 				case ConduitType.Solid:
-					targetLayer = isBridge ? (int)ObjectLayer.SolidConduitConnection : (int)ObjectLayer.SolidConduitConnection; break;
+					if(LogisticConduit.HasLogisticConduitAt(cell, isBridge))
+						return SolidCap_Logistic;
+					isHP = isBridge ? HPA_SolidBridge.Contains(cell) : HPA_Solid.Contains(cell);
+					if (isHP)
+						return CachedHPAConduitCapacity(type);
+					else
+						return CachedRegularConduitCapacity(type);
 				default:
 					throw new NotImplementedException("Invalid conduit target type");
-			}
-			if (ConduitsByLayer[targetLayer].ContainsKey(cell))
-			{
-				return CachedHPAConduitCapacity(type);
-			}
-			else
-			{
-				if (LogisticConduit.HasLogisticConduitAt(cell, isBridge))
-					return SolidCap_Logistic;
-				return CachedRegularConduitCapacity(type);
 			}
 		}
 		public static GameObject GetConduitAt(int cell, ConduitType type, bool isBridge = false)
@@ -224,35 +254,31 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		}
 		public static bool HasHighPressureConduitAt(int cell, ConduitType type, bool bridge = false)
 		{
-			if (type == ConduitType.Gas)
+			switch (type)
 			{
-				return ConduitsByLayer[bridge ? (int)ObjectLayer.GasConduitConnection : (int)ObjectLayer.GasConduit].ContainsKey(cell);
+				case ConduitType.Gas:
+					return bridge ? HPA_GasBridge.Contains(cell) : HPA_Gas.Contains(cell);
+				case ConduitType.Liquid:
+					return bridge ? HPA_LiquidBridge.Contains(cell) : HPA_Liquid.Contains(cell);
+				case ConduitType.Solid:
+					return bridge ? HPA_SolidBridge.Contains(cell) : HPA_Solid.Contains(cell);
+				default:
+					return false;
 			}
-			else if (type == ConduitType.Liquid)
-			{
-				return ConduitsByLayer[bridge ? (int)ObjectLayer.LiquidConduitConnection : (int)ObjectLayer.LiquidConduit].ContainsKey(cell);
-			}
-			else if (type == ConduitType.Solid)
-			{
-				return ConduitsByLayer[bridge ? (int)ObjectLayer.SolidConduitConnection : (int)ObjectLayer.SolidConduit].ContainsKey(cell);
-			}
-			return false;
 		}
 		public static bool HasConduitAt(int cell, ConduitType type, bool bridge = false)
 		{
-			if (type == ConduitType.Gas)
+			switch (type)
 			{
-				return Grid.Objects[cell,bridge ? (int)ObjectLayer.GasConduitConnection : (int)ObjectLayer.GasConduit] != null;
+				case ConduitType.Gas:
+					return bridge ? All_GasBridge.Contains(cell) : All_Gas.Contains(cell);
+				case ConduitType.Liquid:
+					return bridge ? All_LiquidBridge.Contains(cell) : All_Liquid.Contains(cell);
+				case ConduitType.Solid:
+					return bridge ? All_SolidBridge.Contains(cell) : All_Solid.Contains(cell);
+				default:
+					return false;
 			}
-			else if (type == ConduitType.Liquid)
-			{
-				return Grid.Objects[cell, bridge ? (int)ObjectLayer.LiquidConduitConnection : (int)ObjectLayer.LiquidConduit] != null;
-			}
-			else if (type == ConduitType.Solid)
-			{
-				return Grid.Objects[cell, bridge ? (int)ObjectLayer.SolidConduitConnection : (int)ObjectLayer.SolidConduitConnection] != null;
-			}
-			return false;
 		}
 
 
@@ -278,31 +304,132 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			return Color.white;
 		}
 
-		public static void RegisterHighPressureConduit(HighPressureConduit conduit)
+		public static void RegisterConduit(GameObject conduit)
 		{
-			if (!ConduitsByLayer.ContainsKey((int)conduit.buildingComplete.Def.ObjectLayer))
-				ConduitsByLayer.Add((int)conduit.buildingComplete.Def.ObjectLayer, new());
-
-
-			ConduitsByLayer[(int)conduit.buildingComplete.Def.ObjectLayer][conduit.buildingComplete.PlacementCells.Min()] = conduit;
-			ConduitsByLayer[(int)conduit.buildingComplete.Def.ObjectLayer][conduit.buildingComplete.PlacementCells.Max()] = conduit;
-			AllConduitGOs.Add(conduit.gameObject);
-			AllConduits.Add(conduit);
-			if(conduit.InsulateSolidContents)
+			if(conduit.TryGetComponent<Building>(out var buildingComplete))
 			{
-				AllInsulatedSolidConduitCells.Add(conduit.buildingComplete.PlacementCells.Min());
+				switch (buildingComplete.Def.ObjectLayer)
+				{
+					case ObjectLayer.SolidConduit:
+						All_Solid.Add(buildingComplete.NaturalBuildingCell());
+						break;
+					case ObjectLayer.SolidConduitConnection:
+						All_SolidBridge.Add(buildingComplete.GetUtilityInputCell());
+						All_SolidBridge.Add(buildingComplete.GetUtilityOutputCell());
+						break;
+					case ObjectLayer.LiquidConduit:
+						All_Liquid.Add(buildingComplete.NaturalBuildingCell());
+						break;
+					case ObjectLayer.LiquidConduitConnection:
+						All_LiquidBridge.Add(buildingComplete.GetUtilityInputCell());
+						All_LiquidBridge.Add(buildingComplete.GetUtilityOutputCell());
+						break;
+					case ObjectLayer.GasConduit:
+						All_Gas.Add(buildingComplete.NaturalBuildingCell());
+						break;
+					case ObjectLayer.GasConduitConnection:
+						All_GasBridge.Add(buildingComplete.GetUtilityInputCell());
+						All_GasBridge.Add(buildingComplete.GetUtilityOutputCell());
+						break;
+				}
+			}
+		}
+		public static void UnregisterConduit(GameObject conduit)
+		{
+			if (conduit.TryGetComponent<Building>(out var buildingComplete))
+			{
+				switch (buildingComplete.Def.ObjectLayer)
+				{
+					case ObjectLayer.SolidConduit:
+						All_Solid.Remove(buildingComplete.NaturalBuildingCell());
+						break;
+					case ObjectLayer.SolidConduitConnection:
+						All_SolidBridge.Remove(buildingComplete.GetUtilityInputCell());
+						All_SolidBridge.Remove(buildingComplete.GetUtilityOutputCell());
+						break;
+					case ObjectLayer.LiquidConduit:
+						All_Liquid.Remove(buildingComplete.NaturalBuildingCell());
+						break;
+					case ObjectLayer.LiquidConduitConnection:
+						All_LiquidBridge.Remove(buildingComplete.GetUtilityInputCell());
+						All_LiquidBridge.Remove(buildingComplete.GetUtilityOutputCell());
+						break;
+					case ObjectLayer.GasConduit:
+						All_Gas.Remove(buildingComplete.NaturalBuildingCell());
+						break;
+					case ObjectLayer.GasConduitConnection:
+						All_GasBridge.Remove(buildingComplete.GetUtilityInputCell());
+						All_GasBridge.Remove(buildingComplete.GetUtilityOutputCell());
+						break;
+				}
 			}
 		}
 		public static void UnregisterHighPressureConduit(HighPressureConduit conduit)
 		{
-			ConduitsByLayer[(int)conduit.buildingComplete.Def.ObjectLayer].Remove(conduit.buildingComplete.PlacementCells.Min());
-			ConduitsByLayer[(int)conduit.buildingComplete.Def.ObjectLayer].Remove(conduit.buildingComplete.PlacementCells.Max());
-			AllConduitGOs.Remove(conduit.gameObject);
-			AllConduits.Remove(conduit);
+			AllHighPressureConduitGOs.Remove(conduit.gameObject);
+			switch (conduit.buildingComplete.Def.ObjectLayer)
+			{
+				case ObjectLayer.SolidConduit:
+					HPA_Solid.Remove(conduit.buildingComplete.NaturalBuildingCell());
+					break;
+				case ObjectLayer.SolidConduitConnection:
+					HPA_SolidBridge.Remove(conduit.buildingComplete.GetUtilityInputCell());
+					HPA_SolidBridge.Remove(conduit.buildingComplete.GetUtilityOutputCell());
+					break;
+				case ObjectLayer.LiquidConduit:
+					HPA_Liquid.Remove(conduit.buildingComplete.NaturalBuildingCell());
+					break;
+				case ObjectLayer.LiquidConduitConnection:
+					HPA_LiquidBridge.Remove(conduit.buildingComplete.GetUtilityInputCell());
+					HPA_LiquidBridge.Remove(conduit.buildingComplete.GetUtilityOutputCell());
+					break;
+				case ObjectLayer.GasConduit:
+					HPA_Gas.Remove(conduit.buildingComplete.NaturalBuildingCell());
+					break;
+				case ObjectLayer.GasConduitConnection:
+					HPA_GasBridge.Remove(conduit.buildingComplete.GetUtilityInputCell());
+					HPA_GasBridge.Remove(conduit.buildingComplete.GetUtilityOutputCell());
+					break;
+			}
 			if (conduit.InsulateSolidContents)
 			{
-				AllInsulatedSolidConduitCells.Remove(conduit.buildingComplete.PlacementCells.Min());
+				AllInsulatedSolidConduitCells.Remove(conduit.NaturalBuildingCell());
 			}
+			UnregisterConduit(conduit.gameObject);
+		}
+		public static void RegisterHighPressureConduit(HighPressureConduit conduit)
+		{
+			AllHighPressureConduitGOs.Add(conduit.gameObject);
+
+			switch (conduit.buildingComplete.Def.ObjectLayer)
+			{
+				case ObjectLayer.SolidConduit:
+					HPA_Solid.Add(conduit.buildingComplete.NaturalBuildingCell());
+					break;
+				case ObjectLayer.SolidConduitConnection:
+					HPA_SolidBridge.Add(conduit.buildingComplete.GetUtilityInputCell());
+					HPA_SolidBridge.Add(conduit.buildingComplete.GetUtilityOutputCell());
+					break;
+				case ObjectLayer.LiquidConduit:
+					HPA_Liquid.Add(conduit.buildingComplete.NaturalBuildingCell());
+					break;
+				case ObjectLayer.LiquidConduitConnection:
+					HPA_LiquidBridge.Add(conduit.buildingComplete.GetUtilityInputCell());
+					HPA_LiquidBridge.Add(conduit.buildingComplete.GetUtilityOutputCell());
+					break;
+				case ObjectLayer.GasConduit:
+					HPA_Gas.Add(conduit.buildingComplete.NaturalBuildingCell());
+					break;
+				case ObjectLayer.GasConduitConnection:
+					HPA_GasBridge.Add(conduit.buildingComplete.GetUtilityInputCell());
+					HPA_GasBridge.Add(conduit.buildingComplete.GetUtilityOutputCell());
+					break;
+			}
+			if (conduit.InsulateSolidContents)
+			{
+				AllInsulatedSolidConduitCells.Add(conduit.buildingComplete.PlacementCells.Min());
+			}
+			RegisterConduit(conduit.gameObject);
 		}
 
 		static Tuple<SimTemperatureTransfer, KPrefabID> cached = null;
