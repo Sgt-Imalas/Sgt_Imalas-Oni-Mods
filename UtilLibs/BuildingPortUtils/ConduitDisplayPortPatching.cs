@@ -105,6 +105,10 @@ namespace UtilLibs.BuildingPortUtils
 					if(M_NeedLiquidIn == null)
 						M_NeedLiquidIn = Db.Get().BuildingStatusItems.Get(M_NeedLiquidIn_Key);
 					return M_NeedLiquidIn;
+				case ConduitType.Solid:
+					if (M_NeedSolidIn == null)
+						M_NeedSolidIn = Db.Get().BuildingStatusItems.Get(M_NeedSolidIn_Key);
+					return M_NeedSolidIn;
 				default:
 					throw new ArgumentException($"Unknown conduit type: {type}");
 			}
@@ -121,14 +125,22 @@ namespace UtilLibs.BuildingPortUtils
 					if (M_NeedLiquidOut == null)
 						M_NeedLiquidOut = Db.Get().BuildingStatusItems.Get(M_NeedLiquidOut_Key);
 					return M_NeedLiquidOut;
+				case ConduitType.Solid:
+					if (M_NeedSolidOut == null)
+						M_NeedSolidOut = Db.Get().BuildingStatusItems.Get(M_NeedSolidOut_Key);
+					return M_NeedSolidOut;
 				default:
 					throw new ArgumentException($"Unknown conduit type: {type}");
 			}
 		}
 
 
-		public static StatusItem M_NeedLiquidIn, M_NeedGasIn, M_NeedLiquidOut, M_NeedGasOut;
-		public static string M_NeedLiquidIn_Key = nameof(M_NeedLiquidIn), M_NeedGasIn_Key = nameof(M_NeedGasIn), M_NeedGasOut_Key = nameof(M_NeedGasOut), M_NeedLiquidOut_Key = nameof(M_NeedLiquidOut);
+		public static StatusItem M_NeedLiquidIn, M_NeedGasIn, M_NeedLiquidOut, M_NeedGasOut, M_NeedSolidIn, M_NeedSolidOut;
+		public static string
+			M_NeedLiquidIn_Key = nameof(M_NeedLiquidIn), M_NeedLiquidOut_Key = nameof(M_NeedLiquidOut),
+			M_NeedGasIn_Key = nameof(M_NeedGasIn), M_NeedGasOut_Key = nameof(M_NeedGasOut),
+			M_NeedSolidIn_Key = nameof(M_NeedSolidIn), M_NeedSolidOut_Key = nameof(M_NeedSolidOut);
+
 		public static void CreatePortStatusItemsPostfix(BuildingStatusItems __instance)
 		{
 			M_NeedGasIn = __instance.CreateStatusItem(M_NeedGasIn_Key, "BUILDING", "status_item_need_supply_in", StatusItem.IconType.Custom, NotificationType.BadMinor, allow_multiples: true, OverlayModes.GasConduits.ID);
@@ -141,6 +153,14 @@ namespace UtilLibs.BuildingPortUtils
 			};
 			M_NeedLiquidIn = __instance.CreateStatusItem(M_NeedLiquidIn_Key, "BUILDING", "status_item_need_supply_in", StatusItem.IconType.Custom, NotificationType.BadMinor, allow_multiples: true, OverlayModes.LiquidConduits.ID);
 			M_NeedLiquidIn.resolveStringCallback = delegate (string str, object data)
+			{
+				Tuple<ConduitType, Tag> tuple = (Tuple<ConduitType, Tag>)data;
+				string newValue11 = string.Format(NEEDLIQUIDIN.LINE_ITEM, tuple.second.ProperName());
+				str = str.Replace("{LiquidRequired}", newValue11);
+				return str;
+			};
+			M_NeedSolidIn = __instance.CreateStatusItem(M_NeedSolidIn_Key, "BUILDING", "status_item_need_supply_in", StatusItem.IconType.Custom, NotificationType.BadMinor, allow_multiples: true, OverlayModes.SolidConveyor.ID);
+			M_NeedSolidIn.resolveStringCallback = delegate (string str, object data)
 			{
 				Tuple<ConduitType, Tag> tuple = (Tuple<ConduitType, Tag>)data;
 				string newValue11 = string.Format(NEEDLIQUIDIN.LINE_ITEM, tuple.second.ProperName());
@@ -170,6 +190,17 @@ namespace UtilLibs.BuildingPortUtils
 				}
 				return str;
 			};
+			M_NeedSolidOut = __instance.CreateStatusItem(M_NeedSolidOut_Key, "BUILDING", "status_item_need_supply_out", StatusItem.IconType.Custom, NotificationType.BadMinor, allow_multiples: true, OverlayModes.SolidConveyor.ID);
+			M_NeedSolidOut.resolveStringCallback = delegate (string str, object data)
+			{
+				Tuple<ConduitType, List<Tag>> tuple = (Tuple<ConduitType, List<Tag>>)data;
+				foreach (var tag in tuple.second)
+				{
+					str += "\n";
+					str += string.Format(NEEDLIQUIDIN.LINE_ITEM, tag.ProperName());
+				}
+				return str;
+			};
 		}
 		public static void CreateStatusItemStrings()
 		{
@@ -185,6 +216,13 @@ namespace UtilLibs.BuildingPortUtils
 
 			Strings.Add("STRINGS.BUILDING.STATUSITEMS.M_NEEDLIQUIDOUT.NAME", STRINGS.BUILDING.STATUSITEMS.NEEDLIQUIDOUT.NAME);
 			Strings.Add("STRINGS.BUILDING.STATUSITEMS.M_NEEDLIQUIDOUT.TOOLTIP", STRINGS.BUILDING.STATUSITEMS.NEEDLIQUIDOUT.TOOLTIP);
+
+
+			Strings.Add("STRINGS.BUILDING.STATUSITEMS.M_NEEDSOLIDOUT.NAME", STRINGS.BUILDING.STATUSITEMS.NEEDSOLIDOUT.NAME);
+			Strings.Add("STRINGS.BUILDING.STATUSITEMS.M_NEEDSOLIDOUT.TOOLTIP", STRINGS.BUILDING.STATUSITEMS.NEEDSOLIDOUT.TOOLTIP);
+
+			Strings.Add("STRINGS.BUILDING.STATUSITEMS.M_NEEDSOLIDIN.NAME", STRINGS.BUILDING.STATUSITEMS.NEEDSOLIDIN.NAME);
+			Strings.Add("STRINGS.BUILDING.STATUSITEMS.M_NEEDSOLIDIN.TOOLTIP", STRINGS.BUILDING.STATUSITEMS.NEEDSOLIDIN.TOOLTIP);
 
 		}
 	}

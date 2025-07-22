@@ -16,11 +16,6 @@ namespace UtilLibs.BuildingPortUtils
 	[SerializationConfig(MemberSerialization.OptIn)]
 	public abstract class PortConduitDispenserBase : KMonoBehaviour, ISaveLoadable
 	{
-		/// <summary>
-		/// DO NOT USE FOR SOLIDS.
-		/// </summary>
-
-
 		protected Guid hasPipeGuid;
 		protected Guid pipeEmptyGuid;
 
@@ -50,6 +45,11 @@ namespace UtilLibs.BuildingPortUtils
 
 		[SerializeField]
 		public bool SkipSetOperational = false;
+
+		[SerializeField]
+		public Func<int, float> GetSolidConduitCapacityTarget = null;
+		[SerializeField]
+		public float SolidConduitCapacityTarget = 20;
 
 		private Operational.Flag outputConduitFlag;
 
@@ -87,7 +87,7 @@ namespace UtilLibs.BuildingPortUtils
 				{
 					result.AddRange(elementFilter.Select(s => s.CreateTag()));
 				}
-				if(tagFilter != null)
+				if (tagFilter != null)
 				{
 					result.AddRange(tagFilter);
 				}
@@ -112,6 +112,7 @@ namespace UtilLibs.BuildingPortUtils
 			}
 		}
 
+		public bool IsConnected_Cache;
 		public bool IsConnected
 		{
 			get
@@ -134,14 +135,13 @@ namespace UtilLibs.BuildingPortUtils
 					return (int)ObjectLayer.GasConduit;
 				case ConduitType.Liquid:
 					return (int)ObjectLayer.LiquidConduit;
-					//case ConduitType.Solid:
-					//	return (int)ObjectLayer.SolidConduit;
+				case ConduitType.Solid:
+					return (int)ObjectLayer.SolidConduit;
 			}
 			return -1;
 		}
 
-
-		public ConduitFlow GetConduitManager()
+		public IConduitFlow GetConduitManager()
 		{
 			switch (this.conduitType)
 			{
@@ -149,16 +149,21 @@ namespace UtilLibs.BuildingPortUtils
 					return Game.Instance.gasConduitFlow;
 				case ConduitType.Liquid:
 					return Game.Instance.liquidConduitFlow;
-					//case ConduitType.Solid:
-					//	return Game.Instance.solidConduitFlow;
+				case ConduitType.Solid:
+					return Game.Instance.solidConduitFlow;
 			}
 			return null;
 		}
 
 		private void OnConduitConnectionChanged(object data)
 		{
-			base.Trigger(-2094018600, this.IsConnected);
+			IsConnected_Cache = this.IsConnected;
+			base.Trigger(-2094018600, IsConnected_Cache);
 			UpdateNotifications(false);
+			if (GetSolidConduitCapacityTarget != null)
+			{
+				SolidConduitCapacityTarget = GetSolidConduitCapacityTarget(this.utilityCell);
+			}
 		}
 
 		public override void OnSpawn()
@@ -193,31 +198,39 @@ namespace UtilLibs.BuildingPortUtils
 		protected virtual void ConduitUpdate(float dt)
 		{
 			bool outputFull = false;
-			if (this.operational.IsOperational || this.alwaysDispense)
+			if ((this.operational.IsOperational || this.alwaysDispense) && IsConnected_Cache)
 			{
 				PrimaryElement primaryElement = this.FindSuitableElement();
 				if (primaryElement != null)
 				{
-					var conduitFlow = GetConduitManager();
-					//if (iFlow is ConduitFlow conduitFlow)
-					//{
-					primaryElement.KeepZeroMassObject = true;
-					float massAddedToConduit = conduitFlow.AddElement(this.utilityCell, primaryElement.ElementID, primaryElement.Mass, primaryElement.Temperature, primaryElement.DiseaseIdx, primaryElement.DiseaseCount);
-					if (massAddedToConduit > 0f)
+					var iFlow = GetConduitManager();
+					if (iFlow is ConduitFlow conduitFlow)
 					{
-						float percentageMassAdded = massAddedToConduit / primaryElement.Mass;
-						int diseaseCountTransferred = (int)(percentageMassAdded * primaryElement.DiseaseCount);
-						primaryElement.ModifyDiseaseCount(-diseaseCountTransferred, "CustomConduitDispenser.ConduitUpdate");
-						primaryElement.Mass -= massAddedToConduit;
-						base.Trigger((int)GameHashes.OnStorageChange, primaryElement.gameObject);
+						primaryElement.KeepZeroMassObject = true;
+						float massAddedToConduit = conduitFlow.AddElement(this.utilityCell, primaryElement.ElementID, primaryElement.Mass, primaryElement.Temperature, primaryElement.DiseaseIdx, primaryElement.DiseaseCount);
+						if (massAddedToConduit > 0f)
+						{
+							float percentageMassAdded = massAddedToConduit / primaryElement.Mass;
+							int diseaseCountTransferred = (int)(percentageMassAdded * primaryElement.DiseaseCount);
+							primaryElement.ModifyDiseaseCount(-diseaseCountTransferred, "CustomConduitDispenser.ConduitUpdate");
+							primaryElement.Mass -= massAddedToConduit;
+							base.Trigger((int)GameHashes.OnStorageChange, primaryElement.gameObject);
+						}
+						else
+							outputFull = true;
 					}
-					else
-						outputFull = true;
-					//}
-					//else if(iFlow is SolidConduitFlow solidConduitFlow && solidConduitFlow.IsConduitEmpty(utilityCell))
-					//{
-
-					//}
+					else if (iFlow is SolidConduitFlow solidConduitFlow  )
+					{
+						outputFull = !solidConduitFlow.IsConduitEmpty(utilityCell);
+						if (!outputFull && primaryElement.TryGetComponent<Pickupable>(out var pickupable))
+						{
+							if (primaryElement.Mass > SolidConduitCapacityTarget)
+							{
+								pickupable = pickupable.Take(Mathf.Max(SolidConduitCapacityTarget, primaryElement.MassPerUnit));
+							}
+							solidConduitFlow.AddPickupable(utilityCell, pickupable);
+						}						
+					}
 				}
 			}
 
@@ -229,12 +242,12 @@ namespace UtilLibs.BuildingPortUtils
 		{
 			if (!SkipSetOperational)
 			{
-				if (wasConnected != IsConnected)
+				if (wasConnected != IsConnected_Cache)
 				{
-					wasConnected = IsConnected;
+					wasConnected = IsConnected_Cache;
 					this.operational.SetFlag(outputConduitFlag, wasConnected);
 
-					StatusItem status_item = ConduitDisplayPortPatching.GetOutputStatusItem(conduitType); 
+					StatusItem status_item = ConduitDisplayPortPatching.GetOutputStatusItem(conduitType);
 					if (status_item != null)
 						this.hasPipeGuid = this.selectable.ToggleStatusItem(status_item, this.hasPipeGuid, !this.wasConnected, new Tuple<ConduitType, List<Tag>>(this.conduitType, this.GetFilterTags()));
 				}
@@ -271,6 +284,8 @@ namespace UtilLibs.BuildingPortUtils
 					correctElementType = primaryElement.Element.IsLiquid;
 				else if (conduitType == ConduitType.Gas)
 					correctElementType = primaryElement.Element.IsGas;
+				else if (conduitType == ConduitType.Solid)
+					correctElementType = primaryElement.Element.IsSolid;
 				//SgtLogger.l(conduitType + " was correct for element " + primaryElement.GetProperName() + "= " + correctElementType);
 
 				if (correctElementType && ElementAllowedByFilter(primaryElement))
