@@ -202,7 +202,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 		public static float GetMaxConduitCapacityAt(int cell, ConduitType type, bool isBridge = false)
 		{
-			int targetLayer = -1;
 			bool isHP = false;
 			switch (type)
 			{
@@ -436,7 +435,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		static Dictionary<Pickupable,Tuple<SimTemperatureTransfer, KPrefabID>> _insulatedPickupables = new(2048);
 		internal static Pickupable SetInsulatedState(Pickupable pickupable, bool sealAndInsulate)
 		{
-			if (pickupable == null || pickupable.gameObject == null)
+			if (pickupable == null)// || pickupable.gameObject == null)
 				return pickupable;
 
 			if(_insulatedPickupables.TryGetValue(pickupable, out cached))
@@ -462,9 +461,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 		internal static bool IsInsulatedRail(int cell)
 		{
-			if (cell < 0)
-				return false;
-
 			return AllInsulatedSolidConduitCells.Contains(cell);
 		}
 	}

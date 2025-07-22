@@ -38,20 +38,16 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				}
 			}
 
-			static bool SourceCellInsulated, TargetCellInsulated, isHPBridge, hasHPTargetConduit;
-			static int bridge_inputCell, bridge_outputCell;
-			static float mass, targetMass, targetConduitCapacity, targetBridgeCapacity;
-			static GameObject cachedConduitGO;
-
 			private static Pickupable SetMaxFlowForBridge(Pickupable item, SolidConduitBridge bridge)
 			{
 				if (item == null)
 					return item;
-				bridge_inputCell = bridge.inputCell;
-				bridge_outputCell = bridge.outputCell;
 
-				SourceCellInsulated = HighPressureConduitRegistration.IsInsulatedRail(bridge_inputCell);
-				TargetCellInsulated = HighPressureConduitRegistration.IsInsulatedRail(bridge_outputCell);
+				int bridge_inputCell = bridge.inputCell;
+				int bridge_outputCell = bridge.outputCell;
+
+				bool SourceCellInsulated = HighPressureConduitRegistration.IsInsulatedRail(bridge_inputCell);
+				bool TargetCellInsulated = HighPressureConduitRegistration.IsInsulatedRail(bridge_outputCell);
 				if (TargetCellInsulated != SourceCellInsulated)
 				{
 					HighPressureConduitRegistration.SetInsulatedState(item, TargetCellInsulated);
@@ -64,29 +60,29 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 					return item;
 				}
 
-				mass = item.TotalAmount;
+				float mass = item.TotalAmount;
 				//If the bridge is broken, prevent the bridge from operating by limiting what it sees.
 				//if (bridge.GetComponent<BuildingHP>().IsBroken)
 				//{
 				//	return DumpItem(item, mass, bridge.inputCell, bridge.gameObject);
 				//}
 
-				isHPBridge = HighPressureConduitRegistration.HasHighPressureConduitAt(bridge_outputCell, ConduitType.Solid, true);
-				hasHPTargetConduit = HighPressureConduitRegistration.HasHighPressureConduitAt(bridge_outputCell, ConduitType.Solid);
+				bool isHPBridge = HighPressureConduitRegistration.HasHighPressureConduitAt(bridge_outputCell, ConduitType.Solid, true);
+				bool hasHPTargetConduit = HighPressureConduitRegistration.HasHighPressureConduitAt(bridge_outputCell, ConduitType.Solid);
 
 				//target conduit is high pressure, bridge is high pressure -> no damage case
 				if (isHPBridge && hasHPTargetConduit)
 					return item;
 								
-				targetConduitCapacity = HighPressureConduitRegistration.GetMaxConduitCapacityAt(bridge_outputCell, ConduitType.Solid);
+				float targetConduitCapacity = HighPressureConduitRegistration.GetMaxConduitCapacityAt(bridge_outputCell, ConduitType.Solid);
 
 				//no pipe at output cell of bridge
 				if (!HighPressureConduitRegistration.HasConduitAt(bridge_outputCell, ConduitType.Solid))
 					return item;
 
-				targetBridgeCapacity = HighPressureConduitRegistration.GetMaxConduitCapacityAt(bridge_outputCell, ConduitType.Solid, true);
+				float targetBridgeCapacity = HighPressureConduitRegistration.GetMaxConduitCapacityAt(bridge_outputCell, ConduitType.Solid, true);
 
-				targetMass = Mathf.Min(targetConduitCapacity, targetBridgeCapacity);
+				float targetMass = Mathf.Min(targetConduitCapacity, targetBridgeCapacity);
 
 
 				///damage the bridge when the amount transferred is higher than the bridge can support

@@ -57,8 +57,6 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				}
 			}
 		}
-		static float maxTargetRailCapacity, weight, additionalWeightToRemove;
-		static bool SourceCellInsulated, TargetCellInsulated;
 		static Pickupable droppedExcess;
 
 		private static SolidConduitFlow.ConduitContents DropExcessRailMaterialsAtCell(SolidConduitFlow.ConduitContents contents, int targetcell)
@@ -66,8 +64,8 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 			int sourceCell = Instance.soaInfo.GetCell(Conduit.idx);
 			Pickupable pickupable = Instance.GetPickupable(contents.pickupableHandle);
 
-			SourceCellInsulated = HighPressureConduitRegistration.IsInsulatedRail(sourceCell);
-			TargetCellInsulated = HighPressureConduitRegistration.IsInsulatedRail(targetcell);
+			bool SourceCellInsulated = HighPressureConduitRegistration.IsInsulatedRail(sourceCell);
+			bool TargetCellInsulated = HighPressureConduitRegistration.IsInsulatedRail(targetcell);
 			if (TargetCellInsulated != SourceCellInsulated)
 			{
 				HighPressureConduitRegistration.SetInsulatedState(pickupable, TargetCellInsulated);
@@ -79,8 +77,8 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				//SgtLogger.l(pickupable.gameObject.GetProperName() + " had a special unit mass");
 				return contents;
 			}
-			weight = pickupable.TotalAmount;
-			maxTargetRailCapacity = HighPressureConduitRegistration.SolidCap_Logistic;
+			float weight = pickupable.TotalAmount;
+			float maxTargetRailCapacity = HighPressureConduitRegistration.SolidCap_Logistic;
 
 			if (!LogisticConduit.HasLogisticConduitAt(sourceCell, false))
 				maxTargetRailCapacity = HighPressureConduitRegistration.GetMaxConduitCapacityAt(sourceCell, ConduitType.Solid);
@@ -103,10 +101,10 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				//	HighPressureConduit.ScheduleForDamage(sourceRail);
 				//}
 				//return SolidConduitFlow.ConduitContents.EmptyContents();
-				
+
 				///using this variant for now because the rail system doesnt react to damage...
 				///alt variant: drop only excess amount if weight too hight, keep target limit on the rail
-				additionalWeightToRemove = (weight - maxTargetRailCapacity);
+				float additionalWeightToRemove = (weight - maxTargetRailCapacity);
 				droppedExcess = pickupable.Take(additionalWeightToRemove);
 				///drop excess mass
 				Instance.DumpPickupable(droppedExcess);
