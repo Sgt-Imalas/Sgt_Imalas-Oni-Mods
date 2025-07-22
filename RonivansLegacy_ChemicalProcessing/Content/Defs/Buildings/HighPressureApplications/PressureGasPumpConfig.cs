@@ -47,12 +47,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			go.AddOrGet<EnergyConsumer>();
 			go.AddOrGet<Pump>();
 			go.AddOrGet<Storage>().capacityKg = Config.Instance.HPA_Capacity_Gas;
-			ElementConsumer local1 = go.AddOrGet<ElementConsumer>();
-			local1.configuration = ElementConsumer.Configuration.AllGas;
-			local1.consumptionRate = Config.Instance.HPA_Capacity_Gas;
-			local1.storeOnConsume = true;
-			local1.showInStatusPanel = false;
-			local1.consumptionRadius = 12;
+			ElementConsumer pumpConsumer = go.AddOrGet<ElementConsumer>();
+			pumpConsumer.configuration = ElementConsumer.Configuration.AllGas;
+			pumpConsumer.consumptionRate = Config.Instance.HPA_Capacity_Gas;
+			pumpConsumer.storeOnConsume = true;
+			pumpConsumer.showInStatusPanel = false;
+			pumpConsumer.consumptionRadius = 12;
+			pumpConsumer.sampleCellOffset = new Vector3(0, 2);
+
 			ConduitDispenser local2 = go.AddOrGet<ConduitDispenser>();
 			local2.conduitType = ConduitType.Gas;
 			local2.alwaysDispense = true;
