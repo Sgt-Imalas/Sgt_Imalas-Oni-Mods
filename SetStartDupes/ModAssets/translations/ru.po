@@ -489,13 +489,13 @@ msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.LIVEDUPESTATCHANGE.TOOLTIP"
 msgid "Редактируйте своих активных дубликантов в новом редакторе, похожем на редактор сохраненных игр Duplicity"
 msgstr "Редактируйте своих активных дубликантов в новом редакторе, похожем на редактор сохраненных игр Duplicity"
 
-#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME.NAME
-msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME.NAME"
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME_MINIONS.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME_MINIONS.NAME"
 msgid "Модификация дубликантов"
 msgstr "Модификация дубликантов"
 
-#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME.TOOLTIP
-msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME.TOOLTIP"
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME_MINIONS.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME_MINIONS.TOOLTIP"
 msgid ""
 "Включите эту опцию, чтобы добавить кнопку \"Изменить\" для дублей из печатного станка.\n"
 "Если эта функция отключена, кнопка появляется только при выборе стартовых дубликантов.\n"
@@ -649,13 +649,13 @@ msgstr ""
 "Позволяет модифицировать отшельника и дубликантов из криокапсулы.\n"
 "\"Древнее знание\" больше не занимает слот положительной характеристики при создании этих дубликантов."
 
-#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME.NAME
-msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME.NAME"
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_MINIONS.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_MINIONS.NAME"
 msgid "Повторная переделка"
 msgstr "Повторная переделка"
 
-#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME.TOOLTIP
-msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME.TOOLTIP"
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_MINIONS.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_MINIONS.TOOLTIP"
 msgid ""
 "Включите эту опцию, чтобы добавить кнопку повторной переделки к печати дубликантов и посылок.\n"
 "Кнопка позволяет выбрать одну из всех доступных на данный момент конфигураций посылок."

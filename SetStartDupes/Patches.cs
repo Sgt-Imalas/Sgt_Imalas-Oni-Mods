@@ -207,7 +207,7 @@ namespace SetStartDupes
 			{
 				if (ModAssets.DupeTraitManagers.ContainsKey(__instance))
 					ModAssets.DupeTraitManagers[__instance].RecalculateAll();
-				else if(Config.Instance.ModifyDuringGame)
+				else if (Config.Instance.ModifyDuringGame)
 					SgtLogger.warning("no mng for " + __instance + " found!");
 
 			}
@@ -579,41 +579,38 @@ namespace SetStartDupes
 			}
 			public static void Postfix(Telepad telepad, ImmigrantScreen __instance)
 			{
-				if (Config.Instance.RerollDuringGame)
+				if (__instance.containers != null && __instance.containers.Count > 0)
 				{
-					if (__instance.containers != null && __instance.containers.Count > 0)
+					foreach (ITelepadDeliverableContainer container in __instance.containers)
 					{
-						foreach (ITelepadDeliverableContainer container in __instance.containers)
+						if (container is CharacterContainer characterContainer && Config.Instance.RerollDuringGame)
 						{
-							if (container is CharacterContainer characterContainer)
-							{
-								characterContainer.SetReshufflingState(true);
-								///fixes the sorting order of the dropdown canvas to render on top of the window instead of behind it
-								var DropDownCanvas = characterContainer?.modelDropDown?.transform?.Find("ScrollRect")?.GetComponent<Canvas>();
-								var instanceCanvas = __instance.GetComponent<Canvas>();
-								if (DropDownCanvas != null && instanceCanvas != null)
-									DropDownCanvas.sortingOrder = instanceCanvas.sortingOrder + 1;
-								else
-									SgtLogger.warning("could not apply canvas sorting order fix for dropdown");
+							characterContainer.SetReshufflingState(true);
+							///fixes the sorting order of the dropdown canvas to render on top of the window instead of behind it
+							var DropDownCanvas = characterContainer?.modelDropDown?.transform?.Find("ScrollRect")?.GetComponent<Canvas>();
+							var instanceCanvas = __instance.GetComponent<Canvas>();
+							if (DropDownCanvas != null && instanceCanvas != null)
+								DropDownCanvas.sortingOrder = instanceCanvas.sortingOrder + 1;
+							else
+								SgtLogger.warning("could not apply canvas sorting order fix for dropdown");
 
 
-								characterContainer.reshuffleButton.onClick += () =>
-								{
-									//Prevents multiple selections
-									characterContainer.controller.RemoveLast();
-								};
-							}
-							else if (container is CarePackageContainer carePackContainer)
+							characterContainer.reshuffleButton.onClick += () =>
 							{
-								carePackContainer.SetReshufflingState(true);
-								carePackContainer.reshuffleButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 20, 120f);
-								carePackContainer.reshuffleButton.onClick += () =>
-								{
-									carePackContainer.controller.RemoveLast();
-									carePackContainer.Reshuffle(false);
-								};
-								UIUtils.AddSimpleTooltipToObject(carePackContainer.reshuffleButton.transform, STRINGS.UI.BUTTONS.REROLLCAREPACKAGE, true, onBottom: true);
-							}
+								//Prevents multiple selections
+								characterContainer.controller.RemoveLast();
+							};
+						}
+						else if (container is CarePackageContainer carePackContainer && Config.Instance.RerollDuringGame_CarePackage)
+						{
+							carePackContainer.SetReshufflingState(true);
+							carePackContainer.reshuffleButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 20, 120f);
+							carePackContainer.reshuffleButton.onClick += () =>
+							{
+								carePackContainer.controller.RemoveLast();
+								carePackContainer.Reshuffle(false);
+							};
+							UIUtils.AddSimpleTooltipToObject(carePackContainer.reshuffleButton.transform, STRINGS.UI.BUTTONS.REROLLCAREPACKAGE, true, onBottom: true);
 						}
 					}
 				}
@@ -1087,7 +1084,7 @@ namespace SetStartDupes
 					code.Insert(++insertionIndex2, new CodeInstruction(OpCodes.Call, AdjustNumbers));
 					code.Insert(++insertionIndex1, new CodeInstruction(OpCodes.Call, AdjustNumbers));
 
-					
+
 				}
 				else
 				{
@@ -1119,7 +1116,7 @@ namespace SetStartDupes
 			{
 				dupeCount = __instance.aNewHopeEvents.Count;
 				adjustedDelaySecs = (((float)defaultCount) * defaultDelaySecs) / dupeCount;
-				if(adjustedDelaySecs != float.PositiveInfinity)
+				if (adjustedDelaySecs != float.PositiveInfinity)
 					SgtLogger.l("adjusted delay between spawn intervals: " + adjustedDelaySecs);
 
 			}
@@ -1433,30 +1430,33 @@ namespace SetStartDupes
 
 				bool AllowModification = Config.Instance.ModifyDuringGame || (EditingSingleDupe && Config.Instance.JorgeAndCryopodDupes);
 
-				bool modelDropdownEnabled = __instance.modelDropDown.transform.parent.gameObject.activeInHierarchy;
+				bool modelDropdownEnabled = __instance.modelDropDown.transform.parent.gameObject.activeInHierarchy && Game.IsDlcActiveForCurrentSave(DlcManager.DLC3_ID);
 
 				if (!is_starter && __instance.controller is ImmigrantScreen i && i.Telepad != null)
 				{
 					var overrideModels = Config.Instance.GetViablePrinterModels();
-					var personalitiesWithViableModels = Db.Get().Personalities.GetAll(true, false).FindAll((Personality personality) => overrideModels.Contains(personality.model));
-					if (personalitiesWithViableModels.Any())
+					if (overrideModels != null)
 					{
-						if (!EditingSingleDupe)
+						var personalitiesWithViableModels = Db.Get().Personalities.GetAll(true, false).FindAll((Personality personality) => overrideModels.Contains(personality.model));
+						if (personalitiesWithViableModels.Any())
 						{
-							SgtLogger.l("overriding minionmodels to " + Config.Instance.OverridePrintingPodModels);
-							__instance.permittedModels = overrideModels.ToList();
-							if (overrideModels.Length == 1 && __instance.selectedModelIcon.gameObject.activeInHierarchy)
+							if (!EditingSingleDupe)
 							{
-								if (overrideModels[0] == GameTags.Minions.Models.Standard)
-									__instance.selectedModelIcon.sprite = Assets.GetSprite("ui_duplicant_minion_selection");
-								if (overrideModels[0] == GameTags.Minions.Models.Bionic)
-									__instance.selectedModelIcon.sprite = Assets.GetSprite("ui_duplicant_bionicminion_selection");
+								SgtLogger.l("overriding minionmodels to " + Config.Instance.OverridePrintingPodModels);
+								__instance.permittedModels = overrideModels.ToList();
+								if (overrideModels.Length == 1 && __instance.selectedModelIcon.gameObject.activeInHierarchy)
+								{
+									if (overrideModels[0] == GameTags.Minions.Models.Standard)
+										__instance.selectedModelIcon.sprite = Assets.GetSprite("ui_duplicant_minion_selection");
+									if (overrideModels[0] == GameTags.Minions.Models.Bionic)
+										__instance.selectedModelIcon.sprite = Assets.GetSprite("ui_duplicant_bionicminion_selection");
+								}
 							}
 						}
-					}
-					else
-					{
-						SgtLogger.l("couldnt override model selection, as there would not be any personality with the selected models available.");
+						else
+						{
+							SgtLogger.l("couldnt override model selection, as there would not be any personality with the selected models available.");
+						}
 					}
 				}
 
@@ -1514,8 +1514,11 @@ namespace SetStartDupes
 					var shuffleDupeButton = __instance.transform.Find("ShuffleDupeButton").GetComponent<KButton>();
 					var archetypeSelectButton = __instance.transform.Find("ArchetypeSelect").GetComponent<KButton>();
 
-					var typeSelectButton = __instance.transform.Find("DuplicantModelToggles/ModelDropDown").GetComponent<KButton>();
-					buttonsToDeactivateOnEdit[__instance].Add(typeSelectButton);
+					if (Game.IsDlcActiveForCurrentSave(DlcManager.DLC3_ID))
+					{
+						var modelDropdownButton = __instance.transform.Find("DuplicantModelToggles/ModelDropDown").GetComponent<KButton>();
+						buttonsToDeactivateOnEdit[__instance].Add(modelDropdownButton);
+					}
 
 					buttonsToDeactivateOnEdit[__instance].Add(shuffleDupeButton);
 					buttonsToDeactivateOnEdit[__instance].Add(archetypeSelectButton);
@@ -1588,7 +1591,7 @@ namespace SetStartDupes
 				if (is_starter)
 				{
 					GameObject removeSlotButton = Util.KInstantiateUI(__instance.reshuffleButton.gameObject, __instance.reshuffleButton.transform.parent.gameObject, true);
-					removeSlotButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, modelDropdownEnabled ? -84 : -42, 40f);
+					removeSlotButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, modelDropdownEnabled ? -84 : -40, 40f);
 					removeSlotButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 0, 80f);
 					var text = removeSlotButton.transform.Find("Text");
 					text.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 2, 76f);
@@ -1975,7 +1978,7 @@ namespace SetStartDupes
 
 				ModAssets.SetContainerPersonalityLock(__instance, true);
 				///no longer required because the congenital trait is now included with the personality lock
-				
+
 				//string congenitalTrait = ___stats.personality.congenitaltrait;
 				//var traits = Db.Get().traits;
 				//if (!congenitalTrait.IsNullOrWhiteSpace() && traits.Get(congenitalTrait) != null)
@@ -2034,7 +2037,7 @@ namespace SetStartDupes
 					SgtLogger.warning("TRANSPILER ERROR: minionStartingStatsReplacer not found");
 
 				//SgtLogger.warning("CharacterContainer.GenerateCharacter not found");
-				
+
 				return code;
 			}
 
@@ -2054,7 +2057,7 @@ namespace SetStartDupes
 				{
 					if (Config.Instance.ModifyDuringGame)
 						SgtLogger.log("StatManager not found, skipping assignment..");
-					  return;
+					return;
 				}
 				var mng = mngt.gameObject.GetComponent<DupeTraitManager>();
 				if (mng != null)

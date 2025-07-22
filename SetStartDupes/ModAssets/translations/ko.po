@@ -511,13 +511,13 @@ msgid ""
 "savegame editor"
 msgstr "Duplicity 사이트와 유사한 새 편집기에서 활성화 된 복제체를 편집합니다.\n기존의 저장된 게임에서 사용됩니다."
 
-#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME.NAME
-msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME.NAME"
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME_MINIONS.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME_MINIONS.NAME"
 msgid "Modification of printing pod Duplicants"
 msgstr "프린팅 포드에서 생성되는 복제체의 설정 편집 허용"
 
-#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME.TOOLTIP
-msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME.TOOLTIP"
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME_MINIONS.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME_MINIONS.TOOLTIP"
 msgid ""
 "Enable this option to add the modify button to printing pod dupes\n"
 "When disabled, the feature only appears on the starter dupe selection.\n"
@@ -675,13 +675,13 @@ msgstr ""
 "은둔자와 얼어붙은 복제체를 생성할 때 편집할 수 있습니다 :\n"
 "이러한 복제체를 편집하는 동안 \"고대 지식\" 특성이 더이상 긍정적 특성 특성 칸을 차지하지 않습니다."
 
-#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME.NAME
-msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME.NAME"
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_MINIONS.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_MINIONS.NAME"
 msgid "Reroll printing pod"
 msgstr "프린팅 포드 목록 재설정"
 
-#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME.TOOLTIP
-msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME.TOOLTIP"
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_MINIONS.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_MINIONS.TOOLTIP"
 msgid ""
 "Enable this option to add the reroll button to printing pod Duplicants and "
 "care packages.\n"

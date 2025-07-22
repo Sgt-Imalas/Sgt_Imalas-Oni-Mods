@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   build:
-    if: contains(github.event.head_commit.message, 'buildRelease')
+    if: contains(github.event.head_commit.message, 'buildall')
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v4

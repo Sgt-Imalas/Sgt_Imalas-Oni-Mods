@@ -104,7 +104,7 @@ namespace SetStartDupes.Patches
 
 
 
-                if (__instance.reshuffleButton == null || !Config.Instance.RerollDuringGame)
+                if (__instance.reshuffleButton == null || !Config.Instance.RerollDuringGame_CarePackage)
                     return;
 
                 var selectButton = Util.KInstantiateUI<KButton>(__instance.reshuffleButton.gameObject, __instance.reshuffleButton.transform.parent.gameObject, true);

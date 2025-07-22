@@ -28,24 +28,31 @@ namespace SetStartDupes
 		[Limit(0, 10)]
 		public int SupportedDays { get; set; }
 
-		[Option("STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME.NAME", "STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
-		[JsonProperty]
-		public bool ModifyDuringGame { get; set; }
-
-		[Option("STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME.NAME", "STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
-		[JsonProperty]
-		public bool RerollDuringGame { get; set; }
+		[Option("STRINGS.UI.DSS_OPTIONS.CAREPACKAGEEDITOR.NAME", "STRINGS.UI.DSS_OPTIONS.CAREPACKAGEEDITOR.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
+		[JsonIgnore]
+		public System.Action<object> Button_OpenCarepackageEditor => CarePackageEditor_MainScreen.ShowCarePackageEditor;
 
 		[Option("STRINGS.UI.DSS_OPTIONS.MORECAREPACKAGES.NAME", "STRINGS.UI.DSS_OPTIONS.MORECAREPACKAGES.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
 		[JsonProperty]
 		public bool AddAdditionalCarePackages { get; set; }
 
-		
+		[Option("STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME_MINIONS.NAME", "STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME_MINIONS.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
+		[JsonProperty]
+		public bool ModifyDuringGame { get; set; } = true; 
+
+		[Option("STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME_CAREPACKAGES.NAME", "STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME_CAREPACKAGES.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
+		[JsonProperty]
+		public bool ModifyDuringGame_CarePackage { get; set; } = true;
+
+		[Option("STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_MINIONS.NAME", "STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_MINIONS.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
+		[JsonProperty]
+		public bool RerollDuringGame { get; set; }
+		[Option("STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_CAREPACKAGES.NAME", "STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_CAREPACKAGES.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
+		[JsonProperty]
+		public bool RerollDuringGame_CarePackage { get; set; } = true;
+
 		[Option("STRINGS.UI.DSS_OPTIONS.SORTEDCAREPACKAGES.NAME", "STRINGS.UI.DSS_OPTIONS.SORTEDCAREPACKAGES.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
-		public bool CarePackageEntriesSorted { get; set; } = true;
-		[Option("STRINGS.UI.DSS_OPTIONS.CAREPACKAGEEDITOR.NAME", "STRINGS.UI.DSS_OPTIONS.CAREPACKAGEEDITOR.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
-		[JsonIgnore]
-		public System.Action<object> Button_OpenCarepackageEditor => CarePackageEditor_MainScreen.ShowCarePackageEditor;
+		public bool CarePackageEntriesSorted { get; set; } = true;	
 
 		[Option("STRINGS.UI.DSS_OPTIONS.CAREPACKAGEMULTIPLIER.NAME", "STRINGS.UI.DSS_OPTIONS.CAREPACKAGEMULTIPLIER.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
 		[JsonProperty]
@@ -83,6 +90,11 @@ namespace SetStartDupes
 
 		public Tag[] GetViablePrinterModels()
 		{
+			if (!Game.IsDlcActiveForCurrentSave(DlcManager.DLC3_ID))
+			{
+				return null;
+			}
+
 			switch (OverridePrintingPodModels)
 			{
 				case MinionModelOverride.normal:

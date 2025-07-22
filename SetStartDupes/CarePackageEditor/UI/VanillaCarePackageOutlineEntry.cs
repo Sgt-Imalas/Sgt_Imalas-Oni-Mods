@@ -7,6 +7,7 @@ using UnityEngine;
 using UtilLibs.UIcmp;
 using UtilLibs;
 using UnityEngine.UI;
+using static SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT;
 
 namespace SetStartDupes.CarePackageEditor.UI
 {
@@ -36,6 +37,7 @@ namespace SetStartDupes.CarePackageEditor.UI
 			Toggle = transform.Find("Checkbox").gameObject.AddComponent<FToggle>();
 			Toggle.SetCheckmark("Checkmark");
 			Toggle.OnChange += SetVanillaCarePackageEnabled;
+			UIUtils.AddSimpleTooltipToObject(Toggle.gameObject, PRESETENTRYPREFAB.TOGGLE_VANILLA_CAREPACKAGE);
 		}
 		void SetVanillaCarePackageEnabled(bool enabled)
 		{

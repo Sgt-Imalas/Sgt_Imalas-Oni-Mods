@@ -487,13 +487,13 @@ msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.LIVEDUPESTATCHANGE.TOOLTIP"
 msgid "Edit your active duplicants in a new editor similar to the Duplicity-savegame editor"
 msgstr "Bearbeite deine aktiven Duplikanten in einem Editor ähnlich dem aus Duplicity"
 
-#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME.NAME
-msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME.NAME"
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME_MINIONS.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME_MINIONS.NAME"
 msgid "Modification of printing pod Duplicants"
 msgstr "Modifikation von Biodrucker-Duplikanten"
 
-#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME.TOOLTIP
-msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME.TOOLTIP"
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME_MINIONS.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME_MINIONS.TOOLTIP"
 msgid ""
 "Enable this option to add the modify button to printing pod dupes\n"
 "When disabled, the feature only appears on the starter dupe selection.\n"
@@ -647,13 +647,13 @@ msgstr ""
 "Erlaubt die Modifikation des Einsiedlers und von Kryotank-Duplikanten.\n"
 "\"Uraltes Wissen\"-Eigenschaft blockiert nicht länger den \"positive Eigenschaft\"-Slot bei diesen Duplikanten."
 
-#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME.NAME
-msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME.NAME"
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_MINIONS.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_MINIONS.NAME"
 msgid "Reroll printing pod"
 msgstr "Neuwürfeln des Biodruckers"
 
-#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME.TOOLTIP
-msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME.TOOLTIP"
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_MINIONS.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_MINIONS.TOOLTIP"
 msgid ""
 "Enable this option to add the reroll button to printing pod Duplicants and care packages.\n"
 "Care Packages allow selecting from all currently available package configurations."
