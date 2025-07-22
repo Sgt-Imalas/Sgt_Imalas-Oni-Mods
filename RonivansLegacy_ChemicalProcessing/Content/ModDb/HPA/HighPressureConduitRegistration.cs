@@ -73,8 +73,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				_capInit = true;
 				_gasCap_hp = Config.Instance.HPA_Capacity_Gas;
 				_liquidCap_hp = Config.Instance.HPA_Capacity_Liquid;
-				_solidCap_hp = Config.Instance.Rail_Capacity_HPA;
-				_solidCap_logistic = Config.Instance.Rail_Capacity_Logistic;
+				_solidCap_hp = Config.Instance.HPA_Capacity_Solid;
+				_solidCap_logistic = Config.Instance.Logistic_Rail_Capacity;
 
 				_gasCap_reg = ConduitFlow.MAX_GAS_MASS;
 				_liquidCap_reg = ConduitFlow.MAX_LIQUID_MASS;

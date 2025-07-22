@@ -49,7 +49,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			ConfigurableSolidConduitDispenser solidDispenser = go.AddOrGet<ConfigurableSolidConduitDispenser>();
 			solidDispenser.alwaysDispense = true;
 			solidDispenser.elementFilter = null;
-			solidDispenser.massDispensed = Config.Instance.Rail_Capacity_Logistic;
+			solidDispenser.massDispensed = Config.Instance.Logistic_Rail_Capacity;
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)

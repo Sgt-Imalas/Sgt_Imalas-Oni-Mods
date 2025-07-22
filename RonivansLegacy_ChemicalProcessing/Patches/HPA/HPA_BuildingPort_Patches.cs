@@ -34,7 +34,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 						cmp.targetLevel = tweakedCapacity;
 					break;
 				case CargoBay.CargoType.Solids:
-					tweakedCapacity = Config.Instance.Rail_Capacity_HPA;
+					tweakedCapacity = Config.Instance.HPA_Capacity_Solid;
 					cmp.storage.capacityKg = tweakedCapacity;
 					if (cmp.targetLevel > 0)
 						cmp.targetLevel = tweakedCapacity;

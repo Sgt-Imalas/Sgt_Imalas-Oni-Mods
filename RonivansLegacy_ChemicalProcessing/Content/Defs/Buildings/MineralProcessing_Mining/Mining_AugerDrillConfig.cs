@@ -118,7 +118,7 @@ namespace Mineral_Processing_Mining.Buildings
 
 			ConfigurableSolidConduitDispenser solidDispenser = go.AddOrGet<ConfigurableSolidConduitDispenser>();
 			solidDispenser.alwaysDispense = true;
-			solidDispenser.massDispensed = Config.Instance.Rail_Capacity_HPA;
+			solidDispenser.massDispensed = Config.Instance.HPA_Capacity_Solid;
 			solidDispenser.storage = drillRig.outStorage;
 			solidDispenser.solidOnly = true;
 			solidDispenser.elementFilter = null;
