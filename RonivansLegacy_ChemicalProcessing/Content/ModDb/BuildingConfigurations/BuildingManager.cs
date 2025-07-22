@@ -64,39 +64,49 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					storageConfigurator.SetStorageCapacity(entry.GetStorageCapacity());
 				}
 			}
-//#if DEBUG
-//			if (typeof(IBuildingConfig).IsAssignableFrom(buildingType))
-//			{
-//				var buildingConfig = (IBuildingConfig)Activator.CreateInstance(buildingType);
-//				if (buildingConfig != default)
-//				{
-//					var buildingDef = buildingConfig.CreateBuildingDef();
-//					GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(BuildingConfigManager.Instance.baseTemplate);
-//					KPrefabID component = gameObject.GetComponent<KPrefabID>();
-//					component.PrefabTag = buildingDef.Tag;
-//					component.SetDlcRestrictions((IHasDlcRestrictions)buildingDef);
-//					gameObject.GetComponent<Building>().Def = buildingDef;
-//					gameObject.GetComponent<OccupyArea>().SetCellOffsets(buildingDef.PlacementOffsets);
-//					gameObject.AddTag(GameTags.RoomProberBuilding);
+			bool allowedByDlc = true;
+			if (typeof(IHasDlcRestrictions).IsAssignableFrom(buildingType))
+			{
+				var dlcRestrictions = (IHasDlcRestrictions)Activator.CreateInstance(buildingType);
+				if (dlcRestrictions != default)
+				{
+					allowedByDlc = DlcManager.IsCorrectDlcSubscribed(dlcRestrictions);
+				}
+			}
 
-//					buildingConfig.ConfigureBuildingTemplate(gameObject, buildingDef.Tag);
+			//#if DEBUG
+			//			if (typeof(IBuildingConfig).IsAssignableFrom(buildingType))
+			//			{
+			//				var buildingConfig = (IBuildingConfig)Activator.CreateInstance(buildingType);
+			//				if (buildingConfig != default)
+			//				{
+			//					var buildingDef = buildingConfig.CreateBuildingDef();
+			//					GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(BuildingConfigManager.Instance.baseTemplate);
+			//					KPrefabID component = gameObject.GetComponent<KPrefabID>();
+			//					component.PrefabTag = buildingDef.Tag;
+			//					component.SetDlcRestrictions((IHasDlcRestrictions)buildingDef);
+			//					gameObject.GetComponent<Building>().Def = buildingDef;
+			//					gameObject.GetComponent<OccupyArea>().SetCellOffsets(buildingDef.PlacementOffsets);
+			//					gameObject.AddTag(GameTags.RoomProberBuilding);
 
-//					List<ElementConverter.ConsumedElement> Consumes = [];
-//					List<ElementConverter.OutputElement> Creates = [];
+			//					buildingConfig.ConfigureBuildingTemplate(gameObject, buildingDef.Tag);
 
-//					foreach (var converter in gameObject.GetComponents<ElementConverter>()) 
-//					{
-//						Consumes.AddRange(converter.consumedElements);
-//						Creates.AddRange(converter.outputElements);
-//					}
-//					UnityEngine.Object.Destroy(gameObject);
-//				}
-//			}
-//#endif
+			//					List<ElementConverter.ConsumedElement> Consumes = [];
+			//					List<ElementConverter.OutputElement> Creates = [];
+
+			//					foreach (var converter in gameObject.GetComponents<ElementConverter>()) 
+			//					{
+			//						Consumes.AddRange(converter.consumedElements);
+			//						Creates.AddRange(converter.outputElements);
+			//					}
+			//					UnityEngine.Object.Destroy(gameObject);
+			//				}
+			//			}
+			//#endif
 			BuildingInjectionEntry injection = BuildingInjectionEntry.Create(buildingId);
 			entry.SetInjection(injection);
 
-			if (entry.IsBuildingEnabled())
+			if (entry.IsBuildingEnabled() && allowedByDlc)
 				BuildingInjections.Add(buildingId, injection);
 			return injection;
 		}
