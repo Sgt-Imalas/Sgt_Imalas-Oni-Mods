@@ -23,6 +23,7 @@ namespace UtilLibs
 
 		private List<RecipeElement> inputs;
 		private List<RecipeElement> outputs;
+		private Dictionary<RecipeElement, Tag> GroupDescriptors = [];
 
 		public static RecipeBuilder Create(string fabricatorID, string description, float time)
 		{
@@ -90,7 +91,12 @@ namespace UtilLibs
 				var input = inputs[i];
 				if (input == null)
 					throw new InvalidOperationException($"Input {i} is null in GetFormatArgs.");
+
 				var tag = input.material;
+				if (GroupDescriptors.TryGetValue(input, out var descriptorTag))
+				{
+					tag = descriptorTag;
+				}
 				var item = Assets.GetPrefab(tag);
 				if (item != null)
 				{
@@ -107,6 +113,10 @@ namespace UtilLibs
 				if (output == null)
 					throw new InvalidOperationException($"Output {i} is null in GetFormatArgs.");
 				var tag = output.material;
+				if (GroupDescriptors.TryGetValue(output, out var descriptorTag))
+				{
+					tag = descriptorTag;
+				}
 				var item = Assets.GetPrefab(tag);
 				if (item != null)
 				{
@@ -173,14 +183,28 @@ namespace UtilLibs
 			inputs.Add(element);
 			return this;
 		}
-		public RecipeBuilder Input(IEnumerable<Tag> tags, float amount)
+		public RecipeBuilder Input(IEnumerable<Tag> tags, float amount, Tag descriptor = default)
 		{
-			inputs.Add(new RecipeElement(tags.ToArray(), amount));
+			RecipeElement recipeElement = new RecipeElement(tags.ToArray(), amount);
+			inputs.Add(recipeElement);
+			if(descriptor != default)
+				GroupDescriptors.Add(recipeElement,descriptor);
 			return this;
 		}
-		public RecipeBuilder Input(IEnumerable<SimHashes> tags, float amount)
+		public RecipeBuilder Input(IEnumerable<SimHashes> tags, float amount, Tag descriptor = default)
 		{
-			inputs.Add(new RecipeElement(tags.Select(simhash => simhash.CreateTag()).ToArray(), amount));
+			var recipeElement = new RecipeElement(tags.Select(simhash => simhash.CreateTag()).ToArray(), amount);
+			inputs.Add(recipeElement);
+			if (descriptor != default)
+				GroupDescriptors.Add(recipeElement, descriptor);
+			return this;
+		}
+		public RecipeBuilder Input(IEnumerable<SimHashes> tags, float[] amounts, Tag descriptor = default)
+		{
+			var recipeElement = new RecipeElement(tags.Select(simhash => simhash.CreateTag()).ToArray(), amounts);
+			inputs.Add(recipeElement);
+			if (descriptor != default)
+				GroupDescriptors.Add(recipeElement, descriptor);
 			return this;
 		}
 		public RecipeBuilder InputSO(SimHashes simHashes, float amount, bool inheritElement = false) => InputConditional(simHashes, amount, DlcManager.IsExpansion1Active, inheritElement);
