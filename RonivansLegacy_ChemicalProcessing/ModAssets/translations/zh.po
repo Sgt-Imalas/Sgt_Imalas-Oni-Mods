@@ -2649,13 +2649,13 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.MONOELEMENT
 msgid "<link=\"MONOELEMENTTILE\">Compacted Tile</link>"
 msgstr "<link=\"MONOELEMENTTILE\">精制砖</link>"
 
-#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.MOSAICTILESTRINGS.DESC
-msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.MOSAICTILESTRINGS.DESC"
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_MOSAICTILE.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_MOSAICTILE.DESC"
 msgid "A fine tile made from glazed stones."
 msgstr "由上釉石料制成的精美瓷砖。"
 
-#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.MOSAICTILESTRINGS.EFFECT
-msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.MOSAICTILESTRINGS.EFFECT"
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_MOSAICTILE.EFFECT
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_MOSAICTILE.EFFECT"
 msgid ""
 "Used as floor and wall tile to build rooms.\n"
 "\n"
@@ -2665,10 +2665,10 @@ msgstr ""
 "\n"
 "显著提高复制人行走速度。"
 
-#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.MOSAICTILESTRINGS.NAME
-msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.MOSAICTILESTRINGS.NAME"
-msgid "<link=\"TILEPOI\">Mosaic Tile</link>"
-msgstr "<link=\"TILEPOI\">马赛克砖</link>"
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_MOSAICTILE.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_MOSAICTILE.NAME"
+msgid "<link=\"AIO_MOSAICTILE\">Mosaic Tile</link>"
+msgstr "<link=\"AIO_MOSAICTILE\">马赛克砖</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.PRESSUREGASPUMP.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.PRESSUREGASPUMP.DESC"

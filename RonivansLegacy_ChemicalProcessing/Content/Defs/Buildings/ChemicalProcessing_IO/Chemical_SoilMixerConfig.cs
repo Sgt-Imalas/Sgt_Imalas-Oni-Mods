@@ -145,7 +145,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Input(SimHashes.DirtyWater, 25)
 				.Output(SimHashes.Fertilizer, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description(SOILMIXER_4_1, 4, 1)
-				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 				.Build();
 
 			//---- [ Ammonia Fertilizer ] ------------------------------------------------------------------------
@@ -162,7 +162,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Input(SimHashes.DirtyWater, 25)
 				.Output(SimHashes.Fertilizer, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description(SOILMIXER_4_1, 4, 1)
-				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 				.Build();
 
 			//---- [ Phosphate Nodules from Phosphorus ] --------------------------------------------------------------
@@ -177,7 +177,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Input(SimHashes.Water, 10)
 				.Output(SimHashes.PhosphateNodules, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description(SOILMIXER_3_1, 3, 1)
-				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 				.Build();
 
 			//---- [ Phosphorite ] ---------------------------------------------------------------------------------------
@@ -192,7 +192,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Input(SimHashes.Water, 10)
 				.Output(SimHashes.Phosphorite, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description(SOILMIXER_3_1, 3, 1)
-				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 				.Build();
 
 			//---- [ Dirt Recipe A ] ---------------------------------------------------------------------------------------
@@ -218,7 +218,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Input(SimHashes.Water, 20)
 				.Output(SimHashes.Dirt, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description(SOILMIXER_4_1, 4, 1)
-				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 				.Build();
 
 
@@ -229,12 +229,12 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Result: Polluted Dirt - 100kg
 			//--------------------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, 60)
-				.Input(SimHashes.CrushedRock, 30)
 				.Input(SimHashes.WoodLog, 60)
+				.Input(SimHashes.CrushedRock, 30)
 				.Input(SimHashes.DirtyWater, 10)
 				.Output(SimHashes.ToxicSand, 100)
 				.Description(SOILMIXER_3_1, 3, 1)
-				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 				.Build();
 
 			if (Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
@@ -247,12 +247,12 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				//------------------------------------------------------------------------------------------------------------------
 
 				RecipeBuilder.Create(ID, 60)
-					.Input(SimHashes.CrushedRock, 50)
 					.Input(ModElements.BioMass_Solid, 40)
+					.Input(SimHashes.CrushedRock, 50)
 					.Input(SimHashes.Water, 10)
 					.Output(SimHashes.Dirt, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Description(SOILMIXER_3_1, 3, 1)
-					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 					.Build();
 			}
 		}

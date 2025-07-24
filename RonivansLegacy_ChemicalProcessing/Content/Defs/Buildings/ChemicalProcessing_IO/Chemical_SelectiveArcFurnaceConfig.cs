@@ -185,7 +185,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Input(SimHashes.TempConductorSolid, 100)
 				.Output(SimHashes.Niobium,100)
 				.Description1I1O(ARCFURNACE_NIOBIUM)
-				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 				.SortOrder(index++)
 				.Build();
 		}
