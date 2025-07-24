@@ -10235,9 +10235,9 @@ cells:
   temperature: 218.149994
   location_x: -35
   location_y: 25
-- element: SuperInsulator
-  mass: 900
-  temperature: 276.149994
+- element: Ice
+  mass: 1000
+  temperature: 218.149994
   location_x: -32
   location_y: 13
 - element: IgneousRock
@@ -10285,14 +10285,14 @@ cells:
   temperature: 164.149994
   location_x: -23
   location_y: 13
-- element: SuperInsulator
-  mass: 900
-  temperature: 276.149994
+- element: Iridium
+  mass: 2887.05005
+  temperature: 164.149994
   location_x: -33
   location_y: 14
-- element: SuperInsulator
-  mass: 900
-  temperature: 276.149994
+- element: Iridium
+  mass: 2887.05005
+  temperature: 164.149994
   location_x: -32
   location_y: 14
 - element: Iridium
@@ -10330,9 +10330,9 @@ cells:
   temperature: 164.149994
   location_x: -25
   location_y: 14
-- element: SuperInsulator
-  mass: 900
-  temperature: 274.149994
+- element: Iridium
+  mass: 2887.05005
+  temperature: 164.149994
   location_x: -24
   location_y: 14
 - element: Iridium

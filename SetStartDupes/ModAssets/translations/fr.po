@@ -752,13 +752,13 @@ msgstr ""
 "La caractéristiques \"Connaissance ancestrale\" ne prend plus l'emplacement "
 "d'un trait positif lors de la génération de ces duplicants."
 
-#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME.NAME
-msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME.NAME"
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME_MINIONS_MINIONS.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME_MINIONS_MINIONS.NAME"
 msgid "Reroll printing pod"
 msgstr "Relance possible la station d'impression"
 
-#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME.TOOLTIP
-msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME.TOOLTIP"
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME_MINIONS_MINIONS.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME_MINIONS_MINIONS.TOOLTIP"
 msgid ""
 "Enable this option to add the reroll button to printing pod Duplicants and "
 "care packages.\n"

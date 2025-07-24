@@ -46,7 +46,6 @@ namespace SetStartDupes
 					public static LocString AND = "AND";
 					public static LocString OR = "OR";
 				}
-
 				public class HORIZONTALLAYOUT
 				{
 					public class OBJECTLIST
@@ -67,6 +66,7 @@ namespace SetStartDupes
 								public class PRESETENTRYPREFAB
 								{
 									public static LocString DELETE_CARE_PACKAGE_TOOLTIP = "Delete Care Package";
+									public static LocString TOGGLE_VANILLA_CAREPACKAGE = "Toggle this vanilla care package from the care package list.\nDisabled care packages won't show up in the selection list and cannot be rolled.";
 								}
 							}
 						}
@@ -299,15 +299,25 @@ namespace SetStartDupes
 					public static LocString TOOLTIP = "Amount of days the extra starting resources should last.\nNo effect if \"Extra Starting Resources\" is disabled.";
 				}
 
-				public class MODIFYDURINGGAME
+				public class MODIFYDURINGGAME_MINIONS
 				{
 					public static LocString NAME = "Modification of printing pod Duplicants";
 					public static LocString TOOLTIP = "Enable this option to add the modify button to printing pod dupes\nWhen disabled, the feature only appears on the starter dupe selection.\nThis also enables the use of presets.";
 				}
-				public class REROLLDURINGGAME
+				public class MODIFYDURINGGAME_CAREPACKAGES
 				{
-					public static LocString NAME = "Reroll printing pod";
-					public static LocString TOOLTIP = "Enable this option to add the reroll button to printing pod Duplicants and care packages.\nCare Packages allow selecting from all currently available package configurations.";
+					public static LocString NAME = "Care Package selection menu";
+					public static LocString TOOLTIP = "Enable this option allows replacing printing pod care packages from a list of all at that time unlocked care packages.\nEnable Sandbox or Debug to ignore the unlock condition and make ALL packages available to select, regardless of unlock status.";
+				}
+				public class REROLLDURINGGAME_MINIONS
+				{
+					public static LocString NAME = "Reroll printing pod duplicants";
+					public static LocString TOOLTIP = "Enable this option to add the reroll button to printing pod Duplicants.";
+				}
+				public class REROLLDURINGGAME_CAREPACKAGES
+				{
+					public static LocString NAME = "Reroll Care Packages";
+					public static LocString TOOLTIP = "Enable this option to add the reroll button to printing pod care packages.";
 				}
 
 				public class PRINTINGPODRECHARGETIME
@@ -353,8 +363,8 @@ namespace SetStartDupes
 				}
 				public class MORECAREPACKAGES
 				{
-					public static LocString NAME = "Additional Care Package Types";
-					public static LocString TOOLTIP = "Adds a number of items to the list of care packages that would otherwise not be obtainable.";
+					public static LocString NAME = "Enable Care Package Editor";
+					public static LocString TOOLTIP = "Additional types of care packages become available to print.\nThese can be viewed and modified in the care package editor.\nBy default it contains a small selection of items that can potentially become unavailable.\nAlso allows disabling of vanilla care packages.";
 				}
 				public class CAREPACKAGEEDITOR
 				{
