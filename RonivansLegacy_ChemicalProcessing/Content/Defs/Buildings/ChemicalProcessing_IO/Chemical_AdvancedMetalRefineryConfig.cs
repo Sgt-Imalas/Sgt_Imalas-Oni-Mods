@@ -115,15 +115,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Result: Refined Metal   - 370kg
 			//         Slag            - 130kg
 			//-------------------------------------------------------------------------------------------------------------------------------------------
-			var specialOres = RefinementRecipeHelper.GetSpecialOres();
-
-			foreach (var element in ElementLoader.elements.FindAll(e => e.IsSolid && e.HasTag(GameTags.Ore)))
+			foreach (var element in RefinementRecipeHelper.GetNormalOres())
 			{
-
-				if (specialOres.Contains(element.id) || element.HasTag(GameTags.Noncrushable) || element.HasTag(ModAssets.Tags.RandomSand))
-				{
-					continue;
-				}
 
 				Element refinedElement = element.highTempTransition.lowTempTransition;
 

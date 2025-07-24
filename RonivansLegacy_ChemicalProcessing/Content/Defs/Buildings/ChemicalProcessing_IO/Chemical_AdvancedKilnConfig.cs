@@ -125,7 +125,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//-------------------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, 30)
 				.Input(SimHashes.Sand, 270)
-				.Input(SimHashes.Polypropylene, 100f)
+				.Input(RefinementRecipeHelper.GetPlasticIds(), 100f)
 				.Input(Borax_Solid, 30)
 				.Output(FiberGlass_Solid, 400, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description(THREE_MIXTURE_FUSE, 3, 1)
@@ -141,7 +141,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//-------------------------------------------------------------------------------------------------------------------
 
 			RecipeBuilder.Create(ID, 30)
-					.Input(SimHashes.Polypropylene, 100)
+					.Input(SimHashes.Bitumen, 100)
 					.Input(SimHashes.Fullerene, 25f)
 					.Input(SimHashes.Isoresin, 15f)
 					.Input(RayonFabricConfig.ID.ToTag(), 10f)
@@ -150,26 +150,10 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
 					.Build();
 
-			if (Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
-			{
-				//---- [ Fiberglass ] --------------------------------------------------------------------------------------------
-				// Ingredient: Sand         - 270kg
-				//             Bioplastic   - 100kg
-				//             Borax        - 30kg
-				// Result: Fiberglass       - 300g
-				//-------------------------------------------------------------------------------------------------------------------
-				RecipeBuilder.Create(ID, 30)
-					.Input(SimHashes.Sand, 260)
-					.Input(ModElements.BioPlastic_Solid, 100)
-					.Input(ModElements.Borax_Solid, 30)
-					.Output(ModElements.FiberGlass_Solid, 300, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-					.Description(THREE_MIXTURE_FUSE, 3, 1)
-					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
-					.Build();
-			}
+			
 
 			///Cement from burning oilshale
-			AdditionalRecipes.AdditionalKilnRecipes(ID);
+			AdditionalRecipes.AdditionalKilnRecipes(ID,false, true);
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)

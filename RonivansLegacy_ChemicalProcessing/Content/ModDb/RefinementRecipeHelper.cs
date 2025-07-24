@@ -7,14 +7,27 @@ using System.Threading.Tasks;
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
 	public class RefinementRecipeHelper
-    {
-        public static HashSet<SimHashes> GetSpecialOres()
+	{
+		public static HashSet<SimHashes> GetSpecialOres()
 		{
 			//those elements have special conversion rates, for all others its the same
 			return [SimHashes.Electrum, SimHashes.FoolsGold, ModElements.Galena_Solid];
 		}
-		public static IEnumerable<Element> GetCrushables() => 
+		public static IEnumerable<Element> GetCrushables() =>
 			ElementLoader.elements.Where(e => e.IsSolid && e.HasTag(GameTags.Crushable) && e.id != SimHashes.SuperInsulator);
 
+		public static IEnumerable<Element> GetNormalOres()
+		{
+			var normalOres = ElementLoader.elements.FindAll(e => e.IsSolid && e.HasTag(GameTags.Metal));
+			var specials = GetSpecialOres();
+			normalOres.RemoveAll(e => specials.Contains(e.id) || e.HasTag(GameTags.Noncrushable) || e.HasTag(ModAssets.Tags.RandomSand));
+			normalOres.RemoveAll(e => e.highTempTransition?.lowTempTransition == e);
+			return normalOres;
+		}
+		public static IEnumerable<SimHashes> GetPlasticIds()
+		{
+
+			return ElementLoader.elements.FindAll(e => e.IsSolid && e.HasTag(GameTags.Plastic)).Select(e => e.id);
+		}
 	}
 }

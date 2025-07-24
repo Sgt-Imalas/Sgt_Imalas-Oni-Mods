@@ -57,7 +57,7 @@ namespace Mineral_Processing_Mining.Buildings
 		private void ConfigureRecipes()
 		{
 			var combustibles = ElementLoader.elements.FindAll(e => e.HasTag(GameTags.CombustibleLiquid)).Select(element => element.id);
-			var plastics = ElementLoader.elements.FindAll(e => e.IsSolid && e.HasTag(GameTags.Plastic)).Select(element => element.id);
+			var plastics = RefinementRecipeHelper.GetPlasticIds();
 
 			int pos = 0;
 			//===[ Basic Drill Bits ]===========================================================================================================================

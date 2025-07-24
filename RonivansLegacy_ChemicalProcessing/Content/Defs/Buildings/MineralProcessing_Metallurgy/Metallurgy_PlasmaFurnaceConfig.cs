@@ -87,7 +87,7 @@ namespace Metallurgy.Buildings
 			furnace.heatedTemperature = 368.15f;
 			furnace.duplicantOperated = true;
 			furnace.sideScreenStyle = ComplexFabricatorSideScreen.StyleSetting.ListQueueHybrid;
-			
+
 
 			go.AddOrGet<FabricatorIngredientStatusManager>();
 			go.AddOrGet<CopyBuildingSettings>();
@@ -195,13 +195,8 @@ namespace Metallurgy.Buildings
 			// Result: Molten Refined Metal - 490kg
 			//         Molten Slag - 50kg
 			//----------------------------------------------------------------------------------------------------------------------
-			var specialOres = RefinementRecipeHelper.GetSpecialOres();
-			foreach (var element in ElementLoader.elements.FindAll(e => e.IsSolid && e.HasTag(GameTags.Ore)))
+			foreach (var element in RefinementRecipeHelper.GetNormalOres())
 			{
-				if (specialOres.Contains(element.id) || element.HasTag(GameTags.Noncrushable) || element.HasTag(ModAssets.Tags.RandomSand))
-			{
-					continue;
-				}
 
 				Element refinedElementMolten = element.highTempTransition;
 				if (refinedElementMolten.IsGas)
@@ -237,7 +232,7 @@ namespace Metallurgy.Buildings
 			//         Silver - 15kg
 			//         Sand - 50g
 			//------------------------------------------------------------------------------------------------------------------------------------
-			if(chemProcActive)
+			if (chemProcActive)
 			{
 				RecipeBuilder.Create(ID, 10)
 					.Input(SimHashes.Electrum, 500f)
@@ -314,7 +309,7 @@ namespace Metallurgy.Buildings
 			//             Lime - 25kg
 			// Result:     Molten Steel - 500kg
 			//----------------------------------------------------------------------------------------------------------------------
-			RecipeBuilder.Create(ID,10)
+			RecipeBuilder.Create(ID, 10)
 				.Input(SimHashes.Iron, 425f)
 				.Input(SimHashes.RefinedCarbon, 50f)
 				.Input(SimHashes.Lime, 25f)
@@ -329,9 +324,9 @@ namespace Metallurgy.Buildings
 			// Result: Molten Tungsten - 120kg
 			//         Magma - 380kg
 			//----------------------------------------------------------------------------------------------------------------------
-			RecipeBuilder.Create(ID,20)
+			RecipeBuilder.Create(ID, 20)
 				.Input(SimHashes.Katairite, 500f)
-				.Input(SimHashes.Lime,20)
+				.Input(SimHashes.Lime, 20)
 				.Output(SimHashes.MoltenTungsten, 120f, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)
 				.Output(SimHashes.Magma, 380f, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)

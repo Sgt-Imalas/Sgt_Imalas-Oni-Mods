@@ -431,7 +431,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			AddElementOverheatModifier(Plasteel_Solid, 800);
 
 
-			float silverDegreeBonus = 35;
+			float silverDegreeBonus = 40;
 			///---own additions----
 			///Silver as slightly worse gold
 			AddElementDecorModifier(Silver_Solid, 0.45f);

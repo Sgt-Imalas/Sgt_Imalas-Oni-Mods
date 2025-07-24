@@ -21,14 +21,16 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
 	public class AdditionalRecipes
 	{
-		public static void BurnedOilShaleCementRecipe(string ID)
+		public static void BurnedOilShaleCementRecipe(string ID, bool advKiln)
 		{
+			float recipeMultiplier = advKiln ? 5f : 1f;
+
 			///Cement from Oilshale
 			RecipeBuilder.Create(ID, 40)
-				.Input(ModElements.OilShale_Solid, 100f)
-				.Output(SimHashes.Cement, 70)
-				.Output(SimHashes.CrudeOil, 5)
-				.Output(ModElements.LowGradeSand_Solid, 10)
+				.Input(ModElements.OilShale_Solid, 100f* recipeMultiplier)
+				.Output(SimHashes.Cement, 70 * recipeMultiplier)
+				.Output(SimHashes.CrudeOil, 5 * recipeMultiplier)
+				.Output(ModElements.LowGradeSand_Solid, 10 * recipeMultiplier)
 				.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.HEAT_REFINE, 1, 1)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
 				.NameOverride(CHEMICAL_COMPLEXFABRICATOR_STRINGS.OILSHALE_CEMENT)
@@ -49,10 +51,25 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.Build();
 
 		}
-		public static void BrickRecipes(string ID, bool burnMaterial)
+		public static void BrickRecipes(string ID, bool burnMaterial, bool advKiln)
 		{
+			if (!Config.Instance.DupesEngineering_Enabled)
+				return;
+
 			List<SimHashes> burnables = [SimHashes.Carbon, SimHashes.WoodLog, SimHashes.Peat];
 
+			if (advKiln)
+			{
+				//alt recipe for adv kiln
+				RecipeBuilder.Create(ID, 30)
+					.Input(SimHashes.Clay, 300)
+					.Input(SimHashes.Sand, 200)
+					.Output(SimHashes.Brick, 500, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+					.Description1I1O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.HEAT_REFINE)
+					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+					.Build();
+				return;
+			}
 			///Brick from clay
 			RecipeBuilder.Create(ID, 40)
 				.Input(SimHashes.Clay, 100)
@@ -63,10 +80,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 		}
 
-		public static void AdditionalKilnRecipes(string ID, bool burnMaterial = false)
+		public static void AdditionalKilnRecipes(string ID, bool burnMaterial = false, bool advKiln  = false)
 		{
-			BurnedOilShaleCementRecipe(ID);
-			BrickRecipes(ID, burnMaterial);
+			BurnedOilShaleCementRecipe(ID, advKiln);
+
+			BrickRecipes(ID, burnMaterial, advKiln);
 		}
 		public static void RegisterRecipes_Kiln()
 		{
