@@ -199,7 +199,7 @@ namespace Metallurgy.Buildings
 			foreach (var element in ElementLoader.elements.FindAll(e => e.IsSolid && e.HasTag(GameTags.Ore)))
 			{
 				if (specialOres.Contains(element.id) || element.HasTag(GameTags.Noncrushable) || element.HasTag(ModAssets.Tags.RandomSand))
-				{
+			{
 					continue;
 				}
 

@@ -853,9 +853,9 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString DESC = "Cement is a quite old building material, but still pretty much useful.";
 					public static LocString EFFECT = "A device that can homogeneously combine several solid and liquid ingredients used in the production of cement.";
 				}
-				public class MOSAICTILESTRINGS
+				public class AIO_MOSAICTILE
 				{
-					public static LocString NAME = FormatAsLink("Mosaic Tile", nameof(TILEPOI));
+					public static LocString NAME = FormatAsLink("Mosaic Tile", nameof(AIO_MOSAICTILE));
 					public static LocString DESC = "A fine tile made from glazed stones.";
 					public static LocString EFFECT = "Used as floor and wall tile to build rooms.\n\nSignificantly increases Duplicant runspeed.";
 				}
@@ -2113,7 +2113,7 @@ namespace RonivansLegacy_ChemicalProcessing
 
 
 				public static LocString SUPERMATERIALREFINERY_3_1 = "Molecularly reassemble a mixture of {0} and {1} with addition of {2} to produce {3}.";
-				public static LocString ANAEROBIC_DIGESTER_1_2 = "Break down {0} producing {1} and {2}.";
+				public static LocString ANAEROBIC_DIGESTER_1_2 = "Break down {0}, producing {1} and {2}.";
 				public static LocString EXPELLER_PRESS_1_2 = "Press down {0} and extract {1}. Produces {2} as waste.";
 				public static LocString EXPELLER_PRESS_SEEDTOOIL = FormatAsLink("Seeds", "SEED") + " to " + ELEMENTS.LIQUIDVEGEOIL.NAME;
 
