@@ -198,12 +198,12 @@ namespace UtilLibs
 		public static void AddBuildingToPlanScreenBehindNext(
 			HashedString category,
 			string building_id,
-			string relativeBuildingId = "",
+			string relativeBuildingId = null,
 			string subcategoryID = "uncategorized",
 			ModUtil.BuildingOrdering ordering = ModUtil.BuildingOrdering.After
 			)
 		{
-			if (relativeBuildingId != string.Empty)
+			if (relativeBuildingId != null)
 			{
 				if (subcategoryID == "uncategorized" && TUNING.BUILDINGS.PLANSUBCATEGORYSORTING.ContainsKey(relativeBuildingId))
 				{
@@ -216,7 +216,7 @@ namespace UtilLibs
 					TUNING.BUILDINGS.PLANSUBCATEGORYSORTING.Add(building_id, subcategoryID);
 				}
 
-				InjectionMethods.AddBuildingToPlanScreen(category, building_id, subcategoryID, relativeBuildingId, ordering); //replace with ModUtil again when they fix it
+				ModUtil_AddBuildingToPlanScreen(category, building_id, subcategoryID, relativeBuildingId, ordering); //replace with ModUtil again when they fix it
 			}
 			else if (relativeBuildingId == string.Empty && subcategoryID != "uncategorized")
 			{
@@ -226,12 +226,12 @@ namespace UtilLibs
 				{
 					TUNING.BUILDINGS.PLANSUBCATEGORYSORTING.Add(building_id, subcategoryID);
 				}
-				InjectionMethods.AddBuildingToPlanScreen(category, building_id, subcategoryID);//replace with ModUtil again when they fix it
+				ModUtil_AddBuildingToPlanScreen(category, building_id, subcategoryID, relativeBuildingId, ordering);//replace with ModUtil again when they fix it
 			}
 			else
 			{
 				TUNING.BUILDINGS.PLANSUBCATEGORYSORTING[building_id] = subcategoryID;
-				InjectionMethods.AddBuildingToPlanScreen(category, building_id, subcategoryID);//replace with ModUtil again when they fix it
+				ModUtil_AddBuildingToPlanScreen(category, building_id, subcategoryID, relativeBuildingId,ordering);//replace with ModUtil again when they fix it
 			}
 		}
 
@@ -244,7 +244,7 @@ namespace UtilLibs
 		/// <param name="subcategoryID"></param>
 		/// <param name="relativeBuildingId"></param>
 		/// <param name="ordering"></param>
-		public static void AddBuildingToPlanScreen(HashedString category, string building_id, string subcategoryID, string relativeBuildingId, BuildingOrdering ordering = BuildingOrdering.After)
+		public static void ModUtil_AddBuildingToPlanScreen(HashedString category, string building_id, string subcategoryID, string relativeBuildingId, BuildingOrdering ordering = BuildingOrdering.After)
 		{
 			int num = TUNING.BUILDINGS.PLANORDER.FindIndex((PlanScreen.PlanInfo x) => x.category == category);
 			if (num < 0)

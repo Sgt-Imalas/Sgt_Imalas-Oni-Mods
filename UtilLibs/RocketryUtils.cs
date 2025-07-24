@@ -243,7 +243,7 @@ namespace UtilLibs
 			//}
 
 
-			Debug.Log("Addon mod reordering done");
+			Debug.Log("Rocketry Expanded: Addon mod reordering done, putting data to PRegistry");
 			RocketModuleList.SetRocketModuleList(categories);
 		}
 
