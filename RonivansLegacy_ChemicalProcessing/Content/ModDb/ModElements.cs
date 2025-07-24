@@ -294,6 +294,49 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			}
 		}
 
+		public static void ClearReenabledVanillaElementCodexTags(ref List<ElementLoader.ElementEntry> elementList)
+		{
+			HashSet<string> ToUnhide = [];
+			
+
+			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+			{
+				UnhideElement(SimHashes.Syngas);
+				UnhideElement(SimHashes.Propane);
+				UnhideElement(SimHashes.Electrum);
+				UnhideElement(SimHashes.Bitumen);
+				UnhideElement(SimHashes.PhosphateNodules);
+			}
+			if (Config.Instance.DupesEngineering_Enabled || Config.Instance.DupesMachinery_Enabled || Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+			{
+				UnhideElement(SimHashes.CrushedRock);
+			}
+			if (DlcManager.IsExpansion1Active() && Config.Instance.NuclearProcessing_Enabled)
+			{
+				UnhideElement(SimHashes.Radium);
+				UnhideElement(SimHashes.Yellowcake);
+			}
+			if (Config.Instance.DupesEngineering_Enabled)
+			{
+				UnhideElement(SimHashes.Brick);
+				UnhideElement(SimHashes.Cement);
+			}
+			foreach(var element in elementList)
+			{
+				if(ToUnhide.Contains(element.elementId) && element.tags != null)
+				{
+					var oreTags = element.tags.ToList();
+					oreTags.Remove(GameTags.HideFromCodex.ToString());
+					oreTags.Remove(GameTags.HideFromSpawnTool.ToString());
+					element.tags = oreTags.ToArray();
+				}
+			}
+			void UnhideElement(SimHashes element)
+			{
+				ToUnhide.Add(element.ToString());
+			}
+		}
+
 		internal static void ModifyExistingElements()
 		{
 
@@ -301,18 +344,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
 			{
 				//=[ SYNGAS ENABLING PATCH ]===============================================
-				Element syngas_material = ElementLoader.FindElementByHash(SimHashes.Syngas);
-				syngas_material.oreTags = syngas_material.oreTags.Append(GameTags.CombustibleGas);
-				syngas_material.disabled = false;
+				AddTagToElementAndEnable(SimHashes.Syngas, GameTags.CombustibleGas);
 
 				//=[ PROPANE PATCH ]=======================================================
-				Element propane_material = ElementLoader.FindElementByHash(SimHashes.Propane);
-				propane_material.oreTags = syngas_material.oreTags.Append(GameTags.CombustibleGas);
-				propane_material.disabled = false;
+				AddTagToElementAndEnable(SimHashes.Propane, GameTags.CombustibleGas);
 
 				//=[ NAPHTHA PATCH ]=======================================================
-				Element naphtha_material = ElementLoader.FindElementByHash(SimHashes.Naphtha);
-				naphtha_material.oreTags = naphtha_material.oreTags.Append(GameTags.CombustibleLiquid);
+				AddTagToElementAndEnable(SimHashes.Naphtha, GameTags.CombustibleLiquid);
 
 				//=[ ENABLING ELECTRUM ]===================================================
 				Element electrum_material = ElementLoader.FindElementByHash(SimHashes.Electrum);
@@ -323,8 +361,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				//=[ BITUMEN PATCH ]=======================================================
 				Element bitumen_material = ElementLoader.FindElementByHash(SimHashes.Bitumen);
 				bitumen_material.materialCategory = GameTags.ManufacturedMaterial;
-				bitumen_material.oreTags = bitumen_material.oreTags.Append(GameTags.ManufacturedMaterial);
-				bitumen_material.disabled = false;
+				AddTagToElementAndEnable(SimHashes.PhosphateNodules, GameTags.ManufacturedMaterial);
 
 				//=[ PHOSPHATE NODULES PATCH ]================================================
 				AddTagToElementAndEnable(SimHashes.PhosphateNodules, GameTags.ConsumableOre);
@@ -419,7 +456,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			//=: Giving Brass Decor and Temperature modifications :=====================================================
 			AddElementDecorModifier(Brass_Solid, 0.25f);
 			AddElementOverheatModifier(Brass_Solid, 80);
-			
+
 			//=: Giving Galena Temperature modifications :==============================================================
 			AddElementDecorModifier(Galena_Solid, 0.1f);
 			AddElementOverheatModifier(Galena_Solid, -30);

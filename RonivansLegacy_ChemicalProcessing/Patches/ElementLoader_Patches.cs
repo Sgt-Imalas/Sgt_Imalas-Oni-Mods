@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static ElementLoader;
 
 namespace RonivansLegacy_ChemicalProcessing.Patches
 {
@@ -18,6 +19,15 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			{
 				var list = substanceTablesByDlc[DlcManager.VANILLA_ID].GetList();
 				ModElements.RegisterSubstances(list);
+			}
+		}
+
+		[HarmonyPatch(typeof(ElementLoader), nameof(ElementLoader.CollectElementsFromYAML))]
+		public class ElementLoader_CollectElementsFromYAML_Patch
+		{
+			public static void Postfix(ElementLoader __instance, ref List<ElementEntry> __result)
+			{
+				ModElements.ClearReenabledVanillaElementCodexTags(ref __result);
 			}
 		}
 
