@@ -70,9 +70,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			Storage liquidStorage = go.AddOrGet<Storage>();
 			liquidStorage.SetDefaultStoredItemModifiers(BallmillStoredItemModifiers);
-			liquidStorage.showCapacityStatusItem = true;
-			liquidStorage.showCapacityAsMainStatus = true;
-			liquidStorage.showDescriptor = true;
+			//liquidStorage.showCapacityStatusItem = true;
+			//liquidStorage.showCapacityAsMainStatus = true;
+			//liquidStorage.showDescriptor = true;
 
 			ConduitConsumer waterInput = go.AddOrGet<ConduitConsumer>();
 			waterInput.conduitType = ConduitType.Liquid;

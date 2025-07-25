@@ -85,7 +85,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			Storage standardStorage = go.AddOrGet<Storage>();
 			standardStorage.capacityKg = 500f;
 			standardStorage.SetDefaultStoredItemModifiers(DesalinatorStoredItemModifiers);
-			standardStorage.showInUI = true;
+			//standardStorage.showInUI = true;
 
 			PortConduitConsumer steamInput = go.AddComponent<PortConduitConsumer>();
 			steamInput.conduitType = ConduitType.Gas;
@@ -135,9 +135,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			Storage outputStorage = go.AddOrGet<Storage>();
 
 			outputStorage.SetDefaultStoredItemModifiers(DesalinatorStoredItemModifiers);
-			outputStorage.showCapacityStatusItem = true;
-			outputStorage.showCapacityAsMainStatus = true;
-			outputStorage.showDescriptor = true;
+			//outputStorage.showCapacityStatusItem = true;
+			//outputStorage.showCapacityAsMainStatus = true;
+			//outputStorage.showDescriptor = true;
 
 			ConduitDispenser dispenser = go.AddOrGet<ConduitDispenser>();
 			dispenser.conduitType = ConduitType.Liquid;

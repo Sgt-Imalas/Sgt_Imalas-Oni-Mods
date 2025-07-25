@@ -68,9 +68,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			Storage liquidStorage = go.AddOrGet<Storage>();
 			liquidStorage.SetDefaultStoredItemModifiers(SoilMixerStoredItemModifiers);
-			liquidStorage.showCapacityStatusItem = true;
-			liquidStorage.showCapacityAsMainStatus = true;
-			liquidStorage.showDescriptor = true;
+			//liquidStorage.showCapacityStatusItem = true;
+			//liquidStorage.showCapacityAsMainStatus = true;
+			//liquidStorage.showDescriptor = true;
 
 			ConduitConsumer pollutedWaterInput = go.AddOrGet<ConduitConsumer>();
 			pollutedWaterInput.conduitType = ConduitType.Liquid;
@@ -95,6 +95,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			gasAmmoniaInput.conduitType = ConduitType.Gas;
 			gasAmmoniaInput.consumptionRate = 10f;
 			gasAmmoniaInput.capacityKG = 50f;
+			gasAmmoniaInput.storage = liquidStorage;
 			gasAmmoniaInput.capacityTag = ModElements.Ammonia_Gas.Tag;
 			gasAmmoniaInput.forceAlwaysSatisfied = true;
 			gasAmmoniaInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
@@ -117,10 +118,10 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			soilMixer.buildStorage.capacityKg = 1000f;
 			soilMixer.outStorage.capacityKg = 1000f;
 			soilMixer.storeProduced = false;
-			soilMixer.inStorage.SetDefaultStoredItemModifiers(SoilMixerStoredItemModifiers);
 			soilMixer.buildStorage.SetDefaultStoredItemModifiers(SoilMixerStoredItemModifiers);
 			soilMixer.outStorage.SetDefaultStoredItemModifiers(SoilMixerStoredItemModifiers);
 			soilMixer.inStorage = liquidStorage;
+			soilMixer.inStorage.SetDefaultStoredItemModifiers(SoilMixerStoredItemModifiers);
 			soilMixer.outputOffset = new Vector3(-1f, 0.5f);
 			//-----------------------------
 			Prioritizable.AddRef(go);

@@ -185,9 +185,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			portConduitConsumer4.AssignPort(liquidWaterInputPort);
 
 			outpuStorage.SetDefaultStoredItemModifiers(MixerStoredItemModifiers);
-			outpuStorage.showCapacityStatusItem = true;
-			outpuStorage.showCapacityAsMainStatus = true;
-			outpuStorage.showDescriptor = true;
 
 
 			PortConduitConsumer portConduitConsumer5 = go.AddComponent<PortConduitConsumer>();

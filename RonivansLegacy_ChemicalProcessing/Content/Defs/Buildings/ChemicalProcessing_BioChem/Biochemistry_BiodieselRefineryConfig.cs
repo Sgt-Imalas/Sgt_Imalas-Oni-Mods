@@ -65,9 +65,9 @@ namespace Biochemistry.Buildings
 			Storage storage = BuildingTemplates.CreateDefaultStorage(go, false);
 			storage.SetDefaultStoredItemModifiers(BioRefineryStoredItemModifiers);
 			storage.capacityKg = 300f;
-			storage.showCapacityStatusItem = true;
-			storage.showCapacityAsMainStatus = true;
-			storage.showDescriptor = true;
+			//storage.showCapacityStatusItem = true;
+			//storage.showCapacityAsMainStatus = true;
+			//storage.showDescriptor = true;
 
 			ConduitConsumer vegOilInput = go.AddOrGet<ConduitConsumer>();
 			vegOilInput.conduitType = ConduitType.Liquid;

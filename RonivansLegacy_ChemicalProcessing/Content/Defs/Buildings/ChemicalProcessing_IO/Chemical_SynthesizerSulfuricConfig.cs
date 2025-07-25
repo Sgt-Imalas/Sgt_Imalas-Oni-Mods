@@ -63,9 +63,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			Storage storage = BuildingTemplates.CreateDefaultStorage(go, false);
 			storage.SetDefaultStoredItemModifiers(StoredItemModifiers);
 			storage.capacityKg = 300f;
-			storage.showCapacityStatusItem = true;
-			storage.showCapacityAsMainStatus = true;
-			storage.showDescriptor = true;
 			go.AddOrGet<ElementConversionBuilding>();
 			Prioritizable.AddRef(go);
 
