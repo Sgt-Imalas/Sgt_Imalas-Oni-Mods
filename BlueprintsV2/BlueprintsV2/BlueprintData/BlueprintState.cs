@@ -38,7 +38,7 @@ namespace BlueprintsV2.BlueprintData
 
 		public static readonly Dictionary<int, CellColorPayload> ColoredCells = new();
 
-		public static Blueprint CreateBlueprint(Vector2I topLeft, Vector2I bottomRight, MultiToolParameterMenu filter = null)
+		public static Blueprint CreateBlueprint(Vector2I topLeft, Vector2I bottomRight, MultiToolParameterMenu filter = null, bool createsSnapshot = false)
 		{
 			Blueprint blueprint = new Blueprint("unnamed", "");
 
@@ -136,7 +136,7 @@ namespace BlueprintsV2.BlueprintData
 				}
 			}
 			//empty blueprint that caught some gas/liquid pockets, clear to not spam quasi empty blueprints
-			if (blueprint.BuildingConfigurations.Count == 0 && blueprint.DigLocations.Count > 0)
+			if (blueprint.BuildingConfigurations.Count == 0 && blueprint.DigLocations.Count > 0 && !createsSnapshot)
 			{
 				blueprint.DigLocations.Clear();
 			}
