@@ -228,7 +228,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				SimHashes.Sand.CreateTag().ProperName(),
 				SimHashes.Iron.CreateTag().ProperName(),
 				Slag_Solid.Tag.ProperName()),
-				nameDisplay = ComplexRecipe.RecipeNameDisplay.Result,
+				nameDisplay = ComplexRecipe.RecipeNameDisplay.IngredientToResult,
 				fabricators = new List<Tag> { ID },
 			};
 		}
