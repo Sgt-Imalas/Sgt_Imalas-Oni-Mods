@@ -163,6 +163,41 @@ namespace UtilLibs
 			this.name = name;
 			return this;
 		}
+		public RecipeBuilder NameOverrideFormat(string name, object f1)
+		{
+			this.name = string.Format(name,f1);
+			return this;
+		}
+		public RecipeBuilder NameOverrideFormatIngredient(string name, int ingredientIndex = 0)
+		{
+			var entries = GetFormatArgs(inputs.Count(), outputs.Count());
+			if (ingredientIndex < 0 || ingredientIndex >= entries.Length)
+			{
+				throw new ArgumentOutOfRangeException(nameof(ingredientIndex), "Ingredient index is out of range.");
+			}
+
+
+			this.name = string.Format(name, entries[ingredientIndex]);
+			return this;
+		}
+		public RecipeBuilder IconPrefabIngredient(int index)
+		{
+			if(index < 0 || index >= inputs.Count)
+			{
+				throw new ArgumentOutOfRangeException(nameof(index), "Index is out of range for inputs.");
+			}
+			var tag = inputs[index].material;
+			return IconPrefabOverride(tag);
+		}
+		public RecipeBuilder IconPrefabResult(int index)
+		{
+			if (index < 0 || index >= outputs.Count)
+			{
+				throw new ArgumentOutOfRangeException(nameof(index), "Index is out of range for outputs.");
+			}
+			var tag = outputs[index].material;
+			return IconPrefabOverride(tag);
+		}
 		public RecipeBuilder IconPrefabOverride(Tag prefabId) => IconPrefabOverride(prefabId.ToString());
 		public RecipeBuilder IconPrefabOverride(string prefabId)
 		{

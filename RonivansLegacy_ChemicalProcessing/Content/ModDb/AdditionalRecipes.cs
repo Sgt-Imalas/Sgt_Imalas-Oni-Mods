@@ -444,8 +444,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					.Input(ingredient, ingredientmass)
 					.Output(ModElements.VegetableOil_Liquid, oil)
 					.Output(ModElements.BioMass_Solid, biomass)
-					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_1_2, 1, 2)
+					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
+					.NameOverrideFormatIngredient(CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_FOODTOOIL, 0)
+					.IconPrefabIngredient(0)
 					.Build();
 			}
 			HashSet<Tag> seeds = new();
@@ -469,11 +471,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			//--------------------------------------------------------------------------------------- 
 
 			RecipeBuilder.Create(ID, 25)
-				.Input(seeds.ToArray(), 1)
+				.Input(seeds.ToArray(), 1, GameTags.Seed)
 				.Output(ModElements.VegetableOil_Liquid, 0.95f)
 				.Output(ModElements.BioMass_Solid, 0.05f)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
-				.NameOverride(CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_SEEDTOOIL)
+				.NameOverrideFormatIngredient(CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_SEEDTOOIL,0)
 				.IconPrefabOverride(ModElements.BioMass_Solid.Tag)
 				.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_1_2, 1, 2)
 				.Build();

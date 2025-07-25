@@ -2116,6 +2116,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString ANAEROBIC_DIGESTER_1_2 = "Break down {0}, producing {1} and {2}.";
 				public static LocString EXPELLER_PRESS_1_2 = "Press down {0} and extract {1}. Produces {2} as waste.";
 				public static LocString EXPELLER_PRESS_SEEDTOOIL = FormatAsLink("Seeds", "SEED") + " to " + ELEMENTS.LIQUIDVEGEOIL.NAME;
+				public static LocString EXPELLER_PRESS_FOODTOOIL = "{0} to " + ELEMENTS.LIQUIDVEGEOIL.NAME;
 
 				public static LocString PLASMAFURNACE_1_1 = "Smelts raw {0} to produce high purity {1}.";
 				public static LocString PLASMAFURNACE_2_1 = "Smelt an uniform mixture of {0} and {1} to produce high purity {2}.";
