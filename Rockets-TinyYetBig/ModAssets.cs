@@ -549,10 +549,17 @@ namespace Rockets_TinyYetBig
 			/// </summary>
 			public static Tag RadiationShieldingRocketConstructionMaterial = TagManager.Create("RTB_RadiationShieldingRocketConstructionMaterial");
 
+
 			/// <summary>
 			/// add this tag to any liquid material that is a rocket fuel, by default it is attached to every material with the "Combustible Liquid" Tag and Hydrogen
 			/// </summary>
 			public static Tag RocketFuelTag = TagManager.Create("RTB_RocketFuelMaterial");
+
+
+			/// <summary>
+			/// add this tag to any solid material that should act as a solid rocket oxidizer, by default it is attached to oxylite and fertilizer
+			/// </summary>
+			public static Tag RocketSolidOxidizerTag = TagManager.Create("RTB_RocketSolidOxidizerTag");
 
 			/// <summary>
 			/// Liquid Oxidizer that is corrosive, requires storing in Plated Liquid Oxidizer Tank
@@ -578,7 +585,6 @@ namespace Rockets_TinyYetBig
 			public static Tag OxidizerEfficiency_3 = TagManager.Create("RTB_OxidizerEfficiency_3");
 
 			//TODO: lock behind lox tank science
-
 			/// <summary>
 			/// has Oxidizer efficiency of 4, is locked behind LOX tank science
 			/// </summary>
