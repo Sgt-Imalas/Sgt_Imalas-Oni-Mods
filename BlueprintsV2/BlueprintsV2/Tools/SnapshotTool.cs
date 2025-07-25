@@ -157,7 +157,7 @@ namespace BlueprintsV2.Tools
 					Util.Swap(ref y0, ref y1);
 				}
 
-				var bp = BlueprintState.CreateBlueprint(new Vector2I(x0, y0), new Vector2I(x1, y1), MultiToolParameterMenu.Instance);
+				var bp = BlueprintState.CreateBlueprint(new Vector2I(x0, y0), new Vector2I(x1, y1), MultiToolParameterMenu.Instance, true);
 				SetLastUsedBlueprint(bp);
 				Visualize(bp);
 			}
