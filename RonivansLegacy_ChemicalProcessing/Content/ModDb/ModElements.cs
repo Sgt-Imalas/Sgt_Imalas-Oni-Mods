@@ -302,7 +302,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
 			{
 				UnhideElement(SimHashes.Syngas);
+
 				UnhideElement(SimHashes.Propane);
+				UnhideElement(SimHashes.LiquidPropane);
+				UnhideElement(SimHashes.SolidPropane);
+
 				UnhideElement(SimHashes.Electrum);
 				UnhideElement(SimHashes.Bitumen);
 				UnhideElement(SimHashes.PhosphateNodules);
@@ -337,6 +341,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			}
 		}
 
+		static void FixCachedStateTransitions()
+		{
+			var isopropane = ElementLoader.FindElementByHash(Isopropane_Gas);
+			if (isopropane != null)
+				isopropane.highTempTransition =  ElementLoader.FindElementByHash(SimHashes.Propane);
+		}
+
 		internal static void ModifyExistingElements()
 		{
 
@@ -348,6 +359,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 				//=[ PROPANE PATCH ]=======================================================
 				AddTagToElementAndEnable(SimHashes.Propane, GameTags.CombustibleGas);
+				AddTagToElementAndEnable(SimHashes.LiquidPropane);
+				AddTagToElementAndEnable(SimHashes.SolidPropane);
+
+				FixCachedStateTransitions();
 
 				//=[ NAPHTHA PATCH ]=======================================================
 				AddTagToElementAndEnable(SimHashes.Naphtha, GameTags.CombustibleLiquid);
@@ -412,14 +427,17 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			AddTagToElementAndEnable(SimHashes.Carbon, GameTags.CombustibleSolid);
 			AddTagToElementAndEnable(SimHashes.Peat, GameTags.CombustibleSolid);
 		}
-		static void AddTagToElementAndEnable(SimHashes element, Tag tag) => AddTagsToElementAndEnable(element, [tag]);
+		static void AddTagToElementAndEnable(SimHashes element, Tag? tag = null) => AddTagsToElementAndEnable(element, tag.HasValue ? [tag.Value] : null);
 
-		static void AddTagsToElementAndEnable(SimHashes element, Tag[] tags)
+		static void AddTagsToElementAndEnable(SimHashes element, Tag[] tags = null)
 		{
 			var elementMaterial = ElementLoader.FindElementByHash(element);
 			if (elementMaterial == null)
 				return;
 			elementMaterial.disabled = false;
+
+			if(tags == null || tags.Length == 0)
+				return;
 
 			if (elementMaterial.oreTags == null)
 				elementMaterial.oreTags = tags;

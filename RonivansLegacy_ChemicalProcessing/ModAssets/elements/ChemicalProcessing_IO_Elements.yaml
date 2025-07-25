@@ -432,6 +432,8 @@ elements:
     toxicity: 0
     highTemp: 363.15
     highTempTransitionTarget: Propane
+    highTempTransitionOreId: Fullerene
+    highTempTransitionOreMassConversion: 0.01
     defaultTemperature: 254.15
     molarMass: 137.86
     lightAbsorptionFactor: 0.5
