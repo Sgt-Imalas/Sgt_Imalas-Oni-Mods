@@ -42,6 +42,11 @@ namespace UtilLibs.BuildingPortUtils
 			}
 		}
 
+		public List<PortDisplay2> GetAllPorts()
+		{
+			return gasOverlay.Concat(liquidOverlay).Concat(solidOverlay).ToList();
+		}
+
 		public void Init(GameObject go)
 		{
 			string ID = go.GetComponent<KPrefabID>().PrefabTag.Name;

@@ -442,7 +442,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 				RecipeBuilder.Create(ID, 25)
 					.Input(ingredient, ingredientmass)
-					.Output(ModElements.VegetableOil_Liquid, oil)
+					.Output(ModElements.VegetableOil_Liquid, oil,ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Output(ModElements.BioMass_Solid, biomass)
 					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_1_2, 1, 2)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)

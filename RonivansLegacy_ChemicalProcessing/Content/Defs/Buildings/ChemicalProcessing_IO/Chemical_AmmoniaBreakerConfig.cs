@@ -138,7 +138,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		{
 			base.DoPostConfigureUnderConstruction(go);
 			this.AttachPort(go);
-			go.AddOrGet<PortPreviewVisualizer>();
 		}
 	}
 }

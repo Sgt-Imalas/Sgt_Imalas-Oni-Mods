@@ -40,12 +40,12 @@ namespace UtilLibs.BuildingPortUtils
 		}
 
 		// Get a cell of a building. Takes rotation into account
-		internal static int GetCellWithOffset(this Building building, CellOffset offset)
+		public static int GetCellWithOffset(this Building building, CellOffset offset)
 		{
-			int bottomLeftCell = Grid.PosToCell(building);
+			int buildingOriginCell = building.NaturalBuildingCell();
 
 			CellOffset rotatedOffset = building.GetRotatedOffset(offset);
-			return Grid.OffsetCell(bottomLeftCell, rotatedOffset);
+			return Grid.OffsetCell(buildingOriginCell, rotatedOffset);
 		}
 	}
 }

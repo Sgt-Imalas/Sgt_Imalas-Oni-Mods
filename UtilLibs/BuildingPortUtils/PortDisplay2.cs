@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static LogicGateVisualizer;
 
 namespace UtilLibs.BuildingPortUtils
 {
 	[SkipSaveFileSerialization]
-	internal class PortDisplay2 : KMonoBehaviour
+	public class PortDisplay2 : KMonoBehaviour
 	{
 		private GameObject portObject;
 
@@ -39,6 +40,9 @@ namespace UtilLibs.BuildingPortUtils
 		[SerializeField]
 		internal Sprite sprite;
 
+		public bool Input => input;
+		public ConduitType Type => type;
+
 		internal void AssignPort(DisplayConduitPortInfo port)
 		{
 			this.type = port.type;
@@ -52,7 +56,7 @@ namespace UtilLibs.BuildingPortUtils
 		internal void Draw(GameObject obj, BuildingCellVisualizer visualizer, bool force)
 		{
 			Building building = visualizer.building;
-			int utilityCell = building.GetCellWithOffset(building.Orientation == Orientation.Neutral ? this.offset : this.offsetFlipped);
+			int utilityCell = GetUtilityCell(building);
 
 			// redraw if anything changed
 			if (force || utilityCell != this.lastUtilityCell || color != this.lastColor)
@@ -61,6 +65,14 @@ namespace UtilLibs.BuildingPortUtils
 				this.lastUtilityCell = utilityCell;
 				visualizer.DrawUtilityIcon(utilityCell, this.sprite, ref portObject, color);
 			}
+		}
+		public int GetUtilityCell(Building building)
+		{
+			return building.GetCellWithOffset(building.Orientation == Orientation.Neutral ? this.offset : this.offsetFlipped);
+		}
+		public CellOffset GetUtilityCellOffset(Building building)
+		{
+			return (building.Orientation == Orientation.Neutral ? this.offset : this.offsetFlipped);
 		}
 
 		private Sprite GetSprite()

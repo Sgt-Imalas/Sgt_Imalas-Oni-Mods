@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using KSerialization;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRandom;
 using System;
 using System.Collections.Generic;
@@ -61,6 +62,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.OutputConduitType = ConduitType.Liquid;
 			buildingDef.UtilityOutputOffset = new CellOffset(3, 2);
 			SoundUtils.CopySoundsToAnim("ball_mill_kanim", "orescrubber_kanim");
+
+			buildingDef.GenerateOffsets(6, 3);
 			return buildingDef;
 		}
 
@@ -105,9 +108,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			Storage toxicStorage = go.AddOrGet<Storage>();
 			toxicStorage.SetDefaultStoredItemModifiers(BallmillStoredItemModifiers);
-			toxicStorage.showCapacityStatusItem = true;
-			toxicStorage.showCapacityAsMainStatus = true;
-			toxicStorage.showDescriptor = true;
+			//toxicStorage.showCapacityStatusItem = true;
+			//toxicStorage.showCapacityAsMainStatus = true;
+			//toxicStorage.showDescriptor = true;
 
 			//----------------------------- Fabricator Section
 			go.AddOrGet<DropAllWorkable>();
@@ -363,6 +366,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		{
 			base.DoPostConfigurePreview(def, go);
 			this.AttachPort(go);
+			go.AddOrGet<PortPreviewVisualizer>();
 		}
 
 		public override void DoPostConfigureUnderConstruction(GameObject go)
