@@ -1,0 +1,32 @@
+id: "AIO_HARDENEDALLOY"
+title: STRINGS.MISC.TAGS.AIO_HARDENEDALLOY
+category: "ELEMENTTYPES"
+parentId: "ELEMENTTYPES"
+contentContainers:
+#-----------------------------
+  - contentLayout: Vertical
+    lockID:
+
+    content:
+      - !CodexText
+          stringKey: STRINGS.MISC.TAGS.AIO_HARDENEDALLOY
+          style: Title
+      - !CodexDividerLine
+          preferredWidth: -1
+      - !CodexImage
+          elementIcon: STEEL
+          preferredWidth: 128
+          preferredHeight: 128
+#-----------------------------
+  - contentLayout: Vertical
+    lockID:
+
+    content:
+      - !CodexText
+          stringKey: STRINGS.MISC.TAGS.AIO_HARDENEDALLOY
+          style: Body
+      - !CodexElementCategoryList
+          categoryTag: AIO_HARDENEDALLOY
+
+contentMadeAndUsed:
+  - tag: AIO_HARDENEDALLOY

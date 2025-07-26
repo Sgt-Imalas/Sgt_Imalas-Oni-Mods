@@ -349,9 +349,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		}
 
 		internal static void ModifyExistingElements()
-		{
-
-
+		{			
 			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
 			{
 				//=[ SYNGAS ENABLING PATCH ]===============================================
@@ -501,6 +499,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			///silver ore - mirroring gold in slightly worse
 			AddElementDecorModifier(Argentite_Solid, 0.1f);
 			AddElementOverheatModifier(Argentite_Solid, silverDegreeBonus);
+			///electrum is silver+gold
+			AddElementOverheatModifier(SimHashes.Electrum, silverDegreeBonus);
+
 			///mirroring brass, less heat because it contains lead, compensating with higher decor
 			AddElementDecorModifier(PhosphorBronze, 0.35f);
 			AddElementOverheatModifier(PhosphorBronze, 30);

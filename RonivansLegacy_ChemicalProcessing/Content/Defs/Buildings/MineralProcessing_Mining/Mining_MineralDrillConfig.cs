@@ -29,7 +29,7 @@ namespace Mineral_Processing
 		public override BuildingDef CreateBuildingDef()
 		{
 			EffectorValues tieR2 = NOISE_POLLUTION.NOISY.TIER2;
-			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 4, 5, "mineral_drill_kanim", 100, 120f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER6, ["Steel"], 1600f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.NONE, tieR2);
+			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 4, 5, "mineral_drill_kanim", 100, 120f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER6, [GameTags.Steel.ToString()], 1600f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.NONE, tieR2);
 			BuildingTemplates.CreateElectricalBuildingDef(buildingDef);
 			buildingDef.SceneLayer = Grid.SceneLayer.BuildingFront;
 			buildingDef.EnergyConsumptionWhenActive = 1200f;

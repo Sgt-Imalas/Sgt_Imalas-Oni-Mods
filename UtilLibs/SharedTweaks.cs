@@ -25,7 +25,6 @@ namespace UtilLibs
 		/// </summary>
 		public static class ResearchNotificationMessageFix
 		{
-
 			static readonly string RegistryKey = "RegistryKey_ResearchNotificationMessageFix";
 			public static void ExecutePatch(Harmony harmony)
 			{
@@ -126,7 +125,7 @@ namespace UtilLibs
 					&& entry.TryGetComponent<LayoutGroup>(out var realLayout)
 					&& entry.transform.parent.TryGetComponent<KChildFitter>(out var cf))
 				{
-					if(frozenLayout.enabled == realLayout.enabled)
+					if (frozenLayout.enabled == realLayout.enabled)
 					{
 						return;
 					}
@@ -307,6 +306,33 @@ namespace UtilLibs
 				__result = [item];
 
 				return false;
+			}
+		}
+
+		public static class DynamicMaterialSelectorHeaderHeight
+		{
+			static readonly string RegistryKey = "RegistryKey_DynamicMaterialSelectorHeaderHeight";
+			public static void ExecutePatch(Harmony harmony)
+			{
+				if (PRegistry.GetData<bool>(RegistryKey))
+					return;
+				try
+				{
+					var targetMethod = AccessTools.Method(typeof(MaterialSelector), nameof(MaterialSelector.UpdateHeader));
+					var postfix = AccessTools.Method(typeof(DynamicMaterialSelectorHeaderHeight), nameof(DynamicHeightPostfix));
+					harmony.Patch(targetMethod, postfix: new(postfix));
+					PRegistry.PutData(RegistryKey, true);
+				}
+				catch { }
+			}
+			public static void DynamicHeightPostfix(MaterialSelector __instance)
+			{
+				LocText headerText = __instance.Headerbar.GetComponentInChildren<LocText>();
+				string stripped = global::STRINGS.UI.StripLinkFormatting(headerText.text);
+				float count = stripped.Length;
+				int linecount = Mathf.CeilToInt(count / 40f);
+				int height = linecount * 24;
+				__instance.Headerbar.GetComponent<LayoutElement>().minHeight = height;
 			}
 		}
 	}
