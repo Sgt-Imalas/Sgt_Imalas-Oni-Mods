@@ -382,7 +382,7 @@ elements:
     - RefinedMetal
     - BuildableAny    
     - Noncrushable
-    - Steel
+    - AIO_HardenedAlloy #Steel substitute
     buildMenuSort: 4
     isDisabled: false
     state: Solid
@@ -414,7 +414,7 @@ elements:
     - RefinedMetal
     - BuildableAny 
     - Noncrushable
-    - Steel
+    - AIO_HardenedAlloy #Steel substitute
     buildMenuSort: 11
     isDisabled: false
     state: Solid

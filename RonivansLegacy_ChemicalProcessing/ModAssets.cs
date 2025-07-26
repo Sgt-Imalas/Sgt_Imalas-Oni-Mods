@@ -32,6 +32,9 @@ namespace RonivansLegacy_ChemicalProcessing
 
 			///Prevents free material cheesing from drill by destroying the drillbit on cancellation of the recipe
 			public static Tag RandomRecipeIngredient_DestroyOnCancel = TagManager.Create("RandomRecipeIngredient_DestroyOnCancel");
+
+			///material tag for steel substitute materials
+			public static Tag AIO_HardenedAlloy = TagManager.Create("AIO_HardenedAlloy");
 		}
 		public static GameObject BuildingEditorWindowPrefab;
 

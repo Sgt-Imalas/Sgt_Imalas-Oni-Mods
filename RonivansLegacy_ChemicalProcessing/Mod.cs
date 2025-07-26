@@ -35,6 +35,7 @@ namespace RonivansLegacy_ChemicalProcessing
 			SharedTweaks.ResearchNotificationMessageFix.ExecutePatch(harmony); 
 			SharedTweaks.ResearchScreenCollapseEntries.ExecutePatch(harmony);
 			SharedTweaks.ElementConverterDescriptionImprovement.ExecutePatch(harmony);
+			SharedTweaks.DynamicMaterialSelectorHeaderHeight.ExecutePatch(harmony);
 		}
 		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
 		{
