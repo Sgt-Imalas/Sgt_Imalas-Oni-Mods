@@ -40,11 +40,20 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Content\Scripts\Entities\**" />
+	  <EmbeddedResource Remove="Content\Scripts\Entities\**" />
+	  <None Remove="Content\Scripts\Entities\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Content\Scripts\Entities\" />
 	  <Folder Include="Content\Scripts\ConduitHandling\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <RefAssemblies Remove="Content\Scripts\Entities\**" />
 	</ItemGroup>
 </Project>

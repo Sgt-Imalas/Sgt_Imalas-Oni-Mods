@@ -1401,6 +1401,26 @@ namespace RonivansLegacy_ChemicalProcessing
 					".";
 				}
 
+				public class HPA_TRANSFERARM
+				{
+					public static LocString NAME = FormatAsLink("Heavy-Duty Auto-Sweeper", nameof(HPA_TRANSFERARM));
+					public static LocString DESC = "An auto-sweeper's range can be viewed at any time by clicking on the building.";
+					public static LocString EFFECT = string.Concat(
+						[
+							"Automates ",
+							FormatAsLink("Sweeping", "CHORES"),
+							" and ",
+							FormatAsLink("Supplying", "CHORES"),
+							" errands by sucking up all nearby ",
+							FormatAsLink("Debris", "DECOR"),
+							".\n\nMaterials are automatically delivered to any ",
+							FormatAsLink("Heavy-Duty Loader", "HPA_INBOX"),
+							", ",
+							FormatAsLink("Heavy-Duty Receptacle", "HPA_OUTBOX"),
+							", storage, or buildings within range.\n\nComes with increased range, capacity and rotation speed."
+						]);
+				}
+
 				#endregion
 				#region DupesRefrigeration
 

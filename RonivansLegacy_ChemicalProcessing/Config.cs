@@ -107,6 +107,6 @@ namespace RonivansLegacy_ChemicalProcessing
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_ARMRANGE.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_CAPACITY.TOOLTIP", "STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS")]
 		[Limit(6, 24)]
-		public int HPA_Arm_Range { get; set; } = 10;
+		public int HPA_Arm_Range { get; set; } = 12;
 	}
 }

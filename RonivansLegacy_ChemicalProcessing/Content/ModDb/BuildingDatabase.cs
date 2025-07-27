@@ -566,7 +566,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 
 			BuildingManager.CreateEntry<LogisticRailValveConfig>()
-				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitBridgeConfig.ID)
+				.AddToCategory(PlanMenuCategory.Shipping, SolidLogicValveConfig.ID)
 				.AddToTech(Technology.SolidMaterial.SmartStorage)
 				.AddModFrom(SourceModInfo.DupesLogistics);
 
@@ -631,18 +631,35 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitConfig.ID)
 				.AddToTech(Technology.SolidMaterial.SolidManagement)
 				.AddModFrom(SourceModInfo.HighPressureApplications);
+
 			BuildingManager.CreateEntry<HPARailConfig>()
 				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitConfig.ID)
 				.AddToTech(Technology.SolidMaterial.SolidManagement)
 				.AddModFrom(SourceModInfo.HighPressureApplications);
+
+
 			BuildingManager.CreateEntry<HPARailBridgeTileConfig>()
 				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitBridgeConfig.ID)
 				.AddToTech(Technology.SolidMaterial.SolidManagement)
 				.AddModFrom(SourceModInfo.HighPressureApplications);
+
 			BuildingManager.CreateEntry<HPARailBridgeConfig>()
 				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitBridgeConfig.ID)
 				.AddToTech(Technology.SolidMaterial.SolidManagement)
 				.AddModFrom(SourceModInfo.HighPressureApplications);
+
+			BuildingManager.CreateEntry<HPATransferArmConfig>()
+				.AddToCategory(PlanMenuCategory.Shipping, SolidTransferArmConfig.ID)
+				.AddToTech(Technology.SolidMaterial.SolidManagement)
+				.AddModFrom(SourceModInfo.HighPressureApplications);
+
+			BuildingManager.CreateEntry<HPARailValveConfig>()
+				.AddToCategory(PlanMenuCategory.Shipping, SolidLogicValveConfig.ID)
+				.AddToTech(Technology.SolidMaterial.SolidManagement)
+				.AddModFrom(SourceModInfo.HighPressureApplications);
+
+
+			
 		}
 
 		private static void RegisterBuildings_DupesRefrigeration()

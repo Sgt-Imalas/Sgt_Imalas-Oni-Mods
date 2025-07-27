@@ -50,15 +50,16 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			solidDispenser.alwaysDispense = true;
 			solidDispenser.elementFilter = null;
 			solidDispenser.massDispensed = Config.Instance.Logistic_Rail_Capacity;
+
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)
 		{
-			go.AddOrGetDef<StorageController.Def>();
 			go.GetComponent<KPrefabID>().AddTag(GameTags.OverlayBehindConduits, false);
 			var requirement = go.AddOrGet<HPA_SolidConduitRequirement>();
 			requirement.RequiresHighPressureOutput = true;
 			requirement.IsLogisticRail = true;
+			go.AddOrGet<AIO_DecompressionValve>();
 		}
 	}
 }

@@ -11,9 +11,15 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 	{
 		[SerializeField] public float TargetCarryCapacity = 1000; //1000 is vanilla arm default
 
+		[SerializeField] public float TargetTurnRate = 360; //360 is vanilla arm default, rotation speed per second
+
 		public override void OnPrefabInit()
 		{
-			gameObject.GetComponent< SolidTransferArm >().max_carry_weight = TargetCarryCapacity;
+			var sweeper = gameObject.GetComponent<SolidTransferArm>();
+			sweeper.max_carry_weight = TargetCarryCapacity;
+			sweeper.turn_rate = TargetTurnRate;
+
+			gameObject.GetComponent<KBatchedAnimController>().PlaySpeedMultiplier = TargetTurnRate / 360f; //Adjust the animation speed to match the turn rate
 			base.OnPrefabInit();
 		}
 	}

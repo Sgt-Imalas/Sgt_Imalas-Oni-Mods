@@ -13,7 +13,7 @@ using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistics
 {
-	public class LogisticTransferArmConfig : IBuildingConfig, IHasConfigurableStorageCapacity, IHasConfigurableWattage
+	public class LogisticTransferArmConfig : IBuildingConfig, IHasConfigurableWattage
 	{
 		public static float Wattage = HighPressureConduitRegistration.GetLogisticConduitMultiplier() * 120f; // 1/2 of regular transfer arm by default
 
@@ -22,8 +22,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 
 
 		public static float StorageCapacity = HighPressureConduitRegistration.GetLogisticConduitMultiplier() * 1000f; // 1/2 of regular transfer arm carry weight
-		public float GetStorageCapacity() => StorageCapacity;
-		public void SetStorageCapacity(float mass) => StorageCapacity = mass;
 
 		public static string ID = "LogisticTransferArm";
 
@@ -64,6 +62,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			go.AddOrGet<LogicOperationalController>();
 			var capacity = go.AddOrGet<VariableCapacityForTransferArm>();
 			capacity.TargetCarryCapacity = StorageCapacity;
+			capacity.TargetTurnRate = HighPressureConduitRegistration.GetLogisticConduitMultiplier() * 360f; // 180 degrees per second, half of the vanilla arm speed
 			var arm = go.AddOrGet<SolidTransferArm>();
 			arm.pickupRange = Config.Instance.Logistic_Arm_Range;
 			AddVisualizer(go, false);
