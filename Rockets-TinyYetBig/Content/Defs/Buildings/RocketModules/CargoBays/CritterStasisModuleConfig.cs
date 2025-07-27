@@ -72,8 +72,6 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
 
 		public static GameObject ExtendBuildingToDeliverableStorage(GameObject template, float capacity)
 		{
-
-
 			Storage storage = template.AddComponent<Storage>();
 			storage.capacityKg = capacity;
 			storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);

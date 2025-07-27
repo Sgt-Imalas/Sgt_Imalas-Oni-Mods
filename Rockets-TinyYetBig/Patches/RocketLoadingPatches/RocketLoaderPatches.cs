@@ -171,9 +171,9 @@ namespace Rockets_TinyYetBig.Patches.RocketLoadingPatches
                 {
                     GameScheduler.Instance?.scheduler?.Clear(scheduledTurnoff);
                     ScheduledTurnOffs.Remove(instance);
-                    logicPorts?.SendSignal(ROCKETPORTLOADER_ACTIVE, 1);
-                }
-            }
+				}
+				logicPorts?.SendSignal(ROCKETPORTLOADER_ACTIVE, 1);
+			}
             else
             {
                 if (!ScheduledTurnOffs.ContainsKey(instance))
