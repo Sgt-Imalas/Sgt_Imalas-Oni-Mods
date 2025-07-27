@@ -17,7 +17,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		private static float _gasCap_reg = -1, _liquidCap_reg = -1, _solidCap_reg = -1;
 		private static Color32 _gasFlowOverlay = new Color32(169, 209, 251, 0), _gasFlowTint = new Color32(176, 176, 176, 255),
 			_liquidFlowOverlay = new Color32(92, 144, 121, 0), _liquidFlowTint = new Color32(92, 144, 121, 255),
-			_solidOverlayTint = new(154, 255, 167, 0);
+			_solidOverlayTint = new(166, 175, 230, 0), _logisticOverlayTint = new (152, 193, 150, 0);
 
 		public static float SolidCap_HP => _solidCap_hp;
 		public static float SolidCap_Logistic => _solidCap_logistic;
@@ -40,6 +40,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		public static HashSet<GameObject> AllHighPressureConduitGOs = [];
 
 		public static HashSet<int> AllInsulatedSolidConduitCells = [];
+		public static HashSet<GameObject> AllInsulatedSolidConduitGOs = [];
 
 		static HashSet<int>
 			HPA_Solid = [],
@@ -292,16 +293,17 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			tint = Color.white;
 			return false;
 		}
-		public static Color32 GetColorForConduitType(ConduitType conduitType, bool overlay)
+		public static Color32 GetColorForConduitType(ConduitType conduitType, bool overlay, bool lowCap = false)
 		{
 			if (conduitType == ConduitType.Gas)
 				return overlay ? _gasFlowOverlay : _gasFlowTint;
 			else if (conduitType == ConduitType.Liquid)
 				return overlay ? _liquidFlowOverlay : _liquidFlowTint;
 			else if (conduitType == ConduitType.Solid)
-				return _solidOverlayTint;
+				return lowCap ? _logisticOverlayTint : _solidOverlayTint;
 			return Color.white;
 		}
+
 
 		public static void RegisterConduit(GameObject conduit)
 		{
@@ -392,6 +394,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			}
 			if (conduit.InsulateSolidContents)
 			{
+				AllInsulatedSolidConduitGOs.Remove(conduit.gameObject);
 				AllInsulatedSolidConduitCells.Remove(conduit.NaturalBuildingCell());
 			}
 			UnregisterConduit(conduit.gameObject);
@@ -427,6 +430,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			if (conduit.InsulateSolidContents)
 			{
 				AllInsulatedSolidConduitCells.Add(conduit.buildingComplete.PlacementCells.Min());
+				AllInsulatedSolidConduitGOs.Add(conduit.gameObject);
 			}
 			RegisterConduit(conduit.gameObject);
 		}
@@ -463,5 +467,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		{
 			return AllInsulatedSolidConduitCells.Contains(cell);
 		}
+		public static bool IsInsulatedRail(GameObject go) => go != null && AllInsulatedSolidConduitGOs.Contains(go);
 	}
 }

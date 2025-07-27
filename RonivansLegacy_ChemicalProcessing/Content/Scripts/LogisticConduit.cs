@@ -78,6 +78,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			AllLogisticConduitGOs.Clear();
 			AllLogisticConduits.Clear();
 		}
+		public static bool IsLogisticConduit(GameObject go ) => go == null ? false : AllLogisticConduitGOs.Contains(go);
+
 		public static bool HasLogisticConduitAt(int cell, bool bridge = false)
 		{			
 			if(bridge)
