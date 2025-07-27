@@ -567,7 +567,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			BuildingManager.CreateEntry<LogisticRailValveConfig>()
 				.AddToCategory(PlanMenuCategory.Shipping, SolidLogicValveConfig.ID)
-				.AddToTech(Technology.SolidMaterial.SmartStorage)
+				.AddToTech(Technology.SolidMaterial.SolidTransport)
 				.AddModFrom(SourceModInfo.DupesLogistics);
 
 		}
