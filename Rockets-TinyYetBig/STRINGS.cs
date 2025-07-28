@@ -349,6 +349,13 @@ namespace Rockets_TinyYetBig
 					public static LocString DESC = "Gantry Not Included";
 					public static LocString EFFECT = ("A rocket port adapter piece for vertical expansion.\n\nLinks up with other vertical adapter pieces above and below it.");
 				}
+				public class RTB_CONNECTORBYPASSADAPTER
+				{
+					public static LocString NAME = FormatAsLink("Rocket Port Bypass Adapter", nameof(RTB_CONNECTORBYPASSADAPTER));
+					public static LocString DESC = "Ascending to new levels";
+					public static LocString EFFECT = "Allows horizontal rocket ports to bypass transit tubes and tiles.\n\nAutomatically links when built to the side of a " + global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + " or another " + global::STRINGS.BUILDINGS.PREFABS.MODULARLAUNCHPADPORT.NAME;
+				}
+				
 				public class RTB_REINFORCEDLADDER
 				{					
 					public static LocString NAME = FormatAsLink("Reinforced Ladder", nameof(RTB_REINFORCEDLADDER));
