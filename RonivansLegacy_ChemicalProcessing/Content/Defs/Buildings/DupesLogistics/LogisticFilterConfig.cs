@@ -60,8 +60,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 		{
 			go.AddOrGetDef<PoweredActiveController.Def>().showWorkingStatus = true;
 			var requirement = go.AddOrGet<HPA_SolidFilterRequirement>();
-			requirement.RequiresHighPressureInput = true;
-			requirement.RequiresHighPressureOutput = true;
 			requirement.IsLogisticRail = true;
 		}
 

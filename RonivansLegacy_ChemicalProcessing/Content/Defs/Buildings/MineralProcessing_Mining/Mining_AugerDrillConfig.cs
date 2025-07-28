@@ -123,9 +123,6 @@ namespace Mineral_Processing_Mining.Buildings
 			solidDispenser.solidOnly = true;
 			solidDispenser.elementFilter = null;
 
-			if (Config.Instance.HPA_Rails_Enabled)
-				go.AddOrGet<HPA_SolidConduitRequirement>().RequiresHighPressureOutput = true;
-
 			var worldElementDropper = go.AddOrGet<WorldElementDropper>();
 			worldElementDropper.DropGases = true;
 			worldElementDropper.DropLiquids = true;
@@ -403,6 +400,9 @@ namespace Mineral_Processing_Mining.Buildings
 		public override void DoPostConfigureComplete(GameObject go)
 		{
 			go.AddOrGetDef<PoweredActiveController.Def>().showWorkingStatus = true;
+
+			if (Config.Instance.HPA_Rails_Enabled)
+				go.AddOrGet<HPA_SolidConduitRequirement>().RequiresHighPressureOutput = true;
 			AddFloor(go);
 
 		}

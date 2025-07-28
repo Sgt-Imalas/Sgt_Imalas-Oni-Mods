@@ -16,6 +16,7 @@ using static STRINGS.UI.TOOLS.FILTERLAYERS;
 using UtilLibs.UIcmp;
 using static STRINGS.ITEMS.INGREDIENTS;
 using Dupes_Industrial_Overhaul.Chemical_Processing.Buildings;
+using HarmonyLib;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
@@ -27,7 +28,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			///Cement from Oilshale
 			RecipeBuilder.Create(ID, 40)
-				.Input(ModElements.OilShale_Solid, 100f* recipeMultiplier)
+				.Input(ModElements.OilShale_Solid, 100f * recipeMultiplier)
 				.Output(SimHashes.Cement, 70 * recipeMultiplier)
 				.Output(SimHashes.CrudeOil, 5 * recipeMultiplier)
 				.Output(ModElements.LowGradeSand_Solid, 10 * recipeMultiplier)
@@ -73,14 +74,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			///Brick from clay
 			RecipeBuilder.Create(ID, 40)
 				.Input(SimHashes.Clay, 100)
-				.InputConditional(burnables,25,burnMaterial)
+				.InputConditional(burnables, 25, burnMaterial)
 				.Output(SimHashes.Brick, 50)
 				.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.HEAT_REFINE, 1, 1)
 				.Build();
 
 		}
 
-		public static void AdditionalKilnRecipes(string ID, bool burnMaterial = false, bool advKiln  = false)
+		public static void AdditionalKilnRecipes(string ID, bool burnMaterial = false, bool advKiln = false)
 		{
 			BurnedOilShaleCementRecipe(ID, advKiln);
 
@@ -154,6 +155,19 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 				.Build();
 			}
+
+
+			foreach (var recipe in ComplexRecipeManager.Get().preProcessRecipes
+				.Where(r => r.fabricators.Any() && r.fabricators[0] == "SupermaterialRefinery"
+				&& r.ingredients.Any(r => r.possibleMaterials != null && r.possibleMaterials.Contains(BasicFabricConfig.ID) && r.possibleMaterials.Contains(FeatherFabricConfig.ID)
+				)))
+			{
+				var fiberIngredient = recipe.ingredients.FirstOrDefault(r => r.possibleMaterials != null && r.possibleMaterials.Contains(BasicFabricConfig.ID) && r.possibleMaterials.Contains(FeatherFabricConfig.ID));
+				if (fiberIngredient != null)
+				{
+					fiberIngredient.possibleMaterials = fiberIngredient.possibleMaterials.AddItem(RayonFabricConfig.TAG).ToArray();
+				}
+			}
 		}
 
 
@@ -164,7 +178,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				RegisterRecipes_AnaerobicDigester();
 				RegisterRecipes_ExpellerPress();
 			}
-			if(Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
 			{
 				RegisterRecipes_RayonLoom();
 			}
@@ -442,7 +456,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 				RecipeBuilder.Create(ID, 25)
 					.Input(ingredient, ingredientmass)
-					.Output(ModElements.VegetableOil_Liquid, oil,ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+					.Output(ModElements.VegetableOil_Liquid, oil, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Output(ModElements.BioMass_Solid, biomass)
 					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_1_2, 1, 2)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
@@ -475,7 +489,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.Output(ModElements.VegetableOil_Liquid, 0.95f)
 				.Output(ModElements.BioMass_Solid, 0.05f)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
-				.NameOverrideFormatIngredient(CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_SEEDTOOIL,0)
+				.NameOverrideFormatIngredient(CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_SEEDTOOIL, 0)
 				.IconPrefabOverride(ModElements.BioMass_Solid.Tag)
 				.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_1_2, 1, 2)
 				.Build();

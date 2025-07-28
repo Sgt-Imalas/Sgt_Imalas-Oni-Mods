@@ -22,6 +22,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 
 			BuildingDef def = BuildingTemplates.CreateBuildingDef(ID, 1, 1, kanim, 100, 5f, mass, cost, 1600f, BuildLocationRule.Tile, BUILDINGS.DECOR.BONUS.TIER1, NOISE_POLLUTION.NONE);
 			BuildingTemplates.CreateFoundationTileDef(def);
+			def.ThermalConductivity = 0.75f; // THERMAL CONDUCTIVITY
 			def.Floodable = false;
 			def.Overheatable = false;
 			def.Entombable = false;
@@ -68,6 +69,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 			go.AddOrGet<KAnimGridTileVisualizer>().blockTileConnectorID =Hash.SDBMLower("tiles_spacer_glass_tops"); 
 			go.AddOrGet<BuildingHP>().destroyOnDamaged = true;
 			go.AddOrGet<TileTemperature>();
+			go.AddOrGet<Insulator>();
 
 			go.GetComponent<KPrefabID>().AddTag(GameTags.Window);
 		}

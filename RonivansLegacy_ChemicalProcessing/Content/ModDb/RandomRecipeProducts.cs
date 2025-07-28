@@ -801,6 +801,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.CrushedRock, 25, 100, 6f / 15f)
 				.AddProduct(SimHashes.CarbonDioxide, 5, 20, 4f / 15f)
 				.AddProduct(SimHashes.CrudeOil, 5, 20, 3f / 15f)
+				.AddProductConditional(chemproc,ModElements.OilShale_Solid, 25, 100, 3f / 15f)
 				.AddProduct(SimHashes.Methane, 5, 20, 1f / 15f)
 				.AddProduct(SimHashes.SourGas, 5, 20, 1f / 15f)
 				.AddProductConditional(chemproc, RawNaturalGas_Gas, 5, 20, 1f / 15f)

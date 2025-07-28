@@ -1569,12 +1569,12 @@ namespace RonivansLegacy_ChemicalProcessing
 				}
 				public class HPA_NEEDSOLIDIN
 				{
-					public static LocString NAME ="No Heavy-Duty Solid Intake";
+					public static LocString NAME = "No Heavy-Duty Rail Intake";
 					public static LocString TOOLTIP =("This building's " + PRE_KEYWORD + "Heavy-Duty Solid Intake" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HPA_SOLIDRAIL.NAME + " connected");
 				}
-				public class HPA_NEEDLSOLIDOUT
+				public class HPA_NEEDSOLIDOUT
 				{
-					public static LocString NAME ="No Heavy-Duty Solid Output";
+					public static LocString NAME ="No Heavy-Duty Rail Output";
 					public static LocString TOOLTIP =("This building's " + PRE_KEYWORD + "Heavy-Duty Solid Output" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HPA_SOLIDRAIL.NAME + " connected");
 				}
 				public class LOGISTIC_NEEDSOLIDIN

@@ -50,6 +50,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 		{
 			go.AddOrGet<SolidConduitBridge>();
 			go.AddOrGet<LogisticConduit>();
+			go.AddOrGet<HPA_SolidBridgeRequirement>().IsLogisticRail = true;
 		}
 
 		public override void DoPostConfigureUnderConstruction(GameObject go)

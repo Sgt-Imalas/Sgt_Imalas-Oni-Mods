@@ -27,7 +27,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 
 		public override BuildingDef CreateBuildingDef()
 		{
-			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 1, "logistic_transferArm_kanim", 10, 10f, [400,100], [GameTags.Steel.ToString(), GameTags.Plastic.ToString()], 1600f, BuildLocationRule.Anywhere, BUILDINGS.DECOR.PENALTY.TIER2, NOISE_POLLUTION.NOISY.TIER0, 0.2f);
+			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 1, "hpa_transferarm_kanim", 10, 10f, [400,100], [GameTags.Steel.ToString(), GameTags.Plastic.ToString()], 1600f, BuildLocationRule.Anywhere, BUILDINGS.DECOR.PENALTY.TIER2, NOISE_POLLUTION.NOISY.TIER0, 0.2f);
 			buildingDef.Floodable = false;
 			buildingDef.AudioCategory = "Metal";
 			buildingDef.RequiresPowerInput = true;
@@ -37,7 +37,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			buildingDef.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(0, 0));
 			buildingDef.PermittedRotations = PermittedRotations.R360;
 			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.SolidConveyorIDs, ID);
-			SoundUtils.CopySoundsToAnim("logistic_transferArm_kanim", "conveyor_transferarm_kanim");
+			SoundUtils.CopySoundsToAnim("hpa_transferarm_kanim", "conveyor_transferarm_kanim");
 			return buildingDef;
 		}
 

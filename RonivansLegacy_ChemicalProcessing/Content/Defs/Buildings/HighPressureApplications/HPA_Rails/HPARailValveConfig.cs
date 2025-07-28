@@ -46,7 +46,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			conduitConsumer.alwaysConsume = true;
 			conduitConsumer.capacityKG = storage.capacityKg;
 
-			ConduitDispenser solidDispenser = go.AddOrGet<ConduitDispenser>();
+			SolidConduitDispenser solidDispenser = go.AddOrGet<SolidConduitDispenser>();
 			solidDispenser.alwaysDispense = true;
 			solidDispenser.elementFilter = null;
 			//solidDispenser.massDispensed = HighPressureConduitRegistration.SolidCap_Regular;

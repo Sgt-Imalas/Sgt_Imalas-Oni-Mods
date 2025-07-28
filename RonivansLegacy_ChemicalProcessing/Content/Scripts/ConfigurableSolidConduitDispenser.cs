@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {
-	class ConfigurableSolidConduitDispenser : SolidConduitDispenser
+	public class ConfigurableSolidConduitDispenser : SolidConduitDispenser
 	{
 		[SerializeField]
 		public float massDispensed;
