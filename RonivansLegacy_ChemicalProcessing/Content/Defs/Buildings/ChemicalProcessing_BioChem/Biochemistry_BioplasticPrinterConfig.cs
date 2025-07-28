@@ -67,7 +67,7 @@ namespace Biochemistry.Buildings
 			vegOilInput.conduitType = ConduitType.Liquid;
 			vegOilInput.consumptionRate = 10f;
 			vegOilInput.capacityKG = 50f;
-			vegOilInput.capacityTag = ModAssets.Tags.BioOil_Composition;
+			vegOilInput.capacityTag = ModElements.PhytoOilGroup;
 			vegOilInput.forceAlwaysSatisfied = true;
 			vegOilInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 
@@ -90,7 +90,7 @@ namespace Biochemistry.Buildings
 			ElementConverter elementConverter = go.AddOrGet<ElementConverter>();
 			elementConverter.consumedElements =
 			[
-			new ElementConverter.ConsumedElement(ModAssets.Tags.BioOil_Composition, 0.40f, true),
+			new ElementConverter.ConsumedElement(ModElements.PhytoOilGroup, 0.40f, true),
 			new ElementConverter.ConsumedElement(SimHashes.CarbonDioxide.CreateTag(), 0.10f, true),
 			new ElementConverter.ConsumedElement(MushBarConfig.ID.ToTag(), 0.002f, true)
 			];

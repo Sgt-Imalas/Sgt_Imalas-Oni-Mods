@@ -7,11 +7,15 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using UtilLibs.ElementUtilNamespace;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
 	class ModElements
 	{
+		public static ElementGrouping BiodieselGroup, PhytoOilGroup, PlasticGroup;
+
+
 		/// Chemical Processing Industrial overhaul
 		public static readonly Color32 LOWGRADESAND_COLOR = new Color32(59, 46, 12, 255);
 		public static readonly Color32 BASEGRADESAND_COLOR = new Color32(74, 66, 60, 255);
@@ -349,7 +353,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		}
 
 		internal static void ModifyExistingElements()
-		{			
+		{
+			BiodieselGroup = ElementGrouping.GroupAllWith(ModAssets.Tags.Biodiesel_Composition);
+			PhytoOilGroup = ElementGrouping.GroupAllWith(ModAssets.Tags.BioOil_Composition);
+			PlasticGroup = ElementGrouping.GroupAllWith(GameTags.Plastic);
+
 			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
 			{
 				//=[ SYNGAS ENABLING PATCH ]===============================================

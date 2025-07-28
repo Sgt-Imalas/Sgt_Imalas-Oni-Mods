@@ -50,7 +50,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.AudioCategory = "Metal";
 			buildingDef.InputConduitType = ConduitType.Liquid;
 			buildingDef.UtilityInputOffset = new CellOffset(3, 0);
-			SoundUtils.CopySoundsToAnim("crudeoil_refinery_staged_kanim", "oilrefinery_kanim");
+			SoundUtils.CopySoundsToAnim("crudeoil_refinery_staged_kanim", "algae_distillery_kanim");
 			return buildingDef;
 		}
 

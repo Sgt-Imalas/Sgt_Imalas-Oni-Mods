@@ -56,7 +56,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			def1.OutputConduitType = ConduitType.Gas;
 			def1.PowerInputOffset = new CellOffset(0, 0);
 			def1.UtilityOutputOffset = new CellOffset(1, 0);
-			SoundUtils.CopySoundsToAnim("syngas_distillery_kanim", "oilrefinery_kanim");
+			SoundUtils.CopySoundsToAnim("syngas_distillery_kanim", "algae_distillery_kanim");
 			return def1;
 		}
 

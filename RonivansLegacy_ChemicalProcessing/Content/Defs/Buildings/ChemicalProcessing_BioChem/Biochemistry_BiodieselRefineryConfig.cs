@@ -24,7 +24,7 @@ namespace Biochemistry.Buildings
 
 		private static readonly List<Storage.StoredItemModifier> BioRefineryStoredItemModifiers;
 
-		private static readonly PortDisplayInput ethanolLiquidInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(-3, 3), null, new Color32(185, 239, 185, 255));
+		private static readonly PortDisplayInput ethanolLiquidInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(-3, 3), null, new Color32(0, 255, 235, 255));
 		private static readonly PortDisplayOutput pollutedWaterLiquidOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(3, 1), null, new Color32(137, 137, 66, 255));
 
 		static Biochemistry_BiodieselRefineryConfig()
@@ -52,7 +52,7 @@ namespace Biochemistry.Buildings
 			buildingDef.UtilityInputOffset = new CellOffset(-3, 1);
 			buildingDef.OutputConduitType = ConduitType.Liquid;
 			buildingDef.UtilityOutputOffset = new CellOffset(3, 3);
-			SoundUtils.CopySoundsToAnim("biodiesel_generator_kanim", "oilrefinery_kanim");
+			SoundUtils.CopySoundsToAnim("biodiesel_generator_kanim", "algae_distillery_kanim");
 			return buildingDef;
 		}
 
@@ -60,7 +60,7 @@ namespace Biochemistry.Buildings
 		{
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 			go.AddOrGet<ElementConversionBuilding>();
-			Prioritizable.AddRef(go);
+			Prioritizable.AddRef(go); 
 
 			Storage storage = BuildingTemplates.CreateDefaultStorage(go, false);
 			storage.SetDefaultStoredItemModifiers(BioRefineryStoredItemModifiers);
@@ -73,7 +73,7 @@ namespace Biochemistry.Buildings
 			vegOilInput.conduitType = ConduitType.Liquid;
 			vegOilInput.consumptionRate = 10f;
 			vegOilInput.capacityKG = 50f;
-			vegOilInput.capacityTag = ModAssets.Tags.BioOil_Composition;
+			vegOilInput.capacityTag = ModElements.PhytoOilGroup;
 			vegOilInput.forceAlwaysSatisfied = true;
 			vegOilInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 
@@ -90,7 +90,7 @@ namespace Biochemistry.Buildings
 			//-----[ Element Converter Section ]---------------------------------
 			ElementConverter converter = go.AddOrGet<ElementConverter>();
 			converter.consumedElements = [
-				new ElementConverter.ConsumedElement(ModAssets.Tags.BioOil_Composition, 3.5f),
+				new ElementConverter.ConsumedElement(ModElements.PhytoOilGroup, 3.5f),
 				new ElementConverter.ConsumedElement(SimHashes.Ethanol.CreateTag(), 1.5f) ];
 			converter.outputElements = [
 				new ElementConverter.OutputElement(4.7f,ModElements.BioDiesel_Liquid, 325.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0),

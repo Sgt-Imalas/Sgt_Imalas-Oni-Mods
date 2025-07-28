@@ -60,7 +60,7 @@ namespace Metallurgy.Buildings
 			buildingDef.UtilityInputOffset = new CellOffset(1, 0);
 			buildingDef.OutputConduitType = ConduitType.Liquid;
 			buildingDef.UtilityOutputOffset = new CellOffset(-1, 0);
-			SoundUtils.CopySoundsToAnim("basic_oil_refinery_kanim", "oilrefinery_kanim");
+			SoundUtils.CopySoundsToAnim("basic_oil_refinery_kanim", "algae_distillery_kanim");
 			return buildingDef;
 		}
 

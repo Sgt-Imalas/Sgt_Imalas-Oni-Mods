@@ -43,7 +43,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			SkinCollection.Create(OilRefineryConfig.ID, SubCategoryID)
 				.Skin("ChemicalProcessing_Refinery", PETROLEUMDISTILLERY.NAME, PETROLEUMDISTILLERY.DESC, "petroleum_distillery_kanim");
-			SoundUtils.CopySoundsToAnim("petroleum_distillery_kanim", "oilrefinery_kanim");
+			SoundUtils.CopySoundsToAnim("petroleum_distillery_kanim", "algae_distillery_kanim");
 
 			SkinCollection.Create(LogicAlertLightConfig.ID, SubCategoryID)
 				.Skin("AlertLightGreen", LOGICALERTLIGHTGREEN.NAME, LOGICALERTLIGHTGREEN.DESC, "alert_light_green_kanim")

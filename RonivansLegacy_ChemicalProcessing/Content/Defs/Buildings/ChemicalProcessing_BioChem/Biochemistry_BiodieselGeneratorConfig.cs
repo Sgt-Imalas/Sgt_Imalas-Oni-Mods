@@ -65,7 +65,7 @@ namespace Biochemistry.Buildings
 
 			ManualDeliveryKG ykg = go.AddOrGet<ManualDeliveryKG>();
 			ykg.SetStorage(storage);
-			ykg.RequestedItemTag = ModAssets.Tags.Biodiesel_Composition;
+			ykg.RequestedItemTag = ModElements.BiodieselGroup;
 			ykg.capacity = 0f;
 			ykg.refillMass = 0f;
 			ykg.choreTypeIDHash = Db.Get().ChoreTypes.PowerFetch.IdHash;
@@ -75,7 +75,7 @@ namespace Biochemistry.Buildings
 			ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
 			conduitConsumer.conduitType = def.InputConduitType;
 			conduitConsumer.consumptionRate = 10f;
-			conduitConsumer.capacityTag = ModAssets.Tags.Biodiesel_Composition;
+			conduitConsumer.capacityTag = ModElements.BiodieselGroup;
 			conduitConsumer.capacityKG = 32f;
 			conduitConsumer.forceAlwaysSatisfied = true;
 			conduitConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
@@ -88,7 +88,7 @@ namespace Biochemistry.Buildings
 				inputs =
 				[
 				//new EnergyGenerator.InputItem( ModAssets.Tags.Biodiesel_Composition, 0.38f, 32f)
-				new EnergyGenerator.InputItem( ModAssets.Tags.Biodiesel_Composition, 3.2f, 32f)
+				new EnergyGenerator.InputItem( ModElements.BiodieselGroup, 3.2f, 32f)
 				],
 				outputs =
 				[

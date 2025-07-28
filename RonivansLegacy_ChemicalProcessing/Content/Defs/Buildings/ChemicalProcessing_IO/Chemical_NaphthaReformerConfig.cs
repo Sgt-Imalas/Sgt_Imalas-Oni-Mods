@@ -43,7 +43,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.SelfHeatKilowattsWhenActive = 6f;
 			buildingDef.PowerInputOffset = new CellOffset(1, 1);
 			buildingDef.AudioCategory = "Metal";
-			SoundUtils.CopySoundsToAnim("naphtha_reformer_kanim", "oilrefinery_kanim");
+			SoundUtils.CopySoundsToAnim("naphtha_reformer_kanim", "algae_distillery_kanim");
 
 			ColliderOffsetHandler.GenerateBuildingDefOffsets(buildingDef, -2, 0);
 
