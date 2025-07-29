@@ -587,7 +587,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString ANY_WATER_DESC = "Extracts " + FormatAsLink("Crude Oil", "CRUDEOIL") + " using any form of water.\n\nMust be built atop an " + FormatAsLink("Oil Reservoir", "OIL_WELL") + ".";
 					public static LocString NAME = FormatAsLink("[DEPRECATED] Custom Oil Well Pump", nameof(CUSTOM_OILWELLCAP));
-					public static LocString DESC = "A large device capable to extract oil from the attached well using liquid pumped in. Liquid pumped into an oil reservoir cannot be recovered. ";
+					public static LocString DESC = "A large device capable to extract oil from the attached well using liquid pumped in. Liquid pumped into an oil reservoir cannot be recovered.";
 					public static LocString EFFECT = "THIS BUILDING HAS BEEN DEPRECATED AND CANNOT BE BUILT. INSTEAD, USE THE REGULAR " + FormatAsLink("Oil Well", "OILWELLCAP") + "\n\n" + ANY_WATER_DESC;
 				}
 				public class CUSTOM_POLYMERIZER
@@ -680,7 +680,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class MINING_AUGERDRILL
 				{
 					public static LocString NAME = FormatAsLink("Asteroid Drill Rig Mk-II", nameof(MINING_AUGERDRILL));
-					public static LocString DESC = "A giant machinery engineered in the old world for asteroid mining. Has a self propelled drilling head fitted with a sensorial system and actuators that helps it to travel through the asteroid crust in search for resources of interest.  ";
+					public static LocString DESC = "A giant machinery engineered in the old world for asteroid mining. Has a self propelled drilling head fitted with a sensorial system and actuators that helps it to travel through the asteroid crust in search for resources of interest.";
 					public static LocString EFFECT = string.Concat(
 						[
 							"This rig uses specialized Drillbits to mine useful resources from the asteroid crust. Retrived resources are released upon the Drill Head return.\n"+
@@ -717,7 +717,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class SLIMEVAT
 				{
 					public static LocString NAME = FormatAsLink("Slime Vat", nameof(SLIMEVAT));
-					public static LocString DESC = "An advanced biological vat that grows a culture of mucopolysaccharides and multicelular fungi mould. This unit also uses advanced filter to extract Polluted Oxygen from its surroundings, albeit its not necessery for it to function. ";
+					public static LocString DESC = "An advanced biological vat that grows a culture of mucopolysaccharides and multicelular fungi mould. This unit also uses advanced filter to extract Polluted Oxygen from its surroundings, albeit its not necessery for it to function.";
 					public static LocString EFFECT = string.Concat(["Slime Vat needs ", FormatAsLink("Water", "WATER"), " and ", FormatAsLink("Mush Bar", "MUSHBAR"), " to grow, producing ", FormatAsLink("Slime", "SLIMEMOLD"), " outgrowth that is collected from the botton. Due to its nature, the slime its produce will be contaminated with Slimelung."]);
 
 				}
@@ -731,7 +731,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class ALGAEVAT
 				{
 					public static LocString NAME = FormatAsLink("Algae Vat", nameof(ALGAEVAT));
-					public static LocString DESC = "An advanced biological vat that grows algae. Due to the controlled atmospheric condition, this algae formation produces oxygen more efficiently than the standard terrarium. This unit also uses advanced filter to extract Carbon Dioxide from its surroundings, albeit its not necessery for it to function. ";
+					public static LocString DESC = "An advanced biological vat that grows algae. Due to the controlled atmospheric condition, this algae formation produces oxygen more efficiently than the standard terrarium. This unit also uses advanced filter to extract Carbon Dioxide from its surroundings, albeit its not necessery for it to function.";
 					public static LocString EFFECT = string.Concat(["Algae patch needs ", FormatAsLink("Water", "WATER"), " to grow, producing a fair amount of clean ", FormatAsLink("Oxygen", "OXYGEN"), " as result of its biological functions. Excess water is expelled in the form of ", FormatAsLink("Polluted Water", "DIRTYWATER"), "."]);
 
 				}
@@ -795,8 +795,8 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class AIO_FACILITYDOOR
 				{
 					public static LocString NAME = FormatAsLink("Facility Door", nameof(AIO_FACILITYDOOR));
-					public static LocString DESC = "A light-weight door with intricate designs that suggests it bellongs to a industrial facility.";
-					public static LocString EFFECT = "A high-tech light door";
+					public static LocString DESC   = "A high-tech light door";
+					public static LocString EFFECT  = "A light-weight door with intricate designs that suggests it belongs to a industrial facility.";
 					public class FACADES
 					{
 						public class FACILITYDOORWHITE
@@ -849,7 +849,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class GLASSDOORSIMPLE
 				{
 					public static LocString NAME = FormatAsLink("Simple Glass Door", nameof(GLASSDOORSIMPLE));
-					public static LocString DESC = "Wild Critters cannot pass through doors. Door controls can be used to prevent Duplicants from entering restricted areas.";
+					public static LocString DESC = "Pips love pressing their face against the glass.\nThe same can be said about Meep.";
 					public static LocString EFFECT = "A simple door made with " + FormatAsLink("Glass", "GLASS") + " panels. Encloses areas without blocking Liquid or Gas flow. Sets Duplicant Access Permissions for area restriction.";
 				}
 				public class WOODENDOOR
@@ -1421,7 +1421,6 @@ namespace RonivansLegacy_ChemicalProcessing
 					FormatAsLink("Heavy-Duty Rail", "HPA_SOLIDRAIL") +
 					".";
 				}
-
 				public class HPA_TRANSFERARM
 				{
 					public static LocString NAME = FormatAsLink("Heavy-Duty Auto-Sweeper", nameof(HPA_TRANSFERARM));
@@ -2130,7 +2129,7 @@ namespace RonivansLegacy_ChemicalProcessing
 
 				public static LocString ARCFURNACE_SMELT_2_1 = "Smelt {0} and {1} to produce {2}";
 				public static LocString ARCFURNACE_SMELT_3_1 = "Smelt {0} and {1} with addition of {2} to produce {3}";
-				public static LocString ARCFURNACE_STEEL_1 = "Refine {0} to {3} with a mixture of of {1} and {2} ";
+				public static LocString ARCFURNACE_STEEL_1 = "Refine {0} to {3} with a mixture of of {1} and {2}";
 				public static LocString ARCFURNACE_STEEL_2 = "Refine {0} to {4} with a mixture of of {1}, {2} and {3}";
 				public static LocString ARCFURNACE_RANDOM_RECIPE =
 					"Smelt {0} into random products.\n" +
