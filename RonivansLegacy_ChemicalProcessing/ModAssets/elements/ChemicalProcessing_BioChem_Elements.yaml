@@ -48,7 +48,6 @@ elements:
     - Slippery
     - LubricatingOil
     - UnrefinedOil
-    - ChemicalProcessing_BioOil_Composition
     isDisabled: false
     state: Liquid
     localizationID: STRINGS.ELEMENTS.LIQUIDVEGEOIL.NAME
@@ -124,7 +123,6 @@ elements:
     tags:
     - CombustibleLiquid
     - Slippery
-    - ChemicalProcessing_Biodiesel_Composition
     isDisabled: false
     state: Liquid
     localizationID: STRINGS.ELEMENTS.LIQUIDBIODIESEL.NAME

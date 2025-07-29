@@ -134,7 +134,7 @@ namespace Mineral_Processing_Mining.Buildings
 			guidanceDeviceHandler.SourceStorage = drillRig.outStorage;
 			guidanceDeviceHandler.TargetStorage = drillRig.inStorage;
 
-			go.AddOrGet<HPA_ConduitRequirement>().RequiresHighPressureOutput = true;
+			go.AddOrGet<HPA_SolidConduitRequirement>().RequiresHighPressureOutput = true;
 			Prioritizable.AddRef(go);
 			this.ConfigureRecipes();
 

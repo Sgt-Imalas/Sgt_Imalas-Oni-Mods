@@ -28,7 +28,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			buildingDef.UtilityOutputOffset = new CellOffset(0, 1);
 			buildingDef.PermittedRotations = PermittedRotations.R360;
 			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.SolidConveyorIDs, ID);
-			SoundUtils.CopySoundsToAnim("logistic_rail_kanim", "filter_material_conveyor_kanim");
+			SoundUtils.CopySoundsToAnim("logistic_valve_kanim", "filter_material_conveyor_kanim");
+
+			buildingDef.SceneLayer = Grid.SceneLayer.GasFront;
+			buildingDef.ObjectLayer = ObjectLayer.SolidConduitConnection;
 			return buildingDef;
 		}
 

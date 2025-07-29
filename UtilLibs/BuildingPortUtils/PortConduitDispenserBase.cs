@@ -166,6 +166,19 @@ namespace UtilLibs.BuildingPortUtils
 			}
 		}
 
+		public IUtilityNetworkMgr GetConduitMng()
+		{
+			switch (this.conduitType)
+			{
+				case ConduitType.Gas:
+					return Game.Instance.gasConduitSystem;
+				case ConduitType.Liquid:
+					return Game.Instance.liquidConduitSystem;
+				case ConduitType.Solid:
+					return Game.Instance.solidConduitSystem;
+			}
+			return null;
+		}
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
@@ -174,9 +187,8 @@ namespace UtilLibs.BuildingPortUtils
 			this.utilityCell = building.GetCellWithOffset(building.Orientation == Orientation.Neutral ? this.conduitOffset : this.conduitOffsetFlipped);
 			outputConduitFlag = new Operational.Flag($"output_conduit_{utilityCell}_{conduitType}", Operational.Flag.Type.Functional);
 
-			IUtilityNetworkMgr networkManager = Conduit.GetNetworkManager(this.conduitType);
 			this.networkItem = new FlowUtilityNetwork.NetworkItem(this.conduitType, Endpoint.Source, this.utilityCell, base.gameObject);
-			networkManager.AddToNetworks(this.utilityCell, this.networkItem, true);
+			GetConduitMng().AddToNetworks(this.utilityCell, this.networkItem, true);
 
 			ScenePartitionerLayer layer = GameScenePartitioner.Instance.objectLayers[(this.conduitType != ConduitType.Gas) ? 16 : 12];
 			this.partitionerEntry = GameScenePartitioner.Instance.Add("ConduitConsumer.OnSpawn", base.gameObject, this.utilityCell, layer, new Action<object>(this.OnConduitConnectionChanged));
@@ -187,8 +199,7 @@ namespace UtilLibs.BuildingPortUtils
 
 		public override void OnCleanUp()
 		{
-			IUtilityNetworkMgr networkManager = Conduit.GetNetworkManager(this.conduitType);
-			networkManager.RemoveFromNetworks(this.utilityCell, this.networkItem, true);
+			GetConduitMng().RemoveFromNetworks(this.utilityCell, this.networkItem, true);
 
 			this.GetConduitManager().RemoveConduitUpdater(new Action<float>(this.ConduitUpdate));
 			GameScenePartitioner.Instance.Free(ref this.partitionerEntry);

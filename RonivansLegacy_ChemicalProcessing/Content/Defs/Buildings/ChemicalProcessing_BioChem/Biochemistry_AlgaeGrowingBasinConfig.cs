@@ -71,13 +71,13 @@ namespace Biochemistry.Buildings
 			storage2.showInUI = true;
 			storage2.capacityKg = 1000f;
 			storage2.allowItemRemoval = false;
-			storage2.storageFilters = ModElements.PhytoOilGroup;
+			storage2.storageFilters = [ModElements.VegetableOil_Liquid.Tag];
 
 			ConduitConsumer vegOilInput = go.AddOrGet<ConduitConsumer>();
 			vegOilInput.conduitType = ConduitType.Liquid;
 			vegOilInput.consumptionRate = 10f;
 			vegOilInput.capacityKG = 100f;
-			vegOilInput.capacityTag = ModAssets.Tags.BioOil_Composition;
+			vegOilInput.capacityTag = ModElements.VegetableOil_Liquid.Tag;
 			vegOilInput.forceAlwaysSatisfied = true;
 			vegOilInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 
@@ -91,7 +91,7 @@ namespace Biochemistry.Buildings
 			//-----[ Element Converter Section ]---------------------------------
 			ElementConverter converter = go.AddOrGet<ElementConverter>();
 			converter.consumedElements = [
-				new ElementConverter.ConsumedElement(ModElements.PhytoOilGroup, 0.1f),
+				new ElementConverter.ConsumedElement(ModElements.VegetableOil_Liquid.Tag, 0.1f),
 				new ElementConverter.ConsumedElement(SimHashes.Dirt.CreateTag(), 0.4f) ];
 			converter.outputElements = [
 				new ElementConverter.OutputElement(0.5f, SimHashes.Algae, 296.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0)];

@@ -29,7 +29,7 @@ namespace Biochemistry.Buildings
 				Storage.StoredItemModifier.Seal,
 			];
 
-		private static readonly PortDisplayInput co2GasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(1, 0), null, new Color32(110, 110, 110, 255));
+		private static readonly PortDisplayInput co2GasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(1, 0), null, new Color32(186, 186, 186, 255));
 
 
 		public override BuildingDef CreateBuildingDef()
@@ -67,7 +67,7 @@ namespace Biochemistry.Buildings
 			vegOilInput.conduitType = ConduitType.Liquid;
 			vegOilInput.consumptionRate = 10f;
 			vegOilInput.capacityKG = 50f;
-			vegOilInput.capacityTag = ModElements.PhytoOilGroup;
+			vegOilInput.capacityTag = ModElements.VegetableOil_Liquid.Tag;
 			vegOilInput.forceAlwaysSatisfied = true;
 			vegOilInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 
@@ -90,7 +90,7 @@ namespace Biochemistry.Buildings
 			ElementConverter elementConverter = go.AddOrGet<ElementConverter>();
 			elementConverter.consumedElements =
 			[
-			new ElementConverter.ConsumedElement(ModElements.PhytoOilGroup, 0.40f, true),
+			new ElementConverter.ConsumedElement(ModElements.VegetableOil_Liquid.Tag, 0.40f, true),
 			new ElementConverter.ConsumedElement(SimHashes.CarbonDioxide.CreateTag(), 0.10f, true),
 			new ElementConverter.ConsumedElement(MushBarConfig.ID.ToTag(), 0.002f, true)
 			];

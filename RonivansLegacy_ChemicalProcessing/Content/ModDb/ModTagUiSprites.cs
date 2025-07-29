@@ -29,10 +29,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					__result.first = Assets.GetSprite("ui_combustible_solids");
 					__result.second = Color.white;
 				}
-				else if (t == ModAssets.Tags.BioOil_Composition)
-					__result = Def.GetUISprite(ElementLoader.FindElementByHash(ModElements.VegetableOil_Liquid));
-				else if (t == ModAssets.Tags.Biodiesel_Composition)
-					__result = Def.GetUISprite(ElementLoader.FindElementByHash(ModElements.BioDiesel_Liquid));
 			}
 		}
 	}

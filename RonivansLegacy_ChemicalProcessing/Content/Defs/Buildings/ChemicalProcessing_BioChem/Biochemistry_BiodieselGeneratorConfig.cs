@@ -65,7 +65,7 @@ namespace Biochemistry.Buildings
 
 			ManualDeliveryKG ykg = go.AddOrGet<ManualDeliveryKG>();
 			ykg.SetStorage(storage);
-			ykg.RequestedItemTag = ModElements.BiodieselGroup;
+			ykg.RequestedItemTag = ModElements.BioDiesel_Liquid.Tag;
 			ykg.capacity = 0f;
 			ykg.refillMass = 0f;
 			ykg.choreTypeIDHash = Db.Get().ChoreTypes.PowerFetch.IdHash;
@@ -75,7 +75,7 @@ namespace Biochemistry.Buildings
 			ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
 			conduitConsumer.conduitType = def.InputConduitType;
 			conduitConsumer.consumptionRate = 10f;
-			conduitConsumer.capacityTag = ModElements.BiodieselGroup;
+			conduitConsumer.capacityTag = ModElements.BioDiesel_Liquid.Tag;
 			conduitConsumer.capacityKG = 32f;
 			conduitConsumer.forceAlwaysSatisfied = true;
 			conduitConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
@@ -87,13 +87,13 @@ namespace Biochemistry.Buildings
 			{
 				inputs =
 				[
-				//new EnergyGenerator.InputItem( ModAssets.Tags.Biodiesel_Composition, 0.38f, 32f)
-				new EnergyGenerator.InputItem( ModElements.BiodieselGroup, 3.2f, 32f)
+				new EnergyGenerator.InputItem(ModElements.BioDiesel_Liquid.Tag, 0.38f, 32f)
+				//new EnergyGenerator.InputItem( ModElements.BiodieselGroup, 3.2f, 32f)
 				],
 				outputs =
 				[
-				//new EnergyGenerator.OutputItem(SimHashes.DirtyWater, 0.14428f, true, new CellOffset(1, 1), 313.15f)
-				new EnergyGenerator.OutputItem(SimHashes.DirtyWater, 1.215f, true, new CellOffset(1, 1), 313.15f)
+				new EnergyGenerator.OutputItem(SimHashes.DirtyWater, 0.14428f, true, new CellOffset(1, 1), 313.15f)
+				//new EnergyGenerator.OutputItem(SimHashes.DirtyWater, 1.215f, true, new CellOffset(1, 1), 313.15f)
 				]
 			};
 			Tinkerable.MakePowerTinkerable(go);

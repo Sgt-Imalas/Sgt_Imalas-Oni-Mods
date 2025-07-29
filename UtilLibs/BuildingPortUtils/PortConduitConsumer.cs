@@ -156,7 +156,7 @@ namespace UtilLibs.BuildingPortUtils
 			get
 			{
 				int inputCell = this.GetInputCell();
-				IConduitFlow iconduitManager = this.GetConduitManager();
+				IConduitFlow iconduitManager = this.GetConduitFlow();
 				if (iconduitManager is ConduitFlow flow)
 					return flow.GetContents(inputCell).mass;
 				if (iconduitManager is SolidConduitFlow solidConduitFlow)
@@ -187,7 +187,7 @@ namespace UtilLibs.BuildingPortUtils
 			return -1;
 		}
 
-		public IConduitFlow GetConduitManager()
+		public IConduitFlow GetConduitFlow()
 		{
 			switch (this.conduitType)
 			{
@@ -200,7 +200,19 @@ namespace UtilLibs.BuildingPortUtils
 			}
 			return null;
 		}
-
+		public IUtilityNetworkMgr GetConduitMng()
+		{
+			switch (this.conduitType)
+			{
+				case ConduitType.Gas:
+					return Game.Instance.gasConduitSystem;
+				case ConduitType.Liquid:
+					return Game.Instance.liquidConduitSystem;
+				case ConduitType.Solid:
+					return Game.Instance.solidConduitSystem;
+			}
+			return null;
+		}
 		private int GetInputCell()
 		{
 			var building = base.GetComponent<Building>();
@@ -213,13 +225,12 @@ namespace UtilLibs.BuildingPortUtils
 			this.utilityCell = this.GetInputCell();
 			inputConduitFlag = new Operational.Flag($"input_conduit_connected_{utilityCell}_{conduitType}", Operational.Flag.Type.Functional);
 
-			IUtilityNetworkMgr networkManager = Conduit.GetNetworkManager(this.conduitType);
 			this.networkItem = new FlowUtilityNetwork.NetworkItem(this.conduitType, Endpoint.Sink, this.utilityCell, base.gameObject);
-			networkManager.AddToNetworks(this.utilityCell, this.networkItem, true);
+			GetConduitMng().AddToNetworks(this.utilityCell, this.networkItem, true);
 
 			ScenePartitionerLayer layer = GameScenePartitioner.Instance.objectLayers[GetConduitLayer()];
 			this.partitionerEntry = GameScenePartitioner.Instance.Add("ConduitConsumer.OnSpawn", base.gameObject, this.utilityCell, layer, new Action<object>(this.OnConduitConnectionChanged));
-			this.GetConduitManager().AddConduitUpdater(new Action<float>(this.ConduitUpdate), ConduitFlowPriority.Default);
+			this.GetConduitFlow().AddConduitUpdater(new Action<float>(this.ConduitUpdate), ConduitFlowPriority.Default);
 			this.OnConduitConnectionChanged(null);
 
 			UpdateNotifications();
@@ -227,10 +238,9 @@ namespace UtilLibs.BuildingPortUtils
 
 		public override void OnCleanUp()
 		{
-			IUtilityNetworkMgr networkManager = Conduit.GetNetworkManager(this.conduitType);
-			networkManager.RemoveFromNetworks(this.utilityCell, this.networkItem, true);
+			GetConduitMng().RemoveFromNetworks(this.utilityCell, this.networkItem, true);
 
-			this.GetConduitManager().RemoveConduitUpdater(new Action<float>(this.ConduitUpdate));
+			this.GetConduitFlow().RemoveConduitUpdater(new Action<float>(this.ConduitUpdate));
 			GameScenePartitioner.Instance.Free(ref this.partitionerEntry);
 			base.OnCleanUp();
 		}
@@ -270,7 +280,7 @@ namespace UtilLibs.BuildingPortUtils
 		private void ConduitUpdate(float dt)
 		{
 			if (isConsuming)
-				this.Consume(dt, GetConduitManager());
+				this.Consume(dt, GetConduitFlow());
 			UpdateNotifications();
 		}
 		private void Consume(float dt, IConduitFlow iConMng)

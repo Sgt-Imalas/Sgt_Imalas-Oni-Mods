@@ -80,7 +80,18 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.Build();
 
 		}
-
+		public static void AdditionalnRecipes_ChemicalRefinery(string ID)
+		{
+			if (Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
+			{
+				RecipeBuilder.Create(ID, 40)
+					.Input(ModElements.VegetableOil_Liquid, 25)
+					.Input(SimHashes.Water, 75)
+					.Output(SimHashes.PhytoOil, 100)
+					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.CHEMICAL_MIXINGUNIT_2_1, 2,1)
+					.Build();
+			}
+		}
 		public static void AdditionalKilnRecipes(string ID, bool burnMaterial = false, bool advKiln = false)
 		{
 			BurnedOilShaleCementRecipe(ID, advKiln);
@@ -443,7 +454,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			///normal Seakomb has a 1-4 conversion with 3/4 of water; 25kg Seakomb + 75kg water become 100kg of phyto oil
 			///lets assume only 20% of the fertilizer is lost; that becomes 800g of biomass
 			///
-			AddPrefefinedExpellerPressRecipe(KelpConfig.ID, 3.85f, 0.8f);
+			AddPrefefinedExpellerPressRecipe(KelpConfig.ID, 1f, 3.65f);
 
 
 			foreach (var recipe in PredefinedExpellerPressRecipes)
@@ -463,7 +474,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					.NameOverrideFormatIngredient(CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_FOODTOOIL, 0)
 					.IconPrefabIngredient(0)
 					.Build();
+
+
+				ExpellerPress_Seeds(ID);
 			}
+		}
+		public static void ExpellerPress_Seeds(string ID)
+		{
 			HashSet<Tag> seeds = new();
 			foreach (var seed in Assets.GetPrefabsWithTag(GameTags.CropSeed))
 			{
@@ -484,10 +501,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			//             Biomass -> 50g
 			//--------------------------------------------------------------------------------------- 
 
-			RecipeBuilder.Create(ID, 25)
-				.Input(seeds.ToArray(), 1, GameTags.Seed)
-				.Output(ModElements.VegetableOil_Liquid, 0.95f)
-				.Output(ModElements.BioMass_Solid, 0.05f)
+			RecipeBuilder.Create(ID, 10)
+				.Input(seeds.ToArray(), 10, GameTags.Seed)
+				.Output(ModElements.VegetableOil_Liquid, 9.5f)
+				.Output(ModElements.BioMass_Solid, 0.5f)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
 				.NameOverrideFormatIngredient(CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_SEEDTOOIL, 0)
 				.IconPrefabOverride(ModElements.BioMass_Solid.Tag)
@@ -547,6 +564,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_1_2, 1, 2)
 					.Build();
 			}
+			ExpellerPress_Seeds(ID);
 		}
 		public class PlantConsumptionInfo
 		{

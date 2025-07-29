@@ -29,6 +29,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			buildingDef.PermittedRotations = PermittedRotations.R360;
 			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.LiquidVentIDs, ID);
 			SoundUtils.CopySoundsToAnim("deco_gas_valve_kanim", "valveliquid_logic_kanim");
+
+
+			buildingDef.SceneLayer = Grid.SceneLayer.LiquidConduitBridges;
+			buildingDef.ObjectLayer = ObjectLayer.LiquidConduitConnection;
 			return buildingDef;
 		}
 

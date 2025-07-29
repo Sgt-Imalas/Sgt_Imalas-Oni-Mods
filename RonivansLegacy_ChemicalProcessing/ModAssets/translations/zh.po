@@ -170,22 +170,10 @@ msgid ""
 "Pressure Liquid Pipe</link> connected"
 msgstr "该建筑的<style=\"KKeyword\">高压液体出口</style>没有连接<link=\"HIGHPRESSURELIQUIDCONDUIT\">高压液体管道</link>"
 
-#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.HPA_NEEDLSOLIDOUT.NAME
-msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.HPA_NEEDLSOLIDOUT.NAME"
-msgid "No Heavy-Duty Solid Output"
-msgstr "无重型固体输出"
-
-#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.HPA_NEEDLSOLIDOUT.TOOLTIP
-msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.HPA_NEEDLSOLIDOUT.TOOLTIP"
-msgid ""
-"This building's <style=\"KKeyword\">Heavy-Duty Solid Output</style> does not have a <link=\"HPASOLIDRAIL\">Heavy-Duty Rail</link> "
-"connected"
-msgstr "该建筑的<style=\"KKeyword\">重型固体出口</style>没有连接<link=\"HPASOLIDRAIL\">重型运输轨道</link>。"
-
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.HPA_NEEDSOLIDIN.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.HPA_NEEDSOLIDIN.NAME"
-msgid "No Heavy-Duty Solid Intake"
-msgstr "无重型固体输入"
+msgid "No Heavy-Duty Rail Intake"
+msgstr "无重型轨道输入口"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.HPA_NEEDSOLIDIN.TOOLTIP
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.HPA_NEEDSOLIDIN.TOOLTIP"
@@ -193,6 +181,18 @@ msgid ""
 "This building's <style=\"KKeyword\">Heavy-Duty Solid Intake</style> does not have a <link=\"HPASOLIDRAIL\">Heavy-Duty Rail</link> "
 "connected"
 msgstr "该建筑的<style=\"KKeyword\">重型固体入口</style>没有连接<link=\"HPASOLIDRAIL\">重型运输轨道</link>。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.HPA_NEEDSOLIDOUT.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.HPA_NEEDSOLIDOUT.NAME"
+msgid "No Heavy-Duty Rail Output"
+msgstr "无重型轨道输出口"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.HPA_NEEDSOLIDOUT.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.HPA_NEEDSOLIDOUT.TOOLTIP"
+msgid ""
+"This building's <style=\"KKeyword\">Heavy-Duty Solid Output</style> does not have a <link=\"HPASOLIDRAIL\">Heavy-Duty Rail</link> "
+"connected"
+msgstr "该建筑的<style=\"KKeyword\">重型固体出口</style>没有连接<link=\"HPASOLIDRAIL\">重型运输轨道</link>。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.HPA_SOLIDCONDUITITEMDROPPED.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.HPA_SOLIDCONDUITITEMDROPPED.NAME"
@@ -294,7 +294,9 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FACILIT
 msgid "A high-tech light door"
 msgstr ""
 "一扇高科技轻型门\n"
-"封闭区域，但不能阻挡液体或气体流动。设置复制人权限来设定受限区域。"
+"\n"
+"封闭区域，但不能阻挡液体或气体流动。\n"
+"设置复制人权限来设定受限区域。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FACILITYDOOR.FACADES.FACILITYDOORRED.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FACILITYDOOR.FACADES.FACILITYDOORRED.DESC"
@@ -388,6 +390,27 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FRIDGEL
 msgid "<link=\"AIOFRIDGELARGE\">Household Fridge</link>"
 msgstr "<link=\"AIOFRIDGELARGE\">家用冰箱</link>"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_MOSAICTILE.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_MOSAICTILE.DESC"
+msgid "A fine tile made from glazed stones."
+msgstr "由上釉石料制成的精美瓷砖。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_MOSAICTILE.EFFECT
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_MOSAICTILE.EFFECT"
+msgid ""
+"Used as floor and wall tile to build rooms.\n"
+"\n"
+"Significantly increases Duplicant runspeed."
+msgstr ""
+"作为地板和墙壁来建造房间。\n"
+"\n"
+"显著提高复制人行走速度。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_MOSAICTILE.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_MOSAICTILE.NAME"
+msgid "<link=\"AIOMOSAICTILE\">Mosaic Tile</link>"
+msgstr "<link=\"AIOMOSAICTILE\">马赛克砖</link>"
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.ALGAEVAT.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.ALGAEVAT.DESC"
 msgid ""
@@ -404,7 +427,7 @@ msgid ""
 "Algae patch needs <link=\"WATER\">Water</link> to grow, producing a fair amount of clean <link=\"OXYGEN\">Oxygen</link> as result "
 "of its biological functions. Excess water is expelled in the form of <link=\"DIRTYWATER\">Polluted Water</link>."
 msgstr ""
-"藻类群落需要<link=\"WATER\">水</link>水才能生长，通过其生物作用会产生大量洁净<link=\"OXYGEN\">氧气</link>。多余的水分则以"
+"藻类群落需要<link=\"WATER\">水</link>才能生长，通过其生物作用会产生大量洁净<link=\"OXYGEN\">氧气</link>。多余的水分则以"
 "<link=\"DIRTYWATER\">污染水</link>的形式排出。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.ALGAEVAT.NAME
@@ -1768,7 +1791,11 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.GLASSDOORSI
 msgid ""
 "A simple door made with <link=\"GLASS\">Glass</link> panels. Encloses areas without blocking Liquid or Gas flow. Sets Duplicant "
 "Access Permissions for area restriction."
-msgstr "用<link=\"GLASS\">玻璃</link>面板制成的简单门。封闭区域，但不能阻挡液体或气体流动。设置复制人权限来设定受限区域。"
+msgstr ""
+"用<link=\"GLASS\">玻璃</link>面板制成的简单门。\n"
+"\n"
+"封闭区域，但不能阻挡液体或气体流动。\n"
+"设置复制人权限来设定受限区域。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.GLASSDOORSIMPLE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.GLASSDOORSIMPLE.NAME"
@@ -1999,6 +2026,23 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_OUTBOX.
 msgid "<link=\"HPAOUTBOX\">Heavy-Duty Receptacle</link>"
 msgstr "<link=\"HPAOUTBOX\">重型轨道存放器</link>"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_RAILMERGER.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_RAILMERGER.DESC"
+msgid "Compression leads to higher rail throughput!"
+msgstr "通过压缩来提高轨道运输量!"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_RAILMERGER.EFFECT
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_RAILMERGER.EFFECT"
+msgid ""
+"Merges chunks of <link=\"ELEMENTSSOLID\">Solid Materials</link> from incoming rails and ouputs them onto a "
+"<link=\"HPASOLIDRAIL\">Heavy-Duty Rail</link>."
+msgstr "将来自轨道的<link=\"ELEMENTSSOLID\">固体材料</link>合并并输出至<link=\"HPASOLIDRAIL\">重型运输轨道</link>。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_RAILMERGER.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_RAILMERGER.NAME"
+msgid "<link=\"HPARAILMERGER\">Heavy-Duty Rail Compressor</link>"
+msgstr "<link=\"HPARAILMERGER\">重型轨道压合器</link>"
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_SOLIDRAIL.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_SOLIDRAIL.DESC"
 msgid "Rails move materials where they'll be needed most, saving Duplicants the walk."
@@ -2109,6 +2153,34 @@ msgstr ""
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_SOLIDRAILVALVE.NAME"
 msgid "<link=\"HPASOLIDRAILVALVE\">Heavy-Duty Reduction Valve</link>"
 msgstr "<link=\"HPASOLIDRAILVALVE\">重型轨道减压阀</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_TRANSFERARM.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_TRANSFERARM.DESC"
+msgid "An auto-sweeper's range can be viewed at any time by clicking on the building."
+msgstr "点击建筑物即可随时查看自动清扫器的覆盖范围。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_TRANSFERARM.EFFECT
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_TRANSFERARM.EFFECT"
+msgid ""
+"Automates <link=\"CHORES\">Sweeping</link> and <link=\"CHORES\">Supplying</link> errands by sucking up all nearby "
+"<link=\"DECOR\">Debris</link>.\n"
+"\n"
+"Materials are automatically delivered to any <link=\"HPAINBOX\">Heavy-Duty Loader</link>, <link=\"HPAOUTBOX\">Heavy-Duty "
+"Receptacle</link>, storage, or buildings within range.\n"
+"\n"
+"Comes with increased range, capacity and rotation speed."
+msgstr ""
+"通过吸走周围所有的<link=\"DECOR\">杂物</link>，实现<link=\"CHORES\">清扫</link>和<link=\"CHORES\">供应</link>任务的自动化。\n"
+"\n"
+"材料会自动被运送至任何<link=\"HPAINBOX\">重型轨道装载器</link>,<link=\"HPAOUTBOX\">重型轨道存放器</link>、存储箱或所在范围内的一切建"
+"筑物中。\n"
+"\n"
+"具有更大的范围，容量和转向速度。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_TRANSFERARM.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_TRANSFERARM.NAME"
+msgid "<link=\"HPATRANSFERARM\">Heavy-Duty Auto-Sweeper</link>"
+msgstr "<link=\"HPATRANSFERARM\">重型自动清扫器</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPAVENTGAS.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPAVENTGAS.DESC"
@@ -2434,7 +2506,7 @@ msgid ""
 "\n"
 "Significantly increases Duplicant runspeed."
 msgstr ""
-"用作地板和墙砖来建造房间。\n"
+"作为地板和墙壁来建造房间。\n"
 "\n"
 "显著提高复制人行走速度。"
 
@@ -2642,33 +2714,12 @@ msgid ""
 msgstr ""
 "由压实矿物质构成的这块瓷砖\n"
 "\n"
-"显著提高复制人的行走速度。"
+"提高复制人的行走速度。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.MONOELEMENTTILE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.MONOELEMENTTILE.NAME"
 msgid "<link=\"MONOELEMENTTILE\">Compacted Tile</link>"
 msgstr "<link=\"MONOELEMENTTILE\">精制砖</link>"
-
-#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_MOSAICTILE.DESC
-msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_MOSAICTILE.DESC"
-msgid "A fine tile made from glazed stones."
-msgstr "由上釉石料制成的精美瓷砖。"
-
-#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_MOSAICTILE.EFFECT
-msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_MOSAICTILE.EFFECT"
-msgid ""
-"Used as floor and wall tile to build rooms.\n"
-"\n"
-"Significantly increases Duplicant runspeed."
-msgstr ""
-"用作地板和墙砖来建造房间。\n"
-"\n"
-"显著提高复制人行走速度。"
-
-#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_MOSAICTILE.NAME
-msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_MOSAICTILE.NAME"
-msgid "<link=\"AIO_MOSAICTILE\">Mosaic Tile</link>"
-msgstr "<link=\"AIO_MOSAICTILE\">马赛克砖</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.PRESSUREGASPUMP.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.PRESSUREGASPUMP.DESC"
@@ -2872,13 +2923,19 @@ msgstr "<link=\"SPACEBOX\">太空储粮盒</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SPACERTILESOLID.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SPACERTILESOLID.DESC"
-msgid ""
-msgstr ""
+msgid "A durable tile made for vacuum-exposed environments."
+msgstr "一种专为真空暴露环境而设计的耐用瓷砖。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SPACERTILESOLID.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SPACERTILESOLID.EFFECT"
 msgid ""
+"This solid tile is specially engineered to withstand the harsh conditions of space.\n"
+"\n"
+"Blocks Gas and Liquid while offering minimal thermal insulation."
 msgstr ""
+"这种坚固的砖块经过特殊设计，能够承受太空环境的恶劣条件。\n"
+"\n"
+"能有效阻挡气体和液体，但隔热性能极差。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SPACERTILESOLID.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SPACERTILESOLID.NAME"
@@ -2887,13 +2944,19 @@ msgstr "<link=\"SPACERTILESOLID\">太空砖</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SPACERTILEWINDOW.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SPACERTILEWINDOW.DESC"
-msgid ""
-msgstr ""
+msgid "A transparent tile designed for external observation in vacuum-exposed environments."
+msgstr "一种透明的砖块，专为在真空暴露环境的外部观察而设计。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SPACERTILEWINDOW.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SPACERTILEWINDOW.EFFECT"
 msgid ""
+"This windowed tile allows light and visibility through while maintaining a strong barrier against the vacuum of space.\n"
+"\n"
+"Blocks Gas and Liquid while offering minimal thermal insulation."
 msgstr ""
+"这种带窗的瓷砖既能让光线和视线穿透进来，又能有效抵御太空的真空环境，形成坚固的屏障。\n"
+"\n"
+"能阻挡气体和液体，但隔热性能极差。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SPACERTILEWINDOW.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SPACERTILEWINDOW.NAME"
@@ -3158,7 +3221,11 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENDOOR.
 msgid ""
 "A pretty wooden door that encloses areas without blocking Liquid or Gas flow. Sets Duplicant Access Permissions for area "
 "restriction."
-msgstr "一扇精美的木质门，封闭区域但不会阻碍液体或气体的流动。它还用于设置区域访问权限，以实现限制访问的目的。"
+msgstr ""
+"一扇精美的木质门.。\n"
+"\n"
+"封闭区域，但不能阻挡液体或气体流动。\n"
+"设置复制人权限来设定受限区域。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENDOOR.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENDOOR.NAME"
@@ -3374,7 +3441,7 @@ msgstr "一种由大量常见金属颗粒构成的厚重沙质物质，其中还
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.BASEGRADESAND.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.BASEGRADESAND.NAME"
 msgid "<link=\"BASEGRADESAND\">Base-Grade Metallic Sand</link>"
-msgstr "<link=\"BASEGRADESAND\">低级金属砂</link>"
+msgstr "<link=\"BASEGRADESAND\">中级金属砂</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.BIOPLASTIC.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.BIOPLASTIC.DESC"
@@ -3452,7 +3519,7 @@ msgstr "一种闪闪发光的砂质材料，主要由高品质的金属颗粒组
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.HIGHGRADESAND.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.HIGHGRADESAND.NAME"
 msgid "<link=\"HIGHGRADESAND\">High-Grade Metallic Sand</link>"
-msgstr "<link=\"HIGHGRADESAND\">优质金属砂</link>"
+msgstr "<link=\"HIGHGRADESAND\">高级金属砂</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.ISOPROPANEGAS.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.ISOPROPANEGAS.DESC"
@@ -3533,7 +3600,7 @@ msgstr "从植物生物质中提取的液态油脂，由甘油三酯和单不饱
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.LIQUIDVEGEOIL.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.LIQUIDVEGEOIL.NAME"
 msgid "<link=\"LIQUIDVEGEOIL\">Vegetable Oil</link>"
-msgstr "<link=\"LIQUIDVEGEOIL\">植物(润滑)油</link>"
+msgstr "<link=\"LIQUIDVEGEOIL\">植物油</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.LOWGRADESAND.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.LOWGRADESAND.DESC"
@@ -4004,6 +4071,20 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INGREDIENTS.RAYONFIBER.
 msgid "Produces <link=\"RAYONFIBER\">Rayon Fibers</link> from the pulp of {0}."
 msgstr "从{0}的纸浆中生产出<link=\"RAYONFIBER\">人造纤维</link>。"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.AIO_HARDENEDALLOY
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.AIO_HARDENEDALLOY"
+msgid "<link=\"AIOHARDENEDALLOY\">Hardened Alloy</link>"
+msgstr "<link=\"AIOHARDENEDALLOY\">硬化合金</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.AIO_HARDENEDALLOY_DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.AIO_HARDENEDALLOY_DESC"
+msgid ""
+"Hardened Alloys are a fusion of two or more materials.\n"
+"Their high material strength allows them to be used as a substitute to <link=\"STEEL\">Steel</link>"
+msgstr ""
+"硬化合金是两种或多种材料的熔合产物。\n"
+"其高强度特性使其可作为<link=\"STEEL\">钢</link>的替代材料使用。"
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.CHEMICALPROCESSING_BIODIESEL_COMPOSITION
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.CHEMICALPROCESSING_BIODIESEL_COMPOSITION"
 msgid "<link=\"CHEMICALPROCESSINGBIODIESELCOMPOSITION\">Organic Fuel</link>"
@@ -4066,6 +4147,16 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.RANDOMRECIPEINGREDI
 msgid "This ingredient gets used up during its use, if a recipe with it gets canceled, it is lost."
 msgstr "该成分在使用过程中会逐渐耗尽，如果包含该成分的配方被取消，那么该成分就会丢失。"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.HPA_RAILS_RESEARCH.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.HPA_RAILS_RESEARCH.DESC"
+msgid "Vastly increase your ability to transport large amounts of solid materials on rails"
+msgstr "大幅提高在轨道上运输固体材料的能力。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.HPA_RAILS_RESEARCH.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.HPA_RAILS_RESEARCH.NAME"
+msgid "<link=\"HPARAILSRESEARCH\">High-Capacity Solid Transport</link>"
+msgstr "<link=\"HPARAILSRESEARCH\">大容量固体运输</link>"
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.NAME"
 msgid "Building Editor"
@@ -4093,6 +4184,17 @@ msgid ""
 msgstr ""
 "该模组已启用，这包括建筑物、研究内容、配方以及其他与该模组相关的特定机制。\n"
 "您仍然可以在建筑编辑器中单独禁用该模组中的个别建筑物，与此设置无关。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP_ELEMENTS
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP_ELEMENTS"
+msgid ""
+"The mod is enabled, this includes buildings, research, recipes, elements, comets and other mod specific mechanics.\n"
+"You can still disable individual buildings of the mod in the building editor, separate from this setting.\n"
+"Warning: when this mod is enabled, worldgen will be altered by new elements"
+msgstr ""
+"该模组已启用，这包括建筑物、研究、配方、元素、彗星以及其他与该模组相关的特定机制。\n"
+"您仍可以在建筑编辑器中单独禁用该模组中的个别建筑物，与此设置无关。\n"
+"警告：当启用此模组时，世界生成将因新的元素而发生改变。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.GEYSERS.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.GEYSERS.NAME"
@@ -4183,6 +4285,18 @@ msgid ""
 "requirements."
 msgstr "重型轨道是传送轨道的后期升级版本，其运输量远超普通轨道，但需要更复杂的建造条件作为代价。（单位：kg）"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_ENABLE.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_ENABLE.NAME"
+msgid "Enable Heavy-Duty Rails"
+msgstr "启用重型轨道"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_ENABLE.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_ENABLE.TOOLTIP"
+msgid ""
+"Heavy-Duty Rails serve as an late game upgrade to conveyor rails, having a much higher throughput at the cost of more complex build "
+"requirements."
+msgstr "重型轨道是运输轨道的后期升级版本，其运输量远超普通轨道，但需要更复杂的建造条件作为代价。（单位：kg）"
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_RAIL_CAPACITY.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_RAIL_CAPACITY.NAME"
 msgid "Logistic Rail Capacity"
@@ -4225,7 +4339,7 @@ msgstr "Ronivan 所创作的所有模组，现已整理并重新制作成一个�
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVANSLEGACY_AIO_NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVANSLEGACY_AIO_NAME"
 msgid "Ronivan's Legacy - All In One Pack"
-msgstr "Ronivan 的遗作 - 大合集"
+msgstr "Ronivan 的遗作 - 合集包"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.BUILDINGCONFIGURABLE
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.BUILDINGCONFIGURABLE"
@@ -4313,8 +4427,8 @@ msgstr "建筑配置编辑器"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.ANAEROBIC_DIGESTER_1_2
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.ANAEROBIC_DIGESTER_1_2"
-msgid "Break down {0} producing {1} and {2}."
-msgstr "分解{0}，生成{1}和{2}。"
+msgid "Break down {0}, producing {1} and {2}."
+msgstr "分解{0}，生产{1}和{2}。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.ARCFURNACE_MELT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.ARCFURNACE_MELT"
@@ -4459,6 +4573,11 @@ msgstr "<link=\"BUILDABLERAW\">矿物原料</link> => <link=\"CRUSHEDROCK\">碎�
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_1_2"
 msgid "Press down {0} and extract {1}. Produces {2} as waste."
 msgstr "挤压{0}以提取{1}。产生{2}作为废弃物。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_FOODTOOIL
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_FOODTOOIL"
+msgid "{0} to <link=\"LIQUIDVEGEOIL\">Vegetable Oil</link>"
+msgstr "{0} => <link=\"LIQUIDVEGEOIL\">植物油</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_SEEDTOOIL
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_SEEDTOOIL"
@@ -4792,6 +4911,16 @@ msgstr "重型彗星"
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_HPA_RAIL"
 msgid "Obstructed by Heavy-Duty Rail"
 msgstr "被重型轨道阻挡"
+
+#~ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.MOSAICTILESTRINGS.EFFECT"
+#~ msgid ""
+#~ "Used as floor and wall tile to build rooms.\n"
+#~ "\n"
+#~ "Significantly increases Duplicant runspeed."
+#~ msgstr ""
+#~ "用作地板和墙砖来建造房间。\n"
+#~ "\n"
+#~ "显著提高复制人行走速度。"
 
 #~ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CO2RECYCLER.BASEGAME_RECIPE"
 #~ msgid ""

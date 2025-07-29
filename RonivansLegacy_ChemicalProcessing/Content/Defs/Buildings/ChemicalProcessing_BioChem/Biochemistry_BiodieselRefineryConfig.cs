@@ -27,14 +27,18 @@ namespace Biochemistry.Buildings
 		private static readonly PortDisplayInput ethanolLiquidInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(-3, 3), null, new Color32(0, 255, 235, 255));
 		private static readonly PortDisplayOutput pollutedWaterLiquidOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(3, 1), null, new Color32(137, 137, 66, 255));
 
+		float multiplier = 1f/8f; //reduce refinery output to be more in line with production amounts
+
 		static Biochemistry_BiodieselRefineryConfig()
 		{
 
-			List<Storage.StoredItemModifier> list1 = new List<Storage.StoredItemModifier>();
-			list1.Add(Storage.StoredItemModifier.Hide);
-			list1.Add(Storage.StoredItemModifier.Preserve);
-			list1.Add(Storage.StoredItemModifier.Insulate);
-			list1.Add(Storage.StoredItemModifier.Seal);
+			List<Storage.StoredItemModifier> list1 =
+			[
+				Storage.StoredItemModifier.Hide,
+				Storage.StoredItemModifier.Preserve,
+				Storage.StoredItemModifier.Insulate,
+				Storage.StoredItemModifier.Seal,
+			];
 			BioRefineryStoredItemModifiers = list1;
 		}
 
@@ -44,9 +48,9 @@ namespace Biochemistry.Buildings
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 7, 5, "biodiesel_refinery_kanim", 100, 30f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER4, MATERIALS.ALL_METALS, 800f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.PENALTY.TIER1, tier);
 			buildingDef.Overheatable = false;
 			buildingDef.RequiresPowerInput = true;
-			buildingDef.EnergyConsumptionWhenActive = 480f;
-			buildingDef.ExhaustKilowattsWhenActive = 2f;
-			buildingDef.SelfHeatKilowattsWhenActive = 8f;
+			buildingDef.EnergyConsumptionWhenActive = 480f* multiplier;
+			buildingDef.ExhaustKilowattsWhenActive = 2f * multiplier;
+			buildingDef.SelfHeatKilowattsWhenActive = 8f * multiplier;
 			buildingDef.AudioCategory = "HollowMetal";
 			buildingDef.InputConduitType = ConduitType.Liquid;
 			buildingDef.UtilityInputOffset = new CellOffset(-3, 1);
@@ -72,15 +76,15 @@ namespace Biochemistry.Buildings
 			ConduitConsumer vegOilInput = go.AddOrGet<ConduitConsumer>();
 			vegOilInput.conduitType = ConduitType.Liquid;
 			vegOilInput.consumptionRate = 10f;
-			vegOilInput.capacityKG = 50f;
-			vegOilInput.capacityTag = ModElements.PhytoOilGroup;
+			vegOilInput.capacityKG = 20f;
+			vegOilInput.capacityTag = ModElements.VegetableOil_Liquid.Tag;
 			vegOilInput.forceAlwaysSatisfied = true;
 			vegOilInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 
 			PortConduitConsumer ethanolInput = go.AddComponent<PortConduitConsumer>();
 			ethanolInput.conduitType = ConduitType.Liquid;
 			ethanolInput.consumptionRate = 10f;
-			ethanolInput.capacityKG = 50f;
+			ethanolInput.capacityKG = 20f;
 			ethanolInput.capacityTag = SimHashes.Ethanol.CreateTag();
 			ethanolInput.forceAlwaysSatisfied = true;
 			ethanolInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
@@ -90,11 +94,11 @@ namespace Biochemistry.Buildings
 			//-----[ Element Converter Section ]---------------------------------
 			ElementConverter converter = go.AddOrGet<ElementConverter>();
 			converter.consumedElements = [
-				new ElementConverter.ConsumedElement(ModElements.PhytoOilGroup, 3.5f),
-				new ElementConverter.ConsumedElement(SimHashes.Ethanol.CreateTag(), 1.5f) ];
+				new ElementConverter.ConsumedElement(ModElements.VegetableOil_Liquid.Tag, 3.5f* multiplier),
+				new ElementConverter.ConsumedElement(SimHashes.Ethanol.CreateTag(), 1.5f* multiplier) ];
 			converter.outputElements = [
-				new ElementConverter.OutputElement(4.7f,ModElements.BioDiesel_Liquid, 325.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0),
-				new ElementConverter.OutputElement(0.3f, SimHashes.DirtyWater, 315.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0)];
+				new ElementConverter.OutputElement(4.7f* multiplier,ModElements.BioDiesel_Liquid, 325.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0),
+				new ElementConverter.OutputElement(0.3f* multiplier, SimHashes.DirtyWater, 315.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0)];
 			//-------------------------------------------------------------------
 
 			ConduitDispenser biodieselDispenser = go.AddOrGet<ConduitDispenser>();

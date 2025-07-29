@@ -13,7 +13,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
 	class ModElements
 	{
-		public static ElementGrouping BiodieselGroup, PhytoOilGroup, PlasticGroup;
+		public static ElementGrouping PlasticGroup;
 
 
 		/// Chemical Processing Industrial overhaul
@@ -354,8 +354,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 		internal static void ModifyExistingElements()
 		{
-			BiodieselGroup = ElementGrouping.GroupAllWith(ModAssets.Tags.Biodiesel_Composition);
-			PhytoOilGroup = ElementGrouping.GroupAllWith(ModAssets.Tags.BioOil_Composition);
 			PlasticGroup = ElementGrouping.GroupAllWith(GameTags.Plastic);
 
 			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
@@ -396,15 +394,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				Element crushedRock_material = ElementLoader.FindElementByHash(SimHashes.CrushedRock);
 				crushedRock_material.disabled = false;
 				AddTagToElementAndEnable(SimHashes.CrushedRock, GameTags.ConsumableOre);
-			}
-
-			if (Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
-			{
-				//=[ PHYTO OIL PATCH ]==========================================================
-				AddTagToElementAndEnable(SimHashes.PhytoOil, ModAssets.Tags.BioOil_Composition);
-
-				//=[ BIODIESEL PATCH ]==========================================================
-				AddTagToElementAndEnable(SimHashes.RefinedLipid, ModAssets.Tags.Biodiesel_Composition);
 			}
 			if (DlcManager.IsExpansion1Active() && Config.Instance.NuclearProcessing_Enabled)
 			{//=[ ENABLING RADIUM ]===================================================

@@ -58,6 +58,17 @@ namespace RonivansLegacy_ChemicalProcessing
 				}
 			}
 		}
+		public class RESEARCH
+		{
+			public class TECHS
+			{
+				public class HPA_RAILS_RESEARCH
+				{
+					public static LocString NAME = FormatAsLink("High-Capacity Solid Transport", nameof(HPA_RAILS_RESEARCH));
+					public static LocString DESC = "Vastly increase your ability to transport large amounts of solid materials on rails";
+				}
+			}
+		}
 		public class BUILDINGS
 		{
 			public class FACADES_STANDALONE
@@ -132,7 +143,7 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString EFFECT = string.Concat(
 						[
 							"Converts ",
-							FormatAsLink("Organic Fuels", "CHEMICALPROCESSING_BIODIESEL_COMPOSITION"),
+							FormatAsLink("Renewable Diesel", nameof(LIQUIDBIODIESEL)),
 							" into electrical ",
 							FormatAsLink("Power", "POWER"),
 							".\n\nProduces only ",
@@ -150,7 +161,7 @@ namespace RonivansLegacy_ChemicalProcessing
 							FormatAsLink("Vegetable Oil", "LIQUIDVEGEOIL"),
 							" from raw food ingredients. The amount of oil, and the solid waste in the form of ",
 							FormatAsLink("Compressed Biomass", "SOLIDBIOMASS"),
-							" depends of the ingredient choosen."
+							" depend of the ingredient choosen.\nCan be diluted with water to produce ",global::STRINGS.ELEMENTS.PHYTOOIL.NAME
 						]);
 				}
 				public class BIOCHEMISTRY_BIODIESELREFINERY
@@ -160,9 +171,9 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString EFFECT = string.Concat(
 						[
 							"Transesterify ",
-							FormatAsLink("Renewable Diesel", "LIQUIDBIODIESEL"),
+							FormatAsLink("Renewable Diesel", nameof(LIQUIDBIODIESEL)),
 							" from ",
-							FormatAsLink("Organic Oils", "CHEMICALPROCESSING_BIOOIL_COMPOSITION"),
+							FormatAsLink("Vegetable Oil", nameof(LIQUIDVEGEOIL)),
 							" and ",
 							FormatAsLink("Ethanol", "ETHANOL"),"."
 						]);
@@ -176,7 +187,7 @@ namespace RonivansLegacy_ChemicalProcessing
 							"Synthesizes ",
 							FormatAsLink("Bioplastic", "BIOPLASTIC"),
 							" from ",
-							FormatAsLink("Organic Oils", "CHEMICALPROCESSING_BIOOIL_COMPOSITION"),
+							FormatAsLink("Vegetable Oil", nameof(LIQUIDVEGEOIL)),
 							" and ",
 							FormatAsLink("Carbon Dioxide", "CARBONDIOXIDE"),
 							"\nThe enzymes requires a microbial medium in the form of ",
@@ -1400,6 +1411,16 @@ namespace RonivansLegacy_ChemicalProcessing
 					FormatAsLink("Conveyor Rails", "SOLIDCONDUIT") +
 					".";
 				}
+				public class HPA_RAILMERGER
+				{
+					public static LocString NAME = FormatAsLink("Heavy-Duty Rail Compressor", nameof(HPA_RAILMERGER));
+					public static LocString DESC = "Compression leads to higher rail throughput!";
+					public static LocString EFFECT = "Merges chunks of " +
+					FormatAsLink("Solid Materials", "ELEMENTS_SOLID") +
+					" from incoming rails and ouputs them onto a " +
+					FormatAsLink("Heavy-Duty Rail", "HPA_SOLIDRAIL") +
+					".";
+				}
 
 				public class HPA_TRANSFERARM
 				{
@@ -1920,10 +1941,6 @@ namespace RonivansLegacy_ChemicalProcessing
 			{
 				public static LocString CHEMICALPROCESSING_RANDOMSAND = FormatAsLink("Metallic Sand", nameof(CHEMICALPROCESSING_RANDOMSAND));
 				public static LocString CHEMICALPROCESSING_RANDOMSAND_DESC = "Sandy materials composed of a various number of metallic grains";
-				public static LocString CHEMICALPROCESSING_BIODIESEL_COMPOSITION = FormatAsLink("Organic Fuel", nameof(CHEMICALPROCESSING_BIODIESEL_COMPOSITION));
-				public static LocString CHEMICALPROCESSING_BIODIESEL_COMPOSITION_DESC = "Organic fuels serve as a renewable alternative to petrochemicals.";
-				public static LocString CHEMICALPROCESSING_BIOOIL_COMPOSITION = FormatAsLink("Organic Oil", nameof(CHEMICALPROCESSING_BIOOIL_COMPOSITION));
-				public static LocString CHEMICALPROCESSING_BIOOIL_COMPOSITION_DESC = "Organic Oils are extracted from renewable biomass.";
 
 				public static LocString MINERALPROCESSING_GUIDANCEUNIT = FormatAsLink("Guidance Device", nameof(MINERALPROCESSING_GUIDANCEUNIT));
 				public static LocString MINERALPROCESSING_GUIDANCEUNIT_DESC = "Guidance Devices allow the the mining drillhead to be programmed to target mine specific asteroid sectors.";

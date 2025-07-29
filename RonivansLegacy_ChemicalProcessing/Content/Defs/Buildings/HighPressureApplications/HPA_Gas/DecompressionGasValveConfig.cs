@@ -29,6 +29,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			buildingDef.UtilityInputOffset = new CellOffset(0, 0);
 			buildingDef.UtilityOutputOffset = new CellOffset(1, 0);
 			buildingDef.PermittedRotations = PermittedRotations.R360;
+
+			buildingDef.SceneLayer = Grid.SceneLayer.GasConduitBridges;
+			buildingDef.ObjectLayer = ObjectLayer.GasConduitConnection;
+
 			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.GasVentIDs, ID);
 			SoundUtils.CopySoundsToAnim("deco_gas_valve_kanim", "valvegas_logic_kanim");
 			return buildingDef;
