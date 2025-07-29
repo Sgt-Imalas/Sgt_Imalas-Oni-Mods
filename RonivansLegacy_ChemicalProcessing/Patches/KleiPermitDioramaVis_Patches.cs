@@ -28,7 +28,10 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
                         case BuildLocationRule.Anywhere:
 							__result = __instance.buildingOnFloorVis;
 							break;
-                    }
+                        case BuildLocationRule.NotInTiles:
+                            __result = __instance.wallpaperVis;
+							break;
+					}
                 }
             }
         }
