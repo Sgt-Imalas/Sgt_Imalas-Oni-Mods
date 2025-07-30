@@ -22,7 +22,7 @@ namespace RonivansLegacy_ChemicalProcessing
 {
 	class STRINGS
 	{
-		public static LocString RONIVANSLEGACY_AIO_NAME = "Ronivan's Legacy - All In One Pack";
+		public static LocString RONIVANSLEGACY_AIO_NAME = "Ronivan's Legacy - Industrial Revolution";
 		public static LocString RONIVANSLEGACY_AIO_DESC = "All the mods created by Ronivan, now collected and remastered into one configurable modpack.";
 		public class AIO_MODSOURCE
 		{
@@ -66,6 +66,11 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = FormatAsLink("High-Capacity Solid Transport", nameof(HPA_RAILS_RESEARCH));
 					public static LocString DESC = "Vastly increase your ability to transport large amounts of solid materials on rails";
+				}
+				public class BIOCHEMISTRY_RENEWABLEFUEL
+				{
+					public static LocString NAME = FormatAsLink("Renewable Combustion Fuels", nameof(BIOCHEMISTRY_RENEWABLEFUEL));
+					public static LocString DESC = "A new generation of renewable fuels that can be produced from organic matter.";
 				}
 			}
 		}
@@ -1610,7 +1615,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class HPA_SOLIDCONDUITITEMDROPPED
 				{
 					public static LocString NAME = "Rail Capacity Exceeded!";
-					public static LocString TOOLTIP = "This conveyor rail failed at transporting a debris chunk that was too heavy for it\nThe incoming item was {0} kg, but it could only hold {1} kg of that.\nExcess mass was dropped (WORK IN PROGRESS TEXT!)";
+					public static LocString TOOLTIP = "This conveyor rail failed at transporting a debris chunk that was too heavy for it\nThe incoming item was {0} kg, but it could only hold {1} kg of that.\nExcess mass was dropped";
 				}
 				public class HPA_CONDUITOVERPRESSURIZED
 				{
@@ -1622,6 +1627,22 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString NAME = "Growth Efficiency {0}";
 					public static LocString TOOLTIP = "The algae growth in this building is currently at {0} efficiency.\nThis is dependent on the light the building receives.\nRequires at minimum {1}.";
 				}
+				public class HPA_PROHIBITGAS
+				{
+					public static LocString NAME = "Throughput Exceeded!";
+					public static LocString TOOLTIP = "This building cannot handle the gas pressure of the connected pipes!";
+				}
+				public class HPA_PROHIBITLIQUID
+				{
+					public static LocString NAME = "Throughput Exceeded!";
+					public static LocString TOOLTIP = "This building cannot handle the liquid pressure of the connected pipes!";
+				}
+				public class HPA_PROHIBITSOLID
+				{
+					public static LocString NAME = "Mass Throughput Exceeded!";
+					public static LocString TOOLTIP = "This building cannot handle the solid mass throughput of the connected rails!";
+				}
+
 			}
 		}
 		public class CREATURES

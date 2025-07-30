@@ -242,14 +242,16 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToCategory(PlanMenuCategory.Refinement, FertilizerMakerConfig.ID)
 				.AddToTech(Technology.Food.FoodRepurposing)
 				.AddModFrom(SourceModInfo.ChemicalProcessing_BioChemistry);
+
 			BuildingManager.CreateEntry<Biochemistry_BiodieselGeneratorConfig>()
 				.AddToCategory(PlanMenuCategory.Power, PetroleumGeneratorConfig.ID)
-				.AddToTech(Technology.Power.FossilFuels)
+				.AddToTech(ModTechs.Biochemistry_RenewableFuel_ID)
 				.AddModFrom(SourceModInfo.ChemicalProcessing_BioChemistry);
 			BuildingManager.CreateEntry<Biochemistry_BiodieselRefineryConfig>()
 				.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
-				.AddToTech(Technology.Power.FossilFuels)
+				.AddToTech(ModTechs.Biochemistry_RenewableFuel_ID)
 				.AddModFrom(SourceModInfo.ChemicalProcessing_BioChemistry);
+
 			BuildingManager.CreateEntry<Biochemistry_BioplasticPrinterConfig>()
 				.AddToCategory(PlanMenuCategory.Refinement, PolymerizerConfig.ID)
 				.AddToTech(Technology.Power.PlasticManufacturing)
