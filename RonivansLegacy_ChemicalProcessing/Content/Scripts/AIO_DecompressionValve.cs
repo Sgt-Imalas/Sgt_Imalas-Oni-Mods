@@ -10,6 +10,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 	public class AIO_DecompressionValve : StateMachineComponent<AIO_DecompressionValve.StatesInstance>
 	{
 		[MyCmpReq] Storage storage;
+		[MyCmpReq] Operational operational;
 		public override void OnSpawn()
 		{
 			smi.StartSM();
@@ -51,6 +52,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 					.PlayAnim("off", KAnim.PlayMode.Once);
 				TransportingItems
 					.PlayAnim("on_flow", KAnim.PlayMode.Loop)
+					.Enter(smi => smi.master.operational.SetActive(true))
+					.Exit(smi => smi.master.operational.SetActive(false))
 					.UpdateTransition(TransportingItems_pst, (smi, dt) => smi.master.ShouldTurnOff(), UpdateRate.SIM_1000ms)
 					;
 				TransportingItems_pst
