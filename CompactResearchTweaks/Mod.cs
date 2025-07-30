@@ -11,8 +11,9 @@ namespace CompactResearchTweaks
         public override void OnLoad(Harmony harmony)
         {
             base.OnLoad(harmony);
-			SharedTweaks.ResearchNotificationMessageFix.ExecutePatch(harmony);
-			SharedTweaks.ResearchScreenCollapseEntries.ExecutePatch(harmony);
+			SharedTweaks.ResearchNotificationMessageFix.ExecutePatch();
+			SharedTweaks.ResearchScreenCollapseEntries.ExecutePatch();
+			SharedTweaks.ResearchScreenBetterConnectionLines.ExecutePatch();
 			SgtLogger.LogVersion(this, harmony);
         }       
         

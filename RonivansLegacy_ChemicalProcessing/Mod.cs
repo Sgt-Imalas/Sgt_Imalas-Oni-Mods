@@ -32,10 +32,11 @@ namespace RonivansLegacy_ChemicalProcessing
 			BuildingDatabase.RegisterAdditionalBuildingElements();
 			AdditionalRecipes.RegisterTags();
 
-			SharedTweaks.ResearchNotificationMessageFix.ExecutePatch(harmony); 
-			SharedTweaks.ResearchScreenCollapseEntries.ExecutePatch(harmony);
-			SharedTweaks.ElementConverterDescriptionImprovement.ExecutePatch(harmony);
-			SharedTweaks.DynamicMaterialSelectorHeaderHeight.ExecutePatch(harmony);
+			SharedTweaks.ResearchNotificationMessageFix.ExecutePatch(); 
+			SharedTweaks.ResearchScreenCollapseEntries.ExecutePatch();
+			SharedTweaks.ElementConverterDescriptionImprovement.ExecutePatch();
+			SharedTweaks.ResearchScreenBetterConnectionLines.ExecutePatch();
+			SharedTweaks.DynamicMaterialSelectorHeaderHeight.ExecutePatch();
 		}
 		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
 		{
