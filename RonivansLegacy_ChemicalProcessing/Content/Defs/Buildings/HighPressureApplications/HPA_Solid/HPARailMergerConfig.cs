@@ -20,7 +20,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 		public override BuildingDef CreateBuildingDef()
 		{
 			float[] quantity1 = [250f, 150f];
-			string[] materials1 = [GameTags.Steel.ToString(), GameTags.Transparent.ToString()];
+			string[] materials1 = [GameTags.Steel.ToString(), GameTags.Plastic.ToString()];
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 2, "hpa_rail_merger_kanim", 100, 60f, quantity1, materials1, 800f, BuildLocationRule.Anywhere, TUNING.BUILDINGS.DECOR.PENALTY.TIER1, NOISE_POLLUTION.NOISY.TIER0, 0.2f);
 			buildingDef.Floodable = false;
 			buildingDef.Overheatable = false;
@@ -31,6 +31,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			buildingDef.UtilityInputOffset = new CellOffset(0, 0);
 			buildingDef.UtilityOutputOffset = new CellOffset(0, 1);
 			buildingDef.PermittedRotations = PermittedRotations.R360;
+			//buildingDef.AddLogicPowerPort = false;
+			//buildingDef.EnergyConsumptionWhenActive = 240f;
+			//buildingDef.PowerInputOffset = new(0, 1);
 
 
 			buildingDef.SceneLayer = Grid.SceneLayer.GasFront;

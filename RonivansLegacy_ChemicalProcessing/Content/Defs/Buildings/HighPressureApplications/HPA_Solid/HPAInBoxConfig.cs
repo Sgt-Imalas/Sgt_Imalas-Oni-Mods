@@ -15,7 +15,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 	{
 		static float multiplier => HighPressureConduitRegistration.GetConduitMultiplier(ConduitType.Solid);
 
-		public static float Wattage = multiplier * 120f;
+		public static float Wattage = multiplier*0.8f * 120f;
 
 		public float GetWattage() => Wattage;
 		public void SetWattage(float mass) => Wattage = mass;
@@ -49,6 +49,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.SolidConveyorIDs, ID);
 			SoundUtils.CopySoundsToAnim("hpa_rail_inbox_kanim", "conveyorin_kanim");
 			return buildingDef;
+		}
+
+		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
+		{
+			base.ConfigureBuildingTemplate(go, prefab_tag);
+			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 		}
 
 		public override void DoPostConfigureUnderConstruction(GameObject go) => go.GetComponent<Constructable>().requiredSkillPerk = Db.Get().SkillPerks.ConveyorBuild.Id;

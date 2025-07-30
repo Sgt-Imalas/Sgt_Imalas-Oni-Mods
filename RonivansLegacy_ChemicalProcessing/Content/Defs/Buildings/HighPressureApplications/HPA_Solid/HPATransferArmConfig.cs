@@ -13,8 +13,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 {
     class HPATransferArmConfig : IBuildingConfig, IHasConfigurableWattage
 	{
-		public static float Wattage = HighPressureConduitRegistration.GetConduitMultiplier(ConduitType.Solid) * 120f;
-
+		public static float Wattage = HighPressureConduitRegistration.GetConduitMultiplier(ConduitType.Solid) * 0.8f * 120f;//default to 960;
+		
 		public float GetWattage() => Wattage;
 		public void SetWattage(float mass) => Wattage = mass;
 
@@ -45,6 +45,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 		{
 			go.AddOrGet<Operational>();
 			go.AddOrGet<LoopingSounds>();
+			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 		}
 
 		public override void DoPostConfigurePreview(BuildingDef def, GameObject go)

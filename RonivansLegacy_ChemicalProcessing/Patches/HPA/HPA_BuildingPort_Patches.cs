@@ -116,6 +116,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			{
 				__instance.gasStorage.capacityKg *= HighPressureConduitRegistration.GetConduitMultiplier(ConduitType.Gas);
 				__instance.liquidStorage.capacityKg *= HighPressureConduitRegistration.GetConduitMultiplier(ConduitType.Liquid);
+				__instance.solidStorage.capacityKg *= HighPressureConduitRegistration.GetConduitMultiplier(ConduitType.Solid);
 			}
 		}
 

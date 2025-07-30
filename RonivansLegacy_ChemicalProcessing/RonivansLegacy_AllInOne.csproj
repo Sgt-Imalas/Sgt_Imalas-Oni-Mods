@@ -50,10 +50,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Content\Scripts\ConduitHandling\" />
 	  <Folder Include="ModAssets\anim\HighPressureApplications_anims\hpa_rail_inbox\" />
 	  <Folder Include="ModAssets\anim\HighPressureApplications_anims\hpa_rail_merger\" />
 	  <Folder Include="ModAssets\anim\HighPressureApplications_anims\hpa_rail_valve\" />
+	  <Folder Include="ModAssets\anim\HighPressureApplications_anims\hpa_transferarm\" />
 	</ItemGroup>
 
 	<ItemGroup>
