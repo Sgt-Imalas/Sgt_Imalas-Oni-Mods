@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 using static AccessControlSideScreen.MinionIdentitySort;
+using static AmbienceManager;
+using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS;
 using static RoomTracker;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
@@ -145,13 +147,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			}
 			return base.ConduitConditionSatisfied(isInput);
 		}
-		public override void OnSpawn()
-		{
-			base.OnSpawn();
-		}
 	}
 
-	public class HPA_ConduitRequirement : KMonoBehaviour, ISim200ms
+	public class HPA_ConduitRequirement : KMonoBehaviour
 	{
 		private static readonly Operational.Flag highPressureInputConnected = new Operational.Flag("highPressureInputConnected", Operational.Flag.Type.Requirement);
 		private static readonly Operational.Flag highPressureOutputConnected = new Operational.Flag("highPressureOutputConnected", Operational.Flag.Type.Requirement);
@@ -170,6 +168,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		[SerializeField]
 		public bool RequiresHighPressureInput = false, RequiresHighPressureOutput = false;
 
+		[SerializeField]
+		public bool ProhibitHighPressure = false;
+
+		private HandleVector<int>.Handle partitionerEntryInput;
+		private HandleVector<int>.Handle partitionerEntryOutput;
+
 
 		public int consumerCell = -1, dispenserCell = -1;
 		public ConduitType inputType = ConduitType.None, outputType = ConduitType.None;
@@ -179,12 +183,36 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		{
 			base.OnSpawn();
 			CacheConduitCells();
-			CheckRequirements(true);
+			SetupPartitioners();
+			UpdateRequirements(true);
 		}
 		public override void OnCleanUp()
 		{
+			ClearPartitioners();
 			base.OnCleanUp();
 		}
+
+		void SetupPartitioners()
+		{
+			if(consumerCell > 0)
+				this.partitionerEntryInput = GameScenePartitioner.Instance.Add("HPA_ConduitRequirement_Input", gameObject, consumerCell, GetConduitLayer(inputType), (data => this.UpdateRequirements()));
+			if (dispenserCell > 0)
+				this.partitionerEntryOutput = GameScenePartitioner.Instance.Add("HPA_ConduitRequirement_Output", gameObject, dispenserCell, GetConduitLayer(outputType), (data => this.UpdateRequirements()));
+		}
+		void ClearPartitioners()
+		{
+			if(this.partitionerEntryInput.IsValid() && GameScenePartitioner.Instance != null)
+			{
+				GameScenePartitioner.Instance.Free(ref this.partitionerEntryInput);
+				this.partitionerEntryInput = HandleVector<int>.InvalidHandle;
+			}
+			if (this.partitionerEntryOutput.IsValid() && GameScenePartitioner.Instance != null)
+			{
+				GameScenePartitioner.Instance.Free(ref this.partitionerEntryOutput);
+				this.partitionerEntryOutput = HandleVector<int>.InvalidHandle;
+			}
+		}
+
 		protected virtual void CacheConduitCells()
 		{
 			if (RequiresHighPressureInput && consumer != null)
@@ -198,7 +226,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				outputType = dispenser.conduitType;
 			}
 		}
-		public void Sim200ms(float dt) => CheckRequirements();
 
 		bool HasPressureConduitAt(int cell, ConduitType type)
 		{
@@ -222,14 +249,24 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			switch (type)
 			{
 				case ConduitType.Gas:
-					return isInput ? StatusItemsDatabase.HPA_NeedGasIn : StatusItemsDatabase.HPA_NeedGasOut;
+					return ProhibitHighPressure ? StatusItemsDatabase.HPA_ProhibitGas : isInput ? StatusItemsDatabase.HPA_NeedGasIn : StatusItemsDatabase.HPA_NeedGasOut;
 				case ConduitType.Liquid:
-					return isInput ? StatusItemsDatabase.HPA_NeedLiquidIn : StatusItemsDatabase.HPA_NeedLiquidOut;
+					return ProhibitHighPressure ? StatusItemsDatabase.HPA_ProhibitLiquid : isInput ? StatusItemsDatabase.HPA_NeedLiquidIn : StatusItemsDatabase.HPA_NeedLiquidOut;
 				case ConduitType.Solid:
-					return isInput ? StatusItemsDatabase.HPA_NeedSolidIn : StatusItemsDatabase.HPA_NeedSolidOut;
+					return ProhibitHighPressure ? StatusItemsDatabase.HPA_ProhibitSolid : isInput ? StatusItemsDatabase.HPA_NeedSolidIn : StatusItemsDatabase.HPA_NeedSolidOut;
 				default:
 					return null;
 			}
+		}
+		protected ScenePartitionerLayer GetConduitLayer(ConduitType type)
+		{
+			return type switch
+			{
+				ConduitType.Gas => GameScenePartitioner.Instance.gasConduitsLayer,
+				ConduitType.Liquid => GameScenePartitioner.Instance.liquidChangedLayer,
+				ConduitType.Solid => GameScenePartitioner.Instance.solidConduitsLayer,
+				_ => throw new NotSupportedException($"Unsupported conduit type: {type}"),
+			};
 		}
 
 		protected virtual bool ConduitConditionSatisfied(bool isInput)
@@ -240,7 +277,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				return DispenserDisabled() || DispenserConnected() && HasPressureConduitAt(dispenserCell, outputType);
 		}
 
-		public void CheckRequirements(bool force = false)
+		public void UpdateRequirements(bool force = false)
 		{
 			if (!RequiresHighPressureInput && !RequiresHighPressureOutput)
 				return;
@@ -248,6 +285,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			if (RequiresHighPressureInput && consumerCell > 0)
 			{
 				bool hasHighPressureInput = ConduitConditionSatisfied(true);
+				if(ProhibitHighPressure)
+					hasHighPressureInput = !hasHighPressureInput;
 
 				if (previouslyConnectedHPInput != hasHighPressureInput || force)
 				{
@@ -260,6 +299,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			if (RequiresHighPressureOutput && dispenserCell > 0)
 			{
 				bool hasHighPressureOutput = ConduitConditionSatisfied(false);
+
+				if (ProhibitHighPressure)
+					hasHighPressureOutput = !hasHighPressureOutput;
+
 				if (previouslyConnectedHPOutput != hasHighPressureOutput || force)
 				{
 					previouslyConnectedHPOutput = hasHighPressureOutput;
