@@ -415,6 +415,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 					placement.buffer = CustomCluster.StarterPlanet.placement.buffer;
 
 					placement.startWorld = true;
+					placement.locationType = LocationType.Startworld;
 
 					layout.worldPlacements.Add(placement);
 					if (log)
