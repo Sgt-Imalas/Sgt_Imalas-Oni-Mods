@@ -15,12 +15,12 @@ msgstr ""
 #. RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_BIOCHEMISTRY
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_BIOCHEMISTRY"
 msgid "Chemical Processing - Biochemistry"
-msgstr "化学工艺 - 生物化学"
+msgstr "化学工艺-生物化学"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_IO
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_IO"
 msgid "Chemical Processing - Industrial Overhaul"
-msgstr "化学工艺：工业革命"
+msgstr "化学工艺-工业革命"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.CUSTOMGENERATORS
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.CUSTOMGENERATORS"
@@ -30,22 +30,22 @@ msgstr "改进型发电机"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.CUSTOMRESERVOIRS
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.CUSTOMRESERVOIRS"
 msgid "Custom Reservoirs"
-msgstr "改进型储液罐"
+msgstr "改进型储液库"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.DUPESENGINEERING
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.DUPESENGINEERING"
 msgid "Dupes Engineering"
-msgstr "负智人的工程学"
+msgstr "复制人的新工程"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.DUPESLOGISTICS
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.DUPESLOGISTICS"
 msgid "Dupes Logistics"
-msgstr "负智人的物流学"
+msgstr "复制人的新物流"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.DUPESMACHINERY
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.DUPESMACHINERY"
 msgid "Dupes Machinery"
-msgstr "负智人的工业学"
+msgstr "复制人的新机械"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.DUPESREFRIGERATION
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.DUPESREFRIGERATION"
@@ -129,9 +129,7 @@ msgstr "无高压气体输入"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.HPA_NEEDGASIN.TOOLTIP
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.HPA_NEEDGASIN.TOOLTIP"
-msgid ""
-"This building's <style=\"KKeyword\">High Pressure Gas Intake</style> does not have a <link=\"HIGHPRESSUREGASCONDUIT\">High Pressure "
-"Gas Conduit</link> connected"
+msgid "This building's <style=\"KKeyword\">High Pressure Gas Intake</style> does not have a <link=\"HIGHPRESSUREGASCONDUIT\">High Pressure Gas Conduit</link> connected"
 msgstr "该建筑的<style=\"KKeyword\">高压气体入口</style>没有连接<link=\"HIGHPRESSUREGASCONDUIT\">高压气体管道</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.HPA_NEEDGASOUT.NAME
@@ -141,9 +139,7 @@ msgstr "无高压气体输出"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.HPA_NEEDGASOUT.TOOLTIP
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.HPA_NEEDGASOUT.TOOLTIP"
-msgid ""
-"This building's <style=\"KKeyword\">High Pressure Gas Output</style> does not have a <link=\"HIGHPRESSUREGASCONDUIT\">High Pressure "
-"Gas Conduit</link> connected"
+msgid "This building's <style=\"KKeyword\">High Pressure Gas Output</style> does not have a <link=\"HIGHPRESSUREGASCONDUIT\">High Pressure Gas Conduit</link> connected"
 msgstr "该建筑的<style=\"KKeyword\">高压气体出口</style>没有连接<link=\"HIGHPRESSUREGASCONDIT>高压气体管道</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.HPA_NEEDLIQUIDIN.NAME
@@ -153,9 +149,7 @@ msgstr "无高压液体输入"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.HPA_NEEDLIQUIDIN.TOOLTIP
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.HPA_NEEDLIQUIDIN.TOOLTIP"
-msgid ""
-"This building's <style=\"KKeyword\">High Pressure Liquid Intake</style> does not have a <link=\"HIGHPRESSURELIQUIDCONDUIT\">High "
-"Pressure Liquid Pipe</link> connected"
+msgid "This building's <style=\"KKeyword\">High Pressure Liquid Intake</style> does not have a <link=\"HIGHPRESSURELIQUIDCONDUIT\">High Pressure Liquid Pipe</link> connected"
 msgstr "该建筑的<style=\"KKeyword\">高压液体入口</style>没有连接<link=\"HIGHPRESSURELIQUIDCONDUIT\">高压液体管道</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.HPA_NEEDLIQUIDOUT.NAME
@@ -165,9 +159,7 @@ msgstr "无高压液体输出"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.HPA_NEEDLIQUIDOUT.TOOLTIP
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.HPA_NEEDLIQUIDOUT.TOOLTIP"
-msgid ""
-"This building's <style=\"KKeyword\">High Pressure Liquid Output</style> does not have a <link=\"HIGHPRESSURELIQUIDCONDUIT\">High "
-"Pressure Liquid Pipe</link> connected"
+msgid "This building's <style=\"KKeyword\">High Pressure Liquid Output</style> does not have a <link=\"HIGHPRESSURELIQUIDCONDUIT\">High Pressure Liquid Pipe</link> connected"
 msgstr "该建筑的<style=\"KKeyword\">高压液体出口</style>没有连接<link=\"HIGHPRESSURELIQUIDCONDUIT\">高压液体管道</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.HPA_NEEDSOLIDIN.NAME
@@ -177,9 +169,7 @@ msgstr "无重型轨道输入口"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.HPA_NEEDSOLIDIN.TOOLTIP
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.HPA_NEEDSOLIDIN.TOOLTIP"
-msgid ""
-"This building's <style=\"KKeyword\">Heavy-Duty Solid Intake</style> does not have a <link=\"HPASOLIDRAIL\">Heavy-Duty Rail</link> "
-"connected"
+msgid "This building's <style=\"KKeyword\">Heavy-Duty Solid Intake</style> does not have a <link=\"HPASOLIDRAIL\">Heavy-Duty Rail</link> connected"
 msgstr "该建筑的<style=\"KKeyword\">重型固体入口</style>没有连接<link=\"HPASOLIDRAIL\">重型运输轨道</link>。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.HPA_NEEDSOLIDOUT.NAME
@@ -189,9 +179,7 @@ msgstr "无重型轨道输出口"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.HPA_NEEDSOLIDOUT.TOOLTIP
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.HPA_NEEDSOLIDOUT.TOOLTIP"
-msgid ""
-"This building's <style=\"KKeyword\">Heavy-Duty Solid Output</style> does not have a <link=\"HPASOLIDRAIL\">Heavy-Duty Rail</link> "
-"connected"
+msgid "This building's <style=\"KKeyword\">Heavy-Duty Solid Output</style> does not have a <link=\"HPASOLIDRAIL\">Heavy-Duty Rail</link> connected"
 msgstr "该建筑的<style=\"KKeyword\">重型固体出口</style>没有连接<link=\"HPASOLIDRAIL\">重型运输轨道</link>。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.HPA_SOLIDCONDUITITEMDROPPED.NAME
@@ -217,9 +205,7 @@ msgstr "无物流轨道输入"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.LOGISTIC_NEEDSOLIDIN.TOOLTIP
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.LOGISTIC_NEEDSOLIDIN.TOOLTIP"
-msgid ""
-"This building's <style=\"KKeyword\">Logistic Solid Intake</style> does not have a <link=\"LOGISTICRAIL\">Logistic Rail</link> "
-"connected"
+msgid "This building's <style=\"KKeyword\">Logistic Solid Intake</style> does not have a <link=\"LOGISTICRAIL\">Logistic Rail</link> connected"
 msgstr "该建筑的<style=\"KKeyword\">物流轨道输入口</style>没有连接到<link=\"LOGISTICRAIL\">物流轨道</link>。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.LOGISTIC_NEEDSOLIDOUT.NAME
@@ -229,9 +215,7 @@ msgstr "无物流轨道输出"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.LOGISTIC_NEEDSOLIDOUT.TOOLTIP
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.LOGISTIC_NEEDSOLIDOUT.TOOLTIP"
-msgid ""
-"This building's <style=\"KKeyword\">Logistic Solid Output</style> does not have a <link=\"LOGISTICRAIL\">Logistic Rail</link> "
-"connected"
+msgid "This building's <style=\"KKeyword\">Logistic Solid Output</style> does not have a <link=\"LOGISTICRAIL\">Logistic Rail</link> connected"
 msgstr "该建筑的<style=\"KKeyword\">物流轨道出口</style>没有连接<link=\"LOGISTICRAIL\">物流轨道</link>。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.FACADES_STANDALONE.EXTERIORWALL.BRICKWALL.DESC
@@ -267,12 +251,12 @@ msgstr "<link=\"WOODENDRYWALLB\">木干板墙</link>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.FACADES_STANDALONE.PETROLEUMDISTILLERY.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.FACADES_STANDALONE.PETROLEUMDISTILLERY.DESC"
 msgid "A distillation plant that uses induction to produce Petroleum from Crude Oil"
-msgstr "一种利用感应技术从原油中提炼石油的精炼厂"
+msgstr "一种采用感应加热技术，将原油精炼为石油的蒸馏厂。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.FACADES_STANDALONE.PETROLEUMDISTILLERY.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.FACADES_STANDALONE.PETROLEUMDISTILLERY.NAME"
 msgid "<link=\"PETROLEUMDISTILLERY\">Petroleum Distillery</link>"
-msgstr "<link=\"PETROLEUMDISTILLERY\">石油精炼器</link>"
+msgstr "<link=\"PETROLEUMDISTILLERY\">石油蒸馏器</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.FACADES_STANDALONE.WOODENLADDER.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.FACADES_STANDALONE.WOODENLADDER.DESC"
@@ -287,7 +271,7 @@ msgstr "木梯"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FACILITYDOOR.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FACILITYDOOR.DESC"
 msgid "A light-weight door with intricate designs that suggests it bellongs to a industrial facility."
-msgstr "一扇有着工业风装饰轻型门，让人感觉它属于某个工业场所。"
+msgstr "一扇工业风装饰轻型门，让人感觉它属于某个工业场所。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FACILITYDOOR.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FACILITYDOOR.EFFECT"
@@ -335,10 +319,8 @@ msgstr "<link=\"AIOFACILITYDOOR\">设施门</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FRIDGELARGE.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FRIDGELARGE.DESC"
-msgid ""
-"A quality fridge commonly seen in the old world days. Still, this vintage building does the same job as a modern variant, which is "
-"the preservation of food."
-msgstr "这是一种在过去时代常见的优质冰箱。不过，这座老式建筑的功能与现代冰箱并无不同，它同样用于保存食物。"
+msgid "A quality fridge commonly seen in the old world days. Still, this vintage building does the same job as a modern variant, which is the preservation of food."
+msgstr "这是一种在旧时代常见的优质冰箱。不过，这座复古建筑的功能与现代冰箱并无不同，它同样用于保存食物。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FRIDGELARGE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FRIDGELARGE.EFFECT"
@@ -348,7 +330,7 @@ msgstr "这款冰箱采用密封式储存方式，能将食物保持在冷藏状
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FRIDGELARGE.FACADES.FRIDGELARGE_BLUE.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FRIDGELARGE.FACADES.FRIDGELARGE_BLUE.DESC"
 msgid "A blue variant of the Household Fridge"
-msgstr "一款蓝色调的家用冰箱。"
+msgstr "一台蓝色款式的家用冰箱。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FRIDGELARGE.FACADES.FRIDGELARGE_BLUE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FRIDGELARGE.FACADES.FRIDGELARGE_BLUE.NAME"
@@ -358,7 +340,7 @@ msgstr "<link=\"FRIDGELARGEBLUE\">家用冰箱(蓝色款)</link>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FRIDGELARGE.FACADES.FRIDGELARGE_RED.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FRIDGELARGE.FACADES.FRIDGELARGE_RED.DESC"
 msgid "A red variant of the Household Fridge"
-msgstr "一款红色款式的家用冰箱。"
+msgstr "一台红色款式的家用冰箱。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FRIDGELARGE.FACADES.FRIDGELARGE_RED.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FRIDGELARGE.FACADES.FRIDGELARGE_RED.NAME"
@@ -368,7 +350,7 @@ msgstr "<link=\"FRIDGELARGERED\">家用冰箱(红色款)</link>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FRIDGELARGE.FACADES.FRIDGELARGE_STICKERS.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FRIDGELARGE.FACADES.FRIDGELARGE_STICKERS.DESC"
 msgid "A variant of the Household Fridge that has been plastered with a large variety of stickers"
-msgstr "一种带有大量贴纸装饰的家用冰箱的变体款式。"
+msgstr "一台贴满了各种各样的贴纸的家用冰箱。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FRIDGELARGE.FACADES.FRIDGELARGE_STICKERS.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FRIDGELARGE.FACADES.FRIDGELARGE_STICKERS.NAME"
@@ -378,7 +360,7 @@ msgstr "<link=\"FRIDGELARGESTICKERS\">贴花家用冰箱</link>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FRIDGELARGE.FACADES.FRIDGELARGE_YELLOW.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FRIDGELARGE.FACADES.FRIDGELARGE_YELLOW.DESC"
 msgid "A yellow variant of the Household Fridge"
-msgstr "一款黄色调的家用冰箱。"
+msgstr "一台黄色款式的家用冰箱。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FRIDGELARGE.FACADES.FRIDGELARGE_YELLOW.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_FRIDGELARGE.FACADES.FRIDGELARGE_YELLOW.NAME"
@@ -393,7 +375,7 @@ msgstr "<link=\"AIOFRIDGELARGE\">家用冰箱</link>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_MOSAICTILE.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_MOSAICTILE.DESC"
 msgid "A fine tile made from glazed stones."
-msgstr "由上釉石料制成的精美瓷砖。"
+msgstr "由上釉石料制成的精美砖块。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_MOSAICTILE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_MOSAICTILE.EFFECT"
@@ -402,9 +384,9 @@ msgid ""
 "\n"
 "Significantly increases Duplicant runspeed."
 msgstr ""
-"作为地板和墙壁来建造房间。\n"
+"用来建造房间的墙体和地板。\n"
 "\n"
-"显著提高复制人行走速度。"
+"显著提高复制人的行走速度。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_MOSAICTILE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_MOSAICTILE.NAME"
@@ -413,22 +395,13 @@ msgstr "<link=\"AIOMOSAICTILE\">马赛克砖</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.ALGAEVAT.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.ALGAEVAT.DESC"
-msgid ""
-"An advanced biological vat that grows algae. Due to the controlled atmospheric condition, this algae formation produces oxygen more "
-"efficiently than the standard terrarium. This unit also uses advanced filter to extract Carbon Dioxide from its surroundings, "
-"albeit its not necessery for it to function. "
-msgstr ""
-"一种先进的藻类培育缸。由于具备可控的环境条件，这些藻类的生长方式比普通的饲养箱更能高效地产生氧气。该装置还配备了先进的过滤器，能够从"
-"周围环境中提取二氧化碳，不过这并非其正常运行所必需的条件。"
+msgid "An advanced biological vat that grows algae. Due to the controlled atmospheric condition, this algae formation produces oxygen more efficiently than the standard terrarium. This unit also uses advanced filter to extract Carbon Dioxide from its surroundings, albeit its not necessery for it to function. "
+msgstr "一种先进的藻类培育缸。由于具备可控的环境条件，这些藻类的生长方式比普通的藻类箱更能高效地产生氧气。该装置还配备了先进的过滤器，能够从周围环境中提取二氧化碳，不过这并非其正常运行所必需的条件。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.ALGAEVAT.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.ALGAEVAT.EFFECT"
-msgid ""
-"Algae patch needs <link=\"WATER\">Water</link> to grow, producing a fair amount of clean <link=\"OXYGEN\">Oxygen</link> as result "
-"of its biological functions. Excess water is expelled in the form of <link=\"DIRTYWATER\">Polluted Water</link>."
-msgstr ""
-"藻类群落需要<link=\"WATER\">水</link>才能生长，通过其生物作用会产生大量洁净<link=\"OXYGEN\">氧气</link>。多余的水分则以"
-"<link=\"DIRTYWATER\">污染水</link>的形式排出。"
+msgid "Algae patch needs <link=\"WATER\">Water</link> to grow, producing a fair amount of clean <link=\"OXYGEN\">Oxygen</link> as result of its biological functions. Excess water is expelled in the form of <link=\"DIRTYWATER\">Polluted Water</link>."
+msgstr "藻类群落需要<link=\"WATER\">水</link>才能生长，通过其生物作用会产生大量洁净<link=\"OXYGEN\">氧气</link>。多余的水分则以<link=\"DIRTYWATER\">污染水</link>的形式排出。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.ALGAEVAT.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.ALGAEVAT.NAME"
@@ -438,15 +411,13 @@ msgstr "<link=\"ALGAEVAT\">藻类培育缸</link>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_ALGAEGROWINGBASIN.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_ALGAEGROWINGBASIN.DESC"
 msgid "A wide, automated biological tank design to grow organic masses of algae."
-msgstr "一种宽大的、自动化的生物反应器，设计用于培育大量的藻类生物体。"
+msgstr "一种宽大的、自动化的生物反应器，用于培育大量的藻类。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_ALGAEGROWINGBASIN.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_ALGAEGROWINGBASIN.EFFECT"
 msgid ""
-"Grows <link=\"ALGAE\">Algae</link> using a constant supply of  <link=\"LIQUIDVEGEOIL\">Vegetable Oil</link> that serves as serves "
-"as nourishment for the photosynthetic organisms within.\n"
-"Requires <link=\"LIGHT\">Light</link> and a strict control of <link=\"HEAT\">Temperature</link> as to provide proper environment "
-"for the production."
+"Grows <link=\"ALGAE\">Algae</link> using a constant supply of  <link=\"LIQUIDVEGEOIL\">Vegetable Oil</link> that serves as serves as nourishment for the photosynthetic organisms within.\n"
+"Requires <link=\"LIGHT\">Light</link> and a strict control of <link=\"HEAT\">Temperature</link> as to provide proper environment for the production."
 msgstr ""
 "通过持续供应的<link=\"LIQUIDVEGEOIL\">植物油</link>培育<link=\"ALGAE\">藻类</link>，该油料作为内部光合作用生物的营养源。\n"
 "需提供<link=\"LIGHT\">光照</link>并严格调控<link=\"HEAT\">温度</link>，以确保最佳生产环境。"
@@ -499,17 +470,12 @@ msgstr "<link=\"BIOCHEMISTRYBIODIESELGENERATOR\">生物柴油发电机</link>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_BIODIESELREFINERY.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_BIODIESELREFINERY.DESC"
 msgid "A refinery capable of transesterification of organic oils into a mix of mono-alkyl esters of long chain fatty acids."
-msgstr "一座能够将植物油进行酯交换反应，转化为长链脂肪酸的单烷基酯混合物的炼油厂。"
+msgstr "一座能够将有机油进行酯交换反应，转化为长链脂肪酸的单烷基酯混合物的精炼装置。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_BIODIESELREFINERY.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_BIODIESELREFINERY.EFFECT"
-msgid ""
-"Transesterify <link=\"LIQUIDBIODIESEL\">Renewable Diesel</link> from <link=\"CHEMICALPROCESSINGBIOOILCOMPOSITION\">Organic Oils</"
-"link> and <link=\"ETHANOL\">Ethanol</link>."
-msgstr ""
-"将<link=\"LIQUIDBIODIESEL\">可再生柴油</link>从<link=\"CHEMICALPROCESSINGBIOOILCOMPOSITION\">有机油</link>和<link=‘ETHANOL’>乙醇</"
-"link>。将<link=\"CHEMICALPROCESSINGBIOOILCOMPOSITION\">有机油</link>和<link=‘ETHANOL’>乙醇</link>转化为<link=\"LIQUIDBIODIESEL\">可"
-"再生柴油</link>。"
+msgid "Transesterify <link=\"LIQUIDBIODIESEL\">Renewable Diesel</link> from <link=\"CHEMICALPROCESSINGBIOOILCOMPOSITION\">Organic Oils</link> and <link=\"ETHANOL\">Ethanol</link>."
+msgstr "将<link=\"LIQUIDBIODIESEL\">可再生柴油</link>从<link=\"CHEMICALPROCESSINGBIOOILCOMPOSITION\">有机油</link>和<link=‘ETHANOL’>乙醇</link>。将<link=\"CHEMICALPROCESSINGBIOOILCOMPOSITION\">有机油</link>和<link=‘ETHANOL’>乙醇</link>转化为<link=\"LIQUIDBIODIESEL\">可再生柴油</link>。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_BIODIESELREFINERY.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_BIODIESELREFINERY.NAME"
@@ -518,20 +484,16 @@ msgstr "<link=\"BIOCHEMISTRYBIODIESELREFINERY\">可再生燃油精炼器</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_BIOPLASTICPRINTER.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_BIOPLASTICPRINTER.DESC"
-msgid ""
-"A device that uses organic oil and bacterial enzymes to print small sheets of lipid derived biopolymers which are compressed in to "
-"a solid block."
+msgid "A device that uses organic oil and bacterial enzymes to print small sheets of lipid derived biopolymers which are compressed in to a solid block."
 msgstr "一种利用有机油和细菌酶来打印出由脂质衍生的生物聚合物薄片的装置，这些薄片会被压缩成一个固体块。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_BIOPLASTICPRINTER.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_BIOPLASTICPRINTER.EFFECT"
 msgid ""
-"Synthesizes <link=\"BIOPLASTIC\">Bioplastic</link> from <link=\"CHEMICALPROCESSINGBIOOILCOMPOSITION\">Organic Oils</link> and "
-"<link=\"CARBONDIOXIDE\">Carbon Dioxide</link>\n"
+"Synthesizes <link=\"BIOPLASTIC\">Bioplastic</link> from <link=\"CHEMICALPROCESSINGBIOOILCOMPOSITION\">Organic Oils</link> and <link=\"CARBONDIOXIDE\">Carbon Dioxide</link>\n"
 "The enzymes requires a microbial medium in the form of <link=\"MUSHBAR\">Mush Bar</link>."
 msgstr ""
-"利用<link=\"CHEMICALPROCESSINGBIOOILCOMPOSITION\">有机油</link>与<link=\"CARBONDIOXIDE\">二氧化碳</link>合成<link=\"BIOPLASTIC\">生"
-"物塑料</link>。\n"
+"利用<link=\"CHEMICALPROCESSINGBIOOILCOMPOSITION\">有机油</link>与<link=\"CARBONDIOXIDE\">二氧化碳</link>合成<link=\"BIOPLASTIC\">生物塑料</link>。\n"
 "该过程所需的酶需以<link=\"MUSHBAR\">软泥糕</link>形式提供微生物培养基。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_BIOPLASTICPRINTER.NAME
@@ -541,24 +503,18 @@ msgstr "<link=\"BIOCHEMICYBIOPLASTICPRINTER\">生物塑料打印机</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_EXPELLERPRESS.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_EXPELLERPRESS.DESC"
-msgid ""
-"A mechanical device built to extract oil from raw materials. The raw materials are squeezed under high pressure through a caged "
-"barrel-like cavity."
+msgid "A mechanical device built to extract oil from raw materials. The raw materials are squeezed under high pressure through a caged barrel-like cavity."
 msgstr "一种用于从原材料中提取油的机械装置。这些原材料在高压作用下通过一个有隔板的类似桶状的腔体被挤压出来。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_EXPELLERPRESS.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_EXPELLERPRESS.EFFECT"
-msgid ""
-"Extract <link=\"LIQUIDVEGEOIL\">Vegetable Oil</link> from raw food ingredients. The amount of oil, and the solid waste in the form "
-"of <link=\"SOLIDBIOMASS\">Compressed Biomass</link> depends of the ingredient choosen."
-msgstr ""
-"从原始食材中提取<link=\"LIQUIDVEGEOIL\">植物油</link>。所提取的油量以及以<link=\"SOLIDBIOMASS\">压缩生物质</link>形式存在的固体废弃"
-"物的量取决于所选择的食材。"
+msgid "Extract <link=\"LIQUIDVEGEOIL\">Vegetable Oil</link> from raw food ingredients. The amount of oil, and the solid waste in the form of <link=\"SOLIDBIOMASS\">Compressed Biomass</link> depends of the ingredient choosen."
+msgstr "从原始食材中提取<link=\"LIQUIDVEGEOIL\">植物油</link>。所提取的油量以及以<link=\"SOLIDBIOMASS\">压缩生物质</link>形式存在的固体废弃物的量取决于所选择的食材。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_EXPELLERPRESS.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_EXPELLERPRESS.NAME"
 msgid "<link=\"BIOCHEMISTRYEXPELLERPRESS\">Expeller Press</link>"
-msgstr "<link=\"BIOCHEMISTRYEXPELLERPRESS\">离心式压缩机</link>"
+msgstr "<link=\"BIOCHEMISTRYEXPELLERPRESS\">榨油机</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CABINETFROZEN.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CABINETFROZEN.DESC"
@@ -575,11 +531,11 @@ msgid ""
 "Cannot store any liquefiable solids.\n"
 "Takes items from conveyor rails based on its filters."
 msgstr ""
-"存储您所选的<link=\"ELEMENTSSOLID\">固态材料</link>。\n"
+"存储所选的<link=\"ELEMENTSSOLID\">固态材料</link>。\n"
 "\n"
 "需要消耗<link=\"POWER\">电力</link>来将内部温度降至 24 摄氏度。\n"
 "\n"
-"不能存储任何可液化的固体物质。\n"
+"不能存储任何可液化物。\n"
 "根据其过滤条件从传送轨道上接收物品。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CABINETFROZEN.NAME
@@ -632,8 +588,7 @@ msgstr "适用于广泛的工业和化学领域应用。"
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ADVANCEDKILN.EFFECT"
 msgid ""
 "An advanced insulated electrical kiln in which the heat is applied by induction heating of metal.\n"
-"The advantage of the induction kiln is a clean, energy-efficient and well-controllable heating process compared to most other means "
-"of fuel heating."
+"The advantage of the induction kiln is a clean, energy-efficient and well-controllable heating process compared to most other means of fuel heating."
 msgstr ""
 "一种先进的隔热式电窑，其热量通过金属的感应加热方式传递。\n"
 "感应式窑炉的一个优点是，与大多数其他燃料加热方式相比，其加热过程更加清洁、节能且可控性更强。"
@@ -646,7 +601,7 @@ msgstr "<link=\"CHEMICALADVANCEDKILN\">先进窑炉</link>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ADVANCEDMETALREFINERY.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ADVANCEDMETALREFINERY.DESC"
 msgid "An improved refinery capable of bulk smelting process, as well exclusive metal production."
-msgstr "一座经过改进的炼油厂，能够采用大规模熔炼工艺，并具备独家的金属生产能力。"
+msgstr "一座经过改进的精炼器，能够采用大规模熔炼工艺，并具备独家的金属生产能力。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ADVANCEDMETALREFINERY.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ADVANCEDMETALREFINERY.EFFECT"
@@ -674,14 +629,12 @@ msgstr "一种先进的催化裂解炉炉，可在高温条件下实现氨合成
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AMMONIABREAKER.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AMMONIABREAKER.EFFECT"
 msgid ""
-"Break down <link=\"AMMONIAGAS\">Ammonia</link> into <link=\"HYDROGEN\">Hydrogen</link> and <link=\"NITROGENGAS\">Nitrogen</link> "
-"using <link=\"IRON\">Iron</link> as catalyst. \n"
+"Break down <link=\"AMMONIAGAS\">Ammonia</link> into <link=\"HYDROGEN\">Hydrogen</link> and <link=\"NITROGENGAS\">Nitrogen</link> using <link=\"IRON\">Iron</link> as catalyst. \n"
 "The cracking process exudes a lot of heat.\n"
 "\n"
 "IMPORTANT: The building require all pipes ports to be connected with their respective pipes in order for it to operate."
 msgstr ""
-"将<link=\"AMMONIAGAS\">氨气</link>用<link=\"IRON\">铁</link>作催化剂分解为<link=\"HYDROGEN\">氢气</link>和<link=\"NITROGENGAS\">氮气"
-"</link>。\n"
+"将<link=\"AMMONIAGAS\">氨气</link>用<link=\"IRON\">铁</link>作催化剂分解为<link=\"HYDROGEN\">氢气</link>和<link=\"NITROGENGAS\">氮气</link>。\n"
 "该裂解过程会释放出大量的热量。\n"
 "重要提示：该建筑物要求所有管道接口都要与相应的管道相连接，这样它才能正常运行。"
 
@@ -692,16 +645,13 @@ msgstr "<link=\"CHEMICALAMMONIABREAKER\">氨气裂解炉</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AMMONIACOMPRESSOR.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AMMONIACOMPRESSOR.DESC"
-msgid ""
-"An industrial grade rotatory compressor unit that criticaly increase the pressure of a gas by reducing its volume, while cooling it "
-"down until liquid state is reached."
-msgstr "一种工业级别的旋转式压缩机装置，它通过减小气体体积来提高其压力，同时将其冷却至液态。"
+msgid "An industrial grade rotatory compressor unit that criticaly increase the pressure of a gas by reducing its volume, while cooling it down until liquid state is reached."
+msgstr "一种工业级旋转式压缩机组，通过减少气体体积大幅提升其压力，同时冷却至液态。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AMMONIACOMPRESSOR.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AMMONIACOMPRESSOR.EFFECT"
-msgid ""
-"Compresses Ammonia gas and cool it down to liquid Ammonia. This device is also capable of storing liquid with complete insulation."
-msgstr "将氨气压缩并冷却成液态氨。该装置还具备对液体进行完全保温储存的功能。"
+msgid "Compresses Ammonia gas and cool it down to liquid Ammonia. This device is also capable of storing liquid with complete insulation."
+msgstr "压缩氨气并冷却成液态氨。该装置还具备对液体进行完全隔热储存的功能。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AMMONIACOMPRESSOR.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AMMONIACOMPRESSOR.NAME"
@@ -710,17 +660,13 @@ msgstr "<link=\"CHEMICALAMMONIACOMPRESSOR\">氨气压缩机</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_BALLCRUSHERMILL.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_BALLCRUSHERMILL.DESC"
-msgid ""
-"A large sized industrial mill that crushes raw ores using steel balls and special mixture of acids. Capable to process much more "
-"than the standard mill, as well more efficient in the extraction of valuable minerals from the raw more sludge."
-msgstr ""
-"一座大型的工业磨矿器，采用钢球和特殊的酸性混合物来破碎原始矿石。其处理能力远超标准磨矿厂，而且在从原始矿石中提取有价值的矿物质方面效"
-"率更高，能够更有效地处理更多的矿泥。"
+msgid "A large sized industrial mill that crushes raw ores using steel balls and special mixture of acids. Capable to process much more than the standard mill, as well more efficient in the extraction of valuable minerals from the raw more sludge."
+msgstr "一座大型的工业磨矿器，采用钢球和特殊的酸性混合物来破碎原始矿石。其处理能力远超标准磨矿厂，而且在从原始矿石中提取有价值的矿物质方面效率更高，能够更有效地处理更多的矿泥。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_BALLCRUSHERMILL.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_BALLCRUSHERMILL.EFFECT"
 msgid "Crush down <link=\"RAWMINERAL\">Raw Minerals</link> in to useful materials and industrial ingredients."
-msgstr "将原料矿物粉碎成有用的材料和工业原料。"
+msgstr "将<link=\"RAWMINERAL\">矿物原料</link>粉碎成有用的材料和工业原料。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_BALLCRUSHERMILL.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_BALLCRUSHERMILL.NAME"
@@ -729,19 +675,13 @@ msgstr "<link=\"CHEMICALBLCRUSHERMILL\">球磨机 (化学洗涤型)</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CARBONDIOXIDECOMPRESSOR.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CARBONDIOXIDECOMPRESSOR.DESC"
-msgid ""
-"An industrial grade rotatory compressor unit that criticaly increase the pressure of a gas by reducing its volume, while cooling it "
-"down until liquid state is reached."
-msgstr "一种工业级旋转式压缩机组，通过减少气体体积来提高气体压力，同时将其冷却至液态。"
+msgid "An industrial grade rotatory compressor unit that criticaly increase the pressure of a gas by reducing its volume, while cooling it down until liquid state is reached."
+msgstr "一种工业级旋转式压缩机组，通过减少气体体积大幅提升其压力，同时冷却至液态。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CARBONDIOXIDECOMPRESSOR.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CARBONDIOXIDECOMPRESSOR.EFFECT"
-msgid ""
-"Compresses <link=\"CARBONDIOXIDE\">Carbon Dioxide</link> gas and cool it down to<link=\"LIQUIDCARBONDIOXIDE\">Liquid Carbon "
-"Dioxide</link>. This device is also capable of storing liquid with complete insulation."
-msgstr ""
-"压缩<link=\"CARBONDIOXIDE\">二氧化碳</link>气体并冷却为<link=\"LIQUIDCARBONDIOXIDE\">液态二氧化碳</link>。该设备还具备对液体进行完全"
-"隔热存储的功能。"
+msgid "Compresses <link=\"CARBONDIOXIDE\">Carbon Dioxide</link> gas and cool it down to<link=\"LIQUIDCARBONDIOXIDE\">Liquid Carbon Dioxide</link>. This device is also capable of storing liquid with complete insulation."
+msgstr "压缩<link=\"CARBONDIOXIDE\">二氧化碳</link>气体并冷却为<link=\"LIQUIDCARBONDIOXIDE\">液态二氧化碳</link>。该设备还具备对液体进行完全隔热存储的功能。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CARBONDIOXIDECOMPRESSOR.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CARBONDIOXIDECOMPRESSOR.NAME"
@@ -767,22 +707,16 @@ msgstr "<link=\"CHEMICALCO2PUMP\">二氧化碳过滤器</link>"
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CO2RECYCLER.BASEGAME_RECIPE"
 msgid ""
 "Sabatier Reaction: \n"
-" <link=\"LIQUIDCARBONDIOXIDE\">Liquid Carbon Dioxide</link>, <link=\"HYDROGEN\">Hydrogen</link> and <link=\"IRON\">Iron</link> as "
-"catalyst. The Sabatier Reaction produce <link=\"WATER\">Water</link>, <link=\"METHANE\">Natural Gas</link> and <link=\"RUST\">Rust</"
-"link> as waste product.\n"
+" <link=\"LIQUIDCARBONDIOXIDE\">Liquid Carbon Dioxide</link>, <link=\"HYDROGEN\">Hydrogen</link> and <link=\"IRON\">Iron</link> as catalyst. The Sabatier Reaction produce <link=\"WATER\">Water</link>, <link=\"METHANE\">Natural Gas</link> and <link=\"RUST\">Rust</link> as waste product.\n"
 "\n"
 "Bosch Reaction: \n"
-"<link=\"CARBONDIOXIDE\">Carbon Dioxide</link>, <link=\"HYDROGEN\">Hydrogen</link> and <link=\"IRON\">Iron</link> as catalyst. The "
-"Bosch Reaction produce <link=\"STEAM\">Steam</link>, <link=\"FULLERENE\">Fullerene</link> and <link=\"RUST\">Rust</link> as waste "
-"product."
+"<link=\"CARBONDIOXIDE\">Carbon Dioxide</link>, <link=\"HYDROGEN\">Hydrogen</link> and <link=\"IRON\">Iron</link> as catalyst. The Bosch Reaction produce <link=\"STEAM\">Steam</link>, <link=\"FULLERENE\">Fullerene</link> and <link=\"RUST\">Rust</link> as waste product."
 msgstr ""
 "萨巴捷反应 (Sabatier Reaction)：\n"
-"以<link=\"LIQUIDCARBONDIOXIDE\">液态二氧化碳</link>、<link=\"HYDROGEN\">氢气</link>为原料，<link=\"IRON\">铁</link>为催化剂。反应生"
-"成<link=\"WATER\">水</link>和<link=\"METHANE\">天然气</link>，并产生<link=\"RUST\">铁锈</link>作为废弃物。\n"
+"以<link=\"LIQUIDCARBONDIOXIDE\">液态二氧化碳</link>、<link=\"HYDROGEN\">氢气</link>为原料，<link=\"IRON\">铁</link>为催化剂。反应生成<link=\"WATER\">水</link>和<link=\"METHANE\">天然气</link>，并产生<link=\"RUST\">铁锈</link>作为废弃物。\n"
 "\n"
 "博施反应 (Bosch Reaction)：\n"
-"以<link=\"CARBONDIOXIDE\">二氧化碳</link>、<link=\"HYDROGEN\">氢气</link>为原料，<link=\"IRON\">铁</link>为催化剂。反应生成"
-"<link=\"STEAM\">蒸汽</link>和<link=\"FULLERENE\">富勒烯</link>>，并产生<link=\"RUST\">铁锈</link>作为废弃物。"
+"以<link=\"CARBONDIOXIDE\">二氧化碳</link>、<link=\"HYDROGEN\">氢气</link>为原料，<link=\"IRON\">铁</link>为催化剂。反应生成<link=\"STEAM\">蒸汽</link>和<link=\"FULLERENE\">富勒烯</link>，并产生<link=\"RUST\">铁锈</link>作为废弃物。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CO2RECYCLER.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CO2RECYCLER.DESC"
@@ -793,22 +727,16 @@ msgstr "一种自主式的化学装置，能够根据输入条件同时进行博
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CO2RECYCLER.EFFECT"
 msgid ""
 "Sabatier Reaction: \n"
-" <link=\"LIQUIDCARBONDIOXIDE\">Liquid Carbon Dioxide</link>, <link=\"HYDROGEN\">Hydrogen</link> and <link=\"IRON\">Iron</link> as "
-"catalyst. The Sabatier Reaction produce <link=\"WATER\">Water</link>, <link=\"METHANE\">Natural Gas</link> and <link=\"RUST\">Rust</"
-"link> as waste product.\n"
+" <link=\"LIQUIDCARBONDIOXIDE\">Liquid Carbon Dioxide</link>, <link=\"HYDROGEN\">Hydrogen</link> and <link=\"IRON\">Iron</link> as catalyst. The Sabatier Reaction produce <link=\"WATER\">Water</link>, <link=\"METHANE\">Natural Gas</link> and <link=\"RUST\">Rust</link> as waste product.\n"
 "\n"
 "Bosch Reaction: \n"
-"<link=\"CARBONDIOXIDE\">Carbon Dioxide</link>, <link=\"HYDROGEN\">Hydrogen</link> and <link=\"IRON\">Iron</link> as catalyst. The "
-"Bosch Reaction produce <link=\"STEAM\">Steam</link>, <link=\"GRAPHITE\">Graphite</link> and <link=\"RUST\">Rust</link> as waste "
-"product."
+"<link=\"CARBONDIOXIDE\">Carbon Dioxide</link>, <link=\"HYDROGEN\">Hydrogen</link> and <link=\"IRON\">Iron</link> as catalyst. The Bosch Reaction produce <link=\"STEAM\">Steam</link>, <link=\"GRAPHITE\">Graphite</link> and <link=\"RUST\">Rust</link> as waste product."
 msgstr ""
 "萨巴捷反应 (Sabatier Reaction)\n"
-"以<link=\"LIQUIDCARBONDIOXIDE\">液态二氧化碳</link>、<link=\"HYDROGEN\">氢气</link>为原料，<link=\"IRON\">铁</link>为催化剂。反应生"
-"成<link=\"WATER\">水</link>和<link=\"METHANE\">天然气</link>，并产生<link=\"RUST\">铁锈</link>作为废弃物。\n"
+"以<link=\"LIQUIDCARBONDIOXIDE\">液态二氧化碳</link>、<link=\"HYDROGEN\">氢气</link>为原料，<link=\"IRON\">铁</link>为催化剂。反应生成<link=\"WATER\">水</link>和<link=\"METHANE\">天然气</link>，并产生<link=\"RUST\">铁锈</link>作为废弃物。\n"
 "\n"
 "博施反应 (Bosch Reaction)\n"
-"以<link=\"CARBONDIOXIDE\">二氧化碳</link>、<link=\"HYDROGEN\">氢气</link>为原料，<link=\"IRON\">铁</link>为催化剂。反应生成"
-"<link=\"STEAM\">蒸汽</link>和<link=\"GRAPHITE\">石墨</link>，并产生<link=\"RUST\">铁锈</link>作为废弃物。"
+"以<link=\"CARBONDIOXIDE\">二氧化碳</link>、<link=\"HYDROGEN\">氢气</link>为原料，<link=\"IRON\">铁</link>为催化剂。反应生成<link=\"STEAM\">蒸汽</link>和<link=\"GRAPHITE\">石墨</link>，并产生<link=\"RUST\">铁锈</link>作为废弃物。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CO2RECYCLER.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CO2RECYCLER.NAME"
@@ -819,53 +747,40 @@ msgstr "<link=\"CHEMICALCO2RECYCLER\">碳回收装置</link>"
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CO2RECYCLER.SPACEDOUT_RECIPE"
 msgid ""
 "Sabatier Reaction: \n"
-" <link=\"LIQUIDCARBONDIOXIDE\">Liquid Carbon Dioxide</link>, <link=\"HYDROGEN\">Hydrogen</link> and <link=\"IRON\">Iron</link> as "
-"catalyst. The Sabatier Reaction produce <link=\"WATER\">Water</link>, <link=\"METHANE\">Natural Gas</link> and <link=\"RUST\">Rust</"
-"link> as waste product.\n"
+" <link=\"LIQUIDCARBONDIOXIDE\">Liquid Carbon Dioxide</link>, <link=\"HYDROGEN\">Hydrogen</link> and <link=\"IRON\">Iron</link> as catalyst. The Sabatier Reaction produce <link=\"WATER\">Water</link>, <link=\"METHANE\">Natural Gas</link> and <link=\"RUST\">Rust</link> as waste product.\n"
 "\n"
 "Bosch Reaction: \n"
-"<link=\"CARBONDIOXIDE\">Carbon Dioxide</link>, <link=\"HYDROGEN\">Hydrogen</link> and <link=\"IRON\">Iron</link> as catalyst. The "
-"Bosch Reaction produce <link=\"STEAM\">Steam</link>, <link=\"GRAPHITE\">Graphite</link> and <link=\"RUST\">Rust</link> as waste "
-"product."
+"<link=\"CARBONDIOXIDE\">Carbon Dioxide</link>, <link=\"HYDROGEN\">Hydrogen</link> and <link=\"IRON\">Iron</link> as catalyst. The Bosch Reaction produce <link=\"STEAM\">Steam</link>, <link=\"GRAPHITE\">Graphite</link> and <link=\"RUST\">Rust</link> as waste product."
 msgstr ""
 "萨巴捷反应 (Sabatier Reaction)\n"
-"以<link=\"LIQUIDCARBONDIOXIDE\">液态二氧化碳</link>、<link=\"HYDROGEN\">氢气</link>为原料，<link=\"IRON\">铁</link>为催化剂。反应生"
-"成<link=\"WATER\">水</link>和<link=\"METHANE\">天然气</link>，并产生<link=\"RUST\">铁锈</link>作为废弃物。\n"
+"以<link=\"LIQUIDCARBONDIOXIDE\">液态二氧化碳</link>、<link=\"HYDROGEN\">氢气</link>为原料，<link=\"IRON\">铁</link>为催化剂。反应生成<link=\"WATER\">水</link>和<link=\"METHANE\">天然气</link>，并产生<link=\"RUST\">铁锈</link>作为废弃物。\n"
 "\n"
 "博施反应 (Bosch Reaction)\n"
-"以<link=\"CARBONDIOXIDE\">二氧化碳</link>、<link=\"HYDROGEN\">氢气</link>为原料，<link=\"IRON\">铁</link>为催化剂。反应生成"
-"<link=\"STEAM\">蒸汽</link>和<link=\"GRAPHITE\">石墨</link>，并产生<link=\"RUST\">铁锈</link>作为废弃物。"
+"以<link=\"CARBONDIOXIDE\">二氧化碳</link>、<link=\"HYDROGEN\">氢气</link>为原料，<link=\"IRON\">铁</link>为催化剂。反应生成<link=\"STEAM\">蒸汽</link>和<link=\"GRAPHITE\">石墨</link>，并产生<link=\"RUST\">铁锈</link>作为废弃物。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CO2RECYCLERDLC1.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CO2RECYCLERDLC1.DESC"
 msgid "An autonomous chemical device capable of executing both Bosch and Sabatier Reactions based on the input conditions."
-msgstr "一种能够根据输入条件执行Bosch和Sabatier反应的自主化学装置。"
+msgstr "一种可根据输入条件自主执行博施反应和萨巴捷反应的化学装置。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CO2RECYCLERDLC1.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CO2RECYCLERDLC1.EFFECT"
 msgid ""
-"THIS BUILDING HAS BEEN DEPRECATED AND CANNOT BE BUILT. INSTEAD, USE THE REGULAR <link=\"CHEMICALCO2RECYCLER\">Carbon Recycling "
-"Unit</link>\n"
+"THIS BUILDING HAS BEEN DEPRECATED AND CANNOT BE BUILT. INSTEAD, USE THE REGULAR <link=\"CHEMICALCO2RECYCLER\">Carbon Recycling Unit</link>\n"
 "\n"
 "Sabatier Reaction: \n"
-" <link=\"LIQUIDCARBONDIOXIDE\">Liquid Carbon Dioxide</link>, <link=\"HYDROGEN\">Hydrogen</link> and <link=\"IRON\">Iron</link> as "
-"catalyst. The Sabatier Reaction produce <link=\"WATER\">Water</link>, <link=\"METHANE\">Natural Gas</link> and <link=\"RUST\">Rust</"
-"link> as waste product.\n"
+" <link=\"LIQUIDCARBONDIOXIDE\">Liquid Carbon Dioxide</link>, <link=\"HYDROGEN\">Hydrogen</link> and <link=\"IRON\">Iron</link> as catalyst. The Sabatier Reaction produce <link=\"WATER\">Water</link>, <link=\"METHANE\">Natural Gas</link> and <link=\"RUST\">Rust</link> as waste product.\n"
 "\n"
 "Bosch Reaction: \n"
-"<link=\"CARBONDIOXIDE\">Carbon Dioxide</link>, <link=\"HYDROGEN\">Hydrogen</link> and <link=\"IRON\">Iron</link> as catalyst. The "
-"Bosch Reaction produce <link=\"STEAM\">Steam</link>, <link=\"GRAPHITE\">Graphite</link> and <link=\"RUST\">Rust</link> as waste "
-"product."
+"<link=\"CARBONDIOXIDE\">Carbon Dioxide</link>, <link=\"HYDROGEN\">Hydrogen</link> and <link=\"IRON\">Iron</link> as catalyst. The Bosch Reaction produce <link=\"STEAM\">Steam</link>, <link=\"GRAPHITE\">Graphite</link> and <link=\"RUST\">Rust</link> as waste product."
 msgstr ""
 "该建筑已废弃，无法建造。请改用常规的<link=\"CHEMICALCO2RECYCLER\">碳回收装置</link>。\n"
 "\n"
 "萨巴捷反应 (Sabatier Reaction)\n"
-"以<link=\"LIQUIDCARBONDIOXIDE\">液态二氧化碳</link>、<link=\"HYDROGEN\">氢气</link>为原料，<link=\"IRON\">铁</link>为催化剂。反应生"
-"成<link=\"WATER\">水</link>和<link=\"METHANE\">天然气</link>，并产生<link=\"RUST\">铁锈</link>作为废弃物。\n"
+"以<link=\"LIQUIDCARBONDIOXIDE\">液态二氧化碳</link>、<link=\"HYDROGEN\">氢气</link>为原料，<link=\"IRON\">铁</link>为催化剂。反应生成<link=\"WATER\">水</link>和<link=\"METHANE\">天然气</link>，并产生<link=\"RUST\">铁锈</link>作为废弃物。\n"
 "\n"
 "博施反应 (Bosch Reaction)\n"
-"以<link=\"CARBONDIOXIDE\">二氧化碳</link>、<link=\"HYDROGEN\">氢气</link>为原料，<link=\"IRON\">铁</link>为催化剂。反应生成"
-"<link=\"STEAM\">蒸汽</link>和<link=\"GRAPHITE\">石墨</link>，并产生<link=\"RUST\">铁锈</link>作为废弃物。"
+"以<link=\"CARBONDIOXIDE\">二氧化碳</link>、<link=\"HYDROGEN\">氢气</link>为原料，<link=\"IRON\">铁</link>为催化剂。反应生成<link=\"STEAM\">蒸汽</link>和<link=\"GRAPHITE\">石墨</link>，并产生<link=\"RUST\">铁锈</link>作为废弃物。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CO2RECYCLERDLC1.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CO2RECYCLERDLC1.NAME"
@@ -883,7 +798,7 @@ msgid ""
 "Boils <link=\"WATER\">Water</link> to <link=\"STEAM\">Steam</link> at 200 °C.\n"
 "This particular boiler uses <link=\"COMBUSTIBLESOLID\">Combustustable Solids</link> as fuel."
 msgstr ""
-"将<link=\"WATER\">水</link>煮沸为 200℃ 的<link=\"STEAM\">蒸汽</link>。\n"
+"将<link=\"WATER\">水</link>加热为 200℃ 的<link=\"STEAM\">蒸汽</link>。\n"
 "这座特定的锅炉使用<link=\"COMBUSTIBLESOLID\">可燃固体</link>作为燃料。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_COAL_BOILER.NAME
@@ -894,7 +809,7 @@ msgstr "<link=\"CHEMICACOLBOILER\">燃煤蒸汽炉</link>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CRUDEOILREFINERY.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CRUDEOILREFINERY.DESC"
 msgid "An industrial process plant responsible for refining raw oil extracted from wells."
-msgstr "一座用于将油井中提取的原油进行精炼的工业加工工厂。"
+msgstr "一座用于将油井中提取的原油进行精炼的工业处理装置。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CRUDEOILREFINERY.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CRUDEOILREFINERY.EFFECT"
@@ -930,7 +845,7 @@ msgstr "<link=\"CHEMICALCRUDEOILREFINERY厂\">原油精炼厂</link>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CRUDEOILREFINERYSTAGED.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CRUDEOILREFINERYSTAGED.DESC"
 msgid "An industrial process plant responsible for refining raw oil extracted from wells."
-msgstr "一座用于将油井中提取的原油进行精炼的工业加工工厂。"
+msgstr "一座用于将油井中提取的原油进行精炼的工业处理装置。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CRUDEOILREFINERYSTAGED.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CRUDEOILREFINERYSTAGED.EFFECT"
@@ -948,8 +863,7 @@ msgid ""
 "- 10% <link=\"METHANE\">Natural Gas</link>\n"
 "- 45% <link=\"BITUMEN\">Bitumen</link>.\n"
 "\n"
-"The first stage uses <link=\"STEAM\">Steam</link> for the distillation process, while the second Stage uses "
-"<link=\"HYDROGEN\">Hydrogen</link> to buffer the reaction."
+"The first stage uses <link=\"STEAM\">Steam</link> for the distillation process, while the second Stage uses <link=\"HYDROGEN\">Hydrogen</link> to buffer the reaction."
 msgstr ""
 "本精炼厂分两阶段运作：\n"
 "\n"
@@ -974,7 +888,7 @@ msgstr "<link=\"CHEMICALRUDEOILREFINERYSTAGED\">多级原油精炼厂</link>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ELECTRICBOILER.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ELECTRICBOILER.DESC"
 msgid "A small sized eletric boiler."
-msgstr "一座小型电热蒸汽机炉。"
+msgstr "一座小型电热蒸汽锅炉。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ELECTRICBOILER.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ELECTRICBOILER.EFFECT"
@@ -994,8 +908,7 @@ msgstr "一种利用内热化学反应来冷却自身及其周围环境的装置
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ENDOTHERMICUNIT.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ENDOTHERMICUNIT.EFFECT"
 msgid ""
-"Creates an endothermical reaction from a mixture of <link=\"AMMONIUMSALT\">Nitrate Nodules</link> and <link=\"WATER\">Water</"
-"link>. \n"
+"Creates an endothermical reaction from a mixture of <link=\"AMMONIUMSALT\">Nitrate Nodules</link> and <link=\"WATER\">Water</link>. \n"
 "Outputs <link=\"AMMONIUMWATER\">Ammonium Water</link> as result."
 msgstr ""
 "通过将<link=\"AMMONIUMSALT\">硝酸盐结晶</link>和<link=\"WATER\">水</link>混合，生成一个吸热反应，吸收大量热量。\n"
@@ -1013,9 +926,7 @@ msgstr "一款工业用锅炉，通过燃烧可燃气体来产生热能。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GAS_BOILER.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GAS_BOILER.EFFECT"
-msgid ""
-"Boils <link=\"WATER\">Water</link> to <link=\"STEAM\">Steam</link> at 200 °C. This particular boiler uses "
-"<link=\"COMBUSTIBLEGAS\">Combustible Gases</link> as fuel, but may as well work with other combustible gases."
+msgid "Boils <link=\"WATER\">Water</link> to <link=\"STEAM\">Steam</link> at 200 °C. This particular boiler uses <link=\"COMBUSTIBLEGAS\">Combustible Gases</link> as fuel, but may as well work with other combustible gases."
 msgstr ""
 "将<link=\"WATER\">水</link>加热至 200℃ 的<link=\"STEAM\">蒸汽</link> 。\n"
 "这座特定的锅炉使用<link=\"COMBUSTIBLEGAS\">可燃气体</link>作为热源。"
@@ -1032,16 +943,13 @@ msgstr "等离子弧炉利用由电弧加热器（等离子体发生器）产生
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GLASSFOUNDRY.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GLASSFOUNDRY.EFFECT"
-msgid ""
-"This techlogical advanced glass foundry is capable more than melt <link=\"SAND\">Sand</link> in to <link=\"MOLTENGLASS\">Molten "
-"Glass</link>, but a wide range of other applications."
-msgstr ""
-"这家技术先进的玻璃制造厂不仅能够将<link=\"SAND\">沙子</link>熔化成<link=\"MOLTENGLASS\">熔融玻璃</link>，还能用于众多其他领域。"
+msgid "This techlogical advanced glass foundry is capable more than melt <link=\"SAND\">Sand</link> in to <link=\"MOLTENGLASS\">Molten Glass</link>, but a wide range of other applications."
+msgstr "这个技术先进的玻璃熔炉不仅能够将<link=\"SAND\">沙子</link>熔化成<link=\"MOLTENGLASS\">熔融玻璃</link>，还能用于众多其他领域。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GLASSFOUNDRY.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GLASSFOUNDRY.NAME"
 msgid "<link=\"CHEMICALGLASSFOUNDRY\">Glass Foundry</link>"
-msgstr "<link=\"CHEMICALLASSFOUNDRY\">玻璃铸造厂</link>"
+msgstr "<link=\"CHEMICALLASSFOUNDRY\">工业玻璃熔炉</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_MIXINGUNIT.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_MIXINGUNIT.DESC"
@@ -1050,9 +958,7 @@ msgstr "这种化学加工设备在石油化工行业中有多种用途。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_MIXINGUNIT.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_MIXINGUNIT.EFFECT"
-msgid ""
-"An industrial aparatus capable to address several chemical reactions. Its large array of pipes allows safe handling of dangerous "
-"liquids and gases."
+msgid "An industrial aparatus capable to address several chemical reactions. Its large array of pipes allows safe handling of dangerous liquids and gases."
 msgstr "一种能够处理多种化学反应的工业设备。其庞大的管道系统能够安全地处理危险的液体和气体。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_MIXINGUNIT.NAME
@@ -1073,16 +979,15 @@ msgid ""
 "- 10% <link=\"METHANE\">Natural Gas</link>\n"
 "- 45% <link=\"BITUMEN\">Bitumen</link>.\n"
 "\n"
-"The process requires <link=\"HYDROGEN\">Hydrogen</link> to buffer the reaction.IMPORTANT: The building require all pipes ports to "
-"be connected with their respective pipes in order for it to operate."
+"The process requires <link=\"HYDROGEN\">Hydrogen</link> to buffer the reaction.IMPORTANT: The building require all pipes ports to be connected with their respective pipes in order for it to operate."
 msgstr ""
 "这座二级精炼厂能够进一步精炼<link=\"NAPHTHA\">石脑油</link>为：\n"
 "- 45% <link=\"PETROLEUM\">石油</link>\n"
 "- 10% <link=\"METHANE\">天然气</link>\n"
 "- 45% <link=\"BITUMEN\">沥青</link>.\n"
 "\n"
-"该过程需要使用<link=\"HYDROGEN\">氢气</link>来缓冲反应。重要提示：该建筑物要求所有管道接口都要与相应的管道相连接，这样它才能正常运"
-"行。"
+"该过程需要使用<link=\"HYDROGEN\">氢气</link>来缓冲反应。\n"
+"重要提示：该建筑物要求所有管道接口都要与相应的管道相连接，这样它才能正常运行。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_NAPHTHAREFORMER.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_NAPHTHAREFORMER.NAME"
@@ -1161,8 +1066,7 @@ msgid ""
 "- 50% <link=\"PETROLEUM\">Natural Gas</link>\n"
 "- 40% <link=\"PROPANE\">Propane</link>\n"
 "- 10% <link=\"SOURGAS\">Sour Gas</link>\n"
-"Second Stage: <link=\"PROPANE\">Propane</link> is mixed with <link=\"HYDROGEN\">Hydrogen</link> resulting in a complete conversion "
-"to <link=\"METHANE\">Methane</link>\n"
+"Second Stage: <link=\"PROPANE\">Propane</link> is mixed with <link=\"HYDROGEN\">Hydrogen</link> resulting in a complete conversion to <link=\"METHANE\">Methane</link>\n"
 "Third Stage reacts the remaining <link=\"SOURGAS\">Sour Gas</link> with Nitric Acid, producing Ammonia Gas."
 msgstr ""
 "该精炼厂分三阶段运作：\n"
@@ -1183,16 +1087,12 @@ msgstr "<link=\"CHEMICALRAWGASREFINERYSTAGED\">多级原料气精炼厂</link>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_RAYONLOOM.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_RAYONLOOM.DESC"
 msgid "A chemical loom capable of producing celulose fibers with Viscose process."
-msgstr "用粘胶法生产纤维素纤维的化学纺织机。"
+msgstr "一种用粘胶法生产纤维素纤维的化学纺织机。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_RAYONLOOM.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_RAYONLOOM.EFFECT"
-msgid ""
-"Produces <link=\"RAYONFIBER\">Rayon Fiber</link> from <link=\"WOOD\">Wood</link> pulp through a complex chemical reaction. Requires "
-"<link=\"SYNGAS\">Synthetic Gas</link> and constantly outputs <link=\"STEAM\">Steam</link> while operational."
-msgstr ""
-"通过复杂的化学反应，将来自<link=\"WOOD\">木材</link>的纸浆转化为<link=\"RAYONFIBER\">人造纤维</link>。此过程需要<link=\"SYNGAS\">合"
-"成气</link>，运行时会持续产出<link=\"STEAM\">蒸汽</link>。"
+msgid "Produces <link=\"RAYONFIBER\">Rayon Fiber</link> from <link=\"WOOD\">Wood</link> pulp through a complex chemical reaction. Requires <link=\"SYNGAS\">Synthetic Gas</link> and constantly outputs <link=\"STEAM\">Steam</link> while operational."
+msgstr "通过复杂的化学反应，将来自<link=\"WOOD\">木材</link>的纸浆转化为<link=\"RAYONFIBER\">人造纤维</link>。此过程需要<link=\"SYNGAS\">合成气</link>，运行时会持续产出<link=\"STEAM\">蒸汽</link>。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_RAYONLOOM.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_RAYONLOOM.NAME"
@@ -1201,13 +1101,8 @@ msgstr "<link=\"CHEMICALRAYONLOOM\">人造丝织机</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.DESC"
-msgid ""
-"A specialized furnace that heats material by means of an electric arc. Its delicate heat control structure allows mixture of metal "
-"alloys, as well separating metals from an homogeneous mixture of scraps. Since the furnace is air-cooled, it releases a lot of heat "
-"into its surroundings."
-msgstr ""
-"一种通过电弧加热材料的专用熔炉。其精密的温度控制结构能够实现金属合金的混合，还能将金属从混合的废料中分离出来。由于该熔炉是采用风冷方"
-"式，因此会将大量热量释放到周围环境中。"
+msgid "A specialized furnace that heats material by means of an electric arc. Its delicate heat control structure allows mixture of metal alloys, as well separating metals from an homogeneous mixture of scraps. Since the furnace is air-cooled, it releases a lot of heat into its surroundings."
+msgstr "一种通过电弧加热材料的专用熔炉。其精密的温度控制结构能够实现金属合金的混合，还能将金属从混合的废料中分离出来。由于该熔炉是采用风冷方式，因此会将大量热量释放到周围环境中。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.EFFECT"
@@ -1241,9 +1136,7 @@ msgstr "一种用于将多种固体材料均匀混合的设备，同时还会对
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SOILMIXER.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SOILMIXER.EFFECT"
-msgid ""
-"A solid material mixer designed for agricultural purpose, mainly for the production of <link=\"DIRT\">Dirt</link> and "
-"<link=\"FERTILIZER\">Fertilizer</link>."
+msgid "A solid material mixer designed for agricultural purpose, mainly for the production of <link=\"DIRT\">Dirt</link> and <link=\"FERTILIZER\">Fertilizer</link>."
 msgstr "一款专为农业用途设计的坚固型物料混合器，主要用于生产<link=\"DIRT\">泥土</link>和<link=\"FERTILIZER\">肥料</link>。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SOILMIXER.NAME
@@ -1253,25 +1146,18 @@ msgstr "<link=\"CHEMICALSOILMixer\">土壤搅拌机</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SOURWATERSTRIPPER.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SOURWATERSTRIPPER.DESC"
-msgid ""
-"A heavy industrial device that uses a combination of pH control and heat, direct injection of steam to drives off the ammonia and "
-"hydrogen sulfide from the water. Also fitted with a filter mechanism to ensure the quality of the stripped water."
-msgstr ""
-"一种大型工业设备，它通过控制PH和加热相结合的方式，直接向水中注入蒸汽，以将氨和硫化氢从水中分离出来。此外，其还配备了过滤装置以确保提"
-"取出的水的质量。"
+msgid "A heavy industrial device that uses a combination of pH control and heat, direct injection of steam to drives off the ammonia and hydrogen sulfide from the water. Also fitted with a filter mechanism to ensure the quality of the stripped water."
+msgstr "一种大型工业设备，它通过控制PH和加热相结合的方式，直接向水中注入蒸汽，以将氨和硫化氢从水中分离出来。此外，其还配备了过滤装置以确保提取出的水的质量。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SOURWATERSTRIPPER.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SOURWATERSTRIPPER.EFFECT"
 msgid ""
 "Separate clean <link=\"WATER\">Water</link> from <link=\"SOURWATER\">Sour Water</link> using hot <link=\"STEAM\">Steam</link>.\n"
 " The stripping process also produces <link=\"SOURGAS\">Sour Gas</link> from the separation.\n"
-"<link=\"SAND\">Sand</link> is required to further filter the water from any other contaminants it may still have, which is then "
-"released as  <link=\"TOXICSAND\">Polluted Dirty</link> afterwards.\n"
+"<link=\"SAND\">Sand</link> is required to further filter the water from any other contaminants it may still have, which is then released as  <link=\"TOXICSAND\">Polluted Dirty</link> afterwards.\n"
 "IMPORTANT: The building require all pipes ports to be connected with their respective pipes in order for it to operate."
 msgstr ""
-"使用高温<link=\"STEAM\">蒸汽</link>从<link=\"SOURWATER\">酸水</link>中分离出纯净<link=\"WATER\">水</link>。汽提过程同时产生"
-"<link=\"SOURGAS\">酸气</link>副产物。需投入<link=\"SAND\">砂石</link>深度过滤残留污染物，最终排出<link=\"TOXICSAND\">污染土</"
-"link>。\n"
+"使用高温<link=\"STEAM\">蒸汽</link>从<link=\"SOURWATER\">酸水</link>中分离出纯净<link=\"WATER\">水</link>。汽提过程同时产生<link=\"SOURGAS\">高硫天然气</link>副产物。需投入<link=\"SAND\">沙子</link>深度过滤残留污染物，最终排出<link=\"TOXICSAND\">污染土</link>。\n"
 "\n"
 "重要提示：必须连接所有管道接口才能运行。"
 
@@ -1302,11 +1188,8 @@ msgstr "一种能够生产硝酸的化学合成装置。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SYNTHESIZERNITRIC.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SYNTHESIZERNITRIC.EFFECT"
-msgid ""
-"Produces industrial grade <link=\"LIQUIDNITRIC\">Nitric Acid</link> using provided <link=\"LIQUIDSULFURIC\">Sulfuric Acid</link> "
-"and <link=\"AMMONIAGAS\">Ammonia</link>."
-msgstr ""
-"利用所提供的<link=\"LIQUIDSULFURIC\">硫酸</link>和<link=\"AMMONIAGAS\">氨气</link>来生产工业级的<link=\"LIQUIDNITRIC\">硝酸</link>。"
+msgid "Produces industrial grade <link=\"LIQUIDNITRIC\">Nitric Acid</link> using provided <link=\"LIQUIDSULFURIC\">Sulfuric Acid</link> and <link=\"AMMONIAGAS\">Ammonia</link>."
+msgstr "利用所提供的<link=\"LIQUIDSULFURIC\">硫酸</link>和<link=\"AMMONIAGAS\">氨气</link>来生产工业级的<link=\"LIQUIDNITRIC\">硝酸</link>。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SYNTHESIZERNITRIC.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SYNTHESIZERNITRIC.NAME"
@@ -1335,9 +1218,7 @@ msgstr "一种能够生产硫酸的化学合成装置。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SYNTHESIZERSULFURIC.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SYNTHESIZERSULFURIC.EFFECT"
-msgid ""
-"Produces industrial grade <link=\"LIQUIDSULFURIC\">Sulfuric Acid</link> using provided <link=\"STEAM\">Steam</link> and "
-"<link=\"SULFUR\">Sulfur</link>."
+msgid "Produces industrial grade <link=\"LIQUIDSULFURIC\">Sulfuric Acid</link> using provided <link=\"STEAM\">Steam</link> and <link=\"SULFUR\">Sulfur</link>."
 msgstr "利用提供的<link=\"STEAM\">蒸汽</link>和<link=\"SULFUR\">硫</link>来生产<link=\"LIQUIDSULFURIC\">硫酸</link>。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SYNTHESIZERSULFURIC.NAME
@@ -1347,19 +1228,13 @@ msgstr "<link=\"CHEMICALSYNTHESIZERSULFURIC\">硫酸合成器</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_THERMALDESALINATOR.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_THERMALDESALINATOR.DESC"
-msgid ""
-"A basic desalinator that uses Vapor-compression evaporation to archive the separation of clean, usable water from the solution it "
-"is currently mixed."
+msgid "A basic desalinator that uses Vapor-compression evaporation to archive the separation of clean, usable water from the solution it is currently mixed."
 msgstr "基本型脱盐器，通过蒸汽压缩蒸发的方式，能够将混合溶液中的纯净水分离出来。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_THERMALDESALINATOR.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_THERMALDESALINATOR.EFFECT"
-msgid ""
-"Uses <link=\"STEAM\">Steam</link> as buffer for the Desalination process of either <link=\"SALTWATER\">Salt Water</link> or "
-"Ammonium Water, releasing fresh <link=\"WATER\">Water</link> and concentrated <link=\"BRINE\">Brine</link> in return."
-msgstr ""
-"使用<link=\"STEAM\">蒸汽</link>作为<link=\"SALTWATER\">盐水</link>或铵水脱盐过程的缓冲介质，生产纯净的<link=\"Water\">水</link>和"
-"<link=\"BRINE\">浓盐水</link>。"
+msgid "Uses <link=\"STEAM\">Steam</link> as buffer for the Desalination process of either <link=\"SALTWATER\">Salt Water</link> or Ammonium Water, releasing fresh <link=\"WATER\">Water</link> and concentrated <link=\"BRINE\">Brine</link> in return."
+msgstr "使用<link=\"STEAM\">蒸汽</link>作为<link=\"SALTWATER\">盐水</link>或铵水脱盐过程的缓冲介质，生产纯净的<link=\"Water\">水</link>和<link=\"BRINE\">浓盐水</link>。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_THERMALDESALINATOR.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_THERMALDESALINATOR.NAME"
@@ -1373,11 +1248,9 @@ msgstr "通过燃烧木材以产生热能的工业级锅炉。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_WOODEN_BOILER.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_WOODEN_BOILER.EFFECT"
-msgid ""
-"Boils <link=\"WATER\">Water</link> to <link=\"STEAM\">Steam</link> at 200 °C. This particular boiler uses <link=\"WOODLOG\">Wood</"
-"link> as fuel."
+msgid "Boils <link=\"WATER\">Water</link> to <link=\"STEAM\">Steam</link> at 200 °C. This particular boiler uses <link=\"WOODLOG\">Wood</link> as fuel."
 msgstr ""
-"将<link=\"WATER\">水</link>煮沸为200℃的<link=\"STEAM\">蒸汽</link>。\n"
+"将<link=\"WATER\">水</link>加热为200℃的<link=\"STEAM\">蒸汽</link>。\n"
 "这座特定的锅炉使用<link=\"WOODLOG\">木材</link>作为燃料。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_WOODEN_BOILER.NAME
@@ -1387,23 +1260,13 @@ msgstr "<link=\"CHEMICALWODENBOILER\">燃木蒸汽炉</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CORALVAT.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CORALVAT.DESC"
-msgid ""
-"An advanced biological vat that grows a special colony of marine invertebrates, engineered from the Earth species of the class "
-"Anthozoa. This unit also uses advanced filter to extract Chlorine Gas from its surroundings, albeit its not necessery for it to "
-"function."
-msgstr ""
-"一座先进的生物培养池，能够培育出一种特殊的海洋无脊椎动物群落，这些生物是由地球上属于珊瑚纲的物种经过特殊改造而成的。该装置还配备了先"
-"进的过滤器，能够从周围环境中提取氯气，不过这并非其正常运行所必需的条件。"
+msgid "An advanced biological vat that grows a special colony of marine invertebrates, engineered from the Earth species of the class Anthozoa. This unit also uses advanced filter to extract Chlorine Gas from its surroundings, albeit its not necessery for it to function."
+msgstr "一座先进的生物培养池，能够培育出一种特殊的海洋无脊椎动物群落，这些生物是由地球上属于珊瑚纲的物种经过特殊改造而成的。该装置还配备了先进的过滤器，能够从周围环境中提取氯气，不过这并非其正常运行所必需的条件。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CORALVAT.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CORALVAT.EFFECT"
-msgid ""
-"Coral colony needs <link=\"SALTWATER\">Salt Water</link> or <link=\"BRINE\">Brine</link> to grow, producing a fair amount of clean "
-"<link=\"WATER\">Water</link> as result of its biological functions. The coral colony will also excreate tiny particles of "
-"<link=\"BLEACHSTONE\">Bleach Stone</link>, which are filtered from the water and later released as a solid mass."
-msgstr ""
-"珊瑚群落需要<link=\"SALTWATER\">盐水</link>或<link=\"BRINE\">浓盐水</link>其通过生物作用会产生大量的纯净<link=\"Water\">水</link>。"
-"瑚群落还会分泌出微小的<link=\"BLEACHSTONE\">漂白石</link>颗粒，这些颗粒从水中滤出后以固体形式释放出来。"
+msgid "Coral colony needs <link=\"SALTWATER\">Salt Water</link> or <link=\"BRINE\">Brine</link> to grow, producing a fair amount of clean <link=\"WATER\">Water</link> as result of its biological functions. The coral colony will also excreate tiny particles of <link=\"BLEACHSTONE\">Bleach Stone</link>, which are filtered from the water and later released as a solid mass."
+msgstr "珊瑚群落需要<link=\"SALTWATER\">盐水</link>或<link=\"BRINE\">浓盐水</link>其通过生物作用会产生大量的纯净<link=\"Water\">水</link>。瑚群落还会分泌出微小的<link=\"BLEACHSTONE\">漂白石</link>颗粒，这些颗粒从水中滤出后以固体形式释放出来。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CORALVAT.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CORALVAT.NAME"
@@ -1450,9 +1313,7 @@ msgstr ""
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOM_OILWELLCAP.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOM_OILWELLCAP.DESC"
-msgid ""
-"A large device capable to extract oil from the attached well using liquid pumped in. Liquid pumped into an oil reservoir cannot be "
-"recovered. "
+msgid "A large device capable to extract oil from the attached well using liquid pumped in. Liquid pumped into an oil reservoir cannot be recovered. "
 msgstr "一种大型设备，能够通过泵入的液体从附着的油井中提取石油。而泵入油藏的液体是无法回收的。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOM_OILWELLCAP.EFFECT
@@ -1482,12 +1343,8 @@ msgstr "一种能够利用乙醇进行聚合反应以生成聚合物的专用聚
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOM_POLYMERIZER.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOM_POLYMERIZER.EFFECT"
-msgid ""
-"Special modifications allows the polymerization of <link=\"ETHANOL\">Ethanol</link> into raw <link=\"POLYPROPYLENE\">Plastic</"
-"link>with the addition of <link=\"CHLORINE\">Chlorine Gas</link>."
-msgstr ""
-"特殊的工艺改进使得能够将<link=\"ETHANOL\">乙醇</link>与泵入的<link=\"CHLORINE\">氯气</link>混合实现其聚合反应，从而生产"
-"<link=\"POLYPROPYLENE\">塑料</link>。"
+msgid "Special modifications allows the polymerization of <link=\"ETHANOL\">Ethanol</link> into raw <link=\"POLYPROPYLENE\">Plastic</link>with the addition of <link=\"CHLORINE\">Chlorine Gas</link>."
+msgstr "特殊的工艺改进使得能够将<link=\"ETHANOL\">乙醇</link>与泵入的<link=\"CHLORINE\">氯气</link>混合实现其聚合反应，从而生产<link=\"POLYPROPYLENE\">塑料</link>。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOM_POLYMERIZER.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOM_POLYMERIZER.NAME"
@@ -1497,12 +1354,12 @@ msgstr "<link=\"CUSTOMPOLYMERIZE\">乙醇聚合物压塑器</link>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOMBRICKTILE.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOMBRICKTILE.DESC"
 msgid "A notable tile made exclusively out of Bricks."
-msgstr "砖料精制砖 - 全砖材打造的强化砖体。"
+msgstr "一种完全由砖制成的优质砖块。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOMBRICKTILE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOMBRICKTILE.EFFECT"
 msgid "A smooth tile made with several bricks carefully placed together."
-msgstr "由若干块砖料精心拼接在一起制成的精致瓷砖。"
+msgstr "由多块砖料精心拼接而成的光滑砖块。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOMBRICKTILE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOMBRICKTILE.NAME"
@@ -1512,12 +1369,12 @@ msgstr "<link=\"CUSTOMBRICKTILE\">砖料精制砖</link>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOMGRANITETILE.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOMGRANITETILE.DESC"
 msgid "Granite tiles are aesthetically pleasing while remaining a good insulator."
-msgstr "花岗岩精制砖 - 兼具美学装饰性与绝佳隔热性。"
+msgstr "花岗岩精制砖具有良好隔热性的同时也具备美观的外观。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOMGRANITETILE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOMGRANITETILE.EFFECT"
 msgid "A smooth tile made with several granite stones carefully placed together."
-msgstr "由数块花岗岩精心拼接而成的光滑瓷砖。"
+msgstr "由数块花岗岩精心拼接而成的光滑砖块。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOMGRANITETILE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOMGRANITETILE.NAME"
@@ -1527,12 +1384,12 @@ msgstr "<link=\"CUSTOMGRANITETILE\">花岗岩精制砖</link>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOMIGNEOUSROCKTILE.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOMIGNEOUSROCKTILE.DESC"
 msgid "A notable tile made exclusively with Igneous Rock."
-msgstr "火成岩精制砖 - 纯岩浆岩淬炼的致密结构。"
+msgstr "完全由火成岩精制成的优质砖块。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOMIGNEOUSROCKTILE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOMIGNEOUSROCKTILE.EFFECT"
 msgid "Igneous tiles enhance not only the environmental beauty, but also increases duplicants walking speed."
-msgstr "火成岩瓷砖不仅增强了环境美感，还提高了复制人的行走速度。"
+msgstr "火成岩精制砖不仅增强了环境美感，还提高了复制人的行走速度。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOMIGNEOUSROCKTILE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOMIGNEOUSROCKTILE.NAME"
@@ -1561,7 +1418,7 @@ msgstr "<link=\"CUSTOMMETHANEGENERATOR\">小型气体发电机</link>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOMOBSIDIANTILE.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOMOBSIDIANTILE.DESC"
 msgid "A notable tile made exclusively with Obsidian, a form of volcanic glass."
-msgstr "黑曜石精制砖 - 由火山玻璃独家砌筑的优质砖体。"
+msgstr "完全由黑曜石精制成的优质砖块。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOMOBSIDIANTILE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOMOBSIDIANTILE.EFFECT"
@@ -1595,7 +1452,7 @@ msgstr "<link=\"CUSTOMPETROLEUMGENERATOR\">小型燃油发电机</link>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOMSANDSTONETILE.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOMSANDSTONETILE.DESC"
 msgid "A notable tile made exclusively with Sandstone."
-msgstr "砂岩精制砖 - 专属砂石压成的梯形纹路。"
+msgstr "完全由砂石精制成的优质砖块。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOMSANDSTONETILE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOMSANDSTONETILE.EFFECT"
@@ -1655,8 +1512,7 @@ msgstr "有助于将地热能转化为可用的能源。"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOMSTEAMGENERATOR.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOMSTEAMGENERATOR.EFFECT"
 msgid ""
-"Draws in <link=\"STEAM\">Steam</link> from the tiles directly below the machine's foundation and uses it to generate electrical "
-"<link=\"POWER\">Power</link>.\n"
+"Draws in <link=\"STEAM\">Steam</link> from the tiles directly below the machine's foundation and uses it to generate electrical <link=\"POWER\">Power</link>.\n"
 "\n"
 "Outputs <link=\"WATER\">Water</link>."
 msgstr ""
@@ -1675,12 +1531,8 @@ msgstr "一种机械阀门，能够将高压管道中的气体流量减小到正
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.DECOMPRESSIONGASVALVE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.DECOMPRESSIONGASVALVE.EFFECT"
-msgid ""
-"Allows <link=\"ELEMENTSGAS\">Gases</link> to be transfered from <link=\"HIGHPRESSUREGASCONDUIT\">High Pressure Gas Pipe</link> to "
-"normal <link=\"GASCONDUIT\">Pipes</link>."
-msgstr ""
-"允许将<link=\"ELEMENTSGAS\">气体</link>从<link=\"HIGHPRESSUREGASCONDUIT\">高压气体管道</link>转输至普通<link=\"GASCONDUIT\">管道</"
-"link>。"
+msgid "Allows <link=\"ELEMENTSGAS\">Gases</link> to be transfered from <link=\"HIGHPRESSUREGASCONDUIT\">High Pressure Gas Pipe</link> to normal <link=\"GASCONDUIT\">Pipes</link>."
+msgstr "允许将<link=\"ELEMENTSGAS\">气体</link>从<link=\"HIGHPRESSUREGASCONDUIT\">高压气体管道</link>转输至普通<link=\"GASCONDUIT\">气体管道</link>。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.DECOMPRESSIONGASVALVE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.DECOMPRESSIONGASVALVE.NAME"
@@ -1694,12 +1546,8 @@ msgstr "一种机械阀门，能够将高压管道中的液体流量减小到正
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.DECOMPRESSIONLIQUIDVALVE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.DECOMPRESSIONLIQUIDVALVE.EFFECT"
-msgid ""
-"Allows <link=\"ELEMENTSLIQUID\">Liquid</link> to be transfered from <link=\"HIGHPRESSURELIQUIDCONDUIT\">High Pressure Liquid Pipe</"
-"link> to normal <link=\"LIQUIDCONDUIT\">Pipes</link>."
-msgstr ""
-"允许将<link=\"ELEMENTSLIQUID\">液体</link>从<link=\"HIGHPRESSURELIQUIDCONDUIT\">高压液体管道</link>转输至普通"
-"<link=\"LIQUIDCONDUIT\">管道</link>。"
+msgid "Allows <link=\"ELEMENTSLIQUID\">Liquid</link> to be transfered from <link=\"HIGHPRESSURELIQUIDCONDUIT\">High Pressure Liquid Pipe</link> to normal <link=\"LIQUIDCONDUIT\">Pipes</link>."
+msgstr "允许将<link=\"ELEMENTSLIQUID\">液体</link>从<link=\"HIGHPRESSURELIQUIDCONDUIT\">高压液体管道</link>转输至普通<link=\"LIQUIDCONDUIT\">液体管道</link>。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.DECOMPRESSIONLIQUIDVALVE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.DECOMPRESSIONLIQUIDVALVE.NAME"
@@ -1713,13 +1561,8 @@ msgstr "可进行选择性温度蒸馏的固态金属釜。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.ETHANOLSTILL.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.ETHANOLSTILL.EFFECT"
-msgid ""
-"Distills <link=\"ETHANOL\">Ethanol</link> from a fermented mixture of <link=\"SUCROSE\">Sucrose</link> and <link=\"WATER\">Water</"
-"link>. The fermenting process occurs with <link=\"SLIMEMOLD\">Slime</link> bacterias by the degradation of organic nutrients "
-"anaerobically."
-msgstr ""
-"从<link=\"SUCROSE\">蔗糖</link>与<link=\"WATER\">水</link>的发酵醪液中蒸馏提取<link=\"ETHANOL\">乙醇</link>。该发酵过程由"
-"<link=\"SLIMEMOLD\">菌泥</link>在厌氧条件下降解有机营养物质实现。"
+msgid "Distills <link=\"ETHANOL\">Ethanol</link> from a fermented mixture of <link=\"SUCROSE\">Sucrose</link> and <link=\"WATER\">Water</link>. The fermenting process occurs with <link=\"SLIMEMOLD\">Slime</link> bacterias by the degradation of organic nutrients anaerobically."
+msgstr "从<link=\"SUCROSE\">蔗糖</link>与<link=\"WATER\">水</link>的发酵醪液中蒸馏提取<link=\"ETHANOL\">乙醇</link>。该发酵过程由<link=\"SLIMEMOLD\">菌泥</link>在厌氧条件下降解有机营养物质实现。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.ETHANOLSTILL.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.ETHANOLSTILL.NAME"
@@ -1728,19 +1571,13 @@ msgstr "<link=\"ETHANOLSTIL\">乙醇釜</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.FLOCCULATIONSIEVE.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.FLOCCULATIONSIEVE.DESC"
-msgid ""
-"A dedicated industrial sieve that flocculates colloidal particles out of suspension to sediment under the form of floc. Strong "
-"filter media further improves the cleaning process of liquids."
+msgid "A dedicated industrial sieve that flocculates colloidal particles out of suspension to sediment under the form of floc. Strong filter media further improves the cleaning process of liquids."
 msgstr "一种专用工业筛，通过絮凝作用使胶体颗粒脱离悬浮液形成絮状沉淀。强化滤芯可显著提升液体净化效率。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.FLOCCULATIONSIEVE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.FLOCCULATIONSIEVE.EFFECT"
-msgid ""
-"Treat <link=\"DIRTYWATER\">Polluted Water</link> or <link=\"TOXICSLURRY\">Toxic Slurry</link> using special filter and chemicals. "
-"Sieve process also completely removes<link=\"DISEASE\">Germs</link>."
-msgstr ""
-"使用特殊滤芯与化学药剂处理<link=\"DIRTYWATER\">污染水</link>或<link=\"TOXICSLURRY\">有毒泥浆</link>。筛分过程还可以完全去除"
-"<link=\"DISEASE\">细菌</link>。"
+msgid "Treat <link=\"DIRTYWATER\">Polluted Water</link> or <link=\"TOXICSLURRY\">Toxic Slurry</link> using special filter and chemicals. Sieve process also completely removes<link=\"DISEASE\">Germs</link>."
+msgstr "使用特殊滤芯与化学药剂处理<link=\"DIRTYWATER\">污染水</link>或<link=\"TOXICSLURRY\">有毒泥浆</link>。筛分过程还可以完全去除<link=\"DISEASE\">细菌</link>。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.FLOCCULATIONSIEVE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.FLOCCULATIONSIEVE.NAME"
@@ -1769,17 +1606,17 @@ msgstr "在无电源供应的情况下，其功能相当于一个手动气闸。
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.GLASSDOORCOMPLEX.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.GLASSDOORCOMPLEX.EFFECT"
-msgid ""
-"A mechanized airlock door made with <link=\"GLASS\">Glass</link> panels. Blocks Liquid and Gas flow, maintaining pressure between "
-"areas. Sets Duplicant Access Permissions for area restriction."
+msgid "A mechanized airlock door made with <link=\"GLASS\">Glass</link> panels. Blocks Liquid and Gas flow, maintaining pressure between areas. Sets Duplicant Access Permissions for area restriction."
 msgstr ""
-"一款采用<link=\"GLASS\">玻璃</link>面板制成的自动化气闸门。它能阻断液体和气体的流动，保持不同区域之间的压力平衡。设置复制人权限来设"
-"定受限区域。"
+"一款采用<link=\"GLASS\">玻璃</link>面板制成的自动化气闸门。\n"
+"\n"
+"封闭区域，阻挡液体或气体流动。\n"
+"设置复制人权限来设定受限区域。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.GLASSDOORCOMPLEX.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.GLASSDOORCOMPLEX.NAME"
 msgid "<link=\"GLASSDOORCOMPLEX\">Security Glass Door</link>"
-msgstr "<link=\"GLASDOORCOMPLEX\">安全玻璃门</link>"
+msgstr "<link=\"GLASDOORCOMPLEX\">玻璃安全门</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.GLASSDOORSIMPLE.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.GLASSDOORSIMPLE.DESC"
@@ -1788,9 +1625,7 @@ msgstr "野生动物无法通过门。门控系统可用于阻止复制人进入
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.GLASSDOORSIMPLE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.GLASSDOORSIMPLE.EFFECT"
-msgid ""
-"A simple door made with <link=\"GLASS\">Glass</link> panels. Encloses areas without blocking Liquid or Gas flow. Sets Duplicant "
-"Access Permissions for area restriction."
+msgid "A simple door made with <link=\"GLASS\">Glass</link> panels. Encloses areas without blocking Liquid or Gas flow. Sets Duplicant Access Permissions for area restriction."
 msgstr ""
 "用<link=\"GLASS\">玻璃</link>面板制成的简单门。\n"
 "\n"
@@ -1804,16 +1639,12 @@ msgstr "<link=\"GLASDOORSMPLE\">简易玻璃门</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HEPCALCINATOR.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HEPCALCINATOR.DESC"
-msgid ""
-"Voloxidation process can separate uranium oxides from nuclear waste, along with other heavy elements. Produces waves of "
-"contaminating radiation while operational."
+msgid "Voloxidation process can separate uranium oxides from nuclear waste, along with other heavy elements. Produces waves of contaminating radiation while operational."
 msgstr "挥发氧化工艺能够从核废料中分离出铀氧化物以及其他重元素。在运行过程中会产生放射性污染波。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HEPCALCINATOR.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HEPCALCINATOR.EFFECT"
-msgid ""
-"An advanced kiln capable of volumetric oxidation with heavy nuclear waste by alternating different stages of oxidation and "
-"reduction."
+msgid "An advanced kiln capable of volumetric oxidation with heavy nuclear waste by alternating different stages of oxidation and reduction."
 msgstr "一种先进的窑炉，能够通过交替进行氧化和还原的不同阶段，对大量核废料进行体积氧化处理。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HEPCALCINATOR.NAME
@@ -1823,21 +1654,13 @@ msgstr "<link=\"HEPCALCINATOR\">体积氧化煅烧炉</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HEPCENTRIFUGE.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HEPCENTRIFUGE.DESC"
-msgid ""
-"A gas centrifuge is a device that performs isotope separation of gases. A centrifuge relies on the principles of centripetal force "
-"accelerating molecules so that particles of different masses are physically separated in a gradient along the radius of a rotating "
-"container."
+msgid "A gas centrifuge is a device that performs isotope separation of gases. A centrifuge relies on the principles of centripetal force accelerating molecules so that particles of different masses are physically separated in a gradient along the radius of a rotating container."
 msgstr "一种用于气体同位素分离的谁被，通过向心力加速分子运动，使不同质量的气体粒子沿旋转容器半径形成物理梯度，实现同位素分离。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HEPCENTRIFUGE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HEPCENTRIFUGE.EFFECT"
-msgid ""
-"The Zippe-type centrifuge is a gas device designed to enrich the rare fissile <link=\"ENRICHEDURANIUM\">Enriched Uranium</link> "
-"from the mixture of isotopes found in the manufactured <link=\"YELLOWCAKE\">Yellow Cake</link>. The separation process releases "
-"small amounts of <link=\"DEPLETEDURANIUM\">Depleted Uranium</link>as waste product."
-msgstr ""
-"齐普佩型离心机是一种专为从工业级<link=\"YELLOWCAKE\">黄饼</link>同位素混合物中提纯稀有裂变材料——<link=\"ENRICHEDURANIUM\">浓缩铀</"
-"link>设计的气体处理装置。分离过程将产生<link=\"DEPLETEDURANIUM\">贫铀</link>作为废弃物。"
+msgid "The Zippe-type centrifuge is a gas device designed to enrich the rare fissile <link=\"ENRICHEDURANIUM\">Enriched Uranium</link> from the mixture of isotopes found in the manufactured <link=\"YELLOWCAKE\">Yellow Cake</link>. The separation process releases small amounts of <link=\"DEPLETEDURANIUM\">Depleted Uranium</link>as waste product."
+msgstr "齐普佩型离心机是一种专为从工业级<link=\"YELLOWCAKE\">黄饼</link>同位素混合物中提纯稀有裂变材料——<link=\"ENRICHEDURANIUM\">浓缩铀</link>设计的气体处理装置。分离过程将产生<link=\"DEPLETEDURANIUM\">贫铀</link>作为废弃物。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HEPCENTRIFUGE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HEPCENTRIFUGE.NAME"
@@ -1851,11 +1674,8 @@ msgstr "一种内含电离辐射核素放射性源，运行时持续释放穿透
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HEPPROJECTOR.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HEPPROJECTOR.EFFECT"
-msgid ""
-"This device uses <link=\"URANIUMORE\">Uranium Ore</link>. As the fuel decays, it turns to liquid <link=\"NUCLEARWASTE\">Nuclear "
-"Waste</link>, which is piped out of the source."
-msgstr ""
-"本设备使用<link=\"URANIUMORE\">铀矿</link>作为辐射源。燃料衰变过程将转化为液态<link=\"NUCLEARWASTE\">核废料</link>，并通过管道输出。"
+msgid "This device uses <link=\"URANIUMORE\">Uranium Ore</link>. As the fuel decays, it turns to liquid <link=\"NUCLEARWASTE\">Nuclear Waste</link>, which is piped out of the source."
+msgstr "本设备使用<link=\"URANIUMORE\">铀矿</link>作为辐射源。燃料衰变过程将转化为液态<link=\"NUCLEARWASTE\">核废料</link>，并通过管道输出。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HEPPROJECTOR.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HEPPROJECTOR.NAME"
@@ -1869,7 +1689,7 @@ msgid ""
 "Composite nature of the pipe prevents gas contents from significantly changing temperature in transit."
 msgstr ""
 "一根经过加固的气体管道，能够承受高压流量。\n"
-"\\该管道的复合材质可确保气体在传输过程中温度变化不大。"
+"该管道的复合材质可确保气体在传输过程中温度变化不大。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HIGHPRESSUREGASCONDUIT.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HIGHPRESSUREGASCONDUIT.EFFECT"
@@ -1912,9 +1732,7 @@ msgstr "<link=\"HIGHPRESSUREGASCONDUITBRIDGE\">高压气体管道桥</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HIGHPRESSURELIQUIDCONDUIT.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HIGHPRESSURELIQUIDCONDUIT.DESC"
-msgid ""
-"A reinforced liquid pipe capable of handling high pressure flow. Composite nature of the pipe prevents liquid contents from "
-"significantly changing temperature in transit."
+msgid "A reinforced liquid pipe capable of handling high pressure flow. Composite nature of the pipe prevents liquid contents from significantly changing temperature in transit."
 msgstr "一种经过强化的液体管道，能够承受高压流体。该管道的复合材质可防止液体在传输过程中温度发生显著变化。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HIGHPRESSURELIQUIDCONDUIT.EFFECT
@@ -1935,9 +1753,7 @@ msgstr "<link=\"HIGHPRESSURELIQUIDCONDUIT\">高压液体管道</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HIGHPRESSURELIQUIDCONDUITBRIDGE.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HIGHPRESSURELIQUIDCONDUITBRIDGE.DESC"
-msgid ""
-"A reinforced liquid pipe bridge capable of handling high pressure flow. Composite nature of the pipe prevents liquid contents from "
-"significantly changing temperature in transit."
+msgid "A reinforced liquid pipe bridge capable of handling high pressure flow. Composite nature of the pipe prevents liquid contents from significantly changing temperature in transit."
 msgstr "一种经过加固的液体管道桥梁，能够承受高压水流。管道的复合材质可确保液体在运输过程中温度变化不大。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HIGHPRESSURELIQUIDCONDUITBRIDGE.EFFECT
@@ -1959,7 +1775,7 @@ msgstr "<link=\"HIGHPRESSURELIQUIDCONDUITBRIDGE\">高压液体管道桥</link>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HIGHTECHBIGFRIDGE.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HIGHTECHBIGFRIDGE.DESC"
 msgid "A fancy refrigerator with a sci-fi design."
-msgstr "一台有着科幻风格设计的高档冰柜。"
+msgstr "一台有着科幻风格设计的高档冰箱。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HIGHTECHBIGFRIDGE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HIGHTECHBIGFRIDGE.EFFECT"
@@ -1980,7 +1796,7 @@ msgstr "<link=\"HIGHTECHBIGFRIDGE\">大型高科技冰箱</link>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HIGHTECHSMALLFRIDGE.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HIGHTECHSMALLFRIDGE.DESC"
 msgid "A fancy fridge with a sci-fi design"
-msgstr "一款具有科幻风格设计的高档冰箱。"
+msgstr "一台具有科幻设计风格的高档冰箱。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HIGHTECHSMALLFRIDGE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HIGHTECHSMALLFRIDGE.EFFECT"
@@ -2033,9 +1849,7 @@ msgstr "通过压缩来提高轨道运输量!"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_RAILMERGER.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_RAILMERGER.EFFECT"
-msgid ""
-"Merges chunks of <link=\"ELEMENTSSOLID\">Solid Materials</link> from incoming rails and ouputs them onto a "
-"<link=\"HPASOLIDRAIL\">Heavy-Duty Rail</link>."
+msgid "Merges chunks of <link=\"ELEMENTSSOLID\">Solid Materials</link> from incoming rails and ouputs them onto a <link=\"HPASOLIDRAIL\">Heavy-Duty Rail</link>."
 msgstr "将来自轨道的<link=\"ELEMENTSSOLID\">固体材料</link>合并并输出至<link=\"HPASOLIDRAIL\">重型运输轨道</link>。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_RAILMERGER.NAME
@@ -2051,13 +1865,11 @@ msgstr "轨道通过将物资运送到最需要的地方，从而省去了复制
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_SOLIDRAIL.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_SOLIDRAIL.EFFECT"
 msgid ""
-"Transports large quantities of <link=\"ELEMENTSSOLID\">Solid Materials</link> on a track between <link=\"HPAINBOX\">Heavy-Duty "
-"Loaders</link> and <link=\"HPAOUTBOX\">Heavy-Duty Receptacles</link>.\n"
+"Transports large quantities of <link=\"ELEMENTSSOLID\">Solid Materials</link> on a track between <link=\"HPAINBOX\">Heavy-Duty Loaders</link> and <link=\"HPAOUTBOX\">Heavy-Duty Receptacles</link>.\n"
 "\n"
 "Can not be run through wall and floor tiles."
 msgstr ""
-"在<link=\"HPAINBOX\">重型轨道加载器</link>和<link=\"HPAOUTBOX\">重型轨道存放器</link>之间的轨道上运输大量的<link=\"ELEMENTSSOLID\">"
-"固体材料</link>。\n"
+"在<link=\"HPAINBOX\">重型轨道加载器</link>和<link=\"HPAOUTBOX\">重型轨道存放器</link>之间的轨道上运输大量的<link=\"ELEMENTSSOLID\">固体材料</link>。\n"
 "\n"
 "不可以穿过墙和地板。"
 
@@ -2099,8 +1911,7 @@ msgstr "将轨道系统进行分区有助于确保物资能够准确送达指定
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_SOLIDRAILBRIDGE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_SOLIDRAILBRIDGE.EFFECT"
 msgid ""
-"Allows <link=\"HPASOLIDRAIL\">Heavy-Duty Rail</link> and <link=\"HPASOLIDRAILINSULATED\">Insulated Heavy-Duty Rail</link> to run "
-"one section over another without joining them.\n"
+"Allows <link=\"HPASOLIDRAIL\">Heavy-Duty Rail</link> and <link=\"HPASOLIDRAILINSULATED\">Insulated Heavy-Duty Rail</link> to run one section over another without joining them.\n"
 "\n"
 "Canot be run through wall and floor tile."
 msgstr ""
@@ -2121,14 +1932,13 @@ msgstr "这种接合板能够将重型轨道穿过墙壁，同时不会导致气
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_SOLIDRAILBRIDGETILE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_SOLIDRAILBRIDGETILE.EFFECT"
 msgid ""
-"Allows <link=\"HPASOLIDRAIL\">Heavy-Duty Rail</link> and <link=\"HPASOLIDRAILINSULATED\">Insulated Heavy-Duty Rail</link> to be run "
-"through wall and floor tile.\n"
+"Allows <link=\"HPASOLIDRAIL\">Heavy-Duty Rail</link> and <link=\"HPASOLIDRAILINSULATED\">Insulated Heavy-Duty Rail</link> to be run through wall and floor tile.\n"
 "\n"
 "Functions as regular insulated tile."
 msgstr ""
 "允许<link=\"HPASOLIDRAIL\">重型轨道</link>和<link=\"HPASOLIDRAILINSULATED\">隔热重型轨道</link>穿越墙壁和地板。\n"
 "\n"
-"功能与常规隔热砖相同。"
+"像隔热砖一样隔热。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_SOLIDRAILBRIDGETILE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_SOLIDRAILBRIDGETILE.NAME"
@@ -2142,12 +1952,8 @@ msgstr "一种机械阀门，能够在重型轨道向运输轨道运输的时候
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_SOLIDRAILVALVE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_SOLIDRAILVALVE.EFFECT"
-msgid ""
-"Allows <link=\"ELEMENTSSOLID\">Solid Materials</link> to be transfered from <link=\"HPASOLIDRAIL\">Heavy-Duty Rails</link> to "
-"normal<link=\"SOLIDCONDUIT\">Conveyor Rails</link>."
-msgstr ""
-"允许将<link=\"ELEMENTSSOLID\">固体材料</link>从<link=\"HPASOLIDRAIL\">重型运输轨道</link>转移到普通的<link=\"SOLIDCONDUIT\">运输轨道"
-"</link>。"
+msgid "Allows <link=\"ELEMENTSSOLID\">Solid Materials</link> to be transfered from <link=\"HPASOLIDRAIL\">Heavy-Duty Rails</link> to normal<link=\"SOLIDCONDUIT\">Conveyor Rails</link>."
+msgstr "允许将<link=\"ELEMENTSSOLID\">固体材料</link>从<link=\"HPASOLIDRAIL\">重型运输轨道</link>转移到普通的<link=\"SOLIDCONDUIT\">运输轨道</link>。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_SOLIDRAILVALVE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_SOLIDRAILVALVE.NAME"
@@ -2162,18 +1968,15 @@ msgstr "点击建筑物即可随时查看自动清扫器的覆盖范围。"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_TRANSFERARM.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_TRANSFERARM.EFFECT"
 msgid ""
-"Automates <link=\"CHORES\">Sweeping</link> and <link=\"CHORES\">Supplying</link> errands by sucking up all nearby "
-"<link=\"DECOR\">Debris</link>.\n"
+"Automates <link=\"CHORES\">Sweeping</link> and <link=\"CHORES\">Supplying</link> errands by sucking up all nearby <link=\"DECOR\">Debris</link>.\n"
 "\n"
-"Materials are automatically delivered to any <link=\"HPAINBOX\">Heavy-Duty Loader</link>, <link=\"HPAOUTBOX\">Heavy-Duty "
-"Receptacle</link>, storage, or buildings within range.\n"
+"Materials are automatically delivered to any <link=\"HPAINBOX\">Heavy-Duty Loader</link>, <link=\"HPAOUTBOX\">Heavy-Duty Receptacle</link>, storage, or buildings within range.\n"
 "\n"
 "Comes with increased range, capacity and rotation speed."
 msgstr ""
 "通过吸走周围所有的<link=\"DECOR\">杂物</link>，实现<link=\"CHORES\">清扫</link>和<link=\"CHORES\">供应</link>任务的自动化。\n"
 "\n"
-"材料会自动被运送至任何<link=\"HPAINBOX\">重型轨道装载器</link>,<link=\"HPAOUTBOX\">重型轨道存放器</link>、存储箱或所在范围内的一切建"
-"筑物中。\n"
+"材料会自动被运送至任何<link=\"HPAINBOX\">重型轨道装载器</link>,<link=\"HPAOUTBOX\">重型轨道存放器</link>、存储箱或所在范围内的一切建筑物中。\n"
 "\n"
 "具有更大的范围，容量和转向速度。"
 
@@ -2223,7 +2026,7 @@ msgid ""
 msgstr ""
 "向高压环境中排放<link=\"ELEMENTSLIQUID\">液体</link>。\n"
 "\n"
-"必须与（<link=\"HIGHPRESSURELIQUIDCONDUIT\">高压液体管道</link>）相连。\n"
+"必须与<link=\"HIGHPRESSURELIQUIDCONDUIT\">高压液体管道</link>相连。\n"
 "\n"
 "需要电力才能运行。"
 
@@ -2240,7 +2043,7 @@ msgstr "用于建造房间的墙壁和地板。能减少墙壁之间的热量传
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.INSULATIONCOMPOSITIONTILE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.INSULATIONCOMPOSITIONTILE.EFFECT"
 msgid "A solid tile assembled in a range of materials and radiative pattern that reduce the heat transfer."
-msgstr "一种由多种材料制成的坚固瓷砖，其表面具有独特的辐射图案，能够有效减少热量传递。"
+msgstr "一种由多种材料制成的坚固砖块，其表面具有独特的辐射图案，能够有效减少热量传递。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.INSULATIONCOMPOSITIONTILE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.INSULATIONCOMPOSITIONTILE.NAME"
@@ -2279,13 +2082,8 @@ msgstr "<link=\"INVERTEDSMALLLIQUIDRESERVOIR\">小型储液罐A型</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LIGHTREACTOR.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LIGHTREACTOR.DESC"
-msgid ""
-"The advanced boiling water reactor (ABWR) uses non-pressurized coolant for steam production. Its comparative small size favors for "
-"a quicker heating of the coolant, however, it also increases the odds of a Meltdown in the absence of cooling. Releases Steam in "
-"the area directly below its central tile segment."
-msgstr ""
-"先进的沸水反应堆（ABWR）使用非加压冷却剂产生蒸汽。其相对较小的尺寸有利于更快地加热冷却剂，然而，它也增加了在没有冷却的情况下熔化的可"
-"能性。在其中心瓷砖段正下方的区域释放蒸汽。"
+msgid "The advanced boiling water reactor (ABWR) uses non-pressurized coolant for steam production. Its comparative small size favors for a quicker heating of the coolant, however, it also increases the odds of a Meltdown in the absence of cooling. Releases Steam in the area directly below its central tile segment."
+msgstr "先进的沸水反应堆（ABWR）使用非加压冷却剂产生蒸汽。其相对较小的尺寸有利于更快地加热冷却剂，然而，它也增加了在没有冷却的情况下熔化的可能性。在其中心砖块正下方的区域释放蒸汽。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LIGHTREACTOR.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LIGHTREACTOR.EFFECT"
@@ -2421,13 +2219,11 @@ msgstr "轨道通过将物资运送到最需要的地方，从而省去了复制
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LOGISTICRAIL.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LOGISTICRAIL.EFFECT"
 msgid ""
-"Transports small amounts of <link=\"ELEMENTSSOLID\">Solid Materials</link> on a track between <link=\"LOGISTICLOADER\">Logistic "
-"Loader</link> and <link=\"LOGISTICOUTBOX\">Logistic Receptacle</link>.\n"
+"Transports small amounts of <link=\"ELEMENTSSOLID\">Solid Materials</link> on a track between <link=\"LOGISTICLOADER\">Logistic Loader</link> and <link=\"LOGISTICOUTBOX\">Logistic Receptacle</link>.\n"
 "\n"
 "Can be run through wall and floor tile."
 msgstr ""
-"在<link=\"LOGISTICLOADER\">物流装载器</link>和<link=\"LOGISTICOUTBOX\">物流存放器</link>之间的轨道上运输少量<link=\"ELEMENTSSOLID\">"
-"固体材料</link>。\n"
+"在<link=\"LOGISTICLOADER\">物流装载器</link>和<link=\"LOGISTICOUTBOX\">物流存放器</link>之间的轨道上运输少量<link=\"ELEMENTSSOLID\">固体材料</link>。\n"
 "\n"
 "可以穿过墙和地板。"
 
@@ -2443,12 +2239,8 @@ msgstr "一种机械阀门，能够减少从传送轨道流向物流轨道的运
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LOGISTICRAILVALVE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LOGISTICRAILVALVE.EFFECT"
-msgid ""
-"Allows <link=\"ELEMENTSSOLID\">Solid Materials</link> to be transfered from normal <link=\"SOLIDCONDUIT\">Conveyor Rails</link> to "
-"<link=\"LOGISTICRAIL\">Logistic Rails</link>."
-msgstr ""
-"允许将<link=\"ELEMENTSSOLID\">固体材料</link>从常规的<link=\"SOLIDCONDUIT\">运输轨道</link>转移到<link=\"LOGISTICRAIL\">物流轨道</"
-"link>上。"
+msgid "Allows <link=\"ELEMENTSSOLID\">Solid Materials</link> to be transfered from normal <link=\"SOLIDCONDUIT\">Conveyor Rails</link> to <link=\"LOGISTICRAIL\">Logistic Rails</link>."
+msgstr "允许将<link=\"ELEMENTSSOLID\">固体材料</link>从常规的<link=\"SOLIDCONDUIT\">运输轨道</link>转移到<link=\"LOGISTICRAIL\">物流轨道</link>上。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LOGISTICRAILVALVE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LOGISTICRAILVALVE.NAME"
@@ -2463,16 +2255,13 @@ msgstr "点击建筑物即可随时查看自动清扫器的覆盖范围。"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LOGISTICTRANSFERARM.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LOGISTICTRANSFERARM.EFFECT"
 msgid ""
-"Automates <link=\"CHORES\">Sweeping</link> and <link=\"CHORES\">Supplying</link> errands by sucking up all nearby "
-"<link=\"DECOR\">Debris</link>.\n"
+"Automates <link=\"CHORES\">Sweeping</link> and <link=\"CHORES\">Supplying</link> errands by sucking up all nearby <link=\"DECOR\">Debris</link>.\n"
 "\n"
-"Materials are automatically delivered to any <link=\"LOGISTICLOADER\">Logistic Loader</link>, <link=\"LOGISTICOUTBOX\">Logistic "
-"Receptacle</link>, storage, or buildings within range."
+"Materials are automatically delivered to any <link=\"LOGISTICLOADER\">Logistic Loader</link>, <link=\"LOGISTICOUTBOX\">Logistic Receptacle</link>, storage, or buildings within range."
 msgstr ""
 "通过吸走周围所有的<link=\"DECOR\">杂物</link>，实现<link=\"CHORES\">清扫</link>和<link=\"CHORES\">供应</link>任务的自动化。\n"
 "\n"
-"材料会自动被运送至任何<link=\"LOGISTICLOADER\">物流装载器</link>,<link=\"LOGISTICOUTBOX\">物流存放器</link>、存储箱或所在范围内的一"
-"切建筑物中。"
+"材料会自动被运送至任何<link=\"LOGISTICLOADER\">物流装载器</link>,<link=\"LOGISTICOUTBOX\">物流存放器</link>、存储箱或所在范围内的一切建筑物中。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LOGISTICTRANSFERARM.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LOGISTICTRANSFERARM.NAME"
@@ -2497,7 +2286,7 @@ msgstr "<link=\"LOGISTICVENT\">物流轨道滑槽</link>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.MARBLETILESTRINGS.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.MARBLETILESTRINGS.DESC"
 msgid "A fine tile made from polished quality stones."
-msgstr "由高品质抛光石材制成的精美瓷砖."
+msgstr "由高品质抛光石材制成的精美砖块."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.MARBLETILESTRINGS.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.MARBLETILESTRINGS.EFFECT"
@@ -2547,9 +2336,7 @@ msgstr "<link=\"MEDLIQUIDRESERVOIR\">中型储液罐</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.METALLURGY_BALLCRUSHERMILL.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.METALLURGY_BALLCRUSHERMILL.DESC"
-msgid ""
-"A large sized industrial mill that crushes raw ores using steel balls and special vibrating separation device to sort out possible "
-"useful resources."
+msgid "A large sized industrial mill that crushes raw ores using steel balls and special vibrating separation device to sort out possible useful resources."
 msgstr "一座大型的工业加工厂，利用钢球和特殊的振动分离装置来破碎原始矿石，并从中筛选出可能有用的资源。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.METALLURGY_BALLCRUSHERMILL.EFFECT
@@ -2570,12 +2357,10 @@ msgstr "一种基础的原油精炼厂，其热源来自燃烧的固体物质。
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.METALLURGY_BASICOILREFINERY.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.METALLURGY_BASICOILREFINERY.EFFECT"
 msgid ""
-"Refines <link=\"CRUDEOIL\">Crude Oil</link> to <link=\"PETROLEUM\">Petroleum</link> using <link=\"CARBON\">Coal</link> as heat "
-"source. \n"
+"Refines <link=\"CRUDEOIL\">Crude Oil</link> to <link=\"PETROLEUM\">Petroleum</link> using <link=\"CARBON\">Coal</link> as heat source. \n"
 "The refinement process produces <link=\"METHANE\">Natural Gas</link> and <link=\"CARBONDIOXIDE\">Carbon Dioxide</link>.\n"
 "\n"
-"IMPORTANT: The Gases output ports piping is optional. If no Gas Pipe is attached to them, the output gases will be released "
-"directly on the environment."
+"IMPORTANT: The Gases output ports piping is optional. If no Gas Pipe is attached to them, the output gases will be released directly on the environment."
 msgstr ""
 "将<link=\"CRUDEOIL\">原油</link>通过<link=\"CARBON\">煤炭</link>作为热源转化为<link=\"PETROLEUM\">石油</link>。\n"
 "\n"
@@ -2590,9 +2375,7 @@ msgstr "<link=\"METALLURGYBASICOILREFINERY\">基础原油精炼厂</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.METALLURGY_PLASMAFURNACE.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.METALLURGY_PLASMAFURNACE.DESC"
-msgid ""
-"An advanced pyrometallurgical furnace that uses an extremely hot thermal plasma generated by a carrier gas jet. The high energy "
-"consumption is compensated by the quality and the yield of the refining process."
+msgid "An advanced pyrometallurgical furnace that uses an extremely hot thermal plasma generated by a carrier gas jet. The high energy consumption is compensated by the quality and the yield of the refining process."
 msgstr "先进熔炼冶金炉，其利用由载气喷射产生的极高温度的热等离子体进行工作。高昂的能耗通过精炼过程的质量和产量得到了弥补。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.METALLURGY_PLASMAFURNACE.EFFECT
@@ -2602,8 +2385,7 @@ msgid ""
 "\n"
 "Significantly <link=\"HEAT\">Heats</link> and exclusively consumes <link=\"HYDROGEN\">Hydrogen</link> as carrier gas.\n"
 "\n"
-"Main products are dispensed in molten state directly in the floor below the building while the liquid waste is released in a "
-"separated port."
+"Main products are dispensed in molten state directly in the floor below the building while the liquid waste is released in a separated port."
 msgstr ""
 "采用先进技术精炼<link=\"RAWMETAL\">金属矿石</link>及其他<link=\"RAWMINERAL\">矿物原料</link>。\n"
 "\n"
@@ -2633,18 +2415,13 @@ msgstr "<link=\"METALLURGYPYROLYSISKILN\">木材热解窑</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.MINING_AUGERDRILL.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.MINING_AUGERDRILL.DESC"
-msgid ""
-"A giant machinery engineered in the old world for asteroid mining. Has a self propelled drilling head fitted with a sensorial "
-"system and actuators that helps it to travel through the asteroid crust in search for resources of interest.  "
-msgstr ""
-"源自旧世界的巨型采矿设备，专用于小行星开采。它配备了一个可自行移动的钻头，该钻头内置有传感系统和执行器，能够帮助其在小行星地壳中穿"
-"梭，以寻找有价值的资源。"
+msgid "A giant machinery engineered in the old world for asteroid mining. Has a self propelled drilling head fitted with a sensorial system and actuators that helps it to travel through the asteroid crust in search for resources of interest.  "
+msgstr "源自旧世界的巨型采矿设备，专用于小行星开采。它配备了一个可自行移动的钻头，该钻头内置有传感系统和执行器，能够帮助其在小行星地壳中穿梭，以寻找有价值的资源。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.MINING_AUGERDRILL.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.MINING_AUGERDRILL.EFFECT"
 msgid ""
-"This rig uses specialized Drillbits to mine useful resources from the asteroid crust. Retrived resources are released upon the "
-"Drill Head return.\n"
+"This rig uses specialized Drillbits to mine useful resources from the asteroid crust. Retrived resources are released upon the Drill Head return.\n"
 "Require a constant supply of <link=\"COMBUSTIBLELIQUID\">Combustable Fuel</link> to function.\n"
 "Results: resources that are delivered upon Drillhead return.\n"
 "Occurrence: resources that are generated during Drillhead operation."
@@ -2661,16 +2438,12 @@ msgstr "<link=\"MININGAUGERDRILL\">Mk II型小行星旋钻机</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.MINING_CNCMACHINE.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.MINING_CNCMACHINE.DESC"
-msgid ""
-"An advanced CNC (Computer Numerical Control) Machining production station. Capable of managing different tools using specific "
-"directives by graphical computer-aided design software."
+msgid "An advanced CNC (Computer Numerical Control) Machining production station. Capable of managing different tools using specific directives by graphical computer-aided design software."
 msgstr "一台先进的数控（计算机数字控制）加工生产线。能够通过图形化的计算机辅助设计软件使用特定指令来管理各种工具。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.MINING_CNCMACHINE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.MINING_CNCMACHINE.EFFECT"
-msgid ""
-"Capable of producing specialty gadgets and other advanced tools. Requires the Mechatronics Engineering knowledge skill to be "
-"operated."
+msgid "Capable of producing specialty gadgets and other advanced tools. Requires the Mechatronics Engineering knowledge skill to be operated."
 msgstr "能够生产特殊设备和各类先进工具。需要具备机电一体化工程方面的知识技能才能操作。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.MINING_CNCMACHINE.NAME
@@ -2687,8 +2460,7 @@ msgstr "钻探深层矿床以获取固体资源。"
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.MINING_MINERALDRILL.EFFECT"
 msgid ""
 "A strong drilling apparatus engineered with self guidance sensors for mineral ores, and retrieval of resources while operational.\n"
-"The type of the drill head determines the dept of the drilling, retriving resources from other parts of the Asteroid that are "
-"inaccessible by normal means.\n"
+"The type of the drill head determines the dept of the drilling, retriving resources from other parts of the Asteroid that are inaccessible by normal means.\n"
 "The drill sensors have a limited range, and retrieval of useful ores are not guaranteed."
 msgstr ""
 "配备自导传感器的强力钻探设备，可实时回收矿物资源。\n"
@@ -2703,7 +2475,7 @@ msgstr "<link=\"MININGMINERALTRILL\">小行星旋钻机</link>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.MONOELEMENTTILE.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.MONOELEMENTTILE.DESC"
 msgid "A fine tile made from compacted stones."
-msgstr "由压实石块制成的精美瓷砖。"
+msgstr "由压实石块制成的精美砖块。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.MONOELEMENTTILE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.MONOELEMENTTILE.EFFECT"
@@ -2712,7 +2484,7 @@ msgid ""
 "\n"
 "Increases Duplicant runspeed."
 msgstr ""
-"由压实矿物质构成的这块瓷砖\n"
+"由压实矿物质构成的这块砖块\n"
 "\n"
 "提高复制人的行走速度。"
 
@@ -2723,13 +2495,8 @@ msgstr "<link=\"MONOELEMENTTILE\">精制砖</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.PRESSUREGASPUMP.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.PRESSUREGASPUMP.DESC"
-msgid ""
-"An advanced pump that perform mechanical work to compress and move gases. More powerful than the standard pump, this one is capable "
-"of moving large amounts of gases, although this is only archived through the <link=\"HIGHPRESSUREGASCONDUIT\">High Pressure Gas "
-"Pipe</link>."
-msgstr ""
-"一种先进的泵，够通过机械作用来压缩和输送气体。比标准泵更强大，能够输送大量气体，但这一功能仅通过<link=\"HIGHPRESSUREGASCONDUIT\">高"
-"压气体管道</link>实现。"
+msgid "An advanced pump that perform mechanical work to compress and move gases. More powerful than the standard pump, this one is capable of moving large amounts of gases, although this is only archived through the <link=\"HIGHPRESSUREGASCONDUIT\">High Pressure Gas Pipe</link>."
+msgstr "一种先进的泵，够通过机械作用来压缩和输送气体。比标准泵更强大，能够输送大量气体，但这一功能仅通过<link=\"HIGHPRESSUREGASCONDUIT\">高压气体管道</link>实现。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.PRESSUREGASPUMP.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.PRESSUREGASPUMP.EFFECT"
@@ -2749,19 +2516,13 @@ msgstr "<link=\"PRESSUREGASPUMP\">高压气泵</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.PRESSURELIQUIDPUMP.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.PRESSURELIQUIDPUMP.DESC"
-msgid ""
-"An advanced pump that perform mechanical work to compress and move fluids. More powerful than the standard pump, this one is "
-"capable of moving large amounts of liquids, although this is only archived through the <link=\"HIGHPRESSURELIQUIDCONDUIT\">High "
-"Pressure Liquid Pipe</link>."
-msgstr ""
-"一种先进的泵，够通过机械作用来压缩和输送液体。比标准泵更强大，能够输送大量液体，但这一功能仅通过<link=\"HIGHPRESSUREGASCONDUIT\">高"
-"压气体管道</link>实现。"
+msgid "An advanced pump that perform mechanical work to compress and move fluids. More powerful than the standard pump, this one is capable of moving large amounts of liquids, although this is only archived through the <link=\"HIGHPRESSURELIQUIDCONDUIT\">High Pressure Liquid Pipe</link>."
+msgstr "一种先进的泵，够通过机械作用来压缩和输送液体。比标准泵更强大，能够输送大量液体，但这一功能仅通过<link=\"HIGHPRESSUREGASCONDUIT\">高压气体管道</link>实现。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.PRESSURELIQUIDPUMP.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.PRESSURELIQUIDPUMP.EFFECT"
 msgid ""
-"Draws in <link=\"ELEMENTSLIQUID\">Liquid</link> and runs it through <link=\"HIGHPRESSURELIQUIDCONDUIT\">High Pressure Liquid Pipe</"
-"link>.\n"
+"Draws in <link=\"ELEMENTSLIQUID\">Liquid</link> and runs it through <link=\"HIGHPRESSURELIQUIDCONDUIT\">High Pressure Liquid Pipe</link>.\n"
 "\n"
 "Must be submerged in <link=\"ELEMENTSLIQUID\">Liquid</link>."
 msgstr ""
@@ -2783,10 +2544,9 @@ msgstr "混凝土砖块在美学上并不占优，但其高强度和隔热性弥
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.REINFORCEDCONCRETETILE.EFFECT"
 msgid ""
 "A rock hard composite tile made with coarse aggregate bonded together with a fluid cement.\n"
-"The concrete's relatively low tensile strength and ductility are compensated for by the inclusion of a internal rebar reinforcement "
-"having higher tensile strength or ductility."
+"The concrete's relatively low tensile strength and ductility are compensated for by the inclusion of a internal rebar reinforcement having higher tensile strength or ductility."
 msgstr ""
-"一种由粗骨料制成、并用流体水泥粘结而成的坚硬复合瓷砖。\n"
+"一种由粗骨料制成、并用流体水泥粘结而成的坚硬复合砖块。\n"
 "这种混凝土的抗拉强度和延展性相对较低，但通过加入具有更高抗拉强度或延展性的内部钢筋来加以弥补。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.REINFORCEDCONCRETETILE.NAME
@@ -2796,9 +2556,7 @@ msgstr "<link=\"REINFORCEDCONCRETETILE\">钢筋混凝土砖</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SIMPLEFRIDGE.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SIMPLEFRIDGE.DESC"
-msgid ""
-"A plain old-style home fridge. Still, this vintage building does the same job as a modern variant, which is preservation the of "
-"food."
+msgid "A plain old-style home fridge. Still, this vintage building does the same job as a modern variant, which is preservation the of food."
 msgstr "一台普通的传统家用冰箱。不过，这座老式建筑的功能与现代型号并无不同，都是用于保存食物。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SIMPLEFRIDGE.EFFECT
@@ -2809,12 +2567,12 @@ msgstr "这款冰箱采用密封式储存方式，能将食物保持在冷藏状
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SIMPLEFRIDGE.FACADES.SIMPLEFRIDGE_STICKERS.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SIMPLEFRIDGE.FACADES.SIMPLEFRIDGE_STICKERS.DESC"
 msgid "A variant of the Home Fridge that has been plastered with a large variety of stickers"
-msgstr "带有大量贴纸装饰的家庭冰箱的变体款式。"
+msgstr "一台贴满了各种各样的贴纸的家庭冰箱。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SIMPLEFRIDGE.FACADES.SIMPLEFRIDGE_STICKERS.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SIMPLEFRIDGE.FACADES.SIMPLEFRIDGE_STICKERS.NAME"
 msgid "<link=\"SIMPLEFRIDGESTICKERS\">Stickered Home Fridge</link>"
-msgstr "<link=\"SIMPLEFRIDGESTICKERS\">Stickered Home Fridge</link>"
+msgstr "<link=\"SIMPLEFRIDGESTICKERS\">贴花家庭冰箱/link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SIMPLEFRIDGE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SIMPLEFRIDGE.NAME"
@@ -2823,21 +2581,13 @@ msgstr "<link=\"SIMPLEFRIDGE\">贴花宅用冰箱</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SLIMEVAT.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SLIMEVAT.DESC"
-msgid ""
-"An advanced biological vat that grows a culture of mucopolysaccharides and multicelular fungi mould. This unit also uses advanced "
-"filter to extract Polluted Oxygen from its surroundings, albeit its not necessery for it to function. "
-msgstr ""
-"一个先进的生物培养缸，通过培育粘多糖复合体与多细胞真菌霉菌运作。内置先进过滤系统可吸收周边污染氧，不过这并非其正常运行所必需的条"
-"件。。"
+msgid "An advanced biological vat that grows a culture of mucopolysaccharides and multicelular fungi mould. This unit also uses advanced filter to extract Polluted Oxygen from its surroundings, albeit its not necessery for it to function. "
+msgstr "一个先进的生物培养缸，通过培育粘多糖复合体与多细胞真菌霉菌运作。内置先进过滤系统可吸收周边污染氧，不过这并非其正常运行所必需的条件。。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SLIMEVAT.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SLIMEVAT.EFFECT"
-msgid ""
-"Slime Vat needs <link=\"WATER\">Water</link> and <link=\"MUSHBAR\">Mush Bar</link> to grow, producing <link=\"SLIMEMOLD\">Slime</"
-"link> outgrowth that is collected from the botton. Due to its nature, the slime its produce will be contaminated with Slimelung."
-msgstr ""
-"需投入<link=\"WATER\">水</link>与<link=\"MUSHBAR\">软泥糕</link>以培养粘液，从缸底采收产出的<link=\"SLIMEMOLD\">粘液</link>增生体。"
-"注意：产物将天然携带粘液肺病菌污染。"
+msgid "Slime Vat needs <link=\"WATER\">Water</link> and <link=\"MUSHBAR\">Mush Bar</link> to grow, producing <link=\"SLIMEMOLD\">Slime</link> outgrowth that is collected from the botton. Due to its nature, the slime its produce will be contaminated with Slimelung."
+msgstr "需投入<link=\"WATER\">水</link>与<link=\"MUSHBAR\">软泥糕</link>以培养粘液，从缸底采收产出的<link=\"SLIMEMOLD\">粘液</link>增生体。注意：产物将天然携带粘液肺病菌污染。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SLIMEVAT.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SLIMEVAT.NAME"
@@ -2877,7 +2627,7 @@ msgstr "<link=\"SMALLGASRESERVOIRDEFAULT\">小型储气罐</link>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SMALLLIQUIDRESERVOIR.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SMALLLIQUIDRESERVOIR.DESC"
 msgid "A small sized reservoir. This variant has top to bottom flow"
-msgstr "一款小型储液库。该变体自上而下流动。"
+msgstr "一个小型储液库。该变体自上而下流动。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SMALLLIQUIDRESERVOIR.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SMALLLIQUIDRESERVOIR.EFFECT"
@@ -2911,9 +2661,7 @@ msgstr "一种用于在航天器内部储存食物的高级聚合物盒子。需
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SPACEBOX.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SPACEBOX.EFFECT"
-msgid ""
-"The sealed storage compartment of this box allows complete vacuum through connection with the spacecraft hulk, thus completely "
-"preserving the food within."
+msgid "The sealed storage compartment of this box allows complete vacuum through connection with the spacecraft hulk, thus completely preserving the food within."
 msgstr "这个箱子的气密存储舱通过与航天器主体的连接实现了完全的真空状态，从而能够完美地保存箱内的食物。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SPACEBOX.NAME
@@ -2924,7 +2672,7 @@ msgstr "<link=\"SPACEBOX\">太空储粮盒</link>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SPACERTILESOLID.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SPACERTILESOLID.DESC"
 msgid "A durable tile made for vacuum-exposed environments."
-msgstr "一种专为真空暴露环境而设计的耐用瓷砖。"
+msgstr "一种专为真空暴露环境而设计的耐用砖块。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SPACERTILESOLID.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SPACERTILESOLID.EFFECT"
@@ -2954,7 +2702,7 @@ msgid ""
 "\n"
 "Blocks Gas and Liquid while offering minimal thermal insulation."
 msgstr ""
-"这种带窗的瓷砖既能让光线和视线穿透进来，又能有效抵御太空的真空环境，形成坚固的屏障。\n"
+"这种带窗的砖块既能让光线和视线穿透进来，又能有效抵御太空的真空环境，形成坚固的屏障。\n"
 "\n"
 "能阻挡气体和液体，但隔热性能极差。"
 
@@ -3030,8 +2778,7 @@ msgstr "一款大尺寸的太空窗。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SPACERWINDOWLARGE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SPACERWINDOWLARGE.EFFECT"
-msgid ""
-"A solid window wrought from steel and fitted with thick layers of glass. Hermetically sealed joints prevent gas leakage into space."
+msgid "A solid window wrought from steel and fitted with thick layers of glass. Hermetically sealed joints prevent gas leakage into space."
 msgstr "由钢材制成的坚固窗户，内部镶嵌着厚厚的玻璃层。气密焊接接缝可防止气体泄漏到太空中。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SPACERWINDOWLARGE.NAME
@@ -3046,8 +2793,7 @@ msgstr "一款小尺寸的太空窗。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SPACERWINDOWWALL.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SPACERWINDOWWALL.EFFECT"
-msgid ""
-"A solid wall wrought from steel and fitted with thick layers of glass. Hermetically sealed joints prevent gas leakage into space."
+msgid "A solid wall wrought from steel and fitted with thick layers of glass. Hermetically sealed joints prevent gas leakage into space."
 msgstr "由钢材制成的大型坚固窗户，内部镶嵌着厚厚的玻璃层。气密焊接接缝可防止气体泄漏到太空中。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SPACERWINDOWWALL.FACADES.SPACERWINDOW_B.DESC
@@ -3073,8 +2819,7 @@ msgstr "储存固体和其他工业材料。"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STORAGEPOD.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STORAGEPOD.EFFECT"
 msgid ""
-"A versatile and convenient storage pod that can be built on walls. Store the <link=\"ELEMENTSSOLID\">Solid Materials</link> of your "
-"choosing.\n"
+"A versatile and convenient storage pod that can be built on walls. Store the <link=\"ELEMENTSSOLID\">Solid Materials</link> of your choosing.\n"
 "The pod prevents temperature exchange with the environment, as well gas leakage."
 msgstr ""
 "一个多功能、方便的储物舱，可以建在墙上。存储选择的<link=\"ELEMENTSSOLID\">固体材料</link>。\n"
@@ -3122,9 +2867,7 @@ msgstr "由精炼金属制造的空心框架砖。用于建造房间的墙壁与
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STRUCTURETILE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STRUCTURETILE.EFFECT"
-msgid ""
-"This steel structure is commonly used as a simple, yet strong tile for buildings. The frame structure will not hold any gas or "
-"liquid."
+msgid "This steel structure is commonly used as a simple, yet strong tile for buildings. The frame structure will not hold any gas or liquid."
 msgstr "这种钢结构通常作为简单而坚固的建筑单元使用，其框架结构不会滞留任何气体或液体。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STRUCTURETILE.NAME
@@ -3180,7 +2923,7 @@ msgstr "木质天花板"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENCOMPOSITIONTILE.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENCOMPOSITIONTILE.DESC"
 msgid "Tiles composed of minerals and wooden adornments."
-msgstr "由矿物和木制装饰品组成的瓷砖。"
+msgstr "由矿物和木制装饰品组成的砖块。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENCOMPOSITIONTILE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENCOMPOSITIONTILE.EFFECT"
@@ -3218,11 +2961,9 @@ msgstr "小心碎片！"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENDOOR.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENDOOR.EFFECT"
-msgid ""
-"A pretty wooden door that encloses areas without blocking Liquid or Gas flow. Sets Duplicant Access Permissions for area "
-"restriction."
+msgid "A pretty wooden door that encloses areas without blocking Liquid or Gas flow. Sets Duplicant Access Permissions for area restriction."
 msgstr ""
-"一扇精美的木质门.。\n"
+"一扇精美的木质门。\n"
 "\n"
 "封闭区域，但不能阻挡液体或气体流动。\n"
 "设置复制人权限来设定受限区域。"
@@ -3244,7 +2985,7 @@ msgid ""
 "\n"
 "Blocks Liquid flow without obstructing Gas."
 msgstr ""
-"一种半透性的木质瓷砖，用于建造房间的墙壁和地板。\n"
+"一种半透性的木质砖块，用于建造房间的墙壁和地板。\n"
 "\n"
 "阻止液体流动的同时又不会阻碍气体的通过。"
 
@@ -3265,7 +3006,7 @@ msgid ""
 "\n"
 "Allows the flow of both liquid and Gas."
 msgstr ""
-"一种具有透水性的木质瓷砖，用于建造房间的墙壁和地板。\n"
+"一种具有透水性的木质砖块，用于建造房间的墙壁和地板。\n"
 "既能让液体也能让气体通过。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENMESHTILE.NAME
@@ -3366,7 +3107,7 @@ msgstr "化学烧伤"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.DUPLICANTS.STATUSITEMS.ACIDBURNS.NOTIFICATION_TOOLTIP
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.DUPLICANTS.STATUSITEMS.ACIDBURNS.NOTIFICATION_TOOLTIP"
 msgid "Duplicants have been exposed to acids."
-msgstr "复制人曾暴露于酸性物质中！"
+msgstr "复制人曾暴露于酸性物质中。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.DUPLICANTS.STATUSITEMS.ACIDBURNS.TOOLTIP
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.DUPLICANTS.STATUSITEMS.ACIDBURNS.TOOLTIP"
@@ -3375,9 +3116,7 @@ msgstr "该复制人因接触腐蚀性酸性物质而受伤。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AMMONIAGAS.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AMMONIAGAS.DESC"
-msgid ""
-"(NH<sub>3</sub>) Ammonia is an inorganic compound of nitrogen and hydrogen. A stable binary hydride, and the simplest pnictogen "
-"hydride, ammonia is a gas with a distinct pungent smell."
+msgid "(NH<sub>3</sub>) Ammonia is an inorganic compound of nitrogen and hydrogen. A stable binary hydride, and the simplest pnictogen hydride, ammonia is a gas with a distinct pungent smell."
 msgstr "（NH<sub>3</sub>）氨是氮和氢的无机化合物。氨是一种稳定的二元氢化物，也是最简单的氮氢化物。是一种具有明显刺鼻气味的气体。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AMMONIAGAS.NAME
@@ -3397,9 +3136,7 @@ msgstr "<link=\"AMMONIUMSALT\">硝酸盐结晶</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AMMONIUMWATER.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AMMONIUMWATER.DESC"
-msgid ""
-"(NH<sub>4</sub>OH) Ammonium hydroxide is a solution of <link=\"AMMONIAGAS\">Ammonia</link> and <link=\"SALTWATER\">Salt Water</"
-"link>."
+msgid "(NH<sub>4</sub>OH) Ammonium hydroxide is a solution of <link=\"AMMONIAGAS\">Ammonia</link> and <link=\"SALTWATER\">Salt Water</link>."
 msgstr "（NH<sub>4</sub>OH）氢氧化铵是由<link=\"AMMONIAGAS\">氨</link>和<link=\"SALTWATER\">盐水</link>混合而成的溶液。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AMMONIUMWATER.NAME
@@ -3409,9 +3146,7 @@ msgstr "<link=\"AMMONIUMWATER\">氨水</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.ARGENTITEORE.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.ARGENTITEORE.DESC"
-msgid ""
-"(Ag<sub>2</sub>S) Argentite is a cubic silver sulfide is a conductive metal, and the main source of refined "
-"<link=\"SOLIDSILVER\">Silver</link> metal."
+msgid "(Ag<sub>2</sub>S) Argentite is a cubic silver sulfide is a conductive metal, and the main source of refined <link=\"SOLIDSILVER\">Silver</link> metal."
 msgstr "（Ag<sub>2</sub>S）辉银矿是一种立方晶系硫化银矿物，导电金属，是精炼<link=\"SOLIDSILVER\">银</link>的主要来源。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.ARGENTITEORE.NAME
@@ -3421,12 +3156,8 @@ msgstr "<link=\"ARGENTITEORE\">辉银矿</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AURICHALCITEORE.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AURICHALCITEORE.DESC"
-msgid ""
-"((Zn,Cu)<sub>5</sub>(CO<sub>3</sub>)<sub>2</sub>(OH)<sub>6</sub>) Aurichalcite is a carbonate mineral, and the main source of "
-"refined <link=\"SOLIDZINC\">Zinc</link> metal."
-msgstr ""
-"((Zn,Cu)<sub>5</sub>(CO<sub>3</sub>)<sub>2</sub>(OH)<sub>6</sub>) 绿铜锌矿是一种碳酸盐矿物，是精炼<link=\"SOLIDZINC\">锌</link>的主"
-"要来源。"
+msgid "((Zn,Cu)<sub>5</sub>(CO<sub>3</sub>)<sub>2</sub>(OH)<sub>6</sub>) Aurichalcite is a carbonate mineral, and the main source of refined <link=\"SOLIDZINC\">Zinc</link> metal."
+msgstr "((Zn,Cu)<sub>5</sub>(CO<sub>3</sub>)<sub>2</sub>(OH)<sub>6</sub>) 绿铜锌矿是一种碳酸盐矿物，是精炼<link=\"SOLIDZINC\">锌</link>的主要来源。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AURICHALCITEORE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AURICHALCITEORE.NAME"
@@ -3445,12 +3176,8 @@ msgstr "<link=\"BASEGRADESAND\">中级金属砂</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.BIOPLASTIC.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.BIOPLASTIC.DESC"
-msgid ""
-"A synthetic biopolymer produced from renewable biomass sources, such as vegetable fats and oils, and enzymes from bacterial "
-"biosynthesis. Unlike traditional plastics, which are derived from fossil fuels, bioplastics are obtained from renewable resources."
-msgstr ""
-"一种由可再生生物质来源（如植物油脂和油类）以及细菌生物合成产生的合成生物聚合物。与传统塑料（由化石燃料）制成不同，生物塑料是通过可再"
-"生资源获取的。"
+msgid "A synthetic biopolymer produced from renewable biomass sources, such as vegetable fats and oils, and enzymes from bacterial biosynthesis. Unlike traditional plastics, which are derived from fossil fuels, bioplastics are obtained from renewable resources."
+msgstr "一种由可再生生物质来源（如植物油脂和油类）以及细菌生物合成产生的合成生物聚合物。与传统塑料（由化石燃料）制成不同，生物塑料是通过可再生资源获取的。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.BIOPLASTIC.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.BIOPLASTIC.NAME"
@@ -3459,13 +3186,8 @@ msgstr "<link=\"BIOPLASTIC\">生物塑料</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.CARBONFIBER.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.CARBONFIBER.DESC"
-msgid ""
-"Carbon fiber-reinforced polymers blocks are extremely strong and light fiber-reinforced plastics that contain carbon fibers. Used "
-"on wherever high strength-to-weight ratio and stiffness (rigidity) are required, such as aerospace. Its composition of allotropes "
-"of carbon make it extremely resistant to heat."
-msgstr ""
-"碳纤维增强聚合物块体极其坚固且轻盈,是由碳纤维构成的纤维增强塑料。这种材料适用于需要高强度与轻量化、高刚度(硬度)的场合,比如航空航天领"
-"域。其由碳的不同同素异形体构成,使其具有极强的耐热性。"
+msgid "Carbon fiber-reinforced polymers blocks are extremely strong and light fiber-reinforced plastics that contain carbon fibers. Used on wherever high strength-to-weight ratio and stiffness (rigidity) are required, such as aerospace. Its composition of allotropes of carbon make it extremely resistant to heat."
+msgstr "碳纤维增强聚合物块体极其坚固且轻盈,是由碳纤维构成的纤维增强塑料。这种材料适用于需要高强度与轻量化、高刚度(硬度)的场合,比如航空航天领域。其由碳的不同同素异形体构成,使其具有极强的耐热性。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.CARBONFIBER.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.CARBONFIBER.NAME"
@@ -3474,9 +3196,7 @@ msgstr "<link=\"CARBONFIBER\">复合碳纤维</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.CHLOROSCHIST.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.CHLOROSCHIST.DESC"
-msgid ""
-"A dense medium-grained metamorphic rock showing pronounced schistosity. This sample has a high content of chloride minerals within "
-"its compacted layers."
+msgid "A dense medium-grained metamorphic rock showing pronounced schistosity. This sample has a high content of chloride minerals within its compacted layers."
 msgstr "一种质地致密、颗粒粗大的变质岩，具有明显的片岩构造特征。该样本的紧密层状结构中含有大量的氯化物矿物。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.CHLOROSCHIST.NAME
@@ -3486,9 +3206,7 @@ msgstr "<link=\"CHLOROSCHIST\">绿片岩</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.CONCRETEBLOCK.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.CONCRETEBLOCK.DESC"
-msgid ""
-"Concrete blocks are standard-size rectangular blocks used in building construction. A versatile component made from different "
-"aggregates that are often considered waste products."
+msgid "Concrete blocks are standard-size rectangular blocks used in building construction. A versatile component made from different aggregates that are often considered waste products."
 msgstr "混凝土砖块是建筑施工中常用的标准尺寸的长方体块体。这是一种用途广泛的构件，由多种不同的骨料制成，而这些骨料通常被视为废弃物。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.CONCRETEBLOCK.NAME
@@ -3498,13 +3216,8 @@ msgstr "<link=\"CONCRETEBLOCK\">混凝土砖</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.GALENA.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.GALENA.DESC"
-msgid ""
-"Galena is the natural mineral form of lead(II) sulfide (PbS).It is the most important ore of <link=\"LEAD\">Lead</link> and an "
-"important source of <link=\"SOLIDSILVER\">Silver</link>."
-msgstr ""
-"方铅矿是硫化铅（PbS）的天然矿物形式。它是<link=\"LEAD\">LEAD</link>最重要的矿石，也是<link=\"SOLIDSILVER\">银</link>的重要来源。\v方"
-"铅矿是铅（II）硫化物（PbS）的天然矿物形态。它是<link=\"LEAD\">铅</link>最重要的矿石，并且是是<link=\"SOLIDSILVER\">银</link>的重要来"
-"源。"
+msgid "Galena is the natural mineral form of lead(II) sulfide (PbS).It is the most important ore of <link=\"LEAD\">Lead</link> and an important source of <link=\"SOLIDSILVER\">Silver</link>."
+msgstr "方铅矿是硫化铅（PbS）的天然矿物形式。它是<link=\"LEAD\">LEAD</link>最重要的矿石，也是<link=\"SOLIDSILVER\">银</link>的重要来源。\v方铅矿是铅（II）硫化物（PbS）的天然矿物形态。它是<link=\"LEAD\">铅</link>最重要的矿石，并且是是<link=\"SOLIDSILVER\">银</link>的重要来源。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.GALENA.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.GALENA.NAME"
@@ -3523,11 +3236,8 @@ msgstr "<link=\"HIGHGRADESAND\">高级金属砂</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.ISOPROPANEGAS.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.ISOPROPANEGAS.DESC"
-msgid ""
-"(HC(CH<sub>3</sub>)<sub>3</sub>) Isopropane is a petrochemical refrigerant gas suitable for a variety of purposes. Degrades to "
-"<link=\"PROPANE\">Propane</link> at higher temperatures."
-msgstr ""
-"(HC(CH<sub>3</sub>)<sub>3</sub>）异丙烷是一种石油化工制冷剂气体，适用于多种用途。在较高温度下会分解为<link=\"PROPANE\">丙烷</link>。"
+msgid "(HC(CH<sub>3</sub>)<sub>3</sub>) Isopropane is a petrochemical refrigerant gas suitable for a variety of purposes. Degrades to <link=\"PROPANE\">Propane</link> at higher temperatures."
+msgstr "(HC(CH<sub>3</sub>)<sub>3</sub>）异丙烷是一种石油化工制冷剂气体，适用于多种用途。在较高温度下会分解为<link=\"PROPANE\">丙烷</link>。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.ISOPROPANEGAS.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.ISOPROPANEGAS.NAME"
@@ -3556,11 +3266,8 @@ msgstr "<link=\"LIQUIDBIODIESEL\">可再生柴油</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.LIQUIDNITRIC.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.LIQUIDNITRIC.DESC"
-msgid ""
-"(HNO<sub>3</sub>) An inorganic mineral acid composed of the elements nitrogen, oxygen and hydrogen. Presented in its liquid state, "
-"is the primary reagent used for nitration – the addition of a nitro group, typically to an organic molecule."
-msgstr ""
-"（HNO<sub>3</sub>）一种由氮、氧和氢三种元素组成的无机酸。以液态形式存在时，它是用于硝化反应（即向有机分子中添加硝基）的主要试剂。"
+msgid "(HNO<sub>3</sub>) An inorganic mineral acid composed of the elements nitrogen, oxygen and hydrogen. Presented in its liquid state, is the primary reagent used for nitration – the addition of a nitro group, typically to an organic molecule."
+msgstr "（HNO<sub>3</sub>）一种由氮、氧和氢三种元素组成的无机酸。以液态形式存在时，它是用于硝化反应（即向有机分子中添加硝基）的主要试剂。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.LIQUIDNITRIC.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.LIQUIDNITRIC.NAME"
@@ -3569,9 +3276,7 @@ msgstr "<link=\"LIQUIDNITRIC\">硝酸</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.LIQUIDNITROGEN.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.LIQUIDNITROGEN.DESC"
-msgid ""
-"(N<sub>2</sub>) Nitrogen is a nonmetal and the lightest member of group 15 of the periodic table, currently in its cold, liquid "
-"state."
+msgid "(N<sub>2</sub>) Nitrogen is a nonmetal and the lightest member of group 15 of the periodic table, currently in its cold, liquid state."
 msgstr "（N<sub>2</sub>）氮是一种非金属元素，是元素周期表第 15 族中最轻的成员，目前处于低温的液态。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.LIQUIDNITROGEN.NAME
@@ -3581,11 +3286,8 @@ msgstr "<link=\"LIQUIDNITROGEN\">液态氮</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.LIQUIDSULFURIC.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.LIQUIDSULFURIC.DESC"
-msgid ""
-"(H<sub>2</sub>SO<sub>4</sub>) A mineral acid composed of the elements sulfur, oxygen and hydrogen. Presented in its liquid state, "
-"it is a very dangerous chemical for its corrosive nature."
-msgstr ""
-"（H<sub>2</sub>SO<sub>4</sub>）一种由硫、氧和氢三种元素组成的无机酸。以液态形式存在时，因其腐蚀性极强而是一种非常危险的化学物质。"
+msgid "(H<sub>2</sub>SO<sub>4</sub>) A mineral acid composed of the elements sulfur, oxygen and hydrogen. Presented in its liquid state, it is a very dangerous chemical for its corrosive nature."
+msgstr "（H<sub>2</sub>SO<sub>4</sub>）一种由硫、氧和氢三种元素组成的无机酸。以液态形式存在时，因其腐蚀性极强而是一种非常危险的化学物质。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.LIQUIDSULFURIC.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.LIQUIDSULFURIC.NAME"
@@ -3614,12 +3316,8 @@ msgstr "<link=\"LOWGRADESAND\">低级金属砂</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.METEORORE.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.METEORORE.DESC"
-msgid ""
-"A dense stony mass formed when various types of dust and small grains in the early Solar System accreted to form primitive "
-"asteroids. Despite their stony nature, these collision remnants contain traces of rare metals."
-msgstr ""
-"在早期太阳系中，各种类型的尘埃和微小颗粒相互聚集形成了原始小行星，从而形成了一个密集的石质物质团块。尽管这些碰撞残留物本身是石质的，"
-"但它们中仍含有稀有金属的痕迹。"
+msgid "A dense stony mass formed when various types of dust and small grains in the early Solar System accreted to form primitive asteroids. Despite their stony nature, these collision remnants contain traces of rare metals."
+msgstr "在早期太阳系中，各种类型的尘埃和微小颗粒相互聚集形成了原始小行星，从而形成了一个密集的石质物质团块。尽管这些碰撞残留物本身是石质的，但它们中仍含有稀有金属的痕迹。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.METEORORE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.METEORORE.NAME"
@@ -3638,12 +3336,8 @@ msgstr "<link=\"MOLTENSILVER\">熔融银</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.MOLTENSLAG.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.MOLTENSLAG.DESC"
-msgid ""
-"Molten Slag is a by-product of smelting (pyrometallurgical) ores and used metals. Present in molten state, this waste materail "
-"needs to be cooled down to solid <link=\"SOLIDSLAG\">Slag</link> before can be used."
-msgstr ""
-"熔渣是冶炼（火法冶金）矿石和废旧金属的副产品。这种废料以液态形式存在，需要先冷却至固态（即\"<link=\"SOLIDSLAG\">炉渣</link>\"）状态"
-"后才能使用。"
+msgid "Molten Slag is a by-product of smelting (pyrometallurgical) ores and used metals. Present in molten state, this waste materail needs to be cooled down to solid <link=\"SOLIDSLAG\">Slag</link> before can be used."
+msgstr "熔渣是冶炼（火法冶金）矿石和废旧金属的副产品。这种废料以液态形式存在，需要先冷却至固态（即\"<link=\"SOLIDSLAG\">炉渣</link>\"）状态后才能使用。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.MOLTENSLAG.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.MOLTENSLAG.NAME"
@@ -3672,12 +3366,8 @@ msgstr "<link=\"NITROGENGAS\">氮气</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.PHOSPHORBRONZE.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.PHOSPHORBRONZE.DESC"
-msgid ""
-"An alloy composed of <link=\"COPPER\">Copper</link>, <link=\"LEAD\">Lead</link> and <link=\"PHOSPHORUS\">Phosphorus</link>. Among "
-"copper based alloys it is remarkable tough, and has a relative low thermal conductivity."
-msgstr ""
-"由<link=\"COPPER\">铜</link>、<link=\"LEAD\">铅</link>和<link=\"PHOSPHORUS\">磷</link>组成的合金。在铜基合金中具有显著强韧性，且热导"
-"率相对较低。"
+msgid "An alloy composed of <link=\"COPPER\">Copper</link>, <link=\"LEAD\">Lead</link> and <link=\"PHOSPHORUS\">Phosphorus</link>. Among copper based alloys it is remarkable tough, and has a relative low thermal conductivity."
+msgstr "由<link=\"COPPER\">铜</link>、<link=\"LEAD\">铅</link>和<link=\"PHOSPHORUS\">磷</link>组成的合金。在铜基合金中具有显著强韧性，且热导率相对较低。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.PHOSPHORBRONZE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.PHOSPHORBRONZE.NAME"
@@ -3686,12 +3376,8 @@ msgstr "<link=\"PHOSPHORBRONZE\">磷青铜</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.PLASTEEL.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.PLASTEEL.DESC"
-msgid ""
-"A composite of <link=\"POLYPROPYLENE\">Plastic</link> stabilized fibers grown into a <link=\"STEEL\">Steel</link> crystal "
-"structure. It is much more stronger and lighter than standard metals alloys, and has a very low thermal conductivity."
-msgstr ""
-"这是一种由<link=\"POLYPROPYLENE\">塑料</link>加固纤维构成的材料，其结构类似于<link=\"STEEL\">钢</link>晶体。这种材料比常规金属合金更"
-"坚固、更轻便，而且热导率极低。"
+msgid "A composite of <link=\"POLYPROPYLENE\">Plastic</link> stabilized fibers grown into a <link=\"STEEL\">Steel</link> crystal structure. It is much more stronger and lighter than standard metals alloys, and has a very low thermal conductivity."
+msgstr "这是一种由<link=\"POLYPROPYLENE\">塑料</link>加固纤维构成的材料，其结构类似于<link=\"STEEL\">钢</link>晶体。这种材料比常规金属合金更坚固、更轻便，而且热导率极低。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.PLASTEEL.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.PLASTEEL.NAME"
@@ -3700,12 +3386,8 @@ msgstr "<link=\"PLASTEEL\">塑晶钢</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.RAWNATURALGAS.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.RAWNATURALGAS.DESC"
-msgid ""
-"A fossil gas consisting of gaseous hydrocarbons and other impurites. The majority of the gas mass is composed of "
-"<link=\"METHANE\">Methane</link>, <link=\"PROPANE\">Propane</link> and <link=\"SOURGAS\">Sour Gas</link>."
-msgstr ""
-"由气态碳氢化合物和其他杂质组成的化石气体。大部分气体由<link=\"METHANE\">甲烷</link>、<link=\"PROPANE\">丙烷</link>和<link=‘SOURGAS’>"
-"酸性气体</link>。"
+msgid "A fossil gas consisting of gaseous hydrocarbons and other impurites. The majority of the gas mass is composed of <link=\"METHANE\">Methane</link>, <link=\"PROPANE\">Propane</link> and <link=\"SOURGAS\">Sour Gas</link>."
+msgstr "由气态碳氢化合物和其他杂质组成的化石气体。大部分气体由<link=\"METHANE\">甲烷</link>、<link=\"PROPANE\">丙烷</link>和<link=‘SOURGAS’>酸性气体</link>。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.RAWNATURALGAS.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.RAWNATURALGAS.NAME"
@@ -3744,9 +3426,7 @@ msgstr "<link=\"SOLIDBIODIESEL\">凝冻可再生柴油</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SOLIDBIOMASS.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SOLIDBIOMASS.DESC"
-msgid ""
-"A dried, hard pressed clump of organic mass from vegetable origin. Has almost no moisture and can be used as burnable fuel or can "
-"be turned to dirt through composting."
+msgid "A dried, hard pressed clump of organic mass from vegetable origin. Has almost no moisture and can be used as burnable fuel or can be turned to dirt through composting."
 msgstr "一种由植物来源制成的干燥、坚硬的有机物质团块。其含水量极少，可用作燃料，或者通过堆肥处理转化为泥土。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SOLIDBIOMASS.NAME
@@ -3756,11 +3436,8 @@ msgstr "<link=\"SOLIDBIOMASS\">压缩生物质</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SOLIDBORAX.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SOLIDBORAX.DESC"
-msgid ""
-"Borax, also known as sodium borate, is an important boron compound, mainly used in the manufacture of "
-"<link=\"SOLIDFIBERGLASS\">Fiberglass</link>, and as a flux in metallurgy."
-msgstr ""
-"硼砂，又称硼酸钠，是一种重要的硼化合物，主要用于制造<link=\"SOLIDFIBERGLASS\">玻璃纤维</link>，并且在冶金行业中也作为一种助溶剂。"
+msgid "Borax, also known as sodium borate, is an important boron compound, mainly used in the manufacture of <link=\"SOLIDFIBERGLASS\">Fiberglass</link>, and as a flux in metallurgy."
+msgstr "硼砂，又称硼酸钠，是一种重要的硼化合物，主要用于制造<link=\"SOLIDFIBERGLASS\">玻璃纤维</link>，并且在冶金行业中也作为一种助溶剂。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SOLIDBORAX.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SOLIDBORAX.NAME"
@@ -3769,12 +3446,8 @@ msgstr "<link=\"SOLIDBORAX\">硼砂</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SOLIDBRASS.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SOLIDBRASS.DESC"
-msgid ""
-"Brass is an alloy of <link=\"COPPER\">Copper</link> and <link=\"SOLIDZINC\">Zinc</link>, widely used to make utensils due to "
-"properties such as having a low melting point, high workability, durability, and electrical and thermal conductivity."
-msgstr ""
-"黄铜是由<link=\"COPPER\">铜</link>和<link=\"SOLIDZINC\">锌</link>组成的合金，因其具有低熔点、高可塑性、耐用性以及良好的导电性和导热"
-"性等特性，被广泛用于制造器具。"
+msgid "Brass is an alloy of <link=\"COPPER\">Copper</link> and <link=\"SOLIDZINC\">Zinc</link>, widely used to make utensils due to properties such as having a low melting point, high workability, durability, and electrical and thermal conductivity."
+msgstr "黄铜是由<link=\"COPPER\">铜</link>和<link=\"SOLIDZINC\">锌</link>组成的合金，因其具有低熔点、高可塑性、耐用性以及良好的导电性和导热性等特性，被广泛用于制造器具。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SOLIDBRASS.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SOLIDBRASS.NAME"
@@ -3783,13 +3456,8 @@ msgstr "<link=\"SOLIDBRASS\">黄铜</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SOLIDFIBERGLASS.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SOLIDFIBERGLASS.DESC"
-msgid ""
-"Fiberglass is a thermoset polymer matrix made by a poltrusion of boronsilicate <link=\"GLASS\">Glass</link> and "
-"<link=\"POLYPROPYLENE\">Plastic</link>. Although the fiber is weak in compression, this composite material has moderate insulating "
-"properties, and can be easily used in many different applications due to its relative flexibility."
-msgstr ""
-"玻璃纤维是一种热固性聚合物基体，由硼硅酸盐（即<link=\"GLASS\">玻璃</link>）和<link=\"POLYPROPYLENE\">塑料</link>通过层压工艺制成。尽"
-"管这种纤维在抗压方面表现较弱，但这种复合材料具有良好的绝缘性能，并且由于其相对的柔韧性，能够广泛应用于多种不同的领域。"
+msgid "Fiberglass is a thermoset polymer matrix made by a poltrusion of boronsilicate <link=\"GLASS\">Glass</link> and <link=\"POLYPROPYLENE\">Plastic</link>. Although the fiber is weak in compression, this composite material has moderate insulating properties, and can be easily used in many different applications due to its relative flexibility."
+msgstr "玻璃纤维是一种热固性聚合物基体，由硼硅酸盐（即<link=\"GLASS\">玻璃</link>）和<link=\"POLYPROPYLENE\">塑料</link>通过层压工艺制成。尽管这种纤维在抗压方面表现较弱，但这种复合材料具有良好的绝缘性能，并且由于其相对的柔韧性，能够广泛应用于多种不同的领域。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SOLIDFIBERGLASS.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SOLIDFIBERGLASS.NAME"
@@ -3798,9 +3466,7 @@ msgstr "<link=\"SOLIDFIBERGLASS\">玻璃纤维</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SOLIDNITROGEN.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SOLIDNITROGEN.DESC"
-msgid ""
-"(N<sub>2</sub>) Nitrogen is a nonmetal and the lightest member of group 15 of the periodic table, currently its its cold, solid "
-"state."
+msgid "(N<sub>2</sub>) Nitrogen is a nonmetal and the lightest member of group 15 of the periodic table, currently its its cold, solid state."
 msgstr "（N<sub>2</sub>）氮是一种非金属元素，是元素周期表第 15 族中最轻的成员。（固态）"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SOLIDNITROGEN.NAME
@@ -3830,12 +3496,8 @@ msgstr "<link=\"SOLIDSILVER\">银</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SOLIDSLAG.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SOLIDSLAG.DESC"
-msgid ""
-"Slag is a by-product of smelting (pyrometallurgical) ores and used metals. Despite being a waste product, it has many applications, "
-"such as aggregate in <link=\"CONCRETEBLOCK\">Concrete Blocks</link>."
-msgstr ""
-"炉渣是冶炼（火法冶金）矿石和废旧金属的副产品。尽管它属于废弃物，但其用途众多，例如可作为<link=\"CONCRETEBLOCK\">Concrete Blocks</"
-"link>中的骨料。"
+msgid "Slag is a by-product of smelting (pyrometallurgical) ores and used metals. Despite being a waste product, it has many applications, such as aggregate in <link=\"CONCRETEBLOCK\">Concrete Blocks</link>."
+msgstr "炉渣是冶炼（火法冶金）矿石和废旧金属的副产品。尽管它属于废弃物，但其用途众多，例如可作为<link=\"CONCRETEBLOCK\">Concrete Blocks</link>中的骨料。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SOLIDSLAG.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SOLIDSLAG.NAME"
@@ -3864,12 +3526,8 @@ msgstr "<link=\"SOLIDZINC\">锌</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SOURWATER.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SOURWATER.DESC"
-msgid ""
-"An aqueous solution of Hydrogen Sulfide (H<sub>2</sub>S>) and Ammonia (NH<sub>3</sub>). May occur naturally from aquifers exposed "
-"to hydrogen sulfide sources, but it is more common as a wastewater from industrial processes."
-msgstr ""
-"一种由硫化氢（H<sub>2</sub>S>）和氨（NH<sub>3</sub>）组成的水溶液。这种溶液可能自然地从暴露于硫化氢源的含水层中产生，但更常见的是作"
-"为工业生产过程中的废水而出现。"
+msgid "An aqueous solution of Hydrogen Sulfide (H<sub>2</sub>S>) and Ammonia (NH<sub>3</sub>). May occur naturally from aquifers exposed to hydrogen sulfide sources, but it is more common as a wastewater from industrial processes."
+msgstr "一种由硫化氢（H<sub>2</sub>S>）和氨（NH<sub>3</sub>）组成的水溶液。这种溶液可能自然地从暴露于硫化氢源的含水层中产生，但更常见的是作为工业生产过程中的废水而出现。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SOURWATER.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SOURWATER.NAME"
@@ -3878,12 +3536,8 @@ msgstr "<link=\"SOURWATER\">酸水</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SULFURICGAS.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SULFURICGAS.DESC"
-msgid ""
-"(H<sub>2</sub>SO<sub>4</sub>) An acidic gas composed of the elements sulfur, oxygen and hydrogen. Presented in its gaseous state, "
-"it is a very dangerous chemical for its corrosive nature."
-msgstr ""
-"（H<sub>2</sub>SO<sub>4</sub>）一种由硫、氧和氢三种元素组成的酸性气体。以气态形式存在时，因其具有极强的腐蚀性，是一种非常危险的化学"
-"物质。"
+msgid "(H<sub>2</sub>SO<sub>4</sub>) An acidic gas composed of the elements sulfur, oxygen and hydrogen. Presented in its gaseous state, it is a very dangerous chemical for its corrosive nature."
+msgstr "（H<sub>2</sub>SO<sub>4</sub>）一种由硫、氧和氢三种元素组成的酸性气体。以气态形式存在时，因其具有极强的腐蚀性，是一种非常危险的化学物质。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SULFURICGAS.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SULFURICGAS.NAME"
@@ -3892,8 +3546,7 @@ msgstr "<link=\"SULFURICGAS\">气态硫酸</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.TOXICCLAY.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.TOXICCLAY.DESC"
-msgid ""
-"A sick looking, brittle clay produced as waste product from industrial operations, composed of many different chemical substances."
+msgid "A sick looking, brittle clay produced as waste product from industrial operations, composed of many different chemical substances."
 msgstr "一种看起来很恶心、质地脆弱的黏土，它是工业生产过程中产生的废弃物，由多种不同的化学物质组成。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.TOXICCLAY.NAME
@@ -3903,8 +3556,7 @@ msgstr "<link=\"TOXICCLAY\">有毒粘土</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.TOXICGAS.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.TOXICGAS.DESC"
-msgid ""
-"A heavy, foul smelling gas produced as waste product from industrial operations, composed of many different chemical substances."
+msgid "A heavy, foul smelling gas produced as waste product from industrial operations, composed of many different chemical substances."
 msgstr "一种沉重且气味难闻的气体，是工业生产过程中产生的废弃物，由多种不同的化学物质组成。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.TOXICGAS.NAME
@@ -3969,8 +3621,7 @@ msgstr ""
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_GUIDANCEDEVICE_ITEM.DESC"
 msgid ""
 "A sophisticated electronic module that aids the Mining Drillhead to navigate while operating.\n"
-"In general, the guidance system computes the instructions for the Drillhead control system, which comprises its actuators, "
-"increasing the performance and detecting element resources from its surroundings.\n"
+"In general, the guidance system computes the instructions for the Drillhead control system, which comprises its actuators, increasing the performance and detecting element resources from its surroundings.\n"
 "\n"
 "It can be programmed by a skilled Duplicant or by the CNC machine."
 msgstr ""
@@ -3983,8 +3634,7 @@ msgstr ""
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_GUIDANCEDEVICE_ITEM.DESC_PROGRAMMED"
 msgid ""
 "A sophisticated electronic module that aids the Mining Drillhead to navigate while operating.\n"
-"In general, the guidance system computes the instructions for the Drillhead control system, which comprises its actuators, "
-"increasing the performance and detecting element resources from its surroundings.\n"
+"In general, the guidance system computes the instructions for the Drillhead control system, which comprises its actuators, increasing the performance and detecting element resources from its surroundings.\n"
 "\n"
 "This guidance device is programmed to target the {0}."
 msgstr ""
@@ -4122,9 +3772,7 @@ msgstr "<link=\"MINERALPROCESSINGDRILLBIT\">钻头</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.MINERALPROCESSING_DRILLBIT_DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.MINERALPROCESSING_DRILLBIT_DESC"
-msgid ""
-"Self-Propelled Drillbits that are used by the Asteroid Drill Rig to extract resources from otherwise unreachable sectors of the "
-"asteroid."
+msgid "Self-Propelled Drillbits that are used by the Asteroid Drill Rig to extract resources from otherwise unreachable sectors of the asteroid."
 msgstr "用于\"小行星钻探机\"中的自推进钻头，它们能够从小行星上那些难以触及的区域中提取资源。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.MINERALPROCESSING_GUIDANCEUNIT
@@ -4140,7 +3788,7 @@ msgstr "引导装置能够使采矿钻头按照特定程序锁定特定的矿石
 #. RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.RANDOMRECIPEINGREDIENT_DESTROYONCANCEL
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.RANDOMRECIPEINGREDIENT_DESTROYONCANCEL"
 msgid "<link=\"RANDOMRECIPEINGREDIENTDESTROYONCANCEL\">Non-refundable Ingredient</link>"
-msgstr "<link=\"RANDOMRECIPEINGREDIENTDESTROYONCANCEL\">不可退还的成分</link>"
+msgstr "<link=\"RANDOMRECIPEINGREDIENTDESTROYONCANCEL\">不可回收的成分</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.RANDOMRECIPEINGREDIENT_DESTROYONCANCEL_DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.RANDOMRECIPEINGREDIENT_DESTROYONCANCEL_DESC"
@@ -4192,8 +3840,8 @@ msgid ""
 "You can still disable individual buildings of the mod in the building editor, separate from this setting.\n"
 "Warning: when this mod is enabled, worldgen will be altered by new elements"
 msgstr ""
-"该模组已启用，这包括建筑物、研究、配方、元素、彗星以及其他与该模组相关的特定机制。\n"
-"您仍可以在建筑编辑器中单独禁用该模组中的个别建筑物，与此设置无关。\n"
+"该模组已启用，这包括建筑物、研究、配方、元素、流星以及其他与该模组相关的特定机制。\n"
+"您仍可以在建筑编辑器中单独禁用该模组中的个别建筑物，该操作与此设置是独立的。\n"
 "警告：当启用此模组时，世界生成将因新的元素而发生改变。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.GEYSERS.NAME
@@ -4206,8 +3854,7 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.GEYSERS
 msgid ""
 "New Geysers are added to the pool of randomly spawned geysers.\n"
 "This will affect worldgen if active (different random geysers are chosen compared to vanilla)\n"
-"Turning it off will prevent those geysers from showing up from worldgen naturally unless you use a different mod to add them "
-"manually (e.g. customize geyser or CGM)"
+"Turning it off will prevent those geysers from showing up from worldgen naturally unless you use a different mod to add them manually (e.g. customize geyser or CGM)"
 msgstr ""
 "新的间歇泉将会被添加到随机生成的间歇泉池组中。\n"
 "启用该选项将会影响创建世界时的生成间歇泉类类型（随机替换原版数个同性质的间歇泉）。\n"
@@ -4220,10 +3867,8 @@ msgstr "高压气体管道运载量"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_GAS_CAPACITY.TOOLTIP
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_GAS_CAPACITY.TOOLTIP"
-msgid ""
-"High pressure gas pipes allow pumping gases at much higher pipe throughput than regular pipes, at the cost of more expensive "
-"building materials."
-msgstr "高压气体管道能够实现比普通管道更高的气体输送量，但其代价是需要使用更昂贵的建筑材料。（单位：kg）"
+msgid "High pressure gas pipes allow pumping gases at much higher pipe throughput than regular pipes, at the cost of more expensive building materials."
+msgstr "高压气体管道能够实现比普通管道更高的气体输送量，但其代价是需要使用更昂贵的建筑材料。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_GAS_PUMPCOST.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_GAS_PUMPCOST.NAME"
@@ -4232,10 +3877,8 @@ msgstr "基础功率：高压气体泵"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_GAS_PUMPCOST.TOOLTIP
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_GAS_PUMPCOST.TOOLTIP"
-msgid ""
-"The total pump wattage is calculated by multiplying the base wattage value with the respective pipe capacity multiplier (compared "
-"to regular pipes)"
-msgstr "泵的总功率是通过将基础功率值与相应的管道容量乘数相乘来计算得出的（与普通管道相比）。（单位：W）"
+msgid "The total pump wattage is calculated by multiplying the base wattage value with the respective pipe capacity multiplier (compared to regular pipes)"
+msgstr "泵的总功率是通过将基础功率值与相应的管道容量乘数相乘来计算得出的（与普通管道相比）。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_LIQUID_CAPACITY.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_LIQUID_CAPACITY.NAME"
@@ -4244,10 +3887,8 @@ msgstr "高压液体管道运载量"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_LIQUID_CAPACITY.TOOLTIP
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_LIQUID_CAPACITY.TOOLTIP"
-msgid ""
-"High pressure liquid pipes allow pumping liquids at much higher pipe throughput than regular pipes, at the cost of more expensive "
-"building materials."
-msgstr "高压液体管道能够以比普通管道更高的流量输送液体，但其代价是需要使用更昂贵的建筑材料。（单位：kg）"
+msgid "High pressure liquid pipes allow pumping liquids at much higher pipe throughput than regular pipes, at the cost of more expensive building materials."
+msgstr "高压液体管道能够以比普通管道更高的流量输送液体，但其代价是需要使用更昂贵的建筑材料。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_LIQUID_PUMPCOST.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_LIQUID_PUMPCOST.NAME"
@@ -4256,10 +3897,8 @@ msgstr "基础功率：高压液体泵"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_LIQUID_PUMPCOST.TOOLTIP
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_LIQUID_PUMPCOST.TOOLTIP"
-msgid ""
-"The total pump wattage is calculated by multiplying the base wattage value with the respective pipe capacity multiplier (compared "
-"to regular pipes)"
-msgstr "泵的总功率是通过将基础功率值与相应的管道容量乘数相乘来计算得出的（与普通管道相比）。（单位：W）"
+msgid "The total pump wattage is calculated by multiplying the base wattage value with the respective pipe capacity multiplier (compared to regular pipes)"
+msgstr "泵的总功率是通过将基础功率值与相应的管道容量乘数相乘来计算得出的（与普通管道相比）。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_ARMRANGE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_ARMRANGE.NAME"
@@ -4268,10 +3907,8 @@ msgstr "重型自动清扫器范围"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_ARMRANGE.TOOLTIP
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_ARMRANGE.TOOLTIP"
-msgid ""
-"The Heavy-Duty Auto-Sweeper serves as a late game version of the autosweeper, having higher range and throughput at the cost of "
-"more complex build requirements"
-msgstr "重型自动清扫器是自动清扫器的后期版本，其覆盖范围更广、处理量更大，但代价是其建造要求更为复杂。"
+msgid "The Heavy-Duty Auto-Sweeper serves as a late game version of the autosweeper, having higher range and throughput at the cost of more complex build requirements"
+msgstr "重型自动清扫器是自动清扫器的后期版本，其覆盖范围更广、吞吐量更大，但建造要求也更复杂。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_CAPACITY.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_CAPACITY.NAME"
@@ -4280,10 +3917,8 @@ msgstr "重型运输轨道运载量"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_CAPACITY.TOOLTIP
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_CAPACITY.TOOLTIP"
-msgid ""
-"Heavy-Duty Rails serve as an late game upgrade to conveyor rails, having a much higher throughput at the cost of more complex build "
-"requirements."
-msgstr "重型轨道是传送轨道的后期升级版本，其运输量远超普通轨道，但需要更复杂的建造条件作为代价。（单位：kg）"
+msgid "Heavy-Duty Rails serve as an late game upgrade to conveyor rails, having a much higher throughput at the cost of more complex build requirements."
+msgstr "重型轨道是传送轨道的后期升级版本，其运输量远超普通轨道，但需要更复杂的建造条件作为代价。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_ENABLE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_ENABLE.NAME"
@@ -4292,10 +3927,8 @@ msgstr "启用重型轨道"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_ENABLE.TOOLTIP
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_ENABLE.TOOLTIP"
-msgid ""
-"Heavy-Duty Rails serve as an late game upgrade to conveyor rails, having a much higher throughput at the cost of more complex build "
-"requirements."
-msgstr "重型轨道是运输轨道的后期升级版本，其运输量远超普通轨道，但需要更复杂的建造条件作为代价。（单位：kg）"
+msgid "Heavy-Duty Rails serve as an late game upgrade to conveyor rails, having a much higher throughput at the cost of more complex build requirements."
+msgstr "重型轨道是运输轨道的后期升级版本，其运输量远超普通轨道，但需要更复杂的建造条件作为代价。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_RAIL_CAPACITY.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_RAIL_CAPACITY.NAME"
@@ -4304,10 +3937,8 @@ msgstr "物流轨道运载量"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_RAIL_CAPACITY.TOOLTIP
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_RAIL_CAPACITY.TOOLTIP"
-msgid ""
-"Logistic Rails serve as an early game version to conveyor rails, lacking the mechatronic requirements and unlocking earlier at the "
-"cost of lower maximum throughput."
-msgstr "物流轨道是运输轨道的早期版本，它没有机械电子装置的要求，并且能更早解锁，但代价是其最大运输量更低。（单位：kg）"
+msgid "Logistic Rails serve as an early game version to conveyor rails, lacking the mechatronic requirements and unlocking earlier at the cost of lower maximum throughput."
+msgstr "物流轨道是运输轨道的早期版本，它没有机电工程的要求，并且能更早解锁，但代价是其最大运输量更低。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_SWEEPER_RANGE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_SWEEPER_RANGE.NAME"
@@ -4316,10 +3947,8 @@ msgstr "物流自动清扫器范围"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_SWEEPER_RANGE.TOOLTIP
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_SWEEPER_RANGE.TOOLTIP"
-msgid ""
-"The Logistic Auto-Sweeper serves as an early game version of the autosweeper, trading reduced carrying capacity for a lack of a "
-"mechatronics requirement."
-msgstr "\"物流自动清扫机\"是自动清扫机的早期版本，它以降低载重能力为代价，放弃了对机械电子技术的要求。（单位：格）"
+msgid "The Logistic Auto-Sweeper serves as an early game version of the autosweeper, trading reduced carrying capacity for a lack of a mechatronics requirement."
+msgstr "\"物流自动清扫机\"是自动清扫机的早期版本，它以降低载重能力为代价，放弃了对机电工程的要求。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.MODELEMENTSWORLDGEN.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.MODELEMENTSWORLDGEN.NAME"
@@ -4582,7 +4211,7 @@ msgstr "{0} => <link=\"LIQUIDVEGEOIL\">植物油</link>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_SEEDTOOIL
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_SEEDTOOIL"
 msgid "<link=\"SEED\">Seeds</link> to <link=\"LIQUIDVEGEOIL\">Vegetable Oil</link>"
-msgstr "<link=\"SEED\">种子</link> => <link=\"LIQUIDVEGEOIL\">植物(润滑)油</link>"
+msgstr "<link=\"SEED\">种子</link> => <link=\"LIQUIDVEGEOIL\">植物油</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.HEAT_COOK
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.HEAT_COOK"
@@ -4746,7 +4375,7 @@ msgstr "随机产生：{0}"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.OCCURENCE_RANDOM_AMOUNT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.OCCURENCE_RANDOM_AMOUNT"
 msgid "{0}/{1} s"
-msgstr "{0}/{1} s"
+msgstr "{0}/{1} 秒"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.SLAG_CEMENT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.SLAG_CEMENT"
@@ -4905,7 +4534,7 @@ msgstr "重编程引导装置"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.SPACEDESTINATIONS.COMETS.HEAVYCOMET.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.SPACEDESTINATIONS.COMETS.HEAVYCOMET.NAME"
 msgid "Heavy Comet"
-msgstr "重型彗星"
+msgstr "重型流星"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_HPA_RAIL
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_HPA_RAIL"
@@ -4925,22 +4554,16 @@ msgstr "被重型轨道阻挡"
 #~ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CO2RECYCLER.BASEGAME_RECIPE"
 #~ msgid ""
 #~ "Sabatier Reaction: \n"
-#~ " <link=\"LIQUIDCARBONDIOXIDE\">Liquid Carbon Dioxide</link>, <link=\"HYDROGEN\">Hydrogen</link> and <link=\"IRON\">Iron</link> "
-#~ "as catalyst. The Sabatier Reaction produce <link=\"WATER\">Water</link>, <link=\"METHANE\">Natural Gas</link> and "
-#~ "<link=\"RUST\">Rust</link> as waste product.\n"
+#~ " <link=\"LIQUIDCARBONDIOXIDE\">Liquid Carbon Dioxide</link>, <link=\"HYDROGEN\">Hydrogen</link> and <link=\"IRON\">Iron</link> as catalyst. The Sabatier Reaction produce <link=\"WATER\">Water</link>, <link=\"METHANE\">Natural Gas</link> and <link=\"RUST\">Rust</link> as waste product.\n"
 #~ "\n"
 #~ "Bosch Reaction: \n"
-#~ "<link=\"CARBONDIOXIDE\">Carbon Dioxide</link>, <link=\"HYDROGEN\">Hydrogen</link> and <link=\"IRON\">Iron</link> as catalyst. "
-#~ "The Bosch Reaction produce <link=\"STEAM\">Steam</link>, <link=\"REFINEDCARBON\">Refined Coal</link> and <link=\"RUST\">Rust</"
-#~ "link> as waste product."
+#~ "<link=\"CARBONDIOXIDE\">Carbon Dioxide</link>, <link=\"HYDROGEN\">Hydrogen</link> and <link=\"IRON\">Iron</link> as catalyst. The Bosch Reaction produce <link=\"STEAM\">Steam</link>, <link=\"REFINEDCARBON\">Refined Coal</link> and <link=\"RUST\">Rust</link> as waste product."
 #~ msgstr ""
 #~ "萨巴捷反应 (Sabatier Reaction)\n"
-#~ "以<link=\"LIQUIDCARBONDIOXIDE\">液态二氧化碳</link>、<link=\"HYDROGEN\">氢气</link>为原料，<link=\"IRON\">铁</link>为催化剂。反应"
-#~ "生成<link=\"WATER\">水</link>和<link=\"METHANE\">天然气</link>，并产生<link=\"RUST\">铁锈</link>作为废弃物。\n"
+#~ "以<link=\"LIQUIDCARBONDIOXIDE\">液态二氧化碳</link>、<link=\"HYDROGEN\">氢气</link>为原料，<link=\"IRON\">铁</link>为催化剂。反应生成<link=\"WATER\">水</link>和<link=\"METHANE\">天然气</link>，并产生<link=\"RUST\">铁锈</link>作为废弃物。\n"
 #~ "\n"
 #~ "博施反应 (Bosch Reaction)\n"
-#~ "以<link=\"CARBONDIOXIDE\">二氧化碳</link>、<link=\"HYDROGEN\">氢气</link>为原料，<link=\"IRON\">铁</link>为催化剂。反应生成"
-#~ "<link=\"STEAM\">蒸汽</link>和<link=\"REFINEDCARBON\">精炼煤</link>，并产生<link=\"RUST\">铁锈</link>作为废弃物。"
+#~ "以<link=\"CARBONDIOXIDE\">二氧化碳</link>、<link=\"HYDROGEN\">氢气</link>为原料，<link=\"IRON\">铁</link>为催化剂。反应生成<link=\"STEAM\">蒸汽</link>和<link=\"REFINEDCARBON\">精炼煤</link>，并产生<link=\"RUST\">铁锈</link>作为废弃物。"
 
 #~ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_SOLIDRAIL.EFFECT"
 #~ msgid ""
