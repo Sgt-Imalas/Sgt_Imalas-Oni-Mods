@@ -133,6 +133,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			VegetableOil_Liquid = ElementInfo.Liquid("LiquidVegeOil", VEGEOIL_COLOR),
 			VegetableOil_Gas = ElementInfo.Gas("VegeOilGas", VEGEOIL_COLOR)
 			;
+
+		static void SetAtmosphere(SimHashes element, Rottable.RotAtmosphereQuality quality)
+		{
+			Rottable.AtmosphereModifier.Add((int)element, quality);
+		}
+
 		public static void RegisterSubstances(List<Substance> list)
 		{
 			var ChemicalProcessing_IO_Elements = new HashSet<Substance>()
@@ -192,7 +198,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				Nitrogen_Gas.CreateSubstance(),
 			};
 
-
 			var ChemicalProcessing_BioChem_Elements = new HashSet<Substance>()
 			{
 				BioDiesel_Solid.CreateSubstanceFromElementTinted(SimHashes.SuperInsulator),
@@ -210,7 +215,31 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			list.AddRange(ChemicalProcessing_IO_Elements);
 			list.AddRange(ChemicalProcessing_BioChem_Elements);
 
+			SetElementRottables();
 		}
+
+		static void SetElementRottables()
+		{
+			SetAtmosphere(Nitrogen_Liquid, Rottable.RotAtmosphereQuality.Sterilizing);
+			SetAtmosphere(Nitrogen_Gas, Rottable.RotAtmosphereQuality.Sterilizing);
+
+			SetAtmosphere(ToxicMix_Gas, Rottable.RotAtmosphereQuality.Contaminating);
+			SetAtmosphere(ToxicMix_Liquid, Rottable.RotAtmosphereQuality.Contaminating);
+
+			SetAtmosphere(SulphuricAcid_Gas, Rottable.RotAtmosphereQuality.Sterilizing);
+			SetAtmosphere(SulphuricAcid_Liquid, Rottable.RotAtmosphereQuality.Sterilizing);
+			SetAtmosphere(NitricAcid_Liquid, Rottable.RotAtmosphereQuality.Sterilizing);
+
+			SetAtmosphere(Ammonia_Gas, Rottable.RotAtmosphereQuality.Sterilizing);
+			SetAtmosphere(Ammonia_Liquid, Rottable.RotAtmosphereQuality.Sterilizing);
+			SetAtmosphere(AmmoniumWater_Liquid, Rottable.RotAtmosphereQuality.Sterilizing);
+
+			SetAtmosphere(Isopropane_Gas, Rottable.RotAtmosphereQuality.Sterilizing);
+
+			SetAtmosphere(RawNaturalGas_Gas, Rottable.RotAtmosphereQuality.Contaminating);
+
+		}
+
 		public static void OverrideDebrisAnims()
 		{
 			///Regolith
