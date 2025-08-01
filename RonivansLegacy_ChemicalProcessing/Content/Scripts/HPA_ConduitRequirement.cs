@@ -264,7 +264,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			return type switch
 			{
 				ConduitType.Gas => GameScenePartitioner.Instance.gasConduitsLayer,
-				ConduitType.Liquid => GameScenePartitioner.Instance.liquidChangedLayer,
+				ConduitType.Liquid => GameScenePartitioner.Instance.liquidConduitsLayer,
 				ConduitType.Solid => GameScenePartitioner.Instance.solidConduitsLayer,
 				_ => throw new NotSupportedException($"Unsupported conduit type: {type}"),
 			};

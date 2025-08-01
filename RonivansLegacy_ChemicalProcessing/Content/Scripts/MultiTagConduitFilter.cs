@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,8 +17,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		[MyCmpReq] Building building;
 		[MyCmpReq] KSelectable selectable;
 		[MyCmpGet] ConduitConsumer conduitConsumer;
+		[MyCmpGet] KBatchedAnimController kbac;
 		[SerializeField] public ConduitPortInfo FilteredOutputPort = new(ConduitType.Solid, new CellOffset(0, 0));
 		int inputCell, outputCell, filteredOutputCell;
+		[SerializeField] public bool Tintable = false;
 
 		FlowUtilityNetwork.NetworkItem filteredOutput;
 
@@ -55,12 +58,31 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			return FilteredOutputPort.conduitType switch
 			{
 				ConduitType.Solid => GameScenePartitioner.Instance.solidConduitsLayer,
-				ConduitType.Liquid => GameScenePartitioner.Instance.liquidChangedLayer,
+				ConduitType.Liquid => GameScenePartitioner.Instance.liquidConduitsLayer,
 				ConduitType.Gas => GameScenePartitioner.Instance.gasConduitsLayer,
 				_ => throw new NotSupportedException($"Unsupported conduit type: {FilteredOutputPort.conduitType}"),
 			};
 		}
 
+		SimHashes LastElementTint = SimHashes.Void;
+		void UpdateTint(SimHashes element)
+		{
+			if (Tintable && kbac != null)
+			{
+				if (LastElementTint == element)
+					return; //no need to update if the tint is the same
+				var substance = ElementLoader.FindElementByHash(element)?.substance;
+				if(substance == null)
+				{
+					Debug.LogWarning($"Element {element} not found or has no substance. Cannot update tint.");
+					return;
+				}
+
+				Color color = substance.conduitColour;
+				color.a = 1;
+				kbac.SetSymbolTint("tint", color);
+			}
+		}
 
 		public bool IsNonSolidConduit => FilteredOutputPort.conduitType == ConduitType.Liquid || FilteredOutputPort.conduitType == ConduitType.Gas;
 
@@ -78,7 +100,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			if (conduitConsumer != null && IsNonSolidConduit)
 				conduitConsumer.isConsuming = false;
 
-			partitionerEntry = GameScenePartitioner.Instance.Add("MultiElementFilterConduitExists", (object)this.gameObject, this.filteredOutputCell, GetConduitPartitionerLayer(), (_ => this.UpdateConduitExistsStatus()));
+			partitionerEntry = GameScenePartitioner.Instance.Add("MultiElementFilterConduitExists", (object)this.gameObject, this.filteredOutputCell, GetConduitPartitionerLayer(), (_ => StartCoroutine(DelayedConduitCheck())));
 
 			UpdateConduitBlockedStatus();
 			UpdateConduitExistsStatus();
@@ -90,6 +112,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			if (partitionerEntry.IsValid() && GameScenePartitioner.Instance != null)
 				GameScenePartitioner.Instance.Free(ref partitionerEntry);
 			base.OnCleanUp();
+		}
+		IEnumerator DelayedConduitCheck()
+		{
+			yield return null;
+			UpdateConduitExistsStatus();
 		}
 
 		void OnConduitTick(float dt)
@@ -109,17 +136,20 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 					{
 						IsActive = true;
 						float delta = flowManager.AddElement(outputCell, inputContents.element, inputContents.mass, inputContents.temperature, inputContents.diseaseIdx, inputContents.diseaseCount);
+						if (Tintable)
+							UpdateTint(inputContents.element);
 						if (delta > 0)
 						{
 							flowManager.RemoveElement(inputCell, delta);
 						}
+
 					}
 				}
 				else if (IflowManager is SolidConduitFlow solidFlowManager)
 				{
 					var inputContents = solidFlowManager.GetContents(inputCell);
 					Pickupable pickupableInput = solidFlowManager.GetPickupable(inputContents.pickupableHandle);
-					if(pickupableInput != null)
+					if (pickupableInput != null)
 					{
 						int outputCell = pickupableInput.HasAnyTags(acceptedTags.ToArray()) ? filteredOutputCell : this.outputCell;
 						SolidConduitFlow.ConduitContents contentsAtOutputCell = solidFlowManager.GetContents(outputCell);
