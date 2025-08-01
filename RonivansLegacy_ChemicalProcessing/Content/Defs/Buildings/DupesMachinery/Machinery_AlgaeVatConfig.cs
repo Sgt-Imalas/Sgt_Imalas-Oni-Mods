@@ -106,7 +106,7 @@ namespace Dupes_Machinery.Biological_Vats
 			exhaust.elementTag = SimHashes.Oxygen.CreateTag();
 			exhaust.capacity = 0.40f;
 			this.AttachPort(go);
-			go.AddOrGet<ElementConversionBuilding>(); //Handles element converter
+			go.AddOrGet<ElementConversionBuilding>().UsePrimaryConverterOnly = true; //Handles element converter
 
 			Prioritizable.AddRef(go);
 		}

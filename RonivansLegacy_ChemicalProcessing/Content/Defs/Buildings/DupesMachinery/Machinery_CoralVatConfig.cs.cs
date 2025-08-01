@@ -104,7 +104,7 @@ namespace Dupes_Machinery.Biological_Vats
 
 			go.AddOrGet<KBatchedAnimController>().randomiseLoopedOffset = true;
 			go.AddOrGet<AnimTileable>();
-			go.AddOrGet<ElementConversionBuilding>(); //Handles element converter
+			go.AddOrGet<ElementConversionBuilding>().UsePrimaryConverterOnly = true; //Handles element converter
 
 			Prioritizable.AddRef(go);
 		}

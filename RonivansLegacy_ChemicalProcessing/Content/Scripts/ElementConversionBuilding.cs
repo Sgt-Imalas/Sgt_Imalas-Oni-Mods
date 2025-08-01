@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {
@@ -71,6 +72,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		public ElementConverter[] converters;
 
 		public ManualDeliveryKG[] deliveryComponents;
+		[SerializeField]
+		/// when a building has secondary converters that should not run without the primary one, only check for the primary converter state to determine operational
+		public bool UsePrimaryConverterOnly = false;
+
 
 		public static readonly EventSystem.IntraObjectHandler<ElementConversionBuilding> OnConduitConnectionChangedDelegate = new EventSystem.IntraObjectHandler<ElementConversionBuilding>(delegate (ElementConversionBuilding component, object data)
 		{
@@ -81,7 +86,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		{
 			base.OnSpawn();
 			converters = GetComponents<ElementConverter>();	
+
 			Debug.Assert(converters.Length > 0, "ElementConversionBuilding must have at least one ElementConverter component.");
+
+
+			if (UsePrimaryConverterOnly)
+				converters = [converters.First()];
 
 			deliveryComponents = GetComponents<ManualDeliveryKG>();
 			if(consumer != null)
