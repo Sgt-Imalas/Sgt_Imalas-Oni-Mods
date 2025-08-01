@@ -48,7 +48,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			RecipeBuilder.Create(ID, 40)
 				.Input(ModElements.Nitrogen_Gas, 20)
-				.Input(ModElements.Ammonia_Gas, 30)
+				.Input(SimHashes.Water, 30)
 				.Output(ModElements.NitricAcid_Liquid, 50, storeElement: true)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
 				.Description2I1O(CHEMICAL_MIXINGUNIT_2_1)
@@ -239,6 +239,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		{
 			base.DoPostConfigurePreview(def, go);
 			this.AttachPort(go);
+			go.AddOrGet<PortPreviewVisualizer>();
 		}
 
 		public override void DoPostConfigureUnderConstruction(GameObject go)
