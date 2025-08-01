@@ -1,6 +1,7 @@
 ﻿using FMOD;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -194,10 +195,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 		void SetupPartitioners()
 		{
-			if(consumerCell > 0)
-				this.partitionerEntryInput = GameScenePartitioner.Instance.Add("HPA_ConduitRequirement_Input", gameObject, consumerCell, GetConduitLayer(inputType), (data => this.UpdateRequirements()));
+			if (consumerCell > 0)
+				this.partitionerEntryInput = GameScenePartitioner.Instance.Add("HPA_ConduitRequirement_Input", gameObject, consumerCell, GetConduitLayer(inputType), (data => StartCoroutine(ScheduledRequirementUpdate())));
 			if (dispenserCell > 0)
-				this.partitionerEntryOutput = GameScenePartitioner.Instance.Add("HPA_ConduitRequirement_Output", gameObject, dispenserCell, GetConduitLayer(outputType), (data => this.UpdateRequirements()));
+				this.partitionerEntryOutput = GameScenePartitioner.Instance.Add("HPA_ConduitRequirement_Output", gameObject, dispenserCell, GetConduitLayer(outputType), (data => StartCoroutine(ScheduledRequirementUpdate())));
 		}
 		void ClearPartitioners()
 		{
@@ -277,6 +278,16 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				return DispenserDisabled() || DispenserConnected() && HasPressureConduitAt(dispenserCell, outputType);
 		}
 
+		/// <summary>
+		/// needs to happen a frame delayed, otherwise the conduit isnt registered as high pressure yet
+		/// </summary>
+		/// <returns></returns>
+		IEnumerator ScheduledRequirementUpdate()
+		{
+			yield return new WaitForSeconds(0.1f);
+			UpdateRequirements();
+		}
+
 		public void UpdateRequirements(bool force = false)
 		{
 			if (!RequiresHighPressureInput && !RequiresHighPressureOutput)
@@ -287,7 +298,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				bool hasHighPressureInput = ConduitConditionSatisfied(true);
 				if(ProhibitHighPressure)
 					hasHighPressureInput = !hasHighPressureInput;
-
 				if (previouslyConnectedHPInput != hasHighPressureInput || force)
 				{
 					previouslyConnectedHPInput = hasHighPressureInput;
