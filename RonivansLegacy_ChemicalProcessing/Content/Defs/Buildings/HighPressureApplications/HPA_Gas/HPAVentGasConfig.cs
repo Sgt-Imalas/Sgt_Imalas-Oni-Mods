@@ -27,6 +27,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			buildingDef.ViewMode = OverlayModes.GasConduits.ID;
 			buildingDef.AudioCategory = "Metal";
 			buildingDef.UtilityInputOffset = new CellOffset(0, 0);
+			buildingDef.UtilityOutputOffset = new CellOffset(0, 0); //thx klei for that bug in Vent.cs
 			buildingDef.EnergyConsumptionWhenActive = 120;
 			buildingDef.RequiresPowerInput = true;
 			buildingDef.ExhaustKilowattsWhenActive = 0f;
