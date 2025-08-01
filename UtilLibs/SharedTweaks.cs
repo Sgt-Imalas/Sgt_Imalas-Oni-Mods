@@ -487,7 +487,7 @@ namespace UtilLibs
 				if (midpoint < 0)
 					midpoint = 0;
 
-				SgtLogger.l(" - verticalStepDiff: " + verticalStepDiff + " for " + currentTech.Id + " to " + requisite.Id + "; Midpoint: "+midpoint+"Total Cons: "+totalConnections+", relativeYDiffTarget " + relativeYDiffTarget + " , halfTechHeightTarget: " + maxHeightOffsetTarget + ", relativeYDiffSource: " + relativeYDiffSource);
+				//SgtLogger.l(" - verticalStepDiff: " + verticalStepDiff + " for " + currentTech.Id + " to " + requisite.Id + "; Midpoint: "+midpoint+"Total Cons: "+totalConnections+", relativeYDiffTarget " + relativeYDiffTarget + " , halfTechHeightTarget: " + maxHeightOffsetTarget + ", relativeYDiffSource: " + relativeYDiffSource);
 
 				float horizontalOffsetTarget = midpoint + Mathf.Abs(relativeYDiffTarget);
 				float horizontalOffsetSource = midpoint + Mathf.Abs(relativeYDiffSource);
@@ -500,10 +500,10 @@ namespace UtilLibs
 						new Vector2(-sourceTechStartPostX, verticalOffset) + relativeStartPoint,
 						];
 
-				foreach (var point in component.Points)
-				{
-					SgtLogger.l(currentTech.Id + "->" + requisite.Id + " - Point: " + point);
-				}
+				//foreach (var point in component.Points)
+				//{
+				//	SgtLogger.l(currentTech.Id + "->" + requisite.Id + " - Point: " + point);
+				//}
 
 				component.LineThickness = __instance.lineThickness_inactive;
 				component.color = __instance.inactiveLineColor;
