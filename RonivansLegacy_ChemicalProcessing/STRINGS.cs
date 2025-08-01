@@ -688,13 +688,14 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString DESC = "A giant machinery engineered in the old world for asteroid mining. Has a self propelled drilling head fitted with a sensorial system and actuators that helps it to travel through the asteroid crust in search for resources of interest.";
 					public static LocString EFFECT = string.Concat(
 						[
-							"This rig uses specialized Drillbits to mine useful resources from the asteroid crust. Retrived resources are released upon the Drill Head return.\n"+
+							"This rig uses specialized Drillbits to mine useful resources from the asteroid crust.\nRetrived resources are released upon the Drill Head return.\n\n"+
 							"Require a constant supply of ",FormatAsLink("Combustable Fuel", "COMBUSTIBLELIQUID")
-							+" to function.\n"+
+							+" to function.\n\n"+
 							"Results: resources that are delivered upon Drillhead return.\n"+
 							"Occurrence: resources that are generated during Drillhead operation."
 						]);
 				}
+
 				public class MINING_MINERALDRILL
 				{
 					public static LocString NAME = FormatAsLink("Asteroid Auger Drill", nameof(MINING_MINERALDRILL));
