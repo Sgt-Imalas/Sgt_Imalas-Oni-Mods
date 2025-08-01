@@ -17,7 +17,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		[MyCmpReq] KSelectable selectable;
 		[MyCmpGet] ConduitConsumer conduitConsumer;
 		[SerializeField] public ConduitPortInfo FilteredOutputPort = new(ConduitType.Solid, new CellOffset(0, 0));
-		[SerializeField] public float ThroughputMax = Config.Instance.HPA_Capacity_Solid;
 		int inputCell, outputCell, filteredOutputCell;
 
 		FlowUtilityNetwork.NetworkItem filteredOutput;

@@ -20,6 +20,7 @@ using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureAppli
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefrigeration;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerators;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureApplications.HighCapacityLogisticRails;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureApplications.HPA_Gas;
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
 	class BuildingDatabase
@@ -600,6 +601,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToCategory(PlanMenuCategory.Ventilation, GasConduitBridgeConfig.ID)
 				.AddToTech(Technology.Gases.ImprovedVentilation)
 				.AddModFrom(SourceModInfo.HighPressureApplications);
+
+			BuildingManager.CreateEntry<HPAFilterGasConfig>()
+				.AddToCategory(PlanMenuCategory.Ventilation, GasFilterConfig.ID)
+				.AddToTech(Technology.Power.ValveMiniaturization)
+				.AddModFrom(SourceModInfo.HighPressureApplications);
+
+
+			
 
 			//liquid
 			BuildingManager.CreateEntry<HPAVentLiquidConfig>()

@@ -54,6 +54,8 @@
 	  <Folder Include="ModAssets\anim\HighPressureApplications_anims\hpa_rail_merger\" />
 	  <Folder Include="ModAssets\anim\HighPressureApplications_anims\hpa_rail_valve\" />
 	  <Folder Include="ModAssets\anim\HighPressureApplications_anims\hpa_transferarm\" />
+	  <Folder Include="ModAssets\anim\HighPressureApplications_anims\hpa_filter_liquid\" />
+	  <Folder Include="ModAssets\anim\HighPressureApplications_anims\hpa_filter_solid\" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -1445,6 +1445,25 @@ namespace RonivansLegacy_ChemicalProcessing
 							", storage, or buildings within range.\n\nComes with increased range, capacity and rotation speed."
 						]);
 				}
+				public class HPA_MULTIGASFILTER
+				{
+					public static LocString NAME = FormatAsLink("High Pressure Gas Filter", nameof(HPA_MULTIGASFILTER));
+					public static LocString DESC = "All gases are sent into the building's output pipe, except those chosen for filtering.";
+					public static LocString EFFECT = "Filters all selected " + FormatAsLink("Gases", "ELEMENTS_GAS") + " from the air, sending it into a dedicated " + FormatAsLink("Filtered Output Pipe", "GASPIPING") + ".\n\nAble to work with all gas pipe types.";
+				}
+				public class HPA_MULTILIQUIDFILTER
+				{
+					public static LocString NAME = FormatAsLink("High Pressure Liquid Filter", nameof(HPA_MULTIGASFILTER));
+					public static LocString DESC = "All liquids are sent into the building's output pipe, except those chosen for filtering.";
+					public static LocString EFFECT = "Filters all selected " + FormatAsLink("Liquids", "ELEMENTS_LIQUID") + " out of a mix, sending it into a dedicated " + FormatAsLink("Filtered Output Pipe", "LIQUIDPIPING") + ".\n\nAble to work with all liquid pipe types.";
+				}
+				public class HPA_MULTISOLIDFILTER
+				{
+					public static LocString NAME = FormatAsLink("Heavy-Duty Rail Filter", nameof(HPA_MULTISOLIDFILTER));
+					public static LocString DESC = "All solids are sent into the building's output conveyor, except those chosen for filtering.";
+					public static LocString EFFECT = "Separates all selected " + FormatAsLink("Solid Materials", "ELEMENTS_SOLID") + " from the conveyor, sending it into a dedicated " + FormatAsLink("Conveyor Rail", "SOLIDCONDUIT") + ".\n\nAble to work with all rail types.";
+				}
+
 
 				#endregion
 				#region DupesRefrigeration
