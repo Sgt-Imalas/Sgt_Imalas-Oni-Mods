@@ -8,7 +8,7 @@ using TUNING;
 using UnityEngine;
 using UtilLibs;
 
-namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureApplications
+namespace High_Pressure_Applications.BuildingConfigs //old namespace for compat with "Extended Building Width"
 {
 	public class HighPressureLiquidConduitBridgeConfig : IBuildingConfig
 	{

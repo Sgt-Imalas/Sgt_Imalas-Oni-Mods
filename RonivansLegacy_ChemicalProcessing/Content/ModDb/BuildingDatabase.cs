@@ -22,6 +22,7 @@ using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerators;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureApplications.HighCapacityLogisticRails;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureApplications.HPA_Gas;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureApplications.HPA_liquid;
+using High_Pressure_Applications.BuildingConfigs;
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
 	class BuildingDatabase
