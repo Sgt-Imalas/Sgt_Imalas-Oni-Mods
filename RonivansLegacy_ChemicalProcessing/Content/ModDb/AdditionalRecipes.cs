@@ -454,7 +454,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			///normal Seakomb has a 1-4 conversion with 3/4 of water; 25kg Seakomb + 75kg water become 100kg of phyto oil
 			///lets assume only 20% of the fertilizer is lost; that becomes 800g of biomass
 			///
-			AddPrefefinedExpellerPressRecipe(KelpConfig.ID, 1f, 3.65f);
+			AddPrefefinedExpellerPressRecipe(KelpConfig.ID, 10, 3.65f,10);
 
 
 			foreach (var recipe in PredefinedExpellerPressRecipes)
