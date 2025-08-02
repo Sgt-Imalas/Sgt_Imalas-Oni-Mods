@@ -26,7 +26,7 @@ namespace Metallurgy.Buildings
 
 
 		//--[ Special Settings ]------------------------------------------------------------------------------------
-		private Tag FUEL_TAG = SimHashes.Hydrogen.CreateTag();
+		private Tag FUEL_TAG = ModAssets.Tags.AIO_CarrierGas;
 		private static readonly PortDisplayOutput MainOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(-1, -2));
 		private static readonly PortDisplayOutput WasteOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(1, -2));
 

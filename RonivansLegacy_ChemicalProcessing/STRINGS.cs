@@ -633,11 +633,11 @@ namespace RonivansLegacy_ChemicalProcessing
 							FormatAsLink("Metal Ores", "RAWMETAL"),
 							" and other ",
 							FormatAsLink("Raw Minerals", "RAWMINERAL"),
-							".\n\nSignificantly ",
-							FormatAsLink("Heats", "HEAT"),
-							" and exclusively consumes ",
-							FormatAsLink("Hydrogen", "HYDROGEN"),
-							" as carrier gas.\n\nMain products are dispensed in molten state directly in the floor below the building while the liquid waste is released in a separated port."
+							".\n\nProduces significant amounts of ",
+							FormatAsLink("Heat", "HEAT"),
+							" and consumes ",
+							FormatAsLink("carrier gases", "AIO_CARRIERGAS"),
+							" during manufacturing.\n\nMain products are dispensed in molten state directly in the floor below the building while the liquid waste is released in a separated port."
 						]);
 				}
 				public class METALLURGY_BALLCRUSHERMILL
@@ -1991,8 +1991,15 @@ namespace RonivansLegacy_ChemicalProcessing
 
 				public static LocString RANDOMRECIPEINGREDIENT_DESTROYONCANCEL = FormatAsLink("Non-refundable Ingredient", nameof(RANDOMRECIPEINGREDIENT_DESTROYONCANCEL));
 				public static LocString RANDOMRECIPEINGREDIENT_DESTROYONCANCEL_DESC = "This ingredient gets used up during its use, if a recipe with it gets canceled, it is lost.";
+				
 				public static LocString AIO_HARDENEDALLOY = FormatAsLink("Hardened Alloy", nameof(AIO_HARDENEDALLOY));
 				public static LocString AIO_HARDENEDALLOY_DESC = "Hardened Alloys are a fusion of two or more materials.\nTheir high material strength allows them to be used as a substitute to " + global::STRINGS.ELEMENTS.STEEL.NAME;
+				
+				public static LocString AIO_CARRIERGAS = FormatAsLink("Carrier Gas", nameof(AIO_CARRIERGAS));
+				public static LocString AIO_CARRIERGAS_DESC = "Carrier Gases are inert or semi-inert gases that are used in plasma related processes.";
+
+
+
 			}
 		}
 		public class ITEMS

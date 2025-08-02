@@ -30,6 +30,9 @@ namespace RonivansLegacy_ChemicalProcessing
 
 			///material tag for steel substitute materials
 			public static Tag AIO_HardenedAlloy = TagManager.Create("AIO_HardenedAlloy");
+
+			///material tag for inert gases used as a carrier gas for plasma
+			public static Tag AIO_CarrierGas = TagManager.Create("AIO_CarrierGas");
 		}
 		public static GameObject BuildingEditorWindowPrefab;
 

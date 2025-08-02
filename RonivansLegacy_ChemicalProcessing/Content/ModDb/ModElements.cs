@@ -385,6 +385,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		{
 			PlasticGroup = ElementGrouping.GroupAllWith(GameTags.Plastic);
 
+			if(Config.Instance.MineralProcessing_Metallurgy_Enabled)
+			{
+				AddTagToElementAndEnable(SimHashes.Hydrogen, ModAssets.Tags.AIO_CarrierGas);
+				AddTagToElementAndEnable(SimHashes.Helium, ModAssets.Tags.AIO_CarrierGas);
+			}
+
 			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
 			{
 				//=[ SYNGAS ENABLING PATCH ]===============================================

@@ -38,7 +38,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 		private void ConfigureRecipes()
 		{
-			RecipeBuilder.Create(ID, 40)
+			RecipeBuilder.Create(ID, 20)
 				.Input(SimHashes.Sulfur, 20)
 				.Input(SimHashes.Water, 30)
 				.Output(ModElements.SulphuricAcid_Liquid, 50, storeElement: true)
@@ -46,7 +46,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Description2I1O(CHEMICAL_MIXINGUNIT_2_1)
 				.Build();
 
-			RecipeBuilder.Create(ID, 40)
+			RecipeBuilder.Create(ID, 20)
 				.Input(ModElements.Nitrogen_Gas, 20)
 				.Input(SimHashes.Water, 30)
 				.Output(ModElements.NitricAcid_Liquid, 50, storeElement: true)
@@ -54,7 +54,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Description2I1O(CHEMICAL_MIXINGUNIT_2_1)
 				.Build();
 
-			RecipeBuilder.Create(ID,30)
+			RecipeBuilder.Create(ID,40)
 				.Input(SimHashes.Petroleum, 30)
 				.Input(ModElements.Nitrogen_Gas,19)
 				.Input(SimHashes.Fullerene,1)
@@ -64,7 +64,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.RequiresTech(GameStrings.Technology.Gases.Catalytics)
 				.Build();
 
-			RecipeBuilder.Create(ID, 50)
+			RecipeBuilder.Create(ID, 40)
 				.Input(SimHashes.Propane, 50)
 				.Input(SimHashes.Petroleum, 49)
 				.Input(SimHashes.Fullerene, 1)
@@ -74,7 +74,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 				.Build();
 
-			RecipeBuilder.Create(ID,30)
+			RecipeBuilder.Create(ID,20)
 				.Input(ModElements.Ammonia_Gas, 5)
 				.Input(SimHashes.Dirt, 35)
 				.Input(SimHashes.Phosphorus,5)
