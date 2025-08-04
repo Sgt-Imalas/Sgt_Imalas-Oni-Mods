@@ -247,7 +247,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.FoolsGold, 20, 40, 2f / 9f)
 				.AddProductConditional(soEnabled, SimHashes.Cobaltite, 25, 35, 2f / 9f)
 				.AddProduct(SimHashes.Salt, 40, 50, 1f / 9f)
-				.AddProductConditional(chemproc, ModElements.Chloroschist_Solid, 40, 50, 1f / 9f)
+				.AddProductConditional(chemproc, ModElements.Chloroschist_Solid, 40, 50, 3f / 9f)
 				.AddProductConditional(chemproc, ModElements.Aurichalcite_Solid, 25, 35, 2f / 9f)
 				);
 			///Shale: mirror of sedimentary rock bc it is described as sedimentary in its desc
@@ -259,7 +259,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.FoolsGold, 20, 40, 2f / 9f)
 				.AddProductConditional(soEnabled, SimHashes.Cobaltite, 25, 35, 2f / 9f)
 				.AddProduct(SimHashes.Salt, 40, 50, 1f / 9f)
-				.AddProductConditional(chemproc, ModElements.Chloroschist_Solid, 40, 50, 1f / 9f)
+				.AddProductConditional(chemproc, ModElements.Chloroschist_Solid, 40, 50, 4f / 9f)
 				.AddProductConditional(chemproc, ModElements.Aurichalcite_Solid, 25, 35, 2f / 9f)
 				);
 			//===: IGNEOUS ROCK RANDOM RESULTS :========================================================= < 500 kg >
@@ -876,6 +876,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(isSO ? SimHashes.Mud : SimHashes.Sand, 200, 500, 0.22f)
 				.AddProduct(SimHashes.Carbon, 200, 500, 0.11f)
 				.AddProduct(SimHashes.PhosphateNodules, 200, 500, 0.11f)
+				.AddProductConditional(chemproc, ModElements.Chloroschist_Solid, 200, 500, 0.11f)
 				.AddProduct(SimHashes.Sulfur, 200, 500, 0.11f)
 				.AddProduct(SimHashes.Algae, 200, 500, 0.11f)
 				);

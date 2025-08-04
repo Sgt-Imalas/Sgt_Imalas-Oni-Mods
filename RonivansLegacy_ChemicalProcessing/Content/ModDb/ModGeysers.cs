@@ -193,7 +193,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				0.4f,
 				0.8f,
 				320.15f),
-				generic));
+				false)); //nitrogen is too limited in use, keep it in the mod, but disable it from generic geyser list
 		}
 	}
 }
