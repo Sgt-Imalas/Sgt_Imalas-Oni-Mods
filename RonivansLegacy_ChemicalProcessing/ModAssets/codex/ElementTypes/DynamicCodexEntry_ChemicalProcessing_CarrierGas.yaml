@@ -14,7 +14,7 @@ contentContainers:
       - !CodexDividerLine
           preferredWidth: -1
       - !CodexImage
-          elementIcon: STEEL
+          elementIcon: HYDROGEN
           preferredWidth: 128
           preferredHeight: 128
 #-----------------------------

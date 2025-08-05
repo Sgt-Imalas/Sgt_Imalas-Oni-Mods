@@ -24,10 +24,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			normalOres.RemoveAll(e => e.highTempTransition?.lowTempTransition == e);
 			return normalOres;
 		}
-		public static IEnumerable<SimHashes> GetPlasticIds()
+		public static IEnumerable<SimHashes> GetPlasticIds(SimHashes? exclude = null)
 		{
-
-			return ElementLoader.elements.FindAll(e => e.IsSolid && e.HasTag(GameTags.Plastic)).Select(e => e.id);
+			return ElementLoader.elements.FindAll(e => e.IsSolid && e.HasTag(GameTags.Plastic) && (exclude==null||!exclude.HasValue||exclude.Value != e.id)).Select(e => e.id);
 		}
 	}
 }

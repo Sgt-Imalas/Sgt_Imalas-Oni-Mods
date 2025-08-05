@@ -1088,7 +1088,7 @@ elements:
     radiationPer1000Mass: 0
     materialCategory: Unbreathable
     tags:
-    - AIO_ShieldingGas
+    - AIO_CarrierGas
     isDisabled: false
     state: Gas
     localizationID: STRINGS.ELEMENTS.NITROGENGAS.NAME
