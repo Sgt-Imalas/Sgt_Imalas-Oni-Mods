@@ -2236,7 +2236,15 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public class HEAVYCOMET
 					{
-						public static LocString NAME = "Heavy Comet";
+						public static LocString NAME = "Heavy Meteor";
+					}
+					public class ZINCCOMET
+					{
+						public static LocString NAME = "Aurichalcite Meteor";
+					}
+					public class SILVERCOMET
+					{
+						public static LocString NAME = "Argentite Meteor";
 					}
 				}
 			}

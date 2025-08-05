@@ -24,7 +24,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			{
 				///BaseGame Showers
 				AddCometToShower(__instance.MeteorShowerIronEvent,HeavyCometConfig.ID, 2);
+				AddCometToShower(__instance.MeteorShowerIronEvent, ZincCometConfig.ID, 1);
+
 				AddCometToShower(__instance.MeteorShowerCopperEvent,HeavyCometConfig.ID, 2);
+				AddCometToShower(__instance.MeteorShowerCopperEvent,SilverCometConfig.ID, 1);
+
 				AddCometToShower(__instance.MeteorShowerGoldEvent, HeavyCometConfig.ID, 2);
 
 				if (!DlcManager.IsExpansion1Active())
@@ -32,12 +36,19 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 				//rockmeteor
 				AddCometToShower(__instance.MeteorShowerDustEvent, HeavyCometConfig.ID, 3);
+
 				AddCometToShower(__instance.ClusterRegolithShower, HeavyCometConfig.ID, 2);
+
 				AddCometToShower(__instance.ClusterGoldShower, HeavyCometConfig.ID, 2);
+
 				AddCometToShower(__instance.ClusterCopperShower, HeavyCometConfig.ID, 2);
+				AddCometToShower(__instance.ClusterCopperShower, SilverCometConfig.ID, 1);
 				//dustmeteors
 				AddCometToShower(__instance.ClusterIronShower, HeavyCometConfig.ID, 1);
+				AddCometToShower(__instance.ClusterIronShower, ZincCometConfig.ID, 1);
+
 				AddCometToShower(__instance.ClusterLightRegolithShower, HeavyCometConfig.ID, 1);
+
 				AddCometToShower(__instance.ClusterUraniumShower, HeavyCometConfig.ID, 1);
 
 			}

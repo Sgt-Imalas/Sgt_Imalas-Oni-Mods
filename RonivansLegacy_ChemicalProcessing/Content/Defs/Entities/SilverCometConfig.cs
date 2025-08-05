@@ -10,20 +10,20 @@ using static RonivansLegacy_ChemicalProcessing.STRINGS;
 
 namespace Dupes_Industrial_Overhaul.Chemical_Processing.Space
 {
-	class HeavyCometConfig : IEntityConfig
+	class SilverCometConfig : IEntityConfig
 	{
-		public static readonly string ID = "HeavyComet";
+		public static readonly string ID = "SilverComet";
 		public string[] GetDlcIds() => null;
 		public GameObject CreatePrefab()
 		{
 			var gameObject = 
 				BaseCometConfig.BaseComet(ID,
-				UI.SPACEDESTINATIONS.COMETS.HEAVYCOMET.NAME,
-				"meteor_sand_kanim",
-				ModElements.MeteorOre_Solid,
-				new Vector2(90f, 250f),
+				UI.SPACEDESTINATIONS.COMETS.SILVERCOMET.NAME,
+				"meteor_metal_kanim",
+				ModElements.Argentite_Solid,
+				new Vector2(3f, 20f),
 				new Vector2(323.15f, 423.15f),
-				"Meteor_Medium_Impact", 1,
+				"Meteor_Medium_Impact", 1, 
 				SimHashes.CarbonDioxide,
 				SpawnFXHashes.MeteorImpactMetal, 0.6f);
 
@@ -32,9 +32,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Space
 			comet.entityDamage = 15;
 			comet.totalTileDamage = 0.5f;
 			comet.splashRadius = 1;
-
-			PrimaryElement primaryElement = gameObject.AddOrGet<PrimaryElement>();
-			primaryElement.MassPerUnit = 25f;
 
 			return gameObject;
 		}
