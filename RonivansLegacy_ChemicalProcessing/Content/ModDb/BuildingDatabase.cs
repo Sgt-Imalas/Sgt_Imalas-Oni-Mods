@@ -611,7 +611,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddModFrom(SourceModInfo.HighPressureApplications);
 
 
-			
+
 
 			//liquid
 			BuildingManager.CreateEntry<HPAVentLiquidConfig>()
@@ -648,10 +648,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			if (!Config.Instance.HPA_Rails_Enabled)
 				return;
 
-			BuildingManager.CreateEntry<HPARailInsulatedConfig>()
-				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitConfig.ID)
-				.AddToTech(ModTechs.HPA_Rails_Research_ID)
-				.AddModFrom(SourceModInfo.HighPressureApplications);
+			if (Config.Instance.HPA_Rails_Insulation_Enabled)
+			{
+				BuildingManager.CreateEntry<HPARailInsulatedConfig>()
+					.AddToCategory(PlanMenuCategory.Shipping, SolidConduitConfig.ID)
+					.AddToTech(ModTechs.HPA_Rails_Research_ID)
+					.AddModFrom(SourceModInfo.HighPressureApplications);
+			}
 
 			BuildingManager.CreateEntry<HPARailConfig>()
 				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitConfig.ID)
@@ -666,7 +669,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			BuildingManager.CreateEntry<HPARailBridgeConfig>()
 				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitBridgeConfig.ID)
-				.AddToTech(ModTechs.HPA_Rails_Research_ID	)
+				.AddToTech(ModTechs.HPA_Rails_Research_ID)
 				.AddModFrom(SourceModInfo.HighPressureApplications);
 
 			BuildingManager.CreateEntry<HPATransferArmConfig>()
@@ -731,7 +734,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		private static void RegisterBuildings_CustomGenerators()
 		{
 			BuildingManager.CreateEntry<CustomDieselGeneratorConfig>()
-				.AddToCategory(PlanMenuCategory.Power, PetroleumGeneratorConfig.ID,ModUtil.BuildingOrdering.Before)
+				.AddToCategory(PlanMenuCategory.Power, PetroleumGeneratorConfig.ID, ModUtil.BuildingOrdering.Before)
 				.AddToTech(Technology.Power.FossilFuels)
 				.AddModFrom(SourceModInfo.CustomGenerators);
 
@@ -756,6 +759,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToTech(Technology.Power.InternalCombustion)
 				.AddModFrom(SourceModInfo.CustomGenerators);
 
-		}		
+		}
 	}
 }

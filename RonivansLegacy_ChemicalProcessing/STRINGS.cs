@@ -2309,6 +2309,11 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString NAME = "Enable Heavy-Duty Rails";
 				public static LocString TOOLTIP = "Heavy-Duty Rails serve as an late game upgrade to conveyor rails, having a much higher throughput at the cost of more complex build requirements.";
 			}
+			public class HP_SOLID_INSULATION_ENABLE
+			{
+				public static LocString NAME = "Insulated Heavy-Duty Rails";
+				public static LocString TOOLTIP = "Enable an insulated variant of the heavy-duty conveyor rail";
+			}
 			public class HP_SOLID_CAPACITY
 			{
 				public static LocString NAME = "Heavy-Duty Rail Capacity";

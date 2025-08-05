@@ -57,7 +57,6 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				}
 			}
 		}
-		static Pickupable droppedExcess;
 
 		private static SolidConduitFlow.ConduitContents DropExcessRailMaterialsAtCell(SolidConduitFlow.ConduitContents contents, int targetcell)
 		{
@@ -105,7 +104,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				///using this variant for now because the rail system doesnt react to damage...
 				///alt variant: drop only excess amount if weight too hight, keep target limit on the rail
 				float additionalWeightToRemove = (weight - maxTargetRailCapacity);
-				droppedExcess = pickupable.Take(additionalWeightToRemove);
+				var droppedExcess = pickupable.Take(additionalWeightToRemove);
 				///drop excess mass
 				Instance.DumpPickupable(droppedExcess);
 				//float ratio = additionalWeightToRemove / weight;
@@ -119,7 +118,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		public class SolidConduitFlow_DumpPickupable_Patch
 		{
 			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.HPA_Rails_Enabled;
+			public static bool Prepare() => Config.Instance.HPA_Rails_Insulation_Enabled;
 			public static void Prefix(SolidConduitFlow __instance, Pickupable pickupable)
 			{
 				HighPressureConduitRegistration.SetInsulatedState(pickupable, false);
@@ -130,7 +129,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		public class SolidConduitFlow_DumpPipeContents_Patch
 		{
 			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.HPA_Rails_Enabled;
+			public static bool Prepare() => Config.Instance.HPA_Rails_Insulation_Enabled;
 			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
 			{
 				var codes = orig.ToList();
@@ -157,7 +156,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		public class SolidConduitFlow_AddPickupable_Patch
 		{
 			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.HPA_Rails_Enabled;
+			public static bool Prepare() => Config.Instance.HPA_Rails_Insulation_Enabled;
 			public static void Postfix(SolidConduitFlow __instance, int cell_idx, Pickupable pickupable)
 			{
 				if(HighPressureConduitRegistration.IsInsulatedRail(cell_idx))
@@ -170,6 +169,5 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				}
 			}
 		}
-
 	}
 }

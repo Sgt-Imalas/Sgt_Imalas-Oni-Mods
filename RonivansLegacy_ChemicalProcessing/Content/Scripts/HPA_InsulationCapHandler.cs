@@ -57,7 +57,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		{
 			yield return new WaitForEndOfFrame(); 
 			RefreshConnection();
-			OnUtilityConnectionsChanged(null);
 		}
 		void RefreshConnection()
 		{

@@ -53,7 +53,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 
 			private static Color32 ReplaceHPConduitColor(Color32 oldColor, SaveLoadRoot currentItem)
 			{
-				if (HighPressureConduitRegistration.IsHighPressureConduit(currentItem.gameObject))
+				if (HighPressureConduitRegistration.IsHighPressureConduit(currentItem.gameObject.GetInstanceID()))
 				{
 					if (ViewMode == OverlayModes.LiquidConduits.ID)
 					{
@@ -101,12 +101,8 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				{
 					return HighPressureConduitRegistration.GetColorForConduitType(ConduitType.Solid, true, true);
 				}
-				else if (HighPressureConduitRegistration.IsHighPressureConduit(currentItem.gameObject))
+				else if (HighPressureConduitRegistration.IsHighPressureConduit(currentItem.gameObject.GetInstanceID()))
 				{
-					//if(HighPressureConduitRegistration.IsInsulatedRail(currentItem.gameObject))
-					//{
-					//	return HighPressureConduitRegistration.GetColorForConduitType(ConduitType.Solid, true, false);
-					//}
 					return HighPressureConduitRegistration.GetColorForConduitType(ConduitType.Solid, true);
 				}
 				return oldColor;

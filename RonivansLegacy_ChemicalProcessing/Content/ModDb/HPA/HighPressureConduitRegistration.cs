@@ -12,6 +12,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 	class HighPressureConduitRegistration
 	{
 		//cache this to avoid calling config.instance each time
+		private static bool _usingInsulatedSolidRails;
 		private static bool _capInit = false;
 		private static float _gasCap_hp = -1, _liquidCap_hp = -1, _solidCap_hp = -1, _solidCap_logistic = -1;
 		private static float _gasCap_reg = -1, _liquidCap_reg = -1, _solidCap_reg = -1;
@@ -37,10 +38,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		#endregion
 
 
-		public static HashSet<GameObject> AllHighPressureConduitGOs = [];
+		public static HashSet<int> AllHighPressureConduitGOHandles = [];
 
 		public static HashSet<int> AllInsulatedSolidConduitCells = [];
-		public static HashSet<GameObject> AllInsulatedSolidConduitGOs = [];
+		//public static HashSet<int> AllInsulatedSolidConduitGOHandles = [];
 
 		static HashSet<int>
 			HPA_Solid = [],
@@ -80,6 +81,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				_gasCap_reg = ConduitFlow.MAX_GAS_MASS;
 				_liquidCap_reg = ConduitFlow.MAX_LIQUID_MASS;
 				_solidCap_reg = SolidConduitFlow.MAX_SOLID_MASS;
+				_usingInsulatedSolidRails = Config.Instance.HPA_Rails_Insulation_Enabled;
 			}
 		}
 
@@ -112,31 +114,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 		public static void ClearEverything()
 		{
-			AllHighPressureConduitGOs.Clear();
+			AllHighPressureConduitGOHandles.Clear();
 			BrokenRails.Clear();
 			HighPressureConduitEventHandler.CancelPendingEvents();
-			//HighPressureConduitsByLayer = new()
-			//{
-			//{ (int)ObjectLayer.GasConduit,[] },
-			//{ (int)ObjectLayer.LiquidConduit,[] },
-			//{ (int)ObjectLayer.GasConduitConnection,[] },
-			//{ (int)ObjectLayer.LiquidConduitConnection,[] },
-			//{ (int)ObjectLayer.SolidConduit,[] },
-			//{ (int)ObjectLayer.SolidConduitConnection,[] },
-			//}; 
-			//AllConduitsByLayer = new()
-			//{
-			//{ (int)ObjectLayer.GasConduit,[] },
-			//{ (int)ObjectLayer.LiquidConduit,[] },
-			//{ (int)ObjectLayer.GasConduitConnection,[] },
-			//{ (int)ObjectLayer.LiquidConduitConnection,[] },
-			//{ (int)ObjectLayer.SolidConduit,[] },
-			//{ (int)ObjectLayer.SolidConduitConnection,[] },
-			//};
+			_cachedPickupables.Clear();
 		}
 
 
-		internal static bool IsHighPressureConduit(GameObject currentItem) => currentItem == null ? false : AllHighPressureConduitGOs.Contains(currentItem);
+		internal static bool IsHighPressureConduit(int currentItemHandle) => AllHighPressureConduitGOHandles.Contains(currentItemHandle);
 
 		/// <summary>
 		/// returns the mass a regular pipe would have if it had the same fill state as the high pressure pipe of this type
@@ -367,7 +352,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		}
 		public static void UnregisterHighPressureConduit(HighPressureConduit conduit)
 		{
-			AllHighPressureConduitGOs.Remove(conduit.gameObject);
+			AllHighPressureConduitGOHandles.Remove(conduit.gameObject.GetInstanceID());
 			switch (conduit.buildingComplete.Def.ObjectLayer)
 			{
 				case ObjectLayer.SolidConduit:
@@ -394,14 +379,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			}
 			if (conduit.InsulateSolidContents)
 			{
-				AllInsulatedSolidConduitGOs.Remove(conduit.gameObject);
+				//AllInsulatedSolidConduitGOHandles.Remove(conduit.gameObject.GetInstanceID());
 				AllInsulatedSolidConduitCells.Remove(conduit.NaturalBuildingCell());
 			}
 			UnregisterConduit(conduit.gameObject);
 		}
 		public static void RegisterHighPressureConduit(HighPressureConduit conduit)
 		{
-			AllHighPressureConduitGOs.Add(conduit.gameObject);
+			AllHighPressureConduitGOHandles.Add(conduit.gameObject.GetInstanceID());
 
 			switch (conduit.buildingComplete.Def.ObjectLayer)
 			{
@@ -430,52 +415,60 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			if (conduit.InsulateSolidContents)
 			{
 				AllInsulatedSolidConduitCells.Add(conduit.buildingComplete.PlacementCells.Min());
-				AllInsulatedSolidConduitGOs.Add(conduit.gameObject);
-				SgtLogger.l("registering insulated solid conduit at cell " + conduit.buildingComplete.PlacementCells.Min() + " for " + conduit.gameObject.GetProperName());
+				//AllInsulatedSolidConduitGOHandles.Add(conduit.gameObject.GetInstanceID());
 			}
 			RegisterConduit(conduit.gameObject);
 		}
 
-		static Tuple<SimTemperatureTransfer, KPrefabID> cached = null;
-		static Dictionary<Pickupable, Tuple<SimTemperatureTransfer, KPrefabID>> _insulatedPickupables = new(2048);
+		static Dictionary<Pickupable,SimTemperatureTransfer> _cachedPickupables = new(2048);
+
 		internal static Pickupable SetInsulatedState(Pickupable pickupable, bool sealAndInsulate)
 		{
-			if (pickupable == null)// || pickupable.gameObject == null)
+			if (!_usingInsulatedSolidRails || pickupable == null || pickupable.gameObject == null)
 				return pickupable;
 
-			if (_insulatedPickupables.TryGetValue(pickupable, out cached))
+			if (_cachedPickupables.TryGetValue(pickupable, out var cached))
 			{
-				if (cached.first != null)
-					cached.first.enabled = !sealAndInsulate;
-				if (cached.second != null)
-				{
-					//SgtLogger.l($"Setting insulated state for {pickupable.GetProperName()} to {sealAndInsulate} in cell {Grid.PosToCell(pickupable)}");
+				cached.enabled = !sealAndInsulate;
+			}
+			else
+			if (pickupable.TryGetComponent<SimTemperatureTransfer>(out var _tempTransfer))
+			{
+				_tempTransfer.enabled = !sealAndInsulate;
+				_cachedPickupables[pickupable] = _tempTransfer;
+			}
 
-					if (sealAndInsulate)
-						cached.second.AddTag(GameTags.Sealed);
-					else
-						cached.second.RemoveTag(GameTags.Sealed);
-				}
-				return pickupable;
-			}
-			if (pickupable.TryGetComponent<SimTemperatureTransfer>(out var _tempTransfer) && pickupable.TryGetComponent<KPrefabID>(out var _kPrefab))
-			{
-				_insulatedPickupables[pickupable] = new Tuple<SimTemperatureTransfer, KPrefabID>(_tempTransfer, _kPrefab);
-				return SetInsulatedState(pickupable, sealAndInsulate);
-			}
+			if (sealAndInsulate)
+				pickupable.KPrefabID.AddTag(GameTags.Sealed);
+			else
+				pickupable.KPrefabID.RemoveTag(GameTags.Sealed);
+
 			return pickupable;
 		}
 
 		internal static bool IsInsulatedRail(int cell)
 		{
-			return AllInsulatedSolidConduitCells.Contains(cell);
+			return _usingInsulatedSolidRails && AllInsulatedSolidConduitCells.Contains(cell);
 		}
-		public static bool IsInsulatedRail(GameObject go)
+		internal static void RegisterPickupable(Pickupable instance)
 		{
-			if (go == null)
-				return false;
+			if(!_usingInsulatedSolidRails || instance == null || instance.gameObject == null || instance.deleteOffGrid)
+				return;
+			if (_cachedPickupables.ContainsKey(instance))
+				return;
+			if (instance.TryGetComponent<SimTemperatureTransfer>(out var _tempTransfer) )
+			{
+				_cachedPickupables[instance] = _tempTransfer;
+			}
+			else
+			{
+				SgtLogger.l($"Failed to register pickupable {instance.GetProperName()} at cell {Grid.PosToCell(instance)}");
+			}
+		}
 
-			return AllInsulatedSolidConduitGOs.Contains(go);
+		internal static void CleanupPickupable(Pickupable instance)
+		{
+			_cachedPickupables.Remove(instance);
 		}
 	}
 }
