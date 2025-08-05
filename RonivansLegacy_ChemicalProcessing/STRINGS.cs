@@ -1367,7 +1367,7 @@ namespace RonivansLegacy_ChemicalProcessing
 							"Transports large quantities of ",FormatAsLink("Solid Materials", "ELEMENTS_SOLID")," on a track between ",
 							FormatAsLink("Heavy-Duty Loaders", "HPA_INBOX"),
 							" and ",
-							FormatAsLink("Heavy-Duty Receptacles", "HPA_OUTBOX"),
+							FormatAsLink("Conveyor Chutes", "SOLIDVENT"),
 							".\n\nCan not be run through wall and floor tiles."
 						]);
 				}
@@ -1396,14 +1396,8 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class HPA_INBOX
 				{
 					public static LocString NAME = FormatAsLink("Heavy-Duty Loader", nameof(HPA_INBOX));
-					public static LocString DESC = "";
-					public static LocString EFFECT = "";
-				}
-				public class HPA_OUTBOX
-				{
-					public static LocString NAME = FormatAsLink("Heavy-Duty Receptacle", nameof(HPA_OUTBOX));
-					public static LocString DESC = "";
-					public static LocString EFFECT = "";
+					public static LocString DESC = "Material filters can be used to determine what resources are sent down the rail.";
+					public static LocString EFFECT = "Loads " + FormatAsLink("Solid Materials", "ELEMENTS_SOLID") + " onto " + FormatAsLink("Heavy-Duty Rail", nameof(HPA_SOLIDRAIL)) + " for transport.\n\nOnly loads the resources of your choosing.";
 				}
 				public class HPA_SOLIDRAILVALVE
 				{
@@ -1413,7 +1407,7 @@ namespace RonivansLegacy_ChemicalProcessing
 					FormatAsLink("Solid Materials", "ELEMENTS_SOLID") +
 					" to be transfered from " +
 					FormatAsLink("Heavy-Duty Rails", "HPA_SOLIDRAIL") +
-					" to normal" +
+					" to normal " +
 					FormatAsLink("Conveyor Rails", "SOLIDCONDUIT") +
 					".";
 				}

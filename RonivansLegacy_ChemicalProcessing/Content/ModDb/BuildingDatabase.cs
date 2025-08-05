@@ -23,6 +23,7 @@ using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureAppli
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureApplications.HPA_Gas;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureApplications.HPA_liquid;
 using High_Pressure_Applications.BuildingConfigs;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureApplications.HPA_Solid;
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
 	class BuildingDatabase
@@ -689,7 +690,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddModFrom(SourceModInfo.HighPressureApplications);
 
 
-			
+			BuildingManager.CreateEntry<HPAFilterSolidConfig>()
+				.AddToCategory(PlanMenuCategory.Shipping, SolidFilterConfig.ID)
+				.AddToTech(Technology.SolidMaterial.SolidManagement)
+				.AddModFrom(SourceModInfo.HighPressureApplications);
+
 
 
 		}

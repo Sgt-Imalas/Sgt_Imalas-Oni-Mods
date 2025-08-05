@@ -46,6 +46,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
+			go.GetComponent<KPrefabID>().AddTag(GameTags.OverlayBehindConduits);
 			float consumerCapacity = HighPressureConduitRegistration.SolidCap_HP * 10f;
 
 			Storage storage = BuildingTemplates.CreateDefaultStorage(go, false);
@@ -77,6 +78,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			solidDispenser.alwaysDispense = true;
 			solidDispenser.elementFilter = null; 
 			this.AttachPort(go);
+
 		}
 
 		private void AttachPort(GameObject go)
@@ -89,7 +91,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 
 		public override void DoPostConfigureComplete(GameObject go)
 		{
-			go.GetComponent<KPrefabID>().AddTag(GameTags.OverlayBehindConduits, false);
 			var requirement = go.AddOrGet<HPA_SolidConduitRequirement>();
 			requirement.RequiresHighPressureOutput = true;
 			go.AddOrGet<AIO_DecompressionValve>();

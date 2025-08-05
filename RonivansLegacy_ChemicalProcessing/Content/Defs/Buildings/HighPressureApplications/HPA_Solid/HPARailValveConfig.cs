@@ -17,7 +17,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 		{
 			float[] quantity1 = [50f, 20f];
 			string[] materials1 = [GameTags.Steel.ToString(), GameTags.Plastic.ToString()];
-			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 1, 2, "logistic_valve_kanim", 100, 50f, quantity1, materials1, 800f, BuildLocationRule.Anywhere, TUNING.BUILDINGS.DECOR.PENALTY.TIER1, NOISE_POLLUTION.NOISY.TIER0);
+			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 1, 2, "hpa_rail_valve_kanim", 100, 50f, quantity1, materials1, 800f, BuildLocationRule.Anywhere, TUNING.BUILDINGS.DECOR.PENALTY.TIER1, NOISE_POLLUTION.NOISY.TIER0);
 			buildingDef.Floodable = false;
 			buildingDef.Overheatable = false;
 			buildingDef.ViewMode = OverlayModes.SolidConveyor.ID;
@@ -28,7 +28,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			buildingDef.UtilityOutputOffset = new CellOffset(0, 1);
 			buildingDef.PermittedRotations = PermittedRotations.R360;
 			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.SolidConveyorIDs, ID);
-			SoundUtils.CopySoundsToAnim("logistic_valve_kanim", "filter_material_conveyor_kanim");
+			SoundUtils.CopySoundsToAnim("hpa_rail_valve_kanim", "filter_material_conveyor_kanim");
 
 			buildingDef.SceneLayer = Grid.SceneLayer.GasFront;
 			buildingDef.ObjectLayer = ObjectLayer.SolidConduitConnection;

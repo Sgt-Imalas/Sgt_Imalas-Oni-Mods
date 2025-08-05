@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UtilLibs;
 using static AmbienceManager;
 using static Operational;
 
@@ -19,7 +20,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		[MyCmpGet] ConduitConsumer conduitConsumer;
 		[MyCmpGet] KBatchedAnimController kbac;
 		[SerializeField] public ConduitPortInfo FilteredOutputPort = new(ConduitType.Solid, new CellOffset(0, 0));
-		int inputCell, outputCell, filteredOutputCell;
+		public int inputCell, outputCell, filteredOutputCell;
 		[SerializeField] public bool Tintable = false;
 
 		FlowUtilityNetwork.NetworkItem filteredOutput;
@@ -43,6 +44,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				_ => throw new NotSupportedException($"Unsupported conduit type: {FilteredOutputPort.conduitType}"),
 			};
 		}
+
 		IUtilityNetworkMgr GetNetworkMgr()
 		{
 			return FilteredOutputPort.conduitType switch
@@ -157,11 +159,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 						if (pickupableInput.primaryElement.Mass > 0 && (pickupableAtOutputCell == null || pickupableAtOutputCell.primaryElement?.Mass <= 0))
 						{
+
+
 							IsActive = true;
 							var transferItem = solidFlowManager.RemovePickupable(inputCell);
 							if (transferItem != null)
 							{
-								solidFlowManager.AddPickupable(inputCell, transferItem);
+								solidFlowManager.AddPickupable(outputCell, transferItem);
 							}
 						}
 					}
@@ -169,6 +173,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 						solidFlowManager.RemovePickupable(inputCell);
 
 				}
+				else
+					throw new NotSupportedException($"Unsupported conduit flow manager type: {IflowManager.GetType()}");
 			}
 			operational.SetActive(IsActive);
 		}
