@@ -9,7 +9,7 @@ using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {
-    class HighPressureConduitRegistration
+	class HighPressureConduitRegistration
 	{
 		//cache this to avoid calling config.instance each time
 		private static bool _capInit = false;
@@ -17,12 +17,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		private static float _gasCap_reg = -1, _liquidCap_reg = -1, _solidCap_reg = -1;
 		private static Color32 _gasFlowOverlay = new Color32(169, 209, 251, 0), _gasFlowTint = new Color32(176, 176, 176, 255),
 			_liquidFlowOverlay = new Color32(92, 144, 121, 0), _liquidFlowTint = new Color32(92, 144, 121, 255),
-			_solidOverlayTint = new(166, 175, 230, 0), _logisticOverlayTint = new (152, 193, 150, 0);
+			_solidOverlayTint = new(166, 175, 230, 0), _logisticOverlayTint = new(152, 193, 150, 0);
 
 		public static float SolidCap_HP => _solidCap_hp;
 		public static float SolidCap_Logistic => _solidCap_logistic;
 		public static float SolidCap_Regular => _solidCap_reg;
-		
+
 		#region brokenRails
 		///experiment to handle broken rails not transporting anymore, currently unused
 		public static bool IsSolidConduitBroken(int cell) => BrokenRails.Contains(cell);
@@ -208,7 +208,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			{
 				case ConduitType.Gas:
 					isHP = isBridge ? HPA_GasBridge.Contains(cell) : HPA_Gas.Contains(cell);
-					if(isHP)
+					if (isHP)
 						return CachedHPAConduitCapacity(type);
 					else
 						return CachedRegularConduitCapacity(type);
@@ -219,7 +219,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 					else
 						return CachedRegularConduitCapacity(type);
 				case ConduitType.Solid:
-					if(LogisticConduit.HasLogisticConduitAt(cell, isBridge))
+					if (LogisticConduit.HasLogisticConduitAt(cell, isBridge))
 						return SolidCap_Logistic;
 					isHP = isBridge ? HPA_SolidBridge.Contains(cell) : HPA_Solid.Contains(cell);
 					if (isHP)
@@ -307,7 +307,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 		public static void RegisterConduit(GameObject conduit)
 		{
-			if(conduit.TryGetComponent<Building>(out var buildingComplete))
+			if (conduit.TryGetComponent<Building>(out var buildingComplete))
 			{
 				switch (buildingComplete.Def.ObjectLayer)
 				{
@@ -431,23 +431,26 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			{
 				AllInsulatedSolidConduitCells.Add(conduit.buildingComplete.PlacementCells.Min());
 				AllInsulatedSolidConduitGOs.Add(conduit.gameObject);
+				SgtLogger.l("registering insulated solid conduit at cell " + conduit.buildingComplete.PlacementCells.Min() + " for " + conduit.gameObject.GetProperName());
 			}
 			RegisterConduit(conduit.gameObject);
 		}
 
 		static Tuple<SimTemperatureTransfer, KPrefabID> cached = null;
-		static Dictionary<Pickupable,Tuple<SimTemperatureTransfer, KPrefabID>> _insulatedPickupables = new(2048);
+		static Dictionary<Pickupable, Tuple<SimTemperatureTransfer, KPrefabID>> _insulatedPickupables = new(2048);
 		internal static Pickupable SetInsulatedState(Pickupable pickupable, bool sealAndInsulate)
 		{
 			if (pickupable == null)// || pickupable.gameObject == null)
 				return pickupable;
 
-			if(_insulatedPickupables.TryGetValue(pickupable, out cached))
+			if (_insulatedPickupables.TryGetValue(pickupable, out cached))
 			{
 				if (cached.first != null)
 					cached.first.enabled = !sealAndInsulate;
 				if (cached.second != null)
 				{
+					//SgtLogger.l($"Setting insulated state for {pickupable.GetProperName()} to {sealAndInsulate} in cell {Grid.PosToCell(pickupable)}");
+
 					if (sealAndInsulate)
 						cached.second.AddTag(GameTags.Sealed);
 					else
@@ -467,6 +470,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		{
 			return AllInsulatedSolidConduitCells.Contains(cell);
 		}
-		public static bool IsInsulatedRail(GameObject go) => go != null && AllInsulatedSolidConduitGOs.Contains(go);
+		public static bool IsInsulatedRail(GameObject go)
+		{
+			if (go == null)
+				return false;
+
+			return AllInsulatedSolidConduitGOs.Contains(go);
+		}
 	}
 }

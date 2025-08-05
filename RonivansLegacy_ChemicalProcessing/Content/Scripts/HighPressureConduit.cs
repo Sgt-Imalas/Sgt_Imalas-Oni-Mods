@@ -17,11 +17,31 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		public BuildingComplete buildingComplete;
 		[SerializeField]
 		public bool InsulateSolidContents = false;
+		[MyCmpGet]
+		public SolidConduit solidConduit;
 
+		public override void OnPrefabInit()
+		{
+			base.OnPrefabInit();
+			// Register the conduit with the high pressure conduit system
+			HighPressureConduitRegistration.RegisterHighPressureConduit(this);
+		}
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
-			HighPressureConduitRegistration.RegisterHighPressureConduit(this);
+			SetInsulationOnSpawn();
+		}
+
+		void SetInsulationOnSpawn()
+		{
+			if (!InsulateSolidContents || solidConduit == null)
+				return;
+			var itemHandle = SolidConduit.GetFlowManager().GetContents(Grid.PosToCell(this));
+			if (itemHandle.pickupableHandle.IsValid())
+			{
+				var item = SolidConduit.GetFlowManager().GetPickupable(itemHandle.pickupableHandle);
+				HighPressureConduitRegistration.SetInsulatedState(item, true);
+			}
 		}
 
 		public override void OnCleanUp()

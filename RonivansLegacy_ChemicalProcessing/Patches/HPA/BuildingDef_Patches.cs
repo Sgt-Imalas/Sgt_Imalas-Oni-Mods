@@ -51,7 +51,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		{
 			if (__instance.BuildLocationRule == BuildLocationRule.NotInTiles && __instance.ObjectLayer == ObjectLayer.SolidConduitConnection)
 			{
-				SgtLogger.l("Checking Bridge Validity for cell: " + cell + " with orientation: " + orientation);
+				//SgtLogger.l("Checking Bridge Validity for cell: " + cell + " with orientation: " + orientation);
 
 				CellOffset outputOffset = Rotatable.GetRotatedCellOffset(__instance.UtilityOutputOffset, orientation);
 				int utility_output_cell = Grid.OffsetCell(cell, outputOffset);
@@ -62,8 +62,8 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				GameObject inputCellTile = Grid.Objects[utility_input_cell, (int)ObjectLayer.FoundationTile];
 				GameObject outputCellTile = Grid.Objects[utility_output_cell, (int)ObjectLayer.FoundationTile];
 
-				SgtLogger.l("Input Cell Tile: " + (inputCellTile != null) + " at cell: " + utility_input_cell);
-				SgtLogger.l("Output Cell Tile: " + (outputCellTile != null) + " at cell: " + utility_output_cell);
+				//SgtLogger.l("Input Cell Tile: " + (inputCellTile != null) + " at cell: " + utility_input_cell);
+				//SgtLogger.l("Output Cell Tile: " + (outputCellTile != null) + " at cell: " + utility_output_cell);
 
 				if (inputCellTile != null || Grid.HasDoor[utility_input_cell]
 					|| outputCellTile != null || Grid.HasDoor[utility_output_cell])
