@@ -135,7 +135,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				var ownTag = element.id.CreateTag();
 				var meltsTo = element.highTempTransitionTarget.CreateTag();
 
-				RecipeBuilder.Create(ID, 30f)
+				RecipeBuilder.Create(ID, 10f)
 					.Input(ownTag, 500f)
 					.Output(meltsTo, 500f, ComplexRecipe.RecipeElement.TemperatureOperation.Melted)
 					.Description1I1O(ARCFURNACE_MELT)
