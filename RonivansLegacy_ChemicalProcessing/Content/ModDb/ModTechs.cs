@@ -31,7 +31,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			{
                 TechUtils.AddNode(instance,
 					HPA_Rails_Research_ID,
-					GameStrings.Technology.SolidMaterial.SolidTransport,
+					DlcManager.IsExpansion1Active() ? GameStrings.Technology.SolidMaterial.SolidTransport : GameStrings.Technology.SolidMaterial.SolidControl,
 					xDiff: 1,
 					yDiff: 1);
 			}
