@@ -20,15 +20,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		[MyCmpGet]
 		public SolidConduit solidConduit;
 
-		public override void OnPrefabInit()
-		{
-			base.OnPrefabInit();
-			// Register the conduit with the high pressure conduit system
-			HighPressureConduitRegistration.RegisterHighPressureConduit(this);
-		}
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
+			// Register the conduit with the high pressure conduit system
+			HighPressureConduitRegistration.RegisterHighPressureConduit(this);
 			SetInsulationOnSpawn();
 		}
 
