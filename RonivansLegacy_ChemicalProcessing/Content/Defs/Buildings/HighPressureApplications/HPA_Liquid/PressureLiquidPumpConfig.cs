@@ -53,7 +53,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			pumpConsumer.storeOnConsume = true;
 			pumpConsumer.showInStatusPanel = false;
 			pumpConsumer.consumptionRadius = 8;
-			pumpConsumer.sampleCellOffset = new Vector3(1, 0);
+			go.AddOrGet<RotatablePump>().PumpOffset = new CellOffset(1, 0);
 
 			ConduitDispenser local2 = go.AddOrGet<ConduitDispenser>();
 			local2.conduitType = ConduitType.Liquid;
