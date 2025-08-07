@@ -24,19 +24,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		public static float SolidCap_Logistic => _solidCap_logistic;
 		public static float SolidCap_Regular => _solidCap_reg;
 
-		#region brokenRails
-		///experiment to handle broken rails not transporting anymore, currently unused
-		public static bool IsSolidConduitBroken(int cell) => BrokenRails.Contains(cell);
-		static HashSet<int> BrokenRails = [];
-		public static void RegisterRailBrokenState(SolidConduit conduit, bool broken)
-		{
-			if (broken)
-				BrokenRails.Add(conduit.NaturalBuildingCell());
-			else
-				BrokenRails.Remove(conduit.NaturalBuildingCell());
-		}
-		#endregion
-
+		public static HashSet<int>
+			ValveOutputs_Liquid = [],
+			ValveOutputs_Gas = []
+			;
 
 		public static HashSet<int> AllHighPressureConduitGOHandles = [];
 
@@ -114,10 +105,30 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 		public static void ClearEverything()
 		{
-			AllHighPressureConduitGOHandles.Clear();
-			BrokenRails.Clear();
 			HighPressureConduitEventHandler.CancelPendingEvents();
+			AllHighPressureConduitGOHandles.Clear();
 			_cachedPickupables.Clear();
+
+			HPA_Solid.Clear();
+			HPA_Liquid.Clear();
+			HPA_Gas.Clear();
+
+			HPA_SolidBridge.Clear();
+			HPA_LiquidBridge.Clear();
+			HPA_GasBridge.Clear();
+
+			All_Solid.Clear();
+			All_Liquid.Clear();
+			All_Gas.Clear();
+
+			All_SolidBridge.Clear();
+			All_LiquidBridge.Clear();
+			All_GasBridge.Clear();
+
+			ValveOutputs_Liquid.Clear();
+			ValveOutputs_Gas.Clear();
+
+			AllInsulatedSolidConduitCells.Clear();
 		}
 
 
@@ -230,6 +241,30 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				return Grid.Objects[cell, isBridge ? (int)ObjectLayer.SolidConduitConnection : (int)ObjectLayer.SolidConduit];
 			}
 			throw new NotImplementedException("Tried getting invalid conduit type");
+		}
+
+		public static bool TryGetOutputHPACapacityAt(int cell, ConduitType type, out float capacity, bool bridge = false)
+		{
+			switch (type)
+			{
+				case ConduitType.Gas:
+					if(ValveOutputs_Gas.Contains(cell))
+					{
+						capacity = CachedRegularConduitCapacity(type);
+						return false;
+					}
+					break;
+				case ConduitType.Liquid:
+					if (ValveOutputs_Liquid.Contains(cell))
+					{
+						capacity = CachedRegularConduitCapacity(type);
+						return false;
+					}
+					break;
+			}
+
+			capacity = CachedHPAConduitCapacity(type);
+			return HasHighPressureConduitAt(cell, type, bridge);
 		}
 
 		public static bool TryGetHPACapacityAt(int cell, ConduitType type, out float capacity, bool bridge = false)
@@ -419,6 +454,38 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			}
 			RegisterConduit(conduit.gameObject);
 		}
+
+		public static void RegisterDecompressionValve(HPA_DecompressionOutput valve)
+		{
+			switch(valve.ConduitDispenser.conduitType)
+			{
+				case ConduitType.Gas:
+					ValveOutputs_Gas.Add(valve.building.GetUtilityOutputCell());
+					break;
+				case ConduitType.Liquid:
+					ValveOutputs_Liquid.Add(valve.building.GetUtilityOutputCell());
+					break;
+				default:
+					SgtLogger.warning("Tried to register a decompression valve for an unsupported conduit type: " + valve.ConduitDispenser.conduitType);
+					return;
+			}
+		}
+		public static void UnregisterDecompressionValve(HPA_DecompressionOutput valve)
+		{
+			switch (valve.ConduitDispenser.conduitType)
+			{
+				case ConduitType.Gas:
+					ValveOutputs_Gas.Remove(valve.building.GetUtilityOutputCell());
+					break;
+				case ConduitType.Liquid:
+					ValveOutputs_Liquid.Remove(valve.building.GetUtilityOutputCell());
+					break;
+				default:
+					SgtLogger.warning("Tried to register a decompression valve for an unsupported conduit type: " + valve.ConduitDispenser.conduitType);
+					return;
+			}
+		}
+
 
 		static Dictionary<Pickupable,SimTemperatureTransfer> _cachedPickupables = new(2048);
 

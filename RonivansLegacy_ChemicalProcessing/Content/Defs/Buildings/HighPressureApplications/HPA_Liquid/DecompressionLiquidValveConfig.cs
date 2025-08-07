@@ -64,6 +64,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			go.AddOrGetDef<StorageController.Def>();
 			go.GetComponent<KPrefabID>().AddTag(GameTags.OverlayBehindConduits, false);
 			go.AddOrGet<HPA_ConduitRequirement>().RequiresHighPressureInput = true;
+			go.AddOrGet<HPA_DecompressionOutput>();
 		}
 	}
 }

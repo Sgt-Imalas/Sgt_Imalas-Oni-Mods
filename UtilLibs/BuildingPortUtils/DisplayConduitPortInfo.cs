@@ -18,6 +18,7 @@ namespace UtilLibs.BuildingPortUtils
 		readonly internal bool input;
 		readonly internal Color color;
 
+		public ConduitType Type => type;
 		protected DisplayConduitPortInfo(ConduitType type, CellOffset offset, CellOffset? offsetFlipped, bool input, Color? color)
 		{
 			this.type = type;

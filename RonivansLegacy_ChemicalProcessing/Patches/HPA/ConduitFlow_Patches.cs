@@ -125,7 +125,6 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				yield return new CodeInstruction(OpCodes.Ldarg_0); //injecting conduitflow instance
 				yield return getCellInstruction; //injecting cell
 				yield return new CodeInstruction(OpCodes.Call, replaceMaxMassAtCell); //consume the three, returing a potentially changed max amount
-
 			}
 
 			///During the UpdateConduit method, the ConduitContents.AddMass method is called to move the contents from one pipe to the next.
@@ -145,7 +144,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		///Replace max mass check if the conduit is HighPressure
 		private static float ReplaceMaxMassAtCell(float standardMax, ConduitFlow conduitFlow, int cell_idx)
 		{
-			if(!HighPressureConduitRegistration.TryGetHPACapacityAt(cell_idx, conduitFlow.conduitType, out float increasedCap))
+			if(!HighPressureConduitRegistration.TryGetOutputHPACapacityAt(cell_idx, conduitFlow.conduitType, out float increasedCap))
 				return standardMax;
 			return increasedCap;
 		}
