@@ -46,7 +46,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			go.AddOrGet<LoopingSounds>();
 			go.AddOrGet<EnergyConsumer>();
 			go.AddOrGet<Pump>();
-			go.AddOrGet<Storage>().capacityKg = Config.Instance.HPA_Capacity_Liquid;
+			go.AddOrGet<Storage>().capacityKg = Config.Instance.HPA_Capacity_Liquid*2;
 			ElementConsumer pumpConsumer = go.AddOrGet<ElementConsumer>();
 			pumpConsumer.configuration = ElementConsumer.Configuration.AllLiquid;
 			pumpConsumer.consumptionRate = Config.Instance.HPA_Capacity_Liquid;
@@ -59,6 +59,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			local2.conduitType = ConduitType.Liquid;
 			local2.alwaysDispense = true;
 			local2.elementFilter = null;
+
 			go.AddOrGetDef<OperationalController.Def>();
 			go.GetComponent<KPrefabID>().AddTag(GameTags.OverlayBehindConduits, false);
 			go.AddOrGet<HPA_ConduitRequirement>().RequiresHighPressureOutput = true;

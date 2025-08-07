@@ -46,12 +46,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			go.AddOrGet<LoopingSounds>();
 			go.AddOrGet<EnergyConsumer>();
 			go.AddOrGet<Pump>();
-			go.AddOrGet<Storage>().capacityKg = Config.Instance.HPA_Capacity_Gas; 
+			go.AddOrGet<Storage>().capacityKg = Config.Instance.HPA_Capacity_Gas * 2; 
 			
-			ConduitDispenser local2 = go.AddOrGet<ConduitDispenser>();
-			local2.conduitType = ConduitType.Gas;
-			local2.alwaysDispense = true;
-			local2.elementFilter = null;
 
 			ElementConsumer pumpConsumer = go.AddOrGet<ElementConsumer>();
 			pumpConsumer.configuration = ElementConsumer.Configuration.AllGas;
@@ -59,6 +55,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			pumpConsumer.storeOnConsume = true;
 			pumpConsumer.showInStatusPanel = false;
 			pumpConsumer.consumptionRadius = 12;
+
+			ConduitDispenser local2 = go.AddOrGet<ConduitDispenser>();
+			local2.conduitType = ConduitType.Gas;
+			local2.alwaysDispense = true;
+			local2.elementFilter = null;
 
 			go.AddOrGet<RotatablePump>().PumpOffset = new CellOffset(0, 2);
 
