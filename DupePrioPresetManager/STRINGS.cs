@@ -70,6 +70,7 @@
 				public static LocString OPENPRESETWINDOW = "Open Preset Window";
 				public static LocString TITLE = "Priority Presets";
 				public static LocString TITLECONSUMABLES = "Consumable Presets";
+				public static LocString TITLERESEARCHQUEUE = "Research Queue Presets";
 				public static LocString TITLESCHEDULES = "Schedule Presets";
 				public class SCHEDULESTRINGS
 				{

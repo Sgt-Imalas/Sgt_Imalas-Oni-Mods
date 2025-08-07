@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine.UI;
 
 namespace DupePrioPresetManager
 {
@@ -27,6 +28,17 @@ namespace DupePrioPresetManager
 			var button = Util.KInstantiateUI(__instance.sideBar.clearSearchButton.gameObject, __instance.sideBar.allFilter.transform.parent.gameObject, true);
 			button.name = "presetButton";
 			button.transform.Find("Image").GetComponent<KImage>().sprite = Assets.GetSprite("iconPaste");
+
+			if(button.TryGetComponent<LayoutElement>(out var LE))
+			{
+				LE.minHeight = 36;
+				LE.minWidth = 36;
+			}
+			//__instance.sideBar.transform.Find("Content/Queue").gameObject.SetActive(true);
+			//__instance.sideBar.transform.Find("Content/Queue/Scroll/Rect/QueueContent/TechWidgetPrefab").gameObject.SetActive(true);
+			//__instance.sideBar.transform.Find("Content/Queue/Scroll/Rect/QueueContent/TechWidgetPrefabAlt").gameObject.SetActive(true);
+			//__instance.sideBar.transform.Find("Content/Queue/Scroll/Rect/QueueContent/TechItemWidgetPrefab").gameObject.SetActive(true);
+
 			var bt = button.GetComponent<KButton>();
 			bt.ClearOnClick();
 			bt.onClick += () => UnityPresetScreen_ResearchQueue.ShowWindow(() => { });

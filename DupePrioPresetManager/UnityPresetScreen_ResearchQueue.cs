@@ -126,7 +126,7 @@ namespace DupePrioPresetManager
 				var File = files[i];
 				try
 				{
-					if (IO_Utils.ReadFromFile(File,out ResearchQueuePreset preset))
+					if (IO_Utils.ReadFromFile(File, out ResearchQueuePreset preset) && preset.IsValidForCurrentDlc())
 					{
 						minionStatConfigs.Add(preset);
 					}
@@ -232,15 +232,14 @@ namespace DupePrioPresetManager
 		private void Init()
 		{
 
-			UIUtils.TryChangeText(transform, "Title", TITLECONSUMABLES);
-
+			UIUtils.TryChangeText(transform, "Title", TITLERESEARCHQUEUE);
 
 			GeneratePresetButton = transform.Find("HorizontalLayout/ItemInfo/Buttons/GenerateFromCurrent").FindOrAddComponent<FButton>();
 			CloseButton = transform.Find("HorizontalLayout/ItemInfo/Buttons/CloseButton").FindOrAddComponent<FButton>();
 			ApplyButton = transform.Find("HorizontalLayout/ItemInfo/Buttons/ApplyPresetButton").FindOrAddComponent<FButton>();
 
 			OpenPresetFolder = transform.Find("HorizontalLayout/ObjectList/SearchBar/FolderButton").FindOrAddComponent<FButton>();
-			OpenPresetFolder.OnClick += () => Process.Start(new ProcessStartInfo(ModAssets.FoodTemplatePath) { UseShellExecute = true });
+			OpenPresetFolder.OnClick += () => Process.Start(new ProcessStartInfo(ModAssets.ResearchTemplatePath) { UseShellExecute = true });
 
 
 			Searchbar = transform.Find("HorizontalLayout/ObjectList/SearchBar/Input").FindOrAddComponent<FInputField2>();
@@ -309,14 +308,15 @@ namespace DupePrioPresetManager
 				UIUtils.TryChangeText(techEntry.transform, "Label", tech.Name);
 				UIUtils.AddSimpleTooltipToObject(techEntry.transform.Find("Label"), tech.desc, true);
 
+				if (techEntry.transform.Find("Label/TraitImage").TryGetComponent<Image>(out var image))
+				{
+					image.gameObject.SetActive(false);
+				}
 
-				//if (ConsumableAllowedItem.transform.Find("AddThisTraitButton/image").TryGetComponent<Image>(out var prioimage))
-				//{
-				//	prioimage.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 25);
-				//	prioimage.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 20);
-				//	prioimage.sprite = Assets.GetSprite("overview_jobs_icon_checkmark");
-				//	prioimage.color = new Color(0.25f, 0.25f, 0.25f, 1f);
-				//}
+				if (techEntry.transform.Find("AddThisTraitButton"))
+				{
+					techEntry.transform.Find("AddThisTraitButton").gameObject.SetActive(false);
+				}
 
 				Techs[tech.Id] = techEntry;
 

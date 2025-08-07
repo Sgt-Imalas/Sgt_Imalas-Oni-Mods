@@ -68,6 +68,7 @@ namespace DupePrioPresetManager.Serializables
 				{
 					research.AddTechToQueue(tech);
 				}
+				researchScreen?.GetEntry(tech)?.QueueStateChanged(true);
 			}
 		}
 
@@ -131,6 +132,18 @@ namespace DupePrioPresetManager.Serializables
 			catch (Exception e)
 			{
 				SgtLogger.logError("Could not delete file, Exception: " + e);
+			}
+		}
+
+		internal bool IsValidForCurrentDlc()
+		{
+			if(DlcManager.IsExpansion1Active())
+			{
+				return GameVersion == DlcManager.EXPANSION1_ID;
+			}
+			else
+			{
+				return GameVersion == DlcManager.VANILLA_ID;
 			}
 		}
 	}
