@@ -173,7 +173,7 @@ namespace BlueprintsV2.BlueprintData
 				returnString += ModAssets.BLUEPRINTS_FILE_DISALLOWEDCHARACTERS.Contains(character) ? '_' : character;
 			}
 
-			if(returnString.StartsWith("._")) //Macs create these ._[filename] files to store file information on exFat systems, dont let blueprints be confused with them
+			if(returnString.StartsWith("._")) //Macs, IOS, apple, whatever create these ._[filename] files to store file information on exFat systems, dont let blueprints be confused with them
 			{
 				returnString = returnString.Substring(2);
 			}

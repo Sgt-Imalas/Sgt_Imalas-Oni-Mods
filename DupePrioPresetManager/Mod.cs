@@ -4,6 +4,7 @@ using KMod;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UtilLibs;
 
 namespace DupePrioPresetManager
@@ -17,11 +18,11 @@ namespace DupePrioPresetManager
 			//new POptions().RegisterOptions(this, typeof(ModConfig));
 
 			SgtLogger.debuglog("Initializing file paths..");
-			ModAssets.DupeTemplatePath = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config"), "DuplicantPriorityPresets"));
 			//SgtLogger.debuglog(ModAssets.DupeTemplatePath, "Priority Preset Folder");
-			ModAssets.FoodTemplatePath = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config"), "DuplicantConsumablePresets"));
-			ModAssets.ScheduleTemplatePath = FileSystem.Normalize(Path.Combine(Path.Combine(Manager.GetDirectory(), "config"), "DuplicantSchedulePresets"));
-
+			ModAssets.DupeTemplatePath = FileSystem.Normalize(Path.Combine(Manager.GetDirectory(), "config", "DuplicantPriorityPresets"));
+			ModAssets.FoodTemplatePath = FileSystem.Normalize(Path.Combine(Manager.GetDirectory(), "config", "DuplicantConsumablePresets"));
+			ModAssets.ScheduleTemplatePath = FileSystem.Normalize(Path.Combine(Manager.GetDirectory(), "config", "DuplicantSchedulePresets"));
+			ModAssets.ResearchTemplatePath = FileSystem.Normalize(Path.Combine(Manager.GetDirectory(), "config", "ResearchQueuePresets"));
 
 			SgtLogger.debuglog("Initializing folders..");
 			try
@@ -29,6 +30,7 @@ namespace DupePrioPresetManager
 				System.IO.Directory.CreateDirectory(ModAssets.DupeTemplatePath);
 				System.IO.Directory.CreateDirectory(ModAssets.FoodTemplatePath);
 				System.IO.Directory.CreateDirectory(ModAssets.ScheduleTemplatePath);
+				System.IO.Directory.CreateDirectory(ModAssets.ResearchTemplatePath);
 			}
 			catch (Exception e)
 			{
@@ -42,9 +44,17 @@ namespace DupePrioPresetManager
 		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
 		{
 			base.OnAllModsLoaded(harmony, mods);
+			if(mods.Any(mod => mod.IsEnabledForActiveDlc() && mod.staticID == "PeterHan.ResearchQueue"))
+			{
+				SgtLogger.l("ResearchQueue is enabled, activating presets.");
+				ResearchScreenPatches.ExecuteAll(harmony);
+			}
+
+
 			CompatibilityNotifications.FlagLoggingPrevention(mods);
 			CompatibilityNotifications.FixBrokenTimeout(harmony);
 
 		}
+
 	}
 }

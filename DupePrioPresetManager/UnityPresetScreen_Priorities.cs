@@ -183,13 +183,14 @@ namespace DupePrioPresetManager
 			System.Action nothing = () =>
 			{ };
 
-			KMod.Manager.Dialog(GameScreenManager.Instance.GetParent(GameScreenManager.UIRenderTarget.ScreenSpaceOverlay),
+			DialogUtil.CreateConfirmDialog(
 		   string.Format(STRINGS.UI.PRESETWINDOWDUPEPRIOS.DELETEWINDOW.TITLE, config.ConfigName),
 		   string.Format(STRINGS.UI.PRESETWINDOWDUPEPRIOS.DELETEWINDOW.DESC, config.ConfigName),
 		   STRINGS.UI.PRESETWINDOWDUPEPRIOS.DELETEWINDOW.YES,
 		   Delete,
 		   STRINGS.UI.PRESETWINDOWDUPEPRIOS.DELETEWINDOW.CANCEL
 		   , nothing
+		   , parent: this.gameObject
 		   );
 		}
 

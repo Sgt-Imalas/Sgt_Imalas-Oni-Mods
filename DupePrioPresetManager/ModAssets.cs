@@ -1,5 +1,8 @@
 ﻿
+using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
 using UnityEngine;
 using UtilLibs;
 
@@ -10,6 +13,7 @@ namespace DupePrioPresetManager
 		public static string DupeTemplatePath;
 		public static string FoodTemplatePath;
 		public static string ScheduleTemplatePath;
+		public static string ResearchTemplatePath;
 		public static GameObject PresetWindowPrefab;
 		public static GameObject ScheduleShifterPrefab;
 
@@ -43,5 +47,19 @@ namespace DupePrioPresetManager
 			}
 		}
 		private static GameObject parentScreen = null;
+
+		public static string FileNameWithHash(string filename)
+		{
+			return filename.Replace(" ", "_") + "_" + GenerateHash(System.DateTime.Now.ToString());
+		}
+		public static string GenerateHash(string str)
+		{
+			using (var md5Hasher = MD5.Create())
+			{
+				var data = md5Hasher.ComputeHash(Encoding.Default.GetBytes(str));
+				return BitConverter.ToString(data).Replace("-", "").Substring(0, 6);
+			}
+		}
+
 	}
 }
