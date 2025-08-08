@@ -10,22 +10,29 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
     public class BuildingInjectionEntry
 	{
 		bool MoveExisting = false;
-		string BuildingID;
-        string TechID;
-        string PlanScreenCategory;
+		string _buildingID;
+        string _techID;
+        string _planScreenCategory;
         string PlanScreenRelativeBuildingID;
-		ModUtil.BuildingOrdering BuildingOrdering = ModUtil.BuildingOrdering.After;
-		List<SourceModInfo> ModsFrom = new();
+		public string BuildingID => _buildingID;
+		public string TechID => _techID;
+		public string PlanScreenCategory => _planScreenCategory;
 
-        public static BuildingInjectionEntry Create(string buildingID)
+
+
+		ModUtil.BuildingOrdering BuildingOrdering = ModUtil.BuildingOrdering.After;
+		List<SourceModInfo> modsFrom = new();
+		public List<SourceModInfo> SourceMods => modsFrom;
+
+		public static BuildingInjectionEntry Create(string buildingID)
 		{
 			var entry = new BuildingInjectionEntry();
-			entry.BuildingID = buildingID;
+			entry._buildingID = buildingID;
 			return entry;
 		}
         public BuildingInjectionEntry AddToTech(string techID)
 		{
-			TechID = techID;
+			_techID = techID;
 			return this;
 		}
 		public BuildingInjectionEntry ForceCategory(bool move = true)
@@ -35,42 +42,42 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 		}
 		public BuildingInjectionEntry AddToCategory(string category, string relativeBuildingID, ModUtil.BuildingOrdering ordering = ModUtil.BuildingOrdering.After)
         {
-			PlanScreenCategory = category;
+			_planScreenCategory = category;
 			PlanScreenRelativeBuildingID = relativeBuildingID;
 			BuildingOrdering = ordering;
 			return this;			
         }
 		public BuildingInjectionEntry AddModFrom(SourceModInfo mod)
 		{
-			if(!ModsFrom.Contains(mod))
+			if(!modsFrom.Contains(mod))
 			{
-				ModsFrom.Add(mod);
+				modsFrom.Add(mod);
 			}
 			return this;
 		}
 		public List<SourceModInfo> GetModsFrom()
 		{
-			return ModsFrom;
+			return modsFrom;
 		}
 
 		internal void RegisterTech()
 		{
-			if(string.IsNullOrEmpty(TechID))
+			if(string.IsNullOrEmpty(_techID))
 			{
 				return;
 			}
-			InjectionMethods.AddBuildingToTechnology(TechID, BuildingID);
+			InjectionMethods.AddBuildingToTechnology(_techID, _buildingID);
 		}
 		internal void RegisterPlanscreen()
 		{
-			if (string.IsNullOrEmpty(PlanScreenCategory) || string.IsNullOrEmpty(PlanScreenRelativeBuildingID))
+			if (string.IsNullOrEmpty(_planScreenCategory) || string.IsNullOrEmpty(PlanScreenRelativeBuildingID))
 			{
 				return;
 			}
 			if(MoveExisting)
-				InjectionMethods.MoveExistingBuildingToNewCategory(PlanScreenCategory,BuildingID,PlanScreenRelativeBuildingID,ordering: BuildingOrdering);
+				InjectionMethods.MoveExistingBuildingToNewCategory(_planScreenCategory,_buildingID,PlanScreenRelativeBuildingID,ordering: BuildingOrdering);
 			else
-				InjectionMethods.AddBuildingToPlanScreenBehindNext(PlanScreenCategory, BuildingID, PlanScreenRelativeBuildingID, ordering: BuildingOrdering);
+				InjectionMethods.AddBuildingToPlanScreenBehindNext(_planScreenCategory, _buildingID, PlanScreenRelativeBuildingID, ordering: BuildingOrdering);
 		}
 	}
 }
