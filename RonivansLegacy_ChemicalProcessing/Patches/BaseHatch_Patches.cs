@@ -46,5 +46,24 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				__result.Add(new Diet.Info([SimHashes.Salt.CreateTag()], ModElements.Borax_Solid.Tag, caloriesPerKg, 0.5f, diseaseId, diseasePerKgProduced));
 			}
 		}
+
+		[HarmonyPatch(typeof(BaseHatchConfig), nameof(BaseHatchConfig.MetalDiet))]
+		public class BaseHatchConfig_MetalDiet_Patch
+		{
+			public static void Postfix(
+				Tag poopTag,
+				float caloriesPerKg, 
+				float producedConversionRate, 
+				string diseaseId,
+				float diseasePerKgProduced,
+				ref List<Diet.Info> __result)
+			{
+				if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+				{
+					__result.Add(new Diet.Info(new HashSet<Tag>([ModElements.Argentite_Solid.Tag]), (poopTag == GameTags.Metal) ? ModElements.Silver_Solid.Tag : poopTag, caloriesPerKg, producedConversionRate, diseaseId, diseasePerKgProduced));
+					__result.Add(new Diet.Info(new HashSet<Tag>([ModElements.Aurichalcite_Solid.Tag]), (poopTag == GameTags.Metal) ? ModElements.Zinc_Solid.Tag : poopTag, caloriesPerKg, producedConversionRate, diseaseId, diseasePerKgProduced));
+				}
+			}
+		}
     }
 }
