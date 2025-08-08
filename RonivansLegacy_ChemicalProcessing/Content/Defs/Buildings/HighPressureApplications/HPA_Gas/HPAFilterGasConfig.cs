@@ -64,7 +64,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			storage.storageFilters = STORAGEFILTERS.GASES;
 			storage.capacityKg = 0;
 			storage.showInUI = true;
-			storage.showDescriptor = false;
 			storage.allowSettingOnlyFetchMarkedItems = false;
 
 			go.AddOrGet<TreeFilterable>();

@@ -40,7 +40,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
-			go.AddOrGet<Reservoir>();
 			Storage storage = BuildingTemplates.CreateDefaultStorage(go, false);
 			storage.showDescriptor = false;
 			storage.storageFilters = STORAGEFILTERS.GASES;
