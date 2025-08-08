@@ -3,22 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static UtilLibs.MarkdownExport.MD_Localization;
+using static UtilLibs.MarkdownExport.MarkdownUtil;
 
 namespace UtilLibs.MarkdownExport
 {
-	internal class MD_Header : IMD_Entry
+	public class MD_Header : IMD_Entry
 	{
 		public int Level = 1;
-		public string Name;
+		public string NameKey;
 
-		public MD_Header(string name, int level = 1)
+		public MD_Header(string namekey, int level = 1)
 		{
-			Name = name;
+			NameKey = namekey;
 			Level = level;
 		}
 		public string FormatAsMarkdown()
 		{
-			return new String('#', Level) + " "+Name;
+			return new String('#', Level) + " "+L(NameKey);
 		}
 	}
 }

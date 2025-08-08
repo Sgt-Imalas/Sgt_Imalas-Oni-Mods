@@ -2,6 +2,7 @@
 using Klei.CustomSettings;
 using KMod;
 using Mono.Cecil.Cil;
+using MonoMod.Utils;
 using PeterHan.PLib.Core;
 using System;
 using System.Collections.Generic;
@@ -134,7 +135,40 @@ namespace UtilLibs
 			}
 		}
 
-		static Dictionary<string, string> LocalizedStrings = null;
+		static Dictionary<string, Dictionary<string, string>> LocalizedStrings = null;
+		static Dictionary<string, string> CachedTranslationMods = new()
+		{
+			{"de", "929139073" }, //german translation mod
+		};
+
+		public static bool TryGetTranslatedString(string key, out string translatedString)
+		{
+			translatedString = null;
+			var languageType = Localization.GetSelectedLanguageType();
+			if (languageType == Localization.SelectedLanguageType.None)
+				return false;
+
+			var languageCode = Localization.GetCurrentLanguageCode();
+
+			return TryGetTranslatedString(languageCode, languageType, key, out translatedString);
+		}
+		public static bool TryGetTranslatedString(string languageCode, string key, out string translatedString)
+		{
+			translatedString = null;
+			string kleiCode = languageCode + "_klei";
+			Localization.SelectedLanguageType languageType = Localization.SelectedLanguageType.None;
+
+			if (Localization.PreinstalledLanguages.Contains(kleiCode))
+				languageType = Localization.SelectedLanguageType.Preinstalled;
+			else if (CachedTranslationMods.TryGetValue(languageCode, out var modID))
+				languageType = Localization.SelectedLanguageType.UGC;
+
+			if (languageType == Localization.SelectedLanguageType.None)
+				return false;
+			return TryGetTranslatedString(kleiCode, languageType, key, out translatedString);
+		}
+
+
 
 		/// <summary>
 		/// Loads the current localization to get translated strings for the custom game settings fixing
@@ -142,35 +176,43 @@ namespace UtilLibs
 		/// <param name="key"></param>
 		/// <param name="translatedString"></param>
 		/// <returns></returns>
-		public static bool TryGetTranslatedString(string key, out string translatedString)
+		public static bool TryGetTranslatedString(string languageCodeKlei, Localization.SelectedLanguageType languageType, string key, out string translatedString)
 		{
+			string languageCode = languageCodeKlei.Replace("_klei",string.Empty);
+
 			translatedString = null;
 			if (LocalizedStrings == null)
-			{
-				LocalizedStrings = new Dictionary<string, string>();
-				var languageType = Localization.GetSelectedLanguageType();
-				if (languageType == Localization.SelectedLanguageType.None)
-					return false;
+				LocalizedStrings = new();
 
-				var code = Localization.GetCurrentLanguageCode();
-				if (languageType == Localization.SelectedLanguageType.Preinstalled && !string.IsNullOrEmpty(code) && code != Localization.DEFAULT_LANGUAGE_CODE)
+			if (!LocalizedStrings.TryGetValue(languageCode, out var translatedStrings))
+			{
+				if (languageType == Localization.SelectedLanguageType.Preinstalled && !string.IsNullOrEmpty(languageCodeKlei) && languageCodeKlei != Localization.DEFAULT_LANGUAGE_CODE)
 				{
-					var translationFile = Localization.GetPreinstalledLocalizationFilePath(code);
+					var translationFile = Localization.GetPreinstalledLocalizationFilePath(languageCodeKlei);
 					if (!File.Exists(translationFile))
 						return false;
 					try
 					{
+						SgtLogger.l("Loading game translations from: " + translationFile);
 						var data = File.ReadAllLines(translationFile, Encoding.UTF8);
-						LocalizedStrings = Localization.ExtractTranslatedStrings(data, false);
+						if (!LocalizedStrings.ContainsKey(languageCode))
+							LocalizedStrings[languageCode] = [];
+						LocalizedStrings[languageCode].AddRange(Localization.ExtractTranslatedStrings(data, false));
+						translatedStrings = LocalizedStrings[languageCode];
 					}
 					catch (Exception ex)
 					{
-						SgtLogger.error("Error while trying to fix translations: \n" + ex.Message);
+						SgtLogger.error("Error while trying to load translations: \n" + ex.Message);
 					}
 				}
 				else if (languageType == Localization.SelectedLanguageType.UGC && LanguageOptionsScreen.HasInstalledLanguage())
 				{
 					string savedLanguageMod = LanguageOptionsScreen.GetSavedLanguageMod();
+					if (savedLanguageMod.IsNullOrWhiteSpace() && CachedTranslationMods.TryGetValue(languageCodeKlei, out var modID))
+					{
+						savedLanguageMod = modID;
+					}
+
 					try
 					{
 						KMod.Mod mod = Global.Instance.modManager.mods.Find((Predicate<KMod.Mod>)(m => m.label.id == savedLanguageMod));
@@ -182,21 +224,57 @@ namespace UtilLibs
 						string translationFile = LanguageOptionsScreen.GetLanguageFilename(mod);
 						if (!File.Exists(translationFile))
 							return false;
+						SgtLogger.l("Loading modded translations from: " + translationFile);
 						var data = File.ReadAllLines(translationFile, Encoding.UTF8);
-						LocalizedStrings = Localization.ExtractTranslatedStrings(data, false);
+						if (!LocalizedStrings.ContainsKey(languageCode))
+							LocalizedStrings[languageCode] = [];
+						LocalizedStrings[languageCode].AddRange(Localization.ExtractTranslatedStrings(data, false));
+						translatedStrings = LocalizedStrings[languageCode];
 					}
 					catch (Exception ex)
 					{
-						SgtLogger.error("Error while trying to fix translations: \n" + ex.Message);
+						SgtLogger.error("Error while trying to load translations: \n" + ex.Message);
+					}
+				}
+
+				var currentModLocFile = Path.Combine(IO_Utils.ModPath, "translations", languageCode + ".po");
+				if(File.Exists(currentModLocFile))
+				{
+					try
+					{
+						SgtLogger.l("Loading local mod translations from: " + currentModLocFile);
+						var data = File.ReadAllLines(currentModLocFile, Encoding.UTF8); 
+						if (!LocalizedStrings.ContainsKey(languageCode))
+							LocalizedStrings[languageCode] = [];
+						var modLoc = Localization.ExtractTranslatedStrings(data, false);
+						SgtLogger.l("Extracted " + modLoc.Count + " localizationStrings");
+						foreach(var loc in modLoc)
+						{
+							string locKey = loc.Key;
+							int start = locKey.IndexOf("STRINGS");
+							var DeNamespaced = locKey.Substring(start);
+							LocalizedStrings[languageCode].Add(DeNamespaced, loc.Value);
+						}
+
+						translatedStrings = LocalizedStrings[languageCode];
+					}
+					catch (Exception ex)
+					{
+						SgtLogger.error("Error while trying to load translations: \n" + ex.Message);
 					}
 				}
 				//SgtLogger.l("Localization reloaded:");
-				//foreach (var kvp in LocalizedStrings)
+				//foreach (var kvp in translatedStrings)
 				//{
 				//	SgtLogger.l(kvp.Value, kvp.Key);
 				//}
 			}
-			return LocalizedStrings.TryGetValue(key, out translatedString);
+			if (translatedStrings == null)
+			{
+				SgtLogger.error("strings was null");
+				return false;
+			}
+			return translatedStrings.TryGetValue(key, out translatedString);
 		}
 
 		/// <summary>

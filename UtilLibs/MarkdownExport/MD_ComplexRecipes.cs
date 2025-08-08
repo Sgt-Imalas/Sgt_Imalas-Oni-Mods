@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static GameUtil;
+using static UtilLibs.MarkdownExport.MD_Localization;
 
 namespace UtilLibs.MarkdownExport
 {
@@ -22,21 +23,25 @@ namespace UtilLibs.MarkdownExport
 
 		public string FormatAsMarkdown()
 		{
+			processedRecipes.Clear();
+
 			if (recipes == null || !recipes.Any())
 				return string.Empty;
 			var buildingID = recipes.First().fabricators[0].ToString();
-			bool hasRandomResults = MD_Exporter.Instance.RandomRecipeResults.TryGetValue(buildingID, out var randomResultsPerInput);
-			bool hasRandomOccurences = MD_Exporter.Instance.RandomRecipeOccurences.TryGetValue(buildingID, out var randomOccurencesPerInput);
-
-
+			bool hasRandomResults = Exporter.Instance.RandomRecipeResults.TryGetValue(buildingID, out var randomResultsPerInput);
+			bool hasRandomOccurences = Exporter.Instance.RandomRecipeOccurences.TryGetValue(buildingID, out var randomOccurencesPerInput);
+			
 			sb.Clear();
 			if (hasRandomResults)
-				sb.Append("|Ingredients:| Time: |Randomized Products:");
+				sb.Append($"|{L("RECIPE_INGREDIENTS")}| {L("RECIPE_TIME")} | {L("RECIPE_PRODUCTS_RANDOM")}");
 			else
-				sb.Append("|Ingredients:| Time: |Products:");
+				sb.Append($"|{L("RECIPE_INGREDIENTS")}| {L("RECIPE_TIME")} | {L("RECIPE_PRODUCTS")}");
 
 			if (hasRandomOccurences)
-				sb.Append("|Occurence:");
+			{
+				sb.Append("|");
+				sb.Append(L("RECIPE_RANDOM_OCCURENCE"));
+			}
 			sb.AppendLine("|");
 
 

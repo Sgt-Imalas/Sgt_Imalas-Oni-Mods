@@ -1,4 +1,5 @@
 ﻿using ClipperLib;
+using Klei.AI;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,20 +8,20 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs.BuildingPortUtils;
+using static LogicGate.LogicGateDescriptions;
 using static ResearchTypes;
+using static UtilLibs.MarkdownExport.MD_Localization;
+using static UtilLibs.MarkdownExport.MarkdownUtil;
 
 namespace UtilLibs.MarkdownExport
 {
 	public class MD_BuildingEntry : IMD_Entry
 	{
 		string ID;
-		public string Name;
-		public string Description;
-		public string Effect;
 		public int PowerConsumption;
 		public int PowerProduction;
 		public int Width, Height;
-		public string Research;
+		public string ResearchKey;
 		public int StorageCapacity;
 		private BuildingDef def;
 
@@ -31,27 +32,27 @@ namespace UtilLibs.MarkdownExport
 		public string FormatAsMarkdown()
 		{
 			sb.Clear();
-			sb.AppendLine($"## {Name}");
-			sb.AppendLine(Description);
+			sb.AppendLine($"## {Strip(L($"STRINGS.BUILDINGS.PREFABS.{ID.ToUpperInvariant()}.NAME"))}");
+			sb.AppendLine(Strip(L($"STRINGS.BUILDINGS.PREFABS.{ID.ToUpperInvariant()}.DESC")));
 			sb.AppendLine();
-			sb.AppendLine(Effect);
-			sb.AppendLine("### Info");
+			sb.AppendLine(Strip(L($"STRINGS.BUILDINGS.PREFABS.{ID.ToUpperInvariant()}.EFFECT")));
+			sb.AppendLine($"### {L("BUILDING_INFO_HEADER")}");
 			//sb.AppendLine("|Parameter|Value|");
-			sb.AppendLine($"| <img width=\"200\"src=\"../../images/buildings/{ID}.png\"> | |");
+			sb.AppendLine($"| <img width=\"200\"src=\"/assets/images/buildings/{ID}.png\"> | |");
 			//sb.Append(Description.Replace("\n","<br/>"));
 			//sb.Append("<br/>");
 			//sb.Append(Effect.Replace("\n", "<br/>"));
 			//sb.AppendLine("|");
 			sb.AppendLine("|-|-|");
-			sb.AppendLine($"|**Dimensions:** |{Width} wide x {Height} high|");
+			sb.AppendLine($"|**{L("BUILDING_DIMENSIONS_LABEL")}** | {string.Format(L("BUILDING_DIMENSIONS_INFO"),Width,Height)}|");
 			if (PowerConsumption > 0)
-				sb.AppendLine($"|**Power Consumption:**| {PowerConsumption} W|");
+				sb.AppendLine($"|**{L("BUILDING_POWER_CONSUMPTION")}**| {PowerConsumption} W|");
 			if (PowerProduction > 0)
-				sb.AppendLine($"|**Power Generation:**| {PowerProduction} W|");
-			if (!Research.IsNullOrWhiteSpace())
-				sb.AppendLine($"|**Research Required:**| {Research}|");
+				sb.AppendLine($"|**{L("BUILDING_POWER_GENERATION")}**| {PowerProduction} W|");
+			if (!ResearchKey.IsNullOrWhiteSpace())
+				sb.AppendLine($"|**{L("BUILDING_RESEARCH_REQUIREMENT")}**| {Strip(L(ResearchKey))}|");
 			if (StorageCapacity > 0)
-				sb.AppendLine($"|**Storage Capacity:**| {GameUtil.GetFormattedMass(StorageCapacity)}|");
+				sb.AppendLine($"|**{L("BUILDING_STORAGE_CAPACITY")}**| {GameUtil.GetFormattedMass(StorageCapacity)}|");
 
 			AppendMaterialCosts(sb);
 			AppendBuildingPorts(sb);
@@ -127,8 +128,8 @@ namespace UtilLibs.MarkdownExport
 				return;
 
 			sb.AppendLine();
-			sb.AppendLine("### Building Ports");
-			sb.AppendLine("|Inputs:|Outputs:|");
+			sb.AppendLine($"### {L("BUILDING_PORTS_HEADER")}");
+			sb.AppendLine($"|{L("INPUTS_HEADER")}|{L("OUTPUTS_HEADER")}|");
 			sb.AppendLine("|-|-|");
 
 			int max = Math.Max(inputs.Count, outputs.Count);
@@ -147,7 +148,7 @@ namespace UtilLibs.MarkdownExport
 		private void AppendMaterialCosts(StringBuilder sb)
 		{
 			sb.AppendLine();
-			sb.AppendLine("|**<font size=\"+1\">Material Costs:</font>**| |");
+			sb.AppendLine($"|**<font size=\"+1\">{L("BUILDING_MATERIAL_COST_HEADER")}</font>**| |");
 			sb.AppendLine("|-|-|");
 			foreach (var mat in Costs)
 			{
@@ -155,7 +156,8 @@ namespace UtilLibs.MarkdownExport
 				var cost = mat.second;
 				string[] mats = mat.first.Split('&');
 
-				sb.Append(string.Join(" or ", mats.Select(m => MarkdownUtil.GetTagName(m))));
+				string or = " " + L("SEPARATOR_OR")+" ";
+				sb.Append(string.Join(or, mats.Select(m => MarkdownUtil.GetTagName(m))));
 				sb.Append('|');
 				sb.Append(GameUtil.GetFormattedMass(cost));
 				sb.AppendLine("|");
@@ -179,14 +181,11 @@ namespace UtilLibs.MarkdownExport
 		public MD_BuildingEntry(string id)
 		{
 			ID = id;
-			Name = STRINGS.UI.StripLinkFormatting(Strings.Get($"STRINGS.BUILDINGS.PREFABS.{id.ToUpperInvariant()}.NAME").ToString());
-			Description = STRINGS.UI.StripLinkFormatting(Strings.Get($"STRINGS.BUILDINGS.PREFABS.{id.ToUpperInvariant()}.DESC").ToString());
-			Effect = STRINGS.UI.StripLinkFormatting(Strings.Get($"STRINGS.BUILDINGS.PREFABS.{id.ToUpperInvariant()}.EFFECT").ToString());
 			CollectInfo(id);
 		}
 		public MD_BuildingEntry Tech(string techId)
 		{
-			Research = STRINGS.UI.StripLinkFormatting(Strings.Get($"STRINGS.RESEARCH.TECHS.{techId.ToUpperInvariant()}.NAME").ToString());
+			ResearchKey = $"STRINGS.RESEARCH.TECHS.{techId.ToUpperInvariant()}.NAME";
 			return this;
 		}
 		void CollectInfo(string id)
@@ -216,7 +215,7 @@ namespace UtilLibs.MarkdownExport
 
 			if (buildingDef.BuildingComplete.TryGetComponent<EnergyGenerator>(out var generator))
 			{
-				Children.Add(new MD_Header("Generator Conversion", 3));
+				Children.Add(new MD_Header("CONVERSION_ELEMENT_HEADER", 3));
 				Children.Add(new MD_EnergyGenerator(generator));
 			}
 
@@ -225,7 +224,7 @@ namespace UtilLibs.MarkdownExport
 
 			if (converters != null && converters.Any())
 			{
-				Children.Add(new MD_Header("Element Conversion", 3));
+				Children.Add(new MD_Header("CONVERSION_ELEMENT_HEADER", 3));
 
 				foreach (var converter in converters)
 				{
@@ -235,7 +234,7 @@ namespace UtilLibs.MarkdownExport
 
 			if (buildingDef.BuildingComplete.GetComponent<ComplexFabricator>() != null)
 			{
-				Children.Add(new MD_Header("Recipes", 3));
+				Children.Add(new MD_Header("RECIPES_HEADER", 3));
 				var recipes = ComplexRecipeManager.Get().recipes.FindAll(recipe => recipe.fabricators[0] == id);
 				Children.Add(new MD_ComplexRecipes(recipes));
 			}

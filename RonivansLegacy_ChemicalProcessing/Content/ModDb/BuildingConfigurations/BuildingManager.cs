@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using UtilLibs;
 using UtilLibs.MarkdownExport;
@@ -156,7 +157,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		internal static void WriteWikiData()
 		{
 			var exportPath = "E:\\ONIModding\\Wiki\\docs\\Ronivans Legacy\\Content";
-			var exporter = UtilLibs.MarkdownExport.MD_Exporter.Create(exportPath);
+			var exporter = UtilLibs.MarkdownExport.Exporter.Create(exportPath);
 			Dictionary<SourceModInfo, MD_Page> buildingPages = [];
 			SgtLogger.l($"Exporting building data to {exportPath}");
 
@@ -178,10 +179,20 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					var id = building.BuildingID;
 
 					var buildingEntry = page.AddBuilding(id);
-					buildingEntry.Tech(building.TechID).WriteUISprite("E:\\ONIModding\\Wiki\\docs\\Ronivans Legacy\\Content\\images\\buildings");
+					buildingEntry.Tech(building.TechID).WriteUISprite("E:\\ONIModding\\Wiki\\docs\\assets\\images\\buildings");
 				}
 			}
+			exporter.root
+				.File("elements", "NEW_ELEMENTS")
+				.Add(new MD_Text("Enabling the following mods in the config will add several new elements to the game.\n\nA few of them will also be added to the starmap pois for mining."))
+				.Add(new MD_Header("STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_IO", 2))
+				.Add(new MD_SubstanceTable(ModElements.ChemicalProcessing_IO_Elements))
+				.Add(new MD_Header("STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_BIOCHEMISTRY", 2))
+				.Add(new MD_SubstanceTable(ModElements.ChemicalProcessing_BioChem_Elements))
+				;
+
 			exporter.Export();
+			exporter.Export("zh");
 		}
 
 	}

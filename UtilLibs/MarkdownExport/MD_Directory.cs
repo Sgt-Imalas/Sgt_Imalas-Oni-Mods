@@ -25,11 +25,11 @@ namespace UtilLibs.MarkdownExport
 			SubDirectories.Add(subDir);
 			return subDir;
 		}
-		public MD_Page File(string fileName)
+		public MD_Page File(string fileName, string titleKey = null)
 		{
 			if (Files == null)
 				Files = [];
-			var file = new MD_Page(fileName);
+			var file = new MD_Page(fileName, titleKey);
 			Files.Add(file);
 			return file;
 		}

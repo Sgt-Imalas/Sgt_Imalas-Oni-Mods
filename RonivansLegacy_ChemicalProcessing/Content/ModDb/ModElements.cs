@@ -139,9 +139,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			Rottable.AtmosphereModifier.Add((int)element, quality);
 		}
 
+		public static HashSet<Substance> ChemicalProcessing_IO_Elements, ChemicalProcessing_BioChem_Elements;
+
 		public static void RegisterSubstances(List<Substance> list)
 		{
-			var ChemicalProcessing_IO_Elements = new HashSet<Substance>()
+			ChemicalProcessing_IO_Elements = new HashSet<Substance>()
 			{
 				BaseGradeSand_Solid.CreateSubstanceFromElementTinted(SimHashes.FoolsGold),
 				HighGradeSand_Solid.CreateSubstanceFromElementTinted(SimHashes.Steel),
@@ -162,7 +164,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				Chloroschist_Solid.CreateSubstanceFromElementTinted(SimHashes.Fullerene),
 				ConcreteBlock_Solid.CreateSubstanceFromElementTinted(SimHashes.Aerogel),
 				FiberGlass_Solid.CreateSubstanceFromElementTinted(SimHashes.Fullerene),
-				Galena_Solid.CreateSubstanceFromElementTinted(SimHashes.Rust),
 				Isopropane_Gas.CreateSubstance(),
 				Galena_Solid.CreateSubstanceFromElementTinted(SimHashes.Rust),
 				MeteorOre_Solid.CreateSubstanceFromElementTinted(SimHashes.CrushedRock),
@@ -198,7 +199,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				Nitrogen_Gas.CreateSubstance(),
 			};
 
-			var ChemicalProcessing_BioChem_Elements = new HashSet<Substance>()
+			ChemicalProcessing_BioChem_Elements = new HashSet<Substance>()
 			{
 				BioDiesel_Solid.CreateSubstanceFromElementTinted(SimHashes.SuperInsulator),
 				BioDiesel_Liquid.CreateSubstance(),

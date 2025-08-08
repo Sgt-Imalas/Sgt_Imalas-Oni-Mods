@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static ComplexRecipe.RecipeElement;
 using static ComplexRecipe;
+using UtilLibs.MarkdownExport;
 
 namespace UtilLibs
 {
@@ -97,15 +98,7 @@ namespace UtilLibs
 				{
 					tag = descriptorTag;
 				}
-				var item = Assets.TryGetPrefab(tag);
-				if (item != null)
-				{
-					result[i] = item.GetProperName();
-				}
-				else
-				{
-					result[i] = tag.ProperName();
-				}
+				result[i] = MarkdownUtil.GetTagName(tag);
 			}
 			for (int i = 0; i < outputCount; i++)
 			{
@@ -117,15 +110,7 @@ namespace UtilLibs
 				{
 					tag = descriptorTag;
 				}
-				var item = Assets.TryGetPrefab(tag);
-				if (item != null)
-				{
-					result[inputCount + i] = item.GetProperName();
-				}
-				else
-				{
-					result[inputCount + i] = tag.ProperName();
-				}
+				result[i] = MarkdownUtil.GetTagName(tag);
 			}
 			return result;
 		}

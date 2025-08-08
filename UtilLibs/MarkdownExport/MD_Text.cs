@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace UtilLibs.MarkdownExport
 {
-	internal class MD_BuildingPorts : IMD_Entry
+	public class MD_Text : IMD_Entry
 	{
+		string Text;
+		public MD_Text(string text) => Text = text;
 		public string FormatAsMarkdown()
 		{
-			throw new NotImplementedException();
+			return Text;
 		}
 	}
 }

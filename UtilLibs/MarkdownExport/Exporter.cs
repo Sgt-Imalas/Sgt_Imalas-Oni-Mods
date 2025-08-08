@@ -7,34 +7,35 @@ using System.Threading.Tasks;
 
 namespace UtilLibs.MarkdownExport
 {
-	public class MD_Exporter
+	public class Exporter
 	{
 		string TargetDirectory;
 
 		public MD_Directory root;
 
-		public static MD_Exporter Instance;
+		public static Exporter Instance;
 
 		public Dictionary<string, Dictionary<Tag, List<Tag>>> RandomRecipeResults = [];
 		public Dictionary<string, Dictionary<Tag, List<Tag>>> RandomRecipeOccurences = [];
 
-
-
-		public static MD_Exporter Create(string directory)
+		public static Exporter Create(string directory)
 		{
 			Directory.CreateDirectory(Path.GetDirectoryName(directory));
-			MD_Exporter exporter = new MD_Exporter();
+			Exporter exporter = new Exporter();
 			exporter.TargetDirectory = directory;
 			exporter.root = new MD_Directory(exporter.TargetDirectory);
 			Instance = exporter;
 			return exporter;
 		}
-		public void Export()
+		public void Export(string localizeKey = null)
 		{
 			if (root == null)
 			{
 				throw new InvalidOperationException("Root directory is not set.");
 			}
+			if(localizeKey != null)
+				MD_Localization.SetLocalization(localizeKey);
+
 			root.CreateMarkdownFiles("");
 		}
 	}

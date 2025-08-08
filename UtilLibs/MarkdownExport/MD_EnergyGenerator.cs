@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static GameUtil;
+using static UtilLibs.MarkdownExport.MD_Localization;
 
 namespace UtilLibs.MarkdownExport
 {
@@ -20,7 +21,7 @@ namespace UtilLibs.MarkdownExport
 		public string FormatAsMarkdown()
 		{
 			sb.Clear();
-			sb.AppendLine("|Inputs:|Outputs:|");
+			sb.AppendLine($"|{L("INPUTS_HEADER")}|{L("OUTPUTS_HEADER")}|");
 			sb.AppendLine("|-|-|");
 			sb.Append("|");
 			foreach (var input in formula.inputs)
@@ -39,9 +40,8 @@ namespace UtilLibs.MarkdownExport
 				sb.Append(GameUtil.GetFormattedMass(output.creationRate, GameUtil.TimeSlice.PerSecond));
 				if (output.minTemperature > 0)
 				{
-					sb.Append(" at ");
-					sb.Append(GameUtil.GetTemperatureConvertedFromKelvin(output.minTemperature, TemperatureUnit.Celsius).ToString());
-					sb.Append("°C");
+					sb.Append(" ");
+					sb.Append(string.Format(L("AT_TEMPERATURE"), GameUtil.GetTemperatureConvertedFromKelvin(output.minTemperature, TemperatureUnit.Celsius).ToString()));
 				}
 				sb.Append(")");
 				sb.Append("<br>");
