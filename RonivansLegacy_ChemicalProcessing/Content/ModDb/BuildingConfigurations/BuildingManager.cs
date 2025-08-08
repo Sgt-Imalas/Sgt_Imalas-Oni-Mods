@@ -145,6 +145,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		[HarmonyPatch(typeof(MainMenu), nameof(MainMenu.OnSpawn))]
 		public class MainMenu_OnPrefabInit_Patch
 		{
+			[HarmonyPrepare]
+			public static bool Prepare() => Mod.GenerateWiki;
 			public static void Postfix(MainMenu __instance)
 			{
 				WriteWikiData();

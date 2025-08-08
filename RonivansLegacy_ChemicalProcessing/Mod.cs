@@ -12,6 +12,8 @@ namespace RonivansLegacy_ChemicalProcessing
 {
 	public class Mod : UserMod2
 	{
+		public static bool GenerateWiki = false;
+
 		public static Mod Instance;
 		public static Harmony HarmonyInstance;
 		public override void OnLoad(Harmony harmony)
