@@ -17,6 +17,31 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
 	public static class RandomRecipeProducts
 	{
+
+		public static Dictionary<string, Dictionary<Tag, List<Tag>>> GetRandomDict(bool occurence = false)
+		{
+			var input = occurence ? _randomFabricationByproductsCollection : _randomRecipeResultsCollection;
+
+			var result = new Dictionary<string, Dictionary<Tag, List<Tag>>>();
+			foreach(var kvp in input)
+			{
+				var outerKey = kvp.Key.ToString();
+				result.Add(outerKey, new());
+				foreach(var inner in kvp.Value)
+				{
+					var innerKey = inner.Key;
+					var innerList = new List<Tag>();
+					result[outerKey].Add(innerKey, innerList);
+					foreach(var entry in inner.Value.RandomProductsRange)
+					{
+						if(!innerList.Contains(entry.Key.CreateTag()))
+							innerList.Add(entry.Key.CreateTag());
+					}
+				}
+			}
+			return result;
+		}
+
 		/// <summary>
 		/// random outputs at recipe completion
 		/// </summary>
@@ -801,7 +826,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.CrushedRock, 25, 100, 6f / 15f)
 				.AddProduct(SimHashes.CarbonDioxide, 5, 20, 4f / 15f)
 				.AddProduct(SimHashes.CrudeOil, 5, 20, 3f / 15f)
-				.AddProductConditional(chemproc,ModElements.OilShale_Solid, 25, 100, 3f / 15f)
+				.AddProductConditional(chemproc, ModElements.OilShale_Solid, 25, 100, 3f / 15f)
 				.AddProduct(SimHashes.Methane, 5, 20, 1f / 15f)
 				.AddProduct(SimHashes.SourGas, 5, 20, 1f / 15f)
 				.AddProductConditional(chemproc, RawNaturalGas_Gas, 5, 20, 1f / 15f)

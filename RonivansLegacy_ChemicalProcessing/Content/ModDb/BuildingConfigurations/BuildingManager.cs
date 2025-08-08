@@ -3,11 +3,13 @@ using RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using UtilLibs.MarkdownExport;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
@@ -137,5 +139,48 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			}
 			ConfigCollection.WriteToFile();
 		}
+
+
+
+		[HarmonyPatch(typeof(MainMenu), nameof(MainMenu.OnSpawn))]
+		public class MainMenu_OnPrefabInit_Patch
+		{
+			public static void Postfix(MainMenu __instance)
+			{
+				WriteWikiData();
+			}
+		}
+
+		internal static void WriteWikiData()
+		{
+			var exportPath = "E:\\ONIModding\\Wiki\\docs\\Ronivans Legacy\\Content";
+			var exporter = UtilLibs.MarkdownExport.MD_Exporter.Create(exportPath);
+			Dictionary<SourceModInfo, MD_Page> buildingPages = [];
+			SgtLogger.l($"Exporting building data to {exportPath}");
+
+			exporter.RandomRecipeOccurences = RandomRecipeProducts.GetRandomDict(true);
+			exporter.RandomRecipeResults = RandomRecipeProducts.GetRandomDict(false);
+
+			foreach (var entry in BuildingInjections.OrderBy(iten => UtilLibs.MarkdownExport.MarkdownUtil.StrippedBuildingName( iten.Value.BuildingID)))
+			{
+				var building = entry.Value;
+				foreach(var sourceMod in building.SourceMods)
+				{
+					if (!buildingPages.TryGetValue(sourceMod, out var page))
+					{
+						var ModName = Strings.Get($"STRINGS.AIO_MODSOURCE.{sourceMod.ToString().ToUpperInvariant()}").ToString();
+						page = exporter.root.SubDir(ModName).File("Buildings");
+						buildingPages[sourceMod] = page;
+					}
+
+					var id = building.BuildingID;
+
+					var buildingEntry = page.AddBuilding(id);
+					buildingEntry.Tech(building.TechID).WriteUISprite("E:\\ONIModding\\Wiki\\docs\\Ronivans Legacy\\Content\\images\\buildings");
+				}
+			}
+			exporter.Export();
+		}
+
 	}
 }

@@ -97,7 +97,7 @@ namespace UtilLibs
 				{
 					tag = descriptorTag;
 				}
-				var item = Assets.GetPrefab(tag);
+				var item = Assets.TryGetPrefab(tag);
 				if (item != null)
 				{
 					result[i] = item.GetProperName();
@@ -117,7 +117,7 @@ namespace UtilLibs
 				{
 					tag = descriptorTag;
 				}
-				var item = Assets.GetPrefab(tag);
+				var item = Assets.TryGetPrefab(tag);
 				if (item != null)
 				{
 					result[inputCount + i] = item.GetProperName();
