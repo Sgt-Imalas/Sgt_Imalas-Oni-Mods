@@ -11,7 +11,7 @@ elements:
     highTempTransitionTarget: MoltenZinc
     defaultTemperature: 296
     defaultMass: 870
-    maxMass: 9970
+    maxMass: 970
     hardness: 2
     molarMass: 107.86
     lightAbsorptionFactor: 1
@@ -93,7 +93,7 @@ elements:
     highTempTransitionTarget: MoltenSilver
     defaultTemperature: 296
     defaultMass: 870
-    maxMass: 9970
+    maxMass: 1000
     hardness: 2
     molarMass: 107.86
     lightAbsorptionFactor: 1
@@ -168,8 +168,8 @@ elements:
     dlcId: ""
 
   - elementId: AmmoniaGas
-    specificHeatCapacity: 0.37
-    thermalConductivity: 1
+    specificHeatCapacity: 2.175
+    thermalConductivity: 0.507
     solidSurfaceAreaMultiplier: 25
     liquidSurfaceAreaMultiplier: 1
     gasSurfaceAreaMultiplier: 1
@@ -190,8 +190,8 @@ elements:
     dlcId: ""
 
   - elementId: LiquidAmmonia
-    specificHeatCapacity: 2.2
-    thermalConductivity: 0.284
+    specificHeatCapacity: 4.744
+    thermalConductivity: 0.507
     liquidCompression: 1.01
     speed: 100
     solidSurfaceAreaMultiplier: 1
@@ -216,8 +216,8 @@ elements:
     dlcId: ""
 
   - elementId: SolidAmmonia
-    specificHeatCapacity: 80
-    thermalConductivity: 114
+    specificHeatCapacity: 4.744
+    thermalConductivity: 0.507
     solidSurfaceAreaMultiplier: 1
     liquidSurfaceAreaMultiplier: 1
     gasSurfaceAreaMultiplier: 1
@@ -226,7 +226,7 @@ elements:
     highTempTransitionTarget: LiquidAmmonia
     defaultTemperature: 172.15
     defaultMass: 870
-    maxMass: 9970
+    maxMass: 970
     hardness: 2
     molarMass: 107.86
     lightAbsorptionFactor: 1
@@ -251,7 +251,7 @@ elements:
     highTempTransitionTarget: ToxicSlurry
     defaultTemperature: 322.15
     defaultMass: 600
-    maxMass: 9970
+    maxMass: 1000
     hardness: 1
     molarMass: 211.22
     lightAbsorptionFactor: 1
@@ -576,8 +576,8 @@ elements:
     dlcId: ""
 
   - elementId: AmmoniumWater        
-    specificHeatCapacity: 3.8 #slightly better than brine
-    thermalConductivity: 0.609 #brine
+    specificHeatCapacity: 4.5 #between brine and liquid ammonia
+    thermalConductivity: 0.6 #between brine and liquid ammonia
     liquidCompression: 1.01
     speed: 100
     solidSurfaceAreaMultiplier: 1
@@ -984,8 +984,8 @@ elements:
     dlcId: ""
 
   - elementId: ConcreteBlock
-    specificHeatCapacity: 0.72
-    thermalConductivity: 2.07
+    specificHeatCapacity: 0.88
+    thermalConductivity: 0.92 
     solidSurfaceAreaMultiplier: 1
     liquidSurfaceAreaMultiplier: 1
     gasSurfaceAreaMultiplier: 1
