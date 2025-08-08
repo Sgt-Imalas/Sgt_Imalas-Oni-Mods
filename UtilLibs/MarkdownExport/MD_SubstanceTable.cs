@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static ResearchTypes;
 using static UtilLibs.MarkdownExport.MD_Localization;
 
 namespace UtilLibs.MarkdownExport
@@ -26,7 +27,7 @@ namespace UtilLibs.MarkdownExport
 				var elementID = substance.elementID.ToString();
 				var element = ElementLoader.GetElement(substance.elementID.CreateTag());
 				sb.Append("|");
-				sb.Append($" <img width=\"150\"src=\"/assets/images/elements/{elementID}.png\"> ");
+				sb.Append($" ![{elementID}](/assets/images/elements/{elementID}.png){{width = \"150\"}} ");
 				sb.Append("<br/>");
 				sb.Append(MarkdownUtil.GetTagName(element.id.CreateTag()));
 				sb.Append("|");

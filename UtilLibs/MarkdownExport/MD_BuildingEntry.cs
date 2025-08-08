@@ -38,7 +38,7 @@ namespace UtilLibs.MarkdownExport
 			sb.AppendLine(Strip(L($"STRINGS.BUILDINGS.PREFABS.{ID.ToUpperInvariant()}.EFFECT")));
 			sb.AppendLine($"### {L("BUILDING_INFO_HEADER")}");
 			//sb.AppendLine("|Parameter|Value|");
-			sb.AppendLine($"| <img width=\"200\"src=\"/assets/images/buildings/{ID}.png\"> | |");
+			sb.AppendLine($"| ![{ID}](/assets/images/buildings/{ID}.png){{width = \"200\"}} | |");
 			//sb.Append(Description.Replace("\n","<br/>"));
 			//sb.Append("<br/>");
 			//sb.Append(Effect.Replace("\n", "<br/>"));
