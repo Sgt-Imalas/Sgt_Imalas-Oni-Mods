@@ -4651,7 +4651,7 @@ msgstr "辉银矿陨石"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.SPACEDESTINATIONS.COMETS.ZINCCOMET.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.SPACEDESTINATIONS.COMETS.ZINCCOMET.NAME"
 msgid "Aurichalcite Meteor"
-msgstr ""
+msgstr "锌矿陨石"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_HPA_RAIL
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_HPA_RAIL"
