@@ -4,6 +4,7 @@ using HarmonyLib;
 using Mineral_Processing_Mining.Buildings;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +22,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		public class MainMenu_OnPrefabInit_Patch
 		{
 			[HarmonyPrepare]
-			public static bool Prepare() => Mod.GenerateWiki;
+			public static bool Prepare() => Mod.GenerateWiki && Mod.Instance.mod.IsDev;
 			public static void Postfix(MainMenu __instance)
 			{
 				WriteWikiData();
@@ -31,6 +32,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		internal static void WriteWikiData()
 		{
 			var exportPath = "E:\\ONIModding\\Wiki\\docs\\Ronivans Legacy\\Content";
+			if (!Directory.Exists(exportPath))
+				return;
+
 			var exporter = UtilLibs.MarkdownExport.Exporter.Create(exportPath);
 			Dictionary<SourceModInfo, MD_Page> buildingPages = [];
 			Dictionary<SourceModInfo, MD_Directory> submodFolders = [];
