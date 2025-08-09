@@ -122,24 +122,34 @@ namespace Rockets_TinyYetBig.RocketFueling
         public override void OnSpawn()
         {
             base.OnSpawn();
-
-			if (Grid.ObjectLayers[(int)ObjectLayer.Building] != null
-                && Grid.ObjectLayers[(int)ObjectLayer.Building].TryGetValue(topCell, out var topBuilding)
-                && topBuilding.TryGetComponent<VerticalPortAttachment>(out var attachmentTop)
-                && Grid.PosToXY(topBuilding.transform.position).X == Grid.PosToXY(this.transform.position).X)
-            {
-                AttachTop(attachmentTop, true);
-            }
-            if (Grid.ObjectLayers[(int)ObjectLayer.Building] != null
-                && Grid.ObjectLayers[(int)ObjectLayer.Building].TryGetValue(bottomCell, out var bottomBuilding)
-                && bottomBuilding.TryGetComponent<VerticalPortAttachment>(out var attachmentBottom)
-                && Grid.PosToXY(bottomBuilding.transform.position).X == Grid.PosToXY(this.transform.position).X)
-            {
-                AttachBottom(attachmentBottom, true);
-            }
-
-			HandleConnectionSymbol();
+            TryAttachVertical();
+			this.StartCoroutine(DelayedConnection());
         }
+
+        IEnumerator DelayedConnection()
+        {
+            yield return null;
+            TryAttachVertical();
+		}
+        void TryAttachVertical()
+		{
+			if (Grid.ObjectLayers[(int)ObjectLayer.Building] != null
+				&& Grid.ObjectLayers[(int)ObjectLayer.Building].TryGetValue(topCell, out var topBuilding)
+				&& topBuilding.TryGetComponent<VerticalPortAttachment>(out var attachmentTop)
+				&& Grid.PosToXY(topBuilding.transform.position).X == Grid.PosToXY(this.transform.position).X)
+			{
+				AttachTop(attachmentTop, true);
+			}
+			if (Grid.ObjectLayers[(int)ObjectLayer.Building] != null
+				&& Grid.ObjectLayers[(int)ObjectLayer.Building].TryGetValue(bottomCell, out var bottomBuilding)
+				&& bottomBuilding.TryGetComponent<VerticalPortAttachment>(out var attachmentBottom)
+				&& Grid.PosToXY(bottomBuilding.transform.position).X == Grid.PosToXY(this.transform.position).X)
+			{
+				AttachBottom(attachmentBottom, true);
+			}
+			HandleConnectionSymbol();
+		}
+
 
         public override void OnCleanUp()
         {
