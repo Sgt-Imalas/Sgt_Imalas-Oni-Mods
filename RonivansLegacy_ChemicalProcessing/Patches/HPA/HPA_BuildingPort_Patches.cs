@@ -143,5 +143,17 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				LogisticConduit.ClearEverything();
 			}
 		}
+
+
+		[HarmonyPatch(typeof(BaseModularLaunchpadPortConfig), nameof(BaseModularLaunchpadPortConfig.ConfigureBuildingTemplate))]
+		public class BaseModularLaunchpadPortConfig_ConfigureBuildingTemplate_Patch
+		{
+			[HarmonyPrepare]
+			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled && DlcManager.IsExpansion1Active(); 
+			public static void Prefix(BaseModularLaunchpadPortConfig __instance, ConduitType conduitType, ref float storageSize)
+			{
+				storageSize *= HighPressureConduitRegistration.GetConduitMultiplier(conduitType);
+			}
+		}
 	}
 }
