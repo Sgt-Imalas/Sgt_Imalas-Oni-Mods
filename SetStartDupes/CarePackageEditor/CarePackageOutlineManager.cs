@@ -158,13 +158,17 @@ namespace SetStartDupes.CarePackageEditor
 
 		public static void ResetExtraCarePackages()
 		{
-			ExtraCarePackages = new();
-			ExtraCarePackages.Clear();
+			ExtraCarePackages = [];
 			AddExtraCarePackages();
 			SaveCarePackagesToFile();
-			DisabledVanillaPackages.ClearAll();
+		}
+		public static void ResetAllCarePackageChanges()
+		{
+			ResetExtraCarePackages();
+			DisabledVanillaPackages?.ClearAll();
 			SaveDisabledVanillaPackagesToFile();
 		}
+
 		public static void AddExtraCarePackages()
 		{
 			///Base Game:
