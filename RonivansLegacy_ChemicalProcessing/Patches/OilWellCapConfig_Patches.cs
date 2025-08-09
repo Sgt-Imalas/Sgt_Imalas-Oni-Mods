@@ -24,11 +24,11 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
 				{
 					///any sort of water allowed
-					ConduitConsumer waterConsumer = go.AddOrGet<ConduitConsumer>();
+					ConduitConsumer waterConsumer = go.GetComponent<ConduitConsumer>();
 					waterConsumer.capacityTag = GameTags.AnyWater;
 
 					///Produce raw natural gas instead of regular natural gas
-					OilWellCap cap = go.AddOrGet<OilWellCap>();
+					OilWellCap cap = go.GetComponent<OilWellCap>();
 					cap.gasElement = ModElements.RawNaturalGas_Gas;
 					cap.gasTemperature = 393.15f;
 					cap.addGasRate = 0.12f;
@@ -36,26 +36,26 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 					cap.releaseGasRate = 80f / OilWellCapConfig.PRESSURE_RELEASE_TIME;
 
 					///adjust the conversion output amount
-					ElementConverter converter = go.AddOrGet<ElementConverter>();
+					ElementConverter converter = go.GetComponent<ElementConverter>();
 					converter.consumedElements = [new ElementConverter.ConsumedElement(GameTags.AnyWater, 1f)];
 					converter.outputElements = [new ElementConverter.OutputElement(3.4f, SimHashes.CrudeOil, 363.15f, false, true, outputElementOffsetx: 2f, outputElementOffsety: 1.5f, diseaseWeight: 0f)];
 
-					///add storage for oil and gas
-					Storage standardStorage = go.AddOrGet<Storage>();
+					///grab storage for oil and gas and seal it
+					Storage standardStorage = go.GetComponent<Storage>();
 					standardStorage.SetDefaultStoredItemModifiers(Custom_OilWellCapConfig.OilWellStorageModifier);
-					standardStorage.capacityKg = 5000f;
 
 					///===> Methane Output <==============================================================
 					PipedConduitDispenser GasDispenser = go.AddComponent<PipedConduitDispenser>();
 					GasDispenser.elementFilter = [ModElements.RawNaturalGas_Gas];
-					GasDispenser.AssignPort(Custom_OilWellCapConfig.GasOutputPort);
 					GasDispenser.alwaysDispense = true;
 					GasDispenser.SkipSetOperational = true;
+					GasDispenser.AssignPort(Custom_OilWellCapConfig.GasOutputPort);
 
 					PipedOptionalExhaust GasExhaust = go.AddComponent<PipedOptionalExhaust>();
 					GasExhaust.dispenser = GasDispenser;
 					GasExhaust.elementTag = ModElements.RawNaturalGas_Gas.Tag;
-					GasExhaust.capacity = 10f;
+					GasExhaust.capacity = 80f;
+					
 
 					///===> Crude Oil Output <============================================================
 					PipedConduitDispenser LiquidDispenser = go.AddComponent<PipedConduitDispenser>();
