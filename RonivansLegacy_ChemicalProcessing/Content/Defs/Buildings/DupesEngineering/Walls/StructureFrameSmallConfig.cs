@@ -9,9 +9,9 @@ using UnityEngine;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineering.Walls
 {
-	class StructureFrameConfig : IBuildingConfig
+	class StructureFrameSmallConfig : IBuildingConfig
 	{
-		public static string ID = "StructureFrame";
+		public static string ID = "StructureFrameSmall";
 		public override BuildingDef CreateBuildingDef()
 		{
 			BuildingDef obj = BuildingTemplates.CreateBuildingDef(ID, 1, 1, "structure_frame_small_kanim", 30, 3f, [15], [GameTags.RefinedMetal.ToString()], 1600f, BuildLocationRule.NotInTiles, noise: NOISE_POLLUTION.NONE, decor: new EffectorValues

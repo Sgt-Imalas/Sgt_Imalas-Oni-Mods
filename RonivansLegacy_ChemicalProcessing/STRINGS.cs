@@ -1024,6 +1024,18 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString DESC = "A large sized spacer panel.";
 					public static LocString EFFECT = "A large solid wall wrought from steel. Hermetically sealed joints prevent gas leakage into space.";
 				}
+				public class STRUCTUREFRAMELARGE
+				{
+					public static LocString NAME = FormatAsLink("Large Structure Frame", nameof(STRUCTUREFRAMELARGE));
+					public static LocString DESC = "A large sized structural frame.";
+					public static LocString EFFECT = "Provides background support for buildings, or least gives the nice appearance of doing so. Doesn't prevent gases or liquid from leaking in to the void.";
+				}
+				public class STRUCTUREFRAMESMALL
+				{
+					public static LocString NAME = FormatAsLink("Small Structure Frame", nameof(STRUCTUREFRAMESMALL));
+					public static LocString DESC = "A small sized structural frame.";
+					public static LocString EFFECT = "Provides background support for buildings, or least gives the nice appearance of doing so. Doesn't prevent gases or liquid from leaking in to the void.";
+				}
 				public class SPACERWINDOWLARGE
 				{
 					public static LocString NAME = FormatAsLink("Large Spacer Window", nameof(SPACERWINDOWLARGE));

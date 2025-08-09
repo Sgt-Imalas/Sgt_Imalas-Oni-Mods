@@ -462,6 +462,16 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			///walls
 
+			BuildingManager.CreateEntry<StructureFrameLargeConfig>()
+				.AddToCategory(PlanMenuCategory.Base, ExteriorWallConfig.ID)
+				.AddToTech(Technology.SolidMaterial.Smelting)
+				.AddModFrom(SourceModInfo.DupesEngineering);
+
+			BuildingManager.CreateEntry<StructureFrameSmallConfig>()
+				.AddToCategory(PlanMenuCategory.Base, ExteriorWallConfig.ID)
+				.AddToTech(Technology.SolidMaterial.Smelting)
+				.AddModFrom(SourceModInfo.DupesEngineering);
+
 			BuildingManager.CreateEntry<SpacerWallLargeConfig>()
 				.AddToCategory(PlanMenuCategory.Base, ExteriorWallConfig.ID)
 				.AddToTech(Technology.Decor.HighCulture)
