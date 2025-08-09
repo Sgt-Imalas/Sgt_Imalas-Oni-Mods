@@ -17,6 +17,7 @@ namespace UtilLibs.MarkdownExport
 {
 	public class MD_BuildingEntry : IMD_Entry
 	{
+		public bool IsVanillaModified = false;
 		string ID;
 		public int PowerConsumption;
 		public int PowerProduction;
@@ -32,19 +33,26 @@ namespace UtilLibs.MarkdownExport
 		public string FormatAsMarkdown()
 		{
 			sb.Clear();
-			sb.AppendLine($"## {Strip(L($"STRINGS.BUILDINGS.PREFABS.{ID.ToUpperInvariant()}.NAME"))}");
+			sb.Append($"## {Strip(L($"STRINGS.BUILDINGS.PREFABS.{ID.ToUpperInvariant()}.NAME"))}");
+			if (IsVanillaModified)
+			{
+				sb.Append(" ");
+				sb.Append(L("MODIFIED_SUFFIX"));
+			}
+			sb.AppendLine();
+
 			sb.AppendLine(Strip(L($"STRINGS.BUILDINGS.PREFABS.{ID.ToUpperInvariant()}.DESC")));
 			sb.AppendLine();
 			sb.AppendLine(Strip(L($"STRINGS.BUILDINGS.PREFABS.{ID.ToUpperInvariant()}.EFFECT")));
 			sb.AppendLine($"### {L("BUILDING_INFO_HEADER")}");
 			//sb.AppendLine("|Parameter|Value|");
-			sb.AppendLine($"| ![{ID}](/assets/images/buildings/{ID}.png){{width = \"200\"}} | |");
+			sb.AppendLine($"| ![{ID}](/assets/images/buildings/{ID}.png){{width=\"200\"}} | |");
 			//sb.Append(Description.Replace("\n","<br/>"));
 			//sb.Append("<br/>");
 			//sb.Append(Effect.Replace("\n", "<br/>"));
 			//sb.AppendLine("|");
 			sb.AppendLine("|-|-|");
-			sb.AppendLine($"|**{L("BUILDING_DIMENSIONS_LABEL")}** | {string.Format(L("BUILDING_DIMENSIONS_INFO"),Width,Height)}|");
+			sb.AppendLine($"|**{L("BUILDING_DIMENSIONS_LABEL")}** | {string.Format(L("BUILDING_DIMENSIONS_INFO"), Width, Height)}|");
 			if (PowerConsumption > 0)
 				sb.AppendLine($"|**{L("BUILDING_POWER_CONSUMPTION")}**| {PowerConsumption} W|");
 			if (PowerProduction > 0)
@@ -89,7 +97,7 @@ namespace UtilLibs.MarkdownExport
 
 				if (anyConsumer)
 				{
-					string mat = consumption == GameTags.Any ? null : MarkdownUtil.GetTagName(consumption);
+					string mat = consumption == GameTags.Any ? null : MarkdownUtil.GetTagString(consumption);
 					inputs.Add(MarkdownUtil.GetPortDescription(def.InputConduitType, true, mat));
 				}
 			}
@@ -98,7 +106,7 @@ namespace UtilLibs.MarkdownExport
 			{
 				foreach (var consumer2 in modConsumers)
 				{
-					string mat = consumer2.capacityTag == GameTags.Any ? null : MarkdownUtil.GetTagName(consumer2.capacityTag);
+					string mat = consumer2.capacityTag == GameTags.Any ? null : MarkdownUtil.GetTagString(consumer2.capacityTag);
 					inputs.Add(MarkdownUtil.GetPortDescription(consumer2.conduitType, true, mat));
 				}
 			}
@@ -118,7 +126,7 @@ namespace UtilLibs.MarkdownExport
 					else if (dispenser.tagFilter != null && dispenser.tagFilter.Any())
 						filter = dispenser.tagFilter[0];
 
-					string mat = filter == GameTags.Any ? null : MarkdownUtil.GetTagName(filter);
+					string mat = filter == GameTags.Any ? null : MarkdownUtil.GetTagString(filter);
 					outputs.Add(MarkdownUtil.GetPortDescription(dispenser.conduitType, false, mat));
 				}
 			}
@@ -156,8 +164,8 @@ namespace UtilLibs.MarkdownExport
 				var cost = mat.second;
 				string[] mats = mat.first.Split('&');
 
-				string or = " " + L("SEPARATOR_OR")+" ";
-				sb.Append(string.Join(or, mats.Select(m => MarkdownUtil.GetTagName(m))));
+				string or = " " + L("SEPARATOR_OR") + " ";
+				sb.Append(string.Join(or, mats.Select(m => MarkdownUtil.GetTagString(m))));
 				sb.Append('|');
 				sb.Append(GameUtil.GetFormattedMass(cost));
 				sb.AppendLine("|");
@@ -238,16 +246,22 @@ namespace UtilLibs.MarkdownExport
 				var recipes = ComplexRecipeManager.Get().recipes.FindAll(recipe => recipe.fabricators[0] == id);
 				Children.Add(new MD_ComplexRecipes(recipes));
 			}
-			if((buildingDef.BuildingComplete.TryGetComponent<SmartReservoir>(out _) || buildingDef.BuildingComplete.TryGetComponent<TreeFilterable>(out _))
+			if ((buildingDef.BuildingComplete.TryGetComponent<SmartReservoir>(out _) || buildingDef.BuildingComplete.TryGetComponent<TreeFilterable>(out _))
 				&& buildingDef.BuildingComplete.TryGetComponent<Storage>(out var storage) && storage.showInUI)
 			{
 				StorageCapacity = Mathf.RoundToInt(storage.Capacity());
 			}
-			else if(buildingDef.BuildingComplete.TryGetComponent<StorageLocker>(out var storageLocker) )
+			else if (buildingDef.BuildingComplete.TryGetComponent<StorageLocker>(out var storageLocker))
 			{
 				StorageCapacity = Mathf.RoundToInt(storageLocker.MaxCapacity);
 			}
 
+		}
+
+		public MD_BuildingEntry VanillaModified()
+		{
+			IsVanillaModified = true;
+			return this;
 		}
 	}
 }

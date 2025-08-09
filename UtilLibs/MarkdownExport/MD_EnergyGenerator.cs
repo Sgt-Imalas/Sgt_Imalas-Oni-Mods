@@ -26,24 +26,18 @@ namespace UtilLibs.MarkdownExport
 			sb.Append("|");
 			foreach (var input in formula.inputs)
 			{
-				sb.Append(MarkdownUtil.GetTagName(input.tag));
-				sb.Append(" (");
-				sb.Append(GameUtil.GetFormattedMass(input.consumptionRate, GameUtil.TimeSlice.PerSecond));
-				sb.Append(")");
+				sb.Append(MarkdownUtil.GetFormattedMass(input.tag, input.consumptionRate, GameUtil.TimeSlice.PerSecond));
 				sb.Append("<br>");
 			}
 			sb.Append("| ");
 			foreach (var output in formula.outputs)
 			{
-				sb.Append(MarkdownUtil.GetTagName(output.element.CreateTag()));
-				sb.Append(" (");
-				sb.Append(GameUtil.GetFormattedMass(output.creationRate, GameUtil.TimeSlice.PerSecond));
+				var temp = string.Empty; 
 				if (output.minTemperature > 0)
 				{
-					sb.Append(" ");
-					sb.Append(string.Format(L("AT_TEMPERATURE"), GameUtil.GetTemperatureConvertedFromKelvin(output.minTemperature, TemperatureUnit.Celsius).ToString()));
+					temp = string.Format(L("AT_TEMPERATURE"), GameUtil.GetTemperatureConvertedFromKelvin(output.minTemperature, TemperatureUnit.Celsius).ToString());
 				}
-				sb.Append(")");
+				sb.Append(MarkdownUtil.GetFormattedMass(output.element.CreateTag(), output.creationRate, GameUtil.TimeSlice.PerSecond, temp));
 				sb.Append("<br>");
 			}
 			sb.AppendLine("|");

@@ -8,7 +8,7 @@ using static STRINGS.UI.TOOLS.FILTERLAYERS;
 
 namespace UtilLibs.MarkdownExport
 {
-	internal class MD_Localization
+	public class MD_Localization
 	{
 		public static string CurrentLocalization { get; private set; } = Localization.DEFAULT_LANGUAGE_CODE;
 
@@ -75,6 +75,7 @@ namespace UtilLibs.MarkdownExport
 				.Add("ELEMENT_STATE","State")
 				.Add("ELEMENT_PROPERTIES","Material Properties")
 				.Add("NEW_ELEMENTS","New Elements")
+				.Add("MODIFIED_SUFFIX","(Modified)")
 			},
 			{
 				///Written by 只听那雨声淅沥
@@ -112,7 +113,8 @@ namespace UtilLibs.MarkdownExport
 				.Add("ELEMENT_ICON","图标")
 				.Add("ELEMENT_STATE","状态")
 				.Add("ELEMENT_PROPERTIES","材料属性")
-				.Add("NEW_ELEMENTS","New Elements")
+				.Add("NEW_ELEMENTS","新元素")
+				.Add("MODIFIED_SUFFIX","(修改)")
 			}
 		};
 
@@ -131,8 +133,57 @@ namespace UtilLibs.MarkdownExport
 			if (LocalisationUtil.TryGetTranslatedString(CurrentLocalization, key, out var localized))
 				return localized;
 
+			if(TryGetManuallyRegistered(key, out var manual))
+				return manual;
+
 			return "MISSING."+key;
 		}
+		public static bool HasKey(string key)
+		{
+			if (!Values.TryGetValue(CurrentLocalization, out var md_loc_strings))
+			{
+				md_loc_strings = Values[Localization.DEFAULT_LANGUAGE_CODE];
+			}
+			if (md_loc_strings.TryGet(key, out var mdstring))
+				return true;
 
+			if (CurrentLocalization == Localization.DEFAULT_LANGUAGE_CODE)
+				return Strings.TryGet(key, out _) ;
+
+			return LocalisationUtil.TryGetTranslatedString(CurrentLocalization, key, out _);
+		}
+
+		public static bool TryGetManuallyRegistered(string key, out string val)
+		{
+			val = null;
+
+			if (!RegisteredStringGetters.TryGetValue(key, out var md_))
+				return false;
+
+			string fetched = L(md_.first);
+			var localizedValues = md_.second.Select(x => L(x)).ToArray();
+
+			//SgtLogger.l("Fetched: "+fetched);
+			//foreach(var value in  localizedValues)
+			//	SgtLogger.l("format: " + fetched);
+
+			if (fetched.Contains("MISSING") || localizedValues.Any((entry) => entry.Contains("Missing"))) return false;
+
+			val = string.Format(fetched, localizedValues);
+			return true;
+		}
+
+		static Dictionary<string, Tuple<string, List<string>>> RegisteredStringGetters = [];
+
+		public static void Add(string Key, string KeyToFormat, List<string> KeyFormatValues)
+		{
+			Key = Key.ToUpperInvariant();
+			SgtLogger.l("Registering manual string getter: " + Key);
+			SgtLogger.l("KeyToFormat: " + KeyToFormat);
+			foreach (var val in KeyFormatValues)
+				SgtLogger.l("ValToFormat: "+val);
+
+			RegisteredStringGetters.Add(Key,new(KeyToFormat, KeyFormatValues));
+		}
 	}
 }

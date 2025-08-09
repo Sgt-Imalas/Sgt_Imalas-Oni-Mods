@@ -59,12 +59,15 @@ namespace UtilLibs.MarkdownExport
 				sb.Append("|");
 				foreach (var input in recipe.ingredients)
 				{
-					sb.Append(MarkdownUtil.GetTagName(input.material));
-					sb.Append(" (");
-					sb.Append(GameUtil.GetFormattedMass(input.amount));
-					sb.Append(")");
+					sb.Append(MarkdownUtil.GetFormattedMass(input.material, input.amount));
 					sb.Append("<br>");
 				}
+				if (recipe.consumedHEP > 0)
+				{
+					sb.Append(MarkdownUtil.FormatRadbolts(recipe.consumedHEP));
+					sb.Append("<br>");
+				}
+
 				sb.Append("|");
 				sb.Append(GameUtil.GetFormattedTime(recipe.time));
 				sb.Append("|");
@@ -73,10 +76,7 @@ namespace UtilLibs.MarkdownExport
 				{
 					foreach (var output in recipe.results)
 					{
-						sb.Append(MarkdownUtil.GetTagName(output.material));
-						sb.Append(" (");
-						sb.Append(GameUtil.GetFormattedMass(output.amount));
-						sb.Append(")");
+						sb.Append(MarkdownUtil.GetFormattedMass(output.material, output.amount));
 						sb.Append("<br>");
 					}
 				}
@@ -84,7 +84,7 @@ namespace UtilLibs.MarkdownExport
 				{
 					foreach (var output in randomResults)
 					{
-						sb.Append(MarkdownUtil.GetTagName(output));
+						sb.Append(MarkdownUtil.GetTagString(output));
 						sb.Append("<br>");
 					}
 				}
@@ -93,7 +93,7 @@ namespace UtilLibs.MarkdownExport
 					sb.Append("|");
 					foreach (var output in randomOccurences)
 					{
-						sb.Append(MarkdownUtil.GetTagName(output));
+						sb.Append(MarkdownUtil.GetTagString(output));
 						sb.Append("<br>");
 					}
 				}				

@@ -31,16 +31,16 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			buildingDef.UtilityInputOffset = new CellOffset(0, 0);
 			buildingDef.UtilityOutputOffset = new CellOffset(0, 1);
 			buildingDef.PermittedRotations = PermittedRotations.R360;
-			//buildingDef.AddLogicPowerPort = false;
-			//buildingDef.EnergyConsumptionWhenActive = 240f;
-			//buildingDef.PowerInputOffset = new(0, 1);
+			buildingDef.AddLogicPowerPort = false;
+			buildingDef.EnergyConsumptionWhenActive = 60f;
+			buildingDef.PowerInputOffset = new(0, 1);
 
 
 			buildingDef.SceneLayer = Grid.SceneLayer.GasFront;
 			buildingDef.ObjectLayer = ObjectLayer.SolidConduitConnection;
 
 			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.SolidConveyorIDs, ID);
-			SoundUtils.CopySoundsToAnim("hpa_rail_merger", "filter_material_conveyor_kanim");
+			SoundUtils.CopySoundsToAnim("hpa_rail_merger_kanim", "filter_material_conveyor_kanim");
 			return buildingDef;
 		}
 
@@ -75,7 +75,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 
 			var solidDispenser = go.AddOrGet<ConfigurableSolidConduitDispenser>();
 			solidDispenser.massDispensed = HighPressureConduitRegistration.SolidCap_HP;
-			solidDispenser.alwaysDispense = true;
+			//solidDispenser.alwaysDispense = true;
 			solidDispenser.elementFilter = null; 
 			this.AttachPort(go);
 

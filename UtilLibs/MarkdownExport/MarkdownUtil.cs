@@ -1,31 +1,92 @@
 ﻿using ClipperLib;
+using FMOD;
 using PeterHan.PLib.UI;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using YamlDotNet.Core.Tokens;
 using static GameUtil;
+using static STRINGS.CREATURES.STATUSITEMS;
 using static UtilLibs.MarkdownExport.MD_Localization;
 
 namespace UtilLibs.MarkdownExport
 {
 	public static class MarkdownUtil
 	{
-		public static string FormatLineBreaks(string input) => input.Replace("\n", "<br/>");
-		public static string GetTagName(Tag tag)
+		static void CleanTag(ref string tagKey)
 		{
+			if (tagKey.Contains("SPICEVINE"))
+				tagKey = tagKey.Replace("SPICEVINE", "SPICE_VINE");
+
+			if (tagKey.Contains("FORESTTREE"))
+				tagKey = tagKey.Replace("FORESTTREE", "WOOD_TREE");
+
+			if (tagKey.Contains("GASGRASSHARVESTED"))
+				tagKey = tagKey.Replace("GASGRASSHARVESTED", "GASGRASS");
+
+			if (tagKey.Contains("BLUEGRASS"))
+				tagKey = tagKey.Replace("BLUEGRASS", "BLUE_GRASS");
+		}
+
+		public static string FormatLineBreaks(string input) => input.Replace("\n", "<br/>");
+		public static string GetTagString(Tag tag, bool desc = false)
+		{
+			string endKey = ".NAME";
+			if (desc)
+				endKey = ".DESC";
+
+			var tagKey = tag.ToString().ToUpperInvariant();
+			if (desc)
+				tagKey += "_DESC";
+
+			//those dont follow the pattern...
+			CleanTag(ref tagKey);
+
+
+
 			var prefab = Assets.TryGetPrefab(tag);
 			if (prefab == null)
-				return Strip(L("STRINGS.MISC.TAGS." + tag.ToString().ToUpperInvariant()));
+				return Strip(L("STRINGS.MISC.TAGS." + tagKey));
 
 			if (ElementLoader.GetElement(tag) != null)
-				return Strip(L("STRINGS.ELEMENTS." + tag.ToString().ToUpperInvariant() + ".NAME"));
+				return Strip(L("STRINGS.ELEMENTS." + tag.ToString().ToUpperInvariant() + endKey));
 			if (Assets.GetBuildingDef(tag.ToString()) != null)
-				return Strip(L("STRINGS.BUILDINGS.PREFABS." + tag.ToString().ToUpperInvariant() + ".NAME"));
+				return Strip(L("STRINGS.BUILDINGS.PREFABS." + tag.ToString().ToUpperInvariant() + endKey));
+
+			if (tagKey.Contains("SEED") && prefab.TryGetComponent<PlantableSeed>(out var seed))
+			{
+				var plantID = seed.PlantID.ToString().ToUpperInvariant();
+				CleanTag(ref plantID);
+				var seedKey = "STRINGS.CREATURES.SPECIES.SEEDS." + plantID + endKey;
+				//SgtLogger.l("SeedKey: " + seedKey);
+				if (HasKey(seedKey))
+					return Strip(L(seedKey));
+			}
+
+			var prod = "STRINGS.ITEMS.INDUSTRIAL_PRODUCTS." + tagKey + endKey;
+			var ingredient = "STRINGS.ITEMS.INGREDIENTS." + tagKey + endKey;
+			var food = "STRINGS.ITEMS.FOOD." + tagKey + endKey;
+			var creature = "STRINGS.CREATURES.SPECIES." + tagKey + endKey;
+
+			if (HasKey(creature))
+				return Strip(L(creature));
+
+			if (HasKey(prod))
+				return Strip(L(prod));
+
+			if (HasKey(food))
+				return Strip(L(food));
+
+			if (HasKey(ingredient))
+				return Strip(L(ingredient));
+
+			if(MD_Localization.TryGetManuallyRegistered(tagKey, out var loc))
+				return Strip(loc);
 
 			return Strip(prefab.GetProperName());
 		}
@@ -36,11 +97,11 @@ namespace UtilLibs.MarkdownExport
 			switch (state)
 			{
 				case Element.State.Solid:
-					return MarkdownUtil.GetTagName(GameTags.Solid);
+					return MarkdownUtil.GetTagString(GameTags.Solid);
 				case Element.State.Liquid:
-					return MarkdownUtil.GetTagName(GameTags.Liquid);
+					return MarkdownUtil.GetTagString(GameTags.Liquid);
 				case Element.State.Gas:
-					return MarkdownUtil.GetTagName(GameTags.Gas);
+					return MarkdownUtil.GetTagString(GameTags.Gas);
 			}
 			throw new NotImplementedException();
 		}
@@ -49,16 +110,16 @@ namespace UtilLibs.MarkdownExport
 			switch (state)
 			{
 				case ConduitType.Solid:
-					return MarkdownUtil.GetTagName(GameTags.Solid);
+					return MarkdownUtil.GetTagString(GameTags.Solid);
 				case ConduitType.Liquid:
-					return MarkdownUtil.GetTagName(GameTags.Liquid);
+					return MarkdownUtil.GetTagString(GameTags.Liquid);
 				case ConduitType.Gas:
-					return MarkdownUtil.GetTagName(GameTags.Gas);
+					return MarkdownUtil.GetTagString(GameTags.Gas);
 			}
 			throw new NotImplementedException();
 		}
 
-		public static string Strip(string input) => STRINGS.UI.StripLinkFormatting(input);
+		public static string Strip(string input) => FormatLineBreaks(STRINGS.UI.StripLinkFormatting(input));
 		public static string StrippedBuildingName(string ID) => Strip(L($"STRINGS.BUILDINGS.PREFABS.{ID.ToUpperInvariant()}.NAME"));
 
 		public static string GetPortDescription(ConduitType conduitType, bool input, string material = null)
@@ -172,23 +233,23 @@ namespace UtilLibs.MarkdownExport
 			string transitionsInto_low = "";
 			if (element.lowTempTransition != null)
 			{
-				transitionsInto_low = "<br/>" + Math.Round(GameUtil.GetTemperatureConvertedFromKelvin(element.lowTemp, TemperatureUnit.Celsius), 2).ToString()+"°C";
-				transitionsInto_low += " -> " + GetTagName(element.lowTempTransition.tag);
+				transitionsInto_low = "<br/>" + Math.Round(GameUtil.GetTemperatureConvertedFromKelvin(element.lowTemp, TemperatureUnit.Celsius), 2).ToString() + "°C";
+				transitionsInto_low += " -> " + GetTagString(element.lowTempTransition.tag);
 				if (element.lowTempTransitionOreID != SimHashes.Vacuum && element.lowTempTransitionOreMassConversion > 0)
-					transitionsInto_low += ", " + GetTagName(element.lowTempTransitionOreID.CreateTag());
+					transitionsInto_low += ", " + GetTagString(element.lowTempTransitionOreID.CreateTag());
 				transitionsInto_low += "<br/>";
 			}
 
 			string transitionsInto_high = "";
 			if (element.highTempTransition != null)
 			{
-				transitionsInto_high = "<br/>"+Math.Round(GameUtil.GetTemperatureConvertedFromKelvin(element.highTemp, TemperatureUnit.Celsius), 2).ToString() + "°C";
-				transitionsInto_high += " -> " + GetTagName(element.highTempTransition.tag);
+				transitionsInto_high = "<br/>" + Math.Round(GameUtil.GetTemperatureConvertedFromKelvin(element.highTemp, TemperatureUnit.Celsius), 2).ToString() + "°C";
+				transitionsInto_high += " -> " + GetTagString(element.highTempTransition.tag);
 				if (element.highTempTransitionOreID != SimHashes.Vacuum && element.highTempTransitionOreMassConversion > 0)
-					transitionsInto_high += ", " + GetTagName(element.highTempTransitionOreID.CreateTag());
+					transitionsInto_high += ", " + GetTagString(element.highTempTransitionOreID.CreateTag());
 				transitionsInto_high += "<br/>";
 			}
-			var categoryTag = GetTagName(element.materialCategory) + "<br/>";
+			var categoryTag = GetTagString(element.materialCategory) + "<br/>";
 
 			if (element.highTempTransition != null && element.lowTempTransition == null)
 			{
@@ -196,11 +257,11 @@ namespace UtilLibs.MarkdownExport
 			}
 			else if (element.highTempTransition != null && element.lowTempTransition != null)
 			{
-				property += FormatLineBreaks(string.Format(L("STRINGS.ELEMENTS.ELEMENTDESCLIQUID"), categoryTag , transitionsInto_low, transitionsInto_high));
+				property += FormatLineBreaks(string.Format(L("STRINGS.ELEMENTS.ELEMENTDESCLIQUID"), categoryTag, transitionsInto_low, transitionsInto_high));
 			}
 			else if (element.highTempTransition == null && element.lowTempTransition != null)
 			{
-				property += FormatLineBreaks(string.Format(L("STRINGS.ELEMENTS.ELEMENTDESCGAS"), categoryTag , transitionsInto_low));
+				property += FormatLineBreaks(string.Format(L("STRINGS.ELEMENTS.ELEMENTDESCGAS"), categoryTag, transitionsInto_low));
 			}
 
 			property += "<br/><br/>";
@@ -212,10 +273,10 @@ namespace UtilLibs.MarkdownExport
 			{
 				var tags = string.Join(", ",
 						oreTags
-						.Select(t => MarkdownUtil.GetTagName(t))
+						.Select(t => MarkdownUtil.GetTagString(t))
 						.StableSort()
 						.Where(val => !val.Contains("MISSING")));
-				property += string.Format(L("STRINGS.ELEMENTS.ELEMENTPROPERTIES"), tags);
+				property += string.Format(L("STRINGS.ELEMENTS.ELEMENTPROPERTIES"), "<br/>" + tags);
 			}
 
 
@@ -227,17 +288,43 @@ namespace UtilLibs.MarkdownExport
 
 			property += FormatLineBreaks(
 				L("STRINGS.ELEMENTS.THERMALPROPERTIES").TrimStart('\n')
-				.Replace("{SPECIFIC_HEAT_CAPACITY}", "<br/>"+GameUtil.GetFormattedSHC(element.specificHeatCapacity))
-				.Replace("{THERMAL_CONDUCTIVITY}", "<br/>" + GameUtil.GetFormattedThermalConductivity(element.thermalConductivity)));
+				.Replace("{SPECIFIC_HEAT_CAPACITY}", "<br/>" + GameUtil.GetFormattedSHC(element.specificHeatCapacity) + "<br/>")
+				.Replace("{THERMAL_CONDUCTIVITY}", "<br/>" + GameUtil.GetFormattedThermalConductivity(element.thermalConductivity) + "<br/>"));
 
 			property += "<br/>";
 
 			property += FormatLineBreaks(
 				string.Format(L("STRINGS.ELEMENTS.RADIATIONPROPERTIES"),
-				element.radiationAbsorptionFactor,
+				element.radiationAbsorptionFactor + "<br/>",
 				GameUtil.GetFormattedRads((element.radiationPer1000Mass * 1.10000002384186f / 600.0f), GameUtil.TimeSlice.PerCycle)));
 
 			return property;
 		}
-	}
+
+		public static string FormatRadbolts(int amount)
+		{
+			return amount+"x "+L("STRINGS.UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES");
+		}
+
+		internal static string GetFormattedMass(Tag material, float amount, GameUtil.TimeSlice slice = GameUtil.TimeSlice.None, string extraSuffix = "")
+		{
+			var matName = MarkdownUtil.GetTagString(material);
+
+			GameUtil.ApplyTimeSlice(amount, slice);
+			string massFormatted = GameUtil.GetFormattedMass(amount);
+			if (GameTags.DisplayAsUnits.Contains(material))
+			{
+				massFormatted = "x" + amount;
+			}
+			if(extraSuffix.Length>0)
+				extraSuffix = " "+extraSuffix;
+
+			if (slice == TimeSlice.PerSecond)
+				massFormatted += L("STRINGS.UI.UNITSUFFIXES.PERSECOND");
+			else if (slice == TimeSlice.PerCycle)
+				massFormatted += L("STRINGS.UI.UNITSUFFIXES.PERCYCLE");
+		
+			return matName + " ("+ massFormatted +extraSuffix+ ")";
+		}
+}
 }

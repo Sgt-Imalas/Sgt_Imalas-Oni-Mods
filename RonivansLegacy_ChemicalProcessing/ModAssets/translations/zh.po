@@ -505,7 +505,7 @@ msgstr "一座能够将有机油进行酯交换反应，转化为长链脂肪酸
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_BIODIESELREFINERY.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_BIODIESELREFINERY.EFFECT"
 msgid "Transesterify <link=\"LIQUIDBIODIESEL\">Renewable Diesel</link> from <link=\"LIQUIDVEGEOIL\">Vegetable Oil</link> and <link=\"ETHANOL\">Ethanol</link>."
-msgstr "将<link=\"LIQUIDVEGEOIL\">有机油</link>和<link=‘ETHANOL’>乙醇</link>转化为<link=\"LIQUIDBIODIESEL\">可再生柴油</link>。"
+msgstr "将<link=\"LIQUIDVEGEOIL\">有机油</link>和<link=\"ETHANOL\">乙醇</link>转化为<link=\"LIQUIDBIODIESEL\">可再生柴油</link>。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_BIODIESELREFINERY.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_BIODIESELREFINERY.NAME"
@@ -3484,7 +3484,7 @@ msgstr "<link=\"PLASTEEL\">塑晶钢</link>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.RAWNATURALGAS.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.RAWNATURALGAS.DESC"
 msgid "A fossil gas consisting of gaseous hydrocarbons and other impurites. The majority of the gas mass is composed of <link=\"METHANE\">Methane</link>, <link=\"PROPANE\">Propane</link> and <link=\"SOURGAS\">Sour Gas</link>."
-msgstr "由气态碳氢化合物和其他杂质组成的化石气体。大部分气体由<link=\"METHANE\">甲烷</link>、<link=\"PROPANE\">丙烷</link>和<link=‘SOURGAS’>酸性气体</link>。"
+msgstr "由气态碳氢化合物和其他杂质组成的化石气体。大部分气体由<link=\"METHANE\">甲烷</link>、<link=\"PROPANE\">丙烷</link>和<link=\"SOURGAS\">酸性气体</link>。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.RAWNATURALGAS.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.RAWNATURALGAS.NAME"
@@ -4005,7 +4005,7 @@ msgstr "重型自动清扫器范围"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_ARMRANGE.TOOLTIP
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_ARMRANGE.TOOLTIP"
 msgid "The Heavy-Duty Auto-Sweeper serves as a late game version of the autosweeper, having higher range and throughput at the cost of more complex build requirements"
-msgstr "重型自动清扫器是自动清扫器的后期版本，其覆盖范围更广、吞吐量更大，但建造要求也更复杂。"
+msgstr "重型自动清扫器是自动清扫器的后期版本，其覆盖范围更广、吞吐量更大，但建造要求也更复杂"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_CAPACITY.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_CAPACITY.NAME"
@@ -4026,6 +4026,16 @@ msgstr "启用重型轨道"
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_ENABLE.TOOLTIP"
 msgid "Heavy-Duty Rails serve as an late game upgrade to conveyor rails, having a much higher throughput at the cost of more complex build requirements."
 msgstr "重型轨道是运输轨道的后期升级版本，其运输量远超普通轨道，但需要更复杂的建造条件作为代价。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_INSULATION_ENABLE.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_INSULATION_ENABLE.NAME"
+msgid "Insulated Heavy-Duty Rails"
+msgstr "隔热重型轨道"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_INSULATION_ENABLE.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_INSULATION_ENABLE.TOOLTIP"
+msgid "Enable an insulated variant of the heavy-duty conveyor rail"
+msgstr "启用隔热型重型运输轨道"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_RAIL_CAPACITY.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_RAIL_CAPACITY.NAME"
@@ -4630,8 +4640,18 @@ msgstr "重编程引导装置"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.SPACEDESTINATIONS.COMETS.HEAVYCOMET.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.SPACEDESTINATIONS.COMETS.HEAVYCOMET.NAME"
-msgid "Heavy Comet"
-msgstr "重型流星"
+msgid "Heavy Meteor"
+msgstr "重型陨石"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.SPACEDESTINATIONS.COMETS.SILVERCOMET.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.SPACEDESTINATIONS.COMETS.SILVERCOMET.NAME"
+msgid "Argentite Meteor"
+msgstr "辉银矿陨石"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.SPACEDESTINATIONS.COMETS.ZINCCOMET.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.SPACEDESTINATIONS.COMETS.ZINCCOMET.NAME"
+msgid "Aurichalcite Meteor"
+msgstr ""
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_HPA_RAIL
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_HPA_RAIL"

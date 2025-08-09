@@ -195,7 +195,7 @@ namespace RonivansLegacy_ChemicalProcessing
 							FormatAsLink("Vegetable Oil", nameof(LIQUIDVEGEOIL)),
 							" and ",
 							FormatAsLink("Carbon Dioxide", "CARBONDIOXIDE"),
-							"\nThe enzymes requires a microbial medium in the form of ",
+							".\nThe enzymes requires a microbial medium in the form of ",
 							FormatAsLink("Mush Bar", "MUSHBAR"),"."
 						]);
 				}

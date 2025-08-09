@@ -182,6 +182,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					buildingEntry.Tech(building.TechID).WriteUISprite("E:\\ONIModding\\Wiki\\docs\\assets\\images\\buildings");
 				}
 			}
+			buildingPages[SourceModInfo.ChemicalProcessing_IO].AddBuilding(MetalRefineryConfig.ID).VanillaModified();
+			buildingPages[SourceModInfo.ChemicalProcessing_IO].AddBuilding(OilWellCapConfig.ID).VanillaModified();
+
+
 			exporter.root
 				.File("elements", "NEW_ELEMENTS")
 				.Add(new MD_Text("Enabling the following mods in the config will add several new elements to the game.\n\nA few of them will also be added to the starmap pois for mining."))

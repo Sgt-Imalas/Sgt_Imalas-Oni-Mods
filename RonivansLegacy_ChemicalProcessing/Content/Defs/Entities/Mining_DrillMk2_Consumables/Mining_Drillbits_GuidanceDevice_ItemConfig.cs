@@ -45,10 +45,13 @@ namespace Mineral_Processing_Mining.Buildings
 			{
 				string targetID = id.Replace(ProgrammedPrefix, "");
 
-				string target = GetTargetName(id);
+				string targetKey = GetTargetNameKey(id);
+				string target = Strings.Get(targetKey);
 				name = string.Format(MINING_DRILLBITS_GUIDANCEDEVICE_ITEM.NAME_PROGRAMMED, target);
 				desc = string.Format(MINING_DRILLBITS_GUIDANCEDEVICE_ITEM.DESC_PROGRAMMED, target);
 				kanim = $"guidance_device_{targetID.ToLowerInvariant()}_kanim";
+
+				UtilLibs.MarkdownExport.MD_Localization.Add(id, "STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_GUIDANCEDEVICE_ITEM.NAME_PROGRAMMED", [targetKey]);
 			}
 
 			GameObject go = EntityTemplates.CreateLooseEntity(id, name, desc, 1f, true, Assets.GetAnim(kanim), "object", Grid.SceneLayer.Front, EntityTemplates.CollisionShape.RECTANGLE, 0.65f, 0.65f, true, 0, SimHashes.Creature, [GameTags.IndustrialProduct, ModAssets.Tags.MineralProcessing_GuidanceUnit]);
@@ -83,14 +86,16 @@ namespace Mineral_Processing_Mining.Buildings
 			return list;
 		}
 
-		internal static string GetTargetName(Tag programmable)
+		internal static string GetTargetNameKey(Tag programmable)
 		{
 			string targetID = programmable.ToString().Replace(ProgrammedPrefix, "");
-			return Strings.Get("STRINGS.UI.MINING_SMART_DRILL_LOCATIONS." + targetID.ToUpperInvariant());
+			return ("STRINGS.UI.MINING_SMART_DRILL_LOCATIONS." + targetID.ToUpperInvariant());
 		}
+		public static string GetTargetName(Tag programmable) => Strings.Get(GetTargetNameKey(programmable));
+
 		internal static string GetGuidanceItemName(Tag programmable)
 		{
-			string target = GetTargetName(programmable);
+			string target = Strings.Get(GetTargetNameKey(programmable));
 			return string.Format(MINING_DRILLBITS_GUIDANCEDEVICE_ITEM.NAME_PROGRAMMED, target);
 		}
 	}

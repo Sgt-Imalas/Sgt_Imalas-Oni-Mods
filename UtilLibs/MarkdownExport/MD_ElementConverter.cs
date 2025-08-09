@@ -1,9 +1,11 @@
-﻿using System;
+﻿using ClipperLib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static GameUtil;
+using static PathFinder;
 using static UtilLibs.MarkdownExport.MD_Localization;
 
 namespace UtilLibs.MarkdownExport
@@ -26,24 +28,18 @@ namespace UtilLibs.MarkdownExport
 			sb.Append("|");
 			foreach (var input in converter.consumedElements)
 			{
-				sb.Append(MarkdownUtil.GetTagName(input.Tag));
-				sb.Append(" (");
-				sb.Append(GameUtil.GetFormattedMass(input.MassConsumptionRate, GameUtil.TimeSlice.PerSecond));
-				sb.Append(")");
+				sb.Append(MarkdownUtil.GetFormattedMass(input.Tag, input.MassConsumptionRate, GameUtil.TimeSlice.PerSecond));
 				sb.Append("<br>");
 			}
 			sb.Append("|");
 			foreach (var output in converter.outputElements)
 			{
-				sb.Append(MarkdownUtil.GetTagName(output.elementHash.CreateTag()));
-				sb.Append(" (");
-				sb.Append(GameUtil.GetFormattedMass(output.massGenerationRate, GameUtil.TimeSlice.PerSecond));
+				var temp = string.Empty;
 				if (!output.useEntityTemperature)
 				{
-					sb.Append(" ");
-					sb.Append(string.Format(L("AT_TEMPERATURE"), GameUtil.GetTemperatureConvertedFromKelvin(output.minOutputTemperature, TemperatureUnit.Celsius).ToString()));
+					temp = string.Format(L("AT_TEMPERATURE"), GameUtil.GetTemperatureConvertedFromKelvin(output.minOutputTemperature, TemperatureUnit.Celsius).ToString());
 				}
-				sb.Append(")");
+				sb.Append(MarkdownUtil.GetFormattedMass(output.elementHash.CreateTag(), output.massGenerationRate, GameUtil.TimeSlice.PerSecond, temp));				
 				sb.Append("<br>");
 			}
 			sb.AppendLine("|");
