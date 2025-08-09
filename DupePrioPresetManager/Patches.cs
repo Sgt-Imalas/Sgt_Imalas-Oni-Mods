@@ -10,11 +10,9 @@ namespace DupePrioPresetManager
 		/// <summary>
 		/// attach prio manager to each row
 		/// </summary>
-		[HarmonyPatch(typeof(ConsumablesTableScreen))]
-		[HarmonyPatch(nameof(ConsumablesTableScreen.refresh_scrollers))]
+		[HarmonyPatch(typeof(ConsumablesTableScreen), nameof(ConsumablesTableScreen.refresh_scrollers))]
 		public static class AddButtonFunctionalityForConsumables
 		{
-
 			public static void Postfix(ConsumablesTableScreen __instance)
 			{
 				ModAssets.ParentScreen = __instance.transform.parent.gameObject;
@@ -104,11 +102,9 @@ namespace DupePrioPresetManager
 			}
 		}
 
-		[HarmonyPatch(typeof(JobsTableScreen))]
-		[HarmonyPatch(nameof(JobsTableScreen.RefreshRows))]
+		[HarmonyPatch(typeof(JobsTableScreen), nameof(JobsTableScreen.RefreshRows))]
 		public static class AddButtonFunctionalityForFood
 		{
-
 			public static void Postfix(JobsTableScreen __instance)
 			{
 				ModAssets.ParentScreen = __instance.transform.parent.gameObject;
@@ -197,11 +193,9 @@ namespace DupePrioPresetManager
 		}
 
 
-		[HarmonyPatch(typeof(JobsTableScreen))]
-		[HarmonyPatch(nameof(JobsTableScreen.OnKeyDown))]
+		[HarmonyPatch(typeof(JobsTableScreen), nameof(JobsTableScreen.OnKeyDown))]
 		public static class DisableGrabbing
 		{
-
 			public static bool Prefix(JobsTableScreen __instance, KButtonEvent e)
 			{
 				if (UnityPresetScreen_Priorities.Instance != null && UnityPresetScreen_Priorities.Instance.CurrentlyActive)

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using UnityEngine;
 using UtilLibs;
 
 namespace DupePrioPresetManager
@@ -18,7 +19,7 @@ namespace DupePrioPresetManager
 
 		public void OpenPopUpToChangeName(System.Action callBackAction = null)
 		{
-			FileNameDialog fileNameDialog = (FileNameDialog)KScreenManager.Instance.StartScreen(ScreenPrefabs.Instance.FileNameDialog.gameObject, GameScreenManager.Instance.GetParent(GameScreenManager.UIRenderTarget.ScreenSpaceOverlay));
+			FileNameDialog fileNameDialog = (FileNameDialog)KScreenManager.Instance.StartScreen(ScreenPrefabs.Instance.FileNameDialog.gameObject, ModAssets.ParentScreen);
 			fileNameDialog.SetTextAndSelect(ConfigName);
 			fileNameDialog.onConfirm = (System.Action<string>)(newName =>
 			{

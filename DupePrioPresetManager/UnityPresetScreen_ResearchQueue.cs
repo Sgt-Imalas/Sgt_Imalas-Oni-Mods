@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DupePrioPresetManager.Serializables;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -9,17 +10,18 @@ using UnityEngine.UI;
 using UtilLibs;
 using UtilLibs.UIcmp;
 using static DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS;
+using static STRINGS.UI.FRONTEND;
 
 namespace DupePrioPresetManager
 {
-	internal class UnityPresetScreen_Consumables : FScreen
+	internal class UnityPresetScreen_ResearchQueue : FScreen
 	{
 #pragma warning disable IDE0051 // Remove unused private members
 #pragma warning disable CS0414 // Remove unused private members
 		new bool ConsumeMouseScroll = true; // do not remove!!!!
 #pragma warning restore CS0414 // Remove unused private members
 #pragma warning restore IDE0051 // Remove unused private members
-		public static UnityPresetScreen_Consumables Instance = null;
+		public static UnityPresetScreen_ResearchQueue Instance = null;
 
 
 		public FButton GeneratePresetButton;
@@ -42,24 +44,23 @@ namespace DupePrioPresetManager
 		private bool HoveringPrio = false;
 
 		///Preset
-		MinionConsumableSettingsPreset CurrentlySelected;
+		ResearchQueuePreset CurrentlySelected;
 		///Referenced Stats to apply presets to.
-		Action<HashSet<Tag>> ApplyingAction = null;
 
-		Dictionary<MinionConsumableSettingsPreset, GameObject> Presets = new Dictionary<MinionConsumableSettingsPreset, GameObject>();
+		Dictionary<ResearchQueuePreset, GameObject> Presets = new Dictionary<ResearchQueuePreset, GameObject>();
 		//List<GameObject> InformationObjects = new List<GameObject>();
 
-		Dictionary<string, Tuple<FButton, Image>> Consumables = new Dictionary<string, Tuple<FButton, Image>>();
+		Dictionary<string, GameObject> Techs = [];
 		LocText TitleHolder = null;
 
 		string RefName;
 
-		public static void ShowWindow(HashSet<Tag> currentlyForbidden, Action<HashSet<Tag>> ApplyingAction, System.Action onClose, string refName = "")
+		public static void ShowWindow(System.Action onClose, string refName = "")
 		{
 			if (Instance == null)
 			{
 				var screen = Util.KInstantiateUI(ModAssets.PresetWindowPrefab, ModAssets.ParentScreen, true);
-				Instance = screen.AddOrGet<UnityPresetScreen_Consumables>();
+				Instance = screen.AddOrGet<UnityPresetScreen_ResearchQueue>();
 				Instance.Init();
 			}
 			Instance.Show(true);
@@ -67,8 +68,7 @@ namespace DupePrioPresetManager
 			Instance.transform.SetAsLastSibling();
 			Instance.LoadAllPresets();
 			Instance.RefName = refName;
-			Instance.LoadTemporalPreset(currentlyForbidden);
-			Instance.ApplyingAction = ApplyingAction;
+			Instance.LoadTemporalPreset();
 			Instance.OnCloseAction = onClose;
 			Instance.Searchbar.Text = string.Empty;
 		}
@@ -76,9 +76,9 @@ namespace DupePrioPresetManager
 		private bool init;
 		private System.Action OnCloseAction;
 
-		public void LoadTemporalPreset(HashSet<Tag> toGenerateFrom)
+		public void LoadTemporalPreset()
 		{
-			MinionConsumableSettingsPreset tempStats = MinionConsumableSettingsPreset.CreateFromPriorityManager(toGenerateFrom, RefName);
+			ResearchQueuePreset tempStats = ResearchQueuePreset.CreatePreset(RefName);
 			SetAsCurrent(tempStats);
 		}
 
@@ -115,10 +115,10 @@ namespace DupePrioPresetManager
 			}
 		}
 
-		List<MinionConsumableSettingsPreset> LoadPresets()
+		List<ResearchQueuePreset> LoadPresets()
 		{
-			List<MinionConsumableSettingsPreset> minionStatConfigs = new List<MinionConsumableSettingsPreset>();
-			var files = new DirectoryInfo(ModAssets.FoodTemplatePath).GetFiles();
+			List<ResearchQueuePreset> minionStatConfigs = new List<ResearchQueuePreset>();
+			var files = new DirectoryInfo(ModAssets.ResearchTemplatePath).GetFiles();
 
 
 			for (int i = 0; i < files.Count(); i++)
@@ -126,21 +126,20 @@ namespace DupePrioPresetManager
 				var File = files[i];
 				try
 				{
-					var preset = MinionConsumableSettingsPreset.ReadFromFile(File);
-					if (preset != null)
+					if (IO_Utils.ReadFromFile(File, out ResearchQueuePreset preset) && preset.IsValidForCurrentDlc())
 					{
 						minionStatConfigs.Add(preset);
 					}
 				}
 				catch (Exception e)
 				{
-					SgtLogger.logError("Couln't load priority preset from: " + File.FullName + ",\nError: " + e);
+					SgtLogger.logError("Couln't load preset from: " + File.FullName + ",\nError: " + e);
 				}
 			}
 			return minionStatConfigs;
 		}
 
-		private bool AddUiElementForPreset(MinionConsumableSettingsPreset config)
+		private bool AddUiElementForPreset(ResearchQueuePreset config)
 		{
 			if (!Presets.ContainsKey(config))
 			{
@@ -151,10 +150,10 @@ namespace DupePrioPresetManager
 				PresetHolder.transform.Find("RenameButton").FindOrAddComponent<FButton>().OnClick +=
 					() => config.OpenPopUpToChangeName(
 						() =>
-							{
-								UIUtils.TryChangeText(PresetHolder.transform, "Label", config.ConfigName);
-								RebuildInformationPanel();
-							}
+						{
+							UIUtils.TryChangeText(PresetHolder.transform, "Label", config.ConfigName);
+							RebuildInformationPanel();
+						}
 						);
 
 				PresetHolder.transform.Find("AddThisTraitButton").FindOrAddComponent<FButton>().OnClick += () => SetAsCurrent(config);
@@ -168,7 +167,7 @@ namespace DupePrioPresetManager
 			return false;
 		}
 
-		void DeletePreset(MinionConsumableSettingsPreset config)
+		void DeletePreset(ResearchQueuePreset config)
 		{
 			System.Action Delete = () =>
 			{
@@ -193,7 +192,7 @@ namespace DupePrioPresetManager
 		   );
 		}
 
-		void SetAsCurrent(MinionConsumableSettingsPreset config)
+		void SetAsCurrent(ResearchQueuePreset config)
 		{
 			CurrentlySelected = config;
 			RebuildInformationPanel();
@@ -208,23 +207,16 @@ namespace DupePrioPresetManager
 				return;
 
 			TitleHolder.text = CurrentlySelected.ConfigName;
-			foreach (var consumable in Consumables)
+			foreach (var techEntry in Techs)
 			{
-				SetAllowedSprite(!CurrentlySelected.ForbiddenTags.Contains(consumable.Key.ToTag()), consumable.Value.second);
-				consumable.Value.first.SetInteractable(Presets.ContainsKey(CurrentlySelected));
+				techEntry.Value.SetActive(CurrentlySelected.QueuedResearchs.Contains(techEntry.Key));
 			}
-			GeneratePresetButton.SetInteractable(!Presets.ContainsKey(CurrentlySelected));
+			GeneratePresetButton.SetInteractable(!Presets.ContainsKey(CurrentlySelected) && CurrentlySelected.QueuedResearchs.Any());
 		}
 
-		void ChangeValue(string id, Image image)
-		{
-			CurrentlySelected.ChangeValue(id);
-			SetAllowedSprite(!CurrentlySelected.ForbiddenTags.Contains(id.ToTag()), image);
-		}
 
 		private void SetAllowedSprite(bool allowed, Image image)
 		{
-			image.gameObject.SetActive(allowed);
 		}
 
 
@@ -240,15 +232,14 @@ namespace DupePrioPresetManager
 		private void Init()
 		{
 
-			UIUtils.TryChangeText(transform, "Title", TITLECONSUMABLES);
-
+			UIUtils.TryChangeText(transform, "Title", TITLERESEARCHQUEUE);
 
 			GeneratePresetButton = transform.Find("HorizontalLayout/ItemInfo/Buttons/GenerateFromCurrent").FindOrAddComponent<FButton>();
 			CloseButton = transform.Find("HorizontalLayout/ItemInfo/Buttons/CloseButton").FindOrAddComponent<FButton>();
 			ApplyButton = transform.Find("HorizontalLayout/ItemInfo/Buttons/ApplyPresetButton").FindOrAddComponent<FButton>();
 
 			OpenPresetFolder = transform.Find("HorizontalLayout/ObjectList/SearchBar/FolderButton").FindOrAddComponent<FButton>();
-			OpenPresetFolder.OnClick += () => Process.Start(new ProcessStartInfo(ModAssets.FoodTemplatePath) { UseShellExecute = true });
+			OpenPresetFolder.OnClick += () => Process.Start(new ProcessStartInfo(ModAssets.ResearchTemplatePath) { UseShellExecute = true });
 
 
 			Searchbar = transform.Find("HorizontalLayout/ObjectList/SearchBar/Input").FindOrAddComponent<FInputField2>();
@@ -261,7 +252,7 @@ namespace DupePrioPresetManager
 
 			ApplyButton.OnClick += () =>
 			{
-				ApplyingAction.Invoke(CurrentlySelected.ForbiddenTags);
+				CurrentlySelected.ApplyPreset();
 				this.OnCloseAction.Invoke();
 				this.Show(false);
 			};
@@ -276,13 +267,13 @@ namespace DupePrioPresetManager
 					CurrentlySelected.WriteToFile();
 					CurrentlySelected.OpenPopUpToChangeName(
 							() =>
+							{
+								if (this.CurrentlyActive && Presets[CurrentlySelected] != null)
 								{
-									if (this.CurrentlyActive && Presets[CurrentlySelected] != null)
-									{
-										UIUtils.TryChangeText(Presets[CurrentlySelected].transform, "Label", CurrentlySelected.ConfigName);
-										RebuildInformationPanel();
-									}
+									UIUtils.TryChangeText(Presets[CurrentlySelected].transform, "Label", CurrentlySelected.ConfigName);
+									RebuildInformationPanel();
 								}
+							}
 							);
 					RebuildInformationPanel();
 				}
@@ -310,53 +301,24 @@ namespace DupePrioPresetManager
 
 			//InformationObjects.Add(Name);
 
-			foreach (IConsumableUIItem ConsumableItem in MinionConsumableSettingsPreset.ConsumableUIItems)
+			foreach (var tech in Db.Get().Techs.resources)
 			{
-				var ConsumableAllowedItem = Util.KInstantiateUI(InfoRowPrefab, InfoScreenContainer, true);
-				GameObject prefab = Assets.GetPrefab(ConsumableItem.ConsumableId.ToTag());
-				prefab.TryGetComponent<KBatchedAnimController>(out var animationController);
-				if (animationController.AnimFiles.Length > 0)
-				{
-					Sprite fromMultiObjectAnim = Def.GetUISpriteFromMultiObjectAnim(animationController.AnimFiles[0]);
-					if (ConsumableAllowedItem.transform.Find("Label/TraitImage").TryGetComponent<Image>(out var image))
-					{
-						UnityEngine.Rect rect = fromMultiObjectAnim.rect;
-						if (rect.width > rect.height)
-						{
-							var size = (rect.height / rect.width) * 40f;
-							image.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, size);
-						}
-						else
-						{
-							var size = (rect.width / rect.height) * 40f;
-							image.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, (-45 + (40 - size) / 2), size);
-						}
+				var techEntry = Util.KInstantiateUI(InfoRowPrefab, InfoScreenContainer, true);
+				
+				UIUtils.TryChangeText(techEntry.transform, "Label", tech.Name);
+				UIUtils.AddSimpleTooltipToObject(techEntry.transform.Find("Label"), tech.desc, true);
 
-						image.sprite = fromMultiObjectAnim;
-					}
-				}
-				UIUtils.TryChangeText(ConsumableAllowedItem.transform, "Label", ConsumableItem.ConsumableName);
-
-				if (prefab.TryGetComponent<InfoDescription>(out var descHolder))
+				if (techEntry.transform.Find("Label/TraitImage").TryGetComponent<Image>(out var image))
 				{
-					UIUtils.AddSimpleTooltipToObject(ConsumableAllowedItem.transform.Find("Label"), descHolder.description, true);
+					image.gameObject.SetActive(false);
 				}
 
-
-				if (ConsumableAllowedItem.transform.Find("AddThisTraitButton/image").TryGetComponent<Image>(out var prioimage))
+				if (techEntry.transform.Find("AddThisTraitButton"))
 				{
-					prioimage.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 25);
-					prioimage.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 20);
-					prioimage.sprite = Assets.GetSprite("overview_jobs_icon_checkmark");
-					prioimage.color = new Color(0.25f, 0.25f, 0.25f, 1f);
+					techEntry.transform.Find("AddThisTraitButton").gameObject.SetActive(false);
 				}
 
-				var PrioChangeBtn = ConsumableAllowedItem.transform.Find("AddThisTraitButton").FindOrAddComponent<FButton>();
-				PrioChangeBtn.OnClick += () => ChangeValue(ConsumableItem.ConsumableId, prioimage);
-				PrioChangeBtn.OnPointerEnterAction += () => this.HoveringPrio = true;
-				PrioChangeBtn.OnPointerExitAction += () => this.HoveringPrio = false;
-
-				Consumables[ConsumableItem.ConsumableId] = new Tuple<FButton, Image>(PrioChangeBtn, prioimage);
+				Techs[tech.Id] = techEntry;
 
 				//InformationObjects.Add(ConsumableAllowedItem);
 

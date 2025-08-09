@@ -137,12 +137,14 @@ namespace DupePrioPresetManager
                 ToGenerates.Add(Preset);
             }
             if (ToGenerates.Count == 0)
-            {
-                KMod.Manager.Dialog(GameScreenManager.Instance.GetParent(GameScreenManager.UIRenderTarget.ScreenSpaceOverlay),
-               SCHEDULESTRINGS.GENERATEALL,
+			{
+				DialogUtil.CreateConfirmDialog(
+				   SCHEDULESTRINGS.GENERATEALL,
                SCHEDULESTRINGS.ALLGENERATED,
                SAVESCREEN.CANCELNAME,
-                () => { });
+                () => { }
+			   , parent: PauseScreen.Instance.transform.parent.gameObject
+				);
                 return;
             }
 
@@ -160,14 +162,15 @@ namespace DupePrioPresetManager
                 Text += string.Format(SCHEDULESTRINGS.OMITNUMBER, omitCounter);
             }
 
-            KMod.Manager.Dialog(Global.Instance.globalCanvas,
-               SCHEDULESTRINGS.GENERATEALL,
+			DialogUtil.CreateConfirmDialog(
+			   SCHEDULESTRINGS.GENERATEALL,
                 Text,
                SAVESCREEN.CONFIRMNAME,
                generateAction,
                SAVESCREEN.CANCELNAME
-               , () => { }
-               );
+			   , () => { }
+               , parent: PauseScreen.Instance.transform.parent.gameObject
+			   );
         }
         public static List<ScheduleSettingsPreset> LoadPresets()
         {
@@ -207,7 +210,7 @@ namespace DupePrioPresetManager
                 UIUtils.TryChangeText(PresetHolder.transform, "Label", config.ConfigName);
                 PresetHolder.transform.Find("RenameButton").FindOrAddComponent<FButton>().OnClick +=
                     () => config.OpenPopUpToChangeName(
-                        () =>
+						() =>
                             {
                                 UIUtils.TryChangeText(PresetHolder.transform, "Label", config.ConfigName);
                                 RebuildInformationPanel();
@@ -240,14 +243,16 @@ namespace DupePrioPresetManager
             System.Action nothing = () =>
             { };
 
-            KMod.Manager.Dialog(Global.Instance.globalCanvas,
-           string.Format(STRINGS.UI.PRESETWINDOWDUPEPRIOS.DELETEWINDOW.TITLE, config.ConfigName),
+			DialogUtil.CreateConfirmDialog(
+		   string.Format(STRINGS.UI.PRESETWINDOWDUPEPRIOS.DELETEWINDOW.TITLE, config.ConfigName),
            string.Format(STRINGS.UI.PRESETWINDOWDUPEPRIOS.DELETEWINDOW.DESC, config.ConfigName),
            STRINGS.UI.PRESETWINDOWDUPEPRIOS.DELETEWINDOW.YES,
            Delete,
            STRINGS.UI.PRESETWINDOWDUPEPRIOS.DELETEWINDOW.CANCEL
            , nothing
-           );
+		   , parent: this.gameObject
+
+		   );
         }
 
         void SetAsCurrent(ScheduleSettingsPreset config)
@@ -364,7 +369,7 @@ namespace DupePrioPresetManager
                 {
                     CurrentlySelected.WriteToFile();
                     CurrentlySelected.OpenPopUpToChangeName(
-                            () =>
+							() =>
                                 {
                                     if (this.CurrentlyActive && Presets[CurrentlySelected] != null)
                                     {

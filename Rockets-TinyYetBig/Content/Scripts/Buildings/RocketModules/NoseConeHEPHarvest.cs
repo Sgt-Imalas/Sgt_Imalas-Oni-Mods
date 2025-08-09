@@ -97,9 +97,9 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
 			  : base(master, def)
 			{
 				storage = GetComponent<HighEnergyParticleStorage>();
-				GetComponent<RocketModule>().AddModuleCondition(ProcessCondition.ProcessConditionType.RocketStorage, new ConditionHasRadbolts(storage, 6000f));
+				GetComponent<RocketModule>().AddModuleCondition(ProcessCondition.ProcessConditionType.RocketStorage, new ConditionHasRadbolts(storage, Config.Instance.LaserDrillconeCapacity));
 				Subscribe(-1697596308, UpdateMeter);
-				meter = new MeterController(GetComponent<KBatchedAnimController>(), "meter_target", nameof(meter), Meter.Offset.Infront, Grid.SceneLayer.NoLayer, Array.Empty<string>());
+				meter = new MeterController(GetComponent<KBatchedAnimController>(), "meter_target", nameof(meter), Meter.Offset.Infront, Grid.SceneLayer.NoLayer, []);
 				meter.gameObject.GetComponent<KBatchedAnimTracker>().matchParentOffset = true;
 				UpdateMeter();
 			}

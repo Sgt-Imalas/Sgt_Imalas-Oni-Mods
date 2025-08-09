@@ -28,7 +28,9 @@ namespace UtilLibs
 		{
 			try
 			{
-				if (!filePath.Exists || (forceExtensionTo != string.Empty && filePath.Extension != forceExtensionTo))
+				if (!filePath.Exists || (forceExtensionTo != string.Empty && filePath.Extension != forceExtensionTo) 
+					&& !filePath.Name.StartsWith("._")//macOS hidden files
+					)
 				{
 					SgtLogger.logwarning(filePath.FullName, "File does not exist!");
 					output = default(T);

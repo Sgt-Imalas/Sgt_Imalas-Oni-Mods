@@ -11,7 +11,7 @@ namespace Rockets_TinyYetBig.Content.Defs.Buildings.RocketPortAdapters
 {
 	public class ConnectorBypassAdapterConfig : IBuildingConfig
 	{
-		public const string ID = "RTB_ConnectorBypassAdapter";
+		public static string ID = "RTB_ConnectorBypassAdapter";
 		public override string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
 		public override BuildingDef CreateBuildingDef()
 		{
