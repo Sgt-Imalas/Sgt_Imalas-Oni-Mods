@@ -108,7 +108,7 @@ namespace SetStartDupes.CarePackageEditor.UI
 		public void ResetEntries()
 		{
 			SelectedOutline = null;
-			CarePackageOutlineManager.ResetExtraCarePackages();
+			CarePackageOutlineManager.ResetAllCarePackageChanges();
 			ResetEntriesUI();
 		}
 		void ResetEntriesUI()

@@ -247,11 +247,11 @@ namespace AnimExportTool
 		}
 
 
-		[HarmonyPatch(typeof(ElementLoader))]
-		[HarmonyPatch(nameof(ElementLoader.Load))]
+		[HarmonyPatch(typeof(Db))]
+		[HarmonyPatch(nameof(Db.Initialize))]
 		public static class AnimsFromElements
 		{
-
+			[HarmonyPriority(Priority.Last)]
 			public static void Postfix()
 			{
 				var unknown = Assets.GetSprite("unknown_far");
