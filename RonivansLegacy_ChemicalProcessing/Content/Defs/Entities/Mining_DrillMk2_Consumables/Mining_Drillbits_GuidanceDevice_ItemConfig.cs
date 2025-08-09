@@ -50,8 +50,6 @@ namespace Mineral_Processing_Mining.Buildings
 				name = string.Format(MINING_DRILLBITS_GUIDANCEDEVICE_ITEM.NAME_PROGRAMMED, target);
 				desc = string.Format(MINING_DRILLBITS_GUIDANCEDEVICE_ITEM.DESC_PROGRAMMED, target);
 				kanim = $"guidance_device_{targetID.ToLowerInvariant()}_kanim";
-
-				UtilLibs.MarkdownExport.MD_Localization.Add(id, "STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_GUIDANCEDEVICE_ITEM.NAME_PROGRAMMED", [targetKey]);
 			}
 
 			GameObject go = EntityTemplates.CreateLooseEntity(id, name, desc, 1f, true, Assets.GetAnim(kanim), "object", Grid.SceneLayer.Front, EntityTemplates.CollisionShape.RECTANGLE, 0.65f, 0.65f, true, 0, SimHashes.Creature, [GameTags.IndustrialProduct, ModAssets.Tags.MineralProcessing_GuidanceUnit]);

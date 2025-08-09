@@ -32,6 +32,7 @@ namespace UtilLibs.MarkdownExport
 				sb.Append("<br>");
 			}
 			sb.Append("|");
+
 			foreach (var output in converter.outputElements)
 			{
 				var temp = string.Empty;
@@ -42,6 +43,14 @@ namespace UtilLibs.MarkdownExport
 				sb.Append(MarkdownUtil.GetFormattedMass(output.elementHash.CreateTag(), output.massGenerationRate, GameUtil.TimeSlice.PerSecond, temp));				
 				sb.Append("<br>");
 			}
+
+			if (converter.TryGetComponent<OilWellCap>(out var oilWell))
+			{
+				var temp = string.Format(L("AT_TEMPERATURE"), GameUtil.GetTemperatureConvertedFromKelvin(oilWell.gasTemperature, TemperatureUnit.Celsius).ToString());				
+				sb.Append(MarkdownUtil.GetFormattedMass(oilWell.gasElement.CreateTag(), oilWell.addGasRate, GameUtil.TimeSlice.PerSecond, temp));
+				sb.Append("<br>");
+			}
+
 			sb.AppendLine("|");
 			sb.AppendLine();
 			return sb.ToString();

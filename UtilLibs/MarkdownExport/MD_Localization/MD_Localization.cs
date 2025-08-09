@@ -38,6 +38,34 @@ namespace UtilLibs.MarkdownExport
 			public bool TryGet(string key, out string value) => strings.TryGetValue(key, out value);
 		}
 
+		static Dictionary<string, string> EnglishKeyLookupTable = null;
+		public static string FindStringKey(string value)
+		{
+			if(EnglishKeyLookupTable == null)
+			{
+				EnglishKeyLookupTable = [];
+				foreach(var stringKey in Strings.RootTable.KeyNames)
+				{
+					if (Strings.RootTable.Entries.TryGetValue(stringKey.Key, out var text))
+					{
+						//SgtLogger.l("Text: " + text + " -> Key: " + stringKey.Value);
+						string locKey = stringKey.Value;
+						int start = locKey.IndexOf("STRINGS");
+						if (start < 0)
+							continue;
+						var DeNamespaced = locKey.Substring(start);
+
+						if (!EnglishKeyLookupTable.ContainsKey(text.String))
+							EnglishKeyLookupTable.Add(text.String, DeNamespaced);
+					}
+				}
+			}
+			if(EnglishKeyLookupTable.TryGetValue(value, out var key))
+				return key;
+			return "MISSING."+value;
+		}
+
+
 		public static Dictionary<string, MD_Loc_Entry> Values = new()
 		{
 			{
@@ -74,8 +102,9 @@ namespace UtilLibs.MarkdownExport
 				.Add("ELEMENT_ICON","Icon")
 				.Add("ELEMENT_STATE","State")
 				.Add("ELEMENT_PROPERTIES","Material Properties")
-				.Add("NEW_ELEMENTS","New Elements")
 				.Add("MODIFIED_SUFFIX","(Modified)")
+				.Add("NEW_ITEM", "New {0}")
+				.Add("REENABLED_ITEM", "Reenabled {0}")
 			},
 			{
 				///Written by 只听那雨声淅沥
@@ -113,44 +142,38 @@ namespace UtilLibs.MarkdownExport
 				.Add("ELEMENT_ICON","图标")
 				.Add("ELEMENT_STATE","状态")
 				.Add("ELEMENT_PROPERTIES","材料属性")
-				.Add("NEW_ELEMENTS","新元素")
 				.Add("MODIFIED_SUFFIX","(修改)")
+				.Add("NEW_ITEM", "新 {0}")
+				.Add("REENABLED_ITEM", "重新启用的 {0}")
 			}
 		};
 
+		public static string FormatLineBreaks(string input) => input.Replace("\n", "<br/>");
+		public static string Strip(string input) => FormatLineBreaks(STRINGS.UI.StripLinkFormatting(input));
+
 		public static string L(string key)
 		{
+			if (TryGetManuallyRegistered(key, out var manual))
+				return Strip(manual);
+
 			if (!Values.TryGetValue(CurrentLocalization, out var md_loc_strings))
 			{				
 				md_loc_strings = Values[Localization.DEFAULT_LANGUAGE_CODE];
 			}
 			if(md_loc_strings.TryGet(key, out var mdstring))
-				return mdstring;
+				return Strip(mdstring);
 
 			if(CurrentLocalization == Localization.DEFAULT_LANGUAGE_CODE)
-				return Strings.Get(key);
+				return Strip(Strings.Get(key));
 
 			if (LocalisationUtil.TryGetTranslatedString(CurrentLocalization, key, out var localized))
-				return localized;
-
-			if(TryGetManuallyRegistered(key, out var manual))
-				return manual;
+				return Strip(localized);
 
 			return "MISSING."+key;
 		}
 		public static bool HasKey(string key)
 		{
-			if (!Values.TryGetValue(CurrentLocalization, out var md_loc_strings))
-			{
-				md_loc_strings = Values[Localization.DEFAULT_LANGUAGE_CODE];
-			}
-			if (md_loc_strings.TryGet(key, out var mdstring))
-				return true;
-
-			if (CurrentLocalization == Localization.DEFAULT_LANGUAGE_CODE)
-				return Strings.TryGet(key, out _) ;
-
-			return LocalisationUtil.TryGetTranslatedString(CurrentLocalization, key, out _);
+			return !L(key).Contains("MISSING.");
 		}
 
 		public static bool TryGetManuallyRegistered(string key, out string val)
@@ -177,8 +200,11 @@ namespace UtilLibs.MarkdownExport
 
 		public static void Add(string Key, string KeyToFormat, List<string> KeyFormatValues)
 		{
+			if (RegisteredStringGetters.ContainsKey(Key))
+				return;
+
 			Key = Key.ToUpperInvariant();
-			SgtLogger.l("Registering manual string getter: " + Key);
+			SgtLogger.l("Key: " + Key);
 			SgtLogger.l("KeyToFormat: " + KeyToFormat);
 			foreach (var val in KeyFormatValues)
 				SgtLogger.l("ValToFormat: "+val);

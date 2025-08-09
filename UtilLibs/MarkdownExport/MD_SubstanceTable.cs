@@ -10,10 +10,17 @@ namespace UtilLibs.MarkdownExport
 {
 	public class MD_SubstanceTable : IMD_Entry
 	{
-		HashSet<Substance> elements;
-		public MD_SubstanceTable(HashSet<Substance> substances) => elements = substances;
+		HashSet<Element> elements;
+		public MD_SubstanceTable(HashSet<Substance> substances) => elements = substances.Select(s => ElementLoader.FindElementByHash(s.elementID)).ToHashSet();
+		public MD_SubstanceTable(HashSet<SimHashes> substances) => elements = substances.Select(s => ElementLoader.FindElementByHash(s)).ToHashSet();
+		public MD_SubstanceTable(HashSet<Element> substances) => elements = substances;
 
 		static StringBuilder sb = new StringBuilder();
+
+		public MD_SubstanceTable Add(SimHashes ele) { elements.Add(ElementLoader.FindElementByHash(ele)); return this; }
+		public MD_SubstanceTable AddEnabled(SimHashes ele) { elements.Add(ElementLoader.FindElementByHash(ele)); return this; }
+
+
 		public string FormatAsMarkdown()
 		{
 			sb.Clear();
@@ -22,16 +29,16 @@ namespace UtilLibs.MarkdownExport
 				$"|<font size=\"+1\">{L("STRINGS.UI.DEBUG_TOOLS.PAINT_ELEMENTS_SCREEN.ELEMENT")}</font> | <font size=\"+1\">{L("ELEMENT_PROPERTIES")}</font> | |");
 			sb.AppendLine("|:-:|:-:|:-:|");
 
-			foreach(var substance in elements.Distinct().OrderBy(s => MarkdownUtil.GetTagString(s.elementID.CreateTag())))
+			foreach(var substance in elements.Distinct().OrderBy(s => MarkdownUtil.GetTagString(s.id.CreateTag())))
 			{
-				var elementID = substance.elementID.ToString();
-				var element = ElementLoader.GetElement(substance.elementID.CreateTag());
+				var elementID = substance.id.ToString();
+				var element = ElementLoader.GetElement(substance.tag);
 				sb.Append("|");
 				sb.Append("<font size=\"+2\">");
 				sb.Append(MarkdownUtil.GetTagString(element.id.CreateTag()));
 				sb.Append("</font> <br/> <br/>");
 				sb.Append($" ![{elementID}](/assets/images/elements/{elementID}.png){{width=\"200\"}}  <br/>");
-				sb.Append(MarkdownUtil.FormatLineBreaks(MarkdownUtil.GetTagString(element.id.CreateTag(),true)));
+				sb.Append(FormatLineBreaks(MarkdownUtil.GetTagString(element.id.CreateTag(),true)));
 				sb.Append("|");
 				sb.Append(MarkdownUtil.GetElementTransitionProperties(element));
 				sb.Append("|");

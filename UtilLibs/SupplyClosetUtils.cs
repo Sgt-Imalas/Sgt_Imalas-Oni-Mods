@@ -14,10 +14,13 @@ namespace UtilLibs
 {
 	public static class SupplyClosetUtils
 	{
+		public static bool TryGetCollectionFor(string buildingID, out List<string> collection) => SkinCollection.SkinIds.TryGetValue(buildingID, out collection);
+
 		public class SkinCollection
 		{
 			public static List<SkinCollection> SkinSets = new();
-			protected class SkinEntry
+			public static Dictionary<string,List<string>> SkinIds = new();
+			public class SkinEntry
 			{
 				public string ID, Name, Description, KanimFile;
 				public Dictionary<string, string> Workables;
@@ -36,6 +39,7 @@ namespace UtilLibs
 			Sprite newCategoryIcon = null;
 			int sortkey = -1;
 			private List<SkinEntry> skins;
+			public List<SkinEntry> Skins=>skins;
 
 			public static SkinCollection Create(string buildingID, string _subcategoryId) => new SkinCollection(buildingID, _subcategoryId);
 			public static SkinCollection CategoryInit(string _mainCategory, string _subcategoryID, Sprite icon, int _sortkey) => new SkinCollection("", _subcategoryID).NewCategory(_mainCategory, icon, _sortkey);
@@ -45,6 +49,8 @@ namespace UtilLibs
 				subcategoryID = _subcategoryID;
 				skins = [];
 				SkinSets.Add(this);
+				if(buildingId.Any())
+					SkinIds.Add(buildingId, []);
 			}
 			public SkinCollection NewCategory(string _mainCategory, Sprite icon, int _sortkey)
 			{
@@ -57,6 +63,7 @@ namespace UtilLibs
 			public SkinCollection Skin(string Id, string name, string description, string kanimFile, Dictionary<string, string> workables = null)
 			{
 				skins.Add(new SkinEntry(Id, name, description, kanimFile, workables));
+				SkinIds[buildingId].Add(Id);
 				return this;
 			}
 			public void RegisterCategory()

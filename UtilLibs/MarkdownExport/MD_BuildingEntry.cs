@@ -171,19 +171,22 @@ namespace UtilLibs.MarkdownExport
 				sb.AppendLine("|");
 			}
 		}
-
 		public MD_BuildingEntry WriteUISprite(string path)
 		{
-			var kanim = def.AnimFiles.First();
-			if (kanim == null) return this;
+			KAnimFile kanim = def.AnimFiles.First();
+			WriteUISprite(path,ID,kanim);
+			return this;
+		}
+		public static void WriteUISprite(string path,string fileName, KAnimFile kanimFile)
+		{
+			if (kanimFile == null) return;
 
-			var UISprite = Def.GetUISpriteFromMultiObjectAnim(kanim);
+			var UISprite = Def.GetUISpriteFromMultiObjectAnim(kanimFile);
 
 			if (UISprite != null && UISprite != Assets.GetSprite("unknown"))
 			{
-				MarkdownUtil.WriteUISpriteToFile(UISprite, path, ID);
+				MarkdownUtil.WriteUISpriteToFile(UISprite, path, fileName);
 			}
-			return this;
 		}
 
 		public MD_BuildingEntry(string id)
@@ -223,7 +226,7 @@ namespace UtilLibs.MarkdownExport
 
 			if (buildingDef.BuildingComplete.TryGetComponent<EnergyGenerator>(out var generator))
 			{
-				Children.Add(new MD_Header("CONVERSION_ELEMENT_HEADER", 3));
+				Children.Add(new MD_Header("CONVERSION_GENERATOR_HEADER", 3));
 				Children.Add(new MD_EnergyGenerator(generator));
 			}
 
@@ -254,6 +257,13 @@ namespace UtilLibs.MarkdownExport
 			else if (buildingDef.BuildingComplete.TryGetComponent<StorageLocker>(out var storageLocker))
 			{
 				StorageCapacity = Mathf.RoundToInt(storageLocker.MaxCapacity);
+			}
+
+			if(SupplyClosetUtils.TryGetCollectionFor(id, out var collection))
+			{
+				Children.Add(new MD_Header("STRINGS.UI.UISIDESCREENS.TABS.SKIN", 3));
+				foreach(var item in collection) 
+					Children.Add(new MD_BlueprintEntry(item));
 			}
 
 		}

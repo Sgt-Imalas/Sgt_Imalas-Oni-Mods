@@ -33,7 +33,6 @@ namespace UtilLibs.MarkdownExport
 				tagKey = tagKey.Replace("BLUEGRASS", "BLUE_GRASS");
 		}
 
-		public static string FormatLineBreaks(string input) => input.Replace("\n", "<br/>");
 		public static string GetTagString(Tag tag, bool desc = false)
 		{
 			string endKey = ".NAME";
@@ -41,8 +40,6 @@ namespace UtilLibs.MarkdownExport
 				endKey = ".DESC";
 
 			var tagKey = tag.ToString().ToUpperInvariant();
-			if (desc)
-				tagKey += "_DESC";
 
 			//those dont follow the pattern...
 			CleanTag(ref tagKey);
@@ -51,7 +48,11 @@ namespace UtilLibs.MarkdownExport
 
 			var prefab = Assets.TryGetPrefab(tag);
 			if (prefab == null)
+			{
+				if (desc)
+					tagKey += "_DESC";
 				return Strip(L("STRINGS.MISC.TAGS." + tagKey));
+			}
 
 			if (ElementLoader.GetElement(tag) != null)
 				return Strip(L("STRINGS.ELEMENTS." + tag.ToString().ToUpperInvariant() + endKey));
@@ -67,26 +68,40 @@ namespace UtilLibs.MarkdownExport
 				if (HasKey(seedKey))
 					return Strip(L(seedKey));
 			}
+			if (tagKey.Contains("GEYSERGENERIC_"))
+			{
+				var geyserID = tagKey.Replace("GEYSERGENERIC_",string.Empty);
+				var geyserKey = "STRINGS.CREATURES.SPECIES.GEYSER." + geyserID + endKey;
+				if(HasKey(geyserKey))
+					return Strip(L(geyserKey));
+			}
+
 
 			var prod = "STRINGS.ITEMS.INDUSTRIAL_PRODUCTS." + tagKey + endKey;
-			var ingredient = "STRINGS.ITEMS.INGREDIENTS." + tagKey + endKey;
-			var food = "STRINGS.ITEMS.FOOD." + tagKey + endKey;
-			var creature = "STRINGS.CREATURES.SPECIES." + tagKey + endKey;
-
-			if (HasKey(creature))
-				return Strip(L(creature));
-
 			if (HasKey(prod))
 				return Strip(L(prod));
-
-			if (HasKey(food))
-				return Strip(L(food));
-
+			var ingredient = "STRINGS.ITEMS.INGREDIENTS." + tagKey + endKey;
 			if (HasKey(ingredient))
 				return Strip(L(ingredient));
+			var food = "STRINGS.ITEMS.FOOD." + tagKey + endKey;
+			if (HasKey(food))
+				return Strip(L(food));
+			var creature = "STRINGS.CREATURES.SPECIES." + tagKey + endKey;
+			if (HasKey(creature))
+				return Strip(L(creature));
+			var comet = "STRINGS.UI.SPACEDESTINATIONS.COMETS." + tagKey + endKey;
+			if (HasKey(comet))
+				return Strip(L(comet));
 
 			if(MD_Localization.TryGetManuallyRegistered(tagKey, out var loc))
 				return Strip(loc);
+
+			if (desc)
+			{
+				if (prefab.TryGetComponent<InfoDescription>(out var info))
+					return Strip(info.description);
+				return GetTagString(tag, false);
+			}
 
 			return Strip(prefab.GetProperName());
 		}
@@ -119,7 +134,6 @@ namespace UtilLibs.MarkdownExport
 			throw new NotImplementedException();
 		}
 
-		public static string Strip(string input) => FormatLineBreaks(STRINGS.UI.StripLinkFormatting(input));
 		public static string StrippedBuildingName(string ID) => Strip(L($"STRINGS.BUILDINGS.PREFABS.{ID.ToUpperInvariant()}.NAME"));
 
 		public static string GetPortDescription(ConduitType conduitType, bool input, string material = null)
@@ -137,7 +151,7 @@ namespace UtilLibs.MarkdownExport
 			}
 			throw new NotImplementedException();
 		}
-
+		#region spriteGetters
 		static Dictionary<Texture2D, Texture2D> Copies = new Dictionary<Texture2D, Texture2D>();
 		public static Texture2D GetReadableCopy(Texture2D source)
 		{
@@ -226,10 +240,10 @@ namespace UtilLibs.MarkdownExport
 			var imageBytes = tex.EncodeToPNG();
 			File.WriteAllBytes(fileName, imageBytes);
 		}
-
+#endregion
 		internal static string GetElementTransitionProperties(Element element)
 		{
-			string property = "";
+			string property = "<br/>";
 			string transitionsInto_low = "";
 			if (element.lowTempTransition != null)
 			{
@@ -296,7 +310,7 @@ namespace UtilLibs.MarkdownExport
 			property += FormatLineBreaks(
 				string.Format(L("STRINGS.ELEMENTS.RADIATIONPROPERTIES"),
 				element.radiationAbsorptionFactor + "<br/>",
-				GameUtil.GetFormattedRads((element.radiationPer1000Mass * 1.10000002384186f / 600.0f), GameUtil.TimeSlice.PerCycle)));
+				"<br/>"+GetFormattedRads((element.radiationPer1000Mass * 1.10000002384186f / 600.0f), GameUtil.TimeSlice.PerCycle)));
 
 			return property;
 		}
@@ -319,12 +333,29 @@ namespace UtilLibs.MarkdownExport
 			if(extraSuffix.Length>0)
 				extraSuffix = " "+extraSuffix;
 
-			if (slice == TimeSlice.PerSecond)
-				massFormatted += L("STRINGS.UI.UNITSUFFIXES.PERSECOND");
-			else if (slice == TimeSlice.PerCycle)
-				massFormatted += L("STRINGS.UI.UNITSUFFIXES.PERCYCLE");
+			massFormatted += GetTimeSlice(slice);
 		
 			return matName + " ("+ massFormatted +extraSuffix+ ")";
 		}
-}
+
+		static string GetTimeSlice(GameUtil.TimeSlice slice = GameUtil.TimeSlice.None)
+		{
+			if (slice == TimeSlice.PerSecond)
+				return L("STRINGS.UI.UNITSUFFIXES.PERSECOND");
+			else if (slice == TimeSlice.PerCycle)
+				return L("STRINGS.UI.UNITSUFFIXES.PERCYCLE");
+			return string.Empty;
+		}
+
+		internal static string GetFormattedRads(float amount, GameUtil.TimeSlice slice = GameUtil.TimeSlice.None)
+		{
+			GameUtil.ApplyTimeSlice(amount, slice);
+			string result = string.Empty;
+			result += amount;
+			result += L("STRINGS.UI.UNITSUFFIXES.RADIATION.RADS");
+			result += GetTimeSlice(slice);
+			
+			return result;
+		}
+	}
 }

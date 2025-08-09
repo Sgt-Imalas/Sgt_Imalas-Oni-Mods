@@ -6,9 +6,18 @@ using System.Threading.Tasks;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
+	static class GeyserTypeExtension
+	{
+		public static GeyserConfigurator.GeyserType Log(this GeyserConfigurator.GeyserType type)
+		{
+			ModGeysers.GeyserIDs.Add("GeyserGeneric_"+type.id);
+			return type;
+		}
+	}
+
 	class ModGeysers
 	{
-
+		public static HashSet<string> GeyserIDs = [];
 		public static void RegisterGeysers(List<GeyserGenericConfig.GeyserPrefabParams> configs)
 		{
 			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
@@ -38,7 +47,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				135000,
 				0.4f,
 				0.8f,
-				210.15f),
+				210.15f).Log(),
 				generic));
 
 			//===[ CHEMICAL: AMMONIUM WATER GEYSER ]=====================================================================
@@ -60,7 +69,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				135000,
 				0.4f,
 				0.8f,
-				272.15f),
+				272.15f).Log(),
 				generic));
 
 			//===[ CHEMICAL: HOT MERCURY GAS VENT ]=====================================================================
@@ -82,7 +91,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				135000,
 				0.4f,
 				0.8f,
-				272.15f),
+				272.15f).Log(),
 				generic));
 
 			//===[ CHEMICAL: MOLTEN SALT GEYSER ]=====================================================================
@@ -104,7 +113,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				135000,
 				0.4f,
 				0.8f,
-				1300.15f),
+				1300.15f).Log(),
 				generic));
 
 			//===[ CHEMICAL: LIQUID PHOSPHORUS GEYSER ]=====================================================================
@@ -126,7 +135,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				135000,
 				0.4f,
 				0.8f,
-				392.15f),
+				392.15f).Log(),
 				generic));
 
 			//===[ CHEMICAL: HOT RAW NATURAL GAS VENT ]=====================================================================
@@ -148,7 +157,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				135000,
 				0.4f,
 				0.8f,
-				773.15f),
+				773.15f).Log(),
 				generic));
 
 			//===[ CHEMICAL: SOUR WATER GEYSER ]=====================================================================
@@ -170,7 +179,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				135000,
 				0.4f,
 				0.8f,
-				278.15f),
+				278.15f).Log(),
 				generic));
 
 			//===[ CHEMICAL: HOT NITROGEN VENT ]=====================================================================
@@ -192,7 +201,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				135000,
 				0.4f,
 				0.8f,
-				320.15f),
+				320.15f).Log(),
 				false)); //nitrogen is too limited in use, keep it in the mod, but disable it from generic geyser list
 		}
 	}
