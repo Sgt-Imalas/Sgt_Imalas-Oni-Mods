@@ -29,7 +29,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 		[MyCmpGet] ComplexFabricator complexfab;
 
-		private static readonly Operational.Flag outputFlag = new Operational.Flag("output_blocked", Operational.Flag.Type.Functional);
+		private Operational.Flag outputFlag = new Operational.Flag("output_blocked", Operational.Flag.Type.Functional);
 
 		[MyCmpReq]
 		readonly private Operational operational;
@@ -59,6 +59,19 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			}
 			if (dispenser != null)
 				dispenser.SkipSetOperational = true;
+
+			if (dispenser == null)
+				SgtLogger.error("DISPENSER NULL ON: " + this.gameObject.name + " with tag: " + elementTag);
+
+			string operationalFlag = "output_blocked_";
+			if (elementTag != null)
+				operationalFlag += elementTag.ToString();
+			operationalFlag += "_"+ capacity;
+			operationalFlag += "_" + dispenser.conduitType.ToString();
+			operationalFlag += "_" + dispenser.conduitOffset.ToString();
+
+
+			outputFlag = new Operational.Flag(operationalFlag, Operational.Flag.Type.Functional);
 		}
 
 		public void Sim200ms(float dt)
@@ -72,8 +85,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				stored = component.Mass;
 			}
 
-			if(dispenser == null)
-				SgtLogger.error("DISPENSER NULL ON: "+this.gameObject.name+" with tag: "+ elementTag);
 
 			bool allowedToSpill = (dispenser == null || !dispenser.IsConnected);
 			if (stored > 0f && allowedToSpill)
