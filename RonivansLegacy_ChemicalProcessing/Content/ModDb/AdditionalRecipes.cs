@@ -474,10 +474,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					.NameOverrideFormatIngredient(CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_FOODTOOIL, 0)
 					.IconPrefabIngredient(0)
 					.Build();
-
-
-				ExpellerPress_Seeds(ID);
 			}
+			ExpellerPress_Seeds(ID);
 		}
 		public static void ExpellerPress_Seeds(string ID)
 		{
@@ -485,6 +483,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			foreach (var seed in Assets.GetPrefabsWithTag(GameTags.CropSeed))
 			{
 				var prefabTag = seed.PrefabID();
+				SgtLogger.l("Seed Tag: " + prefabTag);
 				if (!PredefinedExpellerPressRecipes.ContainsKey(prefabTag))
 					seeds.Add(prefabTag);
 			}
@@ -510,7 +509,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.IconPrefabOverride(ModElements.BioMass_Solid.Tag)
 				.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_1_2, 1, 2)
 				.Build();
-
 		}
 
 		/// <summary>

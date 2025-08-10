@@ -85,7 +85,7 @@ namespace UtilLibs
 			{
 				throw new InvalidOperationException($"Recipe must have at least {inputCount} inputs and {outputCount} outputs to use GetFormatArgs.");
 			}
-			var result = new string[inputCount + outputCount];
+			List<string> result = new();
 
 			for (int i = 0; i < inputCount; i++)
 			{
@@ -98,7 +98,7 @@ namespace UtilLibs
 				{
 					tag = descriptorTag;
 				}
-				result[i] = MarkdownUtil.GetTagString(tag);
+				result.Add(MarkdownUtil.GetTagString(tag));
 			}
 			for (int i = 0; i < outputCount; i++)
 			{
@@ -110,9 +110,9 @@ namespace UtilLibs
 				{
 					tag = descriptorTag;
 				}
-				result[i] = MarkdownUtil.GetTagString(tag);
+				result.Add(MarkdownUtil.GetTagString(tag));
 			}
-			return result;
+			return result.ToArray();
 		}
 		public RecipeBuilder Description1I1O(string ToFormat) => Description(ToFormat, 1, 1);
 		public RecipeBuilder Description1I2O(string ToFormat) => Description(ToFormat, 1, 2);
