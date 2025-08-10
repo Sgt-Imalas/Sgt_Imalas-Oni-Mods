@@ -31,7 +31,7 @@ namespace SetStartDupes.Patches
 					if (!bionicTraits.Contains(traitID)) //not a bionic trait
 						continue;
 
-					var upgradePrefab = Assets.GetPrefab(BionicUpgradeComponentConfig.GetBionicUpgradePrefabIDWithTraitID(traitID));
+					var upgradePrefab = Assets.TryGetPrefab(BionicUpgradeComponentConfig.GetBionicUpgradePrefabIDWithTraitID(traitID));
 
 					GameObject gameObject = Util.KInstantiate(upgradePrefab, smi.master.transform.position);
 					gameObject.SetActive(true);

@@ -83,7 +83,7 @@ namespace SetStartDupes.CarePackageEditor.UI
 			}
 			Label?.SetText(TargetOutline.GetDescriptionString());
 
-			var TargetItem = Assets.GetPrefab(TargetOutline.ItemId);
+			var TargetItem = Assets.TryGetPrefab(TargetOutline.ItemId);
 			if (TargetItem != null)
 			{
 				//SgtLogger.l(TargetItem.GetProperName());

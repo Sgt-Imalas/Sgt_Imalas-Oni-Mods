@@ -1267,7 +1267,7 @@ namespace SetStartDupes
 						ElementLoader.FindElementByHash(SimHashes.OxyRock).substance.SpawnResource(SpawnPos, SpawnAmount, UtilLibs.UtilMethods.GetKelvinFromC(20f), byte.MaxValue, 0, false);
 					}
 
-					GameObject go = Util.KInstantiate(Assets.GetPrefab(FieldRationConfig.ID));
+					GameObject go = Util.KInstantiate(Assets.TryGetPrefab(FieldRationConfig.ID));
 					go.transform.SetPosition(SpawnPos);
 					PrimaryElement symbolOverride = go.GetComponent<PrimaryElement>();
 					symbolOverride.Units = FoodeNeeded;
@@ -1278,7 +1278,7 @@ namespace SetStartDupes
 			static void YeetOxilite(GameObject originGo, float amount)
 			{
 
-				GameObject go = Util.KInstantiate(Assets.GetPrefab(FieldRationConfig.ID));
+				GameObject go = Util.KInstantiate(Assets.TryGetPrefab(FieldRationConfig.ID));
 				go.transform.SetPosition(Grid.CellToPosCCC(Grid.PosToCell(originGo), Grid.SceneLayer.Ore));
 				PrimaryElement symbolOverride = go.GetComponent<PrimaryElement>();
 				symbolOverride.Units = amount;

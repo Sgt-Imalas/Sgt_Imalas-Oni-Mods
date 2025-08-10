@@ -219,8 +219,8 @@ namespace SetStartDupes
 			if (Config.Instance.CarePackageEntriesSorted)
 				allCarePackages.Sort((a, b) =>
 				{
-					var first = Assets.GetPrefab(a.id);
-					var second = Assets.GetPrefab(b.id);
+					var first = Assets.TryGetPrefab(a.id);
+					var second = Assets.TryGetPrefab(b.id);
 					string firstName = first != null ? global::STRINGS.UI.StripLinkFormatting(first.GetProperName()) : a.id.ToString();
 					string secondName = second != null ? global::STRINGS.UI.StripLinkFormatting(second.GetProperName()) : b.id.ToString();
 					return firstName.CompareTo(secondName);
@@ -310,7 +310,7 @@ namespace SetStartDupes
 
 		private bool ApplyCarePackageSprite(CarePackageInfo CarePackage, Image image)
 		{
-			GameObject prefab = Assets.GetPrefab(CarePackage.id.ToTag());
+			GameObject prefab = Assets.TryGetPrefab(CarePackage.id.ToTag());
 
 
 			if (prefab == null)

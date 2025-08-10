@@ -142,14 +142,22 @@ namespace SetStartDupes.CarePackageEditor
 		internal static void LoadDisabledVanillaCarePackagesFile()
 		{
 			var file = new FileInfo(ModAssets.DisabledVanillaCarePackages);
-			if (file.Exists && IO_Utils.ReadFromFile<VanillaCarePackageInformation>(file, out var disabledVanillaPackageList, converterSettings: new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto }))
+			try
 			{
-				SgtLogger.l("loaded vanilla care package file with " + disabledVanillaPackageList.GetCount() + " entries");
-				DisabledVanillaPackages = disabledVanillaPackageList;
+				if (file.Exists && IO_Utils.ReadFromFile<VanillaCarePackageInformation>(file, out var disabledVanillaPackageList, converterSettings: new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto }))
+				{
+					SgtLogger.l("loaded vanilla care package file with " + disabledVanillaPackageList.GetCount() + " entries");
+					DisabledVanillaPackages = disabledVanillaPackageList;
+				}
+				else
+				{
+					SgtLogger.l("no care package file found or failed to load existing one, creating new empty one");
+					DisabledVanillaPackages = new();
+				}
 			}
-			else
+			catch (Exception ex)
 			{
-				SgtLogger.l("no care package file found or failed to load existing one, creating new empty one");
+				SgtLogger.warning("had an error while trying to load disabled care package file:\n"+ex.Message);
 				DisabledVanillaPackages = new();
 			}
 			DisabledVanillaPackages.Initialize();
@@ -245,7 +253,7 @@ namespace SetStartDupes.CarePackageEditor
 		}
 		public static void ToggleVanillaOutlineEnabled(CarePackageOutline vanillaOutline)
 		{
-			if(DisabledVanillaPackages == null)
+			if (DisabledVanillaPackages == null)
 				LoadDisabledVanillaCarePackagesFile();
 			DisabledVanillaPackages.ToggleVanillaCarePackage(vanillaOutline);
 			SaveDisabledVanillaPackagesToFile();

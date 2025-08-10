@@ -234,14 +234,14 @@ namespace SetStartDupes.CarePackageEditor.UI
 			if (itemID.IsNullOrWhiteSpace())
 				return;
 
-			if (Assets.GetPrefab(itemID))
+			if (Assets.TryGetPrefab(itemID))
 			{
 				CarePackageOutlineManager.AddNewCarePackage(itemID);
 				DialogUtil.CreateConfirmDialogFrontend(STRINGS.UI.CAREPACKAGEEDITOR.CREATECAREPACKAGEPOPUP.TITLE, string.Format(STRINGS.UI.CAREPACKAGEEDITOR.CREATECAREPACKAGEPOPUP.SUCCESS, CarePackageItemHelper.GetSpawnableName(itemID)));
 			}
-			else if (NameIdHelper.TryGetIdFromName(itemID, out var id) && Assets.GetPrefab(id))
+			else if (NameIdHelper.TryGetIdFromName(itemID, out var id) && Assets.TryGetPrefab(id))
 			{
-				if (Assets.GetPrefab(id))
+				if (Assets.TryGetPrefab(id))
 				{
 					CarePackageOutlineManager.AddNewCarePackage(id);
 					DialogUtil.CreateConfirmDialogFrontend(STRINGS.UI.CAREPACKAGEEDITOR.CREATECAREPACKAGEPOPUP.TITLE, string.Format(STRINGS.UI.CAREPACKAGEEDITOR.CREATECAREPACKAGEPOPUP.SUCCESS, CarePackageItemHelper.GetSpawnableName(id)));

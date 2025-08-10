@@ -34,7 +34,7 @@ namespace SetStartDupes.CarePackageEditor
 
 		internal void Initialize()
 		{
-			//throw new NotImplementedException();
+
 		}
 
 		internal bool ToggleVanillaCarePackage(CarePackageOutline vanillaOutline)
