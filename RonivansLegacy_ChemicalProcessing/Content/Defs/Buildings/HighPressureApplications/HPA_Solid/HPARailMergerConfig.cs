@@ -34,7 +34,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			buildingDef.AddLogicPowerPort = false;
 			buildingDef.EnergyConsumptionWhenActive = 60f;
 			buildingDef.PowerInputOffset = new(0, 1);
-
+			buildingDef.RequiresPowerInput = true;
 
 			buildingDef.SceneLayer = Grid.SceneLayer.GasFront;
 			buildingDef.ObjectLayer = ObjectLayer.SolidConduitConnection;
