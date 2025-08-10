@@ -13,10 +13,6 @@ namespace MineralizerReborn
 		[Option("Watts used", "Amount of power the mineralizer uses.")]
 		[JsonProperty]
 		[Limit(10, 480)]
-		public int WattsUsed { get; set; }
-		public Config()
-		{
-			WattsUsed = 120;
-		}
+		public int WattsUsed { get; set; } = 120;
 	}
 }

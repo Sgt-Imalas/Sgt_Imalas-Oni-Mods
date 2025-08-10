@@ -109,7 +109,7 @@ namespace SetStartDupes.CarePackageEditor
 
 		public Tuple<Sprite, Color> GetImageWithColor()
 		{
-			var TargetItem = Assets.GetPrefab(ItemId);
+			var TargetItem = Assets.TryGetPrefab(ItemId);
 			if (TargetItem != null)
 			{
 				//SgtLogger.l(TargetItem.GetProperName());
@@ -124,7 +124,7 @@ namespace SetStartDupes.CarePackageEditor
 		public string GetItemName() => global::STRINGS.UI.StripLinkFormatting((Name ?? ItemId));
 		public string GetDescriptionString()
 		{
-			var item = Assets.GetPrefab(ItemId);
+			var item = Assets.TryGetPrefab(ItemId);
 			if (item == null)
 			{
 				//spaced out package in base game, using stored name backup or id;
@@ -138,7 +138,7 @@ namespace SetStartDupes.CarePackageEditor
 		{
 			failReason = null;
 
-			if (Assets.GetPrefab(id) == null)
+			if (Assets.TryGetPrefab(id) == null)
 			{
 				failReason = ("Could not find a valid item with the Id: " + id);
 				return false;
@@ -148,7 +148,7 @@ namespace SetStartDupes.CarePackageEditor
 		public CarePackageOutline(string itemId, float amount, List<ICarePackageUnlockCondition> unlockConditions)
 		{
 			ItemId = itemId;
-			Name = Assets.GetPrefab(itemId)?.GetProperName() ?? null;
+			Name = Assets.TryGetPrefab(itemId)?.GetProperName() ?? null;
 			Amount = amount;
 			UnlockConditions = new() { unlockConditions };
 		}
@@ -163,7 +163,7 @@ namespace SetStartDupes.CarePackageEditor
 		public CarePackageOutline(string itemId, float amount = 1)
 		{
 			ItemId = itemId;
-			var item = Assets.GetPrefab(itemId);
+			var item = Assets.TryGetPrefab(itemId);
 			Name = item?.GetProperName() ?? null;
 			Amount = amount;
 			UnlockConditions = null;
@@ -253,7 +253,7 @@ namespace SetStartDupes.CarePackageEditor
 
 		public CarePackageOutline(CarePackageInfo sourcePackage)
 		{
-			var item = Assets.GetPrefab(sourcePackage.id);
+			var item = Assets.TryGetPrefab(sourcePackage.id);
 			ItemId = sourcePackage.id;
 			Amount = Mathf.RoundToInt(sourcePackage.quantity);
 			Name = item?.GetProperName() ?? null;
@@ -343,7 +343,7 @@ namespace SetStartDupes.CarePackageEditor
 
 		internal void RefreshInfo()
 		{
-			var item = Assets.GetPrefab(ItemId);
+			var item = Assets.TryGetPrefab(ItemId);
 			if (Name == null || Name == ItemId)
 			{
 				Name = item?.GetProperName() ?? ItemId;

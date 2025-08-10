@@ -64,7 +64,7 @@ namespace SetStartDupes.CarePackageEditor.UI
 			}
 			Label?.SetText(TargetOutline.GetDescriptionString());
 			Toggle.SetOnFromCode(CarePackageOutlineManager.IsVanillaCarePackageEnabled(TargetOutline));
-			var TargetItem = Assets.GetPrefab(TargetOutline.ItemId);
+			var TargetItem = Assets.TryGetPrefab(TargetOutline.ItemId);
 			if (TargetItem != null)
 			{
 				//SgtLogger.l(TargetItem.GetProperName());
