@@ -80,7 +80,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			fabricator.outStorage.capacityKg = 5000f;
 			fabricator.heatedTemperature = 326.15f;
 			fabricator.keepExcessLiquids = true;
-			fabricator.storeProduced = true;
 			fabricator.keepAdditionalTag = SimHashes.Syngas.CreateTag();
 			fabricator.inStorage.SetDefaultStoredItemModifiers(RefineryStorageModifier);
 			fabricator.buildStorage.SetDefaultStoredItemModifiers(RefineryStorageModifier);
@@ -158,7 +157,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				//----------------------------------------------------------------------------------------------------------------------
 				RecipeBuilder.Create(ID, 30)
 					.Input(ModElements.BioMass_Solid, 100)
-					.Output(SimHashes.Syngas,25)
+					.Output(SimHashes.Syngas,25, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, true)
 					.Output(SimHashes.ToxicSand,75)
 					.Description(SYNGASREFINERY_1_1_1,1,2)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
