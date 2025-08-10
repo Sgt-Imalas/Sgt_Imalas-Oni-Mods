@@ -125,31 +125,14 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 			}
 		}
 
-		[HarmonyPatch(typeof(SolidConduitFlow), nameof(SolidConduitFlow.DumpPipeContents))]
-		public class SolidConduitFlow_DumpPipeContents_Patch
+		[HarmonyPatch(typeof(SolidConduitFlow), nameof(SolidConduitFlow.RemovePickupable))]
+		public class SolidConduitFlow_RemovePickupable_Patch
 		{
-			[HarmonyPrepare]
 			public static bool Prepare() => Config.Instance.HPA_Rails_Insulation_Enabled;
-			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
+			public static void Postfix(SolidConduitFlow __instance, ref Pickupable __result)
 			{
-				var codes = orig.ToList();
-				MethodInfo restoreHeatTransfer = AccessTools.Method(typeof(SolidConduitFlow_DumpPipeContents_Patch), nameof(RestoreHeatTransfer));
-				MethodInfo SolidConduitFlow_RemovePickupable = AccessTools.Method(typeof(SolidConduitFlow), nameof(SolidConduitFlow.RemovePickupable));
-
-
-				foreach (CodeInstruction ci in orig)
-				{
-					if (ci.Calls(SolidConduitFlow_RemovePickupable))
-					{
-						yield return ci;
-						yield return new CodeInstruction(OpCodes.Call, restoreHeatTransfer);
-					}
-					else
-						yield return ci;
-				}
+				HighPressureConduitRegistration.SetInsulatedState(__result, false);
 			}
-
-			private static Pickupable RestoreHeatTransfer(Pickupable itemToRestore) => HighPressureConduitRegistration.SetInsulatedState(itemToRestore, false);
 		}
 
 		[HarmonyPatch(typeof(SolidConduitFlow), nameof(SolidConduitFlow.AddPickupable))]
