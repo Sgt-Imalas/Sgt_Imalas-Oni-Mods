@@ -64,12 +64,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			var leftPort = go.AddComponent<PortConduitConsumer>();
 			leftPort.SkipSetOperational = true;
 			leftPort.capacityKG = consumerCapacity;
+			leftPort.alwaysConsume = true;	
 			//leftPort.forceAlwaysSatisfied = true;
 			leftPort.AssignPort(leftPortInfo);
 
 			var rightPort = go.AddComponent<PortConduitConsumer>();
 			rightPort.SkipSetOperational = true;
 			rightPort.capacityKG = consumerCapacity;
+			rightPort.alwaysConsume = true;
 			//rightPort.forceAlwaysSatisfied = true;
 			rightPort.AssignPort(rightPortInfo);
 
