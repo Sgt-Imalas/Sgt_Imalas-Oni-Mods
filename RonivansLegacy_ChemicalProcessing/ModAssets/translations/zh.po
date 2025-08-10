@@ -520,7 +520,7 @@ msgstr "一种利用有机油和细菌酶来打印出由脂质衍生的生物聚
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_BIOPLASTICPRINTER.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_BIOPLASTICPRINTER.EFFECT"
 msgid ""
-"Synthesizes <link=\"BIOPLASTIC\">Bioplastic</link> from <link=\"LIQUIDVEGEOIL\">Vegetable Oil</link> and <link=\"CARBONDIOXIDE\">Carbon Dioxide</link>\n"
+"Synthesizes <link=\"BIOPLASTIC\">Bioplastic</link> from <link=\"LIQUIDVEGEOIL\">Vegetable Oil</link> and <link=\"CARBONDIOXIDE\">Carbon Dioxide</link>.\n"
 "The enzymes requires a microbial medium in the form of <link=\"MUSHBAR\">Mush Bar</link>."
 msgstr ""
 "利用<link=\"LIQUIDVEGEOIL\">有机油</link>与<link=\"CARBONDIOXIDE\">二氧化碳</link>合成<link=\"BIOPLASTIC\">生物塑料</link>。\n"
@@ -1018,7 +1018,7 @@ msgstr ""
 "这座二级精炼厂能够进一步精炼<link=\"NAPHTHA\">石脑油</link>为：\n"
 "- 45% <link=\"PETROLEUM\">石油</link>\n"
 "- 10% <link=\"METHANE\">天然气</link>\n"
-"- 45% <link=\"BITUMEN\">沥青</link>.\n"
+"- 45% <link=\"BITUMEN\">沥青</link>。\n"
 "\n"
 "该过程需要使用<link=\"HYDROGEN\">氢气</link>来缓冲反应。\n"
 "重要提示：该建筑物要求所有管道接口都要与相应的管道相连接，这样它才能正常运行。"
@@ -2957,6 +2957,36 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STORAGEPOD.
 msgid "<link=\"STORAGEPOD\">Storage Pod</link>"
 msgstr "<link=\"STORAGEPOD\">存储舱</link>"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STRUCTUREFRAMELARGE.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STRUCTUREFRAMELARGE.DESC"
+msgid "A large sized structural frame."
+msgstr "一种大尺寸的框架结构。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STRUCTUREFRAMELARGE.EFFECT
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STRUCTUREFRAMELARGE.EFFECT"
+msgid "Provides background support for buildings, or least gives the nice appearance of doing so. Doesn't prevent gases or liquid from leaking in to the void."
+msgstr ""
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STRUCTUREFRAMELARGE.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STRUCTUREFRAMELARGE.NAME"
+msgid "<link=\"STRUCTUREFRAMELARGE\">Large Structure Frame</link>"
+msgstr "<link=\"STRUCTUREFRAMELARGE\">大型框架墙</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STRUCTUREFRAMESMALL.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STRUCTUREFRAMESMALL.DESC"
+msgid "A small sized structural frame."
+msgstr "一种小尺寸的框架结构。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STRUCTUREFRAMESMALL.EFFECT
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STRUCTUREFRAMESMALL.EFFECT"
+msgid "Provides background support for buildings, or least gives the nice appearance of doing so. Doesn't prevent gases or liquid from leaking in to the void."
+msgstr "为建筑物提供支撑，或者至少表面上看起来是这样。不能阻止气体或液体泄漏到虚空中。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STRUCTUREFRAMESMALL.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STRUCTUREFRAMESMALL.NAME"
+msgid "<link=\"STRUCTUREFRAMESMALL\">Small Structure Frame</link>"
+msgstr "<link=\"STRUCTUREFRAMESMALL\">小型框架墙</link>"
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STRUCTURETILE.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STRUCTURETILE.DESC"
 msgid "A solid structural tile wrought from refined metal. Use to build the walls and floors of rooms."
@@ -3139,7 +3169,7 @@ msgstr "周期性喷发<link=\"MERCURYGAS\">气态汞</link>高温高压喷孔�
 #. RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.HOTMERCURYGASVENT.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.HOTMERCURYGASVENT.NAME"
 msgid "<link=\"GEYSERGENERICHOTMERCURYGASVENT\">Hot Mercury Gas Vent</link>"
-msgstr "<link=\"GEYSERGENERICHHOTMERYGASVENT\">高温气态汞喷孔</link>"
+msgstr "<link=\"GEYSERGENERICHHOTMERYGASVENT\">高温汞蒸汽喷孔</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.MOLTENSALTGEYSER.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.MOLTENSALTGEYSER.DESC"
@@ -3174,7 +3204,7 @@ msgstr "<link=\"GEYSERGENERICPHOSPHORUSGEYSER\">液态磷间歇泉</link>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.RAWGASVENT.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.RAWGASVENT.DESC"
 msgid "A highly pressurized geothermal vent that periodically erupts with hot <link=\"RAWNATURALGAS\">Raw Natural Gas</link>."
-msgstr "周期性喷发<link=\"RAWNATURALGAS\">原料气</link>.的高压地热喷口。"
+msgstr "周期性喷发<link=\"RAWNATURALGAS\">原料气</link>的高压地热喷口。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.RAWGASVENT.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.RAWGASVENT.NAME"
@@ -3184,7 +3214,7 @@ msgstr "<link=\"GEYSERGENERAWGASVENT\">高温原料气喷孔</link>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.SOURWATERGEYSER.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.SOURWATERGEYSER.DESC"
 msgid "A highly pressurized geyser that periodically erupts with cold <link=\"SOURWATER\">Sour Water</link>."
-msgstr "周期性喷发<link=\"SOURWATER\">酸水</link>低温高压喷泉。"
+msgstr "周期性喷发<link=\"SOURWATER\">酸水</link>的低温高压喷泉。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.SOURWATERGEYSER.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.SOURWATERGEYSER.NAME"
@@ -4651,7 +4681,7 @@ msgstr "辉银矿陨石"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.SPACEDESTINATIONS.COMETS.ZINCCOMET.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.SPACEDESTINATIONS.COMETS.ZINCCOMET.NAME"
 msgid "Aurichalcite Meteor"
-msgstr "锌矿陨石"
+msgstr "绿铜锌矿"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_HPA_RAIL
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_HPA_RAIL"
