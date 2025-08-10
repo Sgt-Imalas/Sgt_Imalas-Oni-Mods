@@ -1,5 +1,6 @@
 ﻿using KSerialization;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UtilLibs;
@@ -55,14 +56,12 @@ namespace MineralizerReborn
 		{
 			for (int i = converter.consumedElements.Length - 1; i >= 0; i--)
 			{
-				Game.Instance.accumulators.Remove(converter.consumedElements[i].Accumulator);
-				converter.consumedElements[i].Accumulator.index = 0;
+				converter.consumedElements[i].Accumulator = Game.Instance.accumulators.Remove(converter.consumedElements[i].Accumulator);
 			}
 
 			for (int i = converter.outputElements.Length - 1; i >= 0; i--)
 			{
-				Game.Instance.accumulators.Remove(converter.outputElements[i].accumulator);
-				converter.outputElements[i].accumulator._index = 0;
+				converter.outputElements[i].accumulator = Game.Instance.accumulators.Remove(converter.outputElements[i].accumulator);
 			}
 		}
 		private void CreatingNewAccumulators()
@@ -111,10 +110,12 @@ namespace MineralizerReborn
 
 		public static void InitializeMineralizerOptions()
 		{
-			_mineralizerOptions = new();
-			_mineralizerOptions.Add(SimHashes.SaltWater.CreateTag(), new(SimHashes.Salt, SimHashes.SaltWater, 0.07f));
-			//_mineralizerOptions.Add(SimHashes.Brine.CreateTag(), new(SimHashes.Salt, SimHashes.Brine, 0.30f));
-			_mineralizerOptions.Add(SimHashes.SugarWater.CreateTag(), new(SimHashes.Sucrose, SimHashes.SugarWater, 0.77f, DlcManager.DLC2_ID));
+			_mineralizerOptions = new()
+			{
+				{ SimHashes.SaltWater.CreateTag(), new(SimHashes.Salt, SimHashes.SaltWater, 0.07f) },
+				{ SimHashes.Brine.CreateTag(), new(SimHashes.Salt, SimHashes.Brine, 0.30f) },
+				{ SimHashes.SugarWater.CreateTag(), new(SimHashes.Sucrose, SimHashes.SugarWater, 0.77f) }
+			};
 		}
 
 		public static Tag WaterToSaltWater = nameof(WaterToSaltWater);
@@ -171,11 +172,11 @@ namespace MineralizerReborn
 			}
 
 			manualDelivery.RequestedItemTag = inputTag;
-
+								
 			float matPerSecond = RatePerSecond * option.materialPercentage;
 			float waterPerSecond = RatePerSecond - matPerSecond;
 
-
+			converter.smi.RemoveStatusItems(); //required to clear all handles
 			CleaningUpOldAccumulators();
 			converter.consumedElements = new ElementConverter.ConsumedElement[]
 			{
@@ -186,11 +187,9 @@ namespace MineralizerReborn
 			{
 				new ElementConverter.OutputElement(RatePerSecond, option.OutputLiquid, 0.0f, false, true, 0.0f, 0.5f, 0.75f, byte.MaxValue, 0),
 			};
-
 			CreatingNewAccumulators();
 
 		}
-
 
 		public Tag GetSelectedOption() => mineral;
 

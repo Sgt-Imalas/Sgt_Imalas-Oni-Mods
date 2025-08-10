@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>MineralizerReborn</PackageId>
-		<Version>1.2.2</Version>
+		<Version>1.3.0</Version>
 		<Authors>Test447 | Sgt_Imalas</Authors>
 		<Copyright>2022-2024 Sgt_Imalas, Test447</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
