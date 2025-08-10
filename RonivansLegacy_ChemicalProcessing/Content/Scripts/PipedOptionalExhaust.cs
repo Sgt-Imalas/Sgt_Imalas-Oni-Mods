@@ -13,7 +13,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 	class PipedOptionalExhaust : KMonoBehaviour, ISim200ms
 	{
 		[SerializeField]
-		[Serialize]
 		internal PipedConduitDispenser dispenser;
 
 		[SerializeField]
@@ -73,7 +72,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				stored = component.Mass;
 			}
 
-			bool allowedToSpill = (dispenser != null || !dispenser.IsConnected);
+			if(dispenser == null)
+				SgtLogger.error("DISPENSER NULL ON: "+this.gameObject.name+" with tag: "+ elementTag);
+
+			bool allowedToSpill = (dispenser == null || !dispenser.IsConnected);
 			if (stored > 0f && allowedToSpill)
 			{
 				Element element = component.Element;

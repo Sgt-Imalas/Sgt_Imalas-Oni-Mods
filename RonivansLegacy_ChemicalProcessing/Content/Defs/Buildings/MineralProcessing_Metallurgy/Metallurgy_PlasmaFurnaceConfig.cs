@@ -119,19 +119,9 @@ namespace Metallurgy.Buildings
 			PipedConduitDispenser mainOutputPort = go.AddComponent<PipedConduitDispenser>();
 			mainOutputPort.storage = furnace.outStorage;
 			mainOutputPort.tagFilter = [GameTags.Glass, GameTags.RefinedMetal];
-
 			mainOutputPort.AssignPort(MainOutputPort);
 			mainOutputPort.alwaysDispense = true;
 			mainOutputPort.SkipSetOperational = true;
-
-			PipedConduitDispenser wasteOutputPort = go.AddComponent<PipedConduitDispenser>();
-			wasteOutputPort.storage = furnace.outStorage;
-			wasteOutputPort.tagFilter = [GameTags.Glass, GameTags.RefinedMetal];
-			wasteOutputPort.invertElementFilter = true;
-
-			wasteOutputPort.AssignPort(WasteOutputPort);
-			wasteOutputPort.alwaysDispense = true;
-			wasteOutputPort.SkipSetOperational = true;
 
 			PipedOptionalExhaust exhaustGlass = go.AddComponent<PipedOptionalExhaust>();
 			exhaustGlass.dispenser = mainOutputPort;
@@ -139,9 +129,17 @@ namespace Metallurgy.Buildings
 			exhaustGlass.capacity = 100f;
 
 			PipedOptionalExhaust exhaustMoltenMetals = go.AddComponent<PipedOptionalExhaust>();
-			exhaustGlass.dispenser = mainOutputPort;
-			exhaustGlass.elementTag = GameTags.RefinedMetal;
-			exhaustGlass.capacity = 100f;
+			exhaustMoltenMetals.dispenser = mainOutputPort;
+			exhaustMoltenMetals.elementTag = GameTags.RefinedMetal;
+			exhaustMoltenMetals.capacity = 100f;
+
+			PipedConduitDispenser wasteOutputPort = go.AddComponent<PipedConduitDispenser>();
+			wasteOutputPort.storage = furnace.outStorage;
+			wasteOutputPort.tagFilter = [GameTags.Glass, GameTags.RefinedMetal];
+			wasteOutputPort.invertElementFilter = true;
+			wasteOutputPort.AssignPort(WasteOutputPort);
+			wasteOutputPort.alwaysDispense = true;
+			wasteOutputPort.SkipSetOperational = true;
 
 			PipedOptionalExhaust exhaustMoltenSlag = go.AddComponent<PipedOptionalExhaust>();
 			exhaustMoltenSlag.dispenser = wasteOutputPort;
