@@ -1,5 +1,6 @@
 ﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts.BuildingConfigInterfaces;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
 using RonivansLegacy_ChemicalProcessing.Patches;
 using STRINGS;
@@ -15,7 +16,7 @@ using UtilLibs.BuildingPortUtils;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerators
 {
-	class CustomDieselGeneratorConfig : IBuildingConfig, IHasConfigurableWattage
+	class CustomDieselGeneratorConfig : IBuildingConfig, IHasConfigurableWattage, IGeneratorBuilding
 	{
 		public const float SizeMultiplier = 1f / 3f; // percentage of the vanilla gen
 

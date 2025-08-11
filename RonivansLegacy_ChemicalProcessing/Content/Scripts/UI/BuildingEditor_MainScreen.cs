@@ -31,6 +31,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 		public Image SelectedEntryPreviewImage;
 
 		GameObject WattageContainer;
+		LocText WattageLabel;
 		GameObject StorageCapacityContainer;
 
 		FInputField2 WattageInput, StorageCapacityInput;
@@ -127,6 +128,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			SelectedEntryModOriginDisplay = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/ModFromContainer").gameObject.GetComponent<LocText>();
 
 			WattageContainer = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/WattageSettings").gameObject;
+			WattageLabel = WattageContainer.GetComponent<LocText>();
 			WattageInput = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/WattageSettings/Input").FindOrAddComponent<FInputField2>();
 			WattageInput.Text = "0";
 			WattageInput.OnValueChanged.AddListener(UpdateItemWattage);
@@ -286,6 +288,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			if(SelectedOutline.HasWattage(out var wattage))
 			{
 				WattageContainer.SetActive(true);
+				WattageLabel.SetText(SelectedOutline.IsGenerator
+					? STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.WATTAGESETTINGS_GENERATOR :
+					 STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.WATTAGESETTINGS);
 				WattageInput.SetTextFromData(wattage.ToString());
 			}
 			else

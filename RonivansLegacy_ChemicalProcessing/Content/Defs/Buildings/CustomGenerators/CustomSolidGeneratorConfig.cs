@@ -1,6 +1,7 @@
 ﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb;
-using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts.BuildingConfigInterfaces;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
 using STRINGS;
 using System;
 using System.Collections.Generic;
@@ -9,12 +10,12 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
-using UtilLibs.BuildingPortUtils;
 using UtilLibs;
+using UtilLibs.BuildingPortUtils;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerators
 {
-    class CustomSolidGeneratorConfig : IBuildingConfig, IHasConfigurableWattage
+    class CustomSolidGeneratorConfig : IBuildingConfig, IHasConfigurableWattage, IGeneratorBuilding
 	{
 		public static float Wattage = 750;
 		public float GetWattage() => Wattage;

@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts.BuildingConfigInterfaces;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
 using System;
 using System.Collections.Generic;
@@ -66,6 +67,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					//apply the config wattage to the entry; if its user set, it will override the default
 					storageConfigurator.SetStorageCapacity(entry.GetStorageCapacity());
 				}
+			}
+			if (typeof(IGeneratorBuilding).IsAssignableFrom(buildingType))
+			{
+				entry.SetIsGenerator(true);
 			}
 			bool allowedByDlc = true;
 			if (typeof(IHasDlcRestrictions).IsAssignableFrom(buildingType))

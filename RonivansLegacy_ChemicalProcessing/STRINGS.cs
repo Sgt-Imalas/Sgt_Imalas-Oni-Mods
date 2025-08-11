@@ -2106,6 +2106,7 @@ namespace RonivansLegacy_ChemicalProcessing
 								public static LocString ENABLEBUILDING = "Enable Building:";
 								public static LocString CAPACITYSETTINGS = "Storage Capacity:";
 								public static LocString WATTAGESETTINGS = "Power Consumption:";
+								public static LocString WATTAGESETTINGS_GENERATOR = "Power Generation:";
 							}
 						}
 

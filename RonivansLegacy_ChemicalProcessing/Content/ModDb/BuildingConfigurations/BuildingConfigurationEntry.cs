@@ -21,8 +21,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 		public float BuildingWattageDefault = -1;
 		[JsonIgnore]
 		public BuildingInjectionEntry BuildingInjection = null;
-		
-		
+		[JsonIgnore]
+		public bool IsGenerator;
+
+
 		[JsonIgnore]
 		public bool IsInjected => BuildingInjection != null;
 
@@ -127,6 +129,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 		internal bool HasConfigurables()
 		{
 			return HasWattage(out _) || HasStorageCapacity(out _);
+		}
+
+		internal void SetIsGenerator(bool v)
+		{
+			IsGenerator = v;
 		}
 	}
 }

@@ -1,5 +1,7 @@
-﻿using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
+﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts.BuildingConfigInterfaces;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
 using RonivansLegacy_ChemicalProcessing.Patches;
 using STRINGS;
 using System;
@@ -9,13 +11,12 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
-using UtilLibs.BuildingPortUtils;
-using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using UtilLibs;
+using UtilLibs.BuildingPortUtils;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerators
 {
-    class CustomGasGeneratorConfig : IBuildingConfig, IHasConfigurableWattage
+    class CustomGasGeneratorConfig : IBuildingConfig, IHasConfigurableWattage, IGeneratorBuilding
 	{
 		public const float SizeMultiplier = 1f / 3f; // percentage of the original area
 
