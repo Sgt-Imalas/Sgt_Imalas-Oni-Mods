@@ -18,7 +18,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 		public float GetWattage() => Wattage;
 		public void SetWattage(float mass) => Wattage = mass;
 	
-		public static float StorageCapacity = HighPressureConduitRegistration.GetLogisticConduitMultiplier() * 1000; // 1/2 of regular loader capacity by default
+		public static float StorageCapacity = //HighPressureConduitRegistration.GetLogisticConduitMultiplier() * 
+			1000 *0.6f;    // 1/2 of regular loader capacity by default, at least originally, this exposes a bug with unitmass items like suits breaking the deliverable with those remaining 100 capacity (a suit weighs 200). so we give it 600 instead to avoid that
 		public float GetStorageCapacity() => StorageCapacity;
 		public void SetStorageCapacity(float mass) => StorageCapacity = mass;
 	
