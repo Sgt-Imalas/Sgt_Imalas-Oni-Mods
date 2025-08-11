@@ -157,7 +157,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Output(SimHashes.Phosphorus, 70f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Output(SimHashes.CrushedRock, 30f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description1I1O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1)
-				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 				.SortOrder(index++)
 				.Build();
 
@@ -169,7 +169,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Input(SimHashes.CrushedRock, 100f)
 				.Output(SimHashes.Sand, 100f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description1I1O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1)
-				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 				.SortOrder(index++)
 				.Build();
 
@@ -181,7 +181,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Input(SimHashes.Obsidian, 100f)
 				.Output(SimHashes.Sand, 100f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description1I1O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1)
-				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 				.SortOrder(index++)
 				.Build();
 
@@ -210,7 +210,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Result: Crushed Rock - 100kg
 			//-------------------------------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, CHEMICAL_COMPLEXFABRICATOR_STRINGS.CRUSHEDROCK_FROM_RAW_MINERAL_DESCRIPTION, 40)
-				.Input(RefinementRecipeHelper.GetCrushables().Select(e => e.id.CreateTag()), 100f)
+				.Input(RefinementRecipeHelper.GetCrushables([SimHashes.Obsidian]).Select(e => e.id.CreateTag()), 100f)
 				.Output(SimHashes.CrushedRock, 100f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.NameOverride(CHEMICAL_COMPLEXFABRICATOR_STRINGS.CRUSHEDROCK_FROM_RAW_MINERAL_NAME)
 				.SortOrder(0)
