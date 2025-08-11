@@ -350,9 +350,15 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddModFrom(SourceModInfo.NuclearProcessing);
 
 			BuildingManager.CreateEntry<LightReactorConfig>()
-				.AddToCategory(PlanMenuCategory.Radiation, NuclearReactorConfig.ID)
+				.AddToCategory(PlanMenuCategory.Radiation, NuclearReactorConfig.ID,ModUtil.BuildingOrdering.Before)
 				.AddToTech(Technology.ColonyDevelopment.RadiationRefinement)
 				.AddModFrom(SourceModInfo.NuclearProcessing);
+
+			//BuildingManager.CreateEntry<BigReactorConfig>()
+			//	.AddToCategory(PlanMenuCategory.Radiation, NuclearReactorConfig.ID)
+			//	.AddToTech(Technology.ColonyDevelopment.RadiationRefinement)
+			//	.AddModFrom(SourceModInfo.NuclearProcessing);
+
 		}
 		private static void RegisterBuildings_DupesEngineering()
 		{

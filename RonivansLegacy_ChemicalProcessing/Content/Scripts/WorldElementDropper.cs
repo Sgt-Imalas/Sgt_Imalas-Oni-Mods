@@ -11,7 +11,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 	class WorldElementDropper : KMonoBehaviour
 	{
 		[MyCmpGet] Rotatable rotatable;
-
 		public Storage TargetStorage;
 		[SerializeField]
 		public bool DropSolids = false;

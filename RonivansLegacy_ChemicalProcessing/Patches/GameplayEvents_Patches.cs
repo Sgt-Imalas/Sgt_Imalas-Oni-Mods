@@ -19,7 +19,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		{
             public static void Postfix(GameplayEvents __instance)
             {
-                MeteorShowerAdjustments.AddMeteorOreComet(__instance);
+                MeteorShowerAdjustments.AddModdedComets(__instance);
 			}
         }
     }

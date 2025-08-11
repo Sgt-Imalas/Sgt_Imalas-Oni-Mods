@@ -60,16 +60,16 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		{
 			BiomeElementInjection.Create("Ocean")
 				.SubBiome("Basic")
-					.Element(ModElements.Chloroschist_Solid,0.25f)
+					.Element(ModElements.Chloroschist_Solid,1f)
 					.Element(ModElements.Aurichalcite_Solid, 1f)
 				.SubBiome("Dry")
-					.Element(ModElements.Chloroschist_Solid, 0.25f)
+					.Element(ModElements.Chloroschist_Solid, 1f)
 					.Element(ModElements.Aurichalcite_Solid, 1f)
 				.SubBiome("Briny")
-					.Element(ModElements.Chloroschist_Solid, 0.25f)
+					.Element(ModElements.Chloroschist_Solid, 1f)
 					.Element(ModElements.Aurichalcite_Solid, 1f)
 				.SubBiome("Frozen")
-					.Element(ModElements.Chloroschist_Solid, 0.25f)
+					.Element(ModElements.Chloroschist_Solid, 1f)
 					.Element(ModElements.Aurichalcite_Solid, 1f)
 					;
 
@@ -123,16 +123,16 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					;
 			BiomeElementInjection.Create("Barren")
 				.SubBiome("Granite")
-					.Element(ModElements.Argentite_Solid, 0.08f)
+					.Element(ModElements.Argentite_Solid, 1f)
 				.SubBiome("GraniteTunnels")
-					.Element(ModElements.Argentite_Solid, 0.03f)
-					.Element(ModElements.Silver_Solid, 0.03f)
+					.Element(ModElements.Argentite_Solid, 1f)
+					.Element(ModElements.Silver_Solid, 1f)
 				.SubBiome("RockyChasm")
-					.Element(ModElements.Argentite_Solid, 0.03f)
+					.Element(ModElements.Argentite_Solid, 1f)
 				.SubBiome("RockyCaves")
-					.Element(ModElements.Argentite_Solid, 0.1f)
+					.Element(ModElements.Argentite_Solid, 1f)
 				.SubBiome("GraniteOre")
-					.Element(ModElements.Argentite_Solid, 0.04f)
+					.Element(ModElements.Argentite_Solid, 1f)
 					;
 		}
 
