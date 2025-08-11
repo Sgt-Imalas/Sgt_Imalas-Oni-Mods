@@ -26,9 +26,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservo
 
 
 		public PortDisplayInput PrimaryInputPort = new(ConduitType.Gas, new CellOffset(-1, 3));
-		public PortDisplayInput SecondaryInputPort = new(ConduitType.Gas, new CellOffset(1, 3));
+		public PortDisplayInput SecondaryInputPort = new(ConduitType.Gas, new CellOffset(1, 0));
+
 		public PortDisplayOutput PrimaryOutputPort = new(ConduitType.Gas, new CellOffset(-1, 0));
-		public PortDisplayOutput SecondaryOutputPort = new(ConduitType.Gas, new CellOffset(1, 0));
+		public PortDisplayOutput SecondaryOutputPort = new(ConduitType.Gas, new CellOffset(1, 3));
 
 		public PermittedRotations Rotations = PermittedRotations.Unrotatable;
 		public BuildLocationRule buildLocationRule = BuildLocationRule.OnFloor;
@@ -41,6 +42,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservo
 			def.PermittedRotations = Rotations;
 			def.ViewMode = OverlayModes.GasConduits.ID;
 			def.AudioCategory = "HollowMetal";
+			def.PermittedRotations = PermittedRotations.FlipH;
 			List<LogicPorts.Port> list1 = new List<LogicPorts.Port>();
 			list1.Add(LogicPorts.Port.OutputPort(SmartReservoir.PORT_ID, new CellOffset(0, 0), global::STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.LOGIC_PORT, global::STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.LOGIC_PORT_ACTIVE, global::STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.LOGIC_PORT_INACTIVE, false, false));
 			def.LogicOutputPorts = list1;
