@@ -23,12 +23,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		public override void OnPrefabInit()
 		{
 			base.OnPrefabInit();
-			fabricator.keepAdditionalTag = this.fuelTag;
+			if(fuelTag != null && fuelTag != Tag.Invalid)
+				fabricator.keepAdditionalTag = this.fuelTag;
 		}
 
 		public override void OnSpawn()
 		{
-			fabricator.keepAdditionalTag = this.fuelTag;
+			if (fuelTag != null && fuelTag != Tag.Invalid)
+				fabricator.keepAdditionalTag = this.fuelTag;
 			base.OnSpawn();
 			smi.StartSM();
 		}

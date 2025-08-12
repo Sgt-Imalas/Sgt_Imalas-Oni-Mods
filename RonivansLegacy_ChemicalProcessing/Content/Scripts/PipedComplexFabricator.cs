@@ -35,18 +35,34 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 			for (int num = storage.items.Count - 1; num >= 0; num--)
 			{
-				GameObject gameObject = storage.items[num];
-				if (!(gameObject == null))
+				GameObject storageItem = storage.items[num];
+				if (storageItem != null)
 				{
-					PrimaryElement component = gameObject.GetComponent<PrimaryElement>();
-					if (!(component == null) && (!keepExcessLiquids || !component.Element.IsLiquid) && (!keepExcessGasses || !component.Element.IsGas))
+					bool shouldDrop = true;
+					if(storageItem.TryGetComponent<PrimaryElement>(out var primaryElement))
 					{
-						KPrefabID component2 = gameObject.GetComponent<KPrefabID>();
-						if ((bool)component2 && !hashSet.Contains(component2.PrefabID()))
+						if(keepExcessLiquids && primaryElement.Element.IsLiquid
+						|| keepExcessGasses && primaryElement.Element.IsGas)
+							shouldDrop = false;
+					}
+					if(storageItem.TryGetComponent<KPrefabID>(out var prefabID))
+					{
+						if(shouldDrop && hashSet.Contains(prefabID.PrefabID()))
+							shouldDrop = false;
+						if (shouldDrop)
 						{
-							storage.Drop(gameObject);
+							foreach(var tag in prefabID.Tags)
+							{
+								if(hashSet.Contains(tag))
+								{
+									shouldDrop = false;
+									break;
+								}	
+							}
 						}
 					}
+					if(shouldDrop)
+						storage.Drop(storageItem);
 				}
 			}
 		}

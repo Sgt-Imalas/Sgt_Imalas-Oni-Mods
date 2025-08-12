@@ -13,18 +13,15 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 	class PipedOptionalExhaust : KMonoBehaviour, ISim200ms
 	{
 		[SerializeField]
-		internal PipedConduitDispenser dispenser;
+		public PipedConduitDispenser dispenser;
 
 		[SerializeField]
-		[Serialize]
 		public Tag elementTag;
 
 		[SerializeField]
-		[Serialize]
 		public float capacity;
 
 		[SerializeField]
-		[Serialize]
 		public Storage storage;
 
 		[MyCmpGet] ComplexFabricator complexfab;
