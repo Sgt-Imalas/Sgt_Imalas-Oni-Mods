@@ -41,10 +41,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
-			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
-			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.PowerBuilding);
-			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.GeneratorType);
-			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.HeavyDutyGeneratorType);
+			var kprefab = go.GetComponent<KPrefabID>();
+
+			kprefab.AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
+			kprefab.AddTag(RoomConstraints.ConstraintTags.PowerBuilding);
+			kprefab.AddTag(RoomConstraints.ConstraintTags.GeneratorType);
+			kprefab.AddTag(RoomConstraints.ConstraintTags.HeavyDutyGeneratorType);
 			go.AddOrGet<LoopingSounds>();
 			Prioritizable.AddRef(go);
 		}

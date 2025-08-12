@@ -52,6 +52,16 @@ namespace Biochemistry.Buildings
 			SoundUtils.CopySoundsToAnim("biodiesel_generator_kanim", "generatorpetrol_kanim");
 			return buildingDef;
 		}
+		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
+		{
+			base.ConfigureBuildingTemplate(go, prefab_tag);
+
+			var kprefab = go.GetComponent<KPrefabID>();
+			kprefab.AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
+			kprefab.AddTag(RoomConstraints.ConstraintTags.PowerBuilding);
+			kprefab.AddTag(RoomConstraints.ConstraintTags.GeneratorType);
+			kprefab.AddTag(RoomConstraints.ConstraintTags.HeavyDutyGeneratorType);
+		}
 
 		public override void DoPostConfigureComplete(GameObject go)
 		{
