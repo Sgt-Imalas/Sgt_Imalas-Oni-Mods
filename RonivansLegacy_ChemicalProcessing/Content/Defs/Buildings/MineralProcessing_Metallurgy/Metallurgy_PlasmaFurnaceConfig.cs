@@ -80,13 +80,14 @@ namespace Metallurgy.Buildings
 			temperatureHandler.HeatedSecondaryOutputOffset = new CellOffset(1, -2);
 
 
-			var fuelConsumer = go.AddOrGet<Chemical_FueledFabricatorAddon>();
-			fuelConsumer.fuelTag = this.FUEL_TAG;
 
-			var furnace = go.AddOrGet<ComplexFabricator>();
+			var furnace = go.AddOrGet<PipedComplexFabricator>();
 			furnace.heatedTemperature = 368.15f;
 			furnace.duplicantOperated = true;
 			furnace.sideScreenStyle = ComplexFabricatorSideScreen.StyleSetting.ListQueueHybrid;
+
+			var fuelConsumer = go.AddOrGet<Chemical_FueledFabricatorAddon>();
+			fuelConsumer.fuelTag = this.FUEL_TAG;
 
 
 			go.AddOrGet<FabricatorIngredientStatusManager>();
