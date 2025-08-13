@@ -1,5 +1,6 @@
-﻿using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
+﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +34,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			EffectorValues none = NOISE_POLLUTION.NONE;
 			EffectorValues tieR1 = BUILDINGS.DECOR.PENALTY.TIER1;
 			EffectorValues noise = none;
-			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 1, 3, "hpa_rail_inbox_kanim", 100, 60f, [300, 100], [GameTags.Steel.ToString(), GameTags.Plastic.ToString()], 1600f, BuildLocationRule.Anywhere, tieR1, noise);
+			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 1, "hpa_rail_inbox_kanim", 100, 60f, [300, 100], [GameTags.Steel.ToString(), GameTags.Plastic.ToString()], 1600f, BuildLocationRule.Anywhere, tieR1, noise);
 			buildingDef.RequiresPowerInput = true;
 			buildingDef.EnergyConsumptionWhenActive = GetWattage();
 			buildingDef.ExhaustKilowattsWhenActive = 0.0f;
@@ -78,6 +79,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			go.AddOrGet<SolidConduitInbox>();
 			go.AddOrGet<ConfigurableSolidConduitDispenser>().massDispensed = Config.Instance.HPA_Capacity_Solid;
 			go.AddOrGet<HPA_SolidConduitRequirement>().RequiresHighPressureOutput = true;
+
+			HysteresisStorage.AddComponent(go);
 		}
 	}
 }

@@ -1,4 +1,5 @@
-﻿using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
 using System;
 using System.Collections.Generic;
@@ -68,6 +69,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			var requirement = go.AddOrGet<HPA_SolidConduitRequirement>();
 			requirement.RequiresHighPressureOutput = true;
 			requirement.IsLogisticRail = true;
+
+			HysteresisStorage.AddComponent(go);
 		}
 
 		public override void DoPostConfigureUnderConstruction(GameObject go)

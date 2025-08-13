@@ -1,4 +1,5 @@
-﻿using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
+﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
 using STRINGS;
 using System;
 using System.Collections.Generic;
@@ -51,6 +52,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			go.AddOrGet<StorageLocker>();
 			go.AddOrGet<UserNameable>();
 			go.AddOrGetDef<RocketUsageRestriction.Def>().restrictOperational = false;
+
+			HysteresisStorage.AddComponent(go);
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)

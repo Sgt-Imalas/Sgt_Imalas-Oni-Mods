@@ -1,4 +1,5 @@
 ﻿using PeterHan.PLib.Options;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.Descriptors;
@@ -93,6 +94,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 			inputs.requireConduitHasMass = false;
 			inputs.requireConduit = false;
 			go.AddOrGet<FridgeSaverDescriptor>().Cache();
+			HysteresisStorage.AddComponent(go);
 		}
 	}
 }

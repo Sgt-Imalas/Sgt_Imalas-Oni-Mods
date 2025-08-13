@@ -1,5 +1,6 @@
 ﻿using PeterHan.PLib.Options;
 using ProcGen;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
 using System;
@@ -73,6 +74,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 
 			//filtered solid conduit input
 			go.AddOrGet<FilteredSolidConduitConsumer>();
+
+			HysteresisStorage.AddComponent(go);
 		}
 	}
 }

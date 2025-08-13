@@ -1,4 +1,5 @@
 ﻿using PeterHan.PLib.Options;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.Descriptors;
@@ -85,6 +86,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 			go.AddOrGetDef<RocketUsageRestriction.Def>().restrictOperational = false;
 			go.AddOrGetDef<StorageController.Def>();
 			go.AddOrGet<FridgeSaverDescriptor>().Cache();
+			HysteresisStorage.AddComponent(go);
 		}
 	}
 }

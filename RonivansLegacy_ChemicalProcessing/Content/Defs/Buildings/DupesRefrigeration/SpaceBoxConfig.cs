@@ -1,4 +1,5 @@
 ﻿using PeterHan.PLib.Options;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
 using System;
 using System.Collections.Generic;
@@ -74,6 +75,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 			go.AddOrGet<RationBox>();
 			go.AddOrGet<UserNameable>();
 			go.GetComponent<KPrefabID>().AddTag(GameTags.RocketInteriorBuilding, false);
+			HysteresisStorage.AddComponent(go);
 		}
 	}
 }
