@@ -1890,7 +1890,7 @@ msgstr ""
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_MULTIGASFILTER.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_MULTIGASFILTER.NAME"
 msgid "<link=\"HPAMULTIGASFILTER\">High Pressure Gas Filter</link>"
-msgstr "<link=\"HPAMULTIGASFILTER\">高压气体管道筛选器</link>"
+msgstr "<link=\"HPAMULTIGASFILTER\">高压气体筛选器</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_MULTILIQUIDFILTER.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_MULTILIQUIDFILTER.DESC"
@@ -2481,7 +2481,7 @@ msgid ""
 msgstr ""
 "采用先进技术精炼<link=\"RAWMETAL\">金属矿石</link>及其他<link=\"RAWMINERAL\">矿物原料</link>。\n"
 "\n"
-"在制造过程中产生大量的<link=\"HEAT\">热量</link>并消耗<link=\"AlOCARRIERGAS\">载气</link>。\n"
+"在制造过程中产生大量的<link=\"HEAT\">热量</link>并消耗<link=\"AIOCARRIERGAS\">载气</link>。\n"
 "\n"
 "主要产物以熔融态直排至建筑下方地面，液态废料通过独立端口排出。"
 
@@ -2965,7 +2965,7 @@ msgstr "一种大尺寸的框架结构。"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STRUCTUREFRAMELARGE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STRUCTUREFRAMELARGE.EFFECT"
 msgid "Provides background support for buildings, or least gives the nice appearance of doing so. Doesn't prevent gases or liquid from leaking in to the void."
-msgstr ""
+msgstr "为建筑物提供支撑，或者至少表面上看起来是这样。不能阻止气体或液体泄漏到虚空中。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STRUCTUREFRAMELARGE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STRUCTUREFRAMELARGE.NAME"
@@ -4147,6 +4147,11 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.HORIZONTALL
 msgid "Power Consumption:"
 msgstr "功耗："
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.WATTAGESETTINGS_GENERATOR
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.WATTAGESETTINGS_GENERATOR"
+msgid "Power Generation:"
+msgstr "发电："
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.OBJECTLIST.SEARCHBAR.CLEARTOOLTIP
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.OBJECTLIST.SEARCHBAR.CLEARTOOLTIP"
 msgid "Clear search bar"
@@ -4333,7 +4338,7 @@ msgstr "将<link=\"RAWMINERALS\">矿物原料</link>破碎成<link=\"CRUSHEDROCK
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.CRUSHEDROCK_FROM_RAW_MINERAL_NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.CRUSHEDROCK_FROM_RAW_MINERAL_NAME"
 msgid "<link=\"BUILDABLERAW\">Raw Mineral</link> to <link=\"CRUSHEDROCK\">Crushed Rock</link>"
-msgstr "<link=\"BUILDABLERAW\">矿物原料</link> => <link=\"CRUSHEDROCK\">碎石</link>"
+msgstr "<link=\"BUILDABLERAW\">矿物原料</link> => <link=\"CRUSHEDROCK\">碎岩</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_1_2
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_1_2"
