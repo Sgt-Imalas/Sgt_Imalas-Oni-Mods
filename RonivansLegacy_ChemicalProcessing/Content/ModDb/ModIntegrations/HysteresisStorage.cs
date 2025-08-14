@@ -49,7 +49,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations
 			{
 				SgtLogger.error("Failure to create AddComponentDelegate for HysteresisStorage component:\n" + e.Message);
 			}
-			SgtLogger.l("HysteresisStorage integration: " + AddComponent_Delegate != null ? "Success" : "Failed");
+			SgtLogger.l("HysteresisStorage integration: " + (AddComponent_Delegate != null ? "Success" : "Failed"));
 		}
 	}
 }

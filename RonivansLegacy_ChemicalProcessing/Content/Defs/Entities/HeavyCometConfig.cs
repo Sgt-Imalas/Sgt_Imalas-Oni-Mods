@@ -1,5 +1,6 @@
 ﻿using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +36,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Space
 
 			PrimaryElement primaryElement = gameObject.AddOrGet<PrimaryElement>();
 			primaryElement.MassPerUnit = 25f;
+
+			DiseasesExpanded.EnhanceCometWithGerms(gameObject);
 
 			return gameObject;
 		}

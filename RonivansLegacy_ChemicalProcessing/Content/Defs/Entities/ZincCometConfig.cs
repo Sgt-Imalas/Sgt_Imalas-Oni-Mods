@@ -1,5 +1,6 @@
 ﻿using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +34,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Space
 			comet.totalTileDamage = 0.5f;
 			comet.splashRadius = 1;
 
+			DiseasesExpanded.EnhanceCometWithGerms(gameObject);
 			return gameObject;
 		}
 
