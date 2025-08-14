@@ -59,7 +59,9 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			}
 		}
 
-
+		/// <summary>
+		/// aquatuner
+		/// </summary>
 		[HarmonyPatch(typeof(LiquidConditionerConfig), nameof(LiquidConditionerConfig.ConfigureBuildingTemplate))]
 		public class LiquidConditionerConfig_ConfigureBuildingTemplate_Patch
 		{
@@ -71,6 +73,9 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			}
 		}
 
+		/// <summary>
+		/// AC
+		/// </summary>
 		[HarmonyPatch(typeof(AirConditionerConfig), nameof(AirConditionerConfig.ConfigureBuildingTemplate))]
 		public class AirConditionerConfig_ConfigureBuildingTemplate_Patch
 		{
@@ -107,6 +112,9 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			}
         }
 
+		/// <summary>
+		/// teleporter
+		/// </summary>
 		[HarmonyPatch(typeof(WarpConduitSender), nameof(WarpConduitSender.OnSpawn))]
 		public class WarpConduitSender_OnSpawn_Patch
 		{
@@ -121,6 +129,19 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		}
 
 
+		[HarmonyPatch(typeof(WarpConduitReceiverConfig), nameof(WarpConduitReceiverConfig.DoPostConfigureComplete))]
+		public class WarpConduitReceiverConfig_DoPostConfigureComplete_Patch
+		{
+			public static void Postfix(GameObject go)
+			{
+				go.AddOrGet<HPA_DynamicSolidConduitDispenser>();
+			}
+		}
+
+
+		/// <summary>
+		/// spacefarer module ports
+		/// </summary>
 		[HarmonyPatch(typeof(RocketConduitSender), nameof(RocketConduitSender.OnSpawn))]
 		public class RocketConduitSender_OnSpawn_Patch
 		{

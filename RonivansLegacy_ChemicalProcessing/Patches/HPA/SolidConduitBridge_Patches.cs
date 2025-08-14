@@ -92,23 +92,13 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				//If the ConduitBridge is not supposed to support the amount of fluid currently in the contents, only make the bridge's intended max visible
 				//Also immediately deal damage if the current contents are higher than 110% of the intended max (110% is set because at 100%, a system with no pressurized pipes would seem to randomly deal damage as if the contents
 				//  were barely over 100%
-				if (mass > targetMass)
+				if (mass > targetMass+0.001f)
 				{
-					return DumpItem(item, mass, targetMass, bridge_inputCell, bridge.gameObject);
+					return HighPressureConduitRegistration.DumpItem(item, mass, targetMass, bridge_inputCell, bridge.gameObject);
 				}
 				///damage target conduit if it got too much mass transfered to it
 				//HighPressureConduit.PressureDamageHandling(targetConduit, mass, targetConduitCapacity);
 				return item;
-			}
-			static Pickupable DumpItem(Pickupable pickupable, float mass, float targetMass, int dumpCell, GameObject target)
-			{
-				float amountToDump = (mass - targetMass);
-				var droppedExcess = pickupable.Take(amountToDump);
-				///drop excess mass
-				droppedExcess.transform.SetPosition(Grid.CellToPosCCC(dumpCell, Grid.SceneLayer.Ore));
-				SolidConduit.GetFlowManager().DumpPickupable(droppedExcess);
-				HighPressureConduitEventHandler.ScheduleDropNotification(target,(int) mass, (int)targetMass);
-				return pickupable;
 			}
 		}
 	}

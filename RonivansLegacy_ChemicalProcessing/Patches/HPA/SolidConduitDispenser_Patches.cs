@@ -16,19 +16,6 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		[HarmonyPatch(typeof(SolidConduitDispenser), nameof(SolidConduitDispenser.ConduitUpdate))]
 		public class SolidConduitDispenser_ConduitUpdate_Patch
 		{
-			public static ConfigurableSolidConduitDispenser configDispenserInstance;
-			public static SolidConduitDispenser dispenserInstance;
-			public static void Prefix(SolidConduitDispenser __instance)
-			{
-				if (__instance is ConfigurableSolidConduitDispenser dispenser)
-				{
-					configDispenserInstance = dispenser;
-				}
-				else
-					configDispenserInstance = null;
-				dispenserInstance = __instance;
-			}
-
 			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
 			{
 				var codes = orig.ToList();
@@ -41,25 +28,35 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 					var current = codes[i];
 					if (current.LoadsConstant(nr))
 					{
-						codes.Insert(i + 1, new CodeInstruction(OpCodes.Call, m_InjectedMethod));
+						codes.InsertRange(i + 1,
+							[new CodeInstruction(OpCodes.Ldarg_0),
+							new CodeInstruction(OpCodes.Call, m_InjectedMethod)]);
 					}
 				}
 				return codes;
 			}
 
-			private static double ReplaceCapacityConditionally(double input)
+			private static double ReplaceCapacityConditionally(double input, SolidConduitDispenser instance)
 			{
-				if (configDispenserInstance != null)
-				{
-					return configDispenserInstance.massDispensed;
+				if (instance == null)
+					return input;
+
+				if (HighPressureConduitRegistration.IsDynamicSolidConduitDispenser(instance))
+				{	
+					//use whatever the attached rail supports
+					return HighPressureConduitRegistration.GetMaxConduitCapacityAt(instance.utilityCell, ConduitType.Solid);
 				}
-				else if (dispenserInstance != null)
+				else if (LogisticConduit.HasLogisticConduitAt(instance.utilityCell))
 				{
-					if (LogisticConduit.HasLogisticConduitAt(dispenserInstance.utilityCell))
-					{
-						return HighPressureConduitRegistration.SolidCap_Logistic;
-					}
+					//use logistic conduit mass
+					return HighPressureConduitRegistration.SolidCap_Logistic;
 				}
+				else if (instance is ConfigurableSolidConduitDispenser configurable)
+				{
+					//use whats configured
+					return configurable.massDispensed;
+				}
+				//use default (20)
 				return input;
 			}
 		}

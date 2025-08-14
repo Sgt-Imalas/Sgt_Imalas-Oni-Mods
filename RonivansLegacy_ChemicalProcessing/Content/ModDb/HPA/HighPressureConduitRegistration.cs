@@ -29,6 +29,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			ValveOutputs_Gas = []
 			;
 
+		public static HashSet<int> DynamicSolidConduitDispenserHandles = [];
+
 		public static HashSet<int> AllHighPressureConduitGOHandles = [];
 
 		public static HashSet<int> AllInsulatedSolidConduitCells = [];
@@ -129,6 +131,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			ValveOutputs_Gas.Clear();
 
 			AllInsulatedSolidConduitCells.Clear();
+			DynamicSolidConduitDispenserHandles.Clear();
 		}
 
 
@@ -486,6 +489,25 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			}
 		}
 
+		public static void RegisterDynamicSolidConduitDispenser(HPA_DynamicSolidConduitDispenser solidConduitDispenser)
+		{
+			SgtLogger.l("RegisterDynamicSolidConduitDispenser: Registering " + solidConduitDispenser.name + " at cell " + solidConduitDispenser.transform.position + " with instance id " + solidConduitDispenser.gameObject.GetInstanceID());
+			DynamicSolidConduitDispenserHandles.Add(solidConduitDispenser.gameObject.GetInstanceID());
+		}
+
+		public static void UnregisterDynamicSolidConduitDispenser(HPA_DynamicSolidConduitDispenser solidConduitDispenser)
+		{
+			SgtLogger.l("Unregistering " + solidConduitDispenser.name + " at cell " + solidConduitDispenser.transform.position + " with instance id " + solidConduitDispenser.gameObject.GetInstanceID());
+			DynamicSolidConduitDispenserHandles.Remove(solidConduitDispenser.gameObject.GetInstanceID());
+		}
+		public static bool IsDynamicSolidConduitDispenser(SolidConduitDispenser dispenser)
+		{
+			if (dispenser == null || dispenser.gameObject == null)
+				return false;
+			SgtLogger.l(dispenser.gameObject.name + " -> " + dispenser.gameObject.GetInstanceID());
+
+			return DynamicSolidConduitDispenserHandles.Contains(dispenser.gameObject.GetInstanceID());
+		}
 
 		static Dictionary<Pickupable,SimTemperatureTransfer> _cachedPickupables = new(2048);
 
@@ -536,6 +558,16 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		internal static void CleanupPickupable(Pickupable instance)
 		{
 			_cachedPickupables.Remove(instance);
+		}
+		public static Pickupable DumpItem(Pickupable pickupable, float mass, float targetMass, int dumpCell, GameObject target)
+		{
+			float amountToDump = (mass - targetMass);
+			var droppedExcess = pickupable.Take(amountToDump);
+			///drop excess mass
+			SolidConduit.GetFlowManager().DumpPickupable(droppedExcess);
+			droppedExcess.transform.SetPosition(Grid.CellToPosCCC(dumpCell, Grid.SceneLayer.Ore));
+			HighPressureConduitEventHandler.ScheduleDropNotification(target, (int)mass, (int)targetMass);
+			return pickupable;
 		}
 	}
 }

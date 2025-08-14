@@ -17,7 +17,6 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 	class SolidConduitFlow_Patches
 	{
 		public static SolidConduitFlow Instance;
-		public static SolidConduitFlow.Conduit Conduit;
 		//Drop items off conveyor rail and damage the rail if it doesnt support the capacity
 		[HarmonyPatch(typeof(SolidConduitFlow), nameof(SolidConduitFlow.UpdateConduit))]
 		public class SolidConduitFlow_UpdateConduit_Patch
@@ -25,10 +24,9 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 			[HarmonyPrepare]
 			public static bool Prepare() => Config.Instance.HPA_Rails_Enabled;
 
-			public static void Prefix(SolidConduitFlow __instance, SolidConduitFlow.Conduit conduit)
+			public static void Prefix(SolidConduitFlow __instance)
 			{
 				Instance = __instance;
-				Conduit = conduit;
 			}
 
 
@@ -50,6 +48,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 					{
 						yield return ci;
 						yield return new CodeInstruction(OpCodes.Ldloc_S, targetCellIndex); //cell
+						yield return new CodeInstruction(OpCodes.Ldarg_1); //conduit
 						yield return new CodeInstruction(OpCodes.Call, dropExcessRailMaterialsAtCell);
 					}
 					else
@@ -58,9 +57,9 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 			}
 		}
 
-		private static SolidConduitFlow.ConduitContents DropExcessRailMaterialsAtCell(SolidConduitFlow.ConduitContents contents, int targetcell)
+		private static SolidConduitFlow.ConduitContents DropExcessRailMaterialsAtCell(SolidConduitFlow.ConduitContents contents, int targetcell, SolidConduitFlow.Conduit conduit)
 		{
-			int sourceCell = Instance.soaInfo.GetCell(Conduit.idx);
+			int sourceCell = Instance.soaInfo.GetCell(conduit.idx);
 			Pickupable pickupable = Instance.GetPickupable(contents.pickupableHandle);
 
 			bool SourceCellInsulated = HighPressureConduitRegistration.IsInsulatedRail(sourceCell);
@@ -77,18 +76,18 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				return contents;
 			}
 			float weight = pickupable.TotalAmount;
-			float maxTargetRailCapacity = HighPressureConduitRegistration.SolidCap_Logistic;
+			float maxSourceRailCapacity = HighPressureConduitRegistration.SolidCap_Logistic;
 
 			if (!LogisticConduit.HasLogisticConduitAt(sourceCell, false))
-				maxTargetRailCapacity = HighPressureConduitRegistration.GetMaxConduitCapacityAt(sourceCell, ConduitType.Solid);
+				maxSourceRailCapacity = HighPressureConduitRegistration.GetMaxConduitCapacityAt(sourceCell, ConduitType.Solid);
 
-			maxTargetRailCapacity += 0.0001f; //adding a tiny amount to avoid floating point errors dropping micrograms of items
+			float checkRailCapacity = maxSourceRailCapacity += 0.0001f; //adding a tiny amount to avoid floating point errors dropping micrograms of items 
 			//SgtLogger.l("Current Item Weight: " + weight + ", target weight: " + maxTargetRailCapacity+" with source and target: "+sourceCell+","+targetcell);
 
-			if (weight <= maxTargetRailCapacity)
+			if (weight <= checkRailCapacity)
 				return contents;
 
-			if (weight > maxTargetRailCapacity)
+			if (weight > checkRailCapacity)
 			{
 				///alt variant: drop everything if weight too hight
 				//Instance.DumpPickupable(pickupable.Take(weight));
@@ -103,10 +102,11 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 
 				///using this variant for now because the rail system doesnt react to damage...
 				///alt variant: drop only excess amount if weight too hight, keep target limit on the rail
-				float additionalWeightToRemove = (weight - maxTargetRailCapacity);
-				var droppedExcess = pickupable.Take(additionalWeightToRemove);
+				//float additionalWeightToRemove = (weight - maxTargetRailCapacity);
+				//var droppedExcess = pickupable.Take(additionalWeightToRemove);
 				///drop excess mass
-				Instance.DumpPickupable(droppedExcess);
+				HighPressureConduitRegistration.DumpItem(pickupable, weight, maxSourceRailCapacity, sourceCell, HighPressureConduitRegistration.GetConduitAt(sourceCell, ConduitType.Solid)); 
+				//Instance.DumpPickupable(droppedExcess);
 				//float ratio = additionalWeightToRemove / weight;
 				////SgtLogger.l($"Dropped {ratio * 100}% of mass on solid conduit");
 			}
