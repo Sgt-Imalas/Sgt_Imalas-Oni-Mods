@@ -66,11 +66,12 @@ namespace SetStartDupes
 			Instance.ConsumeMouseScroll = true;
 			Instance.transform.SetAsLastSibling();
 			Instance.LoadAllPresets();
-			Instance.LoadTemporalPreset(controller);
-
 			Instance.ReferencedCrewController = controller;
+			Instance.LoadTemporalPreset();
+
 			Instance.OnCloseAction = onClose;
 			Instance.Searchbar.Text = string.Empty;
+			Instance.ApplyButton.SetInteractable(controller != null);
 
 			//Instance.CurrentlySelected.ApplyCrewPreset(controller);
 		}
@@ -78,9 +79,13 @@ namespace SetStartDupes
 		private bool init;
 		private System.Action OnCloseAction;
 
-		public void LoadTemporalPreset(CharacterSelectionController toGenerateFrom)
+		public void LoadTemporalPreset()
 		{
-			var tempStats = MinionCrewPreset.CreateCrewPreset(toGenerateFrom);
+			MinionCrewPreset tempStats = null;
+			if (ReferencedCrewController != null)
+				tempStats = MinionCrewPreset.CreateCrewPreset(ReferencedCrewController);
+			else
+				tempStats = MinionCrewPreset.CreateCrewPresetFromLiveDuplicants();			
 			SetAsCurrent(tempStats);
 		}
 
@@ -220,7 +225,7 @@ namespace SetStartDupes
 			System.Action nothing = () =>
 			{ };
 
-			DialogUtil.CreateConfirmDialogFrontend(
+			DialogUtil.CreateConfirmDialog(
 	   string.Format(DELETEWINDOW.TITLE, config.CrewName),
 		   string.Format(DELETEWINDOW.DESC, config.CrewName),
 		   DELETEWINDOW.YES,
@@ -228,6 +233,7 @@ namespace SetStartDupes
 		   DELETEWINDOW.CANCEL
 		   , nothing
 		   , useScreenSpaceOverlay: true
+		   ,parent:ModAssets.ParentScreen
 		   );
 		}
 
@@ -359,6 +365,7 @@ namespace SetStartDupes
 
 			transform.Find("HorizontalLayout/ItemInfo/Checkboxes/ReactionOverride").gameObject.SetActive(false);
 			transform.Find("HorizontalLayout/ItemInfo/Checkboxes/NameOverride").gameObject.SetActive(false);
+			transform.Find("HorizontalLayout/ItemInfo/Checkboxes/XpOverride").gameObject.SetActive(false);
 
 			OpenPresetFolder = transform.Find("HorizontalLayout/ObjectList/SearchBar/FolderButton").FindOrAddComponent<FButton>();
 			OpenPresetFolder.OnClick += () => Process.Start(new ProcessStartInfo(ModAssets.DupeGroupTemplatePath) { UseShellExecute = true });

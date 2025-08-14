@@ -2,6 +2,7 @@
 using Database;
 using Klei.AI;
 using Newtonsoft.Json;
+using SetStartDupes.DuplicityEditing;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using UtilLibs;
+using static HarmonyLib.Code;
 
 namespace SetStartDupes
 {
@@ -112,6 +114,43 @@ namespace SetStartDupes
 		{
 			CreateFromMinionIdentiy(minionIdentity).WriteToFile(true);
 		}
+
+		public static MinionStatConfig CreateFromDuplicityEditorDupe(DuplicantEditableStats duplicantEditableStats)
+		{
+			var aptitudeDb = Db.Get().SkillGroups;
+
+			var stats = new MinionStatConfig(
+				FileNameWithHash(SaveGame.Instance.BaseName + "_" + duplicantEditableStats.MinionName),
+				duplicantEditableStats.MinionName,
+				duplicantEditableStats.GetTraitsWithBase(),
+				duplicantEditableStats.StressTraitId,
+				duplicantEditableStats.JoyTraitId,
+				duplicantEditableStats.AttributeLevels.ToList(),
+				duplicantEditableStats.AptitudeBySkillGroup.Select(kvp => new KeyValuePair<string, float>(aptitudeDb.Get(kvp.Key).Id, kvp.Value)).ToList(),
+				duplicantEditableStats.Model
+				);
+			stats.Age = duplicantEditableStats.Age;
+			stats.StarterXP = duplicantEditableStats.GetExperience();
+			return stats;
+		}
+
+		public void ApplyPresetToEditorDupe(DuplicantEditableStats stats, bool overrideName, bool overrideReaction, bool overrideXP)
+		{
+			stats.SetTraits(Traits);
+			if (overrideReaction)
+			{
+				stats.StressTraitId = stressTrait;
+				stats.JoyTraitId = joyTrait;
+			}
+			stats.AttributeLevels = StartingLevels.ToDictionary(e => e.Key, e => e.Value);
+			stats.AptitudeBySkillGroup = skillAptitudes.ToDictionary(kvp => (HashedString)kvp.Key, kvp => kvp.Value);
+
+			if(overrideName)
+				stats.MinionName = this.ConfigName;
+			if(overrideXP)
+				stats.SetExperience(StarterXP);
+		}
+
 		public static MinionStatConfig CreateFromStoredMinionIdentiy(StoredMinionIdentity dupe)
 		{
 			List<KeyValuePair<string, int>> startingLevels = new List<KeyValuePair<string, int>>();
@@ -161,7 +200,7 @@ namespace SetStartDupes
 				stress,
 				joy,
 				startingLevels,
-				skillAptitudes, 
+				skillAptitudes,
 				dupe.model);
 			config.StarterXP = dupe.TotalExperienceGained;
 			config.Age = GameClock.Instance.GetCycle() - dupe.arrivalTime;
@@ -276,7 +315,7 @@ namespace SetStartDupes
 
 			var baseTrait = BaseMinionConfig.GetMinionBaseTraitIDForModel(referencedStats.personality.model);
 			if (!Traits.Contains(baseTrait))
-					Traits.Add(baseTrait);
+				Traits.Add(baseTrait);
 
 			if (HadAncientKnowledge)
 			{
@@ -324,7 +363,7 @@ namespace SetStartDupes
 			{
 				if (!referencedStats.StartingLevels.ContainsKey(requiredAttribute))
 				{
-					
+
 					SgtLogger.l("adding missing attribute level " + requiredAttribute + ", defaulting to 0.");
 					referencedStats.StartingLevels[requiredAttribute] = 0;
 				}
@@ -409,7 +448,7 @@ namespace SetStartDupes
 
 		private void Migrate()
 		{
-			if(Model == null)
+			if (Model == null)
 			{
 				Model = GameTags.Minions.Models.Standard;
 			}

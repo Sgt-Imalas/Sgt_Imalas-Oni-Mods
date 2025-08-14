@@ -590,6 +590,12 @@ namespace SetStartDupes
 								public static LocString LABEL = "Preset overrides Name";
 								public static LocString TOOLTIP = "If enabled, applying presets to duplicants also sets their name to that of the preset";
 							}
+							public class XPOVERRIDE
+							{
+								public static LocString LABEL = "Preset overrides XP";
+								public static LocString TOOLTIP = "If enabled, applying presets to duplicants also sets their experience points and skill points available";
+							}
+							
 						}
 					}
 				}

@@ -1584,7 +1584,7 @@ namespace SetStartDupes
 
 					//UIUtils.AddActionToButton(PresetButton.transform, "", () => DupePresetScreenAddon.ShowPresetScreen(__instance, ___stats)); 
 
-					UIUtils.AddActionToButton(PresetButton.transform, "", () => UnityPresetScreen.ShowWindow(mng.Stats, RebuildDupePanel));
+					UIUtils.AddActionToButton(PresetButton.transform, "", () => UnityPresetScreen.ShowWindow(mng.Stats,null, RebuildDupePanel));
 					buttonsToDeactivateOnEdit[__instance].Add(PresetButton.FindComponent<KButton>());
 				}
 
