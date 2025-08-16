@@ -1,13 +1,14 @@
 ﻿
 using BlueprintsV2.BlueprintData;
 using UnityEngine;
+using UtilLibs;
+using static STRINGS.UI.SPACEARTIFACTS;
 
 namespace BlueprintsV2.Visualizers
 {
 
 	public sealed class UtilityVisual : BuildingVisual
 	{
-
 
 		public UtilityVisual(BuildingConfig buildingConfig, int cell) : base(buildingConfig, cell)
 		{
@@ -35,7 +36,25 @@ namespace BlueprintsV2.Visualizers
 			VisualsUtilities.SetVisualizerColor(cell, GetVisualizerColor(cell), Visualizer, buildingConfig);
 		}
 
+		public override void ApplyRotation(Orientation rotation, bool flippedX, bool flippedY)
+		{
+			BlueprintRotationStateHolder = rotation;
+			base.ApplyRotation(rotation, flippedX, flippedY);
+			UpdateConnectionVis(Visualizer);
+		}
+		void UpdateConnectionVis(GameObject go)
+		{
+			var mng = buildingConfig.BuildingDef.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>().GetNetworkManager();
+			if (mng != null && buildingConfig.GetConduitFlags(out var flags) && go.TryGetComponent<KBatchedAnimController>(out var kbac))
+			{
+				string animation = mng.GetVisualizerString((UtilityConnections)GetRotatedUtilityConnectionFlags(flags)) + "_place";
 
+				if (kbac.HasAnimation(animation))
+					kbac.Play(animation);
+			}
+			//else
+			//	SgtLogger.l("no connections to update on " + go.name);
+		}
 		public override void MoveVisualizer(int cellParam, bool forceRedraw)
 		{
 			if (cellParam != cell || forceRedraw)

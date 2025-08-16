@@ -57,19 +57,16 @@ namespace BlueprintsV2.Tools
 			offsetObject.SetLayerRecursively(LayerMask.NameToLayer("Overlay"));
 			visualizer.transform.SetParent(transform);
 
-			FieldInfo areaVisualizerField = AccessTools.Field(typeof(DragTool), "areaVisualizer");
-			FieldInfo areaVisualizerSpriteRendererField = AccessTools.Field(typeof(DragTool), "areaVisualizerSpriteRenderer");
-
 			GameObject areaVisualizer = Util.KInstantiate(Traverse.Create(DeconstructTool.Instance).Field("areaVisualizer").GetValue<GameObject>());
 			areaVisualizer.SetActive(false);
 
 			areaVisualizer.name = "CreateBlueprintAreaVisualizer";
-			areaVisualizerSpriteRendererField.SetValue(this, areaVisualizer.GetComponent<SpriteRenderer>());
+			areaVisualizerSpriteRenderer = areaVisualizer.GetComponent<SpriteRenderer>();
 			areaVisualizer.transform.SetParent(transform);
 			areaVisualizer.GetComponent<SpriteRenderer>().color = ModAssets.BLUEPRINTS_COLOR_BLUEPRINT_DRAG;
 			areaVisualizer.GetComponent<SpriteRenderer>().material.color = ModAssets.BLUEPRINTS_COLOR_BLUEPRINT_DRAG;
-
-			areaVisualizerField.SetValue(this, areaVisualizer);
+			this.areaVisualizer = areaVisualizer;
+			this.areaVisualizerTextPrefab = DigTool.Instance.areaVisualizerTextPrefab;
 
 			gameObject.AddComponent<CreateBlueprintToolHoverCard>();
 		}
@@ -137,7 +134,8 @@ namespace BlueprintsV2.Tools
 
 						PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE, STRINGS.UI.TOOLS.CREATE_TOOL.CANCELLED, null, PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);
 						UnlockCam();
-					};
+					}
+					;
 					SpeedControlScreen.Instance.Pause(false);
 					FileNameDialog blueprintNameDialog = DialogUtil.CreateTextInputDialog(STRINGS.UI.DIALOGUE.NAMEBLUEPRINT_TITLE, blueprint.Folder, null, true, OnConfirmDelegate, OnCancelDelegate);
 

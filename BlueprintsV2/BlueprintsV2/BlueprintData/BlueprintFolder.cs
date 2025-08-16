@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UtilLibs;
 using static BlueprintsV2.ModAssets;
 
@@ -29,7 +30,8 @@ namespace BlueprintsV2.BlueprintData
 		public bool HasBlueprints => contents.Count > 0;
 
 
-		///Backing list storing the contents of the folder.
+		///Backing list storing the contents of the folder. for sorting.
+		private List<Blueprint> contentsList = new();
 		private HashSet<Blueprint> contents = new();
 		public HashSet<Blueprint> Blueprints => contents;
 
@@ -48,7 +50,8 @@ namespace BlueprintsV2.BlueprintData
 		/// <param name="blueprint">The blueprint to add</param>
 		public void AddBlueprint(Blueprint blueprint)
 		{
-			contents.Add(blueprint);
+			if(contents.Add(blueprint))
+				contentsList.Add(blueprint);
 		}
 
 
@@ -60,6 +63,7 @@ namespace BlueprintsV2.BlueprintData
 		public void RemoveBlueprint(Blueprint blueprint, bool deleteIfEmpty = true)
 		{
 			contents.Remove(blueprint);
+			contentsList.Remove(blueprint);
 
 			if (deleteIfEmpty && BlueprintCount == 0)
 			{
@@ -89,6 +93,13 @@ namespace BlueprintsV2.BlueprintData
 			}
 		}
 
+		public int GetBlueprintIndex(Blueprint blueprint)
+		{
+			if (!contentsList.Contains(blueprint))
+				return -1;
+			return contentsList.IndexOf(blueprint);
+		}
+
 		public bool ContainsBlueprint(Blueprint blueprint) => contents.Contains(blueprint);
 
 		public bool Equals(BlueprintFolder other)
@@ -102,6 +113,42 @@ namespace BlueprintsV2.BlueprintData
 		public override int GetHashCode()
 		{
 			return Name.GetHashCode();
+		}
+
+		internal bool HasNextSnapshot(Blueprint selectedBlueprint)
+		{
+			int index = GetBlueprintIndex(selectedBlueprint);
+			if(index == -1)
+				return false;
+			return index > 0;
+		}
+
+		internal bool HasPrevSnapshot(Blueprint selectedBlueprint)
+		{
+			int index = GetBlueprintIndex(selectedBlueprint);
+			if (index == -1)
+				return false;
+			return index < contentsList.Count - 1;
+		}
+
+		internal void SelectNext()
+		{
+			if (!HasNextSnapshot(ModAssets.SelectedBlueprint))
+				return;
+
+			int index = GetBlueprintIndex(ModAssets.SelectedBlueprint);
+			index--;
+			ModAssets.SelectedBlueprint = contentsList[index];
+		}
+
+		internal void SelectPrev()
+		{
+			if (!HasPrevSnapshot(ModAssets.SelectedBlueprint))
+				return;
+
+			int index = GetBlueprintIndex(ModAssets.SelectedBlueprint);
+			index++;
+			ModAssets.SelectedBlueprint = contentsList[index];
 		}
 	}
 }

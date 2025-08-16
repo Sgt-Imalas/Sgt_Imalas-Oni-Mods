@@ -8,6 +8,12 @@ namespace BlueprintsV2.Visualizers
 
 	public class TileVisual : BuildingVisual, ICleanableVisual
 	{
+		public override PermittedRotations GetAllowedRotations() => BlueprintState.All;
+		public override void ApplyRotation(Orientation rotation, bool flippedX, bool flippedY)
+		{ 
+			///tiles dont rotate
+		}
+
 		public int DirtyCell { get; private set; } = -1;
 
 		private readonly bool hasReplacementLayer;

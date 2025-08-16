@@ -16,5 +16,7 @@ namespace BlueprintsV2.Visualizers
 
 		bool TryUse(int cellParam);
 
+		PermittedRotations GetAllowedRotations();
+		void ApplyRotation(Orientation rotation, bool flippedX, bool flippedY);
 	}
 }

@@ -2,16 +2,21 @@
 using BlueprintsV2.BlueprintData;
 using BlueprintsV2.ModAPI;
 using BlueprintsV2.Tools;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UtilLibs;
+using static STRINGS.DUPLICANTS.MODIFIERS;
 using static STRINGS.UI.SANDBOXTOOLS.SETTINGS;
 
 namespace BlueprintsV2.Visualizers
 {
 	public class BuildingVisual : IVisual
 	{
+		///store the rotation state of the blueprint without affecting conduits/wires itself; only used by conduits
+		protected Orientation BlueprintRotationStateHolder = Orientation.Neutral;
+
 		public GameObject Visualizer { get; protected set; }
 		public Vector2I Offset { get; protected set; }
 
@@ -23,9 +28,14 @@ namespace BlueprintsV2.Visualizers
 
 		public BuildingDef BuildingDef => buildingConfig?.BuildingDef;
 
+		public Orientation RotatedOrientation { get; protected set; }
+		public bool FlippedV { get; protected set; }
+		public bool FlippedH { get; protected set; }
+
 		public BuildingVisual(BuildingConfig buildingConfig, int cell)
 		{
 			Offset = buildingConfig.Offset;
+			RotatedOrientation = buildingConfig.Orientation;
 			this.buildingConfig = buildingConfig;
 			this.cell = cell;
 
@@ -34,9 +44,9 @@ namespace BlueprintsV2.Visualizers
 			Visualizer.transform.SetPosition(positionCbc);
 			Visualizer.SetActive(true);
 
-			if (Visualizer.GetComponent<Rotatable>() != null)
+			if (Visualizer.TryGetComponent<Rotatable>(out var rotatable))
 			{
-				Visualizer.GetComponent<Rotatable>().SetOrientation(buildingConfig.Orientation);
+				rotatable.SetOrientation(RotatedOrientation);
 			}
 			ModAPI.API_Methods.ApplyAdditionalBuildingData(Visualizer, buildingConfig);
 
@@ -68,9 +78,9 @@ namespace BlueprintsV2.Visualizers
 			{
 				Visualizer.transform.SetPosition(Grid.CellToPosCBC(cellParam, buildingConfig.BuildingDef.SceneLayer));
 
-				if (Visualizer.GetComponent<KBatchedAnimController>() != null)
+				if (Visualizer.TryGetComponent<KBatchedAnimController>(out var kbac))
 				{
-					Visualizer.GetComponent<KBatchedAnimController>().TintColour = GetVisualizerColor(cellParam);
+					kbac.TintColour = GetVisualizerColor(cellParam);
 				}
 				cell = cellParam;
 			}
@@ -104,7 +114,7 @@ namespace BlueprintsV2.Visualizers
 
 			return elements.ToArray();
 		}
-
+		#region replace experiment
 		private bool ViableReplacementCandidate(GameObject toReplace)
 		{
 			if (toReplace.TryGetComponent<BuildingComplete>(out var component))
@@ -132,17 +142,17 @@ namespace BlueprintsV2.Visualizers
 			}
 			return false;
 		}
+		#endregion
 		public virtual void ApplyBuildingData(GameObject building)
 		{
 			bool isPlanned = building.TryGetComponent<BuildingUnderConstruction>(out var buildingUnderConstruction);
 			bool isCOmplete = building.TryGetComponent<BuildingComplete>(out var buildingComplete);
 
 			var def = buildingConfig.BuildingDef;
-			var orientation = buildingConfig.Orientation;
 
 			if (building.TryGetComponent<Rotatable>(out var rotatable))
 			{
-				rotatable.SetOrientation(orientation);
+				rotatable.SetOrientation(RotatedOrientation);
 			}
 			ModAPI.API_Methods.ApplyAdditionalBuildingData(building, buildingConfig);
 
@@ -153,21 +163,107 @@ namespace BlueprintsV2.Visualizers
 					kbac.Play("place");
 			}
 
-			if (buildingConfig.BuildingDef.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>() != null && building.TryGetComponent<KAnimGraphTileVisualizer>(out var vis) && buildingConfig.GetConduitFlags(out var flags))
+			if (isPlanned && ToolMenu.Instance != null)
 			{
-				var newConnections = (UtilityConnections)flags;
+				building.FindOrAddComponent<Prioritizable>().SetMasterPriority(ToolMenu.Instance.PriorityScreen.GetLastSelectedPriority());
+			}
+			UpdateConduitConnectionBits(building);
+
+		}
+
+		public int GetRotatedUtilityConnectionFlags(int plannedFlags)
+		{
+			int originalRotation = (int)buildingConfig.Orientation; //0-3;
+			int rotatedOrientation = (int)BlueprintRotationStateHolder;
+
+			int rotationDiff = originalRotation - rotatedOrientation;
+
+			var shiftable = new List<bool>(4)
+			{
+				(plannedFlags & (int)UtilityConnections.Left) != 0, //left
+				(plannedFlags & (int)UtilityConnections.Right) != 0, //right
+				(plannedFlags & (int)UtilityConnections.Up) != 0, //up
+				(plannedFlags & (int)UtilityConnections.Down) != 0  //down
+			};
+			//SgtLogger.l("RotationDiff: " + rotationDiff);
+
+			//SgtLogger.l("Left: " + shiftable[0].ToString());
+			//SgtLogger.l("Right: " + shiftable[1].ToString());
+			//SgtLogger.l("Up: " + shiftable[2].ToString());
+			//SgtLogger.l("Down: " + shiftable[3].ToString());
+
+			if (rotationDiff > 0)
+			{
+				for (int i = 0; i < rotationDiff; i++)
+				{
+					//no bit shifting possible because those arent sorted...
+					shiftable = [
+						shiftable[2],
+						shiftable[3],
+						shiftable[1],
+						shiftable[0],
+					];
+				}
+			}
+			else if (rotationDiff < 0)
+			{
+				for (int i = 0; i < -rotationDiff; ++i)
+				{
+					shiftable = [
+						shiftable[3],
+						shiftable[2],
+						shiftable[0],
+						shiftable[1],
+					];
+				}
+			}
+			if (FlippedH)
+			{
+				bool left = shiftable[0];
+				bool right = shiftable[1];
+				shiftable[0] = right;
+				shiftable[1] = left;
+			}
+			if (FlippedV)
+			{
+				bool up = shiftable[2];
+				bool down = shiftable[3];
+				shiftable[2] = down;
+				shiftable[3] = up;
+			}
+
+			BitArray bitField = new BitArray(shiftable.ToArray()); //BitArray takes a bool[]
+			byte[] bytes = new byte[1];
+			bitField.CopyTo(bytes, 0);
+
+			int newRotation = bytes[0];
+			//SgtLogger.l("NEW:");
+
+			//SgtLogger.l("Left: " + shiftable[0].ToString());
+			//SgtLogger.l("Right: " + shiftable[1].ToString());
+			//SgtLogger.l("Up: " + shiftable[2].ToString());
+			//SgtLogger.l("Down: " + shiftable[3].ToString());
+
+
+			//SgtLogger.l($"Original Rotation: {buildingConfig.Orientation}, new Rotation: {RotatedOrientation}, old connection: {plannedFlags} new connection: {newRotation}");
+			return newRotation;
+		}
+
+		void UpdateConduitConnectionBits(GameObject go)
+		{
+			if (buildingConfig.BuildingDef.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>() != null && go
+				.TryGetComponent<KAnimGraphTileVisualizer>(out var vis)
+				&& buildingConfig.GetConduitFlags(out var flags))
+			{
+				var newConnections = (UtilityConnections)GetRotatedUtilityConnectionFlags(flags);
 				if (vis.Connections != newConnections)
 				{
 					vis.UpdateConnections(newConnections);
 					vis.Refresh();
 				}
 			}
-
-			if (isPlanned && ToolMenu.Instance != null)
-			{
-				building.FindOrAddComponent<Prioritizable>().SetMasterPriority(ToolMenu.Instance.PriorityScreen.GetLastSelectedPriority());
-			}
 		}
+
 		public virtual bool PlaceFinishedBuilding(int cellParam)
 		{
 			Vector3 positionCbc = Grid.CellToPosCBC(cellParam, buildingConfig.BuildingDef.SceneLayer);
@@ -278,11 +374,11 @@ namespace BlueprintsV2.Visualizers
 			{
 				return PlacePlannedBuilding(cellParam);
 			}
-			else if (BlueprintState.ForceMaterialChange && CanRebuildWithMaterial(cellParam,out _)) //force rebuild with new materials
+			else if (BlueprintState.ForceMaterialChange && CanRebuildWithMaterial(cellParam, out _)) //force rebuild with new materials
 			{
 				return TryReconstructExistingBuilding(cellParam);
 			}
-			else if (SameBuildingAlreadyInPlace(cellParam, out var bc,true)) //apply building settings to existing, does not apply to conduits
+			else if (SameBuildingAlreadyInPlace(cellParam, out var bc, true)) //apply building settings to existing, does not apply to conduits
 			{
 				ApplyBuildingData(bc.gameObject);
 				if (buildingConfig.HasAnyBuildingData)
@@ -418,11 +514,9 @@ namespace BlueprintsV2.Visualizers
 				kbac.TintColour = ModAssets.BLUEPRINTS_COLOR_INVALIDPLACEMENT;
 				kbac.Play("place");
 			}
-			if (buildingConfig.BuildingDef.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>() != null && builtItem.TryGetComponent<KAnimGraphTileVisualizer>(out var vis) && buildingConfig.GetConduitFlags(out var flags))
-			{
-				vis.UpdateConnections((UtilityConnections)flags);
-			}
+			UpdateConduitConnectionBits(builtItem);
 		}
+
 		public virtual bool AllowedInWorld()
 		{
 			return API_Methods.IsBuildable(buildingConfig.BuildingDef);
@@ -469,7 +563,7 @@ namespace BlueprintsV2.Visualizers
 			{
 				return ModAssets.BLUEPRINTS_COLOR_VALIDPLACEMENT;
 			}
-			else if(SameBuildingAlreadyInPlace(cellParam,out _,true) && buildingConfig.HasAnyBuildingData)
+			else if (SameBuildingAlreadyInPlace(cellParam, out _, true) && buildingConfig.HasAnyBuildingData)
 			{
 				return ModAssets.BLUEPRINTS_COLOR_CAN_APPLY_SETTINGS;
 			}
@@ -489,6 +583,155 @@ namespace BlueprintsV2.Visualizers
 			{
 				return ModAssets.BLUEPRINTS_COLOR_VALIDPLACEMENT;
 			}
+		}
+
+		public virtual PermittedRotations GetAllowedRotations()
+		{
+			var def = buildingConfig.BuildingDef;
+			if (buildingConfig.BuildingDef.isKAnimTile)
+				return BlueprintState.All;
+			else if (def.WidthInCells == 1 && def.HeightInCells == 1 && def.ObjectLayer == ObjectLayer.Backwall)
+				return BlueprintState.All;
+			else if (def.WidthInCells == 1 && def.HeightInCells == 1 && def.PermittedRotations == PermittedRotations.R360)
+				return BlueprintState.All;
+			else if (def.WidthInCells % 2 == 1)
+				return PermittedRotations.FlipH;
+
+			return PermittedRotations.Unrotatable;
+		}
+		public virtual void ApplyRotation(Orientation rotation, bool flippedX, bool flippedY)
+		{
+			var allowedRotations = DetermineAllowedRotations();
+			if (allowedRotations == PermittedRotations.Unrotatable)
+				return;
+			Orientation baseOrientation = buildingConfig.Orientation;
+			if (Visualizer.TryGetComponent<Rotatable>(out var rotatable))
+			{
+				if (allowedRotations == PermittedRotations.FlipV)
+				{
+					baseOrientation = ((rotatable.GetVisualizerFlipY() == flippedY) ? Orientation.Neutral : Orientation.FlipV);
+				}
+				else if (allowedRotations == PermittedRotations.FlipH)
+				{
+					baseOrientation = ((rotatable.GetVisualizerFlipX() == flippedX) ? Orientation.Neutral : Orientation.FlipH);
+				}
+				else if (allowedRotations == PermittedRotations.R360)
+				{
+					int currentRota = (int)baseOrientation;
+					int rotationOrientation = (int)rotation;
+
+					currentRota = (currentRota + rotationOrientation) % 4;
+
+					///this would be the proper flip logic if drywalls had unified orientation - but they dont
+					//int flipModX = 4;
+					//if (flippedX)
+					//{
+					//	if (currentRota % 2 == 0)
+					//	{
+					//		flipModX += 1;
+					//	}
+					//	else
+					//	{
+					//		flipModX -= 1;
+					//	}
+					//}
+					//currentRota = (currentRota+  flipModX) % 4;
+					//int flipModY = 4;
+
+					//if (flippedY)
+					//{
+					//	if (currentRota % 2 == 0)
+					//	{
+					//		flipModY -= 1;
+					//	}
+					//	else
+					//	{
+					//		flipModY += 1;
+					//	}
+					//}
+					//currentRota = (currentRota + flipModY) % 4;
+
+					baseOrientation = (Orientation)currentRota;
+				}
+				//else if (allowedRotations == PermittedRotations.R90)
+				//{
+				//	bool isRotated = baseOrientation == Orientation.R90;
+				//	if (isRotated)
+				//	{
+				//	}
+
+				//	var rotationOrientation = (int)rotation;
+				//	switch (rotation)
+				//	{
+				//		case Orientation.Neutral:
+				//		case Orientation.R90:
+				//			rotationOrientation = (int)rotation;
+				//			break;
+				//		case Orientation.R180:
+				//			rotationOrientation = (int)Orientation.Neutral;
+				//			flippedY = !flippedY;
+				//			break;
+				//		case Orientation.R270:
+				//			rotationOrientation = (int)Orientation.R90;
+				//			flippedY = !flippedY;
+				//			flippedX = !flippedX;
+				//			break;
+				//	}
+				//	if (isRotated)
+				//		rotationOrientation++;
+
+				//	rotationOrientation = rotationOrientation % 2;
+				//	baseOrientation = (Orientation)rotationOrientation;
+				//}
+				rotatable.SetOrientation(baseOrientation);
+
+				if (rotatable.Orientation == Orientation.R90
+					&& buildingConfig.BuildingDef.PermittedRotations == PermittedRotations.R90
+					&& FlippedH != flippedX)
+				{
+					Offset = new(Offset.X + (flippedX ? 1 : -1), Offset.Y);
+				}
+			}
+			FlippedV = flippedY;
+			FlippedH = flippedX;
+			RotatedOrientation = baseOrientation;
+
+
+			//if (buildingConfig.BuildingDef.WidthInCells % 2 == 0 && flippedX != wasFlippedX)
+			//{
+			//	wasFlippedX = flippedX;
+
+			//	Offset = new(Offset.X + (flippedX ? -1 : 1), Offset.Y);
+			//	//MoveVisualizer(cell, true);
+			//}
+			//int height = buildingConfig.BuildingDef.HeightInCells;
+			//if (height > 1 && flippedY != wasFlippedY)
+			//{
+			//	wasFlippedY = flippedY;
+			//	int offsetCells = height - 1;
+
+
+			//	Offset = new(Offset.X, Offset.Y + (flippedY ? offsetCells : -offsetCells));
+			//	//MoveVisualizer(cell, true);
+			//}
+		}
+
+		public virtual PermittedRotations DetermineAllowedRotations()
+		{
+			var allowedRotations = buildingConfig.BuildingDef.PermittedRotations;
+			if (buildingConfig.BuildingDef.isKAnimTile)
+				return PermittedRotations.R360;
+
+			bool higherThan1 = false, widerThan1 = false;
+			if (buildingConfig.BuildingDef.HeightInCells > 1)
+				higherThan1 = true;
+			if (buildingConfig.BuildingDef.WidthInCells > 1)
+				widerThan1 = true;
+
+			if (higherThan1 && !widerThan1 && allowedRotations == PermittedRotations.Unrotatable)
+				return PermittedRotations.FlipH;
+
+			return allowedRotations;
 		}
 	}
 }

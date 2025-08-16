@@ -67,7 +67,7 @@ namespace BlueprintsV2
 			TMPConverter.ReplaceAllText(BlueprintSelectionScreenGO);
 		}
 
-
+		public static BlueprintFolder GetCurrentFolder() => SelectedFolder == null? BlueprintFileHandling.RootFolder : SelectedFolder;
 		public static BlueprintFolder SelectedFolder;
 		public static Blueprint SelectedBlueprint;
 		public static Dictionary<BlueprintSelectedMaterial, Tag> DynamicReplacementTags = new();
@@ -279,6 +279,7 @@ namespace BlueprintsV2
 				if (ParentFolder == null)
 				{
 					RootFolder = CurrentFolder;
+					CurrentFolder.Name = STRINGS.UI.BLUEPRINTS_ROOTFOLDER;
 				}
 				else if (CurrentFolder.HasBlueprints)
 				{
@@ -398,6 +399,28 @@ namespace BlueprintsV2
 
 			Actions.BlueprintsToggleForce = new PActionManager().CreateAction(ActionKeys.ACTION_FORCE_TOGGLE_KEY,
 				STRINGS.UI.ACTIONS.TOGGLE_FORCE, new PKeyBinding(KKeyCode.F));
+
+
+
+			Actions.BlueprintsSelectPrevious = new PActionManager().CreateAction(ActionKeys.ACTION_SELECT_PREV_BLUEPRINT_KEY,
+				STRINGS.UI.ACTIONS.SELECT_PREV, new PKeyBinding(KKeyCode.MouseScrollDown,Modifier.Shift));
+			Actions.BlueprintsSelectNext = new PActionManager().CreateAction(ActionKeys.ACTION_SELECT_NEXT_BLUEPRINT_KEY,
+				STRINGS.UI.ACTIONS.SELECT_NEXT, new PKeyBinding(KKeyCode.MouseScrollUp, Modifier.Shift));
+
+			Actions.BlueprintsRotate = new PActionManager().CreateAction(ActionKeys.ACTION_ROTATE_BLUEPRINT_KEY,
+				STRINGS.UI.ACTIONS.ROTATE_BLUEPRINT, new PKeyBinding(KKeyCode.R));
+			Actions.BlueprintsRotateInverse = new PActionManager().CreateAction(ActionKeys.ACTION_ROTATE_INV_BLUEPRINT_KEY,
+				STRINGS.UI.ACTIONS.ROTATE_INV_BLUEPRINT, new PKeyBinding(KKeyCode.R, Modifier.Shift));
+			
+			Actions.BlueprintsFlipHorizontal = new PActionManager().CreateAction(ActionKeys.ACTION_FLIP_HORIZONTAL_KEY,
+				STRINGS.UI.ACTIONS.FLIP_BLUEPRINT_H, new PKeyBinding(KKeyCode.H));
+			Actions.BlueprintsFlipVertical = new PActionManager().CreateAction(ActionKeys.ACTION_FLIP_VERTICAL_KEY,
+				STRINGS.UI.ACTIONS.FLIP_BLUEPRINT_V, new PKeyBinding(KKeyCode.V));
+
+
+
+			Actions.BlueprintsToggleHotkeyToolTips = new PActionManager().CreateAction(ActionKeys.ACTION_TOGGLETOOLTIPS_KEY,
+				STRINGS.UI.ACTIONS.TOGGLETOOLTIPS, new PKeyBinding(KKeyCode.Z));
 		}
 
 		internal static bool IsStaticTag(BlueprintSelectedMaterial tagMaterial, out string name, out string desc, out Sprite icon)
@@ -475,13 +498,20 @@ namespace BlueprintsV2
 
 		public static class ActionKeys
 		{
-			public static string ACTION_CREATE_KEY = "BlueprintsV2.create.opentool";
-			public static string ACTION_USE_KEY = "BlueprintsV2.use.opentool";
-			public static string ACTION_SNAPSHOT_KEY = "BlueprintsV2.snapshot.opentool";
-			public static string ACTION_RESELECT_KEY = "BlueprintsV2.reselect";
-			public static string ACTION_SWAP_ANCHOR_KEY = "BlueprintsV2.anchorswap";
-			public static string ACTION_FORCE_TOGGLE_KEY = "BlueprintsV2.toggleforce";
-			public static string ACTION_ROTATE_BLUEPRINT_KEY = "BlueprintsV2.rotate";
+			public static readonly string ACTION_CREATE_KEY = "BlueprintsV2.create.opentool";
+			public static readonly string ACTION_USE_KEY = "BlueprintsV2.use.opentool";
+			public static readonly string ACTION_SNAPSHOT_KEY = "BlueprintsV2.snapshot.opentool";
+			public static readonly string ACTION_RESELECT_KEY = "BlueprintsV2.reselect";
+			public static readonly string ACTION_SWAP_ANCHOR_KEY = "BlueprintsV2.anchorswap";
+			public static readonly string ACTION_FORCE_TOGGLE_KEY = "BlueprintsV2.toggleforce";
+
+			public static readonly string ACTION_FLIP_HORIZONTAL_KEY = "BlueprintsV2.flipH";
+			public static readonly string ACTION_FLIP_VERTICAL_KEY = "BlueprintsV2.flipV";
+			public static readonly string ACTION_ROTATE_BLUEPRINT_KEY = "BlueprintsV2.rotate";
+			public static readonly string ACTION_ROTATE_INV_BLUEPRINT_KEY = "BlueprintsV2.rotateinverted";
+			public static readonly string ACTION_SELECT_NEXT_BLUEPRINT_KEY = "BlueprintsV2.selectnext";
+			public static readonly string ACTION_SELECT_PREV_BLUEPRINT_KEY = "BlueprintsV2.selectprev";
+			public static readonly string ACTION_TOGGLETOOLTIPS_KEY = "BlueprintsV2.toggletoooltips";
 		}
 		public static class Actions
 		{
@@ -492,6 +522,17 @@ namespace BlueprintsV2
 			public static PAction BlueprintsReopenSelectionAction { get; set; }
 			public static PAction BlueprintsSwapAnchorAction { get; set; }
 			public static PAction BlueprintsToggleForce { get; set; }
+
+			public static PAction BlueprintsFlipHorizontal { get; set; }
+			public static PAction BlueprintsFlipVertical { get; set; }
+			public static PAction BlueprintsRotate { get; set; }
+			public static PAction BlueprintsRotateInverse { get; set; }
+			public static PAction BlueprintsSelectNext { get; set; }
+			public static PAction BlueprintsSelectPrevious { get; set; }
+
+
+			public static PAction BlueprintsToggleHotkeyToolTips{ get; set; }
+
 		}
 	}
 }

@@ -25,7 +25,7 @@ namespace BlueprintsV2.BlueprintsV2.Patches
 					return;
 
 				if(e.IsAction(Actions.BlueprintsSnapshotReuseAction.GetKAction()) 
-					&& SnapshotTool.HasPreviousSnapshot
+					&& SnapshotTool.HasSnapshotsStored
 					&& __instance.currentlySelectedCollection != SnapshotToolCollection
 					)
 				{
