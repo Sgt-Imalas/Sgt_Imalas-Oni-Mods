@@ -95,10 +95,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				skins.Add(new MD_BlueprintCollectionEntry(building));
 			}
 
-
+			
 			exporter.root
 				.File("elements", "STRINGS.UI.CODEX.SUBWORLDS.ELEMENTS")
 				.Add(new MD_Text(new TranslationGroup("Enabling the following mods in the config will add several new elements to the game.\n\nA few of them will also be added to the starmap pois for mining or spawn during worldgen.").Add("zh", "在配置中启用以下mod将为游戏添加对应新元素。")))
+				.Add(new MD_Header(new TranslationGroup("New Element Categories").Add("zh", "新元素类别"), 2))
+				.Add(new MD_TagsTable([ModAssets.Tags.RandomSand, ModAssets.Tags.AIO_HardenedAlloy, ModAssets.Tags.AIO_CarrierGas]))
 				.Add(new MD_Header("STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_IO", 2))
 				.Add(new MD_Header(newElements, 3))
 				.Add(new MD_SubstanceTable(ModElements.ChemicalProcessing_IO_Elements))
