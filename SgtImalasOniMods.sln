@@ -227,6 +227,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainMod", "TrainMod\TrainM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoliorStoryTrait", "DemoliorStoryTrait\DemoliorStoryTrait.csproj", "{3351AFAB-B264-439E-8B3D-F2E5FEDC5096}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForceFieldWallTile", "ForceFieldWallTile\ForceFieldWallTile.csproj", "{BF465DD5-1ABF-4857-B767-A845B7697D18}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -626,6 +628,10 @@ Global
 		{3351AFAB-B264-439E-8B3D-F2E5FEDC5096}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3351AFAB-B264-439E-8B3D-F2E5FEDC5096}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3351AFAB-B264-439E-8B3D-F2E5FEDC5096}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF465DD5-1ABF-4857-B767-A845B7697D18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF465DD5-1ABF-4857-B767-A845B7697D18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF465DD5-1ABF-4857-B767-A845B7697D18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF465DD5-1ABF-4857-B767-A845B7697D18}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
