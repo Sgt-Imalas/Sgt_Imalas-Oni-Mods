@@ -6,7 +6,11 @@
 	<PropertyGroup>
 		<Optimize>true</Optimize>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-		<LangVersion>preview</LangVersion>
+		<LangVersion>preview</LangVersion>		
+	</PropertyGroup>
+	
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<Optimize>False</Optimize>
 	</PropertyGroup>
 
 	<!--Game Release Versions-->
