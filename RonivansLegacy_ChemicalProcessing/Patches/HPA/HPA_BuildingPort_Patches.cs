@@ -38,6 +38,8 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 					cmp.storage.capacityKg = tweakedCapacity;
 					if (cmp.targetLevel > 0)
 						cmp.targetLevel = tweakedCapacity;
+					if(cmp.TryGetComponent<SolidConduitConsumer>(out var scc))
+						scc.capacityKG = tweakedCapacity;
 					break;
 			}
         }
@@ -171,9 +173,12 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		{
 			[HarmonyPrepare]
 			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled && DlcManager.IsExpansion1Active(); 
-			public static void Prefix(BaseModularLaunchpadPortConfig __instance, ConduitType conduitType, ref float storageSize)
+			public static void Prefix(GameObject go, ConduitType conduitType, ref float storageSize, bool isLoader)
 			{
 				storageSize *= HighPressureConduitRegistration.GetConduitMultiplier(conduitType);
+
+				if (!isLoader && conduitType == ConduitType.Solid)
+					go.AddOrGet<HPA_DynamicSolidConduitDispenser>();
 			}
 		}
 	}
