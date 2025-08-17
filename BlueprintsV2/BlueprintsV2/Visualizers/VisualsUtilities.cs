@@ -20,9 +20,9 @@ namespace BlueprintsV2.Visualizers
 				TileVisualizer.RefreshCell(cell, buildingConfig.BuildingDef.TileLayer, buildingConfig.BuildingDef.ReplacementLayer);
 			}
 
-			if (visualizer.GetComponent<KBatchedAnimController>() != null)
+			if (visualizer.TryGetComponent<KBatchedAnimController>(out var kbac))
 			{
-				visualizer.GetComponent<KBatchedAnimController>().TintColour = color;
+				kbac.TintColour = color;
 			}
 		}
 	}
