@@ -2,10 +2,13 @@
 using BlueprintsV2.Tools;
 using BlueprintsV2.Visualizers;
 using Epic.OnlineServices.Sessions;
+using STRINGS;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
 using UnityEngine;
 using UtilLibs;
 using static STRINGS.BUILDING.STATUSITEMS;
+using static STRINGS.DUPLICANTS.CHORES;
 
 namespace BlueprintsV2.BlueprintData
 {
@@ -149,14 +152,14 @@ namespace BlueprintsV2.BlueprintData
 		public static void UseBlueprint(Vector2I origin, Blueprint snapshotBp = null)
 		{
 			CleanDirtyVisuals();
-			origin = GetShiftedPositions(origin, snapshotBp);
+			StoreDimensions(snapshotBp);
 			FoundationVisuals.ForEach(foundationVisual =>
 			{
 				foundationVisual.TryUse(GetRotatedCell(origin, foundationVisual));
 			});
 			DependentVisuals.ForEach(dependentVisual =>
 			{
-				dependentVisual.TryUse(GetRotatedCell(origin,dependentVisual));
+				dependentVisual.TryUse(GetRotatedCell(origin, dependentVisual));
 			});
 		}
 		#endregion
@@ -237,20 +240,30 @@ namespace BlueprintsV2.BlueprintData
 				CleanableVisuals.Add((ICleanableVisual)visual);
 			}
 		}
-		static Vector2I lastBlueprintPos;
-		public static void UpdateVisual(Vector2I topLeft, bool forcingRedraw = false, Blueprint snapshotBp = null)
+		static Vector2I lastBlueprintPos, lastBlueprintDimensions;
+
+		static void StoreDimensions(Blueprint bp)
 		{
-			lastBlueprintPos = topLeft;
+			if (bp == null)
+				bp = ModAssets.SelectedBlueprint;
+			if (bp == null)
+				return;
+			lastBlueprintDimensions = bp.Dimensions;
+		}
+
+		public static void UpdateVisual(Vector2I origin, bool forcingRedraw = false, Blueprint snapshotBp = null)
+		{
+			lastBlueprintPos = origin;
 			CleanDirtyVisuals();
-			topLeft = GetShiftedPositions(topLeft, snapshotBp);
+			StoreDimensions(snapshotBp);
 
 			FoundationVisuals.ForEach(foundationVisual =>
 			{
-				SetRotatedCell(topLeft, foundationVisual, forcingRedraw);
+				ApplyRotatedCell(origin, foundationVisual, forcingRedraw);
 			});
 			DependentVisuals.ForEach(dependentVisual =>
 			{
-				SetRotatedCell(topLeft, dependentVisual, forcingRedraw);
+				ApplyRotatedCell(origin, dependentVisual, forcingRedraw);
 			});
 		}
 
@@ -290,7 +303,7 @@ namespace BlueprintsV2.BlueprintData
 		public const PermittedRotations All = (PermittedRotations)411;
 
 		static Orientation BlueprintOrientation = Orientation.Neutral;
-		static bool FlippedX,FlippedY;
+		static bool FlippedX, FlippedY;
 		static PermittedRotations Permitted = All;
 
 		public static bool CanRotate => Permitted == All || Permitted == PermittedRotations.R360;
@@ -339,41 +352,50 @@ namespace BlueprintsV2.BlueprintData
 			FlippedY = false;
 			BlueprintOrientation = Orientation.Neutral;
 		}
-		public static void SetRotatedCell(Vector2I origin, IVisual bpEntryVis, bool forcingRedraw)
+		public static void ApplyRotatedCell(Vector2I origin, IVisual bpEntryVis, bool forcingRedraw)
 		{
 			bpEntryVis.ApplyRotation(BlueprintOrientation, FlippedX, FlippedY);
-			bpEntryVis.MoveVisualizer(GetRotatedCell(origin,bpEntryVis), forcingRedraw);
+			bpEntryVis.MoveVisualizer(GetRotatedCell(origin, bpEntryVis), forcingRedraw);
 		}
-		public static int GetRotatedCell(Vector2I origin, IVisual bpEntryVis)
+
+		public static int GetRotatedCell(Vector2I originI, IVisual bpEntryVis)
 		{
-			var visPos = bpEntryVis.Offset;
+			Vector2 visPos = bpEntryVis.Offset; //the original bp offset
+			Vector2 origin = originI;
 
-			int X = visPos.X;
-			int Y = visPos.Y;
+			///origin shift
+			int shiftX = (int)(lastBlueprintDimensions.X * originShiftX);
+			int shiftY = (int)(lastBlueprintDimensions.Y * originShiftY);
+			visPos.x -= shiftX;
+			visPos.y -= shiftY;
 
+
+			///rotation
+			Matrix4x4 rotationMatrix = default;
 			switch (BlueprintOrientation)
 			{
 				case Orientation.Neutral:
-					X = visPos.X;
-					Y = visPos.Y;
+					rotationMatrix = Matrix4x4.Rotate(Quaternion.Euler(0, 0, 0));
 					break;
 				case Orientation.R90:
-					X = visPos.Y;
-					Y = -visPos.X;
+					rotationMatrix = Matrix4x4.Rotate(Quaternion.Euler(0, 0, -90));
 					break;
 				case Orientation.R180:
-					X = -visPos.X;
-					Y = -visPos.Y;
+					rotationMatrix = Matrix4x4.Rotate(Quaternion.Euler(0, 0, -180));
 					break;
 				case Orientation.R270:
-					X = -visPos.Y;
-					Y = visPos.X;
+					rotationMatrix = Matrix4x4.Rotate(Quaternion.Euler(0, 0, -270));
 					break;
 			}
-			if (FlippedX) X *= -1;
-			if (FlippedY) Y *= -1;
-			return Grid.XYToCell(origin.X + X, origin.Y + Y);
+			visPos = rotationMatrix.MultiplyVector(visPos);
+
+			///flipping
+			var flipMatrix = Matrix4x4.Scale(new Vector3(FlippedX ? -1 : 1, FlippedY ? -1 : 1, 1));
+			visPos = flipMatrix.MultiplyVector(visPos);
+
+			return Grid.PosToCell(origin + visPos);
 		}
+
 
 		public static void FlipVertical()
 		{
@@ -382,21 +404,23 @@ namespace BlueprintsV2.BlueprintData
 
 			FlippedY = !FlippedY;
 			SgtLogger.l("Flipped Vertically: " + FlippedY);
-			UpdateRotatedVisualization();
 		}
 		public static void FlipHorizontal()
 		{
 			if (Permitted != All && Permitted != PermittedRotations.FlipH)
 				return;
 			FlippedX = !FlippedX;
-			SgtLogger.l("Flipped Horizontally: "+FlippedX);
-			UpdateRotatedVisualization();
+			SgtLogger.l("Flipped Horizontally: " + FlippedX);
 		}
 
 		public static void TryRotateBlueprint(bool inverted = false)
 		{
 			if (Permitted != All && Permitted != PermittedRotations.R360)
 				return;
+
+			bool flipInversion = FlippedX != FlippedY;
+			inverted ^= flipInversion;
+
 			switch (BlueprintOrientation)
 			{
 				case Orientation.Neutral:
@@ -412,24 +436,18 @@ namespace BlueprintsV2.BlueprintData
 					BlueprintOrientation = inverted ? Orientation.R180 : Orientation.Neutral;
 					break;
 			}
-			UpdateRotatedVisualization();
-		}
-		static void UpdateRotatedVisualization()
-		{
-			//TODO
 		}
 		#endregion
 		#region AnchorShift
 		static int _state = 0;
-		static float diffX = 0, diffY = 0;
+		static float originShiftX = 0, originShiftY = 0;
 		static List<AnchorState> ShiftStates = new()
 		{
+			new("middle",0.5f,0.5f),
 			new ("bottomLeft",0,0),
 			new ("topLeft",0,1),
 			new ("topRight",1,1),
 			new ("bottomRight",1,0),
-			new("middle",0.5f,0.5f)
-
 		};
 
 		public class AnchorState
@@ -446,17 +464,17 @@ namespace BlueprintsV2.BlueprintData
 		public static void SetAnchorState(float newDiffX = -1, float newDiffY = -1, Blueprint snapshotBlueprint = null)
 		{
 			if (newDiffX != -1)
-				diffX = newDiffX;
+				originShiftX = newDiffX;
 			if (newDiffY != -1)
-				diffY = newDiffY;
+				originShiftY = newDiffY;
 			var mousePos = PlayerController.GetCursorPos(KInputManager.GetMousePos());
 			UpdateVisual(new((int)mousePos.x, (int)mousePos.y), true, snapshotBlueprint);
 		}
 		public static void NextAnchorState(Blueprint snapshotBlueprint = null)
 		{
 			_state = (_state + 1) % ShiftStates.Count;
-			diffX = ShiftStates[_state].diffX;
-			diffY = ShiftStates[_state].diffY;
+			originShiftX = ShiftStates[_state].diffX;
+			originShiftY = ShiftStates[_state].diffY;
 
 			var mousePos = PlayerController.GetCursorPos(KInputManager.GetMousePos());
 
@@ -471,12 +489,39 @@ namespace BlueprintsV2.BlueprintData
 			if (bp == null)
 				return startPos;
 
+			return startPos;
+
 			var dimensions = bp.Dimensions;
-			int shiftX = (int)(dimensions.X * diffX);
-			int shiftY = (int)(dimensions.Y * diffY);
+			int shiftX = (int)(dimensions.X * originShiftX);
+			int shiftY = (int)(dimensions.Y * originShiftY);
 
 
-			var newVector = new Vector2I(startPos.X - shiftX, startPos.Y - shiftY);
+			var newPosX = startPos.X - shiftX;
+			var newPosY = startPos.Y - shiftY;
+
+			//if (FlippedX)
+			//	newPosX += dimensions.X;
+			//if (FlippedY)
+			//	newPosY += dimensions.Y;
+
+
+			switch (BlueprintOrientation)
+			{
+				case Orientation.Neutral:
+					break;
+				case Orientation.R90:
+					newPosY += dimensions.X;
+					break;
+				case Orientation.R180:
+					newPosX += dimensions.X;
+					newPosY += dimensions.Y;
+					break;
+				case Orientation.R270:
+					newPosX += dimensions.Y;
+					break;
+			}
+
+			var newVector = new Vector2I(newPosX, newPosY);
 
 			return newVector;
 		}

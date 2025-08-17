@@ -10,7 +10,7 @@ namespace BlueprintsV2.Tools
 	{
 		public int prefabErrorCount = 0;
 
-		public bool ShowHotkeys { get; set; }
+		public bool ShowHotkeys { get; set; } = true;
 		public void ToggleHotkeyTooltips() => ShowHotkeys = !ShowHotkeys;
 
 		public UseBlueprintToolHoverCard()

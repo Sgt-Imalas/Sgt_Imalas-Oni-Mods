@@ -155,8 +155,13 @@ namespace BlueprintsV2.Tools
 
 				if (x0 < x1)
 					shiftX = 1;
+				else
+					shiftX = 0;
+
 				if (y0 < y1)
 					shiftY = 1;
+				else 
+					shiftY = 0;
 
 				if (x0 > x1)
 				{

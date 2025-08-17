@@ -9,7 +9,7 @@ namespace BlueprintsV2.Tools
 {
 	public sealed class SnapshotToolHoverCard : HoverTextConfiguration
 	{
-		public bool ShowHotkeys { get; set; }
+		public bool ShowHotkeys { get; set; } = true;
 		public bool UsingSnapshot { get; set; }
 
 		public SnapshotToolHoverCard()

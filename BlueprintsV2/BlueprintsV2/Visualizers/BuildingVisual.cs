@@ -604,20 +604,20 @@ namespace BlueprintsV2.Visualizers
 			var allowedRotations = DetermineAllowedRotations();
 			if (allowedRotations == PermittedRotations.Unrotatable)
 				return;
-			Orientation baseOrientation = buildingConfig.Orientation;
+			Orientation targetRotation = buildingConfig.Orientation;
 			if (Visualizer.TryGetComponent<Rotatable>(out var rotatable))
 			{
 				if (allowedRotations == PermittedRotations.FlipV)
 				{
-					baseOrientation = ((rotatable.GetVisualizerFlipY() == flippedY) ? Orientation.Neutral : Orientation.FlipV);
+					targetRotation = (targetRotation == Orientation.FlipV ^ flippedY) ? Orientation.FlipV : Orientation.Neutral;
 				}
 				else if (allowedRotations == PermittedRotations.FlipH)
 				{
-					baseOrientation = ((rotatable.GetVisualizerFlipX() == flippedX) ? Orientation.Neutral : Orientation.FlipH);
+					targetRotation = (targetRotation == Orientation.FlipH ^ flippedX) ? Orientation.FlipH : Orientation.Neutral;
 				}
 				else if (allowedRotations == PermittedRotations.R360)
 				{
-					int currentRota = (int)baseOrientation;
+					int currentRota = (int)targetRotation;
 					int rotationOrientation = (int)rotation;
 
 					currentRota = (currentRota + rotationOrientation) % 4;
@@ -651,7 +651,7 @@ namespace BlueprintsV2.Visualizers
 					//}
 					//currentRota = (currentRota + flipModY) % 4;
 
-					baseOrientation = (Orientation)currentRota;
+					targetRotation = (Orientation)currentRota;
 				}
 				//else if (allowedRotations == PermittedRotations.R90)
 				//{
@@ -683,7 +683,7 @@ namespace BlueprintsV2.Visualizers
 				//	rotationOrientation = rotationOrientation % 2;
 				//	baseOrientation = (Orientation)rotationOrientation;
 				//}
-				rotatable.SetOrientation(baseOrientation);
+				rotatable.SetOrientation(targetRotation);
 
 				if (rotatable.Orientation == Orientation.R90
 					&& buildingConfig.BuildingDef.PermittedRotations == PermittedRotations.R90
@@ -694,7 +694,7 @@ namespace BlueprintsV2.Visualizers
 			}
 			FlippedV = flippedY;
 			FlippedH = flippedX;
-			RotatedOrientation = baseOrientation;
+			RotatedOrientation = targetRotation;
 
 
 			//if (buildingConfig.BuildingDef.WidthInCells % 2 == 0 && flippedX != wasFlippedX)
