@@ -45,7 +45,7 @@ namespace BlueprintsV2.BlueprintData
 				if (arg.TryGetComponent<BuildingEnabledButton>(out var component))
 				{
 					bool shouldBeEnabled = component.IsEnabled;
-					if(component.queuedToggle)
+					if (component.queuedToggle)
 						shouldBeEnabled = !shouldBeEnabled; //queued toggle means it will be toggled to the opposite state, so we need to invert it here
 
 					return new JObject()
@@ -106,7 +106,7 @@ namespace BlueprintsV2.BlueprintData
 					if (t1 == null)
 						return;
 					var RepairForbidden = t1.Value<bool>();
-					if(targetComponent.smi == null)
+					if (targetComponent.smi == null)
 					{
 						//SgtLogger.l("Repairable component has no state machine, skipping repair state transfer.");
 						return;
@@ -114,6 +114,40 @@ namespace BlueprintsV2.BlueprintData
 
 					if (RepairForbidden) ///enabled is default and this smi is buggy af, so we only set it if its forbidden
 						targetComponent.CancelRepair();
+				}
+			}
+		}
+		internal class DataTransfer_StorageTile
+		{
+			internal static JObject TryGetData(GameObject arg)
+			{
+				var smi = arg.GetSMI<StorageTile.Instance>();
+
+				if (smi != null)
+				{
+					return new JObject()
+					{
+						{ "TargetTag", smi.TargetTag.ToString()},
+					};
+				}
+				return null;
+			}
+			public static void TryApplyData(GameObject building, JObject jObject)
+			{
+				if (jObject == null)
+					return;
+
+				var smi = building.GetSMI<StorageTile.Instance>();
+
+				if (smi != null)
+				{
+
+					var t1 = jObject.GetValue("TargetTag");
+					if (t1 == null)
+						return;
+					var TargetTag = t1.Value<string>();
+					var tagParsed = TagManager.Create(TargetTag);
+					smi.SetTargetItem(tagParsed);
 				}
 			}
 		}
@@ -521,7 +555,7 @@ namespace BlueprintsV2.BlueprintData
 
 					var t1 = jObject.GetValue("CurrentPowerConsumption");
 					if (t1 == null)
-						return;					
+						return;
 					var CurrentPowerConsumption = t1.Value<float>();
 					targetComponent.SetUserSpecifiedPowerConsumptionValue(CurrentPowerConsumption);
 				}
@@ -1121,7 +1155,7 @@ namespace BlueprintsV2.BlueprintData
 				if (arg.TryGetComponent<Switch>(out var component))
 				{
 					bool isSwitchedOn = component.IsSwitchedOn;
-					if(component is IPlayerControlledToggle playerControlledToggle && playerControlledToggle.ToggleRequested)
+					if (component is IPlayerControlledToggle playerControlledToggle && playerControlledToggle.ToggleRequested)
 						isSwitchedOn = !isSwitchedOn;
 
 					return new JObject()

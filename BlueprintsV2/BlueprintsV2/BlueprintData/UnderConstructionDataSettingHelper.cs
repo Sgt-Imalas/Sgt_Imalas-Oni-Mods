@@ -65,13 +65,22 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 				temporaryTargetBuilding = null;
 			}
 
-			int cell = def.WidthInCells; //spawn it close to the origin, but dont let it clip into negative cell indicies
+			var world = origin.GetMyWorld();
+			var worldOffset = world.WorldOffset;
+
+			int cell = Grid.XYToCell(worldOffset.X, worldOffset.Y);
+
+			cell += Mathf.CeilToInt((def.WidthInCells / 2f)); //spawn it close to the origin, but dont let it clip into negative cell indicies
 
 			temporaryTargetBuilding = def.Create(Grid.CellToPos(cell), null, [SimHashes.Unobtanium.CreateTag()], null, 100, def.BuildingComplete);
 
 			TemporarySelectable = temporaryTargetBuilding.GetComponent<KSelectable>();
 			//prevent "build outside start biome" achievment from triggering
 			temporaryTargetBuilding.GetComponent<KPrefabID>().AddTag(GameTags.TemplateBuilding);
+
+			if (temporaryTargetBuilding.TryGetComponent<KBatchedAnimController>(out var kbac))
+				kbac.animScale = 0;
+
 			//hide deconstruction button
 			if (temporaryTargetBuilding.TryGetComponent<Deconstructable>(out var decon))
 				decon.allowDeconstruction = false;
@@ -107,12 +116,19 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 
 
 		/// <summary>
-		/// turn off status items in the ui to hide entombed notifications
+		/// turn off status items on the temp building
 		/// </summary>
-		[HarmonyPatch(typeof(KSelectable), nameof(KSelectable.GetStatusItemGroup))]
-		public class KSelectable_GetStatusItemGroup_Patch
+		[HarmonyPatch(typeof(KSelectable), nameof(KSelectable.AddStatusItem))]
+		public class KSelectable_AddStatusItem_Patch
 		{
-			public static bool Prefix(KSelectable __instance) => TemporarySelectable != __instance;
+			public static bool Prefix(KSelectable __instance, ref Guid __result)
+			{
+				if (TemporarySelectable != __instance)
+					return true;
+
+				__result = Guid.Empty;
+				return false;
+			}
 		}
 		/// <summary>
 		/// override the prioritizable check to allow the temporary target building to be prioritized.
@@ -139,12 +155,18 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 		{
 			public static bool Prefix(GameObject target) => target != temporaryTargetBuilding;
 		}
+		/// <summary>
+		/// dont show copy setting button on temp building
+		/// </summary>
 		[HarmonyPatch(typeof(CopyBuildingSettings), nameof(CopyBuildingSettings.OnRefreshUserMenu))]
 		public class CopyBuildingSettings_OnRefreshUserMenu_Patch
 		{
 			public static bool Prefix(CopyBuildingSettings __instance) => __instance.gameObject != temporaryTargetBuilding;
 		}
 
+		/// <summary>
+		/// dont show temp building in hover cards
+		/// </summary>
 		[HarmonyPatch(typeof(SelectToolHoverTextCard), nameof(SelectToolHoverTextCard.UpdateHoverElements))]
 		public class SelectToolHoverTextCard_UpdateHoverElements_Patch
 		{
@@ -167,7 +189,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 				bool hasVisualizersInitialized = true;
 				if (__instance.manageLeftCap)
 				{
-					if(__instance.leftCapDefault == null || __instance.leftCapConduit == null || __instance.leftCapLaunchpad == null)
+					if (__instance.leftCapDefault == null || __instance.leftCapConduit == null || __instance.leftCapLaunchpad == null)
 						hasVisualizersInitialized = false;
 				}
 				if (__instance.manageRightCap)

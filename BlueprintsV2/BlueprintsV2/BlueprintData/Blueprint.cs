@@ -72,6 +72,11 @@ namespace BlueprintsV2.BlueprintData
 			InferFriendlyName();
 		}
 
+		public void SetRandomSnapshotId()
+		{
+			FilePath = Guid.NewGuid().ToString();
+		}
+
 		public Blueprint(StringBuilder sourceSerialized)
 		{
 			ReadJson(JObject.Parse(sourceSerialized.ToString()));

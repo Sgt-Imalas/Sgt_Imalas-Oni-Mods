@@ -972,6 +972,10 @@ namespace SetStartDupes
 		{
 			return id.Contains("BaseTrait");
 		}
+		internal static string GetMinionBaseTrait(Tag model)
+		{
+			return BaseMinionConfig.GetMinionBaseTraitIDForModel(model);
+		}
 
 		public static string UnlockIcon = "OpenLock";
 	}

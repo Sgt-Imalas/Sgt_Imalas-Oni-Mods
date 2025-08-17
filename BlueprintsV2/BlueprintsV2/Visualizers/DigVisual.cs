@@ -55,5 +55,11 @@ namespace BlueprintsV2.Visualizers
 
 			return false;
 		}
+
+		public PermittedRotations GetAllowedRotations() => BlueprintState.All;
+		public void ApplyRotation(Orientation rotation, bool flipped, bool flippedY)
+		{
+			//digging doesnt get rotated
+		}
 	}
 }

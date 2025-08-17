@@ -2,9 +2,13 @@
 using BlueprintsV2.Tools;
 using BlueprintsV2.Visualizers;
 using Epic.OnlineServices.Sessions;
+using STRINGS;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
 using UnityEngine;
+using UtilLibs;
 using static STRINGS.BUILDING.STATUSITEMS;
+using static STRINGS.DUPLICANTS.CHORES;
 
 namespace BlueprintsV2.BlueprintData
 {
@@ -38,6 +42,7 @@ namespace BlueprintsV2.BlueprintData
 
 		public static readonly Dictionary<int, CellColorPayload> ColoredCells = new();
 
+		#region UseCreate
 		public static Blueprint CreateBlueprint(Vector2I topLeft, Vector2I bottomRight, MultiToolParameterMenu filter = null, bool createsSnapshot = false)
 		{
 			Blueprint blueprint = new Blueprint("unnamed", "");
@@ -144,10 +149,25 @@ namespace BlueprintsV2.BlueprintData
 			blueprint.CacheCost();
 			return blueprint;
 		}
+		public static void UseBlueprint(Vector2I origin, Blueprint snapshotBp = null)
+		{
+			CleanDirtyVisuals();
+			StoreDimensions(snapshotBp);
+			FoundationVisuals.ForEach(foundationVisual =>
+			{
+				foundationVisual.TryUse(GetRotatedCell(origin, foundationVisual));
+			});
+			DependentVisuals.ForEach(dependentVisual =>
+			{
+				dependentVisual.TryUse(GetRotatedCell(origin, dependentVisual));
+			});
+		}
+		#endregion
+		#region Visualizers
 
 		public static void RefreshBlueprintVisualizers(Blueprint snapshot = null)
 		{
-			BlueprintState.UpdateVisual(lastBlueprintPos,true, snapshot);
+			BlueprintState.UpdateVisual(lastBlueprintPos, true, snapshot);
 		}
 
 		public static void VisualizeBlueprint(Vector2I topLeft, Blueprint blueprint)
@@ -172,7 +192,10 @@ namespace BlueprintsV2.BlueprintData
 				{
 					int cell = Grid.XYToCell(topLeft.x + buildingConfig.Offset.x, topLeft.y + buildingConfig.Offset.y);
 
-					if (buildingConfig.BuildingDef.IsTilePiece)
+					if (buildingConfig.BuildingDef.IsTilePiece 
+						&& !buildingConfig.BuildingDef.BuildingComplete.TryGetComponent<Door>(out _)
+						&& buildingConfig.BuildingDef.TileLayer != ObjectLayer.LadderTile
+						)
 					{
 						if (buildingConfig.BuildingDef.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>() != null)
 						{
@@ -183,7 +206,6 @@ namespace BlueprintsV2.BlueprintData
 							AddVisual(new TileVisual(buildingConfig, cell), buildingConfig.BuildingDef);
 						}
 					}
-
 					else
 					{
 						AddVisual(new BuildingVisual(buildingConfig, cell), buildingConfig.BuildingDef);
@@ -200,10 +222,13 @@ namespace BlueprintsV2.BlueprintData
 			{
 				UseBlueprintTool.Instance.HoverCard.prefabErrorCount = errors;
 			}
+
+			CheckPermittedRotations();
 		}
 
 		private static void AddVisual(IVisual visual, BuildingDef buildingDef)
 		{
+			SgtLogger.l(buildingDef.PrefabID + " -> adding visual of type: " + visual.GetType());
 			if (buildingDef.IsFoundation)
 			{
 				FoundationVisuals.Add(visual);
@@ -218,17 +243,214 @@ namespace BlueprintsV2.BlueprintData
 				CleanableVisuals.Add((ICleanableVisual)visual);
 			}
 		}
+		static Vector2I lastBlueprintPos, lastBlueprintDimensions;
 
+		static void StoreDimensions(Blueprint bp)
+		{
+			if (bp == null)
+				bp = ModAssets.SelectedBlueprint;
+			if (bp == null)
+				return;
+			lastBlueprintDimensions = bp.Dimensions;
+		}
+
+		public static void UpdateVisual(Vector2I origin, bool forcingRedraw = false, Blueprint snapshotBp = null)
+		{
+			lastBlueprintPos = origin;
+			CleanDirtyVisuals();
+			StoreDimensions(snapshotBp);
+
+			FoundationVisuals.ForEach(foundationVisual =>
+			{
+				ApplyRotatedCell(origin, foundationVisual, forcingRedraw);
+			});
+			DependentVisuals.ForEach(dependentVisual =>
+			{
+				ApplyRotatedCell(origin, dependentVisual, forcingRedraw);
+			});
+		}
+
+
+		public static void ClearVisuals()
+		{
+			CleanDirtyVisuals();
+			CleanableVisuals.Clear();
+
+			FoundationVisuals.ForEach(foundationVisual => UnityEngine.Object.DestroyImmediate(foundationVisual.Visualizer));
+			FoundationVisuals.Clear();
+
+			DependentVisuals.ForEach(dependantVisual => UnityEngine.Object.DestroyImmediate(dependantVisual.Visualizer));
+			DependentVisuals.Clear();
+			ResetRotations();
+		}
+
+		public static void CleanDirtyVisuals()
+		{
+			foreach (int cell in ColoredCells.Keys)
+			{
+				CellColorPayload cellColorPayload = ColoredCells[cell];
+				TileVisualizer.RefreshCell(cell, cellColorPayload.TileLayer, cellColorPayload.ReplacementLayer);
+			}
+
+			ColoredCells.Clear();
+			CleanableVisuals.ForEach(cleanableVisual => cleanableVisual.Clean());
+		}
+		#endregion
+
+		#region Rotation
+
+		/// <summary>
+		/// the blueprint of this building supports both rotating and flipping in any direction, e.g a tile or backwall
+		/// only to be used in visualizer checks, not in actual building placement!
+		/// </summary>
+		public const PermittedRotations All = (PermittedRotations)411;
+
+		static Orientation BlueprintOrientation = Orientation.Neutral;
+		static bool FlippedX, FlippedY;
+		static PermittedRotations Permitted = All;
+
+		public static bool CanRotate => Permitted == All || Permitted == PermittedRotations.R360;
+		public static bool CanFlipH => Permitted == All || Permitted == PermittedRotations.FlipH;
+		public static bool CanFlipV => Permitted == All || Permitted == PermittedRotations.FlipV;
+
+		public static void CheckPermittedRotations()
+		{
+			Permitted = All;
+
+			foreach (var vis in FoundationVisuals)
+			{
+				var rotation = vis.GetAllowedRotations();
+				switch (rotation)
+				{
+					case All:
+						continue;
+					case PermittedRotations.Unrotatable:
+						Permitted = PermittedRotations.Unrotatable;
+						return;
+					case PermittedRotations.FlipH:
+						Permitted = PermittedRotations.FlipH;
+						break;
+				}
+			}
+			foreach (var vis in DependentVisuals)
+			{
+				var rotation = vis.GetAllowedRotations();
+				switch (rotation)
+				{
+					case All:
+						continue;
+					case PermittedRotations.Unrotatable:
+						Permitted = PermittedRotations.Unrotatable;
+						return;
+					case PermittedRotations.FlipH:
+						Permitted = PermittedRotations.FlipH;
+						break;
+				}
+			}
+		}
+
+		static void ResetRotations()
+		{
+			FlippedX = false;
+			FlippedY = false;
+			BlueprintOrientation = Orientation.Neutral;
+		}
+		public static void ApplyRotatedCell(Vector2I origin, IVisual bpEntryVis, bool forcingRedraw)
+		{
+			bpEntryVis.ApplyRotation(BlueprintOrientation, FlippedX, FlippedY);
+			bpEntryVis.MoveVisualizer(GetRotatedCell(origin, bpEntryVis), forcingRedraw);
+		}
+
+		public static int GetRotatedCell(Vector2I originI, IVisual bpEntryVis)
+		{
+			Vector2 visPos = bpEntryVis.Offset; //the original bp offset
+			Vector2 origin = originI;
+
+			///origin shift
+			int shiftX = (int)(lastBlueprintDimensions.X * originShiftX);
+			int shiftY = (int)(lastBlueprintDimensions.Y * originShiftY);
+			visPos.x -= shiftX;
+			visPos.y -= shiftY;
+
+
+			///rotation
+			Matrix4x4 rotationMatrix = default;
+			switch (BlueprintOrientation)
+			{
+				case Orientation.Neutral:
+					rotationMatrix = Matrix4x4.Rotate(Quaternion.Euler(0, 0, 0));
+					break;
+				case Orientation.R90:
+					rotationMatrix = Matrix4x4.Rotate(Quaternion.Euler(0, 0, -90));
+					break;
+				case Orientation.R180:
+					rotationMatrix = Matrix4x4.Rotate(Quaternion.Euler(0, 0, -180));
+					break;
+				case Orientation.R270:
+					rotationMatrix = Matrix4x4.Rotate(Quaternion.Euler(0, 0, -270));
+					break;
+			}
+			visPos = rotationMatrix.MultiplyVector(visPos);
+
+			///flipping
+			var flipMatrix = Matrix4x4.Scale(new Vector3(FlippedX ? -1 : 1, FlippedY ? -1 : 1, 1));
+			visPos = flipMatrix.MultiplyVector(visPos);
+
+			return Grid.PosToCell(origin + visPos);
+		}
+
+
+		public static void FlipVertical()
+		{
+			if (Permitted != All && Permitted != PermittedRotations.FlipV)
+				return;
+
+			FlippedY = !FlippedY;
+			SgtLogger.l("Flipped Vertically: " + FlippedY);
+		}
+		public static void FlipHorizontal()
+		{
+			if (Permitted != All && Permitted != PermittedRotations.FlipH)
+				return;
+			FlippedX = !FlippedX;
+			SgtLogger.l("Flipped Horizontally: " + FlippedX);
+		}
+
+		public static void TryRotateBlueprint(bool inverted = false)
+		{
+			if (Permitted != All && Permitted != PermittedRotations.R360)
+				return;
+
+			bool flipInversion = FlippedX != FlippedY;
+			inverted ^= flipInversion;
+
+			switch (BlueprintOrientation)
+			{
+				case Orientation.Neutral:
+					BlueprintOrientation = inverted ? Orientation.R270 : Orientation.R90;
+					break;
+				case Orientation.R90:
+					BlueprintOrientation = inverted ? Orientation.Neutral : Orientation.R180;
+					break;
+				case Orientation.R180:
+					BlueprintOrientation = inverted ? Orientation.R90 : Orientation.R270;
+					break;
+				case Orientation.R270:
+					BlueprintOrientation = inverted ? Orientation.R180 : Orientation.Neutral;
+					break;
+			}
+		}
+		#endregion
+		#region AnchorShift
 		static int _state = 0;
-		static float diffX = 0, diffY = 0;
+		static float originShiftX = 0, originShiftY = 0;
 		static List<AnchorState> ShiftStates = new()
 		{
+			new("middle",0.5f,0.5f),
 			new ("bottomLeft",0,0),
 			new ("topLeft",0,1),
 			new ("topRight",1,1),
 			new ("bottomRight",1,0),
-			new("middle",0.5f,0.5f)
-
 		};
 
 		public class AnchorState
@@ -245,22 +467,23 @@ namespace BlueprintsV2.BlueprintData
 		public static void SetAnchorState(float newDiffX = -1, float newDiffY = -1, Blueprint snapshotBlueprint = null)
 		{
 			if (newDiffX != -1)
-				diffX = newDiffX;
+				originShiftX = newDiffX;
 			if (newDiffY != -1)
-				diffY = newDiffY;
+				originShiftY = newDiffY;
 			var mousePos = PlayerController.GetCursorPos(KInputManager.GetMousePos());
 			UpdateVisual(new((int)mousePos.x, (int)mousePos.y), true, snapshotBlueprint);
 		}
 		public static void NextAnchorState(Blueprint snapshotBlueprint = null)
 		{
 			_state = (_state + 1) % ShiftStates.Count;
-			diffX = ShiftStates[_state].diffX;
-			diffY = ShiftStates[_state].diffY;
+			originShiftX = ShiftStates[_state].diffX;
+			originShiftY = ShiftStates[_state].diffY;
 
 			var mousePos = PlayerController.GetCursorPos(KInputManager.GetMousePos());
 
 			UpdateVisual(new((int)mousePos.x, (int)mousePos.y), true, snapshotBlueprint);
 		}
+
 
 		static Vector2I GetShiftedPositions(Vector2I startPos, Blueprint bp = null)
 		{
@@ -269,75 +492,42 @@ namespace BlueprintsV2.BlueprintData
 			if (bp == null)
 				return startPos;
 
+			return startPos;
+
 			var dimensions = bp.Dimensions;
-			int shiftX = (int)(dimensions.X * diffX);
-			int shiftY = (int)(dimensions.Y * diffY);
+			int shiftX = (int)(dimensions.X * originShiftX);
+			int shiftY = (int)(dimensions.Y * originShiftY);
 
 
-			var newVector = new Vector2I(startPos.X - shiftX, startPos.Y - shiftY);
+			var newPosX = startPos.X - shiftX;
+			var newPosY = startPos.Y - shiftY;
+
+			//if (FlippedX)
+			//	newPosX += dimensions.X;
+			//if (FlippedY)
+			//	newPosY += dimensions.Y;
+
+
+			switch (BlueprintOrientation)
+			{
+				case Orientation.Neutral:
+					break;
+				case Orientation.R90:
+					newPosY += dimensions.X;
+					break;
+				case Orientation.R180:
+					newPosX += dimensions.X;
+					newPosY += dimensions.Y;
+					break;
+				case Orientation.R270:
+					newPosX += dimensions.Y;
+					break;
+			}
+
+			var newVector = new Vector2I(newPosX, newPosY);
 
 			return newVector;
 		}
-
-		static Vector2I lastBlueprintPos;
-		public static void UpdateVisual(Vector2I topLeft, bool forcingRedraw = false, Blueprint snapshotBp = null)
-		{
-			lastBlueprintPos = topLeft;
-			CleanDirtyVisuals();
-			topLeft = GetShiftedPositions(topLeft, snapshotBp);
-
-			FoundationVisuals.ForEach(foundationVisual =>
-			{
-				var newPos = (topLeft + foundationVisual.Offset);
-				foundationVisual.MoveVisualizer(Grid.XYToCell(newPos.x, newPos.y), forcingRedraw);
-			});
-			DependentVisuals.ForEach(dependentVisual =>
-			{
-				var newPos = (topLeft + dependentVisual.Offset);
-				dependentVisual.MoveVisualizer(Grid.XYToCell(newPos.x, newPos.y), forcingRedraw);
-			});
-		}
-		public static void UseBlueprint(Vector2I topLeft, Blueprint snapshotBp = null)
-		{
-			CleanDirtyVisuals();
-			topLeft = GetShiftedPositions(topLeft, snapshotBp);
-			FoundationVisuals.ForEach(foundationVisual =>
-			{
-				var newPos = (topLeft + foundationVisual.Offset);
-				foundationVisual.TryUse(Grid.XYToCell(newPos.x, newPos.y));
-			});
-			DependentVisuals.ForEach(dependentVisual =>
-			{
-				var newPos = (topLeft + dependentVisual.Offset);
-				dependentVisual.TryUse(Grid.XYToCell(newPos.x, newPos.y));
-			});
-		}
-
-
-		public static void ClearVisuals()
-		{
-			CleanDirtyVisuals();
-			CleanableVisuals.Clear();
-
-			FoundationVisuals.ForEach(foundationVisual => UnityEngine.Object.DestroyImmediate(foundationVisual.Visualizer));
-			FoundationVisuals.Clear();
-
-			DependentVisuals.ForEach(dependantVisual => UnityEngine.Object.DestroyImmediate(dependantVisual.Visualizer));
-			DependentVisuals.Clear();
-		}
-
-		public static void CleanDirtyVisuals()
-		{
-			foreach (int cell in ColoredCells.Keys)
-			{
-				CellColorPayload cellColorPayload = ColoredCells[cell];
-				TileVisualizer.RefreshCell(cell, cellColorPayload.TileLayer, cellColorPayload.ReplacementLayer);
-			}
-
-			ColoredCells.Clear();
-			CleanableVisuals.ForEach(cleanableVisual => cleanableVisual.Clean());
-		}
-
-
+		#endregion
 	}
 }

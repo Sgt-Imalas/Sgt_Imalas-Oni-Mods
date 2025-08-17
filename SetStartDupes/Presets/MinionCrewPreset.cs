@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SetStartDupes.DuplicityEditing;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -71,11 +72,32 @@ namespace SetStartDupes
 			container.SetInfoText();
 		}
 
-
-		static async Task DoWithDelay(System.Action task, int ms)
+		public static MinionCrewPreset CreateCrewPresetFromLiveDuplicants()
 		{
-			await Task.Delay(ms);
-			task.Invoke();
+			int count = 0;
+			var preset = new MinionCrewPreset();
+			string crewTitle = string.Empty;
+			foreach (MinionIdentity minion in Components.LiveMinionIdentities)
+			{
+				if (count > 0 && count < 4)
+					crewTitle += ",";
+				if(count == 4)
+					crewTitle += ",...";
+
+				var editorConfig = DuplicantEditableStats.GenerateFromMinion(minion.gameObject);
+				var stats = MinionStatConfig.CreateFromDuplicityEditorDupe(editorConfig);
+
+				if (count < 4)
+					crewTitle += editorConfig.MinionName;
+
+				preset.Crewmates.Add(new(minion.nameStringKey, stats));
+				++count;
+			}
+			crewTitle += STRINGS.UNNAMEDPRESET;
+			preset.CrewName = crewTitle;
+			preset.FileName = FileNameWithHash(crewTitle);
+			preset.CreationDate = System.DateTime.Now.ToString("yyyy-MM-dd");
+			return preset;
 		}
 
 		public static MinionCrewPreset CreateCrewPreset(CharacterSelectionController controller)
@@ -104,8 +126,10 @@ namespace SetStartDupes
 
 			foreach (var mate in crewmates)
 			{
-				if (count > 0)
+				if (count > 0 && count < 4)
 					crewTitle += ",";
+				if (count == 4)
+					crewTitle += ",...";
 
 				var stats = MinionStatConfig.CreateFromStartingStats(mate);
 				stats.ConfigName = mate.Name;

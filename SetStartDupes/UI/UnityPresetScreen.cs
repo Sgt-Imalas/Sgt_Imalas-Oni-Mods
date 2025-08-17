@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SetStartDupes.DuplicityEditing;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -39,17 +40,21 @@ namespace SetStartDupes
 		public FInputField2 Searchbar;
 
 		public FToggle OverrideNamesToggle;
+		public FToggle OverrideXPToggle;
+		public GameObject OverrideXPToggleGO;
 		public FToggle OverrideReactionsToggle;
 
 
 		public bool CurrentlyActive;
 		public bool OverrideNames = false;
 		public bool OverrideReactions = true;
+		public bool OverrideXP = false;
 
 		///Preset
 		MinionStatConfig CurrentlySelected;
 		///Referenced Stats to apply presets to.
-		MinionStartingStats ReferencedStats = null;
+		MinionStartingStats ReferencedStartingStats = null;
+		DuplicantEditableStats ReferencedLiveStats = null;
 
 
 		Dictionary<MinionStatConfig, GameObject> Presets = new Dictionary<MinionStatConfig, GameObject>();
@@ -57,7 +62,7 @@ namespace SetStartDupes
 
 
 
-		public static void ShowWindow(MinionStartingStats startingStats, System.Action onClose)
+		public static void ShowWindow(MinionStartingStats startingStats,DuplicantEditableStats liveStats, System.Action onClose)
 		{
 			if (Instance == null)
 			{
@@ -68,9 +73,11 @@ namespace SetStartDupes
 			Instance.Show(true);
 			Instance.ConsumeMouseScroll = true;
 			Instance.transform.SetAsLastSibling();
-			Instance.ReferencedStats = startingStats;
+			Instance.ReferencedStartingStats = startingStats;
+			Instance.ReferencedLiveStats = liveStats;
 			Instance.LoadAllPresets();
-			Instance.LoadTemporalPreset(startingStats);
+			Instance.LoadTemporalPreset();
+			Instance.SetOpenedFromMode();
 			Instance.OnCloseAction = onClose;
 			Instance.Searchbar.Text = string.Empty;
 		}
@@ -78,10 +85,23 @@ namespace SetStartDupes
 		private bool init;
 		private System.Action OnCloseAction;
 
-		public void LoadTemporalPreset(MinionStartingStats toGenerateFrom)
+		public void LoadTemporalPreset()
 		{
-			MinionStatConfig tempStats = MinionStatConfig.CreateFromStartingStats(toGenerateFrom);
+			MinionStatConfig tempStats = null;
+			if (ReferencedLiveStats != null)
+				tempStats = MinionStatConfig.CreateFromDuplicityEditorDupe(ReferencedLiveStats);
+			else if(ReferencedStartingStats != null)
+				tempStats = MinionStatConfig.CreateFromStartingStats(ReferencedStartingStats);
+
+			SgtLogger.Assert("Referenced minion stats", tempStats);
+
 			SetAsCurrent(tempStats);
+		}
+
+		void SetOpenedFromMode()
+		{
+			//hide button in regular preset screen
+			OverrideXPToggleGO.SetActive(ReferencedLiveStats != null);
 		}
 
 		public override void OnKeyDown(KButtonEvent e)
@@ -136,6 +156,16 @@ namespace SetStartDupes
 			return minionStatConfigs;
 		}
 
+		public Tag GetCurrentMinionModel()
+		{
+			if (ReferencedStartingStats != null)
+				return ReferencedStartingStats.personality.model;
+			else if (ReferencedLiveStats != null)
+				return ReferencedLiveStats.Model;
+
+			throw new Exception("No referenced minion stats to apply preset to assigned!");
+		}
+
 		private bool AddUiElementForPreset(MinionStatConfig config)
 		{
 			if (!Presets.ContainsKey(config))
@@ -146,7 +176,7 @@ namespace SetStartDupes
 				UIUtils.TryChangeText(PresetHolder.transform, "Label", config.ConfigName);
 				var renamePresetButton = PresetHolder.transform.Find("RenameButton").FindOrAddComponent<FButton>();
 
-				bool isValidForModel = config.Model == ReferencedStats.personality.model;
+				bool isValidForModel = config.Model == GetCurrentMinionModel();
 
 				if (!isValidForModel)
 					UIUtils.AddSimpleTooltipToObject(PresetHolder.transform, SCROLLAREA.CONTENT.PRESETENTRYPREFAB.INVALIDMODELTOOLTIP);
@@ -190,14 +220,15 @@ namespace SetStartDupes
 			{ };
 
 
-			DialogUtil.CreateConfirmDialogFrontend(
+			DialogUtil.CreateConfirmDialog(
 		   string.Format(DELETEWINDOW.TITLE, config.ConfigName),
 		   string.Format(DELETEWINDOW.DESC, config.ConfigName),
 		   DELETEWINDOW.YES,
 		   Delete,
 		   DELETEWINDOW.CANCEL
 		   , nothing
-		   , useScreenSpaceOverlay: true
+		   , useScreenSpaceOverlay: true		   
+		   ,parent: ModAssets.ParentScreen
 		   );
 		}
 
@@ -318,11 +349,19 @@ namespace SetStartDupes
 			OverrideReactionsToggle.SetOnFromCode(OverrideReactions);
 			OverrideReactionsToggle.OnChange += (result) => OverrideReactions = result;
 
+			OverrideXPToggleGO = transform.Find("HorizontalLayout/ItemInfo/Checkboxes/XpOverride").gameObject;
+			UIUtils.AddSimpleTooltipToObject(OverrideXPToggleGO, HORIZONTALLAYOUT.ITEMINFO.CHECKBOXES.XPOVERRIDE.TOOLTIP);
+			OverrideXPToggle = transform.Find("HorizontalLayout/ItemInfo/Checkboxes/XpOverride/Checkbox").gameObject.AddOrGet<FToggle>();
+			OverrideXPToggle.SetCheckmark("Checkmark");
+			OverrideXPToggle.SetOnFromCode(OverrideXP);
+			OverrideXPToggle.OnChange += (result) => OverrideXP = result;
+
 			UIUtils.AddSimpleTooltipToObject(transform.Find("HorizontalLayout/ItemInfo/Checkboxes/NameOverride").gameObject, HORIZONTALLAYOUT.ITEMINFO.CHECKBOXES.NAMEOVERRIDE.TOOLTIP);
 			OverrideNamesToggle = transform.Find("HorizontalLayout/ItemInfo/Checkboxes/NameOverride/Checkbox").gameObject.AddOrGet<FToggle>();
 			OverrideNamesToggle.SetCheckmark("Checkmark");
 			OverrideNamesToggle.SetOnFromCode(OverrideNames);
 			OverrideNamesToggle.OnChange += (result) => OverrideNames = result;
+			
 
 
 			Searchbar = transform.Find("HorizontalLayout/ObjectList/SearchBar/Input").FindOrAddComponent<FInputField2>();
@@ -335,7 +374,7 @@ namespace SetStartDupes
 
 			ApplyButton.OnClick += () =>
 			{
-				CurrentlySelected.ApplyPreset(ReferencedStats, OverrideNames, OverrideReactions);
+				ApplyPresetToCurrentlySelectedDupe();
 				this.OnCloseAction.Invoke();
 				this.Show(false);
 			};
@@ -383,6 +422,14 @@ namespace SetStartDupes
 			init = true;
 		}
 
+		void ApplyPresetToCurrentlySelectedDupe()
+		{
+			if (ReferencedStartingStats != null)
+				CurrentlySelected.ApplyPreset(ReferencedStartingStats, OverrideNames, OverrideReactions);
+			else if (ReferencedLiveStats != null)
+				CurrentlySelected.ApplyPresetToEditorDupe(ReferencedLiveStats, OverrideNames, OverrideReactions, OverrideXP);
+
+		}
 		public void ApplyFilter(string filterstring = "")
 		{
 			foreach (var go in Presets)

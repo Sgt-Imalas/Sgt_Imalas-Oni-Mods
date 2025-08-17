@@ -49,6 +49,8 @@ namespace SetStartDupes.DuplicityEditing
 		Dictionary<Tab, FToggleButton> Tabs = new Dictionary<Tab, FToggleButton>();
 		Tab lastCategory = Tab.undefined;
 
+		//Preset buttons
+		FButton OpenCrewPresets, OpenStatPresets;
 
 		//Prefabs:
 		NumberInput NumberInputPrefabWide, NumberInputPrefab;
@@ -141,8 +143,9 @@ namespace SetStartDupes.DuplicityEditing
 			Stats = DuplicantEditableStats.GenerateFromMinion(minion);
 			HeaderLabel.SetText(string.Format(STRINGS.UI.DUPEEDITING.DETAILS.HEADER.LABEL_FILLED, SelectedMinion.GetProperName()));
 			UpdateMinionButtons();
-			UpdateCategoryButtons();
+			RefreshDetailsUI();
 		}
+		
 		void TryClose()
 		{
 			if (PendingChanges() && !HasOpenDialogue())
@@ -163,7 +166,7 @@ namespace SetStartDupes.DuplicityEditing
 		void ClearAll()
 		{
 			Stats.ClearAll();
-			UpdateCategoryButtons();
+			RefreshDetailsUI();
 		}
 
 		void ApplyAndClose()
@@ -236,13 +239,29 @@ namespace SetStartDupes.DuplicityEditing
 
 			HeaderLabel = transform.Find("Details/Header/Label").GetComponent<LocText>();
 
+			OpenCrewPresets = transform.Find("Categories/Header/ExportPreset").gameObject.AddOrGet<FButton>();
+			OpenCrewPresets.OnClick += OpenCrewPresetScreen;
+			OpenStatPresets = transform.Find("Details/Header/ExportPreset").gameObject.AddOrGet<FButton>();
+			OpenStatPresets.OnClick += OpenStatPresetScreen;
+
+
 			//temp:
 			//transform.Find("Details/Content/ScrollRectContainer/Appearence").gameObject.SetActive(false);
 			transform.Find("Details/Content/ScrollRectContainer/SingleListPrefab").gameObject.SetActive(false);
 			//transform.Find("Details/Content/ScrollRectContainer/TraitInterestContainer").gameObject.SetActive(false);
-
-
 		}
+
+		void OpenStatPresetScreen()
+		{
+			ModAssets.ParentScreen = this.transform.parent.gameObject;
+			UnityPresetScreen.ShowWindow(null, Stats, RefreshDetailsUI);
+		}
+		void OpenCrewPresetScreen()
+		{
+			ModAssets.ParentScreen = this.transform.parent.gameObject;
+			UnityCrewPresetScreen.ShowWindow(null,RefreshDetailsUI);
+		}
+
 		private void InitTabs()
 		{
 			Tabs.Add(Tab.Attributes, transform.Find("Details/Header/Buttons/AttributeButton").FindOrAddComponent<FToggleButton>());
@@ -646,6 +665,9 @@ namespace SetStartDupes.DuplicityEditing
 
 			foreach (var trait in Stats.Traits)
 			{
+				if (ModAssets.IsMinionBaseTrait(trait))
+					continue;
+
 				var traitInfo = AddOrGetTraitContainer(trait);
 				traitInfo.gameObject.SetActive(true);
 			}
@@ -671,7 +693,7 @@ namespace SetStartDupes.DuplicityEditing
 				var go = Util.KInstantiateUI(TraitPrefab.gameObject, TraitContainer);
 				var entry = go.AddOrGet<DeletableListEntry>();
 				entry.Text = trait.Name;
-				entry.Tooltip = trait.description;
+				entry.Tooltip = ModAssets.GetTraitTooltip(trait, trait.Id);
 				entry.backgroundColor = ModAssets.GetColourFromType(Type);
 				if (Type == NextType.undefined || Type == NextType.special )
 				{
@@ -681,7 +703,6 @@ namespace SetStartDupes.DuplicityEditing
 				{
 					entry.OnDeleteClicked = () => OnRemoveTrait(traitID);
 				}
-
 				go.SetActive(true);
 				TraitEntries[traitID] = entry;
 			}
@@ -819,7 +840,7 @@ namespace SetStartDupes.DuplicityEditing
 			rectMain.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, UnityEngine.Screen.width * (1f / (rectMain.lossyScale.x)));
 			rectMain.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, UnityEngine.Screen.height * (1f / (rectMain.lossyScale.y)));
 		}
-		private void UpdateCategoryButtons()
+		private void RefreshDetailsUI()
 		{
 			if (lastCategory == Tab.undefined)
 				lastCategory = Tab.Attributes;

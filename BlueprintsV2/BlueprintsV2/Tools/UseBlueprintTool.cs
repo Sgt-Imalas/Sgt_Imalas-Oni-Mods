@@ -79,7 +79,7 @@ namespace BlueprintsV2.Tools
 			if (ModAssets.SelectedBlueprint != null)
 			{
 				GridCompositor.Instance.ToggleMajor(true);
-				BlueprintState.VisualizeBlueprint(Grid.PosToXY(PlayerController.GetCursorPos(KInputManager.GetMousePos())), ModAssets.SelectedBlueprint);
+				VisualizeSelectedBlueprint();
 			}
 			else
 			{
@@ -95,6 +95,11 @@ namespace BlueprintsV2.Tools
 				if (sound != null)
 					KMonoBehaviour.PlaySound(sound);
 			}
+		}
+
+		void VisualizeSelectedBlueprint()
+		{
+			BlueprintState.VisualizeBlueprint(Grid.PosToXY(PlayerController.GetCursorPos(KInputManager.GetMousePos())), ModAssets.SelectedBlueprint);
 		}
 
 		public override void OnDeactivateTool(InterfaceTool newTool)
@@ -131,6 +136,11 @@ namespace BlueprintsV2.Tools
 		{
 			if (ModAssets.BlueprintFileHandling.HasBlueprints())
 			{
+				if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsToggleHotkeyToolTips.GetKAction()))
+				{
+					HoverCard?.ToggleHotkeyTooltips();
+				}
+				else
 				if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsToggleForce.GetKAction()))
 				{
 					BlueprintState.ForceMaterialChange = true;
@@ -140,14 +150,42 @@ namespace BlueprintsV2.Tools
 				{
 					ShowBlueprintsWindow();
 				}
-				if (buttonEvent.TryConsume(Action.RotateBuilding))
-				{
-					//BlueprintState.TryRotateBlueprint();
-				}
 
 				if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsSwapAnchorAction.GetKAction()))
 				{
 					BlueprintState.NextAnchorState();
+					BlueprintState.RefreshBlueprintVisualizers();
+				}
+				else if (buttonEvent.TryConsume(Action.RotateBuilding) || buttonEvent.TryConsume(ModAssets.Actions.BlueprintsRotate.GetKAction()))
+				{
+					BlueprintState.TryRotateBlueprint();
+					BlueprintState.RefreshBlueprintVisualizers();
+				}
+				else if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsRotateInverse.GetKAction()))
+				{
+					BlueprintState.TryRotateBlueprint(true);
+					BlueprintState.RefreshBlueprintVisualizers();
+				}
+				else if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsFlipHorizontal.GetKAction()))
+				{
+					BlueprintState.FlipHorizontal();
+					BlueprintState.RefreshBlueprintVisualizers();
+				}
+				else if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsFlipVertical.GetKAction()))
+				{
+					BlueprintState.FlipVertical();
+					BlueprintState.RefreshBlueprintVisualizers();
+				}
+				else if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsSelectPrevious.GetKAction()))
+				{
+					ModAssets.GetCurrentFolder().SelectPrev();
+
+					VisualizeSelectedBlueprint();
+				}
+				else if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsSelectNext.GetKAction()))
+				{
+					ModAssets.GetCurrentFolder().SelectNext();
+					VisualizeSelectedBlueprint();
 				}
 			}
 

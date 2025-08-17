@@ -10,35 +10,42 @@ using UtilLibs;
 
 namespace SetStartDupes.DuplicityEditing
 {
-	internal class DuplicantEditableStats
+	public class DuplicantEditableStats
 	{
 		public bool EditsPending => AttributesPending || AppearancePending || HealthPending || SkillsPending || EffectsPending;
 		public bool AttributesPending = false, AppearancePending = false, HealthPending = false, SkillsPending = false, EffectsPending = false;
 
 		float totalExperience;
 		Dictionary<string, bool> MasteryBySkillID;
-		Dictionary<string, int> AttributeLevels;
+		public Dictionary<string, int> AttributeLevels;
 		public Dictionary<HashedString, float> AptitudeBySkillGroup;
 		public Dictionary<string, float> HealthAmounts;
 		public Dictionary<string, float> Effects;
 		public Dictionary<AccessorySlot, Accessory> Accessories;
 
 		public string JoyTraitId, StressTraitId;
-		public HashSet<string> Traits;
+		public HashSet<string> Traits { get; private set; }
 		public Tag Model;
+		public string MinionName;
+		public float Age;
 
 		internal static DuplicantEditableStats GenerateFromMinion(MinionAssignablesProxy minion)
 		{
 			var go = minion.GetTargetGameObject();
+			return GenerateFromMinion(go);
+		}
+		internal static DuplicantEditableStats GenerateFromMinion(GameObject go)
+		{
 			var stats = new DuplicantEditableStats();
-
 			if (go.TryGetComponent<StoredMinionIdentity>(out var storedMinionIdentity))
 			{
 
 			}
 			else if (go.TryGetComponent<MinionIdentity>(out var minionIdentity))
 			{
+				stats.MinionName = minionIdentity.selectable.GetName();
 				stats.Model = minionIdentity.model;
+				stats.Age = GameClock.Instance.GetCycle() - minionIdentity.arrivalTime;
 				if (minionIdentity.TryGetComponent<AttributeLevels>(out var attributeLevels))
 				{
 					var attributes = Db.Get().Attributes;
@@ -83,7 +90,7 @@ namespace SetStartDupes.DuplicityEditing
 						{
 							stats.StressTraitId = traitId;
 						}
-						else if(traitId != DUPLICANTSTATS.INVALID_TRAIT_VAL.id)
+						else if (traitId != DUPLICANTSTATS.INVALID_TRAIT_VAL.id)
 							stats.Traits.Add(traitId);
 					}
 				}
@@ -116,6 +123,8 @@ namespace SetStartDupes.DuplicityEditing
 
 			return stats;
 		}
+
+
 
 		public bool HasJoyTrait => JoyTraitId != null;
 		public bool HasStressTrait => StressTraitId != null;
@@ -167,6 +176,16 @@ namespace SetStartDupes.DuplicityEditing
 				return -1;
 			}
 			return AttributeLevels[attribute.Id];
+		}
+
+		public void SetTraits(IEnumerable<string> traits)
+		{
+			Traits.RemoveWhere(t => !ModAssets.IsMinionBaseTrait(t));
+
+			foreach (var t in traits)
+				AddTrait(t);
+
+			AttributesPending = true;
 		}
 
 		public void RemoveTrait(string id)
@@ -244,10 +263,10 @@ namespace SetStartDupes.DuplicityEditing
 				}
 			}
 			if (AppearancePending && go.TryGetComponent<Accessorizer>(out var accessorizer))
-            {
-                SgtLogger.l("applying looks changes");
-                //Looks
-                var sourceAccessories = accessorizer.GetAccessories();
+			{
+				SgtLogger.l("applying looks changes");
+				//Looks
+				var sourceAccessories = accessorizer.GetAccessories();
 				List<Accessory> ToRemove = new(), ToAdd = new();
 				HashSet<AccessorySlot> NotExistingSlots = new(AccessorySlotHelper.GetAllChangeableSlot());
 
@@ -330,9 +349,9 @@ namespace SetStartDupes.DuplicityEditing
 			}
 			//Traits
 			if (AttributesPending && go.TryGetComponent<Traits>(out var traits))
-            {
-                SgtLogger.l("applying trait changes");
-                var targetTraits = new List<string>(Traits);
+			{
+				SgtLogger.l("applying trait changes");
+				var targetTraits = new List<string>(Traits);
 				if (JoyTraitId != null)
 					targetTraits.Add(JoyTraitId);
 				if (StressTraitId != null)
@@ -362,16 +381,16 @@ namespace SetStartDupes.DuplicityEditing
 						SgtLogger.warning("trait to remove not existing: " + toRemoveTrait);
 						continue;
 					}
-					SgtLogger.l("removing "+toRemoveTrait);
+					SgtLogger.l("removing " + toRemoveTrait);
 					traits.Remove(trait);
 					ModAssets.PurgingTraitComponentIfExists(toRemoveTrait, go);
 				}
 			}
 			//Health Amounts
 			if (HealthPending)
-            {
-                SgtLogger.l("applying health changes");
-                foreach (var amount in AmountHelper.GetAmountsForModel(Model))
+			{
+				SgtLogger.l("applying health changes");
+				foreach (var amount in AmountHelper.GetAmountsForModel(Model))
 				{
 					var instance = amount.Lookup(go);
 					if (instance == null || !HealthAmounts.ContainsKey(amount.Id))
@@ -383,10 +402,10 @@ namespace SetStartDupes.DuplicityEditing
 				}
 			}
 			if ((SkillsPending || AttributesPending) && go.TryGetComponent<MinionResume>(out var minionResume))
-            {
-                SgtLogger.l("applying skills changes");
-                //XP
-                minionResume.totalExperienceGained = totalExperience;
+			{
+				SgtLogger.l("applying skills changes");
+				//XP
+				minionResume.totalExperienceGained = totalExperience;
 				//Skills
 				foreach (var skill in MasteryBySkillID)
 				{
@@ -396,12 +415,12 @@ namespace SetStartDupes.DuplicityEditing
 					{
 						if (shouldHaveSkill)
 						{
-							SgtLogger.l("learning new skill: "+skill.Key);
+							SgtLogger.l("learning new skill: " + skill.Key);
 							minionResume.MasterSkill(skill.Key);
 						}
 						else
 						{
-							SgtLogger.l("unlearning existing skill: "+skill.Key);
+							SgtLogger.l("unlearning existing skill: " + skill.Key);
 							minionResume.UnmasterSkill(skill.Key);
 						}
 					}
@@ -411,9 +430,9 @@ namespace SetStartDupes.DuplicityEditing
 			}
 			//Effects
 			if (EffectsPending && go.TryGetComponent<Effects>(out Effects effects))
-            {
-                SgtLogger.l("applying effects changes");
-                HashSet<string> toRemove = new();
+			{
+				SgtLogger.l("applying effects changes");
+				HashSet<string> toRemove = new();
 				foreach (var effectInstance in effects.effects)
 				{
 					string id = effectInstance.effect.Id;
@@ -496,11 +515,11 @@ namespace SetStartDupes.DuplicityEditing
 			EffectsPending = true;
 
 			totalExperience = 0;
-			foreach(var key in AttributeLevels.Keys.ToList())
+			foreach (var key in AttributeLevels.Keys.ToList())
 			{
 				AttributeLevels[key] = 0;
 			}
-			foreach(var skill in MasteryBySkillID.Keys.ToList())
+			foreach (var skill in MasteryBySkillID.Keys.ToList())
 			{
 				MasteryBySkillID[skill] = false;
 			}
@@ -512,6 +531,16 @@ namespace SetStartDupes.DuplicityEditing
 
 			Traits.Clear();
 
+		}
+
+		internal List<string> GetTraitsWithBase()
+		{
+			var list = Traits.ToList();
+
+			var basetrait = ModAssets.GetMinionBaseTrait(Model);
+			if(!list.Contains(basetrait))
+				list.Insert(0, basetrait);
+			return list;
 		}
 	}
 }

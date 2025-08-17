@@ -34,7 +34,7 @@ namespace BlueprintsV2
 				public static LocString TOOLTIP = "Whether the Snapshot Tool syncs with the current overlay. (configurable in game too)";
 			}
 		}
-			
+
 		public class UI
 		{
 			public class PRECONFIGURE_UNDERCONSTRUCTION
@@ -54,6 +54,7 @@ namespace BlueprintsV2
 				public static LocString MOVETOFOLDER_TITLE = "MOVE TO FOLDER";
 				public static LocString RENAMEBLUEPRINT_TITLE = "RENAME BLUEPRINT";
 			}
+			public static LocString BLUEPRINTS_ROOTFOLDER = "Main Folder";
 
 			public class BLUEPRINTSELECTOR
 			{
@@ -188,8 +189,15 @@ namespace BlueprintsV2
 				public static LocString SELECT_DIFFERENT_TITLE = "Select different Blueprint";
 				public static LocString CHANGE_ANCHOR_TITLE = "Change Blueprint Anchor";
 				public static LocString TOGGLE_FORCE = "Toggle force rebuild";
-				public static LocString ROTATE_BLUEPRINT_TITLE = "Rotate Blueprint";
-				public static LocString FLIP_BLUEPRINT_TITLE = "FLIP Blueprint";
+				public static LocString TOGGLETOOLTIPS = "Toggle keybind tooltips";
+
+
+				public static LocString SELECT_NEXT = "Next Blueprint";
+				public static LocString SELECT_PREV = "Previous Blueprint";
+				public static LocString ROTATE_BLUEPRINT = "Rotate Blueprint";
+				public static LocString ROTATE_INV_BLUEPRINT = "Reverse Rotate Blueprint";
+				public static LocString FLIP_BLUEPRINT_H = "Flip Blueprint Horizontal";
+				public static LocString FLIP_BLUEPRINT_V = "Flip Blueprint Vertical";
 			}
 			public class TOOLS
 			{
@@ -219,16 +227,27 @@ namespace BlueprintsV2
 					public static LocString ERRORMESSAGE = "This blueprint contained {0} misconfigured or missing prefabs which have been omitted!";
 					public static LocString NOBLUEPRINTS = "No blueprints loaded!";
 					public static LocString NONESELECTED = "No blueprint selected!";
-					public static LocString SELECTEDBLUEPRINT = "Selected blueprint: {0}";
+					public static LocString SELECTEDBLUEPRINT = "Selected blueprint: {0} ({1}/{2} in {3})";
 
-					public static LocString FORCEREBUILD = "Force rebuild existing buildings with blueprint materials if different:\n{0} (hold {1} to enable)";
+					public static LocString FORCEREBUILD = "Replace buildings with mismatched material:\n{0} (hold {1})";
 					public static LocString REBUILD_ACTIVE = "Active";
 					public static LocString REBUILD_INACTIVE = "Inactive";
 
+					public static LocString SELECTPREV = "Previous blueprint: {0}";
+					public static LocString SELECTNEXT = "Next blueprint: {0}";
 
-					public static LocString SETTINGS_APPLIED = "settings applied!";
+					public static LocString SETTINGS_APPLIED = "Settings applied!";
+
+					public static LocString ROTATE = "Rotate blueprint: {0}/{1}";
+					public static LocString FLIP = "Flip ({0}:{1}/{2}:{3})";
+					public static LocString ORIENTATION_H = "Horizontal";
+					public static LocString ORIENTATION_V = "Vertical";
+
+
+					public static LocString TOGGLE_SHOW_HOTKEYS = "Toggle hotkey infos: {0}";
 
 				}
+
 				public class SNAPSHOT_TOOL
 				{
 					public static LocString NAME = "Take Snapshot";
@@ -238,6 +257,9 @@ namespace BlueprintsV2
 					public static LocString TOOLTIP_TITLE = "SNAPSHOT TOOL";
 					public static LocString NEWSNAPSHOT = "Press {0} to take new snapshot.";
 					public static LocString REUSELASTSNAPSHOT = "Press {0} to reuse your last taken snapshot.";
+
+					public static LocString SELECTPREV_SNAPSHOT = "Previous snapshot: {0}";
+					public static LocString SELECTNEXT_SNAPSHOT = "Next snapshot: {0}";
 				}
 				public class FILTERLAYERS
 				{
