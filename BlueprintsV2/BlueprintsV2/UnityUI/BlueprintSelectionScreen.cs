@@ -486,7 +486,7 @@ namespace BlueprintsV2.UnityUI
 		private void SetReplacementMaterials(BlueprintSelectedMaterial materialTypeTag, float amount)
 		{
 			ToReplaceTag = materialTypeTag;
-			ToReplaceName.SetText(ToReplaceTag.CategoryTag.Name);
+			ToReplaceName.SetText(ToReplaceTag.LocalizedCategoryTag());
 			foreach (var prev in PreviouslyActiveMaterialReplacementButtons)
 			{
 				prev.gameObject.SetActive(false);

@@ -45,12 +45,6 @@ namespace BlueprintsV2.Tools
 					{
 						drawer.NewLine(32);
 						drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.ACTION_SELECT, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsReopenSelectionAction.GetKAction()) + "]")), Styles_Instruction.Standard);
-						drawer.NewLine(20);
-
-						drawer.DrawText(UIUtils.ColorText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.SELECTPREV, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsSelectPrevious.GetKAction()) + "]")), folder.HasPrevSnapshot(ModAssets.SelectedBlueprint) ? Color.white : Color.grey), Styles_Instruction.Standard);
-						drawer.NewLine();
-
-						drawer.DrawText(UIUtils.ColorText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.SELECTNEXT, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsSelectNext.GetKAction()) + "]")), folder.HasNextSnapshot(ModAssets.SelectedBlueprint) ? Color.white : Color.grey), Styles_Instruction.Standard);
 						drawer.NewLine();
 
 						drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.ACTION_CHANGE_ANCHOR, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsSwapAnchorAction.GetKAction()) + "]")), Styles_Instruction.Standard);
@@ -60,7 +54,7 @@ namespace BlueprintsV2.Tools
 							UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsRotateInverse.GetKAction()) + "]")),
 							BlueprintState.CanRotate ? Color.white : Color.grey), Styles_Instruction.Standard);
 
-						drawer.NewLine();
+						drawer.NewLine(20);
 						drawer.DrawText(string.Format(UIUtils.ColorText(STRINGS.UI.TOOLS.USE_TOOL.FLIP, BlueprintState.CanFlipH || BlueprintState.CanFlipV ? Color.white : Color.grey),
 							UIUtils.ColorText(STRINGS.UI.TOOLS.USE_TOOL.ORIENTATION_H, BlueprintState.CanFlipH ? Color.white : Color.grey),
 							UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsFlipHorizontal.GetKAction()) + "]"),
@@ -81,7 +75,13 @@ namespace BlueprintsV2.Tools
 						drawer.DrawIcon(screenInstance.GetSprite("iconWarning"));
 						drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.ERRORMESSAGE, prefabErrorCount), Styles_Instruction.Selected);
 					}
-					drawer.NewLine(ShowHotkeys ? 45 : 22);
+					drawer.NewLine(ShowHotkeys ? 45 : 22); 
+					
+					drawer.DrawText(UIUtils.ColorText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.SELECTPREV, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsSelectPrevious.GetKAction()) + "]")), folder.HasPrevSnapshot(ModAssets.SelectedBlueprint) ? Color.white : Color.grey), Styles_Instruction.Standard);
+					drawer.NewLine(20);
+
+					drawer.DrawText(UIUtils.ColorText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.SELECTNEXT, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsSelectNext.GetKAction()) + "]")), folder.HasNextSnapshot(ModAssets.SelectedBlueprint) ? Color.white : Color.grey), Styles_Instruction.Standard);
+					drawer.NewLine();
 					drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.SELECTEDBLUEPRINT, selectedBp.FriendlyName, folder.GetBlueprintIndex(selectedBp) + 1, folder.BlueprintCount, folder.Name), Styles_Instruction.Standard);
 				}
 				else

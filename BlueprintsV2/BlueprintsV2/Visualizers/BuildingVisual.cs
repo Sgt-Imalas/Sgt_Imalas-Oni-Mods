@@ -5,6 +5,7 @@ using BlueprintsV2.Tools;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UtilLibs;
 using static STRINGS.DUPLICANTS.MODIFIERS;
@@ -588,20 +589,21 @@ namespace BlueprintsV2.Visualizers
 		public virtual PermittedRotations GetAllowedRotations()
 		{
 			var def = buildingConfig.BuildingDef;
-			if (buildingConfig.BuildingDef.isKAnimTile)
+			if (def.isKAnimTile)
 				return BlueprintState.All;
-			else if (def.WidthInCells == 1 && def.HeightInCells == 1 && def.ObjectLayer == ObjectLayer.Backwall)
-				return BlueprintState.All;
-			else if (def.WidthInCells == 1 && def.HeightInCells == 1 && def.PermittedRotations == PermittedRotations.R360)
+			else if (def.WidthInCells == 1 && def.HeightInCells == 1 && 
+				(def.ObjectLayer == ObjectLayer.Backwall || def.PermittedRotations == PermittedRotations.R360 || def.BuildLocationRule == BuildLocationRule.Anywhere || def.BuildLocationRule == BuildLocationRule.NotInTiles))
 				return BlueprintState.All;
 			else if (def.WidthInCells % 2 == 1)
 				return PermittedRotations.FlipH;
+			else if(def.BuildingComplete.TryGetComponent<Door>(out _))
+				return PermittedRotations.FlipH;
 
-			return PermittedRotations.Unrotatable;
+				return PermittedRotations.Unrotatable;
 		}
 		public virtual void ApplyRotation(Orientation rotation, bool flippedX, bool flippedY)
 		{
-			var allowedRotations = DetermineAllowedRotations();
+			var allowedRotations = GetAnimRotations();
 			if (allowedRotations == PermittedRotations.Unrotatable)
 				return;
 			Orientation targetRotation = buildingConfig.Orientation;
@@ -685,11 +687,32 @@ namespace BlueprintsV2.Visualizers
 				//}
 				rotatable.SetOrientation(targetRotation);
 
-				if (rotatable.Orientation == Orientation.R90
-					&& buildingConfig.BuildingDef.PermittedRotations == PermittedRotations.R90
-					&& FlippedH != flippedX)
+				if (buildingConfig.BuildingDef.PermittedRotations == PermittedRotations.R90)
 				{
-					Offset = new(Offset.X + (flippedX ? 1 : -1), Offset.Y);
+					var def = buildingConfig.BuildingDef;
+					//if the door has an even number of cells, it will need to have its offset adjusted by one, axis depending on the natural state of the door
+
+					//bool evenWidth = def.WidthInCells % 2 == 0 && def.HeightInCells == 1;
+					//bool evenHeight = def.HeightInCells % 2 == 0 && def.WidthInCells == 1;
+
+					//bunker doors are rotated in their natural, so they need reversing of the rotation state
+					bool isRotatedToHorizontal = def.WidthInCells > 1 ? rotatable.Orientation == Orientation.Neutral : rotatable.Orientation == Orientation.R90;
+					bool isRotatedToVertical = !isRotatedToHorizontal;
+
+
+					int xOffset = 0, yOffset = 0;
+					//SgtLogger.l(def.PrefabID + ": rotationstate: " + rotatable.orientation + ", ishorizontal: " + isRotatedToHorizontal);
+					if (FlippedH != flippedX && isRotatedToHorizontal)
+					{
+							xOffset = flippedX ? 1 : -1;
+					}
+					if (FlippedV != flippedY && isRotatedToVertical)
+					{
+						yOffset += flippedY ? -1 : 1;
+					}
+
+					Offset = new(Offset.X + xOffset, Offset.Y + yOffset);
+
 				}
 			}
 			FlippedV = flippedY;
@@ -716,20 +739,18 @@ namespace BlueprintsV2.Visualizers
 			//}
 		}
 
-		public virtual PermittedRotations DetermineAllowedRotations()
+		public virtual PermittedRotations GetAnimRotations()
 		{
 			var allowedRotations = buildingConfig.BuildingDef.PermittedRotations;
 			if (buildingConfig.BuildingDef.isKAnimTile)
 				return PermittedRotations.R360;
 
-			bool higherThan1 = false, widerThan1 = false;
-			if (buildingConfig.BuildingDef.HeightInCells > 1)
-				higherThan1 = true;
-			if (buildingConfig.BuildingDef.WidthInCells > 1)
-				widerThan1 = true;
+			bool higherThan1 = buildingConfig.BuildingDef.HeightInCells > 1, 
+				  widerThan1 = buildingConfig.BuildingDef.WidthInCells > 1;
 
 			if (higherThan1 && !widerThan1 && allowedRotations == PermittedRotations.Unrotatable)
 				return PermittedRotations.FlipH;
+
 
 			return allowedRotations;
 		}

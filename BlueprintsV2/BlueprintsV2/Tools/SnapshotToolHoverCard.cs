@@ -46,7 +46,7 @@ namespace BlueprintsV2.Tools
 					drawer.NewLine();
 
 					drawer.DrawText(UIUtils.ColorText(string.Format(STRINGS.UI.TOOLS.SNAPSHOT_TOOL.SELECTPREV_SNAPSHOT, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsSelectPrevious.GetKAction()) + "]")), SnapshotTool.Instance?.HasPrevSnapshot ?? false ? Color.white : Color.grey), Styles_Instruction.Standard);
-					drawer.NewLine();
+					drawer.NewLine(20);
 
 					drawer.DrawText(UIUtils.ColorText(string.Format(STRINGS.UI.TOOLS.SNAPSHOT_TOOL.SELECTNEXT_SNAPSHOT, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsSelectNext.GetKAction()) + "]")), SnapshotTool.Instance?.HasNextSnapshot ?? false ? Color.white : Color.grey), Styles_Instruction.Standard);
 					drawer.NewLine();
@@ -58,7 +58,7 @@ namespace BlueprintsV2.Tools
 						UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsRotateInverse.GetKAction()) + "]")),
 						BlueprintState.CanRotate ? Color.white : Color.grey), Styles_Instruction.Standard);
 
-					drawer.NewLine();
+					drawer.NewLine(20);
 					drawer.DrawText(string.Format(UIUtils.ColorText(STRINGS.UI.TOOLS.USE_TOOL.FLIP, BlueprintState.CanFlipH|| BlueprintState.CanFlipV ? Color.white : Color.grey),
 						UIUtils.ColorText(STRINGS.UI.TOOLS.USE_TOOL.ORIENTATION_H, BlueprintState.CanFlipH ? Color.white : Color.grey),
 						UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsFlipHorizontal.GetKAction()) + "]"),

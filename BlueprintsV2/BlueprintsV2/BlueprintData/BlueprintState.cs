@@ -192,7 +192,10 @@ namespace BlueprintsV2.BlueprintData
 				{
 					int cell = Grid.XYToCell(topLeft.x + buildingConfig.Offset.x, topLeft.y + buildingConfig.Offset.y);
 
-					if (buildingConfig.BuildingDef.IsTilePiece)
+					if (buildingConfig.BuildingDef.IsTilePiece 
+						&& !buildingConfig.BuildingDef.BuildingComplete.TryGetComponent<Door>(out _)
+						&& buildingConfig.BuildingDef.TileLayer != ObjectLayer.LadderTile
+						)
 					{
 						if (buildingConfig.BuildingDef.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>() != null)
 						{
@@ -203,7 +206,6 @@ namespace BlueprintsV2.BlueprintData
 							AddVisual(new TileVisual(buildingConfig, cell), buildingConfig.BuildingDef);
 						}
 					}
-
 					else
 					{
 						AddVisual(new BuildingVisual(buildingConfig, cell), buildingConfig.BuildingDef);
@@ -226,6 +228,7 @@ namespace BlueprintsV2.BlueprintData
 
 		private static void AddVisual(IVisual visual, BuildingDef buildingDef)
 		{
+			SgtLogger.l(buildingDef.PrefabID + " -> adding visual of type: " + visual.GetType());
 			if (buildingDef.IsFoundation)
 			{
 				FoundationVisuals.Add(visual);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UtilLibs;
 
 namespace BlueprintsV2.BlueprintData
@@ -10,9 +11,24 @@ namespace BlueprintsV2.BlueprintData
 		public Tag CategoryTag => _categoryTag;
 		public Tag BuildingIdTag => _buildingIdTag;
 
+		public string LocalizedCategoryTag()
+		{
+			var tags = CategoryTag.ToString().Split('&');
+			List<string> localized = [];
+			foreach (var tag in tags)
+			{
+				var locTag = Strings.Get("STRINGS.MISC.TAGS." + tag.ToUpperInvariant()).ToString();
+				if(locTag.Contains("MISSING"))
+					localized.Add(tag);
+				else
+					localized.Add(locTag);
+			}
+			return string.Join(global::STRINGS.COLONY_ACHIEVEMENTS.MISC_REQUIREMENTS.STATUS.PREPARED_SEPARATOR, localized);
+		}
+
 		public static BlueprintSelectedMaterial GetBlueprintSelectedMaterial(Tag selected, Tag category, Tag buildingId)
 		{
-			if(BlueprintState.AdvancedMaterialReplacement)
+			if (BlueprintState.AdvancedMaterialReplacement)
 			{
 				if (buildingId != null)
 					return new BlueprintSelectedMaterial(selected, category, buildingId);
@@ -46,7 +62,7 @@ namespace BlueprintsV2.BlueprintData
 		public static bool operator !=(BlueprintSelectedMaterial a, BlueprintSelectedMaterial b) => !(a == b);
 		public override int GetHashCode()
 		{
-			var val= SelectedTag.GetHashCode() ^ CategoryTag.GetHashCode() ^ BuildingIdTag.GetHashCode();
+			var val = SelectedTag.GetHashCode() ^ CategoryTag.GetHashCode() ^ BuildingIdTag.GetHashCode();
 			//SgtLogger.l("mat hash for "+SelectedTag+", "+CategoryTag+", "+BuildingIdTag+": "+val);
 			return val;
 		}

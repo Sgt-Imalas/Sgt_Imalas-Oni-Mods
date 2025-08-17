@@ -118,7 +118,7 @@ namespace BlueprintsV2.UnityUI.Components
 			base.OnSpawn();
 		}
 
-		void SetElementNameText(string text)
+		void SetElementNameText(string elementName)
 		{
 			if (BlueprintState.AdvancedMaterialReplacement && SelectedAndCategory.BuildingIdTag != null)
 			{
@@ -126,22 +126,22 @@ namespace BlueprintsV2.UnityUI.Components
 				if (prefab != null)
 				{
 					string prefabname = prefab.GetProperName();
-					text = prefabname + ": " + text;
+					elementName = prefabname + ": " + elementName;
 					BuildingIcon.sprite = Def.GetUISprite(prefab)?.first;
 				}
 				else
 				{
 					BuildingIcon.gameObject.SetActive(false);
 				}
+				ElementName?.SetText(elementName);
 
 			}
 			else
 			{
 				BuildingIcon.gameObject.SetActive(false);
+				ElementName?.SetText(SelectedAndCategory.LocalizedCategoryTag() + ": " + elementName);
 			}
 
-			if (ElementName != null)
-				ElementName.SetText(text);
 		}
 
 
