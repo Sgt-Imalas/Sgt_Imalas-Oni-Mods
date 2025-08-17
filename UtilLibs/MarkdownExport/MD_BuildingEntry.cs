@@ -174,19 +174,8 @@ namespace UtilLibs.MarkdownExport
 		public MD_BuildingEntry WriteUISprite(string path)
 		{
 			KAnimFile kanim = def.AnimFiles.First();
-			WriteUISprite(path,ID,kanim);
+			Exporter.WriteUISprite(path,ID,kanim);
 			return this;
-		}
-		public static void WriteUISprite(string path,string fileName, KAnimFile kanimFile)
-		{
-			if (kanimFile == null) return;
-
-			var UISprite = Def.GetUISpriteFromMultiObjectAnim(kanimFile);
-
-			if (UISprite != null && UISprite != Assets.GetSprite("unknown"))
-			{
-				MarkdownUtil.WriteUISpriteToFile(UISprite, path, fileName);
-			}
 		}
 
 		public MD_BuildingEntry(string id)

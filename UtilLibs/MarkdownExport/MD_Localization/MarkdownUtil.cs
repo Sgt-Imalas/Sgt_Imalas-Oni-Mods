@@ -9,7 +9,6 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using YamlDotNet.Core.Tokens;
 using static GameUtil;
 using static STRINGS.CREATURES.STATUSITEMS;
 using static UtilLibs.MarkdownExport.MD_Localization;
@@ -33,6 +32,30 @@ namespace UtilLibs.MarkdownExport
 				tagKey = tagKey.Replace("BLUEGRASS", "BLUE_GRASS");
 		}
 
+		public static string GetTagStringWithIcon(Tag tag, bool prefix = true)
+		{
+			string element = tag.ToString();
+			string tagName = GetTagString(tag);
+			string iconCategory = "elements";
+			if (ElementLoader.GetElement(tag) == null)
+			{
+				Exporter.AddEntity(tag);
+				iconCategory = "entities";
+			}
+
+			///.inline-icon is a css property in the wiki main css:
+
+			//.inline - icon {
+			//	vertical - align: top;
+			//	width: 18px;
+			//}
+
+			if (prefix)
+				return $" ![{element}](/assets/images/{iconCategory}/{element}.png){{.inline-icon}} {GetTagString(element)}";
+			else
+				return $"{GetTagString(element)} ![{element}](/assets/images/{iconCategory}/{element}.png){{.inline-icon}}";
+
+		}
 		public static string GetTagString(Tag tag, bool desc = false)
 		{
 			string endKey = ".NAME";
@@ -70,9 +93,9 @@ namespace UtilLibs.MarkdownExport
 			}
 			if (tagKey.Contains("GEYSERGENERIC_"))
 			{
-				var geyserID = tagKey.Replace("GEYSERGENERIC_",string.Empty);
+				var geyserID = tagKey.Replace("GEYSERGENERIC_", string.Empty);
 				var geyserKey = "STRINGS.CREATURES.SPECIES.GEYSER." + geyserID + endKey;
-				if(HasKey(geyserKey))
+				if (HasKey(geyserKey))
 					return Strip(L(geyserKey));
 			}
 
@@ -93,7 +116,7 @@ namespace UtilLibs.MarkdownExport
 			if (HasKey(comet))
 				return Strip(L(comet));
 
-			if(MD_Localization.TryGetManuallyRegistered(tagKey, out var loc))
+			if (MD_Localization.TryGetManuallyRegistered(tagKey, out var loc))
 				return Strip(loc);
 
 			if (desc)
@@ -240,27 +263,30 @@ namespace UtilLibs.MarkdownExport
 			var imageBytes = tex.EncodeToPNG();
 			File.WriteAllBytes(fileName, imageBytes);
 		}
-#endregion
+		#endregion
 		internal static string GetElementTransitionProperties(Element element)
 		{
 			string property = "<br/>";
 			string transitionsInto_low = "";
 			if (element.lowTempTransition != null)
 			{
-				transitionsInto_low = "<br/>" + Math.Round(GameUtil.GetTemperatureConvertedFromKelvin(element.lowTemp, TemperatureUnit.Celsius), 2).ToString() + "°C";
-				transitionsInto_low += " -> " + GetTagString(element.lowTempTransition.tag);
+				transitionsInto_low = Math.Round(GameUtil.GetTemperatureConvertedFromKelvin(element.lowTemp, TemperatureUnit.Celsius), 2).ToString() + "°C";
+				string transitionPercentage = element.lowTempTransitionOreMassConversion > 0 ? (1 - element.lowTempTransitionOreMassConversion).ToString("P0") + " " : "->";
+				transitionsInto_low += "<br/>" + transitionPercentage + GetTagStringWithIcon(element.lowTempTransition.tag);
 				if (element.lowTempTransitionOreID != SimHashes.Vacuum && element.lowTempTransitionOreMassConversion > 0)
-					transitionsInto_low += ", " + GetTagString(element.lowTempTransitionOreID.CreateTag());
+					transitionsInto_low += ",<br/>" + element.lowTempTransitionOreMassConversion.ToString("P0") + GetTagStringWithIcon(element.lowTempTransitionOreID.CreateTag());
 				transitionsInto_low += "<br/>";
 			}
 
 			string transitionsInto_high = "";
 			if (element.highTempTransition != null)
 			{
-				transitionsInto_high = "<br/>" + Math.Round(GameUtil.GetTemperatureConvertedFromKelvin(element.highTemp, TemperatureUnit.Celsius), 2).ToString() + "°C";
-				transitionsInto_high += " -> " + GetTagString(element.highTempTransition.tag);
+				transitionsInto_high = Math.Round(GameUtil.GetTemperatureConvertedFromKelvin(element.highTemp, TemperatureUnit.Celsius), 2).ToString() + "°C";
+				string transitionPercentage = element.highTempTransitionOreMassConversion > 0 ? (1 - element.highTempTransitionOreMassConversion).ToString("P0") + " " : "->";
+
+				transitionsInto_high += "<br/>" + transitionPercentage +  GetTagStringWithIcon(element.highTempTransition.tag);
 				if (element.highTempTransitionOreID != SimHashes.Vacuum && element.highTempTransitionOreMassConversion > 0)
-					transitionsInto_high += ", " + GetTagString(element.highTempTransitionOreID.CreateTag());
+					transitionsInto_high += ",<br/>"+ element.highTempTransitionOreMassConversion.ToString("P0") + GetTagStringWithIcon(element.highTempTransitionOreID.CreateTag());
 				transitionsInto_high += "<br/>";
 			}
 			var categoryTag = GetTagString(element.materialCategory) + "<br/>";
@@ -310,19 +336,19 @@ namespace UtilLibs.MarkdownExport
 			property += FormatLineBreaks(
 				string.Format(L("STRINGS.ELEMENTS.RADIATIONPROPERTIES"),
 				element.radiationAbsorptionFactor + "<br/>",
-				"<br/>"+GetFormattedRads((element.radiationPer1000Mass * 1.10000002384186f / 600.0f), GameUtil.TimeSlice.PerCycle)));
+				"<br/>" + GetFormattedRads((element.radiationPer1000Mass * 1.10000002384186f / 600.0f), GameUtil.TimeSlice.PerCycle)));
 
 			return property;
 		}
 
 		public static string FormatRadbolts(int amount)
 		{
-			return amount+"x "+L("STRINGS.UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES");
+			return amount + "x " + L("STRINGS.UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES");
 		}
 
 		internal static string GetFormattedMass(Tag material, float amount, GameUtil.TimeSlice slice = GameUtil.TimeSlice.None, string extraSuffix = "")
 		{
-			var matName = MarkdownUtil.GetTagString(material);
+			var matName = MarkdownUtil.GetTagStringWithIcon(material);
 
 			GameUtil.ApplyTimeSlice(amount, slice);
 			string massFormatted = GameUtil.GetFormattedMass(amount);
@@ -330,12 +356,12 @@ namespace UtilLibs.MarkdownExport
 			{
 				massFormatted = "x" + amount;
 			}
-			if(extraSuffix.Length>0)
-				extraSuffix = " "+extraSuffix;
+			if (extraSuffix.Length > 0)
+				extraSuffix = " " + extraSuffix;
 
 			massFormatted += GetTimeSlice(slice);
-		
-			return matName + " ("+ massFormatted +extraSuffix+ ")";
+
+			return matName + " (" + massFormatted + extraSuffix + ")";
 		}
 
 		static string GetTimeSlice(GameUtil.TimeSlice slice = GameUtil.TimeSlice.None)
@@ -354,7 +380,7 @@ namespace UtilLibs.MarkdownExport
 			result += amount;
 			result += L("STRINGS.UI.UNITSUFFIXES.RADIATION.RADS");
 			result += GetTimeSlice(slice);
-			
+
 			return result;
 		}
 	}

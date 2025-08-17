@@ -57,7 +57,7 @@ namespace UtilLibs.MarkdownExport
 
 				string temp = string.Format(L("AT_TEMPERATURE"), GameUtil.GetTemperatureConvertedFromKelvin(type.temperature, TemperatureUnit.Celsius).ToString());
 
-				sb.AppendLine($"|{L("STRINGS.MISC.STATUSITEMS.SPOUTEMITTING.NAME").Replace("{StudiedDetails}",string.Empty)} | {MarkdownUtil.GetTagString(type.element.CreateTag()) +" "+ temp}|");
+				sb.AppendLine($"|{L("STRINGS.MISC.STATUSITEMS.SPOUTEMITTING.NAME").Replace("{StudiedDetails}",string.Empty)} | {MarkdownUtil.GetTagStringWithIcon(type.element.CreateTag()) +" "+ temp}|");
 				
 
 			}

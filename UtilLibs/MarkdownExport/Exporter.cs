@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace UtilLibs.MarkdownExport
 {
@@ -37,6 +38,53 @@ namespace UtilLibs.MarkdownExport
 				MD_Localization.SetLocalization(localizeKey);
 
 			root.CreateMarkdownFiles("");
+
+		}
+
+		public Exporter EntityIconPath(string path)
+		{
+			entityExportPath=path;
+			return this;
+		}
+
+		public static void WriteUISprite(string path, string fileName, KAnimFile kanimFile)
+		{
+			if (kanimFile == null) return;
+
+			var UISprite = Def.GetUISpriteFromMultiObjectAnim(kanimFile);
+
+			if (UISprite != null && UISprite != Assets.GetSprite("unknown"))
+			{
+				MarkdownUtil.WriteUISpriteToFile(UISprite, path, fileName);
+			}
+		}
+
+		static string entityExportPath = null;
+		static HashSet<Tag> ToExportEntities;
+
+		public void ExportEntityIcons()
+		{
+			if (entityExportPath == null)
+				return;
+			foreach (var tag in ToExportEntities)
+			{
+				var entiy = Assets.GetPrefab(tag);
+				if (entiy == null)
+					continue;
+				var UISprite = Def.GetUISprite(entiy).first;
+				if (UISprite != null && UISprite != Assets.GetSprite("unknown"))
+				{
+					MarkdownUtil.WriteUISpriteToFile(UISprite, entityExportPath, tag.ToString());
+				}
+
+			}
+		}
+
+		internal static void AddEntity(Tag tag)
+		{
+			if(ToExportEntities == null)
+				ToExportEntities = new HashSet<Tag>();
+			ToExportEntities.Add(tag);
 		}
 	}
 }

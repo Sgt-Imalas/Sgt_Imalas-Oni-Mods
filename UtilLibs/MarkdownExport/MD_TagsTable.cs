@@ -65,7 +65,7 @@ namespace UtilLibs.MarkdownExport
 				sb.Append("|");
 				foreach (var element in GetValidMaterialsFor(tag))
 				{
-					sb.Append($" ![{element}](/assets/images/elements/{element}.png){{width=\"20\"}} {MarkdownUtil.GetTagString(element)}<br/>");
+					sb.Append($"{MarkdownUtil.GetTagStringWithIcon(element)}<br/>");
 				}
 				sb.AppendLine("|");
 			}

@@ -74,9 +74,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 						var kanim = Assets.GetAnim(skin.KanimFile);
 						if (kanim == null)
 							continue;
-						MD_BuildingEntry.WriteUISprite("E:\\ONIModding\\Wiki\\docs\\assets\\images\\buildings", skin.ID, kanim);
+						Exporter.WriteUISprite("E:\\ONIModding\\Wiki\\docs\\assets\\images\\buildings", skin.ID, kanim);
 					}
-
 				}
 			}
 			buildingPages[SourceModInfo.ChemicalProcessing_IO].AddBuilding(MetalRefineryConfig.ID).VanillaModified();
@@ -153,6 +152,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			exporter.Export();
 			exporter.Export("zh");
+			exporter.EntityIconPath("E:\\ONIModding\\Wiki\\docs\\assets\\images\\entities");
+			exporter.ExportEntityIcons();
 		}
 	}
 }

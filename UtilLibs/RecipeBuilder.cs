@@ -98,7 +98,7 @@ namespace UtilLibs
 				{
 					tag = descriptorTag;
 				}
-				result.Add(MarkdownUtil.GetTagString(tag));
+				result.Add(MarkdownUtil.GetTagStringWithIcon(tag));
 			}
 			for (int i = 0; i < outputCount; i++)
 			{
@@ -110,7 +110,7 @@ namespace UtilLibs
 				{
 					tag = descriptorTag;
 				}
-				result.Add(MarkdownUtil.GetTagString(tag));
+				result.Add(MarkdownUtil.GetTagStringWithIcon(tag));
 			}
 			return result.ToArray();
 		}

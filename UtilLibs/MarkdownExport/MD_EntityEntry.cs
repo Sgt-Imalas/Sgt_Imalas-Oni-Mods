@@ -51,7 +51,7 @@ namespace UtilLibs.MarkdownExport
 				sb.Append("|");
 				sb.Append(Strip(L("STRINGS.UI.DETAILTABS.MATERIAL.NAME")));
 				sb.Append("|");
-				sb.Append(GetTagString(primaryElement.Element.tag));
+				sb.Append(GetTagStringWithIcon(primaryElement.Element.tag));
 				sb.AppendLine("|");
 				sb.Append("|");
 				sb.Append(Strip(L("STRINGS.UI.SANDBOXTOOLS.SETTINGS.MASS.NAME")));

@@ -84,7 +84,7 @@ namespace UtilLibs.MarkdownExport
 				{
 					foreach (var output in randomResults)
 					{
-						sb.Append(MarkdownUtil.GetTagString(output));
+						sb.Append(MarkdownUtil.GetTagStringWithIcon(output));
 						sb.Append("<br>");
 					}
 				}
@@ -93,7 +93,7 @@ namespace UtilLibs.MarkdownExport
 					sb.Append("|");
 					foreach (var output in randomOccurences)
 					{
-						sb.Append(MarkdownUtil.GetTagString(output));
+						sb.Append(MarkdownUtil.GetTagStringWithIcon(output));
 						sb.Append("<br>");
 					}
 				}				

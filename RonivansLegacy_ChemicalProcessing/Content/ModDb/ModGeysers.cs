@@ -163,7 +163,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			//===[ CHEMICAL: SOUR WATER GEYSER ]=====================================================================
 			configs.Add(new("geyser_sour_water_kanim", 4, 2,
 				new GeyserConfigurator.GeyserType("SourWaterGeyser",
-				ModElements.RawNaturalGas_Gas,
+				ModElements.SourWater_Liquid,
 				GeyserConfigurator.GeyserShape.Liquid,
 				278.15f,
 				1000f,
