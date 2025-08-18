@@ -25,7 +25,7 @@ namespace UtilLibs.MarkdownExport
 
 			sb.Clear();
 
-			sb.AppendLine($"| ![{ID}](/assets/images/buildings/{ID}.png){{width=\"200\"}} |");
+			sb.AppendLine($"| ![{ID}](/assets/images/buildings/{ID}.png){{width=\"100\"}} |");
 			sb.Append("|");
 			sb.AppendLine(L(FindStringKey(skin.Name)));
 			sb.AppendLine("|");

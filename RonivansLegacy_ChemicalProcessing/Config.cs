@@ -114,6 +114,6 @@ namespace RonivansLegacy_ChemicalProcessing
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_ANAEROBICDIGESTERBUFF.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_ANAEROBICDIGESTERBUFF.TOOLTIP", "STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_BIOCHEMISTRY")]
 		[Limit(1, 200)]
-		public int Biochem_AnaerobicDigesterBuff { get; set; } = 20;
+		public int Biochem_AnaerobicDigesterBuff { get; set; } = 10;
 	}
 }

@@ -29,7 +29,6 @@ namespace UtilLibs.MarkdownExport
 
 		public List<IMD_Entry> Children;
 		public List<Tuple<string, int>> Costs = [];
-		const string EmptyFiller = "&#8288 {: style=\"padding:0\"}";
 		static StringBuilder sb = new StringBuilder();
 
 		static string FontSizeIncrease(string text, int increase = 1)
@@ -57,18 +56,18 @@ namespace UtilLibs.MarkdownExport
 			sb.Append($"| ![{ID}](/assets/images/buildings/{ID}.png){{height=\"100\"}} {{rowspan=\"3\"}}");
 			sb.AppendLine($"|**{L("BUILDING_DIMENSIONS_LABEL")}** | {string.Format(L("BUILDING_DIMENSIONS_INFO"), Width, Height)}|");
 			if (PowerProduction > 0)
-				sb.AppendLine($"|**{L("BUILDING_POWER_GENERATION")}**| {PowerProduction} W|{EmptyFiller}|");
+				sb.AppendLine($"|**{L("BUILDING_POWER_GENERATION")}**| {PowerProduction} W|{EmptyTableCell}|");
 			else
-				sb.AppendLine($"|**{L("BUILDING_POWER_CONSUMPTION")}**| {PowerConsumption} W|{EmptyFiller}|");
+				sb.AppendLine($"|**{L("BUILDING_POWER_CONSUMPTION")}**| {PowerConsumption} W|{EmptyTableCell}|");
 			if (!ResearchKey.IsNullOrWhiteSpace())
-				sb.AppendLine($"|**{L("BUILDING_RESEARCH_REQUIREMENT")}**| {Strip(L(ResearchKey))}|{EmptyFiller}| ");
+				sb.AppendLine($"|**{L("BUILDING_RESEARCH_REQUIREMENT")}**| {Strip(L(ResearchKey))}|{EmptyTableCell}| ");
 			else
-				sb.AppendLine($"|**{L("BUILDING_RESEARCH_REQUIREMENT")}**| - |{EmptyFiller}| ");
+				sb.AppendLine($"|**{L("BUILDING_RESEARCH_REQUIREMENT")}**| - |{EmptyTableCell}| ");
 
 			AppendMaterialCostsTable(sb);
 
 			if (StorageCapacity > 0)
-				sb.AppendLine($"|**{FontSizeIncrease(L("BUILDING_STORAGE_CAPACITY"))}**| {GameUtil.GetFormattedMass(StorageCapacity)}|{EmptyFiller}|");
+				sb.AppendLine($"|**{FontSizeIncrease(L("BUILDING_STORAGE_CAPACITY"))}**| {GameUtil.GetFormattedMass(StorageCapacity)}|{EmptyTableCell}|");
 
 			AppendBuildingPortsTable(sb);
 			sb.AppendLine();
@@ -183,7 +182,7 @@ namespace UtilLibs.MarkdownExport
 				sb.Append("</table>");
 				sb.Append(" {colspan=\"2\"}");
 				sb.Append('|');
-				sb.Append(EmptyFiller);
+				sb.Append(EmptyTableCell);
 				sb.AppendLine("|");
 			}
 		}
@@ -208,7 +207,7 @@ namespace UtilLibs.MarkdownExport
 			}
 			sb.Append("</table>");
 			sb.Append(" {colspan=\"2\"} |");
-			sb.Append(EmptyFiller);
+			sb.Append(EmptyTableCell);
 			sb.AppendLine("|");
 
 		}

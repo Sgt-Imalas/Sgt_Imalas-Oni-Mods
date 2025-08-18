@@ -153,7 +153,9 @@ namespace UtilLibs.MarkdownExport
 
 		public static string L(string key)
 		{
-			//SgtLogger.l("Grabbing: " + key + " in localization: " + CurrentLocalization);
+			SgtLogger.l("Grabbing: " + key + " in localization: " + CurrentLocalization);
+			if (key.IsNullOrWhiteSpace())
+				return "MISSING!!!";
 
 			if (TryGetManuallyRegistered(key, out var manual))
 				return Strip(manual);

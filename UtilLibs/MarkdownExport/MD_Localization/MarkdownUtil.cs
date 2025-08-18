@@ -17,6 +17,7 @@ namespace UtilLibs.MarkdownExport
 {
 	public static class MarkdownUtil
 	{
+		public const string EmptyTableCell = "&#8288 {: style=\"padding:0\"}";
 		static void CleanTag(ref string tagKey)
 		{
 			if (tagKey.Contains("SPICEVINE"))

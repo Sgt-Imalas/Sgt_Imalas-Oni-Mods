@@ -51,7 +51,7 @@ namespace UtilLibs.MarkdownExport
 			sb.Clear();
 			sb.AppendLine();
 			sb.AppendLine(
-				$"|<font size=\"+1\">{L("STRINGS.UI.UISIDESCREENS.TABS.MATERIAL")}</font> | <font size=\"+1\">{L("STRINGS.UI.CODEX.CATEGORYNAMES.ELEMENTS")}</font> | |");
+				$"|<font size=\"+1\">{L("STRINGS.UI.UISIDESCREENS.TABS.MATERIAL")}</font> | | <font size=\"+1\">{L("STRINGS.UI.CODEX.CATEGORYNAMES.ELEMENTS")}</font> |");
 			sb.AppendLine("|:-:|:-:|:-|");
 
 			foreach (var tag in elementTags.Distinct().OrderBy(t => MarkdownUtil.GetTagString(t)))

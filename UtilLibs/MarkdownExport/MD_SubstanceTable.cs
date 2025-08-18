@@ -24,22 +24,24 @@ namespace UtilLibs.MarkdownExport
 		public string FormatAsMarkdown()
 		{
 			sb.Clear();
-			sb.AppendLine();
-			sb.AppendLine(
-				$"|<font size=\"+1\">{L("STRINGS.UI.DEBUG_TOOLS.PAINT_ELEMENTS_SCREEN.ELEMENT")}</font> | <font size=\"+1\">{L("ELEMENT_PROPERTIES")}</font> | |");
-			sb.AppendLine("|:-:|:-:|:-:|");
+		//	sb.AppendLine(
+			//	$"|<font size=\"+1\">{L("STRINGS.UI.DEBUG_TOOLS.PAINT_ELEMENTS_SCREEN.ELEMENT")}</font> | <font size=\"+1\">{L("ELEMENT_PROPERTIES")}</font> | |");
+			//sb.AppendLine("|:-:|:-:|:-:|");
 
 			foreach(var substance in elements.Distinct().OrderBy(s => MarkdownUtil.GetTagString(s.id.CreateTag())))
 			{
 				var elementID = substance.id.ToString();
 				var element = ElementLoader.GetElement(substance.tag);
-				sb.Append("|");
-				sb.Append("<font size=\"+2\">");
-				sb.Append(MarkdownUtil.GetTagString(element.id.CreateTag()));
-				sb.Append("</font> <br/> <br/>");
-				sb.Append($" ![{elementID}](/assets/images/elements/{elementID}.png){{width=\"200\"}}  <br/>");
-				sb.Append(FormatLineBreaks(MarkdownUtil.GetTagString(element.id.CreateTag(),true)));
-				sb.Append("|");
+				sb.AppendLine();
+				sb.Append("#### ");
+				sb.AppendLine(MarkdownUtil.GetTagString(element.id.CreateTag()));
+				sb.AppendLine();
+				sb.AppendLine(FormatLineBreaks(MarkdownUtil.GetTagString(element.id.CreateTag(), true)));
+				sb.AppendLine();
+
+				sb.AppendLine($"| |<font size=\"+1\">{L("ELEMENT_PROPERTIES")}</font>| |");
+				sb.AppendLine($"|-|-|-|");
+				sb.Append($"| ![{elementID}](/assets/images/elements/{elementID}.png){{width=\"200\"}} |");
 				sb.Append(MarkdownUtil.GetElementTransitionProperties(element));
 				sb.Append("|");
 				sb.Append(MarkdownUtil.GetElementPhysicalProperties(element));

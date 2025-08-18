@@ -39,14 +39,17 @@ namespace UtilLibs.MarkdownExport
 			else
 				sb.AppendLine(L(NAMEKEY));
 
-			sb.Append($"| ![{ID}](/assets/images/geysers/{ID}.png){{width=\"100\"}} |");
+			sb.AppendLine();
 			if (DESCKEY.IsNullOrWhiteSpace())
-				sb.Append(MarkdownUtil.GetTagString(ID, true));
+				sb.AppendLine(MarkdownUtil.GetTagString(ID, true));
 			else
-				sb.Append(L(DESCKEY));
-			sb.AppendLine("|");
+				sb.AppendLine(L(DESCKEY));
 
-			sb.AppendLine("|-|-|");
+			sb.AppendLine();
+			sb.AppendLine("| | | |");
+			sb.AppendLine("|-|-|-|");
+			sb.Append($"| ![{ID}](/assets/images/geysers/{ID}.png) {{rowspan=\"3\"}} ");
+
 			if (entity.TryGetComponent<OccupyArea>(out var area))
 			{
 				sb.AppendLine($"|{L("BUILDING_DIMENSIONS_LABEL")} | {string.Format(L("BUILDING_DIMENSIONS_INFO"), area.GetWidthInCells(), area.GetHeightInCells())}|");
@@ -57,7 +60,7 @@ namespace UtilLibs.MarkdownExport
 
 				string temp = string.Format(L("AT_TEMPERATURE"), GameUtil.GetTemperatureConvertedFromKelvin(type.temperature, TemperatureUnit.Celsius).ToString());
 
-				sb.AppendLine($"|{L("STRINGS.MISC.STATUSITEMS.SPOUTEMITTING.NAME").Replace("{StudiedDetails}",string.Empty)} | {MarkdownUtil.GetTagStringWithIcon(type.element.CreateTag()) +" "+ temp}|");
+				sb.AppendLine($"|{L("STRINGS.MISC.STATUSITEMS.SPOUTEMITTING.NAME").Replace("{StudiedDetails}",string.Empty)} | {MarkdownUtil.GetTagStringWithIcon(type.element.CreateTag()) +" "+ temp}|{EmptyTableCell} |");
 				
 
 			}
@@ -68,7 +71,7 @@ namespace UtilLibs.MarkdownExport
 				sb.Append("|");
 				string decor = decorProvider.baseDecor > 0 ? "+" + decorProvider.baseDecor: decorProvider.baseDecor.ToString() ;
 				sb.Append(Strip(string.Format(L("STRINGS.UI.BUILDINGEFFECTS.DECORPROVIDED"),"", decor, decorProvider.baseRadius)));
-				sb.AppendLine("|");				
+				sb.AppendLine($"|{EmptyTableCell}|");				
 			}
 
 
