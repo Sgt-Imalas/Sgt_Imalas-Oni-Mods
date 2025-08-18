@@ -206,7 +206,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			string ID = Biochemistry_AnaerobicDigesterConfig.ID;
 			float kCalToMethane = 0.00032208f;
 
-
+			/// since this is a pretty low output amount and its other function - dirt creation is better done by the soil mixer, add a multiplyer to the output natgas amount:
+			kCalToMethane *= Config.Instance.Biochem_AnaerobicDigesterBuff;
 
 
 			//----[ GENERIC PLANT DIGESTING ]-----------------------------------------------

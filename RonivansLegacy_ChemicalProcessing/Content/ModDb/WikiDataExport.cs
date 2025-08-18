@@ -109,13 +109,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.Add(new MD_Header("STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_BIOCHEMISTRY", 2))
 				.Add(new MD_Header(newElements, 3))
 				.Add(new MD_SubstanceTable(ModElements.ChemicalProcessing_BioChem_Elements))
-				.Add(new MD_Header(reenabledElements, 3))
-				.Add(new MD_Text(reenabledElementsText))
-				.Add(new MD_SubstanceTable([SimHashes.Radium, SimHashes.Yellowcake]))
 				.Add(new MD_Header("STRINGS.AIO_MODSOURCE.DUPESENGINEERING", 2))
 				.Add(new MD_Header(reenabledElements, 3))
 				.Add(new MD_Text(reenabledElementsText))
 				.Add(new MD_SubstanceTable([SimHashes.Brick, SimHashes.Cement, SimHashes.CrushedRock]))
+				.Add(new MD_Header("STRINGS.AIO_MODSOURCE.NUCLEARPROCESSING", 2))
+				.Add(new MD_Header(reenabledElements, 3))
+				.Add(new MD_Text(reenabledElementsText))
+				.Add(new MD_SubstanceTable([SimHashes.Radium, SimHashes.Yellowcake]))
 				;
 
 			submodFolders[SourceModInfo.ChemicalProcessing_IO]

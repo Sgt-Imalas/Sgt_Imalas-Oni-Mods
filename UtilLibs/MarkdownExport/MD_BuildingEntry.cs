@@ -10,8 +10,9 @@ using UnityEngine;
 using UtilLibs.BuildingPortUtils;
 using static LogicGate.LogicGateDescriptions;
 using static ResearchTypes;
-using static UtilLibs.MarkdownExport.MD_Localization;
+using static STRINGS.DUPLICANTS.PERSONALITIES;
 using static UtilLibs.MarkdownExport.MarkdownUtil;
+using static UtilLibs.MarkdownExport.MD_Localization;
 
 namespace UtilLibs.MarkdownExport
 {
@@ -28,8 +29,13 @@ namespace UtilLibs.MarkdownExport
 
 		public List<IMD_Entry> Children;
 		public List<Tuple<string, int>> Costs = [];
-
+		const string EmptyFiller = "&#8288 {: style=\"padding:0\"}";
 		static StringBuilder sb = new StringBuilder();
+
+		static string FontSizeIncrease(string text, int increase = 1)
+		{
+			return $"<font size=\"+{increase}\">{text}</font>";
+		}
 		public string FormatAsMarkdown()
 		{
 			sb.Clear();
@@ -44,26 +50,27 @@ namespace UtilLibs.MarkdownExport
 			sb.AppendLine(Strip(L($"STRINGS.BUILDINGS.PREFABS.{ID.ToUpperInvariant()}.DESC")));
 			sb.AppendLine();
 			sb.AppendLine(Strip(L($"STRINGS.BUILDINGS.PREFABS.{ID.ToUpperInvariant()}.EFFECT")));
-			sb.AppendLine($"### {L("BUILDING_INFO_HEADER")}");
-			//sb.AppendLine("|Parameter|Value|");
-			sb.AppendLine($"| ![{ID}](/assets/images/buildings/{ID}.png){{width=\"200\"}} | |");
-			//sb.Append(Description.Replace("\n","<br/>"));
-			//sb.Append("<br/>");
-			//sb.Append(Effect.Replace("\n", "<br/>"));
-			//sb.AppendLine("|");
-			sb.AppendLine("|-|-|");
-			sb.AppendLine($"|**{L("BUILDING_DIMENSIONS_LABEL")}** | {string.Format(L("BUILDING_DIMENSIONS_INFO"), Width, Height)}|");
-			if (PowerConsumption > 0)
-				sb.AppendLine($"|**{L("BUILDING_POWER_CONSUMPTION")}**| {PowerConsumption} W|");
-			if (PowerProduction > 0)
-				sb.AppendLine($"|**{L("BUILDING_POWER_GENERATION")}**| {PowerProduction} W|");
-			if (!ResearchKey.IsNullOrWhiteSpace())
-				sb.AppendLine($"|**{L("BUILDING_RESEARCH_REQUIREMENT")}**| {Strip(L(ResearchKey))}|");
-			if (StorageCapacity > 0)
-				sb.AppendLine($"|**{L("BUILDING_STORAGE_CAPACITY")}**| {GameUtil.GetFormattedMass(StorageCapacity)}|");
+			sb.AppendLine();
+			sb.AppendLine("| | | |");
+			sb.AppendLine("|-|-|-|");
 
-			AppendMaterialCosts(sb);
-			AppendBuildingPorts(sb);
+			sb.Append($"| ![{ID}](/assets/images/buildings/{ID}.png){{height=\"100\"}} {{rowspan=\"3\"}}");
+			sb.AppendLine($"|**{L("BUILDING_DIMENSIONS_LABEL")}** | {string.Format(L("BUILDING_DIMENSIONS_INFO"), Width, Height)}|");
+			if (PowerProduction > 0)
+				sb.AppendLine($"|**{L("BUILDING_POWER_GENERATION")}**| {PowerProduction} W|{EmptyFiller}|");
+			else
+				sb.AppendLine($"|**{L("BUILDING_POWER_CONSUMPTION")}**| {PowerConsumption} W|{EmptyFiller}|");
+			if (!ResearchKey.IsNullOrWhiteSpace())
+				sb.AppendLine($"|**{L("BUILDING_RESEARCH_REQUIREMENT")}**| {Strip(L(ResearchKey))}|{EmptyFiller}| ");
+			else
+				sb.AppendLine($"|**{L("BUILDING_RESEARCH_REQUIREMENT")}**| - |{EmptyFiller}| ");
+
+			AppendMaterialCostsTable(sb);
+
+			if (StorageCapacity > 0)
+				sb.AppendLine($"|**{FontSizeIncrease(L("BUILDING_STORAGE_CAPACITY"))}**| {GameUtil.GetFormattedMass(StorageCapacity)}|{EmptyFiller}|");
+
+			AppendBuildingPortsTable(sb);
 			sb.AppendLine();
 
 			foreach (var child in Children)
@@ -75,7 +82,8 @@ namespace UtilLibs.MarkdownExport
 
 		}
 
-		private void AppendBuildingPorts(StringBuilder sb)
+		void AppendBuildingPortsTable(StringBuilder sb) => AppendBuildingPorts(sb, true);
+		private void AppendBuildingPorts(StringBuilder sb, bool htmlTable = false)
 		{
 			List<string> inputs = [], outputs = [];
 
@@ -134,25 +142,76 @@ namespace UtilLibs.MarkdownExport
 
 			if (!inputs.Any() && !outputs.Any())
 				return;
-
-			sb.AppendLine();
-			sb.AppendLine($"### {L("BUILDING_PORTS_HEADER")}");
-			sb.AppendLine($"|{L("INPUTS_HEADER")}|{L("OUTPUTS_HEADER")}|");
-			sb.AppendLine("|-|-|");
-
-			int max = Math.Max(inputs.Count, outputs.Count);
-			for (int i = 0; i < max; i++)
+			if (!htmlTable)
 			{
-				string input = inputs.Count > i ? inputs[i] : "-";
-				string output = outputs.Count > i ? outputs[i] : "-";
+				sb.AppendLine();
+				sb.AppendLine($"### {L("BUILDING_PORTS_HEADER")}");
+				sb.AppendLine($"|{L("INPUTS_HEADER")}|{L("OUTPUTS_HEADER")}|");
+				sb.AppendLine("|-|-|");
+
+				int max = Math.Max(inputs.Count, outputs.Count);
+				for (int i = 0; i < max; i++)
+				{
+					string input = inputs.Count > i ? inputs[i] : "-";
+					string output = outputs.Count > i ? outputs[i] : "-";
+					sb.Append('|');
+					sb.Append(input);
+					sb.Append('|');
+					sb.Append(output);
+					sb.AppendLine("|");
+				}
+			}
+			else { 
+				sb.Append($"| **<font size=\"+1\">{L("BUILDING_PORTS_HEADER")}:</font>** |");
+				sb.Append("<table>");
+				sb.Append("<tr>");
+				sb.Append($"<th>{L("INPUTS_HEADER")}</th>");
+				sb.Append($"<th>{L("OUTPUTS_HEADER")}</th>");
+				sb.Append("</tr>");
+				int max = Math.Max(inputs.Count, outputs.Count);
+				for (int i = 0; i < max; i++)
+				{
+					sb.Append("<tr>");
+					sb.Append("<td>");
+					sb.Append(inputs.Count > i ? inputs[i] : "-");
+					sb.Append("</td>");
+					sb.Append("<td>");
+					sb.Append(outputs.Count > i ? outputs[i] : "-");
+					sb.Append("</td>");
+					sb.Append("</tr>");
+				}
+				sb.Append("</table>");
+				sb.Append(" {colspan=\"2\"}");
 				sb.Append('|');
-				sb.Append(input);
-				sb.Append('|');
-				sb.Append(output);
+				sb.Append(EmptyFiller);
 				sb.AppendLine("|");
 			}
 		}
+		private void AppendMaterialCostsTable(StringBuilder sb)
+		{
+			sb.Append($"|**<font size=\"+1\">{L("BUILDING_MATERIAL_COST_HEADER")}</font>**|");
+			sb.Append("<table>");
+			foreach (var mat in Costs)
+			{
+				sb.Append("<tr>");
+				var cost = mat.second;
+				string[] mats = mat.first.Split('&');
 
+				string or = " " + L("SEPARATOR_OR") + " ";
+				sb.Append("<td>");
+				sb.Append(string.Join(or, mats.Select(m => MarkdownUtil.GetTagString(m))));
+				sb.Append("</td>");
+				sb.Append("<td>");
+				sb.Append(GameUtil.GetFormattedMass(cost));
+				sb.Append("</td>");
+				sb.Append("</tr>");
+			}
+			sb.Append("</table>");
+			sb.Append(" {colspan=\"2\"} |");
+			sb.Append(EmptyFiller);
+			sb.AppendLine("|");
+
+		}
 		private void AppendMaterialCosts(StringBuilder sb)
 		{
 			sb.AppendLine();
@@ -174,7 +233,7 @@ namespace UtilLibs.MarkdownExport
 		public MD_BuildingEntry WriteUISprite(string path)
 		{
 			KAnimFile kanim = def.AnimFiles.First();
-			Exporter.WriteUISprite(path,ID,kanim);
+			Exporter.WriteUISprite(path, ID, kanim);
 			return this;
 		}
 
@@ -212,11 +271,18 @@ namespace UtilLibs.MarkdownExport
 				Costs.Add(new(material, (int)amount));
 			}
 
-
 			if (buildingDef.BuildingComplete.TryGetComponent<EnergyGenerator>(out var generator))
 			{
-				Children.Add(new MD_Header("CONVERSION_GENERATOR_HEADER", 3));
+				Children.Add(new MD_Header("CONVERSION_GENERATOR_HEADER", 4));
 				Children.Add(new MD_EnergyGenerator(generator));
+			}
+			foreach(var techItem in Db.Get().TechItems.resources)
+			{
+				if (techItem.Id==(id))
+				{
+					ResearchKey = $"STRINGS.RESEARCH.TECHS.{techItem.ParentTech.Id.ToUpperInvariant()}.NAME";
+					break;
+				}
 			}
 
 
@@ -224,7 +290,7 @@ namespace UtilLibs.MarkdownExport
 
 			if (converters != null && converters.Any())
 			{
-				Children.Add(new MD_Header("CONVERSION_ELEMENT_HEADER", 3));
+				Children.Add(new MD_Header("CONVERSION_ELEMENT_HEADER", 4));
 
 				foreach (var converter in converters)
 				{
@@ -248,10 +314,10 @@ namespace UtilLibs.MarkdownExport
 				StorageCapacity = Mathf.RoundToInt(storageLocker.MaxCapacity);
 			}
 
-			if(SupplyClosetUtils.TryGetCollectionFor(id, out var collection))
+			if (SupplyClosetUtils.TryGetCollectionFor(id, out var collection))
 			{
 				Children.Add(new MD_Header("STRINGS.UI.UISIDESCREENS.TABS.SKIN", 3));
-				foreach(var item in collection) 
+				foreach (var item in collection)
 					Children.Add(new MD_BlueprintEntry(item));
 			}
 

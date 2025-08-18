@@ -153,6 +153,8 @@ namespace UtilLibs.MarkdownExport
 
 		public static string L(string key)
 		{
+			//SgtLogger.l("Grabbing: " + key + " in localization: " + CurrentLocalization);
+
 			if (TryGetManuallyRegistered(key, out var manual))
 				return Strip(manual);
 
@@ -204,10 +206,10 @@ namespace UtilLibs.MarkdownExport
 				return;
 
 			Key = Key.ToUpperInvariant();
-			SgtLogger.l("Key: " + Key);
-			SgtLogger.l("KeyToFormat: " + KeyToFormat);
-			foreach (var val in KeyFormatValues)
-				SgtLogger.l("ValToFormat: "+val);
+			//SgtLogger.l("Key: " + Key);
+			//SgtLogger.l("KeyToFormat: " + KeyToFormat);
+			//foreach (var val in KeyFormatValues)
+				//SgtLogger.l("ValToFormat: "+val);
 
 			RegisteredStringGetters.Add(Key,new(KeyToFormat, KeyFormatValues));
 		}

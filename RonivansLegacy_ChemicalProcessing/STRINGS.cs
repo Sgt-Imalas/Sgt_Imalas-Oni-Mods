@@ -2337,6 +2337,11 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString NAME = "Heavy-Duty Auto-Sweeper Range";
 				public static LocString TOOLTIP = "The Heavy-Duty Auto-Sweeper serves as a late game version of the autosweeper, having higher range and throughput at the cost of more complex build requirements";
 			}
+			public class BIOCHEM_ANAEROBICDIGESTERBUFF
+			{
+				public static LocString NAME = "Anaerobic Digester Natgas Multiplier";
+				public static LocString TOOLTIP = "Multiply the natural gas output amounts of the anaerobic digester by this value.";
+			}
 		}
 	}
 }
