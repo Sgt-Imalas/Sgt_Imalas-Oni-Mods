@@ -9,15 +9,12 @@ namespace BlueprintsV2.Tools
 {
 	public sealed class SnapshotToolHoverCard : HoverTextConfiguration
 	{
-		public bool ShowHotkeys { get; set; } = true;
 		public bool UsingSnapshot { get; set; }
 
 		public SnapshotToolHoverCard()
 		{
 			ToolName = STRINGS.UI.TOOLS.SNAPSHOT_TOOL.TOOLTIP_TITLE;
-		}
-		
-		public void ToggleHotkeyTooltips() => ShowHotkeys = !ShowHotkeys;
+		}		
 
 		public override void UpdateHoverElements(List<KSelectable> hoveredObjects)
 		{
@@ -36,7 +33,7 @@ namespace BlueprintsV2.Tools
 			drawer.DrawText(STRINGS.UI.TOOLS.USE_TOOL.ACTION_BACK, Styles_Instruction.Standard);
 			drawer.NewLine();
 
-			if (ShowHotkeys)
+			if (BlueprintState.ExtendedCardTooltips)
 			{
 				drawer.DrawText(string.Format(STRINGS.UI.TOOLS.SNAPSHOT_TOOL.REUSELASTSNAPSHOT, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsSnapshotReuseAction.GetKAction()) + "]")), Styles_Instruction.Standard);
 				drawer.NewLine();

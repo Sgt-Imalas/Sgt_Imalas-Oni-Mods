@@ -138,7 +138,7 @@ namespace BlueprintsV2.Tools
 			{
 				if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsToggleHotkeyToolTips.GetKAction()))
 				{
-					HoverCard?.ToggleHotkeyTooltips();
+					BlueprintState.ToggleHotkeyTooltips();
 				}
 				else
 				if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsToggleForce.GetKAction()))

@@ -10,9 +10,6 @@ namespace BlueprintsV2.Tools
 	{
 		public int prefabErrorCount = 0;
 
-		public bool ShowHotkeys { get; set; } = true;
-		public void ToggleHotkeyTooltips() => ShowHotkeys = !ShowHotkeys;
-
 		public UseBlueprintToolHoverCard()
 		{
 			ToolName = STRINGS.UI.TOOLS.USE_TOOL.TOOLTIP_TITLE;
@@ -41,7 +38,7 @@ namespace BlueprintsV2.Tools
 					var selectedBp = ModAssets.SelectedBlueprint;
 					var folder = ModAssets.GetCurrentFolder();
 
-					if (ShowHotkeys)
+					if (BlueprintState.ExtendedCardTooltips)
 					{
 						drawer.NewLine(32);
 						drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.ACTION_SELECT, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsReopenSelectionAction.GetKAction()) + "]")), Styles_Instruction.Standard);
@@ -75,7 +72,7 @@ namespace BlueprintsV2.Tools
 						drawer.DrawIcon(screenInstance.GetSprite("iconWarning"));
 						drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.ERRORMESSAGE, prefabErrorCount), Styles_Instruction.Selected);
 					}
-					drawer.NewLine(ShowHotkeys ? 45 : 22); 
+					drawer.NewLine(BlueprintState.ExtendedCardTooltips ? 45 : 22); 
 					
 					drawer.DrawText(UIUtils.ColorText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.SELECTPREV, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsSelectPrevious.GetKAction()) + "]")), folder.HasPrevSnapshot(ModAssets.SelectedBlueprint) ? Color.white : Color.grey), Styles_Instruction.Standard);
 					drawer.NewLine(20);

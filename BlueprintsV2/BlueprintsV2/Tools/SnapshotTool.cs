@@ -287,7 +287,7 @@ namespace BlueprintsV2.Tools
 		{
 			if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsToggleHotkeyToolTips.GetKAction()))
 			{
-				hoverCard?.ToggleHotkeyTooltips();
+				BlueprintState.ToggleHotkeyTooltips();
 			}
 			else
 			if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsSnapshotReuseAction.GetKAction()))
