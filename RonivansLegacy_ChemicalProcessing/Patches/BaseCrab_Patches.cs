@@ -17,13 +17,15 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				ref List<Diet.Info> __result)
 		{
 			__result.Add(
+				CritterDietsInfo.AddToList([CrabConfig.ID, CrabFreshWaterConfig.ID, CrabWoodConfig.ID], SourceModInfo.ChemicalProcessing_IO,
 				new Diet.Info(
 					[ModElements.Slag_Solid.Tag],
 					ModElements.AmmoniumSalt_Solid.Tag,
 					caloriesPerKg,
 					0.75f,
 					diseaseId,
-					diseasePerKgProduced));
+					diseasePerKgProduced)
+				));
 		}
 		public static void RegisterBiomassDiet(
 				float caloriesPerKg,
@@ -31,14 +33,15 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				float diseasePerKgProduced,
 				ref List<Diet.Info> __result)
 		{
-			__result.Add(
+			__result.Add(CritterDietsInfo.AddToList([CrabConfig.ID, CrabFreshWaterConfig.ID, CrabWoodConfig.ID],SourceModInfo.ChemicalProcessing_BioChemistry,
 				new Diet.Info(
 					[ModElements.BioMass_Solid.Tag],
 					SimHashes.Sand.CreateTag(),
 					caloriesPerKg,
 					0.75f,
 					diseaseId,
-					diseasePerKgProduced));
+					diseasePerKgProduced)
+				));
 		}
 
 

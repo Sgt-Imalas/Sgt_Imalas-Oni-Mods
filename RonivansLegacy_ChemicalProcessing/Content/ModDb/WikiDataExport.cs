@@ -95,10 +95,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 
 			var elementTitle = new MD_Text(new TranslationGroup("Enabling this mod in the config will add several new elements to the game or reenable disabled vanilla ones.\n\nA few of them will also be added to the starmap pois for mining or spawn during worldgen.").Add("zh", "在配置文件中启用此模组将为游戏添加多个新元素，或重新启用被禁用的原版元素。\n\n其中部分元素还将被添加到星图的POI中用于采矿，或在世界生成时随机生成。"));
-			var newElementCategoriesHeader = new MD_Header(new TranslationGroup("New Element Categories").Add("zh", "新元素类别"), 1);
+			var newElementCategoriesHeader = new MD_Header(new TranslationGroup("New Element Categories").Add("zh", "新元素类别"), 2);
 			var newElements = new TranslationKeyBuilder("NEW_ITEM", ["STRINGS.UI.CODEX.SUBWORLDS.ELEMENTS"]);
 			var reenabledElements = new TranslationKeyBuilder("REENABLED_ITEM", ["STRINGS.UI.CODEX.SUBWORLDS.ELEMENTS"]);
 			var reenabledElementsText = new TranslationGroup("These vanilla elements have been reenabled or partially adjusted").Add("zh", "这些元素已被重新激活或部分调整。");
+			var critterFoodHeader = new MD_Header(new TranslationGroup("Critter Diet Expansions").Add("zh", "动物饮食扩展"), 2);
 
 			///elements
 			submodFolders[SourceModInfo.ChemicalProcessing_IO]
@@ -106,31 +107,36 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.Add(elementTitle)
 				.Add(newElementCategoriesHeader)
 				.Add(new MD_TagsTable([ModAssets.Tags.RandomSand, ModAssets.Tags.AIO_HardenedAlloy, ModAssets.Tags.AIO_CarrierGas]))
-				.Add(new MD_Header(newElements, 1))
+				.Add(new MD_Header(newElements, 2))
 				.Add(new MD_SubstanceTable(ModElements.ChemicalProcessing_IO_Elements))
-				.Add(new MD_Header(reenabledElements, 1))
+				.Add(new MD_Header(reenabledElements, 2))
 				.Add(new MD_Text(reenabledElementsText))
 				.Add(new MD_SubstanceTable([SimHashes.Naphtha, SimHashes.Syngas, SimHashes.Propane, SimHashes.LiquidPropane, SimHashes.SolidPropane, SimHashes.Electrum, SimHashes.PhosphateNodules, SimHashes.CrushedRock]))
+				.Add(critterFoodHeader)
+				.Add(new MD_CritterConsumptionsTable(CritterDietsInfo.GetCritterInfo(SourceModInfo.ChemicalProcessing_IO)));
 			;
 
 			submodFolders[SourceModInfo.ChemicalProcessing_BioChemistry]
 				.File("elements", "STRINGS.UI.CODEX.SUBWORLDS.ELEMENTS")
 				.Add(elementTitle)
-				.Add(newElementCategoriesHeader)
-				.Add(new MD_Header(newElements, 1))
-				.Add(new MD_SubstanceTable(ModElements.ChemicalProcessing_BioChem_Elements));
+				.Add(new MD_Header(newElements, 2))
+				.Add(new MD_SubstanceTable(ModElements.ChemicalProcessing_BioChem_Elements))
+				.Add(critterFoodHeader)
+				.Add(new MD_CritterConsumptionsTable(CritterDietsInfo.GetCritterInfo(SourceModInfo.ChemicalProcessing_BioChemistry)));
+
+				;
 
 			submodFolders[SourceModInfo.DupesEngineering]
 				.File("elements", "STRINGS.UI.CODEX.SUBWORLDS.ELEMENTS")
 				.Add(elementTitle)
-				.Add(new MD_Header(reenabledElements, 1))
+				.Add(new MD_Header(reenabledElements, 2))
 				.Add(new MD_Text(reenabledElementsText))
 				.Add(new MD_SubstanceTable([SimHashes.Brick, SimHashes.Cement, SimHashes.CrushedRock]));
 
 			submodFolders[SourceModInfo.NuclearProcessing]
 				.File("elements", "STRINGS.UI.CODEX.SUBWORLDS.ELEMENTS")
 				.Add(elementTitle)
-				.Add(new MD_Header(reenabledElements, 1))
+				.Add(new MD_Header(reenabledElements, 2))
 				.Add(new MD_Text(reenabledElementsText))
 				.Add(new MD_SubstanceTable([SimHashes.Radium, SimHashes.Yellowcake]));
 				

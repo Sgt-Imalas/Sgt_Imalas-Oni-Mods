@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static GameUtil;
-using static PathFinder;
 using static UtilLibs.MarkdownExport.MD_Localization;
 
 namespace UtilLibs.MarkdownExport
