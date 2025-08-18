@@ -346,13 +346,124 @@ namespace UtilLibs.MarkdownExport
 		{
 			return amount + "x " + L("STRINGS.UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES");
 		}
+		public static void AppendFormattedMass(StringBuilder builder, float mass, TimeSlice timeSlice = TimeSlice.None, MetricMassFormat massFormat = MetricMassFormat.UseThreshold, bool includeSuffix = true, string floatFormat = "{0:0.#}")
+		{
+			if (mass == float.MinValue)
+			{
+				builder.Append(L("STRINGS.UI.CALCULATING"));
+				return;
+			}
 
+			if (float.IsPositiveInfinity(mass))
+			{
+				builder.Append(L("STRINGS.UI.POS_INFINITY"));
+				builder.Append(L("STRINGS.UI.UNITSUFFIXES.MASS.TONNE"));
+				return;
+			}
+
+			if (float.IsNegativeInfinity(mass))
+			{
+				builder.Append(L("STRINGS.UI.NEG_INFINITY"));
+				builder.Append(L("STRINGS.UI.UNITSUFFIXES.MASS.TONNE"));
+				return;
+			}
+
+			mass = ApplyTimeSlice(mass, timeSlice);
+			string value;
+			if (massUnit == MassUnit.Kilograms)
+			{
+				value = L("STRINGS.UI.UNITSUFFIXES.MASS.TONNE");
+				switch (massFormat)
+				{
+					case MetricMassFormat.UseThreshold:
+						{
+							float num = Mathf.Abs(mass);
+							if (0f < num)
+							{
+								if (num < 5E-06f)
+								{
+									value = L("STRINGS.UI.UNITSUFFIXES.MASS.MICROGRAM");
+									mass = Mathf.Floor(mass * 1E+09f);
+								}
+								else if (num < 0.005f)
+								{
+									mass *= 1000000f;
+									value = L("STRINGS.UI.UNITSUFFIXES.MASS.MILLIGRAM");
+								}
+								else if (Mathf.Abs(mass) < 5f)
+								{
+									mass *= 1000f;
+									value = L("STRINGS.UI.UNITSUFFIXES.MASS.GRAM");
+								}
+								else if (Mathf.Abs(mass) < 5000f)
+								{
+									value = L("STRINGS.UI.UNITSUFFIXES.MASS.KILOGRAM");
+								}
+								else
+								{
+									mass /= 1000f;
+									value = L("STRINGS.UI.UNITSUFFIXES.MASS.TONNE");
+								}
+							}
+							else
+							{
+								value = L("STRINGS.UI.UNITSUFFIXES.MASS.KILOGRAM");
+							}
+
+							break;
+						}
+					case MetricMassFormat.Kilogram:
+						value = L("STRINGS.UI.UNITSUFFIXES.MASS.KILOGRAM");
+						break;
+					case MetricMassFormat.Gram:
+						mass *= 1000f;
+						value = L("STRINGS.UI.UNITSUFFIXES.MASS.GRAM");
+						break;
+					case MetricMassFormat.Tonne:
+						mass /= 1000f;
+						value = L("STRINGS.UI.UNITSUFFIXES.MASS.TONNE");
+						break;
+				}
+			}
+			else
+			{
+				mass /= 2.2f;
+				value = L("STRINGS.UI.UNITSUFFIXES.MASS.POUND");
+				if (massFormat == MetricMassFormat.UseThreshold)
+				{
+					float num2 = Mathf.Abs(mass);
+					if (num2 < 5f && num2 > 0.001f)
+					{
+						mass *= 256f;
+						value = L("STRINGS.UI.UNITSUFFIXES.MASS.DRACHMA");
+					}
+					else
+					{
+						mass *= 7000f;
+						value = L("STRINGS.UI.UNITSUFFIXES.MASS.GRAIN");
+					}
+				}
+			}
+
+			builder.AppendFormat(floatFormat, mass);
+			if (includeSuffix)
+			{
+				builder.Append(value);
+				AddTimeSliceText(builder, timeSlice);
+			}
+		}
+		public static string GetFormattedMass(float mass, TimeSlice timeSlice = TimeSlice.None, MetricMassFormat massFormat = MetricMassFormat.UseThreshold, bool includeSuffix = true, string floatFormat = "{0:0.#}")
+		{
+			StringBuilder stringBuilder = GlobalStringBuilderPool.Alloc();
+			AppendFormattedMass(stringBuilder, mass, timeSlice, massFormat, includeSuffix, floatFormat);
+			return GlobalStringBuilderPool.ReturnAndFree(stringBuilder);
+		}
 		internal static string GetFormattedMass(Tag material, float amount, GameUtil.TimeSlice slice = GameUtil.TimeSlice.None, string extraSuffix = "")
 		{
 			var matName = MarkdownUtil.GetTagStringWithIcon(material);
 
 			GameUtil.ApplyTimeSlice(amount, slice);
-			string massFormatted = GameUtil.GetFormattedMass(amount);
+			string massFormatted = GetFormattedMass(amount);
 			if (GameTags.DisplayAsUnits.Contains(material))
 			{
 				massFormatted = "x" + amount;
@@ -384,5 +495,42 @@ namespace UtilLibs.MarkdownExport
 
 			return result;
 		}
+
+		static StringBuilder builder = new StringBuilder(64);
+		public static string GetFormattedWattage(float watts, WattageFormatterUnit unit = WattageFormatterUnit.Automatic, bool displayUnits = true)
+		{
+			builder.Clear();
+			string text = null;
+			switch (unit)
+			{
+				case WattageFormatterUnit.Automatic:
+					if (Mathf.Abs(watts) > 1000f)
+					{
+						watts /= 1000f;
+						text = L("STRINGS.UI.UNITSUFFIXES.ELECTRICAL.KILOWATT");
+					}
+					else
+					{
+						text = L("STRINGS.UI.UNITSUFFIXES.ELECTRICAL.WATT");
+					}
+
+					break;
+				case WattageFormatterUnit.Kilowatts:
+					watts /= 1000f;
+					text = L("STRINGS.UI.UNITSUFFIXES.ELECTRICAL.KILOWATT");
+					break;
+				case WattageFormatterUnit.Watts:
+					text = L("STRINGS.UI.UNITSUFFIXES.ELECTRICAL.WATT");
+					break;
+			}
+
+			AppendFloatToString(builder, watts, "###0.##");
+			if (displayUnits && text != null)
+			{
+				builder.Append(text);
+			}
+			return builder.ToString();
+		}
+
 	}
 }

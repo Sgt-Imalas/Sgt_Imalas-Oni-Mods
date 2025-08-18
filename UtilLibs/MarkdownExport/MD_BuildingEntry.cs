@@ -55,10 +55,19 @@ namespace UtilLibs.MarkdownExport
 
 			sb.Append($"| ![{ID}](/assets/images/buildings/{ID}.png){{height=\"100\"}} {{rowspan=\"3\"}}");
 			sb.AppendLine($"|**{L("BUILDING_DIMENSIONS_LABEL")}** | {string.Format(L("BUILDING_DIMENSIONS_INFO"), Width, Height)}|");
+
+
+			string powerInfo = MarkdownUtil.GetFormattedWattage(PowerConsumption);
+			if(PowerConsumption <=0)
+				powerInfo = " - ";
+			if(PowerProduction> 0)
+				powerInfo = MarkdownUtil.GetFormattedWattage(PowerProduction);
+
+
 			if (PowerProduction > 0)
-				sb.AppendLine($"|**{L("BUILDING_POWER_GENERATION")}**| {PowerProduction} W|{EmptyTableCell}|");
+				sb.AppendLine($"|**{L("BUILDING_POWER_GENERATION")}**| {powerInfo} |{EmptyTableCell}|");
 			else
-				sb.AppendLine($"|**{L("BUILDING_POWER_CONSUMPTION")}**| {PowerConsumption} W|{EmptyTableCell}|");
+				sb.AppendLine($"|**{L("BUILDING_POWER_CONSUMPTION")}**| {powerInfo} |{EmptyTableCell}|");
 			if (!ResearchKey.IsNullOrWhiteSpace())
 				sb.AppendLine($"|**{L("BUILDING_RESEARCH_REQUIREMENT")}**| {Strip(L(ResearchKey))}|{EmptyTableCell}| ");
 			else
@@ -67,7 +76,7 @@ namespace UtilLibs.MarkdownExport
 			AppendMaterialCostsTable(sb);
 
 			if (StorageCapacity > 0)
-				sb.AppendLine($"|**{FontSizeIncrease(L("BUILDING_STORAGE_CAPACITY"))}**| {GameUtil.GetFormattedMass(StorageCapacity)}|{EmptyTableCell}|");
+				sb.AppendLine($"|**{FontSizeIncrease(L("BUILDING_STORAGE_CAPACITY"))}**| {MarkdownUtil.GetFormattedMass(StorageCapacity)}|{EmptyTableCell}|");
 
 			AppendBuildingPortsTable(sb);
 			sb.AppendLine();
@@ -90,23 +99,18 @@ namespace UtilLibs.MarkdownExport
 			if (def.InputConduitType != ConduitType.None)
 			{
 				Tag consumption = GameTags.Any;
-				bool anyConsumer = false;
 				if (def.BuildingComplete.TryGetComponent<ConduitConsumer>(out var consumer))
 				{
 					consumption = consumer.capacityTag;
-					anyConsumer = true;
 				}
 				else if (def.BuildingComplete.TryGetComponent<SolidConduitConsumer>(out var solidconsumer))
 				{
 					consumption = solidconsumer.capacityTag;
-					anyConsumer = true;
 				}
 
-				if (anyConsumer)
-				{
-					string mat = consumption == GameTags.Any ? null : MarkdownUtil.GetTagString(consumption);
-					inputs.Add(MarkdownUtil.GetPortDescription(def.InputConduitType, true, mat));
-				}
+				string mat = consumption == GameTags.Any ? null : MarkdownUtil.GetTagString(consumption);
+				inputs.Add(MarkdownUtil.GetPortDescription(def.InputConduitType, true, mat));
+
 			}
 			var modConsumers = def.BuildingComplete.GetComponents<PortConduitConsumer>();
 			if (modConsumers.Any())
@@ -117,6 +121,23 @@ namespace UtilLibs.MarkdownExport
 					inputs.Add(MarkdownUtil.GetPortDescription(consumer2.conduitType, true, mat));
 				}
 			}
+
+			List<ConduitType> conduitstates = [ConduitType.Solid, ConduitType.Liquid, ConduitType.Gas];
+			var secondaryconsumers = def.BuildingComplete.GetComponents<ISecondaryInput>();
+			if (secondaryconsumers.Any())
+			{
+				foreach (ISecondaryInput secondary in secondaryconsumers)
+				{
+					foreach(var contype in conduitstates)
+					{
+						if(secondary.HasSecondaryConduitType(contype))
+						{
+							inputs.Add(MarkdownUtil.GetPortDescription(contype, true, null));
+						}
+					}
+				}
+			}
+
 
 			if (def.OutputConduitType != ConduitType.None)
 			{
@@ -135,6 +156,20 @@ namespace UtilLibs.MarkdownExport
 
 					string mat = filter == GameTags.Any ? null : MarkdownUtil.GetTagString(filter);
 					outputs.Add(MarkdownUtil.GetPortDescription(dispenser.conduitType, false, mat));
+				}
+			}
+			var secondaryDispensers = def.BuildingComplete.GetComponents<ISecondaryOutput>();
+			if (secondaryDispensers.Any())
+			{
+				foreach (var secondary in secondaryDispensers)
+				{
+					foreach (var contype in conduitstates)
+					{
+						if (secondary.HasSecondaryConduitType(contype))
+						{
+							outputs.Add(MarkdownUtil.GetPortDescription(contype, false, null));
+						}
+					}
 				}
 			}
 
@@ -160,7 +195,8 @@ namespace UtilLibs.MarkdownExport
 					sb.AppendLine("|");
 				}
 			}
-			else { 
+			else
+			{
 				sb.Append($"| **<font size=\"+1\">{L("BUILDING_PORTS_HEADER")}:</font>** |");
 				sb.Append("<table>");
 				sb.Append("<tr>");
@@ -201,7 +237,7 @@ namespace UtilLibs.MarkdownExport
 				sb.Append(string.Join(or, mats.Select(m => MarkdownUtil.GetTagString(m))));
 				sb.Append("</td>");
 				sb.Append("<td>");
-				sb.Append(GameUtil.GetFormattedMass(cost));
+				sb.Append(MarkdownUtil.GetFormattedMass(cost));
 				sb.Append("</td>");
 				sb.Append("</tr>");
 			}
@@ -225,7 +261,7 @@ namespace UtilLibs.MarkdownExport
 				string or = " " + L("SEPARATOR_OR") + " ";
 				sb.Append(string.Join(or, mats.Select(m => MarkdownUtil.GetTagString(m))));
 				sb.Append('|');
-				sb.Append(GameUtil.GetFormattedMass(cost));
+				sb.Append(MarkdownUtil.GetFormattedMass(cost));
 				sb.AppendLine("|");
 			}
 		}
@@ -275,9 +311,9 @@ namespace UtilLibs.MarkdownExport
 				Children.Add(new MD_Header("CONVERSION_GENERATOR_HEADER", 4));
 				Children.Add(new MD_EnergyGenerator(generator));
 			}
-			foreach(var techItem in Db.Get().TechItems.resources)
+			foreach (var techItem in Db.Get().TechItems.resources)
 			{
-				if (techItem.Id==(id))
+				if (techItem.Id == (id))
 				{
 					ResearchKey = $"STRINGS.RESEARCH.TECHS.{techItem.ParentTech.Id.ToUpperInvariant()}.NAME";
 					break;
