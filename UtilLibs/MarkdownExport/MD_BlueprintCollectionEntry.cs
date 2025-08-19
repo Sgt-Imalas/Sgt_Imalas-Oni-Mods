@@ -10,24 +10,28 @@ namespace UtilLibs.MarkdownExport
 {
 	public class MD_BlueprintCollectionEntry : IMD_Entry
 	{
-		public MD_BlueprintCollectionEntry(string buildingId)
+		public MD_BlueprintCollectionEntry(string buildingId, bool title = true)
 		{
 			BuildingID = buildingId;
+			_title = title;	
 		}
 		static StringBuilder sb = new StringBuilder();
-
+		bool _title = true;
 		public string BuildingID;
 		public string FormatAsMarkdown()
 		{
 			sb.Clear();
 
-			sb.Append("## ");
-			sb.AppendLine(MarkdownUtil.StrippedBuildingName(BuildingID));
+			if (_title)
+			{
+				sb.Append("## ");
+				sb.AppendLine(MarkdownUtil.StrippedBuildingName(BuildingID));
+				sb.AppendLine();
+			}
 
-			if(!SupplyClosetUtils.TryGetCollectionFor(BuildingID, out var blueprints)) 
+			if (!SupplyClosetUtils.TryGetCollectionFor(BuildingID, out var blueprints)) 
 				throw new Exception("no skins for "+BuildingID+" registered");
 
-			sb.AppendLine();
 			sb.Append("|");
 			sb.Append(L("STRINGS.UI.UISIDESCREENS.TABS.SKIN"));
 			sb.Append("|");
@@ -42,7 +46,7 @@ namespace UtilLibs.MarkdownExport
 					throw new Exception("MISSING SKIN RESOURCE: " + blueprint);
 
 				sb.Append("|");
-				sb.Append($"![{blueprint}](/assets/images/buildings/{blueprint}.png){{width=\"200\"}} ");
+				sb.Append($"![{blueprint}](/assets/images/buildings/{blueprint}.png){{height=\"100\"}} ");
 				sb.Append("|");
 				sb.Append("**<font size=\"+1\">");
 				sb.Append(L(FindStringKey(skin.Name)));

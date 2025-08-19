@@ -352,8 +352,7 @@ namespace UtilLibs.MarkdownExport
 			if (SupplyClosetUtils.TryGetCollectionFor(id, out var collection))
 			{
 				Children.Add(new MD_Header("STRINGS.UI.UISIDESCREENS.TABS.SKIN", 3));
-				foreach (var item in collection)
-					Children.Add(new MD_BlueprintEntry(item));
+				Children.Add(new MD_BlueprintCollectionEntry(id,false));
 			}
 
 		}
