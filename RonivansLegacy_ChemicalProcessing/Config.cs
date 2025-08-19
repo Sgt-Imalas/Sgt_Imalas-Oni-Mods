@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using PeterHan.PLib.Options;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.UI;
 using System;
 using System.Collections.Generic;
@@ -14,12 +15,74 @@ namespace RonivansLegacy_ChemicalProcessing
 	[ConfigFile(SharedConfigLocation: true)]
 	public class Config : SingletonOptions<Config>
 	{
+		public static bool SubModEnabled(SourceModInfo mod )=> ModBuildingEnabled([mod]);
+		public static bool ModBuildingEnabled(IEnumerable<SourceModInfo> buildingMods)
+		{
+			Debug.Assert(buildingMods != null && buildingMods.Any(), "ModBuildingEnabled called with null or empty buildingMods");
+			foreach (var sourceMod in buildingMods)
+			{
+				switch (sourceMod)
+				{
+					case SourceModInfo.ChemicalProcessing_IO:
+						if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+							return true;
+						break;
+					case SourceModInfo.ChemicalProcessing_BioChemistry:
+						if (Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
+							return true;
+						break;
+					case SourceModInfo.MineralProcessing_Metallurgy:
+						if (Config.Instance.MineralProcessing_Metallurgy_Enabled)
+							return true;
+						break;
+					case SourceModInfo.MineralProcessing_Mining:
+						if (Config.Instance.MineralProcessing_Mining_Enabled)
+							return true;
+						break;
+					case SourceModInfo.NuclearProcessing:
+						if (Config.Instance.NuclearProcessing_Enabled)
+							return true;
+						break;
+					case SourceModInfo.DupesMachinery:
+						if (Config.Instance.DupesMachinery_Enabled)
+							return true;
+						break;
+					case SourceModInfo.DupesEngineering:
+						if (Config.Instance.DupesEngineering_Enabled)
+							return true;
+						break;
+					case SourceModInfo.CustomReservoirs:
+						if (Config.Instance.CustomReservoirs_Enabled)
+							return true;
+						break;
+					case SourceModInfo.DupesLogistics:
+						if (Config.Instance.DupesLogistics_Enabled)
+							return true;
+						break;
+					case SourceModInfo.HighPressureApplications:
+						if (Config.Instance.HighPressureApplications_Enabled)
+							return true;
+						break;
+					case SourceModInfo.DupesRefrigeration:
+						if (Config.Instance.DupesRefrigeration_Enabled)
+							return true;
+						break;
+					case SourceModInfo.CustomGenerators:
+						if (Config.Instance.CustomGenerators_Enabled)
+							return true;
+						break;
+				}
+			}
+			return false;
+		}
+
+
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.TOOLTIP")]
 		[JsonIgnore]
 		public System.Action<object> Button_OpenCarepackageEditor => BuildingEditor_MainScreen.ShowBuildingEditor;
 
-		
-		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME","STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP_ELEMENTS", "STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_IO")]
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP_ELEMENTS", "STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_IO")]
 		[JsonProperty]
 		public bool ChemicalProcessing_IndustrialOverhaul_Enabled { get; set; } = true;
 

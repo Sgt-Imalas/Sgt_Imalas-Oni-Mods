@@ -12,6 +12,7 @@ namespace UtilLibs.MarkdownExport
 		public string Name;
 		public List<MD_Directory> SubDirectories = [];
 		public List<MD_Page> Files = [];
+		public bool WriteDirectory = true;
 
 		public MD_Directory(string targetDirectory)
 		{
@@ -36,6 +37,9 @@ namespace UtilLibs.MarkdownExport
 
 		public void CreateMarkdownFiles(string inheritedPath)
 		{
+			if(!WriteDirectory)
+				return;
+
 			var nest = Path.Combine(inheritedPath, this.Name);
 			Directory.CreateDirectory(nest);
 

@@ -70,13 +70,15 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 		//===[ CHEMICAL: ADVANCED KILN RECIPES ]=========================================================================
 		private void ConfigureRecipes()
-		{			
+		{
+			bool cemprocessingEnabled = Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled;
+
 			//---- [ Refined Coal ] -------------------------------------------------------------------------------------
 			// Ingredient: Coal - 500kg        
 			// Result: Refined Coal - 500kg
 			//-----------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, 30)
-				.Input([SimHashes.Carbon,SimHashes.WoodLog,SimHashes.Peat], [500,800,1200], GameTags.CombustibleSolid)
+				.Input([SimHashes.Carbon, SimHashes.WoodLog, SimHashes.Peat], [500, 800, 1200], GameTags.CombustibleSolid)
 				.Output(SimHashes.RefinedCarbon, 500, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description1I1O(HEAT_REFINE)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
@@ -104,7 +106,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Result: Concrete Block   - 500kg
 			//---------------------------------------------------------------------------------------------------------------
 
-			if (!Config.Instance.DupesEngineering_Enabled) //that mod adds cement mixer with a more realistic concrete recipe
+			if (!Config.Instance.DupesEngineering_Enabled && cemprocessingEnabled) //that mod adds cement mixer with a more realistic concrete recipe
 			{
 				RecipeBuilder.Create(ID, 30)
 					.Input(SimHashes.Sand, 100)
@@ -123,14 +125,15 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//             Borax        - 30kg
 			// Result: Fiberglass       - 300g
 			//-------------------------------------------------------------------------------------------------------------------
-			RecipeBuilder.Create(ID, 30)
-				.Input(SimHashes.Sand, 270)
-				.Input(RefinementRecipeHelper.GetPlasticIds(FiberGlass_Solid), 100f, GameTags.Plastic)
-				.Input(Borax_Solid, 30)
-				.Output(FiberGlass_Solid, 400, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-				.Description(THREE_MIXTURE_FUSE, 3, 1)
-				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
-				.Build();
+			if (cemprocessingEnabled)
+				RecipeBuilder.Create(ID, 30)
+					.Input(SimHashes.Sand, 270)
+					.Input(RefinementRecipeHelper.GetPlasticIds(FiberGlass_Solid), 100f, GameTags.Plastic)
+					.Input(Borax_Solid, 30)
+					.Output(FiberGlass_Solid, 400, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+					.Description(THREE_MIXTURE_FUSE, 3, 1)
+					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+					.Build();
 
 			//---- [ Carbon Fibre ] --------------------------------------------------------------------------------------------
 			// Ingredient: Bitumen      - 100kg
@@ -139,8 +142,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//             Isoresin     -  15kg
 			// Result: Carbon Fiber     - 100kg
 			//-------------------------------------------------------------------------------------------------------------------
-
-			RecipeBuilder.Create(ID, 30)
+			if (cemprocessingEnabled)
+				RecipeBuilder.Create(ID, 30)
 					.Input(SimHashes.Bitumen, 100)
 					.Input(SimHashes.Fullerene, 25f)
 					.Input(SimHashes.Isoresin, 15f)
@@ -150,10 +153,10 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
 					.Build();
 
-			
+
 
 			///Cement from burning oilshale
-			AdditionalRecipes.AdditionalKilnRecipes(ID,false, true);
+			AdditionalRecipes.AdditionalKilnRecipes(ID, false, true);
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)

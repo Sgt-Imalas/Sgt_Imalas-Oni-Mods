@@ -2174,6 +2174,10 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString ARCFURNACE_SMELT = "Smelt {0} to produce {1}.";
 				public static LocString ARCFURNACE_MELT = "Melt {0} to produce {1}.";
 
+
+
+				public static LocString ADVANCED_REFINERY_TRACE_EXTRACTION_1_2 = "Advanced smelting of {0} extracts trace amounts of {1}.\n This process also produces small amounts of {2}";
+
 				public static LocString JAWCRUSHERMILL_MILLING_1_1_2 = "Grind down {0} and extract small amounts of {1}.\nProduces {2} and {3} as waste products.";
 				public static LocString JAWCRUSHERMILL_MILLING_1_1 = "Grind down {0} into {1}.";
 				public static LocString JAWCRUSHERMILL_MILLING_1_1_BREAK = "Break down {0} into {1}.";

@@ -238,6 +238,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			bool soEnabled = DlcManager.IsExpansion1Active();
 
+			///note: 10kg of mass has been deducted as thats the mass of the guaranteed sand product
+
 			//===: SANDSTONE RANDOM RESULTS :============================================================ < 500 kg >
 			//---[ Possible Results Elements: ]
 			// - Copper Ore
@@ -247,7 +249,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			// - Sand
 			//-------------------------------------------------------------------------------------
 			results.Add(SimHashes.SandStone.CreateTag(),
-				new RecipeRandomResult(500, 20, 50)
+				new RecipeRandomResult(490, 20, 50)
 				.AddProduct(SimHashes.CrushedRock, 150, 310)
 				.AddProduct(SimHashes.Sand, 175, 310)
 				.AddProduct(SimHashes.Cuprite, 20, 40, 3f / 9f)
@@ -265,7 +267,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			// - Clay
 			//------------------------------------------------------------------------------------------
 			results.Add(SimHashes.SedimentaryRock.CreateTag(),
-				new RecipeRandomResult(500, 20, 50)
+				new RecipeRandomResult(490, 20, 50)
 				.AddProduct(SimHashes.CrushedRock, 160, 320)
 				.AddProduct(SimHashes.Clay, 150, 310)
 				.AddProduct(SimHashes.GoldAmalgam, 10, 30, 2f / 9f)
@@ -277,7 +279,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				);
 			///Shale: mirror of sedimentary rock bc it is described as sedimentary in its desc
 			results.Add(SimHashes.Shale.CreateTag(),
-				new RecipeRandomResult(500, 20, 50)
+				new RecipeRandomResult(490, 20, 50)
 				.AddProduct(SimHashes.CrushedRock, 160, 320)
 				.AddProduct(SimHashes.Clay, 150, 310)
 				.AddProduct(SimHashes.GoldAmalgam, 10, 30, 2f / 9f)
@@ -297,7 +299,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			// - Sand
 			//--------------------------------------------------------------------------------------
 			results.Add(SimHashes.IgneousRock.CreateTag(),
-				new RecipeRandomResult(500, 20, 50)
+				new RecipeRandomResult(490, 20, 50)
 				.AddProduct(SimHashes.CrushedRock, 250, 350)
 				.AddProduct(SimHashes.Sand, 50, 150)
 				.AddProduct(SimHashes.FoolsGold, 15, 25, 4f / 9f)
@@ -315,7 +317,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			// - Crushed Rock
 			// - Sand
 			results.Add(SimHashes.Granite.CreateTag(),
-				new RecipeRandomResult(500, 20, 50)
+				new RecipeRandomResult(490, 20, 50)
 				.AddProduct(SimHashes.CrushedRock, 270, 370)
 				.AddProduct(SimHashes.Sand, 50, 250)
 				.AddProduct(SimHashes.AluminumOre, 15, 25, 4f / 8f)
@@ -332,7 +334,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			// - Crushed Rock
 			// - Sand
 			results.Add(SimHashes.MaficRock.CreateTag(),
-				new RecipeRandomResult(500, 20, 50)
+				new RecipeRandomResult(490, 20, 50)
 				.AddProduct(SimHashes.CrushedRock, 250, 350)
 				.AddProduct(SimHashes.Sand, 100, 200)
 				.AddProduct(SimHashes.AluminumOre, 15, 25, 2f / 8f)
@@ -351,7 +353,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			// - Sand
 
 			results.Add(SimHashes.Katairite.CreateTag(),
-				new RecipeRandomResult(500, 20, 50)
+				new RecipeRandomResult(490, 20, 50)
 				.AddProduct(SimHashes.Wolframite, 5, 15, 1f / 9f)
 				.AddProduct(SimHashes.Tungsten, 5, 15, 1f / 9f)
 				.AddProduct(SimHashes.Phosphorus, 70, 110, 4f / 9f)

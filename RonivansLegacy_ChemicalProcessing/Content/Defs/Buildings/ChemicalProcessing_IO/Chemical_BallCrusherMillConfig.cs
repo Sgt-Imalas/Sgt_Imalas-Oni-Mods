@@ -82,7 +82,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			waterInput.consumptionRate = 10f;
 			waterInput.capacityKG = 100f;
 			waterInput.storage = liquidStorage;
-			waterInput.capacityTag = SimHashes.Water.CreateTag(); ;
+			waterInput.capacityTag = SimHashes.Water.CreateTag();
 			waterInput.forceAlwaysSatisfied = true;
 			waterInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 

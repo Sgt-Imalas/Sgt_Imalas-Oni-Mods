@@ -16,6 +16,7 @@ namespace UtilLibs.MarkdownExport
 		public string FileName;
 		public string TitleKey;
 		public List<IMD_Entry> Entries = [];
+		public bool WritePage = true;
 
 		public MD_Page(string fileName, string titleKey = null)
 		{
@@ -40,6 +41,9 @@ namespace UtilLibs.MarkdownExport
 
 		public void CreateMarkdownFiles(string inheritedPath)
 		{
+			if(!WritePage)
+				return;
+
 			var fileInfo = new FileInfo(System.IO.Path.Combine(inheritedPath, FileName + MD_Localization.GetSuffix() + ".md"));
 
 			FileStream fcreate = fileInfo.Open(FileMode.Create);

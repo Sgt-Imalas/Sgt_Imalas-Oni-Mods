@@ -52,7 +52,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				var building = entry.Value;
 				foreach (var sourceMod in building.SourceMods)
 				{
-					if (!buildingPages.TryGetValue(sourceMod, out var page))
+					if (!buildingPages.TryGetValue(sourceMod, out MD_Page page))
 					{
 						var ModName = Strings.Get($"STRINGS.AIO_MODSOURCE.{sourceMod.ToString().ToUpperInvariant()}").ToString();
 						var folder = exporter.root.SubDir(ModName);
@@ -61,8 +61,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 						buildingPages[sourceMod] = page;
 					}
 
+					if (!Config.SubModEnabled(sourceMod))
+					{
+						continue;
+					}
+
 					var id = building.BuildingID;
 
+					//overlap buildings have different recipes without chemproc, only write those when its disabled!
 					var buildingEntry = page.AddBuilding(id);
 					buildingEntry.Tech(building.TechID).WriteUISprite("E:\\ONIModding\\Wiki\\docs\\assets\\images\\buildings");
 					
@@ -78,6 +84,15 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					}
 				}
 			}
+			foreach(var modRoots in submodFolders)
+			{
+				if(!Config.SubModEnabled(modRoots.Key))
+				{
+					modRoots.Value.WriteDirectory = false;
+				}
+			}
+			submodFolders[SourceModInfo.MineralProcessing_Metallurgy].WriteDirectory = !Config.SubModEnabled(SourceModInfo.ChemicalProcessing_IO);
+
 			buildingPages[SourceModInfo.ChemicalProcessing_IO].AddBuilding(MetalRefineryConfig.ID).VanillaModified();
 			buildingPages[SourceModInfo.ChemicalProcessing_IO].AddBuilding(OilWellCapConfig.ID).VanillaModified();
 

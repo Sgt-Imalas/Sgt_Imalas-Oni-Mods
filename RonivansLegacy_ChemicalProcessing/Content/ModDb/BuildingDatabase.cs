@@ -67,30 +67,30 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		public static void RegisterBuildings()
 		{
 			BuildingManager.LoadConfigFile();
-			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
-				RegisterBuildings_ChemicalProcessingIndustrialOverhaul();
-			if (Config.Instance.MineralProcessing_Metallurgy_Enabled)
-				RegisterBuildings_MineralProcessingMetallurgy();
-			if (Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
-				RegisterBuildings_ChemicalProcessingBioChemistry();
-			if (Config.Instance.MineralProcessing_Mining_Enabled)
-				RegisterBuildings_MineralProcessingMining();
-			if (Config.Instance.DupesMachinery_Enabled)
-				RegisterBuildings_DupesMachinery();
-			if (Config.Instance.NuclearProcessing_Enabled)
-				RegisterBuildings_NuclearProcessing();
-			if (Config.Instance.DupesEngineering_Enabled)
-				RegisterBuildings_DupesEngineering();
-			if (Config.Instance.CustomReservoirs_Enabled)
-				RegisterBuildings_CustomReservoirs();
-			if (Config.Instance.HighPressureApplications_Enabled)
-				RegisterBuildings_HighPressureApplications();
-			if (Config.Instance.DupesLogistics_Enabled)
-				RegisterBuildings_DupesLogistics();
-			if (Config.Instance.DupesRefrigeration_Enabled)
-				RegisterBuildings_DupesRefrigeration();
-			if (Config.Instance.CustomGenerators_Enabled)
-				RegisterBuildings_CustomGenerators();
+			//if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+			RegisterBuildings_ChemicalProcessingIndustrialOverhaul();
+			//if (Config.Instance.MineralProcessing_Metallurgy_Enabled)
+			RegisterBuildings_MineralProcessingMetallurgy();
+			//if (Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
+			RegisterBuildings_ChemicalProcessingBioChemistry();
+			//if (Config.Instance.MineralProcessing_Mining_Enabled)
+			RegisterBuildings_MineralProcessingMining();
+			//if (Config.Instance.DupesMachinery_Enabled)
+			RegisterBuildings_DupesMachinery();
+			//if (Config.Instance.NuclearProcessing_Enabled)
+			RegisterBuildings_NuclearProcessing();
+			//if (Config.Instance.DupesEngineering_Enabled)
+			RegisterBuildings_DupesEngineering();
+			//if (Config.Instance.CustomReservoirs_Enabled)
+			RegisterBuildings_CustomReservoirs();
+			//if (Config.Instance.HighPressureApplications_Enabled)
+			RegisterBuildings_HighPressureApplications();
+			//if (Config.Instance.DupesLogistics_Enabled)
+			RegisterBuildings_DupesLogistics();
+			//if (Config.Instance.DupesRefrigeration_Enabled)
+			RegisterBuildings_DupesRefrigeration();
+			//if (Config.Instance.CustomGenerators_Enabled)
+			RegisterBuildings_CustomGenerators();
 		}
 		private static void RegisterBuildings_ChemicalProcessingIndustrialOverhaul()
 		{
@@ -350,7 +350,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddModFrom(SourceModInfo.NuclearProcessing);
 
 			BuildingManager.CreateEntry<LightReactorConfig>()
-				.AddToCategory(PlanMenuCategory.Radiation, NuclearReactorConfig.ID,ModUtil.BuildingOrdering.Before)
+				.AddToCategory(PlanMenuCategory.Radiation, NuclearReactorConfig.ID, ModUtil.BuildingOrdering.Before)
 				.AddToTech(Technology.ColonyDevelopment.RadiationRefinement)
 				.AddModFrom(SourceModInfo.NuclearProcessing);
 

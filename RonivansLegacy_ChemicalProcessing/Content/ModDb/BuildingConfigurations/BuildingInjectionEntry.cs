@@ -66,6 +66,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 			{
 				return;
 			}
+			if (!Config.ModBuildingEnabled(modsFrom))
+			{
+				return;
+			}
 			InjectionMethods.AddBuildingToTechnology(_techID, _buildingID);
 		}
 		internal void RegisterPlanscreen()
@@ -74,7 +78,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 			{
 				return;
 			}
-			if(MoveExisting)
+			if(!Config.ModBuildingEnabled(modsFrom))
+			{
+				return;
+			}
+
+			if (MoveExisting)
 				InjectionMethods.MoveExistingBuildingToNewCategory(_planScreenCategory,_buildingID,PlanScreenRelativeBuildingID,ordering: BuildingOrdering);
 			else
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(_planScreenCategory, _buildingID, PlanScreenRelativeBuildingID, ordering: BuildingOrdering);

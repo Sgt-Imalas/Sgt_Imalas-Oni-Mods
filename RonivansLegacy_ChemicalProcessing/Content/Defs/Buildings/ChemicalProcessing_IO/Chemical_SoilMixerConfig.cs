@@ -132,6 +132,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		//==== [ CHEMICAL: SOIL MIXER RECIPES ] ==================================================================
 		private void ConfigureRecipes()
 		{
+			bool chemproc = Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled;
 			//---- [ Nitrate Fertilizer ] ------------------------------------------------------------------------
 			// Ingredient: Nitrate Nodules - 25kg
 			//             Phosphate Nodules - 25kg
@@ -139,15 +140,19 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//             Polluted Water - 25kg
 			// Result: Fertilizer - 100kg
 			//-----------------------------------------------------------------------------------------------------
-			RecipeBuilder.Create(ID, 80)
-				.Input(ModElements.AmmoniumSalt_Solid, 25)
-				.Input(SimHashes.PhosphateNodules, 25)
-				.Input(SimHashes.Sulfur, 25)
-				.Input(SimHashes.DirtyWater, 25)
-				.Output(SimHashes.Fertilizer, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-				.Description(SOILMIXER_4_1, 4, 1)
-				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
-				.Build();
+			if (chemproc)
+			{
+				RecipeBuilder.Create(ID, 80)
+					.Input(ModElements.AmmoniumSalt_Solid, 25)
+					.Input(SimHashes.PhosphateNodules, 25)
+					.Input(SimHashes.Sulfur, 25)
+					.Input(SimHashes.DirtyWater, 25)
+					.Output(SimHashes.Fertilizer, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+					.Description(SOILMIXER_4_1, 4, 1)
+					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+					.Build();
+
+			}
 
 			//---- [ Ammonia Fertilizer ] ------------------------------------------------------------------------
 			// Ingredient: Ammonia Gas - 25kg
@@ -156,7 +161,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//             Polluted Water - 25kg
 			// Result: Fertilizer - 100kg
 			//-----------------------------------------------------------------------------------------------------
-			RecipeBuilder.Create(ID, 80)
+			if (chemproc)
+			{
+				RecipeBuilder.Create(ID, 80)
 				.Input(ModElements.Ammonia_Gas, 25)
 				.Input(SimHashes.PhosphateNodules, 25)
 				.Input(SimHashes.Sulfur, 25)
@@ -165,6 +172,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Description(SOILMIXER_4_1, 4, 1)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 				.Build();
+			}
 
 			//---- [ Phosphate Nodules from Phosphorus ] --------------------------------------------------------------
 			// Ingredient: Phosphorus - 50kg
@@ -215,7 +223,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			RecipeBuilder.Create(ID, 60)
 				.Input(SimHashes.CrushedRock, 40)
 				.Input(SimHashes.ToxicSand, 20)
-				.Input([SimHashes.Carbon, SimHashes.Peat], 20, GameTags.CombustibleSolid)
+				.Input([SimHashes.Carbon, SimHashes.Peat,SimHashes.WoodLog], 20, GameTags.CombustibleSolid)
 				.Input(SimHashes.Water, 20)
 				.Output(SimHashes.Dirt, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description(SOILMIXER_4_1, 4, 1)
