@@ -98,7 +98,9 @@ namespace UtilLibs
 				{
 					tag = descriptorTag;
 				}
-				result.Add(MarkdownUtil.GetTagStringWithIcon(tag));
+				var item = Assets.TryGetPrefab(tag);
+				string itemName = item?.GetProperName() ?? tag.ProperName();
+				result.Add(itemName);
 			}
 			for (int i = 0; i < outputCount; i++)
 			{
@@ -110,7 +112,9 @@ namespace UtilLibs
 				{
 					tag = descriptorTag;
 				}
-				result.Add(MarkdownUtil.GetTagStringWithIcon(tag));
+				var item = Assets.TryGetPrefab(tag);
+				string itemName = item?.GetProperName() ?? tag.ProperName();
+				result.Add(itemName);
 			}
 			return result.ToArray();
 		}
