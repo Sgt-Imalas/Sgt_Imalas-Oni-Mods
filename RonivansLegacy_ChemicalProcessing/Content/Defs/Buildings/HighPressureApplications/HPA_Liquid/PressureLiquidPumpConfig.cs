@@ -1,5 +1,6 @@
 ﻿using PeterHan.PLib.Options;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts.BuildingConfigInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,16 @@ using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureApplications
 {
-	public class PressureLiquidPumpConfig : IBuildingConfig
+	public class PressureLiquidPumpConfig : IBuildingConfig, IHasConfigurableRange
 	{
 		public static string ID = "PressureLiquidPump";
+		public static int PumpRange = 8;
+		public int GetTileRange() => PumpRange;
+
+		public void SetTileRange(int tiles) => PumpRange = tiles;
+
+		public string GetDescriptorText() => STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.RANGESETTINGS_PUMP;
+		public Tuple<int, int> GetTileValueRange() => new(4, 24);
 
 		public override BuildingDef CreateBuildingDef()
 		{
@@ -52,7 +60,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			pumpConsumer.consumptionRate = Config.Instance.HPA_Capacity_Liquid;
 			pumpConsumer.storeOnConsume = true;
 			pumpConsumer.showInStatusPanel = false;
-			pumpConsumer.consumptionRadius = 8;
+			pumpConsumer.consumptionRadius = (byte)GetTileRange();
 			go.AddOrGet<RotatablePump>().PumpOffset = new CellOffset(1, 0);
 
 			ConduitDispenser local2 = go.AddOrGet<ConduitDispenser>();

@@ -30,11 +30,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 		public LocText SelectedEntryModOriginDisplay;
 		public Image SelectedEntryPreviewImage;
 
-		GameObject WattageContainer;
-		LocText WattageLabel;
-		GameObject StorageCapacityContainer;
+		GameObject WattageContainer, StorageCapacityContainer, RangeContainer;
+		LocText WattageLabel, RangeLabel;
 
-		FInputField2 WattageInput, StorageCapacityInput;
+		FInputField2 WattageInput, StorageCapacityInput, RangeInput;
 		FToggle BuildingEnabledToggle;
 
 		GameObject Details;
@@ -140,6 +139,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			StorageCapacityInput.Text = "0";
 			StorageCapacityInput.OnValueChanged.AddListener(UpdateItemCapacity);
 			transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/CapacitySettings/Unit").gameObject.GetComponent<LocText>().SetText(global::STRINGS.UI.UNITSUFFIXES.MASS.KILOGRAM);
+
+			RangeContainer = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/RangeSettings").gameObject;
+			RangeInput = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/RangeSettings/Input").FindOrAddComponent<FInputField2>();
+			RangeInput.Text = "0";
+			RangeInput.OnValueChanged.AddListener(UpdateItemRange);
+			RangeLabel = RangeContainer.GetComponent<LocText>();
+			transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/RangeSettings/Unit").gameObject.GetComponent<LocText>().SetText(global::STRINGS.UI.UNITSUFFIXES.TILES);
+
 			StorageCapacityContainer.gameObject.SetActive(false);
 
 			BuildingEnabledToggle = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/EnableBuilding/Checkbox").gameObject.AddOrGet<FToggle>();
@@ -174,6 +181,19 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 				SelectedOutline?.SetMassCapacity(wattage);
 			OnOutlineEntryUpdated();
 		}
+
+		void UpdateItemRange(string text)
+		{
+			if (SelectedOutline == null)
+				return;
+			if (int.TryParse(text, out int range))
+				SelectedOutline?.SetTileRange(range);
+
+			RangeInput.SetTextFromData(SelectedOutline.GetTileRange().ToString());
+
+			OnOutlineEntryUpdated();
+		}
+
 		public void ClearFilter()
 		{
 			FilterBar.Text = string.Empty;
@@ -296,6 +316,23 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			else
 			{
 				WattageContainer.SetActive(false);
+			}
+			if(SelectedOutline.HasTileRange(out int range))
+			{
+				RangeContainer.SetActive(true);
+				if(SelectedOutline.HasTileRangeDescriptor(out string descriptor))
+				{
+					RangeLabel.SetText(descriptor);
+				}
+				else
+				{
+					RangeLabel.SetText(STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.RANGESETTINGS);
+				}
+				RangeInput.SetTextFromData(range.ToString());
+			}
+			else
+			{
+				RangeContainer.SetActive(false);
 			}
 			SelectedEntryPreviewImage.sprite = Def.GetUISprite(SelectedOutline.BuildingID).first;
 		}

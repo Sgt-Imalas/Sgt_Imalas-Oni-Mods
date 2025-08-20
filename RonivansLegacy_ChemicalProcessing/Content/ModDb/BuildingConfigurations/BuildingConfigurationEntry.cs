@@ -15,15 +15,22 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 		public bool BuildingEnabled = true;
 		public float BuildingMassCapacity = -1;
 		public float BuildingWattage = -1;
+		public float BuildingTileRange = -1;
 		[JsonIgnore]
 		public float BuildingMassCapacityDefault = -1;
 		[JsonIgnore]
 		public float BuildingWattageDefault = -1;
 		[JsonIgnore]
+		public float BuildingTileRangeDefault = -1;
+		[JsonIgnore]
 		public BuildingInjectionEntry BuildingInjection = null;
 		[JsonIgnore]
 		public bool IsGenerator;
 
+		[JsonIgnore]
+		public string RangeLabel = null;
+		[JsonIgnore]
+		public Tuple<int, int> TileRangeValueRange = new(1,99);
 
 		[JsonIgnore]
 		public bool IsInjected => BuildingInjection != null;
@@ -48,6 +55,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 			BuildingMassCapacityDefault = wattage;
 			return this;
 		}
+		public BuildingConfigurationEntry SetDefaultTileRange(int range, Tuple<int, int> tuple)
+		{
+			if (tuple != null)
+				TileRangeValueRange = tuple;			
+			BuildingTileRangeDefault = range;
+			return this;
+		}
 		public float GetWattage()
 		{
 			return BuildingWattage < 0 ? BuildingWattageDefault : BuildingWattage;
@@ -56,6 +70,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 		{
 			return BuildingMassCapacity <= 0 ? BuildingMassCapacityDefault : BuildingMassCapacity;
 		}
+		public int GetTileRange()
+		{
+			return BuildingTileRange < 0 ? (int)BuildingTileRangeDefault : (int)BuildingTileRange;
+		}
+
 		public bool HasWattage(out float wattage)
 		{
 			wattage = GetWattage();
@@ -66,12 +85,31 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 			capacity = GetStorageCapacity();
 			return BuildingMassCapacityDefault >= 0;
 		}
+		public bool HasTileRange(out int range)
+		{
+			range = GetTileRange();
+			return BuildingTileRangeDefault >= 0;
+		}
+		public bool HasTileRangeDescriptor(out string descriptor)
+		{
+			descriptor = RangeLabel;
+			return !string.IsNullOrEmpty(RangeLabel);
+		}
 
 		public bool IsBuildingEnabled()
 		{
 			return BuildingEnabled;
 		}
+		public void SetTileRange(float range)
+		{
+			if (range < TileRangeValueRange.first)
+				range = TileRangeValueRange.first;
 
+			if (range > TileRangeValueRange.second)
+				range = TileRangeValueRange.second;
+
+			BuildingTileRange = range;
+		}
 		public void SetWattage(float wattage)
 		{
 			if (wattage >= 0)
@@ -96,6 +134,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 		{
 			BuildingMassCapacity = -1;
 			BuildingWattage = -1;
+			BuildingTileRange = -1;
 			BuildingEnabled = true;
 		}
 

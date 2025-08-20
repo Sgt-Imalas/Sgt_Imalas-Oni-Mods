@@ -1,6 +1,7 @@
 ﻿using PeterHan.PLib.Options;
 using ProcGen;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts.BuildingConfigInterfaces;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistics
 {
-	public class LogisticTransferArmConfig : IBuildingConfig, IHasConfigurableWattage
+	public class LogisticTransferArmConfig : IBuildingConfig, IHasConfigurableWattage, IHasConfigurableRange
 	{
 		public static float Wattage = HighPressureConduitRegistration.GetLogisticConduitMultiplier() * 120f; // 1/2 of regular transfer arm by default
 
@@ -22,6 +23,17 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 
 
 		public static float StorageCapacity = HighPressureConduitRegistration.GetLogisticConduitMultiplier() * 1000f; // 1/2 of regular transfer arm carry weight
+
+
+		public static int SweeperArmRange = 4;
+		public int GetTileRange() => SweeperArmRange;
+
+		public void SetTileRange(int tiles) => SweeperArmRange = tiles;
+
+		public string GetDescriptorText() => STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.RANGESETTINGS_SWEEPER;
+
+		public Tuple<int, int> GetTileValueRange() => new(2, 12);
+
 
 		public static string ID = "LogisticTransferArm";
 
@@ -64,13 +76,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			capacity.TargetCarryCapacity = StorageCapacity;
 			capacity.TargetTurnRate = HighPressureConduitRegistration.GetLogisticConduitMultiplier() * 360f; // 180 degrees per second, half of the vanilla arm speed
 			var arm = go.AddOrGet<SolidTransferArm>();
-			arm.pickupRange = Config.Instance.Logistic_Arm_Range;
+			arm.pickupRange = SweeperArmRange;
 			AddVisualizer(go, false);
 		}
 
 		private static void AddVisualizer(GameObject prefab, bool movable)
 		{
-			int range = Config.Instance.Logistic_Arm_Range;
+			int range = SweeperArmRange;
 			RangeVisualizer rangeVisualizer = prefab.AddOrGet<RangeVisualizer>();
 			rangeVisualizer.OriginOffset = new Vector2I(0, 0);
 			rangeVisualizer.RangeMin.x = -range;

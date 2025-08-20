@@ -1,5 +1,6 @@
 ﻿using PeterHan.PLib.Options;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts.BuildingConfigInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,18 @@ using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureApplications
 {
-	public class PressureGasPumpConfig : IBuildingConfig
+	public class PressureGasPumpConfig : IBuildingConfig, IHasConfigurableRange
 	{
 		public static string ID = "PressureGasPump";
 
+		public static int PumpRange = 12;
+		public int GetTileRange() => PumpRange;
+
+		public void SetTileRange(int tiles) => PumpRange = tiles;
+
+		public string GetDescriptorText() => STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.RANGESETTINGS_PUMP;
+
+		public Tuple<int, int> GetTileValueRange() => new(4, 24);
 		public override BuildingDef CreateBuildingDef()
 		{
 			float[] quantity1 = [400f, 200f];
@@ -54,7 +63,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			pumpConsumer.consumptionRate = Config.Instance.HPA_Capacity_Gas;
 			pumpConsumer.storeOnConsume = true;
 			pumpConsumer.showInStatusPanel = false;
-			pumpConsumer.consumptionRadius = 12;
+			pumpConsumer.consumptionRadius = (byte)GetTileRange();
 
 			ConduitDispenser local2 = go.AddOrGet<ConduitDispenser>();
 			local2.conduitType = ConduitType.Gas;

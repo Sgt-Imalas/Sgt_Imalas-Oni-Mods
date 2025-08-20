@@ -1,5 +1,6 @@
-﻿using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
-using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+﻿using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts.BuildingConfigInterfaces;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,17 +12,26 @@ using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureApplications.HighCapacityLogisticRails
 {
-    class HPATransferArmConfig : IBuildingConfig, IHasConfigurableWattage
+	class HPATransferArmConfig : IBuildingConfig, IHasConfigurableWattage, IHasConfigurableRange
 	{
 		public static float Wattage = HighPressureConduitRegistration.GetConduitMultiplier(ConduitType.Solid) * 0.8f * 120f;//default to 960;
 		
 		public float GetWattage() => Wattage;
 		public void SetWattage(float mass) => Wattage = mass;
 
-		public static float TurnRatePerSecond = 3 * 360;
-		
+		public static float TurnRatePerSecond = 3 * 360;		
 
 		public static float StorageCapacity = HighPressureConduitRegistration.GetConduitMultiplier(ConduitType.Solid) * 1000f;
+
+		public static int SweeperArmRange = 12;
+		public int GetTileRange() => SweeperArmRange;
+
+		public void SetTileRange(int tiles) => SweeperArmRange = tiles;
+
+		public string GetDescriptorText() => STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.RANGESETTINGS_SWEEPER;
+
+		public Tuple<int, int> GetTileValueRange() => new(6,24);
+
 
 		public static string ID = "HPA_TransferArm";
 
@@ -65,13 +75,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			capacity.TargetCarryCapacity = StorageCapacity;
 			capacity.TargetTurnRate = TurnRatePerSecond;
 			var arm = go.AddOrGet<SolidTransferArm>();
-			arm.pickupRange = Config.Instance.HPA_Arm_Range;
+			arm.pickupRange = GetTileRange();
 			AddVisualizer(go, false);
 		}
 
 		private static void AddVisualizer(GameObject prefab, bool movable)
 		{
-			int range = Config.Instance.HPA_Arm_Range;
+			int range = SweeperArmRange;
 			RangeVisualizer rangeVisualizer = prefab.AddOrGet<RangeVisualizer>();
 			rangeVisualizer.OriginOffset = new Vector2I(0, 0);
 			rangeVisualizer.RangeMin.x = -range;

@@ -72,6 +72,17 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			{
 				entry.SetIsGenerator(true);
 			}
+			if(typeof(IHasConfigurableRange).IsAssignableFrom(buildingType))
+			{
+				var rangeConfigurator = (IHasConfigurableRange)Activator.CreateInstance(buildingType);
+				if (rangeConfigurator != default)
+				{
+					entry.RangeLabel = rangeConfigurator.GetDescriptorText();
+					entry.SetDefaultTileRange(rangeConfigurator.GetTileRange(),rangeConfigurator.GetTileValueRange());
+
+					rangeConfigurator.SetTileRange(entry.GetTileRange());
+				}
+			}
 			bool allowedByDlc = true;
 			if (typeof(IHasDlcRestrictions).IsAssignableFrom(buildingType))
 			{

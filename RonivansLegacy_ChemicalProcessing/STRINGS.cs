@@ -2084,6 +2084,13 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public class OBJECTLIST
 					{
+						public class SCROLLAREA
+						{
+							public class NONEAVAILABLE
+							{
+								public static LocString LABEL = "No buildings found";
+							}
+						}
 						public class SEARCHBAR
 						{
 							public static LocString CLEARTOOLTIP = "Clear search bar";
@@ -2107,6 +2114,9 @@ namespace RonivansLegacy_ChemicalProcessing
 								public static LocString CAPACITYSETTINGS = "Storage Capacity:";
 								public static LocString WATTAGESETTINGS = "Power Consumption:";
 								public static LocString WATTAGESETTINGS_GENERATOR = "Power Generation:";
+								public static LocString RANGESETTINGS = "Building Range:";
+								public static LocString RANGESETTINGS_SWEEPER = "Sweeper Range:";
+								public static LocString RANGESETTINGS_PUMP= "Pump Range:";
 							}
 						}
 
