@@ -286,7 +286,7 @@ namespace Dupery
 
 			int headShape = ChooseAccessoryNumber(Db.Get().AccessorySlots.HeadShape, HeadShape);
 			int mouth = Mouth == null ? headShape : ChooseAccessoryNumber(Db.Get().AccessorySlots.Mouth, Mouth);
-			int speechMouth = SpeechMouth == null || !int.TryParse(SpeechMouth, out int speechMouthParsed) ? 0 : speechMouthParsed;
+			int speechMouth = (SpeechMouth == null || !int.TryParse(SpeechMouth, out int speechMouthParsed)) ? 0 : speechMouthParsed;
 			//SgtLogger.l(Name + " - SpeechMouth: " + SpeechMouth+ "parsed: " + speechMouth);
 
 			if (RoboMouthConversation)
@@ -301,13 +301,15 @@ namespace Dupery
 				if (ArmSkin == null) ArmSkin = HeadShape;
 				if (LegSkin == null) LegSkin = HeadShape;
 			}
-			if (Mouth != null && Mouth.Length > 1)
+			if (Mouth != null && Mouth.Length > 1)// && !int.TryParse(Mouth, out _))
 			{
 				string genericMouthFlap = $"anim_{Mouth}_flap_kanim";
-				if (Assets.GetAnim(genericMouthFlap))
+				if (Assets.TryGetAnim(genericMouthFlap, out _))
 				{
 					SgtLogger.l("adding SpeechMonitorKanimOverride: " + genericMouthFlap + " to personality: " + nameStringKey);
 					PersonalityManager.RegisterCustomSpeechMonitorKanim(nameStringKey, genericMouthFlap);
+										
+					//InjectionMethods.RegisterCustomInteractAnim(KAnimGroupFile.GetGroupFile(), genericMouthFlap);
 				}
 				else
 				{
@@ -315,10 +317,10 @@ namespace Dupery
 
 				}
 			}
-			if (Eyes != null && Eyes.Length > 1)
+			if (Eyes != null && Eyes.Length > 1)// && !int.TryParse(Eyes, out _))
 			{
 				string customBlinkAnim = $"anim_{Eyes}_blinks_kanim";
-				if (Assets.GetAnim(customBlinkAnim))
+				if (Assets.TryGetAnim(customBlinkAnim, out _))
 				{
 					SgtLogger.l("adding CustomBlinkMonitorKanimOverride: " + customBlinkAnim + " to personality: " + nameStringKey);
 					PersonalityManager.RegisterCustomBlinkMonitorKanim(nameStringKey, customBlinkAnim);
@@ -381,6 +383,8 @@ namespace Dupery
 			DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.ArmLowerSkin.Id, armLower);
 			DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.LegSkin.Id, LegSkin);
 
+			SgtLogger.l("Speechmouth for " + nameStringKey + ": " + SpeechMouth + " parsed: " + speechMouth);
+
 			Personality personality = new Personality(
 				nameStringKey,
 				name,
@@ -410,17 +414,6 @@ namespace Dupery
 				personality.requiredDlcId = DlcManager.DLC3_ID;
 			outPersonality = personality;
 			return true;
-		}
-
-		[HarmonyPatch(typeof(SpeechMonitor.Instance), nameof(SpeechMonitor.Instance.SetMouthId))]
-		public class SpeechMonitor_Instance_SetMouthId_Patch
-		{
-			public static void Postfix(SpeechMonitor.Instance __instance)
-			{
-				MinionIdentity component = __instance.GetComponent<MinionIdentity>();
-				Personality personality = Db.Get().Personalities.Get(component.personalityResourceId);
-				SgtLogger.l("SpeechMonitor.Instance.SetMouthId called for " + personality.Name + " mouthID: " + __instance.mouthId);
-			}
 		}
 
 		public static PersonalityOutline FromStockPersonality(Personality personality)
