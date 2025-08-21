@@ -230,7 +230,7 @@ namespace Dupery
 			}
 		}
 
-		static Dictionary<HashedString,string> CustomSpeechMonitorAnims = new();
+		public static Dictionary<HashedString,string> CustomSpeechMonitorAnims { get;  private set; } = new();
 		public static bool UseCustomSpeechMonitorKanim(HashedString? personalityResourceId, out string kanimName)
 		{
 			

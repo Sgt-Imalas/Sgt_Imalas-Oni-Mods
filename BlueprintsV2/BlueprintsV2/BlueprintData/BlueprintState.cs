@@ -28,6 +28,9 @@ namespace BlueprintsV2.BlueprintData
 
 	public static class BlueprintState
 	{
+		public static void ToggleHotkeyTooltips() => ExtendedCardTooltips = !ExtendedCardTooltips;
+		public static bool ExtendedCardTooltips { get; private set; } = true;
+
 		public static string SelectedBlueprintFolder = string.Empty;
 
 		public static bool InstantBuild => DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive && SandboxToolParameterMenu.instance.settings.InstantBuild;

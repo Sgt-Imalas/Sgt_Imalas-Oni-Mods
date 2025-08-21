@@ -105,8 +105,6 @@ namespace Dupery
 				slot.accessories.Add(accessory);
 				resourceTable.Add(accessory);
 
-				//InjectionMethods.RegisterCustomSwapAnim(KAnimGroupFile.GetGroupFile(), [animName]);
-
 				if (cachable && saveToCache)
 				{
 					accessoryPool.AddId(slot.Id, id, id);
