@@ -140,10 +140,10 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			rustDropper.emitTag = SimHashes.Rust.CreateTag();
 			rustDropper.emitOffset = new Vector3(0f, 1f, 0f);
 
-			//ref carbon in base game,
+			//Fullerene in base game,
 			ElementDropper RefinedCarbonDropper = go.AddComponent<ElementDropper>();
 			RefinedCarbonDropper.emitMass = 10f;
-			RefinedCarbonDropper.emitTag = SimHashes.RefinedCarbon.CreateTag();
+			RefinedCarbonDropper.emitTag = SimHashes.Fullerene.CreateTag();
 			RefinedCarbonDropper.emitOffset = new Vector3(0f, 1f, 0f);
 			//graphite in spaced out
 			ElementDropper graphiteDropper = go.AddComponent<ElementDropper>();
