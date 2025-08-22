@@ -38,7 +38,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		}
 		internal static void RegisterExtraStrings()
 		{
-			//registering element names as tags
+			//registering element names as tags for building material elements
 			Strings.Add("STRINGS.MISC.TAGS.TUNGSTEN", global::STRINGS.ELEMENTS.TUNGSTEN.NAME);
 			Strings.Add("STRINGS.MISC.TAGS.SANDSTONE", global::STRINGS.ELEMENTS.SANDSTONE.NAME);
 			Strings.Add("STRINGS.MISC.TAGS.GRANITE", global::STRINGS.ELEMENTS.GRANITE.NAME);
@@ -48,6 +48,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			Strings.Add("STRINGS.MISC.TAGS.BRICK", global::STRINGS.ELEMENTS.BRICK.NAME);
 			Strings.Add("STRINGS.MISC.TAGS.BITUMEN", global::STRINGS.ELEMENTS.BITUMEN.NAME);
 
+			//renaming the vanilla moulding tile to marble tile
 			global::STRINGS.BUILDINGS.PREFABS.MOULDINGTILE.NAME = STRINGS.BUILDINGS.PREFABS.MARBLETILESTRINGS.NAME;
 			global::STRINGS.BUILDINGS.PREFABS.MOULDINGTILE.DESC = STRINGS.BUILDINGS.PREFABS.MARBLETILESTRINGS.DESC;
 			global::STRINGS.BUILDINGS.PREFABS.MOULDINGTILE.EFFECT = STRINGS.BUILDINGS.PREFABS.MARBLETILESTRINGS.EFFECT;
@@ -66,6 +67,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 		public static void RegisterBuildings()
 		{
+			///disabled state is now handled by any enabled mod id in the registration method
+			
 			BuildingManager.LoadConfigFile();
 			//if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
 			RegisterBuildings_ChemicalProcessingIndustrialOverhaul();
@@ -95,146 +98,176 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		private static void RegisterBuildings_ChemicalProcessingIndustrialOverhaul()
 		{
 			BuildingManager.CreateEntry<Chemical_AdvancedKilnConfig>()
-				.AddToCategory(PlanMenuCategory.Refinement, KilnConfig.ID)
-				.AddToTech(Technology.SolidMaterial.Smelting)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
-				.AddModFrom(SourceModInfo.MineralProcessing_Metallurgy);
+			.AddToCategory(PlanMenuCategory.Refinement, KilnConfig.ID)
+			.AddToTech(Technology.SolidMaterial.Smelting)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
+			.AddModFrom(SourceModInfo.MineralProcessing_Metallurgy, "Metallurgy_AdvancedKiln");
+
 			BuildingManager.CreateEntry<Chemical_AdvancedMetalRefineryConfig>()
-				.AddToCategory(PlanMenuCategory.Refinement, MetalRefineryConfig.ID)
-				.AddToTech(Technology.SolidMaterial.SuperheatedForging)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
-				.AddModFrom(SourceModInfo.MineralProcessing_Metallurgy);
+			.AddToCategory(PlanMenuCategory.Refinement, MetalRefineryConfig.ID)
+			.AddToTech(Technology.SolidMaterial.SuperheatedForging)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
+			.AddModFrom(SourceModInfo.MineralProcessing_Metallurgy, "Metallurgy_AdvMetalRefinery");
+
 			BuildingManager.CreateEntry<Chemical_AmmoniaBreakerConfig>()
-				.AddToCategory(PlanMenuCategory.Refinement, WaterPurifierConfig.ID)
-				.AddToTech(Technology.Liquids.LiquidBasedRefinementProcess)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+			.AddToCategory(PlanMenuCategory.Refinement, WaterPurifierConfig.ID)
+			.AddToTech(Technology.Liquids.LiquidBasedRefinementProcess)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+
 			BuildingManager.CreateEntry<Chemical_AmmoniaCompressorConfig>()
-				.AddToCategory(PlanMenuCategory.Refinement, WaterPurifierConfig.ID)
-				.AddToTech(Technology.Gases.TemperatureModulation)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+			.AddToCategory(PlanMenuCategory.Refinement, WaterPurifierConfig.ID)
+			.AddToTech(Technology.Gases.TemperatureModulation)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+
 			BuildingManager.CreateEntry<Chemical_BallCrusherMillConfig>()
-				.AddToCategory(PlanMenuCategory.Refinement, RockCrusherConfig.ID)
-				.AddToTech(Technology.SolidMaterial.SuperheatedForging)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+			.AddToCategory(PlanMenuCategory.Refinement, RockCrusherConfig.ID)
+			.AddToTech(Technology.SolidMaterial.SuperheatedForging)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+
 			BuildingManager.CreateEntry<Chemical_CarbonDioxideCompressorConfig>()
-				.AddToCategory(PlanMenuCategory.Refinement, WaterPurifierConfig.ID)
-				.AddToTech(Technology.Gases.TemperatureModulation)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
-				.AddModFrom(SourceModInfo.DupesRefrigeration);
+			.AddToCategory(PlanMenuCategory.Refinement, WaterPurifierConfig.ID)
+			.AddToTech(Technology.Gases.TemperatureModulation)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
+			.AddModFrom(SourceModInfo.DupesRefrigeration); //was already removed in dupes refrigeration, no migration of existing buildings needed
+
 			BuildingManager.CreateEntry<Chemical_Co2PumpConfig>()
-				.AddToCategory(PlanMenuCategory.Oxygen, CO2ScrubberConfig.ID)
-				.AddToTech(Technology.Food.Agriculture)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
-				.AddModFrom(SourceModInfo.DupesMachinery);
+			.AddToCategory(PlanMenuCategory.Oxygen, CO2ScrubberConfig.ID)
+			.AddToTech(Technology.Food.Agriculture)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
+			.AddModFrom(SourceModInfo.DupesMachinery, "Co2Pump");
+
 			BuildingManager.CreateEntry<Chemical_Co2RecyclerConfig>()
-				.AddToCategory(PlanMenuCategory.Refinement, OxyliteRefineryConfig.ID)
-				.AddToTech(Technology.Gases.PortableGasses)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+			.AddToCategory(PlanMenuCategory.Refinement, OxyliteRefineryConfig.ID)
+			.AddToTech(Technology.Gases.PortableGasses)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+
 			BuildingManager.CreateEntry<Chemical_CrudeOilRefineryStagedConfig>()
-				.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
-				.AddToTech(Technology.Power.FossilFuels)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+			.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
+			.AddToTech(Technology.Power.FossilFuels)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+
 			BuildingManager.CreateEntry<Chemical_CrudeOilRefineryConfig>()
-				.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
-				.AddToTech(Technology.Power.FossilFuels)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+			.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
+			.AddToTech(Technology.Power.FossilFuels)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+
 			BuildingManager.CreateEntry<Chemical_EndothermicUnitConfig>()
-				.AddToCategory(PlanMenuCategory.Utilities, LiquidConditionerConfig.ID)
-				.AddToTech(Technology.Liquids.LiquidTuning)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+			.AddToCategory(PlanMenuCategory.Utilities, LiquidConditionerConfig.ID)
+			.AddToTech(Technology.Liquids.LiquidTuning)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+
 			BuildingManager.CreateEntry<Chemical_GlassFoundryConfig>()
-				.AddToCategory(PlanMenuCategory.Refinement, GlassForgeConfig.ID)
-				.AddToTech(Technology.SolidMaterial.SuperheatedForging)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
-				.AddModFrom(SourceModInfo.MineralProcessing_Metallurgy);
+			.AddToCategory(PlanMenuCategory.Refinement, GlassForgeConfig.ID)
+			.AddToTech(Technology.SolidMaterial.SuperheatedForging)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
+			.AddModFrom(SourceModInfo.MineralProcessing_Metallurgy, "Metallurgy_GlassFoundry");
+
 			BuildingManager.CreateEntry<Chemical_SmallCrusherMillConfig>()
-				.AddToCategory(PlanMenuCategory.Refinement, RockCrusherConfig.ID)
-				.AddToTech(Technology.SolidMaterial.BruteForceRefinement)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
-				.AddModFrom(SourceModInfo.MineralProcessing_Metallurgy);
+			.AddToCategory(PlanMenuCategory.Refinement, RockCrusherConfig.ID)
+			.AddToTech(Technology.SolidMaterial.BruteForceRefinement)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
+			.AddModFrom(SourceModInfo.MineralProcessing_Metallurgy, "Metallurgy_JawCrusherMill");
+
 			BuildingManager.CreateEntry<Chemical_MixingUnitConfig>()
-				.AddToCategory(PlanMenuCategory.Refinement, ChemicalRefineryConfig.ID)
-				.AddToTech(Technology.Liquids.Emulsification)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+			.AddToCategory(PlanMenuCategory.Refinement, ChemicalRefineryConfig.ID)
+			.AddToTech(Technology.Liquids.Emulsification)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+
 			BuildingManager.CreateEntry<Chemical_NaphthaReformerConfig>()
-				.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
-				.AddToTech(Technology.Power.FossilFuels)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+			.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
+			.AddToTech(Technology.Power.FossilFuels)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+
 			BuildingManager.CreateEntry<Chemical_PropaneReformerConfig>()
-				.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
-				.AddToTech(Technology.Power.FossilFuels)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+			.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
+			.AddToTech(Technology.Power.FossilFuels)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+
 			BuildingManager.CreateEntry<Chemical_RawGasRefineryStagedConfig>()
-				.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
-				.AddToTech(Technology.Power.FossilFuels)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+			.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
+			.AddToTech(Technology.Power.FossilFuels)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+
 			BuildingManager.CreateEntry<Chemical_RawGasRefineryConfig>()
-				.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
-				.AddToTech(Technology.Power.FossilFuels)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+			.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
+			.AddToTech(Technology.Power.FossilFuels)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+
 			BuildingManager.CreateEntry<Chemical_RayonLoomConfig>()
-				.AddToCategory(PlanMenuCategory.Refinement, EthanolDistilleryConfig.ID)
-				.AddToTech(Technology.Decor.TextileProduction)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+			.AddToCategory(PlanMenuCategory.Refinement, EthanolDistilleryConfig.ID)
+			.AddToTech(Technology.Decor.TextileProduction)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+
 			BuildingManager.CreateEntry<Chemical_SelectiveArcFurnaceConfig>()
-				.AddToCategory(PlanMenuCategory.Refinement, SupermaterialRefineryConfig.ID)
-				.AddToTech(Technology.SolidMaterial.Smelting)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+			.AddToCategory(PlanMenuCategory.Refinement, SupermaterialRefineryConfig.ID)
+			.AddToTech(Technology.SolidMaterial.Smelting)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+
 			BuildingManager.CreateEntry<Chemical_SoilMixerConfig>()
-				.AddToCategory(PlanMenuCategory.Refinement, CompostConfig.ID)
-				.AddToTech(Technology.Food.Agriculture)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
-				.AddModFrom(SourceModInfo.MineralProcessing_Metallurgy);
+			.AddToCategory(PlanMenuCategory.Refinement, CompostConfig.ID)
+			.AddToTech(Technology.Food.Agriculture)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
+			.AddModFrom(SourceModInfo.MineralProcessing_Metallurgy, "Metallurgy_SoilMixer");
+
 			BuildingManager.CreateEntry<Chemical_SourWaterStripperConfig>()
-				.AddToCategory(PlanMenuCategory.Refinement, WaterPurifierConfig.ID)
-				.AddToTech(Technology.Liquids.LiquidBasedRefinementProcess)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+			.AddToCategory(PlanMenuCategory.Refinement, WaterPurifierConfig.ID)
+			.AddToTech(Technology.Liquids.LiquidBasedRefinementProcess)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+
 			BuildingManager.CreateEntry<Chemical_SyngasRefineryConfig>()
-				.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
-				.AddToTech(Technology.Liquids.Distillation)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+			.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
+			.AddToTech(Technology.Liquids.Distillation)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+
 			BuildingManager.CreateEntry<Chemical_SynthesizerNitricConfig>()
-				.AddToCategory(PlanMenuCategory.Refinement, ChemicalRefineryConfig.ID)
-				.AddToTech(Technology.Liquids.Emulsification)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+			.AddToCategory(PlanMenuCategory.Refinement, ChemicalRefineryConfig.ID)
+			.AddToTech(Technology.Liquids.Emulsification)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+
 			BuildingManager.CreateEntry<Chemical_SynthesizerSaltWaterConfig>()
-				.AddToCategory(PlanMenuCategory.Refinement, DesalinatorConfig.ID)
-				.AddToTech(Technology.Liquids.Distillation)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
-				.AddModFrom(SourceModInfo.DupesMachinery);
+			.AddToCategory(PlanMenuCategory.Refinement, DesalinatorConfig.ID)
+			.AddToTech(Technology.Liquids.Distillation)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
+			.AddModFrom(SourceModInfo.DupesMachinery, "SynthesizerSaltWater");
+
 			BuildingManager.CreateEntry<Chemical_SynthesizerSulfuricConfig>()
-				.AddToCategory(PlanMenuCategory.Refinement, ChemicalRefineryConfig.ID)
-				.AddToTech(Technology.Liquids.Emulsification)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+			.AddToCategory(PlanMenuCategory.Refinement, ChemicalRefineryConfig.ID)
+			.AddToTech(Technology.Liquids.Emulsification)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+
 			BuildingManager.CreateEntry<Chemical_ThermalDesalinatorConfig>()
-				.AddToCategory(PlanMenuCategory.Refinement, DesalinatorConfig.ID)
-				.AddToTech(Technology.Liquids.LiquidBasedRefinementProcess)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+			.AddToCategory(PlanMenuCategory.Refinement, DesalinatorConfig.ID)
+			.AddToTech(Technology.Liquids.LiquidBasedRefinementProcess)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+
 			BuildingManager.CreateEntry<Custom_PolymerizerConfig>()
-				.AddToCategory(PlanMenuCategory.Refinement, PolymerizerConfig.ID)
-				.AddToTech(Technology.Power.PlasticManufacturing)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
-				.AddModFrom(SourceModInfo.DupesMachinery);
+			.AddToCategory(PlanMenuCategory.Refinement, PolymerizerConfig.ID)
+			.AddToTech(Technology.Power.PlasticManufacturing)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
+			.AddModFrom(SourceModInfo.DupesMachinery, "EthanolPolymerizer");
+
 			BuildingManager.CreateEntry<Chemical_Wooden_BoilerConfig>()
-				.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
-				.AddToTech(Technology.Power.FossilFuels)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
-				.AddModFrom(SourceModInfo.DupesMachinery);
+			.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
+			.AddToTech(Technology.Power.FossilFuels)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
+			.AddModFrom(SourceModInfo.DupesMachinery, "Wooden_Boiler");
+
 			BuildingManager.CreateEntry<Chemical_Coal_BoilerConfig>()
-				.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
-				.AddToTech(Technology.Power.FossilFuels)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
-				.AddModFrom(SourceModInfo.DupesMachinery);
+			.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
+			.AddToTech(Technology.Power.FossilFuels)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
+			.AddModFrom(SourceModInfo.DupesMachinery, "Coal_Boiler");
+
 			BuildingManager.CreateEntry<Chemical_Gas_BoilerConfig>()
-				.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
-				.AddToTech(Technology.Power.FossilFuels)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
-				.AddModFrom(SourceModInfo.DupesMachinery);
+			.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
+			.AddToTech(Technology.Power.FossilFuels)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
+			.AddModFrom(SourceModInfo.DupesMachinery, "Gas_Boiler");
+
 			BuildingManager.CreateEntry<Chemical_ElectricBoilerConfig>()
-				.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
-				.AddToTech(Technology.Power.FossilFuels)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
-				.AddModFrom(SourceModInfo.DupesMachinery);
+			.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
+			.AddToTech(Technology.Power.FossilFuels)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
 		}
 		private static void RegisterBuildings_ChemicalProcessingBioChemistry()
 		{
@@ -242,6 +275,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToCategory(PlanMenuCategory.Oxygen, AlgaeHabitatConfig.ID)
 				.AddToTech(Technology.Food.Agriculture)
 				.AddModFrom(SourceModInfo.ChemicalProcessing_BioChemistry);
+
 			BuildingManager.CreateEntry<Biochemistry_AnaerobicDigesterConfig>()
 				.AddToCategory(PlanMenuCategory.Refinement, FertilizerMakerConfig.ID)
 				.AddToTech(Technology.Food.FoodRepurposing)
@@ -251,6 +285,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToCategory(PlanMenuCategory.Power, PetroleumGeneratorConfig.ID)
 				.AddToTech(ModTechs.Biochemistry_RenewableFuel_ID)
 				.AddModFrom(SourceModInfo.ChemicalProcessing_BioChemistry);
+
 			BuildingManager.CreateEntry<Biochemistry_BiodieselRefineryConfig>()
 				.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
 				.AddToTech(ModTechs.Biochemistry_RenewableFuel_ID)
@@ -260,6 +295,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToCategory(PlanMenuCategory.Refinement, PolymerizerConfig.ID)
 				.AddToTech(Technology.Power.PlasticManufacturing)
 				.AddModFrom(SourceModInfo.ChemicalProcessing_BioChemistry);
+
 			BuildingManager.CreateEntry<Biochemistry_ExpellerPressConfig>()
 				.AddToCategory(PlanMenuCategory.Refinement, FertilizerMakerConfig.ID)
 				.AddToTech(Technology.SolidMaterial.BruteForceRefinement)
@@ -271,10 +307,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToCategory(PlanMenuCategory.Refinement, SupermaterialRefineryConfig.ID)
 				.AddToTech(Technology.SolidMaterial.SolidManagement)
 				.AddModFrom(SourceModInfo.MineralProcessing_Mining);
+
 			BuildingManager.CreateEntry<Mining_AugerDrillConfig>()
 				.AddToCategory(PlanMenuCategory.Utilities, OilWellCapConfig.ID)
 				.AddToTech(Technology.SolidMaterial.SolidManagement)
 				.AddModFrom(SourceModInfo.MineralProcessing_Mining);
+
 			BuildingManager.CreateEntry<Mining_MineralDrillConfig>()
 				.AddToCategory(PlanMenuCategory.Utilities, OilWellCapConfig.ID)
 				.AddToTech(Technology.SolidMaterial.SolidManagement)
@@ -287,15 +325,18 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToTech(Technology.Gases.Catalytics)
 				.AddModFrom(SourceModInfo.MineralProcessing_Metallurgy)
 				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+
 			BuildingManager.CreateEntry<Metallurgy_PyrolysisKilnConfig>()
 				.AddToCategory(PlanMenuCategory.Refinement, KilnConfig.ID, ModUtil.BuildingOrdering.Before)
 				.AddToTech(Technology.SolidMaterial.BruteForceRefinement)
 				.AddModFrom(SourceModInfo.MineralProcessing_Metallurgy)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+				.AddModFrom(SourceModInfo.ChemicalProcessing_IO, "Chemical_PlasmaFurnace"); 
+
 			BuildingManager.CreateEntry<Metallurgy_BasicOilRefineryConfig>()
 				.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID, ModUtil.BuildingOrdering.Before)
 				.AddToTech(Technology.Power.FossilFuels)
 				.AddModFrom(SourceModInfo.MineralProcessing_Metallurgy);
+
 			BuildingManager.CreateEntry<Metallurgy_BallCrusherMillConfig>()
 				.AddToCategory(PlanMenuCategory.Refinement, RockCrusherConfig.ID)
 				.AddToTech(Technology.SolidMaterial.SuperheatedForging)
@@ -307,7 +348,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToCategory(PlanMenuCategory.Refinement, WaterPurifierConfig.ID)
 				.AddToTech(Technology.Liquids.LiquidBasedRefinementProcess)
 				.AddModFrom(SourceModInfo.DupesMachinery)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+				.AddModFrom(SourceModInfo.ChemicalProcessing_IO, "Chemical_FlocculationSieve");
 
 			BuildingManager.CreateEntry<Machinery_AlgaeVatConfig>()
 				.AddToCategory(PlanMenuCategory.Oxygen, AlgaeHabitatConfig.ID)
@@ -713,9 +754,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToCategory(PlanMenuCategory.Shipping, SolidFilterConfig.ID)
 				.AddToTech(Technology.SolidMaterial.SolidManagement)
 				.AddModFrom(SourceModInfo.HighPressureApplications);
-
-
-
 		}
 
 		private static void RegisterBuildings_DupesRefrigeration()
@@ -724,6 +762,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToCategory(PlanMenuCategory.Food, RefrigeratorConfig.ID)
 				.AddToTech(Technology.Food.GourmetMealPreparation)
 				.AddModFrom(SourceModInfo.DupesRefrigeration);
+
 			BuildingManager.CreateEntry<HightechSmallFridgeConfig>()
 				.AddToCategory(PlanMenuCategory.Food, RefrigeratorConfig.ID)
 				.AddToTech(Technology.Food.GourmetMealPreparation)
@@ -733,10 +772,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToCategory(PlanMenuCategory.Food, RefrigeratorConfig.ID)
 				.AddToTech(Technology.Food.FoodRepurposing)
 				.AddModFrom(SourceModInfo.DupesRefrigeration);
+
 			BuildingManager.CreateEntry<FridgeSmallConfig>()
 				.AddToCategory(PlanMenuCategory.Food, RefrigeratorConfig.ID)
 				.AddToTech(Technology.Food.FoodRepurposing)
 				.AddModFrom(SourceModInfo.DupesRefrigeration);
+
 			BuildingManager.CreateEntry<FridgePodConfig>()
 				.AddToCategory(PlanMenuCategory.Food, RefrigeratorConfig.ID)
 				.AddToTech(Technology.Food.FoodRepurposing)
@@ -764,7 +805,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToTech(Technology.Power.RenewableEnergy)
 				.AddModFrom(SourceModInfo.CustomGenerators);
 
-
 			BuildingManager.CreateEntry<CustomSteamGeneratorConfig>()
 				.AddToCategory(PlanMenuCategory.Power, SteamTurbineConfig2.ID, ModUtil.BuildingOrdering.Before)
 				.AddToTech(Technology.Power.RenewableEnergy)
@@ -774,7 +814,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToCategory(PlanMenuCategory.Power, GeneratorConfig.ID)
 				.AddToTech(Technology.Power.InternalCombustion)
 				.AddModFrom(SourceModInfo.CustomGenerators);
-
 		}
 	}
 }

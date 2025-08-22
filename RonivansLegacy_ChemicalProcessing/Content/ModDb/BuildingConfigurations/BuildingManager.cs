@@ -156,5 +156,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			}
 			ConfigCollection.WriteToFile();
 		}
+
+		internal static void RegisterLegacyMigrations()
+		{
+			foreach (var entry in BuildingInjections)
+			{
+				entry.Value.RegisterLegacyMigrations();
+			}
+		}
 	}
 }

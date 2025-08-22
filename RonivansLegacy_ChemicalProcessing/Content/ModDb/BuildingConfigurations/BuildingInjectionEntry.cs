@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Database;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,11 +19,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 		public string TechID => _techID;
 		public string PlanScreenCategory => _planScreenCategory;
 
-
-
 		ModUtil.BuildingOrdering BuildingOrdering = ModUtil.BuildingOrdering.After;
 		List<SourceModInfo> modsFrom = new();
 		public List<SourceModInfo> SourceMods => modsFrom;
+
+		public HashSet<string> MigrateOldIdsFrom = [];
 
 		public static BuildingInjectionEntry Create(string buildingID)
 		{
@@ -47,9 +48,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 			BuildingOrdering = ordering;
 			return this;			
         }
-		public BuildingInjectionEntry AddModFrom(SourceModInfo mod)
+		public BuildingInjectionEntry AddModFrom(SourceModInfo mod, string migrateOldPrefabId = null)
 		{
-			if(!modsFrom.Contains(mod))
+			if(!string.IsNullOrEmpty(migrateOldPrefabId))
+			{
+				MigrateOldIdsFrom.Add(migrateOldPrefabId);
+			}
+			if (!modsFrom.Contains(mod))
 			{
 				modsFrom.Add(mod);
 			}
@@ -87,6 +92,23 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 				InjectionMethods.MoveExistingBuildingToNewCategory(_planScreenCategory,_buildingID,PlanScreenRelativeBuildingID,ordering: BuildingOrdering);
 			else
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(_planScreenCategory, _buildingID, PlanScreenRelativeBuildingID, ordering: BuildingOrdering);
+		}
+
+		internal void RegisterLegacyMigrations()
+		{
+			if (!MigrateOldIdsFrom.Any())
+				return;
+
+			var prefab = Assets.TryGetPrefab(_buildingID);
+			var savemng = SaveLoader.Instance.saveManager;
+
+			foreach (var oldPrefabTag in MigrateOldIdsFrom)
+			{
+				if (!savemng.prefabMap.ContainsKey(oldPrefabTag))
+				{
+					savemng.prefabMap.Add(oldPrefabTag, prefab);
+				}
+			}
 		}
 	}
 }

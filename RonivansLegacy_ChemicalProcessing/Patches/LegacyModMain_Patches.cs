@@ -34,6 +34,9 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			public static void Postfix(LegacyModMain __instance)
 			{
 				AdditionalRecipes.RegisterRecipes_PostLoadEntities();
+
+				//has to run after legacymodmain.loadbuildings
+				BuildingManager.RegisterLegacyMigrations();
 			}
 		}
     }
