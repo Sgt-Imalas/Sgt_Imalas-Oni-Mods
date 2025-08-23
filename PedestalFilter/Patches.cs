@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
@@ -8,7 +9,10 @@ namespace PedestalFilter
 {
 	internal class Patches
 	{
-		static KInputTextField SearchBar = null;
+		static Dictionary<KScreen, KInputTextField> ScreenToSearchBar = [];
+
+		static public KScreen CurrentScreen = null;
+		static KInputTextField SearchBar => CurrentScreen != null && ScreenToSearchBar.TryGetValue(CurrentScreen, out var bar) ? bar : null;
 		static KButton ArtifactFilter;
 		static bool TmpDisable = false;
 
@@ -48,7 +52,7 @@ namespace PedestalFilter
 			}
 		}
 
-		[HarmonyPatch(typeof(ReceptacleSideScreen), nameof(ReceptacleSideScreen.Initialize))]
+		[HarmonyPatch(typeof(ReceptacleSideScreen), nameof(ReceptacleSideScreen.SetTarget))]
 		public static class InitializeSearchbar
 		{
 			static void OnSearchTextChanged(ReceptacleSideScreen __instance)
@@ -64,13 +68,13 @@ namespace PedestalFilter
 			}
 			public static void Postfix(ReceptacleSideScreen __instance)
 			{
+				CurrentScreen = __instance;
 				//if (__instance.GetType().IsSubclassOf(typeof(ReceptacleSideScreen)))
 				//	return;
 
-
-				if (SearchBar != null)
+				if (SearchBar != null && !SearchBar.gameObject.IsNullOrDestroyed())
 				{
-					FilterArtifacts = Config.Instance.DefaultToArtifactsOnly;
+					FilterArtifacts = Config.Instance.DefaultToArtifactsOnly && __instance.GetType() == typeof(ReceptacleSideScreen);
 					if (ArtifactFilter != null)
 					{
 						if (ArtifactFilter.bgImage != null || ArtifactFilter.GetComponent<KImage>() != null)
@@ -82,12 +86,19 @@ namespace PedestalFilter
 					ClearSearchBar();
 					return;
 				}
+				else 
+					ScreenToSearchBar.Remove(__instance);
+
+
 				var searchbarPreset = PlanScreen.Instance.recipeInfoScreenParent.transform.Find("BuildingGroups/Searchbar").gameObject;
 				PlanScreen.Instance.recipeInfoScreenParent.transform.Find("BuildingGroups").TryGetComponent<BuildingGroupScreen>(out var screen);
 
 				GameObject searchbar = Util.KInstantiateUI(searchbarPreset, __instance.gameObject, true);
 				searchbar.transform.SetAsFirstSibling();
-				SearchBar = searchbar.transform.Find("FilterInputField").GetComponent<KInputTextField>();
+
+
+
+				ScreenToSearchBar[__instance] = searchbar.transform.Find("FilterInputField").GetComponent<KInputTextField>();
 				SearchBar.text = string.Empty;
 				SearchBar.onValueChanged.AddListener((text) => OnSearchTextChanged(__instance));
 				SearchBar.onSelect.AddListener(StartEditing);
@@ -157,6 +168,38 @@ namespace PedestalFilter
 			}
 		}
 
+
+		[HarmonyPatch(typeof(SingleEntityReceptacle), nameof(SingleEntityReceptacle.IsValidEntity))]
+		public class SingleEntityReceptacle_IsValidEntity_Patch
+		{
+			public static void Postfix(SingleEntityReceptacle __instance, ref bool __result, GameObject candidate)
+			{
+				if (__result)
+					return;
+
+				if (!Game.IsCorrectDlcActiveForCurrentSave(candidate.GetComponent<KPrefabID>()))
+				{
+					return;
+				}
+
+				if (__instance.additionalCriteria.Any())
+					return;
+
+				if (__instance.GetType() == typeof(PlantablePlot))
+					return;
+
+				///Allow flipped plant seeds in pedestals
+				if (candidate.TryGetComponent<IReceptacleDirection>(out var direction))
+				{
+					__result = true;
+				}
+				//if (__instance.GetType().IsSubclassOf(typeof(ReceptacleSideScreen)))
+				//	return;
+
+			}
+		}
+		
+
 		[HarmonyPatch(typeof(ReceptacleSideScreen), nameof(ReceptacleSideScreen.UpdateAvailableAmounts))]
 		public static class ReceptacleSideScreen_UpdateAvailableAmounts
 		{
@@ -198,9 +241,14 @@ namespace PedestalFilter
 				var inst = DiscoveredResources.Instance;
 				ReceptacleToggle selected = __instance.selectedEntityToggle;
 
+				if(__instance == null|| __instance.targetReceptacle == null || __instance.targetReceptacle.GetMyWorld() == null)
+				{
+					return;
+				}
 
 				foreach (var pair in __instance.depositObjectMap)
 				{
+
 
 					var key = pair.Key;
 					var display = pair.Value;
