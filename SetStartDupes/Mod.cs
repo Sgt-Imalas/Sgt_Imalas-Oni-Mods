@@ -8,6 +8,7 @@ using SetStartDupes.CarePackageEditor;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UtilLibs;
 using UtilLibs.ModVersionCheck;
 using static Database.Personalities;
@@ -17,12 +18,16 @@ namespace SetStartDupes
     public class Mod : UserMod2
     {
         public static Harmony harmonyInstance;
-        public override void OnLoad(Harmony harmony)
+
+		public static bool SharingIsCaringInstalled { get; internal set; }
+
+		public override void OnLoad(Harmony harmony)
 		{
 			SgtLogger.debuglog("Initializing file paths..");
-			ModAssets.DupeTemplatePath = FileSystem.Normalize(Path.Combine(Manager.GetDirectory(), "config", "DuplicantStatPresets"));
 			ModAssets.ExtraCarePackageFileInfo = FileSystem.Normalize(Path.Combine(Manager.GetDirectory(), "config", "DSS_ExtraCarePackages.json"));
 			ModAssets.DisabledVanillaCarePackages = FileSystem.Normalize(Path.Combine(Manager.GetDirectory(), "config", "DSS_DisabledVanillaPackages.json"));
+
+			ModAssets.DupeTemplatePath = FileSystem.Normalize(Path.Combine(Manager.GetDirectory(), "config", "DuplicantStatPresets"));
 			ModAssets.DupeTearTemplatePath = FileSystem.Normalize(Path.Combine(ModAssets.DupeTemplatePath, "TearTravelers"));
 			ModAssets.DupeGroupTemplatePath = FileSystem.Normalize(Path.Combine(ModAssets.DupeTemplatePath, "StartingLayoutPresets"));
 			//SgtLogger.debuglog(ModAssets.DupeTemplatePath, "Stat Preset Folder");
@@ -50,40 +55,14 @@ namespace SetStartDupes
             UtilMethods.ListAllPropertyValues(Config.Instance);
             SgtLogger.LogVersion(this, harmony);
             base.OnLoad(harmony);
-
-            //var translationPatch = AccessTools.Method(this.GetType(), "PatchTranslationsRegularly");
-            //var manualPatch = AccessTools.Method(this.GetType(), "DoManualPatching");
-            //var assetsPatch = AccessTools.Method(this.GetType(), "AssetsPatchPrefix");
-
-
-            //var personalitypatch = AccessTools.Method(this.GetType(), "UnlockDupesPostfix");
-            //var personalityConstructor = AccessTools.Constructor(typeof(Personalities));
-
-            //harmonyInstance.Patch(typeof(Assets), "OnPrefabInit", new(assetsPatch));
-            //harmonyInstance.Patch(typeof(Localization), "Initialize", postfix: new(translationPatch));
-            //harmonyInstance.Patch(typeof(Db), "Initialize", postfix: new(manualPatch));
-
-            //harmonyInstance.Patch(personalityConstructor, postfix: new(personalitypatch));
-            //.ManualTranslationPatch(harmony, typeof(STRINGS));
-            //OnAssetPrefabPatch.InitiatePatch(harmony);
         }
-
-        //public static void PatchTranslationsRegularly()
-        //{
-        //    LocalisationUtil.Translate(typeof(STRINGS), true);
-        //}
-        //public static void DoManualPatching()
-        //{
-        //    harmonyInstance.PatchAll();
-        //    Patches.OnAssetPrefabPatch.ExecuteManualPatches();
-        //}
-        //public static void AssetsPatchPrefix(Assets __instance)
-        //{
-        //    InjectionMethods.AddSpriteToAssets(__instance, ModAssets.UnlockIcon);
-        //}        
+   
         public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
         {
-            base.OnAllModsLoaded(harmony, mods);
+			SharingIsCaringInstalled = mods.Any(mod => mod.staticID == "SharingIsCaring" && mod.IsEnabledForActiveDlc());
+
+
+			base.OnAllModsLoaded(harmony, mods);
 			CompatibilityNotifications.FixBrokenTimeout(harmony);
 			CompatibilityNotifications.FlagLoggingPrevention(mods);
             CompatibilityNotifications.CheckAndAddIncompatibles("RePrint", "Duplicant Stat Selector", "Reprint");

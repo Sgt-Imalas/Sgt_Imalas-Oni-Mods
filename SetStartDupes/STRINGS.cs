@@ -359,7 +359,38 @@ namespace SetStartDupes
 				public class CAREPACKAGESONLY
 				{
 					public static LocString NAME = "Print Care Packages only";
-					public static LocString TOOLTIP = "When enabled, the printing pod will only give care packages when more than the the configured number of duplicants are alive.\nOverrides the care package configuration of a save game (no care package difficulty setting is ignored).";
+					public static LocString TOOLTIP = "When enabled, the printing pod will only give care packages when the configured condition has been satisfied\nOverrides the care package configuration of a save game (no care package difficulty setting is ignored).";
+
+					public class NONE
+					{
+						public static LocString NAME = "Disabled";
+						public static LocString TOOLTIP = "The printing pod will print duplicants and care packages as normal.";
+					}
+					public class DUPECOUNT
+					{
+						public static LocString NAME = "Duplicant Count";
+						public static LocString TOOLTIP = "When the number of duplicants in your colony is at or above the configured threshold, the printing pod will only print care packages.";
+					}
+					public class BEDCOUNT
+					{
+						public static LocString NAME = "Bed Count";
+						public static LocString TOOLTIP = "When the number of duplicants in your colony reaches the number of constructed beds, the printing pod will only print care packages.";
+					}
+					public class BEDCOUNT_SIC
+					{
+						public static LocString NAME = "Bed Count (Sharing is Caring)";
+						public static LocString TOOLTIP = "Use this option when you use the mod \"Sharing is Caring\".\nIf the mod is not enabled, this option works like the regular \"Bed Count\" option.\nWhen the number of duplicants in your colony reaches the number of constructed beds times the number of schedules, the printing pod will only print care packages.\nAs an example; if you have 3 beds, with 4 schedules, the printing pod will stop offering duplicants once there are 12 (3x4).";
+					}
+					public class PRINTERCHECKBOX
+					{
+						public static LocString NAME = "Toggle on Printer";
+						public static LocString TOOLTIP = "When the (new) checkbox in the sidescreen of the printing pod is checked, it will only print care packages.";
+					}
+				}
+				public class CAREPACKAGESONLYDUPECAP
+				{
+					public static LocString NAME = "Duplicant Threshold for care packages only";
+					public static LocString TOOLTIP = "Only has an effect if \"" + CAREPACKAGESONLY.NAME + "\" is enabled and configured to use the option \"Duplicant Count\".\nWhile above or at this number of duplicants, the printer will only give care packages.";
 				}
 				public class MORECAREPACKAGES
 				{
@@ -392,11 +423,6 @@ namespace SetStartDupes
 					public static LocString TOOLTIP = "Override the number of care packages offered in the printing pod.\nA value of 0 or lower disables this feature.\nDisabling care packages in the difficulty settings disables this feature.\nNo effect if care packages only mode is active.";
 				}
 
-				public class CAREPACKAGESONLYDUPECAP
-				{
-					public static LocString NAME = "Duplicant Threshold for care packages only";
-					public static LocString TOOLTIP = "Only has an effect if \"" + CAREPACKAGESONLY.NAME + "\" is enabled.\nWhile above or at this number of duplicants, the printer will only give care packages.";
-				}
 
 				public class CAREPACKAGESONLYPACKAGECAP
 				{

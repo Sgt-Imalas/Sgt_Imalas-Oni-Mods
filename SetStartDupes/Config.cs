@@ -106,6 +106,38 @@ namespace SetStartDupes
 					return GameTags.Minions.Models.AllModels;
 			}
 		}
+
+		internal static bool CarePackageOnlyConditionFulfilled()
+		{
+			var config = Config.Instance;
+
+			if(config.CarePackagesOnlyMode == CarePackageLimiterMode.None)
+				return false;
+
+			if(config.CarePackagesOnlyMode == CarePackageLimiterMode.DupeCount)
+				return Components.LiveMinionIdentities.Count >= config.CarePackagesOnlyDupeCap;
+
+			int bedCount = Components.NormalBeds.GlobalCount;
+
+			if (config.CarePackagesOnlyMode == CarePackageLimiterMode.NumberOfBeds)
+				return Components.LiveMinionIdentities.Count >= bedCount;
+
+			int scheduleCount = ScheduleManager.Instance?.GetSchedules()?.Count ?? 1;
+
+			if (config.CarePackagesOnlyMode == CarePackageLimiterMode.NumberOfBeds_SharingIsCaring)
+			{
+				if(Mod.SharingIsCaringInstalled)
+					return Components.LiveMinionIdentities.Count >= bedCount * scheduleCount;
+				else
+					return Components.LiveMinionIdentities.Count >= bedCount;
+			}
+			if(config.CarePackagesOnlyMode == CarePackageLimiterMode.PrinterCheckbox)
+			{
+				return PrintingPodCheckboxToggle.PrintOnlyCarePackages;
+			}
+			return false;
+		}
+
 		public enum MinionModelOverride
 		{
 			[Option("STRINGS.UI.CHARACTERCONTAINER_ALL_MODELS")]
@@ -118,7 +150,22 @@ namespace SetStartDupes
 
 		[Option("STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.NAME", "STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
 		[JsonProperty]
-		public bool CarePackagesOnly { get; set; }
+		public CarePackageLimiterMode CarePackagesOnlyMode { get; set; } = CarePackageLimiterMode.None;
+
+		public enum CarePackageLimiterMode
+		{
+			[Option("STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.NONE.NAME","STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.NONE.TOOLTIP")]
+			None = 0,
+			[Option("STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.DUPECOUNT.NAME", "STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.DUPECOUNT.TOOLTIP")]
+			DupeCount = 1,
+			[Option("STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.BEDCOUNT.NAME", "STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.BEDCOUNT.TOOLTIP")]
+			NumberOfBeds = 2,
+			[Option("STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.BEDCOUNT_SIC.NAME", "STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.BEDCOUNT_SIC.TOOLTIP")]
+			NumberOfBeds_SharingIsCaring = 3,
+			[Option("STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.PRINTERCHECKBOX.NAME", "STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.PRINTERCHECKBOX.TOOLTIP")]
+			PrinterCheckbox = 4,
+		}
+
 
 		[Option("STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLYDUPECAP.NAME", "STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLYDUPECAP.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD")]
 		[JsonProperty]
@@ -193,7 +240,6 @@ namespace SetStartDupes
 			StartupResources = false;
 			SupportedDays = 5;
 
-			CarePackagesOnly = false;
 			CarePackagesOnlyDupeCap = 16;
 			CarePackagesOnlyPackageCount = 3;
 
