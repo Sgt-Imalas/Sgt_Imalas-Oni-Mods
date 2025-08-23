@@ -1044,7 +1044,7 @@ namespace SetStartDupes
 					return;
 				}
 
-				if (Config.Instance.CarePackagesOnly && Components.LiveMinionIdentities.Count >= Config.Instance.CarePackagesOnlyDupeCap)
+				if (Config.CarePackageOnlyConditionFulfilled())
 				{
 					instance.numberOfCarePackageOptions = Config.Instance.CarePackagesOnlyPackageCount;
 					instance.numberOfDuplicantOptions = 0;
