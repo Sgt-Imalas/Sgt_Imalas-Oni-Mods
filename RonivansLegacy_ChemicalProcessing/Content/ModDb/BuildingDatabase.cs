@@ -24,6 +24,7 @@ using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProcessing
 using System;
 using UtilLibs;
 using static ResearchTypes;
+using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SPACERWALL.FACADES;
 using static UtilLibs.GameStrings;
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
@@ -146,7 +147,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingManager.CreateEntry<Chemical_Co2RecyclerConfig>()
 			.AddToCategory(PlanMenuCategory.Refinement, OxyliteRefineryConfig.ID)
 			.AddToTech(Technology.Gases.PortableGasses)
-			.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
+			.MigrateFrom("Chemical_Co2RecyclerDLC1");
 
 			BuildingManager.CreateEntry<Chemical_CrudeOilRefineryStagedConfig>()
 			.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
@@ -845,6 +847,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			TryMigrate("BrickWall", ExteriorWallConfig.ID); 
 			TryMigrate("WoodenDryWall", ExteriorWallConfig.ID);
 			TryMigrate("WoodenDryWall_B", ExteriorWallConfig.ID);
+
+			TryMigrate("Custom_MetalRefinery", MetalRefineryConfig.ID); 
+			TryMigrate("Custom_OilWellCap", OilWellCapConfig.ID); 
 		}
 		static void TryMigrate(string oldId, string newId)
 		{
