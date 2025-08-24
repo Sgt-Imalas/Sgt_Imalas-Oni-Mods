@@ -9,16 +9,40 @@ namespace PedestalFilter
 {
 	internal class Patches
 	{
-		static Dictionary<KScreen, KInputTextField> ScreenToSearchBar = [];
 
 		static public KScreen CurrentScreen = null;
-		static KInputTextField SearchBar => CurrentScreen != null && ScreenToSearchBar.TryGetValue(CurrentScreen, out var bar) ? bar : null;
+		static KInputTextField SearchBar => CurrentScreen != null && ScreenToState.TryGetValue(CurrentScreen, out var state) ? state.SearchBar : null;
+
+		static Dictionary<Tag, Color> TagToElementColorMap = [];
+		static Dictionary<Tag, string> TagToNameMap = [];
+		static Dictionary<Tag, bool> TagIsArtifactMap = [];
+
 		static KButton ArtifactFilter;
 		static bool TmpDisable = false;
+
+		class UIState
+		{
+			public KInputTextField SearchBar;
+		}
+		static Dictionary<KScreen, UIState> ScreenToState = [];
+
+
 
 		bool ClearPending = false;
 		public static bool EditingSearch = false;
 		public static bool FilterArtifacts = Config.Instance.DefaultToArtifactsOnly;
+
+
+
+		[HarmonyPatch(typeof(Game), nameof(Game.OnLoadLevel))]
+		public class Game_OnLoadLevel_Patch
+		{
+			public static void Postfix()
+			{
+				ScreenToState.Clear();
+			}
+		}
+
 		public static void StartEditing(string ac)
 		{
 			EditingSearch = true;
@@ -52,108 +76,97 @@ namespace PedestalFilter
 			}
 		}
 
-		[HarmonyPatch(typeof(ReceptacleSideScreen), nameof(ReceptacleSideScreen.SetTarget))]
-		public static class InitializeSearchbar
+		static bool BlockTMPEvents = false;
+		static void OnSearchTextChanged(ReceptacleSideScreen __instance)
 		{
-			static void OnSearchTextChanged(ReceptacleSideScreen __instance)
+			if(__instance == CurrentScreen && !BlockTMPEvents)
 			{
 				__instance.UpdateAvailableAmounts(null);
 			}
-			public static void ClearSearchBar()
+		}
+		public static void ClearSearchBar()
+		{
+			if (SearchBar != null)
 			{
-				if (SearchBar != null)
-				{
-					SearchBar.text = string.Empty;
-				}
-			}
-			public static void Postfix(ReceptacleSideScreen __instance)
-			{
-				CurrentScreen = __instance;
-				//if (__instance.GetType().IsSubclassOf(typeof(ReceptacleSideScreen)))
-				//	return;
-
-				if (SearchBar != null && !SearchBar.gameObject.IsNullOrDestroyed())
-				{
-					FilterArtifacts = Config.Instance.DefaultToArtifactsOnly && __instance.GetType() == typeof(ReceptacleSideScreen);
-					if (ArtifactFilter != null)
-					{
-						if (ArtifactFilter.bgImage != null || ArtifactFilter.GetComponent<KImage>() != null)
-						{
-							ArtifactFilter?.UpdateColor(true, FilterArtifacts, false);
-						}
-					}
-
-					ClearSearchBar();
-					return;
-				}
-				else 
-					ScreenToSearchBar.Remove(__instance);
-
-
-				var searchbarPreset = PlanScreen.Instance.recipeInfoScreenParent.transform.Find("BuildingGroups/Searchbar").gameObject;
-				PlanScreen.Instance.recipeInfoScreenParent.transform.Find("BuildingGroups").TryGetComponent<BuildingGroupScreen>(out var screen);
-
-				GameObject searchbar = Util.KInstantiateUI(searchbarPreset, __instance.gameObject, true);
-				searchbar.transform.SetAsFirstSibling();
-
-
-
-				ScreenToSearchBar[__instance] = searchbar.transform.Find("FilterInputField").GetComponent<KInputTextField>();
+				BlockTMPEvents = true;
 				SearchBar.text = string.Empty;
-				SearchBar.onValueChanged.AddListener((text) => OnSearchTextChanged(__instance));
-				SearchBar.onSelect.AddListener(StartEditing);
-				SearchBar.onSelect.AddListener((a) => __instance.isEditing = true);
-				SearchBar.onDeselect.AddListener(StopEditing);
-				SearchBar.onDeselect.AddListener(a => __instance.isEditing = false);
-				SearchBar.placeholder.TryGetComponent<TMPro.TextMeshProUGUI>(out var textMesh);
-				textMesh.text = STRINGS.PEDESTALSEARCHBAR.FILTER_FILLERTEXT;
-				__instance.ConsumeMouseScroll = true;
-
-				UIUtils.AddActionToButton(searchbar.transform, "ClearSearchButton", () => ClearSearchBar());
-				var secondaryButton = searchbar.transform.Find("ListViewButton"); //.gameObject.SetActive(false);
-				secondaryButton.Find("FG").GetComponent<Image>().sprite = Assets.GetSprite("ic_artifacts");
-				ArtifactFilter = secondaryButton.gameObject.GetComponent<KButton>();
-				ArtifactFilter.onClick += () =>
-				{
-					FilterArtifacts = !FilterArtifacts;
-					__instance.UpdateAvailableAmounts(null);
-				};
-				ArtifactFilter.onPointerExit += () =>
-				{
-					if (ArtifactFilter != null)
-					{
-						if (ArtifactFilter.bgImage != null || ArtifactFilter.GetComponent<KImage>() != null)
-						{
-							ArtifactFilter?.UpdateColor(true, FilterArtifacts, false);
-						}
-					}
-				};
-				secondaryButton.gameObject.GetComponentInChildren<ToolTip>().SetSimpleTooltip(STRINGS.PEDESTALSEARCHBAR.FILTER_ARTIFACTS);
-
-				//var tmpBtn = searchbar.transform.Find("GridViewButton"); //.gameObject.SetActive(false);
-				//secondaryButton.Find("FG").GetComponent<Image>().sprite = Assets.GetSprite("ic_artifacts");
-				//var tmpBt = tmpBtn.gameObject.GetComponent<KButton>();
-				//tmpBt.onClick += () =>
-				//{
-				//    TmpDisable = !TmpDisable;
-				//    __instance.UpdateAvailableAmounts(null);
-				//};
-				//tmpBt.onPointerExit += () =>
-				//{
-				//    tmpBt.UpdateColor(true, TmpDisable, false);
-				//}
-				//;
-				searchbar.transform.Find("GridViewButton").gameObject.SetActive(false);
-
-				initializing = true;
+				BlockTMPEvents = false;
 			}
 		}
-		static Dictionary<Tag, Color> TagToElementColorMap = new();
-		static Dictionary<Tag, string> TagToNameMap = new();
-		static Dictionary<Tag, bool> TagIsArtifactMap = new();
+		static KInputTextField AddOrGetSearchBar(ReceptacleSideScreen __instance)
+		{
+			CurrentScreen = __instance;
+			if (SearchBar != null && !SearchBar.gameObject.IsNullOrDestroyed())
+			{
+				FilterArtifacts = Config.Instance.DefaultToArtifactsOnly && __instance.GetType() == typeof(ReceptacleSideScreen);
+				if (ArtifactFilter != null)
+				{
+					if (ArtifactFilter.bgImage != null || ArtifactFilter.GetComponent<KImage>() != null)
+					{
+						ArtifactFilter?.UpdateColor(true, FilterArtifacts, false);
+					}
+				}
 
+				ClearSearchBar();
+				return SearchBar;
+			}
+			else
+				ScreenToState.Remove(__instance);
+
+
+			var searchbarPreset = PlanScreen.Instance.recipeInfoScreenParent.transform.Find("BuildingGroups/Searchbar").gameObject;
+			PlanScreen.Instance.recipeInfoScreenParent.transform.Find("BuildingGroups").TryGetComponent<BuildingGroupScreen>(out var screen);
+
+			GameObject searchbar = Util.KInstantiateUI(searchbarPreset, __instance.gameObject, true);
+			searchbar.transform.SetAsFirstSibling();
+
+
+
+			ScreenToState[__instance] = new() { SearchBar = searchbar.transform.Find("FilterInputField").GetComponent<KInputTextField>() };
+			SearchBar.text = string.Empty;
+			SearchBar.onValueChanged.AddListener((text) => OnSearchTextChanged(__instance));
+			SearchBar.onSelect.AddListener(StartEditing);
+			SearchBar.onSelect.AddListener((a) => __instance.isEditing = true);
+			SearchBar.onDeselect.AddListener(StopEditing);
+			SearchBar.onDeselect.AddListener(a => __instance.isEditing = false);
+			SearchBar.placeholder.TryGetComponent<TMPro.TextMeshProUGUI>(out var textMesh);
+			textMesh.text = STRINGS.PEDESTALSEARCHBAR.FILTER_FILLERTEXT;
+			__instance.ConsumeMouseScroll = true;
+
+			UIUtils.AddActionToButton(searchbar.transform, "ClearSearchButton", () => ClearSearchBar());
+			var secondaryButton = searchbar.transform.Find("ListViewButton"); //.gameObject.SetActive(false);
+			secondaryButton.Find("FG").GetComponent<Image>().sprite = Assets.GetSprite("ic_artifacts");
+			ArtifactFilter = secondaryButton.gameObject.GetComponent<KButton>();
+			ArtifactFilter.onClick += () =>
+			{
+				FilterArtifacts = !FilterArtifacts;
+				__instance.UpdateAvailableAmounts(null);
+			};
+			ArtifactFilter.onPointerExit += () =>
+			{
+				if (ArtifactFilter != null)
+				{
+					if (ArtifactFilter.bgImage != null || ArtifactFilter.GetComponent<KImage>() != null)
+					{
+						ArtifactFilter?.UpdateColor(true, FilterArtifacts, false);
+					}
+				}
+			};
+			secondaryButton.gameObject.GetComponentInChildren<ToolTip>().SetSimpleTooltip(STRINGS.PEDESTALSEARCHBAR.FILTER_ARTIFACTS);
+
+			searchbar.transform.Find("GridViewButton").gameObject.SetActive(false);
+			return SearchBar;
+		}
+
+		[HarmonyPatch(typeof(ReceptacleSideScreen), nameof(ReceptacleSideScreen.SetTarget))]
+		public static class InitializeSearchbar
+		{
+			public static void Prefix(ReceptacleSideScreen __instance)
+			{
+				AddOrGetSearchBar(__instance);				
+			}
+		}
 		static bool FastTrackFound = false;
-		static bool initializing;
 
 		public delegate void FastTrackVSDelegate(object instance);
 		[HarmonyPatch(typeof(ReceptacleSideScreen), nameof(ReceptacleSideScreen.ConfigureActiveEntity))]
@@ -161,6 +174,7 @@ namespace PedestalFilter
 		{
 			public static void Postfix(ReceptacleSideScreen __instance, Tag tag)
 			{
+				CurrentScreen = __instance;
 				if (TagToElementColorMap.ContainsKey(tag))
 				{
 					__instance.activeEntityContainer.transform.GetChild(0).gameObject.GetComponentInChildrenOnly<Image>().color = TagToElementColorMap[tag];
@@ -172,6 +186,7 @@ namespace PedestalFilter
 		[HarmonyPatch(typeof(SingleEntityReceptacle), nameof(SingleEntityReceptacle.IsValidEntity))]
 		public class SingleEntityReceptacle_IsValidEntity_Patch
 		{
+			[HarmonyPriority(Priority.Low)]
 			public static void Postfix(SingleEntityReceptacle __instance, ref bool __result, GameObject candidate)
 			{
 				if (__result)
@@ -185,26 +200,21 @@ namespace PedestalFilter
 				if (__instance.additionalCriteria.Any())
 					return;
 
-				if (__instance.GetType() == typeof(PlantablePlot))
-					return;
-
 				///Allow flipped plant seeds in pedestals
-				if (candidate.TryGetComponent<IReceptacleDirection>(out var direction))
+				if (candidate.TryGetComponent<IReceptacleDirection>(out var direction) && (__instance.rotatable == null || __instance.rotatable.permittedRotations != PermittedRotations.FlipV))
 				{
 					__result = true;
 				}
-				//if (__instance.GetType().IsSubclassOf(typeof(ReceptacleSideScreen)))
-				//	return;
-
 			}
 		}
-		
+
 
 		[HarmonyPatch(typeof(ReceptacleSideScreen), nameof(ReceptacleSideScreen.UpdateAvailableAmounts))]
 		public static class ReceptacleSideScreen_UpdateAvailableAmounts
 		{
 			public static bool Prefix(ReceptacleSideScreen __instance)
 			{
+				CurrentScreen = __instance;
 				//if (__instance.GetType().IsSubclassOf(typeof(ReceptacleSideScreen)))
 				//	return true;
 
@@ -217,6 +227,7 @@ namespace PedestalFilter
 			{
 				//if (__instance.GetType().IsSubclassOf(typeof(ReceptacleSideScreen)))
 				//	return;
+				CurrentScreen = __instance;
 
 
 				Component fastTrackVirtualScroll = __instance.requestObjectList.GetComponent("VirtualScroll");
@@ -241,15 +252,13 @@ namespace PedestalFilter
 				var inst = DiscoveredResources.Instance;
 				ReceptacleToggle selected = __instance.selectedEntityToggle;
 
-				if(__instance == null|| __instance.targetReceptacle == null || __instance.targetReceptacle.GetMyWorld() == null)
+				if (__instance == null || __instance.targetReceptacle == null || __instance.targetReceptacle.GetMyWorld() == null)
 				{
 					return;
 				}
 
 				foreach (var pair in __instance.depositObjectMap)
 				{
-
-
 					var key = pair.Key;
 					var display = pair.Value;
 					tag = display.tag;
@@ -262,7 +271,6 @@ namespace PedestalFilter
 					{
 						Element element = ElementLoader.GetElement(tag);
 						var item = Assets.GetPrefab(tag);
-
 
 						if (element != null)
 						{
@@ -278,7 +286,7 @@ namespace PedestalFilter
 						else if (item != null)
 							TagToNameMap[tag] = item.GetProperName().ToLowerInvariant();
 						else
-							TagToNameMap[tag] = tag.ToString();
+							TagToNameMap[tag] = tag.ToString().ToLowerInvariant();
 					}
 
 
@@ -337,13 +345,11 @@ namespace PedestalFilter
 								availableAmount <= 0.0f)
 							// Disable items which cannot fit in this orientation or are
 							// unavailable
-							SetImageToggleState(tag, __instance, toggle, selected != key
-								? ImageToggleState.State.Disabled
-								: ImageToggleState.State.DisabledActive);
+							__instance.SetImageToggleState(toggle, selected != key ? ImageToggleState.State.Disabled : ImageToggleState.State.DisabledActive);
 						else if (selected != key)
-							SetImageToggleState(tag, __instance, toggle, ImageToggleState.State.Inactive);
+							__instance.SetImageToggleState(toggle, ImageToggleState.State.Inactive);
 						else
-							SetImageToggleState(tag, __instance, toggle, ImageToggleState.State.Active);
+							__instance.SetImageToggleState(toggle, ImageToggleState.State.Active);
 					}
 				}
 
@@ -354,49 +360,6 @@ namespace PedestalFilter
 				}
 
 				__result = result;
-
-
-				initializing = false;
-			}
-
-			static Dictionary<Tag, ImageToggleState.State> PrevToggleStates = new();
-			private static void SetImageToggleState(Tag targetTag, ReceptacleSideScreen instance,
-					KToggle toggle, ImageToggleState.State state)
-			{
-				bool newlyAdded = !PrevToggleStates.ContainsKey(targetTag);
-
-				if (newlyAdded)
-				{
-					PrevToggleStates[targetTag] = state;
-				}
-
-				if (toggle.TryGetComponent(out ImageToggleState its)
-				   //&& (initializing ||state != its.currentState)
-				   && (newlyAdded || PrevToggleStates[targetTag] != state)
-				   )
-				{
-					// SetState provides no feedback on whether the state actually changed
-					var targetImage = toggle.gameObject.GetComponentInChildrenOnly<Image>();
-					switch (state)
-					{
-						case ImageToggleState.State.Disabled:
-							its.SetDisabled();
-							targetImage.material = instance.desaturatedMaterial;
-							break;
-						case ImageToggleState.State.Inactive:
-							its.SetInactive();
-							targetImage.material = instance.defaultMaterial;
-							break;
-						case ImageToggleState.State.Active:
-							its.SetActive();
-							targetImage.material = instance.defaultMaterial;
-							break;
-						case ImageToggleState.State.DisabledActive:
-							its.SetDisabledActive();
-							targetImage.material = instance.desaturatedMaterial;
-							break;
-					}
-				}
 			}
 		}
 	}
