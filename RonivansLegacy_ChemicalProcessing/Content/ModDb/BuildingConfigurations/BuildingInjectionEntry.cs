@@ -64,7 +64,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 		{
 			return modsFrom;
 		}
-
 		internal void RegisterTech()
 		{
 			if(string.IsNullOrEmpty(_techID))

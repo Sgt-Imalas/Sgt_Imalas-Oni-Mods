@@ -1283,9 +1283,7 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString DESC = "A reinforced gas pipe capable of handling high pressure flow.\nComposite nature of the pipe prevents gas contents from significantly changing temperature in transit.";
 					public static LocString EFFECT = string.Concat(
 						[
-							"Carries a maximum of " +
-							Config.Instance.HPA_Capacity_Gas,
-							"kg of ",
+							"Carries a maximum of {CAPACITY} of ",
 							FormatAsLink("Gas", "ELEMENTS_GAS"),
 							" with minimal change in ",
 							FormatAsLink("Temperature", "HEAT"),
@@ -1304,9 +1302,7 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString DESC = "A reinforced liquid pipe capable of handling high pressure flow. Composite nature of the pipe prevents liquid contents from significantly changing temperature in transit.";
 					public static LocString EFFECT = string.Concat(
 						[
-							"Carries a maximum of " +
-							Config.Instance.HPA_Capacity_Liquid,
-							"kg of ",
+							"Carries a maximum of {CAPACITY} of ",
 							FormatAsLink("Liquid", "ELEMENTS_LIQUID"),
 							" with minimal change in ",
 							FormatAsLink("Temperature", "HEAT"),
