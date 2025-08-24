@@ -60,6 +60,26 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 			}
 			return this;
 		}
+		public BuildingInjectionEntry MigrateFrom(string[] oldPrefabIds)
+		{
+			foreach(var id in oldPrefabIds)
+			{
+				if (!string.IsNullOrEmpty(id))
+				{
+					MigrateOldIdsFrom.Add(id);
+				}
+			}
+			return this;
+		}
+		public BuildingInjectionEntry MigrateFrom(string oldPrefabId)
+		{
+			if (!string.IsNullOrEmpty(oldPrefabId))
+			{
+				MigrateOldIdsFrom.Add(oldPrefabId);
+			}
+			return this;
+		}
+
 		public List<SourceModInfo> GetModsFrom()
 		{
 			return modsFrom;
@@ -107,6 +127,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 				{
 					savemng.prefabMap.Add(oldPrefabTag, prefab);
 				}
+				else
+					SgtLogger.warning("Skipping migration registration of " + oldPrefabTag + " to " + _buildingID + " as it is already registered." );
 			}
 		}
 	}

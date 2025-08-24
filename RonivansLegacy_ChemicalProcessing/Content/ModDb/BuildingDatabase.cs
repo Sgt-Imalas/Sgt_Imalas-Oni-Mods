@@ -1,29 +1,31 @@
-﻿using UtilLibs;
+﻿using Biochemistry.Buildings;
 using Dupes_Industrial_Overhaul.Chemical_Processing.Buildings;
-using Biochemistry.Buildings;
-using Mineral_Processing_Mining.Buildings;
-using Metallurgy.Buildings;
-using HarmonyLib;
 using Dupes_Machinery.Biological_Vats;
 using Dupes_Machinery.Ethanol_Still;
-using System;
-using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.MineralProcessing_Metallurgy;
-using static UtilLibs.GameStrings;
-using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProcessing;
-using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineering;
+using HarmonyLib;
+using High_Pressure_Applications.BuildingConfigs;
+using Metallurgy.Buildings;
 using Mineral_Processing;
+using Mineral_Processing_Mining.Buildings;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerators;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservoirs;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineering;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineering.Tiles;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineering.Walls;
-using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservoirs;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistics;
-using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureApplications;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefrigeration;
-using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerators;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureApplications;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureApplications.HighCapacityLogisticRails;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureApplications.HPA_Gas;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureApplications.HPA_liquid;
-using High_Pressure_Applications.BuildingConfigs;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureApplications.HPA_Solid;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.MineralProcessing_Metallurgy;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProcessing;
+using System;
+using UtilLibs;
+using static ResearchTypes;
+using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SPACERWALL.FACADES;
+using static UtilLibs.GameStrings;
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
 	class BuildingDatabase
@@ -73,7 +75,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		public static void RegisterBuildings()
 		{
 			///disabled state is now handled by any enabled mod id in the registration method
-			
+
 			BuildingManager.LoadConfigFile();
 			//if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
 			RegisterBuildings_ChemicalProcessingIndustrialOverhaul();
@@ -335,7 +337,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToCategory(PlanMenuCategory.Refinement, KilnConfig.ID, ModUtil.BuildingOrdering.Before)
 				.AddToTech(Technology.SolidMaterial.BruteForceRefinement)
 				.AddModFrom(SourceModInfo.MineralProcessing_Metallurgy)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO, "Chemical_PlasmaFurnace"); 
+				.AddModFrom(SourceModInfo.ChemicalProcessing_IO, "Chemical_PlasmaFurnace");
 
 			BuildingManager.CreateEntry<Metallurgy_BasicOilRefineryConfig>()
 				.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID, ModUtil.BuildingOrdering.Before)
@@ -428,7 +430,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingManager.CreateEntry<FacilityDoorConfig>()
 				.AddToCategory(PlanMenuCategory.Base, DoorConfig.ID)
 				.AddToTech(Technology.Gases.Ventilation)
-				.AddModFrom(SourceModInfo.DupesEngineering);
+				.AddModFrom(SourceModInfo.DupesEngineering)
+				.MigrateFrom(["FacilityDoorRed", "FacilityDoorWhite", "FacilityDoorYellow"]);
 			/// Trimmings
 
 			BuildingManager.CreateEntry<WoodenCeilingConfig>()
@@ -446,7 +449,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingManager.CreateEntry<LogicAlertLightConfig>()
 				.AddToCategory(PlanMenuCategory.Automation, LogicAlarmConfig.ID)
 				.AddToTech(Technology.Computers.SmartHome)
-				.AddModFrom(SourceModInfo.DupesEngineering);
+				.AddModFrom(SourceModInfo.DupesEngineering)
+				.MigrateFrom(["AlertLightGreen", "AlertLightRed", "AlertLightYellow"]);
 
 			///Cement Mixer
 
@@ -460,7 +464,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingManager.CreateEntry<MouldingTileConfig>()
 				.AddToCategory(PlanMenuCategory.Base, CarpetTileConfig.ID).ForceCategory()
 				.AddToTech(Technology.Decor.RenaissanceArt)
-				.AddModFrom(SourceModInfo.DupesEngineering);
+				.AddModFrom(SourceModInfo.DupesEngineering)
+				.MigrateFrom("MarbleTile");
 
 			BuildingManager.CreateEntry<MosaicTileConfig>()
 				.AddToCategory(PlanMenuCategory.Base, CarpetTileConfig.ID).ForceCategory()
@@ -475,7 +480,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingManager.CreateEntry<ReinforcedConcreteTileConfig>()
 				.AddToCategory(PlanMenuCategory.Base, BunkerTileConfig.ID)
 				.AddToTech(Technology.SolidMaterial.SuperheatedForging)
-				.AddModFrom(SourceModInfo.DupesEngineering);
+				.AddModFrom(SourceModInfo.DupesEngineering)
+				.MigrateFrom("ConcreteTile");
 
 			BuildingManager.CreateEntry<SpacerTileSolidConfig>()
 				.AddToCategory(PlanMenuCategory.Base, TileConfig.ID)
@@ -495,7 +501,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingManager.CreateEntry<WoodCompositionTileConfig>()
 				.AddToCategory(PlanMenuCategory.Base, WoodTileConfig.ID)
 				.AddToTech(Technology.Decor.HomeLuxuries)
-				.AddModFrom(SourceModInfo.DupesEngineering);
+				.AddModFrom(SourceModInfo.DupesEngineering)
+				.MigrateFrom("WoodenTile");
 
 			BuildingManager.CreateEntry<WoodAirflowTileConfig>()
 				.AddToCategory(PlanMenuCategory.Base, GasPermeableMembraneConfig.ID)
@@ -510,7 +517,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingManager.CreateEntry<InsulationCompositionTileConfig>()
 				.AddToCategory(PlanMenuCategory.Base, InsulationTileConfig.ID)
 				.AddToTech(Technology.Gases.TemperatureModulation)
-				.AddModFrom(SourceModInfo.DupesEngineering);
+				.AddModFrom(SourceModInfo.DupesEngineering)
+				.MigrateFrom("InsulatingTile");
 
 			///walls
 
@@ -532,7 +540,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingManager.CreateEntry<SpacerWallConfig>()
 				.AddToCategory(PlanMenuCategory.Base, ExteriorWallConfig.ID)
 				.AddToTech(Technology.Decor.HighCulture)
-				.AddModFrom(SourceModInfo.DupesEngineering);
+				.AddModFrom(SourceModInfo.DupesEngineering)
+				.MigrateFrom(["SpacerWallSmall", "SpacerDanger", "SpacerDangerCorner", "SpacerPanel"]);
+
 
 			BuildingManager.CreateEntry<SpacerWindowLargeConfig>()
 				.AddToCategory(PlanMenuCategory.Base, ExteriorWallConfig.ID)
@@ -542,7 +552,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingManager.CreateEntry<SpacerWindowSmallConfig>()
 				.AddToCategory(PlanMenuCategory.Base, ExteriorWallConfig.ID)
 				.AddToTech(Technology.Decor.GlassBlowing)
-				.AddModFrom(SourceModInfo.DupesEngineering);
+				.AddModFrom(SourceModInfo.DupesEngineering)
+				.MigrateFrom(["SpacerWindow_A", "SpacerWindow_B"]);
 
 		}
 		private static void RegisterBuildings_CustomReservoirs()
@@ -594,7 +605,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingManager.CreateEntry<StoragePodConfig>()
 				.AddToCategory(PlanMenuCategory.Base, StorageLockerConfig.ID)
 				.AddToTech(Technology.SolidMaterial.BruteForceRefinement)
-				.AddModFrom(SourceModInfo.DupesLogistics);
+				.AddModFrom(SourceModInfo.DupesLogistics)
+				.MigrateFrom(["StoragePod_A", "StoragePod_B", "StoragePod_C"]);
 
 			///logistic rails
 			BuildingManager.CreateEntry<LogisticTransferArmConfig>()
@@ -776,7 +788,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingManager.CreateEntry<FridgeLargeConfig>()
 				.AddToCategory(PlanMenuCategory.Food, RefrigeratorConfig.ID)
 				.AddToTech(Technology.Food.FoodRepurposing)
-				.AddModFrom(SourceModInfo.DupesRefrigeration);
+				.AddModFrom(SourceModInfo.DupesRefrigeration)
+				.MigrateFrom(["FridgeAdvanced", "FridgeBlue", "FridgeRed", "FridgeYellow"]);
 
 			BuildingManager.CreateEntry<FridgeSmallConfig>()
 				.AddToCategory(PlanMenuCategory.Food, RefrigeratorConfig.ID)
@@ -819,6 +832,28 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToCategory(PlanMenuCategory.Power, GeneratorConfig.ID)
 				.AddToTech(Technology.Power.InternalCombustion)
 				.AddModFrom(SourceModInfo.CustomGenerators);
+		}
+
+		internal static void RegisterAdditionalMigrations()
+		{
+			var savemng = SaveLoader.Instance.saveManager;
+			if (savemng == null)
+				return;
+			MonoElementTileIgneousRockConfig.RegisterLegacyMigration();
+
+			TryMigrate("WoodenLadder", LadderConfig.ID);
+			TryMigrate("BrickWall", ExteriorWallConfig.ID); 
+			TryMigrate("WoodenDryWall", ExteriorWallConfig.ID);
+			TryMigrate("WoodenDryWall_B", ExteriorWallConfig.ID);
+		}
+		static void TryMigrate(string oldId, string newId)
+		{
+			var savemng = SaveLoader.Instance.saveManager;
+			if (savemng == null)
+				return;
+			var prefab = Assets.TryGetPrefab(newId);
+			if (prefab != null && !savemng.prefabMap.ContainsKey(oldId))
+				savemng.prefabMap.Add(oldId, prefab);
 		}
 	}
 }

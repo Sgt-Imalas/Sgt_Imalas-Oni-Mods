@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TemplateClasses;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
+using static RoomProber;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineering.Tiles
 {
@@ -25,6 +27,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 
 		public static SimHashes Element = SimHashes.Void;
 		public static string[] defaultCost = [string.Join("&", TileTypes.Select(tag => tag.ToString()).ToArray())];
+
+		public static string GetCustomTileID(SimHashes element)
+		{
+			if (element == SimHashes.Void)
+				return DEFAULT_ID;
+			return $"Custom{element}Tile";
+		}
 
 		public override BuildingDef CreateBuildingDef()
 		{
@@ -119,6 +128,16 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 		{
 			Element = SimHashes.IgneousRock;
 		}
+
+		internal static void RegisterLegacyMigration()
+		{
+			var id = GetCustomTileID(Element);
+			var prefab = Assets.TryGetPrefab(id);
+			var savemng = SaveLoader.Instance.saveManager;
+
+			if(savemng != null && prefab != null)
+				savemng.prefabMap.Add("CustomIgneousTile", prefab);
+		}
 	}
 	class MonoElementTileObsidianConfig : MonoElementTileConfig
 	{
@@ -133,5 +152,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 		{
 			Element = SimHashes.Brick;
 		}
+
 	}
 }

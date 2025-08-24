@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineering.Tiles;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
             public static void Postfix(SaveManager __instance)
 			{
 				BuildingManager.RegisterLegacyMigrations();
+				BuildingDatabase.RegisterAdditionalMigrations();
 			}
         }
 	}
