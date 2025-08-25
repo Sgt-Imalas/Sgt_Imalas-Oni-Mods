@@ -453,10 +453,8 @@ namespace ClusterTraitGenerationManager
 			}
 		}
 
-
 		public static Dictionary<string, GeyserDataEntry> AllGeysers = new();
-		public static List<string> AllGenericGeysers = new();
-
+		public static List<GeyserGenericConfig.GeyserPrefabParams> AllGenericGeysers = new();
 
 		public static string GetGenericGeyserAt(int seed, Vector2I position, HashSet<string> geyserBlacklist = null)
 		{
@@ -464,7 +462,10 @@ namespace ClusterTraitGenerationManager
 			num += seed;
 
 			//SgtLogger.l("getting generic geyser at " + position.ToString() + ", seed :" + seed);
-			string geyserID = AllGenericGeysers[new KRandom(num + position.x + position.y).Next(0, AllGenericGeysers.Count)];
+
+			int Seed = num + position.x + position.y;
+
+			string geyserID = AllGenericGeysers[new KRandom(Seed).Next(0, AllGenericGeysers.Count)].id;
 
 			if (geyserBlacklist != null && geyserBlacklist.Count > 0 && geyserBlacklist.Contains(geyserID))
 			{
@@ -473,11 +474,14 @@ namespace ClusterTraitGenerationManager
 				{
 					failure--;
 					num++;
-					geyserID = AllGenericGeysers[new KRandom(num + position.x + position.y).Next(0, AllGenericGeysers.Count)];
+					Seed = num + position.x + position.y;
+					geyserID = AllGenericGeysers[new KRandom(Seed).Next(0, AllGenericGeysers.Count)].id;
 				}
 			}
-
-			SgtLogger.l("getting generic geyser at " + position.ToString() + ", seed :" + seed + " --> " + geyserID);
+			if(geyserBlacklist == null)
+				SgtLogger.l("getting generic geyser at " + position.ToString() + ", seed :" + seed + " --> " + geyserID);
+			else
+				SgtLogger.l("grabbing replacement geyser at " + position.ToString() + ", seed :" + seed + " --> " + geyserID);
 			return geyserID;
 		}
 

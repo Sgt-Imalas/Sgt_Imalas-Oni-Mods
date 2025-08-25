@@ -724,8 +724,11 @@ namespace ClusterTraitGenerationManager.ClusterData
 				CreateCustomClusterFrom(LastPresetGenerated, PlanetID);
 			}
 		}
-		public static int CurrentSeed = -1;
+		/// <summary>
+		/// Global world seed will always be the seed of the last asteroid in the cluster
+		/// </summary>
 		public static int GlobalWorldSeed => CurrentSeed - 1 + CustomCluster.GetAllPlanets().Count;
+		public static int CurrentSeed => int.Parse(CustomGameSettings.Instance.GetCurrentQualitySetting(CustomGameSettingConfigs.WorldgenSeed).id);
 
 
 		public static string GetPOIGroupId(SpaceMapPOIPlacement _placement, bool includeTimeForUId = false)
@@ -811,7 +814,6 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 			var mutated = new MutatedClusterLayout(ReferenceLayout);
 			WorldgenMixing.RefreshWorldMixing(mutated, seed, true, true);
-			CurrentSeed = seed;
 
 			if (!ResetSingleItem)
 			{
@@ -1106,8 +1108,6 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 
 			int seed = int.Parse(CustomGameSettings.Instance.GetCurrentQualitySetting(CustomGameSettingConfigs.WorldgenSeed).id);
-
-			CurrentSeed = seed;
 
 			var planets = CustomCluster.GetAllPlanets();
 			for (int i = 0; i < planets.Count; i++)
