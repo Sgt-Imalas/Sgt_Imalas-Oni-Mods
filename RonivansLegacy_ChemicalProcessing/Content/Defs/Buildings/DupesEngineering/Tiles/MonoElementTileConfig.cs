@@ -25,7 +25,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 			SimHashes.Brick.CreateTag(),
 			];
 
-		public static SimHashes Element = SimHashes.Void;
+		public SimHashes Element = SimHashes.Void;
 		public static string[] defaultCost = [string.Join("&", TileTypes.Select(tag => tag.ToString()).ToArray())];
 
 		public static string GetCustomTileID(SimHashes element)
@@ -131,7 +131,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 
 		internal static void RegisterLegacyMigration()
 		{
-			var id = GetCustomTileID(Element);
+			var id = GetCustomTileID(SimHashes.IgneousRock);
 			var prefab = Assets.TryGetPrefab(id);
 			var savemng = SaveLoader.Instance.saveManager;
 
