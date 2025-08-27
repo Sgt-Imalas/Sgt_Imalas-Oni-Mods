@@ -1,4 +1,5 @@
 ﻿using Database;
+using ForceFieldWallTile.Content.Defs.Buildings;
 using HarmonyLib;
 using Klei.AI;
 using System;
@@ -24,7 +25,7 @@ namespace ForceFieldWallTile
 
 			public static void Prefix()
 			{
-				//ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.XXXX, XXXX.ID);
+				ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, ForceFieldTileConfig.ID);
 			}
 		}
 		/// <summary>

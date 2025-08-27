@@ -37,4 +37,17 @@
 	<ItemGroup>
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="ModAssets\assets\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="ImGui">
+	    <HintPath>X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\ImGui.dll</HintPath>
+	  </Reference>
+	  <Reference Include="ImGui.NET">
+	    <HintPath>X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed\ImGui.NET.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
 </Project>

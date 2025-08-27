@@ -11,7 +11,9 @@ namespace ForceFieldWallTile
 		public override void OnLoad(Harmony harmony)
 		{
 			base.OnLoad(harmony);
+			DebugDevTool.Initialize();
 			SgtLogger.LogVersion(this, harmony);
+			ModAssets.LoadAssets();
 		}
 
 		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
