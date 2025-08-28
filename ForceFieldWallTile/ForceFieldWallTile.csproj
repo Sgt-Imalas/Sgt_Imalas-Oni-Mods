@@ -39,6 +39,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="ModAssets\anim\shieldprojectors\shield_generator\" />
 	  <Folder Include="ModAssets\assets\" />
 	</ItemGroup>
 </Project>

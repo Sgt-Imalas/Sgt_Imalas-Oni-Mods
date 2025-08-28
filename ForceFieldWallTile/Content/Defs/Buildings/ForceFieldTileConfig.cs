@@ -26,14 +26,14 @@ namespace ForceFieldWallTile.Content.Defs.Buildings
 				radius = 0
 			};
 			EffectorValues noise = none;
-			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 1, 1, "gas_element_sensor_kanim", 30, 3f, tieR2, rawMineralsOrWood, 1600f, BuildLocationRule.NotInTiles, decor, noise);
+			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 1, 1, "shield_generator_kanim", 30, 3f, tieR2, rawMineralsOrWood, 1600f, BuildLocationRule.NotInTiles, decor, noise);
 			buildingDef.Entombable = false;
 			buildingDef.Floodable = false;
 			buildingDef.Overheatable = false;
 			buildingDef.AudioCategory = "Metal";
 			buildingDef.AudioSize = "small";
 			buildingDef.BaseTimeUntilRepair = -1f;
-			buildingDef.DefaultAnimState = "off";
+			buildingDef.DefaultAnimState = "off_A";
 			buildingDef.ObjectLayer = ObjectLayer.Building;
 			buildingDef.SceneLayer = Grid.SceneLayer.BuildingBack;
 			buildingDef.AddSearchTerms((string)SEARCH_TERMS.TILE);
