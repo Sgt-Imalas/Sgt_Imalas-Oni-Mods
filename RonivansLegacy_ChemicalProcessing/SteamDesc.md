@@ -104,7 +104,7 @@ Also make sure to follow all steps described in my own [url=https://github.com/S
 Should all attempts on automatic updating fail (or you are on a different platform than Steam), you can download the mod manually from my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases/tag/AllMods_Automated_Build_FullRelease] GitHub release[/url].
 
 
-If you find any bugs or crashes, please report these on [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url] or on my [url=https://discord.gg/5n7peBCnWZ]Discord Server[/url].
+If you find any bugs or crashes, please report these on [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues]GitHub[/url] or on my [url=https://discord.gg/5n7peBCnWZ]Discord Server[/url].
 
 [b]Always include the full player.log in a report: [/b] https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/wiki/Troubleshooter-Guide#sending-a-log
 
