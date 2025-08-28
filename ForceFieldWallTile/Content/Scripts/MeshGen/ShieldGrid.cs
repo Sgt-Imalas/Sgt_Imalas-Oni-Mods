@@ -7,7 +7,6 @@ using UnityEngine;
 using UtilLibs;
 using static STRINGS.DUPLICANTS.ATTRIBUTES;
 using static STRINGS.UI.CLUSTERMAP;
-using ImGuiNET;
 
 namespace ForceFieldWallTile.Content.Scripts.MeshGen
 {
@@ -25,18 +24,18 @@ namespace ForceFieldWallTile.Content.Scripts.MeshGen
 
 		public void OnImguiDraw()
 		{
-			if (scale == -1) scale = Renderer.material.GetFloat("_PatternSize");
+			//if (scale == -1) scale = Renderer.material.GetFloat("_PatternSize");
 
-			ImGui.Text($"ShaderScale: {scale}");
+			//ImGui.Text($"ShaderScale: {scale}");
 
-			if (ImGui.DragFloat("_PatternSize", ref scale, 1f, 0.00001f, 1000f))
-			{
-				Renderer.material.SetFloat("_PatternSize", scale);
-			}
-			if (ImGui.InputFloat2("_TilingSquare", ref gridscale))
-			{
-				Renderer.material.SetVector("_TilingSquare", gridscale);
-			}
+			//if (ImGui.DragFloat("_PatternSize", ref scale, 1f, 0.00001f, 1000f))
+			//{
+			//	Renderer.material.SetFloat("_PatternSize", scale);
+			//}
+			//if (ImGui.InputFloat2("_TilingSquare", ref gridscale))
+			//{
+			//	Renderer.material.SetVector("_TilingSquare", gridscale);
+			//}
 		}
 
 		public static void AddNode(int cell, Node node)
