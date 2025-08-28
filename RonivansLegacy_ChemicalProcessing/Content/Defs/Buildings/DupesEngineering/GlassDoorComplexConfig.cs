@@ -21,7 +21,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 			BuildingDef def = BuildingTemplates.CreateBuildingDef(ID, 1, 2, "glass_door_complex_kanim", 30, 60f, material_mass, construction_materials, 1600f, BuildLocationRule.Tile, TUNING.BUILDINGS.DECOR.BONUS.TIER1, nONE, 1f);
 			def.Overheatable = false;
 			def.RequiresPowerInput = true;
-			def.EnergyConsumptionWhenActive = 20f;
+			def.EnergyConsumptionWhenActive = 120f;
 			def.Floodable = false;
 			def.Entombable = false;
 			def.IsFoundation = true;

@@ -14,7 +14,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 
 		public override BuildingDef CreateBuildingDef()
 		{
-			float[] mass = BUILDINGS.CONSTRUCTION_MASS_KG.TIER2;
+			float[] mass = BUILDINGS.CONSTRUCTION_MASS_KG.TIER3;
 			string[] materials = MATERIALS.PRECIOUS_ROCKS;
 			EffectorValues tieR1 = BUILDINGS.DECOR.BONUS.TIER2;
 			EffectorValues noise = NOISE_POLLUTION.NONE;

@@ -90,7 +90,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 			simCellOccupier.notifyOnMelt = true;
 			simCellOccupier.doReplaceElement = true;
 			simCellOccupier.strengthMultiplier = 1.5f;
-			simCellOccupier.movementSpeedMultiplier = 1.1f; //== DUPLICANTSTATS.MOVEMENT_MODIFIERS.BONUS_1;
+			simCellOccupier.movementSpeedMultiplier = 1.2f; //== DUPLICANTSTATS.MOVEMENT_MODIFIERS.BONUS_1;
 
 			go.AddOrGet<TileTemperature>();
 			go.AddOrGet<KAnimGridTileVisualizer>().blockTileConnectorID = Hash.SDBMLower("tiles_bunker_tops");

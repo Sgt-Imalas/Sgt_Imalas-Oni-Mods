@@ -16,7 +16,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 		{
 			BuildingDef obj = BuildingTemplates.CreateBuildingDef(ID, 2, 2, "spacer_wall_large_kanim", 120, 3f, [25], [GameTags.Steel.ToString()], 1600f, BuildLocationRule.NotInTiles, noise: NOISE_POLLUTION.NONE, decor: new EffectorValues
 			{
-				amount = 15,
+				amount = 20,
 				radius = 1
 			});
 			obj.Entombable = false;
