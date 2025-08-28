@@ -51,7 +51,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 
 		public override void DoPostConfigureComplete(GameObject go)
 		{
-			go.GetComponent<KPrefabID>().AddTag(GameTags.Bunker);
 			go.AddComponent<SimTemperatureTransfer>();
 			go.GetComponent<Deconstructable>().allowDeconstruction = true;
 
