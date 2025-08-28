@@ -1,0 +1,31 @@
+id: "MINING_DRILLBITS_BASIC_ITEM"
+title: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_STEEL_ITEM.NAME
+
+contentContainers:
+#-----------------------------
+  - contentLayout: Vertical
+    lockID:
+
+    content:
+      - !CodexText
+          stringKey: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_BASIC_ITEM.NAME
+          style: Title
+      - !CodexDividerLine
+          preferredWidth: -1
+      - !CodexImage
+          batchedAnimPrefabSourceID: MINING_DRILLBITS_BASIC_ITEM
+          preferredWidth: 128
+          preferredHeight: 128
+#-----------------------------
+  - contentLayout: Vertical
+    lockID:
+
+    content:
+      - !CodexText
+          stringKey: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_BASIC_ITEM.DESC
+          style: Body
+      - !CodexElementCategoryList
+          categoryTag: MINERALPROCESSING_DRILLBIT
+
+contentMadeAndUsed:
+  - tag: MINING_DRILLBITS_BASIC_ITEM

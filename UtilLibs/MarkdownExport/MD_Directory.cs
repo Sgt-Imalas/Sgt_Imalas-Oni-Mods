@@ -1,0 +1,56 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace UtilLibs.MarkdownExport
+{
+	public class MD_Directory : IMD_File
+	{
+		public string Name;
+		public List<MD_Directory> SubDirectories = [];
+		public List<MD_Page> Files = [];
+		public bool WriteDirectory = true;
+
+		public MD_Directory(string targetDirectory)
+		{
+			this.Name = targetDirectory;
+		}
+		public MD_Directory SubDir(string subDirName)
+		{
+			if (SubDirectories == null)
+				SubDirectories = [];
+			var subDir = new MD_Directory(subDirName);
+			SubDirectories.Add(subDir);
+			return subDir;
+		}
+		public MD_Page File(string fileName, string titleKey = null)
+		{
+			if (Files == null)
+				Files = [];
+			var file = new MD_Page(fileName, titleKey);
+			Files.Add(file);
+			return file;
+		}
+
+		public void CreateMarkdownFiles(string inheritedPath)
+		{
+			if(!WriteDirectory)
+				return;
+
+			var nest = Path.Combine(inheritedPath, this.Name);
+			Directory.CreateDirectory(nest);
+
+			foreach (var subDir in SubDirectories)
+			{
+				subDir.CreateMarkdownFiles(nest);
+			}
+			foreach(var file in Files)
+			{
+				file.CreateMarkdownFiles(nest);
+			}
+		}
+	}
+}

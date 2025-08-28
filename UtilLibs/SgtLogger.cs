@@ -50,6 +50,14 @@ namespace UtilLibs
 				warning($"Assert failed, {name} is null");
 			}
 		}
+		public static void Assert(object arg, string name)
+		{
+			if (arg == null)
+			{
+				warning($"Assert failed, {name} is null");
+			}
+		}
+		public static void Assert(string name, string arg) => Assert(name, (object)arg);
 
 		public static void debuglog(object a, object b = null, object c = null, object d = null)
 		{
@@ -78,6 +86,7 @@ namespace UtilLibs
 		public static void log(string message, string assemblyOverride = "") => debuglog(message, assemblyOverride);
 		public static void warning(string message, string assemblyOverride = "") => dlogwarn(message, assemblyOverride);
 		public static void error(string message, string assemblyOverride = "") => dlogerror(message, assemblyOverride);
+		public static void transpilerfail(string message, string assemblyOverride = "") => dlogerror("TRANSPILER FAILED: "+message, assemblyOverride);
 
 		public static void logwarning(string message, string assemblyOverride = "") => dlogwarn(message, assemblyOverride);
 		public static void logerror(string message, string assemblyOverride = "") => dlogerror(message, assemblyOverride);

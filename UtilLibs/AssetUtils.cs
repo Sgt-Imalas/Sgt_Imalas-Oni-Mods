@@ -170,10 +170,11 @@ namespace UtilLibs
 		{
 			var info = UnityEngine.Object.Instantiate(global::Assets.GetBlockTileDecorInfo(decorInfo));
 
+			string topsName = name.Contains("_tops") ? name : $"{name}_tiles_tops";
 			// base
 			if (info is object)
 			{
-				info.atlas = GetCustomAtlas($"{name}_tiles_tops", baseAtlasFolder, info.atlas);
+				info.atlas = GetCustomAtlas(topsName, baseAtlasFolder, info.atlas);
 				def.DecorBlockTileInfo = info;
 			}
 
@@ -181,7 +182,7 @@ namespace UtilLibs
 			if (existingPlaceID.IsNullOrWhiteSpace())
 			{
 				var placeInfo = UnityEngine.Object.Instantiate(global::Assets.GetBlockTileDecorInfo(decorInfo));
-				placeInfo.atlas = GetCustomAtlas($"{name}_tiles_tops_place", baseAtlasFolder, placeInfo.atlas);
+				placeInfo.atlas = GetCustomAtlas(topsName+"_place", baseAtlasFolder, placeInfo.atlas);
 				def.DecorPlaceBlockTileInfo = placeInfo;
 			}
 			else
@@ -192,7 +193,7 @@ namespace UtilLibs
 			// specular
 			if (shiny)
 			{
-				string id = existingSpecID.IsNullOrWhiteSpace() ? $"{name}_tiles_tops_spec" : existingSpecID;
+				string id = existingSpecID.IsNullOrWhiteSpace() ? $"{topsName}_spec" : existingSpecID;
 				info.atlasSpec = GetCustomAtlas(id, baseAtlasFolder, info.atlasSpec);
 			}
 		}
@@ -200,16 +201,18 @@ namespace UtilLibs
 		{
 			TextureAtlas reference = global::Assets.GetTextureAtlas(referenceAtlas);
 
+			string atlasName = name.Contains("tiles") ? name : $"{name}_tiles";
+
 			// base
-			def.BlockTileAtlas = GetCustomAtlas($"{name}_tiles", baseAtlasFolder, reference);
+			def.BlockTileAtlas = GetCustomAtlas(atlasName, baseAtlasFolder, reference);
 
 			// place
-			def.BlockTilePlaceAtlas = GetCustomAtlas($"{name}_tiles_place", baseAtlasFolder, reference);
+			def.BlockTilePlaceAtlas = GetCustomAtlas($"{atlasName}_place", baseAtlasFolder, reference);
 
 			// specular
 			if (shiny)
 			{
-				def.BlockTileShineAtlas = GetCustomAtlas($"{name}_tiles_spec", baseAtlasFolder, reference);
+				def.BlockTileShineAtlas = GetCustomAtlas($"{atlasName}_spec", baseAtlasFolder, reference);
 			}
 		}
 		public static TextureAtlas GetCustomAtlas(string fileName, string folder, TextureAtlas tileAtlas)

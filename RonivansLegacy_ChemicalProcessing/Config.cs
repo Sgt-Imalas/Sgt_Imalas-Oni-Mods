@@ -1,0 +1,183 @@
+﻿using Newtonsoft.Json;
+using PeterHan.PLib.Options;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts.UI;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace RonivansLegacy_ChemicalProcessing
+{
+	[Serializable]
+	[RestartRequired]
+	[ConfigFile(SharedConfigLocation: true)]
+	public class Config : SingletonOptions<Config>
+	{
+		public static bool SubModEnabled(SourceModInfo mod )=> ModBuildingEnabled([mod]);
+		public static bool ModBuildingEnabled(IEnumerable<SourceModInfo> buildingMods)
+		{
+			Debug.Assert(buildingMods != null && buildingMods.Any(), "ModBuildingEnabled called with null or empty buildingMods");
+			foreach (var sourceMod in buildingMods)
+			{
+				switch (sourceMod)
+				{
+					case SourceModInfo.ChemicalProcessing_IO:
+						if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+							return true;
+						break;
+					case SourceModInfo.ChemicalProcessing_BioChemistry:
+						if (Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
+							return true;
+						break;
+					case SourceModInfo.MineralProcessing_Metallurgy:
+						if (Config.Instance.MineralProcessing_Metallurgy_Enabled)
+							return true;
+						break;
+					case SourceModInfo.MineralProcessing_Mining:
+						if (Config.Instance.MineralProcessing_Mining_Enabled)
+							return true;
+						break;
+					case SourceModInfo.NuclearProcessing:
+						if (Config.Instance.NuclearProcessing_Enabled)
+							return true;
+						break;
+					case SourceModInfo.DupesMachinery:
+						if (Config.Instance.DupesMachinery_Enabled)
+							return true;
+						break;
+					case SourceModInfo.DupesEngineering:
+						if (Config.Instance.DupesEngineering_Enabled)
+							return true;
+						break;
+					case SourceModInfo.CustomReservoirs:
+						if (Config.Instance.CustomReservoirs_Enabled)
+							return true;
+						break;
+					case SourceModInfo.DupesLogistics:
+						if (Config.Instance.DupesLogistics_Enabled)
+							return true;
+						break;
+					case SourceModInfo.HighPressureApplications:
+						if (Config.Instance.HighPressureApplications_Enabled)
+							return true;
+						break;
+					case SourceModInfo.DupesRefrigeration:
+						if (Config.Instance.DupesRefrigeration_Enabled)
+							return true;
+						break;
+					case SourceModInfo.CustomGenerators:
+						if (Config.Instance.CustomGenerators_Enabled)
+							return true;
+						break;
+				}
+			}
+			return false;
+		}
+
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.TOOLTIP")]
+		[JsonIgnore]
+		public System.Action<object> Button_OpenCarepackageEditor => BuildingEditor_MainScreen.ShowBuildingEditor;
+
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP_ELEMENTS", "STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_IO")]
+		[JsonProperty]
+		public bool ChemicalProcessing_IndustrialOverhaul_Enabled { get; set; } = true;
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_BIOCHEMISTRY")]
+		[JsonProperty]
+		public bool ChemicalProcessing_BioChemistry_Enabled { get; set; } = true;
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.MINERALPROCESSING_METALLURGY")]
+		[JsonProperty]
+		public bool MineralProcessing_Metallurgy_Enabled { get; set; } = true;
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.MINERALPROCESSING_MINING")]
+		[JsonProperty]
+		public bool MineralProcessing_Mining_Enabled { get; set; } = true;
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.NUCLEARPROCESSING")]
+		[JsonProperty]
+		[RequireDLC(DlcManager.EXPANSION1_ID)] //hide this option in base game
+		public bool NuclearProcessing_Enabled { get; set; } = true;
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESMACHINERY")]
+		[JsonProperty]
+		public bool DupesMachinery_Enabled { get; set; } = true;
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESENGINEERING")]
+		[JsonProperty]
+		public bool DupesEngineering_Enabled { get; set; } = true;
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.CUSTOMRESERVOIRS")]
+		public bool CustomReservoirs_Enabled { get; set; } = true;
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESLOGISTICS")]
+		public bool DupesLogistics_Enabled { get; set; } = true;
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS")]
+		public bool HighPressureApplications_Enabled { get; set; } = true;
+
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_ENABLE.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_ENABLE.TOOLTIP", "STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS")]
+		public bool HPA_Rails_Enabled { get; set; } = true;
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_INSULATION_ENABLE.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_INSULATION_ENABLE.TOOLTIP", "STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS")]
+		public bool HPA_Rails_Insulation_Enabled { get; set; } = true;
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESREFRIGERATION")]
+		public bool DupesRefrigeration_Enabled { get; set; } = true;
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.CUSTOMGENERATORS")]
+		public bool CustomGenerators_Enabled { get; set; } = true;
+
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.GEYSERS.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.GEYSERS.TOOLTIP", "STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_IO")]
+		public bool ModGeysersGeneric { get; set; } = true;
+
+		//[Option("STRINGS.RONIVAN_AIO_MODCONFIG.MODELEMENTSWORLDGEN.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.MODELEMENTSWORLDGEN.TOOLTIP", "STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_IO")]
+		//public bool WorldgenElementInjection { get; set; } = true;
+
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.HP_GAS_CAPACITY.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.HP_GAS_CAPACITY.TOOLTIP", "STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS")]
+		[Limit(2, 20)]
+		public int HPA_Capacity_Gas { get; set; } = 10;
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.HP_LIQUID_CAPACITY.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.HP_LIQUID_CAPACITY.TOOLTIP", "STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS")]
+		[Limit(11, 200)]
+		public int HPA_Capacity_Liquid { get; set; } = 40;
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.HP_GAS_PUMPCOST.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.HP_GAS_PUMPCOST.TOOLTIP", "STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS")]
+		[Limit(10, 1000)]
+		public int HPA_Pump_Base_Mult_Gas { get; set; } = 240;
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.HP_LIQUID_PUMPCOST.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.HP_LIQUID_PUMPCOST.TOOLTIP", "STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS")]
+		[Limit(10, 1000)]
+		public int HPA_Pump_Base_Mult_Liquid { get; set; } = 240;
+
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_RAIL_CAPACITY.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_RAIL_CAPACITY.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESLOGISTICS")]
+		[Limit(1, 20)]
+		public int Logistic_Rail_Capacity { get; set; } = 10;
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_CAPACITY.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_CAPACITY.TOOLTIP", "STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS")]
+		[Limit(20, 400)]
+		public int HPA_Capacity_Solid { get; set; } = 200;
+
+		///moved to building editor
+		//[Option("STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_SWEEPER_RANGE.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_SWEEPER_RANGE.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESLOGISTICS")]
+		//[Limit(2, 12)]
+		//public int Logistic_Arm_Range { get; set; } = 4; //vanilla arm range, only capcaity is nerfed by default
+
+		///moved to building editor
+		//[Option("STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_ARMRANGE.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_CAPACITY.TOOLTIP", "STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS")]
+		//[Limit(6, 24)]
+		//public int HPA_Arm_Range { get; set; } = 12;
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_ANAEROBICDIGESTERBUFF.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_ANAEROBICDIGESTERBUFF.TOOLTIP", "STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_BIOCHEMISTRY")]
+		[Limit(1, 200)]
+		public int Biochem_AnaerobicDigesterBuff { get; set; } = 10;
+	}
+}

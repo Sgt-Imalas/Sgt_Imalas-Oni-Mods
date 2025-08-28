@@ -5,6 +5,7 @@ using System.Reflection.Emit;
 using System.Reflection;
 using UnityEngine;
 using Database;
+using static ModUtil;
 
 namespace UtilLibs
 {
@@ -197,12 +198,12 @@ namespace UtilLibs
 		public static void AddBuildingToPlanScreenBehindNext(
 			HashedString category,
 			string building_id,
-			string relativeBuildingId = "",
+			string relativeBuildingId = null,
 			string subcategoryID = "uncategorized",
 			ModUtil.BuildingOrdering ordering = ModUtil.BuildingOrdering.After
 			)
 		{
-			if (relativeBuildingId != string.Empty)
+			if (relativeBuildingId != null)
 			{
 				if (subcategoryID == "uncategorized" && TUNING.BUILDINGS.PLANSUBCATEGORYSORTING.ContainsKey(relativeBuildingId))
 				{
@@ -215,7 +216,7 @@ namespace UtilLibs
 					TUNING.BUILDINGS.PLANSUBCATEGORYSORTING.Add(building_id, subcategoryID);
 				}
 
-				ModUtil.AddBuildingToPlanScreen(category, building_id, subcategoryID, relativeBuildingId, ordering);
+				ModUtil_AddBuildingToPlanScreen(category, building_id, subcategoryID, relativeBuildingId, ordering); //replace with ModUtil again when they fix it
 			}
 			else if (relativeBuildingId == string.Empty && subcategoryID != "uncategorized")
 			{
@@ -225,12 +226,51 @@ namespace UtilLibs
 				{
 					TUNING.BUILDINGS.PLANSUBCATEGORYSORTING.Add(building_id, subcategoryID);
 				}
-				ModUtil.AddBuildingToPlanScreen(category, building_id, subcategoryID);
+				ModUtil_AddBuildingToPlanScreen(category, building_id, subcategoryID, relativeBuildingId, ordering);//replace with ModUtil again when they fix it
 			}
 			else
 			{
 				TUNING.BUILDINGS.PLANSUBCATEGORYSORTING[building_id] = subcategoryID;
-				ModUtil.AddBuildingToPlanScreen(category, building_id, subcategoryID);
+				ModUtil_AddBuildingToPlanScreen(category, building_id, subcategoryID, relativeBuildingId,ordering);//replace with ModUtil again when they fix it
+			}
+		}
+
+		/// <summary>
+		/// this method is cloned from ModUtil.AddBuildingToPlanScreen, because that has an insertion index bug for BuildingOrdering.Before
+		/// using this clone until they fix that
+		/// </summary>
+		/// <param name="category"></param>
+		/// <param name="building_id"></param>
+		/// <param name="subcategoryID"></param>
+		/// <param name="relativeBuildingId"></param>
+		/// <param name="ordering"></param>
+		public static void ModUtil_AddBuildingToPlanScreen(HashedString category, string building_id, string subcategoryID, string relativeBuildingId, BuildingOrdering ordering = BuildingOrdering.After)
+		{
+			int num = TUNING.BUILDINGS.PLANORDER.FindIndex((PlanScreen.PlanInfo x) => x.category == category);
+			if (num < 0)
+			{
+				Debug.LogWarning($"Mod: Unable to add '{building_id}' as category '{category}' does not exist");
+				return;
+			}
+
+			List<KeyValuePair<string, string>> buildingAndSubcategoryData = TUNING.BUILDINGS.PLANORDER[num].buildingAndSubcategoryData;
+			KeyValuePair<string, string> item = new KeyValuePair<string, string>(building_id, subcategoryID);
+			if (relativeBuildingId == null)
+			{
+				buildingAndSubcategoryData.Add(item);
+				return;
+			}
+
+			int foundInsertionIndex = buildingAndSubcategoryData.FindIndex((KeyValuePair<string, string> x) => x.Key == relativeBuildingId);
+			if (foundInsertionIndex == -1)
+			{
+				buildingAndSubcategoryData.Add(item);
+				Debug.LogWarning("Mod: Building '" + relativeBuildingId + "' doesn't exist, inserting '" + building_id + "' at the end of the list instead");
+			}
+			else
+			{
+				int index = (ordering == BuildingOrdering.After) ? (foundInsertionIndex + 1) : Math.Max(foundInsertionIndex, 0);
+				buildingAndSubcategoryData.Insert(index, item);
 			}
 		}
 

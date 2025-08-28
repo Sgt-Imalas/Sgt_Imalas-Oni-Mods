@@ -1,0 +1,62 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<!-- General Package Properties -->
+	<PropertyGroup>
+		<PackageId>RonivansLegacy_ProcessingAIO</PackageId>
+		<Version>1.0.0</Version>
+		<Authors>Ronivan, Sgt_Imalas</Authors>
+		<Copyright>$(RonivanCopyright)</Copyright>
+		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
+	</PropertyGroup>
+
+	<!-- Build Properties -->
+	<PropertyGroup>
+		<TargetFramework>net48</TargetFramework>
+		<Configurations>Debug;Release</Configurations>
+		<AssemblyName>RonivansLegacy_ChemicalProcessing</AssemblyName>
+		<RootNamespace>RonivansLegacy_ChemicalProcessing</RootNamespace>
+		<IsMod>true</IsMod>
+		<GenerateMetadata>true</GenerateMetadata>
+		<IsPacked>true</IsPacked>
+	</PropertyGroup>
+
+
+	<!-- Mod Info -->
+	<PropertyGroup>
+		<ModName>Ronivans Legacy - Industrial Revolution</ModName>
+		<ModDescription>All industrial mods created by Ronivan, now collected into one configurable modpack.</ModDescription>
+		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
+		<APIVersion>2</APIVersion>
+	</PropertyGroup>
+
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<OutDir>bin</OutDir>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<LangVersion>preview</LangVersion>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Content\Scripts\Entities\**" />
+	  <EmbeddedResource Remove="Content\Scripts\Entities\**" />
+	  <None Remove="Content\Scripts\Entities\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="ModAssets\anim\HighPressureApplications_anims\hpa_rail_inbox\" />
+	  <Folder Include="ModAssets\anim\HighPressureApplications_anims\hpa_rail_merger\" />
+	  <Folder Include="ModAssets\anim\HighPressureApplications_anims\hpa_rail_valve\" />
+	  <Folder Include="ModAssets\anim\HighPressureApplications_anims\hpa_transferarm\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <RefAssemblies Remove="Content\Scripts\Entities\**" />
+	</ItemGroup>
+</Project>

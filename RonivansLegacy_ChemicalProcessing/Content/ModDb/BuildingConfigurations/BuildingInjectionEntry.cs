@@ -1,0 +1,135 @@
+﻿using Database;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UtilLibs;
+
+namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
+{
+    public class BuildingInjectionEntry
+	{
+		bool MoveExisting = false;
+		string _buildingID;
+        string _techID;
+        string _planScreenCategory;
+        string PlanScreenRelativeBuildingID;
+		public string BuildingID => _buildingID;
+		public string TechID => _techID;
+		public string PlanScreenCategory => _planScreenCategory;
+
+		ModUtil.BuildingOrdering BuildingOrdering = ModUtil.BuildingOrdering.After;
+		List<SourceModInfo> modsFrom = new();
+		public List<SourceModInfo> SourceMods => modsFrom;
+
+		public HashSet<string> MigrateOldIdsFrom = [];
+
+		public static BuildingInjectionEntry Create(string buildingID)
+		{
+			var entry = new BuildingInjectionEntry();
+			entry._buildingID = buildingID;
+			return entry;
+		}
+        public BuildingInjectionEntry AddToTech(string techID)
+		{
+			_techID = techID;
+			return this;
+		}
+		public BuildingInjectionEntry ForceCategory(bool move = true)
+		{
+			MoveExisting = move;
+			return this;
+		}
+		public BuildingInjectionEntry AddToCategory(string category, string relativeBuildingID, ModUtil.BuildingOrdering ordering = ModUtil.BuildingOrdering.After)
+        {
+			_planScreenCategory = category;
+			PlanScreenRelativeBuildingID = relativeBuildingID;
+			BuildingOrdering = ordering;
+			return this;			
+        }
+		public BuildingInjectionEntry AddModFrom(SourceModInfo mod, string migrateOldPrefabId = null)
+		{
+			if(!string.IsNullOrEmpty(migrateOldPrefabId))
+			{
+				MigrateOldIdsFrom.Add(migrateOldPrefabId);
+			}
+			if (!modsFrom.Contains(mod))
+			{
+				modsFrom.Add(mod);
+			}
+			return this;
+		}
+		public BuildingInjectionEntry MigrateFrom(string[] oldPrefabIds)
+		{
+			foreach(var id in oldPrefabIds)
+			{
+				if (!string.IsNullOrEmpty(id))
+				{
+					MigrateOldIdsFrom.Add(id);
+				}
+			}
+			return this;
+		}
+		public BuildingInjectionEntry MigrateFrom(string oldPrefabId)
+		{
+			if (!string.IsNullOrEmpty(oldPrefabId))
+			{
+				MigrateOldIdsFrom.Add(oldPrefabId);
+			}
+			return this;
+		}
+
+		public List<SourceModInfo> GetModsFrom()
+		{
+			return modsFrom;
+		}
+		internal void RegisterTech()
+		{
+			if(string.IsNullOrEmpty(_techID))
+			{
+				return;
+			}
+			if (!Config.ModBuildingEnabled(modsFrom))
+			{
+				return;
+			}
+			InjectionMethods.AddBuildingToTechnology(_techID, _buildingID);
+		}
+		internal void RegisterPlanscreen()
+		{
+			if (string.IsNullOrEmpty(_planScreenCategory) || string.IsNullOrEmpty(PlanScreenRelativeBuildingID))
+			{
+				return;
+			}
+			if(!Config.ModBuildingEnabled(modsFrom))
+			{
+				return;
+			}
+
+			if (MoveExisting)
+				InjectionMethods.MoveExistingBuildingToNewCategory(_planScreenCategory,_buildingID,PlanScreenRelativeBuildingID,ordering: BuildingOrdering);
+			else
+				InjectionMethods.AddBuildingToPlanScreenBehindNext(_planScreenCategory, _buildingID, PlanScreenRelativeBuildingID, ordering: BuildingOrdering);
+		}
+
+		internal void RegisterLegacyMigrations()
+		{
+			if (!MigrateOldIdsFrom.Any())
+				return;
+
+			var prefab = Assets.TryGetPrefab(_buildingID);
+			var savemng = SaveLoader.Instance.saveManager;
+
+			foreach (var oldPrefabTag in MigrateOldIdsFrom)
+			{
+				if (!savemng.prefabMap.ContainsKey(oldPrefabTag))
+				{
+					savemng.prefabMap.Add(oldPrefabTag, prefab);
+				}
+				else
+					SgtLogger.warning("Skipping migration registration of " + oldPrefabTag + " to " + _buildingID + " as it is already registered." );
+			}
+		}
+	}
+}

@@ -28,6 +28,7 @@ namespace UtilityGlass
 			buildingDef.SceneLayer = Grid.SceneLayer.GlassTile;
 			buildingDef.isKAnimTile = true;
 			buildingDef.BlockTileIsTransparent = true;
+			buildingDef.DragBuild = true;
 			buildingDef.BlockTileMaterial = Assets.GetMaterial("tiles_solid");
 			buildingDef.DecorBlockTileInfo = Assets.GetBlockTileDecorInfo("tiles_bunker_tops_decor_info");
 			buildingDef.DecorPlaceBlockTileInfo = Assets.GetBlockTileDecorInfo("tiles_bunker_tops_decor_place_info");

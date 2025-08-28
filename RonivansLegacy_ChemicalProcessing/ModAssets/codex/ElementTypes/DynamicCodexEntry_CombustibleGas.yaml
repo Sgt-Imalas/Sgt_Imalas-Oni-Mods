@@ -1,0 +1,32 @@
+id: "COMBUSTIBLEGAS"
+title: STRINGS.MISC.TAGS.COMBUSTIBLEGAS
+category: "ELEMENTTYPES"
+parentId: "ELEMENTTYPES"
+contentContainers:
+#-----------------------------
+  - contentLayout: Vertical
+    lockID:
+
+    content:
+      - !CodexText
+          stringKey: STRINGS.MISC.TAGS.COMBUSTIBLEGAS
+          style: Title
+      - !CodexDividerLine
+          preferredWidth: -1
+      - !CodexImage
+          spriteName: ui_combustible_gases
+          preferredWidth: 128
+          preferredHeight: 128
+#-----------------------------
+  - contentLayout: Vertical
+    lockID:
+
+    content:
+      - !CodexText
+          stringKey: STRINGS.MISC.TAGS.COMBUSTIBLEGAS_DESC
+          style: Body
+      - !CodexElementCategoryList
+          categoryTag: COMBUSTIBLEGAS
+
+contentMadeAndUsed:
+  - tag: CombustibleGas

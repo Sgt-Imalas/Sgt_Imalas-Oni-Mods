@@ -1,0 +1,26 @@
+id: "MINERALPROCESSING_GUIDANCEUNIT"
+title: STRINGS.MISC.TAGS.MINERALPROCESSING_GUIDANCEUNIT
+
+contentContainers:
+#-----------------------------
+  - contentLayout: Vertical
+    lockID:
+
+    content:
+      - !CodexText
+          stringKey: STRINGS.MISC.TAGS.MINERALPROCESSING_GUIDANCEUNIT
+          style: Title
+      - !CodexDividerLine
+          preferredWidth: -1
+      - !CodexImage
+          batchedAnimPrefabSourceID: Mining_Drillbits_GuidanceDevice_Item
+          preferredWidth: 128
+          preferredHeight: 128
+#-----------------------------
+  - contentLayout: Vertical
+    lockID:
+
+    content:
+      - !CodexText
+          stringKey: STRINGS.MISC.TAGS.MINERALPROCESSING_GUIDANCEUNIT_DESC
+          style: Body

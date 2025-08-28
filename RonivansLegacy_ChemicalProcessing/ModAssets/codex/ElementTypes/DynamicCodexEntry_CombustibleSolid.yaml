@@ -1,0 +1,32 @@
+id: "COMBUSTIBLESOLID"
+title: STRINGS.MISC.TAGS.COMBUSTIBLESOLID
+category: "ELEMENTTYPES"
+parentId: "ELEMENTTYPES"
+contentContainers:
+#-----------------------------
+  - contentLayout: Vertical
+    lockID:
+
+    content:
+      - !CodexText
+          stringKey: STRINGS.MISC.TAGS.COMBUSTIBLESOLID
+          style: Title
+      - !CodexDividerLine
+          preferredWidth: -1
+      - !CodexImage
+          spriteName: ui_combustible_solids
+          preferredWidth: 128
+          preferredHeight: 128
+#-----------------------------
+  - contentLayout: Vertical
+    lockID:
+
+    content:
+      - !CodexText
+          stringKey: STRINGS.MISC.TAGS.COMBUSTIBLESOLID_DESC
+          style: Body
+      - !CodexElementCategoryList
+          categoryTag: COMBUSTIBLESOLID
+
+contentMadeAndUsed:
+  - tag: CombustibleSolid

@@ -1,0 +1,1146 @@
+---
+elements:
+  - elementId: SolidZinc
+    specificHeatCapacity: 0.387
+    thermalConductivity: 60
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 0.3
+    highTemp: 693.15
+    highTempTransitionTarget: MoltenZinc
+    defaultTemperature: 296
+    defaultMass: 870
+    maxMass: 970
+    hardness: 2
+    molarMass: 107.86
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.5
+    radiationPer1000Mass: 0
+    materialCategory: RefinedMetal
+    tags:
+    - RefinedMetal
+    - BuildableAny
+    - Conductor #gigawatt wire
+    buildMenuSort: 2
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.SOLIDZINC.NAME
+    dlcId: ""
+
+  - elementId: MoltenZinc
+    specificHeatCapacity: 0.1291
+    thermalConductivity: 7
+    liquidCompression: 1.01
+    speed: 100
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 25
+    gasSurfaceAreaMultiplier: 1
+    strength: 0.7
+    highTemp: 1180.15
+    lowTemp: 690.15
+    highTempTransitionTarget: ZincGas
+    lowTempTransitionTarget: SolidZinc
+    defaultTemperature: 780.15
+    defaultMass: 870
+    maxMass: 9970
+    molarMass: 107.86
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.3
+    radiationPer1000Mass: 0
+    tags:
+    - Metal
+    - RefinedMetal
+    - EmitsLight
+    isDisabled: false
+    state: Liquid
+    localizationID: STRINGS.ELEMENTS.MOLTENZINC.NAME
+    dlcId: ""
+
+  - elementId: ZincGas
+    specificHeatCapacity: 0.223
+    thermalConductivity: 1
+    solidSurfaceAreaMultiplier: 25
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    flow: 0.1
+    lowTemp: 1178.15
+    toxicity: 0
+    lowTempTransitionTarget: MoltenZinc
+    defaultTemperature: 1320.15
+    molarMass: 107.86
+    lightAbsorptionFactor: 0.5
+    radiationAbsorptionFactor: 0.3
+    radiationPer1000Mass: 0
+    materialCategory: Unbreathable
+    tags:
+    - Metal
+    - RefinedMetal
+    - EmitsLight
+    isDisabled: false
+    state: Gas
+    localizationID: STRINGS.ELEMENTS.ZINCGAS.NAME
+    dlcId: ""
+
+  - elementId: SolidSilver
+    specificHeatCapacity: 0.223
+    thermalConductivity: 220
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 0.7
+    highTemp: 1234.15
+    highTempTransitionTarget: MoltenSilver
+    defaultTemperature: 296
+    defaultMass: 870
+    maxMass: 1000
+    hardness: 2
+    molarMass: 107.86
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.5
+    radiationPer1000Mass: 0
+    materialCategory: RefinedMetal
+    tags:
+    - RefinedMetal
+    - BuildableAny
+    - Antiseptic
+    - Conductor #gigawatt wire
+    buildMenuSort: 3
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.SOLIDSILVER.NAME
+    dlcId: ""
+
+  - elementId: MoltenSilver
+    specificHeatCapacity: 0.1291
+    thermalConductivity: 7
+    liquidCompression: 1.01
+    speed: 100
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 25
+    gasSurfaceAreaMultiplier: 1
+    strength: 0.7
+    highTemp: 2435.15
+    lowTemp: 1233.15
+    highTempTransitionTarget: SilverGas
+    lowTempTransitionTarget: SolidSilver
+    defaultTemperature: 1533.15
+    defaultMass: 870
+    maxMass: 9970
+    molarMass: 107.86
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.3
+    radiationPer1000Mass: 0
+    tags:
+    - Metal
+    - RefinedMetal
+    - EmitsLight
+    - Antiseptic
+    isDisabled: false
+    state: Liquid
+    localizationID: STRINGS.ELEMENTS.MOLTENSILVER.NAME
+    dlcId: ""
+
+  - elementId: SilverGas
+    specificHeatCapacity: 0.223
+    thermalConductivity: 1
+    solidSurfaceAreaMultiplier: 25
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    flow: 0.1
+    lowTemp: 2434.15
+    toxicity: 0
+    lowTempTransitionTarget: MoltenSilver
+    defaultTemperature: 2634.15
+    molarMass: 107.86
+    lightAbsorptionFactor: 0.5
+    radiationAbsorptionFactor: 0.3
+    radiationPer1000Mass: 0
+    materialCategory: Unbreathable
+    tags:
+    - Metal
+    - RefinedMetal
+    - EmitsLight
+    - Antiseptic
+    isDisabled: false
+    state: Gas
+    localizationID: STRINGS.ELEMENTS.SILVERGAS.NAME
+    dlcId: ""
+
+  - elementId: AmmoniaGas
+    specificHeatCapacity: 2.175
+    thermalConductivity: 0.507
+    solidSurfaceAreaMultiplier: 25
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    flow: 0.1
+    lowTemp: 239.55
+    toxicity: 0
+    lowTempTransitionTarget: LiquidAmmonia
+    defaultTemperature: 266.15
+    molarMass: 1.02563
+    lightAbsorptionFactor: 0.5
+    radiationAbsorptionFactor: 0.3
+    radiationPer1000Mass: 0
+    materialCategory: Unbreathable
+    tags:
+    isDisabled: false
+    state: Gas
+    localizationID: STRINGS.ELEMENTS.AMMONIAGAS.NAME
+    dlcId: ""
+
+  - elementId: LiquidAmmonia
+    specificHeatCapacity: 4.744
+    thermalConductivity: 0.507
+    liquidCompression: 1.01
+    speed: 100
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 25
+    gasSurfaceAreaMultiplier: 1
+    strength: 0.7
+    highTemp: 239.81
+    lowTemp: 195.52
+    highTempTransitionTarget: AmmoniaGas
+    lowTempTransitionTarget: SolidAmmonia
+    defaultTemperature: 208.15
+    defaultMass: 600
+    maxMass: 1000
+    molarMass: 2.11015
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.3
+    radiationPer1000Mass: 0
+    tags:
+    isDisabled: false
+    state: Liquid
+    localizationID: STRINGS.ELEMENTS.LIQUIDAMMONIA.NAME
+    dlcId: ""
+
+  - elementId: SolidAmmonia
+    specificHeatCapacity: 4.744
+    thermalConductivity: 0.507
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 0.7
+    highTemp: 195.42
+    highTempTransitionTarget: LiquidAmmonia
+    defaultTemperature: 172.15
+    defaultMass: 870
+    maxMass: 970
+    hardness: 2
+    molarMass: 107.86
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.5
+    radiationPer1000Mass: 0
+    materialCategory: Liquifiable
+    tags:
+    buildMenuSort: 3
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.SOLIDAMMONIA.NAME
+    dlcId: ""
+
+  - elementId: ToxicClay
+    specificHeatCapacity: 1.554
+    thermalConductivity: 11
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 0.3
+    highTemp: 289.15
+    highTempTransitionTarget: ToxicSlurry
+    defaultTemperature: 322.15
+    defaultMass: 600
+    maxMass: 1000
+    hardness: 1
+    molarMass: 211.22
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.5
+    radiationPer1000Mass: 0
+    materialCategory: ManufacturedMaterial
+    sublimateId: ToxicGas
+    sublimateFx: ContaminatedOxygenBubble
+    sublimateRate: 0.05
+    sublimateEfficiency: 0.1
+    sublimateProbability: 0.025
+    tags:
+    buildMenuSort: 2
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.TOXICCLAY.NAME
+    dlcId: ""
+
+  - elementId: ToxicSlurry
+    specificHeatCapacity: 0.1291
+    thermalConductivity: 7
+    liquidCompression: 1.01
+    speed: 84
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 25
+    gasSurfaceAreaMultiplier: 1
+    strength: 0.7
+    highTemp: 486.15
+    lowTemp: 288.15
+    highTempTransitionTarget: ToxicGas
+    lowTempTransitionTarget: ToxicClay
+    sublimateId: ToxicGas
+    sublimateFx: ContaminatedOxygenBubbleWater
+    offGasPercentage: 0.001
+    sublimateEfficiency: 1
+    sublimateProbability: 0.01
+    defaultTemperature: 366.15
+    defaultMass: 600
+    maxMass: 1000
+    molarMass: 126.86
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.3
+    radiationPer1000Mass: 0
+    tags:
+    - Mixture
+    - AnyWater
+    isDisabled: false
+    state: Liquid
+    localizationID: STRINGS.ELEMENTS.TOXICSLURRY.NAME
+    dlcId: ""
+
+  - elementId: ToxicGas
+    specificHeatCapacity: 2.33
+    thermalConductivity: 0.822
+    solidSurfaceAreaMultiplier: 25
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    flow: 12
+    lowTemp: 485.15
+    toxicity: 0
+    lowTempTransitionTarget: ToxicSlurry
+    defaultTemperature: 512.15
+    molarMass: 86.33
+    lightAbsorptionFactor: 0.5
+    radiationAbsorptionFactor: 0.3
+    radiationPer1000Mass: 0
+    materialCategory: Unbreathable
+    tags:
+    isDisabled: false
+    state: Gas
+    localizationID: STRINGS.ELEMENTS.TOXICGAS.NAME
+    dlcId: ""
+
+  - elementId: SolidBrass
+    specificHeatCapacity: 0.380
+    thermalConductivity: 208
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 0.4
+    highTemp: 1193.15
+    highTempTransitionTarget: ZincGas
+    highTempTransitionOreId: MoltenCopper
+    highTempTransitionOreMassConversion: 0.7
+    defaultTemperature: 296
+    defaultMass: 200
+    maxMass: 1000
+    hardness: 35
+    molarMass: 195.85
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.7
+    radiationPer1000Mass: 0
+    materialCategory: ManufacturedMaterial
+    tags:
+    - Metal
+    - RefinedMetal
+    - BuildableAny 
+    - Noncrushable
+    - Conductor #gigawatt wire
+    buildMenuSort: 3
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.SOLIDBRASS.NAME
+    dlcId: ""
+
+  - elementId: PhosphorBronze
+    specificHeatCapacity: 0.380
+    thermalConductivity: 20
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 0.4
+    highTemp: 1322.15
+    highTempTransitionTarget: MoltenLead
+    highTempTransitionOreId: MoltenCopper
+    highTempTransitionOreMassConversion: 0.80
+    defaultTemperature: 296
+    defaultMass: 200
+    maxMass: 1000
+    hardness: 35
+    molarMass: 185.85
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.5
+    radiationPer1000Mass: 0
+    materialCategory: ManufacturedMaterial
+    tags:
+    - Metal
+    - RefinedMetal
+    - BuildableAny    
+    - Noncrushable
+    - AIO_HardenedAlloy #Steel substitute
+    buildMenuSort: 4
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.PHOSPHORBRONZE.NAME
+    dlcId: ""
+
+  - elementId: Plasteel
+    specificHeatCapacity: 0.21
+    thermalConductivity: 6
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 6
+    highTemp: 2850
+    highTempTransitionTarget: CarbonDioxide
+    highTempTransitionOreId: MoltenSteel
+    highTempTransitionOreMassConversion: 0.97
+    defaultTemperature: 296
+    defaultMass: 200
+    maxMass: 1000
+    hardness: 70
+    molarMass: 220.71
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.9
+    radiationPer1000Mass: 0
+    materialCategory: ManufacturedMaterial
+    tags:
+    - Metal
+    - RefinedMetal
+    - BuildableAny 
+    - Noncrushable
+    - AIO_HardenedAlloy #Steel substitute
+    buildMenuSort: 11
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.PLASTEEL.NAME
+    dlcId: ""
+
+  - elementId: IsopropaneGas
+    specificHeatCapacity: 9.76
+    thermalConductivity: 12.72
+    solidSurfaceAreaMultiplier: 25
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    flow: 0.1
+    lowTemp: 0
+    toxicity: 0
+    highTemp: 363.15
+    highTempTransitionTarget: Propane
+    highTempTransitionOreId: Fullerene
+    highTempTransitionOreMassConversion: 0.01
+    defaultTemperature: 254.15
+    molarMass: 137.86
+    lightAbsorptionFactor: 0.5
+    radiationAbsorptionFactor: 0.3
+    radiationPer1000Mass: 0
+    materialCategory: Unbreathable
+    isDisabled: false
+    state: Gas
+    localizationID: STRINGS.ELEMENTS.ISOPROPANEGAS.NAME
+    dlcId: ""
+
+  - elementId: SolidSlag
+    specificHeatCapacity: 1.66
+    thermalConductivity: 0.32
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 0.7
+    highTemp: 1673.15
+    highTempTransitionTarget: MoltenSlag
+    defaultTemperature: 296
+    defaultMass: 600
+    maxMass: 1240
+    hardness: 1
+    molarMass: 194
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.46
+    radiationPer1000Mass: 0
+    materialCategory: BuildableProcessed
+    buildMenuSort: 5
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.SOLIDSLAG.NAME
+    dlcId: ""
+
+  - elementId: MoltenSlag
+    specificHeatCapacity: 0.85
+    thermalConductivity: 1
+    liquidCompression: 1.01
+    speed: 40
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 25
+    gasSurfaceAreaMultiplier: 1
+    highTemp: 2733.15
+    lowTemp: 1672.15
+    highTempTransitionTarget: RockGas
+    lowTempTransitionTarget: SolidSlag
+    defaultTemperature: 1820.15
+    defaultMass: 1840
+    maxMass: 1840
+    molarMass: 50
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.8
+    radiationPer1000Mass: 0
+    tags:
+    - EmitsLight
+    isDisabled: false
+    state: Liquid
+    localizationID: STRINGS.ELEMENTS.MOLTENSLAG.NAME
+    dlcId: ""
+
+  - elementId: SolidBorax
+    specificHeatCapacity: 0.24
+    thermalConductivity: 0.66
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 0.7
+    highTemp: 1236.15
+    highTempTransitionTarget: MoltenSalt
+    defaultTemperature: 296
+    defaultMass: 100
+    maxMass: 500
+    hardness: 1
+    molarMass: 40
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.46
+    radiationPer1000Mass: 0
+    materialCategory: ConsumableOre
+    buildMenuSort: 5
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.SOLIDBORAX.NAME
+    dlcId: ""
+
+  - elementId: SolidOilShale
+    specificHeatCapacity: 1.76
+    thermalConductivity: 22
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 0.1
+    highTemp: 393.15
+    highTempTransitionTarget: SourGas
+    highTempTransitionOreId: CrudeOil
+    highTempTransitionOreMassConversion: 0.8
+    defaultTemperature: 296
+    defaultMass: 500
+    maxMass: 1000
+    hardness: 2
+    molarMass: 106
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.7
+    radiationPer1000Mass: 0
+    materialCategory: ConsumableOre
+    buildMenuSort: 1
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.SOLIDOILSHALE.NAME
+    dlcId: ""
+
+  - elementId: SolidFiberglass
+    specificHeatCapacity: 0.4
+    thermalConductivity: 1.07
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 1.3
+    highTemp: 1700
+    highTempTransitionTarget: MoltenGlass
+    defaultTemperature: 296
+    defaultMass: 600
+    maxMass: 1000
+    hardness: 45
+    molarMass: 107.86
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.01
+    radiationPer1000Mass: 0
+    materialCategory: ManufacturedMaterial
+    tags:
+    - BuildableRaw
+    - BuildableAny
+    - Plumbable
+    - Insulator
+    - Plastic
+    buildMenuSort: 11
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.SOLIDFIBERGLASS.NAME
+    dlcId: ""
+
+  - elementId: AmmoniumWater        
+    specificHeatCapacity: 4.5 #between brine and liquid ammonia
+    thermalConductivity: 0.6 #between brine and liquid ammonia
+    liquidCompression: 1.01
+    speed: 100
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 25
+    gasSurfaceAreaMultiplier: 1
+    strength: 0.33
+    highTemp: 311.15
+    lowTemp: 215.15
+    lowTempTransitionTarget: Brine
+    highTempTransitionTarget: Brine
+    lowTempTransitionOreId: AmmoniaGas
+    lowTempTransitionOreMassConversion: 0.89   # this is the actual value of brine that would be removed to leave a 11% ammonia gas remaining.
+    highTempTransitionOreId: AmmoniaGas
+    highTempTransitionOreMassConversion: 0.89  # this is the actual value of brine that would be removed to leave a 11% ammonia gas remaining.
+    defaultTemperature: 266.15
+    defaultMass: 600
+    maxMass: 1000
+    molarMass: 2.11015
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.3
+    radiationPer1000Mass: 0
+    tags:
+    - Mixture
+    - AnyWater
+    isDisabled: false
+    state: Liquid
+    localizationID: STRINGS.ELEMENTS.AMMONIUMWATER.NAME
+    dlcId: ""
+
+  - elementId: AmmoniumSalt
+    specificHeatCapacity: 0.5
+    thermalConductivity: 3
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 0.3
+    highTemp: 886.15
+    highTempTransitionTarget: AmmoniaGas
+    defaultTemperature: 294.15
+    defaultMass: 50
+    maxMass: 500
+    hardness: 1
+    molarMass: 42.33
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.5
+    radiationPer1000Mass: 0
+    materialCategory: ConsumableOre
+    tags:
+    buildMenuSort: 2
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.AMMONIUMSALT.NAME
+    dlcId: ""
+
+  - elementId: RawNaturalGas
+    specificHeatCapacity: 2.76
+    thermalConductivity: 0.0566
+    solidSurfaceAreaMultiplier: 25
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    flow: 0.1
+    lowTemp: 88.65
+    lowTempTransitionTarget: LiquidMethane
+    lowTempTransitionOreId: Sulfur
+    lowTempTransitionOreMassConversion: 0.33
+    toxicity: 0
+    defaultTemperature: 290.15
+    molarMass: 48.77
+    lightAbsorptionFactor: 0.5
+    radiationAbsorptionFactor: 0.3
+    radiationPer1000Mass: 0
+    materialCategory: Unbreathable
+    isDisabled: false
+    state: Gas
+    localizationID: STRINGS.ELEMENTS.RAWNATURALGAS.NAME
+    dlcId: ""
+
+  - elementId: LowGradeSand
+    specificHeatCapacity: 8.66
+    thermalConductivity: 12.32
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 1.4
+    highTemp: 2522.15
+    highTempTransitionTarget: RockGas
+    highTempTransitionOreId: SolidSlag
+    highTempTransitionOreMassConversion: 0.42
+    defaultTemperature: 296
+    defaultMass: 600
+    maxMass: 1240
+    hardness: 32
+    molarMass: 224
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.46
+    radiationPer1000Mass: 0
+    materialCategory: BuildableProcessed
+    tags:
+    - Ore
+    - BuildableAny
+    - ChemicalProcessing_RandomSand
+    - Noncrushable
+    - Unstable
+    buildMenuSort: 5
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.LOWGRADESAND.NAME
+    dlcId: ""
+
+  - elementId: BaseGradeSand
+    specificHeatCapacity: 8.66
+    thermalConductivity: 12.32
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 1.4
+    highTemp: 2522.15
+    highTempTransitionTarget: RockGas
+    highTempTransitionOreId: SolidSlag
+    highTempTransitionOreMassConversion: 0.42
+    defaultTemperature: 296
+    defaultMass: 600
+    maxMass: 1240
+    hardness: 32
+    molarMass: 224
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.46
+    radiationPer1000Mass: 0
+    materialCategory: BuildableProcessed
+    tags:
+    - Ore
+    - BuildableAny
+    - ChemicalProcessing_RandomSand
+    - Noncrushable
+    - Unstable
+    buildMenuSort: 5
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.BASEGRADESAND.NAME
+    dlcId: ""
+
+  - elementId: HighGradeSand
+    specificHeatCapacity: 8.66
+    thermalConductivity: 12.32
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 1.4
+    highTemp: 2522.15
+    highTempTransitionTarget: RockGas
+    highTempTransitionOreId: SolidSlag
+    highTempTransitionOreMassConversion: 0.42
+    defaultTemperature: 296
+    defaultMass: 600
+    maxMass: 1240
+    hardness: 32
+    molarMass: 224
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.46
+    radiationPer1000Mass: 0
+    materialCategory: BuildableProcessed
+    tags:
+    - Ore
+    - BuildableAny
+    - ChemicalProcessing_RandomSand
+    - Noncrushable
+    - Unstable
+    buildMenuSort: 5
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.HIGHGRADESAND.NAME
+    dlcId: ""
+
+  - elementId: LiquidSulfuric
+    specificHeatCapacity: 0.335
+    thermalConductivity: 4.221
+    liquidCompression: 1.01
+    speed: 60
+    minHorizontalFlow: 50
+    minVerticalFlow: 20
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 25
+    gasSurfaceAreaMultiplier: 1
+    highTemp: 610.15
+    lowTemp: 283.46
+    lowTempTransitionTarget: DirtyWater
+    lowTempTransitionOreId: Sulfur
+    lowTempTransitionOreMassConversion: 0.18
+    highTempTransitionTarget: SulfuricGas
+    defaultTemperature: 296.15
+    defaultMass: 600
+    maxMass: 1000
+    molarMass: 5.90645
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.3
+    radiationPer1000Mass: 0
+    tags:
+    - Mixture
+    - Beached_VeryCorrosive #Beached Acid simulation
+    isDisabled: false
+    state: Liquid
+    localizationID: STRINGS.ELEMENTS.LIQUIDSULFURIC.NAME
+    dlcId: ""
+
+  - elementId: SulfuricGas
+    specificHeatCapacity: 0.882
+    thermalConductivity: 0.1222
+    solidSurfaceAreaMultiplier: 25
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    flow: 0.1
+    lowTemp: 609.15
+    lowTempTransitionTarget: LiquidSulfuric
+    highTemp: 828.15
+    highTempTransitionTarget: ContaminatedOxygen
+    toxicity: 0
+    defaultTemperature: 658.15
+    molarMass: 28.32
+    lightAbsorptionFactor: 0.5
+    radiationAbsorptionFactor: 0.3
+    radiationPer1000Mass: 0
+    materialCategory: Unbreathable
+    isDisabled: false
+    state: Gas
+    localizationID: STRINGS.ELEMENTS.SULFURICGAS.NAME
+    dlcId: ""
+
+  - elementId: LiquidNitric
+    specificHeatCapacity: 0.998
+    thermalConductivity: 0.889
+    liquidCompression: 1.01
+    speed: 80
+    minHorizontalFlow: 70
+    minVerticalFlow: 40
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 25
+    gasSurfaceAreaMultiplier: 1
+    highTemp: 394.15
+    lowTemp: 231.15
+    lowTempTransitionTarget: NitrogenGas
+    lowTempTransitionOreId: DirtyIce
+    lowTempTransitionOreMassConversion: 0.5
+    highTempTransitionTarget: NitrogenGas
+    highTempTransitionOreId: Water
+    highTempTransitionOreMassConversion: 0.5
+    defaultTemperature: 296.15
+    defaultMass: 600
+    maxMass: 1000
+    molarMass: 3.79467
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.3
+    radiationPer1000Mass: 0
+    tags:
+    - Mixture
+    - Beached_VeryCorrosive #Beached Acid simulation
+    isDisabled: false
+    state: Liquid
+    localizationID: STRINGS.ELEMENTS.LIQUIDNITRIC.NAME
+    dlcId: ""
+
+  - elementId: AurichalciteOre
+    specificHeatCapacity: 0.411
+    thermalConductivity: 3.6
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 0.7
+    highTemp: 1192.15
+    highTempTransitionTarget: MoltenZinc
+    highTempTransitionOreId: MoltenCopper
+    highTempTransitionOreMassConversion: 0.4
+    defaultTemperature: 296
+    defaultMass: 800
+    maxMass: 1840
+    hardness: 25
+    molarMass: 142
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.46
+    radiationPer1000Mass: 0
+    materialCategory: Metal
+    tags:
+    - BuildableAny
+    - Ore
+    buildMenuSort: 3
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.AURICHALCITEORE.NAME
+    dlcId: ""
+
+  - elementId: ArgentiteOre
+    specificHeatCapacity: 0.411
+    thermalConductivity: 5.6
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 0.7
+    highTemp: 1236.15
+    highTempTransitionTarget: MoltenSilver
+    highTempTransitionOreId: SulfurGas
+    highTempTransitionOreMassConversion: 0.2
+    defaultTemperature: 296
+    defaultMass: 800
+    maxMass: 1840
+    hardness: 25
+    molarMass: 142
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.46
+    radiationPer1000Mass: 0
+    materialCategory: Metal
+    tags:
+    - BuildableAny
+    - Ore
+    - Antiseptic
+    buildMenuSort: 2
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.ARGENTITEORE.NAME
+    dlcId: ""
+
+  - elementId: Galena
+    specificHeatCapacity: 0.311
+    thermalConductivity: 3.6
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 0.7
+    highTemp: 1387.15
+    highTempTransitionTarget: MoltenLead
+    highTempTransitionOreId: SolidSilver
+    highTempTransitionOreMassConversion: 0.6
+    defaultTemperature: 296
+    defaultMass: 800
+    maxMass: 1840
+    hardness: 25
+    molarMass: 142
+    lightAbsorptionFactor: 3
+    radiationAbsorptionFactor: 0.46
+    radiationPer1000Mass: 0
+    materialCategory: Metal
+    tags:
+    - BuildableAny
+    - Ore
+    buildMenuSort: 14
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.GALENA.NAME
+    dlcId: ""
+
+  - elementId: Chloroschist
+    specificHeatCapacity: 1
+    thermalConductivity: 2
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 1
+    highTemp: 1683
+    highTempTransitionTarget: Magma 
+    highTempTransitionOreId: Chlorine
+    highTempTransitionOreMassConversion: 0.1
+    defaultTemperature: 296
+    defaultMass: 1840
+    maxMass: 1840
+    hardness: 25
+    molarMass: 60
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.53
+    radiationPer1000Mass: 0
+    materialCategory: BuildableRaw
+    tags:
+    - Plumbable
+    - BuildableAny
+    buildMenuSort: 3
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.CHLOROSCHIST.NAME
+    dlcId: ""
+
+  - elementId: MeteorOre
+    specificHeatCapacity: 0.83
+    thermalConductivity: 2
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 1
+    highTemp: 1683.15
+    highTempTransitionTarget: Magma
+    defaultTemperature: 296
+    defaultMass: 400
+    maxMass: 1840
+    hardness: 3
+    molarMass: 122
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.84
+    radiationPer1000Mass: 0
+    materialCategory: BuildableRaw
+    tags:
+    - Plumbable
+    - BuildableAny
+    - PreciousRock
+    buildMenuSort: 21
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.METEORORE.NAME
+    dlcId: ""
+
+  - elementId: ConcreteBlock
+    specificHeatCapacity: 0.88
+    thermalConductivity: 0.92 
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 2
+    highTemp: 1683
+    highTempTransitionTarget: Magma
+    defaultTemperature: 300
+    defaultMass: 1000
+    maxMass: 2000
+    hardness: 50
+    molarMass: 25
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.7
+    radiationPer1000Mass: 0
+    materialCategory: ManufacturedMaterial
+    tags:
+    - BuildableAny
+    - BuildableRaw
+    - Insulator
+    buildMenuSort: 58
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.CONCRETEBLOCK.NAME
+    dlcId: ""
+
+  - elementId: CarbonFiber
+    specificHeatCapacity: 0.239
+    thermalConductivity: 1.0e-05
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 8
+    highTemp: 5000
+    highTempTransitionTarget: MoltenCarbon
+    defaultTemperature: 300
+    defaultMass: 1000
+    maxMass: 1840
+    hardness: 250
+    molarMass: 25
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 1
+    radiationPer1000Mass: 0
+    materialCategory: ManufacturedMaterial
+    tags:
+    - BuildableAny
+    - Metal
+    - RefinedMetal
+    - Noncrushable
+    - Plumbable
+    - Insulator
+    buildMenuSort: 59
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.CARBONFIBER.NAME
+    dlcId: ""
+
+  - elementId: SourWater        
+    specificHeatCapacity: 3.477
+    thermalConductivity: 0.909
+    liquidCompression: 1.01
+    speed: 100
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 25
+    gasSurfaceAreaMultiplier: 1
+    highTemp: 361.15  # 88�C
+    lowTemp: 252.15   # -21�C
+    lowTempTransitionTarget: DirtyWater
+    lowTempTransitionOreId: SourGas
+    lowTempTransitionOreMassConversion: 0.5
+    highTempTransitionTarget: DirtyWater
+    highTempTransitionOreId: SourGas
+    highTempTransitionOreMassConversion: 0.5
+    defaultTemperature: 300.15
+    defaultMass: 600
+    maxMass: 1000
+    molarMass: 21.446
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.3
+    radiationPer1000Mass: 0
+    tags:
+    - Mixture
+    isDisabled: false
+    state: Liquid
+    localizationID: STRINGS.ELEMENTS.SOURWATER.NAME
+    dlcId: ""
+  - elementId: NitrogenGas
+    specificHeatCapacity: 1.85
+    thermalConductivity: 0.175
+    solidSurfaceAreaMultiplier: 25
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    flow: 0.1
+    lowTemp: 77.35
+    toxicity: 0
+    lowTempTransitionTarget: LiquidNitrogen
+    defaultTemperature: 350
+    molarMass: 14.0067
+    lightAbsorptionFactor: 0.5
+    radiationAbsorptionFactor: 0.3
+    radiationPer1000Mass: 0
+    materialCategory: Unbreathable
+    tags:
+    - AIO_CarrierGas
+    isDisabled: false
+    state: Gas
+    localizationID: STRINGS.ELEMENTS.NITROGENGAS.NAME
+    dlcId: ""
+
+  - elementId: LiquidNitrogen
+    specificHeatCapacity: 2
+    thermalConductivity: 0.259
+    liquidCompression: 1.01
+    speed: 100
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 25
+    gasSurfaceAreaMultiplier: 1
+    strength: 0.7
+    highTemp: 77.65
+    lowTemp: 63.25
+    highTempTransitionTarget: NitrogenGas
+    lowTempTransitionTarget: SolidNitrogen
+    defaultTemperature: 69.15
+    defaultMass: 870
+    maxMass: 997
+    molarMass: 1.68704
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.3
+    radiationPer1000Mass: 0
+    tags:
+    isDisabled: false
+    state: Liquid
+    localizationID: STRINGS.ELEMENTS.LIQUIDNITROGEN.NAME
+    dlcId: ""
+
+  - elementId: SolidNitrogen
+    specificHeatCapacity: 92
+    thermalConductivity: 72
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 0.7
+    highTemp: 63.45
+    highTempTransitionTarget: LiquidNitrogen
+    defaultTemperature: 58.15
+    defaultMass: 870
+    maxMass: 997
+    hardness: 2
+    molarMass: 56.86
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.5
+    radiationPer1000Mass: 0
+    materialCategory: Liquifiable
+    tags:
+    buildMenuSort: 3
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.SOLIDNITROGEN.NAME
+    dlcId: ""
