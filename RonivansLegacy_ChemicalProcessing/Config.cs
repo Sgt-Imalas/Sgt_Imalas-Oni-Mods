@@ -79,47 +79,89 @@ namespace RonivansLegacy_ChemicalProcessing
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.TOOLTIP")]
 		[JsonIgnore]
-		public System.Action<object> Button_OpenCarepackageEditor => BuildingEditor_MainScreen.ShowBuildingEditor;
+		public System.Action<object> Button_OpenBuildingConfigEditor => (_) => BuildingEditor_MainScreen.ShowBuildingEditor(null,null);
 
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP_ELEMENTS", "STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_IO")]
 		[JsonProperty]
 		public bool ChemicalProcessing_IndustrialOverhaul_Enabled { get; set; } = true;
 
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.NAME_ALT", "STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.TOOLTIP", "STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_IO")]
+		[JsonIgnore]
+		public System.Action<object> Button_OpenBuildingConfigEditor_IO => (_) => BuildingEditor_MainScreen.ShowBuildingEditor(null, SourceModInfo.ChemicalProcessing_IO);
+
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_BIOCHEMISTRY")]
 		[JsonProperty]
 		public bool ChemicalProcessing_BioChemistry_Enabled { get; set; } = true;
 
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.NAME_ALT", "STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.TOOLTIP", "STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_BIOCHEMISTRY")]
+		[JsonIgnore]
+		public System.Action<object> Button_OpenBuildingConfigEditor_Biochem => (_) => BuildingEditor_MainScreen.ShowBuildingEditor(null, SourceModInfo.ChemicalProcessing_BioChemistry);
+
+
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.MINERALPROCESSING_METALLURGY")]
 		[JsonProperty]
 		public bool MineralProcessing_Metallurgy_Enabled { get; set; } = true;
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.NAME_ALT", "STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.TOOLTIP", "STRINGS.AIO_MODSOURCE.MINERALPROCESSING_METALLURGY")]
+		[JsonIgnore]
+		public System.Action<object> Button_OpenBuildingConfigEditor_Metallurgy => (_) => BuildingEditor_MainScreen.ShowBuildingEditor(null, SourceModInfo.MineralProcessing_Metallurgy);
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.MINERALPROCESSING_MINING")]
 		[JsonProperty]
 		public bool MineralProcessing_Mining_Enabled { get; set; } = true;
 
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.NAME_ALT", "STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.TOOLTIP", "STRINGS.AIO_MODSOURCE.MINERALPROCESSING_MINING")]
+		[JsonIgnore]
+		public System.Action<object> Button_OpenBuildingConfigEditor_Mining => (_) => BuildingEditor_MainScreen.ShowBuildingEditor(null, SourceModInfo.MineralProcessing_Mining);
+
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.NUCLEARPROCESSING")]
 		[JsonProperty]
 		[RequireDLC(DlcManager.EXPANSION1_ID)] //hide this option in base game
-		public bool NuclearProcessing_Enabled { get; set; } = true;
+		public bool NuclearProcessing_Enabled { get; set; } = true; 
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.NAME_ALT", "STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.TOOLTIP", "STRINGS.AIO_MODSOURCE.NUCLEARPROCESSING")]
+		[JsonIgnore]
+		[RequireDLC(DlcManager.EXPANSION1_ID)]
+		public System.Action<object> Button_OpenBuildingConfigEditor_Nuclear => (_) => BuildingEditor_MainScreen.ShowBuildingEditor(null, SourceModInfo.NuclearProcessing);
+
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESMACHINERY")]
 		[JsonProperty]
 		public bool DupesMachinery_Enabled { get; set; } = true;
 
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.NAME_ALT", "STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESMACHINERY")]
+		[JsonIgnore]
+		public System.Action<object> Button_OpenBuildingConfigEditor_Machinery => (_) => BuildingEditor_MainScreen.ShowBuildingEditor(null, SourceModInfo.DupesMachinery);
+
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESENGINEERING")]
 		[JsonProperty]
 		public bool DupesEngineering_Enabled { get; set; } = true;
 
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.NAME_ALT", "STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESENGINEERING")]
+		[JsonIgnore]
+		public System.Action<object> Button_OpenBuildingConfigEditor_Engineering => (_) => BuildingEditor_MainScreen.ShowBuildingEditor(null, SourceModInfo.DupesEngineering);
+
+
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.CUSTOMRESERVOIRS")]
 		public bool CustomReservoirs_Enabled { get; set; } = true;
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.NAME_ALT", "STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.TOOLTIP", "STRINGS.AIO_MODSOURCE.CUSTOMRESERVOIRS")]
+		[JsonIgnore]
+		public System.Action<object> Button_OpenBuildingConfigEditor_Reservoirs => (_) => BuildingEditor_MainScreen.ShowBuildingEditor(null, SourceModInfo.CustomReservoirs);
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESLOGISTICS")]
 		public bool DupesLogistics_Enabled { get; set; } = true;
 
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.NAME_ALT", "STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESLOGISTICS")]
+		[JsonIgnore]
+		public System.Action<object> Button_OpenBuildingConfigEditor_Logistics => (_) => BuildingEditor_MainScreen.ShowBuildingEditor(null, SourceModInfo.DupesLogistics);
+
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS")]
 		public bool HighPressureApplications_Enabled { get; set; } = true;
 
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.NAME_ALT", "STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.TOOLTIP", "STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS")]
+		[JsonIgnore]
+		public System.Action<object> Button_OpenBuildingConfigEditor_HPA => (_) => BuildingEditor_MainScreen.ShowBuildingEditor(null, SourceModInfo.HighPressureApplications);
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_ENABLE.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_ENABLE.TOOLTIP", "STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS")]
 		public bool HPA_Rails_Enabled { get; set; } = true;
@@ -129,9 +171,18 @@ namespace RonivansLegacy_ChemicalProcessing
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESREFRIGERATION")]
 		public bool DupesRefrigeration_Enabled { get; set; } = true;
+		
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.NAME_ALT", "STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESREFRIGERATION")]
+		[JsonIgnore]
+		public System.Action<object> Button_OpenBuildingConfigEditor_Refrigeration => (_) => BuildingEditor_MainScreen.ShowBuildingEditor(null, SourceModInfo.DupesRefrigeration);
+
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.CUSTOMGENERATORS")]
 		public bool CustomGenerators_Enabled { get; set; } = true;
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.NAME_ALT", "STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.TOOLTIP", "STRINGS.AIO_MODSOURCE.CUSTOMGENERATORS")]
+		[JsonIgnore]
+		public System.Action<object> Button_OpenBuildingConfigEditor_Generators => (_) => BuildingEditor_MainScreen.ShowBuildingEditor(null, SourceModInfo.CustomGenerators);
 
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.GEYSERS.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.GEYSERS.TOOLTIP", "STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_IO")]

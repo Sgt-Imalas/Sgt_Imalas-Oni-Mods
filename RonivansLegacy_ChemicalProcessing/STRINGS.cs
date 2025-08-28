@@ -801,8 +801,8 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class AIO_FACILITYDOOR
 				{
 					public static LocString NAME = FormatAsLink("Facility Door", nameof(AIO_FACILITYDOOR));
-					public static LocString DESC   = "A high-tech light door";
-					public static LocString EFFECT  = "A light-weight door with intricate designs that suggests it belongs to a industrial facility.";
+					public static LocString DESC = "A high-tech light door";
+					public static LocString EFFECT = "A light-weight door with intricate designs that suggests it belongs to a industrial facility.";
 					public class FACADES
 					{
 						public class FACILITYDOORWHITE
@@ -1122,7 +1122,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = FormatAsLink("Insulated Storage Cabinet", nameof(CABINETNORMAL));
 					public static LocString DESC = "Store solids and other industrial materials at a constant temperature moderation.";
-					public static LocString EFFECT = "Store the "+FormatAsLink("Solid Materials", "ELEMENTS_SOLID")+ " of your choosing.\nThe cabinet prevents temperature exchange with the environment, as well gas leakage.\nTakes items from conveyor rails based on its filters.";
+					public static LocString EFFECT = "Store the " + FormatAsLink("Solid Materials", "ELEMENTS_SOLID") + " of your choosing.\nThe cabinet prevents temperature exchange with the environment, as well gas leakage.\nTakes items from conveyor rails based on its filters.";
 				}
 				public class STORAGEPOD
 				{
@@ -1176,8 +1176,8 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString DESC = "When materials reach the end of a rail they enter a receptacle to be used by Duplicants.";
 					public static LocString EFFECT =
 							"Unloads " +
-							FormatAsLink("Solid Materials", "ELEMENTS_SOLID")+
-							" from a "+
+							FormatAsLink("Solid Materials", "ELEMENTS_SOLID") +
+							" from a " +
 							FormatAsLink("Logistic Rail", "LOGISTICRAIL") +
 							" into storage.";
 				}
@@ -1312,7 +1312,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class PRESSUREGASPUMP
 				{
 					public static LocString NAME = FormatAsLink("High Pressure Gas Pump", nameof(PRESSUREGASPUMP));
-					public static LocString DESC = "An advanced pump that perform mechanical work to compress and move gases. More powerful than the standard pump, this one is capable of moving large amounts of gases, although this is only archived through the "+ FormatAsLink("High Pressure Gas Pipe", HighPressureGasConduitConfig.ID)+ ".";
+					public static LocString DESC = "An advanced pump that perform mechanical work to compress and move gases. More powerful than the standard pump, this one is capable of moving large amounts of gases, although this is only archived through the " + FormatAsLink("High Pressure Gas Pipe", HighPressureGasConduitConfig.ID) + ".";
 					public static LocString EFFECT = string.Concat(
 						[
 							"Draws in ",
@@ -1327,7 +1327,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class PRESSURELIQUIDPUMP
 				{
 					public static LocString NAME = FormatAsLink("High Pressure Liquid Pump", nameof(PRESSURELIQUIDPUMP));
-					public static LocString DESC = "An advanced pump that perform mechanical work to compress and move fluids. More powerful than the standard pump, this one is capable of moving large amounts of liquids, although this is only archived through the "+FormatAsLink("High Pressure Liquid Pipe", HighPressureLiquidConduitConfig.ID)+ "." ;
+					public static LocString DESC = "An advanced pump that perform mechanical work to compress and move fluids. More powerful than the standard pump, this one is capable of moving large amounts of liquids, although this is only archived through the " + FormatAsLink("High Pressure Liquid Pipe", HighPressureLiquidConduitConfig.ID) + ".";
 					public static LocString EFFECT = string.Concat(
 						[
 							"Draws in ",
@@ -1393,7 +1393,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = FormatAsLink("Heavy-Duty Joint Plate", nameof(HPA_SOLIDRAILBRIDGETILE));
 					public static LocString DESC = "Joint plates can run Heavy-Duty rails through walls without leaking gas or liquid.";
-					public static LocString EFFECT = "Allows " + HPA_SOLIDRAIL.NAME+" and "+ HPA_SOLIDRAIL_INSULATED.NAME + " to be run through wall and floor tile.\n\nFunctions as regular insulated tile.";
+					public static LocString EFFECT = "Allows " + HPA_SOLIDRAIL.NAME + " and " + HPA_SOLIDRAIL_INSULATED.NAME + " to be run through wall and floor tile.\n\nFunctions as regular insulated tile.";
 				}
 				public class HPA_SOLIDRAILBRIDGE
 				{
@@ -1544,7 +1544,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = FormatAsLink("Custom Combustion Generator", nameof(CUSTOMPETROLEUMGENERATOR));
 					public static LocString DESC = "A small, custom Combustible Liquid generator. This rather versatile generator has piped outputs.";
-					public static LocString EFFECT = "Converts "+ FormatAsLink("Combustable Fuel", "COMBUSTIBLELIQUID")+ " into Power.\nThe waste products are either released into the world or inserted into pipes.";
+					public static LocString EFFECT = "Converts " + FormatAsLink("Combustable Fuel", "COMBUSTIBLELIQUID") + " into Power.\nThe waste products are either released into the world or inserted into pipes.";
 				}
 				public class CUSTOMMETHANEGENERATOR
 				{
@@ -1593,36 +1593,36 @@ namespace RonivansLegacy_ChemicalProcessing
 			{
 				public class HPA_NEEDGASIN
 				{
-					public static LocString NAME ="No High Pressure Gas Intake";
-					public static LocString TOOLTIP =("This building's " + PRE_KEYWORD + "High Pressure Gas Intake" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSUREGASCONDUIT.NAME + " connected");
+					public static LocString NAME = "No High Pressure Gas Intake";
+					public static LocString TOOLTIP = ("This building's " + PRE_KEYWORD + "High Pressure Gas Intake" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSUREGASCONDUIT.NAME + " connected");
 				}
 
 				public class HPA_NEEDGASOUT
 				{
-					public static LocString NAME ="No High Pressure Gas Output";
-					public static LocString TOOLTIP =("This building's " + PRE_KEYWORD + "High Pressure Gas Output" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSUREGASCONDUIT.NAME + " connected");
+					public static LocString NAME = "No High Pressure Gas Output";
+					public static LocString TOOLTIP = ("This building's " + PRE_KEYWORD + "High Pressure Gas Output" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSUREGASCONDUIT.NAME + " connected");
 				}
 
 				public class HPA_NEEDLIQUIDIN
 				{
-					public static LocString NAME ="No High Pressure Liquid Intake";
-					public static LocString TOOLTIP =("This building's " + PRE_KEYWORD + "High Pressure Liquid Intake" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSURELIQUIDCONDUIT.NAME + " connected");
+					public static LocString NAME = "No High Pressure Liquid Intake";
+					public static LocString TOOLTIP = ("This building's " + PRE_KEYWORD + "High Pressure Liquid Intake" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSURELIQUIDCONDUIT.NAME + " connected");
 				}
 
 				public class HPA_NEEDLIQUIDOUT
 				{
-					public static LocString NAME ="No High Pressure Liquid Output";
-					public static LocString TOOLTIP =("This building's " + PRE_KEYWORD + "High Pressure Liquid Output" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSURELIQUIDCONDUIT.NAME + " connected");
+					public static LocString NAME = "No High Pressure Liquid Output";
+					public static LocString TOOLTIP = ("This building's " + PRE_KEYWORD + "High Pressure Liquid Output" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HIGHPRESSURELIQUIDCONDUIT.NAME + " connected");
 				}
 				public class HPA_NEEDSOLIDIN
 				{
 					public static LocString NAME = "No Heavy-Duty Rail Intake";
-					public static LocString TOOLTIP =("This building's " + PRE_KEYWORD + "Heavy-Duty Solid Intake" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HPA_SOLIDRAIL.NAME + " connected");
+					public static LocString TOOLTIP = ("This building's " + PRE_KEYWORD + "Heavy-Duty Solid Intake" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HPA_SOLIDRAIL.NAME + " connected");
 				}
 				public class HPA_NEEDSOLIDOUT
 				{
-					public static LocString NAME ="No Heavy-Duty Rail Output";
-					public static LocString TOOLTIP =("This building's " + PRE_KEYWORD + "Heavy-Duty Solid Output" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HPA_SOLIDRAIL.NAME + " connected");
+					public static LocString NAME = "No Heavy-Duty Rail Output";
+					public static LocString TOOLTIP = ("This building's " + PRE_KEYWORD + "Heavy-Duty Solid Output" + PST_KEYWORD + " does not have a " + (string)BUILDINGS.PREFABS.HPA_SOLIDRAIL.NAME + " connected");
 				}
 				public class LOGISTIC_NEEDSOLIDIN
 				{
@@ -1989,14 +1989,14 @@ namespace RonivansLegacy_ChemicalProcessing
 
 				public static LocString MINERALPROCESSING_DRILLBIT = FormatAsLink("Drillbit", nameof(MINERALPROCESSING_DRILLBIT));
 				public static LocString MINERALPROCESSING_DRILLBIT_DESC = "Self-Propelled Drillbits that are used by the Asteroid Drill Rig to extract resources from otherwise unreachable sectors of the asteroid.";
-				
+
 
 				public static LocString RANDOMRECIPEINGREDIENT_DESTROYONCANCEL = FormatAsLink("Non-refundable Ingredient", nameof(RANDOMRECIPEINGREDIENT_DESTROYONCANCEL));
 				public static LocString RANDOMRECIPEINGREDIENT_DESTROYONCANCEL_DESC = "This ingredient gets used up during its use, if a recipe with it gets canceled, it is lost.";
-				
+
 				public static LocString AIO_HARDENEDALLOY = FormatAsLink("Hardened Alloy", nameof(AIO_HARDENEDALLOY));
 				public static LocString AIO_HARDENEDALLOY_DESC = "Hardened Alloys are a fusion of two or more materials.\nTheir high material strength allows them to be used as a substitute to " + global::STRINGS.ELEMENTS.STEEL.NAME;
-				
+
 				public static LocString AIO_CARRIERGAS = FormatAsLink("Carrier Gas", nameof(AIO_CARRIERGAS));
 				public static LocString AIO_CARRIERGAS_DESC = "Carrier Gases are inert or semi-inert gases that are used in plasma related processes.";
 
@@ -2099,6 +2099,13 @@ namespace RonivansLegacy_ChemicalProcessing
 								}
 							}
 						}
+						public class FILTERS
+						{
+							public class FILTERBUTTON
+							{
+								public static LocString TEXT = "Filter by Mod";
+							}
+						}
 					}
 					public class ITEMINFO
 					{
@@ -2112,7 +2119,7 @@ namespace RonivansLegacy_ChemicalProcessing
 								public static LocString WATTAGESETTINGS_GENERATOR = "Power Generation:";
 								public static LocString RANGESETTINGS = "Building Range:";
 								public static LocString RANGESETTINGS_SWEEPER = "Sweeper Range:";
-								public static LocString RANGESETTINGS_PUMP= "Pump Range:";
+								public static LocString RANGESETTINGS_PUMP = "Pump Range:";
 							}
 						}
 
@@ -2278,9 +2285,9 @@ namespace RonivansLegacy_ChemicalProcessing
 			public class ENABLEMOD
 			{
 				public static LocString NAME = "Enable Mod Content";
-				public static LocString TOOLTIP = "The mod is enabled, this includes buildings, research, recipes and other mod specific mechanics.\nYou can still disable individual buildings of the mod in the building editor, separate from this setting.";
+				public static LocString TOOLTIP = "The mod is enabled, this includes buildings, research, recipes and other mod specific mechanics.\nYou can still disable individual buildings of the mod in the building configuration editor, separate from this setting.";
 				public static LocString TOOLTIP_ELEMENTS = "The mod is enabled, this includes buildings, research, recipes, elements, comets and other mod specific mechanics.\nYou can still disable individual buildings of the mod in the building editor, separate from this setting.\nWarning: when this mod is enabled, worldgen will be altered by new elements";
-				
+
 			}
 			public class GEYSERS
 			{
@@ -2294,7 +2301,8 @@ namespace RonivansLegacy_ChemicalProcessing
 			}
 			public class BUILDINGEDITOR
 			{
-				public static LocString NAME = "Building Editor";
+				public static LocString NAME = "Open Building Configuration Editor";
+				public static LocString NAME_ALT = "Configure Mod Buildings";
 				public static LocString TOOLTIP = "Open the building editor to individually toggle all buildings added by the mod and change settings on some.\nAll changes done here require a restart!";
 			}
 			public class LOGISTIC_RAIL_CAPACITY

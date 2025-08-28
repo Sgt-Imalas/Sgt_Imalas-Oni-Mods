@@ -34,6 +34,7 @@ namespace UtilLibs.UIcmp
 			public string Description = "";
 			public System.Action<bool> OnToggled;
 			public bool Enabled = true;
+			public FToggle Toggle;
 		}
 
 
@@ -66,6 +67,7 @@ namespace UtilLibs.UIcmp
 					toggle.transform.Find("Label").GetComponent<LocText>().text = entry.Title;
 					if (entry.Description != null && entry.Description.Length > 0)
 						UIUtils.AddSimpleTooltipToObject(toggle.transform, entry.Description);
+					entry.Toggle = toggle;
 
 				}
 				DropDownContent.SetActive(false);

@@ -30,6 +30,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 		public LocText SelectedEntryModOriginDisplay;
 		public Image SelectedEntryPreviewImage;
 
+		public FMultiSelectDropdown FilterDropDown;
+
 		GameObject WattageContainer, StorageCapacityContainer, RangeContainer;
 		LocText WattageLabel, RangeLabel;
 
@@ -40,12 +42,16 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 
 		Dictionary<BuildingConfigurationEntry, BuildingConfigUIEntryUI> ConfigEntries = new();
 
-		public static void ShowBuildingEditor(object obj)
+		HashSet<SourceModInfo> FilteredMods = [];
+
+		LocText ToggleAllButtonText;
+
+		public static void ShowBuildingEditor(object _, SourceModInfo? openedFrom = null)
 		{
 			SgtLogger.l("Opening AIO Building Config Editor");
-			ShowWindow();
+			ShowWindow(openedFrom);
 		}
-		public static void ShowWindow()
+		public static void ShowWindow(SourceModInfo? source = null)
 		{
 			if (Instance == null)
 			{
@@ -57,9 +63,31 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			Instance.Show(true);
 			Instance.ConsumeMouseScroll = true;
 			Instance.transform.SetAsLastSibling();
+			Instance.OpenedFrom(source);
 			Instance.ClearFilter();
 			Instance.SelectOutline(null);
 		}
+		void OpenedFrom(SourceModInfo? source = null)
+		{
+			if (source == null || !source.HasValue)
+			{
+				ResetModFilters(false);
+			}
+			else
+				FilteredMods = [source.Value];
+			SetToggleButtonState();
+			RefreshItemFilterEntries();
+		}
+		void ResetModFilters(bool refresh = true)
+		{
+			FilteredMods = [.. Enum.GetValues(typeof(SourceModInfo)).Cast<SourceModInfo>()];
+			if (!DlcManager.IsExpansion1Active())
+				FilteredMods.Remove(SourceModInfo.NuclearProcessing);
+
+			if (refresh)
+				RefreshItemFilterEntries();
+		}
+
 		public void UpdateEntryList()
 		{
 			foreach (var outline in BuildingManager.ConfigCollection.BuildingConfigurations)
@@ -118,6 +146,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 
 			ClearFilterButton = transform.Find("HorizontalLayout/ObjectList/SearchBar/DeleteButton").FindOrAddComponent<FButton>();
 			ClearFilterButton.OnClick += () => FilterBar.Text = string.Empty;
+
 			UIUtils.AddSimpleTooltipToObject(ClearFilterButton.gameObject, STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.OBJECTLIST.SEARCHBAR.CLEARTOOLTIP);
 
 
@@ -159,10 +188,61 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 				}
 			};
 
+			FilterDropDown = transform.Find("HorizontalLayout/ObjectList/Filters/FilterButton").FindOrAddComponent<FMultiSelectDropdown>();
+			var entries = Enum.GetValues(typeof(SourceModInfo)).Cast<SourceModInfo>().Select(CreateFilterEntry).ToList();
+			FilterDropDown.DropDownEntries = entries;
+			FilterDropDown.InitializeDropDown();
+			ToggleAllButtonText = transform.Find("HorizontalLayout/ObjectList/Filters/FilterButton/DropDownContent/ShowAllButton/Text").gameObject.GetComponent<LocText>();
+			var toggleAll = transform.Find("HorizontalLayout/ObjectList/Filters/FilterButton/DropDownContent/ShowAllButton").gameObject.AddOrGet<FButton>();
+			toggleAll.OnClick += ToggleAllFilters;
+			ToggleAllButtonText.SetText(global::STRINGS.UI.FRONTEND.MODS.DISABLE_ALL);
 
 			UpdateEntryList();
 			SelectOutline(null);
 		}
+		FMultiSelectDropdown.FDropDownEntry CreateFilterEntry(SourceModInfo mod)
+		{
+			var ModName = Strings.Get($"STRINGS.AIO_MODSOURCE.{mod.ToString().ToUpperInvariant()}").ToString();
+			return new FMultiSelectDropdown.FDropDownEntry(ModName, (_)=>ToggleModFiltered(mod),true);
+		}
+
+		void SetToggleButtonState()
+		{
+			bool shouldDisable = FilteredMods.Any();
+			if(shouldDisable)
+				ToggleAllButtonText.SetText(global::STRINGS.UI.FRONTEND.MODS.DISABLE_ALL);
+			else
+				ToggleAllButtonText.SetText(global::STRINGS.UI.FRONTEND.MODS.ENABLE_ALL);
+		}
+
+		void ToggleAllFilters()
+		{
+			bool shouldDisable = FilteredMods.Any();
+			if (shouldDisable)
+			{
+				FilteredMods.Clear();
+				ToggleAllButtonText.SetText(global::STRINGS.UI.FRONTEND.MODS.ENABLE_ALL);
+				RefreshItemFilterEntries();
+			}
+			else
+			{
+				ToggleAllButtonText.SetText(global::STRINGS.UI.FRONTEND.MODS.DISABLE_ALL);
+				ResetModFilters();
+			}
+		}
+
+		bool ToggleModFiltered(SourceModInfo mod)
+		{
+			if (FilteredMods.Contains(mod))
+				FilteredMods.Remove(mod);
+			else
+				FilteredMods.Add(mod);
+
+			ApplyCarePackageFilter(FilterBar.Text);
+			SetToggleButtonState();
+			return FilteredMods.Contains(mod);
+		}
+
 		void UpdateItemWattage(string text)
 		{
 			if (SelectedOutline == null)
@@ -200,11 +280,29 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			ApplyCarePackageFilter();
 		}
 
+		void RefreshItemFilterEntries()
+		{
+			ApplyCarePackageFilter(FilterBar.Text);
+
+			var mods = Enum.GetValues(typeof(SourceModInfo)).Cast<SourceModInfo>().ToList();
+			for (int i = 0; i < mods.Count(); i++)
+			{
+				var mod = mods[i];
+
+				FilterDropDown.DropDownEntries[i].Toggle.SetOnFromCode(FilteredMods.Contains(mod));
+			}
+		}
 		public void ApplyCarePackageFilter(string filterstring = "")
 		{
 			foreach (var go in ConfigEntries)
 			{
-				go.Value.gameObject.SetActive(filterstring == string.Empty ? true : ShowInFilter(filterstring, go.Key.GetDisplayName()));
+				bool allowedByFilter = filterstring == string.Empty ? true : ShowInFilter(filterstring, go.Key.GetDisplayName());
+				if (allowedByFilter)
+				{
+					allowedByFilter = go.Key.ModsFrom.Any(FilteredMods.Contains);
+				}
+
+				go.Value.gameObject.SetActive(allowedByFilter);
 			}
 		}
 
