@@ -71,10 +71,9 @@ I would also like to thank the following people for helping me during developmen
 Also thanks to the following people providing mod translations:[list]
 [*] 梦乃(AiAe) - Chinese
 [/list]
+(If you want to add a translation to the mod, the translation template can be found in the mod folder.)
 
 Thank you Aki for making the Heavy-Duty Sweeper and Heavy-Duty Loader animations.
-
-(If you want to add a translation to the mod, the translation template can be found in the mod folder.)
 
 [hr][/hr]
 [h2]Compatibility[/h2]
