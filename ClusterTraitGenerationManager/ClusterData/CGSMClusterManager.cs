@@ -670,7 +670,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 		private static void PostProcessCluster(ClusterLayout layout, List<StarmapItem> planets, StarmapItem starterPlanet)
 		{
 			SgtLogger.l("PostProcessing custom cluster");
-			if (starterPlanet.world?.requiredDlcIds != null)
+			if (starterPlanet != null && starterPlanet.world?.requiredDlcIds != null)
 			{
 				foreach (var reqDlc in starterPlanet.world.requiredDlcIds)
 				{

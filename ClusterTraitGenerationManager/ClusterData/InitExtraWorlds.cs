@@ -112,10 +112,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 				}
 
-
-
 				var OriginPlanetType = DeterminePlanetType(sourceWorld.Value, true);
-
 
 				string starterName = BaseName + "Start";
 				string warpName = BaseName + "Warp";
@@ -137,36 +134,6 @@ namespace ClusterTraitGenerationManager.ClusterData
 					else if (basePlanetType == StarmapItemCategory.Warp)
 						hasWarpAlready = true;
 				}
-
-
-
-				//if (TypeToIgnore == StarmapItemCategory.Starter)
-				//{
-				//	if (__instance.worldCache.ContainsKey(warpName) || __instance.worldCache.ContainsKey(outerName)
-				//	)
-				//	{
-				//		SgtLogger.l($"skipping {sourceWorld.Key} bc there is already a warp and normal asteroid");
-				//		continue;
-				//	}
-				//}
-				//else if (TypeToIgnore == StarmapItemCategory.Warp)
-				//{
-				//	if (__instance.worldCache.ContainsKey(starterName) || __instance.worldCache.ContainsKey(outerName)							
-				//	)
-				//	{
-				//		SgtLogger.l($"skipping {sourceWorld.Key} bc there is already a start and outer asteroid");
-				//		continue;
-				//	}
-				//}
-				//else if (TypeToIgnore == StarmapItemCategory.Outer)
-				//{
-				//	if (__instance.worldCache.ContainsKey(starterName) || __instance.worldCache.ContainsKey(warpName)
-				//	)
-				//	{
-				//		SgtLogger.l($"skipping {sourceWorld.Key} there is already a warp and Start asteroid");
-				//		continue;
-				//	}
-				//}
 
 				List<string> additionalTemplates = new List<string>();
 
@@ -533,9 +500,46 @@ namespace ClusterTraitGenerationManager.ClusterData
 					SgtLogger.l(newWorldPath_Outer, "Created Outer Planet Variant");
 				}
 				else SgtLogger.l("Skipping Outer variant for " + sourceWorld.Key + " because it already exists");
-
-
 			}
+			foreach (var worldMixing in SettingsCache.worldMixingSettings.Values)
+			{
+				var asteroidId = worldMixing.world;
+				if(!__instance.worldCache.TryGetValue(asteroidId, out var mixingWorld))
+				{
+					SgtLogger.warning("could not find mixing asteroid " + asteroidId + " for dynamic outer version generation");
+					continue;
+				}
+				string newWorldPath_Outer = $"CGM_Dynamic_{asteroidId}_Outer";
+
+				var OuterMixingWorld = new ProcGen.World();
+
+				CopyValues(OuterMixingWorld, mixingWorld);
+				OuterMixingWorld.filePath = newWorldPath_Outer;
+				OuterMixingWorld.startingBaseTemplate = null;
+				//StartWorld.startSubworldName = string.Empty;
+				OuterMixingWorld.seasons = new List<string>(mixingWorld.seasons);
+
+				OuterMixingWorld.unknownCellsAllowedSubworlds = new List<ProcGen.World.AllowedCellsFilter>(mixingWorld.unknownCellsAllowedSubworlds);
+				OuterMixingWorld.subworldFiles = new List<WeightedSubworldName>(mixingWorld.subworldFiles);
+				OuterMixingWorld.worldTemplateRules = new List<ProcGen.World.TemplateSpawnRules>();
+
+				if (mixingWorld.worldTemplateRules != null && mixingWorld.worldTemplateRules.Count > 0)
+				{
+					foreach (var rule in mixingWorld.worldTemplateRules)
+					{
+						var ruleNew = new ProcGen.World.TemplateSpawnRules();
+						CopyValues(ruleNew, rule);
+						OuterMixingWorld.worldTemplateRules.Add(ruleNew);
+					}
+				}
+
+				CopyAllWorldTraits(mixingWorld, OuterMixingWorld, StarmapItemCategory.Outer);
+				OuterMixingWorld.worldTemplateRules.RemoveAll((template) => ModAPI.IsATeleporterTemplate(OuterMixingWorld, template));
+				PostProcessDemolior(OuterMixingWorld);
+				toAdd.Add(newWorldPath_Outer, OuterMixingWorld);
+				ModAssets.AddModPlanetOrigin(newWorldPath_Outer, asteroidId);
+			}
+
 			foreach (var item in toAdd)
 			{
 				if (!__instance.worldCache.ContainsKey(item.Key))
