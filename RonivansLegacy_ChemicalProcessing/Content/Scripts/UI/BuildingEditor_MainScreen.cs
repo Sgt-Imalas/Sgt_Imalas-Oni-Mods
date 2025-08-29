@@ -257,8 +257,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			if (SelectedOutline == null)
 				return;
 
-			if (int.TryParse(text, out int wattage))
-				SelectedOutline?.SetMassCapacity(wattage);
+			if (int.TryParse(text, out int mass))
+			{
+				mass = Mathf.Clamp(mass, 1, 100000);
+				StorageCapacityInput.SetTextFromData(mass.ToString());
+				SelectedOutline?.SetMassCapacity(mass);
+			}
 			OnOutlineEntryUpdated();
 		}
 
