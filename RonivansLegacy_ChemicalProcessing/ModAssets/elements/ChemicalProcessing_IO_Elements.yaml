@@ -333,9 +333,9 @@ elements:
     gasSurfaceAreaMultiplier: 1
     strength: 0.4
     highTemp: 1193.15
-    highTempTransitionTarget: ZincGas
-    highTempTransitionOreId: MoltenCopper
-    highTempTransitionOreMassConversion: 0.7
+    highTempTransitionTarget: MoltenCopper
+    highTempTransitionOreId: ZincGas
+    highTempTransitionOreMassConversion: 0.3
     defaultTemperature: 296
     defaultMass: 200
     maxMass: 1000
@@ -398,7 +398,7 @@ elements:
     strength: 6
     highTemp: 2850
     highTempTransitionTarget: CarbonDioxide
-    highTempTransitionOreId: MoltenSteel
+    highTempTransitionOreId: Steel
     highTempTransitionOreMassConversion: 0.97
     defaultTemperature: 296
     defaultMass: 200
@@ -528,7 +528,7 @@ elements:
     strength: 0.1
     highTemp: 393.15
     highTempTransitionTarget: SourGas
-    highTempTransitionOreId: CrudeOil
+    highTempTransitionOreId: SolidCrudeOil
     highTempTransitionOreMassConversion: 0.8
     defaultTemperature: 296
     defaultMass: 500
@@ -587,10 +587,10 @@ elements:
     highTemp: 311.15
     lowTemp: 215.15
     lowTempTransitionTarget: Brine
-    highTempTransitionTarget: Brine
     lowTempTransitionOreId: AmmoniaGas
     lowTempTransitionOreMassConversion: 0.89   # this is the actual value of brine that would be removed to leave a 11% ammonia gas remaining.
-    highTempTransitionOreId: AmmoniaGas
+    highTempTransitionTarget: Brine
+    highTempTransitionOreId: LiquidAmmonia
     highTempTransitionOreMassConversion: 0.89  # this is the actual value of brine that would be removed to leave a 11% ammonia gas remaining.
     defaultTemperature: 266.15
     defaultMass: 600
@@ -821,7 +821,7 @@ elements:
     lowTempTransitionOreId: DirtyIce
     lowTempTransitionOreMassConversion: 0.5
     highTempTransitionTarget: NitrogenGas
-    highTempTransitionOreId: Water
+    highTempTransitionOreId: Steam
     highTempTransitionOreMassConversion: 0.5
     defaultTemperature: 296.15
     defaultMass: 600
@@ -847,7 +847,7 @@ elements:
     strength: 0.7
     highTemp: 1192.15
     highTempTransitionTarget: MoltenZinc
-    highTempTransitionOreId: MoltenCopper
+    highTempTransitionOreId: Copper
     highTempTransitionOreMassConversion: 0.4
     defaultTemperature: 296
     defaultMass: 800
@@ -876,7 +876,7 @@ elements:
     strength: 0.7
     highTemp: 1236.15
     highTempTransitionTarget: MoltenSilver
-    highTempTransitionOreId: SulfurGas
+    highTempTransitionOreId: LiquidSulfur
     highTempTransitionOreMassConversion: 0.2
     defaultTemperature: 296
     defaultMass: 800
@@ -1052,11 +1052,11 @@ elements:
     gasSurfaceAreaMultiplier: 1
     highTemp: 361.15  # 88�C
     lowTemp: 252.15   # -21�C
-    lowTempTransitionTarget: DirtyWater
-    lowTempTransitionOreId: SourGas
+    lowTempTransitionTarget: SourGas 
+    lowTempTransitionOreId: DirtyIce
     lowTempTransitionOreMassConversion: 0.5
-    highTempTransitionTarget: DirtyWater
-    highTempTransitionOreId: SourGas
+    highTempTransitionTarget: SourGas 
+    highTempTransitionOreId: DirtyIce
     highTempTransitionOreMassConversion: 0.5
     defaultTemperature: 300.15
     defaultMass: 600
