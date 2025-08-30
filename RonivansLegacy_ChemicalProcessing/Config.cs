@@ -171,7 +171,7 @@ namespace RonivansLegacy_ChemicalProcessing
 		public bool HPA_Rails_Insulation_Enabled  { get; set; } = true;
 		
 		[JsonIgnore]
-		public bool HPA_Rails_Insulation_Mod_Enabled => HPA_Rails_Enabled && HighPressureApplications_Enabled;
+		public bool HPA_Rails_Insulation_Mod_Enabled => HPA_Rails_Mod_Enabled && HPA_Rails_Insulation_Enabled;
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESREFRIGERATION")]
 		public bool DupesRefrigeration_Enabled { get; set; } = true;
