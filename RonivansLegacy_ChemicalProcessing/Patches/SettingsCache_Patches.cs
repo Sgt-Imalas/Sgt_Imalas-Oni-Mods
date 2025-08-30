@@ -21,7 +21,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		{
 
 			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled;
+			public static bool Prepare() => Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled && Config.Instance.WorldgenElementInjection;
 
 			public static void Prefix(string longName, List<YamlIO.Error> errors, ref bool __state)
 			{
@@ -53,7 +53,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		{
 
 			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled;
+			public static bool Prepare() => Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled && Config.Instance.WorldgenElementInjection;
 
 			public static void Prefix(string longName, List<YamlIO.Error> errors, ref bool __state)
 			{
@@ -74,8 +74,45 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 					return;
 				}
 
-				ChemProc_BiomeInjection.InjectIntoFeature(longName);
+				ChemProc_BiomeInjection.InjectElementsIntoFeature(longName);
+			}
+		}
+
+		[HarmonyPatch(typeof(SettingsCache), nameof(SettingsCache.LoadSubworld))]
+		public class SettingsCache_LoadSubworld_Patch
+		{
+
+			[HarmonyPrepare]
+			public static bool Prepare() => Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled && Config.Instance.WorldgenElementInjection;
+
+			public static void Prefix(WeightedSubworldName subworldWeightedName, List<YamlIO.Error> errors, ref bool __state)
+			{
+				string longName = subworldWeightedName.name; 
+				if (!SettingsCache.subworlds.ContainsKey(longName))
+				{
+					///feature is loaded for the first time, only inserting custom elements here
+					__state = true;
+				}
+			}
+			public static void Postfix(WeightedSubworldName subworldWeightedName, List<YamlIO.Error> errors, bool __state)
+			{
+				if (!__state)
+					return;
+				string longName = subworldWeightedName.name;
+				//for whatever reason the feature failed to load, abort injections
+				if (!SettingsCache.subworlds.TryGetValue(longName, out var subWorld))
+				{
+					return;
+				}
+
+				ChemProc_BiomeInjection.InjectFeaturesIntoSubworld(subWorld,longName);
+
+				foreach (Feature feature in subWorld.features)
+				{
+					feature.type = SettingsCache.LoadFeature(feature.type, errors);
+				}
 			}
 		}
 	}
+	
 }

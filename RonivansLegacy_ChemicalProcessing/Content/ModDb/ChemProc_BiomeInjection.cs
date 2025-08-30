@@ -16,15 +16,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
 	class ChemProc_BiomeInjection
 	{
+		const string CustomFeaturePrefix = "features/ronivan_aio_custom/";
+
 		public class BiomeElementInjection
 		{
 			public SimHashes Element;
 			public float bandSize;
 			public int InjectionIndex;
-		}
-		public class BiomeFeatureInjection
-		{
-
 		}
 		public class FeatureElementInjection
 		{
@@ -32,6 +30,24 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			public SimHashes Element;
 			public float weight;
 			public ProcGen.SampleDescriber.Override Override = null;
+		}
+		public class SubWorldFeatureInjections
+		{
+			public static Dictionary<string, List<string>> FeatureToSubworldInjections;
+
+			public static void Inject_SO(string subworldPath, string customFeatureName) => Inject_SO(subworldPath, [customFeatureName]);
+			public static void Inject_SO(string subworldPath, string[] customFeatureName) => Inject("expansion1::" + subworldPath, customFeatureName);
+			public static void Inject(string subworldPath, string customFeatureName) => Inject(subworldPath, [customFeatureName]);
+			public static void Inject(string subworldPath, string[] customFeatureNames)
+			{
+				if (FeatureToSubworldInjections == null)
+					FeatureToSubworldInjections = [];
+				if (!FeatureToSubworldInjections.ContainsKey(subworldPath))
+					FeatureToSubworldInjections[subworldPath] = [];
+
+				foreach(var customFeatureName in  customFeatureNames)
+					FeatureToSubworldInjections[subworldPath].Add(CustomFeaturePrefix + customFeatureName);
+			}
 		}
 
 		public class FeatureElementInjections
@@ -111,7 +127,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		}
 		static Dictionary<string, FeatureElementInjections> FeatureInjections = [];
 		static Dictionary<string, BiomeElementInjections> BiomeInjections = [];
-		static ChemProc_BiomeInjection()
+
+		public static void ElementToBiomeInjection()
 		{
 			BiomeElementInjections.Create("Ocean")
 				.SubBiome("Basic")
@@ -189,8 +206,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.SubBiome("GraniteOre")
 					.Element(ModElements.Argentite_Solid, 1f)
 					;
+		}
 
-
+		static void ElementToFeatureInjection()
+		{
 			///Feature Injections:
 			///Features are smaller, partially premade patterns/shapes that are spawned into the world by the worldgen, for example  small empty rooms
 			///The following injections add custom elements to spawn in the randomly chosen parts of patterns
@@ -218,8 +237,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					;
 
 			///Generic Injections
-			FeatureElementInjections.Create("features/generic/SandGeode")
-				.TargetGroup("RoomCenterElements").Element(ModElements.AmmoniumSalt_Solid, 1f).MassOverride(64);
+			//FeatureElementInjections.Create("features/generic/SandGeode")
+			//	.TargetGroup("RoomCenterElements").Element(ModElements.AmmoniumSalt_Solid, 1f).MassOverride(64);
 
 			///---[BARREN BIOME (SO)]---
 			FeatureElementInjections.Create("expansion1::features/barren/GraniteCoalDeposit")
@@ -241,9 +260,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					.Element(SimHashes.PhosphateNodules, 0.5f).MassOverride(214);
 
 			///Forest Features SO
-			FeatureElementInjections.Create("expansion1::features/forest/OxyrockCave")
-				.TargetGroup("RoomCenterElements").Element(ModElements.AmmoniumSalt_Solid, 0.4f)
-				.TargetGroup("RoomBorderChoices1").Element(ModElements.AmmoniumSalt_Solid, 0.2f);
+			//FeatureElementInjections.Create("expansion1::features/forest/OxyrockCave")
+			//	.TargetGroup("RoomCenterElements").Element(ModElements.AmmoniumSalt_Solid, 0.4f)
+			//	.TargetGroup("RoomBorderChoices1").Element(ModElements.AmmoniumSalt_Solid, 0.2f);
 
 			FeatureElementInjections.Create("expansion1::features/forest/SmallDirtyLake")
 				.TargetGroup("RoomBorderChoices1").Element(ModElements.AmmoniumSalt_Solid, 0.5f);
@@ -256,8 +275,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			FeatureElementInjections.Create("features/frozen/ColdBubble")
 				.TargetGroup("RoomCenterElements").Element(ModElements.Ammonia_Gas, 1.5f).MassOverride(7);
 
-			FeatureElementInjections.Create("features/frozen/SandGeode")
-				.TargetGroup("RoomCenterElements").Element(ModElements.AmmoniumSalt_Solid, 1f).MassOverride(64);
+			//FeatureElementInjections.Create("features/frozen/SandGeode")
+			//	.TargetGroup("RoomCenterElements").Element(ModElements.AmmoniumSalt_Solid, 1f).MassOverride(64);
 
 			///Frozen Features SO
 			FeatureElementInjections.Create("expansion1::features/frozen/MetalShelf")
@@ -287,12 +306,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.TargetGroup("RoomBorderChoices0").Element(ModElements.Chloroschist_Solid, 1f).MassOverride(1422)
 				.TargetGroup("RoomBorderChoices1")
 					.Element(ModElements.Chloroschist_Solid, 4f).MassOverride(1322)
-					.Element(SimHashes.Phosphorus, 1);
+					.Element(SimHashes.PhosphateNodules, 1);
 
 			FeatureElementInjections.Create("features/jungle/SandGeode")
-				.TargetGroup("RoomCenterElements").Element(SimHashes.Phosphorus, 1f)
-				.TargetGroup("RoomBorderChoices0").Element(SimHashes.Phosphorus, 1f)
-				.TargetGroup("RoomBorderChoices1").Element(SimHashes.Phosphorus, 1f);
+				.TargetGroup("RoomCenterElements").Element(SimHashes.PhosphateNodules, 1f)
+				.TargetGroup("RoomBorderChoices0").Element(SimHashes.PhosphateNodules, 1f)
+				.TargetGroup("RoomBorderChoices1").Element(SimHashes.PhosphateNodules, 1f);
 
 			FeatureElementInjections.Create("features/jungle/SmallRoom")
 				.TargetGroup("RoomBorderChoices1").Element(SimHashes.Electrum, 1f); //why is that here ??
@@ -316,11 +335,18 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.TargetGroup("RoomCenterElements").Element(ModElements.Chloroschist_Solid, 1f).MassOverride(426);
 
 			FeatureElementInjections.Create("features/ocean/DeepPool")
-				.TargetGroup("RoomBorderChoices0").Element(ModElements.AmmoniumSalt_Solid, 1f).MassOverride(126)
-				.TargetGroup("RoomBorderChoices1").Element(ModElements.AmmoniumSalt_Solid, 1f).MassOverride(124);
+				.TargetGroup("RoomBorderChoices0")
+					.Element(ModElements.AmmoniumSalt_Solid, 1f).MassOverride(126)
+					.Element(ModElements.Chloroschist_Solid, 1f)
+				.TargetGroup("RoomBorderChoices1")
+					.Element(ModElements.AmmoniumSalt_Solid, 1f).MassOverride(124)
+					.Element(ModElements.Chloroschist_Solid, 1f);
 
 			FeatureElementInjections.Create("features/ocean/SaltCave")
-				.TargetGroup("RoomBorderChoices1").Element(ModElements.AmmoniumSalt_Solid, 1f).MassOverride(120);
+				.TargetGroup("RoomBorderChoices0")
+					.Element(ModElements.Borax_Solid, 1f).MassOverride(113)
+				.TargetGroup("RoomBorderChoices1")
+					.Element(ModElements.Borax_Solid, 1f).MassOverride(62);
 
 			///Ocean Features SO
 			FeatureElementInjections.Create("expansion1::features/ocean/SlushPool")
@@ -328,20 +354,20 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			///---[OIL BIOME]---
 			FeatureElementInjections.Create("features/oilpockets/Cavity")
-				.TargetGroup("RoomBorderChoices0").Element(ModElements.OilShale_Solid, 1f).MassOverride(320)
+				.TargetGroup("RoomBorderChoices0").Element(ModElements.OilShale_Solid, 1f).MassOverride(320).Element(ModElements.Galena_Solid,1)
 				.TargetGroup("RoomBorderChoices1").Element(ModElements.OilShale_Solid, 1f).MassOverride(356);
 
 			FeatureElementInjections.Create("features/oilpockets/CavityOilFloatersTall")
-				.TargetGroup("RoomBorderChoices0").Element(ModElements.OilShale_Solid, 1f).MassOverride(224)
+				.TargetGroup("RoomBorderChoices0").Element(ModElements.OilShale_Solid, 1f).MassOverride(224).Element(ModElements.Galena_Solid, 1)
 				.TargetGroup("RoomBorderChoices1").Element(ModElements.OilShale_Solid, 1f).MassOverride(412);
 
 			FeatureElementInjections.Create("features/oilpockets/CavityPond")
-				.TargetGroup("RoomBorderChoices0").Element(ModElements.OilShale_Solid, 1f).MassOverride(320)
+				.TargetGroup("RoomBorderChoices0").Element(ModElements.OilShale_Solid, 1f).MassOverride(320).Element(ModElements.Galena_Solid, 1)
 				.TargetGroup("RoomBorderChoices1").Element(ModElements.OilShale_Solid, 1f).MassOverride(292);
 
 			FeatureElementInjections.Create("features/oilpockets/CavityPondFrozen")
 				.TargetGroup("RoomBorderChoices0").Element(ModElements.OilShale_Solid, 1f).MassOverride(412)
-				.TargetGroup("RoomBorderChoices1").Element(ModElements.OilShale_Solid, 1f).MassOverride(340);
+				.TargetGroup("RoomBorderChoices1").Element(ModElements.OilShale_Solid, 1f).MassOverride(340).Element(ModElements.Galena_Solid, 1);
 
 			FeatureElementInjections.Create("features/oilpockets/DiamondClump")
 				.TargetGroup("RoomBorderChoices0").Element(ModElements.OilShale_Solid, 1f).MassOverride(212)
@@ -362,7 +388,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			FeatureElementInjections.Create("features/rust/SaltDeposit")
 				.TargetGroup("RoomCenterElements").Element(ModElements.Borax_Solid, 1f).MassOverride(34);
 
-			FeatureElementInjections.Create("features/rust/SulphurHole")
+			FeatureElementInjections.Create("features/rust/SulfurHole")
 				.TargetGroup("RoomCenterElements").Element(ModElements.SulphuricAcid_Liquid, 4f)
 				.RemoveExisting(SimHashes.SaltWater);
 
@@ -482,11 +508,165 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 		}
 
+		static void FeatureToSubworldInjection()
+		{
+			///Injecting custom templates into existing biomes
+
+			//Barren
+			SubWorldFeatureInjections.Inject("subworlds/barren/BarrenGranute", ["GranitePyriteDeposit", "GraniteSilverDeposit"]);
+
+			SubWorldFeatureInjections.Inject_SO("subworlds/barren/BarrenCore", "ShaleBall");
+			SubWorldFeatureInjections.Inject_SO("subworlds/barren/CoalyGranite", "SilverOreBall");
+			
+			//Forest
+			SubWorldFeatureInjections.Inject("subworlds/forest/Forest", ["SilverLump", "SilverOreVein"]);
+			SubWorldFeatureInjections.Inject("subworlds/forest/ForestHot", ["SilverLump", "SilverOreVein"]);
+			SubWorldFeatureInjections.Inject("subworlds/forest/ForestMiniMetal", ["SilverLump", "SilverOreVein"]);
+			SubWorldFeatureInjections.Inject("subworlds/forest/ForestMiniMetalHot", ["SilverLump", "SilverOreVein"]);
+			SubWorldFeatureInjections.Inject("subworlds/forest/ForestMiniOxy", "PhosphateLump");
+			SubWorldFeatureInjections.Inject("subworlds/forest/ForestMiniOxyHot", "PhosphateLump");
+			SubWorldFeatureInjections.Inject("subworlds/forest/ForestMiniWater", "PhosphateGeode");
+			SubWorldFeatureInjections.Inject("subworlds/forest/ForestMiniWater", "PhosphateGeode");
+			SubWorldFeatureInjections.Inject("subworlds/forest/ForestMiniWaterHot", "PhosphateGeode");
+			SubWorldFeatureInjections.Inject("subworlds/forest/ForestStart", ["PhosphateGeode","SilverLump", "SilverOreVein"]);
+			SubWorldFeatureInjections.Inject("subworlds/forest/ForestStartHot", ["PhosphateGeode","SilverLump", "SilverOreVein"]);
+			SubWorldFeatureInjections.Inject("subworlds/forest/ForestFrozen", ["SilverFrozenLake", "SilverLump", "SilverOreVein"]);
+
+			SubWorldFeatureInjections.Inject_SO("subworlds/forest/ForestCore", ["SilverLump", "SilverOreVein"]);
+			SubWorldFeatureInjections.Inject_SO("subworlds/forest/ForestLandingSite", ["SilverLump", "SilverOreVein"]);
+			SubWorldFeatureInjections.Inject_SO("subworlds/forest/ForestSurface", ["SilverLump", "SilverOreVein"]);
+			SubWorldFeatureInjections.Inject_SO("subworlds/forest/med_Forest", ["SilverLump", "SilverOreVein"]);
+			SubWorldFeatureInjections.Inject_SO("subworlds/forest/med_ForestHot", ["SilverLump", "SilverOreVein"]);
+			SubWorldFeatureInjections.Inject_SO("subworlds/forest/med_ForestSurface", ["SilverLump", "SilverOreVein"]);
+			
+			//Frozen
+			SubWorldFeatureInjections.Inject("subworlds/frozen/CO2Lakes", "AmmoniaBubble");
+			SubWorldFeatureInjections.Inject("subworlds/frozen/Frozen", "AmmoniaBubble");
+			SubWorldFeatureInjections.Inject("subworlds/frozen/FrozenStrange", "AmmoniaBubble");
+
+			//SubWorldFeatureInjections.Inject_SO("subworlds/frozen/FrozenCore", "FrozenOilBall");
+			//SubWorldFeatureInjections.Inject_SO("subworlds/frozen/FrozenMedium", "FrozenOilBall");
+			
+			//Jungle
+			SubWorldFeatureInjections.Inject("subworlds/jungle/Jungle", ["PhosphateGeode", "PhosphateLump", "ElectrumVein"]);
+			SubWorldFeatureInjections.Inject("subworlds/jungle/JungleFrozen", ["PhosphateGeode", "PhosphateLump", "ElectrumVein"]);
+			SubWorldFeatureInjections.Inject("subworlds/jungle/JungleSolid", ["PhosphateGeode", "PhosphateLump", "ElectrumVein"]);
+			SubWorldFeatureInjections.Inject("subworlds/jungle/JungleStrange", ["PhosphateGeode", "PhosphateLump", "ElectrumVein"]);
+
+			SubWorldFeatureInjections.Inject_SO("subworlds/jungle/JungleDreckless", ["PhosphateGeode", "PhosphateLump", "ElectrumVein"]);
+			SubWorldFeatureInjections.Inject_SO("subworlds/jungle/JungleGassy", ["PhosphateGeode", "PhosphateLump", "ElectrumVein"]);
+			SubWorldFeatureInjections.Inject_SO("subworlds/jungle/JungleInactive", ["PhosphateGeode", "PhosphateLump", "ElectrumVein"]);
+			SubWorldFeatureInjections.Inject_SO("subworlds/jungle/JungleSteamy", ["PhosphateGeode", "PhosphateLump", "ElectrumVein"]);
+			SubWorldFeatureInjections.Inject_SO("subworlds/jungle/med_JungleFrozen", ["PhosphateGeode", "PhosphateLump", "ElectrumVein"]);
+			SubWorldFeatureInjections.Inject_SO("subworlds/jungle/med_JungleInactive", ["PhosphateGeode", "PhosphateLump", "ElectrumVein"]);
+			
+			//Marsh
+			SubWorldFeatureInjections.Inject("subworlds/marsh/HotMarsh", "NitrateGeode");
+			SubWorldFeatureInjections.Inject("subworlds/marsh/HotMarshSlush", "NitrateGeode");
+			SubWorldFeatureInjections.Inject("subworlds/marsh/HotMarshStrange", "NitrateGeode");
+
+			SubWorldFeatureInjections.Inject_SO("subworlds/marsh/HotMarshLandingSite", "NitrateGeode");
+			SubWorldFeatureInjections.Inject_SO("subworlds/marsh/HotMarshInactive", "NitrateGeode");
+			SubWorldFeatureInjections.Inject_SO("subworlds/marsh/HotMarshSteamy", "NitrateGeode");
+			SubWorldFeatureInjections.Inject_SO("subworlds/marsh/HotMarshSurface", "NitrateGeode");
+			SubWorldFeatureInjections.Inject_SO("subworlds/marsh/med_HotMarshInactive", "NitrateGeode");
+			SubWorldFeatureInjections.Inject_SO("subworlds/marsh/med_HotMarshLandingSite", "NitrateGeode");
+			SubWorldFeatureInjections.Inject_SO("subworlds/marsh/med_HotMarshMushrooms", "NitrateGeode");
+			SubWorldFeatureInjections.Inject_SO("subworlds/marsh/med_HotMarshStart", "NitrateGeode");
+			
+			//Metallic
+			SubWorldFeatureInjections.Inject_SO("subworlds/metallic/Metallic", ["SilverOreMetallicDeposit", "PyriteMetallicDeposit"]);
+			SubWorldFeatureInjections.Inject_SO("subworlds/metallic/SwampyRenewableMetallicCold", ["SilverOreMetallicDeposit", "ZincOreMetallicDeposit"]);
+			SubWorldFeatureInjections.Inject_SO("subworlds/metallic/SwampyRenewableMetallic", ["SilverOreMetallicDeposit", "ZincOreMetallicDeposit"]);
+			SubWorldFeatureInjections.Inject_SO("subworlds/metallic/RenewableMetallic", ["SilverOreMetallicDeposit", "ZincOreMetallicDeposit"]);
+			
+			//Ocean
+			SubWorldFeatureInjections.Inject("subworlds/ocean/Ocean", ["BoraxLump", "DeepRichMetallicPool"]);
+			SubWorldFeatureInjections.Inject("subworlds/ocean/OceanDeep", ["BoraxLump", "DeepRichMetallicPool"]);
+			SubWorldFeatureInjections.Inject("subworlds/ocean/OceanFrozen", ["BoraxLump", "DeepRichMetallicPool"]);
+			SubWorldFeatureInjections.Inject("subworlds/ocean/OceanHot", ["BoraxLump", "DeepRichMetallicPool"]);
+			SubWorldFeatureInjections.Inject("subworlds/ocean/OceanSlush", ["BoraxLump", "DeepRichMetallicPool"]);
+			SubWorldFeatureInjections.Inject("subworlds/ocean/OceanStrange", ["BoraxLump", "DeepRichMetallicPool"]);
+
+			SubWorldFeatureInjections.Inject_SO("subworlds/ocean/med_Ocean", ["BoraxLump", "DeepRichMetallicPool"]);
+			SubWorldFeatureInjections.Inject_SO("subworlds/ocean/med_OceanDeep", ["BoraxLump", "DeepRichMetallicPool"]);
+			SubWorldFeatureInjections.Inject_SO("subworlds/ocean/med_OceanSurface", ["BoraxLump", "DeepRichMetallicPool"]);
+			SubWorldFeatureInjections.Inject_SO("subworlds/ocean/OceanSlush", ["BoraxLump", "DeepRichMetallicPool"]);
+			SubWorldFeatureInjections.Inject_SO("subworlds/ocean/OceanSurface", ["BoraxLump", "DeepRichMetallicPool"]);
+
+			//Oil
+			SubWorldFeatureInjections.Inject("subworlds/oil/OilDry", "GalenaVein");
+			SubWorldFeatureInjections.Inject("subworlds/oil/OilField", "GalenaVein");
+			SubWorldFeatureInjections.Inject("subworlds/oil/OilPatch", "GalenaVein");
+			SubWorldFeatureInjections.Inject("subworlds/oil/OilPatchDouble", "GalenaVein");
+			SubWorldFeatureInjections.Inject("subworlds/oil/OilPockets", "GalenaVein");
+			SubWorldFeatureInjections.Inject("subworlds/oil/OilPocketsCold", "GalenaVein");
+			SubWorldFeatureInjections.Inject("subworlds/oil/OilPocketsStrange", "GalenaVein");
+
+			SubWorldFeatureInjections.Inject_SO("subworlds/oil/OilSparse", "GalenaVein");
+			SubWorldFeatureInjections.Inject_SO("subworlds/oil/OilSurface", "GalenaVein");
+			SubWorldFeatureInjections.Inject_SO("subworlds/oil/OilWells", "GalenaVein");
+
+			//Regolith
+			SubWorldFeatureInjections.Inject_SO("subworlds/regolith/BarrenDust", "MeteorGeode");
+			SubWorldFeatureInjections.Inject_SO("subworlds/regolith/DeadOasis", "MeteorGeode");
+
+			//Rust
+			SubWorldFeatureInjections.Inject("subworlds/rust/Rust", "ChloroschistDeposit");
+			SubWorldFeatureInjections.Inject("subworlds/rust/RustFrozen", "ChloroschistDeposit");
+			SubWorldFeatureInjections.Inject("subworlds/rust/RustWarm", ["ChloroschistDeposit", "SulfuricHole"]);
+
+			SubWorldFeatureInjections.Inject_SO("subworlds/rust/med_Rust", ["ChloroschistDeposit", "SulfuricHole"]);
+			SubWorldFeatureInjections.Inject_SO("subworlds/rust/med_RustFrozen", "ChloroschistDeposit");
+			SubWorldFeatureInjections.Inject_SO("subworlds/rust/med_RustIceBorder", "ChloroschistDeposit");
+			SubWorldFeatureInjections.Inject_SO("subworlds/rust/RustChillyLakes", ["ChloroschistDeposit", "SulfuricHole"]);
+
+			//Sandstone
+			SubWorldFeatureInjections.Inject("subworlds/sandstone/Desert", "PyriteVein");
+			SubWorldFeatureInjections.Inject("subworlds/sandstone/Sandstone", "ZincOreVein");
+			SubWorldFeatureInjections.Inject("subworlds/sandstone/SandstoneFrozen", "ZincOreVein");
+			SubWorldFeatureInjections.Inject("subworlds/sandstone/SandstoneStrange", "ZincOreVein");
+
+			SubWorldFeatureInjections.Inject_SO("subworlds/sandstone/med_SandstoneResourceful", "ZincOreVein");
+			SubWorldFeatureInjections.Inject_SO("subworlds/sandstone/Sandstone", "ZincOreVein");
+			SubWorldFeatureInjections.Inject_SO("subworlds/sandstone/SandstoneMini", "ZincOreVein");
+			SubWorldFeatureInjections.Inject_SO("subworlds/sandstone/SandstoneMiniWater", "ZincOreVein");
+			SubWorldFeatureInjections.Inject_SO("subworlds/sandstone/SandstoneStart", "ZincOreVein");
+			SubWorldFeatureInjections.Inject_SO("subworlds/sandstone/SandstoneWarp", "ZincOreVein");
+			SubWorldFeatureInjections.Inject_SO("subworlds/sandstone/SandstoneWarpStart", "ZincOreVein");
+
+			//Space
+			SubWorldFeatureInjections.Inject("subworlds/space/Surface", "MeteorGeode");
+			SubWorldFeatureInjections.Inject("subworlds/space/SurfaceCrags", "MeteorGeode");
+			SubWorldFeatureInjections.Inject_SO("subworlds/space/HospitableClassicSurface", "MeteorGeode");
+			SubWorldFeatureInjections.Inject_SO("subworlds/space/HospitableSurface", "MeteorGeode");
+			SubWorldFeatureInjections.Inject_SO("subworlds/space/IcySurface", "MeteorGeode");
+
+			//Swamp
+			SubWorldFeatureInjections.Inject_SO("subworlds/sandstone/med_SwampSurface", "NitrateGeode");
+			SubWorldFeatureInjections.Inject_SO("subworlds/sandstone/Swamp", "NitrateGeode");
+			SubWorldFeatureInjections.Inject_SO("subworlds/sandstone/SwampMini", "NitrateGeode");
+			SubWorldFeatureInjections.Inject_SO("subworlds/sandstone/SwampStart", "NitrateGeode");
+			SubWorldFeatureInjections.Inject_SO("subworlds/sandstone/SwampStartDense", "NitrateGeode");
+			SubWorldFeatureInjections.Inject_SO("subworlds/sandstone/SwampWarpStart", "NitrateGeode");
+
+			//Wasteland
+			SubWorldFeatureInjections.Inject_SO("subworlds/wasteland/WastelandBeetle", "ZincOreMetallicDeposit");
+			SubWorldFeatureInjections.Inject_SO("subworlds/wasteland/WastelandWorm", "ZincOreMetallicDeposit");
+		}
+
+		static ChemProc_BiomeInjection()
+		{
+			//ElementToBiomeInjection();
+			ElementToFeatureInjection();
+			FeatureToSubworldInjection();
+		}
+
 		internal static void InjectIntoBiome(string biomePath)
 		{
 			string biome = Directory.GetParent(biomePath).Name;
 			string subBiome = System.IO.Path.GetFileNameWithoutExtension(biomePath);
-			SgtLogger.l("Injecting Chemical Processing elements into biome: " + biome + " with sub-biome: " + subBiome);
+			//SgtLogger.l("Injecting Chemical Processing elements into biome: " + biome + " with sub-biome: " + subBiome);
 
 			if (BiomeInjections.TryGetValue(biome, out var biomeInjection)
 				&& biomeInjection.SubBiomeInjections.TryGetValue(subBiome, out var injections)
@@ -495,7 +675,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 				foreach (var injection in injections)
 				{
-					SgtLogger.l("Injecting element: " + injection.Element + " with band size: " + injection.bandSize);
+					if (Mod.Instance.mod.IsDev)
+						SgtLogger.l("Injecting element: " + injection.Element + " with band size: " + injection.bandSize);
 					elementBandConfiguration.Add(new ElementGradient(injection.Element.CreateTag().ToString(), injection.bandSize, new()));
 				}
 
@@ -509,18 +690,18 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		}
 
 		static HashSet<string> remainingFeatures = null;
-		public static void InjectIntoFeature(string featurePath)
+		public static void InjectElementsIntoFeature(string featurePath)
 		{
 			if (remainingFeatures == null)
 				remainingFeatures = FeatureInjections.Keys.ToHashSet();
 
-			SgtLogger.l("Injecting Feature: " + featurePath);
 
 			if (!ProcGen.SettingsCache.featureSettings.TryGetValue(featurePath, out var featureSettings)
 				|| !FeatureInjections.TryGetValue(featurePath, out var featureInjections))
 			{
 				return;
 			}
+			//SgtLogger.l("Injecting into Feature: " + featurePath);
 
 			if (featureSettings.ElementChoiceGroups != null)
 			{
@@ -533,8 +714,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 							SgtLogger.warning("[Feature Element Injection]: could not remove " + elementToRemove.second + " from " + elementToRemove.first + ": group does not exist on " + featurePath);
 							continue;
 						}
-						group.choices.RemoveAll(wsh => wsh.element ==  elementToRemove.second.ToString());
-						SgtLogger.l("[Feature Element Injection]: removed " + elementToRemove.second + " from group " + elementToRemove.first + " in " + featurePath);
+						group.choices.RemoveAll(wsh => wsh.element == elementToRemove.second.ToString());
+
+						if (Mod.Instance.mod.IsDev)
+							SgtLogger.l("[Feature Element Injection]: removed " + elementToRemove.second + " from group " + elementToRemove.first + " in " + featurePath);
 					}
 				}
 
@@ -547,11 +730,23 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					}
 					var group = featureSettings.ElementChoiceGroups[injection.ChoiceGroupName];
 					group.choices.Add(new ProcGen.WeightedSimHash(injection.Element.ToString(), injection.weight, injection.Override));
-					SgtLogger.l($"[Feature Element Injection]: Added {injection.Element} to {injection.ChoiceGroupName} in {featurePath}");
+					if(Mod.Instance.mod.IsDev)
+						SgtLogger.l($"[Feature Element Injection]: Added {injection.Element} to {injection.ChoiceGroupName} in {featurePath}");
 				}
 			}
 			remainingFeatures.Remove(featurePath);
-			SgtLogger.l(remainingFeatures.Count + " injections remaining");
+			//SgtLogger.l(remainingFeatures.Count + " injections remaining");
+		}
+
+		public static void InjectFeaturesIntoSubworld(SubWorld subworld, string subworldPath)
+		{
+			//SgtLogger.l("SUBWORLDPATH: " + subworldPath);
+			if (!SubWorldFeatureInjections.FeatureToSubworldInjections.TryGetValue(subworldPath, out var featureInjections))
+				return;
+
+			if (subworld.features == null)
+				subworld.features = [];
+			subworld.features.AddRange(featureInjections.Select(feature => new Feature() { type = feature }));
 		}
 	}
 }

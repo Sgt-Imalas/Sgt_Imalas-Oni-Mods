@@ -40,7 +40,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 			var products = recipeRandomResult.GetRandomProducts();
 			foreach (var productInfo in products)
 			{
-
 				var element = ElementLoader.FindElementByHash(productInfo.first);
 				var pos = Grid.CellToPosCCC(Grid.PosToCell(this), Grid.SceneLayer.Ore) + outputOffset;
 				var product = element.substance.SpawnResource(pos, productInfo.second, recipeRandomResult.GetRandomOutputTemperature(element), 0, 0);

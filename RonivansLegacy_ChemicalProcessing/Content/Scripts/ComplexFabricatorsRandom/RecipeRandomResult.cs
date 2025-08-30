@@ -276,6 +276,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 			}
 			else
 			{
+				var temp = element.defaultValues.temperature;
+				if (temp <= 0)
+				{
+					SgtLogger.warning(element.name + " tried spawning with <0°!");
+					temp = UtilMethods.GetKelvinFromC(40);
+				}
 				return element.defaultValues.temperature;
 			}
 		}
