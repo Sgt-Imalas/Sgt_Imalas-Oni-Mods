@@ -16,7 +16,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 		public static void RegisterTechs(Database.Techs instance)
         {
-            if (Config.Instance.HPA_Rails_Enabled)
+            if (Config.Instance.HPA_Rails_Mod_Enabled)
             {
                 HPA_Rails_Research = new Tech(HPA_Rails_Research_ID, [], instance);
             }
@@ -27,7 +27,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		}
         public static void RegisterTechCards(ResourceTreeLoader<ResourceTreeNode> instance)
 		{
-			if (Config.Instance.HPA_Rails_Enabled)
+			if (Config.Instance.HPA_Rails_Mod_Enabled)
 			{
                 TechUtils.AddNode(instance,
 					HPA_Rails_Research_ID,

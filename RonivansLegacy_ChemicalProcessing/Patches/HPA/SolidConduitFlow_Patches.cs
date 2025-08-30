@@ -22,7 +22,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		public class SolidConduitFlow_UpdateConduit_Patch
 		{
 			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.HPA_Rails_Enabled;
+			public static bool Prepare() => Config.Instance.HPA_Rails_Mod_Enabled;
 
 			public static void Prefix(SolidConduitFlow __instance)
 			{
@@ -118,7 +118,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		public class SolidConduitFlow_DumpPickupable_Patch
 		{
 			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.HPA_Rails_Insulation_Enabled;
+			public static bool Prepare() => Config.Instance.HPA_Rails_Insulation_Mod_Enabled;
 			public static void Prefix(SolidConduitFlow __instance, Pickupable pickupable)
 			{
 				HighPressureConduitRegistration.SetInsulatedState(pickupable, false);
@@ -128,7 +128,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		[HarmonyPatch(typeof(SolidConduitFlow), nameof(SolidConduitFlow.RemovePickupable))]
 		public class SolidConduitFlow_RemovePickupable_Patch
 		{
-			public static bool Prepare() => Config.Instance.HPA_Rails_Insulation_Enabled;
+			public static bool Prepare() => Config.Instance.HPA_Rails_Insulation_Mod_Enabled;
 			public static void Postfix(SolidConduitFlow __instance, ref Pickupable __result)
 			{
 				HighPressureConduitRegistration.SetInsulatedState(__result, false);
@@ -139,7 +139,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		public class SolidConduitFlow_AddPickupable_Patch
 		{
 			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.HPA_Rails_Insulation_Enabled;
+			public static bool Prepare() => Config.Instance.HPA_Rails_Insulation_Mod_Enabled;
 			public static void Postfix(SolidConduitFlow __instance, int cell_idx, Pickupable pickupable)
 			{
 				if(HighPressureConduitRegistration.IsInsulatedRail(cell_idx))

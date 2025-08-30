@@ -26,7 +26,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		public class Pickupable_OnCleanUp_Patch
 		{
 			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.HPA_Rails_Insulation_Enabled;
+			public static bool Prepare() => Config.Instance.HPA_Rails_Insulation_Mod_Enabled;
 			public static void Prefix(Pickupable __instance)
 			{
 				HighPressureConduitRegistration.CleanupPickupable(__instance);

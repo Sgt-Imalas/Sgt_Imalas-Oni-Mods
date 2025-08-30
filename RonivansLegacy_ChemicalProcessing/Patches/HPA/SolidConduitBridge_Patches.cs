@@ -19,7 +19,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		public class SolidConduitBridge_ConduitUpdate_Patch
 		{
 			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.HPA_Rails_Enabled;
+			public static bool Prepare() => Config.Instance.HPA_Rails_Mod_Enabled;
 			internal static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
 			{
 				MethodInfo SolidConduitFlow_RemovePickupable = AccessTools.Method(typeof(SolidConduitFlow), nameof(SolidConduitFlow.RemovePickupable));

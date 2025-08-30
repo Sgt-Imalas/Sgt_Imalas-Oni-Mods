@@ -721,10 +721,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddModFrom(SourceModInfo.HighPressureApplications);
 
 			//solid
-			if (!Config.Instance.HPA_Rails_Enabled)
+			if (!Config.Instance.HPA_Rails_Mod_Enabled)
 				return;
 
-			if (Config.Instance.HPA_Rails_Insulation_Enabled)
+			if (Config.Instance.HPA_Rails_Insulation_Mod_Enabled)
 			{
 				BuildingManager.CreateEntry<HPARailInsulatedConfig>()
 					.AddToCategory(PlanMenuCategory.Shipping, SolidConduitConfig.ID)

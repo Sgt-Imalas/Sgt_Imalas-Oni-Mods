@@ -164,9 +164,14 @@ namespace RonivansLegacy_ChemicalProcessing
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_ENABLE.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_ENABLE.TOOLTIP", "STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS")]
 		public bool HPA_Rails_Enabled { get; set; } = true;
+		[JsonIgnore]
+		public bool HPA_Rails_Mod_Enabled => HPA_Rails_Enabled && HighPressureApplications_Enabled;
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_INSULATION_ENABLE.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_INSULATION_ENABLE.TOOLTIP", "STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS")]
-		public bool HPA_Rails_Insulation_Enabled { get; set; } = true;
+		public bool HPA_Rails_Insulation_Enabled  { get; set; } = true;
+		
+		[JsonIgnore]
+		public bool HPA_Rails_Insulation_Mod_Enabled => HPA_Rails_Enabled && HighPressureApplications_Enabled;
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESREFRIGERATION")]
 		public bool DupesRefrigeration_Enabled { get; set; } = true;
@@ -174,7 +179,6 @@ namespace RonivansLegacy_ChemicalProcessing
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.NAME_ALT", "STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESREFRIGERATION")]
 		[JsonIgnore]
 		public System.Action<object> Button_OpenBuildingConfigEditor_Refrigeration => (_) => BuildingEditor_MainScreen.ShowBuildingEditor(null, SourceModInfo.DupesRefrigeration);
-
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.CUSTOMGENERATORS")]
 		public bool CustomGenerators_Enabled { get; set; } = true;

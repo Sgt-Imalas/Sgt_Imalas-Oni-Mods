@@ -401,7 +401,7 @@ namespace Mineral_Processing_Mining.Buildings
 		{
 			go.AddOrGetDef<PoweredActiveController.Def>().showWorkingStatus = true;
 
-			if (Config.Instance.HPA_Rails_Enabled)
+			if (Config.Instance.HPA_Rails_Mod_Enabled)
 				go.AddOrGet<HPA_SolidConduitRequirement>().RequiresHighPressureOutput = true;
 			AddFloor(go);
 
