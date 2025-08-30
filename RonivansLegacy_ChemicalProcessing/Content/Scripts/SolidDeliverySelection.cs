@@ -21,7 +21,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 		public void OnOptionSelected(FewOptionSideScreen.IFewOptionSideScreen.Option option)
 		{
-			manualDelivery.requestedItemTag = option.tag;
+			manualDelivery.RequestedItemTag = option.tag;
 		}
 	}
 }
