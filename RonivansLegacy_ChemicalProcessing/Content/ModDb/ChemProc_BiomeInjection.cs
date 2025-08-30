@@ -506,6 +506,28 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			FeatureElementInjections.Create("expansion1::features/wasteland/ShallowPool")
 				.TargetGroup("RoomBorderChoices1").Element(ModElements.AmmoniumSalt_Solid, 0.2f).MassOverride(90);
 
+
+			///-[FROSTY PLANET BIOMES]
+			FeatureElementInjections.Create("dlc2::features/icecaves/MetalBlob")
+				.TargetGroup("RoomBorderChoices1").Element(ModElements.Aurichalcite_Solid, 1f);
+			FeatureElementInjections.Create("dlc2::features/carrotquarry/IceBellyCave")
+				.TargetGroup("RoomBorderChoices1").Element(ModElements.Argentite_Solid, 0.3f);
+
+			///-[PREHISTORIC PLANET BIOMES]
+			FeatureElementInjections.Create("dlc4::features/garden/NickelOreBall")
+			.TargetGroup("RoomBorderChoices1").Element(ModElements.Aurichalcite_Solid, 1f);
+
+			FeatureElementInjections.Create("dlc4::features/raptor/RaptorHabitat")
+			.TargetGroup("RoomBorderChoices1").Element(ModElements.Argentite_Solid, 0.3f).Element(ModElements.Chloroschist_Solid, 0.3f);
+
+			FeatureElementInjections.Create("dlc4::features/wetlands/LargeCave")
+			.TargetGroup("RoomBorderChoices1").Element(SimHashes.Electrum, 0.3f)
+			.TargetGroup("RoomBorderChoices2").Element(SimHashes.Electrum, 0.15f);
+
+			FeatureElementInjections.Create("dlc4::features/wetlands/MosquitoCave")
+			.TargetGroup("RoomBorderChoices1").Element(SimHashes.Electrum, 0.4f)
+			.TargetGroup("RoomBorderChoices2").Element(SimHashes.Electrum, 0.4f);
+
 		}
 
 		static void FeatureToSubworldInjection()
