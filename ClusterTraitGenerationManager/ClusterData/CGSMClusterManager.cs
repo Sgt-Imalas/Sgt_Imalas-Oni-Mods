@@ -793,14 +793,14 @@ namespace ClusterTraitGenerationManager.ClusterData
 		{
 			bool ResetSingleItem = singleItemId != string.Empty;
 
+			if (lastWorldGenFailed && !ForceRegen)
+				return;
 
 			if (ResetSingleItem)
 				SgtLogger.l("Regenerating stats for " + singleItemId + " in " + clusterID);
 			else
 				SgtLogger.l("Generating custom cluster from " + clusterID);
 
-			if (lastWorldGenFailed && !ForceRegen)
-				return;
 			ClusterLayout ReferenceLayout = SettingsCache.clusterLayouts.GetClusterData(clusterID);
 
 			if (ReferenceLayout == null || selectScreen == null || selectScreen.newGameSettingsPanel == null)
@@ -926,7 +926,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 					//SgtLogger.l("Grabbing Traits");
 					//int seedTrait = FoundPlanet.IsMixed ? seed - 1 : seed + i; //mixing target is not in cluster -> position will be -1 in original code (potentially adjust in the future)
-					
+
 					///The statement above is what the start screen uses - this is a bug.
 					///during worldgen it uses the index of the replaced asteroid, yielding different traits than shown
 					///using the coordinate everywhere yields the proper mirrored result
@@ -1729,17 +1729,22 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 		static bool lastWorldGenFailed = false;
 		static string CurrentDifficultySettings;
+		static string LastFailedSeed = null;
 		public static void LastWorldGenDidFail(bool fail = true)
 		{
 			lastWorldGenFailed = fail;
 
 			///Store difficulty settings as these get overridden otherwise
 			if (fail)
+			{
 				CurrentDifficultySettings = CustomGameSettings.Instance.GetOtherSettingsCode();
+				LastFailedSeed = CustomGameSettings.Instance.GetCurrentQualitySetting(CustomGameSettingConfigs.WorldgenSeed).id;
+			}
 			else if (!CurrentDifficultySettings.IsNullOrWhiteSpace())
 			{
 				CustomGameSettings.Instance.ParseAndApplySettingsCode(CurrentDifficultySettings);
 				CurrentDifficultySettings = null;
+				LastFailedSeed = null;
 			}
 		}
 
