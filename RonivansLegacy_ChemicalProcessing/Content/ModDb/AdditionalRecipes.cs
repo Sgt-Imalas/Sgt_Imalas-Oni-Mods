@@ -140,10 +140,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
 			{
 				RecipeBuilder.Create(ID, CHEMICAL_COMPLEXFABRICATOR_STRINGS.CRUSHEDROCK_FROM_RAW_MINERAL_DESCRIPTION, 40)
-				.Input(RefinementRecipeHelper.GetCrushables().Select(e => e.id.CreateTag()), 100f)
-				.Output(SimHashes.CrushedRock, 100f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.Input(RefinementRecipeHelper.GetCrushables([SimHashes.Obsidian]).Select(e => e.id.CreateTag()), 100f)
+				.Output(SimHashes.CrushedRock, 100f)
 				.NameOverride(CHEMICAL_COMPLEXFABRICATOR_STRINGS.CRUSHEDROCK_FROM_RAW_MINERAL_NAME)
-				.SortOrder(1)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
 				.Build();
 
