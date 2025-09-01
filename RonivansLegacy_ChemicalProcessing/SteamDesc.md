@@ -15,7 +15,7 @@ You will also be able to not only turn off submods, but individual buildings as 
 Several mods have overlaps in content.
 For example; Mineral Processing - Metallurgy shares nearly all its buildings with Chemical Processing - Industrial Overhaul, leaving the two mods incompatible.
 Additionally, having these amounts of "duplication" over several mods massively increases the maintainance effort, as a bugfix has to be transferred over to each of these versions.
-These overlaps have now been adressed by consolidating these duplicate buildings into a singular building each.
+These overlaps have now been addressed by consolidating these duplicate buildings into a singular building each.
 
 [h2]What Content is in this mod?[/h2]
 This mod contains the content of the following mods:[list]
