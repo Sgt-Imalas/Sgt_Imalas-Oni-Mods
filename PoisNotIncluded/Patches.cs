@@ -186,6 +186,7 @@ namespace PoisNotIncluded
 				ModAssets.TryRegisterDynamicGravitasBuilding_Lamp("PropFacilityChandelier", "gravitas_chandelier_kanim", new Tuple<string, string>("off", "on"), "STRINGS.BUILDINGS.PREFABS.PROPFACILITYCHANDELIER.NAME", "STRINGS.BUILDINGS.PREFABS.PROPFACILITYCHANDELIER.DESC", 5, 7, MATERIALS.ALL_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER4, 480, 18000, 24, new(0, 2), new(0, 6), LightShape.Circle);
 
 				RegisterNewBuilding("WhiteBoard", GameStrings.PlanMenuSubcategory.Decor, BuildLocationRule.OnFloor, "whiteboard_poi_kanim", "off", "STRINGS.BUILDINGS.PREFABS.ROLESTATION.NAME", "STRINGS.BUILDINGS.PREFABS.ROLESTATION.DESC", 2, 2, MATERIALS.ALL_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER2);
+				RegisterNewBuilding("WidePedestal", GameStrings.PlanMenuSubcategory.Wellness, BuildLocationRule.OnFloor, "gravitas_pedestal_regular_kanim", "pedestal_regular", "STRINGS.BUILDINGS.PREFABS.GRAVITASPEDESTAL.NAME", "STRINGS.BUILDINGS.PREFABS.GRAVITASPEDESTAL.DESC", 3, 1, MATERIALS.ALL_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER3);
 
 
 			}
