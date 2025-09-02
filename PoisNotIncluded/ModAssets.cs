@@ -23,14 +23,18 @@ namespace PoisNotIncluded
 		public const string GeneratedIdPrefix = "PNI_";
 		public const string LAEMP_Prefix = "LAEMP_";
 		public const string NEWBUILD_Prefix = "NEWBUILD_";
+		public const string DECONAME_Suffix = "_DECONAME";
 		public const string POI_Category = "PNI_BuildMenuCategory_POI";
 
-		public static bool TryMakeDefFromGravitasEntity(string entityID, BuildLocationRule rule, Tuple<int, int> dimensionOverride, out BuildingDef def, out string prefabID, string animOverride, bool brokenNameAdd)
+		///this is horrible......
+		///next time use a builder pattern from the start
+		///like the one in BuildingCreator.. thats not even finished yet...
+		///
+		public static bool TryMakeDefFromGravitasEntity(string entityID, BuildLocationRule rule, Tuple<int, int> dimensionOverride, out BuildingDef def, out string prefabID, string animOverride, bool brokenNameAdd, bool decorNameAdd)
 		{
 			prefabID = GeneratedIdPrefix + entityID;
 			if (animOverride != null)
 				prefabID += animOverride;
-			string upperPrefabID = prefabID.ToUpperInvariant();
 
 
 			def = null;
@@ -66,8 +70,16 @@ namespace PoisNotIncluded
 			string name = selectable.GetName();
 
 			if (brokenNameAdd)
+			{
 				name = Strings.Get("STRINGS.BUILDING.STATUSITEMS.BROKEN.NAME") + " " + name;
+			}
+			else if (decorNameAdd)
+			{
+				name += " (" + STRINGS.DUPLICANTS.ATTRIBUTES.DECOR.NAME + ")";
+				prefabID += DECONAME_Suffix;
+			}
 
+			string upperPrefabID = prefabID.ToUpperInvariant();
 			Strings.Add($"STRINGS.BUILDINGS.PREFABS.{upperPrefabID}.NAME", name);
 			Strings.Add($"STRINGS.BUILDINGS.PREFABS.{upperPrefabID}.DESC", desc);
 			Strings.Add($"STRINGS.BUILDINGS.PREFABS.{upperPrefabID}.EFFECT", "");
@@ -233,9 +245,12 @@ namespace PoisNotIncluded
 		}
 
 
-		public static void RegisterNewBuilding(string startId, string subcategory, BuildLocationRule rule, string anim, string intialAnim, string name, string desc, int width, int height, string[] mats, float[] costs)
+		public static void RegisterNewBuilding(string startId, string subcategory, BuildLocationRule rule, string anim, string intialAnim, string name, string desc, int width, int height, string[] mats, float[] costs, bool decorName = true, string[] altAnims = null)
 		{
-			string prefabID = GeneratedIdPrefix + LAEMP_Prefix + startId;
+			if (Assets.GetAnim(anim) == null)
+				return;
+
+			string prefabID = GeneratedIdPrefix + NEWBUILD_Prefix + startId;
 			string upperPrefabID = prefabID.ToUpperInvariant();
 			var buildingDef = MakeBuildingDef(prefabID, width, height, costs, mats, anim, intialAnim, rule);
 
@@ -249,17 +264,23 @@ namespace PoisNotIncluded
 			if (desc.Contains("STRINGS."))
 				desc = Strings.Get(desc);
 
+			if (decorName)
+				name += " (" + STRINGS.DUPLICANTS.ATTRIBUTES.DECOR.NAME + ")";
+
 			Strings.Add($"STRINGS.BUILDINGS.PREFABS.{upperPrefabID}.NAME", name);
 			Strings.Add($"STRINGS.BUILDINGS.PREFABS.{upperPrefabID}.DESC", desc);
 			Strings.Add($"STRINGS.BUILDINGS.PREFABS.{upperPrefabID}.EFFECT", "");
 			RegisterDef(buildingDef, subcategory, rule);
 
+			if (altAnims != null)
+				buildingDef.BuildingComplete.AddOrGet<AnimSelector>().AvailableAnimNames = altAnims;
+
 		}
 
-		public static bool TryRegisterDynamicGravitasBuilding(string entityId, string subcategory, BuildLocationRule rule = BuildLocationRule.NotInTiles, Tuple<int, int> dimensionOverride = null, bool backwall = false, string animOverride = null, bool brokenName = false, bool isEntitySpawner = false, string[] materialOverride = null, float[] costOverride = null)
+		public static bool TryRegisterDynamicGravitasBuilding(string entityId, string subcategory, BuildLocationRule rule = BuildLocationRule.NotInTiles, Tuple<int, int> dimensionOverride = null, bool backwall = false, string animOverride = null, bool brokenName = false, bool isEntitySpawner = false, string[] materialOverride = null, float[] costOverride = null, bool decorName = false, string[] altAnims = null)
 		{
 
-			if (!TryMakeDefFromGravitasEntity(entityId, rule, dimensionOverride, out BuildingDef buildingDef, out string prefabId, animOverride, brokenName))
+			if (!TryMakeDefFromGravitasEntity(entityId, rule, dimensionOverride, out BuildingDef buildingDef, out string prefabId, animOverride, brokenName, decorName))
 			{
 				return false;
 			}
@@ -278,6 +299,8 @@ namespace PoisNotIncluded
 
 			if (isEntitySpawner)
 				buildingDef.BuildingComplete.AddOrGet<EntitySpawner>().EntityToSpawn = entityId;
+			if(altAnims != null)
+				buildingDef.BuildingComplete.AddOrGet<AnimSelector>().AvailableAnimNames = altAnims;
 			return true;
 		}
 
@@ -311,6 +334,8 @@ namespace PoisNotIncluded
 			buildingDef.BuildingPreview.name += "Preview";
 
 			buildingDef.PostProcess();
+
+
 			//config.DoPostConfigureComplete(buildingDef.BuildingComplete);
 			//config.DoPostConfigurePreview(buildingDef, buildingDef.BuildingPreview);
 			//config.DoPostConfigureUnderConstruction(buildingDef.BuildingUnderConstruction);

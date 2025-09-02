@@ -1,0 +1,31 @@
+﻿[h1]POIs Now Included[/h1]
+
+This mod adds buildable variants of [b]all[/b] POI buildings and Props. Also you are able to construct story trait buildings.
+
+[img]https://raw.githubusercontent.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/refs/heads/master/Compat_All.png[/img]
+
+[h1]Current latest Version: 1.0.0[/h1]
+
+[hr][/hr]
+
+[h1]Features[/h1]
+[list][*] [b]All[/b] POI buildings and props of all dlcs become available as constructable buildings.
+[*] All poi buildings are in their own build menu category, not cluttering the existing ones
+[*] POI lamps are additionally added as functional lamps.
+[*] Story Trait buildings become available for construction (Note: try not to mass construct them, the underlying story systems are not made to handle that. For the Hermit, construct the mailbox first, then the container, otherwise you will have to save-load to start the quest)
+[*] Dlc Content thats not available will be automatically excluded
+[*] Some POIs will allow different animations, these are selectable when clicking on them (note that anim names are not translatable)
+[*] All building names are taken from the game internals and will be automatically translated
+[/list]
+
+[h1]Bug Reports & Local Download[/h1]
+You can find direct downloads for my mods [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases]here[/url].
+
+Please post bug reports and issues on [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues]GitHub[/url] or on my [url=https://discord.gg/5n7peBCnWZ]Discord Server[/url]. 
+[b]Always include the full player.log in a report: [/b] https://github.com/aki-art/ONI-Mods/wiki/How-to-send-a-log
+
+[b]Make sure you do NOT have the mod "Debug Console" enabled as it breaks the game's logging and makes the log useless for fixing bugs![/b] 
+
+[hr][/hr]
+
+Do you like the mods I made? If you want, you can support me on [url=https://ko-fi.com/sgtimalas]Kofi[/url] :D.

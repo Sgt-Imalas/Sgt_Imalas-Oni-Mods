@@ -27,10 +27,11 @@ namespace PoisNotIncluded
 		{
 			static Dictionary<string, string> GravitasBuildingIds = new Dictionary<string, string>() {
 				{GravitasCreatureManipulatorConfig.ID,StoryTraitsCategory}// critter flux
-				,{MorbRoverConfig.ID ,StoryTraitsCategory }//morb rover maker
+				,{MorbRoverMakerConfig.ID ,StoryTraitsCategory }//morb rover maker
 				,{GravitasContainerConfig.ID,StoryTraitsCategory } //braintank pajamas cubby
 				,{MegaBrainTankConfig.ID,StoryTraitsCategory } //braintank story trait		
 				,{LonelyMinionHouseConfig.ID,StoryTraitsCategory } //minion storytrait		
+				,{LonelyMinionMailboxConfig.ID,StoryTraitsCategory } //minion storytrait		
 				,{FossilDigSiteConfig.ID,StoryTraitsCategory } //fossil storytrait			
 				//,GravitasLabLightConfig.ID ///appears glowing without light		  }
 				,{PropGravitasWallConfig.ID   , GameStrings.PlanMenuSubcategory.Tiles}
@@ -47,6 +48,7 @@ namespace PoisNotIncluded
 				,{PropGravitasLabWindowConfig.ID   , GameStrings.PlanMenuSubcategory.Tiles  }
 				,{PropGravitasLabWindowHorizontalConfig.ID  ,GameStrings.PlanMenuSubcategory.Tiles }
 				,{FacilityBackWallWindowConfig.ID  ,GameStrings.PlanMenuSubcategory.Tiles }
+				//,{TemporalTearOpenerConfig.ID  ,GameStrings.PlanMenuSubcategory.Exploration }
 			};
 
 			[HarmonyPriority(Priority.LowerThanNormal)]
@@ -72,7 +74,7 @@ namespace PoisNotIncluded
 
 
 				TUNING.BUILDINGS.PLANORDER.Add(planInfo);
-				foreach(var id in defIds)
+				foreach (var id in defIds)
 				{
 					InjectionMethods.AddBuildingToPlanScreen(POI_Category, id, GravitasBuildingIds[id]);
 				}
@@ -105,89 +107,99 @@ namespace PoisNotIncluded
 				Strings.Add($"STRINGS.UI.NEWBUILDCATEGORIES.{"exploration".ToUpperInvariant()}.BUILDMENUTITLE", STRINGS.CODEX.CRITTERSTATUS.CRITTERSTATUS_TITLE);
 				Strings.Add($"STRINGS.UI.NEWBUILDCATEGORIES.{"exploration".ToUpperInvariant()}.TOOLTIP", "");
 				Strings.Add($"STRINGS.UI.BUILDCATEGORIES.{POI_Category.ToUpperInvariant()}.NAME", STRINGS.UI.CLUSTERMAP.POI.TITLE);
-				Strings.Add($"STRINGS.UI.BUILDCATEGORIES.{ POI_Category.ToUpperInvariant()}.TOOLTIP", "");
+				Strings.Add($"STRINGS.UI.BUILDCATEGORIES.{POI_Category.ToUpperInvariant()}.TOOLTIP", "");
 
 
-				ModAssets.TryRegisterDynamicGravitasBuilding(FossilSiteConfig_Ice.ID, StoryTraitsCategory,  isEntitySpawner: true, materialOverride: [SimHashes.Fossil.CreateTag().ToString()], costOverride: [4000]);
-				ModAssets.TryRegisterDynamicGravitasBuilding(FossilSiteConfig_Resin.ID, StoryTraitsCategory, isEntitySpawner: true, materialOverride: [SimHashes.Fossil.CreateTag().ToString()], costOverride: [4000]);
-				ModAssets.TryRegisterDynamicGravitasBuilding(FossilSiteConfig_Rock.ID, StoryTraitsCategory, isEntitySpawner: true, materialOverride: [SimHashes.Fossil.CreateTag().ToString()], costOverride: [4000]);
+				TryRegisterDynamicGravitasBuilding(FossilSiteConfig_Ice.ID, StoryTraitsCategory, BuildLocationRule.OnFloor, isEntitySpawner: true, materialOverride: [SimHashes.Fossil.CreateTag().ToString()], costOverride: [4000]);
+				TryRegisterDynamicGravitasBuilding(FossilSiteConfig_Resin.ID, StoryTraitsCategory, BuildLocationRule.OnFloor, isEntitySpawner: true, materialOverride: [SimHashes.Fossil.CreateTag().ToString()], costOverride: [4000]);
+				TryRegisterDynamicGravitasBuilding(FossilSiteConfig_Rock.ID, StoryTraitsCategory, BuildLocationRule.OnFloor, isEntitySpawner: true, materialOverride: [SimHashes.Fossil.CreateTag().ToString()], costOverride: [4000]);
+				RegisterNewBuilding("TemporalTearOpener", GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, "temporal_tear_opener_kanim", "off", "STRINGS.BUILDINGS.PREFABS.TEMPORALTEAROPENER.NAME", "STRINGS.BUILDINGS.PREFABS.TEMPORALTEAROPENER.DESC", 3, 4, MATERIALS.ALL_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER4, decorName: true, altAnims: ["off", "on", "inert", "working_loop"]);
 
 
-				ModAssets.TryRegisterDynamicGravitasBuilding("PropCeresPosterA", GameStrings.PlanMenuSubcategory.Decor);
-				ModAssets.TryRegisterDynamicGravitasBuilding("PropCeresPosterB", GameStrings.PlanMenuSubcategory.Decor);
-				ModAssets.TryRegisterDynamicGravitasBuilding("PropCeresPosterLarge", GameStrings.PlanMenuSubcategory.Decor);
-				ModAssets.TryRegisterDynamicGravitasBuilding("PropClock", GameStrings.PlanMenuSubcategory.Decor);
-				ModAssets.TryRegisterDynamicGravitasBuilding("PropClothesHanger", GameStrings.PlanMenuSubcategory.Decor, materialOverride: [GameTags.Metal.ToString()]);
-				//ModAssets.TryRegisterDynamicGravitasBuilding("PropClothesHanger", animOverride: "off", materialOverride: [GameTags.Metal.ToString()]);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("PropDesk",  GameStrings.PlanMenuSubcategory.Wellness);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("PropDlc2GeothermalCart", GameStrings.PlanMenuSubcategory.Decor);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("PropElevator", GameStrings.PlanMenuSubcategory.Decor);
-				ModAssets.TryRegisterDynamicGravitasBuilding("PropExoShelfLong", GameStrings.PlanMenuSubcategory.Decor);
-				ModAssets.TryRegisterDynamicGravitasBuilding("PropExoShelfShort", GameStrings.PlanMenuSubcategory.Decor);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("PropFacilityChair", GameStrings.PlanMenuSubcategory.Wellness);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("PropFacilityChairFlip", GameStrings.PlanMenuSubcategory.Wellness);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("PropFacilityCouch", GameStrings.PlanMenuSubcategory.Wellness, new(5, 0));
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("PropFacilityDesk", GameStrings.PlanMenuSubcategory.Wellness);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("PropFacilityDisplay", GameStrings.PlanMenuSubcategory.Exploration);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("PropFacilityDisplay2", GameStrings.PlanMenuSubcategory.Exploration);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("PropFacilityDisplay3", GameStrings.PlanMenuSubcategory.Exploration);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("PropGravitasDisplay4", GameStrings.PlanMenuSubcategory.Exploration);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("PropDlc2Display1", GameStrings.PlanMenuSubcategory.Exploration);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("PropFacilityGlobeDroors", GameStrings.PlanMenuSubcategory.Decor);
-				ModAssets.TryRegisterDynamicGravitasBuilding("PropFacilityPainting", GameStrings.PlanMenuSubcategory.Decor);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("PropFacilityStatue", GameStrings.PlanMenuSubcategory.Decor);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("PropFacilityTable", GameStrings.PlanMenuSubcategory.Wellness, new(2, 0));
-				ModAssets.TryRegisterDynamicGravitasBuilding("PropFacilityWallDegree", GameStrings.PlanMenuSubcategory.Decor);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Ceiling("PropGravitasCeilingRobot", GameStrings.PlanMenuSubcategory.Manufacturing, new(0, 5));
-				ModAssets.TryRegisterDynamicGravitasBuilding("PropGravitasCreaturePoster", GameStrings.PlanMenuSubcategory.Decor);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("PropGravitasDeskPodium", GameStrings.PlanMenuSubcategory.Manufacturing);
-				ModAssets.TryRegisterDynamicGravitasBuilding("PropGravitasFireExtinguisher", GameStrings.PlanMenuSubcategory.Manufacturing);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("PropGravitasFirstAidKit", GameStrings.PlanMenuSubcategory.Medical);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("PropGravitasFloorRobot", GameStrings.PlanMenuSubcategory.Manufacturing);
-				ModAssets.TryRegisterDynamicGravitasBuilding("PropGravitasHandScanner", GameStrings.PlanMenuSubcategory.Manufacturing);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("PropGravitasJar1", GameStrings.PlanMenuSubcategory.Exploration);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("PropGravitasJar2", GameStrings.PlanMenuSubcategory.Exploration);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("PropGravitasLabTable", GameStrings.PlanMenuSubcategory.Wellness);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("PropGravitasRobitcTable", GameStrings.PlanMenuSubcategory.Manufacturing);
-				ModAssets.TryRegisterDynamicGravitasBuilding("PropGravitasShelf", GameStrings.PlanMenuSubcategory.Decor);
-				ModAssets.TryRegisterDynamicGravitasBuilding("PropGravitasSmallSeedLocker", GameStrings.PlanMenuSubcategory.Manufacturing);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("PropGravitasToolCrate", GameStrings.PlanMenuSubcategory.Manufacturing);
-				ModAssets.TryRegisterDynamicGravitasBuilding("PropGravitasToolShelf", GameStrings.PlanMenuSubcategory.Manufacturing);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("PropHumanChesterfieldChair", GameStrings.PlanMenuSubcategory.Wellness, new(3, 2));
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("PropHumanChesterfieldSofa", GameStrings.PlanMenuSubcategory.Wellness, new(5, 2));
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("PropHumanMurphyBed", GameStrings.PlanMenuSubcategory.Wellness, new Tuple<int, int>(7, 4));
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("PropReceptionDesk", GameStrings.PlanMenuSubcategory.Wellness);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("PropSkeleton", GameStrings.PlanMenuSubcategory.Decor);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("PropSurfaceSatellite1", GameStrings.PlanMenuSubcategory.Exploration);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("PropSurfaceSatellite2", GameStrings.PlanMenuSubcategory.Exploration);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("PropSurfaceSatellite3", GameStrings.PlanMenuSubcategory.Exploration);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("PropTable", GameStrings.PlanMenuSubcategory.Wellness);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("PropTallPlant", GameStrings.PlanMenuSubcategory.Wellness);
+				TryRegisterDynamicGravitasBuilding("PropCeresPosterA", GameStrings.PlanMenuSubcategory.Decor);
+				TryRegisterDynamicGravitasBuilding("PropCeresPosterB", GameStrings.PlanMenuSubcategory.Decor);
+				TryRegisterDynamicGravitasBuilding("PropCeresPosterLarge", GameStrings.PlanMenuSubcategory.Decor, backwall: true);
+				TryRegisterDynamicGravitasBuilding("PropClock", GameStrings.PlanMenuSubcategory.Decor);
+				TryRegisterDynamicGravitasBuilding("PropClothesHanger", GameStrings.PlanMenuSubcategory.Storage, materialOverride: [GameTags.Metal.ToString()], altAnims: ["on","off"]);
+				TryRegisterDynamicGravitasBuilding_Floor("PropDesk", GameStrings.PlanMenuSubcategory.Wellness);
+				TryRegisterDynamicGravitasBuilding_Floor("PropDlc2GeothermalCart", GameStrings.PlanMenuSubcategory.Decor);
+				TryRegisterDynamicGravitasBuilding_Floor("PropElevator", GameStrings.PlanMenuSubcategory.Decor);
+				TryRegisterDynamicGravitasBuilding("PropExoShelfLong", GameStrings.PlanMenuSubcategory.Decor);
+				TryRegisterDynamicGravitasBuilding("PropExoShelfShort", GameStrings.PlanMenuSubcategory.Decor);
+				TryRegisterDynamicGravitasBuilding_Floor("PropFacilityChair", GameStrings.PlanMenuSubcategory.Wellness);
+				TryRegisterDynamicGravitasBuilding_Floor("PropFacilityChairFlip", GameStrings.PlanMenuSubcategory.Wellness);
+				TryRegisterDynamicGravitasBuilding_Floor("PropFacilityCouch", GameStrings.PlanMenuSubcategory.Wellness, new(5, 0));
+				TryRegisterDynamicGravitasBuilding_Floor("PropFacilityDesk", GameStrings.PlanMenuSubcategory.Wellness);
+				TryRegisterDynamicGravitasBuilding_Floor("PropFacilityDisplay", GameStrings.PlanMenuSubcategory.Exploration);
+				TryRegisterDynamicGravitasBuilding_Floor("PropFacilityDisplay2", GameStrings.PlanMenuSubcategory.Exploration);
+				TryRegisterDynamicGravitasBuilding_Floor("PropFacilityDisplay3", GameStrings.PlanMenuSubcategory.Exploration);
+				TryRegisterDynamicGravitasBuilding_Floor("PropGravitasDisplay4", GameStrings.PlanMenuSubcategory.Exploration);
+				TryRegisterDynamicGravitasBuilding_Floor("PropDlc2Display1", GameStrings.PlanMenuSubcategory.Exploration);
+				TryRegisterDynamicGravitasBuilding_Floor("PropFacilityGlobeDroors", GameStrings.PlanMenuSubcategory.Decor);
+				TryRegisterDynamicGravitasBuilding("PropFacilityPainting", GameStrings.PlanMenuSubcategory.Decor);
+				TryRegisterDynamicGravitasBuilding_Floor("PropFacilityStatue", GameStrings.PlanMenuSubcategory.Decor);
+				TryRegisterDynamicGravitasBuilding_Floor("PropFacilityTable", GameStrings.PlanMenuSubcategory.Wellness, new(2, 0));
+				TryRegisterDynamicGravitasBuilding("PropFacilityWallDegree", GameStrings.PlanMenuSubcategory.Decor);
+				TryRegisterDynamicGravitasBuilding_Ceiling("PropGravitasCeilingRobot", GameStrings.PlanMenuSubcategory.Manufacturing, new(0, 5));
+				TryRegisterDynamicGravitasBuilding("PropGravitasCreaturePoster", GameStrings.PlanMenuSubcategory.Decor);
+				TryRegisterDynamicGravitasBuilding_Floor("PropGravitasDeskPodium", GameStrings.PlanMenuSubcategory.Manufacturing);
+				TryRegisterDynamicGravitasBuilding("PropGravitasFireExtinguisher", GameStrings.PlanMenuSubcategory.Manufacturing);
+				TryRegisterDynamicGravitasBuilding_Floor("PropGravitasFirstAidKit", GameStrings.PlanMenuSubcategory.Medical);
+				TryRegisterDynamicGravitasBuilding_Floor("PropGravitasFloorRobot", GameStrings.PlanMenuSubcategory.Manufacturing);
+				TryRegisterDynamicGravitasBuilding("PropGravitasHandScanner", GameStrings.PlanMenuSubcategory.Manufacturing);
+				TryRegisterDynamicGravitasBuilding_Floor("PropGravitasJar1", GameStrings.PlanMenuSubcategory.Exploration);
+				TryRegisterDynamicGravitasBuilding_Floor("PropGravitasJar2", GameStrings.PlanMenuSubcategory.Exploration);
+				TryRegisterDynamicGravitasBuilding_Floor("PropGravitasLabTable", GameStrings.PlanMenuSubcategory.Wellness);
+				TryRegisterDynamicGravitasBuilding_Floor("PropGravitasRobitcTable", GameStrings.PlanMenuSubcategory.Manufacturing);
+				TryRegisterDynamicGravitasBuilding("PropGravitasShelf", GameStrings.PlanMenuSubcategory.Decor);
+				TryRegisterDynamicGravitasBuilding_Floor("PropGravitasToolCrate", GameStrings.PlanMenuSubcategory.Manufacturing);
+				TryRegisterDynamicGravitasBuilding("PropGravitasToolShelf", GameStrings.PlanMenuSubcategory.Manufacturing);
+				TryRegisterDynamicGravitasBuilding_Floor("PropHumanChesterfieldChair", GameStrings.PlanMenuSubcategory.Wellness, new(3, 2));
+				TryRegisterDynamicGravitasBuilding_Floor("PropHumanChesterfieldSofa", GameStrings.PlanMenuSubcategory.Wellness, new(5, 2));
+				TryRegisterDynamicGravitasBuilding_Floor("PropHumanMurphyBed", GameStrings.PlanMenuSubcategory.Wellness, new Tuple<int, int>(7, 4));
+				TryRegisterDynamicGravitasBuilding_Floor("PropReceptionDesk", GameStrings.PlanMenuSubcategory.Wellness);
+				TryRegisterDynamicGravitasBuilding_Floor("PropSkeleton", GameStrings.PlanMenuSubcategory.Decor);
+				TryRegisterDynamicGravitasBuilding("PropSurfaceSatellite1", GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, decorName: true);
+				TryRegisterDynamicGravitasBuilding("PropSurfaceSatellite2", GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, decorName: true);
+				TryRegisterDynamicGravitasBuilding("PropSurfaceSatellite3", GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, decorName: true);
+				TryRegisterDynamicGravitasBuilding_Floor("PropTable", GameStrings.PlanMenuSubcategory.Wellness);
+				TryRegisterDynamicGravitasBuilding_Floor("PropTallPlant", GameStrings.PlanMenuSubcategory.Wellness);
 
-				ModAssets.TryRegisterDynamicGravitasBuilding_Backwall("PropGravitasDecorativeWindow", GameStrings.PlanMenuSubcategory.Tiles);
+				//TryRegisterDynamicGravitasBuilding("CryoTank", GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, animOverride: "on", isEntitySpawner:true);
+				TryRegisterDynamicGravitasBuilding("CryoTank", GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, animOverride: "on", decorName: true, altAnims: ["off", "on"]);
 
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("MissileSetLocker", GameStrings.PlanMenuSubcategory.Storage);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("PropExoSetLocker", GameStrings.PlanMenuSubcategory.Storage);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("SetLocker", GameStrings.PlanMenuSubcategory.Storage);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Floor("VendingMachine", GameStrings.PlanMenuSubcategory.Storage);
+				TryRegisterDynamicGravitasBuilding_Backwall("PropGravitasDecorativeWindow", GameStrings.PlanMenuSubcategory.Tiles);
 
-				ModAssets.TryRegisterDynamicGravitasBuilding("FossilBitsLarge", GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, materialOverride: [SimHashes.Fossil.CreateTag().ToString()]);
-				ModAssets.TryRegisterDynamicGravitasBuilding("FossilBitsSmall", GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, materialOverride: [SimHashes.Fossil.CreateTag().ToString()]);
+				TryRegisterDynamicGravitasBuilding("MissileSetLocker", GameStrings.PlanMenuSubcategory.Storage, BuildLocationRule.OnFloor, altAnims: ["off", "on"]);
+				TryRegisterDynamicGravitasBuilding("PropExoSetLocker", GameStrings.PlanMenuSubcategory.Storage, BuildLocationRule.OnFloor, altAnims: ["off", "on"]);
+				TryRegisterDynamicGravitasBuilding("SetLocker", GameStrings.PlanMenuSubcategory.Storage, BuildLocationRule.OnFloor, altAnims: ["off", "on"]);
+				TryRegisterDynamicGravitasBuilding("VendingMachine", GameStrings.PlanMenuSubcategory.Storage, BuildLocationRule.OnFloor, altAnims: ["off", "on"]);
+				TryRegisterDynamicGravitasBuilding("PropGravitasSmallSeedLocker", GameStrings.PlanMenuSubcategory.Storage, altAnims: ["empty", "on"]);
+
+				TryRegisterDynamicGravitasBuilding("FossilBitsLarge", GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, materialOverride: [SimHashes.Fossil.CreateTag().ToString()]);
+				TryRegisterDynamicGravitasBuilding("FossilBitsSmall", GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, materialOverride: [SimHashes.Fossil.CreateTag().ToString()]);
 
 
-				ModAssets.TryRegisterDynamicGravitasBuilding("PropLight", GameStrings.PlanMenuSubcategory.Lights, BuildLocationRule.OnCeiling, brokenName: true);
-				ModAssets.TryRegisterDynamicGravitasBuilding("PropFacilityHangingLight", GameStrings.PlanMenuSubcategory.Lights, BuildLocationRule.OnCeiling, brokenName: true);
-				ModAssets.TryRegisterDynamicGravitasBuilding("PropFacilityChandelier", GameStrings.PlanMenuSubcategory.Lights, BuildLocationRule.OnCeiling, brokenName: true);
+				TryRegisterDynamicGravitasBuilding("PropLight", GameStrings.PlanMenuSubcategory.Lights, BuildLocationRule.OnCeiling, brokenName: true, altAnims: ["off","misc"]);
+				TryRegisterDynamicGravitasBuilding("PropFacilityHangingLight", GameStrings.PlanMenuSubcategory.Lights, BuildLocationRule.OnCeiling, brokenName: true);
+				TryRegisterDynamicGravitasBuilding("PropFacilityChandelier", GameStrings.PlanMenuSubcategory.Lights, BuildLocationRule.OnCeiling, brokenName: true);
 
-				ModAssets.TryRegisterDynamicGravitasBuilding_Lamp("PropLight", "setpiece_light_kanim", new Tuple<string, string>("misc", "on"), "STRINGS.BUILDINGS.PREFABS.PROPLIGHT.NAME", "STRINGS.BUILDINGS.PREFABS.PROPLIGHT.DESC", 1, 1, MATERIALS.ALL_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER1, 10, 1800, 8, LIGHT2D.CEILINGLIGHT_OFFSET, new(0, 0), LightShape.Cone);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Lamp("CeilingLight_Pretty", "ceilinglight_pretty_kanim", new Tuple<string, string>("off", "on"), "STRINGS.BUILDINGS.PREFABS.PROPLIGHT.NAME", "STRINGS.BUILDINGS.PREFABS.PROPLIGHT.DESC", 1, 1, MATERIALS.ALL_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER1, 10, 1800, 8, LIGHT2D.CEILINGLIGHT_OFFSET, new(0, 0), LightShape.Cone);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Lamp("GravitasLabLight", "gravitas_lab_light_kanim", new Tuple<string, string>("on", "off"), "STRINGS.BUILDINGS.PREFABS.GRAVITASLABLIGHT.NAME", "STRINGS.BUILDINGS.PREFABS.GRAVITASLABLIGHT.DESC", 1, 1, MATERIALS.ALL_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER1, 20, 2400, 10, LIGHT2D.CEILINGLIGHT_OFFSET, new(0, 0), LightShape.Cone);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Lamp("PropFacilityHangingLight", "gravitas_light_kanim", new Tuple<string, string>("off", "on"), "STRINGS.BUILDINGS.PREFABS.PROPFACILITYLAMP.NAME", "STRINGS.BUILDINGS.PREFABS.PROPFACILITYLAMP.DESC", 1, 4, MATERIALS.ALL_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER3, 120, 8000, 16, new(0, 0.75f), new(0, 4), LightShape.Circle);
-				ModAssets.TryRegisterDynamicGravitasBuilding_Lamp("PropFacilityChandelier", "gravitas_chandelier_kanim", new Tuple<string, string>("off", "on"), "STRINGS.BUILDINGS.PREFABS.PROPFACILITYCHANDELIER.NAME", "STRINGS.BUILDINGS.PREFABS.PROPFACILITYCHANDELIER.DESC", 5, 7, MATERIALS.ALL_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER4, 480, 18000, 24, new(0, 2), new(0, 6), LightShape.Circle);
+				TryRegisterDynamicGravitasBuilding_Lamp("PropLight", "setpiece_light_kanim", new Tuple<string, string>("misc", "on"), "STRINGS.BUILDINGS.PREFABS.PROPLIGHT.NAME", "STRINGS.BUILDINGS.PREFABS.PROPLIGHT.DESC", 1, 1, MATERIALS.ALL_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER1, 10, 1800, 8, LIGHT2D.CEILINGLIGHT_OFFSET, new(0, 0), LightShape.Cone);
+				TryRegisterDynamicGravitasBuilding_Lamp("CeilingLight_Pretty", "ceilinglight_pretty_kanim", new Tuple<string, string>("off", "on"), "STRINGS.BUILDINGS.PREFABS.PROPLIGHT.NAME", "STRINGS.BUILDINGS.PREFABS.PROPLIGHT.DESC", 1, 1, MATERIALS.ALL_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER1, 10, 1800, 8, LIGHT2D.CEILINGLIGHT_OFFSET, new(0, 0), LightShape.Cone);
+				TryRegisterDynamicGravitasBuilding_Lamp("GravitasLabLight", "gravitas_lab_light_kanim", new Tuple<string, string>("on", "off"), "STRINGS.BUILDINGS.PREFABS.GRAVITASLABLIGHT.NAME", "STRINGS.BUILDINGS.PREFABS.GRAVITASLABLIGHT.DESC", 1, 1, MATERIALS.ALL_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER1, 20, 2400, 10, LIGHT2D.CEILINGLIGHT_OFFSET, new(0, 0), LightShape.Cone);
+				TryRegisterDynamicGravitasBuilding_Lamp("PropFacilityHangingLight", "gravitas_light_kanim", new Tuple<string, string>("off", "on"), "STRINGS.BUILDINGS.PREFABS.PROPFACILITYLAMP.NAME", "STRINGS.BUILDINGS.PREFABS.PROPFACILITYLAMP.DESC", 1, 4, MATERIALS.ALL_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER3, 120, 8000, 16, new(0, 0.75f), new(0, 4), LightShape.Circle);
+				TryRegisterDynamicGravitasBuilding_Lamp("PropFacilityChandelier", "gravitas_chandelier_kanim", new Tuple<string, string>("off", "on"), "STRINGS.BUILDINGS.PREFABS.PROPFACILITYCHANDELIER.NAME", "STRINGS.BUILDINGS.PREFABS.PROPFACILITYCHANDELIER.DESC", 5, 7, MATERIALS.ALL_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER4, 480, 18000, 24, new(0, 2), new(0, 6), LightShape.Circle);
 
-				RegisterNewBuilding("WhiteBoard", GameStrings.PlanMenuSubcategory.Decor, BuildLocationRule.OnFloor, "whiteboard_poi_kanim", "off", "STRINGS.BUILDINGS.PREFABS.ROLESTATION.NAME", "STRINGS.BUILDINGS.PREFABS.ROLESTATION.DESC", 2, 2, MATERIALS.ALL_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER2);
+				RegisterNewBuilding("WhiteBoard", GameStrings.PlanMenuSubcategory.Decor, BuildLocationRule.OnFloor, "whiteboard_poi_kanim", "off", "STRINGS.BUILDINGS.PREFABS.ROLESTATION.NAME", "STRINGS.BUILDINGS.PREFABS.ROLESTATION.DESC", 2, 2, MATERIALS.ALL_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER2,false);
 				RegisterNewBuilding("WidePedestal", GameStrings.PlanMenuSubcategory.Wellness, BuildLocationRule.OnFloor, "gravitas_pedestal_regular_kanim", "pedestal_regular", "STRINGS.BUILDINGS.PREFABS.GRAVITASPEDESTAL.NAME", "STRINGS.BUILDINGS.PREFABS.GRAVITASPEDESTAL.DESC", 3, 1, MATERIALS.ALL_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER3);
-
+				
+				RegisterNewBuilding("WarpConduitSender", GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, "warp_conduit_sender_kanim", "idle", "STRINGS.BUILDINGS.PREFABS.WARPCONDUITSENDER.NAME", "STRINGS.BUILDINGS.PREFABS.WARPCONDUITSENDER.DESC", 4, 3, MATERIALS.ALL_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER4, decorName: true, altAnims: ["off", "idle", "working_loop"]);
+				RegisterNewBuilding("WarpConduitReceiver", GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, "warp_conduit_receiver_kanim", "off", "STRINGS.BUILDINGS.PREFABS.WARPCONDUITRECEIVER.NAME", "STRINGS.BUILDINGS.PREFABS.WARPCONDUITRECEIVER.DESC", 4, 3, MATERIALS.ALL_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER4, decorName: true, altAnims: ["off", "idle","working_loop"]);
+				RegisterNewBuilding("GeneShuffler", GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, "geneshuffler_kanim", "on", "STRINGS.BUILDINGS.PREFABS.GENESHUFFLER.NAME", "STRINGS.BUILDINGS.PREFABS.GENESHUFFLER.DESC", 4, 3, MATERIALS.ALL_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER4, decorName:true, altAnims: ["on", "off", "recharging"]);
+				TryRegisterDynamicGravitasBuilding(WarpPortalConfig.ID, GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor,decorName:true, altAnims: ["recharge", "idle"]);
+				TryRegisterDynamicGravitasBuilding(WarpReceiverConfig.ID, GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, decorName: true, altAnims: ["off", "idle"]);
+				TryRegisterDynamicGravitasBuilding(PioneerLanderConfig.ID, GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, decorName: true);
+				TryRegisterDynamicGravitasBuilding(ScoutLanderConfig.ID, GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, decorName: true);
 
 			}
 		}

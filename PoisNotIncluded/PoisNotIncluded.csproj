@@ -23,8 +23,8 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>PoisNotIncluded</ModName>
-		<ModDescription></ModDescription>
+		<ModName>POIs Now Included</ModName>
+		<ModDescription>All POI buildings become constructable.</ModDescription>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
@@ -39,7 +39,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Content\Defs\Buildings\" />
 	  <Folder Include="Patches\" />
 	</ItemGroup>
 </Project>
