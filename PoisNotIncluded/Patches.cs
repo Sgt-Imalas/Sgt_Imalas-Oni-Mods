@@ -132,7 +132,7 @@ namespace PoisNotIncluded
 				TryRegisterDynamicGravitasBuilding_Floor("PropFacilityDesk", GameStrings.PlanMenuSubcategory.Wellness);
 				TryRegisterDynamicGravitasBuilding_Floor("PropFacilityDisplay", GameStrings.PlanMenuSubcategory.Exploration);
 				TryRegisterDynamicGravitasBuilding_Floor("PropFacilityDisplay2", GameStrings.PlanMenuSubcategory.Exploration);
-				TryRegisterDynamicGravitasBuilding_Floor("PropFacilityDisplay3", GameStrings.PlanMenuSubcategory.Exploration);
+				TryRegisterDynamicGravitasBuilding("PropFacilityDisplay3", GameStrings.PlanMenuSubcategory.Exploration,BuildLocationRule.NotInTiles);
 				TryRegisterDynamicGravitasBuilding_Floor("PropGravitasDisplay4", GameStrings.PlanMenuSubcategory.Exploration);
 				TryRegisterDynamicGravitasBuilding_Floor("PropDlc2Display1", GameStrings.PlanMenuSubcategory.Exploration);
 				TryRegisterDynamicGravitasBuilding_Floor("PropFacilityGlobeDroors", GameStrings.PlanMenuSubcategory.Decor);
@@ -172,7 +172,7 @@ namespace PoisNotIncluded
 
 				TryRegisterDynamicGravitasBuilding("MissileSetLocker", GameStrings.PlanMenuSubcategory.Storage, BuildLocationRule.OnFloor, altAnims: ["off", "on"]);
 				TryRegisterDynamicGravitasBuilding("PropExoSetLocker", GameStrings.PlanMenuSubcategory.Storage, BuildLocationRule.OnFloor, altAnims: ["off", "on"]);
-				TryRegisterDynamicGravitasBuilding("SetLocker", GameStrings.PlanMenuSubcategory.Storage, BuildLocationRule.OnFloor, altAnims: ["off", "on"]);
+				TryRegisterDynamicGravitasBuilding("SetLocker", GameStrings.PlanMenuSubcategory.Storage, BuildLocationRule.OnFloor);
 				TryRegisterDynamicGravitasBuilding("VendingMachine", GameStrings.PlanMenuSubcategory.Storage, BuildLocationRule.OnFloor, altAnims: ["off", "on"]);
 				TryRegisterDynamicGravitasBuilding("PropGravitasSmallSeedLocker", GameStrings.PlanMenuSubcategory.Storage, altAnims: ["empty", "on"]);
 
