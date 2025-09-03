@@ -19,10 +19,18 @@ namespace SkillsInfoScreen
 		static Dictionary<string, float> MaxSkillLevels;
 		bool hookedUp = false;
 
+		bool RainbowGradient = false;
+
 		Color Bad, Medium, Good;
+
+		//Gradient ColorGradient;
 
 		public override void OnActivate()
 		{
+			int colorBlindnessMode = KPlayerPrefs.GetInt(GraphicsOptionsScreen.ColorModeKey);
+			RainbowGradient = colorBlindnessMode == 0;
+			//ColorGradient = new Gradient();
+
 			Good = (Color)GlobalAssets.Instance.colorSet.cropGrown;
 			Good.a = 1; //a is 0 for these by default, but that doesnt allow tinting the symbols here
 			Good = UIUtils.Darken(Good, 10);
@@ -35,6 +43,35 @@ namespace SkillsInfoScreen
 			Bad.a = 1;
 			Bad = UIUtils.Darken(Bad, 10);
 
+			//if (!RainbowGradient)
+			//{
+			//	// Blend color from red at 0% to blue at 100%
+			//	GradientColorKey[] colors = [
+			//		new GradientColorKey(Color.red, 0.0f),
+			//		new GradientColorKey(Color.blue, 1.0f)];
+
+			//	// Blend alpha from opaque at 0% to transparent at 100%
+			//	GradientAlphaKey[] alphas = [
+			//		new GradientAlphaKey(1.0f, 0.0f),
+			//		new GradientAlphaKey(1.0f, 1.0f)
+			//		];
+			//	ColorGradient.SetKeys(colors, alphas);
+			//}
+			//else
+			//{
+			//	List<GradientColorKey> colors = new(45);
+			//	List<GradientAlphaKey> alphas = new(45);
+			//	var darkenedRed = UIUtils.Darken(Color.red, 25);
+			//	int step = 6;
+
+			//	for (int i = 0; i < 45; i++)
+			//	{
+			//		float percentage = (float)i / 45f;
+			//		colors.Add(new(UIUtils.HSVShift(darkenedRed, (i * step / 360f)), percentage));
+			//		alphas.Add(new(1, percentage));
+			//	}
+			//	ColorGradient.SetKeys(colors.ToArray(), alphas.ToArray());
+			//}
 
 			this.has_default_duplicant_row = false;
 			this.title = (string)global::STRINGS.UI.CHARACTERCONTAINER_SKILLS_TITLE;
@@ -151,11 +188,19 @@ namespace SkillsInfoScreen
 
 		Color GetIntensityColor(float level, string attributeId)
 		{
-			if (level < 0) 
-				level = 0;
+			if (RainbowGradient)
+			{
+				level = Mathf.Clamp(level, 0, 45);
+
+				//return ColorGradient.Evaluate(level / 45f);
+
+				float hsvShift = (level * 6f) / 360f;
+				return UIUtils.Darken(UIUtils.HSVShift(Color.red, hsvShift * 100), 25);
+			}
 			float maxLevel = MaxSkillLevels[attributeId];
 			float midPoint = maxLevel / 2;
 
+			///This is a way less resource intensive lerp than color.lerp
 			float levelMinusMidPoint = level - midPoint;
 
 			float r_bad = Bad.r * Bad.r;
@@ -190,7 +235,7 @@ namespace SkillsInfoScreen
 				g_final = Mathf.Sqrt(g_bad * lerpInv + g_mid * lerp);
 				b_final = Mathf.Sqrt(b_bad * lerpInv + b_mid * lerp);
 			}
-			return new Color(r_final,g_final,b_final);
+			return new Color(r_final, g_final, b_final);
 		}
 
 
