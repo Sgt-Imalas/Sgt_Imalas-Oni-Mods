@@ -52,11 +52,19 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				on.working_pre.PlayAnim("working_pre").OnAnimQueueComplete(on.working);
 				on.working.Enter(delegate (StatesInstance smi)
 				{
+					if (smi.master.ShowWorkingStatus)
+					{
+						smi.master.selectable.AddStatusItem(Db.Get().BuildingStatusItems.Working);
+					}
 					smi.master.operational.SetActive(value: true);
 				}).QueueAnim("working_loop", loop: true)
 				.EventTransition(GameHashes.OnStorageChange, on.working_pst, (StatesInstance smi) => !smi.master.CanConvertAtAll())
 				.Exit(delegate (StatesInstance smi)
 				{
+					if (smi.master.ShowWorkingStatus)
+					{
+						smi.master.selectable.RemoveStatusItem(Db.Get().BuildingStatusItems.Working);
+					}
 					smi.master.operational.SetActive(value: false);
 				});
 				on.working_pst.PlayAnim("working_pst")
@@ -64,6 +72,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			}
 		}
 
+		[MyCmpGet]
+		public KSelectable selectable;
 		[MyCmpGet]
 		public Operational operational;
 		[MyCmpGet]
@@ -76,6 +86,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		/// when a building has secondary converters that should not run without the primary one, only check for the primary converter state to determine operational
 		public bool UsePrimaryConverterOnly = false;
 
+		[SerializeField]
+		public bool ShowWorkingStatus = true;
 
 		public static readonly EventSystem.IntraObjectHandler<ElementConversionBuilding> OnConduitConnectionChangedDelegate = new EventSystem.IntraObjectHandler<ElementConversionBuilding>(delegate (ElementConversionBuilding component, object data)
 		{

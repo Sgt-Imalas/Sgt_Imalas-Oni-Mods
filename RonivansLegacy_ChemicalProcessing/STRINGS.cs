@@ -787,7 +787,7 @@ namespace RonivansLegacy_ChemicalProcessing
 						FormatAsLink("Yellow Cake", "YELLOWCAKE"),
 						". The separation process releases small amounts of ",
 						FormatAsLink("Depleted Uranium", "DEPLETEDURANIUM"),
-						"as waste product."
+						" as waste product."
 						]);
 				}
 				public class HEPCALCINATOR

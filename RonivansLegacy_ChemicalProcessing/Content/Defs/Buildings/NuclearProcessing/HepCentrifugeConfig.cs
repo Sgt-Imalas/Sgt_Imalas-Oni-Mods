@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -52,6 +53,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProces
 			storage.showInUI = true;
 			storage.allowItemRemoval = false;
 			storage.capacityKg = 1000f;
+			go.AddOrGet<ElementConversionBuilding>();
 
 			ManualDeliveryKG manualDeliveryKg = go.AddComponent<ManualDeliveryKG>();
 			manualDeliveryKg.SetStorage(storage);
@@ -84,7 +86,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProces
 		public override void DoPostConfigureComplete(GameObject go)
 		{
 			go.AddOrGet<LogicOperationalController>();
-			go.AddOrGetDef<PoweredActiveController.Def>();
 		}
 	}
 }
