@@ -235,7 +235,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompactResearchTweaks", "Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PoisNotIncluded", "PoisNotIncluded\PoisNotIncluded.csproj", "{773AFEA8-B400-4416-B25B-4D84692BC448}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillsInfoScreen", "SkillsInfoScreen\SkillsInfoScreen.csproj", "{67275944-CDFA-47D8-A034-1C0EBD2B30C8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeSkillsInfoScreen", "SkillsInfoScreen\AttributeSkillsInfoScreen.csproj", "{67275944-CDFA-47D8-A034-1C0EBD2B30C8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
