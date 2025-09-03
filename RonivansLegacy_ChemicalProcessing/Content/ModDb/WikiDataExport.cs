@@ -95,6 +95,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			buildingPages[SourceModInfo.ChemicalProcessing_IO].AddBuilding(MetalRefineryConfig.ID).VanillaModified();
 			buildingPages[SourceModInfo.ChemicalProcessing_IO].AddBuilding(OilWellCapConfig.ID).VanillaModified();
+			buildingPages[SourceModInfo.ChemicalProcessing_IO].AddBuilding(MethaneGeneratorConfig.ID).VanillaModified();
 
 
 			///skins
