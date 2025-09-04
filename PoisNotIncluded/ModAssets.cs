@@ -170,7 +170,7 @@ namespace PoisNotIncluded
 			buildingDef.RequiresPowerInput = true;
 			buildingDef.AddLogicPowerPort = true;
 			buildingDef.EnergyConsumptionWhenActive = wattage;
-			buildingDef.SelfHeatKilowattsWhenActive = ((float)wattage) / 20f;
+			buildingDef.SelfHeatKilowattsWhenActive = Mathf.Clamp(((float)wattage) / 60f, 0.5f,6f);
 			buildingDef.ViewMode = OverlayModes.Light.ID;
 			buildingDef.AudioCategory = "Metal";
 
