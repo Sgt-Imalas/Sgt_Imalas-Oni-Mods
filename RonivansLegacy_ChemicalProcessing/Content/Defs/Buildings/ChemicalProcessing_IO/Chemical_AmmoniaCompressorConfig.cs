@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
+using UtilLibs.BuildingPortUtils;
 
 
 namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
@@ -19,9 +20,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		{
 			Storage.StoredItemModifier.Hide,
 			Storage.StoredItemModifier.Seal,
-			Storage.StoredItemModifier.Insulate,
 			Storage.StoredItemModifier.Preserve
 		};
+		private static readonly PortDisplayOutput LiquidPipeOutput = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(-1, 0));
 
 		public override BuildingDef CreateBuildingDef()
 		{
@@ -40,8 +41,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.ThermalConductivity = 0.01f;
 			buildingDef.InputConduitType = ConduitType.Gas;
 			buildingDef.UtilityInputOffset = new CellOffset(1, 0);
-			buildingDef.OutputConduitType = ConduitType.Liquid;
-			buildingDef.UtilityOutputOffset = new CellOffset(-1, 0);
+			//buildingDef.OutputConduitType = ConduitType.Liquid;
+			//buildingDef.UtilityOutputOffset = new CellOffset(-1, 0);
 			buildingDef.ViewMode = OverlayModes.GasConduits.ID;
 			buildingDef.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(0, 0));
 			buildingDef.LogicOutputPorts = new List<LogicPorts.Port>()
@@ -55,54 +56,64 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
-			Storage inputStorage = BuildingTemplates.CreateDefaultStorage(go);
-			inputStorage.SetDefaultStoredItemModifiers(CompressorStorage);
-			inputStorage.capacityKg = 3000f;
-			inputStorage.showCapacityStatusItem = true;
-			inputStorage.showCapacityAsMainStatus = true;
-			inputStorage.showDescriptor = true;
+
+			Storage defaultStorage = BuildingTemplates.CreateDefaultStorage(go);
+			defaultStorage.SetDefaultStoredItemModifiers(CompressorStorage);
+			defaultStorage.capacityKg = 3000f;
+			defaultStorage.showCapacityStatusItem = true;
+			defaultStorage.showCapacityAsMainStatus = true;
+			defaultStorage.showDescriptor = true;
 
 			go.AddOrGet<Reservoir>();
 			go.AddOrGet<SmartReservoir>();
-			go.AddOrGet<ElementConversionBuilding>();
+			go.AddOrGet<ElementCompressorBuilding>();
 			Prioritizable.AddRef(go);
+
 			RefrigeratorController.Def def = go.AddOrGetDef<RefrigeratorController.Def>();
 			def.powerSaverEnergyUsage = 60f;
-			def.coolingHeatKW = 4f;
-			def.steadyHeatKW = 0.0f;
+			def.coolingHeatKW = 8f;
+			def.steadyHeatKW = 0.2f;
 			def.simulatedInternalTemperature = 212.15f;
-			def.simulatedThermalConductivity = 90000f;
+			def.simulatedThermalConductivity = 8000f;
+
 			ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
 			conduitConsumer.conduitType = ConduitType.Gas;
-			conduitConsumer.consumptionRate = 10f;
+			conduitConsumer.consumptionRate = 1f;
 			conduitConsumer.capacityKG = 10f;
 			conduitConsumer.capacityTag = ModElements.Ammonia_Gas.Tag;
 			conduitConsumer.forceAlwaysSatisfied = true;
 			conduitConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 
 			ElementConverter elementConverter = go.AddOrGet<ElementConverter>();
-			elementConverter.consumedElements = [new ElementConverter.ConsumedElement(ModElements.Ammonia_Gas.Tag, 0.5f)];
-			elementConverter.outputElements = [new ElementConverter.OutputElement(0.5f, ModElements.Ammonia_Liquid, 212.15f, storeOutput: true)];
+			elementConverter.consumedElements = [new ElementConverter.ConsumedElement(ModElements.Ammonia_Gas.Tag, 1f)];
+			elementConverter.outputElements = [new ElementConverter.OutputElement(1f, ModElements.Ammonia_Liquid, 212.15f, storeOutput: true)];
 
-			ConduitDispenser conduitDispenser = go.AddOrGet<ConduitDispenser>();
+			PipedConduitDispenser conduitDispenser = go.AddOrGet<PipedConduitDispenser>();
 			conduitDispenser.conduitType = ConduitType.Liquid;
-			conduitDispenser.storage = inputStorage;
+			conduitDispenser.storage = defaultStorage;
 			conduitDispenser.elementFilter = [ModElements.Ammonia_Liquid];
+			conduitDispenser.SkipSetOperational = true;
+			conduitDispenser.AssignPort(LiquidPipeOutput);
 		}
-
+		private void AttachPort(GameObject go)
+		{
+			PortDisplayController controller = go.AddComponent<PortDisplayController>();
+			controller.Init(go);
+			controller.AssignPort(go, LiquidPipeOutput);
+		}
 		public override void DoPostConfigurePreview(BuildingDef def, GameObject go)
 		{
+			this.AttachPort(go);
 		}
-
 		public override void DoPostConfigureUnderConstruction(GameObject go)
 		{
-		}
-
+			this.AttachPort(go);
+		}		
 		public override void DoPostConfigureComplete(GameObject go)
 		{
 			go.AddOrGet<LogicOperationalController>();
-			go.AddOrGetDef<PoweredActiveController.Def>();
 			go.GetComponent<KPrefabID>().AddTag(GameTags.OverlayBehindConduits);
+			this.AttachPort(go);
 		}
 	}
 }
