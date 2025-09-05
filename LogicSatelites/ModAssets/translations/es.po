@@ -1,0 +1,150 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Ferchu\n"
+"Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.7\n"
+
+#. LogicSatellites.STRINGS.BUILDINGS.PREFABS.LS_SATELLITECARRIERMODULE.DESC
+msgctxt "LogicSatellites.STRINGS.BUILDINGS.PREFABS.LS_SATELLITECARRIERMODULE.DESC"
+msgid "Stores and delivers Satellites to orbit."
+msgstr "Almacena y entrega satélites en órbita."
+
+#. LogicSatellites.STRINGS.BUILDINGS.PREFABS.LS_SATELLITECARRIERMODULE.EFFECT
+msgctxt "LogicSatellites.STRINGS.BUILDINGS.PREFABS.LS_SATELLITECARRIERMODULE.EFFECT"
+msgid ""
+"The Satellite Carrier Module is used to deploy and retrieve satellites on the star map\n"
+"\n"
+"A satellite can be constructed from satellite parts, made at the <link=\"CRAFTINGTABLE\">Crafting Station</link>"
+msgstr ""
+"El Módulo Portasatélites se utiliza para desplegar y recuperar satélites en el mapa estelar.\n"
+" \n"
+"Un satélite puede construirse a partir de piezas de satélite, fabricadas en la <link=\"CRAFTINGTABLE\">Estación de fabricación</link>. "
+
+#. LogicSatellites.STRINGS.BUILDINGS.PREFABS.LS_SATELLITECARRIERMODULE.NAME
+msgctxt "LogicSatellites.STRINGS.BUILDINGS.PREFABS.LS_SATELLITECARRIERMODULE.NAME"
+msgid "Satellite Carrier Module"
+msgstr "Módulo Portasatélites"
+
+#. LogicSatellites.STRINGS.ITEMS.LS_CLUSTERSATELLITEPART.DESC
+msgctxt "LogicSatellites.STRINGS.ITEMS.LS_CLUSTERSATELLITEPART.DESC"
+msgid "These parts are used to build a satellite in the <link=\"LSSATELLITECARRIERMODULE\">Satellite Carrier Module</link>."
+msgstr "Estas piezas se utilizan para construir un satélite en el <link=\"LSSATELLITECARRIERMODULE\">Módulo Portasatélites</link>."
+
+#. LogicSatellites.STRINGS.ITEMS.LS_CLUSTERSATELLITEPART.TITLE
+msgctxt "LogicSatellites.STRINGS.ITEMS.LS_CLUSTERSATELLITEPART.TITLE"
+msgid "Satellite Parts"
+msgstr "Piezas de satélite"
+
+#. LogicSatellites.STRINGS.ITEMS.LS_SATELLITEGRID.DESC
+msgctxt "LogicSatellites.STRINGS.ITEMS.LS_SATELLITEGRID.DESC"
+msgid ""
+"This Satellite monitors the space around its location and amplifies interplanetary logic signals.\n"
+"\n"
+"\n"
+"This Satellite will gradually reveal the space around it up to a radius of 3.\n"
+"\n"
+"It will also amplify a logic signal by redirecting it up to 5 Tiles further"
+msgstr ""
+"Este satélite monitoriza el espacio que lo rodea y amplifica las señales lógicas interplanetarias.\n"
+"\n"
+"\n"
+"Revelará gradualmente el espacio a su alrededor en un radio de 3 casillas.\n"
+" \n"
+"También amplificará una señal lógica redirigiéndola hasta 5 casillas más lejos. "
+
+#. LogicSatellites.STRINGS.ITEMS.LS_SATELLITEGRID.TITLE
+msgctxt "LogicSatellites.STRINGS.ITEMS.LS_SATELLITEGRID.TITLE"
+msgid "Satellite"
+msgstr "Satélite"
+
+#. LogicSatellites.STRINGS.ITEMS.SATELLITE.DESC
+msgctxt "LogicSatellites.STRINGS.ITEMS.SATELLITE.DESC"
+msgid "Deploy this satellite on the star map to create a logic relay "
+msgstr "Despliega este satélite en el mapa estelar para crear un repetidor lógico "
+
+#. LogicSatellites.STRINGS.ITEMS.SATELLITE.SATELLITETYPES.EXPLORATION
+msgctxt "LogicSatellites.STRINGS.ITEMS.SATELLITE.SATELLITETYPES.EXPLORATION"
+msgid "Exploration "
+msgstr "Exploración "
+
+#. LogicSatellites.STRINGS.ITEMS.SATELLITE.SATELLITETYPES.EXPLORATIONDESC
+msgctxt "LogicSatellites.STRINGS.ITEMS.SATELLITE.SATELLITETYPES.EXPLORATIONDESC"
+msgid "and slowly reveal the surrounding hexes"
+msgstr "y revela lentamente los hexágonos circundantes"
+
+#. LogicSatellites.STRINGS.ITEMS.SATELLITE.SATELLITETYPES.SOLAR
+msgctxt "LogicSatellites.STRINGS.ITEMS.SATELLITE.SATELLITETYPES.SOLAR"
+msgid "Solar Lens "
+msgstr "Lente solar "
+
+#. LogicSatellites.STRINGS.ITEMS.SATELLITE.SATELLITETYPES.SOLARDESC
+msgctxt "LogicSatellites.STRINGS.ITEMS.SATELLITE.SATELLITETYPES.SOLARDESC"
+msgid "and concentrate light towards the planet below."
+msgstr "y concentra la luz hacia el planeta situado debajo."
+
+#. LogicSatellites.STRINGS.ITEMS.SATELLITE.TITLE
+msgctxt "LogicSatellites.STRINGS.ITEMS.SATELLITE.TITLE"
+msgid "Satellite"
+msgstr "Satélite"
+
+#. LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.BUTTONLABEL_HASSAT_FALSE
+msgctxt "LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.BUTTONLABEL_HASSAT_FALSE"
+msgid "Retrieve Satellite"
+msgstr "Recuperar satélite"
+
+#. LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.BUTTONLABEL_HASSAT_TRUE
+msgctxt "LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.BUTTONLABEL_HASSAT_TRUE"
+msgid "Deploy Satellite"
+msgstr "Desplegar satélite"
+
+#. LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.BUTTONTOOLTIP_CHANGEMODE
+msgctxt "LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.BUTTONTOOLTIP_CHANGEMODE"
+msgid "Change the operation the module should perform"
+msgstr "Cambiar la operación que debe realizar el módulo"
+
+#. LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.BUTTONTOOLTIP_DEPLOY
+msgctxt "LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.BUTTONTOOLTIP_DEPLOY"
+msgid "Deploys a satellite at the current space hex."
+msgstr "Despliega un satélite en el hexágono espacial actual."
+
+#. LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.BUTTONTOOLTIP_RETRIEVE
+msgctxt "LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.BUTTONTOOLTIP_RETRIEVE"
+msgid "Retrieves a satellite from the current space hex"
+msgstr "Recupera un satélite del hexágono espacial actual.  "
+
+#. LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.CURRENTSATELLITETYPE
+msgctxt "LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.CURRENTSATELLITETYPE"
+msgid ""
+"Current Satellite Configuration:\n"
+"{0}"
+msgstr ""
+"Configuración actual del satélite:\n"
+"{0}"
+
+#. LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.SCRAPSATELLITETOOLTIP
+msgctxt "LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.SCRAPSATELLITETOOLTIP"
+msgid "Scrap the satellite to retrieve the parts"
+msgstr "Desguazar el satélite para recuperar las piezas"
+
+#. LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLE
+msgctxt "LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLE"
+msgid "Satellite Carrier"
+msgstr "Portasatélites"
+
+#. LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLELABEL_HASSAT_FALSE
+msgctxt "LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLELABEL_HASSAT_FALSE"
+msgid "No Satellite in storage"
+msgstr "Ningún satélite almacenado"
+
+#. LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLELABEL_HASSAT_TRUE
+msgctxt "LogicSatellites.STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLELABEL_HASSAT_TRUE"
+msgid "{0} stored."
+msgstr "{0} almacenado."
