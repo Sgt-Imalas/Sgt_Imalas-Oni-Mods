@@ -139,7 +139,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				generic));
 
 			//===[ CHEMICAL: HOT RAW NATURAL GAS VENT ]=====================================================================
-			configs.Add(new("geyser_rawnaturalgas_kanim", 4, 2,
+			configs.Add(new("geyser_rawnaturalgas_kanim", 2, 2,
 				new GeyserConfigurator.GeyserType("RawGasVent",
 				ModElements.RawNaturalGas_Gas,
 				GeyserConfigurator.GeyserShape.Gas,
