@@ -9,10 +9,11 @@ namespace ForceFieldWallTile.Content.Scripts
 {
 	public class ForceFieldTile : StateMachineComponent<ForceFieldTile.StatesInstance>
 	{
+		[MyCmpReq] KBatchedAnimController kbac;
+
 		Node GridNode;
 		int cell;
 
-		public string AnimSuffix { get; private set; }
 
 		public override void OnSpawn()
 		{
@@ -21,7 +22,9 @@ namespace ForceFieldWallTile.Content.Scripts
 			var pos = Grid.CellToXY(cell);
 			bool variant = pos.x % 2 == 0 ^ pos.y % 2 == 0;
 
-			AnimSuffix = variant ? "_A" : "_B";
+			if(variant)
+				kbac.flipX = true;
+
 
 			GridNode = new Node(cell);
 			base.OnSpawn();
@@ -53,7 +56,7 @@ namespace ForceFieldWallTile.Content.Scripts
 			public StatesInstance(ForceFieldTile master) : base(master)
 			{
 			}
-			public string Anim(string animName) => animName + master.AnimSuffix;
+			//public string Anim(string animName) => animName + master.AnimSuffix;
 		}
 
 		public class States : GameStateMachine<States, StatesInstance, ForceFieldTile>
@@ -68,16 +71,16 @@ namespace ForceFieldWallTile.Content.Scripts
 			{
 				default_state = off;
 
-				off.PlayAnim((smi) => smi.Anim("off"));
+				off.PlayAnim("off");
 
-				on.PlayAnim((smi) => smi.Anim("on"));
+				on.PlayAnim(("on"));
 
-				working_pre.PlayAnim((smi) => smi.Anim("working_pre"))
+				working_pre.PlayAnim(("working_pre"))
 					.OnAnimQueueComplete(working_loop);
 
-				working_loop.PlayAnim((smi) => smi.Anim("working_loop"), KAnim.PlayMode.Loop);
+				working_loop.PlayAnim(("working_loop"), KAnim.PlayMode.Loop);
 
-				working_pst.PlayAnim((smi) => smi.Anim("working_pst"))
+				working_pst.PlayAnim(("working_pst"))
 					.OnAnimQueueComplete(on);
 			}
 		}
