@@ -14,7 +14,7 @@ using Attribute = Klei.AI.Attribute;
 
 namespace SkillsInfoScreen
 {
-	internal class SkillsInfoScreen : TableScreen
+	internal class AttributeInfoScreen : TableScreen
 	{
 		static Dictionary<string, float> MaxSkillLevels;
 		bool hookedUp = false;
@@ -31,6 +31,7 @@ namespace SkillsInfoScreen
 			RainbowGradient = colorBlindnessMode == 0;
 			//ColorGradient = new Gradient();
 
+			///grabbing colorblindness colors
 			Good = (Color)GlobalAssets.Instance.colorSet.cropGrown;
 			Good.a = 1; //a is 0 for these by default, but that doesnt allow tinting the symbols here
 			Good = UIUtils.Darken(Good, 10);
@@ -77,19 +78,22 @@ namespace SkillsInfoScreen
 			this.title = (string)global::STRINGS.UI.CHARACTERCONTAINER_SKILLS_TITLE;
 			HookupReferences();
 			base.OnActivate();
-			this.AddPortraitColumn("Portrait", new System.Action<IAssignableIdentity, GameObject>(on_load_portrait), null);
+			this.AddPortraitColumn("Portrait", on_load_portrait, null);
 			this.AddButtonLabelColumn("Names",
-				new System.Action<IAssignableIdentity, GameObject>(this.on_load_name_label),
-				new Func<IAssignableIdentity, GameObject, string>(this.get_value_name_label),
-				widget_go => this.GetWidgetRow(widget_go).SelectMinion(),
-				widget_go => this.GetWidgetRow(widget_go).SelectAndFocusMinion(),
-				(this.compare_rows_alphabetical),
-				(this.on_tooltip_name),
-				(this.on_tooltip_sort_alphabetically));
+				on_load_name_label,
+				get_value_name_label,
+				(widget_go => GetWidgetRow(widget_go).SelectMinion()),
+				(widget_go => GetWidgetRow(widget_go).SelectAndFocusMinion()),
+				compare_rows_alphabetical,
+				on_tooltip_name,
+				on_tooltip_sort_alphabetically);
 
 			var attributeDb = Db.Get().Attributes;
 			MaxSkillLevels = [];
-			foreach (var attributeId in DUPLICANTSTATS.ALL_ATTRIBUTES)
+
+			var stats = DUPLICANTSTATS.ALL_ATTRIBUTES.OrderBy(id => STRINGS.UI.StripLinkFormatting(attributeDb.TryGet(id)?.Name ?? "unknown"));
+
+			foreach (var attributeId in stats)
 			{
 				if (attributeId == "SpaceNavigation" && !DlcManager.IsExpansion1Active())
 					continue;
@@ -115,21 +119,17 @@ namespace SkillsInfoScreen
 			GetComponentInChildren<KScrollRect>().GetComponentInParent<LayoutElement>().preferredHeight = size;
 		}
 
-		public void GetPrefabRefs(TableScreen source)
+		public void GetPrefabRefs(VitalsTableScreen source)
 		{
-			this.prefab_row_empty = source.prefab_row_empty;
-			this.prefab_row_header = source.prefab_row_header;
-			this.prefab_scroller_border = source.prefab_scroller_border;
-			this.prefab_world_divider = source.prefab_world_divider;
+			if(source.prefab_row_empty)
+				this.prefab_row_empty = Util.KInstantiateUI(source.prefab_row_empty);
+			if (source.prefab_row_header)
+				this.prefab_row_header = Util.KInstantiateUI(source.prefab_row_header);
+			if (source.prefab_scroller_border)
+				this.prefab_scroller_border = Util.KInstantiateUI(source.prefab_scroller_border);
+			if (source.prefab_world_divider)
+				this.prefab_world_divider = Util.KInstantiateUI(source.prefab_world_divider);
 		}
-		//public override void OnKeyUp(KButtonEvent e)
-		//{
-		//	base.OnKeyUp(e);
-		//	if(e.TryConsume(Action.Escape)||e.TryConsume(Action.MouseRight))
-		//	{
-		//		ManagementMenu.Instance.CloseAll();
-		//	}
-		//}
 
 		void HookupReferences()
 		{
@@ -142,6 +142,9 @@ namespace SkillsInfoScreen
 			this.header_content_transform = transform.Find("HeaderContent");
 			this.scroll_content_transform = transform.Find("Content/Scroll View/Viewport/Content/ScrollContent");
 			this._canvas = GetComponent<Canvas>();
+			var vlg = scroll_content_transform.gameObject.GetComponent<VerticalLayoutGroup>();
+			vlg.padding.left = 8;
+			vlg.padding.right = 8;
 		}
 
 		protected void on_tooltip_name(IAssignableIdentity minion, GameObject widget_go, ToolTip tooltip)
@@ -171,6 +174,7 @@ namespace SkillsInfoScreen
 				UtilMethods.ListAllPropertyValues(horizontal);
 
 				LocText.fontSize = 32f;
+				LocText.alignment = TMPro.TextAlignmentOptions.Center;
 				LocText.text = (this.GetWidgetColumn(widget_go) as LabelTableColumn).get_value_action(minion, widget_go);
 			}
 			else
@@ -247,8 +251,8 @@ namespace SkillsInfoScreen
 			if (aVal == bVal)
 				return 0;
 			if (aVal < bVal)
-				return -1;
-			return 1;
+				return 1;
+			return -1;
 		}
 
 		protected void on_tooltip_attribute(

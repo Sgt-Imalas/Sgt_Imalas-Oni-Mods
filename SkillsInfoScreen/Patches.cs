@@ -14,32 +14,40 @@ namespace SkillsInfoScreen
 	internal class Patches
 	{
         static ManagementMenu.ManagementMenuToggleInfo AttributesInfo;
-		static SkillsInfoScreen AttributesScreen;
+        static ManagementMenu.ManagementMenuToggleInfo SkillsOverviewInfo;
+		static AttributeInfoScreen AttributesScreen;
+		static SkillsOverviewInfoScreen SkillsOverviewScreen;
+
+		public static string SkillsOverviewName = "TMP";
+
+		const string AttributeIcon = "OverviewUI_codex";
+		const string SkillsIcon = "OverviewUI_roles_icon";
 
 		[HarmonyPatch(typeof(ManagementMenu), nameof(ManagementMenu.OnPrefabInit))]
         public class ManagementMenu_OnPrefabInit_Patch
         {
-            public static void Prefix(ManagementMenu __instance)
+			[HarmonyPrefix]
+            public static void CreateAttributeListScreen(ManagementMenu __instance)
             {
-				///make screen
+				///make attribute screen
 				var vitalsScreenGO = __instance.vitalsScreen.gameObject;
 				var screenGO = Util.KInstantiateUI(vitalsScreenGO, vitalsScreenGO.transform.parent.gameObject);
-				screenGO.transform.name = nameof(VitalsTableScreen);
+				screenGO.transform.name = nameof(AttributeInfoScreen);
 				UnityEngine.Object.DestroyImmediate(screenGO.GetComponent<VitalsTableScreen>());
-				AttributesScreen = screenGO.AddOrGet<SkillsInfoScreen>();
+				AttributesScreen = screenGO.AddOrGet<AttributeInfoScreen>();
 				AttributesScreen.GetPrefabRefs(__instance.vitalsScreen);
 				screenGO.SetActive(true);
 
-				SgtLogger.l("SkillsInfoScreen gameobject:");
-				UIUtils.ListAllChildrenWithComponents(screenGO.transform);
-				UIUtils.ListAllChildrenPath(screenGO.transform);
+				//SgtLogger.l("SkillsInfoScreen gameobject:");
+				//UIUtils.ListAllChildrenWithComponents(screenGO.transform);
+				//UIUtils.ListAllChildrenPath(screenGO.transform);
 
 				///make menu info entry
 				AttributesInfo = new ManagementMenu.ManagementMenuToggleInfo(
-					STRINGS.UI.CHARACTERCONTAINER_SKILLS_TITLE, 
-					"OverviewUI_codex", 
+					STRINGS.UI.CHARACTERCONTAINER_SKILLS_TITLE,
+					AttributeIcon, 
 					hotkey: Action.NumActions, 
-					tooltip: STRINGS.UI.TOOLTIPS.MANAGEMENTMENU_VITALS);
+					tooltip: "");
 
 				//__instance.AddToggleTooltipForResearch(AttributesInfo, "disabled tooltip");
 				__instance.AddToggleTooltip(AttributesInfo);		
@@ -53,7 +61,43 @@ namespace SkillsInfoScreen
 					cancelHandler = null
 				});
 			}
-        }
+
+			[HarmonyPrefix]
+			public static void CreateSkillsListScreen(ManagementMenu __instance)
+			{
+				///make attribute screen
+				var sourceScreenGO = __instance.vitalsScreen.gameObject;
+				var screenGO = Util.KInstantiateUI(sourceScreenGO, sourceScreenGO.transform.parent.gameObject);
+				screenGO.transform.name = nameof(SkillsOverviewInfoScreen);
+				UnityEngine.Object.DestroyImmediate(screenGO.GetComponent<VitalsTableScreen>());
+				SkillsOverviewScreen = screenGO.AddOrGet<SkillsOverviewInfoScreen>();
+				SkillsOverviewScreen.GetPrefabRefs(__instance.vitalsScreen);
+				screenGO.SetActive(true);
+
+				SgtLogger.l("SkillsOverviewInfoScreen gameobject:");
+				UIUtils.ListAllChildrenWithComponents(screenGO.transform);
+				UIUtils.ListAllChildrenPath(screenGO.transform);
+
+				///make menu info entry
+				SkillsOverviewInfo = new ManagementMenu.ManagementMenuToggleInfo(
+					SkillsOverviewName,
+					SkillsIcon,
+					hotkey: Action.NumActions,
+					tooltip: "");
+
+				//__instance.AddToggleTooltipForResearch(AttributesInfo, "disabled tooltip");
+				__instance.AddToggleTooltip(AttributesInfo);
+				AttributesInfo.prefabOverride = UnityEngine.Object.Instantiate(__instance.researchButtonPrefab);
+				AttributesInfo.prefabOverride.transform.Find("TextContainer/Text").GetComponent<LocText>().text = SkillsOverviewName;
+
+				__instance.ScreenInfoMatch.Add(SkillsOverviewInfo, new()
+				{
+					screen = SkillsOverviewScreen,
+					toggleInfo = SkillsOverviewInfo,
+					cancelHandler = null
+				});
+			}
+		}
 
 		[HarmonyPatch(typeof(KIconToggleMenu), nameof(KIconToggleMenu.Setup), [typeof(IList<KIconToggleMenu.ToggleInfo>)])]
 		public class KIconToggleMenu_Setup_Patch
@@ -63,13 +107,26 @@ namespace SkillsInfoScreen
 				if (__instance is not ManagementMenu)
 					return;
 
-				if (toggleInfo.Any(info => info.icon == "OverviewUI_codex"))
-					return;
+				if (!toggleInfo.Any(info => info.icon == AttributeIcon))
+					toggleInfo.Insert(0, AttributesInfo);
 
-				toggleInfo.Insert(0, AttributesInfo);
+				if (!toggleInfo.Any(info => info.icon == SkillsIcon))
+					toggleInfo.Insert(1, SkillsOverviewInfo);
+
 			}
 		}
 
+
+		[HarmonyPatch(typeof(Localization), nameof(Localization.Initialize))]
+		public class Localization_Initialize_Patch
+		{
+			public static void Postfix()
+			{
+				SkillsOverviewName = STRINGS.UI.DETAILTABS.STATS.NAME + " " + STRINGS.UI.DETAILTABS.NEEDS.OVERVIEW;
+
+				//Strings.Add(SkillOverviewKey, skillsoverview);
+			}
+		}
 
 		//static GameObject SecondaryHeaderRow;
 		//[HarmonyPatch(typeof(JobsTableScreen), nameof(JobsTableScreen.OnActivate))]
