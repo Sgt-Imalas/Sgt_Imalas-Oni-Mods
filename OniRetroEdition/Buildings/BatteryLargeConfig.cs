@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OniRetroEdition.Behaviors;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -36,7 +37,7 @@ namespace OniRetroEdition.Buildings
 
 		public override void DoPostConfigureComplete(GameObject go)
 		{
-			Battery battery = go.AddOrGet<Battery>();
+			Battery battery = go.AddOrGet<MeterBehindBattery>();
 			battery.capacity = 60000f;
 			battery.joulesLostPerSecond = battery.capacity * (0.05f / 600.0f);
 			battery.powerSortOrder = 1600;

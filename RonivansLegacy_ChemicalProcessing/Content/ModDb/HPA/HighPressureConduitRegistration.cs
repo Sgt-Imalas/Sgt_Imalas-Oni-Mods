@@ -74,7 +74,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				_gasCap_reg = ConduitFlow.MAX_GAS_MASS;
 				_liquidCap_reg = ConduitFlow.MAX_LIQUID_MASS;
 				_solidCap_reg = SolidConduitFlow.MAX_SOLID_MASS;
-				_usingInsulatedSolidRails = Config.Instance.HPA_Rails_Insulation_Enabled;
+				_usingInsulatedSolidRails = Config.Instance.HPA_Rails_Insulation_Mod_Enabled;
 			}
 		}
 

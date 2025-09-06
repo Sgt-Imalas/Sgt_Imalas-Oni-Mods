@@ -1,4 +1,6 @@
-﻿namespace UtilLibs
+﻿using System.Collections.Generic;
+
+namespace UtilLibs
 {
 	public static class GameStrings
 	{
@@ -19,6 +21,71 @@
 			public const string Shipping = "Conveyance";
 			public const string Rocketry = "Rocketry";
 			public const string Radiation = "HEP";
+		}
+		public static class PlanMenuSubcategory
+		{
+
+			public const string Ladders = "ladders";
+			public const string Tiles = "tiles";
+			public const string Printingpods = "printingpods";
+			public const string Doors = "doors";
+			public const string Storage = "storage";
+			public const string Transport = "transport";
+			public const string Operations = "operations";
+			public const string Producers = "producers";
+			public const string Scrubbers = "scrubbers";
+			public const string Generators = "generators";
+			public const string Wires = "wires";
+			public const string Batteries = "batteries";
+			public const string Electrobankbuildings = "electrobankbuildings";
+			public const string Powercontrol = "powercontrol";
+			public const string Switches = "switches";
+			public const string Cooking = "cooking";
+			public const string Farming = "farming";
+			public const string Ranching = "ranching";
+			public const string Washroom = "washroom";
+			public const string Pipes = "pipes";
+			public const string Pumps = "pumps";
+			public const string Valves = "valves";
+			public const string Sensors = "sensors";
+			public const string Buildmenuports = "buildmenuports";
+			public const string Organic = "organic";
+			public const string Materials = "materials";
+			public const string Oil = "oil";
+			public const string Advanced = "advanced";
+			public const string Hygiene = "hygiene";
+			public const string Medical = "medical";
+			public const string Wellness = "wellness";
+			public const string Beds = "beds";
+			public const string Lights = "lights";
+			public const string Dining = "dining";
+			public const string Recreation = "recreation";
+			public const string Decor = "decor";
+			public const string Research = "research";
+			public const string Archaeology = "archaeology";
+			public const string Meteordefense = "meteordefense";
+			public const string Exploration = "exploration";
+			public const string Industrialstation = "industrialstation";
+			public const string Workstations = "workstations";
+			public const string Manufacturing = "manufacturing";
+			public const string Equipment = "equipment";
+			public const string Missiles = "missiles";
+			public const string Temperature = "temperature";
+			public const string Sanitation = "sanitation";
+			public const string Logicaudio = "logicaudio";
+			public const string Logicmanager = "logicmanager";
+			public const string Logicgates = "logicgates";
+			public const string Transmissions = "transmissions";
+			public const string Conveyancestructures = "conveyancestructures";
+			public const string Telescopes = "telescopes";
+			public const string Rocketstructures = "rocketstructures";
+			public const string Fittings = "fittings";
+			public const string Rocketnav = "rocketnav";
+			public const string Engines = "engines";
+			public const string Tanks = "tanks";
+			public const string Cargo = "cargo";
+			public const string Module = "module";
+			public const string Automated = "automated";
 		}
 
 		public static class Technology

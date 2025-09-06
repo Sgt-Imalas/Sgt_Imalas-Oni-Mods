@@ -19,6 +19,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 			EffectorValues tieR1 = BUILDINGS.DECOR.BONUS.TIER2;
 			EffectorValues noise = NOISE_POLLUTION.NONE;
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 1, 1, "glassy_tile_kanim", 100, 30f, mass, materials, 1600f, BuildLocationRule.Tile, tieR1, noise);
+			BuildingTemplates.CreateFoundationTileDef(buildingDef);
 			buildingDef.Floodable = false;
 			buildingDef.Entombable = false;
 			buildingDef.Overheatable = false;

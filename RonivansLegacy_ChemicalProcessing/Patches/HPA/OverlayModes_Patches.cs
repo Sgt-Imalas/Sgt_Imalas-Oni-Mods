@@ -73,7 +73,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		public class OverlayModes_SolidConveyor_Update_Patch
 		{
 			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.HPA_Rails_Enabled || Config.Instance.DupesLogistics_Enabled;
+			public static bool Prepare() => Config.Instance.HPA_Rails_Mod_Enabled || Config.Instance.DupesLogistics_Enabled;
 			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
 			{
 				var SolidConveyor_tint_color = AccessTools.Field(typeof(OverlayModes.SolidConveyor), nameof(OverlayModes.SolidConveyor.tint_color));

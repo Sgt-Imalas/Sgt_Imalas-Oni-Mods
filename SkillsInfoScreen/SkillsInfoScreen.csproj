@@ -2,8 +2,8 @@
 
 	<!-- General Package Properties -->
 	<PropertyGroup>
-		<PackageId>CompactResearchTweaks</PackageId>
-		<Version>1.2.0</Version>
+		<PackageId>SkillsInfoScreen</PackageId>
+		<Version>1.0.0</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>$(AssemblyCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
@@ -13,8 +13,8 @@
 	<PropertyGroup>
 		<TargetFramework>net48</TargetFramework>
 		<Configurations>Debug;Release</Configurations>
-		<AssemblyName>CompactResearchTweaks</AssemblyName>
-		<RootNamespace>CompactResearchTweaks</RootNamespace>
+		<AssemblyName>SkillsInfoScreen</AssemblyName>
+		<RootNamespace>SkillsInfoScreen</RootNamespace>
 		<IsMod>true</IsMod>
 		<GenerateMetadata>true</GenerateMetadata>
 		<IsPacked>true</IsPacked>
@@ -23,8 +23,8 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>Compact Research</ModName>
-		<ModDescription>Dynamically collapses Research screen entries with too many items and fixes the research unlock message on these entries</ModDescription>
+		<ModName>Attribute Screen</ModName>
+		<ModDescription>Adds a screen to view and compare all dupe attributes</ModDescription>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

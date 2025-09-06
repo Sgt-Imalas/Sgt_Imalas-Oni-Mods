@@ -204,7 +204,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class CHEMICAL_ADVANCEDKILN
 				{
 					public static LocString NAME = FormatAsLink("Advanced Kiln", nameof(CHEMICAL_ADVANCEDKILN));
-					public static LocString DESC = "Adress a wide range of industrial and chemical applications.";
+					public static LocString DESC = "Address a wide range of industrial and chemical applications.";
 					public static LocString EFFECT = "An advanced insulated electrical kiln in which the heat is applied by induction heating of metal.\nThe advantage of the induction kiln is a clean, energy-efficient and well-controllable heating process compared to most other means of fuel heating.";
 				}
 				public class CHEMICAL_ADVANCEDMETALREFINERY
@@ -723,21 +723,21 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class SLIMEVAT
 				{
 					public static LocString NAME = FormatAsLink("Slime Vat", nameof(SLIMEVAT));
-					public static LocString DESC = "An advanced biological vat that grows a culture of mucopolysaccharides and multicelular fungi mould. This unit also uses advanced filter to extract Polluted Oxygen from its surroundings, albeit its not necessery for it to function.";
+					public static LocString DESC = "An advanced biological vat that grows a culture of mucopolysaccharides and multicelular fungi mould. This unit also uses advanced filter to extract Polluted Oxygen from its surroundings, albeit its not necessary for it to function.";
 					public static LocString EFFECT = string.Concat(["Slime Vat needs ", FormatAsLink("Water", "WATER"), " and ", FormatAsLink("Mush Bar", "MUSHBAR"), " to grow, producing ", FormatAsLink("Slime", "SLIMEMOLD"), " outgrowth that is collected from the botton. Due to its nature, the slime its produce will be contaminated with Slimelung."]);
 
 				}
 				public class CORALVAT
 				{
 					public static LocString NAME = FormatAsLink("Coral Vat", nameof(CORALVAT));
-					public static LocString DESC = "An advanced biological vat that grows a special colony of marine invertebrates, engineered from the Earth species of the class Anthozoa. This unit also uses advanced filter to extract Chlorine Gas from its surroundings, albeit its not necessery for it to function.";
+					public static LocString DESC = "An advanced biological vat that grows a special colony of marine invertebrates, engineered from the Earth species of the class Anthozoa. This unit also uses advanced filter to extract Chlorine Gas from its surroundings, albeit its not necessary for it to function.";
 					public static LocString EFFECT = string.Concat(["Coral colony needs ", FormatAsLink("Salt Water", "SALTWATER"), " or ", FormatAsLink("Brine", "BRINE"), " to grow, producing a fair amount of clean ", FormatAsLink("Water", "WATER"), " as result of its biological functions. The coral colony will also excreate tiny particles of ", FormatAsLink("Bleach Stone", "BLEACHSTONE"), ", which are filtered from the water and later released as a solid mass."]);
 
 				}
 				public class ALGAEVAT
 				{
 					public static LocString NAME = FormatAsLink("Algae Vat", nameof(ALGAEVAT));
-					public static LocString DESC = "An advanced biological vat that grows algae. Due to the controlled atmospheric condition, this algae formation produces oxygen more efficiently than the standard terrarium. This unit also uses advanced filter to extract Carbon Dioxide from its surroundings, albeit its not necessery for it to function.";
+					public static LocString DESC = "An advanced biological vat that grows algae. Due to the controlled atmospheric condition, this algae formation produces oxygen more efficiently than the standard terrarium. This unit also uses advanced filter to extract Carbon Dioxide from its surroundings, albeit its not necessary for it to function.";
 					public static LocString EFFECT = string.Concat(["Algae patch needs ", FormatAsLink("Water", "WATER"), " to grow, producing a fair amount of clean ", FormatAsLink("Oxygen", "OXYGEN"), " as result of its biological functions. Excess water is expelled in the form of ", FormatAsLink("Polluted Water", "DIRTYWATER"), "."]);
 
 				}
@@ -1585,7 +1585,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				}
 				public class SOLID_TRANSFER_CAPACITY_LIMIT
 				{
-					public static LocString NAME = "Maximum Item Weight {0}";
+					public static LocString NAME = "Maximum Item Weight: {0}";
 					public static LocString TOOLTIP = "This conveyor rail can transport items up to {0}.";
 				}
 			}
@@ -1637,7 +1637,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class HPA_SOLIDCONDUITITEMDROPPED
 				{
 					public static LocString NAME = "Rail Capacity Exceeded!";
-					public static LocString TOOLTIP = "This conveyor rail failed at transporting a debris chunk that was too heavy for it\nThe incoming item was {0} kg, but it could only hold {1} kg of that.\nExcess mass was dropped";
+					public static LocString TOOLTIP = "This conveyor rail failed at transporting a debris chunk that was too heavy for it\nThe incoming item was {0} kg, but it could only hold {1} kg of that.\nExcess mass was dropped.";
 				}
 				public class HPA_CONDUITOVERPRESSURIZED
 				{
@@ -1646,7 +1646,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				}
 				public class ALGAEGROWER_LIGHTEFFICIENCY
 				{
-					public static LocString NAME = "Growth Efficiency {0}";
+					public static LocString NAME = "Growth Efficiency: {0}";
 					public static LocString TOOLTIP = "The algae growth in this building is currently at {0} efficiency.\nThis is dependent on the light the building receives.\nRequires at minimum {1}.";
 				}
 				public class HPA_PROHIBITGAS
