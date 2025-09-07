@@ -1608,7 +1608,7 @@ msgstr ""
 #. Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.NAME
 msgctxt "Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.NAME"
 msgid "<link=\"DEEPSPACERESEARCH\">Deep Space Research</link>"
-msgstr "<link=\"DEEPSPACERESEARCH\">Investigación en el Espacio Profundo</link>"
+msgstr "<link=\"DEEPSPACERESEARCH\">Investigación del Espacio Profundo</link>"
 
 #. Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.RECIPEDESC
 msgctxt "Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.RECIPEDESC"
@@ -1621,13 +1621,13 @@ msgid ""
 "Allows <style=\"KKeyword\"><link=\"DEEPSPACERESEARCH\">Deep Space Research</link></style> points to be accumulated, unlocking higher technology tiers.\n"
 "Can be accumulated before research completion via artifact analysis."
 msgstr ""
-"Permite acumular puntos de <style=\"KKeyword\"><link=\"DEEPSPACERESEARCH\">Investigación Espacial Profunda</link></style>, desbloqueando niveles de tecnología superiores.\n"
+"Permite acumular puntos de <style=\"KKeyword\"><link=\"DEEPSPACERESEARCH\">Investigación del espacio profundo</link></style>, desbloqueando niveles de tecnología superiores.\n"
 "Se pueden acumular antes de completar la investigación mediante el análisis de artefactos."
 
 #. Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.UNLOCKNAME
 msgctxt "Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.UNLOCKNAME"
 msgid "<style=\"KKeyword\"><link=\"DEEPSPACERESEARCH\">Deep Space Research</link></style> Capability"
-msgstr "Capacidad de <style=\"KKeyword\"><link=\"DEEPSPACERESEARCH\">Investigación en el Espacio Profundo</link></style>"
+msgstr "Capacidad de <style=\"KKeyword\"><link=\"DEEPSPACERESEARCH\">Investigación del Espacio Profundo</link></style>"
 
 #. Rockets_TinyYetBig.STRINGS.ELEMENTS.SPACESTATIONFORCEFIELD.DESC
 msgctxt "Rockets_TinyYetBig.STRINGS.ELEMENTS.SPACESTATIONFORCEFIELD.DESC"
