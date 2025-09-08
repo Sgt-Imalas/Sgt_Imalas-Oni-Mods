@@ -143,7 +143,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				}
 				public class BIOCHEMISTRY_BIODIESELGENERATOR
 				{
-					public static LocString NAME = FormatAsLink("Biodiesel Generator", nameof(BIOCHEMISTRY_BIODIESELGENERATOR));
+					public static LocString NAME = FormatAsLink("Eco Diesel Generator", nameof(BIOCHEMISTRY_BIODIESELGENERATOR));
 					public static LocString DESC = "An advanced power generator that uses biofuel. Has a built-in scrubber system that allows it to produce no gaseous exhaust.";
 					public static LocString EFFECT = string.Concat(
 						[
