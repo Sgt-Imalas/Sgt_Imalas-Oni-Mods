@@ -21,7 +21,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 
 		public void SetTileRange(int tiles) => PumpRange = tiles;
 
-		public string GetDescriptorText() => STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.RANGESETTINGS_PUMP;
+		public string GetDescriptorText() => Strings.Get("STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.RANGESETTINGS_PUMP");
 
 		public Tuple<int, int> GetTileValueRange() => new(4, 24);
 		public override BuildingDef CreateBuildingDef()

@@ -780,7 +780,7 @@ msgstr ""
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_BALLCRUSHERMILL.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_BALLCRUSHERMILL.EFFECT"
 msgid "Crush down <link=\"RAWMINERAL\">Raw Minerals</link> in to useful materials and industrial ingredients."
-msgstr "Измельчает <link=\"RAWMINERAL\">минеральное сырьё</link> в полезные материалы и промышленные ингредиенты."
+msgstr "Измельчает <link=\"RAWMINERAL\">Необработанный минерал</link> в полезные материалы и промышленные ингредиенты."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_BALLCRUSHERMILL.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_BALLCRUSHERMILL.NAME"
@@ -942,7 +942,7 @@ msgstr "<link=\"CHEMICALCO2RECYCLERDLC1\">[УСТАРЕЛО] SpacedOut Уста�
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_COAL_BOILER.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_COAL_BOILER.DESC"
 msgid "An industrial grade boiler that generates thermal energy by burning solid fossil fuels."
-msgstr "Промышленный котел, вырабатывающий тепловую энергию путем сжигания твёрдого ископаемого топлива."
+msgstr "Промышленный котёл, вырабатывающий тепловую энергию путем сжигания твёрдого ископаемого топлива."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_COAL_BOILER.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_COAL_BOILER.EFFECT"
@@ -951,12 +951,12 @@ msgid ""
 "This particular boiler uses <link=\"COMBUSTIBLESOLID\">Combustustable Solids</link> as fuel."
 msgstr ""
 "Превращает <link=\"WATER\">воду</link> в <link=\"STEAM\">пар</link> при температуре 200 °C.\n"
-"Данный котел использует в качестве топлива <link=\"COMBUSTIBLESOLID\">горючие твёрдые вещества</link>."
+"Данный котёл использует в качестве топлива <link=\"COMBUSTIBLESOLID\">горючие твёрдые вещества</link>."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_COAL_BOILER.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_COAL_BOILER.NAME"
 msgid "<link=\"CHEMICALCOALBOILER\">Carbon fueled Steam Boiler</link>"
-msgstr "<link=\"CHEMICALCOALBOILER\">Паровой котел на углеродном топливе</link>"
+msgstr "<link=\"CHEMICALCOALBOILER\">Паровой котёл на углеродном топливе</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CRUDEOILREFINERY.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CRUDEOILREFINERY.DESC"
@@ -1041,7 +1041,7 @@ msgstr "<link=\"CHEMICALCRUDEOILREFINERYSTAGED\">Многоступенчаты�
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ELECTRICBOILER.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ELECTRICBOILER.DESC"
 msgid "A small sized eletric boiler."
-msgstr "Малогабаритный электрический котел."
+msgstr "Малогабаритный электрический котёл."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ELECTRICBOILER.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ELECTRICBOILER.EFFECT"
@@ -1051,7 +1051,7 @@ msgstr "Кипятит <link=\"WATER\">воду</link> до <link=\"STEAM\">па
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ELECTRICBOILER.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ELECTRICBOILER.NAME"
 msgid "<link=\"CHEMICALELECTRICBOILER\">Electric Steam Boiler</link>"
-msgstr "<link=\"CHEMICALELECTRICBOILER\">Электрический паровой котел</link>"
+msgstr "<link=\"CHEMICALELECTRICBOILER\">Электрический паровой котёл</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ENDOTHERMICUNIT.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ENDOTHERMICUNIT.DESC"
@@ -1075,7 +1075,7 @@ msgstr "<link=\"CHEMICALENDOTHERMICUNIT\">Эндотермический бло�
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GAS_BOILER.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GAS_BOILER.DESC"
 msgid "An industrial grade boiler that generates thermal energy by burning Combustible Gases."
-msgstr "Промышленный котел, вырабатывающий тепловую энергию путем сжигания горючих газов."
+msgstr "Промышленный котёл, вырабатывающий тепловую энергию путем сжигания горючих газов."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GAS_BOILER.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GAS_BOILER.EFFECT"
@@ -1089,7 +1089,7 @@ msgstr ""
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GAS_BOILER.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GAS_BOILER.NAME"
 msgid "<link=\"CHEMICALGASBOILER\">Gas-fueled Steam Boiler</link>"
-msgstr "<link=\"CHEMICALGASBOILER\">Газовый паровой котел</link>"
+msgstr "<link=\"CHEMICALGASBOILER\">Газовый паровой котёл</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GLASSFOUNDRY.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GLASSFOUNDRY.DESC"
@@ -1297,7 +1297,7 @@ msgstr "Щековая дробилка использует сжимающую 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SMALLCRUSHERMILL.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SMALLCRUSHERMILL.EFFECT"
 msgid "Crush down <link=\"RAWMINERAL\">Raw Minerals</link> in to useful materials and industrial ingredients."
-msgstr "Измельчает <link=\"RAWMINERAL\">минеральное сырьё</link> в полезные материалы и промышленные ингредиенты."
+msgstr "Измельчает <link=\"RAWMINERAL\">Необработанный минерал</link> в полезные материалы и промышленные ингредиенты."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SMALLCRUSHERMILL.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SMALLCRUSHERMILL.NAME"
@@ -1462,7 +1462,7 @@ msgstr ""
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_WOODEN_BOILER.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_WOODEN_BOILER.NAME"
 msgid "<link=\"CHEMICALWOODENBOILER\">Wood-fueled Steam Boiler</link>"
-msgstr "<link=\"CHEMICALWOODENBOILER\">Паровой котел на древесине</link>"
+msgstr "<link=\"CHEMICALWOODENBOILER\">Паровой котёл на древесине</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CORALVAT.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CORALVAT.DESC"
@@ -1489,7 +1489,7 @@ msgstr ""
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CORALVAT.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CORALVAT.NAME"
 msgid "<link=\"CORALVAT\">Coral Vat</link>"
-msgstr "<link=\"CORALVAT\">Коралловый чан</link>"
+msgstr "<link=\"CORALVAT\">Чан с кораллами</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOM_METALREFINERY.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOM_METALREFINERY.DESC"
@@ -3101,7 +3101,7 @@ msgstr "Хранит любые <link=\"ELEMENTSLIQUID\">жидкие</link> р�
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SMALLLIQUIDRESERVOIRDEFAULT.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SMALLLIQUIDRESERVOIRDEFAULT.NAME"
 msgid "<link=\"SMALLLIQUIDRESERVOIRDEFAULT\">Small Liquid Reservoir</link>"
-msgstr "<link=\"SMALLLIQUIDRESERVOIRDEFAULT\">Резервуар для жидкости</link>"
+msgstr "<link=\"SMALLLIQUIDRESERVOIRDEFAULT\">Маленький резервуар для жидкости</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SPACEBOX.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SPACEBOX.DESC"
@@ -4710,7 +4710,7 @@ msgstr "Дальность насоса:"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.RANGESETTINGS_SWEEPER
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.RANGESETTINGS_SWEEPER"
 msgid "Sweeper Range:"
-msgstr "Дальность уборки:"
+msgstr "Дальность:"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.WATTAGESETTINGS
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.WATTAGESETTINGS"
@@ -4923,12 +4923,12 @@ msgstr "Известняковый цемент"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.CRUSHEDROCK_FROM_RAW_MINERAL_DESCRIPTION
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.CRUSHEDROCK_FROM_RAW_MINERAL_DESCRIPTION"
 msgid "Crushes <link=\"BUILDABLERAW\">Raw Minerals</link> into <link=\"CRUSHEDROCK\">Crushed Rock</link>"
-msgstr "Измельчить <link=\"BUILDABLERAW\">минеральное сырье</link> в <link=\"CRUSHEDROCK\">щебень</link>."
+msgstr "Измельчить <link=\"BUILDABLERAW\">Необработанный минерал</link> в <link=\"CRUSHEDROCK\">Дроблёный камень</link>."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.CRUSHEDROCK_FROM_RAW_MINERAL_NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.CRUSHEDROCK_FROM_RAW_MINERAL_NAME"
 msgid "<link=\"BUILDABLERAW\">Raw Mineral</link> to <link=\"CRUSHEDROCK\">Crushed Rock</link>"
-msgstr "<link=\"BUILDABLERAW\">минеральное сырьё</link> в <link=\"CRUSHEDROCK\">щебень</link>."
+msgstr "<link=\"BUILDABLERAW\">Необработанный минерал</link> в <link=\"CRUSHEDROCK\">Дроблёный камень</link>."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_1_2
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_1_2"
