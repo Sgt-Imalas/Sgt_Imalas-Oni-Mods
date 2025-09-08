@@ -22,13 +22,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		public class MainMenu_OnPrefabInit_Patch
 		{
 			[HarmonyPrepare]
-			public static bool Prepare() => Mod.GenerateWiki && Mod.Instance.mod.IsDev && DlcManager.IsExpansion1Active();
+			public static bool Prepare() => Mod.WriteWikiData;
 			static bool written = false;
 			public static void Postfix(MainMenu __instance)
 			{
-				if(written) return;
+				if(written) 
+					return;
 				written = true;
-
 				WriteWikiData();
 			}
 		}
