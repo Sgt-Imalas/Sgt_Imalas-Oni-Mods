@@ -54,6 +54,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.UtilityInputOffset = new CellOffset(-1, 1);
 			buildingDef.OutputConduitType = ConduitType.Liquid;
 			buildingDef.UtilityOutputOffset = new CellOffset(-1, 0);
+			buildingDef.PermittedRotations = PermittedRotations.FlipH;
 			SoundUtils.CopySoundsToAnim("flocculation_tank_kanim", "waterpurifier_kanim");
 			return buildingDef;
 		}
