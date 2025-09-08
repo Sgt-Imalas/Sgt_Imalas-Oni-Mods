@@ -1,0 +1,3122 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.7\n"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.CRITTERINFO
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.CRITTERINFO"
+msgid " • {CRITTERNAME}, {AGE} Cycles old"
+msgstr " • {CRITTERNAME}, {AGE} ciclos"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.CRITTERINFOAGELESS
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.CRITTERINFOAGELESS"
+msgid " • {CRITTERNAME}"
+msgstr " • {CRITTERNAME}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.DROPITBUTTON
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.DROPITBUTTON"
+msgid "Drop all Critters"
+msgstr "Soltar todas las criaturas"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.DROPITBUTTONTOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.DROPITBUTTONTOOLTIP"
+msgid "Drop it like its hot"
+msgstr "Suéltalas ya"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.HASCRITTERS
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.HASCRITTERS"
+msgid "Module currently holds these Critters:"
+msgstr "El módulo actualmente contiene estas criaturas:"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.NAME"
+msgid "Critter Count: {0}/{1}"
+msgstr "Cantidad de criaturas: {0}/{1}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.NOCRITTERS
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.NOCRITTERS"
+msgid "No Critters stored."
+msgstr "No hay criaturas almacenadas."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.TOOLTIP"
+msgid "{CritterContentStatus}"
+msgstr "{CritterContentStatus}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.UNITS
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.UNITS"
+msgid " Critters"
+msgstr " Criaturas"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_DOCKEDSTATUS.DOCKEDINFO
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_DOCKEDSTATUS.DOCKEDINFO"
+msgid ""
+"\n"
+" • {0}"
+msgstr ""
+"\n"
+" • {0}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_DOCKEDSTATUS.MULTIPLES
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_DOCKEDSTATUS.MULTIPLES"
+msgid "multiple crafts"
+msgstr "múltiples naves"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_DOCKEDSTATUS.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_DOCKEDSTATUS.NAME"
+msgid "Docked to {SINGLEDOCKED}."
+msgstr "Atracada a {SINGLEDOCKED}."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_DOCKEDSTATUS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_DOCKEDSTATUS.TOOLTIP"
+msgid "Currently docked to: {DOCKINGLIST}"
+msgstr "Actualmente atracada a: {DOCKINGLIST}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_FOODSTORAGESTATUS.FOODINFO
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_FOODSTORAGESTATUS.FOODINFO"
+msgid ""
+"\n"
+" • {0}: {1}KCal"
+msgstr ""
+"\n"
+" • {0}: {1}kcal"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_FOODSTORAGESTATUS.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_FOODSTORAGESTATUS.NAME"
+msgid "Total Food: {REMAININGMASS}KCal"
+msgstr "Comida Total: {REMAININGMASS} kcal"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_FOODSTORAGESTATUS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_FOODSTORAGESTATUS.TOOLTIP"
+msgid "The connected Fridge Modules still contain {REMAININGMASS} KCal of Food.{FOODLIST}"
+msgstr "Los Módulos de Refrigeración conectados aún contienen {REMAININGMASS} kcal de comida.{FOODLIST}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MININGINFORMATIONBOONS.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MININGINFORMATIONBOONS.NAME"
+msgid "Mining Boost: {RATEPERCENTAGE}"
+msgstr "Impulso Minero: {RATEPERCENTAGE}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MININGINFORMATIONBOONS.PILOTSKILL
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MININGINFORMATIONBOONS.PILOTSKILL"
+msgid " • Pilot skills: {BOOSTPERCENTAGE}% (affected by piloting and digging skill)"
+msgstr " • Habilidades del piloto: {BOOSTPERCENTAGE}% (afectadas por la habilidad de pilotaje y excavación)"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MININGINFORMATIONBOONS.SUPPORTMODULE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MININGINFORMATIONBOONS.SUPPORTMODULE"
+msgid " • Drillcone Maintainance Modules: {BOOSTPERCENTAGE}% (x{COUNT} Modules)"
+msgstr " • Módulos de Mantenimiento del Cono Taladrador: {BOOSTPERCENTAGE}% (x{COUNT} Módulos)"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MININGINFORMATIONBOONS.SUPPORTMODULESINGULAR
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MININGINFORMATIONBOONS.SUPPORTMODULESINGULAR"
+msgid " • Drillcone Maintainance Module: {BOOSTPERCENTAGE}% (x1 Module)"
+msgstr " • Módulo de Mantenimiento del Cono Taladrador: {BOOSTPERCENTAGE}% (x1 Módulo)"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MININGINFORMATIONBOONS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MININGINFORMATIONBOONS.TOOLTIP"
+msgid "{TOOLTIP}"
+msgstr "{TOOLTIP}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MININGINFORMATIONBOONS.TOOLTIPINFO
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MININGINFORMATIONBOONS.TOOLTIPINFO"
+msgid ""
+"This mining operation is boosted by {RATEPERCENTAGE},\n"
+"currently mining {YIELDMASS} and consuming {DRILLMATERIALMASS} {DRILLMATERIAL} per second.\n"
+"Boosting Factors:\n"
+msgstr ""
+"Esta operación minera se ve incrementada en {RATEPERCENTAGE},\n"
+"actualmente extrae {YIELDMASS} y consume {DRILLMATERIALMASS} {DRILLMATERIAL} por segundo.\n"
+"Factores de incremento:\n"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORALWAYSACTIVENOTPOWERED.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORALWAYSACTIVENOTPOWERED.NAME"
+msgid "Power Generation: {ActiveWattage}/{MaxWattage}"
+msgstr "Generación de energía: {ActiveWattage}/{MaxWattage}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORALWAYSACTIVENOTPOWERED.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORALWAYSACTIVENOTPOWERED.TOOLTIP"
+msgid ""
+"Module generator will generate <style=\"produced\">{MaxWattage}</style> of <style=\"KKeyword\">Power</style> once fueled\n"
+"\n"
+"Right now, it's not doing much of anything"
+msgstr ""
+"El generador del módulo generará <style=\"produced\">{MaxWattage}</style> de <style=\"KKeyword\">energía</style> una vez alimentado\n"
+"\n"
+"Por ahora, no está haciendo casi nada"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORALWAYSACTIVEPOWERED.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORALWAYSACTIVEPOWERED.NAME"
+msgid "Power Generation: {ActiveWattage}/{MaxWattage}"
+msgstr "Generación de energía: {ActiveWattage}/{MaxWattage}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORALWAYSACTIVEPOWERED.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORALWAYSACTIVEPOWERED.TOOLTIP"
+msgid ""
+"Module generator is producing<style=\"produced\">{MaxWattage}</style> of <style=\"KKeyword\">Power</style>\n"
+"\n"
+"It will continue generating power as long as are enough resources left"
+msgstr ""
+"El generador del módulo está produciendo <style=\"produced\">{MaxWattage}</style> de <style=\"KKeyword\">energía</style>\n"
+"\n"
+"Continuará generando energía mientras queden suficientes recursos"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORFUELSTATUS.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORFUELSTATUS.NAME"
+msgid "Generator Fuel Capacity: {CurrentFuelStorage}/{MaxFuelStorage}"
+msgstr "Capacidad de Combustible del Generador: {CurrentFuelStorage}/{MaxFuelStorage}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORFUELSTATUS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORFUELSTATUS.TOOLTIP"
+msgid "This {GeneratorType} has {CurrentFuelStorage} out of {MaxFuelStorage} available."
+msgstr "Este {GeneratorType} tiene {CurrentFuelStorage} de {MaxFuelStorage} disponible."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORNOTPOWERED.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORNOTPOWERED.NAME"
+msgid "Power Generation: {ActiveWattage}/{MaxWattage}"
+msgstr "Generación de Energía: {ActiveWattage}/{MaxWattage}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORNOTPOWERED.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORNOTPOWERED.TOOLTIP"
+msgid ""
+"Module generator will generate <style=\"produced\">{MaxWattage}</style> of <style=\"KKeyword\">Power</style> once traveling through space and fueled\n"
+"\n"
+"Right now, it's not doing much of anything"
+msgstr ""
+"El generador del módulo generará <style=\"produced\">{MaxWattage}</style> de <style=\"KKeyword\">energía</style> una vez que viaje por el espacio y esté alimentado\n"
+"\n"
+"Por ahora, no está haciendo casi nada"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORPOWERED.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORPOWERED.NAME"
+msgid "Power Generation: {ActiveWattage}/{MaxWattage}"
+msgstr "Generación de energía: {ActiveWattage}/{MaxWattage}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORPOWERED.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORPOWERED.TOOLTIP"
+msgid ""
+"Module generator is producing<style=\"produced\">{MaxWattage}</style> of <style=\"KKeyword\">Power</style>\n"
+"\n"
+"While traveling through space, it will continue generating power as long as are enough resources left"
+msgstr ""
+"El generador del módulo está produciendo <style=\"produced\">{MaxWattage}</style> de <style=\"KKeyword\">energía</style>\n"
+"\n"
+"Mientras viaje por el espacio, continuará generando energía mientras queden suficientes recursos"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_ROCKETBATTERYSTATUS.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_ROCKETBATTERYSTATUS.NAME"
+msgid "Battery Module Charge: {CurrentCharge}/{MaxCharge}"
+msgstr "Carga del Módulo de Batería: {CurrentCharge}/{MaxCharge}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_ROCKETBATTERYSTATUS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_ROCKETBATTERYSTATUS.TOOLTIP"
+msgid "This Rocket has {CurrentCharge}/{MaxCharge} stored in battery modules."
+msgstr "Este cohete tiene {CurrentCharge}/{MaxCharge} almacenados en los módulos de batería."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_ROCKETGENERATORLANDEDACTIVE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_ROCKETGENERATORLANDEDACTIVE.NAME"
+msgid "Active while landed"
+msgstr "Activo mientras está aterrizado"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_ROCKETGENERATORLANDEDACTIVE.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_ROCKETGENERATORLANDEDACTIVE.TOOLTIP"
+msgid "This generator will run even while landed"
+msgstr "Este generador funcionará incluso mientras esté en tierra"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.CONSTRUCTING
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.CONSTRUCTING"
+msgid "Constructing: {TIME} left"
+msgstr "Construyendo: {TIME} restante"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.DECONSTRUCTING
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.DECONSTRUCTING"
+msgid "Demolishing: {TIME} left"
+msgstr "Demoliendo: {TIME} restante"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.IDLE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.IDLE"
+msgid "Nominal"
+msgstr "Operativo"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.NAME"
+msgid "Module Status: {STATUS}"
+msgstr "Estado del Módulo: {STATUS}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.NONEQUEUED
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.NONEQUEUED"
+msgid "No active process"
+msgstr "Ningún proceso activo"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.TIMEREMAINING
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.TIMEREMAINING"
+msgid "Time until current operation is completed: {TIME}"
+msgstr "Tiempo hasta que la operación actual se complete: {TIME}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.TOOLTIP"
+msgid "{TOOLTIP}"
+msgstr "{TOOLTIP}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.GENERATORLIMIT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.GENERATORLIMIT"
+msgid ""
+"\n"
+"\n"
+" If there is atleast one battery connected, the generator will stop producing if the battery is above 95% charge."
+msgstr ""
+"\n"
+"\n"
+" Si hay al menos una batería conectada, el generador dejará de producir energía si la batería supera el 95% de carga."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.DESC"
+msgid "Una plataforma desde la que se pueden lanzar y aterrizar cohetes."
+msgstr "Una plataforma desde la que se pueden lanzar y aterrizar cohetes."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.EFFECT"
+msgid ""
+"Precursor de la construcción de todos los demás módulos de cohetes.\n"
+"\n"
+"Permite el despegue y aterrizaje de los cohetes en el Planetoide anfitrión.\n"
+" \n"
+"Automáticamente se conecta a un <link=\"MODULARLAUNCHPADPORTSOLID\">Puerto de Cohetes</link> construido a ambos lados de la plataforma.\n"
+"\n"
+"Comes with shifted logic ports and extra ribbon ports for more control over the rocket."
+msgstr ""
+"Precursor de la construcción de todos los demás módulos de cohetes.\n"
+"\n"
+"Permite el despegue y aterrizaje de los cohetes en el Planetoide anfitrión.\n"
+" \n"
+"Se conecta automáticamente a un <link=\"MODULARLAUNCHPADPORTSOLID\">Puerto de Cohetes</link> construido a ambos lados de la plataforma.\n"
+"\n"
+"Incluye puertos lógicos desplazados y puertos extra para mayor control sobre el cohete."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.LOGIC_PORT_CATEGORY_READY_ACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.LOGIC_PORT_CATEGORY_READY_ACTIVE"
+msgid ""
+"Each bit sends a <b><style=\"logic_on\">Green Signal</style></b> when its respective check list category is fulfilled.\n"
+"\n"
+" Bit 1 tracks the category \"Flight Route\"\n"
+" Bit 2 tracks the category \"Rocket Construction\"\n"
+" Bit 3 tracks the category \"Cargo Manifest\"\n"
+" Bit 4 tracks the category \"Crew Manifest\"\n"
+msgstr ""
+"Cada bit envía una <b><style=\"logic_on\">Señal Verde</style></b> cuando su categoría correspondiente de la lista de control está cumplida.\n"
+"\n"
+" Bit 1 sigue la categoría \"Ruta de Vuelo\"\n"
+" Bit 2 sigue la categoría \"Construcción del Cohete\"\n"
+" Bit 3 sigue la categoría \"Manifiesto de Carga\"\n"
+" Bit 4 sigue la categoría \"Manifiesto de Tripulación\"\n"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.LOGIC_PORT_CATEGORY_READY_INACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.LOGIC_PORT_CATEGORY_READY_INACTIVE"
+msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b> to the respective Bit."
+msgstr "De lo contrario, envía una <b><style=\"logic_off\">Señal Roja</style></b> al Bit correspondiente."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.LOGIC_PORT_LAUNCH_ACTIVE_RIBBON
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.LOGIC_PORT_LAUNCH_ACTIVE_RIBBON"
+msgid ""
+"<b><style=\"logic_on\">Green Signal on the first Bit</style></b>: Launch rocket\n"
+"<b><style=\"logic_on\">Bit 2</style></b> allows to override the \"Fueled\" Warning under Cargo Manifest that otherwise prevent automated launches. This allows rockets to fly one-way-trips to another "
+"launchpad\n"
+"<b><style=\"logic_on\">Bit 3</style></b> allows to override all Cargo Warnings (that aren't Fuel) under Cargo Manifest that otherwise prevent automated launches.\n"
+"<b><style=\"logic_on\">Bit 4</style></b> makes the Overrides of Bit 2 and 3 affect the logic output of the launch pad. "
+msgstr ""
+"<b><style=\"logic_on\">Señal Verde en el primer Bit</style></b>: Lanzar cohete\n"
+"<b><style=\"logic_on\">Bit 2</style></b> permite anular la advertencia de \"Combustible\" en el Manifiesto de Carga que de otro modo impediría los lanzamientos automáticos. Esto permite que los cohetes "
+"realicen viajes de ida a otra plataforma de lanzamiento\n"
+"<b><style=\"logic_on\">Bit 3</style></b> permite anular todas las advertencias de carga (que no sean combustible) en el Manifiesto de Carga que de otro modo impedirían los lanzamientos automáticos.\n"
+"<b><style=\"logic_on\">Bit 4</style></b> hace que las anulaciones de los Bits 2 y 3 afecten la salida lógica de la plataforma de lanzamiento. "
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.LOGIC_PORT_LAUNCH_INACTIVE_RIBBON
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.LOGIC_PORT_LAUNCH_INACTIVE_RIBBON"
+msgid "<b><style=\"logic_off\">Red Signal on the first Bit</style></b>: Cancel launch"
+msgstr "<b><style=\"logic_off\">Señal Roja en el primer Bit</style></b>: Cancelar lanzamiento"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.NAME"
+msgid "<link=\"RTBBUNKERLAUNCHPAD\">Advanced Rocket Platform</link>"
+msgstr "<link=\"RTBBUNKERLAUNCHPAD\">Plataforma Avanzada de Cohetes</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_AIMODULEDOCKINGPORT.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_AIMODULEDOCKINGPORT.DESC"
+msgid "Connecting with another (rocket) has never been easier."
+msgstr "Conectarse con otro (cohete) nunca ha sido tan fácil."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_AIMODULEDOCKINGPORT.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_AIMODULEDOCKINGPORT.EFFECT"
+msgid ""
+"Enables docking with other rockets and space stations\n"
+"\n"
+"Both docking participants require a docking component to dock.\n"
+"\n"
+"Duplicants cannot use this docking connection.\n"
+"\n"
+"Add it to an AI controlled rocket to allow it to dock.\n"
+"\n"
+"Multiple Modules allow multiple docking connections"
+msgstr ""
+"Permite acoplarse con otros cohetes y estaciones espaciales\n"
+"\n"
+"Ambos participantes del acoplamiento requieren un componente de acoplamiento para poder acoplar.\n"
+"\n"
+"Los duplicantes no pueden usar esta conexión de acoplamiento.\n"
+"\n"
+"Añádelo a un cohete controlado por IA para permitir que se acople.\n"
+"\n"
+"Múltiples módulos permiten múltiples conexiones de acoplamiento"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_AIMODULEDOCKINGPORT.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_AIMODULEDOCKINGPORT.NAME"
+msgid "<link=\"RTBAIMODULEDOCKINGPORT\">Docking Module</link>"
+msgstr "<link=\"RTBAIMODULEDOCKINGPORT\">Módulo de Acoplamiento</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_BUNKERLAUNCHPAD.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_BUNKERLAUNCHPAD.DESC"
+msgid ""
+"Una plataforma desde la que se pueden lanzar y aterrizar cohetes.\n"
+"\n"
+"Fortified to withstand comets."
+msgstr ""
+"Una plataforma desde la que se pueden lanzar y aterrizar cohetes.\n"
+"\n"
+"Fortificada para resistir cometas."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_BUNKERLAUNCHPAD.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_BUNKERLAUNCHPAD.EFFECT"
+msgid ""
+"Precursor de la construcción de todos los demás módulos de cohetes.\n"
+"\n"
+"Permite el despegue y aterrizaje de los cohetes en el Planetoide anfitrión.\n"
+" \n"
+"Automáticamente se conecta a un <link=\"MODULARLAUNCHPADPORTSOLID\">Puerto de Cohetes</link> construido a ambos lados de la plataforma.\n"
+"\n"
+"Blocks comets and is immune to comet damage."
+msgstr ""
+"Precursor de la construcción de todos los demás módulos de cohetes.\n"
+"\n"
+"Permite el despegue y aterrizaje de los cohetes en el planetoide anfitrión.\n"
+" \n"
+"Se conecta automáticamente a un <link=\"MODULARLAUNCHPADPORTSOLID\">Puerto de Cohetes</link> construido a ambos lados de la plataforma.\n"
+"\n"
+"Bloquea cometas y es inmune al daño por cometas."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_BUNKERLAUNCHPAD.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_BUNKERLAUNCHPAD.NAME"
+msgid "<link=\"RTBBUNKERLAUNCHPAD\">Fortified Rocket Platform</link>"
+msgstr "<link=\"RTBBUNKERLAUNCHPAD\">Plataforma de Cohetes Fortificada</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CARGOBAYCLUSTERLARGE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CARGOBAYCLUSTERLARGE.DESC"
+msgid "Holds even more than a large cargo bay!"
+msgstr "¡Almacena incluso más que una gran bahía de carga!"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CARGOBAYCLUSTERLARGE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CARGOBAYCLUSTERLARGE.EFFECT"
+msgid ""
+"Allows Duplicants to store most of the <link=\"ELEMENTSSOLID\">Solid Materials</link> found during space missions.\n"
+"\n"
+"Stored resources become available to the colony upon the rocket's return. \n"
+"\n"
+"Must be built via <link=\"LAUNCHPAD\">Plataforma de Cohetes</link>."
+msgstr ""
+"Permite a los duplicantes almacenar la mayoría de los <link=\"ELEMENTSSOLID\">Materiales Sólidos</link> encontrados durante las misiones espaciales.\n"
+"\n"
+"Los recursos almacenados estarán disponibles para la colonia al regresar el cohete. \n"
+"\n"
+"Debe construirse a través de la <link=\"LAUNCHPAD\">Plataforma de Cohetes</link>."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CARGOBAYCLUSTERLARGE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CARGOBAYCLUSTERLARGE.NAME"
+msgid "<link=\"RTBCARGOBAYCLUSTERLARGE\">Colossal Cargo Bay</link>"
+msgstr "<link=\"RTBCARGOBAYCLUSTERLARGE\">Bahía de Carga Colosal</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CO2FUELTANK.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CO2FUELTANK.DESC"
+msgid "Storing additional fuel increases the distance a rocket can travel before returning."
+msgstr "Almacenar combustible adicional aumenta la distancia que puede recorrer un cohete antes de regresar."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CO2FUELTANK.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CO2FUELTANK.EFFECT"
+msgid "Stores pressurized <link=\"CARBONDIOXIDE\">Carbon Dioxide</link> for <link=\"CO2ENGINE\">Carbon Dioxide Engines</link>"
+msgstr "Almacena <link=\"CARBONDIOXIDE\">Dióxido de Carbono</link> presurizado para <link=\"CO2ENGINE\">Motores de Dióxido de Carbono</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CO2FUELTANK.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CO2FUELTANK.NAME"
+msgid "<link=\"RTBCO2FUELTANK\">Carbon Dioxide Fuel Tank</link>"
+msgstr "<link=\"RTBCO2FUELTANK\">Depósito de Combustible de Dióxido de Carbono</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CONNECTORBYPASSADAPTER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CONNECTORBYPASSADAPTER.DESC"
+msgid "Ascending to new levels"
+msgstr "Ascendiendo a nuevos niveles"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CONNECTORBYPASSADAPTER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CONNECTORBYPASSADAPTER.EFFECT"
+msgid ""
+"Allows horizontal rocket ports to bypass transit tubes and tiles.\n"
+"\n"
+"Automatically links when built to the side of a <link=\"LAUNCHPAD\">Plataforma de Cohetes</link> or another <link=\"MODULARLAUNCHPADPORTSOLID\">Puerto de Cohetes</link>"
+msgstr ""
+"Permite que los puertos de cohete horizontales pasen por alto tubos de transporte y baldosas.\n"
+"\n"
+"Se conecta automáticamente al construirse al lateral de una <link=\"LAUNCHPAD\">Plataforma de Cohetes</link> o de otro <link=\"MODULARLAUNCHPADPORTSOLID\">Puerto de Cohetes</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CONNECTORBYPASSADAPTER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CONNECTORBYPASSADAPTER.NAME"
+msgid "<link=\"RTBCONNECTORBYPASSADAPTER\">Rocket Port Bypass Adapter</link>"
+msgstr "<link=\"RTBCONNECTORBYPASSADAPTER\">Adaptador de Desvío del Puerto de Cohetes</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERCONTAINMENTMODULE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERCONTAINMENTMODULE.DESC"
+msgid "These critters will go where no critter has gone before."
+msgstr "Estas criaturas irán donde ninguna criatura ha ido antes."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERCONTAINMENTMODULE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERCONTAINMENTMODULE.EFFECT"
+msgid "This module allows the safe transport of critters to their new home. "
+msgstr "Este módulo permite el transporte seguro de las criaturas a su nuevo hogar. "
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERCONTAINMENTMODULE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERCONTAINMENTMODULE.NAME"
+msgid "<link=\"CRITTERCONTAINMENTMODULECONFIGOLD\">[DEPRECATED] Critter Containment Module</link>"
+msgstr "<link=\"CRITTERCONTAINMENTMODULECONFIGOLD\">[OBSOLETO] Módulo de Contención de Criaturas</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERSTASISMODULE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERSTASISMODULE.DESC"
+msgid "These critters will go where no critter has gone before."
+msgstr "Estas criaturas irán donde ninguna criatura ha ido antes."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERSTASISMODULE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERSTASISMODULE.EFFECT"
+msgid ""
+"This module allows the safe transport of critters to their new home.\n"
+"\n"
+"Stored Critters wont age."
+msgstr ""
+"Este módulo permite el transporte seguro de criaturas a su nuevo hogar.\n"
+"\n"
+"Las criaturas almacenadas no envejecerán."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERSTASISMODULE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERSTASISMODULE.NAME"
+msgid "<link=\"CRITTERSTASISMODULECONFIG\">Critter Stasis Module</link>"
+msgstr "<link=\"CRITTERSTASISMODULECONFIG\">Módulo de Estasis de Criaturas</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHCENTER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHCENTER.DESC"
+msgid ""
+"Quantum computers unlock new breakthroughs from the analysis of deep space anomalies.\n"
+"\n"
+"Requires active cooling to function optimally"
+msgstr ""
+"Los ordenadores cuánticos desbloquean nuevos avances a partir del análisis de anomalías del espacio profundo.\n"
+"\n"
+"Requieren refrigeración activa para funcionar de manera óptima"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHCENTER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHCENTER.EFFECT"
+msgid ""
+"Conducts <link=\"DEEPSPACERESEARCH\">Deep Space Research</link> to unlock new technologies.\n"
+"\n"
+"Consumes <link=\"RTBDEEPSPACEINSIGHT\">Deep Space Insights</link>.\n"
+"\n"
+"Assigned Duplicants must possess the <link=\"SPACERESEARCH\">Investigador de Análisis de Datos</link> skill."
+msgstr ""
+"Realiza <link=\"DEEPSPACERESEARCH\">Investigación del Espacio Profundo</link> para desbloquear nuevas tecnologías.\n"
+"\n"
+"Consume <link=\"RTBDEEPSPACEINSIGHT\">Conocimientos del Espacio Profundo</link>.\n"
+"\n"
+"Los Duplicantes asignados deben poseer la habilidad <link=\"SPACERESEARCH\">Investigador de Análisis de Datos</link>."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHCENTER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHCENTER.NAME"
+msgid "<link=\"RTBDEEPSPACERESEARCHCENTER\">[WIP] Quantum Computer</link>"
+msgstr "<link=\"RTBDEEPSPACERESEARCHCENTER\">[EN PROCESO] Ordenador Cuántico</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHTELESCOPE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHTELESCOPE.DESC"
+msgid "Deep space analysis stations scan and collect data on deep space anomalies"
+msgstr "Las estaciones de análisis del espacio profundo escanean y recopilan datos sobre anomalías del espacio profundo"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHTELESCOPE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHTELESCOPE.EFFECT"
+msgid ""
+"Allows <link=\"DEEPSPACERESEARCH\">Deep Space Research</link> to be accumulated.\n"
+"\n"
+"Requires a <link=\"RTBDEEPSPACEINSIGHT\">Deep Space Insight</link> to function."
+msgstr ""
+"Permite acumular <link=\"DEEPSPACERESEARCH\">Investigación del Espacio Profundo</link>.\n"
+"\n"
+"Requiere un <link=\"RTBDEEPSPACEINSIGHT\">Conocimiento del Espacio Profundo</link> para funcionar."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHTELESCOPE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHTELESCOPE.NAME"
+msgid "<link=\"RTBDEEPSPACERESEARCHTELESCOPE\">[WIP] Deep Space Analysis Station</link>"
+msgstr "<link=\"RTBDEEPSPACERESEARCHTELESCOPE\">[EN PROCESO] Estación de Análisis del Espacio Profundo</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DOCKINGTUBEDOOR.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DOCKINGTUBEDOOR.DESC"
+msgid "Connecting with another (rocket) has never been easier."
+msgstr "Conectarse con otro (cohete) nunca ha sido tan fácil."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DOCKINGTUBEDOOR.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DOCKINGTUBEDOOR.EFFECT"
+msgid ""
+"Enables docking with other rockets and space stations\n"
+"\n"
+"Both docking participants require a docking component to dock.\n"
+"\n"
+"Assigning a duplicant forces it to use the docking bridge."
+msgstr ""
+"Permite el acoplamiento con otros cohetes y estaciones espaciales\n"
+"\n"
+"Ambos participantes del acoplamiento requieren un componente de acoplamiento para poder atracar.\n"
+"\n"
+"Asignar un duplicante obliga a que utilice el puente de acoplamiento."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DOCKINGTUBEDOOR.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DOCKINGTUBEDOOR.NAME"
+msgid "<link=\"RTBDOCKINGTUBEDOOR\">Docking Bridge</link>"
+msgstr "<link=\"RTBDOCKINGTUBEDOOR\">Puente de Acoplamiento</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DRILLCONEDIAMONDSTORAGE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DRILLCONEDIAMONDSTORAGE.DESC"
+msgid "Bringing home those minerals - for Rock and Stone!"
+msgstr "¡Trayendo esos minerales a casa, por la Roca y la Piedra!"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DRILLCONEDIAMONDSTORAGE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DRILLCONEDIAMONDSTORAGE.EFFECT"
+msgid ""
+"Acts as a support module for a normal Drillcone.\n"
+"\n"
+"Provides additional 1500kg of diamond capacity for the drillcone.\n"
+"\n"
+"Gives a 20% mining speed boost to the drillcone.\n"
+"\n"
+"Can be toggled between manual loading and automated loading via cargo loader."
+msgstr ""
+"Funciona como módulo de soporte para un cono Taladrador normal.\n"
+"\n"
+"Proporciona 1500 kg adicionales de capacidad de diamante para el taladro.\n"
+"\n"
+"Otorga un aumento del 20 % en la velocidad de minería del taladro.\n"
+"\n"
+"Se puede alternar entre carga manual y carga automática mediante el cargador de carga."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DRILLCONEDIAMONDSTORAGE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DRILLCONEDIAMONDSTORAGE.NAME"
+msgid "<link=\"RTBDRILLCONEDIAMONDSTORAGE\">Drillcone Service Module</link>"
+msgstr "<link=\"RTBDRILLCONEDIAMONDSTORAGE\">Módulo de Servicio del Cono Taladrador</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGECARGOBAY.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGECARGOBAY.DESC"
+msgid "Space food for days"
+msgstr "Comida espacial para días"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGECARGOBAY.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGECARGOBAY.EFFECT"
+msgid ""
+"Keeps food preserved, prevent spoilage.\n"
+"Can only be filled with a cargo loader.\n"
+"Contents can be accessed during the flight via wall loader"
+msgstr ""
+"Mantiene los alimentos conservados y evita que se estropeen.\n"
+"Sólo se puede llenar mediante un cargador de carga.\n"
+"Se puede acceder al contenido durante el vuelo a través del cargador de pared"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGECARGOBAY.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGECARGOBAY.NAME"
+msgid "<link=\"RTBFRIDGECARGOBAY\">Freezer Module</link>"
+msgstr "<link=\"RTBFRIDGECARGOBAY\">Módulo Congelador</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.DESC"
+msgid "Food spoilage can be slowed by ambient conditions as well as by refrigerators."
+msgstr "La descomposición de los alimentos puede ralentizarse tanto por las condiciones ambientales como por los refrigeradores."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.EFFECT"
+msgid ""
+"Has to be attached to the rocket wall.\n"
+"\n"
+"Stores a small amount of <link=\"FOOD\">Food</link> at an ideal <link=\"HEAT\">Temperature</link> to prevent spoilage.\n"
+"\n"
+"Will pull food from a connected <link=\"RTBFRIDGECARGOBAY\">Freezer Module</link> when low on food."
+msgstr ""
+"Debe estar unido a la pared del cohete.\n"
+"\n"
+"Almacena una pequeña cantidad de <link=\"FOOD\">alimentos</link> a una <link=\"HEAT\">temperatura</link> ideal para evitar su descomposición.\n"
+"\n"
+"Tomará alimentos de un <link=\"RTBFRIDGECARGOBAY\">Módulo Congelador</link> conectado cuando la cantidad de comida sea baja."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT"
+msgid "Full/Not Full"
+msgstr "Lleno/No lleno"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_ACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_ACTIVE"
+msgid "Sends a <b><style=\"logic_on\">Green Signal</style></b> when full"
+msgstr "Envía una <b><style=\"logic_on\">Señal Verde</style></b> cuando está lleno"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_ACTIVE_PULL
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_ACTIVE_PULL"
+msgid "<b><style=\"logic_on\">Green Signal</style></b>: Building will pull more food from the Freezer Module when below 1kg of food."
+msgstr "<b><style=\"logic_on\">Señal Verde</style></b>: El edificio extraerá más comida del Módulo Congelador cuando haya menos de 1 kg de comida."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_INACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_INACTIVE"
+msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b>"
+msgstr "De lo contrario, envía una <b><style=\"logic_off\">Señal Roja</style></b>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_INACTIVE_PULL
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_INACTIVE_PULL"
+msgid "<b><style=\"logic_off\">Red Signal</style></b>: Building wont pull any more food even when below 1kg."
+msgstr "<b><style=\"logic_off\">Señal Roja</style></b>: El edificio no extraerá más comida incluso cuando haya menos de 1 kg."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_PULL
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_PULL"
+msgid "Pull food from Freezer Module"
+msgstr "Extraer comida del Módulo Congelador"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.NAME"
+msgid "<link=\"RTBFRIDGEMODULEACCESSHATCH\">Freezer Access Hatch</link>"
+msgstr "<link=\"RTBFRIDGEMODULEACCESSHATCH\">Escotilla de Acceso al Congelador</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GASCARGOBAYCLUSTERLARGE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GASCARGOBAYCLUSTERLARGE.DESC"
+msgid "Holds even more than a large gas cargo canister!"
+msgstr "¡Almacena incluso más que un gran contenedor de gas!"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GASCARGOBAYCLUSTERLARGE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GASCARGOBAYCLUSTERLARGE.EFFECT"
+msgid ""
+"Allows Duplicants to store most of the <link=\"ELEMENTSGAS\">Gas</link> resources found during space missions.\n"
+"\n"
+"Stored resources become available to the colony upon the rocket's return.\n"
+"\n"
+"Must be built via <link=\"LAUNCHPAD\">Plataforma de Cohetes</link>."
+msgstr ""
+"Permite a los Duplicantes almacenar la mayoría de los recursos <link=\"ELEMENTSGAS\">gaseosos</link> encontrados durante las misiones espaciales.\n"
+"\n"
+"Los recursos almacenados estarán disponibles para la colonia al regresar el cohete.\n"
+"\n"
+"Debe construirse a través de una <link=\"LAUNCHPAD\">Plataforma de Cohetes</link>."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GASCARGOBAYCLUSTERLARGE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GASCARGOBAYCLUSTERLARGE.NAME"
+msgid "<link=\"RTBGASCARGOBAYCLUSTERLARGE\">Colossal Gas Cargo Canister</link>"
+msgstr "<link=\"RTBGASCARGOBAYCLUSTERLARGE\">Colosal Contenedor de Gas</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GENERATORCOALMODULE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GENERATORCOALMODULE.DESC"
+msgid "Converts <link=\"CARBON\">Coal</link> into electrical <link=\"POWER\">Power</link>."
+msgstr "Convierte <link=\"CARBON\">Carbón</link> en <link=\"POWER\">Energía</link> eléctrica."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GENERATORCOALMODULE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GENERATORCOALMODULE.EFFECT"
+msgid ""
+"Burning coal produces more energy than manual power, who could have thought this also works in space.\n"
+"\n"
+" If there is atleast one battery connected, the generator will stop producing if the battery is above 95% charge."
+msgstr ""
+"Quemar carbón produce más energía que la fuerza manual; quién hubiera pensado que esto también funciona en el espacio.\n"
+"\n"
+"Si hay al menos una batería conectada, el generador dejará de producir si la batería supera el 95% de carga."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GENERATORCOALMODULE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GENERATORCOALMODULE.NAME"
+msgid "<link=\"COALGENERATORMODULECONFIG\">Coal Generator Module</link>"
+msgstr "<link=\"COALGENERATORMODULECONFIG\">Módulo Generador de Carbón</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GENERATORCOALMODULE.SIDESCREEN_TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GENERATORCOALMODULE.SIDESCREEN_TOOLTIP"
+msgid "Duplicants will be requested to deliver <style=\"KKeyword\">{0}</style> when the amount stored falls below <b>{1}</b>"
+msgstr "Se pedirá a los Duplicantes que entreguen <style=\"KKeyword\">{0}</style> cuando la cantidad almacenada caiga por debajo de <b>{1}</b>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEMEDIUMEXPANDED.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEMEDIUMEXPANDED.DESC"
+msgid "Permite a los Duplicantes sobrevivir a los viajes espaciales... Con suerte."
+msgstr "Permite a los Duplicantes sobrevivir a los viajes espaciales... Con suerte."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEMEDIUMEXPANDED.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEMEDIUMEXPANDED.EFFECT"
+msgid ""
+"Funciona como un Módulo de Mando.\n"
+"\n"
+"Alberga hasta diez Duplicantes.\n"
+"\n"
+"Se puede instalar un Módulo de Mando por cohete.\n"
+"\n"
+"El motor debe construirse a través de una <link=\"LAUNCHPAD\">Plataforma de Cohetes</link>."
+msgstr ""
+"Funciona como un Módulo de Mando.\n"
+"\n"
+"Alberga hasta diez Duplicantes.\n"
+"\n"
+"Se puede instalar un Módulo de Mando por cohete.\n"
+"\n"
+"El motor debe construirse a través de una <link=\"LAUNCHPAD\">Plataforma de Cohetes</link>."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEMEDIUMEXPANDED.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEMEDIUMEXPANDED.NAME"
+msgid "<link=\"HABITATMODULEMEDIUMEXPANDEDCONFIG\">Extended Spacefarer Module</link>"
+msgstr "<link=\"HABITATMODULEMEDIUMEXPANDEDCONFIG\">Módulo del Hábitat Ampliado</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEPLATEDLARGE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEPLATEDLARGE.DESC"
+msgid "Un afortunado Duplicante tiene la mejor vista de todo el cohete."
+msgstr "Un afortunado Duplicante tiene la mejor vista de todo el cohete."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEPLATEDLARGE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEPLATEDLARGE.EFFECT"
+msgid ""
+"Funciona como un Módulo de Mando y un Cono de Nariz\n"
+"\n"
+"Alberga un único Duplicante.\n"
+"\n"
+"Se puede instalar un Módulo de Mando por cohete.\n"
+"\n"
+"Debe construirse a través de una <link=\"LAUNCHPAD\">Plataforma de Cohetes</link>.\n"
+"\n"
+"Debe ser construido en la parte superior de un cohete.\n"
+"\n"
+"Interior is fully shielded from radiation."
+msgstr ""
+"Funciona como un Módulo de Mando y un Cono de Nariz\n"
+"\n"
+"Alberga un único Duplicante.\n"
+"\n"
+"Se puede instalar un Módulo de Mando por cohete.\n"
+"\n"
+"Debe construirse a través de una <link=\"LAUNCHPAD\">Plataforma de Cohetes</link>.\n"
+"\n"
+"Debe ser construido en la parte superior de un cohete.\n"
+"\n"
+"El interior está completamente protegido de la radiación."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEPLATEDLARGE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEPLATEDLARGE.NAME"
+msgid "<link=\"HABITATMODULESMALLEXPANDEDCONFIG\">Plated Spacefarer Nosecone</link>"
+msgstr "<link=\"HABITATMODULESMALLEXPANDEDCONFIG\">Cono de Nariz Reforzado del Hábitat</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESMALLEXPANDED.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESMALLEXPANDED.DESC"
+msgid "Un afortunado Duplicante tiene la mejor vista de todo el cohete."
+msgstr "Un afortunado duplicante tiene la mejor vista de todo el cohete."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESMALLEXPANDED.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESMALLEXPANDED.EFFECT"
+msgid ""
+"Funciona como un Módulo de Mando y un Cono de Nariz\n"
+"\n"
+"Alberga un único Duplicante.\n"
+"\n"
+"Se puede instalar un Módulo de Mando por cohete.\n"
+"\n"
+"Debe construirse a través de una <link=\"LAUNCHPAD\">Plataforma de Cohetes</link>.\n"
+"\n"
+"Debe ser construido en la parte superior de un cohete."
+msgstr ""
+"Funciona como un Módulo de Mando y un Cono de Nariz\n"
+"\n"
+"Alberga un único Duplicante.\n"
+"\n"
+"Se puede instalar un Módulo de Mando por cohete.\n"
+"\n"
+"Debe construirse a través de una <link=\"LAUNCHPAD\">Plataforma de Cohetes</link>.\n"
+"\n"
+"Debe ser construido en la parte superior de un cohete."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESMALLEXPANDED.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESMALLEXPANDED.NAME"
+msgid "<link=\"HABITATMODULESMALLEXPANDEDCONFIG\">Extended Solo Spacefarer Nosecone</link>"
+msgstr "<link=\"HABITATMODULESMALLEXPANDEDCONFIG\">Cono de Nariz Ampliado para Viajero Espacial</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESTARGAZER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESTARGAZER.DESC"
+msgid "The stars have never felt this close before like in this Command Module."
+msgstr "Las estrellas nunca se han sentido tan cerca como en este Módulo de Mando."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESTARGAZER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESTARGAZER.EFFECT"
+msgid ""
+"Closes during starts and landings to protect the glass\n"
+"\n"
+"Functions as a Command Module and a Nosecone.\n"
+"\n"
+"One Command Module may be installed per rocket.\n"
+"\n"
+"Must be built via <link=\"LAUNCHPAD\">Plataforma de Cohetes</link>. \n"
+"\n"
+"Must be built at the top of a rocket.\n"
+"\n"
+"Great for looking at the stars or a nice sunbathing during the flight."
+msgstr ""
+"Se cierra durante los despegues y aterrizajes para proteger el cristal\n"
+"\n"
+"Funciona como Módulo de Comando y Cono de Nariz.\n"
+"\n"
+"Se puede instalar un Módulo de Comando por cohete.\n"
+"\n"
+"Debe construirse a través de una <link=\"LAUNCHPAD\">Plataforma de Cohetes</link>. \n"
+"\n"
+"Debe construirse en la parte superior de un cohete.\n"
+"\n"
+"Ideal para contemplar las estrellas o tomar el sol durante el vuelo."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESTARGAZER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESTARGAZER.NAME"
+msgid "<link=\"HABITATMODULESTARGAZERCONFIG\">Stargazer Nosecone</link>"
+msgstr "<link=\"HABITATMODULESTARGAZERCONFIG\">Cono de nariz Estelar</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPBATTERYMODULE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPBATTERYMODULE.DESC"
+msgid "Particles packed up and ready to visit the stars."
+msgstr "Partículas empaquetadas y listas para visitar las estrellas."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPBATTERYMODULE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPBATTERYMODULE.EFFECT"
+msgid ""
+"Stores Radbolts in a high-energy state, ready for transport.\n"
+"\n"
+"Requires a <b><style=\"logic_on\">Green Signal</style></b> to release radbolts from storage when the Radbolt threshold is reached.\n"
+"\n"
+"Radbolts in storage won't decay as long as the modules solar panels can function.\n"
+"\n"
+"Automatically refills a <link=\"NOSECONEHEPHARVESTCONFIG\">Laser Drillcone</link>"
+msgstr ""
+"Almacena Radbolts en un estado de alta energía, listos para su transporte.\n"
+"\n"
+"Requiere una <b><style=\"logic_on\">Señal Verde</style></b> para liberar los Radbolts del almacenamiento cuando se alcanza el umbral de Radbolts.\n"
+"\n"
+"Los Radbolts almacenados no se descompondrán mientras los paneles solares del módulo puedan funcionar.\n"
+"\n"
+"Rellena automáticamente un <link=\"NOSECONEHEPHARVESTCONFIG\">Cono Taladrador Láser</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPBATTERYMODULE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPBATTERYMODULE.NAME"
+msgid "<link=\"HEPBATTERYMODULECONFIG\">Radbolt Chamber Module</link>"
+msgstr "<link=\"HEPBATTERYMODULECONFIG\">Módulo de Cámara Radbolt</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPFUELLOADER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPFUELLOADER.DESC"
+msgid "\"Shoving everything in there\" - now with higly energized particles."
+msgstr "\"Meterlo todo ahí\" - ahora con partículas altamente energizadas."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPFUELLOADER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPFUELLOADER.EFFECT"
+msgid ""
+"Fills all sorts of Radbolt Storages.\n"
+"Allows fueling a Radbolt Engine and the Laser Drillcone\n"
+"\n"
+"Automatically links when built to the side of a <link=\"LAUNCHPAD\">Plataforma de Cohetes</link> or another <link=\"MODULARLAUNCHPADPORTSOLID\">Puerto de Cohetes</link>"
+msgstr ""
+"Llena todo tipo de Almacenes de Radbolt.\n"
+"Permite abastecer de combustible un Motor Radbolt y el Cono Taladrador Láser\n"
+"\n"
+"Se conecta automáticamente al construirse al lateral de una <link=\"LAUNCHPAD\">Plataforma de Cohetes</link> o de otro <link=\"MODULARLAUNCHPADPORTSOLID\">Puerto de Cohetes</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPFUELLOADER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPFUELLOADER.NAME"
+msgid "<link=\"RTBHEPFUELLOADER\">Radbolt Loader</link>"
+msgstr "<link=\"RTBHEPFUELLOADER\">Cargador de Radbolt</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_IONENGINECLUSTER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_IONENGINECLUSTER.DESC"
+msgid "Rockets can be used to send Duplicants into space and retrieve rare resources."
+msgstr "Los cohetes pueden utilizarse para enviar Duplicantes al espacio y recuperar recursos raros."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_IONENGINECLUSTER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_IONENGINECLUSTER.EFFECT"
+msgid ""
+"Uses large amounts of <link=\"POWER\">Power</link> to ionize <link=\"WATER\">Water</link>, ejecting the ionized particles outwards to propel rockets for long-range space exploration.\n"
+"\n"
+"Power is drawn from battery modules.\n"
+"\n"
+"Engine must be built via <link=\"LAUNCHPAD\">Plataforma de Cohetes</link>"
+msgstr ""
+"Utiliza grandes cantidades de <link=\"POWER\">energía</link> para ionizar <link=\"WATER\">agua</link>, expulsando las partículas ionizadas hacia el exterior para propulsar cohetes en exploraciones "
+"espaciales de largo alcance.\n"
+"\n"
+"La energía se toma de los módulos de batería.\n"
+"\n"
+"El motor debe construirse a través de una <link=\"LAUNCHPAD\">Plataforma de Cohetes</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_IONENGINECLUSTER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_IONENGINECLUSTER.NAME"
+msgid "<link=\"RTBIONENGINECLUSTER\">Ion Engine</link>"
+msgstr "<link=\"RTBIONENGINECLUSTER\">Motor de Iones</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LADDERCONNECTIONADAPTER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LADDERCONNECTIONADAPTER.DESC"
+msgid "Connecting rocket platforms, now with verticality"
+msgstr "Conectando plataformas de cohetes, ahora con verticalidad"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LADDERCONNECTIONADAPTER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LADDERCONNECTIONADAPTER.EFFECT"
+msgid ""
+"Connects adjacent rocket platforms while doubling as a ladder.\n"
+"\n"
+"Automatically links when built to the side of a <link=\"LAUNCHPAD\">Plataforma de Cohetes</link> or another <link=\"MODULARLAUNCHPADPORTSOLID\">Puerto de Cohetes</link>"
+msgstr ""
+"Conecta plataformas de cohetes adyacentes mientras funciona también como escalera.\n"
+"\n"
+"Se conecta automáticamente al construirse al lateral de una <link=\"LAUNCHPAD\">Plataforma de Cohetes</link> o de otro <link=\"MODULARLAUNCHPADPORTSOLID\">Puerto de Cohetes</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LADDERCONNECTIONADAPTER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LADDERCONNECTIONADAPTER.NAME"
+msgid "<link=\"RTBWALLCONNECTIONADAPTER\">Rocket Port Ladder Adapter</link>"
+msgstr "<link=\"RTBWALLCONNECTIONADAPTER\">Adaptador de Escalera del Puerto de Cohete</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LANDERROCKETPLATFORM.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LANDERROCKETPLATFORM.DESC"
+msgid "Perfect for a first landing"
+msgstr "Perfecto para un primer aterrizaje"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LANDERROCKETPLATFORM.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LANDERROCKETPLATFORM.NAME"
+msgid "<link=\"RTBLANDERROCKETPLATFORM\">Deployable Rocket Platform</link>"
+msgstr "<link=\"RTBLANDERROCKETPLATFORM\">Plataforma de Cohete Desplegable</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDCARGOBAYCLUSTERLARGE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDCARGOBAYCLUSTERLARGE.DESC"
+msgid "Holds even more than a large cargo tank!"
+msgstr "¡Almacena incluso más que un gran tanque de carga!"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDCARGOBAYCLUSTERLARGE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDCARGOBAYCLUSTERLARGE.EFFECT"
+msgid ""
+"Allows Duplicants to store most of the <link=\"ELEMENTSLIQUID\">Liquid</link> resources found during space missions.\n"
+"\n"
+"Stored resources become available to the colony upon the rocket's return.\n"
+"\n"
+"Must be built via <link=\"LAUNCHPAD\">Plataforma de Cohetes</link>."
+msgstr ""
+"Permite a los Duplicantes almacenar la mayoría de los recursos <link=\"ELEMENTSLIQUID\">líquidos</link> encontrados durante las misiones espaciales.\n"
+"\n"
+"Los recursos almacenados estarán disponibles para la colonia al regresar el cohete.\n"
+"\n"
+"Debe construirse a través de una <link=\"LAUNCHPAD\">Plataforma de Cohetes</link>."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDCARGOBAYCLUSTERLARGE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDCARGOBAYCLUSTERLARGE.NAME"
+msgid "<link=\"RTBLIQUIDCARGOBAYCLUSTERLARGE\">Colossal Liquid Cargo Tank</link>"
+msgstr "<link=\"RTBLIQUIDCARGOBAYCLUSTERLARGE\">Colosal Tanque de Carga Líquida</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDCHLORINEOXIDIZERTANK.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDCHLORINEOXIDIZERTANK.DESC"
+msgid "Liquid chlorine improves the thrust-to-mass ratio of rocket fuels."
+msgstr "El cloro líquido mejora la relación empuje-masa de los combustibles de cohete."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDCHLORINEOXIDIZERTANK.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDCHLORINEOXIDIZERTANK.EFFECT"
+msgid ""
+"Stores <link=\"CHLORINE\">Liquid Chlorine</link> for burning rocket fuels. \n"
+"\n"
+"Must be built via <link=\"LAUNCHPAD\">Plataforma de Cohetes</link>.\n"
+"\n"
+"The oxidizer efficiency of liquid chlorine sits between those of oxylite and liquid oxygen (3)."
+msgstr ""
+"Almacena <link=\"CHLORINE\">cloro líquido</link> para quemar combustibles de cohetes.\n"
+"\n"
+"Debe construirse a través de una <link=\"LAUNCHPAD\">Plataforma de Cohetes</link>.\n"
+"\n"
+"La eficiencia como oxidante del cloro líquido se sitúa entre la del oxilita y el oxígeno líquido (3)."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDCHLORINEOXIDIZERTANK.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDCHLORINEOXIDIZERTANK.NAME"
+msgid "<link=\"RTBLIQUIDCHLORINEOXIDIZERTANK\">Liquid Chlorine Oxidizer Tank</link>"
+msgstr "<link=\"RTBLIQUIDCHLORINEOXIDIZERTANK\">Tanque Oxidante de Cloro Líquido</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDFUELTANKCLUSTERSMALL.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDFUELTANKCLUSTERSMALL.DESC"
+msgid "Almacenar combustible adicional aumenta la distancia que un cohete puede recorrer antes de regresar."
+msgstr "Almacenar combustible adicional aumenta la distancia que un cohete puede recorrer antes de regresar."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDFUELTANKCLUSTERSMALL.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDFUELTANKCLUSTERSMALL.EFFECT"
+msgid ""
+"Almacena el combustible <link=\"ELEMENTSLIQUID\">Líquido</link> que se introduce en él para alimentar los motores de los cohetes.\n"
+"\n"
+"El tipo de combustible almacenado está determinado por el motor del cohete sobre el que se construye.\n"
+"\n"
+"Debe construirse a través de una <link=\"LAUNCHPAD\">Plataforma de Cohetes</link>."
+msgstr ""
+"Almacena el combustible <link=\"ELEMENTSLIQUID\">Líquido</link> que se introduce en él para alimentar los motores de los cohetes.\n"
+"\n"
+"El tipo de combustible almacenado está determinado por el motor del cohete sobre el que se construye.\n"
+"\n"
+"Debe construirse a través de una <link=\"LAUNCHPAD\">Plataforma de Cohetes</link>."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDFUELTANKCLUSTERSMALL.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDFUELTANKCLUSTERSMALL.NAME"
+msgid "<link=\"RTBLIQUIDFUELTANKCLUSTERSMALL\">Small Liquid Fuel Tank</link>"
+msgstr "<link=\"RTBLIQUIDFUELTANKCLUSTERSMALL\">Pequeño Tanque de Combustible Líquido</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NATGASENGINECLUSTER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NATGASENGINECLUSTER.DESC"
+msgid "Rockets can be used to send Duplicants into space and retrieve rare resources."
+msgstr "Los cohetes pueden usarse para enviar duplicantes al espacio y recuperar recursos raros."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NATGASENGINECLUSTER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NATGASENGINECLUSTER.EFFECT"
+msgid ""
+"Burns <link=\"METHANE\">Natural Gas</link> to propel rockets for mid-range space exploration.\n"
+"\n"
+"Engine must be built via <link=\"LAUNCHPAD\">Plataforma de Cohetes</link>"
+msgstr ""
+"Quema <link=\"METHANE\">gas natural</link> para propulsar cohetes en exploraciones espaciales de alcance medio.\n"
+"\n"
+"El motor debe construirse a través de una <link=\"LAUNCHPAD\">Plataforma de Cohetes</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NATGASENGINECLUSTER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NATGASENGINECLUSTER.NAME"
+msgid "<link=\"RTBNATGASENGINECLUSTER\">Natural Gas Engine</link>"
+msgstr "<link=\"RTBNATGASENGINECLUSTER\">Motor de Gas Natural</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NOSECONESOLAR.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NOSECONESOLAR.DESC"
+msgid "Cada cohete requiere un cono de nariz para volar."
+msgstr "Cada cohete requiere un cono de nariz para volar."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NOSECONESOLAR.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NOSECONESOLAR.EFFECT"
+msgid ""
+"Protege un cohete durante la salida y la entrada en la atmósfera, permitiendo los viajes espaciales.\n"
+"\n"
+"El motor debe construirse a través de una <link=\"LAUNCHPAD\">Plataforma de Cohetes</link>.\n"
+"\n"
+"Debe ser construido en la parte superior de un cohete.\n"
+"\n"
+"Converts <link=\"LIGHT\">Sunlight</link> into electrical <link=\"POWER\">Power</link> for use on rockets.\n"
+"\n"
+"Must be exposed to space."
+msgstr ""
+"Protege un cohete durante la salida y la entrada en la atmósfera, permitiendo los viajes espaciales.\n"
+"\n"
+"El motor debe construirse a través de una <link=\"LAUNCHPAD\">Plataforma de Cohetes</link>.\n"
+"\n"
+"Debe ser construido en la parte superior de un cohete.\n"
+"\n"
+"Convierte <link=\"LIGHT\">luz solar</link> en <link=\"POWER\">energía eléctrica</link> para su uso en cohetes.\n"
+"\n"
+"Debe estar expuesto al espacio."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NOSECONESOLAR.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NOSECONESOLAR.NAME"
+msgid "<link=\"NOSECONESOLARCONFIG\">Solar Nosecone</link>"
+msgstr "<link=\"NOSECONESOLARCONFIG\">Cono de Nariz Solar</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.DESC"
+msgid "How much stuff is out there?"
+msgstr "¿Cuánto material hay ahí afuera?"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.EFFECT"
+msgid "After pointing the building at a space poi, the building will output logic signals based on the poi artifact existing and the mass remaining in the poi."
+msgstr "Después de apuntar el edificio a un POI espacial, el edificio enviará señales lógicas según exista un artefacto en el POI y la masa restante en el mismo."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.LOGIC_PORT_ARTIFACT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.LOGIC_PORT_ARTIFACT"
+msgid "POI has Artifact"
+msgstr "El POI tiene Artefacto"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.LOGIC_PORT_ARTIFACT_ACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.LOGIC_PORT_ARTIFACT_ACTIVE"
+msgid "Sends a <b><style=\"logic_on\">Green Signal</style></b> when the targeted POI has an artifact"
+msgstr "Envía una <b><style=\"logic_on\">Señal Verde</style></b> cuando el POI objetivo tiene un artefacto"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.LOGIC_PORT_ARTIFACT_INACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.LOGIC_PORT_ARTIFACT_INACTIVE"
+msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b>"
+msgstr "De lo contrario, envía una <b><style=\"logic_off\">Señal Roja</style></b>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.LOGIC_PORT_CAPACITY
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.LOGIC_PORT_CAPACITY"
+msgid "POI mass above set threshold."
+msgstr "Masa del POI por encima del umbral establecido."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.LOGIC_PORT_CAPACITY_ACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.LOGIC_PORT_CAPACITY_ACTIVE"
+msgid "Sends a <b><style=\"logic_on\">Green Signal</style></b> when the targeted POI has more than the configured mass remaining"
+msgstr "Envía una <b><style=\"logic_on\">Señal Verde</style></b> cuando el POI objetivo tiene más de la masa configurada restante"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.LOGIC_PORT_CAPACITY_INACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.LOGIC_PORT_CAPACITY_INACTIVE"
+msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b>"
+msgstr "De lo contrario, envía una <b><style=\"logic_off\">Señal Roja</style></b>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.NAME"
+msgid "<link=\"RTBPOICAPACITYSENSOR\">Starmap POI Capacity Sensor</link>"
+msgstr "<link=\"RTBPOICAPACITYSENSOR\">Sensor de Capacidad de POI del Mapa Estelar</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.REMAININGMASS
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.REMAININGMASS"
+msgid "Remaining Mass in POI"
+msgstr "Masa Restante en el POI"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.REMAININGMASS_TOOLTIP_ABOVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.REMAININGMASS_TOOLTIP_ABOVE"
+msgid "Will send a <b><style=\"logic_on\">Green Signal</style></b> if the <style=\"KKeyword\">remaining Mass in the POI</style> is above <b>{0}</b>"
+msgstr "Enviará una <b><style=\"logic_on\">Señal Verde</style></b> si la <style=\"KKeyword\">masa restante en el POI</style> está por encima de <b>{0}</b>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.REMAININGMASS_TOOLTIP_BELOW
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.REMAININGMASS_TOOLTIP_BELOW"
+msgid "Will send a <b><style=\"logic_on\">Green Signal</style></b> if the <style=\"KKeyword\">remaining Mass in the POI</style> is below <b>{0}</b>"
+msgstr "Enviará una <b><style=\"logic_on\">Señal Verde</style></b> si la <style=\"KKeyword\">masa restante en el POI</style> está por debajo de <b>{0}</b>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.SIDESCREENTITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.SIDESCREENTITLE"
+msgid "Remaining Mass"
+msgstr "Masa Restante"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_REINFORCEDLADDER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_REINFORCEDLADDER.DESC"
+msgid "Sturdy and quick to climb!"
+msgstr "¡Resistente y rápida de escalar!"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_REINFORCEDLADDER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_REINFORCEDLADDER.EFFECT"
+msgid "Increases duplicant climbing speed. Immune to meteors"
+msgstr "Aumenta la velocidad de escalada de los duplicantes. Inmune a meteoritos"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_REINFORCEDLADDER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_REINFORCEDLADDER.NAME"
+msgid "<link=\"RTBREINFORCEDLADDER\">Reinforced Ladder</link>"
+msgstr "<link=\"RTBREINFORCEDLADDER\">Escalera Reforzada</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ROCKETPLATFORMTAG.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ROCKETPLATFORMTAG.NAME"
+msgid "Rocket Platform"
+msgstr "Plataforma de Cohete"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_RTGGENERATORMODULE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_RTGGENERATORMODULE.DESC"
+msgid "Through exploitation of the natural decay of enriched Uranium, this elegantly simple power generator can provide consistent, stable power for hundreds of cycles."
+msgstr ""
+"Mediante la explotación de la desintegración natural del uranio enriquecido, este generador de energía, elegantemente sencillo, puede proporcionar energía constante y estable durante cientos de ciclos."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_RTGGENERATORMODULE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_RTGGENERATORMODULE.EFFECT"
+msgid ""
+"After adding 50 kg of enriched Uranium, this module will constantly produce 120 W of energy until all of the uranium is depleted.\n"
+"\n"
+"It will take 50 Cycles for the uranium to decay."
+msgstr ""
+"Tras añadir 50 kg de uranio enriquecido, este módulo producirá constantemente 120 W de energía hasta que todo el uranio se agote.\n"
+"\n"
+"Llevará 50 ciclos para que el uranio se descomponga."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_RTGGENERATORMODULE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_RTGGENERATORMODULE.NAME"
+msgid "<link=\"RTBRTGGENERATORMODULE\">Radioisotope Thermoelectric Generator</link>"
+msgstr "<link=\"RTBRTGGENERATORMODULE\">Generador Termoeléctrico de Radioisótopos</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SMOLBATTERYMODULE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SMOLBATTERYMODULE.DESC"
+msgid "Cargar un módulo de batería antes del despegue facilita la alimentación energía de las instalaciones durante el vuelo."
+msgstr "Cargar un módulo de batería antes del despegue facilita el suministro de energía a las instalaciones durante el vuelo."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SMOLBATTERYMODULE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SMOLBATTERYMODULE.EFFECT"
+msgid ""
+"Almacena el exceso de <link=\"POWER\">Energía</link> generado por el Motor de un Cohete o una <link=\"LAUNCHPAD\">Plataforma de Cohetes</link>.\n"
+"\n"
+"Proporciona la energía almacenada a las <link=\"ROCKETINTERIORPOWERPLUG\">Tomas de Corriente Interiores</link>.\n"
+"\n"
+"Pierde carga con el tiempo.\n"
+"\n"
+"Debe construirse a través de una Plataforma de Cohetes."
+msgstr ""
+"Almacena el exceso de <link=\"POWER\">Energía</link> generado por el Motor de un Cohete o una <link=\"LAUNCHPAD\">Plataforma de Cohetes</link>.\n"
+"\n"
+"Proporciona la energía almacenada a las <link=\"ROCKETINTERIORPOWERPLUG\">Tomas de Corriente Interiores</link>.\n"
+"\n"
+"Pierde carga con el tiempo.\n"
+"\n"
+"Debe construirse a través de una Plataforma de Cohetes."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SMOLBATTERYMODULE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SMOLBATTERYMODULE.NAME"
+msgid "<link=\"RTBSMOLBATTERYMODULE\">Small Battery Module</link>"
+msgstr "<link=\"RTBSMOLBATTERYMODULE\">Módulo de Batería Pequeño</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SOLARPANELMODULE_WIDE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SOLARPANELMODULE_WIDE.DESC"
+msgid ""
+"Recoge energía solar antes del despegue y durante el vuelo.\n"
+"That small module looked so off on wide rockets!"
+msgstr ""
+"Recoge energía solar antes del despegue y durante el vuelo.\n"
+"¡Ese pequeño módulo se veía tan extraño en cohetes anchos!"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SOLARPANELMODULE_WIDE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SOLARPANELMODULE_WIDE.EFFECT"
+msgid ""
+"Convierte la <link=\"LIGHT\">Luz Solar</link> en <link=\"POWER\">Energía</link> eléctrica para ser usada en el cohete.\n"
+"\n"
+"Debe construirse a través de una <link=\"LAUNCHPAD\">Plataforma de Cohetes</link>.\n"
+"\n"
+"Debe estar expuesto al espacio."
+msgstr ""
+"Convierte la <link=\"LIGHT\">Luz Solar</link> en <link=\"POWER\">Energía</link> eléctrica para ser usada en el cohete.\n"
+"\n"
+"Debe construirse a través de una <link=\"LAUNCHPAD\">Plataforma de Cohetes</link>.\n"
+"\n"
+"Debe estar expuesto al espacio."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SOLARPANELMODULE_WIDE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SOLARPANELMODULE_WIDE.NAME"
+msgid "<link=\"RTBSOLARPANELMODULEWIDE\">Wide Módulo de Panel Solar</link>"
+msgstr "<link=\"RTBSOLARPANELMODULEWIDE\">Módulo de Panel Solar Ancho</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONDOCKINGDOOR.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONDOCKINGDOOR.DESC"
+msgid "Connecting with another (rocket) has never been easier."
+msgstr "Conectarse con otro (cohete) nunca ha sido tan fácil."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONDOCKINGDOOR.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONDOCKINGDOOR.EFFECT"
+msgid ""
+"Enables docking with rockets to dock\n"
+"\n"
+"Allows loading and unloading docked rockets\n"
+"\n"
+"Rockets require a docking component to dock.\n"
+"\n"
+"Assigning a duplicant forces it to use the docking bridge."
+msgstr ""
+"Permite que los cohetes se acoplen\n"
+"\n"
+"Permite cargar y descargar los cohetes atracados\n"
+"\n"
+"Los cohetes requieren un componente de acoplamiento para poder atracar.\n"
+"\n"
+"Asignar un duplicante obliga a que utilice el puente de acoplamiento."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONDOCKINGDOOR.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONDOCKINGDOOR.NAME"
+msgid "<link=\"RTBSPACESTATIONDOCKINGDOOR\">[WIP] Orbital Docking Port</link>"
+msgstr "<link=\"RTBSPACESTATIONDOCKINGDOOR\">[WIP] Puerto de Acoplamiento Orbital</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONDOCKINGDOOR_INDESTRUCTIBLE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONDOCKINGDOOR_INDESTRUCTIBLE.DESC"
+msgid "Connecting with another (rocket) has never been easier."
+msgstr "Conectarse con otro (cohete) nunca ha sido tan fácil."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONDOCKINGDOOR_INDESTRUCTIBLE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONDOCKINGDOOR_INDESTRUCTIBLE.EFFECT"
+msgid ""
+"Enables docking with rockets to dock\n"
+"\n"
+"Allows loading and unloading docked rockets\n"
+"\n"
+"Rockets require a docking component to dock.\n"
+"\n"
+"Assigning a duplicant forces it to use the docking bridge."
+msgstr ""
+"Permite el acoplamiento con cohetes para atracar\n"
+"\n"
+"Permite cargar y descargar cohetes atracados\n"
+"\n"
+"Los cohetes requieren un componente de acoplamiento para atracar.\n"
+"\n"
+"Asignar un duplicante obliga a que utilice el puente de acoplamiento."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONDOCKINGDOOR_INDESTRUCTIBLE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONDOCKINGDOOR_INDESTRUCTIBLE.NAME"
+msgid "<link=\"RTBSPACESTATIONDOCKINGDOORINDESTRUCTIBLE\">[WIP] Core Orbital Docking Port</link>"
+msgstr "<link=\"RTBSPACESTATIONDOCKINGDOORINDESTRUCTIBLE\">[WIP] Puerto de Acoplamiento Orbital Central</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONMODULEBUILDER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONMODULEBUILDER.DESC"
+msgid "TODO"
+msgstr "POR HACER"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONMODULEBUILDER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONMODULEBUILDER.EFFECT"
+msgid "Allows construction in deep space."
+msgstr "Permite la construcción en el espacio profundo."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONMODULEBUILDER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONMODULEBUILDER.NAME"
+msgid "<link=\"RTBSPACESTATIONMODULEBUILDER\">[WIP] Orbital Construction Module</link>"
+msgstr "<link=\"RTBSPACESTATIONMODULEBUILDER\">[WIP] Módulo de Construcción Orbital</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_STEAMGENERATORMODULE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_STEAMGENERATORMODULE.DESC"
+msgid "Useful for converting hot steam into usable power."
+msgstr "Útil para convertir vapor caliente en energía utilizable."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_STEAMGENERATORMODULE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_STEAMGENERATORMODULE.EFFECT"
+msgid ""
+"Draws in <link=\"STEAM\">Steam</link> from gas storage modules and uses it to generate electrical <link=\"POWER\">Power</link>.\n"
+"\n"
+" If there are liquid storage modules with appropriate filters set, outputs hot <link=\"WATER\">Water</link> to them.\n"
+"\n"
+" If there is atleast one battery connected, the generator will stop producing if the battery is above 95% charge."
+msgstr ""
+"Extrae <link=\"STEAM\">vapor</link> de los módulos de almacenamiento de gas y lo utiliza para generar <link=\"POWER\">energía eléctrica</link>.\n"
+"\n"
+"Si hay módulos de almacenamiento de líquidos con los filtros adecuados configurados, envía <link=\"WATER\">agua caliente</link> a ellos.\n"
+"\n"
+"Si hay al menos una batería conectada, el generador dejará de producir si la batería está por encima del 95% de carga."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_STEAMGENERATORMODULE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_STEAMGENERATORMODULE.NAME"
+msgid "<link=\"STEAMGENERATORMODULECONFIG\">Steam Generator Module</link>"
+msgstr "<link=\"STEAMGENERATORMODULECONFIG\">Módulo Generador de Vapor</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.DESC"
+msgid "Fueling Rockets has never been easier!"
+msgstr "¡Repostar cohetes nunca ha sido tan fácil!"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.EFFECT"
+msgid ""
+"Refuels connected rockets with the appropriate fuel.\n"
+"\n"
+"Automatically links when built to the side of a <link=\"LAUNCHPAD\">Plataforma de Cohetes</link> or another <link=\"MODULARLAUNCHPADPORTSOLID\">Puerto de Cohetes</link>"
+msgstr ""
+"Reabastece de combustible a los cohetes conectados con el combustible adecuado.\n"
+"\n"
+"Se conecta automáticamente al construirse al lateral de una <link=\"LAUNCHPAD\">Plataforma de Cohetes</link> o de otro <link=\"MODULARLAUNCHPADPORTSOLID\">Puerto de Cohetes</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.LOGIC_PORT_ROCKETLOADER
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.LOGIC_PORT_ROCKETLOADER"
+msgid "Currently Loading/Unloading"
+msgstr "Actualmente cargando/descargando"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.LOGIC_PORT_ROCKETLOADER_ACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.LOGIC_PORT_ROCKETLOADER_ACTIVE"
+msgid "Sends a <b><style=\"logic_on\">Green Signal</style></b> when building is currently loading or unloading a rocket"
+msgstr "Envía una <b><style=\"logic_on\">Señal Verde</style></b> cuando el edificio está cargando o descargando un cohete"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.LOGIC_PORT_ROCKETLOADER_INACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.LOGIC_PORT_ROCKETLOADER_INACTIVE"
+msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b>"
+msgstr "De lo contrario, envía una <b><style=\"logic_off\">Señal Roja</style></b>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.NAME"
+msgid "<link=\"RTBUNIVERSALFUELLOADER\">Rocket Fuel Loader</link>"
+msgstr "<link=\"RTBUNIVERSALFUELLOADER\">Cargador de Combustible para Cohetes</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALOXIDIZERLOADER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALOXIDIZERLOADER.DESC"
+msgid "Fueling Rockets has never been easier!"
+msgstr "¡Nunca ha sido tan fácil repostar cohetes!"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALOXIDIZERLOADER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALOXIDIZERLOADER.EFFECT"
+msgid ""
+"Refuels connected rockets with the appropriate oxidizer\n"
+"\n"
+"Automatically links when built to the side of a <link=\"LAUNCHPAD\">Plataforma de Cohetes</link> or another <link=\"MODULARLAUNCHPADPORTSOLID\">Puerto de Cohetes</link>"
+msgstr ""
+"Reabastece de combustible a los cohetes conectados con el oxidante adecuado\n"
+"\n"
+"Se conecta automáticamente al construirse al lateral de una <link=\"LAUNCHPAD\">Plataforma de Cohetes</link> o de otro <link=\"MODULARLAUNCHPADPORTSOLID\">Puerto de Cohetes</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALOXIDIZERLOADER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALOXIDIZERLOADER.NAME"
+msgid "<link=\"RTBUNIVERSALOXIDIZERLOADER\">Rocket Oxidizer Loader</link>"
+msgstr "<link=\"RTBUNIVERSALOXIDIZERLOADER\">Cargador de Oxidante para Cohetes</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_VERTICALADAPTERBASE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_VERTICALADAPTERBASE.DESC"
+msgid "Ascending to new levels"
+msgstr "Ascendiendo a nuevos niveles"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_VERTICALADAPTERBASE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_VERTICALADAPTERBASE.EFFECT"
+msgid ""
+"A Crosspiece rocket port adapter for vertical expansion.\n"
+"\n"
+"Links up with other vertical adapter pieces above and below it.\n"
+"\n"
+"Automatically links when built to the side of a <link=\"LAUNCHPAD\">Plataforma de Cohetes</link> or another <link=\"MODULARLAUNCHPADPORTSOLID\">Puerto de Cohetes</link>"
+msgstr ""
+"Una pieza adaptadora de puerto de cohete en forma de cruz para expansión vertical.\n"
+"\n"
+"Se conecta con otras piezas adaptadoras verticales situadas arriba y abajo.\n"
+"\n"
+"Se conecta automáticamente al construirse al lateral de una <link=\"LAUNCHPAD\">Plataforma de Cohetes</link> o de otro <link=\"MODULARLAUNCHPADPORTSOLID\">Puerto de Cohetes</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_VERTICALADAPTERBASE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_VERTICALADAPTERBASE.NAME"
+msgid "<link=\"RTBVERTICALADAPTERBASE\">Vertical Rocket Port Adapter</link>"
+msgstr "<link=\"RTBVERTICALADAPTERBASE\">Adaptador Vertical para Puerto de Cohete</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_VERTICALADAPTERPIECE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_VERTICALADAPTERPIECE.DESC"
+msgid "Gantry Not Included"
+msgstr "No incluye la pasarela"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_VERTICALADAPTERPIECE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_VERTICALADAPTERPIECE.EFFECT"
+msgid ""
+"A rocket port adapter piece for vertical expansion.\n"
+"\n"
+"Links up with other vertical adapter pieces above and below it."
+msgstr ""
+"Una pieza adaptadora de puerto de cohete para expansión vertical.\n"
+"\n"
+"Se conecta con otras piezas adaptadoras verticales situadas arriba y abajo."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_VERTICALADAPTERPIECE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_VERTICALADAPTERPIECE.NAME"
+msgid "<link=\"RTBVERTICALADAPTERPIECE\">Vertical Rocket Port Piece</link>"
+msgstr "<link=\"RTBVERTICALADAPTERPIECE\">Sección Vertical del Puerto de Cohete</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_WALLCONNECTIONADAPTER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_WALLCONNECTIONADAPTER.DESC"
+msgid "Insulated for convenience."
+msgstr "Aislado para mayor comodidad."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_WALLCONNECTIONADAPTER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_WALLCONNECTIONADAPTER.EFFECT"
+msgid ""
+"An insulated wall adapter to seal off rocket start areas.\n"
+"\n"
+"Automatically links when built to the side of a <link=\"LAUNCHPAD\">Plataforma de Cohetes</link> or another <link=\"MODULARLAUNCHPADPORTSOLID\">Puerto de Cohetes</link>"
+msgstr ""
+"Un adaptador de pared aislado para sellar las zonas de lanzamiento de cohetes.\n"
+"\n"
+"Se conecta automáticamente al construirse al lateral de una <link=\"LAUNCHPAD\">Plataforma de Cohetes</link> o de otro <link=\"MODULARLAUNCHPADPORTSOLID\">Puerto de Cohetes</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_WALLCONNECTIONADAPTER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_WALLCONNECTIONADAPTER.NAME"
+msgid "<link=\"RTBWALLCONNECTIONADAPTER\">Insulated Rocket Port Wall Adapter</link>"
+msgstr "<link=\"RTBWALLCONNECTIONADAPTER\">Adaptador de Pared para Puerto de Cohete Aislado</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_WALLCONNECTIONADAPTERBUNKER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_WALLCONNECTIONADAPTERBUNKER.DESC"
+msgid "Bunkered down for convenience."
+msgstr "Protegido para mayor comodidad."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_WALLCONNECTIONADAPTERBUNKER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_WALLCONNECTIONADAPTERBUNKER.EFFECT"
+msgid ""
+"A bunker wall adapter to seal off rocket start areas.\n"
+"\n"
+"Automatically links when built to the side of a <link=\"LAUNCHPAD\">Plataforma de Cohetes</link> or another <link=\"MODULARLAUNCHPADPORTSOLID\">Puerto de Cohetes</link>"
+msgstr ""
+"Un adaptador de pared de búnker para sellar las zonas de lanzamiento de cohetes.\n"
+"\n"
+"Se conecta automáticamente al construirse al lateral de una <link=\"LAUNCHPAD\">Plataforma de Cohetes</link> o de otro <link=\"MODULARLAUNCHPADPORTSOLID\">Puerto de Cohetes</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_WALLCONNECTIONADAPTERBUNKER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_WALLCONNECTIONADAPTERBUNKER.NAME"
+msgid "<link=\"RTBWALLCONNECTIONADAPTERBUNKER\">Bunkered Rocket Port Wall Adapter</link>"
+msgstr "<link=\"RTBWALLCONNECTIONADAPTERBUNKER\">Adaptador de Pared para Puerto de Cohete Protegido</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RYB_NOSECONEHEPHARVEST.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RYB_NOSECONEHEPHARVEST.DESC"
+msgid "Harvests resources from the universe with the power of radbolts and lasers"
+msgstr "Cosecha recursos del universo con el poder de radbolts y láseres"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RYB_NOSECONEHEPHARVEST.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RYB_NOSECONEHEPHARVEST.EFFECT"
+msgid ""
+"Permite a un cohete perforar los escombros interestelares y recoger los recursos <link=\"ELEMENTSGAS\">gaseosos</link>, <link=\"ELEMENTSLIQUID\">líquidos</link> y <link=\"ELEMENTSSOLID\">sólidos</link> "
+"del espacio.\n"
+"\n"
+"El motor debe construirse a través de una <link=\"LAUNCHPAD\">Plataforma de Cohetes</link>.\n"
+"\n"
+"Debe construirse en la parte superior de un cohete con un Módulo de Carga de <link=\"ELEMENTSGAS\">gas</link>, <link=\"ELEMENTSLIQUID\">líquido</link> o <link=\"ELEMENTSSOLID\">sólido</link> para "
+"almacenar los recursos adecuados."
+msgstr ""
+"Permite a un cohete perforar los escombros interestelares y recoger los recursos <link=\"ELEMENTSGAS\">gaseosos</link>, <link=\"ELEMENTSLIQUID\">líquidos</link> y <link=\"ELEMENTSSOLID\">sólidos</link> "
+"del espacio.\n"
+"\n"
+"El motor debe construirse a través de una <link=\"LAUNCHPAD\">Plataforma de Cohetes</link>.\n"
+"\n"
+"Debe construirse en la parte superior de un cohete con un Módulo de Carga de <link=\"ELEMENTSGAS\">gas</link>, <link=\"ELEMENTSLIQUID\">líquido</link> o <link=\"ELEMENTSSOLID\">sólido</link> para "
+"almacenar los recursos adecuados."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RYB_NOSECONEHEPHARVEST.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RYB_NOSECONEHEPHARVEST.NAME"
+msgid "<link=\"NOSECONEHEPHARVESTCONFIG\">Laser Drillcone</link>"
+msgstr "<link=\"NOSECONEHEPHARVESTCONFIG\">Cono Taladrador Láser</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.EMPTY.LOGIC_PORT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.EMPTY.LOGIC_PORT"
+msgid "Empty/Not Empty"
+msgstr "Vacío/No Vacío"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.EMPTY.LOGIC_PORT_ACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.EMPTY.LOGIC_PORT_ACTIVE"
+msgid "Sends a <b><style=\"logic_on\">Green Signal</style></b> when completely empty"
+msgstr "Envía una <b><style=\"logic_on\">Señal Verde</style></b> cuando está completamente vacío"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.EMPTY.LOGIC_PORT_INACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.EMPTY.LOGIC_PORT_INACTIVE"
+msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b>"
+msgstr "De lo contrario, envía una <b><style=\"logic_off\">Señal Roja</style></b>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.FULL.LOGIC_PORT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.FULL.LOGIC_PORT"
+msgid "Full/Not Full"
+msgstr "Lleno/No Lleno"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.FULL.LOGIC_PORT_ACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.FULL.LOGIC_PORT_ACTIVE"
+msgid "Sends a <b><style=\"logic_on\">Green Signal</style></b> when completely full"
+msgstr "Envía una <b><style=\"logic_on\">Señal Verde</style></b> cuando está completamente lleno"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.FULL.LOGIC_PORT_INACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.FULL.LOGIC_PORT_INACTIVE"
+msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b>"
+msgstr "De lo contrario, envía una <b><style=\"logic_off\">Señal Roja</style></b>"
+
+#. Rockets_TinyYetBig.STRINGS.CODEX.STORY_TRAITS.RTB_CRASHEDUFOSTORYTRAIT.DESCRIPTION
+msgctxt "Rockets_TinyYetBig.STRINGS.CODEX.STORY_TRAITS.RTB_CRASHEDUFOSTORYTRAIT.DESCRIPTION"
+msgid "tba"
+msgstr "por determinar"
+
+#. Rockets_TinyYetBig.STRINGS.CODEX.STORY_TRAITS.RTB_CRASHEDUFOSTORYTRAIT.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.CODEX.STORY_TRAITS.RTB_CRASHEDUFOSTORYTRAIT.NAME"
+msgid "Crashed Starship"
+msgstr "Nave Estelar Estrellada"
+
+#. Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.DESC"
+msgid ""
+"<link=\"DEEPSPACERESEARCH\">Deep Space Research</link> is conducted by analyzing the deeper meanings behind mysterious artefacts found in the vastness of deep space and by conducting deep space "
+"analysis research in the low artifical gravity of a space station."
+msgstr ""
+"<link=\"DEEPSPACERESEARCH\">Investigación del Espacio Profundo</link> se realiza analizando los significados más profundos de los artefactos misteriosos encontrados en la inmensidad del espacio "
+"profundo y llevando a cabo investigaciones de análisis del espacio profundo en la baja gravedad artificial de una estación espacial."
+
+#. Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.NAME"
+msgid "<link=\"DEEPSPACERESEARCH\">Deep Space Research</link>"
+msgstr "<link=\"DEEPSPACERESEARCH\">Investigación del Espacio Profundo</link>"
+
+#. Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.RECIPEDESC
+msgctxt "Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.RECIPEDESC"
+msgid "Unlocks new breakthroughs in space construction"
+msgstr "Desbloquea nuevos avances en la construcción espacial"
+
+#. Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.UNLOCKDESC
+msgctxt "Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.UNLOCKDESC"
+msgid ""
+"Allows <style=\"KKeyword\"><link=\"DEEPSPACERESEARCH\">Deep Space Research</link></style> points to be accumulated, unlocking higher technology tiers.\n"
+"Can be accumulated before research completion via artifact analysis."
+msgstr ""
+"Permite acumular puntos de <style=\"KKeyword\"><link=\"DEEPSPACERESEARCH\">Investigación del espacio profundo</link></style>, desbloqueando niveles de tecnología superiores.\n"
+"Se pueden acumular antes de completar la investigación mediante el análisis de artefactos."
+
+#. Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.UNLOCKNAME
+msgctxt "Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.UNLOCKNAME"
+msgid "<style=\"KKeyword\"><link=\"DEEPSPACERESEARCH\">Deep Space Research</link></style> Capability"
+msgstr "Capacidad de <style=\"KKeyword\"><link=\"DEEPSPACERESEARCH\">Investigación del Espacio Profundo</link></style>"
+
+#. Rockets_TinyYetBig.STRINGS.ELEMENTS.SPACESTATIONFORCEFIELD.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.ELEMENTS.SPACESTATIONFORCEFIELD.DESC"
+msgid "A force field, protecting the station against micro meteors."
+msgstr "Un campo de fuerza que protege la estación contra micro-meteoritos."
+
+#. Rockets_TinyYetBig.STRINGS.ELEMENTS.SPACESTATIONFORCEFIELD.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.ELEMENTS.SPACESTATIONFORCEFIELD.NAME"
+msgid "<link=\"SPACESTATIONFORCEFIELD\">Station Force Field</link>"
+msgstr "<link=\"SPACESTATIONFORCEFIELD\">Campo de Fuerza de la Estación</link>"
+
+#. Rockets_TinyYetBig.STRINGS.ELEMENTS.UNOBTANIUMALLOY.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.ELEMENTS.UNOBTANIUMALLOY.DESC"
+msgid ""
+"An insanely durable and heat resistant alloy.\n"
+"Required in the construction of large space structures.\n"
+"Very sparkly"
+msgstr ""
+"Una aleación increíblemente duradera y resistente al calor.\n"
+"Requerida para la construcción de grandes estructuras espaciales.\n"
+"Muy brillante"
+
+#. Rockets_TinyYetBig.STRINGS.ELEMENTS.UNOBTANIUMALLOY.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.ELEMENTS.UNOBTANIUMALLOY.NAME"
+msgid "<link=\"UNOBTANIUMALLOY\">Neutronium Alloy</link>"
+msgstr "<link=\"UNOBTANIUMALLOY\">Aleación de Neutronio</link>"
+
+#. Rockets_TinyYetBig.STRINGS.ELEMENTS.UNOBTANIUMALLOY.RECIPE_DESCRIPTION
+msgctxt "Rockets_TinyYetBig.STRINGS.ELEMENTS.UNOBTANIUMALLOY.RECIPE_DESCRIPTION"
+msgid "Neutronium Alloy is a <link=\"ELEMENTSSOLID\">Solid Material</link> used in the construction of large space structures."
+msgstr "La Aleación de Neutronio es un <link=\"ELEMENTSSOLID\">Material Sólido</link> usado en la construcción de grandes estructuras espaciales."
+
+#. Rockets_TinyYetBig.STRINGS.ELEMENTS.UNOBTANIUMDUST.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.ELEMENTS.UNOBTANIUMDUST.DESC"
+msgid ""
+"Harvested from artifact research, this dust might have some useful properties.\n"
+"Can be forged into <link=\"UNOBTANIUMALLOY\">Neutronium Alloy</link> at the <link=\"SUPERMATERIALREFINERY\">Molecular Forge</link>"
+msgstr ""
+"Recolectado de la investigación de artefactos, este polvo podría tener algunas propiedades útiles.\n"
+"Se puede forjar en <link=\\\"UNOBTANIUMALLOY\\\">Aleación de Neutronio</link> en la <link=\\\"SUPERMATERIALREFINERY\\\">Forja Molecular</link>"
+
+#. Rockets_TinyYetBig.STRINGS.ELEMENTS.UNOBTANIUMDUST.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.ELEMENTS.UNOBTANIUMDUST.NAME"
+msgid "<link=\"UNOBTANIUMDUST\">Neutronium Dust</link>"
+msgstr "<link=\"UNOBTANIUMDUST\">Polvo de Neutronio</link>"
+
+#. Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_DEEPSPACEINSIGHT.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_DEEPSPACEINSIGHT.DESC"
+msgid "Deep space research data that can be processed into <link=\"DEEPSPACERESEARCH\">Deep Space Research</link> points."
+msgstr "Datos de investigación del espacio profundo que pueden procesarse en puntos de <link=\"DEEPSPACERESEARCH\">Investigación del Espacio Profundo</link>."
+
+#. Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_DEEPSPACEINSIGHT.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_DEEPSPACEINSIGHT.NAME"
+msgid "<link=\"RTBDEEPSPACEINSIGHT\">Deep Space Insight</link>"
+msgstr "<link=\"RTBDEEPSPACEINSIGHT\">Conocimiento del Espacio Profundo</link>"
+
+#. Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_DEEPSPACEINSIGHT.NAME_PLURAL
+msgctxt "Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_DEEPSPACEINSIGHT.NAME_PLURAL"
+msgid "<link=\"RTBDEEPSPACEINSIGHT\">Deep Space Insights</link>"
+msgstr "<link=\"RTBDEEPSPACEINSIGHT\">Conocimientos del Espacio Profundo</link>"
+
+#. Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_DEEPSPACEINSIGHT.RECIPE_DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_DEEPSPACEINSIGHT.RECIPE_DESC"
+msgid "<link=\"RTBDEEPSPACEINSIGHT\">Deep Space Insights</link> generated from analyzing the depths of space with a Deep Space Analyzer"
+msgstr "<link=\"RTBDEEPSPACEINSIGHT\">Conocimientos del Espacio Profundo</link> generados al analizar las profundidades del espacio con un Analizador del Espacio Profundo"
+
+#. Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_EMPTYDATACARD.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_EMPTYDATACARD.DESC"
+msgid "Empty data card that is required to capture <link=\"RTBDEEPSPACEINSIGHT\">Deep Space Insight</link> at the Deep Space Analyzer"
+msgstr "Tarjeta de datos vacía necesaria para capturar <link=\"RTBDEEPSPACEINSIGHT\">Conocimiento del Espacio Profundo</link> en el Analizador del Espacio Profundo"
+
+#. Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_EMPTYDATACARD.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_EMPTYDATACARD.NAME"
+msgid "<link=\"RTBEMPTYDATACARD\">Empty Data Card</link>"
+msgstr "<link=\"RTBEMPTYDATACARD\">Tarjeta de Datos Vacía</link>"
+
+#. Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_EMPTYDATACARD.NAME_PLURAL
+msgctxt "Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_EMPTYDATACARD.NAME_PLURAL"
+msgid "<link=\"RTBEMPTYDATACARD\">Empty Data Cards</link>"
+msgstr "<link=\"RTBEMPTYDATACARD\">Tarjetas de Datos Vacías</link>"
+
+#. Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_EMPTYDATACARD.RECIPE_DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_EMPTYDATACARD.RECIPE_DESC"
+msgid "Empty Data Cards, ready to store insights about the depths of space"
+msgstr "Tarjetas de Datos Vacías, listas para almacenar conocimientos sobre las profundidades del espacio"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.KATAIRITE
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.KATAIRITE"
+msgid "<link=\"KATAIRITE\">Abisalita</link>"
+msgstr "<link=\"KATAIRITE\">Abisalita</link>"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_DOCKINGTUBEATTACHMENTSLOT
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_DOCKINGTUBEATTACHMENTSLOT"
+msgid "Spacefarer Docking Tube Attachment Port"
+msgstr "Puerto de Conexión de Tubo de Acoplamiento del Hábitat"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_NEUTRONIUMALLOYMATERIAL
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_NEUTRONIUMALLOYMATERIAL"
+msgid "Neutronium Alloy"
+msgstr "Aleación de Neutronio"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_NEUTRONIUMALLOYMATERIAL_DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_NEUTRONIUMALLOYMATERIAL_DESC"
+msgid "Neutronium Alloy is an insanely durable <link=\"ELEMENTSSOLID\">Solid Material</link> used in the construction of large space structures."
+msgstr "La Aleación de Neutronio es un <link=\"ELEMENTSSOLID\">Material Sólido</link> extremadamente duradero usado en la construcción de grandes estructuras espaciales."
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZERCORROSIVEREQUIREMENT
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZERCORROSIVEREQUIREMENT"
+msgid "Corrosive Liquid Oxidizer"
+msgstr "Oxidante Líquido Corrosivo"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZEREFFICIENCY_1
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZEREFFICIENCY_1"
+msgid "Oxidizer Efficiency 1"
+msgstr "Eficiencia de Oxidante 1"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZEREFFICIENCY_2
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZEREFFICIENCY_2"
+msgid "Oxidizer Efficiency 2"
+msgstr "Eficiencia de Oxidante 2"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZEREFFICIENCY_3
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZEREFFICIENCY_3"
+msgid "Oxidizer Efficiency 3"
+msgstr "Eficiencia de Oxidante 3"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZEREFFICIENCY_4
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZEREFFICIENCY_4"
+msgid "Oxidizer Efficiency 4"
+msgstr "Eficiencia de Oxidante 4"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZEREFFICIENCY_5
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZEREFFICIENCY_5"
+msgid "Oxidizer Efficiency 5"
+msgstr "Eficiencia de Oxidante 5"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZEREFFICIENCY_6
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZEREFFICIENCY_6"
+msgid "Oxidizer Efficiency 6"
+msgstr "Eficiencia de Oxidante 6"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZERLOXTANK
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZERLOXTANK"
+msgid "Supercooled Liquid Oxidizer"
+msgstr "Oxidante Líquido Superrefrigerante"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_RADIATIONSHIELDINGROCKETCONSTRUCTIONMATERIAL
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_RADIATIONSHIELDINGROCKETCONSTRUCTIONMATERIAL"
+msgid "Radiation Shielding"
+msgstr "Blindaje contra Radiación"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_RADIATIONSHIELDINGROCKETCONSTRUCTIONMATERIAL_DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_RADIATIONSHIELDINGROCKETCONSTRUCTIONMATERIAL_DESC"
+msgid "Materials that posses great radiation shielding properties"
+msgstr "Materiales que poseen excelentes propiedades de blindaje contra la radiación"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_ROCKETFUELMATERIAL
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_ROCKETFUELMATERIAL"
+msgid "Rocket Fuel"
+msgstr "Combustible para Cohetes"
+
+#. Rockets_TinyYetBig.STRINGS.MODIFIEDVANILLASTRINGS.KEROSENEENGINECLUSTER_EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.MODIFIEDVANILLASTRINGS.KEROSENEENGINECLUSTER_EFFECT"
+msgid ""
+"Burns any <link=\"COMBUSTIBLELIQUID\">Combustible Liquid</link> to propel rockets for mid-range space exploration.\n"
+"\n"
+"Petroleum Engines have generous height restrictions, ideal for hauling many modules.\n"
+"\n"
+"Engine must be built via <link=\"LAUNCHPAD\">Plataforma de Cohetes</link>. \n"
+"\n"
+"Once the engine has been built, more rocket modules can be added."
+msgstr ""
+"Quema cualquier <link=\\\"COMBUSTIBLELIQUID\\\">Combustible Líquido</link> para propulsar cohetes en exploración espacial de alcance medio.\n"
+"\n"
+"Los Motores de Petróleo tienen generosas restricciones de altura, ideales para transportar muchos módulos.\n"
+"\n"
+"El motor debe construirse mediante la <link=\\\"LAUNCHPAD\\\">Plataforma de Cohetes</link>. \n"
+"\n"
+"Una vez construido el motor, se pueden añadir más módulos de cohete."
+
+#. Rockets_TinyYetBig.STRINGS.MODIFIEDVANILLASTRINGS.KEROSENEENGINECLUSTERSMALL_EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.MODIFIEDVANILLASTRINGS.KEROSENEENGINECLUSTERSMALL_EFFECT"
+msgid ""
+"Burns any <link=\"COMBUSTIBLELIQUID\">Combustible Liquid</link> to propel rockets for mid-range space exploration.\n"
+"\n"
+"Small Petroleum Engines possess the same speed as a <link=\"KEROSENEENGINE\">Petroleum Engines</link> but have smaller height restrictions.\n"
+"\n"
+"Engine must be built via <link=\"LAUNCHPAD\">Plataforma de Cohetes</link>. \n"
+"\n"
+"Once the engine has been built, more rocket modules can be added."
+msgstr ""
+"Quema cualquier <link=\\\"COMBUSTIBLELIQUID\\\">Combustible Líquido</link> para propulsar cohetes en exploración espacial de alcance medio.\n"
+"\n"
+"Los Motores de Petróleo Pequeños poseen la misma velocidad que un <link=\\\"KEROSENEENGINE\\\">Motor de Petróleo</link> pero tienen restricciones de altura menores.\n"
+"\n"
+"El motor debe construirse mediante la <link=\\\"LAUNCHPAD\\\">Plataforma de Cohetes</link>.\n"
+"\n"
+"Una vez construido el motor, se pueden añadir más módulos de cohete."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.BUFFLARGEOXIDIZER.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.BUFFLARGEOXIDIZER.TITLE"
+msgid "Buff Large Oxidizer Module"
+msgstr "Mejorar Módulo de Oxidante Grande"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.BUFFLARGEOXIDIZER.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.BUFFLARGEOXIDIZER.TOOLTIP"
+msgid "Buff storage capacity of the large Oxidizer Module from 900kg to 1350kg."
+msgstr "Aumenta la capacidad de almacenamiento del Módulo de Oxidante Grande de 900 kg a 1350 kg."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAY_LOGICPORTS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAY_LOGICPORTS.TITLE"
+msgid "Cargobay logic ports"
+msgstr "Puertos lógicos de la Bahía de Carga"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAY_LOGICPORTS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAY_LOGICPORTS.TOOLTIP"
+msgid "Cargobays get two logic output ports, one for \"is full\" and one for \"is empty\""
+msgstr "Las Bahías de Carga reciben dos puertos de salida lógica, uno para \"está llena\" y otro para \"está vacía\""
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.COLLOSSALCARGOBAYUNITS
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.COLLOSSALCARGOBAYUNITS"
+msgid "Collossal Cargo Bay Units"
+msgstr "Unidades de Bahía de Carga Colosal"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.GASCARGOBAYKGPERUNIT
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.GASCARGOBAYKGPERUNIT"
+msgid "Gas Cargobay KG/Unit"
+msgstr "Bahía de Carga de Gas kg/Unidad"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.LIQUIDCARGOBAYKGPERUNIT
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.LIQUIDCARGOBAYKGPERUNIT"
+msgid "Liquid Cargobay KG/Unit"
+msgstr "Bahía de Carga de Líquidos kg/Unidad"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.MEDIUMCARGOBAYUNITS
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.MEDIUMCARGOBAYUNITS"
+msgid "Large Cargo Bay Units"
+msgstr "Unidades de Bahía de Carga Grande"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.SMALLCARGOBAYUNITS
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.SMALLCARGOBAYUNITS"
+msgid "Small Cargo Bay Units"
+msgstr "Unidades de Bahía de Carga Pequeña"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.SOLIDCARGOBAYKGPERUNIT
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.SOLIDCARGOBAYKGPERUNIT"
+msgid "Solid Cargobay KG/Unit"
+msgstr "Bahía de Carga de Sólidos kg/Unidad"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.TOOLTIP"
+msgid "Amount of Cargo Units in this Cargo Bay Size"
+msgstr "Cantidad de unidades de carga en este tamaño de Bahía de Carga"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.UNITDESCRIPTION
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.UNITDESCRIPTION"
+msgid ""
+"Only has an effect if the option \"Rebalanced Cargo Bays\" is enabled.\n"
+"Cargo bay capacity is calculated by \"Unit-KG * Cargobay-Unit-Count\"\n"
+"Unit-Count per size:\n"
+"- Small: 9 Units\n"
+"- Large: 28 Units\n"
+"- Colossal: 64 Units.\n"
+"\n"
+"Adjust the Unit-KG for this cargo bay type below."
+msgstr ""
+"Solo tiene efecto si la opción \"Bahías de Cargas de carga reequilibradas\" está activada.\n"
+"La capacidad de la Bahía de Carga se calcula como \"KG por Unidad * Número de Unidades de la Bahía de carga\"\n"
+"Número de Unidades por tamaño:\n"
+"- Pequeña: 9 Unidades\n"
+"- Grande: 28 Unidades\n"
+"- Colosal: 64 Unidades.\n"
+"\n"
+"Ajusta los KG por Unidad para este tipo de Bahía de Carga a continuación."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.A_ROCKETRYPLUS
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.A_ROCKETRYPLUS"
+msgid "Rocketry Vanilla+"
+msgstr "Cohetería Vanilla+"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.B_MININGSHIPPING
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.B_MININGSHIPPING"
+msgid "Mining & Shipping"
+msgstr "Minería y Transporte"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.C_FUELLOGISTICS
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.C_FUELLOGISTICS"
+msgid "Fuel & Logistics"
+msgstr "Combustible y Logística"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.D_POWERUTILITY
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.D_POWERUTILITY"
+msgid "Power & Utility"
+msgstr "Energía y Utilidades"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.E_SPACEEXPANSION
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.E_SPACEEXPANSION"
+msgid "Space Expansion"
+msgstr "Expansión Espacial"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.F_EASTEREGGS
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.F_EASTEREGGS"
+msgid "Easter Eggs"
+msgstr "Huevos de Pascua"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.COMPRESSINTERIORS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.COMPRESSINTERIORS.TITLE"
+msgid "Compress Interiors & Remove Rocket Limit"
+msgstr "Comprimir Interiores y Eliminar Límite de Cohetes"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.COMPRESSINTERIORS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.COMPRESSINTERIORS.TOOLTIP"
+msgid ""
+"Removes the rocket limit of 16 and trims excessive space outside of the rocket walls in spacefarer interiors\n"
+"Required for space stations."
+msgstr ""
+"Elimina el límite de 16 cohetes y recorta el espacio excesivo fuera de las paredes del cohete en los interiores de los viajeros espaciales\n"
+"Requerido para estaciones espaciales."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CRITTERSTORAGECAPACITY.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CRITTERSTORAGECAPACITY.TITLE"
+msgid "Critter Containment Module Capacity"
+msgstr "Capacidad del Módulo de Contención de Criaturas"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CRITTERSTORAGECAPACITY.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CRITTERSTORAGECAPACITY.TOOLTIP"
+msgid "Amount of critters the module can hold at once"
+msgstr "Cantidad de criaturas que el módulo puede contener a la vez"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.DRILLCONESUPPORTBOOST.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.DRILLCONESUPPORTBOOST.TITLE"
+msgid "Service Module Drilling Speed Buff"
+msgstr "Mejora de Velocidad de Perforación del Módulo de Servicio"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.DRILLCONESUPPORTBOOST.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.DRILLCONESUPPORTBOOST.TOOLTIP"
+msgid "Determines the drilling speed boost the drillcone service module provides to diamond fueled drillcones in percent"
+msgstr "Determina el incremento de velocidad de perforación que el módulo de servicio proporciona a las brocas alimentadas por diamante, en porcentaje"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.DRILLCONESUPPORTDIAMONDMASS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.DRILLCONESUPPORTDIAMONDMASS.TITLE"
+msgid "Service Module Diamond Capacity"
+msgstr "Capacidad de Diamante del Módulo de Servicio"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.DRILLCONESUPPORTDIAMONDMASS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.DRILLCONESUPPORTDIAMONDMASS.TOOLTIP"
+msgid "Determines the diamond capacity of the drillcone service module in KG"
+msgstr "Determina la capacidad de diamante del módulo de servicio del cono taladrador en KG"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEADVWORLDSELECTOR.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEADVWORLDSELECTOR.TITLE"
+msgid "Improved World Selector"
+msgstr "Selector de Mundo Mejorado"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEADVWORLDSELECTOR.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEADVWORLDSELECTOR.TOOLTIP"
+msgid ""
+"Makes world selector planets collapsible and improves internal performance.\n"
+"Required for space stations."
+msgstr ""
+"Hace que los planetas del selector de mundos sean colapsables y mejora el rendimiento interno.\n"
+"Requerido para estaciones espaciales."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEBOOSTERS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEBOOSTERS.TITLE"
+msgid "Enable Booster Modules"
+msgstr "Activar Módulos de Propulsión"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEBUNKERPLATFORM.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEBUNKERPLATFORM.TITLE"
+msgid "Enable Fortified & Advanced Rocket Platform"
+msgstr "Activar Plataforma de Cohete Fortificada y Avanzada"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLECRITTERSTORAGE.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLECRITTERSTORAGE.TITLE"
+msgid "Enable Critter Containment Module"
+msgstr "Activar Módulo de Contención de Criaturas"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEDRILLSUPPORT.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEDRILLSUPPORT.TITLE"
+msgid "Enable Drillcone Service Module"
+msgstr "Activar Módulo de Servicio del cono taladrador"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEEARLYGAMEFUELTANKS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEEARLYGAMEFUELTANKS.TITLE"
+msgid "Enable early game Fuel Tanks"
+msgstr "Activar Depósitos de Combustible Iniciales"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEELECTRICENGINE.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEELECTRICENGINE.TITLE"
+msgid "Enable Ion Engine"
+msgstr "Activar Motor iónico"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEEXTENDEDHABS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEEXTENDEDHABS.TITLE"
+msgid "Enable extra Spacefarer Modules"
+msgstr "Activar Módulos Extra del Hábitat"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEFRIDGE.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEFRIDGE.TITLE"
+msgid "Enable Fridge Module"
+msgstr "Activar Módulo frigorífico"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEFUELLOADERS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEFUELLOADERS.TITLE"
+msgid "Enable Fuel Loaders"
+msgstr "Activar Cargadores de Combustible"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEGENERATORS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEGENERATORS.TITLE"
+msgid "Enable Generator Modules"
+msgstr "Activar Módulos Generadores"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLELARGECARGOBAYS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLELARGECARGOBAYS.TITLE"
+msgid "Enable Large Cargo Modules"
+msgstr "Activar Módulos de Carga Grandes"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLELASERDRILL.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLELASERDRILL.TITLE"
+msgid "Enable Laser Drillcone"
+msgstr "Activar Cono Taladrador Láser"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLENATGASENGINE.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLENATGASENGINE.TITLE"
+msgid "Enable Natural Gas Engine"
+msgstr "Activar Motor de Gas Natural"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEPOISENSOR.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEPOISENSOR.TITLE"
+msgid "Enable POI Capacity Sensor"
+msgstr "Activar Sensor de Capacidad POI"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLERADBOLTSTORAGE.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLERADBOLTSTORAGE.TITLE"
+msgid "Enable Radbolt Storage Module"
+msgstr "Activar Módulo de Almacenamiento de Radbolt"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEROCKETLOADERLOGICOUTPUTS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEROCKETLOADERLOGICOUTPUTS.TITLE"
+msgid "Loader Logic Output"
+msgstr "Salida Lógica del Cargador"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEROCKETLOADERLOGICOUTPUTS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEROCKETLOADERLOGICOUTPUTS.TOOLTIP"
+msgid "Add a logic output to rocket loader buildings that outputs whether or not the loader is currently active."
+msgstr "Añade una salida lógica a los edificios cargadores de cohetes que indica si el cargador está activo o no."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLESMOLBATTERY.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLESMOLBATTERY.TITLE"
+msgid "Enable Small Battery Module"
+msgstr "Activar Módulo de Batería Pequeña"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLESOLARNOSECONE.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLESOLARNOSECONE.TITLE"
+msgid "Enable Solar Nosecone"
+msgstr "Activar Cono de nariz Solar"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEWALLADAPTER.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEWALLADAPTER.TITLE"
+msgid "Enable Rocket Port Adapters"
+msgstr "Activar Adaptadores de Puerto de Cohete"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ETHANOLENGINES.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ETHANOLENGINES.TITLE"
+msgid "Burn Combustible Liquids as fuel"
+msgstr "Quemar Líquidos Combustibles como combustible"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ETHANOLENGINES.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ETHANOLENGINES.TOOLTIP"
+msgid "Allows Petroleum Engines to also burn other combustible liquids as fuel."
+msgstr "Permite que los motores de petróleo quemen también otros líquidos combustibles como combustible."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATINTERIORPORTIMPROVEMENTS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATINTERIORPORTIMPROVEMENTS.TITLE"
+msgid "Habitat Interior Port Improvements"
+msgstr "Mejoras en los Puertos Interiores del Hábitat"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATINTERIORPORTIMPROVEMENTS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATINTERIORPORTIMPROVEMENTS.TOOLTIP"
+msgid ""
+"Rocket Connectors count as Rocket Wall for buildings that can only be attached to it.\n"
+"Rocket Ports block the same amount of radiation as rocket wall"
+msgstr ""
+"Los Conectores de Cohete cuentan como Pared de Cohete para los edificios que solo se pueden colocar en ella.\n"
+"Los Puertos de Cohete bloquean la misma cantidad de radiación que una pared de cohete"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATINTERIORRADIATION.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATINTERIORRADIATION.TITLE"
+msgid "Spacefarer Habitat Radiation"
+msgstr "Radiación del Hábitat del Viajero Espacial"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATINTERIORRADIATION.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATINTERIORRADIATION.TOOLTIP"
+msgid "Rocket interior radiation is defined by the radiation outside when landed."
+msgstr "La radiación dentro del cohete se define por la radiación exterior al aterrizar."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATPOWERPLUG.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATPOWERPLUG.TITLE"
+msgid "Spacefarer Power Connector"
+msgstr "Conector de Energía del Hábitat"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATPOWERPLUG.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATPOWERPLUG.TOOLTIP"
+msgid "Add a power connector to the habitat modules."
+msgstr "Añade un conector de energía a los módulos del hábitat."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.INFINITEPOI.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.INFINITEPOI.TITLE"
+msgid "Infinite POI Mining Capacity"
+msgstr "Capacidad Infinita de Minado de POIs"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.INFINITEPOI.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.INFINITEPOI.TOOLTIP"
+msgid "Capacity of mineable POIs becomes infinite. Does not affect artifacts."
+msgstr "La capacidad de los POIs minables se vuelve infinita. No afecta a los artefactos."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.INSULATEDCARGOBAYS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.INSULATEDCARGOBAYS.TITLE"
+msgid "Insulated Cargo Bays"
+msgstr "Bahías de Carga Aisladas"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.INSULATEDCARGOBAYS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.INSULATEDCARGOBAYS.TOOLTIP"
+msgid "Contents of Cargo Bay modules are insulated from their surroundings"
+msgstr "El contenido de los módulos de la bahía de carga está aislado de su entorno"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ISOTOPEDECAYTIME.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ISOTOPEDECAYTIME.TITLE"
+msgid "Radioisotope Decay time"
+msgstr "Tiempo de Decaimiento del Radioisótopo"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ISOTOPEDECAYTIME.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ISOTOPEDECAYTIME.TOOLTIP"
+msgid "Time in cycles for all the enriched uranium in the RTG to decay into depleted uranium. RTG needs a refill if all enriched uranium has decayed."
+msgstr "Tiempo en ciclos para que todo el uranio enriquecido del GTR decaiga a uranio empobrecido. El GTR necesita recarga si todo el uranio enriquecido se ha descompuesto."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.LASERDRILLCONECAPACITY.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.LASERDRILLCONECAPACITY.TITLE"
+msgid "Laser Drillcone Capacity"
+msgstr "Capacidad del Cono Taladrador Láser"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.LASERDRILLCONECAPACITY.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.LASERDRILLCONECAPACITY.TOOLTIP"
+msgid ""
+"The total amount of radbolts the Laser Drillcone can hold\n"
+"The Laser Drillcone mines 4kg of material per radbolt"
+msgstr ""
+"La cantidad total de radbolts que puede contener el cono taladrador Láser\n"
+"El cono taladrador Láser extrae 4 kg de material por radbolt"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.LASERDRILLCONESPEED.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.LASERDRILLCONESPEED.TITLE"
+msgid "Laser Drillcone Speed"
+msgstr "Velocidad del cono taladrador láser"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.LASERDRILLCONESPEED.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.LASERDRILLCONESPEED.TOOLTIP"
+msgid "Mining speed in Kg/s for the Laser Drillcone. (For reference; the vanilla drillcone mines at 7.5kg/s)."
+msgstr "Velocidad de minado en Kg/s del Cono Taladrador Láser. (Como referencia; el taladro estándar mina a 7,5 kg/s)."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.NATGASENGINERANGE.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.NATGASENGINERANGE.TITLE"
+msgid "Natural Gas Engine Range"
+msgstr "Alcance del Motor de Gas Natural"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.NATGASENGINERANGE.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.NATGASENGINERANGE.TOOLTIP"
+msgid "Set the max range of a natural gas engine."
+msgstr "Establece el alcance máximo de un motor de gas natural."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.NEUTRONIUMMATERIAL.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.NEUTRONIUMMATERIAL.TITLE"
+msgid "Neutronium Alloy"
+msgstr "Aleación de Neutronio"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.NEUTRONIUMMATERIAL.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.NEUTRONIUMMATERIAL.TOOLTIP"
+msgid ""
+"Gather Neutronium Dust by analyzing artifacts and refine it into Neutronium Alloy.\n"
+"Neutronium Alloys are required in the construction of large space structures"
+msgstr ""
+"Recoge Polvo de Neutronio analizando artefactos y refínalo en Aleación de Neutronio.\n"
+"Las Aleaciones de Neutronio son necesarias para la construcción de grandes estructuras espaciales"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.PILOTSKILLAFFECTSDRILLSPEED.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.PILOTSKILLAFFECTSDRILLSPEED.TITLE"
+msgid "Pilot Skill affects Mining Speed"
+msgstr "La habilidad del piloto afecta la velocidad de minado"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.PILOTSKILLAFFECTSDRILLSPEED.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.PILOTSKILLAFFECTSDRILLSPEED.TOOLTIP"
+msgid ""
+"The pilots' piloting and digging skills affect the drilling speed of the drillcone.\n"
+"Applies to all drillcone types"
+msgstr ""
+"Las habilidades de pilotaje y excavación de los pilotos afectan la velocidad de perforación del Cono Taladrador.\n"
+"Se aplica a todos los tipos de conos de taladro"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.RADBOLTSTORAGECAPACITY.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.RADBOLTSTORAGECAPACITY.TITLE"
+msgid "Radbolt Storage Module Capacity"
+msgstr "Capacidad del módulo de almacenamiento de Radbolt"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.RADBOLTSTORAGECAPACITY.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.RADBOLTSTORAGECAPACITY.TOOLTIP"
+msgid "Set the total radbolt capacity of the Radbolt Chamber Module."
+msgstr "Define la capacidad total de radbolts del módulo de cámara Radbolt."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.REBALANCEDCARGOCAPACITY.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.REBALANCEDCARGOCAPACITY.TITLE"
+msgid "Rebalanced Cargobay Capacity"
+msgstr "Capacidad de Bahía de Carga reequilibrada"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.REBALANCEDCARGOCAPACITY.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.REBALANCEDCARGOCAPACITY.TOOLTIP"
+msgid "Cargo Bays have increased and rebalanced Cargo Capacity"
+msgstr "Las Bahías de Carga tienen capacidad incrementada y reequilibrada"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.REFILLDRILLSUPPORT.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.REFILLDRILLSUPPORT.TITLE"
+msgid "Refill Service Module via Conveyor"
+msgstr "Reabastecer el módulo de servicio vía cinta transportadora"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.REFILLDRILLSUPPORT.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.REFILLDRILLSUPPORT.TOOLTIP"
+msgid "Refill the service module with diamonds during the flight via interior conveyor wall port."
+msgstr "Reabastece el módulo de servicio con diamantes durante el vuelo mediante el puerto de pared de la cinta interior."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ROCKETDOCKING.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ROCKETDOCKING.TITLE"
+msgid "Enable Rocket Docking"
+msgstr "Habilitar acoplamiento de cohetes"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ROCKETDOCKING.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ROCKETDOCKING.TOOLTIP"
+msgid "Dock rockets in space to transfer dupes and contents of the interiors"
+msgstr "Acopla cohetes en el espacio para transferir duplicantes y contenidos del interior"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SCANNERMODULERANGERADIUS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SCANNERMODULERANGERADIUS.TITLE"
+msgid "Cartographic Module Scan Range"
+msgstr "Rango de escaneo del módulo cartográfico"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SCANNERMODULERANGERADIUS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SCANNERMODULERANGERADIUS.TOOLTIP"
+msgid "Cartographic Modules will scan hexes in this radius."
+msgstr "Los módulos cartográficos escanearán hexágonos dentro de este radio."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SCANNERMODULESCANSPEED.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SCANNERMODULESCANSPEED.TITLE"
+msgid "Cartographic Module Scan Speed"
+msgstr "Velocidad de escaneo del módulo cartográfico"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SCANNERMODULESCANSPEED.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SCANNERMODULESCANSPEED.TOOLTIP"
+msgid "Time it takes for the module to reveal one hex in cycles."
+msgstr "Tiempo que tarda el módulo en revelar un hexágono en ciclos."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SLIMLARGEENGINES.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SLIMLARGEENGINES.TITLE"
+msgid "Slim Rockets"
+msgstr "Cohetes estrechos"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SLIMLARGEENGINES.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SLIMLARGEENGINES.TOOLTIP"
+msgid "Rocket Modules that are wider than 5 tiles (Steam, Hydrogen, Petrol Engine) are reduced to 5 width."
+msgstr "Los módulos de cohete que superen 5 casillas de ancho (vapor, hidrógeno, motor de gasolina) se reducen a 5 de ancho."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SPACESTATIONSANDTECH.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SPACESTATIONSANDTECH.TITLE"
+msgid "[ALPHA] Space Stations & Deep Space Science"
+msgstr "[ALFA] Estaciones Espaciales y Ciencia del Espacio Profundo"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SPACESTATIONSANDTECH.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SPACESTATIONSANDTECH.TOOLTIP"
+msgid ""
+"Unlocks space stations. This feature is work in progress, unfinished and might contain bugs.\n"
+"Requires Neutronium Alloy, Compressed Interiors, advanced world selector to activate"
+msgstr ""
+"Desbloquea estaciones espaciales. Esta función está en desarrollo, incompleta y puede contener errores.\n"
+"Requiere Aleación de Neutrón, Interiores Comprimidos y un selector de mundos avanzado para activarse"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SPICEEYES.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SPICEEYES.TITLE"
+msgid "Dune Spice"
+msgstr "Especia de Duna"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SPICEEYES.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SPICEEYES.TOOLTIP"
+msgid "When consuming Rocketeer Spice, Dupes will gain the spice eyes from Dune."
+msgstr "Al consumir la especia del cohetero, los duplicantes obtendrán los ojos especiados de Duna."
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLEMULTI
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLEMULTI"
+msgid "Toggle to enable/disable these modules in the building menu"
+msgstr "Activar/desactivar estos módulos en el menú de construcción"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE"
+msgid "Toggle to enable/disable this module in the building menu"
+msgstr "Activar/desactivar este módulo en el menú de construcción"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.VERTICALPORT_LADDER.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.VERTICALPORT_LADDER.TITLE"
+msgid "Vertical Port Adapter Ladder"
+msgstr "Escalera del adaptador de puerto vertical"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.VERTICALPORT_LADDER.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.VERTICALPORT_LADDER.TOOLTIP"
+msgid "The vertical port adapter allows duplicants to climb it"
+msgstr "El adaptador de puerto vertical permite que los duplicantes lo escalen"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_DOCKINGTECH.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_DOCKINGTECH.DESC"
+msgid "Dock with other spacecrafts"
+msgstr "Acoplar con otras naves espaciales"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_DOCKINGTECH.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_DOCKINGTECH.NAME"
+msgid "<link=\"RTBDOCKINGTECH\">Celestial Connection</link>"
+msgstr "<link=\"RTBDOCKINGTECH\">Conexión Celestial</link>"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_FUELLOADERSTECH.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_FUELLOADERSTECH.DESC"
+msgid ""
+"Automatically refuel your rockets with these Loaders.\n"
+"Can be placed inside a space station."
+msgstr ""
+"Reabastece automáticamente tus cohetes con estos Cargadores.\n"
+"Se pueden colocar dentro de una estación espacial."
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_FUELLOADERSTECH.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_FUELLOADERSTECH.NAME"
+msgid "<link=\"RTBFUELLOADERSTECH\">Fuel Loaders</link>"
+msgstr "<link=\"RTBFUELLOADERSTECH\">Cargadores de Combustible</link>"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_HUGECARGOBAYTECH.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_HUGECARGOBAYTECH.DESC"
+msgid "Lets bring home ALL those minerals."
+msgstr "Vamos a traer TODOS esos minerales a casa."
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_HUGECARGOBAYTECH.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_HUGECARGOBAYTECH.NAME"
+msgid "<link=\"RTBLARGESPACESTATIONTECH\">Thinking larger</link>"
+msgstr "<link=\"RTBLARGESPACESTATIONTECH\">Pensando a lo grande</link>"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_LARGERROCKETLIVINGSPACETECH.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_LARGERROCKETLIVINGSPACETECH.DESC"
+msgid "All the living space a dupe could ask for, now in your rocket."
+msgstr "Todo el espacio habitable que un duplicante podría desear, ahora en tu cohete."
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_LARGERROCKETLIVINGSPACETECH.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_LARGERROCKETLIVINGSPACETECH.NAME"
+msgid "<link=\"RTBLARGERROCKETLIVINGSPACETECH\">Luxurious Liv'in Space</link>"
+msgstr "<link=\"RTBLARGERROCKETLIVINGSPACETECH\">Vida Espacial Lujosa</link>"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_LARGESPACESTATIONTECH.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_LARGESPACESTATIONTECH.DESC"
+msgid "Conquering the depths of space"
+msgstr "Conquistando las profundidades del espacio"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_LARGESPACESTATIONTECH.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_LARGESPACESTATIONTECH.NAME"
+msgid "<link=\"RTBLARGESPACESTATIONTECH\">Deep Space Expansion</link>"
+msgstr "<link=\"RTBLARGESPACESTATIONTECH\">Expansión del Espacio Profundo</link>"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_MEDIUMSPACESTATIONTECH.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_MEDIUMSPACESTATIONTECH.DESC"
+msgid "Extending the perspective"
+msgstr "Ampliando la perspectiva"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_MEDIUMSPACESTATIONTECH.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_MEDIUMSPACESTATIONTECH.NAME"
+msgid "<link=\"RTBMEDIUMSPACESTATIONTECH\">Deep Space Colonization</link>"
+msgstr "<link=\"RTBMEDIUMSPACESTATIONTECH\">Colonización del Espacio Profundo</link>"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_SPACESTATIONTECH.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_SPACESTATIONTECH.DESC"
+msgid "Mysterious Artifacts have shown new perspectives on living in the vast emptyness"
+msgstr "Artefactos misteriosos han mostrado nuevas perspectivas sobre cómo vivir en la vasta inmensidad"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_SPACESTATIONTECH.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_SPACESTATIONTECH.NAME"
+msgid "<link=\"RTBSPACESTATIONTECH\">Deep Space Exploration</link>"
+msgstr "<link=\"RTBSPACESTATIONTECH\">Exploración del Espacio Profundo</link>"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.ARTIFACT
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.ARTIFACT"
+msgid ""
+"\n"
+"• 1 artifact storage"
+msgstr ""
+"\n"
+"• 1 almacén de artefactos"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.CRITTERCARGO
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.CRITTERCARGO"
+msgid ""
+"\n"
+"• {0} Critters storage"
+msgstr ""
+"\n"
+"• {0} almacén de criaturas"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.CRITTERCARGOSINGLE
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.CRITTERCARGOSINGLE"
+msgid ""
+"\n"
+"• 1 Critter storage"
+msgstr ""
+"\n"
+"• 1 almacén de criaturas"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.FUELELEMENT
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.FUELELEMENT"
+msgid ""
+"\n"
+"• {0} of {1} fuel storage"
+msgstr ""
+"\n"
+"• {0} de {1} almacenamiento de combustible"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.FUELGAS
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.FUELGAS"
+msgid ""
+"\n"
+"• {0} of gas fuel storage"
+msgstr ""
+"\n"
+"• {0} de almacenamiento de combustible gaseoso"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.FUELLIQUID
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.FUELLIQUID"
+msgid ""
+"\n"
+"• {0} of liquid fuel storage"
+msgstr ""
+"\n"
+"• {0} de almacenamiento de líquido"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.FUELSOLID
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.FUELSOLID"
+msgid ""
+"\n"
+"• {0} of solid fuel storage"
+msgstr ""
+"\n"
+"• {0} de almacenamiento de combustible sólido"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.GASDCARGO
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.GASDCARGO"
+msgid ""
+"\n"
+"• {0} of gas storage"
+msgstr ""
+"\n"
+"• {0} de almacenamiento de gas"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.LIQUIDCARGO
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.LIQUIDCARGO"
+msgid ""
+"\n"
+"• {0} of liquid storage"
+msgstr ""
+"\n"
+"• {0} de almacenamiento de líquido"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.OXIDIZERELEMENT
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.OXIDIZERELEMENT"
+msgid ""
+"\n"
+"• {0} of {1} oxidizer storage"
+msgstr ""
+"\n"
+"• {0} de {1} de almacenamiento de oxidante"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.OXIDIZERGAS
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.OXIDIZERGAS"
+msgid ""
+"\n"
+"• {0} of gas oxidizer storage"
+msgstr ""
+"\n"
+"• {0} de almacenamiento de oxidante gaseoso"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.OXIDIZERLIQUID
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.OXIDIZERLIQUID"
+msgid ""
+"\n"
+"• {0} of liquid oxidizer storage"
+msgstr ""
+"\n"
+"• {0} de almacenamiento de oxidante líquido"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.OXIDIZERSOLID
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.OXIDIZERSOLID"
+msgid ""
+"\n"
+"• {0} of solid oxidizer storage"
+msgstr ""
+"\n"
+"• {0} de almacenamiento de oxidante sólido"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.OXIDIZERTAG
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.OXIDIZERTAG"
+msgid ""
+"\n"
+"• {0} of {1} storage"
+msgstr ""
+"\n"
+"• {0} de {1} de almacenamiento"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.POWER
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.POWER"
+msgid ""
+"\n"
+"• {0} power storage"
+msgstr ""
+"\n"
+"• {0} de almacenamiento de energía"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.RADBOLTS
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.RADBOLTS"
+msgid ""
+"\n"
+"• {0} radbolt storage"
+msgstr ""
+"\n"
+"• {0} de almacenamiento de radbolts"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.SOLIDCARGO
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.SOLIDCARGO"
+msgid ""
+"\n"
+"• {0} of solid storage"
+msgstr ""
+"\n"
+"• {0} de almacenamiento sólido"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.TITLE"
+msgid "<b>Module Storage:</b>"
+msgstr "<b>Almacenamiento de Módulos:</b>"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.CARGO
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.CARGO"
+msgid "Cargo & Storage"
+msgstr "Carga y Almacenamiento"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.DEPLOYABLES
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.DEPLOYABLES"
+msgid "Deployables"
+msgstr "Desplegables"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.ENGINES
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.ENGINES"
+msgid "Rocket Engines"
+msgstr "Motores de Cohete"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.FUEL
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.FUEL"
+msgid "Fuel & Oxidizer Tanks"
+msgstr "Depósitos de Combustible y Oxidante"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.HABITATS
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.HABITATS"
+msgid "Command Modules"
+msgstr "Módulos de Mando"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.NOSECONES
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.NOSECONES"
+msgid "Nosecones"
+msgstr "Conos de nariz"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.POWER
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.POWER"
+msgid "Power Storage & Production"
+msgstr "Almacenamiento y Producción de Energía"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.PRODUCTION
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.PRODUCTION"
+msgid "Production"
+msgstr "Producción"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.UNCATEGORIZED
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.UNCATEGORIZED"
+msgid "Uncategorized"
+msgstr "Sin Categoría"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.UTILITY
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.UTILITY"
+msgid "Utility"
+msgstr "Utilidades"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.CARGO
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.CARGO"
+msgid ""
+"All those resources, but where to put them?\n"
+"Store them within these modules."
+msgstr ""
+"Todos esos recursos, ¿pero dónde guardarlos?\n"
+"Almacénalos en estos módulos."
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.DEPLOYABLES
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.DEPLOYABLES"
+msgid ""
+"Colonizing new worlds needs some perimeter establishment.\n"
+"These modules help with deployment."
+msgstr ""
+"Colonizar nuevos mundos requiere establecer perímetros.\n"
+"Estos módulos ayudan con el despliegue."
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.ENGINES
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.ENGINES"
+msgid ""
+"Every rocket has to fly somehow.\n"
+"A rocket engine provides the necessary thrust.\n"
+"A Rocket needs atleast one of these!"
+msgstr ""
+"Cada cohete tiene que volar de alguna manera.\n"
+"Un motor de cohete proporciona el empuje necesario.\n"
+"¡Un cohete necesita al menos uno de estos!"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.FUEL
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.FUEL"
+msgid ""
+"A rocket without fuel or oxidizer won't fly far.\n"
+"These modules help you with that."
+msgstr ""
+"Un cohete sin combustible ni oxidante no volará lejos.\n"
+"Estos módulos te ayudan con eso."
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.HABITATS
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.HABITATS"
+msgid ""
+"Strapped to the side, a pilot wouldn't survive long.\n"
+"Build them a nice home to live in a Spacefarer .\n"
+"A Rocket needs atleast one of these!"
+msgstr ""
+"Atado al lateral, un piloto no sobreviviría mucho tiempo.\n"
+"Constrúyeles un buen hogar para vivir en un Navegante Espacial.\n"
+"¡Un cohete necesita al menos uno de estos!"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.NOSECONES
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.NOSECONES"
+msgid ""
+"When not using a habitat nosecone,\n"
+"the rocket needs one of these\n"
+"to keep it's tip nicely shaped."
+msgstr ""
+"Cuando no se utiliza una cápsula de hábitat,\n"
+"el cohete necesita una de estas\n"
+"para mantener bien formada la punta."
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.POWER
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.POWER"
+msgid ""
+"Without power the lights inside of the rocket won't turn on\n"
+"These modules help you store electricity, some even generate it."
+msgstr ""
+"Sin energía, las luces dentro del cohete no se encenderán\n"
+"Estos módulos te ayudan a almacenar electricidad, algunos incluso la generan."
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.PRODUCTION
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.PRODUCTION"
+msgid ""
+"Just bring the production with you!\n"
+"These modules can produce something."
+msgstr ""
+"¡Lleva la producción contigo!\n"
+"Estos módulos pueden producir algo."
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.REQUIRED
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.REQUIRED"
+msgid ""
+"\n"
+"A Rocket needs atleast one of these!"
+msgstr ""
+"\n"
+"¡Un cohete necesita al menos uno de estos!"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.UNCATEGORIZED
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.UNCATEGORIZED"
+msgid ""
+"What do these do?\n"
+"(not properly categorized, contact the author of that mod)"
+msgstr ""
+"¿Qué hacen estos?\n"
+"(no están correctamente categorizados, contacta con el autor de ese mod)"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.UTILITY
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.UTILITY"
+msgid "These modules add some nice utility functions to your rocket."
+msgstr "Estos módulos añaden algunas funciones útiles a tu cohete."
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.MODULEPERKS.POWER_PRODUCTION
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.MODULEPERKS.POWER_PRODUCTION"
+msgid ""
+"\n"
+"• {0} power production"
+msgstr ""
+"\n"
+"• {0} de producción de energía"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.MODULEPERKS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.MODULEPERKS.TITLE"
+msgid "<b>Module Boni:</b>"
+msgstr "<b>Bonificaciones del Módulo:</b>"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.SEARCHBARFILLER
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.SEARCHBARFILLER"
+msgid "Search all modules..."
+msgstr "Buscar todos los módulos..."
+
+#. Rockets_TinyYetBig.STRINGS.ROOMS.TYPES.RTB_SPACESTATIONRESEARCHROOM.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.ROOMS.TYPES.RTB_SPACESTATIONRESEARCHROOM.EFFECT"
+msgid "- Efficiency bonus"
+msgstr "- Bonificación de eficiencia"
+
+#. Rockets_TinyYetBig.STRINGS.ROOMS.TYPES.RTB_SPACESTATIONRESEARCHROOM.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.ROOMS.TYPES.RTB_SPACESTATIONRESEARCHROOM.NAME"
+msgid "Orbital Research Lab"
+msgstr "Laboratorio de Investigación Orbital"
+
+#. Rockets_TinyYetBig.STRINGS.ROOMS.TYPES.RTB_SPACESTATIONRESEARCHROOM.ROOMCONSTRAINT.CONFLICT_DESCRIPTION
+msgctxt "Rockets_TinyYetBig.STRINGS.ROOMS.TYPES.RTB_SPACESTATIONRESEARCHROOM.ROOMCONSTRAINT.CONFLICT_DESCRIPTION"
+msgid "Four <link=\"REQUIREMENTCLASSSCIENCEBUILDING\">science buildings</link>"
+msgstr "Cuatro <link=\"REQUIREMENTCLASSSCIENCEBUILDING\">edificios científicos</link>"
+
+#. Rockets_TinyYetBig.STRINGS.ROOMS.TYPES.RTB_SPACESTATIONRESEARCHROOM.ROOMCONSTRAINT.DESCRIPTION
+msgctxt "Rockets_TinyYetBig.STRINGS.ROOMS.TYPES.RTB_SPACESTATIONRESEARCHROOM.ROOMCONSTRAINT.DESCRIPTION"
+msgid "Requires four or more science buildings"
+msgstr "Requiere cuatro o más edificios científicos"
+
+#. Rockets_TinyYetBig.STRINGS.ROOMS.TYPES.RTB_SPACESTATIONRESEARCHROOM.ROOMCONSTRAINT.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.ROOMS.TYPES.RTB_SPACESTATIONRESEARCHROOM.ROOMCONSTRAINT.NAME"
+msgid "Four <link=\"REQUIREMENTCLASSSCIENCEBUILDING\">science buildings</link>"
+msgstr "Cuatro <link=\"REQUIREMENTCLASSSCIENCEBUILDING\">edificios científicos</link>"
+
+#. Rockets_TinyYetBig.STRINGS.ROOMS.TYPES.RTB_SPACESTATIONRESEARCHROOM.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.ROOMS.TYPES.RTB_SPACESTATIONRESEARCHROOM.TOOLTIP"
+msgid ""
+"Science buildings built in an Orbital Research Lab function more efficiently\n"
+"\n"
+"An Orbital Research Lab enables Deep Space Analyzer use"
+msgstr ""
+"Los edificios científicos construidos en un Laboratorio de Investigación Orbital funcionan de manera más eficiente\n"
+"\n"
+"Un Laboratorio de Investigación Orbital permite el uso del Analizador del Espacio Profundo"
+
+#. Rockets_TinyYetBig.STRINGS.UI.CLUSTERLOCATIONSENSORADDON.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.CLUSTERLOCATIONSENSORADDON.TITLE"
+msgid "Extra green signal at"
+msgstr "Señal verde extra en"
+
+#. Rockets_TinyYetBig.STRINGS.UI.CONSTRUCTIONSELECTOR_SECONDARYSIDESCREEN.PROJECTSCONTAINER.SCROLLRECTCONTAINER.PARTCONTAINERPREFAB.ROW1.CONSTRUCTBTN.LABEL
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.CONSTRUCTIONSELECTOR_SECONDARYSIDESCREEN.PROJECTSCONTAINER.SCROLLRECTCONTAINER.PARTCONTAINERPREFAB.ROW1.CONSTRUCTBTN.LABEL"
+msgid "Start Project"
+msgstr "Iniciar proyecto"
+
+#. Rockets_TinyYetBig.STRINGS.UI.CONSTRUCTIONSELECTOR_SECONDARYSIDESCREEN.TITLE.TITLETEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.CONSTRUCTIONSELECTOR_SECONDARYSIDESCREEN.TITLE.TITLETEXT"
+msgid "Available Construction Projects"
+msgstr "Proyectos de construcción disponibles"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.DOCKINGBRIDGES.TITLETEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.DOCKINGBRIDGES.TITLETEXT"
+msgid "Available Docking Ports: {0} / {1}"
+msgstr "Puertos de acoplamiento disponibles: {0} / {1}"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.DOCKINGTOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.DOCKINGTOOLTIP"
+msgid "Dock to this craft."
+msgstr "Acoplar a esta nave."
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.ROW1.TITLETEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.ROW1.TITLETEXT"
+msgid "{SpacecraftName}"
+msgstr "{SpacecraftName}"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.ROW2.TRANSFERBUTTON.LABEL
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.ROW2.TRANSFERBUTTON.LABEL"
+msgid "Transfer Duplicants between Crafts"
+msgstr "Transferir duplicantes entre naves"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.ROW2.VIEWDOCKEDBUTTON.LABEL
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.ROW2.VIEWDOCKEDBUTTON.LABEL"
+msgid "View docked Interior"
+msgstr "Ver interior acoplado"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.ROW2.VIEWDOCKEDBUTTON.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.ROW2.VIEWDOCKEDBUTTON.TOOLTIP"
+msgid "View the interior this docking tube is currently connected to."
+msgstr "Ver el interior al que este tubo de acoplamiento está conectado actualmente."
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.ROW2.VIEWDOCKEDBUTTON.TOOLTIPNOINTERIOR
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.ROW2.VIEWDOCKEDBUTTON.TOOLTIPNOINTERIOR"
+msgid "No interior found"
+msgstr "No se encontró interior"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.UNDOCKINGTOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.UNDOCKINGTOOLTIP"
+msgid "Undock from this craft."
+msgstr "Desacoplar de esta nave."
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.TITLE.TITLETEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.TITLE.TITLETEXT"
+msgid "Docking Management"
+msgstr "Gestión de acoplamientos"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.ASSIGNTOOTHERBUTTONTEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.ASSIGNTOOTHERBUTTONTEXT"
+msgid "Assign Duplicant to the other Spacecraft"
+msgstr "Asignar duplicante a la otra nave espacial"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.CONTENTHEADERDOCKED.TITLETEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.CONTENTHEADERDOCKED.TITLETEXT"
+msgid "Duplicants assigned the docked Spacecraft:"
+msgstr "Duplicantes asignados a la nave acoplada:"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.CONTENTHEADEROWN.TITLETEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.CONTENTHEADEROWN.TITLETEXT"
+msgid "Duplicants assigned to this Spacecraft:"
+msgstr "Duplicantes asignados a esta nave espacial:"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.DUPESASSIGNEDTO
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.DUPESASSIGNEDTO"
+msgid "Duplicants assigned to \"{0}\""
+msgstr "Duplicantes asignados a \"{0}\""
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.NODUPESASSIGNED.TITLETEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.NODUPESASSIGNED.TITLETEXT"
+msgid "No Duplicants are currently assigned to this spacecraft."
+msgstr "Actualmente no hay duplicantes asignados a esta nave espacial."
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.TARGETDUPESCONTAINER.SCROLLRECTCONTAINER.NODUPESASSIGNED.TITLETEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.TARGETDUPESCONTAINER.SCROLLRECTCONTAINER.NODUPESASSIGNED.TITLETEXT"
+msgid "No Duplicants are currently assigned to this spacecraft."
+msgstr "Actualmente no hay duplicantes asignados a esta nave espacial."
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.TITLE.TITLETEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.TITLE.TITLETEXT"
+msgid "Crew Management"
+msgstr "Gestión de tripulación"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DRILLCONE_MODEHANDLER_SIDESCREEN.LABEL
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DRILLCONE_MODEHANDLER_SIDESCREEN.LABEL"
+msgid "Load via Cargo Loader"
+msgstr "Cargar mediante cargador de carga"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DRILLCONE_MODEHANDLER_SIDESCREEN.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DRILLCONE_MODEHANDLER_SIDESCREEN.TOOLTIP"
+msgid "toggle between automatic and manual loading"
+msgstr "alternar entre carga automática y manual"
+
+#. Rockets_TinyYetBig.STRINGS.UI.KLEI_INVENTORY_SCREEN.SUBCATEGORIES.RTB_MODULE_SKINS
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.KLEI_INVENTORY_SCREEN.SUBCATEGORIES.RTB_MODULE_SKINS"
+msgid "Rocket Modules"
+msgstr "Módulos de cohete"
+
+#. Rockets_TinyYetBig.STRINGS.UI.NEWBUILDCATEGORIES.ROCKETFUELING.BUILDMENUTITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.NEWBUILDCATEGORIES.ROCKETFUELING.BUILDMENUTITLE"
+msgid "Rocket Fueling"
+msgstr "Repostaje de cohetes"
+
+#. Rockets_TinyYetBig.STRINGS.UI.NEWBUILDCATEGORIES.ROCKETFUELING.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.NEWBUILDCATEGORIES.ROCKETFUELING.NAME"
+msgid "Rocket Fueling"
+msgstr "Repostaje de cohetes"
+
+#. Rockets_TinyYetBig.STRINGS.UI.NEWBUILDCATEGORIES.ROCKETFUELING.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.NEWBUILDCATEGORIES.ROCKETFUELING.TOOLTIP"
+msgid ""
+msgstr ""
+
+#. Rockets_TinyYetBig.STRINGS.UI.PRODUCTINFO_SPACE_STATION_INTERIOR
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.PRODUCTINFO_SPACE_STATION_INTERIOR"
+msgid "Space station interior only"
+msgstr "Solo interior de estación espacial"
+
+#. Rockets_TinyYetBig.STRINGS.UI.PRODUCTINFO_SPACE_STATION_NOT_INTERIOR
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.PRODUCTINFO_SPACE_STATION_NOT_INTERIOR"
+msgid "Cannot build inside space station"
+msgstr "No se puede construir dentro de la estación espacial"
+
+#. Rockets_TinyYetBig.STRINGS.UI.ROCKETGENERATOR.BUTTONTEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.ROCKETGENERATOR.BUTTONTEXT"
+msgid "Active while landed"
+msgstr "Activo mientras está en tierra"
+
+#. Rockets_TinyYetBig.STRINGS.UI.ROCKETGENERATOR.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.ROCKETGENERATOR.TITLE"
+msgid "Generator State"
+msgstr "Estado del generador"
+
+#. Rockets_TinyYetBig.STRINGS.UI.ROCKETGENERATOR.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.ROCKETGENERATOR.TOOLTIP"
+msgid "Toggle the Generator producing power while landed."
+msgstr "Alternar el generador para producir energía mientras está en tierra."
+
+#. Rockets_TinyYetBig.STRINGS.UI.RTB_RESEACH_UNLOCK.TEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.RTB_RESEACH_UNLOCK.TEXT"
+msgid ""
+"Eureka! We've decrypted the abandoned station computer's salvageable data.\n"
+"\n"
+"We now have the ability to construct habitat stations in the vast emptyness of space!\n"
+"\n"
+"New Research has become available."
+msgstr ""
+"¡Eureka! Hemos descifrado los datos recuperables del ordenador de la estación abandonada.\n"
+"\n"
+"¡Ahora tenemos la capacidad de construir estaciones hábitat en la vasta inmensidad del espacio!\n"
+"\n"
+"Nueva investigación disponible."
+
+#. Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.CANCELCONSTRUCTION
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.CANCELCONSTRUCTION"
+msgid "Cancel Construction"
+msgstr "Cancelar construcción"
+
+#. Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.CANCELDECONSTRUCTION
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.CANCELDECONSTRUCTION"
+msgid "Cancel Deconstruction"
+msgstr "Cancelar deconstrucción"
+
+#. Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.PROJECTHEADER.COSTCONTAINER.PARTCOUNT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.PROJECTHEADER.COSTCONTAINER.PARTCOUNT"
+msgid "{0}/{1}"
+msgstr "{0}/{1}"
+
+#. Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.PROJECTHEADER.COSTCONTAINER.TITLETEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.PROJECTHEADER.COSTCONTAINER.TITLETEXT"
+msgid "Total Progress:"
+msgstr "Progreso total:"
+
+#. Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.PROJECTHEADER.ROW1.CREATENEW.LABEL
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.PROJECTHEADER.ROW1.CREATENEW.LABEL"
+msgid "Create new construction project"
+msgstr "Crear nuevo proyecto de construcción"
+
+#. Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.PROJECTHEADER.ROW1.CREATENEW.LABELCANCEL
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.PROJECTHEADER.ROW1.CREATENEW.LABELCANCEL"
+msgid "Cancel current construction project"
+msgstr "Cancelar el proyecto de construcción actual"
+
+#. Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.PROJECTHEADER.ROW1.TITLETEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.PROJECTHEADER.ROW1.TITLETEXT"
+msgid "No space construction project here."
+msgstr "No hay ningún proyecto de construcción espacial aquí."
+
+#. Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.STARTCONSTRUCTION
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.STARTCONSTRUCTION"
+msgid "Start Construction"
+msgstr "Iniciar construcción"
+
+#. Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.STARTDECONSTRUCTION
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.STARTDECONSTRUCTION"
+msgid "Start Deconstruction"
+msgstr "Iniciar deconstrucción"
+
+#. Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.TIMEREMAINING
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.TIMEREMAINING"
+msgid "{0} seconds remaining"
+msgstr "{0} segundos restantes"
+
+#. Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.TITLE.TITLETEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.TITLE.TITLETEXT"
+msgid "Space Construction"
+msgstr "Construcción espacial"
+
+#. Rockets_TinyYetBig.STRINGS.UI.TOOLTIP_ADDON_RTB
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.TOOLTIP_ADDON_RTB"
+msgid "<color=#a0a0a0><b>Rocketry Expanded</b></color> Content"
+msgstr "Contenido de <color=#a0a0a0><b>Rocketry Expanded</b></color>"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETBATTERYSTATUS.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETBATTERYSTATUS.NAME"
+msgid "Battery Module Charge: {0}/{1}"
+msgstr "Carga del módulo de batería: {0}/{1}"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.MODULECOUNT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.MODULECOUNT"
+msgid "Number of Modules: "
+msgstr "Número de módulos: "
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.MODULEORDER
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.MODULEORDER"
+msgid "Rocket Modules:\n"
+msgstr "Módulos del cohete:\n"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.NAME"
+msgid "Height: {0}/{1}, max. Width: {2} "
+msgstr "Altura: {0}/{1}, máx. anchura: {2} "
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.NAME_MAX_SUPPORTED
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.NAME_MAX_SUPPORTED"
+msgid "Maximum supported rocket height: "
+msgstr "Altura máxima de cohete admitida: "
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.NAME_RAW
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.NAME_RAW"
+msgid "Height: "
+msgstr "Altura: "
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.TOOLTIP"
+msgid ""
+"The {0} can support a total rocket height {1}\n"
+"The maximum width of the rocket is {2} tiles."
+msgstr ""
+"El {0} puede soportar una altura total de cohete de {1}\n"
+"El ancho máximo del cohete es de {2} casillas."
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETGENERATORSTATS.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETGENERATORSTATS.NAME"
+msgid "Power Generation: {0}/{1}"
+msgstr "Generación de energía: {0}/{1}"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETGENERATORSTATS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETGENERATORSTATS.TOOLTIP"
+msgid ""
+"\n"
+"({0}/{1} fuel remaining)"
+msgstr ""
+"\n"
+"({0}/{1} de combustible restante)"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETGENERATORSTATS.TOOLTIP2
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETGENERATORSTATS.TOOLTIP2"
+msgid ""
+"\n"
+"(Check cargo bays for fuel type: {0})"
+msgstr ""
+"\n"
+"(Comprobar bahías de carga para tipo de combustible: {0})"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.COLLAPSIBLEWORLDSELECTOR.DERELICS
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.COLLAPSIBLEWORLDSELECTOR.DERELICS"
+msgid "Derelics"
+msgstr "Naves abandonadas"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.COLLAPSIBLEWORLDSELECTOR.ROCKETS
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.COLLAPSIBLEWORLDSELECTOR.ROCKETS"
+msgid "Rockets in space"
+msgstr "Cohetes en el espacio"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.CONSTRAINTS.ONE_MODULE_PER_ROCKET.COMPLETE
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.CONSTRAINTS.ONE_MODULE_PER_ROCKET.COMPLETE"
+msgid ""
+msgstr ""
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.CONSTRAINTS.ONE_MODULE_PER_ROCKET.FAILED
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.CONSTRAINTS.ONE_MODULE_PER_ROCKET.FAILED"
+msgid "    • There already is a module of this type on this rocket"
+msgstr "    • Ya existe un módulo de este tipo en este cohete"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.FLUSHURANIUM.BUTTON
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.FLUSHURANIUM.BUTTON"
+msgid "Flush Generator Fuel"
+msgstr "Purgar combustible del generador"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.FLUSHURANIUM.BUTTONINFO
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.FLUSHURANIUM.BUTTONINFO"
+msgid "Empties the generators storage to allow a refill."
+msgstr "Vacía el depósito del generador para permitir una recarga."
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACECONSTRUCTIONSITE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACECONSTRUCTIONSITE.DESC"
+msgid "This construction site will produce a {0} once all these parts are assembled:"
+msgstr "Este sitio de construcción producirá un {0} una vez que todas estas piezas estén ensambladas:"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACECONSTRUCTIONSITE.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACECONSTRUCTIONSITE.TITLE"
+msgid "Space Construction Site"
+msgstr "Sitio de construcción espacial"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONSIDESCREEN.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONSIDESCREEN.TITLE"
+msgid "Space Station"
+msgstr "Estación espacial"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONSIDESCREEN.VIEW_WORLD_DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONSIDESCREEN.VIEW_WORLD_DESC"
+msgid "Oversee Station Interior"
+msgstr "Supervisar el interior de la estación"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONSIDESCREEN.VIEW_WORLD_TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONSIDESCREEN.VIEW_WORLD_TOOLTIP"
+msgid "View Space Station Interior"
+msgstr "Ver el interior de la estación espacial"
