@@ -86,6 +86,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		/// when a building has secondary converters that should not run without the primary one, only check for the primary converter state to determine operational
 		public bool UsePrimaryConverterOnly = false;
 
+
+		[SerializeField]
+		/// when a building has secondary converters that should be ignored. alternative to "UsePrimaryConverterOnly"
+		public int[] ConvertersToIgnore = null;
+
 		[SerializeField]
 		public bool ShowWorkingStatus = true;
 
@@ -104,6 +109,20 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 			if (UsePrimaryConverterOnly)
 				converters = [converters.First()];
+
+			if(ConvertersToIgnore != null)
+			{
+				HashSet<ElementConverter> toIgnore = [];
+				for (int i = converters.Length - 1; i >= 0; i--)
+				{
+					if (ConvertersToIgnore.Contains(i))
+					{
+						toIgnore.Add(converters[i]);
+					}
+				}
+				converters = converters.Where(converter => !toIgnore.Contains(converter)).ToArray();
+			}
+
 
 			deliveryComponents = GetComponents<ManualDeliveryKG>();
 			if(consumer != null)

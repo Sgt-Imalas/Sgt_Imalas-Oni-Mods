@@ -66,6 +66,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			conduitConsumer.capacityTag = SimHashes.CrudeOil.CreateTag();
 			conduitConsumer.forceAlwaysSatisfied = true;
 			conduitConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
+
 			PortConduitConsumer portConduitConsumer1 = go.AddComponent<PortConduitConsumer>();
 			portConduitConsumer1.conduitType = ConduitType.Gas;
 			portConduitConsumer1.consumptionRate = 10f;
@@ -74,6 +75,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			portConduitConsumer1.forceAlwaysSatisfied = true;
 			portConduitConsumer1.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 			portConduitConsumer1.AssignPort(steamGasInputPort);
+
 			PortConduitConsumer portConduitConsumer2 = go.AddComponent<PortConduitConsumer>();
 			portConduitConsumer2.conduitType = ConduitType.Gas;
 			portConduitConsumer2.consumptionRate = 10f;
@@ -82,6 +84,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			portConduitConsumer2.forceAlwaysSatisfied = true;
 			portConduitConsumer2.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 			portConduitConsumer2.AssignPort(hydrogenGasInputPort);
+
 			PortConduitConsumer portConduitConsumer3 = go.AddComponent<PortConduitConsumer>();
 			portConduitConsumer3.conduitType = ConduitType.Liquid;
 			portConduitConsumer3.consumptionRate = 10f;
@@ -90,6 +93,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			portConduitConsumer3.forceAlwaysSatisfied = true;
 			portConduitConsumer3.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 			portConduitConsumer3.AssignPort(naphthaInputPort);
+
 			ElementConverter elementConverter1 = go.AddComponent<ElementConverter>();
 			elementConverter1.consumedElements =
 			[
@@ -119,6 +123,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			elementDropper.emitMass = 50f;
 			elementDropper.emitTag = SimHashes.Bitumen.CreateTag();
 			elementDropper.emitOffset = new Vector3(0.0f, 1f, 0.0f);
+
 			Storage storage = go.AddOrGet<Storage>();
 			storage.SetDefaultStoredItemModifiers(OilRefineryStoredItemModifiers);
 			storage.showInUI = true;
@@ -147,6 +152,14 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			go.AddOrGet<ElementConversionBuilding>(); //Handles element converter
 			Prioritizable.AddRef(go);
 			this.AttachPort(go);
+
+			//var methaneThreshold = go.AddComponent<ElementThresholdOperational>();
+			//methaneThreshold.ThresholdTag = SimHashes.Methane.CreateTag();
+			//methaneThreshold.Threshold = 500;
+
+			//var petrolThreshold = go.AddComponent<ElementThresholdOperational>();
+			//petrolThreshold.ThresholdTag = SimHashes.Petroleum.CreateTag();
+			//petrolThreshold.Threshold = 500;
 		}
 
 		private void AttachPort(GameObject go)
