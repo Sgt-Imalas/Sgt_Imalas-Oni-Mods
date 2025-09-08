@@ -17,7 +17,7 @@ namespace UtilLibs.BuildingPortUtils
 	public abstract class PortConduitDispenserBase : KMonoBehaviour, ISaveLoadable
 	{
 		protected Guid hasPipeGuid;
-		protected Guid pipeEmptyGuid;
+		protected Guid pipeBlockedGuid;
 
 		[SerializeField]
 		public CellOffset conduitOffset;
@@ -52,6 +52,7 @@ namespace UtilLibs.BuildingPortUtils
 		public float SolidConduitCapacityTarget = 20;
 
 		private Operational.Flag outputConduitFlag;
+		private Operational.Flag conduitBlockedFlag;
 
 		private FlowUtilityNetwork.NetworkItem networkItem;
 
@@ -187,6 +188,8 @@ namespace UtilLibs.BuildingPortUtils
 			this.utilityCell = building.GetCellWithOffset(building.Orientation == Orientation.Neutral ? this.conduitOffset : this.conduitOffsetFlipped);
 			outputConduitFlag = new Operational.Flag($"output_conduit_{utilityCell}_{conduitType}", Operational.Flag.Type.Functional);
 
+			conduitBlockedFlag = new Operational.Flag($"conduit_blocked_{utilityCell}_{conduitType}", Operational.Flag.Type.Requirement);
+
 			this.networkItem = new FlowUtilityNetwork.NetworkItem(this.conduitType, Endpoint.Source, this.utilityCell, base.gameObject);
 			GetConduitMng().AddToNetworks(this.utilityCell, this.networkItem, true);
 
@@ -268,8 +271,12 @@ namespace UtilLibs.BuildingPortUtils
 				if (wasFull != isFull)
 				{
 					wasFull = isFull;
-					pipeEmptyGuid = this.selectable.ToggleStatusItem(Db.Get().BuildingStatusItems.ConduitBlocked, this.pipeEmptyGuid, isFull);
+					pipeBlockedGuid = this.selectable.ToggleStatusItem(Db.Get().BuildingStatusItems.ConduitBlocked, this.pipeBlockedGuid, isFull);
 				}
+			}
+			if(!SkipSetOperational)
+			{
+				operational.SetFlag(conduitBlockedFlag, !wasFull);				
 			}
 		}
 
