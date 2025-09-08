@@ -416,7 +416,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				//=[ BITUMEN PATCH ]=======================================================
 				Element bitumen_material = ElementLoader.FindElementByHash(SimHashes.Bitumen);
 				bitumen_material.materialCategory = GameTags.ManufacturedMaterial;
-				AddTagToElementAndEnable(SimHashes.PhosphateNodules, GameTags.ManufacturedMaterial);
+				AddTagToElementAndEnable(SimHashes.Bitumen, GameTags.ManufacturedMaterial);
+				AddTagToElementAndEnable(SimHashes.Bitumen, GameTags.ManufacturedMaterial);
 
 				//=[ PHOSPHATE NODULES PATCH ]================================================
 				AddTagToElementAndEnable(SimHashes.PhosphateNodules, GameTags.ConsumableOre);

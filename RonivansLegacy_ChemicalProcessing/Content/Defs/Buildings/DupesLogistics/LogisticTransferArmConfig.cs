@@ -30,7 +30,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 
 		public void SetTileRange(int tiles) => SweeperArmRange = tiles;
 
-		public string GetDescriptorText() => STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.RANGESETTINGS_SWEEPER;
+		public string GetDescriptorText() => Strings.Get("STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.RANGESETTINGS_SWEEPER");
 
 		public Tuple<int, int> GetTileValueRange() => new(2, 12);
 

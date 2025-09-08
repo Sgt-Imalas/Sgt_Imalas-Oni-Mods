@@ -28,6 +28,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		public static StatusItem CG_RotatableSolarPanelWattage;
 		public static StatusItem AlgaeGrower_LightEfficiency;
 
+		public static StatusItem Converter_StorageFull;
+
 		public static void CreateStatusItems()
 		{
 			var bsi = Db.Get().BuildingStatusItems;
@@ -61,6 +63,18 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				 LightEfficiencyConverter converter = obj as LightEfficiencyConverter;
 				 return string.Format(str, GameUtil.GetFormattedPercent(converter.LightEfficiency * 100f), GameUtil.GetFormattedLux((int)converter.MiniumLightRequirement));
 			 };
+
+			Converter_StorageFull = bsi.CreateStatusItem("Converter_StorageFull", STRINGS.BUILDING.STATUSITEMS.CONVERTER_STORAGEFULL.NAME, STRINGS.BUILDING.STATUSITEMS.CONVERTER_STORAGEFULL.TOOLTIP, "", StatusItem.IconType.Info, NotificationType.BadMinor, allow_multiples: true, OverlayModes.None.ID);
+			Converter_StorageFull.resolveStringCallback = delegate (string str, object obj)
+			{
+				ElementThresholdOperational converter = obj as ElementThresholdOperational;
+				return string.Format(str, converter.ThresholdTag.Name);
+			}; 
+			Converter_StorageFull.resolveTooltipCallback = delegate (string str, object obj)
+			{
+				ElementThresholdOperational converter = obj as ElementThresholdOperational;
+				return string.Format(str, converter.ThresholdTag.Name);
+			};
 		}
 
 		internal static void RegisterClonedStatusStrings()

@@ -143,7 +143,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				}
 				public class BIOCHEMISTRY_BIODIESELGENERATOR
 				{
-					public static LocString NAME = FormatAsLink("Biodiesel Generator", nameof(BIOCHEMISTRY_BIODIESELGENERATOR));
+					public static LocString NAME = FormatAsLink("Eco Diesel Generator", nameof(BIOCHEMISTRY_BIODIESELGENERATOR));
 					public static LocString DESC = "An advanced power generator that uses biofuel. Has a built-in scrubber system that allows it to produce no gaseous exhaust.";
 					public static LocString EFFECT = string.Concat(
 						[
@@ -1648,6 +1648,11 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = "Growth Efficiency: {0}";
 					public static LocString TOOLTIP = "The algae growth in this building is currently at {0} efficiency.\nThis is dependent on the light the building receives.\nRequires at minimum {1}.";
+				}
+				public class CONVERTER_STORAGEFULL
+				{
+					public static LocString NAME = "Storage Full: {0}";
+					public static LocString TOOLTIP = "The building's internal storage for {0} is at maximum capacity.";
 				}
 				public class HPA_PROHIBITGAS
 				{
