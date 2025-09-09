@@ -16,10 +16,18 @@
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
 			<DockPanel Margin="3,3,3,3" Grid.Column="0" >
+
+				<DockPanel Grid.Column="0" DockPanel.Dock="Top">
+					<Button Name="LaunchGame" FontSize="20" Content="Launch Game (Steam)" Height="40" Click="LaunchGame_Click"/>
+				</DockPanel>
+				<!--<DockPanel Margin="0,3,0,3" Grid.Column="0" DockPanel.Dock="Top">
+					<Button Name="ShowModList" FontSize="16" Content="Edit current Modlist" Height="30" Click="ShowModList_Click"/>
+				</DockPanel>-->
 				<Button Name="CreateAddPopup" DockPanel.Dock="Bottom" Content="Add new Repo" Height="20" Click="CreateAddPopup_Click"/>
+				<TextBlock HorizontalAlignment="Center" FontSize="16" Text="Current Mod Repositories:" DockPanel.Dock="Top"/>
 				<ListView  Name="PackView" HorizontalContentAlignment="Stretch" PreviewMouseLeftButtonUp="PackView_PreviewMouseLeftButtonUp" PreviewMouseRightButtonUp="PackView_PreviewMouseLeftButtonUp">
 					<ListView.ItemTemplate>
-						<DataTemplate>							
+						<DataTemplate>
 							<DockPanel LastChildFill="True" >
 								<DockPanel.Children>
 									<Button

@@ -19,6 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.github\workflows\Manual_BuildAllMods_MainRelease.yml = .github\workflows\Manual_BuildAllMods_MainRelease.yml
 		ModThatBroke.txt = ModThatBroke.txt
 		ModVersionData.json = ModVersionData.json
+		.github\workflows\Mod_Updater_BuildRelease.yml = .github\workflows\Mod_Updater_BuildRelease.yml
 		README.md = README.md
 		steam_compat.md = steam_compat.md
 		TODO.txt = TODO.txt

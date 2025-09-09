@@ -1,6 +1,7 @@
 ﻿using _SgtsModUpdater.Model;
 using _SgtsModUpdater.Model.Update;
 using System.Diagnostics;
+using System.Security.Policy;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,7 +26,7 @@ public partial class MainWindow : Window
 	{
 		InitializeComponent();
 		PackView.ItemsSource = ModManager.Instance.Repos;
-		ModListView.ItemsSource = ModManager.Instance.CurrentRepoMods;
+		ModListView.ItemsSource = ModManager.Instance.CurrentRepoMods; 
 
 		ConsoleHandler = new(Console.Out);
 		ConsoleHandler.AddWriter(new TextBoxOutputter(ConsoleOutputTextbox));
@@ -133,5 +134,21 @@ public partial class MainWindow : Window
 		var rowItem = (sender as Button).DataContext as ModRepoListInfo;
 		AppSettings.Instance.DeleteRepo(rowItem);
 		ModManager.Instance.Repos.Remove(rowItem);
+	}
+
+	private void ShowModList_Click(object sender, RoutedEventArgs e)
+	{
+
+    }
+
+	const string StartOnSteam = "steam://rungameid/457140";
+	private void LaunchGame_Click(object sender, RoutedEventArgs e)
+	{
+		Process.Start(new ProcessStartInfo
+		{
+			FileName = StartOnSteam,
+			UseShellExecute = true
+		});
+
 	}
 }

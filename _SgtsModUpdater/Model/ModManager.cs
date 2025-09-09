@@ -36,6 +36,8 @@ namespace _SgtsModUpdater.Model
 		public ObservableCollection<RemoteMod> CurrentRepoMods = new();
 		public Dictionary<string, LocalMod> CurrentLocalInstalledMods = new();
 
+		public ObservableCollection<LocalMod> LocalInstalledMods = new();
+
 		public void SelectRepo(ModRepoListInfo repo)
 		{
 			RefreshLocalModInfoList();
@@ -100,22 +102,21 @@ namespace _SgtsModUpdater.Model
 			CurrentLocalInstalledMods.Clear();
 
 			Console.WriteLine("Refreshing info on local mods..");
-			if (!Directory.Exists(Paths.LocalModsFolder))
+			if (Directory.Exists(Paths.LocalModsFolder))
 			{
-				return;
+				foreach (var modFolder in Directory.GetDirectories(Paths.LocalModsFolder))
+				{
+					RefreshLocalModInfo(modFolder, collectRepos);
+				}
 			}
-			foreach (var modFolder in Directory.GetDirectories(Paths.LocalModsFolder))
+			if (Directory.Exists(Paths.SteamModsFolder))
 			{
-				RefreshLocalModInfo(modFolder, collectRepos);
+				foreach (var modFolder in Directory.GetDirectories(Paths.SteamModsFolder))
+				{
+					RefreshLocalModInfo(modFolder, collectRepos);
+				}
 			}
-			if (!Directory.Exists(Paths.SteamModsFolder))
-			{
-				return;
-			}
-			foreach (var modFolder in Directory.GetDirectories(Paths.SteamModsFolder))
-			{
-				RefreshLocalModInfo(modFolder, collectRepos);
-			}
+			LocalInstalledMods = new(CurrentLocalInstalledMods.Values);
 			Console.WriteLine(CurrentLocalInstalledMods.Count + " installed mods found");
 		}
 		LocalMod RefreshLocalModInfo(string modFolder, bool collectRepos = false)
