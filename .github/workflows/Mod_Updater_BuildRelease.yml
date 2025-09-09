@@ -3,8 +3,8 @@ name: Build the mod updater tool on push
 on:
   push:
     branches: [ "master" ]    
-    paths:
-      - "_SgtsModUpdater/**"
+    # paths:
+    #   - "_SgtsModUpdater/**"
 
 permissions:
   contents: write # Grant write permission for creating releases
