@@ -2,9 +2,9 @@
 
 This mod adds a fancy bathtub to the game duplicants can use as an alternative to showering.
 
-[img]https://i.imgur.com/GbFtLZ2.png[/img]
+[img]https://raw.githubusercontent.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/refs/heads/master/Compat_All.png[/img]
 
-[h1]Current latest Version: 1.0.0/h1]
+[h1]Current latest Version: 1.0.0[/h1]
 
 [hr][/hr]
 
@@ -23,7 +23,7 @@ This mod adds a fancy bathtub to the game duplicants can use as an alternative t
 Main Animation created by 3GuB
 
 [h1]Bug Reports & Local Download[/h1]
-You can find direct downloads for my mods [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases]here[/url] (please notify me if I forgot to release new versions).
+You can find direct downloads for my mods [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases]here[/url].
 
 Please post bug reports and issues on [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url] or on my [url=https://discord.gg/5n7peBCnWZ]Discord Server[/url]. 
 [b]Always include the full player.log in a report: [/b] https://github.com/aki-art/ONI-Mods/wiki/How-to-send-a-log
@@ -32,5 +32,4 @@ Please post bug reports and issues on [url=https://github.com/Sgt-Imalas/Sgt_Ima
 
 [hr][/hr]
 
-Do you like the mods I made? If you want, you can support me on [url=https://www.buymeacoffee.com/sgtimalas]Buy me a coffe[/url] or [url=https://ko-fi.com/sgtimalas]Kofi[/url] :D.
-Do u like 3GuB's art and animations? you can support him on [url=https://ko-fi.com/03gub]Kofi[/url].
+Do you like the mods I made? If you want, you can support me on [url=https://ko-fi.com/sgtimalas]Kofi[/url] :D

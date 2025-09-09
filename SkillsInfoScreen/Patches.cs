@@ -62,7 +62,7 @@ namespace SkillsInfoScreen
 				});
 			}
 
-			[HarmonyPrefix]
+			//[HarmonyPrefix] ///not working properly yet.
 			public static void CreateSkillsListScreen(ManagementMenu __instance)
 			{
 				///make attribute screen
@@ -107,11 +107,17 @@ namespace SkillsInfoScreen
 				if (__instance is not ManagementMenu)
 					return;
 
-				if (!toggleInfo.Any(info => info.icon == AttributeIcon))
-					toggleInfo.Insert(0, AttributesInfo);
+				var skillsToggle = toggleInfo.FirstOrDefault(toggleInfo => toggleInfo.icon == "OverviewUI_jobs_icon");
+				int insertAt = 0;
+				if(skillsToggle != null)
+					insertAt = toggleInfo.IndexOf(skillsToggle);
 
-				if (!toggleInfo.Any(info => info.icon == SkillsIcon))
-					toggleInfo.Insert(1, SkillsOverviewInfo);
+				if (!toggleInfo.Any(info => info.icon == AttributeIcon))
+					toggleInfo.Insert(insertAt, AttributesInfo);
+
+
+				//if (!toggleInfo.Any(info => info.icon == SkillsIcon))
+				//	toggleInfo.Insert(1, SkillsOverviewInfo);
 
 			}
 		}
