@@ -13,6 +13,8 @@ using System.Net.Http;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 using YamlDotNet.Serialization;
 
@@ -257,6 +259,10 @@ namespace _SgtsModUpdater.Model
 
 			if (File.Exists(targetMod.zipFileName))
 			{
+				Application.Current.Dispatcher.Invoke(() =>
+				{
+					Mouse.OverrideCursor = Cursors.Wait;
+				});
 				var localExtractionFolder = Path.Combine(Directory.GetCurrentDirectory(), targetMod.staticID);
 				ZipFile.ExtractToDirectory(targetMod.zipFileName, localExtractionFolder, true);
 
@@ -266,6 +272,11 @@ namespace _SgtsModUpdater.Model
 					CopyFilesRecursively(adjustedSource, targetfolder);
 				}
 				Directory.Delete(localExtractionFolder, true);
+
+				Application.Current.Dispatcher.Invoke(() =>
+				{
+					Mouse.OverrideCursor = null;
+				});
 			}
 
 			targetMod.SetInstalledMod(RefreshLocalModInfo(targetfolder));
