@@ -10,6 +10,24 @@ namespace ForceFieldWallTile.Content.Scripts.MeshGen
 {
 	internal class Node
 	{
+		static Gradient ColorGradient;
+		static Node()
+		{
+			ColorGradient = new Gradient();
+			GradientColorKey[] colors = [
+					new GradientColorKey(Color.red, 0.0f),
+					new GradientColorKey(Color.yellow, 0.5f),
+					new GradientColorKey(UIUtils.rgb(61, 142, 255), 1.0f)];
+
+			// Blend alpha from opaque at 0% to transparent at 100%
+			GradientAlphaKey[] alphas = [
+					new GradientAlphaKey(1.0f, 0.0f),
+					new GradientAlphaKey(1.0f, 0.5f),
+					new GradientAlphaKey(1.0f, 1.0f)
+				];
+			ColorGradient.SetKeys(colors, alphas);		
+		}
+
 		public Node(int cell)
 		{
 			Cell = cell;
@@ -19,27 +37,14 @@ namespace ForceFieldWallTile.Content.Scripts.MeshGen
 		public int Cell;
 
 		public float Strenght;
+		public float MaxStrenght;
 
 		public int bl_idx, br_idx, tl_idx, tr_idx;
 
-		int debugCol = 0;
-		Color DebugColor => debug[debugCol];
-
-		Color[] debug = [Color.red, Color.yellow, Color.blue];
- 		internal void Cycle()
-		{
-			if (debugCol >= debug.Length -1)
-				return;
-			debugCol ++;
-			
-			debugCol %= debug.Length;
-
-			SgtLogger.l("Node Cycle " + Cell + " to " + DebugColor);
-			ShieldGrid.RedrawColors(Cell);
-		}
 		public Color GetCurrentColor()
 		{
-			return DebugColor;
+			float colorval = Mathf.Clamp01(Strenght / MaxStrenght);
+			return ColorGradient.Evaluate(colorval);
 		}
 
 

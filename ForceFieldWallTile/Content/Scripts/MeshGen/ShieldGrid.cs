@@ -10,7 +10,7 @@ using static STRINGS.UI.CLUSTERMAP;
 
 namespace ForceFieldWallTile.Content.Scripts.MeshGen
 {
-	internal class ShieldGrid : KMonoBehaviour, IImguiDebug
+	internal class ShieldGrid : KMonoBehaviour
 	{
 		public static Dictionary<int, Node> ShieldNodes = [];
 
@@ -21,23 +21,7 @@ namespace ForceFieldWallTile.Content.Scripts.MeshGen
 
 		private float scale = -1;
 		private Vector2 gridscale = new(1f, 1f);
-
-		public void OnImguiDraw()
-		{
-			//if (scale == -1) scale = Renderer.material.GetFloat("_PatternSize");
-
-			//ImGui.Text($"ShaderScale: {scale}");
-
-			//if (ImGui.DragFloat("_PatternSize", ref scale, 1f, 0.00001f, 1000f))
-			//{
-			//	Renderer.material.SetFloat("_PatternSize", scale);
-			//}
-			//if (ImGui.InputFloat2("_TilingSquare", ref gridscale))
-			//{
-			//	Renderer.material.SetVector("_TilingSquare", gridscale);
-			//}
-		}
-
+		
 		public static void AddNode(int cell, Node node)
 		{
 			if (!ShieldNodes.ContainsKey(cell))

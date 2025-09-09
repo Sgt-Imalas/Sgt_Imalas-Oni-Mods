@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TemplateClasses;
 using TUNING;
 using UnityEngine;
 
@@ -14,6 +15,7 @@ namespace ForceFieldWallTile.Content.Defs.Buildings
 	internal class ForceFieldTileConfig : IBuildingConfig
 	{
 		public static string ID = "FFT_ForceFieldProjector";
+		public const float WATTAGE = 60;
 
 		public override BuildingDef CreateBuildingDef()
 		{
@@ -37,6 +39,13 @@ namespace ForceFieldWallTile.Content.Defs.Buildings
 			buildingDef.ObjectLayer = ObjectLayer.Building;
 			buildingDef.SceneLayer = Grid.SceneLayer.BuildingBack;
 			buildingDef.AddSearchTerms((string)SEARCH_TERMS.TILE);
+			buildingDef.AddLogicPowerPort = true;
+			buildingDef.EnergyConsumptionWhenActive = 100f;
+			buildingDef.ExhaustKilowattsWhenActive = 0;
+			buildingDef.SelfHeatKilowattsWhenActive = 0;
+			buildingDef.RequiresPowerInput = true;
+			buildingDef.EnergyConsumptionWhenActive = WATTAGE;
+
 			return buildingDef;
 		}
 
@@ -50,6 +59,7 @@ namespace ForceFieldWallTile.Content.Defs.Buildings
 		public override void DoPostConfigureComplete(GameObject go)
 		{
 			GeneratedBuildings.RemoveLoopingSounds(go);
+			go.AddOrGet<LogicOperationalController>();
 			go.AddOrGet<ForceFieldSpriteRenderer>();
 			go.AddOrGet<ShieldGrid>();
 			go.AddOrGet<ForceFieldTile>();

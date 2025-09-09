@@ -1,7 +1,10 @@
 ﻿using Database;
 using ForceFieldWallTile.Content.Defs.Buildings;
+using ForceFieldWallTile.Content.ModDb;
+using ForceFieldWallTile.Content.Scripts;
 using HarmonyLib;
 using Klei.AI;
+using PeterHan.PLib.Buildings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +18,29 @@ namespace ForceFieldWallTile
 {
 	internal class Patches
 	{
+		[HarmonyPatch(typeof(Db), nameof(Db.Initialize))]
+		public class Db_Initialize_Patch
+		{
+			public static void Postfix(Db __instance)
+			{
+				ModStatusItems.CreateStatusItems();
+			}
+		}
+
+		[HarmonyPatch(typeof(Comet), nameof(Comet.OnSpawn))]
+		public class Comet_OnSpawn_Patch
+		{
+			public static void Postfix(Comet __instance)
+			{
+				__instance.gameObject.AddOrGet<CometShieldImpactor>();
+			}
+		}
+
+		[HarmonyPatch(typeof(Game), nameof(Game.OnLoadLevel))]
+		public class Game_OnLoadLevel_Patch
+		{
+			public static void Postfix() => ForceFieldTile.Clear();
+		}
 		/// <summary>
 		/// add buildings to plan screen
 		/// </summary>
@@ -22,12 +48,12 @@ namespace ForceFieldWallTile
 		[HarmonyPatch(nameof(GeneratedBuildings.LoadGeneratedBuildings))]
 		public static class GeneratedBuildings_LoadGeneratedBuildings_Patch
 		{
-
 			public static void Prefix()
 			{
 				ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Utilities, ForceFieldTileConfig.ID);
 			}
 		}
+
 		/// <summary>
 		/// Init. auto translation
 		/// </summary>
