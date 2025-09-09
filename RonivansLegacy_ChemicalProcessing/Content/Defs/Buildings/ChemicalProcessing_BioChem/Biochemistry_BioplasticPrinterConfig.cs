@@ -48,6 +48,7 @@ namespace Biochemistry.Buildings
 			return buildingDef;
 		}
 
+		static float MushbarConsumption = 1 / (5f * 600f);
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
@@ -83,8 +84,8 @@ namespace Biochemistry.Buildings
 			ManualDeliveryKG mushbar_delivery = go.AddOrGet<ManualDeliveryKG>();
 			mushbar_delivery.RequestedItemTag = MushBarConfig.ID.ToTag();
 			mushbar_delivery.SetStorage(storage);
-			mushbar_delivery.capacity = 5f;
-			mushbar_delivery.refillMass = 2f;
+			mushbar_delivery.capacity = 4f;
+			mushbar_delivery.refillMass = 1f;
 			mushbar_delivery.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
 
 			ElementConverter elementConverter = go.AddOrGet<ElementConverter>();
@@ -92,7 +93,7 @@ namespace Biochemistry.Buildings
 			[
 			new ElementConverter.ConsumedElement(ModElements.VegetableOil_Liquid.Tag, 0.40f, true),
 			new ElementConverter.ConsumedElement(SimHashes.CarbonDioxide.CreateTag(), 0.10f, true),
-			new ElementConverter.ConsumedElement(MushBarConfig.ID.ToTag(), 0.002f, true)
+			new ElementConverter.ConsumedElement(MushBarConfig.ID.ToTag(), MushbarConsumption, true)
 			];
 			elementConverter.outputElements =
 			[

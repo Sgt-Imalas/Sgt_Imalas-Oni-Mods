@@ -30,7 +30,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			ElementConverter converter = go.AddOrGet<ElementConverter>();
 			converter.consumedElements = [new ElementConverter.ConsumedElement(SimHashes.WoodLog.CreateTag(), 1f)];
-			converter.outputElements = [new ElementConverter.OutputElement(0.33f, SimHashes.Carbon, 312.15f, false, true, 0f, 1f, 1f, 0xff, 0), 
+			converter.outputElements = [new ElementConverter.OutputElement(0.5f, SimHashes.Carbon, 312.15f, false, true, 0f, 1f, 1f, 0xff, 0), 
 				new ElementConverter.OutputElement(0.1f, SimHashes.CarbonDioxide, 370.15f, false, false, 0f, 1f, 1f, 0xff, 0)];
 
 			///requests new wood for conversion

@@ -27,12 +27,13 @@ namespace Dupes_Machinery.Biological_Vats
 			list1.Add(Storage.StoredItemModifier.Preserve);
 			SlimeVatStorageModifiers = list1;
 		}
+		// 5 cycles per mush bar; 0.8kg per gram
+		static float MushbarConsumption = 1 / (10f * 600f);
 
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 			go.AddOrGet<BuildingComplete>().isManuallyOperated = false;
-			Tag tag = SimHashes.Dirt.CreateTag();
 
 			Storage local1 = go.AddOrGet<Storage>();
 			local1.SetDefaultStoredItemModifiers(SlimeVatStorageModifiers);
@@ -41,12 +42,20 @@ namespace Dupes_Machinery.Biological_Vats
 			local1.capacityKg = 1000f;
 
 			ElementConverter converter = go.AddComponent<ElementConverter>();
-			converter.consumedElements = [new ElementConverter.ConsumedElement(EDIBLES_TAG, 0.01f), new ElementConverter.ConsumedElement(SimHashes.Water.CreateTag(), 0.05f)];
-			converter.outputElements = [new ElementConverter.OutputElement(0.06f, SimHashes.SlimeMold, 0f, false, true, 0f, 0.5f, 0.75f, Db.Get().Diseases.GetIndex("SlimeLung"), 100)];
+			converter.consumedElements = 
+				[
+				new ElementConverter.ConsumedElement(EDIBLES_TAG, MushbarConsumption), 
+				new ElementConverter.ConsumedElement(SimHashes.Water.CreateTag(), 0.05f)];
+			converter.outputElements = [
+				new ElementConverter.OutputElement(0.05f, SimHashes.SlimeMold, 0f, false, true, 0f, 0.5f, 0.75f, Db.Get().Diseases.GetIndex("SlimeLung"), 100)];
 
 			ElementConverter converter3 = go.AddComponent<ElementConverter>();
-			converter3.consumedElements = [new ElementConverter.ConsumedElement(SimHashes.ContaminatedOxygen.CreateTag(), 0.025f), new ElementConverter.ConsumedElement(EDIBLES_TAG, 0.005f), new ElementConverter.ConsumedElement(tag, 0.05f)];
-			converter3.outputElements = [new ElementConverter.OutputElement(0.05f, SimHashes.SlimeMold, 0f, false, true, 0f, 0.5f, 0.75f, Db.Get().Diseases.GetIndex("SlimeLung"), 100)];
+			converter3.consumedElements = [
+				new ElementConverter.ConsumedElement(SimHashes.ContaminatedOxygen.CreateTag(), 0.025f), 
+				new ElementConverter.ConsumedElement(EDIBLES_TAG, MushbarConsumption), 
+				new ElementConverter.ConsumedElement(SimHashes.Dirt.CreateTag(), 0.05f)];
+			converter3.outputElements = [
+				new ElementConverter.OutputElement(0.075f, SimHashes.SlimeMold, 0f, false, true, 0f, 0.5f, 0.75f, Db.Get().Diseases.GetIndex("SlimeLung"), 100)];
 
 			ElementDropper local2 = go.AddComponent<ElementDropper>();
 			local2.emitMass = 5f;
@@ -56,8 +65,8 @@ namespace Dupes_Machinery.Biological_Vats
 			ManualDeliveryKG ingredient1 = go.AddComponent<ManualDeliveryKG>();
 			ingredient1.SetStorage(local1);
 			ingredient1.RequestedItemTag = EDIBLES_TAG;
-			ingredient1.capacity = 10f;
-			ingredient1.refillMass = 2f;
+			ingredient1.capacity = 4f;
+			ingredient1.refillMass = 1f;
 			ingredient1.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
 
 			ConduitConsumer local4 = go.AddOrGet<ConduitConsumer>();
