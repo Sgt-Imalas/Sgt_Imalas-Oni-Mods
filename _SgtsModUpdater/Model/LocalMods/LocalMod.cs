@@ -19,7 +19,6 @@ namespace _SgtsModUpdater.Model.LocalMods
         public string DllVersion = string.Empty;
         public bool Deletable => ModType.ToUpperInvariant() == "LOCAL"; //no steam mod deletion!
 
-
 		public LocalMod(ModYaml modYaml, ModInfoYaml modInfoYaml, string path)
         {
             FolderPath = path;
