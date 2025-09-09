@@ -3919,7 +3919,7 @@ msgstr "Weise den Computer an, Wolfram-Bohrköpfe herzustellen."
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INGREDIENTS.RAYONFIBER.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INGREDIENTS.RAYONFIBER.DESC"
 msgid "Rayon is a synthetic fiber, chemically made from regenerated cellulose extracted from Lumber."
-msgstr "Viskose ist eine synthetische Faser, die chemisch aus erneuerbarer Zellulose auf Pflanzenbasis hergestellt wird."
+msgstr "Viskose ist eine synthetische Faser, die chemisch aus regenerierter Zellulose auf Pflanzenbasis hergestellt wird."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INGREDIENTS.RAYONFIBER.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INGREDIENTS.RAYONFIBER.NAME"

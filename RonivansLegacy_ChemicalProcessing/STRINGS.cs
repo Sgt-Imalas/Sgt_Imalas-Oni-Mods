@@ -2017,7 +2017,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = FormatAsLink("Rayon Fiber", nameof(RAYONFIBER));
 					public static LocString NAME_PLURAL = FormatAsLink("Rayon Fibers", nameof(RAYONFIBER));
-					public static LocString DESC = "Rayon is a synthetic fiber, chemically made from plant based cellulose.";
+					public static LocString DESC = "Rayon is a synthetic fiber, chemically made from plant based regenerated cellulose.";
 					public static LocString RECIPE_DESC = "Produces " + NAME_PLURAL + " from the pulp of {0}.";
 				}
 			}
