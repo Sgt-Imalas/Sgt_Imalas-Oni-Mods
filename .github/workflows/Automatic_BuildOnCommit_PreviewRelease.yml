@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   build:
-    if: ${{ !contains(join(toJson(github.event.commits.*.modified)), '_SgtsModUpdater/') }}
+    if: ${{ !contains(join(toJson(github.event.commits.*.modified)), '_SgtsModUpdater') }}
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v4

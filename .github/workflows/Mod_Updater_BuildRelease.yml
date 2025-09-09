@@ -4,7 +4,7 @@ on:
   push:
     branches: [ "master" ]    
     paths:
-      - '_SgtsModUpdater/**'
+      - '_SgtsModUpdater**'
 
 permissions:
   contents: write # Grant write permission for creating releases
