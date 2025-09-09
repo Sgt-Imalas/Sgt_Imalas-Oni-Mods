@@ -24,7 +24,6 @@ namespace _SgtsModUpdater.Model.LocalMods
             FolderPath = path;
 			ModInfoYaml = modInfoYaml;
             ModYaml = modYaml;
-
             ModType = new DirectoryInfo(path).Parent.Name;
         }
     }
