@@ -504,7 +504,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		{
 			if (dispenser == null || dispenser.gameObject == null)
 				return false;
-			SgtLogger.l(dispenser.gameObject.name + " -> " + dispenser.gameObject.GetInstanceID());
+			//SgtLogger.l(dispenser.gameObject.name + " -> " + dispenser.gameObject.GetInstanceID());
 
 			return DynamicSolidConduitDispenserHandles.Contains(dispenser.gameObject.GetInstanceID());
 		}
