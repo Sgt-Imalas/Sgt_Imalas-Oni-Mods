@@ -88,12 +88,10 @@ namespace _SgtsModUpdater.Model.Update
 		{
 			return modName + " (" + version + ")";
 		}
-
 		internal void SetInstalledMod(LocalMod localMod)
 		{
 			localInstall = localMod;
 		}
-
 		internal async Task TryInstallUpdate()
 		{
 			await ModManager.Instance.TryInstallUpdate(this);
