@@ -13,6 +13,7 @@ namespace _SgtsModUpdater.Model.ModsJsonData
 		public string title;
 		public long version;
 	}
+
 	public enum DistributionPlatform
 	{
 		Local,
