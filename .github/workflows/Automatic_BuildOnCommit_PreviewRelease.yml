@@ -5,6 +5,7 @@ on:
     branches: [ "master" ]
     paths-ignore:
       - "_SgtsModUpdater/**"
+      - ".github/**"
 
 permissions:
   contents: write # Grant write permission for creating releases

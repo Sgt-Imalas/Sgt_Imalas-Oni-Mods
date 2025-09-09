@@ -13,7 +13,6 @@ namespace _SgtsModUpdater.Model.Update
 		public string UpdateIndexName;
 		public string UpdateIndexURL;
 		public string RepoUrl;
-
         public FetchableRepoInfo()
 		{
 			InferMissing();
