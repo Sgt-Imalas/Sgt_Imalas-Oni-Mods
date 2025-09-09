@@ -3,6 +3,8 @@ name: Build all mods for automated release as preview
 on:
   push:
     branches: [ "master" ]
+    paths-ignore:
+      - "_SgtsModUpdater/**"
 
 permissions:
   contents: write # Grant write permission for creating releases
@@ -10,7 +12,6 @@ permissions:
 
 jobs:
   build:
-    if: ${{ !contains(join(toJson(github.event.commits.*.modified)), '_SgtsModUpdater') }}
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v4
