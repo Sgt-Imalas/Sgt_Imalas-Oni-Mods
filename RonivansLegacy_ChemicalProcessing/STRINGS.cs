@@ -240,7 +240,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class CHEMICAL_BALLCRUSHERMILL
 				{
 					public static LocString NAME = FormatAsLink("Ball Crusher Mill (Chemical Washing)", nameof(CHEMICAL_BALLCRUSHERMILL));
-					public static LocString DESC = "A large sized industrial mill that crushes raw ores using steel balls and special mixture of acids. Capable to process much more than the standard mill, as well more efficient in the extraction of valuable minerals from the raw more sludge.";
+					public static LocString DESC = "A large sized industrial mill that crushes raw ores using steel balls and special mixture of acids. It is capable to process much more than the standard mill, as well as more efficient in the extraction of valuable minerals from the raw ore sludge.";
 					public static LocString EFFECT = string.Concat("Crush down ", FormatAsLink("Raw Minerals", "RAWMINERAL"), " in to useful materials and industrial ingredients.");
 				}
 
@@ -253,7 +253,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class CHEMICAL_CO2PUMP
 				{
 					public static LocString NAME = FormatAsLink("CO2 Filter", nameof(CHEMICAL_CO2PUMP));
-					public static LocString DESC = "A fancy pump capable to detects Carbon Dioxide and pump it.";
+					public static LocString DESC = "A fancy pump capable to detect Carbon Dioxide and pump it.";
 					public static LocString EFFECT = string.Concat(
 						"Automatically detects trace of ",
 						FormatAsLink("Carbon Dioxide", "CARBONDIOXIDE"),
@@ -2000,7 +2000,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString RANDOMRECIPEINGREDIENT_DESTROYONCANCEL_DESC = "This ingredient gets used up during its use, if a recipe with it gets canceled, it is lost.";
 
 				public static LocString AIO_HARDENEDALLOY = FormatAsLink("Hardened Alloy", nameof(AIO_HARDENEDALLOY));
-				public static LocString AIO_HARDENEDALLOY_DESC = "Hardened Alloys are a fusion of two or more materials.\nTheir high material strength allows them to be used as a substitute to " + global::STRINGS.ELEMENTS.STEEL.NAME;
+				public static LocString AIO_HARDENEDALLOY_DESC = "Hardened Alloys are a fusion of two or more materials.\nTheir high material strength allows them to be used as a substitute to " + global::STRINGS.ELEMENTS.STEEL.NAME+".";
 
 				public static LocString AIO_CARRIERGAS = FormatAsLink("Carrier Gas", nameof(AIO_CARRIERGAS));
 				public static LocString AIO_CARRIERGAS_DESC = "Carrier Gases are inert or semi-inert gases that are used in plasma related processes.";
@@ -2017,7 +2017,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = FormatAsLink("Rayon Fiber", nameof(RAYONFIBER));
 					public static LocString NAME_PLURAL = FormatAsLink("Rayon Fibers", nameof(RAYONFIBER));
-					public static LocString DESC = "Rayon is a synthetic fiber, chemically made from regenerated cellulose extracted from Lumber.";
+					public static LocString DESC = "Rayon is a synthetic fiber, chemically made from plant based cellulose.";
 					public static LocString RECIPE_DESC = "Produces " + NAME_PLURAL + " from the pulp of {0}.";
 				}
 			}
@@ -2046,8 +2046,8 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = FormatAsLink("Guidance Device (Unprogrammed)", "MINERALPROCESSING_GUIDANCEUNIT");
 					public static LocString NAME_PROGRAMMED = FormatAsLink("Guidance Device (Target: {0})", "MINERALPROCESSING_GUIDANCEUNIT");
-					public static LocString DESC = "A sophisticated electronic module that aids the Mining Drillhead to navigate while operating.\nIn general, the guidance system computes the instructions for the Drillhead control system, which comprises its actuators, increasing the performance and detecting element resources from its surroundings.\n\nIt can be programmed by a skilled Duplicant or by the CNC machine.";
-					public static LocString DESC_PROGRAMMED = "A sophisticated electronic module that aids the Mining Drillhead to navigate while operating.\nIn general, the guidance system computes the instructions for the Drillhead control system, which comprises its actuators, increasing the performance and detecting element resources from its surroundings.\n\nThis guidance device is programmed to target the {0}.";
+					public static LocString DESC = "A sophisticated electronic module that aids the Mining Drillhead to navigate while operating.\nIn general, the guidance system computes the instructions for the Drillhead control system, allowing for an improved drill performance and the ability to detect and target specific element resources from its surroundings.\n\nIt can be programmed by a skilled Duplicant or by the CNC machine.";
+					public static LocString DESC_PROGRAMMED = "A sophisticated electronic module that aids the Mining Drillhead to navigate while operating.\nIn general, the guidance system computes the instructions for the Drillhead control system, allowing for an improved drill performance and the ability to detect and target specific element resources from its surroundings.\n\nThis guidance device is programmed to target the {0}.";
 					public static LocString RECIPE_DESC = "Instruct the computer to produce a Guidance Device.";
 					public static LocString RECIPE_DESC_PROGRAM = "Instruct the computer to load the target program for the {0} into the Guidance Device";
 				}
@@ -2296,8 +2296,8 @@ namespace RonivansLegacy_ChemicalProcessing
 			}
 			public class GEYSERS
 			{
-				public static LocString NAME = "Generic Mod Geysers";
-				public static LocString TOOLTIP = "New Geysers are added to the pool of randomly spawned geysers.\nThis will affect worldgen if active (different random geysers are chosen compared to vanilla)\nTurning it off will prevent those geysers from showing up from worldgen naturally unless you use a different mod to add them manually (e.g. customize geyser or CGM)";
+				public static LocString NAME = "Mod Geysers spawn from worldgen";
+				public static LocString TOOLTIP = "New Geysers are added to the pool of randomly spawned geysers.\nThis will affect worldgen if active (different random geysers are chosen compared to vanilla)\nTurning it off will prevent those geysers from showing up from worldgen naturally unless you use a different mod to add them manually (e.g. customize geyser or CGM)\n\nRevealing a random geyser (those spawned on classic asteroids and by the geoactive trait) in an already existing world WILL be affected by this, turn off this option if you don't want existing saves to be affected.";
 			}
 			public class MODELEMENTSWORLDGEN
 			{
