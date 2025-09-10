@@ -101,6 +101,7 @@ namespace ForceFieldWallTile.Content.Scripts
 			Util.KDestroyGameObject(comet.gameObject);
 
 		}
+		#region ExplodeMeteor
 		public static Vector3 GetPointOnUnitSphereCap(Quaternion targetDirection, float angle)
 		{
 			var angleInRad = UnityEngine.Random.Range(0.0f, angle) * Mathf.Deg2Rad;
@@ -220,6 +221,7 @@ namespace ForceFieldWallTile.Content.Scripts
 				}
 			}
 		}
+		#endregion
 		public void ReceiveDamage(float damage)
 		{
 			if (damage < 0.25f || !ShieldActive) return;

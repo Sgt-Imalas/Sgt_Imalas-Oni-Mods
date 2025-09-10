@@ -10,7 +10,7 @@ using static STRINGS.UI.CLUSTERMAP;
 
 namespace ForceFieldWallTile.Content.Scripts.MeshGen
 {
-	internal class ShieldGrid : KMonoBehaviour
+	internal class ShieldGrid
 	{
 		public static Dictionary<int, Node> ShieldNodes = [];
 

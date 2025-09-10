@@ -20,11 +20,11 @@ namespace ForceFieldWallTile.Content.Defs.Buildings
 		public override BuildingDef CreateBuildingDef()
 		{
 			float[] tieR2 = TUNING.BUILDINGS.CONSTRUCTION_MASS_KG.TIER2;
-			string[] rawMineralsOrWood = TUNING.MATERIALS.RAW_MINERALS_OR_WOOD;
+			string[] rawMineralsOrWood = TUNING.MATERIALS.REFINED_METALS;
 			EffectorValues none = NOISE_POLLUTION.NONE;
-			EffectorValues decor = new EffectorValues()
+			EffectorValues decor = new()
 			{
-				amount = 10,
+				amount = -5,
 				radius = 0
 			};
 			EffectorValues noise = none;
@@ -35,12 +35,11 @@ namespace ForceFieldWallTile.Content.Defs.Buildings
 			buildingDef.AudioCategory = "Metal";
 			buildingDef.AudioSize = "small";
 			buildingDef.BaseTimeUntilRepair = -1f;
-			buildingDef.DefaultAnimState = "off_A";
+			buildingDef.DefaultAnimState = "off";
 			buildingDef.ObjectLayer = ObjectLayer.Building;
 			buildingDef.SceneLayer = Grid.SceneLayer.BuildingBack;
 			buildingDef.AddSearchTerms((string)SEARCH_TERMS.TILE);
 			buildingDef.AddLogicPowerPort = true;
-			buildingDef.EnergyConsumptionWhenActive = 100f;
 			buildingDef.ExhaustKilowattsWhenActive = 0;
 			buildingDef.SelfHeatKilowattsWhenActive = 0;
 			buildingDef.RequiresPowerInput = true;
@@ -60,8 +59,6 @@ namespace ForceFieldWallTile.Content.Defs.Buildings
 		{
 			GeneratedBuildings.RemoveLoopingSounds(go);
 			go.AddOrGet<LogicOperationalController>();
-			go.AddOrGet<ForceFieldSpriteRenderer>();
-			go.AddOrGet<ShieldGrid>();
 			go.AddOrGet<ForceFieldTile>();
 		}
 	}
