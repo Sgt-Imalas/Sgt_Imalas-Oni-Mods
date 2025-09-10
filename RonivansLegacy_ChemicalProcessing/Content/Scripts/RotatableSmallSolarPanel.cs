@@ -130,8 +130,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		{
 			base.EnergySim200ms(dt);
 			int circuitId = CircuitID;
-			this.operational.SetFlag(Generator.wireConnectedFlag, true);
-			this.operational.SetFlag(Generator.generatorConnectedFlag, true);
+			this.operational.SetFlag(Generator.wireConnectedFlag, circuitId != ushort.MaxValue);
 			if (!this.operational.IsOperational)
 				return;
 			float currentWattage = 0.0f;
