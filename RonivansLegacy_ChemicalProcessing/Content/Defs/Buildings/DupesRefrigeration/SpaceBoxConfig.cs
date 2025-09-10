@@ -19,13 +19,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 		public void SetStorageCapacity(float mass) => StorageCapacity = mass;
 		public static string ID = "SpaceBox";
 		
-		public static readonly List<Storage.StoredItemModifier> SpaceBoxStorage = [
-				Storage.StoredItemModifier.Hide,
-				Storage.StoredItemModifier.Seal,
-				Storage.StoredItemModifier.Insulate,
-				Storage.StoredItemModifier.Preserve,
-			];
-
 		public override string[] GetRequiredDlcIds() => [DlcManager.EXPANSION1_ID];
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
@@ -61,7 +54,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.Refrigerator, false);
 			Prioritizable.AddRef(go);
 			Storage storage = go.AddOrGet<Storage>();
-			storage.SetDefaultStoredItemModifiers(SpaceBoxStorage);
+			storage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			storage.capacityKg = GetStorageCapacity();
 			storage.showInUI = true;
 			storage.showDescriptor = true;

@@ -23,7 +23,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 	{
 		//--[ Base Information ]------------------------------------------------------------------------------------------
 		public static string ID = "Chemical_SyngasRefinery";
-		private static readonly List<Storage.StoredItemModifier> RefineryStorageModifier;
 
 		private static readonly PortDisplayOutput LiquidOilOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(0, 0));
 
@@ -32,13 +31,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		{
 			Color? OilPortColor = new Color32(255, 216, 43, 255);
 			LiquidOilOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(0, 0), null, OilPortColor);
-
-			List<Storage.StoredItemModifier> list1 = new List<Storage.StoredItemModifier>();
-			list1.Add(Storage.StoredItemModifier.Hide);
-			list1.Add(Storage.StoredItemModifier.Preserve);
-			list1.Add(Storage.StoredItemModifier.Insulate);
-			list1.Add(Storage.StoredItemModifier.Seal);
-			RefineryStorageModifier = list1;
 		}
 
 		//--[ Building Definitions ]----------------------------------------------------------------------------------------
@@ -81,8 +73,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			fabricator.heatedTemperature = 326.15f;
 			fabricator.keepExcessLiquids = true;
 			fabricator.keepAdditionalTag = SimHashes.Syngas.CreateTag();
-			fabricator.inStorage.SetDefaultStoredItemModifiers(RefineryStorageModifier);
-			fabricator.buildStorage.SetDefaultStoredItemModifiers(RefineryStorageModifier);
+			fabricator.inStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
+			fabricator.buildStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			fabricator.outStorage = standardStorage;
 			fabricator.outputOffset = new Vector3(0f, 0f);
 

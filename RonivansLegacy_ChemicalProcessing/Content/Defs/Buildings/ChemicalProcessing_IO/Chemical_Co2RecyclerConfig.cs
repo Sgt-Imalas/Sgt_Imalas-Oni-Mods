@@ -20,9 +20,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		//--[ Base Information ]---------------------------------------------------------------------------
 		public static string ID = "Chemical_Co2Recycler";
 
-		//--[ Identification and DLC stuff ]--------------------------------------------------------------
-
-		public static readonly List<Storage.StoredItemModifier> RecyclerStoredItemModifiers;
 
 		//--[ Special Settings ]-----------------------------------------------
 		private static readonly PortDisplayInput liquidco2InputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(-3, 1));
@@ -40,12 +37,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			steamOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(3, 2), null, steamPortColor);
 			Color? methanePortColor = new Color32(255, 114, 33, 255);
 			methaneOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(3, 1), null, methanePortColor);
-
-			List<Storage.StoredItemModifier> list1 = new List<Storage.StoredItemModifier>();
-			list1.Add(Storage.StoredItemModifier.Hide);
-			list1.Add(Storage.StoredItemModifier.Seal);
-			list1.Add(Storage.StoredItemModifier.Insulate);
-			RecyclerStoredItemModifiers = list1;
 		}
 
 		public override BuildingDef CreateBuildingDef()
@@ -77,7 +68,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			Tag catalyst = SimHashes.Iron.CreateTag();
 
 			Storage solidStorage = go.AddOrGet<Storage>();
-			solidStorage.SetDefaultStoredItemModifiers(RecyclerStoredItemModifiers);
+			solidStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			solidStorage.showInUI = true;
 
 			ManualDeliveryKG catalystDelivery = go.AddComponent<ManualDeliveryKG>();
@@ -152,7 +143,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			graphiteDropper.emitOffset = new Vector3(0f, 1f, 0f);
 
 			Storage outputStorage = go.AddOrGet<Storage>();
-			outputStorage.SetDefaultStoredItemModifiers(RecyclerStoredItemModifiers);
+			outputStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			outputStorage.showInUI = true;
 
 			ConduitDispenser waterOutput = go.AddOrGet<ConduitDispenser>();

@@ -18,12 +18,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 	{
 		public static string ID = "Chemical_CrudeOilRefineryStaged";
 
-		public static readonly List<Storage.StoredItemModifier> OilRefineryStoredItemModifiers = new List<Storage.StoredItemModifier>()
-			{
-				Storage.StoredItemModifier.Hide,
-				Storage.StoredItemModifier.Seal,
-				Storage.StoredItemModifier.Insulate
-			};
 		private static readonly PortDisplayInput steamGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(3, 1), color:new Color32(167, 180, 201, byte.MaxValue));
 		private static readonly PortDisplayInput hydrogenGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(3, 2), color: new Color32(224, 67, 203, byte.MaxValue));
 		private static readonly PortDisplayInput naphthaInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(-2, 2), color: new Color32(176, 0, 255, 255));
@@ -125,7 +119,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			elementDropper.emitOffset = new Vector3(0.0f, 1f, 0.0f);
 
 			Storage storage = go.AddOrGet<Storage>();
-			storage.SetDefaultStoredItemModifiers(OilRefineryStoredItemModifiers);
+			storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			storage.showInUI = true;
 
 			PipedConduitDispenser conduitDispenser = go.AddComponent<PipedConduitDispenser>();

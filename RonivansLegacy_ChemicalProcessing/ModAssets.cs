@@ -11,11 +11,24 @@ using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing
 {
-    internal class ModAssets
-    {
+	internal class ModAssets
+	{
+		public static List<Storage.StoredItemModifier> AllStorageMods => GetAllStorageMods();
+
+		public static List<Storage.StoredItemModifier> GetAllStorageMods()
+		{
+			return [
+			Storage.StoredItemModifier.Hide,
+			Storage.StoredItemModifier.Preserve,
+			Storage.StoredItemModifier.Insulate,
+			Storage.StoredItemModifier.Seal
+			];
+		}
+
+
 		public static ModHashes OnBuildingFacadeChanged = new ModHashes("RonivanAIO_OnBuildingFacadeChanged");
 
-        public class Tags
+		public class Tags
 		{
 			///group tag for metal sands
 			public static Tag RandomSand = TagManager.Create("ChemicalProcessing_RandomSand");

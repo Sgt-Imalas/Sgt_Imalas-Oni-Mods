@@ -23,13 +23,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		//--[ Base Information ]--------------------------------------------------------------------------------
 		public static string ID = "Chemical_AdvancedKiln";
 
-		//--[ Storage Modifier Settings ]--------------------------------------------------------------------------------
-		private static readonly List<Storage.StoredItemModifier> KilnStoredItemModifiers = [
-			Storage.StoredItemModifier.Hide,
-			Storage.StoredItemModifier.Preserve,
-			Storage.StoredItemModifier.Insulate,
-			Storage.StoredItemModifier.Seal];
-
 		//--[ Building Definitions ]-----------------------------------------------------------------------------
 		public override BuildingDef CreateBuildingDef()
 		{
@@ -56,8 +49,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			fabricator.heatedTemperature = 320.15f;
 			fabricator.duplicantOperated = true;
 			BuildingTemplates.CreateComplexFabricatorStorage(go, fabricator);
-			fabricator.inStorage.SetDefaultStoredItemModifiers(KilnStoredItemModifiers);
-			fabricator.buildStorage.SetDefaultStoredItemModifiers(KilnStoredItemModifiers);
+			fabricator.inStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
+			fabricator.buildStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			fabricator.sideScreenStyle = ComplexFabricatorSideScreen.StyleSetting.ListQueueHybrid;
 			go.AddOrGet<ComplexFabricatorWorkable>().overrideAnims = [Assets.GetAnim("anim_interacts_fabricator_generic_kanim")];
 

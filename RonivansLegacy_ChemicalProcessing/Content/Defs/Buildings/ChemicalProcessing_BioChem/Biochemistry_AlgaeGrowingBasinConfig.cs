@@ -19,20 +19,6 @@ namespace Biochemistry.Buildings
 	{
 		public static string ID = "Biochemistry_AlgaeGrowingBasin";
 
-		private static readonly List<Storage.StoredItemModifier> BasinStoredItemModifiers;
-
-		static Biochemistry_AlgaeGrowingBasinConfig()
-		{
-			List<Storage.StoredItemModifier> list1 =
-			[
-				Storage.StoredItemModifier.Hide,
-				Storage.StoredItemModifier.Preserve,
-				Storage.StoredItemModifier.Insulate,
-				Storage.StoredItemModifier.Seal,
-			];
-			BasinStoredItemModifiers = list1;
-		}
-
 		public override BuildingDef CreateBuildingDef()
 		{
 			EffectorValues tier = NOISE_POLLUTION.NOISY.TIER5;
@@ -62,12 +48,12 @@ namespace Biochemistry.Buildings
 			go.AddOrGet<ElementConversionBuilding>();
 
 			Storage storage = go.AddOrGet<Storage>();
-			storage.SetDefaultStoredItemModifiers(BasinStoredItemModifiers);
+			storage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			storage.capacityKg = 1000f;
 			storage.showInUI = true;
 
 			Storage storage2 = go.AddOrGet<Storage>();
-			storage2.SetDefaultStoredItemModifiers(BasinStoredItemModifiers);
+			storage2.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			storage2.showInUI = true;
 			storage2.capacityKg = 1000f;
 			storage2.allowItemRemoval = false;

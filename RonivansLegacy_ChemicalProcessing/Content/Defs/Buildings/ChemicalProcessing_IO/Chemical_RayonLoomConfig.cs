@@ -1,5 +1,6 @@
 ﻿using Dupes_Industrial_Overhaul.Chemical_Processing.Chemicals;
 using HarmonyLib;
+using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
 using System.Collections.Generic;
@@ -20,18 +21,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 		private Tag FUEL_TAG = SimHashes.Syngas.CreateTag();
 
-		private static readonly List<Storage.StoredItemModifier> Chemical_RayonLoomStoredItemModifiers;
-
-		static Chemical_RayonLoomConfig()
-		{
-			List<Storage.StoredItemModifier> list1 = new List<Storage.StoredItemModifier>();
-			list1.Add(Storage.StoredItemModifier.Hide);
-			list1.Add(Storage.StoredItemModifier.Preserve);
-			list1.Add(Storage.StoredItemModifier.Insulate);
-			list1.Add(Storage.StoredItemModifier.Seal);
-			Chemical_RayonLoomStoredItemModifiers = list1;
-		}
-
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
 			go.AddOrGet<DropAllWorkable>();
@@ -48,9 +37,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			go.AddOrGet<ComplexFabricatorWorkable>();
 			BuildingTemplates.CreateComplexFabricatorStorage(go, fabricator);
 			fabricator.outStorage.capacityKg = 10f;
-			fabricator.inStorage.SetDefaultStoredItemModifiers(Chemical_RayonLoomStoredItemModifiers);
-			fabricator.buildStorage.SetDefaultStoredItemModifiers(Chemical_RayonLoomStoredItemModifiers);
-			fabricator.outStorage.SetDefaultStoredItemModifiers(Chemical_RayonLoomStoredItemModifiers);
+			fabricator.inStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
+			fabricator.buildStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
+			fabricator.outStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			ConduitConsumer local1 = go.AddOrGet<ConduitConsumer>();
 			local1.capacityTag = this.FUEL_TAG;
 			local1.capacityKG = 10f;
@@ -67,7 +56,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		public override BuildingDef CreateBuildingDef()
 		{
 			EffectorValues noise = NOISE_POLLUTION.NOISY.TIER3;
-			BuildingDef def = BuildingTemplates.CreateBuildingDef("Chemical_RayonLoom", 6, 4, "viscose_frame_kanim", 30, 30f, TUNING.BUILDINGS.CONSTRUCTION_MASS_KG.TIER5, MATERIALS.REFINED_METALS, 1600f, BuildLocationRule.OnFloor, TUNING.BUILDINGS.DECOR.NONE, noise);
+			BuildingDef def = BuildingTemplates.CreateBuildingDef(ID, 6, 4, "viscose_frame_kanim", 30, 30f, TUNING.BUILDINGS.CONSTRUCTION_MASS_KG.TIER5, MATERIALS.REFINED_METALS, 1600f, BuildLocationRule.OnFloor, TUNING.BUILDINGS.DECOR.NONE, noise);
 			BuildingTemplates.CreateElectricalBuildingDef(def);
 			def.AudioCategory = "Metal";
 			def.AudioSize = "large";

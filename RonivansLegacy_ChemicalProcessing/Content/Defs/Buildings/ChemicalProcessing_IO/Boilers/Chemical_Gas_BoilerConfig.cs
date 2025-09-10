@@ -30,19 +30,12 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		//--[ Special Settings ]-----------------------------------------------
 		private static readonly PortDisplayInput combustibleGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(0, 0));
 		private static readonly PortDisplayOutput steamOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(0, 3));
-		public static readonly List<Storage.StoredItemModifier> ChemGasBoilerStorageModifiers;
 		static Chemical_Gas_BoilerConfig()
 		{
 			Color? steamPortColor = new Color32(167, 180, 201, 255);
 			steamOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(0, 3), null, steamPortColor);
 			Color? combustibleGasPortColor = new Color32(255, 114, 33, 255);
 			combustibleGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(0, 0), null, combustibleGasPortColor);
-
-			List<Storage.StoredItemModifier> list1 = new List<Storage.StoredItemModifier>();
-			list1.Add(Storage.StoredItemModifier.Hide);
-			list1.Add(Storage.StoredItemModifier.Seal);
-			list1.Add(Storage.StoredItemModifier.Insulate);
-			ChemGasBoilerStorageModifiers = list1;
 		}
 
 		//--[ Building Definitions ]-------------------------------------------
@@ -73,7 +66,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		{
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 			Storage storage = BuildingTemplates.CreateDefaultStorage(go, false);
-			storage.SetDefaultStoredItemModifiers(ChemGasBoilerStorageModifiers);
+			storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			storage.capacityKg = 10000f;
 			storage.showCapacityStatusItem = true;
 			storage.showCapacityAsMainStatus = true;

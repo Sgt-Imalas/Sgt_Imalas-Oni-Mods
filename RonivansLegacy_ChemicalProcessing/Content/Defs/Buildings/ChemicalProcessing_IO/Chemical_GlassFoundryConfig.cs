@@ -24,21 +24,11 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 		//--[ Identification and DLC stuff ]------------------------------------------------------------------------
 		private const float INPUT_KG = 100f;
-		private static readonly List<Storage.StoredItemModifier> FoundryStoredItemModifiers;
 
 		//--[ Special Settings ]------------------------------------------------------------------------------------
 		static readonly CellOffset GlassOutputOffset = new CellOffset(0, -2);
 		private static readonly PortDisplayOutput GlassOutputPort = new PortDisplayOutput(ConduitType.Liquid, GlassOutputOffset);
 
-		static Chemical_GlassFoundryConfig()
-		{
-			List<Storage.StoredItemModifier> list1 = new List<Storage.StoredItemModifier>();
-			list1.Add(Storage.StoredItemModifier.Hide);
-			list1.Add(Storage.StoredItemModifier.Preserve);
-			list1.Add(Storage.StoredItemModifier.Insulate);
-			list1.Add(Storage.StoredItemModifier.Seal);
-			FoundryStoredItemModifiers = list1;
-		}
 
 		//--[ Building Definitions ]---------------------------------------------------------------------------------
 		public override BuildingDef CreateBuildingDef()
@@ -83,9 +73,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			BuildingTemplates.CreateComplexFabricatorStorage(go, fabricator);
 			fabricator.outStorage.capacityKg = 2000f;
 			fabricator.storeProduced = true;
-			fabricator.inStorage.SetDefaultStoredItemModifiers(FoundryStoredItemModifiers);
-			fabricator.buildStorage.SetDefaultStoredItemModifiers(FoundryStoredItemModifiers);
-			fabricator.outStorage.SetDefaultStoredItemModifiers(FoundryStoredItemModifiers);
+			fabricator.inStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
+			fabricator.buildStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
+			fabricator.outStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			fabricator.outputOffset = new Vector3(1f, 0.5f);
 			fabricator.heatedTemperature = 296.15f;
 

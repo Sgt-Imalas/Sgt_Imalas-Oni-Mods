@@ -23,12 +23,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		public static string ID = "Chemical_RawGasRefinery";
 
 		//--[ Identification and DLC stuff ]-----------------------------------
-		private void ConfigureRecipes() { }
-		public static readonly List<Storage.StoredItemModifier> GasRefineryStoredItemModifiers = [
-				Storage.StoredItemModifier.Hide,
-				Storage.StoredItemModifier.Seal,
-				Storage.StoredItemModifier.Insulate,
-			];
 
 		//--[ Special Settings ]-----------------------------------------------
 		private static readonly PortDisplayInput steamGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(2, 1), null, new Color32(167, 180, 201, 255));  //Steam Input
@@ -67,7 +61,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			Storage standardStorage = go.AddOrGet<Storage>();
 			standardStorage.capacityKg = 500f;
-			standardStorage.SetDefaultStoredItemModifiers(GasRefineryStoredItemModifiers);
+			standardStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			standardStorage.showInUI = true;
 
 			ConduitConsumer rawGasInput = go.AddOrGet<ConduitConsumer>();
@@ -99,7 +93,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//--------------------------------------------------------------------
 
 			Storage outputStorage = go.AddOrGet<Storage>();
-			outputStorage.SetDefaultStoredItemModifiers(GasRefineryStoredItemModifiers);
+			outputStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			outputStorage.showInUI = true;
 
 			ConduitDispenser petrolOutput = go.AddOrGet<ConduitDispenser>();

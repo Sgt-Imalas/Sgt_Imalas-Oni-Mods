@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using STRINGS;
 using System;
@@ -18,18 +19,6 @@ namespace Biochemistry.Buildings
 	{
 		public static string ID = "Biochemistry_AnaerobicDigester";
 		
-		private static readonly List<Storage.StoredItemModifier> DigesterStoredItemModifiers;
-
-		static Biochemistry_AnaerobicDigesterConfig()
-		{
-			List<Storage.StoredItemModifier> list1 = new List<Storage.StoredItemModifier>();
-			list1.Add(Storage.StoredItemModifier.Hide);
-			list1.Add(Storage.StoredItemModifier.Preserve);
-			list1.Add(Storage.StoredItemModifier.Insulate);
-			list1.Add(Storage.StoredItemModifier.Seal);
-			DigesterStoredItemModifiers = list1;
-		}
-
 		public override BuildingDef CreateBuildingDef()
 		{
 			EffectorValues tier = NOISE_POLLUTION.NOISY.TIER5;
@@ -55,13 +44,13 @@ namespace Biochemistry.Buildings
 			go.AddOrGet<BuildingComplete>().isManuallyOperated = false;
 
 			Storage inputStorage = go.AddOrGet<Storage>();
-			inputStorage.SetDefaultStoredItemModifiers(DigesterStoredItemModifiers);
+			inputStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			inputStorage.showCapacityStatusItem = false;
 			inputStorage.showCapacityAsMainStatus = false;
 			inputStorage.showDescriptor = false;
 
 			Storage outputStorage = go.AddOrGet<Storage>();
-			outputStorage.SetDefaultStoredItemModifiers(DigesterStoredItemModifiers);
+			outputStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			outputStorage.showCapacityStatusItem = false;
 			outputStorage.showCapacityAsMainStatus = false;
 			outputStorage.showDescriptor = false;
@@ -80,9 +69,9 @@ namespace Biochemistry.Buildings
 			digester.outStorage.capacityKg = 1000f;
 			digester.storeProduced = true;
 			digester.keepAdditionalTag = SimHashes.Methane.CreateTag();
-			digester.inStorage.SetDefaultStoredItemModifiers(DigesterStoredItemModifiers);
-			digester.buildStorage.SetDefaultStoredItemModifiers(DigesterStoredItemModifiers);
-			digester.outStorage.SetDefaultStoredItemModifiers(DigesterStoredItemModifiers);
+			digester.inStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
+			digester.buildStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
+			digester.outStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			digester.inStorage = inputStorage;
 			digester.outStorage = outputStorage;
 			digester.outputOffset = new Vector3(1f, 0.5f);

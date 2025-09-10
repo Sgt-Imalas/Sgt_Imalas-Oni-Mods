@@ -17,12 +17,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProces
 
 		public static string ID = "HepProjector";
 
-		public static readonly List<Storage.StoredItemModifier> ProjectorStorageModifier =
-		[
-		  Storage.StoredItemModifier.Hide,
-		  Storage.StoredItemModifier.Seal,
-		  Storage.StoredItemModifier.Insulate
-		];
 		private Tag RADFUEL = SimHashes.UraniumOre.CreateTag();
 
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
@@ -58,7 +52,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProces
 			go.AddOrGet<HepProjector>();
 
 			Storage storage = go.AddOrGet<Storage>();
-			storage.SetDefaultStoredItemModifiers(HepProjectorConfig.ProjectorStorageModifier);
+			storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			storage.showInUI = true;
 			storage.allowItemRemoval = false;
 			storage.capacityKg = 500f;

@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using System;
 using System.Collections.Generic;
@@ -16,18 +17,6 @@ namespace Biochemistry.Buildings
 	public class Biochemistry_ExpellerPressConfig : IBuildingConfig
 	{
 		public static string ID = "Biochemistry_ExpellerPress";
-		
-		private static readonly List<Storage.StoredItemModifier> ExpellerStoredItemModifiers;
-
-		static Biochemistry_ExpellerPressConfig()
-		{
-			List<Storage.StoredItemModifier> list1 = new List<Storage.StoredItemModifier>();
-			list1.Add(Storage.StoredItemModifier.Hide);
-			list1.Add(Storage.StoredItemModifier.Preserve);
-			list1.Add(Storage.StoredItemModifier.Insulate);
-			list1.Add(Storage.StoredItemModifier.Seal);
-			ExpellerStoredItemModifiers = list1;
-		}
 
 		public override BuildingDef CreateBuildingDef()
 		{
@@ -54,13 +43,13 @@ namespace Biochemistry.Buildings
 			go.AddOrGet<BuildingComplete>().isManuallyOperated = false;
 
 			Storage liquidStorage = go.AddOrGet<Storage>();
-			liquidStorage.SetDefaultStoredItemModifiers(ExpellerStoredItemModifiers);
+			liquidStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			liquidStorage.showCapacityStatusItem = false;
 			liquidStorage.showCapacityAsMainStatus = false;
 			liquidStorage.showDescriptor = false;
 
 			Storage vegStorage = go.AddOrGet<Storage>();
-			vegStorage.SetDefaultStoredItemModifiers(ExpellerStoredItemModifiers);
+			vegStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			vegStorage.showCapacityStatusItem = false;
 			vegStorage.showCapacityAsMainStatus = false;
 			vegStorage.showDescriptor = false;
@@ -79,9 +68,9 @@ namespace Biochemistry.Buildings
 			oilPress.outStorage.capacityKg = 1000f;
 			oilPress.storeProduced = true;
 			oilPress.keepExcessLiquids = true;
-			oilPress.inStorage.SetDefaultStoredItemModifiers(ExpellerStoredItemModifiers);
-			oilPress.buildStorage.SetDefaultStoredItemModifiers(ExpellerStoredItemModifiers);
-			oilPress.outStorage.SetDefaultStoredItemModifiers(ExpellerStoredItemModifiers);
+			oilPress.inStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
+			oilPress.buildStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
+			oilPress.outStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			oilPress.inStorage = liquidStorage;
 			oilPress.outStorage = vegStorage;
 			oilPress.outputOffset = new Vector3(1f, 0.5f);

@@ -22,25 +22,10 @@ namespace Biochemistry.Buildings
 	{
 		public static string ID = "Biochemistry_BiodieselRefinery";
 
-		private static readonly List<Storage.StoredItemModifier> BioRefineryStoredItemModifiers;
-
 		private static readonly PortDisplayInput ethanolLiquidInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(-3, 3), null, new Color32(0, 255, 235, 255));
 		private static readonly PortDisplayOutput pollutedWaterLiquidOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(3, 1), null, new Color32(137, 137, 66, 255));
 
 		float multiplier = 1f/8f; //reduce refinery output to be more in line with production amounts
-
-		static Biochemistry_BiodieselRefineryConfig()
-		{
-
-			List<Storage.StoredItemModifier> list1 =
-			[
-				Storage.StoredItemModifier.Hide,
-				Storage.StoredItemModifier.Preserve,
-				Storage.StoredItemModifier.Insulate,
-				Storage.StoredItemModifier.Seal,
-			];
-			BioRefineryStoredItemModifiers = list1;
-		}
 
 		public override BuildingDef CreateBuildingDef()
 		{
@@ -67,7 +52,7 @@ namespace Biochemistry.Buildings
 			Prioritizable.AddRef(go); 
 
 			Storage storage = BuildingTemplates.CreateDefaultStorage(go, false);
-			storage.SetDefaultStoredItemModifiers(BioRefineryStoredItemModifiers);
+			storage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			storage.capacityKg = 300f;
 			//storage.showCapacityStatusItem = true;
 			//storage.showCapacityAsMainStatus = true;

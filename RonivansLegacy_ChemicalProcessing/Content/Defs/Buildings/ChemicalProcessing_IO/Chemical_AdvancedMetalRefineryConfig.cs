@@ -27,14 +27,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		private static readonly Tag COOLANT_TAG = SimHashes.SuperCoolant.CreateTag();
 		private const float COOLANT_MASS = 1000f;
 
-		//--[ Special Settings ]-----------------------------------------------------------------------------------------
-		private static readonly List<Storage.StoredItemModifier> RefineryStoredItemModifiers = new List<Storage.StoredItemModifier>
-		{
-			Storage.StoredItemModifier.Hide,
-			Storage.StoredItemModifier.Preserve,
-			Storage.StoredItemModifier.Insulate,
-			Storage.StoredItemModifier.Seal
-		};
 
 		//--[ Building Definitions ]--------------------------------------------------------------------------------------
 		public override BuildingDef CreateBuildingDef()
@@ -76,9 +68,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			liquidCooledRefinery.minCoolantMass = 400f;
 			liquidCooledRefinery.outStorage.capacityKg = 2000f;
 			liquidCooledRefinery.thermalFudge = 0.9f;
-			liquidCooledRefinery.inStorage.SetDefaultStoredItemModifiers(RefineryStoredItemModifiers);
-			liquidCooledRefinery.buildStorage.SetDefaultStoredItemModifiers(RefineryStoredItemModifiers);
-			liquidCooledRefinery.outStorage.SetDefaultStoredItemModifiers(RefineryStoredItemModifiers);
+			liquidCooledRefinery.inStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
+			liquidCooledRefinery.buildStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
+			liquidCooledRefinery.outStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			liquidCooledRefinery.outputOffset = new Vector3(1f, 0.5f);
 			workable.overrideAnims =
 			[

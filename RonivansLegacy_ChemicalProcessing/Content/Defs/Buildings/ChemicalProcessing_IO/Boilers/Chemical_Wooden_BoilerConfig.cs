@@ -30,17 +30,11 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 		//--[ Special Settings ]-----------------------------------------------
 		private static readonly PortDisplayOutput steamOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(0, 3));
-		public static readonly List<Storage.StoredItemModifier> ChemWoodBoilerStorageModifiers;
 		static Chemical_Wooden_BoilerConfig()
 		{
 			Color? steamPortColor = new Color32(167, 180, 201, 255);
 			steamOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(0, 3), null, steamPortColor);
 
-			List<Storage.StoredItemModifier> list1 = new List<Storage.StoredItemModifier>();
-			list1.Add(Storage.StoredItemModifier.Hide);
-			list1.Add(Storage.StoredItemModifier.Seal);
-			list1.Add(Storage.StoredItemModifier.Insulate);
-			ChemWoodBoilerStorageModifiers = list1;
 		}
 
 		//--[ Building Definitions ]-------------------------------------------
@@ -70,7 +64,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		{
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 			Storage storage = BuildingTemplates.CreateDefaultStorage(go, false);
-			storage.SetDefaultStoredItemModifiers(ChemWoodBoilerStorageModifiers);
+			storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			storage.capacityKg = 10000f;
 			storage.showCapacityStatusItem = true;
 			storage.showCapacityAsMainStatus = true;

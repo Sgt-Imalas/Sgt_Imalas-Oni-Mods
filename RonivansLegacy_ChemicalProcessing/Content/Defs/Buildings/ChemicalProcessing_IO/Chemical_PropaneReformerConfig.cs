@@ -21,8 +21,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		//--[ Base Information ]-----------------------------------------------
 		public static string ID = "Chemical_PropaneReformer";
 
-		//--[ Identification and DLC stuff ]-----------------------------------
-		public static readonly List<Storage.StoredItemModifier> PropaneReformerStoredItemModifiers;
 
 		//--[ Special Settings ]-----------------------------------------------
 		private static readonly PortDisplayInput steamGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(2, -1));
@@ -41,11 +39,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			Color? co2OutputPortColor = new Color32(96, 87, 97, 255);
 			co2GasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(2, 1), null, co2OutputPortColor);
 
-			List<Storage.StoredItemModifier> list1 = new List<Storage.StoredItemModifier>();
-			list1.Add(Storage.StoredItemModifier.Hide);
-			list1.Add(Storage.StoredItemModifier.Seal);
-			list1.Add(Storage.StoredItemModifier.Insulate);
-			PropaneReformerStoredItemModifiers = list1;
 		}
 
 		//--[ Building Definitions ]-------------------------------------------
@@ -112,7 +105,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//--------------------------------------------------------------------
 
 			Storage outputStorage = go.AddOrGet<Storage>();
-			outputStorage.SetDefaultStoredItemModifiers(PropaneReformerStoredItemModifiers);
+			outputStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			outputStorage.showInUI = true;
 
 			ConduitDispenser hydrogenGasOutput = go.AddOrGet<ConduitDispenser>();

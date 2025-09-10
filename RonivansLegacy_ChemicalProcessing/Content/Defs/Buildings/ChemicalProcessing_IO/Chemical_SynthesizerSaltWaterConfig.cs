@@ -18,20 +18,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		//--[ Base Information ]-----------------------------------------------
 		public static string ID = "Chemical_SynthesizerSaltWater";
 
-
-		//--[ Identification and DLC stuff ]-----------------------------------
-		public static readonly List<Storage.StoredItemModifier> StoredItemModifiers;
-
-		//--[ Special Settings ]-----------------------------------------------
-		static Chemical_SynthesizerSaltWaterConfig()
-		{
-			List<Storage.StoredItemModifier> list1 = new List<Storage.StoredItemModifier>();
-			list1.Add(Storage.StoredItemModifier.Hide);
-			list1.Add(Storage.StoredItemModifier.Seal);
-			list1.Add(Storage.StoredItemModifier.Insulate);
-			StoredItemModifiers = list1;
-		}
-
 		//--[ Building Definitions ]-------------------------------------------
 		public override BuildingDef CreateBuildingDef()
 		{
@@ -56,7 +42,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		{
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 			Storage storage = BuildingTemplates.CreateDefaultStorage(go, false);
-			storage.SetDefaultStoredItemModifiers(StoredItemModifiers);
+			storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			storage.capacityKg = 300f;
 			go.AddOrGet<ElementConversionBuilding>();
 			Prioritizable.AddRef(go);

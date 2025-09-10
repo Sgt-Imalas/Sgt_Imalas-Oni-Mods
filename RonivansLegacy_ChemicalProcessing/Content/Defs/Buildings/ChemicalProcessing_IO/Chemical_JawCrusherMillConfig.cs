@@ -22,14 +22,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 		//--[ Identification and DLC stuff ]------------------------------------------------------------------------------
 
-		//--[ Special Settings ]------------------------------------------------------------------------------------------
-		private static readonly List<Storage.StoredItemModifier> MillStoredItemModifiers = new List<Storage.StoredItemModifier>
-		{
-			Storage.StoredItemModifier.Hide,
-			Storage.StoredItemModifier.Preserve,
-			Storage.StoredItemModifier.Insulate,
-			Storage.StoredItemModifier.Seal
-		};
 
 		//--[ Building Definitions ]---------------------------------------------------------------------------------------
 		public override BuildingDef CreateBuildingDef()

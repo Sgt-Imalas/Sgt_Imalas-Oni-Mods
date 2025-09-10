@@ -22,12 +22,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 	{
 		public static string ID = "Chemical_MixingUnit";
 
-		public static readonly List<Storage.StoredItemModifier> MixerStoredItemModifiers = new List<Storage.StoredItemModifier>()
-			{
-				Storage.StoredItemModifier.Hide,
-				Storage.StoredItemModifier.Seal,
-				Storage.StoredItemModifier.Insulate
-			};
 		private static readonly PortDisplayInput liquidWaterInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(-2, 1), color: new Color?((Color)new Color32((byte)66, (byte)135, (byte)245, byte.MaxValue)));
 		private static readonly PortDisplayInput liquidPetrolInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(3, 2), color: new Color?((Color)new Color32(byte.MaxValue, (byte)224, (byte)20, byte.MaxValue)));
 		private static readonly PortDisplayInput gasNitrogenInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(3, 1), color: new Color?((Color)new Color32((byte)205, (byte)194, byte.MaxValue, byte.MaxValue)));
@@ -95,7 +89,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				"RefinedMetal"
 			];
 			EffectorValues tieR6 = NOISE_POLLUTION.NOISY.TIER6;
-			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef("Chemical_MixingUnit", 6, 4, "chemical_plant_kanim", 100, 30f, construction_mass, construction_materials, 800f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.PENALTY.TIER2, tieR6);
+			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 6, 4, "chemical_plant_kanim", 100, 30f, construction_mass, construction_materials, 800f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.PENALTY.TIER2, tieR6);
 			buildingDef.Overheatable = false;
 			buildingDef.RequiresPowerInput = true;
 			buildingDef.EnergyConsumptionWhenActive = 800f;
@@ -137,9 +131,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			fabricator.buildStorage.capacityKg = 1000f;
 			fabricator.outStorage.capacityKg = 1000f;
 			fabricator.storeProduced = true;
-			fabricator.inStorage.SetDefaultStoredItemModifiers(MixerStoredItemModifiers);
-			fabricator.buildStorage.SetDefaultStoredItemModifiers(MixerStoredItemModifiers);
-			fabricator.outStorage.SetDefaultStoredItemModifiers(MixerStoredItemModifiers);
+			fabricator.inStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
+			fabricator.buildStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
+			fabricator.outStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			fabricator.outputOffset = new Vector3(1f, 0.5f);
 			var inputStorage = fabricator.inStorage;
 			var outpuStorage = fabricator.outStorage;
@@ -184,7 +178,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			portConduitConsumer4.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 			portConduitConsumer4.AssignPort(liquidWaterInputPort);
 
-			outpuStorage.SetDefaultStoredItemModifiers(MixerStoredItemModifiers);
+			outpuStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 
 
 			PortConduitConsumer portConduitConsumer5 = go.AddComponent<PortConduitConsumer>();

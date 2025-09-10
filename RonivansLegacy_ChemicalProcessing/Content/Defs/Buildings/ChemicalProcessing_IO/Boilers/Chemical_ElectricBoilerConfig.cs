@@ -22,19 +22,12 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 		//--[ Identification and DLC stuff ]--------------------------------------------------------------
 		private static readonly PortDisplayOutput steamOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(1, 0));
-		public static readonly List<Storage.StoredItemModifier> BoilerStoredItemModifiers;
 
 		//--[ Special Settings ]-----------------------------------------------
 		static Chemical_ElectricBoilerConfig()
 		{
 			Color? steamPortColor = new Color32(167, 180, 201, 255);
 			steamOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(1, 0), null, steamPortColor);
-
-			List<Storage.StoredItemModifier> list1 = new List<Storage.StoredItemModifier>();
-			list1.Add(Storage.StoredItemModifier.Hide);
-			list1.Add(Storage.StoredItemModifier.Seal);
-			list1.Add(Storage.StoredItemModifier.Insulate);
-			BoilerStoredItemModifiers = list1;
 		}
 
 		public override BuildingDef CreateBuildingDef()
@@ -64,7 +57,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		{
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 			Storage storage = BuildingTemplates.CreateDefaultStorage(go, false);
-			storage.SetDefaultStoredItemModifiers(BoilerStoredItemModifiers);
+			storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			storage.capacityKg = 100f;
 			storage.showCapacityStatusItem = true;
 			storage.showCapacityAsMainStatus = true;

@@ -18,15 +18,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 	public class Chemical_AmmoniaBreakerConfig : IBuildingConfig
 	{
 		public static string ID = "Chemical_AmmoniaBreaker";
-		public static readonly List<Storage.StoredItemModifier> AmmoniaBreakerItemModifiers = new List<Storage.StoredItemModifier>()
-			{
-				Storage.StoredItemModifier.Hide,
-				Storage.StoredItemModifier.Seal,
-				Storage.StoredItemModifier.Insulate
-			};
+
 		private static readonly PortDisplayOutput NitrogenGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(1, 2), color: new Color?((Color)new Color32((byte)205, (byte)194, byte.MaxValue, byte.MaxValue)));
-
-
 
 		public override BuildingDef CreateBuildingDef()
 		{
@@ -37,7 +30,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				"RefinedMetal"
 			];
 			EffectorValues tieR6 = NOISE_POLLUTION.NOISY.TIER6;
-			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef("Chemical_AmmoniaBreaker", 3, 3, "ammonia_breaker_kanim", 100, 30f, construction_mass, construction_materials, 800f, BuildLocationRule.Anywhere, TUNING.BUILDINGS.DECOR.PENALTY.TIER2, tieR6);
+			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 3, "ammonia_breaker_kanim", 100, 30f, construction_mass, construction_materials, 800f, BuildLocationRule.Anywhere, TUNING.BUILDINGS.DECOR.PENALTY.TIER2, tieR6);
 			buildingDef.Overheatable = true;
 			buildingDef.OverheatTemperature = 348.15f;
 			buildingDef.RequiresPowerInput = true;
@@ -63,7 +56,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			Tag tag = SimHashes.Iron.CreateTag();
 			Storage storage = BuildingTemplates.CreateDefaultStorage(go);
-			storage.SetDefaultStoredItemModifiers(AmmoniaBreakerItemModifiers);
+			storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 
 			ElementConverter elementConverter = go.AddComponent<ElementConverter>();
 			elementConverter.consumedElements =

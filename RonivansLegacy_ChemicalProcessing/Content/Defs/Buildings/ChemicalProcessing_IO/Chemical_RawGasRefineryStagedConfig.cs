@@ -17,7 +17,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 	{
 		public static string ID = "Chemical_RawGasRefineryStaged";
 
-		public static readonly List<Storage.StoredItemModifier> GasRefineryStoredItemModifiers;
 		private static PortDisplayInput steamGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(-2, 0));
 		private static PortDisplayInput hydrogenGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(3, 2));
 		private static PortDisplayInput propaneGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(3, 1));
@@ -44,12 +43,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			sourGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(-2, 2), color: new Color?((Color)new Color32(byte.MaxValue, (byte)173, (byte)248, byte.MaxValue)));
 			ammoniaGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(-2, 1), color: new Color?((Color)new Color32((byte)215, (byte)227, (byte)252, byte.MaxValue)));
 			waterLiquidOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(-3, 0), color: new Color?((Color)new Color32((byte)72, (byte)129, (byte)247, byte.MaxValue)));
-			GasRefineryStoredItemModifiers = new List<Storage.StoredItemModifier>()
-			{
-				Storage.StoredItemModifier.Hide,
-				Storage.StoredItemModifier.Seal,
-				Storage.StoredItemModifier.Insulate
-			};
+			
 		}
 
 		public override BuildingDef CreateBuildingDef()
@@ -84,7 +78,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			Storage storage1 = go.AddOrGet<Storage>();
 			storage1.capacityKg = 500f;
-			storage1.SetDefaultStoredItemModifiers(GasRefineryStoredItemModifiers);
+			storage1.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			storage1.showInUI = true;
 			ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
 			conduitConsumer.conduitType = ConduitType.Gas;
@@ -176,7 +170,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			elementDropper.emitTag = SimHashes.Sulfur.CreateTag();
 			elementDropper.emitOffset = new Vector3(0.0f, 1f, 0.0f);
 			Storage storage2 = go.AddOrGet<Storage>();
-			storage2.SetDefaultStoredItemModifiers(GasRefineryStoredItemModifiers);
+			storage2.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			storage2.showInUI = true;
 			ConduitDispenser conduitDispenser = go.AddOrGet<ConduitDispenser>();
 			conduitDispenser.conduitType = ConduitType.Gas;

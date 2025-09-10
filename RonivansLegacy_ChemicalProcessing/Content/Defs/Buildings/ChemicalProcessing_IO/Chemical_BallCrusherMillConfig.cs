@@ -22,8 +22,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		//--[ Base Information ]-----------------------------------------------
 		public static string ID = "Chemical_BallCrusherMill";
 		
-		public static readonly List<Storage.StoredItemModifier> BallmillStoredItemModifiers;
-
+	
 		//--[ Special Settings ]-----------------------------------------------
 		private static readonly PortDisplayInput sulfuricAcidInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(-2, 1));
 		private static readonly PortDisplayInput nitricAcidInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(-2, 0));
@@ -35,11 +34,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			Color? nitricPortColor = new Color32(255, 68, 0, 255);
 			nitricAcidInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(-2, 0), null, nitricPortColor);
 
-			List<Storage.StoredItemModifier> list1 = new List<Storage.StoredItemModifier>();
-			list1.Add(Storage.StoredItemModifier.Hide);
-			list1.Add(Storage.StoredItemModifier.Seal);
-			list1.Add(Storage.StoredItemModifier.Insulate);
-			BallmillStoredItemModifiers = list1;
 		}
 
 		//--[ Building Definitions ]-------------------------------------------
@@ -72,7 +66,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		{
 
 			Storage liquidStorage = go.AddOrGet<Storage>();
-			liquidStorage.SetDefaultStoredItemModifiers(BallmillStoredItemModifiers);
+			liquidStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			//liquidStorage.showCapacityStatusItem = true;
 			//liquidStorage.showCapacityAsMainStatus = true;
 			//liquidStorage.showDescriptor = true;
@@ -107,7 +101,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			nitricInput.AssignPort(nitricAcidInputPort);
 
 			Storage toxicStorage = go.AddOrGet<Storage>();
-			toxicStorage.SetDefaultStoredItemModifiers(BallmillStoredItemModifiers);
+			toxicStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			//toxicStorage.showCapacityStatusItem = true;
 			//toxicStorage.showCapacityAsMainStatus = true;
 			//toxicStorage.showDescriptor = true;
@@ -128,9 +122,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			ballMill.buildStorage.capacityKg = 1000f;
 			ballMill.outStorage.capacityKg = 1000f;
 			ballMill.storeProduced = true;
-			ballMill.inStorage.SetDefaultStoredItemModifiers(BallmillStoredItemModifiers);
-			ballMill.buildStorage.SetDefaultStoredItemModifiers(BallmillStoredItemModifiers);
-			ballMill.outStorage.SetDefaultStoredItemModifiers(BallmillStoredItemModifiers);
+			ballMill.inStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
+			ballMill.buildStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
+			ballMill.outStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			ballMill.inStorage = liquidStorage;
 			ballMill.outStorage = toxicStorage;
 			ballMill.outputOffset = new Vector3(1f, 0.5f);

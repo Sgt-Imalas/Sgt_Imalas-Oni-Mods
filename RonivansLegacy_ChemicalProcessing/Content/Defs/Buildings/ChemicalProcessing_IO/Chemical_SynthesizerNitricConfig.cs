@@ -23,9 +23,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		public static string ID = "Chemical_SynthesizerNitric";
 
 
-		//--[ Identification and DLC stuff ]-----------------------------------
-		public static readonly List<Storage.StoredItemModifier> StoredItemModifiers;
-
 		//--[ Special Settings ]-----------------------------------------------
 
 		private static readonly PortDisplayInput sulfuricAcidInputPort = new(ConduitType.Liquid, new CellOffset(0, 3));
@@ -40,13 +37,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			Color? SteamOutputPortColor = new Color32(167, 180, 201, 255);
 			SteamGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(0, 0), null, SteamOutputPortColor);
 
-			List<Storage.StoredItemModifier> list1 =
-			[
-				Storage.StoredItemModifier.Hide,
-				Storage.StoredItemModifier.Seal,
-				Storage.StoredItemModifier.Insulate,
-			];
-			StoredItemModifiers = list1;
 		}
 
 		//--[ Building Definitions ]-------------------------------------------
@@ -76,7 +66,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		{
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 			Storage storage = BuildingTemplates.CreateDefaultStorage(go, false);
-			storage.SetDefaultStoredItemModifiers(StoredItemModifiers);
+			storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			storage.capacityKg = 300f;
 			//storage.showCapacityStatusItem = true;
 			//storage.showCapacityAsMainStatus = true;

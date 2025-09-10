@@ -30,7 +30,6 @@ namespace Metallurgy.Buildings
 		private static readonly PortDisplayOutput MainOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(-1, -2));
 		private static readonly PortDisplayOutput WasteOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(1, -2));
 
-		private static readonly List<Storage.StoredItemModifier> FurnaceStoredItemModifiers;
 		static Metallurgy_PlasmaFurnaceConfig()
 		{
 			Color? MainPortColor = new Color32(255, 69, 56, 255);
@@ -39,12 +38,6 @@ namespace Metallurgy.Buildings
 			Color? WastePortColor = new Color32(97, 42, 38, 255);
 			WasteOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(1, -2), null, WastePortColor);
 
-			List<Storage.StoredItemModifier> list1 = new List<Storage.StoredItemModifier>();
-			list1.Add(Storage.StoredItemModifier.Hide);
-			list1.Add(Storage.StoredItemModifier.Preserve);
-			list1.Add(Storage.StoredItemModifier.Insulate);
-			list1.Add(Storage.StoredItemModifier.Seal);
-			FurnaceStoredItemModifiers = list1;
 		}
 
 		//--[ Building Definitions ]---------------------------------------------------------------------------------
@@ -100,9 +93,9 @@ namespace Metallurgy.Buildings
 			furnace.outStorage.capacityKg = 2000f;
 			furnace.inStorage.capacityKg = 2000f;
 			furnace.storeProduced = true;
-			furnace.inStorage.SetDefaultStoredItemModifiers(FurnaceStoredItemModifiers);
-			furnace.buildStorage.SetDefaultStoredItemModifiers(FurnaceStoredItemModifiers);
-			furnace.outStorage.SetDefaultStoredItemModifiers(FurnaceStoredItemModifiers);
+			furnace.inStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
+			furnace.buildStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
+			furnace.outStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 
 			ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
 			conduitConsumer.capacityTag = this.FUEL_TAG;

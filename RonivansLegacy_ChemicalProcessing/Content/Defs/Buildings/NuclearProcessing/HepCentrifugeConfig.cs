@@ -13,12 +13,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProces
 	public class HepCentrifugeConfig : IBuildingConfig
 	{
 		public static string ID = "HepCentrifuge";
-		public static readonly List<Storage.StoredItemModifier> CentrifugeStorageModifiers = new()
-		{
-		  Storage.StoredItemModifier.Hide,
-		  Storage.StoredItemModifier.Seal,
-		  Storage.StoredItemModifier.Insulate
-		};
 		public override string[] GetRequiredDlcIds() => [DlcManager.EXPANSION1_ID];
 
 		public override BuildingDef CreateBuildingDef()
@@ -49,7 +43,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProces
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 			go.AddOrGet<BuildingComplete>().isManuallyOperated = false;
 			Storage storage = go.AddOrGet<Storage>();
-			storage.SetDefaultStoredItemModifiers(HepCentrifugeConfig.CentrifugeStorageModifiers);
+			storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			storage.showInUI = true;
 			storage.allowItemRemoval = false;
 			storage.capacityKg = 1000f;

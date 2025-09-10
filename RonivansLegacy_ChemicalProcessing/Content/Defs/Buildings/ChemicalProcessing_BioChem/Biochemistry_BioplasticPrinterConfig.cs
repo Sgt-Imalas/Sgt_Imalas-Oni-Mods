@@ -21,14 +21,6 @@ namespace Biochemistry.Buildings
 	{
 		public static string ID = "Biochemistry_BioplasticPrinter";
 
-
-		private static readonly List<Storage.StoredItemModifier> BioRefineryStoredItemModifiers = [
-				Storage.StoredItemModifier.Hide,
-				Storage.StoredItemModifier.Preserve,
-				Storage.StoredItemModifier.Insulate,
-				Storage.StoredItemModifier.Seal,
-			];
-
 		private static readonly PortDisplayInput co2GasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(1, 0), null, new Color32(186, 186, 186, 255));
 
 
@@ -58,7 +50,7 @@ namespace Biochemistry.Buildings
 			polymerizer.emitOffset = new Vector3(0f, 1f, 0f);
 
 			Storage storage = BuildingTemplates.CreateDefaultStorage(go, false);
-			storage.SetDefaultStoredItemModifiers(BioRefineryStoredItemModifiers);
+			storage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			storage.capacityKg = 300f;
 			//storage.showCapacityStatusItem = true;
 			//storage.showCapacityAsMainStatus = true;

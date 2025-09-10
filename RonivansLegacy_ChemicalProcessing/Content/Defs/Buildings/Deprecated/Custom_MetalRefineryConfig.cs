@@ -28,14 +28,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		private static readonly Tag COOLANT_TAG = GameTags.Liquid;
 		private const float COOLANT_MASS = 400f;
 
-		//--[ Special Settings ]---------------------------------------------------------------------------------------------------
-		private static readonly List<Storage.StoredItemModifier> RefineryStoredItemModifiers = new List<Storage.StoredItemModifier>
-		{
-			Storage.StoredItemModifier.Hide,
-			Storage.StoredItemModifier.Preserve,
-			Storage.StoredItemModifier.Insulate,
-			Storage.StoredItemModifier.Seal
-		};
 
 		//--[ Building Definitions ]------------------------------------------------------------------------------------------------
 		//public override BuildingDef CreateBuildingDef()

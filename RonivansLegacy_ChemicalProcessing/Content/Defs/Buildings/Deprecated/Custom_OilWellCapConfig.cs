@@ -25,22 +25,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		//--[ Base Information ]--------------------------------------------------------------------------
 		public static string ID = "Custom_OilWellCap";
 
-		//--[ Identification and DLC stuff ]--------------------------------------------------------------
-		public static readonly List<Storage.StoredItemModifier> OilWellStorageModifier;
-
 		//--[ Special Settings ]--------------------------------------------------------------------------
 		public static readonly PortDisplayOutput GasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(1, 1));
 		public static readonly PortDisplayOutput LiquidOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(2, 1));
-
-		static Custom_OilWellCapConfig()
-		{
-			List<Storage.StoredItemModifier> list1 = new List<Storage.StoredItemModifier>();
-			list1.Add(Storage.StoredItemModifier.Hide);
-			list1.Add(Storage.StoredItemModifier.Preserve);
-			list1.Add(Storage.StoredItemModifier.Insulate);
-			list1.Add(Storage.StoredItemModifier.Seal);
-			OilWellStorageModifier = list1;
-		}
 
 		//public override BuildingDef CreateBuildingDef()
 		//{

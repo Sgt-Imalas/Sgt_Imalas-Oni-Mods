@@ -1,4 +1,5 @@
 ﻿using Mineral_Processing_Mining.Buildings;
+using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRandom;
@@ -19,13 +20,6 @@ namespace Mineral_Processing
 	public class Mining_MineralDrillConfig : IBuildingConfig
 	{
 		public static string ID = "Mining_MineralDrill";
-		private static readonly List<Storage.StoredItemModifier> DrillStoredItemModifiers = new List<Storage.StoredItemModifier>()
-		{
-			Storage.StoredItemModifier.Hide,
-			Storage.StoredItemModifier.Preserve,
-			Storage.StoredItemModifier.Insulate,
-			Storage.StoredItemModifier.Seal
-		};
 		public override BuildingDef CreateBuildingDef()
 		{
 			EffectorValues tieR2 = NOISE_POLLUTION.NOISY.TIER2;
@@ -65,8 +59,8 @@ namespace Mineral_Processing
 			randomFabricator.heatedTemperature = 346.15f;
 			randomFabricator.duplicantOperated = false;
 			BuildingTemplates.CreateComplexFabricatorStorage(go, randomFabricator);
-			randomFabricator.inStorage.SetDefaultStoredItemModifiers(DrillStoredItemModifiers);
-			randomFabricator.buildStorage.SetDefaultStoredItemModifiers(DrillStoredItemModifiers);
+			randomFabricator.inStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
+			randomFabricator.buildStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			randomFabricator.buildStorage.allowItemRemoval = false;
 			randomFabricator.sideScreenStyle = ComplexFabricatorSideScreen.StyleSetting.ListQueueHybrid;
 			randomFabricator.fetchChoreTypeIdHash = Db.Get().ChoreTypes.FabricateFetch.IdHash;

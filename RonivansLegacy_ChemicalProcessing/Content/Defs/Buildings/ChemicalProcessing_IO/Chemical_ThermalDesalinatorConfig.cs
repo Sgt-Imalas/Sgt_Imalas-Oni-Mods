@@ -22,8 +22,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		//--[ Base Information ]-----------------------------------------------
 		public static string ID = "Chemical_ThermalDesalinator";
 
-		//--[ Identification and DLC stuff ]-----------------------------------
-		public static readonly List<Storage.StoredItemModifier> DesalinatorStoredItemModifiers;
 
 		//--[ Special Settings ]-----------------------------------------------
 		private static readonly PortDisplayInput ammoniumWaterInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(3, 0));
@@ -47,11 +45,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			Color? ammoniaGasOutputPortColor = new Color32(215, 227, 252, 255);
 			ammoniaGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(-3, 2), null, ammoniaGasOutputPortColor);
 
-			List<Storage.StoredItemModifier> list1 = new List<Storage.StoredItemModifier>();
-			list1.Add(Storage.StoredItemModifier.Hide);
-			list1.Add(Storage.StoredItemModifier.Seal);
-			list1.Add(Storage.StoredItemModifier.Insulate);
-			DesalinatorStoredItemModifiers = list1;
 		}
 
 		//--[ Building Definitions ]-------------------------------------------
@@ -84,7 +77,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			Storage standardStorage = go.AddOrGet<Storage>();
 			standardStorage.capacityKg = 500f;
-			standardStorage.SetDefaultStoredItemModifiers(DesalinatorStoredItemModifiers);
+			standardStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			//standardStorage.showInUI = true;
 
 			PortConduitConsumer steamInput = go.AddComponent<PortConduitConsumer>();
@@ -134,7 +127,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			Storage outputStorage = go.AddOrGet<Storage>();
 
-			outputStorage.SetDefaultStoredItemModifiers(DesalinatorStoredItemModifiers);
+			outputStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			//outputStorage.showCapacityStatusItem = true;
 			//outputStorage.showCapacityAsMainStatus = true;
 			//outputStorage.showDescriptor = true;

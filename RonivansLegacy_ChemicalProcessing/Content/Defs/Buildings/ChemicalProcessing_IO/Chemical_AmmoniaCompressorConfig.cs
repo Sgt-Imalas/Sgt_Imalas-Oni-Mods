@@ -16,12 +16,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 	public class Chemical_AmmoniaCompressorConfig : IBuildingConfig
 	{
 		public static string ID = "Chemical_AmmoniaCompressor";
-		public static readonly List<Storage.StoredItemModifier> CompressorStorage = new List<Storage.StoredItemModifier>()
-		{
-			Storage.StoredItemModifier.Hide,
-			Storage.StoredItemModifier.Seal,
-			Storage.StoredItemModifier.Preserve
-		};
+
 		private static readonly PortDisplayOutput LiquidPipeOutput = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(-1, 0));
 
 		public override BuildingDef CreateBuildingDef()
@@ -33,7 +28,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				"RefinedMetal"
 			];
 			EffectorValues tieR0 = NOISE_POLLUTION.NOISY.TIER0;
-			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef("Chemical_AmmoniaCompressor", 3, 3, "ammonia_compressor_kanim", 30, 10f, construction_mass, construction_materials, 800f, BuildLocationRule.OnFloor, TUNING.BUILDINGS.DECOR.PENALTY.TIER1, tieR0);
+			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 3, "ammonia_compressor_kanim", 30, 10f, construction_mass, construction_materials, 800f, BuildLocationRule.OnFloor, TUNING.BUILDINGS.DECOR.PENALTY.TIER1, tieR0);
 			buildingDef.RequiresPowerInput = true;
 			buildingDef.PowerInputOffset = new CellOffset(1, 0);
 			buildingDef.EnergyConsumptionWhenActive = 480f;
@@ -58,7 +53,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 
 			Storage defaultStorage = BuildingTemplates.CreateDefaultStorage(go);
-			defaultStorage.SetDefaultStoredItemModifiers(CompressorStorage);
+			defaultStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			defaultStorage.capacityKg = 3000f;
 			defaultStorage.showCapacityStatusItem = true;
 			defaultStorage.showCapacityAsMainStatus = true;

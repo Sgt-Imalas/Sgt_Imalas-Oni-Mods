@@ -17,17 +17,8 @@ namespace Biochemistry.Buildings
 	{
 		public static string ID = "Biochemistry_BiodieselGenerator";
 
-		private static readonly List<Storage.StoredItemModifier> BioGeneratorStoredItemModifiers;
-
 		static Biochemistry_BiodieselGeneratorConfig()
 		{
-			List<Storage.StoredItemModifier> list1 = new List<Storage.StoredItemModifier>();
-			list1.Add(Storage.StoredItemModifier.Hide);
-			list1.Add(Storage.StoredItemModifier.Preserve);
-			list1.Add(Storage.StoredItemModifier.Insulate);
-			list1.Add(Storage.StoredItemModifier.Seal);
-			BioGeneratorStoredItemModifiers = list1;
-
 			GeneratorList.AddGeneratorToIgnore(ID);
 			GeneratorList.AddCombustionGenerator(ID);
 		}
@@ -69,7 +60,7 @@ namespace Biochemistry.Buildings
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 			go.AddOrGet<LoopingSounds>();
 			Storage storage = go.AddOrGet<Storage>();
-			storage.SetDefaultStoredItemModifiers(BioGeneratorStoredItemModifiers);
+			storage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			BuildingDef def = go.GetComponent<Building>().Def;
 			go.AddOrGet<LoopingSounds>();
 

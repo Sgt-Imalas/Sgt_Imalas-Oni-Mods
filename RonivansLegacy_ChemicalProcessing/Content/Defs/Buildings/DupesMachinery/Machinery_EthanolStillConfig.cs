@@ -72,7 +72,7 @@ namespace Dupes_Machinery.Ethanol_Still
 		public override BuildingDef CreateBuildingDef()
 		{
 			EffectorValues noise = NOISE_POLLUTION.NOISY.TIER3;
-			BuildingDef def = BuildingTemplates.CreateBuildingDef("EthanolStill", 4, 5, "ethanol_still_kanim", 100, 30f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER4, MATERIALS.REFINED_METALS, 800f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.PENALTY.TIER2, noise, 0.2f);
+			BuildingDef def = BuildingTemplates.CreateBuildingDef(ID, 4, 5, "ethanol_still_kanim", 100, 30f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER4, MATERIALS.REFINED_METALS, 800f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.PENALTY.TIER2, noise, 0.2f);
 			def.RequiresPowerInput = true;
 			def.EnergyConsumptionWhenActive = 120f;
 			def.ExhaustKilowattsWhenActive = 21f;

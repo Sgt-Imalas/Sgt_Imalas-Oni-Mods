@@ -17,18 +17,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		//--[ Base Information ]-----------------------------------------------
 		public static string ID = "Chemical_EndothermicUnit";
 		
-		//--[ Identification and DLC stuff ]-----------------------------------
-		public static readonly List<Storage.StoredItemModifier> EndothermicUnitStoredItemModifiers;
-
-		//--[ Special Settings ]-----------------------------------------------
-		static Chemical_EndothermicUnitConfig()
-		{
-			List<Storage.StoredItemModifier> list1 = new List<Storage.StoredItemModifier>();
-			list1.Add(Storage.StoredItemModifier.Hide);
-			list1.Add(Storage.StoredItemModifier.Seal);
-			list1.Add(Storage.StoredItemModifier.Insulate);
-			EndothermicUnitStoredItemModifiers = list1;
-		}
 
 		//--[ Building Definitions ]-------------------------------------------
 		public override BuildingDef CreateBuildingDef()
@@ -61,7 +49,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			go.AddOrGet<LoopingSounds>();
 
 			Storage standardStorage = go.AddOrGet<Storage>();
-			standardStorage.SetDefaultStoredItemModifiers(EndothermicUnitStoredItemModifiers);
+			standardStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			standardStorage.showCapacityStatusItem = true;
 			standardStorage.showCapacityAsMainStatus = true;
 			standardStorage.showDescriptor = true;

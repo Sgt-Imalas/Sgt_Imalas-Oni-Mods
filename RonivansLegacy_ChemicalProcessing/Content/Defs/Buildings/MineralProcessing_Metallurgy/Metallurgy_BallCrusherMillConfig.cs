@@ -17,18 +17,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.MineralProces
 	{
 		//--[ Base Information ]---------------------------------------------------------------------------------------
 		public static string ID = "Metallurgy_BallCrusherMill";
-		//--[ Identification and DLC stuff ]----------------------------------------------------------------------------
-		public static readonly List<Storage.StoredItemModifier> BallmillStoredItemModifiers;
-
-		static Metallurgy_BallCrusherMillConfig()
-		{
-			List<Storage.StoredItemModifier> list1 = new List<Storage.StoredItemModifier>();
-			list1.Add(Storage.StoredItemModifier.Hide);
-			list1.Add(Storage.StoredItemModifier.Seal);
-			list1.Add(Storage.StoredItemModifier.Insulate);
-			BallmillStoredItemModifiers = list1;
-		}
-
 		//--[ Building Definitions ]------------------------------------------------------------------------------------
 		public override BuildingDef CreateBuildingDef()
 		{
@@ -70,9 +58,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.MineralProces
 			ballMill.buildStorage.capacityKg = 1000f;
 			ballMill.outStorage.capacityKg = 1000f;
 			ballMill.storeProduced = true;
-			ballMill.inStorage.SetDefaultStoredItemModifiers(BallmillStoredItemModifiers);
-			ballMill.buildStorage.SetDefaultStoredItemModifiers(BallmillStoredItemModifiers);
-			ballMill.outStorage.SetDefaultStoredItemModifiers(BallmillStoredItemModifiers);
+			ballMill.inStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
+			ballMill.buildStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
+			ballMill.outStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			ballMill.outputOffset = new Vector3(1f, 0.5f);
 			//-----------------------------
 

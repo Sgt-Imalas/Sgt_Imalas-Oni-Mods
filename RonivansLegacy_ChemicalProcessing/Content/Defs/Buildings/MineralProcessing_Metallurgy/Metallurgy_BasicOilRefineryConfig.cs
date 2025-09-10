@@ -22,8 +22,6 @@ namespace Metallurgy.Buildings
 		//--[ Base Information ]-----------------------------------------------
 		public static string ID = "Metallurgy_BasicOilRefinery";
 
-		//--[ Identification and DLC stuff ]-----------------------------------
-		public static readonly List<Storage.StoredItemModifier> BasicRefineryStoredItemModifiers;
 
 		//--[ Special Settings ]-----------------------------------------------
 		private static readonly PortDisplayOutput CarbonDioxideGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(0, 0));
@@ -36,12 +34,6 @@ namespace Metallurgy.Buildings
 
 			Color? methanePortColor = new Color32(255, 114, 33, 255);
 			methaneGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(0, 1), null, methanePortColor);
-
-			List<Storage.StoredItemModifier> list1 = new List<Storage.StoredItemModifier>();
-			list1.Add(Storage.StoredItemModifier.Hide);
-			list1.Add(Storage.StoredItemModifier.Seal);
-			list1.Add(Storage.StoredItemModifier.Insulate);
-			BasicRefineryStoredItemModifiers = list1;
 		}
 
 		//--[ Building Definitions ]---------------------------------------------
@@ -69,7 +61,7 @@ namespace Metallurgy.Buildings
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 			Storage storage = BuildingTemplates.CreateDefaultStorage(go, false);
 			storage.capacityKg = 4000f;
-			storage.SetDefaultStoredItemModifiers(BasicRefineryStoredItemModifiers);
+			storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			go.AddOrGet<ElementConversionBuilding>();
 			Prioritizable.AddRef(go);
 

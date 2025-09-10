@@ -25,17 +25,7 @@ namespace Mineral_Processing_Mining.Buildings
 		public Storage buildStorage;
 
 
-		public static readonly List<Storage.StoredItemModifier> DrillStoredItemModifiers;
 		private Tag fuelTag = GameTags.CombustibleLiquid;
-
-		static Mining_AugerDrillConfig()
-		{
-			List<Storage.StoredItemModifier> list1 = new List<Storage.StoredItemModifier>();
-			list1.Add(Storage.StoredItemModifier.Hide);
-			list1.Add(Storage.StoredItemModifier.Seal);
-			list1.Add(Storage.StoredItemModifier.Insulate);
-			DrillStoredItemModifiers = list1;
-		}
 
 		//--[ Building Definitions ]---------------------------------------------
 		public override BuildingDef CreateBuildingDef()
@@ -93,9 +83,9 @@ namespace Mineral_Processing_Mining.Buildings
 			drillRig.outStorage.capacityKg = 10000f;
 			drillRig.inStorage.capacityKg = 1000f;
 			drillRig.storeProduced = true;
-			drillRig.inStorage.SetDefaultStoredItemModifiers(DrillStoredItemModifiers);
-			drillRig.buildStorage.SetDefaultStoredItemModifiers(DrillStoredItemModifiers);
-			drillRig.outStorage.SetDefaultStoredItemModifiers(DrillStoredItemModifiers);
+			drillRig.inStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
+			drillRig.buildStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
+			drillRig.outStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			//drillRig.showProgressBar = true;
 
 			ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();

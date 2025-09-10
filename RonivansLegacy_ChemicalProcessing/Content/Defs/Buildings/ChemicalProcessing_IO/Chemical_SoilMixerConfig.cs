@@ -23,9 +23,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		//--[ Base Information ]----------------------------------------------------------------------------
 		public static string ID = "Chemical_SoilMixer";
 
-		//--[ Identification and DLC stuff ]----------------------------------------------
-		public static readonly List<Storage.StoredItemModifier> SoilMixerStoredItemModifiers;
-
 		//--[ Special Settings ]-----------------------------------------------------------------------------
 		private static readonly PortDisplayInput waterInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(1, 1));
 		private static readonly PortDisplayInput gasAmmoniaInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(1, 1));
@@ -37,11 +34,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			Color? gasCo2PortColor = new Color32(215, 227, 252, 255);
 			gasAmmoniaInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(1, 1), null, gasCo2PortColor);
 
-			List<Storage.StoredItemModifier> list1 = new List<Storage.StoredItemModifier>();
-			list1.Add(Storage.StoredItemModifier.Hide);
-			list1.Add(Storage.StoredItemModifier.Seal);
-			list1.Add(Storage.StoredItemModifier.Insulate);
-			SoilMixerStoredItemModifiers = list1;
 		}
 
 		//--[ Building Definitions ]--------------------------------------------------------------------------
@@ -66,8 +58,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
 
-			Storage liquidStorage = go.AddOrGet<Storage>();
-			liquidStorage.SetDefaultStoredItemModifiers(SoilMixerStoredItemModifiers);
+			Storage liquidStorage = go.AddComponent<Storage>();
+			liquidStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			//liquidStorage.showCapacityStatusItem = true;
 			//liquidStorage.showCapacityAsMainStatus = true;
 			//liquidStorage.showDescriptor = true;
@@ -118,10 +110,10 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			soilMixer.buildStorage.capacityKg = 1000f;
 			soilMixer.outStorage.capacityKg = 1000f;
 			soilMixer.storeProduced = false;
-			soilMixer.buildStorage.SetDefaultStoredItemModifiers(SoilMixerStoredItemModifiers);
-			soilMixer.outStorage.SetDefaultStoredItemModifiers(SoilMixerStoredItemModifiers);
+			soilMixer.buildStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
+			soilMixer.outStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage	);
 			soilMixer.inStorage = liquidStorage;
-			soilMixer.inStorage.SetDefaultStoredItemModifiers(SoilMixerStoredItemModifiers);
+			soilMixer.inStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			soilMixer.outputOffset = new Vector3(-1f, 0.5f);
 			//-----------------------------
 			Prioritizable.AddRef(go);

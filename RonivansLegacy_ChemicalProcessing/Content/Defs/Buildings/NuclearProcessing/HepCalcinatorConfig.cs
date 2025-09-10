@@ -15,13 +15,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProces
 	{
 		public static string ID = "HepCalcinator";
 		private static readonly int HEP_STORAGE_CAPACITY = 1000;
-		private static readonly List<Storage.StoredItemModifier> CalcinatorItemModifiers = new()
-		{
-		  Storage.StoredItemModifier.Hide,
-		  Storage.StoredItemModifier.Preserve,
-		  Storage.StoredItemModifier.Insulate,
-		  Storage.StoredItemModifier.Seal
-		};
 
 		public override string[] GetRequiredDlcIds() => [DlcManager.EXPANSION1_ID];
 
@@ -73,8 +66,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProces
 			Workable workable = (Workable)go.AddOrGet<ComplexFabricatorWorkable>();
 
 			BuildingTemplates.CreateComplexFabricatorStorage(go, fabricator);
-			fabricator.inStorage.SetDefaultStoredItemModifiers(HepCalcinatorConfig.CalcinatorItemModifiers);
-			fabricator.buildStorage.SetDefaultStoredItemModifiers(HepCalcinatorConfig.CalcinatorItemModifiers);
+			fabricator.inStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
+			fabricator.buildStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			workable.overrideAnims = [Assets.GetAnim((HashedString) "anim_interacts_material_research_centre_kanim")];
 			BuildingElementEmitter buildingElementEmitter = go.AddOrGet<BuildingElementEmitter>();
 			buildingElementEmitter.emitRate = 0.1f;
