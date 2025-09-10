@@ -51,7 +51,7 @@ namespace SkillsInfoScreen
 
 				//__instance.AddToggleTooltipForResearch(AttributesInfo, "disabled tooltip");
 				__instance.AddToggleTooltip(AttributesInfo);		
-				AttributesInfo.prefabOverride = UnityEngine.Object.Instantiate(__instance.researchButtonPrefab);
+				AttributesInfo.prefabOverride = __instance.prefab;
 				AttributesInfo.prefabOverride.transform.Find("TextContainer/Text").GetComponent<LocText>().text = STRINGS.UI.CHARACTERCONTAINER_SKILLS_TITLE;
 
 				__instance.ScreenInfoMatch.Add(AttributesInfo, new()
@@ -87,7 +87,7 @@ namespace SkillsInfoScreen
 
 				//__instance.AddToggleTooltipForResearch(AttributesInfo, "disabled tooltip");
 				__instance.AddToggleTooltip(AttributesInfo);
-				AttributesInfo.prefabOverride = UnityEngine.Object.Instantiate(__instance.researchButtonPrefab);
+				AttributesInfo.prefabOverride = __instance.prefab;
 				AttributesInfo.prefabOverride.transform.Find("TextContainer/Text").GetComponent<LocText>().text = SkillsOverviewName;
 
 				__instance.ScreenInfoMatch.Add(SkillsOverviewInfo, new()
