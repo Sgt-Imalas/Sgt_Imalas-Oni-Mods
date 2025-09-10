@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using MonoMod.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,19 +9,45 @@ using static HarvestablePOIConfig;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
-    class HarvestablePOIAdditions
-    {
-        public static void AddExtraPOIElements()
-        {
-			var targetMethod = AccessTools.Method(typeof(HarvestablePOIConfig), "GenerateConfigs");
-			var postfix = AccessTools.Method(typeof(HarvestablePOIAdditions), "AddPOIs");
-			Mod.HarmonyInstance.Patch(targetMethod, postfix: new(postfix));
+	class SpaceMiningAdditions
+	{
+		public static void AddExtraPOIElements()
+		{
+			if (DlcManager.IsExpansion1Active())
+			{
+				///Spaced out
+				///manual patch to not break types
+				var targetMethod = AccessTools.Method(typeof(HarvestablePOIConfig), "GenerateConfigs");
+				var postfix = AccessTools.Method(typeof(SpaceMiningAdditions), "AddPOIs");
+				Mod.HarmonyInstance.Patch(targetMethod, postfix: new(postfix));
+			}
+			else ///base game
+			{
+				AddBaseGamePoiElements();
+			}
 		}
 		public static void AddPOIs(List<HarvestablePOIConfig.HarvestablePOIParams> __result)
 		{
-			if(Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
 				AddPOIs_IndustrialOverhaul(__result);
 		}
+		static void AddBaseGamePoiElements()
+		{
+			if (!Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+				return;
+			var sdt = Db.Get().SpaceDestinationTypes;
+
+			sdt.GasGiant.elementTable.Add(ModElements.Ammonia_Gas, new MathUtil.MinMax(100f, 200f));
+			sdt.HydrogenGiant.elementTable.Add(ModElements.Ammonia_Gas, new MathUtil.MinMax(100f, 200f));
+			sdt.IceGiant.elementTable.Add(ModElements.Ammonia_Solid, new MathUtil.MinMax(100f, 200f));
+			sdt.ChlorinePlanet.elementTable.Add(ModElements.Chloroschist_Solid, new MathUtil.MinMax(100f, 200f));
+			sdt.RockyAsteroid.elementTable.Add(ModElements.AmmoniumSalt_Solid, new MathUtil.MinMax(100f, 200f));
+			sdt.OilyAsteroid.elementTable.Add(ModElements.OilShale_Solid, new MathUtil.MinMax(100f, 200f));
+			sdt.Satellite.elementTable.Add(ModElements.Aurichalcite_Solid, new MathUtil.MinMax(100f, 200f));
+			sdt.TerraPlanet.elementTable.Add(ModElements.Argentite_Solid, new MathUtil.MinMax(100f, 200f));
+			sdt.RedDwarf.elementTable.Add(ModElements.Galena_Solid, new MathUtil.MinMax(100f, 200f));
+		}
+
 		public static void AddPOIs_IndustrialOverhaul(List<HarvestablePOIConfig.HarvestablePOIParams> __result)
 		{
 			foreach (HarvestablePOIConfig.HarvestablePOIParams param in __result)
@@ -38,6 +65,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				{
 					param.poiType.harvestableElements.Add(ModElements.Aurichalcite_Solid, 3f);
 					param.poiType.harvestableElements.Add(SimHashes.Carbon, 3f);
+				}
+				// Oily asteroid
+				else if (param.poiType.id == HarvestablePOIConfig.OilyAsteroidField)
+				{
+					param.poiType.harvestableElements.Add(ModElements.OilShale_Solid, 1.75f);
 				}
 				//=: ICE FIELD :=================================================================================
 				else if (param.poiType.id == HarvestablePOIConfig.IceAsteroidField)
@@ -71,8 +103,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				//=: GAS GIANT :=================================================================================
 				else if (param.poiType.id == HarvestablePOIConfig.GasGiantCloud)
 				{
-					param.poiType.harvestableElements.Add(ModElements.Ammonia_Gas, 0.3f);
-					param.poiType.harvestableElements.Add(ModElements.Nitrogen_Gas, 1f);
+					param.poiType.harvestableElements.Add(ModElements.Ammonia_Gas, 1f);
+					param.poiType.harvestableElements.Add(ModElements.Nitrogen_Gas, 0.3f);
+				}
+				// Helium Cloud
+				else if (param.poiType.id == HarvestablePOIConfig.HeliumCloud)
+				{
+					param.poiType.harvestableElements.Add(ModElements.Ammonia_Gas, 2f);
 				}
 				//=: CHLORINE CLOUD FIELD :======================================================================
 				else if (param.poiType.id == HarvestablePOIConfig.ChlorineCloud)

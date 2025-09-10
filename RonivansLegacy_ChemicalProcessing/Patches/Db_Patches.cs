@@ -21,7 +21,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			{
 				BuildingManager.AddBuildingsToTechs();
 				ModElements.OverrideDebrisAnims();
-				HarvestablePOIAdditions.AddExtraPOIElements();
+				SpaceMiningAdditions.AddExtraPOIElements();
 				StatusItemsDatabase.CreateStatusItems();
 			}
 		}
