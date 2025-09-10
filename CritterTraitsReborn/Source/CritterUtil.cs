@@ -25,21 +25,22 @@ namespace CritterTraitsReborn
 				animController.animScale *= scale;
 			}
 
+			//remove collider adjustments to prevent potential errant problems
+
 			// Collision
-			var boxCollider = go.GetComponent<KBoxCollider2D>();
-			///only apply collider change to larger critters to prevent them glitching into the floor
-			if (boxCollider != null && scale > 1)
-			{
-				boxCollider.size *= scale;
-			}
+			//var boxCollider = go.GetComponent<KBoxCollider2D>();
+			/////only apply collider change to larger critters to prevent them glitching into the floor
+			//if (boxCollider != null && scale > 1)
+			//{
+			//	boxCollider.size *= scale;
+			//}
 
 			// HP and Calories
 			var modifiers = go.GetComponent<Modifiers>();
 			if (modifiers != null)
 			{
 				// We need to update the health here or max health will be altered without changing the current health
-				var health = go.GetComponent<Health>();
-				if (health != null && health.hitPoints == health.maxHitPoints)
+				if (go.TryGetComponent<Health>(out var health) && health.hitPoints == health.maxHitPoints)
 				{
 					health.hitPoints *= scale;
 				}
