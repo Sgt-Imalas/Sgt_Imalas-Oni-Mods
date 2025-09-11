@@ -1386,7 +1386,7 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString EFFECT = string.Concat(
 						[
 							"Transports large quantities of ",FormatAsLink("Solid Materials", "ELEMENTS_SOLID"),
-							".\n\nCan not be run through wall and floor tiles.\n\nBeing held in a vaccuum, transported items are fully insulated."
+							".\n\nCan not be run through wall and floor tiles.\n\nBeing held in a vaccuum, transported items fully insulated and sealed from their surroundings (prevents offgassing)."
 						]);
 				}
 				public class HPA_SOLIDRAILBRIDGETILE
@@ -2312,8 +2312,8 @@ namespace RonivansLegacy_ChemicalProcessing
 			}
 			public class LOGISTIC_RAIL_CAPACITY
 			{
-				public static LocString NAME = "Logistic Rail Capacity";
-				public static LocString TOOLTIP = "Logistic Rails serve as an early game version to conveyor rails, lacking the mechatronic requirements and unlocking earlier at the cost of lower maximum throughput.";
+				public static LocString NAME = "Logistic Rail Capacity Multiplier";
+				public static LocString TOOLTIP = "Logistic Rails serve as an early game version to conveyor rails, lacking the mechatronic requirements and unlocking earlier at the cost of lower maximum throughput.\nTotal Capacity is calculated based on the base rail capacity (includes compatibility with CustomizeBuildings)";
 			}
 			public class LOGISTIC_SWEEPER_RANGE
 			{
@@ -2322,8 +2322,8 @@ namespace RonivansLegacy_ChemicalProcessing
 			}
 			public class HP_GAS_CAPACITY
 			{
-				public static LocString NAME = "High Pressure Gas Capacity";
-				public static LocString TOOLTIP = "High pressure gas pipes allow pumping gases at much higher pipe throughput than regular pipes, at the cost of more expensive building materials.";
+				public static LocString NAME = "High Pressure Gas Capacity Multiplier";
+				public static LocString TOOLTIP = "High pressure gas pipes allow pumping gases at much higher pipe throughput than regular pipes, at the cost of more expensive building materials.\nTotal Capacity is calculated based on the base pipe capacity (includes compatibility with CustomizeBuildings)";
 			}
 			public class HP_GAS_PUMPCOST
 			{
@@ -2332,8 +2332,8 @@ namespace RonivansLegacy_ChemicalProcessing
 			}
 			public class HP_LIQUID_CAPACITY
 			{
-				public static LocString NAME = "High Pressure Liquid Capacity";
-				public static LocString TOOLTIP = "High pressure liquid pipes allow pumping liquids at much higher pipe throughput than regular pipes, at the cost of more expensive building materials.";
+				public static LocString NAME = "High Pressure Liquid Capacity Multiplier";
+				public static LocString TOOLTIP = "High pressure liquid pipes allow pumping liquids at much higher pipe throughput than regular pipes, at the cost of more expensive building materials.\nTotal Capacity is calculated based on the base pipe capacity (includes compatibility with CustomizeBuildings)";
 			}
 			public class HP_LIQUID_PUMPCOST
 			{
@@ -2348,12 +2348,12 @@ namespace RonivansLegacy_ChemicalProcessing
 			public class HP_SOLID_INSULATION_ENABLE
 			{
 				public static LocString NAME = "Insulated Heavy-Duty Rails";
-				public static LocString TOOLTIP = "Enable an insulated variant of the heavy-duty conveyor rail";
+				public static LocString TOOLTIP = "Enable an insulated variant of the heavy-duty conveyor rail.\nToggling this option also toggles all patches related to changing the insulation state of rail items, so it is not recommended to disable it for games with existing insulated rails.";
 			}
 			public class HP_SOLID_CAPACITY
 			{
-				public static LocString NAME = "Heavy-Duty Rail Capacity";
-				public static LocString TOOLTIP = "Heavy-Duty Rails serve as an late game upgrade to conveyor rails, having a much higher throughput at the cost of more complex build requirements.";
+				public static LocString NAME = "Heavy-Duty Rail Capacity Multiplier";
+				public static LocString TOOLTIP = "Heavy-Duty Rails serve as an late game upgrade to conveyor rails, having a much higher throughput at the cost of more complex build requirements.\nTotal Capacity is calculated based on the base rail capacity (includes compatibility with CustomizeBuildings)";
 			}
 			public class HP_SOLID_ARMRANGE
 			{
