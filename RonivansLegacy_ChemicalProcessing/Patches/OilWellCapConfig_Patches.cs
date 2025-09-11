@@ -42,7 +42,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 
 					///grab storage for oil and gas and seal it
 					Storage standardStorage = go.GetComponent<Storage>();
-					standardStorage.SetDefaultStoredItemModifiers(Custom_OilWellCapConfig.OilWellStorageModifier);
+					standardStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 
 					///===> Methane Output <==============================================================
 					PipedConduitDispenser GasDispenser = go.AddComponent<PipedConduitDispenser>();
