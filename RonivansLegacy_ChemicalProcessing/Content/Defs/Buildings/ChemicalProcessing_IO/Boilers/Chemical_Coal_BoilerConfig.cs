@@ -29,13 +29,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		
 
 		//--[ Special Settings ]-----------------------------------------------
-		private static readonly PortDisplayOutput steamOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(0, 3));
-		static Chemical_Coal_BoilerConfig()
-		{
-			Color? steamPortColor = new Color32(167, 180, 201, 255);
-			steamOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(0, 3), null, steamPortColor);
-		}
-
+		private static readonly PortDisplayOutput steamOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(0, 3), null, new Color32(167, 180, 201, 255));
+		private static readonly PortDisplayOutput co2Port = new PortDisplayOutput(ConduitType.Gas, new CellOffset(-1, 2),null, UIUtils.rgb(6, 62, 42));
+	
 		//--[ Building Definitions ]-------------------------------------------
 		public override BuildingDef CreateBuildingDef()
 		{
@@ -94,18 +90,29 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				new (SimHashes.Water.CreateTag(), 4f)];
 			converter.outputElements = [
 				new(4f, SimHashes.Steam, UtilMethods.GetKelvinFromC(200), false, true, 0f, 0.5f, 0.75f, 0xff, 0), 
-				new(0.2f ,SimHashes.CarbonDioxide,UtilMethods.GetKelvinFromC(110),false, false,-1,2)
+				new(0.2f ,SimHashes.CarbonDioxide,UtilMethods.GetKelvinFromC(110),false, true,-1,2)
 				];
 			//-------------------------------------------------------------------
 
 			go.AddOrGet<SolidDeliverySelection>().Options = [SimHashes.Carbon.CreateTag(),SimHashes.Peat.CreateTag()];
 
-			PipedConduitDispenser dispenser = go.AddComponent<PipedConduitDispenser>();
-			dispenser.storage = storage;
-			dispenser.elementFilter = [SimHashes.Steam];
-			dispenser.AssignPort(steamOutputPort);
-			dispenser.alwaysDispense = true;
-			dispenser.SkipSetOperational = true;
+			PipedConduitDispenser steamDispenser = go.AddComponent<PipedConduitDispenser>();
+			steamDispenser.storage = storage;
+			steamDispenser.elementFilter = [SimHashes.Steam];
+			steamDispenser.AssignPort(steamOutputPort);
+			steamDispenser.alwaysDispense = true;
+
+			PipedConduitDispenser co2Dispenser = go.AddComponent<PipedConduitDispenser>();
+			co2Dispenser.storage = storage;
+			co2Dispenser.elementFilter = [SimHashes.CarbonDioxide];
+			co2Dispenser.AssignPort(co2Port);
+			co2Dispenser.alwaysDispense = true;
+			co2Dispenser.SkipSetOperational = true;
+
+			PipedOptionalExhaust co2Exhaust = go.AddComponent<PipedOptionalExhaust>();
+			co2Exhaust.dispenser = co2Dispenser;
+			co2Exhaust.elementTag = SimHashes.CarbonDioxide.CreateTag();
+			co2Exhaust.capacity = 2f;
 
 			this.AttachPort(go);
 		}
@@ -116,6 +123,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			controller.Init(go);
 
 			controller.AssignPort(go, steamOutputPort);
+			controller.AssignPort(go, co2Port);
 		}
 
 		public override void DoPostConfigurePreview(BuildingDef def, GameObject go)
