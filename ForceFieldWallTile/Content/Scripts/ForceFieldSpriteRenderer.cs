@@ -14,6 +14,9 @@ using ForceFieldWallTile.Content.Scripts.MeshGen;
 
 namespace ForceFieldWallTile.Content.Scripts
 {
+	/// <summary>
+	/// Unused and probably broken, based on the true tiles version of the insulated wall adapter from RE
+	/// </summary>
 	internal class ForceFieldSpriteRenderer : KMonoBehaviour
 	{
 		[MyCmpGet]

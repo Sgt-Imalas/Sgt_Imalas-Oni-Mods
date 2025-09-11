@@ -1,4 +1,5 @@
 ﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb.HPA;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,10 +62,15 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			ClearEverything();
 			InitCache();
 		}
-		private static void InitCache()
+		public static void InitCache(bool force = false)
 		{
-			if (!_capInit)
+			if (!_capInit || force)
 			{
+				if(force)
+					SgtLogger.l("Re-Initializing PipeCapacity Cache");
+				else
+					SgtLogger.l("Initializing PipeCapacity Cache");
+
 				_capInit = true;
 				_gasCap_hp = Config.Instance.HPA_Capacity_Gas;
 				_liquidCap_hp = Config.Instance.HPA_Capacity_Liquid;
@@ -75,6 +81,20 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				_liquidCap_reg = ConduitFlow.MAX_LIQUID_MASS;
 				_solidCap_reg = SolidConduitFlow.MAX_SOLID_MASS;
 				_usingInsulatedSolidRails = Config.Instance.HPA_Rails_Insulation_Mod_Enabled;
+				
+				if (CustomizeBuildings.TryGetModifiedConduitValues(out float solid, out float liquid, out float gas))
+				{
+					_solidCap_reg = solid;
+					_liquidCap_reg = liquid;
+					_gasCap_reg = gas;
+
+					///hpa conduits should not have less capacity than regulars
+					_solidCap_hp = Mathf.Max(_solidCap_hp, _solidCap_reg);
+					_liquidCap_hp = Mathf.Max(_liquidCap_hp, _liquidCap_reg);
+					_gasCap_hp = Mathf.Max(_gasCap_hp, _gasCap_reg);
+				}
+				_solidCap_logistic = Mathf.Min(_solidCap_logistic, _solidCap_reg);
+
 			}
 		}
 

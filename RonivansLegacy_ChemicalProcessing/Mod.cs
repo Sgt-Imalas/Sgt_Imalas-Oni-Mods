@@ -3,6 +3,7 @@ using KMod;
 using PeterHan.PLib.Core;
 using PeterHan.PLib.Options;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
 using System.Collections.Generic;
 using UtilLibs;
@@ -47,6 +48,7 @@ namespace RonivansLegacy_ChemicalProcessing
 			CompatibilityNotifications.FlagLoggingPrevention(mods);
 			CompatibilityNotifications.FixBrokenTimeout(harmony);
 			DisableOldRonivanMods(harmony, mods);
+			HighPressureConduitRegistration.InitCache(true);
 		}
 
 		internal static void RegisterLocalizedDescription()
