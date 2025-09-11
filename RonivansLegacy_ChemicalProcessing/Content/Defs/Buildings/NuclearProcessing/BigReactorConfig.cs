@@ -46,7 +46,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProces
 			buildingDef.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(1, 0));
 			buildingDef.AudioCategory = "HollowMetal";
 			buildingDef.PowerInputOffset = new CellOffset(0, 0);
-
+			buildingDef.Deprecated = true;//hide it from codex 
 			SoundUtils.CopySoundsToAnim("hep_calcinator_kanim", "suit_maker_kanim");
 			return buildingDef;
 		}
