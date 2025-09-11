@@ -99,6 +99,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			dispenser.elementFilter = [SimHashes.Steam];
 			dispenser.AssignPort(steamOutputPort);
 			dispenser.alwaysDispense = true;
+			dispenser.SkipSetOperational = true;
 
 			PipedConduitDispenser co2Dispenser = go.AddComponent<PipedConduitDispenser>();
 			co2Dispenser.storage = storage;
