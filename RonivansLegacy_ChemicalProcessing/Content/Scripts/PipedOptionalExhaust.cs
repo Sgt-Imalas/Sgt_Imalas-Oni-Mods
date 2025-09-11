@@ -26,7 +26,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 		[MyCmpGet] ComplexFabricator complexfab;
 
-		private Operational.Flag outputFlag = new Operational.Flag("output_blocked", Operational.Flag.Type.Functional);
+		private Operational.Flag outputFlag;
 
 		[MyCmpReq]
 		readonly private Operational operational;

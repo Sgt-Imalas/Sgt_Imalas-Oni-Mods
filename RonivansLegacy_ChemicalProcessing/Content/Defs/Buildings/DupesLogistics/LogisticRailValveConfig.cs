@@ -49,7 +49,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			ConfigurableSolidConduitDispenser solidDispenser = go.AddOrGet<ConfigurableSolidConduitDispenser>();
 			solidDispenser.alwaysDispense = true;
 			solidDispenser.elementFilter = null;
-			solidDispenser.massDispensed = Config.Instance.Logistic_Rail_Capacity;
+			solidDispenser.massDispensed = HighPressureConduitRegistration.SolidCap_Logistic;
 
 		}
 

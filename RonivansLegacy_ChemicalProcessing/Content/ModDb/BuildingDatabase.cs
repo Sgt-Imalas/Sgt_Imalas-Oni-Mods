@@ -21,6 +21,7 @@ using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureAppli
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureApplications.HPA_Solid;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.MineralProcessing_Metallurgy;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProcessing;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
 using UtilLibs;
 using static ResearchTypes;
@@ -57,9 +58,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			global::STRINGS.BUILDINGS.PREFABS.MOULDINGTILE.EFFECT = STRINGS.BUILDINGS.PREFABS.MARBLETILESTRINGS.EFFECT;
 
 			var gasPipeString = Strings.Get("STRINGS.BUILDINGS.PREFABS.HIGHPRESSUREGASCONDUIT.EFFECT");
-			gasPipeString.String = gasPipeString.String.Replace("{CAPACITY}", GameUtil.GetFormattedMass(Config.Instance.HPA_Capacity_Gas));
+			gasPipeString.String = gasPipeString.String.Replace("{CAPACITY}", GameUtil.GetFormattedMass(HighPressureConduitRegistration.GasCap_HP));
 			var liquidPipeString = Strings.Get("STRINGS.BUILDINGS.PREFABS.HIGHPRESSURELIQUIDCONDUIT.EFFECT");
-			liquidPipeString.String = liquidPipeString.String.Replace("{CAPACITY}", GameUtil.GetFormattedMass(Config.Instance.HPA_Capacity_Liquid));
+			liquidPipeString.String = liquidPipeString.String.Replace("{CAPACITY}", GameUtil.GetFormattedMass(HighPressureConduitRegistration.LiquidCap_HP));
 		}
 
 		public static void RegisterOilWellCapCustomPiping()

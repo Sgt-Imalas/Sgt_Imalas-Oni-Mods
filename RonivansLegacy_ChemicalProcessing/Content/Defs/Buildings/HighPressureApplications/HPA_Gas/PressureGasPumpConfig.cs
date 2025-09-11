@@ -55,12 +55,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			go.AddOrGet<LoopingSounds>();
 			go.AddOrGet<EnergyConsumer>();
 			go.AddOrGet<Pump>();
-			go.AddOrGet<Storage>().capacityKg = Config.Instance.HPA_Capacity_Gas * 2; 
+			go.AddOrGet<Storage>().capacityKg = HighPressureConduitRegistration.GasCap_HP * 2; 
 			
 
 			ElementConsumer pumpConsumer = go.AddOrGet<ElementConsumer>();
 			pumpConsumer.configuration = ElementConsumer.Configuration.AllGas;
-			pumpConsumer.consumptionRate = Config.Instance.HPA_Capacity_Gas;
+			pumpConsumer.consumptionRate = HighPressureConduitRegistration.GasCap_HP;
 			pumpConsumer.storeOnConsume = true;
 			pumpConsumer.showInStatusPanel = false;
 			pumpConsumer.consumptionRadius = (byte)GetTileRange();

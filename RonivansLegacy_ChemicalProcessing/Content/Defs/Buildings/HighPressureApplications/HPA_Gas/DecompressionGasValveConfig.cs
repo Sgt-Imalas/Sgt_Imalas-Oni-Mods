@@ -43,7 +43,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			Storage storage = BuildingTemplates.CreateDefaultStorage(go, false);
 			storage.showDescriptor = false;
 			storage.storageFilters = STORAGEFILTERS.GASES;
-			storage.capacityKg = Config.Instance.HPA_Capacity_Gas;
+			storage.capacityKg = HighPressureConduitRegistration.GasCap_HP;
 			storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			storage.showCapacityStatusItem = false;
 			storage.showCapacityAsMainStatus = false;

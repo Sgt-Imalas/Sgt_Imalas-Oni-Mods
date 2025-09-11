@@ -64,7 +64,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			storage.showCapacityAsMainStatus = true;
 			go.AddOrGet<TreeFilterable>();
 			go.AddOrGet<SolidConduitInbox>();
-			go.AddOrGet<ConfigurableSolidConduitDispenser>().massDispensed = Config.Instance.Logistic_Rail_Capacity;
+			go.AddOrGet<ConfigurableSolidConduitDispenser>().massDispensed = HighPressureConduitRegistration.SolidCap_Logistic;
 
 			var requirement = go.AddOrGet<HPA_SolidConduitRequirement>();
 			requirement.RequiresHighPressureOutput = true;

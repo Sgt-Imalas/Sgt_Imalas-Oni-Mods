@@ -15,6 +15,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		//cache this to avoid calling config.instance each time
 		private static bool _usingInsulatedSolidRails;
 		private static bool _capInit = false;
+		private static float _gasMult = -1, _liquidMult = -1, _solidMult = -1, _logisticMult = -1;
 		private static float _gasCap_hp = -1, _liquidCap_hp = -1, _solidCap_hp = -1, _solidCap_logistic = -1;
 		private static float _gasCap_reg = -1, _liquidCap_reg = -1, _solidCap_reg = -1;
 		private static Color32 _gasFlowOverlay = new Color32(169, 209, 251, 0), _gasFlowTint = new Color32(176, 176, 176, 255),
@@ -24,6 +25,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		public static float SolidCap_HP => _solidCap_hp;
 		public static float SolidCap_Logistic => _solidCap_logistic;
 		public static float SolidCap_Regular => _solidCap_reg;
+
+		public static float GasCap_HP => _gasCap_hp;
+		public static float LiquidCap_HP => _gasCap_hp;
+
+
+
 
 		public static HashSet<int>
 			ValveOutputs_Liquid = [],
@@ -72,29 +79,44 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 					SgtLogger.l("Initializing PipeCapacity Cache");
 
 				_capInit = true;
-				_gasCap_hp = Config.Instance.HPA_Capacity_Gas;
-				_liquidCap_hp = Config.Instance.HPA_Capacity_Liquid;
-				_solidCap_hp = Config.Instance.HPA_Capacity_Solid;
-				_solidCap_logistic = Config.Instance.Logistic_Rail_Capacity;
 
+				///loading vanilla values
 				_gasCap_reg = ConduitFlow.MAX_GAS_MASS;
 				_liquidCap_reg = ConduitFlow.MAX_LIQUID_MASS;
 				_solidCap_reg = SolidConduitFlow.MAX_SOLID_MASS;
+
+				_gasMult = Config.Instance.HPA_Capacity_Gas_Multiplier;
+				_liquidMult = Config.Instance.HPA_Capacity_Liquid_Multiplier;
+				_solidMult = Config.Instance.HPA_Capacity_Solid_Multiplier;
+				_logisticMult = Config.Instance.Logistic_Rail_Capacity_Multiplier;
+
 				_usingInsulatedSolidRails = Config.Instance.HPA_Rails_Insulation_Mod_Enabled;
 				
+				///Checking if CustomizeBuilding is installed and if it adds custom values
 				if (CustomizeBuildings.TryGetModifiedConduitValues(out float solid, out float liquid, out float gas))
 				{
 					_solidCap_reg = solid;
 					_liquidCap_reg = liquid;
 					_gasCap_reg = gas;
-
-					///hpa conduits should not have less capacity than regulars
-					_solidCap_hp = Mathf.Max(_solidCap_hp, _solidCap_reg);
-					_liquidCap_hp = Mathf.Max(_liquidCap_hp, _liquidCap_reg);
-					_gasCap_hp = Mathf.Max(_gasCap_hp, _gasCap_reg);
 				}
-				_solidCap_logistic = Mathf.Min(_solidCap_logistic, _solidCap_reg);
+				///logistic rails total capacity
+				_solidCap_logistic = _logisticMult * _solidCap_reg;
 
+				///High pressure conduits total capacity
+				_gasCap_hp = _gasMult * _gasCap_reg;
+				_liquidCap_hp = _liquidMult * _liquidCap_reg;
+				_solidCap_hp = _solidMult * _solidCap_reg;
+
+				SgtLogger.l($"Pipe Capacity Values cached:" +
+					$"\nLogistic Rails: capacity: {_solidCap_logistic}, multiplier: {_logisticMult}" +
+					$"\nRegular Conduits:" +
+					$"\n- Solid: capacity: {_solidCap_reg}" +
+					$"\n- Liquid: capacity: {_liquidCap_reg}" +
+					$"\n- Gas: capacity: {_gasCap_reg}" +
+					$"\nHigh Pressure Conduits:" +
+					$"\n- Solid: capacity: {_solidCap_hp}, multiplier: {_solidMult}" +
+					$"\n- Liquid: capacity: {_liquidCap_hp}, multiplier: {_liquidMult}" +
+					$"\n- Gas: capacity: {_gasCap_hp}, multiplier: {_gasMult}");
 			}
 		}
 
@@ -203,21 +225,21 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		{
 			if (currentConduitType == ConduitType.Gas)
 			{
-				return (_gasCap_hp / _gasCap_reg);
+				return _gasMult;
 			}
 			else if (currentConduitType == ConduitType.Liquid)
 			{
-				return (_liquidCap_hp / _liquidCap_reg);
+				return _liquidMult;
 			}
 			else if (currentConduitType == ConduitType.Solid)
 			{
-				return (_solidCap_hp / _solidCap_reg);
+				return _solidMult;
 			}
 			return 1;
 		}
 		public static float GetLogisticConduitMultiplier()
 		{
-			return _solidCap_logistic / _solidCap_reg;
+			return _logisticMult;
 		}
 
 		public static float GetMaxConduitCapacityAt(int cell, ConduitType type, bool isBridge = false)

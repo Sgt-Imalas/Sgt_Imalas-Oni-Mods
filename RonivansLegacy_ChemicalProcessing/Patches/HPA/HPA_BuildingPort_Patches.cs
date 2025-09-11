@@ -22,19 +22,19 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			switch (cmp.cargoType)
             {
                 case CargoBay.CargoType.Liquids:
-                    tweakedCapacity = Config.Instance.HPA_Capacity_Liquid;
+                    tweakedCapacity = HighPressureConduitRegistration.LiquidCap_HP;
 					cmp.storage.capacityKg = tweakedCapacity;
 					if(cmp.targetLevel > 0)
 						cmp.targetLevel = tweakedCapacity;
 					break;
                 case CargoBay.CargoType.Gasses:
-					tweakedCapacity = Config.Instance.HPA_Capacity_Gas;
+					tweakedCapacity = HighPressureConduitRegistration.GasCap_HP;
 					cmp.storage.capacityKg = tweakedCapacity;
 					if (cmp.targetLevel > 0)
 						cmp.targetLevel = tweakedCapacity;
 					break;
 				case CargoBay.CargoType.Solids:
-					tweakedCapacity = Config.Instance.HPA_Capacity_Solid;
+					tweakedCapacity = HighPressureConduitRegistration.SolidCap_HP;
 					cmp.storage.capacityKg = tweakedCapacity;
 					if (cmp.targetLevel > 0)
 						cmp.targetLevel = tweakedCapacity;
@@ -47,14 +47,14 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		{
 			if (__instance.conduitType == ConduitType.Gas)
 			{
-				float flowRate = Config.Instance.HPA_Capacity_Gas / ConduitFlow.MAX_GAS_MASS;
+				float flowRate = HighPressureConduitRegistration.GetConduitMultiplier(__instance.conduitType);
 				if (increaseStorage)
 					__instance.GetComponent<Storage>().capacityKg *= flowRate;
 				__instance.consumptionRate *= flowRate;
 			}
 			else if (__instance.conduitType == ConduitType.Liquid)
 			{
-				float flowRate = Config.Instance.HPA_Capacity_Liquid / ConduitFlow.MAX_LIQUID_MASS;
+				float flowRate = HighPressureConduitRegistration.GetConduitMultiplier(__instance.conduitType);
 				if (increaseStorage)
 					__instance.GetComponent<Storage>().capacityKg *= flowRate;
 				__instance.consumptionRate *= flowRate;

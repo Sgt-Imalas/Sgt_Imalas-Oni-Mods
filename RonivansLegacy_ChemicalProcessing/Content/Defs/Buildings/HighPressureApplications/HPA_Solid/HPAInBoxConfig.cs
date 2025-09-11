@@ -77,7 +77,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			storage.showCapacityAsMainStatus = true;
 			go.AddOrGet<TreeFilterable>();
 			go.AddOrGet<SolidConduitInbox>();
-			go.AddOrGet<ConfigurableSolidConduitDispenser>().massDispensed = Config.Instance.HPA_Capacity_Solid;
+			go.AddOrGet<ConfigurableSolidConduitDispenser>().massDispensed = HighPressureConduitRegistration.SolidCap_HP;
 			go.AddOrGet<HPA_SolidConduitRequirement>().RequiresHighPressureOutput = true;
 
 			HysteresisStorage.AddComponent(go);

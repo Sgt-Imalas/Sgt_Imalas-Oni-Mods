@@ -196,12 +196,12 @@ namespace RonivansLegacy_ChemicalProcessing
 
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.HP_GAS_CAPACITY.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.HP_GAS_CAPACITY.TOOLTIP", "STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS")]
-		[Limit(2, 20)]
-		public int HPA_Capacity_Gas { get; set; } = 10;
+		[Limit(1, 25)]
+		public float HPA_Capacity_Gas_Multiplier { get; set; } = 10;
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.HP_LIQUID_CAPACITY.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.HP_LIQUID_CAPACITY.TOOLTIP", "STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS")]
-		[Limit(11, 200)]
-		public int HPA_Capacity_Liquid { get; set; } = 40;
+		[Limit(1, 25)]
+		public float HPA_Capacity_Liquid_Multiplier { get; set; } = 4;
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.HP_GAS_PUMPCOST.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.HP_GAS_PUMPCOST.TOOLTIP", "STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS")]
 		[Limit(10, 1000)]
@@ -213,12 +213,12 @@ namespace RonivansLegacy_ChemicalProcessing
 
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_RAIL_CAPACITY.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_RAIL_CAPACITY.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESLOGISTICS")]
-		[Limit(1, 20)]
-		public int Logistic_Rail_Capacity { get; set; } = 10;
+		[Limit(0.1f, 1f)]
+		public float Logistic_Rail_Capacity_Multiplier { get; set; } = 0.5f;
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_CAPACITY.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_CAPACITY.TOOLTIP", "STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS")]
-		[Limit(20, 400)]
-		public int HPA_Capacity_Solid { get; set; } = 200;
+		[Limit(1, 25)]
+		public float HPA_Capacity_Solid_Multiplier { get; set; } = 10;
 
 		///moved to building editor
 		//[Option("STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_SWEEPER_RANGE.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_SWEEPER_RANGE.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESLOGISTICS")]
