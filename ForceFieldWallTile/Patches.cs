@@ -39,7 +39,7 @@ namespace ForceFieldWallTile
 		[HarmonyPatch(typeof(Game), nameof(Game.OnLoadLevel))]
 		public class Game_OnLoadLevel_Patch
 		{
-			public static void Postfix() => ForceFieldTile.Clear();
+			public static void Postfix() => ForceFieldTile.ClearAll();
 		}
 		/// <summary>
 		/// add buildings to plan screen

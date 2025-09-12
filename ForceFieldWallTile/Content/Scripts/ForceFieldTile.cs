@@ -54,12 +54,18 @@ namespace ForceFieldWallTile.Content.Scripts
 		public bool ShieldActive => _shieldStrength > 0.001;
 		public float OverloadCooldown => _overloadCooldown;
 
-		public static void Clear() => ShieldProjectors.Clear();
+		public static void ClearAll()
+		{
+			ShieldProjectors.Clear();
+			ShieldGrid.ClearAll();
+		}
 		static Dictionary<int, ForceFieldTile> ShieldProjectors = new Dictionary<int, ForceFieldTile>();
 
 		List<string> Tintables = ["tintable_bloom", "tintable_fx", "tintable_off"];
 
 		public bool IsAltVariant = false;
+
+		public static bool ForceFieldAt(int cell, out ForceFieldTile tile) => ShieldProjectors.TryGetValue(cell, out tile);
 
 		public override void OnSpawn()
 		{
@@ -229,6 +235,13 @@ namespace ForceFieldWallTile.Content.Scripts
 			}
 		}
 		#endregion
+		public void RecievePercentageDamage(float percentage)
+		{
+			percentage = Mathf.Clamp01(percentage);
+			var dmg = MaxStrenght * percentage;
+			ReceiveDamage(dmg);
+		}
+
 		public void ReceiveDamage(float damage)
 		{
 			if (damage < 0.25f || !ShieldActive) return;

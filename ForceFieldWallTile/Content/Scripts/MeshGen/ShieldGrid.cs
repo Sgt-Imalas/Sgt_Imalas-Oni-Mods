@@ -12,6 +12,19 @@ namespace ForceFieldWallTile.Content.Scripts.MeshGen
 {
 	internal class ShieldGrid
 	{
+		public static void ClearAll()
+		{
+			ShieldNodes.Clear();
+			if (RendererGO != null)
+			{
+				GameObject.Destroy(RendererGO);
+			}
+			RendererGO = null;
+			Filter = null;
+			Renderer = null;
+
+			Game.Instance?.Unsubscribe((int)GameHashes.ActiveWorldChanged, (_) => GenerateMesh());
+		}
 		public static Dictionary<int, Node> ShieldNodes = [];
 
 		public static GameObject RendererGO;
@@ -41,30 +54,49 @@ namespace ForceFieldWallTile.Content.Scripts.MeshGen
 
 		static List<Color> Colors = [];
 
+		static void RemakeRenderer()
+		{
+			if (RendererGO != null)
+				return;
+
+			Game.Instance?.Subscribe((int)GameHashes.ActiveWorldChanged, (_) => GenerateMesh());
+
+			RendererGO = new GameObject("ShieldMesh", typeof(MeshFilter), typeof(MeshRenderer));
+			RendererGO.SetActive(true);
+			Filter = RendererGO.GetComponent<MeshFilter>();
+			Renderer = RendererGO.GetComponent<MeshRenderer>();
+			Renderer.transform.position = new(0, 0, Grid.GetLayerZ(Grid.SceneLayer.Ground));
+
+			Renderer.material = new(ModAssets.ForceFieldMaterial)
+			{
+				renderQueue = RenderQueues.Liquid + 1
+			};
+		}
+
 		public static void GenerateMesh()
 		{
 			var vertices = new List<Vector3>();
 			List<int> triangles = new List<int>();
 			List<Vector2> uvs = new List<Vector2>();
 			Colors.Clear();
-			foreach (var cell in ShieldNodes)
+
+			int activeWorldIdx = ClusterManager.Instance.activeWorldIdx;
+			foreach (var cellKvp in ShieldNodes)
 			{
-				AddNodeVertices(vertices, triangles, uvs, cell.Key, cell.Value);
+				int cell = cellKvp.Key;
+				if (Grid.WorldIdx[cell] != activeWorldIdx)
+					continue;
+				AddNodeVertices(vertices, triangles, uvs, cell, cellKvp.Value);
 			}
 
 			var mesh = new Mesh();
 			mesh.SetVertices(vertices);
 			mesh.SetTriangles(triangles, 0);
 			mesh.SetUVs(0, uvs);
-			if (RendererGO != null)
+			if (RendererGO == null)
 			{
-				GameObject.Destroy(RendererGO);
+				RemakeRenderer();
 			}
-			RendererGO = new GameObject("ShieldMesh", typeof(MeshFilter), typeof(MeshRenderer));
-			RendererGO.SetActive(true);
-			Filter = RendererGO.GetComponent<MeshFilter>();
-			Renderer = RendererGO.GetComponent<MeshRenderer>();
-			Renderer.transform.position = new(0, 0, Grid.GetLayerZ(Grid.SceneLayer.Ground));
 
 			Colors = new List<Color>(vertices.Count);
 			for (int i = 0; i < vertices.Count; i++)
@@ -75,22 +107,15 @@ namespace ForceFieldWallTile.Content.Scripts.MeshGen
 
 			foreach (var nodecell in ShieldNodes.Keys)
 			{
+				if (Grid.WorldIdx[nodecell] != activeWorldIdx)
+					continue;
 				RedrawColors(nodecell, false);
 			}
 
 			mesh.SetColors(Colors);
-
-
-
 			Filter.mesh = mesh;
 
-			//Renderer.material = new Material(Shader.Find("Sprites/Default"))
-			Renderer.material = new(ModAssets.ForceFieldMaterial)
-			{
-				renderQueue = RenderQueues.Liquid + 1
-			};
-
-
+			//Renderer.material = new Material(Shader.Find("Sprites/Default"))			
 			//Renderer.material.color = new Color(0.2f, 0.6f, 1f, 0.4f);
 		}
 
@@ -158,6 +183,8 @@ namespace ForceFieldWallTile.Content.Scripts.MeshGen
 			{
 				return;
 			}
+			if (Grid.WorldIdx[cell] != ClusterManager.Instance?.activeWorldIdx)
+				return;
 
 			//var nodeColor = node.GetCurrentColor();
 
@@ -213,7 +240,7 @@ namespace ForceFieldWallTile.Content.Scripts.MeshGen
 					ret = first;
 				if (secondVal < firstVal)
 					ret = second;
-				if(thirdVal < secondVal)
+				if (thirdVal < secondVal)
 					ret = third;
 				return ret;
 			}
