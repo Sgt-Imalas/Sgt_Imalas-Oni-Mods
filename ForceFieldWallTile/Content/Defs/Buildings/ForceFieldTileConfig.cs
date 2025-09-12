@@ -60,6 +60,8 @@ namespace ForceFieldWallTile.Content.Defs.Buildings
 			GeneratedBuildings.RemoveLoopingSounds(go);
 			go.AddOrGet<LogicOperationalController>();
 			go.AddOrGet<ForceFieldTile>();
+			go.GetComponent<KPrefabID>().AddTag(GameTags.Bunker);
+			go.AddOrGet<ConnectorTileable>();
 		}
 	}
 }

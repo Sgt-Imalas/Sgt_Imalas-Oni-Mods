@@ -21,7 +21,7 @@ namespace ForceFieldWallTile.Content.Scripts.MeshGen
 
 		private float scale = -1;
 		private Vector2 gridscale = new(1f, 1f);
-		
+
 		public static void AddNode(int cell, Node node)
 		{
 			if (!ShieldNodes.ContainsKey(cell))
@@ -69,11 +69,11 @@ namespace ForceFieldWallTile.Content.Scripts.MeshGen
 			Colors = new List<Color>(vertices.Count);
 			for (int i = 0; i < vertices.Count; i++)
 			{
-				var color = UIUtils.HSVShift(Color.red,UnityEngine.Random.value*100); // random tint
+				var color = UIUtils.HSVShift(Color.red, UnityEngine.Random.value * 100); // random tint
 				Colors.Add(color);
 			}
 
-			foreach(var nodecell in ShieldNodes.Keys)
+			foreach (var nodecell in ShieldNodes.Keys)
 			{
 				RedrawColors(nodecell, false);
 			}
@@ -154,15 +154,15 @@ namespace ForceFieldWallTile.Content.Scripts.MeshGen
 
 		internal static void RedrawColors(int cell, bool apply = true)
 		{
-			if(!ShieldNodes.TryGetValue(cell, out var node))
+			if (!ShieldNodes.TryGetValue(cell, out var node))
 			{
 				return;
 			}
 
-			var nodeColor = node.GetCurrentColor();
+			//var nodeColor = node.GetCurrentColor();
 
 			int left = Grid.CellLeft(cell);
-			int bottomLeft =Grid.CellDownLeft(cell);
+			int bottomLeft = Grid.CellDownLeft(cell);
 			int topLeft = Grid.CellUpLeft(cell);
 			int right = Grid.CellRight(cell);
 			int bottomRight = Grid.CellDownRight(cell);
@@ -170,61 +170,108 @@ namespace ForceFieldWallTile.Content.Scripts.MeshGen
 			int top = Grid.CellAbove(cell);
 			int bottom = Grid.CellBelow(cell);
 
-			Color 
-				bottomLeftCol = nodeColor, 
-				leftCol = nodeColor,
-				topLeftCol = nodeColor,
-				topCol = nodeColor,
-				topRightCol = nodeColor, 
-				rightCol = nodeColor,
-				bottomRightCol = nodeColor,
-				bottomCol = nodeColor;
+
+			Node
+				lowerStrength_bottomLeft = node,
+				lowerStrength_left = node,
+				lowerStrength_topLeft = node,
+				lowerStrength_top = node,
+				lowerStrength_topRight = node,
+				lowerStrength_right = node,
+				lowerStrength_bottomRight = node,
+				lowerStrength_bottom = node;
+
+
+			//Color
+			//	bottomLeftCol = nodeColor,
+			//	leftCol = nodeColor,
+			//	topLeftCol = nodeColor,
+			//	topCol = nodeColor,
+			//	topRightCol = nodeColor,
+			//	rightCol = nodeColor,
+			//	bottomRightCol = nodeColor,
+			//	bottomCol = nodeColor;
+
+			Node GetLowerStrenghtNode(Node other)
+			{
+				if (other == null || other.CurrentStrenght > node.CurrentStrenght)
+					return node;
+				return other;
+			}
+			Node GetLowerStrenghtNodeMult(Node first, Node second, Node third)
+			{
+				if (first == null && second == null && third == null)
+					return node;
+
+				var ret = node;
+
+				float firstVal = first == null ? float.MaxValue : first.CurrentStrenght;
+				float secondVal = second == null ? float.MaxValue : second.CurrentStrenght;
+				float thirdVal = third == null ? float.MaxValue : third.CurrentStrenght;
+
+				if (firstVal < node.CurrentStrenght)
+					ret = first;
+				if (secondVal < firstVal)
+					ret = second;
+				if(thirdVal < secondVal)
+					ret = third;
+				return ret;
+			}
+
 
 
 			if (ShieldNodes.TryGetValue(left, out var leftNode))
 			{
-				leftCol = Color.Lerp(leftCol, leftNode.GetCurrentColor(), 0.5f);
+				lowerStrength_left = GetLowerStrenghtNode(leftNode);
+				//leftCol = GetLowerValueColor(leftNode);
 			}
 			if (ShieldNodes.TryGetValue(right, out var rightNode))
 			{
-				rightCol = Color.Lerp(rightCol, rightNode.GetCurrentColor(), 0.5f);
+				lowerStrength_right = GetLowerStrenghtNode(rightNode);
+				//rightCol = GetLowerValueColor(rightNode);
 			}
 			if (ShieldNodes.TryGetValue(top, out var topNode))
 			{
-				topCol = Color.Lerp(topCol, topNode.GetCurrentColor(), 0.5f);
+				lowerStrength_top = GetLowerStrenghtNode(topNode);
+				//topCol = GetLowerValueColor(topNode);
 			}
 			if (ShieldNodes.TryGetValue(bottom, out var bottomNode))
 			{
-				bottomCol = Color.Lerp(bottomCol, bottomNode.GetCurrentColor(), 0.5f);
+				lowerStrength_bottom = GetLowerStrenghtNode(bottomNode);
+				//bottomCol = GetLowerValueColor(bottomNode);
 			}
 			if (ShieldNodes.TryGetValue(bottomLeft, out var bottomLeftNode))
 			{
-				bottomLeftCol = Color.Lerp(bottomLeftCol, bottomLeftNode.GetCurrentColor(), 0.5f);
+				lowerStrength_bottomLeft = GetLowerStrenghtNode(bottomLeftNode);
+				//bottomLeftCol = GetLowerValueColor(bottomLeftNode);
 			}
 			if (ShieldNodes.TryGetValue(topLeft, out var topLeftNode))
 			{
-				topLeftCol = Color.Lerp(topLeftCol, topLeftNode.GetCurrentColor(), 0.5f);
+				lowerStrength_topLeft = GetLowerStrenghtNode(topLeftNode);
+				//topLeftCol = GetLowerValueColor(topLeftNode);
 			}
 			if (ShieldNodes.TryGetValue(topRight, out var topRightNode))
 			{
-				topRightCol = Color.Lerp(topRightCol, topRightNode.GetCurrentColor(), 0.5f);
+				lowerStrength_topRight = GetLowerStrenghtNode(topRightNode);
+				//topRightCol = GetLowerValueColor(topRightNode);
 			}
 			if (ShieldNodes.TryGetValue(bottomRight, out var bottomRightNode))
 			{
-				bottomRightCol = Color.Lerp(bottomRightCol, bottomRightNode.GetCurrentColor(), 0.5f);
+				lowerStrength_bottomRight = GetLowerStrenghtNode(bottomRightNode);
+				//bottomRightCol = GetLowerValueColor(bottomRightNode);
 			}
 
-			var bl_col = Color.Lerp(Color.Lerp(bottomCol, leftCol, 0.5f), Color.Lerp(bottomLeftCol,nodeColor, 0.5f), 0.5f);
-			var tl_col = Color.Lerp(Color.Lerp(topCol, leftCol, 0.5f), Color.Lerp(topLeftCol, nodeColor, 0.5f), 0.5f);
-			var tr_col = Color.Lerp(Color.Lerp(topCol, rightCol, 0.5f), Color.Lerp(topRightCol, nodeColor, 0.5f), 0.5f);
-			var br_col = Color.Lerp(Color.Lerp(bottomCol, rightCol, 0.5f), Color.Lerp(bottomRightCol, nodeColor, 0.5f), 0.5f);
+			var bl_col = GetLowerStrenghtNodeMult(lowerStrength_bottom, lowerStrength_bottomLeft, lowerStrength_left).GetCurrentColor();// Color.Lerp(Color.Lerp(bottomCol, leftCol, 0.5f), Color.Lerp(bottomLeftCol, nodeColor, 0.5f), 0.5f);
+			var tl_col = GetLowerStrenghtNodeMult(lowerStrength_top, lowerStrength_topLeft, lowerStrength_left).GetCurrentColor(); //Color.Lerp(Color.Lerp(topCol, leftCol, 0.5f), Color.Lerp(topLeftCol, nodeColor, 0.5f), 0.5f);
+			var tr_col = GetLowerStrenghtNodeMult(lowerStrength_top, lowerStrength_topRight, lowerStrength_right).GetCurrentColor(); //Color.Lerp(Color.Lerp(topCol, rightCol, 0.5f), Color.Lerp(topRightCol, nodeColor, 0.5f), 0.5f);
+			var br_col = GetLowerStrenghtNodeMult(lowerStrength_bottom, lowerStrength_bottomRight, lowerStrength_right).GetCurrentColor(); //Color.Lerp(Color.Lerp(bottomCol, rightCol, 0.5f), Color.Lerp(bottomRightCol, nodeColor, 0.5f), 0.5f);
 
 			Colors[node.bl_idx] = bl_col;
 			Colors[node.tl_idx] = tl_col;
 			Colors[node.tr_idx] = tr_col;
 			Colors[node.br_idx] = br_col;
 
-			if(leftNode != null)
+			if (leftNode != null)
 			{
 				Colors[leftNode.br_idx] = bl_col;
 				Colors[leftNode.tr_idx] = tl_col;
@@ -234,7 +281,7 @@ namespace ForceFieldWallTile.Content.Scripts.MeshGen
 				Colors[rightNode.bl_idx] = br_col;
 				Colors[rightNode.tl_idx] = tr_col;
 			}
-			if(topNode != null)
+			if (topNode != null)
 			{
 				Colors[topNode.bl_idx] = tl_col;
 				Colors[topNode.br_idx] = tr_col;
@@ -244,7 +291,7 @@ namespace ForceFieldWallTile.Content.Scripts.MeshGen
 				Colors[bottomNode.tl_idx] = bl_col;
 				Colors[bottomNode.tr_idx] = br_col;
 			}
-			if(bottomLeftNode != null)
+			if (bottomLeftNode != null)
 			{
 				Colors[bottomLeftNode.tr_idx] = bl_col;
 			}
@@ -260,7 +307,7 @@ namespace ForceFieldWallTile.Content.Scripts.MeshGen
 			{
 				Colors[bottomRightNode.tl_idx] = br_col;
 			}
-			if(apply)
+			if (apply)
 				Filter.mesh.SetColors(Colors);
 
 		}

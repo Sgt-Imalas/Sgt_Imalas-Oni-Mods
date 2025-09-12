@@ -10,23 +10,6 @@ namespace ForceFieldWallTile.Content.Scripts.MeshGen
 {
 	internal class Node
 	{
-		static Gradient ColorGradient;
-		static Node()
-		{
-			ColorGradient = new Gradient();
-			GradientColorKey[] colors = [
-					new GradientColorKey(Color.red, 0.0f),
-					new GradientColorKey(Color.yellow, 0.5f),
-					new GradientColorKey(UIUtils.rgb(61, 142, 255), 1.0f)];
-
-			// Blend alpha from opaque at 0% to transparent at 100%
-			GradientAlphaKey[] alphas = [
-					new GradientAlphaKey(1.0f, 0.0f),
-					new GradientAlphaKey(1.0f, 0.5f),
-					new GradientAlphaKey(1.0f, 1.0f)
-				];
-			ColorGradient.SetKeys(colors, alphas);		
-		}
 
 		public Node(int cell)
 		{
@@ -41,10 +24,11 @@ namespace ForceFieldWallTile.Content.Scripts.MeshGen
 
 		public int bl_idx, br_idx, tl_idx, tr_idx;
 
+		public float CurrentStrenght => Mathf.Clamp01(Strenght / MaxStrenght);
+
 		public Color GetCurrentColor()
 		{
-			float colorval = Mathf.Clamp01(Strenght / MaxStrenght);
-			return ColorGradient.Evaluate(colorval);
+			return ModAssets.ColorGradientForcefield.Evaluate(CurrentStrenght);
 		}
 
 
