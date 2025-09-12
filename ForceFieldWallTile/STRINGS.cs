@@ -42,5 +42,16 @@ namespace ForceFieldWallTile
 				}
 			}
 		}
+		public class DUPLICANTS
+		{
+			public class MODIFIERS
+			{
+				public class FORCEFIELDTILE_STUCKINBARRIER
+				{
+					public static LocString NAME = "Slowed by Forcefield";
+					public static LocString TOOLTIP = "The barrier makes it hard to move around.";
+				}
+			}
+		}
 	}
 }

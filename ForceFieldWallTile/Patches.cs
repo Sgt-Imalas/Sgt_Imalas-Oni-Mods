@@ -27,6 +27,24 @@ namespace ForceFieldWallTile
 			}
 		}
 
+		[HarmonyPatch(typeof(Navigator), nameof(Navigator.OnSpawn))]
+		public class Navigator_OnSpawn_Patch
+		{
+			public static void Postfix(Navigator __instance)
+			{
+				__instance.gameObject.AddOrGet<NavigatorForceFieldInteractions>();
+			}
+		}
+
+		[HarmonyPatch(typeof(ModifierSet), nameof(ModifierSet.Initialize))]
+		public class ModifierSet_Initialize_Patch
+		{
+			public static void Postfix(ModifierSet __instance)
+			{
+				ModEffects.Register(__instance);
+			}
+		}
+
 		[HarmonyPatch(typeof(Comet), nameof(Comet.OnSpawn))]
 		public class Comet_OnSpawn_Patch
 		{
