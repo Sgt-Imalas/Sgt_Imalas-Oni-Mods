@@ -233,7 +233,7 @@ namespace UtilLibs.BuildingPortUtils
 						else
 							outputFull = true;
 					}
-					else if (iFlow is SolidConduitFlow solidConduitFlow  )
+					else if (iFlow is SolidConduitFlow solidConduitFlow)
 					{
 						outputFull = !solidConduitFlow.IsConduitEmpty(utilityCell);
 						if (!outputFull && primaryElement.TryGetComponent<Pickupable>(out var pickupable))
@@ -243,7 +243,7 @@ namespace UtilLibs.BuildingPortUtils
 								pickupable = pickupable.Take(Mathf.Max(SolidConduitCapacityTarget, primaryElement.MassPerUnit));
 							}
 							solidConduitFlow.AddPickupable(utilityCell, pickupable);
-						}						
+						}
 					}
 				}
 			}
@@ -266,18 +266,15 @@ namespace UtilLibs.BuildingPortUtils
 						this.hasPipeGuid = this.selectable.ToggleStatusItem(status_item, this.hasPipeGuid, !this.wasConnected, new Tuple<ConduitType, List<Tag>>(this.conduitType, this.GetFilterTags()));
 				}
 			}
-			if (showFullPipeNotification)
+			if (wasFull != isFull)
 			{
-				if (wasFull != isFull)
+				wasFull = isFull;
+				if (showFullPipeNotification && !SkipSetOperational)
 				{
-					wasFull = isFull;
 					pipeBlockedGuid = this.selectable.ToggleStatusItem(Db.Get().BuildingStatusItems.ConduitBlocked, this.pipeBlockedGuid, isFull);
 				}
 			}
-			if(!SkipSetOperational)
-			{
-				operational.SetFlag(conduitBlockedFlag, !wasFull);				
-			}
+			operational.SetFlag(conduitBlockedFlag, !wasFull || SkipSetOperational);
 		}
 
 		protected virtual PrimaryElement FindSuitableElement()

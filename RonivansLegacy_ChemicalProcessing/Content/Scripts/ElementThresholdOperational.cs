@@ -44,7 +44,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 			if (isAbove && StatusItemHandle == Guid.Empty)
 			{
-				StatusItemHandle = selectable.AddStatusItem(StatusItemsDatabase.Converter_StorageFull, true);
+				StatusItemHandle = selectable.AddStatusItem(StatusItemsDatabase.Converter_StorageFull,this);
 				operational.SetFlag(StorageFullFlag, false);
 			}
 			else if (!isAbove && StatusItemHandle != null)

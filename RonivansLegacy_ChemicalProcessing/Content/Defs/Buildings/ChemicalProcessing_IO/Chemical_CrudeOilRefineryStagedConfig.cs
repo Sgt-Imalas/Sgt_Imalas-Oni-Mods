@@ -18,7 +18,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 	{
 		public static string ID = "Chemical_CrudeOilRefineryStaged";
 
-		private static readonly PortDisplayInput steamGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(3, 1), color:new Color32(167, 180, 201, byte.MaxValue));
+		private static readonly PortDisplayInput steamGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(3, 1), color: new Color32(167, 180, 201, byte.MaxValue));
 		private static readonly PortDisplayInput hydrogenGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(3, 2), color: new Color32(224, 67, 203, byte.MaxValue));
 		private static readonly PortDisplayInput naphthaInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(-2, 2), color: new Color32(176, 0, 255, 255));
 		private static readonly PortDisplayOutput naphthaLiquidOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(-2, 1), color: new Color32(176, 0, 255, 255));
@@ -129,19 +129,23 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			conduitDispenser.elementFilter = [SimHashes.Petroleum];
 			conduitDispenser.AssignPort(PetroleumLiquidOutputPort);
 
-			PipedConduitDispenser pipedDispenser1 = go.AddComponent<PipedConduitDispenser>();
-			pipedDispenser1.storage = storage;
-			pipedDispenser1.conduitType = ConduitType.Liquid;
-			pipedDispenser1.alwaysDispense = true;
-			pipedDispenser1.elementFilter = [SimHashes.Naphtha];
-			pipedDispenser1.AssignPort(naphthaLiquidOutputPort);
+			PipedConduitDispenser naphtaDispenser = go.AddComponent<PipedConduitDispenser>();
+			naphtaDispenser.storage = storage;
+			naphtaDispenser.conduitType = ConduitType.Liquid;
+			naphtaDispenser.alwaysDispense = true;
+			naphtaDispenser.elementFilter = [SimHashes.Naphtha];
+			naphtaDispenser.SkipSetOperational = true; //handled by threshold
+			naphtaDispenser.AssignPort(naphthaLiquidOutputPort);
+			var sourGasLimit = go.AddComponent<ElementThresholdOperational>();
+			sourGasLimit.Threshold = 100f;
+			sourGasLimit.ThresholdTag = SimHashes.Naphtha.CreateTag();
 
-			PipedConduitDispenser pipedDispenser2 = go.AddComponent<PipedConduitDispenser>();
-			pipedDispenser2.storage = storage;
-			pipedDispenser2.conduitType = ConduitType.Gas;
-			pipedDispenser2.alwaysDispense = true;
-			pipedDispenser2.elementFilter = [SimHashes.Methane];
-			pipedDispenser2.AssignPort(methaneGasOutputPort);
+			PipedConduitDispenser methaneDispenser = go.AddComponent<PipedConduitDispenser>();
+			methaneDispenser.storage = storage;
+			methaneDispenser.conduitType = ConduitType.Gas;
+			methaneDispenser.alwaysDispense = true;
+			methaneDispenser.elementFilter = [SimHashes.Methane];
+			methaneDispenser.AssignPort(methaneGasOutputPort);
 
 			go.AddOrGet<ElementConversionBuilding>(); //Handles element converter
 			Prioritizable.AddRef(go);

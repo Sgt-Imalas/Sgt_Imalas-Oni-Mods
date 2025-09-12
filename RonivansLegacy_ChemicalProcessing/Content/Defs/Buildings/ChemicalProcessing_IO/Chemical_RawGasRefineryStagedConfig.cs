@@ -43,7 +43,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			sourGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(-2, 2), color: new Color?((Color)new Color32(byte.MaxValue, (byte)173, (byte)248, byte.MaxValue)));
 			ammoniaGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(-2, 1), color: new Color?((Color)new Color32((byte)215, (byte)227, (byte)252, byte.MaxValue)));
 			waterLiquidOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(-3, 0), color: new Color?((Color)new Color32((byte)72, (byte)129, (byte)247, byte.MaxValue)));
-			
+
 		}
 
 		public override BuildingDef CreateBuildingDef()
@@ -76,10 +76,11 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 			go.AddOrGet<BuildingComplete>().isManuallyOperated = false;
 
-			Storage storage1 = go.AddOrGet<Storage>();
-			storage1.capacityKg = 500f;
-			storage1.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
-			storage1.showInUI = true;
+			Storage storage = go.AddOrGet<Storage>();
+			storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
+			storage.showInUI = true;
+			storage.capacityKg = 1000;
+
 			ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
 			conduitConsumer.conduitType = ConduitType.Gas;
 			conduitConsumer.consumptionRate = 10f;
@@ -91,7 +92,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			PortConduitConsumer portConduitConsumer1 = go.AddComponent<PortConduitConsumer>();
 			portConduitConsumer1.conduitType = ConduitType.Gas;
 			portConduitConsumer1.consumptionRate = 10f;
-			portConduitConsumer1.capacityKG = 100f;
+			portConduitConsumer1.capacityKG = 50f;
 			portConduitConsumer1.capacityTag = SimHashes.Steam.CreateTag();
 			portConduitConsumer1.forceAlwaysSatisfied = true;
 			portConduitConsumer1.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
@@ -100,7 +101,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			PortConduitConsumer portConduitConsumer2 = go.AddComponent<PortConduitConsumer>();
 			portConduitConsumer2.conduitType = ConduitType.Gas;
 			portConduitConsumer2.consumptionRate = 10f;
-			portConduitConsumer2.capacityKG = 100f;
+			portConduitConsumer2.capacityKG = 50f;
 			portConduitConsumer2.capacityTag = SimHashes.Hydrogen.CreateTag();
 			portConduitConsumer2.forceAlwaysSatisfied = true;
 			portConduitConsumer2.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
@@ -109,15 +110,16 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			PortConduitConsumer portConduitConsumer3 = go.AddComponent<PortConduitConsumer>();
 			portConduitConsumer3.conduitType = ConduitType.Gas;
 			portConduitConsumer3.consumptionRate = 10f;
-			portConduitConsumer3.capacityKG = 100f;
+			portConduitConsumer3.capacityKG = 50f;
 			portConduitConsumer3.capacityTag = SimHashes.Propane.CreateTag();
 			portConduitConsumer3.forceAlwaysSatisfied = true;
 			portConduitConsumer3.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 			portConduitConsumer3.AssignPort(propaneGasInputPort);
+
 			PortConduitConsumer portConduitConsumer4 = go.AddComponent<PortConduitConsumer>();
 			portConduitConsumer4.conduitType = ConduitType.Gas;
 			portConduitConsumer4.consumptionRate = 10f;
-			portConduitConsumer4.capacityKG = 100f;
+			portConduitConsumer4.capacityKG = 50f;
 			portConduitConsumer4.capacityTag = SimHashes.SourGas.CreateTag();
 			portConduitConsumer4.forceAlwaysSatisfied = true;
 			portConduitConsumer4.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
@@ -143,6 +145,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				new (0.4f, SimHashes.Propane, 367.15f, storeOutput: true, diseaseWeight: 0.30f),
 				new (0.6f, SimHashes.SourGas, 388.15f, storeOutput: true, diseaseWeight: 0.45f)
 			];
+
+
 			ElementConverter elementConverter2 = go.AddComponent<ElementConverter>();
 			elementConverter2.consumedElements =
 			[
@@ -153,6 +157,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			[
 		new (0.5f, SimHashes.Methane, 371.15f, storeOutput: true)
 			];
+
+
 			ElementConverter elementConverter3 = go.AddComponent<ElementConverter>();
 			elementConverter3.consumedElements =
 			[
@@ -165,60 +171,55 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		new (0.15f,ModElements.Ammonia_Gas, 367.15f, storeOutput: true, diseaseWeight: 0.15f),
 		new (0.25f, SimHashes.Sulfur, 333.15f, storeOutput: true, diseaseWeight: 0.35f)
 			];
+
+
 			ElementDropper elementDropper = go.AddComponent<ElementDropper>();
 			elementDropper.emitMass = 25f;
 			elementDropper.emitTag = SimHashes.Sulfur.CreateTag();
 			elementDropper.emitOffset = new Vector3(0.0f, 1f, 0.0f);
-			Storage storage2 = go.AddOrGet<Storage>();
-			storage2.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
-			storage2.showInUI = true;
+
+
 			ConduitDispenser conduitDispenser = go.AddOrGet<ConduitDispenser>();
 			conduitDispenser.conduitType = ConduitType.Gas;
-			conduitDispenser.storage = storage2;
-			conduitDispenser.elementFilter =
-			[
-		SimHashes.Methane
-			];
+			conduitDispenser.storage = storage;
+			conduitDispenser.elementFilter = [SimHashes.Methane];
 
-			PipedConduitDispenser pipedDispenser1 = go.AddComponent<PipedConduitDispenser>();
-			pipedDispenser1.storage = storage2;
-			pipedDispenser1.conduitType = ConduitType.Gas;
-			pipedDispenser1.alwaysDispense = true;
-			pipedDispenser1.elementFilter =
-			[
-		SimHashes.Propane
-			];
-			pipedDispenser1.AssignPort(propaneGasOutputPort);
+			PipedConduitDispenser propaneDispenser = go.AddComponent<PipedConduitDispenser>();
+			propaneDispenser.storage = storage;
+			propaneDispenser.conduitType = ConduitType.Gas;
+			propaneDispenser.alwaysDispense = true;
+			propaneDispenser.SkipSetOperational = true;
+			propaneDispenser.elementFilter = [SimHashes.Propane];
+			propaneDispenser.AssignPort(propaneGasOutputPort);//handled by threshold instead
+			var propaneLimit = go.AddComponent<ElementThresholdOperational>();
+			propaneLimit.Threshold = 100f;
+			propaneLimit.ThresholdTag = SimHashes.Propane.CreateTag();
 
-			PipedConduitDispenser pipedDispenser2 = go.AddComponent<PipedConduitDispenser>();
-			pipedDispenser2.storage = storage2;
-			pipedDispenser2.conduitType = ConduitType.Gas;
-			pipedDispenser2.alwaysDispense = true;
-			pipedDispenser2.elementFilter =
-			[
-				SimHashes.SourGas
-			];
-			pipedDispenser2.AssignPort(sourGasOutputPort);
 
-			PipedConduitDispenser pipedDispenser3 = go.AddComponent<PipedConduitDispenser>();
-			pipedDispenser3.storage = storage2;
-			pipedDispenser3.conduitType = ConduitType.Gas;
-			pipedDispenser3.alwaysDispense = true;
-			pipedDispenser3.elementFilter =
-			[
-				ModElements.Ammonia_Gas
-			];
-			pipedDispenser3.AssignPort(ammoniaGasOutputPort);
+			PipedConduitDispenser sourGasDispenser = go.AddComponent<PipedConduitDispenser>();
+			sourGasDispenser.storage = storage;
+			sourGasDispenser.conduitType = ConduitType.Gas;
+			sourGasDispenser.alwaysDispense = true;
+			sourGasDispenser.elementFilter = [SimHashes.SourGas];
+			sourGasDispenser.AssignPort(sourGasOutputPort);
+			sourGasDispenser.SkipSetOperational = true; //handled by threshold instead
+			var sourGasLimit = go.AddComponent<ElementThresholdOperational>();
+			sourGasLimit.Threshold = 100f;
+			sourGasLimit.ThresholdTag = SimHashes.SourGas.CreateTag();
 
-			PipedConduitDispenser pipedDispenser4 = go.AddComponent<PipedConduitDispenser>();
-			pipedDispenser4.storage = storage2;
-			pipedDispenser4.conduitType = ConduitType.Liquid;
-			pipedDispenser4.alwaysDispense = true;
-			pipedDispenser4.elementFilter =
-			[
-		SimHashes.Water
-			];
-			pipedDispenser4.AssignPort(waterLiquidOutputPort);
+			PipedConduitDispenser ammoniaDispenser = go.AddComponent<PipedConduitDispenser>();
+			ammoniaDispenser.storage = storage;
+			ammoniaDispenser.conduitType = ConduitType.Gas;
+			ammoniaDispenser.alwaysDispense = true;
+			ammoniaDispenser.elementFilter = [ModElements.Ammonia_Gas];
+			ammoniaDispenser.AssignPort(ammoniaGasOutputPort);
+
+			PipedConduitDispenser waterDispenser = go.AddComponent<PipedConduitDispenser>();
+			waterDispenser.storage = storage;
+			waterDispenser.conduitType = ConduitType.Liquid;
+			waterDispenser.alwaysDispense = true;
+			waterDispenser.elementFilter = [SimHashes.Water];
+			waterDispenser.AssignPort(waterLiquidOutputPort);
 
 			Prioritizable.AddRef(go);
 			go.AddOrGet<ElementConversionBuilding>(); //Handles element converter
@@ -240,7 +241,22 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			displayController.AssignPort(go, (DisplayConduitPortInfo)waterLiquidOutputPort);
 		}
 
-		public override void DoPostConfigureComplete(GameObject go) => go.AddOrGetDef<PoweredActiveController.Def>().showWorkingStatus = true;
+		public override void DoPostConfigureComplete(GameObject go)
+		{
+			//make floor in animation functional :>
+			go.AddOrGetDef<PoweredActiveController.Def>().showWorkingStatus = true;
+			FakeFloorAdder fakeFloorAdder = go.AddOrGet<FakeFloorAdder>(); 
+			fakeFloorAdder.floorOffsets = [new CellOffset(1, 2)
+				//,new CellOffset(2, 2)
+				];
+			fakeFloorAdder.initiallyActive = true;
+			//make ladder in animation functional
+			Ladder ladder = go.AddOrGet<Ladder>();
+			ladder.upwardsMovementSpeedMultiplier = 1.5f;
+			ladder.downwardsMovementSpeedMultiplier = 1.5f;
+			ladder.offsets = [new CellOffset(2, 0), new CellOffset(2, 1), new CellOffset(2, 2)];
+
+		}
 
 		public override void DoPostConfigurePreview(BuildingDef def, GameObject go)
 		{
