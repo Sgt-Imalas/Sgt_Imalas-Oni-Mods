@@ -18,11 +18,14 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		//Integrate a max flow rate specifically for ConduitBridges (i.e. Gas Bridge)
 		//Normally, a Gas Bridge can move any amount of gas from one pressurized pipe to another pressurized pipe, since inputs and outputs for buildings have no built in limiter to their flow rate.
 		//For ConduitBridges, limit standard bridges to the same standard max flow rate as their respective conduits (1KG for gas bridge and 10KG for liquid bridge).
+
 		[HarmonyPatch(typeof(ConduitBridge), nameof(ConduitBridge.ConduitUpdate))]
         public class ConduitBridge_ConduitUpdate_Patch
 		{
 			[HarmonyPrepare]
 			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
+
+			[HarmonyPriority(Priority.HigherThanNormal)]
 			internal static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
 			{
 				MethodInfo ConduitFlow_GetContents = AccessTools.Method(typeof(ConduitFlow), nameof(ConduitFlow.GetContents));

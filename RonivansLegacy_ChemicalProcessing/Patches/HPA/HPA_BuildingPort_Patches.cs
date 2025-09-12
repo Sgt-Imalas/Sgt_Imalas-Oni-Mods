@@ -69,6 +69,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		{
 			[HarmonyPrepare]
 			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
+			[HarmonyPriority(Priority.LowerThanNormal)]
 			public static void Postfix(GameObject go)
 			{
 				IncreaseConsumerInput(go.GetComponent<ConduitConsumer>(),true);
@@ -83,6 +84,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		{
 			[HarmonyPrepare]
 			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
+			[HarmonyPriority(Priority.LowerThanNormal)]
 			public static void Postfix(GameObject go)
 			{
 				IncreaseConsumerInput(go.GetComponent<ConduitConsumer>(), false);

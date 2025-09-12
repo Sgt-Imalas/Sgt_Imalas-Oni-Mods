@@ -15,7 +15,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations
 		/// Integration with CustomizeBuildings custom pipe & rail capacities
 		/// </summary>
 
-		static bool typesInitialized = false;
 		static object ConfigInstance = null;
 
 		public static bool TryGetModifiedConduitValues(out float solidCapacity, out float liquidCapacity, out float gasCapacity)
@@ -59,8 +58,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations
 
 		static void InitTypes()
 		{
-			if (typesInitialized) return;
-			typesInitialized = true;
 			var CustomizeBuildings_CustomizeBuildingsState = Type.GetType("CustomizeBuildings.CustomizeBuildingsState, CustomizeBuildings");
 			if (CustomizeBuildings_CustomizeBuildingsState == null)
 			{

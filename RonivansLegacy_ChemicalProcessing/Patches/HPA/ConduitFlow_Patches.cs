@@ -17,7 +17,9 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 	{
 		private static readonly FieldInfo maxMass = AccessTools.Field(typeof(ConduitFlow), nameof(ConduitFlow.MaxMass));
 		private static readonly MethodInfo conduitContentsAddMass = AccessTools.Method(typeof(ConduitFlow.ConduitContents), nameof(ConduitFlow.ConduitContents.AddMass));
-		private static readonly MethodInfo replaceMaxMassAtCell = AccessTools.Method(typeof(ConduitFlow_Patches), nameof(ReplaceMaxMassAtCell));
+		private static readonly MethodInfo replaceMaxMassAtCell_ConduitUpdate = AccessTools.Method(typeof(ConduitFlow_Patches), nameof(ReplaceMaxMassAtCell));
+		private static readonly MethodInfo replaceMaxMassAtCell_AddElement = AccessTools.Method(typeof(ConduitFlow_Patches), nameof(ReplaceMaxMassAtCell_AddElement));
+
 		private static readonly MethodInfo doOverpressureDamageAtCell = AccessTools.Method(typeof(ConduitFlow_Patches), nameof(DoOverpressureDamageAtCell));
 
 		///Modify MaxMass if needed for pressurized pipes when determining if the conduit is full.
@@ -100,6 +102,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		{
 			[HarmonyPrepare]
 			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
+			[HarmonyPriority(Priority.LowerThanNormal)]
 			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
 			{
 				CodeInstruction getCellInstruction = new CodeInstruction(OpCodes.Ldarg_1); //int cell_idx : The first argument of the method being called (Ldarg_0 is the instance (this) reference)
@@ -124,7 +127,10 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				yield return original; //old amount on stack
 				yield return new CodeInstruction(OpCodes.Ldarg_0); //injecting conduitflow instance
 				yield return getCellInstruction; //injecting cell
-				yield return new CodeInstruction(OpCodes.Call, replaceMaxMassAtCell); //consume the three, returing a potentially changed max amount
+												 //consume the three, returning a potentially changed max amount. call different method for AddElement to look if its a reduction valve
+				yield return isUpdateConduit
+					? new CodeInstruction(OpCodes.Call, replaceMaxMassAtCell_ConduitUpdate) 
+					: new CodeInstruction(OpCodes.Call, replaceMaxMassAtCell_AddElement);
 			}
 
 			///During the UpdateConduit method, the ConduitContents.AddMass method is called to move the contents from one pipe to the next.
@@ -139,12 +145,20 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 			}
 			else
 				yield return original;
+
 		}
 
 		///Replace max mass check if the conduit is HighPressure
 		private static float ReplaceMaxMassAtCell(float standardMax, ConduitFlow conduitFlow, int cell_idx)
 		{
-			if(!HighPressureConduitRegistration.TryGetOutputHPACapacityAt(cell_idx, conduitFlow.conduitType, out float increasedCap))
+			if (!HighPressureConduitRegistration.TryGetOutputHPACapacityAt(cell_idx, conduitFlow.conduitType, out float increasedCap))
+				return standardMax;
+			return increasedCap;
+		}
+		///Replace max mass check if the conduit is HighPressure
+		private static float ReplaceMaxMassAtCell_AddElement(float standardMax, ConduitFlow conduitFlow, int cell_idx)
+		{
+			if (!HighPressureConduitRegistration.TryGetOutputHPACapacityAt(cell_idx, conduitFlow.conduitType, out float increasedCap, ignoreValves: false))
 				return standardMax;
 			return increasedCap;
 		}
@@ -154,7 +168,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		private static void DoOverpressureDamageAtCell(ConduitFlow conduitFlow, ConduitFlow.GridNode sender, int cell_idx)
 		{
 			///if the conduit is not high pressure, this check fails, therefore it should receive damage
-			HighPressureConduitEventHandler.PressureDamageHandling(cell_idx,conduitFlow.conduitType, sender.contents.mass, HighPressureConduitRegistration.GetMaxConduitCapacityAt(cell_idx, conduitFlow.conduitType));
-		}		
+			HighPressureConduitEventHandler.PressureDamageHandling(cell_idx, conduitFlow.conduitType, sender.contents.mass, HighPressureConduitRegistration.GetMaxConduitCapacityAt(cell_idx, conduitFlow.conduitType));
+		}
 	}
 }

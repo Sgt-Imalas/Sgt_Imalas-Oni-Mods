@@ -24,6 +24,8 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		{
 			[HarmonyPrepare]
 			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
+
+			[HarmonyPriority(Priority.HigherThanNormal)]
 			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
 			{
 				var ConduitFlow_Conduit_GetContents = AccessTools.Method(typeof(ConduitFlow.Conduit), nameof(ConduitFlow.Conduit.GetContents));

@@ -27,7 +27,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		public static float SolidCap_Regular => _solidCap_reg;
 
 		public static float GasCap_HP => _gasCap_hp;
-		public static float LiquidCap_HP => _gasCap_hp;
+		public static float LiquidCap_HP => _liquidCap_hp;
 
 
 
@@ -73,7 +73,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		{
 			if (!_capInit || force)
 			{
-				if(force)
+				if (force)
 					SgtLogger.l("Re-Initializing PipeCapacity Cache");
 				else
 					SgtLogger.l("Initializing PipeCapacity Cache");
@@ -91,7 +91,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				_logisticMult = Config.Instance.Logistic_Rail_Capacity_Multiplier;
 
 				_usingInsulatedSolidRails = Config.Instance.HPA_Rails_Insulation_Mod_Enabled;
-				
+
 				///Checking if CustomizeBuilding is installed and if it adds custom values
 				if (CustomizeBuildings.TryGetModifiedConduitValues(out float solid, out float liquid, out float gas))
 				{
@@ -288,24 +288,27 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			throw new NotImplementedException("Tried getting invalid conduit type");
 		}
 
-		public static bool TryGetOutputHPACapacityAt(int cell, ConduitType type, out float capacity, bool bridge = false)
+		public static bool TryGetOutputHPACapacityAt(int cell, ConduitType type, out float capacity, bool bridge = false, bool ignoreValves = true)
 		{
-			switch (type)
+			if (!ignoreValves)
 			{
-				case ConduitType.Gas:
-					if(ValveOutputs_Gas.Contains(cell))
-					{
-						capacity = CachedRegularConduitCapacity(type);
-						return false;
-					}
-					break;
-				case ConduitType.Liquid:
-					if (ValveOutputs_Liquid.Contains(cell))
-					{
-						capacity = CachedRegularConduitCapacity(type);
-						return false;
-					}
-					break;
+				switch (type)
+				{
+					case ConduitType.Gas:
+						if (ValveOutputs_Gas.Contains(cell))
+						{
+							capacity = CachedRegularConduitCapacity(type);
+							return false;
+						}
+						break;
+					case ConduitType.Liquid:
+						if (ValveOutputs_Liquid.Contains(cell))
+						{
+							capacity = CachedRegularConduitCapacity(type);
+							return false;
+						}
+						break;
+				}
 			}
 
 			capacity = CachedHPAConduitCapacity(type);
@@ -502,7 +505,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 		public static void RegisterDecompressionValve(HPA_DecompressionOutput valve)
 		{
-			switch(valve.ConduitDispenser.conduitType)
+			switch (valve.ConduitDispenser.conduitType)
 			{
 				case ConduitType.Gas:
 					ValveOutputs_Gas.Add(valve.building.GetUtilityOutputCell());
@@ -551,7 +554,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			return DynamicSolidConduitDispenserHandles.Contains(dispenser.gameObject.GetInstanceID());
 		}
 
-		static Dictionary<Pickupable,SimTemperatureTransfer> _cachedPickupables = new(2048);
+		static Dictionary<Pickupable, SimTemperatureTransfer> _cachedPickupables = new(2048);
 
 		internal static Pickupable SetInsulatedState(Pickupable pickupable, bool sealAndInsulate)
 		{
@@ -583,11 +586,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		}
 		internal static void RegisterPickupable(Pickupable instance)
 		{
-			if(!_usingInsulatedSolidRails || instance == null || instance.gameObject == null || instance.deleteOffGrid)
+			if (!_usingInsulatedSolidRails || instance == null || instance.gameObject == null || instance.deleteOffGrid)
 				return;
 			if (_cachedPickupables.ContainsKey(instance))
 				return;
-			if (instance.TryGetComponent<SimTemperatureTransfer>(out var _tempTransfer) )
+			if (instance.TryGetComponent<SimTemperatureTransfer>(out var _tempTransfer))
 			{
 				_cachedPickupables[instance] = _tempTransfer;
 			}
