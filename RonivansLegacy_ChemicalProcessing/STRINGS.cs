@@ -798,6 +798,13 @@ namespace RonivansLegacy_ChemicalProcessing
 				}
 				#endregion
 				#region DupesEngineering
+				public class AIO_METALLADDER
+				{
+					public static LocString NAME = FormatAsLink("Metal Ladder", nameof(AIO_METALLADDER));
+					public static LocString DESC = "A sturdy and durable ladder wrought from refined metals.";
+					public static LocString EFFECT = "Increases Duplicant climbing speed.";
+				}
+
 				public class AIO_FACILITYDOOR
 				{
 					public static LocString NAME = FormatAsLink("Facility Door", nameof(AIO_FACILITYDOOR));
@@ -1247,7 +1254,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class DECOMPRESSIONGASVALVE
 				{
 					public static LocString NAME = FormatAsLink("Decompression Gas Valve", nameof(DECOMPRESSIONGASVALVE));
-					public static LocString DESC = "A mechanical valve capable of reducing the flow of gas from a pressurized pipe to a normal pipe, avoid it to break.";
+					public static LocString DESC = "A mechanical valve capable of reducing the flow of gas from a pressurized pipe to a normal pipe, avoiding it to break.";
 					public static LocString EFFECT = "Allows " +
 					FormatAsLink("Gases", "ELEMENTS_GAS") +
 					" to be transfered from " +
@@ -1259,7 +1266,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class DECOMPRESSIONLIQUIDVALVE
 				{
 					public static LocString NAME = FormatAsLink("Decompression Liquid Valve", nameof(DECOMPRESSIONLIQUIDVALVE));
-					public static LocString DESC = "A mechanical valve capable of reducing the flow of liquid from a pressurized pipe to a normal pipe, avoid it to break.";
+					public static LocString DESC = "A mechanical valve capable of reducing the flow of liquid from a pressurized pipe to a normal pipe, avoiding it to break.";
 					public static LocString EFFECT = string.Concat(
 						[
 							"Allows ",

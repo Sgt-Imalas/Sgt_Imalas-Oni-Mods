@@ -558,6 +558,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddModFrom(SourceModInfo.DupesEngineering)
 				.MigrateFrom(["SpacerWindow_A", "SpacerWindow_B"]);
 
+			//Metal Ladder
+			BuildingManager.CreateEntry<MetalLadderConfig>()
+				.AddToCategory(PlanMenuCategory.Base, LadderFastConfig.ID)
+				.AddToTech(Technology.SolidMaterial.Smelting)
+				.AddModFrom(SourceModInfo.DupesEngineering)
+				.MigrateFrom("MetalLadder");
 		}
 		private static void RegisterBuildings_CustomReservoirs()
 		{
