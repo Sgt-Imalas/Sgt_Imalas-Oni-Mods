@@ -6,17 +6,25 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 using static Components;
+using static STRINGS.UI.USERMENUACTIONS;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {
 	internal class TinkerableCopySettingsHandler : KMonoBehaviour
 	{
-		[MyCmpAdd] CopyBuildingSettings copyBuildingSettings;
-		[MyCmpReq] Tinkerable TinkerTarget;
+		/// <summary>
+		/// The SpaceTreeBranch / Bonbon tree branch crashes when any myCmpadd/get call is added to any component on it...
+		/// </summary>
+		//[MyCmpAdd] 
+		CopyBuildingSettings copyBuildingSettings;
+		//[MyCmpReq] 
+		Tinkerable TinkerTarget;
 
 		private static readonly EventSystem.IntraObjectHandler<TinkerableCopySettingsHandler> OnCopySettingsDelegate = new EventSystem.IntraObjectHandler<TinkerableCopySettingsHandler>((component, data) => component.OnCopySettings(data));
 		public override void OnSpawn()
 		{
+			copyBuildingSettings = gameObject.AddOrGet<CopyBuildingSettings>();
+			TryGetComponent(out TinkerTarget);
 			this.Subscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate);
 			base.OnSpawn();
 		}

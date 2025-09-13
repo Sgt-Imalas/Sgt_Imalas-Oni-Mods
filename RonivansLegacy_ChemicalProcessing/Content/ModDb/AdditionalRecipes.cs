@@ -514,125 +514,125 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		/// <summary>
 		/// unused
 		/// </summary>
-		public static void RegisterRecipes_ExpellerPress_GENERIC_ATTEMPT()
-		{
-			string ID = Biochemistry_ExpellerPressConfig.ID;
-			SgtLogger.l("Listing generic crops:");
+		//public static void RegisterRecipes_ExpellerPress_GENERIC_ATTEMPT()
+		//{
+		//	string ID = Biochemistry_ExpellerPressConfig.ID;
+		//	SgtLogger.l("Listing generic crops:");
 
-			foreach (var cropVal in CROPS.CROP_TYPES)
-			{
-				Tag product = cropVal.cropId;
+		//	foreach (var cropVal in CROPS.CROP_TYPES)
+		//	{
+		//		Tag product = cropVal.cropId;
 
-				///elemental plant products are ignored
-				if (ElementLoader.GetElement(product) != null)
-					continue;
+		//		///elemental plant products are ignored
+		//		if (ElementLoader.GetElement(product) != null)
+		//			continue;
 
-				var item = Assets.GetPrefab(product);
-				if (item == null)
-					continue;
+		//		var item = Assets.GetPrefab(product);
+		//		if (item == null)
+		//			continue;
 
-				///ignore tree branches
-				if (item.HasTag(GameTags.PlantBranch))
-					continue;
+		//		///ignore tree branches
+		//		if (item.HasTag(GameTags.PlantBranch))
+		//			continue;
 
-				///ignore plant grown critters, eg. butterfly from dlc4
-				if (item.GetComponent<Navigator>() != null)
-					continue;
+		//		///ignore plant grown critters, eg. butterfly from dlc4
+		//		if (item.GetComponent<Navigator>() != null)
+		//			continue;
 
-				if (!PlantProductsConsumption.TryGetValue(product, out var plantProductsConsumption))
-					continue;
+		//		if (!PlantProductsConsumption.TryGetValue(product, out var plantProductsConsumption))
+		//			continue;
 
-				float totalMassConsumedByPlant = plantProductsConsumption.TotalMassPerSecond() * cropVal.cropDuration;
-				float liquidMassConsumedByPlant = plantProductsConsumption.LiquidMassPerSecond() * cropVal.cropDuration;
-				float solidMassConsumedByPlant = plantProductsConsumption.SolidMassPerSecond() * cropVal.cropDuration;
+		//		float totalMassConsumedByPlant = plantProductsConsumption.TotalMassPerSecond() * cropVal.cropDuration;
+		//		float liquidMassConsumedByPlant = plantProductsConsumption.LiquidMassPerSecond() * cropVal.cropDuration;
+		//		float solidMassConsumedByPlant = plantProductsConsumption.SolidMassPerSecond() * cropVal.cropDuration;
 
-				//SgtLogger.l(product+","+global::STRINGS.UI.StripLinkFormatting(Assets.GetPrefab(product).GetProperName()) + ", plant consumes " + totalMassConsumedByPlant + "kg of fertilizer (solid mass: " + solidMassConsumedByPlant + ", liquid mass: " + liquidMassConsumedByPlant + ") over " + cropVal.cropDuration / 600f + " cycles, making " + cropVal.numProduced + " items");
-				Console.WriteLine(cropVal.numProduced + "," + plantProductsConsumption.TotalMassPerSecond() * 600 + "," + product + "," + global::STRINGS.UI.StripLinkFormatting(Assets.GetPrefab(product).GetProperName()) + ";");
-				float massConsumedByPlantPerProduct = totalMassConsumedByPlant / ((float)cropVal.numProduced);
-
-
+		//		//SgtLogger.l(product+","+global::STRINGS.UI.StripLinkFormatting(Assets.GetPrefab(product).GetProperName()) + ", plant consumes " + totalMassConsumedByPlant + "kg of fertilizer (solid mass: " + solidMassConsumedByPlant + ", liquid mass: " + liquidMassConsumedByPlant + ") over " + cropVal.cropDuration / 600f + " cycles, making " + cropVal.numProduced + " items");
+		//		Console.WriteLine(cropVal.numProduced + "," + plantProductsConsumption.TotalMassPerSecond() * 600 + "," + product + "," + global::STRINGS.UI.StripLinkFormatting(Assets.GetPrefab(product).GetProperName()) + ";");
+		//		float massConsumedByPlantPerProduct = totalMassConsumedByPlant / ((float)cropVal.numProduced);
 
 
-				//generic fallbacK: 6% to oil, 9% to biomass
-				RecipeBuilder.Create(ID, 25)
-					.Input(product, 1)
-					.Output(ModElements.VegetableOil_Liquid, massConsumedByPlantPerProduct * 0.06f)
-					.Output(ModElements.BioMass_Solid, massConsumedByPlantPerProduct * 0.09f)
-					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
-					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_1_2, 1, 2)
-					.Build();
-			}
-			ExpellerPress_Seeds(ID);
-		}
-		public class PlantConsumptionInfo
-		{
-			public float TotalMassPerSecond()
-			{
-				float val = 0;
-				foreach (var item in MassPerSecondPerItem)
-				{
-					val += item.Value;
-				}
-				return val;
-			}
-			public float SolidMassPerSecond()
-			{
-				float val = 0;
-				foreach (var item in MassPerSecondPerItemSolid)
-				{
-					val += item.Value;
-				}
-				return val;
-			}
-			public float LiquidMassPerSecond()
-			{
-				float val = 0;
-				foreach (var item in MassPerSecondPerItemLiquid)
-				{
-					val += item.Value;
-				}
-				return val;
-			}
 
 
-			public Dictionary<Tag, float> MassPerSecondPerItem = new();
-			public Dictionary<Tag, float> MassPerSecondPerItemLiquid = new();
-			public Dictionary<Tag, float> MassPerSecondPerItemSolid = new();
-			public void AddOrIncreasConsumption(Tag tag, float val)
-			{
-				if (MassPerSecondPerItem.ContainsKey(tag))
-					MassPerSecondPerItem[tag] += val;
-				else MassPerSecondPerItem[tag] = val;
+		//		//generic fallbacK: 6% to oil, 9% to biomass
+		//		RecipeBuilder.Create(ID, 25)
+		//			.Input(product, 1)
+		//			.Output(ModElements.VegetableOil_Liquid, massConsumedByPlantPerProduct * 0.06f)
+		//			.Output(ModElements.BioMass_Solid, massConsumedByPlantPerProduct * 0.09f)
+		//			.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
+		//			.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_1_2, 1, 2)
+		//			.Build();
+		//	}
+		//	ExpellerPress_Seeds(ID);
+		//}
+		//public class PlantConsumptionInfo
+		//{
+		//	public float TotalMassPerSecond()
+		//	{
+		//		float val = 0;
+		//		foreach (var item in MassPerSecondPerItem)
+		//		{
+		//			val += item.Value;
+		//		}
+		//		return val;
+		//	}
+		//	public float SolidMassPerSecond()
+		//	{
+		//		float val = 0;
+		//		foreach (var item in MassPerSecondPerItemSolid)
+		//		{
+		//			val += item.Value;
+		//		}
+		//		return val;
+		//	}
+		//	public float LiquidMassPerSecond()
+		//	{
+		//		float val = 0;
+		//		foreach (var item in MassPerSecondPerItemLiquid)
+		//		{
+		//			val += item.Value;
+		//		}
+		//		return val;
+		//	}
 
 
-				if (ElementLoader.GetElement(tag) != null && ElementLoader.GetElement(tag).IsLiquid)
-				{
-					if (MassPerSecondPerItemLiquid.ContainsKey(tag))
-						MassPerSecondPerItemLiquid[tag] += val;
-					else MassPerSecondPerItemLiquid[tag] = val;
-				}
-				else
-				{
+		//	public Dictionary<Tag, float> MassPerSecondPerItem = new();
+		//	public Dictionary<Tag, float> MassPerSecondPerItemLiquid = new();
+		//	public Dictionary<Tag, float> MassPerSecondPerItemSolid = new();
+		//	public void AddOrIncreasConsumption(Tag tag, float val)
+		//	{
+		//		if (MassPerSecondPerItem.ContainsKey(tag))
+		//			MassPerSecondPerItem[tag] += val;
+		//		else MassPerSecondPerItem[tag] = val;
 
-					if (MassPerSecondPerItemSolid.ContainsKey(tag))
-						MassPerSecondPerItemSolid[tag] += val;
-					else MassPerSecondPerItemSolid[tag] = val;
-				}
-			}
-		}
-		public static PlantConsumptionInfo AddOrGetPlantConsumptionInfo(Tag crop, Tag consumes, float amount)
-		{
-			if (!PlantProductsConsumption.TryGetValue(crop, out var consumptionInfo))
-			{
-				consumptionInfo = new();
-				PlantProductsConsumption[crop] = consumptionInfo;
-			}
-			//SgtLogger.l("registering Consumption rate for "+crop+"; "+consumes+" x "+amount+" per second");
-			consumptionInfo.AddOrIncreasConsumption(consumes, amount);
-			return consumptionInfo;
-		}
 
-		public static Dictionary<Tag, PlantConsumptionInfo> PlantProductsConsumption = new();
+		//		if (ElementLoader.GetElement(tag) != null && ElementLoader.GetElement(tag).IsLiquid)
+		//		{
+		//			if (MassPerSecondPerItemLiquid.ContainsKey(tag))
+		//				MassPerSecondPerItemLiquid[tag] += val;
+		//			else MassPerSecondPerItemLiquid[tag] = val;
+		//		}
+		//		else
+		//		{
+
+		//			if (MassPerSecondPerItemSolid.ContainsKey(tag))
+		//				MassPerSecondPerItemSolid[tag] += val;
+		//			else MassPerSecondPerItemSolid[tag] = val;
+		//		}
+		//	}
+		//}
+		//public static PlantConsumptionInfo AddOrGetPlantConsumptionInfo(Tag crop, Tag consumes, float amount)
+		//{
+		//	if (!PlantProductsConsumption.TryGetValue(crop, out var consumptionInfo))
+		//	{
+		//		consumptionInfo = new();
+		//		PlantProductsConsumption[crop] = consumptionInfo;
+		//	}
+		//	//SgtLogger.l("registering Consumption rate for "+crop+"; "+consumes+" x "+amount+" per second");
+		//	consumptionInfo.AddOrIncreasConsumption(consumes, amount);
+		//	return consumptionInfo;
+		//}
+
+		//public static Dictionary<Tag, PlantConsumptionInfo> PlantProductsConsumption = new();
 
 
 		internal static void RegisterTags()
