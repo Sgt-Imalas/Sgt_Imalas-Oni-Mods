@@ -388,11 +388,11 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString DESC = "A plasma arc furnace uses low-temperature plasma flow created by an electric arc heater (plasmatron).";
 					public static LocString EFFECT = string.Concat(
 						[
-							"This techlogical advanced glass foundry is capable more than melt ",
+							"This technologically advanced glass foundry has a wide range of other applications beyond simply melting ",
 							FormatAsLink("Sand", "SAND"),
-							" in to ",
+							" into ",
 							FormatAsLink("Molten Glass", "MOLTENGLASS"),
-							", but a wide range of other applications."
+							"."
 						]);
 				}
 				public class CHEMICAL_SMALLCRUSHERMILL
