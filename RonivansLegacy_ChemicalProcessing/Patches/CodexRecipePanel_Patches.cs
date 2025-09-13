@@ -36,6 +36,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 					var amount = component.GetReference<LocText>("Amount");
 					amount.text = occurence.GetOccurenceCompositionName(true);
 					amount.color = Color.black;
+					amount.enableWordWrapping = false;
 
 					component.GetReference<ToolTip>("Tooltip").toolTip = occurence.GetOccurenceCompositionDescription();
 					component.GetReference<KButton>("Button").interactable = false;

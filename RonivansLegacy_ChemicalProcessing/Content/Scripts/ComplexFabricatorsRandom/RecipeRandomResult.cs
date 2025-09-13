@@ -285,5 +285,15 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 				return element.defaultValues.temperature;
 			}
 		}
+
+		internal bool HasTagInList(Tag tag)
+		{
+			foreach(var element in RandomProductsRange.Keys)
+			{
+				if (element.CreateTag() == tag)
+					return true;				
+			}
+			return false;
+		}
 	}
 }
