@@ -33,6 +33,7 @@ namespace Mineral_Processing
 			buildingDef.Floodable = true;
 			buildingDef.AudioCategory = "Metal";
 			buildingDef.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(0, 0));
+			buildingDef.LogicOutputPorts = ComplexFabricatorActiveLogicOutput.CreateSingleOutputPortList(new CellOffset(2, 1));
 			buildingDef.BuildLocationRule = BuildLocationRule.OnFloor;
 			SoundUtils.CopySoundsToAnim("mineral_drill_kanim", "rockrefinery_kanim");
 			//buildingDef.OnePerWorld = true;
@@ -138,6 +139,8 @@ namespace Mineral_Processing
 				light2D.Lux = 1800;
 				light2D.autoRespondToOperational = false;
 			}
+
+			go.AddOrGet<ComplexFabricatorActiveLogicOutput>();
 		}
 
 		public override void DoPostConfigurePreview(BuildingDef def, GameObject go) => base.DoPostConfigurePreview(def, go);

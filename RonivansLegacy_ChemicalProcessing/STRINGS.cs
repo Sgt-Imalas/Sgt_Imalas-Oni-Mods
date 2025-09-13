@@ -2062,6 +2062,15 @@ namespace RonivansLegacy_ChemicalProcessing
 		}
 		public class UI
 		{
+			public class LOGIC_PORTS
+			{
+				public class FABRICATOR_ACTIVE
+				{
+					public static LocString LOGIC_PORT = (LocString)"Machine Active";
+					public static LocString LOGIC_PORT_ACTIVE = (LocString)("Sends a " + FormatAsAutomationState("Green Signal", AutomationState.Active) + " when the machine is actively producing something.");
+					public static LocString LOGIC_PORT_INACTIVE = (LocString)("Otherwise, sends a " + FormatAsAutomationState("Red Signal", AutomationState.Standby));
+				}
+			}
 			public class TOOLTIPS
 			{
 				public static LocString HELP_BUILDLOCATION_HPA_RAIL = "Obstructed by Heavy-Duty Rail";

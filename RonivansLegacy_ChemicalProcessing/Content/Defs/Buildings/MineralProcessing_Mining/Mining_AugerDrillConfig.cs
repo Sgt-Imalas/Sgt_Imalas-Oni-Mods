@@ -50,6 +50,8 @@ namespace Mineral_Processing_Mining.Buildings
 			def.Entombable = false;
 			def.Breakable = false;
 			def.Invincible = true;
+			def.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(5, 1));
+			def.LogicOutputPorts = ComplexFabricatorActiveLogicOutput.CreateSingleOutputPortList(new CellOffset(5, 2));
 			//this ONLY toggles of the build tool afterwards, you need to add the UniquePerWorld tag to the building definition to make it a world exclusive building.
 			def.OnePerWorld = true;
 			SoundUtils.CopySoundsToAnim("auger_drill_kanim", "rockrefinery_kanim");
@@ -394,6 +396,7 @@ namespace Mineral_Processing_Mining.Buildings
 			if (Config.Instance.HPA_Rails_Mod_Enabled)
 				go.AddOrGet<HPA_SolidConduitRequirement>().RequiresHighPressureOutput = true;
 			AddFloor(go);
+			go.AddOrGet<ComplexFabricatorActiveLogicOutput>();
 
 		}
 
