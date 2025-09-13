@@ -58,6 +58,9 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 					amount.color = Color.black;
 					amount.enableWordWrapping = false;
 
+					var containerLE = __instance.resultsContainer.GetComponent<LayoutElement>();
+					containerLE.preferredWidth = containerLE.preferredWidth + 40f;
+
 					component.GetReference<ToolTip>("Tooltip").toolTip = result.GetProductCompositionDescription();
 					component.GetReference<KButton>("Button").interactable = false;
 
