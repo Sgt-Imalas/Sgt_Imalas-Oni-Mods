@@ -23,9 +23,7 @@ namespace OniRetroEdition.Behaviors
 			storages = this.GetComponents<Storage>().ToList();
 
 			string meterTarget;
-			if (kbac.curBuild.GetSymbol("block_frame") != null)
-				meterTarget = "block_frame";
-			else if (kbac.curBuild.GetSymbol("target_meter") != null)
+			if (kbac.curBuild.GetSymbol("target_meter") != null)
 				meterTarget = "target_meter";
 			else
 				meterTarget = "meter_target";
