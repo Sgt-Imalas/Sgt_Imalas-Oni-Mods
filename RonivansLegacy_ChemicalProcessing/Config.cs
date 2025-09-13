@@ -144,6 +144,9 @@ namespace RonivansLegacy_ChemicalProcessing
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.TOOLTIP", "STRINGS.AIO_MODSOURCE.CUSTOMRESERVOIRS")]
 		public bool CustomReservoirs_Enabled { get; set; } = true;
 
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.CUSTOMRES_MOVETOCONDUITCATEGORY.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.CUSTOMRES_MOVETOCONDUITCATEGORY.TOOLTIP", "STRINGS.AIO_MODSOURCE.CUSTOMRESERVOIRS")]
+		public bool ReservoirsInConduitCategory { get; set; } = true;
+
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.NAME_ALT", "STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.TOOLTIP", "STRINGS.AIO_MODSOURCE.CUSTOMRESERVOIRS")]
 		[JsonIgnore]
 		public System.Action<object> Button_OpenBuildingConfigEditor_Reservoirs => (_) => BuildingEditor_MainScreen.ShowBuildingEditor(null, SourceModInfo.CustomReservoirs);

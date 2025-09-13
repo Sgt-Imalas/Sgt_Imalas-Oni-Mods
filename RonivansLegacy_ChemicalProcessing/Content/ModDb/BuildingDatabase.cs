@@ -567,34 +567,38 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		}
 		private static void RegisterBuildings_CustomReservoirs()
 		{
+			string menuCategoryGas = Config.Instance.ReservoirsInConduitCategory ? PlanMenuCategory.Ventilation : PlanMenuCategory.Base;
+			string menuCategoryLiquid = Config.Instance.ReservoirsInConduitCategory ? PlanMenuCategory.Plumbing : PlanMenuCategory.Base;
+
+
 			BuildingManager.CreateEntry<SmallGasReservoirWallConfig>()
-				.AddToCategory(PlanMenuCategory.Base, GasReservoirConfig.ID)
+				.AddToCategory(menuCategoryGas, GasReservoirConfig.ID, ModUtil.BuildingOrdering.Before)
 				.AddToTech(Technology.Gases.ImprovedVentilation)
 				.AddModFrom(SourceModInfo.CustomReservoirs);
 
 			BuildingManager.CreateEntry<SmallGasReservoirDefaultConfig>()
-				.AddToCategory(PlanMenuCategory.Base, GasReservoirConfig.ID)
+				.AddToCategory(menuCategoryGas, GasReservoirConfig.ID,ModUtil.BuildingOrdering.Before)
 				.AddToTech(Technology.Gases.Ventilation)
 				.AddModFrom(SourceModInfo.CustomReservoirs);
 
 			BuildingManager.CreateEntry<MedGasReservoirConfig>()
-				.AddToCategory(PlanMenuCategory.Base, GasReservoirConfig.ID)
+				.AddToCategory(menuCategoryGas, GasReservoirConfig.ID, ModUtil.BuildingOrdering.Before)
 				.AddToTech(Technology.Gases.ImprovedVentilation)
 				.AddModFrom(SourceModInfo.CustomReservoirs);
 
 
 			BuildingManager.CreateEntry<SmallLiquidReservoirWallConfig>()
-				.AddToCategory(PlanMenuCategory.Base, LiquidReservoirConfig.ID)
+				.AddToCategory(menuCategoryLiquid, LiquidReservoirConfig.ID, ModUtil.BuildingOrdering.Before)
 				.AddToTech(Technology.Liquids.ImprovedPlumbing)
 				.AddModFrom(SourceModInfo.CustomReservoirs);
 
 			BuildingManager.CreateEntry<SmallLiquidReservoirDefaultConfig>()
-				.AddToCategory(PlanMenuCategory.Base, LiquidReservoirConfig.ID)
+				.AddToCategory(menuCategoryLiquid, LiquidReservoirConfig.ID, ModUtil.BuildingOrdering.Before)
 				.AddToTech(Technology.Liquids.Plumbing)
 				.AddModFrom(SourceModInfo.CustomReservoirs);
 
 			BuildingManager.CreateEntry<MedLiquidReservoirConfig>()
-				.AddToCategory(PlanMenuCategory.Base, LiquidReservoirConfig.ID)
+				.AddToCategory(menuCategoryLiquid, LiquidReservoirConfig.ID, ModUtil.BuildingOrdering.Before)
 				.AddToTech(Technology.Liquids.ImprovedPlumbing)
 				.AddModFrom(SourceModInfo.CustomReservoirs);
 		}
@@ -851,12 +855,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			MonoElementTileIgneousRockConfig.RegisterLegacyMigration();
 
 			TryMigrate("WoodenLadder", LadderConfig.ID);
-			TryMigrate("BrickWall", ExteriorWallConfig.ID); 
+			TryMigrate("BrickWall", ExteriorWallConfig.ID);
 			TryMigrate("WoodenDryWall", ExteriorWallConfig.ID);
 			TryMigrate("WoodenDryWall_B", ExteriorWallConfig.ID);
 
-			TryMigrate("Custom_MetalRefinery", MetalRefineryConfig.ID); 
-			TryMigrate("Custom_OilWellCap", OilWellCapConfig.ID); 
+			TryMigrate("Custom_MetalRefinery", MetalRefineryConfig.ID);
+			TryMigrate("Custom_OilWellCap", OilWellCapConfig.ID);
 		}
 		static void TryMigrate(string oldId, string newId)
 		{
@@ -866,6 +870,15 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			var prefab = Assets.TryGetPrefab(newId);
 			if (prefab != null && !savemng.prefabMap.ContainsKey(oldId))
 				savemng.prefabMap.Add(oldId, prefab);
+		}
+
+		internal static void MoveVanillaReservoirs()
+		{
+			if (!Config.Instance.ReservoirsInConduitCategory)
+			{ return; }
+
+			InjectionMethods.MoveExistingBuildingToNewCategory(PlanMenuCategory.Ventilation, GasReservoirConfig.ID, subcategoryID: PlanMenuSubcategory.Storage);
+			InjectionMethods.MoveExistingBuildingToNewCategory(PlanMenuCategory.Plumbing, LiquidReservoirConfig.ID, subcategoryID: PlanMenuSubcategory.Storage);
 		}
 	}
 }

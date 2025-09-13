@@ -30,7 +30,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservo
 		public int Width = 1, Height = 3;
 
 		public static string ID = DEFAULT_ID;
-		public string KANIM = KANIMNORMAL;
+		public string KANIM = "small_liquid_reservoir_buildmenu_kanim";
 
 		public CellOffset UtilityInputOffset = new CellOffset(0, 2);
 		public CellOffset UtilityOutputOffset = new CellOffset(0, 0);

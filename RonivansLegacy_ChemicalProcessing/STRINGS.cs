@@ -2372,6 +2372,11 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString NAME = "Anaerobic Digester Natgas Multiplier";
 				public static LocString TOOLTIP = "Multiply the natural gas output amounts of the anaerobic digester by this value.";
 			}
+			public class CUSTOMRES_MOVETOCONDUITCATEGORY
+			{
+				public static LocString NAME = "Move all Reservoirs to their piping category";
+				public static LocString TOOLTIP = "Moves all vanilla and mod reservoirs into the respective piping category:\nLiquid Reservoirs are found under \"Plumbing\"\nGas Reservoirs are found under\"Ventilation\"";
+			}
 		}
 	}
 }
