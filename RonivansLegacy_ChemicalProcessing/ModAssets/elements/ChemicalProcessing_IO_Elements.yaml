@@ -33,6 +33,8 @@ elements:
     thermalConductivity: 7
     liquidCompression: 1.01
     speed: 100
+    minHorizontalFlow: 30
+    minVerticalFlow: 3
     solidSurfaceAreaMultiplier: 1
     liquidSurfaceAreaMultiplier: 25
     gasSurfaceAreaMultiplier: 1
@@ -116,6 +118,8 @@ elements:
     thermalConductivity: 7
     liquidCompression: 1.01
     speed: 100
+    minHorizontalFlow: 30
+    minVerticalFlow: 3
     solidSurfaceAreaMultiplier: 1
     liquidSurfaceAreaMultiplier: 25
     gasSurfaceAreaMultiplier: 1
@@ -194,6 +198,8 @@ elements:
     thermalConductivity: 0.507
     liquidCompression: 1.01
     speed: 100
+    minHorizontalFlow: 0.1
+    minVerticalFlow: 0.1
     solidSurfaceAreaMultiplier: 1
     liquidSurfaceAreaMultiplier: 25
     gasSurfaceAreaMultiplier: 1
@@ -278,7 +284,8 @@ elements:
     solidSurfaceAreaMultiplier: 1
     liquidSurfaceAreaMultiplier: 25
     gasSurfaceAreaMultiplier: 1
-    strength: 0.7
+    minHorizontalFlow: 4
+    minVerticalFlow: 0.4
     highTemp: 486.15
     lowTemp: 288.15
     highTempTransitionTarget: ToxicGas
@@ -474,6 +481,8 @@ elements:
     thermalConductivity: 1
     liquidCompression: 1.01
     speed: 40
+    minHorizontalFlow: 40
+    minVerticalFlow: 10
     solidSurfaceAreaMultiplier: 1
     liquidSurfaceAreaMultiplier: 25
     gasSurfaceAreaMultiplier: 1
@@ -579,11 +588,12 @@ elements:
     specificHeatCapacity: 4.5 #between brine and liquid ammonia
     thermalConductivity: 0.6 #between brine and liquid ammonia
     liquidCompression: 1.01
-    speed: 100
+    speed: 110
+    minHorizontalFlow: 0.01
+    minVerticalFlow: 0.01
     solidSurfaceAreaMultiplier: 1
     liquidSurfaceAreaMultiplier: 25
     gasSurfaceAreaMultiplier: 1
-    strength: 0.33
     highTemp: 311.15
     lowTemp: 215.15
     lowTempTransitionTarget: Brine
@@ -756,8 +766,8 @@ elements:
     thermalConductivity: 4.221
     liquidCompression: 1.01
     speed: 60
-    minHorizontalFlow: 50
-    minVerticalFlow: 20
+    minHorizontalFlow: 0.01
+    minVerticalFlow: 0.01
     solidSurfaceAreaMultiplier: 1
     liquidSurfaceAreaMultiplier: 25
     gasSurfaceAreaMultiplier: 1
@@ -810,8 +820,8 @@ elements:
     thermalConductivity: 0.889
     liquidCompression: 1.01
     speed: 80
-    minHorizontalFlow: 70
-    minVerticalFlow: 40
+    minHorizontalFlow: 0.01
+    minVerticalFlow: 0.01
     solidSurfaceAreaMultiplier: 1
     liquidSurfaceAreaMultiplier: 25
     gasSurfaceAreaMultiplier: 1
@@ -1047,6 +1057,8 @@ elements:
     thermalConductivity: 0.909
     liquidCompression: 1.01
     speed: 100
+    minHorizontalFlow: 0.01
+    minVerticalFlow: 0.01
     solidSurfaceAreaMultiplier: 1
     liquidSurfaceAreaMultiplier: 25
     gasSurfaceAreaMultiplier: 1
@@ -1071,6 +1083,7 @@ elements:
     state: Liquid
     localizationID: STRINGS.ELEMENTS.SOURWATER.NAME
     dlcId: ""
+
   - elementId: NitrogenGas
     specificHeatCapacity: 1.85
     thermalConductivity: 0.175
@@ -1099,6 +1112,8 @@ elements:
     thermalConductivity: 0.259
     liquidCompression: 1.01
     speed: 100
+    minHorizontalFlow: 0.1
+    minVerticalFlow: 0.1
     solidSurfaceAreaMultiplier: 1
     liquidSurfaceAreaMultiplier: 25
     gasSurfaceAreaMultiplier: 1
