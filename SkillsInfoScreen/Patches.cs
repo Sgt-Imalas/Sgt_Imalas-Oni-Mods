@@ -44,15 +44,17 @@ namespace SkillsInfoScreen
 
 				///make menu info entry
 				AttributesInfo = new ManagementMenu.ManagementMenuToggleInfo(
-					STRINGS.UI.CHARACTERCONTAINER_SKILLS_TITLE,
+					 STRINGS.UI.CHARACTERCONTAINER_SKILLS_TITLE,
 					AttributeIcon, 
 					hotkey: Action.NumActions, 
 					tooltip: "");
 
 				//__instance.AddToggleTooltipForResearch(AttributesInfo, "disabled tooltip");
 				__instance.AddToggleTooltip(AttributesInfo);		
-				AttributesInfo.prefabOverride = __instance.prefab;
-				AttributesInfo.prefabOverride.transform.Find("TextContainer/Text").GetComponent<LocText>().text = STRINGS.UI.CHARACTERCONTAINER_SKILLS_TITLE;
+				AttributesInfo.prefabOverride =  Util.KInstantiateUI<KToggle>((Mod.CleanHUDEnabled ? __instance.smallPrefab : __instance.prefab).gameObject);
+
+				//prevent word wrapping due to shrunken buttons
+				__instance.prefab.transform.Find("TextContainer/Text").GetComponent<LocText>().enableWordWrapping = false;
 
 				__instance.ScreenInfoMatch.Add(AttributesInfo, new()
 				{
@@ -87,8 +89,7 @@ namespace SkillsInfoScreen
 
 				//__instance.AddToggleTooltipForResearch(AttributesInfo, "disabled tooltip");
 				__instance.AddToggleTooltip(AttributesInfo);
-				AttributesInfo.prefabOverride = __instance.prefab;
-				AttributesInfo.prefabOverride.transform.Find("TextContainer/Text").GetComponent<LocText>().text = SkillsOverviewName;
+				AttributesInfo.prefabOverride = Util.KInstantiateUI<KToggle>((Mod.CleanHUDEnabled ? __instance.smallPrefab : __instance.prefab).gameObject);
 
 				__instance.ScreenInfoMatch.Add(SkillsOverviewInfo, new()
 				{
