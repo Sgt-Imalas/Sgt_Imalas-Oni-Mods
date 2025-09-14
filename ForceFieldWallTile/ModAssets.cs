@@ -36,23 +36,23 @@ namespace ForceFieldWallTile
 				ColorGradientForcefield.SetKeys(colors, alphas);
 			}
 			{ 
-			ColorGradientTint = new Gradient();
-			GradientColorKey[] colors = [
-					new GradientColorKey(UIUtils.Darken( Color.red,30), 0.0f),new GradientColorKey(Color.red, gradientSteps[0]),
-					new GradientColorKey(UIUtils.Darken(Util.ColorFromHex("FFD400"),30), gradientSteps[1]),
-					new GradientColorKey(UIUtils.Darken(Util.ColorFromHex("00FF88"),30), gradientSteps[2]),
-					new GradientColorKey(UIUtils.Darken(UIUtils.rgb(61, 142, 255),30), gradientSteps[3])];
+			//ColorGradientTint = new Gradient();
+			//GradientColorKey[] colors = [
+			//		new GradientColorKey(UIUtils.Darken( Color.red,30), 0.0f),new GradientColorKey(Color.red, gradientSteps[0]),
+			//		new GradientColorKey(UIUtils.Darken(Util.ColorFromHex("FFD400"),30), gradientSteps[1]),
+			//		new GradientColorKey(UIUtils.Darken(Util.ColorFromHex("00FF88"),30), gradientSteps[2]),
+			//		new GradientColorKey(UIUtils.Darken(UIUtils.rgb(61, 142, 255),30), gradientSteps[3])];
 
-			// Blend alpha from opaque at 0% to transparent at 100%
-			GradientAlphaKey[] alphas = [
-					new GradientAlphaKey(1.0f, 0.0f),
-					//new GradientAlphaKey(1.0f, 0.5f),
-					new GradientAlphaKey(1.0f, 1.0f)
-				];
-			ColorGradientTint.SetKeys(colors, alphas);
+			//// Blend alpha from opaque at 0% to transparent at 100%
+			//GradientAlphaKey[] alphas = [
+			//		new GradientAlphaKey(1.0f, 0.0f),
+			//		//new GradientAlphaKey(1.0f, 0.5f),
+			//		new GradientAlphaKey(1.0f, 1.0f)
+			//	];
+			//ColorGradientTint.SetKeys(colors, alphas);
 			}
 		}
-		public static Gradient ColorGradientTint;
+		public static Gradient ColorGradientTint => ColorGradientForcefield;
 
 
 		public static Material ForceFieldMaterial;
