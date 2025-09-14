@@ -434,7 +434,7 @@ namespace ForceFieldWallTile.Content.Scripts
 				overloaded
 					.Enter(smi => smi.master.SetTints())
 					.ToggleStatusItem(ModStatusItems.FFT_ShieldOverloaded, smi => smi.master)
-					.PlayAnim("on")
+					.PlayAnim("overloaded")
 					.Update((smi, dt) => smi.master.CooldownOverload(dt))
 					.UpdateTransition(off, (smi, dt) => !smi.master.IsOverloaded())
 					.EventTransition(GameHashes.OperationalChanged, on_pst, smi => !smi.master.IsOperational());
