@@ -28,6 +28,7 @@ elements:
     - RTB_NeutroniumAlloyMaterial
     - BuildableAny
     - Insulator
+    - AIO_HardenedAlloy #Ronivan AIO steel substitute 
     buildMenuSort: 1
     isDisabled: false
     state: Solid
