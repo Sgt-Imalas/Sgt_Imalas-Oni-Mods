@@ -76,11 +76,12 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Build();
 
 			//---- [ Pokeshell Molt Milling ] -----------------------------------------------------------------------------
-			// Ingredient: Pokeshell Molt    - 1kg
+			// Ingredient: Pokeshell Molt    - 1 full grown crab (10kg)
 			// Result: Lime                  - 10kg
 			//-------------------------------------------------------------------------------------------------------------
+			
 			RecipeBuilder.Create(ID, 20)
-				.Input(CrabShellConfig.ID, 1f)
+				.Input(CrabShellConfig.ID, 10f)
 				.Output(SimHashes.Lime, 10f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description(string.Format(global::STRINGS.BUILDINGS.PREFABS.ROCKCRUSHER.LIME_RECIPE_DESCRIPTION,
 				global::STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.CRAB_SHELL.NAME,
@@ -94,7 +95,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Result: Wood                  - 500kg
 			//-------------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, 20)
-				.Input(CrabWoodShellConfig.ID, 5f)
+				.Input(CrabWoodShellConfig.ID, 500f)
 				.Output(SimHashes.WoodLog, 500f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description(string.Format(global::STRINGS.BUILDINGS.PREFABS.ROCKCRUSHER.LIME_RECIPE_DESCRIPTION,
 				global::STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.CRAB_SHELL.VARIANT_WOOD.NAME,
