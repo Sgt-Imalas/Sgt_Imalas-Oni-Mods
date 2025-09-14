@@ -3986,6 +3986,22 @@ msgstr ""
 "打开建筑编辑器，可以单独切换由该模组添加的所有建筑，并更改某些设置。\n"
 "在此所做的所有更改都需要重新启动！"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CUSTOMRES_MOVETOCONDUITCATEGORY.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CUSTOMRES_MOVETOCONDUITCATEGORY.NAME"
+msgid "Move all Reservoirs to their piping category"
+msgstr "将所有储存罐归类到对应的管道类别中"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CUSTOMRES_MOVETOCONDUITCATEGORY.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CUSTOMRES_MOVETOCONDUITCATEGORY.TOOLTIP"
+msgid ""
+"Moves all vanilla and mod reservoirs into the respective piping category:\n"
+"Liquid Reservoirs are found under \"Plumbing\"\n"
+"Gas Reservoirs are found under\"Ventilation\""
+msgstr ""
+"将所有原版和模组的储存罐移至相应的管道类别中：\n"
+"储液罐移动到“水管”类别下。\n"
+"储气罐移动到“通风”类别下。"
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME"
 msgid "Enable Mod Content"
@@ -4675,6 +4691,21 @@ msgstr "将{0}、{1}和{2}混合熔炼，以生产{3}和{4}。同时会产生{5}
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.KLEI_INVENTORY_SCREEN.SUBCATEGORIES.RONIVAN_AIO_SKINS"
 msgid "Ronivans Legacy - All In One"
 msgstr "Ronivan 的模组遗作 - 大合集"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.FABRICATOR_ACTIVE.LOGIC_PORT
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.FABRICATOR_ACTIVE.LOGIC_PORT"
+msgid "Machine working"
+msgstr "机器运转中"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.FABRICATOR_ACTIVE.LOGIC_PORT_ACTIVE
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.FABRICATOR_ACTIVE.LOGIC_PORT_ACTIVE"
+msgid "Sends a <b><style=\"logic_on\">Green Signal</style></b> when the machine is actively producing something."
+msgstr "当机器正在进行生产时输出<b><style=\"logic_on\">绿色信号</style></b>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.FABRICATOR_ACTIVE.LOGIC_PORT_INACTIVE
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.FABRICATOR_ACTIVE.LOGIC_PORT_INACTIVE"
+msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b>"
+msgstr "否则，将会输出红色信号<b><style=\"logic_off\">红色信号l</style></b>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.MINING_AUGUR_DRILL.BASIC_DRILLING
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.MINING_AUGUR_DRILL.BASIC_DRILLING"

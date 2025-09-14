@@ -434,9 +434,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			}
 			if (DlcManager.IsExpansion1Active() && Config.Instance.NuclearProcessing_Enabled)
 			{//=[ ENABLING RADIUM ]===================================================
-				AddTagToElementAndEnable(SimHashes.Radium, GameTags.ConsumableOre);
+				AddTagToElementAndEnable(SimHashes.Radium, GameTags.ConsumableOre,true);
 				//=[ ENABLING YellowCake ]===================================================
-				AddTagToElementAndEnable(SimHashes.Yellowcake, GameTags.ManufacturedMaterial);
+				AddTagToElementAndEnable(SimHashes.Yellowcake, GameTags.ManufacturedMaterial, true);
 			}
 
 			if (Config.Instance.DupesEngineering_Enabled)
@@ -459,9 +459,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			AddTagToElementAndEnable(SimHashes.Carbon, GameTags.CombustibleSolid);
 			AddTagToElementAndEnable(SimHashes.Peat, GameTags.CombustibleSolid);
 		}
-		static void AddTagToElementAndEnable(SimHashes element, Tag? tag = null) => AddTagsToElementAndEnable(element, tag.HasValue ? [tag.Value] : null);
+		static void AddTagToElementAndEnable(SimHashes element, Tag? tag = null, bool setMatCat = false) => AddTagsToElementAndEnable(element, tag.HasValue ? [tag.Value] : null, setMatCat);
 
-		static void AddTagsToElementAndEnable(SimHashes element, Tag[] tags = null)
+		static void AddTagsToElementAndEnable(SimHashes element, Tag[] tags = null, bool setMatCat = false)
 		{
 			var elementMaterial = ElementLoader.FindElementByHash(element);
 			if (elementMaterial == null)
@@ -470,6 +470,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			if(tags == null || tags.Length == 0)
 				return;
+
+			if (setMatCat)
+			{
+				elementMaterial.materialCategory = tags.FirstOrDefault();
+			}
 
 			if (elementMaterial.oreTags == null)
 				elementMaterial.oreTags = tags;
