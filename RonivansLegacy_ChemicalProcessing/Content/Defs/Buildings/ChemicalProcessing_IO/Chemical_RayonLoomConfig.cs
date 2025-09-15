@@ -47,7 +47,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			local1.storage = fabricator.inStorage;
 			local1.forceAlwaysSatisfied = true;
 			ElementConverter converter = go.AddOrGet<ElementConverter>();
-			converter.consumedElements = [new ElementConverter.ConsumedElement(this.FUEL_TAG, 0.8f)];
+			converter.consumedElements = [new ElementConverter.ConsumedElement(this.FUEL_TAG, 0.1f)];
 			converter.outputElements = [new ElementConverter.OutputElement(0.025f, SimHashes.Steam, 373.15f, false, false, 0f, 3f, 1f, 0xff, 0)];
 			Prioritizable.AddRef(go);
 		}

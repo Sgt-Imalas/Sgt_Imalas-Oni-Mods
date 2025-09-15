@@ -192,7 +192,7 @@ namespace UtilLibs
 				public const string AdvancedCaffeination = "PrecisionPlumbing";
 				public const string FlowRedirection = "FlowRedirection";
 				public const string LiquidDistribution = "LiquidDistribution";
-				public const string Jetpacks = "Jetpacks";
+				public const string Projectiles = "Jetpacks";
 			}
 
 			public static class Gases

@@ -21,7 +21,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 
 		public static float TurnRatePerSecond = 3 * 360;		
 
-		public static float StorageCapacity = HighPressureConduitRegistration.GetConduitMultiplier(ConduitType.Solid) * 1000f;
+		public static float StorageCapacity => HighPressureConduitRegistration.GetConduitMultiplier(ConduitType.Solid) * 1000f;
 
 		public static int SweeperArmRange = 12;
 		public int GetTileRange() => SweeperArmRange;

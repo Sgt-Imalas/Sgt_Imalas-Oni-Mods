@@ -105,8 +105,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//------------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID,50)
 				.Input(SimHashes.WoodLog,100)
-				.Output(SimHashes.Syngas,25, ComplexRecipe.RecipeElement.TemperatureOperation.Heated,true)
-				.Output(SimHashes.ToxicSand,75, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.Output(SimHashes.Syngas,10, ComplexRecipe.RecipeElement.TemperatureOperation.Heated,true)
+				.Output(SimHashes.ToxicSand,90, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description(SYNGASREFINERY_1_1_1,1,2)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 				.Build();
@@ -119,8 +119,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			RecipeBuilder.Create(ID, 50)
 				.Input(SimHashes.Bitumen, 100)
-				.Output(SimHashes.Syngas, 25, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, true)
-				.Output(SimHashes.RefinedCarbon, 75, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.Output(SimHashes.Syngas, 10, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, true)
+				.Output(SimHashes.RefinedCarbon, 90, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description(SYNGASREFINERY_1_1_1, 1, 2)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 				.Build();
@@ -156,8 +156,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 					.Build();
 			}
 		}
-
-
 
 		private void AttachPort(GameObject go)
 		{

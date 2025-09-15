@@ -336,6 +336,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
 			{
 				UnhideElement(SimHashes.Syngas);
+				UnhideElement(SimHashes.MoltenSyngas);
+				UnhideElement(SimHashes.SolidSyngas);
 
 				UnhideElement(SimHashes.Propane);
 				UnhideElement(SimHashes.LiquidPropane);
@@ -396,6 +398,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			{
 				//=[ SYNGAS ENABLING PATCH ]===============================================
 				AddTagToElementAndEnable(SimHashes.Syngas, GameTags.CombustibleGas);
+				AddTagToElementAndEnable(SimHashes.MoltenSyngas, GameTags.CombustibleLiquid);
 
 				//=[ PROPANE PATCH ]=======================================================
 				AddTagToElementAndEnable(SimHashes.Propane, GameTags.CombustibleGas);
@@ -478,8 +481,16 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			if (elementMaterial.oreTags == null)
 				elementMaterial.oreTags = tags;
-			else if (tags.Any())
-				elementMaterial.oreTags = elementMaterial.oreTags.Concat(tags).ToArray();
+			
+			List<Tag> newTags = new List<Tag>();
+			foreach(var tag in tags)
+			{
+				if (elementMaterial.oreTags.Contains(tag) || elementMaterial.materialCategory == tag)
+					continue;
+				newTags.Add(tag);
+			}
+			if (tags.Any())
+				elementMaterial.oreTags = elementMaterial.oreTags.Concat(newTags).ToArray();
 		}
 
 		public static void AddElementOverheatModifier(SimHashes element, float degreeIncrease)
