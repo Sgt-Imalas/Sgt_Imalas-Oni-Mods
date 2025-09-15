@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
+using UtilLibs;
 
 
 namespace RotatableRadboltStorage
@@ -28,9 +29,10 @@ namespace RotatableRadboltStorage
 			}
 		}
 
-		static void MakeFirstInputPortDirectionRibbon(BuildingDef def,  HashedString portID, CellOffset offset, string desc, string desc_on, string desc_off)
+		static void MakeFirstInputPortDirectionRibbon(BuildingDef def, HashedString portID, CellOffset offset, string desc, string desc_on, string desc_off)
 		{
-			desc_on += "\nThe other 3 bits of this ribbon input can be used to rotate the output direction.\nthe sum of those 3 ports decides the direction index,\nthe directions are valued 0 - 7 counterclockwise, starting with 0 pointing upwards\nBit 2 is valued at 1\nBit 3 is valued at 2\nBit 4 is valued at 4";
+			desc_on += "\n";
+			desc_on += MOD_STRINGS.STATUSITEMS.DIRECTION_ADDON;
 
 			def.LogicInputPorts = [LogicPorts.Port.RibbonInputPort(portID, offset, desc, desc_on, desc_off)];
 
@@ -105,12 +107,24 @@ namespace RotatableRadboltStorage
 			}
 		}
 
+		/// <summary>
+		/// Init. auto translation
+		/// </summary>
+		[HarmonyPatch(typeof(Localization), "Initialize")]
+		public static class Localization_Initialize_Patch
+		{
+			public static void Postfix()
+			{
+				LocalisationUtil.Translate(typeof(MOD_STRINGS), true);
+			}
+		}
+
 		[HarmonyPatch(typeof(HighEnergyParticleSpawnerConfig), nameof(HighEnergyParticleSpawnerConfig.CreateBuildingDef))]
 		public class HighEnergyParticleSpawnerConfig_CreateBuildingDef_Patch
 		{
 			public static void Postfix(ref BuildingDef __result)
 			{
-				MakeFirstInputPortDirectionRibbon(__result, LogicOperationalController.PORT_ID, new(0,0), STRINGS.UI.LOGIC_PORTS.CONTROL_OPERATIONAL, STRINGS.UI.LOGIC_PORTS.CONTROL_OPERATIONAL_ACTIVE, STRINGS.UI.LOGIC_PORTS.CONTROL_OPERATIONAL_INACTIVE);
+				MakeFirstInputPortDirectionRibbon(__result, LogicOperationalController.PORT_ID, new(0, 0), STRINGS.UI.LOGIC_PORTS.CONTROL_OPERATIONAL, STRINGS.UI.LOGIC_PORTS.CONTROL_OPERATIONAL_ACTIVE, STRINGS.UI.LOGIC_PORTS.CONTROL_OPERATIONAL_INACTIVE);
 
 			}
 		}
