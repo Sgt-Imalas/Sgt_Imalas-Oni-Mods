@@ -160,7 +160,7 @@ namespace BlueprintsV2.Tools
 
 				if (y0 < y1)
 					shiftY = 1;
-				else 
+				else
 					shiftY = 0;
 
 				if (x0 > x1)
@@ -348,6 +348,9 @@ namespace BlueprintsV2.Tools
 				BlueprintState.RefreshBlueprintVisualizers(snapshotBlueprint);
 
 			}
+			buttonEvent.TryConsume(ModAssets.Actions.BlueprintsFlipHorizontal.GetKAction());
+			buttonEvent.TryConsume(ModAssets.Actions.BlueprintsFlipVertical.GetKAction());
+			buttonEvent.TryConsume(ModAssets.Actions.BlueprintsRotate.GetKAction());
 		}
 
 		public override void OnSyncChanged(bool synced)

@@ -1,38 +1,38 @@
-﻿[img]https://i.imgur.com/VgZFBU7.png[/img]
+﻿[h1]Improved Radbolt Handling[/h1]
 
-[h1]Introduction[/h1]
+This mod improves the storage and handling of Radbolts.
+It allows to change the output direction of the radbolt chamber, gives its logic output reservoir logic and allows setting radbolt directions via ribbon cable.
 
-This mod allows to change the output direction of the radbolt chamber.
-
-[h1]Current latest Version: 1.0.0[/h1]
+[h1]Current latest Version: 2.0.0[/h1]
+[img]https://raw.githubusercontent.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/refs/heads/master/Compat_NoBase.png[/img]
 
 [hr][/hr]
 [h1]Features[/h1]
 [list]
 [*] Selectable output direction on the radbolt chamber
 [*] Custom anim for the different directions
-[*] Mod can be safely removed, all radbolt chambers will revert to facing upwards
+[*] Mod can be safely removed, all radbolt chambers will revert to facing 
+[*] Logic output of the radbolt chamber now behaves like the output of a reservoir
+[*] Direction of radbolt output on all radbolt buildings can now be controlled via ribbon input
 [/list]
 [hr][/hr]
-[h1]Known Issues[/h1]
+[h1]Known Side Effects:[/h1]
 [list]
 [*] the output tile indicator is shiftet to occupy the same tile as the input, this is purely visual
 [/list]
 
-[h1]Bug Reports[/h1]
-Please post bug reports and issues on my [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url]. In case of a crash, please add the log.
+Note: this mod is a successor to [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2886144715]Rotatable Radbolt Chamber Output[/url] and includes all of its features.
 
-Where to find the Log:
-[list]
-[*]Windows: 
-    C:\Users\%username%\AppData\LocalLow\Klei\Oxygen Not Included\Player.log
-[*]Mac: 
-    ~/Library/Logs/Klei/Oxygen Not Included/Player.log
-[*] Linux: 
-~/.config/unity3d/Klei/Oxygen Not Included/Player.log
-[/list] 
+[h1]Bug Reports & Local Download[/h1]
+You can find direct downloads for my mods [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases]here[/url].
+
+Please post bug reports and issues on [url=https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/issues] GitHub[/url] or on my [url=https://discord.gg/5n7peBCnWZ]Discord Server[/url]. 
+[b]Always include the full player.log in a report: [/b] https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/wiki/Troubleshooter-Guide#sending-a-log
+
+[b]Make sure you do NOT have the mod "Debug Console" enabled as it breaks the game's logging and makes the log useless for fixing bugs![/b] 
 
 [hr][/hr]
 
-Do you like the mods I made? If you want, you can support me [url=https://ko-fi.com/sgtimalas]here[/url] :D.
+Do you like the mods I made? If you want, you can support me on [url=https://ko-fi.com/sgtimalas]Kofi[/url] :D
+
 
