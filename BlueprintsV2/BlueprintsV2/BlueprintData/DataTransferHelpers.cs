@@ -750,7 +750,7 @@ namespace BlueprintsV2.BlueprintData
 				if (arg.TryGetComponent<Prioritizable>(out var component))
 				{
 					var prio = component.GetMasterPriority();
-					SgtLogger.l("Getting prio " + prio.priority_value + " from " + arg.name);
+					//SgtLogger.l("Getting prio " + prio.priority_value + " from " + arg.name);
 					return new JObject()
 					{
 						{ "masterPrioritySetting", JsonConvert.SerializeObject(prio)},
