@@ -54,6 +54,17 @@ namespace PoisNotIncluded
 				 FossilDigSiteConfig.ID //fossil storytrait			
 				];
 
+
+			[HarmonyPatch(typeof(TilePOIConfig), nameof(TilePOIConfig.CreateBuildingDef))]
+			public class TilePOIConfig_CreateBuildingDef_Patch
+			{
+				public static void Postfix(BuildingDef __result)
+				{
+					BuildingTemplates.CreateFoundationTileDef(__result);
+					__result.DebugOnly = false;
+				}
+			}
+
 			[HarmonyPriority(Priority.LowerThanNormal)]
 			public static void Postfix()
 			{
@@ -64,7 +75,10 @@ namespace PoisNotIncluded
 				var AllDefs = Assets.BuildingDefs;
 				var gravitasDefs = AllDefs.Where(def => buildingIDs.Contains(def.PrefabID));
 				foreach (var def in gravitasDefs)
+				{
 					def.ShowInBuildMenu = true;
+					def.DebugOnly = false;
+				}
 
 				var defIds = gravitasDefs.Select(def => def.PrefabID).ToList();
 
@@ -214,6 +228,7 @@ namespace PoisNotIncluded
 				TryRegisterDynamicGravitasBuilding(WarpReceiverConfig.ID, GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, decorName: true, altAnims: ["off", "idle"]);
 				TryRegisterDynamicGravitasBuilding(PioneerLanderConfig.ID, GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, decorName: true);
 				TryRegisterDynamicGravitasBuilding(ScoutLanderConfig.ID, GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, decorName: true);
+				TryRegisterDynamicGravitasBuilding(SapTreeConfig.ID, GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, decorName: true, altAnims: ["off","idle", "eat_loop", "ooze_loop", "attacking_loop", "attack_cooldown", "withered"]);
 
 			}
 		}
