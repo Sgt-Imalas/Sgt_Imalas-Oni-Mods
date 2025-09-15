@@ -24,6 +24,7 @@ namespace ForceFieldWallTile
 			public static void Postfix(Db __instance)
 			{
 				ModStatusItems.CreateStatusItems();
+				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Liquids.Projectiles, ForceFieldTileConfig.ID);
 			}
 		}
 
@@ -59,6 +60,7 @@ namespace ForceFieldWallTile
 		{
 			public static void Postfix() => ForceFieldTile.ClearAll();
 		}
+
 		/// <summary>
 		/// add buildings to plan screen
 		/// </summary>

@@ -23,7 +23,7 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>ForceFieldWallTile</ModName>
+		<ModName>Forcefield Projectors</ModName>
 		<ModDescription></ModDescription>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>

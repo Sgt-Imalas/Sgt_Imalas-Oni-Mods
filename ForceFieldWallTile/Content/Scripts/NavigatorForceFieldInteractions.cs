@@ -19,10 +19,12 @@ namespace ForceFieldWallTile.Content.Scripts
 
 		[Serialize] bool wasStuck = false;
 
+		bool SlowDupe = true;
 		public override void OnSpawn()
 		{
 			shieldDamage = hp == null ? 0.1f : hp.maxHitPoints / 500f; // 100hp dupes -> 20% shield damage per second (a shield regens 10% per second)
 
+			SlowDupe = Config.Instance.SlowEffect;
 
 			base.OnSpawn();
 		}
@@ -37,16 +39,19 @@ namespace ForceFieldWallTile.Content.Scripts
 			var cell = Grid.PosToCell(this);
 			bool stuckInBarrier = false;
 
-			foreach(CellOffset cellOffset in occupyArea.OccupiedCellsOffsets)
+			foreach (CellOffset cellOffset in occupyArea.OccupiedCellsOffsets)
 			{
-				var bodyCell = Grid.OffsetCell(cell,cellOffset);
+				var bodyCell = Grid.OffsetCell(cell, cellOffset);
 				if (ForceFieldTile.ForceFieldAt(bodyCell, out var projector))
 				{
-					projector.RecievePercentageDamage(shieldDamage * dt);				
+					projector.RecievePercentageDamage(shieldDamage * dt);
 					stuckInBarrier = true;
 				}
 			}
-			if(stuckInBarrier != wasStuck)
+			if (!SlowDupe)
+				return;
+
+			if (stuckInBarrier != wasStuck)
 			{
 				wasStuck = stuckInBarrier;
 				if (wasStuck)

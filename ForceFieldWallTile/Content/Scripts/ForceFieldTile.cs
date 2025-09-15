@@ -32,9 +32,9 @@ namespace ForceFieldWallTile.Content.Scripts
 		[SerializeField]
 		public float MaxStrenght = 1000f;
 		[SerializeField]
-		public float EnergySaverWattage = 10f;
+		public float EnergySaverWattage = Config.Instance.SteadyWattage();
 		[SerializeField]
-		public float RechargeWattage = ForceFieldTileConfig.WATTAGE;
+		public float RechargeWattage = Config.Instance.NormalWattage;
 
 		[SerializeField]
 		public float DamageMultiplier_LiquidPressure = 10f;//at default mass of 1000kg, the gas pressure overwhelms the barrier at 10000kg, more if there are adjacent shields
@@ -69,6 +69,8 @@ namespace ForceFieldWallTile.Content.Scripts
 
 		public override void OnSpawn()
 		{
+			RechargeWattage = Mathf.Min(RechargeWattage, EnergySaverWattage);
+
 			cell = Grid.PosToCell(this);
 
 			top = Grid.CellAbove(cell);
@@ -150,7 +152,7 @@ namespace ForceFieldWallTile.Content.Scripts
 				if (numberOfSplinters == 0)
 					numberOfSplinters = Mathf.Min(Mathf.RoundToInt(TotalMeteorMass / 0.2f), 14);
 
-				TotalMeteorMass *= ((float)50f / 100f);
+				TotalMeteorMass *= (Config.Instance.MeteorMassPercentage / 100f);
 
 				float SplinterMass = TotalMeteorMass / numberOfSplinters;
 
@@ -436,8 +438,7 @@ namespace ForceFieldWallTile.Content.Scripts
 					.ToggleStatusItem(ModStatusItems.FFT_ShieldOverloaded, smi => smi.master)
 					.PlayAnim("overloaded")
 					.Update((smi, dt) => smi.master.CooldownOverload(dt))
-					.UpdateTransition(off, (smi, dt) => !smi.master.IsOverloaded())
-					.EventTransition(GameHashes.OperationalChanged, on_pst, smi => !smi.master.IsOperational());
+					.UpdateTransition(off, (smi, dt) => !smi.master.IsOverloaded());
 				overloaded.defaultState = overloaded.blink_off;
 				overloaded.blink_off
 					.Enter(smi => smi.master.SetLightSymbolsEnabled(false))
@@ -476,7 +477,6 @@ namespace ForceFieldWallTile.Content.Scripts
 					.Exit(smi => smi.master.SetEnergySaver(false))
 					.Transition(on.recharging, smi => smi.master.RequiresRecharge());
 
-
 				on_pst
 					.PlayAnim("working_pst")
 					.OnAnimQueueComplete(off);
@@ -485,6 +485,9 @@ namespace ForceFieldWallTile.Content.Scripts
 
 		private void HandlePressure(float dt)
 		{
+			if (!Config.Instance.PressureDamage)
+				return;
+			
 			HandlePressureInCell(top, dt);
 			HandlePressureInCell(bottom, dt);
 			HandlePressureInCell(left, dt);

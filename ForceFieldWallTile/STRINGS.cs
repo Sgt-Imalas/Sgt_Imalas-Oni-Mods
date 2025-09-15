@@ -16,7 +16,7 @@ namespace ForceFieldWallTile
 				public class FFT_SHIELDFULLYCHARGED
 				{
 					public static LocString NAME = "Forcefield fully charged!";
-					public static LocString TOOLTIP = "This forcefield projector is at maximum strength";
+					public static LocString TOOLTIP = "This forcefield projector is at maximum strength.\nPower draw is reduced.";
 				}
 				public class FFT_SHIELDOVERLOADED
 				{
@@ -51,6 +51,34 @@ namespace ForceFieldWallTile
 					public static LocString NAME = "Slowed by Forcefield";
 					public static LocString TOOLTIP = "The barrier makes it hard to move around.";
 				}
+			}
+		}
+		public class FFT_MODCONFIG
+		{
+			public class FFT_WATTAGE
+			{
+				public static LocString NAME = "Power Consumption (in W)";
+				public static LocString TOOLTIP = "Power consumption of the forcefield projector while recharging.";
+			}
+			public class FFT_WATTAGE_STEADY
+			{
+				public static LocString NAME = "Energy Saver Consumption Multiplier";
+				public static LocString TOOLTIP = "Power consumption of the forcefield projector when it is fully charged, Multiplier is applied to regular power consumption.";
+			}
+			public class FFT_DUPEEFFECT
+			{
+				public static LocString NAME = "Barrier affects passing duplicants";
+				public static LocString TOOLTIP = "Duplicants inside of an active forcefield are slowed down by that barrier.";
+			}
+			public class FFT_PRESSUREDAMAGE
+			{
+				public static LocString NAME = "Barrier Pressure Damage";
+				public static LocString TOOLTIP = "Liquids over the overpressure threshold deal forcefield damage, scaling with the overpressure amounts.";
+			}
+			public class FFT_METEORYIELD
+			{
+				public static LocString NAME = "Meteor Mass Percentage";
+				public static LocString TOOLTIP = "Percentage of meteor mass dropped when a meteor explodes on the forcefield.";
 			}
 		}
 	}

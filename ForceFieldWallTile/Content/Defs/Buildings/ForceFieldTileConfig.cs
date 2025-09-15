@@ -15,7 +15,6 @@ namespace ForceFieldWallTile.Content.Defs.Buildings
 	internal class ForceFieldTileConfig : IBuildingConfig
 	{
 		public static string ID = "FFT_ForceFieldProjector";
-		public const float WATTAGE = 60;
 
 		public override BuildingDef CreateBuildingDef()
 		{
@@ -43,7 +42,7 @@ namespace ForceFieldWallTile.Content.Defs.Buildings
 			buildingDef.ExhaustKilowattsWhenActive = 0;
 			buildingDef.SelfHeatKilowattsWhenActive = 0;
 			buildingDef.RequiresPowerInput = true;
-			buildingDef.EnergyConsumptionWhenActive = WATTAGE;
+			buildingDef.EnergyConsumptionWhenActive = Config.Instance.NormalWattage;
 
 			return buildingDef;
 		}
@@ -53,6 +52,10 @@ namespace ForceFieldWallTile.Content.Defs.Buildings
 			GeneratedBuildings.MakeBuildingAlwaysOperational(go);
 			go.AddOrGet<AnimTileable>().objectLayer = ObjectLayer.Building;
 			BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof(RequiresFoundation), prefab_tag);
+
+			var saverMode = go.AddOrGet<FridgeSaverDescriptor>();
+			saverMode.CachedMaxWattage = Config.Instance.NormalWattage;
+			saverMode.CachedSteadyWattage = Config.Instance.SteadyWattage();
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)
