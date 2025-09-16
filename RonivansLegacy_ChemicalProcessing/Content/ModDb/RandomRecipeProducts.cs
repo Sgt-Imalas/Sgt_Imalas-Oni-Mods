@@ -237,6 +237,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			///rates taken from ronivans dictionary solution
 
 			bool soEnabled = DlcManager.IsExpansion1Active();
+			bool dlc4Owned = DlcManager.IsContentOwned(DlcManager.DLC4_ID);
 
 			///note: 10kg of mass has been deducted as thats the mass of the guaranteed sand product
 
@@ -277,13 +278,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProductConditional(chemproc, ModElements.Chloroschist_Solid, 40, 50, 3f / 9f)
 				.AddProductConditional(chemproc, ModElements.Aurichalcite_Solid, 25, 35, 2f / 9f)
 				);
-			///Shale: mirror of sedimentary rock bc it is described as sedimentary in its desc
+			///Shale: mirror of sedimentary rock bc it is described as sedimentary in its desc, nickel ore instead of gold amalgam at higher yields
 			results.Add(SimHashes.Shale.CreateTag(),
 				new RecipeRandomResult(490, 20, 50)
 				.AddProduct(SimHashes.CrushedRock, 160, 320)
 				.AddProduct(SimHashes.Clay, 150, 310)
-				.AddProduct(SimHashes.GoldAmalgam, 10, 30, 2f / 9f)
 				.AddProduct(SimHashes.FoolsGold, 20, 40, 2f / 9f)
+				.AddProductConditional(dlc4Owned,SimHashes.NickelOre, 30, 50, 3f / 9f)
 				.AddProductConditional(soEnabled, SimHashes.Cobaltite, 25, 35, 2f / 9f)
 				.AddProduct(SimHashes.Salt, 40, 50, 1f / 9f)
 				.AddProductConditional(chemproc, ModElements.Chloroschist_Solid, 40, 50, 4f / 9f)
@@ -433,10 +434,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		}
 		private static Dictionary<Tag, RecipeRandomResult> InitRandomResults_SelectiveArcFurnace()
 		{
+			bool dlc4Owned = DlcManager.IsContentOwned(DlcManager.DLC4_ID);
+
 			var results = new Dictionary<Tag, RecipeRandomResult>();
 			results.Add(LowGradeSand_Solid.Tag,
 				new RecipeRandomResult(90, 40, 60)
 				.AddProduct(SimHashes.Copper, 15, 60)
+				.AddProductConditional(dlc4Owned,SimHashes.Nickel, 15, 60)
 				.AddProduct(Zinc_Solid, 15, 60)
 				.AddProduct(SimHashes.Lead, 15, 60)
 				.AddProduct(Silver_Solid, 15, 60)
@@ -464,6 +468,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		private static Dictionary<Tag, RecipeRandomResult> InitRandomResults_AugerDrill()
 		{
 			bool chemproc = Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled;
+
+			bool dlc2Owned = DlcManager.IsContentOwned(DlcManager.DLC2_ID);
+			bool dlc4Owned = DlcManager.IsContentOwned(DlcManager.DLC4_ID);
+
 			var results = new Dictionary<Tag, RecipeRandomResult>();
 			//===: BASIC DRILLBITS RANDOM RESULTS :============================================================
 			//---[ Possible Results Elements: ]
@@ -493,6 +501,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.FoolsGold, 25, 200, 2f / 6f)
 				.AddProduct(SimHashes.GoldAmalgam, 25, 200, 1f / 6f)
 				.AddProduct(SimHashes.AluminumOre, 25, 200, 1f / 6f)
+				.AddProductConditional(dlc4Owned, SimHashes.NickelOre, 25, 200, 1f / 6f)
 				.AddProductConditional(chemproc, ModElements.Aurichalcite_Solid, 25, 200, 1f / 6f)
 				.AddProductConditional(chemproc, ModElements.Argentite_Solid, 25, 200, 1f / 6f)
 				);
@@ -523,6 +532,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.Sulfur, 50, 400, 3f / 9f)
 				.AddProductConditional(chemproc, ModElements.Aurichalcite_Solid, 25, 300, 2f / 9f)
 				.AddProductConditional(chemproc, ModElements.Argentite_Solid, 25, 300, 2f / 9f)
+				.AddProductConditional(dlc4Owned, SimHashes.NickelOre, 25, 300, 2f / 9f)
 				//low chance
 				.AddProduct(SimHashes.IgneousRock, 25, 400, 2f / 9f)
 				.AddProduct(SimHashes.Granite, 25, 400, 3f / 9f)
@@ -632,6 +642,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.Rust, 100, 500, 1f / 3f)
 				.AddProduct(SimHashes.Fossil, 100, 500, 1f / 3f)
 				.AddProduct(SimHashes.Salt, 100, 500, 1f / 3f)
+				.AddProductConditional(dlc4Owned, SimHashes.NickelOre, 100, 500, 1f / 3f)
 				.AddProductConditional(chemproc, Argentite_Solid, 100, 500, 1f / 3f)
 				.AddProductConditional(chemproc, Aurichalcite_Solid, 100, 500, 1f / 3f)
 			);
@@ -683,6 +694,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.BrineIce, 100, 500, 4f / 10f)
 				.AddProduct(SimHashes.Snow, 100, 500, 4f / 10f)
 				.AddProduct(SimHashes.Regolith, 100, 500, 4f / 10f)
+				.AddProductConditional(dlc2Owned, SimHashes.Cinnabar, 100, 500, 4f / 10f)
 				.AddProductConditional(chemproc, Ammonia_Solid, 100, 500, 4f / 10f) //ammonia snow
 																					//low chance
 				.AddProduct(SimHashes.SolidCrudeOil, 100, 750, 2f / 10f)
