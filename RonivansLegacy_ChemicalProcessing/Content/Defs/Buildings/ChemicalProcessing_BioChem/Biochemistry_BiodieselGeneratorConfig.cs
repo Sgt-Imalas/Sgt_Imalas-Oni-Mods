@@ -88,12 +88,12 @@ namespace Biochemistry.Buildings
 			{
 				inputs =
 				[
-				new EnergyGenerator.InputItem(ModElements.BioDiesel_Liquid.Tag, 0.38f, 32f)
+				new EnergyGenerator.InputItem(ModElements.BioDiesel_Liquid.Tag, 0.25f, 32f)
 				//new EnergyGenerator.InputItem( ModElements.BiodieselGroup, 3.2f, 32f)
 				],
 				outputs =
 				[
-				new EnergyGenerator.OutputItem(SimHashes.DirtyWater, 0.14428f, true, new CellOffset(1, 1), 313.15f)
+				new EnergyGenerator.OutputItem(SimHashes.DirtyWater, 0.1f, true, new CellOffset(1, 1), 313.15f)
 				//new EnergyGenerator.OutputItem(SimHashes.DirtyWater, 1.215f, true, new CellOffset(1, 1), 313.15f)
 				]
 			};
