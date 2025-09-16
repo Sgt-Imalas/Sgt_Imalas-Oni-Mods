@@ -98,7 +98,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DirtyBrine", "DirtyBrine\Di
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarningNotificationManager", "SGTIM_NotificationManager\WarningNotificationManager.csproj", "{015F3844-DD84-46E4-90BF-1C1948229C2D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DupePrioPresetManager", "DupePrioPresetManager\DupePrioPresetManager.csproj", "{C3614197-712C-462F-AD31-6930BE5627C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PresetManager", "DupePrioPresetManager\PresetManager.csproj", "{C3614197-712C-462F-AD31-6930BE5627C3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingToken", "BuildingToken\BuildingToken.csproj", "{B1074224-1E07-4A5B-B187-1ACB6DC6A1C9}"
 EndProject
