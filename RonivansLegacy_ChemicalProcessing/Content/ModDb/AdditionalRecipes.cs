@@ -102,6 +102,17 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		{
 			AdditionalKilnRecipes(KilnConfig.ID, true);
 		}
+		public static void RegisterRecipes_DataMiner()
+		{
+			if (Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
+			{
+				RecipeBuilder.Create(DataMinerConfig.ID, 200)
+					.Input(ModElements.BioPlastic_Solid, 5)
+					.Output(DatabankHelper.TAG, 1)
+					.Description(string.Format(global::STRINGS.BUILDINGS.PREFABS.EGGCRACKER.RECIPE_DESCRIPTION, ModElements.BioPlastic_Solid.Tag.ProperName(), DatabankHelper.NAME))
+					.Build();
+			}
+		}
 
 		private static void RegisterRecipes_RayonLoom()
 		{
