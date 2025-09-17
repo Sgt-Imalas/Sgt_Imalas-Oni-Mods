@@ -905,7 +905,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			results.Add(SimHashes.Copper.CreateTag(),
 			new OccurenceRandomResult(10)
-				.MaxRequiredProducts(1)
+				.ProductCount(1)
 				.TempRange(20, 50)
 				.AddProduct(SimHashes.SedimentaryRock, 200, 500, 0.375f)
 				.AddProduct(SimHashes.Dirt, 200, 500, 0.225f)
@@ -931,7 +931,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			results.Add(SimHashes.Iron.CreateTag(),
 			new OccurenceRandomResult(10)
 				.TempRange(30, 60)
-				.MaxRequiredProducts(1)
+				.ProductCount(1)
 				.AddProduct(SimHashes.CrushedRock, 200, 500, 0.22f)
 				.AddProduct(SimHashes.Granite, 200, 500, 0.22f)
 				.AddProduct(SimHashes.Katairite, 200, 500, 0.22f)
@@ -952,7 +952,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			results.Add(SimHashes.Steel.CreateTag(),
 			new OccurenceRandomResult(10)
 				.TempRange(40, 70)
-				.MaxRequiredProducts(1)
+				.ProductCount(1)
 				.AddProduct(SimHashes.CrushedRock, 200, 500, 0.225f)
 				.AddProduct(SimHashes.Obsidian, 200, 500, 0.11f)
 				.AddProduct(SimHashes.Granite, 200, 500, 0.11f)
