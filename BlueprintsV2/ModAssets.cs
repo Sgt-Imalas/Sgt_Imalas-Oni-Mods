@@ -1,4 +1,5 @@
 ﻿using BlueprintsV2.BlueprintData;
+using BlueprintsV2.BlueprintsV2.UnityUI;
 using BlueprintsV2.Tools;
 using BlueprintsV2.UnityUI;
 using PeterHan.PLib.Actions;
@@ -56,15 +57,19 @@ namespace BlueprintsV2
 
 
 		public static GameObject BlueprintSelectionScreenGO;
+		public static GameObject BlueprintInfoStateGO;
 		public static void LoadAssets()
 		{
 			var bundle = AssetUtils.LoadAssetBundle("blueprints_ui", platformSpecific: true);
 			BlueprintSelectionScreenGO = bundle.LoadAsset<GameObject>("Assets/UIs/blueprintSelector.prefab");
-
+			BlueprintInfoStateGO = bundle.LoadAsset<GameObject>("Assets/UIs/UseBlueprintStateContainer.prefab");
 			//UIUtils.ListAllChildren(Assets.transform);
+			BlueprintInfoStateGO.AddOrGet<CurrentBlueprintStateScreen>();
+
 
 			var TMPConverter = new TMPConverter();
 			TMPConverter.ReplaceAllText(BlueprintSelectionScreenGO);
+			TMPConverter.ReplaceAllText(BlueprintInfoStateGO);
 		}
 
 		public static BlueprintFolder GetCurrentFolder() => SelectedFolder == null? BlueprintFileHandling.RootFolder : SelectedFolder;
@@ -413,9 +418,9 @@ namespace BlueprintsV2
 				STRINGS.UI.ACTIONS.ROTATE_INV_BLUEPRINT, new PKeyBinding(KKeyCode.R, Modifier.Shift));
 			
 			Actions.BlueprintsFlipHorizontal = new PActionManager().CreateAction(ActionKeys.ACTION_FLIP_HORIZONTAL_KEY,
-				STRINGS.UI.ACTIONS.FLIP_BLUEPRINT_H, new PKeyBinding(KKeyCode.H));
+				STRINGS.UI.ACTIONS.FLIP_BLUEPRINT_H, new PKeyBinding(KKeyCode.H, Modifier.Shift));
 			Actions.BlueprintsFlipVertical = new PActionManager().CreateAction(ActionKeys.ACTION_FLIP_VERTICAL_KEY,
-				STRINGS.UI.ACTIONS.FLIP_BLUEPRINT_V, new PKeyBinding(KKeyCode.V));
+				STRINGS.UI.ACTIONS.FLIP_BLUEPRINT_V, new PKeyBinding(KKeyCode.V, Modifier.Shift));
 
 
 

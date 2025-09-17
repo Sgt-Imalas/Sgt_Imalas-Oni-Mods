@@ -56,6 +56,64 @@ namespace BlueprintsV2
 			}
 			public static LocString BLUEPRINTS_ROOTFOLDER = "Main Folder";
 
+			public class USEBLUEPRINTSTATECONTAINER
+			{
+				public class TITLE
+				{
+					public static LocString TITLETEXT = "Current Blueprint State";
+				}
+				public class INFOITEMSCONTAINER
+				{
+					public class FOLDERINFO
+					{
+						public static LocString LABEL = "Current Folder: {0}, Position: {1}/{2}";
+						public static LocString LABEL_SNAPSHOT = "Selected Snapshot: {0}/{1}";
+					}
+					public class APPLYSTOREDSETTINGS
+					{
+						public static LocString LABEL = "Apply stored building settings on place:";
+					}
+					public class FORCEREBUILD
+					{
+						public static LocString LABEL = "Rebuild existing with mismatched material:";
+					}
+					public class CANROTATEYESNO
+					{
+						public static LocString LABEL = "Blueprint can rotate:";
+					}
+					public class ROTATEACTIONS
+					{
+						public class ROTATEL
+						{
+							public static LocString LABEL = "Rotate Left";
+						}
+						public class ROTATER
+						{
+							public static LocString LABEL = "Rotate Right";
+						}
+					}
+					public class CANFLIPHYESNO
+					{
+						public static LocString LABEL = "Blueprint can flip horizontal:";
+					}
+					public class CANFLIPVYESNO
+					{
+						public static LocString LABEL = "Blueprint can flip vertical:";
+					}
+					public class FLIPACTIONS
+					{
+						public class FLIPH
+						{
+							public static LocString LABEL = "Flip Horizontal";
+						}
+						public class FLIPV
+						{
+							public static LocString LABEL = "Flip Vertical";
+						}
+					}
+				}
+
+			}
 			public class BLUEPRINTSELECTOR
 			{
 				public class FILEHIERARCHY
