@@ -33,7 +33,10 @@ namespace SettingsSyncGroups.Scripts
 		{
 			if (source.TryGetComponent<SyncGroupCarrier>(out var behavior))
 			{
-				behavior.TryGetGroupName(out string groupName);	
+				behavior.TryGetGroupName(out string groupName);
+				if (string.IsNullOrWhiteSpace(groupName))
+					return null;
+
 				return new JObject()
 				{
 					{ "GroupName", groupName},
