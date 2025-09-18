@@ -301,17 +301,17 @@ namespace UtilLibs.BuildingPortUtils
 						if (this.alwaysConsume || this.operational.IsOperational)
 						{
 							float num = (!(this.capacityTag != GameTags.Any)) ? this.storage.MassStored() : this.storage.GetMassAvailable(this.capacityTag);
-							float b = Mathf.Min(this.storage.RemainingCapacity(), this.capacityKG - num);
-							float num2 = this.ConsumptionRate * dt;
-							num2 = Mathf.Min(num2, b);
-							float num3 = 0f;
-							if (num2 > 0f)
+							float remainingStorageCapacity = Mathf.Min(this.storage.RemainingCapacity(), this.capacityKG - num);
+							float scaledConsumptionRate = this.ConsumptionRate * dt;
+							scaledConsumptionRate = Mathf.Min(scaledConsumptionRate, remainingStorageCapacity);
+							float removedConduitMass = 0f;
+							if (scaledConsumptionRate > 0f)
 							{
-								num3 = conduit_mgr.RemoveElement(this.utilityCell, num2).mass;
+								removedConduitMass = conduit_mgr.RemoveElement(this.utilityCell, scaledConsumptionRate).mass;
 							}
 							Element element = ElementLoader.FindElementByHash(contents.element);
 							bool flag = element.HasTag(this.capacityTag);
-							if (num3 > 0f && this.capacityTag != GameTags.Any && !flag)
+							if (removedConduitMass > 0f && this.capacityTag != GameTags.Any && !flag)
 							{
 								this.IsSatisfied = true;
 								base.Trigger(-794517298, new BuildingHP.DamageSourceInfo
@@ -323,9 +323,9 @@ namespace UtilLibs.BuildingPortUtils
 							}
 							if (flag || this.wrongElementResult == ConduitConsumer.WrongElementResult.Store || contents.element == SimHashes.Vacuum || this.capacityTag == GameTags.Any)
 							{
-								if (num3 > 0f)
+								if (removedConduitMass > 0f)
 								{
-									int disease_count = (int)((float)contents.diseaseCount * (num3 / contents.mass));
+									int disease_count = (int)((float)contents.diseaseCount * (removedConduitMass / contents.mass));
 									Element element2 = ElementLoader.FindElementByHash(contents.element);
 									ConduitType conduitType = this.conduitType;
 
@@ -333,7 +333,7 @@ namespace UtilLibs.BuildingPortUtils
 									{
 										if (element2.IsGas)
 										{
-											this.storage.AddGasChunk(contents.element, num3, contents.temperature, contents.diseaseIdx, disease_count, this.keepZeroMassObject, false);
+											this.storage.AddGasChunk(contents.element, removedConduitMass, contents.temperature, contents.diseaseIdx, disease_count, this.keepZeroMassObject, false);
 										}
 										else
 										{
@@ -344,7 +344,7 @@ namespace UtilLibs.BuildingPortUtils
 									{
 										if (element2.IsLiquid)
 										{
-											this.storage.AddLiquid(contents.element, num3, contents.temperature, contents.diseaseIdx, disease_count, this.keepZeroMassObject, false);
+											this.storage.AddLiquid(contents.element, removedConduitMass, contents.temperature, contents.diseaseIdx, disease_count, this.keepZeroMassObject, false);
 										}
 										else
 										{
@@ -352,10 +352,10 @@ namespace UtilLibs.BuildingPortUtils
 										}
 									}
 								}
-								else if (num3 > 0f && this.wrongElementResult == ConduitConsumer.WrongElementResult.Dump)
+								else if (removedConduitMass > 0f && this.wrongElementResult == ConduitConsumer.WrongElementResult.Dump)
 								{
-									int disease_count2 = (int)((float)contents.diseaseCount * (num3 / contents.mass));
-									SimMessages.AddRemoveSubstance(utilityCell, contents.element, CellEventLogger.Instance.ConduitConsumerWrongElement, num3, contents.temperature, contents.diseaseIdx, disease_count2, true, -1);
+									int disease_count2 = (int)((float)contents.diseaseCount * (removedConduitMass / contents.mass));
+									SimMessages.AddRemoveSubstance(utilityCell, contents.element, CellEventLogger.Instance.ConduitConsumerWrongElement, removedConduitMass, contents.temperature, contents.diseaseIdx, disease_count2, true, -1);
 								}
 							}
 						}
