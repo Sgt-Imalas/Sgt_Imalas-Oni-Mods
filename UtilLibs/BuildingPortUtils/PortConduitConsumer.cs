@@ -82,6 +82,8 @@ namespace UtilLibs.BuildingPortUtils
 
 		public ConduitConsumer.WrongElementResult wrongElementResult;
 
+		public SimHashes lastConsumedElement = SimHashes.Vacuum;
+
 		public void AssignPort(PortDisplayInput port)
 		{
 			this.conduitType = port.type;
@@ -219,6 +221,7 @@ namespace UtilLibs.BuildingPortUtils
 			return building.GetCellWithOffset(building.Orientation == Orientation.Neutral ? this.conduitOffset : this.conduitOffsetFlipped);
 		}
 
+
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
@@ -310,6 +313,7 @@ namespace UtilLibs.BuildingPortUtils
 								removedConduitMass = conduit_mgr.RemoveElement(this.utilityCell, scaledConsumptionRate).mass;
 							}
 							Element element = ElementLoader.FindElementByHash(contents.element);
+
 							bool flag = element.HasTag(this.capacityTag);
 							if (removedConduitMass > 0f && this.capacityTag != GameTags.Any && !flag)
 							{
@@ -325,6 +329,12 @@ namespace UtilLibs.BuildingPortUtils
 							{
 								if (removedConduitMass > 0f)
 								{
+									if (element.id != this.lastConsumedElement)
+									{
+										DiscoveredResources.Instance.Discover(element.tag, element.materialCategory);
+										lastConsumedElement = element.id;
+									}
+
 									int disease_count = (int)((float)contents.diseaseCount * (removedConduitMass / contents.mass));
 									Element element2 = ElementLoader.FindElementByHash(contents.element);
 									ConduitType conduitType = this.conduitType;
