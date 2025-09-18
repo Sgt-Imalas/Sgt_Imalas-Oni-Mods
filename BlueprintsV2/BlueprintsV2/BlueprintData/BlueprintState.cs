@@ -273,6 +273,10 @@ namespace BlueprintsV2.BlueprintData
 			{
 				ApplyRotatedCell(origin, dependentVisual, forcingRedraw);
 			});
+			DependentVisuals.ForEach(dependentVisual =>
+			{
+				dependentVisual.RefreshColor();
+			});
 		}
 
 

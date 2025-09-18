@@ -36,6 +36,10 @@ namespace BlueprintsV2.Visualizers
 			VisualsUtilities.SetVisualizerColor(cell, GetVisualizerColor(cell), Visualizer, buildingConfig);
 		}
 
+		public override void ApplyBuildingData(GameObject building)
+		{
+			base.ApplyBuildingData(building);
+		}
 		public override void ApplyRotation(Orientation rotation, bool flippedX, bool flippedY)
 		{
 			BlueprintRotationStateHolder = rotation;
@@ -64,6 +68,10 @@ namespace BlueprintsV2.Visualizers
 
 				cell = cellParam;
 			}
+		}
+		public override void RefreshColor()
+		{
+			VisualsUtilities.SetVisualizerColor(cell, GetVisualizerColor(cell), Visualizer, buildingConfig);
 		}
 	}
 }

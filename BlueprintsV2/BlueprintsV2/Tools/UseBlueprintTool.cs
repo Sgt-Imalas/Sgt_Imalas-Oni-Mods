@@ -147,6 +147,9 @@ namespace BlueprintsV2.Tools
 
 		public override void OnKeyDown(KButtonEvent buttonEvent)
 		{
+			if (DetailsScreen.Instance?.isEditing ?? false)
+				return;
+
 			if (ModAssets.BlueprintFileHandling.HasBlueprints())
 			{
 				if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsToggleHotkeyToolTips.GetKAction()))
@@ -216,6 +219,8 @@ namespace BlueprintsV2.Tools
 
 		public override void OnKeyUp(KButtonEvent buttonEvent)
 		{
+			if (DetailsScreen.Instance?.isEditing ?? false)
+				return;
 			if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsToggleForce.GetKAction()))
 			{
 				SetForceMaterialChange(false);

@@ -78,12 +78,18 @@ namespace BlueprintsV2.Visualizers
 			if (cell != cellParam || forceRedraw)
 			{
 				Visualizer.transform.SetPosition(Grid.CellToPosCBC(cellParam, buildingConfig.BuildingDef.SceneLayer));
-
 				if (Visualizer.TryGetComponent<KBatchedAnimController>(out var kbac))
 				{
-					kbac.TintColour = GetVisualizerColor(cellParam);
+					kbac.TintColour = GetVisualizerColor(cell);
 				}
 				cell = cellParam;
+			}
+		}
+		public virtual void RefreshColor()
+		{
+			if (Visualizer.TryGetComponent<KBatchedAnimController>(out var kbac))
+			{
+				kbac.TintColour = GetVisualizerColor(cell);
 			}
 		}
 
@@ -259,7 +265,9 @@ namespace BlueprintsV2.Visualizers
 				var newConnections = (UtilityConnections)GetRotatedUtilityConnectionFlags(flags);
 				if (vis.Connections != newConnections)
 				{
-					vis.UpdateConnections(newConnections);
+					UtilityConnections neew = vis.Connections | newConnections;
+
+					vis.UpdateConnections(neew);
 					vis.Refresh();
 				}
 			}
@@ -336,6 +344,18 @@ namespace BlueprintsV2.Visualizers
 			}
 			return false;
 		}
+		public virtual bool CanApplyConduitSettings(int cellParam)
+		{
+			if (!SameBuildingAlreadyInPlace(cellParam, out var otherConduit, false))
+				return false;
+			if(otherConduit.TryGetComponent<IHaveUtilityNetworkMgr>(out var mng) && buildingConfig.GetConduitFlags(out var ownFlags))
+			{
+				var manager = mng.GetNetworkManager();
+				var current = (int)manager.GetDisplayConnections(cellParam);
+				return current != ownFlags;
+			}
+			return false;
+		}
 
 		public virtual bool CanRebuildWithMaterial(int cellParam, out Reconstructable reconstructable)
 		{
@@ -379,7 +399,7 @@ namespace BlueprintsV2.Visualizers
 			{
 				return TryReconstructExistingBuilding(cellParam);
 			}
-			else if (SameBuildingAlreadyInPlace(cellParam, out var bc, true)) //apply building settings to existing, does not apply to conduits
+			else if (SameBuildingAlreadyInPlace(cellParam, out var bc, true) || CanApplyConduitSettings(cellParam)) //apply building settings to existing, does not apply to conduits
 			{
 				ApplyBuildingData(bc.gameObject);
 				if (buildingConfig.HasAnyBuildingData)
@@ -425,7 +445,7 @@ namespace BlueprintsV2.Visualizers
 			Vector3 posCbc = Grid.CellToPosCBC(cellParam, Grid.SceneLayer.Building);
 			GameObject builtItem = null;
 			var def = buildingConfig.BuildingDef;
-			var buildingOrientation = RotatedOrientation;	
+			var buildingOrientation = RotatedOrientation;
 			var selectedElements = GetConstructionElements();
 			var visualizer = Visualizer;
 
@@ -539,6 +559,7 @@ namespace BlueprintsV2.Visualizers
 					|| faiReason == global::STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_CORNER
 					|| faiReason == global::STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_CORNER_FLOOR;
 
+				//SgtLogger.l("Fail reason of " + buildingConfig.BuildingDef.name + ": " + faiReason);
 
 				bool validCell = (IsValidPlaceLocation || IgnorableFailReason);
 
@@ -564,9 +585,14 @@ namespace BlueprintsV2.Visualizers
 			{
 				return ModAssets.BLUEPRINTS_COLOR_VALIDPLACEMENT;
 			}
-			else if (SameBuildingAlreadyInPlace(cellParam, out _, true) && buildingConfig.HasAnyBuildingData)
+			else if (SameBuildingAlreadyInPlace(cellParam, out _, false))
 			{
-				return ModAssets.BLUEPRINTS_COLOR_CAN_APPLY_SETTINGS;
+				if (buildingConfig.HasAnyBuildingData || CanApplyConduitSettings(cellParam))
+				{
+					return ModAssets.BLUEPRINTS_COLOR_CAN_APPLY_SETTINGS;
+				}
+				else
+					return ModAssets.BLUEPRINTS_COLOR_INVISIBLE;
 			}
 			else if (!ValidCell(cellParam))
 			{
@@ -636,7 +662,7 @@ namespace BlueprintsV2.Visualizers
 
 					if (flippedX && rotaFlipX)
 						currentRota += 2;
-					if(flippedY && rotaFlipY)
+					if (flippedY && rotaFlipY)
 						currentRota += 2;
 
 					currentRota = currentRota % 4;

@@ -1,4 +1,6 @@
 ﻿using PeterHan.PLib.Options;
+using UnityEngine;
+using UtilLibs;
 
 namespace BlueprintsV2
 {
@@ -42,6 +44,15 @@ namespace BlueprintsV2
 				public static LocString TITLE = "Preconfigure building settings";
 				public static LocString TOOLTIP = "Use blueprint data transfer to preconfigure this building";
 			}
+			public class COLOR_LEGEND
+			{
+				public static LocString BLUEPRINTS_COLOR_VALIDPLACEMENT = "Valid Building Placement";
+				public static LocString BLUEPRINTS_COLOR_INVALIDPLACEMENT = "Invalid Building Placement";
+				public static LocString BLUEPRINTS_COLOR_NOTECH = "Building not researched";
+				public static LocString BLUEPRINTS_COLOR_NOMATERIALS = "Missing Construction Materials";
+				public static LocString BLUEPRINTS_COLOR_NOTALLOWEDINWORLD = "Not allowed in current asteroid";
+				public static LocString BLUEPRINTS_COLOR_CAN_APPLY_SETTINGS = "Can apply stored blueprint settings";
+			}
 			public class DIALOGUE
 			{
 				public class CONFIRMDELETE
@@ -66,8 +77,8 @@ namespace BlueprintsV2
 				{
 					public class FOLDERINFO
 					{
-						public static LocString LABEL = "Current Folder: {0}, Position: {1}/{2}";
-						public static LocString LABEL_SNAPSHOT = "Selected Snapshot: {0}/{1}";
+						public static LocString LABEL = "Folder: {0}, Position: {1}/{2}";
+						public static LocString LABEL_SNAPSHOT = "Current Snapshot: {0}/{1}";
 					}
 					public class APPLYSTOREDSETTINGS
 					{
@@ -76,10 +87,6 @@ namespace BlueprintsV2
 					public class FORCEREBUILD
 					{
 						public static LocString LABEL = "Rebuild existing with mismatched material:";
-					}
-					public class CANROTATEYESNO
-					{
-						public static LocString LABEL = "Blueprint can rotate:";
 					}
 					public class ROTATEACTIONS
 					{
@@ -91,15 +98,7 @@ namespace BlueprintsV2
 						{
 							public static LocString LABEL = "Rotate Right";
 						}
-					}
-					public class CANFLIPHYESNO
-					{
-						public static LocString LABEL = "Blueprint can flip horizontal:";
-					}
-					public class CANFLIPVYESNO
-					{
-						public static LocString LABEL = "Blueprint can flip vertical:";
-					}
+					}					
 					public class FLIPACTIONS
 					{
 						public class FLIPH

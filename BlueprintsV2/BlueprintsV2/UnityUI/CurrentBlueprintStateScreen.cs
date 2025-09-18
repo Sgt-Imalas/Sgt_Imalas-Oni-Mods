@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
 using UtilLibs.UIcmp;
+using static BlueprintsV2.STRINGS.UI;
 using static BlueprintsV2.STRINGS.UI.TOOLS;
 using static BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER;
 
@@ -26,10 +27,12 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 		LocText FolderInfo;
 		GameObject FolderInfoGO;
 
+		GameObject ColorPreviewPrefab;
+
 		FToggle ApplyBPSettings, ForceRebuildMismatchedBuildings;
-		YesNoInfo CanRotate;
+		//YesNoInfo CanRotate;
 		FButton RotateL, RotateR;
-		YesNoInfo CanFlipH, CanFlipV;
+		//YesNoInfo CanFlipH, CanFlipV;
 		FButton FlipH, FlipV;
 
 		public static void DestroyInstance() { Instance = null; }
@@ -79,16 +82,16 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 		{
 			bool canRotate = BlueprintState.CanRotate;
 
-			CanRotate.SetInfoState(canRotate);
+			//CanRotate.SetInfoState(canRotate);
 			RotateL.SetInteractable(canRotate);
 			RotateR.SetInteractable(canRotate);
 
 			bool canFlipH = BlueprintState.CanFlipH;
-			CanFlipH.SetInfoState(canFlipH);
+			//CanFlipH.SetInfoState(canFlipH);
 			FlipH.SetInteractable(canFlipH);
 
 			bool canFlipV = BlueprintState.CanFlipV;
-			CanFlipV.SetInfoState(canFlipV);
+			//CanFlipV.SetInfoState(canFlipV);
 			FlipV.SetInteractable(canFlipV);
 			RefreshStateChangeBPs();
 		}
@@ -148,7 +151,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			UIUtils.AddSimpleTooltipToObject(ForceRebuildMismatchedBuildings.gameObject, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsToggleForce.GetKAction()) + "]"));
 
 
-			CanRotate = transform.Find("InfoItemsContainer/CanRotateYesNo").gameObject.AddOrGet<YesNoInfo>();
+			//CanRotate = transform.Find("InfoItemsContainer/CanRotateYesNo").gameObject.AddOrGet<YesNoInfo>();
 			RotateL = transform.Find("InfoItemsContainer/RotateActions/RotateL").gameObject.AddOrGet<FButton>();
 			RotateL.OnClick += HandleRotationL;
 			UIUtils.AddSimpleTooltipToObject(RotateL.gameObject, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsRotateInverse.GetKAction()) + "]"));
@@ -157,15 +160,42 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			RotateR.OnClick += HandleRotationR;
 			UIUtils.AddSimpleTooltipToObject(RotateR.gameObject, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsRotate.GetKAction()) + "]"));
 
-			CanFlipH = transform.Find("InfoItemsContainer/CanFlipHYesNo").gameObject.AddOrGet<YesNoInfo>();
-			CanFlipV = transform.Find("InfoItemsContainer/CanFlipVYesNo").gameObject.AddOrGet<YesNoInfo>();
+			//CanFlipH = transform.Find("InfoItemsContainer/CanFlipHYesNo").gameObject.AddOrGet<YesNoInfo>();
+			//CanFlipV = transform.Find("InfoItemsContainer/CanFlipVYesNo").gameObject.AddOrGet<YesNoInfo>();
 			FlipH = transform.Find("InfoItemsContainer/FlipActions/FlipH").gameObject.AddOrGet<FButton>();
 			FlipH.OnClick += HandleFlipH;
 			UIUtils.AddSimpleTooltipToObject(FlipH.gameObject, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsFlipHorizontal.GetKAction()) + "]"));
 			FlipV = transform.Find("InfoItemsContainer/FlipActions/FlipV").gameObject.AddOrGet<FButton>();
 			FlipV.OnClick += HandleFlipV;
 			UIUtils.AddSimpleTooltipToObject(FlipV.gameObject, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsFlipVertical.GetKAction()) + "]"));
+
+			ColorPreviewPrefab = transform.Find("InfoItemsContainer/PreviewColorPrefab").gameObject;
+			ColorPreviewPrefab.AddOrGet<ColorLegendEntry>();
+			ColorPreviewPrefab.SetActive(false);
+
+			BuildColorLegend();
 		}
+
+		void BuildColorLegend()
+		{
+			AddLegend(COLOR_LEGEND.BLUEPRINTS_COLOR_VALIDPLACEMENT, ModAssets.BLUEPRINTS_COLOR_VALIDPLACEMENT);
+			AddLegend(COLOR_LEGEND.BLUEPRINTS_COLOR_CAN_APPLY_SETTINGS, ModAssets.BLUEPRINTS_COLOR_CAN_APPLY_SETTINGS);
+			if (Config.Instance.RequireConstructable)
+			{
+				AddLegend(COLOR_LEGEND.BLUEPRINTS_COLOR_NOTECH, ModAssets.BLUEPRINTS_COLOR_NOTECH);
+				AddLegend(COLOR_LEGEND.BLUEPRINTS_COLOR_NOMATERIALS, ModAssets.BLUEPRINTS_COLOR_NOMATERIALS);
+			}
+			AddLegend(COLOR_LEGEND.BLUEPRINTS_COLOR_NOTALLOWEDINWORLD, ModAssets.BLUEPRINTS_COLOR_NOTALLOWEDINWORLD);
+			AddLegend(COLOR_LEGEND.BLUEPRINTS_COLOR_INVALIDPLACEMENT, ModAssets.BLUEPRINTS_COLOR_INVALIDPLACEMENT);
+		}
+
+		void AddLegend(string label, Color color)
+		{
+			var item = Util.KInstantiateUI<ColorLegendEntry>(ColorPreviewPrefab, ColorPreviewPrefab.transform.parent.gameObject);
+			item.SetContent(label, color);
+			item.gameObject.SetActive(true);
+		}
+
 
 		void HandleFlipH()
 		{

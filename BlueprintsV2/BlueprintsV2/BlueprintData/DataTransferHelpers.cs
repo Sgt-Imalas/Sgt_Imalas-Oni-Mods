@@ -88,6 +88,9 @@ namespace BlueprintsV2.BlueprintData
 							SgtLogger.l("Error getting repairable state: " + e.Message);
 						}
 					}
+					if (repairForbiddenState == false) //only store non-default value
+						return null;
+
 					return new JObject()
 					{
 						{ "ForbiddenRepair", repairForbiddenState},
@@ -626,7 +629,7 @@ namespace BlueprintsV2.BlueprintData
 		{
 			internal static JObject TryGetData(GameObject arg)
 			{
-				if (arg.TryGetComponent<FoodStorage>(out var component))
+				if (arg.TryGetComponent<FoodStorage>(out var component) && component.SpicedFoodOnly == true)
 				{
 					return new JObject()
 					{
@@ -653,7 +656,7 @@ namespace BlueprintsV2.BlueprintData
 		{
 			internal static JObject TryGetData(GameObject arg)
 			{
-				if (arg.TryGetComponent<AutoDisinfectable>(out var component))
+				if (arg.TryGetComponent<AutoDisinfectable>(out var component) && component.enableAutoDisinfect == false) //only store nondefault value
 				{
 					return new JObject()
 					{
@@ -750,6 +753,9 @@ namespace BlueprintsV2.BlueprintData
 				if (arg.TryGetComponent<Prioritizable>(out var component))
 				{
 					var prio = component.GetMasterPriority();
+					if (prio.priority_value == 5 && prio.priority_class == PriorityScreen.PriorityClass.basic) //ignore default state
+						return null;
+
 					//SgtLogger.l("Getting prio " + prio.priority_value + " from " + arg.name);
 					return new JObject()
 					{

@@ -45,6 +45,9 @@ namespace BlueprintsV2.BlueprintData
 		/// </summary>
 		public Dictionary<string, JObject> AdditionalBuildingData = null;
 
+		private int ConduitFlags = -1;
+
+
 		public bool HasAnyBuildingData => AdditionalBuildingData != null && AdditionalBuildingData.Any();
 
 		public bool TryGetDataValue(string id, out JObject data)
@@ -335,26 +338,27 @@ namespace BlueprintsV2.BlueprintData
 		}
 		internal void SetConduitFlags(int flag)
 		{
-			SetBuildingData(API_Consts.ConduitFlagID,
-				new JObject()
-				{
-					{ API_Consts.ConduitFlagID, flag }
-				});
+			ConduitFlags = flag; 
+			//SetBuildingData(API_Consts.ConduitFlagID,
+			//	new JObject()
+			//	{
+			//		{ API_Consts.ConduitFlagID, flag }
+			//	});
 		}
 		internal bool GetConduitFlags(out int flags)
 		{
-			flags = -1;
-			if (AdditionalBuildingData != null && AdditionalBuildingData.TryGetValue(API_Consts.ConduitFlagID, out var value)
-				&& value.SelectToken(API_Consts.ConduitFlagID) != null)
-			{
-				JToken token = value.SelectToken(API_Consts.ConduitFlagID);
+			flags = ConduitFlags;
+			//if (AdditionalBuildingData != null && AdditionalBuildingData.TryGetValue(API_Consts.ConduitFlagID, out var value)
+			//	&& value.SelectToken(API_Consts.ConduitFlagID) != null)
+			//{
+			//	JToken token = value.SelectToken(API_Consts.ConduitFlagID);
 
-				if (token != null && token.Type == JTokenType.Integer)
-				{
-					flags = token.Value<int>();
-					return true;
-				}
-			}
+			//	if (token != null && token.Type == JTokenType.Integer)
+			//	{
+			//		flags = token.Value<int>();
+			//		return true;
+			//	}
+			//}
 			return flags != -1;
 		}
 	}

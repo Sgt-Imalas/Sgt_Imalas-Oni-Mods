@@ -61,5 +61,10 @@ namespace BlueprintsV2.Visualizers
 		{
 			//digging doesnt get rotated
 		}
+
+		public void RefreshColor()
+		{
+			//no tinting
+		}
 	}
 }

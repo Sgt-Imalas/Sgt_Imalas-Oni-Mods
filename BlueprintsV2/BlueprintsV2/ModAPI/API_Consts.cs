@@ -2,6 +2,6 @@
 {
 	internal class API_Consts
 	{
-		public const string ConduitFlagID = "ConduitFlags";
+		//public const string ConduitFlagID = "ConduitFlags";
 	}
 }

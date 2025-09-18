@@ -26,10 +26,11 @@ namespace BlueprintsV2
 
 		public static Color BLUEPRINTS_COLOR_VALIDPLACEMENT = Color.white;
 		public static Color BLUEPRINTS_COLOR_INVALIDPLACEMENT = Color.red;
-		public static Color BLUEPRINTS_COLOR_NOTECH = new Color32(30, 144, 255, 255);
+		public static Color BLUEPRINTS_COLOR_NOTECH = Color.yellow;
 		public static Color BLUEPRINTS_COLOR_NOMATERIALS = UIUtils.rgb(255, 107, 8);
 		public static Color BLUEPRINTS_COLOR_NOTALLOWEDINWORLD = UIUtils.rgb(135, 97, 79);
-		public static Color BLUEPRINTS_COLOR_CAN_APPLY_SETTINGS = Color.yellow;
+		public static Color BLUEPRINTS_COLOR_CAN_APPLY_SETTINGS = new Color32(30, 144, 255, 255);
+		public static Color BLUEPRINTS_COLOR_INVISIBLE = new Color32(255, 255, 255, 51);
 
 		public static Color BLUEPRINTS_COLOR_BLUEPRINT_DRAG = new Color32(0, 119, 145, 255);
 
