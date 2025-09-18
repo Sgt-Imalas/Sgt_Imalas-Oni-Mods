@@ -55,7 +55,11 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 					GasExhaust.dispenser = GasDispenser;
 					GasExhaust.elementTag = ModElements.RawNaturalGas_Gas.Tag;
 					GasExhaust.capacity = 80f;
-					
+
+					var storageLimiter = go.AddOrGet<ElementThresholdOperational>();
+					storageLimiter.Threshold = 80f;
+					storageLimiter.ThresholdTag = ModElements.RawNaturalGas_Gas.Tag;
+
 
 					///===> Crude Oil Output <============================================================
 					PipedConduitDispenser LiquidDispenser = go.AddComponent<PipedConduitDispenser>();
@@ -67,7 +71,11 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 					PipedOptionalExhaust LiquidExhaust = go.AddComponent<PipedOptionalExhaust>();
 					LiquidExhaust.dispenser = LiquidDispenser;
 					LiquidExhaust.elementTag = SimHashes.CrudeOil.CreateTag();
-					LiquidExhaust.capacity = 4f;
+					LiquidExhaust.capacity = 10f;
+
+					var storageLimiter2 = go.AddOrGet<ElementThresholdOperational>();
+					storageLimiter2.Threshold = 10f;
+					storageLimiter2.ThresholdTag = SimHashes.CrudeOil.CreateTag();
 
 					Custom_OilWellCapConfig.AttachPorts(go);
 				}

@@ -49,7 +49,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 
 			Storage defaultStorage = BuildingTemplates.CreateDefaultStorage(go);
-			defaultStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
+			defaultStorage.SetDefaultStoredItemModifiers(Storage.StandardSealedStorage);
 			defaultStorage.capacityKg = 3000f;
 			defaultStorage.showCapacityStatusItem = true;
 			defaultStorage.showCapacityAsMainStatus = true;
@@ -60,11 +60,13 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			go.AddOrGet<ElementCompressorBuilding>();
 			Prioritizable.AddRef(go);
 
+			float targetTemp = UtilMethods.GetKelvinFromC(-56);
+
 			RefrigeratorController.Def def = go.AddOrGetDef<RefrigeratorController.Def>();
 			def.powerSaverEnergyUsage = 60f;
 			def.coolingHeatKW = 3f;
 			def.steadyHeatKW = 0.2f;
-			def.simulatedInternalTemperature = 217.15f;
+			def.simulatedInternalTemperature = targetTemp;
 			def.simulatedThermalConductivity = 3000f;
 
 			ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
@@ -77,7 +79,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			ElementConverter elementConverter = go.AddOrGet<ElementConverter>();
 			elementConverter.consumedElements = [new(SimHashes.CarbonDioxide.CreateTag(), 1f)];
-			elementConverter.outputElements = [new (1f, SimHashes.LiquidCarbonDioxide, 217.15f, storeOutput: true)];
+			elementConverter.outputElements = [new (1f, SimHashes.LiquidCarbonDioxide, targetTemp, storeOutput: true)];
 
 			PipedConduitDispenser conduitDispenser = go.AddOrGet<PipedConduitDispenser>();
 			conduitDispenser.conduitType = ConduitType.Liquid;
