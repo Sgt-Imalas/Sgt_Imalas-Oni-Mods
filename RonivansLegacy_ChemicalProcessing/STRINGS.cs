@@ -356,7 +356,7 @@ namespace RonivansLegacy_ChemicalProcessing
 						"- 25% " + FormatAsLink("Naphtha", "NAPHTHA") + "\n" +
 						"- 10% " + FormatAsLink("Natural Gas", "METHANE") + "\n" +
 						"- 15% " + FormatAsLink("Bitumen", "BITUMEN") + ".\n\n" +
-						"Second Stage: " + FormatAsLink("Naphtha", "NAPHTHA") + " is furter refined:\n" +
+						"Second Stage: " + FormatAsLink("Naphtha", "NAPHTHA") + " is further refined:\n" +
 						"- 45% " + FormatAsLink("Petroleum", "PETROLEUM") + "\n" +
 						"- 10% " + FormatAsLink("Natural Gas", "METHANE") + "\n" +
 						"- 45% " + FormatAsLink("Bitumen", "BITUMEN") + ".\n\n" +
@@ -419,7 +419,7 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString DESC = "An industrial petrochemical plant responsible for rearranging hydrocarbon molecules of Naphtha in to Petroleum.";
 					public static LocString EFFECT = string.Concat(
 						[
-							"This second stage refinement plant is capable of furter refining ",FormatAsLink("Naphtha", "NAPHTHA"), ":\n "+
+							"This second stage refinement plant is capable of further refining ",FormatAsLink("Naphtha", "NAPHTHA"), ":\n "+
 							"- 45% ",FormatAsLink("Petroleum", "PETROLEUM"), "\n" +
 							"- 10% ",FormatAsLink("Natural Gas", "METHANE"), "\n" +
 							"- 45% ",FormatAsLink("Bitumen", "BITUMEN"),".\n\n" +
