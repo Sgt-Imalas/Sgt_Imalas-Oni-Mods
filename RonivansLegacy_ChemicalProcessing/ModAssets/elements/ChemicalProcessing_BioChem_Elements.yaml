@@ -31,7 +31,9 @@ elements:
     speed: 100
     solidSurfaceAreaMultiplier: 1
     liquidSurfaceAreaMultiplier: 25
-    gasSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1    
+    minHorizontalFlow: 0.1
+    minVerticalFlow: 0.1
     strength: 0.7
     highTemp: 574.15
     lowTemp: 257.15
@@ -102,6 +104,8 @@ elements:
     specificHeatCapacity: 0.234
     thermalConductivity: 7
     liquidCompression: 1.01
+    minHorizontalFlow: 0.1
+    minVerticalFlow: 0.1
     speed: 100
     solidSurfaceAreaMultiplier: 1
     liquidSurfaceAreaMultiplier: 25
