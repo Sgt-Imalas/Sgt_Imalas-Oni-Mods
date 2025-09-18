@@ -118,9 +118,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			ballMill.heatedTemperature = 298.15f;
 			BuildingTemplates.CreateComplexFabricatorStorage(go, ballMill);
 			ballMill.keepExcessLiquids = true;
-			ballMill.inStorage.capacityKg = 1000f;
-			ballMill.buildStorage.capacityKg = 1000f;
-			ballMill.outStorage.capacityKg = 1000f;
 			ballMill.storeProduced = true;
 			ballMill.inStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			ballMill.buildStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);

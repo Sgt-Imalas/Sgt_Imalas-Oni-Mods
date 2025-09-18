@@ -82,8 +82,6 @@ namespace Mineral_Processing_Mining.Buildings
 			ComplexFabricatorWorkable workable = go.AddOrGet<ComplexFabricatorWorkable>();
 			BuildingTemplates.CreateComplexFabricatorStorage(go, drillRig);
 			drillRig.keepExcessLiquids = true;
-			drillRig.outStorage.capacityKg = 10000f;
-			drillRig.inStorage.capacityKg = 1000f;
 			drillRig.storeProduced = true;
 			drillRig.inStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			drillRig.buildStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
