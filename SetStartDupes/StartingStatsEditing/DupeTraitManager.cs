@@ -45,8 +45,8 @@ namespace SetStartDupes
 		}
 
 
-		Dictionary<Trait, GameObject> UI_TraitEntries = new ();
-		Dictionary<SkillGroup, UI_InterestLogic> UI_InterestEntries = new ();
+		Dictionary<Trait, GameObject> UI_TraitEntries = new();
+		Dictionary<SkillGroup, UI_InterestLogic> UI_InterestEntries = new();
 		Dictionary<Klei.AI.Attribute, NumberInput> UI_AttributeEntries = new();
 
 
@@ -79,7 +79,7 @@ namespace SetStartDupes
 		GameObject AddNewTrait;
 		GameObject AddNewInterest;
 
-
+		GameObject StressTraitGO, JoyTraitGO;
 
 
 		LocText JoyLabel;
@@ -258,14 +258,14 @@ namespace SetStartDupes
 
 		void UpdateReactions()
 		{
-			if (JoyLabel == null)
+			if (JoyTraitGO != null)
 			{
-				JoyLabel = AddTraitContainerUI(ToEditMinionStats.joyTrait, OverjoyedContainer, NextType.joy, false).transform.Find("Label").GetComponent<LocText>();
+				UnityEngine.Object.Destroy(JoyTraitGO);
 			}
-			else
-			{
-				JoyLabel.text = ToEditMinionStats.joyTrait.Name;
-			}
+
+			JoyTraitGO = AddTraitContainerUI(ToEditMinionStats.joyTrait, OverjoyedContainer, NextType.joy, false);
+			JoyLabel = JoyTraitGO.transform.Find("Label").GetComponent<LocText>();
+
 			if (!Config.Instance.NoJoyReactions)
 			{
 				if (JoyTT == null)
@@ -276,14 +276,13 @@ namespace SetStartDupes
 			}
 
 
-			if (StressLabel == null)
+			if (StressTraitGO != null)
 			{
-				StressLabel = AddTraitContainerUI(ToEditMinionStats.stressTrait, StressContainer, NextType.stress, false).transform.Find("Label").GetComponent<LocText>();
+				UnityEngine.Object.Destroy(StressTraitGO);
 			}
-			else
-			{
-				StressLabel.text = ToEditMinionStats.stressTrait.Name;
-			}
+			StressTraitGO = AddTraitContainerUI(ToEditMinionStats.stressTrait, StressContainer, NextType.stress, false);
+			StressLabel = StressTraitGO.transform.Find("Label").GetComponent<LocText>();
+
 
 			if (!Config.Instance.NoStressReactions)
 			{
@@ -471,7 +470,7 @@ namespace SetStartDupes
 			}
 			else
 			{
-				if (ModAssets.IsMinionBaseTrait(trait.Id)||ModAssets.IsInvalidTrait(trait))
+				if (ModAssets.IsMinionBaseTrait(trait.Id) || ModAssets.IsInvalidTrait(trait))
 					return;
 
 				var type = ModAssets.GetTraitListOfTrait(trait.Id);
@@ -504,7 +503,7 @@ namespace SetStartDupes
 			traitEntry.GetComponent<KButton>().enabled = !notEditable;
 			UIUtils.AddActionToButton(traitEntry.transform, "", () =>
 			{
-				UnityTraitScreen.ShowWindow(ToEditMinionStats,
+				UnityTraitScreen.ShowWindow(Stats,
 					() => UpdateUI(),
 					 DupeTraitManager: this,
 					currentTrait: trait);
@@ -612,7 +611,7 @@ namespace SetStartDupes
 				Stats.StartingLevels[attribute.Id] = (int)newVal;
 			}
 
-			UpdateInterestLabels();			
+			UpdateInterestLabels();
 		}
 
 		void RebuildInterests()
