@@ -744,10 +744,10 @@ namespace SetStartDupes
 					return StressWithShocker;
 				else if (type == NextType.joy)
 				{
-					if (initializingUI)
+					if (initializingUI || bionicMinion)
 						return TraitsByType[type];
 					else
-						return bionicMinion ? BionicJoyReactions : RegularJoyReactions;
+						return RegularJoyReactions;
 				}
 				else
 					return TraitsByType[type];
