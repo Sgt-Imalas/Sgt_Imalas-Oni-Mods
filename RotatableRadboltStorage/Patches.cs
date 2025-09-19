@@ -76,6 +76,90 @@ namespace RotatableRadboltStorage
 			}
 		}
 
+		static void AddThresholdLogicPortDesc(BuildingDef def)
+		{
+			var fullnesOutput = def.LogicOutputPorts.First();
+			fullnesOutput.description = STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.LOGIC_PORT;
+			fullnesOutput.activeDescription = STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.LOGIC_PORT_ACTIVE;
+			fullnesOutput.inactiveDescription = STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.LOGIC_PORT_INACTIVE;
+
+			def.LogicOutputPorts[0] = fullnesOutput;
+		}
+
+
+		static void AddThresholdLogic(GameObject gameObject) => gameObject.AddOrGet<HEPStorageThreshold>();
+		#region Railgun
+		[HarmonyPatch(typeof(RailGunConfig), nameof(RailGunConfig.ConfigureBuildingTemplate))]
+		public class RailGunConfig_ConfigureBuildingTemplate_Patch
+		{
+			public static void Postfix(GameObject go)
+			{
+				AddThresholdLogic(go);
+			}
+		}
+
+		[HarmonyPatch(typeof(RailGunConfig), nameof(RailGunConfig.CreateBuildingDef))]
+		public class RailGunConfig_CreateBuildingDef_Patch
+		{
+			public static void Postfix(ref BuildingDef __result)
+			{
+				AddThresholdLogicPortDesc(__result);
+			}
+		}
+		#endregion
+		#region NuclearResearchCenter
+		[HarmonyPatch(typeof(NuclearResearchCenterConfig), nameof(NuclearResearchCenterConfig.ConfigureBuildingTemplate))]
+		public class NuclearResearchCenterConfig_ConfigureBuildingTemplate_Patch
+		{
+			public static void Postfix(GameObject go)
+			{
+				AddThresholdLogic(go);
+			}
+		}
+
+		[HarmonyPatch(typeof(NuclearResearchCenterConfig), nameof(NuclearResearchCenterConfig.CreateBuildingDef))]
+		public class NuclearResearchCenterConfig_CreateBuildingDef_Patch
+		{
+			public static void Postfix(ref BuildingDef __result)
+			{
+				AddThresholdLogicPortDesc(__result);
+			}
+		}
+		#endregion
+
+		#region DiamondPress
+		[HarmonyPatch(typeof(DiamondPressConfig), nameof(DiamondPressConfig.ConfigureBuildingTemplate))]
+		public class DiamondPressConfig_ConfigureBuildingTemplate_Patch
+		{
+			public static void Postfix(GameObject go)
+			{
+				AddThresholdLogic(go);
+			}
+		}
+
+		[HarmonyPatch(typeof(DiamondPressConfig), nameof(DiamondPressConfig.CreateBuildingDef))]
+		public class DiamondPressConfig_CreateBuildingDef_Patch
+		{
+			public static void Postfix(ref BuildingDef __result)
+			{
+				AddThresholdLogicPortDesc(__result);
+			}
+		}
+		#endregion
+
+		#region HEPBattery
+		[HarmonyPatch(typeof(HEPBatteryConfig))]
+		[HarmonyPatch(nameof(HEPBatteryConfig.ConfigureBuildingTemplate))]
+		public static class AdjustNormalHEPBatteryTwo
+		{
+			public static void Postfix(GameObject go)
+			{
+				go.AddOrGet<BatteryDirectionAddon>().OuputOffByOne = true;
+				go.AddOrGet<LogicHEPDirectionController>();
+				AddThresholdLogic(go);
+			}
+		}
+
 		[HarmonyPatch(typeof(HEPBatteryConfig))]
 		[HarmonyPatch(nameof(HEPBatteryConfig.CreateBuildingDef))]
 		public static class AdjustNormalHEPBattery
@@ -89,13 +173,10 @@ namespace RotatableRadboltStorage
 				};
 
 				MakeFirstInputPortDirectionRibbon(__result, HEPBattery.FIRE_PORT_ID, new CellOffset(0, 2), STRINGS.BUILDINGS.PREFABS.HEPBATTERY.LOGIC_PORT, STRINGS.BUILDINGS.PREFABS.HEPBATTERY.LOGIC_PORT_ACTIVE, STRINGS.BUILDINGS.PREFABS.HEPBATTERY.LOGIC_PORT_INACTIVE);
-				var fullnesOutput = __result.LogicOutputPorts.First();
-				fullnesOutput.description = STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.LOGIC_PORT;
-				fullnesOutput.activeDescription = STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.LOGIC_PORT_ACTIVE;
-				fullnesOutput.inactiveDescription = STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.LOGIC_PORT_INACTIVE;
-
+				AddThresholdLogicPortDesc(__result);
 			}
 		}
+		#endregion
 
 		[HarmonyPatch(typeof(HighEnergyParticleRedirectorConfig), nameof(HighEnergyParticleRedirectorConfig.CreateBuildingDef))]
 		public class HighEnergyParticleRedirectorConfig_CreateBuildingDef_Patch
@@ -126,19 +207,6 @@ namespace RotatableRadboltStorage
 			{
 				MakeFirstInputPortDirectionRibbon(__result, LogicOperationalController.PORT_ID, new(0, 0), STRINGS.UI.LOGIC_PORTS.CONTROL_OPERATIONAL, STRINGS.UI.LOGIC_PORTS.CONTROL_OPERATIONAL_ACTIVE, STRINGS.UI.LOGIC_PORTS.CONTROL_OPERATIONAL_INACTIVE);
 
-			}
-		}
-
-
-		[HarmonyPatch(typeof(HEPBatteryConfig))]
-		[HarmonyPatch(nameof(HEPBatteryConfig.ConfigureBuildingTemplate))]
-		public static class AdjustNormalHEPBatteryTwo
-		{
-			public static void Postfix(GameObject go)
-			{
-				go.AddOrGet<BatteryDirectionAddon>().OuputOffByOne = true;
-				go.AddOrGet<LogicHEPDirectionController>();
-				go.AddOrGet<HEPStorageThreshold>();
 			}
 		}
 		[HarmonyPatch]
