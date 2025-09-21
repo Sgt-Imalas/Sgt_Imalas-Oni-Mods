@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,33 +11,39 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 	internal class Pump_Patches
 	{
 
-        [HarmonyPatch(typeof(Pump), nameof(Pump.IsPumpable))]
-        public class Pump_IsPumpable_Patch
-        {
-            public static void Postfix(Pump __instance, Element.State expected_state,  ref bool __result)
-            {
-                if (!__result)
-                    return;
+		[HarmonyPatch(typeof(Pump), nameof(Pump.IsPumpable))]
+		public class Pump_IsPumpable_Patch
+		{
+			public static void Postfix(Pump __instance, Element.State expected_state, ref bool __result)
+			{
+				if (__instance is not RotatablePump pump)
+					return;
 
-				int originCell = Grid.PosToCell(__instance.transform.GetPosition());
+				int originCell = __instance.consumer.GetSampleCell();
 				var sourceXY = Grid.CellToXY(originCell);
 
-				for (int i = 0; i < __instance.consumer.consumptionRadius; i++)
+				int radius = __instance.consumer.consumptionRadius;
+
+				for (int i = -radius; i < radius; i++)
 				{
-					for (int j = 0; j < __instance.consumer.consumptionRadius; j++)
+					for (int j = -radius; j < radius; j++)
 					{
+						if ((Math.Abs(i) + Math.Abs(j)) >= radius)
+							continue;
+
 						int cellToTest = originCell + j + Grid.WidthInCells * i;
 
 						var XY = Grid.CellToXY(cellToTest);
 
-						if (Grid.Element[cellToTest].IsState(expected_state) && Grid.TestLineOfSight(sourceXY.X,sourceXY.Y, XY.X,XY.Y, Grid.IsSolidCell))
+						if (Grid.Element[cellToTest].IsState(expected_state) && Grid.TestLineOfSight(sourceXY.X, sourceXY.Y, XY.X, XY.Y, Grid.IsSolidCell))
 						{
+							__result = true;
 							return;
 						}
 					}
 				}
 				__result = false;
 			}
-        }
+		}
 	}
 }

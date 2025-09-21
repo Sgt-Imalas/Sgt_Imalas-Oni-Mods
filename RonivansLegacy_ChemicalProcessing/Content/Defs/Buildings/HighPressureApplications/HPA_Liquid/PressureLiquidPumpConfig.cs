@@ -53,15 +53,19 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 			go.AddOrGet<LoopingSounds>();
 			go.AddOrGet<EnergyConsumer>();
-			go.AddOrGet<Pump>();
 			go.AddOrGet<Storage>().capacityKg = HighPressureConduitRegistration.LiquidCap_HP * 2;
+
+
+			var pumpOffset = new CellOffset(1, 0);
 			ElementConsumer pumpConsumer = go.AddOrGet<ElementConsumer>();
 			pumpConsumer.configuration = ElementConsumer.Configuration.AllLiquid;
 			pumpConsumer.consumptionRate = HighPressureConduitRegistration.LiquidCap_HP;
 			pumpConsumer.storeOnConsume = true;
 			pumpConsumer.showInStatusPanel = false;
 			pumpConsumer.consumptionRadius = (byte)GetTileRange();
-			go.AddOrGet<RotatablePump>().PumpOffset = new CellOffset(1, 0);
+			pumpConsumer.sampleCellOffset = pumpOffset.ToVector3();
+
+			go.AddOrGet<RotatablePump>().PumpOffset = pumpOffset;
 
 			ConduitDispenser local2 = go.AddOrGet<ConduitDispenser>();
 			local2.conduitType = ConduitType.Liquid;
