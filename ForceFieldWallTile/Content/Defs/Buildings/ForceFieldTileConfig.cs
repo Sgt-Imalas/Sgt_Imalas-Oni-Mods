@@ -27,7 +27,7 @@ namespace ForceFieldWallTile.Content.Defs.Buildings
 				radius = 0
 			};
 			EffectorValues noise = none;
-			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 1, 1, "shield_generator_kanim", 30, 3f, tieR2, rawMineralsOrWood, 1600f, BuildLocationRule.NotInTiles, decor, noise);
+			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 1, 1, "fft_shield_generator_kanim", 30, 3f, tieR2, rawMineralsOrWood, 1600f, BuildLocationRule.NotInTiles, decor, noise);
 			buildingDef.Entombable = false;
 			buildingDef.Floodable = false;
 			buildingDef.Overheatable = false;
@@ -37,7 +37,6 @@ namespace ForceFieldWallTile.Content.Defs.Buildings
 			buildingDef.DefaultAnimState = "off";
 			buildingDef.ObjectLayer = ObjectLayer.Building;
 			buildingDef.SceneLayer = Grid.SceneLayer.BuildingBack;
-			buildingDef.AddSearchTerms((string)SEARCH_TERMS.TILE);
 			buildingDef.AddLogicPowerPort = true;
 			buildingDef.ExhaustKilowattsWhenActive = 0;
 			buildingDef.SelfHeatKilowattsWhenActive = 0;
