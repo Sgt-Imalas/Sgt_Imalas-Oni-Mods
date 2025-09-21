@@ -75,7 +75,7 @@ namespace DailyRoutine
 				{
 					if (QueueRecipes)
 					{
-						for (int i = recipeCount.Value; i > 0; i--)
+						for (int i = recipeCount.Value; i >= 0; i--)
 							fabricator.IncrementRecipeQueueCount(recipeCount.Key);
 					}
 					else

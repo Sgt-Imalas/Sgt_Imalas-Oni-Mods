@@ -16,7 +16,7 @@ namespace Rockets_TinyYetBig.Science
 
 		void ApplySciencePoints()
 		{
-			for (float i = CurrentScienceValue; i > 0; i--)
+			for (float i = CurrentScienceValue; i >= 0; i--)
 			{
 				//++deepscienceresearch
 				if (GetCurrentDeepSpaceReserach(out var target))
