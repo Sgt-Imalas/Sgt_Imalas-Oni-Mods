@@ -12,6 +12,7 @@ namespace ItemDropPrevention.Content.Scripts
 	{
 		[MyCmpReq] Storage internalStorage;
 		[MyCmpReq] KPrefabID kprefabID;
+		[MyCmpReq] ChoreDriver choreDriver;
 
 		HashSet<int> MarkedForDrop = [];
 
@@ -29,7 +30,6 @@ namespace ItemDropPrevention.Content.Scripts
 		{
 			if (!MarkedForDrop.Any())
 				return;
-			//SgtLogger.l("OnPathAdvanced");
 
 			///dont drop when not above solid tile
 			if (!AboveSolidGround())
@@ -41,9 +41,19 @@ namespace ItemDropPrevention.Content.Scripts
 
 			var items = internalStorage.items;
 
-			//SgtLogger.l("items in storage: "+internalStorage.items.Count);
-
-			//SgtLogger.l("Dropping all...");
+			///if deliverable chunks of the current chore have merged into those marked for drop, prevent them from dropping
+			var currentChore = choreDriver.GetCurrentChore();
+			if (currentChore != null && currentChore is FetchAreaChore fac)
+			{
+				var fetchInstance = fac.smi;
+				var deliverables = fetchInstance.deliverables;
+				foreach(var item in deliverables)
+				{
+					var id = item.gameObject?.GetInstanceID();
+					if(id.HasValue)
+						MarkedForDrop.Remove(id.Value);
+				}
+			}
 
 			for (int i = items.Count - 1; i >= 0; --i)
 			{
@@ -52,14 +62,16 @@ namespace ItemDropPrevention.Content.Scripts
 				if (item == null)
 					continue;
 				int instanceID = item.GetInstanceID();
-				//SgtLogger.l("index: " + i + ", item: " + item.name + " instance: " + instanceID);
-
-				//foreach(var item2 in internalStorage.items)
-				//{
-				//	SgtLogger.l("item in storage: "+item2.name+", id: "+item2.GetInstanceID());
-				//}
 				if (MarkedForDrop.Contains(instanceID))
+				{
 					internalStorage.Drop(item);
+					if(item.TryGetComponent<Clearable>(out var markForSweep) && markForSweep.isClearable)
+					{
+						markForSweep.MarkForClear();
+						if (item.TryGetComponent<Prioritizable>(out var prioritizable))
+							prioritizable.SetMasterPriority(new(PriorityScreen.PriorityClass.basic,5));
+					}
+				}
 			}
 			MarkedForDrop.Clear();
 		}
