@@ -1171,7 +1171,7 @@ msgstr "用于<link=\"REFINEDMETAL\">精炼金属</link>的特殊加工和制造
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.NAME"
 msgid "<link=\"CHEMICALSELECTIVEARCFURNACE\">Selective Arc-Furnace</link>"
-msgstr "<link=\"HEMICALSELECTIVEARCFURNAC\">选择性电弧炉</link>"
+msgstr "<link=\"CHEMICALSELECTIVEARCFURNACE\"选择性电弧炉</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SMALLCRUSHERMILL.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SMALLCRUSHERMILL.DESC"
@@ -1761,7 +1761,7 @@ msgid ""
 "\n"
 "Can be run through wall and floor tile."
 msgstr ""
-"最多可承载 {CAPACITY} 的<link=\"ELEMENTSGAS\">气体</link>，并且<link=\"HEAT\">温度</link>变化极小。\n"
+"最多可承载 {CAPACITY} kg的<link=\"ELEMENTSGAS\">气体</link>，并且<link=\"HEAT\">温度</link>变化极小。\n"
 "\n"
 "可以穿过墙壁和地板。"
 
@@ -1805,7 +1805,7 @@ msgid ""
 "\n"
 "Can be run through wall and floor tile."
 msgstr ""
-"最多可承载 {CAPACITY} 的<link=\"ELEMENTSLIQUID\">液体</link>，并且<link=\"HEAT\">温度</link>变化极小。\n"
+"最多可承载 {CAPACITY} kg的<link=\"ELEMENTSLIQUID\">液体</link>，并且<link=\"HEAT\">温度</link>变化极小。\n"
 "\n"
 "可以穿过墙和地板。"
 

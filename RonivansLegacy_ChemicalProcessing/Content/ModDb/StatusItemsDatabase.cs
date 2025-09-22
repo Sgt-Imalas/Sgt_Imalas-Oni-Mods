@@ -67,15 +67,32 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			Converter_StorageFull = bsi.CreateStatusItem("Converter_StorageFull", STRINGS.BUILDING.STATUSITEMS.CONVERTER_STORAGEFULL.NAME, STRINGS.BUILDING.STATUSITEMS.CONVERTER_STORAGEFULL.TOOLTIP, "", StatusItem.IconType.Info, NotificationType.BadMinor, allow_multiples: true, OverlayModes.None.ID);
 			Converter_StorageFull.resolveStringCallback = delegate (string str, object obj)
 			{
-				ElementThresholdOperational converter = obj as ElementThresholdOperational;
-				return string.Format(str, converter.ThresholdTag.Name);
+				ElementThresholdOperational converter = obj as ElementThresholdOperational;	
+				return string.Format(str, GetTagName(converter.ThresholdTag));
 			}; 
 			Converter_StorageFull.resolveTooltipCallback = delegate (string str, object obj)
 			{
 				ElementThresholdOperational converter = obj as ElementThresholdOperational;
-				return string.Format(str, converter.ThresholdTag.Name);
+				return string.Format(str, GetTagName(converter.ThresholdTag));
 			};
 		}
+		static Dictionary<Tag, string> CachedTagNames = [];
+		static string GetTagName(Tag tag)
+		{
+			if (!CachedTagNames.TryGetValue(tag, out var name))
+			{
+				var item = Assets.GetPrefab(tag);
+				if (item == null)
+				{
+					CachedTagNames[tag] = tag.ProperName();
+					return tag.ProperName();
+				}
+				CachedTagNames[tag] = item.GetProperName();
+				return item.GetProperName();
+			}
+			return name;
+		}
+
 
 		internal static void RegisterClonedStatusStrings()
 		{
