@@ -126,11 +126,12 @@ namespace BlueprintsV2.BlueprintData
 			{
 				var smi = arg.GetSMI<StorageTile.Instance>();
 
-				if (smi != null)
+				if (smi != null && smi.TargetTag != StorageTile.INVALID_TAG)
 				{
 					return new JObject()
 					{
 						{ "TargetTag", smi.TargetTag.ToString()},
+						{ "UserMaxCapacity", smi.UserMaxCapacity},
 					};
 				}
 				return null;
@@ -150,7 +151,15 @@ namespace BlueprintsV2.BlueprintData
 						return;
 					var TargetTag = t1.Value<string>();
 					var tagParsed = TagManager.Create(TargetTag);
-					smi.SetTargetItem(tagParsed);
+					if(tagParsed.IsValid)
+						smi.SetTargetItem(tagParsed);
+
+					var t2 = jObject.GetValue("UserMaxCapacity");
+					if (t2 == null)
+						return;
+					var UserMaxCapacity = t2.Value<float>();
+
+					smi.UserMaxCapacity = UserMaxCapacity;
 				}
 			}
 		}
