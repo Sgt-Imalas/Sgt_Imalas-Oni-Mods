@@ -88,7 +88,7 @@ namespace Biochemistry.Buildings
 			{
 				inputs =
 				[
-				new EnergyGenerator.InputItem(ModElements.BioDiesel_Liquid.Tag, 0.38f, 32f)
+				new EnergyGenerator.InputItem(ModElements.BioDiesel_Liquid.Tag, 1f/3f, 32f)
 				//new EnergyGenerator.InputItem( ModElements.BiodieselGroup, 3.2f, 32f)
 				],
 				outputs =
