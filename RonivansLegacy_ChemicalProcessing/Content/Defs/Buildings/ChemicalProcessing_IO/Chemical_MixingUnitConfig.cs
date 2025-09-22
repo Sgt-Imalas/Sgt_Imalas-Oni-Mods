@@ -127,7 +127,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			BuildingTemplates.CreateComplexFabricatorStorage(go, fabricator);
 			fabricator.keepExcessLiquids = true;
 			fabricator.keepExcessGasses = true;	
-			fabricator.storeProduced = true;
 			fabricator.inStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			fabricator.buildStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			fabricator.outStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
