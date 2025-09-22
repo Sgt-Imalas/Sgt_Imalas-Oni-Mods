@@ -302,7 +302,7 @@ namespace BlueprintsV2.Tools
 		}
 		public override void OnKeyDown(KButtonEvent buttonEvent)
 		{
-			if (DetailsScreen.Instance?.isEditing ?? false)
+			if ((DetailsScreen.Instance?.isEditing ?? false) || (DetailsScreen.Instance?.HasFocus ?? false))
 				return;
 
 			if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsToggleHotkeyToolTips.GetKAction()))
@@ -361,7 +361,7 @@ namespace BlueprintsV2.Tools
 
 		public override void OnKeyUp(KButtonEvent buttonEvent)
 		{
-			if (DetailsScreen.Instance?.isEditing ?? false)
+			if ((DetailsScreen.Instance?.isEditing ?? false) || (DetailsScreen.Instance?.HasFocus ?? false))
 				return;
 
 			if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsToggleForce.GetKAction()))

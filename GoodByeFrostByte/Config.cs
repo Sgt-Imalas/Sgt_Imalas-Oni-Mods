@@ -6,7 +6,7 @@ using UtilLibs;
 namespace GoodByeFrostByte
 {
 	[Serializable]
-	//[RestartRequired]
+	[RestartRequired]
 	[ConfigFile(SharedConfigLocation: true)]
 	[ModInfo("Goodbye Frostbyte")]
 	public class Config : SingletonOptions<Config>

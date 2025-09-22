@@ -24,7 +24,10 @@ namespace BlueprintsV2.BlueprintsV2.Patches
                 if(e.Consumed)
 					return;
 
-				if(e.IsAction(Actions.BlueprintsSnapshotReuseAction.GetKAction()) 
+				if (DetailsScreen.Instance?.isEditing ?? false)
+					return;
+
+				if (e.IsAction(Actions.BlueprintsSnapshotReuseAction.GetKAction()) 
 					&& SnapshotTool.HasSnapshotsStored
 					&& __instance.currentlySelectedCollection != SnapshotToolCollection
 					)

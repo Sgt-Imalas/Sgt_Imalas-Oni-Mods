@@ -39,7 +39,6 @@ namespace BlueprintsV2
 
 		public static HashSet<string> BLUEPRINTS_AUTOFILE_IGNORE = new();
 		public static FileSystemWatcher BLUEPRINTS_AUTOFILE_WATCHER;
-
 		static ModAssets()
 		{
 			BLUEPRINTS_FILE_DISALLOWEDCHARACTERS = new HashSet<char>();
