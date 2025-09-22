@@ -245,11 +245,12 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				//------------------------------------------------------------------------------------------------------------------
 
 				RecipeBuilder.Create(ID, 60)
-					.Input(ModElements.BioMass_Solid, 40)
-					.Input(SimHashes.CrushedRock, 50)
+					.Input(ModElements.BioMass_Solid, 20)
+					.Input(SimHashes.CrushedRock, 40)
+					.Input(SimHashes.Sand, 30)
 					.Input(SimHashes.Water, 10)
 					.Output(SimHashes.Dirt, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-					.Description(SOILMIXER_3_1, 3, 1)
+					.Description(SOILMIXER_3_1, 4, 1)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 					.Build();
 			}

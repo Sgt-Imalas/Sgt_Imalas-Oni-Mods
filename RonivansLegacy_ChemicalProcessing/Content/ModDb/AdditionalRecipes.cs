@@ -1,22 +1,23 @@
-﻿using System;
+﻿using Biochemistry.Buildings;
+using Dupes_Industrial_Overhaul.Chemical_Processing.Buildings;
+using Dupes_Industrial_Overhaul.Chemical_Processing.Chemicals;
+using HarmonyLib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static RonivansLegacy_ChemicalProcessing.STRINGS.UI;
-using UtilLibs;
-using Dupes_Industrial_Overhaul.Chemical_Processing.Chemicals;
-using Biochemistry.Buildings;
 using TUNING;
 using UnityEngine;
-using static ResearchTypes;
-using static STRINGS.ITEMS.FOOD;
-using static STRINGS.CODEX;
-using static STRINGS.UI.TOOLS.FILTERLAYERS;
+using UtilLibs;
 using UtilLibs.UIcmp;
+using static Crop;
+using static ResearchTypes;
+using static RonivansLegacy_ChemicalProcessing.STRINGS.UI;
+using static STRINGS.CODEX;
+using static STRINGS.ITEMS.FOOD;
 using static STRINGS.ITEMS.INGREDIENTS;
-using Dupes_Industrial_Overhaul.Chemical_Processing.Buildings;
-using HarmonyLib;
+using static STRINGS.UI.TOOLS.FILTERLAYERS;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
@@ -85,8 +86,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			if (Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
 			{
 				RecipeBuilder.Create(ID, 40)
-					.Input(ModElements.VegetableOil_Liquid, 25)
-					.Input(SimHashes.Water, 75)
+					.Input(ModElements.VegetableOil_Liquid, 15)
+					.Input(SimHashes.Water, 85)
 					.Output(SimHashes.PhytoOil, 100)
 					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.CHEMICAL_MIXINGUNIT_2_1, 2,1)
 					.Build();
@@ -196,7 +197,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		{
 			if (Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
 			{
-				RegisterRecipes_AnaerobicDigester();
+				//if (Config.Instance.Biochem_ExpellerPressRebalance)
+				//	RegisterRecipes_ExpellerPress_Rebalanced();
+				//else
+					RegisterRecipes_AnaerobicDigester();
 				RegisterRecipes_ExpellerPress();
 			}
 			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
@@ -284,12 +288,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 				SgtLogger.l("Adding Anaerobic Digester recipe for " + foodAmount + "x " + global::STRINGS.UI.StripLinkFormatting(food.GetProperName()) + " with " + recipeCKals + "kcals, producing " + methaneAmount + "kg methane");
 
-				RecipeBuilder.Create(ID, 50)
+				RecipeBuilder.Create(ID, 100)
 					.Input(prefabID.PrefabTag, foodAmount)
-					.Input(SimHashes.Sand, 50)
+					.Input(SimHashes.Sand, 99)
 					.Input(SimHashes.Water, 1)
 					.Output(SimHashes.Methane, methaneAmount)
-					.Output(SimHashes.Dirt, 50)
+					.Output(SimHashes.Dirt, 100)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.ANAEROBIC_DIGESTER_1_2, 1, 2)
 					.Build();
@@ -305,12 +309,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			// Result:      Methane -> 1 kg
 			//              Dirt -> 50kg
 			//-------------------------------------------------------------------------
-			RecipeBuilder.Create(ID, 50)
+			RecipeBuilder.Create(ID, 100)
 					.Input(ModElements.BioMass_Solid.Tag, 20)
-					.Input(SimHashes.Sand, 30)
+					.Input(SimHashes.Sand, 79)
 					.Input(SimHashes.Water, 1)
-					.Output(SimHashes.Methane, 1* Config.Instance.Biochem_AnaerobicDigesterBuff)
-					.Output(SimHashes.Dirt, 50)
+					.Output(SimHashes.Methane, 2* Config.Instance.Biochem_AnaerobicDigesterBuff)
+					.Output(SimHashes.Dirt, 100)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.ANAEROBIC_DIGESTER_1_2, 1, 2)
 					.Build();
@@ -325,12 +329,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			// Result:      Methane -> 1 kg
 			//              Dirt -> 50kg
 			//-------------------------------------------------------------------------
-			RecipeBuilder.Create(ID, 50)
+			RecipeBuilder.Create(ID, 100)
 					.Input(SimHashes.Algae, 20)
-					.Input(SimHashes.Sand, 30)
-					.Input(SimHashes.Water, 1)
-					.Output(SimHashes.Methane, 1* Config.Instance.Biochem_AnaerobicDigesterBuff)
-					.Output(SimHashes.Dirt, 50)
+					.Input(SimHashes.Sand, 75)
+					.Input(SimHashes.Water, 5)
+					.Output(SimHashes.Methane, 2* Config.Instance.Biochem_AnaerobicDigesterBuff)
+					.Output(SimHashes.Dirt, 100)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.ANAEROBIC_DIGESTER_1_2, 1, 2)
 					.Build();
@@ -354,7 +358,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			// Result:     Vegetable Oil -> 1,5kg
 			//             Biomass -> 15kg
 			//------------------------------------------------------------------------
-			AddPrefefinedExpellerPressRecipe(BasicPlantFoodConfig.ID, 1.5f, 15f);
+			AddPrefefinedExpellerPressRecipe(BasicPlantFoodConfig.ID, 1.5f, 7.5f);
 			//----[ SLEET WHEAT GRAIN PRESSING ]---------------------------------------------
 			// Sleet Wheat requires 18 cycles to produce 18kg of Sleet Wheat Grain, using a total of 90kg of Dirt and 360kg of Water.
 			// 25% of the Dirt mass consumed will be turned to Biomass waste of 1,25kg (22,5 / 18). 
@@ -365,7 +369,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			// Result:     Vegetable Oil -> 23.6kg / 18 
 			//             Biomass -> 22,5kg / 18
 			//-------------------------------------------------------------------------------
-			AddPrefefinedExpellerPressRecipe(ColdWheatConfig.SEED_ID, 1.31f, 1.25f);
+			AddPrefefinedExpellerPressRecipe(ColdWheatConfig.SEED_ID, 2f, 1.25f);
 			//----[ NOSH BEAN PRESSING ]-----------------------------------------------------
 			// Nosh Sprout requires 21 cycles to produce 12kg of Nosh Beans, using a total of 105kg of Dirt and 420kg of Ethanol.
 			// 20% of the Dirt mass consumed will be turned to Biomass waste of 1,75kg (21 / 12).
@@ -376,7 +380,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			// Result:     Vegetable Oil -> 2,8kg
 			//             Biomass -> 1,75
 			//-------------------------------------------------------------------------------
-			AddPrefefinedExpellerPressRecipe(BeanPlantConfig.SEED_ID, 2.8f, 1.75f);
+			AddPrefefinedExpellerPressRecipe(BeanPlantConfig.SEED_ID, 4f, 1.75f);
 			// ---- [PINCHA PEPPERNUT PRESSING]---------------------------------------------------- -
 			// Pincha Pepper Plant requires 8 cycles to produce 4kg of Pincha Pepper Nuts, using a total of 8kg of Phosphorite and 280kg of Polluted Water.
 			// This recipe will consider the total mass of 288kg / 4 = 72kg.
@@ -398,7 +402,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			// Result:     Vegetable Oil -> 950g
 			//             Biomass -> 50g
 			//---------------------------------------------------------------------------------------
-			AddPrefefinedExpellerPressRecipe(SwampLilyFlowerConfig.ID, 0.35f, 0.65f);
+			AddPrefefinedExpellerPressRecipe(SwampLilyFlowerConfig.ID, 0.35f, 6.5f);
 
 			///those are the values for regular grubfruit; moving spindly over to a more oily recipy
 			//----[ ~~SPINDLY~~ GRUBFRUIT PRESSING ]-----------------------------------------------------  
@@ -431,7 +435,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			// Result:     Vegetable Oil -> 0.9kg
 			//             Biomass -> 650g
 			//--------------------------------------------------------------------------------------- 
-			AddPrefefinedExpellerPressRecipe(CarrotConfig.ID, 0.9f, 27f);
+			AddPrefefinedExpellerPressRecipe(CarrotConfig.ID, 0.9f, 38f);
 
 
 			//^^ those are from the original mod, now to my own additions:
@@ -443,7 +447,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			///GasGrassHarvested,Gas Grass, plant consumes 102kg of fertilizer(solid mass: 100, liquid mass: 2) over 4 cycles, making 1 items
 			///Percentages:  20% for biomass, 6% oil 
 			///Reason: looks rather seedy/like a nut, pincha has high percentage, very high dirt consumption
-			AddPrefefinedExpellerPressRecipe(GasGrassHarvestedConfig.ID, 6.12f, 20.4f);
+			AddPrefefinedExpellerPressRecipe(GasGrassHarvestedConfig.ID, 6.12f, 30.6f);
 
 			///PlantMeat,Plant Meat, plant consumes 300kg of fertilizer(solid mass: 0, liquid mass: 300) over 30 cycles, making 10 items
 			///Per Item thats 30kg fertilizer
@@ -459,13 +463,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			///GardenFoodPlantFood,Sweatcorn, plant consumes 30kg of fertilizer(solid mass: 30, liquid mass: 0) over 3 cycles, making 1 items
 			///Percentages: 25% for biomass, 35% oil 
 			///Reason: alternative to sleet wheat - similar properties
-			AddPrefefinedExpellerPressRecipe(GardenFoodPlantFoodConfig.ID, 10.5f, 7.5f);
+			AddPrefefinedExpellerPressRecipe(GardenFoodPlantFoodConfig.ID, 6.25f, 7.5f);
 
 			///Kelp,Seakomb Leaf, plant consumes 50kg of fertilizer(solid mass: 50, liquid mass: 0) over 5 cycles, making 50 items
 			///normal Seakomb has a 1-4 conversion with 3/4 of water; 25kg Seakomb + 75kg water become 100kg of phyto oil
-			///lets assume only 20% of the fertilizer is lost; that becomes 800g of biomass
 			///
-			AddPrefefinedExpellerPressRecipe(KelpConfig.ID, 10, 3.65f,10);
+			AddPrefefinedExpellerPressRecipe(KelpConfig.ID, 6, 3.65f,10);
 
 
 			foreach (var recipe in PredefinedExpellerPressRecipes)
@@ -521,12 +524,97 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_1_2, 1, 2)
 				.Build();
 		}
+		//public static void RegisterRecipes_ExpellerPress_Rebalanced()
+		//{
+
+		//	string ID = Biochemistry_ExpellerPressConfig.ID;
+		//	foreach (var cropVal in CROPS.CROP_TYPES)
+		//	{
+		//		Tag product = cropVal.cropId;
+
+		//		///elemental plant products are ignored
+		//		if (ElementLoader.GetElement(product) != null)
+		//			continue;
+
+		//		var item = Assets.GetPrefab(product);
+		//		if (item == null)
+		//			continue;
+
+		//		///ignore tree branches
+		//		if (item.HasTag(GameTags.PlantBranch))
+		//			continue;
+
+		//		///ignore plant grown critters, eg. butterfly from dlc4
+		//		if (item.GetComponent<Navigator>() != null)
+		//			continue;
+
+		//		if (!PlantProductsConsumption.TryGetValue(product, out var plantProductsConsumption))
+		//			continue;
+
+		//		float totalMassConsumedByPlant = plantProductsConsumption.TotalMassPerSecond() * cropVal.cropDuration;
+		//		float liquidMassConsumedByPlant = plantProductsConsumption.LiquidMassPerSecond() * cropVal.cropDuration;
+		//		float solidMassConsumedByPlant = plantProductsConsumption.SolidMassPerSecond() * cropVal.cropDuration;
+
+		//		//SgtLogger.l(product+","+global::STRINGS.UI.StripLinkFormatting(Assets.GetPrefab(product).GetProperName()) + ", plant consumes " + totalMassConsumedByPlant + "kg of fertilizer (solid mass: " + solidMassConsumedByPlant + ", liquid mass: " + liquidMassConsumedByPlant + ") over " + cropVal.cropDuration / 600f + " cycles, making " + cropVal.numProduced + " items");
+		//		Console.WriteLine(cropVal.numProduced + "x items, consumes " + plantProductsConsumption.TotalMassPerSecond() * 600 + "per cycle over cycles: "+cropVal.cropDuration/600f+", makes: " + product + "," + global::STRINGS.UI.StripLinkFormatting(Assets.GetPrefab(product).GetProperName()) + ";");				
+		//	}
+
+		//	float oilMultiplier = 0.5f; //filler
+		//	float maxAmountBiomass = 1f; //filler
+
+		//	Dictionary<Tag, Tuple<float, float, float>> RecipeAmounts = [];
+		//	void AddPercentagedRecipe(Tag PlantProduct, float OilAmountPercentage, float BioMassPercentage, float InputAmount = 1) => RecipeAmounts[PlantProduct] = new(OilAmountPercentage, BioMassPercentage, InputAmount);
+
+
+		//	///Kelp; Seakomb
+		//	AddPercentagedRecipe(KelpConfig.ID, 1f, 0.4f, 10);
+
+		//	///GasGrassHarvested; Gas Grass
+		//	AddPrefefinedExpellerPressRecipe(GasGrassHarvestedConfig.ID, 0.4f, 1.8f);
+
+		//	//add a dummy value for balm lily consumption to multiply with
+		//	PlantProductsConsumption.Add(SwampLilyFlowerConfig.ID, new() { MassPerSecondPerItem = new() { { GameTags.Void, 0.1f } } });
+
+		//	foreach (var recipe in RecipeAmounts)
+		//	{
+		//		Tag ingredient = recipe.Key;
+
+
+		//		if(!PlantProductsConsumption.TryGetValue(ingredient, out PlantConsumptionInfo plantProductsConsumption))
+		//		{
+		//			SgtLogger.warning("no consumption found for " + ingredient);
+		//			continue;
+		//		}
+
+		//		var cropVal = CROPS.CROP_TYPES.Find(crop => crop.cropId == ingredient);
+		//		float totalMassConsumedByPlant = plantProductsConsumption.TotalMassPerSecond() * cropVal.cropDuration;
+		//		float fertilizerConsumedByPlantPerProduct = totalMassConsumedByPlant / ((float)cropVal.numProduced);
+
+		//		var data = recipe.Value;
+		//		float oil = data.first * oilMultiplier * fertilizerConsumedByPlantPerProduct;
+		//		float biomass = data.second * maxAmountBiomass * fertilizerConsumedByPlantPerProduct;
+		//		float ingredientmass = data.third;
+
+		//		RecipeBuilder.Create(ID, 25)
+		//			.Input(ingredient, ingredientmass)
+		//			.Output(ModElements.VegetableOil_Liquid, oil, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+		//			.Output(ModElements.BioMass_Solid, biomass)
+		//			.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_1_2, 1, 2)
+		//			.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
+		//			.NameOverrideFormatIngredient(CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_FOODTOOIL, 0)
+		//			.IconPrefabIngredient(0)
+		//			.Build();
+		//	}
+		//	ExpellerPress_Seeds(ID);
+		//}
 
 		/// <summary>
 		/// unused
 		/// </summary>
-		//public static void RegisterRecipes_ExpellerPress_GENERIC_ATTEMPT()
+		//public static void RegisterRecipes_ExpellerPress_GenericTest()
 		//{
+		//	RegisterRecipes_ExpellerPress();
+		//	return;
 		//	string ID = Biochemistry_ExpellerPressConfig.ID;
 		//	SgtLogger.l("Listing generic crops:");
 
