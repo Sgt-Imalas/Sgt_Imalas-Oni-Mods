@@ -70,7 +70,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations
 
 
 			var pumpRate_prop = Traverse.Create(ConfigInstance).Property("SteamTurbinePumpRateKG");
-			if(pumpRate_prop.PropertyExists()) 
+			if (pumpRate_prop.PropertyExists())
 				pumpRate = (float)pumpRate_prop.GetValue();
 
 			var heatTransferPercent_prop = Traverse.Create(ConfigInstance).Property("SteamTurbineHeatTransferPercent");
@@ -94,7 +94,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations
 				overheatTemp = (float)overheatTemp_prop.GetValue();
 
 			SgtLogger.l("CustomizeBuildings Steam Turbine Integration:");
-			SgtLogger.l("SteamTurbinePumpRateKG: "+pumpRate);
+			SgtLogger.l("SteamTurbinePumpRateKG: " + pumpRate);
 			SgtLogger.l("SteamTurbineHeatTransferPercent: " + heatTransferPercent);
 			SgtLogger.l("SteamTurbineMinActiveTemperature: " + minActiveTemp);
 			SgtLogger.l("SteamTurbineIdealTemperature: " + idealTemp);
@@ -114,7 +114,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations
 				var _steamTurbineWattage = Traverse.Create(ConfigInstance).Property("SteamTurbineWattage");
 				if (_steamTurbineWattage.PropertyExists())
 					steamTurbineBaseValue = (float)_steamTurbineWattage.GetValue();
-				SgtLogger.l("Custom Steam Turbine wattage from customizebuildings: "+steamTurbineBaseValue);
+				SgtLogger.l("Custom Steam Turbine wattage from customizebuildings: " + steamTurbineBaseValue);
 			}
 			return steamTurbineBaseValue;
 		}
@@ -167,6 +167,21 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations
 				SgtLogger.error("Failure to get Config Instance from CustomizeBuildings_CustomizeBuildingsState:\n" + e.Message);
 			}
 			SgtLogger.l("CustomizeBuildings integration: " + (ConfigInstance != null ? "Success" : "Failed"));
+		}
+
+		/// <summary>
+		/// The oil well of Chemical Processing - Industrial Overhaul has altered outputs and is set to work autonomously
+		/// CustomizeBuilding breaks the oil well if the NoDupeOilWell config is enabled, so it needs to be turned off if enabled
+		/// </summary>
+		/// <param name="harmony"></param>
+		internal static void FixOilWell(Harmony harmony)
+		{
+			if (!Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+				return;
+
+			var m_OilWellCapConfig_ConfigureBuildingTemplate = AccessTools.Method(typeof(OilWellCapConfig), nameof(OilWellCapConfig.ConfigureBuildingTemplate));
+
+			harmony.Unpatch(m_OilWellCapConfig_ConfigureBuildingTemplate, HarmonyPatchType.Postfix, "CustomizeBuildings");
 		}
 	}
 }
