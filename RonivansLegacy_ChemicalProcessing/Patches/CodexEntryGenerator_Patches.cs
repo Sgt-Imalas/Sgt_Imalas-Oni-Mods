@@ -3,13 +3,155 @@ using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
+using UtilLibs;
+using static ModInfo;
+using static RonivansLegacy_ChemicalProcessing.Patches.HPA.ConduitBridge_Patches;
 
 namespace RonivansLegacy_ChemicalProcessing.Patches
 {
 	internal class CodexEntryGenerator_Patches
 	{
+		[HarmonyPatch(typeof(CodexTemperatureTransitionPanel), nameof(CodexTemperatureTransitionPanel.ConfigureResults))]
+		public class CodexTemperatureTransitionPanel_ConfigureResults_Patch
+		{
+			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
+			{
+
+				MethodInfo replaceTransitionOre = AccessTools.Method(typeof(CodexTemperatureTransitionPanel_ConfigureResults_Patch), nameof(ReplaceTransitionOre));
+
+
+				var lowTempOreTransition = AccessTools.Field(typeof(Element), nameof(Element.lowTempTransitionOreID));
+				var highTempOreTransition = AccessTools.Field(typeof(Element), nameof(Element.highTempTransitionOreID));
+
+				foreach (CodeInstruction original in orig)
+				{
+					if (original.LoadsField(lowTempOreTransition) || original.LoadsField(highTempOreTransition))
+					{
+						yield return original;
+						yield return new CodeInstruction(OpCodes.Ldarg_0); //this CodexTemperatureTransitionPanel
+						yield return new CodeInstruction(OpCodes.Call, replaceTransitionOre);
+					}
+					else
+						yield return original;
+				}
+			}
+
+			static SimHashes ReplaceTransitionOre(SimHashes transitionsIntoOriginalSimHash, CodexTemperatureTransitionPanel instance)
+			{
+				var transitionTarget = ElementLoader.FindElementByHash(transitionsIntoOriginalSimHash);
+
+				if (transitionTarget == null)
+					return transitionsIntoOriginalSimHash;
+
+
+
+
+				if (instance.transitionType == CodexTemperatureTransitionPanel.TransitionType.HEAT)
+				{
+					var transitionThreshold = instance.sourceElement.highTemp;
+
+					if (!ModElements.IsModElement(transitionsIntoOriginalSimHash) && !ModElements.IsModElement(instance.sourceElement.id))
+						return transitionsIntoOriginalSimHash;
+
+
+					if (transitionThreshold > transitionTarget.lowTemp && transitionTarget.highTempTransition != null)
+						return transitionTarget.highTempTransition.id;
+				}
+				else
+				{
+					var transitionThreshold = instance.sourceElement.lowTemp;
+
+					if (!ModElements.IsModElement(transitionsIntoOriginalSimHash) && !ModElements.IsModElement(instance.sourceElement.id))
+						return transitionsIntoOriginalSimHash;
+
+					if (transitionThreshold < transitionTarget.highTemp && transitionTarget.lowTempTransition != null)
+						return transitionTarget.lowTempTransition.id;
+				}
+				return transitionsIntoOriginalSimHash;
+			}
+		}
+
+
+		[HarmonyPatch(typeof(CodexEntryGenerator_Elements), nameof(CodexEntryGenerator_Elements.GenerateElementDescriptionContainers))]
+		public class CodexEntryGenerator_Elements_GenerateElementDescriptionContainers_Patch
+		{
+			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
+			{
+				MethodInfo replaceTransitionOre_high = AccessTools.Method(typeof(CodexEntryGenerator_Elements_GenerateElementDescriptionContainers_Patch), nameof(ReplaceTransitionOre_HIGH));
+				MethodInfo replaceTransitionOre_low = AccessTools.Method(typeof(CodexEntryGenerator_Elements_GenerateElementDescriptionContainers_Patch), nameof(ReplaceTransitionOre_LOW));
+				MethodInfo ElementLoader_FindElementByHash = AccessTools.Method(typeof(ElementLoader), nameof(ElementLoader.FindElementByHash));
+
+				var lowTempOreTransition = AccessTools.Field(typeof(Element), nameof(Element.lowTempTransitionOreID));
+				var highTempOreTransition = AccessTools.Field(typeof(Element), nameof(Element.highTempTransitionOreID));
+
+
+				foreach (CodeInstruction original in orig)
+				{
+					if (original.LoadsField(lowTempOreTransition))
+					{
+						yield return new CodeInstruction(OpCodes.Ldarg_0); //element
+						yield return new CodeInstruction(OpCodes.Call, replaceTransitionOre_low );
+						//yield return original;
+					}
+					else if (original.LoadsField(highTempOreTransition))
+					{
+						yield return new CodeInstruction(OpCodes.Ldarg_0); //element
+						yield return new CodeInstruction(OpCodes.Call, replaceTransitionOre_high);
+						//yield return original;
+					}
+					else
+						yield return original;
+				}
+			}
+			static SimHashes ReplaceTransitionOre_HIGH(Element element1, Element currentElement)
+			{
+				var highTempOreTransition = ElementLoader.FindElementByHash(element1.highTempTransitionOreID);
+
+				if(highTempOreTransition == null)
+					return element1.highTempTransitionOreID;
+
+				if (!ModElements.IsModElement(highTempOreTransition.id) && !ModElements.IsModElement(currentElement.id) && !ModElements.IsModElement(element1.id))
+					return element1.highTempTransitionOreID;
+
+				//highTempOreTransition check
+				//one of the elements involved is from this mod, check if it has to be replaced with its low state transition
+
+				//when the melting temp of the ore is lower than the melting temp of the material, show its melted state transition
+				if (highTempOreTransition.highTemp+3 < element1.highTemp && highTempOreTransition.highTempTransition != null)
+				{
+					return highTempOreTransition.highTempTransition.id;
+				}
+
+				return element1.highTempTransitionOreID;
+			}
+			static SimHashes ReplaceTransitionOre_LOW(Element element1, Element currentElement)
+			{
+				var lowTempOreTransition = ElementLoader.FindElementByHash(element1.lowTempTransitionOreID);
+
+				if (lowTempOreTransition == null)
+					return element1.lowTempTransitionOreID;
+
+				if (!ModElements.IsModElement(lowTempOreTransition.id) && !ModElements.IsModElement(currentElement.id) && !ModElements.IsModElement(element1.id))
+					return element1.lowTempTransitionOreID;
+				
+				//lowTempOreTransition check
+				//one of the elements involved is from this mod, check if it has to be replaced with its high state transition
+
+				//when the freezing temp of the ore is higher than the freezing temp of the material, show its frozen state transition
+				if (lowTempOreTransition.lowTemp < element1.lowTemp && lowTempOreTransition.lowTempTransition != null)
+				{
+					return lowTempOreTransition.lowTempTransition.id;
+				}
+
+
+					return element1.lowTempTransitionOreID;
+			}
+		}
+
 
 		[HarmonyPatch(typeof(CodexEntryGenerator_Elements), nameof(CodexEntryGenerator_Elements.GenerateMadeAndUsedContainers))]
 		public class CodexEntryGenerator_Elements_GenerateMadeAndUsedContainers_Patch

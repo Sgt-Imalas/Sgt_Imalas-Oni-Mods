@@ -65,7 +65,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				this.waitingForFuel.Enter(delegate (StatesInstance smi)
 				{
 					smi.master.operational.SetFlag(fuelRequirementFlag, false);
-				}).ToggleStatusItem(States.waitingForFuelStatus, (StatesInstance smi) => smi.master).EventTransition(GameHashes.OnStorageChange, this.ready, (StatesInstance smi) => smi.master.GetAvailableFuel() >= smi.master.START_FUEL_MASS);
+				}).ToggleStatusItem(States.waitingForFuelStatus, (StatesInstance smi) => smi.master)
+				.EventTransition(GameHashes.OnStorageChange, this.ready, (StatesInstance smi) => smi.master.GetAvailableFuel() >= smi.master.START_FUEL_MASS);
 				this.ready.Enter(delegate (StatesInstance smi)
 				{
 					smi.master.SetQueueDirty();

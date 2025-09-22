@@ -15,6 +15,7 @@ namespace ForceFieldWallTile.Content.Scripts
 		[MyCmpGet] Health hp;
 		[MyCmpReq] Effects effects;
 		[MyCmpGet] OccupyArea occupyArea;
+		[MyCmpGet] MinionIdentity identity;
 		float shieldDamage;
 
 		[Serialize] bool wasStuck = false;
@@ -36,18 +37,32 @@ namespace ForceFieldWallTile.Content.Scripts
 
 		void CheckForBarriers(float dt)
 		{
+			if (!gameObject.activeSelf)
+				return;
+			if (transform == null)
+				return;
+
 			var cell = Grid.PosToCell(this);
+			if (!Grid.IsValidCell(cell))
+				return;
+
 			bool stuckInBarrier = false;
 
-			foreach (CellOffset cellOffset in occupyArea.OccupiedCellsOffsets)
+			//var cellOffsets = occupyArea.OccupiedCellsOffsets;
+			//if (cellOffsets != null)
+			//{
+			//	foreach (CellOffset cellOffset in occupyArea.OccupiedCellsOffsets)
+			//	{
+			//		var bodyCell = Grid.OffsetCell(cell, cellOffset);
+			//		if (!Grid.IsValidCell(bodyCell))
+			//			continue;
+			if (ForceFieldTile.ForceFieldAt(cell, out var projector))
 			{
-				var bodyCell = Grid.OffsetCell(cell, cellOffset);
-				if (ForceFieldTile.ForceFieldAt(bodyCell, out var projector))
-				{
-					projector.RecievePercentageDamage(shieldDamage * dt);
-					stuckInBarrier = true;
-				}
+				projector.RecievePercentageDamage(shieldDamage * dt);
+				stuckInBarrier = true;
 			}
+			//	}
+			//}
 			if (!SlowDupe)
 				return;
 

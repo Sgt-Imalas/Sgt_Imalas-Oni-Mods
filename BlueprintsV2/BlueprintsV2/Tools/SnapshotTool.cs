@@ -1,4 +1,5 @@
 ﻿using BlueprintsV2.BlueprintData;
+using BlueprintsV2.BlueprintsV2.UnityUI;
 using Database;
 using HarmonyLib;
 using PeterHan.PLib.Options;
@@ -23,6 +24,9 @@ namespace BlueprintsV2.Tools
 
 		List<Blueprint> SessionSnapshots = [];
 		int UsedSnapshotIndex = 0;
+		public static int SnapshotCount => Instance != null ? Instance.SessionSnapshots.Count : 0;
+		public static int SnapshotIndex => Instance != null ? Instance.UsedSnapshotIndex: 0;
+		public static Blueprint CurrentSnapshot => Instance != null ? Instance.snapshotBlueprint : null;
 
 
 		public SnapshotTool()
@@ -64,12 +68,14 @@ namespace BlueprintsV2.Tools
 			visualizer.transform.SetParent(transform);
 
 			OnMouseMove(PlayerController.GetCursorPos(KInputManager.GetMousePos()));
+			CurrentBlueprintStateScreen.ShowScreen(false);
 		}
 
 		public void DestroyVisualizer()
 		{
 			Destroy(visualizer);
 			visualizer = null;
+			CurrentBlueprintStateScreen.ShowScreen(false);
 		}
 		public void SetLastUsedBlueprint(Blueprint blueprint)
 		{
@@ -115,6 +121,7 @@ namespace BlueprintsV2.Tools
 			this.areaVisualizerTextPrefab = DigTool.Instance.areaVisualizerTextPrefab;
 
 			hoverCard = gameObject.AddComponent<SnapshotToolHoverCard>();
+
 		}
 
 		public override void OnActivateTool()
@@ -126,7 +133,6 @@ namespace BlueprintsV2.Tools
 			{
 				CreateVisualizer();
 			}
-
 			hoverCard.UsingSnapshot = false;
 		}
 
@@ -142,6 +148,7 @@ namespace BlueprintsV2.Tools
 			MultiToolParameterMenu.Instance.HideMenu();
 			ToolMenu.Instance.PriorityScreen.Show(false);
 			GridCompositor.Instance.ToggleMajor(false);
+			CurrentBlueprintStateScreen.ShowScreen(false);
 		}
 
 		public override void OnDragComplete(Vector3 cursorDown, Vector3 cursorUp)
@@ -226,6 +233,7 @@ namespace BlueprintsV2.Tools
 		{
 			if (blueprintToVisualize.IsEmpty())
 			{
+				CurrentBlueprintStateScreen.ShowScreen(false);
 				snapshotBlueprint = null;
 				if (spawnFX)
 					PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE, STRINGS.UI.TOOLS.SNAPSHOT_TOOL.EMPTY, null, offset: PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);
@@ -245,6 +253,9 @@ namespace BlueprintsV2.Tools
 					PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE, STRINGS.UI.TOOLS.SNAPSHOT_TOOL.TAKEN, null, PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);
 				GridCompositor.Instance.ToggleMajor(true);
 				snapshotBlueprint = blueprintToVisualize;
+
+				CurrentBlueprintStateScreen.ShowScreen(true);
+				CurrentBlueprintStateScreen.Instance.SetSelectedBlueprint(snapshotBlueprint);
 			}
 		}
 
@@ -283,8 +294,17 @@ namespace BlueprintsV2.Tools
 			}
 		}
 
+		void SetForceMaterialChange(bool enabled)
+		{
+			BlueprintState.ForceMaterialChange = enabled;
+			BlueprintState.RefreshBlueprintVisualizers(snapshotBlueprint);
+			CurrentBlueprintStateScreen.Instance.SetForceMaterialChange(enabled);
+		}
 		public override void OnKeyDown(KButtonEvent buttonEvent)
 		{
+			if (DetailsScreen.Instance?.isEditing ?? false)
+				return;
+
 			if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsToggleHotkeyToolTips.GetKAction()))
 			{
 				BlueprintState.ToggleHotkeyTooltips();
@@ -309,8 +329,7 @@ namespace BlueprintsV2.Tools
 			}
 			else if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsToggleForce.GetKAction()))
 			{
-				BlueprintState.ForceMaterialChange = true;
-				BlueprintState.RefreshBlueprintVisualizers(snapshotBlueprint);
+				SetForceMaterialChange(true);
 			}
 			else if (buttonEvent.TryConsume(Action.RotateBuilding) || buttonEvent.TryConsume(ModAssets.Actions.BlueprintsRotate.GetKAction()))
 			{
@@ -342,11 +361,12 @@ namespace BlueprintsV2.Tools
 
 		public override void OnKeyUp(KButtonEvent buttonEvent)
 		{
+			if (DetailsScreen.Instance?.isEditing ?? false)
+				return;
+
 			if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsToggleForce.GetKAction()))
 			{
-				BlueprintState.ForceMaterialChange = false;
-				BlueprintState.RefreshBlueprintVisualizers(snapshotBlueprint);
-
+				SetForceMaterialChange(false);
 			}
 			buttonEvent.TryConsume(ModAssets.Actions.BlueprintsFlipHorizontal.GetKAction());
 			buttonEvent.TryConsume(ModAssets.Actions.BlueprintsFlipVertical.GetKAction());

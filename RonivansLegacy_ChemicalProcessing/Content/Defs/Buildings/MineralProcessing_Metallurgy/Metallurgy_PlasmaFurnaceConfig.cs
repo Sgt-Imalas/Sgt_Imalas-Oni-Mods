@@ -91,7 +91,6 @@ namespace Metallurgy.Buildings
 			workable.overrideAnims = [Assets.GetAnim("anim_interacts_fabricator_generic_kanim")];
 			BuildingTemplates.CreateComplexFabricatorStorage(go, furnace);
 			furnace.outStorage.capacityKg = 2000f;
-			furnace.inStorage.capacityKg = 2000f;
 			furnace.storeProduced = true;
 			furnace.inStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			furnace.buildStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);

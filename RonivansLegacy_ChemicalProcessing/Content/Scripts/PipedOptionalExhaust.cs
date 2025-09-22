@@ -108,8 +108,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				storage.ConsumeIgnoringDisease(storedObject);
 				stored = 0f;
 			}
-			bool overfilled = stored >= capacity && capacity > 0;
+			if (capacity <= 0)
+				return;
 
+			bool overfilled = stored >= capacity;
 			this.operational.SetFlag(outputFlag, !overfilled);
 		}
 	}

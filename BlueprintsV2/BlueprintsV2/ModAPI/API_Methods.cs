@@ -269,6 +269,9 @@ namespace BlueprintsV2.ModAPI
 		/// <param name="buildingConfig"></param>
 		public static void ApplyAdditionalBuildingData(GameObject gameObject, BuildingConfig buildingConfig)
 		{
+			if (BlueprintState.ApplyBlueprintSettings == false)
+				return;
+
 			bool isUnderConstruction = (gameObject.TryGetComponent<UnderConstructionDataTransfer>(out var transfer));
 
 			foreach (var kvp in AdditionalBuildingDataEntries)

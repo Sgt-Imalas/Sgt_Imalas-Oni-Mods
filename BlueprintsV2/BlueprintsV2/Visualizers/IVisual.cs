@@ -13,6 +13,7 @@ namespace BlueprintsV2.Visualizers
 		void MoveVisualizer(int cellParam, bool forceRedraw);
 
 		void ForceRedraw();
+		void RefreshColor();
 
 		bool TryUse(int cellParam);
 

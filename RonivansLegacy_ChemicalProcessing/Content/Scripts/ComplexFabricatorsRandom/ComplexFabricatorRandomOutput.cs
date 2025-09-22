@@ -85,9 +85,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 			if (CurrentWorkingOrder == null || !operational.IsActive)
 				return;
 
-			if(currentByproductSpawnTimer > 0)
+			currentByproductSpawnTimer -= dt;
+			if (currentByproductSpawnTimer > 0)
 			{
-				currentByproductSpawnTimer -= dt;
 				return;
 			}
 			currentByproductSpawnTimer += ByproductSpawnIntervalSeconds;
@@ -95,7 +95,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 			var rollSpawnChance = UnityEngine.Random.Range(1, 101);
 			if (rollSpawnChance > ByproductSpawnChancePerSecond)
 				return;
-
+			//SgtLogger.l("Spawning Random Products in "+this.GetProperName()+", time; "+Time.time);
 			SpawnProgressByproductsFromCurrentRecipe();
 		}
 

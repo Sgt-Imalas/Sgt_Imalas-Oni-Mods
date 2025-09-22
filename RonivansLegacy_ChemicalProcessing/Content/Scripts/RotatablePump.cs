@@ -7,9 +7,8 @@ using UnityEngine;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {
-	internal class RotatablePump : KMonoBehaviour
+	internal class RotatablePump : Pump
 	{
-		[MyCmpReq] ElementConsumer pump;
 		[MyCmpReq] Building building;
 
 		[SerializeField]
@@ -17,7 +16,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
-			pump.sampleCellOffset = building.GetRotatedOffset(PumpOffset).ToVector3();
+			consumer.sampleCellOffset = building.GetRotatedOffset(PumpOffset).ToVector3();
 		}
 	}
 }

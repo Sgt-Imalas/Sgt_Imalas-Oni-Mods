@@ -54,9 +54,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.MineralProces
 			ballMill.duplicantOperated = false;
 			ballMill.heatedTemperature = 298.15f;
 			ballMill.keepExcessLiquids = true;
-			ballMill.inStorage.capacityKg = 1000f;
-			ballMill.buildStorage.capacityKg = 1000f;
-			ballMill.outStorage.capacityKg = 1000f;
 			ballMill.storeProduced = true;
 			ballMill.inStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			ballMill.buildStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);

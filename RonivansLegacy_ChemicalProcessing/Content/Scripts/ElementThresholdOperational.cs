@@ -40,19 +40,18 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		void UpdateThreshold()
 		{
 			float current = storage.GetAmountAvailable(ThresholdTag);
-			bool isAbove = current > Threshold;
+			bool isAboveThreshold = current > Threshold;
 
-			if (isAbove && StatusItemHandle == Guid.Empty)
+			if (isAboveThreshold && StatusItemHandle == Guid.Empty)
 			{
 				StatusItemHandle = selectable.AddStatusItem(StatusItemsDatabase.Converter_StorageFull,this);
-				operational.SetFlag(StorageFullFlag, false);
 			}
-			else if (!isAbove && StatusItemHandle != null)
+			else if (!isAboveThreshold && StatusItemHandle != Guid.Empty)
 			{
 				selectable.RemoveStatusItem(StatusItemHandle);
 				StatusItemHandle = Guid.Empty;
-				operational.SetFlag(StorageFullFlag, true);
 			}
+			operational.SetFlag(StorageFullFlag, !isAboveThreshold);
 		}
 	}
 }

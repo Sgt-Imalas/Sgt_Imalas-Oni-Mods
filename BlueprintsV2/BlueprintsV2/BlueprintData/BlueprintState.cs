@@ -37,6 +37,8 @@ namespace BlueprintsV2.BlueprintData
 
 		public static bool AdvancedMaterialReplacement = false;
 		public static bool ForceMaterialChange = false;
+
+		public static bool ApplyBlueprintSettings = true;
 		public static bool IsPlacingSnapshot { get; set; }
 
 		private static readonly List<IVisual> FoundationVisuals = new();
@@ -270,6 +272,10 @@ namespace BlueprintsV2.BlueprintData
 			DependentVisuals.ForEach(dependentVisual =>
 			{
 				ApplyRotatedCell(origin, dependentVisual, forcingRedraw);
+			});
+			DependentVisuals.ForEach(dependentVisual =>
+			{
+				dependentVisual.RefreshColor();
 			});
 		}
 

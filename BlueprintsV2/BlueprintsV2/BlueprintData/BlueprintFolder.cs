@@ -115,7 +115,7 @@ namespace BlueprintsV2.BlueprintData
 			return Name.GetHashCode();
 		}
 
-		internal bool HasNextSnapshot(Blueprint selectedBlueprint)
+		internal bool HasNextBlueprint(Blueprint selectedBlueprint)
 		{
 			int index = GetBlueprintIndex(selectedBlueprint);
 			if(index == -1)
@@ -123,7 +123,7 @@ namespace BlueprintsV2.BlueprintData
 			return index > 0;
 		}
 
-		internal bool HasPrevSnapshot(Blueprint selectedBlueprint)
+		internal bool HasPrevBlueprint(Blueprint selectedBlueprint)
 		{
 			int index = GetBlueprintIndex(selectedBlueprint);
 			if (index == -1)
@@ -133,7 +133,7 @@ namespace BlueprintsV2.BlueprintData
 
 		internal void SelectNext()
 		{
-			if (!HasNextSnapshot(ModAssets.SelectedBlueprint))
+			if (!HasNextBlueprint(ModAssets.SelectedBlueprint))
 				return;
 
 			int index = GetBlueprintIndex(ModAssets.SelectedBlueprint);
@@ -143,7 +143,7 @@ namespace BlueprintsV2.BlueprintData
 
 		internal void SelectPrev()
 		{
-			if (!HasPrevSnapshot(ModAssets.SelectedBlueprint))
+			if (!HasPrevBlueprint(ModAssets.SelectedBlueprint))
 				return;
 
 			int index = GetBlueprintIndex(ModAssets.SelectedBlueprint);

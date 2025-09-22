@@ -63,9 +63,6 @@ namespace Biochemistry.Buildings
 			oilPress.duplicantOperated = false;
 			oilPress.heatedTemperature = 298.15f;
 			BuildingTemplates.CreateComplexFabricatorStorage(go, oilPress);
-			oilPress.inStorage.capacityKg = 1000f;
-			oilPress.buildStorage.capacityKg = 1000f;
-			oilPress.outStorage.capacityKg = 1000f;
 			oilPress.storeProduced = true;
 			oilPress.keepExcessLiquids = true;
 			oilPress.inStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);

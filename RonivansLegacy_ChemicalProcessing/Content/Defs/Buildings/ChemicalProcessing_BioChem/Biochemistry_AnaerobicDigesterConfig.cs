@@ -64,9 +64,6 @@ namespace Biochemistry.Buildings
 			digester.duplicantOperated = false;
 			digester.heatedTemperature = 298.15f;
 			BuildingTemplates.CreateComplexFabricatorStorage(go, digester);
-			digester.inStorage.capacityKg = 1000f;
-			digester.buildStorage.capacityKg = 1000f;
-			digester.outStorage.capacityKg = 1000f;
 			digester.storeProduced = true;
 			digester.keepAdditionalTag = SimHashes.Methane.CreateTag();
 			digester.inStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);

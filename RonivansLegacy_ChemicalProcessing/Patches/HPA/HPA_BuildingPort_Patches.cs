@@ -69,7 +69,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		{
 			[HarmonyPrepare]
 			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
-			[HarmonyPriority(Priority.LowerThanNormal)]
+			[HarmonyPriority(Priority.Low)]
 			public static void Postfix(GameObject go)
 			{
 				IncreaseConsumerInput(go.GetComponent<ConduitConsumer>(),true);
@@ -84,7 +84,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		{
 			[HarmonyPrepare]
 			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
-			[HarmonyPriority(Priority.LowerThanNormal)]
+			[HarmonyPriority(Priority.Low)]
 			public static void Postfix(GameObject go)
 			{
 				IncreaseConsumerInput(go.GetComponent<ConduitConsumer>(), false);
@@ -124,6 +124,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		{
 			[HarmonyPrepare]
 			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
+			[HarmonyPriority(Priority.Low)]
 			public static void Prefix(WarpConduitSender __instance)
 			{
 				__instance.gasStorage.capacityKg *= HighPressureConduitRegistration.GetConduitMultiplier(ConduitType.Gas);
@@ -151,6 +152,8 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		{
 			[HarmonyPrepare]
 			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
+
+			[HarmonyPriority(Priority.Low)]
 			public static void Prefix(RocketConduitSender __instance)
 			{
 				__instance.conduitStorage.capacityKg *= HighPressureConduitRegistration.GetConduitMultiplier(__instance.conduitPortInfo.conduitType);

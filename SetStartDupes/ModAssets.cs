@@ -687,6 +687,32 @@ namespace SetStartDupes
 			}
 		};
 
+		private static List<TUNING.DUPLICANTSTATS.TraitVal> _regularJoyReactions = null;
+		private static List<TUNING.DUPLICANTSTATS.TraitVal> _bionicJoyReactions = null;
+		static List<TUNING.DUPLICANTSTATS.TraitVal> RegularJoyReactions
+		{
+			get
+			{
+				if (_regularJoyReactions == null)
+					_regularJoyReactions = DUPLICANTSTATS.JOYTRAITS.Where(t => t.requiredDlcIds == null).ToList();
+
+				return _regularJoyReactions;
+			}
+		}
+		static List<TUNING.DUPLICANTSTATS.TraitVal> BionicJoyReactions
+		{
+			get
+			{
+				if (_bionicJoyReactions == null)
+				{
+					_bionicJoyReactions = DUPLICANTSTATS.JOYTRAITS.Where(t => t.requiredDlcIds != null && t.requiredDlcIds.Contains(DlcManager.DLC3_ID)).ToList();
+				}
+
+				return _bionicJoyReactions;
+			}
+		}
+
+
 		private static List<TUNING.DUPLICANTSTATS.TraitVal> _stressWithShocker = null;
 		static List<TUNING.DUPLICANTSTATS.TraitVal> StressWithShocker
 		{
@@ -706,14 +732,23 @@ namespace SetStartDupes
 			}
 		}
 		public static List<DUPLICANTSTATS.TraitVal> TryGetTraitsOfCategory(NextType type, Tag minionModel, bool overrideShowAll = false)
-		{
+		{			
 			bool initializingUI = minionModel == null;
+			bool bionicMinion = minionModel == GameTags.Minions.Models.Bionic;
+
 			if (type != NextType.allTraits)
 			{
 				if (!TraitsByType.ContainsKey(type))
 					return new List<DUPLICANTSTATS.TraitVal>();
-				else if ((initializingUI || minionModel == GameTags.Minions.Models.Bionic) && type == NextType.stress)
+				else if ((initializingUI || bionicMinion) && type == NextType.stress)
 					return StressWithShocker;
+				else if (type == NextType.joy)
+				{
+					if (initializingUI || bionicMinion)
+						return TraitsByType[type];
+					else
+						return RegularJoyReactions;
+				}
 				else
 					return TraitsByType[type];
 			}

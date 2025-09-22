@@ -1,4 +1,5 @@
 ﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
 using STRINGS;
@@ -18,7 +19,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 	{
 		
 		public const float SizeMultiplier = 1f / 3f; // 1/3 of the area
-		public static float Wattage = 850f * SizeMultiplier;
 
 		public static string ID = "CustomSteamGenerator";
 
@@ -43,8 +43,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 				1600f, BuildLocationRule.OnFloor, decor, noise);
 			buildingDef.OutputConduitType = ConduitType.Liquid;
 			buildingDef.UtilityOutputOffset = new CellOffset(0, 4);
-			buildingDef.GeneratorWattageRating = Wattage;
-			buildingDef.GeneratorBaseCapacity = Wattage;
+			float baseTurbineWattage = CustomizeBuildings.GetTurbineBaseValue();
+			buildingDef.GeneratorWattageRating = baseTurbineWattage * SizeMultiplier;
+			buildingDef.GeneratorBaseCapacity = baseTurbineWattage * SizeMultiplier;
 			buildingDef.Entombable = true;
 			buildingDef.IsFoundation = false;
 			buildingDef.PermittedRotations = PermittedRotations.FlipH;
@@ -83,6 +84,17 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 			steamTurbine.pumpKGRate = 2f * SizeMultiplier;
 			steamTurbine.maxSelfHeat = 64f * SizeMultiplier;
 			steamTurbine.wasteHeatToTurbinePercent = 0.1f;
+
+			if(CustomizeBuildings.TryGetOtherTurbineValues(
+				out var pumpRate, out var heatTransferPercent, out var minActiveTemp, out var idealTemp, out var outputTemp, out var overheatTemp))
+			{
+				steamTurbine.pumpKGRate = pumpRate * SizeMultiplier;
+				steamTurbine.wasteHeatToTurbinePercent = heatTransferPercent;
+				steamTurbine.minActiveTemperature = minActiveTemp;
+				steamTurbine.idealSourceElementTemperature = idealTemp;
+				steamTurbine.outputElementTemperature = outputTemp;
+				steamTurbine.maxBuildingTemperature = overheatTemp;
+			}
 
 			ConduitDispenser conduitDispenser = go.AddOrGet<ConduitDispenser>();
 			conduitDispenser.elementFilter = [SimHashes.Water];

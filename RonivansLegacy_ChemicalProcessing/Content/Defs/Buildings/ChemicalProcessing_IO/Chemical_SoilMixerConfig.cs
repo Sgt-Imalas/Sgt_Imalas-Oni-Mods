@@ -58,8 +58,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
 
-			Storage liquidStorage = go.AddComponent<Storage>();
-			liquidStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
+			Storage buildingStorage = go.AddComponent<Storage>();
+			buildingStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			//liquidStorage.showCapacityStatusItem = true;
 			//liquidStorage.showCapacityAsMainStatus = true;
 			//liquidStorage.showDescriptor = true;
@@ -68,7 +68,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			pollutedWaterInput.conduitType = ConduitType.Liquid;
 			pollutedWaterInput.consumptionRate = 10f;
 			pollutedWaterInput.capacityKG = 100f;
-			pollutedWaterInput.storage = liquidStorage;
+			pollutedWaterInput.storage = buildingStorage;
 			pollutedWaterInput.capacityTag = SimHashes.DirtyWater.CreateTag(); ;
 			pollutedWaterInput.forceAlwaysSatisfied = true;
 			pollutedWaterInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
@@ -77,7 +77,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			waterInput.conduitType = ConduitType.Liquid;
 			waterInput.consumptionRate = 10f;
 			waterInput.capacityKG = 100f;
-			waterInput.storage = liquidStorage;
+			waterInput.storage = buildingStorage;
 			waterInput.capacityTag = SimHashes.Water.CreateTag();
 			waterInput.forceAlwaysSatisfied = true;
 			waterInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
@@ -87,7 +87,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			gasAmmoniaInput.conduitType = ConduitType.Gas;
 			gasAmmoniaInput.consumptionRate = 10f;
 			gasAmmoniaInput.capacityKG = 50f;
-			gasAmmoniaInput.storage = liquidStorage;
+			gasAmmoniaInput.storage = buildingStorage;
 			gasAmmoniaInput.capacityTag = ModElements.Ammonia_Gas.Tag;
 			gasAmmoniaInput.forceAlwaysSatisfied = true;
 			gasAmmoniaInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
@@ -106,13 +106,10 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			BuildingTemplates.CreateComplexFabricatorStorage(go, soilMixer);
 			soilMixer.keepExcessLiquids = true;
 			soilMixer.keepAdditionalTag = ModElements.Ammonia_Gas.Tag;
-			soilMixer.inStorage.capacityKg = 1000f;
-			soilMixer.buildStorage.capacityKg = 1000f;
-			soilMixer.outStorage.capacityKg = 1000f;
 			soilMixer.storeProduced = false;
 			soilMixer.buildStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			soilMixer.outStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage	);
-			soilMixer.inStorage = liquidStorage;
+			soilMixer.inStorage = buildingStorage;
 			soilMixer.inStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			soilMixer.outputOffset = new Vector3(-1f, 0.5f);
 			//-----------------------------
@@ -248,11 +245,12 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				//------------------------------------------------------------------------------------------------------------------
 
 				RecipeBuilder.Create(ID, 60)
-					.Input(ModElements.BioMass_Solid, 40)
-					.Input(SimHashes.CrushedRock, 50)
+					.Input(ModElements.BioMass_Solid, 20)
+					.Input(SimHashes.CrushedRock, 40)
+					.Input(SimHashes.Sand, 30)
 					.Input(SimHashes.Water, 10)
 					.Output(SimHashes.Dirt, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-					.Description(SOILMIXER_3_1, 3, 1)
+					.Description(SOILMIXER_3_1, 4, 1)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 					.Build();
 			}

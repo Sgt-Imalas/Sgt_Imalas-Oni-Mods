@@ -88,6 +88,9 @@ namespace BlueprintsV2.BlueprintData
 							SgtLogger.l("Error getting repairable state: " + e.Message);
 						}
 					}
+					if (repairForbiddenState == false) //only store non-default value
+						return null;
+
 					return new JObject()
 					{
 						{ "ForbiddenRepair", repairForbiddenState},
@@ -123,11 +126,12 @@ namespace BlueprintsV2.BlueprintData
 			{
 				var smi = arg.GetSMI<StorageTile.Instance>();
 
-				if (smi != null)
+				if (smi != null && smi.TargetTag != StorageTile.INVALID_TAG)
 				{
 					return new JObject()
 					{
 						{ "TargetTag", smi.TargetTag.ToString()},
+						{ "UserMaxCapacity", smi.UserMaxCapacity},
 					};
 				}
 				return null;
@@ -147,7 +151,15 @@ namespace BlueprintsV2.BlueprintData
 						return;
 					var TargetTag = t1.Value<string>();
 					var tagParsed = TagManager.Create(TargetTag);
-					smi.SetTargetItem(tagParsed);
+					if(tagParsed.IsValid)
+						smi.SetTargetItem(tagParsed);
+
+					var t2 = jObject.GetValue("UserMaxCapacity");
+					if (t2 == null)
+						return;
+					var UserMaxCapacity = t2.Value<float>();
+
+					smi.UserMaxCapacity = UserMaxCapacity;
 				}
 			}
 		}
@@ -626,7 +638,7 @@ namespace BlueprintsV2.BlueprintData
 		{
 			internal static JObject TryGetData(GameObject arg)
 			{
-				if (arg.TryGetComponent<FoodStorage>(out var component))
+				if (arg.TryGetComponent<FoodStorage>(out var component) && component.SpicedFoodOnly == true)
 				{
 					return new JObject()
 					{
@@ -653,7 +665,7 @@ namespace BlueprintsV2.BlueprintData
 		{
 			internal static JObject TryGetData(GameObject arg)
 			{
-				if (arg.TryGetComponent<AutoDisinfectable>(out var component))
+				if (arg.TryGetComponent<AutoDisinfectable>(out var component) && component.enableAutoDisinfect == false) //only store nondefault value
 				{
 					return new JObject()
 					{
@@ -750,6 +762,9 @@ namespace BlueprintsV2.BlueprintData
 				if (arg.TryGetComponent<Prioritizable>(out var component))
 				{
 					var prio = component.GetMasterPriority();
+					if (prio.priority_value == 5 && prio.priority_class == PriorityScreen.PriorityClass.basic) //ignore default state
+						return null;
+
 					//SgtLogger.l("Getting prio " + prio.priority_value + " from " + arg.name);
 					return new JObject()
 					{

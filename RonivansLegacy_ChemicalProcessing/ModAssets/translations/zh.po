@@ -917,7 +917,7 @@ msgid ""
 "- 10% <link=\"METHANE\">Natural Gas</link>\n"
 "- 15% <link=\"BITUMEN\">Bitumen</link>.\n"
 "\n"
-"Second Stage: <link=\"NAPHTHA\">Naphtha</link> is furter refined:\n"
+"Second Stage: <link=\"NAPHTHA\">Naphtha</link> is further refined:\n"
 "- 45% <link=\"PETROLEUM\">Petroleum</link>\n"
 "- 10% <link=\"METHANE\">Natural Gas</link>\n"
 "- 45% <link=\"BITUMEN\">Bitumen</link>.\n"
@@ -1002,7 +1002,7 @@ msgstr "等离子弧炉利用由电弧加热器（等离子体发生器）产生
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GLASSFOUNDRY.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GLASSFOUNDRY.EFFECT"
-msgid "This techlogical advanced glass foundry is capable more than melt <link=\"SAND\">Sand</link> in to <link=\"MOLTENGLASS\">Molten Glass</link>, but a wide range of other applications."
+msgid "This technologically advanced glass foundry has a wide range of other applications beyond simply melting <link=\"SAND\">Sand</link> into <link=\"MOLTENGLASS\">Molten Glass</link>."
 msgstr "这个技术先进的玻璃熔炉不仅能够将<link=\"SAND\">沙子</link>熔化成<link=\"MOLTENGLASS\">熔融玻璃</link>，还能用于众多其他领域。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GLASSFOUNDRY.NAME
@@ -1033,7 +1033,7 @@ msgstr "一座工业性石油化工厂，其功能是将石脑油中的碳氢化
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_NAPHTHAREFORMER.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_NAPHTHAREFORMER.EFFECT"
 msgid ""
-"This second stage refinement plant is capable of furter refining <link=\"NAPHTHA\">Naphtha</link>:\n"
+"This second stage refinement plant is capable of further refining <link=\"NAPHTHA\">Naphtha</link>:\n"
 " - 45% <link=\"PETROLEUM\">Petroleum</link>\n"
 "- 10% <link=\"METHANE\">Natural Gas</link>\n"
 "- 45% <link=\"BITUMEN\">Bitumen</link>.\n"
@@ -1171,7 +1171,7 @@ msgstr "用于<link=\"REFINEDMETAL\">精炼金属</link>的特殊加工和制造
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.NAME"
 msgid "<link=\"CHEMICALSELECTIVEARCFURNACE\">Selective Arc-Furnace</link>"
-msgstr "<link=\"HEMICALSELECTIVEARCFURNAC\">选择性电弧炉</link>"
+msgstr "<link=\"CHEMICALSELECTIVEARCFURNACE\">选择性电弧炉</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SMALLCRUSHERMILL.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SMALLCRUSHERMILL.DESC"
@@ -1761,7 +1761,7 @@ msgid ""
 "\n"
 "Can be run through wall and floor tile."
 msgstr ""
-"最多可承载 {CAPACITY} 的<link=\"ELEMENTSGAS\">气体</link>，并且<link=\"HEAT\">温度</link>变化极小。\n"
+"最多可承载 {CAPACITY} kg的<link=\"ELEMENTSGAS\">气体</link>，并且<link=\"HEAT\">温度</link>变化极小。\n"
 "\n"
 "可以穿过墙壁和地板。"
 
@@ -1805,7 +1805,7 @@ msgid ""
 "\n"
 "Can be run through wall and floor tile."
 msgstr ""
-"最多可承载 {CAPACITY} 的<link=\"ELEMENTSLIQUID\">液体</link>，并且<link=\"HEAT\">温度</link>变化极小。\n"
+"最多可承载 {CAPACITY} kg的<link=\"ELEMENTSLIQUID\">液体</link>，并且<link=\"HEAT\">温度</link>变化极小。\n"
 "\n"
 "可以穿过墙和地板。"
 
@@ -2666,10 +2666,14 @@ msgstr "混凝土砖块在美学上并不占优，但其高强度和隔热性弥
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.REINFORCEDCONCRETETILE.EFFECT"
 msgid ""
 "A rock hard composite tile made with coarse aggregate bonded together with a fluid cement.\n"
-"The concrete's relatively low tensile strength and ductility are compensated for by the inclusion of a internal rebar reinforcement having higher tensile strength or ductility."
+"The concrete's relatively low tensile strength and ductility are compensated for by the inclusion of a internal rebar reinforcement having higher tensile strength or ductility.\n"
+"\n"
+"Immune against meteor impact damage."
 msgstr ""
 "一种由粗骨料制成、并用流体水泥粘结而成的坚硬复合砖块。\n"
-"这种混凝土的抗拉强度和延展性相对较低，但通过加入具有更高抗拉强度或延展性的内部钢筋来加以弥补。"
+"这种混凝土的抗拉强度和延展性相对较低，但通过加入具有更高抗拉强度或延展性的内部钢筋来加以弥补。\n"
+"\n"
+"免疫陨石撞击伤害。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.REINFORCEDCONCRETETILE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.REINFORCEDCONCRETETILE.NAME"
@@ -3967,6 +3971,22 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM
 msgid "Multiply the natural gas output amounts of the anaerobic digester by this value."
 msgstr "将厌氧消化器的天然气产量乘以此值。"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_OILPRESSREBALANCE.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_OILPRESSREBALANCE.NAME"
+msgid "Expeller Press Rebalance"
+msgstr "榨油机再平衡"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_OILPRESSREBALANCE.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_OILPRESSREBALANCE.TOOLTIP"
+msgid ""
+"Rebalances the yield of the Expeller Press Recipes to yield larger amounts of oil and biomass.\n"
+"This give the building a better purpose, as its current yields are quite low, compared to the seakomb, which has its balance defined by the game.\n"
+"Turn off to get the old yields back"
+msgstr ""
+"重新调整了榨油机配方的产出比例，以获得更多的油和生物质。\n"
+"这使得这座建筑有了更明确的用途，因为其目前的收益相当低，而海梳蕨的收益则由游戏设定。\n"
+"关闭该选项以恢复旧版收益。"
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.NAME"
 msgid "Open Building Configuration Editor"
@@ -4694,7 +4714,7 @@ msgstr "Ronivan 的模组遗作 - 大合集"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.FABRICATOR_ACTIVE.LOGIC_PORT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.FABRICATOR_ACTIVE.LOGIC_PORT"
-msgid "Machine working"
+msgid "Machine Active"
 msgstr "机器运转中"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.FABRICATOR_ACTIVE.LOGIC_PORT_ACTIVE

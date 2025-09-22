@@ -38,7 +38,7 @@ namespace PaintYourPipes
 		/// <returns>JObject of all the data to be stored in the blueprint</returns>
 		public static JObject Blueprints_GetData(GameObject source)
 		{
-			if (source.TryGetComponent<ColorableConduit>(out var behavior))
+			if (source.TryGetComponent<ColorableConduit>(out var behavior) && behavior.IsTinted)
 			{
 				return new JObject()
 				{
@@ -173,6 +173,8 @@ namespace PaintYourPipes
 		KBatchedAnimController _animController;
 		public KBatchedAnimController AnimController => _animController;
 		private static readonly EventSystem.IntraObjectHandler<ColorableConduit> OnCopySettingsDelegate = new EventSystem.IntraObjectHandler<ColorableConduit>((component, data) => component.OnCopySettings(data));
+
+		public bool IsTinted => ColorHex != null && ColorHex != "FFFFFF";
 
 		public Color TintColor => GetColor();
 		public Color? SecondaryTintColor => GetSecondaryColor();

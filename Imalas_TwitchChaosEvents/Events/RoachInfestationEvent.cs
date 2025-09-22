@@ -41,7 +41,7 @@ namespace Imalas_TwitchChaosEvents.Events
 			List<Pickupable> pickupables = TargetWorld.worldInventory.GetPickupables(GameTags.Edible).ToList();
 			if (pickupables != null)
 			{
-				for (int i = pickupables.Count - 1; i > 0; --i)
+				for (int i = pickupables.Count - 1; i >= 0; --i)
 				{
 
 					var item = pickupables[i];

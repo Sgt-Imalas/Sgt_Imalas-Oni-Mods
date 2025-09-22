@@ -21,7 +21,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 			[
 			nameof(BuildingEnabledButton)
 			//,nameof(Prioritizable)
-			,API_Consts.ConduitFlagID
+			//,API_Consts.ConduitFlagID
 
 			];
 

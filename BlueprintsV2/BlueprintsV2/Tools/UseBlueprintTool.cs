@@ -1,5 +1,6 @@
 ﻿
 using BlueprintsV2.BlueprintData;
+using BlueprintsV2.BlueprintsV2.UnityUI;
 using BlueprintsV2.UnityUI;
 using UnityEngine;
 using UtilLibs;
@@ -68,6 +69,8 @@ namespace BlueprintsV2.Tools
 			ToolMenu.Instance.PriorityScreen.Show();
 			ShowBlueprintsWindow();
 		}
+
+
 		void ShowBlueprintsWindow()
 		{
 			BlueprintSelectionScreen.ShowWindow(OnBlueprintSelected);
@@ -80,9 +83,12 @@ namespace BlueprintsV2.Tools
 			{
 				GridCompositor.Instance.ToggleMajor(true);
 				VisualizeSelectedBlueprint();
+				CurrentBlueprintStateScreen.ShowScreen(true);
+				CurrentBlueprintStateScreen.Instance.SetSelectedBlueprint(ModAssets.SelectedBlueprint);
 			}
 			else
 			{
+				CurrentBlueprintStateScreen.ShowScreen(false);
 				if (visualizer != null)
 				{
 					Destroy(visualizer);
@@ -110,6 +116,7 @@ namespace BlueprintsV2.Tools
 			BlueprintState.ClearVisuals();
 			ToolMenu.Instance.PriorityScreen.Show(false);
 			GridCompositor.Instance.ToggleMajor(false);
+			CurrentBlueprintStateScreen.ShowScreen(false);
 		}
 
 		public override void OnLeftClickDown(Vector3 cursorPos)
@@ -131,9 +138,18 @@ namespace BlueprintsV2.Tools
 				BlueprintState.UpdateVisual(Grid.PosToXY(cursorPos));
 			}
 		}
+		void SetForceMaterialChange(bool enabled)
+		{
+			BlueprintState.ForceMaterialChange = enabled;
+			BlueprintState.RefreshBlueprintVisualizers();
+			CurrentBlueprintStateScreen.Instance.SetForceMaterialChange(enabled);
+		}
 
 		public override void OnKeyDown(KButtonEvent buttonEvent)
 		{
+			if (DetailsScreen.Instance?.isEditing ?? false)
+				return;
+
 			if (ModAssets.BlueprintFileHandling.HasBlueprints())
 			{
 				if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsToggleHotkeyToolTips.GetKAction()))
@@ -143,8 +159,7 @@ namespace BlueprintsV2.Tools
 				else
 				if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsToggleForce.GetKAction()))
 				{
-					BlueprintState.ForceMaterialChange = true;
-					BlueprintState.RefreshBlueprintVisualizers(); 
+					SetForceMaterialChange(true);
 				}
 				if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsReopenSelectionAction.GetKAction()))
 				{
@@ -178,26 +193,37 @@ namespace BlueprintsV2.Tools
 				}
 				else if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsSelectPrevious.GetKAction()))
 				{
-					ModAssets.GetCurrentFolder().SelectPrev();
-
-					VisualizeSelectedBlueprint();
+					SelectPrevBlueprint();
+					CurrentBlueprintStateScreen.Instance.SetSelectedBlueprint(ModAssets.SelectedBlueprint);
 				}
 				else if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsSelectNext.GetKAction()))
 				{
-					ModAssets.GetCurrentFolder().SelectNext();
-					VisualizeSelectedBlueprint();
+					SelectNextBlueprint();
+					CurrentBlueprintStateScreen.Instance.SetSelectedBlueprint(ModAssets.SelectedBlueprint);
 				}
 			}
 
 			base.OnKeyDown(buttonEvent);
 		}
 
+		public void SelectNextBlueprint()
+		{
+			ModAssets.GetCurrentFolder().SelectNext();
+			VisualizeSelectedBlueprint();
+		}
+		public void SelectPrevBlueprint()
+		{
+			ModAssets.GetCurrentFolder().SelectPrev();
+			VisualizeSelectedBlueprint();
+		}
+
 		public override void OnKeyUp(KButtonEvent buttonEvent)
 		{
+			if (DetailsScreen.Instance?.isEditing ?? false)
+				return;
 			if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsToggleForce.GetKAction()))
 			{
-				BlueprintState.ForceMaterialChange = false;
-				BlueprintState.RefreshBlueprintVisualizers();
+				SetForceMaterialChange(false);
 			}
 		}
 	}

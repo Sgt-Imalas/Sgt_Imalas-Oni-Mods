@@ -19,6 +19,10 @@ namespace RotatableRadboltStorage
 		private HighEnergyParticleStorage targetHEPStorage;
 		public float PercentFull => targetHEPStorage.Particles / targetHEPStorage.capacity;
 
+
+		[MyCmpAdd]
+		CopyBuildingSettings settings;
+
 		private static readonly EventSystem.IntraObjectHandler<HEPStorageThreshold> OnCopySettingsDelegate = new((component, data) => component.OnCopySettings(data));
 		private static readonly EventSystem.IntraObjectHandler<HEPStorageThreshold> UpdateLogicCircuitDelegate = new((component, data) => component.UpdateLogicCircuit(data));
 
@@ -42,9 +46,11 @@ namespace RotatableRadboltStorage
 		}
 		private void OnCopySettings(object data)
 		{
-			HEPStorageThreshold component = ((GameObject)data).GetComponent<HEPStorageThreshold>();
-			if (!(component != null))
+			if (data is not GameObject go)
 				return;
+			if (go.TryGetComponent<HEPStorageThreshold>(out var component))
+				return;
+
 			this.ActivateValue = component.ActivateValue;
 			this.DeactivateValue = component.DeactivateValue;
 		}
@@ -91,14 +97,14 @@ namespace RotatableRadboltStorage
 
 		public bool UseWholeNumbers => true;
 
-		public string ActivateTooltip => STRINGS.BUILDINGS.PREFABS.BATTERYSMART.DEACTIVATE_TOOLTIP;
+		public string ActivateTooltip => STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.DEACTIVATE_TOOLTIP;
 
-		public string DeactivateTooltip => STRINGS.BUILDINGS.PREFABS.BATTERYSMART.ACTIVATE_TOOLTIP;
+		public string DeactivateTooltip => STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.ACTIVATE_TOOLTIP;
 
-		public string ActivationRangeTitleText => STRINGS.BUILDINGS.PREFABS.BATTERYSMART.SIDESCREEN_TITLE;
+		public string ActivationRangeTitleText => STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.SIDESCREEN_TITLE;
 
-		public string ActivateSliderLabelText => STRINGS.BUILDINGS.PREFABS.BATTERYSMART.SIDESCREEN_DEACTIVATE;
+		public string ActivateSliderLabelText => STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.SIDESCREEN_DEACTIVATE;
 
-		public string DeactivateSliderLabelText => STRINGS.BUILDINGS.PREFABS.BATTERYSMART.SIDESCREEN_ACTIVATE;
+		public string DeactivateSliderLabelText => STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.SIDESCREEN_ACTIVATE;
 	}
 }

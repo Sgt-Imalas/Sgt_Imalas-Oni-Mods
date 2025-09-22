@@ -299,7 +299,7 @@ namespace BawoonFwiend
 			if (ModEnabled == false)
 			{
 				var allskins = EnabledBalloonSkins.Keys.ToList();
-				for (int i = EnabledBalloonSkins.Count - 1; i > 0; --i)
+				for (int i = EnabledBalloonSkins.Count - 1; i >= 0; --i)
 				{
 					var skin = allskins[i];
 					if (skin.modID == modID)

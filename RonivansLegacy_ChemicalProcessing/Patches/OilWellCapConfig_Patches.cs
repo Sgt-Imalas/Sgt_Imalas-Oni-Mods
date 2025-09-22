@@ -13,6 +13,17 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 {
 	class OilWellCapConfig_Patches
 	{
+
+		[HarmonyPatch(typeof(OilWellCap.States), nameof(OilWellCap.States.InitializeStates))]
+		public class OilWellCap_States_InitializeStates_Patch
+		{
+			public static void Postfix(OilWellCap.States __instance)
+			{
+				__instance.operational.active.loop.Enter(smi => smi.master.operational.SetActive(true));
+			}
+		}
+
+
 		/// <summary>
 		/// instead of making the oil well cap a custom building; modify the existing oil well cap
 		/// </summary>
@@ -38,7 +49,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 					///adjust the conversion output amount
 					ElementConverter converter = go.GetComponent<ElementConverter>();
 					converter.consumedElements = [new ElementConverter.ConsumedElement(GameTags.AnyWater, 1f)];
-					converter.outputElements = [new ElementConverter.OutputElement(3.4f, SimHashes.CrudeOil, 363.15f, false, true, outputElementOffsetx: 2f, outputElementOffsety: 1.5f, diseaseWeight: 0f)];
+					converter.outputElements = [new ElementConverter.OutputElement(3.4f, SimHashes.CrudeOil, 363.15f, false, true, outputElementOffsetx: 2f, outputElementOffsety: 1.5f, diseaseWeight: 1f)];
 
 					///grab storage for oil and gas and seal it
 					Storage standardStorage = go.GetComponent<Storage>();
@@ -55,7 +66,11 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 					GasExhaust.dispenser = GasDispenser;
 					GasExhaust.elementTag = ModElements.RawNaturalGas_Gas.Tag;
 					GasExhaust.capacity = 80f;
-					
+
+					var storageLimiter = go.AddOrGet<ElementThresholdOperational>();
+					storageLimiter.Threshold = 80f;
+					storageLimiter.ThresholdTag = ModElements.RawNaturalGas_Gas.Tag;
+
 
 					///===> Crude Oil Output <============================================================
 					PipedConduitDispenser LiquidDispenser = go.AddComponent<PipedConduitDispenser>();
@@ -67,7 +82,11 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 					PipedOptionalExhaust LiquidExhaust = go.AddComponent<PipedOptionalExhaust>();
 					LiquidExhaust.dispenser = LiquidDispenser;
 					LiquidExhaust.elementTag = SimHashes.CrudeOil.CreateTag();
-					LiquidExhaust.capacity = 4f;
+					LiquidExhaust.capacity = 10f;
+
+					var storageLimiter2 = go.AddOrGet<ElementThresholdOperational>();
+					storageLimiter2.Threshold = 10f;
+					storageLimiter2.ThresholdTag = SimHashes.CrudeOil.CreateTag();
 
 					Custom_OilWellCapConfig.AttachPorts(go);
 				}

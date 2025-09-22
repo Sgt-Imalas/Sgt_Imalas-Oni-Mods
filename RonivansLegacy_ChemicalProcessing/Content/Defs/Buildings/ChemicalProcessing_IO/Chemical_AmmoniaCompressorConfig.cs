@@ -53,7 +53,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 
 			Storage defaultStorage = BuildingTemplates.CreateDefaultStorage(go);
-			defaultStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
+			defaultStorage.SetDefaultStoredItemModifiers(Storage.StandardSealedStorage);
 			defaultStorage.capacityKg = 3000f;
 			defaultStorage.showCapacityStatusItem = true;
 			defaultStorage.showCapacityAsMainStatus = true;

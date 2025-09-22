@@ -384,6 +384,22 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				isopropane.highTempTransition =  ElementLoader.FindElementByHash(SimHashes.Propane);
 		}
 
+		static Dictionary<SimHashes,bool> CachedModElements = [];
+		public static bool IsModElement(SimHashes element)
+		{
+			if(CachedModElements.TryGetValue(element, out var isModElement))
+				return isModElement;
+
+			bool modElement = false;
+			if (ChemicalProcessing_IO_Elements.Any(s => s.elementID == element))
+				modElement = true;
+			else if(ChemicalProcessing_BioChem_Elements.Any(s => s.elementID == element))
+				modElement = true;
+
+			CachedModElements.Add(element, modElement);
+			return modElement;
+		}
+		
 		internal static void ModifyExistingElements()
 		{
 			PlasticGroup = ElementGrouping.GroupAllWith(GameTags.Plastic);

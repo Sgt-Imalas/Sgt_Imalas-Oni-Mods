@@ -74,10 +74,10 @@ namespace BlueprintsV2.Tools
 					}
 					drawer.NewLine(BlueprintState.ExtendedCardTooltips ? 45 : 22); 
 					
-					drawer.DrawText(UIUtils.ColorText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.SELECTPREV, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsSelectPrevious.GetKAction()) + "]")), folder.HasPrevSnapshot(ModAssets.SelectedBlueprint) ? Color.white : Color.grey), Styles_Instruction.Standard);
+					drawer.DrawText(UIUtils.ColorText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.SELECTPREV, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsSelectPrevious.GetKAction()) + "]")), folder.HasPrevBlueprint(ModAssets.SelectedBlueprint) ? Color.white : Color.grey), Styles_Instruction.Standard);
 					drawer.NewLine(20);
 
-					drawer.DrawText(UIUtils.ColorText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.SELECTNEXT, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsSelectNext.GetKAction()) + "]")), folder.HasNextSnapshot(ModAssets.SelectedBlueprint) ? Color.white : Color.grey), Styles_Instruction.Standard);
+					drawer.DrawText(UIUtils.ColorText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.SELECTNEXT, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsSelectNext.GetKAction()) + "]")), folder.HasNextBlueprint(ModAssets.SelectedBlueprint) ? Color.white : Color.grey), Styles_Instruction.Standard);
 					drawer.NewLine();
 					drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.SELECTEDBLUEPRINT, selectedBp.FriendlyName, folder.GetBlueprintIndex(selectedBp) + 1, folder.BlueprintCount, folder.Name), Styles_Instruction.Standard);
 				}

@@ -34,7 +34,7 @@ namespace ForceFieldWallTile.Content.Scripts
 		[SerializeField]
 		public float EnergySaverWattage = Config.Instance.SteadyWattage();
 		[SerializeField]
-		public float RechargeWattage = Config.Instance.NormalWattage;
+		public float NormalWattage = Config.Instance.NormalWattage;
 
 		[SerializeField]
 		public float DamageMultiplier_LiquidPressure = 10f;//at default mass of 1000kg, the gas pressure overwhelms the barrier at 10000kg, more if there are adjacent shields
@@ -69,7 +69,7 @@ namespace ForceFieldWallTile.Content.Scripts
 
 		public override void OnSpawn()
 		{
-			RechargeWattage = Mathf.Min(RechargeWattage, EnergySaverWattage);
+			NormalWattage = Mathf.Max(NormalWattage, EnergySaverWattage);
 
 			cell = Grid.PosToCell(this);
 
@@ -395,7 +395,7 @@ namespace ForceFieldWallTile.Content.Scripts
 			if (energySaving)
 				consumer.BaseWattageRating = EnergySaverWattage;
 			else
-				consumer.BaseWattageRating = RechargeWattage;
+				consumer.BaseWattageRating = NormalWattage;
 		}
 
 		public class StatesInstance : GameStateMachine<States, StatesInstance, ForceFieldTile, object>.GameInstance
