@@ -12,14 +12,19 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		[SerializeField]//normal reactor has 2400
 		public float emissionRads = 105f;
 
+		[SerializeField]
+		public List<CellOffset> OffsetCells = [new(0,-1),new(1,-1)];
+		[SerializeField]
+		public Vector3 dumpOffsetOverride = new Vector3(0.5f, -1f, 0.0f);
+
 		public float GetEmissionRads(bool inMeltdown) => inMeltdown ? emissionRads * 2f : emissionRads; //mirrors game behavior
 		public double GetRadGermMultiplierRads(double baseAmount) => baseAmount * 10;
 
 		public override void OnSpawn()
 		{
-			dumpOffset = new Vector3(0.5f, -1f, 0.0f);
+			dumpOffset = dumpOffsetOverride;
 			int ownPos = Grid.PosToCell(this);
-			ventCells = [Grid.OffsetCell(ownPos, new (0, -1)),Grid.OffsetCell(ownPos, new(1,-1))];
+			ventCells = OffsetCells.Select(offset => Grid.OffsetCell(ownPos, offset)).ToArray();
 
 			base.OnSpawn();
 		}
