@@ -479,6 +479,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				float biomass = data.second;
 				float ingredientmass = data.third;
 
+				//SgtLogger.l("Creating Expeller Press Recipe: " + ingredient + ": oil->" + oil + " biomass->" + biomass);
+
 				RecipeBuilder.Create(ID, 25)
 					.Input(ingredient, ingredientmass)
 					.Output(ModElements.VegetableOil_Liquid, oil, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
@@ -497,7 +499,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			foreach (var seed in Assets.GetPrefabsWithTag(GameTags.CropSeed))
 			{
 				var prefabTag = seed.PrefabID();
-				SgtLogger.l("Seed Tag: " + prefabTag);
+				//SgtLogger.l("Seed Tag: " + prefabTag);
 				if (!PredefinedExpellerPressRecipes.ContainsKey(prefabTag))
 					seeds.Add(prefabTag);
 			}
