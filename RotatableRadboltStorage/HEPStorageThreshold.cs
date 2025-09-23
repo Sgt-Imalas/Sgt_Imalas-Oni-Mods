@@ -1,4 +1,5 @@
 ﻿using KSerialization;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 
 namespace RotatableRadboltStorage
@@ -48,7 +49,7 @@ namespace RotatableRadboltStorage
 		{
 			if (data is not GameObject go)
 				return;
-			if (go.TryGetComponent<HEPStorageThreshold>(out var component))
+			if (!go.TryGetComponent<HEPStorageThreshold>(out var component))
 				return;
 
 			this.ActivateValue = component.ActivateValue;
@@ -89,6 +90,33 @@ namespace RotatableRadboltStorage
 				this.activateValue = (int)value;
 				this.UpdateLogicCircuit(null);
 			}
+		}
+		public static void Blueprints_SetData(GameObject source, JObject data)
+		{
+			if (source.TryGetComponent<HEPStorageThreshold>(out var behavior))
+			{
+				var t1 = data.GetValue("ActivateValue");
+				var t2 = data.GetValue("DeactivateValue");
+				if (t1 == null || t2 == null)
+					return;
+				var _ActivateValue = t1.Value<float>();
+				var _DeactivateValue = t2.Value<float>();
+
+				behavior.ActivateValue = _ActivateValue;
+				behavior.DeactivateValue = _DeactivateValue;
+			}
+		}
+		public static JObject Blueprints_GetData(GameObject source)
+		{
+			if (source.TryGetComponent<HEPStorageThreshold>(out var behavior))
+			{
+				return new JObject()
+				{
+					{ "ActivateValue", behavior.ActivateValue},
+					{ "DeactivateValue", behavior.DeactivateValue},
+				};
+			}
+			return null;
 		}
 
 		public float MinValue => 0.0f;
