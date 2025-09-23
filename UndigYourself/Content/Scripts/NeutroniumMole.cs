@@ -30,7 +30,7 @@ namespace UndigYourself.Content.Scripts
 
 		void OnEntombedChanged(object _)
 		{
-			if(MigrateAwayFromNeutronium(out var newCell))
+			if (MigrateAwayFromNeutronium(out var newCell))
 			{
 				var position = this.transform.GetPosition();
 				var newPosition = Grid.CellToPos(newCell);
@@ -43,7 +43,10 @@ namespace UndigYourself.Content.Scripts
 
 		bool InvalidCell(int cell)
 		{
-			return Grid.Element[cell].id == SimHashes.Unobtanium || !Grid.IsValidCellInWorld(cell, this.GetMyWorldId());
+			if (cell <= 0) 
+				return true;
+
+			return !Grid.IsValidCellInWorld(cell, this.GetMyWorldId()) || Grid.Element[cell].id == SimHashes.Unobtanium;
 		}
 
 		bool MigrateAwayFromNeutronium(out int newCell)
@@ -53,6 +56,9 @@ namespace UndigYourself.Content.Scripts
 				return false;
 
 			int ownCell = Grid.PosToCell(this);
+			if(ownCell <= 0) //stuck in the tile for all the items that go off the map, e.g. rocket contents or equippables
+				return false;
+
 			newCell = FindValidNewCell(ownCell);
 			return newCell != ownCell;
 		}
