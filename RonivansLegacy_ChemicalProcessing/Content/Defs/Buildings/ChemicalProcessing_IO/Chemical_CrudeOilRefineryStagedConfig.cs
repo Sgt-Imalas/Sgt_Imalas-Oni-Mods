@@ -1,4 +1,5 @@
 ﻿using KSerialization;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
 using System.Collections.Generic;
@@ -24,20 +25,21 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		private static readonly PortDisplayOutput naphthaLiquidOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(-2, 1), color: new Color32(176, 0, 255, 255));
 		private static readonly PortDisplayOutput methaneGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(3, 3), color: new Color32(byte.MaxValue, 114, 33, byte.MaxValue));
 		private static readonly PortDisplayOutput PetroleumLiquidOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(-2, 0), null, new Color32(255, 195, 37, 255));
+		private static readonly PortDisplayOutput SourWaterLiquidOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(-2, 3), null, new Color32(130, 104, 65, 255));
 
 		public override BuildingDef CreateBuildingDef()
 		{
-			float[] construction_mass = [500f, 200f];
+			float[] construction_mass = [750f, 250f];
 			string[] construction_materials =
 			[
-				"RefinedMetal",
+				GameTags.RefinedMetal.ToString(),
 				SimHashes.Steel.ToString()
 			];
 			EffectorValues tieR6 = NOISE_POLLUTION.NOISY.TIER6;
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 6, 5, "crudeoil_refinery_staged_kanim", 100, 30f, construction_mass, construction_materials, 800f, BuildLocationRule.OnFloor, TUNING.BUILDINGS.DECOR.PENALTY.TIER2, tieR6);
 			buildingDef.Overheatable = false;
 			buildingDef.RequiresPowerInput = true;
-			buildingDef.EnergyConsumptionWhenActive = 640f;
+			buildingDef.EnergyConsumptionWhenActive = 960f;
 			buildingDef.ExhaustKilowattsWhenActive = 12f;
 			buildingDef.SelfHeatKilowattsWhenActive = 6f;
 			buildingDef.PowerInputOffset = new CellOffset(1, 0);
@@ -96,22 +98,23 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			];
 			elementConverter1.outputElements =
 			[
-				new (5f, SimHashes.Petroleum, 371.15f, storeOutput: true, diseaseWeight: 0.75f),
-				new (2.5f, SimHashes.Naphtha, 367.15f, storeOutput: true, diseaseWeight: 0.75f),
-				new (0.5f, SimHashes.Methane, 388.15f, storeOutput: true, diseaseWeight: 0.75f),
-				new (2.5f, SimHashes.Bitumen, 343.15f, storeOutput: true, diseaseWeight: 0.25f)
+				new (5f, SimHashes.Petroleum, 371.15f, storeOutput: true, diseaseWeight: 0.5f),
+				new (2.5f, SimHashes.Naphtha, 367.15f, storeOutput: true, diseaseWeight: 0.25f),
+				new (1f, SimHashes.Methane, 388.15f, storeOutput: true, diseaseWeight: 0.1f),
+				new (0.5f, SimHashes.Bitumen, 343.15f, storeOutput: true, diseaseWeight: 0.05f),
+				new (1f, ModElements.SourWater_Liquid, 343.15f, storeOutput: true, diseaseWeight: 0.1f)
 			];
 			ElementConverter elementConverter2 = go.AddComponent<ElementConverter>();
 			elementConverter2.consumedElements =
 			[
-				new ElementConverter.ConsumedElement(SimHashes.Naphtha.CreateTag(), 5f),
-				new ElementConverter.ConsumedElement(SimHashes.Hydrogen.CreateTag(), 0.25f)
+				new ElementConverter.ConsumedElement(SimHashes.Naphtha.CreateTag(), 2.5f),
+				new ElementConverter.ConsumedElement(SimHashes.Hydrogen.CreateTag(), 0.21f)
 			];
 			elementConverter2.outputElements =
 			[
-				new ElementConverter.OutputElement(2f, SimHashes.Petroleum, 371.15f, storeOutput: true, diseaseWeight: 0.75f),
-				new ElementConverter.OutputElement(0.5f, SimHashes.Methane, 367.15f, storeOutput: true, diseaseWeight: 0.75f),
-				new ElementConverter.OutputElement(2.75f, SimHashes.Bitumen, 343.15f, storeOutput: true, diseaseWeight: 0.25f)
+				new ElementConverter.OutputElement(1.125f, SimHashes.Petroleum, 371.15f, storeOutput: true, diseaseWeight: 0.75f),
+				new ElementConverter.OutputElement(0.25f, SimHashes.Methane, 367.15f, storeOutput: true, diseaseWeight: 0.25f),
+				new ElementConverter.OutputElement(1.125f, SimHashes.Bitumen, 343.15f, storeOutput: true, diseaseWeight: 0.25f)
 			];
 			ElementDropper elementDropper = go.AddComponent<ElementDropper>();
 			elementDropper.emitMass = 50f;
@@ -136,6 +139,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			naphtaDispenser.elementFilter = [SimHashes.Naphtha];
 			naphtaDispenser.SkipSetOperational = true; //handled by threshold
 			naphtaDispenser.AssignPort(naphthaLiquidOutputPort);
+
 			var sourGasLimit = go.AddComponent<ElementThresholdOperational>();
 			sourGasLimit.Threshold = 100f;
 			sourGasLimit.ThresholdTag = SimHashes.Naphtha.CreateTag();
@@ -146,6 +150,14 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			methaneDispenser.alwaysDispense = true;
 			methaneDispenser.elementFilter = [SimHashes.Methane];
 			methaneDispenser.AssignPort(methaneGasOutputPort);
+
+
+			PipedConduitDispenser sWaterDispenser = go.AddComponent<PipedConduitDispenser>();
+			sWaterDispenser.conduitType = ConduitType.Liquid;
+			sWaterDispenser.storage = storage;
+			sWaterDispenser.alwaysDispense = true;
+			sWaterDispenser.elementFilter = [ModElements.SourWater_Liquid];
+			sWaterDispenser.AssignPort(SourWaterLiquidOutputPort);
 
 			go.AddOrGet<ElementConversionBuilding>(); //Handles element converter
 			Prioritizable.AddRef(go);
@@ -170,6 +182,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			displayController.AssignPort(go, naphthaLiquidOutputPort);
 			displayController.AssignPort(go, methaneGasOutputPort);
 			displayController.AssignPort(go, PetroleumLiquidOutputPort);
+			displayController.AssignPort(go, SourWaterLiquidOutputPort);			
 		}
 
 		public override void DoPostConfigureComplete(GameObject go) => go.AddOrGetDef<PoweredActiveController.Def>().showWorkingStatus = true;

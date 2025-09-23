@@ -21,6 +21,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 
 				int originCell = __instance.consumer.GetSampleCell();
 				var sourceXY = Grid.CellToXY(originCell);
+				var worldIdx = Grid.WorldIdx[originCell];
 
 				int radius = __instance.consumer.consumptionRadius;
 
@@ -32,6 +33,8 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 							continue;
 
 						int cellToTest = originCell + j + Grid.WidthInCells * i;
+						if (!Grid.IsValidCellInWorld(cellToTest, worldIdx))
+							continue;
 
 						var XY = Grid.CellToXY(cellToTest);
 
