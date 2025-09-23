@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ namespace UndigYourself.Content.Scripts
 	{
 		[MyCmpGet] Pickupable pickupable;
 		[MyCmpGet] KBatchedAnimController kbac;
+		[MyCmpGet] KPrefabID kpref;
 		public override void OnPrefabInit()
 		{
 			base.OnPrefabInit();
@@ -20,7 +22,6 @@ namespace UndigYourself.Content.Scripts
 		{
 			base.OnSpawn();
 			Subscribe((int)GameHashes.EntombedChanged, OnEntombedChanged);
-			OnEntombedChanged(null);
 		}
 		public override void OnCleanUp()
 		{
@@ -28,9 +29,9 @@ namespace UndigYourself.Content.Scripts
 			base.OnCleanUp();
 		}
 
-		void OnEntombedChanged(object _)
+		void OnEntombedChanged(object d)
 		{
-			if (MigrateAwayFromNeutronium(out var newCell))
+			if (ShouldMigrateAwayFromNeutronium(out var newCell))
 			{
 				var position = this.transform.GetPosition();
 				var newPosition = Grid.CellToPos(newCell);
@@ -41,85 +42,91 @@ namespace UndigYourself.Content.Scripts
 			}
 		}
 
-		bool InvalidCell(int cell)
+		public static bool InvalidCell(int cell, int worldIdx)
 		{
-			if (cell <= 0) 
+			if (cell <= 0)
 				return true;
 
-			return !Grid.IsValidCellInWorld(cell, this.GetMyWorldId()) || Grid.Element[cell].id == SimHashes.Unobtanium;
+			return !Grid.IsValidCellInWorld(cell, worldIdx) || Grid.Element[cell].id == SimHashes.Unobtanium;
 		}
 
-		bool MigrateAwayFromNeutronium(out int newCell)
+		public static bool InvalidTargetCell(int cell, int worldIdx)
+		{
+			return InvalidCell(cell, worldIdx) || Grid.Objects[cell, (int)ObjectLayer.FoundationTile] != null;
+		}
+
+		bool ShouldMigrateAwayFromNeutronium(out int newCell)
 		{
 			newCell = -1;
-			if (!pickupable.IsEntombed)
-				return false;
-
 			int ownCell = Grid.PosToCell(this);
-			if(ownCell <= 0) //stuck in the tile for all the items that go off the map, e.g. rocket contents or equippables
+			var world = Grid.WorldIdx[ownCell];
+
+			if (!pickupable.IsEntombed || !InvalidCell(ownCell, world)) //stuck in the tile for all the items that go off the map, e.g. rocket contents or equippables
 				return false;
 
-			newCell = FindValidNewCell(ownCell);
-			return newCell != ownCell;
+			newCell = FindValidNewCell(ownCell, world);
+			bool canMigrate = newCell != ownCell;
+			SgtLogger.l(this.GetProperName() + "Found valid migration cell? " + canMigrate + " old cell: " + ownCell + ", new cell: " + newCell);
+			return canMigrate;
 		}
 
-		int FindValidNewCell(int startCell)
+		public static int FindValidNewCell(int startCell, int worldIdx)
 		{
 			///iterate the adjacent cells, favoring those above.
-			if (!InvalidCell(startCell))
+			if (!InvalidTargetCell(startCell, worldIdx))
 				return startCell;
 
 			var u = Grid.CellAbove(startCell);
-			if (!InvalidCell(u))
+			if (!InvalidTargetCell(u, worldIdx))
 				return u;
 
 			var ul = Grid.CellUpLeft(startCell);
-			if (!InvalidCell(ul))
+			if (!InvalidTargetCell(ul, worldIdx))
 				return ul;
 
 			var ur = Grid.CellUpRight(startCell);
-			if (!InvalidCell(ur))
+			if (!InvalidTargetCell(ur, worldIdx))
 				return ur;
 
 			var l = Grid.CellLeft(startCell);
-			if (!InvalidCell(l))
+			if (!InvalidTargetCell(l, worldIdx))
 				return l;
 
 			var r = Grid.CellRight(startCell);
-			if (!InvalidCell(r))
+			if (!InvalidTargetCell(r, worldIdx))
 				return r;
 
 			var dr = Grid.CellDownRight(startCell);
-			if (!InvalidCell(dr))
+			if (!InvalidTargetCell(dr, worldIdx))
 				return dr;
 
 			var dl = Grid.CellDownLeft(startCell);
-			if (!InvalidCell(dl))
+			if (!InvalidTargetCell(dl, worldIdx))
 				return dl;
 
 			var d = Grid.CellBelow(startCell);
-			if (!InvalidCell(d))
+			if (!InvalidTargetCell(d, worldIdx))
 				return d;
 
 			///fallback: check for valic cells in surrounding circles
-			if (CheckCircleCells(2, out var rad2))
+			if (CheckCircleCells(startCell, worldIdx, 2, out var rad2))
 				return rad2;
-			if (CheckCircleCells(3, out var rad3))
+			if (CheckCircleCells(startCell, worldIdx, 3, out var rad3))
 				return rad3;
-			if (CheckCircleCells(4, out var rad4))
+			if (CheckCircleCells(startCell, worldIdx, 4, out var rad4))
 				return rad4;
 
 			///this should never ever happen... consider this edge case to be stuck for good
 			return startCell;
 		}
 
-		bool CheckCircleCells(int radius, out int foundCell)
+		static bool CheckCircleCells(int centerCell, int worldIdx, int radius, out int foundCell)
 		{
 			foundCell = -1;
-			foreach (var pos in ProcGen.Util.GetCircle(transform.position, radius))
+			foreach (var pos in ProcGen.Util.GetCircle(Grid.CellToPos(centerCell), radius))
 			{
 				int posCell = Grid.PosToCell(pos);
-				if (!InvalidCell(posCell))
+				if (!InvalidTargetCell(posCell, worldIdx))
 				{
 					foundCell = posCell;
 					break;
