@@ -23,8 +23,8 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>Unburyable Neutronium</ModName>
-		<ModDescription>Items can no longer bury themselves in neutronium</ModDescription>
+		<ModName>Bury Me Not</ModName>
+		<ModDescription>Items can no longer bury themselves in Neutronium. Items already buried in neutronium teleport into the closest adjacent non-neutronium tile.</ModDescription>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

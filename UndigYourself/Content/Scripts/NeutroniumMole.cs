@@ -22,6 +22,7 @@ namespace UndigYourself.Content.Scripts
 		{
 			base.OnSpawn();
 			Subscribe((int)GameHashes.EntombedChanged, OnEntombedChanged);
+			OnEntombedChanged(null);
 		}
 		public override void OnCleanUp()
 		{
