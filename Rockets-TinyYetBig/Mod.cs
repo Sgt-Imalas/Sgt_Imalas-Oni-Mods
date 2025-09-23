@@ -15,9 +15,11 @@ namespace Rockets_TinyYetBig
 	{
 		public static Harmony harmonyInstance;
 
-
+		public static Mod Instance;
 		public override void OnLoad(Harmony harmony)
 		{
+			Instance = this;
+
 			SgtLogger.l("RE.OnLoad");
 			harmonyInstance = harmony;
 			PUtil.InitLibrary(false);
