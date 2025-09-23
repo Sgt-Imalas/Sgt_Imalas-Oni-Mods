@@ -39,7 +39,7 @@ namespace _SgtsModUpdater.Model.Update
 		public string StatusColor => ColorTranslator.ToHtml(localInstall == null ? Color.Red : IsNewVersionAvailable() ? Color.Yellow : Color.Green);
 		public string GetActionString => GetActionText();
 		public string Version => version;
-		public string ModName => string.IsNullOrWhiteSpace(modName) ? staticID : modName;
+		public string ModName => string.IsNullOrWhiteSpace(modName) ? staticID : Paths.StripFormatting(modName);
 		public string ModDesc => modDesc;
 
 		public void InferDownloadUrlIfMissing(string releaseUrl)
@@ -68,7 +68,9 @@ namespace _SgtsModUpdater.Model.Update
 
 			return "Latest Installed";
 		}
-		public bool InstallButtonInteractable => IsNewVersionAvailable() && !Downloading;
+		public bool InstallButtonInteractable =>
+			//IsNewVersionAvailable() &&
+			!Downloading;
 		public bool IsNewVersionAvailable()
 		{
 			if (version == null)

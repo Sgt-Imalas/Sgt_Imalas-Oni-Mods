@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace _SgtsModUpdater
@@ -24,6 +25,10 @@ namespace _SgtsModUpdater
 				len = len / 1024;
 			}
 			return String.Format("{0:0.##} {1}", len, sizes[order]);
+		}
+		public static string StripFormatting(string toStrip)
+		{
+			return Regex.Replace(toStrip, "<[^>]+>", "");
 		}
 	}
 }

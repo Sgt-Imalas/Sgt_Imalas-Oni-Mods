@@ -214,8 +214,8 @@ namespace _SgtsModUpdater.Model
 
 		internal async Task TryInstallUpdate(RemoteMod targetMod)
 		{
-			if (!targetMod.IsNewVersionAvailable())
-				return;
+			//if (!targetMod.IsNewVersionAvailable())
+			//	return;
 			if (File.Exists(targetMod.zipFileName))
 			{
 				File.Delete(targetMod.zipFileName);
