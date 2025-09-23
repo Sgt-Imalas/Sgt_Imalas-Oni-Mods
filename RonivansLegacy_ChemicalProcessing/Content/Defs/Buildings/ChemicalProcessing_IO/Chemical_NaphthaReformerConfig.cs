@@ -38,8 +38,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 4, 7, "naphtha_reformer_kanim", 100, 30f, ingredient_mass, ingredient_types, 800f, BuildLocationRule.Anywhere, BUILDINGS.DECOR.PENALTY.TIER2, tier);
 			buildingDef.Overheatable = false;
 			buildingDef.RequiresPowerInput = true;
-			buildingDef.EnergyConsumptionWhenActive = 480f;
-			buildingDef.ExhaustKilowattsWhenActive = 12f;
+			buildingDef.EnergyConsumptionWhenActive = 360f;
+			buildingDef.ExhaustKilowattsWhenActive = 2f;
 			buildingDef.SelfHeatKilowattsWhenActive = 6f;
 			buildingDef.PowerInputOffset = new CellOffset(1, 1);
 			buildingDef.AudioCategory = "Metal";

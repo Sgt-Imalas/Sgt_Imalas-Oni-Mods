@@ -1040,7 +1040,7 @@ elements:
     radiationPer1000Mass: 0
     materialCategory: ManufacturedMaterial
     tags:
-    - BuildableAny
+    - BuildableRaw
     - Metal
     - RefinedMetal
     - Noncrushable

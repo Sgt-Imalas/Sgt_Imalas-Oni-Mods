@@ -18,6 +18,7 @@ using static UtilLibs.RocketryUtils;
 using UtilLibs;
 using Rockets_TinyYetBig.Content.Defs.Buildings.RocketPortAdapters;
 using Rockets_TinyYetBig.Content.Defs.Buildings.Research;
+using Rockets_TinyYetBig.Content.Defs.Buildings;
 
 namespace Rockets_TinyYetBig.Content.ModDb
 {
@@ -27,6 +28,10 @@ namespace Rockets_TinyYetBig.Content.ModDb
 		public static void AddBuildingsToPlanscreen()
 		{//Assign categories to each vanilla module
 			CategorizeVanillaModules();
+
+			if(Mod.Instance.mod.IsDev)
+				InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, StationPOISolarPanelConfig.ID, "power");
+
 
 			AddRocketModuleToBuildList(SolarPanelModuleWideConfig.ID, RocketCategory.power, SolarPanelModuleConfig.ID);
 

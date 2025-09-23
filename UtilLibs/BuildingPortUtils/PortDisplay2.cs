@@ -53,7 +53,7 @@ namespace UtilLibs.BuildingPortUtils
 			this.sprite = GetSprite();
 		}
 
-		internal void Draw(GameObject obj, BuildingCellVisualizer visualizer, bool force)
+		internal void Draw(GameObject obj, BuildingCellVisualizer visualizer, bool force, string optionalTooltip)
 		{
 			Building building = visualizer.building;
 			int utilityCell = GetUtilityCell(building);
@@ -64,8 +64,18 @@ namespace UtilLibs.BuildingPortUtils
 				this.lastColor = color;
 				this.lastUtilityCell = utilityCell;
 				visualizer.DrawUtilityIcon(utilityCell, this.sprite, ref portObject, color);
+				//if(optionalTooltip != null && optionalTooltip.Length>0)
+				//	AttachTooltip(optionalTooltip);
 			}
 		}
+
+		void AttachTooltip(string tooltip)
+		{
+			if (portObject == null)
+				return;
+			//UIUtils.AddSimpleTooltipToObject(portObject, tooltip);
+		}
+
 		public int GetUtilityCell(Building building)
 		{
 			return building.GetCellWithOffset(building.Orientation == Orientation.Neutral ? this.offset : this.offsetFlipped);

@@ -71,10 +71,72 @@ namespace UtilLibs.BuildingPortUtils
 
 			foreach (PortDisplay2 port in this.GetPorts(mode))
 			{
-				port.Draw(go, __instance, isNewMode);
+				port.Draw(go, __instance, isNewMode, GetPortFilterText(port));
 			}
 
 			return true;
+		}
+
+		string GetPortFilterText(PortDisplay2 port)
+		{
+			return null;
+			if (port == null)
+				return null;
+			if (port.input)
+			{
+				foreach (var portConsumer in GetComponents<PortConduitConsumer>())
+				{
+					if (portConsumer.conduitType == port.type
+					&& portConsumer.conduitOffset == port.offset
+					&& portConsumer.conduitOffsetFlipped == port.offsetFlipped)
+					{
+						var capacityTag = portConsumer.capacityTag;
+						if (capacityTag == GameTags.Any || capacityTag == null)
+							return null;
+
+						var elementChunk = Assets.TryGetPrefab(capacityTag);
+						if (elementChunk == null)
+							return null;
+						return elementChunk.GetProperName();
+					}
+				}
+			}
+			else
+			{
+				foreach (var portDispenser in GetComponents<PortConduitDispenserBase>())
+				{
+					if (portDispenser.conduitType == port.type
+					&& portDispenser.conduitOffset == port.offset
+					&& portDispenser.conduitOffsetFlipped == port.offsetFlipped)
+					{
+						string result = string.Empty;
+						foreach (var elementId in portDispenser.elementFilter)
+						{
+							if (result.Length > 0)
+								result += ", ";
+							var element = ElementLoader.GetElement(elementId.CreateTag());
+							result += element.name;
+						}
+						foreach (var tag in portDispenser.tagFilter)
+						{
+							if (result.Length > 0)
+								result += ", ";
+
+							var prefab = Assets.TryGetPrefab(tag);
+
+							if (Strings.TryGet("STRINGS.MISC.TAGS." + tag.ToString().ToUpperInvariant(), out var stringEntry))
+								result += stringEntry.String;
+							else if (prefab != null)
+								result += prefab.GetProperName();
+						}
+						if (result.Length > 0)
+							return result;
+						else
+							return null;
+					}
+				}
+			}
+			return null;
 		}
 
 		private void ClearPorts()

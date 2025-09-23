@@ -1,4 +1,5 @@
-﻿using TUNING;
+﻿using System.Collections.Generic;
+using TUNING;
 
 namespace Dupery
 {
@@ -9,12 +10,11 @@ namespace Dupery
 		public static string DEFAULT_STRESS_TRAIT = "Aggressive";
 		public static string DEFAULT_JOY_TRAIT = "BalloonArtist";
 		public static string DEFAULT_STICKER_TYPE = "sticker";
+		public static HashSet<string> GENDERS = ["Female", "NB", "Male" ];
 
 		public static string RollGender()
 		{
-			string[] genders = new string[3] { "Female", "NB", "Male" };
-			int randomIndex = UnityEngine.Random.Range(0, genders.Length);
-			return genders[randomIndex];
+			return GENDERS.GetRandom();
 		}
 
 		public static string RollPersonalityType()

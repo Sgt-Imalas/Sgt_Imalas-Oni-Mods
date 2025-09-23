@@ -2,8 +2,8 @@
 
 	<!-- General Package Properties -->
 	<PropertyGroup>
-		<PackageId>DuperyFixed</PackageId>
-		<Version>1.7.3</Version>
+		<PackageId>UndigYourself</PackageId>
+		<Version>1.0.0</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>$(AssemblyCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
@@ -13,8 +13,8 @@
 	<PropertyGroup>
 		<TargetFramework>net48</TargetFramework>
 		<Configurations>Debug;Release</Configurations>
-		<AssemblyName>DuperyFixed</AssemblyName>
-		<RootNamespace>DuperyFixed</RootNamespace>
+		<AssemblyName>UndigYourself</AssemblyName>
+		<RootNamespace>UndigYourself</RootNamespace>
 		<IsMod>true</IsMod>
 		<GenerateMetadata>true</GenerateMetadata>
 		<IsPacked>true</IsPacked>
@@ -23,9 +23,8 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>Dupery Fixed</ModName>
-		<ModDescription>Base Mod for custom duplicant mods</ModDescription>
-		<SteamId>3172734005</SteamId>
+		<ModName>Bury Me Not</ModName>
+		<ModDescription>Items can no longer bury themselves in Neutronium. Items already buried in neutronium teleport into the closest adjacent non-neutronium tile.</ModDescription>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
@@ -34,7 +33,7 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<OutDir>bin</OutDir>
 	</PropertyGroup>
-	
+
 	<ItemGroup>
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
 	</ItemGroup>

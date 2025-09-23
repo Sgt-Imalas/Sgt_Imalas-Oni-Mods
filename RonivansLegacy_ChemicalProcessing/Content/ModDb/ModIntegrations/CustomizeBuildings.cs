@@ -12,6 +12,40 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations
 	internal class CustomizeBuildings
 	{
 		/// <summary>
+		/// wrapper that allows fetching a config state value of type T
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="propertyName"></param>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		public static bool TryGetConfigValue<T>(string propertyName, out T value)
+		{
+			value = default(T);
+			InitTypes();
+			if (ConfigInstance == null)
+				return false;
+
+			Traverse property = Traverse.Create(ConfigInstance).Property(propertyName);
+			if (!property.PropertyExists())
+			{
+				Debug.LogWarning("Mod Config State did not have a property with the name: " + propertyName);
+				return false;
+
+			}
+			object propertyValue = property.GetValue();
+			var foundType = propertyValue.GetType();
+			var T_Type = typeof(T);
+			if (foundType != T_Type)
+			{
+				Debug.LogWarning("Mod Config State had a property with the name: " + propertyName+", but it was typeOf "+foundType.Name+", instead of the expected "+ T_Type.Name);
+				return false;
+			}
+
+			value = (T)propertyValue;
+			return true;
+		}
+
+		/// <summary>
 		/// Integration with CustomizeBuildings custom pipe & rail capacities
 		/// </summary>
 
@@ -19,7 +53,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations
 
 		public static bool TryGetModifiedConduitValues(out float solidCapacity, out float liquidCapacity, out float gasCapacity)
 		{
-
 			gasCapacity = ConduitFlow.MAX_GAS_MASS;
 			liquidCapacity = ConduitFlow.MAX_LIQUID_MASS;
 			solidCapacity = SolidConduitFlow.MAX_SOLID_MASS;
@@ -27,31 +60,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations
 			if (ConfigInstance == null)
 				return false;
 
+			if (TryGetConfigValue<float>("PipeGasMaxPressure", out var gas))
+				gasCapacity = gas;
+			if (TryGetConfigValue<float>("PipeLiquidMaxPressure", out var liquid))
+				liquidCapacity = liquid;
+			if (TryGetConfigValue<float>("ConveyorRailPackageSize", out var solid))
+				solidCapacity = solid;
 
-			var gasPipeField = Traverse.Create(ConfigInstance).Property("PipeGasMaxPressure");
-			var liquidPipeField = Traverse.Create(ConfigInstance).Property("PipeLiquidMaxPressure");
-			var solidPipeField = Traverse.Create(ConfigInstance).Property("ConveyorRailPackageSize");
-
-			if (gasPipeField.PropertyExists())
-			{
-				gasCapacity = (float)gasPipeField.GetValue();
-			}
-			else
-				SgtLogger.warning("could not find gas capacity property!");
-			if (liquidPipeField.PropertyExists())
-			{
-				liquidCapacity = (float)liquidPipeField.GetValue();
-			}
-			else
-				SgtLogger.warning("could not find liquid capacity property!");
-			if (solidPipeField.PropertyExists())
-			{
-				solidCapacity = (float)solidPipeField.GetValue();
-			}
-			else
-				SgtLogger.warning("could not find solid capacity property!");
 			SgtLogger.l($"Successfully loaded conduit config values from CustomizeBuildings:\nsolid: {solidCapacity}\nliquid: {liquidCapacity}\ngas: {gasCapacity}");
-
 			return true;
 		}
 
@@ -68,33 +84,21 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations
 			if (ConfigInstance == null)
 				return false;
 
-
-			var pumpRate_prop = Traverse.Create(ConfigInstance).Property("SteamTurbinePumpRateKG");
-			if(pumpRate_prop.PropertyExists()) 
-				pumpRate = (float)pumpRate_prop.GetValue();
-
-			var heatTransferPercent_prop = Traverse.Create(ConfigInstance).Property("SteamTurbineHeatTransferPercent");
-			if (heatTransferPercent_prop.PropertyExists())
-				heatTransferPercent = (float)heatTransferPercent_prop.GetValue();
-
-			var minActiveTemp_prop = Traverse.Create(ConfigInstance).Property("SteamTurbineMinActiveTemperature");
-			if (minActiveTemp_prop.PropertyExists())
-				minActiveTemp = (float)minActiveTemp_prop.GetValue();
-
-			var idealTemp_prop = Traverse.Create(ConfigInstance).Property("SteamTurbineIdealTemperature");
-			if (idealTemp_prop.PropertyExists())
-				idealTemp = (float)idealTemp_prop.GetValue();
-
-			var outputTemp_prop = Traverse.Create(ConfigInstance).Property("SteamTurbineOutputTemperature");
-			if (outputTemp_prop.PropertyExists())
-				outputTemp = (float)outputTemp_prop.GetValue();
-
-			var overheatTemp_prop = Traverse.Create(ConfigInstance).Property("SteamTurbineOverheatTemperature");
-			if (overheatTemp_prop.PropertyExists())
-				overheatTemp = (float)overheatTemp_prop.GetValue();
+			if (TryGetConfigValue<float>("SteamTurbinePumpRateKG", out var pumpRate_prop))
+				pumpRate = pumpRate_prop;
+			if (TryGetConfigValue<float>("SteamTurbineHeatTransferPercent", out var heat_prop))
+				heatTransferPercent = heat_prop;
+			if (TryGetConfigValue<float>("SteamTurbineMinActiveTemperature", out var minActiveTemp_prop))
+				minActiveTemp = minActiveTemp_prop;
+			if (TryGetConfigValue<float>("SteamTurbineIdealTemperature", out var idealTemp_prop))
+				idealTemp = idealTemp_prop;
+			if (TryGetConfigValue<float>("SteamTurbineOutputTemperature", out var outputTemp_prop))
+				outputTemp = outputTemp_prop;
+			if (TryGetConfigValue<float>("SteamTurbineOverheatTemperature", out var overheatTemp_prop))
+				overheatTemp = overheatTemp_prop;
 
 			SgtLogger.l("CustomizeBuildings Steam Turbine Integration:");
-			SgtLogger.l("SteamTurbinePumpRateKG: "+pumpRate);
+			SgtLogger.l("SteamTurbinePumpRateKG: " + pumpRate);
 			SgtLogger.l("SteamTurbineHeatTransferPercent: " + heatTransferPercent);
 			SgtLogger.l("SteamTurbineMinActiveTemperature: " + minActiveTemp);
 			SgtLogger.l("SteamTurbineIdealTemperature: " + idealTemp);
@@ -111,16 +115,18 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations
 			InitTypes();
 			if (ConfigInstance != null)
 			{
-				var _steamTurbineWattage = Traverse.Create(ConfigInstance).Property("SteamTurbineWattage");
-				if (_steamTurbineWattage.PropertyExists())
-					steamTurbineBaseValue = (float)_steamTurbineWattage.GetValue();
-				SgtLogger.l("Custom Steam Turbine wattage from customizebuildings: "+steamTurbineBaseValue);
+				if (TryGetConfigValue<float>("SteamTurbineWattage", out var _steamTurbineWattage))
+					steamTurbineBaseValue = _steamTurbineWattage;
+				SgtLogger.l("Custom Steam Turbine wattage from customizebuildings: " + steamTurbineBaseValue);
 			}
 			return steamTurbineBaseValue;
 		}
 
 		static void InitTypes()
 		{
+			if (ConfigInstance != null)
+				return;
+
 			var CustomizeBuildings_CustomizeBuildingsState = Type.GetType("CustomizeBuildings.CustomizeBuildingsState, CustomizeBuildings");
 			if (CustomizeBuildings_CustomizeBuildingsState == null)
 			{
@@ -167,6 +173,21 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations
 				SgtLogger.error("Failure to get Config Instance from CustomizeBuildings_CustomizeBuildingsState:\n" + e.Message);
 			}
 			SgtLogger.l("CustomizeBuildings integration: " + (ConfigInstance != null ? "Success" : "Failed"));
+		}
+
+		/// <summary>
+		/// The oil well of Chemical Processing - Industrial Overhaul has altered outputs and is set to work autonomously
+		/// CustomizeBuilding breaks the oil well if the NoDupeOilWell config is enabled, so its patch needs to be turned off to not break that
+		/// </summary>
+		/// <param name="harmony"></param>
+		internal static void FixOilWell(Harmony harmony)
+		{
+			if (!Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+				return;
+
+			var m_OilWellCapConfig_ConfigureBuildingTemplate = AccessTools.Method(typeof(OilWellCapConfig), nameof(OilWellCapConfig.ConfigureBuildingTemplate));
+
+			harmony.Unpatch(m_OilWellCapConfig_ConfigureBuildingTemplate, HarmonyPatchType.Postfix, "CustomizeBuildings");
 		}
 	}
 }
