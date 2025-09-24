@@ -10,6 +10,7 @@ using TUNING;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
+using UtilLibs.UIcmp;
 using Attribute = Klei.AI.Attribute;
 
 namespace SkillsInfoScreen
@@ -21,9 +22,15 @@ namespace SkillsInfoScreen
 
 		bool RainbowGradient = false;
 
+		bool IncludeTempEffects = true;
+
 		Color Bad, Medium, Good;
 
 		//Gradient ColorGradient;
+
+		KButton OptionsButton = null;
+		GameObject OptionsPanel = null;
+		FToggle EffectToggle;
 
 		public override void OnActivate()
 		{
@@ -44,35 +51,6 @@ namespace SkillsInfoScreen
 			Bad.a = 1;
 			Bad = UIUtils.Darken(Bad, 10);
 
-			//if (!RainbowGradient)
-			//{
-			//	// Blend color from red at 0% to blue at 100%
-			//	GradientColorKey[] colors = [
-			//		new GradientColorKey(Color.red, 0.0f),
-			//		new GradientColorKey(Color.blue, 1.0f)];
-
-			//	// Blend alpha from opaque at 0% to transparent at 100%
-			//	GradientAlphaKey[] alphas = [
-			//		new GradientAlphaKey(1.0f, 0.0f),
-			//		new GradientAlphaKey(1.0f, 1.0f)
-			//		];
-			//	ColorGradient.SetKeys(colors, alphas);
-			//}
-			//else
-			//{
-			//	List<GradientColorKey> colors = new(45);
-			//	List<GradientAlphaKey> alphas = new(45);
-			//	var darkenedRed = UIUtils.Darken(Color.red, 25);
-			//	int step = 6;
-
-			//	for (int i = 0; i < 45; i++)
-			//	{
-			//		float percentage = (float)i / 45f;
-			//		colors.Add(new(UIUtils.HSVShift(darkenedRed, (i * step / 360f)), percentage));
-			//		alphas.Add(new(1, percentage));
-			//	}
-			//	ColorGradient.SetKeys(colors.ToArray(), alphas.ToArray());
-			//}
 
 			this.has_default_duplicant_row = false;
 			this.title = (string)global::STRINGS.UI.CHARACTERCONTAINER_SKILLS_TITLE;
@@ -113,15 +91,21 @@ namespace SkillsInfoScreen
 			}
 
 			int size = 700;
-
 			var rect = this.rectTransform();
 			rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, size);
 			GetComponentInChildren<KScrollRect>().GetComponentInParent<LayoutElement>().preferredHeight = size;
 		}
 
+		public override void OnCmpDisable()
+		{
+			UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
+			base.OnCmpDisable();
+			this.OptionsPanel.SetActive(false);
+		}
+
 		public void GetPrefabRefs(VitalsTableScreen source)
 		{
-			if(source.prefab_row_empty)
+			if (source.prefab_row_empty)
 				this.prefab_row_empty = Util.KInstantiateUI(source.prefab_row_empty);
 			if (source.prefab_row_header)
 				this.prefab_row_header = Util.KInstantiateUI(source.prefab_row_header);
@@ -136,7 +120,7 @@ namespace SkillsInfoScreen
 			if (hookedUp)
 				return;
 			hookedUp = true;
-			UIUtils.ListAllChildrenPath(this.transform);
+			//UIUtils.ListAllChildrenPath(this.transform);
 			this.title_bar = transform.Find("Title/Label").gameObject.GetComponent<LocText>();
 			this.CloseButton = transform.Find("Title/CloseButton").gameObject.GetComponent<KButton>();
 			this.header_content_transform = transform.Find("HeaderContent");
@@ -171,7 +155,6 @@ namespace SkillsInfoScreen
 			if (minion != null)
 			{
 				var horizontal = widgetRow.GetComponent<HorizontalLayoutGroup>();
-				UtilMethods.ListAllPropertyValues(horizontal);
 
 				LocText.fontSize = 32f;
 				LocText.alignment = TMPro.TextAlignmentOptions.Center;
@@ -182,14 +165,29 @@ namespace SkillsInfoScreen
 			{
 				LocText.text = widgetRow.isDefault ? "" : attribute.Name;
 				LocText.enableWordWrapping = false;
+				OptionsButton.transform.SetAsLastSibling();
 			}
 		}
 
+		const string formattedDisplay = "{0} ({1})";
 		private string get_value_attribute_label(IAssignableIdentity identity, GameObject widget_go, Attribute attribute)
 		{
-			float level = GetAttributeLevel(identity, attribute);
-			return UIUtils.EmboldenText(UIUtils.ColorText(level.ToString(), GetIntensityColor(level, attribute.Id)));
+			int levelTotal = GetAttributeLevel(identity, attribute);
+			int levelWithoutMods = GetAttributeLevel(identity, attribute, false);
+			string attributeId = attribute.Id;
+
+			string totalLevel = levelTotal.ToString();
+			string baseLevel = levelWithoutMods.ToString();
+
+			if (IncludeTempEffects)
+				totalLevel = ColorActiveText(levelTotal.ToString(), levelTotal, attributeId);
+			else
+				baseLevel = ColorActiveText(baseLevel.ToString(), levelWithoutMods, attributeId);
+
+			return string.Format(formattedDisplay,totalLevel,baseLevel);
 		}
+
+		string ColorActiveText(string text, int value, string attributeId) => UIUtils.EmboldenText(UIUtils.ColorText(value.ToString(), GetIntensityColor(value, attributeId)));
 
 		Color GetIntensityColor(float level, string attributeId)
 		{
@@ -243,11 +241,10 @@ namespace SkillsInfoScreen
 			return new Color(r_final, g_final, b_final);
 		}
 
-
 		private int compare_rows_attribute(IAssignableIdentity a, IAssignableIdentity b, Attribute attribute)
 		{
-			int aVal = GetAttributeLevel(a, attribute);
-			int bVal = GetAttributeLevel(b, attribute);
+			int aVal = GetAttributeLevel(a, attribute, IncludeTempEffects);
+			int bVal = GetAttributeLevel(b, attribute, IncludeTempEffects);
 
 			if (aVal == bVal)
 				return 0;
@@ -308,36 +305,118 @@ namespace SkillsInfoScreen
 			return tooltip;
 		}
 
-		int GetAttributeLevel(IAssignableIdentity identity, Attribute attribute, bool includeSkills = true)
+		int GetAttributeLevel(IAssignableIdentity identity, Attribute attribute, bool includeTmpEffects = true)
 		{
 			int level = -1;
-			if (identity is MinionIdentity minion)
+			if (identity is MinionIdentity minion && minion.TryGetComponent<Modifiers>(out var modifiers))
 			{
-				if (includeSkills && minion.TryGetComponent<Modifiers>(out var modifiers))
-				{
-					var instance = modifiers.attributes.Get(attribute.Id);
+				AttributeInstance instance = modifiers.attributes.Get(attribute.Id);
+				level = (int)GetTotalDisplayValue(instance, includeTmpEffects);
 
-					level = (int)instance.GetTotalValue();
-				}
-				else if (minion.TryGetComponent<AttributeLevels>(out var attributeLevels))
-				{
-					level = attributeLevels.GetLevel(attribute);
-				}
 			}
 			else if (identity is StoredMinionIdentity storedMinion)
 			{
-				if (includeSkills)
-				{
-					level = (int)storedMinion.minionModifiers.attributes.Get(attribute.Id).GetTotalValue();
-				}
-				else
-					level = storedMinion.attributeLevels.FirstOrDefault(lvl => lvl.attributeId == attribute.Id).level;
+				AttributeInstance instance = storedMinion.minionModifiers.attributes.Get(attribute.Id);
+				level = (int)GetTotalDisplayValue(instance, includeTmpEffects);
 
 			}
 
 			if (level > MaxSkillLevels[attribute.Id])
 				MaxSkillLevels[attribute.Id] = level;
 			return level;
+		}
+
+		static Dictionary<AttributeModifier, bool> IsTraitModifierCache = [];
+
+
+		static bool IsTraitModifier(AttributeModifier modifier)
+		{
+			if (IsTraitModifierCache.TryGetValue(modifier, out var result))
+				return result;
+
+
+			string description = modifier.GetDescription();
+			if (description == Strings.Get("STRINGS.DUPLICANTS.MODIFIERS.SKILLLEVEL.NAME"))
+				return true;
+
+			foreach (var trait in Db.Get().traits.resources)
+			{
+				if (trait.GetName().Contains(description))
+				{
+					IsTraitModifierCache[modifier] = true;
+					return true;
+				}
+			}
+			IsTraitModifierCache[modifier] = false;
+			return false;
+		}
+		static float GetTotalDisplayValue(AttributeInstance instance, bool includeNonTraitEffects)
+		{
+			float value = instance.GetBaseValue();
+			float multiplier = 0f;
+			for (int i = 0; i != instance.Modifiers.Count; i++)
+			{
+				AttributeModifier attributeModifier = instance.Modifiers[i];
+				SgtLogger.l(attributeModifier.Description+" "+attributeModifier.Value);
+				if (!includeNonTraitEffects && !IsTraitModifier(attributeModifier))
+				{
+					SgtLogger.l(attributeModifier.GetDescription() + " is not a trait modifier?");
+					continue;
+				}
+
+				if (!attributeModifier.IsMultiplier)
+				{
+					value += attributeModifier.Value;
+				}
+				else
+				{
+					multiplier += attributeModifier.Value;
+				}
+			}
+
+			if (multiplier != 0f)
+			{
+				value += Mathf.Abs(value) * multiplier;
+			}
+
+			return value;
+		}
+
+		internal void FetchOptionsPanel(JobsTableScreen jobsScreen)
+		{
+			var settingsButtonOriginal = jobsScreen.transform.Find("prefab_row_header/OptionsButton").gameObject;
+
+			OptionsButton = Util.KInstantiateUI<KButton>(settingsButtonOriginal.gameObject, transform.Find("HeaderContent").gameObject, true);
+			OptionsButton.ClearOnClick();
+			OptionsButton.onClick += OnSettingsButtonClicked;
+
+			OptionsPanel = Util.KInstantiateUI(jobsScreen.transform.Find("OptionsPanel").gameObject, this.gameObject, true);
+			//SgtLogger.l("AAAAAAAAAAAAAAAAA");
+			//UIUtils.ListAllChildrenPath(OptionsPanel.transform);
+			OptionsPanel.transform.Find("Reset").gameObject.SetActive(false);
+
+
+			UIUtils.TryChangeText(OptionsPanel.transform, "Advanced Mode/Text", MOD_STRINGS.SKILLINFO_TEMP_EFFECT_TOGGLE);
+			UIUtils.AddSimpleTooltipToObject(OptionsPanel, MOD_STRINGS.SKILLINFO_TEMP_EFFECT_TOGGLE_TOOLTIP);
+			EffectToggle = OptionsPanel.transform.Find("Advanced Mode/Checkbox").gameObject.AddOrGet<FToggle>();
+			EffectToggle.SetCheckmark("Checkbox");
+			EffectToggle.SetOnFromCode(IncludeTempEffects);
+			EffectToggle.OnChange += SetEffectImpactEnabled;
+			EffectToggle.GetComponent<ToolTip>().enabled = false;
+
+			OptionsPanel.SetActive(false);
+		}
+
+		void SetEffectImpactEnabled(bool enabled)
+		{
+			IncludeTempEffects = enabled;
+			this.RefreshRows();
+		}
+
+		private void OnSettingsButtonClicked()
+		{
+			this.OptionsPanel.gameObject.SetActive(true);
+			this.OptionsPanel.GetComponent<Selectable>().Select();
 		}
 	}
 }
