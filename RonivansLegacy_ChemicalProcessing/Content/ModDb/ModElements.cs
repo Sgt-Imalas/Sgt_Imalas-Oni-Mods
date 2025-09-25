@@ -427,8 +427,17 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				AddTagToElementAndEnable(SimHashes.Naphtha, GameTags.CombustibleLiquid);
 
 				//=[ ENABLING ELECTRUM ]===================================================
+
+				var gold = ElementLoader.FindElementByHash(SimHashes.Gold);
+				var silver = ElementLoader.FindElementByHash(ModElements.Silver_Solid);
+				float ratio = 0.6f;
+				float highTempLerp = Mathf.Lerp(silver.highTemp, gold.highTemp, ratio);
+
 				Element electrum_material = ElementLoader.FindElementByHash(SimHashes.Electrum);
-				electrum_material.highTempTransitionOreID = ModElements.Silver_Solid;
+				electrum_material.highTemp = highTempLerp;
+				electrum_material.highTempTransitionTarget = ModElements.Silver_Liquid;
+				electrum_material.highTempTransition = ElementLoader.FindElementByHash(Silver_Liquid);
+				electrum_material.highTempTransitionOreID = SimHashes.Gold;
 				electrum_material.highTempTransitionOreMassConversion = 0.6f;
 				electrum_material.disabled = false;
 
