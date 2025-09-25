@@ -75,7 +75,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			//rightPort.forceAlwaysSatisfied = true;
 			rightPort.AssignPort(rightPortInfo);
 
-			var solidDispenser = go.AddOrGet<ConfigurableSolidConduitDispenser>();
+			var solidDispenser = go.AddOrGet<ConfigurableThresholdSolidConduitDispenser>();
 			solidDispenser.massDispensed = HighPressureConduitRegistration.SolidCap_HP;
 			//solidDispenser.alwaysDispense = true;
 			solidDispenser.elementFilter = null; 

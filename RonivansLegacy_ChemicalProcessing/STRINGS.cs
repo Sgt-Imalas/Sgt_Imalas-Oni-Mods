@@ -2062,13 +2062,18 @@ namespace RonivansLegacy_ChemicalProcessing
 		}
 		public class UI
 		{
+			public class AIO_THRESHOLD_VALVE_SIDESCREEN
+			{
+				public static LocString TITLE = "Mass Threshold";
+				public static LocString TOOLTIP = "Sets the minimum package size of outgoing packages";
+			}
 			public class LOGIC_PORTS
 			{
 				public class FABRICATOR_ACTIVE
 				{
-					public static LocString LOGIC_PORT = (LocString)"Machine Active";
-					public static LocString LOGIC_PORT_ACTIVE = (LocString)("Sends a " + FormatAsAutomationState("Green Signal", AutomationState.Active) + " when the machine is actively producing something.");
-					public static LocString LOGIC_PORT_INACTIVE = (LocString)("Otherwise, sends a " + FormatAsAutomationState("Red Signal", AutomationState.Standby));
+					public static LocString LOGIC_PORT = "Machine Active";
+					public static LocString LOGIC_PORT_ACTIVE = ("Sends a " + FormatAsAutomationState("Green Signal", AutomationState.Active) + " when the machine is actively producing something.");
+					public static LocString LOGIC_PORT_INACTIVE = ("Otherwise, sends a " + FormatAsAutomationState("Red Signal", AutomationState.Standby));
 				}
 			}
 			public class TOOLTIPS
