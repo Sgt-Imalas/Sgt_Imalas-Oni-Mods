@@ -272,6 +272,9 @@ namespace BlueprintsV2.ModAPI
 			if (BlueprintState.ApplyBlueprintSettings == false)
 				return;
 
+			if (gameObject.TryGetComponent<Building>(out var building) && building.Def != buildingConfig.BuildingDef)
+				return;
+
 			bool isUnderConstruction = (gameObject.TryGetComponent<UnderConstructionDataTransfer>(out var transfer));
 
 			foreach (var kvp in AdditionalBuildingDataEntries)
