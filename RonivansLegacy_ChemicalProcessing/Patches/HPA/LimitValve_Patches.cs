@@ -28,6 +28,8 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
                         HighPressureConduitRegistration.RegisterHighPressureConduit(__instance.gameObject, ObjectLayer.GasConduitConnection); break;
                     case ConduitType.Liquid:
 						HighPressureConduitRegistration.RegisterHighPressureConduit(__instance.gameObject, ObjectLayer.LiquidConduitConnection); break;
+					case ConduitType.Solid:
+						HighPressureConduitRegistration.RegisterHighPressureConduit(__instance.gameObject, ObjectLayer.SolidConduitConnection); break;
 				}
 			}
         }
@@ -49,6 +51,8 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 						HighPressureConduitRegistration.UnregisterHighPressureConduit(__instance.gameObject, ObjectLayer.GasConduitConnection); break;
 					case ConduitType.Liquid:
 						HighPressureConduitRegistration.UnregisterHighPressureConduit(__instance.gameObject, ObjectLayer.LiquidConduitConnection); break;
+					case ConduitType.Solid:
+						HighPressureConduitRegistration.UnregisterHighPressureConduit(__instance.gameObject, ObjectLayer.SolidConduitConnection); break;
 				}
 			}
         }

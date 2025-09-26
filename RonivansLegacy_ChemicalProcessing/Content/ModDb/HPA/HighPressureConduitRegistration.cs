@@ -548,23 +548,21 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			}
 		}
 
-		public static void RegisterDynamicSolidConduitDispenser(HPA_DynamicSolidConduitDispenser solidConduitDispenser)
+		public static void RegisterDynamicSolidConduitDispenser(GameObject solidConduitDispenserGO)
 		{
-			SgtLogger.l("RegisterDynamicSolidConduitDispenser: Registering " + solidConduitDispenser.name + " at cell " + solidConduitDispenser.transform.position + " with instance id " + solidConduitDispenser.gameObject.GetInstanceID());
-			DynamicSolidConduitDispenserHandles.Add(solidConduitDispenser.gameObject.GetInstanceID());
+			SgtLogger.l("RegisterDynamicSolidConduitDispenser: Registering " + solidConduitDispenserGO.name + " at cell " + solidConduitDispenserGO.transform.position + " with instance id " + solidConduitDispenserGO.GetInstanceID());
+			DynamicSolidConduitDispenserHandles.Add(solidConduitDispenserGO.GetInstanceID());
 		}
 
-		public static void UnregisterDynamicSolidConduitDispenser(HPA_DynamicSolidConduitDispenser solidConduitDispenser)
+		public static void UnregisterDynamicSolidConduitDispenser(GameObject solidConduitDispenserGO)
 		{
-			SgtLogger.l("Unregistering " + solidConduitDispenser.name + " at cell " + solidConduitDispenser.transform.position + " with instance id " + solidConduitDispenser.gameObject.GetInstanceID());
-			DynamicSolidConduitDispenserHandles.Remove(solidConduitDispenser.gameObject.GetInstanceID());
+			SgtLogger.l("Unregistering " + solidConduitDispenserGO.name + " at cell " + solidConduitDispenserGO.transform.position + " with instance id " + solidConduitDispenserGO.GetInstanceID());
+			DynamicSolidConduitDispenserHandles.Remove(solidConduitDispenserGO.GetInstanceID());
 		}
 		public static bool IsDynamicSolidConduitDispenser(SolidConduitDispenser dispenser)
 		{
 			if (dispenser == null || dispenser.gameObject == null)
 				return false;
-			//SgtLogger.l(dispenser.gameObject.name + " -> " + dispenser.gameObject.GetInstanceID());
-
 			return DynamicSolidConduitDispenserHandles.Contains(dispenser.gameObject.GetInstanceID());
 		}
 

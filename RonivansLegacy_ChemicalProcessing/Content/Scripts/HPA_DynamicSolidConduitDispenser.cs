@@ -14,12 +14,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		[MyCmpGet] SolidConduitDispenser scd;
 		public override void OnPrefabInit()
 		{
-			HighPressureConduitRegistration.RegisterDynamicSolidConduitDispenser(this);
+			HighPressureConduitRegistration.RegisterDynamicSolidConduitDispenser(this.gameObject);
 			base.OnPrefabInit();
 		}
 		public override void OnCleanUp()
 		{
-			HighPressureConduitRegistration.UnregisterDynamicSolidConduitDispenser(this);
+			HighPressureConduitRegistration.UnregisterDynamicSolidConduitDispenser(this.gameObject);
 			base.OnCleanUp();
 		}
 	}
