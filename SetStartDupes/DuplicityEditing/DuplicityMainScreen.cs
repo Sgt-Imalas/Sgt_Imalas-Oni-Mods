@@ -339,7 +339,7 @@ namespace SetStartDupes.DuplicityEditing
 			//AddNewButton
 
 			AddNewEffectButton = transform.Find("Details/Content/ScrollRectContainer/NewButtonPrefab").gameObject.AddOrGet<FButton>();
-			AddNewEffectButton.OnClick += () => UnityDuplicitySelectionScreen.ShowWindow(UnityDuplicitySelectionScreen.OpenedFrom.Effect, (obj) => OnAddEffect((string)obj), RebuildEffects);
+			AddNewEffectButton.OnClick += () => UnityDuplicitySelectionScreen.ShowWindow(Stats.Model, UnityDuplicitySelectionScreen.OpenedFrom.Effect, (obj) => OnAddEffect((string)obj), RebuildEffects);
 			CategoryGameObjects[Tab.Effects].Add(AddNewEffectButton.gameObject);
 		}
 		void InitAppearanceTab()
@@ -350,7 +350,7 @@ namespace SetStartDupes.DuplicityEditing
 			{
 				var entry = Util.KInstantiateUI<AppearanceEntry>(AppearanceEntryPrefab.gameObject, AnimEntryContainer);
 				entry.CategoryText = slot.Id;
-				entry.OnEntryClicked = () => UnityDuplicitySelectionScreen.ShowWindow(UnityDuplicitySelectionScreen.OpenedFrom.Bodypart, (obj) => OnChangeAccessory(slot, obj), () => RebuildAccessories(), slot);
+				entry.OnEntryClicked = () => UnityDuplicitySelectionScreen.ShowWindow(Stats.Model, UnityDuplicitySelectionScreen.OpenedFrom.Bodypart, (obj) => OnChangeAccessory(slot, obj), () => RebuildAccessories(), slot);
 				entry.gameObject.SetActive(true);
 				MinionAnimCategories[slot] = entry;
 				CategoryGameObjects[Tab.Appearance].Add(entry.gameObject);
@@ -425,9 +425,9 @@ namespace SetStartDupes.DuplicityEditing
 			attributeEditors = new();
 
 			AddNewTrait = TraitsInterestContainer.transform.Find("Content/grp2/AddTraitButton").gameObject.AddOrGet<FButton>();
-			AddNewTrait.OnClick += () => UnityDuplicitySelectionScreen.ShowWindow(UnityDuplicitySelectionScreen.OpenedFrom.Trait, (obj) => OnAddTrait((string)obj), () => RebuildTraitsAptitudes());
+			AddNewTrait.OnClick += () => UnityDuplicitySelectionScreen.ShowWindow(Stats.Model, UnityDuplicitySelectionScreen.OpenedFrom.Trait, (obj) => OnAddTrait((string)obj), () => RebuildTraitsAptitudes());
 			AddNewAptitude = TraitsInterestContainer.transform.Find("Content/grp2/AddInterestButton").gameObject.AddOrGet<FButton>();
-			AddNewAptitude.OnClick += () => UnityDuplicitySelectionScreen.ShowWindow(UnityDuplicitySelectionScreen.OpenedFrom.Interest, (obj) => OnAddAptitude((string)obj), () => RebuildTraitsAptitudes());
+			AddNewAptitude.OnClick += () => UnityDuplicitySelectionScreen.ShowWindow(Stats.Model, UnityDuplicitySelectionScreen.OpenedFrom.Interest, (obj) => OnAddAptitude((string)obj), () => RebuildTraitsAptitudes());
 
 			foreach (var attribute in AttributeHelper.GetEditableAttributes(null))
 			{
