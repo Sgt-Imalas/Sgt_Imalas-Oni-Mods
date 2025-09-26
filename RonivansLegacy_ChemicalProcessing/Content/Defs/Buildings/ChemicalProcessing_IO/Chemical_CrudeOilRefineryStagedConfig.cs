@@ -87,6 +87,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			portConduitConsumer3.capacityKG = 50f;
 			portConduitConsumer3.capacityTag = SimHashes.Naphtha.CreateTag();
 			portConduitConsumer3.forceAlwaysSatisfied = true;
+			portConduitConsumer3.SkipSetOperational = true;
 			portConduitConsumer3.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 			portConduitConsumer3.AssignPort(naphthaInputPort);
 
@@ -163,13 +164,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			Prioritizable.AddRef(go);
 			this.AttachPort(go);
 
-			//var methaneThreshold = go.AddComponent<ElementThresholdOperational>();
-			//methaneThreshold.ThresholdTag = SimHashes.Methane.CreateTag();
-			//methaneThreshold.Threshold = 500;
-
-			//var petrolThreshold = go.AddComponent<ElementThresholdOperational>();
-			//petrolThreshold.ThresholdTag = SimHashes.Petroleum.CreateTag();
-			//petrolThreshold.Threshold = 500;
 		}
 
 		private void AttachPort(GameObject go)
