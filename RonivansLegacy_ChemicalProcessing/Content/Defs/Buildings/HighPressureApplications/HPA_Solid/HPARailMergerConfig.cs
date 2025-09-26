@@ -31,10 +31,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			buildingDef.UtilityInputOffset = new CellOffset(0, 0);
 			buildingDef.UtilityOutputOffset = new CellOffset(0, 1);
 			buildingDef.PermittedRotations = PermittedRotations.R360;
-			buildingDef.AddLogicPowerPort = false;
 			buildingDef.EnergyConsumptionWhenActive = 60f;
 			buildingDef.PowerInputOffset = new(0, 1);
 			buildingDef.RequiresPowerInput = true;
+
+			buildingDef.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(0, 1));
 
 			buildingDef.SceneLayer = Grid.SceneLayer.GasFront;
 			buildingDef.ObjectLayer = ObjectLayer.SolidConduitConnection;
@@ -49,11 +50,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			go.GetComponent<KPrefabID>().AddTag(GameTags.OverlayBehindConduits);
 			float consumerCapacity = HighPressureConduitRegistration.SolidCap_HP * 10f;
 
+			go.AddOrGet<LogicOperationalController>();
+
 			Storage storage = BuildingTemplates.CreateDefaultStorage(go, false);
 			storage.showDescriptor = false;
 			storage.storageFilters = null;
 			storage.capacityKg = consumerCapacity;
-			storage.SetDefaultStoredItemModifiers([Storage.StoredItemModifier.Hide, Storage.StoredItemModifier.Preserve, Storage.StoredItemModifier.Insulate, Storage.StoredItemModifier.Seal]);
+			storage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			storage.showCapacityStatusItem = false;
 			storage.showCapacityAsMainStatus = false;
 
