@@ -443,6 +443,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 				//=[ BITUMEN PATCH ]=======================================================
 				AddTagToElementAndEnable(SimHashes.Bitumen, GameTags.ManufacturedMaterial,true);
+				AddTagsToElementAndEnable(SimHashes.Bitumen, [GameTags.BuildableAny,GameTags.ManufacturedMaterial]);
 
 				//=[ PHOSPHATE NODULES PATCH ]================================================
 				AddTagToElementAndEnable(SimHashes.PhosphateNodules, GameTags.ConsumableOre);
@@ -508,7 +509,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			List<Tag> newTags = new List<Tag>();
 			foreach(var tag in tags)
 			{
-				if (elementMaterial.oreTags.Contains(tag) || elementMaterial.materialCategory == tag)
+				if (elementMaterial.oreTags.Contains(tag))
 					continue;
 				newTags.Add(tag);
 			}
