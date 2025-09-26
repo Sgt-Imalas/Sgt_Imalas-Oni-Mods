@@ -24,7 +24,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		{
 			base.OnSpawn();
 			// Register the conduit with the high pressure conduit system
-			HighPressureConduitRegistration.RegisterHighPressureConduit(this);
+			HighPressureConduitRegistration.RegisterHighPressureConduit(gameObject);
 			SetInsulationOnSpawn();
 		}
 
@@ -43,7 +43,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		public override void OnCleanUp()
 		{
 			base.OnCleanUp();
-			HighPressureConduitRegistration.UnregisterHighPressureConduit(this);
+			HighPressureConduitRegistration.UnregisterHighPressureConduit(gameObject);
 		}
 	}
 }

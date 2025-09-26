@@ -13,21 +13,21 @@ using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Patches
 {
-    class HPA_BuildingPort_Patches
-    {
+	class HPA_BuildingPort_Patches
+	{
 		static void IncreaseRocketConduitTarget(RocketConduitStorageAccess cmp)
-        {
+		{
 			float tweakedCapacity;
 
 			switch (cmp.cargoType)
-            {
-                case CargoBay.CargoType.Liquids:
-                    tweakedCapacity = HighPressureConduitRegistration.LiquidCap_HP;
+			{
+				case CargoBay.CargoType.Liquids:
+					tweakedCapacity = HighPressureConduitRegistration.LiquidCap_HP;
 					cmp.storage.capacityKg = tweakedCapacity;
-					if(cmp.targetLevel > 0)
+					if (cmp.targetLevel > 0)
 						cmp.targetLevel = tweakedCapacity;
 					break;
-                case CargoBay.CargoType.Gasses:
+				case CargoBay.CargoType.Gasses:
 					tweakedCapacity = HighPressureConduitRegistration.GasCap_HP;
 					cmp.storage.capacityKg = tweakedCapacity;
 					if (cmp.targetLevel > 0)
@@ -38,11 +38,11 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 					cmp.storage.capacityKg = tweakedCapacity;
 					if (cmp.targetLevel > 0)
 						cmp.targetLevel = tweakedCapacity;
-					if(cmp.TryGetComponent<SolidConduitConsumer>(out var scc))
+					if (cmp.TryGetComponent<SolidConduitConsumer>(out var scc))
 						scc.capacityKG = tweakedCapacity;
 					break;
 			}
-        }
+		}
 		public static void IncreaseConsumerInput(ConduitConsumer __instance, bool increaseStorage)
 		{
 			if (__instance.conduitType == ConduitType.Gas)
@@ -72,7 +72,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			[HarmonyPriority(Priority.Low)]
 			public static void Postfix(GameObject go)
 			{
-				IncreaseConsumerInput(go.GetComponent<ConduitConsumer>(),true);
+				IncreaseConsumerInput(go.GetComponent<ConduitConsumer>(), true);
 			}
 		}
 
@@ -102,19 +102,21 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			}
 		}
 
-		[HarmonyPatch(typeof(OperationalValve), nameof(OperationalValve.OnSpawn))]
-        public class OperationalValve_OnSpawn_Patch
+		[HarmonyPatch(typeof(ValveBase), nameof(ValveBase.OnSpawn))]
+		public class ValveBase_OnSpawn_Patch
 		{
 			[HarmonyPrepare]
 			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
-			public static void Postfix(OperationalValve __instance)
-            {
+			public static void Postfix(ValveBase __instance)
+			{
 				if (__instance.conduitType == ConduitType.Gas || __instance.conduitType == ConduitType.Liquid)
 				{
-					__instance.maxFlow *= HighPressureConduitRegistration.GetConduitMultiplier(__instance.conduitType);
+					float conduitMax = HighPressureConduitRegistration.GetMaxConduitCapacity(__instance.conduitType, true);
+					if (__instance.maxFlow < conduitMax)
+						__instance.maxFlow *= HighPressureConduitRegistration.GetConduitMultiplier(__instance.conduitType);
 				}
 			}
-        }
+		}
 
 		/// <summary>
 		/// teleporter
@@ -177,7 +179,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		public class BaseModularLaunchpadPortConfig_ConfigureBuildingTemplate_Patch
 		{
 			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled && DlcManager.IsExpansion1Active(); 
+			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled && DlcManager.IsExpansion1Active();
 			public static void Prefix(GameObject go, ConduitType conduitType, ref float storageSize, bool isLoader)
 			{
 				storageSize *= HighPressureConduitRegistration.GetConduitMultiplier(conduitType);
