@@ -62,7 +62,7 @@ namespace SkillsInfoScreen
 			if (CleanHUD_Options == null)
 			{
 				SgtLogger.l("CleanHUD.Options type not found.");
-				UtilMethods.ListAllTypesWithAssemblies();
+				//UtilMethods.ListAllTypesWithAssemblies();
 				return;
 			}
 
