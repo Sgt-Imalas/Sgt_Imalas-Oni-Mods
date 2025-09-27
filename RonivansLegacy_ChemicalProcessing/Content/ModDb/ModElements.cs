@@ -442,8 +442,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				electrum_material.disabled = false;
 
 				//=[ BITUMEN PATCH ]=======================================================
-				AddTagToElementAndEnable(SimHashes.Bitumen, GameTags.ManufacturedMaterial,true);
-				AddTagsToElementAndEnable(SimHashes.Bitumen, [GameTags.BuildableAny,GameTags.ManufacturedMaterial]);
+				AddTagsToElementAndEnable(SimHashes.Bitumen, [GameTags.BuildableAny,GameTags.ManufacturedMaterial], true);
 
 				//=[ PHOSPHATE NODULES PATCH ]================================================
 				AddTagToElementAndEnable(SimHashes.PhosphateNodules, GameTags.ConsumableOre);
@@ -500,7 +499,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			if (setMatCat)
 			{
 				elementMaterial.materialCategory = tags.FirstOrDefault();
-				return;
 			}
 
 			if (elementMaterial.oreTags == null)
