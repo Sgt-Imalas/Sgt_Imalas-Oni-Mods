@@ -1831,7 +1831,7 @@ namespace RonivansLegacy_ChemicalProcessing
 			public class ISOPROPANEGAS
 			{
 				public static LocString NAME = FormatAsLink("Isopropane", nameof(ISOPROPANEGAS));
-				public static LocString DESC = "(HC(CH<sub>3</sub>)<sub>3</sub>) Isopropane is a petrochemical refrigerant gas suitable for a variety of purposes. Degrades to " + FormatAsLink("Propane", "PROPANE") + " at higher temperatures.";
+				public static LocString DESC = "(C(CH<sub>4</sub>)<sub>2</sub>) Isopropane is a petrochemical refrigerant gas suitable for a variety of purposes. Degrades to " + FormatAsLink("Propane", "PROPANE") + " at higher temperatures.";
 			}
 			public class SOLIDSLAG
 			{
