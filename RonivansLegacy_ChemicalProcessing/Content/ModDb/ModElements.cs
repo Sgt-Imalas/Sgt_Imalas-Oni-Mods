@@ -423,8 +423,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 				FixCachedStateTransitions();
 
-				//=[ NAPHTHA PATCH ]=======================================================
-				AddTagToElementAndEnable(SimHashes.Naphtha, GameTags.CombustibleLiquid);
+				////=[ NAPHTHA PATCH ]=======================================================
+				///disabled, its kinda op
+				//AddTagToElementAndEnable(SimHashes.Naphtha, GameTags.CombustibleLiquid);
 
 				//=[ ENABLING ELECTRUM ]===================================================
 
