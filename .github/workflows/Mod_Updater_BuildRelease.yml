@@ -1,76 +1,77 @@
-name: Build the mod updater tool on push
+# name: Build the mod updater tool on push
 
-on:
-  push:
-    branches: [ "master" ]    
-    paths:
-      - "_SgtsModUpdater/**"
+# on:
+#   push:
+#     branches: [ "master" ]    
+#     paths:
+#       - "_SgtsModUpdater/**"
 
-permissions:
-  contents: write # Grant write permission for creating releases
-  actions: write # Grant write permission to delete old workflow runs
+# permissions:
+#   contents: write # Grant write permission for creating releases
+#   actions: write # Grant write permission to delete old workflow runs
 
-jobs:
-  build:
-    runs-on: windows-latest
-    steps:
-    - uses: actions/checkout@v4
+# jobs:
+#   build:
+#     runs-on: windows-latest
+#     steps:
+#     - uses: actions/checkout@v4
     
-    - uses: actions/setup-dotnet@v4
-      env:
-        DOTNET_NOLOGO: true
-        DOTNET_CLI_TELEMETRY_OPTOUT: true
-    - name: Restore
-      run: dotnet restore
+#     - uses: actions/setup-dotnet@v4
+#       env:
+#         DOTNET_NOLOGO: true
+#         DOTNET_CLI_TELEMETRY_OPTOUT: true
+#     - name: Restore
+#       run: dotnet restore
 
-    - name: Build
-      run: dotnet build ./_SgtsModUpdater/_SgtsModUpdater.csproj --no-restore -t:Rebuild -c:Release -p:GameLibsFolder="../Lib"
+#     - name: Build
+#       run: dotnet build ./_SgtsModUpdater/_SgtsModUpdater.csproj --no-restore -t:Rebuild -c:Release -p:GameLibsFolder="../Lib"
     
-    - name: Create Zip target directory
-      run: mkdir BuildsZipped
+#     - name: Create Zip target directory
+#       run: mkdir BuildsZipped
             
-    - name: Create AllInOne release file
-      run: Compress-Archive -Path 'Builds' -DestinationPath 'BuildsZipped/All_Mods_Sgt_Imalas_Release.zip'  
+#     - name: Create AllInOne release file
+#       run: Compress-Archive -Path 'Builds' -DestinationPath 'BuildsZipped/All_Mods_Sgt_Imalas_Release.zip'  
     
-    - name: Delete old releases
-      uses: dev-drprasad/delete-older-releases@v0.3.4
-      with:
-        keep_latest: 0
-        delete_tag_pattern: Local_Mod_Updater_Release*
-        delete_tags: true
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#     - name: Delete old releases
+#       uses: dev-drprasad/delete-older-releases@v0.3.4
+#       with:
+#         keep_latest: 0
+#         delete_tag_pattern: Local_Mod_Updater_Release*
+#         delete_tags: true
+#       env:
+#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
-    - name: Create GitHub release
-      id: create_release
-      uses: actions/create-release@v1.1.4
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: "Local_Mod_Updater_Release"
-        release_name: "Local Mod Updater"
-        body: "Windows based tool for updating your mods from this repository directly, without the steam workshop issues."
-        draft: false
-        prerelease: false
+#     - name: Create GitHub release
+#       id: create_release
+#       uses: actions/create-release@v1.1.4
+#       env:
+#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#       with:
+#         tag_name: "Local_Mod_Updater_Release"
+#         release_name: "Local Mod Updater"
+#         body: "Windows based tool for updating your mods from this repository directly, without the steam workshop issues."
+#         draft: false
+#         prerelease: false
 
-    - name: Upload files to github release
-      uses: svenstaro/upload-release-action@v2
-      with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: BuildsZipped/*.*
-        file_glob: true
-        tag: Local_Mod_Updater_Release
-        prerelease: false
-        overwrite: true
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#     - name: Upload files to github release
+#       uses: svenstaro/upload-release-action@v2
+#       with:
+#         repo_token: ${{ secrets.GITHUB_TOKEN }}
+#         file: BuildsZipped/*.*
+#         file_glob: true
+#         tag: Local_Mod_Updater_Release
+#         prerelease: false
+#         overwrite: true
+#       env:
+#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    # - name: Delete workflow runs
-    #   uses: Mattraks/delete-workflow-runs@v2
-    #   with:
-    #     token: ${{ github.token }}
-    #     repository: ${{ github.repository }}
-    #     retain_days: 1
-    #     keep_minimum_runs: 3
+#     # - name: Delete workflow runs
+#     #   uses: Mattraks/delete-workflow-runs@v2
+#     #   with:
+#     #     token: ${{ github.token }}
+#     #     repository: ${{ github.repository }}
+#     #     retain_days: 1
+#     #     keep_minimum_runs: 3
+
           
 
