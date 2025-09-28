@@ -113,6 +113,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			portConduitConsumer3.capacityKG = 50f;
 			portConduitConsumer3.capacityTag = SimHashes.Propane.CreateTag();
 			portConduitConsumer3.forceAlwaysSatisfied = true;
+			portConduitConsumer3.SkipSetOperational = true;
 			portConduitConsumer3.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 			portConduitConsumer3.AssignPort(propaneGasInputPort);
 
@@ -122,6 +123,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			portConduitConsumer4.capacityKG = 50f;
 			portConduitConsumer4.capacityTag = SimHashes.SourGas.CreateTag();
 			portConduitConsumer4.forceAlwaysSatisfied = true;
+			portConduitConsumer4.SkipSetOperational = true;
 			portConduitConsumer4.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 			portConduitConsumer4.AssignPort(sourGasInputPort);
 
@@ -188,9 +190,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			propaneDispenser.storage = storage;
 			propaneDispenser.conduitType = ConduitType.Gas;
 			propaneDispenser.alwaysDispense = true;
-			propaneDispenser.SkipSetOperational = true;
+			propaneDispenser.SkipSetOperational = true;//handled by threshold instead
 			propaneDispenser.elementFilter = [SimHashes.Propane];
-			propaneDispenser.AssignPort(propaneGasOutputPort);//handled by threshold instead
+			propaneDispenser.AssignPort(propaneGasOutputPort);
 			var propaneLimit = go.AddComponent<ElementThresholdOperational>();
 			propaneLimit.Threshold = 100f;
 			propaneLimit.ThresholdTag = SimHashes.Propane.CreateTag();

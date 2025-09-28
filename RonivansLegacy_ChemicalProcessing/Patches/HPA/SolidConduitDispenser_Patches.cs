@@ -63,5 +63,22 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				return input;
 			}
 		}
+
+
+
+		[HarmonyPatch(typeof(SolidConduitDispenser), nameof(SolidConduitDispenser.FindSuitableItem))]
+		public class SolidConduitDispenser_FindSuitableItem_Patch
+		{
+			[HarmonyPrepare]
+			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled || Config.Instance.DupesLogistics_Enabled;
+			public static bool Prefix(SolidConduitDispenser __instance, ref Pickupable __result)
+			{
+				if (__instance is not ConfigurableThresholdSolidConduitDispenser thresholdDispenser)
+					return true;
+
+				__result = thresholdDispenser.FindSuitableItemAboveThreshold();
+				return false;
+			}
+		}
 	}
 }

@@ -241,7 +241,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = FormatAsLink("Ball Crusher Mill (Chemical Washing)", nameof(CHEMICAL_BALLCRUSHERMILL));
 					public static LocString DESC = "A large sized industrial mill that crushes raw ores using steel balls and special mixture of acids. It is capable to process much more than the standard mill, as well as more efficient in the extraction of valuable minerals from the raw ore sludge.";
-					public static LocString EFFECT = string.Concat("Crush down ", FormatAsLink("Raw Minerals", "RAWMINERAL"), " in to useful materials and industrial ingredients.");
+					public static LocString EFFECT = string.Concat("Crush down ", FormatAsLink("Raw Minerals", "BUILDABLERAW"), " in to useful materials and industrial ingredients.");
 				}
 
 				public class CHEMICAL_CARBONDIOXIDECOMPRESSOR
@@ -355,7 +355,8 @@ namespace RonivansLegacy_ChemicalProcessing
 						"- 50% " + FormatAsLink("Petroleum", "PETROLEUM") + "\n" +
 						"- 25% " + FormatAsLink("Naphtha", "NAPHTHA") + "\n" +
 						"- 10% " + FormatAsLink("Natural Gas", "METHANE") + "\n" +
-						"- 15% " + FormatAsLink("Bitumen", "BITUMEN") + ".\n\n" +
+						"- 10% " + FormatAsLink("Sour Water", "SOURWATER") + " waste.\n" +
+						"- 5% " + FormatAsLink("Bitumen", "BITUMEN") + ".\n\n" +
 						"Second Stage: " + FormatAsLink("Naphtha", "NAPHTHA") + " is further refined:\n" +
 						"- 45% " + FormatAsLink("Petroleum", "PETROLEUM") + "\n" +
 						"- 10% " + FormatAsLink("Natural Gas", "METHANE") + "\n" +
@@ -402,7 +403,7 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString EFFECT = string.Concat(
 						[
 						"Crush down ",
-						FormatAsLink("Raw Minerals", "RAWMINERAL"),
+						FormatAsLink("Raw Minerals", "BUILDABLERAW"),
 						" in to useful materials and industrial ingredients."
 						]);
 				}
@@ -632,7 +633,7 @@ namespace RonivansLegacy_ChemicalProcessing
 							"An advanced method for the refinement of ",
 							FormatAsLink("Metal Ores", "RAWMETAL"),
 							" and other ",
-							FormatAsLink("Raw Minerals", "RAWMINERAL"),
+							FormatAsLink("Raw Minerals", "BUILDABLERAW"),
 							".\n\nProduces significant amounts of ",
 							FormatAsLink("Heat", "HEAT"),
 							" and consumes ",
@@ -644,7 +645,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = FormatAsLink("Ball Crusher Mill (Mechanical Separation)", nameof(METALLURGY_BALLCRUSHERMILL));
 					public static LocString DESC = "A large sized industrial mill that crushes raw ores using steel balls and special vibrating separation device to sort out possible useful resources.";
-					public static LocString EFFECT = string.Concat("Crush down ", FormatAsLink("Raw Minerals", "RAWMINERAL"), " in to useful materials and industrial ingredients.");
+					public static LocString EFFECT = string.Concat("Crush down ", FormatAsLink("Raw Minerals", "BUILDABLERAW"), " in to useful materials and industrial ingredients.");
 				}
 				public class METALLURGY_BASICOILREFINERY
 				{
@@ -1830,7 +1831,7 @@ namespace RonivansLegacy_ChemicalProcessing
 			public class ISOPROPANEGAS
 			{
 				public static LocString NAME = FormatAsLink("Isopropane", nameof(ISOPROPANEGAS));
-				public static LocString DESC = "(HC(CH<sub>3</sub>)<sub>3</sub>) Isopropane is a petrochemical refrigerant gas suitable for a variety of purposes. Degrades to " + FormatAsLink("Propane", "PROPANE") + " at higher temperatures.";
+				public static LocString DESC = "(C(CH<sub>4</sub>)<sub>2</sub>) Isopropane is a petrochemical refrigerant gas suitable for a variety of purposes. Degrades to " + FormatAsLink("Propane", "PROPANE") + " at higher temperatures.";
 			}
 			public class SOLIDSLAG
 			{
@@ -2007,7 +2008,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString RANDOMRECIPEINGREDIENT_DESTROYONCANCEL_DESC = "This ingredient gets used up during its use, if a recipe with it gets canceled, it is lost.";
 
 				public static LocString AIO_HARDENEDALLOY = FormatAsLink("Hardened Alloy", nameof(AIO_HARDENEDALLOY));
-				public static LocString AIO_HARDENEDALLOY_DESC = "Hardened Alloys are a fusion of two or more materials.\nTheir high material strength allows them to be used as a substitute to " + global::STRINGS.ELEMENTS.STEEL.NAME+".";
+				public static LocString AIO_HARDENEDALLOY_DESC = "Hardened Alloys are a fusion of two or more materials.\nTheir high material strength allows them to be used as a substitute to " + global::STRINGS.ELEMENTS.STEEL.NAME + ".";
 
 				public static LocString AIO_CARRIERGAS = FormatAsLink("Carrier Gas", nameof(AIO_CARRIERGAS));
 				public static LocString AIO_CARRIERGAS_DESC = "Carrier Gases are inert or semi-inert gases that are used in plasma related processes.";
@@ -2062,13 +2063,18 @@ namespace RonivansLegacy_ChemicalProcessing
 		}
 		public class UI
 		{
+			public class AIO_THRESHOLD_VALVE_SIDESCREEN
+			{
+				public static LocString TITLE = "Package Mass Threshold";
+				public static LocString TOOLTIP = "Sets the minimum package size of outgoing packages";
+			}
 			public class LOGIC_PORTS
 			{
 				public class FABRICATOR_ACTIVE
 				{
-					public static LocString LOGIC_PORT = (LocString)"Machine Active";
-					public static LocString LOGIC_PORT_ACTIVE = (LocString)("Sends a " + FormatAsAutomationState("Green Signal", AutomationState.Active) + " when the machine is actively producing something.");
-					public static LocString LOGIC_PORT_INACTIVE = (LocString)("Otherwise, sends a " + FormatAsAutomationState("Red Signal", AutomationState.Standby));
+					public static LocString LOGIC_PORT = "Machine Active";
+					public static LocString LOGIC_PORT_ACTIVE = ("Sends a " + FormatAsAutomationState("Green Signal", AutomationState.Active) + " when the machine is actively producing something.");
+					public static LocString LOGIC_PORT_INACTIVE = ("Otherwise, sends a " + FormatAsAutomationState("Red Signal", AutomationState.Standby));
 				}
 			}
 			public class TOOLTIPS

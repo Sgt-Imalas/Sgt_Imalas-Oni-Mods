@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using Newtonsoft.Json.Linq;
+using System.Linq;
 using UnityEngine;
 using UtilLibs;
 
@@ -122,7 +123,7 @@ namespace BlueprintsV2.BlueprintData
 				else
 					skinId = "Default";
 			}
-			if (!ValidArtableId(skinId))
+			if (!ValidArtableId(skinId,arg))
 			{
 				return null;
 			}
@@ -144,7 +145,7 @@ namespace BlueprintsV2.BlueprintData
 
 			if (building.TryGetComponent<Artable>(out var sculpture))
 			{
-				if (ValidArtableId(facadeID))
+				if (ValidArtableId(facadeID, building))
 				{
 					if (BlueprintState.InstantBuild)
 					{
@@ -167,7 +168,7 @@ namespace BlueprintsV2.BlueprintData
 			{
 				skinId = buildingFacade.CurrentFacade;
 			}
-			if (!ValidFacadeId(skinId))
+			if (!ValidFacadeId(skinId, arg))
 			{
 				return null;
 			}
@@ -189,7 +190,7 @@ namespace BlueprintsV2.BlueprintData
 
 			if (building.TryGetComponent<BuildingFacade>(out var buildingFacade))
 			{
-				if (ValidFacadeId(facadeID))
+				if (ValidFacadeId(facadeID, building))
 				{
 					buildingFacade.ApplyBuildingFacade(Db.GetBuildingFacades().Get(facadeID));
 					if (building.GetComponent("FacadeRestorer") != null && building.TryGetComponent<KBatchedAnimController>(out var kbac)
@@ -202,17 +203,27 @@ namespace BlueprintsV2.BlueprintData
 				}
 			}
 		}
-		static bool ValidFacadeId(string facadeID)
+		static bool ValidFacadeId(string facadeID, GameObject buildingGO)
 		{
-			return !facadeID.IsNullOrWhiteSpace() && facadeID != "DEFAULT_FACADE" && Db.GetBuildingFacades().TryGet(facadeID) != null
-				 && Db.GetBuildingFacades().Get(facadeID).IsUnlocked()
-				 ;
+			if (!buildingGO.TryGetComponent<Building>(out var building)) return false;
+
+			return !facadeID.IsNullOrWhiteSpace() && facadeID != "DEFAULT_FACADE"
+				&& Db.GetBuildingFacades().TryGet(facadeID) != null
+				&& Db.GetBuildingFacades().TryGet(facadeID).PrefabID == building.Def.PrefabID
+				&& Db.GetBuildingFacades().Get(facadeID).IsUnlocked();
 		}
-		static bool ValidArtableId(string artableID)
+		static bool ValidArtableId(string artableID, GameObject buildingGO)
 		{
-			return !artableID.IsNullOrWhiteSpace() && artableID != "Default" && Db.GetArtableStages().TryGet(artableID) != null
-				 && Db.GetArtableStages().Get(artableID).IsUnlocked()
-				 ;
+			if (!buildingGO.TryGetComponent<Building>(out var building)) return false;
+
+			var validStagesForBuilding = Db.GetArtableStages().GetPrefabStages(building.Def.PrefabID);
+
+			return
+				!artableID.IsNullOrWhiteSpace()
+				&& artableID != "Default"
+				&& Db.GetArtableStages().TryGet(artableID) != null
+				&& Db.GetArtableStages().Get(artableID).IsUnlocked()
+				&& validStagesForBuilding.Any(skin => skin.Id == artableID);
 		}
 	}
 }

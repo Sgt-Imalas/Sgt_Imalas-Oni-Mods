@@ -157,6 +157,11 @@ namespace BlueprintsV2.Visualizers
 
 			var def = buildingConfig.BuildingDef;
 
+			if (isPlanned && buildingUnderConstruction.Def != def)
+				return;
+			if(isCOmplete && buildingComplete.Def != def)
+				return;
+
 			if (building.TryGetComponent<Rotatable>(out var rotatable))
 			{
 				rotatable.SetOrientation(RotatedOrientation);

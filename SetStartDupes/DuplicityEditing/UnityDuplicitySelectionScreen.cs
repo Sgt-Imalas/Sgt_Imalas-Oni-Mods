@@ -34,6 +34,7 @@ namespace SetStartDupes
 
 		OpenedFrom openedFrom;
 		AccessorySlot openedFromSlot;
+		Tag MinionModel;
 
 
 		Dictionary<Trait, GameObject> TraitContainers = new Dictionary<Trait, GameObject>();
@@ -54,7 +55,7 @@ namespace SetStartDupes
 		}
 
 
-		public static void ShowWindow(OpenedFrom from, System.Action<object> OnSelect, System.Action onClose, AccessorySlot accessorySlot = null)
+		public static void ShowWindow(Tag minionModel,OpenedFrom from, System.Action<object> OnSelect, System.Action onClose, AccessorySlot accessorySlot = null)
 		{
 			if (Instance == null)
 			{
@@ -63,7 +64,7 @@ namespace SetStartDupes
 				Instance.Init();
 			}
 			Instance.OnSelect = OnSelect;
-			Instance.SetOpenedType(from, accessorySlot);
+			Instance.SetOpenedType(minionModel,from, accessorySlot);
 			Instance.Show(true);
 			Instance.ConsumeMouseScroll = true;
 			Instance.transform.SetAsLastSibling();
@@ -90,8 +91,9 @@ namespace SetStartDupes
 
 			base.OnKeyDown(e);
 		}
-		private void SetOpenedType(OpenedFrom from = OpenedFrom.Undefined, AccessorySlot slot = null)
+		private void SetOpenedType(Tag minionModel,OpenedFrom from = OpenedFrom.Undefined, AccessorySlot slot = null)
 		{
+			MinionModel = minionModel;
 			openedFrom = from;
 			openedFromSlot = slot;
 			foreach (var cat in CategoryEntries)
@@ -254,9 +256,9 @@ namespace SetStartDupes
 				NextType.special,
 				NextType.geneShufflerTrait,
 				NextType.posTrait,
-				//NextType.bionic_boost,
+				NextType.bionic_boost,
 				NextType.needTrait,
-				//NextType.bionic_bug,
+				NextType.bionic_bug,
 				NextType.negTrait,
 				NextType.undefined,
 			};
@@ -397,7 +399,7 @@ namespace SetStartDupes
 
 		List<string> GetAllowedTraits()
 		{
-			var traits = ModAssets.TryGetTraitsOfCategory(NextType.allTraits, GameTags.Minions.Models.Standard, overrideShowAll: true);
+			var traits = ModAssets.TryGetTraitsOfCategory(NextType.allTraits, MinionModel, overrideShowAll: true);
 
 			DuplicityMainScreen.Instance.ReactionInfo(out var hasJoy, out var hasStress);
 

@@ -423,20 +423,27 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 				FixCachedStateTransitions();
 
-				//=[ NAPHTHA PATCH ]=======================================================
-				AddTagToElementAndEnable(SimHashes.Naphtha, GameTags.CombustibleLiquid);
+				////=[ NAPHTHA PATCH ]=======================================================
+				///disabled, its kinda op
+				//AddTagToElementAndEnable(SimHashes.Naphtha, GameTags.CombustibleLiquid);
 
 				//=[ ENABLING ELECTRUM ]===================================================
+
+				var gold = ElementLoader.FindElementByHash(SimHashes.Gold);
+				var silver = ElementLoader.FindElementByHash(ModElements.Silver_Solid);
+				float ratio = 0.6f;
+				float highTempLerp = Mathf.Lerp(silver.highTemp, gold.highTemp, ratio);
+
 				Element electrum_material = ElementLoader.FindElementByHash(SimHashes.Electrum);
-				electrum_material.highTempTransitionOreID = ModElements.Silver_Solid;
+				electrum_material.highTemp = highTempLerp;
+				electrum_material.highTempTransitionTarget = ModElements.Silver_Liquid;
+				electrum_material.highTempTransition = ElementLoader.FindElementByHash(Silver_Liquid);
+				electrum_material.highTempTransitionOreID = SimHashes.Gold;
 				electrum_material.highTempTransitionOreMassConversion = 0.6f;
 				electrum_material.disabled = false;
 
 				//=[ BITUMEN PATCH ]=======================================================
-				Element bitumen_material = ElementLoader.FindElementByHash(SimHashes.Bitumen);
-				bitumen_material.materialCategory = GameTags.ManufacturedMaterial;
-				AddTagToElementAndEnable(SimHashes.Bitumen, GameTags.ManufacturedMaterial);
-				AddTagToElementAndEnable(SimHashes.Bitumen, GameTags.ManufacturedMaterial);
+				AddTagsToElementAndEnable(SimHashes.Bitumen, [GameTags.BuildableAny,GameTags.ManufacturedMaterial], true);
 
 				//=[ PHOSPHATE NODULES PATCH ]================================================
 				AddTagToElementAndEnable(SimHashes.PhosphateNodules, GameTags.ConsumableOre);
@@ -501,7 +508,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			List<Tag> newTags = new List<Tag>();
 			foreach(var tag in tags)
 			{
-				if (elementMaterial.oreTags.Contains(tag) || elementMaterial.materialCategory == tag)
+				if (elementMaterial.oreTags.Contains(tag))
 					continue;
 				newTags.Add(tag);
 			}

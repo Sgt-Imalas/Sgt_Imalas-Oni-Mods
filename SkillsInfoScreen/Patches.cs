@@ -36,6 +36,7 @@ namespace SkillsInfoScreen
 				UnityEngine.Object.DestroyImmediate(screenGO.GetComponent<VitalsTableScreen>());
 				AttributesScreen = screenGO.AddOrGet<AttributeInfoScreen>();
 				AttributesScreen.GetPrefabRefs(__instance.vitalsScreen);
+				AttributesScreen.FetchOptionsPanel(__instance.jobsScreen);
 				screenGO.SetActive(true);
 
 				//SgtLogger.l("SkillsInfoScreen gameobject:");
@@ -47,11 +48,13 @@ namespace SkillsInfoScreen
 					 STRINGS.UI.CHARACTERCONTAINER_SKILLS_TITLE,
 					AttributeIcon, 
 					hotkey: Action.NumActions, 
-					tooltip: "");
+					tooltip: STRINGS.UI.CHARACTERCONTAINER_SKILLS_TITLE);
 
 				//__instance.AddToggleTooltipForResearch(AttributesInfo, "disabled tooltip");
-				__instance.AddToggleTooltip(AttributesInfo);		
-				AttributesInfo.prefabOverride =  Util.KInstantiateUI<KToggle>((Mod.CleanHUDEnabled ? __instance.smallPrefab : __instance.prefab).gameObject);
+				__instance.AddToggleTooltip(AttributesInfo);
+
+				ModIntegration_CleanHud.TryGetConfigValue("UseSmallButtons", out bool useSmallButtons);
+				AttributesInfo.prefabOverride =  Util.KInstantiateUI<KToggle>((useSmallButtons ? __instance.smallPrefab : __instance.prefab).gameObject);
 
 				//prevent word wrapping due to shrunken buttons
 				__instance.prefab.transform.Find("TextContainer/Text").GetComponent<LocText>().enableWordWrapping = false;
@@ -89,7 +92,8 @@ namespace SkillsInfoScreen
 
 				//__instance.AddToggleTooltipForResearch(AttributesInfo, "disabled tooltip");
 				__instance.AddToggleTooltip(AttributesInfo);
-				AttributesInfo.prefabOverride = Util.KInstantiateUI<KToggle>((Mod.CleanHUDEnabled ? __instance.smallPrefab : __instance.prefab).gameObject);
+				ModIntegration_CleanHud.TryGetConfigValue("UseSmallButtons", out bool useSmallButtons);
+				AttributesInfo.prefabOverride = Util.KInstantiateUI<KToggle>((useSmallButtons ? __instance.smallPrefab : __instance.prefab).gameObject);
 
 				__instance.ScreenInfoMatch.Add(SkillsOverviewInfo, new()
 				{
@@ -123,13 +127,13 @@ namespace SkillsInfoScreen
 			}
 		}
 
-
 		[HarmonyPatch(typeof(Localization), nameof(Localization.Initialize))]
 		public class Localization_Initialize_Patch
 		{
 			public static void Postfix()
 			{
 				SkillsOverviewName = STRINGS.UI.DETAILTABS.STATS.NAME + " " + STRINGS.UI.DETAILTABS.NEEDS.OVERVIEW;
+				LocalisationUtil.Translate(typeof(MOD_STRINGS));
 
 				//Strings.Add(SkillOverviewKey, skillsoverview);
 			}

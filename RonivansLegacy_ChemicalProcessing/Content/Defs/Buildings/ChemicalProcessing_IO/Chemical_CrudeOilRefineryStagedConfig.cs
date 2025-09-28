@@ -87,13 +87,14 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			portConduitConsumer3.capacityKG = 50f;
 			portConduitConsumer3.capacityTag = SimHashes.Naphtha.CreateTag();
 			portConduitConsumer3.forceAlwaysSatisfied = true;
+			portConduitConsumer3.SkipSetOperational = true;
 			portConduitConsumer3.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 			portConduitConsumer3.AssignPort(naphthaInputPort);
 
 			ElementConverter elementConverter1 = go.AddComponent<ElementConverter>();
 			elementConverter1.consumedElements =
 			[
-				new (SimHashes.CrudeOil.CreateTag(), 10f),
+				new (SimHashes.CrudeOil.CreateTag(), 9.5f),
 				new (SimHashes.Steam.CreateTag(), 0.5f)
 			];
 			elementConverter1.outputElements =
@@ -112,9 +113,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			];
 			elementConverter2.outputElements =
 			[
-				new ElementConverter.OutputElement(1.125f, SimHashes.Petroleum, 371.15f, storeOutput: true, diseaseWeight: 0.75f),
-				new ElementConverter.OutputElement(0.25f, SimHashes.Methane, 367.15f, storeOutput: true, diseaseWeight: 0.25f),
-				new ElementConverter.OutputElement(1.125f, SimHashes.Bitumen, 343.15f, storeOutput: true, diseaseWeight: 0.25f)
+				new ElementConverter.OutputElement(1.125f, SimHashes.Petroleum, 371.15f, storeOutput: true, diseaseWeight: 0.45f),
+				new ElementConverter.OutputElement(0.25f, SimHashes.Methane, 367.15f, storeOutput: true, diseaseWeight: 0.1f),
+				new ElementConverter.OutputElement(1.125f, SimHashes.Bitumen, 343.15f, storeOutput: true, diseaseWeight: 0.45f)
 			];
 			ElementDropper elementDropper = go.AddComponent<ElementDropper>();
 			elementDropper.emitMass = 50f;
@@ -163,13 +164,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			Prioritizable.AddRef(go);
 			this.AttachPort(go);
 
-			//var methaneThreshold = go.AddComponent<ElementThresholdOperational>();
-			//methaneThreshold.ThresholdTag = SimHashes.Methane.CreateTag();
-			//methaneThreshold.Threshold = 500;
-
-			//var petrolThreshold = go.AddComponent<ElementThresholdOperational>();
-			//petrolThreshold.ThresholdTag = SimHashes.Petroleum.CreateTag();
-			//petrolThreshold.Threshold = 500;
 		}
 
 		private void AttachPort(GameObject go)

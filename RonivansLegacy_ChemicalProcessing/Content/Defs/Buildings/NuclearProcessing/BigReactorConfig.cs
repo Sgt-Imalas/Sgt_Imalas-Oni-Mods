@@ -136,13 +136,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProces
 			if (DlcManager.IsPureVanilla())
 				return;
 
-			RecipeBuilder.Create(ID, 200)
-				.Input(SimHashes.Water, 4000)
-				.Input(SimHashes.EnrichedUranium, 10)
-				.Output(SimHashes.Steam, 4000, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-				.Description("Test Reaction")
-				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
-				.Build();
+			//RecipeBuilder.Create(ID, 200)
+			//	.Input(SimHashes.Water, 4000)
+			//	.Input(SimHashes.EnrichedUranium, 10)
+			//	.Output(SimHashes.Steam, 4000, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+			//	.Description("Test Reaction")
+			//	.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+			//	.Build();
 
 		}
 

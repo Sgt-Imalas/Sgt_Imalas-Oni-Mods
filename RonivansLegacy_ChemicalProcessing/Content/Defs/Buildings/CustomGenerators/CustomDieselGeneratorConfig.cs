@@ -81,6 +81,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 			kprefab.AddTag(RoomConstraints.ConstraintTags.HeavyDutyGeneratorType);
 
 			Storage fuelStorage = go.AddOrGet<Storage>();
+			fuelStorage.SetDefaultStoredItemModifiers(Storage.StandardSealedStorage);
 			go.AddOrGet<LoopingSounds>();
 			ConduitConsumer consumer = go.AddOrGet<ConduitConsumer>();
 			consumer.conduitType = go.GetComponent<Building>().Def.InputConduitType;

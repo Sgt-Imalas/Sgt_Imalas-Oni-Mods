@@ -32,6 +32,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				__result.BaseDecor = 15;
 				__result.BaseDecorRadius = 3;
 				__result.MaterialCategory = MATERIALS.PRECIOUS_ROCKS;
+				BuildingTemplates.CreateFoundationTileDef(__result);
 			}
 		}
 
