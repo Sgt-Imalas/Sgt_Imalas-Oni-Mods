@@ -77,7 +77,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//-----[ Element Converter Section ]---------------------------------
 			ElementConverter crudeoil_refining = go.AddComponent<ElementConverter>();
 			crudeoil_refining.consumedElements = [
-				new ElementConverter.ConsumedElement(SimHashes.CrudeOil.CreateTag(), 10f),
+				new ElementConverter.ConsumedElement(SimHashes.CrudeOil.CreateTag(), 9.5f),
 				new ElementConverter.ConsumedElement(SimHashes.Steam.CreateTag(), 0.5f) ];
 			crudeoil_refining.outputElements = [
 				new ElementConverter.OutputElement(5f, SimHashes.Petroleum, 371.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0),

@@ -190,9 +190,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			propaneDispenser.storage = storage;
 			propaneDispenser.conduitType = ConduitType.Gas;
 			propaneDispenser.alwaysDispense = true;
-			propaneDispenser.SkipSetOperational = true;
+			propaneDispenser.SkipSetOperational = true;//handled by threshold instead
 			propaneDispenser.elementFilter = [SimHashes.Propane];
-			propaneDispenser.AssignPort(propaneGasOutputPort);//handled by threshold instead
+			propaneDispenser.AssignPort(propaneGasOutputPort);
 			var propaneLimit = go.AddComponent<ElementThresholdOperational>();
 			propaneLimit.Threshold = 100f;
 			propaneLimit.ThresholdTag = SimHashes.Propane.CreateTag();
