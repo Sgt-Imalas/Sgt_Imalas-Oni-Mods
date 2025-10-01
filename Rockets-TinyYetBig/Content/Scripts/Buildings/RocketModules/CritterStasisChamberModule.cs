@@ -9,6 +9,9 @@ namespace Rockets_TinyYetBig.Behaviours
 {
 	public class CritterStasisChamberModule : KMonoBehaviour, ISidescreenButtonControl, ISim1000ms, IUserControlledCapacity
 	{
+		[MyCmpGet]
+		TreeFilterable treeFilterable;
+
 		[Serialize]
 		public List<CritterStorageInfo> storedCritters = new List<CritterStorageInfo>();
 		private List<FetchOrder2> fetches;
@@ -16,7 +19,7 @@ namespace Rockets_TinyYetBig.Behaviours
 		[Serialize]
 		public int CurrentMaxCapacity = Config.Instance.CritterStorageCapacity;
 
-		private static readonly EventSystem.IntraObjectHandler<CritterStasisChamberModule> RefreshCreatureCountDelegate = new EventSystem.IntraObjectHandler<CritterStasisChamberModule>((System.Action<CritterStasisChamberModule, object>)((component, data) => component.RefreshCreatureCount(data)));
+		private static readonly EventSystem.IntraObjectHandler<CritterStasisChamberModule> RefreshCreatureCountDelegate = new EventSystem.IntraObjectHandler<CritterStasisChamberModule>(((component, data) => component.RefreshCreatureCount(data)));
 		public int CurrentCapacity => storedCritters.Count;
 
 		public string GetStatusItem()
@@ -85,7 +88,7 @@ namespace Rockets_TinyYetBig.Behaviours
 			if (!storedCritters.IsNullOrDestroyed())
 				storedCritters.Clear();
 
-			this.GetComponent<TreeFilterable>().UpdateFilters(new HashSet<Tag>());
+			treeFilterable.UpdateFilters([]);
 			//DetailsScreen.Instance.Refresh(gameObject);///should refresh screen, Crashes, bad
 			UpdateStatusItem();
 		}
@@ -126,13 +129,13 @@ namespace Rockets_TinyYetBig.Behaviours
 		{
 			base.OnPrefabInit();
 			this.fetches = new List<FetchOrder2>();
-			this.GetComponent<TreeFilterable>().OnFilterChanged += new System.Action<HashSet<Tag>>(this.OnFilterChanged);
+			treeFilterable.OnFilterChanged += new System.Action<HashSet<Tag>>(this.OnFilterChanged);
 			Prioritizable.AddRef(this.gameObject);
 		}
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
-			this.Subscribe<CritterStasisChamberModule>(643180843, CritterStasisChamberModule.RefreshCreatureCountDelegate);
+			this.Subscribe<CritterStasisChamberModule>((int)GameHashes.FixedCaptureComplete, CritterStasisChamberModule.RefreshCreatureCountDelegate);
 			this.RefreshCreatureCount();
 			UpdateStatusItem();
 		}
@@ -144,8 +147,7 @@ namespace Rockets_TinyYetBig.Behaviours
 
 		private void RefreshCreatureCount(object data = null)
 		{
-			int storedCreatureCount = storedCritters.Count;
-			if (CurrentMaxCapacity == storedCreatureCount)
+			if (CurrentMaxCapacity == CurrentCapacity)
 				return;
 			this.RebalanceFetches();
 		}
@@ -158,7 +160,7 @@ namespace Rockets_TinyYetBig.Behaviours
 
 		private void RebalanceFetches()
 		{
-			HashSet<Tag> tags = this.GetComponent<TreeFilterable>().GetTags();
+			HashSet<Tag> tags = treeFilterable.GetTags();
 			ChoreType creatureFetch = Db.Get().ChoreTypes.CreatureFetch;
 			Storage component = this.GetComponent<Storage>();
 			int num1 = CurrentMaxCapacity - this.storedCritters.Count;
@@ -183,7 +185,9 @@ namespace Rockets_TinyYetBig.Behaviours
 			}
 			if (num6 == 0 && this.fetches.Count < num1)
 			{
-				FetchOrder2 fetchOrder2 = new FetchOrder2(creatureFetch, tags, FetchChore.MatchCriteria.MatchID, GameTags.Creatures.Deliverable, (Tag[])null, component, 1f, Operational.State.Operational);
+				float minimumFetchAmount = FetchChore.GetMinimumFetchAmount(tags);
+				FetchOrder2 fetchOrder2 = new FetchOrder2(creatureFetch, tags, FetchChore.MatchCriteria.MatchID, GameTags.Creatures.Deliverable, (Tag[])null, component, minimumFetchAmount, Operational.State.Operational);
+				fetchOrder2.validateRequiredTagOnTagChange = true;
 				fetchOrder2.Submit(new System.Action<FetchOrder2, Pickupable>(this.OnFetchComplete), false, new System.Action<FetchOrder2, Pickupable>(this.OnFetchBegun));
 				this.fetches.Add(fetchOrder2);
 				int num7 = num3 + 1;

@@ -77,6 +77,7 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
 			storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			storage.showCapacityStatusItem = false;
 			storage.storageFilters = GetCritterTags();
+			storage.showInUI = false;
 			TreeFilterable treeFilterable = template.AddOrGet<TreeFilterable>();
 			treeFilterable.dropIncorrectOnFilterChange = false;
 			treeFilterable.autoSelectStoredOnLoad = false;
@@ -85,9 +86,7 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
 		}
 		public static List<Tag> GetCritterTags()
 		{
-			List<Tag> tagList = new List<Tag>();
-			tagList.AddRange(STORAGEFILTERS.BAGABLE_CREATURES);
-			tagList.AddRange(STORAGEFILTERS.SWIMMING_CREATURES);
+			List<Tag> tagList = [.. STORAGEFILTERS.BAGABLE_CREATURES, .. STORAGEFILTERS.SWIMMING_CREATURES];
 			return tagList;
 		}
 
