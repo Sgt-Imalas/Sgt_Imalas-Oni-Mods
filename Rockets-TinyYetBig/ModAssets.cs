@@ -321,26 +321,6 @@ namespace Rockets_TinyYetBig
 
 
 		}
-		public static class OxidizerEfficiencies
-		{
-			private static Dictionary<Tag, float> oxidizerEfficiencies;
-			public static Dictionary<Tag, float> GetOxidizerEfficiencies()
-			{
-				if (oxidizerEfficiencies == null)
-				{
-					oxidizerEfficiencies = new Dictionary<Tag, float>()
-					{
-						{ Tags.OxidizerEfficiency_1, 1 },
-						{ Tags.OxidizerEfficiency_2, 2 },
-						{ Tags.OxidizerEfficiency_3, 3 },
-						{ Tags.OxidizerEfficiency_4, 4 },
-						{ Tags.OxidizerEfficiency_5, 5 },
-						{ Tags.OxidizerEfficiency_6, 6 },
-					};
-				}
-				return oxidizerEfficiencies;
-			}
-		}
 
 
 		public enum SpaceStationType

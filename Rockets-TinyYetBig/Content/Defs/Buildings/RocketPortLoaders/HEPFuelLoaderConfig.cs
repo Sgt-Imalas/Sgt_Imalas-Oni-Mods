@@ -34,7 +34,7 @@ namespace Rockets_TinyYetBig.RocketFueling
 			if (Config.Instance.EnableRocketLoaderLogicOutputs)
 			{
 				buildingDef.LogicOutputPorts = new List<LogicPorts.Port>(){
-					LogicPorts.Port.OutputPort(ChainedBuilding_Patches.ROCKETPORTLOADER_ACTIVE, new CellOffset(0, 1),
+					LogicPorts.Port.OutputPort(ModAssets.LOGICPORT_ROCKETPORTLOADER_ACTIVE, new CellOffset(0, 1),
 					STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.LOGIC_PORT_ROCKETLOADER,
 					STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.LOGIC_PORT_ROCKETLOADER_ACTIVE,
 					STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.LOGIC_PORT_ROCKETLOADER_INACTIVE),

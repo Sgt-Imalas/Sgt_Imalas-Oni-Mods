@@ -7,7 +7,7 @@ namespace Rockets_TinyYetBig.Patches.RocketModulePatches
     /// <summary>
     /// Compact and properly centered habitat interior templates
     /// </summary>
-    class ExistingHabitatPatches
+    class HabitatModule_Patches
     {
         #region HabitatMedium
         /// <summary>

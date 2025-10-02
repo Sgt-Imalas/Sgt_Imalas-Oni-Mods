@@ -124,5 +124,24 @@ namespace Rockets_TinyYetBig.Patches
 			}
 
 		}
+
+		[HarmonyPatch(typeof(CraftModuleInterface), nameof(CraftModuleInterface.DoLand))]
+		public static class CraftModuleInterface_DoLand_Patch
+		{
+			/// <summary>
+			/// When landing, reset the logic ports of HEP storage modules to update their logic ports
+			/// </summary>
+			/// <param name="__instance"></param>
+			public static void Postfix(CraftModuleInterface __instance)
+			{
+				foreach (var Module in __instance.ClusterModules)
+				{
+					if (Module.Get().TryGetComponent<HighEnergyParticleStorage>(out var storage))
+					{
+						storage.UpdateLogicPorts();
+					}
+				}
+			}
+		}
 	}
 }

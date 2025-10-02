@@ -3,7 +3,7 @@ using UtilLibs;
 
 namespace Rockets_TinyYetBig
 {
-	class LocalisationPatch
+	class Localization_Patches
 	{
 		/// <summary>
 		/// Initializes Localisation for modded strings

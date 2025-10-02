@@ -1,4 +1,5 @@
-﻿using Rockets_TinyYetBig.Docking;
+﻿using Rockets_TinyYetBig.Content.ModDb;
+using Rockets_TinyYetBig.Docking;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -255,7 +256,7 @@ namespace Rockets_TinyYetBig
 
 				System.Action<bool> fillCompleteAction = new Action<bool>((isLoading) => this.sm.fillComplete.Set(isLoading, this.smi));
 
-				ModAssets.ReplacedCargoLoadingMethod(craftInterface, chain, fillCompleteAction);
+				RocketPortCargoLoading.ReplacedCargoLoadingMethod(craftInterface, chain, fillCompleteAction);
 			}
 		}
 	}

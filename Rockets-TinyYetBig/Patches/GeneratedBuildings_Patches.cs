@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Rockets_TinyYetBig.Patches
 {
-	internal class GeneratedBuildings_Patch
+	internal class GeneratedBuildings_Patches
 	{
 		/// <summary>
 		/// This patch registers all buildings to the build screen 
