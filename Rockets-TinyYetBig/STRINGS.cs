@@ -575,6 +575,21 @@ namespace Rockets_TinyYetBig
 					public static LocString NAME = "Rocket Platform";
 				}
 
+				public class RTB_ROCKETLOGICLAUNCHCONDITIONSETTER
+				{
+					public static LocString NAME = FormatAsLink("Launch Condition Sender", nameof(RTB_ROCKETLOGICLAUNCHCONDITIONSETTER));
+					public static LocString DESC = "Always forget to bring your stuff - now you don't!";
+					public static LocString EFFECT = "Allows to set custom rocket launch conditions via automation signal";
+
+					public static LocString LOGIC_PORT = "Fulfill custom launch condition";
+					public static LocString LOGIC_PORT_ACTIVE = (FormatAsAutomationState("Green Signal", AutomationState.Active) + ": Custom rocket launch condition will be marked as completed");
+					public static LocString LOGIC_PORT_INACTIVE = (FormatAsAutomationState("Red Signal", AutomationState.Standby) + ": Custom rocket launch condition will be marked as missing, preventing automatic rocket launches.");
+
+
+					public static LocString STATUSITEM_TOOLTIP_ACTIVE = "The custom condition \"{0}\" is completed";
+					public static LocString STATUSITEM_TOOLTIP_INACTIVE = "The custom condition \"{0}\" is incomplete!";
+				}
+
 			}
 		}
 
