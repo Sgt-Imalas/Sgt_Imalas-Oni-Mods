@@ -19,7 +19,7 @@ namespace Rockets_TinyYetBig.Patches
 		{
 			public static void Postfix()
 			{
-				BuildingInjection.AddBuildingsToPlanscreen();
+				BuildingDatabase.AddBuildingsToPlanscreen();
 			}
 		}
 	}

@@ -1,4 +1,5 @@
-﻿using TUNING;
+﻿using Rockets_TinyYetBig.Content.ModDb;
+using TUNING;
 using UnityEngine;
 
 namespace Rockets_TinyYetBig.Buildings.CargoBays
@@ -54,7 +55,7 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
 			buildingDef.CanMove = true;
 			buildingDef.Cancellable = false;
 			buildingDef.ShowInBuildMenu = false;
-			ModAssets.AddCargoBayLogicPorts(buildingDef);
+			CustomCargoBayDB.AddCargoBayLogicPorts(buildingDef);
 			return buildingDef;
 		}
 

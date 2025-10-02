@@ -160,7 +160,7 @@ namespace Rockets_TinyYetBig.SpaceStations
 
 			this.Subscribe<SpaceStation>(1102426921, NameChangedHandler);
 		}
-		private static EventSystem.IntraObjectHandler<SpaceStation> NameChangedHandler = new EventSystem.IntraObjectHandler<SpaceStation>((System.Action<SpaceStation, object>)((cmp, data) => cmp.SetStationName(data)));
+		private static EventSystem.IntraObjectHandler<SpaceStation> NameChangedHandler = new EventSystem.IntraObjectHandler<SpaceStation>(((cmp, data) => cmp.SetStationName(data)));
 		public void SetStationName(object newName)
 		{
 			SetStationName((string)newName);

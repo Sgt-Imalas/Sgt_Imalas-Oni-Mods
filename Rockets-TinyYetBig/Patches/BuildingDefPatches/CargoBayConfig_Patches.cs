@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using Rockets_TinyYetBig.Buildings.CargoBays;
+using Rockets_TinyYetBig.Content.ModDb;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +36,7 @@ namespace Rockets_TinyYetBig.Patches.RocketModulePatches
             [HarmonyPostfix]
             public static void Postfix(BuildingDef __result)
             {
-                ModAssets.AddCargoBayLogicPorts(__result);
+                CustomCargoBayDB.AddCargoBayLogicPorts(__result);
             }
         }
         [HarmonyPatch]

@@ -75,7 +75,7 @@ namespace Rockets_TinyYetBig.RocketFueling
 		{
 			if (data is RocketModuleCluster rmc)
 			{
-				if (VirtualCircuitKey == rmc)
+				if (VirtualCircuitKey == data)
 					DisconnectFromPower(rmc.CraftInterface);
 			}
 		}
@@ -83,7 +83,7 @@ namespace Rockets_TinyYetBig.RocketFueling
 		{
 			if (data is RocketModuleCluster rmc)
 			{
-				if (VirtualCircuitKey != rmc)
+				if (VirtualCircuitKey != data)
 					DisconnectFromPower(VirtualCircuitKey);
 
 				ConnectToPower(rmc.CraftInterface);

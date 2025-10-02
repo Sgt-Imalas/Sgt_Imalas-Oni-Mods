@@ -20,7 +20,7 @@ namespace Rockets_TinyYetBig.Patches
 			}
             public static void Postfix(Db __instance)
 			{
-				BuildingInjection.AddBuildingsToTech();
+				BuildingDatabase.AddBuildingsToTech();
 				CarbonField_AnimationFix.ExecutePatch();
 				CustomOxidizers.RegisterCustomOxidizers();
 			}

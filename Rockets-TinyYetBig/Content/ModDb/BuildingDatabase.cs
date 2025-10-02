@@ -22,11 +22,12 @@ using Rockets_TinyYetBig.Content.Defs.Buildings;
 
 namespace Rockets_TinyYetBig.Content.ModDb
 {
-	internal class BuildingInjection
+	internal class BuildingDatabase
 	{
 
 		public static void AddBuildingsToPlanscreen()
-		{//Assign categories to each vanilla module
+		{
+			//Assign categories to each vanilla module
 			CategorizeVanillaModules();
 
 			if(Mod.Instance.mod.IsDev)
@@ -153,7 +154,10 @@ namespace Rockets_TinyYetBig.Content.ModDb
 			}
 
 			if (Config.Instance.EnablePOISensor)
+			{
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Automation, POICapacitySensorConfig.ID, CometDetectorConfig.ID);
+				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, RocketLogicLaunchConditionSetterConfig.ID, LogicClusterLocationSensorConfig.ID);
+			}
 		}
 
 		//to be executed after DbInit

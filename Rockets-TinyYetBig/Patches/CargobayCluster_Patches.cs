@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Rockets_TinyYetBig.Content.ModDb;
 using System.Linq;
 using UnityEngine;
 using UtilLibs;
@@ -23,8 +24,8 @@ namespace Rockets_TinyYetBig.Patches.RocketModulePatches
                 if (__instance.TryGetComponent<KPrefabID>(out var def))
                 {
 
-                    // SgtLogger.l(def.PrefabID().ToString());
-                    ModAssets.GetCargoBayCapacity(def.PrefabID().ToString(), out targetCapacity);
+					// SgtLogger.l(def.PrefabID().ToString());
+					CustomCargoBayDB.GetCargoBayCapacity(def.PrefabID().ToString(), out targetCapacity);
 
                     //SgtLogger.l(targetCapacity.ToString(), def.PrefabID().ToString());
                     //SgtLogger.l(__instance.storage.capacityKg.ToString(), def.PrefabID().ToString());
