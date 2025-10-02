@@ -37,6 +37,7 @@ namespace Rockets_TinyYetBig.Content.Defs.Buildings
 			buildingDef.AudioCategory = "Metal";
 			buildingDef.AudioSize = "small";
 			buildingDef.BaseTimeUntilRepair = -1f;
+			buildingDef.PermittedRotations = PermittedRotations.R360;
 
 			return buildingDef;
 		}

@@ -49,9 +49,9 @@ namespace SaveGameModLoader
 				int rectTransformCount = container.childCount;
 
 				int childrenOffset = rectTransformCount - saveCount;
-				SgtLogger.l("childrenOffset " + childrenOffset);
-				SgtLogger.l("rectTransformCount " + rectTransformCount);
-				SgtLogger.l("saveCount " + saveCount);
+				//SgtLogger.l("childrenOffset " + childrenOffset);
+				//SgtLogger.l("rectTransformCount " + rectTransformCount);
+				//SgtLogger.l("saveCount " + saveCount);
 
                 for (int i = rectTransformCount - 1; i >= childrenOffset; i--)
 				{
