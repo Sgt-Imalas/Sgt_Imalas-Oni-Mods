@@ -56,8 +56,7 @@ namespace Rockets_TinyYetBig
 		/// <summary>
 		/// Clear Rocket menu searchbar text on close
 		/// </summary>
-		[HarmonyPatch(typeof(DetailsScreen))]
-		[HarmonyPatch(nameof(DetailsScreen.ClearSecondarySideScreen))]
+		[HarmonyPatch(typeof(DetailsScreen), nameof(DetailsScreen.ClearSecondarySideScreen))]
 		public static class ClearSearchBarAfterOnShow
 		{
 			public static void Prefix()
@@ -68,8 +67,7 @@ namespace Rockets_TinyYetBig
 		/// <summary>
 		/// add building categories and searchbar to Rocket module screen
 		/// </summary>
-		[HarmonyPatch(typeof(SelectModuleSideScreen))]
-		[HarmonyPatch(nameof(SelectModuleSideScreen.SpawnButtons))]
+		[HarmonyPatch(typeof(SelectModuleSideScreen), nameof(SelectModuleSideScreen.SpawnButtons))]
 		public static class CategoryPatchTest
 		{
 			public static KInputTextField SearchBar = null;

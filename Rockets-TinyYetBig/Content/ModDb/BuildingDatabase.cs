@@ -253,7 +253,10 @@ namespace Rockets_TinyYetBig.Content.ModDb
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.ImprovedHydrocarbonPropulsion, LiquidChlorineOxidizerTankConfig.ID);
 			}
 			if (Config.Instance.EnablePOISensor)
+			{
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Computers.SensitiveMicroimaging, POICapacitySensorConfig.ID);
+				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Computers.Computing, RocketLogicLaunchConditionSetterConfig.ID);
+			}
 		}
 	}
 }

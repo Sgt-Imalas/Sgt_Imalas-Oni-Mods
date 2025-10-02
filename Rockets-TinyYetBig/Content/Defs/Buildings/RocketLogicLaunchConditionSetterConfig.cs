@@ -26,7 +26,7 @@ namespace Rockets_TinyYetBig.Content.Defs.Buildings
 				id: ID,
 				width: 1,
 				height: 1,
-				anim: "critter_sensor_kanim",
+				anim: "rocket_logic_checklist_sender_kanim",
 				hitpoints: 30,
 				construction_time: 30f,
 				construction_mass: materialMass,
@@ -47,9 +47,9 @@ namespace Rockets_TinyYetBig.Content.Defs.Buildings
 			buildingDef.LogicInputPorts = new List<LogicPorts.Port>()
 			{
                 LogicPorts.Port.InputPort(LogicOperationalController.PORT_ID, new CellOffset(0, 0), 
-				(string) STRINGS.BUILDINGS.PREFABS.RTB_ROCKETLOGICLAUNCHCONDITIONSETTER.LOGIC_PORT,
-				(string) STRINGS.BUILDINGS.PREFABS.RTB_ROCKETLOGICLAUNCHCONDITIONSETTER.LOGIC_PORT_ACTIVE,
-				(string) STRINGS.BUILDINGS.PREFABS.RTB_ROCKETLOGICLAUNCHCONDITIONSETTER.LOGIC_PORT_INACTIVE)
+				 STRINGS.BUILDINGS.PREFABS.RTB_ROCKETLOGICLAUNCHCONDITIONSETTER.LOGIC_PORT,
+				 STRINGS.BUILDINGS.PREFABS.RTB_ROCKETLOGICLAUNCHCONDITIONSETTER.LOGIC_PORT_ACTIVE,
+				 STRINGS.BUILDINGS.PREFABS.RTB_ROCKETLOGICLAUNCHCONDITIONSETTER.LOGIC_PORT_INACTIVE)
 			};
 			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.WireIDs, ID);
 			return buildingDef;
@@ -68,10 +68,7 @@ namespace Rockets_TinyYetBig.Content.Defs.Buildings
 		public override void DoPostConfigureComplete(GameObject go)
 		{
 			go.AddOrGet<RocketLogicLaunchCondition>();
-
-			go.AddOrGet<LogicOperationalController>();			
-			//go.AddOrGetDef<StorageController.Def>();
-			go.AddOrGetDef<OperationalController.Def>();
+			go.AddOrGet<LogicOperationalController>();
 		}
 	}
 }

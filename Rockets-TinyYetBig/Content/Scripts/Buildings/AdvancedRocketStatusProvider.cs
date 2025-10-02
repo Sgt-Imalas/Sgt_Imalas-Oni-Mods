@@ -80,31 +80,9 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 			bool isEnabled = operational.IsOperational;
 
 			//colorblindness color support
-			var colourGood = (Color)GlobalAssets.Instance.colorSet.logicOn;
-			colourGood.a = 1; //a is 0 for these by default, but that doesnt allow tinting the symbols here
-
-			var colourBad = (Color)GlobalAssets.Instance.colorSet.logicOff;
-			colourBad.a = 1;
-
-			//no direct yellow in logic, using crop color yellow
-			var colourWarning = (Color)GlobalAssets.Instance.colorSet.cropGrowing;
-			colourWarning.a = 1;
-
-			//kbac.SetSymbolVisiblity("logic_O_0_0_bloom", isEnabled);
-			//kbac.SetSymbolVisiblity("logic_O_1_0_bloom", isEnabled);
-			//kbac.SetSymbolVisiblity("logic_O_2_0_bloom", isEnabled);
-			//kbac.SetSymbolVisiblity("logic_O_3_0_bloom", isEnabled);
-			//kbac.SetSymbolVisiblity("logic_O_4_0_bloom", isEnabled);
-			//kbac.SetSymbolVisiblity("logic_O_4_1_bloom", isEnabled);
-			//kbac.SetSymbolVisiblity("logic_I_0_1_bloom", isEnabled);
-			//kbac.SetSymbolVisiblity("logic_I_0_1_bloom", isEnabled);
-			//kbac.SetSymbolVisiblity("logic_I_1_1_bloom", isEnabled);
-			//kbac.SetSymbolVisiblity("logic_I_2_1_bloom", isEnabled);
-			//kbac.SetSymbolVisiblity("logic_I_3_1_bloom", isEnabled);
-
-			//kbac.SetSymbolVisiblity("lights", isEnabled);
-			//kbac.SetSymbolVisiblity("lights_bloom", isEnabled);
-			//kbac.SetSymbolVisiblity("screen_bloom", isEnabled);
+			var colourGood = AccessibilityUtils.LogicGood;
+			var colourBad = AccessibilityUtils.LogicBad;
+			var colourWarning = AccessibilityUtils.LogicWarning;
 
 			if (!isEnabled)
 			{

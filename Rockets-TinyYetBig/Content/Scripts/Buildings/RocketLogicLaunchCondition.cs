@@ -15,6 +15,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 	{
 		[MyCmpReq] public UserNameable nameable;
 		[MyCmpReq] public LogicPorts logicPorts;
+		[MyCmpGet] KBatchedAnimController kbac;
 
 		public RocketModule worldModule;
 
@@ -25,22 +26,38 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
+
+			kbac.SetSymbolTint("icon_checkmark_yes", AccessibilityUtils.LogicGood);
+			kbac.SetSymbolTint("icon_checkmark_no", AccessibilityUtils.LogicBad);
+
 			worldModule = this.GetMyWorld()?.GetComponent<Clustercraft>()?.ModuleInterface.GetPassengerModule()?.GetComponent<RocketModuleCluster>() ?? null;
 			if (worldModule == null)
 			{
-				SgtLogger.warning("no world module found for logic launch condition");
+				SgtLogger.error("no world module found for logic launch condition");
 				return;
 			}
 			Subscribe((int)GameHashes.NameChanged, OnNameChanged);
+			Subscribe((int)GameHashes.LogicEvent, OnLogicValueChanged);
 			AddCurrentCondition();
+			RefreshAnimation();
 		}
+
 
 		public override void OnCleanUp()
 		{
 			RemoveCurrentCondition();
 			base.OnCleanUp();
 		}
+
 		void OnNameChanged(object data) => RefreshCondition();
+		void OnLogicValueChanged(object data) => RefreshAnimation();
+
+		void RefreshAnimation()
+		{
+			var anim = logicPorts.GetInputValue(LogicOperationalController.PORT_ID) == 1 ? "on" : "off";
+			kbac.Play(anim);
+		}
+
 		void RefreshCondition()
 		{
 			RemoveCurrentCondition();
