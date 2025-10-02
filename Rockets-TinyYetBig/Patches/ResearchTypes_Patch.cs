@@ -13,6 +13,10 @@ namespace Rockets_TinyYetBig.Patches.ResearchPatches
 		[HarmonyPatch(typeof(ResearchTypes), MethodType.Constructor, [])]
 		public class ResearchTypes_Constructor_Patch
 		{
+			/// <summary>
+			/// adds the deep space research type
+			/// </summary>
+			/// <param name="__instance"></param>
 			public static void Postfix(ResearchTypes __instance)
 			{
 

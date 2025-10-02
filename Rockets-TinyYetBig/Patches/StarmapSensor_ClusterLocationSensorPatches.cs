@@ -12,7 +12,7 @@ namespace Rockets_TinyYetBig.Patches
 	/// </summary>
 	public class StarmapSensor_ClusterLocationSensorPatches
 	{
-		static AxialI DisabledLocation = new AxialI(999, 999);
+		static readonly AxialI DisabledLocation = new (999, 999);
 
 		[HarmonyPatch(typeof(LogicClusterLocationSensorConfig))]
 		[HarmonyPatch(nameof(LogicClusterLocationSensorConfig.DoPostConfigureComplete))]

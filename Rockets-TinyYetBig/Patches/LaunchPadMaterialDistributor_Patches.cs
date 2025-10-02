@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Rockets_TinyYetBig.Content.ModDb;
 using System;
 
 namespace Rockets_TinyYetBig.Patches.RocketLoadingPatches
@@ -6,12 +7,11 @@ namespace Rockets_TinyYetBig.Patches.RocketLoadingPatches
     /// <summary>
     /// Replace Filler Logic to include fuel loaders and loading of additional modules
     /// </summary>
-    public class RocketAutoLoadingPatches
+    public class LaunchPadMaterialDistributor_Patches
     {
-        [HarmonyPatch(typeof(LaunchPadMaterialDistributor.Instance))]
-        [HarmonyPatch(nameof(LaunchPadMaterialDistributor.Instance.FillRocket))]
-        public class AddFuelingLogic
-        {
+        [HarmonyPatch(typeof(LaunchPadMaterialDistributor.Instance), nameof(LaunchPadMaterialDistributor.Instance.FillRocket))]
+        public class LaunchPadMaterialDistributor_FillRocket_Patch
+		{
             public static bool Prefix(LaunchPadMaterialDistributor.Instance __instance)
             {
                 var craftInterface = __instance.sm.attachedRocket.Get<RocketModuleCluster>(__instance).CraftInterface;
@@ -21,11 +21,7 @@ namespace Rockets_TinyYetBig.Patches.RocketLoadingPatches
 
 
                 Action<bool> onFillComplete = new Action<bool>((fillingOngoing) => __instance.sm.fillComplete.Set(fillingOngoing, __instance));
-                //SgtLogger.l(__instance.gameObject.GetProperName());
-                ModAssets.ReplacedCargoLoadingMethod(craftInterface, chain, onFillComplete);
-
-                //PPatchTools.TryGetFieldValue(__instance.sm, "fillComplete", out StateMachine<LaunchPadMaterialDistributor, LaunchPadMaterialDistributor.Instance, IStateMachineTarget, LaunchPadMaterialDistributor.Def>.BoolParameter fillComplete);
-                //fillComplete.Set(!HasLoadingProcess, __instance);
+				RocketPortCargoLoading.ReplacedCargoLoadingMethod(craftInterface, chain, onFillComplete);
                 return false;
             }
         }

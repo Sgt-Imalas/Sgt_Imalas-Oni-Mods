@@ -56,7 +56,7 @@ namespace Rockets_TinyYetBig.Patches.RocketPlatformPatches
         }
 
         [HarmonyPatch(typeof(LaunchPad.LaunchPadTower), nameof(LaunchPad.LaunchPadTower.AddTowerRow))]
-        public class LaunchPad_TargetMethod_Patch   
+        public class LaunchPad_TargetMethod_Patch
         {
 			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
             {

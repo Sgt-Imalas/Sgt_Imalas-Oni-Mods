@@ -8,14 +8,14 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.Patches.ClustercraftDockingPatches
 {
-	internal class ClustercraftInteriorDoorConfig_Patch
+	internal class ClustercraftInteriorDoorConfig_Patches
 	{
-		/// <summary>
-		/// add a docking tube attachment slot to the rocket interior door
-		/// </summary>
 		[HarmonyPatch(typeof(ClustercraftInteriorDoorConfig), nameof(ClustercraftInteriorDoorConfig.OnSpawn))]
-		public static class AddDockingTubeAttachmentSlot
+		public static class ClustercraftInteriorDoorConfig_OnSpawn_Patch
 		{
+			/// <summary>
+			/// add a docking tube attachment slot to the rocket interior door
+			/// </summary>
 			public static void Postfix(GameObject inst)
 			{
 				inst.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[1]

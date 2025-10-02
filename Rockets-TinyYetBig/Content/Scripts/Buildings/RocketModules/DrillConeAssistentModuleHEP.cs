@@ -21,7 +21,7 @@ namespace Rockets_TinyYetBig.Buildings.Utility
 			{
 				if (TargetStorage != null && !TargetStorage.IsNullOrDestroyed())
 				{
-					Transferparticle();
+					TransferParticle();
 				}
 				else
 					CheckTarget();
@@ -36,7 +36,7 @@ namespace Rockets_TinyYetBig.Buildings.Utility
 			//this.GetComponent<RocketModule>().AddModuleCondition(ProcessCondition.ProcessConditionType.RocketStorage, (ProcessCondition)new ConditionHasResource(this.particleStorage, SimHashes.particle, (float)Config.Instance.DrillconeSupportparticleMass));
 		}
 
-		private void Transferparticle()
+		private void TransferParticle()
 		{
 			float remainingCapacity = TargetStorage.RemainingCapacity();
 			float currentparticles = HEPStorage.Particles;

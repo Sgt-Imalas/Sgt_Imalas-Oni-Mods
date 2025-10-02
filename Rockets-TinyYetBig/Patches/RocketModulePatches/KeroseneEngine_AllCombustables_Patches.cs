@@ -56,21 +56,5 @@ namespace Rockets_TinyYetBig.Patches.RocketModulePatches
             }
 
         }
-        [HarmonyPatch(typeof(Localization))]
-        [HarmonyPatch("Initialize")]
-        public static class StringReplacementPetroleum
-        {
-            public static void Postfix()
-            {
-                if (Config.Instance.EthanolEngines)
-                {
-                    global::STRINGS.BUILDINGS.PREFABS.KEROSENEENGINECLUSTER.EFFECT = STRINGS.MODIFIEDVANILLASTRINGS.KEROSENEENGINECLUSTER_EFFECT;
-                    global::STRINGS.BUILDINGS.PREFABS.KEROSENEENGINECLUSTERSMALL.EFFECT = STRINGS.MODIFIEDVANILLASTRINGS.KEROSENEENGINECLUSTERSMALL_EFFECT;
-                }
-
-            }
-
-        }
     }
 }
-//

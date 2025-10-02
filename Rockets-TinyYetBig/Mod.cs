@@ -13,6 +13,7 @@ namespace Rockets_TinyYetBig
 {
 	public class Mod : UserMod2
 	{
+		public static bool IsDev => Instance.mod.IsDev;
 		public static Harmony harmonyInstance;
 
 		public static Mod Instance;

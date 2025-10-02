@@ -23,8 +23,8 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>Item Drop Prevention</ModName>
-		<ModDescription>Prevents Duplicants and Rovers from dropping items when not on solid ground</ModDescription>
+		<ModName>Grip Now Included</ModName>
+		<ModDescription>Prevents Duplicants and Rovers from dropping items when not on solid ground. Delivery tasks are no longer defined as commuting</ModDescription>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

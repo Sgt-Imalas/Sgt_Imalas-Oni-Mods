@@ -14,6 +14,10 @@ namespace Rockets_TinyYetBig.Patches.ResearchPatches
         [HarmonyPatch(typeof(ResearchEntry), nameof(ResearchEntry.SetTech))]
         public class ResearchEntry_SetTech_Patch
         {
+            /// <summary>
+            /// sets the dlc for all RE buildings to a custom RE banner
+            /// </summary>
+            /// <param name="__instance"></param>
             public static void Postfix(ResearchEntry __instance)
             {
                 int index = 1; //child 0 is the icon prefab

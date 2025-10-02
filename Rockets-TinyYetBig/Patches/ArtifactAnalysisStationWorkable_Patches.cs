@@ -10,11 +10,17 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.Patches.ResearchPatches
 {
-	internal class ArtifactAnalysisStationWorkable_Patch
+	internal class ArtifactAnalysisStationWorkable_Patches
 	{
 		[HarmonyPatch(typeof(ArtifactAnalysisStationWorkable), nameof(ArtifactAnalysisStationWorkable.ConsumeCharm))]
 		public class AddDeepSpaceResearchOnSpaceArtifactResearch
 		{
+			/// <summary>
+			/// generates some points of deep space research when an artifact is analyzed
+			/// Also spawns neutronium dust as a byproduct if enabled
+			/// generates more on terrestrial artifacts since those are not infinite
+			/// </summary>
+			/// <param name="__instance"></param>
 			public static void Prefix(ArtifactAnalysisStationWorkable __instance)
 			{
 				GameObject artifactToBeDefrosted = __instance.storage.FindFirst(GameTags.CharmedArtifact);

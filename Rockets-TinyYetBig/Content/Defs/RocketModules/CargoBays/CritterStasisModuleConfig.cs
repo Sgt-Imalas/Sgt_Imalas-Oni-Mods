@@ -77,7 +77,7 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
 			storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			storage.showCapacityStatusItem = false;
 			storage.storageFilters = GetCritterTags();
-			storage.showInUI = false;
+			//storage.showInUI = false; //dont disable, hides treefilterable!
 			TreeFilterable treeFilterable = template.AddOrGet<TreeFilterable>();
 			treeFilterable.dropIncorrectOnFilterChange = false;
 			treeFilterable.autoSelectStoredOnLoad = false;

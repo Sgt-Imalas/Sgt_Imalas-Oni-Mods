@@ -5,7 +5,7 @@ using UtilLibs;
 
 namespace Rockets_TinyYetBig.Patches.RocketModulePatches
 {
-    public class CargoCapacityPatches
+    public class CargobayCluster_Patches
     {
         /// <summary>
         /// Applies Cargo Capacity Settings

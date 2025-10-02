@@ -6,16 +6,16 @@ using UnityEngine;
 
 namespace Rockets_TinyYetBig.Patches.RocketLoadingPatches
 {
-    public class FixRocketConduitStorageAccess
+    public class RocketConduitStorageAccess_Patches
     {
-        /// <summary>
-        /// This throws out food that is not allowed in cargo bays if there is no freezer module
-        /// Also allows feeding the drillcone support module
-        /// </summary>
-        [HarmonyPatch(typeof(RocketConduitStorageAccess), "Sim200ms")]
-        public static class OnlyAllowStorageFilterItemsInStorage
-        {
-            public static bool CouldStorageAllowThisTag(Tag tagAllowed, Storage storage)
+        [HarmonyPatch(typeof(RocketConduitStorageAccess), nameof(RocketConduitStorageAccess.Sim200ms))]
+        public static class RocketConduitStorageAccess_Sim200ms_Patch
+		{
+			/// <summary>
+			/// This throws out food that is not allowed in cargo bays if there is no freezer module
+			/// Also allows feeding the drillcone support module from inside the rocket
+			/// </summary>
+			public static bool CouldStorageAllowThisTag(Tag tagAllowed, Storage storage)
             {
                 bool flag = false;
                 foreach (Tag storageFilter in storage.storageFilters)
