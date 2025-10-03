@@ -50,15 +50,17 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			Storage standardStorage = go.AddOrGet<Storage>();
 			standardStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
-			standardStorage.showCapacityStatusItem = true;
-			standardStorage.showCapacityAsMainStatus = true;
-			standardStorage.showDescriptor = true;
+			//standardStorage.showCapacityStatusItem = true;
+			//standardStorage.showCapacityAsMainStatus = true;
+			//standardStorage.showDescriptor = true;
 
 			ConduitConsumer waterInput = go.AddOrGet<ConduitConsumer>();
 			waterInput.conduitType = ConduitType.Liquid;
 			waterInput.consumptionRate = 10f;
 			waterInput.capacityTag = SimHashes.Water.CreateTag();
 			waterInput.forceAlwaysSatisfied = true;
+			waterInput.alwaysConsume = true;
+			waterInput.capacityKG = 20f;
 			waterInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 
 			ManualDeliveryKG nitrateManualDelivery = go.AddComponent<ManualDeliveryKG>();
