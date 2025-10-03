@@ -618,8 +618,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		}
 		public static Pickupable DumpItem(Pickupable pickupable, float mass, float targetMass, int dumpCell, GameObject target)
 		{
+			if (pickupable == null)
+				return pickupable;
 			float amountToDump = (mass - targetMass);
+
 			var droppedExcess = pickupable.Take(amountToDump);
+			if (droppedExcess.IsNullOrDestroyed() || droppedExcess.gameObject == null || droppedExcess.transform == null)
+				return pickupable;
+
 			///drop excess mass
 			SolidConduit.GetFlowManager().DumpPickupable(droppedExcess);
 			droppedExcess.transform.SetPosition(Grid.CellToPosCCC(dumpCell, Grid.SceneLayer.Ore));
