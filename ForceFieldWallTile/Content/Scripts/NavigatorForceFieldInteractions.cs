@@ -13,7 +13,7 @@ namespace ForceFieldWallTile.Content.Scripts
 	internal class NavigatorForceFieldInteractions : KMonoBehaviour, ISim200ms
 	{
 		[MyCmpGet] Health hp;
-		[MyCmpReq] Effects effects;
+		[MyCmpGet] Effects effects;
 		[MyCmpGet] OccupyArea occupyArea;
 		[MyCmpGet] MinionIdentity identity;
 		float shieldDamage;
@@ -63,12 +63,13 @@ namespace ForceFieldWallTile.Content.Scripts
 			}
 			//	}
 			//}
-			if (!SlowDupe)
+			if (!SlowDupe || effects == null)
 				return;
 
 			if (stuckInBarrier != wasStuck)
 			{
 				wasStuck = stuckInBarrier;
+
 				if (wasStuck)
 					effects.Add(ModEffects.FFT_StuckInBarrier_ID, true);
 				else
