@@ -331,7 +331,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		public static void ClearReenabledVanillaElementCodexTags(ref List<ElementLoader.ElementEntry> elementList)
 		{
 			HashSet<string> ToUnhide = [];
-			
+
 
 			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
 			{
@@ -361,9 +361,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				UnhideElement(SimHashes.Brick);
 				UnhideElement(SimHashes.Cement);
 			}
-			foreach(var element in elementList)
+			foreach (var element in elementList)
 			{
-				if(ToUnhide.Contains(element.elementId) && element.tags != null)
+				if (ToUnhide.Contains(element.elementId) && element.tags != null)
 				{
 					var oreTags = element.tags.ToList();
 					oreTags.Remove(GameTags.HideFromCodex.ToString());
@@ -381,30 +381,30 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		{
 			var isopropane = ElementLoader.FindElementByHash(Isopropane_Gas);
 			if (isopropane != null)
-				isopropane.highTempTransition =  ElementLoader.FindElementByHash(SimHashes.Propane);
+				isopropane.highTempTransition = ElementLoader.FindElementByHash(SimHashes.Propane);
 		}
 
-		static Dictionary<SimHashes,bool> CachedModElements = [];
+		static Dictionary<SimHashes, bool> CachedModElements = [];
 		public static bool IsModElement(SimHashes element)
 		{
-			if(CachedModElements.TryGetValue(element, out var isModElement))
+			if (CachedModElements.TryGetValue(element, out var isModElement))
 				return isModElement;
 
 			bool modElement = false;
 			if (ChemicalProcessing_IO_Elements.Any(s => s.elementID == element))
 				modElement = true;
-			else if(ChemicalProcessing_BioChem_Elements.Any(s => s.elementID == element))
+			else if (ChemicalProcessing_BioChem_Elements.Any(s => s.elementID == element))
 				modElement = true;
 
 			CachedModElements.Add(element, modElement);
 			return modElement;
 		}
-		
+
 		internal static void ModifyExistingElements()
 		{
 			PlasticGroup = ElementGrouping.GroupAllWith(GameTags.Plastic);
 
-			if(Config.Instance.MineralProcessing_Metallurgy_Enabled)
+			if (Config.Instance.MineralProcessing_Metallurgy_Enabled)
 			{
 				AddTagToElementAndEnable(SimHashes.Hydrogen, ModAssets.Tags.AIO_CarrierGas);
 				AddTagToElementAndEnable(SimHashes.Helium, ModAssets.Tags.AIO_CarrierGas);
@@ -443,7 +443,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				electrum_material.disabled = false;
 
 				//=[ BITUMEN PATCH ]=======================================================
-				AddTagsToElementAndEnable(SimHashes.Bitumen, [GameTags.BuildableAny,GameTags.ManufacturedMaterial], true);
+				AddTagsToElementAndEnable(SimHashes.Bitumen, [GameTags.ManufacturedMaterial, GameTags.BuildableAny], true);
 
 				//=[ PHOSPHATE NODULES PATCH ]================================================
 				AddTagToElementAndEnable(SimHashes.PhosphateNodules, GameTags.ConsumableOre);
@@ -460,7 +460,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			}
 			if (DlcManager.IsExpansion1Active() && Config.Instance.NuclearProcessing_Enabled)
 			{//=[ ENABLING RADIUM ]===================================================
-				AddTagToElementAndEnable(SimHashes.Radium, GameTags.ConsumableOre,true);
+				AddTagToElementAndEnable(SimHashes.Radium, GameTags.ConsumableOre, true);
 				//=[ ENABLING YellowCake ]===================================================
 				AddTagToElementAndEnable(SimHashes.Yellowcake, GameTags.ManufacturedMaterial, true);
 			}
@@ -494,7 +494,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				return;
 			elementMaterial.disabled = false;
 
-			if(tags == null || tags.Length == 0)
+			if (tags == null || tags.Length == 0)
 				return;
 
 			if (setMatCat)
@@ -504,9 +504,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			if (elementMaterial.oreTags == null)
 				elementMaterial.oreTags = tags;
-			
+
 			List<Tag> newTags = new List<Tag>();
-			foreach(var tag in tags)
+			foreach (var tag in tags)
 			{
 				if (elementMaterial.oreTags.Contains(tag))
 					continue;
