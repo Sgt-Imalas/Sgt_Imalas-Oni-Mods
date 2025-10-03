@@ -622,6 +622,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				return pickupable;
 			float amountToDump = (mass - targetMass);
 
+			if(Mathf.Approximately(amountToDump, 0) || amountToDump < 0)
+				return pickupable;
+
 			var droppedExcess = pickupable.Take(amountToDump);
 			if (droppedExcess.IsNullOrDestroyed() || droppedExcess.gameObject == null || droppedExcess.transform == null)
 				return pickupable;
