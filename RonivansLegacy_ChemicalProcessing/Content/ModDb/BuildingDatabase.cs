@@ -785,7 +785,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToTech(Technology.SolidMaterial.SolidManagement)
 				.AddModFrom(SourceModInfo.HighPressureApplications);
 		}
-
 		private static void RegisterBuildings_DupesRefrigeration()
 		{
 			BuildingManager.CreateEntry<HightechBigFridgeConfig>()

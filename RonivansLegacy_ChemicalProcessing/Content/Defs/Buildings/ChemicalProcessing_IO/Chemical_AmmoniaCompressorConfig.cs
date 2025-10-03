@@ -15,6 +15,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 {
 	public class Chemical_AmmoniaCompressorConfig : IBuildingConfig
 	{
+
 		public static string ID = "Chemical_AmmoniaCompressor";
 
 		private static readonly PortDisplayOutput LiquidPipeOutput = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(-1, 0));

@@ -50,7 +50,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 			//string tileID = isDefaultID ? "MonoElementTile" : ID;
 			string kanim = isDefaultID ? "floor_sandstone_kanim" : $"floor_{idLower}_kanim";
 			string[] cost = isDefaultID ? defaultCost : [Element.ToString()];
-			SgtLogger.l("Kanimname: " + kanim);
+			//SgtLogger.l("Kanimname: " + kanim);
 
 			BuildingDef def = BuildingTemplates.CreateBuildingDef(ID, 1, 1, kanim, 100, 5f, [200], cost, 1600f, BuildLocationRule.Tile, BUILDINGS.DECOR.BONUS.TIER1, NOISE_POLLUTION.NONE);
 			BuildingTemplates.CreateFoundationTileDef(def);

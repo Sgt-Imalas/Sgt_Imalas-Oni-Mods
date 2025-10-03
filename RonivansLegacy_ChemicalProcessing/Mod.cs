@@ -26,8 +26,6 @@ namespace RonivansLegacy_ChemicalProcessing
 			ModAssets.LoadAssets();
 			PUtil.InitLibrary(false);
 			new POptions().RegisterOptions(this, typeof(Config));
-
-			BuildingDatabase.RegisterBuildings();
 			HarmonyInstance = harmony;
 
 			base.OnLoad(harmony);
