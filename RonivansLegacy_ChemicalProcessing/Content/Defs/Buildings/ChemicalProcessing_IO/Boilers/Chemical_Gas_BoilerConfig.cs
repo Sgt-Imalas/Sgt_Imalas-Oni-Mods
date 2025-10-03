@@ -67,6 +67,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			storage.showCapacityAsMainStatus = true;
 			storage.showDescriptor = true;
 			go.AddOrGet<SmartReservoir>();
+			go.AddOrGet<Reservoir>();
 			go.AddOrGet<ElementConversionBuilding>();
 			Prioritizable.AddRef(go);
 
