@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.HPA.ConduitEvents
 {
@@ -18,6 +19,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.HPA.ConduitEvents
 		public string EventDisplayName;
 		public void ExecuteEventAction()
 		{
+			if (Target == null)
+			{
+				SgtLogger.l("DamageEvent: Target was null" );
+				return;
+			}
 			Target.Trigger((int)GameHashes.DoBuildingDamage, GetPressureDamageSource(EventDisplayName));
 		}
 
