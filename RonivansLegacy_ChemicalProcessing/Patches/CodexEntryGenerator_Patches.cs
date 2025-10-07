@@ -48,15 +48,12 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 					return transitionsIntoOriginalSimHash;
 
 
-
-
 				if (instance.transitionType == CodexTemperatureTransitionPanel.TransitionType.HEAT)
 				{
 					var transitionThreshold = instance.sourceElement.highTemp;
 
 					if (!ModElements.IsModElement(transitionsIntoOriginalSimHash) && !ModElements.IsModElement(instance.sourceElement.id))
 						return transitionsIntoOriginalSimHash;
-
 
 					if (transitionThreshold > transitionTarget.lowTemp && transitionTarget.highTempTransition != null)
 						return transitionTarget.highTempTransition.id;

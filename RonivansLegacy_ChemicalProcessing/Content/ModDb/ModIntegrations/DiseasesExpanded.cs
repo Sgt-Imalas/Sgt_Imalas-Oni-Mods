@@ -38,7 +38,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations
 			var m_EnhanceCometWithGerms = AccessTools.Method(DiseasesExpanded_Patches_SpaceGoo, "EnhanceCometWithGerms", [typeof(GameObject),typeof(byte),typeof(int)]);
 			if (m_EnhanceCometWithGerms == null)
 			{
-				SgtLogger.error("HysteresisStoragEnhanceCometWithGermsePatches.EnhanceCometWithGerms method not found.");
+				SgtLogger.error("DiseasesExpanded.DiseasesExpanded_Patches_SpaceGoo.EnhanceCometWithGerms method not found.");
 				return;
 			}
 			try
