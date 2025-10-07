@@ -530,7 +530,7 @@ msgstr "一座能够将有机油进行酯交换反应，转化为长链脂肪酸
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_BIODIESELREFINERY.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_BIODIESELREFINERY.EFFECT"
 msgid "Transesterify <link=\"LIQUIDBIODIESEL\">Renewable Diesel</link> from <link=\"LIQUIDVEGEOIL\">Vegetable Oil</link> and <link=\"ETHANOL\">Ethanol</link>."
-msgstr "将<link=\"LIQUIDVEGEOIL\">有机油</link>和<link=\"ETHANOL\">乙醇</link>转化为<link=\"LIQUIDBIODIESEL\">可再生柴油</link>。"
+msgstr "将<link=\"LIQUIDVEGEOIL\">植物油</link>和<link=\"ETHANOL\">乙醇</link>转化为<link=\"LIQUIDBIODIESEL\">可再生柴油</link>。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_BIODIESELREFINERY.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_BIODIESELREFINERY.NAME"
@@ -724,8 +724,8 @@ msgstr "一座大型的工业磨矿器，采用钢球和特殊的酸性混合物
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_BALLCRUSHERMILL.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_BALLCRUSHERMILL.EFFECT"
-msgid "Crush down <link=\"RAWMINERAL\">Raw Minerals</link> in to useful materials and industrial ingredients."
-msgstr "将<link=\"RAWMINERAL\">矿物原料</link>粉碎成有用的材料和工业原料。"
+msgid "Crush down <link=\"BUILDABLERAW\">Raw Minerals</link> in to useful materials and industrial ingredients."
+msgstr "将<link=\"BUILDABLERAW\">矿物原料</link>粉碎成有用的材料和工业原料。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_BALLCRUSHERMILL.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_BALLCRUSHERMILL.NAME"
@@ -915,7 +915,8 @@ msgid ""
 "- 50% <link=\"PETROLEUM\">Petroleum</link>\n"
 "- 25% <link=\"NAPHTHA\">Naphtha</link>\n"
 "- 10% <link=\"METHANE\">Natural Gas</link>\n"
-"- 15% <link=\"BITUMEN\">Bitumen</link>.\n"
+"- 10% <link=\"SOURWATER\">Sour Water</link> waste.\n"
+"- 5% <link=\"BITUMEN\">Bitumen</link>.\n"
 "\n"
 "Second Stage: <link=\"NAPHTHA\">Naphtha</link> is further refined:\n"
 "- 45% <link=\"PETROLEUM\">Petroleum</link>\n"
@@ -930,7 +931,8 @@ msgstr ""
 " - 50% <link=\"PETROLEUM\">石油</link>\n"
 " - 25% <link=\"NAPHTHA\">石脑油</link>\n"
 " - 10% <link=\"METHANE\">天然气</link>\n"
-" - 15% <link=\"BITUMEN\">沥青</link>\n"
+"\v - 10% <link=\"SOURWATER\">酸水</link>作为废弃物\n"
+" - 5% <link=\"BITUMEN\">沥青</link>\n"
 "\n"
 "第二阶段： 将<link=\"NAPHTHA\">石脑油</link>深度精炼为：\n"
 " - 45% <link=\"PETROLEUM\">石油</link>\n"
@@ -985,10 +987,10 @@ msgstr "一款工业用锅炉，通过燃烧可燃气体来产生热能。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GAS_BOILER.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GAS_BOILER.EFFECT"
-msgid "Boils <link=\"WATER\">Water</link> to <link=\"STEAM\">Steam</link> at 200 °C. This particular boiler uses <link=\"COMBUSTIBLEGAS\">Combustible Gases</link> as fuel, but may as well work with other combustible gases."
+msgid "Boils <link=\"WATER\">Water</link> to <link=\"STEAM\">Steam</link> at 200 °C. This particular boiler uses <link=\"COMBUSTIBLEGAS\">Combustible Gases</link> as fuel."
 msgstr ""
-"将<link=\"WATER\">水</link>加热至 200℃ 的<link=\"STEAM\">蒸汽</link> 。\n"
-"这座特定的锅炉使用<link=\"COMBUSTIBLEGAS\">可燃气体</link>作为热源。"
+"将<link=\"WATER\">水</link>加热为 200℃ 的<link=\"STEAM\">蒸汽</link>。\n"
+"这座特定的锅炉使用<link=\"COMBUSTIBLEGAS\">可燃气体</link>作为燃料。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GAS_BOILER.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GAS_BOILER.NAME"
@@ -1009,6 +1011,23 @@ msgstr "这个技术先进的玻璃熔炉不仅能够将<link=\"SAND\">沙子</l
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GLASSFOUNDRY.NAME"
 msgid "<link=\"CHEMICALGLASSFOUNDRY\">Glass Foundry</link>"
 msgstr "<link=\"CHEMICALLASSFOUNDRY\">工业玻璃熔炉</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_LIQUID_BOILER.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_LIQUID_BOILER.DESC"
+msgid "An industrial grade boiler that generates thermal energy by burning Combustible Liquids."
+msgstr "一款工业用锅炉，通过燃烧可燃液体来产生热能。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_LIQUID_BOILER.EFFECT
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_LIQUID_BOILER.EFFECT"
+msgid "Boils <link=\"WATER\">Water</link> to <link=\"STEAM\">Steam</link> at 200 °C. This particular boiler uses <link=\"COMBUSTIBLELIQUID\">Combustible Liquids</link> as fuel."
+msgstr ""
+"将<link=\"WATER\">水</link>加热为 200℃ 的<link=\"STEAM\">蒸汽</link>。\n"
+"这座特定的锅炉使用<link=\"COMBUSTIBLELIQUID\">可燃液体</link>作为燃料。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_LIQUID_BOILER.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_LIQUID_BOILER.NAME"
+msgid "<link=\"CHEMICALGASBOILER\">Liquid-fueled Steam Boiler</link>"
+msgstr "<link=\"CHEMICALGASBOILER\">燃油蒸汽炉</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_MIXINGUNIT.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_MIXINGUNIT.DESC"
@@ -1180,8 +1199,8 @@ msgstr "颚式破碎机利用强筋的咬合力来破碎石头及矿物原料。
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SMALLCRUSHERMILL.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SMALLCRUSHERMILL.EFFECT"
-msgid "Crush down <link=\"RAWMINERAL\">Raw Minerals</link> in to useful materials and industrial ingredients."
-msgstr "将<link=\"RAWMINERAL\">矿物原料</link>粉碎成有用的材料和工业原料。"
+msgid "Crush down <link=\"BUILDABLERAW\">Raw Minerals</link> in to useful materials and industrial ingredients."
+msgstr "将<link=\"BUILDABLERAW\">矿物原料</link>粉碎成有用的材料和工业原料。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SMALLCRUSHERMILL.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SMALLCRUSHERMILL.NAME"
@@ -1202,6 +1221,25 @@ msgstr "一款专为农业用途设计的坚固型物料混合器，主要用于
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SOILMIXER.NAME"
 msgid "<link=\"CHEMICALSOILMIXER\">Soil Mixer</link>"
 msgstr "<link=\"CHEMICALSOILMixer\">土壤搅拌机</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SOURGASSWEETENER.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SOURGASSWEETENER.DESC"
+msgid "A treatment plant that uses activated carbon beds for de-acidification of sour gas."
+msgstr "一座采用活性炭床对<link=\"SOURGAS\">酸气</link>进行脱酸处理的净化装置。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SOURGASSWEETENER.EFFECT
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SOURGASSWEETENER.EFFECT"
+msgid ""
+"Uses <link=\"REFINEDCARBON\">Activated Carbon</link> for the adsorbtion the sulphuric compounds from <link=\"SOURGAS\">Sour Gas</link>, yielding <link=\"METHANE\">Natural Gas</link> and elemental <link=\"SULPHUR\">Sulphur</link>.\n"
+"Activated carbon requires periodic replacing."
+msgstr ""
+"利用<link=\"REFINEDCARBON\">活性炭</link>吸附<link=\"SOURGAS\">酸气</link>中的硫化物，生成<link=\"METHANE\">天然气</link>与单质<link=\"SULPHUR\">硫</link>。\n"
+"活性炭需定期更换。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SOURGASSWEETENER.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SOURGASSWEETENER.NAME"
+msgid "<link=\"CHEMICALSOURGASSWEETENER\">Sour Gas Sweetener</link>"
+msgstr "<link=\"CHEMICALSOURGASSWEETENER\">高硫天然气脱硫塔</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SOURWATERSTRIPPER.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SOURWATERSTRIPPER.DESC"
@@ -2458,8 +2496,8 @@ msgstr "一座大型的工业加工厂，利用钢球和特殊的振动分离装
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.METALLURGY_BALLCRUSHERMILL.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.METALLURGY_BALLCRUSHERMILL.EFFECT"
-msgid "Crush down <link=\"RAWMINERAL\">Raw Minerals</link> in to useful materials and industrial ingredients."
-msgstr "将<link=\"RAWMINERAL\">矿物原料</link>粉碎成有用的材料和工业原料。"
+msgid "Crush down <link=\"BUILDABLERAW\">Raw Minerals</link> in to useful materials and industrial ingredients."
+msgstr "将<link=\"BUILDABLERAW\">矿物原料</link>粉碎成有用的材料和工业原料。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.METALLURGY_BALLCRUSHERMILL.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.METALLURGY_BALLCRUSHERMILL.NAME"
@@ -2498,13 +2536,13 @@ msgstr "先进熔炼冶金炉，其利用由载气喷射产生的极高温度的
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.METALLURGY_PLASMAFURNACE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.METALLURGY_PLASMAFURNACE.EFFECT"
 msgid ""
-"An advanced method for the refinement of <link=\"RAWMETAL\">Metal Ores</link> and other <link=\"RAWMINERAL\">Raw Minerals</link>.\n"
+"An advanced method for the refinement of <link=\"RAWMETAL\">Metal Ores</link> and other <link=\"BUILDABLERAW\">Raw Minerals</link>.\n"
 "\n"
 "Produces significant amounts of <link=\"HEAT\">Heat</link> and consumes <link=\"AIOCARRIERGAS\">carrier gases</link> during manufacturing.\n"
 "\n"
 "Main products are dispensed in molten state directly in the floor below the building while the liquid waste is released in a separated port."
 msgstr ""
-"采用先进技术精炼<link=\"RAWMETAL\">金属矿石</link>及其他<link=\"RAWMINERAL\">矿物原料</link>。\n"
+"采用先进技术精炼<link=\"RAWMETAL\">金属矿石</link>及其他<link=\"BUILDABLERAW\">矿物原料</link>。\n"
 "\n"
 "在制造过程中产生大量的<link=\"HEAT\">热量</link>并消耗<link=\"AIOCARRIERGAS\">载气</link>。\n"
 "\n"
@@ -3392,8 +3430,8 @@ msgstr "<link=\"HIGHGRADESAND\">高级金属砂</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.ISOPROPANEGAS.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.ISOPROPANEGAS.DESC"
-msgid "(HC(CH<sub>3</sub>)<sub>3</sub>) Isopropane is a petrochemical refrigerant gas suitable for a variety of purposes. Degrades to <link=\"PROPANE\">Propane</link> at higher temperatures."
-msgstr "(HC(CH<sub>3</sub>)<sub>3</sub>）异丙烷是一种石油化工制冷剂气体，适用于多种用途。在较高温度下会分解为<link=\"PROPANE\">丙烷</link>。"
+msgid "(C(CH<sub>4</sub>)<sub>2</sub>) Isopropane is a petrochemical refrigerant gas suitable for a variety of purposes. Degrades to <link=\"PROPANE\">Propane</link> at higher temperatures."
+msgstr "(C(CH<sub>4</sub>)<sub>2</sub>) 异丙烷是一种石油化工制冷剂气体，适用于多种用途。在较高温度下会分解为<link=\"PROPANE\">丙烷</link>。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.ISOPROPANEGAS.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.ISOPROPANEGAS.NAME"
@@ -4197,6 +4235,16 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.MODELEM
 msgid "New mod elements are embedded into the biomes during worldgen."
 msgstr "在世界生成过程中，新的模组元素会被嵌入到各个生态环境之中。"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.OLDREFINERIES.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.OLDREFINERIES.NAME"
+msgid "Reenable old multi-stage refineries"
+msgstr "重新启用旧版多级精炼厂"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.OLDREFINERIES.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.OLDREFINERIES.TOOLTIP"
+msgid "Reenables the two old Multi-Stage refineries in chemical processing"
+msgstr "重新启用化学工艺系统中的两座旧式多级精炼厂。"
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVANSLEGACY_AIO_DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVANSLEGACY_AIO_DESC"
 msgid "All the mods created by Ronivan, now collected and remastered into one configurable modpack."
@@ -4206,6 +4254,16 @@ msgstr "Ronivan 所创作的所有模组，现已整理并重新制作成一个�
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVANSLEGACY_AIO_NAME"
 msgid "Ronivan's Legacy - Industrial Revolution"
 msgstr "Ronivan 的模组遗作 - 工业革命"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.AIO_THRESHOLD_VALVE_SIDESCREEN.TITLE
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.AIO_THRESHOLD_VALVE_SIDESCREEN.TITLE"
+msgid "Package Mass Threshold"
+msgstr "包裹质量阈值"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.AIO_THRESHOLD_VALVE_SIDESCREEN.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.AIO_THRESHOLD_VALVE_SIDESCREEN.TOOLTIP"
+msgid "Sets the minimum package size of outgoing packages"
+msgstr "设置可输出包裹的最小质量阈值"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.BUILDINGCONFIGURABLE
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.BUILDINGCONFIGURABLE"
@@ -4255,7 +4313,7 @@ msgstr "泵范围："
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.RANGESETTINGS_SWEEPER
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.RANGESETTINGS_SWEEPER"
 msgid "Sweeper Range:"
-msgstr "自动清扫器范围"
+msgstr "自动清扫器范围："
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.WATTAGESETTINGS
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.WATTAGESETTINGS"
@@ -4720,7 +4778,7 @@ msgstr "机器运转中"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.FABRICATOR_ACTIVE.LOGIC_PORT_ACTIVE
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.FABRICATOR_ACTIVE.LOGIC_PORT_ACTIVE"
 msgid "Sends a <b><style=\"logic_on\">Green Signal</style></b> when the machine is actively producing something."
-msgstr "当机器正在进行生产时输出<b><style=\"logic_on\">绿色信号</style></b>"
+msgstr "当机器正在进行生产时输出<b><style=\"logic_on\">绿色信号</style></b>。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.FABRICATOR_ACTIVE.LOGIC_PORT_INACTIVE
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.FABRICATOR_ACTIVE.LOGIC_PORT_INACTIVE"
@@ -4841,6 +4899,12 @@ msgstr "绿铜锌矿"
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_HPA_RAIL"
 msgid "Obstructed by Heavy-Duty Rail"
 msgstr "被重型轨道阻挡"
+
+#~ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GAS_BOILER.EFFECT"
+#~ msgid "Boils <link=\"WATER\">Water</link> to <link=\"STEAM\">Steam</link> at 200 °C. This particular boiler uses <link=\"COMBUSTIBLEGAS\">Combustible Gases</link> as fuel, but may as well work with other combustible gases."
+#~ msgstr ""
+#~ "将<link=\"WATER\">水</link>加热至 200℃ 的<link=\"STEAM\">蒸汽</link> 。\n"
+#~ "这座特定的锅炉使用<link=\"COMBUSTIBLEGAS\">可燃气体</link>作为热源。"
 
 #~ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOM_METALREFINERY.DESC"
 #~ msgid "精炼金属是制作先进的电子产品和技术产品所必需的材料。"

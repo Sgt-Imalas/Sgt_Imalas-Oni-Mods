@@ -237,8 +237,8 @@ namespace RonivansLegacy_ChemicalProcessing
 		[Limit(1, 200)]
 		public int Biochem_AnaerobicDigesterBuff { get; set; } = 10;
 
-		//[Option("STRINGS.BIOCHEM_OILPRESSREBALANCE.GEYSERS.NAME", "STRINGS.BIOCHEM_OILPRESSREBALANCE.GEYSERS.TOOLTIP", "STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_BIOCHEMISTRY")]
-		//public bool Biochem_ExpellerPressRebalance { get; set; } = true;
-		
+		///[Option("STRINGS.RONIVAN_AIO_MODCONFIG.OLDREFINERIES.NAME", "STRINGS.BIOCHEM_OILPRESSREBALANCE.OLDREFINERIES.TOOLTIP", "STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_IO")]
+		///public bool IO_OldRefineries { get; set; } = false;
+
 	}
 }

@@ -46,6 +46,9 @@ namespace RonivansLegacy_ChemicalProcessing
 
 			///material tag for inert gases used as a carrier gas for plasma
 			public static Tag AIO_CarrierGas = TagManager.Create("AIO_CarrierGas");
+
+			///sulphuric acid as a buildable material
+			public static Tag AIO_SulphuricAcidBuildable = TagManager.Create("AIO_SulphuricAcidBuildable");
 		}
 		public static GameObject BuildingEditorWindowPrefab;
 
