@@ -773,10 +773,10 @@ elements:
     gasSurfaceAreaMultiplier: 1
     highTemp: 610.15
     lowTemp: 283.46
+    highTempTransitionTarget: SulfuricGas
     lowTempTransitionTarget: DirtyWater
     lowTempTransitionOreId: Sulfur
-    lowTempTransitionOreMassConversion: 0.18
-    highTempTransitionTarget: SulfuricGas
+    lowTempTransitionOreMassConversion: 0.35
     defaultTemperature: 296.15
     defaultMass: 600
     maxMass: 1000
@@ -787,6 +787,7 @@ elements:
     tags:
     - Mixture
     - Beached_VeryCorrosive #Beached Acid simulation
+    - AIO_SulphuricAcidBuildable #buildable acid material 
     isDisabled: false
     state: Liquid
     localizationID: STRINGS.ELEMENTS.LIQUIDSULFURIC.NAME
