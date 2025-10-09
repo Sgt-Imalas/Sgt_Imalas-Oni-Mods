@@ -316,7 +316,7 @@ namespace SetStartDupes
 				}
 				public class REROLLDURINGGAME_CAREPACKAGES
 				{
-					public static LocString NAME = "Reroll Care Packages";
+					public static LocString NAME = "Reroll or select Care Packages";
 					public static LocString TOOLTIP = "Enable this option to add the reroll button to printing pod care packages.";
 				}
 

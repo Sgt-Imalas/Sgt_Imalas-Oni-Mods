@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using Rockets_TinyYetBig.Content.Defs.Entities;
+using Rockets_TinyYetBig.Content.ModDb;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,11 +22,7 @@ namespace Rockets_TinyYetBig.Patches
 			/// <param name="__instance"></param>
 			public static void Postfix(CraftingTableConfig __instance)
 			{
-				RecipeBuilder.Create(CraftingTableConfig.ID, "Create " + STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_EMPTYDATACARD.NAME_PLURAL + " from steel and plastic metals. Recipe wip.", 100)
-					.Input(SimHashes.Steel.CreateTag(), 4)
-					.Input(SimHashes.Polypropylene.CreateTag(), 6)
-					.Output(EmptyDataCardConfig.TAG, 1)
-					.Build();
+				ModRecipes.AdditionalRecipes_CraftingTable();
 			}
 		}
 	}

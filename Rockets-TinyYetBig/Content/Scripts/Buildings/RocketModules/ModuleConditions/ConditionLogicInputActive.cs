@@ -12,13 +12,28 @@ namespace Rockets_TinyYetBig.Content.Scripts
 {
 	internal class ConditionLogicInputActive : ProcessCondition
 	{
+		static Dictionary<ConditionLogicInputActive, RocketModuleCluster> _modules = [];
+
 		RocketLogicLaunchCondition handler;
-		public ConditionLogicInputActive(RocketLogicLaunchCondition _handler)
+		ProcessConditionType conditionType;
+		public ConditionLogicInputActive(RocketLogicLaunchCondition _handler, ProcessConditionType type, RocketModuleCluster module)
 		{
 			handler = _handler;
+			this.conditionType = type;
+			_modules[this] = module;
 		}
 		public override Status EvaluateCondition()
 		{
+			if (handler.IsNullOrDestroyed() || handler.conditionType != this.conditionType)
+			{
+				if (_modules.TryGetValue(this, out var module))
+				{
+					RocketLogicLaunchCondition.RemoveModuleCondition(module, conditionType, this);
+					_modules.Remove(this);
+					return Status.Ready;
+				}
+			}
+
 			if (handler.logicPorts.GetInputValue(LogicOperationalController.PORT_ID) == 1)
 			{
 				return Status.Ready;

@@ -62,15 +62,17 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			storage.showCapacityStatusItem = true;
 			storage.showCapacityAsMainStatus = true;
 			storage.showDescriptor = true;
-			go.AddOrGet<SmartReservoir>();
+			go.AddOrGet<Reservoir>();
 			go.AddOrGet<ElementConversionBuilding>();
 			Prioritizable.AddRef(go);
 
 			ConduitConsumer waterInput = go.AddOrGet<ConduitConsumer>();
 			waterInput.conduitType = ConduitType.Liquid;
-			waterInput.consumptionRate = 1f;
+			//waterInput.consumptionRate = 1f;
 			waterInput.capacityTag = SimHashes.Water.CreateTag();
+			waterInput.capacityKG = 10f;
 			waterInput.forceAlwaysSatisfied = true;
+			waterInput.alwaysConsume = true;
 			waterInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 
 			ElementConverter converter = go.AddOrGet<ElementConverter>();
@@ -82,7 +84,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			dispenser.elementFilter = [SimHashes.Steam];
 			dispenser.AssignPort(steamOutputPort);
 			dispenser.alwaysDispense = true;
-			//dispenser.SkipSetOperational = true;
+			dispenser.SkipSetOperational = true;
 
 			this.AttachPort(go);
 		}
@@ -108,7 +110,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		public override void DoPostConfigureComplete(GameObject go)
 		{
 			go.AddOrGet<LogicOperationalController>();
-			go.AddOrGetDef<PoweredActiveController.Def>();
 			go.GetComponent<KPrefabID>().AddTag(GameTags.OverlayBehindConduits, false);
 		}
 	}

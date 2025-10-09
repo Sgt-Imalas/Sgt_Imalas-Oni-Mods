@@ -106,8 +106,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 			generator.formula = new EnergyGenerator.Formula()
 			{
 				inputs = [new(GameTags.CombustibleLiquid, 2f * SizeMultiplier, conduitInputRate * 2)],
-				outputs = [new(SimHashes.CarbonDioxide, 0.5f * SizeMultiplier, true, new CellOffset(0, 0), 383.15f),
-										new (SimHashes.DirtyWater, 0.75f * SizeMultiplier, true, new CellOffset(0, 0), 313.15f)]
+				outputs = [
+					new(SimHashes.CarbonDioxide, 0.5f * SizeMultiplier, true, new CellOffset(0, 0), 383.15f),
+					new (SimHashes.DirtyWater, 0.75f * SizeMultiplier, true, new CellOffset(0, 0), 313.15f)
+					]
 			};
 
 			PipedConduitDispenser co2Dispenser = go.AddOrGet<PipedConduitDispenser>();

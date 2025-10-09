@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>Imalas_TwitchChaosEvents</PackageId>
-		<Version>1.4.1</Version>
+		<Version>1.4.3</Version>
 		<Authors>Sgt_Imalas</Authors>
     <Copyright>$(AssemblyCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>

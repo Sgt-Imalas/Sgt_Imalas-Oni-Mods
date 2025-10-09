@@ -16,6 +16,7 @@ namespace RonivansLegacy_ChemicalProcessing
 	{
 		public static bool WriteWikiData => Mod.GenerateWiki && Mod.Instance.mod.IsDev && DlcManager.IsExpansion1Active();
 		public static bool GenerateWiki = false;
+		public static bool IsDev => Instance.mod.IsDev;
 
 		public static Mod Instance;
 		public static Harmony HarmonyInstance;
@@ -26,8 +27,6 @@ namespace RonivansLegacy_ChemicalProcessing
 			ModAssets.LoadAssets();
 			PUtil.InitLibrary(false);
 			new POptions().RegisterOptions(this, typeof(Config));
-
-			BuildingDatabase.RegisterBuildings();
 			HarmonyInstance = harmony;
 
 			base.OnLoad(harmony);

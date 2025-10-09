@@ -331,6 +331,12 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString DESC = "An industrial grade boiler that generates thermal energy by burning solid fossil fuels.";
 					public static LocString EFFECT = string.Concat("Boils ", FormatAsLink("Water", "WATER"), " to ", FormatAsLink("Steam", "STEAM"), " at 200 °C.\nThis particular boiler uses ", FormatAsLink("Combustustable Solids", "COMBUSTIBLESOLID"), " as fuel.");
 				}
+				public class CHEMICAL_SOURGASSWEETENER
+				{
+					public static LocString NAME = FormatAsLink("Sour Gas Sweetener", nameof(CHEMICAL_SOURGASSWEETENER));
+					public static LocString DESC = "A treatment plant that uses activated carbon beds for de-acidification of sour gas.";
+					public static LocString EFFECT = "Uses " + FormatAsLink("Activated Carbon", "REFINEDCARBON") + " for the adsorbtion the sulphuric compounds from "+ FormatAsLink("Sour Gas", "SOURGAS")+", yielding " + FormatAsLink("Natural Gas", "METHANE") +" and elemental " + FormatAsLink("Sulphur", "SULPHUR")+".\nActivated carbon requires periodic replacing.";
+				}
 				public class CHEMICAL_CRUDEOILREFINERY
 				{
 					public static LocString NAME = FormatAsLink("Crude Oil Refinery", nameof(CHEMICAL_CRUDEOILREFINERY));
@@ -381,7 +387,13 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = FormatAsLink("Gas-fueled Steam Boiler", nameof(CHEMICAL_GAS_BOILER));
 					public static LocString DESC = "An industrial grade boiler that generates thermal energy by burning Combustible Gases.";
-					public static LocString EFFECT = string.Concat(["Boils ", FormatAsLink("Water", "WATER"), " to ", FormatAsLink("Steam", "STEAM"), " at 200 °C. This particular boiler uses ", FormatAsLink("Combustible Gases", "COMBUSTIBLEGAS"), " as fuel, but may as well work with other combustible gases."]);
+					public static LocString EFFECT = string.Concat(["Boils ", FormatAsLink("Water", "WATER"), " to ", FormatAsLink("Steam", "STEAM"), " at 200 °C. This particular boiler uses ", FormatAsLink("Combustible Gases", "COMBUSTIBLEGAS"), " as fuel."]);
+				}
+				public class CHEMICAL_LIQUID_BOILER
+				{
+					public static LocString NAME = FormatAsLink("Liquid-fueled Steam Boiler", nameof(CHEMICAL_GAS_BOILER));
+					public static LocString DESC = "An industrial grade boiler that generates thermal energy by burning Combustible Liquids.";
+					public static LocString EFFECT = string.Concat(["Boils ", FormatAsLink("Water", "WATER"), " to ", FormatAsLink("Steam", "STEAM"), " at 200 °C. This particular boiler uses ", FormatAsLink("Combustible Liquids", "COMBUSTIBLELIQUID"), " as fuel."]);
 				}
 				public class CHEMICAL_GLASSFOUNDRY
 				{
@@ -2315,6 +2327,11 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString TOOLTIP = "The mod is enabled, this includes buildings, research, recipes and other mod specific mechanics.\nYou can still disable individual buildings of the mod in the building configuration editor, separate from this setting.";
 				public static LocString TOOLTIP_ELEMENTS = "The mod is enabled, this includes buildings, research, recipes, elements, comets and other mod specific mechanics.\nYou can still disable individual buildings of the mod in the building editor, separate from this setting.\nWarning: when this mod is enabled, worldgen will be altered by new elements";
 
+			}
+			public class OLDREFINERIES
+			{
+				public static LocString NAME = "Reenable old multi-stage refineries";
+				public static LocString TOOLTIP = "Reenables the two old Multi-Stage refineries in chemical processing";
 			}
 			public class GEYSERS
 			{

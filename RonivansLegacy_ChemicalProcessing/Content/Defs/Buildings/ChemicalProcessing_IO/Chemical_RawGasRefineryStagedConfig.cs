@@ -34,15 +34,15 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 		static Chemical_RawGasRefineryStagedConfig()
 		{
-			steamGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(-2, 0), color: new Color?((Color)new Color32((byte)167, (byte)180, (byte)201, byte.MaxValue)));
-			hydrogenGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(3, 2), color: new Color?((Color)new Color32((byte)224, (byte)67, (byte)203, byte.MaxValue)));
-			propaneGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(3, 1), color: new Color?((Color)new Color32((byte)3, (byte)44, (byte)252, byte.MaxValue)));
-			sourGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(3, 3), color: new Color?((Color)new Color32(byte.MaxValue, (byte)173, (byte)248, byte.MaxValue)));
-			nitricInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(4, 0), color: new Color?((Color)new Color32(byte.MaxValue, (byte)68, (byte)0, byte.MaxValue)));
-			propaneGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(3, 0), color: new Color?((Color)new Color32((byte)3, (byte)44, (byte)252, byte.MaxValue)));
-			sourGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(-2, 2), color: new Color?((Color)new Color32(byte.MaxValue, (byte)173, (byte)248, byte.MaxValue)));
-			ammoniaGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(-2, 1), color: new Color?((Color)new Color32((byte)215, (byte)227, (byte)252, byte.MaxValue)));
-			waterLiquidOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(-3, 0), color: new Color?((Color)new Color32((byte)72, (byte)129, (byte)247, byte.MaxValue)));
+			steamGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(-2, 0), color: new Color?((Color)new Color32(167, 180, 201, byte.MaxValue)));
+			hydrogenGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(3, 2), color: new Color?((Color)new Color32(224, 67, 203, byte.MaxValue)));
+			propaneGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(3, 1), color: new Color?((Color)new Color32(3, 44, 252, byte.MaxValue)));
+			sourGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(3, 3), color: new Color?((Color)new Color32(byte.MaxValue, 173, 248, byte.MaxValue)));
+			nitricInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(4, 0), color: new Color?((Color)new Color32(byte.MaxValue, 68, 0, byte.MaxValue)));
+			propaneGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(3, 0), color: new Color?((Color)new Color32(3, 44, 252, byte.MaxValue)));
+			sourGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(-2, 2), color: new Color?((Color)new Color32(byte.MaxValue, 173, 248, byte.MaxValue)));
+			ammoniaGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(-2, 1), color: new Color?((Color)new Color32(215, 227, 252, byte.MaxValue)));
+			waterLiquidOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(-3, 0), color: new Color?((Color)new Color32(72, 129, 247, byte.MaxValue)));
 
 		}
 
@@ -232,15 +232,15 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		{
 			PortDisplayController displayController = go.AddComponent<PortDisplayController>();
 			displayController.Init(go);
-			displayController.AssignPort(go, (DisplayConduitPortInfo)hydrogenGasInputPort);
-			displayController.AssignPort(go, (DisplayConduitPortInfo)steamGasInputPort);
-			displayController.AssignPort(go, (DisplayConduitPortInfo)propaneGasInputPort);
-			displayController.AssignPort(go, (DisplayConduitPortInfo)sourGasInputPort);
-			displayController.AssignPort(go, (DisplayConduitPortInfo)nitricInputPort);
-			displayController.AssignPort(go, (DisplayConduitPortInfo)propaneGasOutputPort);
-			displayController.AssignPort(go, (DisplayConduitPortInfo)sourGasOutputPort);
-			displayController.AssignPort(go, (DisplayConduitPortInfo)ammoniaGasOutputPort);
-			displayController.AssignPort(go, (DisplayConduitPortInfo)waterLiquidOutputPort);
+			displayController.AssignPort(go, hydrogenGasInputPort);
+			displayController.AssignPort(go, steamGasInputPort);
+			displayController.AssignPort(go, propaneGasInputPort);
+			displayController.AssignPort(go, sourGasInputPort);
+			displayController.AssignPort(go, nitricInputPort);
+			displayController.AssignPort(go, propaneGasOutputPort);
+			displayController.AssignPort(go, sourGasOutputPort);
+			displayController.AssignPort(go, ammoniaGasOutputPort);
+			displayController.AssignPort(go, waterLiquidOutputPort);
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)

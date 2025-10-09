@@ -44,10 +44,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				default_state = off;
 				off.PlayAnim("off")
 					.EventTransition(GameHashes.OperationalChanged, on, (StatesInstance smi) => smi.master.operational.IsOperational);
-				on.PlayAnim("on")
+				on
 					.EventTransition(GameHashes.OperationalChanged, off, (StatesInstance smi) => !smi.master.operational.IsOperational)
 					.DefaultState(on.waiting);
 				on.waiting
+					.PlayAnim("on")
 					.EventTransition(GameHashes.OnStorageChange, on.working_pre, (StatesInstance smi) => smi.master.HasEnoughMassToStartConverting());
 				on.working_pre.PlayAnim("working_pre").OnAnimQueueComplete(on.working);
 				on.working.Enter(delegate (StatesInstance smi)

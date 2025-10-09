@@ -27,13 +27,13 @@ namespace Rockets_TinyYetBig
 			{
 				if (__instance is SelectModuleSideScreen)
 				{
-					__instance.isEditing = CategoryPatchTest.EditingSearch;
+					__instance.isEditing = SelectModuleSidescreen_AddButtons_Patch.EditingSearch;
 					if (e.TryConsume(Action.DebugToggleClusterFX))
 					{
-						CategoryPatchTest.SearchBar.Select();
-						CategoryPatchTest.SearchBar.ActivateInputField();
+						SelectModuleSidescreen_AddButtons_Patch.SearchBar.Select();
+						SelectModuleSidescreen_AddButtons_Patch.SearchBar.ActivateInputField();
 						KScreenManager.Instance.RefreshStack();
-						CategoryPatchTest.EditingSearch = true;
+						SelectModuleSidescreen_AddButtons_Patch.EditingSearch = true;
 					}
 				}
 			}
@@ -61,14 +61,14 @@ namespace Rockets_TinyYetBig
 		{
 			public static void Prefix()
 			{
-				CategoryPatchTest.ClearSearchBar();
+				SelectModuleSidescreen_AddButtons_Patch.ClearSearchBar();
 			}
 		}
 		/// <summary>
 		/// add building categories and searchbar to Rocket module screen
 		/// </summary>
 		[HarmonyPatch(typeof(SelectModuleSideScreen), nameof(SelectModuleSideScreen.SpawnButtons))]
-		public static class CategoryPatchTest
+		public static class SelectModuleSidescreen_AddButtons_Patch
 		{
 			public static KInputTextField SearchBar = null;
 			static Dictionary<int, MultiToggle> HeaderButtons = new Dictionary<int, MultiToggle>();
@@ -228,15 +228,11 @@ namespace Rockets_TinyYetBig
 				SearchBar.placeholder.TryGetComponent<TMPro.TextMeshProUGUI>(out var textMesh);
 				textMesh.text = STRINGS.ROCKETBUILDMENUCATEGORIES.SEARCHBARFILLER;
 
-				///TODO: PLACEHOLDER TEXT
-
 				UIUtils.AddActionToButton(searchbar.transform, "ClearSearchButton", () => ClearSearchBar());
 				UIUtils.AddActionToButton(searchbar.transform, "ListViewButton", () => SetCategoryVisibility(true));
 				UIUtils.AddActionToButton(searchbar.transform, "GridViewButton", () => SetCategoryVisibility(false));
 				//UIUtils.FindAndDestroy(searchbar.transform, "GridViewButton");
 				//UIUtils.FindAndDestroy(searchbar.transform, "ListViewButton");
-
-
 
 				foreach (var category in RocketModuleList.GetRocketModuleList())
 				{
@@ -285,34 +281,48 @@ namespace Rockets_TinyYetBig
 						foreach (string RocketModuleID in category.Value)
 						{
 							GameObject part = prefabsWithComponent.Find((Predicate<GameObject>)(p => p.PrefabID().Name == RocketModuleID));
-							if ((UnityEngine.Object)part == (UnityEngine.Object)null)
+							if (part == null)
 							{
 								SgtLogger.warning(("Found an id [" + RocketModuleID + "] in moduleButtonSortOrder in SelectModuleSideScreen.cs that doesn't have a corresponding rocket part!"));
 							}
 							else
 							{
+								part.TryGetComponent<Building>(out var b);
+								var def = b.Def;
+
 								GameObject ModuleButton = Util.KInstantiateUI(__instance.moduleButtonPrefab, CategoryGrid.gameObject, true);
 								ModuleButton.GetComponentsInChildren<Image>()[1].sprite = Def.GetUISprite((object)part).first;
 								LocText componentInChildren = ModuleButton.GetComponentInChildren<LocText>();
 								componentInChildren.text = part.GetProperName();
 								componentInChildren.alignment = TextAlignmentOptions.Bottom;
 								componentInChildren.enableWordWrapping = true;
-								ModuleButton.GetComponent<MultiToggle>().onClick += (() => __instance.SelectModule(part.GetComponent<Building>().Def));
-								ModAssets.CategorizedButtons.Add(new Tuple<BuildingDef, int>(part.GetComponent<Building>().Def, category.Key), ModuleButton);
+								ModuleButton.GetComponent<MultiToggle>().onClick += (() => __instance.SelectModule(def));
 
-								__instance.SetupBuildingTooltip(ModuleButton.GetComponent<ToolTip>(), part.GetComponent<Building>().Def);
+								var tuple = new Tuple<BuildingDef, int>(def, category.Key);
 
-								if (__instance.selectedModuleDef != (UnityEngine.Object)null)
+								if (ModAssets.CategorizedButtons.ContainsKey(tuple))
+								{
+									SgtLogger.l("Duplicate button found for " + def.PrefabID.ToString() + " in category " + ((RocketCategory)category.Key).ToString());
+									ModAssets.CategorizedButtons.Remove(tuple);
+								}
+								ModAssets.CategorizedButtons.Add(tuple, ModuleButton);
+
+								__instance.SetupBuildingTooltip(ModuleButton.GetComponent<ToolTip>(), def);
+
+								if (__instance.selectedModuleDef != null)
 									__instance.SelectModule(__instance.selectedModuleDef);
 
-								if (!SearchableButtons.ContainsKey(part.GetComponent<Building>().Def))
+								if (SearchableButtons.ContainsKey(def))
 								{
-									var Copy = Util.KInstantiateUI(ModuleButton, searchButtonsContainer.gameObject);
-									Copy.GetComponent<MultiToggle>().onClick += (() => __instance.SelectModule(part.GetComponent<Building>().Def));
-									__instance.SetupBuildingTooltip(Copy.GetComponent<ToolTip>(), part.GetComponent<Building>().Def);
-									Copy.SetActive(false);
-									SearchableButtons.Add(part.GetComponent<Building>().Def, Copy);
+									SgtLogger.l("Duplicate button found for " + def.PrefabID.ToString() + " in searchable buttons!");
+									SearchableButtons.Remove(def);
 								}
+
+								var Copy = Util.KInstantiateUI(ModuleButton, searchButtonsContainer.gameObject);
+								Copy.GetComponent<MultiToggle>().onClick += (() => __instance.SelectModule(def));
+								__instance.SetupBuildingTooltip(Copy.GetComponent<ToolTip>(), def);
+								Copy.SetActive(false);
+								SearchableButtons.Add(def, Copy);
 							}
 						}
 					}
@@ -525,7 +535,7 @@ namespace Rockets_TinyYetBig
 
 					}
 				}
-				foreach (var button in CategoryPatchTest.SearchableButtons)
+				foreach (var button in SelectModuleSidescreen_AddButtons_Patch.SearchableButtons)
 				{
 					if (!button.IsNullOrDestroyed() && !button.Value.IsNullOrDestroyed())
 					{
@@ -595,7 +605,7 @@ namespace Rockets_TinyYetBig
 						}
 					}
 				}
-				foreach (var button in CategoryPatchTest.SearchableButtons)
+				foreach (var button in SelectModuleSidescreen_AddButtons_Patch.SearchableButtons)
 				{
 					if (!button.IsNullOrDestroyed() && !button.Value.IsNullOrDestroyed())
 					{
@@ -623,7 +633,7 @@ namespace Rockets_TinyYetBig
 						}
 					}
 				}
-				CategoryPatchTest.ToggleCategoriesSearch(false);
+				SelectModuleSidescreen_AddButtons_Patch.ToggleCategoriesSearch(false);
 
 				if (___selectedModuleDef != null)
 				{

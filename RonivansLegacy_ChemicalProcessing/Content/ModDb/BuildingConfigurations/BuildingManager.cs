@@ -104,15 +104,28 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		{
 			ConfigCollection = BuildingConfigurationCollection.LoadFromFile();
 		}
+
+		static bool buildingsRegistered = false;
+		static void InitRegistration()
+		{
+			if(buildingsRegistered) { return; }
+			buildingsRegistered = true;
+			SgtLogger.l("REGISTER BUILDINGS - INIT");
+			BuildingDatabase.RegisterBuildings();
+		}
+
+
 		public static void AddBuildingsToPlanScreen()
 		{
-			foreach(var entry in BuildingInjections)
+			InitRegistration();
+			foreach (var entry in BuildingInjections)
 			{
 				entry.Value.RegisterPlanscreen();
 			}
 		}
 		public static void AddBuildingsToTechs()
 		{
+			InitRegistration();
 			foreach (var entry in BuildingInjections)
 			{
 				entry.Value.RegisterTech();

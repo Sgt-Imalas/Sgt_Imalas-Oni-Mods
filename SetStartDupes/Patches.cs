@@ -336,7 +336,7 @@ namespace SetStartDupes
 			{
 				EditingSingleDupe = telepad == null;
 
-				if ((EditingSingleDupe && Config.Instance.JorgeAndCryopodDupes) || Config.Instance.RerollDuringGame)
+				if ((EditingSingleDupe && Config.Instance.JorgeAndCryopodDupes) || Config.Instance.RerollDuringGame || Config.Instance.RerollDuringGame_CarePackage)
 				{
 					ToggleSpacer(__instance, true);
 				}

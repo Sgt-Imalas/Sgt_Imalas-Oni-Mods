@@ -72,7 +72,6 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 			selector.assignable = true;
 			selector.requireAsteroidDestination = false;
 			SymbolOverrideControllerUtil.AddToPrefab(go);
-
 			go.AddComponent<POICapacitySensorSM>();
 		}
 	}

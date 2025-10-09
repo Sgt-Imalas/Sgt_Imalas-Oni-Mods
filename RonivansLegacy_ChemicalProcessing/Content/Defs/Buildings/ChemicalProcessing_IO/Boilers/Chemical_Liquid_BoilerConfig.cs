@@ -22,13 +22,13 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 	//===[ CHEMICAL: GAS BOILER CONFIG ]=====================================================================
 	[SerializationConfig(MemberSerialization.OptIn)]
-	public class Chemical_Gas_BoilerConfig : IBuildingConfig
+	public class Chemical_Liquid_BoilerConfig : IBuildingConfig
 	{
 		//--[ Base Information ]-----------------------------------------------
-		public static string ID = "Chemical_Gas_Boiler";
+		public static string ID = "Chemical_Liquid_Boiler";
 		
 		//--[ Special Settings ]-----------------------------------------------
-		private static readonly PortDisplayInput combustibleGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(0, 0),null, new Color32(255, 114, 33, 255));
+		private static readonly PortDisplayInput combustibleLiquidInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(1, 1),null, new Color32(255, 195, 37, 255));
 		private static readonly PortDisplayOutput steamOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(0, 3),null, new Color32(167, 180, 201, 255));
 		private static readonly PortDisplayOutput co2Port = new PortDisplayOutput(ConduitType.Gas, new CellOffset(-1, 2), null, UIUtils.rgb(6, 62, 42));
 
@@ -40,7 +40,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			string[] textArray1 = ["RefinedMetal", SimHashes.Ceramic.ToString()];
 
 			EffectorValues noise = NOISE_POLLUTION.NOISY.TIER3;
-			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 4, "gas_boiler_kanim", 100, 30f, singleArray1, textArray1, 800f, BuildLocationRule.OnFloor, TUNING.BUILDINGS.DECOR.PENALTY.TIER2, noise, 0.2f);
+			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 4, "aio_petrol_steam_boiler_kanim", 100, 30f, singleArray1, textArray1, 800f, BuildLocationRule.OnFloor, TUNING.BUILDINGS.DECOR.PENALTY.TIER2, noise, 0.2f);
 			buildingDef.ExhaustKilowattsWhenActive = 8f;
 			buildingDef.SelfHeatKilowattsWhenActive = 1f;
 			buildingDef.AudioCategory = "HollowMetal";
@@ -52,7 +52,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			list1.Add(LogicPorts.Port.OutputPort(SmartReservoir.PORT_ID, new CellOffset(1, 0), (string)STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.LOGIC_PORT, (string)STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.LOGIC_PORT_ACTIVE, (string)STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.LOGIC_PORT_INACTIVE, false, false));
 			buildingDef.LogicOutputPorts = list1; 
 			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.LiquidVentIDs, ID);
-			SoundUtils.CopySoundsToAnim("gas_boiler_kanim", "generatorphos_kanim");
+			SoundUtils.CopySoundsToAnim("aio_petrol_steam_boiler_kanim", "generatorphos_kanim");
 
 			return buildingDef;
 		}
@@ -80,22 +80,22 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			waterInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 
 			PortConduitConsumer combustibleGasInput = go.AddComponent<PortConduitConsumer>();
-			combustibleGasInput.conduitType = ConduitType.Gas;
-			combustibleGasInput.consumptionRate = 1f;
+			combustibleGasInput.conduitType = ConduitType.Liquid;
+			combustibleGasInput.consumptionRate = 10f;
 			combustibleGasInput.capacityKG = 30f;
-			combustibleGasInput.capacityTag = GameTags.CombustibleGas;
+			combustibleGasInput.capacityTag = GameTags.CombustibleLiquid;
 			combustibleGasInput.forceAlwaysSatisfied = true;
 			combustibleGasInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
-			combustibleGasInput.AssignPort(combustibleGasInputPort);
+			combustibleGasInput.AssignPort(combustibleLiquidInputPort);
 
 			//-----[ Element Converter Section ]---------------------------------
 			ElementConverter converter = go.AddOrGet<ElementConverter>();
 			converter.consumedElements = [
-				new ElementConverter.ConsumedElement(GameTags.CombustibleGas, 0.09f*1.125f), //50% efficiency bonus: 1350W of steam for 900W natgas gen combustable gas; 
+				new ElementConverter.ConsumedElement(GameTags.CombustibleLiquid, 0.9f), //50% efficiency bonus: 1350W of steam for 900W petrol gen gen combustable liquid; 
 				new ElementConverter.ConsumedElement(SimHashes.Water.CreateTag(), 4f) ];
 			converter.outputElements = [
 				new(4f, SimHashes.Steam, UtilMethods.GetKelvinFromC(200), false, true, 0f, 0.5f, 0.75f, 0xff, 0),
-				new(0.2f ,SimHashes.CarbonDioxide,UtilMethods.GetKelvinFromC(110),false, true,-1,2)
+				new(0.3375f,SimHashes.CarbonDioxide,UtilMethods.GetKelvinFromC(110),false, true,-1,2)
 				];
 			//-------------------------------------------------------------------
 
@@ -126,7 +126,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			PortDisplayController controller = go.AddComponent<PortDisplayController>();
 			controller.Init(go);
 
-			controller.AssignPort(go, combustibleGasInputPort);
+			controller.AssignPort(go, combustibleLiquidInputPort);
 			controller.AssignPort(go, steamOutputPort);
 			controller.AssignPort(go, co2Port);
 		}

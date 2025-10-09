@@ -44,12 +44,17 @@ namespace BlueprintsV2.Visualizers
 
 		public void Clean()
 		{
+			if(!Grid.IsValidBuildingCell(DirtyCell))
+			{
+				return;
+			}
+
 			if (DirtyCell != -1 && Grid.IsValidBuildingCell(DirtyCell))
 			{
 				if (buildingConfig.BuildingDef.isKAnimTile)
 				{
 					GameObject tileLayerObject = Grid.Objects[DirtyCell, (int)buildingConfig.BuildingDef.TileLayer];
-					if (tileLayerObject == null || tileLayerObject.GetComponent<Constructable>() == null)
+					if (tileLayerObject == null || !tileLayerObject.TryGetComponent<Constructable>(out _))
 					{
 						World.Instance.blockTileRenderer.RemoveBlock(buildingConfig.BuildingDef, false, SimHashes.Void, DirtyCell);
 					}
@@ -64,12 +69,10 @@ namespace BlueprintsV2.Visualizers
 				{
 					Grid.Objects[DirtyCell, (int)buildingConfig.BuildingDef.TileLayer] = null;
 				}
-				//PUtil.LogDebug("2 " + DirtyCell);
 				if (hasReplacementLayer && Grid.Objects[DirtyCell, (int)buildingConfig.BuildingDef.ReplacementLayer] == Visualizer)
 				{
 					Grid.Objects[DirtyCell, (int)buildingConfig.BuildingDef.ReplacementLayer] = null;
 				}
-				//PUtil.LogDebug("4 " + DirtyCell);
 				TileVisualizer.RefreshCell(DirtyCell, buildingConfig.BuildingDef.TileLayer, buildingConfig.BuildingDef.ReplacementLayer);
 			}
 			DirtyCell = -1;

@@ -17,9 +17,9 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 		[MyCmpReq] public LogicPorts logicPorts;
 		[MyCmpGet] KBatchedAnimController kbac;
 
-		public RocketModule worldModule;
+		public RocketModuleCluster worldModule;
 
-		[Serialize] ProcessConditionType conditionType = ProcessConditionType.RocketBoard;
+		[Serialize] public ProcessConditionType conditionType = ProcessConditionType.RocketBoard;
 
 		private ConditionLogicInputActive lastConditionApplied = null;
 
@@ -73,7 +73,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 			}
 			if (lastConditionApplied != null)
 				return;
-			var condition = new ConditionLogicInputActive(this);
+			var condition = new ConditionLogicInputActive(this, conditionType, worldModule);
 			worldModule.AddModuleCondition(conditionType, condition);
 			lastConditionApplied = condition;
 		}
@@ -88,14 +88,21 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 			if (lastConditionApplied == null) 
 				return;
 
-			if(worldModule.moduleConditions.TryGetValue(conditionType, out var conditions))
+			RemoveModuleCondition(worldModule, conditionType, lastConditionApplied);
+			lastConditionApplied = null;
+		}
+		public static void RemoveModuleCondition(RocketModuleCluster module, ProcessConditionType type, ConditionLogicInputActive condition)
+		{
+			if (module == null || condition == null)
+				return;
+			if (module.moduleConditions.TryGetValue(type, out var conditions))
 			{
-				if(conditions.Contains(lastConditionApplied))
+				if (conditions.Contains(condition))
 				{
-					conditions.Remove(lastConditionApplied);
+					conditions.Remove(condition);
+					//GameScheduler.Instance.ScheduleNextFrame("Remove Rocket Logic Launch Condition", (_)=>);					
 				}
 			}
-			lastConditionApplied = null;
 		}
 
 		public FewOptionSideScreen.IFewOptionSideScreen.Option[] GetOptions() => [
@@ -109,8 +116,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 
 		public void OnOptionSelected(FewOptionSideScreen.IFewOptionSideScreen.Option option)
 		{
-			var oldCOndition = conditionType;
-
+			RemoveCurrentCondition();
 			switch (option.tag.ToString())
 			{
 				case nameof(ProcessConditionType.RocketFlight):
@@ -126,7 +132,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 					conditionType = ProcessConditionType.RocketBoard;
 					break;
 			}
-
+			AddCurrentCondition();
 		}
 	}
 }

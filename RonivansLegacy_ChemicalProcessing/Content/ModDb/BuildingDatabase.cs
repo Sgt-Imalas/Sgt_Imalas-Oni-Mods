@@ -7,6 +7,7 @@ using High_Pressure_Applications.BuildingConfigs;
 using Metallurgy.Buildings;
 using Mineral_Processing;
 using Mineral_Processing_Mining.Buildings;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.ChemicalProcessing_IO;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerators;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservoirs;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineering;
@@ -39,6 +40,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		{
 			GameTags.MaterialBuildingElements.Add(SimHashes.Ceramic.CreateTag());
 			GameTags.MaterialBuildingElements.Add(SimHashes.Tungsten.CreateTag());
+			GameTags.MaterialBuildingElements.Add(ModAssets.Tags.AIO_SulphuricAcidBuildable);
 		}
 		internal static void RegisterExtraStrings()
 		{
@@ -51,6 +53,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			Strings.Add("STRINGS.MISC.TAGS.CONCRETEBLOCK", STRINGS.ELEMENTS.CONCRETEBLOCK.NAME);
 			Strings.Add("STRINGS.MISC.TAGS.BRICK", global::STRINGS.ELEMENTS.BRICK.NAME);
 			Strings.Add("STRINGS.MISC.TAGS.BITUMEN", global::STRINGS.ELEMENTS.BITUMEN.NAME);
+			Strings.Add("STRINGS.MISC.TAGS.REFINEDCARBON", global::STRINGS.ELEMENTS.REFINEDCARBON.NAME);
+			Strings.Add("STRINGS.MISC.TAGS.AIO_SULPHURICACIDBUILDABLE", STRINGS.ELEMENTS.LIQUIDSULFURIC.NAME);
 
 			//renaming the vanilla moulding tile to marble tile
 			global::STRINGS.BUILDINGS.PREFABS.MOULDINGTILE.NAME = STRINGS.BUILDINGS.PREFABS.MARBLETILESTRINGS.NAME;
@@ -151,10 +155,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
 			.MigrateFrom("Chemical_Co2RecyclerDLC1");
 
-			BuildingManager.CreateEntry<Chemical_CrudeOilRefineryStagedConfig>()
-			.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
-			.AddToTech(Technology.Power.ValveMiniaturization)
-			.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+			//if (Config.Instance.IO_OldRefineries || Mod.IsDev)
+			{
+				BuildingManager.CreateEntry<Chemical_CrudeOilRefineryStagedConfig>()
+				.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
+				.AddToTech(Technology.Power.ValveMiniaturization)
+				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+			}
 
 			BuildingManager.CreateEntry<Chemical_CrudeOilRefineryConfig>()
 			.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
@@ -192,11 +199,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
 			.AddToTech(Technology.Power.FossilFuels)
 			.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
-
-			BuildingManager.CreateEntry<Chemical_RawGasRefineryStagedConfig>()
-			.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
-			.AddToTech(Technology.Power.ValveMiniaturization)
-			.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+			
+			//if (Config.Instance.IO_OldRefineries || Mod.IsDev)
+			{
+				BuildingManager.CreateEntry<Chemical_RawGasRefineryStagedConfig>()
+				.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
+				.AddToTech(Technology.Power.ValveMiniaturization)
+				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+			}
 
 			BuildingManager.CreateEntry<Chemical_RawGasRefineryConfig>()
 			.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
@@ -245,6 +255,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			.AddToTech(Technology.Liquids.Emulsification)
 			.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
 
+			BuildingManager.CreateEntry<Chemical_SourGasSweetenerConfig>()
+			.AddToCategory(PlanMenuCategory.Refinement, ChemicalRefineryConfig.ID)
+			.AddToTech(Technology.Liquids.Emulsification)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+
 			BuildingManager.CreateEntry<Chemical_ThermalDesalinatorConfig>()
 			.AddToCategory(PlanMenuCategory.Refinement, DesalinatorConfig.ID)
 			.AddToTech(Technology.Liquids.LiquidBasedRefinementProcess)
@@ -267,6 +282,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			.AddToTech(Technology.Power.FossilFuels)
 			.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
 			.AddModFrom(SourceModInfo.DupesMachinery, "Coal_Boiler");
+
+			BuildingManager.CreateEntry<Chemical_Liquid_BoilerConfig>()
+			.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
+			.AddToTech(Technology.Power.FossilFuels)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
+			.AddModFrom(SourceModInfo.DupesMachinery);
 
 			BuildingManager.CreateEntry<Chemical_Gas_BoilerConfig>()
 			.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
@@ -577,7 +598,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddModFrom(SourceModInfo.CustomReservoirs);
 
 			BuildingManager.CreateEntry<SmallGasReservoirDefaultConfig>()
-				.AddToCategory(menuCategoryGas, GasReservoirConfig.ID,ModUtil.BuildingOrdering.Before)
+				.AddToCategory(menuCategoryGas, GasReservoirConfig.ID, ModUtil.BuildingOrdering.Before)
 				.AddToTech(Technology.Gases.Ventilation)
 				.AddModFrom(SourceModInfo.CustomReservoirs);
 
@@ -785,7 +806,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToTech(Technology.SolidMaterial.SolidManagement)
 				.AddModFrom(SourceModInfo.HighPressureApplications);
 		}
-
 		private static void RegisterBuildings_DupesRefrigeration()
 		{
 			BuildingManager.CreateEntry<HightechBigFridgeConfig>()

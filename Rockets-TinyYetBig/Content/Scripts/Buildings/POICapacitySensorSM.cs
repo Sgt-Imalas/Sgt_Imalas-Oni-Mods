@@ -51,25 +51,19 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 		ArtifactPOIStates.Instance artifactpoistatus = null;
 		HarvestablePOIStates.Instance harvestpoistatus = null;
 
-		bool LastArtifactState = false;
-		bool LastThresholdState = false;
-		bool lastWasNonOperationa = false;
+		//bool LastArtifactState = false;
+		//bool LastThresholdState = false;
+		//bool lastWasNonOperational = false;
 
 		void UpdateLogicState(bool force = false)
 		{
 			if (!operational.IsOperational)
 			{
-				if (!lastWasNonOperationa)
-				{
-					logicPorts.SendSignal(POICapacitySensorConfig.PORT_ID_ARTIFACT, 0);
-					logicPorts.SendSignal(POICapacitySensorConfig.PORT_ID_MASS_THRESHOLD, 0);
-					UpdateVisualState(false, force);
-					lastWasNonOperationa = true;
-				}
+				logicPorts.SendSignal(POICapacitySensorConfig.PORT_ID_ARTIFACT, 0);
+				logicPorts.SendSignal(POICapacitySensorConfig.PORT_ID_MASS_THRESHOLD, 0);
+				UpdateVisualState(false, force);
 				return;
 			}
-
-			lastWasNonOperationa = false;
 
 			bool artifactIsAvailable = artifactpoistatus != null ? artifactpoistatus.CanHarvestArtifact() : false;
 			bool aboveMassThreshold = harvestpoistatus != null ?
@@ -78,16 +72,16 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 					: harvestpoistatus.poiCapacity < threshold
 				: false;
 
-			if (LastArtifactState != artifactIsAvailable || force)
-			{
-				LastArtifactState = artifactIsAvailable;
-				logicPorts.SendSignal(POICapacitySensorConfig.PORT_ID_ARTIFACT, this.LastArtifactState ? 1 : 0);
-			}
-			if (LastThresholdState != aboveMassThreshold || force)
-			{
-				LastThresholdState = aboveMassThreshold;
-				logicPorts.SendSignal(POICapacitySensorConfig.PORT_ID_MASS_THRESHOLD, this.LastThresholdState ? 1 : 0);
-			}
+			//if (LastArtifactState != artifactIsAvailable || force)
+			//{
+			//	LastArtifactState = artifactIsAvailable;
+				logicPorts.SendSignal(POICapacitySensorConfig.PORT_ID_ARTIFACT, artifactIsAvailable ? 1 : 0);
+			//}
+			//if (LastThresholdState != aboveMassThreshold || force)
+			//{
+				//LastThresholdState = aboveMassThreshold;
+				logicPorts.SendSignal(POICapacitySensorConfig.PORT_ID_MASS_THRESHOLD, aboveMassThreshold ? 1 : 0);
+			//}
 
 			bool ShouldBeGreen = (artifactIsAvailable && ArtifactOnly || aboveMassThreshold);
 
@@ -103,8 +97,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 				lastVisualState = newState;
 
 
-			Color color = newState ? GlobalAssets.Instance.colorSet.logicOn : GlobalAssets.Instance.colorSet.logicOff;
-			color.a = 1f;
+			Color color = newState ? AccessibilityUtils.LogicGood : AccessibilityUtils.LogicBad;
 			animController.SetSymbolTint("body_active", color);
 		}
 
@@ -145,6 +138,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 			if (symbol != null)
 			{
 				SgtLogger.l("replacing image");
+				SymbolController.RemoveSymbolOverride((HashedString)"ToReplace");
 				SymbolController.AddSymbolOverride((HashedString)"ToReplace", symbol);
 			}
 			else
@@ -265,33 +259,24 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 
 				onStates
 					.Enter((smi) => smi.master.UpdateLogicState(true))
-				 .PlayAnim("on_pre")
-				 .QueueAnim("on", true)
-				 .Update((smi, dt) =>
-				 {
-
-				 })
-				 .DefaultState(this.onStates.noPoiSelected)
-				 .TagTransition(GameTags.Operational, this.offStates.from_on, true)
-				 ;
+					.PlayAnim("on_pre")
+					.QueueAnim("on", true)
+					.DefaultState(this.onStates.noPoiSelected)
+					.TagTransition(GameTags.Operational, this.offStates.from_on, true);
 
 				onStates.noPoiSelected
 					.UpdateTransition(onStates.poiSelected, (smi, dt) => { return smi.master.artifactpoistatus != null; })
 					;
 
 				onStates.poiSelected
-					.UpdateTransition(onStates.poiSelected, (smi, dt) => { return smi.master.artifactpoistatus != null; })
-
+					.UpdateTransition(onStates.noPoiSelected, (smi, dt) => { return smi.master.artifactpoistatus == null; })
 					.Update((smi, dt) =>
 					{
 						smi.master.UpdateLogicState();
-					})
-					;
-
+					}, UpdateRate.SIM_1000ms);
 				offStates.from_on
 					.PlayAnim("on_pst")
-					.OnAnimQueueComplete(this.offStates)
-					;
+					.OnAnimQueueComplete(this.offStates);
 			}
 		}
 		#endregion

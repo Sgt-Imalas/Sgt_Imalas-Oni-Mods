@@ -28,22 +28,37 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.HPA
 		}
 		static void TriggerEventScheduler()
 		{
-			if (handle != null)
+			if (handle != null || handle.HasValue)
 				return;
-			GameScheduler.Instance.ScheduleNextFrame("ExecuteQueuedEvents", (_) => ExecuteQueuedEventActions());
+			handle = GameScheduler.Instance.ScheduleNextFrame("ExecuteQueuedEvents", (_) => ExecuteQueuedEventActions());
 		}
 
 
 		static void ExecuteQueuedEventActions()
 		{
+			if(ScheduledEvents == null)
+			{
+				SgtLogger.l("how was ScheduledEvents null?");
+				ScheduledEvents = [];
+			}
+
 			foreach (var targetedEvent in ScheduledEvents)
+			{
+				if(targetedEvent == null)
+				{
+					SgtLogger.l("how was targetedEvent null?");
+					continue;
+				}
 				targetedEvent.ExecuteEventAction();
+			}
 			handle = null;
 			ScheduledEvents.Clear();
 		}
 
 		internal static void CancelPendingEvents()
 		{
+			if(handle.HasValue)
+				GameScheduler.Instance.scheduler.Clear(handle.Value);
 			handle = null;
 			ScheduledEvents.Clear();
 		}

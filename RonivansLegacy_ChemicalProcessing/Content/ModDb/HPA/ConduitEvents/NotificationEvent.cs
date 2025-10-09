@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.HPA.ConduitEvents
 {
@@ -19,13 +20,19 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.HPA.ConduitEvents
 		}
 		public void ExecuteEventAction()
 		{
+			if(Target == null || Notification == null)
+			{
+				SgtLogger.l("NotificationEvent: Target or Notification was null");
+				return;
+			}
+
 			float currentTime = KTime.Instance.UnscaledGameTime;
 
 			if (PreviousEventTriggerTimes.TryGetValue(Target, out float prevTime) && prevTime + 15 > currentTime)
 				return;
 
 			PreviousEventTriggerTimes[Target] = KTime.Instance.UnscaledGameTime;
-			Target.AddOrGet<Notifier>().Add(Notification);
+			Target.AddOrGet<Notifier>()?.Add(Notification);
 		}
 	}
 }
