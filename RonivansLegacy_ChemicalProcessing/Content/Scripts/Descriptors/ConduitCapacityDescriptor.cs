@@ -10,13 +10,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {
 	class ConduitCapacityDescriptor : KMonoBehaviour, IGameObjectEffectDescriptor
 	{
-		[MyCmpGet] SolidConduit solidConduit;
-		[MyCmpGet] Conduit conduit;
-		[MyCmpGet] ConduitBridge bridge;
-		[MyCmpGet] SolidConduitBridge solidBridge;
-		[MyCmpGet] HighPressureConduit highPressure;
-		[MyCmpGet] LogisticConduit logisticConduit;
-
 		[SerializeField]
 		public ConduitType Conduit = ConduitType.None;
 
@@ -35,6 +28,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		{
 			if (cached) return;
 			cached = true;
+			SolidConduit solidConduit = GetComponent<SolidConduit>();
+			Conduit conduit = GetComponent<Conduit>();
+			ConduitBridge bridge = GetComponent<ConduitBridge>();
+			SolidConduitBridge solidBridge = GetComponent<SolidConduitBridge>();
+			HighPressureConduit highPressure = GetComponent<HighPressureConduit>();
+			LogisticConduit logisticConduit = GetComponent<LogisticConduit>();
+
+
 			if (Conduit != ConduitType.None) return; //already cached
 
 			if (logisticConduit != null)
@@ -42,6 +43,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				Conduit = ConduitType.Solid;
 				CachedConduitCapacity = HighPressureConduitRegistration.SolidCap_Logistic;
 				return;
+			}
+			else if (solidConduit != null || solidBridge != null)
+			{
+				Conduit = ConduitType.Solid;
 			}
 			else if (conduit != null)
 			{
@@ -51,10 +56,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			{
 				Conduit = bridge.type;
 			}
-			else if (solidConduit != null || solidBridge != null)
-			{
-				Conduit = ConduitType.Solid;
-			}
+			//SgtLogger.l(gameObject.GetProperName() + " detected conduit type: " + Conduit.ToString());
 			CachedConduitCapacity = HighPressureConduitRegistration.GetMaxConduitCapacity(Conduit, highPressure != null);
 		}
 
