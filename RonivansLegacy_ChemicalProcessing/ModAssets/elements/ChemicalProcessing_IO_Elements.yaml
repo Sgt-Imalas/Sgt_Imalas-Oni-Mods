@@ -454,7 +454,7 @@ elements:
 
   - elementId: SolidSlag
     specificHeatCapacity: 1.66
-    thermalConductivity: 0.32
+    thermalConductivity: 2.2
     solidSurfaceAreaMultiplier: 1
     liquidSurfaceAreaMultiplier: 1
     gasSurfaceAreaMultiplier: 1
@@ -478,7 +478,7 @@ elements:
 
   - elementId: MoltenSlag
     specificHeatCapacity: 0.85
-    thermalConductivity: 1
+    thermalConductivity: 2.4
     liquidCompression: 1.01
     speed: 40
     minHorizontalFlow: 40
@@ -1080,6 +1080,7 @@ elements:
     radiationPer1000Mass: 0
     tags:
     - Mixture
+    - AnyWater
     isDisabled: false
     state: Liquid
     localizationID: STRINGS.ELEMENTS.SOURWATER.NAME
