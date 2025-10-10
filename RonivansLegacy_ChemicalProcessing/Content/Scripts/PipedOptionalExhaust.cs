@@ -56,8 +56,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			}
 			if (dispenser != null)
 				dispenser.SkipSetOperational = true;
-
-			if (dispenser == null)
+			else
 				SgtLogger.error("DISPENSER NULL ON: " + this.gameObject.name + " with tag: " + elementTag);
 
 			string operationalFlag = "output_blocked_";
@@ -112,7 +111,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				return;
 
 			bool overfilled = stored >= capacity;
-			this.operational.SetFlag(outputFlag, !overfilled);
+			this.operational.SetFlag(outputFlag, !overfilled
+				|| allowedToSpill
+				);
 		}
 	}
 }

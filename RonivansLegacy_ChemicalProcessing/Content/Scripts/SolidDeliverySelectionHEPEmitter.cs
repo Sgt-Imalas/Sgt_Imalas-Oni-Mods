@@ -12,6 +12,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 	{
 		[MyCmpReq] RadiationEmitter radiationEmitter;
 		[MyCmpReq] ElementConverter converter;
+		[MyCmpReq] Operational operational;
 
 		const float DefaultEmission = 900f;
 
@@ -47,6 +48,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		{
 			radiationEmitter.emitRads = rads;
 			radiationEmitter.Refresh();
+			radiationEmitter.SetEmitting(operational.IsActive);
 		}
 		void SetEmissionTemperature(float rads)
 		{
