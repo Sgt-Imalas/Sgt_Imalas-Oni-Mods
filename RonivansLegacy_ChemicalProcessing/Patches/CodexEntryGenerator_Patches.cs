@@ -48,26 +48,16 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 					return transitionsIntoOriginalSimHash;
 
 
-				if (instance.transitionType == CodexTemperatureTransitionPanel.TransitionType.HEAT)
-				{
-					var transitionThreshold = instance.sourceElement.highTemp;
+				var transitionThreshold = (instance.transitionType == CodexTemperatureTransitionPanel.TransitionType.HEAT) ? instance.sourceElement.highTemp : instance.sourceElement.lowTemp;
 
-					if (!ModElements.IsModElement(transitionsIntoOriginalSimHash) && !ModElements.IsModElement(instance.sourceElement.id))
-						return transitionsIntoOriginalSimHash;
+				if (!ModElements.IsModElement(transitionsIntoOriginalSimHash) && !ModElements.IsModElement(instance.sourceElement.id))
+					return transitionsIntoOriginalSimHash;
 
-					if (transitionThreshold > transitionTarget.lowTemp && transitionTarget.highTempTransition != null)
-						return transitionTarget.highTempTransition.id;
-				}
-				else
-				{
-					var transitionThreshold = instance.sourceElement.lowTemp;
+				if (transitionThreshold > transitionTarget.highTemp && transitionTarget.highTempTransition != null)
+					return transitionTarget.highTempTransition.id;
+				else if (transitionThreshold < transitionTarget.lowTemp && transitionTarget.lowTempTransition != null)
+					return transitionTarget.lowTempTransition.id;
 
-					if (!ModElements.IsModElement(transitionsIntoOriginalSimHash) && !ModElements.IsModElement(instance.sourceElement.id))
-						return transitionsIntoOriginalSimHash;
-
-					if (transitionThreshold < transitionTarget.highTemp && transitionTarget.lowTempTransition != null)
-						return transitionTarget.lowTempTransition.id;
-				}
 				return transitionsIntoOriginalSimHash;
 			}
 		}
@@ -91,7 +81,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 					if (original.LoadsField(lowTempOreTransition))
 					{
 						yield return new CodeInstruction(OpCodes.Ldarg_0); //element
-						yield return new CodeInstruction(OpCodes.Call, replaceTransitionOre_low );
+						yield return new CodeInstruction(OpCodes.Call, replaceTransitionOre_low);
 						//yield return original;
 					}
 					else if (original.LoadsField(highTempOreTransition))
@@ -108,7 +98,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			{
 				var highTempOreTransition = ElementLoader.FindElementByHash(element1.highTempTransitionOreID);
 
-				if(highTempOreTransition == null)
+				if (highTempOreTransition == null)
 					return element1.highTempTransitionOreID;
 
 				if (!ModElements.IsModElement(highTempOreTransition.id) && !ModElements.IsModElement(currentElement.id) && !ModElements.IsModElement(element1.id))
@@ -118,7 +108,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				//one of the elements involved is from this mod, check if it has to be replaced with its low state transition
 
 				//when the melting temp of the ore is lower than the melting temp of the material, show its melted state transition
-				if (highTempOreTransition.highTemp+3 < element1.highTemp && highTempOreTransition.highTempTransition != null)
+				if (highTempOreTransition.highTemp + 3 < element1.highTemp && highTempOreTransition.highTempTransition != null)
 				{
 					return highTempOreTransition.highTempTransition.id;
 				}
@@ -134,7 +124,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 
 				if (!ModElements.IsModElement(lowTempOreTransition.id) && !ModElements.IsModElement(currentElement.id) && !ModElements.IsModElement(element1.id))
 					return element1.lowTempTransitionOreID;
-				
+
 				//lowTempOreTransition check
 				//one of the elements involved is from this mod, check if it has to be replaced with its high state transition
 
@@ -145,7 +135,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				}
 
 
-					return element1.lowTempTransitionOreID;
+				return element1.lowTempTransitionOreID;
 			}
 		}
 

@@ -267,6 +267,7 @@ namespace UtilLibs.MarkdownExport
 		#endregion
 		internal static string GetElementTransitionProperties(Element element)
 		{
+
 			string property = "<br/>";
 			string transitionsInto_low = "";
 			if (element.lowTempTransition != null)
@@ -275,7 +276,15 @@ namespace UtilLibs.MarkdownExport
 				string transitionPercentage = element.lowTempTransitionOreMassConversion > 0 ? (1 - element.lowTempTransitionOreMassConversion).ToString("P0") + " " : "->";
 				transitionsInto_low += "<br/>" + transitionPercentage + GetTagStringWithIcon(element.lowTempTransition.tag);
 				if (element.lowTempTransitionOreID != SimHashes.Vacuum && element.lowTempTransitionOreMassConversion > 0)
-					transitionsInto_low += ",<br/>" + element.lowTempTransitionOreMassConversion.ToString("P0") + GetTagStringWithIcon(element.lowTempTransitionOreID.CreateTag());
+				{
+					var transitionTag = element.lowTempTransitionOreID.CreateTag();
+					var transitionElement = ElementLoader.GetElement(transitionTag);
+					if (element.lowTemp < transitionElement.lowTemp && transitionElement.lowTempTransition != null)
+						transitionTag = transitionElement.lowTempTransition.tag;
+					else if(element.lowTemp > transitionElement.highTemp && transitionElement.highTempTransition != null)
+						transitionTag = transitionElement.highTempTransition.tag;
+					transitionsInto_low += ",<br/>" + element.lowTempTransitionOreMassConversion.ToString("P0") + GetTagStringWithIcon(transitionTag);
+				}
 				transitionsInto_low += "<br/>";
 			}
 
@@ -285,9 +294,18 @@ namespace UtilLibs.MarkdownExport
 				transitionsInto_high = Math.Round(GameUtil.GetTemperatureConvertedFromKelvin(element.highTemp, TemperatureUnit.Celsius), 2).ToString() + "°C";
 				string transitionPercentage = element.highTempTransitionOreMassConversion > 0 ? (1 - element.highTempTransitionOreMassConversion).ToString("P0") + " " : "->";
 
-				transitionsInto_high += "<br/>" + transitionPercentage +  GetTagStringWithIcon(element.highTempTransition.tag);
+				transitionsInto_high += "<br/>" + transitionPercentage + GetTagStringWithIcon(element.highTempTransition.tag);
 				if (element.highTempTransitionOreID != SimHashes.Vacuum && element.highTempTransitionOreMassConversion > 0)
-					transitionsInto_high += ",<br/>"+ element.highTempTransitionOreMassConversion.ToString("P0") + GetTagStringWithIcon(element.highTempTransitionOreID.CreateTag());
+				{
+
+					var transitionTag = element.highTempTransitionOreID.CreateTag();
+					var transitionElement = ElementLoader.GetElement(transitionTag);
+					if (element.highTemp > transitionElement.highTemp && transitionElement.highTempTransition != null)
+						transitionTag = transitionElement.highTempTransition.tag;
+					else if (element.highTemp < transitionElement.lowTemp && transitionElement.lowTempTransition != null)
+						transitionTag = transitionElement.lowTempTransition.tag;
+					transitionsInto_high += ",<br/>" + element.highTempTransitionOreMassConversion.ToString("P0") + GetTagStringWithIcon(transitionTag);
+				}
 				transitionsInto_high += "<br/>";
 			}
 			var categoryTag = GetTagString(element.materialCategory) + "<br/>";
