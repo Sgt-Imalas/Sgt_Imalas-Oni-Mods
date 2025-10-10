@@ -85,9 +85,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		{
 			if (Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
 			{
+				float oilAmount = ModElements.VeggiOilToWaterRatio * 100f;
+				float waterAmount = 100 - oilAmount;
+
 				RecipeBuilder.Create(ID, 40)
-					.Input(ModElements.VegetableOil_Liquid, 15)
-					.Input(SimHashes.Water, 85)
+					.Input(ModElements.VegetableOil_Liquid, oilAmount)
+					.Input(SimHashes.Water, waterAmount)
 					.Output(SimHashes.PhytoOil, 100)
 					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.CHEMICAL_MIXINGUNIT_2_1, 2,1)
 					.Build();

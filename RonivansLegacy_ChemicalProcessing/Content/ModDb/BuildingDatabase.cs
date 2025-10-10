@@ -7,6 +7,7 @@ using High_Pressure_Applications.BuildingConfigs;
 using Metallurgy.Buildings;
 using Mineral_Processing;
 using Mineral_Processing_Mining.Buildings;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.ChemicalProcessing_BioChem;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.ChemicalProcessing_IO;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerators;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservoirs;
@@ -323,6 +324,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToTech(ModTechs.Biochemistry_RenewableFuel_ID)
 				.AddModFrom(SourceModInfo.ChemicalProcessing_BioChemistry);
 
+
+			BuildingManager.CreateEntry<Biochemistry_SynthesizerPhytoOilConfig>()
+				.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
+				.AddToTech(ModTechs.Biochemistry_RenewableFuel_ID)
+				.AddModFrom(SourceModInfo.ChemicalProcessing_BioChemistry)
+				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
+
 			BuildingManager.CreateEntry<Biochemistry_BiodieselRefineryConfig>()
 				.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
 				.AddToTech(ModTechs.Biochemistry_RenewableFuel_ID)
@@ -332,6 +340,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToCategory(PlanMenuCategory.Refinement, PolymerizerConfig.ID)
 				.AddToTech(Technology.Power.PlasticManufacturing)
 				.AddModFrom(SourceModInfo.ChemicalProcessing_BioChemistry);
+
 
 			BuildingManager.CreateEntry<Biochemistry_ExpellerPressConfig>()
 				.AddToCategory(PlanMenuCategory.Refinement, FertilizerMakerConfig.ID)
