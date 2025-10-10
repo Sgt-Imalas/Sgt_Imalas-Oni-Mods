@@ -13,6 +13,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
 	class ModElements
 	{
+		public static readonly float VeggiOilToWaterRatio = 0.15f;
+
 		public static ElementGrouping PlasticGroup;
 
 

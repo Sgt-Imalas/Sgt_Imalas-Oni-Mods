@@ -14,7 +14,7 @@ msgstr ""
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.ADDEDBYSGT_IMALAS
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.ADDEDBYSGT_IMALAS"
-msgid "((Re)-Added by Sgt_Imalas)"
+msgid "(Re-)Added by Sgt_Imalas"
 msgstr "- 由 Sgt_Imalas 重新启用"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_BIOCHEMISTRY
@@ -550,10 +550,10 @@ msgstr "一种利用有机油和细菌酶来打印出由脂质衍生的生物聚
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_BIOPLASTICPRINTER.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_BIOPLASTICPRINTER.EFFECT"
 msgid ""
-"Synthesizes <link=\"BIOPLASTIC\">Bioplastic</link> from <link=\"LIQUIDVEGEOIL\">Vegetable Oil</link> and <link=\"CARBONDIOXIDE\">Carbon Dioxide</link>.\n"
+"Synthesizes <link=\"BIOPLASTIC\">Bioplastic</link> from <link=\"PHYTOOIL\">Phyto Oil</link> and <link=\"CARBONDIOXIDE\">Carbon Dioxide</link>.\n"
 "The enzymes requires a microbial medium in the form of <link=\"MUSHBAR\">Mush Bar</link>."
 msgstr ""
-"利用<link=\"LIQUIDVEGEOIL\">有机油</link>与<link=\"CARBONDIOXIDE\">二氧化碳</link>合成<link=\"BIOPLASTIC\">生物塑料</link>。\n"
+"利用<link=\"PHYTOOIL\">植物润滑油</link>与<link=\"CARBONDIOXIDE\">二氧化碳</link>合成<link=\"BIOPLASTIC\">生物塑料</link>。\n"
 "该过程所需的酶需以<link=\"MUSHBAR\">软泥糕</link>形式提供给其中的微生物培养基。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_BIOPLASTICPRINTER.NAME
@@ -579,6 +579,21 @@ msgstr ""
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_EXPELLERPRESS.NAME"
 msgid "<link=\"BIOCHEMISTRYEXPELLERPRESS\">Expeller Press</link>"
 msgstr "<link=\"BIOCHEMISTRYEXPELLERPRESS\">榨油机</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_SYNTHESIZERPHYTOOIL.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_SYNTHESIZERPHYTOOIL.DESC"
+msgid "A simple device capable of producing high-quality phyto oil."
+msgstr "一种能够生产出高品质植物润滑油的简单装置。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_SYNTHESIZERPHYTOOIL.EFFECT
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_SYNTHESIZERPHYTOOIL.EFFECT"
+msgid "Produces <link=\"PHYTOOIL\">Phyto Oil</link> by diluting <link=\"LIQUIDVEGEOIL\">Vegetable Oil</link> with <link=\"WATER\">Water</link>."
+msgstr "将link=\"LIQUIDVEGEOIL\">植物油</link>混入纯净的<link=\"WATER\">水</link>以稀释为<link=\"PHYTOOIL\">植物润滑油</link>。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_SYNTHESIZERPHYTOOIL.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_SYNTHESIZERPHYTOOIL.NAME"
+msgid "<link=\"BIOCHEMISTRYSYNTHESIZERPHYTOOIL\">Phyto Oil Mixer</link>"
+msgstr "<link=\"BIOCHEMISTRYSYNTHESIZERPHYTOOIL\">植物润滑油混合器</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CABINETFROZEN.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CABINETFROZEN.DESC"

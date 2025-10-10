@@ -56,11 +56,13 @@ namespace Biochemistry.Buildings
 			//storage.showCapacityAsMainStatus = true;
 			//storage.showDescriptor = true;
 
+			Tag oil = SimHashes.PhytoOil.CreateTag();
+
 			ConduitConsumer vegOilInput = go.AddOrGet<ConduitConsumer>();
 			vegOilInput.conduitType = ConduitType.Liquid;
 			vegOilInput.consumptionRate = 10f;
 			vegOilInput.capacityKG = 50f;
-			vegOilInput.capacityTag = ModElements.VegetableOil_Liquid.Tag;
+			vegOilInput.capacityTag = oil;
 			vegOilInput.forceAlwaysSatisfied = true;
 			vegOilInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 
@@ -83,7 +85,7 @@ namespace Biochemistry.Buildings
 			ElementConverter elementConverter = go.AddOrGet<ElementConverter>();
 			elementConverter.consumedElements =
 			[
-			new ElementConverter.ConsumedElement(ModElements.VegetableOil_Liquid.Tag, 0.40f, true),
+			new ElementConverter.ConsumedElement(oil, 0.90f, true),
 			new ElementConverter.ConsumedElement(SimHashes.CarbonDioxide.CreateTag(), 0.10f, true),
 			new ElementConverter.ConsumedElement(MushBarConfig.ID.ToTag(), MushbarConsumption, true)
 			];

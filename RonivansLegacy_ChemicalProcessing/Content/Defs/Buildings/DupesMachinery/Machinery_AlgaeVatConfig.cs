@@ -69,7 +69,10 @@ namespace Dupes_Machinery.Biological_Vats
 			local2.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 
 			ElementConverter converter = go.AddComponent<ElementConverter>();
-			converter.consumedElements = [new ElementConverter.ConsumedElement(SimHashes.Algae.CreateTag(), 0.075f), new ElementConverter.ConsumedElement(SimHashes.Water.CreateTag(), 0.8f)];
+			converter.consumedElements = [
+				new ElementConverter.ConsumedElement(SimHashes.Algae.CreateTag(), 0.075f), 
+				new ElementConverter.ConsumedElement(SimHashes.Water.CreateTag(), 0.3f)
+				];
 			converter.outputElements = [new ElementConverter.OutputElement(0.20f, SimHashes.Oxygen, 303.15f, false, true, 0f, 1f, 1f, 0xff, 0),
 				new ElementConverter.OutputElement(0.9625f, SimHashes.DirtyWater, 303.15f, false, true, 0f, 1f, 1f, 0xff, 0)];
 

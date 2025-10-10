@@ -141,8 +141,8 @@ elements:
     strength: 0.3
     highTemp: 377.15
     highTempTransitionTarget: LiquidVegeOil
-    highTempTransitionOreId: CarbonDioxide
-    highTempTransitionOreMassConversion: 0.2
+    highTempTransitionOreId: Water
+    highTempTransitionOreMassConversion: 0.73
     defaultTemperature: 296
     defaultMass: 920
     maxMass: 9200
