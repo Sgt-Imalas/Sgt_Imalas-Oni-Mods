@@ -53,9 +53,8 @@ namespace Mineral_Processing_Mining.Buildings
 			def.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(5, 1));
 			def.LogicOutputPorts = ComplexFabricatorActiveLogicOutput.CreateSingleOutputPortList(new CellOffset(5, 2));
 			//this ONLY toggles of the build tool afterwards, you need to add the UniquePerWorld tag to the building definition to make it a world exclusive building.
-			def.OnePerWorld = true;
+			//def.OnePerWorld = true;
 			SoundUtils.CopySoundsToAnim("auger_drill_kanim", "rockrefinery_kanim");
-
 
 			return def;
 		}
@@ -64,8 +63,8 @@ namespace Mineral_Processing_Mining.Buildings
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
 
-			KPrefabID component = go.GetComponent<KPrefabID>();
-			component.AddTag(GameTags.UniquePerWorld);
+			//KPrefabID component = go.GetComponent<KPrefabID>();
+			//component.AddTag(GameTags.UniquePerWorld);
 
 			go.AddOrGet<DropAllWorkable>();
 			go.AddOrGet<BuildingComplete>().isManuallyOperated = false;
