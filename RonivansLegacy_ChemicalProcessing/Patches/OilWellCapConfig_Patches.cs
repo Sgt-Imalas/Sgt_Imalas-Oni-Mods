@@ -19,7 +19,9 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		{
 			public static void Postfix(OilWellCap.States __instance)
 			{
-				__instance.operational.active.loop.Enter(smi => smi.master.operational.SetActive(true));
+				__instance.operational.active.loop
+					.Enter(smi => smi.master.operational.SetActive(true))
+					.Update((smi, dt) => smi.master.operational.SetActive(true), UpdateRate.SIM_1000ms);
 			}
 		}
 
@@ -82,10 +84,10 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 					PipedOptionalExhaust LiquidExhaust = go.AddComponent<PipedOptionalExhaust>();
 					LiquidExhaust.dispenser = LiquidDispenser;
 					LiquidExhaust.elementTag = SimHashes.CrudeOil.CreateTag();
-					LiquidExhaust.capacity = 10f;
+					LiquidExhaust.capacity = 20f;
 
 					var storageLimiter2 = go.AddOrGet<ElementThresholdOperational>();
-					storageLimiter2.Threshold = 10f;
+					storageLimiter2.Threshold = 20f;
 					storageLimiter2.ThresholdTag = SimHashes.CrudeOil.CreateTag();
 
 					Custom_OilWellCapConfig.AttachPorts(go);
