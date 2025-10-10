@@ -130,6 +130,15 @@ namespace RonivansLegacy_ChemicalProcessing
 							" as to provide proper environment for the production."
 						]);
 				}
+				public class BIOCHEMISTRY_SYNTHESIZERPHYTOOIL
+				{
+					public static LocString NAME = FormatAsLink("Phyto Oil Mixer", nameof(BIOCHEMISTRY_SYNTHESIZERPHYTOOIL));
+					public static LocString DESC = "A simple device capable of producing high-quality phyto oil.";
+					public static LocString EFFECT =
+						"Produces " + FormatAsLink("Phyto Oil", "PHYTOOIL") + " by diluting " +
+						FormatAsLink("Vegetable Oil", "LIQUIDVEGEOIL") + " with "+
+						FormatAsLink("Water", "WATER") + ".";
+				}
 				public class BIOCHEMISTRY_ANAEROBICDIGESTER
 				{
 					public static LocString NAME = FormatAsLink("Anaerobic Digester", nameof(BIOCHEMISTRY_ANAEROBICDIGESTER));
@@ -194,7 +203,7 @@ namespace RonivansLegacy_ChemicalProcessing
 							"Synthesizes ",
 							FormatAsLink("Bioplastic", "BIOPLASTIC"),
 							" from ",
-							FormatAsLink("Vegetable Oil", nameof(LIQUIDVEGEOIL)),
+							FormatAsLink("Phyto Oil", "PHYTOOIL"),
 							" and ",
 							FormatAsLink("Carbon Dioxide", "CARBONDIOXIDE"),
 							".\nThe enzymes requires a microbial medium in the form of ",
