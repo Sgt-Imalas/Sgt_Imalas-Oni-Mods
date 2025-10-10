@@ -109,8 +109,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProces
 				.Build();
 
 			RecipeBuilder.Create(ID, 80)
-				.Input(SimHashes.DepletedUranium, 10)
-				.Input(SimHashes.SolidNuclearWaste, 90)
+				.Input(SimHashes.DepletedUranium, 33)
+				.Input(SimHashes.SolidNuclearWaste, 66)
 				.Input(SimHashes.OxyRock, 100)
 				.InputHEP(50)
 				.Output(SimHashes.Yellowcake, 100)
@@ -124,7 +124,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProces
 			go.AddOrGet<LogicOperationalController>();
 			go.AddOrGetDef<PoweredActiveController.Def>();
 			SymbolOverrideControllerUtil.AddToPrefab(go);
-			go.GetComponent<KPrefabID>().prefabSpawnFn += (KPrefabID.PrefabFn)(game_object =>
+			go.GetComponent<KPrefabID>().prefabSpawnFn += (game_object =>
 			{
 				ComplexFabricatorWorkable component = game_object.GetComponent<ComplexFabricatorWorkable>();
 				component.WorkerStatusItem = Db.Get().DuplicantStatusItems.Processing;
