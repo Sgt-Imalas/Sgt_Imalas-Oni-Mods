@@ -1,0 +1,110 @@
+msgid ""
+msgstr ""
+"Application: Oxygen Not Included"
+"POT Version: 2.0"
+
+#. ForceFieldWallTile.STRINGS.BUILDING.STATUSITEMS.FFT_SHIELDCHARGING.NAME
+msgctxt "ForceFieldWallTile.STRINGS.BUILDING.STATUSITEMS.FFT_SHIELDCHARGING.NAME"
+msgid "Forcefield Charging: {0}"
+msgstr "力场充能: {0}"
+
+#. ForceFieldWallTile.STRINGS.BUILDING.STATUSITEMS.FFT_SHIELDCHARGING.TOOLTIP
+msgctxt "ForceFieldWallTile.STRINGS.BUILDING.STATUSITEMS.FFT_SHIELDCHARGING.TOOLTIP"
+msgid "This forcefield projector is currently building up its barrier strength."
+msgstr "正在构建屏障。"
+
+#. ForceFieldWallTile.STRINGS.BUILDING.STATUSITEMS.FFT_SHIELDFULLYCHARGED.NAME
+msgctxt "ForceFieldWallTile.STRINGS.BUILDING.STATUSITEMS.FFT_SHIELDFULLYCHARGED.NAME"
+msgid "Forcefield fully charged!"
+msgstr "力场充能完成"
+
+#. ForceFieldWallTile.STRINGS.BUILDING.STATUSITEMS.FFT_SHIELDFULLYCHARGED.TOOLTIP
+msgctxt "ForceFieldWallTile.STRINGS.BUILDING.STATUSITEMS.FFT_SHIELDFULLYCHARGED.TOOLTIP"
+msgid "This forcefield projector is at maximum strength.\nPower draw is reduced."
+msgstr "屏障强度已达最大值。\n已进入低耗电模式。"
+
+#. ForceFieldWallTile.STRINGS.BUILDING.STATUSITEMS.FFT_SHIELDOVERLOADED.NAME
+msgctxt "ForceFieldWallTile.STRINGS.BUILDING.STATUSITEMS.FFT_SHIELDOVERLOADED.NAME"
+msgid "Forcefield Overloaded! Remaining Cooldown time: {0}"
+msgstr "力场超载！剩余冷却时间：{0}"
+
+#. ForceFieldWallTile.STRINGS.BUILDING.STATUSITEMS.FFT_SHIELDOVERLOADED.TOOLTIP
+msgctxt "ForceFieldWallTile.STRINGS.BUILDING.STATUSITEMS.FFT_SHIELDOVERLOADED.TOOLTIP"
+msgid "This forcefield projector got exerted beyond its limits and has shut down temporarily to cool down."
+msgstr "力场抵挡强度已超出上限，暂时冷却后重启。"
+
+#. ForceFieldWallTile.STRINGS.BUILDINGS.PREFABS.FFT_FORCEFIELDPROJECTOR.DESC
+msgctxt "ForceFieldWallTile.STRINGS.BUILDINGS.PREFABS.FFT_FORCEFIELDPROJECTOR.DESC"
+msgid "Does not protect against the fury of the Pips!"
+msgstr "无法抵抗树鼠的愤怒！"
+
+#. ForceFieldWallTile.STRINGS.BUILDINGS.PREFABS.FFT_FORCEFIELDPROJECTOR.EFFECT
+msgctxt "ForceFieldWallTile.STRINGS.BUILDINGS.PREFABS.FFT_FORCEFIELDPROJECTOR.EFFECT"
+msgid "Prevents gases, liquids and meteors from passing through when active. Does not block duplicant or debris movement."
+msgstr "防止气体、液体和流星通过。不会阻挡复制人或碎片。"
+
+#. ForceFieldWallTile.STRINGS.BUILDINGS.PREFABS.FFT_FORCEFIELDPROJECTOR.NAME
+msgctxt "ForceFieldWallTile.STRINGS.BUILDINGS.PREFABS.FFT_FORCEFIELDPROJECTOR.NAME"
+msgid "<link=\"FFTFORCEFIELDPROJECTOR\">Forcefield Projector</link>"
+msgstr "<link=\"FFTFORCEFIELDPROJECTOR\">力场投影仪</link>"
+
+#. ForceFieldWallTile.STRINGS.DUPLICANTS.MODIFIERS.FORCEFIELDTILE_STUCKINBARRIER.NAME
+msgctxt "ForceFieldWallTile.STRINGS.DUPLICANTS.MODIFIERS.FORCEFIELDTILE_STUCKINBARRIER.NAME"
+msgid "Slowed by Forcefield"
+msgstr "被力场拖慢"
+
+#. ForceFieldWallTile.STRINGS.DUPLICANTS.MODIFIERS.FORCEFIELDTILE_STUCKINBARRIER.TOOLTIP
+msgctxt "ForceFieldWallTile.STRINGS.DUPLICANTS.MODIFIERS.FORCEFIELDTILE_STUCKINBARRIER.TOOLTIP"
+msgid "The barrier makes it hard to move around."
+msgstr "屏障使移动缓慢。"
+
+#. ForceFieldWallTile.STRINGS.FFT_MODCONFIG.FFT_DUPEEFFECT.NAME
+msgctxt "ForceFieldWallTile.STRINGS.FFT_MODCONFIG.FFT_DUPEEFFECT.NAME"
+msgid "Barrier affects passing duplicants"
+msgstr "屏障会影响通过的复制人"
+
+#. ForceFieldWallTile.STRINGS.FFT_MODCONFIG.FFT_DUPEEFFECT.TOOLTIP
+msgctxt "ForceFieldWallTile.STRINGS.FFT_MODCONFIG.FFT_DUPEEFFECT.TOOLTIP"
+msgid "Duplicants inside of an active forcefield are slowed down by that barrier."
+msgstr "复制人通过已激活的力场时会被屏障拖慢"
+
+#. ForceFieldWallTile.STRINGS.FFT_MODCONFIG.FFT_METEORYIELD.NAME
+msgctxt "ForceFieldWallTile.STRINGS.FFT_MODCONFIG.FFT_METEORYIELD.NAME"
+msgid "Meteor Mass Percentage"
+msgstr "流星质量百分比"
+
+#. ForceFieldWallTile.STRINGS.FFT_MODCONFIG.FFT_METEORYIELD.TOOLTIP
+msgctxt "ForceFieldWallTile.STRINGS.FFT_MODCONFIG.FFT_METEORYIELD.TOOLTIP"
+msgid "Percentage of meteor mass dropped when a meteor explodes on the forcefield."
+msgstr "流星在力场上爆炸时掉落物剩余质量百分比"
+
+#. ForceFieldWallTile.STRINGS.FFT_MODCONFIG.FFT_PRESSUREDAMAGE.NAME
+msgctxt "ForceFieldWallTile.STRINGS.FFT_MODCONFIG.FFT_PRESSUREDAMAGE.NAME"
+msgid "Barrier Pressure Damage"
+msgstr "屏障高压损伤"
+
+#. ForceFieldWallTile.STRINGS.FFT_MODCONFIG.FFT_PRESSUREDAMAGE.TOOLTIP
+msgctxt "ForceFieldWallTile.STRINGS.FFT_MODCONFIG.FFT_PRESSUREDAMAGE.TOOLTIP"
+msgid "Liquids over the overpressure threshold deal forcefield damage, scaling with the overpressure amounts."
+msgstr "超过压力阈值的液体会造成力场损伤，损伤随超压量而增加。"
+
+#. ForceFieldWallTile.STRINGS.FFT_MODCONFIG.FFT_WATTAGE.NAME
+msgctxt "ForceFieldWallTile.STRINGS.FFT_MODCONFIG.FFT_WATTAGE.NAME"
+msgid "Power Consumption (in W)"
+msgstr "功耗（W）"
+
+#. ForceFieldWallTile.STRINGS.FFT_MODCONFIG.FFT_WATTAGE.TOOLTIP
+msgctxt "ForceFieldWallTile.STRINGS.FFT_MODCONFIG.FFT_WATTAGE.TOOLTIP"
+msgid "Power consumption of the forcefield projector while recharging."
+msgstr "充电时力场投影仪的功耗。"
+
+#. ForceFieldWallTile.STRINGS.FFT_MODCONFIG.FFT_WATTAGE_STEADY.NAME
+msgctxt "ForceFieldWallTile.STRINGS.FFT_MODCONFIG.FFT_WATTAGE_STEADY.NAME"
+msgid "Energy Saver Consumption Multiplier"
+msgstr "节能消耗乘数"
+
+#. ForceFieldWallTile.STRINGS.FFT_MODCONFIG.FFT_WATTAGE_STEADY.TOOLTIP
+msgctxt "ForceFieldWallTile.STRINGS.FFT_MODCONFIG.FFT_WATTAGE_STEADY.TOOLTIP"
+msgid "Power consumption of the forcefield projector when it is fully charged, Multiplier is applied to regular power consumption."
+msgstr "满电时力场投影仪的功耗，乘数应用于常规功耗。"
+
