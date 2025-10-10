@@ -30,7 +30,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 		[JsonIgnore]
 		public string RangeLabel = null;
 		[JsonIgnore]
-		public Tuple<int, int> TileRangeValueRange = new(1,99);
+		public Tuple<int, int> TileRangeValueRange = new(1, 99);
 
 		[JsonIgnore]
 		public bool IsInjected => BuildingInjection != null;
@@ -58,7 +58,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 		public BuildingConfigurationEntry SetDefaultTileRange(int range, Tuple<int, int> tuple)
 		{
 			if (tuple != null)
-				TileRangeValueRange = tuple;			
+				TileRangeValueRange = tuple;
 			BuildingTileRangeDefault = range;
 			return this;
 		}
@@ -150,15 +150,20 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 		internal string GetModOriginText()
 		{
 			var text = STRINGS.UI.BUILDINGEDITOR.MOD_ORIGIN_TEXT.ToString();
-			for(int i = 0; i < ModsFrom.Count; i++)
+			for (int i = 0; i < ModsFrom.Count; i++)
 			{
 				var mod = ModsFrom[i];
 				var ModName = Strings.Get($"STRINGS.AIO_MODSOURCE.{mod.ToString().ToUpperInvariant()}").ToString();
-				if(ModName.Contains("MISSING"))
+				if (ModName.Contains("MISSING"))
 					ModName = mod.ToString(); // Fallback to mod name if translation is missing
 
-				string entry = "\n- "+ ModName;
-				if(i== 0)
+				string entry;
+				if (mod == SourceModInfo.AddedBySgt_Imalas)
+					entry = "\n\n" + ModName; 
+				else
+					entry = "\n- " + ModName;
+
+				if (i == 0)
 					entry = UIUtils.EmboldenText(entry);
 				text += entry;
 			}

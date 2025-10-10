@@ -125,7 +125,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingManager.CreateEntry<Chemical_AmmoniaBreakerConfig>()
 			.AddToCategory(PlanMenuCategory.Refinement, WaterPurifierConfig.ID)
 			.AddToTech(Technology.Liquids.LiquidBasedRefinementProcess)
-			.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
+			.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
 
 			BuildingManager.CreateEntry<Chemical_AmmoniaCompressorConfig>()
 			.AddToCategory(PlanMenuCategory.Refinement, WaterPurifierConfig.ID)
@@ -160,7 +161,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				BuildingManager.CreateEntry<Chemical_CrudeOilRefineryStagedConfig>()
 				.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
 				.AddToTech(Technology.Power.ValveMiniaturization)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+				.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
+				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
 			}
 
 			BuildingManager.CreateEntry<Chemical_CrudeOilRefineryConfig>()
@@ -188,7 +190,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingManager.CreateEntry<Chemical_MixingUnitConfig>()
 			.AddToCategory(PlanMenuCategory.Refinement, ChemicalRefineryConfig.ID)
 			.AddToTech(Technology.Liquids.Emulsification)
-			.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
+			.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
 
 			BuildingManager.CreateEntry<Chemical_NaphthaReformerConfig>()
 			.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
@@ -205,7 +208,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				BuildingManager.CreateEntry<Chemical_RawGasRefineryStagedConfig>()
 				.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
 				.AddToTech(Technology.Power.ValveMiniaturization)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+				.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
+				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
 			}
 
 			BuildingManager.CreateEntry<Chemical_RawGasRefineryConfig>()
@@ -258,7 +262,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingManager.CreateEntry<Chemical_SourGasSweetenerConfig>()
 			.AddToCategory(PlanMenuCategory.Refinement, ChemicalRefineryConfig.ID)
 			.AddToTech(Technology.Liquids.Emulsification)
-			.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
+			.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
 
 			BuildingManager.CreateEntry<Chemical_ThermalDesalinatorConfig>()
 			.AddToCategory(PlanMenuCategory.Refinement, DesalinatorConfig.ID)
@@ -287,7 +292,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
 			.AddToTech(Technology.Power.FossilFuels)
 			.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
-			.AddModFrom(SourceModInfo.DupesMachinery);
+			.AddModFrom(SourceModInfo.DupesMachinery)
+			.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
 
 			BuildingManager.CreateEntry<Chemical_Gas_BoilerConfig>()
 			.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
@@ -347,7 +353,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingManager.CreateEntry<Mining_MineralDrillConfig>()
 				.AddToCategory(PlanMenuCategory.Utilities, OilWellCapConfig.ID)
 				.AddToTech(Technology.SolidMaterial.SolidManagement)
-				.AddModFrom(SourceModInfo.MineralProcessing_Mining);
+				.AddModFrom(SourceModInfo.MineralProcessing_Mining)
+				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
 		}
 		private static void RegisterBuildings_MineralProcessingMetallurgy()
 		{
@@ -429,7 +436,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			//BuildingManager.CreateEntry<BigReactorConfig>()
 			//	.AddToCategory(PlanMenuCategory.Radiation, NuclearReactorConfig.ID)
 			//	.AddToTech(Technology.ColonyDevelopment.RadiationRefinement)
-			//	.AddModFrom(SourceModInfo.NuclearProcessing);
+			//	.AddModFrom(SourceModInfo.NuclearProcessing)
+			//	.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
 
 		}
 		private static void RegisterBuildings_DupesEngineering()
@@ -510,12 +518,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingManager.CreateEntry<SpacerTileSolidConfig>()
 				.AddToCategory(PlanMenuCategory.Base, TileConfig.ID)
 				.AddToTech(Technology.Exosuits.HazardProtection)
-				.AddModFrom(SourceModInfo.DupesEngineering);
+				.AddModFrom(SourceModInfo.DupesEngineering)
+				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
 
 			BuildingManager.CreateEntry<SpacerTileWindowConfig>()
 				.AddToCategory(PlanMenuCategory.Base, GlassTileConfig.ID)
 				.AddToTech(Technology.Decor.GlassBlowing)
-				.AddModFrom(SourceModInfo.DupesEngineering);
+				.AddModFrom(SourceModInfo.DupesEngineering)
+				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
 
 			BuildingManager.CreateEntry<StructureTileConfig>()
 				.AddToCategory(PlanMenuCategory.Base, MeshTileConfig.ID)
@@ -682,8 +692,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingManager.CreateEntry<LogisticRailValveConfig>()
 				.AddToCategory(PlanMenuCategory.Shipping, SolidLogicValveConfig.ID)
 				.AddToTech(Technology.SolidMaterial.SolidTransport)
-				.AddModFrom(SourceModInfo.DupesLogistics);
-
+				.AddModFrom(SourceModInfo.DupesLogistics)
+				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
 		}
 		private static void RegisterBuildings_HighPressureApplications()
 		{
@@ -716,10 +726,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingManager.CreateEntry<HPAFilterGasConfig>()
 				.AddToCategory(PlanMenuCategory.Ventilation, GasFilterConfig.ID)
 				.AddToTech(Technology.Power.ValveMiniaturization)
-				.AddModFrom(SourceModInfo.HighPressureApplications);
-
-
-
+				.AddModFrom(SourceModInfo.HighPressureApplications)
+				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
 
 			//liquid
 			BuildingManager.CreateEntry<HPAVentLiquidConfig>()
@@ -750,7 +758,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingManager.CreateEntry<HPAFilterLiquidConfig>()
 				.AddToCategory(PlanMenuCategory.Plumbing, LiquidFilterConfig.ID)
 				.AddToTech(Technology.Power.ValveMiniaturization)
-				.AddModFrom(SourceModInfo.HighPressureApplications);
+				.AddModFrom(SourceModInfo.HighPressureApplications)
+				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
 
 			//solid
 			if (!Config.Instance.HPA_Rails_Mod_Enabled)
@@ -761,34 +770,40 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				BuildingManager.CreateEntry<HPARailInsulatedConfig>()
 					.AddToCategory(PlanMenuCategory.Shipping, SolidConduitConfig.ID)
 					.AddToTech(ModTechs.HPA_Rails_Research_ID)
-					.AddModFrom(SourceModInfo.HighPressureApplications);
+					.AddModFrom(SourceModInfo.HighPressureApplications)
+					.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
 			}
 
 			BuildingManager.CreateEntry<HPARailConfig>()
 				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitConfig.ID)
 				.AddToTech(ModTechs.HPA_Rails_Research_ID)
-				.AddModFrom(SourceModInfo.HighPressureApplications);
+				.AddModFrom(SourceModInfo.HighPressureApplications)
+				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
 
 
 			BuildingManager.CreateEntry<HPARailBridgeTileConfig>()
 				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitBridgeConfig.ID)
 				.AddToTech(ModTechs.HPA_Rails_Research_ID)
-				.AddModFrom(SourceModInfo.HighPressureApplications);
+				.AddModFrom(SourceModInfo.HighPressureApplications)
+				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
 
 			BuildingManager.CreateEntry<HPARailBridgeConfig>()
 				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitBridgeConfig.ID)
 				.AddToTech(ModTechs.HPA_Rails_Research_ID)
-				.AddModFrom(SourceModInfo.HighPressureApplications);
+				.AddModFrom(SourceModInfo.HighPressureApplications)
+				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
 
 			BuildingManager.CreateEntry<HPATransferArmConfig>()
 				.AddToCategory(PlanMenuCategory.Shipping, SolidTransferArmConfig.ID)
 				.AddToTech(Technology.SolidMaterial.SolidControl)
-				.AddModFrom(SourceModInfo.HighPressureApplications);
+				.AddModFrom(SourceModInfo.HighPressureApplications)
+				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
 
 			BuildingManager.CreateEntry<HPARailMergerConfig>()
 				.AddToCategory(PlanMenuCategory.Shipping, SolidLogicValveConfig.ID)
 				.AddToTech(ModTechs.HPA_Rails_Research_ID)
-				.AddModFrom(SourceModInfo.HighPressureApplications);
+				.AddModFrom(SourceModInfo.HighPressureApplications)
+				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
 
 			BuildingManager.CreateEntry<HPARailValveConfig>()
 				.AddToCategory(PlanMenuCategory.Shipping, SolidLogicValveConfig.ID)
@@ -798,13 +813,15 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingManager.CreateEntry<HPAInBoxConfig>()
 				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitInboxConfig.ID)
 				.AddToTech(ModTechs.HPA_Rails_Research_ID)
-				.AddModFrom(SourceModInfo.HighPressureApplications);
+				.AddModFrom(SourceModInfo.HighPressureApplications)
+				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
 
 
 			BuildingManager.CreateEntry<HPAFilterSolidConfig>()
 				.AddToCategory(PlanMenuCategory.Shipping, SolidFilterConfig.ID)
 				.AddToTech(Technology.SolidMaterial.SolidManagement)
-				.AddModFrom(SourceModInfo.HighPressureApplications);
+				.AddModFrom(SourceModInfo.HighPressureApplications)
+				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
 		}
 		private static void RegisterBuildings_DupesRefrigeration()
 		{
@@ -854,7 +871,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingManager.CreateEntry<CustomSolarPanelConfig>()
 				.AddToCategory(PlanMenuCategory.Power, SolarPanelConfig.ID, ModUtil.BuildingOrdering.Before)
 				.AddToTech(Technology.Power.RenewableEnergy)
-				.AddModFrom(SourceModInfo.CustomGenerators);
+				.AddModFrom(SourceModInfo.CustomGenerators)
+				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
 
 			BuildingManager.CreateEntry<CustomSteamGeneratorConfig>()
 				.AddToCategory(PlanMenuCategory.Power, SteamTurbineConfig2.ID, ModUtil.BuildingOrdering.Before)

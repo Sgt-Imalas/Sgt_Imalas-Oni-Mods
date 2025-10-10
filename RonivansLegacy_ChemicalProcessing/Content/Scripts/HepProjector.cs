@@ -48,6 +48,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			{
 				default_state = disabled;
 				this.disabled
+					.Enter(smi => smi.master.radEmitter.SetEmitting(false))
 					.EventTransition(GameHashes.OperationalChanged, this.idle, smi => smi.master.operational.IsOperational);
 				this.idle
 					.EventTransition(GameHashes.OnStorageChange, this.active, smi => smi.master.elementConverter.HasEnoughMassToStartConverting())
@@ -59,11 +60,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 					.Enter(smi =>
 				{
 					smi.master.operational.SetActive(true);
-					smi.master.SetEmitRads(900f);
+					smi.master.radEmitter.SetEmitting(true);
+					//smi.master.SetEmitRads(900f);
 				}).Exit(smi =>
 				{
 					smi.master.operational.SetActive(false);
-					smi.master.SetEmitRads(0);
+					smi.master.radEmitter.SetEmitting(false);
+					//smi.master.SetEmitRads(0);
 				});
 			}
 		}
