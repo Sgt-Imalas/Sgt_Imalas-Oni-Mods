@@ -19,6 +19,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProces
 
 		private Tag RADFUEL = SimHashes.UraniumOre.CreateTag();
 
+
+
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
 		}
@@ -45,14 +47,16 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProces
 
 		public override void DoPostConfigureComplete(GameObject go)
 		{
-			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
+			go.TryGetComponent<KPrefabID>(out var kPrefabID);
+			kPrefabID.AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
+			kPrefabID.AddTag(GameTags.CorrosionProof);
 			UnityEngine.Object.Destroy(go.GetComponent<BuildingEnabledButton>());
 
 			go.AddOrGet<BuildingComplete>().isManuallyOperated = false;
 			go.AddOrGet<HepProjector>();
 
 			Storage storage = go.AddOrGet<Storage>();
-			storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
+			storage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			storage.showInUI = true;
 			storage.allowItemRemoval = false;
 			storage.capacityKg = 500f;
@@ -65,8 +69,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProces
 			manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
 
 			ElementConverter elementConverter = go.AddOrGet<ElementConverter>();
-			elementConverter.consumedElements = [new(this.RADFUEL, 0.008f)];
-			elementConverter.outputElements = [new(0.008f, SimHashes.NuclearWaste, 0.0f, storeOutput: true, diseaseWeight: 0.75f)];
+			elementConverter.consumedElements = [new(ModAssets.Tags.AIO_RadEmitterInputMaterial, 0.008f)];
+			elementConverter.outputElements = [new ElementConverter.OutputElement(0.008f, SimHashes.NuclearWaste, UtilMethods.GetKelvinFromC(60), storeOutput: true, diseaseWeight: 0.75f)];
 
 			RadiationEmitter radiationEmitter = go.AddComponent<RadiationEmitter>();
 			radiationEmitter.emitType = RadiationEmitter.RadiationEmitterType.Constant;
@@ -83,6 +87,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProces
 			go.AddOrGet<LogicOperationalController>();
 			go.AddOrGetDef<PoweredActiveController.Def>();
 			go.AddOrGet<HepProjector>();
+			go.AddOrGet<SolidDeliverySelectionHEPEmitter>();
 		}
 
 		public override void DoPostConfigurePreview(BuildingDef def, GameObject go)

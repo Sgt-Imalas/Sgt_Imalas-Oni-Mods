@@ -12,6 +12,11 @@ msgstr ""
 "Application: Oxygen Not IncludedPOT Version: 2.0\n"
 "X-Generator: Poedit 3.6\n"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.ADDEDBYSGT_IMALAS
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.ADDEDBYSGT_IMALAS"
+msgid "((Re)-Added by Sgt_Imalas)"
+msgstr "- 由 Sgt_Imalas 重新启用"
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_BIOCHEMISTRY
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_BIOCHEMISTRY"
 msgid "Chemical Processing - Biochemistry"
@@ -3938,6 +3943,16 @@ msgid ""
 msgstr ""
 "硬化合金是两种或多种材料的熔合产物。\n"
 "其高强度特性使其可作为<link=\"STEEL\">钢</link>的替代材料使用。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.AIO_RADEMITTERINPUTMATERIAL
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.AIO_RADEMITTERINPUTMATERIAL"
+msgid "Radioactive Material"
+msgstr "放射性物质"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.AIO_RadEmitterInputMaterial_DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.AIO_RadEmitterInputMaterial_DESC"
+msgid "Radioactive Material that can be used to fuel the Rad Projector."
+msgstr "可用于驱动辐射发射器的放射性物质。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.CHEMICALPROCESSING_RANDOMSAND
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.CHEMICALPROCESSING_RANDOMSAND"

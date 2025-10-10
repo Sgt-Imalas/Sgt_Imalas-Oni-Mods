@@ -38,6 +38,8 @@ namespace RonivansLegacy_ChemicalProcessing
 			public static LocString DUPESREFRIGERATION = "Dupes Refrigeration";
 			public static LocString CUSTOMGENERATORS = "Custom Generators";
 			public static LocString HIGHPRESSUREAPPLICATIONS = "High Pressure Applications";
+
+			public static LocString ADDEDBYSGT_IMALAS = "(Re-)Added by Sgt_Imalas";
 		}
 
 		public class DUPLICANTS
@@ -2025,8 +2027,8 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString AIO_CARRIERGAS = FormatAsLink("Carrier Gas", nameof(AIO_CARRIERGAS));
 				public static LocString AIO_CARRIERGAS_DESC = "Carrier Gases are inert or semi-inert gases that are used in plasma related processes.";
 
-
-
+				public static LocString AIO_RADEMITTERINPUTMATERIAL = "Radioactive Material";
+				public static LocString AIO_RadEmitterInputMaterial_DESC = "Radioactive Material that can be used to fuel the Rad Projector.";
 			}
 		}
 		public class ITEMS

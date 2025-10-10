@@ -463,6 +463,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				AddTagToElementAndEnable(SimHashes.Radium, GameTags.ConsumableOre, true);
 				//=[ ENABLING YellowCake ]===================================================
 				AddTagToElementAndEnable(SimHashes.Yellowcake, GameTags.ManufacturedMaterial, true);
+
+				AddTagToElementAndEnable(SimHashes.UraniumOre, ModAssets.Tags.AIO_RadEmitterInputMaterial);
+				AddTagToElementAndEnable(SimHashes.EnrichedUranium, ModAssets.Tags.AIO_RadEmitterInputMaterial);
 			}
 
 			if (Config.Instance.DupesEngineering_Enabled)
