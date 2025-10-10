@@ -109,8 +109,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProces
 				.Build();
 
 			RecipeBuilder.Create(ID, 80)
-				.Input(SimHashes.DepletedUranium, 33)
-				.Input(SimHashes.SolidNuclearWaste, 66)
+				.Input(SimHashes.DepletedUranium, 33.33f)
+				.Input(SimHashes.SolidNuclearWaste, 66.66f)
 				.Input(SimHashes.OxyRock, 100)
 				.InputHEP(50)
 				.Output(SimHashes.Yellowcake, 100)
