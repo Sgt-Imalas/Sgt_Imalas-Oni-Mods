@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,8 +20,16 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		{
 			public static void Postfix(BuildingDef __instance, GameObject source_go, int cell, bool replacement_tile, ref string fail_reason, ref bool __result)
 			{
-				if (!__result)
+				if (!__result && fail_reason == global::STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_WIRE_OBSTRUCTION && __instance.BuildingComplete.TryGetComponent<StructuralTileMarker>(out _))
+				{
+					fail_reason = "";
+					__result = true;
 					return;
+				}
+
+				if (!__result || StructuralTileMarker.TileAtCell(cell))
+					return;
+
 				var solidBridge = Grid.Objects[cell, (int)ObjectLayer.SolidConduitConnection];
 				if (solidBridge != null && solidBridge != source_go && solidBridge.TryGetComponent<Building>(out var building) && building.Def.BuildLocationRule == BuildLocationRule.NotInTiles)
 				{
@@ -36,12 +45,18 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 			}
 		}
 
-		[HarmonyPatch(typeof(BuildingDef), nameof(BuildingDef.IsValidBuildLocation),
-			[typeof(GameObject), typeof(int), typeof(Orientation), typeof(bool), typeof(string)], [ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Out])]
+		[HarmonyPatch(typeof(BuildingDef), nameof(BuildingDef.IsValidBuildLocation), [typeof(GameObject), typeof(int), typeof(Orientation), typeof(bool), typeof(string)], [ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Out])]
 		public class BuildingDef_IsValidBuildLocation_Patch
 		{
 			public static void Postfix(BuildingDef __instance, int cell, GameObject source_go, Orientation orientation, ref string fail_reason, ref bool __result)
-			{
+			{		
+				if(!__result && fail_reason == global::STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_NOT_IN_TILES && StructuralTileMarker.TileAtCell(cell))
+				{
+					fail_reason = "";
+					__result = true;
+					return;
+				}
+
 				if (!__result)
 					return;
 				__result = IsValidHPABridgeLocation(__instance, cell, source_go, orientation, ref fail_reason);
@@ -81,6 +96,13 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		{
 			public static void Postfix(BuildingDef __instance, GameObject source_go, int cell, Orientation orientation, bool replace_tile, ref string fail_reason, bool restrictToActiveWorld, ref bool __result)
 			{
+				if (!__result && fail_reason == global::STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_NOT_IN_TILES && StructuralTileMarker.TileAtCell(cell))
+				{
+					fail_reason = "";
+					__result = true;
+					return;
+				}
+
 				if (!__result)
 					return;
 				__result = IsValidHPABridgeLocation(__instance, cell, source_go, orientation, ref fail_reason);

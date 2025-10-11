@@ -959,7 +959,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = FormatAsLink("Structure Tile", nameof(REINFORCEDCONCRETETILE));
 					public static LocString DESC = "A solid structural tile wrought from refined metal. Use to build the walls and floors of rooms.";
-					public static LocString EFFECT = "This steel structure is commonly used as a simple, yet strong tile for buildings. The frame structure will not hold any gas or liquid.";
+					public static LocString EFFECT = "This steel structure is commonly used as a simple, yet strong tile for buildings. The frame structure will not hold any gas or liquid.\nHigh wattage wires and heavy duty rails are not obstructed.";
 				}
 				public class WOODENCOMPOSITIONTILE
 				{

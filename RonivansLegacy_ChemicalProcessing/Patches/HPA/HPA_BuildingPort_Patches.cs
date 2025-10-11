@@ -162,19 +162,6 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			}
 		}
 
-		[HarmonyPatch(typeof(Game), nameof(Game.OnLoadLevel))]
-		public class Game_OnLoadLevel_Patch
-		{
-			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
-			public static void Postfix()
-			{
-				HighPressureConduitRegistration.ClearEverything();
-				LogisticConduit.ClearEverything();
-			}
-		}
-
-
 		[HarmonyPatch(typeof(BaseModularLaunchpadPortConfig), nameof(BaseModularLaunchpadPortConfig.ConfigureBuildingTemplate))]
 		public class BaseModularLaunchpadPortConfig_ConfigureBuildingTemplate_Patch
 		{
