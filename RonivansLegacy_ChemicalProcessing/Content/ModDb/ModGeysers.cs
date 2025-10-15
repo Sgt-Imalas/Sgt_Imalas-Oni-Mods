@@ -73,7 +73,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				generic));
 
 			//===[ CHEMICAL: HOT MERCURY GAS VENT ]=====================================================================
-			configs.Add(new("geyser_hot_mercurygas_kanim", 4, 2,
+			configs.Add(new("geyser_hot_mercurygas_kanim", 2, 4,
 				new GeyserConfigurator.GeyserType("HotMercuryGasVent",
 				SimHashes.MercuryGas,
 				GeyserConfigurator.GeyserShape.Gas,
