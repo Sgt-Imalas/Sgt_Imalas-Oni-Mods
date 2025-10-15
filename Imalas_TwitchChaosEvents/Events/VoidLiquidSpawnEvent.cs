@@ -26,22 +26,37 @@ namespace Imalas_TwitchChaosEvents.Events
 
 			var randomMinion = Components.LiveMinionIdentities.GetWorldItems(currentPlanet.id).GetRandom();
 
-			var voidSpawner = randomMinion.gameObject.AddComponent<VoidLiquidSpawner>();
+
+			randomMinion.TryGetComponent<KSelectable>(out var selectable);
+			selectable.AddStatusItem(ModAssets.StatusItems.VoidTarget);
 
 			SpeedControlScreen.Instance.SetSpeed(0);
 			string name = randomMinion.GetProperName();
-			SoundUtils.PlaySound(ModAssets.SOUNDS.CAVE_NOISE, SoundUtils.GetSFXVolume() * 1.0f, true);
+			SoundUtils.PlaySound(ModAssets.SOUNDS.CAVE_NOISE, SoundUtils.GetSFXVolume() * 0.3f, true);
 
-			ToastManager.InstantiateToastWithPosTarget(
+			ToastManager.InstantiateToastWithGoTarget(
 				STRINGS.CHAOSEVENTS.STAREDINTOTHEVOID.TOAST,
 				string.Format(STRINGS.CHAOSEVENTS.STAREDINTOTHEVOID.TOASTTEXT, name),
-				randomMinion.transform.position);
+				randomMinion.gameObject);
 
-
-			RandomTickManager.Instance.StartVoidEvent(randomMinion);
-
-			GameScheduler.Instance.Schedule("VoidDefeat", 600f, _ =>
+			GameScheduler.Instance.Schedule("VoidAwoken", 100f, _ =>
 			{
+				var voidSpawner = randomMinion.gameObject.AddComponent<VoidLiquidSpawner>();
+
+				RandomTickManager.Instance.StartVoidEvent(randomMinion);
+
+				ToastManager.InstantiateToastWithGoTarget(
+					STRINGS.CHAOSEVENTS.STAREDINTOTHEVOID.TOAST,
+					string.Format(STRINGS.CHAOSEVENTS.STAREDINTOTHEVOID.TOASTTEXT2, name),
+					randomMinion.gameObject);
+
+				SoundUtils.PlaySound(ModAssets.SOUNDS.CAVE_NOISE, SoundUtils.GetSFXVolume() * 0.7f, true);
+			});
+
+
+			GameScheduler.Instance.Schedule("VoidDefeat", 700f, _ =>
+			{
+				selectable.RemoveStatusItem(ModAssets.StatusItems.VoidTarget);
 				RandomTickManager.Instance.AdmitVoidDefeat();
 			});
 		};
@@ -49,7 +64,7 @@ namespace Imalas_TwitchChaosEvents.Events
 		public Func<object, bool> Condition =>
 			(data) =>
 			{
-				return Config.Instance.SkipMinCycle || GameClock.Instance.GetCycle() > 150;
+				return (Config.Instance.SkipMinCycle || ConditionHelper.MinCycle(150)) && ConditionHelper.MinDupeCount(10);
 			};
 
 		public Danger EventDanger => Danger.Deadly;
