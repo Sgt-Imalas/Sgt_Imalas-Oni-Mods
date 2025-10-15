@@ -1139,8 +1139,8 @@ elements:
     dlcId: ""
 
   - elementId: SolidNitrogen
-    specificHeatCapacity: 92
-    thermalConductivity: 72
+    specificHeatCapacity: 1.04
+    thermalConductivity: 1
     solidSurfaceAreaMultiplier: 1
     liquidSurfaceAreaMultiplier: 1
     gasSurfaceAreaMultiplier: 1
