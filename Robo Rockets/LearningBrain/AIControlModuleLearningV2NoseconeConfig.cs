@@ -83,6 +83,7 @@ namespace RoboRockets.LearningBrain
 		{
 			BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MINOR_PLUS);
 
+			ModAssets.RemoveCountCondition(go);
 			Storage storage = go.AddOrGet<Storage>();
 			storage.capacityKg = 1f;
 			storage.showInUI = false;

@@ -22,7 +22,7 @@ namespace RoboRockets.LearningBrain
 				id: ID,
 				name: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RR_BRAINFLYER.NAME,
 				desc: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RR_BRAINFLYER.DESC,
-				mass: 50f,
+				mass: 1f,
 				unitMass: true,
 				anim: Assets.GetAnim("brain_item_kanim"),
 				initialAnim: "object",
