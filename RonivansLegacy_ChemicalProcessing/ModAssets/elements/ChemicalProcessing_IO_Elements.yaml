@@ -86,7 +86,7 @@ elements:
 
   - elementId: SolidSilver
     specificHeatCapacity: 0.223
-    thermalConductivity: 220
+    thermalConductivity: 203
     solidSurfaceAreaMultiplier: 1
     liquidSurfaceAreaMultiplier: 1
     gasSurfaceAreaMultiplier: 1
@@ -872,6 +872,7 @@ elements:
     tags:
     - BuildableAny
     - Ore
+    - StartingMetalOre
     buildMenuSort: 3
     isDisabled: false
     state: Solid
