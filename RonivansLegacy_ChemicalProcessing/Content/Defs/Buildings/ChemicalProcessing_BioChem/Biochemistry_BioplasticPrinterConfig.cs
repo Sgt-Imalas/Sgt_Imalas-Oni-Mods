@@ -2,6 +2,7 @@
 using KSerialization;
 using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,7 @@ namespace Biochemistry.Buildings
 
 		private static readonly PortDisplayInput co2GasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(1, 0), null, new Color32(186, 186, 186, 255));
 
+		private static readonly PortDisplayOutput pWaterOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(2, 1));
 
 		public override BuildingDef CreateBuildingDef()
 		{
@@ -75,6 +77,14 @@ namespace Biochemistry.Buildings
 			ethanolInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 			ethanolInput.AssignPort(co2GasInputPort);
 
+
+			PipedConduitDispenser pWaterDispenser = go.AddComponent<PipedConduitDispenser>();
+			pWaterDispenser.elementFilter = [SimHashes.DirtyWater];
+			pWaterDispenser.AssignPort(pWaterOutputPort);
+			pWaterDispenser.alwaysDispense = true;
+			//pWaterDispenser.SkipSetOperational = true;
+
+
 			ManualDeliveryKG mushbar_delivery = go.AddOrGet<ManualDeliveryKG>();
 			mushbar_delivery.RequestedItemTag = MushBarConfig.ID.ToTag();
 			mushbar_delivery.SetStorage(storage);
@@ -91,7 +101,8 @@ namespace Biochemistry.Buildings
 			];
 			elementConverter.outputElements =
 			[
-			new ElementConverter.OutputElement(0.50f, ModElements.BioPlastic_Solid, 296.15f, false, true, 0f, 0.5f, 1f, byte.MaxValue, 0, true)
+			new ElementConverter.OutputElement(0.50f, ModElements.BioPlastic_Solid, 296.15f, false, true, 0f, 0.5f)
+			new ElementConverter.OutputElement(0.40f, SimHashes.DirtyWater, UtilMethods.GetKelvinFromC(10), true, true, 0f, 0.5f)
 			];
 
 			ElementDropper elementDropper = go.AddComponent<ElementDropper>();
@@ -109,6 +120,7 @@ namespace Biochemistry.Buildings
 			PortDisplayController controller = go.AddComponent<PortDisplayController>();
 			controller.Init(go);
 			controller.AssignPort(go, co2GasInputPort);
+			controller.AssignPort(go, pWaterOutputPort);
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)
