@@ -64,11 +64,11 @@ namespace Imalas_TwitchChaosEvents.BeeGeyser
 			if (!DlcManager.IsExpansion1Active())
 				return;
 
-			SgtLogger.l(s.ToString(), new HashedString("erupt").ToString());
+			//SgtLogger.l(s.ToString(), new HashedString("erupt").ToString());
 			if (s.hash != new HashedString("erupt").hash)
 				return;
 
-			if (BeeCoat.Coats.Count > 30)
+			if (BeeCoat.Coats.Count >= 32)
 				return;
 
 			var bee = GameUtil.KInstantiate(Assets.GetPrefab(BeeConfig.ID), Grid.SceneLayer.Creatures);
