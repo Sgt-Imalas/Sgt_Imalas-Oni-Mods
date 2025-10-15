@@ -58,11 +58,12 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.RequiresTech(GameStrings.Technology.Gases.Catalytics)
 				.Build();
 
+						
 			RecipeBuilder.Create(ID, 40)
 				.Input(SimHashes.Propane, 50)
 				.Input(SimHashes.Petroleum, 49)
 				.Input(SimHashes.Fullerene, 1)
-				.Output(ModElements.Isopropane_Gas, 100f, storeElement: true)
+				.Output(ModElements.Isopropane_Gas, 100f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, storeElement: true)
 				.Description(CHEMICAL_MIXINGUNIT_3_1, 3, 1)
 				.RequiresTech(GameStrings.Technology.Gases.Catalytics)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
@@ -123,7 +124,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				Assets.GetAnim((HashedString) "anim_interacts_research2_kanim")
 			];
 			fabricator.duplicantOperated = true;
-			fabricator.heatedTemperature = 298.15f;
+			fabricator.heatedTemperature = UtilMethods.GetKelvinFromC(40);
 			BuildingTemplates.CreateComplexFabricatorStorage(go, fabricator);
 			fabricator.keepExcessLiquids = true;
 			fabricator.keepExcessGasses = true;	
