@@ -39,7 +39,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 2, 3, "electric_boiler_kanim", 100, 30f, singleArray1, textArray1, 800f, BuildLocationRule.OnFloor, TUNING.BUILDINGS.DECOR.PENALTY.TIER1, noise, 0.2f);
 			buildingDef.Overheatable = false;
 			buildingDef.RequiresPowerInput = true;
-			buildingDef.EnergyConsumptionWhenActive = 850f;
+			buildingDef.EnergyConsumptionWhenActive = 720f;
 			buildingDef.ExhaustKilowattsWhenActive = 0.12f;
 			buildingDef.SelfHeatKilowattsWhenActive = 0.8f;
 			buildingDef.PowerInputOffset = new CellOffset(0, 0);
@@ -77,7 +77,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			ElementConverter converter = go.AddOrGet<ElementConverter>();
 			converter.consumedElements = [new ElementConverter.ConsumedElement(SimHashes.Water.CreateTag(), 1f)];
-			converter.outputElements = [new ElementConverter.OutputElement(1f, SimHashes.Steam, UtilMethods.GetKelvinFromC(106), false, true, 0f, 0.5f, 0.75f, 0xff, 0)];
+			converter.outputElements = [new ElementConverter.OutputElement(1f, SimHashes.Steam, UtilMethods.GetKelvinFromC(120), false, true, 0f, 0.5f, 0.75f, 0xff, 0)];
 
 			PipedConduitDispenser dispenser = go.AddComponent<PipedConduitDispenser>();
 			dispenser.storage = storage;
