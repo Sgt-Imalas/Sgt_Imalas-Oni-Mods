@@ -51,7 +51,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			string[] ingredient_types = ["BuildableRaw", "RefinedMetal"];
 
 			EffectorValues tier = NOISE_POLLUTION.NOISY.TIER6;
-			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 6, 4, "sourwater_stripper_kanim", 100, 30f, ingredient_mass, ingredient_types, 800f, BuildLocationRule.Anywhere, BUILDINGS.DECOR.PENALTY.TIER2, tier);
+			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 6, 4, "sourwater_stripper_kanim", 100, 30f, ingredient_mass, ingredient_types, 800f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.PENALTY.TIER2, tier);
 			buildingDef.Overheatable = true;
 			buildingDef.OverheatTemperature = 348.15f;
 			buildingDef.RequiresPowerInput = true;
