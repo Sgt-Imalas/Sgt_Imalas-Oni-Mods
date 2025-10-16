@@ -13,13 +13,13 @@ using UtilLibs;
 namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 {
 	//==== [ CHEMICAL: CO2 DISSIPATOR CONFIG ] ====================================================================
-	public class Chemical_Co2PumpConfig : IBuildingConfig
+	public class Chemical_ChlorinePumpConfig : IBuildingConfig
 	{
-		public static string ID = "Chemical_Co2Pump";
+		public static string ID = "Chemical_AIO_ChlorinePump";
 		public override BuildingDef CreateBuildingDef()
 		{
 			EffectorValues noise = NOISE_POLLUTION.NOISY.TIER2;
-			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 1, 1, "co2_pump_kanim", 30, 60f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER0, MATERIALS.ALL_METALS, 1600f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.PENALTY.TIER0, noise, 0.2f);
+			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 1, 1, "aio_chlorine_pump_kanim", 30, 60f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER0, MATERIALS.ALL_METALS, 1600f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.PENALTY.TIER0, noise, 0.2f);
 			def1.RequiresPowerInput = true;
 			def1.EnergyConsumptionWhenActive = 10f;
 			def1.ExhaustKilowattsWhenActive = 0f;
@@ -33,7 +33,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			def1.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(0, 0));
 			def1.PermittedRotations = PermittedRotations.R360;
 			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.GasVentIDs, ID);
-			SoundUtils.CopySoundsToAnim("co2_pump_kanim", "minigaspump_kanim");
+			SoundUtils.CopySoundsToAnim("aio_chlorine_pump_kanim", "minigaspump_kanim");
 			return def1;
 		}
 
@@ -42,10 +42,10 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			go.AddOrGet<LogicOperationalController>();
 			go.AddOrGet<LoopingSounds>();
 			go.AddOrGet<EnergyConsumer>();
-			go.AddOrGet<FilterablePump>().FilterElement = SimHashes.CarbonDioxide;
+			go.AddOrGet<FilterablePump>().FilterElement = SimHashes.ChlorineGas;
 			go.AddOrGet<Storage>().capacityKg = 2f;
 			ElementConsumer elementConsumer = go.AddOrGet<ElementConsumer>();
-			elementConsumer.elementToConsume = SimHashes.CarbonDioxide;
+			elementConsumer.elementToConsume = SimHashes.ChlorineGas;
 			elementConsumer.consumptionRate = 0.1f;
 			elementConsumer.storeOnConsume = true;
 			elementConsumer.showInStatusPanel = false;

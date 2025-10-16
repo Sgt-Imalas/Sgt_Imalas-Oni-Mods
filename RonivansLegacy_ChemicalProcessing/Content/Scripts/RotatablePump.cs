@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {
-	internal class RotatablePump : Pump
+	internal class RotatablePump : FilterablePump
 	{
 		[MyCmpReq] Building building;
 
