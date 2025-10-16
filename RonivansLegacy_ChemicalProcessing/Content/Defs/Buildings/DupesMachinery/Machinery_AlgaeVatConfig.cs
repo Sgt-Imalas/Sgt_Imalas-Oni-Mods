@@ -18,7 +18,7 @@ namespace Dupes_Machinery.Biological_Vats
 	public class Machinery_AlgaeVatConfig : IBuildingConfig
 	{
 		public static string ID = "AlgaeVat";
-		
+
 		private static readonly PortDisplayOutput outputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(0, 3));
 
 		public override BuildingDef CreateBuildingDef()
@@ -68,17 +68,19 @@ namespace Dupes_Machinery.Biological_Vats
 			local2.forceAlwaysSatisfied = true;
 			local2.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 
+			float multiplier = 2.5f;
+
 			ElementConverter converter = go.AddComponent<ElementConverter>();
 			converter.consumedElements = [
-				new ElementConverter.ConsumedElement(SimHashes.Algae.CreateTag(), 0.075f), 
-				new ElementConverter.ConsumedElement(SimHashes.Water.CreateTag(), 0.8f)
+				new ElementConverter.ConsumedElement(SimHashes.Algae.CreateTag(), 0.060f * multiplier),
+				new ElementConverter.ConsumedElement(SimHashes.Water.CreateTag(), 0.800f * multiplier)
 				];
-			converter.outputElements = [new ElementConverter.OutputElement(0.20f, SimHashes.Oxygen, 303.15f, false, true, 0f, 1f, 1f, 0xff, 0),
-				new ElementConverter.OutputElement(0.9625f, SimHashes.DirtyWater, 303.15f, false, true, 0f, 1f, 1f, 0xff, 0)];
+			converter.outputElements = [new ElementConverter.OutputElement(0.160f * multiplier, SimHashes.Oxygen, 303.15f, false, true),
+				new ElementConverter.OutputElement(0.77422f * multiplier, SimHashes.DirtyWater, 303.15f, false, true)];
 
 			ElementConverter converter2 = go.AddComponent<ElementConverter>();
-			converter2.consumedElements = [new ElementConverter.ConsumedElement(SimHashes.CarbonDioxide.CreateTag(), 0.0085f)];
-			converter2.outputElements = [new ElementConverter.OutputElement(0.03f, SimHashes.DirtyWater, 303.15f, false, true, 0f, 1f, 1f, 0xff, 0)];
+			converter2.consumedElements = [new ElementConverter.ConsumedElement(SimHashes.CarbonDioxide.CreateTag(), 0.00859f * multiplier)];
+			converter2.outputElements = [new ElementConverter.OutputElement(0.02578f * multiplier, SimHashes.DirtyWater, 303.15f, false, true)];
 
 			ConduitDispenser local5 = go.AddOrGet<ConduitDispenser>();
 			local5.conduitType = ConduitType.Liquid;
@@ -86,7 +88,7 @@ namespace Dupes_Machinery.Biological_Vats
 
 			ElementConsumer local6 = go.AddOrGet<ElementConsumer>();
 			local6.elementToConsume = SimHashes.CarbonDioxide;
-			local6.consumptionRate = 0.009f;
+			local6.consumptionRate = 0.009f * multiplier;
 			local6.consumptionRadius = 6;
 			local6.storeOnConsume = true;
 			local6.capacityKG = 10f;
