@@ -20,7 +20,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 		public static float Wattage = 480;
 		public float GetWattage() => Wattage;
 		public void SetWattage(float mass) => Wattage = mass;
-		public static float StorageCapacity = 200; 
+		public static float StorageCapacity = 300; 
 		public float GetStorageCapacity() => StorageCapacity;
 		public void SetStorageCapacity(float mass) => StorageCapacity = mass;
 
