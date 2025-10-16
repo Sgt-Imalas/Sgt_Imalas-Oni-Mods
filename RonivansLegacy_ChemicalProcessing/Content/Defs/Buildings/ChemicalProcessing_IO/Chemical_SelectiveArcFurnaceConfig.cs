@@ -54,6 +54,11 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			ComplexFabricatorWorkable complexFabricatorWorkable = go.AddOrGet<ComplexFabricatorWorkable>();
 			BuildingTemplates.CreateComplexFabricatorStorage(go, complexFabricator);
 			workable.overrideAnims = [Assets.GetAnim("anim_interacts_metalrefinery_kanim")];
+
+			complexFabricator.inStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
+			complexFabricator.buildStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
+			complexFabricator.outStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
+
 			this.ConfigureRecipes();
 			Prioritizable.AddRef(go);
 		}
