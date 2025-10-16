@@ -31,7 +31,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservo
 
 		public override BuildingDef CreateBuildingDef()
 		{
-			BuildingDef def = BuildingTemplates.CreateBuildingDef(ID, Width, Height, KANIM, 50, 60f, TUNING.BUILDINGS.CONSTRUCTION_MASS_KG.TIER2, MATERIALS.ALL_METALS, 800f, buildLocationRule, TUNING.BUILDINGS.DECOR.PENALTY.TIER1, TUNING.NOISE_POLLUTION.NOISY.TIER0);
+			BuildingDef def = BuildingTemplates.CreateBuildingDef(ID, Width, Height, KANIM, 50, 60f, [80], MATERIALS.ALL_METALS, 800f, buildLocationRule, TUNING.BUILDINGS.DECOR.PENALTY.TIER1, TUNING.NOISE_POLLUTION.NOISY.TIER0);
 			def.InputConduitType = ConduitType.Liquid;
 			def.OutputConduitType = ConduitType.Liquid;
 			def.Floodable = false;
