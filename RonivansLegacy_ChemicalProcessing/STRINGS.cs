@@ -1884,7 +1884,7 @@ namespace RonivansLegacy_ChemicalProcessing
 			public class AMMONIUMWATER
 			{
 				public static LocString NAME = FormatAsLink("Ammonium Water", nameof(AMMONIUMWATER));
-				public static LocString DESC = "(NH<sub>4</sub>OH) Ammonium hydroxide is a solution of " + FormatAsLink("Ammonia", "AMMONIAGAS") + " and " + FormatAsLink("Salt Water", "SALTWATER") + ".";
+				public static LocString DESC = "(NH<sub>4</sub>OH) Ammonium hydroxide is a solution of " + FormatAsLink("Ammonia", "AMMONIAGAS") + " and " + FormatAsLink("Water", "WATER") + ".";
 			}
 			public class AMMONIUMSALT
 			{

@@ -119,10 +119,13 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			ammoniumWaterTreatment.consumedElements = [
 				new ElementConverter.ConsumedElement(ModElements.AmmoniumWater_Liquid.Tag, 5f),
 				new ElementConverter.ConsumedElement(SimHashes.Steam.CreateTag(), 0.5f) ];
+			//ammoniumWaterTreatment.outputElements = [
+			//	new ElementConverter.OutputElement(2.5f, SimHashes.Water, 327.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0),
+			//	new ElementConverter.OutputElement(2.45f, SimHashes.Brine, 347.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0),
+			//	new ElementConverter.OutputElement(0.55f, ModElements.Ammonia_Gas, 321.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0)];
 			ammoniumWaterTreatment.outputElements = [
-				new ElementConverter.OutputElement(2.5f, SimHashes.Water, 327.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0),
-				new ElementConverter.OutputElement(2.45f, SimHashes.Brine, 347.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0),
-				new ElementConverter.OutputElement(0.55f, ModElements.Ammonia_Gas, 321.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0)];
+				new ElementConverter.OutputElement(4.95f, SimHashes.Water, 327.15f, false, true),
+				new ElementConverter.OutputElement(0.55f, ModElements.Ammonia_Gas, 321.15f, false, true)];
 			//--------------------------------------------------------------------
 
 			Storage outputStorage = go.AddOrGet<Storage>();

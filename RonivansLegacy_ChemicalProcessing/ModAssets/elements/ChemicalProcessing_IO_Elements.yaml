@@ -86,7 +86,7 @@ elements:
 
   - elementId: SolidSilver
     specificHeatCapacity: 0.223
-    thermalConductivity: 203
+    thermalConductivity: 220
     solidSurfaceAreaMultiplier: 1
     liquidSurfaceAreaMultiplier: 1
     gasSurfaceAreaMultiplier: 1
@@ -596,10 +596,10 @@ elements:
     gasSurfaceAreaMultiplier: 1
     highTemp: 311.15
     lowTemp: 215.15
-    lowTempTransitionTarget: Brine
-    lowTempTransitionOreId: AmmoniaGas
-    lowTempTransitionOreMassConversion: 0.11   # this is the actual value of brine that would be removed to leave a 11% ammonia gas remaining.
-    highTempTransitionTarget: Brine
+    lowTempTransitionTarget: AmmoniaGas
+    lowTempTransitionOreId: Ice
+    lowTempTransitionOreMassConversion: 0.89   # this is the actual value of brine that would be removed to leave a 11% ammonia gas remaining.
+    highTempTransitionTarget: Water
     highTempTransitionOreId: LiquidAmmonia
     highTempTransitionOreMassConversion: 0.11  # this is the actual value of brine that would be removed to leave a 11% ammonia gas remaining.
     defaultTemperature: 266.15
