@@ -44,7 +44,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				ref List<Diet.Info> __result)
 			{
 				if(Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
-				__result.Add(CritterDietsInfo.AddToList([HatchHardConfig.ID], SourceModInfo.ChemicalProcessing_IO, new Diet.Info([SimHashes.Salt.CreateTag()], ModElements.Borax_Solid.Tag, caloriesPerKg, 0.5f, diseaseId, diseasePerKgProduced)));
+					__result.Add(CritterDietsInfo.AddToList([HatchHardConfig.ID], SourceModInfo.ChemicalProcessing_IO, new Diet.Info([SimHashes.Salt.CreateTag()], ModElements.Borax_Solid.Tag, caloriesPerKg, 0.5f, diseaseId, diseasePerKgProduced)));
 			}
 		}
 
@@ -63,7 +63,12 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				{
 					string hatchTarget = (poopTag == GameTags.Metal) ? HatchMetalConfig.ID : HatchHardConfig.ID;
 					__result.Add(CritterDietsInfo.AddToList([hatchTarget], SourceModInfo.ChemicalProcessing_IO, new Diet.Info( new HashSet<Tag>([ModElements.Argentite_Solid.Tag]), (poopTag == GameTags.Metal) ? ModElements.Silver_Solid.Tag : poopTag, caloriesPerKg, producedConversionRate, diseaseId, diseasePerKgProduced)));
-					__result.Add(CritterDietsInfo.AddToList([hatchTarget], SourceModInfo.ChemicalProcessing_IO, new Diet.Info( new HashSet<Tag>([ModElements.Aurichalcite_Solid.Tag]), (poopTag == GameTags.Metal) ? ModElements.Zinc_Solid.Tag : poopTag, caloriesPerKg, producedConversionRate, diseaseId, diseasePerKgProduced)));
+					
+					///added via starting metal tag now
+					//__result.Add(
+						CritterDietsInfo.AddToList([hatchTarget], SourceModInfo.ChemicalProcessing_IO, new Diet.Info( new HashSet<Tag>([ModElements.Aurichalcite_Solid.Tag]), (poopTag == GameTags.Metal) ? ModElements.Zinc_Solid.Tag : poopTag, caloriesPerKg, producedConversionRate, diseaseId, diseasePerKgProduced))
+						//)
+						;
 				}
 			}
 		}
