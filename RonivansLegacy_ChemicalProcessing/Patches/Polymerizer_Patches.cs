@@ -17,13 +17,11 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		{
             public static void Postfix(Polymerizer __instance, object data)
             {
-                if(__instance is EthanolPolymerizer ep)
+                if(__instance is CustomPolymerizer ep)
 				{
-					GameObject gameObject = (GameObject)data;
-					if (!(gameObject == null) && gameObject.HasTag(PolymerizerConfig.INPUT_ELEMENT_TAG))
-						ep.UpdateEthanolMeter();
+                    ep.UpdateCustomMeter();
 				}
             }
         }
-    }
+	}
 }

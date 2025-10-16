@@ -24,7 +24,7 @@ namespace Biochemistry.Buildings
 
 		private static readonly PortDisplayInput co2GasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(1, 0), null, new Color32(186, 186, 186, 255));
 
-		private static readonly PortDisplayOutput pWaterOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(2, 1));
+		private static readonly PortDisplayOutput pWaterOutputPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(1, 0));
 
 		public override BuildingDef CreateBuildingDef()
 		{
@@ -45,8 +45,11 @@ namespace Biochemistry.Buildings
 		static float MushbarConsumption = 1 / (5f * 600f);
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
+			Tag oil = SimHashes.PhytoOil.CreateTag();
+
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
-			Polymerizer polymerizer = go.AddOrGet<Polymerizer>();
+			CustomPolymerizer polymerizer = go.AddOrGet<CustomPolymerizer>();
+			polymerizer.OilElementTag = oil;
 			polymerizer.emitMass = 30f;
 			polymerizer.emitTag = GameTagExtensions.Create(ModElements.BioPlastic_Solid);
 			polymerizer.emitOffset = new Vector3(0f, 1f, 0f);
@@ -58,7 +61,6 @@ namespace Biochemistry.Buildings
 			//storage.showCapacityAsMainStatus = true;
 			//storage.showDescriptor = true;
 
-			Tag oil = SimHashes.PhytoOil.CreateTag();
 
 			ConduitConsumer vegOilInput = go.AddOrGet<ConduitConsumer>();
 			vegOilInput.conduitType = ConduitType.Liquid;
@@ -101,7 +103,7 @@ namespace Biochemistry.Buildings
 			];
 			elementConverter.outputElements =
 			[
-			new ElementConverter.OutputElement(0.50f, ModElements.BioPlastic_Solid, 296.15f, false, true, 0f, 0.5f)
+			new ElementConverter.OutputElement(0.50f, ModElements.BioPlastic_Solid, 296.15f, false, true, 0f, 0.5f),
 			new ElementConverter.OutputElement(0.40f, SimHashes.DirtyWater, UtilMethods.GetKelvinFromC(10), true, true, 0f, 0.5f)
 			];
 

@@ -7,11 +7,13 @@ using UnityEngine;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {
-	class EthanolPolymerizer : Polymerizer
+	class CustomPolymerizer : Polymerizer
 	{
-		internal void UpdateEthanolMeter()
+
+		[SerializeField] public Tag OilElementTag;
+		internal void UpdateCustomMeter()
 		{
-			float num = storage.GetAmountAvailable(SimHashes.Ethanol.CreateTag());
+			float num = storage.GetAmountAvailable(OilElementTag);
 			oilMeter.SetPositionPercent(Mathf.Clamp01(num / consumer.capacityKG));
 		}
 	}
