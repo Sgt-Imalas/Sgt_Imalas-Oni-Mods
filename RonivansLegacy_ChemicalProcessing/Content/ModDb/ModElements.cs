@@ -542,7 +542,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		internal static void ConfigureElements()
 		{
 			AddElementOverheatModifier(ConcreteBlock_Solid, 100);
-			AddElementDecorModifier(ConcreteBlock_Solid, -0.25f);
+			AddElementDecorModifier(ConcreteBlock_Solid, -0.15f);
 
 			AddElementOverheatModifier(SimHashes.Brick, 100);
 			AddElementDecorModifier(SimHashes.Brick, 0.1f);
