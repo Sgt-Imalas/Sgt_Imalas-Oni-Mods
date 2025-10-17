@@ -28,6 +28,11 @@ namespace RonivansLegacy_ChemicalProcessing
 
 		public static ModHashes OnBuildingFacadeChanged = new ModHashes("RonivanAIO_OnBuildingFacadeChanged");
 
+		public static void AddMachineAttachmentPort(GameObject go)
+		{
+			go.AddOrGet<BuildingAttachPoint>().points = [new BuildingAttachPoint.HardPoint(new CellOffset(0, 5), Tags.AIO_StackableMachine, null)];
+		}
+
 		public class Tags
 		{
 			///group tag for metal sands
@@ -52,6 +57,9 @@ namespace RonivansLegacy_ChemicalProcessing
 
 			///Element can be consumed by the RadEmitter
 			public static Tag AIO_RadEmitterInputMaterial = TagManager.Create("AIO_RadEmitterInputMaterial");
+
+			///allows stacking the large reformer machines and crude/raw gas refineries
+			public static Tag AIO_StackableMachine = TagManager.Create("AIO_StackableMachine");
 		}
 		public static GameObject BuildingEditorWindowPrefab;
 

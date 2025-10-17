@@ -466,7 +466,7 @@ msgstr "藻类群落需要<link=\"WATER\">水</link>才能生长，通过其生�
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.ALGAEVAT.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.ALGAEVAT.NAME"
 msgid "<link=\"ALGAEVAT\">Algae Vat</link>"
-msgstr "<link=\"ALGAEVAT\">藻类培育缸</link>"
+msgstr "<link=\"ALGAEVAT\">藻类光合缸</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_ALGAEGROWINGBASIN.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_ALGAEGROWINGBASIN.DESC"
@@ -699,6 +699,21 @@ msgstr ""
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ADVANCEDMETALREFINERY.NAME"
 msgid "<link=\"CHEMICALADVANCEDMETALREFINERY\">Advanced Metal Refinery</link>"
 msgstr "<link=\"CHEMICALADVANCEDMETALREFINERY\">先进金属精炼器</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AIO_CHLORINEPUMP.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AIO_CHLORINEPUMP.DESC"
+msgid "A fancy pump capable to detect Chlorine Gas and pump it."
+msgstr "一种先进的泵，能够智能检测氯气并将其排出。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AIO_CHLORINEPUMP.EFFECT
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AIO_CHLORINEPUMP.EFFECT"
+msgid "Automatically detects trace of <link=\"CHLORINEGAS\">Chlorine Gas</link> and extract it out of the surroudings."
+msgstr "自动检测<link=\"CHLORINEGAS\">氯气</link>的痕迹，并将其从周围环境中分离出来。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AIO_CHLORINEPUMP.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AIO_CHLORINEPUMP.NAME"
+msgid "<link=\"CHEMICALAIOCHLORINEPUMP\">Chlorine Gas Filter</link>"
+msgstr "<link=\"CHEMICALCO2PUMP\">氯气过滤器</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AMMONIABREAKER.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AMMONIABREAKER.DESC"
@@ -951,7 +966,7 @@ msgstr ""
 " - 50% <link=\"PETROLEUM\">石油</link>\n"
 " - 25% <link=\"NAPHTHA\">石脑油</link>\n"
 " - 10% <link=\"METHANE\">天然气</link>\n"
-"\v - 10% <link=\"SOURWATER\">酸水</link>作为废弃物\n"
+" - 10% <link=\"SOURWATER\">酸水</link>作为废弃物\n"
 " - 5% <link=\"BITUMEN\">沥青</link>\n"
 "\n"
 "第二阶段： 将<link=\"NAPHTHA\">石脑油</link>深度精炼为：\n"
@@ -3081,8 +3096,12 @@ msgstr "由精炼金属制造的空心框架砖。用于建造房间的墙壁与
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STRUCTURETILE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STRUCTURETILE.EFFECT"
-msgid "This steel structure is commonly used as a simple, yet strong tile for buildings. The frame structure will not hold any gas or liquid."
-msgstr "这种钢结构通常作为简单而坚固的建筑单元使用，其框架结构不会滞留任何气体或液体。"
+msgid ""
+"This steel structure is commonly used as a simple, yet strong tile for buildings. The frame structure will not hold any gas or liquid.\n"
+"High wattage wires and heavy duty rails are not obstructed."
+msgstr ""
+"这种钢结构通常作为简单而坚固的建筑单元使用，其框架结构不会滞留任何气体或液体。\n"
+"高负荷线材和重型轨道可以从中穿过。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STRUCTURETILE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STRUCTURETILE.NAME"
@@ -3236,7 +3255,7 @@ msgstr "周期性喷发<link=\"LIQUIDAMMONIA\">液态氨</link>的高压低温�
 #. RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.AMMONIAGEYSER.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.AMMONIAGEYSER.NAME"
 msgid "<link=\"GEYSERGENERICAMMONIAGEYSER\">Ammonia Geyser</link>"
-msgstr "<link=\"GEYSERGENERICAMMONIAGEYSER\">氨间歇泉</link>"
+msgstr "<link=\"GEYSERGENERICAMMONIAGEYSER\">液态氨间歇泉</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.AMMONIUMWATERGEYSER.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.AMMONIUMWATERGEYSER.DESC"
@@ -3266,7 +3285,7 @@ msgstr "周期性喷发<link=\"MOLTENSALT\">熔融盐</link>的高压高温地�
 #. RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.MOLTENSALTGEYSER.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.MOLTENSALTGEYSER.NAME"
 msgid "<link=\"GEYSERGENERICMOLTENSALTGEYSER\">Molten Salt Geyser</link>"
-msgstr "<link=\"GEYSERGENERICMOLTENSALTGEYSER\">熔盐间歇泉</link>"
+msgstr "<link=\"GEYSERGENERICMOLTENSALTGEYSER\">熔融盐间歇泉</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.NITROGENVENT.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.NITROGENVENT.DESC"
@@ -3336,7 +3355,7 @@ msgstr "（NH<sub>3</sub>）氨是氮和氢的无机化合物。氨是一种稳�
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AMMONIAGAS.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AMMONIAGAS.NAME"
 msgid "<link=\"AMMONIAGAS\">Ammonia</link>"
-msgstr "<link=\"AMMONIAGAS\">氨</link>"
+msgstr "<link=\"AMMONIAGAS\">氨气</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AMMONIUMSALT.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AMMONIUMSALT.DESC"
@@ -3350,8 +3369,8 @@ msgstr "<link=\"AMMONIUMSALT\">硝酸盐结晶</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AMMONIUMWATER.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AMMONIUMWATER.DESC"
-msgid "(NH<sub>4</sub>OH) Ammonium hydroxide is a solution of <link=\"AMMONIAGAS\">Ammonia</link> and <link=\"SALTWATER\">Salt Water</link>."
-msgstr "（NH<sub>4</sub>OH）氢氧化铵是由<link=\"AMMONIAGAS\">氨</link>和<link=\"SALTWATER\">盐水</link>混合而成的溶液。"
+msgid "(NH<sub>4</sub>OH) Ammonium hydroxide is a solution of <link=\"AMMONIAGAS\">Ammonia</link> and <link=\"WATER\">Water</link>."
+msgstr "（NH<sub>4</sub>OH）氢氧化铵是由<link=\"AMMONIAGAS\">氨</link>和<link=\"WATER\">水</link>混合而成的溶液。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AMMONIUMWATER.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AMMONIUMWATER.NAME"

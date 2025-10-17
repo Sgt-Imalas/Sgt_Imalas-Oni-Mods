@@ -71,6 +71,8 @@ namespace RoboRockets
 		{
 
 			BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MODERATE);
+
+			ModAssets.RemoveCountCondition(go);
 			//Ownable ownable = go.AddOrGet<Ownable>();
 			//ownable.slotID = Db.Get().AssignableSlots.HabitatModule.Id;
 			//ownable.canBePublic = false;

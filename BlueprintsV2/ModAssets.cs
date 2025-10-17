@@ -441,7 +441,7 @@ namespace BlueprintsV2
 				if (possibleItems.Count == 0)
 					return true;
 				var tag = possibleItems.First();
-				var prefab = Assets.GetPrefab(tag);
+				var prefab = Assets.TryGetPrefab(tag);
 				name = prefab.GetProperName();
 				desc = GameUtil.GetMaterialTooltips(tag);
 				icon = Def.GetUISprite(prefab).first;

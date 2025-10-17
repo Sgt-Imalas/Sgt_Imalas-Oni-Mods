@@ -145,6 +145,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
 			.AddModFrom(SourceModInfo.DupesRefrigeration); //was already removed in dupes refrigeration, no migration of existing buildings needed
 
+			BuildingManager.CreateEntry<Chemical_ChlorinePumpConfig>()
+			.AddToCategory(PlanMenuCategory.Ventilation, GasMiniPumpConfig.ID)
+			.AddToTech(Technology.Gases.Decontamination)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
+			.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
+
 			BuildingManager.CreateEntry<Chemical_Co2PumpConfig>()
 			.AddToCategory(PlanMenuCategory.Oxygen, CO2ScrubberConfig.ID)
 			.AddToTech(Technology.Food.Agriculture)

@@ -389,6 +389,7 @@ namespace Mineral_Processing_Mining.Buildings
 		public override void DoPostConfigureComplete(GameObject go)
 		{
 			go.AddOrGetDef<PoweredActiveController.Def>().showWorkingStatus = true;
+			go.AddOrGet<LogicOperationalController>();
 
 			if (Config.Instance.HPA_Rails_Mod_Enabled)
 				go.AddOrGet<HPA_SolidConduitRequirement>().RequiresHighPressureOutput = true;

@@ -31,7 +31,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 		public override BuildingDef CreateBuildingDef()
 		{
 			EffectorValues noise = TUNING.NOISE_POLLUTION.NOISY.TIER0;
-			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 1, 2, "simple_fridge_kanim", 30, 30f, TUNING.BUILDINGS.CONSTRUCTION_MASS_KG.TIER5, MATERIALS.REFINED_METALS, 800f, BuildLocationRule.OnFloor, TUNING.BUILDINGS.DECOR.BONUS.TIER1, noise);
+			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 1, 2, "simple_fridge_kanim", 30, 30f, TUNING.BUILDINGS.CONSTRUCTION_MASS_KG.TIER4, MATERIALS.REFINED_METALS, 800f, BuildLocationRule.OnFloor, TUNING.BUILDINGS.DECOR.BONUS.TIER1, noise);
 			buildingDef.RequiresPowerInput = true;
 			buildingDef.EnergyConsumptionWhenActive = GetWattage();
 			buildingDef.AddLogicPowerPort = false;

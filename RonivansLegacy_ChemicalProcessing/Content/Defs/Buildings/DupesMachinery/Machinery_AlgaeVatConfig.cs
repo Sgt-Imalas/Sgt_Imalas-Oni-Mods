@@ -18,7 +18,7 @@ namespace Dupes_Machinery.Biological_Vats
 	public class Machinery_AlgaeVatConfig : IBuildingConfig
 	{
 		public static string ID = "AlgaeVat";
-		
+
 		private static readonly PortDisplayOutput outputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(0, 3));
 
 		public override BuildingDef CreateBuildingDef()
@@ -55,60 +55,63 @@ namespace Dupes_Machinery.Biological_Vats
 			Storage storage = BuildingTemplates.CreateDefaultStorage(go, false);
 			storage.SetDefaultStoredItemModifiers(Storage.StandardSealedStorage);
 
-			ManualDeliveryKG local1 = go.AddComponent<ManualDeliveryKG>();
-			local1.SetStorage(storage);
-			local1.RequestedItemTag = SimHashes.Algae.CreateTag();
-			local1.capacity = 500f;
-			local1.refillMass = 100f;
-			local1.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
+			ManualDeliveryKG algaeDelivery = go.AddComponent<ManualDeliveryKG>();
+			algaeDelivery.SetStorage(storage);
+			algaeDelivery.RequestedItemTag = SimHashes.Algae.CreateTag();
+			algaeDelivery.capacity = 500f;
+			algaeDelivery.refillMass = 100f;
+			algaeDelivery.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
 
-			ConduitConsumer local2 = go.AddComponent<ConduitConsumer>();
-			local2.capacityTag = SimHashes.Water.CreateTag();
-			local2.capacityKG = 500f;
-			local2.forceAlwaysSatisfied = true;
-			local2.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
+			ConduitConsumer waterConduitConsumer = go.AddComponent<ConduitConsumer>();
+			waterConduitConsumer.capacityTag = SimHashes.Water.CreateTag();
+			waterConduitConsumer.capacityKG = 500f;
+			waterConduitConsumer.forceAlwaysSatisfied = true;
+			waterConduitConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 
-			ElementConverter converter = go.AddComponent<ElementConverter>();
-			converter.consumedElements = [
-				new ElementConverter.ConsumedElement(SimHashes.Algae.CreateTag(), 0.075f), 
-				new ElementConverter.ConsumedElement(SimHashes.Water.CreateTag(), 0.3f)
+			float multiplier = 2.5f;
+
+			///reducing consumption and production of water by 1kg to make it "more efficient", apart from that use old rates * 2.5
+			ElementConverter mainConverter = go.AddComponent<ElementConverter>();
+			mainConverter.consumedElements = [
+				new ElementConverter.ConsumedElement(SimHashes.Algae.CreateTag(), 0.060f * multiplier),
+				new ElementConverter.ConsumedElement(SimHashes.Water.CreateTag(), 0.800f * multiplier - 1)
 				];
-			converter.outputElements = [new ElementConverter.OutputElement(0.20f, SimHashes.Oxygen, 303.15f, false, true, 0f, 1f, 1f, 0xff, 0),
-				new ElementConverter.OutputElement(0.9625f, SimHashes.DirtyWater, 303.15f, false, true, 0f, 1f, 1f, 0xff, 0)];
+			mainConverter.outputElements = [new ElementConverter.OutputElement(0.160f * multiplier, SimHashes.Oxygen, 303.15f, false, true),
+				new ElementConverter.OutputElement(0.77422f * multiplier - 1, SimHashes.DirtyWater, 303.15f, false, true)];
 
-			ElementConverter converter2 = go.AddComponent<ElementConverter>();
-			converter2.consumedElements = [new ElementConverter.ConsumedElement(SimHashes.CarbonDioxide.CreateTag(), 0.0085f)];
-			converter2.outputElements = [new ElementConverter.OutputElement(0.03f, SimHashes.DirtyWater, 303.15f, false, true, 0f, 1f, 1f, 0xff, 0)];
+			ElementConverter secondaryConverter = go.AddComponent<ElementConverter>();
+			secondaryConverter.consumedElements = [new ElementConverter.ConsumedElement(SimHashes.CarbonDioxide.CreateTag(), 0.00859f * multiplier)];
+			secondaryConverter.outputElements = [new ElementConverter.OutputElement(0.02578f * multiplier, SimHashes.DirtyWater, 303.15f, false, true)];
 
-			ConduitDispenser local5 = go.AddOrGet<ConduitDispenser>();
-			local5.conduitType = ConduitType.Liquid;
-			local5.elementFilter = [SimHashes.DirtyWater];
+			ConduitDispenser pWaterDispenser = go.AddOrGet<ConduitDispenser>();
+			pWaterDispenser.conduitType = ConduitType.Liquid;
+			pWaterDispenser.elementFilter = [SimHashes.DirtyWater];
 
-			ElementConsumer local6 = go.AddOrGet<ElementConsumer>();
-			local6.elementToConsume = SimHashes.CarbonDioxide;
-			local6.consumptionRate = 0.009f;
-			local6.consumptionRadius = 6;
-			local6.storeOnConsume = true;
-			local6.capacityKG = 10f;
-			local6.showInStatusPanel = true;
-			local6.sampleCellOffset = new Vector3(0f, 1f, 0f);
-			local6.isRequired = false;
+			ElementConsumer co2ElementConsumer = go.AddOrGet<ElementConsumer>();
+			co2ElementConsumer.elementToConsume = SimHashes.CarbonDioxide;
+			co2ElementConsumer.consumptionRate = 0.009f * multiplier;
+			co2ElementConsumer.consumptionRadius = 6;
+			co2ElementConsumer.storeOnConsume = true;
+			co2ElementConsumer.capacityKG = 10f;
+			co2ElementConsumer.showInStatusPanel = true;
+			co2ElementConsumer.sampleCellOffset = new Vector3(0f, 1f, 0f);
+			co2ElementConsumer.isRequired = false;
 
 
 			go.AddOrGet<KBatchedAnimController>().randomiseLoopedOffset = true;
-			go.AddOrGet<AnimTileable>();
 
-			PipedConduitDispenser dispenser = go.AddComponent<PipedConduitDispenser>();
-			dispenser.elementFilter = [SimHashes.Oxygen];
-			dispenser.AssignPort(outputPort);
-			dispenser.alwaysDispense = true;
-			dispenser.SkipSetOperational = true;
+			PipedConduitDispenser oxygenDispenser = go.AddComponent<PipedConduitDispenser>();
+			oxygenDispenser.elementFilter = [SimHashes.Oxygen];
+			oxygenDispenser.AssignPort(outputPort);
+			oxygenDispenser.alwaysDispense = true;
+			oxygenDispenser.SkipSetOperational = true;
 
 			PipedOptionalExhaust exhaust = go.AddComponent<PipedOptionalExhaust>();
-			exhaust.dispenser = dispenser;
+			exhaust.dispenser = oxygenDispenser;
 			exhaust.elementTag = SimHashes.Oxygen.CreateTag();
 			exhaust.capacity = 0.40f;
 			this.AttachPort(go);
+
 			go.AddOrGet<ElementConversionBuilding>().UsePrimaryConverterOnly = true; //Handles element converter
 
 			Prioritizable.AddRef(go);

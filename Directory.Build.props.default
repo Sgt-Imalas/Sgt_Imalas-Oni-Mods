@@ -4,10 +4,13 @@
 	<PropertyGroup>
 		<!--Gamedata Folder, adjust to your own ONI installation-->
 		<GameLibsFolder>X:\SteamLibrary\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed</GameLibsFolder>
+		
 		<!--OutputModFolder, adjust it to your own dev folder-->
 		<ModFolder>E:\Documents\Klei\OxygenNotIncluded\mods\dev</ModFolder>
-		<RefasmerInstalled>1</RefasmerInstalled>
 		<!--Default for dev folder: -->
 		<!--<ModFolder>$(UserProfile)\Documents\Klei\OxygenNotIncluded\mods\dev</ModFolder>-->
+		
+		<!--Used to generate reference assemblies for GitHub CI; set this to 0 if you don't use automatic github builds and/or don't want to install Refasmer-->
+		<RefasmerInstalled>1</RefasmerInstalled>
 	</PropertyGroup>
 </Project>

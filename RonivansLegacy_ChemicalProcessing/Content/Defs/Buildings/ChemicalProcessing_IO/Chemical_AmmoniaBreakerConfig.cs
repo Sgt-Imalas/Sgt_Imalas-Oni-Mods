@@ -30,7 +30,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				"RefinedMetal"
 			];
 			EffectorValues tieR6 = NOISE_POLLUTION.NOISY.TIER6;
-			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 3, "ammonia_breaker_kanim", 100, 30f, construction_mass, construction_materials, 800f, BuildLocationRule.Anywhere, TUNING.BUILDINGS.DECOR.PENALTY.TIER2, tieR6);
+			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 3, "ammonia_breaker_kanim", 100, 30f, construction_mass, construction_materials, 800f, BuildLocationRule.OnFloor, TUNING.BUILDINGS.DECOR.PENALTY.TIER2, tieR6);
 			buildingDef.Overheatable = true;
 			buildingDef.OverheatTemperature = 348.15f;
 			buildingDef.RequiresPowerInput = true;
@@ -81,7 +81,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			manualDeliveryKg.RequestedItemTag = tag;
 			manualDeliveryKg.capacity = 300f;
 			manualDeliveryKg.refillMass = 50f;
-			manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
+			manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.MachineFetch.IdHash;
 
 			ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
 			conduitConsumer.conduitType = ConduitType.Gas;

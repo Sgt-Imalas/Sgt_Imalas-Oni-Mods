@@ -43,7 +43,6 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			static SimHashes ReplaceTransitionOre(SimHashes transitionsIntoOriginalSimHash, CodexTemperatureTransitionPanel instance)
 			{
 				var transitionTarget = ElementLoader.FindElementByHash(transitionsIntoOriginalSimHash);
-
 				if (transitionTarget == null)
 					return transitionsIntoOriginalSimHash;
 
@@ -94,26 +93,26 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 						yield return original;
 				}
 			}
-			static SimHashes ReplaceTransitionOre_HIGH(Element element1, Element currentElement)
+			static SimHashes ReplaceTransitionOre_HIGH(Element transitionElement, Element currentElement)
 			{
-				var highTempOreTransition = ElementLoader.FindElementByHash(element1.highTempTransitionOreID);
+				var highTempOreTransition = ElementLoader.FindElementByHash(transitionElement.highTempTransitionOreID);
 
 				if (highTempOreTransition == null)
-					return element1.highTempTransitionOreID;
+					return transitionElement.highTempTransitionOreID;
 
-				if (!ModElements.IsModElement(highTempOreTransition.id) && !ModElements.IsModElement(currentElement.id) && !ModElements.IsModElement(element1.id))
-					return element1.highTempTransitionOreID;
+				if (!ModElements.IsModElement(highTempOreTransition.id) && !ModElements.IsModElement(currentElement.id) && !ModElements.IsModElement(transitionElement.id))
+					return transitionElement.highTempTransitionOreID;
 
 				//highTempOreTransition check
 				//one of the elements involved is from this mod, check if it has to be replaced with its low state transition
 
 				//when the melting temp of the ore is lower than the melting temp of the material, show its melted state transition
-				if (highTempOreTransition.highTemp + 3 < element1.highTemp && highTempOreTransition.highTempTransition != null)
+				if (highTempOreTransition.highTemp + 3 < transitionElement.highTemp && highTempOreTransition.highTempTransition != null)
 				{
 					return highTempOreTransition.highTempTransition.id;
 				}
 
-				return element1.highTempTransitionOreID;
+				return transitionElement.highTempTransitionOreID;
 			}
 			static SimHashes ReplaceTransitionOre_LOW(Element element1, Element currentElement)
 			{

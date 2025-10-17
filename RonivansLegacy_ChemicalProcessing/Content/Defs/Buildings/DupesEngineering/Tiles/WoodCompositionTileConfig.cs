@@ -18,7 +18,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 		{
 			string kanim = "floor_wooden_kanim";
 			float[] mass = [375,75];
-			string[] cost = [GameTags.BuildableRaw.ToString(),GameTags.BuildingWood.ToString()];
+			string[] cost = [MATERIALS.RAW_MINERALS_OR_WOOD.First(), GameTags.BuildingWood.ToString()];
 
 			BuildingDef def = BuildingTemplates.CreateBuildingDef(ID, 1, 1, kanim, 100, 5f, mass, cost, 1600f, BuildLocationRule.Tile, BUILDINGS.DECOR.BONUS.TIER1, NOISE_POLLUTION.NONE);
 			BuildingTemplates.CreateFoundationTileDef(def);

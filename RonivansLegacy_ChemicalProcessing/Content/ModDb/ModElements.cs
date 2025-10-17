@@ -141,7 +141,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			Rottable.AtmosphereModifier.Add((int)element, quality);
 		}
 
-		public static HashSet<Substance> ChemicalProcessing_IO_Elements, ChemicalProcessing_BioChem_Elements;
+		public static HashSet<Substance> ChemicalProcessing_IO_Elements = [], ChemicalProcessing_BioChem_Elements = [];
 
 		public static void RegisterSubstances(List<Substance> list)
 		{
@@ -215,7 +215,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				VegetableOil_Gas.CreateSubstance(),
 			};
 
-			list.AddRange(ChemicalProcessing_IO_Elements);
+			list.AddRange(ChemicalProcessing_IO_Elements);			
 			list.AddRange(ChemicalProcessing_BioChem_Elements);
 
 			SetElementRottables();
@@ -363,6 +363,22 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				UnhideElement(SimHashes.Brick);
 				UnhideElement(SimHashes.Cement);
 			}
+			HashSet<string> toHide = [];
+
+			if (!Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
+			{
+				foreach (var element in ChemicalProcessing_BioChem_Elements)
+				{
+					toHide.Add(element.elementID.ToString());
+				}
+			}
+			if (!Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+			{
+				foreach (var element in ChemicalProcessing_IO_Elements)
+				{
+					toHide.Add(element.elementID.ToString());
+				}
+			}
 			foreach (var element in elementList)
 			{
 				if (ToUnhide.Contains(element.elementId) && element.tags != null)
@@ -372,11 +388,19 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					oreTags.Remove(GameTags.HideFromSpawnTool.ToString());
 					element.tags = oreTags.ToArray();
 				}
+				if (toHide.Contains(element.elementId))
+				{
+					var oreTags = element.tags?.ToList() ?? [];
+					oreTags.Add(GameTags.HideFromCodex.ToString());
+					oreTags.Add(GameTags.HideFromSpawnTool.ToString());
+					element.tags = oreTags.ToArray();
+				}
 			}
 			void UnhideElement(SimHashes element)
 			{
 				ToUnhide.Add(element.ToString());
 			}
+
 		}
 
 		static void FixCachedStateTransitions()
@@ -412,6 +436,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				AddTagToElementAndEnable(SimHashes.Helium, ModAssets.Tags.AIO_CarrierGas);
 			}
 
+			///needs to always be active or fullerene page crashes
+			FixCachedStateTransitions();
+
 			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
 			{
 				//=[ SYNGAS ENABLING PATCH ]===============================================
@@ -423,7 +450,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				AddTagToElementAndEnable(SimHashes.LiquidPropane);
 				AddTagToElementAndEnable(SimHashes.SolidPropane);
 
-				FixCachedStateTransitions();
 
 				////=[ NAPHTHA PATCH ]=======================================================
 				///disabled, its kinda op
@@ -542,7 +568,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		internal static void ConfigureElements()
 		{
 			AddElementOverheatModifier(ConcreteBlock_Solid, 100);
-			AddElementDecorModifier(ConcreteBlock_Solid, -0.25f);
+			AddElementDecorModifier(ConcreteBlock_Solid, -0.15f);
 
 			AddElementOverheatModifier(SimHashes.Brick, 100);
 			AddElementDecorModifier(SimHashes.Brick, 0.1f);

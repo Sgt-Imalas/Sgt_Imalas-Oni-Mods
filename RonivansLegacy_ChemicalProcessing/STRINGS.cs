@@ -261,6 +261,7 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString DESC = "An industrial grade rotatory compressor unit that criticaly increase the pressure of a gas by reducing its volume, while cooling it down until liquid state is reached.";
 					public static LocString EFFECT = "Compresses " + FormatAsLink("Carbon Dioxide", "CARBONDIOXIDE") + " gas and cool it down to" + FormatAsLink("Liquid Carbon Dioxide", "LIQUIDCARBONDIOXIDE") + ". This device is also capable of storing liquid with complete insulation.";
 				}
+
 				public class CHEMICAL_CO2PUMP
 				{
 					public static LocString NAME = FormatAsLink("CO2 Filter", nameof(CHEMICAL_CO2PUMP));
@@ -270,7 +271,17 @@ namespace RonivansLegacy_ChemicalProcessing
 						FormatAsLink("Carbon Dioxide", "CARBONDIOXIDE"),
 						" and extract it out of the surroudings."
 							);
+				}
 
+				public class CHEMICAL_AIO_CHLORINEPUMP
+				{
+					public static LocString NAME = FormatAsLink("Chlorine Gas Filter", nameof(CHEMICAL_AIO_CHLORINEPUMP));
+					public static LocString DESC = "A fancy pump capable to detect Chlorine Gas and pump it.";
+					public static LocString EFFECT = string.Concat(
+						"Automatically detects trace of ",
+						FormatAsLink("Chlorine Gas", "CHLORINEGAS"),
+						" and extract it out of the surroudings."
+							);
 				}
 				public class CHEMICAL_CO2RECYCLER
 				{
@@ -567,8 +578,8 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString EFFECT = string.Concat(
 						[
 							"Produces industrial grade ",
-							FormatAsLink("Nitric Acid", "LIQUIDNITRIC"), " using provided " +
-							FormatAsLink("Sulfuric Acid", "LIQUIDSULFURIC")," and " +
+							FormatAsLink("Nitric Acid", "LIQUIDNITRIC"), " via the selected chemical reaction, using either " +
+							FormatAsLink("Sulfuric Acid", "LIQUIDSULFURIC")," or " +
 							FormatAsLink("Ammonia", "AMMONIAGAS"),"."
 						]);
 				}
@@ -959,7 +970,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = FormatAsLink("Structure Tile", nameof(REINFORCEDCONCRETETILE));
 					public static LocString DESC = "A solid structural tile wrought from refined metal. Use to build the walls and floors of rooms.";
-					public static LocString EFFECT = "This steel structure is commonly used as a simple, yet strong tile for buildings. The frame structure will not hold any gas or liquid.";
+					public static LocString EFFECT = "This steel structure is commonly used as a simple, yet strong tile for buildings. The frame structure will not hold any gas or liquid.\nHigh wattage wires and heavy duty rails are not obstructed.";
 				}
 				public class WOODENCOMPOSITIONTILE
 				{
@@ -1884,7 +1895,7 @@ namespace RonivansLegacy_ChemicalProcessing
 			public class AMMONIUMWATER
 			{
 				public static LocString NAME = FormatAsLink("Ammonium Water", nameof(AMMONIUMWATER));
-				public static LocString DESC = "(NH<sub>4</sub>OH) Ammonium hydroxide is a solution of " + FormatAsLink("Ammonia", "AMMONIAGAS") + " and " + FormatAsLink("Salt Water", "SALTWATER") + ".";
+				public static LocString DESC = "(NH<sub>4</sub>OH) Ammonium hydroxide is a solution of " + FormatAsLink("Ammonia", "AMMONIAGAS") + " and " + FormatAsLink("Water", "WATER") + ".";
 			}
 			public class AMMONIUMSALT
 			{

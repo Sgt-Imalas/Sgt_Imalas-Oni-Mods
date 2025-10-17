@@ -19,13 +19,13 @@ namespace Imalas_TwitchChaosEvents.Events
 
 		public string EventDescription => STRINGS.CHAOSEVENTS.WORKERSTRIKE.TOASTTEXT;
 
-		public EventWeight EventWeight => EventWeight.WEIGHT_VERY_RARE;
+		public EventWeight EventWeight => EventWeight.WEIGHT_RARE;
 		public Action<object> EventAction => (_) =>
 		{
-			WorkerStrikeBase.StartStrike(600);
+			WorkerStrikeBase.StartStrike(900);
 		};
 
-		public Func<object, bool> Condition => (data) => Config.Instance.SkipMinCycle || (GameClock.Instance.GetCycle() > 100);
+		public Func<object, bool> Condition => (data) => Config.Instance.SkipMinCycle || ConditionHelper.MinCycle(50);
 
 		public Danger EventDanger => Danger.Extreme;
 	}

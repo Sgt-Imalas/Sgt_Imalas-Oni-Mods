@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,7 +42,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			go.AddOrGet<LogicOperationalController>();
 			go.AddOrGet<LoopingSounds>();
 			go.AddOrGet<EnergyConsumer>();
-			go.AddOrGet<Pump>();
+			go.AddOrGet<FilterablePump>().FilterElement = SimHashes.CarbonDioxide;
 			go.AddOrGet<Storage>().capacityKg = 2f;
 			ElementConsumer elementConsumer = go.AddOrGet<ElementConsumer>();
 			elementConsumer.elementToConsume = SimHashes.CarbonDioxide;

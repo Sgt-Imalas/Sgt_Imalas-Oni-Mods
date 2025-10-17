@@ -127,6 +127,7 @@ namespace Imalas_TwitchChaosEvents
 			public static StatusItem WorkerOnStrike;
 			public static StatusItem CreeperBurns;
 			public static StatusItem VoidBurns;
+			public static StatusItem VoidTarget;
 
 			static List<string> StrikeDemands = [
 				STRINGS.DUPLICANTS.STATUSITEMS.ITCE_WORKERSTRIKE.STRIKE_REASON_0,
@@ -136,6 +137,7 @@ namespace Imalas_TwitchChaosEvents
 				STRINGS.DUPLICANTS.STATUSITEMS.ITCE_WORKERSTRIKE.STRIKE_REASON_4,
 				STRINGS.DUPLICANTS.STATUSITEMS.ITCE_WORKERSTRIKE.STRIKE_REASON_5,
 				STRINGS.DUPLICANTS.STATUSITEMS.ITCE_WORKERSTRIKE.STRIKE_REASON_6,
+				STRINGS.DUPLICANTS.STATUSITEMS.ITCE_WORKERSTRIKE.STRIKE_REASON_7,
 				];
 
 			public static void CreateStatusItems()
@@ -153,6 +155,9 @@ namespace Imalas_TwitchChaosEvents
 
 				VoidBurns = new StatusItem("ITCE_HurtingElement_VOID", "DUPLICANTS", string.Empty, StatusItem.IconType.Exclamation, NotificationType.DuplicantThreatening, false, OverlayModes.None.ID, true, 63486);
 				VoidBurns.AddNotification();
+
+				VoidTarget = new StatusItem("ITCE_VoidTarget", "DUPLICANTS", string.Empty, StatusItem.IconType.Exclamation, NotificationType.Bad, false, OverlayModes.None.ID, true);
+
 			}
 		}
 

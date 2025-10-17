@@ -70,6 +70,7 @@ namespace RoboRockets
 
 			BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MINOR_PLUS);
 
+			ModAssets.RemoveCountCondition(go);
 			go.AddOrGet<BuildingCellVisualizer>();
 			go.GetComponent<ReorderableBuilding>().buildConditions.Add((SelectModuleCondition)new LimitOneCommandModule());
 		}

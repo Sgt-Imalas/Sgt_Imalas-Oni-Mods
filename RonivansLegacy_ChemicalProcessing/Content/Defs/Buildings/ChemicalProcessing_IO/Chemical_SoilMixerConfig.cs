@@ -212,7 +212,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			RecipeBuilder.Create(ID, 60)
 				.Input(SimHashes.CrushedRock, 40)
 				.Input(SimHashes.ToxicSand, 20)
-				.Input([SimHashes.Carbon, SimHashes.Peat,SimHashes.WoodLog], 20, GameTags.CombustibleSolid)
+				.Input([SimHashes.Carbon, SimHashes.Peat, SimHashes.WoodLog], 20, GameTags.CombustibleSolid)
 				.Input(SimHashes.Water, 20)
 				.Output(SimHashes.Dirt, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description(SOILMIXER_4_1, 4, 1)
@@ -250,7 +250,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 					.Input(SimHashes.Sand, 30)
 					.Input(SimHashes.Water, 10)
 					.Output(SimHashes.Dirt, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-					.Description(SOILMIXER_3_1, 4, 1)
+					.Description(SOILMIXER_4_1, 4, 1)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 					.Build();
 			}

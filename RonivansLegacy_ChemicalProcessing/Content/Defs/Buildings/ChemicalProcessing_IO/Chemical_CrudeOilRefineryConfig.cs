@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using KSerialization;
+using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
@@ -38,7 +39,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			string[] ingredient_types = ["RefinedMetal", SimHashes.Steel.ToString()];
 
 			EffectorValues tier = NOISE_POLLUTION.NOISY.TIER6;
-			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 4, 5, "crudeoil_refinery_kanim", 100, 30f, ingredient_mass, ingredient_types, 800f, BuildLocationRule.Anywhere, BUILDINGS.DECOR.PENALTY.TIER2, tier);
+			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 4, 5, "crudeoil_refinery_kanim", 100, 30f, ingredient_mass, ingredient_types, 800f, BuildLocationRule.OnFloorOrBuildingAttachPoint, BUILDINGS.DECOR.PENALTY.TIER2, tier);
 			buildingDef.Overheatable = false;
 			buildingDef.RequiresPowerInput = true;
 			buildingDef.EnergyConsumptionWhenActive = 480f;
@@ -48,12 +49,14 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.AudioCategory = "Metal";
 			buildingDef.InputConduitType = ConduitType.Liquid;
 			buildingDef.UtilityInputOffset = new CellOffset(2, 0);
+			buildingDef.AttachmentSlotTag = ModAssets.Tags.AIO_StackableMachine;
 			SoundUtils.CopySoundsToAnim("crudeoil_refinery_kanim", "algae_distillery_kanim");
 			return buildingDef;
 		}
 
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
+			ModAssets.AddMachineAttachmentPort(go);
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 			go.AddOrGet<BuildingComplete>().isManuallyOperated = false;
 

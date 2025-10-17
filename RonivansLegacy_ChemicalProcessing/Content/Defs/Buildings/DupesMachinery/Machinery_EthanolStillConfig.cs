@@ -47,14 +47,14 @@ namespace Dupes_Machinery.Ethanol_Still
 			ykg.RequestedItemTag = SimHashes.Sucrose.CreateTag();
 			ykg.capacity = 500f;
 			ykg.refillMass = 200f;
-			ykg.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
+			ykg.choreTypeIDHash = Db.Get().ChoreTypes.MachineFetch.IdHash;
 
 			ManualDeliveryKG ykg2 = go.AddComponent<ManualDeliveryKG>();
 			ykg2.SetStorage(storage);
 			ykg2.RequestedItemTag = SimHashes.SlimeMold.CreateTag();
 			ykg2.capacity = 200f;
 			ykg2.refillMass = 50f;
-			ykg2.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
+			ykg2.choreTypeIDHash = Db.Get().ChoreTypes.MachineFetch.IdHash;
 
 			ConduitConsumer consumer = go.AddOrGet<ConduitConsumer>();
 			consumer.conduitType = ConduitType.Liquid;

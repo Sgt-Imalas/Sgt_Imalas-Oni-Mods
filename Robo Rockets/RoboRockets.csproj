@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
   <PropertyGroup>
     <PackageId>RoboRockets</PackageId>
-    <Version>4.2.8</Version>
+    <Version>4.2.9</Version>
     <Authors>Sgt_Imalas</Authors>
     <Copyright>2022-2023 Sgt_Imalas</Copyright>
     <RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>

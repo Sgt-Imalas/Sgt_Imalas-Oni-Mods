@@ -58,10 +58,17 @@ namespace Imalas_TwitchChaosEvents
 					public static LocString NOTIFICATION_NAME = NAME;
 					public static LocString NOTIFICATION_TOOLTIP = TOOLTIP;
 				}
+				public class ITCE_VOIDTARGET
+				{
+					public static LocString NAME = "Chosen by the Void";
+					public static LocString TOOLTIP = "This duplicant has avoken the primeval Void.\nThe void now hungers for their essence.\nYou may sacrifice this duplicant to still the hunger of the void, or try fighting its ever expanding grasp.";
+					public static LocString NOTIFICATION_NAME = NAME;
+					public static LocString NOTIFICATION_TOOLTIP = TOOLTIP;
+				}
 				public class ITCE_WORKERSTRIKE
 				{
 					public static LocString NAME = "Striking";
-					public static LocString TOOLTIP = "This duplicant is on strike!\n\nDemand: {0}";
+					public static LocString TOOLTIP = "This duplicant is on strike!\n\nTheir demand: {0}";
 					public static LocString NOTIFICATION_NAME = NAME;
 					public static LocString NOTIFICATION_TOOLTIP = TOOLTIP;
 					public static LocString STRIKE_REASON_0 = "More time off!";
@@ -71,6 +78,7 @@ namespace Imalas_TwitchChaosEvents
 					public static LocString STRIKE_REASON_4 = "include oxygen!";
 					public static LocString STRIKE_REASON_5 = "fish!";
 					public static LocString STRIKE_REASON_6 = "Lick the Pufts!";
+					public static LocString STRIKE_REASON_7 = "Bo'o' o' Wo'ah";
 				}
 			}
 			public static class MODIFIERS
@@ -196,7 +204,7 @@ namespace Imalas_TwitchChaosEvents
 			public class ITCE_VOIDLIQUID
 			{
 				public static LocString NAME = FormatAsLink("Void", nameof(ITCE_VOIDLIQUID));
-				public static LocString DESC = "The void hungers";
+				public static LocString DESC = "The void hungers for a sacrifice\n\n\nMopping is futile!";
 			}
 			public class ITCE_CREEPYLIQUIDGAS
 			{
@@ -323,7 +331,8 @@ namespace Imalas_TwitchChaosEvents
 				public static LocString NAME = "Void Incantation";
 				public static LocString TOAST = "The Void hungers";
 				public static LocString VOID_DAMAGE = "Void Damage";
-				public static LocString TOASTTEXT = "{0} has stared too deep into the Void\nThe Void has awoken\nThe Void stares back into {0}\nThe Void hungers\nThe Void will consume";
+				public static LocString TOASTTEXT = "{0} has stared too deep into the Void\nThe Void stares back into {0}\nThe Void hungers\nThe Void will consume";
+				public static LocString TOASTTEXT2 = "The Void has awoken\nThe Void hungers\nThe Void will consume {0}";
 				public static LocString CONSUME_SUCCESS = "The void has consumed {0} and is satisfied.. for now...";
 				public static LocString CONSUME_FAILURE = "The void failed to consume {0}, they will live for another day...";
 			}
@@ -340,6 +349,11 @@ namespace Imalas_TwitchChaosEvents
 				public static LocString TOAST = "Taco Rain!";
 				public static LocString TOASTTEXT = "It's raining Tacos!";
 				public static LocString NEWRECIPE = "\n\nThere is also a new recipe in the Gas Range.";
+			}
+			public class DINOSPAWNING
+			{
+				public static LocString NAME = "Jurassic Park";
+				public static LocString TOASTTEXT = "Welcome to Jurassic Park!";
 			}
 			public class SPANISHINQUISITION
 			{

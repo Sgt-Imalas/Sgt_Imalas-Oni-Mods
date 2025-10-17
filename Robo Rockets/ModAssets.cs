@@ -1,5 +1,7 @@
 ﻿using RoboRockets.LearningBrain;
+using System;
 using System.Collections.Generic;
+using UnityEngine;
 using static RoboRockets.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS;
 
 namespace RoboRockets
@@ -89,6 +91,13 @@ namespace RoboRockets
 				return str;
 			});
 
+		}
+
+		internal static void RemoveCountCondition(GameObject go)
+		{
+			if (!go.TryGetComponent<ReorderableBuilding>(out var reorderableBuilding))
+				return;
+			reorderableBuilding.buildConditions.RemoveAll(condo => condo is NoFreeRocketInterior);
 		}
 	}
 }

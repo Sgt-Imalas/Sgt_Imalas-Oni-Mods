@@ -1,4 +1,5 @@
 ﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -69,6 +70,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 			var prefab = go.GetComponent<KPrefabID>();
 			go.AddComponent<SimTemperatureTransfer>();
 			prefab.AddTag(GameTags.FloorTiles, false);
+			go.AddOrGet<StructuralTileMarker>();
 		}
 		public override void DoPostConfigureUnderConstruction(GameObject go)
 		{

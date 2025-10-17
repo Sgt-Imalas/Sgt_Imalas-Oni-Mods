@@ -56,7 +56,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
-			EthanolPolymerizer polymerizer = go.AddOrGet<EthanolPolymerizer>();
+			CustomPolymerizer polymerizer = go.AddOrGet<CustomPolymerizer>();
+			polymerizer.OilElementTag = SimHashes.Ethanol.CreateTag();
 			polymerizer.emitMass = 60f;
 			polymerizer.emitTag = GameTagExtensions.Create(SimHashes.Polypropylene);
 			polymerizer.emitOffset = new Vector3(-1.45f, 1f, 0f);

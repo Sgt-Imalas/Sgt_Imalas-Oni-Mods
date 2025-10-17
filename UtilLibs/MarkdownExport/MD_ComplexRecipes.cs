@@ -72,19 +72,20 @@ namespace UtilLibs.MarkdownExport
 				sb.Append(GameUtil.GetFormattedTime(recipe.time));
 				sb.Append("|");
 
-				if (!hasRandomResults)
-				{
-					foreach (var output in recipe.results)
-					{
-						sb.Append(MarkdownUtil.GetFormattedMass(output.material, output.amount));
-						sb.Append("<br>");
-					}
-				}
-				else if (randomResultsPerInput.TryGetValue(recipe.ingredients[0].material, out var randomResults))
+				
+				if (hasRandomResults && randomResultsPerInput.TryGetValue(recipe.ingredients[0].material, out var randomResults) && randomResults.Any())
 				{
 					foreach (var output in randomResults)
 					{
 						sb.Append(MarkdownUtil.GetTagStringWithIcon(output));
+						sb.Append("<br>");
+					}
+				}
+				else
+				{
+					foreach (var output in recipe.results)
+					{
+						sb.Append(MarkdownUtil.GetFormattedMass(output.material, output.amount));
 						sb.Append("<br>");
 					}
 				}

@@ -68,7 +68,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			nitrateManualDelivery.RequestedItemTag = ModElements.AmmoniumSalt_Solid.Tag;
 			nitrateManualDelivery.capacity = 200f;
 			nitrateManualDelivery.refillMass = 50f;
-			nitrateManualDelivery.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
+			nitrateManualDelivery.choreTypeIDHash = Db.Get().ChoreTypes.MachineFetch.IdHash;
+			nitrateManualDelivery.operationalRequirement = Operational.State.None;
 
 			//-----[ Element Converter Section ]---------------------------------
 			ElementConverter endothermicReaction = go.AddComponent<ElementConverter>();

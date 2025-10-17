@@ -103,7 +103,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				new (2.5f, SimHashes.Naphtha, 367.15f, storeOutput: true, diseaseWeight: 0.25f),
 				new (1f, SimHashes.Methane, 388.15f, storeOutput: true, diseaseWeight: 0.1f),
 				new (0.5f, SimHashes.Bitumen, 343.15f, storeOutput: true, diseaseWeight: 0.05f),
-				new (1f, ModElements.SourWater_Liquid, 307.15f, storeOutput: true, diseaseWeight: 0.1f)
+				new (1f, ModElements.SourWater_Liquid, 307.15f, useEntityTemperature:true ,storeOutput: true, diseaseWeight: 0.1f)
 			];
 			ElementConverter elementConverter2 = go.AddComponent<ElementConverter>();
 			elementConverter2.consumedElements =
@@ -176,7 +176,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			displayController.AssignPort(go, naphthaLiquidOutputPort);
 			displayController.AssignPort(go, methaneGasOutputPort);
 			displayController.AssignPort(go, PetroleumLiquidOutputPort);
-			displayController.AssignPort(go, SourWaterLiquidOutputPort);			
+			displayController.AssignPort(go, SourWaterLiquidOutputPort);
 		}
 
 		public override void DoPostConfigureComplete(GameObject go) => go.AddOrGetDef<PoweredActiveController.Def>().showWorkingStatus = true;

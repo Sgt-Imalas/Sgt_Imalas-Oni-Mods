@@ -596,12 +596,12 @@ elements:
     gasSurfaceAreaMultiplier: 1
     highTemp: 311.15
     lowTemp: 215.15
-    lowTempTransitionTarget: Brine
-    lowTempTransitionOreId: AmmoniaGas
+    lowTempTransitionTarget: AmmoniaGas
+    lowTempTransitionOreId: Ice
     lowTempTransitionOreMassConversion: 0.89   # this is the actual value of brine that would be removed to leave a 11% ammonia gas remaining.
-    highTempTransitionTarget: Brine
+    highTempTransitionTarget: Water
     highTempTransitionOreId: LiquidAmmonia
-    highTempTransitionOreMassConversion: 0.89  # this is the actual value of brine that would be removed to leave a 11% ammonia gas remaining.
+    highTempTransitionOreMassConversion: 0.11  # this is the actual value of brine that would be removed to leave a 11% ammonia gas remaining.
     defaultTemperature: 266.15
     defaultMass: 600
     maxMass: 1000
@@ -872,6 +872,7 @@ elements:
     tags:
     - BuildableAny
     - Ore
+    - StartingMetalOre
     buildMenuSort: 3
     isDisabled: false
     state: Solid
@@ -1138,8 +1139,8 @@ elements:
     dlcId: ""
 
   - elementId: SolidNitrogen
-    specificHeatCapacity: 92
-    thermalConductivity: 72
+    specificHeatCapacity: 1.04
+    thermalConductivity: 1
     solidSurfaceAreaMultiplier: 1
     liquidSurfaceAreaMultiplier: 1
     gasSurfaceAreaMultiplier: 1

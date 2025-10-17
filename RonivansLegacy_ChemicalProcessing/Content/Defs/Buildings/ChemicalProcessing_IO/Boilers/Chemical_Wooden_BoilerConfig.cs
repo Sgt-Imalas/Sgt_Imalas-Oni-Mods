@@ -74,7 +74,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			woodDelivery.RequestedItemTag = SimHashes.WoodLog.CreateTag();
 			woodDelivery.capacity = 2160;
 			woodDelivery.refillMass = 720;
-			woodDelivery.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
+			woodDelivery.choreTypeIDHash = Db.Get().ChoreTypes.PowerFetch.IdHash;
 
 			ConduitConsumer waterInput = go.AddOrGet<ConduitConsumer>();
 			waterInput.conduitType = ConduitType.Liquid;
