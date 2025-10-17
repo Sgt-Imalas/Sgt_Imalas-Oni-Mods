@@ -15,7 +15,7 @@ namespace RonivansLegacy_ChemicalProcessing
 	public class Mod : UserMod2
 	{
 		public static bool WriteWikiData => Mod.GenerateWiki && Mod.Instance.mod.IsDev && DlcManager.IsExpansion1Active();
-		public static bool GenerateWiki = false;
+		public static bool GenerateWiki = true;
 		public static bool IsDev => Instance.mod.IsDev;
 
 		public static Mod Instance;
@@ -32,6 +32,10 @@ namespace RonivansLegacy_ChemicalProcessing
 			base.OnLoad(harmony);
 
 			SgtLogger.LogVersion(this, harmony);
+
+			SgtLogger.log("Current Config Settings:");
+			UtilMethods.ListAllPropertyValues(Config.Instance);
+
 			ConduitDisplayPortPatching.PatchAll(harmony);
 			BuildingDatabase.RegisterAdditionalBuildingElements();
 			AdditionalRecipes.RegisterTags();
