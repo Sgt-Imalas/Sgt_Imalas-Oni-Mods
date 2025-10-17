@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using KSerialization;
+using PeterHan.PLib.UI;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
@@ -25,19 +26,12 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 		//--[ Special Settings ]-----------------------------------------------
 
-		private static readonly PortDisplayInput sulfuricAcidInputPort = new(ConduitType.Liquid, new CellOffset(0, 3));
-		private static readonly PortDisplayOutput SteamGasOutputPort = new(ConduitType.Gas, new CellOffset(0, 0));
+		private static readonly PortDisplayInput sulfuricAcidInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(0, 3), null, new Color32(252, 252, 3, 255));
 
+		private static readonly PortDisplayInput oxygenInputPort = new(ConduitType.Gas, new CellOffset(0, 2),null,UIUtils.rgb(183, 255, 255));
 
-		static Chemical_SynthesizerNitricConfig()
-		{
-			Color? sulfuricPortColor = new Color32(252, 252, 3, 255);
-			sulfuricAcidInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(0, 3), null, sulfuricPortColor);
+		private static readonly PortDisplayOutput SteamGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(0, 0), null, new Color32(167, 180, 201, 255));
 
-			Color? SteamOutputPortColor = new Color32(167, 180, 201, 255);
-			SteamGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(0, 0), null, SteamOutputPortColor);
-
-		}
 
 		//--[ Building Definitions ]-------------------------------------------
 		public override BuildingDef CreateBuildingDef()
@@ -67,7 +61,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 			Storage storage = BuildingTemplates.CreateDefaultStorage(go, false);
 			storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
-			storage.capacityKg = 300f;
+			//storage.capacityKg = 300f;
 			//storage.showCapacityStatusItem = true;
 			//storage.showCapacityAsMainStatus = true;
 			//storage.showDescriptor = true;
@@ -91,15 +85,65 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			sulfuricInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 			sulfuricInput.AssignPort(sulfuricAcidInputPort);
 
+			PortConduitConsumer oxygenInput = go.AddComponent<PortConduitConsumer>();
+			oxygenInput.conduitType = ConduitType.Gas;
+			oxygenInput.consumptionRate = 10f;
+			oxygenInput.capacityKG = 50f;
+			oxygenInput.capacityTag = SimHashes.Oxygen.CreateTag();
+			oxygenInput.forceAlwaysSatisfied = true;
+			oxygenInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
+			oxygenInput.AssignPort(oxygenInputPort);
+
+			ManualDeliveryKG salt_delivery = go.AddOrGet<ManualDeliveryKG>();
+			salt_delivery.SetStorage(storage);
+			salt_delivery.RequestedItemTag = SimHashes.Salt.CreateTag();
+			salt_delivery.capacity = 800f;
+			salt_delivery.refillMass = 200f;
+			salt_delivery.choreTypeIDHash = Db.Get().ChoreTypes.MachineFetch.IdHash;
+			salt_delivery.operationalRequirement = Operational.State.None;
+
 			//-----[ Element Converter Section ]---------------------------------
-			ElementConverter converter = go.AddOrGet<ElementConverter>();
-			converter.consumedElements = [
-				new(ModElements.Ammonia_Gas.Tag, 0.6f),
-				new( ModElements.SulphuricAcid_Liquid.Tag, 0.5f) ];
-			converter.outputElements = [
-				new(0.5f, ModElements.NitricAcid_Liquid, 345.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0),
-				new(0.3f, SimHashes.Sulfur, 320.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0),
-				new(0.2f, SimHashes.Steam, 392.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0) ];
+			///old converter
+			//ElementConverter converter = go.AddOrGet<ElementConverter>();
+			//converter.consumedElements = [
+			//	new(ModElements.Ammonia_Gas.Tag, 0.6f),
+			//	new( ModElements.SulphuricAcid_Liquid.Tag, 0.5f) ];
+			//converter.outputElements = [
+			//	new(0.5f, ModElements.NitricAcid_Liquid, 345.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0),
+			//	new(0.3f, SimHashes.Sulfur, 320.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0),
+			//	new(0.2f, SimHashes.Steam, 392.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0) ];
+
+
+			/// New converters based on different chemical reactions to produce nitric acid:
+
+			///NH3 + 2O2 → H2O + HNO3
+			///17g ammonia + 64g oxygen = 18g water + 63g nitric acid
+			
+			ElementConverter ammoniaConverter = go.AddComponent<ElementConverter>();
+			ammoniaConverter.consumedElements = [
+				new(SimHashes.Oxygen.CreateTag(), 0.640f),
+				new( ModElements.Ammonia_Gas.Tag, 0.170f)];
+			ammoniaConverter.outputElements = [
+				new(0.630f, ModElements.NitricAcid_Liquid, UtilMethods.GetKelvinFromC(68), false, true),
+				new(0.180f, SimHashes.Steam, UtilMethods.GetKelvinFromC(130), false, true)];
+
+			/// 2NaNO3 + H2SO4 → Na2SO4 + 2HNO3
+			/// 170g salt + 98g sulfuric acid → 142g sand + 126g nitric acid
+			/// rates multiplied by 5 to match ammonia reaction output amount; 630 / 126 = 5
+
+			ElementConverter sulphuricConverter = go.AddComponent<ElementConverter>();
+			sulphuricConverter.consumedElements = [
+				new(SimHashes.Salt.CreateTag(), 0.170f * 5),
+				new(ModElements.SulphuricAcid_Liquid.Tag, 0.098f * 5)];
+			sulphuricConverter.outputElements = [
+				new(0.126f * 5, ModElements.NitricAcid_Liquid, UtilMethods.GetKelvinFromC(68), false, true),
+				new(0.142f * 5, SimHashes.Sand, UtilMethods.GetKelvinFromC(45), false, true)];
+
+			var selector = go.AddOrGet<NitricAcidRecipeSelector>();
+			selector.acidConverter = sulphuricConverter;
+			selector.ammoniaConverter = ammoniaConverter;
+			selector.saltDelivery = salt_delivery;
+
 			//-------------------------------------------------------------------
 
 			ConduitDispenser dispenser = go.AddOrGet<ConduitDispenser>();
@@ -114,11 +158,11 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			steamOutput.alwaysDispense = true;
 			steamOutput.elementFilter = [SimHashes.Steam];
 			steamOutput.AssignPort(SteamGasOutputPort);
-
-			ElementDropper sulfurDropper = go.AddComponent<ElementDropper>();
-			sulfurDropper.emitMass = 30f;
-			sulfurDropper.emitTag = SimHashes.Sulfur.CreateTag();
-			sulfurDropper.emitOffset = new Vector3(0f, 1f, 0f);
+						
+			ElementDropper sandDropper = go.AddComponent<ElementDropper>();
+			sandDropper.emitMass = 30f;
+			sandDropper.emitTag = SimHashes.Sand.CreateTag();
+			sandDropper.emitOffset = new Vector3(0f, 1f, 0f);
 
 			this.AttachPort(go);
 		}
@@ -128,7 +172,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			PortDisplayController controller = go.AddComponent<PortDisplayController>();
 			controller.Init(go);
 			controller.AssignPort(go, sulfuricAcidInputPort);
-			controller.AssignPort(go, SteamGasOutputPort);
+			controller.AssignPort(go, SteamGasOutputPort); 
+			controller.AssignPort(go, oxygenInputPort); 
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)

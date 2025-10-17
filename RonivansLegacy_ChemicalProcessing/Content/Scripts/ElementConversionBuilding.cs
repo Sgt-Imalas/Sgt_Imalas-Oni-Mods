@@ -135,7 +135,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		{
 			foreach(var conv in converters)
 			{
-				if (conv.HasEnoughMassToStartConverting())
+				if (conv.HasEnoughMassToStartConverting() && conv.workSpeedMultiplier > 0)
 					return true;
 			}
 			return false;

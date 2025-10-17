@@ -12,6 +12,11 @@ msgstr ""
 "Application: Oxygen Not IncludedPOT Version: 2.0\n"
 "X-Generator: Poedit 3.7\n"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.ADDEDBYSGT_IMALAS
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.ADDEDBYSGT_IMALAS"
+msgid "(Re-)Added by Sgt_Imalas"
+msgstr "(Повторно) добавил Sgt_Imalas"
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_BIOCHEMISTRY
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_BIOCHEMISTRY"
 msgid "Chemical Processing - Biochemistry"
@@ -291,7 +296,7 @@ msgstr "<link=\"WOODENDRYWALLB\">Паркет</link>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.FACADES_STANDALONE.PETROLEUMDISTILLERY.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.FACADES_STANDALONE.PETROLEUMDISTILLERY.DESC"
 msgid "A distillation plant that uses induction to produce Petroleum from Crude Oil"
-msgstr "Дистилляционная установка, использующая индукцию для получения бензина из сырой нефти."
+msgstr "Дистилляционная установка, использующая индукцию для получения нефти из сырой нефти."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.FACADES_STANDALONE.PETROLEUMDISTILLERY.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.FACADES_STANDALONE.PETROLEUMDISTILLERY.NAME"
@@ -566,12 +571,27 @@ msgid ""
 "Can be diluted with water to produce <link=\"PHYTOOIL\">Phyto Oil</link>"
 msgstr ""
 "Извлекает <link=\"LIQUIDVEGEOIL\">растительное масло</link> из сырых пищевых ингредиентов. Количество масла и твёрдых отходов в виде <link=\"SOLIDBIOMASS\">спрессованной биомассы</link> зависит от выбранного ингредиента.\n"
-"Можно разбавить водой для получения <link=\"PHYTOOIL\">фито-масла</link>"
+"Можно разбавить водой для получения <link=\"PHYTOOIL\">фитомасла</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_EXPELLERPRESS.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_EXPELLERPRESS.NAME"
 msgid "<link=\"BIOCHEMISTRYEXPELLERPRESS\">Expeller Press</link>"
 msgstr "<link=\"BIOCHEMISTRYEXPELLERPRESS\">Отжимной пресс</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_SYNTHESIZERPHYTOOIL.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_SYNTHESIZERPHYTOOIL.DESC"
+msgid "A simple device capable of producing high-quality phyto oil."
+msgstr "Простое устройство, способное производить высококачественное фитомасло."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_SYNTHESIZERPHYTOOIL.EFFECT
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_SYNTHESIZERPHYTOOIL.EFFECT"
+msgid "Produces <link=\"PHYTOOIL\">Phyto Oil</link> by diluting <link=\"LIQUIDVEGEOIL\">Vegetable Oil</link> with <link=\"WATER\">Water</link>."
+msgstr "Производит <link=\"PHYTOOIL\">фитомасло</link> путём разбавления <link=\"LIQUIDVEGEOIL\">растительного масла</link> <link=\"WATER\">водой</link>."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_SYNTHESIZERPHYTOOIL.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_SYNTHESIZERPHYTOOIL.NAME"
+msgid "<link=\"BIOCHEMISTRYSYNTHESIZERPHYTOOIL\">Phyto Oil Mixer</link>"
+msgstr "<link=\"BIOCHEMISTRYSYNTHESIZERPHYTOOIL\">Миксер фитомасла</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CABINETFROZEN.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CABINETFROZEN.DESC"
@@ -995,7 +1015,7 @@ msgstr "Превращает <link=\"WATER\">воду</link> в <link=\"STEAM\">
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GAS_BOILER.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GAS_BOILER.NAME"
 msgid "<link=\"CHEMICALGASBOILER\">Gas-fueled Steam Boiler</link>"
-msgstr "<link=\"CHEMICALGASBOILER\">Газовый паровой котёл</link>"
+msgstr "<link=\"CHEMICALGASBOILER\">Паровой котёл на газе</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GLASSFOUNDRY.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GLASSFOUNDRY.DESC"
@@ -1011,6 +1031,21 @@ msgstr "Этот технологически продвинутый стеко�
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GLASSFOUNDRY.NAME"
 msgid "<link=\"CHEMICALGLASSFOUNDRY\">Glass Foundry</link>"
 msgstr "<link=\"CHEMICALGLASSFOUNDRY\">Стеклолитейный завод</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_LIQUID_BOILER.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_LIQUID_BOILER.DESC"
+msgid "An industrial grade boiler that generates thermal energy by burning Combustible Liquids."
+msgstr "Промышленный котёл, вырабатывающий тепловую энергию путём сжигания горючих жидкостей."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_LIQUID_BOILER.EFFECT
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_LIQUID_BOILER.EFFECT"
+msgid "Boils <link=\"WATER\">Water</link> to <link=\"STEAM\">Steam</link> at 200 °C. This particular boiler uses <link=\"COMBUSTIBLELIQUID\">Combustible Liquids</link> as fuel."
+msgstr "Превращает <link=\"WATER\">воду</link> в <link=\"STEAM\">пар</link> при температуре 200 °C.Этот котёл в качестве топлива использует <link=\"COMBUSTIBLELIQUID\">горючие жидкости</link>."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_LIQUID_BOILER.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_LIQUID_BOILER.NAME"
+msgid "<link=\"CHEMICALGASBOILER\">Liquid-fueled Steam Boiler</link>"
+msgstr "<link=\"CHEMICALGASBOILER\">Паровой котел на жидком топливе</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_MIXINGUNIT.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_MIXINGUNIT.DESC"
@@ -1203,6 +1238,25 @@ msgstr "Смеситель твёрдых материалов, предназн
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SOILMIXER.NAME"
 msgid "<link=\"CHEMICALSOILMIXER\">Soil Mixer</link>"
 msgstr "<link=\"CHEMICALSOILMIXER\">Смеситель почвы</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SOURGASSWEETENER.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SOURGASSWEETENER.DESC"
+msgid "A treatment plant that uses activated carbon beds for de-acidification of sour gas."
+msgstr "Очистная установка, использующая слои активированного угля для раскисления серного газа."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SOURGASSWEETENER.EFFECT
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SOURGASSWEETENER.EFFECT"
+msgid ""
+"Uses <link=\"REFINEDCARBON\">Activated Carbon</link> for the adsorbtion the sulphuric compounds from <link=\"SOURGAS\">Sour Gas</link>, yielding <link=\"METHANE\">Natural Gas</link> and elemental <link=\"SULPHUR\">Sulphur</link>.\n"
+"Activated carbon requires periodic replacing."
+msgstr ""
+"Использует <link=\"REFINEDCARBON\">активированный уголь</link> для адсорбции сернистых соединений из <link=\"SOURGAS\">серного газа</link>, получая <link=\"METHANE\">природный газ</link> и элементарную <link=\"SULPHUR\">серу</link>.\n"
+"Активированный уголь требует периодической замены."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SOURGASSWEETENER.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SOURGASSWEETENER.NAME"
+msgid "<link=\"CHEMICALSOURGASSWEETENER\">Sour Gas Sweetener</link>"
+msgstr "<link=\"CHEMICALSOURGASSWEETENER\">Десульфикатор серного газа</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SOURWATERSTRIPPER.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SOURWATERSTRIPPER.DESC"
@@ -2090,11 +2144,11 @@ msgstr "Радиус действия автосборщика можно про
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_TRANSFERARM.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPA_TRANSFERARM.EFFECT"
 msgid ""
-"Automates <link=\"CHORES\">Sweeping</link> and <link=\"CHORES\">Supplying</link> errands by sucking up all nearby <link=\"DECOR\">Debris</link>.\n"
+"Позволяет автоматизировать <link=\"CHORES\">подметание</link> и выполнение поручений по <link=\"CHORES\">снабжению</link>, засасывая все <link=\"DECOR\">обломки</link> поблизости.\n"
 "\n"
-"Materials are automatically delivered to any <link=\"HPAINBOX\">Heavy-Duty Loader</link>, <link=\"HPAOUTBOX\">Heavy-Duty Receptacle</link>, storage, or buildings within range.\n"
+"Материалы автоматически доставляются к любым <link=\"HPAINBOX\">сверхпрочным загрузчикам</link>, <link=\"HPAOUTBOX\">сверхпрочным бункерам</link>, хранилищам или строениям в радиусе действия.\n"
 "\n"
-"Comes with increased range, capacity and rotation speed."
+"Имеет увеличенный радиус действия, грузоподъёмность и скорость вращения."
 msgstr ""
 "Позволяет автоматизировать <link=\"CHORES\">подметание</link> и выполнение поручений по <link=\"CHORES\">снабжению</link>, засасывая все <link=\"DECOR\">обломки</link> поблизости.\n"
 "\n"
@@ -2115,13 +2169,13 @@ msgstr "Усиленный газоотводчик со встроенным к
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPAVENTGAS.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPAVENTGAS.EFFECT"
 msgid ""
-"Dispenses <link=\"ELEMENTSGAS\">Gases</link> in high pressure environments.\n"
+"Выпускает <link=\"ELEMENTSGAS\">газы</link> в условиях высокого давления.\n"
 "\n"
-"Must be connected to a <link=\"HIGHPRESSUREGASCONDUIT\">High Pressure Gas Pipe</link>.\n"
+"Необходимо подключить к <link=\"HIGHPRESSUREGASCONDUIT\">газовой трубе высокого давления</link>.\n"
 "\n"
-"Requires power to function."
+"Для работы требуется электропитание."
 msgstr ""
-"Распределяет <link=\"ELEMENTSGAS\">газы</link> в условиях высокого давления.\n"
+"Выпускает <link=\"ELEMENTSGAS\">газы</link> в условиях высокого давления.\n"
 "\n"
 "Необходимо подключить к <link=\"HIGHPRESSUREGASCONDUIT\">газовой трубе высокого давления</link>.\n"
 "\n"
@@ -2140,11 +2194,11 @@ msgstr "Усиленный клапан для жидкости со встро�
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPAVENTLIQUID.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPAVENTLIQUID.EFFECT"
 msgid ""
-"Dispenses <link=\"ELEMENTSLIQUID\">Liquids</link> in high pressure environments.\n"
+"Позволяет вылить <link=\"ELEMENTSLIQUID\">жидкость</link> в условиях высокого давления.\n"
 "\n"
-"Must be connected to a <link=\"HIGHPRESSURELIQUIDCONDUIT\">High Pressure Liquid Pipe</link>.\n"
+"Должен быть подключен к <link=\"HIGHPRESSURELIQUIDCONDUIT\">Трубе для жидкости высокого давления</link>.\n"
 "\n"
-"Requires power to function."
+"Для работы требуется электропитание."
 msgstr ""
 "Позволяет вылить <link=\"ELEMENTSLIQUID\">жидкость</link> в условиях высокого давления.\n"
 "\n"
@@ -2547,13 +2601,13 @@ msgstr "Гигантская машина, разработанная в ста�
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.MINING_AUGERDRILL.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.MINING_AUGERDRILL.EFFECT"
 msgid ""
-"This rig uses specialized Drillbits to mine useful resources from the asteroid crust.\n"
-"Retrived resources are released upon the Drill Head return.\n"
+"Эта установка использует специализированные буровые коронки для добычи полезных ресурсов из коры астероида.\n"
+"Извлеченные ресурсы высвобождаются после возвращения буровой головки.\n"
 "\n"
-"Require a constant supply of <link=\"COMBUSTIBLELIQUID\">Combustable Fuel</link> to function.\n"
+"Для работы требуется постоянная подача <link=\"COMBUSTIBLELIQUID\">горючего топлива</link>.\n"
 "\n"
-"Results: resources that are delivered upon Drillhead return.\n"
-"Occurrence: resources that are generated during Drillhead operation."
+"Результаты: ресурсы, доставленные после возвращения буровой головки.\n"
+"Появление: ресурсы, полученные в процессе работы буровой головки."
 msgstr ""
 "Эта установка использует специализированные буровые коронки для добычи полезных ресурсов из коры астероида.\n"
 "Извлеченные ресурсы высвобождаются после возвращения буровой головки.\n"
@@ -2713,12 +2767,12 @@ msgstr "<link=\"SIMPLEFRIDGE\">Домашний холодильник</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SLIMEVAT.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SLIMEVAT.DESC"
-msgid "An advanced biological vat that grows a culture of mucopolysaccharides and multicelular fungi mould. This unit also uses advanced filter to extract Polluted Oxygen from its surroundings, albeit its not necessary for it to function."
-msgstr "Усовершенствованный биологический резервуар, в котором выращивается культура мукополисахаридов и многоклеточных грибов. Этот резервуар также использует усовершенствованный фильтр для удаления загрязнённого кислорода из окружающей среды, хотя это и не является необходимым для его работы."
+msgid "Усовершенствованный биологический чан, в котором выращивается культура мукополисахаридов и многоклеточных грибов. Этот резервуар также использует усовершенствованный фильтр для удаления загрязнённого кислорода из окружающей среды, хотя это и не является необходимым для его работы."
+msgstr "Усовершенствованный биологический чан, в котором выращивается культура мукополисахаридов и многоклеточных грибов. Этот резервуар также использует усовершенствованный фильтр для удаления загрязнённого кислорода из окружающей среды, хотя это и не является необходимым для его работы."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SLIMEVAT.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SLIMEVAT.EFFECT"
-msgid "Slime Vat needs <link=\"WATER\">Water</link> and <link=\"MUSHBAR\">Mush Bar</link> to grow, producing <link=\"SLIMEMOLD\">Slime</link> outgrowth that is collected from the botton. Due to its nature, the slime its produce will be contaminated with Slimelung."
+msgid "Для роста слизи в чане необходимы <link=\"WATER\">вода</link> и <link=\"MUSHBAR\">грязевой батончик</link>, для производства наростов <link=\"SLIMEMOLD\">слизи</link>, которые собираются со дна. В силу своей природы, слизь, которую он производит, будет заражена лёгочной слизью."
 msgstr "Для роста слизи в чане необходимы <link=\"WATER\">вода</link> и <link=\"MUSHBAR\">грязевой батончик</link>, для производства наростов <link=\"SLIMEMOLD\">слизи</link>, которые собираются со дна. В силу своей природы, слизь, которую он производит, будет заражена лёгочной слизью."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SLIMEVAT.NAME
@@ -2809,9 +2863,9 @@ msgstr "Твёрдая клетка, предназначенная для ср�
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SPACERTILESOLID.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.SPACERTILESOLID.EFFECT"
 msgid ""
-"This solid tile is specially engineered to withstand the harsh conditions of space.\n"
+"Эта твёрдая клетка специально разработана для суровых условий космоса.\n"
 "\n"
-"Blocks Gas and Liquid while offering minimal thermal insulation."
+"Блокирует проникновение газа и жидкости, обеспечивая минимальную теплоизоляцию."
 msgstr ""
 "Эта твёрдая клетка специально разработана для суровых условий космоса.\n"
 "\n"
@@ -3913,6 +3967,16 @@ msgstr ""
 "Закалённые сплавы представляют собой сплав двух или более материалов.\n"
 "Высокая прочность позволяет использовать их в качестве замены <link=\"STEEL\">стали</link>"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.AIO_RADEMITTERINPUTMATERIAL
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.AIO_RADEMITTERINPUTMATERIAL"
+msgid "Radioactive Material"
+msgstr "Радиоактивный материал"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.AIO_RadEmitterInputMaterial_DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.AIO_RadEmitterInputMaterial_DESC"
+msgid "Radioactive Material that can be used to fuel the Rad Projector."
+msgstr "Радиоактивный материал, который можно использовать в качестве топлива для Рад-проектора."
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.CHEMICALPROCESSING_RANDOMSAND
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.CHEMICALPROCESSING_RANDOMSAND"
 msgid "<link=\"CHEMICALPROCESSINGRANDOMSAND\">Metallic Sand</link>"
@@ -4170,8 +4234,9 @@ msgstr "Включить изолированные сверхпрочные р�
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_INSULATION_ENABLE.TOOLTIP
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_INSULATION_ENABLE.TOOLTIP"
 msgid ""
-"Enable an insulated variant of the heavy-duty conveyor rail.\n"
-"Toggling this option also toggles all patches related to changing the insulation state of rail items, so it is not recommended to disable it for games with existing insulated rails."
+"Включить изолированный вариант сверхпрочных конвейерных рельсов.\n"
+"Переключение этой опции также переключает все исправления, связанные с изменением состояния изоляции предметов на рельсах,\n"
+"поэтому не рекомендуется отключать её для игр с существующими изолированными рельсами."
 msgstr ""
 "Включить изолированный вариант сверхпрочных конвейерных рельсов.\n"
 "Переключение этой опции также переключает все исправления, связанные с изменением состояния изоляции предметов на рельсах,\n"
@@ -4211,6 +4276,16 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.MODELEM
 msgid "New mod elements are embedded into the biomes during worldgen."
 msgstr "Новые элементы мода внедряются в биомы во время генерации мира."
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.OLDREFINERIES.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.OLDREFINERIES.NAME"
+msgid "Reenable old multi-stage refineries"
+msgstr "Повторное использование старых многоступенчатых НПЗ"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.OLDREFINERIES.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.OLDREFINERIES.TOOLTIP"
+msgid "Reenables the two old Multi-Stage refineries in chemical processing"
+msgstr "Восстанавливает работу двух старых многоступенчатых нефтеперерабатывающих заводов в химической промышленности."
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVANSLEGACY_AIO_DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVANSLEGACY_AIO_DESC"
 msgid "All the mods created by Ronivan, now collected and remastered into one configurable modpack."
@@ -4220,6 +4295,16 @@ msgstr "Все моды, созданные Ronivan, теперь собраны
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVANSLEGACY_AIO_NAME"
 msgid "Ronivan's Legacy - Industrial Revolution"
 msgstr "Наследие Ронивана - Промышленная революция"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.AIO_THRESHOLD_VALVE_SIDESCREEN.TITLE
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.AIO_THRESHOLD_VALVE_SIDESCREEN.TITLE"
+msgid "Package Mass Threshold"
+msgstr "Порог массы пакета"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.AIO_THRESHOLD_VALVE_SIDESCREEN.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.AIO_THRESHOLD_VALVE_SIDESCREEN.TOOLTIP"
+msgid "Sets the minimum package size of outgoing packages"
+msgstr "Устанавливает минимальный размер исходящих пакетов."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.BUILDINGCONFIGURABLE
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.BUILDINGCONFIGURABLE"
@@ -4703,8 +4788,8 @@ msgstr "Переработать {0} в {1}. Производит {2} и {3} в 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.THREE_MIXTURE_COMPRESS_COOKING
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.THREE_MIXTURE_COMPRESS_COOKING"
 msgid ""
-"Compress a mixture of {0}, {1} and {2}.\n"
-"Cooking the mixture at high temperature produces {3}"
+"Спрессовать смесь {0}, {1} и {2}.\n"
+"При нагревании смеси при высокой температуре получается {3}."
 msgstr ""
 "Спрессовать смесь {0}, {1} и {2}.\n"
 "При нагревании смеси при высокой температуре получается {3}."

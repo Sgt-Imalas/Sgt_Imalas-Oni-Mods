@@ -578,8 +578,8 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString EFFECT = string.Concat(
 						[
 							"Produces industrial grade ",
-							FormatAsLink("Nitric Acid", "LIQUIDNITRIC"), " using provided " +
-							FormatAsLink("Sulfuric Acid", "LIQUIDSULFURIC")," and " +
+							FormatAsLink("Nitric Acid", "LIQUIDNITRIC"), " via the selected chemical reaction, using either " +
+							FormatAsLink("Sulfuric Acid", "LIQUIDSULFURIC")," or " +
 							FormatAsLink("Ammonia", "AMMONIAGAS"),"."
 						]);
 				}
