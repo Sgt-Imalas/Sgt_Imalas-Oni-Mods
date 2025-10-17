@@ -70,7 +70,7 @@ namespace Metallurgy.Buildings
 			coalFetch.RequestedItemTag = SimHashes.Carbon.CreateTag();
 			coalFetch.capacity = 500f;
 			coalFetch.refillMass = 100f;
-			coalFetch.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
+			coalFetch.choreTypeIDHash = Db.Get().ChoreTypes.PowerFetch.IdHash;
 
 			go.AddOrGet<SolidDeliverySelection>().Options = [SimHashes.Carbon.CreateTag(), SimHashes.Peat.CreateTag()];
 

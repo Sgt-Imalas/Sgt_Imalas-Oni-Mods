@@ -39,7 +39,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			ykg.RequestedItemTag = SimHashes.WoodLog.CreateTag();
 			ykg.capacity = 500f;
 			ykg.refillMass = 150f;
-			ykg.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
+			ykg.choreTypeIDHash = Db.Get().ChoreTypes.PowerFetch.IdHash;
 
 			///drops coal in 20kg chunks
 			var dropper = go.AddOrGet<ElementDropper>();

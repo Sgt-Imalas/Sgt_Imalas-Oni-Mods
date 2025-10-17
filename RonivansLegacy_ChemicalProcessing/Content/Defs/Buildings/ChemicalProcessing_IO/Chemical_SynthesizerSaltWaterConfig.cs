@@ -58,7 +58,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			salt_delivery.RequestedItemTag = SimHashes.Salt.CreateTag();
 			salt_delivery.capacity = 200f;
 			salt_delivery.refillMass = 50f;
-			salt_delivery.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
+			salt_delivery.choreTypeIDHash = Db.Get().ChoreTypes.MachineFetch.IdHash;
+			salt_delivery.operationalRequirement = Operational.State.None;
 
 			//-----[ Element Converter Section ]---------------------------------
 			ElementConverter converter = go.AddOrGet<ElementConverter>();

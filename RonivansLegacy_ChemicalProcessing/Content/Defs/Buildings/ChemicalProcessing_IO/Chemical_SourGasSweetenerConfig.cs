@@ -124,7 +124,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.ChemicalProce
 			manualDeliveryKg.RequestedItemTag = SimHashes.RefinedCarbon.CreateTag();
 			manualDeliveryKg.capacity = 600f;
 			manualDeliveryKg.refillMass = 60f;
-			manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
+			manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.MachineFetch.IdHash;
 
 			ElementDropper carbonDropper = go.AddComponent<ElementDropper>();
 			carbonDropper.emitMass = 10f;

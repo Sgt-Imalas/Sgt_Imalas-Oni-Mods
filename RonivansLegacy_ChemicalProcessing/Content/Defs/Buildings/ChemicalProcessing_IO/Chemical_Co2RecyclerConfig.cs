@@ -76,7 +76,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			catalystDelivery.RequestedItemTag = catalyst;
 			catalystDelivery.capacity = 300f;
 			catalystDelivery.refillMass = 50f;
-			catalystDelivery.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
+			catalystDelivery.choreTypeIDHash = Db.Get().ChoreTypes.MachineFetch.IdHash;
 
 			ConduitConsumer hydrogenInput = go.AddOrGet<ConduitConsumer>();
 			hydrogenInput.conduitType = ConduitType.Gas;

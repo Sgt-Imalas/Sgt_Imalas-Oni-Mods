@@ -74,7 +74,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			coalDelivery.RequestedItemTag = SimHashes.Carbon.CreateTag();
 			coalDelivery.capacity = 1500f;
 			coalDelivery.refillMass = 600f;
-			coalDelivery.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
+			coalDelivery.choreTypeIDHash = Db.Get().ChoreTypes.PowerFetch.IdHash;
 
 			ConduitConsumer waterInput = go.AddOrGet<ConduitConsumer>();
 			waterInput.conduitType = ConduitType.Liquid;

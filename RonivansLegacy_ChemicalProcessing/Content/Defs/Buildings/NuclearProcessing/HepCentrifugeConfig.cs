@@ -54,7 +54,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProces
 			manualDeliveryKg.RequestedItemTag = SimHashes.Yellowcake.CreateTag();
 			manualDeliveryKg.capacity = 500f;
 			manualDeliveryKg.refillMass = 100f;
-			manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
+			manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.PowerFetch.IdHash;
 
 			ElementConverter elementConverter = go.AddOrGet<ElementConverter>();
 			elementConverter.consumedElements = [new(SimHashes.Yellowcake.CreateTag(), 0.05f)];

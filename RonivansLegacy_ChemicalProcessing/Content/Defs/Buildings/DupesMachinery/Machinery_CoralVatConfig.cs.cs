@@ -76,7 +76,7 @@ namespace Dupes_Machinery.Biological_Vats
 			local3.RequestedItemTag = tag;
 			local3.capacity = 500f;
 			local3.refillMass = 100f;
-			local3.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
+			local3.choreTypeIDHash = Db.Get().ChoreTypes.MachineFetch.IdHash;
 
 			ConduitConsumer local4 = go.AddOrGet<ConduitConsumer>();
 			local4.conduitType = ConduitType.Liquid;

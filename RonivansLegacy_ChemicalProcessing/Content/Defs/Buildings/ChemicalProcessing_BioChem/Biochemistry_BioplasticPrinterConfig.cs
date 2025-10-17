@@ -92,7 +92,7 @@ namespace Biochemistry.Buildings
 			mushbar_delivery.SetStorage(storage);
 			mushbar_delivery.capacity = 4f;
 			mushbar_delivery.refillMass = 1f;
-			mushbar_delivery.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
+			mushbar_delivery.choreTypeIDHash = Db.Get().ChoreTypes.MachineFetch.IdHash;
 
 			ElementConverter elementConverter = go.AddOrGet<ElementConverter>();
 			elementConverter.consumedElements =

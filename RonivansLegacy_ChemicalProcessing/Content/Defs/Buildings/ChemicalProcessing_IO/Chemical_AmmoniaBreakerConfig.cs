@@ -81,7 +81,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			manualDeliveryKg.RequestedItemTag = tag;
 			manualDeliveryKg.capacity = 300f;
 			manualDeliveryKg.refillMass = 50f;
-			manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
+			manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.MachineFetch.IdHash;
 
 			ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
 			conduitConsumer.conduitType = ConduitType.Gas;

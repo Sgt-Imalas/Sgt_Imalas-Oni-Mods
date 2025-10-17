@@ -50,13 +50,14 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 			Storage storage = BuildingTemplates.CreateDefaultStorage(go, false);
 			storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
-			storage.capacityKg = 300f;
+			//storage.capacityKg = 300f;
 			go.AddOrGet<ElementConversionBuilding>();
 			Prioritizable.AddRef(go);
 
 			ConduitConsumer steamInput = go.AddOrGet<ConduitConsumer>();
 			steamInput.conduitType = ConduitType.Gas;
 			steamInput.consumptionRate = 10f;
+			steamInput.capacityKG = 20f;
 			steamInput.capacityTag = SimHashes.Steam.CreateTag();
 			steamInput.forceAlwaysSatisfied = true;
 			steamInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
@@ -66,12 +67,17 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			sulfur_delivery.RequestedItemTag = SimHashes.Sulfur.CreateTag();
 			sulfur_delivery.capacity = 200f;
 			sulfur_delivery.refillMass = 50f;
-			sulfur_delivery.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
+			sulfur_delivery.choreTypeIDHash = Db.Get().ChoreTypes.MachineFetch.IdHash;
+			sulfur_delivery.operationalRequirement = Operational.State.None;
 
 			//-----[ Element Converter Section ]---------------------------------
 			ElementConverter converter = go.AddOrGet<ElementConverter>();
-			converter.consumedElements = [new ElementConverter.ConsumedElement(SimHashes.Steam.CreateTag(), 0.4f), new ElementConverter.ConsumedElement(SimHashes.Sulfur.CreateTag(), 0.6f)];
-			converter.outputElements = [new ElementConverter.OutputElement(1f, ModElements.SulphuricAcid_Liquid, 345.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0)];
+			converter.consumedElements = [
+				new ElementConverter.ConsumedElement(SimHashes.Steam.CreateTag(), 0.4f), 
+				new ElementConverter.ConsumedElement(SimHashes.Sulfur.CreateTag(), 0.6f)];
+			converter.outputElements = [
+				new ElementConverter.OutputElement(1f, ModElements.SulphuricAcid_Liquid, 345.15f, false, true)
+				];
 			//-------------------------------------------------------------------
 
 			ConduitDispenser dispenser = go.AddOrGet<ConduitDispenser>();
