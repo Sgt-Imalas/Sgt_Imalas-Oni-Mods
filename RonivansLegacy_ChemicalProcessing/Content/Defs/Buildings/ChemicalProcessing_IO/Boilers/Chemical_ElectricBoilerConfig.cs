@@ -75,9 +75,10 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			waterInput.alwaysConsume = true;
 			waterInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 
+			float conversionRate = 2f;
 			ElementConverter converter = go.AddOrGet<ElementConverter>();
-			converter.consumedElements = [new ElementConverter.ConsumedElement(SimHashes.Water.CreateTag(), 1f)];
-			converter.outputElements = [new ElementConverter.OutputElement(1f, SimHashes.Steam, UtilMethods.GetKelvinFromC(120), false, true, 0f, 0.5f, 0.75f, 0xff, 0)];
+			converter.consumedElements = [new ElementConverter.ConsumedElement(SimHashes.Water.CreateTag(), conversionRate)];
+			converter.outputElements = [new ElementConverter.OutputElement(conversionRate, SimHashes.Steam, UtilMethods.GetKelvinFromC(120), false, true)];
 
 			PipedConduitDispenser dispenser = go.AddComponent<PipedConduitDispenser>();
 			dispenser.storage = storage;
