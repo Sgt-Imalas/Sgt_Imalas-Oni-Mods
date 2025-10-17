@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UtilLibs.BuildingPortUtils;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {
@@ -16,6 +17,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 		[SerializeField] public ManualDeliveryKG saltDelivery;
 		[SerializeField] public ElementConverter ammoniaConverter, acidConverter;
+		[SerializeField] public PortConduitConsumer ammoniaConsumer,oxygenConsumer,acidConsumer;
 
 		[Serialize] Tag SelectedRecipe = AcidRecipeID;
 		static StringBuilder sb = new();
@@ -31,7 +33,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		public void OnOptionSelected(FewOptionSideScreen.IFewOptionSideScreen.Option option) => OnOptionSelected(option.tag);
 		static string GetLabel(SimHashes element)
 		{
-			return Strings.Get($"STRINGS.ELEMENTS.{element.ToString().ToUpperInvariant()}.NAME") + " → " + STRINGS.ELEMENTS.LIQUIDNITRIC.NAME;
+			return Strings.Get($"STRINGS.ELEMENTS.{element.ToString().ToUpperInvariant()}.NAME");// + " → " + STRINGS.ELEMENTS.LIQUIDNITRIC.NAME;
 		}
 		string GetDescriptor(ElementConverter e)
 		{
@@ -57,11 +59,17 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 					saltDelivery.Pause(true, "Not needed");
 					ammoniaConverter.SetWorkSpeedMultiplier(1);
 					acidConverter.SetWorkSpeedMultiplier(0);
+					//ammoniaConsumer.enabled = (true);
+					//oxygenConsumer.enabled = (true);
+					//acidConsumer.enabled = (false);
 					break;
 				case AcidRecipeID:
 					saltDelivery.Pause(false, "needed");
 					ammoniaConverter.SetWorkSpeedMultiplier(0);
 					acidConverter.SetWorkSpeedMultiplier(1);
+					//ammoniaConsumer.enabled = (false);
+					//oxygenConsumer.enabled = (false);
+					//acidConsumer.enabled = (true);
 					break;
 				default:
 					Debug.LogWarning($"[NitricAcidRecipeSelector] Unknown recipe selected: {t}");

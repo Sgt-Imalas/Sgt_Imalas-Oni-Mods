@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using KSerialization;
+using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
 using System.Collections.Generic;
@@ -35,7 +36,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			string[] ingredient_types = ["RefinedMetal", SimHashes.Steel.ToString()];
 
 			EffectorValues tier = NOISE_POLLUTION.NOISY.TIER6;
-			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 4, 7, "naphtha_reformer_kanim", 100, 30f, ingredient_mass, ingredient_types, 800f, BuildLocationRule.Anywhere, BUILDINGS.DECOR.PENALTY.TIER2, tier);
+			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 4, 7, "naphtha_reformer_kanim", 100, 30f, ingredient_mass, ingredient_types, 800f, BuildLocationRule.OnFloorOrBuildingAttachPoint, BUILDINGS.DECOR.PENALTY.TIER2, tier);
 			buildingDef.Overheatable = false;
 			buildingDef.RequiresPowerInput = true;
 			buildingDef.EnergyConsumptionWhenActive = 360f;
@@ -46,6 +47,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			SoundUtils.CopySoundsToAnim("naphtha_reformer_kanim", "algae_distillery_kanim");
 
 			ColliderOffsetHandler.GenerateBuildingDefOffsets(buildingDef, -2, 0);
+
+			buildingDef.attachablePosition = new CellOffset(0, -2);
+			buildingDef.AttachmentSlotTag = ModAssets.Tags.AIO_StackableMachine;
 
 			//for (int i = 0; i < buildingDef.PlacementOffsets.Length; i++)
 			//{

@@ -9,6 +9,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {
 	class ColliderOffsetHandler : KMonoBehaviour
 	{
+		[MyCmpGet] Rotatable rotatable;
 		[MyCmpReq] KBoxCollider2D collider;
 		[SerializeField]
 		public int ColliderOffsetY = 0, ColliderOffsetX = 0;
@@ -16,6 +17,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		{
 			base.OnSpawn();
 			collider.offset = collider.offset + new Vector2(ColliderOffsetX, ColliderOffsetY);
+		}
+		public CellOffset GetRotatedOffset()
+		{
+			if(rotatable == null)
+				return new CellOffset(ColliderOffsetX, ColliderOffsetY);
+			return Rotatable.GetRotatedCellOffset(new CellOffset(ColliderOffsetX, ColliderOffsetY), rotatable.GetOrientation());
 		}
 
 		internal static void GenerateBuildingDefOffsets(BuildingDef buildingDef, int yOffset, int xOffset)		

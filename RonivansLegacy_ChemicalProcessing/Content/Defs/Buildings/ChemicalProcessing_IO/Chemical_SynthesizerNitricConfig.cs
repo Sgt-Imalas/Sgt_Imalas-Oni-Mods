@@ -28,7 +28,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 		private static readonly PortDisplayInput sulfuricAcidInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(0, 3), null, new Color32(252, 252, 3, 255));
 
-		private static readonly PortDisplayInput oxygenInputPort = new(ConduitType.Gas, new CellOffset(0, 2),null,UIUtils.rgb(183, 255, 255));
+		private static readonly PortDisplayInput oxygenInputPort = new(ConduitType.Gas, new CellOffset(0, 2),null,UIUtils.rgb(105, 219, 249));
+		private static readonly PortDisplayInput ammoniaInputPort = new(ConduitType.Gas, new CellOffset(0, 3),null);
 
 		private static readonly PortDisplayOutput SteamGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(0, 0), null, new Color32(167, 180, 201, 255));
 
@@ -48,8 +49,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.SelfHeatKilowattsWhenActive = 4f;
 			buildingDef.PowerInputOffset = new CellOffset(0, 0);
 			buildingDef.AudioCategory = "Metal";
-			buildingDef.InputConduitType = ConduitType.Gas;
-			buildingDef.UtilityInputOffset = new CellOffset(0, 3);
+			//buildingDef.InputConduitType = ConduitType.Gas;
+			//buildingDef.UtilityInputOffset = new CellOffset(0, 3);
 			buildingDef.OutputConduitType = ConduitType.Liquid;
 			buildingDef.UtilityOutputOffset = new CellOffset(0, 0);
 			SoundUtils.CopySoundsToAnim("mixer_nitric_kanim", "waterpurifier_kanim");
@@ -68,13 +69,14 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			go.AddOrGet<ElementConversionBuilding>();
 			Prioritizable.AddRef(go);
 
-			ConduitConsumer ammoniaInput = go.AddOrGet<ConduitConsumer>();
+			PortConduitConsumer ammoniaInput = go.AddOrGet<PortConduitConsumer>();
 			ammoniaInput.conduitType = ConduitType.Gas;
 			ammoniaInput.consumptionRate = 10f;
 			ammoniaInput.capacityKG = 50f;
 			ammoniaInput.capacityTag = ModElements.Ammonia_Gas.Tag;
 			ammoniaInput.forceAlwaysSatisfied = true;
 			ammoniaInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
+			ammoniaInput.AssignPort(ammoniaInputPort);
 
 			PortConduitConsumer sulfuricInput = go.AddComponent<PortConduitConsumer>();
 			sulfuricInput.conduitType = ConduitType.Liquid;
@@ -143,6 +145,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			selector.acidConverter = sulphuricConverter;
 			selector.ammoniaConverter = ammoniaConverter;
 			selector.saltDelivery = salt_delivery;
+			selector.acidConsumer = sulfuricInput;
+			selector.ammoniaConsumer = ammoniaInput;
+			selector.oxygenConsumer = oxygenInput;
 
 			//-------------------------------------------------------------------
 

@@ -12,6 +12,9 @@ using static Operational;
 
 namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 {
+	/// <summary>
+	/// partially HPA, partially Structural Tile and building anim offset related patches 
+	/// </summary>
 	class BuildingDef_Patches
 	{
 
