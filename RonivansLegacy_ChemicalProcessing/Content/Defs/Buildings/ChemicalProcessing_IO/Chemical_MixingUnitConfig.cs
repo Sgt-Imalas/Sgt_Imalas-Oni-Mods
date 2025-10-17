@@ -70,11 +70,11 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Build();
 
 			RecipeBuilder.Create(ID,20)
-				.Input(ModElements.Ammonia_Gas, 5)
-				.Input(SimHashes.Dirt, 35)
-				.Input(SimHashes.Phosphorus,5)
-				.Input(SimHashes.Sulfur,5)
-				.Output(SimHashes.Fertilizer,50)
+				.Input(ModElements.Ammonia_Gas, 10)
+				.Input(SimHashes.Dirt, 70)
+				.Input(SimHashes.Phosphorus,10)
+				.Input(SimHashes.Sulfur,10)
+				.Output(SimHashes.Fertilizer,100)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
 				.Description(CHEMICAL_MIXINGUNIT_FERTILIZER, 4, 1)
 				.Build();
