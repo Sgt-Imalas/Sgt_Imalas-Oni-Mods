@@ -40,7 +40,9 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 					__result = false;
 				}
 				var solidRail = Grid.Objects[cell, (int)ObjectLayer.SolidConduit];
-				if (solidRail != null && solidRail != source_go && solidRail.TryGetComponent<Building>(out var building2) && building2.Def.BuildLocationRule == BuildLocationRule.NotInTiles)
+				if (solidRail != null && solidRail != source_go && solidRail.TryGetComponent<Building>(out var building2) 
+					&& building2.Def.BuildLocationRule == BuildLocationRule.NotInTiles
+					&& !__instance.BuildingComplete.TryGetComponent<StructuralTileMarker>(out _))
 				{
 					fail_reason = STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_HPA_RAIL;
 					__result = false;
@@ -48,12 +50,20 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 			}
 		}
 
+		static bool ReplacableReason(string fail_reason)
+		{
+			return fail_reason == global::STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_NOT_IN_TILES
+				|| fail_reason == global::STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_WIRE_OBSTRUCTION
+				|| fail_reason.IsNullOrWhiteSpace();
+		}
+
 		[HarmonyPatch(typeof(BuildingDef), nameof(BuildingDef.IsValidBuildLocation), [typeof(GameObject), typeof(int), typeof(Orientation), typeof(bool), typeof(string)], [ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Out])]
 		public class BuildingDef_IsValidBuildLocation_Patch
 		{
 			public static void Postfix(BuildingDef __instance, int cell, GameObject source_go, Orientation orientation, ref string fail_reason, ref bool __result)
-			{		
-				if(!__result && fail_reason == global::STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_NOT_IN_TILES && StructuralTileMarker.TileAtCell(cell))
+			{	
+				SgtLogger.l("IsValidBuildLocation called for " + __instance.Name + " at cell " + cell+", can build: "+ __result+", reason: "+fail_reason+", isReplacable: "+ReplacableReason(fail_reason));
+				if (!__result && ReplacableReason(fail_reason) && (StructuralTileMarker.TileAtCell(cell) || __instance.BuildingComplete.TryGetComponent<StructuralTileMarker>(out _)))
 				{
 					fail_reason = "";
 					__result = true;
@@ -63,6 +73,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				if (!__result)
 					return;
 				__result = IsValidHPABridgeLocation(__instance, cell, source_go, orientation, ref fail_reason);
+				
 			}
 		}
 		static bool IsValidHPABridgeLocation(BuildingDef __instance, int cell, GameObject source_go, Orientation orientation, ref string fail_reason)
@@ -99,7 +110,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		{
 			public static void Postfix(BuildingDef __instance, GameObject source_go, int cell, Orientation orientation, bool replace_tile, ref string fail_reason, bool restrictToActiveWorld, ref bool __result)
 			{
-				if (!__result && fail_reason == global::STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_NOT_IN_TILES && StructuralTileMarker.TileAtCell(cell))
+				if (!__result && ReplacableReason(fail_reason) && (StructuralTileMarker.TileAtCell(cell)||__instance.BuildingComplete.TryGetComponent<StructuralTileMarker>(out _)))
 				{
 					fail_reason = "";
 					__result = true;
