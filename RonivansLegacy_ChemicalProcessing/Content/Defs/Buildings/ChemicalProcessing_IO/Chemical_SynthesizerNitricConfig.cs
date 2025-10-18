@@ -29,7 +29,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		private static readonly PortDisplayInput sulfuricAcidInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(0, 3), null, new Color32(252, 252, 3, 255));
 
 		private static readonly PortDisplayInput oxygenInputPort = new(ConduitType.Gas, new CellOffset(0, 2),null,UIUtils.rgb(105, 219, 249));
-		private static readonly PortDisplayInput ammoniaInputPort = new(ConduitType.Gas, new CellOffset(0, 3),null);
+		private static readonly PortDisplayInput ammoniaInputPort = new(ConduitType.Gas, new CellOffset(0, 3),null, UIUtils.rgb(215, 227, 252));
 
 		private static readonly PortDisplayOutput SteamGasOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(0, 0), null, new Color32(167, 180, 201, 255));
 
@@ -178,6 +178,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			controller.Init(go);
 			controller.AssignPort(go, sulfuricAcidInputPort);
 			controller.AssignPort(go, SteamGasOutputPort); 
+			controller.AssignPort(go, ammoniaInputPort);
 			controller.AssignPort(go, oxygenInputPort); 
 		}
 
