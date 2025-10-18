@@ -41,6 +41,7 @@ namespace UtilLibs.BuildingPortUtils
 		internal Sprite sprite;
 
 		public bool Input => input;
+		public Sprite Sprite => sprite;
 		public ConduitType Type => type;
 
 		internal void AssignPort(DisplayConduitPortInfo port)
@@ -50,10 +51,10 @@ namespace UtilLibs.BuildingPortUtils
 			this.offsetFlipped = port.offsetFlipped;
 			this.input = port.input;
 			this.color = port.color;
-			this.sprite = GetSprite();
+			this.sprite = SharedConduitUtils.GetSprite(this.input, this.type);
 		}
 
-		internal void Draw(GameObject obj, BuildingCellVisualizer visualizer, bool force, string optionalTooltip)
+		internal void Draw(GameObject obj, BuildingCellVisualizer visualizer, bool force)
 		{
 			Building building = visualizer.building;
 			int utilityCell = GetUtilityCell(building);
@@ -64,8 +65,6 @@ namespace UtilLibs.BuildingPortUtils
 				this.lastColor = color;
 				this.lastUtilityCell = utilityCell;
 				visualizer.DrawUtilityIcon(utilityCell, this.sprite, ref portObject, color);
-				//if(optionalTooltip != null && optionalTooltip.Length>0)
-				//	AttachTooltip(optionalTooltip);
 			}
 		}
 
@@ -85,34 +84,6 @@ namespace UtilLibs.BuildingPortUtils
 			return (building.Orientation == Orientation.Neutral ? this.offset : this.offsetFlipped);
 		}
 
-		private Sprite GetSprite()
-		{
-			var resources = BuildingCellVisualizerResources.Instance();
-			if (input)
-			{
-				if (this.type == ConduitType.Gas)
-				{
-					return resources.gasInputIcon;
-				}
-				else if (this.type == ConduitType.Liquid || this.type == ConduitType.Solid)
-				{
-					return resources.liquidInputIcon;
-				}
-			}
-			else
-			{
-				if (this.type == ConduitType.Gas)
-				{
-					return resources.gasOutputIcon;
-				}
-				else if (this.type == ConduitType.Liquid || this.type == ConduitType.Solid)
-				{
-					return resources.liquidOutputIcon;
-				}
-			}
-
-			return null;
-		}
 
 		internal void DisableIcons()
 		{
