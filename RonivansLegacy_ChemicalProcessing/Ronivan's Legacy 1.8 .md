@@ -2,7 +2,7 @@ Ronivan's Legacy 1.8
 
 New:
 
-- The starting asteroid now tries spawning an extra liquid ammonia vent. It will be spawned after story traits, thus not affecting the wordlgen of other geysers. Only active with chemical processing - I.O.
+- The starting asteroid now tries spawning an extra liquid ammonia vent. It will be spawned after story traits, thus not affecting the wordlgen of other geysers. Only active with chemical processing I.O.
 - zinc ore is now classified as a starting ore; this adds a power bank recipe for zinc
 - modded elements now show up in care packages
 - added chlorine filter building; works like co2 filter, but for chlorine gas
@@ -38,3 +38,4 @@ Fixes:
 - fixed cost of med. reservoirs being the same as small reservoirs. Its now 3/4 of a vanilla reservoir (100kg -> 300kg), also reduced cost of wall reservoirs to 80kg
 - fixed Ammonium Water transition percentages being flipped (intended rate: 89% water, 11% ammonia, this was inverted previously)
 - fixed Codex page of fullerene crashing when chemical processing - I.O. was not enabled
+- fixed co2 filter going active with any gas present instead of only co2
