@@ -50,7 +50,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 			BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof(RequiresFoundation), tag);
 
 			var simCellOccupier = go.AddOrGet<SimCellOccupier>();
-			simCellOccupier.notifyOnMelt = true;
 			simCellOccupier.doReplaceElement = false;
 			simCellOccupier.movementSpeedMultiplier = 1.2f; //== DUPLICANTSTATS.MOVEMENT_MODIFIERS.BONUS_5;
 
@@ -63,6 +62,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 		{
 			GeneratedBuildings.RemoveLoopingSounds(go);
 			var prefab = go.GetComponent<KPrefabID>();
+			go.AddComponent<ZoneTile>();
 			prefab.AddTag(GameTags.FloorTiles, false);
 		}
 		public override void DoPostConfigureUnderConstruction(GameObject go)
