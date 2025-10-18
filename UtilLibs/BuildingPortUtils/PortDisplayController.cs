@@ -62,12 +62,6 @@ namespace UtilLibs.BuildingPortUtils
 			sprite = null;
 			color = Color.white;
 
-			if(utilityCell != lastCell)
-			{
-				lastCell = utilityCell;
-				SgtLogger.l("Trying to get active port info for cell " + utilityCell);
-			}
-
 			if (activePortInfo.TryGetValue(utilityCell, out var portInfo))
 			{
 				portDesc = portInfo.portDesc;
