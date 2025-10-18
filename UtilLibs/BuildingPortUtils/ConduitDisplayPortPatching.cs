@@ -4,9 +4,11 @@ using PeterHan.PLib.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static HoverTextConfiguration;
 using static STRINGS.BUILDING.STATUSITEMS;
 
 namespace UtilLibs.BuildingPortUtils
@@ -47,9 +49,11 @@ namespace UtilLibs.BuildingPortUtils
 				harmony.Patch(injectStatusItemStrings, null, new HarmonyMethod(typeof(ConduitDisplayPortPatching), nameof(CreateStatusItemStrings)));
 				PRegistry.PutData(PLib_Registry_StatusItems, true);
 			}
+
+			PortInfoDrawing.PatchAll(harmony);
 		}
 
-		public static bool PortDrawPrefix(EntityCellVisualizer __instance, HashedString mode)
+		public static void PortDrawPrefix(EntityCellVisualizer __instance, HashedString mode)
 		{
 			if (__instance is BuildingCellVisualizer bcVis && buildings.Contains(bcVis.building.Def.PrefabID))
 			{
@@ -57,11 +61,11 @@ namespace UtilLibs.BuildingPortUtils
 				PortDisplayController controller = go.GetComponent<PortDisplayController>();
 				if (controller != null)
 				{
-					return controller.Draw(bcVis, mode, go);
+					controller.Draw(bcVis, mode, go);
 				}
 			}
-			return true;
 		}
+
 
 		public static void MarkAreaPostfix(BuildingDef __instance, int cell, Orientation orientation, ObjectLayer layer, GameObject go)
 		{
@@ -92,17 +96,76 @@ namespace UtilLibs.BuildingPortUtils
 			}
 		}
 
+		static class PortInfoDrawing
+		{
+			static bool AddAny = false;
+			static string portText = "";
+			static Sprite portSprite;
+			static Color portColor = Color.white;
+			static TextStylePair Styles_Instruction;
+
+			public static void PatchAll(Harmony harmony)
+			{
+				var target = AccessTools.Method(typeof(EntityCellVisualizer), nameof(EntityCellVisualizer.DrawIcons));
+				harmony.Patch(target, postfix: new HarmonyMethod(typeof(PortInfoDrawing), nameof(EntityCellVisualizer_DrawIcons_Postfix)));
+
+
+				var target2 = AccessTools.Method(typeof(SelectToolHoverTextCard), nameof(SelectToolHoverTextCard.UpdateHoverElements));
+				var target3 = AccessTools.Method(typeof(BuildToolHoverTextCard), nameof(SelectToolHoverTextCard.UpdateHoverElements));
+				harmony.Patch(target2, new HarmonyMethod(typeof(PortInfoDrawing), nameof(HoverTextConfiguration_UpdateHoverElements_Prefix)));
+				harmony.Patch(target3, new HarmonyMethod(typeof(PortInfoDrawing), nameof(HoverTextConfiguration_UpdateHoverElements_Prefix)));
+
+				var target4 = AccessTools.Method(typeof(HoverTextDrawer), nameof(HoverTextDrawer.EndDrawing));
+				harmony.Patch(target4, new HarmonyMethod(typeof(PortInfoDrawing), nameof(HoverTextDrawer_EndDrawing_Prefix)));
+			}
+
+			static void EntityCellVisualizer_DrawIcons_Postfix(EntityCellVisualizer __instance, HashedString mode)
+			{
+				if (__instance is BuildingCellVisualizer bcVis)
+					PortDisplayController.HandleVanillaPortInfo(bcVis, mode);
+			}
+			static void HoverTextConfiguration_UpdateHoverElements_Prefix(SelectToolHoverTextCard __instance, List<KSelectable> hoverObjects)
+			{
+				Styles_Instruction = __instance.Styles_Instruction;
+
+				int mouseCell = Grid.PosToCell(Camera.main.ScreenToWorldPoint(KInputManager.GetMousePos()));
+				if (OverlayScreen.Instance == null || !Grid.IsValidCell(mouseCell))
+					return;
+
+				if (PortDisplayController.TryGetActivePortDesc(mouseCell, out portText, out portSprite, out portColor))
+				{
+					AddAny = true;
+				}
+				else
+				{
+					AddAny = false;
+				}
+			}
+			static void HoverTextDrawer_EndDrawing_Prefix(HoverTextDrawer __instance)
+			{
+				if (!AddAny)
+					return;
+				AddAny = false;
+
+				__instance.BeginShadowBar();
+				__instance.DrawIcon(portSprite, portColor);
+				__instance.DrawText(portText, Styles_Instruction.Standard);
+				__instance.EndShadowBar();
+			}
+		}
+
+
 
 		public static StatusItem GetInputStatusItem(ConduitType type)
 		{
 			switch (type)
 			{
 				case ConduitType.Gas:
-					if(M_NeedGasIn == null)
+					if (M_NeedGasIn == null)
 						M_NeedGasIn = Db.Get().BuildingStatusItems.Get(M_NeedGasIn_Key);
 					return M_NeedGasIn;
 				case ConduitType.Liquid:
-					if(M_NeedLiquidIn == null)
+					if (M_NeedLiquidIn == null)
 						M_NeedLiquidIn = Db.Get().BuildingStatusItems.Get(M_NeedLiquidIn_Key);
 					return M_NeedLiquidIn;
 				case ConduitType.Solid:
@@ -172,7 +235,7 @@ namespace UtilLibs.BuildingPortUtils
 			M_NeedGasOut.resolveStringCallback = delegate (string str, object data)
 			{
 				Tuple<ConduitType, List<Tag>> tuple = (Tuple<ConduitType, List<Tag>>)data;
-				foreach(var tag in tuple.second)
+				foreach (var tag in tuple.second)
 				{
 					str += "\n";
 					str += string.Format(NEEDGASIN.LINE_ITEM, tag.ProperName());
@@ -223,7 +286,6 @@ namespace UtilLibs.BuildingPortUtils
 
 			Strings.Add("STRINGS.BUILDING.STATUSITEMS.M_NEEDSOLIDIN.NAME", STRINGS.BUILDING.STATUSITEMS.NEEDSOLIDIN.NAME);
 			Strings.Add("STRINGS.BUILDING.STATUSITEMS.M_NEEDSOLIDIN.TOOLTIP", STRINGS.BUILDING.STATUSITEMS.NEEDSOLIDIN.TOOLTIP);
-
 		}
 	}
 }

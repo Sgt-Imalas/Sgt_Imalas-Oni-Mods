@@ -90,6 +90,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			exhaustGlass.dispenser = dispenser;
 			exhaustGlass.elementTag = SimHashes.MoltenGlass.CreateTag();
 			exhaustGlass.capacity = 100f;
+			exhaustGlass.emissionRate = 50f;
 
 			PipedOptionalExhaust exhaustWater = go.AddComponent<PipedOptionalExhaust>();
 			exhaustWater.dispenser = dispenser;

@@ -5,8 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using static Operational;
-using static STRINGS.BUILDINGS.PREFABS.CONDUIT;
+using static UtilLibs.BuildingPortUtils.SharedConduitUtils;
 
 namespace UtilLibs.BuildingPortUtils
 {
@@ -74,10 +73,14 @@ namespace UtilLibs.BuildingPortUtils
 
 		public void AssignPort(PortDisplayOutput port)
 		{
+			AssignedPort = port;
 			this.conduitType = port.type;
 			this.conduitOffset = port.offset;
 			this.conduitOffsetFlipped = port.offsetFlipped;
 		}
+
+		[SerializeField]
+		public PortDisplayOutput AssignedPort = null;
 
 		List<Tag> GetFilterTags()
 		{
@@ -118,7 +121,7 @@ namespace UtilLibs.BuildingPortUtils
 		{
 			get
 			{
-				GameObject gameObject = Grid.Objects[this.utilityCell, GetConduitLayer()];
+				GameObject gameObject = Grid.Objects[this.utilityCell, GetConduitLayer(conduitType)];
 				return gameObject != null && gameObject.TryGetComponent<BuildingComplete>(out _);
 			}
 		}
@@ -128,33 +131,6 @@ namespace UtilLibs.BuildingPortUtils
 			this.conduitType = type;
 		}
 
-		public int GetConduitLayer()
-		{
-			switch (this.conduitType)
-			{
-				case ConduitType.Gas:
-					return (int)ObjectLayer.GasConduit;
-				case ConduitType.Liquid:
-					return (int)ObjectLayer.LiquidConduit;
-				case ConduitType.Solid:
-					return (int)ObjectLayer.SolidConduit;
-			}
-			return -1;
-		}
-
-		public IConduitFlow GetConduitManager()
-		{
-			switch (this.conduitType)
-			{
-				case ConduitType.Gas:
-					return Game.Instance.gasConduitFlow;
-				case ConduitType.Liquid:
-					return Game.Instance.liquidConduitFlow;
-				case ConduitType.Solid:
-					return Game.Instance.solidConduitFlow;
-			}
-			return null;
-		}
 
 		private void OnConduitConnectionChanged(object data)
 		{
@@ -165,20 +141,6 @@ namespace UtilLibs.BuildingPortUtils
 			{
 				SolidConduitCapacityTarget = GetSolidConduitCapacityTarget(this.utilityCell);
 			}
-		}
-
-		public IUtilityNetworkMgr GetConduitMng()
-		{
-			switch (this.conduitType)
-			{
-				case ConduitType.Gas:
-					return Game.Instance.gasConduitSystem;
-				case ConduitType.Liquid:
-					return Game.Instance.liquidConduitSystem;
-				case ConduitType.Solid:
-					return Game.Instance.solidConduitSystem;
-			}
-			return null;
 		}
 		public override void OnSpawn()
 		{
@@ -191,20 +153,19 @@ namespace UtilLibs.BuildingPortUtils
 			conduitBlockedFlag = new Operational.Flag($"conduit_blocked_{utilityCell}_{conduitType}", Operational.Flag.Type.Requirement);
 
 			this.networkItem = new FlowUtilityNetwork.NetworkItem(this.conduitType, Endpoint.Source, this.utilityCell, base.gameObject);
-			GetConduitMng().AddToNetworks(this.utilityCell, this.networkItem, true);
+			GetConduitMng(conduitType).AddToNetworks(this.utilityCell, this.networkItem, true);
 
 			ScenePartitionerLayer layer = GameScenePartitioner.Instance.objectLayers[(this.conduitType != ConduitType.Gas) ? 16 : 12];
 			this.partitionerEntry = GameScenePartitioner.Instance.Add("ConduitConsumer.OnSpawn", base.gameObject, this.utilityCell, layer, new Action<object>(this.OnConduitConnectionChanged));
-			this.GetConduitManager().AddConduitUpdater(new Action<float>(this.ConduitUpdate), ConduitFlowPriority.LastPostUpdate);
+			GetConduitFlow(conduitType).AddConduitUpdater(new Action<float>(this.ConduitUpdate), ConduitFlowPriority.LastPostUpdate);
 			this.OnConduitConnectionChanged(null);
 			UpdateNotifications(false);
 		}
 
 		public override void OnCleanUp()
 		{
-			GetConduitMng().RemoveFromNetworks(this.utilityCell, this.networkItem, true);
-
-			this.GetConduitManager().RemoveConduitUpdater(new Action<float>(this.ConduitUpdate));
+			GetConduitMng(conduitType).RemoveFromNetworks(this.utilityCell, this.networkItem, true);
+			GetConduitFlow(conduitType).RemoveConduitUpdater(new Action<float>(this.ConduitUpdate));
 			GameScenePartitioner.Instance.Free(ref this.partitionerEntry);
 			base.OnCleanUp();
 		}
@@ -217,7 +178,7 @@ namespace UtilLibs.BuildingPortUtils
 				PrimaryElement primaryElement = this.FindSuitableElement();
 				if (primaryElement != null)
 				{
-					var iFlow = GetConduitManager();
+					var iFlow = GetConduitFlow(conduitType);
 					if (iFlow is ConduitFlow conduitFlow)
 					{
 						primaryElement.KeepZeroMassObject = true;

@@ -12,12 +12,18 @@ namespace Imalas_TwitchChaosEvents
 	public class Config : SingletonOptions<Config>
 	{
 
-		[Option("STRINGS.CHAOS_CONFIG.TACORAIN_MUSIC_NAME", "STRINGS.CHAOS_CONFIG.TACORAIN_MUSIC_TOOLTIP")]
+		[Option("STRINGS.CHAOS_CONFIG.TACORAIN_MUSIC_NAME", "STRINGS.CHAOS_CONFIG.CATEGORY_COPYRIGHT_TOOLTIP","STRINGS.CHAOS_CONFIG.CATEGORY_COPYRIGHT")]
 		[JsonProperty]
 		public bool TacoEventMusic { get; set; } = true;
-		[Option("STRINGS.CHAOS_CONFIG.FAKE_TACORAIN_MUSIC_NAME", "STRINGS.CHAOS_CONFIG.FAKE_TACORAIN_MUSIC_TOOLTIP")]
+		[Option("STRINGS.CHAOS_CONFIG.FAKE_TACORAIN_MUSIC_NAME", "STRINGS.CHAOS_CONFIG.CATEGORY_COPYRIGHT_TOOLTIP", "STRINGS.CHAOS_CONFIG.CATEGORY_COPYRIGHT")]
 		[JsonProperty]
 		public bool FakeTacoEventMusic { get; set; } = true;
+		[Option("STRINGS.CHAOS_CONFIG.JURASSICPARK_MUSIC", "STRINGS.CHAOS_CONFIG.CATEGORY_COPYRIGHT_TOOLTIP", "STRINGS.CHAOS_CONFIG.CATEGORY_COPYRIGHT")]
+		[JsonProperty]
+		public bool JurassicParkMusic { get; set; } = true;
+		[Option("STRINGS.CHAOS_CONFIG.SPANISH_INQUISITION", "STRINGS.CHAOS_CONFIG.CATEGORY_COPYRIGHT_TOOLTIP", "STRINGS.CHAOS_CONFIG.CATEGORY_COPYRIGHT")]
+		[JsonProperty]
+		public bool SpanishInquisitionFX { get; set; } = true;
 
 		[Option("STRINGS.CHAOS_CONFIG.FAKE_TACORAIN_DURATION_NAME", "STRINGS.CHAOS_CONFIG.FAKE_TACORAIN_DURATION_TOOLTIP")]
 		[JsonProperty]
@@ -37,10 +43,6 @@ namespace Imalas_TwitchChaosEvents
 		[JsonProperty]
 		public bool ShowWarnings { get; set; } = true;
 
-
-		public Config()
-		{
-		}
 
 	}
 }

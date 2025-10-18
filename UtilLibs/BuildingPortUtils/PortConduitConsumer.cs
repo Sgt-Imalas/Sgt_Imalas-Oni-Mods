@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using static Operational;
+using static UtilLibs.BuildingPortUtils.SharedConduitUtils;
 
 namespace UtilLibs.BuildingPortUtils
 {
@@ -96,7 +96,7 @@ namespace UtilLibs.BuildingPortUtils
 		{
 			get
 			{
-				GameObject gameObject = Grid.Objects[this.utilityCell, GetConduitLayer()];
+				GameObject gameObject = Grid.Objects[this.utilityCell, GetConduitLayer(conduitType)];
 				return gameObject != null && gameObject.TryGetComponent<BuildingComplete>(out _);
 			}
 		}
@@ -158,7 +158,7 @@ namespace UtilLibs.BuildingPortUtils
 			get
 			{
 				int inputCell = this.GetInputCell();
-				IConduitFlow iconduitManager = this.GetConduitFlow();
+				IConduitFlow iconduitManager = GetConduitFlow(conduitType);
 				if (iconduitManager is ConduitFlow flow)
 					return flow.GetContents(inputCell).mass;
 				if (iconduitManager is SolidConduitFlow solidConduitFlow)
@@ -175,46 +175,7 @@ namespace UtilLibs.BuildingPortUtils
 		{
 			this.conduitType = type;
 		}
-		public int GetConduitLayer()
-		{
-			switch (this.conduitType)
-			{
-				case ConduitType.Gas:
-					return (int)ObjectLayer.GasConduit;
-				case ConduitType.Liquid:
-					return (int)ObjectLayer.LiquidConduit;
-				case ConduitType.Solid:
-					return (int)ObjectLayer.SolidConduit;
-			}
-			return -1;
-		}
-
-		public IConduitFlow GetConduitFlow()
-		{
-			switch (this.conduitType)
-			{
-				case ConduitType.Gas:
-					return Game.Instance.gasConduitFlow;
-				case ConduitType.Liquid:
-					return Game.Instance.liquidConduitFlow;
-				case ConduitType.Solid:
-					return Game.Instance.solidConduitFlow;
-			}
-			return null;
-		}
-		public IUtilityNetworkMgr GetConduitMng()
-		{
-			switch (this.conduitType)
-			{
-				case ConduitType.Gas:
-					return Game.Instance.gasConduitSystem;
-				case ConduitType.Liquid:
-					return Game.Instance.liquidConduitSystem;
-				case ConduitType.Solid:
-					return Game.Instance.solidConduitSystem;
-			}
-			return null;
-		}
+		
 		private int GetInputCell()
 		{
 			var building = base.GetComponent<Building>();
@@ -229,11 +190,11 @@ namespace UtilLibs.BuildingPortUtils
 			inputConduitFlag = new Operational.Flag($"input_conduit_connected_{utilityCell}_{conduitType}", Operational.Flag.Type.Functional);
 
 			this.networkItem = new FlowUtilityNetwork.NetworkItem(this.conduitType, Endpoint.Sink, this.utilityCell, base.gameObject);
-			GetConduitMng().AddToNetworks(this.utilityCell, this.networkItem, true);
+			GetConduitMng(conduitType).AddToNetworks(this.utilityCell, this.networkItem, true);
 
-			ScenePartitionerLayer layer = GameScenePartitioner.Instance.objectLayers[GetConduitLayer()];
+			ScenePartitionerLayer layer = GameScenePartitioner.Instance.objectLayers[GetConduitLayer(conduitType)];
 			this.partitionerEntry = GameScenePartitioner.Instance.Add("ConduitConsumer.OnSpawn", base.gameObject, this.utilityCell, layer, new Action<object>(this.OnConduitConnectionChanged));
-			this.GetConduitFlow().AddConduitUpdater(new Action<float>(this.ConduitUpdate), ConduitFlowPriority.Default);
+			GetConduitFlow(conduitType).AddConduitUpdater(new Action<float>(this.ConduitUpdate), ConduitFlowPriority.Default);
 			this.OnConduitConnectionChanged(null);
 
 			UpdateNotifications();
@@ -241,9 +202,9 @@ namespace UtilLibs.BuildingPortUtils
 
 		public override void OnCleanUp()
 		{
-			GetConduitMng().RemoveFromNetworks(this.utilityCell, this.networkItem, true);
+			GetConduitMng(conduitType).RemoveFromNetworks(this.utilityCell, this.networkItem, true);
 
-			this.GetConduitFlow().RemoveConduitUpdater(new Action<float>(this.ConduitUpdate));
+			GetConduitFlow(conduitType).RemoveConduitUpdater(new Action<float>(this.ConduitUpdate));
 			GameScenePartitioner.Instance.Free(ref this.partitionerEntry);
 			base.OnCleanUp();
 		}
@@ -283,7 +244,7 @@ namespace UtilLibs.BuildingPortUtils
 		private void ConduitUpdate(float dt)
 		{
 			if (isConsuming)
-				this.Consume(dt, GetConduitFlow());
+				this.Consume(dt, GetConduitFlow(conduitType));
 			UpdateNotifications();
 		}
 		private void Consume(float dt, IConduitFlow iConMng)

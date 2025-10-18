@@ -52,8 +52,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProces
 			ManualDeliveryKG manualDeliveryKg = go.AddComponent<ManualDeliveryKG>();
 			manualDeliveryKg.SetStorage(storage);
 			manualDeliveryKg.RequestedItemTag = SimHashes.Yellowcake.CreateTag();
-			manualDeliveryKg.capacity = 500f;
-			manualDeliveryKg.refillMass = 100f;
+			manualDeliveryKg.capacity = 100f;
+			manualDeliveryKg.refillMass = 20f;
 			manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.PowerFetch.IdHash;
 
 			ElementConverter elementConverter = go.AddOrGet<ElementConverter>();

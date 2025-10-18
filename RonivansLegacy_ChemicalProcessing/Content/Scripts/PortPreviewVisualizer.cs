@@ -51,7 +51,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			Sprite previewSpriteOut = Assets.GetSprite("aio_conduit_output_preview");
 
 			var ports = PortController.GetAllPorts();
-			SgtLogger.l("port count: " + ports.Count);	
+			//SgtLogger.l("port count: " + ports.Count);	
 
 			foreach (PortDisplay2 port in ports)
 			{

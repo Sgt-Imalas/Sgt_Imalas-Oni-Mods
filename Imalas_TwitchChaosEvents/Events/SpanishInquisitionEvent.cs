@@ -67,8 +67,8 @@ namespace Imalas_TwitchChaosEvents.Events
 			SpawnInquisitionMember(STRINGS.CHAOSEVENTS.SPANISHINQUISITION.INQUISITION_MEMBER_2, Grid.CellLeft(centerCell));
 			SpawnInquisitionMember(STRINGS.CHAOSEVENTS.SPANISHINQUISITION.INQUISITION_MEMBER_3, Grid.CellRight(centerCell));
 
-
-			SoundUtils.PlaySound(ModAssets.SOUNDS.SPANISH_INQUISITION, SoundUtils.GetSFXVolume() * 1.0f, true);
+			if(Config.Instance.SpanishInquisitionFX)
+				SoundUtils.PlaySound(ModAssets.SOUNDS.SPANISH_INQUISITION, SoundUtils.GetSFXVolume() * 1.0f, true);
 
 			ToastManager.InstantiateToastWithPosTarget(STRINGS.CHAOSEVENTS.SPANISHINQUISITION.TOAST, STRINGS.CHAOSEVENTS.SPANISHINQUISITION.TOASTTEXT, bossGO.transform.position);
 		};

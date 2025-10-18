@@ -35,11 +35,7 @@ namespace UtilLibs.BuildingPortUtils
 			else
 			{
 				// none given. Use defaults
-				var resources = BuildingCellVisualizerResources.Instance();
-				var ioColors = type == ConduitType.Gas ? resources.gasIOColours : resources.liquidIOColours;
-				var colorSet = input ? ioColors.input : ioColors.output;
-
-				this.color = colorSet.connected;
+				this.color = SharedConduitUtils.GetIOColor(input,type);
 			}
 		}
 	}

@@ -384,12 +384,15 @@ namespace Imalas_TwitchChaosEvents
 		}
 		public class CHAOS_CONFIG
 		{
+			public static LocString CATEGORY_COPYRIGHT = "Copyrightable Sounds";
+			public static LocString CATEGORY_COPYRIGHT_TOOLTIP = "Disable this Checkbox to mute the sound";
 
-			public static LocString TACORAIN_MUSIC_NAME = "Music on Taco Rain Event";
-			public static LocString TACORAIN_MUSIC_TOOLTIP = "During the twitch event \"Taco Rain\", the song \"Raining Tacos - Parry Gripp & BooneBum\" gets played.\nDisable this option here to mute it.";
 
-			public static LocString FAKE_TACORAIN_MUSIC_NAME = "Music on triggerable ghostly Taco Rain";
-			public static LocString FAKE_TACORAIN_MUSIC_TOOLTIP = "During the triggerable Taco Rain the song \"Raining Tacos - Parry Gripp & BooneBum\" gets played.\nDisable this option here to mute it.";
+			public static LocString SPANISH_INQUISITION = "\"Nobody expects the Spanish Inquisition\" by Monthy Python";
+			public static LocString TACORAIN_MUSIC = "\"Raining Tacos\" by Parry Gripp & BooneBum";
+			public static LocString FAKE_TACORAIN_MUSIC = "\"Raining Tacos\" (Triggerable Taco Rain)";
+			public static LocString JURASSICPARK_MUSIC = "\"Jurassic Park Theme w. Harmonica\" by deadcraigfinn & headowardo";
+
 
 			public static LocString FAKE_TACORAIN_DURATION_NAME = "triggerable ghostly Taco Rain duration in s";
 			public static LocString FAKE_TACORAIN_DURATION_TOOLTIP = "How long should the triggerable Taco Rain last (in seconds).";

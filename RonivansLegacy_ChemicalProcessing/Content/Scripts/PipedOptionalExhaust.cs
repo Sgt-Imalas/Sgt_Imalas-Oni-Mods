@@ -24,6 +24,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		[SerializeField]
 		public Storage storage;
 
+		[SerializeField]
+		public float emissionRate = 25f;
+
+		[SerializeField]
+		public float OverpressureThreshold = float.MaxValue;
+
 		[MyCmpGet] ComplexFabricator complexfab;
 
 		private Operational.Flag outputFlag;
@@ -62,7 +68,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			string operationalFlag = "output_blocked_";
 			if (elementTag != null)
 				operationalFlag += elementTag.ToString();
-			operationalFlag += "_"+ capacity;
+			operationalFlag += "_" + capacity;
 			operationalFlag += "_" + dispenser.conduitType.ToString();
 			operationalFlag += "_" + dispenser.conduitOffset.ToString();
 
@@ -73,39 +79,47 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		public void Sim200ms(float dt)
 		{
 			GameObject storedObject = this.storage.FindFirst(elementTag);
-			PrimaryElement component = null;
+			PrimaryElement primaryElement = null;
 			float stored = 0f;
-			if (storedObject != null)
+			if(storedObject != null && storedObject.TryGetComponent<PrimaryElement>(out primaryElement))
 			{
-				component = storedObject.GetComponent<PrimaryElement>();
-				stored = component.Mass;
+				stored = primaryElement.Mass;
 			}
 
+			int outputCell = dispenser.UtilityCell;
+			bool allowedToSpill = (dispenser == null || !dispenser.IsConnected) && Grid.Mass[outputCell] < OverpressureThreshold;
 
-			bool allowedToSpill = (dispenser == null || !dispenser.IsConnected);
 			if (stored > 0f && allowedToSpill)
 			{
-				Element element = component.Element;
-				float temperature = component.Temperature;
-				int disease = component.DiseaseCount;
-				byte idx = component.DiseaseIdx;
+				float dispenseAmount = Mathf.Min(emissionRate * dt, stored);
 
-				int outputCell = dispenser.UtilityCell;
-
-				if (element.IsGas || element.IsLiquid)
+				if (dispenseAmount < stored && storedObject.TryGetComponent<Pickupable>(out var pickupable))
 				{
-					SimMessages.ReplaceAndDisplaceElement(outputCell, element.id, SpawnEvent, stored, temperature, idx, disease);
+					storedObject = pickupable.Take(dispenseAmount).gameObject;
+					primaryElement = storedObject.GetComponent<PrimaryElement>();
+				}
+
+				Element element = primaryElement.Element;
+				float temperature = primaryElement.Temperature;
+				int disease = primaryElement.DiseaseCount;
+				byte idx = primaryElement.DiseaseIdx;
+
+				if (element.IsGas
+					//|| element.IsLiquid
+					)
+				{
+					SimMessages.ReplaceAndDisplaceElement(outputCell, element.id, SpawnEvent, dispenseAmount, temperature, idx, disease);
 				}
 				else if (element.IsLiquid)
 				{
-					FallingWater.instance.AddParticle(outputCell, element.idx, stored, temperature, idx, disease, true);
+					FallingWater.instance.AddParticle(outputCell, element.idx, dispenseAmount, temperature, idx, disease, true);
 				}
 				else
 				{
-					element.substance.SpawnResource(Grid.CellToPosCCC(outputCell, Grid.SceneLayer.Ore), stored, temperature, idx, disease, true, false, false);
+					element.substance.SpawnResource(Grid.CellToPosCCC(outputCell, Grid.SceneLayer.Ore), dispenseAmount, temperature, idx, disease, true, false, false);
 				}
 				storage.ConsumeIgnoringDisease(storedObject);
-				stored = 0f;
+				stored -= dispenseAmount;
 			}
 			if (capacity <= 0)
 				return;

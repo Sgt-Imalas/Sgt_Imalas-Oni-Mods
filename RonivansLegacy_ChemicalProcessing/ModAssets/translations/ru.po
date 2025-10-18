@@ -700,6 +700,22 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AD
 msgid "<link=\"CHEMICALADVANCEDMETALREFINERY\">Advanced Metal Refinery</link>"
 msgstr "<link=\"CHEMICALADVANCEDMETALREFINERY\">Продвинутый металлургический станок</link>"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AIO_CHLORINEPUMP.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AIO_CHLORINEPUMP.DESC"
+msgid "A fancy pump capable to detect Chlorine Gas and pump it."
+msgstr "Необычный насос, способный обнаруживать газообразный хлор и откачивать его."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AIO_CHLORINEPUMP.EFFECT
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AIO_CHLORINEPUMP.EFFECT"
+msgid "Automatically detects trace of <link=\"CHLORINEGAS\">Chlorine Gas</link> and extract it out of the surroudings."
+msgstr "Автоматически обнаруживает следы <link=\"CHLORINEGAS\">хлорного газа</link> и извлекает их из окружающей среды."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AIO_CHLORINEPUMP.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AIO_CHLORINEPUMP.NAME"
+msgid "<link=\"CHEMICALAIOCHLORINEPUMP\">Chlorine Gas Filter</link>"
+msgstr "<link=\"CHEMICALAIOCHLORINEPUMP\">Фильтр хлорного газа</link>"
+
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AMMONIABREAKER.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AMMONIABREAKER.DESC"
 msgid "An advanced catalytic cracking furnace which the ammonia synthesis reaction is reversed at elevated temperatures."
@@ -771,12 +787,12 @@ msgstr "<link=\"CHEMICALCARBONDIOXIDECOMPRESSOR\">Компрессор угле�
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CO2PUMP.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CO2PUMP.DESC"
 msgid "A fancy pump capable to detects Carbon Dioxide and pump it."
-msgstr "Необычный насос, способный обнаруживать углекислый газ и перекачивать его."
+msgstr "Необычный насос, способный обнаруживать углекислый газ и откачивать его."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CO2PUMP.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CO2PUMP.EFFECT"
 msgid "Automatically detects trace of <link=\"CARBONDIOXIDE\">Carbon Dioxide</link> and extract it out of the surroudings."
-msgstr "Автоматически обнаруживает следы <link=\"CARBONDIOXIDE\">углекислого газа</link> и извлекает его из окружающей среды."
+msgstr "Автоматически обнаруживает следы <link=\"CARBONDIOXIDE\">углекислого газа</link> и извлекает их из окружающей среды."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CO2PUMP.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CO2PUMP.NAME"

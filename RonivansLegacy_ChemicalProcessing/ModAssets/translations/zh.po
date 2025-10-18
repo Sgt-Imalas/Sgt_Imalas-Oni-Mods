@@ -35,7 +35,7 @@ msgstr "改进型发电机"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.CUSTOMRESERVOIRS
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.CUSTOMRESERVOIRS"
 msgid "Custom Reservoirs"
-msgstr "改进型储液库"
+msgstr "改进型储存罐"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.DUPESENGINEERING
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.DUPESENGINEERING"
@@ -60,7 +60,7 @@ msgstr "复制人的新冰箱"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.HIGHPRESSUREAPPLICATIONS"
 msgid "High Pressure Applications"
-msgstr "高压运输系统"
+msgstr "高压应用学"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.MINERALPROCESSING_METALLURGY
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.MINERALPROCESSING_METALLURGY"
@@ -1296,7 +1296,7 @@ msgstr ""
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SOURWATERSTRIPPER.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SOURWATERSTRIPPER.NAME"
 msgid "<link=\"CHEMICALSOURWATERSTRIPPER\">Sour Water Stripper</link>"
-msgstr "<link=\"CHEMICALSOURWATERSTRIPPER\">酸水脱除器</link>"
+msgstr "<link=\"CHEMICALSOURWATERSTRIPPER\">酸水脱硫器</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SYNGASREFINERY.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SYNGASREFINERY.DESC"
@@ -3255,7 +3255,7 @@ msgstr "周期性喷发<link=\"LIQUIDAMMONIA\">液态氨</link>的高压低温�
 #. RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.AMMONIAGEYSER.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.AMMONIAGEYSER.NAME"
 msgid "<link=\"GEYSERGENERICAMMONIAGEYSER\">Ammonia Geyser</link>"
-msgstr "<link=\"GEYSERGENERICAMMONIAGEYSER\">液态氨间歇泉</link>"
+msgstr "<link=\"GEYSERGENERICAMMONIAGEYSER\">液氨泉</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.AMMONIUMWATERGEYSER.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.AMMONIUMWATERGEYSER.DESC"
@@ -3265,7 +3265,7 @@ msgstr "周期性喷发<link=\"AMMONIUMWATER\">氨水</link>的高压低温喷�
 #. RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.AMMONIUMWATERGEYSER.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.AMMONIUMWATERGEYSER.NAME"
 msgid "<link=\"GEYSERGENERICAMMONIUMWATERGEYSER\">Ammonium Water Geyser</link>"
-msgstr "<link=\"GEYSERGENERICAMMONIUMWATERGEYSER\">氨水间歇泉</link>"
+msgstr "<link=\"GEYSERGENERICAMMONIUMWATERGEYSER\">氨水泉</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.HOTMERCURYGASVENT.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.HOTMERCURYGASVENT.DESC"
@@ -3275,7 +3275,7 @@ msgstr "周期性喷发<link=\"MERCURYGAS\">气态汞</link>高温高压喷孔�
 #. RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.HOTMERCURYGASVENT.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.HOTMERCURYGASVENT.NAME"
 msgid "<link=\"GEYSERGENERICHOTMERCURYGASVENT\">Hot Mercury Gas Vent</link>"
-msgstr "<link=\"GEYSERGENERICHHOTMERYGASVENT\">高温汞蒸汽喷孔</link>"
+msgstr "<link=\"GEYSERGENERICHHOTMERYGASVENT\">高温汞汽喷孔</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.MOLTENSALTGEYSER.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.MOLTENSALTGEYSER.DESC"
@@ -3285,7 +3285,7 @@ msgstr "周期性喷发<link=\"MOLTENSALT\">熔融盐</link>的高压高温地�
 #. RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.MOLTENSALTGEYSER.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.MOLTENSALTGEYSER.NAME"
 msgid "<link=\"GEYSERGENERICMOLTENSALTGEYSER\">Molten Salt Geyser</link>"
-msgstr "<link=\"GEYSERGENERICMOLTENSALTGEYSER\">熔融盐间歇泉</link>"
+msgstr "<link=\"GEYSERGENERICMOLTENSALTGEYSER\">熔盐火山</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.NITROGENVENT.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.NITROGENVENT.DESC"
@@ -3305,7 +3305,7 @@ msgstr "周期性喷发<link=\"LIQUIDPHOSPHORUS\">液态磷</link>的高压高�
 #. RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.PHOSPHORUSGEYSER.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.PHOSPHORUSGEYSER.NAME"
 msgid "<link=\"GEYSERGENERICPHOSPHORUSGEYSER\">Liquid Phosphorus Geyser</link>"
-msgstr "<link=\"GEYSERGENERICPHOSPHORUSGEYSER\">液态磷间歇泉</link>"
+msgstr "<link=\"GEYSERGENERICPHOSPHORUSGEYSER\">液磷泉</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.RAWGASVENT.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.RAWGASVENT.DESC"
@@ -3325,7 +3325,7 @@ msgstr "周期性喷发<link=\"SOURWATER\">酸水</link>的低温高压喷泉。
 #. RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.SOURWATERGEYSER.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.SOURWATERGEYSER.NAME"
 msgid "<link=\"GEYSERGENERICSOURWATERGEYSER\">Sour Water Geyser</link>"
-msgstr "<link=\"GEYSERGENERICSOURWATERYSER\">酸水间歇泉</link>"
+msgstr "<link=\"GEYSERGENERICSOURWATERYSER\">酸水泉</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.DUPLICANTS.STATUSITEMS.ACIDBURNS.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.DUPLICANTS.STATUSITEMS.ACIDBURNS.NAME"
