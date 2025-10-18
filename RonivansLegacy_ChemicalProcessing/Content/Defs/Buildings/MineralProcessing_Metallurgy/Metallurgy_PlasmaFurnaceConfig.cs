@@ -120,16 +120,17 @@ namespace Metallurgy.Buildings
 			exhaustGlass.dispenser = mainOutputPort;
 			exhaustGlass.elementTag = SimHashes.MoltenGlass.CreateTag();
 			exhaustGlass.capacity = 100f;
+			exhaustGlass.emissionRate = 50f;
 
 			PipedOptionalExhaust exhaustMoltenMetals = go.AddComponent<PipedOptionalExhaust>();
 			exhaustMoltenMetals.dispenser = mainOutputPort;
 			exhaustMoltenMetals.elementTag = GameTags.RefinedMetal;
 			exhaustMoltenMetals.capacity = 100f;
+			exhaustMoltenMetals.emissionRate = 100f;
 
 			PipedConduitDispenser wasteOutputPort = go.AddComponent<PipedConduitDispenser>();
 			wasteOutputPort.storage = furnace.outStorage;
-			wasteOutputPort.tagFilter = [GameTags.Glass, GameTags.RefinedMetal];
-			wasteOutputPort.invertElementFilter = true;
+			wasteOutputPort.elementFilter = [ModElements.Slag_Liquid];
 			wasteOutputPort.AssignPort(WasteOutputPort);
 			wasteOutputPort.alwaysDispense = true;
 			wasteOutputPort.SkipSetOperational = true;
