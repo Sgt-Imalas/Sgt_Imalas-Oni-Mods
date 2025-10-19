@@ -516,7 +516,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			BuildingManager.CreateEntry<MosaicTileConfig>()
 				.AddToCategory(PlanMenuCategory.Base, CarpetTileConfig.ID).ForceCategory()
-				.AddToTech(Technology.Decor.HomeLuxuries)
+				.AddToTech(Technology.Decor.RenaissanceArt)
 				.AddModFrom(SourceModInfo.DupesEngineering);
 
 			BuildingManager.CreateEntry<MonoElementTileConfig>()
