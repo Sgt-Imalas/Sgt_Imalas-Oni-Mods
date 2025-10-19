@@ -102,7 +102,7 @@ namespace UtilLibs.BuildingPortUtils
 			static string portText = "";
 			static Sprite portSprite;
 			static Color portColor = Color.white;
-			static TextStylePair Styles_Instruction;
+			static TextStyleSetting textStyle = null;
 
 			public static void PatchAll(Harmony harmony)
 			{
@@ -126,7 +126,19 @@ namespace UtilLibs.BuildingPortUtils
 			}
 			static void HoverTextConfiguration_UpdateHoverElements_Prefix(SelectToolHoverTextCard __instance, List<KSelectable> hoverObjects)
 			{
-				Styles_Instruction = __instance.Styles_Instruction;
+				if (textStyle == null)
+				{
+					var existingFontStyle = __instance.Styles_BodyText.Standard;
+					textStyle = new TextStyleSetting()
+					{
+						sdfFont = existingFontStyle.sdfFont,
+						fontSize = existingFontStyle.fontSize,
+						textColor = existingFontStyle.textColor,
+						style = existingFontStyle.style,
+						enableWordWrapping = existingFontStyle.enableWordWrapping
+					};
+					textStyle.fontSize = 16;
+				}
 
 				int mouseCell = Grid.PosToCell(Camera.main.ScreenToWorldPoint(KInputManager.GetMousePos()));
 				if (OverlayScreen.Instance == null || !Grid.IsValidCell(mouseCell))
@@ -148,8 +160,8 @@ namespace UtilLibs.BuildingPortUtils
 				AddAny = false;
 
 				__instance.BeginShadowBar();
-				__instance.DrawIcon(portSprite, portColor);
-				__instance.DrawText(portText, Styles_Instruction.Standard);
+				__instance.DrawIcon(portSprite, portColor, 23);
+				__instance.DrawText(portText, textStyle);
 				__instance.EndShadowBar();
 			}
 		}
