@@ -474,9 +474,18 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			AddPrefefinedExpellerPressRecipe(KelpConfig.ID, 6, 3.65f, 10);
 
 			///Dupes Cuisine Integration
-			string sunnyGrainId = "SunnyWheat_Grain";
-			string kakawaId = "Kakawa_Acorn";
-			if(Assets.TryGetPrefab(sunnyGrainId))
+			string sunnyGrainId = "SunnyWheatSeed";
+			string kakawaId = "KakawaTreeSeed";
+
+			///identical to sleet wheat
+			if (Assets.TryGetPrefab(sunnyGrainId))
+				AddPrefefinedExpellerPressRecipe(sunnyGrainId, 2f, 1.25f);
+
+			///made into butter, very high fat yield, total wattage ~33% higher than sweatcorn
+			if (Assets.TryGetPrefab(kakawaId))
+				AddPrefefinedExpellerPressRecipe(kakawaId, 4.9f, 1.4f);
+			else
+				SgtLogger.warning("Could not find Dupes Cuisine, not adding any of its plants to expeller press.");
 
 
 
@@ -489,7 +498,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				float biomass = data.second;
 				float ingredientmass = data.third;
 
-				//SgtLogger.l("Creating Expeller Press Recipe: " + ingredient + ": oil->" + oil + " biomass->" + biomass);
+				SgtLogger.l("Creating Expeller Press Recipe: " + ingredient + ": oil->" + oil + " biomass->" + biomass);
 
 				RecipeBuilder.Create(ID, 25)
 					.Input(ingredient, ingredientmass)
