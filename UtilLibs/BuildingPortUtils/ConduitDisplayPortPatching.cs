@@ -128,7 +128,7 @@ namespace UtilLibs.BuildingPortUtils
 			{
 				if (textStyle == null)
 				{
-					var existingFontStyle = __instance.Styles_BodyText.Standard;
+					var existingFontStyle = __instance.Styles_Title.Standard;
 					textStyle = new TextStyleSetting()
 					{
 						sdfFont = existingFontStyle.sdfFont,
@@ -160,7 +160,7 @@ namespace UtilLibs.BuildingPortUtils
 				AddAny = false;
 
 				__instance.BeginShadowBar();
-				__instance.DrawIcon(portSprite, portColor, 23);
+				__instance.DrawIcon(portSprite, portColor, 20);
 				__instance.DrawText(portText, textStyle);
 				__instance.EndShadowBar();
 			}
