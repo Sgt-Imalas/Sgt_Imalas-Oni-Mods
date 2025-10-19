@@ -31,7 +31,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.Overheatable = false;
 			buildingDef.RequiresPowerInput = true;
 			buildingDef.EnergyConsumptionWhenActive = 1200f;
-			buildingDef.ExhaustKilowattsWhenActive = 24f;
+			buildingDef.ExhaustKilowattsWhenActive = 100f;
 			buildingDef.SelfHeatKilowattsWhenActive = 8f;
 			buildingDef.AudioCategory = "Metal";
 			buildingDef.PermittedRotations = PermittedRotations.FlipH;
