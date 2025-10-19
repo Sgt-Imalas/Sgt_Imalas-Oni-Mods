@@ -8,6 +8,16 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
 	public class RefinementRecipeHelper
 	{
+		public static HashSet<SimHashes> GetCombustableSolidsWithWood()
+		{
+			return [.. GetCombustibleSolids(), SimHashes.WoodLog];
+		}
+
+		public static HashSet<SimHashes> GetCombustibleSolids()
+		{
+			return [SimHashes.Carbon, SimHashes.Peat, SimHashes.RefinedCarbon];
+		}
+
 		public static HashSet<SimHashes> GetSpecialOres()
 		{
 			//those elements have special conversion rates, for all others its the same
