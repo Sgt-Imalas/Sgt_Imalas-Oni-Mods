@@ -145,6 +145,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 		public static void RegisterSubstances(List<Substance> list)
 		{
+			var oreMaterial = list.Find(e => e.elementID == SimHashes.Cuprite).material;
 			ChemicalProcessing_IO_Elements = new HashSet<Substance>()
 			{
 				BaseGradeSand_Solid.CreateSubstanceFromElementTinted(SimHashes.FoolsGold),
@@ -159,7 +160,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				AmmoniumWater_Liquid.CreateSubstance(),
 
 				Argentite_Solid.CreateSubstanceFromElementTinted(SimHashes.Electrum, SILVER_COLOR),
-				Aurichalcite_Solid.CreateSubstanceFromElementTinted(SimHashes.Lead),
+				//Aurichalcite_Solid.CreateSubstanceFromElementTinted(SimHashes.Lead),
+				Aurichalcite_Solid.CreateSubstance(true,oreMaterial),
 				Borax_Solid.CreateSubstanceFromElementTinted(SimHashes.SolidCarbonDioxide),
 				Brass_Solid.CreateSubstanceFromElementTinted(SimHashes.Aluminum),
 				CarbonFiber_Solid.CreateSubstanceFromElementTinted(SimHashes.Algae),
@@ -514,6 +516,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			// adding combustible solid tag to coal and peat
 			AddTagToElementAndEnable(SimHashes.Carbon, GameTags.CombustibleSolid);
+			AddTagToElementAndEnable(SimHashes.RefinedCarbon, GameTags.CombustibleSolid);
 			AddTagToElementAndEnable(SimHashes.Peat, GameTags.CombustibleSolid);
 		}
 		static void AddTagToElementAndEnable(SimHashes element, Tag? tag = null, bool setMatCat = false) => AddTagsToElementAndEnable(element, tag.HasValue ? [tag.Value] : null, setMatCat);
