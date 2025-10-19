@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using KSerialization;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
 using System.Collections.Generic;
@@ -26,10 +27,10 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 	{
 		//--[ Base Information ]-----------------------------------------------
 		public static string ID = "Chemical_Gas_Boiler";
-		
+
 		//--[ Special Settings ]-----------------------------------------------
-		private static readonly PortDisplayInput combustibleGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(0, 0),null, new Color32(255, 114, 33, 255));
-		private static readonly PortDisplayOutput steamOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(0, 3),null, new Color32(167, 180, 201, 255));
+		private static readonly PortDisplayInput combustibleGasInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(0, 0), null, new Color32(255, 114, 33, 255));
+		private static readonly PortDisplayOutput steamOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(0, 3), null, new Color32(167, 180, 201, 255));
 		private static readonly PortDisplayOutput co2Port = new PortDisplayOutput(ConduitType.Gas, new CellOffset(-1, 2), null, UIUtils.rgb(6, 62, 42));
 
 
@@ -50,7 +51,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(-1, 0));
 			List<LogicPorts.Port> list1 = new List<LogicPorts.Port>();
 			list1.Add(LogicPorts.Port.OutputPort(SmartReservoir.PORT_ID, new CellOffset(1, 0), (string)STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.LOGIC_PORT, (string)STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.LOGIC_PORT_ACTIVE, (string)STRINGS.BUILDINGS.PREFABS.SMARTRESERVOIR.LOGIC_PORT_INACTIVE, false, false));
-			buildingDef.LogicOutputPorts = list1; 
+			buildingDef.LogicOutputPorts = list1;
 			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.LiquidVentIDs, ID);
 			SoundUtils.CopySoundsToAnim("gas_boiler_kanim", "generatorphos_kanim");
 
@@ -88,13 +89,28 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			combustibleGasInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 			combustibleGasInput.AssignPort(combustibleGasInputPort);
 
+			//base value wattage: 850W, 2kg pump rate
+			CustomizeBuildings.TryGetSteamTurbineWattageAndPumpRate(out float wattage, out float pumpRate);
+			float conversionRate = 4f;
+			float totalSTOutputWattage = wattage * (conversionRate / pumpRate); //default: 850W * (4kg/2kg) = 1700W/1
+			float efficiencyGain = 1.5f; //50% more efficient than nat gas generator
+			float targetWattage = totalSTOutputWattage / efficiencyGain; //1700W / 1.5 = ~1133.33W
+
+			float vanillaGeneratorConsumption = MethaneGeneratorConfig.FUEL_CONSUMPTION_RATE;
+			float vanillaGeneratorWattage = 800f;
+
+			float fuelConsumptionRate = vanillaGeneratorConsumption * (targetWattage / vanillaGeneratorWattage);
+
+			float pWaterProductionRate = 0.75f; // 67.5g / 90gg = 0.75x
+			float pWaterProduced = fuelConsumptionRate * pWaterProductionRate; // fuel rate * 0.75
+
 			//-----[ Element Converter Section ]---------------------------------
 			ElementConverter converter = go.AddOrGet<ElementConverter>();
 			converter.consumedElements = [
-				new ElementConverter.ConsumedElement(GameTags.CombustibleGas, 0.09f*1.125f), //50% efficiency bonus: 1350W of steam for 900W natgas gen combustable gas; 
-				new ElementConverter.ConsumedElement(SimHashes.Water.CreateTag(), 4f) ];
+				new ElementConverter.ConsumedElement(GameTags.CombustibleGas,   fuelConsumptionRate), //50% efficiency bonus
+				new ElementConverter.ConsumedElement(SimHashes.Water.CreateTag(), conversionRate - pWaterProduced)];
 			converter.outputElements = [
-				new(4f, SimHashes.Steam, UtilMethods.GetKelvinFromC(200), false, true, 0f, 0.5f, 0.75f, 0xff, 0),
+				new(conversionRate, SimHashes.Steam, UtilMethods.GetKelvinFromC(200), false, true, 0f, 0.5f, 0.75f, 0xff, 0),
 				new(0.2f ,SimHashes.CarbonDioxide,UtilMethods.GetKelvinFromC(110),false, true,-1,2)
 				];
 			//-------------------------------------------------------------------
@@ -148,5 +164,5 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			go.GetComponent<KPrefabID>().AddTag(GameTags.OverlayBehindConduits, false);
 		}
 
-	}	
+	}
 }

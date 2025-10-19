@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using KSerialization;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
 using System.Collections.Generic;
@@ -79,22 +80,39 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			waterInput.forceAlwaysSatisfied = true;
 			waterInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 
-			PortConduitConsumer combustibleGasInput = go.AddComponent<PortConduitConsumer>();
-			combustibleGasInput.conduitType = ConduitType.Liquid;
-			combustibleGasInput.consumptionRate = 10f;
-			combustibleGasInput.capacityKG = 30f;
-			combustibleGasInput.capacityTag = GameTags.CombustibleLiquid;
-			combustibleGasInput.forceAlwaysSatisfied = true;
-			combustibleGasInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
-			combustibleGasInput.AssignPort(combustibleLiquidInputPort);
+			PortConduitConsumer combustibleLiquidInput = go.AddComponent<PortConduitConsumer>();
+			combustibleLiquidInput.conduitType = ConduitType.Liquid;
+			combustibleLiquidInput.consumptionRate = 10f;
+			combustibleLiquidInput.capacityKG = 30f;
+			combustibleLiquidInput.capacityTag = GameTags.CombustibleLiquid;
+			combustibleLiquidInput.forceAlwaysSatisfied = true;
+			combustibleLiquidInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
+			combustibleLiquidInput.AssignPort(combustibleLiquidInputPort);
+
+
+
+			//base value wattage: 850W, 2kg pump rate
+			CustomizeBuildings.TryGetSteamTurbineWattageAndPumpRate(out float wattage, out float pumpRate);
+			float conversionRate = 4f;
+			float totalSTOutputWattage = wattage * (conversionRate / pumpRate); //default: 850W * (4kg/2kg) = 1700W/1
+			float efficiencyGain = 1.5f; //50% more efficient than vanilla generator
+			float targetWattage = totalSTOutputWattage / efficiencyGain; //1700W / 1.5 = ~1133.33W
+
+			float vanillaGeneratorConsumption = PetroleumGeneratorConfig.CONSUMPTION_RATE;
+			float vanillaGeneratorWattage = 2000f;
+
+			float fuelConsumptionRate = vanillaGeneratorConsumption * (targetWattage / vanillaGeneratorWattage);
+
+			float pWaterProductionRate = PetroleumGeneratorConfig.EXHAUST_LIQUID_RATE / vanillaGeneratorConsumption; // 0.75kg / 2kg = 0.375x
+			float pWaterProduced = fuelConsumptionRate * pWaterProductionRate; // fuel rate * 0.375x
 
 			//-----[ Element Converter Section ]---------------------------------
 			ElementConverter converter = go.AddOrGet<ElementConverter>();
 			converter.consumedElements = [
-				new ElementConverter.ConsumedElement(GameTags.CombustibleLiquid, 0.9f), //50% efficiency bonus: 1350W of steam for 900W petrol gen gen combustable liquid; 
-				new ElementConverter.ConsumedElement(SimHashes.Water.CreateTag(), 4f) ];
+				new ElementConverter.ConsumedElement(GameTags.CombustibleLiquid, fuelConsumptionRate), //50% efficiency bonus
+				new ElementConverter.ConsumedElement(SimHashes.Water.CreateTag(), conversionRate - pWaterProduced) ];
 			converter.outputElements = [
-				new(4f, SimHashes.Steam, UtilMethods.GetKelvinFromC(200), false, true, 0f, 0.5f, 0.75f, 0xff, 0),
+				new(conversionRate, SimHashes.Steam, UtilMethods.GetKelvinFromC(200), false, true, 0f, 0.5f, 0.75f, 0xff, 0),
 				new(0.3375f,SimHashes.CarbonDioxide,UtilMethods.GetKelvinFromC(110),false, true,-1,2)
 				];
 			//-------------------------------------------------------------------
