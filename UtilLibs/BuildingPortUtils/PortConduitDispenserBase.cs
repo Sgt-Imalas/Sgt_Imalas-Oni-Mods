@@ -135,7 +135,7 @@ namespace UtilLibs.BuildingPortUtils
 		private void OnConduitConnectionChanged(object data)
 		{
 			IsConnected_Cache = this.IsConnected;
-			base.Trigger(-2094018600, IsConnected_Cache);
+			base.Trigger((int)GameHashes.ConduitConnectionChanged, IsConnected_Cache);
 			UpdateNotifications(false);
 			if (GetSolidConduitCapacityTarget != null)
 			{
@@ -155,8 +155,9 @@ namespace UtilLibs.BuildingPortUtils
 			this.networkItem = new FlowUtilityNetwork.NetworkItem(this.conduitType, Endpoint.Source, this.utilityCell, base.gameObject);
 			GetConduitMng(conduitType).AddToNetworks(this.utilityCell, this.networkItem, true);
 
-			ScenePartitionerLayer layer = GameScenePartitioner.Instance.objectLayers[(this.conduitType != ConduitType.Gas) ? 16 : 12];
-			this.partitionerEntry = GameScenePartitioner.Instance.Add("ConduitConsumer.OnSpawn", base.gameObject, this.utilityCell, layer, new Action<object>(this.OnConduitConnectionChanged));
+			int layerInt = GetConduitLayer(conduitType);
+			ScenePartitionerLayer layer = GameScenePartitioner.Instance.objectLayers[layerInt];
+			this.partitionerEntry = GameScenePartitioner.Instance.Add("ConduitConsumer.OnSpawn", base.gameObject, this.utilityCell, layer, OnConduitConnectionChanged);
 			GetConduitFlow(conduitType).AddConduitUpdater(new Action<float>(this.ConduitUpdate), ConduitFlowPriority.LastPostUpdate);
 			this.OnConduitConnectionChanged(null);
 			UpdateNotifications(false);

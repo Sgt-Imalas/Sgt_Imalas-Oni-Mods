@@ -90,8 +90,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			CustomizeBuildings.TryGetSteamTurbineWattageAndPumpRate(out float wattage, out float pumpRate);
 			float conversionRate = 4f;
 			float totalSTOutputWattage = wattage * (conversionRate / pumpRate); //default: 850W * (4kg/2kg) = 1700W/1
-			float efficiencyGain = 2.5f; //150% more efficient than vanilla generator (wood needs that extra boost)
-			float targetWattage = totalSTOutputWattage / efficiencyGain; //1700W / 3 = ~1133.33W
+			float efficiencyGain = 4.0f; //4x more efficient than vanilla generator (wood needs that extra boost, its very bad in base game and competes with wood->syngas recipe)
+			float targetWattage = totalSTOutputWattage / efficiencyGain; 
 
 			float vanillaGeneratorConsumption = WoodGasGeneratorConfig.CONSUMPTION_RATE;
 			float vanillaGeneratorWattage = 300f;

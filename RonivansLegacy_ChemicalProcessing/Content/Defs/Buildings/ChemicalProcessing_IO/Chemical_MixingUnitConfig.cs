@@ -40,6 +40,23 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Description2I1O(CHEMICAL_MIXINGUNIT_2_1)
 				.Build();
 
+
+			///  HNO3 + NH3 → NH4NO3
+			///  63g/mol + 17g/mol → 80g/mol
+
+			///using nitric acid recipe inputs and ammonia to make ammonium nitrate
+			///63* 2/5 for nitrogen gas = 25.2
+			///63* 3/5 for water = 37.8
+
+			RecipeBuilder.Create(ID, 25)
+				.Input(ModElements.Nitrogen_Gas, 25.2f)
+				.Input(SimHashes.Water, 37.8f)
+				.Input(ModElements.Ammonia_Gas, 17)
+				.Output(ModElements.AmmoniumSalt_Solid, 80)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+				.Description(CHEMICAL_MIXINGUNIT_3_1,3,1)
+				.Build();
+
 			RecipeBuilder.Create(ID, 20)
 				.Input(ModElements.Nitrogen_Gas, 20)
 				.Input(SimHashes.Water, 30)

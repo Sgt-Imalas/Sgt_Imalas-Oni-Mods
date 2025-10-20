@@ -140,6 +140,11 @@ namespace Metallurgy.Buildings
 			exhaustMoltenSlag.elementTag = ModElements.Slag_Liquid.Tag;
 			exhaustMoltenSlag.capacity = 100f;
 
+			PipedOptionalExhaust exhaustMagma = go.AddComponent<PipedOptionalExhaust>();
+			exhaustMagma.dispenser = wasteOutputPort;
+			exhaustMagma.elementTag = SimHashes.Magma.CreateTag();
+			exhaustMagma.capacity = 100f;
+			exhaustMagma.emissionRate = 100f;
 
 			this.AttachPort(go);
 			Prioritizable.AddRef(go);
