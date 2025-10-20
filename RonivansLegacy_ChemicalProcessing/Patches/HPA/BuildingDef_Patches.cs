@@ -62,7 +62,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		{
 			public static void Postfix(BuildingDef __instance, int cell, GameObject source_go, Orientation orientation, ref string fail_reason, ref bool __result)
 			{	
-				SgtLogger.l("IsValidBuildLocation called for " + __instance.Name + " at cell " + cell+", can build: "+ __result+", reason: "+fail_reason+", isReplacable: "+ReplacableReason(fail_reason));
+				//SgtLogger.l("IsValidBuildLocation called for " + __instance.Name + " at cell " + cell+", can build: "+ __result+", reason: "+fail_reason+", isReplacable: "+ReplacableReason(fail_reason));
 				if (!__result && ReplacableReason(fail_reason) && (StructuralTileMarker.TileAtCell(cell) || __instance.BuildingComplete.TryGetComponent<StructuralTileMarker>(out _)))
 				{
 					fail_reason = "";

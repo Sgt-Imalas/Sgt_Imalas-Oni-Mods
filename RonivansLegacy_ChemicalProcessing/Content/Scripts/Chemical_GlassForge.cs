@@ -26,26 +26,32 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		public override void OnPrefabInit()
 		{
 			base.OnPrefabInit();
-			Subscribe(-2094018600, CheckPipesDelegate);
+			Subscribe((int)GameHashes.ConduitConnectionChanged, CheckPipesDelegate);
+		}
+		public override void OnSpawn()
+		{
+			base.OnSpawn();
+			CheckPipes(null);
 		}
 		public override void OnCleanUp()
 		{
 			base.OnCleanUp();
-			Unsubscribe(-2094018600, CheckPipesDelegate);
+			Unsubscribe((int)GameHashes.ConduitConnectionChanged, CheckPipesDelegate);
 		}
 
-		public void CheckPipes(object data)
+		public void CheckPipes(object _)
 		{
 			KSelectable component = GetComponent<KSelectable>();
 			int cell = Grid.OffsetCell(Grid.PosToCell(this), HeatedOutputOffset);
-			GameObject primaryPipe = Grid.Objects[cell, 16];
+			int pipeLayer = (int)ObjectLayer.LiquidConduit;
+			GameObject primaryPipe = Grid.Objects[cell, pipeLayer];
 			bool setStatusItem = false;
 			GameObject secondaryPipe = null;
 
 			if (HeatedSecondaryOutputOffset.HasValue)
 			{
 				int cell2 = Grid.OffsetCell(Grid.PosToCell(this), HeatedSecondaryOutputOffset.Value);
-				secondaryPipe = Grid.Objects[cell2, 16];
+				secondaryPipe = Grid.Objects[cell2, pipeLayer];
 			}
 
 			if (primaryPipe != null && primaryPipe.GetComponent<PrimaryElement>().Element.highTemp <= MeltingTemperature)
@@ -57,14 +63,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				setStatusItem = true;
 			}
 
-			if (setStatusItem)
-			{
-				statusHandle = component.AddStatusItem(Db.Get().BuildingStatusItems.PipeMayMelt);
-			}
-			else
-			{
-				component.RemoveStatusItem(statusHandle);
-			}
+			statusHandle = component.ToggleStatusItem(Db.Get().BuildingStatusItems.PipeMayMelt, setStatusItem);
 		}
 	}
 }
