@@ -28,16 +28,16 @@ namespace Rockets_TinyYetBig.Elements
 
 		public static void RegisterSubstances(List<Substance> list)
 		{
-			var glass = list.Find(e => e.elementID == SimHashes.Diamond).material;
+			var shineFX = list.Find(e => e.elementID == SimHashes.Steel).material;
+			var glassShineFx = list.Find(e => e.elementID == SimHashes.Glass).material;
 			var newElements = new HashSet<Substance>()
 			{
 				UnobtaniumDust.CreateSubstance(),
-				SpaceStationForceField.CreateSubstance(true, glass),
-				UnobtaniumAlloy.CreateSubstance(true, glass)
+				SpaceStationForceField.CreateSubstance(true, glassShineFx ),
+				UnobtaniumAlloy.CreateSubstance(true, shineFX)
 			};
 			list.AddRange(newElements);
 			//SgtLogger.debuglog("2," + list + ", " + list.Count);
-
 		}
 
 		internal static void RegisterAdditionalSubstanceTags()
