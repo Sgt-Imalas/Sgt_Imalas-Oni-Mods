@@ -1320,8 +1320,8 @@ msgstr "一种能够生产硝酸的化学合成装置。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SYNTHESIZERNITRIC.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SYNTHESIZERNITRIC.EFFECT"
-msgid "Produces industrial grade <link=\"LIQUIDNITRIC\">Nitric Acid</link> using provided <link=\"LIQUIDSULFURIC\">Sulfuric Acid</link> and <link=\"AMMONIAGAS\">Ammonia</link>."
-msgstr "利用所提供的<link=\"LIQUIDSULFURIC\">硫酸</link>和<link=\"AMMONIAGAS\">氨气</link>来生产工业级的<link=\"LIQUIDNITRIC\">硝酸</link>。"
+msgid "Produces industrial grade <link=\"LIQUIDNITRIC\">Nitric Acid</link> via the selected chemical reaction, using either <link=\"LIQUIDSULFURIC\">Sulfuric Acid</link> or <link=\"AMMONIAGAS\">Ammonia</link>."
+msgstr "利用所提供的<link=\"LIQUIDSULFURIC\">硫酸</link>或<link=\"AMMONIAGAS\">氨气</link>来生产工业级<link=\"LIQUIDNITRIC\">硝酸</link>。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SYNTHESIZERNITRIC.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SYNTHESIZERNITRIC.NAME"
@@ -3346,6 +3346,20 @@ msgstr "复制人曾暴露于酸性物质中。"
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.DUPLICANTS.STATUSITEMS.ACIDBURNS.TOOLTIP"
 msgid "This duplicant has been injured from their recent exposure to corrosive acids."
 msgstr "该复制人因接触腐蚀性酸性物质而受伤。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_PERMENDUR_SOLID.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_PERMENDUR_SOLID.DESC"
+msgid ""
+"Permendur is a cobalt-iron soft ferromagnetic alloy with equal parts of <link=\"COBALT\">Cobalt</link> and <link=\"IRON\">Iron</link> which is notable for its high magnetic saturation level.\n"
+"Heat treatment gives this material a high structural stability."
+msgstr ""
+"一种由等比例 ​​<link=\"COBALT\">钴</link>​​ 与 ​​<link=\"IRON\">铁</link>​​ 组成的软铁磁合金，以其​​高磁饱和强度​​著称。\n"
+"经热处理后，该材料具备​​极高的结构稳定性。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_PERMENDUR_SOLID.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_PERMENDUR_SOLID.NAME"
+msgid "<link=\"AIOPERMENDURSOLID\">Permendur</link>"
+msgstr "<link=\"CEMENTMIXER\">钴铁合金</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AMMONIAGAS.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AMMONIAGAS.DESC"

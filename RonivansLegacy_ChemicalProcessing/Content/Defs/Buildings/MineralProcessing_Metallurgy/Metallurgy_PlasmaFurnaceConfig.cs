@@ -130,7 +130,7 @@ namespace Metallurgy.Buildings
 
 			PipedConduitDispenser wasteOutputPort = go.AddComponent<PipedConduitDispenser>();
 			wasteOutputPort.storage = furnace.outStorage;
-			wasteOutputPort.elementFilter = [ModElements.Slag_Liquid];
+			wasteOutputPort.elementFilter = [ModElements.Slag_Liquid, SimHashes.Magma];
 			wasteOutputPort.AssignPort(WasteOutputPort);
 			wasteOutputPort.alwaysDispense = true;
 			wasteOutputPort.SkipSetOperational = true;
@@ -140,6 +140,11 @@ namespace Metallurgy.Buildings
 			exhaustMoltenSlag.elementTag = ModElements.Slag_Liquid.Tag;
 			exhaustMoltenSlag.capacity = 100f;
 
+			PipedOptionalExhaust exhaustMagma = go.AddComponent<PipedOptionalExhaust>();
+			exhaustMagma.dispenser = wasteOutputPort;
+			exhaustMagma.elementTag = SimHashes.Magma.CreateTag();
+			exhaustMagma.capacity = 100f;
+			exhaustMagma.emissionRate = 100f;
 
 			this.AttachPort(go);
 			Prioritizable.AddRef(go);
@@ -151,6 +156,7 @@ namespace Metallurgy.Buildings
 		{
 			bool chemProcActive = Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled;
 			int index = 0;
+
 			//---- [ Glass Smelting ] ----------------------------------------------------------------------------------------------
 			// Ingredient: Sand - 150kg
 			//             Borax - 10kg

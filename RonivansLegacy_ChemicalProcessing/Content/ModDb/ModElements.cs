@@ -50,6 +50,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		public static readonly Color32 ZINC_COLOR = new Color32(201, 201, 195, 255);
 		//unburied from older version:
 		public static readonly Color32 NITROGEN_COLOR = new Color32(205, 194, 255, 255);
+		///Permendur, alloy of cobalt and iron
+		public static readonly Color32 PERMENDUR_COLOR = UIUtils.rgb(140, 207, 255);
+
 
 
 		/// Chemical Processing BioChemistry
@@ -117,11 +120,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			//unburied from older version:
 			Nitrogen_Solid = ElementInfo.Solid("SolidNitrogen", "solid_nitrogen_kanim", NITROGEN_COLOR),
 			Nitrogen_Liquid = ElementInfo.Liquid("LiquidNitrogen", NITROGEN_COLOR),
-			Nitrogen_Gas = ElementInfo.Gas("NitrogenGas", NITROGEN_COLOR)
+			Nitrogen_Gas = ElementInfo.Gas("NitrogenGas", NITROGEN_COLOR),
+
+			///Permendur, alloy of cobalt and iron, added as an alloy for swampy starts
+			Permendur_Solid = ElementInfo.Solid("AIO_Permendur_Solid", "solid_permendur_kanim", PERMENDUR_COLOR)
 			;
-
-
-
 		//Chemical Processing Bio Chemistry
 		public static ElementInfo
 			BioDiesel_Solid = ElementInfo.Solid("SolidBiodiesel", "solid_biodiesel_kanim", BIODIESEL_COLOR),
@@ -145,6 +148,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 		public static void RegisterSubstances(List<Substance> list)
 		{
+			var oreMaterial = list.Find(e => e.elementID == SimHashes.AluminumOre).material;
 			ChemicalProcessing_IO_Elements = new HashSet<Substance>()
 			{
 				BaseGradeSand_Solid.CreateSubstanceFromElementTinted(SimHashes.FoolsGold),
@@ -159,7 +163,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				AmmoniumWater_Liquid.CreateSubstance(),
 
 				Argentite_Solid.CreateSubstanceFromElementTinted(SimHashes.Electrum, SILVER_COLOR),
-				Aurichalcite_Solid.CreateSubstanceFromElementTinted(SimHashes.Lead),
+				//Aurichalcite_Solid.CreateSubstanceFromElementTinted(SimHashes.Lead),
+				Aurichalcite_Solid.CreateSubstance(true,oreMaterial),
 				Borax_Solid.CreateSubstanceFromElementTinted(SimHashes.SolidCarbonDioxide),
 				Brass_Solid.CreateSubstanceFromElementTinted(SimHashes.Aluminum),
 				CarbonFiber_Solid.CreateSubstanceFromElementTinted(SimHashes.Algae),
@@ -173,6 +178,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				OilShale_Solid.CreateSubstanceFromElementTinted(SimHashes.SolidCrudeOil),
 				PhosphorBronze.CreateSubstanceFromElementTinted(SimHashes.FoolsGold),
 				Plasteel_Solid.CreateSubstanceFromElementTinted(SimHashes.Aluminum),
+				Permendur_Solid.CreateSubstanceFromElementTinted(SimHashes.Aluminum),
 				RawNaturalGas_Gas.CreateSubstance(),
 
 				Silver_Solid.CreateSubstanceFromElementTinted(SimHashes.Gold),
@@ -514,6 +520,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			// adding combustible solid tag to coal and peat
 			AddTagToElementAndEnable(SimHashes.Carbon, GameTags.CombustibleSolid);
+			AddTagToElementAndEnable(SimHashes.RefinedCarbon, GameTags.CombustibleSolid);
 			AddTagToElementAndEnable(SimHashes.Peat, GameTags.CombustibleSolid);
 		}
 		static void AddTagToElementAndEnable(SimHashes element, Tag? tag = null, bool setMatCat = false) => AddTagsToElementAndEnable(element, tag.HasValue ? [tag.Value] : null, setMatCat);
@@ -585,8 +592,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			AddElementOverheatModifier(CarbonFiber_Solid, 5000);
 
 			//=: Giving Plasteel Temperature modifications :============================================================
-			AddElementOverheatModifier(Plasteel_Solid, 800);
-
+			AddElementOverheatModifier(Plasteel_Solid, 400);
+			//AddElementOverheatModifier(Plasteel_Solid, 800);
+	
 
 			float silverDegreeBonus = 40;
 			///---own additions----
@@ -607,8 +615,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			AddElementOverheatModifier(SimHashes.Electrum, silverDegreeBonus);
 
 			///mirroring brass, less heat because it contains lead, compensating with higher decor
-			AddElementDecorModifier(PhosphorBronze, 0.35f);
-			AddElementOverheatModifier(PhosphorBronze, 30);
+			AddElementDecorModifier(PhosphorBronze, 0.5f);
+			AddElementOverheatModifier(PhosphorBronze, 35);
+
+			///permendur, cobalt+iron based "steel lite"
+			AddElementOverheatModifier(Permendur_Solid, 125);
+			AddElementDecorModifier(Permendur_Solid, 0.20f);
+
 		}
 
 	}

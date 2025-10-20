@@ -1861,6 +1861,11 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString NAME = FormatAsLink("Plasteel", nameof(PLASTEEL));
 				public static LocString DESC = "A composite of " + FormatAsLink("Plastic", "POLYPROPYLENE") + " stabilized fibers grown into a " + FormatAsLink("Steel", "Steel") + " crystal structure. It is much more stronger and lighter than standard metals alloys, and has a very low thermal conductivity.";
 			}
+			public class AIO_PERMENDUR_SOLID
+			{
+				public static LocString NAME = FormatAsLink("Permendur", nameof(AIO_PERMENDUR_SOLID));
+				public static LocString DESC = "Permendur is a cobalt-iron soft ferromagnetic alloy with equal parts of "+FormatAsLink("Cobalt", "COBALT") +" and "+FormatAsLink("Iron", "IRON") + " which is notable for its high magnetic saturation level.\nHeat treatment gives this material a high structural stability.";
+			}
 			//===== [ Special ] ==============================
 			public class ISOPROPANEGAS
 			{

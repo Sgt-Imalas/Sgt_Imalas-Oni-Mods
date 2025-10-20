@@ -269,24 +269,23 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			//------------------------------------------------------------------------------------------
 			results.Add(SimHashes.SedimentaryRock.CreateTag(),
 				new RecipeRandomResult(490, 20, 50)
-				.AddProduct(SimHashes.CrushedRock, 160, 320)
-				.AddProduct(SimHashes.Clay, 150, 310)
+				.AddProduct(SimHashes.CrushedRock, 160, 290)
+				.AddProduct(SimHashes.Clay, 150, 270)
+				.AddProduct(SimHashes.Salt, 75, 125)
 				.AddProduct(SimHashes.GoldAmalgam, 10, 30, 2f / 9f)
 				.AddProduct(SimHashes.FoolsGold, 20, 40, 2f / 9f)
 				.AddProductConditional(soEnabled, SimHashes.Cobaltite, 25, 35, 2f / 9f)
-				.AddProduct(SimHashes.Salt, 40, 50, 1f / 9f)
 				.AddProductConditional(chemproc, ModElements.Chloroschist_Solid, 40, 50, 3f / 9f)
 				.AddProductConditional(chemproc, ModElements.Aurichalcite_Solid, 25, 35, 2f / 9f)
 				);
 			///Shale: mirror of sedimentary rock bc it is described as sedimentary in its desc, nickel ore instead of gold amalgam at higher yields
 			results.Add(SimHashes.Shale.CreateTag(),
 				new RecipeRandomResult(490, 20, 50)
-				.AddProduct(SimHashes.CrushedRock, 160, 320)
-				.AddProduct(SimHashes.Clay, 150, 310)
-				.AddProduct(SimHashes.FoolsGold, 20, 40, 2f / 9f)
-				.AddProductConditional(dlc4Owned,SimHashes.NickelOre, 30, 50, 3f / 9f)
+				.AddProduct(SimHashes.CrushedRock, 160, 290)
+				.AddProduct(SimHashes.Clay, 150, 270)
+				.AddProduct(SimHashes.Salt, 75, 125)
+				.AddProductConditional(dlc4Owned,SimHashes.NickelOre, 30, 70, 3f / 9f)
 				.AddProductConditional(soEnabled, SimHashes.Cobaltite, 25, 35, 2f / 9f)
-				.AddProduct(SimHashes.Salt, 40, 50, 1f / 9f)
 				.AddProductConditional(chemproc, ModElements.Chloroschist_Solid, 40, 50, 4f / 9f)
 				.AddProductConditional(chemproc, ModElements.Aurichalcite_Solid, 25, 35, 2f / 9f)
 				);

@@ -58,7 +58,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			if (!Config.Instance.DupesEngineering_Enabled)
 				return;
 
-			List<SimHashes> burnables = [SimHashes.Carbon, SimHashes.WoodLog, SimHashes.Peat];
+			var burnables = RefinementRecipeHelper.GetCombustableSolidsWithWood();
 
 			if (advKiln)
 			{
@@ -92,7 +92,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					.Input(ModElements.VegetableOil_Liquid, oilAmount)
 					.Input(SimHashes.Water, waterAmount)
 					.Output(SimHashes.PhytoOil, 100)
-					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.CHEMICAL_MIXINGUNIT_2_1, 2,1)
+					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.CHEMICAL_MIXINGUNIT_2_1, 2, 1)
 					.Build();
 			}
 		}
@@ -203,7 +203,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				//if (Config.Instance.Biochem_ExpellerPressRebalance)
 				//	RegisterRecipes_ExpellerPress_Rebalanced();
 				//else
-					RegisterRecipes_AnaerobicDigester();
+				RegisterRecipes_AnaerobicDigester();
 				RegisterRecipes_ExpellerPress();
 			}
 			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
@@ -316,7 +316,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					.Input(ModElements.BioMass_Solid.Tag, 20)
 					.Input(SimHashes.Sand, 79)
 					.Input(SimHashes.Water, 1)
-					.Output(SimHashes.Methane, 2* Config.Instance.Biochem_AnaerobicDigesterBuff)
+					.Output(SimHashes.Methane, 3 * Config.Instance.Biochem_AnaerobicDigesterBuff)
 					.Output(SimHashes.Dirt, 100)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.ANAEROBIC_DIGESTER_1_2, 1, 2)
@@ -334,9 +334,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			//-------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, 100)
 					.Input(SimHashes.Algae, 20)
-					.Input(SimHashes.Sand, 75)
-					.Input(SimHashes.Water, 5)
-					.Output(SimHashes.Methane, 2* Config.Instance.Biochem_AnaerobicDigesterBuff)
+					.Input(SimHashes.Sand, 79)
+					.Input(SimHashes.Water, 1)
+					.Output(SimHashes.Methane, 3 * Config.Instance.Biochem_AnaerobicDigesterBuff)
 					.Output(SimHashes.Dirt, 100)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.ANAEROBIC_DIGESTER_1_2, 1, 2)
@@ -471,7 +471,23 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			///Kelp,Seakomb Leaf, plant consumes 50kg of fertilizer(solid mass: 50, liquid mass: 0) over 5 cycles, making 50 items
 			///normal Seakomb has a 1-4 conversion with 3/4 of water; 25kg Seakomb + 75kg water become 100kg of phyto oil
 			///
-			AddPrefefinedExpellerPressRecipe(KelpConfig.ID, 6, 3.65f,10);
+			AddPrefefinedExpellerPressRecipe(KelpConfig.ID, 6, 3.65f, 10);
+
+			///Dupes Cuisine Integration
+			string sunnyGrainId = "SunnyWheatSeed";
+			string kakawaId = "KakawaTreeSeed";
+
+			///identical to sleet wheat
+			if (Assets.TryGetPrefab(sunnyGrainId))
+				AddPrefefinedExpellerPressRecipe(sunnyGrainId, 2f, 1.25f);
+
+			///made into butter, very high fat yield, total wattage ~33% higher than sweatcorn
+			if (Assets.TryGetPrefab(kakawaId))
+				AddPrefefinedExpellerPressRecipe(kakawaId, 4.9f, 1.4f);
+			else
+				SgtLogger.warning("Could not find Dupes Cuisine, not adding any of its plants to expeller press.");
+
+
 
 
 			foreach (var recipe in PredefinedExpellerPressRecipes)
@@ -482,7 +498,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				float biomass = data.second;
 				float ingredientmass = data.third;
 
-				//SgtLogger.l("Creating Expeller Press Recipe: " + ingredient + ": oil->" + oil + " biomass->" + biomass);
+				SgtLogger.l("Creating Expeller Press Recipe: " + ingredient + ": oil->" + oil + " biomass->" + biomass);
 
 				RecipeBuilder.Create(ID, 25)
 					.Input(ingredient, ingredientmass)

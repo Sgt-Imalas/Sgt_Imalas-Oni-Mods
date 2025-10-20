@@ -14,6 +14,7 @@ namespace Rockets_TinyYetBig.Elements
 		public static RainbowSpec Instance;
 
 		private Gradient rainbowGradient;
+		public static Material NeutroniumAlloyTileMaterial;
 
 		public override void OnPrefabInit()
 		{
@@ -68,6 +69,8 @@ namespace Rockets_TinyYetBig.Elements
 				var NeutroniumAlloyMat = materials[ModElements.UnobtaniumAlloy];
 				NeutroniumAlloyMat.alpha.SetColor("_ShineColour", rainbowColor);
 				NeutroniumAlloyMat.opaque.SetColor("_ShineColour", rainbowColor);
+
+				NeutroniumAlloyTileMaterial?.SetColor("_ShineColour", rainbowColor);
 			}
 		}
 

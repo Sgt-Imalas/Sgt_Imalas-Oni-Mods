@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using KSerialization;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
 using System.Collections.Generic;
@@ -84,13 +85,26 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			waterInput.forceAlwaysSatisfied = true;
 			waterInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 
+
+			//base value wattage: 850W, 2kg pump rate
+			CustomizeBuildings.TryGetSteamTurbineWattageAndPumpRate(out float wattage, out float pumpRate);
+			float conversionRate = 4f;
+			float totalSTOutputWattage = wattage * (conversionRate / pumpRate); //default: 850W * (4kg/2kg) = 1700W/1
+			float efficiencyGain = 4.0f; //4x more efficient than vanilla generator (wood needs that extra boost, its very bad in base game and competes with wood->syngas recipe)
+			float targetWattage = totalSTOutputWattage / efficiencyGain; 
+
+			float vanillaGeneratorConsumption = WoodGasGeneratorConfig.CONSUMPTION_RATE;
+			float vanillaGeneratorWattage = 300f;
+
+			float fuelConsumptionRate = vanillaGeneratorConsumption * (targetWattage / vanillaGeneratorWattage);
+
 			//-----[ Element Converter Section ]---------------------------------
 			ElementConverter converter = go.AddOrGet<ElementConverter>();
 			converter.consumedElements = [
-				new ElementConverter.ConsumedElement(SimHashes.WoodLog.CreateTag(), 3.6f),
-				new ElementConverter.ConsumedElement(SimHashes.Water.CreateTag(), 4f) ];
+				new ElementConverter.ConsumedElement(SimHashes.WoodLog.CreateTag(), fuelConsumptionRate),
+				new ElementConverter.ConsumedElement(SimHashes.Water.CreateTag(), conversionRate) ];
 			converter.outputElements = [
-				new(4f, SimHashes.Steam, UtilMethods.GetKelvinFromC(200), false, true, 0f, 0.5f, 0.75f, 0xff, 0),
+				new(conversionRate, SimHashes.Steam, UtilMethods.GetKelvinFromC(200), false, true, 0f, 0.5f, 0.75f, 0xff, 0),
 				new(0.5f,SimHashes.CarbonDioxide,UtilMethods.GetKelvinFromC(110),false, true,-1,2)
 				];
 			//-------------------------------------------------------------------

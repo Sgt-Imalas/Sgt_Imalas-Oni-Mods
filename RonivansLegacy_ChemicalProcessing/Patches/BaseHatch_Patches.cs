@@ -44,7 +44,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				ref List<Diet.Info> __result)
 			{
 				if(Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
-					__result.Add(CritterDietsInfo.AddToList([HatchHardConfig.ID], SourceModInfo.ChemicalProcessing_IO, new Diet.Info([SimHashes.Salt.CreateTag()], ModElements.Borax_Solid.Tag, caloriesPerKg, 0.5f, diseaseId, diseasePerKgProduced)));
+					__result.Add(CritterDietsInfo.AddToList([HatchHardConfig.ID], SourceModInfo.ChemicalProcessing_IO, new Diet.Info([SimHashes.Salt.CreateTag()], ModElements.Borax_Solid.Tag, caloriesPerKg, 0.25f, diseaseId, diseasePerKgProduced)));
 			}
 		}
 

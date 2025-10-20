@@ -19,7 +19,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		public Tag elementTag;
 
 		[SerializeField]
-		public float capacity;
+		public float capacity = float.MaxValue;
 
 		[SerializeField]
 		public Storage storage;
@@ -31,11 +31,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		public float OverpressureThreshold = float.MaxValue;
 
 		[MyCmpGet] ComplexFabricator complexfab;
+		[MyCmpGet] KSelectable selectable;
 
 		private Operational.Flag outputFlag;
 
 		[MyCmpReq]
 		readonly private Operational operational;
+
+		private Guid pipeBlockedGuid;
 
 		private static readonly CellElementEvent SpawnEvent = new(
 	"Chemical_ExhaustSpawned",
@@ -81,15 +84,16 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			GameObject storedObject = this.storage.FindFirst(elementTag);
 			PrimaryElement primaryElement = null;
 			float stored = 0f;
-			if(storedObject != null && storedObject.TryGetComponent<PrimaryElement>(out primaryElement))
+			if (storedObject != null && storedObject.TryGetComponent<PrimaryElement>(out primaryElement))
 			{
 				stored = primaryElement.Mass;
 			}
 
 			int outputCell = dispenser.UtilityCell;
-			bool allowedToSpill = (dispenser == null || !dispenser.IsConnected) && Grid.Mass[outputCell] < OverpressureThreshold;
+			bool allowedToSpill = (dispenser == null || !dispenser.IsConnected);
+			bool outputBlocked = Grid.Mass[outputCell] > OverpressureThreshold || Grid.Solid[outputCell];
 
-			if (stored > 0f && allowedToSpill)
+			if (stored > 0f && allowedToSpill && !outputBlocked)
 			{
 				float dispenseAmount = Mathf.Min(emissionRate * dt, stored);
 
@@ -104,9 +108,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				int disease = primaryElement.DiseaseCount;
 				byte idx = primaryElement.DiseaseIdx;
 
-				if (element.IsGas
-					//|| element.IsLiquid
-					)
+				if (element.IsGas)
 				{
 					SimMessages.ReplaceAndDisplaceElement(outputCell, element.id, SpawnEvent, dispenseAmount, temperature, idx, disease);
 				}
@@ -118,16 +120,22 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				{
 					element.substance.SpawnResource(Grid.CellToPosCCC(outputCell, Grid.SceneLayer.Ore), dispenseAmount, temperature, idx, disease, true, false, false);
 				}
-				storage.ConsumeIgnoringDisease(storedObject);
+
+				if (storage.items.Contains(storedObject))
+					storage.ConsumeIgnoringDisease(storedObject);
+				else
+					storedObject.DeleteObject();
+
 				stored -= dispenseAmount;
 			}
-			if (capacity <= 0)
-				return;
 
 			bool overfilled = stored >= capacity;
-			this.operational.SetFlag(outputFlag, !overfilled
-				|| allowedToSpill
-				);
+			bool spillingBlocked = (allowedToSpill && outputBlocked);
+			pipeBlockedGuid = selectable?.ToggleStatusItem(Db.Get().BuildingStatusItems.OutputTileBlocked, this.pipeBlockedGuid, spillingBlocked) ?? Guid.Empty;
+
+			bool blocked = spillingBlocked || overfilled;
+
+			this.operational.SetFlag(outputFlag, !blocked);
 		}
 	}
 }

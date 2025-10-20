@@ -428,6 +428,39 @@ elements:
     localizationID: STRINGS.ELEMENTS.PLASTEEL.NAME
     dlcId: ""
 
+  - elementId: AIO_Permendur_Solid
+    specificHeatCapacity: 0.42
+    thermalConductivity: 29.83
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 6
+    highTemp: 1700.15 #1427°C
+    highTempTransitionTarget: MoltenIron #phase changes into debris; done this way to not create a natural tile
+    highTempTransitionOreId: Cobalt
+    highTempTransitionOreMassConversion: 0.5
+    defaultTemperature: 296
+    defaultMass: 200
+    maxMass: 8700
+    hardness: 70
+    molarMass: 57.26
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.67
+    radiationPer1000Mass: 0
+    materialCategory: ManufacturedMaterial
+    tags:
+    - Metal
+    - RefinedMetal
+    - BuildableAny 
+    - Noncrushable
+    - Conductor #gigawatt wire
+    - AIO_HardenedAlloy #Steel substitute
+    buildMenuSort: 10
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.AIO_PERMENDUR_SOLID.NAME
+    dlcId: ""
+
   - elementId: IsopropaneGas
     specificHeatCapacity: 9.76
     thermalConductivity: 12.72

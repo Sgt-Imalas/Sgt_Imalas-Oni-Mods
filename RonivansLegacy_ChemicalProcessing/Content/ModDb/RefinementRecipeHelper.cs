@@ -8,6 +8,16 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
 	public class RefinementRecipeHelper
 	{
+		public static HashSet<SimHashes> GetCombustableSolidsWithWood()
+		{
+			return [.. GetCombustibleSolids(), SimHashes.WoodLog];
+		}
+
+		public static HashSet<SimHashes> GetCombustibleSolids()
+		{
+			return [SimHashes.Carbon, SimHashes.Peat, SimHashes.RefinedCarbon];
+		}
+
 		public static HashSet<SimHashes> GetSpecialOres()
 		{
 			//those elements have special conversion rates, for all others its the same
@@ -26,7 +36,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		}
 		public static IEnumerable<SimHashes> GetPlasticIds(SimHashes? exclude = null)
 		{
-			return ElementLoader.elements.FindAll(e => e.IsSolid && e.HasTag(GameTags.Plastic) && (exclude==null||!exclude.HasValue||exclude.Value != e.id)).Select(e => e.id);
+			return ElementLoader.elements.FindAll(e => e.IsSolid 
+			&& e.HasTag(GameTags.Plastic) 
+			&& e.id != SimHashes.SolidViscoGel
+			&& (exclude==null||!exclude.HasValue||exclude.Value != e.id))
+				.Select(e => e.id);
 		}
 	}
 }

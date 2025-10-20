@@ -17,10 +17,14 @@ namespace ItemDropPrevention.Patches
 		{
             public static void Postfix(FetchAreaChore.StatesInstance __instance)
             {
-                if(!DroppablesHolder.TryGet(__instance.sm.fetcher.Get(__instance),out var droppablesHolder))
+                var fetcher = __instance.sm.fetcher.Get(__instance);
+				if (fetcher == null)
                     return;
 
-                __instance.fetchables.RemoveAll(item => droppablesHolder.IsItemMarkedForDrop(item.gameObject));
+                if (!DroppablesHolder.TryGet(fetcher, out var droppablesHolder))
+                    return;
+
+                __instance.fetchables.RemoveAll(item => !item.IsNullOrDestroyed() && droppablesHolder.IsItemMarkedForDrop(item.gameObject));
             }
         }
 	}

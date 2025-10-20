@@ -71,6 +71,20 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations
 			return true;
 		}
 
+		public static bool TryGetSteamTurbineWattageAndPumpRate(out float wattage, out float pumpRate)
+		{
+			wattage = SteamTurbineConfig2.MAX_WATTAGE;
+			pumpRate = 2f;
+			InitTypes();
+			if (ConfigInstance == null)
+				return false;
+			if (TryGetConfigValue<float>("SteamTurbineWattage", out var wattage_prop))
+				wattage = wattage_prop;
+			if (TryGetConfigValue<float>("SteamTurbinePumpRateKG", out var pumpRate_prop))
+				pumpRate = pumpRate_prop;
+			return true;
+		}
+
 		public static bool TryGetOtherTurbineValues(out float pumpRate, out float heatTransferPercent, out float minActiveTemp, out float idealTemp, out float outputTemp, out float overheatTemp)
 		{
 			pumpRate = 2f;

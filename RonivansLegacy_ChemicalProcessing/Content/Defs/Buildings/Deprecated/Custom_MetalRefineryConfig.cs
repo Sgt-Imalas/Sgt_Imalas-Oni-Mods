@@ -118,7 +118,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 				RecipeBuilder.Create(ID, 40)
 					.Input(element.id, 100f)
-					.Input([SimHashes.Carbon,SimHashes.Peat], 20f, GameTags.CombustibleSolid)
+					.Input(RefinementRecipeHelper.GetCombustibleSolids(), 20f, GameTags.CombustibleSolid)
 					.Output(refinedElement.id, 80f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Output(ModElements.Slag_Solid, 40f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.METALREFINERY_2_1_1,2,2)
@@ -136,7 +136,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//--------------------------------------------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, 40)
 					.Input(SimHashes.Electrum, 100f)
-					.Input([SimHashes.Carbon,SimHashes.Peat], 20f, GameTags.CombustibleSolid)
+					.Input(RefinementRecipeHelper.GetCombustibleSolids(), 20f, GameTags.CombustibleSolid)
 					.Output(SimHashes.Gold, 50, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Output(ModElements.Silver_Solid, 30, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Output(ModElements.Slag_Solid, 40f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
@@ -153,7 +153,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//-------------------------------------------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, 40)
 					.Input(ModElements.Galena_Solid, 100f)
-					.Input([SimHashes.Carbon,SimHashes.Peat], 20f, GameTags.CombustibleSolid)
+					.Input(RefinementRecipeHelper.GetCombustibleSolids(), 20f, GameTags.CombustibleSolid)
 					.Output(ModElements.Silver_Solid, 50f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Output(SimHashes.Lead, 30f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Output(ModElements.Slag_Solid, 40f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
@@ -170,7 +170,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//-------------------------------------------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, 40)
 					.Input(SimHashes.FoolsGold, 100f)
-					.Input([SimHashes.Carbon,SimHashes.Peat], 20f, GameTags.CombustibleSolid)
+					.Input(RefinementRecipeHelper.GetCombustibleSolids(), 20f, GameTags.CombustibleSolid)
 					.Output(SimHashes.Iron, 60f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Output(ModElements.Slag_Solid, 60f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.METALREFINERY_2_1_1,2,2)

@@ -28,6 +28,7 @@ namespace UtilLibs.BuildingPortUtils
 		static Dictionary<PortDisplay2, int> activePortCells = [];
 		static Dictionary<int, ActivePortInfo> activePortInfo = [];
 		static Dictionary<int, VanillaPortInfo> vanillaPortInfo = [];
+		bool isCompletedBuilding = false;
 
 		public struct VanillaPortInfo
 		{
@@ -69,7 +70,7 @@ namespace UtilLibs.BuildingPortUtils
 				color = portInfo.port.color;
 				return true;
 			}
-			if(vanillaPortInfo.TryGetValue(utilityCell, out var vanillaInfo))
+			if (vanillaPortInfo.TryGetValue(utilityCell, out var vanillaInfo))
 			{
 				portDesc = vanillaInfo.portDesc;
 				sprite = vanillaInfo.sprite;
@@ -102,6 +103,7 @@ namespace UtilLibs.BuildingPortUtils
 			return gasOverlay.Concat(liquidOverlay).Concat(solidOverlay).ToList();
 		}
 
+		///this should be static, but im to lazy of changing all existing calls, so whatever
 		public void Init(GameObject go)
 		{
 			string ID = go.GetComponent<KPrefabID>().PrefabTag.Name;
@@ -112,6 +114,11 @@ namespace UtilLibs.BuildingPortUtils
 
 			// when vanilla tries to draw, call this controller if the building is in the DrawPorts list
 			ConduitDisplayPortPatching.AddBuilding(ID);
+		}
+		public override void OnSpawn()
+		{
+			base.OnSpawn();
+			isCompletedBuilding = gameObject.TryGetComponent<BuildingComplete>(out _);
 		}
 
 
@@ -129,8 +136,11 @@ namespace UtilLibs.BuildingPortUtils
 			{
 				int utilityCell = port.GetUtilityCell(__instance.building);
 
-				activePortInfo[utilityCell] = new(utilityCell, GetPortFilterDesc(port), port);
-				activePortCells[port] = utilityCell;
+				if (isCompletedBuilding)
+				{
+					activePortInfo[utilityCell] = new(utilityCell, GetPortFilterDesc(port), port);
+					activePortCells[port] = utilityCell;
+				}
 
 				port.Draw(go, __instance, isNewMode);
 			}
@@ -178,8 +188,11 @@ namespace UtilLibs.BuildingPortUtils
 			foreach (PortDisplay2 port in this.GetPorts(this.lastMode))
 			{
 				port.DisableIcons();
-				activePortInfo.Remove(activePortCells[port]);
-				activePortCells.Remove(port);
+				if (isCompletedBuilding)
+				{
+					activePortInfo.Remove(activePortCells[port]);
+					activePortCells.Remove(port);
+				}
 			}
 		}
 
@@ -323,7 +336,7 @@ namespace UtilLibs.BuildingPortUtils
 							{
 								if (dispenser.GetOutputCell() == cell)
 								{
-									vanillaPortInfo[cell] = new(GetFilteredPortTooltip(conduitType, input, null,dispenser.elementFilter, dispenser.invertElementFilter), portSprite, color);
+									vanillaPortInfo[cell] = new(GetFilteredPortTooltip(conduitType, input, null, dispenser.elementFilter, dispenser.invertElementFilter), portSprite, color);
 									break;
 								}
 							}
