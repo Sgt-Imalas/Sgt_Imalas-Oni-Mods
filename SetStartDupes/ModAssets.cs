@@ -731,6 +731,23 @@ namespace SetStartDupes
 				return _stressWithShocker;
 			}
 		}
+
+		private static List<TUNING.DUPLICANTSTATS.TraitVal> _validBionicStressReactions = null;
+		static List<TUNING.DUPLICANTSTATS.TraitVal> BionicStressReactions
+		{
+			get
+			{
+				if (_validBionicStressReactions == null)
+				{
+					_validBionicStressReactions = [.. StressWithShocker];
+					///these traits crash bionics
+					_validBionicStressReactions.RemoveAll(t => t.id == "StressVomiter" || t.id == "BingeEater"); 
+				}
+
+				return _validBionicStressReactions;
+			}
+		}
+
 		public static List<DUPLICANTSTATS.TraitVal> TryGetTraitsOfCategory(NextType type, Tag minionModel, bool overrideShowAll = false)
 		{			
 			bool initializingUI = minionModel == null;
@@ -740,8 +757,14 @@ namespace SetStartDupes
 			{
 				if (!TraitsByType.ContainsKey(type))
 					return new List<DUPLICANTSTATS.TraitVal>();
-				else if ((initializingUI || bionicMinion) && type == NextType.stress)
+				else if (type == NextType.stress && initializingUI)
+				{
 					return StressWithShocker;
+				}
+				else if (type == NextType.stress && bionicMinion)
+				{
+					return BionicStressReactions;
+				}
 				else if (type == NextType.joy)
 				{
 					if (initializingUI || bionicMinion)

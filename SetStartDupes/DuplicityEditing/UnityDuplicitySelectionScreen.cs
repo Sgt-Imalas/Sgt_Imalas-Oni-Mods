@@ -404,9 +404,9 @@ namespace SetStartDupes
 			DuplicityMainScreen.Instance.ReactionInfo(out var hasJoy, out var hasStress);
 
 			if (!hasJoy)
-				traits = ModAssets.TryGetTraitsOfCategory(NextType.joy, null).Concat(traits).ToList();
+				traits = ModAssets.TryGetTraitsOfCategory(NextType.joy, MinionModel).Concat(traits).ToList();
 			if (!hasStress)
-				traits = ModAssets.TryGetTraitsOfCategory(NextType.stress, null).Concat(traits).ToList();
+				traits = ModAssets.TryGetTraitsOfCategory(NextType.stress, MinionModel).Concat(traits).ToList();
 
 
 			var allowedTraits = traits.Select(t => t.id).ToList();
