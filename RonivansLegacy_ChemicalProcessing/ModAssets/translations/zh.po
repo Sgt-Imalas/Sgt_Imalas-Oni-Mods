@@ -3359,7 +3359,7 @@ msgstr ""
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_PERMENDUR_SOLID.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_PERMENDUR_SOLID.NAME"
 msgid "<link=\"AIOPERMENDURSOLID\">Permendur</link>"
-msgstr "<link=\"CEMENTMIXER\">高磁钢</link>"
+msgstr "<link=\"CEMENTMIXER\">钴铁合金</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AMMONIAGAS.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AMMONIAGAS.DESC"
