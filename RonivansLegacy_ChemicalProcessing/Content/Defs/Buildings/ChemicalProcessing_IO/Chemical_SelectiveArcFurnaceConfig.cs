@@ -21,13 +21,11 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		//--[ Base Information ]---------------------------------------------------------------------------------------------
 		public static string ID = "Chemical_SelectiveArcFurnace";
 
-		//--[ Identification and DLC stuff ]---------------------------------------------------------------------------------
-
 		//--[ Building Definitions ]-----------------------------------------------------------------------------------------
 		public override BuildingDef CreateBuildingDef()
 		{
 			EffectorValues tier = NOISE_POLLUTION.NOISY.TIER5;
-			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 4, 3, "arc_smelter_kanim", 100, 30f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER3, MATERIALS.ALL_METALS, 800f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.PENALTY.TIER1, tier);
+			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 4, 3, "arc_smelter_kanim", 100, 30f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER5, MATERIALS.ALL_METALS, 800f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.PENALTY.TIER1, tier);
 			buildingDef.Overheatable = false;
 			buildingDef.RequiresPowerInput = true;
 			buildingDef.EnergyConsumptionWhenActive = 1200f;
@@ -78,7 +76,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Input(ModElements.Zinc_Solid, 30)
 				.Output(ModElements.Brass_Solid, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
-				.Description(ARCFURNACE_SMELT_2_1,2,1)
+				.Description(ARCFURNACE_SMELT_2_1, 2, 1)
 				.SortOrder(index++)
 				.Build();
 
@@ -97,6 +95,26 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Description(ARCFURNACE_SMELT_3_1, 3, 1)
 				.SortOrder(index++)
 				.Build();
+
+
+			//---- [ Permendur ] --------------------------------------------------------------------------------------------
+			// Ingredient: Iron          - 50kg
+			//             Cobalt        - 50kg
+			//             Borax         - 5kg
+			// Result:     Niobium       - 100kg             
+			//-------------------------------------------------------------------------------------------------------------------------
+			if (DlcManager.IsExpansion1Active())
+			{
+				RecipeBuilder.Create(ID, 50)
+					.Input(SimHashes.Iron, 50)
+					.Input(SimHashes.Cobalt, 50)
+					.Input(ModElements.Borax_Solid, 4)
+					.Output(ModElements.Permendur_Solid, 100)
+					.Description(ARCFURNACE_SMELT_3_1, 3, 1)
+					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+					.SortOrder(index++)
+					.Build();
+			}
 
 			//---- [ Steel #1 ] -----------------------------------------------------------------------------------------------------
 			// Ingredient: Iron             - 70kg
@@ -173,7 +191,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			RecipeBuilder.Create(ID, 50)
 				.Input(ModElements.HighGradeSand_Solid, 100)
 				.Input(ModElements.Borax_Solid, 10)
-				.InputBase(SimHashes.Lime,10).InputSO(SimHashes.Graphite, 10)
+				.InputDlcDependent(SimHashes.Lime, SimHashes.Graphite, 10)
 				.Output(ModElements.Slag_Solid, 30, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.DescriptionFunc(RandomRecipeProducts.GetArcFurnaceRandomResultString)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
@@ -186,13 +204,15 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Ingredient: Thermium      - 100kg
 			// Result:     Niobium       - 100kg             
 			//-------------------------------------------------------------------------------------------------------------------------
-			RecipeBuilder .Create(ID, 50)
+			RecipeBuilder.Create(ID, 50)
 				.Input(SimHashes.TempConductorSolid, 100)
-				.Output(SimHashes.Niobium,100)
+				.Output(SimHashes.Niobium, 100)
 				.Description1I1O(ARCFURNACE_NIOBIUM)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 				.SortOrder(index++)
 				.Build();
+
+
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)

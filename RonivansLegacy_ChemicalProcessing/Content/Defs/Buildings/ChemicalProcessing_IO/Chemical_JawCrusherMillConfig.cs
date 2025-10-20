@@ -128,8 +128,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//------------------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, 40)
 			.Input(SimHashes.Salt, 100)
-			.Output(ModElements.Borax_Solid, 5f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-			.Output(SimHashes.Sand, 94.95f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+			.Output(ModElements.Borax_Solid, 10f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+			.Output(SimHashes.Sand, 89.95f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 			.Output(TableSaltConfig.ID.ToTag(), 0.05f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 			.Description(
 				string.Format(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1_2,

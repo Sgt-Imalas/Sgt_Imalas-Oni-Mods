@@ -60,24 +60,21 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			glassforge.MeltingTemperature = ElementLoader.FindElementByHash(SimHashes.MoltenGlass).lowTemp;
 			glassforge.HeatedOutputOffset = GlassOutputOffset;
 
-			ComplexFabricator fabricator = go.AddOrGet<ComplexFabricator>();
-			fabricator.sideScreenStyle = ComplexFabricatorSideScreen.StyleSetting.ListQueueHybrid;
-
-			ComplexFabricatorWorkable workable = go.AddOrGet<ComplexFabricatorWorkable>();
-			workable.overrideAnims = [Assets.GetAnim("anim_interacts_fabricator_generic_kanim")];
-
 			go.AddOrGet<LoopingSounds>();
 
+			ComplexFabricator fabricator = go.AddOrGet<ComplexFabricator>();
+			fabricator.sideScreenStyle = ComplexFabricatorSideScreen.StyleSetting.ListQueueHybrid;
 			fabricator.duplicantOperated = true;
-
-			BuildingTemplates.CreateComplexFabricatorStorage(go, fabricator);
-			fabricator.outStorage.capacityKg = 2000f;
 			fabricator.storeProduced = true;
+			BuildingTemplates.CreateComplexFabricatorStorage(go, fabricator);
 			fabricator.inStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			fabricator.buildStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			fabricator.outStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			fabricator.outputOffset = new Vector3(1f, 0.5f);
 			fabricator.heatedTemperature = 296.15f;
+
+			ComplexFabricatorWorkable workable = go.AddOrGet<ComplexFabricatorWorkable>();
+			workable.overrideAnims = [Assets.GetAnim("anim_interacts_fabricator_generic_kanim")];
 
 			PipedConduitDispenser dispenser = go.AddComponent<PipedConduitDispenser>();
 			dispenser.storage = fabricator.outStorage;
@@ -96,6 +93,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			exhaustWater.dispenser = dispenser;
 			exhaustWater.elementTag = GameTags.AnyWater;
 			exhaustWater.capacity = 500f;
+			exhaustWater.emissionRate = 100f;
 
 			this.AttachPort(go);
 			Prioritizable.AddRef(go);

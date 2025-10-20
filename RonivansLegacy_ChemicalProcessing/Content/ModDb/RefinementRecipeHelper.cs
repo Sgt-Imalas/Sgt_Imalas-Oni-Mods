@@ -36,7 +36,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		}
 		public static IEnumerable<SimHashes> GetPlasticIds(SimHashes? exclude = null)
 		{
-			return ElementLoader.elements.FindAll(e => e.IsSolid && e.HasTag(GameTags.Plastic) && (exclude==null||!exclude.HasValue||exclude.Value != e.id)).Select(e => e.id);
+			return ElementLoader.elements.FindAll(e => e.IsSolid 
+			&& e.HasTag(GameTags.Plastic) 
+			&& e.id != SimHashes.SolidViscoGel
+			&& (exclude==null||!exclude.HasValue||exclude.Value != e.id))
+				.Select(e => e.id);
 		}
 	}
 }
