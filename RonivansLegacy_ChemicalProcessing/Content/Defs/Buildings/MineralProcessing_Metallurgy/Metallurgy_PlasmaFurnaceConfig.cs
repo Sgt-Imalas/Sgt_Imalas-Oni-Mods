@@ -130,7 +130,7 @@ namespace Metallurgy.Buildings
 
 			PipedConduitDispenser wasteOutputPort = go.AddComponent<PipedConduitDispenser>();
 			wasteOutputPort.storage = furnace.outStorage;
-			wasteOutputPort.elementFilter = [ModElements.Slag_Liquid];
+			wasteOutputPort.elementFilter = [ModElements.Slag_Liquid, SimHashes.Magma];
 			wasteOutputPort.AssignPort(WasteOutputPort);
 			wasteOutputPort.alwaysDispense = true;
 			wasteOutputPort.SkipSetOperational = true;
