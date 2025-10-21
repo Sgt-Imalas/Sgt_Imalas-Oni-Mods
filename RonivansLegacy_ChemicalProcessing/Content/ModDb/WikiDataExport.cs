@@ -101,7 +101,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			///skins
 
 			var skins = exporter.root
-				.File("blueprints", new TranslationGroup("Building Skins").Add("zh", "建筑外墙"))
+				.File("blueprints", new TranslationGroup("Building Skins").Add("zh", "建筑皮肤"))
 				;
 			foreach(var building in SkinCollection.SkinIds.Keys)
 			{
