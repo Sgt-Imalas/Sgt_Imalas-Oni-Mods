@@ -1,4 +1,5 @@
-﻿using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 		{
 			EffectorValues nONE = NOISE_POLLUTION.NONE;
 
-			string[] mats = [GameTags.BuildableRaw.ToString(),GameTags.Steel.ToString(), MATERIALS.TRANSPARENT];
+			string[] mats = [GameTags.BuildableRaw.ToString(), ModElements.SteelAndTungstenMaterial, MATERIALS.TRANSPARENT];
 			float[] costs = [400, 100, 50];
 
 			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 1, 1, "hpa_rail_tile_bridge_kanim", 100, 30f, costs, mats, 1600f, BuildLocationRule.NotInTiles, BUILDINGS.DECOR.NONE, nONE, 0.2f);

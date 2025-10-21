@@ -1,4 +1,5 @@
 ﻿using PeterHan.PLib.Options;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			int hitpoints = 10;
 			float construction_time = 30f;
 			float[] tIER = [10f, 5f];
-			string[] constructionMaterial = [SimHashes.Steel.ToString(), MATERIALS.PLASTIC];
+			string[] constructionMaterial = [ModElements.SteelAndTungstenMaterial, MATERIALS.PLASTIC];
 			float melting_point = 1600f;
 			BuildLocationRule build_location_rule = BuildLocationRule.Anywhere;
 			EffectorValues nONE = NOISE_POLLUTION.NONE;

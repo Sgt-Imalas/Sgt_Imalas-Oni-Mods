@@ -17,6 +17,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 		public static ElementGrouping PlasticGroup;
 
+		public static string SteelAndTungstenMaterial => GameTags.Steel + "&" + SimHashes.Tungsten;
 
 		/// Chemical Processing Industrial overhaul
 		public static readonly Color32 LOWGRADESAND_COLOR = new Color32(59, 46, 12, 255);
