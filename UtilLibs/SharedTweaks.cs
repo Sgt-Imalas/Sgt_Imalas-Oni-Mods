@@ -517,7 +517,7 @@ namespace UtilLibs
 		{
 			static readonly string RegistryKey = "RegistryKey_DynamicMaterialSelectorHeaderHeight";
 			static readonly string RegistryKeyVersion = RegistryKey + "_Version";
-			static readonly int Version = 1;
+			static readonly int Version = 2;
 
 			public static void ExecutePatch()
 			{
@@ -542,9 +542,7 @@ namespace UtilLibs
 			public static void DynamicHeightPostfix(MaterialSelector __instance)
 			{
 				LocText headerText = __instance.Headerbar.GetComponentInChildren<LocText>();
-				string stripped = global::STRINGS.UI.StripLinkFormatting(headerText.text);
-				float count = stripped.Length;
-				int linecount = Mathf.CeilToInt(count / 40f);
+				int linecount = headerText.textInfo.lineCount;
 				int height = linecount * 24;
 				__instance.Headerbar.GetComponent<LayoutElement>().minHeight = height;
 			}
