@@ -172,7 +172,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			{
 				RecipeBuilder.Create(ID, 50)
 				.Input(SimHashes.Steel, 60)
-				.Input(SimHashes.Polypropylene, 25)
+				.Input(RefinementRecipeHelper.GetPlasticIds([ModElements.Plasteel_Solid, ModElements.FiberGlass_Solid, SimHashes.HardPolypropylene]), 25)
 				.Input(ModElements.Borax_Solid, 15)
 				.Output(ModElements.Plasteel_Solid, 100f)
 				.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.SUPERMATERIALREFINERY_3_1, 3, 1)

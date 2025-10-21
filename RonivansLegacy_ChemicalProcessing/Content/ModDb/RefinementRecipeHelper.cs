@@ -34,12 +34,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			normalOres.RemoveAll(e => e.highTempTransition?.lowTempTransition == e);
 			return normalOres;
 		}
-		public static IEnumerable<SimHashes> GetPlasticIds(SimHashes? exclude = null)
+		public static IEnumerable<SimHashes> GetPlasticIds()=> GetPlasticIds([]);
+		public static IEnumerable<SimHashes> GetPlasticIds(SimHashes? exclude = null) => GetPlasticIds(exclude.HasValue ? [exclude.Value] : null);
+		public static IEnumerable<SimHashes> GetPlasticIds(HashSet<SimHashes> exclude = null)
 		{
 			return ElementLoader.elements.FindAll(e => e.IsSolid 
 			&& e.HasTag(GameTags.Plastic) 
 			&& e.id != SimHashes.SolidViscoGel
-			&& (exclude==null||!exclude.HasValue||exclude.Value != e.id))
+			&& (exclude == null || !exclude.Contains(e.id)))
 				.Select(e => e.id);
 		}
 	}
