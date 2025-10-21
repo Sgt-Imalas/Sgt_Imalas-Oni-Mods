@@ -117,9 +117,11 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				CoalmanualDeliveryKG.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
 			}
 
+			Tag filter = GameTags.Filter;
+
 			ManualDeliveryKG SandmanualDeliveryKG = go.AddComponent<ManualDeliveryKG>();
 			SandmanualDeliveryKG.SetStorage(standardStorage);
-			SandmanualDeliveryKG.RequestedItemTag = SimHashes.Sand.CreateTag();
+			SandmanualDeliveryKG.RequestedItemTag = filter;
 			SandmanualDeliveryKG.capacity = 200f;
 			SandmanualDeliveryKG.refillMass = 50f;
 			SandmanualDeliveryKG.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
@@ -135,10 +137,11 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 					new ElementConverter.ConsumedElement(SimHashes.ChlorineGas.CreateTag(), 0.0025f),
 					new ElementConverter.ConsumedElement(SimHashes.CrushedRock.CreateTag(), 0.024f),
 					new ElementConverter.ConsumedElement(SimHashes.RefinedCarbon.CreateTag(), 0.034f),
-					new ElementConverter.ConsumedElement(SimHashes.Sand.CreateTag(), 0.042f) ];
+					new ElementConverter.ConsumedElement(filter, 0.042f) ];
 				pollutedWaterTreatment.outputElements = [
-					new ElementConverter.OutputElement(4.9f, SimHashes.Water, 0f, false, true, 0f, 0.5f, 0f, 0xff, 0),
-					new ElementConverter.OutputElement(0.11f, SimHashes.Clay, 0f, false, true, 0f, 0.5f, 0f, 0xff, 0) ];
+					new ElementConverter.OutputElement(4.9f, SimHashes.Water, UtilMethods.GetKelvinFromC(5), false, true),
+					new ElementConverter.OutputElement(0.11f, SimHashes.Clay, UtilMethods.GetKelvinFromC(5), false, true) 
+					];
 
 				ElementConverter toxicSlurryTreatment = go.AddComponent<ElementConverter>();
 				toxicSlurryTreatment.consumedElements = [
@@ -146,10 +149,11 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 					new ElementConverter.ConsumedElement(SimHashes.ChlorineGas.CreateTag(), 0.0025f),
 					new ElementConverter.ConsumedElement(SimHashes.CrushedRock.CreateTag(), 0.024f),
 					new ElementConverter.ConsumedElement(SimHashes.RefinedCarbon.CreateTag(), 0.034f),
-					new ElementConverter.ConsumedElement(SimHashes.Sand.CreateTag(), 0.042f) ];
+					new ElementConverter.ConsumedElement(filter, 0.042f) ];
 				toxicSlurryTreatment.outputElements = [
-					new ElementConverter.OutputElement(2f, SimHashes.Water, 0f, false, true, 0f, 0.5f, 0f, 0xff, 0),
-					new ElementConverter.OutputElement(3.1f, ModElements.Slag_Solid, 0f, false, true, 0f, 0.5f, 0f, 0xff, 0) ];
+					new ElementConverter.OutputElement(2f, SimHashes.Water, UtilMethods.GetKelvinFromC(5), false, true),
+					new ElementConverter.OutputElement(3.1f, ModElements.Slag_Solid, UtilMethods.GetKelvinFromC(5), false, true) 
+					];
 			}
 			else
 			{
@@ -159,10 +163,10 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				pollutedWaterTreatment.consumedElements = [
 				new ElementConverter.ConsumedElement(SimHashes.DirtyWater.CreateTag(), 5f),
 				new ElementConverter.ConsumedElement(SimHashes.ChlorineGas.CreateTag(), 0.0025f),
-				new ElementConverter.ConsumedElement(SimHashes.Sand.CreateTag(), 0.1f) ];
+				new ElementConverter.ConsumedElement(filter, 0.1f) ];
 				pollutedWaterTreatment.outputElements = [
-				new ElementConverter.OutputElement(5f, SimHashes.Water, 0f, false, true, 0f, 0.5f, 0f, 0xff, 0),
-				new ElementConverter.OutputElement(0.1f, SimHashes.Clay, 0f, false, true, 0f, 0.5f, 0f, 0xff, 0) ];
+				new ElementConverter.OutputElement(5f, SimHashes.Water, UtilMethods.GetKelvinFromC(5), false, true),
+				new ElementConverter.OutputElement(0.1f, SimHashes.Clay, UtilMethods.GetKelvinFromC(5), false, true) ];
 				//--------------------------------------------------------------------
 			}
 

@@ -16,13 +16,20 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
         [HarmonyPatch(typeof(BuildingTemplates), nameof(BuildingTemplates.CreateBuildingDef))]
         public class BuildingTemplates_CreateBuildingDef_Patch
         {
-            public static void Prefix(BuildingTemplates __instance, string[] construction_materials)
+            public static void Prefix(string[] construction_materials)
             {
+                string hardenedAlloyTag = ModAssets.Tags.AIO_HardenedAlloy.ToString();
+                string steelTag = GameTags.Steel.ToString();
+
+                //if another mod does this:
+                string steelChained = steelTag + "&";
+
 				for (int i = 0; i < construction_materials.Length; i++)
 				{
-					if (construction_materials[i] == GameTags.Steel.ToString())
+                    string mat = construction_materials[i];
+					if (mat == steelTag || mat.Contains(steelChained))
 					{
-						construction_materials[i] += "&"+ ModAssets.Tags.AIO_HardenedAlloy.ToString();
+						construction_materials[i] += "&"+ hardenedAlloyTag;
 					}
 				}
 			}

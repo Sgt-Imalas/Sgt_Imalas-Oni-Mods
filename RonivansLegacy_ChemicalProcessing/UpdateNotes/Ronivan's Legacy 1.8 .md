@@ -22,6 +22,8 @@ Changes & Tweaks:
 - reduced decor penalty of concrete (25% -> 15%)
 - tweaked nitric acid synthesizer: it now has 2 chemically accurate recipes to choose between
 - non-staged petrochemical refinery buildings now stack on top of each other, but require require floor otherwise
+- reduced overheat bonus of Plasteel (800C -> 400C) to be more in line with niobium/thermium bonuses, as well as increased availablity with borax changes
+
 
 Fixes:
 

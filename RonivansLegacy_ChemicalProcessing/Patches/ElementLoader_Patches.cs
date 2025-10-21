@@ -25,7 +25,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		[HarmonyPatch(typeof(ElementLoader), nameof(ElementLoader.CollectElementsFromYAML))]
 		public class ElementLoader_CollectElementsFromYAML_Patch
 		{
-			public static void Postfix(ElementLoader __instance, ref List<ElementEntry> __result)
+			public static void Postfix(ref List<ElementEntry> __result)
 			{
 				ModElements.ClearReenabledVanillaElementCodexTags(ref __result);
 			}

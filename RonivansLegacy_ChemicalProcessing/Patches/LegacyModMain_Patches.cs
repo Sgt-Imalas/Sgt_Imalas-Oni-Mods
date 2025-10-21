@@ -18,7 +18,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
         [HarmonyPatch(typeof(LegacyModMain), nameof(LegacyModMain.ConfigElements))]
         public class LegacyModMain_ConfigElements_Patch
         {
-            public static void Postfix(LegacyModMain __instance)
+            public static void Postfix()
 			{
 				ModElements.ConfigureElements();
 			}
@@ -31,7 +31,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		[HarmonyPatch(typeof(LegacyModMain), nameof(LegacyModMain.LoadEntities))]
 		public class LegacyModMain_LoadEntities_Patch
 		{
-			public static void Postfix(LegacyModMain __instance)
+			public static void Postfix()
 			{
 				AdditionalRecipes.RegisterRecipes_PostLoadEntities();
 			}
