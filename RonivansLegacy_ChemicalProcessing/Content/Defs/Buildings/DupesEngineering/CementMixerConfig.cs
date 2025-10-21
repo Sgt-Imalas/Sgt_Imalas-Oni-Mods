@@ -95,7 +95,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 
 			RecipeBuilder.Create(ID, 30)
 				.Input(SimHashes.Cement, 100)
-				.Input(SimHashes.Sand, 200)
+				.Input([SimHashes.Sand, SimHashes.Regolith], 200)
 				.Input(SimHashes.CrushedRock, 300)
 				.Input(SimHashes.Water, 25)
 				.Output(ModElements.ConcreteBlock_Solid, 600, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)

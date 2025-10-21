@@ -185,7 +185,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			dispenser.elementFilter = [SimHashes.Water];
 			dispenser.alwaysDispense = true;
 
-			go.AddOrGet<ElementConversionBuilding>(); //Handles element converter
+			go.AddOrGet<ElementConversionBuilding>().ShowWorkingStatus = true; //Handles element converter
 			this.AttachPort(go);
 		}
 
@@ -201,7 +201,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 		public override void DoPostConfigureComplete(GameObject go)
 		{
-			go.AddOrGetDef<PoweredActiveController.Def>().showWorkingStatus = true;
 		}
 
 		public override void DoPostConfigurePreview(BuildingDef def, GameObject go)
