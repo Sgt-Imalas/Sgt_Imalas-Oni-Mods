@@ -83,7 +83,7 @@ namespace Mineral_Processing_Mining.Buildings
 			// Result: Steel Drill Bits 2x
 			//==================================================================================================================================================
 			RecipeBuilder.Create(ID, 50)
-				.Input(SimHashes.Steel, 250)
+				.Input(RefinementRecipeHelper.GetSteelLikes(), 250)
 				.Input(SimHashes.Iron, 50)
 				.Input(combustibles, 20)
 				.Output(Mining_Drillbits_Steel_ItemConfig.TAG, 2, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, false)
@@ -100,7 +100,7 @@ namespace Mineral_Processing_Mining.Buildings
 			//==================================================================================================================================================
 			RecipeBuilder.Create(ID, 50)
 				.Input(SimHashes.Tungsten, 200)
-				.Input(SimHashes.Steel, 100)
+				.Input(RefinementRecipeHelper.GetSteelLikes(), 100)
 				.Input(combustibles, 20)
 				.Output(Mining_Drillbits_Tungsten_ItemConfig.TAG, 2, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, false)
 				.Description(MINING_DRILLBITS_TUNGSTEN_ITEM.RECIPE_DESC)

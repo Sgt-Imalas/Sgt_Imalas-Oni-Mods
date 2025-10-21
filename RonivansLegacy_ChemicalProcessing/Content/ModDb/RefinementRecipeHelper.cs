@@ -44,5 +44,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			&& (exclude == null || !exclude.Contains(e.id)))
 				.Select(e => e.id);
 		}
+
+		public static IEnumerable<Tag> GetSteelLikes()
+		{
+			return [
+				SimHashes.Steel.CreateTag(),
+				ModElements.Permendur_Solid.Tag,
+				ModElements.Brass_Solid.Tag
+				];
+		}
 	}
 }
