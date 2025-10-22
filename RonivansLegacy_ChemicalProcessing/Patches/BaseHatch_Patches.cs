@@ -62,7 +62,10 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
 				{
 					string hatchTarget = (poopTag == GameTags.Metal) ? HatchMetalConfig.ID : HatchHardConfig.ID;
-					__result.Add(CritterDietsInfo.AddToList([hatchTarget], SourceModInfo.ChemicalProcessing_IO, new Diet.Info( new HashSet<Tag>([ModElements.Argentite_Solid.Tag]), (poopTag == GameTags.Metal) ? ModElements.Silver_Solid.Tag : poopTag, caloriesPerKg, producedConversionRate, diseaseId, diseasePerKgProduced)));
+					//__result.Add(
+						CritterDietsInfo.AddToList([hatchTarget], SourceModInfo.ChemicalProcessing_IO, new Diet.Info( new HashSet<Tag>([ModElements.Argentite_Solid.Tag]), (poopTag == GameTags.Metal) ? ModElements.Silver_Solid.Tag : poopTag, caloriesPerKg, producedConversionRate, diseaseId, diseasePerKgProduced))
+					//	)
+						;
 					
 					///added via starting metal tag now
 					//__result.Add(

@@ -902,6 +902,7 @@ elements:
     radiationAbsorptionFactor: 0.46
     radiationPer1000Mass: 0
     materialCategory: Metal
+    refinedMetalTarget: SolidZinc
     tags:
     - BuildableAny
     - Ore
@@ -932,10 +933,12 @@ elements:
     radiationAbsorptionFactor: 0.46
     radiationPer1000Mass: 0
     materialCategory: Metal
+    refinedMetalTarget: SolidSilver
     tags:
     - BuildableAny
     - Ore
     - Antiseptic
+    - StartingMetalOre
     buildMenuSort: 2
     isDisabled: false
     state: Solid
