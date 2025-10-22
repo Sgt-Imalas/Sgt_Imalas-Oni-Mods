@@ -357,7 +357,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = FormatAsLink("Sour Gas Sweetener", nameof(CHEMICAL_SOURGASSWEETENER));
 					public static LocString DESC = "A treatment plant that uses activated carbon beds for de-acidification of sour gas.";
-					public static LocString EFFECT = "Uses " + FormatAsLink("Activated Carbon", "REFINEDCARBON") + " for the adsorbtion the sulphuric compounds from "+ FormatAsLink("Sour Gas", "SOURGAS")+", yielding " + FormatAsLink("Natural Gas", "METHANE") +" and elemental " + FormatAsLink("Sulphur", "SULPHUR")+".\nActivated carbon requires periodic replacing.";
+					public static LocString EFFECT = "Uses " + FormatAsLink("\"Activated Carbon\"", "REFINEDCARBON") + " for the adsorbtion the sulphuric compounds from "+ FormatAsLink("Sour Gas", "SOURGAS")+", yielding " + FormatAsLink("Natural Gas", "METHANE") +" and elemental " + FormatAsLink("Sulphur", "SULPHUR")+".\nActivated carbon requires periodic replacing.";
 				}
 				public class CHEMICAL_CRUDEOILREFINERY
 				{
@@ -560,7 +560,7 @@ namespace RonivansLegacy_ChemicalProcessing
 						"The stripping process also produces "
 						,FormatAsLink("Sour Gas", "SOURGAS"), " from the separation.\n"
 						,FormatAsLink("Sand", "SAND"), " is required to further filter the water from any other contaminants it may still have, which is then released as  "
-						,FormatAsLink("Polluted Dirty", "TOXICSAND"), " afterwards.\n" +
+						,FormatAsLink("Polluted Dirt", "TOXICSAND"), " afterwards.\n" +
 						"IMPORTANT: The building require all pipes ports to be connected with their respective pipes in order for it to operate."
 						]);
 				}

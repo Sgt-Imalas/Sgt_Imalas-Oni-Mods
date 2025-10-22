@@ -1353,7 +1353,7 @@ msgid ""
 "Separate clean <link=\"WATER\">Water</link> from <link=\"SOURWATER\">Sour Water</link> using hot <link=\"STEAM\">Steam</link>.\n"
 " The stripping process also produces <link=\"SOURGAS\">Sour Gas</link> from the separation.\n"
 "<link=\"SAND\">Sand</link> is required to further filter the water from any other contaminants it may still have, which is then released "
-"as  <link=\"TOXICSAND\">Polluted Dirty</link> afterwards.\n"
+"as  <link=\"TOXICSAND\">Polluted Dirt</link> afterwards.\n"
 "IMPORTANT: The building require all pipes ports to be connected with their respective pipes in order for it to operate."
 msgstr ""
 
