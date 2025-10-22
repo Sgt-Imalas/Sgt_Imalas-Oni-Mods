@@ -73,7 +73,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 			go.AddOrGet<BuildingComplete>().isManuallyOperated = false;
 
-			Tag filter = SimHashes.Sand.CreateTag();
+			Tag filter = GameTags.Filter;
 
 			ConduitConsumer crudeOilInput = go.AddOrGet<ConduitConsumer>();
 			crudeOilInput.conduitType = ConduitType.Liquid;
@@ -108,7 +108,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			stripping.consumedElements = [
 				new ElementConverter.ConsumedElement(ModElements.SourWater_Liquid.Tag, 5f),
 				new ElementConverter.ConsumedElement(SimHashes.Steam.CreateTag(), 0.25f),
-				new ElementConverter.ConsumedElement(SimHashes.Sand.CreateTag(), 0.1f)];
+				new ElementConverter.ConsumedElement(filter, 0.1f)];
 			stripping.outputElements = [
 				new ElementConverter.OutputElement(4.250f, SimHashes.Water, 321.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0),
 				new ElementConverter.OutputElement(0.750f, SimHashes.SourGas, 367.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0),
