@@ -105,9 +105,9 @@ namespace Metallurgy.Buildings
 
 			ElementConverter elementConverter = go.AddOrGet<ElementConverter>();
 			elementConverter.consumedElements =
-			[new ElementConverter.ConsumedElement(this.FUEL_TAG, 0.1f, true)];
-			elementConverter.outputElements =
-			[new ElementConverter.OutputElement(0.025f, SimHashes.CarbonDioxide, 348.15f, false, false, 0f, 2f, 1f, byte.MaxValue, 0, true)];
+			[new ElementConverter.ConsumedElement(this.FUEL_TAG, 0.1f)];
+		//	elementConverter.outputElements =
+		//	[new ElementConverter.OutputElement(0.025f, SimHashes.CarbonDioxide, 348.15f, false, false, 0f, 2f, 1f, byte.MaxValue, 0, true)];
 
 			PipedConduitDispenser mainOutputPort = go.AddComponent<PipedConduitDispenser>();
 			mainOutputPort.storage = furnace.outStorage;
