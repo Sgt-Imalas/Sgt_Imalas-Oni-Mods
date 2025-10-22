@@ -24,7 +24,7 @@ namespace Dupes_Machinery.Biological_Vats
 			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 3, 4, "bio_coral_vat_kanim", 30, 90f, singleArray1, textArray1, 1600f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.PENALTY.TIER1, noise, 0.2f);
 			def1.RequiresPowerInput = true;
 			def1.Floodable = true;
-			def1.ViewMode = OverlayModes.Oxygen.ID;
+			def1.ViewMode = OverlayModes.None.ID;
 			def1.AudioCategory = "HollowMetal";
 			def1.EnergyConsumptionWhenActive = 360f;
 			def1.SelfHeatKilowattsWhenActive = 2f;
@@ -48,70 +48,95 @@ namespace Dupes_Machinery.Biological_Vats
 		{
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 			go.AddOrGet<BuildingComplete>().isManuallyOperated = false;
-			Tag tag = SimHashes.Sand.CreateTag();
+			Tag coralNutrients = SimHashes.Sand.CreateTag();
+			float chlorineConversionRate = 0.060f;
+
 
 			Storage local1 = go.AddOrGet<Storage>();
 			local1.SetDefaultStoredItemModifiers(Storage.StandardSealedStorage);
 			local1.showInUI = true;
 
-			ElementConverter converter = go.AddComponent<ElementConverter>();
-			converter.consumedElements = [new ElementConverter.ConsumedElement(SimHashes.SaltWater.CreateTag(), 2f), new ElementConverter.ConsumedElement(tag, 0.05f)];
-			converter.outputElements = [new ElementConverter.OutputElement(1.86f, SimHashes.Water, 0f, false, true, 0f, 0.5f, 0.75f, 0xff, 0), new ElementConverter.OutputElement(0.0224f, SimHashes.BleachStone, 0f, false, true, 0f, 0.5f, 0.25f, 0xff, 0)];
+			// taken from Bleachstone Hopper
+			float saltToBleachstoneRation = 1f / 3f;
+			//7% salt -> 140g salt extracted per 2kg saltwater
 
-			ElementConverter converter2 = go.AddComponent<ElementConverter>();
-			converter2.consumedElements = [new ElementConverter.ConsumedElement(SimHashes.Brine.CreateTag(), 2f), new ElementConverter.ConsumedElement(tag, 0.05f)];
-			converter2.outputElements = [new ElementConverter.OutputElement(1.4f, SimHashes.Water, 313.15f, false, true, 0f, 0.5f, 0.75f, 0xff, 0), new ElementConverter.OutputElement(0.096f, SimHashes.BleachStone, 313.15f, false, true, 0f, 0.5f, 0.25f, 0xff, 0)];
+			ElementConverter saltWaterConverter = go.AddComponent<ElementConverter>();
+			saltWaterConverter.consumedElements = [
+				new ElementConverter.ConsumedElement(SimHashes.SaltWater.CreateTag(), 2f)
+				, new ElementConverter.ConsumedElement(coralNutrients, 0.05f)
+				];
 
-			ElementConverter converter3 = go.AddComponent<ElementConverter>();
-			converter3.consumedElements = [new ElementConverter.ConsumedElement(SimHashes.ChlorineGas.CreateTag(), 0.05f), new ElementConverter.ConsumedElement(tag, 0.1f)];
-			converter3.outputElements = [new ElementConverter.OutputElement(0.008f, SimHashes.BleachStone, 303.15f, false, true, 0f, 1f, 1f, 0xff, 0)];
+			saltWaterConverter.outputElements = [
+				new ElementConverter.OutputElement(1.86f, SimHashes.Water, UtilMethods.GetKelvinFromC(5), false, true),
+				new ElementConverter.OutputElement(0.140f * saltToBleachstoneRation, SimHashes.BleachStone, UtilMethods.GetKelvinFromC(5), false, true)
+				];
 
-			ElementDropper local2 = go.AddComponent<ElementDropper>();
-			local2.emitMass = 1f;
-			local2.emitTag = SimHashes.BleachStone.CreateTag();
-			local2.emitOffset = new Vector3(0f, 1f, 0f);
+			//30% brine -> 600g salt extracted per 2kg brine
 
-			ManualDeliveryKG local3 = go.AddComponent<ManualDeliveryKG>();
-			local3.SetStorage(local1);
-			local3.RequestedItemTag = tag;
-			local3.capacity = 500f;
-			local3.refillMass = 100f;
-			local3.choreTypeIDHash = Db.Get().ChoreTypes.MachineFetch.IdHash;
+			ElementConverter brineConverter = go.AddComponent<ElementConverter>();
+			brineConverter.consumedElements = [
+				new ElementConverter.ConsumedElement(SimHashes.Brine.CreateTag(), 2f),
+				new ElementConverter.ConsumedElement(coralNutrients, 0.05f)
+				];
+			brineConverter.outputElements = [
+				new ElementConverter.OutputElement(1.4f, SimHashes.Water, UtilMethods.GetKelvinFromC(5), false, true),
+				new ElementConverter.OutputElement(0.600f * saltToBleachstoneRation, SimHashes.BleachStone, UtilMethods.GetKelvinFromC(5), false, true)];
 
-			ConduitConsumer local4 = go.AddOrGet<ConduitConsumer>();
-			local4.conduitType = ConduitType.Liquid;
-			local4.consumptionRate = 10f;
-			local4.capacityKG = 20f;
-			local4.capacityTag = GameTags.AnyWater;
-			local4.forceAlwaysSatisfied = true;
-			local4.wrongElementResult = ConduitConsumer.WrongElementResult.Store;
+			ElementConverter chlorineGasCondenser = go.AddComponent<ElementConverter>();
+			chlorineGasCondenser.consumedElements = [
+				new ElementConverter.ConsumedElement(SimHashes.ChlorineGas.CreateTag(), chlorineConversionRate)
+				, new ElementConverter.ConsumedElement(coralNutrients, 0.1f)
+				];
+			chlorineGasCondenser.outputElements = [
+				new ElementConverter.OutputElement(chlorineConversionRate, SimHashes.BleachStone, UtilMethods.GetKelvinFromC(5), false, true)];
 
-			ConduitDispenser local5 = go.AddOrGet<ConduitDispenser>();
-			local5.conduitType = ConduitType.Liquid;
-			local5.invertElementFilter = true;
-			local5.elementFilter = [SimHashes.SaltWater, SimHashes.Brine];
+			ElementDropper bleachstoneDropper = go.AddComponent<ElementDropper>();
+			bleachstoneDropper.emitMass = 10f;
+			bleachstoneDropper.emitTag = SimHashes.BleachStone.CreateTag();
+			bleachstoneDropper.emitOffset = new Vector3(0f, 1f, 0f);
+
+			ManualDeliveryKG sandDelivery = go.AddComponent<ManualDeliveryKG>();
+			sandDelivery.SetStorage(local1);
+			sandDelivery.RequestedItemTag = coralNutrients;
+			sandDelivery.capacity = 500f;
+			sandDelivery.refillMass = 100f;
+			sandDelivery.choreTypeIDHash = Db.Get().ChoreTypes.MachineFetch.IdHash;
+
+			ConduitConsumer waterConsumer = go.AddOrGet<ConduitConsumer>();
+			waterConsumer.conduitType = ConduitType.Liquid;
+			waterConsumer.consumptionRate = 10f;
+			waterConsumer.capacityKG = 20f;
+			waterConsumer.capacityTag = GameTags.AnyWater;
+			waterConsumer.forceAlwaysSatisfied = true;
+			waterConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Store;
+
+			ConduitDispenser OutputDispenser = go.AddOrGet<ConduitDispenser>();
+			OutputDispenser.conduitType = ConduitType.Liquid;
+			OutputDispenser.invertElementFilter = true;
+			OutputDispenser.elementFilter = [SimHashes.SaltWater, SimHashes.Brine];
 			Prioritizable.AddRef(go);
 
-			ElementConsumer local6 = go.AddOrGet<ElementConsumer>();
-			local6.elementToConsume = SimHashes.ChlorineGas;
-			local6.consumptionRate = 0.05f;
-			local6.consumptionRadius = 6;
-			local6.storeOnConsume = true;
-			local6.capacityKG = 10f;
-			local6.showInStatusPanel = true;
-			local6.sampleCellOffset = new Vector3(0f, 1f, 0f);
-			local6.isRequired = false;
+			ElementConsumer worldChlorineConsumer = go.AddOrGet<ElementConsumer>();
+			worldChlorineConsumer.elementToConsume = SimHashes.ChlorineGas;
+			worldChlorineConsumer.consumptionRate = chlorineConversionRate;
+			worldChlorineConsumer.consumptionRadius = 6;
+			worldChlorineConsumer.storeOnConsume = true;
+			worldChlorineConsumer.capacityKG = 10f;
+			worldChlorineConsumer.showInStatusPanel = true;
+			worldChlorineConsumer.sampleCellOffset = new Vector3(0f, 1f, 0f);
+			worldChlorineConsumer.isRequired = false;
 
 			go.AddOrGet<KBatchedAnimController>().randomiseLoopedOffset = true;
 			go.AddOrGet<AnimTileable>();
-			go.AddOrGet<ElementConversionBuilding>().ConvertersToIgnore = [2]; //Handles element converter
+			var animHandler = go.AddOrGet<ElementConversionBuilding>();
+			animHandler.ConvertersToIgnore = [2]; //Handles element converter
+			animHandler.ShowWorkingStatus = true;
 
 			Prioritizable.AddRef(go);
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)
 		{
-			go.AddOrGetDef<PoweredActiveController.Def>().showWorkingStatus = true;
 		}
 
 		public override void DoPostConfigurePreview(BuildingDef def, GameObject go)
