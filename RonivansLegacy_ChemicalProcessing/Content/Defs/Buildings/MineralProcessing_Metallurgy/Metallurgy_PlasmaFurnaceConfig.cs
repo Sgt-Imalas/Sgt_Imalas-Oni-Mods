@@ -111,7 +111,7 @@ namespace Metallurgy.Buildings
 
 			PipedConduitDispenser mainOutputPort = go.AddComponent<PipedConduitDispenser>();
 			mainOutputPort.storage = furnace.outStorage;
-			mainOutputPort.tagFilter = [GameTags.Glass, GameTags.RefinedMetal];
+			mainOutputPort.tagFilter = [SimHashes.MoltenGlass.CreateTag(), GameTags.RefinedMetal];
 			mainOutputPort.AssignPort(MainOutputPort);
 			mainOutputPort.alwaysDispense = true;
 			mainOutputPort.SkipSetOperational = true;
