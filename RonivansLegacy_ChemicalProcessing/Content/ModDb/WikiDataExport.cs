@@ -57,7 +57,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 						var ModName = Strings.Get($"STRINGS.AIO_MODSOURCE.{sourceMod.ToString().ToUpperInvariant()}").ToString();
 						var folder = exporter.root.SubDir(ModName);
 						submodFolders[sourceMod] = folder;
-						page = folder.File("Buildings");
+						page = folder.File("buildings");
 						buildingPages[sourceMod] = page;
 					}
 
@@ -127,7 +127,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.Add(new MD_SubstanceTable(ModElements.ChemicalProcessing_IO_Elements))
 				.Add(new MD_Header(reenabledElements, 2))
 				.Add(new MD_Text(reenabledElementsText))
-				.Add(new MD_SubstanceTable([SimHashes.Naphtha, SimHashes.Syngas, SimHashes.Propane, SimHashes.LiquidPropane, SimHashes.SolidPropane, SimHashes.Electrum, SimHashes.PhosphateNodules, SimHashes.CrushedRock]))
+				.Add(new MD_SubstanceTable([SimHashes.Syngas, SimHashes.Propane, SimHashes.LiquidPropane, SimHashes.SolidPropane, SimHashes.Electrum, SimHashes.PhosphateNodules, SimHashes.CrushedRock]))
 				.Add(critterFoodHeader)
 				.Add(new MD_CritterConsumptionsTable(CritterDietsInfo.GetCritterInfo(SourceModInfo.ChemicalProcessing_IO)));
 			;

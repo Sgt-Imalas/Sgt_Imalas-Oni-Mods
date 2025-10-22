@@ -54,17 +54,27 @@ namespace UtilLibs.MarkdownExport
 			{
 				sb.AppendLine($"|{L("BUILDING_DIMENSIONS_LABEL")} | {string.Format(L("BUILDING_DIMENSIONS_INFO"), area.GetWidthInCells(), area.GetHeightInCells())}|");
 			}
+			bool isGeyser =false;
 			if (entity.TryGetComponent<GeyserConfigurator>(out var configurator))
 			{
 				var type = GeyserConfigurator.FindType(configurator.presetType);
 
+				float maxRate = type.maxRatePerCycle/1000;
+				float minRate = type.minRatePerCycle / 1000;
+				float avgRate = (maxRate+minRate) / 2;
+
+				string avg = MarkdownUtil.GetFormattedMass(avgRate, TimeSlice.PerSecond);
+				string min = MarkdownUtil.GetFormattedMass(minRate, TimeSlice.PerSecond);
+				string max = MarkdownUtil.GetFormattedMass(maxRate, TimeSlice.PerSecond);
+
 				string temp = string.Format(L("AT_TEMPERATURE"), GameUtil.GetTemperatureConvertedFromKelvin(type.temperature, TemperatureUnit.Celsius).ToString());
 
 				sb.AppendLine($"|{L("STRINGS.MISC.STATUSITEMS.SPOUTEMITTING.NAME").Replace("{StudiedDetails}",string.Empty)} | {MarkdownUtil.GetTagStringWithIcon(type.element.CreateTag()) +" "+ temp}|{EmptyTableCell} |");
-				
+				sb.AppendLine($"|{L("STRINGS.UI.BUILDINGEFFECTS.GEYSER_YEAR_AVR_OUTPUT")} | {avg} ({min} - {max})|{EmptyTableCell} |");
 
+				isGeyser = true;
 			}
-			if(entity.TryGetComponent<DecorProvider>(out var decorProvider))
+			if(entity.TryGetComponent<DecorProvider>(out var decorProvider) && !isGeyser)
 			{
 				sb.Append("|");
 				sb.Append(Strip(L("STRINGS.DUPLICANTS.ATTRIBUTES.DECOR.NAME")));
