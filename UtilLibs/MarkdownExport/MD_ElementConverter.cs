@@ -25,27 +25,29 @@ namespace UtilLibs.MarkdownExport
 			sb.AppendLine($"|{L("INPUTS_HEADER")}|{L("OUTPUTS_HEADER")}|");
 			sb.AppendLine("|-|-|");
 			sb.Append("|");
-			foreach (var input in converter.consumedElements)
-			{
-				sb.Append(MarkdownUtil.GetFormattedMass(input.Tag, input.MassConsumptionRate, GameUtil.TimeSlice.PerSecond));
-				sb.Append("<br>");
-			}
+			if (converter.consumedElements != null)
+				foreach (var input in converter.consumedElements)
+				{
+					sb.Append(MarkdownUtil.GetFormattedMass(input.Tag, input.MassConsumptionRate, GameUtil.TimeSlice.PerSecond));
+					sb.Append("<br>");
+				}
 			sb.Append("|");
 
-			foreach (var output in converter.outputElements)
-			{
-				var temp = string.Empty;
-				if (!output.useEntityTemperature)
+			if (converter.outputElements != null)
+				foreach (var output in converter.outputElements)
 				{
-					temp = string.Format(L("AT_TEMPERATURE"), GameUtil.GetTemperatureConvertedFromKelvin(output.minOutputTemperature, TemperatureUnit.Celsius).ToString());
+					var temp = string.Empty;
+					if (!output.useEntityTemperature)
+					{
+						temp = string.Format(L("AT_TEMPERATURE"), GameUtil.GetTemperatureConvertedFromKelvin(output.minOutputTemperature, TemperatureUnit.Celsius).ToString());
+					}
+					sb.Append(MarkdownUtil.GetFormattedMass(output.elementHash.CreateTag(), output.massGenerationRate, GameUtil.TimeSlice.PerSecond, temp));
+					sb.Append("<br>");
 				}
-				sb.Append(MarkdownUtil.GetFormattedMass(output.elementHash.CreateTag(), output.massGenerationRate, GameUtil.TimeSlice.PerSecond, temp));				
-				sb.Append("<br>");
-			}
 
 			if (converter.TryGetComponent<OilWellCap>(out var oilWell))
 			{
-				var temp = string.Format(L("AT_TEMPERATURE"), GameUtil.GetTemperatureConvertedFromKelvin(oilWell.gasTemperature, TemperatureUnit.Celsius).ToString());				
+				var temp = string.Format(L("AT_TEMPERATURE"), GameUtil.GetTemperatureConvertedFromKelvin(oilWell.gasTemperature, TemperatureUnit.Celsius).ToString());
 				sb.Append(MarkdownUtil.GetFormattedMass(oilWell.gasElement.CreateTag(), oilWell.addGasRate, GameUtil.TimeSlice.PerSecond, temp));
 				sb.Append("<br>");
 			}
