@@ -72,7 +72,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			PortConduitConsumer ammoniaInput = go.AddOrGet<PortConduitConsumer>();
 			ammoniaInput.conduitType = ConduitType.Gas;
 			ammoniaInput.consumptionRate = 10f;
-			ammoniaInput.capacityKG = 50f;
+			ammoniaInput.capacityKG = 20f;
 			ammoniaInput.capacityTag = ModElements.Ammonia_Gas.Tag;
 			ammoniaInput.forceAlwaysSatisfied = true;
 			ammoniaInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
@@ -81,7 +81,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			PortConduitConsumer sulfuricInput = go.AddComponent<PortConduitConsumer>();
 			sulfuricInput.conduitType = ConduitType.Liquid;
 			sulfuricInput.consumptionRate = 10f;
-			sulfuricInput.capacityKG = 50f;
+			sulfuricInput.capacityKG = 20f;
 			sulfuricInput.capacityTag = ModElements.SulphuricAcid_Liquid.Tag;
 			sulfuricInput.forceAlwaysSatisfied = true;
 			sulfuricInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
@@ -90,7 +90,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			PortConduitConsumer oxygenInput = go.AddComponent<PortConduitConsumer>();
 			oxygenInput.conduitType = ConduitType.Gas;
 			oxygenInput.consumptionRate = 10f;
-			oxygenInput.capacityKG = 50f;
+			oxygenInput.capacityKG = 20f;
 			oxygenInput.capacityTag = SimHashes.Oxygen.CreateTag();
 			oxygenInput.forceAlwaysSatisfied = true;
 			oxygenInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
@@ -145,9 +145,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			selector.acidConverter = sulphuricConverter;
 			selector.ammoniaConverter = ammoniaConverter;
 			selector.saltDelivery = salt_delivery;
-			selector.acidConsumer = sulfuricInput;
-			selector.ammoniaConsumer = ammoniaInput;
-			selector.oxygenConsumer = oxygenInput;
 
 			//-------------------------------------------------------------------
 
@@ -184,7 +181,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 		public override void DoPostConfigureComplete(GameObject go)
 		{
-			go.AddOrGetDef<PoweredActiveController.Def>().showWorkingStatus = true;
+			this.AttachPort(go);
 		}
 
 		public override void DoPostConfigurePreview(BuildingDef def, GameObject go)
