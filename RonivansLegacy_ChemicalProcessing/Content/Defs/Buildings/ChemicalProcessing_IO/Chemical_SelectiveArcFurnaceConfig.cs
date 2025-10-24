@@ -99,23 +99,22 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 
 			//---- [ Permendur ] --------------------------------------------------------------------------------------------
-			// Ingredient: Iron          - 50kg
-			//             Cobalt        - 50kg
-			//             Borax         - 5kg
+			// Ingredient: Iron          - 46kg
+			//             Cobalt        - 46kg
+			//             Borax         - 8kg
 			// Result:     Niobium       - 100kg             
 			//-------------------------------------------------------------------------------------------------------------------------
-			if (DlcManager.IsExpansion1Active())
-			{
-				RecipeBuilder.Create(ID, 50)
-					.Input(SimHashes.Iron, 50)
-					.Input(SimHashes.Cobalt, 50)
-					.Input(ModElements.Borax_Solid, 4)
-					.Output(ModElements.Permendur_Solid, 100)
-					.Description(ARCFURNACE_SMELT_3_1, 3, 1)
-					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
-					.SortOrder(index++)
-					.Build();
-			}
+
+			RecipeBuilder.Create(ID, 50)
+				.Input(SimHashes.Iron, 46)
+				.Input(SimHashes.Cobalt, 46)
+				.Input(ModElements.Borax_Solid, 8)
+				.Output(ModElements.Permendur_Solid, 100)
+				.Description(ARCFURNACE_SMELT_3_1, 3, 1)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+				.SortOrder(index++)
+				.Build();
+
 
 			//---- [ Steel #1 ] -----------------------------------------------------------------------------------------------------
 			// Ingredient: Iron             - 70kg
