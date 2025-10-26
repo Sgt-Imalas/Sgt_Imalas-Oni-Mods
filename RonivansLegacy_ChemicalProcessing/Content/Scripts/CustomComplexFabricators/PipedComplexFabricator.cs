@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabricators;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using UnityEngine;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {
-	class PipedComplexFabricator : ComplexFabricator
+	class PipedComplexFabricator : CustomComplexFabricatorBase
 	{
 		[SerializeField]
 		public bool keepExcessGasses = false;

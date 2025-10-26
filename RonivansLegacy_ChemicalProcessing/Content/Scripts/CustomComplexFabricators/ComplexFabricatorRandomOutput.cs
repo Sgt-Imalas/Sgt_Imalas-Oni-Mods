@@ -1,15 +1,16 @@
-﻿using System;
+﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabricators;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
-using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRandom
 {
-	class ComplexFabricatorRandomOutput : ComplexFabricator
+	class ComplexFabricatorRandomOutput : CustomComplexFabricatorBase
 	{
 		[SerializeField] int ByproductSpawnChancePerSecond = 100;
 		//evry x seconds, spawn a byproduct if the chance above is rolled ^
@@ -34,6 +35,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 			base.Sim1000ms(dt);
 			SpawnFabricationOccurences(dt);
 		}
+
 
 		public void SpawnProductsFor(RecipeRandomResult recipeRandomResult)
 		{
