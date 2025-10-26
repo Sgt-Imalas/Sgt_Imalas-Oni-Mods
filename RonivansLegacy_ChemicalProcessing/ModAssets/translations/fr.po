@@ -4937,7 +4937,7 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR
 msgid ""
 "Smelt {0} into random products.\n"
 "The Furnace system will separate the mixture in different portions based on each layer composition.\n"
-"The smelting process has a random chance of yelding the following materials: {1}\n"
+"The smelting process has a random chance of yielding the following materials: {1}\n"
 "\n"
 "Produces {2} as waste."
 msgstr ""

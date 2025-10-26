@@ -534,6 +534,9 @@ namespace RonivansLegacy_ChemicalProcessing
 							FormatAsLink("Refined Metals", "REFINEDMETAL"),
 							" and in the manufacture of metal alloys."
 						]);
+					public static string REFINEMENT_HEAT_EXHAUST = "Refinement exhaust heat";
+					public static string REFINEMENT_SELF_HEAT= "Refinement heat";
+					public static string REFINEMENT_HEAT_TOOLTIP= "During refinement of this recipe, the machine will produce a total of {0} in additional refinement heat.\nAt normal refinement speed, this amounts to {1} produced per second.";
 				}
 				public class CHEMICAL_SOILMIXER
 				{
@@ -2272,7 +2275,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString ARCFURNACE_RANDOM_RECIPE =
 					"Smelt {0} into random products.\n" +
 					"The Furnace system will separate the mixture in different portions based on each layer composition.\n" +
-					"The smelting process has a random chance of yelding the following materials: {1}\n" +
+					"The smelting process has a random chance of yielding the following materials: {1}\n" +
 					"\nProduces {2} as waste.";
 				public static LocString ARCFURNACE_NIOBIUM = "Smelt down {0} alloy to basic {1} metal.";
 
