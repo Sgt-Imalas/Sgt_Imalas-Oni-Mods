@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRandom;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabricators;
@@ -63,6 +64,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			complexFabricator.outStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 
 			var coolerBuilding = go.AddOrGet<EnvironmentCooledFabricatorAddon>();
+			coolerBuilding.thermalFudge = 1f / Config.Instance.ChemProc_ArcDivider;
 			ConfigureRecipes(go);
 			Prioritizable.AddRef(go);
 		}
