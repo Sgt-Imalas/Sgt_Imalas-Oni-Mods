@@ -242,11 +242,11 @@ namespace RonivansLegacy_ChemicalProcessing
 
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_REFINERYFUDGE.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_REFINERYFUDGE.TOOLTIP", "STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_IO", Format = "P0")]
-		[Limit(0.3f, 1f)]
+		[Limit(0.5f, 1f)]
 		public float ChemProc_RefineryFudge { get; set; } = 0.6f;
 
 		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_REFINERYFUDGEADV.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_REFINERYFUDGEADV.TOOLTIP", "STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_IO",Format ="P0")]
-		[Limit(0.3f, 1f)]
+		[Limit(0.5f, 1f)]
 		public float ChemProc_AdvRefineryFudge { get; set; } = 0.9f;
 	}
 }

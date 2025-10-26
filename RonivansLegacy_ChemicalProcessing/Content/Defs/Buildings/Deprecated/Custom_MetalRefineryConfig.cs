@@ -23,10 +23,10 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		//--[ Identification and DLC stuff ]---------------------------------------------------------------------------------------
 
 		//--[ Special Settings ]---------------------------------------------------------------------------------------------------
-		private const float INPUT_KG = 100f;
-		private const float LIQUID_COOLED_HEAT_PORTION = 0.8f;
-		private static readonly Tag COOLANT_TAG = GameTags.Liquid;
-		private const float COOLANT_MASS = 400f;
+		//private const float INPUT_KG = 100f;
+		//private const float LIQUID_COOLED_HEAT_PORTION = 0.8f;
+		//private static readonly Tag COOLANT_TAG = GameTags.Liquid;
+		//private const float COOLANT_MASS = 400f;
 
 
 		//--[ Building Definitions ]------------------------------------------------------------------------------------------------
@@ -113,6 +113,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//-------------------------------------------------------------------------------------------------------------------------------------
 			foreach (var element in RefinementRecipeHelper.GetNormalOres())
 			{
+				///wolframite to tungsten is removed from metal refinery in chemproc 
+				//if (element.id == SimHashes.Wolframite)
+				//	continue;
 
 				Element refinedElement = element.highTempTransition.lowTempTransition;
 

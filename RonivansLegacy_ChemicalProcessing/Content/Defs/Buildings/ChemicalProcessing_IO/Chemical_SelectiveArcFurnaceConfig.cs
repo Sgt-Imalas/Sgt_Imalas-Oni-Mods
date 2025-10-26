@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRandom;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabricators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,13 +59,15 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			complexFabricator.buildStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			complexFabricator.outStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 
-			this.ConfigureRecipes();
+			var coolerBuilding = go.AddOrGet<EnvironmentCooledFabricatorAddon>();
+			ConfigureRecipes(go);
 			Prioritizable.AddRef(go);
 		}
 
 		//====[ CHEMICAL: SELECTIVE ARC-FURNACE RECIPES ]========================================================================
-		private void ConfigureRecipes()
-		{
+		private static void ConfigureRecipes(GameObject go)
+		{			
+
 			int index = 0;
 
 			//---- [ Brass ] ----------------------------------------------------------------------------------------------------
@@ -109,7 +112,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Input(SimHashes.Iron, 46)
 				.Input(SimHashes.Cobalt, 46)
 				.Input(ModElements.Borax_Solid, 8)
-				.Output(ModElements.Permendur_Solid, 100)
+				.Output(ModElements.Permendur_Solid, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description(ARCFURNACE_SMELT_3_1, 3, 1)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 				.SortOrder(index++)
