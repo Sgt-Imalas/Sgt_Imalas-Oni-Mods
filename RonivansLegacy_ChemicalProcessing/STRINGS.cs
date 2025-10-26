@@ -2443,6 +2443,16 @@ namespace RonivansLegacy_ChemicalProcessing
 					"\nThis give the building a better purpose, as its current yields are quite low, compared to the seakomb, which has its balance defined by the game." +
 					"\nTurn off to get the old yields back";
 			}
+			public class CHEMPROC_REFINERYFUDGE
+			{
+				public static LocString NAME = "Metal Refinery Thermal Fudge";
+				public static LocString TOOLTIP = "The Metal refinery only puts a percentage of its recipes heat into the coolant.\nDoes not affect the advanced refinery\nThe vanilla value for this is 80%.\nThe default value for the mod is 60%";
+			}
+			public class CHEMPROC_REFINERYFUDGEADV
+			{
+				public static LocString NAME = "Advanced Refinery Thermal Fudge";
+				public static LocString TOOLTIP = "The Advanced Metal refinery only puts a percentage of its recipes heat into the coolant.\nDoes not affect the normal refinery\nThe default value for the mod is 90%";
+			}
 		}
 	}
 }

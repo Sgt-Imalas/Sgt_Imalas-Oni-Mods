@@ -79,7 +79,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Ingredient: Pokeshell Molt    - 1 full grown crab (10kg)
 			// Result: Lime                  - 10kg
 			//-------------------------------------------------------------------------------------------------------------
-			
+
 			RecipeBuilder.Create(ID, 20)
 				.Input(CrabShellConfig.ID, 10f)
 				.Output(SimHashes.Lime, 10f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
@@ -292,6 +292,29 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 					.Output(SimHashes.Sand, 70f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Description1I1O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+					.SortOrder(index++)
+					.Build();
+
+			
+			//bammoth patty:
+			float phosphoriteRate = 4f / 15f;
+			float poopMass = 120f;
+
+			RecipeBuilder.Create(ID, 40)
+					.Input("IceBellyPoop", poopMass)
+					.Output(SimHashes.Phosphorite, poopMass * phosphoriteRate)
+					.Output(SimHashes.Clay, poopMass * (1f - phosphoriteRate))
+					.Description(string.Format(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_2, STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.ICE_BELLY_POOP.NAME, SimHashes.Phosphorite.CreateTag().ProperName(), SimHashes.Clay.CreateTag().ProperName()))
+					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
+					.SortOrder(index++)
+					.Build();
+
+			//regal bammoth crown
+			RecipeBuilder.Create(ID, 40)
+					.Input("GoldBellyCrown", 1)
+					.Output(SimHashes.GoldAmalgam, 250)
+					.Description(string.Format(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1, STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.GOLD_BELLY_CROWN.NAME, SimHashes.GoldAmalgam.CreateTag().ProperName()))
+					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 					.SortOrder(index++)
 					.Build();
 

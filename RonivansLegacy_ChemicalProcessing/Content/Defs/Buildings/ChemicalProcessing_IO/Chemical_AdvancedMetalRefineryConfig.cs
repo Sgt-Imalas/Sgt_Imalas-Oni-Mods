@@ -67,7 +67,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			liquidCooledRefinery.coolantTag = COOLANT_TAG;
 			liquidCooledRefinery.minCoolantMass = 400f;
 			liquidCooledRefinery.outStorage.capacityKg = 2000f;
-			liquidCooledRefinery.thermalFudge = 0.9f;
+			liquidCooledRefinery.thermalFudge = Config.Instance.ChemProc_AdvRefineryFudge;
 			liquidCooledRefinery.inStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			liquidCooledRefinery.buildStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			liquidCooledRefinery.outStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);

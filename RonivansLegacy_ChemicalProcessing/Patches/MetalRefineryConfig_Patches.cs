@@ -33,7 +33,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 
 					LiquidCooledRefinery liquidCooledRefinery = go.AddOrGet<LiquidCooledRefinery>();
 					liquidCooledRefinery.heatedTemperature = 320.15f;
-					liquidCooledRefinery.thermalFudge = 0.6f;
+					liquidCooledRefinery.thermalFudge = Config.Instance.ChemProc_RefineryFudge;
 				}
 			}
 		}
