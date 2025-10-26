@@ -10,7 +10,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 	{
 		public static GeyserConfigurator.GeyserType Log(this GeyserConfigurator.GeyserType type)
 		{
-			ModGeysers.GeyserIDs.Add("GeyserGeneric_"+type.id);
+			ModGeysers.GeyserIDs.Add("GeyserGeneric_" + type.id);
 			return type;
 		}
 	}
@@ -20,13 +20,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		public static HashSet<string> GeyserIDs = [];
 		public static void RegisterGeysers(List<GeyserGenericConfig.GeyserPrefabParams> configs)
 		{
-			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
-				RegisterGeysers_IndustrialOverhaul(configs);
+			//if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+			RegisterGeysers_IndustrialOverhaul(configs);
 		}
 
 		public static void RegisterGeysers_IndustrialOverhaul(List<GeyserGenericConfig.GeyserPrefabParams> configs)
 		{
-			bool generic = Config.Instance.ModGeysersGeneric;
+			bool generic = Config.Instance.ModGeysersGeneric && Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled;
 
 			//===[ CHEMICAL: AMMONIA GEYSER ]=====================================================================
 			configs.Add(new("geyser_ammonia_kanim", 4, 2,
