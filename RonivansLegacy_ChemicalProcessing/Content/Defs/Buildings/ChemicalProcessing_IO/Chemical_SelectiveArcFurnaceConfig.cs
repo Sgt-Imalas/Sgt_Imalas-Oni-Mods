@@ -30,9 +30,12 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.Overheatable = false;
 			buildingDef.RequiresPowerInput = true;
 			buildingDef.EnergyConsumptionWhenActive = 1200f;
-			//buildingDef.ExhaustKilowattsWhenActive = 88f; //total of 96kw
-			buildingDef.ExhaustKilowattsWhenActive = 24f; //total of 32kw, original
-			buildingDef.SelfHeatKilowattsWhenActive = 8f;
+			//buildingDef.ExhaustKilowattsWhenActive = 24f; //total of 32kw, original
+			//buildingDef.SelfHeatKilowattsWhenActive = 8f;
+
+			buildingDef.ExhaustKilowattsWhenActive = 3f; //heat moved to individual recipes
+			buildingDef.SelfHeatKilowattsWhenActive = 1f;
+
 			buildingDef.AudioCategory = "Metal";
 			buildingDef.PermittedRotations = PermittedRotations.FlipH;
 			SoundUtils.CopySoundsToAnim("arc_smelter_kanim", "suit_maker_kanim");
@@ -44,7 +47,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		{
 			go.AddOrGet<DropAllWorkable>();
 			go.AddOrGet<BuildingComplete>().isManuallyOperated = true;
-			Workable workable = go.AddOrGet<ComplexFabricatorWorkable>();
+			CustomComplexFabricatorWorkableBase workable = go.AddOrGet<CustomComplexFabricatorWorkableBase>();
 			ComplexFabricatorRandomOutput complexFabricator = go.AddOrGet<ComplexFabricatorRandomOutput>();
 			complexFabricator.sideScreenStyle = ComplexFabricatorSideScreen.StyleSetting.ListQueueHybrid;
 			complexFabricator.heatedTemperature = 320.15f;
