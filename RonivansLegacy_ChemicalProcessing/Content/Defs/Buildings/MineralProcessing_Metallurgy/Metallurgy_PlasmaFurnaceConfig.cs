@@ -43,11 +43,11 @@ namespace Metallurgy.Buildings
 		//--[ Building Definitions ]---------------------------------------------------------------------------------
 		public override BuildingDef CreateBuildingDef()
 		{
-			float[] singleArray1 = [2000f, 1000f];
-			string[] textArray1 = [SimHashes.Ceramic.ToString(), SimHashes.Tungsten.ToString()];
+			float[] materialCosts = [2000f, 1000f];
+			string[] BuildingMaterials = [SimHashes.Ceramic.ToString(), SimHashes.Tungsten.ToString()];
 
 			EffectorValues noise = TUNING.NOISE_POLLUTION.NOISY.TIER6;
-			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 5, 5, "plasma_furnace_kanim", 60, 120f, singleArray1, textArray1, 2400f, BuildLocationRule.OnFloor, TUNING.BUILDINGS.DECOR.PENALTY.TIER2, noise, 0.2f);
+			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 5, 5, "plasma_furnace_kanim", 60, 120f, materialCosts, BuildingMaterials, 2400f, BuildLocationRule.OnFloor, TUNING.BUILDINGS.DECOR.PENALTY.TIER2, noise, 0.2f);
 			buildingDef.RequiresPowerInput = true;
 			buildingDef.EnergyConsumptionWhenActive = 5000f;
 			buildingDef.SelfHeatKilowattsWhenActive = 24f;
@@ -125,8 +125,8 @@ namespace Metallurgy.Buildings
 			PipedOptionalExhaust exhaustMoltenMetals = go.AddComponent<PipedOptionalExhaust>();
 			exhaustMoltenMetals.dispenser = mainOutputPort;
 			exhaustMoltenMetals.elementTag = GameTags.RefinedMetal;
-			exhaustMoltenMetals.capacity = 100f;
-			exhaustMoltenMetals.emissionRate = 100f;
+			exhaustMoltenMetals.capacity = 500f;
+			exhaustMoltenMetals.emissionRate = 125f;
 
 			PipedConduitDispenser wasteOutputPort = go.AddComponent<PipedConduitDispenser>();
 			wasteOutputPort.storage = furnace.outStorage;
@@ -143,8 +143,8 @@ namespace Metallurgy.Buildings
 			PipedOptionalExhaust exhaustMagma = go.AddComponent<PipedOptionalExhaust>();
 			exhaustMagma.dispenser = wasteOutputPort;
 			exhaustMagma.elementTag = SimHashes.Magma.CreateTag();
-			exhaustMagma.capacity = 100f;
-			exhaustMagma.emissionRate = 100f;
+			exhaustMagma.capacity = 400f;
+			exhaustMagma.emissionRate = 125f;
 
 			this.AttachPort(go);
 			Prioritizable.AddRef(go);

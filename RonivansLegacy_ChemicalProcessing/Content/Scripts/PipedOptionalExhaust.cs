@@ -91,9 +91,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 			int outputCell = dispenser.UtilityCell;
 			bool allowedToSpill = (dispenser == null || !dispenser.IsConnected);
-			bool outputBlocked = Grid.Mass[outputCell] > OverpressureThreshold || Grid.Solid[outputCell];
+			bool outputCellBlocked = Grid.Mass[outputCell] > OverpressureThreshold || Grid.Solid[outputCell];
+			bool maxAmountSpilled = false;
 
-			if (stored > 0f && allowedToSpill && !outputBlocked)
+			if (stored > 0f && allowedToSpill && !outputCellBlocked)
 			{
 				float dispenseAmount = Mathf.Min(emissionRate * dt, stored);
 
@@ -101,6 +102,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				{
 					storedObject = pickupable.Take(dispenseAmount).gameObject;
 					primaryElement = storedObject.GetComponent<PrimaryElement>();
+					maxAmountSpilled = true;
 				}
 
 				Element element = primaryElement.Element;
@@ -129,8 +131,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				stored -= dispenseAmount;
 			}
 
-			bool overfilled = stored >= capacity;
-			bool spillingBlocked = (allowedToSpill && outputBlocked);
+			bool overfilled = stored >= capacity && !maxAmountSpilled;
+			bool spillingBlocked = (allowedToSpill && outputCellBlocked);
 			pipeBlockedGuid = selectable?.ToggleStatusItem(Db.Get().BuildingStatusItems.OutputTileBlocked, this.pipeBlockedGuid, spillingBlocked) ?? Guid.Empty;
 
 			bool blocked = spillingBlocked || overfilled;
