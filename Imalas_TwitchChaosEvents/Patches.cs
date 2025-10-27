@@ -98,11 +98,12 @@ namespace Imalas_TwitchChaosEvents
 				static int time = 0;
 				static int colourStep = 0;
 				const int looptime = 100;
+				static bool initialized = false;
 
 				[HarmonyPriority(Priority.High)]
 				public static void Prefix()
 				{
-					if (CreeperIDx == 0)
+					if (!initialized)
 					{
 						var element = ElementLoader.FindElementByHash(ModElements.Creeper.SimHash);
 						if (element != null)
@@ -113,6 +114,7 @@ namespace Imalas_TwitchChaosEvents
 
 						for (int i = 0; i < looptime; ++i)
 							AddColourEntry(i);
+						initialized = true;
 					}
 				}
 
@@ -132,9 +134,7 @@ namespace Imalas_TwitchChaosEvents
 				[HarmonyPriority(Priority.High)]
 				public static void Postfix()
 				{
-					if (SpeedControlScreen.Instance == null ||
-						!ModAssets.RainbowLiquids
-						)
+					if (SpeedControlScreen.Instance == null || !ModAssets.RainbowLiquids)
 						return;
 					if (!SpeedControlScreen.Instance.IsPaused)
 						internalTimer += 1 + SpeedControlScreen.Instance.GetSpeed();
@@ -146,7 +146,7 @@ namespace Imalas_TwitchChaosEvents
 					}
 					var cameraVector = CameraController.Instance.transform.position;
 					if (Grid.IsWorldValidCell(Grid.PosToCell(cameraVector)))
-						CameraOffset = (Mathf.RoundToInt(cameraVector.x + cameraVector.y + cameraVector.z) / 2);
+						CameraOffset = Math.Abs(Mathf.RoundToInt(cameraVector.x + cameraVector.y + cameraVector.z) / 2);
 
 					TimeAndCameraOffset = time + CameraOffset;
 
@@ -156,24 +156,23 @@ namespace Imalas_TwitchChaosEvents
 					Parallel.For(0, Grid.CellCount, (i) => ProcessPixelbyTime(pixelsPtr, i));
 					time %= looptime;
 				}
+				static Color32 red = new Color32(255, 0, 0,0);
 				private static unsafe void ProcessPixelbyTime(IntPtr pixelsPtr, int i)
 				{
 					if (!Grid.IsActiveWorld(i) || !Grid.IsLiquid(i)) return;
 
-
 					int current = GetCurrentColourIndex(i);
+
 					ref var colour = ref ColourValues[current];
 
 					byte* pixel = (byte*)pixelsPtr.ToPointer() + (i * 4);
 					pixel[0] = colour.r;
 					pixel[1] = colour.g;
-					pixel[2] = colour.b;
+					pixel[2] = colour.b;					
 				}
 				static int GetCurrentColourIndex(int cell)
 				{
-					int Y = Grid.CellRow(cell)
-						, X = Grid.CellColumn(cell)
-						;
+					int Y = Grid.CellRow(cell) , X = Grid.CellColumn(cell);
 					//this:
 					return ((Y + X) / 2 + TimeAndCameraOffset) % looptime;
 					////or this:
