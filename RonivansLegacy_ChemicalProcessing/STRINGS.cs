@@ -527,16 +527,20 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class CHEMICAL_SELECTIVEARCFURNACE
 				{
 					public static LocString NAME = FormatAsLink("Selective Arc-Furnace", nameof(CHEMICAL_SELECTIVEARCFURNACE));
-					public static LocString DESC = "A specialized furnace that heats material by means of an electric arc. Its delicate heat control structure allows mixture of metal alloys, as well separating metals from an homogeneous mixture of scraps. Since the furnace is air-cooled, it releases a lot of heat into its surroundings.";
+					public static LocString DESC = "A specialized furnace that heats material by means of an electric arc. Its delicate heat control structure allows mixture of metal alloys, as well separating metals from an homogeneous mixture of scraps. Since the furnace electronics are air-cooled, it releases a lot of heat into its surroundings.";
 					public static LocString EFFECT = string.Concat(
 						[
-							"Special works with ",
+							"Specialy designed to work with ",
 							FormatAsLink("Refined Metals", "REFINEDMETAL"),
-							" and in the manufacture of metal alloys."
+							" and conduct the manufacturing of metal alloys.\n\n",
+							"The building has an insulated internal thermal capacitor that stores the heat produced in recipes.\n",
+							"Heat from the capacitor is dispersed by heating the passing coolant until it is near its boiling point.\n\n",
+							"If the maximum heat capacity is exceeded, it will be rendered nonfunctional until all heat is dispersed again."
 						]);
 					public static string REFINEMENT_HEAT_EXHAUST = "Refinement exhaust heat";
 					public static string REFINEMENT_SELF_HEAT = "Refinement heat";
-					public static string REFINEMENT_HEAT_TOOLTIP = "During refinement of this recipe, the machine will produce a total of {0} in additional refinement heat.\nAt normal refinement speed, this amounts to {1} produced per second.";
+					public static string REFINEMENT_HEAT_TOOLTIP_CONTINUOUS = "During refinement of this recipe, the machine will produce a total of "+ FormatAsPositiveRate("{0}")+" in additional refinement " + PRE_KEYWORD + "heat" + PST_KEYWORD + ".\nAt normal refinement speed, this amounts to {1} produced per second.";
+					public static string REFINEMENT_HEAT_TOOLTIP = FormatAsPositiveRate("{0}") + " of " + PRE_KEYWORD + "Heat" + PST_KEYWORD + " will be produced to cool off the fabricated item\n\nThis heat is then stored in the buildings thermal capacitor and transfered over to the coolant thats pumped through the building.\nCoolant near its boiling point will be prevented from boiling, but have reduced heat dispersion.";
 				}
 				public class CHEMICAL_SOILMIXER
 				{
@@ -1714,7 +1718,16 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString NAME = "Mass Throughput Exceeded!";
 					public static LocString TOOLTIP = "This building cannot handle the solid mass throughput of the connected rails!";
 				}
-
+				public class THERMALBATTERY_STORAGEFULL
+				{
+					public static LocString NAME = "Thermal capacitor overloaded!";
+					public static LocString TOOLTIP = "Insufficient cooling has overloaded the buildings internal heat capacitor.\nIt needs to be fully cooled down before the building can be operational again.";
+				}
+				public class THERMALBATTERY_STORAGELEVEL
+				{
+					public static LocString NAME = "Thermal capacitor level: {0}";
+					public static LocString TOOLTIP = "This buildings internal heat capacitor stores heat energy to transfer it to the piped in coolant.\nCapillary structures will prevent coolant from boiling at the cost of reduced heat transfer.\nIf the capacitor fills up completely, the building will be rendered inoperational until its fully cooled down again.";
+				}
 			}
 		}
 		public class CREATURES
@@ -2105,6 +2118,8 @@ namespace RonivansLegacy_ChemicalProcessing
 		}
 		public class UI
 		{
+
+
 			public class AIO_THRESHOLD_VALVE_SIDESCREEN
 			{
 				public static LocString TITLE = "Package Mass Threshold";
@@ -2112,6 +2127,12 @@ namespace RonivansLegacy_ChemicalProcessing
 			}
 			public class LOGIC_PORTS
 			{
+				public class COOLANT_BATTERY_THRESHOLD
+				{
+					public static LocString LOGIC_PORT = "Thermal Capacitor Threshold";
+					public static LocString LOGIC_PORT_ACTIVE = ("Sends a " + FormatAsAutomationState("Green Signal", AutomationState.Active) + " when the thermal capacitor is above the threshold.");
+					public static LocString LOGIC_PORT_INACTIVE = ("Otherwise, sends a " + FormatAsAutomationState("Red Signal", AutomationState.Standby));
+				}
 				public class FABRICATOR_ACTIVE
 				{
 					public static LocString LOGIC_PORT = "Machine Active";
@@ -2267,6 +2288,9 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString JAWCRUSHERMILL_MILLING_1_4 = "Break down {0} into:\n• {1}\n• {2}\n• {3}\n• {4}";
 				public static LocString CRUSHEDROCK_FROM_RAW_MINERAL_NAME = FormatAsLink("Raw Mineral", "BUILDABLERAW") + " to " + global::STRINGS.ELEMENTS.CRUSHEDROCK.NAME;
 				public static LocString CRUSHEDROCK_FROM_RAW_MINERAL_DESCRIPTION = "Crushes " + FormatAsLink("Raw Minerals", "BUILDABLERAW") + " into " + global::STRINGS.ELEMENTS.CRUSHEDROCK.NAME;
+				
+				public static LocString BAD_RECIPE_PRODUCT_NAME = "Crude {0}";
+				public static LocString BAD_RECIPE_PRODUCT_DESC = "This recipe comes with reduced yield,\nsince the machine is unable to provide the proper environmental conditions.\n\nOther machines might be more suitable for this refinement process.";
 
 				public static LocString ARCFURNACE_SMELT_2_1 = "Smelt {0} and {1} to produce {2}";
 				public static LocString ARCFURNACE_SMELT_3_1 = "Smelt {0} and {1} with addition of {2} to produce {3}";
@@ -2449,17 +2473,17 @@ namespace RonivansLegacy_ChemicalProcessing
 			public class CHEMPROC_REFINERYFUDGE
 			{
 				public static LocString NAME = "Metal Refinery Thermal Fudge";
-				public static LocString TOOLTIP = "The Metal refinery only puts a percentage of its recipes heat into the coolant.\nDoes not affect the advanced refinery\nThe vanilla value for this is 80%.\nThe default value for the mod is 60%";
+				public static LocString TOOLTIP = "The Metal refinery only puts a percentage of its recipes heat into the coolant.\nThe vanilla value for this is 80%.\nThe default value for the mod is 60%";
 			}
 			public class CHEMPROC_REFINERYFUDGEADV
 			{
 				public static LocString NAME = "Advanced Refinery Thermal Fudge";
-				public static LocString TOOLTIP = "The Advanced Metal refinery only puts a percentage of its recipes heat into the coolant.\nDoes not affect the normal refinery\nThe default value for the mod is 90%";
+				public static LocString TOOLTIP = "The Advanced Metal refinery only puts a percentage of its recipes heat into the coolant.\nThe default value for the mod is 90%";
 			}
-			public class CHEMPROC_ARCDIVIDER
+			public class CHEMPROC_ARCFUDGE
 			{
-				public static LocString NAME = "Arc furnace thermal fudge divider";
-				public static LocString TOOLTIP = "The selective arc furnace will divide the heat generated by this value\nThe default value for the mod is 25";
+				public static LocString NAME = "Arc furnace  Thermal Fudge";
+				public static LocString TOOLTIP = "The selective arc furnace only puts a percentage of its recipes heat into its internal heat capacitor.\nThe default value for the mod is 90%";
 			}
 		}
 	}

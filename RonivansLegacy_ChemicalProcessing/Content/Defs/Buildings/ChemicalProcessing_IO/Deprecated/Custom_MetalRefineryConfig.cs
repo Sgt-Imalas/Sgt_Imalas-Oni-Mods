@@ -113,9 +113,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//-------------------------------------------------------------------------------------------------------------------------------------
 			foreach (var element in RefinementRecipeHelper.GetNormalOres())
 			{
-				///wolframite to tungsten is removed from metal refinery in chemproc 
-				//if (element.id == SimHashes.Wolframite)
-				//	continue;
+				///wolframite to tungsten is removed from metal refinery in chemproc; instead add a "worse" recipe below
+				if (element.id == SimHashes.Wolframite)
+					continue;
 
 				Element refinedElement = element.highTempTransition.lowTempTransition;
 
@@ -124,7 +124,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 					.Input(RefinementRecipeHelper.GetCombustibleSolids(), 20f, GameTags.CombustibleSolid)
 					.Output(refinedElement.id, 80f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Output(ModElements.Slag_Solid, 40f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.METALREFINERY_2_1_1,2,2)
+					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.METALREFINERY_2_1_1, 2, 2)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 					.Build();
 
@@ -176,9 +176,37 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 					.Input(RefinementRecipeHelper.GetCombustibleSolids(), 20f, GameTags.CombustibleSolid)
 					.Output(SimHashes.Iron, 60f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Output(ModElements.Slag_Solid, 60f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.METALREFINERY_2_1_1,2,2)
+					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.METALREFINERY_2_1_1, 2, 2)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 					.Build();
+
+
+			///Worse tungsten recipe, encourages use of advanced refinery
+			RecipeBuilder.Create(ID, 60)
+					.Input(SimHashes.Wolframite, 100f)
+					.Input(RefinementRecipeHelper.GetCombustibleSolids(), 20f, GameTags.CombustibleSolid)
+					.Output(SimHashes.Tungsten, 70f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+					.Output(ModElements.Slag_Solid, 50f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.METALREFINERY_2_1_1, 2, 2)
+					.AppendExtraDescription("\n\n" + CHEMICAL_COMPLEXFABRICATOR_STRINGS.BAD_RECIPE_PRODUCT_DESC)
+					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
+					.NameOverrideFormat(CHEMICAL_COMPLEXFABRICATOR_STRINGS.BAD_RECIPE_PRODUCT_NAME, SimHashes.Tungsten.CreateTag().ProperName())
+					.Build();
+
+
+			///Worse steel recipe, encourages use of selective arc furnace
+			RecipeBuilder.Create(ID, 70)
+				.Input(SimHashes.Iron, 70)
+				.Input(SimHashes.RefinedCarbon, 20)
+				.Input(SimHashes.Lime, 10)
+				.Output(SimHashes.Steel, 70, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.Output(ModElements.Slag_Solid, 30, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
+				.NameOverrideFormat(CHEMICAL_COMPLEXFABRICATOR_STRINGS.BAD_RECIPE_PRODUCT_NAME, SimHashes.Steel.CreateTag().ProperName())
+				.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.ARCFURNACE_STEEL_1, 3, 1)
+				.AppendExtraDescription("\n\n" + CHEMICAL_COMPLEXFABRICATOR_STRINGS.BAD_RECIPE_PRODUCT_DESC)
+				.Build();
+
 		}
 
 		//public override void DoPostConfigureComplete(GameObject go)
