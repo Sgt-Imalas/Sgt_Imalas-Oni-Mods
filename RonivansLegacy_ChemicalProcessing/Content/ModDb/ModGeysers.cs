@@ -34,8 +34,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				ModElements.Ammonia_Liquid,
 				GeyserConfigurator.GeyserShape.Liquid,
 				210.15f,
-				150f, //modeled after oil_drip(leaky oil fissure) i assume
-				400f,
+				50f, //modeled after oil_drip(leaky oil fissure) i assume
+				300f,
 				50,
 				null,
 				null,
