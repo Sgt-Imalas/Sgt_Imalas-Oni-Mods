@@ -9,16 +9,16 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabrica
 {
 	internal class CustomComplexFabricatorWorkableBase : ComplexFabricatorWorkable
 	{
-		IOnWorkTickActionProvider[] additionalWorkTickACtions;
+		IOnWorkTickActionProvider[] additionalWorkTickActions;
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
-			additionalWorkTickACtions = GetComponents<IOnWorkTickActionProvider>();
+			additionalWorkTickActions = GetComponents<IOnWorkTickActionProvider>();
 		}
 
 		public override bool OnWorkTick(WorkerBase worker, float dt)
 		{
-			foreach (var provider in additionalWorkTickACtions)
+			foreach (var provider in additionalWorkTickActions)
 			{
 				provider.OnWorkTick(worker, dt);
 			}

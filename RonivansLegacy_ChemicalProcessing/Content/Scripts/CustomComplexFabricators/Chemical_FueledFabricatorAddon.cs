@@ -61,6 +61,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 						return string.Format(str, fueledFabricator.fuelTag.ProperName(), GameUtil.GetFormattedMass(fueledFabricator.START_FUEL_MASS, GameUtil.TimeSlice.None, GameUtil.MetricMassFormat.UseThreshold, true, "{0:0.#}"));
 					};
 				}
+
 				default_state = this.waitingForFuel;
 				this.waitingForFuel.Enter(delegate (StatesInstance smi)
 				{

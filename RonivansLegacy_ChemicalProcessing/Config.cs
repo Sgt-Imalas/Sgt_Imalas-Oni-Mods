@@ -249,8 +249,8 @@ namespace RonivansLegacy_ChemicalProcessing
 		[Limit(0.5f, 1f)]
 		public float ChemProc_AdvRefineryFudge { get; set; } = 0.9f;
 
-		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARCDIVIDER.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARCDIVIDER.TOOLTIP", "STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_IO")]
-		[Limit(1, 100f)]
-		public float ChemProc_ArcDivider { get; set; } = 25f;
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARCFUDGE.NAME", "STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARCFUDGE.TOOLTIP", "STRINGS.AIO_MODSOURCE.CHEMICALPROCESSING_IO", Format = "P0")]
+		[Limit(0.5f, 1f)]
+		public float ChemProc_ArcFudge { get; set; } = 0.9f;
 	}
 }

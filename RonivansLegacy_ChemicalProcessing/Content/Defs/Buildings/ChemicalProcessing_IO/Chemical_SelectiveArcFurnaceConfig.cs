@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRandom;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabricators;
 using System;
@@ -12,6 +13,8 @@ using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
+using static LogicGateBase;
+using static RonivansLegacy_ChemicalProcessing.STRINGS;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS;
 
 
@@ -27,19 +30,31 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		public override BuildingDef CreateBuildingDef()
 		{
 			EffectorValues tier = NOISE_POLLUTION.NOISY.TIER5;
-			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 4, 3, "arc_smelter_kanim", 100, 30f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER5, MATERIALS.ALL_METALS, 800f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.PENALTY.TIER1, tier);
+			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 4, 3, "arc_smelter_kanim", 100, 30f, [600, 200], [GameTags.Metal.ToString(), GameTags.Insulator.ToString()], 800f, BuildLocationRule.OnFloor, TUNING.BUILDINGS.DECOR.PENALTY.TIER3, tier);
 			buildingDef.Overheatable = false;
 			buildingDef.RequiresPowerInput = true;
 			buildingDef.EnergyConsumptionWhenActive = 1200f;
-			//buildingDef.ExhaustKilowattsWhenActive = 24f; //total of 32kw, original
-			//buildingDef.SelfHeatKilowattsWhenActive = 8f;
+			buildingDef.ExhaustKilowattsWhenActive = 24f; //total of 32kw, original
+			buildingDef.SelfHeatKilowattsWhenActive = 8f;
 
-			buildingDef.ExhaustKilowattsWhenActive = 3f; //heat moved to individual recipes
-			buildingDef.SelfHeatKilowattsWhenActive = 1f;
+			//buildingDef.ExhaustKilowattsWhenActive = 3f; //heat moved to individual recipes
+			//buildingDef.SelfHeatKilowattsWhenActive = 1f;
+
+			buildingDef.UtilityInputOffset = new CellOffset(0, 1);
+			buildingDef.UtilityOutputOffset = new CellOffset(0, 0);
+			buildingDef.InputConduitType = ConduitType.Liquid;
+			buildingDef.OutputConduitType = ConduitType.Liquid;
 
 			buildingDef.AudioCategory = "Metal";
 			buildingDef.PermittedRotations = PermittedRotations.FlipH;
 			SoundUtils.CopySoundsToAnim("arc_smelter_kanim", "suit_maker_kanim");
+			buildingDef.LogicOutputPorts = [.. ComplexFabricatorActiveLogicOutput.CreateSingleOutputPortList(new CellOffset(0, 2)),
+			LogicPorts.Port.OutputPort(ContinuousLiquidCooledFabricatorAddon.PORT_ID, new(1,0),
+				UI.LOGIC_PORTS.COOLANT_BATTERY_THRESHOLD.LOGIC_PORT,
+				UI.LOGIC_PORTS.COOLANT_BATTERY_THRESHOLD.LOGIC_PORT_ACTIVE,
+				UI.LOGIC_PORTS.COOLANT_BATTERY_THRESHOLD.LOGIC_PORT_INACTIVE)
+			];
+
 			return buildingDef;
 		}
 
@@ -54,8 +69,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			complexFabricator.heatedTemperature = 320.15f;
 			complexFabricator.duplicantOperated = true;
 			go.AddOrGet<FabricatorIngredientStatusManager>();
+
 			go.AddOrGet<CopyBuildingSettings>();
-			ComplexFabricatorWorkable complexFabricatorWorkable = go.AddOrGet<ComplexFabricatorWorkable>();
 			BuildingTemplates.CreateComplexFabricatorStorage(go, complexFabricator);
 			workable.overrideAnims = [Assets.GetAnim("anim_interacts_metalrefinery_kanim")];
 
@@ -63,15 +78,19 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			complexFabricator.buildStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			complexFabricator.outStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 
-			var coolerBuilding = go.AddOrGet<EnvironmentCooledFabricatorAddon>();
-			coolerBuilding.thermalFudge = 1f / Config.Instance.ChemProc_ArcDivider;
+			//var coolerBuilding = go.AddOrGet<EnvironmentCooledFabricatorAddon>();
+			//coolerBuilding.thermalFudge = 1f / Config.Instance.ChemProc_ArcDivider;
+
+			var coolerBuilding = go.AddOrGet<ContinuousLiquidCooledFabricatorAddon>();
+			coolerBuilding.thermalFudge = Config.Instance.ChemProc_ArcFudge;
+			//coolerBuilding.thermalFudge = 1f / Config.Instance.ChemProc_ArcDivider;
 			ConfigureRecipes(go);
 			Prioritizable.AddRef(go);
 		}
 
 		//====[ CHEMICAL: SELECTIVE ARC-FURNACE RECIPES ]========================================================================
 		private static void ConfigureRecipes(GameObject go)
-		{			
+		{
 
 			int index = 0;
 
@@ -130,7 +149,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//             Lime             - 10kg
 			// Result:     Steel            - 100kg  
 			//-----------------------------------------------------------------------------------------------------------------------
-			RecipeBuilder.Create(ID, 40)
+			RecipeBuilder.Create(ID, 50)
 				.Input(SimHashes.Iron, 70)
 				.Input(SimHashes.RefinedCarbon, 20)
 				.Input(SimHashes.Lime, 10)
@@ -147,7 +166,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//             Lime             - 5kg
 			// Result:     Steel            - 100kg  
 			//---------------------------------------------------------------------------------------------------------------------------
-			RecipeBuilder.Create(ID, 40)
+			RecipeBuilder.Create(ID, 50)
 				.Input(SimHashes.Iron, 70)
 				.Input(SimHashes.RefinedCarbon, 20)
 				.Input(SimHashes.Lime, 5)
@@ -226,6 +245,12 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		public override void DoPostConfigureComplete(GameObject go)
 		{
 			go.AddOrGetDef<PoweredActiveController.Def>().showWorkingStatus = true;
+			go.GetComponent<RequireInputs>().SetRequirements(true,false);
+			UnityEngine.Object.DestroyImmediate(go.GetComponent<RequireOutputs>());
+			UnityEngine.Object.DestroyImmediate(go.GetComponent<ConduitConsumer>());
+			UnityEngine.Object.DestroyImmediate(go.GetComponent<ConduitDispenser>());
+
+			go.AddOrGet<ComplexFabricatorActiveLogicOutput>();
 		}
 
 		public override void DoPostConfigurePreview(BuildingDef def, GameObject go)

@@ -1,9 +1,11 @@
 ﻿using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabricators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS;
 using static STRINGS.BUILDING.STATUSITEMS;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
@@ -29,6 +31,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		public static StatusItem AlgaeGrower_LightEfficiency;
 
 		public static StatusItem Converter_StorageFull;
+
+		public static StatusItem ThermalBattery_StorageLevel;
+		public static StatusItem ThermalBattery_Overheated;
 
 		public static void CreateStatusItems()
 		{
@@ -75,6 +80,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				ElementThresholdOperational converter = obj as ElementThresholdOperational;
 				return string.Format(str, GetTagName(converter.ThresholdTag));
 			};
+			ThermalBattery_StorageLevel = bsi.CreateStatusItem("ThermalBattery_StorageLevel", STRINGS.BUILDING.STATUSITEMS.THERMALBATTERY_STORAGELEVEL.NAME, STRINGS.BUILDING.STATUSITEMS.THERMALBATTERY_STORAGELEVEL.TOOLTIP, "status_item_plant_temperature", StatusItem.IconType.Info, NotificationType.Good, allow_multiples: false, OverlayModes.None.ID);
+			ThermalBattery_StorageLevel.resolveStringCallback = delegate (string str, object obj)
+			{
+				var machine = obj as ContinuousLiquidCooledFabricatorAddon;
+				return string.Format(str, machine.GetHeatPercentage());
+			};
+			ThermalBattery_Overheated = bsi.CreateStatusItem("ThermalBattery_StorageFull", STRINGS.BUILDING.STATUSITEMS.THERMALBATTERY_STORAGEFULL.NAME, STRINGS.BUILDING.STATUSITEMS.THERMALBATTERY_STORAGEFULL.TOOLTIP, "status_item_plant_temperature", StatusItem.IconType.Custom, NotificationType.BadMinor, allow_multiples: false, OverlayModes.None.ID);
+
 		}
 		static Dictionary<Tag, string> CachedTagNames = [];
 		static string GetTagName(Tag tag)

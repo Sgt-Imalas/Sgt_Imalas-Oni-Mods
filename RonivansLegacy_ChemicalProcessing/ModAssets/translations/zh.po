@@ -263,6 +263,36 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.LOGISTIC
 msgid "This building's <style=\"KKeyword\">Logistic Solid Output</style> does not have a <link=\"LOGISTICRAIL\">Logistic Rail</link> connected"
 msgstr "该建筑的<style=\"KKeyword\">物流轨道出口</style>没有连接<link=\"LOGISTICRAIL\">物流轨道</link>。"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.THERMALBATTERY_STORAGEFULL.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.THERMALBATTERY_STORAGEFULL.NAME"
+msgid "Thermal capacitor overloaded!"
+msgstr "储热容器过载！"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.THERMALBATTERY_STORAGEFULL.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.THERMALBATTERY_STORAGEFULL.TOOLTIP"
+msgid ""
+"Insufficient cooling has overloaded the buildings internal heat capacitor.\n"
+"It needs to be fully cooled down before the building can be operational again."
+msgstr ""
+"冷却不足导致建筑物内部的蓄热容器过载。\n"
+"在建筑物能够恢复生产前，必须将其完全冷却下来。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.THERMALBATTERY_STORAGELEVEL.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.THERMALBATTERY_STORAGELEVEL.NAME"
+msgid "Thermal capacitor level: {0}"
+msgstr "储热等级：{0}"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.THERMALBATTERY_STORAGELEVEL.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.THERMALBATTERY_STORAGELEVEL.TOOLTIP"
+msgid ""
+"This buildings internal heat capacitor stores heat energy to transfer it to the piped in coolant.\n"
+"Capillary structures will prevent coolant from boiling at the cost of reduced heat transfer.\n"
+"If the capacitor fills up completely, the building will be rendered inoperational until its fully cooled down again."
+msgstr ""
+"这座建筑内部的蓄热容器可以储存热能，并将其传递给管道中的冷却液。\n"
+"毛细结构设计会阻止冷却液沸腾，但代价是牺牲部分热传递效率。\n"
+"如果储热容器存满热量，建筑物将无法正常运行，直到其完全冷却下来为止。"
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.FACADES_STANDALONE.EXTERIORWALL.BRICKWALL.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.FACADES_STANDALONE.EXTERIORWALL.BRICKWALL.DESC"
 msgid "A pretty dry wall made with fine bricks."
@@ -1214,13 +1244,25 @@ msgstr "<link=\"CHEMICALRAYONLOOM\">人造丝织机</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.DESC"
-msgid "A specialized furnace that heats material by means of an electric arc. Its delicate heat control structure allows mixture of metal alloys, as well separating metals from an homogeneous mixture of scraps. Since the furnace is air-cooled, it releases a lot of heat into its surroundings."
-msgstr "一种通过电弧加热材料的专用熔炉。其精密的温度控制结构能够实现金属合金的混合，还能将金属从混合的废料中分离出来。由于该熔炉是采用风冷方式，因此会将大量热量释放到周围环境中。"
+msgid "A specialized furnace that heats material by means of an electric arc. Its delicate heat control structure allows mixture of metal alloys, as well separating metals from an homogeneous mixture of scraps. Since the furnace electronics are air-cooled, it releases a lot of heat into its surroundings."
+msgstr "一种通过电弧加热材料的专用熔炉。其精密的温度控制结构能够实现金属合金的混合，还能将金属从混合的废料中分离出来。由于该熔炉的本身元器件的散热是采用风冷方式，因此会将大量热量释放到周围环境中。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.EFFECT"
-msgid "Special works with <link=\"REFINEDMETAL\">Refined Metals</link> and in the manufacture of metal alloys."
-msgstr "用于<link=\"REFINEDMETAL\">精炼金属</link>的特殊加工和制造金属合金。"
+msgid ""
+"Specialy designed to work with <link=\"REFINEDMETAL\">Refined Metals</link> and conduct the manufacturing of metal alloys.\n"
+"\n"
+"The building has an insulated internal thermal capacitor that stores the heat produced in recipes.\n"
+"Heat from the capacitor is dispersed by heating the passing coolant until it is near its boiling point.\n"
+"\n"
+"If the maximum heat capacity is exceeded, it will be rendered nonfunctional until all heat is dispersed again."
+msgstr ""
+"专为<link=\"REFINEDMETAL\">精炼金属</link>的多用途使用而设计，并同时可以制造金属合金的智能机器。\n"
+"\n"
+"建筑内部配备隔热的储热容器，可储存配方生产时产生的热量。\n"
+"储热容器的热量通过加热流入其中的冷却液转移，直至冷却液接近沸点。\n"
+"\n"
+"若超过储热容器的储热上限，建筑将无法运行，直到所有热量完全散发后方才能恢复。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.NAME"
@@ -1265,10 +1307,10 @@ msgstr "一座采用活性炭床对<link=\"SOURGAS\">酸气</link>进行脱酸�
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SOURGASSWEETENER.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SOURGASSWEETENER.EFFECT"
 msgid ""
-"Uses <link=\"REFINEDCARBON\">Activated Carbon</link> for the adsorbtion the sulphuric compounds from <link=\"SOURGAS\">Sour Gas</link>, yielding <link=\"METHANE\">Natural Gas</link> and elemental <link=\"SULPHUR\">Sulphur</link>.\n"
+"Uses <link=\"REFINEDCARBON\">\"Activated Carbon\"</link> for the adsorbtion the sulphuric compounds from <link=\"SOURGAS\">Sour Gas</link>, yielding <link=\"METHANE\">Natural Gas</link> and elemental <link=\"SULPHUR\">Sulphur</link>.\n"
 "Activated carbon requires periodic replacing."
 msgstr ""
-"利用<link=\"REFINEDCARBON\">活性炭</link>吸附<link=\"SOURGAS\">酸气</link>中的硫化物，生成<link=\"METHANE\">天然气</link>与单质<link=\"SULPHUR\">硫</link>。\n"
+"利用<link=\"REFINEDCARBON\">\"活性炭\"</link>吸附<link=\"SOURGAS\">酸气</link>中的硫化物，生成<link=\"METHANE\">天然气</link>与单质<link=\"SULPHUR\">硫</link>。\n"
 "活性炭需定期更换。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SOURGASSWEETENER.NAME
@@ -4107,6 +4149,50 @@ msgstr ""
 "打开建筑编辑器，可以单独切换由该模组添加的所有建筑，并更改某些设置。\n"
 "在此所做的所有更改都需要重新启动！"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARCFUDGE.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARCFUDGE.NAME"
+msgid "Arc furnace  Thermal Fudge"
+msgstr "选择性电弧炉产热系数"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARCFUDGE.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARCFUDGE.TOOLTIP"
+msgid ""
+"The selective arc furnace only puts a percentage of its recipes heat into its internal heat capacitor.\n"
+"The default value for the mod is 90%"
+msgstr ""
+"选择性电弧炉仅将其配方部分中的热量按系数注入冷却液。\n"
+"该系数在模组中的默认值为90%。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_REFINERYFUDGE.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_REFINERYFUDGE.NAME"
+msgid "Metal Refinery Thermal Fudge"
+msgstr "金属精炼器产热系数"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_REFINERYFUDGE.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_REFINERYFUDGE.TOOLTIP"
+msgid ""
+"The Metal refinery only puts a percentage of its recipes heat into the coolant.\n"
+"The vanilla value for this is 80%.\n"
+"The default value for the mod is 60%"
+msgstr ""
+"金属精炼器仅将其配方部分中的热量按系数注入冷却液。\n"
+"该系数在原版中的值为 80%。\n"
+"该系数在模组中的默认值为 60%。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_REFINERYFUDGEADV.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_REFINERYFUDGEADV.NAME"
+msgid "Advanced Refinery Thermal Fudge"
+msgstr "先进金属精炼器产热系数"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_REFINERYFUDGEADV.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_REFINERYFUDGEADV.TOOLTIP"
+msgid ""
+"The Advanced Metal refinery only puts a percentage of its recipes heat into the coolant.\n"
+"The default value for the mod is 90%"
+msgstr ""
+"先进金属精炼器仅将其配方部分中的热量按系数注入冷却液。\n"
+"该系数在模组中的默认值为90%。"
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CUSTOMRES_MOVETOCONDUITCATEGORY.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CUSTOMRES_MOVETOCONDUITCATEGORY.NAME"
 msgid "Move all Reservoirs to their piping category"
@@ -4475,9 +4561,10 @@ msgid ""
 "\n"
 "Produces {2} as waste."
 msgstr ""
-"将{0}熔炼成各种产品。\n"
+"将{0}熔炼成随机产品。\n"
 "熔炉系统会根据各层的成分将混合物分成不同的部分。\n"
 "熔炼过程有随机的几率产出以下材料：{1}\n"
+"\n"
 "产生{2}作为废弃物。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.ARCFURNACE_SMELT
@@ -4504,6 +4591,24 @@ msgstr "将{0}混合{1}和{2}来炼制{3}。"
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.ARCFURNACE_STEEL_2"
 msgid "Refine {0} to {4} with a mixture of of {1}, {2} and {3}"
 msgstr "将{0}混合{1}、{2}和{3}来炼制{4}。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.BAD_RECIPE_PRODUCT_DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.BAD_RECIPE_PRODUCT_DESC"
+msgid ""
+"This recipe comes with reduced yield,\n"
+"since the machine is unable to provide the proper environmental conditions.\n"
+"\n"
+"Other machines might be more suitable for this refinement process."
+msgstr ""
+"该配方的产量有所降低，\n"
+"因为这台精炼器无法提供良好的条件。\n"
+"\n"
+"其他机器可能更适合这种精炼过程。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.BAD_RECIPE_PRODUCT_NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.BAD_RECIPE_PRODUCT_NAME"
+msgid "Crude {0}"
+msgstr "粗制{0}"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.BALLCRUSHER_MILLING_1INGREDIENT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.BALLCRUSHER_MILLING_1INGREDIENT"
@@ -4833,6 +4938,21 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.KLEI_INVENTORY_SCREEN.SUBC
 msgid "Ronivans Legacy - All In One"
 msgstr "Ronivan 的模组遗作 - 大合集"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.COOLANT_BATTERY_THRESHOLD.LOGIC_PORT
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.COOLANT_BATTERY_THRESHOLD.LOGIC_PORT"
+msgid "Thermal Capacitor Threshold"
+msgstr "储热等级阈值"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.COOLANT_BATTERY_THRESHOLD.LOGIC_PORT_ACTIVE
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.COOLANT_BATTERY_THRESHOLD.LOGIC_PORT_ACTIVE"
+msgid "Sends a <b><style=\"logic_on\">Green Signal</style></b> when the thermal capacitor is above the threshold."
+msgstr "当储热等级大于阈值时输出<b><style=\"logic_on\">绿色信号</style></b>。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.COOLANT_BATTERY_THRESHOLD.LOGIC_PORT_INACTIVE
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.COOLANT_BATTERY_THRESHOLD.LOGIC_PORT_INACTIVE"
+msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b>"
+msgstr "否则，将会输出红色信号<b><style=\"logic_off\">红色信号l</style></b>"
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.FABRICATOR_ACTIVE.LOGIC_PORT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.FABRICATOR_ACTIVE.LOGIC_PORT"
 msgid "Machine Active"
@@ -4962,6 +5082,10 @@ msgstr "绿铜锌矿"
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_HPA_RAIL"
 msgid "Obstructed by Heavy-Duty Rail"
 msgstr "被重型轨道阻挡"
+
+#~ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.EFFECT"
+#~ msgid "Special works with <link=\"REFINEDMETAL\">Refined Metals</link> and in the manufacture of metal alloys."
+#~ msgstr "用于<link=\"REFINEDMETAL\">精炼金属</link>的特殊加工和制造金属合金。"
 
 #~ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GAS_BOILER.EFFECT"
 #~ msgid "Boils <link=\"WATER\">Water</link> to <link=\"STEAM\">Steam</link> at 200 °C. This particular boiler uses <link=\"COMBUSTIBLEGAS\">Combustible Gases</link> as fuel, but may as well work with other combustible gases."

@@ -86,7 +86,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabrica
 			return [
 				new Descriptor(
 					string.Format((string)global::STRINGS.UI.BUILDINGEFFECTS.REFINEMENT_ENERGY, GameUtil.GetFormattedJoules(fudgedJoules)),
-					string.Format(STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.REFINEMENT_HEAT_TOOLTIP,GameUtil.GetFormattedJoules(fudgedJoules), GameUtil.GetFormattedJoules(joulesPerSecond))
+					string.Format(STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.REFINEMENT_HEAT_TOOLTIP_CONTINUOUS,GameUtil.GetFormattedJoules(fudgedJoules), GameUtil.GetFormattedJoules(joulesPerSecond))
 					)];
 
 		}
