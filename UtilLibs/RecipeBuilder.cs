@@ -69,7 +69,11 @@ namespace UtilLibs
 			}
 			return this;
 		}
-
+		public RecipeBuilder AppendExtraDescription(string extraDescription)
+		{
+			description += extraDescription;
+			return this;
+		}
 		public RecipeBuilder Description(string ToFormat, int inputCount, int outputCount)
 		{
 			if (inputs.Count < inputCount || outputs.Count < outputCount)
