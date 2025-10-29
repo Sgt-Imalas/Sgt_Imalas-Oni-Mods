@@ -155,7 +155,7 @@ msgstr "无高压气体输出"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.HPA_NEEDGASOUT.TOOLTIP
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.HPA_NEEDGASOUT.TOOLTIP"
 msgid "This building's <style=\"KKeyword\">High Pressure Gas Output</style> does not have a <link=\"HIGHPRESSUREGASCONDUIT\">High Pressure Gas Conduit</link> connected"
-msgstr "该建筑的<style=\"KKeyword\">高压气体出口</style>没有连接<link=\"HIGHPRESSUREGASCONDIT>高压气体管道</link>"
+msgstr "该建筑的<style=\"KKeyword\">高压气体出口</style>没有连接<link=\"HIGHPRESSUREGASCONDIT\">高压气体管道</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.HPA_NEEDLIQUIDIN.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.HPA_NEEDLIQUIDIN.NAME"
@@ -618,7 +618,7 @@ msgstr "一种能够生产出高品质植物润滑油的简单装置。"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_SYNTHESIZERPHYTOOIL.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_SYNTHESIZERPHYTOOIL.EFFECT"
 msgid "Produces <link=\"PHYTOOIL\">Phyto Oil</link> by diluting <link=\"LIQUIDVEGEOIL\">Vegetable Oil</link> with <link=\"WATER\">Water</link>."
-msgstr "将link=\"LIQUIDVEGEOIL\">植物油</link>混入纯净的<link=\"WATER\">水</link>以稀释为<link=\"PHYTOOIL\">植物润滑油</link>。"
+msgstr "将<link=\"LIQUIDVEGEOIL\">植物油</link>混入纯净的<link=\"WATER\">水</link>以稀释为<link=\"PHYTOOIL\">植物润滑油</link>。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_SYNTHESIZERPHYTOOIL.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.BIOCHEMISTRY_SYNTHESIZERPHYTOOIL.NAME"
@@ -795,7 +795,7 @@ msgstr "将<link=\"BUILDABLERAW\">矿物原料</link>粉碎成有用的材料和
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_BALLCRUSHERMILL.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_BALLCRUSHERMILL.NAME"
 msgid "<link=\"CHEMICALBALLCRUSHERMILL\">Ball Crusher Mill (Chemical Washing)</link>"
-msgstr "<link=\"CHEMICALBLCRUSHERMILL\">球磨机 (化学洗涤型)</link>"
+msgstr "<link=\"CHEMICALBALLCRUSHERMILL\">球磨机 (化学洗涤型)</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CARBONDIOXIDECOMPRESSOR.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CARBONDIOXIDECOMPRESSOR.DESC"
@@ -928,7 +928,7 @@ msgstr ""
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_COAL_BOILER.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_COAL_BOILER.NAME"
 msgid "<link=\"CHEMICALCOALBOILER\">Carbon fueled Steam Boiler</link>"
-msgstr "<link=\"CHEMICACOLBOILER\">燃煤蒸汽炉</link>"
+msgstr "<link=\"CHEMICALCOALBOILER\">燃煤蒸汽炉</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CRUDEOILREFINERY.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CRUDEOILREFINERY.DESC"
@@ -964,7 +964,7 @@ msgstr ""
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CRUDEOILREFINERY.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CRUDEOILREFINERY.NAME"
 msgid "<link=\"CHEMICALCRUDEOILREFINERY\">Crude Oil Refinery</link>"
-msgstr "<link=\"CHEMICALCRUDEOILREFINERY厂\">原油精炼厂</link>"
+msgstr "<link=\"CHEMICALCRUDEOILREFINERY\">原油精炼厂</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CRUDEOILREFINERYSTAGED.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CRUDEOILREFINERYSTAGED.DESC"
@@ -1009,7 +1009,7 @@ msgstr ""
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CRUDEOILREFINERYSTAGED.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CRUDEOILREFINERYSTAGED.NAME"
 msgid "<link=\"CHEMICALCRUDEOILREFINERYSTAGED\">Multi-Stage Crude Oil Refinery</link>"
-msgstr "<link=\"CHEMICALRUDEOILREFINERYSTAGED\">多级原油精炼厂</link>"
+msgstr "<link=\"CHEMICALCRUDEOILREFINERYSTAGED\">多级原油精炼厂</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ELECTRICBOILER.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ELECTRICBOILER.DESC"
@@ -1075,7 +1075,7 @@ msgstr "这个技术先进的玻璃熔炉不仅能够将<link=\"SAND\">沙子</l
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GLASSFOUNDRY.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GLASSFOUNDRY.NAME"
 msgid "<link=\"CHEMICALGLASSFOUNDRY\">Glass Foundry</link>"
-msgstr "<link=\"CHEMICALLASSFOUNDRY\">工业玻璃熔炉</link>"
+msgstr "<link=\"CHEMICALGLASSFOUNDRY\">工业玻璃熔炉</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_LIQUID_BOILER.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_LIQUID_BOILER.DESC"
@@ -1297,7 +1297,7 @@ msgstr "一款专为农业用途设计的坚固型物料混合器，主要用于
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SOILMIXER.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SOILMIXER.NAME"
 msgid "<link=\"CHEMICALSOILMIXER\">Soil Mixer</link>"
-msgstr "<link=\"CHEMICALSOILMixer\">土壤搅拌机</link>"
+msgstr "<link=\"CHEMICALSOILMIXER\">土壤搅拌机</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SOURGASSWEETENER.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SOURGASSWEETENER.DESC"
@@ -1430,7 +1430,7 @@ msgstr ""
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_WOODEN_BOILER.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_WOODEN_BOILER.NAME"
 msgid "<link=\"CHEMICALWOODENBOILER\">Wood-fueled Steam Boiler</link>"
-msgstr "<link=\"CHEMICALWODENBOILER\">燃木蒸汽炉</link>"
+msgstr "<link=\"CHEMICALWOODENBOILER\">燃木蒸汽炉</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CORALVAT.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CORALVAT.DESC"
@@ -1741,7 +1741,7 @@ msgstr "从<link=\"SUCROSE\">蔗糖</link>与<link=\"WATER\">水</link>的发酵
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.ETHANOLSTILL.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.ETHANOLSTILL.NAME"
 msgid "<link=\"ETHANOLSTILL\">Ethanol Stil</link>"
-msgstr "<link=\"ETHANOLSTIL\">乙醇釜</link>"
+msgstr "<link=\"ETHANOLSTILL\">乙醇釜</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.FLOCCULATIONSIEVE.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.FLOCCULATIONSIEVE.DESC"

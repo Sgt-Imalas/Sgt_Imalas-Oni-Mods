@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>RonivansLegacy_ProcessingAIO</PackageId>
-		<Version>1.10.0</Version>
+		<Version>1.11.0</Version>
 		<Authors>Ronivan, Sgt_Imalas</Authors>
 		<Copyright>$(RonivanCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
