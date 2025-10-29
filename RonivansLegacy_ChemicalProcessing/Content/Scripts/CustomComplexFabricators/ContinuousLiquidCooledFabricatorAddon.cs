@@ -53,11 +53,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabrica
 		public float LogicHeatThreshold = 75f;
 
 
+
 		MeterController HeatLevelMeter;
 		int inputCell = -1;
 		int outputCell = -1;
 		ComplexRecipe lastRecipeChecked = null;
 		public float cachedRecipeExhaust = -1f;
+		float lastOverheatDamageTime = 0;
 		StatusItem NoInput, NoOutput;
 		private Guid hasPipeOutputGuid;
 		Tuple<ConduitType, Tag> StatusItemData;
@@ -117,8 +119,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabrica
 			float currentTemp = primaryElement.Temperature;
 			float capacityPerDegree = primaryElement.Mass * primaryElement.Element.specificHeatCapacity;
 			float heatInjection = accumulatedHeatExhaust / capacityPerDegree;
-			float newTemp = Mathf.Clamp(currentTemp + heatInjection, 0, 10000);
-			return newTemp;
+			return heatInjection;
 		}
 		public override void OnCleanUp()
 		{
@@ -133,6 +134,20 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabrica
 			{
 				if (heatCapacitorPercentage < 0.05f)
 					Overheated = false;
+
+				///overheating damage at/above 100%
+				if (heatCapacitorPercentage >= 1f && Time.time - lastOverheatDamageTime >= 4)
+				{
+					lastOverheatDamageTime += 4;
+					Trigger((int)GameHashes.DoBuildingDamage,
+						new BuildingHP.DamageSourceInfo()
+						{
+							damage = 1,
+							source = global::STRINGS.BUILDINGS.DAMAGESOURCES.BUILDING_OVERHEATED,
+							popString = global::STRINGS.UI.GAMEOBJECTEFFECTS.DAMAGE_POPS.OVERHEAT,
+							fullDamageEffectName = "smoke_damage_kanim"
+						});
+				}
 			}
 			else
 			{

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using static STRINGS.UI.SANDBOXTOOLS.SETTINGS;
 
 namespace RonivansLegacy_ChemicalProcessing.Patches
@@ -12,15 +13,15 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 	internal class Deconstructable_Patches
 	{
 
-        [HarmonyPatch(typeof(Deconstructable), nameof(Deconstructable.SpawnItemsFromConstruction), [typeof(float), typeof(byte), typeof(int), typeof(WorkerBase)])]
-        public class Deconstructable_SpawnItemsFromConstruction_Patch
-        {
-            public static void Prefix(Deconstructable __instance, ref float temperature)
-            {
-                if (!__instance.TryGetComponent<ContinuousLiquidCooledFabricatorAddon>(out var thermalBatteryComponent))
-                    return;
-                temperature += thermalBatteryComponent.GetThermalBatteryHeatIncrease();
+		[HarmonyPatch(typeof(Deconstructable), nameof(Deconstructable.SpawnItemsFromConstruction), [typeof(float), typeof(byte), typeof(int), typeof(WorkerBase)])]
+		public class Deconstructable_SpawnItemsFromConstruction_Patch
+		{
+			public static void Prefix(Deconstructable __instance, ref float temperature)
+			{
+				if (!__instance.TryGetComponent<ContinuousLiquidCooledFabricatorAddon>(out var thermalBatteryComponent))
+					return;
+				temperature = Mathf.Clamp(temperature + thermalBatteryComponent.GetThermalBatteryHeatIncrease(), 0, 10000);
 			}
-        }
+		}
 	}
 }
