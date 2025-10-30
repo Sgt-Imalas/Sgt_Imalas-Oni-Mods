@@ -296,7 +296,7 @@ namespace Imalas_TwitchChaosEvents
 				public static LocString NAME = "Doolf";
 				public static LocString TOAST = "Doolf!";
 				public static LocString TOASTTEXT = "Something is off with this...";
-				public static LocString NEW_BUILDINGS = "{0} New buildings have been unlocked!";
+				public static LocString NEW_BUILDINGS = "{0} New buildings have been unlocked:";
 			}
 			public class FOG
 			{

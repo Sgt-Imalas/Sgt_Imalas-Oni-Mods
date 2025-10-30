@@ -76,7 +76,9 @@ namespace Imalas_TwitchChaosEvents.Events
 
 			if (!ChaosTwitch_SaveGameStorage.Instance.InvertedWaterGotSpawned)
 			{
-				toastText += "\n\n" + string.Format(STRINGS.CHAOSEVENTS.INVERSEELEMENT.NEW_BUILDINGS,"2");
+				toastText += "\n\n" + string.Format(STRINGS.CHAOSEVENTS.INVERSEELEMENT.NEW_BUILDINGS,"2") ;
+				toastText += "\n - " + STRINGS.BUILDINGS.PREFABS.ITCE_ELECTROLYZERINVERTED.NAME;
+				toastText += "\n - " + STRINGS.BUILDINGS.PREFABS.ITCE_WATERPURIFIERINVERTED.NAME;
 			}
 
 
