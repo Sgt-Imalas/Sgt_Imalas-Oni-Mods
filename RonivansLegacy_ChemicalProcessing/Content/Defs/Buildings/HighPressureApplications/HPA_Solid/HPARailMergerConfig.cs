@@ -1,4 +1,5 @@
-﻿using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+﻿using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 		public override BuildingDef CreateBuildingDef()
 		{
 			float[] quantity1 = [250f, 150f];
-			string[] materials1 = [GameTags.Steel.ToString(), GameTags.Plastic.ToString()];
+			string[] materials1 = [ModElements.SteelAndTungstenMaterial, GameTags.Plastic.ToString()];
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 2, "hpa_rail_merger_kanim", 100, 60f, quantity1, materials1, 800f, BuildLocationRule.Anywhere, TUNING.BUILDINGS.DECOR.PENALTY.TIER1, NOISE_POLLUTION.NOISY.TIER0, 0.2f);
 			buildingDef.Floodable = false;
 			buildingDef.Overheatable = false;
