@@ -21,7 +21,9 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
                 if(__instance.disallowedBuildings.Contains("Generator")) //checking for coal gen to ensure its the correct achievment (maybe someone reused it for a modded achievment?
                 {
                     GeneratorList.AppendCombustionGenerators(ref __instance.disallowedBuildings);
-                }
+					GeneratorList.AchievmentInstance = __instance;
+
+				}
             }
         }
     }

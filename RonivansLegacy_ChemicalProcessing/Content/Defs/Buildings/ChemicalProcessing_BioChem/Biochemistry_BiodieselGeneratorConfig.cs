@@ -20,7 +20,7 @@ namespace Biochemistry.Buildings
 		static Biochemistry_BiodieselGeneratorConfig()
 		{
 			GeneratorList.AddGeneratorToIgnore(ID);
-			GeneratorList.AddCombustionGenerator(ID);
+			//GeneratorList.AddCombustionGenerator(ID);
 		}
 
 		public override BuildingDef CreateBuildingDef()

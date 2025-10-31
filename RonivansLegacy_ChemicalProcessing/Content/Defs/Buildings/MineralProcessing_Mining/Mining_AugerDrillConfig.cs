@@ -77,7 +77,6 @@ namespace Mineral_Processing_Mining.Buildings
 			drillRig.duplicantOperated = false;
 			drillRig.sideScreenStyle = ComplexFabricatorSideScreen.StyleSetting.ListQueueHybrid;
 			drillRig.ByproductSpawnIntervalSeconds = OccurenceRate;
-			ConduitFlow
 			go.AddOrGet<FabricatorIngredientStatusManager>();
 			go.AddOrGet<CopyBuildingSettings>();
 			ComplexFabricatorWorkable workable = go.AddOrGet<ComplexFabricatorWorkable>();
