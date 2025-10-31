@@ -26,6 +26,11 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 	[SerializationConfig(MemberSerialization.OptIn)]
 	public class Chemical_Coal_BoilerConfig : IBuildingConfig
 	{
+		static Chemical_Coal_BoilerConfig()
+		{
+			GeneratorList.AddCombustionGenerator(ID);
+		}
+
 		//--[ Base Information ]-----------------------------------------------
 		public static string ID = "Chemical_Coal_Boiler";
 		

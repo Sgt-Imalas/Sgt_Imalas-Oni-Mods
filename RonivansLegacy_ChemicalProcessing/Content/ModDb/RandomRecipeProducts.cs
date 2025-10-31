@@ -856,7 +856,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.SourGas, 4, 8, 1f / 15f)
 				.Multiplier(5)
 				);
-			ConduitConsumer
+			
 			//===: SMART DRILLBITS: CRYOSPHERE RANDOM SPAWN :=================================================
 			//---[ Possible Results Elements: ]
 			// -    Crushed Rock

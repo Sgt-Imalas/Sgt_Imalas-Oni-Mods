@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using KSerialization;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
@@ -26,6 +27,10 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 	[SerializationConfig(MemberSerialization.OptIn)]
 	public class Chemical_Wooden_BoilerConfig : IBuildingConfig
 	{
+		static Chemical_Wooden_BoilerConfig()
+		{
+			GeneratorList.AddCombustionGenerator(ID);
+		}
 		public static string ID = "Chemical_Wooden_Boiler";
 		
 

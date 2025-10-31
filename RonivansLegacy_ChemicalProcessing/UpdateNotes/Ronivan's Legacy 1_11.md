@@ -37,4 +37,4 @@ Fixes:
 - fixed some typos
 - fixed plasma furnace considering itself overpressurized while unloading liquid outputs during continuous operation
 - added an icon for "filtration medium" in codex recipe panels
-- fixed super sustainable achievment not listing custom combustion generators, removed eco diesel generator from that list
+- fixed super sustainable achievment not listing custom combustion generators, removed eco diesel generator from that list, added combustion boilers

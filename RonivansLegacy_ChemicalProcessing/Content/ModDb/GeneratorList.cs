@@ -1,4 +1,5 @@
-﻿using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerators;
+﻿using Database;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerators;
 using Steamworks;
 using System;
 using System.Collections.Generic;
@@ -11,13 +12,32 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
 	class GeneratorList
 	{
-		public static void AddGeneratorToIgnore(string ID) { GeneratorsToIgnore.Add(ID); SgtLogger.l("Adding generator to screen ignore list: " + ID); }
-		public static void AddCombustionGenerator(string ID) { CombustionGenerators.Add(ID); SgtLogger.l("Adding generator to combustion generator list: " + ID); }
+		public static void AddGeneratorToIgnore(string ID)
+		{
+			GeneratorsToIgnore.Add(ID);
+			SgtLogger.l("Adding generator to screen ignore list: " + ID);
+
+		}
+		public static void AddCombustionGenerator(string ID)
+		{
+			SgtLogger.l("Adding generator to combustion generator list: " + ID);
+			if (!achievmentInitialized)
+			{
+				CombustionGenerators.Add(ID);
+			}
+			else if(AchievmentInstance != null && !AchievmentInstance.disallowedBuildings.Contains(ID)) 
+			{
+				AchievmentInstance.disallowedBuildings.Add(ID);
+			}
+		}
 		public static HashSet<string> GeneratorsToIgnore = [];
 		public static HashSet<string> CombustionGenerators = [];
+		static bool achievmentInitialized = false;
+		public static ProduceXEngeryWithoutUsingYList AchievmentInstance { get; internal set; }
+
 		internal static void AppendCombustionGenerators(ref List<Tag> disallowedBuildings)
 		{
-			SgtLogger.l("Appending combustion generators to supersustainable list, entry count: "+CombustionGenerators.Count);
+			SgtLogger.l("Appending combustion generators to supersustainable list, entry count: " + CombustionGenerators.Count);
 			foreach (var gen in CombustionGenerators)
 			{
 				if (!disallowedBuildings.Contains(gen))
@@ -26,6 +46,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					disallowedBuildings.Add(gen);
 				}
 			}
+			achievmentInitialized = true;
 		}
 	}
 }
