@@ -12,7 +12,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 	{
 		public class OccurenceRandomResult : RecipeRandomResult
 		{
-			public OccurenceRandomResult(int rateInSeconds) : base() 
+			public OccurenceRandomResult(int rateInSeconds) : base()
 			{
 				OccurenceRateInSeconds = rateInSeconds;
 			}
@@ -50,6 +50,15 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 			MinTemp = UtilMethods.GetKelvinFromC(minTempC);
 			return this;
 		}
+		public RecipeRandomResult Multiplier(float multiplier)
+		{
+			foreach (var key in RandomProductsRange.Keys)
+			{
+				RandomProductsRange[key].first *= multiplier;
+				RandomProductsRange[key].second *= multiplier;
+			}
+			return this;
+		}
 		public RecipeRandomResult(float minTempC, float maxTempC) : this(-1, minTempC, maxTempC)
 		{
 			// This constructor is used when no specific total mass is set.
@@ -84,7 +93,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 			float totalChance = 0;
 			foreach (var product in RandomProductsRange)
 			{
-				totalChance += product.Value.third;
+				var data = product.Value;
+				totalChance += data.third;
 			}
 
 			if (RequiredProductsMin > 0)
@@ -96,10 +106,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 			}
 			if (RequiredProductsMax > 0)
 			{
-				if ((float)RequiredProductsMax < totalChance)
-				{
-					chanceMultiplier *= (float)RequiredProductsMax / totalChance;
-				}
+				//if ((float)RequiredProductsMax < totalChance)
+				//{
+				chanceMultiplier *= (float)RequiredProductsMax / totalChance;
+				//}
 			}
 			return chanceMultiplier;
 		}
@@ -110,12 +120,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 				return GameUtil.GetFormattedMass(TotalMass, massFormat: GameUtil.MetricMassFormat.Kilogram);
 
 			float min = 0, max = 0;
-			float chanceMultiplier = GetChanceMultiplier();			
+			float chanceMultiplier = GetChanceMultiplier();
 			foreach (var product in RandomProductsRange)
 			{
 				var range = product.Value;
 				float chance = range.third * chanceMultiplier;
-				
+
 				min += range.first * chance;
 				max += range.second * chance;
 			}
@@ -142,7 +152,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 				return massAmount;
 			return string.Format(STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.NAME_OCCURENCE_FORMAT, massAmount);
 		}
-		public string GetOccurenceCompositionDescription() => GetCompositionDescription(string.Format(STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.DESC_OCCURENCE,OccurenceRateInSeconds), null, true);
+		public string GetOccurenceCompositionDescription() => GetCompositionDescription(string.Format(STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.DESC_OCCURENCE, OccurenceRateInSeconds), null, true);
 		public string GetProductCompositionDescription() => GetCompositionDescription(STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.DESC, STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.DESC_MAX_COUNT);
 
 		public string GetCompositionDescription(string single, string maxCount, bool ignoreTotal = false)
@@ -288,10 +298,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 
 		internal bool HasTagInList(Tag tag)
 		{
-			foreach(var element in RandomProductsRange.Keys)
+			foreach (var element in RandomProductsRange.Keys)
 			{
 				if (element.CreateTag() == tag)
-					return true;				
+					return true;
 			}
 			return false;
 		}

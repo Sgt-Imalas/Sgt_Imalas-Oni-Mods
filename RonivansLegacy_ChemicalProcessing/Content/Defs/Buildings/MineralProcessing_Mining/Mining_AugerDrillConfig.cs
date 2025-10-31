@@ -23,7 +23,7 @@ namespace Mineral_Processing_Mining.Buildings
 
 		[SerializeField]
 		public Storage buildStorage;
-
+		public const int OccurenceRate = 4;
 
 		private Tag fuelTag = GameTags.CombustibleLiquid;
 
@@ -76,6 +76,8 @@ namespace Mineral_Processing_Mining.Buildings
 			drillRig.heatedTemperature = 368.15f;
 			drillRig.duplicantOperated = false;
 			drillRig.sideScreenStyle = ComplexFabricatorSideScreen.StyleSetting.ListQueueHybrid;
+			drillRig.ByproductSpawnIntervalSeconds = OccurenceRate;
+			ConduitFlow
 			go.AddOrGet<FabricatorIngredientStatusManager>();
 			go.AddOrGet<CopyBuildingSettings>();
 			ComplexFabricatorWorkable workable = go.AddOrGet<ComplexFabricatorWorkable>();
