@@ -5,12 +5,14 @@ New:
 - thermium is now considered a hardened alloy (steel replacement)
 - added a "crude" steel recipe back to the normal metal refinery, this comes at a reduced yield to encourage using the proper machine for it (selective arc furnace).
 - thermal fudge values of metal refinery, advanced metal refinery and selective arc furnace can now be configured in the mod config
+- high pressure reduction valves now can alternatively be built from Tungsten
 
 Changes & Tweaks:
 
 - wolframite to tungsten recipe in the metal refinery is now considered a crude recipe (reduced yield), to bring it in line with the original variant of Chemical Processing (wolframite recipe is only found on the advanced metal refinery)
 - slightly reduced ammonia vent average output
 - tweaked permendur recipe
+- rebalanced mineral and augur drill; increased time of mineral drill recipes, increased steel recipe costs; vastly improved yields of mk2 drill recipes
 
 Selective Arc Furnace Revamp: 
 - the building now takes some insulating material in its construction
@@ -27,3 +29,4 @@ Fixes:
 - geyser types are now always generated in the background to avoid geysers despawning when a world with them is loaded while chemical processing is disabled. (does not affect worldgen when turned off)
 - fixed some typos
 - fixed plasma furnace considering itself overpressurized while unloading liquid outputs during continuous operation
+- added an icon for "filtration medium" in codex recipe panels

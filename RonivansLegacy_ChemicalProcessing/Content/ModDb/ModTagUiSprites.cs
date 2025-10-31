@@ -29,6 +29,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					__result.first = Assets.GetSprite("ui_combustible_solids");
 					__result.second = Color.white;
 				}
+				else if(t == GameTags.Filter)
+				{
+					__result.first = Def.GetUISpriteFromMultiObjectAnim(Assets.GetAnim("filter_media_kanim"));
+					__result.second = Color.white;
+				}
 			}
 		}
 	}
