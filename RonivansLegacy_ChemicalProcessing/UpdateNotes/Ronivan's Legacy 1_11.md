@@ -2,6 +2,7 @@ Ronivan's Legacy 1.11
 
 New:
 
+- added bammoth patty and crown crushing recipes to the jaw crusher mill
 - thermium is now considered a hardened alloy (steel replacement)
 - added a "crude" steel recipe back to the normal metal refinery, this comes at a reduced yield to encourage using the proper machine for it (selective arc furnace).
 - thermal fudge values of metal refinery, advanced metal refinery and selective arc furnace can now be configured in the mod config
@@ -17,6 +18,8 @@ Changes & Tweaks:
 - doubled augur drill recipe times
 - increased yield of mk2 drill recipes significantly to serve as an upgrade over augur drill yield. 
 - reduced syngas yield of oil shale, increased petroleum yield
+- changed the cost of the jaw crusher mill to 400kg of refined metal.
+- refinement time in the jaw crusher mill is now unified 45s for all recipes
 
 Selective Arc Furnace Revamp: 
 - the building now takes some insulating material in its construction

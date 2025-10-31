@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,22 +16,24 @@ using static RonivansLegacy_ChemicalProcessing.STRINGS.UI;
 namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 {
 	//===[ CHEMICAL: JAW CRUSHER MILL CONFIG ]===========================================================================
-	public class Chemical_SmallCrusherMillConfig : IBuildingConfig
+	public class Chemical_SmallCrusherMillConfig : IBuildingConfig, IHasConfigurableWattage
 	{
 		//--[ Base Information ]-----------------------------------------------------------------------------------------
 		public static string ID = "Chemical_SmallCrusherMill";
 
-		//--[ Identification and DLC stuff ]------------------------------------------------------------------------------
+		public static float Wattage = 240f;
+		public float GetWattage() => Wattage;
+		public void SetWattage(float mass) => Wattage = mass;
 
 
 		//--[ Building Definitions ]---------------------------------------------------------------------------------------
 		public override BuildingDef CreateBuildingDef()
 		{
 			EffectorValues tier = NOISE_POLLUTION.NOISY.TIER5;
-			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 2, "jawcrusher_mill_kanim", 100, 30f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER3, MATERIALS.ALL_METALS, 800f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.PENALTY.TIER1, tier);
+			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 2, "jawcrusher_mill_kanim", 100, 30f, BUILDINGS.CONSTRUCTION_MASS_KG.TIER4, MATERIALS.REFINED_METALS, 800f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.PENALTY.TIER1, tier);
 			buildingDef.Overheatable = false;
 			buildingDef.RequiresPowerInput = true;
-			buildingDef.EnergyConsumptionWhenActive = 120f;
+			buildingDef.EnergyConsumptionWhenActive = GetWattage();
 			buildingDef.ExhaustKilowattsWhenActive = 16f;
 			buildingDef.SelfHeatKilowattsWhenActive = 4f;
 			buildingDef.AudioCategory = "Metal";
@@ -59,13 +62,13 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		public static void ConfigureRecipes(string ID)
 		{
 			bool chemproc = Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled;
-
+			float recipeDuration = 45;
 			int index = 0;
 			//---- [ Egg Shell Milling ] --------------------------------------------------------------------------------
 			// Ingredient: Eggshell  - 5kg
 			// Result: Lime          - 5kg
 			//-----------------------------------------------------------------------------------------------------------
-			RecipeBuilder.Create(ID, 20)
+			RecipeBuilder.Create(ID, recipeDuration)
 				.Input(EggShellConfig.ID, 5f)
 				.Output(SimHashes.Lime, 5f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description(string.Format(global::STRINGS.BUILDINGS.PREFABS.ROCKCRUSHER.LIME_RECIPE_DESCRIPTION,
@@ -80,7 +83,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Result: Lime                  - 10kg
 			//-------------------------------------------------------------------------------------------------------------
 
-			RecipeBuilder.Create(ID, 20)
+			RecipeBuilder.Create(ID, recipeDuration)
 				.Input(CrabShellConfig.ID, 10f)
 				.Output(SimHashes.Lime, 10f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description(string.Format(global::STRINGS.BUILDINGS.PREFABS.ROCKCRUSHER.LIME_RECIPE_DESCRIPTION,
@@ -94,7 +97,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Ingredient: Oakshell Molt    - 5kg
 			// Result: Wood                  - 500kg
 			//-------------------------------------------------------------------------------------------------------------
-			RecipeBuilder.Create(ID, 20)
+			RecipeBuilder.Create(ID, recipeDuration)
 				.Input(CrabWoodShellConfig.ID, 500f)
 				.Output(SimHashes.WoodLog, 500f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description(string.Format(global::STRINGS.BUILDINGS.PREFABS.ROCKCRUSHER.LIME_RECIPE_DESCRIPTION,
@@ -110,7 +113,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//         Crushed Rock   - 70g
 			//         Bitumen        - 25kg
 			//-----------------------------------------------------------------------------------------------------------------
-			RecipeBuilder.Create(ID, 40)
+			RecipeBuilder.Create(ID, recipeDuration)
 			.Input(SimHashes.Fossil, 100)
 			.Output(SimHashes.Lime, 5f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 			.Output(SimHashes.CrushedRock, 70f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
@@ -126,7 +129,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//         Table Salt   - 5g
 			//         Sand         - 95kg
 			//------------------------------------------------------------------------------------------------------------------
-			RecipeBuilder.Create(ID, 40)
+			RecipeBuilder.Create(ID, recipeDuration)
 			.Input(SimHashes.Salt, 100)
 			.Output(ModElements.Borax_Solid, 10f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 			.Output(SimHashes.Sand, 89.95f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
@@ -147,7 +150,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Result: Phosphorus               - 70kg
 			//         Crushed Rock             - 30kg
 			//---------------------------------------------------------------------------------------------------------------------
-			RecipeBuilder.Create(ID, 40)
+			RecipeBuilder.Create(ID, recipeDuration)
 				.Input(SimHashes.PhosphateNodules, 100f)
 				.Output(SimHashes.Phosphorus, 70f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Output(SimHashes.CrushedRock, 30f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
@@ -160,7 +163,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Ingredient: Crushed Rock - 100kg
 			// Result: Sand - 100kg
 			//------------------------------------------------------------------------------------------------------------------------
-			RecipeBuilder.Create(ID, 30)
+			RecipeBuilder.Create(ID, recipeDuration)
 				.Input(SimHashes.CrushedRock, 100f)
 				.Output(SimHashes.Sand, 100f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description1I1O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1)
@@ -172,7 +175,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Ingredient: Obsidian - 100kg
 			// Result: Sand - 100kg
 			//--------------------------------------------------------------------------------------------------------------------------
-			RecipeBuilder.Create(ID, 30)
+			RecipeBuilder.Create(ID, recipeDuration)
 				.Input(SimHashes.Obsidian, 100f)
 				.Output(SimHashes.Sand, 100f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description1I1O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1)
@@ -189,7 +192,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//----------------------------------------------------------------------------------------------------------------------------
 			if (chemproc)
 			{
-				RecipeBuilder.Create(ID, 50)
+				RecipeBuilder.Create(ID, recipeDuration)
 					.Input(ModElements.Chloroschist_Solid, 100f)
 					.Output(SimHashes.CrushedRock, 55f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Output(SimHashes.Sand, 10f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
@@ -207,7 +210,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Ingredient: Crushable - 100kg
 			// Result: Crushed Rock - 100kg
 			//-------------------------------------------------------------------------------------------------------------------------------
-			RecipeBuilder.Create(ID, CHEMICAL_COMPLEXFABRICATOR_STRINGS.CRUSHEDROCK_FROM_RAW_MINERAL_DESCRIPTION, 40)
+			RecipeBuilder.Create(ID, CHEMICAL_COMPLEXFABRICATOR_STRINGS.CRUSHEDROCK_FROM_RAW_MINERAL_DESCRIPTION, recipeDuration)
 				.Input(RefinementRecipeHelper.GetCrushables([SimHashes.Obsidian]).Select(e => e.id.CreateTag()), 100f)
 				.Output(SimHashes.CrushedRock, 100f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.NameOverride(CHEMICAL_COMPLEXFABRICATOR_STRINGS.CRUSHEDROCK_FROM_RAW_MINERAL_NAME)
@@ -225,7 +228,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			{
 
 				Element refinedElement = element.highTempTransition.lowTempTransition;
-				RecipeBuilder.Create(ID, 40)
+				RecipeBuilder.Create(ID, recipeDuration)
 					.Input(element.id, 100f)
 					.Output(refinedElement.id, 50f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Output(SimHashes.Sand, 50f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
@@ -252,7 +255,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//------------------------------------------------------------------------------------------------------------------------------------
 
 
-			RecipeBuilder.Create(ID, 40)
+			RecipeBuilder.Create(ID, recipeDuration)
 					.Input(SimHashes.Electrum, 100f)
 					.Output(SimHashes.Gold, 25f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Output(chemproc ? ModElements.Silver_Solid : SimHashes.Copper, 15f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
@@ -270,7 +273,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//------------------------------------------------------------------------------------------------------------------------------------
 			if (chemproc)
 			{
-				RecipeBuilder.Create(ID, 40)
+				RecipeBuilder.Create(ID, recipeDuration)
 						.Input(ModElements.Galena_Solid, 100f)
 						.Output(ModElements.Silver_Solid, 25f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 						.Output(SimHashes.Lead, 15f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
@@ -286,7 +289,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Result: Iron - 30kg
 			//         Sand - 70g
 			//-------------------------------------------------------------------------------------------------------------------------------
-			RecipeBuilder.Create(ID, 40)
+			RecipeBuilder.Create(ID, recipeDuration)
 					.Input(SimHashes.FoolsGold, 100f)
 					.Output(SimHashes.Iron, 30f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Output(SimHashes.Sand, 70f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
@@ -300,7 +303,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			float phosphoriteRate = 4f / 15f;
 			float poopMass = 120f;
 
-			RecipeBuilder.Create(ID, 40)
+			RecipeBuilder.Create(ID, recipeDuration)
 					.Input("IceBellyPoop", poopMass)
 					.Output(SimHashes.Phosphorite, poopMass * phosphoriteRate)
 					.Output(SimHashes.Clay, poopMass * (1f - phosphoriteRate))
@@ -310,7 +313,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 					.Build();
 
 			//regal bammoth crown
-			RecipeBuilder.Create(ID, 40)
+			RecipeBuilder.Create(ID, recipeDuration)
 					.Input("GoldBellyCrown", 1)
 					.Output(SimHashes.GoldAmalgam, 250)
 					.Description(string.Format(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1, STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.GOLD_BELLY_CROWN.NAME, SimHashes.GoldAmalgam.CreateTag().ProperName()))
