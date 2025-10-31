@@ -20,6 +20,7 @@ namespace Mineral_Processing
 	public class Mining_MineralDrillConfig : IBuildingConfig
 	{
 		public static string ID = "Mining_MineralDrill";
+		public const int OccurenceRate = 20;
 		public override BuildingDef CreateBuildingDef()
 		{
 			EffectorValues tieR2 = NOISE_POLLUTION.NOISY.TIER2;
@@ -54,7 +55,7 @@ namespace Mineral_Processing
 			go.AddOrGet<BuildingComplete>().isManuallyOperated = false;
 
 			ComplexFabricatorRandomOutput randomFabricator = go.AddOrGet<ComplexFabricatorRandomOutput>();
-			randomFabricator.ByproductSpawnIntervalSeconds = 10;
+			randomFabricator.ByproductSpawnIntervalSeconds = OccurenceRate;
 			randomFabricator.StoreRandomOutputs = true;
 
 			randomFabricator.heatedTemperature = 346.15f;
@@ -83,7 +84,7 @@ namespace Mineral_Processing
 
 		private void ConfigureRecipes()
 		{
-			RecipeBuilder.Create(ID, 150)
+			RecipeBuilder.Create(ID, 300)
 				.Input(SimHashes.Copper, 400)
 				.Output(SimHashes.CrushedRock, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, true)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
@@ -91,7 +92,7 @@ namespace Mineral_Processing
 				.Description(RandomRecipeProducts.GetAugerDrillRandomResultString(ID, SimHashes.Copper.CreateTag(), global::STRINGS.ELEMENTS.COPPER.NAME))
 				.Build();
 
-			RecipeBuilder.Create(ID, 150)
+			RecipeBuilder.Create(ID, 300)
 				.Input(SimHashes.Iron, 400)
 				.Output(SimHashes.CrushedRock, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, true)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
@@ -99,8 +100,8 @@ namespace Mineral_Processing
 				.Description(RandomRecipeProducts.GetAugerDrillRandomResultString(ID, SimHashes.Iron.CreateTag(), global::STRINGS.ELEMENTS.IRON.NAME))
 				.Build();
 
-			RecipeBuilder.Create(ID, 240)
-				.Input(SimHashes.Steel, 200)
+			RecipeBuilder.Create(ID, 400)
+				.Input(SimHashes.Steel, 400)
 				.Output(SimHashes.CrushedRock, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, true)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 				.NameOverride(BASIC_DRILLING)
