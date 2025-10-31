@@ -13,6 +13,7 @@ Changes & Tweaks:
 - slightly reduced ammonia vent average output
 - tweaked permendur recipe
 - rebalanced mineral and augur drill; increased time of mineral drill recipes, increased steel recipe costs; vastly improved yields of mk2 drill recipes
+- reduced syngas yield of oil shale, increased petroleum yield
 
 Selective Arc Furnace Revamp: 
 - the building now takes some insulating material in its construction

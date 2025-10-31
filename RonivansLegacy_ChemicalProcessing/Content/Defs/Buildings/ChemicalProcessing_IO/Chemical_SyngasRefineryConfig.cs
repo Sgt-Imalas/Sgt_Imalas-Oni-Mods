@@ -133,8 +133,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//-------------------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, 50)
 				.Input(ModElements.OilShale_Solid, 100)
-				.Output(SimHashes.Syngas, 50, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, true)
-				.Output(SimHashes.Petroleum, 30, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, true)
+				.Output(SimHashes.Syngas, 30, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, true)
+				.Output(SimHashes.Petroleum, 50, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, true)
 				.Output(SimHashes.RefinedCarbon, 20, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description(SYNGASREFINERY_1_1_2, 1, 3)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
