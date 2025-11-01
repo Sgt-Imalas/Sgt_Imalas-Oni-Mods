@@ -100,6 +100,7 @@ namespace RoboRockets
 		[HarmonyPatch(typeof(RequestCrewSideScreen), nameof(RequestCrewSideScreen.IsValidForTarget))]
 		public class RequestCrewSideScreen_IsValidForTarget_Patch
 		{
+			MainMenu
 			public static bool Prefix(GameObject target, ref bool __result)
 			{
 				if (target.TryGetComponent<PassengerRocketModule>(out var passengerRocketModule) && passengerRocketModule is AIPassengerModule)

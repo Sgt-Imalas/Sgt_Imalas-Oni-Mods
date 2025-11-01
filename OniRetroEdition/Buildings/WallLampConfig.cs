@@ -41,7 +41,7 @@ namespace OniRetroEdition.Buildings
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
 			BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof(RequiresFoundation), prefab_tag);
-			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.LightSource);
+			go.GetComponent<KPrefabID>().AddTag(GameTags.LightSource); 
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)

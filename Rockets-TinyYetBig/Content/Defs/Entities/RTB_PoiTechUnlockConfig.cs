@@ -21,7 +21,7 @@ namespace Rockets_TinyYetBig.Content.Defs.Entities
 			GameObject gameObject = EntityTemplates.CreatePlacedEntity(ID, global::STRINGS.BUILDINGS.PREFABS.DLC4POITECHUNLOCKS.NAME, global::STRINGS.BUILDINGS.PREFABS.DLC4POITECHUNLOCKS.DESC, 100f, decor: TUNING.BUILDINGS.DECOR.BONUS.TIER0, noise: NOISE_POLLUTION.NOISY.TIER0, anim: Assets.GetAnim("gravitas_desk_podium_kanim"), initialAnim: "off", sceneLayer: Grid.SceneLayer.Building, width: 1, height: 2, element: SimHashes.Creature, additionalTags: new List<Tag>
 		{
 			GameTags.Gravitas,
-			RoomConstraints.ConstraintTags.LightSource,
+			GameTags.LightSource,
 			GameTags.RoomProberBuilding
 		});
 			PrimaryElement component = gameObject.GetComponent<PrimaryElement>();

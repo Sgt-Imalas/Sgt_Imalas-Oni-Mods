@@ -15,7 +15,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
-			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.LightSource, false);
+			go.GetComponent<KPrefabID>().AddTag(GameTags.LightSource, false);
 		}
 
 		public override BuildingDef CreateBuildingDef()

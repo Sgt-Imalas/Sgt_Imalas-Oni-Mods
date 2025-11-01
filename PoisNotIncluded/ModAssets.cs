@@ -197,7 +197,7 @@ namespace PoisNotIncluded
 			defPrefab.AddTag(GameTags.RoomProberBuilding);
 
 			//config.ConfigureBuildingTemplate(defPrefab, buildingDef.Tag);
-			defPrefab.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.LightSource);
+			defPrefab.GetComponent<KPrefabID>().AddTag(GameTags.LightSource);
 
 			buildingDef.BuildingComplete = BuildingLoader.Instance.CreateBuildingComplete(defPrefab, buildingDef);
 			buildingDef.BuildingUnderConstruction = BuildingLoader.Instance.CreateBuildingUnderConstruction(buildingDef);
