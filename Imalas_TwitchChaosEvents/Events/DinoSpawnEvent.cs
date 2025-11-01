@@ -8,7 +8,11 @@ using Util_TwitchIntegrationLib;
 
 namespace Imalas_TwitchChaosEvents.Events
 {
-	internal class DinoSpawnEvent : ITwitchEventBase
+	/// <summary>
+	/// spawns googly eyed dino critters;
+	/// wait for new update with implementation to use easier symbol override systems
+	/// </summary>
+	internal class DinoSpawnEvent// : ITwitchEventBase
 	{
 		public string ID => "ITCE_DinoSpawn";
 

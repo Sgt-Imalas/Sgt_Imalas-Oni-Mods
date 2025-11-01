@@ -30,6 +30,8 @@ Selective Arc Furnace Revamp:
 - if the thermal capacitor exceeds its capacity due to insufficient cooling, the building will be rendered unusable until all heat has been dispersed. While the capacitor is above 100%, the building will take heat damage.
 - added a configurable capacitor heat threshold logic output port
 - added a "building is fabricating" logic output port
+- removed eco diesel generator from the super sustainable achievment list, added all combustion boilers
+
 
 Fixes:
 
@@ -37,4 +39,4 @@ Fixes:
 - fixed some typos
 - fixed plasma furnace considering itself overpressurized while unloading liquid outputs during continuous operation
 - added an icon for "filtration medium" in codex recipe panels
-- fixed super sustainable achievment not listing custom combustion generators, removed eco diesel generator from that list, added combustion boilers
+- fixed super sustainable achievment not listing custom combustion generators
