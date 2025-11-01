@@ -95,7 +95,7 @@ namespace Rockets_TinyYetBig.SpaceStations
 						callback();
 				}));
 				craft_go.AddOrGet<OrbitalMechanics>().CreateOrbitalObject(Db.Get().OrbitalTypeCategories.orbit.Id);
-				ClusterManager.Instance.Trigger((int)GameHashes.WorldAdded, spaceStationInteriorWorld.id);
+				ClusterManager.Instance.BoxingTrigger((int)GameHashes.WorldAdded, spaceStationInteriorWorld.id);
 				spaceStationInteriorWorld.AddTag(ModAssets.Tags.IsSpaceStation);
 
 				if (!allowBuilding)

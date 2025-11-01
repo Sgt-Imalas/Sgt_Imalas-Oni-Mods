@@ -49,7 +49,7 @@ namespace Rockets_TinyYetBig.Patches.ClustercraftDockingPatches
 		}
 		#region HEP-Drillcone
 
-		[HarmonyPatch(typeof(RocketClusterDestinationSelector), nameof(RocketClusterDestinationSelector.CanRocketHarvest))]
+		[HarmonyPatch(typeof(RocketClusterDestinationSelector), nameof(RocketClusterDestinationSelector.CanRocketDrill))]
 		public static class RocketClusterDestinationSelector_CanRocketHarvest_Patch
 		{
 			/// <summary>
@@ -112,7 +112,7 @@ namespace Rockets_TinyYetBig.Patches.ClustercraftDockingPatches
 			/// </summary>
 			public static void Postfix(RocketClusterDestinationSelector __instance)
 			{
-				if (__instance.CanRocketHarvest())
+				if (__instance.CanRocketDrill())
 					return;
 
 				foreach (Ref<RocketModuleCluster> clusterModule in __instance.GetComponent<Clustercraft>().ModuleInterface.ClusterModules)
