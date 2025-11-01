@@ -142,7 +142,7 @@ namespace UtilLibs
 
 				InventoryOrganization.categoryIdToSubcategoryIdsMap[mainCategory].Add(subCategory);
 			}
-			return InventoryOrganization.subcategoryIdToPermitIdsMap[subCategory];
+			return InventoryOrganization.subcategoryIdToPermitIdsMap[subCategory].ToHashSet();
 		}
 		public static void AddItemsToSubcategory(string subcategoryID, string[] permitIDs)
 		{
