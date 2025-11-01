@@ -139,7 +139,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabrica
 				if (heatCapacitorPercentage >= 1f && Time.time - lastOverheatDamageTime >= 4)
 				{
 					lastOverheatDamageTime += 4;
-					Trigger((int)GameHashes.DoBuildingDamage,
+					BoxingTrigger((int)GameHashes.DoBuildingDamage,
 						new BuildingHP.DamageSourceInfo()
 						{
 							damage = 1,

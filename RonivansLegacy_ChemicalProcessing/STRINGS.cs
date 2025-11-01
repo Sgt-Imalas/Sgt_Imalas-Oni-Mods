@@ -907,9 +907,9 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString DESC = "Pips love pressing their face against the glass.\nThe same can be said about Meep.";
 					public static LocString EFFECT = "A simple door made with " + FormatAsLink("Glass", "GLASS") + " panels. Encloses areas without blocking Liquid or Gas flow. Sets Duplicant Access Permissions for area restriction.";
 				}
-				public class WOODENDOOR
+				public class AIO_WOODENDOOR
 				{
-					public static LocString NAME = FormatAsLink("Wooden Door", nameof(WOODENDOOR));
+					public static LocString NAME = FormatAsLink("Wooden Plank Door", nameof(AIO_WOODENDOOR));
 					public static LocString DESC = "Be careful with splinters!";
 					public static LocString EFFECT = "A pretty wooden door that encloses areas without blocking Liquid or Gas flow. Sets Duplicant Access Permissions for area restriction.";
 				}

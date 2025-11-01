@@ -3207,20 +3207,20 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENCORNE
 msgid "Wooden Corner Arch"
 msgstr ""
 
-#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENDOOR.DESC
-msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENDOOR.DESC"
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_WOODENDOOR.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_WOODENDOOR.DESC"
 msgid "Be careful with splinters!"
 msgstr ""
 
-#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENDOOR.EFFECT
-msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENDOOR.EFFECT"
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_WOODENDOOR.EFFECT
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_WOODENDOOR.EFFECT"
 msgid ""
 "A pretty wooden door that encloses areas without blocking Liquid or Gas flow. Sets Duplicant Access Permissions for area restriction."
 msgstr ""
 
-#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENDOOR.NAME
-msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENDOOR.NAME"
-msgid "<link=\"WOODENDOOR\">Wooden Door</link>"
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_WOODENDOOR.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_WOODENDOOR.NAME"
+msgid "<link=\"AIO_WOODENDOOR\">Wooden Door</link>"
 msgstr ""
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENGASTILE.DESC

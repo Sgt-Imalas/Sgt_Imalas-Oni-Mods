@@ -3229,13 +3229,13 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENCORNE
 msgid "Wooden Corner Arch"
 msgstr "木制角拱"
 
-#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENDOOR.DESC
-msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENDOOR.DESC"
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_WOODENDOOR.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_WOODENDOOR.DESC"
 msgid "Be careful with splinters!"
 msgstr "小心碎片！"
 
-#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENDOOR.EFFECT
-msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENDOOR.EFFECT"
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_WOODENDOOR.EFFECT
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_WOODENDOOR.EFFECT"
 msgid "A pretty wooden door that encloses areas without blocking Liquid or Gas flow. Sets Duplicant Access Permissions for area restriction."
 msgstr ""
 "一扇精美的木质门。\n"
@@ -3243,10 +3243,10 @@ msgstr ""
 "封闭区域，但不能阻挡液体或气体流动。\n"
 "设置复制人权限来设定受限区域。"
 
-#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENDOOR.NAME
-msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENDOOR.NAME"
-msgid "<link=\"WOODENDOOR\">Wooden Door</link>"
-msgstr "<link=\"WOODENDOOR\">木制门</link>"
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_WOODENDOOR.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_WOODENDOOR.NAME"
+msgid "<link=\"AIO_WOODENDOOR\">Wooden Door</link>"
+msgstr "<link=\"AIO_WOODENDOOR\">木制门</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENGASTILE.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENGASTILE.DESC"

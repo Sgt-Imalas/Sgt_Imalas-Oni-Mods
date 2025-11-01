@@ -7,9 +7,9 @@ using UnityEngine;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineering
 {
-    class WoodenDoorConfig : IBuildingConfig
+    class AIO_WoodenDoorConfig : IBuildingConfig
 	{
-		public const string ID = "WoodenDoor";
+		public const string ID = "AIO_WoodenDoor";
 		public override BuildingDef CreateBuildingDef()
 		{
 			float[] material_mass = [150, 50f];

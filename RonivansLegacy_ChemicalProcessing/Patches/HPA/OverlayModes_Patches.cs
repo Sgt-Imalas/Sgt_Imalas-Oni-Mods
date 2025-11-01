@@ -7,6 +7,7 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 {
@@ -82,6 +83,17 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 
 				// SaveLoadRoot layerTarget;
 				int layerTargetIdx = 11;
+				var lastCall = codes.FindLast(ci => ci.operand?.ToString().Contains("get_Current") == true);
+				if (lastCall != null)
+				{
+					int foundTarget = TranspilerHelper.FindIndexOfNextLocalIndex(codes, lastCall, false);
+					if (foundTarget >= 0 && foundTarget != layerTargetIdx)
+					{
+						SgtLogger.l("OverlayModes_SolidConveyor_Update_Patch: found altered index of layer target: " + foundTarget);
+						layerTargetIdx = foundTarget;
+					}
+				}
+
 				foreach (CodeInstruction original in orig)
 				{
 					if (original.LoadsField(SolidConveyor_tint_color))

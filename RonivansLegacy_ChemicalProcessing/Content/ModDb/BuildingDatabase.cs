@@ -464,7 +464,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToTech(Technology.Exosuits.TransitTubes)
 				.AddModFrom(SourceModInfo.DupesEngineering);
 
-			BuildingManager.CreateEntry<WoodenDoorConfig>()
+			BuildingManager.CreateEntry<AIO_WoodenDoorConfig>()
 				.AddToCategory(PlanMenuCategory.Base, DoorConfig.ID)
 				.AddToTech(Technology.Decor.InteriorDecor)
 				.AddModFrom(SourceModInfo.DupesEngineering);
