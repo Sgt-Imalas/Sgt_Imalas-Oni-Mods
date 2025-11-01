@@ -909,7 +909,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				}
 				public class AIO_WOODENDOOR
 				{
-					public static LocString NAME = FormatAsLink("Wooden Plank Door", nameof(AIO_WOODENDOOR));
+					public static LocString NAME = FormatAsLink("Wooden Door", nameof(AIO_WOODENDOOR));
 					public static LocString DESC = "Be careful with splinters!";
 					public static LocString EFFECT = "A pretty wooden door that encloses areas without blocking Liquid or Gas flow. Sets Duplicant Access Permissions for area restriction.";
 				}
