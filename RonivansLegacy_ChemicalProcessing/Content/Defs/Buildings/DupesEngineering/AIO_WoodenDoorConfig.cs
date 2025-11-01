@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TUNING;
 using UnityEngine;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineering
@@ -12,8 +13,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 		public const string ID = "AIO_WoodenDoor";
 		public override BuildingDef CreateBuildingDef()
 		{
-			float[] material_mass = [150, 50f];
-			string[] construction_materials = ["BuildableRaw", GameTags.BuildingWood.ToString()];
+			float[] material_mass = [50, 50f];
+			string[] construction_materials = [MATERIALS.RAW_MINERALS_OR_WOOD.First(), GameTags.BuildingWood.ToString()];
 			EffectorValues nONE = TUNING.NOISE_POLLUTION.NONE;
 			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 1, 2, "door_wooden_kanim", 30, 10f, material_mass, construction_materials, 1600f, BuildLocationRule.Tile, TUNING.BUILDINGS.DECOR.BONUS.TIER1, nONE, 1f);
 			def1.Entombable = true;

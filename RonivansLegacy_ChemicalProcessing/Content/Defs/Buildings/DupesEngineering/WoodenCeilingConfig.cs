@@ -20,7 +20,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 		public override BuildingDef CreateBuildingDef()
 		{
 			float[] cost =[ 50f, 50f ];
-			string[] material = [GameTags.BuildableRaw.ToString(), GameTags.BuildingWood.ToString()];
+			string[] material = [MATERIALS.RAW_MINERALS_OR_WOOD.First(), GameTags.BuildingWood.ToString()];
 
 			EffectorValues decor = new()
 			{
