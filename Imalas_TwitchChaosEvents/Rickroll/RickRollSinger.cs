@@ -27,7 +27,7 @@ namespace Imalas_TwitchChaosEvents.Rickroll
 				smi.musicParticleFX.SetActive(!smi.HasTag(GameTags.Asleep));
 			}).Update((smi, dt) =>
 			{
-				if (smi.GetSpeechMonitor().IsPlayingSpeech() || !SpeechMonitor.IsAllowedToPlaySpeech(smi.gameObject))
+				if (smi.GetSpeechMonitor().IsPlayingSpeech() || !SpeechMonitor.IsAllowedToPlaySpeech(smi.gameObject,smi.GetComponent<KBatchedAnimController>()))
 					return;
 				// smi.GetSpeechMonitor().PlaySpeech(Db.Get().Thoughts.CatchyTune.speechPrefix, Db.Get().Thoughts.CatchyTune.sound);
 			}, UpdateRate.SIM_1000ms).Exit(smi =>

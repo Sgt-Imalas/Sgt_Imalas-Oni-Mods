@@ -19,13 +19,13 @@ namespace Rockets_TinyYetBig.Behaviours
 			switch (status)
 			{
 				case ProcessCondition.Status.Failure:
-					statusMessage = string.Format((string)UI.STARMAP.LAUNCHCHECKLIST.HAS_RESOURCE.STATUS.FAILURE, (object)this.hepStorage.GetProperName(), UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES);
+					statusMessage = string.Format((string)UI.STARMAP.LAUNCHCHECKLIST.HAS_RESOURCE.STATUS.FAILURE, this.hepStorage.GetProperName(), UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES);
 					break;
 				case ProcessCondition.Status.Ready:
-					statusMessage = string.Format((string)UI.STARMAP.LAUNCHCHECKLIST.HAS_RESOURCE.STATUS.READY, (object)this.hepStorage.GetProperName(), UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES);
+					statusMessage = string.Format((string)UI.STARMAP.LAUNCHCHECKLIST.HAS_RESOURCE.STATUS.READY, this.hepStorage.GetProperName(), UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES);
 					break;
 				default:
-					statusMessage = string.Format((string)UI.STARMAP.LAUNCHCHECKLIST.HAS_RESOURCE.STATUS.WARNING, (object)this.hepStorage.GetProperName(), UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES);
+					statusMessage = string.Format((string)UI.STARMAP.LAUNCHCHECKLIST.HAS_RESOURCE.STATUS.WARNING, this.hepStorage.GetProperName(), UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES);
 					break;
 			}
 			return statusMessage;
@@ -37,13 +37,13 @@ namespace Rockets_TinyYetBig.Behaviours
 			switch (status)
 			{
 				case ProcessCondition.Status.Failure:
-					statusTooltip = string.Format((string)UI.STARMAP.LAUNCHCHECKLIST.HAS_RESOURCE.TOOLTIP.FAILURE, (object)this.hepStorage.GetProperName(), (object)GameUtil.GetFormattedMass(this.thresholdRadbolts), UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES);
+					statusTooltip = string.Format((string)UI.STARMAP.LAUNCHCHECKLIST.HAS_RESOURCE.TOOLTIP.FAILURE, this.hepStorage.GetProperName(), GameUtil.GetFormattedMass(this.thresholdRadbolts), UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES);
 					break;
 				case ProcessCondition.Status.Ready:
-					statusTooltip = string.Format((string)UI.STARMAP.LAUNCHCHECKLIST.HAS_RESOURCE.TOOLTIP.READY, (object)this.hepStorage.GetProperName(), UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES);
+					statusTooltip = string.Format((string)UI.STARMAP.LAUNCHCHECKLIST.HAS_RESOURCE.TOOLTIP.READY, this.hepStorage.GetProperName(), UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES);
 					break;
 				default:
-					statusTooltip = string.Format((string)UI.STARMAP.LAUNCHCHECKLIST.HAS_RESOURCE.TOOLTIP.WARNING, (object)this.hepStorage.GetProperName(), (object)GameUtil.GetFormattedMass(this.thresholdRadbolts), UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES);
+					statusTooltip = string.Format((string)UI.STARMAP.LAUNCHCHECKLIST.HAS_RESOURCE.TOOLTIP.WARNING, this.hepStorage.GetProperName(), GameUtil.GetFormattedMass(this.thresholdRadbolts), UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES);
 					break;
 			}
 			return statusTooltip;

@@ -19,6 +19,10 @@ namespace Rockets_TinyYetBig.Content.Defs.Entities
 		public string[] GetRequiredDlcIds() => DlcManager.EXPANSION1;
 
 		public string[] GetForbiddenDlcIds() => (string[])null;
+		public string[] GetAnyRequiredDlcIds()
+		{
+			return null;
+		}
 
 		public GameObject CreatePrefab()
 		{

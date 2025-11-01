@@ -70,7 +70,7 @@ namespace CrittersShedFurOnBrush
 
 
 				Vector2 initial_velocity = new Vector2(UnityEngine.Random.Range(-1f, 1f) * 1f, (float)((double)UnityEngine.Random.value * 2.0 + 4.0));
-				if (GameComps.Fallers.Has((object)go))
+				if (GameComps.Fallers.Has(go))
 					GameComps.Fallers.Remove(go);
 				GameComps.Fallers.Add(go, initial_velocity);
 			}

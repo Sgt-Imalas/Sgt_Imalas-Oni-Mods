@@ -119,8 +119,8 @@ namespace Imalas_TwitchChaosEvents
 				{
 					time = 250f,
 					nameDisplay = ComplexRecipe.RecipeNameDisplay.Custom,
-					customName = string.Format((string)global::STRINGS.BUILDINGS.PREFABS.FOODDEHYDRATOR.RECIPE_NAME, (object)foodInfo.Name),
-					description = string.Format((string)global::STRINGS.BUILDINGS.PREFABS.FOODDEHYDRATOR.RESULT_DESCRIPTION, (object)foodInfo.Name),
+					customName = string.Format((string)global::STRINGS.BUILDINGS.PREFABS.FOODDEHYDRATOR.RECIPE_NAME, foodInfo.Name),
+					description = string.Format((string)global::STRINGS.BUILDINGS.PREFABS.FOODDEHYDRATOR.RESULT_DESCRIPTION, foodInfo.Name),
 					fabricators = new List<Tag>()
 					{
 						TagManager.Create("FoodDehydrator")

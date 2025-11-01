@@ -9,6 +9,11 @@ namespace LogicSatellites.Entities
 {
 	public class SatelliteGridSolarConfig : IEntityConfig,IHasDlcRestrictions
 	{
+		public string[] GetAnyRequiredDlcIds()
+		{
+			return null;
+		}
+
 		public const string ID = "LS_SatelliteGridSolar";
 
 		public string[] GetDlcIds() => null;

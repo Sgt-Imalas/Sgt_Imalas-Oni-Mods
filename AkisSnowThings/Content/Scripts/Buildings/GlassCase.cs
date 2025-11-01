@@ -44,7 +44,9 @@ namespace AkisSnowThings.Content.Scripts.Buildings
 		private void UpdateSealables(Action<GlassCaseSealable> fn)
 		{
 			var pooledList = ListPool<ScenePartitionerEntry, GameScenePartitioner>.Allocate();
-			GameScenePartitioner.Instance.GatherEntries(building.GetExtents(), GameScenePartitioner.Instance.completeBuildings, pooledList);
+			var extends = building.GetExtents();
+
+			GameScenePartitioner.Instance.GatherEntries(extends.x,extends.y,extends.width,extends.height, GameScenePartitioner.Instance.completeBuildings, pooledList);
 
 			foreach (var scenePartitionerEntry in pooledList)
 			{

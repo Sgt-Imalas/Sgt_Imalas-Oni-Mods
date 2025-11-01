@@ -125,7 +125,7 @@ namespace Cheese.Foods
 				if ((double)mass_cb_info.mass <= 0.0)
 					return;
 				OnConsumption.Invoke(mass_cb_info);
-			}, (object)null, "Cheese encrusted");
+			}, null, "Cheese encrusted");
 
 			var currentPos = (Grid.PosToCell(this));
 			SimMessages.ConsumeMass(currentPos, ModElementRegistration.CheeseMolten.SimHash, mass, (byte)1, handle.index);

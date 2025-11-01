@@ -12,11 +12,11 @@ namespace KnastoronOniMods
 	   BuildingDef selectedPart,
 	   SelectModuleCondition.SelectionContext selectionContext)
 		{
-			if ((Object)existingModule == (Object)null)
+			if (existingModule == null)
 				return true;
 			foreach (GameObject gameObject in AttachableBuilding.GetAttachedNetwork(existingModule.GetComponent<AttachableBuilding>()))
 			{
-				if ((selectionContext != SelectModuleCondition.SelectionContext.ReplaceModule || !((Object)gameObject == (Object)existingModule.gameObject)) && ((Object)gameObject.GetComponent<RocketAiConditions>() != (Object)null || (Object)gameObject.GetComponent<BuildingUnderConstruction>() != (Object)null && (Object)gameObject.GetComponent<BuildingUnderConstruction>().Def.BuildingComplete.GetComponent<RocketCommandConditions>() != (Object)null))
+				if ((selectionContext != SelectModuleCondition.SelectionContext.ReplaceModule || !(gameObject == existingModule.gameObject)) && (gameObject.GetComponent<RocketAiConditions>() != null || gameObject.GetComponent<BuildingUnderConstruction>() != null && gameObject.GetComponent<BuildingUnderConstruction>().Def.BuildingComplete.GetComponent<RocketCommandConditions>() != null))
 					return false;
 			}
 			return true;

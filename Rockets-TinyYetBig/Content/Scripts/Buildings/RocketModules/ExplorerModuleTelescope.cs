@@ -150,7 +150,7 @@ namespace Rockets_TinyYetBig.Behaviours
 			}
 			public AxialI GetAnalyzeTarget()
 			{
-				Debug.Assert(this.m_hasAnalyzeTarget, (object)"GetAnalyzeTarget called but this telescope has no target assigned.");
+				Debug.Assert(this.m_hasAnalyzeTarget, "GetAnalyzeTarget called but this telescope has no target assigned.");
 				return this.m_analyzeTarget;
 			}
 		}

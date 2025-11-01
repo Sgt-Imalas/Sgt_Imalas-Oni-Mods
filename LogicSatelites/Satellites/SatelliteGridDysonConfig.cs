@@ -8,6 +8,11 @@ namespace LogicSatellites.Entities
 {
 	public class SatelliteGridDysonConfig : IEntityConfig, IListableOption, IHasDlcRestrictions
 	{
+		public string[] GetAnyRequiredDlcIds()
+		{
+			return null;
+		}
+
 		public const string ID = "LS_SatelliteGridDyson";
 
 		public string[] GetDlcIds() => null;

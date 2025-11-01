@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UtilLibs;
+using static AccessControl;
 
 namespace BlueprintsV2.BlueprintData
 {
@@ -922,19 +923,10 @@ namespace BlueprintsV2.BlueprintData
 			{
 				if (arg.TryGetComponent<AccessControl>(out var component) && component.controlEnabled)
 				{
-					var customPermissions = component.savedPermissions
-						.Where(entry => entry.Key != null && entry.Key.GetId() != 0)
-						.ToDictionary(entry => entry.Key.GetId(), entry => (int)entry.Value);
-
-					foreach (var item in customPermissions)
-					{
-						SgtLogger.l("" + item.Key + " " + item.Value);
-					}
-
 					return new JObject()
 					{
-						{ "DefaultPermission", (int)component.DefaultPermission},
-						{ "savedPermissions", JsonConvert.SerializeObject(customPermissions)}
+						{ "defaultPermissionByTag", JsonConvert.SerializeObject(component.defaultPermissionByTag)},
+						{ "savedPermissionsById", JsonConvert.SerializeObject(component.savedPermissionsById)}
 					};
 				}
 				return null;
@@ -945,15 +937,15 @@ namespace BlueprintsV2.BlueprintData
 					return;
 				if (building.TryGetComponent<AccessControl>(out var targetComponent) && targetComponent.controlEnabled)
 				{
-					var t1 = jObject.GetValue("DefaultPermission");
+					var t1 = jObject.GetValue("defaultPermissionByTag");
 					if (t1 == null)
 						return;
-					var DefaultPermission = t1.Value<int>();
+					var defaultPermissionByTag = JsonConvert.DeserializeObject<List<KeyValuePair<Tag, Permission>>>(t1.Value<string>());
 
 					//applying values
-					targetComponent.DefaultPermission = (AccessControl.Permission)DefaultPermission;
+					targetComponent.defaultPermissionByTag = defaultPermissionByTag;
 
-					var t2 = jObject.GetValue("savedPermissions");
+					var t2 = jObject.GetValue("savedPermissionsById");
 					if (t2 == null)
 						return;
 					try

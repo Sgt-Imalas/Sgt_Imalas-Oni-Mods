@@ -67,7 +67,7 @@ namespace ClusterTraitGenerationManager
 				if (save.FileInfo.clusterId == CustomClusterID)
 				{
 					HierarchyReferences component1 = __instance.colonyViewRoot.GetComponent<HierarchyReferences>();
-					component1.GetReference<LocText>("InfoWorld").text = string.Format((string)global::STRINGS.UI.FRONTEND.LOADSCREEN.COLONY_INFO_FMT, (object)global::STRINGS.UI.FRONTEND.LOADSCREEN.WORLD_NAME, STRINGS.CLUSTER_NAMES.CGM.NAME);
+					component1.GetReference<LocText>("InfoWorld").text = string.Format((string)global::STRINGS.UI.FRONTEND.LOADSCREEN.COLONY_INFO_FMT, global::STRINGS.UI.FRONTEND.LOADSCREEN.WORLD_NAME, STRINGS.CLUSTER_NAMES.CGM.NAME);
 				}
 			}
 		}
@@ -105,8 +105,8 @@ namespace ClusterTraitGenerationManager
 					string settingsCoordinate = $"{CustomClusterIDCoordinate}-{currentQualitySetting2.id}-{otherSettingsCode}-{storyTraitSettingsCode}-{mixingSettingsCode}";
 					string[] settingCoordinate = CustomGameSettings.ParseSettingCoordinate(settingsCoordinate);
 
-					__instance.worldSeed.SetText(string.Format((string)global::STRINGS.UI.FRONTEND.PAUSE_SCREEN.WORLD_SEED, (object)settingsCoordinate));
-					__instance.worldSeed.GetComponent<ToolTip>().toolTip = string.Format((string)global::STRINGS.UI.FRONTEND.PAUSE_SCREEN.WORLD_SEED_TOOLTIP, CustomClusterIDCoordinate, settingCoordinate[2], (object)settingCoordinate[3], (object)settingCoordinate[4], settingCoordinate[5]);
+					__instance.worldSeed.SetText(string.Format((string)global::STRINGS.UI.FRONTEND.PAUSE_SCREEN.WORLD_SEED, settingsCoordinate));
+					__instance.worldSeed.GetComponent<ToolTip>().toolTip = string.Format((string)global::STRINGS.UI.FRONTEND.PAUSE_SCREEN.WORLD_SEED_TOOLTIP, CustomClusterIDCoordinate, settingCoordinate[2], settingCoordinate[3], settingCoordinate[4], settingCoordinate[5]);
 
 				}
 			}

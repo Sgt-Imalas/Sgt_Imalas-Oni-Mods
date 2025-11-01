@@ -85,7 +85,7 @@ namespace Rockets_TinyYetBig.SpaceStations
 		public override bool SpaceOutInSameHex() => false;
 		public override ClusterRevealLevel IsVisibleInFOW => ClusterRevealLevel.Visible;
 
-		//public override Sprite GetUISprite() => Assets.GetSprite("rocket_landing"); //Def.GetUISprite((object)this.gameObject).first;
+		//public override Sprite GetUISprite() => Assets.GetSprite("rocket_landing"); //Def.GetUISprite(this.gameObject).first;
 		public override Sprite GetUISprite()
 		{
 			return Def.GetUISpriteFromMultiObjectAnim(AnimConfigs[0].animFile);
@@ -160,7 +160,7 @@ namespace Rockets_TinyYetBig.SpaceStations
 
 			this.Subscribe<SpaceStation>(1102426921, NameChangedHandler);
 		}
-		private static EventSystem.IntraObjectHandler<SpaceStation> NameChangedHandler = new EventSystem.IntraObjectHandler<SpaceStation>(((cmp, data) => cmp.SetStationName(data)));
+		private new static EventSystem.IntraObjectHandler<SpaceStation> NameChangedHandler = new EventSystem.IntraObjectHandler<SpaceStation>(((cmp, data) => cmp.SetStationName(data)));
 		public void SetStationName(object newName)
 		{
 			SetStationName((string)newName);
@@ -172,8 +172,8 @@ namespace Rockets_TinyYetBig.SpaceStations
 			base.name = "Space Station: " + newName;
 			ClusterManager.Instance.Trigger(1943181844, newName);
 		}
-		private bool CanTravel(bool tryingToLand) => !tryingToLand;
-		private float GetSpeed() => 1f;
+		private new bool CanTravel(bool tryingToLand) => !tryingToLand;
+		private new float GetSpeed() => 1f;
 		public void DestroySpaceStation()
 		{
 			this.SetExploding();

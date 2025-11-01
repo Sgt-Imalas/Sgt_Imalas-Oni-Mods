@@ -6,6 +6,10 @@ namespace Rockets_TinyYetBig.LandingLegs
 {
 	public class PlatformLanderConfig : IEntityConfig, IHasDlcRestrictions
 	{
+		public string[] GetAnyRequiredDlcIds()
+		{
+			return null;
+		}
 
 		public const string ID = "RTB_LanderRocketPlatform";
 		public const string PREVIEW_ID = "RTB_LanderRocketPlatformScoutLander_Preview";

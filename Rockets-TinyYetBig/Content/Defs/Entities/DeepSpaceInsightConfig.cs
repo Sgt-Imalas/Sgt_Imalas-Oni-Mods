@@ -37,5 +37,10 @@ namespace Rockets_TinyYetBig.Content.Defs.Entities
 		public void OnSpawn(GameObject inst)
 		{
 		}
+		public string[] GetAnyRequiredDlcIds()
+		{
+			return null;
+		}
+
 	}
 }

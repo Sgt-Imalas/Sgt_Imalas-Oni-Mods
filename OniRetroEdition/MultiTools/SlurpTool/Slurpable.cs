@@ -60,14 +60,14 @@ namespace OniRetroEdition.SlurpTool
 				faceTargetWhenWorking = true;
 				multitoolContext = "fetchliquid";
 				multitoolHitEffectTag = WaterSuckEffect.ID;
-				this.partitionerEntry = GameScenePartitioner.Instance.Add("Slurpable.OnSpawn", (object)this.gameObject, new Extents(Grid.PosToCell((KMonoBehaviour)this), new CellOffset[1]
+				this.partitionerEntry = GameScenePartitioner.Instance.Add("Slurpable.OnSpawn", this.gameObject, new Extents(Grid.PosToCell((KMonoBehaviour)this), new CellOffset[1]
 				{
 					new CellOffset(0, 0)
 				}), GameScenePartitioner.Instance.liquidChangedLayer, new System.Action<object>(this.OnLiquidChanged));
 				this.Refresh();
 				this.Subscribe<Slurpable>(-1432940121, Slurpable.OnReachableChangedDelegate);
 				new ReachabilityMonitor.Instance((Workable)this).StartSM();
-				SimAndRenderScheduler.instance.Remove((object)this);
+				SimAndRenderScheduler.instance.Remove(this);
 				SetOffsetTable(OffsetGroups.InvertedStandardTable);
 			}
 		}
@@ -82,20 +82,20 @@ namespace OniRetroEdition.SlurpTool
 
 		public override void OnStartWork(WorkerBase worker)
 		{
-			SimAndRenderScheduler.instance.Add((object)this);
+			SimAndRenderScheduler.instance.Add(this);
 			this.Refresh();
 			this.MopTick(this.amountMoppedPerTick);
 		}
 
 		public override void OnStopWork(WorkerBase worker)
 		{
-			SimAndRenderScheduler.instance.Remove((object)this);
+			SimAndRenderScheduler.instance.Remove(this);
 			worker.GetComponent<Storage>().DropAll();
 		}
 
 		public override void OnCompleteWork(WorkerBase worker)
 		{
-			SimAndRenderScheduler.instance.Remove((object)this);
+			SimAndRenderScheduler.instance.Remove(this);
 			worker.GetComponent<Storage>().DropAll();
 		}
 
@@ -146,7 +146,7 @@ namespace OniRetroEdition.SlurpTool
 				return;
 			int callbackIdx = -1;
 			if (cb != null)
-				callbackIdx = Game.Instance.massConsumedCallbackManager.Add(cb, (object)null, nameof(Slurpable)).index;
+				callbackIdx = Game.Instance.massConsumedCallbackManager.Add(cb, null, nameof(Slurpable)).index;
 			SimMessages.ConsumeMass(cell, Grid.Element[cell].id, amount, (byte)1, callbackIdx);
 		}
 
@@ -180,7 +180,7 @@ namespace OniRetroEdition.SlurpTool
 			{
 				if (this.destroyHandle.IsValid)
 					return;
-				this.destroyHandle = GameScheduler.Instance.Schedule("DestroySlurpable", 1f, (System.Action<object>)(Slurpable => this.TryDestroy()), (object)this, (SchedulerGroup)null);
+				this.destroyHandle = GameScheduler.Instance.Schedule("DestroySlurpable", 1f, (System.Action<object>)(Slurpable => this.TryDestroy()), this, (SchedulerGroup)null);
 			}
 			else
 			{
@@ -222,8 +222,8 @@ namespace OniRetroEdition.SlurpTool
 			}
 			else
 			{
-				component.AddStatusItem(Db.Get().BuildingStatusItems.MopUnreachable, (object)this);
-				GameScheduler.Instance.Schedule("Locomotion Tutorial", 2f, (System.Action<object>)(obj => Tutorial.Instance.TutorialMessage(Tutorial.TutorialMessages.TM_Locomotion)), (object)null, (SchedulerGroup)null);
+				component.AddStatusItem(Db.Get().BuildingStatusItems.MopUnreachable, this);
+				GameScheduler.Instance.Schedule("Locomotion Tutorial", 2f, (System.Action<object>)(obj => Tutorial.Instance.TutorialMessage(Tutorial.TutorialMessages.TM_Locomotion)), null, (SchedulerGroup)null);
 				material.color = Game.Instance.uiColours.Dig.unreachable;
 			}
 		}

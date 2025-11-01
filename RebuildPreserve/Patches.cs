@@ -37,7 +37,7 @@ namespace RebuildPreserve
                             cachedSource.SetActive(false);
                         }
 
-                        var method = new Traverse(comp).Method("OnCopySettings", new[] { typeof(object) });
+                        var method = new Traverse(comp).Method("OnCopySettings", new[] { typeof (object)});
                         var method2 = new Traverse(comp).Method("OnCopySettingsDelegate", new[] { typeof(object) });
                         if (method.MethodExists() || method2.MethodExists())
                         {

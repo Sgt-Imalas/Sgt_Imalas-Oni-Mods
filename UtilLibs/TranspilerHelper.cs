@@ -11,7 +11,7 @@ namespace UtilLibs
 	{
 		public static bool CallsConstructor(this CodeInstruction code, ConstructorInfo constructor)
 		{
-			if((object)constructor == null)
+			if(constructor == null)
 			{
 				throw new ArgumentNullException("constructor");
 			}

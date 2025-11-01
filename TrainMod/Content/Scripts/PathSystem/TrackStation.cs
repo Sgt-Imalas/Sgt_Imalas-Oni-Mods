@@ -50,7 +50,7 @@ namespace TrainMod.Content.Scripts.PathSystem
 		{
 			foreach (var piece in remaining)
 			{
-				yield return (object)new WaitForSecondsRealtime(0.1f);
+				yield return new WaitForSecondsRealtime(0.1f);
 				piece.Tint(Color.green);
 			}
 		}

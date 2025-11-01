@@ -6,6 +6,10 @@ namespace Rockets_TinyYetBig.SpaceStations
 	class SpaceStationConfig : IEntityConfig, IListableOption, IHasDlcRestrictions
 	{
 		public const string ID = "RTB_SpaceStationOrbitalSmall";
+		public string[] GetAnyRequiredDlcIds()
+		{
+			return null;
+		}
 
 		public string[] GetDlcIds() => null;
 		public string[] GetRequiredDlcIds() => [DlcManager.EXPANSION1_ID];

@@ -9,7 +9,7 @@ namespace SatisfyingPowerShards.Defs.Critters
 {
 
 	[EntityConfigOrder(2)]
-	internal class BabyStaterpillarYellowConfig : IEntityConfig,IHasDlcRestrictions
+	internal class BabyStaterpillarYellowConfig : IEntityConfig, IHasDlcRestrictions
 	{
 		public const string ID = "StaterpillarYellowBaby";
 
@@ -33,5 +33,6 @@ namespace SatisfyingPowerShards.Defs.Critters
 		public string[] GetRequiredDlcIds() => [DlcManager.EXPANSION1_ID];
 
 		public string[] GetForbiddenDlcIds() => null;
+		public string[] GetAnyRequiredDlcIds() => null;
 	}
 }

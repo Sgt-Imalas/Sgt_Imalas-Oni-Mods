@@ -13,7 +13,7 @@ namespace Dupery.Patch
 			if (!targetEntity.TryGetComponent<MinionIdentity>(out var minionIdentity))
 				return;
 			targetPanel.SetLabel("personality",
-				string.Format(DuperyPatches.PersonalityManager.FindDescription(minionIdentity.nameStringKey), (object)minionIdentity.name),
+				string.Format(DuperyPatches.PersonalityManager.FindDescription(minionIdentity.nameStringKey), minionIdentity.name),
 				string.Format(Strings.Get(string.Format("STRINGS.DUPLICANTS.DESC_TOOLTIP", minionIdentity.nameStringKey.ToUpper())), minionIdentity.name));
 		}
 	}

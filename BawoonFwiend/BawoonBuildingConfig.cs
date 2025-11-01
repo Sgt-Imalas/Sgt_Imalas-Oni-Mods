@@ -21,8 +21,8 @@ namespace BawoonFwiend
 		{
 			GetBalloonWorkable component = chore.target.GetComponent<GetBalloonWorkable>();
 			WorkChore<GetBalloonWorkable> data = new WorkChore<GetBalloonWorkable>(Db.Get().ChoreTypes.JoyReaction, (IStateMachineTarget)component, on_complete: new System.Action<Chore>(this.MakeNewBalloonChore), schedule_block: Db.Get().ScheduleBlockTypes.Recreation, priority_class: PriorityScreen.PriorityClass.high, ignore_building_assignment: true);
-			data.AddPrecondition(this.HasNoBalloon, (object)data);
-			data.AddPrecondition(ChorePreconditions.instance.IsNotARobot, (object)data);
+			data.AddPrecondition(this.HasNoBalloon, data);
+			data.AddPrecondition(ChorePreconditions.instance.IsNotARobot, data);
 		}
 
 		public override BuildingDef CreateBuildingDef()

@@ -291,7 +291,7 @@ namespace Rockets_TinyYetBig
 								var def = b.Def;
 
 								GameObject ModuleButton = Util.KInstantiateUI(__instance.moduleButtonPrefab, CategoryGrid.gameObject, true);
-								ModuleButton.GetComponentsInChildren<Image>()[1].sprite = Def.GetUISprite((object)part).first;
+								ModuleButton.GetComponentsInChildren<Image>()[1].sprite = Def.GetUISprite(part).first;
 								LocText componentInChildren = ModuleButton.GetComponentInChildren<LocText>();
 								componentInChildren.text = part.GetProperName();
 								componentInChildren.alignment = TextAlignmentOptions.Bottom;

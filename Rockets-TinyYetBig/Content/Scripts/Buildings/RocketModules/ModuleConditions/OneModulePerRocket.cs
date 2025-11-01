@@ -14,11 +14,11 @@ namespace Rockets_TinyYetBig.Behaviours
 			BuildingDef selectedPart,
 			SelectModuleCondition.SelectionContext selectionContext)
 		{
-			if ((Object)existingModule == (Object)null)
+			if (existingModule == null)
 				return true;
 			foreach (GameObject gameObject in AttachableBuilding.GetAttachedNetwork(existingModule.GetComponent<AttachableBuilding>()))
 			{
-				if ((selectionContext != SelectModuleCondition.SelectionContext.ReplaceModule || !((Object)gameObject == (Object)existingModule.gameObject)) && gameObject.HasTag(RTGModuleConfig.RTB_RTG) || (Object)gameObject.GetComponent<BuildingUnderConstruction>() != (Object)null && gameObject.GetComponent<BuildingUnderConstruction>().Def.BuildingComplete.PrefabID() == moduleID)
+				if ((selectionContext != SelectModuleCondition.SelectionContext.ReplaceModule || !(gameObject == existingModule.gameObject)) && gameObject.HasTag(RTGModuleConfig.RTB_RTG) || gameObject.GetComponent<BuildingUnderConstruction>() != null && gameObject.GetComponent<BuildingUnderConstruction>().Def.BuildingComplete.PrefabID() == moduleID)
 					return false;
 			}
 			return true;

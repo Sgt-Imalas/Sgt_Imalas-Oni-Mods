@@ -26,7 +26,7 @@ namespace KnastoronOniMods
 
 
 				this.newSweepyHandle.ClearScheduler();
-			}), (object)null, (SchedulerGroup)null);
+			}), null, (SchedulerGroup)null);
 
 		}
 

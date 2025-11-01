@@ -78,7 +78,7 @@ namespace Cheese.ModElements
 						return;
 					SpawnCheeseChunk(cell, massToProduce, mass_cb_info);
 
-				}, (object)null, "Cheese made in world");
+				}, null, "Cheese made in world");
 
 				SimMessages.ConsumeMass(cell, SimHashes.Milk, maxMassToConsume, (byte)1, handle.index);
 			}

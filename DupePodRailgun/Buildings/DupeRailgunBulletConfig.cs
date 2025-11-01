@@ -12,8 +12,12 @@ namespace DupePodRailgun.Buildings
         public const string ID = "DPR_DupeRailGunPayload";
         public const float MASS = 300f;
         public const int LANDING_EDGE_PADDING = 3;
+		public string[] GetAnyRequiredDlcIds()
+		{
+			return null;
+		}
 
-        public string[] GetDlcIds() => null;
+		public string[] GetDlcIds() => null;
 
         public GameObject CreatePrefab()
         {

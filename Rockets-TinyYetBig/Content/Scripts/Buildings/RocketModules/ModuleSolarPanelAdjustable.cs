@@ -31,7 +31,7 @@ namespace Rockets_TinyYetBig.Behaviours
 
 		public override void OnSpawn()
 		{
-			this.VirtualCircuitKey = (object)this.GetComponent<RocketModuleCluster>().CraftInterface;
+			this.VirtualCircuitKey = this.GetComponent<RocketModuleCluster>().CraftInterface;
 			base.OnSpawn();
 			this.Subscribe<ModuleSolarPanelAdjustable>(824508782, ModuleSolarPanelAdjustable.OnActiveChangedDelegate);
 			this.smi = new ModuleSolarPanelAdjustable.StatesInstance(this);
@@ -59,7 +59,7 @@ namespace Rockets_TinyYetBig.Behaviours
 		protected void OnActiveChanged(object data)
 		{
 			StatusItem status_item = ((Operational)data).IsActive ? Db.Get().BuildingStatusItems.Wattage : Db.Get().BuildingStatusItems.GeneratorOffline;
-			this.GetComponent<KSelectable>().SetStatusItem(Db.Get().StatusItemCategories.Power, status_item, (object)this);
+			this.GetComponent<KSelectable>().SetStatusItem(Db.Get().StatusItemCategories.Power, status_item, this);
 		}
 
 		private void UpdateStatusItem()
@@ -67,13 +67,13 @@ namespace Rockets_TinyYetBig.Behaviours
 			this.selectable.RemoveStatusItem(Db.Get().BuildingStatusItems.Wattage);
 			if (this.statusHandle == Guid.Empty)
 			{
-				this.statusHandle = this.selectable.AddStatusItem(Db.Get().BuildingStatusItems.ModuleSolarPanelWattage, (object)this);
+				this.statusHandle = this.selectable.AddStatusItem(Db.Get().BuildingStatusItems.ModuleSolarPanelWattage, this);
 			}
 			else
 			{
 				if (!(this.statusHandle != Guid.Empty))
 					return;
-				this.GetComponent<KSelectable>().ReplaceStatusItem(this.statusHandle, Db.Get().BuildingStatusItems.ModuleSolarPanelWattage, (object)this);
+				this.GetComponent<KSelectable>().ReplaceStatusItem(this.statusHandle, Db.Get().BuildingStatusItems.ModuleSolarPanelWattage, this);
 			}
 		}
 

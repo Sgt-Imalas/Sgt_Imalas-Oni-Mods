@@ -236,10 +236,10 @@ namespace OniRetroEdition.ModPatches
 			//      int index1 = list.FindIndex((Predicate<CodeInstruction>)(ci =>
 			//      {
 			//          FieldInfo operand = ci.operand as FieldInfo;
-			//          return (object)operand != null && operand == SelectToolHoverTextCard_UpdateHoverElements_Patch.LogicId;
+			//          return operand != null && operand == SelectToolHoverTextCard_UpdateHoverElements_Patch.LogicId;
 			//      }));
 			//      System.Reflection.Emit.Label label = generator.DefineLabel();
-			//      list[index1 + 2].operand = (object)label;
+			//      list[index1 + 2].operand = label;
 			//      int index2 = list.FindIndex(index1, (Predicate<CodeInstruction>)(ci => ci.opcode == OpCodes.Endfinally)) + 1;
 			//      System.Reflection.Emit.Label operand1 = generator.DefineLabel();
 			//      list[index2].labels.Add(operand1);
@@ -253,13 +253,13 @@ namespace OniRetroEdition.ModPatches
 			//      });
 			//      int index4 = num1;
 			//      int num2 = index4 + 1;
-			//      list.Insert(index4, new CodeInstruction(OpCodes.Ldsfld, (object)SelectToolHoverTextCard_UpdateHoverElements_Patch.InfoId));
+			//      list.Insert(index4, new CodeInstruction(OpCodes.Ldsfld, SelectToolHoverTextCard_UpdateHoverElements_Patch.InfoId));
 			//      int index5 = num2;
 			//      int num3 = index5 + 1;
-			//      list.Insert(index5, new CodeInstruction(OpCodes.Call, (object)SelectToolHoverTextCard_UpdateHoverElements_Patch.HashEq));
+			//      list.Insert(index5, new CodeInstruction(OpCodes.Call, SelectToolHoverTextCard_UpdateHoverElements_Patch.HashEq));
 			//      int index6 = num3;
 			//      int num4 = index6 + 1;
-			//      list.Insert(index6, new CodeInstruction(OpCodes.Brfalse, (object)operand1));
+			//      list.Insert(index6, new CodeInstruction(OpCodes.Brfalse, operand1));
 			//      int index7 = num4;
 			//      int num5 = index7 + 1;
 			//      list.Insert(index7, new CodeInstruction(OpCodes.Ldarg_0));
@@ -271,10 +271,10 @@ namespace OniRetroEdition.ModPatches
 			//      list.Insert(index9, new CodeInstruction(OpCodes.Ldloc_1));
 			//      int index10 = num7;
 			//      int num8 = index10 + 1;
-			//      list.Insert(index10, new CodeInstruction(OpCodes.Call, (object)SelectToolHoverTextCard_UpdateHoverElements_Patch.Helper));
+			//      list.Insert(index10, new CodeInstruction(OpCodes.Call, SelectToolHoverTextCard_UpdateHoverElements_Patch.Helper));
 			//      int index11 = num8;
 			//      int num9 = index11 + 1;
-			//      list.Insert(index11, new CodeInstruction(OpCodes.Br, (object)operand1));
+			//      list.Insert(index11, new CodeInstruction(OpCodes.Br, operand1));
 			//      return (IEnumerable<CodeInstruction>)list;
 
 			//  }

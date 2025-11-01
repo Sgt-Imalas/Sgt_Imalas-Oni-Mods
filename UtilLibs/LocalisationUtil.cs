@@ -218,7 +218,7 @@ namespace UtilLibs
 						KMod.Mod mod = Global.Instance.modManager.mods.Find((Predicate<KMod.Mod>)(m => m.label.id == savedLanguageMod));
 						if (mod == null)
 						{
-							Debug.LogWarning((object)("Tried loading a translation from a non-existent mod id: " + savedLanguageMod));
+							Debug.LogWarning(("Tried loading a translation from a non-existent mod id: " + savedLanguageMod));
 							return false;
 						}
 						string translationFile = LanguageOptionsScreen.GetLanguageFilename(mod);
@@ -338,8 +338,8 @@ namespace UtilLibs
 			RoomConstraints.WILDANIMALS.name = CRITERIA.WILDANIMALS.NAME; RoomConstraints.WILDANIMALS.description = CRITERIA.WILDANIMALS.DESCRIPTION;
 			RoomConstraints.WILDPLANT.name = CRITERIA.WILDPLANT.NAME; RoomConstraints.WILDPLANT.description = CRITERIA.WILDPLANT.DESCRIPTION;
 			RoomConstraints.WILDPLANTS.name = CRITERIA.WILDPLANTS.NAME; RoomConstraints.WILDPLANTS.description = CRITERIA.WILDPLANTS.DESCRIPTION;
+			RoomConstraints.ORNAMENTDISPLAYED.name = CRITERIA.ORNAMENT.NAME; RoomConstraints.ORNAMENTDISPLAYED.description = CRITERIA.ORNAMENT.DESCRIPTION;
 		}
-
 
 		public static void ManualTranslationPatch(Harmony harmony, Type type)
 		{

@@ -46,7 +46,7 @@
 //            ExcavatorBomb.statusItemCountdown.resolveStringCallback = (Func<string, object, string>)((str, data) =>
 //            {
 //                ExcavatorBomb.StatesInstance statesInstance = (ExcavatorBomb.StatesInstance)data;
-//                return string.Format(str, (object)GameUtil.GetFormattedTime(statesInstance.master.CountdownRemaining));
+//                return string.Format(str, GameUtil.GetFormattedTime(statesInstance.master.CountdownRemaining));
 //            });
 //            ExcavatorBomb.statusItemDupeDanger = new StatusItem("DupeDanger", (string)BUILDING.STATUSITEMS.EXCAVATOR_BOMB.DUPE_DANGER.NAME, (string)BUILDING.STATUSITEMS.EXCAVATOR_BOMB.DUPE_DANGER.TOOLTIP, string.Empty, StatusItem.IconType.Info, NotificationType.Neutral, false, SimViewMode.None, SimViewMode.None);
 //            ExcavatorBomb.statusItemExpoding = new StatusItem("Exploding", (string)BUILDING.STATUSITEMS.EXCAVATOR_BOMB.EXPLODING.NAME, (string)BUILDING.STATUSITEMS.EXCAVATOR_BOMB.EXPLODING.TOOLTIP, string.Empty, StatusItem.IconType.Info, NotificationType.Neutral, false, SimViewMode.None, SimViewMode.None);
@@ -190,7 +190,7 @@
 //                            if (element.IsSolid)
 //                            {
 //                                float amount = num10 * 2f / this.totalEnergy;
-//                                //Output.Log((object)"step", (object)this.step, (object)"\tprevEnergy", (object)dictionary[key], (object)"\tenergy", (object)num10, (object)"\tDamageb", (object)amount);
+//                                //Output.Log("step", this.step, "\tprevEnergy", dictionary[key], "\tenergy", num10, "\tDamageb", amount);
 //                                float kilojoules = 10000f * dictionary[key] / this.totalEnergy;
 //                                float temperature = Grid.Temperature[key];
 //                                Element elem = Grid.Element[key];

@@ -47,6 +47,7 @@ namespace SatisfyingPowerShards.Defs.Critters
 
 		public string[] GetDlcIds() => null;
 		public string[] GetRequiredDlcIds() => [DlcManager.EXPANSION1_ID];
+		public string[] GetAnyRequiredDlcIds() => null;
 
 		public virtual GameObject CreatePrefab() =>
 			EntityTemplates.ExtendEntityToFertileCreature(

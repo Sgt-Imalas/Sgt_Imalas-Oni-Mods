@@ -39,13 +39,13 @@
 //            Burner.statusHasFuel.resolveStringCallback = (Func<string, object, string>)((str, obj) =>
 //            {
 //                Burner.SMInstance smi = (Burner.SMInstance)obj;
-//                return string.Format(str, (object)GameUtil.GetFormattedPercent(smi.sm.fuelRemaining.Get(smi) * 100f));
+//                return string.Format(str, GameUtil.GetFormattedPercent(smi.sm.fuelRemaining.Get(smi) * 100f));
 //            });
 //            Burner.statusBurningFuel = new StatusItem("BurningFuel", (string)BUILDING.STATUSITEMS.BURNER.BURNING_FUEL.NAME, (string)BUILDING.STATUSITEMS.BURNER.BURNING_FUEL.TOOLTIP, string.Empty, StatusItem.IconType.Info, NotificationType.Neutral, false, SimViewMode.None, SimViewMode.None);
 //            Burner.statusBurningFuel.resolveStringCallback = (Func<string, object, string>)((str, obj) =>
 //            {
 //                Burner.SMInstance smi = (Burner.SMInstance)obj;
-//                return string.Format(str, (object)GameUtil.GetFormattedPercent(smi.sm.fuelRemaining.Get(smi) * 100f));
+//                return string.Format(str, GameUtil.GetFormattedPercent(smi.sm.fuelRemaining.Get(smi) * 100f));
 //            });
 //        }
 

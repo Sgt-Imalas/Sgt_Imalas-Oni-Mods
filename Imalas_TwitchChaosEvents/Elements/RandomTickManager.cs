@@ -164,7 +164,7 @@ namespace Imalas_TwitchChaosEvents.Elements
 					if (tile_go != null && tile_go.TryGetComponent<SimCellOccupier>(out var sco) && !sco.doReplaceElement && tile_go.TryGetComponent<BuildingHP>(out var hp))
 					{
 						float damageAmount = amount * (float)hp.MaxHitPoints;
-						hp.gameObject.Trigger(-794517298, (object)new BuildingHP.DamageSourceInfo()
+						hp.gameObject.BoxingTrigger(-794517298, new BuildingHP.DamageSourceInfo()
 						{
 							damage = Mathf.RoundToInt(damageAmount),
 							source = (string)global::STRINGS.BUILDINGS.DAMAGESOURCES.COMET,

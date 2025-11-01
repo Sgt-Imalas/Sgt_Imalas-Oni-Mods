@@ -62,7 +62,7 @@ namespace DontBlameMods.cs
 					{
 						bool enabled = !mod_mgr.IsModEnabled(mod_label);
 						toggle.ChangeState(enabled ? 1 : 0);
-						mod_mgr.EnableMod(mod_label, enabled, (object)__instance);
+						mod_mgr.EnableMod(mod_label, enabled, __instance);
 					});
 					toggle.GetComponent<ToolTip>().OnToolTip = (Func<string>)(() => (string)(mod_mgr.IsModEnabled(mod_label) ? STRINGS.UI.FRONTEND.MODS.TOOLTIPS.ENABLED : STRINGS.UI.FRONTEND.MODS.TOOLTIPS.DISABLED));
 					hierarchyReferences.gameObject.SetActive(true);

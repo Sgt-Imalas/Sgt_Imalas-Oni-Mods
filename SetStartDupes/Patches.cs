@@ -870,7 +870,7 @@ namespace SetStartDupes
 			private static System.Collections.IEnumerator MinionNumberAdustmentRoutine()
 			{
 
-				yield return (object)SequenceUtil.WaitForSeconds(((3 - SpeedControlScreen.Instance.speed) * 500f) / 1000f);
+				yield return SequenceUtil.WaitForSeconds(((3 - SpeedControlScreen.Instance.speed) * 500f) / 1000f);
 				SpeedControlScreen.Instance.Pause(true);
 			}
 			public static void Prefix(Immigration __instance, float dt)
@@ -1286,7 +1286,7 @@ namespace SetStartDupes
 
 
 				Vector2 initial_velocity = new Vector2(UnityEngine.Random.Range(-2f, 2f) * 1f, (float)((double)UnityEngine.Random.value * 2.0 + 4.0));
-				if (GameComps.Fallers.Has((object)go))
+				if (GameComps.Fallers.Has(go))
 					GameComps.Fallers.Remove(go);
 				GameComps.Fallers.Add(go, initial_velocity);
 			}

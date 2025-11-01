@@ -40,7 +40,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 
 			craftModuleInterface.gameObject.Subscribe((int)GameHashes.RocketModuleChanged, UpdateModules);
 			UpdateModules(null);
-			StatusItemHandle = selectable.AddStatusItem(ModAssets.StatusItems.RTB_AccessHatchStorage, (object)this);
+			StatusItemHandle = selectable.AddStatusItem(ModAssets.StatusItems.RTB_AccessHatchStorage, this);
 			ModAssets.FridgeModuleGrabbers.Add(this);
 			//GetAllMassDesc();
 			//this.filteredStorage.FilterChanged();

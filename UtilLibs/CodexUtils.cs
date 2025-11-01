@@ -37,7 +37,7 @@ namespace UtilLibs
 			}
 			catch (Exception ex)
 			{
-				Debug.LogWarning((object)ex);
+				Debug.LogWarning(ex);
 			}
 			if (yamlFiles == null || !yamlFiles.Any()) return;
 
@@ -69,7 +69,7 @@ namespace UtilLibs
 					}
 					catch (Exception ex)
 					{
-						DebugUtil.DevLogErrorFormat("CodexCache.CollectEntries failed to load [{0}]: {1}", (object)codexFile, (object)ex.ToString());
+						DebugUtil.DevLogErrorFormat("CodexCache.CollectEntries failed to load [{0}]: {1}", codexFile, ex.ToString());
 					}
 				}
 			}

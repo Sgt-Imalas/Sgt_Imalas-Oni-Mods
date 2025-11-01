@@ -87,7 +87,7 @@ namespace Rockets_TinyYetBig.SpaceStations
 						Pathfinding.Instance.AddDirtyNavGridCell(cell);
 					}
 				}
-				SgtLogger.debuglog(string.Format("Created new space station interior, id: {0}, at {1} with size {2}", (object)nextWorldId, (object)offset, (object)spaceStationInteriorSize));
+				SgtLogger.debuglog(string.Format("Created new space station interior, id: {0}, at {1} with size {2}", nextWorldId, offset, spaceStationInteriorSize));
 				spaceStationInteriorWorld.PlaceInteriorTemplate(interiorTemplateName, (System.Action)(() =>
 				{
 					///On StationCompleteAction idk
@@ -95,7 +95,7 @@ namespace Rockets_TinyYetBig.SpaceStations
 						callback();
 				}));
 				craft_go.AddOrGet<OrbitalMechanics>().CreateOrbitalObject(Db.Get().OrbitalTypeCategories.orbit.Id);
-				ClusterManager.Instance.Trigger((int)GameHashes.WorldAdded, (object)spaceStationInteriorWorld.id);
+				ClusterManager.Instance.Trigger((int)GameHashes.WorldAdded, spaceStationInteriorWorld.id);
 				spaceStationInteriorWorld.AddTag(ModAssets.Tags.IsSpaceStation);
 
 				if (!allowBuilding)
@@ -151,7 +151,7 @@ namespace Rockets_TinyYetBig.SpaceStations
 			WorldContainer world = ClusterManager.Instance.GetWorld(world_id);
 			if ((UnityEngine.Object)world == (UnityEngine.Object)null || !world.IsModuleInterior)
 			{
-				Debug.LogError((object)string.Format("Attempting to destroy world id {0}. The world is not a valid rocket interior", (object)world_id));
+				Debug.LogError(string.Format("Attempting to destroy world id {0}. The world is not a valid rocket interior", world_id));
 			}
 			else
 			{

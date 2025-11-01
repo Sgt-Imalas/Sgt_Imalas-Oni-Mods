@@ -67,26 +67,26 @@ namespace Rockets_TinyYetBig.Patches
 				}
 
 				//if (data.first > 0 || data.second > 0)
-				//    selectable.SetStatusItem(Db.Get().StatusItemCategories.Power, ModAssets.StatusItems.RTB_ModuleGeneratorFuelStatus, (object)data);
+				//    selectable.SetStatusItem(Db.Get().StatusItemCategories.Power, ModAssets.StatusItems.RTB_ModuleGeneratorFuelStatus, data);
 				//else
 				//    selectable.RemoveStatusItem(ModAssets.StatusItems.RTB_ModuleGeneratorFuelStatus);
 
 
 				//if (dataBattery.first > 0 || dataBattery.second > 0)
-				//    selectable.SetStatusItem(Db.Get().StatusItemCategories.OperatingEnergy, ModAssets.StatusItems.RTB_RocketBatteryStatus, (object)dataBattery);
+				//    selectable.SetStatusItem(Db.Get().StatusItemCategories.OperatingEnergy, ModAssets.StatusItems.RTB_RocketBatteryStatus, dataBattery);
 				//else
 				//    selectable.RemoveStatusItem(ModAssets.StatusItems.RTB_RocketBatteryStatus);
 
 				if (__instance.TryGetComponent<DockingSpacecraftHandler>(out var manager) && manager.GetConnectedWorlds().Count > 0)
 				{
-					selectable.SetStatusItem(Db.Get().StatusItemCategories.WoundEffects, ModAssets.StatusItems.RTB_DockingActive, (object)manager.GetConnectedWorlds());
+					selectable.SetStatusItem(Db.Get().StatusItemCategories.WoundEffects, ModAssets.StatusItems.RTB_DockingActive, manager.GetConnectedWorlds());
 				}
 				else
 					selectable.RemoveStatusItem(ModAssets.StatusItems.RTB_DockingActive);
 
 				if (constructionModule != null)
 				{
-					selectable.SetStatusItem(Db.Get().StatusItemCategories.AccessControl, ModAssets.StatusItems.RTB_SpaceStationConstruction_Status, (object)constructionModule);
+					selectable.SetStatusItem(Db.Get().StatusItemCategories.AccessControl, ModAssets.StatusItems.RTB_SpaceStationConstruction_Status, constructionModule);
 				}
 				else
 					selectable.RemoveStatusItem(ModAssets.StatusItems.RTB_SpaceStationConstruction_Status);
