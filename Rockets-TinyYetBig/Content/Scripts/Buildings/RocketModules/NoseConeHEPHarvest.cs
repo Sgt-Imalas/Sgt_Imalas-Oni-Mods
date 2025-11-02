@@ -8,8 +8,8 @@ using static Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS;
 
 namespace Rockets_TinyYetBig.Buildings.Nosecones
 {
-	public class NoseConeHEPHarvest :
-  GameStateMachine<NoseConeHEPHarvest, NoseConeHEPHarvest.StatesInstance, IStateMachineTarget, NoseConeHEPHarvest.Def>
+	public class ResourceHarvestModuleHEP :
+  GameStateMachine<ResourceHarvestModuleHEP, ResourceHarvestModuleHEP.StatesInstance, IStateMachineTarget, ResourceHarvestModuleHEP.Def>
 	{
 		public BoolParameter canHarvest;
 		public FloatParameter lastHarvestTime;
@@ -19,18 +19,18 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
 		public override void InitializeStates(out BaseState default_state)
 		{
 			default_state = grounded;
-			root.Enter(smi => smi.CheckIfCanHarvest());
+			root.Enter(smi => smi.CheckIfCanDrill());
 			grounded.TagTransition(GameTags.RocketNotOnGround, not_grounded)
 				.Update((smi, dt) => smi.UpdateMeter());
 			not_grounded
-				.DefaultState(not_grounded.not_harvesting)
-				.EventHandler(GameHashes.ClusterLocationChanged, smi => Game.Instance, smi => smi.CheckIfCanHarvest()).EventHandler(GameHashes.OnStorageChange, smi => smi.CheckIfCanHarvest()).TagTransition(GameTags.RocketNotOnGround, grounded, true);
-			not_grounded.not_harvesting
+				.DefaultState(not_grounded.not_drilling)
+				.EventHandler(GameHashes.ClusterLocationChanged, smi => Game.Instance, smi => smi.CheckIfCanDrill()).EventHandler(GameHashes.OnStorageChange, smi => smi.CheckIfCanDrill()).TagTransition(GameTags.RocketNotOnGround, grounded, true);
+			not_grounded.not_drilling
 				.PlayAnim("loaded")
-				.ParamTransition(canHarvest, not_grounded.harvesting, IsTrue)
+				.ParamTransition(canHarvest, not_grounded.drilling, IsTrue)
 				.Enter(smi => StatesInstance.RemoveHarvestStatusItems(smi.master.gameObject.GetComponent<RocketModuleCluster>().CraftInterface.gameObject))
-				.Update((smi, dt) => smi.CheckIfCanHarvest(), UpdateRate.SIM_4000ms);
-			not_grounded.harvesting
+				.Update((smi, dt) => smi.CheckIfCanDrill(), UpdateRate.SIM_4000ms);
+			not_grounded.drilling
 				.PlayAnim("deploying")
 				.Exit(smi =>
 				{
@@ -40,7 +40,7 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
 				{
 					Clustercraft clustercraft = smi.master.gameObject.GetComponent<RocketModuleCluster>().CraftInterface.m_clustercraft;
 
-					clustercraft.AddTag(GameTags.POIHarvesting);
+					clustercraft.AddTag(GameTags.RocketDrilling);
 					try
 					{
 						var controlStations = Components.RocketControlStations.GetWorldItems(clustercraft.GetComponent<WorldContainer>().id);
@@ -63,15 +63,14 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
 				})
 				.Exit((smi) =>
 				{
-					smi.master.gameObject.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>().RemoveTag(GameTags.POIHarvesting);
+					smi.master.gameObject.GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>().RemoveTag(GameTags.RocketDrilling);
 				})
 				.Update((smi, dt) =>
 				{
 					smi.HarvestFromPOI(dt);
 					lastHarvestTime.Set(Time.time, smi);
 				}, UpdateRate.SIM_4000ms)
-				.ParamTransition(canHarvest, not_grounded.not_harvesting, IsFalse)
-				.Exit((smi) => smi.GetComponent<RocketModuleCluster>().CraftInterface.m_clustercraft.GetComponent<KSelectable>().RemoveStatusItem(Db.Get().BuildingStatusItems.SpacePOIWasting))
+				.ParamTransition(canHarvest, not_grounded.not_drilling, IsFalse)				
 				;
 		}
 
@@ -83,8 +82,8 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
 		public class NotGroundedStates :
 		  State
 		{
-			public State not_harvesting;
-			public State harvesting;
+			public State not_drilling;
+			public State drilling;
 		}
 
 		public class StatesInstance :
@@ -120,83 +119,49 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
 			public void HarvestFromPOI(float dt)
 			{
 				Clustercraft component = GetComponent<RocketModuleCluster>().CraftInterface.m_clustercraft;
-				if (!CheckIfCanHarvest())
+				if (!CheckIfCanDrill())
 					return;
 				ClusterGridEntity atCurrentLocation = component.GetPOIAtCurrentLocation();
 				if (atCurrentLocation == null || atCurrentLocation.GetComponent<HarvestablePOIClusterGridEntity>() == null)
 					return;
+				StarmapHexCellInventory hexCellInventory = ClusterGrid.Instance.AddOrGetHexCellInventory(component.Location);
 				HarvestablePOIStates.Instance smi = atCurrentLocation.GetSMI<HarvestablePOIStates.Instance>();
 				Dictionary<SimHashes, float> elementsWithWeights = smi.configuration.GetElementsWithWeights();
-				float percentageSum = 0.0f;
+				float weightedMaxMass = 0.0f;
+				foreach (KeyValuePair<SimHashes, float> keyValuePair in elementsWithWeights)
+					weightedMaxMass += keyValuePair.Value;
 				foreach (KeyValuePair<SimHashes, float> keyValuePair in elementsWithWeights)
 				{
-					percentageSum += keyValuePair.Value;
 					Element elementByHash = ElementLoader.FindElementByHash(keyValuePair.Key);
 					if (!DiscoveredResources.Instance.IsDiscovered(elementByHash.tag))
 						DiscoveredResources.Instance.Discover(elementByHash.tag, elementByHash.GetMaterialCategoryTag());
 				}
-
-				float PilotDrillSpeedMultiplier = ModAssets.GetMiningPilotSkillMultiplier(component);
-
-				float harvestSpeedDT = Mathf.Min(GetMaxExtractKGFromHEPsAvailable(), def.harvestSpeed * dt * PilotDrillSpeedMultiplier);
+				float maxMassDrilled = Mathf.Min(this.GetMaxExtractKGFromHEPsAvailable(), this.def.harvestSpeed * dt);
 				float consumptionMass = 0.0f;
-				float num4 = 0.0f;
-				float wastedHarvestingMass = 0.0f;
 				foreach (KeyValuePair<SimHashes, float> keyValuePair in elementsWithWeights)
 				{
-					if (consumptionMass < harvestSpeedDT)
+					if ((double)consumptionMass < (double)maxMassDrilled)
 					{
 						SimHashes key = keyValuePair.Key;
-						float elementDropPercentage = keyValuePair.Value / percentageSum;
-						float elementMassPerTick = harvestSpeedDT * elementDropPercentage;
-						consumptionMass += elementMassPerTick;
+						float num4 = keyValuePair.Value / weightedMaxMass;
+						float mass = this.def.harvestSpeed * dt * num4;
 						Element elementByHash = ElementLoader.FindElementByHash(key);
-						CargoBay.CargoType stateToCargoType = CargoBay.ElementStateToCargoTypes[elementByHash.state & Element.State.Solid];
-						List<CargoBayCluster> cargoBaysOfType = component.GetCargoBaysOfType(stateToCargoType);
-						float mineMassPerTick = elementMassPerTick;
-						foreach (CargoBayCluster cargoBayCluster in cargoBaysOfType)
-						{
-							float mass = Mathf.Min(cargoBayCluster.RemainingCapacity, mineMassPerTick);
-							if ((double)mass != 0.0)
-							{
-								num4 += mass;
-								mineMassPerTick -= mass;
-								switch (elementByHash.state & Element.State.Solid)
-								{
-									case Element.State.Gas:
-										cargoBayCluster.storage.AddGasChunk(key, mass, elementByHash.defaultValues.temperature, byte.MaxValue, 0, false);
-										break;
-									case Element.State.Liquid:
-										cargoBayCluster.storage.AddLiquid(key, mass, elementByHash.defaultValues.temperature, byte.MaxValue, 0);
-										break;
-									case Element.State.Solid:
-										cargoBayCluster.storage.AddOre(key, mass, elementByHash.defaultValues.temperature, byte.MaxValue, 0);
-										break;
-								}
-							}
-							if ((double)mineMassPerTick == 0.0)
-								break;
-						}
-						wastedHarvestingMass += mineMassPerTick;
+						hexCellInventory.AddItem(elementByHash, mass);
+						consumptionMass += mass;
 					}
 					else
 						break;
 				}
 				smi.DeltaPOICapacity(-consumptionMass);
 				ConsumeParticles(consumptionMass * HEPConsumptionRate);
-
-				if (wastedHarvestingMass > 0.0)
-					component.GetComponent<KSelectable>().AddStatusItem(Db.Get().BuildingStatusItems.SpacePOIWasting, wastedHarvestingMass / dt);
-				else
-					component.GetComponent<KSelectable>().RemoveStatusItem(Db.Get().BuildingStatusItems.SpacePOIWasting);
-				SaveGame.Instance.GetComponent<ColonyAchievementTracker>().totalMaterialsHarvestFromPOI += consumptionMass;
+				SaveGame.Instance.ColonyAchievementTracker.totalMaterialsHarvestFromPOI += consumptionMass;
 			}
 
 			public void ConsumeParticles(float amount) => GetComponent<HighEnergyParticleStorage>().ConsumeIgnoringDisease(GameTags.HighEnergyParticle, amount);
 
 			public float GetMaxExtractKGFromHEPsAvailable() => GetComponent<HighEnergyParticleStorage>().Particles / HEPConsumptionRate;
 
-			public bool CheckIfCanHarvest()
+			public bool CheckIfCanDrill()
 			{
 				Clustercraft component = GetComponent<RocketModuleCluster>().CraftInterface.GetComponent<Clustercraft>();
 				if (component == null)

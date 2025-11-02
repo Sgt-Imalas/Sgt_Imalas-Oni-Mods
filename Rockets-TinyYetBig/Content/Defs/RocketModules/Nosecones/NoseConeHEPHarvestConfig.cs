@@ -74,7 +74,7 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
 			BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, null, ROCKETRY.BURDEN.MINOR);
 			go.GetComponent<ReorderableBuilding>().buildConditions.Add(new TopOnly());
 			go.AddOrGet<ExtendedClusterModuleAnimator>();
-			go.AddOrGetDef<NoseConeHEPHarvest.Def>().harvestSpeed = Config.Instance.LaserDrillconeSpeed;
+			go.AddOrGetDef<ResourceHarvestModuleHEP.Def>().harvestSpeed = Config.Instance.LaserDrillconeSpeed;
 		}
 	}
 }

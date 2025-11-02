@@ -60,7 +60,7 @@ namespace Rockets_TinyYetBig.Behaviours
 					if (smi.currentPercentage + detectionIncrease >= 99.9f)
 					{
 						smi.m_fowManager.RevealCellIfValid(this.currentTarget);
-						Game.Instance.Trigger((int)GameHashes.ClusterFogOfWarRevealed, this.currentTarget);
+						Game.Instance.BoxingTrigger((int)GameHashes.ClusterFogOfWarRevealed, this.currentTarget);
 						smi.DestroyTelescope();
 					}
 					smi.currentPercentage = smi.m_fowManager.GetRevealCompleteFraction(smi.m_analyzeTarget) * 100f;

@@ -65,7 +65,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 				return;
 			}
 
-			bool artifactIsAvailable = artifactpoistatus != null ? artifactpoistatus.CanHarvestArtifact() : false;
+			bool artifactIsAvailable = artifactpoistatus != null ? artifactpoistatus.HasArtifactAvailableInHexCell() : false;
 			bool aboveMassThreshold = harvestpoistatus != null ?
 				activateAboveThreshold
 					? harvestpoistatus.poiCapacity >= threshold

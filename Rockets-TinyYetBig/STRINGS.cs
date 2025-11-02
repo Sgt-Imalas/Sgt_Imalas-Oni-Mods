@@ -508,7 +508,7 @@ namespace Rockets_TinyYetBig
 				}
 				public class RYB_NOSECONEHEPHARVEST
 				{
-					public static LocString NAME = FormatAsLink("Laser Drillcone", nameof(NoseConeHEPHarvestConfig));
+					public static LocString NAME = FormatAsLink("Laser Drillcone", nameof(ResourceHarvestModuleHEPConfig));
 					public static LocString DESC = "Harvests resources from the universe with the power of radbolts and lasers";
 					public static LocString EFFECT = global::STRINGS.BUILDINGS.PREFABS.NOSECONEHARVEST.EFFECT;
 				}

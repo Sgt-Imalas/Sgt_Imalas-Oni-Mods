@@ -169,7 +169,7 @@ namespace Rockets_TinyYetBig
 		{
 			public static void Postfix(List<DetailsScreen.SideScreenRef> ___sideScreens)
 			{
-				UIUtils.AddClonedSideScreen<NoseConeHEPHarvestSideScreen>("HarvestModuleHEPSideScreen", "HarvestModuleSideScreen", typeof(HarvestModuleSideScreen));
+				UIUtils.AddClonedSideScreen<ResourceHarvestModuleHEPSideScreen>("HarvestModuleHEPSideScreen", "HarvestModuleSideScreen", typeof(HarvestModuleSideScreen));
 			}
 		}
 

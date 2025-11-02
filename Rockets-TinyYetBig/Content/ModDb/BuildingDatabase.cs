@@ -70,7 +70,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 
 			if (Config.Instance.EnableLaserDrill)
 			{
-				AddRocketModuleToBuildList(NoseConeHEPHarvestConfig.ID, RocketCategory.nosecones, NoseconeHarvestConfig.ID);
+				AddRocketModuleToBuildList(ResourceHarvestModuleHEPConfig.ID, RocketCategory.nosecones, NoseconeHarvestConfig.ID);
 			}
 			if (Config.Instance.EnableDrillSupport)
 			{
@@ -196,7 +196,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 
 
 			if (Config.Instance.EnableLaserDrill)
-				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.HighVelocityDestruction, NoseConeHEPHarvestConfig.ID);
+				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.SolidMaterial.HighVelocityDestruction, ResourceHarvestModuleHEPConfig.ID);
 
 			if (Config.Instance.EnableDrillSupport)
 			{

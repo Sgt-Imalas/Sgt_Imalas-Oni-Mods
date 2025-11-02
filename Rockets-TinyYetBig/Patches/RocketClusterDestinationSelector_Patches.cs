@@ -59,12 +59,12 @@ namespace Rockets_TinyYetBig.Patches.ClustercraftDockingPatches
 			{
 				if (!__result)
 				{
-					List<NoseConeHEPHarvest.StatesInstance> resourceHarvestModules = GetAllLaserNoseconeHarvestModules(__instance.GetComponent<Clustercraft>());
+					List<ResourceHarvestModuleHEP.StatesInstance> resourceHarvestModules = GetAllLaserNoseconeHarvestModules(__instance.GetComponent<Clustercraft>());
 					if (resourceHarvestModules.Count > 0)
 					{
 						foreach (var statesInstance in resourceHarvestModules)
 						{
-							if (statesInstance.CheckIfCanHarvest())
+							if (statesInstance.CheckIfCanDrill())
 							{
 								__result = true;
 							}
@@ -73,12 +73,12 @@ namespace Rockets_TinyYetBig.Patches.ClustercraftDockingPatches
 					}
 				}
 			}
-			public static List<NoseConeHEPHarvest.StatesInstance> GetAllLaserNoseconeHarvestModules(Clustercraft craft)
+			public static List<ResourceHarvestModuleHEP.StatesInstance> GetAllLaserNoseconeHarvestModules(Clustercraft craft)
 			{
-				List<NoseConeHEPHarvest.StatesInstance> laserNosecones = new List<NoseConeHEPHarvest.StatesInstance>();
+				List<ResourceHarvestModuleHEP.StatesInstance> laserNosecones = new List<ResourceHarvestModuleHEP.StatesInstance>();
 				foreach (Ref<RocketModuleCluster> clusterModule in craft.ModuleInterface.ClusterModules)
 				{
-					NoseConeHEPHarvest.StatesInstance smi = clusterModule.Get().GetSMI<NoseConeHEPHarvest.StatesInstance>();
+					ResourceHarvestModuleHEP.StatesInstance smi = clusterModule.Get().GetSMI<ResourceHarvestModuleHEP.StatesInstance>();
 					if (smi != null)
 						laserNosecones.Add(smi);
 				}

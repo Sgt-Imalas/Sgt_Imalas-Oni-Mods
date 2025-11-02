@@ -76,16 +76,16 @@ namespace Rockets_TinyYetBig.Patches
 		}
 
 
-		[HarmonyPatch(typeof(ClusterGrid))]
-		[HarmonyPatch(nameof(ClusterGrid.GetLocationDescription))]
-		public static class POIs_in_RocketTargetSelector
-		{
-			public static bool Prefix(AxialI location, out Sprite sprite, out string label, out string sublabel)
-			{
-				BetterViewOfLocation.GetLocationDescriptionWithPOIs(location, out sprite, out label, out sublabel);
-				return false;
-			}
-		}
+		//[HarmonyPatch(typeof(ClusterGrid))]
+		//[HarmonyPatch(nameof(ClusterGrid.GetLocationDescription))]
+		//public static class POIs_in_RocketTargetSelector
+		//{
+		//	public static bool Prefix(AxialI location, out Sprite sprite, out string label, out string sublabel)
+		//	{
+		//		BetterViewOfLocation.GetLocationDescriptionWithPOIs(location, out sprite, out label, out sublabel);
+		//		return false;
+		//	}
+		//}
 
 
 
@@ -134,6 +134,7 @@ namespace Rockets_TinyYetBig.Patches
 
 			public static bool Prefix(ClusterDestinationSideScreen __instance)
 			{
+				return true;
 				if (__instance.targetSelector == null)
 					return true;
 
@@ -147,13 +148,13 @@ namespace Rockets_TinyYetBig.Patches
 					{
 						GetLocationDescriptionWithPOIs(selector.GetDestination(), out var sprite, out var label, out _);
 						__instance.destinationImage.sprite = sprite;
-						__instance.destinationLabel.text = (isClusterLocationSensor ? (string)STRINGS.UI.CLUSTERLOCATIONSENSORADDON.TITLE : (string)global::STRINGS.UI.UISIDESCREENS.CLUSTERDESTINATIONSIDESCREEN.TITLE) + ": " + label;
+						__instance.destinationInfoLabel.text = (isClusterLocationSensor ? (string)STRINGS.UI.CLUSTERLOCATIONSENSORADDON.TITLE : (string)global::STRINGS.UI.UISIDESCREENS.CLUSTERDESTINATIONSIDESCREEN.TITLE) + ": " + label;
 						__instance.clearDestinationButton.isInteractable = true;
 					}
 					else
 					{
 						__instance.destinationImage.sprite = Assets.GetSprite((HashedString)"hex_unknown");
-						__instance.destinationLabel.text = (isClusterLocationSensor ? (string)STRINGS.UI.CLUSTERLOCATIONSENSORADDON.TITLE : (string)global::STRINGS.UI.UISIDESCREENS.CLUSTERDESTINATIONSIDESCREEN.TITLE) + ": " + (string)global::STRINGS.UI.SPACEDESTINATIONS.NONE.NAME;
+						__instance.destinationInfoLabel.text = (isClusterLocationSensor ? (string)STRINGS.UI.CLUSTERLOCATIONSENSORADDON.TITLE : (string)global::STRINGS.UI.UISIDESCREENS.CLUSTERDESTINATIONSIDESCREEN.TITLE) + ": " + (string)global::STRINGS.UI.SPACEDESTINATIONS.NONE.NAME;
 						__instance.clearDestinationButton.isInteractable = false;
 					}
 					__instance.launchPadDropDown.gameObject.SetActive(false);
