@@ -85,9 +85,7 @@ namespace SetStartDupes
 
 				if (OverrideName)
 					CurrentContainer.characterNameTitle.OnEndEdit(Selected.GetName());
-				CurrentContainer.SetAnimator();
-				CurrentContainer.SetAttributes();
-				CurrentContainer.SetInfoText();
+				CurrentContainer.RefreshDuplicantPanel();
 
 				ModAssets.UpdatePersonalityLockButton(CurrentContainer);
 			}

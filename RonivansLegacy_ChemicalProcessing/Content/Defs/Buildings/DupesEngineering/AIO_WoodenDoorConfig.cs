@@ -12,7 +12,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 	{
 		public const string ID = "AIO_WoodenDoor";
 		public override BuildingDef CreateBuildingDef()
-		{
+		{			
 			float[] material_mass = [50, 50f];
 			string[] construction_materials = [MATERIALS.RAW_MINERALS_OR_WOOD.First(), GameTags.BuildingWood.ToString()];
 			EffectorValues nONE = TUNING.NOISE_POLLUTION.NONE;

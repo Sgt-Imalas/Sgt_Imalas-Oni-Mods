@@ -164,8 +164,7 @@ namespace SetStartDupes
 					//}
 					__instance.SetReshufflingState(true);
 					__instance.modelDropDown.transform.parent.gameObject.SetActive(false);
-					__instance.SetAnimator();
-					__instance.SetInfoText();
+					__instance.RefreshDuplicantPanel(false);
 					__instance.StartCoroutine(__instance.SetAttributes());
 					___selectButton.ClearOnClick();
 					___selectButton.interactable = false;
@@ -1471,7 +1470,7 @@ namespace SetStartDupes
 
 
 				//28
-				int insetBase = 4, insetA = 28, insetB = insetA * 2, insetC = insetA * 3;
+				int insetBase = 10, insetA = 28, insetB = insetA * 2, insetC = insetA * 3;
 				float insetDistance = (!is_starter && !AllowModification) ? insetBase + insetA : insetBase + insetC;
 
 				//var TextInput = titlebar.transform.Find("LabelGroup/");
@@ -1493,9 +1492,7 @@ namespace SetStartDupes
 
 				System.Action RebuildDupePanel = () =>
 				{
-					__instance.SetInfoText();
-					__instance.SetAttributes();
-					__instance.SetAnimator();
+					__instance.RefreshDuplicantPanel();
 				};
 
 				UIUtils.AddActionToButton(skinBtn.transform, "", () => DupeSkinScreenAddon.ShowSkinScreen(__instance));
@@ -1566,9 +1563,7 @@ namespace SetStartDupes
 
 						if (!mng.CurrentlyEditing)
 						{
-							__instance.SetInfoText();
-							__instance.SetAttributes();
-							__instance.SetAnimator();
+							__instance.RefreshDuplicantPanel();
 						}
 					};
 
