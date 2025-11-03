@@ -53,6 +53,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			go.AddOrGet<UserNameable>();
 			go.AddOrGetDef<RocketUsageRestriction.Def>().restrictOperational = false;
 
+			PreciseStorageControl.AddComponent(go);
 			HysteresisStorage.AddComponent(go);
 		}
 

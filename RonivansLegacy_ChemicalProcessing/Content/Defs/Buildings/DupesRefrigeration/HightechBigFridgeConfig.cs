@@ -126,6 +126,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 			waterInput.AssignPort(WaterConsumer);
 			AttachPort(go);
 			go.AddOrGet<FridgeSaverDescriptor>().Cache();
+
+			PreciseStorageControl.AddComponent(go);
 			HysteresisStorage.AddComponent(go);
 
 		}
