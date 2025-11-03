@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Application: Oxygen Not IncludedPOT Version: 2.0\n"
-"X-Generator: Poedit 3.7\n"
+"X-Generator: Poedit 3.8\n"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.ADDEDBYSGT_IMALAS
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.ADDEDBYSGT_IMALAS"
@@ -262,6 +262,36 @@ msgstr "Логистический рельс не подключен"
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.LOGISTIC_NEEDSOLIDOUT.TOOLTIP"
 msgid "This building's <style=\"KKeyword\">Logistic Solid Output</style> does not have a <link=\"LOGISTICRAIL\">Logistic Rail</link> connected"
 msgstr "<style=\"KKeyword\">Логистический выход твёрдого вещества</style> этого здания не имеет подключённого <link=\"HPASOLIDRAIL\">логистического рельса</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.THERMALBATTERY_STORAGEFULL.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.THERMALBATTERY_STORAGEFULL.NAME"
+msgid "Thermal capacitor overloaded!"
+msgstr "Тепловой конденсатор перегружен!"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.THERMALBATTERY_STORAGEFULL.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.THERMALBATTERY_STORAGEFULL.TOOLTIP"
+msgid ""
+"Insufficient cooling has overloaded the buildings internal heat capacitor.\n"
+"It needs to be fully cooled down before the building can be operational again."
+msgstr ""
+"Недостаточное охлаждение привело к перегрузке внутреннего теплового конденсатора здания.\n"
+"Перед тем как здание снова можно будет эксплуатировать, его необходимо полностью охладить."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.THERMALBATTERY_STORAGELEVEL.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.THERMALBATTERY_STORAGELEVEL.NAME"
+msgid "Thermal capacitor level: {0}"
+msgstr "Уровень теплового конденсатора: {0}"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.THERMALBATTERY_STORAGELEVEL.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.THERMALBATTERY_STORAGELEVEL.TOOLTIP"
+msgid ""
+"This buildings internal heat capacitor stores heat energy to transfer it to the piped in coolant.\n"
+"Capillary structures will prevent coolant from boiling at the cost of reduced heat transfer.\n"
+"If the capacitor fills up completely, the building will be rendered inoperational until its fully cooled down again."
+msgstr ""
+"Внутренний тепловой конденсатор этого здания запасает тепловую энергию для передачи её подаваемому по трубопроводу теплоносителю.\n"
+"Капиллярные структуры предотвратят кипение охлаждающей жидкости за счёт снижения теплопередачи.\n"
+"Если конденсатор полностью перегреется, то здание будет выведено из эксплуатации до полного остывания."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.FACADES_STANDALONE.EXTERIORWALL.BRICKWALL.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.FACADES_STANDALONE.EXTERIORWALL.BRICKWALL.DESC"
@@ -714,7 +744,6 @@ msgstr "Автоматически обнаруживает следы <link=\"C
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AIO_CHLORINEPUMP.NAME"
 msgid "<link=\"CHEMICALAIOCHLORINEPUMP\">Chlorine Gas Filter</link>"
 msgstr "<link=\"CHEMICALAIOCHLORINEPUMP\">Фильтр хлорного газа</link>"
-
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AMMONIABREAKER.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AMMONIABREAKER.DESC"
@@ -3343,6 +3372,20 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.DUPLICANTS.STATUSITEMS.ACIDBU
 msgid "This duplicant has been injured from their recent exposure to corrosive acids."
 msgstr "Этот дубликант пострадал в результате недавнего воздействия едких кислот."
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_PERMENDUR_SOLID.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_PERMENDUR_SOLID.DESC"
+msgid ""
+"Permendur is a cobalt-iron soft ferromagnetic alloy with equal parts of <link=\"COBALT\">Cobalt</link> and <link=\"IRON\">Iron</link> which is notable for its high magnetic saturation level.\n"
+"Heat treatment gives this material a high structural stability."
+msgstr ""
+"Пермендюр - это мягкий ферромагнитный сплав с равным содержанием <link=\"COBALT\">кобальта</link> и <link=\"IRON\">железа</link> отличающийся высокой степенью магнитного насыщения.\n"
+"Термическая обработка придаёт этому материалу высокую структурную стабильность."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_PERMENDUR_SOLID.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_PERMENDUR_SOLID.NAME"
+msgid "<link=\"AIOPERMENDURSOLID\">Permendur</link>"
+msgstr "<link=\"AIOPERMENDURSOLID\">Пермендюр</link>"
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AMMONIAGAS.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AMMONIAGAS.DESC"
 msgid "(NH<sub>3</sub>) Ammonia is an inorganic compound of nitrogen and hydrogen. A stable binary hydride, and the simplest pnictogen hydride, ammonia is a gas with a distinct pungent smell."
@@ -4098,6 +4141,50 @@ msgstr ""
 "Откройте редактор зданий, чтобы по отдельности включить все здания, добавленные модом, и изменить настройки некоторых из них.\n"
 "Все изменения, внесённые здесь, требуют перезапуска!"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARCFUDGE.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARCFUDGE.NAME"
+msgid "Arc furnace  Thermal Fudge"
+msgstr "Селективная дуговая печь - Теплоотдача"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARCFUDGE.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARCFUDGE.TOOLTIP"
+msgid ""
+"The selective arc furnace only puts a percentage of its recipes heat into its internal heat capacitor.\n"
+"The default value for the mod is 90%"
+msgstr ""
+"Селективная дуговая печь отдаёт только часть тепла во внутренний тепловой конденсатор.\n"
+"Значение мода по умолчанию - 90%."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_REFINERYFUDGE.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_REFINERYFUDGE.NAME"
+msgid "Metal Refinery Thermal Fudge"
+msgstr "Металлургический станок - Теплоотдача"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_REFINERYFUDGE.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_REFINERYFUDGE.TOOLTIP"
+msgid ""
+"The Metal refinery only puts a percentage of its recipes heat into the coolant.\n"
+"The vanilla value for this is 80%.\n"
+"The default value for the mod is 60%"
+msgstr ""
+"Металлургический станок отдаёт в охлаждающую жидкость только часть тепла, выделяемого рецептом.\n"
+"Значение игры по умолчанию - 80%.\n"
+"Значение мода по умолчанию - 60%."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_REFINERYFUDGEADV.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_REFINERYFUDGEADV.NAME"
+msgid "Advanced Refinery Thermal Fudge"
+msgstr "Продвинутый металлургический станок - Теплоотдача"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_REFINERYFUDGEADV.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_REFINERYFUDGEADV.TOOLTIP"
+msgid ""
+"The Advanced Metal refinery only puts a percentage of its recipes heat into the coolant.\n"
+"The default value for the mod is 90%"
+msgstr ""
+"Продвинутый металлургический станок отдаёт в охлаждающую жидкость только часть тепла, выделяемого рецептом.\n"
+"Значение мода по умолчанию - 90%"
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CUSTOMRES_MOVETOCONDUITCATEGORY.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CUSTOMRES_MOVETOCONDUITCATEGORY.NAME"
 msgid "Move all Reservoirs to their piping category"
@@ -4500,6 +4587,24 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR
 msgid "Refine {0} to {4} with a mixture of of {1}, {2} and {3}"
 msgstr "Обработать {0} в {4} с помощью смеси {1}, {2} и {3}."
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.BAD_RECIPE_PRODUCT_DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.BAD_RECIPE_PRODUCT_DESC"
+msgid ""
+"This recipe comes with reduced yield,\n"
+"since the machine is unable to provide the proper environmental conditions.\n"
+"\n"
+"Other machines might be more suitable for this refinement process."
+msgstr ""
+"Этот рецепт приводит к снижению производительности,\n"
+"поскольку машина не может обеспечить необходимые условия окружающей среды.\n"
+"\n"
+"Другие машины могут быть более подходящими для этого процесса очистки."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.BAD_RECIPE_PRODUCT_NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.BAD_RECIPE_PRODUCT_NAME"
+msgid "Crude {0}"
+msgstr "Необр. {0}"
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.BALLCRUSHER_MILLING_1INGREDIENT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.BALLCRUSHER_MILLING_1INGREDIENT"
 msgid ""
@@ -4829,6 +4934,21 @@ msgstr "Плавить смесь {0}, {1} и {2}, чтобы получить {
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.KLEI_INVENTORY_SCREEN.SUBCATEGORIES.RONIVAN_AIO_SKINS"
 msgid "Ronivans Legacy - All In One"
 msgstr "Наследие Ронивана - всё в одном"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.COOLANT_BATTERY_THRESHOLD.LOGIC_PORT
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.COOLANT_BATTERY_THRESHOLD.LOGIC_PORT"
+msgid "Thermal Capacitor Threshold"
+msgstr "Порог теплового конденсатора"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.COOLANT_BATTERY_THRESHOLD.LOGIC_PORT_ACTIVE
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.COOLANT_BATTERY_THRESHOLD.LOGIC_PORT_ACTIVE"
+msgid "Sends a <b><style=\"logic_on\">Green Signal</style></b> when the thermal capacitor is above the threshold."
+msgstr "Отправляет <b><style=\"logic_on\">зелёный сигнал</style></b>, когда тепловой конденсатор превышает пороговое значение."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.COOLANT_BATTERY_THRESHOLD.LOGIC_PORT_INACTIVE
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.COOLANT_BATTERY_THRESHOLD.LOGIC_PORT_INACTIVE"
+msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b>"
+msgstr "В противном случае отправляет <b><style=\"logic_off\">красный сигнал</style></b>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.FABRICATOR_ACTIVE.LOGIC_PORT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.FABRICATOR_ACTIVE.LOGIC_PORT"

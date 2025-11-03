@@ -68,6 +68,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 			go.AddOrGet<RationBox>();
 			go.AddOrGet<UserNameable>();
 			go.GetComponent<KPrefabID>().AddTag(GameTags.RocketInteriorBuilding, false);
+
+			PreciseStorageControl.AddComponent(go);
 			HysteresisStorage.AddComponent(go);
 		}
 	}
