@@ -13,8 +13,8 @@ namespace Rockets_TinyYetBig.Content.ModDb
 		public enum CargobaySizeCategory
 		{
 			Small,
-			Medium,
 			Large,
+			Colossal,
 		}
 
 		public struct CargoBayInfo
@@ -45,11 +45,11 @@ namespace Rockets_TinyYetBig.Content.ModDb
 			},
 			{
 				SolidCargoBayClusterConfig.ID,
-				new (ROCKETRY.SOLID_CARGO_BAY_CLUSTER_CAPACITY * ROCKETRY.CARGO_CAPACITY_SCALE,Config.Instance.SolidCargoBayKgPerUnit, Config.Instance.MediumCargoBayUnits, CargobaySizeCategory.Medium)
+				new (ROCKETRY.SOLID_CARGO_BAY_CLUSTER_CAPACITY * ROCKETRY.CARGO_CAPACITY_SCALE,Config.Instance.SolidCargoBayKgPerUnit, Config.Instance.MediumCargoBayUnits, CargobaySizeCategory.Large)
 			},
 			{
 				SolidCargoBayClusterLargeConfig.ID,
-				new (SolidCargoBayClusterLargeConfig.CAPACITY_OFF,Config.Instance.SolidCargoBayKgPerUnit, Config.Instance.CollossalCargoBayUnits, CargobaySizeCategory.Large)
+				new (SolidCargoBayClusterLargeConfig.CAPACITY_OFF,Config.Instance.SolidCargoBayKgPerUnit, Config.Instance.CollossalCargoBayUnits, CargobaySizeCategory.Colossal)
 			},
 
 			{
@@ -58,11 +58,11 @@ namespace Rockets_TinyYetBig.Content.ModDb
 			},
 			{
 				LiquidCargoBayClusterConfig.ID,
-				new (ROCKETRY.LIQUID_CARGO_BAY_CLUSTER_CAPACITY * ROCKETRY.CARGO_CAPACITY_SCALE,Config.Instance.LiquidCargoBayKgPerUnit ,Config.Instance.MediumCargoBayUnits,CargobaySizeCategory.Medium)
+				new (ROCKETRY.LIQUID_CARGO_BAY_CLUSTER_CAPACITY * ROCKETRY.CARGO_CAPACITY_SCALE,Config.Instance.LiquidCargoBayKgPerUnit ,Config.Instance.MediumCargoBayUnits,CargobaySizeCategory.Large)
 			},
 			{
 				LiquidCargoBayClusterLargeConfig.ID,
-				new (LiquidCargoBayClusterLargeConfig.CAPACITY_OFF,Config.Instance.LiquidCargoBayKgPerUnit,Config.Instance.CollossalCargoBayUnits, CargobaySizeCategory.Large)
+				new (LiquidCargoBayClusterLargeConfig.CAPACITY_OFF,Config.Instance.LiquidCargoBayKgPerUnit,Config.Instance.CollossalCargoBayUnits, CargobaySizeCategory.Colossal)
 			},
 
 			{
@@ -71,11 +71,11 @@ namespace Rockets_TinyYetBig.Content.ModDb
 			},
 			{
 				GasCargoBayClusterConfig.ID,
-				new (ROCKETRY.GAS_CARGO_BAY_CLUSTER_CAPACITY * ROCKETRY.CARGO_CAPACITY_SCALE,Config.Instance.GasCargoBayKgPerUnit, Config.Instance.MediumCargoBayUnits,CargobaySizeCategory.Medium)
+				new (ROCKETRY.GAS_CARGO_BAY_CLUSTER_CAPACITY * ROCKETRY.CARGO_CAPACITY_SCALE,Config.Instance.GasCargoBayKgPerUnit, Config.Instance.MediumCargoBayUnits,CargobaySizeCategory.Large)
 			},
 			{
 				GasCargoBayClusterLargeConfig.ID,
-				new (GasCargoBayClusterLargeConfig.CAPACITY_OFF, Config.Instance.GasCargoBayKgPerUnit,Config.Instance.CollossalCargoBayUnits, CargobaySizeCategory.Large)
+				new (GasCargoBayClusterLargeConfig.CAPACITY_OFF, Config.Instance.GasCargoBayKgPerUnit,Config.Instance.CollossalCargoBayUnits, CargobaySizeCategory.Colossal)
 			},
 
 		};
@@ -108,8 +108,8 @@ namespace Rockets_TinyYetBig.Content.ModDb
 					data.Category switch
 					{
 						CargobaySizeCategory.Small => data.Capacity / divider, //vanilla nr, keep as baseline for small; 6 cycles till full
-						CargobaySizeCategory.Medium => data.Capacity / divider / 1.25f, //still faster than vanilla numbers, 7.5 cycles till full
-						CargobaySizeCategory.Large => data.Capacity / divider / 1.6f, //9.6 cycles till full
+						CargobaySizeCategory.Large => data.Capacity / divider / 1.25f, //still faster than vanilla numbers, 7.5 cycles till full
+						CargobaySizeCategory.Colossal => data.Capacity / divider / 1.6f, //9.6 cycles till full
 						_ => -1
 
 					};
