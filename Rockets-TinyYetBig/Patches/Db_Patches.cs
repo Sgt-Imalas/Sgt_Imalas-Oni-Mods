@@ -23,6 +23,7 @@ namespace Rockets_TinyYetBig.Patches
 				BuildingDatabase.AddBuildingsToTech();
 				CarbonField_AnimationFix.ExecutePatch();
 				CustomOxidizers.RegisterCustomOxidizers();
+				ModStatusItems.Register();
 			}
         }
 	}

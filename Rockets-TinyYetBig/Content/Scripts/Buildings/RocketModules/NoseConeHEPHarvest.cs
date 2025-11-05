@@ -1,4 +1,5 @@
 ﻿using Rockets_TinyYetBig.Behaviours;
+using Rockets_TinyYetBig.Content.ModDb;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,7 +60,10 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
 						SgtLogger.error(ex.Message);
 					}
 					clustercraft.Trigger(-1762453998, null);
-					StatesInstance.AddHarvestStatusItems(clustercraft.ModuleInterface.gameObject, smi.def.harvestSpeed * ModAssets.GetMiningPilotSkillMultiplier(clustercraft));
+					StatesInstance.AddHarvestStatusItems(clustercraft.ModuleInterface.gameObject,
+						smi.def.harvestSpeed * ModAssets.GetMiningPilotSkillMultiplier(clustercraft),
+						clustercraft
+						);
 				})
 				.Exit((smi) =>
 				{
@@ -207,11 +211,11 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
 				return flag;
 			}
 
-			public static void AddHarvestStatusItems(GameObject statusTarget, float harvestRate)
+			public static void AddHarvestStatusItems(GameObject statusTarget, float harvestRate, Clustercraft craft)
 			{
 				if (statusTarget.TryGetComponent<KSelectable>(out var selectable))
 				{
-					selectable.AddStatusItem(Db.Get().BuildingStatusItems.SpacePOIHarvesting, harvestRate);
+					selectable.AddStatusItem(Db.Get().BuildingStatusItems.SpacePOIHarvesting, new Tuple<Clustercraft,float>(craft,harvestRate));
 					BuildBoostStatusString(statusTarget, harvestRate, selectable);
 				}
 			}
@@ -221,7 +225,7 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
 				if (statusTarget.TryGetComponent<KSelectable>(out var selectable))
 				{
 					selectable.RemoveStatusItem(Db.Get().BuildingStatusItems.SpacePOIHarvesting);
-					selectable.RemoveStatusItem(ModAssets.StatusItems.RTB_MiningInformationBoons);
+					selectable.RemoveStatusItem(ModStatusItems.RTB_MiningInformationBoons);
 				}
 			}
 			static void BuildBoostStatusString(GameObject statusTarget, float harvestRate, KSelectable selectable)
@@ -247,7 +251,7 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
 				}
 
 
-				selectable.AddStatusItem(ModAssets.StatusItems.RTB_MiningInformationBoons, new Tuple<float, string>(totalSupportBoostPercentage, tooltipString));
+				selectable.AddStatusItem(ModStatusItems.RTB_MiningInformationBoons, new Tuple<float, string>(totalSupportBoostPercentage, tooltipString));
 
 				//selectable.SetStatusItem(Db.Get().StatusItemCategories.Suffocation, ModAssets.StatusItems.RTB_MiningInformationBoons, new Tuple<float, string>(harvestRate, tooltipString));
 

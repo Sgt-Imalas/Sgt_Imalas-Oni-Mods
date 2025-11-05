@@ -25,17 +25,17 @@ namespace Rockets_TinyYetBig.Patches.RocketModulePatches
                 {
 
 					// SgtLogger.l(def.PrefabID().ToString());
-					CustomCargoBayDB.GetCargoBayCapacity(def.PrefabID().ToString(), out targetCapacity);
+					CustomCargoBayDB.TryGetCargoBayCapacity(def.PrefabID().ToString(), out targetCapacity);
 
                     //SgtLogger.l(targetCapacity.ToString(), def.PrefabID().ToString());
                     //SgtLogger.l(__instance.storage.capacityKg.ToString(), def.PrefabID().ToString());
 
                     if (targetCapacity == 0) return;
 
-                    SgtLogger.l(__instance.storage.capacityKg + " old -> new " + targetCapacity);
                     if (__instance.storage.capacityKg != targetCapacity)
-                    {
-                        if (__instance.userMaxCapacity == __instance.storage.capacityKg)
+					{
+						SgtLogger.l(__instance.storage.capacityKg + " old -> new " + targetCapacity);
+						if (__instance.userMaxCapacity == __instance.storage.capacityKg)
                             __instance.userMaxCapacity = targetCapacity;
 
                         __instance.storage.capacityKg = targetCapacity;

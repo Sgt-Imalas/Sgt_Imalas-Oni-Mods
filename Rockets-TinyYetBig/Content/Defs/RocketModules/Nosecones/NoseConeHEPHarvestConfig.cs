@@ -54,9 +54,10 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
 		{
 			BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof(RequiresFoundation), prefab_tag);
 			go.AddOrGet<LoopingSounds>();
-			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
-			go.GetComponent<KPrefabID>().AddTag(GameTags.NoseRocketModule);
-			go.GetComponent<KPrefabID>().AddTag(TagManager.Create(NoseconeHarvestConfig.ID));
+			go.TryGetComponent<KPrefabID>(out var id);
+			id.AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
+			id.AddTag(GameTags.NoseRocketModule);
+			id.AddTag(TagManager.Create(NoseconeHarvestConfig.ID));
 
 			HighEnergyParticleStorage energyParticleStorage = go.AddOrGet<HighEnergyParticleStorage>();
 			energyParticleStorage.capacity = Config.Instance.LaserDrillconeCapacity;

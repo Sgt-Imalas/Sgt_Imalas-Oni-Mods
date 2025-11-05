@@ -94,11 +94,11 @@ namespace UtilLibs
 			}
 		}
 
-		public static void CategorizeRocketModule(string module, Dictionary<int, List<string>> sortedModules)
+		public static void CategorizeRocketModule(string moduleId, Dictionary<int, List<string>> sortedModules)
 		{
 			foreach (var moduleList in sortedModules.Values)
 			{
-				if (moduleList.Contains(module))
+				if (moduleList.Contains(moduleId))
 				{
 #if DEBUG
                     Debug.Log(module + " already in category");
@@ -110,65 +110,65 @@ namespace UtilLibs
 
 
 			bool categoryFound = false;
-			if (module.Contains("Engine"))
+			if (moduleId.Contains("Engine"))
 			{
-				AddIfNotExists(sortedModules[(int)RocketCategory.engines], module);
+				AddIfNotExists(sortedModules[(int)RocketCategory.engines], moduleId);
 				categoryFound = true;
 #if DEBUG
                 Debug.Log("Added " + module + " to category engines");
 #endif
 			}
-			if (module.Contains("HabitatModule")||module.Contains("RoboPilotModule"))
+			if (moduleId.Contains("HabitatModule")||moduleId.Contains("RoboPilotModule"))
 			{
-				AddIfNotExists(sortedModules[(int)RocketCategory.habitats], module);
+				AddIfNotExists(sortedModules[(int)RocketCategory.habitats], moduleId);
 				categoryFound = true;
 #if DEBUG
                 Debug.Log("Added " + module + " to category habitats");
 #endif
 			}
-			if (module.Contains("Nosecone") || module == HabitatModuleSmallConfig.ID)
+			if (moduleId.Contains("Nosecone") || moduleId == HabitatModuleSmallConfig.ID)
 			{
-				AddIfNotExists(sortedModules[(int)RocketCategory.nosecones], module);
+				AddIfNotExists(sortedModules[(int)RocketCategory.nosecones], moduleId);
 				categoryFound = true;
 #if DEBUG
                 Debug.Log("Added " + module + " to category nosecones");
 #endif
 			}
-			if (module == "OrbitalCargoModule" || module == "ScoutModule" || module == "PioneerModule")
+			if (moduleId == "OrbitalCargoModule" || moduleId == "ScoutModule" || moduleId == "PioneerModule")
 			{
-				AddIfNotExists(sortedModules[(int)RocketCategory.deployables], module);
+				AddIfNotExists(sortedModules[(int)RocketCategory.deployables], moduleId);
 				categoryFound = true;
 #if DEBUG
                 Debug.Log("Added " + module + " to category deployables");
 #endif
 			}
-			if (module.Contains("Tank"))
+			if (moduleId.Contains("Tank"))
 			{
-				AddIfNotExists(sortedModules[(int)RocketCategory.fuel], module);
+				AddIfNotExists(sortedModules[(int)RocketCategory.fuel], moduleId);
 				categoryFound = true;
 #if DEBUG
                 Debug.Log("Added " + module + " to category fuel");
 #endif
 			}
-			if (module.Contains("CargoBay"))
+			if (moduleId.Contains("CargoBay")||moduleId == "ResearchClusterModule")
 			{
-				AddIfNotExists(sortedModules[(int)RocketCategory.cargo], module);
+				AddIfNotExists(sortedModules[(int)RocketCategory.cargo], moduleId);
 				categoryFound = true;
 #if DEBUG
                 Debug.Log("Added " + module + " to category cargo");
 #endif
 			}
-			if (module.Contains("Battery") || module.Contains("SolarPanel"))
+			if (moduleId.Contains("Battery") || moduleId.Contains("SolarPanel"))
 			{
-				AddIfNotExists(sortedModules[(int)RocketCategory.power], module);
+				AddIfNotExists(sortedModules[(int)RocketCategory.power], moduleId);
 				categoryFound = true;
 #if DEBUG
                 Debug.Log("Added " + module + " to category power");
 #endif
 			}
-			if (module == "ScannerModule")
+			if (moduleId == "ScannerModule" || moduleId.Contains("Research"))
 			{
-				AddIfNotExists(sortedModules[(int)RocketCategory.utility], module);
+				AddIfNotExists(sortedModules[(int)RocketCategory.utility], moduleId);
 				categoryFound = true;
 #if DEBUG
                 Debug.Log("Added " + module + " to category util");
@@ -176,8 +176,8 @@ namespace UtilLibs
 			}
 			if (!categoryFound)
 			{
-				SgtLogger.logwarning("No Category found for " + module);
-				AddIfNotExists(sortedModules[(int)RocketCategory.uncategorized], module);
+				SgtLogger.logwarning("No Category found for " + moduleId);
+				AddIfNotExists(sortedModules[(int)RocketCategory.uncategorized], moduleId);
 			}
 		}
 

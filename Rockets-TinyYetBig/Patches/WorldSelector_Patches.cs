@@ -243,15 +243,14 @@ namespace Rockets_TinyYetBig.Patches
 			}
 		}
 		static List<int> edgeCases = new List<int>();
-		[HarmonyPatch(typeof(WorldSelector))]
-		[HarmonyPatch(nameof(WorldSelector.AddWorld))]
+		[HarmonyPatch(typeof(WorldSelector), nameof(WorldSelector.AddWorld))]
 		public static class AddButtonToWorld
 		{
 			public static void Postfix(object data)
 			{
 				if (Config.Instance.EnableAdvWorldSelector)
 				{
-					int num = (int)data;
+					int num = ((Boxed<int>)data).value;
 					//SgtLogger.l("Adding world with id: " + num);
 					AttachCollapseButton(new KeyValuePair<int, MultiToggle>(num, WorldSelector.Instance.worldRows[num]));
 				}
@@ -266,7 +265,7 @@ namespace Rockets_TinyYetBig.Patches
 			{
 				if (Config.Instance.EnableAdvWorldSelector)
 				{
-					int num = (int)data;
+					int num = ((Boxed<int>)data).value;
 					if (edgeCases.Contains(num))
 					{
 						edgeCases.Remove(num);
