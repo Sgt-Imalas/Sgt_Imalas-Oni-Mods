@@ -36,11 +36,19 @@ namespace CrittersShedFurOnBrush
 
 
 			if (Config.Instance.Flox)
+			{
 				AddFluffyCritter((Tag)WoodDeerConfig.ID, 1f / 7f, UIUtils.rgb(162, 223, 205));
+				AddFluffyCritter("GlassDeer", 1f / 7f, UIUtils.rgb(169, 115, 224);
+			}
 			if (Config.Instance.Bammoth)
 			{
-				AddFluffyCritter((Tag)"IceBelly", 1f / 6f, Color.white); //bammoth
-				AddFluffyCritter((Tag)"GoldBelly", 1f / 5f, UIUtils.rgb(81, 54, 129)); //regal bammoth
+				AddFluffyCritter("IceBelly", 1f / 6f, Color.white); //bammoth
+				AddFluffyCritter("GoldBelly", 1f / 5f, UIUtils.rgb(81, 54, 129)); //regal bammoth
+			}
+			if (Config.Instance.HuskyMoo)
+			{
+				AddFluffyCritter("DieselMoo", 1f / 7f, UIUtils.rgb(36, 36, 38)); //husky moo
+				
 			}
 		}
 		public static void AddFluffyCritter(Tag critterId, float floofPerCycle) => AddFluffyCritter(critterId, floofPerCycle, Color.white);
