@@ -143,6 +143,7 @@ namespace UtilLibs
 
 			public static class ColonyDevelopment
 			{
+				public const string Missiles = "Missiles";
 				public const string CelestialDetection = "SkyDetectors";
 				public const string Employment = "Jobs";
 				public const string AdvancedResearch = "AdvancedResearch";

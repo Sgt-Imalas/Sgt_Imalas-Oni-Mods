@@ -22,7 +22,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 			{
 				TechUtils.AddNode(instance,
 				ModAssets.Techs.DockingTechID,
-				GameStrings.Technology.ColonyDevelopment.CelestialDetection,
+				GameStrings.Technology.ColonyDevelopment.Missiles,
 				xDiff: 1,
 				yDiff: 0
 				);
@@ -31,7 +31,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 			{
 				TechUtils.AddNode(instance,
 				ModAssets.Techs.FuelLoaderTechID,
-				Config.Instance.RocketDocking ? ModAssets.Techs.DockingTechID : GameStrings.Technology.ColonyDevelopment.CelestialDetection,
+				Config.Instance.RocketDocking ? ModAssets.Techs.DockingTechID : GameStrings.Technology.ColonyDevelopment.Missiles,
 				xDiff: 2,
 				yDiff: 0
 				);

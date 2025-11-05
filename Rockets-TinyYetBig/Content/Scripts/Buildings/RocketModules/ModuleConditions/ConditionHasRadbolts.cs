@@ -19,13 +19,13 @@ namespace Rockets_TinyYetBig.Behaviours
 			switch (status)
 			{
 				case ProcessCondition.Status.Failure:
-					statusMessage = string.Format((string)UI.STARMAP.LAUNCHCHECKLIST.HAS_RESOURCE.STATUS.FAILURE, this.hepStorage.GetProperName(), UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES);
+					statusMessage = string.Format((string)UI.STARMAP.LAUNCHCHECKLIST.HAS_RESOURCE.STATUS.FAILURE, this.hepStorage.GetProperName(), UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES.ToString().Trim());
 					break;
 				case ProcessCondition.Status.Ready:
-					statusMessage = string.Format((string)UI.STARMAP.LAUNCHCHECKLIST.HAS_RESOURCE.STATUS.READY, this.hepStorage.GetProperName(), UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES);
+					statusMessage = string.Format((string)UI.STARMAP.LAUNCHCHECKLIST.HAS_RESOURCE.STATUS.READY, this.hepStorage.GetProperName(), UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES.ToString().Trim());
 					break;
 				default:
-					statusMessage = string.Format((string)UI.STARMAP.LAUNCHCHECKLIST.HAS_RESOURCE.STATUS.WARNING, this.hepStorage.GetProperName(), UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES);
+					statusMessage = string.Format((string)UI.STARMAP.LAUNCHCHECKLIST.HAS_RESOURCE.STATUS.WARNING, this.hepStorage.GetProperName(), UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES.ToString().Trim());
 					break;
 			}
 			return statusMessage;
