@@ -357,7 +357,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabrica
 
 		public void SetSliderValue(float percent, int index)
 		{
-			LogicHeatThreshold = percent * 100f;
+			LogicHeatThreshold = percent;
 			UpdatePort();
 		}
 

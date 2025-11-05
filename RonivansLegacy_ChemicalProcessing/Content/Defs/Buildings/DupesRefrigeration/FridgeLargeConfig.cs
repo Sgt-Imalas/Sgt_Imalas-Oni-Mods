@@ -87,6 +87,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 			go.AddOrGetDef<StorageController.Def>();
 			go.AddOrGet<FridgeSaverDescriptor>().Cache();
 
+			PreciseStorageControl.AddComponent(go);
 			HysteresisStorage.AddComponent(go);
 		}
 	}

@@ -55,6 +55,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			//filtered solid conduit input
 			go.AddOrGet<FilteredSolidConduitConsumer>();
 
+			PreciseStorageControl.AddComponent(go);
 			HysteresisStorage.AddComponent(go);
 		}
 	}
