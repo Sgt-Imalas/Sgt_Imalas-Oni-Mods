@@ -94,7 +94,9 @@ namespace AkisSnowThings.Content.Scripts.Buildings
 		#region isidescreenbuttoncontrol
 
 
-		public string SidescreenButtonText => SidescreenButtonInteractable() ? Strings.Get("STRINGS.UI.GIVEDUPEPRESENTS.LABEL") : string.Format(Strings.Get("STRINGS.UI.GIVEDUPEPRESENTS.LABEL_COOLDOWN"), GlobalCooldownLoc - GameClock.Instance.GetCycle());
+		public string SidescreenButtonText => SidescreenButtonInteractable() 
+			? Strings.Get("STRINGS.UI.GIVEDUPEPRESENTS.LABEL") 
+			: string.Format(Strings.Get("STRINGS.UI.GIVEDUPEPRESENTS.LABEL_COOLDOWN"), GlobalCooldownLoc - GameClock.Instance.GetCycle());
 
 		public string SidescreenButtonTooltip => Strings.Get("STRINGS.UI.GIVEDUPEPRESENTS.TOOLTIP");
 
