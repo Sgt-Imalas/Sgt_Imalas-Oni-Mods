@@ -1579,7 +1579,7 @@ namespace SetStartDupes
 
 					//UIUtils.AddActionToButton(PresetButton.transform, "", () => DupePresetScreenAddon.ShowPresetScreen(__instance, ___stats)); 
 
-					UIUtils.AddActionToButton(PresetButton.transform, "", () => UnityPresetScreen.ShowWindow(mng.Stats,null, RebuildDupePanel));
+					UIUtils.AddActionToButton(PresetButton.transform, "", () => UnityPresetScreen.ShowWindow(mng.Stats, null, RebuildDupePanel));
 					buttonsToDeactivateOnEdit[__instance].Add(PresetButton.FindComponent<KButton>());
 				}
 
@@ -2021,7 +2021,10 @@ namespace SetStartDupes
 			static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
 			{
 				var code = instructions.ToList();
-				var insertionIndex = code.FindIndex(ci => ci.opcode == OpCodes.Newobj);
+				var startingStatsConstructor = AccessTools.Constructor(typeof(MinionStartingStats), [typeof(List<Tag>), typeof(bool), typeof(string), typeof(string), typeof(bool)]);
+
+				var insertionIndex = code.FindIndex(ci => ci.CallsConstructor(startingStatsConstructor));
+				
 
 				if (insertionIndex != -1)
 				{
