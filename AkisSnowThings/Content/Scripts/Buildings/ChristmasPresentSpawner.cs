@@ -17,51 +17,66 @@ namespace AkisSnowThings.Content.Scripts.Buildings
 {
 	internal class ChristmasPresentSpawner : KMonoBehaviour, ISidescreenButtonControl
 	{
-		public static int GlobalCooldown = -1;
 		public static readonly int CooldownTimeCycles = 364; //1 cycle leeway
+		public static Dictionary<int, int> CachedGlobalTimers = [];
 
-		[SerializeField]
 		[Serialize]
-		private int _globalCooldownLoc = -1;
+		private int GlobalCooldownLoc = 0;
 
 		[MyCmpReq]
 		KSelectable selectable;
 
+		public static HashSet<ChristmasPresentSpawner> GlobalSpawners = [];
 
-		[OnDeserializing()]
-		internal void OnDeserializingMethod()
+		public override void OnSpawn()
 		{
-			if (_globalCooldownLoc > 0 || GlobalCooldown < _globalCooldownLoc)
-			{
-				GlobalCooldown = _globalCooldownLoc;
-			}
+			var myWorld = this.GetMyParentWorldId();
+			base.OnSpawn();
+			if (!CachedGlobalTimers.ContainsKey(myWorld))
+				CachedGlobalTimers[myWorld] = this.GlobalCooldownLoc;
 			else
-			{
-				_globalCooldownLoc = GlobalCooldown;
-			}
+				GlobalCooldownLoc = CachedGlobalTimers[myWorld];
+				
+			GlobalSpawners.Add(this);
+		}
+		public override void OnCleanUp()
+		{
+			GlobalSpawners.Remove(this);
+			base.OnCleanUp();
 		}
 
-		[OnSerialized()]
-		internal void OnSerialized()
+		internal void SetNextCycle(int target)
 		{
-			if(_globalCooldownLoc < GlobalCooldown)
-			{
-				_globalCooldownLoc = GlobalCooldown;
-			}
+			GlobalCooldownLoc = target;
 		}
 
 		public void CreatePresents()
 		{
-			GlobalCooldown += CooldownTimeCycles;
+			int nextTargetCycle = GlobalCooldownLoc + CooldownTimeCycles;
+			SetNextCycle(nextTargetCycle);
+			var myWorld = this.GetMyParentWorldId();
+			foreach (var entry in GlobalSpawners)
+			{
+				if (entry.IsNullOrDestroyed())
+					continue;
+
+				if (entry.GetMyParentWorldId() != myWorld)
+					continue;
+				entry.SetNextCycle(nextTargetCycle);
+			}
 			SgtLogger.l("Spawning Christmas Presents");
 			StartCoroutine(SpawnPresentsDelayed());
 		}
 		public IEnumerator SpawnPresentsDelayed()
 		{
 			SgtLogger.l("number of minions: " + Components.LiveMinionIdentities.Count);
+			var myWorld = this.GetMyParentWorldId();
 
 			foreach (MinionIdentity duplicant in Components.LiveMinionIdentities)
 			{
+				if (duplicant.GetMyParentWorldId() != myWorld)
+					continue;
+
 				SpawnPresent(duplicant);
 				yield return new WaitForSeconds(0.5f);
 			}
@@ -79,7 +94,7 @@ namespace AkisSnowThings.Content.Scripts.Buildings
 		#region isidescreenbuttoncontrol
 
 
-		public string SidescreenButtonText => SidescreenButtonInteractable() ? Strings.Get("STRINGS.UI.GIVEDUPEPRESENTS.LABEL"): string.Format(Strings.Get("STRINGS.UI.GIVEDUPEPRESENTS.LABEL_COOLDOWN"), GlobalCooldown - GameClock.Instance.GetCycle());
+		public string SidescreenButtonText => SidescreenButtonInteractable() ? Strings.Get("STRINGS.UI.GIVEDUPEPRESENTS.LABEL") : string.Format(Strings.Get("STRINGS.UI.GIVEDUPEPRESENTS.LABEL_COOLDOWN"), GlobalCooldownLoc - GameClock.Instance.GetCycle());
 
 		public string SidescreenButtonTooltip => Strings.Get("STRINGS.UI.GIVEDUPEPRESENTS.TOOLTIP");
 
@@ -89,15 +104,15 @@ namespace AkisSnowThings.Content.Scripts.Buildings
 
 		public void OnSidescreenButtonPressed()
 		{
-			CreatePresents();			
+			CreatePresents();
 			//Ui Refresh
-			SelectTool.Instance.Select(selectable);			
+			SelectTool.Instance.Select(selectable);
 		}
 		public void SetButtonTextOverride(ButtonMenuTextOverride textOverride)
 		{
 		}
 
-		public bool SidescreenButtonInteractable() => GlobalCooldown <= GameClock.Instance.GetCycle();
+		public bool SidescreenButtonInteractable() => GlobalCooldownLoc <= GameClock.Instance.GetCycle();
 
 		public bool SidescreenEnabled() => true;
 		#endregion

@@ -38,7 +38,7 @@ namespace CrittersShedFurOnBrush
 			if (Config.Instance.Flox)
 			{
 				AddFluffyCritter((Tag)WoodDeerConfig.ID, 1f / 7f, UIUtils.rgb(162, 223, 205));
-				AddFluffyCritter("GlassDeer", 1f / 7f, UIUtils.rgb(169, 115, 224);
+				AddFluffyCritter("GlassDeer", 1f / 7f, UIUtils.rgb(169, 115, 224));
 			}
 			if (Config.Instance.Bammoth)
 			{
