@@ -22,6 +22,7 @@ elements:
     - RefinedMetal
     - BuildableAny
     - Conductor #gigawatt wire
+    - StartingRefinedMetal 
     buildMenuSort: 2
     isDisabled: false
     state: Solid
@@ -107,6 +108,7 @@ elements:
     - BuildableAny
     - Antiseptic
     - Conductor #gigawatt wire
+    - StartingRefinedMetal 
     buildMenuSort: 3
     isDisabled: false
     state: Solid
