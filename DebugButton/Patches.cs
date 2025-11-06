@@ -9,11 +9,12 @@ namespace DebugButton
 	internal class Patches
 	{
 
-		static DebugHandler _debugHandler;
+		public static DebugHandler _debugHandler;
 		[HarmonyPatch(typeof(TopLeftControlScreen))]
 		[HarmonyPatch(nameof(TopLeftControlScreen.OnActivate))]
 		public static class Add_Debug_Button
 		{
+			static SpeedButtonRefresher SpeedRefresherLogic;
 			static MultiToggle DebugInstaBuildButton = null;
 			static MultiToggle DebugSuperSpeeButton = null;
 			static MultiToggle DebugToggleButton = null;
@@ -22,28 +23,9 @@ namespace DebugButton
 
 			public static void UpdateDebugToggleState()
 			{
-				if (DebugSuperSpeeButton != null)
+				if (SpeedRefresherLogic != null)
 				{
-					if (!DebugHandler.enabled)
-					{
-						DebugSuperSpeeButton.ChangeState(0);
-						DebugSuperSpeedButtonTooltip.SetSimpleTooltip(STRINGS.UI.TOOLS.TOOLTIP_DEBUG_LOCKED);
-					}
-					else
-					{
-						DebugSuperSpeedButtonTooltip.SetSimpleTooltip(GameUtil.ReplaceHotkeyString(STRINGS.UI.TOOLS.DEBUG_SUPERSPEED_TOGGLE.TOOLTIP_TOGGLE, Action.DebugUltraTestMode));
-
-						if (Time.timeScale > 10f)
-						{
-							DebugSuperSpeeButton.ChangeState(2);
-						}
-						else
-						{
-							DebugSuperSpeeButton.ChangeState(1);
-							if (_debugHandler != null && _debugHandler.ultraTestMode)
-								_debugHandler.ultraTestMode = false;
-						}
-					}
+					SpeedRefresherLogic.RefreshToggleState();
 				}
 				if (DebugInstaBuildButton != null)
 				{
@@ -160,6 +142,7 @@ namespace DebugButton
 				debugTimeButton.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 120f);
 				debugTimeButton.TryGetComponent<MultiToggle>(out DebugSuperSpeeButton);
 				debugTimeButton.TryGetComponent<ToolTip>(out DebugSuperSpeedButtonTooltip);
+				SpeedRefresherLogic = debugTimeButton.gameObject.AddOrGet<SpeedButtonRefresher>();
 				DebugSuperSpeeButton.onClick = (System.Action)Delegate.Combine(DebugSuperSpeeButton.onClick, new System.Action(OnClickSuperSpeedToggle));
 
 
