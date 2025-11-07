@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UtilLibs;
 
@@ -15,10 +16,12 @@ namespace LocalModLoader
 	public class Mod : UserMod2
 	{
 		public static Mod Instance;
-		public string CustomTargetModFolderPath => Path.Combine(CustomModsPath(), Info.TargetStaticID);
+		public static string CustomTargetModFolderPath => Path.Combine(CustomModsPath(), Info.TargetStaticID);
 		public string ModZipDownloadPath => Path.Combine(CustomDownloadsPath(), Info.TargetStaticID + ".zip");
 		public static TargetModInfo Info = new();
 		static LoadedModData Sideload;
+		static Content SideloadContent;
+		static KMod.Directory sideload_file_source;
 
 		public override void OnLoad(Harmony harmony)
 		{
@@ -89,14 +92,14 @@ namespace LocalModLoader
 				mod.packagedModInfo.version = "not installed";
 				return;
 			}
-			var file_source = new KMod.Directory(CustomTargetModFolderPath);
-			KModHeader header = KModUtil.GetHeader(file_source, this.mod.label.defaultStaticID, this.mod.label.title, this.mod.description, this.mod.IsDev);
+			sideload_file_source = new KMod.Directory(CustomTargetModFolderPath);
+			KModHeader header = KModUtil.GetHeader(sideload_file_source, this.mod.label.defaultStaticID, this.mod.label.title, this.mod.description, this.mod.IsDev);
 			mod.label.title = header.title;
-			//mod.staticID = header.staticID;
+			mod.staticID = header.staticID;
 			mod.description = header.description;
 
 
-			string readText = file_source.Read(ModInfoYaml);
+			string readText = sideload_file_source.Read(ModInfoYaml);
 			if (!readText.IsNullOrWhiteSpace())
 			{
 				YamlIO.ErrorHandler handle_error = ((e, force_warning) => YamlIO.LogError(e, true));
@@ -145,6 +148,76 @@ namespace LocalModLoader
 			SgtLogger.l("overriding own mod references");
 			Sideload = DLLLoader.LoadDLLs(this.mod, this.mod.staticID, CustomTargetModFolderPath, false);
 			var modData = this.mod.loaded_mod_data;
+			mod.ScanContentFromSource(CustomTargetModFolderPath, out var content);
+			SgtLogger.l("loaded mod content available: " + content);
+			SideloadContent = content;
+		}
+
+
+		[HarmonyPatch(typeof(Manager), nameof(Manager.Load))]
+		public class Manager_Load_Patch
+		{
+			public static void Postfix(Manager __instance, Content content)
+			{
+				if(content == Content.Animation && (SideloadContent & Content.Animation) != 0 && LoadModAnimations())
+				{
+					SgtLogger.l("loading mod animations..");
+				}
+				if(content == Content.LayerableFiles && (SideloadContent & Content.LayerableFiles) != 0)
+				{
+					LoadModLayerableFiles();
+					SgtLogger.l("loading mod layerable files..");
+				}
+			}
+		}
+		static void LoadModLayerableFiles()
+		{
+			FileSystem.file_sources.Insert(0, sideload_file_source.GetFileSystem());
+		}
+
+		static bool LoadModAnimations()
+		{
+			string path = FileSystem.Normalize(System.IO.Path.Combine(CustomTargetModFolderPath, "anim"));
+			if (!System.IO.Directory.Exists(path))
+				return false;
+			int num = 0;
+			foreach (DirectoryInfo directory1 in new DirectoryInfo(path).GetDirectories())
+			{
+				foreach (DirectoryInfo directory2 in directory1.GetDirectories())
+				{
+					KAnimFile.Mod anim_mod = new KAnimFile.Mod();
+					foreach (FileInfo file in directory2.GetFiles())
+					{
+						if (!file.Name.StartsWith("._"))
+						{
+							if (file.Extension == ".png")
+							{
+								byte[] data = File.ReadAllBytes(file.FullName);
+								Texture2D tex = new Texture2D(2, 2);
+								tex.LoadImage(data);
+								anim_mod.textures.Add(tex);
+							}
+							else if (file.Extension == ".bytes")
+							{
+								string withoutExtension = System.IO.Path.GetFileNameWithoutExtension(file.Name);
+								byte[] numArray = File.ReadAllBytes(file.FullName);
+								if (withoutExtension.EndsWith("_anim"))
+									anim_mod.anim = numArray;
+								else if (withoutExtension.EndsWith("_build"))
+									anim_mod.build = numArray;
+								else
+									DebugUtil.LogWarningArgs((object)$"Unhandled TextAsset ({file.FullName})...ignoring");
+							}
+							else
+								DebugUtil.LogWarningArgs((object)$"Unhandled asset ({file.FullName})...ignoring");
+						}
+					}
+					string name = directory2.Name + "_kanim";
+					if (anim_mod.IsValid() && ModUtil.AddKAnimMod(name, anim_mod))
+						++num;
+				}
+			}
+			return num > 0;
 		}
 	}
 }
