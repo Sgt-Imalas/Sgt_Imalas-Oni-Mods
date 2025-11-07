@@ -84,7 +84,7 @@ namespace _SgtsModUpdater.Model.Update
 			{
 				return FetchableVersion > LocalVersion;
 			}
-			return FetchableVersion != LocalVersion;
+			return version != localInstall.Version;
 		}
 		public override string ToString()
 		{
