@@ -85,6 +85,22 @@ jobs:
             echo "]}" >> ./BuildsZipped/_ReleaseVersionInfoData.json
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Add to Commit
+      run: |
+            git add 'Builds'
+
+    - name: Commit files
+      run: |
+        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git commit -a -m "Update Auto built files"
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
 
     - name: Delete old releases
       uses: dev-drprasad/delete-older-releases@v0.3.4
