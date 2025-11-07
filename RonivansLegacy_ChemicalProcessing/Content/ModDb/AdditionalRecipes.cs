@@ -537,7 +537,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			RecipeBuilder.Create(ID, 10)
 				.Input(seeds.ToArray(), 10, GameTags.Seed)
-				.Output(ModElements.VegetableOil_Liquid, 9.5f)
+				.Output(ModElements.VegetableOil_Liquid, 9.5f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Output(ModElements.BioMass_Solid, 0.5f)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
 				.NameOverrideFormatIngredient(CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_SEEDTOOIL, 0)
