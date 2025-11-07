@@ -16,9 +16,7 @@ namespace LocalModLoader
 		public uint CurrentVersion = KleiVersion.ChangeList;
 
 		public string VersionInfoUrl = @"https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases/download/AllMods_Automated_Build_FullRelease/_ReleaseVersionInfoData.json";
-		public string CurrentVersionURL = @"https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases/download/AllMods_Automated_Build_FullRelease/ClusterTraitGenerationManager.zip";
 
 		public string PrevVersionInfoUrl = @"https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases/download/AllMods_U54/_ReleaseVersionInfoData.json";
-		public string PrevBranchUrl = @"https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases/download/AllMods_U54/ClusterTraitGenerationManager.zip";
 	}
 }

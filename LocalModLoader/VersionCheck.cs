@@ -16,14 +16,14 @@ namespace LocalModLoader
 			uint currentGameVersion = WebRequestHelper.GetGameVersion();
 			string ownVersion = Mod.Instance.mod.packagedModInfo.version;
 
-			if (WebRequestHelper.GetRemoteVersionInfo(Mod.Info.VersionInfoUrl, out info)
+			if (WebRequestHelper.TryGetRemoteVersionInfo(Mod.Info.VersionInfoUrl, out info)
 				&& uint.TryParse(info.minimumSupportedBuild, out var targetMinSupportVersion)
 				&& targetMinSupportVersion <= currentGameVersion)
 			{
 				string remoteVersion = info.version;
 				return IsNewerVersionAvailable(ownVersion, remoteVersion);
 			}
-			else if (WebRequestHelper.GetRemoteVersionInfo(Mod.Info.PrevVersionInfoUrl, out info)
+			else if (WebRequestHelper.TryGetRemoteVersionInfo(Mod.Info.PrevVersionInfoUrl, out info)
 				&& uint.TryParse(info.minimumSupportedBuild, out var prevTargetMinSupportVersion)
 				&& prevTargetMinSupportVersion <= currentGameVersion)
 			{

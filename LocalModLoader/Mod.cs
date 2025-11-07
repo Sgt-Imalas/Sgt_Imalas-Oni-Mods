@@ -41,6 +41,9 @@ namespace LocalModLoader
 		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
 		{
 			base.OnAllModsLoaded(harmony, mods);
+			if (Sideload == null) 
+				return;
+
 			foreach (var userModInstance in Sideload.userMod2Instances)
 			{
 				SgtLogger.l("Passing OnAllModsLoaded to Sideload: " + userModInstance.Key.GetName());
@@ -144,6 +147,7 @@ namespace LocalModLoader
 			if (!System.IO.Directory.GetFiles(CustomTargetModFolderPath).Any())
 			{
 				SgtLogger.l("could not load custom mod from target folder, its empty!");
+				return;
 			}
 			LoadModLayerableFiles();
 			SgtLogger.l("loading custom mod dll");
