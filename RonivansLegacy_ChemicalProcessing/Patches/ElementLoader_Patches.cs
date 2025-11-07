@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UtilLibs;
 using static ElementLoader;
 
 namespace RonivansLegacy_ChemicalProcessing.Patches
@@ -18,6 +19,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			public static void Prefix(Dictionary<string, SubstanceTable> substanceTablesByDlc)
 			{
 				var list = substanceTablesByDlc[DlcManager.VANILLA_ID].GetList();
+				SgtLogger.l("Registering Substances");
 				ModElements.RegisterSubstances(list);
 			}
 		}

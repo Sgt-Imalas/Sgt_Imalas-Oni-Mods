@@ -653,12 +653,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		{
 			///storages
 			BuildingManager.CreateEntry<CabinetFrozenConfig>()
-				.AddToCategory(PlanMenuCategory.Shipping, StorageLockerSmartConfig.ID)
+				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitOutboxConfig.ID)
 				.AddToTech(Technology.SolidMaterial.SolidControl)
 				.AddModFrom(SourceModInfo.DupesLogistics);
 
 			BuildingManager.CreateEntry<CabinetNormalConfig>()
-				.AddToCategory(PlanMenuCategory.Shipping, StorageLockerSmartConfig.ID)
+				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitOutboxConfig.ID)
 				.AddToTech(Technology.SolidMaterial.SolidControl)
 				.AddModFrom(SourceModInfo.DupesLogistics);
 
