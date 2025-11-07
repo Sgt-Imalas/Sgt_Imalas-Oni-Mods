@@ -1,4 +1,5 @@
 ﻿using KSerialization;
+using System;
 using UnityEngine;
 
 namespace Rockets_TinyYetBig.Behaviours
@@ -14,7 +15,6 @@ namespace Rockets_TinyYetBig.Behaviours
 		}
 		public WorkingStates workingStates;
 		public State grounded;
-		private GameObject telescopeTargetMarker;
 		private AxialI currentTarget;
 		public override void InitializeStates(out BaseState default_state)
 		{
@@ -22,6 +22,7 @@ namespace Rockets_TinyYetBig.Behaviours
 			default_state = (BaseState)this.grounded;
 			this.grounded
 				//.Enter((smi) => SgtLogger.l("ENTERED STATE: grounded", "ExplorerSMI"))
+				.Enter(smi => smi.DropStoredDatabanks())
 				.Enter((smi) => smi.DestroyTelescope())
 				.TagTransition(GameTags.RocketNotOnGround, workingStates);
 
@@ -38,32 +39,8 @@ namespace Rockets_TinyYetBig.Behaviours
 				this.workingStates.all_work_complete,
 				(smi => !smi.CheckHasAnalyzeTarget()))
 				.Update((smi, dt) =>
-				{                                                                                      //TUNING.ROCKETRY.CLUSTER_FOW.DEFAULT_CYCLES_PER_REVEAL         
-					float detectionIncrease = dt * ((float)((double)TUNING.ROCKETRY.CLUSTER_FOW.POINTS_TO_REVEAL /
-					//0.001f
-					(double)Config.Instance.ScannerModuleScanSpeed
-					/ 600.0));
-
-					//Debug.Log(smi.currentPercentage+ " <-> "+ detectionIncrease);
-					//if (smi.currentPercentage == 0.01f)
-					//{
-					currentTarget = smi.m_analyzeTarget;
-					if (!ClusterGrid.Instance.GetEntityOfLayerAtCell(currentTarget, EntityLayer.Telescope))
-					{
-						this.telescopeTargetMarker = GameUtil.KInstantiate(Assets.GetPrefab((Tag)"TelescopeTarget"), Grid.SceneLayer.Background);
-						this.telescopeTargetMarker.SetActive(true);
-						this.telescopeTargetMarker.GetComponent<TelescopeTarget>().Init(this.currentTarget);
-
-					}
-					//}
-					smi.m_fowManager.EarnRevealPointsForLocation(this.currentTarget, detectionIncrease);
-					if (smi.currentPercentage + detectionIncrease >= 99.9f)
-					{
-						smi.m_fowManager.RevealCellIfValid(this.currentTarget);
-						Game.Instance.BoxingTrigger((int)GameHashes.ClusterFogOfWarRevealed, this.currentTarget);
-						smi.DestroyTelescope();
-					}
-					smi.currentPercentage = smi.m_fowManager.GetRevealCompleteFraction(smi.m_analyzeTarget) * 100f;
+				{
+					smi.ScanSpaceLocation(dt);
 				});
 			this.workingStates.all_work_complete
 				//.Enter((smi) => SgtLogger.l("ENTERED STATE: all_work_complete", "ExplorerSMI"))
@@ -86,25 +63,65 @@ namespace Rockets_TinyYetBig.Behaviours
 			public int analyzeClusterRadius = Config.Instance.ScannerModuleRangeRadius;
 		}
 		public new class Instance :
-		  GameInstance
+		  GameInstance, IHexCellCollector
 		{
 			[Serialize]
 			private bool m_hasAnalyzeTarget;
 			[Serialize]
 			public AxialI m_analyzeTarget;
-			[Serialize]
-			public float currentPercentage;
 
+			Storage databankStorage;
+			private GameObject telescopeTargetMarker;
+
+			internal void ScanSpaceLocation(float dt)
+			{
+				float detectionIncrease = dt * TUNING.ROCKETRY.CLUSTER_FOW.POINTS_TO_REVEAL / Config.Instance.ScannerModuleScanSpeed / 600f;
+
+				if (!ClusterGrid.Instance.GetEntityOfLayerAtCell(m_analyzeTarget, EntityLayer.Telescope))
+				{
+					this.telescopeTargetMarker = GameUtil.KInstantiate(Assets.GetPrefab("TelescopeTarget"), Grid.SceneLayer.Background);
+					this.telescopeTargetMarker.SetActive(true);
+					this.telescopeTargetMarker.GetComponent<TelescopeTarget>().Init(m_analyzeTarget);
+				}
+				if (smi.m_fowManager.EarnRevealPointsForLocation(m_analyzeTarget, detectionIncrease))
+				{
+					Game.Instance.BoxingTrigger((int)GameHashes.ClusterFogOfWarRevealed, m_analyzeTarget);
+					DestroyTelescope();
+					SpawnDatabanks(3);
+				}
+			}
+			internal void SpawnDatabanks(int count)
+			{
+				if (databankStorage.IsFull())
+					return;
+
+				for (int i = 0; i < count; i++)
+				{
+					var db = Util.KInstantiate(Assets.GetPrefab(DatabankHelper.ID), new(-1, -1), Quaternion.identity, gameLayer: 23);					
+					db.SetActive(true);
+					databankStorage.Store(db, true);
+				}
+			}
+			internal void DropStoredDatabanks()
+			{
+				databankStorage.DropAll();
+			}
 			public void DestroyTelescope()
 			{
-				if ((UnityEngine.Object)sm.telescopeTargetMarker != (UnityEngine.Object)null)
-					Util.KDestroyGameObject(sm.telescopeTargetMarker);
+				if (!telescopeTargetMarker.IsNullOrDestroyed())
+					Util.KDestroyGameObject(telescopeTargetMarker);
 			}
 			public ClusterFogOfWarManager.Instance m_fowManager;
 
 			public Instance(IStateMachineTarget smi, Def def) : base(smi, def)
 			{
 				m_fowManager = SaveGame.Instance.GetSMI<ClusterFogOfWarManager.Instance>();
+			}
+
+			public override void StartSM()
+			{
+				databankStorage = GetComponent<Storage>();
+				base.StartSM();
 			}
 			public override void OnCleanUp()
 			{
@@ -153,6 +170,21 @@ namespace Rockets_TinyYetBig.Behaviours
 				Debug.Assert(this.m_hasAnalyzeTarget, "GetAnalyzeTarget called but this telescope has no target assigned.");
 				return this.m_analyzeTarget;
 			}
+
+			public bool CheckIsCollecting() => m_hasAnalyzeTarget;
+
+			public string GetProperName() => this.GetComponent<RocketModuleCluster>().GetProperName();
+
+			public Sprite GetUISprite() => global::Def.GetUISprite( this.master.gameObject.GetComponent<KPrefabID>().PrefabID()).first;
+
+			public float GetCapacity() => databankStorage.Capacity();
+
+			public float GetMassStored() => databankStorage.MassStored();
+
+			/// screen takes 4 seconds to completely fill the progress bar
+			public float TimeInState() => m_fowManager.GetRevealCompleteFraction(smi.m_analyzeTarget) * 4f;
+
+			public string GetCapacityBarText() => $"{GameUtil.GetFormattedUnits(this.GetMassStored())} / {GameUtil.GetFormattedUnits(this.GetCapacity())}";
 		}
 
 	}

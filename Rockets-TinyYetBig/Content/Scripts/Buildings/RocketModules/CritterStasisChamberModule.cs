@@ -219,7 +219,10 @@ namespace Rockets_TinyYetBig.Behaviours
 		}
 
 		private void OnFetchBegun(FetchOrder2 fetchOrder, Pickupable fetchedItem) => this.RebalanceFetches();
-
+		public bool ControlEnabled()
+		{
+			return true;
+		}
 
 
 		#region button
