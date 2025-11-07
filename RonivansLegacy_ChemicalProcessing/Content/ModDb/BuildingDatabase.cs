@@ -40,6 +40,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		internal static void RegisterAdditionalBuildingElements()
 		{
 			GameTags.MaterialBuildingElements.Add(SimHashes.Ceramic.CreateTag());
+			GameTags.MaterialBuildingElements.Add(SimHashes.Brick.CreateTag());
 			GameTags.MaterialBuildingElements.Add(SimHashes.Tungsten.CreateTag());
 			GameTags.MaterialBuildingElements.Add(ModAssets.Tags.AIO_SulphuricAcidBuildable);
 		}
