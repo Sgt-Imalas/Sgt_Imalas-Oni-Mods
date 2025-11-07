@@ -1,0 +1,20 @@
+msgid ""
+msgstr ""
+"Application: Oxygen Not Included"
+"POT Version: 2.0"
+
+#. MineralizerReborn.STRINGS.BUILDINGS.PREFABS.MINERALIZER.DESC
+msgctxt "MineralizerReborn.STRINGS.BUILDINGS.PREFABS.MINERALIZER.DESC"
+msgid "Washing <link=\"SALT\">Salt</link> with <link=\"WATER\">Water</link> dissolves it and creates <link=\"SALTWATER\">Salt Water</link>."
+msgstr "用<link=\"WATER\">水</link>洗涤<link=\"SALT\">盐</link>会将其溶解并产生<link=\"SALTWATER\">盐水</link>。"
+
+#. MineralizerReborn.STRINGS.BUILDINGS.PREFABS.MINERALIZER.EFFECT
+msgctxt "MineralizerReborn.STRINGS.BUILDINGS.PREFABS.MINERALIZER.EFFECT"
+msgid "Adds <link=\"SALT\">Salt</link> to <link=\"WATER\">Water</link>, producing <link=\"SALTWATER\">Salt Water</link>."
+msgstr "把<link=\"SALT\">盐</link>加入<link=\"WATER\">水</link>来生产<link=\"SALTWATER\">盐水</link>。"
+
+#. MineralizerReborn.STRINGS.BUILDINGS.PREFABS.MINERALIZER.NAME
+msgctxt "MineralizerReborn.STRINGS.BUILDINGS.PREFABS.MINERALIZER.NAME"
+msgid "<link=\"MINERALIZER\">Mineralizer</link>"
+msgstr "<link=\"MINERALIZER\">矿化器</link>"
+
