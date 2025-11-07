@@ -41,9 +41,9 @@ namespace LocalModLoader
 			while (len >= 1024 && order < sizes.Length - 1)
 			{
 				order++;
-				len = len / 1024;
+				len /= 1024;
 			}
-			return String.Format("{0:0.##} {1}", len, sizes[order]);
+			return string.Format("{0:0.##} {1}", len, sizes[order]);
 		}
 
 		public static bool TryDownloadModFile(string url, string path)
