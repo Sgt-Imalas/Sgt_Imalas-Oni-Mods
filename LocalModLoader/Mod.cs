@@ -145,7 +145,8 @@ namespace LocalModLoader
 			{
 				SgtLogger.l("could not load custom mod from target folder, its empty!");
 			}
-			SgtLogger.l("overriding own mod references");
+			LoadModLayerableFiles();
+			SgtLogger.l("loading custom mod dll");
 			Sideload = DLLLoader.LoadDLLs(this.mod, this.mod.staticID, CustomTargetModFolderPath, false);
 			var modData = this.mod.loaded_mod_data;
 			mod.ScanContentFromSource(CustomTargetModFolderPath, out var content);
@@ -163,15 +164,12 @@ namespace LocalModLoader
 				{
 					SgtLogger.l("loading mod animations..");
 				}
-				if(content == Content.LayerableFiles && (SideloadContent & Content.LayerableFiles) != 0)
-				{
-					LoadModLayerableFiles();
-					SgtLogger.l("loading mod layerable files..");
-				}
 			}
 		}
+
 		static void LoadModLayerableFiles()
 		{
+			SgtLogger.l("FileSystem: " + sideload_file_source.GetFileSystem().GetRoot());
 			FileSystem.file_sources.Insert(0, sideload_file_source.GetFileSystem());
 		}
 
