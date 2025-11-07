@@ -5,7 +5,7 @@ on:
     branches: [ "master" ]
     paths-ignore:
       - "_SgtsModUpdater/**"
-      - ".github/**"
+      #- ".github/**"
 
 permissions:
   contents: write # Grant write permission for creating releases
@@ -88,8 +88,8 @@ jobs:
     
     - name: Add to Commit
       run: |
-            Rename-Item -Path 'Builds' -NewName '.ReleasedModFiles'
-            git add '.ReleaseModFiles/*'
+            Rename-Item -Path './Builds/' -NewName './.ReleasedModFiles/'
+            git add './.ReleaseModFiles/'
 
     - name: Commit files
       run: |
