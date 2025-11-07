@@ -90,7 +90,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			pollutedWaterInput.forceAlwaysSatisfied = true;
 			pollutedWaterInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 			pollutedWaterInput.AssignPort(pollutedWaterInputPort);
-			
+
 			if (chemproc)
 			{
 				PortConduitConsumer toxicSlurryInput = go.AddComponent<PortConduitConsumer>();
@@ -140,7 +140,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 					new ElementConverter.ConsumedElement(filter, 0.042f) ];
 				pollutedWaterTreatment.outputElements = [
 					new ElementConverter.OutputElement(4.9f, SimHashes.Water, UtilMethods.GetKelvinFromC(5), false, true),
-					new ElementConverter.OutputElement(0.11f, SimHashes.Clay, UtilMethods.GetKelvinFromC(5), false, true) 
+					new ElementConverter.OutputElement(0.11f, SimHashes.Clay, UtilMethods.GetKelvinFromC(5), false, true)
 					];
 
 				ElementConverter toxicSlurryTreatment = go.AddComponent<ElementConverter>();
@@ -152,7 +152,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 					new ElementConverter.ConsumedElement(filter, 0.042f) ];
 				toxicSlurryTreatment.outputElements = [
 					new ElementConverter.OutputElement(2f, SimHashes.Water, UtilMethods.GetKelvinFromC(5), false, true),
-					new ElementConverter.OutputElement(3.1f, ModElements.Slag_Solid, UtilMethods.GetKelvinFromC(5), false, true) 
+					new ElementConverter.OutputElement(3.1f, ModElements.Slag_Solid, UtilMethods.GetKelvinFromC(5), false, true)
 					];
 			}
 			else
@@ -165,7 +165,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				new ElementConverter.ConsumedElement(SimHashes.ChlorineGas.CreateTag(), 0.0025f),
 				new ElementConverter.ConsumedElement(filter, 0.1f) ];
 				pollutedWaterTreatment.outputElements = [
-				new ElementConverter.OutputElement(5f, SimHashes.Water, UtilMethods.GetKelvinFromC(5), false, true),
+				new ElementConverter.OutputElement(5f, SimHashes.Water, UtilMethods.GetKelvinFromC(5), false, true,diseaseWeight:0),
 				new ElementConverter.OutputElement(0.1f, SimHashes.Clay, UtilMethods.GetKelvinFromC(5), false, true) ];
 				//--------------------------------------------------------------------
 			}
@@ -195,7 +195,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			controller.Init(go);
 			controller.AssignPort(go, pollutedWaterInputPort);
 
-			if(Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
 				controller.AssignPort(go, toxicSlurryInputPort);
 		}
 
