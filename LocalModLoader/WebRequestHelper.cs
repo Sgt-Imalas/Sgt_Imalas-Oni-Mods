@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine.Networking;
 using UtilLibs;
@@ -19,6 +20,16 @@ namespace LocalModLoader
 {
 	internal class WebRequestHelper
 	{
+		static HttpClient _client = null;
+		static HttpClient client
+		{
+			get
+			{
+				if(_client == null)
+					_client = new HttpClient();
+				return _client;
+			}
+		}
 		internal static uint GetGameVersion()
 		{
 			return (uint)typeof(KleiVersion).GetField("ChangeList", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
@@ -39,10 +50,10 @@ namespace LocalModLoader
 		{
 			try
 			{
-				using HttpClient client = new HttpClient();
-				using FileStream fs = new FileStream(path, FileMode.Create);
 				Console.WriteLine("downloading " + url + " to " + path);
-				client.DownloadAsync(url, fs).GetAwaiter().GetResult();
+				using FileStream fs = new FileStream(path, FileMode.Create);
+				var res = client.GetAsync(url).ConfigureAwait(false).GetAwaiter().GetResult();
+				res.Content.CopyToAsync(fs).ConfigureAwait(false).GetAwaiter().GetResult();
 				Console.WriteLine("download finished");
 				return File.Exists(path);
 			}
@@ -58,8 +69,7 @@ namespace LocalModLoader
 			remoteInfo = null;
 			try
 			{
-				using HttpClient client = new();
-				var json = client.GetStringAsync(url).GetAwaiter().GetResult();
+				var json = client.GetStringAsync(url).ConfigureAwait(false).GetAwaiter().GetResult();
 				if (json.IsNullOrWhiteSpace())
 				{
 					SgtLogger.warning("version json was empty");
