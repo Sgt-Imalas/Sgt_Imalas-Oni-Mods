@@ -9,6 +9,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {
 	class CustomPolymerizer : Polymerizer
 	{
+		public override void OnSpawn()
+		{
+			base.OnSpawn();
+			UpdateCustomMeter();
+		}
 
 		[SerializeField] public Tag OilElementTag;
 		internal void UpdateCustomMeter()
