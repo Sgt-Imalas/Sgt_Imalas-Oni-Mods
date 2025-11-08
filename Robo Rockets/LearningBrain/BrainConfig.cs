@@ -4,7 +4,7 @@ using static ComplexRecipe;
 
 namespace RoboRockets.LearningBrain
 {
-	class BrainConfig : IEntityConfig,IHasDlcRestrictions
+	class BrainConfig : IEntityConfig
 	{
 		public const string ID = "RR_BrainFlyer";
 		public static ComplexRecipe recipe;

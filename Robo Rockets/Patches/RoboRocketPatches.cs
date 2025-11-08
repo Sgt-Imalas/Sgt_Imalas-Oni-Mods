@@ -97,10 +97,9 @@ namespace RoboRockets
 		/// <summary>
 		/// Hide Crew screen for ai rockets
 		/// </summary>
-		[HarmonyPatch(typeof(RequestCrewSideScreen), nameof(RequestCrewSideScreen.IsValidForTarget))]
+		[HarmonyPatch(typeof(AssignPilotAndCrewSideScreen), nameof(AssignPilotAndCrewSideScreen.IsValidForTarget))]
 		public class RequestCrewSideScreen_IsValidForTarget_Patch
-		{
-			MainMenu
+		{			
 			public static bool Prefix(GameObject target, ref bool __result)
 			{
 				if (target.TryGetComponent<PassengerRocketModule>(out var passengerRocketModule) && passengerRocketModule is AIPassengerModule)
@@ -127,41 +126,7 @@ namespace RoboRockets
 			}
 		}
 
-		[HarmonyPatch(typeof(RocketControlStation.States), nameof(RocketControlStation.States.CreateChore))]
-		public class RocketControlStation_CreateChore_Patch
-		{
-			public static void Postfix(RocketControlStation.StatesInstance smi, ref Chore __result)
-			{
-				if (smi.master.GetType() == typeof(RocketControlStationNoChorePrecondition))
-				{
-					Workable component = (Workable)smi.master.GetComponent<RocketControlStationLaunchWorkable>();
-					WorkChore<RocketControlStationIdleWorkable> chore =
-						new WorkChore<RocketControlStationIdleWorkable>(Db.Get().ChoreTypes.RocketControl,
-						(IStateMachineTarget)component, allow_in_red_alert: false, schedule_block: Db.Get().ScheduleBlockTypes.Work,
-						allow_prioritization: false, priority_class: PriorityScreen.PriorityClass.high);
-					chore.AddPrecondition(ChorePreconditions.instance.ConsumerHasTrait, AiBrainConfig.ROVER_BASE_TRAIT_ID);
-					__result = (Chore)chore;
-				}
-			}
-		}
 
-		[HarmonyPatch(typeof(RocketControlStation.States), nameof(RocketControlStation.States.CreateLaunchChore))]
-		public class RocketControlStation_CreateLaunchChore_Patch
-		{
-			public static void Postfix(RocketControlStation.StatesInstance smi, ref Chore __result)
-			{
-				if (smi.master.GetType() == typeof(RocketControlStationNoChorePrecondition))
-				{
-					Workable component = (Workable)smi.master.GetComponent<RocketControlStationLaunchWorkable>();
-					WorkChore<RocketControlStationLaunchWorkable> launchChore =
-						new WorkChore<RocketControlStationLaunchWorkable>(Db.Get().ChoreTypes.RocketControl,
-						(IStateMachineTarget)component, ignore_schedule_block: true, allow_prioritization:
-						false, priority_class: PriorityScreen.PriorityClass.topPriority);
-					launchChore.AddPrecondition(ChorePreconditions.instance.ConsumerHasTrait, AiBrainConfig.ROVER_BASE_TRAIT_ID);
-					__result = (Chore)launchChore;
-				}
-			}
-		}
 		[HarmonyPatch(typeof(RocketControlStation.StatesInstance), nameof(RocketControlStation.StatesInstance.SetPilotSpeedMult))]
 		public class RocketControlStation_SetPilotSpeedMult_Patch
 		{
