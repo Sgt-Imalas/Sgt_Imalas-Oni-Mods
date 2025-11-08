@@ -3,6 +3,7 @@ using KMod;
 using System;
 using System.Collections.Generic;
 using UtilLibs;
+using UtilLibs.SharedTweaks;
 
 namespace CompactResearchTweaks
 {
@@ -11,9 +12,9 @@ namespace CompactResearchTweaks
         public override void OnLoad(Harmony harmony)
         {
             base.OnLoad(harmony);
-			SharedTweaks.ResearchNotificationMessageFix.ExecutePatch();
-			SharedTweaks.ResearchScreenCollapseEntries.ExecutePatch();
-			SharedTweaks.ResearchScreenBetterConnectionLines.ExecutePatch();
+			ResearchNotificationMessageFix.Register();
+			ResearchScreenCollapseEntries.Register();
+			ResearchScreenBetterConnectionLines.Register();
 			SgtLogger.LogVersion(this, harmony);
         }       
         
