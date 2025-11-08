@@ -1,0 +1,79 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.6\n"
+
+#. SkillingQueue.STRINGS.SKILLQUEUE.DEQUEUE
+msgctxt "SkillingQueue.STRINGS.SKILLQUEUE.DEQUEUE"
+msgid ""
+"Currently at position {0} in the skill queue.\n"
+"Hold <style=\"KKeyword\">{1}</style> and click to remove from the queue"
+msgstr ""
+"当前位于技能队列的第{0}位。\n"
+"按住<style=\"KKeyword\">{1}</style>并左键从队列中移除"
+
+#. SkillingQueue.STRINGS.SKILLQUEUE.QUEUE
+msgctxt "SkillingQueue.STRINGS.SKILLQUEUE.QUEUE"
+msgid "Hold <style=\"KKeyword\">{0}</style> and click to add to skill queue"
+msgstr "按住<style=\"KKeyword\">{0}</style>并左键添加到队列"
+
+#. SkillingQueue.STRINGS.SKILLQUEUE_CONFIG.NOTIFICATION_ON_QUEUE_COMPLETE.DESCRIPTION
+msgctxt "SkillingQueue.STRINGS.SKILLQUEUE_CONFIG.NOTIFICATION_ON_QUEUE_COMPLETE.DESCRIPTION"
+msgid "Get a notification when a skill queue gets completed."
+msgstr "当技能队列全部完成时发出通知。"
+
+#. SkillingQueue.STRINGS.SKILLQUEUE_CONFIG.NOTIFICATION_ON_QUEUE_COMPLETE.NAME
+msgctxt "SkillingQueue.STRINGS.SKILLQUEUE_CONFIG.NOTIFICATION_ON_QUEUE_COMPLETE.NAME"
+msgid "Notify on skill queue completion"
+msgstr "技能队列完成时通知"
+
+#. SkillingQueue.STRINGS.SKILLQUEUE_CONFIG.NOTIFICATION_ON_SKILL.DESCRIPTION
+msgctxt "SkillingQueue.STRINGS.SKILLQUEUE_CONFIG.NOTIFICATION_ON_SKILL.DESCRIPTION"
+msgid "Get a notification when a dupe learns a new skill through a skill queue."
+msgstr "当复制人通过技能队列学习新技能时通知所学技能。"
+
+#. SkillingQueue.STRINGS.SKILLQUEUE_CONFIG.NOTIFICATION_ON_SKILL.NAME
+msgctxt "SkillingQueue.STRINGS.SKILLQUEUE_CONFIG.NOTIFICATION_ON_SKILL.NAME"
+msgid "Notify on Skill learned"
+msgstr "通知学习的技能"
+
+#. SkillingQueue.STRINGS.SKILLQUEUE_CONFIG.RAINBOW_QUEUE.DESCRIPTION
+msgctxt "SkillingQueue.STRINGS.SKILLQUEUE_CONFIG.RAINBOW_QUEUE.DESCRIPTION"
+msgid ""
+"The queue position indicator numbers are tinted with rainbow progression for easier "
+"distinction."
+msgstr "队列位置指示数字采用彩虹渐变色进行着色，以便于区分。"
+
+#. SkillingQueue.STRINGS.SKILLQUEUE_CONFIG.RAINBOW_QUEUE.NAME
+msgctxt "SkillingQueue.STRINGS.SKILLQUEUE_CONFIG.RAINBOW_QUEUE.NAME"
+msgid "Rainbow queue indicator"
+msgstr "彩虹队列序号"
+
+#. SkillingQueue.STRINGS.SKILLQUEUE_STATUSITEMS.SQ_NEW_SKILL_LEARNED.DESCRIPTION
+msgctxt "SkillingQueue.STRINGS.SKILLQUEUE_STATUSITEMS.SQ_NEW_SKILL_LEARNED.DESCRIPTION"
+msgid "{0} has learned the skill {1}"
+msgstr "{0} 已学习技能 {1}"
+
+#. SkillingQueue.STRINGS.SKILLQUEUE_STATUSITEMS.SQ_NEW_SKILL_LEARNED.NAME
+msgctxt "SkillingQueue.STRINGS.SKILLQUEUE_STATUSITEMS.SQ_NEW_SKILL_LEARNED.NAME"
+msgid "New Skill: {0}"
+msgstr "新技能：{0}"
+
+#. SkillingQueue.STRINGS.SKILLQUEUE_STATUSITEMS.SQ_QUEUE_COMPLETED.DESCRIPTION
+msgctxt "SkillingQueue.STRINGS.SKILLQUEUE_STATUSITEMS.SQ_QUEUE_COMPLETED.DESCRIPTION"
+msgid "{0} has learned all queued skills."
+msgstr "{0} 已学习技能队列中所有技能。"
+
+#. SkillingQueue.STRINGS.SKILLQUEUE_STATUSITEMS.SQ_QUEUE_COMPLETED.NAME
+msgctxt "SkillingQueue.STRINGS.SKILLQUEUE_STATUSITEMS.SQ_QUEUE_COMPLETED.NAME"
+msgid "{0}: Skillqueue completed"
+msgstr "{0}: 技能队列完成"

@@ -1,0 +1,3 @@
+title: 'Better Rebuilding'
+description: "Keeps building settings on rebuild"
+staticID: RebuildPreserve

@@ -1,0 +1,40 @@
+shape: Circle
+borders:
+  - 1
+  - 1
+# internalMobs:
+blobSize:
+  min: 0.5
+  max: 2.5
+ElementChoiceGroups:
+  RoomCenterElements:
+    selectionMethod: WeightedResample
+    choices:
+      - element: Phosphorus
+        weight: 4
+        overrides:
+          massOverride: 1640
+      - element: PhosphateNodules
+        weight: 2
+        overrides:
+          massOverride: 1200
+  RoomBorderChoices0:
+    selectionMethod: WeightedResample
+    choices:
+      - element: PhosphateNodules
+        weight: 1
+        overrides:
+          massOverride: 1230
+      - element: Phosphorus
+        weight: 1
+        overrides:
+          massOverride: 1246
+  RoomBorderChoices1:
+    selectionMethod: WeightedResample
+    choices:
+      - element: IgneousRock
+        weight: 8
+      - element: Phosphorus
+        weight: 1
+        overrides:
+          massOverride: 1778

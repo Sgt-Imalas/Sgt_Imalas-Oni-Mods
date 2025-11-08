@@ -1,0 +1,3 @@
+title: 'Bionics Access Control'
+description: "Splits default door permissions between bionic and regular dupes"
+staticID: DupeModelAccessPermissions

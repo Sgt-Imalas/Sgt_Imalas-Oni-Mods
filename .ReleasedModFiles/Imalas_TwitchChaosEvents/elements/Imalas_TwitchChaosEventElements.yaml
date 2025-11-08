@@ -1,0 +1,242 @@
+---
+elements: 
+  - elementId: ITCE_Inverse_Steam
+    specificHeatCapacity: 4.179
+    thermalConductivity: 0.184
+    solidSurfaceAreaMultiplier: 25
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    flow: 0.1
+    
+    lowTemp: 72.5 
+    lowTempTransitionTarget: Unobtanium
+    highTemp: 272.5
+    highTempTransitionTarget: ITCE_Inverse_Water
+    defaultTemperature: 232.15
+
+    defaultPressure: 57
+    molarMass: 18.01528
+    toxicity: 0
+    lightAbsorptionFactor: 0.1
+    radiationAbsorptionFactor: 0.08
+    radiationPer1000Mass: 0
+    materialCategory: Unbreathable
+    isDisabled: false
+    state: Gas
+    localizationID: STRINGS.ELEMENTS.ITCE_INVERSE_STEAM.NAME
+    dlcId: "" 
+
+  - elementId: ITCE_Inverse_Water_Placeholder
+    maxMass: 1000
+    liquidCompression: 1.01
+    speed: 125
+    minHorizontalFlow: 0.01
+    minVerticalFlow: 0.01
+    specificHeatCapacity: 4.179
+    thermalConductivity: 0.609
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 25
+    gasSurfaceAreaMultiplier: 1
+    highTemp: 9999
+    lowTemp: 9998
+    lowTempTransitionTarget: ITCE_Inverse_Ice
+    highTempTransitionTarget: ITCE_Inverse_Steam
+    defaultTemperature: 300
+    defaultMass: 1000
+    molarMass: 18.01528
+    toxicity: 0
+    lightAbsorptionFactor: 0.25
+    radiationAbsorptionFactor: 0.8
+    radiationPer1000Mass: 0
+    tags:
+      - HideFromSpawnTool
+      - HideFromCodex
+    isDisabled: false
+    state: Liquid
+    localizationID: STRINGS.ELEMENTS.ITCE_INVERSE_WATER.NAME
+    dlcId: ""
+
+  - elementId: ITCE_Inverse_Water
+    maxMass: 1000
+    liquidCompression: 1.01
+    speed: 125
+    minHorizontalFlow: 0.01
+    minVerticalFlow: 0.01
+    specificHeatCapacity: 4.179
+    thermalConductivity: 0.609 
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 25
+    gasSurfaceAreaMultiplier: 1
+    lowTemp: 272.5 
+    highTemp: 372.5
+    lowTempTransitionTarget: ITCE_Inverse_Steam
+    highTempTransitionTarget: ITCE_Inverse_Water_Placeholder
+    defaultTemperature: 300
+    defaultMass: 1000
+    molarMass: 18.01528
+    toxicity: 0
+    lightAbsorptionFactor: 0.25
+    radiationAbsorptionFactor: 0.8
+    radiationPer1000Mass: 0
+    tags:
+    - AnyWater
+    isDisabled: false
+    state: Liquid
+    localizationID: STRINGS.ELEMENTS.ITCE_INVERSE_WATER.NAME
+    dlcId: ""
+
+  - elementId: ITCE_Inverse_Ice
+    specificHeatCapacity: 2.05
+    thermalConductivity: 2.18
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 1
+
+    lowTemp: 372.5
+    highTemp: 572.5
+    lowTempTransitionTarget: ITCE_Inverse_Water
+    highTempTransitionTarget: Unobtanium
+    defaultTemperature: 400
+    defaultMass: 1000
+    maxMass: 1100
+    hardness: 25
+    molarMass: 18
+    lightAbsorptionFactor: 0.33333
+    radiationAbsorptionFactor: 0.8
+    radiationPer1000Mass: 0
+    materialCategory: Liquifiable
+    tags:
+    - BuildableAny
+    buildMenuSort: 5
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.ITCE_INVERSE_ICE.NAME
+    dlcId: ""
+
+  - elementId: ITCE_Liquid_Poop
+    maxMass: 600
+    liquidCompression: 1.01
+    speed: 100
+    minHorizontalFlow: 0.01
+    minVerticalFlow: 0.01
+    specificHeatCapacity: 4.179
+    thermalConductivity: 0.58
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 25
+    gasSurfaceAreaMultiplier: 1
+    lowTemp: 275.15
+    highTemp: 358.15
+    lowTempTransitionTarget: ToxicMud
+    sublimateId: Methane
+    sublimateFx: ContaminatedOxygenBubbleWater
+    offGasPercentage: 0.001
+    sublimateEfficiency: 1
+    sublimateProbability: 0.01
+    highTempTransitionTarget: Methane
+    highTempTransitionOreId: Fertilizer
+    highTempTransitionOreMassConversion: 0.4
+    defaultTemperature: 300
+    defaultMass: 1000
+    molarMass: 19
+    toxicity: 0.1
+    lightAbsorptionFactor: 0.7
+    radiationAbsorptionFactor: 0.8
+    radiationPer1000Mass: 0
+    tags:
+    - Mixture
+    - AnyWater
+    isDisabled: false
+    state: Liquid
+    localizationID: STRINGS.ELEMENTS.ITCE_LIQUID_POOP.NAME
+    dlcId: ""
+
+  - elementId: ITCE_CreepyLiquid
+    maxMass: 500
+    liquidCompression: 1.01
+    speed: 90
+    minHorizontalFlow: 0.01
+    minVerticalFlow: 0.01
+    specificHeatCapacity: 0.05
+    thermalConductivity: 1
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 25
+    gasSurfaceAreaMultiplier: 1
+    lowTemp: 263
+    highTemp:  1900
+    highTempTransitionTarget: ITCE_CreepyLiquidGas
+    lowTempTransitionTarget: Ice
+    defaultTemperature: 363.15 # 30 C
+    offGasPercentage: 1
+    sublimateFx: BuildingLeakLiquid
+    sublimateId: ITCE_CreepyLiquidGas
+    sublimateEfficiency: 0 # 2
+    sublimateRate: 0 # 4
+    sublimateProbability: 0 # 1
+    defaultMass: 1000
+    molarMass: 0.9
+    toxicity: 0
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.73
+    radiationPer1000Mass: 150
+    tags:
+    - CombustibleLiquid
+    isDisabled: false
+    state: Liquid
+    localizationID: STRINGS.ELEMENTS.ITCE_CREEPYLIQUID.NAME
+    dlcId: ""
+
+  - elementId: ITCE_CreepyLiquidGas
+    maxMass: 50
+    liquidCompression: 1.01
+    speed: 180
+    minHorizontalFlow: 0.01
+    minVerticalFlow: 0.01
+    specificHeatCapacity: 0.05
+    thermalConductivity: 0.0081
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 25
+    gasSurfaceAreaMultiplier: 1
+    lowTemp: 1900
+    lowTempTransitionTarget: ITCE_CreepyLiquid
+    highTemp: 1905
+    highTempTransitionTarget: Steam
+    defaultTemperature: 303.15 # 30 C
+    defaultMass: 50
+    molarMass: 1
+    toxicity: 0
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.73
+    radiationPer1000Mass: 0
+    tags:
+    isDisabled: false
+    state: Gas
+    localizationID: STRINGS.ELEMENTS.ITCE_CREEPYLIQUIDGAS.NAME
+    dlcId: ""
+
+  - elementId: ITCE_VoidLiquid
+    maxMass: 500
+    liquidCompression: 1.01
+    speed: 300
+    minHorizontalFlow: 0.01
+    minVerticalFlow: 0.01
+    specificHeatCapacity: 0.25
+    thermalConductivity: 0.005
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 25
+    gasSurfaceAreaMultiplier: 1
+    defaultTemperature: 150.15 # -123 C
+    offGasPercentage: 0
+    defaultMass: 1000
+    molarMass: 100
+    toxicity: 0
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.0
+    radiationPer1000Mass: 0
+    tags:
+    isDisabled: false
+    state: Liquid
+    localizationID: STRINGS.ELEMENTS.ITCE_VOIDLIQUID.NAME
+    dlcId: ""
+
+  

@@ -1,0 +1,23 @@
+tags:
+  - AllowExceedNodeBorders
+shape: Blob
+borders:
+  - 1
+blobSize:
+  min: 1.1
+  max: 1.5
+ElementChoiceGroups:
+  RoomCenterElements:
+    selectionMethod: WeightedResample
+    choices:
+      - element: Salt
+        weight: 1
+        overrides:
+          massOverride: 1890
+  RoomBorderChoices0:
+    selectionMethod: WeightedResample
+    choices:
+      - element: Chloroschist
+        weight: 1
+        overrides:
+          massOverride: 2880

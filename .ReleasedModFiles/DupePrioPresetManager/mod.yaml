@@ -1,0 +1,3 @@
+title: 'Preset Manager'
+description: "Adds the option to store presets for various dupe related screens (schedule, consumables, priorities)"
+staticID: DupePrioPresetManager

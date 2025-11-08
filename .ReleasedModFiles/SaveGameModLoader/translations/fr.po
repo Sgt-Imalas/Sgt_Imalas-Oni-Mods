@@ -1,0 +1,588 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.4.1\n"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.ACTIVE
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.ACTIVE"
+msgid "Active"
+msgstr "Activé"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.ALL
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.ALL"
+msgid "All"
+msgstr "Tous"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.DEV
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.DEV"
+msgid "Dev"
+msgstr "Dev"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.INACTIVE
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.INACTIVE"
+msgid "Inactive"
+msgstr "Inactif"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.INCOMPATIBLE
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.INCOMPATIBLE"
+msgid "Incompatibles"
+msgstr "Incompatibles"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.LOCAL
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.LOCAL"
+msgid "Local"
+msgstr "Local"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.NONE
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.NONE"
+msgid "None"
+msgstr "Aucun"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.PLATFORM_LABEL
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.PLATFORM_LABEL"
+msgid "Platform Filters:"
+msgstr "Filtres de plate-forme :"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.SHOW
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.SHOW"
+msgid "Show: {0}"
+msgstr "Afficher: {0}"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.STATE_LABEL
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.STATE_LABEL"
+msgid "State Filters:"
+msgstr "Filtre par état:"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.STEAM
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.DROPDOWN.STEAM"
+msgid "Steam"
+msgstr "Steam"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_ACTIVE
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_ACTIVE"
+msgid "Hide active Mods"
+msgstr "Cacher les mods actifs"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_ACTIVE_TOOLTIP
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_ACTIVE_TOOLTIP"
+msgid "Hide or unhide active mods."
+msgstr "Cacher ou afficher les mods actifs."
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_DEV
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_DEV"
+msgid ""
+"Hide Dev\n"
+"Mods"
+msgstr "Cacher les mods dev"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_DEV_TOOLTIP
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_DEV_TOOLTIP"
+msgid "Hide or unhide dev mods."
+msgstr "Cacher ou afficher les mods dev."
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_INACTIVE
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_INACTIVE"
+msgid "Hide inactive Mods"
+msgstr "Cacher les mods inactifs"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_INACTIVE_TOOLTIP
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_INACTIVE_TOOLTIP"
+msgid "Hide or unhide inactive mods."
+msgstr "Cacher ou afficher les mods inactifs."
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_INCOMPATIBLE
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_INCOMPATIBLE"
+msgid "Hide Incompatibles"
+msgstr "Cacher les mods incompatibles"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_INCOMPATIBLE_TOOLTIP
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_INCOMPATIBLE_TOOLTIP"
+msgid ""
+"Hide or unhide mods that are not compatible\n"
+"with the current version of the game (DLC/BaseGame)."
+msgstr ""
+"Cacher ou afficher les mods incompatibles\n"
+"avec la version actuelle du jeu (DLC/Jeu de base)"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_LOCAL
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_LOCAL"
+msgid "Hide Local Mods"
+msgstr "Cacher les mods locaux"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_LOCAL_TOOLTIP
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_LOCAL_TOOLTIP"
+msgid "Hide or unhide local mods."
+msgstr "Cacher ou afficher les mods locaux."
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_PINS
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_PINS"
+msgid "Hide pinned Mods"
+msgstr "Cacher les mods épinglés"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_PINS_TOOLTIP
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_PINS_TOOLTIP"
+msgid "Hide or unhide pinned mods."
+msgstr "Cacher ou afficher les mods épinglés."
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_PLATFORM
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_PLATFORM"
+msgid "Hide Steam Mods"
+msgstr "Cacher les mods steam"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_PLATFORM_TOOLTIP
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.HIDE_PLATFORM_TOOLTIP"
+msgid "Hide or unhide steam mods."
+msgstr "Cacher ou afficher les mods steam."
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.UNHIDE_ACTIVE
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.UNHIDE_ACTIVE"
+msgid "Unhide active Mods"
+msgstr "Afficher les mods actifs"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.UNHIDE_DEV
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.UNHIDE_DEV"
+msgid "Unhide Dev Mods"
+msgstr "Afficher les mods dev"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.UNHIDE_INACTIVE
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.UNHIDE_INACTIVE"
+msgid "Unhide inactive Mods"
+msgstr "Afficher les mods inactifs"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.UNHIDE_INCOMPATIBLE
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.UNHIDE_INCOMPATIBLE"
+msgid "Unhide Incompatibles"
+msgstr "Afficher les mods incompatibles"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.UNHIDE_LOCAL
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.UNHIDE_LOCAL"
+msgid "Unhide Local Mods"
+msgstr "Afficher les mods locaux"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.UNHIDE_PINS
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.UNHIDE_PINS"
+msgid "Unhide pinned Mods"
+msgstr "Afficher les mods épinglés"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.UNHIDE_PLATFORM
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.FILTERSTRINGS.UNHIDE_PLATFORM"
+msgid "Unhide Steam Mods"
+msgstr "Afficher les mods steam"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.COPYTOCLIPBOARD_TOOLTIP
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.COPYTOCLIPBOARD_TOOLTIP"
+msgid ""
+"Copies a list of all active mods to the clipboard.\n"
+"Double click to include their workshop links"
+msgstr ""
+"Copie une liste de tous les mods actifs dans le presse-papiers.\n"
+"Double-cliquez pour inclure leur lien du steam-workshop"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.EXPORTMODLISTBUTTON
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.EXPORTMODLISTBUTTON"
+msgid "Create Mod Profile"
+msgstr "Créer un profil de mods"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.EXPORTMODLISTBUTTONINFO
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.EXPORTMODLISTBUTTONINFO"
+msgid "Create a new profile from your current mod config."
+msgstr "Créer un nouveau profil depuis votre configuration de mod actuelle."
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.IMPORTCOLLECTIONLIST
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.IMPORTCOLLECTIONLIST"
+msgid "Import Mod Profile"
+msgstr "Importer un profil de mods"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.IMPORTCOLLECTIONLISTTOOLTIP
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.IMPORTCOLLECTIONLISTTOOLTIP"
+msgid "Create a mod profile by importing a Steam collection"
+msgstr "Créer un profil de mods en important une collection steam"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.IMPORTEDTITLEANDAUTHOR
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.IMPORTEDTITLEANDAUTHOR"
+msgid "{0}, Collection by {1}"
+msgstr "{0}, Collection de {1}"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.MODLISTSAVEGAMEHEADER
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.MODLISTSAVEGAMEHEADER"
+msgid "Mod Profiles from Save Games"
+msgstr "Profils de mods depuis les sauvegardes"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.MODLISTSBUTTON
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.MODLISTSBUTTON"
+msgid "MOD PROFILES"
+msgstr "PROFILS DE MODS"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.MODLISTSBUTTONINFO
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.MODLISTSBUTTONINFO"
+msgid "View and manage all your mod profiles"
+msgstr "Consultez et gérez tous vos profils de mods"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.MODLISTSTANDALONEHEADER
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.MODLISTSTANDALONEHEADER"
+msgid "Created & Imported Mod Profiles"
+msgstr "Profils de mods créés et importés"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.MODLISTWINDOWTITLE
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.MODLISTWINDOWTITLE"
+msgid "Mod Profiles"
+msgstr "Profils de mods"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.OPENMODLISTFOLDERBUTTON
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.OPENMODLISTFOLDERBUTTON"
+msgid "Open Mod Profile Folder"
+msgstr "Dossier des profils de mods"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.OPENMODLISTFOLDERBUTTONINFO
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.OPENMODLISTFOLDERBUTTONINFO"
+msgid "Open the Mod Profile Folder to view all stored mod profles"
+msgstr "Ouvrir le dossier des profils de mods pour y voir tous les profils"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.ADDEDNEW
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.ADDEDNEW"
+msgid ""
+"Successfully imported Mod Profile:\n"
+"{0} with {1} mods"
+msgstr ""
+"Import réussie du profil de mods :\n"
+"{0} avec {1} mods"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.ENTERCOLLECTIONLINK
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.ENTERCOLLECTIONLINK"
+msgid "Enter collection link..."
+msgstr "Entrez un lien d'une collection..."
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.ENTERNAME
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.ENTERNAME"
+msgid "Enter profile name..."
+msgstr "Entrez le nom du profil..."
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.ERRORTITLE
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.ERRORTITLE"
+msgid "Could not import Collection"
+msgstr "Impossible d'importer la collection"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.EXPORTCONFIRMATION
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.EXPORTCONFIRMATION"
+msgid "New Mod Profile created!"
+msgstr "Nouveau profil de mods créé !"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.EXPORTCONFIRMATIONTOOLTIP
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP."
+"EXPORTCONFIRMATIONTOOLTIP"
+msgid "Mod Profile \"{0}\" with {1} mods has been created."
+msgstr "Le profil de mod \"{0}\" avec {1} mods a été créé."
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.EXPORTMODLISTCONFIRMSCREEN
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP."
+"EXPORTMODLISTCONFIRMSCREEN"
+msgid "Create Mod Profile with {0} mods"
+msgstr "Créer un profil de mod avec {0} mods"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.IMPORTMODLISTCONFIRMSCREEN
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP."
+"IMPORTMODLISTCONFIRMSCREEN"
+msgid "Paste collection link to import Mod Profile"
+msgstr "Coller le lien de la collection pour importer le profil de mods"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.PARSINGERROR
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.PARSINGERROR"
+msgid "Could not determine the workshop ID"
+msgstr "Impossible de déterminer l'ID sur le steam-workshop"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.STEAMINFOERROR
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.STEAMINFOERROR"
+msgid "Error parsing steam data"
+msgstr "Erreur dans l'analyse des données de Steam"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.SUCCESSTITLE
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.SUCCESSTITLE"
+msgid "Import successful"
+msgstr "Import réussie"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.WRONGFORMAT
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.POPUP.WRONGFORMAT"
+msgid "Not a valid Collection link"
+msgstr "Le lien de la collection n'est pas valide"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.SINGLEENTRY.LATESTCOUNT
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.SINGLEENTRY.LATESTCOUNT"
+msgid "Latest Version contains {0} Mods."
+msgstr "La dernière version contient {0} mods."
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.SINGLEENTRY.MORESTOREDLISTS
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.SINGLEENTRY.MORESTOREDLISTS"
+msgid " stored Profiles"
+msgstr " Profils enregistrés"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.SINGLEENTRY.ONESTOREDLIST
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.MODLISTVIEW.SINGLEENTRY.ONESTOREDLIST"
+msgid " stored Profile"
+msgstr " Profils enregistré"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.ALLSYNCED
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.ALLSYNCED"
+msgid "ALL MODS SYNCED, CLOSE"
+msgstr "TOUS LES MODS SYNCHRONISÉS, FERMER"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.CONTINUEANDSYNC
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.CONTINUEANDSYNC"
+msgid "SYNC AND RESUME"
+msgstr "SYNCHRONISER ET REPRENDRE"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMOD
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMOD"
+msgid "MISSING MODS!"
+msgstr "MODS MANQUANTS !"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMODSTITLE
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.MISSINGMODSTITLE"
+msgid "MISSING MODS"
+msgstr "MODS MANQUANTS"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.MODDIFFS
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.MODDIFFS"
+msgid "MOD DIFFERENCES"
+msgstr "DIFFÉRENCES ENTRE LES MODS"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.SYNCALL
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.SYNCALL"
+msgid "SYNC AND LOAD SAVE"
+msgstr "SYNC. ET CHARGER LA SAUVEGARDE"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.SYNCMODSBUTTONBG
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.SYNCMODSBUTTONBG"
+msgid "SYNC MODS"
+msgstr "SYNC. MODS"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.SYNCSELECTED
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.MODSYNCING.SYNCSELECTED"
+msgid "LOAD WITH CURRENT LOADOUT"
+msgstr "CHARGEMENT AVEC LE MODÈLE ACTUEL"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.LOADLIST
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.LOADLIST"
+msgid "View Profile"
+msgstr "Voir le profil"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.MISSING
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.MISSING"
+msgid "Missing"
+msgstr "Manquant"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.MODLISTCOUNT
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.MODLISTCOUNT"
+msgid "Profile contains {0} mods."
+msgstr "Le profil contient {0} mods."
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.NOSTEAMMOD
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.NOSTEAMMOD"
+msgid "Not a Steam Mod!"
+msgstr "Pas un mod Steam !"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.POPUPSYNCEDTEXT
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.POPUPSYNCEDTEXT"
+msgid "The modlist has been applied."
+msgstr "La liste de mod a été appliquée."
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.POPUPSYNCEDTEXTENABLEONLY
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.POPUPSYNCEDTEXTENABLEONLY"
+msgid "All mods in the list have been enabled."
+msgstr "Tous les mods de la liste ont été activés."
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.POPUPSYNCEDTITLE
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.POPUPSYNCEDTITLE"
+msgid "Mod List Loaded"
+msgstr "Liste de mods chargé"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.REFRESH
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.REFRESH"
+msgid "Refresh View"
+msgstr "Rafraichir"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.RETURN
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.RETURN"
+msgid "RETURN"
+msgstr "RETOUR"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.RETURNTWO
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.RETURNTWO"
+msgid "RETURN TO MODS"
+msgstr "RETOUR AUX MODS"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.SUBTOALL
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.SUBTOALL"
+msgid "Subscribe to all missing Mods"
+msgstr "S'abonner à tous les mods manquants"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.SYNCLIST
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.SYNCLIST"
+msgid "Apply Profile"
+msgstr "Appliquer le profil"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.SYNCLISTADDITIVE
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.SYNCLISTADDITIVE"
+msgid "Make all active"
+msgstr "Tout rendre actif"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.SYNCLISTADDITIVETOOLTIP
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.SYNCLISTADDITIVETOOLTIP"
+msgid ""
+"This enables all mods stored in the profile\n"
+"but doesnt affect already enabled mods."
+msgstr ""
+"Ceci permet d'activer tous les mods stockés dans le profil\n"
+"mais n'affecte pas les mods déjà activés."
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.SYNCLISTTOOLTIP
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.SYNCLISTTOOLTIP"
+msgid ""
+"Applies the Profile.\n"
+"This enables all mods listed in the profile\n"
+"and disables all mods not listed in the profile."
+msgstr ""
+"Applique le profil.\n"
+"Cela permet d'activer tous les mods listés dans le profil\n"
+"et désactive tous les mods non répertoriés dans le profil."
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.TITLE
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.TITLE"
+msgid "Mod Profiles stored in {0}"
+msgstr "Profils de mods stockés dans {0}"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.TITLESAVEGAMELIST
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.TITLESAVEGAMELIST"
+msgid "Mod Profiles from SaveGame \"{0}\""
+msgstr "Mod profils depuis des sauvegardes \"{0}\""
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.USEALTERNATIVEMODE
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.USEALTERNATIVEMODE"
+msgid ""
+"Load mod list with a restart\n"
+"(Restarts game, no freezing involved)"
+msgstr ""
+"Charger la liste des mods lors du redémarrage\n"
+"(Redémarre le jeu, pas de freeze)"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.USENORMALMETHOD
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.USENORMALMETHOD"
+msgid ""
+"Load mod list using normal method\n"
+"(could freeze the game during applying)"
+msgstr ""
+"Charger la liste des mods en utilisant la méthode normale\n"
+"(risque de faire freeze le jeu pendant l'application)"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.WARNINGMANYMODS
+msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.WARNINGMANYMODS"
+msgid "Large amount of mod differences detected."
+msgstr "Un grand nombre de différences de mods ont été détectées."
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.WARNINGMANYMODSQUESTION
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.WARNINGMANYMODSQUESTION"
+msgid ""
+"Large amount of mod differences can lead to long game freezes during "
+"applying.\n"
+"Restart game with this Modlist applied?\n"
+"(This is an alternative mod list deployment mode)."
+msgstr ""
+"Un grand nombre de différences entre les mods peut entraîner des blocages "
+"prolongés du jeu lors de l'application.\n"
+"Redémarrer le jeu avec cette liste de mods appliquée ?\n"
+"(Il s'agit d'un mode alternatif de déploiement de la liste de mods)."
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.WORKSHOPACTIONS.BUTTON
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.WORKSHOPACTIONS.BUTTON"
+msgid "Workshop Actions"
+msgstr "Actions du workshop"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.WORKSHOPACTIONS.INFO
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.WORKSHOPACTIONS.INFO"
+msgid ""
+"This mod is currently missing from the game.\n"
+"The following actions are available:"
+msgstr ""
+"Ce mod est actuellement absent du jeu.\n"
+"Les actions suivantes sont disponibles :"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.WORKSHOPACTIONS.INFOLIST
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.WORKSHOPACTIONS.INFOLIST"
+msgid ""
+"This profile contains {0} currently missing mods.\n"
+"The following actions are available:"
+msgstr ""
+"Ce profil contient {0} mods manquants.\n"
+"Les actions suivantes sont disponibles :"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.WORKSHOPACTIONS.SUB
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.WORKSHOPACTIONS.SUB"
+msgid "Subscribe to this mod"
+msgstr "S'abonner à ce mod"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.WORKSHOPACTIONS.SUBLIST
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.WORKSHOPACTIONS.SUBLIST"
+msgid "Subscribe to all missing mods"
+msgstr "S'abonner à tous les mods manquants"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.WORKSHOPACTIONS.TITLE
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.WORKSHOPACTIONS.TITLE"
+msgid "Steam Workshop Integration"
+msgstr "Intégration du Steam Workshop"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.WORKSHOPACTIONS.VISIT
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.WORKSHOPACTIONS.VISIT"
+msgid "Visit Workshop page"
+msgstr "Visiter la page du workshop"
+
+#. SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.WORKSHOPFINDTOOLTIP
+msgctxt ""
+"SaveGameModLoader.STRINGS.UI.FRONTEND.SINGLEMODLIST.WORKSHOPFINDTOOLTIP"
+msgid "Click here to to select workshop action"
+msgstr "Cliquez ici pour sélectionner l'action du workshop"

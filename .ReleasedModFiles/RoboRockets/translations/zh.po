@@ -1,0 +1,315 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.3.2\n"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL1
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL1"
+msgid "<link=\"LVL1\">Novice Pilot</link>"
+msgstr "<link=\"LVL1\">菜鸟飞行员</link>"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL2
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL2"
+msgid "<link=\"LVL2\">Advanced Beginner Pilot</link>"
+msgstr "<link=\"LVL2\">新手飞行员</link>"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL3
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL3"
+msgid "<link=\"LVL3\">Competent Pilot</link>"
+msgstr "<link=\"LVL3\">称职的飞行员</link>"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL4
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL4"
+msgid "<link=\"LVL4\">Proficient Pilot</link>"
+msgstr "<link=\"LVL4\">老手飞行员</link>"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL5
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL5"
+msgid "<link=\"LVL5\">Expert Pilot</link>"
+msgstr "<link=\"LVL5\">专家级飞行员</link>"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL6
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVL6"
+msgid "<link=\"LVL6\">Master Pilot</link>"
+msgstr "<link=\"LVL6\">领航大师</link>"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVLNONE
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.LVLNONE"
+msgid "<link=\"LVLNONE\">Automated Pilot</link>"
+msgstr "<link=\"LVLNONE\">自动飞行员</link>"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.NAME
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.NAME"
+msgid "{BRAINXPSTATE}"
+msgstr ""
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.NOBRAIN
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.NOBRAIN"
+msgid "This AI-Module"
+msgstr "这个人工智能舱"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.TOOLTIP
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.TOOLTIP"
+msgid "{BRAINNAME} is a {BRAINXPSTATE} ({BRAINBOOST}% total rocket speed)"
+msgstr "{BRAINNAME} 是 {BRAINXPSTATE} ({BRAINBOOST}% 总共的飞行速度)"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.UNNAMEDBRAIN
+msgctxt ""
+"RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_BRAINEXPERIENCE.UNNAMEDBRAIN"
+msgid "This Brain"
+msgstr "这个脑子"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_NOBRAIN.NAME
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_NOBRAIN.NAME"
+msgid "No brain installed!"
+msgstr "它还没有脑子！"
+
+#. RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_NOBRAIN.TOOLTIP
+msgctxt "RoboRockets.STRINGS.BUILDING.STATUSITEMS.RR_NOBRAIN.TOOLTIP"
+msgid "This Module is missing a brain!"
+msgstr "这个舱还没有长脑子"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.AIMODULE.DESC
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.AIMODULE.DESC"
+msgid ""
+"[Module Deprecated]\n"
+"Please replace with one of the new Modules"
+msgstr ""
+"[Module Deprecated]\n"
+"请更换成新的功能舱"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.AIMODULE.EFFECT
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.AIMODULE.EFFECT"
+msgid ""
+"[Module Deprecated]\n"
+"Please replace with one of the new Modules"
+msgstr ""
+"[Module Deprecated]\n"
+"请更换成新的功能舱"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.AIMODULE.NAME
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.AIMODULE.NAME"
+msgid "<link=\"AIMODULE\">AI Control Module [DEPRECATED]</link>"
+msgstr "<link=\"AIMODULE\">人工智能舱 [DEPRECATED]</link>"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AICONTROLMODULE.DESC
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AICONTROLMODULE.DESC"
+msgid ""
+"[Module Deprecated]\n"
+"Please replace with one of the new Modules"
+msgstr ""
+"[Module Deprecated]\n"
+"请更换成新的功能舱"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AICONTROLMODULE.EFFECT
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AICONTROLMODULE.EFFECT"
+msgid ""
+"[Module Deprecated]\n"
+"Please replace with one of the new Modules"
+msgstr ""
+"[Module Deprecated]\n"
+"请更换成新的功能舱"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AICONTROLMODULE.NAME
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AICONTROLMODULE.NAME"
+msgid "<link=\"AICONTROLMODULECONFIG\">AI Control Module [DEPRECATED]</link>"
+msgstr "<link=\"AICONTROLMODULECONFIG\"人工智能舱 [DEPRECATED]</link>"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AILEARNINGCONTROLMODULE.DESC
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AILEARNINGCONTROLMODULE.DESC"
+msgid "Piloting is fun, even for an artificial brain!"
+msgstr "驾驶火箭很好玩，让一个人工大脑开车就更好玩了"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AILEARNINGCONTROLMODULE.EFFECT
+msgctxt ""
+"RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AILEARNINGCONTROLMODULE.EFFECT"
+msgid ""
+"Requires a <link=\"BRAINCONFIG\">AI Brain</link> to function.\n"
+"Brains can be made at the <link=\"SUPERMATERIALREFINERY\">分子熔炉</link>\n"
+"A brain will pilot the rocket and slowly gain piloting experience, resulting "
+"in faster flight times.\n"
+"\n"
+"Functions as a Command Module.\n"
+"\n"
+"One Command Module may be installed per rocket.\n"
+"\n"
+"Won't allow any duplicants inside"
+msgstr ""
+"需要一个 <link=\"BRAINCONFIG\">人工脑</link> 才能工作。\n"
+"人工脑可以生产于 <link=\"SUPERMATERIALREFINERY\">分子熔炉</link>\n"
+"人工脑会积累飞行经验，后期的会越飞越快。\n"
+"\n"
+"可以代替指挥舱。\n"
+"\n"
+"一个火箭只能安装一个指挥舱。\n"
+"\n"
+"复制人不会进去，因为没有空间"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AILEARNINGCONTROLMODULE.NAME
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AILEARNINGCONTROLMODULE.NAME"
+msgid "<link=\"RRAINOSECONE\">AI Brain Module [OLD]</link>"
+msgstr "<link=\"RRAINOSECONE\">人工脑舱 [OLD]</link>"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AILEARNINGCONTROLMODULEV2.DESC
+msgctxt ""
+"RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AILEARNINGCONTROLMODULEV2.DESC"
+msgid "Piloting is fun, even for an artificial brain!"
+msgstr "驾驶火箭很好玩，让一个人工大脑开车就更好玩了"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AILEARNINGCONTROLMODULEV2.EFFECT
+msgctxt ""
+"RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AILEARNINGCONTROLMODULEV2.EFFECT"
+msgid ""
+"Requires a <link=\"BRAINCONFIG\">AI Brain</link> to function.\n"
+"Brains can be made at the <link=\"SUPERMATERIALREFINERY\">分子熔炉</link>\n"
+"A brain will pilot the rocket and slowly gain piloting experience, resulting "
+"in faster flight times.\n"
+"\n"
+"Functions as a Command Module.\n"
+"\n"
+"One Command Module may be installed per rocket.\n"
+"\n"
+"Won't allow any duplicants inside"
+msgstr ""
+"需要一个 <link=\"BRAINCONFIG\">人工脑</link> 才能工作。\n"
+"人工脑可以生产于 <link=\"SUPERMATERIALREFINERY\">分子熔炉</link>\n"
+"人工脑会积累飞行经验，后期的会越飞越快。\n"
+"\n"
+"可以代替指挥舱。\n"
+"\n"
+"一个火箭只能安装一个指挥舱。\n"
+"\n"
+"复制人不会进去，因为没有空间"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AILEARNINGCONTROLMODULEV2.NAME
+msgctxt ""
+"RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AILEARNINGCONTROLMODULEV2.NAME"
+msgid "<link=\"RRAINOSECONE\">AI Brain Module</link>"
+msgstr "<link=\"RRAINOSECONE\">人工脑舱</link>"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AINOSECONE.DESC
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AINOSECONE.DESC"
+msgid "The big camera lens helps its AI with navigation."
+msgstr "这个巨大摄像头会帮助人工智能飞行。"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AINOSECONE.EFFECT
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AINOSECONE.EFFECT"
+msgid ""
+"Will pilot a rocket without any duplicant interaction.\n"
+"\n"
+"Functions as a Command Module an a Nosecone.\n"
+"\n"
+"One Command Module may be installed per rocket.\n"
+"\n"
+"Must be built at the top of a Rocket\n"
+"\n"
+"Won't allow any duplicants inside"
+msgstr ""
+"不需要任何复制人就能驾驶火箭。\n"
+"\n"
+"可以替代成指挥舱和前锥。\n"
+"\n"
+"一个火箭只能安装一个指挥舱。\n"
+"\n"
+"必须修建在火箭顶端\n"
+"\n"
+"复制人无法进入其中"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AINOSECONE.NAME
+msgctxt "RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_AINOSECONE.NAME"
+msgid "<link=\"RRAINOSECONE\">AI Nosecone</link>"
+msgstr "<link=\"RRAINOSECONE\">人工智能前锥</link>"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_EARLYGAMEAICONTROLMODULE.DESC
+msgctxt ""
+"RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_EARLYGAMEAICONTROLMODULE.DESC"
+msgid "Piloting a rocket, now without duplicants."
+msgstr "驾驶火箭，没人都行"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_EARLYGAMEAICONTROLMODULE.EFFECT
+msgctxt ""
+"RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_EARLYGAMEAICONTROLMODULE.EFFECT"
+msgid ""
+"Will pilot a rocket without any duplicant interaction.\n"
+"\n"
+"Functions as a Command Module.\n"
+"\n"
+"One Command Module may be installed per rocket.\n"
+"\n"
+"Won't allow any duplicants inside"
+msgstr ""
+"不需要任何复制人就能驾驶火箭。\n"
+"\n"
+"可以替代成指挥舱。\n"
+"\n"
+"一个火箭只能安装一个指挥舱。\n"
+"\n"
+"复制人无法进入其中"
+
+#. RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_EARLYGAMEAICONTROLMODULE.NAME
+msgctxt ""
+"RoboRockets.STRINGS.BUILDINGS.PREFABS.RR_EARLYGAMEAICONTROLMODULE.NAME"
+msgid "<link=\"RREARLYGAMEAICONTROLMODULE\">AI Control Module</link>"
+msgstr "<link=\"RREARLYGAMEAICONTROLMODULE\">人工智能舱</link>"
+
+#. RoboRockets.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RR_BRAINFLYER.DESC
+msgctxt "RoboRockets.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RR_BRAINFLYER.DESC"
+msgid "This brain learned to fly."
+msgstr "这个大脑已经长好飞行的准备了"
+
+#. RoboRockets.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RR_BRAINFLYER.EFFECT
+msgctxt "RoboRockets.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RR_BRAINFLYER.EFFECT"
+msgid ""
+"Seated in a brain jar, this brain will fly your rockets\n"
+"\n"
+"Flying a rocket slowly increases the brains piloting skill, resulting in "
+"faster rockets.\n"
+"\n"
+"Since it does not have anything to learn, it may fly even more efficient "
+"than a duplicant."
+msgstr ""
+"这个瓶种之脑会给你的火箭当司机\n"
+"\n"
+"让它给你开火箭会积累经验，之后会越飞越快\n"
+"\n"
+"既然它没有其他的东西要学，所以它经验积累的速度比其他复制人快很多。"
+
+#. RoboRockets.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RR_BRAINFLYER.NAME
+msgctxt "RoboRockets.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RR_BRAINFLYER.NAME"
+msgid "<link=\"BRAINCONFIG\">AI Brain</link>"
+msgstr "<link=\"BRAINCONFIG\">人工脑</link>"
+
+#. RoboRockets.STRINGS.MISC.TAGS.RR_SPACEBRAINFLYER
+msgctxt "RoboRockets.STRINGS.MISC.TAGS.RR_SPACEBRAINFLYER"
+msgid "<link=\"BRAINCONFIG\">AI Brain</link>"
+msgstr "<link=\"BRAINCONFIG\">人工脑</link>"
+
+#. RoboRockets.STRINGS.RESEARCH.TECHS.RR_BRAINMODULETECH.DESC
+msgctxt "RoboRockets.STRINGS.RESEARCH.TECHS.RR_BRAINMODULETECH.DESC"
+msgid "Grow a brain and let it reach for the stars"
+msgstr "长一个只手摘星的脑子 (其实没有长手）"
+
+#. RoboRockets.STRINGS.RESEARCH.TECHS.RR_BRAINMODULETECH.NAME
+msgctxt "RoboRockets.STRINGS.RESEARCH.TECHS.RR_BRAINMODULETECH.NAME"
+msgid "<link=\"RRBRAINMODULETECH\">Artificial Learning Capabilities</link>"
+msgstr "<link=\"RRBRAINMODULETECH\">人工智能学习</link>"
+
+#. RoboRockets.STRINGS.UI.STARMAP.AISTATUS.NAME
+msgctxt "RoboRockets.STRINGS.UI.STARMAP.AISTATUS.NAME"
+msgid "Ai controlled"
+msgstr "已自动化"
+
+#. RoboRockets.STRINGS.UI.STARMAP.AISTATUS.TOOLTIP
+msgctxt "RoboRockets.STRINGS.UI.STARMAP.AISTATUS.TOOLTIP"
+msgid ""
+"This Rocket flies on it's own - your duplicants are scared yet impressed!"
+msgstr "这个火箭会自己飞，你的复制人大受震撼而且还感到害怕！"

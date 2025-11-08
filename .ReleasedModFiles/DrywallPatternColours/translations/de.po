@@ -1,0 +1,129 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: "
+"2.0\n"
+"X-Generator: Poedit 3.3.2\n"
+
+#. DrywallPatternColours.STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.BLUE_COBALT.DESC
+msgctxt ""
+"DrywallPatternColours.STRINGS.BUILDINGS."
+"PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES."
+"BLUE_COBALT.DESC"
+msgid "A damp wallpaper."
+msgstr "Ein nasses Tapetendesign."
+
+#. DrywallPatternColours.STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.BLUE_COBALT.NAME
+msgctxt ""
+"DrywallPatternColours.STRINGS.BUILDINGS."
+"PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES."
+"BLUE_COBALT.NAME"
+msgid "<link=\"EXTERIORWALL\">Bubbles</link>"
+msgstr "<link=\"EXTERIORWALL\">Luftblasen</link>"
+
+#. DrywallPatternColours.STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.GREEN_KELLY.DESC
+msgctxt ""
+"DrywallPatternColours.STRINGS.BUILDINGS."
+"PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES."
+"GREEN_KELLY.DESC"
+msgid "A slippery wallpaper."
+msgstr "Ein schlüpfriges Tapetendesign."
+
+#. DrywallPatternColours.STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.GREEN_KELLY.NAME
+msgctxt ""
+"DrywallPatternColours.STRINGS.BUILDINGS."
+"PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES."
+"GREEN_KELLY.NAME"
+msgid "<link=\"EXTERIORWALL\">Algae</link>"
+msgstr "<link=\"EXTERIORWALL\">Algen</link>"
+
+#. DrywallPatternColours.STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.GREY_CHARCOAL.DESC
+msgctxt ""
+"DrywallPatternColours.STRINGS.BUILDINGS."
+"PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES."
+"GREY_CHARCOAL.DESC"
+msgid "A sleek wallpaper."
+msgstr "Ein steiniges Tapetendesign."
+
+#. DrywallPatternColours.STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.GREY_CHARCOAL.NAME
+msgctxt ""
+"DrywallPatternColours.STRINGS.BUILDINGS."
+"PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES."
+"GREY_CHARCOAL.NAME"
+msgid "<link=\"EXTERIORWALL\">Cobblestone</link>"
+msgstr ""
+"<link=\"EXTERIORWALL\">Kopfsteinpflaster</link>"
+
+#. DrywallPatternColours.STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.ORANGE_SATSUMA.DESC
+msgctxt ""
+"DrywallPatternColours.STRINGS.BUILDINGS."
+"PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES."
+"ORANGE_SATSUMA.DESC"
+msgid "An orange wallpaper."
+msgstr "Ein leckeres Tapetendesign."
+
+#. DrywallPatternColours.STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.ORANGE_SATSUMA.NAME
+msgctxt ""
+"DrywallPatternColours.STRINGS.BUILDINGS."
+"PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES."
+"ORANGE_SATSUMA.NAME"
+msgid "<link=\"EXTERIORWALL\">Carrots</link>"
+msgstr "<link=\"EXTERIORWALL\">Karotten</link>"
+
+#. DrywallPatternColours.STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.PINK_FLAMINGO.DESC
+msgctxt ""
+"DrywallPatternColours.STRINGS.BUILDINGS."
+"PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES."
+"PINK_FLAMINGO.DESC"
+msgid "A pink wallpaper."
+msgstr "Ein liebliches Tapetendesign."
+
+#. DrywallPatternColours.STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.PINK_FLAMINGO.NAME
+msgctxt ""
+"DrywallPatternColours.STRINGS.BUILDINGS."
+"PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES."
+"PINK_FLAMINGO.NAME"
+msgid "<link=\"EXTERIORWALL\">Hearts</link>"
+msgstr "<link=\"EXTERIORWALL\">Herzchen</link>"
+
+#. DrywallPatternColours.STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.RED_DEEP.DESC
+msgctxt ""
+"DrywallPatternColours.STRINGS.BUILDINGS."
+"PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES."
+"RED_DEEP.DESC"
+msgid "A red wallpaper."
+msgstr "Ein heißes Tapetendesign."
+
+#. DrywallPatternColours.STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.RED_DEEP.NAME
+msgctxt ""
+"DrywallPatternColours.STRINGS.BUILDINGS."
+"PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES."
+"RED_DEEP.NAME"
+msgid "<link=\"EXTERIORWALL\">Volcano</link>"
+msgstr "<link=\"EXTERIORWALL\">Vulkan</link>"
+
+#. DrywallPatternColours.STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.YELLOW_LEMON.DESC
+msgctxt ""
+"DrywallPatternColours.STRINGS.BUILDINGS."
+"PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES."
+"YELLOW_LEMON.DESC"
+msgid "A radiation-free wallpaper."
+msgstr ""
+"Ein garantiert nicht radioaktives "
+"Tapetendesign."
+
+#. DrywallPatternColours.STRINGS.BUILDINGS.PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES.YELLOW_LEMON.NAME
+msgctxt ""
+"DrywallPatternColours.STRINGS.BUILDINGS."
+"PREFABS_MODDEDSKINS.EXTERIORWALL.FACADES."
+"YELLOW_LEMON.NAME"
+msgid "<link=\"EXTERIORWALL\">Yellow Cake</link>"
+msgstr "<link=\"EXTERIORWALL\">Yellowcake</link>"

@@ -1,0 +1,35 @@
+shape: Circle
+borders:
+  - 1
+  - 1
+
+blobSize:
+  min: 2
+  max: 3
+
+ElementChoiceGroups:
+  RoomCenterElements:
+    selectionMethod: WeightedResample
+    choices:
+      - element: CarbonDioxide
+        weight: 1
+        overrides:
+          massOverride: 1
+      - element: SaltWater
+        weight: 1
+      - element: AurichalciteOre
+        weight: 1
+  RoomBorderChoices0:
+    selectionMethod: WeightedResample
+    choices:
+      - element: Fossil
+        weight: 2
+      - element: AurichalciteOre
+        weight: 1  
+      - element: SedimentaryRock
+        weight: 1  
+  RoomBorderChoices1:
+    selectionMethod: WeightedResample
+    choices:
+      - element: SedimentaryRock
+        weight: 1  

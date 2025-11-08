@@ -1,0 +1,95 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.4.4\n"
+
+#. DailyRoutine.STRINGS.UISTRINGS.DISABLE
+msgctxt "DailyRoutine.STRINGS.UISTRINGS.DISABLE"
+msgid "Disable Daily Routine"
+msgstr "禁用每日生产"
+
+#. DailyRoutine.STRINGS.UISTRINGS.ENABLE
+msgctxt "DailyRoutine.STRINGS.UISTRINGS.ENABLE"
+msgid "Enable Daily Routine"
+msgstr "启用每日生产"
+
+#. DailyRoutine.STRINGS.UISTRINGS.FORMATTEDCOUNTEXT.LABEL
+msgctxt "DailyRoutine.STRINGS.UISTRINGS.FORMATTEDCOUNTEXT.LABEL"
+msgid "{0} items set as daily task."
+msgstr "{0} 设置为每日生产的项目."
+
+#. DailyRoutine.STRINGS.UISTRINGS.FORMATTEDCOUNTEXT.NONE
+msgctxt "DailyRoutine.STRINGS.UISTRINGS.FORMATTEDCOUNTEXT.NONE"
+msgid "No recipes queued."
+msgstr "没有设置每日生产目标."
+
+#. DailyRoutine.STRINGS.UISTRINGS.FORMATTEDCOUNTEXT.TOOLTIP
+msgctxt "DailyRoutine.STRINGS.UISTRINGS.FORMATTEDCOUNTEXT.TOOLTIP"
+msgid "{0} items over {1} recipes set as daily tasks"
+msgstr "{0} 项目于 {1} 设定为每日生产的目标"
+
+#. DailyRoutine.STRINGS.UISTRINGS.FORMATTEDRECIPETEXT.LABEL
+msgctxt "DailyRoutine.STRINGS.UISTRINGS.FORMATTEDRECIPETEXT.LABEL"
+msgid "Daily Routine Recipes:"
+msgstr "每日生产 :"
+
+#. DailyRoutine.STRINGS.UISTRINGS.FORMATTEDRECIPETEXT.NONE
+msgctxt "DailyRoutine.STRINGS.UISTRINGS.FORMATTEDRECIPETEXT.NONE"
+msgid "No recipes queued."
+msgstr "没有设置每日生产目标."
+
+#. DailyRoutine.STRINGS.UISTRINGS.REFRESHDAILYTASKS.LABEL
+msgctxt "DailyRoutine.STRINGS.UISTRINGS.REFRESHDAILYTASKS.LABEL"
+msgid ""
+"Update Daily Tasks\n"
+"(Hover to see current)"
+msgstr ""
+"更新生产指标\n"
+"(悬浮鼠标查看)"
+
+#. DailyRoutine.STRINGS.UISTRINGS.TIMELEFTTEXT
+msgctxt "DailyRoutine.STRINGS.UISTRINGS.TIMELEFTTEXT"
+msgid "Time when the tasks reset every day (in seconds):"
+msgstr "每日生产重置的时间 (按秒) :"
+
+#. DailyRoutine.STRINGS.UISTRINGS.TOGGLECUSTOMTIME.LABEL
+msgctxt "DailyRoutine.STRINGS.UISTRINGS.TOGGLECUSTOMTIME.LABEL"
+msgid "Toggle Custom Time"
+msgstr "更改自定义重置点"
+
+#. DailyRoutine.STRINGS.UISTRINGS.TOGGLECUSTOMTIME.TOOLTIP
+msgctxt "DailyRoutine.STRINGS.UISTRINGS.TOGGLECUSTOMTIME.TOOLTIP"
+msgid ""
+"By default, the recipes reset at\n"
+"the start of each cycle.\n"
+"Toggle to adjust the time of that reset."
+msgstr ""
+"默认夜晚结束时每日任务会重置.\n"
+"拖拽更改重置的时间点."
+
+#. DailyRoutine.STRINGS.UISTRINGS.TOGGLEQUEUEING.LABEL
+msgctxt "DailyRoutine.STRINGS.UISTRINGS.TOGGLEQUEUEING.LABEL"
+msgid "Toggle Recipe Queueing"
+msgstr ""
+"切换任务模式 \n"
+"(默认停用)"
+
+#. DailyRoutine.STRINGS.UISTRINGS.TOGGLEQUEUEING.TOOLTIP
+msgctxt "DailyRoutine.STRINGS.UISTRINGS.TOGGLEQUEUEING.TOOLTIP"
+msgid ""
+"When disabled, the recipe count for each recipe will be set to the stored "
+"value regardless of remaining recipe count.\n"
+"Enabling this option instead adds the amount to the existing count instead."
+msgstr ""
+"当这个模式停用时, 每次周期更新会取消任何剩余的任务, 然后按照每日生产的目标"
+"进行\n"
+"当这个模式启用时, 每次周期更新不会取消剩余任务, 而会叠加到每日生产的目标."

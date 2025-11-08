@@ -1,0 +1,233 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.6\n"
+
+#. DupePrioPresetManager.STRINGS.DUPLICANTS.CHOREGROUPS.ENGBUILD.DESC
+msgctxt "DupePrioPresetManager.STRINGS.DUPLICANTS.CHOREGROUPS.ENGBUILD.DESC"
+msgid "Construct buildings requiring engineering."
+msgstr "建造需要工程学知识的建筑。"
+
+#. DupePrioPresetManager.STRINGS.DUPLICANTS.CHOREGROUPS.ENGBUILD.NAME
+msgctxt "DupePrioPresetManager.STRINGS.DUPLICANTS.CHOREGROUPS.ENGBUILD.NAME"
+msgid "Engineer Building"
+msgstr "工程师建筑"
+
+#. DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.DELETEWINDOW.CANCEL
+msgctxt "DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.DELETEWINDOW.CANCEL"
+msgid "Cancel"
+msgstr "取消"
+
+#. DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.DELETEWINDOW.DESC
+msgctxt "DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.DELETEWINDOW.DESC"
+msgid ""
+"You are about to delete the stat preset \"{0}\".\n"
+"Do you want to continue?"
+msgstr ""
+"您即将删除状态预设\"{0}\"。\n"
+"是否继续？"
+
+#. DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.DELETEWINDOW.TITLE
+msgctxt "DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.DELETEWINDOW.TITLE"
+msgid "Delete {0}"
+msgstr "删除 {0}"
+
+#. DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.DELETEWINDOW.YES
+msgctxt "DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.DELETEWINDOW.YES"
+msgid "Confirm Deletion"
+msgstr "确认删除"
+
+#. DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.APPLYPRESETBUTTON.TEXT
+msgctxt "DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.APPLYPRESETBUTTON.TEXT"
+msgid "Apply Preset"
+msgstr "应用预设"
+
+#. DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.APPLYPRESETBUTTON.TOOLTIP
+msgctxt "DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.APPLYPRESETBUTTON.TOOLTIP"
+msgid "Apply the currenly displayed priorities to the Duplicant this window was opened from."
+msgstr "将当前显示的优先级设置应用至打开此窗口的复制人。"
+
+#. DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.CLOSEBUTTON.TEXT
+msgctxt "DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.CLOSEBUTTON.TEXT"
+msgid "Return"
+msgstr "返回"
+
+#. DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.CLOSEBUTTON.TOOLTIP
+msgctxt "DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.CLOSEBUTTON.TOOLTIP"
+msgid "Close this preset window."
+msgstr "关闭此预设窗口。"
+
+#. DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TEXT
+msgctxt "DupePrioPresetManager.SSTRINGS.UI.PRESETWINDOWDUPEPRIOS.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TEXT"
+msgid "Generate Preset"
+msgstr "生成预设"
+
+#. DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TOOLTIP
+msgctxt "DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TOOLTIP"
+msgid ""
+"Generate and store a new preset from the currenly displayed priorities.\n"
+"Only has an effect if the preset doesn't exist yet"
+msgstr ""
+"根据当前显示的优先级生成并存储新预设\n"
+"仅在预设不存在时生效"
+
+#. DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.NOPRESETSAVAILABLE.LABEL
+msgctxt "DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.NOPRESETSAVAILABLE.LABEL"
+msgid "No presets available."
+msgstr "无可用预设。"
+
+#. DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.ADDTHISTRAITBUTTON.TEXT
+msgctxt "DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.ADDTHISTRAITBUTTON.TEXT"
+msgid "Load Preset"
+msgstr "加载预设"
+
+#. DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.DELETEPRESETTOOLTIP
+msgctxt "DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.DELETEPRESETTOOLTIP"
+msgid "Delete Preset"
+msgstr "删除预设"
+
+#. DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.RENAMEPRESETTOOLTIP
+msgctxt "DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.RENAMEPRESETTOOLTIP"
+msgid "Rename Preset"
+msgstr "重命名预设"
+
+#. DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.OPENPRESETWINDOW
+msgctxt "DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.OPENPRESETWINDOW"
+msgid "Open Preset Window"
+msgstr "打开预设窗口"
+
+#. DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.OPENSHIFTCLONE
+msgctxt "DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.OPENSHIFTCLONE"
+msgid "Shift/Clone Schedule"
+msgstr "偏移/复制日程"
+
+#. DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.SCHEDULESTRINGS.ALLGENERATED
+msgctxt "DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.SCHEDULESTRINGS.ALLGENERATED"
+msgid "All schedules marked as default-presets already exist by name"
+msgstr "所有标记为默认预设的日程均已存在同名项"
+
+#. DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.SCHEDULESTRINGS.DEFAULTNO
+msgctxt "DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.SCHEDULESTRINGS.DEFAULTNO"
+msgid "Not enabled as default."
+msgstr "未设为默认。"
+
+#. DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.SCHEDULESTRINGS.DEFAULTYES
+msgctxt "DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.SCHEDULESTRINGS.DEFAULTYES"
+msgid "Enabled as default."
+msgstr "已设为默认。"
+
+#. DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.SCHEDULESTRINGS.DESC
+msgctxt "DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.SCHEDULESTRINGS.DESC"
+msgid ""
+"You are about to delete the stat preset \"{0}\".\n"
+"Do you want to continue?"
+msgstr ""
+"您即将删除状态预设\"{0}\"。\n"
+"是否继续？"
+
+#. DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.SCHEDULESTRINGS.GENERATEALL
+msgctxt "DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.SCHEDULESTRINGS.GENERATEALL"
+msgid "Generate all default schedules"
+msgstr "生成所有默认日程"
+
+#. DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.SCHEDULESTRINGS.GENERATEALLCONFIRM
+msgctxt "DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.SCHEDULESTRINGS.GENERATEALLCONFIRM"
+msgid "Generate {0} new schedules based on your configured default-presets?"
+msgstr "根据配置的默认预设生成 {0} 个新日程？"
+
+#. DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.SCHEDULESTRINGS.GENERATEALLTOOLTIP
+msgctxt "DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.SCHEDULESTRINGS.GENERATEALLTOOLTIP"
+msgid ""
+"Generate all schedules from presets that are marked as default.\n"
+"Schedules that already exist by name wont be generated."
+msgstr ""
+"生成所有标记为默认的预设日程\n"
+"已存在同名项的日程将不再生成。"
+
+#. DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.SCHEDULESTRINGS.MARKEDASDEFAULT
+msgctxt "DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.SCHEDULESTRINGS.MARKEDASDEFAULT"
+msgid "Marked as default?"
+msgstr "标记为默认？"
+
+#. DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.SCHEDULESTRINGS.MARKEDASDEFAULTTOOLTIP
+msgctxt "DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.SCHEDULESTRINGS.MARKEDASDEFAULTTOOLTIP"
+msgid "Schedules marked as default get generated when the respective button on the schedule screen is clicked."
+msgstr "标记为默认的日程将在点击日程界面相应按钮时自动生成。"
+
+#. DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.SCHEDULESTRINGS.OMITNUMBER
+msgctxt "DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.SCHEDULESTRINGS.OMITNUMBER"
+msgid ""
+"\n"
+"({0} of your configured default-presets already exist by name and will thus be omitted)"
+msgstr ""
+"\n"
+"(您配置的默认预设中有 {0} 个已存在同名项，将被跳过)"
+
+#. DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.SCHEDULESTRINGS.TITLE
+msgctxt "DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.SCHEDULESTRINGS.TITLE"
+msgid "Delete {0}"
+msgstr "删除 {0}"
+
+#. DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.SCHEDULESTRINGS.YES
+msgctxt "DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.SCHEDULESTRINGS.YES"
+msgid "Confirm Deletion"
+msgstr "确认删除"
+
+#. DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.TITLE
+msgctxt "DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.TITLE"
+msgid "Priority Presets"
+msgstr "优先级预设"
+
+#. DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.TITLECONSUMABLES
+msgctxt "DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.TITLECONSUMABLES"
+msgid "Consumable Presets"
+msgstr "消耗品预设"
+
+#. DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.TITLESCHEDULES
+msgctxt "DupePrioPresetManager.STRINGS.UI.PRESETWINDOWDUPEPRIOS.TITLESCHEDULES"
+msgid "Schedule Presets"
+msgstr "日程预设"
+
+#. DupePrioPresetManager.STRINGS.UI.SCHEDULECLONER.CONTENT.APPLYBUTTON.LABEL
+msgctxt "DupePrioPresetManager.STRINGS.UI.SCHEDULECLONER.CONTENT.APPLYBUTTON.LABEL"
+msgid "Apply Offset"
+msgstr "应用偏移"
+
+#. DupePrioPresetManager.STRINGS.UI.SCHEDULECLONER.CONTENT.CANCEL.LABEL
+msgctxt "DupePrioPresetManager.STRINGS.UI.SCHEDULECLONER.CONTENT.CANCEL.LABEL"
+msgid "Cancel"
+msgstr "取消"
+
+#. DupePrioPresetManager.STRINGS.UI.SCHEDULECLONER.CONTENT.CLONEBUTTON.LABEL
+msgctxt "DupePrioPresetManager.STRINGS.UI.SCHEDULECLONER.CONTENT.CLONEBUTTON.LABEL"
+msgid "Create Clone from Offset"
+msgstr "根据偏移创建复制"
+
+#. DupePrioPresetManager.STRINGS.UI.SCHEDULECLONER.CONTENT.CLONEOFFSET.LABEL
+msgctxt "DupePrioPresetManager.STRINGS.UI.SCHEDULECLONER.CONTENT.CLONEOFFSET.LABEL"
+msgid "Schedule Offset:"
+msgstr "日程偏移量："
+
+#. DupePrioPresetManager.STRINGS.UI.SCHEDULECLONER.CONTENT.CLONEOFFSET.OFFSET.INPUT.TEXTAREA.PLACEHOLDER
+msgctxt "DupePrioPresetManager.STRINGS.UI.SCHEDULECLONER.CONTENT.CLONEOFFSET.OFFSET.INPUT.TEXTAREA.PLACEHOLDER"
+msgid ""
+msgstr ""
+
+#. DupePrioPresetManager.STRINGS.UI.SCHEDULECLONER.TITLE.TITLETEXT
+msgctxt "DupePrioPresetManager.STRINGS.UI.SCHEDULECLONER.TITLE.TITLETEXT"
+msgid "Schedule Offsets"
+msgstr "日程偏移"
+
+#. DupePrioPresetManager.STRINGS.UNNAMEDPRESET
+msgctxt "DupePrioPresetManager.STRINGS.UNNAMEDPRESET"
+msgid "Unnamed Preset"
+msgstr "未命名预设"

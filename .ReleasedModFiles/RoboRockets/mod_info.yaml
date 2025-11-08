@@ -1,0 +1,5 @@
+minimumSupportedBuild: 674504
+version: 4.2.9
+APIVersion: 2
+requiredDlcIds:
+- EXPANSION1_ID
