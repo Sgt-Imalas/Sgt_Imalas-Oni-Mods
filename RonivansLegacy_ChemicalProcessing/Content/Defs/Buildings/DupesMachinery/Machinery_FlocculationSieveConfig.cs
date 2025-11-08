@@ -139,8 +139,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 					new ElementConverter.ConsumedElement(SimHashes.RefinedCarbon.CreateTag(), 0.034f),
 					new ElementConverter.ConsumedElement(filter, 0.042f) ];
 				pollutedWaterTreatment.outputElements = [
-					new ElementConverter.OutputElement(4.9f, SimHashes.Water, UtilMethods.GetKelvinFromC(5), false, true),
-					new ElementConverter.OutputElement(0.11f, SimHashes.Clay, UtilMethods.GetKelvinFromC(5), false, true)
+					new ElementConverter.OutputElement(4.9f, SimHashes.Water, UtilMethods.GetKelvinFromC(5), false, true,diseaseWeight:0f),
+					new ElementConverter.OutputElement(0.11f, SimHashes.Clay, UtilMethods.GetKelvinFromC(5), false, true,diseaseWeight:0f)
 					];
 
 				ElementConverter toxicSlurryTreatment = go.AddComponent<ElementConverter>();
@@ -151,8 +151,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 					new ElementConverter.ConsumedElement(SimHashes.RefinedCarbon.CreateTag(), 0.034f),
 					new ElementConverter.ConsumedElement(filter, 0.042f) ];
 				toxicSlurryTreatment.outputElements = [
-					new ElementConverter.OutputElement(2f, SimHashes.Water, UtilMethods.GetKelvinFromC(5), false, true),
-					new ElementConverter.OutputElement(3.1f, ModElements.Slag_Solid, UtilMethods.GetKelvinFromC(5), false, true)
+					new ElementConverter.OutputElement(2f, SimHashes.Water, UtilMethods.GetKelvinFromC(5), false, true,diseaseWeight:0f),
+					new ElementConverter.OutputElement(3.1f, ModElements.Slag_Solid, UtilMethods.GetKelvinFromC(5), false, true,diseaseWeight:0f)
 					];
 			}
 			else
@@ -166,7 +166,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				new ElementConverter.ConsumedElement(filter, 0.1f) ];
 				pollutedWaterTreatment.outputElements = [
 				new ElementConverter.OutputElement(5f, SimHashes.Water, UtilMethods.GetKelvinFromC(5), false, true,diseaseWeight:0),
-				new ElementConverter.OutputElement(0.1f, SimHashes.Clay, UtilMethods.GetKelvinFromC(5), false, true) ];
+				new ElementConverter.OutputElement(0.1f, SimHashes.Clay, UtilMethods.GetKelvinFromC(5), false, true,diseaseWeight:0f) ];
 				//--------------------------------------------------------------------
 			}
 
