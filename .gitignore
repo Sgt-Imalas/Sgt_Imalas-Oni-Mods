@@ -372,3 +372,4 @@ FodyWeavers.xsd
 /Builds
 /.editorconfig
 /UtilLibs/ErrorRemoval.cs
+/.ReleasedModFiles/Desc.md
