@@ -14,8 +14,6 @@ namespace PaintYourPipes
 {
 	internal class Patches
 	{
-
-
 		[HarmonyPatch(typeof(Db), nameof(Db.Initialize))]
 		public class Db_Initialize_Patch
 		{

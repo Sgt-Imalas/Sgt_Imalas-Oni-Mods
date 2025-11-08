@@ -486,6 +486,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				//=[ MAFIC ROCK PATCH ]==========================================================
 				AddTagToElementAndEnable(SimHashes.MaficRock, GameTags.Crushable);
 
+
 				///add hardened alloy tag to thermium
 				AddTagToElementAndEnable(SimHashes.TempConductorSolid, ModAssets.Tags.AIO_HardenedAlloy);
 			}

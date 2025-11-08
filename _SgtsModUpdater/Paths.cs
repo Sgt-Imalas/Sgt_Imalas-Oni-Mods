@@ -14,7 +14,8 @@ namespace _SgtsModUpdater
 		public static string ModsFolder = Path.Combine(GameDocumentsFolder, "mods");
 		public static string LocalModsFolder = Path.Combine(ModsFolder, "Local");
 		public static string SteamModsFolder = Path.Combine(ModsFolder, "Steam");
-
+		
+		
 		public static string GetReadableFileSize(double len)
 		{
 			string[] sizes = { "B", "KB", "MB", "GB", "TB" };

@@ -6,8 +6,9 @@
 	<PropertyGroup>
 		<Optimize>true</Optimize>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-		<LangVersion>preview</LangVersion>		
+		<LangVersion>preview</LangVersion>
 	</PropertyGroup>
+	<UsingTask TaskName="RecursiveFolderHashing" AssemblyFile="HashService.dll"/>
 	
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<Optimize>False</Optimize>
