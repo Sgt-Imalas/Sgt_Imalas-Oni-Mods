@@ -99,6 +99,10 @@
 		<Message Text="Copied build files" Importance="High" />
 
 	</Target>
+	
+	<Target Name ="CreateHashInfoFile" AfterTargets="CopyModsToDevFolder" Condition="'$(DoNotBuildAsMod)' != 'true'">
+		<RecursiveFolderHashing TargetFile="./FileHashes.json" TargetFolder="$(TargetFolder)"></RecursiveFolderHashing>
+	</Target>
 
 	<!--Create archive version-->
 	<!--
