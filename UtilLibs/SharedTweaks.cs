@@ -16,6 +16,7 @@ using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
 using static ElementConverter;
 using static STRINGS.BUILDINGS.PREFABS;
+using static STRINGS.UI;
 
 namespace UtilLibs
 {
@@ -385,16 +386,16 @@ namespace UtilLibs
 			/// </summary>
 			const float Y_Step = 250;
 
-			static Dictionary<Tech,int> techConnectionPoints = null;
+			static Dictionary<Tech, int> techConnectionPoints = null;
 
 			public static void OnSpawnPostfix(ResearchEntry __instance)
 			{
-				if(techConnectionPoints == null)
+				if (techConnectionPoints == null)
 				{
 					techConnectionPoints = new Dictionary<Tech, int>();
 					foreach (var tech in Db.Get().Techs.resources)
 					{
-						foreach(var requiredTech in tech.requiredTech)
+						foreach (var requiredTech in tech.requiredTech)
 						{
 							if (!techConnectionPoints.ContainsKey(requiredTech))
 							{
@@ -433,20 +434,35 @@ namespace UtilLibs
 				{
 					CreateTechConnection(__instance, currentTech, evenTech);
 				}
-				float connectionOffset = sourceEven.Any() ? 1 : sourceBelow.Any() && sourceAbove.Any() ? 0.625f :  0;
+				float connectionOffset = sourceEven.Any() ? 1 : sourceBelow.Any() && sourceAbove.Any() ? 0.625f : 0;
 				for (int i = 0; i < sourceBelow.Count; i++)
 				{
 					CreateTechConnection(__instance, currentTech, sourceBelow[i], -connectionOffset - i);
 				}
 				for (int i = 0; i < sourceAbove.Count; i++)
 				{
-					CreateTechConnection(__instance, currentTech, sourceAbove[i], connectionOffset+i);
+					CreateTechConnection(__instance, currentTech, sourceAbove[i], connectionOffset + i);
+				}
+
+				__instance.QueueStateChanged(isSelected: false);
+				if (__instance.targetTech == null)
+				{
+					return;
+				}
+
+				foreach (TechInstance item2 in Research.Instance.GetResearchQueue())
+				{
+					if (item2.tech == __instance.targetTech)
+					{
+						__instance.QueueStateChanged(isSelected: true);
+					}
 				}
 			}
+
 			static void CreateTechConnection(ResearchEntry __instance, Tech currentTech, Tech requisite, float connectionPointNr = 0)
 			{
-				float techBorderX = requisite.width / 2f + 18f;
-				float sourceTechStartPostX = (currentTech.center.x - techBorderX) - (requisite.center.x + techBorderX) -2;
+				float techBorderX = currentTech.width / 2f + 25f;
+				float requisiteTechRightBorderX = (currentTech.center.x - techBorderX - (requisite.center.x + techBorderX)) +2;
 
 
 				Vector2 relativeStartPoint = Vector2.zero;
@@ -483,7 +499,7 @@ namespace UtilLibs
 
 				float midPointConnectionCalc = Mathf.CeilToInt(Mathf.Max(0, totalConnections-3)/ 2f);
 
-				float midpoint =  32 - stepOffset - (midPointConnectionCalc * stepOffset);
+				float midpoint = 32 - stepOffset - (midPointConnectionCalc * stepOffset);
 				if (midpoint < 0)
 					midpoint = 0;
 
@@ -497,7 +513,7 @@ namespace UtilLibs
 					new Vector2(0, 0) + relativeEndPoint,
 						new Vector2(-horizontalOffsetTarget, 0) + relativeEndPoint,
 						new Vector2(-horizontalOffsetSource, verticalOffset) + relativeStartPoint,
-						new Vector2(-sourceTechStartPostX, verticalOffset) + relativeStartPoint,
+						new Vector2(-requisiteTechRightBorderX, verticalOffset) + relativeStartPoint,
 						];
 
 				//foreach (var point in component.Points)
@@ -517,7 +533,7 @@ namespace UtilLibs
 		{
 			static readonly string RegistryKey = "RegistryKey_DynamicMaterialSelectorHeaderHeight";
 			static readonly string RegistryKeyVersion = RegistryKey + "_Version";
-			static readonly int Version = 2;
+			static readonly int Version = 3;
 
 			public static void ExecutePatch()
 			{
