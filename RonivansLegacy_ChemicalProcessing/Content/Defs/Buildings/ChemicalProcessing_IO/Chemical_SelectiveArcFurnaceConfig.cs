@@ -45,6 +45,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.InputConduitType = ConduitType.Liquid;
 			buildingDef.OutputConduitType = ConduitType.Liquid;
 
+			buildingDef.ViewMode = OverlayModes.LiquidConduits.ID;
 			buildingDef.AudioCategory = "Metal";
 			buildingDef.PermittedRotations = PermittedRotations.FlipH;
 			SoundUtils.CopySoundsToAnim("arc_smelter_kanim", "suit_maker_kanim");

@@ -166,5 +166,25 @@ namespace UtilLibs
 			}
 			SgtLogger.l("\n", "IL-Dump Finished");
 		}
+
+		public static bool GetLocIndexOfFirst<T>(MethodBase original, out int index)
+		{
+			index = -1;
+			var body = original.GetMethodBody();
+			if (body == null)
+				return false;
+			var locVars = body.LocalVariables;
+			foreach (var var in locVars)
+			{
+				if (var == null) continue;
+				if(var.LocalType == typeof(T))
+				{
+					index = var.LocalIndex;
+					return true;
+				}
+			}
+
+			return false;
+		}
 	}
 }

@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using UtilLibs;
 using UtilLibs.BuildingPortUtils;
+using UtilLibs.SharedTweaks;
 
 namespace RonivansLegacy_ChemicalProcessing
 {
@@ -40,11 +41,12 @@ namespace RonivansLegacy_ChemicalProcessing
 			BuildingDatabase.RegisterAdditionalBuildingElements();
 			AdditionalRecipes.RegisterTags();
 
-			SharedTweaks.ResearchNotificationMessageFix.ExecutePatch();
-			SharedTweaks.ResearchScreenCollapseEntries.ExecutePatch();
-			SharedTweaks.ElementConverterDescriptionImprovement.ExecutePatch();
-			SharedTweaks.ResearchScreenBetterConnectionLines.ExecutePatch();
-			SharedTweaks.DynamicMaterialSelectorHeaderHeight.ExecutePatch();
+			ResearchNotificationMessageFix.Register();
+			ResearchScreenCollapseEntries.Register();
+			ElementConverterDescriptionImprovement.Register();
+			ResearchScreenBetterConnectionLines.Register();
+			DynamicMaterialSelectorHeaderHeight.Register();
+			SelectedRecipeQueueScreenSizeFix.Register();
 		}
 		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
 		{

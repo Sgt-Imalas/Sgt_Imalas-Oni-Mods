@@ -176,6 +176,25 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabrica
 			selectable.ToggleStatusItem(NoInput, !inputConnected, StatusItemData);
 			hasPipeOutputGuid = selectable.ToggleStatusItem(NoOutput, hasPipeOutputGuid, !outputConnected, this);
 		}
+		public static float GetAmountAllowedForMerging(float maxMass , ConduitFlow.ConduitContents from, ConduitFlow.ConduitContents to, float massDesiredtoBeMoved)
+		{
+			return Mathf.Min(massDesiredtoBeMoved, maxMass - to.mass);
+		}
+		public static bool CanMergeContents(float maxMass, ConduitFlow.ConduitContents from, ConduitFlow.ConduitContents to, float massToMove)
+		{
+			if (from.element != to.element && to.element != SimHashes.Vacuum && massToMove > 0f)
+			{
+				return false;
+			}
+
+			float amountAllowedForMerging = GetAmountAllowedForMerging(maxMass, from, to, massToMove);
+			if (amountAllowedForMerging <= 0f)
+			{
+				return false;
+			}
+
+			return true;
+		}
 
 		///effectively isim200
 		private void Flow(float dt)
@@ -198,7 +217,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabrica
 			float maxOutput = Mathf.Min(inputContent.mass, maxCap * dt);
 
 			//bool pipeNotEmpty = maxOutput > 0f;
-			bool contentsCanFlow = flowManager.CanMergeContents(inputContent, outputContent, maxOutput);
+			bool contentsCanFlow = CanMergeContents(maxCap,inputContent, outputContent, maxOutput);
 
 			//this.operational.SetFlag(RequireInputs.pipesHaveMass, pipeNotEmpty);
 			//this.operational.SetFlag(RequireOutputs.pipesHaveRoomFlag, outputNotBlocked);
@@ -206,7 +225,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabrica
 				return;
 
 			///fallback check, runs alread in CanMergeContents
-			float allowedForMerging = flowManager.GetAmountAllowedForMerging(inputContent, outputContent, maxOutput);
+			float allowedForMerging = GetAmountAllowedForMerging(maxCap, inputContent, outputContent, maxOutput);
 			if (allowedForMerging <= 0.0)
 				return;
 			float outputTemperature = InjectAccumulatedHeatEnergy(inputContent, allowedForMerging, dt);

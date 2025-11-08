@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using static UnityEngine.UI.Image;
 
 namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 {
@@ -30,7 +31,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 			}
 
 
-			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig, MethodBase __originalMethod)
+			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig, MethodBase original)
 			{
 				var codes = orig.ToList();
 				MethodInfo dropExcessRailMaterialsAtCell = AccessTools.Method(typeof(SolidConduitFlow_Patches), nameof(DropExcessRailMaterialsAtCell));
@@ -41,6 +42,8 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 
 				var targetCellIndex = 4; //int cell = this.soaInfo.GetCell(conduitFromDirection1.idx); // cell iterator
 
+				if (TranspilerHelper.GetLocIndexOfFirst<ConduitFlow.Conduit>(original, out int conduitIndex))
+					targetCellIndex = conduitIndex + 1;
 
 				foreach (CodeInstruction ci in orig)
 				{
