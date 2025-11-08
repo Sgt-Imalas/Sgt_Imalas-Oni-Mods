@@ -1,0 +1,67 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#. UtilityGlass.STRINGS.BUILDINGS.PREFABS.UG_EXTERIORGLASSWALL.DESC
+msgctxt "UtilityGlass.STRINGS.BUILDINGS.PREFABS.UG_EXTERIORGLASSWALL.DESC"
+msgid ""
+"Drywall can be used in conjunction with tiles to build airtight rooms on the "
+"surface."
+msgstr ""
+"Оконную стену можно использовать в сочетании с клетками для создания "
+"герметичных комнат на поверхности."
+
+#. UtilityGlass.STRINGS.BUILDINGS.PREFABS.UG_EXTERIORGLASSWALL.EFFECT
+msgctxt "UtilityGlass.STRINGS.BUILDINGS.PREFABS.UG_EXTERIORGLASSWALL.EFFECT"
+msgid ""
+"Prevents <link=\"ELEMENTSGAS\">Gas</link> and "
+"<link=\"ELEMENTSLIQUID\">Liquid</link> loss in space.\n"
+"\n"
+"Builds an insulating backwall behind buildings."
+msgstr ""
+"Позволяет избежать потери <link=\"ELEMENTSGAS\">газов</link> и "
+"<link=\"ELEMENTSLIQUID\">жидкостей</link> в космосе.\n"
+"\n"
+"Даёт возвести герметичную стену позади задний."
+
+#. UtilityGlass.STRINGS.BUILDINGS.PREFABS.UG_EXTERIORGLASSWALL.NAME
+msgctxt "UtilityGlass.STRINGS.BUILDINGS.PREFABS.UG_EXTERIORGLASSWALL.NAME"
+msgid "<link=\"UGEXTERIORGLASSWALL\">Window Wall</link>"
+msgstr "<link=\"UGEXTERIORGLASSWALL\">Оконная стена</link>"
+
+#. UtilityGlass.STRINGS.BUILDINGS.PREFABS.UG_REINFORCEDGLASS.DESC
+msgctxt "UtilityGlass.STRINGS.BUILDINGS.PREFABS.UG_REINFORCEDGLASS.DESC"
+msgid "\"Transparent Aluminum\""
+msgstr "«Прозрачный алюминий»"
+
+#. UtilityGlass.STRINGS.BUILDINGS.PREFABS.UG_REINFORCEDGLASS.EFFECT
+msgctxt "UtilityGlass.STRINGS.BUILDINGS.PREFABS.UG_REINFORCEDGLASS.EFFECT"
+msgid ""
+"Used to build the walls and floors of rooms.\n"
+"\n"
+"Allows <link=\"LIGHT\">Light</link> and <link=\"DECOR\">Decor</link> to pass "
+"through.\n"
+"\n"
+"Can withstand extreme pressures and impacts."
+msgstr ""
+"Используется для постройки пола и стен в комнатах.\n"
+"\n"
+"Не мешает воздействию <link=\"LIGHT\">света</link> и <link=\"DECOR\">декора</"
+"link>.\n"
+"\n"
+"Выдерживает невероятно высокое давление и сильные удары."
+
+#. UtilityGlass.STRINGS.BUILDINGS.PREFABS.UG_REINFORCEDGLASS.NAME
+msgctxt "UtilityGlass.STRINGS.BUILDINGS.PREFABS.UG_REINFORCEDGLASS.NAME"
+msgid "<link=\"UGREINFORCEDGLASS\">Reinforced Window Tile</link>"
+msgstr "<link=\"UGREINFORCEDGLASS\">Армированная клетка окна</link>"

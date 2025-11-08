@@ -1,0 +1,38 @@
+shape: TallThin
+borders:
+  - 1
+  - 1
+
+blobSize:
+  min: 2
+  max: 2
+
+forceBiome: biomes/Ocean/Dry
+biomeTags:
+  - Pacu
+  - Crab
+  - SeaLettuceSeed
+  - SpiceVineSeed
+
+ElementChoiceGroups:
+  RoomCenterElements:
+    selectionMethod: WeightedResample
+    choices:
+      - element: CarbonDioxide
+        weight: 3
+        overrides:
+          massOverride: 1
+  RoomBorderChoices0:
+    selectionMethod: WeightedResample
+    choices:
+      - element: CarbonDioxide
+        weight: 2  
+      - element: AurichalciteOre
+        weight: 2  
+  RoomBorderChoices1:
+    selectionMethod: WeightedResample
+    choices:
+      - element: AurichalciteOre
+        weight: 2  
+      - element: SedimentaryRock
+        weight: 1  

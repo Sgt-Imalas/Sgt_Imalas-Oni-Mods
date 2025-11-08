@@ -1,0 +1,94 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: DarkEviL <darkevilx17@gmail.com>\n"
+"Language-Team: \n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.4.4\n"
+
+#. SkillingQueue.STRINGS.SKILLQUEUE.DEQUEUE
+msgctxt "SkillingQueue.STRINGS.SKILLQUEUE.DEQUEUE"
+msgid ""
+"Currently at position {0} in the skill queue.\n"
+"Hold <style=\"KKeyword\">{1}</style> and click to remove from the queue"
+msgstr ""
+"Находится на {0} позиции в очереди навыков.\n"
+"Удерживайте <style=\"KKeyword\">{1}</style> и нажмите, чтобы удалить из "
+"очереди"
+
+#. SkillingQueue.STRINGS.SKILLQUEUE.QUEUE
+msgctxt "SkillingQueue.STRINGS.SKILLQUEUE.QUEUE"
+msgid "Hold <style=\"KKeyword\">{0}</style> and click to add to skill queue"
+msgstr ""
+"Удерживайте <style=\"KKeyword\">{0}</style> и нажмите, чтобы добавить в "
+"очередь изучения навыков"
+
+#. SkillingQueue.STRINGS.SKILLQUEUE_CONFIG.NOTIFICATION_ON_QUEUE_COMPLETE.DESCRIPTION
+msgctxt ""
+"SkillingQueue.STRINGS.SKILLQUEUE_CONFIG.NOTIFICATION_ON_QUEUE_COMPLETE."
+"DESCRIPTION"
+msgid "Get a notification when a skill queue gets completed."
+msgstr "Отправлять уведомление, когда очередь навыков будет завершена."
+
+#. SkillingQueue.STRINGS.SKILLQUEUE_CONFIG.NOTIFICATION_ON_QUEUE_COMPLETE.NAME
+msgctxt ""
+"SkillingQueue.STRINGS.SKILLQUEUE_CONFIG.NOTIFICATION_ON_QUEUE_COMPLETE.NAME"
+msgid "Notify on skill queue completion"
+msgstr "Уведомлять о завершении очереди навыков"
+
+#. SkillingQueue.STRINGS.SKILLQUEUE_CONFIG.NOTIFICATION_ON_SKILL.DESCRIPTION
+msgctxt ""
+"SkillingQueue.STRINGS.SKILLQUEUE_CONFIG.NOTIFICATION_ON_SKILL.DESCRIPTION"
+msgid ""
+"Get a notification when a dupe learns a new skill through a skill queue."
+msgstr ""
+"Отправлять уведомление, когда дубликант изучает новый навык из очереди "
+"навыков."
+
+#. SkillingQueue.STRINGS.SKILLQUEUE_CONFIG.NOTIFICATION_ON_SKILL.NAME
+msgctxt "SkillingQueue.STRINGS.SKILLQUEUE_CONFIG.NOTIFICATION_ON_SKILL.NAME"
+msgid "Notify on Skill learned"
+msgstr "Уведомить об освоении навыка"
+
+#. SkillingQueue.STRINGS.SKILLQUEUE_CONFIG.RAINBOW_QUEUE.DESCRIPTION
+msgctxt "SkillingQueue.STRINGS.SKILLQUEUE_CONFIG.RAINBOW_QUEUE.DESCRIPTION"
+msgid ""
+"The queue position indicator numbers are tinted with rainbow progression for "
+"easier distinction."
+msgstr ""
+"Номера индикаторов положения в очереди окрашены в радужную прогрессию для "
+"облегчения различения."
+
+#. SkillingQueue.STRINGS.SKILLQUEUE_CONFIG.RAINBOW_QUEUE.NAME
+msgctxt "SkillingQueue.STRINGS.SKILLQUEUE_CONFIG.RAINBOW_QUEUE.NAME"
+msgid "Rainbow queue indicator"
+msgstr "Радужный индикатор очереди"
+
+#. SkillingQueue.STRINGS.SKILLQUEUE_STATUSITEMS.SQ_NEW_SKILL_LEARNED.DESCRIPTION
+msgctxt ""
+"SkillingQueue.STRINGS.SKILLQUEUE_STATUSITEMS.SQ_NEW_SKILL_LEARNED.DESCRIPTION"
+msgid "{0} has learned the skill {1}"
+msgstr "{0} освоил(а) навык {1}"
+
+#. SkillingQueue.STRINGS.SKILLQUEUE_STATUSITEMS.SQ_NEW_SKILL_LEARNED.NAME
+msgctxt ""
+"SkillingQueue.STRINGS.SKILLQUEUE_STATUSITEMS.SQ_NEW_SKILL_LEARNED.NAME"
+msgid "New Skill: {0}"
+msgstr "Новый навык: {0}"
+
+#. SkillingQueue.STRINGS.SKILLQUEUE_STATUSITEMS.SQ_QUEUE_COMPLETED.DESCRIPTION
+msgctxt ""
+"SkillingQueue.STRINGS.SKILLQUEUE_STATUSITEMS.SQ_QUEUE_COMPLETED.DESCRIPTION"
+msgid "{0} has learned all queued skills."
+msgstr "{0} изучил(а) все навыки, находящиеся в очереди."
+
+#. SkillingQueue.STRINGS.SKILLQUEUE_STATUSITEMS.SQ_QUEUE_COMPLETED.NAME
+msgctxt "SkillingQueue.STRINGS.SKILLQUEUE_STATUSITEMS.SQ_QUEUE_COMPLETED.NAME"
+msgid "{0}: Skillqueue completed"
+msgstr "{0}: очередь навыков завершена"

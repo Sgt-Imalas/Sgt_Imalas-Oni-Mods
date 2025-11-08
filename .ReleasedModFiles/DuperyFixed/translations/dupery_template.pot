@@ -1,0 +1,20 @@
+msgid ""
+msgstr ""
+"Application: Oxygen Not Included"
+"POT Version: 2.0"
+
+#. Dupery.STRINGS.MISSING_DUPLICANT_DESCRIPTION
+msgctxt "Dupery.STRINGS.MISSING_DUPLICANT_DESCRIPTION"
+msgid "An unknown {0}."
+msgstr ""
+
+#. Dupery.STRINGS.MISSING_DUPLICANT_NAME
+msgctxt "Dupery.STRINGS.MISSING_DUPLICANT_NAME"
+msgid "The Nameless One"
+msgstr ""
+
+#. Dupery.STRINGS.RANDOM_DUPLICANT_DESCRIPTION
+msgctxt "Dupery.STRINGS.RANDOM_DUPLICANT_DESCRIPTION"
+msgid "{0} is a peculiar specimen. The Printing Pod must have been out of ideas."
+msgstr ""
+

@@ -1,0 +1,24 @@
+shape: ShortWide
+borders:
+  - 1
+blobSize:
+  min: 4.5
+  max: 6.5
+ElementChoiceGroups:
+  RoomCenterElements:
+    selectionMethod: WeightedResample
+    choices:
+      - element: AurichalciteOre
+        weight: 0.66
+      - element: Oxygen
+        weight: 0.2
+  RoomBorderChoices0:
+    selectionMethod: WeightedResample
+    choices:
+      - element: Sand
+        weight: 0.5
+      - element: AmmoniumSalt
+        weight: 0.3
+        overrides:
+          massOverride: 88  
+

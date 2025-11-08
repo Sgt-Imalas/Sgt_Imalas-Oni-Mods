@@ -1,0 +1,156 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: DarkEviL <darkevilx17@gmail.com>\n"
+"Language-Team: \n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.4.4\n"
+
+#. Radiator_Mod.STRINGS.BUILDING.STATUSITEMS.RM_BUNKERDOWN.NAME
+msgctxt "Radiator_Mod.STRINGS.BUILDING.STATUSITEMS.RM_BUNKERDOWN.NAME"
+msgid "Bunkered down"
+msgstr "Находится в бункере"
+
+#. Radiator_Mod.STRINGS.BUILDING.STATUSITEMS.RM_BUNKERDOWN.TOOLTIP
+msgctxt "Radiator_Mod.STRINGS.BUILDING.STATUSITEMS.RM_BUNKERDOWN.TOOLTIP"
+msgid "This radiator is currently protected from meteor impacts."
+msgstr "Этот радиатор в настоящее время защищён от ударов метеоритов."
+
+#. Radiator_Mod.STRINGS.BUILDING.STATUSITEMS.RM_INSPACERADIATING.NAME
+msgctxt "Radiator_Mod.STRINGS.BUILDING.STATUSITEMS.RM_INSPACERADIATING.NAME"
+msgid "Radiating {0}"
+msgstr "Излучает {0}"
+
+#. Radiator_Mod.STRINGS.BUILDING.STATUSITEMS.RM_INSPACERADIATING.TOOLTIP
+msgctxt "Radiator_Mod.STRINGS.BUILDING.STATUSITEMS.RM_INSPACERADIATING.TOOLTIP"
+msgid ""
+"This radiator is currently radiating heat at {0} with {AREAPERCENTAGE}% of "
+"its area."
+msgstr ""
+"Излучение тепла: {0}\n"
+"Площадь:{AREAPERCENTAGE}%"
+
+#. Radiator_Mod.STRINGS.BUILDING.STATUSITEMS.RM_NOTINSPACE.NAME
+msgctxt "Radiator_Mod.STRINGS.BUILDING.STATUSITEMS.RM_NOTINSPACE.NAME"
+msgid "Not in space"
+msgstr "Не в космосе"
+
+#. Radiator_Mod.STRINGS.BUILDING.STATUSITEMS.RM_NOTINSPACE.TOOLTIP
+msgctxt "Radiator_Mod.STRINGS.BUILDING.STATUSITEMS.RM_NOTINSPACE.TOOLTIP"
+msgid ""
+"This radiators panels are not exposed to space, thus it won't radiate any "
+"heat away."
+msgstr ""
+"Панели этого радиатора находятся в космосе не полностью, поэтому он не будет "
+"излучать тепло в космос."
+
+#. Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RADIATORBASE.DESC
+msgctxt "Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RADIATORBASE.DESC"
+msgid "Radiates off heat energy into space as infrared radiation."
+msgstr ""
+"Излучает тепловую энергию в пространство в виде инфракрасного излучения."
+
+#. Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RADIATORBASE.EFFECT
+msgctxt "Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RADIATORBASE.EFFECT"
+msgid ""
+"Exchanges heat with the liquid pumped through it.\n"
+"\n"
+"If in space, radiates off infrared energy based off the Stefan–Boltzmann law."
+msgstr ""
+"Обменивается теплом с перекачиваемой через него жидкостью.\n"
+"\n"
+"Если он находится в космосе, то излучает инфракрасную энергию на основе "
+"закона Стефана-Больцмана."
+
+#. Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RADIATORBASE.NAME
+msgctxt "Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RADIATORBASE.NAME"
+msgid "Space Radiator"
+msgstr "Космический радиатор"
+
+#. Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RADIATORUPDATED.DESC
+msgctxt "Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RADIATORUPDATED.DESC"
+msgid "Radiates off heat energy into space as infrared radiation."
+msgstr ""
+"Излучает тепловую энергию в пространство в виде инфракрасного излучения."
+
+#. Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RADIATORUPDATED.EFFECT
+msgctxt "Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RADIATORUPDATED.EFFECT"
+msgid ""
+"Exchanges heat with the liquid pumped through it.\n"
+"\n"
+"If in space, radiates off infrared energy based off the Stefan–Boltzmann law."
+msgstr ""
+"Обменивается теплом с перекачиваемой через него жидкостью.\n"
+"\n"
+"Если он находится в космосе, то излучает инфракрасную энергию на основе "
+"закона Стефана-Больцмана."
+
+#. Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RADIATORUPDATED.NAME
+msgctxt "Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RADIATORUPDATED.NAME"
+msgid "Space Radiator"
+msgstr "Космический радиатор"
+
+#. Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RM_RADIATORROCKETWALLBUILDABLE.DESC
+msgctxt ""
+"Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RM_RADIATORROCKETWALLBUILDABLE.DESC"
+msgid "Radiates off heat energy into space as infrared radiation."
+msgstr ""
+"Излучает тепловую энергию в пространство в виде инфракрасного излучения."
+
+#. Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RM_RADIATORROCKETWALLBUILDABLE.EFFECT
+msgctxt ""
+"Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RM_RADIATORROCKETWALLBUILDABLE.EFFECT"
+msgid ""
+"Exchanges heat with the liquid pumped through it.\n"
+"\n"
+"If in space, radiates off infrared energy based off the Stefan–Boltzmann "
+"law.\n"
+"\n"
+"Has to be attached to the rocket interior wall."
+msgstr ""
+"Обменивается теплом с перекачиваемой через него жидкостью.\n"
+"\n"
+"Если он находится в космосе, то излучает инфракрасную энергию по закону "
+"Стефана-Больцмана.\n"
+"\n"
+"Должен быть прикреплен к внутренней стенке ракеты."
+
+#. Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RM_RADIATORROCKETWALLBUILDABLE.NAME
+msgctxt ""
+"Radiator_Mod.STRINGS.BUILDINGS.PREFABS.RM_RADIATORROCKETWALLBUILDABLE.NAME"
+msgid "Space Radiator (Rocket)"
+msgstr "Космический радиатор для ракеты"
+
+#. Radiator_Mod.STRINGS.MODCONFIG.DELETIONMULTIPLIER.NAME
+msgctxt "Radiator_Mod.STRINGS.MODCONFIG.DELETIONMULTIPLIER.NAME"
+msgid "Radiation Multiplier"
+msgstr "Множитель излучения"
+
+#. Radiator_Mod.STRINGS.MODCONFIG.DELETIONMULTIPLIER.TOOLTIP
+msgctxt "Radiator_Mod.STRINGS.MODCONFIG.DELETIONMULTIPLIER.TOOLTIP"
+msgid ""
+"Set a custom multiplier that affects the radiation rate.\n"
+"1 is the scientificially most accurate value."
+msgstr ""
+"Установить пользовательский множитель, влияющий на скорость излучения.\n"
+"1 - наиболее точное с научной точки зрения значение."
+
+#. Radiator_Mod.STRINGS.MODCONFIG.OLDFORMULA.NAME
+msgctxt "Radiator_Mod.STRINGS.MODCONFIG.OLDFORMULA.NAME"
+msgid "Old Functionality (v2.2.1 and earlier)"
+msgstr "Старый функционал (v2.2.1 и более ранние версии)"
+
+#. Radiator_Mod.STRINGS.MODCONFIG.OLDFORMULA.TOOLTIP
+msgctxt "Radiator_Mod.STRINGS.MODCONFIG.OLDFORMULA.TOOLTIP"
+msgid ""
+"restore the old deletion method that made the radiator up to 5x as powerful "
+"as intended for low shc materials"
+msgstr ""
+"Восстановить старый метод удаления, который делал радиатор в 5 раз мощнее, "
+"чем предполагалось, для материалов с низкой теплопроводностью"

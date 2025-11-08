@@ -1,0 +1,1283 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: DarkEviL <darkevilx17@gmail.com>\n"
+"Language-Team: \n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.6\n"
+
+#. SetStartDupes.STRINGS.BIONIC_STRESS_HARDWIRED
+msgctxt "SetStartDupes.STRINGS.BIONIC_STRESS_HARDWIRED"
+msgid ""
+"Бионические дубликанты имеют встроенную реакцию на стресс, поскольку они в большинстве случаев несовместимы с нормальными реакциями на стресс"
+msgstr ""
+"Бионические дубликанты имеют встроенную реакцию на стресс, поскольку они в большинстве случаев несовместимы с нормальными реакциями на стресс"
+
+#. SetStartDupes.STRINGS.EXCLUSIVITY_RULE_CONFLICTING
+msgctxt "SetStartDupes.STRINGS.EXCLUSIVITY_RULE_CONFLICTING"
+msgid ""
+"Обнаружена взаимоисключаемость:\n"
+"При использовании правил генерации игры\n"
+"это не было бы добавлено, так как является взаимоисключающим с:"
+msgstr ""
+"Обнаружена взаимоисключаемость:\n"
+"При использовании правил генерации игры\n"
+"это не было бы добавлено, так как является взаимоисключающим с:"
+
+#. SetStartDupes.STRINGS.MISSINGSKILLGROUP
+msgctxt "SetStartDupes.STRINGS.MISSINGSKILLGROUP"
+msgid "Навык отсутствует!"
+msgstr "Навык отсутствует!"
+
+#. SetStartDupes.STRINGS.MISSINGSKILLGROUPDESC
+msgctxt "SetStartDupes.STRINGS.MISSINGSKILLGROUPDESC"
+msgid "Этот навык не найден: {0}"
+msgstr "Этот навык не найден: {0}"
+
+#. SetStartDupes.STRINGS.MISSINGTRAIT
+msgctxt "SetStartDupes.STRINGS.MISSINGTRAIT"
+msgid "Черта отсутствует!"
+msgstr "Черта отсутствует!"
+
+#. SetStartDupes.STRINGS.MISSINGTRAITDESC
+msgctxt "SetStartDupes.STRINGS.MISSINGTRAITDESC"
+msgid "Эта черта не может быть найдена: {0}"
+msgstr "Эта черта не может быть найдена: {0}"
+
+#. SetStartDupes.STRINGS.UI.BUTTONS.ADDTOSTATS
+msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.ADDTOSTATS"
+msgid "Добавить"
+msgstr "Добавить"
+
+#. SetStartDupes.STRINGS.UI.BUTTONS.APPLYSKIN
+msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.APPLYSKIN"
+msgid "Применить эту личность"
+msgstr "Применить эту личность"
+
+#. SetStartDupes.STRINGS.UI.BUTTONS.CYCLENEXT
+msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.CYCLENEXT"
+msgid "Цикл к следующему"
+msgstr "Цикл к следующему"
+
+#. SetStartDupes.STRINGS.UI.BUTTONS.CYCLEPREV
+msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.CYCLEPREV"
+msgid "Цикл к предыдущему"
+msgstr "Цикл к предыдущему"
+
+#. SetStartDupes.STRINGS.UI.BUTTONS.DUPELICITYEDITINGBUTTONTOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.DUPELICITYEDITINGBUTTONTOOLTIP"
+msgid "Редактировать дубликантов"
+msgstr "Редактировать дубликантов"
+
+#. SetStartDupes.STRINGS.UI.BUTTONS.DUPESKINBUTTONTOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.DUPESKINBUTTONTOOLTIP"
+msgid "Выбрать личность дубликанта (скин)"
+msgstr "Выбрать личность дубликанта (скин)"
+
+#. SetStartDupes.STRINGS.UI.BUTTONS.MODIFYBUTTONTOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.MODIFYBUTTONTOOLTIP"
+msgid "Изменить характеристики дубликанта"
+msgstr "Изменить характеристики дубликанта"
+
+#. SetStartDupes.STRINGS.UI.BUTTONS.MODIFYBUTTONTOOLTIP2
+msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.MODIFYBUTTONTOOLTIP2"
+msgid "Применить изменения характеристик"
+msgstr "Применить изменения характеристик"
+
+#. SetStartDupes.STRINGS.UI.BUTTONS.PRESETWINDOWBUTTONTOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.PRESETWINDOWBUTTONTOOLTIP"
+msgid ""
+"Открыть окно пресетов дубликантов.\n"
+"Чтобы создать пресет на основе статистики дубликатов,\n"
+"нажмите кнопку \"Создать перест\" в окне пресетов."
+msgstr ""
+"Открыть окно пресетов дубликантов.\n"
+"Чтобы создать пресет на основе статистики дубликатов,\n"
+"нажмите кнопку \"Создать перест\" в окне пресетов."
+
+#. SetStartDupes.STRINGS.UI.BUTTONS.REMOVEFROMSTATS
+msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.REMOVEFROMSTATS"
+msgid "Удалить"
+msgstr "Удалить"
+
+#. SetStartDupes.STRINGS.UI.BUTTONS.REROLLCAREPACKAGE
+msgctxt "SetStartDupes.STRINGS.UI.BUTTONS.REROLLCAREPACKAGE"
+msgid "Переделать для получения другой посылки"
+msgstr "Переделать для получения другой посылки"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.BUTTONS.CLOSEBUTTON.TEXT
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.BUTTONS.CLOSEBUTTON.TEXT"
+msgid "Return"
+msgstr "Закрыть"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.BUTTONS.CLOSEBUTTON.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.BUTTONS.CLOSEBUTTON.TOOLTIP"
+msgid "Close window"
+msgstr "Закрыть окно"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.BUTTONS.RESETBUTTON.TEXT
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.BUTTONS.RESETBUTTON.TEXT"
+msgid "Reset All Changes"
+msgstr "Сбросить все изменения"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.BUTTONS.RESETBUTTON.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.BUTTONS.RESETBUTTON.TOOLTIP"
+msgid "Reset all changes you have made to the care package selection"
+msgstr "Сбросить все изменения, внесённые вами в выбор посылок"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.CREATECAREPACKAGEPOPUP.INVALIDID
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.CREATECAREPACKAGEPOPUP.INVALIDID"
+msgid ""
+"Could not create new care package!\n"
+"\n"
+"There is no item with the Id or name \"{0}\""
+msgstr ""
+"Не удалось создать новую посылку!\n"
+"\n"
+"Нет предмета с идентификатором или названием \"{0}\""
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.CREATECAREPACKAGEPOPUP.SUCCESS
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.CREATECAREPACKAGEPOPUP.SUCCESS"
+msgid "Successfully created a new care package with {0}"
+msgstr "Успешно создана новая посылка с {0}"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.CREATECAREPACKAGEPOPUP.TITLE
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.CREATECAREPACKAGEPOPUP.TITLE"
+msgid "Care Package Creation"
+msgstr "Создание посылок"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.AMOUNTINPUT.LABEL
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.AMOUNTINPUT.LABEL"
+msgid "Amount:"
+msgstr "Количество:"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.ITEMDISCOVERED.LABEL
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.ITEMDISCOVERED.LABEL"
+msgid "Item Discovered"
+msgstr "Обнаруженный предмет"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.REQUIREDDLCS.LABEL
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.REQUIREDDLCS.LABEL"
+msgid "Required Dlcs:"
+msgstr "Требуемые дополнения:"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.UNLOCKATCYCLE.LABEL
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.UNLOCKATCYCLE.LABEL"
+msgid "Unlocked at cycle:"
+msgstr "Разблокировано на цикле:"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.UNLOCKCONDITIONSLABEL
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.UNLOCKCONDITIONSLABEL"
+msgid "Conditions required to unlock:"
+msgstr "Условия, необходимые для разблокировки:"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.ADDCAREPACKAGEBTN.TEXT
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.ADDCAREPACKAGEBTN.TEXT"
+msgid "Add new custom care package"
+msgstr "Добавить новую посылку"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.ADDCAREPACKAGEBTN.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.ADDCAREPACKAGEBTN.TOOLTIP"
+msgid ""
+"Add a new custom care package.\n"
+"Enter the id of the item you want to add in the text field above."
+msgstr ""
+"Добавить новую пользовательскую посылку.\n"
+"Введите идентификатор предмета, который вы хотите добавить, в текстовое поле выше."
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.CAREPACKAGEITEMID.TEXTAREA.PLACEHOLDER
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.CAREPACKAGEITEMID.TEXTAREA.PLACEHOLDER"
+msgid "insert new care package item Id or Name (experimental)..."
+msgstr "ID или название предмета посылки (экспериментально)"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.CAREPACKAGEITEMID.TEXTAREA.TEXT
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.CAREPACKAGEITEMID.TEXTAREA.TEXT"
+msgid ""
+msgstr ""
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.NONEAVAILABLE.LABEL
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.NONEAVAILABLE.LABEL"
+msgid "No custom care packages yet"
+msgstr "Нет пользовательских посылок"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.DELETE_CARE_PACKAGE_TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.DELETE_CARE_PACKAGE_TOOLTIP"
+msgid "Delete Care Package"
+msgstr "Удалить посылку"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.SEARCHBAR.CLEARTOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.SEARCHBAR.CLEARTOOLTIP"
+msgid "Clear search bar"
+msgstr "Очистить строку поиска"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.SEARCHBAR.INPUT.TEXTAREA.PLACEHOLDER
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.SEARCHBAR.INPUT.TEXTAREA.PLACEHOLDER"
+msgid "Filter care packages..."
+msgstr "Фильтрация посылок..."
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.SEARCHBAR.INPUT.TEXTAREA.TEXT
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.SEARCHBAR.INPUT.TEXTAREA.TEXT"
+msgid ""
+msgstr ""
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.SHOWVANILLA.LABEL
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.SHOWVANILLA.LABEL"
+msgid "Show Vanilla Care Packages:"
+msgstr "Показать внутриигровые посылки:"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.SHOWVANILLA.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.HORIZONTALLAYOUT.OBJECTLIST.SHOWVANILLA.TOOLTIP"
+msgid ""
+"Also show vanilla care packages in the list.\n"
+"Note that these cannot be modified."
+msgstr ""
+"Также показать внутриигровые посылки в списке.\n"
+"Обратите внимание, что их нельзя изменить."
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.RESETALLPACKAGES.TEXT
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.RESETALLPACKAGES.TEXT"
+msgid "Are you sure you want to reset all modifications you have done to the care package selection?"
+msgstr "Вы уверены, что хотите сбросить все изменения, внесённые вами в набор посылок?"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.RESETALLPACKAGES.TITLE
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.RESETALLPACKAGES.TITLE"
+msgid "Reset Care Packages"
+msgstr "Сбросить посылки"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.TITLE
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.TITLE"
+msgid "Care Package Editor"
+msgstr "Редактор посылок"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNKNOWN_ITEM_TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNKNOWN_ITEM_TOOLTIP"
+msgid "The item of this care package could not be found in the current game version."
+msgstr "Предмет этой посылки не удалось найти в текущей версии игры."
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.ALWAYSAVAILABLE
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.ALWAYSAVAILABLE"
+msgid "This care package is always unlocked"
+msgstr "Эта посылка всегда разблокирована"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.AND
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.AND"
+msgid "AND"
+msgstr "И"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.CYCLETHRESHOLD
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.CYCLETHRESHOLD"
+msgid "Cycle {0} has been reached"
+msgstr "Цикл {0} достигнут"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.DISCOVERY
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.DISCOVERY"
+msgid "{0} has been discovered"
+msgstr "{0} было обнаружено"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.OR
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.OR"
+msgid "OR"
+msgstr "ИЛИ"
+
+#. SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.START
+msgctxt "SetStartDupes.STRINGS.UI.CAREPACKAGEEDITOR.UNLOCKCONDITIONTOOLTIPS.START"
+msgid "This care package unlocks after:"
+msgstr "Эта посылка разблокируется после:"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.ADDANDREMOVE.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.ADDANDREMOVE.NAME"
+msgid "Добавить/удалить интересы и черты"
+msgstr "Добавить/удалить интересы и черты"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.ADDANDREMOVE.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.ADDANDREMOVE.TOOLTIP"
+msgid ""
+"Позволяет добавлять новые или удалять существующие черты и интересы у дубликантов.\n"
+"При чрезмерном использовании может оказаться слишком мощным."
+msgstr ""
+"Позволяет добавлять новые или удалять существующие черты и интересы у дубликантов.\n"
+"При чрезмерном использовании может оказаться слишком мощным."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.ADDVACCILATORTRAITS.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.ADDVACCILATORTRAITS.NAME"
+msgid "Черты из нейронного калибратора"
+msgstr "Черты из нейронного калибратора"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.ADDVACCILATORTRAITS.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.ADDVACCILATORTRAITS.TOOLTIP"
+msgid "Позволяет добавлять черты из нейронного калибратора с помощью функции \"Добавить\"."
+msgstr "Позволяет добавлять черты из нейронного калибратора с помощью функции \"Добавить\"."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGEEDITOR.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGEEDITOR.NAME"
+msgid "Open Care Package Editor"
+msgstr "Открыть редактор посылок"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGEEDITOR.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGEEDITOR.TOOLTIP"
+msgid "View and modify the different additional care packages or create new ones."
+msgstr "Просмотр и изменение различных дополнительных посылок или создание новых."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGEMULTIPLIER.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGEMULTIPLIER.NAME"
+msgid "Care Package Multiplier"
+msgstr "Множитель посылок"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGEMULTIPLIER.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGEMULTIPLIER.TOOLTIP"
+msgid ""
+"Global multiplier for the amount of item amount inside of care packages.\n"
+"Default is 1."
+msgstr ""
+"Глобальный множитель для количества предметов внутри посылок.\n"
+"По умолчанию 1."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.NAME"
+msgid "Печатать только посылки"
+msgstr "Печатать только посылки"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLY.TOOLTIP"
+msgid ""
+"Если эта опция включена, то печатный станок будет выдавать посылки только в том случае, если в живых осталось больше, чем заданное количество "
+"дубликатов.\n"
+"Переопределяет конфигурацию посылок в сохраненной игре (настройки сложности посылок игнорируются)."
+msgstr ""
+"Если эта опция включена, то печатный станок будет выдавать посылки только в том случае, если в живых осталось больше, чем заданное количество "
+"дубликатов.\n"
+"Переопределяет конфигурацию посылок в сохраненной игре (настройки сложности посылок игнорируются)."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLYDUPECAP.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLYDUPECAP.NAME"
+msgid "Порог дубликантов для \"Печатать только посылки\""
+msgstr "Порог дубликантов для \"Печатать только посылки\""
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLYDUPECAP.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLYDUPECAP.TOOLTIP"
+msgid ""
+"Действует только в том случае, если включён параметр \"Печатать только посылки\".\n"
+"При превышении этого количества дубликантов принтер будет выдавать только посылки."
+msgstr ""
+"Действует только в том случае, если включён параметр \"Печатать только посылки\".\n"
+"При превышении этого количества дубликантов принтер будет выдавать только посылки."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLYPACKAGECAP.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLYPACKAGECAP.NAME"
+msgid "Количество посылок только для \"Печатать только посылки\""
+msgstr "Количество посылок только для \"Печатать только посылки\""
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLYPACKAGECAP.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CAREPACKAGESONLYPACKAGECAP.TOOLTIP"
+msgid ""
+"Имеет эффект только в том случае, если включена опция \"Печатать только посылки\".\n"
+"Установка количества посылок, которые будут генерироваться, когда действует ограничение"
+msgstr ""
+"Имеет эффект только в том случае, если включена опция \"Печатать только посылки\".\n"
+"Установка количества посылок, которые будут генерироваться, когда действует ограничение"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CATEGORIES.A_GAMESTART
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CATEGORIES.A_GAMESTART"
+msgid "Опции для начала игры"
+msgstr "Опции для начала игры"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CATEGORIES.B_PRINTINGPOD"
+msgid "Опции для печатного станка"
+msgstr "Опции для печатного станка"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS"
+msgid "Опции для характеристик и интересов"
+msgstr "Опции для характеристик и интересов"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CATEGORIES.D_SKINSETTINGS
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CATEGORIES.D_SKINSETTINGS"
+msgid "Опции скинов"
+msgstr "Опции скинов"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.CATEGORIES.E_UTIL
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.CATEGORIES.E_UTIL"
+msgid "Дополнительные настройки"
+msgstr "Дополнительные настройки"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.DIRECTATTRIBUTEEDITING.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.DIRECTATTRIBUTEEDITING.NAME"
+msgid "Direct Attribute Editing"
+msgstr "Редактирование атрибутов"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.DIRECTATTRIBUTEEDITING.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.DIRECTATTRIBUTEEDITING.TOOLTIP"
+msgid ""
+"Allows to directly edit the starting attributes of duplicants.\n"
+"Can be overpowered."
+msgstr ""
+"Позволяет редактировать начальные атрибуты дубликантов.\n"
+"Может быть чрезмерно мощным."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.DUPLICANTSTARTAMOUNT.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.DUPLICANTSTARTAMOUNT.NAME"
+msgid "Количество начальных дубликантов"
+msgstr "Количество начальных дубликантов"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.DUPLICANTSTARTAMOUNT.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.DUPLICANTSTARTAMOUNT.TOOLTIP"
+msgid "Выберите количество дубликантов, с которым вы хотите начать игру."
+msgstr "Выберите количество дубликантов, с которым вы хотите начать игру."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.FORCEPRINTINGMODEL.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.FORCEPRINTINGMODEL.NAME"
+msgid "Print only specific duplicant models"
+msgstr "Печатать только определённые модели дубликантов"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.FORCEPRINTINGMODEL.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.FORCEPRINTINGMODEL.TOOLTIP"
+msgid "Force the printing pod to only produce duplicants of the selected model"
+msgstr "Заставляет печатающий станок производить дубликантов только выбранной модели"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.HERMITSKIN.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.HERMITSKIN.NAME"
+msgid "Скин отшельника"
+msgstr "Скин отшельника"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.HERMITSKIN.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.HERMITSKIN.TOOLTIP"
+msgid ""
+"Добавляет отшельника в список выбираемых скинов.\n"
+"после того, как сюжетная линия будет пройдена хотя бы один раз в любой сохранённой игре."
+msgstr ""
+"Добавляет отшельника в список выбираемых скинов после того, как\n"
+"сюжетная линия будет пройдена хотя бы один раз в любой сохранённой игре."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.INTERESTPOINTSBALANCING.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.INTERESTPOINTSBALANCING.NAME"
+msgid "Балансировка очков интересов"
+msgstr "Балансировка очков интересов"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.INTERESTPOINTSBALANCING.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.INTERESTPOINTSBALANCING.TOOLTIP"
+msgid ""
+"Использовать ванильный бонус очков интереса для активных интересов, определяемый активными характеристиками.\n"
+"Отключить, чтобы отменить ограничение по очкам."
+msgstr ""
+"Использовать базовый бонус очков интереса для активных интересов, определяемый активными характеристиками.\n"
+"Отключить, чтобы отменить ограничение по очкам."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.LIVEDUPESKINCHANGE.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.LIVEDUPESKINCHANGE.NAME"
+msgid "Скин дубликанта"
+msgstr "Скин дубликанта"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.LIVEDUPESKINCHANGE.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.LIVEDUPESKINCHANGE.TOOLTIP"
+msgid "Изменить скин уже существующего дубликанта"
+msgstr "Изменить скин уже существующего дубликанта"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.LIVEDUPESTATCHANGE.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.LIVEDUPESTATCHANGE.NAME"
+msgid "Включить редактор дубликантов в стиле Duplicity"
+msgstr "Включить редактор дубликантов в стиле Duplicity"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.LIVEDUPESTATCHANGE.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.LIVEDUPESTATCHANGE.TOOLTIP"
+msgid "Редактируйте своих активных дубликантов в новом редакторе, похожем на редактор сохраненных игр Duplicity"
+msgstr "Редактируйте своих активных дубликантов в новом редакторе, похожем на редактор сохраненных игр Duplicity"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME_MINIONS.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME_MINIONS.NAME"
+msgid "Модификация дубликантов"
+msgstr "Модификация дубликантов"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME_MINIONS.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.MODIFYDURINGGAME_MINIONS.TOOLTIP"
+msgid ""
+"Включите эту опцию, чтобы добавить кнопку \"Изменить\" для дублей из печатного станка.\n"
+"Если эта функция отключена, кнопка появляется только при выборе стартовых дубликантов.\n"
+"Это также позволяет использовать предварительные настройки."
+msgstr ""
+"Включите эту опцию, чтобы добавить кнопку \"Изменить\" для дублей из печатного станка.\n"
+"Если эта функция отключена, кнопка появляется только при выборе стартовых дубликантов.\n"
+"Это также позволяет использовать предварительные настройки."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.MORECAREPACKAGES.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.MORECAREPACKAGES.NAME"
+msgid "Дополнительные типы посылок"
+msgstr "Дополнительные типы посылок"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.MORECAREPACKAGES.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.MORECAREPACKAGES.TOOLTIP"
+msgid "Добавляет в список посылок ряд предметов, которые иначе было бы невозможно получить."
+msgstr "Добавляет в список посылок ряд предметов, которые иначе было бы невозможно получить."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.MYSTERIOUSMINIONMODE.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.MYSTERIOUSMINIONMODE.NAME"
+msgid "Режим таинственного миньона"
+msgstr "Режим таинственного миньона"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.MYSTERIOUSMINIONMODE.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.MYSTERIOUSMINIONMODE.TOOLTIP"
+msgid "Все интересы и черты характера скрыты до печати"
+msgstr "Все интересы и черты характера скрыты до печати"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.NEWGAMEPLUS.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.NEWGAMEPLUS.NAME"
+msgid "Новая Игра+"
+msgstr "Новая Игра+"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.NEWGAMEPLUS.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.NEWGAMEPLUS.TOOLTIP"
+msgid "Начните игру с дубликантами, которых вы отправили через разрыв в предыдущих прохождениях."
+msgstr "Начните игру с дубликантами, которых вы отправили через разрыв в предыдущих прохождениях."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.NOJOYREACTION.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.NOJOYREACTION.NAME"
+msgid "Отключить сверхрадостные отклики"
+msgstr "Отключить сверхрадостные отклики"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.NOJOYREACTION.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.NOJOYREACTION.TOOLTIP"
+msgid "Отключает сверхрадостные отклики у вновь созданных дубликантов"
+msgstr "Отключает сверхрадостные отклики у вновь созданных дубликантов"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.NORMALTRAITSONBIONICS.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.NORMALTRAITSONBIONICS.NAME"
+msgid "Allow normal traits on Bionic Duplicants"
+msgstr "Разрешить обычные черты у бионических дубликантов"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.NORMALTRAITSONBIONICS.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.NORMALTRAITSONBIONICS.TOOLTIP"
+msgid "When active, allows adding regular traits to bionic duplicants."
+msgstr "Если включено, то позволяет добавлять обычные черты бионическим дубликантам."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.NOSTRESSREACTION.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.NOSTRESSREACTION.NAME"
+msgid "Отключить реакции на стресс"
+msgstr "Отключить реакции на стресс"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.NOSTRESSREACTION.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.NOSTRESSREACTION.TOOLTIP"
+msgid "Отключает реакции на стресс у вновь созданных дубликантов"
+msgstr "Отключает реакции на стресс у вновь созданных дубликантов"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.OVERRIDEPRINTERCAREPACKAGECOUNT.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.OVERRIDEPRINTERCAREPACKAGECOUNT.NAME"
+msgid "Override printing pod care package count"
+msgstr "Количество посылок"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.OVERRIDEPRINTERCAREPACKAGECOUNT.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.OVERRIDEPRINTERCAREPACKAGECOUNT.TOOLTIP"
+msgid ""
+"Override the number of care packages offered in the printing pod.\n"
+"A value of 0 or lower disables this feature.\n"
+"Disabling care packages in the difficulty settings disables this feature.\n"
+"No effect if care packages only mode is active."
+msgstr ""
+"Задаёт количество посылок, предлагаемых в печатном станке.\n"
+"Значение 0 или меньше отключает эту функцию.\n"
+"Отключение посылок в настройках сложности отключает эту функцию.\n"
+"Не действует, если включен режим \"Только посылки\"."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.OVERRIDEPRINTERDUPECOUNT.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.OVERRIDEPRINTERDUPECOUNT.NAME"
+msgid "Override printing pod dupe count"
+msgstr "Количество дубликантов"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.OVERRIDEPRINTERDUPECOUNT.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.OVERRIDEPRINTERDUPECOUNT.TOOLTIP"
+msgid ""
+"Override the number of duplicants offered in the printing pod.\n"
+"A value of 0 or lower disables this feature."
+msgstr ""
+"Задаёт количество дубликатов, предлагаемых в печатном станке.\n"
+"Значение 0 или меньше отключает эту функцию."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.PAUSEONREADYTOPRING.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.PAUSEONREADYTOPRING.NAME"
+msgid "Пауза при \"готово к печати\""
+msgstr "Пауза при \"готово к печати\""
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.PAUSEONREADYTOPRING.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.PAUSEONREADYTOPRING.TOOLTIP"
+msgid "Приостановить игру, когда печатный станок перезарядится для новой печати"
+msgstr "Приостановить игру, когда печатный станок перезарядится для новой печати"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.PRINTINGPODRECHARGETIME.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.PRINTINGPODRECHARGETIME.NAME"
+msgid "Время перезарядки печатного станка"
+msgstr "Время перезарядки печатного станка"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.PRINTINGPODRECHARGETIME.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.PRINTINGPODRECHARGETIME.TOOLTIP"
+msgid ""
+"Время перезарядки печатного станка для следующей печати в циклах.\n"
+"По умолчанию - 3 цикла."
+msgstr ""
+"Время перезарядки печатного станка для следующей печати в циклах.\n"
+"По умолчанию - 3 цикла."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.PRINTINGPODRECHARGETIMEFIRST.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.PRINTINGPODRECHARGETIMEFIRST.NAME"
+msgid "Время до первой печати"
+msgstr "Время до первой печати"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.PRINTINGPODRECHARGETIMEFIRST.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.PRINTINGPODRECHARGETIMEFIRST.TOOLTIP"
+msgid ""
+"Время после того, как печатный станок предложит первую печать, в циклах.\n"
+"По умолчанию - 2,5 цикла."
+msgstr ""
+"Время после того, как печатный станок предложит первую печать, в циклах.\n"
+"По умолчанию - 2,5 цикла."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLCRYOPODANDJORGE.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLCRYOPODANDJORGE.NAME"
+msgid "Модификация Отшельник/Криокапсула"
+msgstr "Модификация Отшельник/Криокапсула"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLCRYOPODANDJORGE.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLCRYOPODANDJORGE.TOOLTIP"
+msgid ""
+"Позволяет модифицировать отшельника и дубликантов из криокапсулы.\n"
+"\"Древнее знание\" больше не занимает слот положительной характеристики при создании этих дубликантов."
+msgstr ""
+"Позволяет модифицировать отшельника и дубликантов из криокапсулы.\n"
+"\"Древнее знание\" больше не занимает слот положительной характеристики при создании этих дубликантов."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_MINIONS.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_MINIONS.NAME"
+msgid "Повторная переделка"
+msgstr "Повторная переделка"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_MINIONS.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_MINIONS.TOOLTIP"
+msgid ""
+"Включите эту опцию, чтобы добавить кнопку повторной переделки к печати дубликантов и посылок.\n"
+"Кнопка позволяет выбрать одну из всех доступных на данный момент конфигураций посылок."
+msgstr ""
+"Включите эту опцию, чтобы добавить кнопку повторной переделки к печати дубликантов и посылок.\n"
+"Кнопка позволяет выбрать одну из всех доступных на данный момент конфигураций посылок."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.SKINSDOREACTS.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.SKINSDOREACTS.NAME"
+msgid "Скины включают реакции"
+msgstr "Скины заменяют реакции"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.SKINSDOREACTS.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.SKINSDOREACTS.TOOLTIP"
+msgid "При применении скина также применяются унаследованные реакции радости и стресса."
+msgstr "При применении скина также применяются унаследованные реакции радости и стресса."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.SORTEDCAREPACKAGES.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.SORTEDCAREPACKAGES.NAME"
+msgid "Sorted Care Package Lists"
+msgstr "Сортированный список посылок"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.SORTEDCAREPACKAGES.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.SORTEDCAREPACKAGES.TOOLTIP"
+msgid ""
+"Care packages listings are sorted alphabetically.\n"
+"Affects care package editor and printing pod selection\n"
+"Care packages in the editor can be sorted manually when this option is turned off."
+msgstr ""
+"Посылки сортируются в алфавитном порядке.\n"
+"Влияет на редактор посылок и выбор печатного станка.\n"
+"Посылки в редакторе можно сортировать вручную, если эта опция отключена."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.SORTEDPRINTINGPOD.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.SORTEDPRINTINGPOD.NAME"
+msgid "Sorted Printing Pod"
+msgstr "Печатный станок с сортировкой"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.SORTEDPRINTINGPOD.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.SORTEDPRINTINGPOD.TOOLTIP"
+msgid "Printing pod entries are sorted by their type, dupes come first, then care packages."
+msgstr "Предметы в печатном станке сортируются по типу: сначала идут дубликаты, затем посылки."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.STARTUPRESOURCES.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.STARTUPRESOURCES.NAME"
+msgid "Дополнительные стартовые ресурсы"
+msgstr "Дополнительные стартовые ресурсы"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.STARTUPRESOURCES.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.STARTUPRESOURCES.TOOLTIP"
+msgid ""
+"Добавляет дополнительные ресурсы для запуска дополнительных дубликантов.\n"
+"Действует только при наличии более 3 дубликнатов.\n"
+"Учитывает только дополнительных дубликантов свыше 3."
+msgstr ""
+"Добавляет дополнительные ресурсы для запуска дополнительных дубликантов.\n"
+"Действует только при наличии более 3 дубликнатов.\n"
+"Учитывает только дополнительных дубликантов свыше 3."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.SUPPORTEDDAYS.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.SUPPORTEDDAYS.NAME"
+msgid "Дни поддержки"
+msgstr "Дни поддержки"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.SUPPORTEDDAYS.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.SUPPORTEDDAYS.TOOLTIP"
+msgid ""
+"Количество дней, на которое должны быть выделены дополнительные стартовые ресурсы.\n"
+"Не действует, если функция \"Дополнительные стартовые ресурсы\" отключена."
+msgstr ""
+"Количество дней, на которое должны быть выделены дополнительные стартовые ресурсы.\n"
+"Не действует, если функция \"Дополнительные стартовые ресурсы\" отключена."
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.CATEGORIES.HEADER.LABEL
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.CATEGORIES.HEADER.LABEL"
+msgid "Дубликанты"
+msgstr "Дубликанты"
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.APPLYCHANGES
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.APPLYCHANGES"
+msgid "Применить изменения"
+msgstr "Применить изменения"
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.CANCEL
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.CANCEL"
+msgid "Отмена"
+msgstr "Отмена"
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.DISCARDCHANGES
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.DISCARDCHANGES"
+msgid "Отменить изменения"
+msgstr "Отменить изменения"
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.TEXT
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.TEXT"
+msgid ""
+"Внимание, есть ещё не применённые изменения.\n"
+"Выберите действие, которое следует предпринять:"
+msgstr ""
+"Внимание, есть ещё не применённые изменения.\n"
+"Выберите действие, которое следует предпринять:"
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.TITLE
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.CONFIRMATIONDIALOG.TITLE"
+msgid "Несохранённые изменения"
+msgstr "Несохранённые изменения"
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.EFFECTS.DYNAMIC_EFFECT_TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.EFFECTS.DYNAMIC_EFFECT_TOOLTIP"
+msgid ""
+"Этот эффект был создан игрой динамически без регистрации в качестве ресурса.\n"
+"Таким образом, вы не сможете прочитать его из списка, если решите его удалить."
+msgstr ""
+"Этот эффект был создан игрой динамически без регистрации в качестве ресурса.\n"
+"Таким образом, вы не сможете прочитать его из списка, если решите его удалить."
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.EFFECTS.EFFECT
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.EFFECTS.EFFECT"
+msgid "Эффект"
+msgstr "Эффект"
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.EFFECTS.TIMEREMAINING
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.EFFECTS.TIMEREMAINING"
+msgid "Оставшееся время в секундах | Удалить эффект"
+msgstr "Оставшееся время в секундах | Удалить эффект"
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.NEWBUTTONPREFAB.LABEL
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.NEWBUTTONPREFAB.LABEL"
+msgid "Добавить новый эффект"
+msgstr "Добавить новый эффект"
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.NEWBUTTONPREFAB.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.NEWBUTTONPREFAB.TOOLTIP"
+msgid "Выберите другой эффект, чтобы добавить к дубликанту"
+msgstr "Выберите другой эффект, чтобы добавить к дубликанту"
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.SKILLS.EXPERIENCE
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.SKILLS.EXPERIENCE"
+msgid "Опыт:"
+msgstr "Опыт:"
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.SKILLS.MASTERY
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.SKILLS.MASTERY"
+msgid "Освоен"
+msgstr "Освоен"
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.SKILLS.SKILL
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.SKILLS.SKILL"
+msgid "Навык"
+msgstr "Навык"
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.TRAITINTERESTCONTAINER.CONTENT.GRP2.ADDINTERESTBUTTON.TEXT
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.TRAITINTERESTCONTAINER.CONTENT.GRP2.ADDINTERESTBUTTON.TEXT"
+msgid "Добавить новый интерес"
+msgstr "Добавить новый интерес"
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.TRAITINTERESTCONTAINER.CONTENT.GRP2.ADDINTERESTBUTTON.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.TRAITINTERESTCONTAINER.CONTENT.GRP2.ADDINTERESTBUTTON.TOOLTIP"
+msgid "Выберите другой интерес, чтобы добавить его к дубликанту"
+msgstr "Выберите другой интерес, чтобы добавить его к дубликанту"
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.TRAITINTERESTCONTAINER.CONTENT.GRP2.ADDTRAITBUTTON.TEXT
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.TRAITINTERESTCONTAINER.CONTENT.GRP2.ADDTRAITBUTTON.TEXT"
+msgid "Добавить новую черту"
+msgstr "Добавить новую черту"
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.TRAITINTERESTCONTAINER.CONTENT.GRP2.ADDTRAITBUTTON.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.TRAITINTERESTCONTAINER.CONTENT.GRP2.ADDTRAITBUTTON.TOOLTIP"
+msgid "Выбрать другую черту, чтобы добавить дубликанту"
+msgstr "Выбрать другую черту, чтобы добавить дубликанту"
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.TRAITINTERESTCONTAINER.DESCRIPTOR.INTERESTLABEL
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.TRAITINTERESTCONTAINER.DESCRIPTOR.INTERESTLABEL"
+msgid "Интересы:"
+msgstr "Интересы:"
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.TRAITINTERESTCONTAINER.DESCRIPTOR.TRAITLABEL
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.CONTENT.SCROLLRECTCONTAINER.TRAITINTERESTCONTAINER.DESCRIPTOR.TRAITLABEL"
+msgid "Черты:"
+msgstr "Черты:"
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS.CLEANSLATEBUTTON.TEXT
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS.CLEANSLATEBUTTON.TEXT"
+msgid "Clear Everything"
+msgstr "Очистить всё"
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS.CLEANSLATEBUTTON.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS.CLEANSLATEBUTTON.TOOLTIP"
+msgid ""
+"Sets all the attributes to 0 and clears all skills, interests, effects and traits.\n"
+"Intended for sandbox testing to provide a \"clean slate\""
+msgstr ""
+"Устанавливает все атрибуты на 0 и очищает все навыки, интересы, эффекты и черты.\n"
+"Предназначено для тестирования в песочнице, чтобы обеспечить \"чистый лист\""
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS.EXITBUTTON.TEXT
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS.EXITBUTTON.TEXT"
+msgid "Выход"
+msgstr "Выход"
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS.EXITBUTTON.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS.EXITBUTTON.TOOLTIP"
+msgid ""
+msgstr ""
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS.RESETBUTTON.TEXT
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS.RESETBUTTON.TEXT"
+msgid "Сбросить изменения"
+msgstr "Сбросить изменения"
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS.RESETBUTTON.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS.RESETBUTTON.TOOLTIP"
+msgid ""
+msgstr ""
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS.SAVECHANGESBUTTON.TEXT
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS.SAVECHANGESBUTTON.TEXT"
+msgid "Сохранить изменения"
+msgstr "Сохранить изменения"
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS.SAVECHANGESBUTTON.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.FOOTER.BUTTONS.SAVECHANGESBUTTON.TOOLTIP"
+msgid ""
+msgstr ""
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.APPEARANCEBUTTON.TEXT
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.APPEARANCEBUTTON.TEXT"
+msgid "Внешность"
+msgstr "Внешность"
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.APPEARANCEBUTTON.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.APPEARANCEBUTTON.TOOLTIP"
+msgid ""
+msgstr ""
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.ATTRIBUTEBUTTON.TEXT
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.ATTRIBUTEBUTTON.TEXT"
+msgid "Атрибуты"
+msgstr "Атрибуты"
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.ATTRIBUTEBUTTON.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.ATTRIBUTEBUTTON.TOOLTIP"
+msgid ""
+msgstr ""
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.EFFECTSBUTTON.TEXT
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.EFFECTSBUTTON.TEXT"
+msgid "Эффекты"
+msgstr "Эффекты"
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.EFFECTSBUTTON.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.EFFECTSBUTTON.TOOLTIP"
+msgid ""
+msgstr ""
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.HEALTHBUTTON.TEXT
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.HEALTHBUTTON.TEXT"
+msgid "Здоровье"
+msgstr "Здоровье"
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.HEALTHBUTTON.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.HEALTHBUTTON.TOOLTIP"
+msgid ""
+msgstr ""
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.SKILLSBUTTON.TEXT
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.SKILLSBUTTON.TEXT"
+msgid "Навыки"
+msgstr "Навыки"
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.SKILLSBUTTON.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.BUTTONS.SKILLSBUTTON.TOOLTIP"
+msgid ""
+msgstr ""
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.LABEL
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.LABEL"
+msgid "Дубликанты"
+msgstr "Дубликанты"
+
+#. SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.LABEL_FILLED
+msgctxt "SetStartDupes.STRINGS.UI.DUPEEDITING.DETAILS.HEADER.LABEL_FILLED"
+msgid "Выбранный дубликант: {0}"
+msgstr "Выбранный дубликант: {0}"
+
+#. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY
+msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY"
+msgid "{0} ({1} +{2})"
+msgstr "{0} ({1} +{2})"
+
+#. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY2
+msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.APTITUDEENTRY2"
+msgid ""
+"{0}\n"
+"({1} +{2})"
+msgstr ""
+"{0}\n"
+"({1} +{2})"
+
+#. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_BALANCED
+msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_BALANCED"
+msgid "<b>сбалансированный</b>"
+msgstr "<b>сбалансированный</b>"
+
+#. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_STRONGER
+msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_STRONGER"
+msgid "<b>сильнее</b>"
+msgstr "<b>сильнее</b>"
+
+#. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_TOOLTIP"
+msgid ""
+"Текущий состав черты - {0}.\n"
+"Значение баланса черт равно {1}, для стандартной балансировки оно обычно находится между {2} и {3}.\n"
+"Состав баланса:"
+msgstr ""
+"Текущий состав черты - {0}.\n"
+"Значение баланса черт равно {1}, для стандартной балансировки оно обычно находится между {2} и {3}.\n"
+"Состав баланса:"
+
+#. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_TOOLTIP_SIMPLE
+msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_TOOLTIP_SIMPLE"
+msgid ""
+"Текущее значение баланса черт - {0}.\n"
+"Значения выше 0 указывают на баланс черт в пользу положительных черт (в целом более сильный дубликант),\n"
+"значения ниже 0 указывают на баланс черт в пользу отрицательных черт (в целом более слабый дубликант).\n"
+"Это чисто информационный материал и не ограничивает ваши возможности редактировать черты.\n"
+"\n"
+"Состав баланса:"
+msgstr ""
+"Текущее значение баланса черт - {0}.\n"
+"Значения выше 0 указывают на баланс черт в пользу положительных черт (в целом более сильный дубликант),\n"
+"значения ниже 0 указывают на баланс черт в пользу отрицательных черт (в целом более слабый дубликант).\n"
+"Это чисто информационный материал и не ограничивает ваши возможности редактировать черты.\n"
+"\n"
+"Состав баланса:"
+
+#. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_WEAKER
+msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.BALANCE_WEAKER"
+msgid "<b>слабее</b>"
+msgstr "<b>слабее</b>"
+
+#. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.CONFIGBALANCINGDISABLED
+msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.CONFIGBALANCINGDISABLED"
+msgid "Балансировка отключена"
+msgstr "Балансировка отключена"
+
+#. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.OTHERMODORIGINNAME
+msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.OTHERMODORIGINNAME"
+msgid "Таинственное происхождение (другие моды)"
+msgstr "Таинственное происхождение (другие моды)"
+
+#. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAIT
+msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAIT"
+msgid "{0}"
+msgstr "{0}"
+
+#. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAIT_RARITY_COMMON
+msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAIT_RARITY_COMMON"
+msgid "<b>Обычный</b>"
+msgstr "<b>Обычный</b>"
+
+#. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAIT_RARITY_EPIC
+msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAIT_RARITY_EPIC"
+msgid "<b>Эпический</b>"
+msgstr "<b>Эпический</b>"
+
+#. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAIT_RARITY_LEGENDARY
+msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAIT_RARITY_LEGENDARY"
+msgid "<b>Легендарный</b>"
+msgstr "<b>Легендарный</b>"
+
+#. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAIT_RARITY_RARE
+msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAIT_RARITY_RARE"
+msgid "<b>Редкий</b>"
+msgstr "<b>Редкий</b>"
+
+#. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAIT_RARITY_UNCOMMON
+msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAIT_RARITY_UNCOMMON"
+msgid "<b>Необычный</b>"
+msgstr "<b>Необычный</b>"
+
+#. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAIT_RARITYLEVEL
+msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAIT_RARITYLEVEL"
+msgid "Редкость черты: {0}"
+msgstr "Редкость черты: {0}"
+
+#. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAITBALANCEHEADER
+msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAITBALANCEHEADER"
+msgid "Текущий баланс черт: {0}"
+msgstr "Текущий баланс черт: {0}"
+
+#. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOINTS
+msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOINTS"
+msgid "Бонус интереса:"
+msgstr "Бонус интереса:"
+
+#. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOOL
+msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOOL"
+msgid "Не потраченные очки интереса:"
+msgstr "Не потраченные очки интереса:"
+
+#. SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOOLTOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DUPESETTINGSSCREEN.TRAITBONUSPOOLTOOLTIP"
+msgid ""
+"Всего у этого дубликанта {0} бонусных очков интереса.\n"
+"Они происходят от следующей черты:"
+msgstr ""
+"Всего у этого дубликанта {0} бонусных очков интереса.\n"
+"Они происходят от следующей черты:"
+
+#. SetStartDupes.STRINGS.UI.DUPESKILLSPOPUP.SCROLLAREA.CONTENT.NOSKILLSAVAILABLE.LABEL
+msgctxt "SetStartDupes.STRINGS.UI.DUPESKILLSPOPUP.SCROLLAREA.CONTENT.NOSKILLSAVAILABLE.LABEL"
+msgid "Нет доступных навыков."
+msgstr "Нет доступных навыков."
+
+#. SetStartDupes.STRINGS.UI.DUPESKILLSPOPUP.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.SWITCHIN.TEXT
+msgctxt "SetStartDupes.STRINGS.UI.DUPESKILLSPOPUP.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.SWITCHIN.TEXT"
+msgid "Выбрать это"
+msgstr "Выбрать это"
+
+#. SetStartDupes.STRINGS.UI.DUPESKILLSPOPUP.TOREPLACE.LABEL
+msgctxt "SetStartDupes.STRINGS.UI.DUPESKILLSPOPUP.TOREPLACE.LABEL"
+msgid "Для замены:"
+msgstr "Для замены:"
+
+#. SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.ADDDUPE
+msgctxt "SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.ADDDUPE"
+msgid "ДОБАВИТЬ СЛОТ"
+msgstr "ДОБАВИТЬ СЛОТ"
+
+#. SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.ADDDUPETOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.ADDDUPETOOLTIP"
+msgid "Добавить дополнительный слот с дубликантом, увеличив общее начальное количество дубликантов на 1."
+msgstr "Добавить дополнительный слот с дубликантом, увеличив общее начальное количество дубликантов на 1."
+
+#. SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.GUARANTEETRAIT
+msgctxt "SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.GUARANTEETRAIT"
+msgid ""
+"Гарантирует, что эта черта будет выбрана при повторной переделке.\n"
+"Работает в сочетании с селектором интересов."
+msgstr ""
+"Гарантирует, что эта черта будет выбрана при повторной переделке.\n"
+"Работает в сочетании с селектором интересов."
+
+#. SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.LOCKPERSONALITY_TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.LOCKPERSONALITY_TOOLTIP"
+msgid ""
+"Заблокировать текущую личность для переделки.\n"
+"Если личность заблокирована, все дубликаты будут автоматически иметь заблокированную личность."
+msgstr ""
+"Заблокировать текущую личность для переделки.\n"
+"Если личность заблокирована, все дубликаты будут автоматически иметь заблокированную личность."
+
+#. SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.PRINTINGPOD_SELECT
+msgctxt "SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.PRINTINGPOD_SELECT"
+msgid ""
+"Текущая планета, на которой находится активный печатный станок.\n"
+"Нажмите, чтобы изменить активный печатный станок"
+msgstr ""
+"Текущая планета, на которой находится активный печатный станок.\n"
+"Нажмите, чтобы изменить активный печатный станок"
+
+#. SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.REMOVEDUPE
+msgctxt "SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.REMOVEDUPE"
+msgid "УДАЛИТЬ СЛОТ"
+msgstr "УДАЛИТЬ СЛОТ"
+
+#. SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.REMOVEDUPETOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.REMOVEDUPETOOLTIP"
+msgid "Удалить этот слот с дубликантом, уменьшив общее начальное количество дубликантов на 1."
+msgstr "Удалить этот слот с дубликантом, уменьшив общее начальное количество дубликантов на 1."
+
+#. SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.ROLLWITHTRAIT_LABEL
+msgctxt "SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.ROLLWITHTRAIT_LABEL"
+msgid "REROLL WITH TRAIT"
+msgstr "ПЕРЕДЕЛАТЬ С ЧЕРТОЙ"
+
+#. SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.SELECTYOURCREW
+msgctxt "SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.SELECTYOURCREW"
+msgid "ЧТОБЫ НАЧАТЬ, ВЫБЕРИТЕ СВОИХ ДУБЛИКАНТОВ"
+msgstr "ЧТОБЫ НАЧАТЬ, ВЫБЕРИТЕ СВОИХ ДУБЛИКАНТОВ"
+
+#. SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.SELECTYOURLONECREWMAN
+msgctxt "SetStartDupes.STRINGS.UI.MODDEDIMMIGRANTSCREEN.SELECTYOURLONECREWMAN"
+msgid "ЧТОБЫ НАЧАТЬ, ВЫБЕРИТЕ СВОЕГО ДУБЛИКАНТА"
+msgstr "ЧТОБЫ НАЧАТЬ, ВЫБЕРИТЕ СВОЕГО ДУБЛИКАНТА"
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.DELETEWINDOW.CANCEL
+msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.DELETEWINDOW.CANCEL"
+msgid "Отмена"
+msgstr "Отмена"
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.DELETEWINDOW.DESC
+msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.DELETEWINDOW.DESC"
+msgid ""
+"Вы собираетесь удалить пресет \"{0}\".\n"
+"Хотите продолжить?"
+msgstr ""
+"Вы собираетесь удалить пресет \"{0}\".\n"
+"Хотите продолжить?"
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.DELETEWINDOW.TITLE
+msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.DELETEWINDOW.TITLE"
+msgid "Удалить {0}"
+msgstr "Удалить {0}"
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.DELETEWINDOW.YES
+msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.DELETEWINDOW.YES"
+msgid "Подтвердить удаление"
+msgstr "Подтвердить удаление"
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.APPLYPRESETBUTTON.TEXT
+msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.APPLYPRESETBUTTON.TEXT"
+msgid "Применить пересет"
+msgstr "Применить пересет"
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.APPLYPRESETBUTTON.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.APPLYPRESETBUTTON.TOOLTIP"
+msgid "Применить отображаемые в данный момент характеристики к дубликату, с которого было открыто это окно."
+msgstr "Применить отображаемые в данный момент характеристики к дубликату, с которого было открыто это окно."
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.APPLYPRESETBUTTON.TOOLTIPCREW
+msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.APPLYPRESETBUTTON.TOOLTIPCREW"
+msgid "Загрузить пресет команды, который в данный момент отображается в предварительном просмотре"
+msgstr "Загрузить пресет команды, который в данный момент отображается в предварительном просмотре"
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.CLOSEBUTTON.TEXT
+msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.CLOSEBUTTON.TEXT"
+msgid "Назад"
+msgstr "Назад"
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.CLOSEBUTTON.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.CLOSEBUTTON.TOOLTIP"
+msgid "Закрыть окно пересетов"
+msgstr "Закрыть окно пересетов"
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TEXT
+msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TEXT"
+msgid "Создать пресет"
+msgstr "Создать пресет"
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS.GENERATEFROMCURRENT.TOOLTIP"
+msgid ""
+"Создать и сохранить новый перест из отображаемых характеристик.\n"
+"Действует только в том случае, если пресет ещё не существует"
+msgstr ""
+"Создать и сохранить новый перест из отображаемых характеристик.\n"
+"Действует только в том случае, если пресет ещё не существует"
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.CHECKBOXES.NAMEOVERRIDE.LABEL
+msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.CHECKBOXES.NAMEOVERRIDE.LABEL"
+msgid "Пресет заменяет имя"
+msgstr "Пресет заменяет имя"
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.CHECKBOXES.NAMEOVERRIDE.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.CHECKBOXES.NAMEOVERRIDE.TOOLTIP"
+msgid "Если включено, применение пресета к дубликатам также устанавливает их имя в соответствии с именем предустановки"
+msgstr "Если включено, применение пресета к дубликатам также устанавливает их имя в соответствии с именем предустановки"
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.CHECKBOXES.REACTIONOVERRIDE.LABEL
+msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.CHECKBOXES.REACTIONOVERRIDE.LABEL"
+msgid "Пресет заменят реакции"
+msgstr "Пресет заменят реакции"
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.CHECKBOXES.REACTIONOVERRIDE.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.CHECKBOXES.REACTIONOVERRIDE.TOOLTIP"
+msgid "Если включено, то применение пресета к дубликантам также заменяет их унаследованную реакцию на стресс и реакцию восторга."
+msgstr "Если включено, то применение пресета к дубликантам также заменяет их унаследованную реакцию на стресс и реакцию восторга."
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.NOPRESETSAVAILABLE.LABEL
+msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.NOPRESETSAVAILABLE.LABEL"
+msgid "Нет доступных пресетов."
+msgstr "Нет доступных пресетов."
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.ADDTHISTRAITBUTTON.TEXT
+msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.ADDTHISTRAITBUTTON.TEXT"
+msgid "Загрузить пресет"
+msgstr "Загрузить пресет"
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.DELETEPRESETTOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.DELETEPRESETTOOLTIP"
+msgid "Удалить пресет"
+msgstr "Удалить пресет"
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.IMPORTEDPRESET
+msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.IMPORTEDPRESET"
+msgid "This crew preset was imported from your old dgsm presets, it cannot be modified directly."
+msgstr "Этот пресет команды был импортирован из ваших старых пресетов DGSM, его нельзя изменить напрямую."
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.INVALIDMODELTOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.INVALIDMODELTOOLTIP"
+msgid "Пресет несовместим с текущей моделью дубликанта!"
+msgstr "Пресет несовместим с текущей моделью дубликанта!"
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.RENAMEPRESETTOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.RENAMEPRESETTOOLTIP"
+msgid "Переименовать пресет"
+msgstr "Переименовать пресет"
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.TITLE
+msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.TITLE"
+msgid "Пресет характеристик"
+msgstr "Пресет характеристик"
+
+#. SetStartDupes.STRINGS.UI.PRESETWINDOW.TITLECREW
+msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.TITLECREW"
+msgid "Пресеты команд"
+msgstr "Пресеты команд"
+
+#. SetStartDupes.STRINGS.UI.STARTAGAIN.SIDESCREEN_TEXT
+msgctxt "SetStartDupes.STRINGS.UI.STARTAGAIN.SIDESCREEN_TEXT"
+msgid "Повторный выбор начальных дубликатнов"
+msgstr "Повторный выбор начальных дубликатнов"
+
+#. SetStartDupes.STRINGS.UI.STARTAGAIN.SIDESCREEN_TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.STARTAGAIN.SIDESCREEN_TOOLTIP"
+msgid "Лёгкий перезапуск"
+msgstr "Лёгкий перезапуск"
+
+#. SetStartDupes.STRINGS.UNNAMEDPRESET
+msgctxt "SetStartDupes.STRINGS.UNNAMEDPRESET"
+msgid "(Безымянный пресет)"
+msgstr "(Безымянный пресет)"

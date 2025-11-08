@@ -1,0 +1,40 @@
+shape: Circle
+borders:
+  - 1
+  - 1
+# internalMobs:
+blobSize:
+  min: 0.5
+  max: 2.5
+ElementChoiceGroups:
+  RoomCenterElements:
+    selectionMethod: WeightedResample
+    choices:
+      - element: AmmoniumSalt
+        weight: 4
+        overrides:
+          massOverride: 224
+      - element: Clay
+        weight: 2
+        overrides:
+          massOverride: 824
+  RoomBorderChoices0:
+    selectionMethod: WeightedResample
+    choices:
+      - element: AmmoniumSalt
+        weight: 1
+        overrides:
+          massOverride: 324
+      - element: Clay
+        weight: 1
+        overrides:
+          massOverride: 672
+  RoomBorderChoices1:
+    selectionMethod: WeightedResample
+    choices:
+      - element: Clay
+        weight: 4
+      - element: AmmoniumSalt
+        weight: 1
+        overrides:
+          massOverride: 128

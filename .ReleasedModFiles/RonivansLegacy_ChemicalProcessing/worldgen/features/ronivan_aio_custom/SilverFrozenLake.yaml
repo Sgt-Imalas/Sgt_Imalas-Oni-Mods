@@ -1,0 +1,50 @@
+tags:
+  - AllowExceedNodeBorders
+  - Wet
+shape: ShortWide
+borders:
+  - 1
+  - 1
+  - 1
+blobSize:
+  min: 4.1
+  max: 7.5
+ElementChoiceGroups:
+  RoomCenterElements:
+    selectionMethod: WeightedResample
+    choices:
+      - element: Oxygen
+        weight: 0.5
+        overrides:
+          massOverride: 1
+      - element: AurichalciteOre
+        weight: 0.5
+        overrides:
+          massOverride: 2240
+      - element: ArgentiteOre
+        weight: 1
+        overrides:
+          massOverride: 2224
+  RoomBorderChoices0:
+    selectionMethod: WeightedResample
+    choices:
+      - element: Ice
+        weight: 2
+  RoomBorderChoices1:
+    selectionMethod: WeightedResample
+    choices:
+      - element: ArgentiteOre
+        weight: 1
+        overrides:
+          massOverride: 5198
+      - element: IgneousRock
+        weight: 1
+      - element: AurichalciteOre
+        weight: 1
+        overrides:
+          massOverride: 2882
+  RoomBorderChoices2:
+    selectionMethod: WeightedResample
+    choices:
+      - element: IgneousRock
+        weight: 1

@@ -1,0 +1,28 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.6\n"
+
+#. SettingsSyncGroups.STRINGS.UI.BUILDINGSETTINGSGROUP_SIDESCREEN.TITLE
+msgctxt "SettingsSyncGroups.STRINGS.UI.BUILDINGSETTINGSGROUP_SIDESCREEN.TITLE"
+msgid "Building Settings Group"
+msgstr "同步建筑组"
+
+#. SettingsSyncGroups.STRINGS.UI.GROUPASSIGNMENT_SECONDARYSIDESCREEN.NO_GROUP_ASSIGNED
+msgctxt "SettingsSyncGroups.STRINGS.UI.GROUPASSIGNMENT_SECONDARYSIDESCREEN.NO_GROUP_ASSIGNED"
+msgid "[no group assigned]"
+msgstr "[未分配]"
+
+#. SettingsSyncGroups.STRINGS.UI.GROUPASSIGNMENT_SECONDARYSIDESCREEN.TITLE
+msgctxt "SettingsSyncGroups.STRINGS.UI.GROUPASSIGNMENT_SECONDARYSIDESCREEN.TITLE"
+msgid "Change settings group"
+msgstr "更改建筑组"

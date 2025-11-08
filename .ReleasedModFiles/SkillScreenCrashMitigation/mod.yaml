@@ -1,0 +1,3 @@
+title: 'SkillScreenCrashMitigation'
+description: "Fixes loading some ancient savegames with corrupted skill screen entries"
+staticID: SkillScreenCrashMitigation

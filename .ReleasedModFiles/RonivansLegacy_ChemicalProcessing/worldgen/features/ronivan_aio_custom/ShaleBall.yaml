@@ -1,0 +1,25 @@
+tags:
+  - AllowExceedNodeBorders
+shape: Blob
+borders:
+  - 1
+blobSize:
+  min: 2.5
+  max: 3.5
+ElementChoiceGroups:
+  RoomCenterElements:
+    selectionMethod: WeightedResample
+    choices:
+      - element: SolidOilShale
+        weight: 0.80
+        overrides:
+          massOverride: 224
+  RoomBorderChoices0:
+    selectionMethod: WeightedResample
+    choices:
+      - element: Granite
+        weight: 1
+      - element: SolidOilShale
+        weight: 0.80
+        overrides:
+          massOverride: 224

@@ -1,0 +1,29 @@
+msgid ""
+msgstr ""
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.0\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"Language: ru\n"
+
+#. Dupery.STRINGS.MISSING_DUPLICANT_DESCRIPTION
+msgctxt "Dupery.STRINGS.MISSING_DUPLICANT_DESCRIPTION"
+msgid "An unknown {0}."
+msgstr "Неизвестный {0}."
+
+#. Dupery.STRINGS.MISSING_DUPLICANT_NAME
+msgctxt "Dupery.STRINGS.MISSING_DUPLICANT_NAME"
+msgid "The Nameless One"
+msgstr "Безымянный"
+
+#. Dupery.STRINGS.RANDOM_DUPLICANT_DESCRIPTION
+msgctxt "Dupery.STRINGS.RANDOM_DUPLICANT_DESCRIPTION"
+msgid "{0} is a peculiar specimen. The Printing Pod must have been out of ideas."
+msgstr "{0} - странная особь. У Печатный станок, должно быть, закончились идеи."

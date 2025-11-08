@@ -1,0 +1,21 @@
+tags:
+  - AllowExceedNodeBorders
+shape: Blob
+borders:
+blobSize:
+  min: 1.5
+  max: 1.5
+ElementChoiceGroups:
+  RoomCenterElements:
+    selectionMethod: WeightedResample
+    choices:
+      - element: PhosphateNodules
+        weight: 1
+        overrides:
+          massOverride: 128
+      - element: Phosphorus
+        weight: 1
+        overrides:
+          massOverride: 224
+      - element: CarbonDioxide
+        weight: 1

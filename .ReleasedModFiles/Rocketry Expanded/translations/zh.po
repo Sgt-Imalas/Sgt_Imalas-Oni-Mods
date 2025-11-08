@@ -1,0 +1,3089 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.6\n"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.CRITTERINFO
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.CRITTERINFO"
+msgid " • {CRITTERNAME}, {AGE} Cycles old"
+msgstr " • {CRITTERNAME}，年龄{AGE}周期"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.CRITTERINFOAGELESS
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.CRITTERINFOAGELESS"
+msgid " • {CRITTERNAME}"
+msgstr " • {CRITTERNAME}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.DROPITBUTTON
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.DROPITBUTTON"
+msgid "Drop all Critters"
+msgstr "丢弃所有小动物"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.DROPITBUTTONTOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.DROPITBUTTONTOOLTIP"
+msgid "Drop it like its hot"
+msgstr "像烫手山芋那样扔掉它"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.HASCRITTERS
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.HASCRITTERS"
+msgid "Module currently holds these Critters:"
+msgstr "舱块当前包含以下小动物："
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.NAME"
+msgid "Critter Count: {0}/{1}"
+msgstr "小动物数量：{0}/{1}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.NOCRITTERS
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.NOCRITTERS"
+msgid "No Critters stored."
+msgstr "未存储小动物。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.TOOLTIP"
+msgid "{CritterContentStatus}"
+msgstr "{CritterContentStatus}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.UNITS
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_CRITTERMODULECONTENT.UNITS"
+msgid " Critters"
+msgstr " 小动物"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_DOCKEDSTATUS.DOCKEDINFO
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_DOCKEDSTATUS.DOCKEDINFO"
+msgid ""
+"\n"
+" • {0}"
+msgstr ""
+"\n"
+" • {0}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_DOCKEDSTATUS.MULTIPLES
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_DOCKEDSTATUS.MULTIPLES"
+msgid "multiple crafts"
+msgstr "多个工艺品"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_DOCKEDSTATUS.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_DOCKEDSTATUS.NAME"
+msgid "Docked to {SINGLEDOCKED}."
+msgstr "停靠到{SINGLEDOCKED}。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_DOCKEDSTATUS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_DOCKEDSTATUS.TOOLTIP"
+msgid "Currently docked to: {DOCKINGLIST}"
+msgstr "当前停靠于：{DOCKINGLIST}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_FOODSTORAGESTATUS.FOODINFO
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_FOODSTORAGESTATUS.FOODINFO"
+msgid ""
+"\n"
+" • {0}: {1}KCal"
+msgstr ""
+"\n"
+"• {0} : {1}千卡"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_FOODSTORAGESTATUS.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_FOODSTORAGESTATUS.NAME"
+msgid "Total Food: {REMAININGMASS}KCal"
+msgstr "食物总量：{REMAININGMASS}千卡"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_FOODSTORAGESTATUS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_FOODSTORAGESTATUS.TOOLTIP"
+msgid "The connected Fridge Modules still contain {REMAININGMASS} KCal of Food.{FOODLIST}"
+msgstr "连接的冰箱舱块仍然包含{REMAININGMASS}千卡食物。{FOODLIST}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MININGINFORMATIONBOONS.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MININGINFORMATIONBOONS.NAME"
+msgid "Mining Boost: {RATEPERCENTAGE}"
+msgstr "开采加速：{RATEPERCENTAGE}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MININGINFORMATIONBOONS.PILOTSKILL
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MININGINFORMATIONBOONS.PILOTSKILL"
+msgid " • Pilot skills: {BOOSTPERCENTAGE}% (affected by piloting and digging skill)"
+msgstr " •驾驶技能{BOOSTPERCENTAGE}%（受驾驶和挖掘技能影响）"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MININGINFORMATIONBOONS.SUPPORTMODULE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MININGINFORMATIONBOONS.SUPPORTMODULE"
+msgid " • Drillcone Maintainance Modules: {BOOSTPERCENTAGE}% (x{COUNT} Modules)"
+msgstr " • 钻头维护舱: {BOOSTPERCENTAGE}% (x{COUNT} 模块)"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MININGINFORMATIONBOONS.SUPPORTMODULESINGULAR
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MININGINFORMATIONBOONS.SUPPORTMODULESINGULAR"
+msgid " • Drillcone Maintainance Module: {BOOSTPERCENTAGE}% (x1 Module)"
+msgstr " • 钻头维护舱: {BOOSTPERCENTAGE}% (x1 模块)"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MININGINFORMATIONBOONS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MININGINFORMATIONBOONS.TOOLTIP"
+msgid "{TOOLTIP}"
+msgstr "{TOOLTIP}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MININGINFORMATIONBOONS.TOOLTIPINFO
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MININGINFORMATIONBOONS.TOOLTIPINFO"
+msgid ""
+"This mining operation is boosted by {RATEPERCENTAGE},\n"
+"currently mining {YIELDMASS} and consuming {DRILLMATERIALMASS} {DRILLMATERIAL} per second.\n"
+"Boosting Factors:\n"
+msgstr ""
+"该项开采任务的速率为{RATEPERCENTAGE}，\n"
+"当前每秒开采{YIELDMASS}和消耗{DRILLMATERIALMASS} {DRILLMATERIAL}。\n"
+"加速因子：\n"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORALWAYSACTIVENOTPOWERED.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORALWAYSACTIVENOTPOWERED.NAME"
+msgid "Power Generation: {ActiveWattage}/{MaxWattage}"
+msgstr "发电量: {ActiveWattage}/{MaxWattage}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORALWAYSACTIVENOTPOWERED.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORALWAYSACTIVENOTPOWERED.TOOLTIP"
+msgid ""
+"Module generator will generate <style=\"produced\">{MaxWattage}</style> of <style=\"KKeyword\">Power</style> once fueled\n"
+"\n"
+"Right now, it's not doing much of anything"
+msgstr ""
+"发电舱消耗一次燃料会产生<style=\"producted\">{MaxWattage}</style>的<style=\"KKeyword\">电力</style>\n"
+"\n"
+"不过现在它什么也没做"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORALWAYSACTIVEPOWERED.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORALWAYSACTIVEPOWERED.NAME"
+msgid "Power Generation: {ActiveWattage}/{MaxWattage}"
+msgstr "发电量：{ActiveWattage}/{MaxWattage}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORALWAYSACTIVEPOWERED.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORALWAYSACTIVEPOWERED.TOOLTIP"
+msgid ""
+"Module generator is producing<style=\"produced\">{MaxWattage}</style> of <style=\"KKeyword\">Power</style>\n"
+"\n"
+"It will continue generating power as long as are enough resources left"
+msgstr ""
+"发电舱正在产生<style=\"produced\">{MaxWattage}</style>的<style=\"KKeyword\">电力</style>\n"
+"\n"
+"如果有足够多的资源它会一直生产电力"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORFUELSTATUS.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORFUELSTATUS.NAME"
+msgid "Generator Fuel Capacity: {CurrentFuelStorage}/{MaxFuelStorage}"
+msgstr "发电舱燃料存量：{CurrentFuelStorage}/{MaxFuelStorage}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORFUELSTATUS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORFUELSTATUS.TOOLTIP"
+msgid "This {GeneratorType} has {CurrentFuelStorage} out of {MaxFuelStorage} available."
+msgstr "这个 {GeneratorType} 有 {CurrentFuelStorage}/{MaxFuelStorage} 的可用燃料。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORNOTPOWERED.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORNOTPOWERED.NAME"
+msgid "Power Generation: {ActiveWattage}/{MaxWattage}"
+msgstr "发电量：{ActiveWattage}/{MaxWattage}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORNOTPOWERED.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORNOTPOWERED.TOOLTIP"
+msgid ""
+"Module generator will generate <style=\"produced\">{MaxWattage}</style> of <style=\"KKeyword\">Power</style> once traveling through space and fueled\n"
+"\n"
+"Right now, it's not doing much of anything"
+msgstr ""
+"一旦进入太空并提供燃料，发电舱将产生<style=\"producted\">{MaxWattage}</style>的<style=\"KKeyword\">电力</style>\n"
+"\n"
+"不过现在它什么也没做"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORPOWERED.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORPOWERED.NAME"
+msgid "Power Generation: {ActiveWattage}/{MaxWattage}"
+msgstr "发电量：{ActiveWattage}/{MaxWattage}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORPOWERED.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_MODULEGENERATORPOWERED.TOOLTIP"
+msgid ""
+"Module generator is producing<style=\"produced\">{MaxWattage}</style> of <style=\"KKeyword\">Power</style>\n"
+"\n"
+"While traveling through space, it will continue generating power as long as are enough resources left"
+msgstr ""
+"发点舱可产生<style=\"produced\">{MaxWattage}</style>的<style=\"KKeyword\">电力</style>\n"
+"\n"
+"在太空中飞行时，只要还有足够的资源，它就会持续发电"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_ROCKETBATTERYSTATUS.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_ROCKETBATTERYSTATUS.NAME"
+msgid "Battery Module Charge: {CurrentCharge}/{MaxCharge}"
+msgstr "电池舱充电：{CurrentCharge}/{MaxCharge}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_ROCKETBATTERYSTATUS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_ROCKETBATTERYSTATUS.TOOLTIP"
+msgid "This Rocket has {CurrentCharge}/{MaxCharge} stored in battery modules."
+msgstr "该火箭的电池舱中存储有 {CurrentCharge}/{MaxCharge}。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_ROCKETGENERATORLANDEDACTIVE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_ROCKETGENERATORLANDEDACTIVE.NAME"
+msgid "Active while landed"
+msgstr "着陆时激活"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_ROCKETGENERATORLANDEDACTIVE.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_ROCKETGENERATORLANDEDACTIVE.TOOLTIP"
+msgid "This generator will run even while landed"
+msgstr "这台发电机即使在着陆时也会运行"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.CONSTRUCTING
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.CONSTRUCTING"
+msgid "Constructing: {TIME} left"
+msgstr "建造：剩余 {TIME}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.DECONSTRUCTING
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.DECONSTRUCTING"
+msgid "Demolishing: {TIME} left"
+msgstr "拆毁：剩余 {TIME}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.IDLE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.IDLE"
+msgid "Nominal"
+msgstr "正常"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.NAME"
+msgid "Module Status: {STATUS}"
+msgstr "舱块状态：{STATUS}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.NONEQUEUED
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.NONEQUEUED"
+msgid "No active process"
+msgstr "无活动进程"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.TIMEREMAINING
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.TIMEREMAINING"
+msgid "Time until current operation is completed: {TIME}"
+msgstr "完成当前操作的时间：{TIME}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDING.STATUSITEMS.RTB_STATIONCONSTRUCTORSTATUS.TOOLTIP"
+msgid "{TOOLTIP}"
+msgstr "{TOOLTIP}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.GENERATORLIMIT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.GENERATORLIMIT"
+msgid ""
+"\n"
+"\n"
+" If there is atleast one battery connected, the generator will stop producing if the battery is above 95% charge."
+msgstr ""
+"\n"
+"\n"
+"如果至少连接了一个电池，且电池电量超过95%，发电机将停止发电。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.DESC"
+msgid "A platform from which rockets can be launched and on which they can land."
+msgstr "一个使火箭能够在上面发射和着陆的平台。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.EFFECT"
+msgid ""
+"Precursor to construction of all other Rocket modules.\n"
+"\n"
+"Allows Rockets to launch from or land on the host Planetoid.\n"
+"\n"
+"Automatically links up to <link=\"MODULARLAUNCHPADPORTSOLID\">Rocket Port</link><link=\"MODULARLAUNCHPADPORTSOLID\">s</link> built to either side of the platform.\n"
+"\n"
+"Comes with shifted logic ports and extra ribbon ports for more control over the rocket."
+msgstr ""
+"建造所有火箭舱块的前置建筑。\n"
+"\n"
+"允许火箭在小行星上发射或着陆。\n"
+"\n"
+"将建造的<link=\"MODULARLAUNCHPADPORTSOLID\">火箭端口</link>与火箭平台的一侧自动相连。\n"
+"\n"
+"配有偏移逻辑端口和额外的带状端口，以实现对火箭的更多控制。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.LOGIC_PORT_CATEGORY_READY_ACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.LOGIC_PORT_CATEGORY_READY_ACTIVE"
+msgid ""
+"Each bit sends a <b><style=\"logic_on\">Green Signal</style></b> when its respective check list category is fulfilled.\n"
+"\n"
+" Bit 1 tracks the category \"Flight Route\"\n"
+" Bit 2 tracks the category \"Rocket Construction\"\n"
+" Bit 3 tracks the category \"Cargo Manifest\"\n"
+" Bit 4 tracks the category \"Crew Manifest\"\n"
+msgstr ""
+"每位在相应的检查表类别满足时发送一个<b><style=\"logic_on\">绿色信号</style></b>。\n"
+"\n"
+"位1追踪\"飞行路线\"类别\n"
+"位2追踪\"火箭建设\"类别\n"
+"位3追踪\"货舱清单\"类别\n"
+"位4追踪\"成员清单\"类别\n"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.LOGIC_PORT_CATEGORY_READY_INACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.LOGIC_PORT_CATEGORY_READY_INACTIVE"
+msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b> to the respective Bit."
+msgstr "否则，向相应的位发送<b><style=\"logic_off\">红色信号</style></b>。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.LOGIC_PORT_LAUNCH_ACTIVE_RIBBON
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.LOGIC_PORT_LAUNCH_ACTIVE_RIBBON"
+msgid ""
+"<b><style=\"logic_on\">Green Signal on the first Bit</style></b>: Launch rocket\n"
+"<b><style=\"logic_on\">Bit 2</style></b> allows to override the \"Fueled\" Warning under Cargo Manifest that otherwise prevent automated launches. This allows rockets to fly one-way-trips to another launchpad\n"
+"<b><style=\"logic_on\">Bit 3</style></b> allows to override all Cargo Warnings (that aren't Fuel) under Cargo Manifest that otherwise prevent automated launches.\n"
+"<b><style=\"logic_on\">Bit 4</style></b> makes the Overrides of Bit 2 and 3 affect the logic output of the launch pad. "
+msgstr ""
+"<b><style=\"logic_on\">第一比特上的绿色信号</style></b>：发射火箭\n"
+"<b><style=\"logic_on\">位2</style></b>允许覆盖货物清单下的\"添加燃料\"警告，否则这将阻止自动化发射。这使得火箭可以单程飞往另一个发射台。\n"
+"<b><style=\"logic_on\">位3</style></b>允许覆盖货物清单下所有（非燃料）的货物警告，否则这将阻止自动化发射。\n"
+"<b><style=\"logic_on\">位4</style></b>使得位2和3的覆盖设置能够影响发射台的逻辑输出。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.LOGIC_PORT_LAUNCH_INACTIVE_RIBBON
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.LOGIC_PORT_LAUNCH_INACTIVE_RIBBON"
+msgid "<b><style=\"logic_off\">Red Signal on the first Bit</style></b>: Cancel launch"
+msgstr "<b><style=\"logic_off\">第一位上的红色信号</style></b>：取消发射"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ADVANCEDLAUNCHPAD.NAME"
+msgid "<link=\"RTBBUNKERLAUNCHPAD\">Advanced Rocket Platform</link>"
+msgstr "<link=\"RTBBUNKERLAUNCHPAD\">高级火箭平台</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_AIMODULEDOCKINGPORT.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_AIMODULEDOCKINGPORT.DESC"
+msgid "Connecting with another (rocket) has never been easier."
+msgstr "与另一个（火箭）连接从未如此容易。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_AIMODULEDOCKINGPORT.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_AIMODULEDOCKINGPORT.EFFECT"
+msgid ""
+"Enables docking with other rockets and space stations\n"
+"\n"
+"Both docking participants require a docking component to dock.\n"
+"\n"
+"Duplicants cannot use this docking connection.\n"
+"\n"
+"Add it to an AI controlled rocket to allow it to dock.\n"
+"\n"
+"Multiple Modules allow multiple docking connections"
+msgstr ""
+"启用与其他火箭和空间站的对接\n"
+"\n"
+"对接的双方都需要一个对接组件才能完成对接。\n"
+"\n"
+"复制人不能使用此对接连接。\n"
+"\n"
+"将其添加到 AI 控制的火箭上，允许其进行对接。\n"
+"\n"
+"多个模块允许多个对接连接"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_AIMODULEDOCKINGPORT.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_AIMODULEDOCKINGPORT.NAME"
+msgid "<link=\"RTBAIMODULEDOCKINGPORT\">Docking Module</link>"
+msgstr "<link=\"RTBAIMODULEDOCKINGPORT\">对接模块</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_BUNKERLAUNCHPAD.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_BUNKERLAUNCHPAD.DESC"
+msgid ""
+"A platform from which rockets can be launched and on which they can land.\n"
+"\n"
+"Fortified to withstand comets."
+msgstr ""
+"一个平台，火箭能够在上面发射和着陆。\n"
+"\n"
+"为抵御流星而加固过。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_BUNKERLAUNCHPAD.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_BUNKERLAUNCHPAD.EFFECT"
+msgid ""
+"Precursor to construction of all other Rocket modules.\n"
+"\n"
+"Allows Rockets to launch from or land on the host Planetoid.\n"
+"\n"
+"Automatically links up to <link=\"MODULARLAUNCHPADPORTSOLID\">Rocket Port</link><link=\"MODULARLAUNCHPADPORTSOLID\">s</link> built to either side of the platform.\n"
+"\n"
+"Blocks comets and is immune to comet damage."
+msgstr ""
+"建造所有火箭舱块的前置建筑。\n"
+"\n"
+"允许火箭在小行星上发射或着陆。\n"
+"\n"
+"将建造的<link=\"MODULARLAUNCHPADPORTSOLID\">火箭端口</link>与火箭平台的一侧自动相连。\n"
+"\n"
+"抵御流星并免疫流星伤害。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_BUNKERLAUNCHPAD.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_BUNKERLAUNCHPAD.NAME"
+msgid "<link=\"RTBBUNKERLAUNCHPAD\">Fortified Rocket Platform</link>"
+msgstr "<link=\"RTBBUNKERLAUNCHPAD\">强化火箭平台</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CARGOBAYCLUSTERLARGE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CARGOBAYCLUSTERLARGE.DESC"
+msgid "Holds even more than a large cargo bay!"
+msgstr "容纳的东西甚至比一个大货舱还多！"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CARGOBAYCLUSTERLARGE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CARGOBAYCLUSTERLARGE.EFFECT"
+msgid ""
+"Allows Duplicants to store most of the <link=\"ELEMENTSSOLID\">Solid Materials</link> found during space missions.\n"
+"\n"
+"Stored resources become available to the colony upon the rocket's return. \n"
+"\n"
+"Must be built via <link=\"LAUNCHPAD\">Rocket Platform</link>."
+msgstr ""
+"允许复制人在太空任务期间存储大部分<link=\"ELEMENTSSOLID\">固体材料</link>。\n"
+"\n"
+"存储的资源在火箭返回后可供殖民地使用。\n"
+"\n"
+"必须通过<link=\"LAUNCHPAD\">火箭平台</link>建造。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CARGOBAYCLUSTERLARGE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CARGOBAYCLUSTERLARGE.NAME"
+msgid "<link=\"RTBCARGOBAYCLUSTERLARGE\">Colossal Cargo Bay</link>"
+msgstr "<link=\"RTBCARGOBAYCLUSTERLARGE\">巨型货舱</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CO2FUELTANK.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CO2FUELTANK.DESC"
+msgid "Storing additional fuel increases the distance a rocket can travel before returning."
+msgstr "储存额外的燃料可以增加火箭返回前的飞行距离。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CO2FUELTANK.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CO2FUELTANK.EFFECT"
+msgid "Stores pressurized <link=\"CARBONDIOXIDE\">Carbon Dioxide</link> for <link=\"CO2ENGINE\">Carbon Dioxide Engines</link>"
+msgstr "存储加压的<link=\"CARBONDIOXIDE\">二氧化碳</link>供<link=\"CO2ENGINE\">二氧化碳引擎</link>使用"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CO2FUELTANK.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CO2FUELTANK.NAME"
+msgid "<link=\"RTBCO2FUELTANK\">Carbon Dioxide Fuel Tank</link>"
+msgstr "<link=\"RTBCO2FUELTANK\">二氧化碳燃料箱</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERCONTAINMENTMODULE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERCONTAINMENTMODULE.DESC"
+msgid "These critters will go where no critter has gone before."
+msgstr "这些小动物将会前往其他小动物从未涉足的领域。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERCONTAINMENTMODULE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERCONTAINMENTMODULE.EFFECT"
+msgid "This module allows the safe transport of critters to their new home. "
+msgstr "这个模块可以将小动物门安全地运送到新家。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERCONTAINMENTMODULE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERCONTAINMENTMODULE.NAME"
+msgid "<link=\"CRITTERCONTAINMENTMODULECONFIGOLD\">[DEPRECATED] Critter Containment Module</link>"
+msgstr "<link=\"CRITTERCONTAINMENTMODULECONFIGOLD\">[已弃用]小动物隔离舱</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERSTASISMODULE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERSTASISMODULE.DESC"
+msgid "These critters will go where no critter has gone before."
+msgstr "这些小动物将会前往其他小动物从未涉足的领域。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERSTASISMODULE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERSTASISMODULE.EFFECT"
+msgid ""
+"This module allows the safe transport of critters to their new home.\n"
+"\n"
+"Stored Critters wont age."
+msgstr ""
+"这个模块可以将小动物门安全地运送到新家。\n"
+"\n"
+"储存的小动物不会衰老。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERSTASISMODULE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_CRITTERSTASISMODULE.NAME"
+msgid "<link=\"CRITTERSTASISMODULECONFIG\">Critter Stasis Module</link>"
+msgstr "<link=\"CRITTERSTASISMODULECONFIG\">小动物休眠舱</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHCENTER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHCENTER.DESC"
+msgid ""
+"Quantum computers unlock new breakthroughs from the analysis of deep space anomalies.\n"
+"\n"
+"Requires active cooling to function optimally"
+msgstr ""
+"量子计算机通过对深空中异常现象的分析，实现了新的突破。\n"
+"\n"
+"需要有效的冷却才能发挥最佳功能"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHCENTER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHCENTER.EFFECT"
+msgid ""
+"Conducts <link=\"DEEPSPACERESEARCH\">Deep Space Research</link> to unlock new technologies.\n"
+"\n"
+"Consumes <link=\"RTBDEEPSPACEINSIGHT\">Deep Space Insights</link>.\n"
+"\n"
+"Assigned Duplicants must possess the <link=\"SPACERESEARCH\">Data Analysis Researcher</link> skill."
+msgstr ""
+"开展<link=\"DEEPSPACERESEARCH\">深空研究</link>以解锁新技术。\n"
+"\n"
+"消耗<link=\"RTBDEEPSPACEINSIGHT\">深空洞察</link>。\n"
+"\n"
+"指定的复制人必须拥有<link=\"SPACERESEARCH\">数据分析研究</link>技能。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHCENTER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHCENTER.NAME"
+msgid "<link=\"RTBDEEPSPACERESEARCHCENTER\">[WIP] Quantum Computer</link>"
+msgstr "<link=\"RTBDEEPSPACERESEARCHCENTER\">[制作中]量子计算机</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHTELESCOPE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHTELESCOPE.DESC"
+msgid "Deep space analysis stations scan and collect data on deep space anomalies"
+msgstr "深空分析站扫描并收集深空异常数据"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHTELESCOPE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHTELESCOPE.EFFECT"
+msgid ""
+"Allows <link=\"DEEPSPACERESEARCH\">Deep Space Research</link> to be accumulated.\n"
+"\n"
+"Requires a <link=\"RTBDEEPSPACEINSIGHT\">Deep Space Insight</link> to function."
+msgstr ""
+"允许<link=\"DEEPSPACERESEARCH\">深空研究</link>可以被累积。\n"
+"\n"
+"需要<link=\"RTBDEEPSPACEINSIGHT\">深空洞察</link>才能运行。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHTELESCOPE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DEEPSPACERESEARCHTELESCOPE.NAME"
+msgid "<link=\"RTBDEEPSPACERESEARCHTELESCOPE\">[WIP] Deep Space Analysis Station</link>"
+msgstr "<link=\"RTBDEEPSPACERESEARCHTELESCOPE\">[制作中]深空分析站</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DOCKINGTUBEDOOR.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DOCKINGTUBEDOOR.DESC"
+msgid "Connecting with another (rocket) has never been easier."
+msgstr "与另一个（火箭）连接从未如此容易。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DOCKINGTUBEDOOR.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DOCKINGTUBEDOOR.EFFECT"
+msgid ""
+"Enables docking with other rockets and space stations\n"
+"\n"
+"Both docking participants require a docking component to dock.\n"
+"\n"
+"Assigning a duplicant forces it to use the docking bridge."
+msgstr ""
+"支持与其他火箭和空间站的对接\n"
+"\n"
+"对接的双方都需要一个对接组件才能完成对接。\n"
+"\n"
+"指派一个复制人将强制其使用对接桥。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DOCKINGTUBEDOOR.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DOCKINGTUBEDOOR.NAME"
+msgid "<link=\"RTBDOCKINGTUBEDOOR\">Docking Bridge</link>"
+msgstr "<link=\"RTBDOCKINGTUBEDOOR\">对接桥</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DRILLCONEDIAMONDSTORAGE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DRILLCONEDIAMONDSTORAGE.DESC"
+msgid "Bringing home those minerals - for Rock and Stone!"
+msgstr "把那些矿物带回家——为了岩石和石头！"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DRILLCONEDIAMONDSTORAGE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DRILLCONEDIAMONDSTORAGE.EFFECT"
+msgid ""
+"Acts as a support module for a normal Drillcone.\n"
+"\n"
+"Provides additional 1500kg of diamond capacity for the drillcone.\n"
+"\n"
+"Gives a 20% mining speed boost to the drillcone.\n"
+"\n"
+"Can be toggled between manual loading and automated loading via cargo loader."
+msgstr ""
+"作为普通钻头的供应舱块。\n"
+"\n"
+"为钻头提供额外的1500公斤钻石容量。\n"
+"\n"
+"给钻头带来20%的采矿速度提升。\n"
+"\n"
+"可以通过货物装载器在手动装载和自动装载之间切换。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DRILLCONEDIAMONDSTORAGE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_DRILLCONEDIAMONDSTORAGE.NAME"
+msgid "<link=\"RTBDRILLCONEDIAMONDSTORAGE\">Drillcone Service Module</link>"
+msgstr "<link=\"RTBDRILLCONEDIAMONDSTORAGE\">钻头维护模块</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGECARGOBAY.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGECARGOBAY.DESC"
+msgid "Space food for days"
+msgstr "几天的太空食物"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGECARGOBAY.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGECARGOBAY.EFFECT"
+msgid ""
+"Keeps food preserved, prevent spoilage.\n"
+"Can only be filled with a cargo loader.\n"
+"Contents can be accessed during the flight via wall loader"
+msgstr ""
+"保存食物，防止腐败。\n"
+"只能通过货物装载器补充。\n"
+"内容物可以在飞行期间通过墙式装载器访问"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGECARGOBAY.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGECARGOBAY.NAME"
+msgid "<link=\"RTBFRIDGECARGOBAY\">Freezer Module</link>"
+msgstr "<link=\"RTBFRIDGECARGOBAY\">冷冻舱</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.DESC"
+msgid "Food spoilage can be slowed by ambient conditions as well as by refrigerators."
+msgstr "食物的变质可以通过环境条件和冰箱来减缓。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.EFFECT"
+msgid ""
+"Has to be attached to the rocket wall.\n"
+"\n"
+"Stores a small amount of <link=\"FOOD\">Food</link> at an ideal <link=\"HEAT\">Temperature</link> to prevent spoilage.\n"
+"\n"
+"Will pull food from a connected <link=\"RTBFRIDGECARGOBAY\">Freezer Module</link> when low on food."
+msgstr ""
+"必须附着在火箭墙上。\n"
+"\n"
+"在理想的<link=\"HEAT\">温度</link>下存储少量<link=\"FOOD\">食物</link>以防止腐败。\n"
+"\n"
+"当食物不足时，会从连接的<link=\"RTBFRIDGECARGOBAY\">冷冻舱</link>中提取食物。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT"
+msgid "Full/Not Full"
+msgstr "已满/未满"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_ACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_ACTIVE"
+msgid "Sends a <b><style=\"logic_on\">Green Signal</style></b> when full"
+msgstr "满时发送<b><style=\"logic_on\">绿色信号</style></b>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_ACTIVE_PULL
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_ACTIVE_PULL"
+msgid "<b><style=\"logic_on\">Green Signal</style></b>: Building will pull more food from the Freezer Module when below 1kg of food."
+msgstr "<b><style=\"logic_on\">绿色信号</style></b>：当食物低于1kg时，该建筑将从冷冻舱中取出更多食物。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_INACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_INACTIVE"
+msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b>"
+msgstr "否则，发送<b><style=\"logic_off\">红色信号</style></b>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_INACTIVE_PULL
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_INACTIVE_PULL"
+msgid "<b><style=\"logic_off\">Red Signal</style></b>: Building wont pull any more food even when below 1kg."
+msgstr "<b><style=\"logic_off\">红色信号</style></b>：即使在1kg以下，该建筑也不会再取出任何食物。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_PULL
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.LOGIC_PORT_PULL"
+msgid "Pull food from Freezer Module"
+msgstr "从冷冻舱中取出食物"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_FRIDGEMODULEACCESSHATCH.NAME"
+msgid "<link=\"RTBFRIDGEMODULEACCESSHATCH\">Freezer Access Hatch</link>"
+msgstr "<link=\"RTBFRIDGEMODULEACCESSHATCH\">冷冻室检修口</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GASCARGOBAYCLUSTERLARGE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GASCARGOBAYCLUSTERLARGE.DESC"
+msgid "Holds even more than a large gas cargo canister!"
+msgstr "容纳的东西甚至比一个大的气体货物罐还多！"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GASCARGOBAYCLUSTERLARGE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GASCARGOBAYCLUSTERLARGE.EFFECT"
+msgid ""
+"Allows Duplicants to store most of the <link=\"ELEMENTSGAS\">Gas</link> resources found during space missions.\n"
+"\n"
+"Stored resources become available to the colony upon the rocket's return.\n"
+"\n"
+"Must be built via <link=\"LAUNCHPAD\">Rocket Platform</link>."
+msgstr ""
+"允许复制人在太空任务期间存储大部分<link=\"ELEMENTSGAS\">气体</link>资源。\n"
+"\n"
+"存储的资源在火箭返回后可供殖民地使用。\n"
+"\n"
+"必须通过<link=\"LAUNCHPAD\">火箭平台</link>建造。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GASCARGOBAYCLUSTERLARGE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GASCARGOBAYCLUSTERLARGE.NAME"
+msgid "<link=\"RTBGASCARGOBAYCLUSTERLARGE\">Colossal Gas Cargo Canister</link>"
+msgstr "<link=\"RTBGASCARGOBAYCLUSTERLARGE\">巨型气体货舱</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GENERATORCOALMODULE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GENERATORCOALMODULE.DESC"
+msgid "Converts <link=\"CARBON\">Coal</link> into electrical <link=\"POWER\">Power</link>."
+msgstr "将<link=\"CARBON\">煤炭</link>转化为<link=\"POWER\">电力</link>."
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GENERATORCOALMODULE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GENERATORCOALMODULE.EFFECT"
+msgid ""
+"Burning coal produces more energy than manual power, who could have thought this also works in space.\n"
+"\n"
+" If there is atleast one battery connected, the generator will stop producing if the battery is above 95% charge."
+msgstr ""
+"燃烧煤炭产生的能量比人力发电多，谁能想到这在太空中也适用。\n"
+"\n"
+"如果至少有一个电池连接，且当电池充电超过95%时，发电机将停止发电。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GENERATORCOALMODULE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GENERATORCOALMODULE.NAME"
+msgid "<link=\"COALGENERATORMODULECONFIG\">Coal Generator Module</link>"
+msgstr "<link=\"COALGENERATORMODULECONFIG\">煤碳发电舱</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GENERATORCOALMODULE.SIDESCREEN_TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_GENERATORCOALMODULE.SIDESCREEN_TOOLTIP"
+msgid "Duplicants will be requested to deliver <style=\"KKeyword\">{0}</style> when the amount stored falls below <b>{1}</b>"
+msgstr "当存储量低于 {1} 时，将要求复制人运送 <style=\"KKeyword\">{0}"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEMEDIUMEXPANDED.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEMEDIUMEXPANDED.DESC"
+msgid "Allows Duplicants to survive space travel... Hopefully."
+msgstr "能够让复制人在太空旅行中生存下来......希望吧。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEMEDIUMEXPANDED.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEMEDIUMEXPANDED.EFFECT"
+msgid ""
+"Functions as a Command Module.\n"
+"\n"
+"Holds up to ten Duplicant travellers.\n"
+"\n"
+"One Command Module may be installed per rocket. \n"
+"\n"
+"Engine must be built via <link=\"LAUNCHPAD\">Rocket Platform</link>."
+msgstr ""
+"与指挥舱的作用一致。\n"
+"\n"
+"能容纳最多十名复制人。\n"
+"\n"
+"每个火箭可安装一个指挥舱。\n"
+"\n"
+"必须通过<link=\"LAUNCHPAD\">火箭平台</link>建造。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEMEDIUMEXPANDED.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEMEDIUMEXPANDED.NAME"
+msgid "<link=\"HABITATMODULEMEDIUMEXPANDEDCONFIG\">Extended Spacefarer Module</link>"
+msgstr "<link=\"HABITATMODULEMEDIUMEXPANDEDCONFIG\">扩展太空员舱</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEPLATEDLARGE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEPLATEDLARGE.DESC"
+msgid "One lucky Duplicant gets the best view from the whole rocket."
+msgstr "一个幸运的复制人能够得到整个火箭最好的视野。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEPLATEDLARGE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEPLATEDLARGE.EFFECT"
+msgid ""
+"Functions as a Command Module and a Nosecone.\n"
+"\n"
+"Holds one Duplicant traveller.\n"
+"\n"
+"One Command Module may be installed per rocket.\n"
+"\n"
+"Must be built via <link=\"LAUNCHPAD\">Rocket Platform</link>. \n"
+"\n"
+"Must be built at the top of a rocket.\n"
+"\n"
+"Interior is fully shielded from radiation."
+msgstr ""
+"与指挥舱和前锥的作用一致。\n"
+"\n"
+"能容纳一名复制人。\n"
+"\n"
+"每个火箭可安装一个指挥舱。\n"
+"\n"
+"必须通过<link=\"LAUNCHPAD\">火箭平台</link>建造。\n"
+"\n"
+"必须建在火箭的最顶端。\n"
+"\n"
+"内部完全屏蔽辐射。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEPLATEDLARGE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULEPLATEDLARGE.NAME"
+msgid "<link=\"HABITATMODULESMALLEXPANDEDCONFIG\">Plated Spacefarer Nosecone</link>"
+msgstr "<link=\"HABITATMODULESMALLEXPANDEDCONFIG\">镀层太空员舱前锥</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESMALLEXPANDED.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESMALLEXPANDED.DESC"
+msgid "One lucky Duplicant gets the best view from the whole rocket."
+msgstr "一个幸运的复制人能够得到整个火箭最好的视野。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESMALLEXPANDED.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESMALLEXPANDED.EFFECT"
+msgid ""
+"Functions as a Command Module and a Nosecone.\n"
+"\n"
+"Holds one Duplicant traveller.\n"
+"\n"
+"One Command Module may be installed per rocket.\n"
+"\n"
+"Must be built via <link=\"LAUNCHPAD\">Rocket Platform</link>. \n"
+"\n"
+"Must be built at the top of a rocket."
+msgstr ""
+"与指挥舱和前锥的作用一致。\n"
+"\n"
+"能容纳一名复制人。\n"
+"\n"
+"每个火箭可安装一个指挥舱。\n"
+"\n"
+"必须通过<link=\"LAUNCHPAD\">火箭平台</link>建造。\n"
+"\n"
+"必须建在火箭的最顶端。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESMALLEXPANDED.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESMALLEXPANDED.NAME"
+msgid "<link=\"HABITATMODULESMALLEXPANDEDCONFIG\">Extended Solo Spacefarer Nosecone</link>"
+msgstr "<link=\"HABITATMODULESLLEXPANDEDCONFIG\">扩展的单人太空舱前锥</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESTARGAZER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESTARGAZER.DESC"
+msgid "The stars have never felt this close before like in this Command Module."
+msgstr "在这个指挥舱里，星星从来没有像现在这样近过。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESTARGAZER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESTARGAZER.EFFECT"
+msgid ""
+"Closes during starts and landings to protect the glass\n"
+"\n"
+"Functions as a Command Module and a Nosecone.\n"
+"\n"
+"One Command Module may be installed per rocket.\n"
+"\n"
+"Must be built via <link=\"LAUNCHPAD\">Rocket Platform</link>. \n"
+"\n"
+"Must be built at the top of a rocket.\n"
+"\n"
+"Great for looking at the stars or a nice sunbathing during the flight."
+msgstr ""
+"在起飞和降落时关闭以保护玻璃\n"
+"\n"
+"功能相当于指挥舱和前锥。\n"
+"\n"
+"每枚火箭只能安装一个指令舱。\n"
+"\n"
+"必须通过<link=\"LAUNCHPAD\">火箭平台</link>建造。\n"
+"\n"
+"必须建造在火箭的顶部。\n"
+"\n"
+"非常适合在飞行中观赏星星或享受日光浴。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESTARGAZER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HABITATMODULESTARGAZER.NAME"
+msgid "<link=\"HABITATMODULESTARGAZERCONFIG\">Stargazer Nosecone</link>"
+msgstr "<link=\"HABITATMODULESTARGAZERCONFIG\">观星者前锥</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPBATTERYMODULE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPBATTERYMODULE.DESC"
+msgid "Particles packed up and ready to visit the stars."
+msgstr "粒子集结完毕，准备前往星辰之中。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPBATTERYMODULE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPBATTERYMODULE.EFFECT"
+msgid ""
+"Stores Radbolts in a high-energy state, ready for transport.\n"
+"\n"
+"Requires a <b><style=\"logic_on\">Green Signal</style></b> to release radbolts from storage when the Radbolt threshold is reached.\n"
+"\n"
+"Radbolts in storage won't decay as long as the modules solar panels can function.\n"
+"\n"
+"Automatically refills a <link=\"NOSECONEHEPHARVESTCONFIG\">Laser Drillcone</link>"
+msgstr ""
+"以高能状态存储辐射粒子，准备运输。\n"
+"\n"
+"当达到辐射粒子阈值时，需要一个<b><style=\"logic_on\">绿色信号</style></b>来从存储中释放辐射粒子。\n"
+"\n"
+"只要模块的太阳能板能正常工作，存储的辐射粒子就不会衰减。\n"
+"\n"
+"自动为<link=\"NOSECONEHEPHARVESTCONFIG\">激光钻头前锥</link>补充燃料"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPBATTERYMODULE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPBATTERYMODULE.NAME"
+msgid "<link=\"HEPBATTERYMODULECONFIG\">Radbolt Chamber Module</link>"
+msgstr "<link=\"HEPBATTERYMODULECONFIG\">辐射粒子储存舱</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPFUELLOADER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPFUELLOADER.DESC"
+msgid "\"Shoving everything in there\" - now with higly energized particles."
+msgstr "\"把所有东西都推进去\"——现在是高能粒子。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPFUELLOADER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPFUELLOADER.EFFECT"
+msgid ""
+"Fills all sorts of Radbolt Storages.\n"
+"Allows fueling a Radbolt Engine and the Laser Drillcone\n"
+"\n"
+"Automatically links when built to the side of a <link=\"LAUNCHPAD\">Rocket Platform</link> or another <link=\"MODULARLAUNCHPADPORTSOLID\">Rocket Port</link>"
+msgstr ""
+"填充各种辐射粒子存储。\n"
+"允许给辐射引擎和激光钻头填充燃料\n"
+"\n"
+"在<link=\"LAUNCHPAD\">火箭平台</link>或另一个<link=\"MODULARLAUNCHPADPORTSOLID\">火箭端口</link>侧面建造时自动连接"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPFUELLOADER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_HEPFUELLOADER.NAME"
+msgid "<link=\"RTBHEPFUELLOADER\">Radbolt Loader</link>"
+msgstr "<link=\"RTBHEPFUELLOADER\">辐射粒子装载器</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_IONENGINECLUSTER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_IONENGINECLUSTER.DESC"
+msgid "Rockets can be used to send Duplicants into space and retrieve rare resources."
+msgstr "火箭可以用来将复制人送入太空并取回稀有资源。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_IONENGINECLUSTER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_IONENGINECLUSTER.EFFECT"
+msgid ""
+"Uses large amounts of <link=\"POWER\">Power</link> to ionize <link=\"WATER\">Water</link>, ejecting the ionized particles outwards to propel rockets for long-range space exploration.\n"
+"\n"
+"Power is drawn from battery modules.\n"
+"\n"
+"Engine must be built via <link=\"LAUNCHPAD\">Rocket Platform</link>"
+msgstr ""
+"使用大量的<link=\"POWER\">电力</link>来离子化<link=\"WATER\">水</link>，将离子化的粒子向外喷射，以推动火箭进行长距离太空探索。\n"
+"\n"
+"电力从电池模块中提取。\n"
+"\n"
+"引擎必须通过<link=\"LAUNCHPAD\">火箭平台</link>建造"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_IONENGINECLUSTER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_IONENGINECLUSTER.NAME"
+msgid "<link=\"RTBIONENGINECLUSTER\">Ion Engine</link>"
+msgstr "<link=\"RTBIONENGINECLUSTER\">离子引擎</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LADDERCONNECTIONADAPTER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LADDERCONNECTIONADAPTER.DESC"
+msgid "Connecting rocket platforms, now with verticality"
+msgstr "连接火箭平台，这次是垂直方向"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LADDERCONNECTIONADAPTER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LADDERCONNECTIONADAPTER.EFFECT"
+msgid ""
+"Connects adjacent rocket platforms while doubling as a ladder.\n"
+"\n"
+"Automatically links when built to the side of a <link=\"LAUNCHPAD\">Rocket Platform</link> or another <link=\"MODULARLAUNCHPADPORTSOLID\">Rocket Port</link>"
+msgstr ""
+"在连接相邻火箭平台的同时，还可以作为梯子使用。\n"
+"\n"
+"在<link=\"LAUNCHPAD\">火箭平台</link>或另一个<link=\"MODULARLAUNCHPADPORTSOLID\">火箭端口</link>侧面建造时自动连接"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LADDERCONNECTIONADAPTER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LADDERCONNECTIONADAPTER.NAME"
+msgid "<link=\"RTBWALLCONNECTIONADAPTER\">Rocket Port Ladder Adapter</link>"
+msgstr "<link=\"RTBWALLCONNECTIONADAPTER\">火箭端口梯子适配器</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LANDERROCKETPLATFORM.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LANDERROCKETPLATFORM.DESC"
+msgid "Perfect for a first landing"
+msgstr "非常适合首次着陆"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LANDERROCKETPLATFORM.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LANDERROCKETPLATFORM.NAME"
+msgid "<link=\"RTBLANDERROCKETPLATFORM\">Deployable Rocket Platform</link>"
+msgstr "<link=\"RTBLANDERROCKETPLATFORM\">可部署火箭平台</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDCARGOBAYCLUSTERLARGE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDCARGOBAYCLUSTERLARGE.DESC"
+msgid "Holds even more than a large cargo tank!"
+msgstr "容纳的东西甚至比一个大型货舱还多！"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDCARGOBAYCLUSTERLARGE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDCARGOBAYCLUSTERLARGE.EFFECT"
+msgid ""
+"Allows Duplicants to store most of the <link=\"ELEMENTSLIQUID\">Liquid</link> resources found during space missions.\n"
+"\n"
+"Stored resources become available to the colony upon the rocket's return.\n"
+"\n"
+"Must be built via <link=\"LAUNCHPAD\">Rocket Platform</link>."
+msgstr ""
+"允许复制人在太空任务期间存储大部分<link=\"ELEMENTSLIQUID\">液体</link>资源。\n"
+"\n"
+"存储的资源在火箭返回后可供殖民地使用。\n"
+"\n"
+"必须通过<link=\"LAUNCHPAD\">火箭平台</link>建造。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDCARGOBAYCLUSTERLARGE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDCARGOBAYCLUSTERLARGE.NAME"
+msgid "<link=\"RTBLIQUIDCARGOBAYCLUSTERLARGE\">Colossal Liquid Cargo Tank</link>"
+msgstr "<link=\"RTBLIQUIDCARGOBAYCLUSTERLARGE\">巨型液体货舱</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDCHLORINEOXIDIZERTANK.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDCHLORINEOXIDIZERTANK.DESC"
+msgid "Liquid chlorine improves the thrust-to-mass ratio of rocket fuels."
+msgstr "液氯可以提高火箭燃料的推力质量比。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDCHLORINEOXIDIZERTANK.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDCHLORINEOXIDIZERTANK.EFFECT"
+msgid ""
+"Stores <link=\"CHLORINE\">Liquid Chlorine</link> for burning rocket fuels. \n"
+"\n"
+"Must be built via <link=\"LAUNCHPAD\">Rocket Platform</link>.\n"
+"\n"
+"The oxidizer efficiency of liquid chlorine sits between those of oxylite and liquid oxygen (3)."
+msgstr ""
+"存储<link=\"CHLORINE\">液氯</link>以供火箭燃料燃烧。\n"
+"\n"
+"必须通过<link=\"LAUNCHPAD\">火箭平台</link>建造。\n"
+"\n"
+"液氯的氧化剂效率介于氧石和液氧之间（3）。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDCHLORINEOXIDIZERTANK.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDCHLORINEOXIDIZERTANK.NAME"
+msgid "<link=\"RTBLIQUIDCHLORINEOXIDIZERTANK\">Liquid Chlorine Oxidizer Tank</link>"
+msgstr "<link=\"RTBLIGUIDCHLORINEOXIDIZERTANK\">液氯氧化剂箱</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDFUELTANKCLUSTERSMALL.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDFUELTANKCLUSTERSMALL.DESC"
+msgid "Storing additional fuel increases the distance a rocket can travel before returning."
+msgstr "储存更多燃料可让火箭在返回之前探索的距离更远。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDFUELTANKCLUSTERSMALL.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDFUELTANKCLUSTERSMALL.EFFECT"
+msgid ""
+"Stores the <link=\"ELEMENTSLIQUID\">Liquid</link> fuel piped into it to supply rocket engines.\n"
+"\n"
+"The stored fuel type is determined by the rocket engine it is built upon. \n"
+"\n"
+"Must be built via <link=\"LAUNCHPAD\">Rocket Platform</link>."
+msgstr ""
+"储存经管道输送的<link=\"ELEMENTSLIQUID\">液体</link>燃料，为火箭引擎提供能源。\n"
+"\n"
+"所储存的燃料类型取决于火箭引擎。\n"
+"\n"
+"必须通过<link=\"LAUNCHPAD\">火箭平台</link>建造。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDFUELTANKCLUSTERSMALL.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_LIQUIDFUELTANKCLUSTERSMALL.NAME"
+msgid "<link=\"RTBLIQUIDFUELTANKCLUSTERSMALL\">Small Liquid Fuel Tank</link>"
+msgstr "<link=\"RTBLIQUIDFUELTANKCLUSTERSMALL\">小型液体燃料箱</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NATGASENGINECLUSTER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NATGASENGINECLUSTER.DESC"
+msgid "Rockets can be used to send Duplicants into space and retrieve rare resources."
+msgstr "火箭可以用来将复制人送入太空并获取稀有资源。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NATGASENGINECLUSTER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NATGASENGINECLUSTER.EFFECT"
+msgid ""
+"Burns <link=\"METHANE\">Natural Gas</link> to propel rockets for mid-range space exploration.\n"
+"\n"
+"Engine must be built via <link=\"LAUNCHPAD\">Rocket Platform</link>"
+msgstr ""
+"燃烧<link=\"METHANE\">天然气</link>以推动火箭进行中程太空探索。\n"
+"\n"
+"引擎必须通过<link=\"LAUNCHPAD\">火箭平台</link>建造。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NATGASENGINECLUSTER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NATGASENGINECLUSTER.NAME"
+msgid "<link=\"RTBNATGASENGINECLUSTER\">Natural Gas Engine</link>"
+msgstr "<link=\"RTBNATGASENGINECLUSTER\">天然气引擎</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NOSECONESOLAR.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NOSECONESOLAR.DESC"
+msgid "Every rocket requires a nosecone to fly."
+msgstr "每个火箭都需要一个前锥才能飞起来。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NOSECONESOLAR.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NOSECONESOLAR.EFFECT"
+msgid ""
+"Protects a rocket during takeoff and entry, enabling space travel.\n"
+"\n"
+"Engine must be built via <link=\"LAUNCHPAD\">Rocket Platform</link>. \n"
+"\n"
+"Must be built at the top of a rocket.\n"
+"\n"
+"Converts <link=\"LIGHT\">Sunlight</link> into electrical <link=\"POWER\">Power</link> for use on rockets.\n"
+"\n"
+"Must be exposed to space."
+msgstr ""
+"在起飞和落地期间保护火箭，以实现太空旅行。\n"
+"\n"
+"必须通过<link=\"LAUNCHPAD\">火箭平台</link>建造。\n"
+"\n"
+"必须建在火箭的最顶端。\n"
+"\n"
+"将<link=\"LIGHT\">阳光</link>转换为火箭使用的电力<link=\"POWER\">能量</link>。\n"
+"\n"
+"必须暴露在太空中。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NOSECONESOLAR.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_NOSECONESOLAR.NAME"
+msgid "<link=\"NOSECONESOLARCONFIG\">Solar Nosecone</link>"
+msgstr "<link=\"NOSECONESOLARCONFIG\">太阳能板前锥</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.DESC"
+msgid "How much stuff is out there?"
+msgstr "外面有多少东西？"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.EFFECT"
+msgid "After pointing the building at a space poi, the building will output logic signals based on the poi artifact existing and the mass remaining in the poi."
+msgstr "在将建筑指向一个太空遗迹后，建筑会根据遗迹中是否存在工艺品和剩余质量输出逻辑信号。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.LOGIC_PORT_ARTIFACT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.LOGIC_PORT_ARTIFACT"
+msgid "POI has Artifact"
+msgstr "遗迹中有工艺品"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.LOGIC_PORT_ARTIFACT_ACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.LOGIC_PORT_ARTIFACT_ACTIVE"
+msgid "Sends a <b><style=\"logic_on\">Green Signal</style></b> when the targeted POI has an artifact"
+msgstr "当目标遗迹中有文物时，发送<b><style=\"logic_on\">绿色信号</style></b>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.LOGIC_PORT_ARTIFACT_INACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.LOGIC_PORT_ARTIFACT_INACTIVE"
+msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b>"
+msgstr "否则，发送<b><style=\"logic_off\">红色信号</style></b>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.LOGIC_PORT_CAPACITY
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.LOGIC_PORT_CAPACITY"
+msgid "POI mass above set threshold."
+msgstr "遗迹质量高于设定阈值。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.LOGIC_PORT_CAPACITY_ACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.LOGIC_PORT_CAPACITY_ACTIVE"
+msgid "Sends a <b><style=\"logic_on\">Green Signal</style></b> when the targeted POI has more than the configured mass remaining"
+msgstr "当目标遗迹的剩余质量超过设置的质量时，发送<b><style=\"logic_on\">绿色信号</style></b>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.LOGIC_PORT_CAPACITY_INACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.LOGIC_PORT_CAPACITY_INACTIVE"
+msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b>"
+msgstr "否则，发送<b><style=\"logic_off\">红色信号</style></b>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.NAME"
+msgid "<link=\"RTBPOICAPACITYSENSOR\">Starmap POI Capacity Sensor</link>"
+msgstr "<link=\"RTBPOICAPACITYSENSOR\">星图遗迹容量传感器</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.REMAININGMASS
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.REMAININGMASS"
+msgid "Remaining Mass in POI"
+msgstr "遗迹中的剩余质量"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.REMAININGMASS_TOOLTIP_ABOVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.REMAININGMASS_TOOLTIP_ABOVE"
+msgid "Will send a <b><style=\"logic_on\">Green Signal</style></b> if the <style=\"KKeyword\">remaining Mass in the POI</style> is above <b>{0}</b>"
+msgstr "如果遗迹中的<style=\"KKeyword\">剩余质量</style>高于<b>{0}，将发送<b><style=\"logic_on\">绿色信号</style></b></b>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.REMAININGMASS_TOOLTIP_BELOW
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.REMAININGMASS_TOOLTIP_BELOW"
+msgid "Will send a <b><style=\"logic_on\">Green Signal</style></b> if the <style=\"KKeyword\">remaining Mass in the POI</style> is below <b>{0}</b>"
+msgstr "如果遗迹中的<style=\"KKeyword\">剩余质量</style>低于<b>{0}，将发送<b><style=\"logic_on\">绿色信号</style></b></b>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.SIDESCREENTITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.SIDESCREENTITLE"
+msgid "Remaining Mass"
+msgstr "剩余质量"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_REINFORCEDLADDER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_REINFORCEDLADDER.DESC"
+msgid "Sturdy and quick to climb!"
+msgstr "坚固且爬起来非常迅速！"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_REINFORCEDLADDER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_REINFORCEDLADDER.EFFECT"
+msgid "Increases duplicant climbing speed. Immune to meteors"
+msgstr "提高复制人的攀爬速度。免疫流星撞击"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_REINFORCEDLADDER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_REINFORCEDLADDER.NAME"
+msgid "<link=\"RTBREINFORCEDLADDER\">Reinforced Ladder</link>"
+msgstr "<link=\"RTBREINFORCEDLADDER\">强化梯子</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ROCKETPLATFORMTAG.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_ROCKETPLATFORMTAG.NAME"
+msgid "Rocket Platform"
+msgstr "火箭平台"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_RTGGENERATORMODULE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_RTGGENERATORMODULE.DESC"
+msgid "Through exploitation of the natural decay of enriched Uranium, this elegantly simple power generator can provide consistent, stable power for hundreds of cycles."
+msgstr "通过利用浓缩铀的自然衰变，这种优雅简单的发电机可以为数百次循环提供稳定的电力。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_RTGGENERATORMODULE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_RTGGENERATORMODULE.EFFECT"
+msgid ""
+"After adding 50 kg of enriched Uranium, this module will constantly produce 120 W of energy until all of the uranium is depleted.\n"
+"\n"
+"It will take 50 Cycles for the uranium to decay."
+msgstr ""
+"在添加了 50 公斤浓缩铀后，该模块将不断产生 120 瓦的能源，直到所有铀耗尽为止。\n"
+"\n"
+"铀衰变需要 50 个周期。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_RTGGENERATORMODULE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_RTGGENERATORMODULE.NAME"
+msgid "<link=\"RTBRTGGENERATORMODULE\">Radioisotope Thermoelectric Generator</link>"
+msgstr "<link=\"RTBRTGGENERATORMODULE\">放射性同位素热力发电舱</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SMOLBATTERYMODULE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SMOLBATTERYMODULE.DESC"
+msgid "Charging a battery module before takeoff makes it easier to power buildings during flight."
+msgstr "在起飞前为电池舱充电，在飞行过程中就更容易为建筑供电了。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SMOLBATTERYMODULE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SMOLBATTERYMODULE.EFFECT"
+msgid ""
+"Stores the excess <link=\"POWER\">Power</link> generated by a Rocket Engine or <link=\"LAUNCHPAD\">Rocket Platform</link>.\n"
+"\n"
+"Provides stored power to <link=\"ROCKETINTERIORPOWERPLUG\">Interior Rocket Outlets</link>.\n"
+"\n"
+"Loses charge over time. \n"
+"\n"
+"Must be built via Rocket Platform."
+msgstr ""
+"储存由火箭引擎生成的或来自<link=\"LAUNCHPAD\">火箭平台</link>的额外<link=\"POWER\">电力</link>。\n"
+"\n"
+"将储存的电力提供给<link=\"ROCKETINTERIORPOWERPLUG\">内部火箭插座</link>。\n"
+"\n"
+"电量会随着时间流失。\n"
+"\n"
+"必须通过火箭平台建造。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SMOLBATTERYMODULE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SMOLBATTERYMODULE.NAME"
+msgid "<link=\"RTBSMOLBATTERYMODULE\">Small Battery Module</link>"
+msgstr "<link=\"RTBSMOLBATTERYMODULE\">小型电池舱</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SOLARPANELMODULE_WIDE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SOLARPANELMODULE_WIDE.DESC"
+msgid ""
+"Collect solar energy before takeoff and during flight.\n"
+"That small module looked so off on wide rockets!"
+msgstr ""
+"在火箭起飞前和飞行时收集太阳能。\n"
+"那个小模块装在宽体火箭上看起来太不协调了！"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SOLARPANELMODULE_WIDE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SOLARPANELMODULE_WIDE.EFFECT"
+msgid ""
+"Converts <link=\"LIGHT\">Sunlight</link> into electrical <link=\"POWER\">Power</link> for use on rockets.\n"
+"\n"
+"Must be built via <link=\"LAUNCHPAD\">Rocket Platform</link>. \n"
+"\n"
+"Must be exposed to space."
+msgstr ""
+"将<link=\"LIGHT\">阳光</link>转化为<link=\"POWER\">电力</link>供火箭使用。\n"
+"\n"
+"必须通过<link=\"LAUNCHPAD\">火箭平台</link>建造。\n"
+"\n"
+"必须暴露在太空中。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SOLARPANELMODULE_WIDE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SOLARPANELMODULE_WIDE.NAME"
+msgid "<link=\"RTBSOLARPANELMODULEWIDE\">Wide Solar Panel Module</link>"
+msgstr "<link=\"RTBSOLARPANELMODULEWIDE\">加宽太阳能舱</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONDOCKINGDOOR.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONDOCKINGDOOR.DESC"
+msgid "Connecting with another (rocket) has never been easier."
+msgstr "与另一个（火箭）连接从未如此容易。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONDOCKINGDOOR.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONDOCKINGDOOR.EFFECT"
+msgid ""
+"Enables docking with rockets to dock\n"
+"\n"
+"Allows loading and unloading docked rockets\n"
+"\n"
+"Rockets require a docking component to dock.\n"
+"\n"
+"Assigning a duplicant forces it to use the docking bridge."
+msgstr ""
+"能够与火箭进行对接\n"
+"\n"
+"允许装卸对接火箭\n"
+"\n"
+"火箭需要一个对接组件才能实现对接。\n"
+"\n"
+"分配一个复制人以迫使其使用对接桥。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONDOCKINGDOOR.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONDOCKINGDOOR.NAME"
+msgid "<link=\"RTBSPACESTATIONDOCKINGDOOR\">[WIP] Orbital Docking Port</link>"
+msgstr "<link=\"RTBSPACESTATIONDOCKINGDOOR\">[制作中]轨道对接端口</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONDOCKINGDOOR_INDESTRUCTIBLE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONDOCKINGDOOR_INDESTRUCTIBLE.DESC"
+msgid "Connecting with another (rocket) has never been easier."
+msgstr "与另一个（火箭）连接从未如此容易。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONDOCKINGDOOR_INDESTRUCTIBLE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONDOCKINGDOOR_INDESTRUCTIBLE.EFFECT"
+msgid ""
+"Enables docking with rockets to dock\n"
+"\n"
+"Allows loading and unloading docked rockets\n"
+"\n"
+"Rockets require a docking component to dock.\n"
+"\n"
+"Assigning a duplicant forces it to use the docking bridge."
+msgstr ""
+"能够与火箭进行对接\n"
+"\n"
+"允许装卸对接火箭\n"
+"\n"
+"火箭需要一个对接组件才能实现对接。\n"
+"\n"
+"分配一个复制人以迫使其使用对接桥。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONDOCKINGDOOR_INDESTRUCTIBLE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONDOCKINGDOOR_INDESTRUCTIBLE.NAME"
+msgid "<link=\"RTBSPACESTATIONDOCKINGDOORINDESTRUCTIBLE\">[WIP] Core Orbital Docking Port</link>"
+msgstr "<link=\"RTBSPACESTATIONDOCKINGDOORINDESTRUCTIBLE\">[制作中]核心轨道对接端口</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONMODULEBUILDER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONMODULEBUILDER.DESC"
+msgid "TODO"
+msgstr "TODO"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONMODULEBUILDER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONMODULEBUILDER.EFFECT"
+msgid "Allows construction in deep space."
+msgstr "允许在深空中进行建造。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONMODULEBUILDER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_SPACESTATIONMODULEBUILDER.NAME"
+msgid "<link=\"RTBSPACESTATIONMODULEBUILDER\">[WIP] Orbital Construction Module</link>"
+msgstr "<link=\"RTBSPACESTATIONMODULEBUILDER\">[制作中]轨道建造模块</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_STEAMGENERATORMODULE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_STEAMGENERATORMODULE.DESC"
+msgid "Useful for converting hot steam into usable power."
+msgstr "用于将高温蒸汽转换为可用电力。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_STEAMGENERATORMODULE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_STEAMGENERATORMODULE.EFFECT"
+msgid ""
+"Draws in <link=\"STEAM\">Steam</link> from gas storage modules and uses it to generate electrical <link=\"POWER\">Power</link>.\n"
+"\n"
+" If there are liquid storage modules with appropriate filters set, outputs hot <link=\"WATER\">Water</link> to them.\n"
+"\n"
+" If there is atleast one battery connected, the generator will stop producing if the battery is above 95% charge."
+msgstr ""
+"从气体存储模块中吸入<link=\"STEAM\">蒸汽</link>，并使用它来生成电力<link=\"POWER\">能量</link>。\n"
+"\n"
+"如果存在具有适当过滤器的液体存储模块，则将热<link=\"WATER\">水</link>输出到它们那里。\n"
+"\n"
+"如果至少连接了一个电池，当电池充电超过95%时，发电机将停止产生能量。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_STEAMGENERATORMODULE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_STEAMGENERATORMODULE.NAME"
+msgid "<link=\"STEAMGENERATORMODULECONFIG\">Steam Generator Module</link>"
+msgstr "<link=\"STEAMGENERATORMODULECONFIG\">蒸汽发电舱</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.DESC"
+msgid "Fueling Rockets has never been easier!"
+msgstr "给火箭加油从来没有这么容易过！"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.EFFECT"
+msgid ""
+"Refuels connected rockets with the appropriate fuel.\n"
+"\n"
+"Automatically links when built to the side of a <link=\"LAUNCHPAD\">Rocket Platform</link> or another <link=\"MODULARLAUNCHPADPORTSOLID\">Rocket Port</link>"
+msgstr ""
+"为连接的火箭加注适量的燃料。\n"
+"\n"
+"在<link=\"LAUNCHPAD\">火箭平台</link>或另一个<link=\"MODULARLAUNCHPADPORTSOLID\">火箭端口</link>侧面建造时自动连接。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.LOGIC_PORT_ROCKETLOADER
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.LOGIC_PORT_ROCKETLOADER"
+msgid "Currently Loading/Unloading"
+msgstr "当前装载/卸载"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.LOGIC_PORT_ROCKETLOADER_ACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.LOGIC_PORT_ROCKETLOADER_ACTIVE"
+msgid "Sends a <b><style=\"logic_on\">Green Signal</style></b> when building is currently loading or unloading a rocket"
+msgstr "当建筑物当前正在装载或卸载火箭时，发送<b><style=\"logic_on\">绿色信号</style></b>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.LOGIC_PORT_ROCKETLOADER_INACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.LOGIC_PORT_ROCKETLOADER_INACTIVE"
+msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b>"
+msgstr "否则，发送<b><style=\"logic_off\">红色信号</style></b>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALFUELLOADER.NAME"
+msgid "<link=\"RTBUNIVERSALFUELLOADER\">Rocket Fuel Loader</link>"
+msgstr "<link=\"RTBUNIVERSALFUELLOADER\">火箭燃料装载器</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALOXIDIZERLOADER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALOXIDIZERLOADER.DESC"
+msgid "Fueling Rockets has never been easier!"
+msgstr "给火箭加油从来没有这么容易过！"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALOXIDIZERLOADER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALOXIDIZERLOADER.EFFECT"
+msgid ""
+"Refuels connected rockets with the appropriate oxidizer\n"
+"\n"
+"Automatically links when built to the side of a <link=\"LAUNCHPAD\">Rocket Platform</link> or another <link=\"MODULARLAUNCHPADPORTSOLID\">Rocket Port</link>"
+msgstr ""
+"为连接的火箭加注适量的氧化剂。\n"
+"\n"
+"在<link=\"LAUNCHPAD\">火箭平台</link>或另一个<link=\"MODULARLAUNCHPADPORTSOLID\">火箭端口</link>侧面建造时自动连接。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALOXIDIZERLOADER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_UNIVERSALOXIDIZERLOADER.NAME"
+msgid "<link=\"RTBUNIVERSALOXIDIZERLOADER\">Rocket Oxidizer Loader</link>"
+msgstr "<link=\"RTBUNIVERSALOXIDIZERLOADER\">火箭氧化剂装载器</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_VERTICALADAPTERBASE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_VERTICALADAPTERBASE.DESC"
+msgid "Ascending to new levels"
+msgstr "上升到新的水平"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_VERTICALADAPTERBASE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_VERTICALADAPTERBASE.EFFECT"
+msgid ""
+"A Crosspiece rocket port adapter for vertical expansion.\n"
+"\n"
+"Links up with other vertical adapter pieces above and below it.\n"
+"\n"
+"Automatically links when built to the side of a <link=\"LAUNCHPAD\">Rocket Platform</link> or another <link=\"MODULARLAUNCHPADPORTSOLID\">Rocket Port</link>"
+msgstr ""
+"用于垂直扩展的交叉火箭端口适配器。\n"
+"\n"
+"与上方和下方的其他垂直适配器部件连接。\n"
+"\n"
+"在<link=\"LAUNCHPAD\">火箭平台</link>或另一个<link=\"MODULARLAUNCHPADPORTSOLID\">火箭端口</link>侧面建造时自动连接。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_VERTICALADAPTERBASE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_VERTICALADAPTERBASE.NAME"
+msgid "<link=\"RTBVERTICALADAPTERBASE\">Vertical Rocket Port Adapter</link>"
+msgstr "<link=\"RTBVERTICALADAPTERBASE\">垂直火箭端口适配器</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_VERTICALADAPTERPIECE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_VERTICALADAPTERPIECE.DESC"
+msgid "Gantry Not Included"
+msgstr "缺少龙门架"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_VERTICALADAPTERPIECE.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_VERTICALADAPTERPIECE.EFFECT"
+msgid ""
+"A rocket port adapter piece for vertical expansion.\n"
+"\n"
+"Links up with other vertical adapter pieces above and below it."
+msgstr ""
+"用于垂直扩展的火箭端口适配器部件。\n"
+"\n"
+"与上方和下方的其他垂直适配器部件连接。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_VERTICALADAPTERPIECE.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_VERTICALADAPTERPIECE.NAME"
+msgid "<link=\"RTBVERTICALADAPTERPIECE\">Vertical Rocket Port Piece</link>"
+msgstr "<link=\"RTBVERTICALADAPTERPIECE\">垂直火箭端口部件</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_WALLCONNECTIONADAPTER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_WALLCONNECTIONADAPTER.DESC"
+msgid "Insulated for convenience."
+msgstr "隔热化设计，便捷无忧。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_WALLCONNECTIONADAPTER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_WALLCONNECTIONADAPTER.EFFECT"
+msgid ""
+"An insulated wall adapter to seal off rocket start areas.\n"
+"\n"
+"Automatically links when built to the side of a <link=\"LAUNCHPAD\">Rocket Platform</link> or another <link=\"MODULARLAUNCHPADPORTSOLID\">Rocket Port</link>"
+msgstr ""
+"用于封闭火箭发射区域的隔热墙适配器。\n"
+"\n"
+"在<link=\"LAUNCHPAD\">火箭平台</link>或另一个<link=\"MODULARLAUNCHPADPORTSOLID\">火箭端口</link>侧面建造时自动连接。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_WALLCONNECTIONADAPTER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_WALLCONNECTIONADAPTER.NAME"
+msgid "<link=\"RTBWALLCONNECTIONADAPTER\">Insulated Rocket Port Wall Adapter</link>"
+msgstr "<link=\"RTBWALLCONNECTIONADAPTER\">隔热墙火箭端口适配器</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_WALLCONNECTIONADAPTERBUNKER.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_WALLCONNECTIONADAPTERBUNKER.DESC"
+msgid "Bunkered down for convenience."
+msgstr "掩体化设计，便捷无忧。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_WALLCONNECTIONADAPTERBUNKER.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_WALLCONNECTIONADAPTERBUNKER.EFFECT"
+msgid ""
+"A bunker wall adapter to seal off rocket start areas.\n"
+"\n"
+"Automatically links when built to the side of a <link=\"LAUNCHPAD\">Rocket Platform</link> or another <link=\"MODULARLAUNCHPADPORTSOLID\">Rocket Port</link>"
+msgstr ""
+"用于封闭火箭发射区域的地堡墙适配器。\n"
+"\n"
+"在<link=\"LAUNCHPAD\">火箭平台</link>或另一个<link=\"MODULARLAUNCHPADPORTSOLID\">火箭端口</link>侧面建造时自动连接</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_WALLCONNECTIONADAPTERBUNKER.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RTB_WALLCONNECTIONADAPTERBUNKER.NAME"
+msgid "<link=\"RTBWALLCONNECTIONADAPTERBUNKER\">Bunkered Rocket Port Wall Adapter</link>"
+msgstr "<link=\"RTBWALLCONNECTIONADAPTERBUNKER\">地堡墙火箭端口适配器</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RYB_NOSECONEHEPHARVEST.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RYB_NOSECONEHEPHARVEST.DESC"
+msgid "Harvests resources from the universe with the power of radbolts and lasers"
+msgstr "利用雷达和辐射粒子的力量从宇宙中获取资源"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RYB_NOSECONEHEPHARVEST.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RYB_NOSECONEHEPHARVEST.EFFECT"
+msgid ""
+"Enables a rocket to drill into interstellar debris and collect <link=\"ELEMENTSGAS\">gas</link>, <link=\"ELEMENTSLIQUID\">liquid</link> and <link=\"ELEMENTSSOLID\">solid</link> resources from space.\n"
+"\n"
+"Engine must be built via <link=\"LAUNCHPAD\">Rocket Platform</link>. \n"
+"\n"
+"Must be built at the top of a rocket with <link=\"ELEMENTSGAS\">gas</link>, <link=\"ELEMENTSLIQUID\">liquid</link> or <link=\"ELEMENTSSOLID\">solid</link> Cargo Module attached to store the appropriate resources."
+msgstr ""
+"使火箭能够钻取太空中的星际碎片并收集<link=\"ELEMENTSGAS\">气体</link>、<link=\"ELEMENTSLIQUID\">液体</link>和<link=\"ELEMENTSSOLID\">固体</link>资源。\n"
+"\n"
+"必须通过<link=\"LAUNCHPAD\">火箭平台</link>建造。\n"
+"\n"
+"必须建在火箭的最顶端，且含有能够储存相应资源的<link=\"ELEMENTSGAS\">气体</link>、<link=\"ELEMENTSLIQUID\">液体</link>或<link=\"ELEMENTSSOLID\">固体</link>货舱。"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RYB_NOSECONEHEPHARVEST.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.PREFABS.RYB_NOSECONEHEPHARVEST.NAME"
+msgid "<link=\"NOSECONEHEPHARVESTCONFIG\">Laser Drillcone</link>"
+msgstr "<link=\"NOECONEHEPHARVESTCONFIG\">激光钻头前锥</link>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.EMPTY.LOGIC_PORT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.EMPTY.LOGIC_PORT"
+msgid "Empty/Not Empty"
+msgstr "空的/非空的"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.EMPTY.LOGIC_PORT_ACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.EMPTY.LOGIC_PORT_ACTIVE"
+msgid "Sends a <b><style=\"logic_on\">Green Signal</style></b> when completely empty"
+msgstr "完全空时发送<b><style=\"logic_on\">绿色信号</style></b>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.EMPTY.LOGIC_PORT_INACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.EMPTY.LOGIC_PORT_INACTIVE"
+msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b>"
+msgstr "否则，发送<b><style=\"logic_off\">红色信号</style></b>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.FULL.LOGIC_PORT
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.FULL.LOGIC_PORT"
+msgid "Full/Not Full"
+msgstr "已满/未满"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.FULL.LOGIC_PORT_ACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.FULL.LOGIC_PORT_ACTIVE"
+msgid "Sends a <b><style=\"logic_on\">Green Signal</style></b> when completely full"
+msgstr "完全满时发送<b><style=\"logic_on\">绿色信号</style></b>"
+
+#. Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.FULL.LOGIC_PORT_INACTIVE
+msgctxt "Rockets_TinyYetBig.STRINGS.BUILDINGS.RTB_CARGOBAY_LOGICPORTS.FULL.LOGIC_PORT_INACTIVE"
+msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b>"
+msgstr "否则，发送<b><style=\"logic_off\">红色信号</style></b>"
+
+#. Rockets_TinyYetBig.STRINGS.CODEX.STORY_TRAITS.RTB_CRASHEDUFOSTORYTRAIT.DESCRIPTION
+msgctxt "Rockets_TinyYetBig.STRINGS.CODEX.STORY_TRAITS.RTB_CRASHEDUFOSTORYTRAIT.DESCRIPTION"
+msgid "tba"
+msgstr "tba"
+
+#. Rockets_TinyYetBig.STRINGS.CODEX.STORY_TRAITS.RTB_CRASHEDUFOSTORYTRAIT.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.CODEX.STORY_TRAITS.RTB_CRASHEDUFOSTORYTRAIT.NAME"
+msgid "Crashed Starship"
+msgstr "破碎的星舰"
+
+#. Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.DESC"
+msgid "<link=\"DEEPSPACERESEARCH\">Deep Space Research</link> is conducted by analyzing the deeper meanings behind mysterious artefacts found in the vastness of deep space and by conducting deep space analysis research in the low artifical gravity of a space station."
+msgstr "<link=\"DEEPSPACERESEARCH\">深空研究</link> 通过分析在浩瀚深空中发现的神秘文物背后的深层含义，以及在空间站低人工重力环境下进行各种实验的开展。"
+
+#. Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.NAME"
+msgid "<link=\"DEEPSPACERESEARCH\">Deep Space Research</link>"
+msgstr "<link=\"DEEPSPACERESEARCH\">深空研究</link>"
+
+#. Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.RECIPEDESC
+msgctxt "Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.RECIPEDESC"
+msgid "Unlocks new breakthroughs in space construction"
+msgstr "开启太空建设新突破"
+
+#. Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.UNLOCKDESC
+msgctxt "Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.UNLOCKDESC"
+msgid ""
+"Allows <style=\"KKeyword\"><link=\"DEEPSPACERESEARCH\">Deep Space Research</link></style> points to be accumulated, unlocking higher technology tiers.\n"
+"Can be accumulated before research completion via artifact analysis."
+msgstr "允许积累<style=\"KKeyword\">深空研究</style>点数，解锁更高的技术层次。\v可以在研究完成之前通过分析工艺品积累。"
+
+#. Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.UNLOCKNAME
+msgctxt "Rockets_TinyYetBig.STRINGS.DEEPSPACERESEARCH.UNLOCKNAME"
+msgid "<style=\"KKeyword\"><link=\"DEEPSPACERESEARCH\">Deep Space Research</link></style> Capability"
+msgstr "<style=\"KKeyword\"><link=\"DEEPSPACERESEARCH\">深空研究</link></style>能力"
+
+#. Rockets_TinyYetBig.STRINGS.ELEMENTS.SPACESTATIONFORCEFIELD.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.ELEMENTS.SPACESTATIONFORCEFIELD.DESC"
+msgid "A force field, protecting the station against micro meteors."
+msgstr "一个力场，保护空间站不受微流星的影响。"
+
+#. Rockets_TinyYetBig.STRINGS.ELEMENTS.SPACESTATIONFORCEFIELD.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.ELEMENTS.SPACESTATIONFORCEFIELD.NAME"
+msgid "<link=\"SPACESTATIONFORCEFIELD\">Station Force Field</link>"
+msgstr "<link=\"SPACESTATIONFORCEFIELD\">空间站力场</link>"
+
+#. Rockets_TinyYetBig.STRINGS.ELEMENTS.UNOBTANIUMALLOY.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.ELEMENTS.UNOBTANIUMALLOY.DESC"
+msgid ""
+"An insanely durable and heat resistant alloy.\n"
+"Required in the construction of large space structures.\n"
+"Very sparkly"
+msgstr ""
+"一种非常耐磨损和耐高温的合金。\n"
+"用于建造大型太空结构。\n"
+"非常闪亮"
+
+#. Rockets_TinyYetBig.STRINGS.ELEMENTS.UNOBTANIUMALLOY.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.ELEMENTS.UNOBTANIUMALLOY.NAME"
+msgid "<link=\"UNOBTANIUMALLOY\">Neutronium Alloy</link>"
+msgstr "<link=\"UNOBTANIUMALOY\">中子合金</link>"
+
+#. Rockets_TinyYetBig.STRINGS.ELEMENTS.UNOBTANIUMALLOY.RECIPE_DESCRIPTION
+msgctxt "Rockets_TinyYetBig.STRINGS.ELEMENTS.UNOBTANIUMALLOY.RECIPE_DESCRIPTION"
+msgid "Neutronium Alloy is a <link=\"ELEMENTSSOLID\">Solid Material</link> used in the construction of large space structures."
+msgstr "中子合金是一种<link=\"ELEMENTSSOLID\">固体材料</link>，用于建造大型太空结构。"
+
+#. Rockets_TinyYetBig.STRINGS.ELEMENTS.UNOBTANIUMDUST.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.ELEMENTS.UNOBTANIUMDUST.DESC"
+msgid ""
+"Harvested from artifact research, this dust might have some useful properties.\n"
+"Can be forged into <link=\"UNOBTANIUMALLOY\">Neutronium Alloy</link> at the <link=\"SUPERMATERIALREFINERY\">Molecular Forge</link>"
+msgstr ""
+"从文物研究中采集的这种尘埃可能具有一些有用的特性。\n"
+"可以在<link=\"SUPERMATERIALREFINERY\">分子熔炉</link>将其锻造为<link=\"UNOBTANIUMALLOY\">中子合金</link>。"
+
+#. Rockets_TinyYetBig.STRINGS.ELEMENTS.UNOBTANIUMDUST.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.ELEMENTS.UNOBTANIUMDUST.NAME"
+msgid "<link=\"UNOBTANIUMDUST\">Neutronium Dust</link>"
+msgstr "<link=\"UNOBTANIUMDUST\">中子尘</link>"
+
+#. Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_DEEPSPACEINSIGHT.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_DEEPSPACEINSIGHT.DESC"
+msgid "Deep space research data that can be processed into <link=\"DEEPSPACERESEARCH\">Deep Space Research</link> points."
+msgstr "深空研究数据可处理为<link=\"DEEPSPACERESEARCH\">深空研究</link>点数。"
+
+#. Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_DEEPSPACEINSIGHT.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_DEEPSPACEINSIGHT.NAME"
+msgid "<link=\"RTBDEEPSPACEINSIGHT\">Deep Space Insight</link>"
+msgstr "<link=\"RTBDEEPSPACEINSIGHT\">深空洞察</link>"
+
+#. Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_DEEPSPACEINSIGHT.NAME_PLURAL
+msgctxt "Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_DEEPSPACEINSIGHT.NAME_PLURAL"
+msgid "<link=\"RTBDEEPSPACEINSIGHT\">Deep Space Insights</link>"
+msgstr "<link=\"RTBDEEPSPACEINSIGHT\">深空洞察</link>"
+
+#. Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_DEEPSPACEINSIGHT.RECIPE_DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_DEEPSPACEINSIGHT.RECIPE_DESC"
+msgid "<link=\"RTBDEEPSPACEINSIGHT\">Deep Space Insights</link> generated from analyzing the depths of space with a Deep Space Analyzer"
+msgstr "<link=\"RTBDEEPSPACEINSIGHT\">深空洞察</link>是通过使用深空分析仪对深空分析生成的"
+
+#. Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_EMPTYDATACARD.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_EMPTYDATACARD.DESC"
+msgid "Empty data card that is required to capture <link=\"RTBDEEPSPACEINSIGHT\">Deep Space Insight</link> at the Deep Space Analyzer"
+msgstr "用于在深空分析仪上捕获<link=\"RTBDEEPSPACEINSIGHT\">声控洞察</link>所需的空数据卡"
+
+#. Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_EMPTYDATACARD.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_EMPTYDATACARD.NAME"
+msgid "<link=\"RTBEMPTYDATACARD\">Empty Data Card</link>"
+msgstr "<link=\"RTBEMPTYDATACARD\">空数据卡</link>"
+
+#. Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_EMPTYDATACARD.NAME_PLURAL
+msgctxt "Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_EMPTYDATACARD.NAME_PLURAL"
+msgid "<link=\"RTBEMPTYDATACARD\">Empty Data Cards</link>"
+msgstr "<link=\"RTBEMPTYDATACARD\">空数据卡</link>"
+
+#. Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_EMPTYDATACARD.RECIPE_DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RTB_EMPTYDATACARD.RECIPE_DESC"
+msgid "Empty Data Cards, ready to store insights about the depths of space"
+msgstr "空的数据卡，准备存储有关太空深处的各类信息"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.KATAIRITE
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.KATAIRITE"
+msgid "<link=\"KATAIRITE\">Abyssalite</link>"
+msgstr "<link=\"KATAIRITE\">深渊晶石</link>"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_DOCKINGTUBEATTACHMENTSLOT
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_DOCKINGTUBEATTACHMENTSLOT"
+msgid "Spacefarer Docking Tube Attachment Port"
+msgstr "太空航行对接管附件端口"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_NEUTRONIUMALLOYMATERIAL
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_NEUTRONIUMALLOYMATERIAL"
+msgid "Neutronium Alloy"
+msgstr "中子合金"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_NEUTRONIUMALLOYMATERIAL_DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_NEUTRONIUMALLOYMATERIAL_DESC"
+msgid "Neutronium Alloy is an insanely durable <link=\"ELEMENTSSOLID\">Solid Material</link> used in the construction of large space structures."
+msgstr "中子合金是一种极其耐用的<link=\"ELEMENTSSOLID\">固体材料</link>，用于建造大型太空结构。"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZERCORROSIVEREQUIREMENT
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZERCORROSIVEREQUIREMENT"
+msgid "Corrosive Liquid Oxidizer"
+msgstr "腐蚀性液体氧化剂"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZEREFFICIENCY_1
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZEREFFICIENCY_1"
+msgid "Oxidizer Efficiency 1"
+msgstr "氧化剂效率1"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZEREFFICIENCY_2
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZEREFFICIENCY_2"
+msgid "Oxidizer Efficiency 2"
+msgstr "氧化剂效率2"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZEREFFICIENCY_3
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZEREFFICIENCY_3"
+msgid "Oxidizer Efficiency 3"
+msgstr "氧化剂效率3"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZEREFFICIENCY_4
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZEREFFICIENCY_4"
+msgid "Oxidizer Efficiency 4"
+msgstr "氧化剂效率4"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZEREFFICIENCY_5
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZEREFFICIENCY_5"
+msgid "Oxidizer Efficiency 5"
+msgstr "氧化剂效率5"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZEREFFICIENCY_6
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZEREFFICIENCY_6"
+msgid "Oxidizer Efficiency 6"
+msgstr "氧化剂效率6"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZERLOXTANK
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_OXIDIZERLOXTANK"
+msgid "Supercooled Liquid Oxidizer"
+msgstr "过冷液体氧化剂"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_RADIATIONSHIELDINGROCKETCONSTRUCTIONMATERIAL
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_RADIATIONSHIELDINGROCKETCONSTRUCTIONMATERIAL"
+msgid "Radiation Shielding"
+msgstr "辐射防护"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_RADIATIONSHIELDINGROCKETCONSTRUCTIONMATERIAL_DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_RADIATIONSHIELDINGROCKETCONSTRUCTIONMATERIAL_DESC"
+msgid "Materials that posses great radiation shielding properties"
+msgstr "具有出色辐射防护性能的材料"
+
+#. Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_ROCKETFUELMATERIAL
+msgctxt "Rockets_TinyYetBig.STRINGS.MISC.TAGS.RTB_ROCKETFUELMATERIAL"
+msgid "Rocket Fuel"
+msgstr "火箭燃料"
+
+#. Rockets_TinyYetBig.STRINGS.MODIFIEDVANILLASTRINGS.KEROSENEENGINECLUSTER_EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.MODIFIEDVANILLASTRINGS.KEROSENEENGINECLUSTER_EFFECT"
+msgid ""
+"Burns any <link=\"COMBUSTIBLELIQUID\">Combustible Liquid</link> to propel rockets for mid-range space exploration.\n"
+"\n"
+"Petroleum Engines have generous height restrictions, ideal for hauling many modules.\n"
+"\n"
+"Engine must be built via <link=\"LAUNCHPAD\">Rocket Platform</link>. \n"
+"\n"
+"Once the engine has been built, more rocket modules can be added."
+msgstr ""
+"燃烧任何<link=\"COMBUSTIBLELIQUID\">可燃液体</link>来推动火箭进行中程太空探索。\n"
+"\n"
+"石油引擎有宽松的高度限制，非常适合用于运输多个舱块。\n"
+"\n"
+"引擎必须通过<link=\"LAUNCHPAD\">火箭平台</link>建造。\n"
+"\n"
+"引擎一旦建成，就可以添加更多的火箭模块。"
+
+#. Rockets_TinyYetBig.STRINGS.MODIFIEDVANILLASTRINGS.KEROSENEENGINECLUSTERSMALL_EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.MODIFIEDVANILLASTRINGS.KEROSENEENGINECLUSTERSMALL_EFFECT"
+msgid ""
+"Burns any <link=\"COMBUSTIBLELIQUID\">Combustible Liquid</link> to propel rockets for mid-range space exploration.\n"
+"\n"
+"Small Petroleum Engines possess the same speed as a <link=\"KEROSENEENGINE\">Petroleum Engines</link> but have smaller height restrictions.\n"
+"\n"
+"Engine must be built via <link=\"LAUNCHPAD\">Rocket Platform</link>. \n"
+"\n"
+"Once the engine has been built, more rocket modules can be added."
+msgstr ""
+"燃烧任何<link=\"COMBUSTIBLELIQUID\">可燃液体</link>来推动火箭进行中程太空探索。\n"
+"\n"
+"小型石油引擎于<link=\"KEROSENEENGINE\">石油引擎</link>速度相同，但高度限制更低。\n"
+"\n"
+"引擎必须通过<link=\"LAUNCHPAD\">火箭平台</link>建造。\n"
+"\n"
+"引擎一旦建成，就可以添加更多的火箭模块。"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.BUFFLARGEOXIDIZER.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.BUFFLARGEOXIDIZER.TITLE"
+msgid "Buff Large Oxidizer Module"
+msgstr "大型氧化剂舱"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.BUFFLARGEOXIDIZER.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.BUFFLARGEOXIDIZER.TOOLTIP"
+msgid "Buff storage capacity of the large Oxidizer Module from 900kg to 1350kg."
+msgstr "大型氧化剂舱的存储容量从900kg提高至1350kg。"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAY_LOGICPORTS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAY_LOGICPORTS.TITLE"
+msgid "Cargobay logic ports"
+msgstr "货舱信号端口"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAY_LOGICPORTS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAY_LOGICPORTS.TOOLTIP"
+msgid "Cargobays get two logic output ports, one for \"is full\" and one for \"is empty\""
+msgstr "货舱有两个信号输出端口，一个表示“已满”，另一个表示“已空”。"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.COLLOSSALCARGOBAYUNITS
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.COLLOSSALCARGOBAYUNITS"
+msgid "Collossal Cargo Bay Units"
+msgstr "巨型货舱单位"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.GASCARGOBAYKGPERUNIT
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.GASCARGOBAYKGPERUNIT"
+msgid "Gas Cargobay KG/Unit"
+msgstr "气罐货舱 KG/单位"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.LIQUIDCARGOBAYKGPERUNIT
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.LIQUIDCARGOBAYKGPERUNIT"
+msgid "Liquid Cargobay KG/Unit"
+msgstr "液缸货舱 KG/单位"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.MEDIUMCARGOBAYUNITS
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.MEDIUMCARGOBAYUNITS"
+msgid "Large Cargo Bay Units"
+msgstr "大型货舱单位"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.SMALLCARGOBAYUNITS
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.SMALLCARGOBAYUNITS"
+msgid "Small Cargo Bay Units"
+msgstr "小型货舱单位"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.SOLIDCARGOBAYKGPERUNIT
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.SOLIDCARGOBAYKGPERUNIT"
+msgid "Solid Cargobay KG/Unit"
+msgstr "固体货舱 KG/单位"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.TOOLTIP"
+msgid "Amount of Cargo Units in this Cargo Bay Size"
+msgstr "该货舱尺寸的货物单位数量"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.UNITDESCRIPTION
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CARGOBAYUNITS.UNITDESCRIPTION"
+msgid ""
+"Only has an effect if the option \"Rebalanced Cargo Bays\" is enabled.\n"
+"Cargo bay capacity is calculated by \"Unit-KG * Cargobay-Unit-Count\"\n"
+"Unit-Count per size:\n"
+"- Small: 9 Units\n"
+"- Large: 28 Units\n"
+"- Colossal: 64 Units.\n"
+"\n"
+"Adjust the Unit-KG for this cargo bay type below."
+msgstr ""
+"只有当选项“再平衡货舱容量”被启用时才有效果。\n"
+"货舱容量按“单位(kg) * 货舱单位数量”计算\n"
+"每个尺寸的单位数量：\n"
+"- 小型：9个单位。\n"
+"- 大型：28个单位。\n"
+"- 巨型：64个单位。\n"
+"\n"
+"调整下列货舱类型的单位(kg)。"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.A_ROCKETRYPLUS
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.A_ROCKETRYPLUS"
+msgid "Rocketry Vanilla+"
+msgstr "原版火箭+"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.B_MININGSHIPPING
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.B_MININGSHIPPING"
+msgid "Mining & Shipping"
+msgstr "采矿与运输"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.C_FUELLOGISTICS
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.C_FUELLOGISTICS"
+msgid "Fuel & Logistics"
+msgstr "燃料与物流"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.D_POWERUTILITY
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.D_POWERUTILITY"
+msgid "Power & Utility"
+msgstr "电力与实用"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.E_SPACEEXPANSION
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.E_SPACEEXPANSION"
+msgid "Space Expansion"
+msgstr "太空扩展"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.F_EASTEREGGS
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CATEGORIES.F_EASTEREGGS"
+msgid "Easter Eggs"
+msgstr "复活节彩蛋"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.COMPRESSINTERIORS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.COMPRESSINTERIORS.TITLE"
+msgid "Compress Interiors & Remove Rocket Limit"
+msgstr "压缩内部结构与取消火箭限制"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.COMPRESSINTERIORS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.COMPRESSINTERIORS.TOOLTIP"
+msgid ""
+"Removes the rocket limit of 16 and trims excessive space outside of the rocket walls in spacefarer interiors\n"
+"Required for space stations."
+msgstr ""
+"取消了16枚最大火箭的限制，并减少了太空舱中墙壁外的多余空间\n"
+"适用于空间站。"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CRITTERSTORAGECAPACITY.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CRITTERSTORAGECAPACITY.TITLE"
+msgid "Critter Containment Module Capacity"
+msgstr "小动物隔离舱容量"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CRITTERSTORAGECAPACITY.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.CRITTERSTORAGECAPACITY.TOOLTIP"
+msgid "Amount of critters the module can hold at once"
+msgstr "该模块一次能容纳小动物的数量"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.DRILLCONESUPPORTBOOST.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.DRILLCONESUPPORTBOOST.TITLE"
+msgid "Service Module Drilling Speed Buff"
+msgstr "维护模块提供钻探速度加成"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.DRILLCONESUPPORTBOOST.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.DRILLCONESUPPORTBOOST.TOOLTIP"
+msgid "Determines the drilling speed boost the drillcone service module provides to diamond fueled drillcones in percent"
+msgstr "决定钻头维护模块提供给钻石燃料钻头的钻探速度提升百分比"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.DRILLCONESUPPORTDIAMONDMASS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.DRILLCONESUPPORTDIAMONDMASS.TITLE"
+msgid "Service Module Diamond Capacity"
+msgstr "维护模块钻石容量"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.DRILLCONESUPPORTDIAMONDMASS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.DRILLCONESUPPORTDIAMONDMASS.TOOLTIP"
+msgid "Determines the diamond capacity of the drillcone service module in KG"
+msgstr "决定钻头维护模块的钻石容量(kg)"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEADVWORLDSELECTOR.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEADVWORLDSELECTOR.TITLE"
+msgid "Improved World Selector"
+msgstr "改进的世界选择器"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEADVWORLDSELECTOR.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEADVWORLDSELECTOR.TOOLTIP"
+msgid ""
+"Makes world selector planets collapsible and improves internal performance.\n"
+"Required for space stations."
+msgstr ""
+"使世界选择器下的小行星能够折叠并提高内部性能。\n"
+"适用于太空站。"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEBOOSTERS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEBOOSTERS.TITLE"
+msgid "Enable Booster Modules"
+msgstr "启用增幅模块"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEBUNKERPLATFORM.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEBUNKERPLATFORM.TITLE"
+msgid "Enable Fortified & Advanced Rocket Platform"
+msgstr "启用强化&高级火箭平台"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLECRITTERSTORAGE.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLECRITTERSTORAGE.TITLE"
+msgid "Enable Critter Containment Module"
+msgstr "启用小动物隔离舱"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEDRILLSUPPORT.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEDRILLSUPPORT.TITLE"
+msgid "Enable Drillcone Service Module"
+msgstr "启用钻头维护模块"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEEARLYGAMEFUELTANKS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEEARLYGAMEFUELTANKS.TITLE"
+msgid "Enable early game Fuel Tanks"
+msgstr "启用早期游戏燃料箱"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEELECTRICENGINE.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEELECTRICENGINE.TITLE"
+msgid "Enable Ion Engine"
+msgstr "启用离子引擎"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEEXTENDEDHABS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEEXTENDEDHABS.TITLE"
+msgid "Enable extra Spacefarer Modules"
+msgstr "启用额外的太空员舱"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEFRIDGE.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEFRIDGE.TITLE"
+msgid "Enable Fridge Module"
+msgstr "启用冰箱舱"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEFUELLOADERS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEFUELLOADERS.TITLE"
+msgid "Enable Fuel Loaders"
+msgstr "启用燃料装载器"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEGENERATORS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEGENERATORS.TITLE"
+msgid "Enable Generator Modules"
+msgstr "启用发电舱"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLELARGECARGOBAYS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLELARGECARGOBAYS.TITLE"
+msgid "Enable Large Cargo Modules"
+msgstr "启用大型货舱"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLELASERDRILL.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLELASERDRILL.TITLE"
+msgid "Enable Laser Drillcone"
+msgstr "启用激光钻头"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLENATGASENGINE.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLENATGASENGINE.TITLE"
+msgid "Enable Natural Gas Engine"
+msgstr "启用天然气引擎"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEPOISENSOR.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEPOISENSOR.TITLE"
+msgid "Enable POI Capacity Sensor"
+msgstr "启用遗迹容量传感器"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLERADBOLTSTORAGE.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLERADBOLTSTORAGE.TITLE"
+msgid "Enable Radbolt Storage Module"
+msgstr "启用辐射例子储存舱"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEROCKETLOADERLOGICOUTPUTS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEROCKETLOADERLOGICOUTPUTS.TITLE"
+msgid "Loader Logic Output"
+msgstr "装载器信号输出"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEROCKETLOADERLOGICOUTPUTS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEROCKETLOADERLOGICOUTPUTS.TOOLTIP"
+msgid "Add a logic output to rocket loader buildings that outputs whether or not the loader is currently active."
+msgstr "为火箭装载器建筑添加一个信号输出端口，该端口会显示装载机当前是否处于工作状态。"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLESMOLBATTERY.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLESMOLBATTERY.TITLE"
+msgid "Enable Small Battery Module"
+msgstr "启用小型电池舱"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLESOLARNOSECONE.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLESOLARNOSECONE.TITLE"
+msgid "Enable Solar Nosecone"
+msgstr "启用太阳能前锥"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEWALLADAPTER.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ENABLEWALLADAPTER.TITLE"
+msgid "Enable Rocket Port Adapters"
+msgstr "启用火箭端口适配器"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ETHANOLENGINES.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ETHANOLENGINES.TITLE"
+msgid "Burn Combustible Liquids as fuel"
+msgstr "燃烧可燃液体作为燃料"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ETHANOLENGINES.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ETHANOLENGINES.TOOLTIP"
+msgid "Allows Petroleum Engines to also burn other combustible liquids as fuel."
+msgstr "允许石油引擎可以燃烧其他可燃液体作为燃料。"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATINTERIORPORTIMPROVEMENTS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATINTERIORPORTIMPROVEMENTS.TITLE"
+msgid "Habitat Interior Port Improvements"
+msgstr "改进的居住舱舱内端口"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATINTERIORPORTIMPROVEMENTS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATINTERIORPORTIMPROVEMENTS.TOOLTIP"
+msgid ""
+"Rocket Connectors count as Rocket Wall for buildings that can only be attached to it.\n"
+"Rocket Ports block the same amount of radiation as rocket wall"
+msgstr ""
+"火箭连接端口具有和火箭墙壁相同的性质，可连接到只能与之相连的建筑上。\n"
+"火箭端口阻挡的辐射量与火箭墙相同"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATINTERIORRADIATION.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATINTERIORRADIATION.TITLE"
+msgid "Spacefarer Habitat Radiation"
+msgstr "太空员生活舱辐射"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATINTERIORRADIATION.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATINTERIORRADIATION.TOOLTIP"
+msgid "Rocket interior radiation is defined by the radiation outside when landed."
+msgstr "火箭内部辐射水平由着陆时外部环境辐射值决定。"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATPOWERPLUG.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATPOWERPLUG.TITLE"
+msgid "Spacefarer Power Connector"
+msgstr "太空员舱电源接口"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATPOWERPLUG.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.HABITATPOWERPLUG.TOOLTIP"
+msgid "Add a power connector to the habitat modules."
+msgstr "为居住舱新增电源接口。"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.INFINITEPOI.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.INFINITEPOI.TITLE"
+msgid "Infinite POI Mining Capacity"
+msgstr "无限开采遗迹"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.INFINITEPOI.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.INFINITEPOI.TOOLTIP"
+msgid "Capacity of mineable POIs becomes infinite. Does not affect artifacts."
+msgstr "可开采的遗迹的容量变为无限。不会影响工艺品。"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.INSULATEDCARGOBAYS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.INSULATEDCARGOBAYS.TITLE"
+msgid "Insulated Cargo Bays"
+msgstr "货舱隔热"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.INSULATEDCARGOBAYS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.INSULATEDCARGOBAYS.TOOLTIP"
+msgid "Contents of Cargo Bay modules are insulated from their surroundings"
+msgstr "货舱内容物与周围环境是隔离的"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ISOTOPEDECAYTIME.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ISOTOPEDECAYTIME.TITLE"
+msgid "Radioisotope Decay time"
+msgstr "放射性同位素衰变时间"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ISOTOPEDECAYTIME.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ISOTOPEDECAYTIME.TOOLTIP"
+msgid "Time in cycles for all the enriched uranium in the RTG to decay into depleted uranium. RTG needs a refill if all enriched uranium has decayed."
+msgstr "放射性发电机中所有的浓缩铀都会在一定时间内衰为贫铀。如果所有的浓缩铀都衰变了，则需要重新补充。"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.LASERDRILLCONECAPACITY.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.LASERDRILLCONECAPACITY.TITLE"
+msgid "Laser Drillcone Capacity"
+msgstr "激光钻头容量"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.LASERDRILLCONECAPACITY.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.LASERDRILLCONECAPACITY.TOOLTIP"
+msgid ""
+"The total amount of radbolts the Laser Drillcone can hold\n"
+"The Laser Drillcone mines 4kg of material per radbolt"
+msgstr ""
+"激光钻头所能容纳的辐射例子总数\n"
+"每单位辐射例子可开采4kg资源"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.LASERDRILLCONESPEED.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.LASERDRILLCONESPEED.TITLE"
+msgid "Laser Drillcone Speed"
+msgstr "激光钻头速度"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.LASERDRILLCONESPEED.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.LASERDRILLCONESPEED.TOOLTIP"
+msgid "Mining speed in Kg/s for the Laser Drillcone. (For reference; the vanilla drillcone mines at 7.5kg/s)."
+msgstr "激光钻头的开采速度(kg/s)。(作为对比，原版钻头的速度为7.5kg/s)"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.NATGASENGINERANGE.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.NATGASENGINERANGE.TITLE"
+msgid "Natural Gas Engine Range"
+msgstr "天然气引擎范围"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.NATGASENGINERANGE.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.NATGASENGINERANGE.TOOLTIP"
+msgid "Set the max range of a natural gas engine."
+msgstr "设定天然气引擎能够到达的最大范围。"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.NEUTRONIUMMATERIAL.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.NEUTRONIUMMATERIAL.TITLE"
+msgid "Neutronium Alloy"
+msgstr "中子合金"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.NEUTRONIUMMATERIAL.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.NEUTRONIUMMATERIAL.TOOLTIP"
+msgid ""
+"Gather Neutronium Dust by analyzing artifacts and refine it into Neutronium Alloy.\n"
+"Neutronium Alloys are required in the construction of large space structures"
+msgstr ""
+"通过分析工艺品获得中子尘，并将其精炼为中子合金。\n"
+"中子合金是建造大型太空结构的必需品。"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.PILOTSKILLAFFECTSDRILLSPEED.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.PILOTSKILLAFFECTSDRILLSPEED.TITLE"
+msgid "Pilot Skill affects Mining Speed"
+msgstr "驾驶技能影响开采速度"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.PILOTSKILLAFFECTSDRILLSPEED.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.PILOTSKILLAFFECTSDRILLSPEED.TOOLTIP"
+msgid ""
+"The pilots' piloting and digging skills affect the drilling speed of the drillcone.\n"
+"Applies to all drillcone types"
+msgstr ""
+"驾驶员的驾驶和挖掘技能会影响钻头开采的速度。\n"
+"适用于所有类型的钻头"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.RADBOLTSTORAGECAPACITY.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.RADBOLTSTORAGECAPACITY.TITLE"
+msgid "Radbolt Storage Module Capacity"
+msgstr "辐射粒子储存舱容量"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.RADBOLTSTORAGECAPACITY.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.RADBOLTSTORAGECAPACITY.TOOLTIP"
+msgid "Set the total radbolt capacity of the Radbolt Chamber Module."
+msgstr "设定辐射粒子储存舱的总容量。"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.REBALANCEDCARGOCAPACITY.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.REBALANCEDCARGOCAPACITY.TITLE"
+msgid "Rebalanced Cargobay Capacity"
+msgstr "再平衡的货舱容量"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.REBALANCEDCARGOCAPACITY.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.REBALANCEDCARGOCAPACITY.TOOLTIP"
+msgid "Cargo Bays have increased and rebalanced Cargo Capacity"
+msgstr "加强货舱并重新平衡货舱容量"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.REFILLDRILLSUPPORT.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.REFILLDRILLSUPPORT.TITLE"
+msgid "Refill Service Module via Conveyor"
+msgstr "通过运输系统补充维护模块"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.REFILLDRILLSUPPORT.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.REFILLDRILLSUPPORT.TOOLTIP"
+msgid "Refill the service module with diamonds during the flight via interior conveyor wall port."
+msgstr "在飞行过程中通过内部运输通道端口为维护模块补充钻石。"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ROCKETDOCKING.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ROCKETDOCKING.TITLE"
+msgid "Enable Rocket Docking"
+msgstr "启用火箭对接"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ROCKETDOCKING.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.ROCKETDOCKING.TOOLTIP"
+msgid "Dock rockets in space to transfer dupes and contents of the interiors"
+msgstr "在太空中对接火箭来转移复制人和内部资源"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SCANNERMODULERANGERADIUS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SCANNERMODULERANGERADIUS.TITLE"
+msgid "Cartographic Module Scan Range"
+msgstr "制图舱扫描范围"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SCANNERMODULERANGERADIUS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SCANNERMODULERANGERADIUS.TOOLTIP"
+msgid "Cartographic Modules will scan hexes in this radius."
+msgstr "制图舱将会扫描这个范围内的方格。"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SCANNERMODULESCANSPEED.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SCANNERMODULESCANSPEED.TITLE"
+msgid "Cartographic Module Scan Speed"
+msgstr "制图舱扫描速度"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SCANNERMODULESCANSPEED.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SCANNERMODULESCANSPEED.TOOLTIP"
+msgid "Time it takes for the module to reveal one hex in cycles."
+msgstr "该模块揭示一格所需要的时间(周期)。"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SLIMLARGEENGINES.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SLIMLARGEENGINES.TITLE"
+msgid "Slim Rockets"
+msgstr "窄体火箭"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SLIMLARGEENGINES.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SLIMLARGEENGINES.TOOLTIP"
+msgid "Rocket Modules that are wider than 5 tiles (Steam, Hydrogen, Petrol Engine) are reduced to 5 width."
+msgstr "将宽度大于5格的火箭舱（蒸汽，氢气，石油引擎）宽度减少到5格。"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SPACESTATIONSANDTECH.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SPACESTATIONSANDTECH.TITLE"
+msgid "[ALPHA] Space Stations & Deep Space Science"
+msgstr "[测试]太空站&深空研究"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SPACESTATIONSANDTECH.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SPACESTATIONSANDTECH.TOOLTIP"
+msgid ""
+"Unlocks space stations. This feature is work in progress, unfinished and might contain bugs.\n"
+"Requires Neutronium Alloy, Compressed Interiors, advanced world selector to activate"
+msgstr ""
+"解锁空间站。此功能正在制作中，尚未完成，可能包含错误。\n"
+"\n"
+"需要激活中子合金，压缩内部结构，改进的的世界选择器"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SPICEEYES.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SPICEEYES.TITLE"
+msgid "Dune Spice"
+msgstr "沙丘香料"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SPICEEYES.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.SPICEEYES.TOOLTIP"
+msgid "When consuming Rocketeer Spice, Dupes will gain the spice eyes from Dune."
+msgstr "当复制人食用火箭手香料时，将显现《沙丘》同款香料之眼特效。"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLEMULTI
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLEMULTI"
+msgid "Toggle to enable/disable these modules in the building menu"
+msgstr "切换已启用/禁用建筑菜单中的这些模块"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.TOGGLESINGLE"
+msgid "Toggle to enable/disable this module in the building menu"
+msgstr "切换已启用/禁用建筑菜单中的这个模块"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.VERTICALPORT_LADDER.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.VERTICALPORT_LADDER.TITLE"
+msgid "Vertical Port Adapter Ladder"
+msgstr "垂直端口梯子适配器"
+
+#. Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.VERTICALPORT_LADDER.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.OPTIONS_ROCKETRYEXPANDED.VERTICALPORT_LADDER.TOOLTIP"
+msgid "The vertical port adapter allows duplicants to climb it"
+msgstr "这种垂直端口适配器能够让复制人爬上爬下"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_DOCKINGTECH.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_DOCKINGTECH.DESC"
+msgid "Dock with other spacecrafts"
+msgstr "与其他火箭对接"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_DOCKINGTECH.NAME
+#, fuzzy
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_DOCKINGTECH.NAME"
+msgid "<link=\"RTBDOCKINGTECH\">Celestial Connection</link>"
+msgstr "<link=\"RTBDOCKINGTECH\">天体连接站</link>"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_FUELLOADERSTECH.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_FUELLOADERSTECH.DESC"
+msgid ""
+"Automatically refuel your rockets with these Loaders.\n"
+"Can be placed inside a space station."
+msgstr ""
+"使用这些装载器自动为火箭加注燃料。\n"
+"可以放置在空间站内。"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_FUELLOADERSTECH.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_FUELLOADERSTECH.NAME"
+msgid "<link=\"RTBFUELLOADERSTECH\">Fuel Loaders</link>"
+msgstr "<link=\"RTBFUELLOADERSTECH\">燃料装载器</link>"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_HUGECARGOBAYTECH.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_HUGECARGOBAYTECH.DESC"
+msgid "Lets bring home ALL those minerals."
+msgstr "让我们把所有的矿物质都带回家。"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_HUGECARGOBAYTECH.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_HUGECARGOBAYTECH.NAME"
+msgid "<link=\"RTBLARGESPACESTATIONTECH\">Thinking larger</link>"
+msgstr "<link=\"RTBLARGESPACESTATIONTECH\">着眼大局</link>"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_LARGERROCKETLIVINGSPACETECH.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_LARGERROCKETLIVINGSPACETECH.DESC"
+msgid "All the living space a dupe could ask for, now in your rocket."
+msgstr "所有复制人能要求的生活空间，现在都在您的火箭里。"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_LARGERROCKETLIVINGSPACETECH.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_LARGERROCKETLIVINGSPACETECH.NAME"
+msgid "<link=\"RTBLARGERROCKETLIVINGSPACETECH\">Luxurious Liv'in Space</link>"
+msgstr "<link=\"RTBLARGERROCKETLIVINGSPACHECH\">豪华生活空间</link>"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_LARGESPACESTATIONTECH.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_LARGESPACESTATIONTECH.DESC"
+msgid "Conquering the depths of space"
+msgstr "征服太空深处"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_LARGESPACESTATIONTECH.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_LARGESPACESTATIONTECH.NAME"
+msgid "<link=\"RTBLARGESPACESTATIONTECH\">Deep Space Expansion</link>"
+msgstr "<link=\"RTBLARGESPACESTATIONTECH\">深空扩展</link>"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_MEDIUMSPACESTATIONTECH.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_MEDIUMSPACESTATIONTECH.DESC"
+msgid "Extending the perspective"
+msgstr "扩展视野"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_MEDIUMSPACESTATIONTECH.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_MEDIUMSPACESTATIONTECH.NAME"
+msgid "<link=\"RTBMEDIUMSPACESTATIONTECH\">Deep Space Colonization</link>"
+msgstr "<link=\"RTBMEDIUMSPACESTATIONTECH\">深空殖民</link>"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_SPACESTATIONTECH.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_SPACESTATIONTECH.DESC"
+msgid "Mysterious Artifacts have shown new perspectives on living in the vast emptyness"
+msgstr "神秘的工艺品展示了在浩瀚的虚空中生活的全新视角。"
+
+#. Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_SPACESTATIONTECH.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.RESEARCH.TECHS.RTB_SPACESTATIONTECH.NAME"
+msgid "<link=\"RTBSPACESTATIONTECH\">Deep Space Exploration</link>"
+msgstr "<link=\"RTBSPACESTATIONTECH\">深空探索</link>"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.ARTIFACT
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.ARTIFACT"
+msgid ""
+"\n"
+"• 1 artifact storage"
+msgstr ""
+"\n"
+"• 1 个工艺品"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.CRITTERCARGO
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.CRITTERCARGO"
+msgid ""
+"\n"
+"• {0} Critters storage"
+msgstr ""
+"\n"
+"• {0} 个小动物"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.CRITTERCARGOSINGLE
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.CRITTERCARGOSINGLE"
+msgid ""
+"\n"
+"• 1 Critter storage"
+msgstr ""
+"\n"
+"• 1 个小动物"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.FUELELEMENT
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.FUELELEMENT"
+msgid ""
+"\n"
+"• {0} of {1} fuel storage"
+msgstr ""
+"\n"
+"• {0} {1}燃料"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.FUELGAS
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.FUELGAS"
+msgid ""
+"\n"
+"• {0} of gas fuel storage"
+msgstr ""
+"\n"
+"• {0} 气体燃料"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.FUELLIQUID
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.FUELLIQUID"
+msgid ""
+"\n"
+"• {0} of liquid fuel storage"
+msgstr ""
+"\n"
+"• {0} 液体燃料"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.FUELSOLID
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.FUELSOLID"
+msgid ""
+"\n"
+"• {0} of solid fuel storage"
+msgstr ""
+"\n"
+"• {0} 固体燃料"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.GASDCARGO
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.GASDCARGO"
+msgid ""
+"\n"
+"• {0} of gas storage"
+msgstr ""
+"\n"
+"• {0} 气体"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.LIQUIDCARGO
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.LIQUIDCARGO"
+msgid ""
+"\n"
+"• {0} of liquid storage"
+msgstr ""
+"\n"
+"• {0} 液体"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.OXIDIZERELEMENT
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.OXIDIZERELEMENT"
+msgid ""
+"\n"
+"• {0} of {1} oxidizer storage"
+msgstr ""
+"\n"
+"• {0} {1} "
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.OXIDIZERGAS
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.OXIDIZERGAS"
+msgid ""
+"\n"
+"• {0} of gas oxidizer storage"
+msgstr ""
+"\n"
+"• {0} 气体氧化剂"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.OXIDIZERLIQUID
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.OXIDIZERLIQUID"
+msgid ""
+"\n"
+"• {0} of liquid oxidizer storage"
+msgstr ""
+"\n"
+"• {0} 液体氧化剂"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.OXIDIZERSOLID
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.OXIDIZERSOLID"
+msgid ""
+"\n"
+"• {0} of solid oxidizer storage"
+msgstr ""
+"\n"
+"• {0} 固体氧化剂"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.OXIDIZERTAG
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.OXIDIZERTAG"
+msgid ""
+"\n"
+"• {0} of {1} storage"
+msgstr ""
+"\n"
+"• {0}  {1} "
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.POWER
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.POWER"
+msgid ""
+"\n"
+"• {0} power storage"
+msgstr ""
+"\n"
+"• {0} 电力"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.RADBOLTS
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.RADBOLTS"
+msgid ""
+"\n"
+"• {0} radbolt storage"
+msgstr ""
+"\n"
+"• {0} 辐射粒子"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.SOLIDCARGO
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.SOLIDCARGO"
+msgid ""
+"\n"
+"• {0} of solid storage"
+msgstr ""
+"\n"
+"• {0} 固体"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CARGOBAYSTORAGE.TITLE"
+msgid "<b>Module Storage:</b>"
+msgstr "<b>舱内储存：</b>"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.CARGO
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.CARGO"
+msgid "Cargo & Storage"
+msgstr "货物和储存"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.DEPLOYABLES
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.DEPLOYABLES"
+msgid "Deployables"
+msgstr "可部署设备"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.ENGINES
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.ENGINES"
+msgid "Rocket Engines"
+msgstr "火箭引擎"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.FUEL
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.FUEL"
+msgid "Fuel & Oxidizer Tanks"
+msgstr "燃料和氧化剂箱"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.HABITATS
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.HABITATS"
+msgid "Command Modules"
+msgstr "指挥舱"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.NOSECONES
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.NOSECONES"
+msgid "Nosecones"
+msgstr "前锥"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.POWER
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.POWER"
+msgid "Power Storage & Production"
+msgstr "电力存储与生产"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.PRODUCTION
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.PRODUCTION"
+msgid "Production"
+msgstr "生产"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.UNCATEGORIZED
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.UNCATEGORIZED"
+msgid "Uncategorized"
+msgstr "未分类"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.UTILITY
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTITLES.UTILITY"
+msgid "Utility"
+msgstr "使用"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.CARGO
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.CARGO"
+msgid ""
+"All those resources, but where to put them?\n"
+"Store them within these modules."
+msgstr ""
+"获得了所有这些资源，但该放在哪里呢？\n"
+"把这些资源存放在这些舱块中。"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.DEPLOYABLES
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.DEPLOYABLES"
+msgid ""
+"Colonizing new worlds needs some perimeter establishment.\n"
+"These modules help with deployment."
+msgstr ""
+"殖民新世界需要进行一些基础的建设工作。\n"
+"这些舱块将有助于开发。"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.ENGINES
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.ENGINES"
+msgid ""
+"Every rocket has to fly somehow.\n"
+"A rocket engine provides the necessary thrust.\n"
+"A Rocket needs atleast one of these!"
+msgstr ""
+"每个火箭都必须以某种方式飞行。\n"
+"火箭引擎提供必要的推力。\n"
+"火箭至少需要一个这样的引擎！"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.FUEL
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.FUEL"
+msgid ""
+"A rocket without fuel or oxidizer won't fly far.\n"
+"These modules help you with that."
+msgstr ""
+"没有燃料或氧化剂的火箭飞不远。\n"
+"这些舱块可以帮助你解决这个问题。"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.HABITATS
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.HABITATS"
+msgid ""
+"Strapped to the side, a pilot wouldn't survive long.\n"
+"Build them a nice home to live in a Spacefarer .\n"
+"A Rocket needs atleast one of these!"
+msgstr ""
+"绑在侧面的飞行员命不久矣。\n"
+"为他们居住的太空员舱建造一个舒适的家。\n"
+"火箭至少需要一个这样的住所！"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.NOSECONES
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.NOSECONES"
+msgid ""
+"When not using a habitat nosecone,\n"
+"the rocket needs one of these\n"
+"to keep it's tip nicely shaped."
+msgstr ""
+"如果不使用居住型前锥，\n"
+"火箭需要一个这样的前锥来保持\n"
+"它美妙的尖端。"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.POWER
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.POWER"
+msgid ""
+"Without power the lights inside of the rocket won't turn on\n"
+"These modules help you store electricity, some even generate it."
+msgstr ""
+"没有电源，火箭内部的灯光不会亮起。\n"
+"这些舱块帮助你存储电力，有些甚至可以产生电力。"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.PRODUCTION
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.PRODUCTION"
+msgid ""
+"Just bring the production with you!\n"
+"These modules can produce something."
+msgstr ""
+"只需将这些产品在身边！\n"
+"这些舱块可以生产某些东西。"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.REQUIRED
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.REQUIRED"
+msgid ""
+"\n"
+"A Rocket needs atleast one of these!"
+msgstr ""
+"\n"
+"火箭至少需要这些中的一个！"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.UNCATEGORIZED
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.UNCATEGORIZED"
+msgid ""
+"What do these do?\n"
+"(not properly categorized, contact the author of that mod)"
+msgstr ""
+"这些舱块是做什么的？\n"
+"（未正确分类，请联系该模组的作者）"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.UTILITY
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.CATEGORYTOOLTIPS.UTILITY"
+msgid "These modules add some nice utility functions to your rocket."
+msgstr "这些舱块为您的火箭添加了一些不错的实用功能。"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.MODULEPERKS.POWER_PRODUCTION
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.MODULEPERKS.POWER_PRODUCTION"
+msgid ""
+"\n"
+"• {0} power production"
+msgstr ""
+"\n"
+"• {0} 发电"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.MODULEPERKS.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.MODULEPERKS.TITLE"
+msgid "<b>Module Boni:</b>"
+msgstr "<b>舱块增益：</b>"
+
+#. Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.SEARCHBARFILLER
+msgctxt "Rockets_TinyYetBig.STRINGS.ROCKETBUILDMENUCATEGORIES.SEARCHBARFILLER"
+msgid "Search all modules..."
+msgstr "搜索所有舱块中..."
+
+#. Rockets_TinyYetBig.STRINGS.ROOMS.TYPES.RTB_SPACESTATIONRESEARCHROOM.EFFECT
+msgctxt "Rockets_TinyYetBig.STRINGS.ROOMS.TYPES.RTB_SPACESTATIONRESEARCHROOM.EFFECT"
+msgid "- Efficiency bonus"
+msgstr "- 效率加成"
+
+#. Rockets_TinyYetBig.STRINGS.ROOMS.TYPES.RTB_SPACESTATIONRESEARCHROOM.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.ROOMS.TYPES.RTB_SPACESTATIONRESEARCHROOM.NAME"
+msgid "Orbital Research Lab"
+msgstr "轨道研究实验室"
+
+#. Rockets_TinyYetBig.STRINGS.ROOMS.TYPES.RTB_SPACESTATIONRESEARCHROOM.ROOMCONSTRAINT.CONFLICT_DESCRIPTION
+msgctxt "Rockets_TinyYetBig.STRINGS.ROOMS.TYPES.RTB_SPACESTATIONRESEARCHROOM.ROOMCONSTRAINT.CONFLICT_DESCRIPTION"
+msgid "Four <link=\"REQUIREMENTCLASSSCIENCEBUILDING\">science buildings</link>"
+msgstr "四座<link=\"REQUIREMENTCLASSSCIENCEBUILDING\">科学建筑</link>"
+
+#. Rockets_TinyYetBig.STRINGS.ROOMS.TYPES.RTB_SPACESTATIONRESEARCHROOM.ROOMCONSTRAINT.DESCRIPTION
+msgctxt "Rockets_TinyYetBig.STRINGS.ROOMS.TYPES.RTB_SPACESTATIONRESEARCHROOM.ROOMCONSTRAINT.DESCRIPTION"
+msgid "Requires four or more science buildings"
+msgstr "需要四座或更多科学建筑"
+
+#. Rockets_TinyYetBig.STRINGS.ROOMS.TYPES.RTB_SPACESTATIONRESEARCHROOM.ROOMCONSTRAINT.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.ROOMS.TYPES.RTB_SPACESTATIONRESEARCHROOM.ROOMCONSTRAINT.NAME"
+msgid "Four <link=\"REQUIREMENTCLASSSCIENCEBUILDING\">science buildings</link>"
+msgstr "四座<link=\"REQUIREMENTCLASSSCIENCEBUILDING\">科学建筑</link>"
+
+#. Rockets_TinyYetBig.STRINGS.ROOMS.TYPES.RTB_SPACESTATIONRESEARCHROOM.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.ROOMS.TYPES.RTB_SPACESTATIONRESEARCHROOM.TOOLTIP"
+msgid ""
+"Science buildings built in an Orbital Research Lab function more efficiently\n"
+"\n"
+"An Orbital Research Lab enables Deep Space Analyzer use"
+msgstr ""
+"在轨道研究实验室中的科学建筑效率更高\n"
+"\n"
+"轨道研究实验室可以让深空分析仪得以使用"
+
+#. Rockets_TinyYetBig.STRINGS.UI.CLUSTERLOCATIONSENSORADDON.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.CLUSTERLOCATIONSENSORADDON.TITLE"
+msgid "Extra green signal at"
+msgstr "额外的绿色信号在"
+
+#. Rockets_TinyYetBig.STRINGS.UI.CONSTRUCTIONSELECTOR_SECONDARYSIDESCREEN.PROJECTSCONTAINER.SCROLLRECTCONTAINER.PARTCONTAINERPREFAB.ROW1.CONSTRUCTBTN.LABEL
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.CONSTRUCTIONSELECTOR_SECONDARYSIDESCREEN.PROJECTSCONTAINER.SCROLLRECTCONTAINER.PARTCONTAINERPREFAB.ROW1.CONSTRUCTBTN.LABEL"
+msgid "Start Project"
+msgstr "启动项目"
+
+#. Rockets_TinyYetBig.STRINGS.UI.CONSTRUCTIONSELECTOR_SECONDARYSIDESCREEN.TITLE.TITLETEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.CONSTRUCTIONSELECTOR_SECONDARYSIDESCREEN.TITLE.TITLETEXT"
+msgid "Available Construction Projects"
+msgstr "可供建设的项目"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.DOCKINGBRIDGES.TITLETEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.DOCKINGBRIDGES.TITLETEXT"
+msgid "Available Docking Ports: {0} / {1}"
+msgstr "可用对接端口：{0}/{1}"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.DOCKINGTOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.DOCKINGTOOLTIP"
+msgid "Dock to this craft."
+msgstr "停靠在这艘火箭上。"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.ROW1.TITLETEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.ROW1.TITLETEXT"
+msgid "{SpacecraftName}"
+msgstr "{SpacecraftName}"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.ROW2.TRANSFERBUTTON.LABEL
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.ROW2.TRANSFERBUTTON.LABEL"
+msgid "Transfer Duplicants between Crafts"
+msgstr "在火箭之间转移复制人"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.ROW2.VIEWDOCKEDBUTTON.LABEL
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.ROW2.VIEWDOCKEDBUTTON.LABEL"
+msgid "View docked Interior"
+msgstr "查看停靠的火箭内部"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.ROW2.VIEWDOCKEDBUTTON.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.ROW2.VIEWDOCKEDBUTTON.TOOLTIP"
+msgid "View the interior this docking tube is currently connected to."
+msgstr "查看当前连接到这个对接管的火箭内部。"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.ROW2.VIEWDOCKEDBUTTON.TOOLTIPNOINTERIOR
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.ROW2.VIEWDOCKEDBUTTON.TOOLTIPNOINTERIOR"
+msgid "No interior found"
+msgstr "未找到内部"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.UNDOCKINGTOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.ITEMPREFAB.UNDOCKINGTOOLTIP"
+msgid "Undock from this craft."
+msgstr "从这搜火箭中离开。"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.TITLE.TITLETEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGSCREEN.TITLE.TITLETEXT"
+msgid "Docking Management"
+msgstr "对接管理"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.ASSIGNTOOTHERBUTTONTEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.ASSIGNTOOTHERBUTTONTEXT"
+msgid "Assign Duplicant to the other Spacecraft"
+msgstr "分配复制人到其他火箭"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.CONTENTHEADERDOCKED.TITLETEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.CONTENTHEADERDOCKED.TITLETEXT"
+msgid "Duplicants assigned the docked Spacecraft:"
+msgstr "被分配对接火箭的复制人："
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.CONTENTHEADEROWN.TITLETEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.CONTENTHEADEROWN.TITLETEXT"
+msgid "Duplicants assigned to this Spacecraft:"
+msgstr "被分配到这个火箭的复制人："
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.DUPESASSIGNEDTO
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.DUPESASSIGNEDTO"
+msgid "Duplicants assigned to \"{0}\""
+msgstr "分配给\"{0}\"的复制人"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.NODUPESASSIGNED.TITLETEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.OWNDUPESCONTAINER.SCROLLRECTCONTAINER.NODUPESASSIGNED.TITLETEXT"
+msgid "No Duplicants are currently assigned to this spacecraft."
+msgstr "目前没有复制人被分配到这个火箭。"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.TARGETDUPESCONTAINER.SCROLLRECTCONTAINER.NODUPESASSIGNED.TITLETEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.TARGETDUPESCONTAINER.SCROLLRECTCONTAINER.NODUPESASSIGNED.TITLETEXT"
+msgid "No Duplicants are currently assigned to this spacecraft."
+msgstr "目前没有复制人被分配到这个火箭。"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.TITLE.TITLETEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DOCKINGTRANSFERSCREEN.TITLE.TITLETEXT"
+msgid "Crew Management"
+msgstr "成员管理"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DRILLCONE_MODEHANDLER_SIDESCREEN.LABEL
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DRILLCONE_MODEHANDLER_SIDESCREEN.LABEL"
+msgid "Load via Cargo Loader"
+msgstr "通过装载器装载"
+
+#. Rockets_TinyYetBig.STRINGS.UI.DRILLCONE_MODEHANDLER_SIDESCREEN.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.DRILLCONE_MODEHANDLER_SIDESCREEN.TOOLTIP"
+msgid "toggle between automatic and manual loading"
+msgstr "在自动和手动装载之间切换"
+
+#. Rockets_TinyYetBig.STRINGS.UI.KLEI_INVENTORY_SCREEN.SUBCATEGORIES.RTB_MODULE_SKINS
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.KLEI_INVENTORY_SCREEN.SUBCATEGORIES.RTB_MODULE_SKINS"
+msgid "Rocket Modules"
+msgstr "火箭舱"
+
+#. Rockets_TinyYetBig.STRINGS.UI.NEWBUILDCATEGORIES.ROCKETFUELING.BUILDMENUTITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.NEWBUILDCATEGORIES.ROCKETFUELING.BUILDMENUTITLE"
+msgid "Rocket Fueling"
+msgstr "火箭燃料"
+
+#. Rockets_TinyYetBig.STRINGS.UI.NEWBUILDCATEGORIES.ROCKETFUELING.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.NEWBUILDCATEGORIES.ROCKETFUELING.NAME"
+msgid "Rocket Fueling"
+msgstr "火箭燃料"
+
+#. Rockets_TinyYetBig.STRINGS.UI.NEWBUILDCATEGORIES.ROCKETFUELING.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.NEWBUILDCATEGORIES.ROCKETFUELING.TOOLTIP"
+msgid ""
+msgstr ""
+
+#. Rockets_TinyYetBig.STRINGS.UI.PRODUCTINFO_SPACE_STATION_INTERIOR
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.PRODUCTINFO_SPACE_STATION_INTERIOR"
+msgid "Space station interior only"
+msgstr "仅限太空站内部"
+
+#. Rockets_TinyYetBig.STRINGS.UI.PRODUCTINFO_SPACE_STATION_NOT_INTERIOR
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.PRODUCTINFO_SPACE_STATION_NOT_INTERIOR"
+msgid "Cannot build inside space station"
+msgstr "无法在太空站内建造"
+
+#. Rockets_TinyYetBig.STRINGS.UI.ROCKETGENERATOR.BUTTONTEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.ROCKETGENERATOR.BUTTONTEXT"
+msgid "Active while landed"
+msgstr "着陆时激活"
+
+#. Rockets_TinyYetBig.STRINGS.UI.ROCKETGENERATOR.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.ROCKETGENERATOR.TITLE"
+msgid "Generator State"
+msgstr "发电机状态"
+
+#. Rockets_TinyYetBig.STRINGS.UI.ROCKETGENERATOR.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.ROCKETGENERATOR.TOOLTIP"
+msgid "Toggle the Generator producing power while landed."
+msgstr "切换着陆状态的发电机是否供电。"
+
+#. Rockets_TinyYetBig.STRINGS.UI.RTB_RESEACH_UNLOCK.TEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.RTB_RESEACH_UNLOCK.TEXT"
+msgid ""
+"Eureka! We've decrypted the abandoned station computer's salvageable data.\n"
+"\n"
+"We now have the ability to construct habitat stations in the vast emptyness of space!\n"
+"\n"
+"New Research has become available."
+msgstr ""
+"太好了！我们已经解密了那个废弃站点的计算机中可利用的数据了。\n"
+"\n"
+"我们现在有能力在浩瀚的太空之中建造生活站了！\n"
+"\n"
+"新的研究成果已可用。"
+
+#. Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.CANCELCONSTRUCTION
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.CANCELCONSTRUCTION"
+msgid "Cancel Construction"
+msgstr "取消建造"
+
+#. Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.CANCELDECONSTRUCTION
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.CANCELDECONSTRUCTION"
+msgid "Cancel Deconstruction"
+msgstr "取消拆除"
+
+#. Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.PROJECTHEADER.COSTCONTAINER.PARTCOUNT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.PROJECTHEADER.COSTCONTAINER.PARTCOUNT"
+msgid "{0}/{1}"
+msgstr "{0}/{1}"
+
+#. Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.PROJECTHEADER.COSTCONTAINER.TITLETEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.PROJECTHEADER.COSTCONTAINER.TITLETEXT"
+msgid "Total Progress:"
+msgstr "总进度："
+
+#. Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.PROJECTHEADER.ROW1.CREATENEW.LABEL
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.PROJECTHEADER.ROW1.CREATENEW.LABEL"
+msgid "Create new construction project"
+msgstr "创建新的建设项目"
+
+#. Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.PROJECTHEADER.ROW1.CREATENEW.LABELCANCEL
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.PROJECTHEADER.ROW1.CREATENEW.LABELCANCEL"
+msgid "Cancel current construction project"
+msgstr "取消当前的建设项目"
+
+#. Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.PROJECTHEADER.ROW1.TITLETEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.PROJECTHEADER.ROW1.TITLETEXT"
+msgid "No space construction project here."
+msgstr "这里没有空间进行空间项目建设。"
+
+#. Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.STARTCONSTRUCTION
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.STARTCONSTRUCTION"
+msgid "Start Construction"
+msgstr "开始建造"
+
+#. Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.STARTDECONSTRUCTION
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.STARTDECONSTRUCTION"
+msgid "Start Deconstruction"
+msgstr "开始拆除"
+
+#. Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.TIMEREMAINING
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.TIMEREMAINING"
+msgid "{0} seconds remaining"
+msgstr "还剩{0}秒"
+
+#. Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.TITLE.TITLETEXT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.SPACEASSEMBLEMENU_SIDESCREEN.TITLE.TITLETEXT"
+msgid "Space Construction"
+msgstr "太空建造"
+
+#. Rockets_TinyYetBig.STRINGS.UI.TOOLTIP_ADDON_RTB
+msgctxt "Rockets_TinyYetBig.STRINGS.UI.TOOLTIP_ADDON_RTB"
+msgid "<color=#a0a0a0><b>Rocketry Expanded</b></color> Content"
+msgstr "<color=#a0a0a0><b>火箭扩展</b></color>内容"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETBATTERYSTATUS.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETBATTERYSTATUS.NAME"
+msgid "Battery Module Charge: {0}/{1}"
+msgstr "电池舱电力：{0}/{1}"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.MODULECOUNT
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.MODULECOUNT"
+msgid "Number of Modules: "
+msgstr "舱块数量： "
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.MODULEORDER
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.MODULEORDER"
+msgid "Rocket Modules:\n"
+msgstr "火箭舱：\n"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.NAME"
+msgid "Height: {0}/{1}, max. Width: {2} "
+msgstr "高度：{0}/{1}，最大宽度：{2} "
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.NAME_MAX_SUPPORTED
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.NAME_MAX_SUPPORTED"
+msgid "Maximum supported rocket height: "
+msgstr "最大支撑火箭高度： "
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.NAME_RAW
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.NAME_RAW"
+msgid "Height: "
+msgstr "高度： "
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETDIMENSIONS.TOOLTIP"
+msgid ""
+"The {0} can support a total rocket height {1}\n"
+"The maximum width of the rocket is {2} tiles."
+msgstr ""
+"{0}可以支持的总火箭高度为{1}\n"
+"火箭的最大宽度为{2}格。"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETGENERATORSTATS.NAME
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETGENERATORSTATS.NAME"
+msgid "Power Generation: {0}/{1}"
+msgstr "发电量：{0}/{1}"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETGENERATORSTATS.TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETGENERATORSTATS.TOOLTIP"
+msgid ""
+"\n"
+"({0}/{1} fuel remaining)"
+msgstr ""
+"\n"
+"（剩余{0}/{1}燃料）"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETGENERATORSTATS.TOOLTIP2
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.CLUSTERMAPROCKETSIDESCREEN.ROCKETGENERATORSTATS.TOOLTIP2"
+msgid ""
+"\n"
+"(Check cargo bays for fuel type: {0})"
+msgstr ""
+"\n"
+"（检查货舱中的燃料类型：{0}）"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.COLLAPSIBLEWORLDSELECTOR.DERELICS
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.COLLAPSIBLEWORLDSELECTOR.DERELICS"
+msgid "Derelics"
+msgstr "废船"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.COLLAPSIBLEWORLDSELECTOR.ROCKETS
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.COLLAPSIBLEWORLDSELECTOR.ROCKETS"
+msgid "Rockets in space"
+msgstr "太空中的火箭"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.CONSTRAINTS.ONE_MODULE_PER_ROCKET.COMPLETE
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.CONSTRAINTS.ONE_MODULE_PER_ROCKET.COMPLETE"
+msgid ""
+msgstr ""
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.CONSTRAINTS.ONE_MODULE_PER_ROCKET.FAILED
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.CONSTRAINTS.ONE_MODULE_PER_ROCKET.FAILED"
+msgid "    • There already is a module of this type on this rocket"
+msgstr " • 该火箭上已经有一个同类舱块"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.FLUSHURANIUM.BUTTON
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.FLUSHURANIUM.BUTTON"
+msgid "Flush Generator Fuel"
+msgstr "清空发电机燃料"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.FLUSHURANIUM.BUTTONINFO
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.FLUSHURANIUM.BUTTONINFO"
+msgid "Empties the generators storage to allow a refill."
+msgstr "清空发电机存储的内容，以便重新填充。"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACECONSTRUCTIONSITE.DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACECONSTRUCTIONSITE.DESC"
+msgid "This construction site will produce a {0} once all these parts are assembled:"
+msgstr "这个设施将在组装所有零件后生产一个{0}："
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACECONSTRUCTIONSITE.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACECONSTRUCTIONSITE.TITLE"
+msgid "Space Construction Site"
+msgstr "太空建造站"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONSIDESCREEN.TITLE
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONSIDESCREEN.TITLE"
+msgid "Space Station"
+msgstr "空间站"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONSIDESCREEN.VIEW_WORLD_DESC
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONSIDESCREEN.VIEW_WORLD_DESC"
+msgid "Oversee Station Interior"
+msgstr "监管站点内部"
+
+#. Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONSIDESCREEN.VIEW_WORLD_TOOLTIP
+msgctxt "Rockets_TinyYetBig.STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONSIDESCREEN.VIEW_WORLD_TOOLTIP"
+msgid "View Space Station Interior"
+msgstr "查看空间站内部"

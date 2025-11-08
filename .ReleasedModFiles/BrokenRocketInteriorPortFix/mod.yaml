@@ -1,0 +1,3 @@
+title: 'Help I accidentally broke my rocket interior ports and now the save crashes on load - Fix'
+description: "Makes Rocket wall components deconstructable and adds them to the build menu"
+staticID: BrokenRocketInteriorPortFix

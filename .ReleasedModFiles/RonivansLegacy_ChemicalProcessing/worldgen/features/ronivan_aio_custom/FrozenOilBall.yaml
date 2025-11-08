@@ -1,0 +1,25 @@
+tags:
+  - AllowExceedNodeBorders
+shape: Circle
+borders:
+  - 1
+blobSize:
+  min: 2
+  max: 3
+ElementChoiceGroups:
+  RoomCenterElements:
+    selectionMethod: WeightedResample
+    choices:
+      - element: SolidCrudeOil
+        weight: 0.8
+        overrides:
+          massOverride: 850
+  RoomBorderChoices0:
+    selectionMethod: WeightedResample
+    choices:
+      - element: SolidCrudeOil
+        weight: 0.9
+        overrides:
+          massOverride: 920
+      - element: Ice
+        weight: 0.5
