@@ -92,7 +92,7 @@ jobs:
     - name: Add to Commit
       run: |
             Rename-Item -Path './Builds/' -NewName '.ReleasedModFiles'
-            git add '.ReleaseModFiles/\*'
+            git add ".ReleasedModFiles\*"
 
     - name: Commit files
       run: |
