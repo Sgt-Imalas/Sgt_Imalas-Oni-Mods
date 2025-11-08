@@ -91,6 +91,7 @@ jobs:
     
     - name: Add to Commit
       run: |
+            Remove-Item -Path '.ReleasedModFiles/' -Force -Recurse
             Rename-Item -Path './Builds/' -NewName '.ReleasedModFiles'
             git add ".ReleasedModFiles"
 
