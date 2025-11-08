@@ -49,7 +49,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
 			go.GetComponent<KPrefabID>().AddTag(GameTags.OverlayBehindConduits);
-			float consumerCapacity = HighPressureConduitRegistration.SolidCap_HP * 10f;
+			float consumerCapacity = HighPressureConduitRegistration.GetMaxConduitCapacity(ConduitType.Solid,true) * 10f;
 
 			go.AddOrGet<LogicOperationalController>();
 
@@ -57,7 +57,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			storage.showDescriptor = false;
 			storage.storageFilters = null;
 			storage.capacityKg = consumerCapacity;
-			storage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
+			storage.SetDefaultStoredItemModifiers(Storage.StandardSealedStorage);
 			storage.showCapacityStatusItem = false;
 			storage.showCapacityAsMainStatus = false;
 
