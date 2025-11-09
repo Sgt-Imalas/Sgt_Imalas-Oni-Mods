@@ -55,9 +55,8 @@ namespace LocalModLoader
 		public static string CustomModsPath()
 		{
 			string playerPrefsDefinedFolder = KPlayerPrefs.GetString("CustomModsFolder");
-
 			if (string.IsNullOrEmpty(playerPrefsDefinedFolder))
-				return Path.Combine(Application.persistentDataPath, "mods");
+				return Path.Combine(Application.persistentDataPath, "mods","SideLoaded");
 			return playerPrefsDefinedFolder;
 		}
 		public static string CustomDownloadsPath()
