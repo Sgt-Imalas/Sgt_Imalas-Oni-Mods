@@ -32,7 +32,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.PowerInputOffset = new CellOffset(1, 0);
 			buildingDef.EnergyConsumptionWhenActive = 480f;
 			buildingDef.SelfHeatKilowattsWhenActive = 0.0f;
-			buildingDef.ThermalConductivity = 0.01f;
+			//buildingDef.ThermalConductivity = 0.01f;
 			buildingDef.InputConduitType = ConduitType.Gas;
 			buildingDef.UtilityInputOffset = new CellOffset(1, 0);
 			//buildingDef.OutputConduitType = ConduitType.Liquid;
