@@ -64,6 +64,34 @@ namespace LocalModLoader
 			}
 		}
 
+		public static bool TryGetRemoteHashMap(string url, out HashMap map)
+		{
+			map = null;
+			try
+			{
+				var json = client.GetStringAsync(url).ConfigureAwait(false).GetAwaiter().GetResult();
+				if (json.IsNullOrWhiteSpace())
+				{
+					SgtLogger.warning("version json was empty");
+					return false;
+				}
+
+				map = Newtonsoft.Json.JsonConvert.DeserializeObject<HashMap>(json);
+				if (map == null)
+				{
+					SgtLogger.warning("could not deserialize hashmap from json");
+					return false;
+				}
+				return true;
+			}
+			catch (Exception e)
+			{
+				SgtLogger.warning("error while fetching hashmap:\n");
+				Debug.LogWarning(e.Message);
+				return false;
+			}
+		}
+
 		public static bool TryGetRemoteVersionInfo(string url, out RemoteModInfo remoteInfo)
 		{
 			remoteInfo = null;

@@ -84,23 +84,24 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
-    - name: Add all built files to Commit
-      run: |
-            Remove-Item -Path '.ReleasedModFiles/' -Force -Recurse
-            Rename-Item -Path './Builds/' -NewName '.ReleasedModFiles'
-            git add ".ReleasedModFiles"
+    ## used for writing built files to the repo for incremental updating prototype; scrapped for rate limiting concerns
+    # - name: Add all built files to Commit
+    #   run: |
+    #         Remove-Item -Path '.ReleasedModFiles/' -Force -Recurse
+    #         Rename-Item -Path './Builds/' -NewName '.ReleasedModFiles'
+    #         git add ".ReleasedModFiles"
 
-    - name: Commit built files to repo
-      run: |
-        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        git config --local user.name "github-actions[bot]"
-        git commit -a -m "Push automatic builds"
+    # - name: Commit built files to repo
+    #   run: |
+    #     git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+    #     git config --local user.name "github-actions[bot]"
+    #     git commit -a -m "Push automatic builds"
 
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ github.ref }}        
+    # - name: Push changes
+    #   uses: ad-m/github-push-action@master
+    #   with:
+    #     github_token: ${{ secrets.GITHUB_TOKEN }}
+    #     branch: ${{ github.ref }}        
 
     - name: Delete old releases
       uses: dev-drprasad/delete-older-releases@v0.3.4

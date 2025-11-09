@@ -100,9 +100,9 @@
 
 	</Target>
 	
-	<Target Name ="CreateHashInfoFile" AfterTargets="CopyModsToDevFolder" Condition="'$(DoNotBuildAsMod)' != 'true' and '$(GameLibsFolder)' == '../Lib'">
+	<!--<Target Name ="CreateHashInfoFile" AfterTargets="CopyModsToDevFolder" Condition="'$(DoNotBuildAsMod)' != 'true' and '$(GameLibsFolder)' == '../Lib'">
 		<RecursiveFolderHashing TargetFile="FileHashes.json" TargetFolder="$(TargetFolder)"></RecursiveFolderHashing>
-	</Target>
+	</Target>-->
 
 	<!--Create archive version-->
 	<!--
