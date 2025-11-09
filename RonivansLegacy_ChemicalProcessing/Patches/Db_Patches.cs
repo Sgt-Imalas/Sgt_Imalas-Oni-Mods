@@ -24,20 +24,6 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				ModElements.OverrideDebrisAnims();
 				SpaceMiningAdditions.AddExtraPOIElements();
 				StatusItemsDatabase.CreateStatusItems();
-
-				__instance.Skills.Add(new Skill(
-					"ARCHEOLOGY_ID",
-					"Secret Beached Skill",
-					"filler",
-					2,
-					"hat_role_mining1", 
-					"skillbadge_role_mining1",
-					Db.Get().SkillGroups.Mining.Id,
-					new List<SkillPerk> { Db.Get().SkillPerks.CanDigRadioactiveMaterials }, 
-					new List<string> {
-						__instance.Skills.Mining2.Id,
-						__instance.Skills.Researching2.Id,
-					}));
 			}
 		}
 	}
