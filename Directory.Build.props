@@ -9,7 +9,13 @@
 		<LangVersion>preview</LangVersion>
 	</PropertyGroup>
 	<!--<UsingTask TaskName="RecursiveFolderHashing" AssemblyFile="HashService.dll"/>-->
-	
+
+	<PropertyGroup>
+		<!--Marks Deprecated warnings as errors-->
+		<WarningsAsErrors>CS0618</WarningsAsErrors>
+	</PropertyGroup>
+
+
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<Optimize>False</Optimize>
 	</PropertyGroup>
