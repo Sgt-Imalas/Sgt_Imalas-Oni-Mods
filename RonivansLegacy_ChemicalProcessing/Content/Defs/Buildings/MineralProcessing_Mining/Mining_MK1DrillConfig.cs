@@ -1,5 +1,6 @@
 ﻿using Mineral_Processing_Mining.Buildings;
 using RonivansLegacy_ChemicalProcessing;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Entities.Mining_DrillMk2_Consumables;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRandom;
@@ -84,28 +85,32 @@ namespace Mineral_Processing
 
 		private void ConfigureRecipes()
 		{
+			int index = 0;
 			RecipeBuilder.Create(ID, 300)
-				.Input(SimHashes.Copper, 400)
+				.Input(SimpleDrillbits_Config.ID_BASIC, 1)
 				.Output(SimHashes.CrushedRock, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, true)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 				.NameOverride(BASIC_DRILLING)
-				.Description(RandomRecipeProducts.GetAugerDrillRandomResultString(ID, SimHashes.Copper.CreateTag(), global::STRINGS.ELEMENTS.COPPER.NAME))
+				.Description(RandomRecipeProducts.GetAugerDrillRandomResultString(ID, SimpleDrillbits_Config.ID_BASIC, AIO_SIMPLE_DRILLBIT_STARTER.NAME))
+				.SortOrder(index++)
 				.Build();
 
 			RecipeBuilder.Create(ID, 300)
-				.Input(SimHashes.Iron, 400)
+				.Input(SimpleDrillbits_Config.ID_IRON, 1)
 				.Output(SimHashes.CrushedRock, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, true)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 				.NameOverride(BASIC_DRILLING)
-				.Description(RandomRecipeProducts.GetAugerDrillRandomResultString(ID, SimHashes.Iron.CreateTag(), global::STRINGS.ELEMENTS.IRON.NAME))
+				.Description(RandomRecipeProducts.GetAugerDrillRandomResultString(ID, SimpleDrillbits_Config.ID_IRON, AIO_SIMPLE_DRILLBIT_IRON.NAME))
+				.SortOrder(index++)
 				.Build();
 
 			RecipeBuilder.Create(ID, 400)
-				.Input(SimHashes.Steel, 400)
+				.Input(SimpleDrillbits_Config.ID_HARDENED, 1)
 				.Output(SimHashes.CrushedRock, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, true)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 				.NameOverride(BASIC_DRILLING)
-				.Description(RandomRecipeProducts.GetAugerDrillRandomResultString(ID, SimHashes.Steel.CreateTag(), global::STRINGS.ELEMENTS.STEEL.NAME))
+				.Description(RandomRecipeProducts.GetAugerDrillRandomResultString(ID, SimpleDrillbits_Config.ID_HARDENED, AIO_SIMPLE_DRILLBIT_HARDENED.NAME))
+				.SortOrder(index++)
 				.Build();
 		}
 

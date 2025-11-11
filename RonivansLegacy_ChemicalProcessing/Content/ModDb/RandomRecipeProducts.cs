@@ -2,6 +2,7 @@
 using Mineral_Processing;
 using Mineral_Processing_Mining.Buildings;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.MineralProcessing_Metallurgy;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Entities.Mining_DrillMk2_Consumables;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRandom;
 using System;
 using System.Collections.Generic;
@@ -915,7 +916,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			//+ SimHashes.Sulfur.CreateTag().ProperName() + ": 11%.\n"
 			//+ SimHashes.Algae.CreateTag().ProperName() + ": 11%.\n")
 
-			results.Add(SimHashes.Copper.CreateTag(),
+			results.Add(SimpleDrillbits_Config.ID_BASIC,
 			new OccurenceRandomResult(Mining_MineralDrillConfig.OccurenceRate)
 				.ProductCount(1)
 				.TempRange(20, 50)
@@ -941,7 +942,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			//+ SimHashes.Cuprite.CreateTag().ProperName() + ": 7%.\n"
 			//+ SimHashes.Salt.CreateTag().ProperName() + ": 7%.\n"
 
-			results.Add(SimHashes.Iron.CreateTag(),
+			results.Add(SimpleDrillbits_Config.ID_IRON,
 			new OccurenceRandomResult(Mining_MineralDrillConfig.OccurenceRate)
 				.TempRange(30, 60)
 				.ProductCount(1)
@@ -963,7 +964,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			//+ SimHashes.Fossil.CreateTag().ProperName() + ": 11%.\n" 
 			//+ SimHashes.Phosphorite.CreateTag().ProperName() + ": 11%.\n" 
 			//+ SimHashes.Wolframite.CreateTag().ProperName() + ": 11%.\n")
-			results.Add(SimHashes.Steel.CreateTag(),
+			results.Add(SimpleDrillbits_Config.ID_HARDENED,
 			new OccurenceRandomResult(Mining_MineralDrillConfig.OccurenceRate)
 				.TempRange(40, 70)
 				.ProductCount(1)

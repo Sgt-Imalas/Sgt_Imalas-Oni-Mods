@@ -47,7 +47,7 @@ namespace RonivansLegacy_ChemicalProcessing
 			ResearchScreenBetterConnectionLines.Register();
 			DynamicMaterialSelectorHeaderHeight.Register();
 			SelectedRecipeQueueScreenSizeFix.Register();
-			//SkillsWidgetBetterConnectionLines.Register();
+			SkillsWidgetBetterConnectionLines.Register();
 		}
 		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
 		{

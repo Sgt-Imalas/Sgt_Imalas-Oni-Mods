@@ -45,6 +45,15 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.Select(e => e.id);
 		}
 
+		public static IEnumerable<SimHashes> GetStarterMetals()
+		{
+			return ElementLoader.elements.FindAll(e => e.IsSolid
+			&& e.HasTag(GameTags.StartingRefinedMetal)
+			&& e.id != SimHashes.Iron //not considered a starting metal for my purpose
+			&& e.id != SimHashes.Aluminum) //way too soft material
+			.Select(e => e.id);
+		}
+
 		public static IEnumerable<Tag> GetSteelLikes()
 		{
 			return [

@@ -2,6 +2,7 @@
 using Dupes_Industrial_Overhaul.Chemical_Processing.Buildings;
 using Dupes_Industrial_Overhaul.Chemical_Processing.Chemicals;
 using HarmonyLib;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Entities.Mining_DrillMk2_Consumables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -164,6 +165,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				SlagCementRecipe(ID);
 			}
 		}
+
+		public static void RegisterRecipes_CraftingTable()
+		{
+			SimpleDrillbits_Config.CreateSimpleDrillRecipes(CraftingTableConfig.ID,true);
+		}
+
 		public static void RegisterRecipes_SuperMaterialRefinery()
 		{
 			string ID = SupermaterialRefineryConfig.ID;
@@ -209,6 +216,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
 			{
 				RegisterRecipes_RayonLoom();
+			}
+			if (Config.Instance.MineralProcessing_Mining_Enabled)
+			{
+				RegisterRecipes_CraftingTable();
 			}
 		}
 		public static void RegisterRecipes_AnaerobicDigester()

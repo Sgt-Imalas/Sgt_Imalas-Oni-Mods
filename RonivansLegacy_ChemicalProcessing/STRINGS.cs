@@ -64,6 +64,16 @@ namespace RonivansLegacy_ChemicalProcessing
 		{
 			public class TECHS
 			{
+				public class MINING_MK2DRILLTECH
+				{
+					public static LocString NAME = FormatAsLink("Deep Core Mining", nameof(MINING_MK2DRILLTECH));
+					public static LocString DESC = "Unlocks the ability to drill into previously unreachable layers of the asteroid for resource extraction.";
+				}
+				public class MINING_SIMPLEDRILLBIT_CRAFTING
+				{
+					public static LocString NAME = $"{PRE_KEYWORD}Simple Drillbit{PST_KEYWORD} Pattern";
+					public static LocString DESC = $"Enables fabrication of {PRE_KEYWORD}Simple Drillbits{PST_KEYWORD} at the " + global::STRINGS.BUILDINGS.PREFABS.CRAFTINGTABLE.NAME;
+				}
 				public class HPA_RAILS_RESEARCH
 				{
 					public static LocString NAME = FormatAsLink("High-Capacity Solid Transport", nameof(HPA_RAILS_RESEARCH));
@@ -2056,7 +2066,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString MINERALPROCESSING_GUIDANCEUNIT_DESC = "Guidance Devices allow the the mining drillhead to be programmed to target mine specific asteroid sectors.";
 
 				public static LocString MINERALPROCESSING_DRILLBIT = FormatAsLink("Drillbit", nameof(MINERALPROCESSING_DRILLBIT));
-				public static LocString MINERALPROCESSING_DRILLBIT_DESC = "Self-Propelled Drillbits that are used by the Asteroid Drill Rig to extract resources from otherwise unreachable sectors of the asteroid.";
+				public static LocString MINERALPROCESSING_DRILLBIT_DESC = "Drillbits that are used by the Asteroid Drills to extract resources from otherwise unreachable sectors of the asteroid.";
 
 
 				public static LocString RANDOMRECIPEINGREDIENT_DESTROYONCANCEL = FormatAsLink("Non-refundable Ingredient", nameof(RANDOMRECIPEINGREDIENT_DESTROYONCANCEL));
@@ -2095,16 +2105,39 @@ namespace RonivansLegacy_ChemicalProcessing
 				}
 				public class MINING_DRILLBITS_STEEL_ITEM
 				{
-					public static LocString NAME = FormatAsLink("Steel Drillbits", nameof(MINING_DRILLBITS_STEEL_ITEM));
+					public static LocString NAME = FormatAsLink("Hardened Drillbits", nameof(MINING_DRILLBITS_STEEL_ITEM));
 					public static LocString DESC = "A set of sturdy drill bits made for hard rock mining operations.\nHas no own guidance system and can drill through hard rocks stratum.";
-					public static LocString RECIPE_DESC = "Instruct the computer to produce Steel Drillbits.";
+					public static LocString RECIPE_DESC = "Instruct the computer to produce Hardened Drillbits.";
 				}
 				public class MINING_DRILLBITS_BASIC_ITEM
 				{
 					public static LocString NAME = FormatAsLink("Basic Drillbits", nameof(MINING_DRILLBITS_BASIC_ITEM));
 					public static LocString DESC = "A set of sturdy drill bits made for basic mining operations.\nHas no own guidance system and can drill through soft rocks stratum.";
-					public static LocString RECIPE_DESC = "Instruct the computer to produce Basic Drillbits.\nThis instruction is meant for Copper variation.";
+					public static LocString RECIPE_DESC = "Instruct the computer to produce Basic Drillbits.";
 				}
+
+				public class AIO_SIMPLE_DRILLBIT_STARTER
+				{
+					public static LocString NAME = FormatAsLink("Simple Basic Drillbits", nameof(AIO_SIMPLE_DRILLBIT_STARTER));
+					public static LocString DESC = "A set of drill bits made for simple mining operations.";
+					public static LocString RECIPE_DESC = "Instruct the computer to produce Simple Basic Drillbits.";
+					public static LocString RECIPE_DESC_CRAFTINGTABLE = "Instruct a duplicant to produce Simple Basic Drillbits.";
+				}
+				public class AIO_SIMPLE_DRILLBIT_IRON
+				{
+					public static LocString NAME = FormatAsLink("Simple Iron Drillbits", nameof(AIO_SIMPLE_DRILLBIT_IRON));
+					public static LocString DESC = "A set of drill bits made for simple mining operations.";
+					public static LocString RECIPE_DESC = "Instruct the computer to produce Simple Iron Drillbits.";
+					public static LocString RECIPE_DESC_CRAFTINGTABLE = "Instruct a duplicant to produce Simple Iron Drillbits.";
+				}
+				public class AIO_SIMPLE_DRILLBIT_HARDENED
+				{
+					public static LocString NAME = FormatAsLink("Simple Hardened Drillbits", nameof(AIO_SIMPLE_DRILLBIT_IRON));
+					public static LocString DESC = "A set of drill bits made for simple mining operations.";
+					public static LocString RECIPE_DESC = "Instruct the computer to produce Simple Steel Drillbits.";
+					public static LocString RECIPE_DESC_CRAFTINGTABLE = "Instruct a duplicant to produce Simple Hardened Drillbits.";
+				}
+
 				public class MINING_DRILLBITS_GUIDANCEDEVICE_ITEM
 				{
 					public static LocString NAME = FormatAsLink("Guidance Device (Unprogrammed)", "MINERALPROCESSING_GUIDANCEUNIT");
@@ -2264,6 +2297,7 @@ namespace RonivansLegacy_ChemicalProcessing
 
 			public class CHEMICAL_COMPLEXFABRICATOR_STRINGS
 			{
+
 				public static LocString HEAT_REFINE = "Refine {0} with intense heat, producing {1}.";
 				public static LocString HEAT_COOK = "Cook {0} at high temperature, and produces {1}.";
 				public static LocString THREE_MIXTURE_COMPRESS_COOKING = "Compress a mixture of {0}, {1} and {2}.\nCooking the mixture at high temperature produces {3}";

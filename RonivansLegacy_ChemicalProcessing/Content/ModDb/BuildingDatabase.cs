@@ -358,12 +358,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		{
 			BuildingManager.CreateEntry<Mining_CNCMachineConfig>()
 				.AddToCategory(PlanMenuCategory.Refinement, SupermaterialRefineryConfig.ID)
-				.AddToTech(Technology.SolidMaterial.SolidManagement)
+				.AddToTech(ModTechs.Mining_Mk2DrillTech_ID)
 				.AddModFrom(SourceModInfo.MineralProcessing_Mining);
 
 			BuildingManager.CreateEntry<Mining_AugerDrillConfig>()
 				.AddToCategory(PlanMenuCategory.Utilities, OilWellCapConfig.ID)
-				.AddToTech(Technology.SolidMaterial.SolidManagement)
+				.AddToTech(ModTechs.Mining_Mk2DrillTech_ID)
 				.AddModFrom(SourceModInfo.MineralProcessing_Mining);
 
 			BuildingManager.CreateEntry<Mining_MineralDrillConfig>()
@@ -778,6 +778,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
 
 			//solid
+
+
 			if (!Config.Instance.HPA_Rails_Mod_Enabled)
 				return;
 
@@ -809,11 +811,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddModFrom(SourceModInfo.HighPressureApplications)
 				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
 
-			BuildingManager.CreateEntry<HPATransferArmConfig>()
-				.AddToCategory(PlanMenuCategory.Shipping, SolidTransferArmConfig.ID)
-				.AddToTech(Technology.SolidMaterial.SolidControl)
-				.AddModFrom(SourceModInfo.HighPressureApplications)
-				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
 
 			BuildingManager.CreateEntry<HPARailMergerConfig>()
 				.AddToCategory(PlanMenuCategory.Shipping, SolidLogicValveConfig.ID)
@@ -832,6 +829,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddModFrom(SourceModInfo.HighPressureApplications)
 				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
 
+			BuildingManager.CreateEntry<HPATransferArmConfig>()
+				.AddToCategory(PlanMenuCategory.Shipping, SolidTransferArmConfig.ID)
+				.AddToTech(ModTechs.HPA_Rails_Research_ID)
+				.AddModFrom(SourceModInfo.HighPressureApplications)
+				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
 
 			BuildingManager.CreateEntry<HPAFilterSolidConfig>()
 				.AddToCategory(PlanMenuCategory.Shipping, SolidFilterConfig.ID)
