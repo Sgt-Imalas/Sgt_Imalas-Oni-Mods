@@ -212,7 +212,7 @@ namespace UtilLibs.BuildingPortUtils
 		private void OnConduitConnectionChanged(object _)
 		{
 			IsConnected_Cache = this.IsConnected;
-			base.BoxingTrigger(-2094018600, this.IsConnected_Cache);
+			base.Trigger((int)GameHashes.ConduitConnectionChanged, BoxedBools.Box(IsConnected_Cache));
 			UpdateNotifications();
 		}
 		public virtual void UpdateNotifications()
