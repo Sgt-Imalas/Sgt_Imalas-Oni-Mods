@@ -2079,7 +2079,10 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString AIO_CARRIERGAS_DESC = "Carrier Gases are inert or semi-inert gases that are used in plasma related processes.";
 
 				public static LocString AIO_RADEMITTERINPUTMATERIAL = "Radioactive Material";
-				public static LocString AIO_RadEmitterInputMaterial_DESC = "Radioactive Material that can be used to fuel the Rad Projector.";
+				public static LocString AIO_RADEMITTERINPUTMATERIAL_DESC = "Radioactive Material that can be used to fuel the Rad Projector.";
+
+				public static LocString AIO_BIOFUEL = FormatAsLink("Renewable Biofuel", nameof(AIO_BIOFUEL));
+				public static LocString AIO_BIOFUEL_DESC = "Combustible liquid fuels made frome regenerative materials.";
 			}
 		}
 		public class ITEMS

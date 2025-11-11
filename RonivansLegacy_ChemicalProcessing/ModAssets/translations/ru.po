@@ -4031,8 +4031,8 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.AIO_RADEMITTERINPUT
 msgid "Radioactive Material"
 msgstr "Радиоактивный материал"
 
-#. RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.AIO_RadEmitterInputMaterial_DESC
-msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.AIO_RadEmitterInputMaterial_DESC"
+#. RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.AIO_RADEMITTERINPUTMATERIAL_DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.AIO_RADEMITTERINPUTMATERIAL_DESC"
 msgid "Radioactive Material that can be used to fuel the Rad Projector."
 msgstr "Радиоактивный материал, который можно использовать в качестве топлива для Рад-проектора."
 

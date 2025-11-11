@@ -127,6 +127,7 @@ elements:
     tags:
     - CombustibleLiquid
     - Slippery
+    - AIO_BioFuel
     isDisabled: false
     state: Liquid
     localizationID: STRINGS.ELEMENTS.LIQUIDBIODIESEL.NAME

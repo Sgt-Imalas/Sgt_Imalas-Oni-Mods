@@ -67,6 +67,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			gasPipeString.String = gasPipeString.String.Replace("{CAPACITY}", GameUtil.GetFormattedMass(HighPressureConduitRegistration.GasCap_HP));
 			var liquidPipeString = Strings.Get("STRINGS.BUILDINGS.PREFABS.HIGHPRESSURELIQUIDCONDUIT.EFFECT");
 			liquidPipeString.String = liquidPipeString.String.Replace("{CAPACITY}", GameUtil.GetFormattedMass(HighPressureConduitRegistration.LiquidCap_HP));
+
+			global::STRINGS.BUILDINGS.PREFABS.BIODIESELENGINE.EFFECT = global::STRINGS.BUILDINGS.PREFABS.BIODIESELENGINE.EFFECT.Replace(global::STRINGS.ELEMENTS.REFINEDLIPID.NAME, STRINGS.MISC.TAGS.AIO_BIOFUEL);
+			global::STRINGS.BUILDINGS.PREFABS.BIODIESELENGINECLUSTER.EFFECT = global::STRINGS.BUILDINGS.PREFABS.BIODIESELENGINECLUSTER.EFFECT.Replace(global::STRINGS.ELEMENTS.REFINEDLIPID.NAME, STRINGS.MISC.TAGS.AIO_BIOFUEL);
 		}
 
 		public static void RegisterOilWellCapCustomPiping()

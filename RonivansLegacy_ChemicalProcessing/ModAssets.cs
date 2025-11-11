@@ -60,6 +60,9 @@ namespace RonivansLegacy_ChemicalProcessing
 
 			///allows stacking the large reformer machines and crude/raw gas refineries
 			public static Tag AIO_StackableMachine = TagManager.Create("AIO_StackableMachine");
+
+			///Biodiesel and Renewable Diesel
+			public static Tag AIO_BioFuel = TagManager.Create("AIO_BioFuel");
 		}
 		public static GameObject BuildingEditorWindowPrefab;
 

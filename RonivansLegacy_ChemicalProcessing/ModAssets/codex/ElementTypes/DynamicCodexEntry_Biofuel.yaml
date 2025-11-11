@@ -1,0 +1,32 @@
+id: "AIO_BioFuel"
+title: STRINGS.MISC.TAGS.AIO_BIOFUEL
+category: "ELEMENTTYPES"
+parentId: "ELEMENTTYPES"
+contentContainers:
+#-----------------------------
+  - contentLayout: Vertical
+    lockID:
+
+    content:
+      - !CodexText
+          stringKey: STRINGS.MISC.TAGS.AIO_BIOFUEL
+          style: Title
+      - !CodexDividerLine
+          preferredWidth: -1
+      - !CodexImage
+          spriteName: ui_combustible_liquids
+          preferredWidth: 128
+          preferredHeight: 128
+#-----------------------------
+  - contentLayout: Vertical
+    lockID:
+
+    content:
+      - !CodexText
+          stringKey: STRINGS.MISC.TAGS.AIO_BIOFUEL_DESC
+          style: Body
+      - !CodexElementCategoryList
+          categoryTag: AIO_BioFuel
+
+contentMadeAndUsed:
+  - tag: AIO_BioFuel

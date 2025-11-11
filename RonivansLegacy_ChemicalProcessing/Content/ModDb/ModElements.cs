@@ -521,12 +521,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				brick.highTemp = 2000;
 				AddTagsToElementAndEnable(SimHashes.Brick, [GameTags.Crushable, GameTags.Insulator, GameTags.BuildableRaw]);
 			}
-
+			
 
 			// adding combustible solid tag to coal and peat
 			AddTagToElementAndEnable(SimHashes.Carbon, GameTags.CombustibleSolid);
 			AddTagToElementAndEnable(SimHashes.RefinedCarbon, GameTags.CombustibleSolid);
 			AddTagToElementAndEnable(SimHashes.Peat, GameTags.CombustibleSolid);
+			AddTagToElementAndEnable(SimHashes.RefinedLipid, ModAssets.Tags.AIO_BioFuel);
 		}
 		static void AddTagToElementAndEnable(SimHashes element, Tag? tag = null, bool setMatCat = false) => AddTagsToElementAndEnable(element, tag.HasValue ? [tag.Value] : null, setMatCat);
 
