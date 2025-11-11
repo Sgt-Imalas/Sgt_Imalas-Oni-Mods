@@ -20,6 +20,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabrica
 		[MyCmpReq] PrimaryElement primaryElement;
 		[MyCmpReq] KSelectable selectable;
 		[MyCmpReq] LogicPorts ports;
+		[MyCmpAdd] CopyBuildingSettings copyBuildingSettings;
 		Extents extents;
 
 		[SerializeField]
@@ -64,10 +65,20 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabrica
 		private Guid hasPipeOutputGuid;
 		Tuple<ConduitType, Tag> StatusItemData;
 		public static readonly Operational.Flag overheatedFlag = new Operational.Flag("aio_capacitorOverheated", Operational.Flag.Type.Requirement);
+		private static readonly EventSystem.IntraObjectHandler<ContinuousLiquidCooledFabricatorAddon> OnCopySettingsDelegate = new EventSystem.IntraObjectHandler<ContinuousLiquidCooledFabricatorAddon>(((component, data) => component.OnCopySettings(data)));
+		int copySettingsHandle;
 
 		public string SliderTitleKey => "STRINGS.UI.LOGIC_PORTS.COOLANT_BATTERY_THRESHOLD.LOGIC_PORT";
 
 		public string SliderUnits => global::STRINGS.UI.UNITSUFFIXES.PERCENT;
+
+		void OnCopySettings(object data)
+		{
+			if(data is GameObject go && go.TryGetComponent<ContinuousLiquidCooledFabricatorAddon>(out var sauce))
+			{
+				LogicHeatThreshold = sauce.LogicHeatThreshold;
+			}
+		}
 
 		public override void OnSpawn()
 		{
@@ -100,6 +111,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabrica
 			selectable.AddStatusItem(StatusItemsDatabase.ThermalBattery_StorageLevel, this);
 			//Subscribe((int)GameHashes.DeconstructComplete, DumpRemainingHeatIntoBuilding);
 			UpdatePort();
+			copySettingsHandle = Subscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate);
 		}
 		public void DumpRemainingHeatIntoBuilding(object _)
 		{
@@ -124,6 +136,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabrica
 		public override void OnCleanUp()
 		{
 			base.OnCleanUp();
+			Unsubscribe(copySettingsHandle);
 			Conduit.GetFlowManager(this.type).RemoveConduitUpdater(Flow);
 		}
 

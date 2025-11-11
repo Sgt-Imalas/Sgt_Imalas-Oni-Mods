@@ -213,6 +213,7 @@ namespace UtilLibs
 		}
 		public RecipeBuilder Input(IEnumerable<Tag> tags, float amount, Tag descriptor = default)
 		{
+			tags = tags.Where(tag => Assets.GetPrefab(tag) != null);
 			RecipeElement recipeElement = new RecipeElement(tags.ToArray(), amount);
 			inputs.Add(recipeElement);
 			if(descriptor != default)
