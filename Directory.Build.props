@@ -12,7 +12,7 @@
 
 	<PropertyGroup>
 		<!--Marks Deprecated warnings as errors-->
-		<WarningsAsErrors>CS0618</WarningsAsErrors>
+		<WarningsAsErrors>CS0618,CS0612</WarningsAsErrors>
 	</PropertyGroup>
 
 
