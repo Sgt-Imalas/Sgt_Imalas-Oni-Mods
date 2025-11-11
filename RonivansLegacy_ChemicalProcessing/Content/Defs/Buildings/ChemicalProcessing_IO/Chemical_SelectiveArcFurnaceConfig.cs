@@ -95,6 +95,10 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			int index = 0;
 
+			List<Tag> Zincs = [ModElements.Zinc_Solid.Tag];
+			if (ElementLoader.GetElement("Beached_Zinc") != null)
+				Zincs.Add("Beached_Zinc");
+
 			//---- [ Brass ] ----------------------------------------------------------------------------------------------------
 			// Ingredient: Copper    - 70kg
 			//             Zinc      - 30kg
@@ -102,7 +106,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//-------------------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, 40)
 				.Input(SimHashes.Copper, 70)
-				.Input(ModElements.Zinc_Solid, 30)
+				.Input(Zincs, 30)
 				.Output(ModElements.Brass_Solid, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
 				.Description(ARCFURNACE_SMELT_2_1, 2, 1)
@@ -246,7 +250,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		public override void DoPostConfigureComplete(GameObject go)
 		{
 			go.AddOrGetDef<PoweredActiveController.Def>().showWorkingStatus = true;
-			go.GetComponent<RequireInputs>().SetRequirements(true,false);
+			go.GetComponent<RequireInputs>().SetRequirements(true, false);
 			UnityEngine.Object.DestroyImmediate(go.GetComponent<RequireOutputs>());
 			UnityEngine.Object.DestroyImmediate(go.GetComponent<ConduitConsumer>());
 			UnityEngine.Object.DestroyImmediate(go.GetComponent<ConduitDispenser>());
