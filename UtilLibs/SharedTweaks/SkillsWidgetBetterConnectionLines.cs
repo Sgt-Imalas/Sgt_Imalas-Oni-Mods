@@ -41,9 +41,12 @@ namespace UtilLibs.SharedTweaks
 		}
 
 		/// <summary>
-		/// vertical distance between 2 directly vertically adjacent tech nodes
+		/// vertical distance between 2 directly vertically adjacent tech nodes;
+		/// adjusts dynamically
 		/// </summary>
-		const float Y_Step = 102.3f;
+		static float Y_Step = 102.3f;
+
+		static bool debug = false;
 
 		public static void RefreshLinesPostfix(SkillWidget __instance)
 		{
@@ -80,18 +83,35 @@ namespace UtilLibs.SharedTweaks
 			__instance.lines = [];
 			foreach (var evenSkill in sourceEven)
 			{
+				if (debug) SgtLogger.l(__instance.skillID + " even: " + evenSkill.first);
 				CreateSkillConnection(__instance, currentSkill, evenSkill);
 			}
-			float connectionOffset = sourceEven.Any() ? 1 : sourceBelow.Any() && sourceAbove.Any() ? 0.625f : 0;
+
+
+			float connectionOffsetX = 1;
+			if (!sourceEven.Any() && sourceBelow.Any() && sourceAbove.Any())
+				connectionOffsetX = 0.5f;
+
+			float connectionOffsetY = 1;
+			if (!sourceEven.Any() && sourceBelow.Any() && sourceAbove.Any())
+				connectionOffsetY = 0.5f;
+			if (!sourceEven.Any() && sourceBelow.Any() != sourceAbove.Any())
+				connectionOffsetY = 0;
+
+			//if (!sourceBelow.Any())
+			//	sourceAbove.Reverse();
+			//else if (!sourceAbove.Any()) 
+			//	sourceBelow.Reverse();
 			for (int i = 0; i < sourceBelow.Count; i++)
-			{
-				CreateSkillConnection(__instance, currentSkill, sourceBelow[i], -connectionOffset - i);
-			}
+				{
+				if (debug) SgtLogger.l(__instance.skillID + " below: " + sourceBelow[i].first);
+					CreateSkillConnection(__instance, currentSkill, sourceBelow[i], sourceBelow.Count, -connectionOffsetY - i, sourceBelow.Count > 1, -connectionOffsetX - i);
+				}
 			for (int i = 0; i < sourceAbove.Count; i++)
 			{
-				CreateSkillConnection(__instance, currentSkill, sourceAbove[i], connectionOffset + i);
+				if (debug) SgtLogger.l(__instance.skillID + " above: " + sourceAbove[i].first);
+				CreateSkillConnection(__instance, currentSkill, sourceAbove[i], sourceAbove.Count, connectionOffsetY + i, sourceAbove.Count > 1, connectionOffsetX + i);
 			}
-
 		}
 
 		static void PrintMatrix()
@@ -180,12 +200,49 @@ namespace UtilLibs.SharedTweaks
 				lookupTable.Add(skill.Id, data);
 				reverseLookupTable.Add(data, skill.Id);
 			}
+			///calculate vertical distance:
+			if (reverseLookupTable.Count < 2)
+				return;
+			int breaker = 0;
+			string compareFirst = null, compareSecond = null;
+			int compareStart = 0;
+			while ((compareFirst == null || compareSecond == null) && breaker < 30)
+			{
+				breaker++;
+				var foundFirst = reverseLookupTable.FirstOrDefault(e => e.Key.Y == compareStart);
+				if (foundFirst.Equals(default))
+				{
+					++compareStart;
+					continue;
+				}
+				else
+				{
+					compareFirst = foundFirst.Value;
+					int compareEnd = compareStart + 1;
+					var foundsecond = reverseLookupTable.FirstOrDefault(e => e.Key.Y == compareEnd);
+					if (foundsecond.Equals(default))
+					{
+						continue;
+					}
+					else
+						compareSecond = foundsecond.Value;
+				}
+			}
+
+			var first = __instance.skillsScreen.skillWidgets[compareFirst];
+			var second = __instance.skillsScreen.skillWidgets[compareSecond];
+			var posfirst = first.transform.position;
+			var possecond = second.transform.position;
+			float yDiff = Mathf.Abs(posfirst.y - possecond.y);
+			if (yDiff != Y_Step)
+			{
+				Debug.Log("Adjusting dynamic Y_Step of skill screen: " + Y_Step + "+ -> " + yDiff);
+				Y_Step = yDiff;
+			}
 		}
 
 		static bool IsAdvancedConnection(Skill src, string dst_id)
 		{
-			var dst = Db.Get().Skills.Get(dst_id);
-
 			if (!lookupTable.TryGetValue(src.Id, out var src_coord) || !lookupTable.TryGetValue(dst_id, out var dst_coord))
 				return false;
 
@@ -195,7 +252,7 @@ namespace UtilLibs.SharedTweaks
 			return true;
 		}
 
-		static void CreateSkillConnection(SkillWidget __instance, Skill currentSkill, Tuple<string, Vector2> requisite, float connectionPointNr = 0)
+		static void CreateSkillConnection(SkillWidget __instance, Skill currentSkill, Tuple<string, Vector2> requisite, float totalConnections = 1, float connectionPointNr = 0, bool invertXStepSrc = false, float xOffset=0)
 		{
 			gradient = 0;
 			RefreshSkillScreenMatrix(__instance);
@@ -203,7 +260,7 @@ namespace UtilLibs.SharedTweaks
 			var requisiteSkillWidget = __instance.skillsScreen.skillWidgets[requisiteSkillId];
 			var requisiteConnectionPoint = requisite.second;
 			var originPos = __instance.lines_left.GetPosition();
-			//SgtLogger.l("TotalDistance; " + ((Vector2)originPos).ToString() + " -> " + requisite.second.ToString());
+			if (debug) SgtLogger.l("TotalDistance; " + ((Vector2)originPos).ToString() + " -> " + requisite.second.ToString());
 
 			//SgtLogger.l("requisiteRightBorderX: " + originPos.ToString() + " - " + requisiteConnectionPoint.ToString());
 			float requisiteRightBorderX = originPos.x - requisiteConnectionPoint.x;
@@ -212,39 +269,43 @@ namespace UtilLibs.SharedTweaks
 			Vector2 relativeEndPoint = Vector2.zero;
 
 			float verticalOffset = (requisiteConnectionPoint.y - originPos.y);
-			float totalConnections = Mathf.Max(0, currentSkill.priorSkills.Count);
 
 			float YClamp = Mathf.Min(totalConnections, 3);
 
 			float verticalStepDiff = Mathf.Clamp(verticalOffset / Y_Step, -YClamp, YClamp);
 			verticalStepDiff = (float)Math.Round(verticalStepDiff * 4, MidpointRounding.ToEven) / 4f; //round to 0.25 steps, so we can use the same offset for all techs
 
-			float stepOffset = 11;
-
-			float maxHeightOffsetTarget = Y_Step / 3f;
-			float relativeYDiffTarget = Mathf.Clamp(verticalStepDiff * stepOffset, -maxHeightOffsetTarget, maxHeightOffsetTarget);
-			float relativeYDiffTargetConnectionPoint = Mathf.Clamp(connectionPointNr * stepOffset, -maxHeightOffsetTarget, maxHeightOffsetTarget);
+			float stepOffset = 10;
 
 			float maxHeightOffsetSource = Y_Step / 3f;
+			float maxHeightOffsetTarget = Y_Step / 3f;
 			float relativeYDiffSource = Mathf.Clamp(-verticalStepDiff * stepOffset, -maxHeightOffsetSource, maxHeightOffsetSource);
+			float relativeYDiffTarget = Mathf.Clamp(verticalStepDiff * stepOffset, -maxHeightOffsetTarget, maxHeightOffsetTarget);
+
+			float relativeYDiffTargetConnectionPoint = Mathf.Clamp(connectionPointNr * stepOffset, -maxHeightOffsetTarget, maxHeightOffsetTarget);
+
+			var abscount = Mathf.Abs(xOffset);
+			abscount--;
+			if (invertXStepSrc)
+			{
+				abscount *= -1;
+			}
+
+			float relativeXCenterDeviation = abscount * stepOffset;
 
 			relativeEndPoint = new(0, relativeYDiffTargetConnectionPoint);
 			relativeStartPoint = new(0, relativeYDiffSource);
 
-			float midPointConnectionCalc = Mathf.CeilToInt(Mathf.Max(0, totalConnections - 3) / 2f);
 
-			float midpoint = stepOffset - (midPointConnectionCalc * stepOffset);
-			if (midpoint < 0)
-				midpoint = 0;
+			float midpoint = requisiteRightBorderX / 2f;
 
-			//SgtLogger.l(" - verticalStepDiff: " + verticalStepDiff + " for " + currentTech.Id + " to " + requisite.Id + "; Midpoint: "+midpoint+"Total Cons: "+totalConnections+", relativeYDiffTarget " + relativeYDiffTarget + " , halfTechHeightTarget: " + maxHeightOffsetTarget + ", relativeYDiffSource: " + relativeYDiffSource);
+			if (debug) SgtLogger.l(" - verticalStepDiff: " + verticalStepDiff + " for " + currentSkill.Id + " to " + requisite.first + ", number: " + connectionPointNr + "; Midpoint: " + midpoint + ", xdiff: " + relativeXCenterDeviation + ",Total Cons: " + totalConnections + ", relativeYDiffTarget " + relativeYDiffTarget + " , halfTechHeightTarget: " + maxHeightOffsetTarget + ", relativeYDiffSource: " + relativeYDiffSource);
 
-			float horizontalOffsetTarget = midpoint + Mathf.Abs(relativeYDiffTarget);
-			float horizontalOffsetSource = midpoint + Mathf.Abs(relativeYDiffSource);
+			float horizontalOffset = midpoint + relativeXCenterDeviation;
 
 			var start = new Vector2(0, 0) + relativeEndPoint;
-			var p1 = new Vector2(-horizontalOffsetTarget, 0) + relativeEndPoint;
-			var p2 = new Vector2(-horizontalOffsetSource, verticalOffset) + relativeStartPoint;
+			var p1 = new Vector2(-horizontalOffset, 0) + relativeEndPoint;
+			var p2 = new Vector2(-horizontalOffset, verticalOffset) + relativeStartPoint;
 			var dst = new Vector2(-requisiteRightBorderX, verticalOffset) + relativeStartPoint;
 
 			if (IsAdvancedConnection(currentSkill, requisite.first))
@@ -263,7 +324,7 @@ namespace UtilLibs.SharedTweaks
 		static void CreateNotSoSimpleConnection(SkillWidget instance, Skill srcSkill, string dst_id, Vector2 src, Vector2 p1, Vector2 p2, Vector2 dst)
 		{
 			var skillsDb = Db.Get().Skills;
-			//PrintMatrix();
+			if (debug) PrintMatrix();
 
 			if (!lookupTable.TryGetValue(srcSkill.Id, out var src_coord) || !lookupTable.TryGetValue(dst_id, out var dst_coord))
 			{
@@ -276,7 +337,7 @@ namespace UtilLibs.SharedTweaks
 
 			UILineRenderer startRenderer = CreateLineRenderer(instance.lines_left.transform);
 			startRenderer.Points = [src, p1];
-			//startRenderer.color = UIUtils.GetRainbowColorForIndex(gradient++);
+			if (debug) startRenderer.color = UIUtils.GetRainbowColorForIndex(gradient++);
 			List<UILineRenderer> lines = [startRenderer];
 			Vector2 segmentStart = p1;
 			Vector2 segmentEnd = p1;
@@ -284,34 +345,34 @@ namespace UtilLibs.SharedTweaks
 			bool descending = src_coord.y > dst_coord.y;
 			segmentEnd.y = 0;
 
-			//SgtLogger.l("StartPoint: " + src_coord.ToString() + ", DestinationPoint: " + dst_coord.ToString());
+			if (debug) SgtLogger.l("StartPoint: " + src_coord.ToString() + ", DestinationPoint: " + dst_coord.ToString());
 
 			int direction = descending ? -1 : 1;
-			//SgtLogger.l("segmentEnd: " + segmentEnd);
-			for (int i = src_coord.y + direction; descending ? i > dst_coord.y : i < dst_coord.y ; i += direction)
+			if (debug) SgtLogger.l("segmentEnd: " + segmentEnd);
+			for (int i = src_coord.y + direction; descending ? i > dst_coord.y : i < dst_coord.y; i += direction)
 			{
-				Vector2I crossCheckSrc = new Vector2I(src_coord.x,i);
-				Vector2I crossCheckDst = new Vector2I(dst_coord.x,i );
-				//SgtLogger.l("Checking connection between " + crossCheckSrc + " and " + crossCheckDst);
+				Vector2I crossCheckSrc = new Vector2I(src_coord.x, i);
+				Vector2I crossCheckDst = new Vector2I(dst_coord.x, i);
+				if (debug) SgtLogger.l("Checking connection between " + crossCheckSrc + " and " + crossCheckDst);
 				segmentEnd.y += layoutRowheight * direction;
-				//SgtLogger.l("segmentEnd: " + segmentEnd);
+				if (debug) SgtLogger.l("segmentEnd: " + segmentEnd);
 				if (!reverseLookupTable.TryGetValue(crossCheckSrc, out string checkSkillSrc) || !reverseLookupTable.TryGetValue(crossCheckDst, out string checkSkillDst))
 				{
-					//SgtLogger.l("no skil found on one of the sides");
+					if (debug) SgtLogger.l("no skil found on one of the sides");
 					continue;
 				}
 
 				Skill crossSrc = skillsDb.Get(checkSkillSrc);
 				bool hasConnection = crossSrc.priorSkills.Contains(checkSkillDst);
-				//SgtLogger.l(checkSkillSrc + " has connection to " + checkSkillDst + ": " + hasConnection);
+				if (debug) SgtLogger.l(checkSkillSrc + " has connection to " + checkSkillDst + ": " + hasConnection);
 
 				if (hasConnection)
 				{
 					segmentEnd.y -= margin * direction;
 					var segmentRenderer = CreateLineRenderer(instance.lines_left.transform);
-					//segmentRenderer.color = UIUtils.GetRainbowColorForIndex(gradient++);
+					if (debug) segmentRenderer.color = UIUtils.GetRainbowColorForIndex(gradient++);
 					segmentRenderer.Points = [segmentStart, segmentEnd];
-					//SgtLogger.l("adding segment between " + segmentStart + " and " + segmentEnd);
+					if (debug) SgtLogger.l("adding segment between " + segmentStart + " and " + segmentEnd);
 					lines.Add(segmentRenderer);
 
 					segmentEnd.y += margin * direction;
@@ -322,7 +383,7 @@ namespace UtilLibs.SharedTweaks
 
 			UILineRenderer endRenderer = CreateLineRenderer(instance.lines_left.transform);
 			endRenderer.Points = [segmentStart, p2, dst];
-			//endRenderer.color = UIUtils.GetRainbowColorForIndex(gradient++);
+			if (debug) endRenderer.color = UIUtils.GetRainbowColorForIndex(gradient++);
 			lines.Add(endRenderer);
 			instance.lines = instance.lines.AddRangeToArray(lines.ToArray());
 		}

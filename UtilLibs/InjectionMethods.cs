@@ -129,22 +129,21 @@ namespace UtilLibs
 		/// <summary>
 		/// Add SpriteOnly Item to techs
 		/// </summary>
-		/// <param name="techId"></param>
+		/// <param name="targetTechId"></param>
 		/// <param name="name"></param>
 		/// <param name="description"></param>
 		/// <param name="spriteName"></param>
 		/// <param name="awailableDLCs">DlcManager.</param>
-		public static TechItem AddItemToTechnologySprite(string techItemId, string techId, string name, string description, string spriteName, string[] requiredDLcs = null, string[] forbiddenDlc = null, bool isPoiUnlock = false)
+		public static TechItem AddItemToTechnologySprite(string techItemId, string targetTechId, string name, string description, string spriteName, string[] requiredDLcs = null, string[] forbiddenDlc = null, bool isPoiUnlock = false)
 		{
-			AddBuildingToTechnology(techId, techItemId);
+			AddBuildingToTechnology(targetTechId, techItemId);
 			return Db.Get().TechItems.AddTechItem(techItemId, name, description, GetSpriteFnBuilder(spriteName), requiredDLcs, forbiddenDlc, isPoiUnlock);
 		}
 
-		public static TechItem AddItemToTechnologyKanim(string techItemId, string techId, string name, string description, string kanimName, string uiAnim = "ui", string[] requiredDLcs = null, string[] forbiddenDlc = null, bool isPoiUnlock = false)
+		public static TechItem AddItemToTechnologyKanim(string techItemId, string targetTechId, string name, string description, string kanimName, string uiAnim = "ui", string[] requiredDLcs = null, string[] forbiddenDlc = null, bool isPoiUnlock = false)
 		{
 			var sprite = Def.GetUISpriteFromMultiObjectAnim(Assets.GetAnim(kanimName), uiAnim);
-
-			AddBuildingToTechnology(techId, techItemId);
+			AddBuildingToTechnology(targetTechId, techItemId);
 			return Db.Get().TechItems.AddTechItem(techItemId, name, description, (anim, centered) => sprite, requiredDLcs, forbiddenDlc, isPoiUnlock);
 		}
 
