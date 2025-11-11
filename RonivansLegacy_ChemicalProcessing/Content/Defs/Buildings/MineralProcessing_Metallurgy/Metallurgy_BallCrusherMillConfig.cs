@@ -20,7 +20,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.MineralProces
 		//--[ Building Definitions ]------------------------------------------------------------------------------------
 		public override BuildingDef CreateBuildingDef()
 		{
-			float[] ingredient_mass = [500, 400];
+			float[] ingredient_mass = [600, 300];
 			string[] ingredient_types = [SimHashes.Steel.ToString(), GameTags.RefinedMetal.ToString()];
 
 			EffectorValues tier = NOISE_POLLUTION.NOISY.TIER6;

@@ -32,56 +32,47 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Entities.Mining_DrillMk
 		{
 			return
 				[
-				CreateSimpleDrillbit(ID_BASIC,AIO_SIMPLE_DRILLBIT_STARTER.NAME,AIO_SIMPLE_DRILLBIT_STARTER.DESC,"drillbits_simple_kanim"),
-				CreateSimpleDrillbit(ID_IRON,AIO_SIMPLE_DRILLBIT_IRON.NAME,AIO_SIMPLE_DRILLBIT_IRON.DESC,"drillbits_basic_kanim"),
-				CreateSimpleDrillbit(ID_HARDENED,AIO_SIMPLE_DRILLBIT_HARDENED.NAME,AIO_SIMPLE_DRILLBIT_HARDENED.DESC,"drillbits_steel_kanim"),
+				CreateSimpleDrillbit(ID_BASIC,AIO_SIMPLEDRILLBIT_BASIC.NAME,AIO_SIMPLEDRILLBIT_BASIC.DESC,"drillbits_simple_kanim"),
+				CreateSimpleDrillbit(ID_IRON,AIO_SIMPLEDRILLBIT_IRON.NAME,AIO_SIMPLEDRILLBIT_IRON.DESC,"drillbits_basic_kanim"),
+				CreateSimpleDrillbit(ID_HARDENED,AIO_SIMPLEDRILLBIT_HARDENED.NAME,AIO_SIMPLEDRILLBIT_HARDENED.DESC,"drillbits_steel_kanim"),
 				];
 		}
 		public static int CreateSimpleDrillRecipes(string ID, bool craftingTableRecipe)
 		{
-			int pos = 0;
-			float drillbitCost = craftingTableRecipe ? 500 : 400;
-			float duration = craftingTableRecipe ? 60 : 50;
+			int pos = 800;
+			float drillbitCost = 400;
+			float duration = craftingTableRecipe ? 70 : 50;
 
 			var basic = RecipeBuilder.Create(ID, duration)
 				.Input(RefinementRecipeHelper.GetStarterMetals(), drillbitCost)
 				.Output(ID_BASIC, 1, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
-				.NameOverrideFormat((craftingTableRecipe ? CHEMICAL_COMPLEXFABRICATOR_STRINGS.BAD_RECIPE_PRODUCT_NAME : "{0}"), AIO_SIMPLE_DRILLBIT_STARTER.NAME)
-				.Description(craftingTableRecipe ? AIO_SIMPLE_DRILLBIT_STARTER.RECIPE_DESC_CRAFTINGTABLE : AIO_SIMPLE_DRILLBIT_STARTER.RECIPE_DESC)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+				.Description(craftingTableRecipe ? AIO_SIMPLEDRILLBIT_BASIC.RECIPE_DESC_CRAFTINGTABLE : AIO_SIMPLEDRILLBIT_BASIC.RECIPE_DESC)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
 				.RequiresTech(Technology.SolidMaterial.SolidControl)
-				.SortOrder(pos++);
-			if (craftingTableRecipe)
-				basic.AppendExtraDescription("\n\n" + CHEMICAL_COMPLEXFABRICATOR_STRINGS.BAD_RECIPE_PRODUCT_DESC);
-			basic.Build();
+				.SortOrder(pos++)
+				.Build();
 
 			var iron = RecipeBuilder.Create(ID, duration)
 				.Input(SimHashes.Iron, drillbitCost)
 				.Output(ID_IRON, 1, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
-				.NameOverrideFormat((craftingTableRecipe ? CHEMICAL_COMPLEXFABRICATOR_STRINGS.BAD_RECIPE_PRODUCT_NAME : "{0}"), AIO_SIMPLE_DRILLBIT_IRON.NAME)
-				.Description(craftingTableRecipe ? AIO_SIMPLE_DRILLBIT_IRON.RECIPE_DESC_CRAFTINGTABLE : AIO_SIMPLE_DRILLBIT_IRON.RECIPE_DESC)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+				.Description(craftingTableRecipe ? AIO_SIMPLEDRILLBIT_IRON.RECIPE_DESC_CRAFTINGTABLE : AIO_SIMPLEDRILLBIT_IRON.RECIPE_DESC)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
 				.RequiresTech(Technology.SolidMaterial.SolidControl)
-				.SortOrder(pos++);
-			if (craftingTableRecipe)
-				iron.AppendExtraDescription("\n\n" + CHEMICAL_COMPLEXFABRICATOR_STRINGS.BAD_RECIPE_PRODUCT_DESC);
-			iron.Build();
+				.SortOrder(pos++)
+				.Build();
 
 			//steel drilling
 			var steel = RecipeBuilder.Create(ID, duration)
 				.Input(RefinementRecipeHelper.GetSteelLikes(), drillbitCost)
-				.Output(ID_IRON, 1, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
-				.NameOverrideFormat((craftingTableRecipe ? CHEMICAL_COMPLEXFABRICATOR_STRINGS.BAD_RECIPE_PRODUCT_NAME : "{0}"), AIO_SIMPLE_DRILLBIT_HARDENED.NAME)
-				.Description(craftingTableRecipe ? AIO_SIMPLE_DRILLBIT_HARDENED.RECIPE_DESC_CRAFTINGTABLE : AIO_SIMPLE_DRILLBIT_HARDENED.RECIPE_DESC)
+				.Output(ID_HARDENED, 1, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+				.Description(craftingTableRecipe ? AIO_SIMPLEDRILLBIT_HARDENED.RECIPE_DESC_CRAFTINGTABLE : AIO_SIMPLEDRILLBIT_HARDENED.RECIPE_DESC)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
 				.RequiresTech(Technology.SolidMaterial.SolidControl)
-				.SortOrder(pos++);
-			if (craftingTableRecipe)
-				steel.AppendExtraDescription("\n\n" + CHEMICAL_COMPLEXFABRICATOR_STRINGS.BAD_RECIPE_PRODUCT_DESC);
-			steel.Build();
+				.SortOrder(pos++)
+				.Build();
 
 			return pos;
 		}

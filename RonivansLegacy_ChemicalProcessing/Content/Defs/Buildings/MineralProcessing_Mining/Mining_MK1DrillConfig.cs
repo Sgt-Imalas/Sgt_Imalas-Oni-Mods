@@ -91,7 +91,7 @@ namespace Mineral_Processing
 				.Output(SimHashes.CrushedRock, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, true)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 				.NameOverride(BASIC_DRILLING)
-				.Description(RandomRecipeProducts.GetAugerDrillRandomResultString(ID, SimpleDrillbits_Config.ID_BASIC, AIO_SIMPLE_DRILLBIT_STARTER.NAME))
+				.Description(RandomRecipeProducts.GetAugerDrillRandomResultString(ID, SimpleDrillbits_Config.ID_BASIC, AIO_SIMPLEDRILLBIT_BASIC.NAME))
 				.SortOrder(index++)
 				.Build();
 
@@ -100,7 +100,7 @@ namespace Mineral_Processing
 				.Output(SimHashes.CrushedRock, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, true)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 				.NameOverride(BASIC_DRILLING)
-				.Description(RandomRecipeProducts.GetAugerDrillRandomResultString(ID, SimpleDrillbits_Config.ID_IRON, AIO_SIMPLE_DRILLBIT_IRON.NAME))
+				.Description(RandomRecipeProducts.GetAugerDrillRandomResultString(ID, SimpleDrillbits_Config.ID_IRON, AIO_SIMPLEDRILLBIT_IRON.NAME))
 				.SortOrder(index++)
 				.Build();
 
@@ -109,7 +109,7 @@ namespace Mineral_Processing
 				.Output(SimHashes.CrushedRock, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, true)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 				.NameOverride(BASIC_DRILLING)
-				.Description(RandomRecipeProducts.GetAugerDrillRandomResultString(ID, SimpleDrillbits_Config.ID_HARDENED, AIO_SIMPLE_DRILLBIT_HARDENED.NAME))
+				.Description(RandomRecipeProducts.GetAugerDrillRandomResultString(ID, SimpleDrillbits_Config.ID_HARDENED, AIO_SIMPLEDRILLBIT_HARDENED.NAME))
 				.SortOrder(index++)
 				.Build();
 		}

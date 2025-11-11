@@ -209,7 +209,7 @@ namespace UtilLibs.BuildingPortUtils
 			base.OnCleanUp();
 		}
 
-		private void OnConduitConnectionChanged(object data)
+		private void OnConduitConnectionChanged(object _)
 		{
 			IsConnected_Cache = this.IsConnected;
 			base.BoxingTrigger(-2094018600, this.IsConnected_Cache);

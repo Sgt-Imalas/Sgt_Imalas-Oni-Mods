@@ -1,5 +1,5 @@
-id: "MINING_DRILLBITS_STEEL_ITEM"
-title: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_STEEL_ITEM.NAME
+id: "AIO_SimpleDrillbit_Basic"
+title: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_BASIC.NAME
 
 contentContainers:
 #-----------------------------
@@ -8,12 +8,12 @@ contentContainers:
 
     content:
       - !CodexText
-          stringKey: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_STEEL_ITEM.NAME
+          stringKey: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_BASIC.NAME
           style: Title
       - !CodexDividerLine
           preferredWidth: -1
       - !CodexImage
-          batchedAnimPrefabSourceID: MINING_DRILLBITS_STEEL_ITEM
+          batchedAnimPrefabSourceID: AIO_SimpleDrillbit_Basic
           preferredWidth: 128
           preferredHeight: 128
 #-----------------------------
@@ -22,8 +22,8 @@ contentContainers:
 
     content:
       - !CodexText
-          stringKey: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_STEEL_ITEM.DESC
+          stringKey: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_BASIC.DESC
           style: Body
 
 contentMadeAndUsed:
-  - tag: MINING_DRILLBITS_STEEL_ITEM
+  - tag: AIO_SimpleDrillbit_Basic

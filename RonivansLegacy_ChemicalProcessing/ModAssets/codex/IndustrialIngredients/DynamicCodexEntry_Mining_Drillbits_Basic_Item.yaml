@@ -1,5 +1,5 @@
 id: "MINING_DRILLBITS_BASIC_ITEM"
-title: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_STEEL_ITEM.NAME
+title: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_BASIC_ITEM.NAME
 
 contentContainers:
 #-----------------------------
@@ -24,8 +24,6 @@ contentContainers:
       - !CodexText
           stringKey: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_BASIC_ITEM.DESC
           style: Body
-      - !CodexElementCategoryList
-          categoryTag: MINERALPROCESSING_DRILLBIT
 
 contentMadeAndUsed:
   - tag: MINING_DRILLBITS_BASIC_ITEM

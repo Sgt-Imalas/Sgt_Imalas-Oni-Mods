@@ -153,7 +153,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 		public void OnConduitConnectionChanged(object data)
 		{
-			bool pause = (bool)data;
+			bool pause = Boxed<bool>.Unbox(data);
 			ManualDeliveryKG[] array = deliveryComponents;
 			foreach (ManualDeliveryKG manualDeliveryKG in array)
 			{

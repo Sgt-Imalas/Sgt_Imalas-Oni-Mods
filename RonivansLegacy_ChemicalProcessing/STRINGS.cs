@@ -2116,25 +2116,25 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString RECIPE_DESC = "Instruct the computer to produce Basic Drillbits.";
 				}
 
-				public class AIO_SIMPLE_DRILLBIT_STARTER
+				public class AIO_SIMPLEDRILLBIT_BASIC
 				{
-					public static LocString NAME = FormatAsLink("Simple Basic Drillbits", nameof(AIO_SIMPLE_DRILLBIT_STARTER));
+					public static LocString NAME = FormatAsLink("Simple Basic Drillbits", nameof(AIO_SIMPLEDRILLBIT_BASIC));
 					public static LocString DESC = "A set of drill bits made for simple mining operations.";
 					public static LocString RECIPE_DESC = "Instruct the computer to produce Simple Basic Drillbits.";
 					public static LocString RECIPE_DESC_CRAFTINGTABLE = "Instruct a duplicant to produce Simple Basic Drillbits.";
 				}
-				public class AIO_SIMPLE_DRILLBIT_IRON
+				public class AIO_SIMPLEDRILLBIT_IRON
 				{
-					public static LocString NAME = FormatAsLink("Simple Iron Drillbits", nameof(AIO_SIMPLE_DRILLBIT_IRON));
+					public static LocString NAME = FormatAsLink("Simple Iron Drillbits", nameof(AIO_SIMPLEDRILLBIT_IRON));
 					public static LocString DESC = "A set of drill bits made for simple mining operations.";
 					public static LocString RECIPE_DESC = "Instruct the computer to produce Simple Iron Drillbits.";
 					public static LocString RECIPE_DESC_CRAFTINGTABLE = "Instruct a duplicant to produce Simple Iron Drillbits.";
 				}
-				public class AIO_SIMPLE_DRILLBIT_HARDENED
+				public class AIO_SIMPLEDRILLBIT_HARDENED
 				{
-					public static LocString NAME = FormatAsLink("Simple Hardened Drillbits", nameof(AIO_SIMPLE_DRILLBIT_IRON));
+					public static LocString NAME = FormatAsLink("Simple Hardened Drillbits", nameof(AIO_SIMPLEDRILLBIT_HARDENED));
 					public static LocString DESC = "A set of drill bits made for simple mining operations.";
-					public static LocString RECIPE_DESC = "Instruct the computer to produce Simple Steel Drillbits.";
+					public static LocString RECIPE_DESC = "Instruct the computer to produce Simple Hardened Drillbits.";
 					public static LocString RECIPE_DESC_CRAFTINGTABLE = "Instruct a duplicant to produce Simple Hardened Drillbits.";
 				}
 
