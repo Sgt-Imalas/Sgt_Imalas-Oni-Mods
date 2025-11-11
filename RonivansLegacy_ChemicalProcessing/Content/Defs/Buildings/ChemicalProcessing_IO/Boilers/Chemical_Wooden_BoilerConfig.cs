@@ -106,13 +106,16 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//-----[ Element Converter Section ]---------------------------------
 			ElementConverter converter = go.AddOrGet<ElementConverter>();
 			converter.consumedElements = [
-				new ElementConverter.ConsumedElement(SimHashes.WoodLog.CreateTag(), fuelConsumptionRate),
+				new ElementConverter.ConsumedElement(GameTags.BuildingWood, fuelConsumptionRate),
 				new ElementConverter.ConsumedElement(SimHashes.Water.CreateTag(), conversionRate) ];
 			converter.outputElements = [
 				new(conversionRate, SimHashes.Steam, UtilMethods.GetKelvinFromC(200), false, true, 0f, 0.5f, 0.75f, 0xff, 0),
 				new(0.5f,SimHashes.CarbonDioxide,UtilMethods.GetKelvinFromC(110),false, true,-1,2)
 				];
 			//-------------------------------------------------------------------
+			var o = go.AddOrGet<SolidDeliverySelection>();
+			o.Options = [.. RefinementRecipeHelper.GetWoods().Select(sh => sh.CreateTag())];
+			o.AnyTag = GameTags.BuildingWood;
 
 			PipedConduitDispenser dispenser = go.AddComponent<PipedConduitDispenser>();
 			dispenser.storage = storage;
