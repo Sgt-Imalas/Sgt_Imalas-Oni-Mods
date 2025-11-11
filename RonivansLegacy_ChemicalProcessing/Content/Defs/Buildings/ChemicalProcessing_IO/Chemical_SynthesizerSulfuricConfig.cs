@@ -115,7 +115,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 
 			var selector = go.AddOrGet<SulphuricAcidRecipeSelector>();
-			selector.sulphurConverter = pyrite_converter;
+			selector.sulphurConverter = sulphur_converter;
 			selector.pyriteConverter = pyrite_converter;
 
 			selector.sulphurDelivery = sulfur_delivery;
