@@ -20,8 +20,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.MineralProces
 		//--[ Building Definitions ]------------------------------------------------------------------------------------
 		public override BuildingDef CreateBuildingDef()
 		{
-			float[] ingredient_mass = [1000f];
-			string[] ingredient_types = [SimHashes.Steel.ToString()];
+			float[] ingredient_mass = [500, 400];
+			string[] ingredient_types = [SimHashes.Steel.ToString(), GameTags.RefinedMetal.ToString()];
 
 			EffectorValues tier = NOISE_POLLUTION.NOISY.TIER6;
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 5, 3, "metallurgy_ball_mill_kanim", 100, 30f, ingredient_mass, ingredient_types, 800f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.PENALTY.TIER2, tier, 0.2f);
@@ -192,7 +192,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.MineralProces
 				.DescriptionFunc(RandomRecipeProducts.GetMetallurgyBallCrusherRandomResultsString)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 				.SortOrder(sortOrder++)
-				.Build();			
+				.Build();
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)
