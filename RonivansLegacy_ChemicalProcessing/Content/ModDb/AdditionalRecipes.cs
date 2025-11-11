@@ -333,6 +333,19 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.ANAEROBIC_DIGESTER_1_2, 1, 2)
 					.Build();
 
+			///Husk Digesting
+			///54.45kg methane per 400husks, equivalent to previous gas grass power yield
+
+			RecipeBuilder.Create(ID, 100)
+					.Input(PlantFiberConfig.ID, 100)
+					.Input(SimHashes.Sand, 99)
+					.Input(SimHashes.Water, 1)
+					.Output(SimHashes.Methane, 5.445f * Config.Instance.Biochem_AnaerobicDigesterBuff / 4) 
+					.Output(SimHashes.Dirt, 200)
+					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
+					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.ANAEROBIC_DIGESTER_1_2, 1, 2)
+					.Build();
+
 			//----[ ALGAE DIGESTING ]-------------------------------------------------
 			//-------------------------
 			// Applied formula: ((kcal x 0.0012) / 0.09090909) *0.061
