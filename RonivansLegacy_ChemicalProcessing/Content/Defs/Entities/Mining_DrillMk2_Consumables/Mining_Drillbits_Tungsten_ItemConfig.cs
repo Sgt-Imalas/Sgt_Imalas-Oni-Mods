@@ -16,7 +16,7 @@ namespace Mineral_Processing_Mining.Buildings
 
 		public GameObject CreatePrefab()
 		{
-			GameObject go = EntityTemplates.CreateLooseEntity(ID, MINING_DRILLBITS_TUNGSTEN_ITEM.NAME, MINING_DRILLBITS_TUNGSTEN_ITEM.DESC, 1f, true, Assets.GetAnim("drillbits_tungsten_kanim"), "object", Grid.SceneLayer.Ore, EntityTemplates.CollisionShape.CIRCLE, 0.35f, 0.35f, true, 0, SimHashes.Creature, [GameTags.IndustrialProduct, ModAssets.Tags.RandomRecipeIngredient_DestroyOnCancel, ModAssets.Tags.MineralProcessing_Drillbit]);
+			GameObject go = EntityTemplates.CreateLooseEntity(ID, MINING_DRILLBITS_TUNGSTEN_ITEM.NAME, MINING_DRILLBITS_TUNGSTEN_ITEM.DESC, 1f, true, Assets.GetAnim("drillbits_tungsten_kanim"), "object", Grid.SceneLayer.Ore, EntityTemplates.CollisionShape.RECTANGLE, 0.35f, 0.35f, true, 0, SimHashes.Creature, [GameTags.IndustrialProduct, ModAssets.Tags.RandomRecipeIngredient_DestroyOnCancel, ModAssets.Tags.MineralProcessing_Drillbit]);
 			go.AddOrGet<EntitySplitter>();
 			go.AddOrGet<SimpleMassStatusItem>();
 			return go;
