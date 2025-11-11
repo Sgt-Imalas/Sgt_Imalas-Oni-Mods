@@ -43,7 +43,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.UtilityInputOffset = new CellOffset(0, 2);
 			buildingDef.OutputConduitType = ConduitType.Gas;
 			buildingDef.UtilityOutputOffset = new CellOffset(-1, 2);
+			buildingDef.ViewMode = OverlayModes.GasConduits.ID;
 			SoundUtils.CopySoundsToAnim("ammonia_breaker_kanim", "desalinator_kanim");
+			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.GasVentIDs, ID);
 			return buildingDef;
 		}
 
@@ -124,7 +126,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		{
 			base.DoPostConfigurePreview(def, go);
 			this.AttachPort(go);
-			go.AddOrGet<PortPreviewVisualizer>();
+			go.AddOrGet<PortPreviewVisualizer>().DisableInOverlay = OverlayModes.GasConduits.ID;
 		}
 
 		public override void DoPostConfigureUnderConstruction(GameObject go)

@@ -55,8 +55,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.UtilityInputOffset = new CellOffset(-2, 2);
 			buildingDef.OutputConduitType = ConduitType.Liquid;
 			buildingDef.UtilityOutputOffset = new CellOffset(3, 2);
+			buildingDef.ViewMode = OverlayModes.LiquidConduits.ID;
 			SoundUtils.CopySoundsToAnim("ball_mill_kanim", "orescrubber_kanim");
-
 			buildingDef.GenerateOffsets(6, 3);
 			return buildingDef;
 		}
@@ -357,7 +357,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		{
 			base.DoPostConfigurePreview(def, go);
 			this.AttachPort(go);
-			go.AddOrGet<PortPreviewVisualizer>();
+			go.AddOrGet<PortPreviewVisualizer>().DisableInOverlay = OverlayModes.LiquidConduits.ID;
 		}
 
 		public override void DoPostConfigureUnderConstruction(GameObject go)
