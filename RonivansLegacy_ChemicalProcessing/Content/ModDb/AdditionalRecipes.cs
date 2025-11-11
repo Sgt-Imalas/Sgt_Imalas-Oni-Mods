@@ -118,12 +118,23 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					.Build();
 			}
 		}
+		public static void RegisterRecipes_FabricatedWoodMaker()
+		{
+			string ID = FabricatedWoodMakerConfig.ID;
+			RecipeBuilder.Create(ID, 50)
+				.Input(ModElements.BioMass_Solid, 90)
+				.Input(SimHashes.NaturalResin, 10)
+				.Output(SimHashes.FabricatedWood, 100, ComplexRecipe.RecipeElement.TemperatureOperation.AverageTemperature)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+				.Description(GameUtil.SafeStringFormat(global::STRINGS.BUILDINGS.PREFABS.FABRICATEDWOODMAKER.RECIPE_DESC, global::STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.PLANT_FIBER.NAME, ElementLoader.FindElementByHash(SimHashes.NaturalResin).name, (object)Assets.GetPrefab((Tag)"FabricatedWood").GetProperName()))
+				.Build();
+		}
 
 		private static void RegisterRecipes_RayonLoom()
 		{
 			string ID = Chemical_RayonLoomConfig.ID;
 			RecipeBuilder.Create(ID, 50)
-				.Input(SimHashes.WoodLog, 150)
+				.Input(RefinementRecipeHelper.GetWoods(), 150)
 				.Output(RayonFabricConfig.TAG, 1, ComplexRecipe.RecipeElement.TemperatureOperation.AverageTemperature, false)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 				.Description(RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INGREDIENTS.RAYONFIBER.RECIPE_DESC, 1, 0)
