@@ -30,10 +30,6 @@ namespace LocalModLoader
 				return _client;
 			}
 		}
-		internal static uint GetGameVersion()
-		{
-			return (uint)typeof(KleiVersion).GetField("ChangeList", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
-		}
 		public static string GetReadableFileSize(double len)
 		{
 			string[] sizes = { "B", "KB", "MB", "GB", "TB" };

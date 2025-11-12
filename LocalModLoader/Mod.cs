@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UtilLibs;
@@ -106,7 +107,10 @@ namespace LocalModLoader
 			{
 				YamlIO.ErrorHandler handle_error = ((e, force_warning) => YamlIO.LogError(e, true));
 				var modInfoForFolder = YamlIO.Parse<KMod.Mod.PackagedModInfo>(readText, new FileHandle(), handle_error);
-				mod.packagedModInfo.version = modInfoForFolder.version;
+				if (modInfoForFolder.minimumSupportedBuild > VersionCheck.GetGameVersion())
+					mod.packagedModInfo.version = "Incompatible Version!";
+				else
+					mod.packagedModInfo.version = modInfoForFolder.version;
 			}
 		}
 		void UpdateModFrom(RemoteModInfo remoteModInfo)

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UtilLibs;
@@ -10,10 +11,14 @@ namespace LocalModLoader
 {
 	internal class VersionCheck
 	{
+		internal static uint GetGameVersion()
+		{
+			return (uint)typeof(KleiVersion).GetField("ChangeList", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
+		}
 		public static bool CheckForUpdate(out RemoteModInfo info)
 		{
 			info = null;
-			uint currentGameVersion = WebRequestHelper.GetGameVersion();
+			uint currentGameVersion = GetGameVersion();
 			string ownVersion = Mod.Instance.mod.packagedModInfo.version;
 
 			if (WebRequestHelper.TryGetRemoteVersionInfo(Mod.Info.VersionInfoUrl, out info)
