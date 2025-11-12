@@ -38,7 +38,7 @@ jobs:
             # install yaml parser for mod info files
             Install-Module powershell-yaml -Force
             # start creation of release desc. file
-            echo "Automated build of all mods, based on the latest code state" >> Desc.md
+            echo "Automated build of all mods, based on the latest release ready code state" >> Desc.md
             echo "| Folder | Mod Name | Mod Description |" >> Desc.md
             echo "|-|-|-|" >> Desc.md
             
