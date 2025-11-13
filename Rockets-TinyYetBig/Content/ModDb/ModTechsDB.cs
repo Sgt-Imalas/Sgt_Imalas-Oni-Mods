@@ -31,8 +31,8 @@ namespace Rockets_TinyYetBig.Content.ModDb
 			{
 				TechUtils.AddNode(instance,
 				ModAssets.Techs.FuelLoaderTechID,
-				Config.Instance.RocketDocking ? ModAssets.Techs.DockingTechID : GameStrings.Technology.ColonyDevelopment.Missiles,
-				xDiff: 2,
+				GameStrings.Technology.ColonyDevelopment.RoboticTools,
+				xDiff: 1,
 				yDiff: 0
 				);
 			}
