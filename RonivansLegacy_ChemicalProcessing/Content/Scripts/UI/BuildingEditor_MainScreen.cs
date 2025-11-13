@@ -453,7 +453,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			if (targetOutline == SelectedOutline)
 			{
 				RefreshDetails();
-
 				OnOutlineEntryUpdated();
 			}
 			OnOutlineEntryUpdated(targetOutline);

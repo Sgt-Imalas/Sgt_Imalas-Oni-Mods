@@ -19,6 +19,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 		Image DisplayImage;
 		LocText Label;
 		FToggle EnabledCheckbox;
+		Image CheckboxBG;
 		ToolTip ToolTip;
 		FButton SelectButton;
 		GameObject Gear;
@@ -42,6 +43,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			UIUtils.AddSimpleTooltipToObject(Gear, STRINGS.UI.BUILDINGEDITOR.BUILDINGCONFIGURABLE);
 
 			EnabledCheckbox = transform.Find("Checkbox").gameObject.AddOrGet<FToggle>();
+			CheckboxBG = EnabledCheckbox.gameObject.GetComponent<Image>();
 			EnabledCheckbox.SetCheckmark("Checkmark");
 
 			SelectButton = gameObject.AddOrGet<FButton>();
@@ -82,10 +84,18 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			Label?.SetText(TargetOutline.GetDisplayName());
 
 			Gear.SetActive(TargetOutline.HasConfigurables());
-			EnabledCheckbox.SetOnFromCode(TargetOutline.IsBuildingEnabled());
+			EnabledCheckbox.SetOnFromCode(TargetOutline.ShowBuildingEnabled(out string reason));
 			EnabledCheckbox.SetInteractable(TargetOutline.IsInjected);
+
+			if (TargetOutline.IsForceEnabled())
+				CheckboxBG.color = Color.yellow;
+			else if(!TargetOutline.AnySourceModsActive())
+				CheckboxBG.color = UIUtils.rgb(204, 204, 204);
+			else
+				CheckboxBG.color = Color.white;
+
 			DisplayImage.sprite = Def.GetUISprite(TargetOutline.BuildingID).first;
-			ToolTip.SetSimpleTooltip(TargetOutline.IsInjected ? "" : STRINGS.UI.BUILDINGEDITOR.PARENT_MOD_DISABLED);
+			ToolTip.SetSimpleTooltip(reason);
 			SelectButton.SetInteractable(TargetOutline.IsInjected);			
 			SelectButton.ClearOnClick();
 			SelectButton.OnClick += () => BuildingEditor_MainScreen.Instance?.SelectOutline(TargetOutline); 

@@ -18,6 +18,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 		public string BuildingID => _buildingID;
 		public string TechID => _techID;
 		public string PlanScreenCategory => _planScreenCategory;
+		internal BuildingConfigurationEntry Source;
 
 		ModUtil.BuildingOrdering BuildingOrdering = ModUtil.BuildingOrdering.After;
 		List<SourceModInfo> modsFrom = new();
@@ -90,10 +91,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 			{
 				return;
 			}
-			if (!Config.ModBuildingEnabled(modsFrom))
-			{
-				return;
-			}
 			InjectionMethods.AddBuildingToTechnology(_techID, _buildingID);
 		}
 		internal void RegisterPlanscreen()
@@ -102,11 +99,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 			{
 				return;
 			}
-			if(!Config.ModBuildingEnabled(modsFrom))
-			{
-				return;
-			}
-
 			if (MoveExisting)
 				InjectionMethods.MoveExistingBuildingToNewCategory(_planScreenCategory,_buildingID,PlanScreenRelativeBuildingID,ordering: BuildingOrdering);
 			else

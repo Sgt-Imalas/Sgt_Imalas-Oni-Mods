@@ -94,8 +94,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			}
 			BuildingInjectionEntry injection = BuildingInjectionEntry.Create(buildingId);
 			entry.SetInjection(injection);
-
-			if (entry.IsBuildingEnabled() && allowedByDlc)
+			injection.Source = entry;
+			if (allowedByDlc)
 				BuildingInjections.Add(buildingId, injection);
 			return injection;
 		}
@@ -120,7 +120,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			InitRegistration();
 			foreach (var entry in BuildingInjections)
 			{
-				entry.Value.RegisterPlanscreen();
+				if (entry.Value.Source.IsBuildingEnabled())
+					entry.Value.RegisterPlanscreen();
 			}
 		}
 		public static void AddBuildingsToTechs()
@@ -128,7 +129,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			InitRegistration();
 			foreach (var entry in BuildingInjections)
 			{
-				entry.Value.RegisterTech();
+				if (entry.Value.Source.IsBuildingEnabled())
+					entry.Value.RegisterTech();
 			}
 		}
 		internal static void ResetConfigChanges()
