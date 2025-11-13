@@ -430,7 +430,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class CHEMICAL_GLASSFOUNDRY
 				{
 					public static LocString NAME = FormatAsLink("Glass Foundry", nameof(CHEMICAL_GLASSFOUNDRY));
-					public static LocString DESC = "A plasma arc furnace uses low-temperature plasma flow created by an electric arc heater (plasmatron).";
+					public static LocString DESC = "Glass can be used to construct window tiles.";
 					public static LocString EFFECT = string.Concat(
 						[
 							"This technologically advanced glass foundry has a wide range of other applications beyond simply melting ",
@@ -2191,7 +2191,6 @@ namespace RonivansLegacy_ChemicalProcessing
 			{
 				public static LocString TITLE = "Building Configuration Editor";
 
-				public static LocString PARENT_MOD_DISABLED = "Building disabled by category.\nThe parent mod this building is from is turned off in the config.";
 				public static LocString MOD_ORIGIN_TEXT = "This building is part of:";
 				public static LocString BUILDINGCONFIGURABLE = "This building has settings that can be modified.";
 				public class RESETALLCHANGES
@@ -2199,7 +2198,13 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString TITLE = "Reset Changes";
 					public static LocString TEXT = "Are you sure you want to reset all modifications you have done to the building configuration?";
 				}
-
+				public class BUILDINGENABLEDREASONS
+				{
+					public static LocString IS_ENABLED = "The building is currently enabled";
+					public static LocString IS_DISABLED = "You disabled the building.";
+					public static LocString NO_MODS_ACTIVE = "Building disabled by category.\nNone of the mods this building is added by are currently active.\nYou can force enable it, but there is a chance it won't work properly";
+					public static LocString IS_ENABLED_FORCE = "You enabled the building by force,\nnone of its source mods are marked as active.";
+				}
 
 
 				public class HORIZONTALLAYOUT
