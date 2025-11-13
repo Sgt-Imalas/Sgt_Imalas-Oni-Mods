@@ -11,7 +11,7 @@ namespace LocalModLoader
 		/// <summary>
 		/// debug purpose
 		/// </summary>
-		public string TargetStaticID = "ClusterTraitGenerationManager";
+		public string TargetStaticID = "";
 
 		public string VersionInfoUrl = @"https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases/download/AllMods_Automated_Build_FullRelease/_ReleaseVersionInfoData.json";
 

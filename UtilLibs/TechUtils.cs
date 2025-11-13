@@ -137,17 +137,17 @@ namespace UtilLibs
 				nodeX = x,
 				nodeY = y,
 				edges = new List<ResourceTreeNode.Edge>(tempModNode.edges),
-				references = new List<ResourceTreeNode>() { },
+				references = prevItems,
 				Disabled = false,
 				Id = id,
 				Name = id
 
 			};
 
-			foreach (var prevNode in prevItems)
-			{
-				prevNode.references.Add(node);
-			}
+			//foreach (var prevNode in prevItems)
+			//{
+			//	prevNode.references.Add(node);
+			//}
 
 			tech_tree_nodes_instance.resources.Add(node);
 		}

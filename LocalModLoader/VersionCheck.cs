@@ -15,7 +15,7 @@ namespace LocalModLoader
 		{
 			return (uint)typeof(KleiVersion).GetField("ChangeList", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
 		}
-		public static bool CheckForUpdate(out RemoteModInfo info)
+		public static bool UpdateAvailable(out RemoteModInfo info)
 		{
 			info = null;
 			uint currentGameVersion = GetGameVersion();

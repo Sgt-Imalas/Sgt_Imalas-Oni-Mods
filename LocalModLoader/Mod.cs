@@ -37,6 +37,12 @@ namespace LocalModLoader
 			}
 			Instance = this;
 			base.OnLoad(harmony);
+
+			if (Info.TargetStaticID.IsNullOrWhiteSpace())
+			{
+				SgtLogger.error("Mod Loader mod was not configured to load a specific mod. aborting");
+				return;
+			}
 			LoadModCustom();
 		}
 		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
@@ -73,19 +79,19 @@ namespace LocalModLoader
 		{
 			System.IO.Directory.CreateDirectory(CustomTargetModFolderPath);
 			SgtLogger.l("Custom Mod Path: " + CustomTargetModFolderPath);
-			LoadTargetsVersion();
+			LoadChainModVersion();
 
-			if (VersionCheck.CheckForUpdate(out var info))
+			if (VersionCheck.UpdateAvailable(out var info))
 			{
 				SgtLogger.l("Update Available");
 				UpdateModFrom(info);
-				LoadTargetsVersion();
+				LoadChainModVersion();
 			}
 			LoadModFiles();
 		}
 
 		const string ModYaml = "mod.yaml", ModInfoYaml = "mod_info.yaml";
-		void LoadTargetsVersion()
+		void LoadChainModVersion()
 		{
 			var modyamlFile = Path.Combine(CustomTargetModFolderPath, ModYaml);
 			var modinfoyamlFile = Path.Combine(CustomTargetModFolderPath, ModInfoYaml);
