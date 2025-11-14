@@ -94,7 +94,7 @@
 
 		<Message Text="Copy ModAssets to $(TargetFolder)" Importance="High"></Message>
 
-		<Copy SourceFiles="@(ModAssets)" DestinationFolder="$(TargetFolder)\%(RecursiveDir)" SkipUnchangedFiles="false" />
+		<Copy SourceFiles="@(ModAssets)" DestinationFolder="$(TargetFolder)\%(RecursiveDir)" SkipUnchangedFiles="false" Condition="'$(GameLibsFolder)' == '../Lib' Or '$(SkipAssetClone)' != 'true'"/>
 
 		<Message Text="Copied build files" Importance="High" />
 

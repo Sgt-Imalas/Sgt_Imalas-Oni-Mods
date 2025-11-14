@@ -15,6 +15,9 @@
 	  <None Remove="Properties\**" />
 	</ItemGroup>
 	<ItemGroup>
+	  <None Include="Updating\LoadExtraAnimations.cs" />
+	</ItemGroup>
+	<ItemGroup>
 		<PackageReference Include="PLib" Version="4.17.1">
 			<Private>false</Private>
 		</PackageReference>

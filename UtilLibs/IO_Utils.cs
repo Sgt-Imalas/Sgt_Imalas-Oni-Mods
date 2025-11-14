@@ -9,7 +9,9 @@ namespace UtilLibs
 	public static class IO_Utils
 	{
 		public static string ModID => Assembly.GetExecutingAssembly().GetName().Name;
-		public static string ModPath => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+		public static string ModPath => _modPath;
+		private static string _modPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+		public static void OverrideModPath(string newPath) => _modPath = newPath;
 		public static string ModsFolder => KMod.Manager.GetDirectory();
 		public static string ConfigsFolder => Path.Combine(ModsFolder, "config");
 
