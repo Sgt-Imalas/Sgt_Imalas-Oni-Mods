@@ -3,6 +3,7 @@ using KMod;
 using System;
 using System.Collections.Generic;
 using UtilLibs;
+using UtilLibs.SharedTweaks;
 
 namespace AkisSnowThings
 {
@@ -14,6 +15,7 @@ namespace AkisSnowThings
 			HarmonyInstance = harmony;
 			base.OnLoad(harmony);
 			SgtLogger.LogVersion(this, harmony);
+			AttachmentPointTagNameFix.Register();
 		}
 		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
 		{

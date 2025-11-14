@@ -40,6 +40,7 @@ namespace Rockets_TinyYetBig
 			///mod applies fix to rocketConduitports leaking
 			PRegistry.PutData("Bugs.RocketConduitPorts", true);
 			ResearchScreenBetterConnectionLines.Register();
+			AttachmentPointTagNameFix.Register();
 
 		}
 		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
