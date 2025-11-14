@@ -40,12 +40,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Entities.Mining_DrillMk
 		public static int CreateSimpleDrillRecipes(string ID, bool craftingTableRecipe)
 		{
 			int pos = 800;
-			float drillbitCost = 400;
+			int mult = craftingTableRecipe ? 1 : 2;
+			float drillbitCost = 400 * mult;
 			float duration = craftingTableRecipe ? 70 : 50;
 
 			var basic = RecipeBuilder.Create(ID, duration)
 				.Input(RefinementRecipeHelper.GetStarterMetals(), drillbitCost)
-				.Output(ID_BASIC, 1, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.Output(ID_BASIC, 1* mult, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
 				.Description(craftingTableRecipe ? AIO_SIMPLEDRILLBIT_BASIC.RECIPE_DESC_CRAFTINGTABLE : AIO_SIMPLEDRILLBIT_BASIC.RECIPE_DESC)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
@@ -55,7 +56,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Entities.Mining_DrillMk
 
 			var iron = RecipeBuilder.Create(ID, duration)
 				.Input(SimHashes.Iron, drillbitCost)
-				.Output(ID_IRON, 1, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.Output(ID_IRON, 1 * mult, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
 				.Description(craftingTableRecipe ? AIO_SIMPLEDRILLBIT_IRON.RECIPE_DESC_CRAFTINGTABLE : AIO_SIMPLEDRILLBIT_IRON.RECIPE_DESC)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)

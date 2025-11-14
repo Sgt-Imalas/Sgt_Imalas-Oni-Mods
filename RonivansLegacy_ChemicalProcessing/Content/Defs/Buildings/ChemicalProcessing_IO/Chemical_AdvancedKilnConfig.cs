@@ -71,7 +71,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Result: Refined Coal - 500kg
 			//-----------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, 30)
-				.Input([SimHashes.Carbon, SimHashes.WoodLog, SimHashes.Peat], [500, 800, 1200], GameTags.CombustibleSolid)
+				.Input([SimHashes.Carbon, SimHashes.WoodLog, SimHashes.FabricatedWood, SimHashes.Peat], [500, 800, 800, 1200], GameTags.CombustibleSolid)
 				.Output(SimHashes.RefinedCarbon, 500, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description1I1O(HEAT_REFINE)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
