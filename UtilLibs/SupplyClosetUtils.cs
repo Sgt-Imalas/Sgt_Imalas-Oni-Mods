@@ -71,14 +71,10 @@ namespace UtilLibs
 				string[] skinIDs = [.. skins.Select(entry => entry.ID)];
 				if (isMainCategory)
 				{
-					SgtLogger.Assert("mainCategoryID",mainCategoryID);
-					SgtLogger.Assert("subcategoryID",subcategoryID);
-					SgtLogger.Assert("newCategoryIcon",newCategoryIcon);
 					AddSubcategory(mainCategoryID, subcategoryID, newCategoryIcon, sortkey, skinIDs);
 				}
 				else
 				{
-					SgtLogger.Assert("subcategoryID", subcategoryID);
 					AddItemsToSubcategory(subcategoryID, skinIDs);
 				}
 			}
