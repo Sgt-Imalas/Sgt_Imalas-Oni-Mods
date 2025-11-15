@@ -120,7 +120,7 @@ namespace UtilLibs
 				}
 			}
 		}
-		private static HashSet<string> AddOrGetSubCategory(string subCategory, string mainCategory = null, Sprite icon = null, int sortkey = 850)
+		private static List<string> AddOrGetSubCategory(string subCategory, string mainCategory = null, Sprite icon = null, int sortkey = 850)
 		{
 			if (!InventoryOrganization.subcategoryIdToPermitIdsMap.ContainsKey(subCategory))
 			{
@@ -138,7 +138,7 @@ namespace UtilLibs
 
 				InventoryOrganization.categoryIdToSubcategoryIdsMap[mainCategory].Add(subCategory);
 			}
-			return InventoryOrganization.subcategoryIdToPermitIdsMap[subCategory].ToHashSet();
+			return InventoryOrganization.subcategoryIdToPermitIdsMap[subCategory];
 		}
 		public static void AddItemsToSubcategory(string subcategoryID, string[] permitIDs)
 		{
