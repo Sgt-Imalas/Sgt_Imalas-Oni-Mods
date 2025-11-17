@@ -1,4 +1,5 @@
 ﻿using Dupes_Industrial_Overhaul.Chemical_Processing.Buildings;
+using Metallurgy.Buildings;
 using Mineral_Processing;
 using Mineral_Processing_Mining.Buildings;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.MineralProcessing_Metallurgy;
@@ -24,18 +25,18 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			var input = occurence ? _randomFabricationByproductsCollection : _randomRecipeResultsCollection;
 
 			var result = new Dictionary<string, Dictionary<Tag, List<Tag>>>();
-			foreach(var kvp in input)
+			foreach (var kvp in input)
 			{
 				var outerKey = kvp.Key.ToString();
 				result.Add(outerKey, new());
-				foreach(var inner in kvp.Value)
+				foreach (var inner in kvp.Value)
 				{
 					var innerKey = inner.Key;
 					var innerList = new List<Tag>();
 					result[outerKey].Add(innerKey, innerList);
-					foreach(var entry in inner.Value.RandomProductsRange)
+					foreach (var entry in inner.Value.RandomProductsRange)
 					{
-						if(!innerList.Contains(entry.Key.CreateTag()))
+						if (!innerList.Contains(entry.Key.CreateTag()))
 							innerList.Add(entry.Key.CreateTag());
 					}
 				}
@@ -57,6 +58,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			{
 				{Chemical_BallCrusherMillConfig.ID,InitRandomResults_BallCrusher_Chemical() },
 				{Chemical_SelectiveArcFurnaceConfig.ID,InitRandomResults_SelectiveArcFurnace() },
+				{Metallurgy_PlasmaFurnaceConfig.ID,InitRandomResults_PlasmaFurnace() },
 				{Metallurgy_BallCrusherMillConfig.ID,InitRandomResults_BallCrusher_Metallurgy() },
 				{Mining_AugerDrillConfig.ID,InitRandomResults_AugerDrill() },
 			};
@@ -171,12 +173,15 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					potentialResults,
 					guaranteed.ProperName());
 		}
-		public static string GetArcFurnaceRandomResultString(ComplexRecipe.RecipeElement[] recipeIngredients, ComplexRecipe.RecipeElement[] recipeResults)
+		public static string GetArcFurnaceRandomResultString(ComplexRecipe.RecipeElement[] recipeIngredients, ComplexRecipe.RecipeElement[] recipeResults) => GetRandomSandResultString(Chemical_SelectiveArcFurnaceConfig.ID, recipeIngredients, recipeResults);
+		public static string GetPlasmaFurnaceRandomResultString(ComplexRecipe.RecipeElement[] recipeIngredients, ComplexRecipe.RecipeElement[] recipeResults) => GetRandomSandResultString(Metallurgy_PlasmaFurnaceConfig.ID, recipeIngredients, recipeResults);
+
+		public static string GetRandomSandResultString(string ID, ComplexRecipe.RecipeElement[] recipeIngredients, ComplexRecipe.RecipeElement[] recipeResults)
 		{
 			var inputElement = recipeIngredients[0].material;
 			var guaranteed = recipeResults[0].material;
 
-			if (!GetRandomResultList(Chemical_SelectiveArcFurnaceConfig.ID, out var recipes) || !recipes.TryGetValue(inputElement, out RecipeRandomResult result))
+			if (!GetRandomResultList(ID, out var recipes) || !recipes.TryGetValue(inputElement, out RecipeRandomResult result))
 			{
 				return string.Empty;
 			}
@@ -285,7 +290,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.CrushedRock, 160, 290)
 				.AddProduct(SimHashes.Clay, 150, 270)
 				.AddProduct(SimHashes.Salt, 75, 125)
-				.AddProductConditional(dlc4Owned,SimHashes.NickelOre, 30, 70, 3f / 9f)
+				.AddProductConditional(dlc4Owned, SimHashes.NickelOre, 30, 70, 3f / 9f)
 				.AddProductConditional(soEnabled, SimHashes.Cobaltite, 25, 35, 2f / 9f)
 				.AddProductConditional(chemproc, ModElements.Chloroschist_Solid, 40, 50, 4f / 9f)
 				.AddProductConditional(chemproc, ModElements.Aurichalcite_Solid, 25, 35, 2f / 9f)
@@ -440,7 +445,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			results.Add(LowGradeSand_Solid.Tag,
 				new RecipeRandomResult(90, 40, 60)
 				.AddProduct(SimHashes.Copper, 15, 60)
-				.AddProductConditional(dlc4Owned,SimHashes.Nickel, 15, 60)
+				.AddProductConditional(dlc4Owned, SimHashes.Nickel, 15, 60)
 				.AddProduct(Zinc_Solid, 15, 60)
 				.AddProduct(SimHashes.Lead, 15, 60)
 				.AddProduct(Silver_Solid, 15, 60)
@@ -465,6 +470,28 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			return results;
 
 		}
+		private static Dictionary<Tag, RecipeRandomResult> InitRandomResults_PlasmaFurnace()
+		{
+			var results = new Dictionary<Tag, RecipeRandomResult>();
+			var arcfurnaceRates = InitRandomResults_SelectiveArcFurnace();
+			foreach (var recipe in arcfurnaceRates)
+			{
+				var modifyAction = (KeyValuePair<SimHashes, Tuple<float, float, float>> original) =>
+				{
+					var element = ElementLoader.GetElement(original.Key.CreateTag());
+					if (element != null && element.IsSolid)
+					{
+						element = element.highTempTransition;
+					}
+
+					return new KeyValuePair<SimHashes, Tuple<float, float, float>>(element.id, original.Value);
+				};
+				results.Add(recipe.Key, recipe.Value.CloneWithChange(modifyAction, 5f));
+			}
+			return results;
+
+		}
+
 		private static Dictionary<Tag, RecipeRandomResult> InitRandomResults_AugerDrill()
 		{
 			bool chemproc = Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled;
@@ -847,7 +874,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			results.Add(Mining_Drillbits_GuidanceDevice_ItemConfig.OilReservesTag,
 			new OccurenceRandomResult(Mining_AugerDrillConfig.OccurenceRate)
 				.ProductCount(1)
-				.TempRange(70,100)
+				.TempRange(70, 100)
 				.AddProduct(SimHashes.CrushedRock, 25, 100, 6f / 15f)
 				.AddProduct(SimHashes.CarbonDioxide, 5, 20, 4f / 15f)
 				.AddProduct(SimHashes.CrudeOil, 30, 80, 3f / 15f)
@@ -857,7 +884,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.SourGas, 4, 8, 1f / 15f)
 				.Multiplier(5)
 				);
-			
+
 			//===: SMART DRILLBITS: CRYOSPHERE RANDOM SPAWN :=================================================
 			//---[ Possible Results Elements: ]
 			// -    Crushed Rock

@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRandom;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabricators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +30,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
         {
             public static bool Prefix(ComplexFabricator __instance, Storage storage)
             {
-                if(__instance is PipedComplexFabricator p)
+                if(__instance is CustomComplexFabricatorBase p)
 
 				{
                     p.DropExcessIngredients(storage);

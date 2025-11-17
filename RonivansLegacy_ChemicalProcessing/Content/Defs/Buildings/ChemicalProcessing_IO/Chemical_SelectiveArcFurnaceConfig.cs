@@ -219,7 +219,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			RecipeBuilder.Create(ID, 50)
 				.Input(ModElements.HighGradeSand_Solid, 100)
 				.Input(ModElements.Borax_Solid, 10)
-				.InputDlcDependent(SimHashes.Lime, SimHashes.Graphite, 10)
+				.InputDlcDependent(SimHashes.Fullerene, SimHashes.Graphite, 10)
 				.Output(ModElements.Slag_Solid, 30, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.DescriptionFunc(RandomRecipeProducts.GetArcFurnaceRandomResultString)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)

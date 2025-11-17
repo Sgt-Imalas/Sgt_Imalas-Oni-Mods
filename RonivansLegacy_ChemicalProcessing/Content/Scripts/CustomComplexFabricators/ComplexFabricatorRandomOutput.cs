@@ -40,11 +40,15 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 		public void SpawnProductsFor(RecipeRandomResult recipeRandomResult)
 		{
 			var products = recipeRandomResult.GetRandomProducts();
+			bool meltingTemp = (CurrentWorkingOrder.results[0].temperatureOperation == ComplexRecipe.RecipeElement.TemperatureOperation.Melted);
+
 			foreach (var productInfo in products)
 			{
 				var element = ElementLoader.FindElementByHash(productInfo.first);
 				var pos = Grid.CellToPosCCC(Grid.PosToCell(this), Grid.SceneLayer.Ore) + outputOffset;
-				var product = element.substance.SpawnResource(pos, productInfo.second, recipeRandomResult.GetRandomOutputTemperature(element), 0, 0);
+				float temp = meltingTemp ? element.lowTemp + 5f : recipeRandomResult.GetRandomOutputTemperature(element);
+
+				var product = element.substance.SpawnResource(pos, productInfo.second, temp, 0, 0);
 
 				if (StoreRandomOutputs || !element.IsSolid)
 				{
@@ -75,6 +79,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 			}
 
 			var randomSourceIngredient = this.CurrentWorkingOrder.ingredients[0];
+
+
 			if (outputSelection.TryGetValue(randomSourceIngredient.material, out var recipeRandomResult))
 				SpawnProductsFor(recipeRandomResult);
 			else if (DefaultOutput != null)
