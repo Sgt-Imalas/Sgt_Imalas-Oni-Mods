@@ -58,7 +58,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			{
 				{Chemical_BallCrusherMillConfig.ID,InitRandomResults_BallCrusher_Chemical() },
 				{Chemical_SelectiveArcFurnaceConfig.ID,InitRandomResults_SelectiveArcFurnace() },
-				{Metallurgy_PlasmaFurnaceConfig.ID,InitRandomResults_PlasmaFurnace() },
+				//{Metallurgy_PlasmaFurnaceConfig.ID,InitRandomResults_PlasmaFurnace() },
 				{Metallurgy_BallCrusherMillConfig.ID,InitRandomResults_BallCrusher_Metallurgy() },
 				{Mining_AugerDrillConfig.ID,InitRandomResults_AugerDrill() },
 			};

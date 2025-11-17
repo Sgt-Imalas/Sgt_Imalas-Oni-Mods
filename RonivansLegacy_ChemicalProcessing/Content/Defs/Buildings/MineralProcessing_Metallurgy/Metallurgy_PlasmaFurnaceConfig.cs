@@ -74,11 +74,11 @@ namespace Metallurgy.Buildings
 			temperatureHandler.HeatedSecondaryOutputOffset = new CellOffset(1, -2);
 
 
-			var furnace = go.AddOrGet<ComplexFabricatorRandomOutput>();
+			var furnace = go.AddOrGet<PipedComplexFabricator>();
 			furnace.heatedTemperature = 368.15f;
 			furnace.duplicantOperated = true;
 			furnace.sideScreenStyle = ComplexFabricatorSideScreen.StyleSetting.ListQueueHybrid;
-			
+
 
 			var fuelConsumer = go.AddOrGet<Chemical_FueledFabricatorAddon>();
 			fuelConsumer.fuelTag = this.FUEL_TAG;
@@ -335,9 +335,11 @@ namespace Metallurgy.Buildings
 
 
 
-			if (!chemProcActive)
+			if (!chemProcActive || true)
 				return;
-
+			
+			//skip for now, makes it too strong
+			return;
 			///Arc furncace sand recipes, with molten outputs
 
 			//---- [ Low-Grade Metallic Sand ] --------------------------------------------------------------------------------------------
@@ -381,7 +383,7 @@ namespace Metallurgy.Buildings
 			// Assured Result: Slag - 30kg
 			//-----------------------------------------------------------------------------------------------------------------------------------
 			///Disabled: cannot output fullerene in liquid form properly
-			
+
 			//RecipeBuilder.Create(ID, 20)
 			//	.Input(ModElements.HighGradeSand_Solid, 100 * multiplier)
 			//	.Input(ModElements.Borax_Solid, 10 * multiplier)
