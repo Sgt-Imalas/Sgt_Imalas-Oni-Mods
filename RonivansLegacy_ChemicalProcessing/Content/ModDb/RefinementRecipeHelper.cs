@@ -65,7 +65,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		{
 			return [
 				SimHashes.Steel.CreateTag(),
+				ModElements.StainlessSteel_Solid.Tag,
 				ModElements.Permendur_Solid.Tag,
+				ModElements.Invar_Solid.Tag,
 				ModElements.Brass_Solid.Tag
 				];
 		}

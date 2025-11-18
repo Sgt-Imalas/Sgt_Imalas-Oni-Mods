@@ -133,9 +133,10 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Result:     Niobium       - 100kg             
 			//-------------------------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, 50)
-				.Input(ModElements.ChromiteOre_Solid, 90)
+				.Input(ModElements.ChromiteOre_Solid, 100)
 				.Input(SimHashes.RefinedCarbon, 10)
 				.Output(ModElements.FerroChrome_Solid, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.Output(ModElements.Slag_Solid, 10, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description(ARCFURNACE_SMELT_2_1, 2, 1)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 				.SortOrder(index++)
@@ -202,7 +203,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			//---- [ Stainless Steel #1 ] --------------------------------------------------------------------------------------------------------
 			// Ingredient: Iron             - 55kg
-			//             Ferrochrome      - 25kg
+			//             Ferrochrome      - 25kg == 17% chrome
 			//             Refined Coal     - 10kg
 			//             Borax/Lime       - 10kg
 			// Result:     Stainless Steel  - 100kg  
@@ -210,6 +211,26 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			RecipeBuilder.Create(ID, 50)
 				.Input(SimHashes.Iron, 55)
 				.Input(ModElements.FerroChrome_Solid, 25)
+				.Input(SimHashes.RefinedCarbon, 10)
+				.Input([SimHashes.Lime, ModElements.Borax_Solid], 10, SimHashes.Lime.CreateTag())
+				.Output(ModElements.StainlessSteel_Solid, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+				.Description(ARCFURNACE_STEEL_2, 4, 1)
+				.SortOrder(index++)
+				.Build();
+
+			//---- [ Stainless Steel #2 ] --------------------------------------------------------------------------------------------------------
+			// Ingredient: Iron             - 45kg
+			//             Ferrochrome      - 25kg == 17% chrome
+			//			   Nickel           - 10kg
+			//             Refined Coal     - 10kg
+			//             Borax/Lime       - 10kg
+			// Result:     Stainless Steel  - 100kg  
+			//---------------------------------------------------------------------------------------------------------------------------
+			RecipeBuilder.Create(ID, 50)
+				.Input(SimHashes.Iron, 45)
+				.Input(ModElements.FerroChrome_Solid, 25)
+				.Input(SimHashes.Nickel, 10)
 				.Input(SimHashes.RefinedCarbon, 10)
 				.Input([SimHashes.Lime, ModElements.Borax_Solid], 10, SimHashes.Lime.CreateTag())
 				.Output(ModElements.StainlessSteel_Solid, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
