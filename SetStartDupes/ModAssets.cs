@@ -153,6 +153,7 @@ namespace SetStartDupes
 				{
 					SgtLogger.l("Trait SMI Found, purging... " + id);
 					traitSMI.StopSM("purged by DSS");
+					smc.cmpdef.defs.RemoveAll(def => def.GetStateMachineType() == traitSMI.stateMachine.GetType());
 				}
 			}
 
@@ -741,10 +742,7 @@ namespace SetStartDupes
 			container.SetAnimator();
 			container.RefreshOutfitSelector();
 			int outfitIndex = container.outfitSelectorIndex;
-			container.stats.ApplyOutfit(
-				container.stats.personality, 
-				container.animController.gameObject,
-				outfitIndex == -1 ? null : container.allAvailableClothingOutfits[outfitIndex]);
+			container.stats.ApplyOutfit(container.stats.personality, container.animController.gameObject, container.stats.GetSelectedOutfitOption());
 
 		}
 
