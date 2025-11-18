@@ -459,12 +459,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.Iron, 15, 60)
 				.AddProduct(SimHashes.Gold, 15, 60)
 				.AddProduct(SimHashes.Tungsten, 15, 60)
+				.AddProduct(ModElements.FerroChrome_Solid, 15, 60)
 				.ProductCountRange(2, 4)
 				);
 
 			results.Add(HighGradeSand_Solid.Tag,
 				new RecipeRandomResult(90, 40, 60)
 				.AddProduct(SimHashes.Tungsten, 75, 80)
+				.AddProduct(ModElements.Chromium_Solid, 40, 60)
 				.AddProduct(SimHashes.Fullerene, 7, 12)
 				.AddProduct(SimHashes.Niobium, 1, 4)
 				);
@@ -497,7 +499,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		{
 			bool chemproc = Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled;
 			bool dlc2Owned = true;// DlcManager.IsContentOwned(DlcManager.DLC2_ID);
-			bool dlc4Owned = true; DlcManager.IsContentOwned(DlcManager.DLC4_ID);
+			bool dlc4Owned = true;// DlcManager.IsContentOwned(DlcManager.DLC4_ID);
 
 			var results = new Dictionary<Tag, RecipeRandomResult>();
 			//===: BASIC DRILLBITS RANDOM RESULTS :============================================================
@@ -566,6 +568,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.Granite, 25, 400, 3f / 9f)
 				.AddProduct(SimHashes.SandStone, 25, 400, 2f / 9f)
 				.AddProduct(SimHashes.Wolframite, 25, 100, 1f / 9f)
+				.AddProductConditional(chemproc, ModElements.ChromiteOre_Solid, 25, 100, 1f / 9f)
 				.Multiplier(3.5f)
 				);
 			//===: TUNGSTEN DRILLBITS RANDOM RESULTS :===========================================================
@@ -595,6 +598,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.RefinedCarbon, 25, 100, 1f / 12f)
 				.AddProduct(SimHashes.Diamond, 25, 100, 1f / 12f)
 				.AddProduct(SimHashes.Lead, 25, 100, 1f / 12f)
+				.AddProductConditional(chemproc, ModElements.ChromiteOre_Solid, 25, 100, 1f / 12f)
 				.Multiplier(5)
 				);
 
@@ -755,6 +759,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.Obsidian, 25, 100, 2f / 3f)
 				.AddProduct(SimHashes.Fullerene, 10, 40, 1f / 3f)
 				.AddProduct(SimHashes.RefinedCarbon, 100, 500, 2f / 3f)
+				.AddProductConditional(chemproc, ModElements.ChromiteOre_Solid, 100, 500, 1f / 3f)
 				.Multiplier(2)
 			);
 			return results;
@@ -1005,6 +1010,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.Phosphorite, 200, 500, 0.11f)
 				.AddProduct(SimHashes.Wolframite, 200, 500, 0.11f)
 				.AddProductConditional(chemproc, Galena_Solid, 200, 500, 0.11f)
+				.AddProductConditional(chemproc, ChromiteOre_Solid, 200, 500, 0.11f)
 				.Multiplier(0.5f)
 				);
 			return results;

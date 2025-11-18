@@ -36,17 +36,17 @@ namespace UtilLibs.SharedTweaks
 		{
 			new ResearchScreenBetterConnectionLines().RegisterForForwarding();
 		}
-		public override Version Version => new Version(1, 0, 0, 1);
+		public override Version Version => new Version(1, 0, 0, 2);
 
 		public override void Initialize(Harmony plibInstance)
 		{
 			try
 			{
 				LoadIcon();
-				var targetMethodOnSpawn = AccessTools.Method(typeof(ResearchEntry), nameof(ResearchEntry.OnSpawn));
-				var onSpawnPostfix = AccessTools.Method(typeof(ResearchScreenBetterConnectionLines), nameof(OnSpawnPostfix));
+				var targetMethod = AccessTools.Method(typeof(ResearchEntry), nameof(ResearchEntry.SetupLines));
+				var onSpawnPostfix = AccessTools.Method(typeof(ResearchScreenBetterConnectionLines), nameof(CreateLinesPostfix));
 				///change the line renderers to be more spaced out
-				plibInstance.Patch(targetMethodOnSpawn, postfix: new(onSpawnPostfix, Priority.HigherThanNormal));
+				plibInstance.Patch(targetMethod, postfix: new(onSpawnPostfix, Priority.HigherThanNormal));
 				Debug.Log(this.GetType().ToString() + " successfully patched");
 			}
 			catch (Exception e)
@@ -63,7 +63,7 @@ namespace UtilLibs.SharedTweaks
 
 		static Dictionary<Tech, int> techConnectionPoints = null;
 
-		public static void OnSpawnPostfix(ResearchEntry __instance)
+		public static void CreateLinesPostfix(ResearchEntry __instance)
 		{
 			RefreshSkillScreenMatrix(__instance);
 

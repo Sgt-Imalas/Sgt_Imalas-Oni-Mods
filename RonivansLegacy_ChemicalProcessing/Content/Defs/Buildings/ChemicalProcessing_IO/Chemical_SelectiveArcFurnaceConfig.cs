@@ -126,7 +126,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Build();
 
 
-			//---- [ Ferrochrome ] --------------------------------------------------------------------------------------------
+			//---- [ Ferrochrome #1] --------------------------------------------------------------------------------------------
 			// Ingredient: Chromite   - 100kg
 			// Result:     Ferrochrome   - 100kg
 			// ImpurityRemoval:  Refined Carbon->Slag - 10kg
