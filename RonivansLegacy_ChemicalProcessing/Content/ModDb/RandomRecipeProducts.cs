@@ -242,8 +242,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			var results = new Dictionary<Tag, RecipeRandomResult>();
 			///rates taken from ronivans dictionary solution
 
-			bool soEnabled = DlcManager.IsExpansion1Active();
-			bool dlc4Owned = DlcManager.IsContentOwned(DlcManager.DLC4_ID);
+			///former dlc elements are not limited to dlcs anymore, apart from radioactive elements
+			bool soEnabled = true;//DlcManager.IsExpansion1Active();
+			bool dlc4Owned = true; //DlcManager.IsContentOwned(DlcManager.DLC4_ID);
 
 			///note: 10kg of mass has been deducted as thats the mass of the guaranteed sand product
 
@@ -439,7 +440,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		}
 		private static Dictionary<Tag, RecipeRandomResult> InitRandomResults_SelectiveArcFurnace()
 		{
-			bool dlc4Owned = DlcManager.IsContentOwned(DlcManager.DLC4_ID);
+			bool dlc4Owned = true;//DlcManager.IsContentOwned(DlcManager.DLC4_ID);
 
 			var results = new Dictionary<Tag, RecipeRandomResult>();
 			results.Add(LowGradeSand_Solid.Tag,
@@ -495,9 +496,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		private static Dictionary<Tag, RecipeRandomResult> InitRandomResults_AugerDrill()
 		{
 			bool chemproc = Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled;
-
-			bool dlc2Owned = DlcManager.IsContentOwned(DlcManager.DLC2_ID);
-			bool dlc4Owned = DlcManager.IsContentOwned(DlcManager.DLC4_ID);
+			bool dlc2Owned = true;// DlcManager.IsContentOwned(DlcManager.DLC2_ID);
+			bool dlc4Owned = true; DlcManager.IsContentOwned(DlcManager.DLC4_ID);
 
 			var results = new Dictionary<Tag, RecipeRandomResult>();
 			//===: BASIC DRILLBITS RANDOM RESULTS :============================================================

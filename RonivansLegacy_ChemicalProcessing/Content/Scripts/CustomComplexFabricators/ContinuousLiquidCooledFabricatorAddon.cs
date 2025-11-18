@@ -40,7 +40,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabrica
 		//public float selfHeatPercentage = 0;
 
 		[SerializeField]
-		public float HeatCapacitorMaxCapKJ = 200000; //200 MJ of capacitor
+		public float HeatCapacitorMaxCapKJ = 220000; //220 MJ of capacitor
 		[SerializeField]
 		public bool CreateMeter = true;
 

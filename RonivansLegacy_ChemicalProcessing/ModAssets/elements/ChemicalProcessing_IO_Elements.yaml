@@ -505,7 +505,7 @@ elements:
     highTemp: 2700 #oni steel has fantasy values again...
     highTempTransitionTarget: MoltenSteel
     highTempTransitionOreId: AIO_Chromium_Liquid
-    highTempTransitionOreMassConversion: 0.11 #11% chromium
+    highTempTransitionOreMassConversion: 0.17 #17% chromium
     defaultTemperature: 300
     defaultMass: 400
     maxMass: 10000

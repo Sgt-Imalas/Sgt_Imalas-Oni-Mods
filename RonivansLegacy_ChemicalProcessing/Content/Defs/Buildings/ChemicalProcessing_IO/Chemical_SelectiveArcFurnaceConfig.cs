@@ -128,9 +128,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			//---- [ Ferrochrome ] --------------------------------------------------------------------------------------------
 			// Ingredient: Chromite   - 100kg
-			//             Cobalt        - 46kg
-			//             Borax         - 8kg
-			// Result:     Ferrochrome   - 100kg             
+			// Result:     Ferrochrome   - 100kg
+			// ImpurityRemoval:  Refined Carbon->Slag - 10kg
 			//-------------------------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, 50)
 				.Input(ModElements.ChromiteOre_Solid, 100)
@@ -182,7 +181,15 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//             Lime             - 10kg
 			// Result:     Steel            - 100kg  
 			//-----------------------------------------------------------------------------------------------------------------------
-
+			RecipeBuilder.Create(ID, 50)
+				.Input(SimHashes.Iron, 70)
+				.Input(SimHashes.RefinedCarbon, 20)
+				.Input(SimHashes.Lime, 10)
+				.Output(SimHashes.Steel, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+				.Description(ARCFURNACE_STEEL_1, 3, 1)
+				.SortOrder(index++)
+				.Build();
 			//---- [ Steel #2 ] --------------------------------------------------------------------------------------------------------
 			// Ingredient: Iron             - 70kg
 			//             Refined Coal     - 20kg
@@ -194,10 +201,10 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Input(SimHashes.Iron, 70)
 				.Input(SimHashes.RefinedCarbon, 20)
 				.Input(SimHashes.Lime, 5)
-				.Input([SimHashes.Lime, ModElements.Borax_Solid], 5, ModElements.Borax_Solid.Tag)
+				.Input(ModElements.Borax_Solid, 5)
 				.Output(SimHashes.Steel, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
-				.Description(ARCFURNACE_STEEL_1, 3, 1)
+				.Description(ARCFURNACE_STEEL_2, 4, 1)
 				.SortOrder(index++)
 				.Build();
 
@@ -258,7 +265,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Random Results: Copper, Zinc, Silver, Lead
 			// Assured Result: Slag - 20kg, 90kg randoms
 			//------------------------------------------------------------------------------------------------------------------------------
-			RecipeBuilder.Create(ID, 50)
+			RecipeBuilder.Create(ID, 30)
 				.Input(ModElements.LowGradeSand_Solid, 100)
 				.Input(ModElements.Borax_Solid, 10)
 				.Output(ModElements.Slag_Solid, 20, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
@@ -273,7 +280,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Random Results: Iron, Aluminum, Gold, Tungsten
 			// Assured Result: Slag - 20kg, 90kg randoms
 			//-------------------------------------------------------------------------------------------------------------------------------
-			RecipeBuilder.Create(ID, 50)
+			RecipeBuilder.Create(ID, 30)
 				.Input(ModElements.BaseGradeSand_Solid, 100)
 				.Input(ModElements.Borax_Solid, 10)
 				.Output(ModElements.Slag_Solid, 20, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
@@ -290,7 +297,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Random Results: Tungsten, Fullerene, Niobium
 			// Assured Result: Slag - 30kg
 			//-----------------------------------------------------------------------------------------------------------------------------------
-			RecipeBuilder.Create(ID, 50)
+			RecipeBuilder.Create(ID, 30)
 				.Input(ModElements.HighGradeSand_Solid, 100)
 				.Input(ModElements.Borax_Solid, 10)
 				.InputDlcDependent(SimHashes.Fullerene, SimHashes.Graphite, 10)

@@ -2450,6 +2450,10 @@ namespace RonivansLegacy_ChemicalProcessing
 					{
 						public static LocString NAME = "Aurichalcite Meteor";
 					}
+					public class CHROMITE
+					{
+						public static LocString NAME = "Chromite Meteor";
+					}
 					public class SILVERCOMET
 					{
 						public static LocString NAME = "Argentite Meteor";
