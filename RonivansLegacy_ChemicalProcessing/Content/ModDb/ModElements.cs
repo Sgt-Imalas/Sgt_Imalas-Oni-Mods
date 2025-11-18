@@ -53,7 +53,15 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		public static readonly Color32 NITROGEN_COLOR = new Color32(205, 194, 255, 255);
 		///Permendur, alloy of cobalt and iron
 		public static readonly Color32 PERMENDUR_COLOR = UIUtils.rgb(140, 207, 255);
-
+		
+		//chromium color
+		public static readonly Color32 CHROMIUM_COLOR = UIUtils.rgb(223, 236, 247);
+		//chrome ore
+		public static readonly Color32 CHROMITE_COLOR = UIUtils.rgb(87, 89, 83);
+		//Ferrochrome color
+		public static readonly Color32 FERROCHROME_COLOR = UIUtils.rgb(255, 167, 156);
+		public static readonly Color32 INVAR_COLOR = UIUtils.rgb(248, 243, 185);
+		public static readonly Color32 STAINLESSSTEEL_COLOR = UIUtils.rgb(213, 216, 221);
 
 
 		/// Chemical Processing BioChemistry
@@ -124,8 +132,23 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			Nitrogen_Gas = ElementInfo.Gas("NitrogenGas", NITROGEN_COLOR),
 
 			///Permendur, alloy of cobalt and iron, added as an alloy for swampy starts
-			Permendur_Solid = ElementInfo.Solid("AIO_Permendur_Solid", "solid_permendur_kanim", PERMENDUR_COLOR)
+			Permendur_Solid = ElementInfo.Solid("AIO_Permendur_Solid", "solid_permendur_kanim", PERMENDUR_COLOR),
+
+			///Chromite ore, for Ferrochrome production
+			ChromiteOre_Solid = ElementInfo.Solid("AIO_ChromiteOre_Solid", "solid_chromite_kanim", CHROMITE_COLOR),
+			///Ferrochrome, alloy of iron and chromium, used in stainless steel production, acts as an alloy on its own already
+			FerroChrome_Solid = ElementInfo.Solid("AIO_FerroChrome_Solid", "solid_ferrochrome_kanim", FERROCHROME_COLOR),
+			FerroChrome_Liquid = ElementInfo.Liquid("AIO_FerroChrome_Liquid", FERROCHROME_COLOR),
+			///Chromium, fallback element if someone is wild enough to boil molten ferrochrome
+			Chromium_Solid = ElementInfo.Solid("AIO_Chromium_Solid", "solid_chromium_kanim", CHROMIUM_COLOR),
+			Chromium_Liquid = ElementInfo.Liquid("AIO_Chromium_Liquid", CHROMIUM_COLOR),
+			Chromium_Gas = ElementInfo.Gas("AIO_Chromium_Gas", CHROMIUM_COLOR),
+			///Stainless steel
+			StainlessSteel_Solid = ElementInfo.Solid("AIO_StainlessSteel_Solid", "solid_stainless_steel_kanim", STAINLESSSTEEL_COLOR),
+			///alloy of nickel and iron
+			Invar_Solid = ElementInfo.Solid("AIO_Invar_Solid", "solid_invar_kanim", INVAR_COLOR)
 			;
+
 		//Chemical Processing Bio Chemistry
 		public static ElementInfo
 			BioDiesel_Solid = ElementInfo.Solid("SolidBiodiesel", "solid_biodiesel_kanim", BIODIESEL_COLOR),
@@ -179,7 +202,19 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				OilShale_Solid.CreateSubstanceFromElementTinted(SimHashes.SolidCrudeOil),
 				PhosphorBronze.CreateSubstanceFromElementTinted(SimHashes.FoolsGold),
 				Plasteel_Solid.CreateSubstanceFromElementTinted(SimHashes.Aluminum),
+
 				Permendur_Solid.CreateSubstanceFromElementTinted(SimHashes.Aluminum),
+				Invar_Solid.CreateSubstanceFromElementTinted(SimHashes.Iron),
+				StainlessSteel_Solid.CreateSubstanceFromElementTinted(SimHashes.Steel),
+
+				ChromiteOre_Solid.CreateSubstanceFromElementTinted(SimHashes.IronOre),
+				FerroChrome_Solid.CreateSubstanceFromElementTinted(SimHashes.Iron),
+				FerroChrome_Liquid.CreateSubstance(),
+				Chromium_Solid.CreateSubstanceFromElementTinted(SimHashes.Steel),
+				Chromium_Liquid.CreateSubstance(),
+				Chromium_Gas.CreateSubstance(),
+
+
 				RawNaturalGas_Gas.CreateSubstance(),
 
 				Silver_Solid.CreateSubstanceFromElementTinted(SimHashes.Gold),

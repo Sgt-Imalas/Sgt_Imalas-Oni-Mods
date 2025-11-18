@@ -436,7 +436,7 @@ elements:
     solidSurfaceAreaMultiplier: 1
     liquidSurfaceAreaMultiplier: 1
     gasSurfaceAreaMultiplier: 1
-    strength: 6
+    strength: 1.8
     highTemp: 1700.15 #1427°C
     highTempTransitionTarget: MoltenIron #phase changes into debris; done this way to not create a natural tile
     highTempTransitionOreId: Cobalt
@@ -461,6 +461,243 @@ elements:
     isDisabled: false
     state: Solid
     localizationID: STRINGS.ELEMENTS.AIO_PERMENDUR_SOLID.NAME
+    dlcId: ""
+
+  - elementId: AIO_Invar_Solid
+    specificHeatCapacity: 0.515
+    thermalConductivity: 10.5
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 1.6
+    highTemp: 1700.15 #1427°C
+    highTempTransitionTarget: MoltenIron #phase changes into debris; done this way to not create a natural tile
+    highTempTransitionOreId: Nickel
+    highTempTransitionOreMassConversion: 0.36 #36% Nickel content
+    defaultTemperature: 296
+    defaultMass: 200
+    maxMass: 8700
+    hardness: 70
+    molarMass: 57.26
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.67
+    radiationPer1000Mass: 0
+    materialCategory: ManufacturedMaterial
+    tags:
+    - Metal
+    - RefinedMetal
+    - BuildableAny 
+    - Noncrushable
+    - AIO_HardenedAlloy #Steel substitute
+    buildMenuSort: 10
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.AIO_INVAR_SOLID.NAME
+    dlcId: ""
+
+  - elementId: AIO_StainlessSteel_Solid
+    specificHeatCapacity: 0.50 #slightly higher than regular steel, but oni steel has fantasy values, so it has to be higher than actual steel (normal irl steel has 0.460, stainless has ~0.470)
+    thermalConductivity: 25 #irl it has 15-25, bur irl steel is ~30-40, while oni steel has 54, so we take the higher val
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 2
+    highTemp: 2700 #oni steel has fantasy values again...
+    highTempTransitionTarget: MoltenSteel
+    highTempTransitionOreId: AIO_Chromium_Liquid
+    highTempTransitionOreMassConversion: 0.11 #11% chromium
+    defaultTemperature: 300
+    defaultMass: 400
+    maxMass: 10000
+    hardness: 50
+    molarMass: 54.97
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.74
+    radiationPer1000Mass: 0
+    materialCategory: ManufacturedMaterial
+    tags:
+    - Metal
+    - RefinedMetal
+    - BuildableAny 
+    - Noncrushable
+    - AIO_HardenedAlloy #Steel substitute
+    buildMenuSort: 10
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.AIO_STAINLESSSTEEL_SOLID.NAME
+    dlcId: ""
+
+  - elementId: AIO_ChromiteOre_Solid
+    specificHeatCapacity: 0.2155
+    thermalConductivity: 2
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 0.7
+    highTemp: 2313.15 #2040°C
+    highTempTransitionTarget: AIO_FerroChrome_Liquid
+    defaultTemperature: 296
+    defaultMass: 800
+    maxMass: 1840
+    hardness: 10
+    molarMass: 223.83
+    lightAbsorptionFactor: 3
+    radiationAbsorptionFactor: 0.46
+    radiationPer1000Mass: 0
+    materialCategory: Metal
+    tags:
+    - BuildableAny
+    - Ore
+    - Noncrushable #only allowed refinement method is arc smelting
+    buildMenuSort: 14
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.AIO_CHROMITEORE_SOLID.NAME
+    dlcId: ""
+
+  - elementId: AIO_FerroChrome_Solid
+    specificHeatCapacity: 0.2155
+    thermalConductivity: 91.3
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 1
+    highTemp: 1773.15 #1500°C
+    highTempTransitionTarget: AIO_FerroChrome_Liquid
+    defaultTemperature: 296
+    defaultMass: 870
+    maxMass: 970
+    hardness: 2
+    molarMass: 51.99
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.5
+    radiationPer1000Mass: 0
+    materialCategory: RefinedMetal
+    tags:
+    - Metal
+    - RefinedMetal
+    - BuildableAny 
+    - Noncrushable
+    buildMenuSort: 2
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.AIO_FERROCHROME_SOLID.NAME
+    dlcId: ""
+
+  - elementId: AIO_FerroChrome_Liquid
+    specificHeatCapacity: 0.2155
+    thermalConductivity: 5
+    liquidCompression: 1.01
+    speed: 100
+    minHorizontalFlow: 30
+    minVerticalFlow: 3
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 25
+    gasSurfaceAreaMultiplier: 1
+    strength: 1
+    highTemp: 2915 #2642°C
+    lowTemp: 1773.15 #1500°C
+    highTempTransitionOreId: IronGas # statechanges into molten iron
+    highTempTransitionOreMassConversion: 0.32 # 32% iron, 68% chromium
+    highTempTransitionTarget: AIO_Chromium_Liquid
+    lowTempTransitionTarget: AIO_FerroChrome_Solid
+    defaultTemperature: 2200
+    defaultMass: 870
+    maxMass: 9970
+    molarMass: 51.99
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.3
+    radiationPer1000Mass: 0
+    tags:
+    - Metal
+    - RefinedMetal
+    - EmitsLight
+    isDisabled: false
+    state: Liquid
+    localizationID: STRINGS.ELEMENTS.AIO_FERROCHROME_LIQUID.NAME
+    dlcId: ""
+
+  - elementId: AIO_Chromium_Solid
+    specificHeatCapacity: 0.387
+    thermalConductivity: 91.3
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 1
+    highTemp: 2180 #1907°C
+    highTempTransitionTarget: AIO_Chromium_Liquid
+    defaultTemperature: 296
+    defaultMass: 870
+    maxMass: 970
+    hardness: 2
+    molarMass: 51.99
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.5
+    radiationPer1000Mass: 0
+    materialCategory: RefinedMetal
+    tags:
+    - RefinedMetal
+    - BuildableAny
+    - Noncrushable
+    buildMenuSort: 2
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.AIO_CHROMIUM_SOLID.NAME
+    dlcId: ""
+
+  - elementId: AIO_Chromium_Liquid
+    specificHeatCapacity: 0.387
+    thermalConductivity: 5
+    liquidCompression: 1.01
+    speed: 100
+    minHorizontalFlow: 30
+    minVerticalFlow: 3
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 25
+    gasSurfaceAreaMultiplier: 1
+    strength: 1
+    highTemp: 2945 #2672°C
+    lowTemp:  2180 #1907°C
+    highTempTransitionTarget: AIO_Chromium_Gas
+    lowTempTransitionTarget: AIO_Chromium_Solid
+    defaultTemperature: 2200
+    defaultMass: 870
+    maxMass: 9970
+    molarMass: 51.99
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.3
+    radiationPer1000Mass: 0
+    tags:
+    - Metal
+    - RefinedMetal
+    - EmitsLight
+    isDisabled: false
+    state: Liquid
+    localizationID: STRINGS.ELEMENTS.AIO_CHROMIUM_LIQUID.NAME
+    dlcId: ""
+
+  - elementId: AIO_Chromium_Gas
+    specificHeatCapacity: 0.387
+    thermalConductivity: 5
+    solidSurfaceAreaMultiplier: 25
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    flow: 0.1
+    lowTemp: 2945 #2672°C
+    toxicity: 0
+    lowTempTransitionTarget: AIO_CHROMIUM_LIQUID
+    defaultTemperature: 2500
+    molarMass: 51.99
+    lightAbsorptionFactor: 0.5
+    radiationAbsorptionFactor: 0.3
+    radiationPer1000Mass: 0
+    materialCategory: Unbreathable
+    tags:
+    - RefinedMetal
+    - EmitsLight
+    isDisabled: false
+    state: Gas
+    localizationID: STRINGS.ELEMENTS.AIO_CHROMIUM_GAS.NAME
     dlcId: ""
 
   - elementId: IsopropaneGas

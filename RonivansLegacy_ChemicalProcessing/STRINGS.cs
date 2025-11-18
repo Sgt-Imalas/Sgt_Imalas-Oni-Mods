@@ -549,7 +549,7 @@ namespace RonivansLegacy_ChemicalProcessing
 						]);
 					public static string REFINEMENT_HEAT_EXHAUST = "Refinement exhaust heat";
 					public static string REFINEMENT_SELF_HEAT = "Refinement heat";
-					public static string REFINEMENT_HEAT_TOOLTIP_CONTINUOUS = "During refinement of this recipe, the machine will produce a total of "+ FormatAsPositiveRate("{0}")+" in additional refinement " + PRE_KEYWORD + "heat" + PST_KEYWORD + ".\nAt normal refinement speed, this amounts to {1} produced per second.";
+					public static string REFINEMENT_HEAT_TOOLTIP_CONTINUOUS = "During refinement of this recipe, the machine will produce a total of " + FormatAsPositiveRate("{0}") + " in additional refinement " + PRE_KEYWORD + "heat" + PST_KEYWORD + ".\nAt normal refinement speed, this amounts to {1} produced per second.";
 					public static string REFINEMENT_HEAT_TOOLTIP = FormatAsPositiveRate("{0}") + " of " + PRE_KEYWORD + "Heat" + PST_KEYWORD + " will be produced to cool off the fabricated item\n\nThis heat is then stored in the buildings thermal capacitor and transfered over to the coolant thats pumped through the building.\nCoolant near its boiling point will be prevented from boiling, but have reduced heat dispersion.";
 				}
 				public class CHEMICAL_SOILMIXER
@@ -1892,6 +1892,49 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString NAME = FormatAsLink("Permendur", nameof(AIO_PERMENDUR_SOLID));
 				public static LocString DESC = "Permendur is a cobalt-iron soft ferromagnetic alloy with equal parts of " + FormatAsLink("Cobalt", "COBALT") + " and " + FormatAsLink("Iron", "IRON") + " which is notable for its high magnetic saturation level.\nHeat treatment gives this material a high structural stability.";
 			}
+			public class AIO_INVAR_SOLID
+			{
+				public static LocString NAME = FormatAsLink("Invar", nameof(AIO_INVAR_SOLID));
+				public static LocString DESC = "Invar is a nickel-iron alloy, composed of 35% " + FormatAsLink("Nickel", "NICKEL") + " and 65% " + FormatAsLink("Iron", "IRON") + " which is notable for its uniquely low coefficient of thermal expansion.";
+			}
+			///Chrome refinement
+			public class AIO_CHROMITEORE_SOLID
+			{
+				public static LocString NAME = FormatAsLink("Chromite", nameof(AIO_CHROMITEORE_SOLID));
+				public static LocString DESC = "Chromite is a crystalline mineral composed primarily of " + FormatAsLink("Iron", "IRON") + " and " + FormatAsLink("Chromium", "AIO_CHROMIUM_SOLID") + " compounds.";
+			}
+			public class AIO_STAINLESSSTEEL_SOLID
+			{
+				public static LocString NAME = FormatAsLink("Stainless Steel", nameof(AIO_STAINLESSSTEEL_SOLID));
+				public static LocString DESC = "Stainless Steel is an " + FormatAsLink("Iron", "IRON") + " based alloy that contains " + FormatAsLink("Chromium", "AIO_CHROMIUM_SOLID") + ", making it highly resistant to rust and corrosion.";
+			}
+			public class AIO_FERROCHROME_SOLID
+			{
+				public static LocString NAME = FormatAsLink("Ferrochrome", nameof(AIO_FERROCHROME_SOLID));
+				public static LocString DESC = "Ferrochrome is an alloy of " + FormatAsLink("Iron", "IRON") + " and " + FormatAsLink("Chromium", "AIO_CHROMIUM_SOLID") + ", used in the production of stainless steel and other alloys.";
+			}
+			public class AIO_FERROCHROME_LIQUID
+			{
+				public static LocString NAME = FormatAsLink("Molten Ferrochrome", nameof(AIO_FERROCHROME_LIQUID));
+				public static LocString DESC = "Ferrochrome is an alloy of " + FormatAsLink("Iron", "IRON") + " and " + FormatAsLink("Chromium", "AIO_CHROMIUM_SOLID") + ", used in the production of stainless steel and other alloys, currently in its molten state.";
+			}
+
+			public class AIO_CHROMIUM_SOLID
+			{
+				public static LocString NAME = FormatAsLink("Chromium", nameof(AIO_CHROMIUM_SOLID));
+				public static LocString DESC = "(Cr) Chromium is a steely-grey, lustrous, hard and brittle transition metal.";
+			}
+			public class AIO_CHROMIUM_LIQUID
+			{
+				public static LocString NAME = FormatAsLink("Molten Chromium", nameof(AIO_CHROMIUM_LIQUID));
+				public static LocString DESC = "(Cr) Chromium is a steely-grey, lustrous, hard and brittle transition metal in its molten state.";
+			}
+			public class AIO_CHROMIUM_GAS
+			{
+				public static LocString NAME = FormatAsLink("Chromium Gas", nameof(AIO_CHROMIUM_GAS));
+				public static LocString DESC = "(Cr) Chromium is a steely-grey, lustrous, hard and brittle transition metal in its gaseous state.";
+			}
+
 			//===== [ Special ] ==============================
 			public class ISOPROPANEGAS
 			{
@@ -2330,7 +2373,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString JAWCRUSHERMILL_MILLING_1_4 = "Break down {0} into:\n• {1}\n• {2}\n• {3}\n• {4}";
 				public static LocString CRUSHEDROCK_FROM_RAW_MINERAL_NAME = FormatAsLink("Raw Mineral", "BUILDABLERAW") + " to " + global::STRINGS.ELEMENTS.CRUSHEDROCK.NAME;
 				public static LocString CRUSHEDROCK_FROM_RAW_MINERAL_DESCRIPTION = "Crushes " + FormatAsLink("Raw Minerals", "BUILDABLERAW") + " into " + global::STRINGS.ELEMENTS.CRUSHEDROCK.NAME;
-				
+
 				public static LocString BAD_RECIPE_PRODUCT_NAME = "Crude {0}";
 				public static LocString BAD_RECIPE_PRODUCT_DESC = "This recipe comes with reduced yield,\nsince the machine is unable to provide the proper environmental conditions.\n\nOther machines might be more suitable for this refinement process.";
 

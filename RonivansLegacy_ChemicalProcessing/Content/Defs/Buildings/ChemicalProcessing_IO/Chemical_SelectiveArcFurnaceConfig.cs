@@ -126,11 +126,42 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Build();
 
 
+			//---- [ Ferrochrome ] --------------------------------------------------------------------------------------------
+			// Ingredient: Chromite   - 100kg
+			//             Cobalt        - 46kg
+			//             Borax         - 8kg
+			// Result:     Niobium       - 100kg             
+			//-------------------------------------------------------------------------------------------------------------------------
+			RecipeBuilder.Create(ID, 50)
+				.Input(ModElements.ChromiteOre_Solid, 90)
+				.Input(SimHashes.RefinedCarbon, 10)
+				.Output(ModElements.FerroChrome_Solid, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.Description(ARCFURNACE_SMELT_2_1, 2, 1)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+				.SortOrder(index++)
+				.Build();
+
+			//---- [ Invar ] --------------------------------------------------------------------------------------------
+			// 36% Nickel, 64% Iron
+			// Ingredient: Iron          - 59kg
+			//             Nickel        - 33kg
+			//             Borax         - 8kg
+			// Result:     Invar       - 100kg             
+			//-------------------------------------------------------------------------------------------------------------------------
+			RecipeBuilder.Create(ID, 50)
+				.Input(SimHashes.Iron, 59)
+				.Input(SimHashes.Nickel, 33)
+				.Input(ModElements.Borax_Solid, 8)
+				.Output(ModElements.Invar_Solid, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.Description(ARCFURNACE_SMELT_3_1, 3, 1)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+				.SortOrder(index++)
+				.Build();
 			//---- [ Permendur ] --------------------------------------------------------------------------------------------
 			// Ingredient: Iron          - 46kg
 			//             Cobalt        - 46kg
 			//             Borax         - 8kg
-			// Result:     Niobium       - 100kg             
+			// Result:     Permendur     - 100kg             
 			//-------------------------------------------------------------------------------------------------------------------------
 
 			RecipeBuilder.Create(ID, 50)
@@ -150,15 +181,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//             Lime             - 10kg
 			// Result:     Steel            - 100kg  
 			//-----------------------------------------------------------------------------------------------------------------------
-			RecipeBuilder.Create(ID, 50)
-				.Input(SimHashes.Iron, 70)
-				.Input(SimHashes.RefinedCarbon, 20)
-				.Input(SimHashes.Lime, 10)
-				.Output(SimHashes.Steel, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
-				.Description(ARCFURNACE_STEEL_1, 3, 1)
-				.SortOrder(index++)
-				.Build();
 
 			//---- [ Steel #2 ] --------------------------------------------------------------------------------------------------------
 			// Ingredient: Iron             - 70kg
@@ -171,12 +193,43 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Input(SimHashes.Iron, 70)
 				.Input(SimHashes.RefinedCarbon, 20)
 				.Input(SimHashes.Lime, 5)
-				.Input(ModElements.Borax_Solid, 5)
+				.Input([SimHashes.Lime, ModElements.Borax_Solid], 5, ModElements.Borax_Solid.Tag)
 				.Output(SimHashes.Steel, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+				.Description(ARCFURNACE_STEEL_1, 3, 1)
+				.SortOrder(index++)
+				.Build();
+
+			//---- [ Stainless Steel #1 ] --------------------------------------------------------------------------------------------------------
+			// Ingredient: Iron             - 55kg
+			//             Ferrochrome      - 25kg
+			//             Refined Coal     - 10kg
+			//             Borax/Lime       - 10kg
+			// Result:     Stainless Steel  - 100kg  
+			//---------------------------------------------------------------------------------------------------------------------------
+			RecipeBuilder.Create(ID, 50)
+				.Input(SimHashes.Iron, 55)
+				.Input(ModElements.FerroChrome_Solid, 25)
+				.Input(SimHashes.RefinedCarbon, 10)
+				.Input([SimHashes.Lime, ModElements.Borax_Solid], 10, SimHashes.Lime.CreateTag())
+				.Output(ModElements.StainlessSteel_Solid, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
 				.Description(ARCFURNACE_STEEL_2, 4, 1)
 				.SortOrder(index++)
 				.Build();
+
+			//---- [ Thermium Seperation ] --------------------------------------------------------------------------------------------
+			// Ingredient: Thermium      - 100kg
+			// Result:     Niobium       - 100kg             
+			//-------------------------------------------------------------------------------------------------------------------------
+			RecipeBuilder.Create(ID, 50)
+				.Input(SimHashes.TempConductorSolid, 100)
+				.Output(SimHashes.Niobium, 100)
+				.Description1I1O(ARCFURNACE_NIOBIUM)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+				.SortOrder(index++)
+				.Build();
+
 
 			//---- [ Low-Grade Metallic Sand ] --------------------------------------------------------------------------------------------
 			// Ingredient: Low-Grade Metallic Sand    - 100kg
@@ -225,22 +278,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 				.SortOrder(index++)
 				.Build();
-
-
-
-			//---- [ Thermium Seperation ] --------------------------------------------------------------------------------------------
-			// Ingredient: Thermium      - 100kg
-			// Result:     Niobium       - 100kg             
-			//-------------------------------------------------------------------------------------------------------------------------
-			RecipeBuilder.Create(ID, 50)
-				.Input(SimHashes.TempConductorSolid, 100)
-				.Output(SimHashes.Niobium, 100)
-				.Description1I1O(ARCFURNACE_NIOBIUM)
-				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
-				.SortOrder(index++)
-				.Build();
-
-
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)
