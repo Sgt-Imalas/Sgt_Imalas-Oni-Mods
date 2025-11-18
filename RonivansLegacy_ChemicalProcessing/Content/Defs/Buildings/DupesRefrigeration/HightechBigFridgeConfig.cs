@@ -16,12 +16,12 @@ using static STRINGS.BUILDINGS.PREFABS;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefrigeration
 {
-    class HightechSmallFridgeConfig : IBuildingConfig, IHasConfigurableStorageCapacity, IHasConfigurableWattage
+	class HightechSmallFridgeConfig : IBuildingConfig, IHasConfigurableStorageCapacity, IHasConfigurableWattage
 	{
 		public static float Wattage = 480;
 		public float GetWattage() => Wattage;
 		public void SetWattage(float mass) => Wattage = mass;
-		public static float StorageCapacity = 300; 
+		public static float StorageCapacity = 300;
 		public float GetStorageCapacity() => StorageCapacity;
 		public void SetStorageCapacity(float mass) => StorageCapacity = mass;
 
@@ -33,7 +33,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 		public override BuildingDef CreateBuildingDef()
 		{
 			EffectorValues noise = TUNING.NOISE_POLLUTION.NOISY.TIER0;
-			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 2, 3, "advanced_techfridge_kanim", 30, 30f, [700,100], [GameTags.RefinedMetal.ToString(),GameTags.Plastic.ToString()], 800f, BuildLocationRule.OnFloor, TUNING.BUILDINGS.DECOR.BONUS.TIER1, noise);
+			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 2, 3, "advanced_techfridge_kanim", 30, 30f, [700, 100], [GameTags.RefinedMetal.ToString(), GameTags.Plastic.ToString()], 800f, BuildLocationRule.OnFloor, TUNING.BUILDINGS.DECOR.BONUS.TIER1, noise);
 			buildingDef.RequiresPowerInput = true;
 			buildingDef.EnergyConsumptionWhenActive = GetWattage();
 			buildingDef.AddLogicPowerPort = false;
@@ -98,6 +98,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 			go.AddOrGet<DropAllWorkable>();
 			go.AddOrGetDef<RocketUsageRestriction.Def>().restrictOperational = false;
 			go.AddOrGetDef<StorageController.Def>();
+			go.AddTag(GameTags.LiquidSource);
 
 			//filtered solid conduit input
 			go.AddOrGet<FilteredSolidConduitConsumer>();
@@ -113,6 +114,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 			liquidStorage.capacityKg = 500f;
 			liquidStorage.allowItemRemoval = true;
 			liquidStorage.showInUI = true;
+			go.AddOrGet<StorageWaterSource>().waterStorage = liquidStorage;
 
 			PortConduitConsumer waterInput = go.AddComponent<PortConduitConsumer>();
 			waterInput.storage = liquidStorage;
