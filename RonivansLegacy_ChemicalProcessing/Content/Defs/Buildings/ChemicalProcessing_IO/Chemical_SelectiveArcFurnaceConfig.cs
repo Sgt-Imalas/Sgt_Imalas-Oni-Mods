@@ -130,7 +130,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Ingredient: Chromite   - 100kg
 			//             Cobalt        - 46kg
 			//             Borax         - 8kg
-			// Result:     Niobium       - 100kg             
+			// Result:     Ferrochrome   - 100kg             
 			//-------------------------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, 50)
 				.Input(ModElements.ChromiteOre_Solid, 100)
