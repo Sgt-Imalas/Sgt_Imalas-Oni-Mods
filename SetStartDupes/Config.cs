@@ -138,6 +138,7 @@ namespace SetStartDupes
 			return false;
 		}
 
+
 		public enum MinionModelOverride
 		{
 			[Option("STRINGS.UI.CHARACTERCONTAINER_ALL_MODELS")]
