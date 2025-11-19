@@ -36,7 +36,7 @@ namespace UtilLibs.SharedTweaks
 		{
 			new ResearchScreenBetterConnectionLines().RegisterForForwarding();
 		}
-		public override Version Version => new Version(1, 0, 0, 2);
+		public override Version Version => new Version(1, 0, 0, 6);
 
 		public override void Initialize(Harmony plibInstance)
 		{
@@ -319,13 +319,13 @@ namespace UtilLibs.SharedTweaks
 				{
 					SgtLogger.l("warning: crossing detected for " + currentTech.Id + " at y level: " + i + ", with connection between " + srcTechId + " and " + destTech);
 					var ownPos = __instance.lineContainer.transform.position;
-					var crossPos = __instance.researchScreen.entryMap[srcTech].lineContainer.transform.position;
+					var crossPosY = __instance.researchScreen.entryMap[srcTech].lineContainer.transform.position;
 
 					//var ownRec = __instance.rectTransform();
 
 					//SgtLogger.l("ownPos: " + ownPos.x + "," + ownPos.y + ", crossPos: " + crossPos.x + "," + crossPos.y);
 
-					Vector2 pos = new(ownPos.x - horizontalOffsetSource, crossPos.y + 1.25f);
+					Vector2 pos = new(ownPos.x - horizontalOffsetSource-6.5f, crossPosY.y + 1.25f);
 					CreateCrossRenderer(__instance, pos);
 				}
 			}
@@ -346,6 +346,11 @@ namespace UtilLibs.SharedTweaks
 
 			icon.name = __instance.targetTech.Id + "_LinePreventionMeasure";
 			icon.transform.SetPosition(pos);
+			var scale = icon.transform.localScale;
+			scale.x *= 1.15f;
+			scale.y *= 0.85f;
+			icon.transform.localScale = scale;
+
 			//SgtLogger.l("setting icon pos to " + pos.x + "," + pos.y);
 		}
 	}
