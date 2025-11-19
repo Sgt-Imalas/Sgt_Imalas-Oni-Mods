@@ -142,9 +142,9 @@ namespace SetStartDupes
 		{
 			[Option("STRINGS.UI.CHARACTERCONTAINER_ALL_MODELS")]
 			none = 0,
-			[Option("STRINGS.DUPLICANTS.MODEL.STANDARD.NAME")]
+			[Option("STRINGS.CODEX.STANDARD.TITLE")]
 			normal = 1,
-			[Option("STRINGS.DUPLICANTS.MODEL.BIONIC.NAME")]
+			[Option("STRINGS.CODEX.BIONIC.TITLE")]
 			bionic = 2,
 		}
 
