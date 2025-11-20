@@ -81,7 +81,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				else if (param.poiType.id == HarvestablePOIConfig.RockyAsteroidField)
 				{
 					param.poiType.harvestableElements.Add(SimHashes.SandStone, 2f);
-					param.poiType.harvestableElements.Add(SimHashes.Granite, 2f);
+					//param.poiType.harvestableElements.Add(SimHashes.Granite, 2f); //added by vanilla game now
 					param.poiType.harvestableElements.Add(SimHashes.MaficRock, 2f);
 					param.poiType.harvestableElements.Add(ModElements.AmmoniumSalt_Solid, 1f);
 
@@ -154,7 +154,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				else if (param.poiType.id == HarvestablePOIConfig.SwampyOreField)
 				{
 					param.poiType.harvestableElements.Add(SimHashes.PhosphateNodules, 2f);
-					param.poiType.harvestableElements.Add(SimHashes.Fossil, 0.5f);
 				}
 				//=: FROZEN ORE FIELD :==========================================================================
 				else if (param.poiType.id == HarvestablePOIConfig.FrozenOreField)

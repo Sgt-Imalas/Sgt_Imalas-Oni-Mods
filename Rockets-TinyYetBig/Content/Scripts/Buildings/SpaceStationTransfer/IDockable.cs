@@ -75,7 +75,6 @@ namespace Rockets_TinyYetBig.Docking
 
 		public override void OnSpawn()
 		{
-			SgtLogger.Assert(GUID,"GUID");
 			if (DockableId == null || DockableId.Length == 0)
 			{
 				DockableId = Guid.NewGuid().ToString();

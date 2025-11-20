@@ -43,8 +43,7 @@ namespace Rockets_TinyYetBig.ClustercraftRouting
 		//    }
 		//}
 
-		[HarmonyPatch(typeof(RocketClusterDestinationSelector))]
-		[HarmonyPatch(nameof(RocketClusterDestinationSelector.CanRocketHarvest))]
+		[HarmonyPatch(typeof(RocketClusterDestinationSelector), nameof(RocketClusterDestinationSelector.CanRocketDrill))]
 		public static class PreventRoundTripCancelationOnRocketDock3
 		{
 			public static void Postfix(RocketClusterDestinationSelector __instance, ref bool __result)

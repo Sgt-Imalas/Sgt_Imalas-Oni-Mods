@@ -52,7 +52,7 @@ namespace Rockets_TinyYetBig.ClustercraftRouting
 
 		public override void SetDestination(AxialI location)
 		{
-			Trigger(543433792, location);
+			BoxingTrigger(543433792, location);
 
 			if (location == clustercraft.Location)
 				return;
@@ -105,7 +105,7 @@ namespace Rockets_TinyYetBig.ClustercraftRouting
 
 		public bool ShouldRocketWait()
 		{
-			if (CanRocketHarvest())
+			if (CanRocketDrill())
 				return true;
 
 			if (TryGetComponent<DockingSpacecraftHandler>(out var dockingSpacecraftHandler))

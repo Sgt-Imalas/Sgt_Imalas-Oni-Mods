@@ -30,7 +30,6 @@
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
 
-
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<OutDir>bin</OutDir>
 	</PropertyGroup>

@@ -32,6 +32,28 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRa
 
 		public Dictionary<SimHashes, Tuple<float, float, float>> RandomProductsRange;
 
+		public RecipeRandomResult CloneWithChange(Func<KeyValuePair<SimHashes, Tuple<float, float, float>>, KeyValuePair<SimHashes, Tuple<float, float, float>>> changeFunc, float multiplier = 1f)
+		{
+			RecipeRandomResult copy = new();
+			copy.TotalMass = TotalMass * multiplier;
+			copy.MinTemp = MinTemp;
+			copy.MaxTemp = MaxTemp;
+			copy.RequiredProductsMin = RequiredProductsMin;
+			copy.RequiredProductsMax = RequiredProductsMax;
+			copy.RandomProductsRange = RandomProductsRange;
+			copy.OccurenceRateInSeconds = OccurenceRateInSeconds;
+			copy.RandomProductsRange = [];
+			foreach (var kvp in RandomProductsRange)
+			{
+				var modified = changeFunc(kvp);
+				var val = modified.Value;
+				val.first *= multiplier;
+				val.second *= multiplier;
+				copy.RandomProductsRange.Add(modified.Key, val);
+			}
+			return copy;
+		}
+
 		public RecipeRandomResult(float _totalMass)
 		{
 			TotalMass = _totalMass;

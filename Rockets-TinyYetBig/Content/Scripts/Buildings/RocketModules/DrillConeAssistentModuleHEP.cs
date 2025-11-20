@@ -52,7 +52,7 @@ namespace Rockets_TinyYetBig.Buildings.Utility
 
 			foreach (var otherModule in module.CraftInterface.ClusterModules)
 			{
-				if (otherModule.Get().GetDef<NoseConeHEPHarvest.Def>() != null)
+				if (otherModule.Get().GetDef<ResourceHarvestModuleHEP.Def>() != null)
 				{
 					if (otherModule.Get().gameObject.TryGetComponent<HighEnergyParticleStorage>(out var storage))
 					{

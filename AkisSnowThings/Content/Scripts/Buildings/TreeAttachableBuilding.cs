@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TMPro;
 
 namespace AkisSnowThings.Content.Scripts.Buildings
 {
@@ -23,7 +24,8 @@ namespace AkisSnowThings.Content.Scripts.Buildings
 		private void ToggleConnectedPlantHarvest(bool enabled)
 		{
 			var pooledList = ListPool<ScenePartitionerEntry, GameScenePartitioner>.Allocate();
-			GameScenePartitioner.Instance.GatherEntries(building.GetExtents(), GameScenePartitioner.Instance.plants, pooledList);
+			var extends = building.GetExtents();
+			GameScenePartitioner.Instance.GatherEntries(extends.x, extends.y, extends.width, extends.height, GameScenePartitioner.Instance.plants, pooledList);
 
 			foreach (var scenePartitionerEntry in pooledList)
 			{

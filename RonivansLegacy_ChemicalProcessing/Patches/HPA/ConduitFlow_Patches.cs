@@ -75,18 +75,22 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		{
 			[HarmonyPrepare]
 			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
-			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
+			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator generator, MethodBase original, IEnumerable<CodeInstruction> orig)
 			{
 				var codes = orig.ToList();
-
+				int locIndex = 13;
 				//variable: int cell2; index 13;
 				///int cell2 = this.soaInfo.GetCell(conduitFromDirection.idx);
 				///Debug.Assert(cell2 != -1);
 				///ConduitFlow.ConduitContents contents1 = this.grid[cell2].contents;
+				///
+
+				if (TranspilerHelper.GetLocIndexOfFirst<ConduitFlow.ConduitContents>(original, out int contentIndex))
+					locIndex = contentIndex - 1;
 
 
 				//This variable is used for the patch to determine the cell of the conduit being updated. The cell is then used in determining what its MaxMass (max capacity) should be
-				CodeInstruction getCellInstruction = new CodeInstruction(OpCodes.Ldloc_S, 13);
+				CodeInstruction getCellInstruction = new CodeInstruction(OpCodes.Ldloc_S, locIndex);
 				foreach (CodeInstruction code in orig)
 				{
 					foreach (CodeInstruction result in HandleMaxCapacityAndPressureDamage(code, getCellInstruction, true))
@@ -129,7 +133,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				yield return getCellInstruction; //injecting cell
 												 //consume the three, returning a potentially changed max amount. call different method for AddElement to look if its a reduction valve
 				yield return isUpdateConduit
-					? new CodeInstruction(OpCodes.Call, replaceMaxMassAtCell_ConduitUpdate) 
+					? new CodeInstruction(OpCodes.Call, replaceMaxMassAtCell_ConduitUpdate)
 					: new CodeInstruction(OpCodes.Call, replaceMaxMassAtCell_AddElement);
 			}
 

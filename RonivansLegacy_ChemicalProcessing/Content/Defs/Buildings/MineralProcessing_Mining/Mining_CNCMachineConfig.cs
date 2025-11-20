@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using RonivansLegacy_ChemicalProcessing;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Entities.Mining_DrillMk2_Consumables;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using System;
 using System.Collections.Generic;
@@ -45,7 +46,7 @@ namespace Mineral_Processing_Mining.Buildings
 			ComplexFabricator complexFabricator = go.AddOrGet<ComplexFabricator>();
 			complexFabricator.heatedTemperature = 313.15f;
 			complexFabricator.sideScreenStyle = ComplexFabricatorSideScreen.StyleSetting.ListQueueHybrid;
-			complexFabricator.duplicantOperated = true;
+			complexFabricator.duplicantOperated = false;
 			go.AddOrGet<FabricatorIngredientStatusManager>();
 			go.AddOrGet<CopyBuildingSettings>();
 			go.AddOrGet<ComplexFabricatorWorkable>();
@@ -59,7 +60,7 @@ namespace Mineral_Processing_Mining.Buildings
 			var combustibles = ElementLoader.elements.FindAll(e => e.HasTag(GameTags.CombustibleLiquid)).Select(element => element.id);
 			var plastics = RefinementRecipeHelper.GetPlasticIds();
 
-			int pos = 0;
+			int pos = SimpleDrillbits_Config.CreateSimpleDrillRecipes(ID,false);
 			//===[ Basic Drill Bits ]===========================================================================================================================
 			// Ingredients: Iron - 250kg
 			//              Copper - 50kg
@@ -68,7 +69,7 @@ namespace Mineral_Processing_Mining.Buildings
 			//==================================================================================================================================================
 			RecipeBuilder.Create(ID,50)
 				.Input(SimHashes.Iron, 250)
-				.Input(SimHashes.Copper, 50)
+				.Input(RefinementRecipeHelper.GetStarterMetals(), 50)
 				.Input(combustibles, 20)
 				.Output(Mining_Drillbits_Basic_ItemConfig.TAG, 2, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, false)
 				.Description(MINING_DRILLBITS_BASIC_ITEM.RECIPE_DESC)
@@ -99,7 +100,7 @@ namespace Mineral_Processing_Mining.Buildings
 			// Result: Steel Drill Bits 2x
 			//==================================================================================================================================================
 			RecipeBuilder.Create(ID, 50)
-				.Input(SimHashes.Tungsten, 200)
+				.Input([SimHashes.Tungsten, ModElements.Chromium_Solid], 200, SimHashes.Tungsten.CreateTag())
 				.Input(RefinementRecipeHelper.GetSteelLikes(), 100)
 				.Input(combustibles, 20)
 				.Output(Mining_Drillbits_Tungsten_ItemConfig.TAG, 2, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, false)
@@ -119,8 +120,8 @@ namespace Mineral_Processing_Mining.Buildings
 			bool isBioChemistryEnabled = Config.Instance.ChemicalProcessing_BioChemistry_Enabled;
 
 			RecipeBuilder.Create(ID, 50)
-				.Input(SimHashes.Steel, 50)
-				.Input(SimHashes.Gold, 20)
+				.Input(RefinementRecipeHelper.GetSteelLikes(), 50)
+				.Input([SimHashes.Gold, ModElements.Silver_Solid], 20)
 				.Input(SimHashes.Glass, 10)
 				.Input(plastics, 10)
 				.Output(Mining_Drillbits_GuidanceDevice_ItemConfig.TAG, 1, ComplexRecipe.RecipeElement.TemperatureOperation.Heated, false)
@@ -145,49 +146,6 @@ namespace Mineral_Processing_Mining.Buildings
 
 		public override void DoPostConfigureComplete(GameObject go)
 		{
-			///this is cloned from supermaterialrefinery for its randomized working animations
-			go.GetComponent<KPrefabID>().prefabSpawnFn += delegate (GameObject game_object)
-			{
-				ComplexFabricatorWorkable component = game_object.GetComponent<ComplexFabricatorWorkable>();
-				component.WorkerStatusItem = Db.Get().DuplicantStatusItems.Processing;
-				component.requiredSkillPerk = Db.Get().SkillPerks.ConveyorBuild.Id;
-				component.AttributeConverter = Db.Get().AttributeConverters.MachinerySpeed;
-				component.AttributeExperienceMultiplier = DUPLICANTSTATS.ATTRIBUTE_LEVELING.PART_DAY_EXPERIENCE;
-				component.SkillExperienceSkillGroup = Db.Get().SkillGroups.Technicals.Id;
-				component.SkillExperienceMultiplier = SKILLS.PART_DAY_EXPERIENCE;
-				KAnimFile anim = Assets.GetAnim("anim_interacts_supermaterial_refinery_kanim");
-				KAnimFile[] overrideAnims =
-				[
-				anim
-				];
-				component.overrideAnims = overrideAnims;
-				component.workAnims =
-				[
-				"working_pre",
-				"working_loop"
-				];
-				component.synchronizeAnims = false;
-				KAnimFileData data = anim.GetData();
-				int animCount = data.animCount;
-				this.dupeInteractAnims = new HashedString[animCount - 2];
-				int i = 0;
-				int num = 0;
-				while (i < animCount)
-				{
-					HashedString hashedString = data.GetAnim(i).name;
-					if (hashedString != "working_pre" && hashedString != "working_pst")
-					{
-						this.dupeInteractAnims[num] = hashedString;
-						num++;
-					}
-					i++;
-				}
-				component.GetDupeInteract = (() =>
-				[
-				"working_loop",
-				this.dupeInteractAnims.GetRandom<HashedString>()
-				]);
-			};
 		}
 
 		public override void DoPostConfigurePreview(BuildingDef def, GameObject go)

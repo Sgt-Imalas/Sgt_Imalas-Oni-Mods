@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static Klei.ClusterLayoutSave;
+using static ResearchTypes;
 
 namespace Rockets_TinyYetBig.Patches.StationDerelictPatches
 {
@@ -13,7 +15,9 @@ namespace Rockets_TinyYetBig.Patches.StationDerelictPatches
 		/// <summary>
 		/// Fixes description not existing on artifact POIs, also removes the incorrect "requires drillcone" part from the description
 		/// </summary>
-		[HarmonyPatch(typeof(ArtifactPOIConfig), nameof(ArtifactPOIConfig.CreateArtifactPOI))]
+		[HarmonyPatch(typeof(ArtifactPOIConfig),
+			nameof(ArtifactPOIConfig.CreateArtifactPOI), 
+			[typeof(string), typeof(string), typeof(string), typeof(string), typeof(HashedString), typeof(int)])]
 		public static class AddDerelictInteriorToArtifactPOIs
 		{
 			public static void Postfix(string id,

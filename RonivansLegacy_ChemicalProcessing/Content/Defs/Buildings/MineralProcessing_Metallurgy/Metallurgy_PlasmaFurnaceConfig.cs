@@ -3,6 +3,7 @@ using KSerialization;
 using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRandom;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,11 +74,11 @@ namespace Metallurgy.Buildings
 			temperatureHandler.HeatedSecondaryOutputOffset = new CellOffset(1, -2);
 
 
-
 			var furnace = go.AddOrGet<PipedComplexFabricator>();
 			furnace.heatedTemperature = 368.15f;
 			furnace.duplicantOperated = true;
 			furnace.sideScreenStyle = ComplexFabricatorSideScreen.StyleSetting.ListQueueHybrid;
+
 
 			var fuelConsumer = go.AddOrGet<Chemical_FueledFabricatorAddon>();
 			fuelConsumer.fuelTag = this.FUEL_TAG;
@@ -106,8 +107,8 @@ namespace Metallurgy.Buildings
 			ElementConverter elementConverter = go.AddOrGet<ElementConverter>();
 			elementConverter.consumedElements =
 			[new ElementConverter.ConsumedElement(this.FUEL_TAG, 0.1f)];
-		//	elementConverter.outputElements =
-		//	[new ElementConverter.OutputElement(0.025f, SimHashes.CarbonDioxide, 348.15f, false, false, 0f, 2f, 1f, byte.MaxValue, 0, true)];
+			//	elementConverter.outputElements =
+			//	[new ElementConverter.OutputElement(0.025f, SimHashes.CarbonDioxide, 348.15f, false, false, 0f, 2f, 1f, byte.MaxValue, 0, true)];
 
 			PipedConduitDispenser mainOutputPort = go.AddComponent<PipedConduitDispenser>();
 			mainOutputPort.storage = furnace.outStorage;
@@ -331,6 +332,68 @@ namespace Metallurgy.Buildings
 				.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.PLASMAFURNACE_1_1, 1, 1)
 				.SortOrder(index++)
 				.Build();
+
+
+
+			if (!chemProcActive || true)
+				return;
+			
+			//skip for now, makes it too strong
+			return;
+			///Arc furncace sand recipes, with molten outputs
+
+			//---- [ Low-Grade Metallic Sand ] --------------------------------------------------------------------------------------------
+			// Ingredient: Low-Grade Metallic Sand    - 100kg
+			//             Borax                      - 10kg
+			// Random Results: Copper, Zinc, Silver, Lead
+			// Assured Result: Slag - 20kg, 90kg randoms
+			//------------------------------------------------------------------------------------------------------------------------------
+			float multiplier = 5;
+
+			RecipeBuilder.Create(ID, 20)
+				.Input(ModElements.LowGradeSand_Solid, 100 * multiplier)
+				.Input(ModElements.Borax_Solid, 10 * multiplier)
+				.Output(ModElements.Slag_Liquid, 20 * multiplier, ComplexRecipe.RecipeElement.TemperatureOperation.Melted)
+				.DescriptionFunc(RandomRecipeProducts.GetPlasmaFurnaceRandomResultString)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
+				.SortOrder(index++)
+				.Build();
+
+			//---- [ Base-Grade Metallic Sand ] ---------------------------------------------------------------------------------------------
+			// Ingredient: Base-Grade Metallic Sand    - 100kg
+			//             Borax                       - 10kg
+			// Random Results: Iron, Aluminum, Gold, Tungsten
+			// Assured Result: Slag - 20kg, 90kg randoms
+			//-------------------------------------------------------------------------------------------------------------------------------
+			RecipeBuilder.Create(ID, 20)
+				.Input(ModElements.BaseGradeSand_Solid, 100 * multiplier)
+				.Input(ModElements.Borax_Solid, 10 * multiplier)
+				.Output(ModElements.Slag_Liquid, 20 * multiplier, ComplexRecipe.RecipeElement.TemperatureOperation.Melted)
+				.DescriptionFunc(RandomRecipeProducts.GetArcFurnaceRandomResultString)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
+				.SortOrder(index++)
+				.Build();
+
+			//---- [ High-Grade Metallic Sand ] -------------------------------------------------------------------------------
+			// Ingredient: High-Grade Metallic Sand    - 100kg
+			//             Borax                       - 10kg
+			//  Vanilla :  Fullerene                   - 10kg
+			//or DLC1   :  Graphite					   - 10kg
+			// Random Results: Tungsten, Fullerene, Niobium
+			// Assured Result: Slag - 30kg
+			//-----------------------------------------------------------------------------------------------------------------------------------
+			///Disabled: cannot output fullerene in liquid form properly
+
+			//RecipeBuilder.Create(ID, 20)
+			//	.Input(ModElements.HighGradeSand_Solid, 100 * multiplier)
+			//	.Input(ModElements.Borax_Solid, 10 * multiplier)
+			//	.InputDlcDependent(SimHashes.Fullerene, SimHashes.Graphite, 10 * multiplier)
+			//	.Output(ModElements.Slag_Liquid, 30 * multiplier, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)
+			//	.DescriptionFunc(RandomRecipeProducts.GetPlasmaFurnaceRandomResultString)
+			//	.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
+			//	.SortOrder(index++)
+			//	.Build();
+
 		}
 
 		private void AttachPort(GameObject go)

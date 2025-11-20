@@ -20,6 +20,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabrica
 		[MyCmpReq] PrimaryElement primaryElement;
 		[MyCmpReq] KSelectable selectable;
 		[MyCmpReq] LogicPorts ports;
+		[MyCmpAdd] CopyBuildingSettings copyBuildingSettings;
 		Extents extents;
 
 		[SerializeField]
@@ -39,7 +40,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabrica
 		//public float selfHeatPercentage = 0;
 
 		[SerializeField]
-		public float HeatCapacitorMaxCapKJ = 200000; //200 MJ of capacitor
+		public float HeatCapacitorMaxCapKJ = 220000; //220 MJ of capacitor
 		[SerializeField]
 		public bool CreateMeter = true;
 
@@ -64,10 +65,20 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabrica
 		private Guid hasPipeOutputGuid;
 		Tuple<ConduitType, Tag> StatusItemData;
 		public static readonly Operational.Flag overheatedFlag = new Operational.Flag("aio_capacitorOverheated", Operational.Flag.Type.Requirement);
+		private static readonly EventSystem.IntraObjectHandler<ContinuousLiquidCooledFabricatorAddon> OnCopySettingsDelegate = new EventSystem.IntraObjectHandler<ContinuousLiquidCooledFabricatorAddon>(((component, data) => component.OnCopySettings(data)));
+		int copySettingsHandle;
 
 		public string SliderTitleKey => "STRINGS.UI.LOGIC_PORTS.COOLANT_BATTERY_THRESHOLD.LOGIC_PORT";
 
 		public string SliderUnits => global::STRINGS.UI.UNITSUFFIXES.PERCENT;
+
+		void OnCopySettings(object data)
+		{
+			if(data is GameObject go && go.TryGetComponent<ContinuousLiquidCooledFabricatorAddon>(out var sauce))
+			{
+				LogicHeatThreshold = sauce.LogicHeatThreshold;
+			}
+		}
 
 		public override void OnSpawn()
 		{
@@ -100,6 +111,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabrica
 			selectable.AddStatusItem(StatusItemsDatabase.ThermalBattery_StorageLevel, this);
 			//Subscribe((int)GameHashes.DeconstructComplete, DumpRemainingHeatIntoBuilding);
 			UpdatePort();
+			copySettingsHandle = Subscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate);
 		}
 		public void DumpRemainingHeatIntoBuilding(object _)
 		{
@@ -124,6 +136,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabrica
 		public override void OnCleanUp()
 		{
 			base.OnCleanUp();
+			Unsubscribe(copySettingsHandle);
 			Conduit.GetFlowManager(this.type).RemoveConduitUpdater(Flow);
 		}
 
@@ -139,7 +152,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabrica
 				if (heatCapacitorPercentage >= 1f && Time.time - lastOverheatDamageTime >= 4)
 				{
 					lastOverheatDamageTime += 4;
-					Trigger((int)GameHashes.DoBuildingDamage,
+					BoxingTrigger((int)GameHashes.DoBuildingDamage,
 						new BuildingHP.DamageSourceInfo()
 						{
 							damage = 1,
@@ -176,6 +189,25 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabrica
 			selectable.ToggleStatusItem(NoInput, !inputConnected, StatusItemData);
 			hasPipeOutputGuid = selectable.ToggleStatusItem(NoOutput, hasPipeOutputGuid, !outputConnected, this);
 		}
+		public static float GetAmountAllowedForMerging(float maxMass , ConduitFlow.ConduitContents from, ConduitFlow.ConduitContents to, float massDesiredtoBeMoved)
+		{
+			return Mathf.Min(massDesiredtoBeMoved, maxMass - to.mass);
+		}
+		public static bool CanMergeContents(float maxMass, ConduitFlow.ConduitContents from, ConduitFlow.ConduitContents to, float massToMove)
+		{
+			if (from.element != to.element && to.element != SimHashes.Vacuum && massToMove > 0f)
+			{
+				return false;
+			}
+
+			float amountAllowedForMerging = GetAmountAllowedForMerging(maxMass, from, to, massToMove);
+			if (amountAllowedForMerging <= 0f)
+			{
+				return false;
+			}
+
+			return true;
+		}
 
 		///effectively isim200
 		private void Flow(float dt)
@@ -198,7 +230,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabrica
 			float maxOutput = Mathf.Min(inputContent.mass, maxCap * dt);
 
 			//bool pipeNotEmpty = maxOutput > 0f;
-			bool contentsCanFlow = flowManager.CanMergeContents(inputContent, outputContent, maxOutput);
+			bool contentsCanFlow = CanMergeContents(maxCap,inputContent, outputContent, maxOutput);
 
 			//this.operational.SetFlag(RequireInputs.pipesHaveMass, pipeNotEmpty);
 			//this.operational.SetFlag(RequireOutputs.pipesHaveRoomFlag, outputNotBlocked);
@@ -206,7 +238,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabrica
 				return;
 
 			///fallback check, runs alread in CanMergeContents
-			float allowedForMerging = flowManager.GetAmountAllowedForMerging(inputContent, outputContent, maxOutput);
+			float allowedForMerging = GetAmountAllowedForMerging(maxCap, inputContent, outputContent, maxOutput);
 			if (allowedForMerging <= 0.0)
 				return;
 			float outputTemperature = InjectAccumulatedHeatEnergy(inputContent, allowedForMerging, dt);

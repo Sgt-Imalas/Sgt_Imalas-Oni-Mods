@@ -60,7 +60,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			set
 			{
 				this.deactivateValue = (int)value;
-				this.UpdateLogicCircuit((object)null);
+				this.UpdateLogicCircuit(null);
 			}
 		}
 
@@ -70,7 +70,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			set
 			{
 				this.activateValue = (int)value;
-				this.UpdateLogicCircuit((object)null);
+				this.UpdateLogicCircuit(null);
 			}
 		}
 

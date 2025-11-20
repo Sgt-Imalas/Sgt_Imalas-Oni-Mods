@@ -41,6 +41,7 @@ namespace Rockets_TinyYetBig.Science
 		}
 		List<string> DeepSpaceTechs = new List<string>()
 		{
+			ModAssets.Techs.SpaceScienceTechID,
 			ModAssets.Techs.SpaceStationTechID,
 			ModAssets.Techs.SpaceStationTechMediumID,
 			ModAssets.Techs.SpaceStationTechLargeID

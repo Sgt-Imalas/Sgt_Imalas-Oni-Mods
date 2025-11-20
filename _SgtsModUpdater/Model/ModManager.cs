@@ -228,11 +228,8 @@ namespace _SgtsModUpdater.Model
 			{
 				using (HttpClient client = new HttpClient())
 				{
-					client.Timeout = TimeSpan.FromMinutes(5);
-
 					using (var fs = new FileStream(targetMod.zipFileName, FileMode.CreateNew))
 						await client.DownloadAsync(targetMod.downloadURL, fs, UpdateProgressbar, default, GetDownloadSize);
-
 				}
 			}
 			catch (Exception e)

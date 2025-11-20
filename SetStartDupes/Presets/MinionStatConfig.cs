@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using UnityEngine;
 using UtilLibs;
 using static HarmonyLib.Code;
 
@@ -354,8 +355,10 @@ namespace SetStartDupes
 			HashSet<string> validAttributes = new HashSet<string>(ModAssets.GET_ALL_ATTRIBUTES());
 			foreach (var startLevel in this.StartingLevels)
 			{
+				int attributeStartingLevel = Mathf.Clamp(startLevel.Value, -10000, 10000);
+
 				if (validAttributes.Contains(startLevel.Key))
-					referencedStats.StartingLevels[startLevel.Key] = startLevel.Value;
+					referencedStats.StartingLevels[startLevel.Key] = attributeStartingLevel;
 				else
 					SgtLogger.warning("couldnt apply attribute level for " + startLevel.Key + " as it is not a valid attribute.");
 			}
@@ -363,7 +366,6 @@ namespace SetStartDupes
 			{
 				if (!referencedStats.StartingLevels.ContainsKey(requiredAttribute))
 				{
-
 					SgtLogger.l("adding missing attribute level " + requiredAttribute + ", defaulting to 0.");
 					referencedStats.StartingLevels[requiredAttribute] = 0;
 				}

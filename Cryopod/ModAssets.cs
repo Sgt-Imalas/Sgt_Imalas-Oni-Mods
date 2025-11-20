@@ -228,8 +228,8 @@ namespace Cryopod
 			}
 			private static IEnumerator KillOnEndEditRoutine(Health helf, float dmg)
 			{
-				yield return (object)new WaitForEndOfFrame();
-				yield return (object)new WaitForEndOfFrame();
+				yield return new WaitForEndOfFrame();
+				yield return new WaitForEndOfFrame();
 				helf.Damage(dmg);
 			}
 

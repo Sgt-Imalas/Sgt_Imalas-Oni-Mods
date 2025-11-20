@@ -42,7 +42,7 @@
 //				//pajamas.StartDreamingThought(); 
 
 //				//pajamas.progressBar.Retarget(bionicWorker.gameObject); //used by microchip production
-//				pajamas.selectable.AddStatusItem(Db.Get().DuplicantStatusItems.MegaBrainTank_Pajamas_Sleeping, (object)pajamas);
+//				pajamas.selectable.AddStatusItem(Db.Get().DuplicantStatusItems.MegaBrainTank_Pajamas_Sleeping, pajamas);
 //				CachedPajamas.Add(smi, pajamas);
 //			}
 //			else //stopwork

@@ -57,7 +57,6 @@ namespace UtilLibs
 				warning($"Assert failed, {name} is null");
 			}
 		}
-		public static void Assert(string name, string arg) => Assert(name, (object)arg);
 
 		public static void debuglog(object a, object b = null, object c = null, object d = null)
 		{

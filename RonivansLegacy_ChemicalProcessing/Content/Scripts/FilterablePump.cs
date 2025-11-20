@@ -46,13 +46,25 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 					bool correctElement = !elementFilterActive || Grid.Element[cellToTest].id == FilterElement;
 
-					if (correctElement && Grid.Element[cellToTest].IsState(expected_state) && Grid.TestLineOfSight(sourceXY.X, sourceXY.Y, XY.X, XY.Y, Grid.IsSolidCell))
+					if (correctElement && Grid.Element[cellToTest].IsState(expected_state) && Grid.TestLineOfSight(sourceXY.X, sourceXY.Y, XY.X, XY.Y, BlockingCallback))
 					{
 						return true;
 					}
 				}
 			}
 			return false;
+		}
+		bool BlockingCallback(int cell)
+		{
+			//liquids can block gases, gases cannot block liquids, solids block always
+			if (conduitType == ConduitType.Gas)
+			{
+				return Grid.IsSolidCell(cell) || Grid.IsLiquid(cell);
+
+			}
+			else
+				return Grid.IsSolidCell(cell);
+
 		}
 	}
 }

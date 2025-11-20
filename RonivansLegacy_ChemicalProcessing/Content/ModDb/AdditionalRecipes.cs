@@ -2,6 +2,7 @@
 using Dupes_Industrial_Overhaul.Chemical_Processing.Buildings;
 using Dupes_Industrial_Overhaul.Chemical_Processing.Chemicals;
 using HarmonyLib;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Entities.Mining_DrillMk2_Consumables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -117,12 +118,23 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					.Build();
 			}
 		}
+		public static void RegisterRecipes_FabricatedWoodMaker()
+		{
+			string ID = FabricatedWoodMakerConfig.ID;
+			RecipeBuilder.Create(ID, 50)
+				.Input(ModElements.BioMass_Solid, 90)
+				.Input(SimHashes.NaturalResin, 10)
+				.Output(SimHashes.FabricatedWood, 100, ComplexRecipe.RecipeElement.TemperatureOperation.AverageTemperature)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+				.Description(GameUtil.SafeStringFormat(global::STRINGS.BUILDINGS.PREFABS.FABRICATEDWOODMAKER.RECIPE_DESC, global::STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.PLANT_FIBER.NAME, ElementLoader.FindElementByHash(SimHashes.NaturalResin).name, (object)Assets.GetPrefab((Tag)"FabricatedWood").GetProperName()))
+				.Build();
+		}
 
 		private static void RegisterRecipes_RayonLoom()
 		{
 			string ID = Chemical_RayonLoomConfig.ID;
 			RecipeBuilder.Create(ID, 50)
-				.Input(SimHashes.WoodLog, 150)
+				.Input(RefinementRecipeHelper.GetWoods(), 150)
 				.Output(RayonFabricConfig.TAG, 1, ComplexRecipe.RecipeElement.TemperatureOperation.AverageTemperature, false)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 				.Description(RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INGREDIENTS.RAYONFIBER.RECIPE_DESC, 1, 0)
@@ -164,6 +176,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				SlagCementRecipe(ID);
 			}
 		}
+
+		public static void RegisterRecipes_CraftingTable()
+		{
+			SimpleDrillbits_Config.CreateSimpleDrillRecipes(CraftingTableConfig.ID,true);
+		}
+
 		public static void RegisterRecipes_SuperMaterialRefinery()
 		{
 			string ID = SupermaterialRefineryConfig.ID;
@@ -209,6 +227,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
 			{
 				RegisterRecipes_RayonLoom();
+			}
+			if (Config.Instance.MineralProcessing_Mining_Enabled)
+			{
+				RegisterRecipes_CraftingTable();
 			}
 		}
 		public static void RegisterRecipes_AnaerobicDigester()
@@ -318,6 +340,19 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					.Input(SimHashes.Water, 1)
 					.Output(SimHashes.Methane, 3 * Config.Instance.Biochem_AnaerobicDigesterBuff)
 					.Output(SimHashes.Dirt, 100)
+					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
+					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.ANAEROBIC_DIGESTER_1_2, 1, 2)
+					.Build();
+
+			///Husk Digesting
+			///54.45kg methane per 400husks, equivalent to previous gas grass power yield
+
+			RecipeBuilder.Create(ID, 100)
+					.Input(PlantFiberConfig.ID, 100)
+					.Input(SimHashes.Sand, 99)
+					.Input(SimHashes.Water, 1)
+					.Output(SimHashes.Methane, 5.445f * Config.Instance.Biochem_AnaerobicDigesterBuff / 4) 
+					.Output(SimHashes.Dirt, 200)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.ANAEROBIC_DIGESTER_1_2, 1, 2)
 					.Build();
@@ -537,7 +572,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			RecipeBuilder.Create(ID, 10)
 				.Input(seeds.ToArray(), 10, GameTags.Seed)
-				.Output(ModElements.VegetableOil_Liquid, 9.5f)
+				.Output(ModElements.VegetableOil_Liquid, 9.5f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Output(ModElements.BioMass_Solid, 0.5f)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
 				.NameOverrideFormatIngredient(CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_SEEDTOOIL, 0)

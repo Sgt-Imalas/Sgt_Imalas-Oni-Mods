@@ -227,7 +227,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Result: Polluted Dirt - 100kg
 			//--------------------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, 60)
-				.Input(SimHashes.WoodLog, 60)
+				.Input(RefinementRecipeHelper.GetWoods(), 60)
 				.Input(SimHashes.CrushedRock, 30)
 				.Input(SimHashes.DirtyWater, 10)
 				.Output(SimHashes.ToxicSand, 100)

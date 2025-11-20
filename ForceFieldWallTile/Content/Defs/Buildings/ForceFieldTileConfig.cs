@@ -64,7 +64,6 @@ namespace ForceFieldWallTile.Content.Defs.Buildings
 			go.AddOrGet<ForceFieldTile>();
 			go.GetComponent<KPrefabID>().AddTag(GameTags.Bunker);
 			go.AddOrGet<ConnectorTileable>();
-			go.AddOrGet<PartialLightBlocking>();
 		}
 	}
 }

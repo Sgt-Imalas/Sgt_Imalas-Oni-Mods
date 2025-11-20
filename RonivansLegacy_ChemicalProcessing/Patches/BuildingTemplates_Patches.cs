@@ -18,18 +18,25 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
         {
             public static void Prefix(string[] construction_materials)
             {
-                string hardenedAlloyTag = ModAssets.Tags.AIO_HardenedAlloy.ToString();
-                string steelTag = GameTags.Steel.ToString();
+                string brickTag = SimHashes.Brick.CreateTag().ToString();
+				string ceramicTag = SimHashes.Ceramic.CreateTag().ToString();
+				AppendAlternative(ref construction_materials, ceramicTag, brickTag);
 
-                //if another mod does this:
-                string steelChained = steelTag + "&";
+				string hardenedAlloyTag = ModAssets.Tags.AIO_HardenedAlloy.ToString();
+				string steelTag = GameTags.Steel.ToString();
+				AppendAlternative(ref construction_materials, steelTag, hardenedAlloyTag);
+			}
+            static void AppendAlternative(ref string[] construction_materials, string targetMaterialTag, string appendAdditionalTag)
+			{
+				//if another mod does this:
+				string targetChained = targetMaterialTag + "&";
 
 				for (int i = 0; i < construction_materials.Length; i++)
 				{
-                    string mat = construction_materials[i];
-					if (mat == steelTag || mat.Contains(steelChained))
+					string mat = construction_materials[i];
+					if (mat == targetMaterialTag || mat.Contains(targetChained))
 					{
-						construction_materials[i] += "&"+ hardenedAlloyTag;
+						construction_materials[i] += "&" + appendAdditionalTag;
 					}
 				}
 			}

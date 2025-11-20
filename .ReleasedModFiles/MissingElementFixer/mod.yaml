@@ -1,3 +1,0 @@
-title: 'MissingElementFixer'
-description: "Allows loading savegames with missing building elements by replacing them with available ones"
-staticID: MissingElementFixer

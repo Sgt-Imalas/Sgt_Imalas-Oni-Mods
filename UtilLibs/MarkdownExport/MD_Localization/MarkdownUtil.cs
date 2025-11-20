@@ -20,6 +20,8 @@ namespace UtilLibs.MarkdownExport
 		public const string EmptyTableCell = "&#8288 {: style=\"padding:0\"}";
 		static void CleanTag(ref string tagKey)
 		{
+			if (tagKey.Contains("PLANTFIBER"))
+				tagKey = tagKey.Replace("PLANTFIBER", "PLANT_FIBER");
 			if (tagKey.Contains("SPICEVINE"))
 				tagKey = tagKey.Replace("SPICEVINE", "SPICE_VINE");
 

@@ -91,11 +91,10 @@ namespace ForceFieldWallTile.Content.Scripts
 			GridNode.MaxStrenght = MaxStrenght;
 
 			SetTints();
-			//UpdateAdjacentTiles(true);
 			base.OnSpawn();
-
 			smi.StartSM();
 		}
+
 		public static void HandleCometAt(Comet comet, int cell)
 		{
 			if (!ShieldProjectors.TryGetValue(cell, out ForceFieldTile tile))
@@ -362,7 +361,13 @@ namespace ForceFieldWallTile.Content.Scripts
 			kbac.SetSymbolVisiblity("tintable_bloom", on);
 			kbac.SetSymbolVisiblity("tintable_fx", on);
 		}
-
+		void SetPartialLightBlocking(bool on)
+		{
+			if(on)
+				SimMessages.SetCellProperties(cell, PartialLightBlocking.PartialLightBlockingProperties);
+			else
+				SimMessages.ClearCellProperties(cell, PartialLightBlocking.PartialLightBlockingProperties);
+		}
 		void SetForceFieldEnabled(bool enabled)
 		{
 			operational.SetActive(enabled);
@@ -370,22 +375,21 @@ namespace ForceFieldWallTile.Content.Scripts
 			if (enabled)
 			{
 				ShieldGrid.AddNode(cell, GridNode);
-				SimMessages.SetCellProperties(cell, (byte)simCellProperties);
+				SimMessages.SetCellProperties(cell, ((byte)simCellProperties));
 				SimMessages.ReplaceAndDisplaceElement(cell, SimHashes.Vacuum, CellEventLogger.Instance.DoorOpen, 0);
 			}
 			else
-			{
+			{	
 				ShieldGrid.RemoveNode(cell, GridNode);
-				SimMessages.ClearCellProperties(cell, (byte)GetSimCellProperties());
+				SimMessages.ClearCellProperties(cell, (byte)simCellProperties);
 				ResetBarrier();
 			}
+			SetPartialLightBlocking(enabled);
 		}
 
 		private Sim.Cell.Properties GetSimCellProperties()
 		{
-			Sim.Cell.Properties simCellProperties = Sim.Cell.Properties.Transparent;
-
-			simCellProperties |= Sim.Cell.Properties.GasImpermeable;
+			Sim.Cell.Properties simCellProperties = Sim.Cell.Properties.GasImpermeable;
 			simCellProperties |= Sim.Cell.Properties.LiquidImpermeable;
 
 			return simCellProperties;
@@ -520,7 +524,7 @@ namespace ForceFieldWallTile.Content.Scripts
 		private bool IsOperational()
 		{
 			//Prevent the on load power outage from disabling the shield
-			if (Time.timeSinceLevelLoad < 0.1f)
+			if (Time.timeSinceLevelLoad < 0.01f)
 				return ShieldActive;
 
 			return operational.IsOperational;

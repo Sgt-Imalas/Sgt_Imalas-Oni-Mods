@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using Rockets_TinyYetBig.Buildings.Engines;
+using Rockets_TinyYetBig.Content.ModDb;
 using Rockets_TinyYetBig.Derelicts;
 using Rockets_TinyYetBig.Docking;
 using Rockets_TinyYetBig.SpaceStations;
@@ -86,6 +87,68 @@ namespace Rockets_TinyYetBig.Patches
 			}
 		}
 
+		[HarmonyPatch(typeof(Clustercraft), nameof(Clustercraft.UpdateStatusItem))]
+		public static class GeneratorModuleStatusItems
+		{
+			/// <summary>
+			/// update extra statusitems
+			/// </summary>
+			/// <param name="__instance"></param>
+			public static void Postfix(Clustercraft __instance)
+			{
+				if (!__instance.TryGetComponent<KSelectable>(out KSelectable selectable))
+					return;
+				SpaceStationBuilder constructionModule = null;
+
+				foreach (var module in __instance.ModuleInterface.ClusterModules)
+				{
+					//if (moduleGet.gameObject.TryGetComponent<RTB_ModuleGenerator>(out var generator))
+					//{
+					//    var genStats = generator.GetConsumptionStatusStats();
+					//    data.first += genStats.first;
+					//    data.second += genStats.second;
+					//    //generator.FuelStatusHandle =
+					//}
+					//if (moduleGet.gameObject.TryGetComponent<ModuleBattery>(out var battery))
+					//{
+					//    dataBattery.first += battery.JoulesAvailable;
+					//    dataBattery.second += battery.capacity;
+					//    //generator.FuelStatusHandle =
+					//}
+					if (module.Get().gameObject.TryGetComponent<SpaceStationBuilder>(out var builder))
+					{
+						constructionModule = builder;
+					}
+				}
+
+				//if (data.first > 0 || data.second > 0)
+				//    selectable.SetStatusItem(Db.Get().StatusItemCategories.Power, ModAssets.StatusItems.RTB_ModuleGeneratorFuelStatus, data);
+				//else
+				//    selectable.RemoveStatusItem(ModAssets.StatusItems.RTB_ModuleGeneratorFuelStatus);
+
+
+				//if (dataBattery.first > 0 || dataBattery.second > 0)
+				//    selectable.SetStatusItem(Db.Get().StatusItemCategories.OperatingEnergy, ModAssets.StatusItems.RTB_RocketBatteryStatus, dataBattery);
+				//else
+				//    selectable.RemoveStatusItem(ModAssets.StatusItems.RTB_RocketBatteryStatus);
+
+				if (__instance.TryGetComponent<DockingSpacecraftHandler>(out var manager) && manager.GetConnectedWorlds().Count > 0)
+				{
+					selectable.SetStatusItem(Db.Get().StatusItemCategories.WoundEffects, ModStatusItems.RTB_DockingActive, manager.GetConnectedWorlds());
+				}
+				else
+					selectable.RemoveStatusItem(ModStatusItems.RTB_DockingActive);
+
+				if (constructionModule != null)
+				{
+					selectable.SetStatusItem(Db.Get().StatusItemCategories.AccessControl, ModStatusItems.RTB_SpaceStationConstruction_Status, constructionModule);
+				}
+				else
+					selectable.RemoveStatusItem(ModStatusItems.RTB_SpaceStationConstruction_Status);
+
+			}
+
+		}
 		[HarmonyPatch(typeof(Clustercraft), nameof(Clustercraft.SetCraftStatus))]
 		public static class Clustercraft_SetCraftStatus_Patch
 		{

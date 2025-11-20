@@ -21,8 +21,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 	{
 		//--[ Base Information ]-----------------------------------------------
 		public static string ID = "Chemical_BallCrusherMill";
-		
-	
+
+
 		//--[ Special Settings ]-----------------------------------------------
 		private static readonly PortDisplayInput sulfuricAcidInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(-2, 1));
 		private static readonly PortDisplayInput nitricAcidInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(-2, 0));
@@ -39,8 +39,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		//--[ Building Definitions ]-------------------------------------------
 		public override BuildingDef CreateBuildingDef()
 		{
-			float[] ingredient_mass = [300f, 100f];
-			string[] ingredient_types = ["RefinedMetal", SimHashes.Steel.ToString()];
+			float[] ingredient_mass = [600, 400];
+			string[] ingredient_types = [GameTags.Steel.ToString(), SimHashes.Ceramic.ToString()];
 
 			EffectorValues tier = NOISE_POLLUTION.NOISY.TIER6;
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 7, 3, "ball_mill_kanim", 100, 30f, ingredient_mass, ingredient_types, 800f, BuildLocationRule.OnFloor, BUILDINGS.DECOR.PENALTY.TIER2, tier);
@@ -55,8 +55,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.UtilityInputOffset = new CellOffset(-2, 2);
 			buildingDef.OutputConduitType = ConduitType.Liquid;
 			buildingDef.UtilityOutputOffset = new CellOffset(3, 2);
+			buildingDef.ViewMode = OverlayModes.LiquidConduits.ID;
 			SoundUtils.CopySoundsToAnim("ball_mill_kanim", "orescrubber_kanim");
-
 			buildingDef.GenerateOffsets(6, 3);
 			return buildingDef;
 		}
@@ -255,7 +255,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Random Results: Toxic Slurry, Sulfur, Base-Grade Metallic Sand
 			// Assured Result: Toxic Slurry - 10kg
 			//----------------------------------------------------------------------------------------------------------------------
-			
+
 			RecipeBuilder.Create(ID, 50)
 				.Input(SimHashes.IgneousRock, 300f)
 				.Input(SimHashes.Water, 100f)
@@ -328,7 +328,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Random Results: Toxic Slurry, Base-Grade Metallic Sand, High-Grade Metallic Sand
 			// Assured Result: Toxic Slurry - 10kg
 			//-----------------------------------------------------------------------------------------------------------------------------------
-			
+
 			RecipeBuilder.Create(ID, 50)
 				.Input(ModElements.MeteorOre_Solid, 300f)
 				.Input(SimHashes.Water, 100f)
@@ -357,7 +357,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		{
 			base.DoPostConfigurePreview(def, go);
 			this.AttachPort(go);
-			go.AddOrGet<PortPreviewVisualizer>();
+			go.AddOrGet<PortPreviewVisualizer>().DisableInOverlay = OverlayModes.LiquidConduits.ID;
 		}
 
 		public override void DoPostConfigureUnderConstruction(GameObject go)

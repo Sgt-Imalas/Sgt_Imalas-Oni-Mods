@@ -71,14 +71,10 @@ namespace UtilLibs
 				string[] skinIDs = [.. skins.Select(entry => entry.ID)];
 				if (isMainCategory)
 				{
-					SgtLogger.Assert("mainCategoryID",mainCategoryID);
-					SgtLogger.Assert("subcategoryID",subcategoryID);
-					SgtLogger.Assert("newCategoryIcon",newCategoryIcon);
 					AddSubcategory(mainCategoryID, subcategoryID, newCategoryIcon, sortkey, skinIDs);
 				}
 				else
 				{
-					SgtLogger.Assert("subcategoryID", subcategoryID);
 					AddItemsToSubcategory(subcategoryID, skinIDs);
 				}
 			}
@@ -124,7 +120,7 @@ namespace UtilLibs
 				}
 			}
 		}
-		private static HashSet<string> AddOrGetSubCategory(string subCategory, string mainCategory = null, Sprite icon = null, int sortkey = 850)
+		private static List<string> AddOrGetSubCategory(string subCategory, string mainCategory = null, Sprite icon = null, int sortkey = 850)
 		{
 			if (!InventoryOrganization.subcategoryIdToPermitIdsMap.ContainsKey(subCategory))
 			{

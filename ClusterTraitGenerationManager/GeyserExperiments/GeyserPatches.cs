@@ -196,7 +196,7 @@ namespace ClusterTraitGenerationManager.GeyserExperiments
 	//            if (SaveLoader.Instance.clusterDetailSave != null)
 	//                num = SaveLoader.Instance.clusterDetailSave.globalWorldSeed;
 	//            else
-	//                Debug.LogWarning((object)"Could not load global world seed for geysers");
+	//                Debug.LogWarning("Could not load global world seed for geysers");
 	//            string GeyserToPlace = configs[new KRandom(num + (int)inst.transform.GetPosition().x + (int)inst.transform.GetPosition().y).Next(0, configs.Count)].id;
 	//            if (SaveGame.Instance != null && SaveGame.Instance.TryGetComponent<SaveGameData>(out var data))
 	//            {

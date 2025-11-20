@@ -16,7 +16,7 @@ namespace Rockets_TinyYetBig.Behaviours
 		{
 			return;
 			CraftModuleInterface craftInterface = this.GetComponent<RocketModuleCluster>().CraftInterface;
-			this.VirtualCircuitKey = (object)craftInterface;
+			this.VirtualCircuitKey = craftInterface;
 			this.clustercraft = craftInterface.GetComponent<Clustercraft>();
 
 
@@ -25,7 +25,7 @@ namespace Rockets_TinyYetBig.Behaviours
 			Game.Instance.circuitManager.Connect(this);
 			Components.EnergyConsumers.Add(this);
 
-			Game.Instance.electricalConduitSystem.AddToVirtualNetworks(this.VirtualCircuitKey, (object)this, true);
+			Game.Instance.electricalConduitSystem.AddToVirtualNetworks(this.VirtualCircuitKey, this, true);
 			SgtLogger.l(VirtualCircuitKey.ToString(), "VirtualKey");
 			SgtLogger.l(BaseWattageRating.ToString(), "Wattage");
 			operational.SetActive(true);
@@ -56,7 +56,7 @@ namespace Rockets_TinyYetBig.Behaviours
 			Game.Instance.circuitManager.Disconnect(this, isDestroy: true);
 			Components.EnergyConsumers.Remove(this);
 
-			Game.Instance.electricalConduitSystem.RemoveFromVirtualNetworks(this.VirtualCircuitKey, (object)this, true);
+			Game.Instance.electricalConduitSystem.RemoveFromVirtualNetworks(this.VirtualCircuitKey, this, true);
 		}
 	}
 }

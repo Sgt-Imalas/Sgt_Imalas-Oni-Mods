@@ -46,7 +46,7 @@ namespace Cryopod
 		public Chore CreateFreezeChore()
 		{
 			freezeChore = (Chore)new WorkChore<CryopodFreezeWorkable>(Db.Get().ChoreTypes.Migrate, (IStateMachineTarget)this, on_complete: ((System.Action<Chore>)(o => this.CompleteFreezeChore())), priority_class: PriorityScreen.PriorityClass.high);
-			freezeChore.AddPrecondition(ChorePreconditions.instance.IsAssignedtoMe, (object)this.assignable);
+			freezeChore.AddPrecondition(ChorePreconditions.instance.IsAssignedtoMe, this.assignable);
 			return freezeChore;
 		}
 		public override void OnStartWork(WorkerBase worker) => base.OnStartWork(worker);

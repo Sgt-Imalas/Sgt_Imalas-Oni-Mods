@@ -55,7 +55,7 @@ namespace RoboRockets.LearningBrain
 			{
 				if (loadedBrain.TryGetComponent<FlyingBrain>(out var flyer))
 				{
-					this.GetComponent<KSelectable>().SetStatusItem(Db.Get().StatusItemCategories.Main, ModAssets.ExperienceLevel, (object)flyer);
+					this.GetComponent<KSelectable>().SetStatusItem(Db.Get().StatusItemCategories.Main, ModAssets.ExperienceLevel, flyer);
 
 					if (CurrentlyHasBrain != BrainInStorage)
 					{
@@ -69,7 +69,7 @@ namespace RoboRockets.LearningBrain
 			}
 			else
 			{
-				this.GetComponent<KSelectable>().SetStatusItem(Db.Get().StatusItemCategories.Main, ModAssets.NoBrain, (object)null);
+				this.GetComponent<KSelectable>().SetStatusItem(Db.Get().StatusItemCategories.Main, ModAssets.NoBrain, null);
 			}
 		}
 

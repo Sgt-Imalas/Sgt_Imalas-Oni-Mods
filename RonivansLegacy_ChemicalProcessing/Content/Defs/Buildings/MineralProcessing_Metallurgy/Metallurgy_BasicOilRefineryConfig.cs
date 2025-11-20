@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using KSerialization;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
 using System.Collections.Generic;
@@ -72,7 +73,9 @@ namespace Metallurgy.Buildings
 			coalFetch.refillMass = 100f;
 			coalFetch.choreTypeIDHash = Db.Get().ChoreTypes.PowerFetch.IdHash;
 
-			go.AddOrGet<SolidDeliverySelection>().Options = [SimHashes.Carbon.CreateTag(), SimHashes.Peat.CreateTag()];
+			var o = go.AddOrGet<SolidDeliverySelection>();
+			o.Options = [.. RefinementRecipeHelper.GetCombustibleSolids().Select(sh => sh.CreateTag())];
+			o.AnyTag = GameTags.CombustibleSolid;
 
 			ConduitConsumer crudeOilInput = go.AddComponent<ConduitConsumer>();
 			crudeOilInput.capacityTag = SimHashes.CrudeOil.CreateTag();

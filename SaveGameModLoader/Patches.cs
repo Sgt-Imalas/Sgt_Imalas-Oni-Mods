@@ -702,7 +702,7 @@ namespace SaveGameModLoader
 					path = KPlayerPrefs.GetString("AutoResumeSaveFile");
 				}
 				else
-					path = string.IsNullOrEmpty(GenericGameSettings.instance.performanceCapture.saveGame) ? SaveLoader.GetLatestSaveForCurrentDLC() : GenericGameSettings.instance.performanceCapture.saveGame;
+					path = string.IsNullOrEmpty(GenericGameSettings.instance.scriptedProfile.saveGame) ? SaveLoader.GetLatestSaveForCurrentDLC() : GenericGameSettings.instance.scriptedProfile.saveGame;
 #if DEBUG
                 //UIUtils.ListAllChildren(__instance.transform);
 #endif

@@ -37,7 +37,7 @@ namespace DupePrioPresetManager
 						if ((bool)component && !consumableUiItemList.Contains(component))
 							consumableUiItemList.Add((IConsumableUIItem)component);
 						else
-							DebugUtil.DevLogErrorFormat("Prefab tagged Medicine does not have MedicinalPill component: {0}", (object)prefabsWithTag[index]);
+							DebugUtil.DevLogErrorFormat("Prefab tagged Medicine does not have MedicinalPill component: {0}", prefabsWithTag[index]);
 					}
 					consumableUiItemList.Sort((Comparison<IConsumableUIItem>)((a, b) =>
 					{

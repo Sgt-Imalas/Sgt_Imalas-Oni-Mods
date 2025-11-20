@@ -117,7 +117,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				];
 			//-------------------------------------------------------------------
 
-			go.AddOrGet<SolidDeliverySelection>().Options = [.. RefinementRecipeHelper.GetCombustibleSolids().Select(sh => sh.CreateTag())];
+			var o = go.AddOrGet<SolidDeliverySelection>();
+			o.Options = [.. RefinementRecipeHelper.GetCombustibleSolids().Select(sh => sh.CreateTag())];
+			o.AnyTag = GameTags.CombustibleSolid;
 
 			PipedConduitDispenser steamDispenser = go.AddComponent<PipedConduitDispenser>();
 			steamDispenser.storage = storage;

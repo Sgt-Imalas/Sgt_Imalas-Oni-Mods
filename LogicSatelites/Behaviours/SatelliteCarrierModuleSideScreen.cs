@@ -133,7 +133,7 @@ namespace LogicSatellites.Behaviours
 		private void RefreshModulePanel(ISatelliteCarrier module)
 		{
 			var modulePanel = this.modulePanels[module].transform;
-			modulePanel.Find("Layout/Portrait/Sprite").GetComponent<Image>().sprite = Def.GetUISprite((object)module.master.gameObject).first;
+			modulePanel.Find("Layout/Portrait/Sprite").GetComponent<Image>().sprite = Def.GetUISprite(module.master.gameObject).first;
 			var Button1 = modulePanel.Find("Layout/Info/Buttons/Button").GetComponent<KButton>();
 			//var Button2 = modulePanel.Find("Layout/Info/Buttons/RepeatButton").GetComponent<KButton>();
 			modulePanel.Find("Layout/Info/Buttons/RepeatButton").GetComponent<KButton>().gameObject.SetActive(false);

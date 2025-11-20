@@ -9,6 +9,10 @@ namespace CannedFoods.Foods
 		public const string ID = "CF_CannedBeans";
 		public static ComplexRecipe recipe;
 
+		public string[] GetAnyRequiredDlcIds()
+		{
+			return null;
+		}
 		public GameObject CreatePrefab()
 		{
 

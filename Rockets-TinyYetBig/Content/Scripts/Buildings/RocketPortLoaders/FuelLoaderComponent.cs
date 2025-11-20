@@ -82,7 +82,7 @@ namespace Rockets_TinyYetBig.RocketFueling
 			flowNetworkItem = new FlowUtilityNetwork.NetworkItem(inputType, Endpoint.Sink, inputCell, this.gameObject);
 			int cell = inputCell;
 			FlowUtilityNetwork.NetworkItem networkItem = flowNetworkItem;
-			networkManager.AddToNetworks(cell, (object)networkItem, true);
+			networkManager.AddToNetworks(cell, networkItem, true);
 			return conduitConsumer;
 		}
 		private SolidConduitConsumer CreateSolidConduitConsumer(
@@ -94,15 +94,15 @@ namespace Rockets_TinyYetBig.RocketFueling
 			solidConduitConsumer.useSecondaryInput = true;
 			solidConduitConsumer.storage = target;
 			flowNetworkItem = new FlowUtilityNetwork.NetworkItem(ConduitType.Solid, Endpoint.Sink, inputCell, this.gameObject);
-			Game.Instance.solidConduitSystem.AddToNetworks(inputCell, (object)flowNetworkItem, true);
+			Game.Instance.solidConduitSystem.AddToNetworks(inputCell, flowNetworkItem, true);
 			return solidConduitConsumer;
 		}
 
 		public override void OnCleanUp()
 		{
-			Conduit.GetNetworkManager(this.liquidPortInfo.conduitType).RemoveFromNetworks(this.liquidInputCell, (object)this.liquidNetworkItem, true);
-			Conduit.GetNetworkManager(this.gasPortInfo.conduitType).RemoveFromNetworks(this.gasInputCell, (object)this.gasNetworkItem, true);
-			Game.Instance.solidConduitSystem.RemoveFromNetworks(this.solidInputCell, (object)this.solidConsumer, true);
+			Conduit.GetNetworkManager(this.liquidPortInfo.conduitType).RemoveFromNetworks(this.liquidInputCell, this.liquidNetworkItem, true);
+			Conduit.GetNetworkManager(this.gasPortInfo.conduitType).RemoveFromNetworks(this.gasInputCell, this.gasNetworkItem, true);
+			Game.Instance.solidConduitSystem.RemoveFromNetworks(this.solidInputCell, this.solidConsumer, true);
 			base.OnCleanUp();
 		}
 	}

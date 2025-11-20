@@ -1,4 +1,5 @@
 ﻿using Rockets_TinyYetBig.Buildings.CargoBays;
+using Rockets_TinyYetBig.Content.ModDb;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,7 +41,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 
 			craftModuleInterface.gameObject.Subscribe((int)GameHashes.RocketModuleChanged, UpdateModules);
 			UpdateModules(null);
-			StatusItemHandle = selectable.AddStatusItem(ModAssets.StatusItems.RTB_AccessHatchStorage, (object)this);
+			StatusItemHandle = selectable.AddStatusItem(ModStatusItems.RTB_AccessHatchStorage, this);
 			ModAssets.FridgeModuleGrabbers.Add(this);
 			//GetAllMassDesc();
 			//this.filteredStorage.FilterChanged();

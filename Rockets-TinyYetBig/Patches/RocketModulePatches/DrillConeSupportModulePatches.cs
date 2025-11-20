@@ -3,6 +3,7 @@ using Klei.AI;
 using Rockets_TinyYetBig.Behaviours;
 using Rockets_TinyYetBig.Buildings.CargoBays;
 using Rockets_TinyYetBig.Buildings.Utility;
+using Rockets_TinyYetBig.Content.ModDb;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -76,10 +77,10 @@ namespace Rockets_TinyYetBig.Patches.RocketModulePatches
         public static class FixStatusItem
         {
 
-            public static void Prefix(ResourceHarvestModule.StatesInstance __instance, GameObject statusTarget, ref float harvestRate)
+            public static bool Prefix(GameObject statusTarget, ResourceHarvestModule.StatesInstance smi)
             {
                 if (statusTarget == null)
-                    return;
+                    return false;
 
                 statusTarget.TryGetComponent<CraftModuleInterface>(out var CraftInterface);
                 int SupportModuleCount = 0;
@@ -99,7 +100,7 @@ namespace Rockets_TinyYetBig.Patches.RocketModulePatches
 
                 var baseHarvestSpeed = ModAssets.DefaultDrillconeHarvestSpeed;
 
-                harvestRate = totalSupportBoost * baseHarvestSpeed * pilotBoost;
+                float harvestRate = totalSupportBoost * baseHarvestSpeed * pilotBoost;
 
                 //SgtLogger.l($"supportBoost: {supportBoost}, totalSupportBoost {totalSupportBoost}, pilotBoost {pilotBoost}, totalBoostPercentage {totalBoostPercentage}");
 
@@ -138,10 +139,14 @@ namespace Rockets_TinyYetBig.Patches.RocketModulePatches
                     }
 
 
-                    selectable.AddStatusItem(ModAssets.StatusItems.RTB_MiningInformationBoons, new Tuple<float, string>(totalSupportBoostPercentage, tooltipString));
+                    selectable.AddStatusItem(ModStatusItems.RTB_MiningInformationBoons, new Tuple<float, string>(totalSupportBoostPercentage, tooltipString));
 
-                    //selectable.SetStatusItem(Db.Get().StatusItemCategories.Suffocation, ModAssets.StatusItems.RTB_MiningInformationBoons, new Tuple<float, string>(harvestRate, tooltipString));
-                }
+					//selectable.SetStatusItem(Db.Get().StatusItemCategories.Suffocation, ModAssets.StatusItems.RTB_MiningInformationBoons, new Tuple<float, string>(harvestRate, tooltipString));
+
+					selectable.AddStatusItem(Db.Get().BuildingStatusItems.SpacePOIHarvesting, new Tuple<Clustercraft, float>(CraftInterface.m_clustercraft,harvestRate));
+				}
+
+                return false;
             }
 
         }
@@ -155,7 +160,7 @@ namespace Rockets_TinyYetBig.Patches.RocketModulePatches
             {
                 if (statusTarget.TryGetComponent<KSelectable>(out var selectable))
                 {
-                    selectable.RemoveStatusItem(ModAssets.StatusItems.RTB_MiningInformationBoons);
+                    selectable.RemoveStatusItem(ModStatusItems.RTB_MiningInformationBoons);
                 }
             }
 
@@ -196,7 +201,7 @@ namespace Rockets_TinyYetBig.Patches.RocketModulePatches
         {
             public static void Postfix(ResourceHarvestModule __instance)
             {
-                __instance.not_grounded.harvesting.Enter(smi =>
+                __instance.not_grounded.drilling.Enter(smi =>
                 {
                     if (!smi.master.gameObject.TryGetComponent<RocketModuleCluster>(out var rmc))
                         return;
@@ -229,7 +234,7 @@ namespace Rockets_TinyYetBig.Patches.RocketModulePatches
         /// <summary>
         /// Adjusts the drilling speed of drillcone SMI to include support module speed boosts
         /// </summary>
-        [HarmonyPatch(typeof(ResourceHarvestModule.StatesInstance), "HarvestFromPOI")]
+        [HarmonyPatch(typeof(ResourceHarvestModule.StatesInstance), nameof(ResourceHarvestModule.StatesInstance.HarvestFromPOI))]
         public static class AddDrillconeHarvestSpeedBuff
         {
 
@@ -301,7 +306,8 @@ namespace Rockets_TinyYetBig.Patches.RocketModulePatches
             public static void Postfix(GameObject target)
             {
                 CorrectInfoScreenForSupportModules.Flush();
-                var craft = target.GetComponent<Clustercraft>();
+                if (!target.TryGetComponent<Clustercraft>(out var craft))
+                    return;
 
                 foreach (var otherModule in craft.ModuleInterface.ClusterModules)
                 {
@@ -327,7 +333,7 @@ namespace Rockets_TinyYetBig.Patches.RocketModulePatches
         /// <summary>
         /// Way more efficient replacement for drillcone sidescreen that also includes speedboost and capacity increase from support modules
         /// </summary>
-        [HarmonyPatch(typeof(HarvestModuleSideScreen), "SimEveryTick")]
+        [HarmonyPatch(typeof(HarvestModuleSideScreen), nameof(HarvestModuleSideScreen.SimEveryTick))]
         public static class CorrectInfoScreenForSupportModules
         {
             public static void Flush()
@@ -378,7 +384,9 @@ namespace Rockets_TinyYetBig.Patches.RocketModulePatches
                     {
                         GenericUIProgressBar reference1 = component1.GetReference<GenericUIProgressBar>("progressBar");
                         reference1.SetFillPercentage(miningProgress > -1f ? miningProgress : 0f);
-                        reference1.label.SetText(miningProgress > -1f ? (string)global::STRINGS.UI.UISIDESCREENS.HARVESTMODULESIDESCREEN.MINING_IN_PROGRESS : (string)global::STRINGS.UI.UISIDESCREENS.HARVESTMODULESIDESCREEN.MINING_STOPPED);
+                        reference1.label.SetText(miningProgress > -1f ? 
+                            global::STRINGS.UI.UISIDESCREENS.HARVESTMODULESIDESCREEN.MINING_IN_PROGRESS : 
+                            global::STRINGS.UI.UISIDESCREENS.HARVESTMODULESIDESCREEN.MINING_STOPPED);
                         lastPercentageState = miningProgress;
                     }
                     if (!Mathf.Approximately(MassStored, lastMassStored))

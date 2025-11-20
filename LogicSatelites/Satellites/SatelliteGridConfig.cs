@@ -10,6 +10,10 @@ namespace LogicSatellites.Entities
 	public class SatelliteGridConfig : IEntityConfig, IListableOption,IHasDlcRestrictions
 	{
 		public const string ID = "LS_SatelliteGrid";
+		public string[] GetAnyRequiredDlcIds()
+		{
+			return null;
+		}
 
 		public string[] GetDlcIds() => null;
 		public string[] GetRequiredDlcIds() => [DlcManager.EXPANSION1_ID];

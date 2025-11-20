@@ -12,8 +12,12 @@ namespace UtilLibs.ModVersionCheck
 		//[HarmonyPatch(typeof(MainMenu), "OnPrefabInit")]
 		public static class MainMenuMissingModsContainerInit
 		{
-			public static void InitMainMenuInfoPatch(Harmony harmony)
+			public static void InitMainMenuInfoPatch()
 			{
+				var harmony = new Harmony(UICMPName);
+
+				if (VersionChecker.OlderVersion)
+					return;
 
 				var type = AccessTools.TypeByName("MainMenu");
 				if (type == null)
@@ -29,6 +33,9 @@ namespace UtilLibs.ModVersionCheck
 					return;
 				}
 
+				if (VersionChecker.HasPatch(out string other))
+					harmony.Unpatch(m_TargetMethod, HarmonyPatchType.Postfix, other);
+
 				//var m_Transpiler = AccessTools.Method(typeof(LoadModConfigPatch), "Transpiler");
 				// var m_Prefix = AccessTools.Method(typeof(Steam_MakeMod), "Prefix");
 				var m_Postfix = AccessTools.Method(typeof(MainMenuMissingModsContainerInit), "Postfix");
@@ -37,6 +44,7 @@ namespace UtilLibs.ModVersionCheck
 					null, //new HarmonyMethod(m_Prefix),
 					new HarmonyMethod(m_Postfix, Priority.LowerThanNormal)
 					);
+				VersionChecker.SetIsPatched(harmony.Id);
 			}
 
 			public static void Postfix(MainMenu __instance)

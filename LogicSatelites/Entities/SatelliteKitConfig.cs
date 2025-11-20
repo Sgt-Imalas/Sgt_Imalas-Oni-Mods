@@ -8,7 +8,12 @@ namespace LogicSatellites.Entities
 {
 	class SatelliteKitConfig : IEntityConfig,IHasDlcRestrictions
 	{
-		public const string ID = "LS_ClusterSatelliteLogic";
+		public string[] GetAnyRequiredDlcIds()
+		{
+			return null;
+		}
+
+		public static string ID = "LS_ClusterSatelliteLogic";
 		public const float MASS = 600f;
 
 		public string[] GetDlcIds() => null;

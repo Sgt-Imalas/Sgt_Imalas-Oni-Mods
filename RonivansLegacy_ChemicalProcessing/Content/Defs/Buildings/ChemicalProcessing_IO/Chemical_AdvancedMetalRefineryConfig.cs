@@ -258,6 +258,24 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 					.Build();
 			}
 
+			///Chromium extraction from ferrochrome; 32% iron, 68% chromium
+			if (chemicalProcessingEnabled)
+			{
+				RecipeBuilder.Create(ID, 40)
+					.Input(ModElements.FerroChrome_Solid, 300f)
+					.Input(SimHashes.OxyRock, 100f)
+
+					.Output(ModElements.Chromium_Solid, 200f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+					.Output(SimHashes.Rust.CreateTag(), 187.5f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+					.Output(Slag_Solid.Tag, 12.5f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+
+					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+					.Description2I1O(ARCFURNACE_SMELT_2_1)
+					.SortOrder(index++)
+					.Build();
+			}
+
+
 
 			///METALLURGY exclusive recipes:
 			if (chemicalProcessingEnabled)

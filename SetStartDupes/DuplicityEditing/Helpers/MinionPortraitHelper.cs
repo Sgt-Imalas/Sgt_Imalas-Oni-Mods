@@ -11,8 +11,8 @@ namespace SetStartDupes.DuplicityEditing.Helpers
 		private static GameObject crewPortraitPrefab;
 		public static GameObject GetCrewPortraitPrefab()
 		{
-			if (true)
-			{
+			//if (true)
+			//{
 				///grabbin crew face from retiredcolony info screen
 				if (crewPortraitPrefab == null)
 				{
@@ -37,26 +37,26 @@ namespace SetStartDupes.DuplicityEditing.Helpers
 
 				}
 				return crewPortraitPrefab;
-			}
-			else
-			{
+			//}
+			//else
+			//{
 				///other option for a portrait, but kinda breaks that sourcescreen so its not used
-				if (crewPortraitPrefab == null)
-				{
-					foreach (SideScreenRef screen in Instance.sideScreens)
-					{
-						if (screen.screenPrefab.TryGetComponent<AccessControlSideScreen>(out var accessControl))
-						{
-							var rowPrefab = Util.KInstantiateUI<AccessControlSideScreenRow>(accessControl.rowPrefab.gameObject);
-							crewPortraitPrefab = Util.KInstantiateUI(rowPrefab.crewPortraitPrefab.gameObject);
-							crewPortraitPrefab.SetActive(false);
+				//if (crewPortraitPrefab == null)
+				//{
+				//	foreach (SideScreenRef screen in Instance.sideScreens)
+				//	{
+				//		if (screen.screenPrefab.TryGetComponent<AccessControlSideScreen>(out var accessControl))
+				//		{
+				//			var rowPrefab = Util.KInstantiateUI<AccessControlSideScreenRow>(accessControl.rowPrefab.gameObject);
+				//			crewPortraitPrefab = Util.KInstantiateUI(rowPrefab.crewPortraitPrefab.gameObject);
+				//			crewPortraitPrefab.SetActive(false);
 
-							return crewPortraitPrefab;
-						}
-					}
-				}
-				return crewPortraitPrefab;
-			}
+				//			return crewPortraitPrefab;
+				//		}
+				//	}
+				//}
+				//return crewPortraitPrefab;
+			//}
 		}
 
 		SymbolOverrideController soc;

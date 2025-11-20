@@ -22,12 +22,28 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		{
 			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
 			{
-				///BaseGame Showers
-				AddCometToShower(__instance.MeteorShowerIronEvent,HeavyCometConfig.ID, 2);
-				AddCometToShower(__instance.MeteorShowerIronEvent, ZincCometConfig.ID, 1);
+				string ironMeteorID = IronCometConfig.ID;
+				string chromiteMeteorID = ChromiteCometConfig.ID;
+				foreach (var showerEvent in __instance.resources)
+				{
+					if (showerEvent is MeteorShowerEvent meteorEvent)
+					{
+						MeteorShowerEvent.BombardmentInfo ironMeteorInEvent = meteorEvent.bombardmentInfo.FirstOrDefault(info => info.prefab == ironMeteorID);
+						if (ironMeteorInEvent.prefab == ironMeteorID && !meteorEvent.bombardmentInfo.Any(info => info.prefab == chromiteMeteorID)) //default check, found iron meteor in this event
+						{
+							meteorEvent.AddMeteor(chromiteMeteorID, ironMeteorInEvent.weight * 0.5f);
+						}
+					}
+				}
 
-				AddCometToShower(__instance.MeteorShowerCopperEvent,HeavyCometConfig.ID, 2);
-				AddCometToShower(__instance.MeteorShowerCopperEvent,SilverCometConfig.ID, 1);
+
+				///BaseGame Showers
+				AddCometToShower(__instance.MeteorShowerIronEvent, HeavyCometConfig.ID, 2);
+				AddCometToShower(__instance.MeteorShowerIronEvent, ZincCometConfig.ID, 1);
+				AddCometToShower(__instance.MeteorShowerIronEvent, ChromiteCometConfig.ID, 0.5f);
+
+				AddCometToShower(__instance.MeteorShowerCopperEvent, HeavyCometConfig.ID, 2);
+				AddCometToShower(__instance.MeteorShowerCopperEvent, SilverCometConfig.ID, 1);
 
 				AddCometToShower(__instance.MeteorShowerGoldEvent, HeavyCometConfig.ID, 2);
 

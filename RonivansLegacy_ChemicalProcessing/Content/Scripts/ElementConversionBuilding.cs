@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UtilLibs;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 {
@@ -127,8 +128,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 			deliveryComponents = GetComponents<ManualDeliveryKG>();
 			if(consumer != null)
-				OnConduitConnectionChanged(consumer.IsConnected);
-			Subscribe(-2094018600, OnConduitConnectionChangedDelegate);
+				OnConduitConnectionChanged(BoxedBools.Box(consumer.IsConnected));
+			Subscribe((int)GameHashes.ConduitConnectionChanged, OnConduitConnectionChangedDelegate);
 			base.smi.StartSM();
 		}
 		public bool HasEnoughMassToStartConverting()
@@ -153,7 +154,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 		public void OnConduitConnectionChanged(object data)
 		{
-			bool pause = (bool)data;
+			bool pause = false;
+			if (data != null)
+				pause = ((Boxed<bool>)data).value;
 			ManualDeliveryKG[] array = deliveryComponents;
 			foreach (ManualDeliveryKG manualDeliveryKG in array)
 			{

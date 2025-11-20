@@ -214,7 +214,6 @@ namespace ConveyorTiles
 			moveItemCell = Grid.CellAbove(myCell);
 			AdjustTileSpeed();
 			this.smi.StartSM();
-			//this.Subscribe(-801688580, new System.Action<object>(this.OnLogicValueChanged));
 			this.Subscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate);
 			TileSMs[myCell] = this;
 

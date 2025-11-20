@@ -208,7 +208,7 @@ namespace SubPlanetaryTransport
             //this.flowNetworkItem = new FlowUtilityNetwork.NetworkItem(this.portInfo.conduitType, Endpoint.Sink, this.secondaryInputCell, this.gameObject);
             //int secondaryInputCell = this.secondaryInputCell;
             //FlowUtilityNetwork.NetworkItem flowNetworkItem = this.flowNetworkItem;
-            //networkManager.AddToNetworks(secondaryInputCell, (object)flowNetworkItem, true);
+            //networkManager.AddToNetworks(secondaryInputCell, flowNetworkItem, true);
 
             Rotation = new MeterController(animController, "gun_barrel_target", "barrelrotation", Meter.Offset.Behind, Grid.SceneLayer.BuildingBack, Array.Empty<string>());
             StorageMeter = new MeterController(animController, "storage_meter_target", "storage_meter", Meter.Offset.Infront, Grid.SceneLayer.TransferArm, Array.Empty<string>());
@@ -224,7 +224,7 @@ namespace SubPlanetaryTransport
         }
         public override void OnCleanUp()
         {
-            //Conduit.GetNetworkManager(this.portInfo.conduitType).RemoveFromNetworks(this.secondaryInputCell, (object)this.flowNetworkItem, true);
+            //Conduit.GetNetworkManager(this.portInfo.conduitType).RemoveFromNetworks(this.secondaryInputCell, this.flowNetworkItem, true);
 
             //this.Unsubscribe(493375141, OnRefreshUserMenuDelegate);
             base.OnCleanUp();
@@ -591,7 +591,7 @@ namespace SubPlanetaryTransport
 
                 if (tile_go.TryGetComponent<BuildingHP>(out BuildingHP hp))
                 {
-                    tile_go.Trigger(-794517298, new BuildingHP.DamageSourceInfo()
+                    tile_go.BoxingTrigger(-794517298, new BuildingHP.DamageSourceInfo()
                     {
                         damage = Mathf.RoundToInt(damage)
                     });

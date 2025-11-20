@@ -10,9 +10,15 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 	{
 		public static HashSet<SimHashes> GetCombustableSolidsWithWood()
 		{
-			return [.. GetCombustibleSolids(), SimHashes.WoodLog];
+			return [.. GetCombustibleSolids(), .. GetWoods(), ModElements.BioMass_Solid];
 		}
 
+		public static HashSet<SimHashes> GetWoodsWithBiomass() => [.. GetWoods(), ModElements.BioMass_Solid];
+
+		public static HashSet<SimHashes> GetWoods()
+		{
+			return ElementLoader.elements.Where(e => e.IsSolid && e.HasTag(GameTags.BuildingWood)).Select(e => e.id).ToHashSet();
+		}
 		public static HashSet<SimHashes> GetCombustibleSolids()
 		{
 			return [SimHashes.Carbon, SimHashes.Peat, SimHashes.RefinedCarbon];
@@ -34,22 +40,34 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			normalOres.RemoveAll(e => e.highTempTransition?.lowTempTransition == e);
 			return normalOres;
 		}
-		public static IEnumerable<SimHashes> GetPlasticIds()=> GetPlasticIds([]);
+		public static IEnumerable<SimHashes> GetPlasticIds() => GetPlasticIds([]);
 		public static IEnumerable<SimHashes> GetPlasticIds(SimHashes? exclude = null) => GetPlasticIds(exclude.HasValue ? [exclude.Value] : null);
 		public static IEnumerable<SimHashes> GetPlasticIds(HashSet<SimHashes> exclude = null)
 		{
-			return ElementLoader.elements.FindAll(e => e.IsSolid 
-			&& e.HasTag(GameTags.Plastic) 
+			return ElementLoader.elements.FindAll(e => e.IsSolid
+			&& e.HasTag(GameTags.Plastic)
 			&& e.id != SimHashes.SolidViscoGel
 			&& (exclude == null || !exclude.Contains(e.id)))
 				.Select(e => e.id);
+		}
+
+		public static IEnumerable<SimHashes> GetStarterMetals()
+		{
+			return ElementLoader.elements.FindAll(e => e.IsSolid
+			&& e.HasTag(GameTags.StartingRefinedMetal)
+			&& e.id != SimHashes.Iron //not considered a starting metal for my purpose
+			&& e.id != SimHashes.Aluminum //way too soft material
+			&& e.id != ModElements.Silver_Solid
+			).Select(e => e.id);
 		}
 
 		public static IEnumerable<Tag> GetSteelLikes()
 		{
 			return [
 				SimHashes.Steel.CreateTag(),
+				ModElements.StainlessSteel_Solid.Tag,
 				ModElements.Permendur_Solid.Tag,
+				ModElements.Invar_Solid.Tag,
 				ModElements.Brass_Solid.Tag
 				];
 		}

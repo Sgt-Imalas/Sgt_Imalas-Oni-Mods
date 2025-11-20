@@ -67,7 +67,7 @@ namespace RoboRockets.Patches
 			//            return false;
 			//        ___setRocketTitleHandle = __instance.target.Subscribe(-71801987, (System.Action<object>)(clusterCraftDoor2 =>
 			//        {
-			//            __instance.OnRefreshData((object)null);
+			//            __instance.OnRefreshData(null);
 			//            __instance.target.Unsubscribe(___setRocketTitleHandle);
 			//            ___setRocketTitleHandle = -1;
 			//        }));

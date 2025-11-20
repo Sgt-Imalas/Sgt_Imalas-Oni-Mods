@@ -24,8 +24,6 @@ contentContainers:
       - !CodexText
           stringKey: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_STEEL_ITEM.DESC
           style: Body
-      - !CodexElementCategoryList
-          categoryTag: MINERALPROCESSING_DRILLBIT
 
 contentMadeAndUsed:
   - tag: MINING_DRILLBITS_STEEL_ITEM

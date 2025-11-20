@@ -8,6 +8,7 @@ using STRINGS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
@@ -19,7 +20,7 @@ using static TUNING.DUPLICANTSTATS;
 
 namespace SetStartDupes
 {
-	public class ModAssets
+	public static class ModAssets
 	{
 		public static string ExtraCarePackageFileInfo;
 		public static string DisabledVanillaCarePackages;
@@ -152,6 +153,7 @@ namespace SetStartDupes
 				{
 					SgtLogger.l("Trait SMI Found, purging... " + id);
 					traitSMI.StopSM("purged by DSS");
+					smc.cmpdef.defs.RemoveAll(def => def.GetStateMachineType() == traitSMI.stateMachine.GetType());
 				}
 			}
 
@@ -730,6 +732,18 @@ namespace SetStartDupes
 
 				return _stressWithShocker;
 			}
+		}
+
+		public static void RefreshDuplicantPanel(this CharacterContainer container, bool setAttributes = true)
+		{
+			container.SetInfoText();
+			if(setAttributes)
+				container.SetAttributes();
+			container.SetAnimator();
+			container.RefreshOutfitSelector();
+			int outfitIndex = container.outfitSelectorIndex;
+			container.stats.ApplyOutfit(container.stats.personality, container.animController.gameObject, container.stats.GetSelectedOutfitOption());
+
 		}
 
 		private static List<TUNING.DUPLICANTSTATS.TraitVal> _validBionicStressReactions = null;

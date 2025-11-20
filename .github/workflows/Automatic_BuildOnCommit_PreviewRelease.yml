@@ -1,11 +1,12 @@
 name: Build all mods for automated release as preview
 
 on:
-  push:
-    branches: [ "master" ]
-    paths-ignore:
-      - "_SgtsModUpdater/**"
-      #- ".github/**"
+  workflow_dispatch:  
+  # push:
+  #   branches: [ "master" ]
+  #   paths-ignore:
+  #     - "_SgtsModUpdater/**"
+  #     #- ".github/**"
 
 permissions:
   contents: write # Grant write permission for creating releases

@@ -202,7 +202,7 @@ namespace Rockets_TinyYetBig.Behaviours
 			//    infoStatusItem_Logic.resolveStringCallback = new Func<string, object, string>(ResolveInfoStatusItem);
 			//    infoStatusItem_Logic.resolveTooltipCallback = new Func<string, object, string>(ResolveInfoStatusItemTooltip);
 			//}
-			//this.selectable.AddStatusItem(infoStatusItem_Logic, (object)this);
+			//this.selectable.AddStatusItem(infoStatusItem_Logic, this);
 
 
 

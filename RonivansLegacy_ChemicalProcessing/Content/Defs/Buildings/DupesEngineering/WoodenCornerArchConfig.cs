@@ -20,7 +20,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 				radius = 3
 			};
 			float[] cost = [150f, 50f];
-			string[] material = [GameTags.BuildableRaw.ToString(), GameTags.BuildingWood.ToString()];
+			string[] material = [MATERIALS.RAW_MINERALS_OR_WOOD.First(), GameTags.BuildingWood.ToString()];
 
 			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 1, 1, "wooden_corner_arch_kanim", 10, 30f, cost, material, 800f, BuildLocationRule.InCorner, decor, NOISE_POLLUTION.NONE, 0.2f);
 			def1.DefaultAnimState = "corner";

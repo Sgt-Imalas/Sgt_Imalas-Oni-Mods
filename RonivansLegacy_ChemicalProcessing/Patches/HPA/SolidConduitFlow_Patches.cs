@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using static UnityEngine.UI.Image;
 
 namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 {
@@ -30,7 +31,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 			}
 
 
-			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig, MethodBase __originalMethod)
+			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig, MethodBase original)
 			{
 				var codes = orig.ToList();
 				MethodInfo dropExcessRailMaterialsAtCell = AccessTools.Method(typeof(SolidConduitFlow_Patches), nameof(DropExcessRailMaterialsAtCell));
@@ -41,6 +42,8 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 
 				var targetCellIndex = 4; //int cell = this.soaInfo.GetCell(conduitFromDirection1.idx); // cell iterator
 
+				if (TranspilerHelper.GetLocIndexOfFirst<ConduitFlow.Conduit>(original, out int conduitIndex))
+					targetCellIndex = conduitIndex + 1;
 
 				foreach (CodeInstruction ci in orig)
 				{
@@ -57,16 +60,32 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 			}
 		}
 
+		public static bool Insulate
+		{
+			get
+			{
+				if (_insulate == null)
+				{
+					_insulate = Config.Instance.HPA_Rails_Insulation_Mod_Enabled;
+				}
+				return _insulate.Value;
+			}
+		}
+		private static bool? _insulate = null;
+
+
 		private static SolidConduitFlow.ConduitContents DropExcessRailMaterialsAtCell(SolidConduitFlow.ConduitContents contents, int targetcell, SolidConduitFlow.Conduit conduit)
 		{
 			int sourceCell = Instance.soaInfo.GetCell(conduit.idx);
 			Pickupable pickupable = Instance.GetPickupable(contents.pickupableHandle);
-
-			bool SourceCellInsulated = HighPressureConduitRegistration.IsInsulatedRail(sourceCell);
-			bool TargetCellInsulated = HighPressureConduitRegistration.IsInsulatedRail(targetcell);
-			if (TargetCellInsulated != SourceCellInsulated)
+			if (Insulate)
 			{
-				HighPressureConduitRegistration.SetInsulatedState(pickupable, TargetCellInsulated);
+				bool SourceCellInsulated = HighPressureConduitRegistration.IsInsulatedRail(sourceCell);
+				bool TargetCellInsulated = HighPressureConduitRegistration.IsInsulatedRail(targetcell);
+				if (TargetCellInsulated != SourceCellInsulated)
+				{
+					HighPressureConduitRegistration.SetInsulatedState(pickupable, TargetCellInsulated);
+				}
 			}
 
 			///ignore items that have a custom weight per unit
@@ -76,13 +95,16 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				return contents;
 			}
 			float weight = pickupable.TotalAmount;
-			float maxSourceRailCapacity = HighPressureConduitRegistration.SolidCap_Logistic;
+			float maxSourceRailCapacity = HighPressureConduitRegistration.SolidCap_Regular;
 
-			if (!LogisticConduit.HasLogisticConduitAt(sourceCell, false))
-				maxSourceRailCapacity = HighPressureConduitRegistration.GetMaxConduitCapacityAt(sourceCell, ConduitType.Solid);
+			///skip dropping entirely for HPA rails
+			if (HighPressureConduitRegistration.HasHighPressureConduitAt(sourceCell, ConduitType.Solid))
+				return contents;
+			else if (LogisticConduit.HasLogisticConduitAt(sourceCell, true))
+				maxSourceRailCapacity = HighPressureConduitRegistration.SolidCap_Logistic;
 
 			float checkRailCapacity = maxSourceRailCapacity += 0.0001f; //adding a tiny amount to avoid floating point errors dropping micrograms of items 
-			//SgtLogger.l("Current Item Weight: " + weight + ", target weight: " + maxTargetRailCapacity+" with source and target: "+sourceCell+","+targetcell);
+																		//SgtLogger.l("Current Item Weight: " + weight + ", target weight: " + maxTargetRailCapacity+" with source and target: "+sourceCell+","+targetcell);
 
 			if (weight <= checkRailCapacity)
 				return contents;
@@ -105,7 +127,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 				//float additionalWeightToRemove = (weight - maxTargetRailCapacity);
 				//var droppedExcess = pickupable.Take(additionalWeightToRemove);
 				///drop excess mass
-				HighPressureConduitRegistration.DumpItem(pickupable, weight, maxSourceRailCapacity, sourceCell, HighPressureConduitRegistration.GetConduitAt(sourceCell, ConduitType.Solid)); 
+				HighPressureConduitRegistration.DumpItem(pickupable, weight, maxSourceRailCapacity, sourceCell, HighPressureConduitRegistration.GetConduitAt(sourceCell, ConduitType.Solid));
 				//Instance.DumpPickupable(droppedExcess);
 				//float ratio = additionalWeightToRemove / weight;
 				////SgtLogger.l($"Dropped {ratio * 100}% of mass on solid conduit");
@@ -142,7 +164,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 			public static bool Prepare() => Config.Instance.HPA_Rails_Insulation_Mod_Enabled;
 			public static void Postfix(SolidConduitFlow __instance, int cell_idx, Pickupable pickupable)
 			{
-				if(HighPressureConduitRegistration.IsInsulatedRail(cell_idx))
+				if (HighPressureConduitRegistration.IsInsulatedRail(cell_idx))
 				{
 					HighPressureConduitRegistration.SetInsulatedState(pickupable, true);
 				}

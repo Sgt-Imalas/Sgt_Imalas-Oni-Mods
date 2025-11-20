@@ -1,5 +1,6 @@
 ﻿using KSerialization;
 using PeterHan.PLib.Core;
+using Rockets_TinyYetBig.Content.ModDb;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -122,7 +123,7 @@ namespace Rockets_TinyYetBig.Behaviours
 
 		private void UpdateStatusItem()
 		{
-			this.GetComponent<KSelectable>().SetStatusItem(Db.Get().StatusItemCategories.Main, ModAssets.StatusItems.RTB_CritterModuleContent, (object)this);
+			this.GetComponent<KSelectable>().SetStatusItem(Db.Get().StatusItemCategories.Main, ModStatusItems.RTB_CritterModuleContent, this);
 		}
 
 		public override void OnPrefabInit()
@@ -218,7 +219,10 @@ namespace Rockets_TinyYetBig.Behaviours
 		}
 
 		private void OnFetchBegun(FetchOrder2 fetchOrder, Pickupable fetchedItem) => this.RebalanceFetches();
-
+		public bool ControlEnabled()
+		{
+			return true;
+		}
 
 
 		#region button

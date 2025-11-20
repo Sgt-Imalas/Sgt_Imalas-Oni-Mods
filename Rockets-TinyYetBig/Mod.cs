@@ -6,6 +6,7 @@ using Rockets_TinyYetBig.Patches;
 using System.Collections.Generic;
 using System.Linq;
 using UtilLibs;
+using UtilLibs.SharedTweaks;
 using static Rockets_TinyYetBig.Patches.BugfixPatches;
 using static Rockets_TinyYetBig.Patches.ModIntegration_Patches.Rocketry_Interior_WeightLimit;
 
@@ -38,6 +39,8 @@ namespace Rockets_TinyYetBig
 
 			///mod applies fix to rocketConduitports leaking
 			PRegistry.PutData("Bugs.RocketConduitPorts", true);
+			ResearchScreenBetterConnectionLines.Register();
+			AttachmentPointTagNameFix.Register();
 
 		}
 		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)

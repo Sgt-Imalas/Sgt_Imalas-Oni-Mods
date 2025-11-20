@@ -3312,20 +3312,20 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENCORNE
 msgid "Wooden Corner Arch"
 msgstr "목재 모서리 아치"
 
-#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENDOOR.DESC
-msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENDOOR.DESC"
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_WOODENDOOR.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_WOODENDOOR.DESC"
 msgid "Be careful with splinters!"
 msgstr "파편에 주의하세요!"
 
-#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENDOOR.EFFECT
-msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENDOOR.EFFECT"
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_WOODENDOOR.EFFECT
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_WOODENDOOR.EFFECT"
 msgid "A pretty wooden door that encloses areas without blocking Liquid or Gas flow. Sets Duplicant Access Permissions for area restriction."
 msgstr "액체나 가스 흐름을 막지 않고 영역을 둘러싸는 예쁜 목재 문입니다. 지역 제한을 위해 듀플리칸트 접근 권한을 설정합니다."
 
-#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENDOOR.NAME
-msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENDOOR.NAME"
-msgid "<link=\"WOODENDOOR\">Wooden Door</link>"
-msgstr "<link=\"WOODENDOOR\">목재 문</link>"
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_WOODENDOOR.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_WOODENDOOR.NAME"
+msgid "<link=\"AIO_WOODENDOOR\">Wooden Door</link>"
+msgstr "<link=\"AIO_WOODENDOOR\">목재 문</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENGASTILE.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENGASTILE.DESC"

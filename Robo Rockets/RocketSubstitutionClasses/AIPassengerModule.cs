@@ -12,7 +12,7 @@ namespace RoboRockets
 
 			if (!variableSpeed)
 			{
-				this.GetComponent<KSelectable>().SetStatusItem(Db.Get().StatusItemCategories.Main, ModAssets.ExperienceLevel, (object)Config.Instance.NoBrainRockets);
+				this.GetComponent<KSelectable>().SetStatusItem(Db.Get().StatusItemCategories.Main, ModAssets.ExperienceLevel, Config.Instance.NoBrainRockets);
 			}
 		}
 

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using TUNING;
 using UnityEngine;
 using UtilLibs;
 
@@ -138,12 +139,21 @@ namespace Rockets_TinyYetBig
 		/// <summary>
 		/// Adds Scanner Module Telescope function
 		/// </summary>
-		[HarmonyPatch(typeof(ScannerModuleConfig), "DoPostConfigureComplete")]
+		[HarmonyPatch(typeof(ScannerModuleConfig), nameof(ScannerModuleConfig.DoPostConfigureComplete))]
 		public static class BuffScannerModule
 		{
 			public static void Postfix(GameObject go)
 			{
 				go.AddOrGetDef<ExplorerModuleTelescope.Def>();
+
+				///databank storage
+				Storage storage = go.AddOrGet<Storage>();
+				storage.capacityKg = 120f;
+				storage.SetDefaultStoredItemModifiers(Storage.StandardSealedStorage);
+				storage.showCapacityStatusItem = true;
+				storage.storageFilters = STORAGEFILTERS.SO_DATABANKS;
+				storage.allowSettingOnlyFetchMarkedItems = false;
+				storage.allowItemRemoval = false;
 			}
 		}
 		/// <summary>
@@ -169,7 +179,7 @@ namespace Rockets_TinyYetBig
 		{
 			public static void Postfix(List<DetailsScreen.SideScreenRef> ___sideScreens)
 			{
-				UIUtils.AddClonedSideScreen<NoseConeHEPHarvestSideScreen>("HarvestModuleHEPSideScreen", "HarvestModuleSideScreen", typeof(HarvestModuleSideScreen));
+				UIUtils.AddClonedSideScreen<ResourceHarvestModuleHEPSideScreen>("HarvestModuleHEPSideScreen", "HarvestModuleSideScreen", typeof(HarvestModuleSideScreen));
 			}
 		}
 

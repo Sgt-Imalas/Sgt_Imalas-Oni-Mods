@@ -139,7 +139,7 @@ namespace SkillsInfoScreen
 				case TableRow.RowType.Minion:
 					if (minion == null)
 						break;
-					tooltip.AddMultiStringTooltip(string.Format(STRINGS.UI.TABLESCREENS.GOTO_DUPLICANT_BUTTON, (object)minion.GetProperName()), (TextStyleSetting)null);
+					tooltip.AddMultiStringTooltip(string.Format(STRINGS.UI.TABLESCREENS.GOTO_DUPLICANT_BUTTON, minion.GetProperName()), (TextStyleSetting)null);
 					break;
 			}
 		}

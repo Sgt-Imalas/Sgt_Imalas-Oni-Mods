@@ -74,5 +74,6 @@ namespace SatisfyingPowerShards.Defs.Critters
 		public string[] GetRequiredDlcIds() => [DlcManager.EXPANSION1_ID];
 
 		public string[] GetForbiddenDlcIds() => null;
+		public string[] GetAnyRequiredDlcIds() => null;
 	}
 }

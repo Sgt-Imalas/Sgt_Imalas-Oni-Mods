@@ -3,6 +3,7 @@ using Rockets_TinyYetBig.Content.ModDb;
 using System.Collections.Generic;
 using TUNING;
 using UnityEngine;
+using static CargoBay;
 using static Storage;
 
 namespace Rockets_TinyYetBig.Buildings.CargoBays
@@ -56,7 +57,22 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
 			go.AddOrGet<BuildingCellVisualizer>();
 			go.AddOrGet<Operational>();
 			go.AddOrGet<RTB_PowerConsumerModule>();
-			go = BuildingTemplates.ExtendBuildingToClusterCargoBay(go, this.CAPACITY, STORAGEFILTERS.FOOD, CargoBay.CargoType.Solids);
+
+			Storage storage = go.AddOrGet<Storage>();
+			storage.capacityKg = CAPACITY;
+			storage.SetDefaultStoredItemModifiers(Storage.StandardSealedStorage);
+			storage.showCapacityStatusItem = true;
+			storage.storageFilters = STORAGEFILTERS.FOOD;
+			storage.allowSettingOnlyFetchMarkedItems = false;
+			CargoBayCluster cargoBayCluster = go.AddOrGet<CargoBayCluster>();
+			cargoBayCluster.storage = storage;
+			cargoBayCluster.storageType = CargoBay.CargoType.Solids;
+
+			TreeFilterable treeFilterable = go.AddOrGet<TreeFilterable>();
+			treeFilterable.dropIncorrectOnFilterChange = false;
+			treeFilterable.autoSelectStoredOnLoad = false;
+			treeFilterable.uiHeight = TreeFilterable.UISideScreenHeight.Short;
+
 			go.TryGetComponent<Storage>(out var freezerStorage);
 			freezerStorage.SetDefaultStoredItemModifiers(new List<StoredItemModifier>
 			{

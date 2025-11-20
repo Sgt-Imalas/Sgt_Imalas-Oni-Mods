@@ -172,7 +172,7 @@
 				if (smi.minionProxy.GetTargetGameObject().TryGetComponent<Navigator>(out var nav))
 				{
 					MoveChore chore = new MoveChore(nav, Db.Get().ChoreTypes.MoveTo, (mover_smi => smi.master.TargetCellInt));
-					chore.AddPrecondition(ChorePreconditions.instance.CanMoveToCell, (object)smi.master.TargetCellInt);
+					chore.AddPrecondition(ChorePreconditions.instance.CanMoveToCell, smi.master.TargetCellInt);
 					return (Chore)chore;
 				}
 				return null;

@@ -175,7 +175,7 @@ namespace CannedFoods.Foods
 				ComplexRecipe complexRecipe = new ComplexRecipe(recipeID, input, output)
 				{
 					time = 10f,
-					description = string.Format(global::STRINGS.BUILDINGS.PREFABS.ROCKCRUSHER.RECIPE_DESCRIPTION, STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.CF_CANSCRAP.NAME, (object)metalTag.ProperName()),
+					description = string.Format(global::STRINGS.BUILDINGS.PREFABS.ROCKCRUSHER.RECIPE_DESCRIPTION, STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.CF_CANSCRAP.NAME, metalTag.ProperName()),
 					nameDisplay = ComplexRecipe.RecipeNameDisplay.Ingredient,
 					fabricators = new List<Tag>()
 					{
@@ -212,7 +212,7 @@ namespace CannedFoods.Foods
 				ComplexRecipe complexRecipe = new ComplexRecipe(recipeID, input, output)
 				{
 					time = 10f,
-					description = string.Format(global::STRINGS.BUILDINGS.PREFABS.METALREFINERY.RECIPE_DESCRIPTION, (object)metalTag.ProperName(), STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.CF_CANSCRAP.NAME),
+					description = string.Format(global::STRINGS.BUILDINGS.PREFABS.METALREFINERY.RECIPE_DESCRIPTION, metalTag.ProperName(), STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.CF_CANSCRAP.NAME),
 					nameDisplay = ComplexRecipe.RecipeNameDisplay.Ingredient,
 					fabricators = new List<Tag>()
 					{
@@ -238,7 +238,7 @@ namespace CannedFoods.Foods
 				ComplexRecipe complexRecipe = new ComplexRecipe(recipeID, input, output)
 				{
 					time = 10f,
-					description = string.Format(global::STRINGS.BUILDINGS.PREFABS.METALREFINERY.RECIPE_DESCRIPTION, (object)metalTag.ProperName(), STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.CF_EMPTYCAN.NAME),
+					description = string.Format(global::STRINGS.BUILDINGS.PREFABS.METALREFINERY.RECIPE_DESCRIPTION, metalTag.ProperName(), STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.CF_EMPTYCAN.NAME),
 					nameDisplay = ComplexRecipe.RecipeNameDisplay.Ingredient,
 					fabricators = new List<Tag>()
 						{

@@ -211,12 +211,12 @@ namespace PaintYourPipes
 				{
 					if (ColorableConduit.TryGetColorable(targetCell, sourcebuilding, out ColorableConduit targetConduit))
 					{
-						targetConduit.Trigger(-905833192, (object)sourceGameObject);
+						targetConduit.Trigger((int)GameHashes.CopySettings, sourceGameObject);
 						__result = true;
 					}
 					if (ColorableConduit.TryGetColorableBridge(targetCell, sourcebuilding, out ColorableConduit targetBridge))
 					{
-						targetBridge.Trigger(-905833192, (object)sourceGameObject);
+						targetBridge.Trigger((int)GameHashes.CopySettings, sourceGameObject);
 						__result = true;
 					}
 				}

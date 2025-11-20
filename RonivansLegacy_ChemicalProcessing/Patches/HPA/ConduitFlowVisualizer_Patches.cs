@@ -36,63 +36,6 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 		}
 
 		/// <summary>
-		/// this patch overrides the tinting color the high pressure conduits receive in their respective conduit overlays
-		/// </summary>
-        [HarmonyPatch(typeof(OverlayModes.ConduitMode), nameof(OverlayModes.ConduitMode.Update))]
-        public class OverlayModes_ConduitMode_Update_Patch
-		{
-			[HarmonyPrepare]
-			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
-			static HashedString ViewMode;
-            public static void Prefix(OverlayModes.ConduitMode __instance)
-            {
-				ViewMode = __instance.ViewMode();
-            }
-
-            public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
-            {
-                var Colorset_GetColorByName = AccessTools.Method(typeof(ColorSet),nameof(ColorSet.GetColorByName));
-                var ReplaceConduitColor = AccessTools.Method(typeof(OverlayModes_ConduitMode_Update_Patch),nameof(ReplaceHPConduitColor));
-
-				var GetColorByName = AccessTools.Method(typeof(ColorSet), nameof(ColorSet.GetColorByName));
-				//var set_TintColour = AccessTools.PropertySetter(typeof(KAnimControllerBase), nameof(KAnimControllerBase.TintColour));
-
-				var codes = orig.ToList();
-
-				// SaveLoadRoot layerTarget;
-				int layerTargetIdx = 12;
-				foreach (CodeInstruction original in orig)
-				{
-					if (original.Calls(GetColorByName))
-					{
-						yield return original; //puts the color on the stack
-						yield return new CodeInstruction(OpCodes.Ldloc_S, layerTargetIdx); //current layer target 
-						yield return new CodeInstruction(OpCodes.Call, ReplaceConduitColor); //ReplaceHPConduitColor
-					}
-					else
-						yield return original;
-				}
-			}
-
-			private static Color32 ReplaceHPConduitColor(Color32 oldColor, SaveLoadRoot currentItem)
-            {
-				if (HighPressureConduitRegistration.IsHighPressureConduit(currentItem.gameObject.GetInstanceID()))
-				{
-					if (ViewMode == OverlayModes.LiquidConduits.ID)
-					{
-						return HighPressureConduitRegistration.GetColorForConduitType(ConduitType.Liquid, true);
-					}
-					else if (ViewMode == OverlayModes.GasConduits.ID)
-					{
-						return HighPressureConduitRegistration.GetColorForConduitType(ConduitType.Gas, true);
-					}
-				}
-				return oldColor;
-            }
-
-        }
-
-		/// <summary>
 		/// This transpiler adjusts the blob filled state on high pressure pipes
 		/// its remade since the original target no longer exists
 		/// </summary>

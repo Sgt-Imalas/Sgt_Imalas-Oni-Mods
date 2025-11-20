@@ -93,7 +93,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 			GameScheduler.Instance.ScheduleNextFrame("pause", (_) =>
 			{
 				UnderConstructionDataTransfer.TransferDataTo(temporaryTargetBuilding, origin.GetStoredData());
-				Game.Instance.Trigger((int)GameHashes.SelectObject, (object)temporaryTargetBuilding);
+				Game.Instance.Trigger((int)GameHashes.SelectObject, temporaryTargetBuilding);
 				if (isPaused)
 					SpeedControlScreen.Instance.Pause(false);
 				Game.Instance.Subscribe((int)GameHashes.SelectObject, HandleDeselection);

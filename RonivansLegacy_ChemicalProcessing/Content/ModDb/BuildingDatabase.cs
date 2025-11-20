@@ -40,7 +40,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		internal static void RegisterAdditionalBuildingElements()
 		{
 			GameTags.MaterialBuildingElements.Add(SimHashes.Ceramic.CreateTag());
+			GameTags.MaterialBuildingElements.Add(SimHashes.Brick.CreateTag());
 			GameTags.MaterialBuildingElements.Add(SimHashes.Tungsten.CreateTag());
+			GameTags.MaterialBuildingElements.Add(ModElements.Chromium_Solid.Tag);
 			GameTags.MaterialBuildingElements.Add(ModAssets.Tags.AIO_SulphuricAcidBuildable);
 		}
 		internal static void RegisterExtraStrings()
@@ -56,6 +58,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			Strings.Add("STRINGS.MISC.TAGS.BITUMEN", global::STRINGS.ELEMENTS.BITUMEN.NAME);
 			Strings.Add("STRINGS.MISC.TAGS.REFINEDCARBON", global::STRINGS.ELEMENTS.REFINEDCARBON.NAME);
 			Strings.Add("STRINGS.MISC.TAGS.AIO_SULPHURICACIDBUILDABLE", STRINGS.ELEMENTS.LIQUIDSULFURIC.NAME);
+			Strings.Add("STRINGS.MISC.TAGS.AIO_CHROMIUM_SOLID", STRINGS.ELEMENTS.AIO_CHROMIUM_SOLID.NAME);
 
 			//renaming the vanilla moulding tile to marble tile
 			global::STRINGS.BUILDINGS.PREFABS.MOULDINGTILE.NAME = STRINGS.BUILDINGS.PREFABS.MARBLETILESTRINGS.NAME;
@@ -66,6 +69,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			gasPipeString.String = gasPipeString.String.Replace("{CAPACITY}", GameUtil.GetFormattedMass(HighPressureConduitRegistration.GasCap_HP));
 			var liquidPipeString = Strings.Get("STRINGS.BUILDINGS.PREFABS.HIGHPRESSURELIQUIDCONDUIT.EFFECT");
 			liquidPipeString.String = liquidPipeString.String.Replace("{CAPACITY}", GameUtil.GetFormattedMass(HighPressureConduitRegistration.LiquidCap_HP));
+
+			global::STRINGS.BUILDINGS.PREFABS.BIODIESELENGINE.EFFECT = global::STRINGS.BUILDINGS.PREFABS.BIODIESELENGINE.EFFECT.Replace(global::STRINGS.ELEMENTS.REFINEDLIPID.NAME, STRINGS.MISC.TAGS.AIO_BIOFUEL);
+			global::STRINGS.BUILDINGS.PREFABS.BIODIESELENGINECLUSTER.EFFECT = global::STRINGS.BUILDINGS.PREFABS.BIODIESELENGINECLUSTER.EFFECT.Replace(global::STRINGS.ELEMENTS.REFINEDLIPID.NAME, STRINGS.MISC.TAGS.AIO_BIOFUEL);
 		}
 
 		public static void RegisterOilWellCapCustomPiping()
@@ -357,12 +363,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		{
 			BuildingManager.CreateEntry<Mining_CNCMachineConfig>()
 				.AddToCategory(PlanMenuCategory.Refinement, SupermaterialRefineryConfig.ID)
-				.AddToTech(Technology.SolidMaterial.SolidManagement)
+				.AddToTech(ModTechs.Mining_Mk2DrillTech_ID)
 				.AddModFrom(SourceModInfo.MineralProcessing_Mining);
 
 			BuildingManager.CreateEntry<Mining_AugerDrillConfig>()
 				.AddToCategory(PlanMenuCategory.Utilities, OilWellCapConfig.ID)
-				.AddToTech(Technology.SolidMaterial.SolidManagement)
+				.AddToTech(ModTechs.Mining_Mk2DrillTech_ID)
 				.AddModFrom(SourceModInfo.MineralProcessing_Mining);
 
 			BuildingManager.CreateEntry<Mining_MineralDrillConfig>()
@@ -464,7 +470,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddToTech(Technology.Exosuits.TransitTubes)
 				.AddModFrom(SourceModInfo.DupesEngineering);
 
-			BuildingManager.CreateEntry<WoodenDoorConfig>()
+			BuildingManager.CreateEntry<AIO_WoodenDoorConfig>()
 				.AddToCategory(PlanMenuCategory.Base, DoorConfig.ID)
 				.AddToTech(Technology.Decor.InteriorDecor)
 				.AddModFrom(SourceModInfo.DupesEngineering);
@@ -652,12 +658,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		{
 			///storages
 			BuildingManager.CreateEntry<CabinetFrozenConfig>()
-				.AddToCategory(PlanMenuCategory.Shipping, StorageLockerSmartConfig.ID)
+				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitOutboxConfig.ID)
 				.AddToTech(Technology.SolidMaterial.SolidControl)
 				.AddModFrom(SourceModInfo.DupesLogistics);
 
 			BuildingManager.CreateEntry<CabinetNormalConfig>()
-				.AddToCategory(PlanMenuCategory.Shipping, StorageLockerSmartConfig.ID)
+				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitOutboxConfig.ID)
 				.AddToTech(Technology.SolidMaterial.SolidControl)
 				.AddModFrom(SourceModInfo.DupesLogistics);
 
@@ -777,6 +783,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
 
 			//solid
+
+
 			if (!Config.Instance.HPA_Rails_Mod_Enabled)
 				return;
 
@@ -808,11 +816,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddModFrom(SourceModInfo.HighPressureApplications)
 				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
 
-			BuildingManager.CreateEntry<HPATransferArmConfig>()
-				.AddToCategory(PlanMenuCategory.Shipping, SolidTransferArmConfig.ID)
-				.AddToTech(Technology.SolidMaterial.SolidControl)
-				.AddModFrom(SourceModInfo.HighPressureApplications)
-				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
 
 			BuildingManager.CreateEntry<HPARailMergerConfig>()
 				.AddToCategory(PlanMenuCategory.Shipping, SolidLogicValveConfig.ID)
@@ -831,6 +834,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddModFrom(SourceModInfo.HighPressureApplications)
 				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
 
+			BuildingManager.CreateEntry<HPATransferArmConfig>()
+				.AddToCategory(PlanMenuCategory.Shipping, SolidTransferArmConfig.ID)
+				.AddToTech(ModTechs.HPA_Rails_Research_ID)
+				.AddModFrom(SourceModInfo.HighPressureApplications)
+				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
 
 			BuildingManager.CreateEntry<HPAFilterSolidConfig>()
 				.AddToCategory(PlanMenuCategory.Shipping, SolidFilterConfig.ID)

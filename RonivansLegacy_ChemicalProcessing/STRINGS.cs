@@ -64,6 +64,16 @@ namespace RonivansLegacy_ChemicalProcessing
 		{
 			public class TECHS
 			{
+				public class MINING_MK2DRILLTECH
+				{
+					public static LocString NAME = FormatAsLink("Deep Core Mining", nameof(MINING_MK2DRILLTECH));
+					public static LocString DESC = "Unlocks the ability to drill into previously unreachable layers of the asteroid for resource extraction.";
+				}
+				public class MINING_SIMPLEDRILLBIT_CRAFTING
+				{
+					public static LocString NAME = $"{PRE_KEYWORD}Simple Drillbit{PST_KEYWORD} Pattern";
+					public static LocString DESC = $"Enables fabrication of {PRE_KEYWORD}Simple Drillbits{PST_KEYWORD} at the " + global::STRINGS.BUILDINGS.PREFABS.CRAFTINGTABLE.NAME;
+				}
 				public class HPA_RAILS_RESEARCH
 				{
 					public static LocString NAME = FormatAsLink("High-Capacity Solid Transport", nameof(HPA_RAILS_RESEARCH));
@@ -420,7 +430,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class CHEMICAL_GLASSFOUNDRY
 				{
 					public static LocString NAME = FormatAsLink("Glass Foundry", nameof(CHEMICAL_GLASSFOUNDRY));
-					public static LocString DESC = "A plasma arc furnace uses low-temperature plasma flow created by an electric arc heater (plasmatron).";
+					public static LocString DESC = "Glass can be used to construct window tiles.";
 					public static LocString EFFECT = string.Concat(
 						[
 							"This technologically advanced glass foundry has a wide range of other applications beyond simply melting ",
@@ -539,7 +549,7 @@ namespace RonivansLegacy_ChemicalProcessing
 						]);
 					public static string REFINEMENT_HEAT_EXHAUST = "Refinement exhaust heat";
 					public static string REFINEMENT_SELF_HEAT = "Refinement heat";
-					public static string REFINEMENT_HEAT_TOOLTIP_CONTINUOUS = "During refinement of this recipe, the machine will produce a total of "+ FormatAsPositiveRate("{0}")+" in additional refinement " + PRE_KEYWORD + "heat" + PST_KEYWORD + ".\nAt normal refinement speed, this amounts to {1} produced per second.";
+					public static string REFINEMENT_HEAT_TOOLTIP_CONTINUOUS = "During refinement of this recipe, the machine will produce a total of " + FormatAsPositiveRate("{0}") + " in additional refinement " + PRE_KEYWORD + "heat" + PST_KEYWORD + ".\nAt normal refinement speed, this amounts to {1} produced per second.";
 					public static string REFINEMENT_HEAT_TOOLTIP = FormatAsPositiveRate("{0}") + " of " + PRE_KEYWORD + "Heat" + PST_KEYWORD + " will be produced to cool off the fabricated item\n\nThis heat is then stored in the buildings thermal capacitor and transfered over to the coolant thats pumped through the building.\nCoolant near its boiling point will be prevented from boiling, but have reduced heat dispersion.";
 				}
 				public class CHEMICAL_SOILMIXER
@@ -907,9 +917,9 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString DESC = "Pips love pressing their face against the glass.\nThe same can be said about Meep.";
 					public static LocString EFFECT = "A simple door made with " + FormatAsLink("Glass", "GLASS") + " panels. Encloses areas without blocking Liquid or Gas flow. Sets Duplicant Access Permissions for area restriction.";
 				}
-				public class WOODENDOOR
+				public class AIO_WOODENDOOR
 				{
-					public static LocString NAME = FormatAsLink("Wooden Door", nameof(WOODENDOOR));
+					public static LocString NAME = FormatAsLink("Wooden Door", nameof(AIO_WOODENDOOR));
 					public static LocString DESC = "Be careful with splinters!";
 					public static LocString EFFECT = "A pretty wooden door that encloses areas without blocking Liquid or Gas flow. Sets Duplicant Access Permissions for area restriction.";
 				}
@@ -1882,6 +1892,49 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString NAME = FormatAsLink("Permendur", nameof(AIO_PERMENDUR_SOLID));
 				public static LocString DESC = "Permendur is a cobalt-iron soft ferromagnetic alloy with equal parts of " + FormatAsLink("Cobalt", "COBALT") + " and " + FormatAsLink("Iron", "IRON") + " which is notable for its high magnetic saturation level.\nHeat treatment gives this material a high structural stability.";
 			}
+			public class AIO_INVAR_SOLID
+			{
+				public static LocString NAME = FormatAsLink("Invar", nameof(AIO_INVAR_SOLID));
+				public static LocString DESC = "Invar is a nickel-iron alloy, composed of 35% " + FormatAsLink("Nickel", "NICKEL") + " and 65% " + FormatAsLink("Iron", "IRON") + " which is notable for its uniquely low coefficient of thermal expansion.";
+			}
+			///Chrome refinement
+			public class AIO_CHROMITEORE_SOLID
+			{
+				public static LocString NAME = FormatAsLink("Chromite", nameof(AIO_CHROMITEORE_SOLID));
+				public static LocString DESC = "Chromite is a crystalline mineral composed primarily of " + FormatAsLink("Iron", "IRON") + " and " + FormatAsLink("Chromium", "AIO_CHROMIUM_SOLID") + " compounds.";
+			}
+			public class AIO_STAINLESSSTEEL_SOLID
+			{
+				public static LocString NAME = FormatAsLink("Stainless Steel", nameof(AIO_STAINLESSSTEEL_SOLID));
+				public static LocString DESC = "Stainless Steel is an " + FormatAsLink("Iron", "IRON") + " based alloy that contains " + FormatAsLink("Chromium", "AIO_CHROMIUM_SOLID") + ", making it highly resistant to rust and corrosion.";
+			}
+			public class AIO_FERROCHROME_SOLID
+			{
+				public static LocString NAME = FormatAsLink("Ferrochrome", nameof(AIO_FERROCHROME_SOLID));
+				public static LocString DESC = "Ferrochrome is an alloy of " + FormatAsLink("Iron", "IRON") + " and " + FormatAsLink("Chromium", "AIO_CHROMIUM_SOLID") + ", used in the production of stainless steel and other alloys.";
+			}
+			public class AIO_FERROCHROME_LIQUID
+			{
+				public static LocString NAME = FormatAsLink("Molten Ferrochrome", nameof(AIO_FERROCHROME_LIQUID));
+				public static LocString DESC = "Ferrochrome is an alloy of " + FormatAsLink("Iron", "IRON") + " and " + FormatAsLink("Chromium", "AIO_CHROMIUM_SOLID") + ", used in the production of stainless steel and other alloys, currently in its molten state.";
+			}
+
+			public class AIO_CHROMIUM_SOLID
+			{
+				public static LocString NAME = FormatAsLink("Chromium", nameof(AIO_CHROMIUM_SOLID));
+				public static LocString DESC = "(Cr) Chromium is a steely-grey, lustrous, hard and brittle transition metal.";
+			}
+			public class AIO_CHROMIUM_LIQUID
+			{
+				public static LocString NAME = FormatAsLink("Molten Chromium", nameof(AIO_CHROMIUM_LIQUID));
+				public static LocString DESC = "(Cr) Chromium is a steely-grey, lustrous, hard and brittle transition metal in its molten state.";
+			}
+			public class AIO_CHROMIUM_GAS
+			{
+				public static LocString NAME = FormatAsLink("Chromium Gas", nameof(AIO_CHROMIUM_GAS));
+				public static LocString DESC = "(Cr) Chromium is a steely-grey, lustrous, hard and brittle transition metal in its gaseous state.";
+			}
+
 			//===== [ Special ] ==============================
 			public class ISOPROPANEGAS
 			{
@@ -2056,7 +2109,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString MINERALPROCESSING_GUIDANCEUNIT_DESC = "Guidance Devices allow the the mining drillhead to be programmed to target mine specific asteroid sectors.";
 
 				public static LocString MINERALPROCESSING_DRILLBIT = FormatAsLink("Drillbit", nameof(MINERALPROCESSING_DRILLBIT));
-				public static LocString MINERALPROCESSING_DRILLBIT_DESC = "Self-Propelled Drillbits that are used by the Asteroid Drill Rig to extract resources from otherwise unreachable sectors of the asteroid.";
+				public static LocString MINERALPROCESSING_DRILLBIT_DESC = "Drillbits that are used by the Asteroid Drills to extract resources from otherwise unreachable sectors of the asteroid.";
 
 
 				public static LocString RANDOMRECIPEINGREDIENT_DESTROYONCANCEL = FormatAsLink("Non-refundable Ingredient", nameof(RANDOMRECIPEINGREDIENT_DESTROYONCANCEL));
@@ -2069,7 +2122,10 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString AIO_CARRIERGAS_DESC = "Carrier Gases are inert or semi-inert gases that are used in plasma related processes.";
 
 				public static LocString AIO_RADEMITTERINPUTMATERIAL = "Radioactive Material";
-				public static LocString AIO_RadEmitterInputMaterial_DESC = "Radioactive Material that can be used to fuel the Rad Projector.";
+				public static LocString AIO_RADEMITTERINPUTMATERIAL_DESC = "Radioactive Material that can be used to fuel the Rad Projector.";
+
+				public static LocString AIO_BIOFUEL = FormatAsLink("Renewable Biofuel", nameof(AIO_BIOFUEL));
+				public static LocString AIO_BIOFUEL_DESC = "Combustible liquid fuels made frome regenerative materials.";
 			}
 		}
 		public class ITEMS
@@ -2095,16 +2151,39 @@ namespace RonivansLegacy_ChemicalProcessing
 				}
 				public class MINING_DRILLBITS_STEEL_ITEM
 				{
-					public static LocString NAME = FormatAsLink("Steel Drillbits", nameof(MINING_DRILLBITS_STEEL_ITEM));
+					public static LocString NAME = FormatAsLink("Hardened Drillbits", nameof(MINING_DRILLBITS_STEEL_ITEM));
 					public static LocString DESC = "A set of sturdy drill bits made for hard rock mining operations.\nHas no own guidance system and can drill through hard rocks stratum.";
-					public static LocString RECIPE_DESC = "Instruct the computer to produce Steel Drillbits.";
+					public static LocString RECIPE_DESC = "Instruct the computer to produce Hardened Drillbits.";
 				}
 				public class MINING_DRILLBITS_BASIC_ITEM
 				{
 					public static LocString NAME = FormatAsLink("Basic Drillbits", nameof(MINING_DRILLBITS_BASIC_ITEM));
 					public static LocString DESC = "A set of sturdy drill bits made for basic mining operations.\nHas no own guidance system and can drill through soft rocks stratum.";
-					public static LocString RECIPE_DESC = "Instruct the computer to produce Basic Drillbits.\nThis instruction is meant for Copper variation.";
+					public static LocString RECIPE_DESC = "Instruct the computer to produce Basic Drillbits.";
 				}
+
+				public class AIO_SIMPLEDRILLBIT_BASIC
+				{
+					public static LocString NAME = FormatAsLink("Simple Basic Drillbits", nameof(AIO_SIMPLEDRILLBIT_BASIC));
+					public static LocString DESC = "A set of drill bits made for simple mining operations.";
+					public static LocString RECIPE_DESC = "Instruct the computer to produce Simple Basic Drillbits.";
+					public static LocString RECIPE_DESC_CRAFTINGTABLE = "Instruct a duplicant to produce Simple Basic Drillbits.";
+				}
+				public class AIO_SIMPLEDRILLBIT_IRON
+				{
+					public static LocString NAME = FormatAsLink("Simple Iron Drillbits", nameof(AIO_SIMPLEDRILLBIT_IRON));
+					public static LocString DESC = "A set of drill bits made for simple mining operations.";
+					public static LocString RECIPE_DESC = "Instruct the computer to produce Simple Iron Drillbits.";
+					public static LocString RECIPE_DESC_CRAFTINGTABLE = "Instruct a duplicant to produce Simple Iron Drillbits.";
+				}
+				public class AIO_SIMPLEDRILLBIT_HARDENED
+				{
+					public static LocString NAME = FormatAsLink("Simple Hardened Drillbits", nameof(AIO_SIMPLEDRILLBIT_HARDENED));
+					public static LocString DESC = "A set of drill bits made for simple mining operations.";
+					public static LocString RECIPE_DESC = "Instruct the computer to produce Simple Hardened Drillbits.";
+					public static LocString RECIPE_DESC_CRAFTINGTABLE = "Instruct a duplicant to produce Simple Hardened Drillbits.";
+				}
+
 				public class MINING_DRILLBITS_GUIDANCEDEVICE_ITEM
 				{
 					public static LocString NAME = FormatAsLink("Guidance Device (Unprogrammed)", "MINERALPROCESSING_GUIDANCEUNIT");
@@ -2155,7 +2234,6 @@ namespace RonivansLegacy_ChemicalProcessing
 			{
 				public static LocString TITLE = "Building Configuration Editor";
 
-				public static LocString PARENT_MOD_DISABLED = "Building disabled by category.\nThe parent mod this building is from is turned off in the config.";
 				public static LocString MOD_ORIGIN_TEXT = "This building is part of:";
 				public static LocString BUILDINGCONFIGURABLE = "This building has settings that can be modified.";
 				public class RESETALLCHANGES
@@ -2163,7 +2241,13 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString TITLE = "Reset Changes";
 					public static LocString TEXT = "Are you sure you want to reset all modifications you have done to the building configuration?";
 				}
-
+				public class BUILDINGENABLEDREASONS
+				{
+					public static LocString IS_ENABLED = "The building is currently enabled";
+					public static LocString IS_DISABLED = "You disabled the building.";
+					public static LocString NO_MODS_ACTIVE = "Building disabled by category.\nNone of the mods this building is added by are currently active.\nYou can force enable it, but there is a chance it won't work properly";
+					public static LocString IS_ENABLED_FORCE = "You enabled the building by force,\nnone of its source mods are marked as active.";
+				}
 
 
 				public class HORIZONTALLAYOUT
@@ -2264,6 +2348,7 @@ namespace RonivansLegacy_ChemicalProcessing
 
 			public class CHEMICAL_COMPLEXFABRICATOR_STRINGS
 			{
+
 				public static LocString HEAT_REFINE = "Refine {0} with intense heat, producing {1}.";
 				public static LocString HEAT_COOK = "Cook {0} at high temperature, and produces {1}.";
 				public static LocString THREE_MIXTURE_COMPRESS_COOKING = "Compress a mixture of {0}, {1} and {2}.\nCooking the mixture at high temperature produces {3}";
@@ -2288,7 +2373,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString JAWCRUSHERMILL_MILLING_1_4 = "Break down {0} into:\n• {1}\n• {2}\n• {3}\n• {4}";
 				public static LocString CRUSHEDROCK_FROM_RAW_MINERAL_NAME = FormatAsLink("Raw Mineral", "BUILDABLERAW") + " to " + global::STRINGS.ELEMENTS.CRUSHEDROCK.NAME;
 				public static LocString CRUSHEDROCK_FROM_RAW_MINERAL_DESCRIPTION = "Crushes " + FormatAsLink("Raw Minerals", "BUILDABLERAW") + " into " + global::STRINGS.ELEMENTS.CRUSHEDROCK.NAME;
-				
+
 				public static LocString BAD_RECIPE_PRODUCT_NAME = "Crude {0}";
 				public static LocString BAD_RECIPE_PRODUCT_DESC = "This recipe comes with reduced yield,\nsince the machine is unable to provide the proper environmental conditions.\n\nOther machines might be more suitable for this refinement process.";
 
@@ -2364,6 +2449,10 @@ namespace RonivansLegacy_ChemicalProcessing
 					public class ZINCCOMET
 					{
 						public static LocString NAME = "Aurichalcite Meteor";
+					}
+					public class CHROMITE
+					{
+						public static LocString NAME = "Chromite Meteor";
 					}
 					public class SILVERCOMET
 					{

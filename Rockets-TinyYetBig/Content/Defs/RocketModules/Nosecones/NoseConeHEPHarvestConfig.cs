@@ -54,9 +54,10 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
 		{
 			BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof(RequiresFoundation), prefab_tag);
 			go.AddOrGet<LoopingSounds>();
-			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
-			go.GetComponent<KPrefabID>().AddTag(GameTags.NoseRocketModule);
-			go.GetComponent<KPrefabID>().AddTag(TagManager.Create(NoseconeHarvestConfig.ID));
+			go.TryGetComponent<KPrefabID>(out var id);
+			id.AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
+			id.AddTag(GameTags.NoseRocketModule);
+			id.AddTag(TagManager.Create(NoseconeHarvestConfig.ID));
 
 			HighEnergyParticleStorage energyParticleStorage = go.AddOrGet<HighEnergyParticleStorage>();
 			energyParticleStorage.capacity = Config.Instance.LaserDrillconeCapacity;
@@ -74,7 +75,7 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
 			BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, null, ROCKETRY.BURDEN.MINOR);
 			go.GetComponent<ReorderableBuilding>().buildConditions.Add(new TopOnly());
 			go.AddOrGet<ExtendedClusterModuleAnimator>();
-			go.AddOrGetDef<NoseConeHEPHarvest.Def>().harvestSpeed = Config.Instance.LaserDrillconeSpeed;
+			go.AddOrGetDef<ResourceHarvestModuleHEP.Def>().harvestSpeed = Config.Instance.LaserDrillconeSpeed;
 		}
 	}
 }

@@ -135,7 +135,7 @@ namespace UtilLibs.BuildingPortUtils
 		private void OnConduitConnectionChanged(object data)
 		{
 			IsConnected_Cache = this.IsConnected;
-			base.Trigger((int)GameHashes.ConduitConnectionChanged, IsConnected_Cache);
+			base.BoxingTrigger((int)GameHashes.ConduitConnectionChanged, IsConnected_Cache);
 			UpdateNotifications(false);
 			if (GetSolidConduitCapacityTarget != null)
 			{

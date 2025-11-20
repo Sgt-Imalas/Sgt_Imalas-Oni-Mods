@@ -20,7 +20,7 @@ namespace Rockets_TinyYetBig.Patches.StationDerelictPatches
 			static bool Prepare() => false;
 			public static void Postfix(LoreBearer __instance)
 			{
-				ClusterManager.Instance.Trigger(1943181844, (object)"lorebearer revealed");
+				ClusterManager.Instance.Trigger(1943181844, "lorebearer revealed");
 				if (__instance.TryGetComponent<ArtifactPOIClusterGridEntity>(out var artifact))
 				{
 					DerelictStation.SpawnNewDerelictStation(artifact);

@@ -11,11 +11,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 	class BuildingConfigurationEntry
 	{
 		public string BuildingID;
-		public List<SourceModInfo> ModsFrom = new();
+		public List<SourceModInfo> ModsFrom => BuildingInjection.GetModsFrom();
 		public bool BuildingEnabled = true;
 		public float BuildingMassCapacity = -1;
 		public float BuildingWattage = -1;
 		public float BuildingTileRange = -1;
+		public bool BuildingEnabledForce = false;
 		[JsonIgnore]
 		public float BuildingMassCapacityDefault = -1;
 		[JsonIgnore]
@@ -95,11 +96,29 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 			descriptor = RangeLabel;
 			return !string.IsNullOrEmpty(RangeLabel);
 		}
-
-		public bool IsBuildingEnabled()
+		public bool IsBuildingEnabled() => ShowBuildingEnabled(out _);
+		public bool IsForceEnabled()
 		{
-			return BuildingEnabled;
+			if (AnySourceModsActive())
+				return false;
+			return BuildingEnabledForce;
 		}
+		public bool AnySourceModsActive() => Config.ModBuildingEnabled(ModsFrom);
+
+		public bool ShowBuildingEnabled(out string reason)
+		{
+			if (AnySourceModsActive())
+			{
+				reason = BuildingEnabled ? STRINGS.UI.BUILDINGEDITOR.BUILDINGENABLEDREASONS.IS_ENABLED : STRINGS.UI.BUILDINGEDITOR.BUILDINGENABLEDREASONS.IS_DISABLED;
+				return BuildingEnabled;
+			}
+			else
+			{
+				reason = BuildingEnabledForce ? STRINGS.UI.BUILDINGEDITOR.BUILDINGENABLEDREASONS.IS_ENABLED_FORCE : STRINGS.UI.BUILDINGEDITOR.BUILDINGENABLEDREASONS.NO_MODS_ACTIVE;
+				return BuildingEnabledForce;
+			}
+		}
+
 		public void SetTileRange(float range)
 		{
 			if (range < TileRangeValueRange.first)
@@ -122,12 +141,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 		}
 		internal void SetBuildingEnabled(bool on)
 		{
-			BuildingEnabled = on;
+			if (AnySourceModsActive())
+				BuildingEnabled = on;
+			else
+				BuildingEnabledForce = on;
 		}
 		internal void SetInjection(BuildingInjectionEntry injection)
 		{
 			BuildingInjection = injection;
-			ModsFrom = injection.GetModsFrom();
 		}
 
 		internal void ResetChanges()
@@ -159,7 +180,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 
 				string entry;
 				if (mod == SourceModInfo.AddedBySgt_Imalas)
-					entry = "\n\n" + ModName; 
+					entry = "\n\n" + ModName;
 				else
 					entry = "\n- " + ModName;
 

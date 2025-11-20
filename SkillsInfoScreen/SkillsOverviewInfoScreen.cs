@@ -219,7 +219,7 @@ namespace SkillsInfoScreen
 			TableRow widgetRow = this.GetWidgetRow(widget_go);
 			if ((UnityEngine.Object)widgetRow == (UnityEngine.Object)null)
 			{
-				Debug.LogWarning((object)"Row is null");
+				Debug.LogWarning("Row is null");
 			}
 			else
 			{
@@ -257,7 +257,7 @@ namespace SkillsInfoScreen
 						ConsumableConsumer component = minionIdentity.GetComponent<ConsumableConsumer>();
 						if ((UnityEngine.Object)component == (UnityEngine.Object)null)
 						{
-							Debug.LogError((object)"Could not find minion identity / row associated with the widget");
+							Debug.LogError("Could not find minion identity / row associated with the widget");
 							break;
 						}
 						switch (new_value)
@@ -363,7 +363,7 @@ namespace SkillsInfoScreen
 				case TableRow.RowType.Minion:
 					if (minion == null)
 						break;
-					tooltip.AddMultiStringTooltip(string.Format(STRINGS.UI.TABLESCREENS.GOTO_DUPLICANT_BUTTON, (object)minion.GetProperName()), (TextStyleSetting)null);
+					tooltip.AddMultiStringTooltip(string.Format(STRINGS.UI.TABLESCREENS.GOTO_DUPLICANT_BUTTON, minion.GetProperName()), (TextStyleSetting)null);
 					break;
 			}
 		}
@@ -608,7 +608,7 @@ namespace SkillsInfoScreen
 			StoredMinionIdentity storedMinionIdentity = minion as StoredMinionIdentity;
 			if (!((UnityEngine.Object)storedMinionIdentity != (UnityEngine.Object)null))
 				return;
-			tooltip.AddMultiStringTooltip(string.Format((string)STRINGS.UI.TABLESCREENS.INFORMATION_NOT_AVAILABLE_TOOLTIP, (object)storedMinionIdentity.GetStorageReason(), (object)storedMinionIdentity.GetProperName()), (TextStyleSetting)null);
+			tooltip.AddMultiStringTooltip(string.Format((string)STRINGS.UI.TABLESCREENS.INFORMATION_NOT_AVAILABLE_TOOLTIP, storedMinionIdentity.GetStorageReason(), storedMinionIdentity.GetProperName()), (TextStyleSetting)null);
 		}
 	}
 }

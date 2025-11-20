@@ -101,7 +101,7 @@ namespace Imalas_TwitchChaosEvents.Attachments
 				if (IsMinion() && !suited)
 				{
 					this.lastBurnTime = Time.time;
-					selectable.AddStatusItem(damagingElement.isVoidDamage ? ModAssets.StatusItems.VoidBurns : ModAssets.StatusItems.CreeperBurns, (object)this);
+					selectable.AddStatusItem(damagingElement.isVoidDamage ? ModAssets.StatusItems.VoidBurns : ModAssets.StatusItems.CreeperBurns, this);
 				}
 			}
 			else if(IsMinion())

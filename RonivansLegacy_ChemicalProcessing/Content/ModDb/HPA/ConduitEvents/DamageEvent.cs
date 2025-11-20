@@ -24,7 +24,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.HPA.ConduitEvents
 				SgtLogger.l("DamageEvent: Target was null" );
 				return;
 			}
-			Target.Trigger((int)GameHashes.DoBuildingDamage, GetPressureDamageSource(EventDisplayName));
+			Target.BoxingTrigger((int)GameHashes.DoBuildingDamage, GetPressureDamageSource(EventDisplayName));
 		}
 
 		public static BuildingHP.DamageSourceInfo GetPressureDamageSource(string popString)

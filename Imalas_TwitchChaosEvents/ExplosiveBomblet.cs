@@ -201,7 +201,7 @@ namespace Twitch_ExplosiveMaterials
 			tile_go.TryGetComponent<BuildingHP>(out var hP);
 			double a = hP.HitPoints / (double)hP.MaxHitPoints;
 			float f = cellAndEnergy.second * hP.MaxHitPoints * windowDamageMultiplier;
-			hP.gameObject.Trigger(-794517298, new BuildingHP.DamageSourceInfo()
+			hP.gameObject.BoxingTrigger(-794517298, new BuildingHP.DamageSourceInfo()
 			{
 				damage = Mathf.RoundToInt(f)
 			});
@@ -252,7 +252,7 @@ namespace Twitch_ExplosiveMaterials
 				BuildingHP component = tile_go.GetComponent<BuildingHP>();
 				double a = component.HitPoints / (double)component.MaxHitPoints;
 				float f = amount * component.MaxHitPoints;
-				component.gameObject.Trigger(-794517298, new BuildingHP.DamageSourceInfo()
+				component.gameObject.BoxingTrigger(-794517298, new BuildingHP.DamageSourceInfo()
 				{
 					damage = Mathf.RoundToInt(f)
 				});
@@ -284,7 +284,7 @@ namespace Twitch_ExplosiveMaterials
 				{
 					float f = building_go.GetComponent<KPrefabID>().HasTag(GameTags.Bunker) ? damage * this.bunkerDamageMultiplier : damage * buildingyDmgMultiplier;
 
-					buildingHP.gameObject.Trigger(-794517298, new BuildingHP.DamageSourceInfo()
+					buildingHP.gameObject.BoxingTrigger(-794517298, new BuildingHP.DamageSourceInfo()
 					{
 						damage = Mathf.RoundToInt(f)
 					});

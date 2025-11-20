@@ -164,8 +164,7 @@ namespace SetStartDupes
 					//}
 					__instance.SetReshufflingState(true);
 					__instance.modelDropDown.transform.parent.gameObject.SetActive(false);
-					__instance.SetAnimator();
-					__instance.SetInfoText();
+					__instance.RefreshDuplicantPanel(false);
 					__instance.StartCoroutine(__instance.SetAttributes());
 					___selectButton.ClearOnClick();
 					___selectButton.interactable = false;
@@ -870,7 +869,7 @@ namespace SetStartDupes
 			private static System.Collections.IEnumerator MinionNumberAdustmentRoutine()
 			{
 
-				yield return (object)SequenceUtil.WaitForSeconds(((3 - SpeedControlScreen.Instance.speed) * 500f) / 1000f);
+				yield return SequenceUtil.WaitForSeconds(((3 - SpeedControlScreen.Instance.speed) * 500f) / 1000f);
 				SpeedControlScreen.Instance.Pause(true);
 			}
 			public static void Prefix(Immigration __instance, float dt)
@@ -1286,7 +1285,7 @@ namespace SetStartDupes
 
 
 				Vector2 initial_velocity = new Vector2(UnityEngine.Random.Range(-2f, 2f) * 1f, (float)((double)UnityEngine.Random.value * 2.0 + 4.0));
-				if (GameComps.Fallers.Has((object)go))
+				if (GameComps.Fallers.Has(go))
 					GameComps.Fallers.Remove(go);
 				GameComps.Fallers.Add(go, initial_velocity);
 			}
@@ -1471,7 +1470,7 @@ namespace SetStartDupes
 
 
 				//28
-				int insetBase = 4, insetA = 28, insetB = insetA * 2, insetC = insetA * 3;
+				int insetBase = 10, insetA = 28, insetB = insetA * 2, insetC = insetA * 3;
 				float insetDistance = (!is_starter && !AllowModification) ? insetBase + insetA : insetBase + insetC;
 
 				//var TextInput = titlebar.transform.Find("LabelGroup/");
@@ -1493,9 +1492,7 @@ namespace SetStartDupes
 
 				System.Action RebuildDupePanel = () =>
 				{
-					__instance.SetInfoText();
-					__instance.SetAttributes();
-					__instance.SetAnimator();
+					__instance.RefreshDuplicantPanel();
 				};
 
 				UIUtils.AddActionToButton(skinBtn.transform, "", () => DupeSkinScreenAddon.ShowSkinScreen(__instance));
@@ -1566,9 +1563,7 @@ namespace SetStartDupes
 
 						if (!mng.CurrentlyEditing)
 						{
-							__instance.SetInfoText();
-							__instance.SetAttributes();
-							__instance.SetAnimator();
+							__instance.RefreshDuplicantPanel();
 						}
 					};
 
@@ -1584,7 +1579,7 @@ namespace SetStartDupes
 
 					//UIUtils.AddActionToButton(PresetButton.transform, "", () => DupePresetScreenAddon.ShowPresetScreen(__instance, ___stats)); 
 
-					UIUtils.AddActionToButton(PresetButton.transform, "", () => UnityPresetScreen.ShowWindow(mng.Stats,null, RebuildDupePanel));
+					UIUtils.AddActionToButton(PresetButton.transform, "", () => UnityPresetScreen.ShowWindow(mng.Stats, null, RebuildDupePanel));
 					buttonsToDeactivateOnEdit[__instance].Add(PresetButton.FindComponent<KButton>());
 				}
 
@@ -2026,7 +2021,10 @@ namespace SetStartDupes
 			static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
 			{
 				var code = instructions.ToList();
-				var insertionIndex = code.FindIndex(ci => ci.opcode == OpCodes.Newobj);
+				var startingStatsConstructor = AccessTools.Constructor(typeof(MinionStartingStats), [typeof(List<Tag>), typeof(bool), typeof(string), typeof(string), typeof(bool)]);
+
+				var insertionIndex = code.FindIndex(ci => ci.CallsConstructor(startingStatsConstructor));
+				
 
 				if (insertionIndex != -1)
 				{

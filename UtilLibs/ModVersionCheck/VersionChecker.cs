@@ -36,6 +36,8 @@ namespace UtilLibs.ModVersionCheck
 		/// </summary>
 		public const string UIInitializedKey = "Sgt_Imalas_UI_Initialized";
 
+		public const string MainMenuPatchInitializedKey = "Sgt_Imalas_MainMenuPatch_Initialized";
+
 		/// <summary>
 		/// currently fetching version data from sgt_imalas github
 		/// </summary>
@@ -51,9 +53,16 @@ namespace UtilLibs.ModVersionCheck
 		/// PLib registry key for download path, Dictionary<string,string> with staticModD as key and direct download link as value
 		/// </summary>
 		//public const string ModDownloadFetchPathsKey = "Sgt_Imalas_ModDownloadFetchPathsKey";
-		public const int CurrentVersion = 10;
+		public const int CurrentVersion = 11;
 
-		public static bool OlderVersion => CurrentVersion < (PRegistry.GetData<int>(VersionCheckerVersion));
+		public static bool HasPatch(out string harmonyID)
+		{
+			harmonyID = PRegistry.GetData<string>(MainMenuPatchInitializedKey);
+			return !harmonyID.IsNullOrWhiteSpace();
+		}
+		public static void SetIsPatched(string harmonyID)=> PRegistry.PutData(MainMenuPatchInitializedKey, harmonyID);
+
+		public static bool OlderVersion => CurrentVersion <= (PRegistry.GetData<int>(VersionCheckerVersion));
 
 		public static void RegisterCurrentVersion(KMod.UserMod2 userMod)
 		{
@@ -99,7 +108,7 @@ namespace UtilLibs.ModVersionCheck
 		public static void HandleVersionChecking(KMod.UserMod2 userMod, Harmony harmony)
 		{
 			RegisterCurrentVersion(userMod);
-			OutdatedVersionInfoPatches.MainMenuMissingModsContainerInit.InitMainMenuInfoPatch(harmony);
+			MainMenuMissingModsContainerInit.InitMainMenuInfoPatch();
 			//CheckVersion(userMod);
 			Task.Run(() => HandleDataFetching(userMod));
 		}

@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using Database;
+using HarmonyLib;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				ModElements.OverrideDebrisAnims();
 				SpaceMiningAdditions.AddExtraPOIElements();
 				StatusItemsDatabase.CreateStatusItems();
+				ModTechs.RegisterCustomEntries();
 			}
 		}
 	}

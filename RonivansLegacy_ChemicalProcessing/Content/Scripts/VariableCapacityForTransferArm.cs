@@ -18,7 +18,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			var sweeper = gameObject.GetComponent<SolidTransferArm>();
 			sweeper.max_carry_weight = TargetCarryCapacity;
 			sweeper.turn_rate = TargetTurnRate;
-
 			gameObject.GetComponent<KBatchedAnimController>().PlaySpeedMultiplier = TargetTurnRate / 360f; //Adjust the animation speed to match the turn rate
 			base.OnPrefabInit();
 		}

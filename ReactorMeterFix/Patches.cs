@@ -14,6 +14,7 @@ using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 using UtilLibs;
+using static ProcGen.Mob;
 
 namespace TinyFixes
 {
@@ -105,22 +106,34 @@ namespace TinyFixes
 			}
 		}
 
-    //    [HarmonyPatch(typeof(LoadingOverlay), nameof(LoadingOverlay.Load))]
-    //    public class Overlay_Icon_Replace
-    //    {
-    //        //replace loading dupe face with pip
-    //        public static void Postfix()
-    //        {
-				//var instance = LoadingOverlay.instance;
-				//var image = instance.transform.Find("Image").GetComponent<Image>();
-				//var pipSprite = Def.GetUISprite(Assets.GetPrefab(SquirrelConfig.ID));
-    //            image.preserveAspect = true;
-    //            image.sprite = pipSprite.first;
+		//    [HarmonyPatch(typeof(LoadingOverlay), nameof(LoadingOverlay.Load))]
+		//    public class Overlay_Icon_Replace
+		//    {
+		//        //replace loading dupe face with pip
+		//        public static void Postfix()
+		//        {
+		//var instance = LoadingOverlay.instance;
+		//var image = instance.transform.Find("Image").GetComponent<Image>();
+		//var pipSprite = Def.GetUISprite(Assets.GetPrefab(SquirrelConfig.ID));
+		//            image.preserveAspect = true;
+		//            image.sprite = pipSprite.first;
 
-				//var rect = image.rectTransform();
-				//rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 200);
-    //        }
-    //    }
+		//var rect = image.rectTransform();
+		//rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 200);
+		//        }
+		//    }
+
+
+
+		[HarmonyPatch(typeof(ClusterFogOfWarManager.Instance), nameof(ClusterFogOfWarManager.Instance.IsLocationRevealed))]
+		public class ClusterFogOfWarManager_Instance_IsLocationRevealed_Patch
+		{
+			public static bool Prefix(ClusterFogOfWarManager.Instance __instance, ref bool __result, AxialI location)
+			{
+				__result = false;
+				return ClusterGrid.Instance.IsValidCell(location);
+			}
+		}
 
         [HarmonyPatch(typeof(BalloonStandCellSensor), nameof(BalloonStandCellSensor.GetCell))]
 		public class BalloonStandCellSensor_GetCell_Patch
@@ -149,6 +162,8 @@ namespace TinyFixes
 			}
 			private static void OnRefreshUserMenu(OxygenBreather obj)
 			{
+				if (!DebugHandler.enabled)
+					return;
 				var smi = obj.GetSMI<JoyBehaviourMonitor.Instance>();
 
 				if (smi != null) 

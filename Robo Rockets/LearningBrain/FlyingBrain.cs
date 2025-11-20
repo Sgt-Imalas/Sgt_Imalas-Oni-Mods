@@ -30,7 +30,7 @@ namespace RoboRockets.LearningBrain
 				learnedSpeed = Config.Instance.AiLearnStart;
 				awakened = true;
 			}
-			this.GetComponent<KSelectable>().SetStatusItem(Db.Get().StatusItemCategories.Main, ModAssets.ExperienceLevel, (object)this);
+			this.GetComponent<KSelectable>().SetStatusItem(Db.Get().StatusItemCategories.Main, ModAssets.ExperienceLevel, this);
 		}
 		public void TraveledDistance(int hexes = 1)
 		{

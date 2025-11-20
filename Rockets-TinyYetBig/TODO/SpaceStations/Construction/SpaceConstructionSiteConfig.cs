@@ -5,6 +5,10 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
 	internal class SpaceConstructionSiteConfig : IEntityConfig, IHasDlcRestrictions
 	{
 		public const string ID = "RTB_StationConstructionSite";
+		public string[] GetAnyRequiredDlcIds()
+		{
+			return null;
+		}
 
 		public string[] GetDlcIds() =>null;
 

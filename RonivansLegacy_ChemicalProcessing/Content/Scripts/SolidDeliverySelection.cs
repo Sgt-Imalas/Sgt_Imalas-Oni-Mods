@@ -1,4 +1,5 @@
-﻿using KSerialization;
+﻿using HarmonyLib;
+using KSerialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +13,24 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 	{
 		[Serialize] public Tag SelectedOption = Tag.Invalid;
 
+		[SerializeField]
 		public List<Tag> Options = new();
+		[SerializeField]
+		public Tag AnyTag = Tag.Invalid;
 
 		[MyCmpReq] protected ManualDeliveryKG manualDelivery;
 
-		public FewOptionSideScreen.IFewOptionSideScreen.Option[] GetOptions() => Options.Select(o =>
-			new FewOptionSideScreen.IFewOptionSideScreen.Option(o, o.ProperName(), Def.GetUISprite(o))).ToArray();
+		public FewOptionSideScreen.IFewOptionSideScreen.Option[] GetOptions()
+		{
+			var options = Options.Select(o =>
+			new FewOptionSideScreen.IFewOptionSideScreen.Option(o, o.ProperName(), Def.GetUISprite(o))).ToList();
+			if (AnyTag != Tag.Invalid)
+			{
+				options.Insert(0, new FewOptionSideScreen.IFewOptionSideScreen.Option(AnyTag, GameTags.Any.ProperName()+" "+ AnyTag.ProperName(), new(Assets.GetSprite("ui_buildable_any"),Color.white)));
+			}
+
+			return options.ToArray();
+		}
 
 		public override void OnSpawn()
 		{
@@ -35,16 +48,16 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			{
 				manualDelivery.RequestedItemTag = SelectedOption;
 				List<GameObject> dropItems = new();
-				foreach(var item in manualDelivery.storage.items)
+				foreach (var item in manualDelivery.storage.items)
 				{
 					///Remove any items that are not the selected option, but are in the options list
-					if (item.TryGetComponent<KPrefabID>(out var kPrefabID) 
-						&& Options.Contains(kPrefabID.PrefabTag) && kPrefabID.PrefabTag != SelectedOption)
+					if (item.TryGetComponent<KPrefabID>(out var kPrefabID)
+						&& Options.Contains(kPrefabID.PrefabTag) && (kPrefabID.PrefabTag != SelectedOption || kPrefabID.HasTag(SelectedOption)))
 					{
 						dropItems.Add(item);
 					}
 				}
-				foreach(var item in dropItems)
+				foreach (var item in dropItems)
 				{
 					manualDelivery.storage.Drop(item);
 				}

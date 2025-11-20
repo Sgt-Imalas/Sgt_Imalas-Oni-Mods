@@ -43,16 +43,9 @@ namespace CrittersShedFurOnBrush
 		[JsonProperty]
 		public bool Bammoth { get; set; } = true;
 
-		public Config()
-		{
-			SageHatch = true;
-			CuddlePip = true;
-			Drecko = true;
-			OilFloaterFur = true;
-			Pufts = true;
-			PlugSlug = true;
-			Bammoth = true;
-			Flox = true;
-		}
+		[Option("STRINGS.CREATURES.SPECIES.DIESELMOO.NAME")]
+		[JsonProperty]
+		public bool HuskyMoo { get; set; } = true;
+
 	}
 }

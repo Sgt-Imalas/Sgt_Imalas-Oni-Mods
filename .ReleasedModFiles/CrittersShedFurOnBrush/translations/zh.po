@@ -1,9 +1,0 @@
-msgid ""
-msgstr ""
-"Application: Oxygen Not Included"
-"POT Version: 2.0"
-
-#. CrittersShedFurOnBrush.STRINGS.ITEMS.FURBALL.NAME
-msgctxt "CrittersShedFurOnBrush.STRINGS.ITEMS.FURBALL.NAME"
-msgid "Fur Ball"
-msgstr "毛团"

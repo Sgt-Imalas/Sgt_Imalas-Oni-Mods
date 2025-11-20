@@ -209,10 +209,10 @@ namespace UtilLibs.BuildingPortUtils
 			base.OnCleanUp();
 		}
 
-		private void OnConduitConnectionChanged(object data)
+		private void OnConduitConnectionChanged(object _)
 		{
 			IsConnected_Cache = this.IsConnected;
-			base.Trigger(-2094018600, this.IsConnected_Cache);
+			base.Trigger((int)GameHashes.ConduitConnectionChanged, BoxedBools.Box(IsConnected_Cache));
 			UpdateNotifications();
 		}
 		public virtual void UpdateNotifications()
@@ -279,7 +279,7 @@ namespace UtilLibs.BuildingPortUtils
 							if (removedConduitMass > 0f && this.capacityTag != GameTags.Any && !flag)
 							{
 								this.IsSatisfied = true;
-								base.Trigger(-794517298, new BuildingHP.DamageSourceInfo
+								base.BoxingTrigger(-794517298, new BuildingHP.DamageSourceInfo
 								{
 									damage = 1,
 									source = global::STRINGS.BUILDINGS.DAMAGESOURCES.BAD_INPUT_ELEMENT,

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 {
-    class NoseConeHEPHarvestSideScreen : SideScreenContent, ISim200ms
+    class ResourceHarvestModuleHEPSideScreen : SideScreenContent, ISim200ms
     {
         private Clustercraft targetCraft = null;
 
@@ -27,7 +27,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
         float lastMassStored = -1f;
         public HighEnergyParticleStorage drillerStorage = null;
         public List<HighEnergyParticleStorage> hepStorages = null;
-        public NoseConeHEPHarvest.StatesInstance moduleInstance;
+        public ResourceHarvestModuleHEP.StatesInstance moduleInstance;
 
 
         GenericUIProgressBar progressBar;
@@ -70,8 +70,8 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
             foreach (Ref<RocketModuleCluster> clusterModule in craft.GetComponent<CraftModuleInterface>().ClusterModules)
             {
                 GameObject gameObject = clusterModule.Get().gameObject;
-                if (gameObject.GetDef<NoseConeHEPHarvest.Def>() != null)
-                    return gameObject.GetSMI<NoseConeHEPHarvest.StatesInstance>() != null;
+                if (gameObject.GetDef<ResourceHarvestModuleHEP.Def>() != null)
+                    return gameObject.GetSMI<ResourceHarvestModuleHEP.StatesInstance>() != null;
             }
             return false;
         }
@@ -82,9 +82,9 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
             foreach (Ref<RocketModuleCluster> clusterModule in craft.GetComponent<CraftModuleInterface>().ClusterModules)
             {
                 GameObject gameObject = clusterModule.Get().gameObject;
-                if (gameObject.GetDef<NoseConeHEPHarvest.Def>() != null)
+                if (gameObject.GetDef<ResourceHarvestModuleHEP.Def>() != null)
                 {
-                    moduleInstance = gameObject.GetSMI<NoseConeHEPHarvest.StatesInstance>();
+                    moduleInstance = gameObject.GetSMI<ResourceHarvestModuleHEP.StatesInstance>();
                     moduleInstance.gameObject.TryGetComponent(out drillerStorage);
                     hepStorages.Add(drillerStorage);
                 }

@@ -174,9 +174,9 @@ namespace LogicSatellites.Behaviours
 					return;
 				component.SetSymbolVisiblity((KAnimHashedString)this.def.constructionSymbol, show);
 			}
-			public string SidescreenButtonText => !this.smi.sm.constructionRequested.Get(this.smi) ? string.Format(UI.UISIDESCREENS.BUTTONMENUSIDESCREEN.ALLOW_INTERNAL_CONSTRUCTOR.text, (object)Assets.GetPrefab((Tag)this.def.outputIDs[0]).GetProperName()) : string.Format(UI.UISIDESCREENS.BUTTONMENUSIDESCREEN.DISALLOW_INTERNAL_CONSTRUCTOR.text, (object)Assets.GetPrefab((Tag)this.def.outputIDs[0]).GetProperName());
+			public string SidescreenButtonText => !this.smi.sm.constructionRequested.Get(this.smi) ? string.Format(UI.UISIDESCREENS.BUTTONMENUSIDESCREEN.ALLOW_INTERNAL_CONSTRUCTOR.text, Assets.GetPrefab((Tag)this.def.outputIDs[0]).GetProperName()) : string.Format(UI.UISIDESCREENS.BUTTONMENUSIDESCREEN.DISALLOW_INTERNAL_CONSTRUCTOR.text, Assets.GetPrefab((Tag)this.def.outputIDs[0]).GetProperName());
 
-			public string SidescreenButtonTooltip => !this.smi.sm.constructionRequested.Get(this.smi) ? string.Format(UI.UISIDESCREENS.BUTTONMENUSIDESCREEN.ALLOW_INTERNAL_CONSTRUCTOR_TOOLTIP.text, (object)Assets.GetPrefab((Tag)this.def.outputIDs[0]).GetProperName()) : string.Format(UI.UISIDESCREENS.BUTTONMENUSIDESCREEN.DISALLOW_INTERNAL_CONSTRUCTOR_TOOLTIP.text, (object)Assets.GetPrefab((Tag)this.def.outputIDs[0]).GetProperName());
+			public string SidescreenButtonTooltip => !this.smi.sm.constructionRequested.Get(this.smi) ? string.Format(UI.UISIDESCREENS.BUTTONMENUSIDESCREEN.ALLOW_INTERNAL_CONSTRUCTOR_TOOLTIP.text, Assets.GetPrefab((Tag)this.def.outputIDs[0]).GetProperName()) : string.Format(UI.UISIDESCREENS.BUTTONMENUSIDESCREEN.DISALLOW_INTERNAL_CONSTRUCTOR_TOOLTIP.text, Assets.GetPrefab((Tag)this.def.outputIDs[0]).GetProperName());
 
 			public void OnSidescreenButtonPressed()
 			{

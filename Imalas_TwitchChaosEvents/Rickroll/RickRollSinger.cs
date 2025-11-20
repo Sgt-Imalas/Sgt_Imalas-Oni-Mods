@@ -27,7 +27,7 @@ namespace Imalas_TwitchChaosEvents.Rickroll
 				smi.musicParticleFX.SetActive(!smi.HasTag(GameTags.Asleep));
 			}).Update((smi, dt) =>
 			{
-				if (smi.GetSpeechMonitor().IsPlayingSpeech() || !SpeechMonitor.IsAllowedToPlaySpeech(smi.gameObject))
+				if (smi.GetSpeechMonitor().IsPlayingSpeech() || !SpeechMonitor.IsAllowedToPlaySpeech(smi.Kpid,smi.AnimController))
 					return;
 				// smi.GetSpeechMonitor().PlaySpeech(Db.Get().Thoughts.CatchyTune.speechPrefix, Db.Get().Thoughts.CatchyTune.sound);
 			}, UpdateRate.SIM_1000ms).Exit(smi =>
@@ -52,9 +52,14 @@ namespace Imalas_TwitchChaosEvents.Rickroll
 			public GameObject musicParticleFX;
 			public SpeechMonitor.Instance speechMonitor;
 
+			public KPrefabID Kpid { get; private set; }
+
+			public KBatchedAnimController AnimController { get; private set; }
 			public Instance(IStateMachineTarget master)
 			  : base(master)
 			{
+				this.Kpid = master.GetComponent<KPrefabID>();
+				this.AnimController = master.GetComponent<KBatchedAnimController>();
 			}
 
 			public void CreatePasserbyReactable()

@@ -67,9 +67,7 @@ namespace SetStartDupes
 
 
 			container.characterNameTitle.OnEndEdit(Mate.second.ConfigName);
-			container.SetAnimator();
-			container.SetAttributes();
-			container.SetInfoText();
+			container.RefreshDuplicantPanel();
 		}
 
 		public static MinionCrewPreset CreateCrewPresetFromLiveDuplicants()

@@ -6,7 +6,12 @@ namespace LogicSatellites.Entities
 {
 	class SatelliteComponentConfig : IEntityConfig, IHasDlcRestrictions
 	{
-		public const string ID = "LS_ClusterSatellitePart";
+		public string[] GetAnyRequiredDlcIds()
+		{
+			return null;
+		}
+
+		public static string ID = "LS_ClusterSatellitePart";
 		public const float MASS = 30f;
 		public static ComplexRecipe recipe;
 		public static Tag ComponentTag = TagManager.Create(ID);

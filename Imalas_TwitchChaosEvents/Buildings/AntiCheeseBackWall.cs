@@ -48,7 +48,7 @@ namespace Imalas_TwitchChaosEvents.Buildings
 			if ((double)cellAndEnergy.second == 0.0 || tile_go == null)
 				return;
 			tile_go.TryGetComponent<BuildingHP>(out var hP);
-			hP.gameObject.Trigger(-794517298, new BuildingHP.DamageSourceInfo()
+			hP.gameObject.BoxingTrigger(-794517298, new BuildingHP.DamageSourceInfo()
 			{
 				damage = 2000
 			});
@@ -81,7 +81,7 @@ namespace Imalas_TwitchChaosEvents.Buildings
 				BuildingHP component = tile_go.GetComponent<BuildingHP>();
 				double a = component.HitPoints / (double)component.MaxHitPoints;
 				float f = amount * component.MaxHitPoints;
-				component.gameObject.Trigger(-794517298, new BuildingHP.DamageSourceInfo()
+				component.gameObject.BoxingTrigger(-794517298, new BuildingHP.DamageSourceInfo()
 				{
 					damage = Mathf.RoundToInt(f)
 				});

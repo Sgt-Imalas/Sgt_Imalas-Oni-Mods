@@ -255,7 +255,7 @@ namespace SaveGameModLoader
 			Debug.Assert(reader.ReadKleiString() == "world");
 			Deserializer deserializer = new Deserializer(reader);
 			SaveFileRoot saveFileRoot = new SaveFileRoot();
-			deserializer.Deserialize((object)saveFileRoot);
+			deserializer.Deserialize(saveFileRoot);
 			if ((gameInfo.saveMajorVersion == 7 || gameInfo.saveMinorVersion < 8) && saveFileRoot.requiredMods != null)
 			{
 				saveFileRoot.active_mods = new List<KMod.Label>();

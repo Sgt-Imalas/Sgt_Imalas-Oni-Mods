@@ -508,7 +508,7 @@ namespace Rockets_TinyYetBig
 				}
 				public class RYB_NOSECONEHEPHARVEST
 				{
-					public static LocString NAME = FormatAsLink("Laser Drillcone", nameof(NoseConeHEPHarvestConfig));
+					public static LocString NAME = FormatAsLink("Laser Drillcone", nameof(ResourceHarvestModuleHEP));
 					public static LocString DESC = "Harvests resources from the universe with the power of radbolts and lasers";
 					public static LocString EFFECT = global::STRINGS.BUILDINGS.PREFABS.NOSECONEHARVEST.EFFECT;
 				}
@@ -1211,6 +1211,11 @@ namespace Rockets_TinyYetBig
 				{
 					public static LocString NAME = FormatAsLink("Luxurious Liv'in Space", nameof(RTB_LARGERROCKETLIVINGSPACETECH));
 					public static LocString DESC = "All the living space a dupe could ask for, now in your rocket.";
+				}
+				public class RTB_SPACESCIENCETECH
+				{
+					public static LocString NAME = FormatAsLink("Deep Space Research", nameof(RTB_SPACESCIENCETECH));
+					public static LocString DESC = "We have to go deeper!\nVery much WIP filler tech";
 				}
 				public class RTB_SPACESTATIONTECH
 				{

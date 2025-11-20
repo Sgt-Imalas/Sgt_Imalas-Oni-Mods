@@ -1,4 +1,5 @@
 ﻿using KSerialization;
+using Rockets_TinyYetBig.Content.ModDb;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -71,9 +72,9 @@ namespace Rockets_TinyYetBig.Behaviours
 		public override void OnSpawn()
 		{
 			CraftModuleInterface craftInterface = this.GetComponent<RocketModuleCluster>().CraftInterface;
-			this.VirtualCircuitKey = (object)craftInterface;
+			this.VirtualCircuitKey = craftInterface;
 			this.clustercraft = craftInterface.GetComponent<Clustercraft>();
-			Game.Instance.electricalConduitSystem.AddToVirtualNetworks(this.VirtualCircuitKey, (object)this, true);
+			Game.Instance.electricalConduitSystem.AddToVirtualNetworks(this.VirtualCircuitKey, this, true);
 			base.OnSpawn();
 			StatusItemUpdate(false, true);
 			UpdateLandedStatusItem();
@@ -115,7 +116,7 @@ namespace Rockets_TinyYetBig.Behaviours
 		public override void OnCleanUp()
 		{
 			if (VirtualCircuitKey != null)
-				Game.Instance.electricalConduitSystem.RemoveFromVirtualNetworks(this.VirtualCircuitKey, (object)this, true);
+				Game.Instance.electricalConduitSystem.RemoveFromVirtualNetworks(this.VirtualCircuitKey, this, true);
 			//if(clustercraft!= null && clustercraft.TryGetComponent<KSelectable>(out var selectable))
 			//{
 			//    selectable.RemoveStatusItem(FuelStatusHandle, true);
@@ -152,7 +153,7 @@ namespace Rockets_TinyYetBig.Behaviours
 
 		public override void EnergySim200ms(float dt)
 		{
-			//selectable.SetStatusItem(Db.Get().StatusItemCategories.Main, ModAssets.StatusItems.RTB_ModuleGeneratorFuelStatus, (object)this);
+			//selectable.SetStatusItem(Db.Get().StatusItemCategories.Main, ModStatusItems.RTB_ModuleGeneratorFuelStatus, this);
 			RemoveRefillOnSatisfied();
 			//if (!AllowRefill)
 			//{
@@ -190,7 +191,7 @@ namespace Rockets_TinyYetBig.Behaviours
 				StatusItemUpdate(false);
 			}
 
-			//this.selectable.GetStatusItemGroup().SetStatusItem(FuelStatusHandleGrounded, Db.Get().StatusItemCategories.Main, ModAssets.StatusItems.RTB_ModuleGeneratorFuelStatus, (object)this);
+			//this.selectable.GetStatusItemGroup().SetStatusItem(FuelStatusHandleGrounded, Db.Get().StatusItemCategories.Main, ModStatusItems.RTB_ModuleGeneratorFuelStatus, this);
 			ResetRefillStatus();
 		}
 
@@ -205,14 +206,14 @@ namespace Rockets_TinyYetBig.Behaviours
 			if (active)
 			{
 				this.ActiveStatusItemHandle = this.AlwaysActive ?
-					this.selectable.ReplaceStatusItem(this.ActiveStatusItemHandle, ModAssets.StatusItems.RTB_AlwaysActiveOn, (object)this) :
-					this.selectable.ReplaceStatusItem(this.ActiveStatusItemHandle, ModAssets.StatusItems.RTB_ModuleGeneratorPowered, (object)this);
+					this.selectable.ReplaceStatusItem(this.ActiveStatusItemHandle, ModStatusItems.RTB_AlwaysActiveOn, this) :
+					this.selectable.ReplaceStatusItem(this.ActiveStatusItemHandle, ModStatusItems.RTB_ModuleGeneratorPowered, this);
 			}
 			else
 			{
 				this.ActiveStatusItemHandle = this.AlwaysActive ?
-						this.selectable.ReplaceStatusItem(this.ActiveStatusItemHandle, ModAssets.StatusItems.RTB_AlwaysActiveOff, (object)this) :
-						this.selectable.ReplaceStatusItem(this.ActiveStatusItemHandle, ModAssets.StatusItems.RTB_ModuleGeneratorNotPowered, (object)this);
+						this.selectable.ReplaceStatusItem(this.ActiveStatusItemHandle, ModStatusItems.RTB_AlwaysActiveOff, this) :
+						this.selectable.ReplaceStatusItem(this.ActiveStatusItemHandle, ModStatusItems.RTB_ModuleGeneratorNotPowered, this);
 
 			}
 		}
@@ -439,9 +440,9 @@ namespace Rockets_TinyYetBig.Behaviours
 		public void UpdateLandedStatusItem()
 		{
 			if (produceWhileLanded)
-				this.selectable.AddStatusItem(ModAssets.StatusItems.RTB_ModuleGeneratorLandedEnabled);
+				this.selectable.AddStatusItem(ModStatusItems.RTB_ModuleGeneratorLandedEnabled);
 			else
-				this.selectable.RemoveStatusItem(ModAssets.StatusItems.RTB_ModuleGeneratorLandedEnabled);
+				this.selectable.RemoveStatusItem(ModStatusItems.RTB_ModuleGeneratorLandedEnabled);
 
 		}
 

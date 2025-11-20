@@ -11,7 +11,7 @@ namespace UtilLibs
 	{
 		public static bool CallsConstructor(this CodeInstruction code, ConstructorInfo constructor)
 		{
-			if((object)constructor == null)
+			if(constructor == null)
 			{
 				throw new ArgumentNullException("constructor");
 			}
@@ -21,17 +21,17 @@ namespace UtilLibs
 			}
 			return object.Equals(code.operand, constructor);
 		}
+		public static int FindIndexOfNextLocalIndex(List<CodeInstruction> codeInstructions, CodeInstruction start, bool goingDescending = true) => FindIndexOfNextLocalIndex(codeInstructions, codeInstructions.IndexOf(start), goingDescending);
+		public static int FindIndexOfNextLocalIndex(List<CodeInstruction> codeInstructions, int insertionIndex, bool goingDescending = true) => FindIndicesOfLocalsByIndex(codeInstructions, insertionIndex, 1, goingDescending)[0];
 
-		public static int FindIndexOfNextLocalIndex(List<CodeInstruction> codeInstructions, int insertionIndex, bool goingBackwards = true) => FindIndicesOfLocalsByIndex(codeInstructions, insertionIndex, 1, goingBackwards)[0];
-
-		public static int[] FindIndicesOfLocalsByIndex(List<CodeInstruction> codeInstructions, int insertionIndex, int numberOfVarsToFind = 1, bool goingBackwards = true)
+		public static int[] FindIndicesOfLocalsByIndex(List<CodeInstruction> codeInstructions, int insertionIndex, int numberOfVarsToFind = 1, bool goingDescending = true)
 		{
 			var indices = new List<int>();
 
 			if (insertionIndex != -1)
 			{
-				int direction = goingBackwards ? -1 : 1;
-				for (int i = insertionIndex - 1; i >= 0 && i < codeInstructions.Count && indices.Count < numberOfVarsToFind; i += direction)
+				int direction = goingDescending ? -1 : 1;
+				for (int i = insertionIndex + direction; i >= 0 && i < codeInstructions.Count && indices.Count < numberOfVarsToFind; i += direction)
 				{
 					if (CodeInstructionExtensions.IsLdloc(codeInstructions[i]))
 					{
@@ -157,7 +157,7 @@ namespace UtilLibs
 				if (extendedInfo)
 				{
 					if (code.operand != null)
-						SgtLogger.l(i + "=> OpCode: " + code.opcode + "::" + code.operand + "<> typeof (" + (code.operand.GetType()) + ")", "IL");
+						SgtLogger.l(i + "=> OpCode: " + code.opcode + "::" + code.operand + "<> typeof (" + (code.operand?.GetType()) + ")", "IL");
 					else
 						SgtLogger.l(i + "=> OpCode: " + code.opcode, "IL");
 				}
@@ -165,6 +165,26 @@ namespace UtilLibs
 					SgtLogger.l(i + ": " + code, "IL");
 			}
 			SgtLogger.l("\n", "IL-Dump Finished");
+		}
+
+		public static bool GetLocIndexOfFirst<T>(MethodBase original, out int index)
+		{
+			index = -1;
+			var body = original.GetMethodBody();
+			if (body == null)
+				return false;
+			var locVars = body.LocalVariables;
+			foreach (var var in locVars)
+			{
+				if (var == null) continue;
+				if(var.LocalType == typeof(T))
+				{
+					index = var.LocalIndex;
+					return true;
+				}
+			}
+
+			return false;
 		}
 	}
 }
