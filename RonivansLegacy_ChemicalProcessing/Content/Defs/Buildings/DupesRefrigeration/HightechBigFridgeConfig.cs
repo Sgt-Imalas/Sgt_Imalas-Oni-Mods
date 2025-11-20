@@ -109,7 +109,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 
 			///water storage
 			Storage liquidStorage = BuildingTemplates.CreateDefaultStorage(go, true);
-			liquidStorage.SetDefaultStoredItemModifiers(Storage.StandardSealedStorage);
+			liquidStorage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
 			//liquidStorage.showDescriptor = true;
 			liquidStorage.capacityKg = 500f;
 			liquidStorage.allowItemRemoval = true;
