@@ -17,7 +17,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 		public static ElementGrouping PlasticGroup;
 
-		public static string SteelAndTungstenMaterial => GameTags.Steel + "&" + SimHashes.Tungsten;
+		public static string SteelAndTungstenMaterial => GameTags.Steel + "&" +ModElements.StainlessSteel_Solid.Tag+ "&" + SimHashes.Tungsten;
 
 		/// Chemical Processing Industrial overhaul
 		public static readonly Color32 LOWGRADESAND_COLOR = new Color32(59, 46, 12, 255);
@@ -663,6 +663,28 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			AddElementOverheatModifier(Permendur_Solid, 125);
 			AddElementDecorModifier(Permendur_Solid, 0.20f);
 
+
+			///the following values are somewhat WIP and bound to change.
+
+			///invar: mirror permendur
+			AddElementOverheatModifier(Invar_Solid, 125);
+			AddElementDecorModifier(Invar_Solid, 0.20f);
+
+			///chromite ore, unrefined ferrochrome
+			AddElementOverheatModifier(ChromiteOre_Solid, 75);
+			AddElementDecorModifier(ChromiteOre_Solid, 0.30f);
+
+			///ferrochrome, iron+chromium alloy
+			AddElementOverheatModifier(FerroChrome_Solid, 150);
+			AddElementDecorModifier(FerroChrome_Solid, 0.60f);
+
+			///raw chromium,
+			AddElementOverheatModifier(Chromium_Solid, 225);
+			AddElementDecorModifier(Chromium_Solid, 1.00f);
+
+			///stainless steel, iron+chromium+nickel alloy, the "better" steel
+			AddElementOverheatModifier(StainlessSteel_Solid, 250);
+			AddElementDecorModifier(StainlessSteel_Solid, 0.75f);
 		}
 
 	}

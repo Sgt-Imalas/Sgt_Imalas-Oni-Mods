@@ -42,6 +42,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			GameTags.MaterialBuildingElements.Add(SimHashes.Ceramic.CreateTag());
 			GameTags.MaterialBuildingElements.Add(SimHashes.Brick.CreateTag());
 			GameTags.MaterialBuildingElements.Add(SimHashes.Tungsten.CreateTag());
+			GameTags.MaterialBuildingElements.Add(ModElements.Chromium_Solid.Tag);
 			GameTags.MaterialBuildingElements.Add(ModAssets.Tags.AIO_SulphuricAcidBuildable);
 		}
 		internal static void RegisterExtraStrings()
@@ -57,6 +58,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			Strings.Add("STRINGS.MISC.TAGS.BITUMEN", global::STRINGS.ELEMENTS.BITUMEN.NAME);
 			Strings.Add("STRINGS.MISC.TAGS.REFINEDCARBON", global::STRINGS.ELEMENTS.REFINEDCARBON.NAME);
 			Strings.Add("STRINGS.MISC.TAGS.AIO_SULPHURICACIDBUILDABLE", STRINGS.ELEMENTS.LIQUIDSULFURIC.NAME);
+			Strings.Add("STRINGS.MISC.TAGS.AIO_CHROMIUM_SOLID", STRINGS.ELEMENTS.AIO_CHROMIUM_SOLID.NAME);
 
 			//renaming the vanilla moulding tile to marble tile
 			global::STRINGS.BUILDINGS.PREFABS.MOULDINGTILE.NAME = STRINGS.BUILDINGS.PREFABS.MARBLETILESTRINGS.NAME;

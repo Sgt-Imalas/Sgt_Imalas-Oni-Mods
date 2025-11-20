@@ -520,6 +520,7 @@ elements:
     - RefinedMetal
     - BuildableAny 
     - Noncrushable
+    - CorrosionProof
     - AIO_HardenedAlloy #Steel substitute
     buildMenuSort: 10
     isDisabled: false
@@ -639,6 +640,7 @@ elements:
     - RefinedMetal
     - BuildableAny
     - Noncrushable
+    - CorrosionProof
     buildMenuSort: 2
     isDisabled: false
     state: Solid
