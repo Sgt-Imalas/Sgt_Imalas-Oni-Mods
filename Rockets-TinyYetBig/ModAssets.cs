@@ -166,7 +166,9 @@ namespace Rockets_TinyYetBig
 			public static Tech DockingTech;
 			public static string LargerRocketLivingSpaceTechID = "RTB_LargerRocketLivingSpaceTech";
 			public static Tech LargerRocketLivingSpaceTech;
-			public static string SpaceStationTechID = "RTB_SpaceStationTech";
+			public static string SpaceScienceTechID = "RTB_SpaceScienceTech";
+			public static Tech SpaceScienceTech;
+			public static string SpaceStationTechID = "RTB_SpaceStationTech"; 
 			public static Tech SpaceStationTech;
 			public static string SpaceStationTechMediumID = "RTB_MediumSpaceStationTech";
 			public static Tech SpaceStationTechMedium;

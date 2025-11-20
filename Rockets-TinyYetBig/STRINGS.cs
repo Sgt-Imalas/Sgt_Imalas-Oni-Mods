@@ -1212,6 +1212,11 @@ namespace Rockets_TinyYetBig
 					public static LocString NAME = FormatAsLink("Luxurious Liv'in Space", nameof(RTB_LARGERROCKETLIVINGSPACETECH));
 					public static LocString DESC = "All the living space a dupe could ask for, now in your rocket.";
 				}
+				public class RTB_SPACESCIENCETECH
+				{
+					public static LocString NAME = FormatAsLink("Deep Space Research", nameof(RTB_SPACESCIENCETECH));
+					public static LocString DESC = "We have to go deeper!\nVery much WIP filler tech";
+				}
 				public class RTB_SPACESTATIONTECH
 				{
 					public static LocString NAME = FormatAsLink("Deep Space Exploration", nameof(RTB_SPACESTATIONTECH));
