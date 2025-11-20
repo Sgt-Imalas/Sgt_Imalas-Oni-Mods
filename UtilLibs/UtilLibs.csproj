@@ -18,7 +18,7 @@
 	  <None Include="Updating\LoadExtraAnimations.cs" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="PLib" Version="4.17.1">
+		<PackageReference Include="PLib" Version="4.19.0">
 			<Private>false</Private>
 		</PackageReference>
 	</ItemGroup>
