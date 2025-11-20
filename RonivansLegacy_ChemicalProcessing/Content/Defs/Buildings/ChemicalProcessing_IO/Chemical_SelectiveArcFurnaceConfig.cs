@@ -133,11 +133,24 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//-------------------------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, 50)
 				.Input(ModElements.ChromiteOre_Solid, 100)
-				.Input(SimHashes.RefinedCarbon, 10)
+				.Input(SimHashes.RefinedCarbon, 20)
 				.Output(ModElements.FerroChrome_Solid, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-				.Output(ModElements.Slag_Solid, 10, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.Output(ModElements.Slag_Solid, 20, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description(ARCFURNACE_SMELT_2_1, 2, 1)
-				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.ResultWithIngredient)
+				.SortOrder(index++)
+				.Build();
+
+			//---- [ Ferrochrome #1] --------------------------------------------------------------------------------------------
+			// Ingredient: Chromium & iron at established rates
+			// Result:     Ferrochrome   - 100kg
+			//-------------------------------------------------------------------------------------------------------------------------
+			RecipeBuilder.Create(ID, 50)
+				.Input(ModElements.Chromium_Solid, 68)
+				.Input(SimHashes.Iron, 32)
+				.Output(ModElements.FerroChrome_Solid, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.Description(ARCFURNACE_SMELT_2_1, 2, 1)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.ResultWithIngredient)
 				.SortOrder(index++)
 				.Build();
 
@@ -154,7 +167,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Input(ModElements.Borax_Solid, 8)
 				.Output(ModElements.Invar_Solid, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description(ARCFURNACE_SMELT_3_1, 3, 1)
-				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
 				.SortOrder(index++)
 				.Build();
 			//---- [ Permendur ] --------------------------------------------------------------------------------------------
@@ -170,7 +183,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Input(ModElements.Borax_Solid, 8)
 				.Output(ModElements.Permendur_Solid, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description(ARCFURNACE_SMELT_3_1, 3, 1)
-				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
 				.SortOrder(index++)
 				.Build();
 
@@ -235,13 +248,13 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Result:     Stainless Steel  - 100kg  
 			//---------------------------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, 50)
+				.Input(SimHashes.Nickel, 10)
 				.Input(SimHashes.Iron, 45)
 				.Input(ModElements.FerroChrome_Solid, 25)
-				.Input(SimHashes.Nickel, 10)
 				.Input(SimHashes.RefinedCarbon, 10)
 				.Input([SimHashes.Lime, ModElements.Borax_Solid], 10, SimHashes.Lime.CreateTag())
 				.Output(ModElements.StainlessSteel_Solid, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.ResultWithIngredient)
 				.Description(ARCFURNACE_STEEL_2, 4, 1)
 				.SortOrder(index++)
 				.Build();
