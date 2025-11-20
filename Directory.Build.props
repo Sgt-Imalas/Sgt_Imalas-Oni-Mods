@@ -39,7 +39,7 @@
 		<FebruaryQOL_Hotfix3>661174</FebruaryQOL_Hotfix3>
 		<PrehistoricRelease>674504</PrehistoricRelease>
 		<QOL2025NovBeta>699556</QOL2025NovBeta>
-		<QOL2025NovRelease>700348</QOL2025NovRelease>
+		<QOL2025NovRelease>700386</QOL2025NovRelease>
 		<!--Latest-->
 		<TargetGameVersion>$(QOL2025NovRelease)</TargetGameVersion>
 	</PropertyGroup>

@@ -34,8 +34,8 @@ namespace _SgtsModUpdater
 				if (_reposToFetch == null || !_reposToFetch.Any())
 				{
 					_reposToFetch = [
-						new("Sgts Mods Nightly","https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases/download/AllMods_Automated_Build_Nightly/_ReleaseVersionInfoData.json"),
-						new ("Sgts Mods Full",  "https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases/download/AllMods_Automated_Build_FullRelease/_ReleaseVersionInfoData.json"),
+						new("Sgts Mods U56","https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases/download/AllMods_U56/_ReleaseVersionInfoData.json"),
+						new ("Sgts Mods U57",  "https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/releases/download/AllMods_Automated_Build_FullRelease/_ReleaseVersionInfoData.json"),
 						new ("MapsNotIncluded",  "https://github.com/barratt/mapsnotincluded.org/releases/download/MNI_Mod_Automatic_Release/_ReleaseVersionInfoData.json"),
 					];
 					Save();
