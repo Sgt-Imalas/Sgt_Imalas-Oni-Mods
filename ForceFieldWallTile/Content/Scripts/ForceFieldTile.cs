@@ -306,7 +306,7 @@ namespace ForceFieldWallTile.Content.Scripts
 			//overload damage kills the shield for at least 6 seconds, at most 18 for recharge;
 			//float overloadTime = Mathf.Clamp(overloadDamage, 6, 18);
 			//overloadTime = 8;
-			_overloadCooldown = 8;
+			_overloadCooldown = Config.Instance.OverloadCooldown;
 			ResetBarrier();
 		}
 		void ResetBarrier()
@@ -525,7 +525,7 @@ namespace ForceFieldWallTile.Content.Scripts
 		private bool IsOperational()
 		{
 			//Prevent the on load power outage from disabling the shield
-			if (Time.timeSinceLevelLoad < 0.1f)
+			if (Time.timeSinceLevelLoad < 0.3f)
 				return ShieldActive;
 
 			return operational.IsOperational;

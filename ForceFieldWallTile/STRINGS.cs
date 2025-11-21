@@ -80,6 +80,11 @@ namespace ForceFieldWallTile
 				public static LocString NAME = "Meteor Mass Percentage";
 				public static LocString TOOLTIP = "Percentage of meteor mass dropped when a meteor explodes on the forcefield.";
 			}
+			public class FFT_OVERLOADCOOLDOWN
+			{
+				public static LocString NAME = "Overload Cooldown";
+				public static LocString TOOLTIP = "Time it takes for an overloaded forcefield to restart";
+			}
 		}
 	}
 }
