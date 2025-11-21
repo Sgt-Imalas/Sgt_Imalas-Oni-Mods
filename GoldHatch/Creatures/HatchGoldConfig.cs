@@ -14,7 +14,6 @@ namespace GoldHatch.Creatures
 
 		public GameObject CreatePrefab()
 		{
-
 			var entity = EntityTemplates.ExtendEntityToFertileCreature(
 				CreateHatch(ID, (string)STRINGS.CREATURES.SPECIES.HATCH.VARIANT_GOLD.NAME, (string)STRINGS.CREATURES.SPECIES.HATCH.VARIANT_GOLD.DESC, "hatch_gold_kanim", false),
 				null, EGG_ID, STRINGS.CREATURES.SPECIES.HATCH.VARIANT_GOLD.EGG_NAME, STRINGS.CREATURES.SPECIES.HATCH.VARIANT_GOLD.DESC, "egg_hatch_gold_kanim", HatchTuning.EGG_MASS, ID_BABY, 60f, 20f, GoldHatchTuning.EGG_CHANCES_GOLD, HatchHardConfig.EGG_SORT_ORDER + 1);
@@ -30,6 +29,15 @@ namespace GoldHatch.Creatures
 			bool is_baby)
 		{
 			GameObject wildCreature = EntityTemplates.ExtendEntityToWildCreature(BaseHatchConfig.BaseHatch(id, name, desc, anim_file, BASE_TRAIT_ID, is_baby), HatchTuning.PEN_SIZE_PER_CREATURE);
+			
+			if(wildCreature.TryGetComponent<KBatchedAnimController>(out var kbac))
+			{
+				kbac.AnimFiles = [
+					Assets.GetAnim(anim_file), //build file - custom gold hatch icons
+					Assets.GetAnim("hatch_kanim") //anim file - default hatch animations
+					];
+			}
+
 			Trait trait = Db.Get().CreateTrait(BASE_TRAIT_ID, name, name, (string)null, false, (ChoreGroup[])null, true, true);
 			trait.Add(new AttributeModifier(Db.Get().Amounts.Calories.maxAttribute.Id, HatchTuning.STANDARD_STOMACH_SIZE, name));
 			trait.Add(new AttributeModifier(Db.Get().Amounts.Calories.deltaAttribute.Id, (float)(-(double)HatchTuning.STANDARD_CALORIES_PER_CYCLE / 600.0), (string)global::STRINGS.UI.TOOLTIPS.BASE_VALUE));

@@ -101,7 +101,7 @@ namespace UtilLibs
 				if (moduleList.Contains(moduleId))
 				{
 #if DEBUG
-                    Debug.Log(module + " already in category");
+                    Debug.Log(moduleId + " already in category");
 
 #endif
 					return;
@@ -115,7 +115,7 @@ namespace UtilLibs
 				AddIfNotExists(sortedModules[(int)RocketCategory.engines], moduleId);
 				categoryFound = true;
 #if DEBUG
-                Debug.Log("Added " + module + " to category engines");
+                Debug.Log("Added " + moduleId + " to category engines");
 #endif
 			}
 			if (moduleId.Contains("HabitatModule")||moduleId.Contains("RoboPilotModule"))
@@ -123,7 +123,7 @@ namespace UtilLibs
 				AddIfNotExists(sortedModules[(int)RocketCategory.habitats], moduleId);
 				categoryFound = true;
 #if DEBUG
-                Debug.Log("Added " + module + " to category habitats");
+                Debug.Log("Added " + moduleId + " to category habitats");
 #endif
 			}
 			if (moduleId.Contains("Nosecone") || moduleId == HabitatModuleSmallConfig.ID)
@@ -131,7 +131,7 @@ namespace UtilLibs
 				AddIfNotExists(sortedModules[(int)RocketCategory.nosecones], moduleId);
 				categoryFound = true;
 #if DEBUG
-                Debug.Log("Added " + module + " to category nosecones");
+                Debug.Log("Added " + moduleId + " to category nosecones");
 #endif
 			}
 			if (moduleId == "OrbitalCargoModule" || moduleId == "ScoutModule" || moduleId == "PioneerModule")
@@ -139,7 +139,7 @@ namespace UtilLibs
 				AddIfNotExists(sortedModules[(int)RocketCategory.deployables], moduleId);
 				categoryFound = true;
 #if DEBUG
-                Debug.Log("Added " + module + " to category deployables");
+                Debug.Log("Added " + moduleId + " to category deployables");
 #endif
 			}
 			if (moduleId.Contains("Tank"))
@@ -147,7 +147,7 @@ namespace UtilLibs
 				AddIfNotExists(sortedModules[(int)RocketCategory.fuel], moduleId);
 				categoryFound = true;
 #if DEBUG
-                Debug.Log("Added " + module + " to category fuel");
+                Debug.Log("Added " + moduleId + " to category fuel");
 #endif
 			}
 			if (moduleId.Contains("CargoBay")||moduleId == "ResearchClusterModule")
@@ -155,7 +155,7 @@ namespace UtilLibs
 				AddIfNotExists(sortedModules[(int)RocketCategory.cargo], moduleId);
 				categoryFound = true;
 #if DEBUG
-                Debug.Log("Added " + module + " to category cargo");
+                Debug.Log("Added " + moduleId + " to category cargo");
 #endif
 			}
 			if (moduleId.Contains("Battery") || moduleId.Contains("SolarPanel"))
@@ -163,7 +163,7 @@ namespace UtilLibs
 				AddIfNotExists(sortedModules[(int)RocketCategory.power], moduleId);
 				categoryFound = true;
 #if DEBUG
-                Debug.Log("Added " + module + " to category power");
+                Debug.Log("Added " + moduleId + " to category power");
 #endif
 			}
 			if (moduleId == "ScannerModule" || moduleId.Contains("Research"))
@@ -171,7 +171,7 @@ namespace UtilLibs
 				AddIfNotExists(sortedModules[(int)RocketCategory.utility], moduleId);
 				categoryFound = true;
 #if DEBUG
-                Debug.Log("Added " + module + " to category util");
+                Debug.Log("Added " + moduleId + " to category util");
 #endif
 			}
 			if (!categoryFound)
