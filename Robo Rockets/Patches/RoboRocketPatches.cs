@@ -110,6 +110,22 @@ namespace RoboRockets
 				return true;
 			}
 		}
+		/// <summary>
+		/// Hide habitat side screen for ai rockets
+		/// </summary>
+		[HarmonyPatch(typeof(RocketInteriorSectionSideScreen), nameof(RocketInteriorSectionSideScreen.IsValidForTarget))]
+		public class RocketInteriorSectionSideScreen_IsValidForTarget_Patch
+		{
+			public static bool Prefix(GameObject target, ref bool __result)
+			{
+				if (target.TryGetComponent<PassengerRocketModule>(out var passengerRocketModule) && passengerRocketModule is AIPassengerModule)
+				{
+					__result = false;
+					return false;
+				}
+				return true;
+			}
+		}
 
 		/// <summary>
 		/// skip pilot check for ai rockets
