@@ -21,6 +21,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 		internal static BuildingConfigurationCollection LoadFromFile()
 		{
 			var file = new FileInfo(ConfigFileLocation);
+
+			SgtLogger.l("Loading Building Configuration from " + file.FullName);
 			if (file.Exists && IO_Utils.ReadFromFile<BuildingConfigurationCollection>(file, out var outlines, converterSettings: new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto }))
 			{
 				SgtLogger.l("loaded building config file with " + outlines.BuildingConfigurations.Count + " entries");
