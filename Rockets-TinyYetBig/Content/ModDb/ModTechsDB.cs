@@ -95,9 +95,9 @@ namespace Rockets_TinyYetBig.Content.ModDb
 				{
 					TechUtils.AddNode(instance,
 						ModAssets.Techs.HugeCargoBayTechID,
-						GameStrings.Technology.SolidMaterial.SolidManagement,
+						GameStrings.Technology.SolidMaterial.HighVelocityTransport,
 						xDiff: 1,
-						yDiff: 0);
+						yDiff: -1.15f);
 				}
 			}
 		}
