@@ -215,7 +215,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
 			.AddToTech(Technology.Power.FossilFuels)
 			.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
-			
+
 			//if (Config.Instance.IO_OldRefineries || Mod.IsDev)
 			{
 				BuildingManager.CreateEntry<Chemical_RawGasRefineryStagedConfig>()
@@ -784,67 +784,71 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			//solid
 
+			BuildingManager.CreateEntry<HPARailInsulatedConfig>()
+				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitConfig.ID)
+				.AddToTech(ModTechs.HPA_Rails_Research_ID)
+				.AddModFrom(SourceModInfo.HighPressureApplications)
+				.AddModFrom(SourceModInfo.AddedBySgt_Imalas)
+				.ConfigEnabled(Config.Instance.HPA_Rails_Insulation_Mod_Enabled && Config.Instance.HPA_Rails_Mod_Enabled);
 
-			if (!Config.Instance.HPA_Rails_Mod_Enabled)
-				return;
-
-			if (Config.Instance.HPA_Rails_Insulation_Mod_Enabled)
-			{
-				BuildingManager.CreateEntry<HPARailInsulatedConfig>()
-					.AddToCategory(PlanMenuCategory.Shipping, SolidConduitConfig.ID)
-					.AddToTech(ModTechs.HPA_Rails_Research_ID)
-					.AddModFrom(SourceModInfo.HighPressureApplications)
-					.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
-			}
 
 			BuildingManager.CreateEntry<HPARailConfig>()
 				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitConfig.ID)
 				.AddToTech(ModTechs.HPA_Rails_Research_ID)
 				.AddModFrom(SourceModInfo.HighPressureApplications)
-				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
+				.AddModFrom(SourceModInfo.AddedBySgt_Imalas)
+				.ConfigEnabled(Config.Instance.HPA_Rails_Mod_Enabled);
 
 
 			BuildingManager.CreateEntry<HPARailBridgeTileConfig>()
 				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitBridgeConfig.ID)
 				.AddToTech(ModTechs.HPA_Rails_Research_ID)
 				.AddModFrom(SourceModInfo.HighPressureApplications)
-				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
+				.AddModFrom(SourceModInfo.AddedBySgt_Imalas)
+				.ConfigEnabled(Config.Instance.HPA_Rails_Mod_Enabled);
 
 			BuildingManager.CreateEntry<HPARailBridgeConfig>()
 				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitBridgeConfig.ID)
 				.AddToTech(ModTechs.HPA_Rails_Research_ID)
 				.AddModFrom(SourceModInfo.HighPressureApplications)
-				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
+				.AddModFrom(SourceModInfo.AddedBySgt_Imalas)
+				.ConfigEnabled(Config.Instance.HPA_Rails_Mod_Enabled);
 
 
 			BuildingManager.CreateEntry<HPARailMergerConfig>()
 				.AddToCategory(PlanMenuCategory.Shipping, SolidLogicValveConfig.ID)
 				.AddToTech(ModTechs.HPA_Rails_Research_ID)
 				.AddModFrom(SourceModInfo.HighPressureApplications)
-				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
+				.AddModFrom(SourceModInfo.AddedBySgt_Imalas)
+				.ConfigEnabled(Config.Instance.HPA_Rails_Mod_Enabled);
 
 			BuildingManager.CreateEntry<HPARailValveConfig>()
 				.AddToCategory(PlanMenuCategory.Shipping, SolidLogicValveConfig.ID)
 				.AddToTech(ModTechs.HPA_Rails_Research_ID)
-				.AddModFrom(SourceModInfo.HighPressureApplications);
+				.AddModFrom(SourceModInfo.HighPressureApplications)
+				.AddModFrom(SourceModInfo.AddedBySgt_Imalas)
+				.ConfigEnabled(Config.Instance.HPA_Rails_Mod_Enabled);
 
 			BuildingManager.CreateEntry<HPAInBoxConfig>()
 				.AddToCategory(PlanMenuCategory.Shipping, SolidConduitInboxConfig.ID)
 				.AddToTech(ModTechs.HPA_Rails_Research_ID)
 				.AddModFrom(SourceModInfo.HighPressureApplications)
-				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
+				.AddModFrom(SourceModInfo.AddedBySgt_Imalas)
+				.ConfigEnabled(Config.Instance.HPA_Rails_Mod_Enabled);
 
 			BuildingManager.CreateEntry<HPATransferArmConfig>()
 				.AddToCategory(PlanMenuCategory.Shipping, SolidTransferArmConfig.ID)
 				.AddToTech(ModTechs.HPA_Rails_Research_ID)
 				.AddModFrom(SourceModInfo.HighPressureApplications)
-				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
+				.AddModFrom(SourceModInfo.AddedBySgt_Imalas)
+				.ConfigEnabled(Config.Instance.HPA_Rails_Mod_Enabled);
 
 			BuildingManager.CreateEntry<HPAFilterSolidConfig>()
 				.AddToCategory(PlanMenuCategory.Shipping, SolidFilterConfig.ID)
 				.AddToTech(Technology.SolidMaterial.SolidManagement)
 				.AddModFrom(SourceModInfo.HighPressureApplications)
-				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
+				.AddModFrom(SourceModInfo.AddedBySgt_Imalas)
+				.ConfigEnabled(Config.Instance.HPA_Rails_Mod_Enabled);
 		}
 		private static void RegisterBuildings_DupesRefrigeration()
 		{

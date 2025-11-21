@@ -104,7 +104,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 				return false;
 			return BuildingEnabledForce;
 		}
-		public bool AnySourceModsActive() => Config.ModBuildingEnabled(ModsFrom);
+		public bool AnySourceModsActive() => IsInjected ? Config.ModBuildingEnabled(ModsFrom) && BuildingInjection.CanEnableBuildingFromConfig : false;
 
 		public bool ShowBuildingEnabled(out string reason)
 		{
@@ -150,6 +150,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 		internal void SetInjection(BuildingInjectionEntry injection)
 		{
 			BuildingInjection = injection;
+			//SgtLogger.l("adding injection source for " + BuildingID + " from " + injection.BuildingID);
+			injection.Source = this;
 		}
 
 		internal void ResetChanges()

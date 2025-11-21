@@ -25,6 +25,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 		public List<SourceModInfo> SourceMods => modsFrom;
 
 		public HashSet<string> MigrateOldIdsFrom = [];
+		public bool CanEnableBuildingFromConfig = true;
+
 
 		public static BuildingInjectionEntry Create(string buildingID)
 		{
@@ -40,6 +42,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 		public BuildingInjectionEntry ForceCategory(bool move = true)
 		{
 			MoveExisting = move;
+			return this;
+		}
+		internal BuildingInjectionEntry ConfigEnabled(bool configEnabled)
+		{
+			CanEnableBuildingFromConfig = configEnabled;
 			return this;
 		}
 		public BuildingInjectionEntry AddToCategory(string category, string relativeBuildingID, ModUtil.BuildingOrdering ordering = ModUtil.BuildingOrdering.After)

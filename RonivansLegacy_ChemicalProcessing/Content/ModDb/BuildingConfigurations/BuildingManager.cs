@@ -94,7 +94,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			}
 			BuildingInjectionEntry injection = BuildingInjectionEntry.Create(buildingId);
 			entry.SetInjection(injection);
-			injection.Source = entry;
 			if (allowedByDlc)
 				BuildingInjections.Add(buildingId, injection);
 			return injection;
