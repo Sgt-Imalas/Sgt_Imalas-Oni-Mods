@@ -14,23 +14,6 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 	class BuildingConfig_Patches
 	{
 		[HarmonyPatch]
-		public static class AddTintableToBuildings
-		{
-			[HarmonyPrefix]
-			public static void Prefix(GameObject go)
-			{
-				go.AddOrGet<ContentTintable>();
-			}
-			[HarmonyTargetMethods]
-			internal static IEnumerable<MethodBase> TargetMethods()
-			{
-				const string name = nameof(IBuildingConfig.DoPostConfigureComplete);
-				yield return typeof(LiquidConditionerConfig).GetMethod(name);
-				yield return typeof(LiquidPumpConfig).GetMethod(name);
-				yield return typeof(LiquidMiniPumpConfig).GetMethod(name);
-			}
-		}
-		[HarmonyPatch]
 		public static class ExcludeBuildingsFromFloorVis
 		{
 			[HarmonyPrefix]
@@ -45,7 +28,6 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 				yield return typeof(SteamTurbineConfig2).GetMethod(name);
 				yield return typeof(AutoMinerConfig).GetMethod(name);
 				yield return typeof(VerticalWindTunnelConfig).GetMethod(name);
-
 				yield return typeof(RocketInteriorGasInputConfig).GetMethod(name);
 				yield return typeof(RocketInteriorGasOutputConfig).GetMethod(name);
 				yield return typeof(RocketInteriorLiquidInputConfig).GetMethod(name);

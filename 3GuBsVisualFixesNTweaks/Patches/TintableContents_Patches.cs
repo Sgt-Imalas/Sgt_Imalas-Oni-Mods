@@ -58,76 +58,7 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 				__instance.working
 					.EventTransition(GameHashes.OperationalChanged, __instance.off, (smi => !smi.GetComponent<Operational>().IsOperational))
 					.EventTransition(GameHashes.ActiveChanged, __instance.on_pst, (smi => !smi.GetComponent<Operational>().IsActive));
-
-
-				__instance.on.Enter(smi =>
-				{
-					if (!TryGetCachedKbacs(smi.gameObject, out var kbac, out var kbac2))
-						return;
-					if (!smi.gameObject.TryGetComponent<LimitValve>(out var valve) || valve.conduitType != ConduitType.Gas && valve.conduitType != ConduitType.Liquid)
-						return;
-
-					TryApplyConduitTint(valve.conduitBridge.type, valve.conduitBridge.inputCell, kbac, kbac2);
-				});
-				__instance.on_pre.Enter(smi =>
-				{
-					if (!TryGetCachedKbacs(smi.gameObject, out var kbac, out var kbac2))
-						return;
-					if (!smi.gameObject.TryGetComponent<LimitValve>(out var valve) || valve.conduitType != ConduitType.Gas && valve.conduitType != ConduitType.Liquid)
-						return;
-
-					TryApplyConduitTint(valve.conduitBridge.type, valve.conduitBridge.inputCell, kbac, kbac2);
-				});
 			}
-		}
-
-		
-		[HarmonyPatch(typeof(LimitValve), nameof(LimitValve.OnSpawn))]
-		public class LimitValve_OnSpawn_Patch
-		{
-			public static void Postfix(LimitValve __instance)
-			{
-				if (__instance.conduitType != ConduitType.Gas && __instance.conduitType != ConduitType.Liquid)
-					return;
-
-				if (!TryGetCachedKbacs(__instance.gameObject, out var kbac, out var kbac2))
-					return;
-
-				TryApplyConduitTint(__instance.conduitBridge.type, __instance.conduitBridge.inputCell, kbac, kbac2);
-			}
-		}
-
-		[HarmonyPatch(typeof(LimitValve), nameof(LimitValve.OnMassTransfer))]
-		public class LimitValve_OnMassTransfer_Patch
-		{
-			public static void Prefix(LimitValve __instance, SimHashes element, float transferredMass)
-			{
-				if (TryGetCachedKbacs(__instance.gameObject, out var kbac, out var kbac2))
-				{
-					if (transferredMass <= 0)
-					{
-						TryApplyConduitTint(__instance.conduitType, -1, kbac, kbac2, true, Color.clear);
-					}
-					else
-					{
-						TryApplyConduitTint(__instance.conduitType, -1, kbac, kbac2, true, ModAssets.GetElementColor(element));
-					}
-				}
-			}
-		}
-
-
-
-		[HarmonyPatch(typeof(ElementFilter), nameof(ElementFilter.OnConduitTick))]
-		public class ElementFilter_OnConduitTick_Patch
-		{
-			public static void Prefix(ElementFilter __instance)
-			{
-				if (TryGetCachedKbacs(__instance.gameObject, out var kbac, out var kbac2))
-				{
-					TryApplyConduitTint(__instance.portInfo.conduitType, __instance.inputCell, kbac, kbac2);
-				}
-			}
-		}
+		}		
 	}
 }
