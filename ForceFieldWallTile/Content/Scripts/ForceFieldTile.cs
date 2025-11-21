@@ -462,6 +462,7 @@ namespace ForceFieldWallTile.Content.Scripts
 
 				on.defaultState = on.recharging;
 				on
+					.Transition(on_pst, smi => !smi.master.IsOperational())
 					.Enter(smi => smi.master.SetForceFieldEnabled(true))
 					.Exit(smi => smi.master.SetForceFieldEnabled(false))
 					.Update((smi, dt) => smi.master.HandlePressure(dt), UpdateRate.SIM_1000ms)
@@ -524,7 +525,7 @@ namespace ForceFieldWallTile.Content.Scripts
 		private bool IsOperational()
 		{
 			//Prevent the on load power outage from disabling the shield
-			if (Time.timeSinceLevelLoad < 0.01f)
+			if (Time.timeSinceLevelLoad < 0.1f)
 				return ShieldActive;
 
 			return operational.IsOperational;
