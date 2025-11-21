@@ -340,6 +340,10 @@ namespace Dupery
 			// Customisable accessories
 			int hair = ChooseAccessoryNumber(Db.Get().AccessorySlots.Hair, Hair);
 			int body = ChooseAccessoryNumber(Db.Get().AccessorySlots.Body, Body);
+						
+			if (body == 7)
+				body = 5;
+
 			int neck = ChooseAccessoryNumber(Db.Get().AccessorySlots.Neck, Neck, 0);
 			int belt = ChooseAccessoryNumber(Db.Get().AccessorySlots.Belt, Belt, 0);
 			int cuff = ChooseAccessoryNumber(Db.Get().AccessorySlots.Cuff, Cuff, 0);
