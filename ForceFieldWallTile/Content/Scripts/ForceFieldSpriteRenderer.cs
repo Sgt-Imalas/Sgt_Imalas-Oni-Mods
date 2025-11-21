@@ -1,5 +1,7 @@
 ﻿using ElementUtilNamespace;
+using ForceFieldWallTile.Content.Scripts.MeshGen;
 using HarmonyLib;
+using PeterHan.PLib.Core;
 using Rendering.World;
 using System;
 using System.Collections.Generic;
@@ -8,9 +10,8 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
-using static STRINGS.UI.DETAILTABS;
 using static Rendering.BlockTileRenderer;
-using ForceFieldWallTile.Content.Scripts.MeshGen;
+using static STRINGS.UI.DETAILTABS;
 
 namespace ForceFieldWallTile.Content.Scripts
 {
@@ -36,15 +37,15 @@ namespace ForceFieldWallTile.Content.Scripts
 					| Bits.Up);
 			ForceField = InstantiateTrueTilesBackground(Assets.GetBuildingDef(TilePOIConfig.ID).BlockTileAtlas.texture, "ForceField", connectionBits);
 
-			Subscribe((int)GameHashes.SelectObject, OnSelectionChanged);
-			Subscribe((int)GameHashes.HighlightObject, OnHighlightChanged);
+			//Subscribe((int)GameHashes.SelectObject, OnSelectionChanged);
+			//Subscribe((int)GameHashes.HighlightObject, OnHighlightChanged);
 
 			//ApplyBiomeTint();
 		}
 		public override void OnCleanUp()
 		{
-			Unsubscribe((int)GameHashes.SelectObject, OnSelectionChanged);
-			Unsubscribe((int)GameHashes.HighlightObject, OnHighlightChanged);
+			//Unsubscribe((int)GameHashes.SelectObject, OnSelectionChanged);
+			//Unsubscribe((int)GameHashes.HighlightObject, OnHighlightChanged);
 			base.OnCleanUp();
 			if (ForceField != null && ForceField.gameObject)
 			{
@@ -53,14 +54,14 @@ namespace ForceFieldWallTile.Content.Scripts
 		}
 		private void OnSelectionChanged(object data)
 		{
-			var enabled = (bool)data;
+			bool enabled = ((Boxed<bool>)data).value;
 			isSelected = enabled;
 			SetRendererTints();
 		}
 
 		private void OnHighlightChanged(object data)
 		{
-			var enabled = (bool)data;
+			bool enabled = ((Boxed<bool>)data).value;
 			isHighlighted = enabled;
 			SetRendererTints();
 		}

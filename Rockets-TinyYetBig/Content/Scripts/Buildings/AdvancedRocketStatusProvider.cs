@@ -44,10 +44,15 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 
 			var launchpadMaterialDistributor = gameObject.GetSMI<LaunchPadMaterialDistributor.Instance>();
 
-			OnOperationalChanged(null);
-			this.UpdateVisuals();
+			StartCoroutine(DelayedRefresh());
 			this.Subscribe((int)GameHashes.LogicEvent, OnLogicValueChanged);
 			this.Subscribe((int)GameHashes.OperationalChanged, OnOperationalChanged);
+		}
+
+		IEnumerator DelayedRefresh()
+		{
+			yield return null;
+			OnOperationalChanged(null);
 		}
 
 		public override void OnCleanUp()

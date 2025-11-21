@@ -1,6 +1,7 @@
 ﻿using ElementUtilNamespace;
 using HarmonyLib;
 using ONITwitchLib.Logger;
+using PeterHan.PLib.Core;
 using Rendering.World;
 using System;
 using System.Collections.Generic;
@@ -28,15 +29,20 @@ namespace Rockets_TinyYetBig.RocketFueling
 		{
 			base.OnSpawn();
 			HandleTrueTilesSymbolOverrides();
-
-			Subscribe((int)GameHashes.SelectObject, OnSelectionChanged);
-			Subscribe((int)GameHashes.HighlightObject, OnHighlightChanged);
+			if (TrueTilesEnabled)
+			{
+				Subscribe((int)GameHashes.SelectObject, OnSelectionChanged);
+				Subscribe((int)GameHashes.HighlightObject, OnHighlightChanged);
+			}
 			//ApplyBiomeTint();
 		}
 		public override void OnCleanUp()
 		{
-			Unsubscribe((int)GameHashes.SelectObject, OnSelectionChanged);
-			Unsubscribe((int)GameHashes.HighlightObject, OnHighlightChanged);
+			if (TrueTilesEnabled)
+			{
+				Unsubscribe((int)GameHashes.SelectObject, OnSelectionChanged);
+				Unsubscribe((int)GameHashes.HighlightObject, OnHighlightChanged);
+			}
 			base.OnCleanUp();
 			if (TrueTileWall_Bottom != null && TrueTileWall_Bottom.gameObject)
 			{
@@ -49,14 +55,14 @@ namespace Rockets_TinyYetBig.RocketFueling
 		}
 		private void OnSelectionChanged(object data)
 		{
-			var enabled = (bool)data;
+			bool enabled = ((Boxed<bool>)data).value;
 			isSelected = enabled;
 			SetRendererTints();
 		}
 
 		private void OnHighlightChanged(object data)
 		{
-			var enabled = (bool)data;
+			bool enabled = ((Boxed<bool>)data).value;
 			isHighlighted = enabled;
 			SetRendererTints();
 		}
@@ -67,7 +73,7 @@ namespace Rockets_TinyYetBig.RocketFueling
 		void SetRendererTints()
 		{
 			var color = GetBiomeTint();
-			var finalColor = isSelected ? selectColour* color : isHighlighted ? highlightColour* color : color;
+			var finalColor = isSelected ? selectColour * color : isHighlighted ? highlightColour * color : color;
 			if (TrueTileWall_Bottom != null)
 			{
 				TrueTileWall_Bottom.color = finalColor;
@@ -105,7 +111,7 @@ namespace Rockets_TinyYetBig.RocketFueling
 
 		}
 
-		public static bool trueTilesInitialized = false;
+		public bool trueTilesInitialized = false;
 		public static bool TrueTilesEnabled = false;
 		bool TryGetTrueTilesTexture(out Texture2D texture)
 		{
@@ -137,7 +143,7 @@ namespace Rockets_TinyYetBig.RocketFueling
 			var m_textureAsset = m_Get.Invoke(m_Instance, [TileConfig.ID, BuildingComplete.primaryElement.Element.id]);
 			if (m_textureAsset == null)
 			{
-				SgtLogger.l("TrueTiles TileAssets.Get returned null.");
+				SgtLogger.l("TrueTiles TileAssets.Get returned null for element: "+ BuildingComplete.primaryElement.Element.id);
 				return false;
 			}
 			var m_main = AccessTools.Field(m_textureAsset.GetType(), "main")?.GetValue(m_textureAsset);

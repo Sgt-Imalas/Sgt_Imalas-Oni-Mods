@@ -4,6 +4,7 @@ using ProcGen;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -36,7 +37,7 @@ namespace UtilLibs.SharedTweaks
 		{
 			new ResearchScreenBetterConnectionLines().RegisterForForwarding();
 		}
-		public override Version Version => new Version(1, 0, 0, 6);
+		public override Version Version => new Version(1, 0, 0, 10);
 
 		public override void Initialize(Harmony plibInstance)
 		{
@@ -47,11 +48,11 @@ namespace UtilLibs.SharedTweaks
 				var onSpawnPostfix = AccessTools.Method(typeof(ResearchScreenBetterConnectionLines), nameof(CreateLinesPostfix));
 				///change the line renderers to be more spaced out
 				plibInstance.Patch(targetMethod, postfix: new(onSpawnPostfix, Priority.HigherThanNormal));
-				Debug.Log(this.GetType().ToString() + " successfully patched");
+				Debug.Log(Assembly.GetExecutingAssembly().GetName().Name+": "+this.GetType().ToString() + " successfully patched");
 			}
 			catch (Exception e)
 			{
-				Debug.LogWarning(this.GetType().ToString() + " patch failed!");
+				Debug.LogWarning(Assembly.GetExecutingAssembly().GetName().Name + ": " + this.GetType().ToString() + " patch failed!");
 				Debug.LogWarning(e.Message);
 			}
 		}
@@ -65,7 +66,7 @@ namespace UtilLibs.SharedTweaks
 
 		public static void CreateLinesPostfix(ResearchEntry __instance)
 		{
-			RefreshSkillScreenMatrix(__instance);
+			RefreshResearchMatrix(__instance);
 
 			if (techConnectionPoints == null)
 			{
@@ -182,7 +183,7 @@ namespace UtilLibs.SharedTweaks
 		static Dictionary<string, Vector2I> lookupTable = [];
 		static Dictionary<Vector2I, string> reverseLookupTable = [];
 		static int gradient = 0;
-		static void RefreshSkillScreenMatrix(ResearchEntry __instance)
+		static void RefreshResearchMatrix(ResearchEntry __instance)
 		{
 			if (init)
 				return;
@@ -217,8 +218,14 @@ namespace UtilLibs.SharedTweaks
 
 				//SgtLogger.l(skill.Id + ", " + rowX + "," + columnY + "(" + x + "," + y + ")");
 				var data = new Vector2I(rowX, columnY);
-				lookupTable.Add(tech.Id, data);
-				reverseLookupTable.Add(data, tech.Id);
+				if(!lookupTable.ContainsKey(tech.Id))
+					lookupTable.Add(tech.Id, data);
+				else
+					SgtLogger.warning("ResearchMatrix duplicate key detected for tech " + tech.Id+" and value "+data.ToString());
+				if (!reverseLookupTable.ContainsKey(data))
+					reverseLookupTable.Add(data, tech.Id);
+				else
+					SgtLogger.warning("ResearchMatrix duplicate reverse key detected for value " + tech.Id + " and key " + data.ToString());
 			}
 			//PrintMatrix();
 		}
@@ -324,8 +331,10 @@ namespace UtilLibs.SharedTweaks
 					//var ownRec = __instance.rectTransform();
 
 					//SgtLogger.l("ownPos: " + ownPos.x + "," + ownPos.y + ", crossPos: " + crossPos.x + "," + crossPos.y);
-
+					SgtLogger.l(relativeEndPoint.ToString()+" EEEEEEEEEEEEEE, "+ relativeStartPoint.ToString());
 					Vector2 pos = new(ownPos.x - horizontalOffsetSource-6.5f, crossPosY.y + 1.25f);
+					pos.y += relativeEndPoint.y;
+					//pos.y -= 6f;
 					CreateCrossRenderer(__instance, pos);
 				}
 			}
@@ -335,7 +344,7 @@ namespace UtilLibs.SharedTweaks
 
 		static GameObject IconPrefab = null;
 
-		static void CreateCrossRenderer(ResearchEntry __instance, Vector2 pos)
+		static void CreateCrossRenderer(ResearchEntry __instance, Vector2 pos, Color? c=null)
 		{
 			if (IconPrefab == null)
 			{
@@ -350,8 +359,10 @@ namespace UtilLibs.SharedTweaks
 			scale.x *= 1.15f;
 			scale.y *= 0.85f;
 			icon.transform.localScale = scale;
+			if (c.HasValue)
+				icon.GetComponent<Image>().color = c.Value;
 
-			//SgtLogger.l("setting icon pos to " + pos.x + "," + pos.y);
+			SgtLogger.l("setting icon pos to " + pos.x + "," + pos.y+" with color: "+c.ToString());
 		}
 	}
 }
