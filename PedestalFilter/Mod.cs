@@ -11,7 +11,6 @@ namespace PedestalFilter
 		public override void OnLoad(Harmony harmony)
 		{
 			PUtil.InitLibrary();
-			new POptions().RegisterOptions(this, typeof(Config));
 			base.OnLoad(harmony);
 			SgtLogger.LogVersion(this, harmony);
 		}
