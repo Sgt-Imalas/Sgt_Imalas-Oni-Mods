@@ -13,6 +13,7 @@ namespace UtilLibs
 				   .SelectMany(t => t.GetTypes());
 			q.ToList().ForEach(t => SgtLogger.l(t.Name + ", AQN: " + t.AssemblyQualifiedName, t.Namespace));
 		}
+
 		public static void ListAllPropertyValues(object s, Func<string,bool> exclude = null)
 		{
 			SgtLogger.l("Listing all properties of: " + s.ToString());
