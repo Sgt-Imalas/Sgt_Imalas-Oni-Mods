@@ -113,13 +113,17 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			BuildingDatabase.RegisterBuildings();
 		}
 
+		public static bool TechExists(string techID)
+		{
+			return Db.Get().Techs.Exists(techID);
+		}
 
 		public static void AddBuildingsToPlanScreen()
 		{
 			InitRegistration();
 			foreach (var entry in BuildingInjections)
 			{
-				if (entry.Value.Source.IsBuildingEnabled())
+				if (entry.Value.Source.IsBuildingEnabled() && TechExists(entry.Value.TechID))
 					entry.Value.RegisterPlanscreen();
 			}
 		}
@@ -128,7 +132,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			InitRegistration();
 			foreach (var entry in BuildingInjections)
 			{
-				if (entry.Value.Source.IsBuildingEnabled())
+				if (entry.Value.Source.IsBuildingEnabled() && TechExists(entry.Value.TechID))
 					entry.Value.RegisterTech();
 			}
 		}
