@@ -11,27 +11,6 @@ namespace Rockets_TinyYetBig.Patches
 {
 	internal class OxidizerTank_Patches
 	{
-		/// <summary>
-		/// Increases or decreases the Large oxidizer module capacity, depending on setting config.
-		/// </summary>
-		[HarmonyPatch(typeof(OxidizerTank), nameof(OxidizerTank.OnSpawn))]
-		public static class IncreaseCapacityto1350Oxidizers
-		{
-			public static void Prefix(OxidizerTank __instance)
-			{
-				if (Config.Instance.BuffLargeOxidizer && __instance.maxFillMass == OxidizerTankClusterConfig.FuelCapacity)
-				{
-					__instance.maxFillMass = 1350f;
-				}
-				else if (!Config.Instance.BuffLargeOxidizer && __instance.maxFillMass == 1350f)
-				{
-					if (__instance.targetFillMass > OxidizerTankClusterConfig.FuelCapacity)
-						__instance.targetFillMass = OxidizerTankClusterConfig.FuelCapacity;
-					__instance.maxFillMass = 900f;
-				}
-			}
-		}
-
 		[HarmonyPatch(typeof(OxidizerTank), nameof(OxidizerTank.GetOxidizersAvailable))]
 		public static class OxidizerTank_GetOxidizersAvailable_Patch
 		{
