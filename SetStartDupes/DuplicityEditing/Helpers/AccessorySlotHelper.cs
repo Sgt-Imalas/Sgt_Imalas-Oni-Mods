@@ -2,6 +2,7 @@
 using System.Linq;
 using UnityEngine;
 using UtilLibs;
+using static KAnim.Build;
 
 namespace SetStartDupes.DuplicityEditing.Helpers
 {
@@ -39,23 +40,22 @@ namespace SetStartDupes.DuplicityEditing.Helpers
 			= new Dictionary<KeyValuePair<KAnimFile, KAnim.Build.Symbol>, Sprite>();
 		public static Sprite GetSpriteFrom(KAnim.Build.Symbol symbol, AccessorySlot accessorySlot)
 		{
-			////var SpriteKey = new KeyValuePair<KAnimFile, KAnim.Build.Symbol>(animFile, symbol);
-			//if (SymbolSprites.TryGetValue(SpriteKey, out var spriteFound))
-			//    return spriteFound;
-
 			if (symbol == null)
-				return null;
+				return Assets.GetSprite("unknown");
 
-			//KAnimFileData data = animFile.GetData();
-
-
-			//if(data ==null) return null;    
 
 			int frame2 = default(KAnim.Anim.FrameElement).frame;
 
             if (accessorySlot == Db.Get().AccessorySlots.Mouth)
-                frame2 = 7; 
-            KAnim.Build.SymbolFrameInstance symbolFrame = symbol.GetFrame(frame2);
+                frame2 = 7;
+
+			if(symbol.frameLookup == null || symbol.frameLookup.Count() == 0)
+			{
+				SgtLogger.warning("Symbol frame lookup is null or empty for symbol: " + symbol);
+				return Assets.GetSprite("unknown");
+			}
+
+				KAnim.Build.SymbolFrameInstance symbolFrame = symbol.GetFrame(frame2);
 			if (symbolFrame.Equals(default))
 			{
 				SgtLogger.l("SymbolFrame [" + frame2 + "] is missing");
