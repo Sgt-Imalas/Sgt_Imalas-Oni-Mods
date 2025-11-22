@@ -169,14 +169,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
 			.MigrateFrom("Chemical_Co2RecyclerDLC1");
 
-			//if (Config.Instance.IO_OldRefineries || Mod.IsDev)
-			{
-				BuildingManager.CreateEntry<Chemical_CrudeOilRefineryStagedConfig>()
-				.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
-				.AddToTech(Technology.Power.ValveMiniaturization)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
-				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
-			}
+			BuildingManager.CreateEntry<Chemical_CrudeOilRefineryStagedConfig>()
+			.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
+			.AddToTech(Technology.Power.ValveMiniaturization)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
+			.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
 
 			BuildingManager.CreateEntry<Chemical_CrudeOilRefineryConfig>()
 			.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
@@ -216,14 +213,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			.AddToTech(Technology.Power.FossilFuels)
 			.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
 
-			//if (Config.Instance.IO_OldRefineries || Mod.IsDev)
-			{
-				BuildingManager.CreateEntry<Chemical_RawGasRefineryStagedConfig>()
-				.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
-				.AddToTech(Technology.Power.ValveMiniaturization)
-				.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
-				.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
-			}
+			BuildingManager.CreateEntry<Chemical_RawGasRefineryStagedConfig>()
+			.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)
+			.AddToTech(Technology.Power.ValveMiniaturization)
+			.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
+			.AddModFrom(SourceModInfo.AddedBySgt_Imalas);
 
 			BuildingManager.CreateEntry<Chemical_RawGasRefineryConfig>()
 			.AddToCategory(PlanMenuCategory.Refinement, OilRefineryConfig.ID)

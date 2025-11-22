@@ -12,7 +12,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 	{
 		public string BuildingID;
 		[JsonIgnore]
-		public List<SourceModInfo> ModsFrom => BuildingInjection.GetModsFrom();
+		public List<SourceModInfo> ModsFrom => IsInjected ? BuildingInjection.GetModsFrom() : [];
 		public bool BuildingEnabled = true;
 		public float BuildingMassCapacity = -1;
 		public float BuildingWattage = -1;

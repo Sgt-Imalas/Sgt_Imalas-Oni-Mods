@@ -35,7 +35,7 @@ namespace RonivansLegacy_ChemicalProcessing
 			SgtLogger.LogVersion(this, harmony);
 
 			SgtLogger.log("Current Config Settings:");
-			UtilMethods.ListAllPropertyValues(Config.Instance);
+			UtilMethods.ListAllPropertyValues(Config.Instance,(s)=>s.Contains("System.Action"));
 
 			ConduitDisplayPortPatching.PatchAll(harmony);
 			BuildingDatabase.RegisterAdditionalBuildingElements();

@@ -116,7 +116,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			}
 			ConfigEntries.Clear();
 			UpdateEntryList();
-			Instance.ApplyCarePackageFilter(FilterBar.Text);
+			Instance.ApplyBuildingFilter(FilterBar.Text);
 			RefreshDetails();
 		}
 
@@ -141,7 +141,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			Details = transform.Find("HorizontalLayout/ItemInfo").gameObject;
 
 			FilterBar = transform.Find("HorizontalLayout/ObjectList/SearchBar/Input").FindOrAddComponent<FInputField2>();
-			FilterBar.OnValueChanged.AddListener(ApplyCarePackageFilter);
+			FilterBar.OnValueChanged.AddListener(ApplyBuildingFilter);
 			FilterBar.Text = string.Empty;
 
 			ClearFilterButton = transform.Find("HorizontalLayout/ObjectList/SearchBar/DeleteButton").FindOrAddComponent<FButton>();
@@ -238,7 +238,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			else
 				FilteredMods.Add(mod);
 
-			ApplyCarePackageFilter(FilterBar.Text);
+			ApplyBuildingFilter(FilterBar.Text);
 			SetToggleButtonState();
 			return FilteredMods.Contains(mod);
 		}
@@ -281,12 +281,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 		public void ClearFilter()
 		{
 			FilterBar.Text = string.Empty;
-			ApplyCarePackageFilter();
+			ApplyBuildingFilter();
 		}
 
 		void RefreshItemFilterEntries()
 		{
-			ApplyCarePackageFilter(FilterBar.Text);
+			ApplyBuildingFilter(FilterBar.Text);
 
 			var mods = Enum.GetValues(typeof(SourceModInfo)).Cast<SourceModInfo>().ToList();
 			for (int i = 0; i < mods.Count(); i++)
@@ -296,7 +296,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 				FilterDropDown.DropDownEntries[i].Toggle.SetOnFromCode(FilteredMods.Contains(mod));
 			}
 		}
-		public void ApplyCarePackageFilter(string filterstring = "")
+		public void ApplyBuildingFilter(string filterstring = "")
 		{
 			foreach (var go in ConfigEntries)
 			{
