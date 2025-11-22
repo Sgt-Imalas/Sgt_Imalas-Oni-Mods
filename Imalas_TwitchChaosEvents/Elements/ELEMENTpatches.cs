@@ -15,23 +15,14 @@ namespace Imalas_TwitchChaosEvents.Elements
 	public class ELEMENTpatches
 	{
 
-
-
-		/// <summary>
-		/// akis beached 
-		/// </summary>
-		[HarmonyPatch(typeof(ElementLoader))]
-		[HarmonyPatch(nameof(ElementLoader.Load))]
+		[HarmonyPatch(typeof(ElementLoader), nameof(ElementLoader.Load))]
 		public class ElementLoader_Load_Patch
 		{
 			public static void Prefix(Dictionary<string, SubstanceTable> substanceTablesByDlc)
 			{
-				// Add my new elements
 				var list = substanceTablesByDlc[DlcManager.VANILLA_ID].GetList();
+				SgtLogger.l("Registering Substances");
 				ModElements.RegisterSubstances(list);
-
-				//SgtLogger.l("ElementList length after that method; " + substanceTablesByDlc[DlcManager.VANILLA_ID].GetList().Count);
-				//SgtLogger.l("ElementList SO length; " + substanceTablesByDlc[DlcManager.EXPANSION1_ID].GetList().Count);
 			}
 		}
 

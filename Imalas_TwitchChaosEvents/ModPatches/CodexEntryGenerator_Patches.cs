@@ -33,7 +33,7 @@ namespace Imalas_TwitchChaosEvents.ModPatches
 		[HarmonyPatch(typeof(CodexTemperatureTransitionPanel), nameof(CodexTemperatureTransitionPanel.ConfigureResults))]
 		public class CodexTemperatureTransitionPanel_ConfigureResults_Patch
 		{
-			public static bool Prefix(CodexTemperatureTransitionPanel __instance, GameObject contentGameObject, Transform displayPane, Dictionary<CodexTextStyle, TextStyleSetting> textStyles)
+			public static bool Prefix(CodexTemperatureTransitionPanel __instance, GameObject contentGameObject, Transform displayPanel, Dictionary<CodexTextStyle, TextStyleSetting> textStyles)
 			{
 				if (__instance.sourceElement.id != ModElements.InverseIce.SimHash)
 				{
