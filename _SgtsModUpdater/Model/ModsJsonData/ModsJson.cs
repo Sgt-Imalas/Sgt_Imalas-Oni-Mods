@@ -10,5 +10,6 @@ namespace _SgtsModUpdater.Model.ModsJsonData
 	{
 		public int version;
 		public List<KleiMod> mods;
+
 	}
 }

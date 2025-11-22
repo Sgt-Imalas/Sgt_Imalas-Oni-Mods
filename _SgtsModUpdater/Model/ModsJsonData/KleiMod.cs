@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using _SgtsModUpdater.Model.LocalMods;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,8 @@ namespace _SgtsModUpdater.Model.ModsJsonData
 		public int crash_count;
 		[JsonProperty]
 		public string reinstall_path;
+		[JsonProperty]
+		public string staticID => label.id + "." + label.distribution_platform.ToString();
 
 
 		public bool EnabledForDlc(string dlcID) => enabledForDlc.Contains(dlcID);
@@ -33,7 +36,7 @@ namespace _SgtsModUpdater.Model.ModsJsonData
 		}
 		public void SetInstalledState(bool installed)
 		{
-			if(!installed)
+			if (!installed)
 				enabledForDlc.Clear();
 			status = installed ? Status.Installed : Status.NotInstalled;
 		}

@@ -20,9 +20,9 @@
 				<DockPanel Grid.Column="0" DockPanel.Dock="Top">
 					<Button Name="LaunchGame" FontSize="20" Content="Launch Game (Steam)" Height="40" Click="LaunchGame_Click"/>
 				</DockPanel>
-				<!--<DockPanel Margin="0,3,0,3" Grid.Column="0" DockPanel.Dock="Top">
+				<DockPanel Margin="0,3,0,3" Grid.Column="0" DockPanel.Dock="Top">
 					<Button Name="ShowModList" FontSize="16" Content="Edit current Modlist" Height="30" Click="ShowModList_Click"/>
-				</DockPanel>-->
+				</DockPanel>
 				<Button Name="CreateAddPopup" DockPanel.Dock="Bottom" Content="Add new Repo" Height="20" Click="CreateAddPopup_Click"/>
 				<TextBlock HorizontalAlignment="Center" FontSize="16" Text="Current Mod Repositories:" DockPanel.Dock="Top"/>
 				<ListView  Name="PackView" HorizontalContentAlignment="Stretch" PreviewMouseLeftButtonUp="PackView_PreviewMouseLeftButtonUp" PreviewMouseRightButtonUp="PackView_PreviewMouseLeftButtonUp">
@@ -48,47 +48,55 @@
 
 				</ListView>
 			</DockPanel>
-			<DockPanel Margin="0,3,0,3" Grid.Column="1" >
-				<TextBox DockPanel.Dock="Top" Margin="0,0,0,4" Name="txtFilter" TextChanged="txtFilter_TextChanged"/>
-				<ListView Name="ModListView">
-					<ListView.ItemContainerStyle>
-						<Style TargetType="ListViewItem">
-							<Setter Property="ToolTip" Value="{Binding Path=ModDesc}" />
-						</Style>
-					</ListView.ItemContainerStyle>
-					<ListView.View >
+			<DockPanel Margin="0,3,0,3" Grid.Column="1">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*" />
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="26" />
+						<RowDefinition Height="*" />
+					</Grid.RowDefinitions>
+					<TextBox DockPanel.Dock="Top" Grid.Column="0" Grid.Row="0" Margin="0,0,0,4" Name="txtFilter" TextChanged="txtFilter_TextChanged"/>
 
-						<GridView AllowsColumnReorder="False" ColumnHeaderToolTip="Repo Mod Information">
+					<ListView Name="ModListView" Grid.Column="0" Grid.Row="1" Visibility="Hidden">
+						<ListView.ItemContainerStyle>
+							<Style TargetType="ListViewItem">
+								<Setter Property="ToolTip" Value="{Binding Path=ModDesc}" />
+							</Style>
+						</ListView.ItemContainerStyle>
+						<ListView.View >
+							<GridView AllowsColumnReorder="False" ColumnHeaderToolTip="Repo Mod Information">
 
-							<GridViewColumn Header="" Width="33">
-								<GridViewColumn.CellTemplate>
-									<DataTemplate>
-										<Label Foreground="{Binding Path=StatusColor}">⬤</Label>
-									</DataTemplate>
-								</GridViewColumn.CellTemplate>
-							</GridViewColumn>
-							<GridViewColumn DisplayMemberBinding="{Binding Path=ModName}" Header="Mod Name" Width="180"/>
-							<GridViewColumn DisplayMemberBinding="{Binding Path=InstalledVersion}" Width="90" Header="Installed Version"/>
-							<GridViewColumn DisplayMemberBinding="{Binding Path=Version}" Width="80" Header="Latest Version"/>
-							<GridViewColumn DisplayMemberBinding="{Binding Path=LocalModType}" Width="50" Header="Type"/>
-							<GridViewColumn Header="Mod Action" Width="150" >
-								<GridViewColumn.CellTemplate>
-									<DataTemplate>
-										<StackPanel Orientation="Horizontal"  >
-											<StackPanel.Children>
-												<Button
+								<GridViewColumn Header="" Width="33">
+									<GridViewColumn.CellTemplate>
+										<DataTemplate>
+											<Label Foreground="{Binding Path=StatusColor}">⬤</Label>
+										</DataTemplate>
+									</GridViewColumn.CellTemplate>
+								</GridViewColumn>
+								<GridViewColumn DisplayMemberBinding="{Binding Path=ModName}" Header="Mod Name" Width="180"/>
+								<GridViewColumn DisplayMemberBinding="{Binding Path=InstalledVersion}" Width="90" Header="Installed Version"/>
+								<GridViewColumn DisplayMemberBinding="{Binding Path=Version}" Width="80" Header="Latest Version"/>
+								<GridViewColumn DisplayMemberBinding="{Binding Path=LocalModType}" Width="50" Header="Type"/>
+								<GridViewColumn Header="Mod Action" Width="150" >
+									<GridViewColumn.CellTemplate>
+										<DataTemplate>
+											<StackPanel Orientation="Horizontal"  >
+												<StackPanel.Children>
+													<Button
 												VerticalAlignment="Center"
 												Click="Mod_Action_Click" 
 												Width="90"
 												Height="20"
 												IsEnabled="{Binding Path=InstallButtonInteractable}">
-													<Grid>
-														<TextBlock Text="{Binding Path=GetActionString}"></TextBlock>
-														<fa:ImageAwesome Margin="-30" Visibility="{Binding Path=DownloadingVisibility}" Icon="Refresh" Spin="True" Height="20" Width="20" />
-													</Grid>
-												</Button>
+														<Grid>
+															<TextBlock Text="{Binding Path=GetActionString}"></TextBlock>
+															<fa:ImageAwesome Margin="-30" Visibility="{Binding Path=DownloadingVisibility}" Icon="Refresh" Spin="True" Height="20" Width="20" />
+														</Grid>
+													</Button>
 
-												<Button
+													<Button
 													Name="OpenFolderButton"
 													Margin="3,0,0,0"
 													VerticalAlignment="Center"
@@ -97,9 +105,9 @@
 													Height="20"
 													ToolTip="Open the mods local folder"
 													IsEnabled="{Binding Path=HasLocalMod}">
-													<fa:ImageAwesome Foreground="DarkBlue" Icon="FolderOutlinepenOutline"></fa:ImageAwesome>
-												</Button>
-												<Button
+														<fa:ImageAwesome Foreground="DarkBlue" Icon="FolderOutlinepenOutline"></fa:ImageAwesome>
+													</Button>
+													<Button
 													Margin="3,0,0,0"
 													VerticalAlignment="Center"
 													Click="Delete_Mod_Click" 
@@ -108,18 +116,107 @@
 													Background="DarkOrange"
 													ToolTip="Delete installed files"													
 													IsEnabled="{Binding Path=CanDeleteLocal}">
-													<fa:ImageAwesome Foreground="Black" Icon="TrashOutline"></fa:ImageAwesome>
+														<fa:ImageAwesome Foreground="Black" Icon="TrashOutline"></fa:ImageAwesome>
 
-												</Button>
-											</StackPanel.Children>
-										</StackPanel>
+													</Button>
+												</StackPanel.Children>
+											</StackPanel>
 
-									</DataTemplate>
-								</GridViewColumn.CellTemplate>
-							</GridViewColumn>
-						</GridView>
-					</ListView.View>
-				</ListView>
+										</DataTemplate>
+									</GridViewColumn.CellTemplate>
+								</GridViewColumn>
+							</GridView>
+						</ListView.View>
+					</ListView>
+
+					<Grid Grid.Column="0" Grid.Row="1">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="26" />
+							<RowDefinition Height="*" />
+						</Grid.RowDefinitions>
+						<StackPanel Orientation="Horizontal">
+							<Expander Header="Type Filter" x:Name="expander" ExpandDirection="Down" HorizontalAlignment="Left" Width="90">
+								<Popup PlacementTarget="{Binding ElementName=expander}" StaysOpen="False" AllowsTransparency="True" Placement="Bottom" IsOpen="{Binding IsExpanded, ElementName=expander}">
+									<ItemsControl Name="ModelFilters" Width="90" Margin="1">
+										<ItemsControl.ItemTemplate>
+											<DataTemplate>
+												<Border Background="White"  BorderBrush="Gray" BorderThickness="1" CornerRadius="1" Padding="5">
+													<CheckBox IsChecked="{Binding IsAllowed, Mode=TwoWay}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked">
+														<TextBlock Text="{Binding Name}" FontSize="12"></TextBlock>
+													</CheckBox>
+												</Border>
+											</DataTemplate>
+										</ItemsControl.ItemTemplate>
+									</ItemsControl>
+								</Popup>
+							</Expander>
+							<Border Background="White"  BorderBrush="Gray" BorderThickness="1" CornerRadius="1" Padding="4" Margin="0,0,0,1">
+								<CheckBox Name="EnabledOnlyBase" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked">
+									<TextBlock Text="Only Show Enabled (Base)" FontSize="12"></TextBlock>
+								</CheckBox>
+							</Border>
+							<TextBlock Width="5"/>
+							<Border Background="White"  BorderBrush="Gray" BorderThickness="1" CornerRadius="1" Padding="4" Margin="0,0,0,1">
+								<CheckBox Name="EnabledOnlySO" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked">
+									<TextBlock Text="Only Show Enabled (SO)" FontSize="12"></TextBlock>
+								</CheckBox>
+							</Border>
+						</StackPanel>
+						
+						<ListView Name="CurrentModView" Grid.Row="1">
+							<ListView.ItemContainerStyle>
+								<Style TargetType="ListViewItem">
+									<Setter Property="ToolTip" Value="{Binding Path=ModDesc}" />
+								</Style>
+							</ListView.ItemContainerStyle>
+							<ListView.View >
+								<GridView AllowsColumnReorder="False" ColumnHeaderToolTip="Local mods">
+									<GridViewColumn DisplayMemberBinding="{Binding Path=ModName}" Header="Mod Name" Width="180"/>
+									<GridViewColumn DisplayMemberBinding="{Binding Path=InstalledVersion}" Width="100" Header="Installed Version"/>
+									<GridViewColumn DisplayMemberBinding="{Binding Path=LocalModType}" Width="50" Header="Type"/>
+
+									<GridViewColumn Width="80" Header="Base Game">
+										<GridViewColumn.CellTemplate>
+											<DataTemplate>
+												<CheckBox IsChecked="{Binding Path=Enabled_Base, Mode=TwoWay}" IsEnabled="{Binding Path=Compatible_Base}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+											</DataTemplate>
+										</GridViewColumn.CellTemplate>
+									</GridViewColumn>
+									<GridViewColumn Width="80" Header="Spaced Out">
+										<GridViewColumn.CellTemplate>
+											<DataTemplate>
+												<CheckBox IsChecked="{Binding Path=Enabled_SO, Mode=TwoWay}" IsEnabled="{Binding Path=Compatible_SO}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+											</DataTemplate>
+										</GridViewColumn.CellTemplate>
+									</GridViewColumn>
+
+									<GridViewColumn Header="Folder" Width="50" >
+										<GridViewColumn.CellTemplate>
+											<DataTemplate>
+												<StackPanel Orientation="Horizontal"  >
+													<StackPanel.Children>
+														<Button
+													Name="OpenFolderButton"
+													Margin="3,0,0,0"
+													VerticalAlignment="Center"
+													Click="OpenFolderButtonLocal_Click" 
+													Width="20"
+													Height="20"
+													ToolTip="Open the mods local folder">
+															<fa:ImageAwesome Foreground="DarkBlue" Icon="FolderOutlinepenOutline"></fa:ImageAwesome>
+														</Button>
+													</StackPanel.Children>
+												</StackPanel>
+
+											</DataTemplate>
+										</GridViewColumn.CellTemplate>
+									</GridViewColumn>
+								</GridView>
+							</ListView.View>
+						</ListView>
+					</Grid>
+				</Grid>
+
 			</DockPanel>
 			<DockPanel Margin="3,3,3,3" Grid.Column="2">
 				<DockPanel LastChildFill="True">
