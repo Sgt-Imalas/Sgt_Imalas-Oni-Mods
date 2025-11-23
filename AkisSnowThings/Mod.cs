@@ -1,5 +1,7 @@
 ﻿using HarmonyLib;
 using KMod;
+using PeterHan.PLib.Core;
+using PeterHan.PLib.Options;
 using System;
 using System.Collections.Generic;
 using UtilLibs;
@@ -14,6 +16,8 @@ namespace AkisSnowThings
 		{
 			HarmonyInstance = harmony;
 			base.OnLoad(harmony);
+			//PUtil.InitLibrary(false);
+			//new POptions().RegisterOptions(this, typeof(Config));
 			SgtLogger.LogVersion(this, harmony);
 			AttachmentPointTagNameFix.Register();
 		}

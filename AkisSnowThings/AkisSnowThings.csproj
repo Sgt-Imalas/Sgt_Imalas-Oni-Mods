@@ -4,8 +4,8 @@
 	<PropertyGroup>
 		<PackageId>AkisSnowThings</PackageId>
 		<Version>1.5.6</Version>
-		<Authors>Sgt_Imalas &amp; Aki</Authors>
-		<Copyright>$(AssemblyCopyright)</Copyright>
+		<Authors>Aki &amp; Sgt_Imalas</Authors>
+		<Copyright>$(AuthorWithAki)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
 	</PropertyGroup>
 
