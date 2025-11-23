@@ -180,6 +180,7 @@ public partial class MainWindow : Window
 	{
 		RepoViewActive = enabled;
 		CurrentModView.Visibility = enabled ? Visibility.Hidden : Visibility.Visible;
+		LocalModHeader.Visibility = enabled ? Visibility.Hidden : Visibility.Visible;
 		ModListView.Visibility = enabled ? Visibility.Visible : Visibility.Hidden;
 		this.UpdateLayout();
 	}

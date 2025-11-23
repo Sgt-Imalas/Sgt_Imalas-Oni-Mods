@@ -39,6 +39,7 @@ namespace _SgtsModUpdater.Model
 		public ObservableCollection<ModRepoListInfo> Repos = new();
 		public ObservableCollection<RemoteMod> CurrentRepoMods = new();
 		public Dictionary<string, LocalMod> CurrentLocalInstalledMods = new();
+		public Dictionary<string, LocalMod> CurrentLocalInstalledModsByStaticId = new();
 
 		public ObservableCollection<LocalMod> LocalInstalledMods = new();
 
@@ -108,7 +109,7 @@ namespace _SgtsModUpdater.Model
 
 			foreach (var mod in CurrentRepoMods)
 			{
-				if (CurrentLocalInstalledMods.TryGetValue(mod.staticID, out var localMod))
+				if (CurrentLocalInstalledModsByStaticId.TryGetValue(mod.staticID, out var localMod))
 				{
 					mod.SetInstalledMod(localMod);
 				}
@@ -154,6 +155,7 @@ namespace _SgtsModUpdater.Model
 		public void RefreshLocalModInfoList(bool collectRepos = false)
 		{
 			CurrentLocalInstalledMods.Clear();
+			CurrentLocalInstalledModsByStaticId.Clear();
 
 			Console.WriteLine("Refreshing info on local mods..");
 			if (Directory.Exists(Paths.DevModsFolder))
@@ -266,6 +268,14 @@ namespace _SgtsModUpdater.Model
 				}
 
 				CurrentLocalInstalledMods.Add(staticModID, localModInfo);
+				if(new DirectoryInfo(modFolder).Parent.Name == "Dev")
+					return localModInfo;
+
+				if(CurrentLocalInstalledModsByStaticId.ContainsKey(modYamlData.staticID))
+				{
+					CurrentLocalInstalledModsByStaticId.Remove(modYamlData.staticID);
+				}
+				CurrentLocalInstalledModsByStaticId.Add(modYamlData.staticID, localModInfo);
 
 				return localModInfo;
 

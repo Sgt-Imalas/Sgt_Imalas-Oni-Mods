@@ -134,7 +134,7 @@
 							<RowDefinition Height="26" />
 							<RowDefinition Height="*" />
 						</Grid.RowDefinitions>
-						<StackPanel Orientation="Horizontal">
+						<StackPanel Orientation="Horizontal" Name="LocalModHeader">
 							<Expander Header="Type Filter" x:Name="expander" ExpandDirection="Down" HorizontalAlignment="Left" Width="90">
 								<Popup PlacementTarget="{Binding ElementName=expander}" StaysOpen="False" AllowsTransparency="True" Placement="Bottom" IsOpen="{Binding IsExpanded, ElementName=expander}">
 									<ItemsControl Name="ModelFilters" Width="90" Margin="1">
