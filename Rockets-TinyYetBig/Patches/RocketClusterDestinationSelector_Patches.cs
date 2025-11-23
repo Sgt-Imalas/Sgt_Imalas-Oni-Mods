@@ -96,9 +96,17 @@ namespace Rockets_TinyYetBig.Patches.ClustercraftDockingPatches
 			{
 				foreach (Ref<RocketModuleCluster> clusterModule in (IEnumerable<Ref<RocketModuleCluster>>)__instance.GetComponent<Clustercraft>().ModuleInterface.ClusterModules)
 				{
-					if ((bool)clusterModule.Get().GetComponent<HighEnergyParticleStorage>())
+					var module = clusterModule.Get();
+
+					if (module.TryGetComponent<HighEnergyParticleStorage>(out _))
 					{
 						__instance.Subscribe(clusterModule.Get().gameObject, (int)GameHashes.OnParticleStorageChanged, __instance.OnStorageChange);
+					}
+
+					if (!module.HasTag(ModAssets.Tags.SpaceHarvestModule))
+					{
+						SgtLogger.warning("Module " + module.name + " is not a SpaceHarvestModule and should not trigger OnStorageChanged events for the RocketClusterDestinationSelector! Removing subscription to prevent crash..");
+						module.Unsubscribe(clusterModule.Get().gameObject, -1697596308, __instance.OnStorageChange);
 					}
 				}
 			}
@@ -112,7 +120,7 @@ namespace Rockets_TinyYetBig.Patches.ClustercraftDockingPatches
 			/// </summary>
 			public static void Postfix(RocketClusterDestinationSelector __instance)
 			{
-				if (__instance.CanRocketDrill())
+				if (__instance.CanRocketDrill() || __instance.CanCollectFromHexCellInventory())
 					return;
 
 				foreach (Ref<RocketModuleCluster> clusterModule in __instance.GetComponent<Clustercraft>().ModuleInterface.ClusterModules)

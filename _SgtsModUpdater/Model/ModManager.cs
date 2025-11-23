@@ -270,8 +270,8 @@ namespace _SgtsModUpdater.Model
 				CurrentLocalInstalledMods.Add(staticModID, localModInfo);
 				if(new DirectoryInfo(modFolder).Parent.Name == "Dev")
 					return localModInfo;
-
-				if(CurrentLocalInstalledModsByStaticId.ContainsKey(modYamlData.staticID))
+				//dont look at dev mods for staticID mapping (thats used for remote updating)
+				if (CurrentLocalInstalledModsByStaticId.ContainsKey(modYamlData.staticID))
 				{
 					CurrentLocalInstalledModsByStaticId.Remove(modYamlData.staticID);
 				}
