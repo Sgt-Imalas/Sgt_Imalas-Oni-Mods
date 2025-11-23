@@ -253,6 +253,11 @@ namespace Rockets_TinyYetBig
 			public static Tag OxidizerEfficiency_6 = TagManager.Create("RTB_OxidizerEfficiency_6");
 
 
+			/// <summary>
+			/// Drillcone, Cargobay, Artifact module, any module that harvests resources in space should have this tag
+			/// </summary>
+			public static Tag SpaceHarvestModule = TagManager.Create("RTB_SpaceHarvestModule");
+
 		}
 
 
@@ -263,7 +268,6 @@ namespace Rockets_TinyYetBig
 			large = 2,
 			jumpBeacon = 3,
 			jumpGate = 4,
-
 		}
 
 
