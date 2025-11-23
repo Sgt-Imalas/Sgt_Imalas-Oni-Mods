@@ -50,10 +50,12 @@
 		<CurrentYear>$([System.DateTime]::Now.ToString(`yyyy`))</CurrentYear>
 		<Author>Sgt_Imalas</Author>
 		<AuthorWith3GuB>Sgt_Imalas, 3GuB</AuthorWith3GuB>
+		<AuthorWithAki>Aki, Sgt_Imalas</AuthorWithAki>
 		<AuthorWithRonivan>Ronivan, Sgt_Imalas</AuthorWithRonivan>
 		<AssemblyCopyright>Copyright ©$(Author) $(CurrentYear)</AssemblyCopyright>
 		<RetroOniCopyright>Copyright ©$(AuthorWith3GuB) $(CurrentYear)</RetroOniCopyright>
 		<RonivanCopyright>Copyright ©$(AuthorWithRonivan) $(CurrentYear)</RonivanCopyright>
+		<AkiCopyright>Copyright ©$(AuthorWithAki) $(CurrentYear)</AkiCopyright>
 	</PropertyGroup>
 
 	<PropertyGroup>

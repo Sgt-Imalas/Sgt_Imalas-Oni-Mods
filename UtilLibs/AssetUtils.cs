@@ -228,6 +228,7 @@ namespace UtilLibs
 
 			if (tex == null)
 			{
+				SgtLogger.error("could not load custom tile atlas texture: " + fileName + " in folder: " + path);	
 				return null;
 			}
 

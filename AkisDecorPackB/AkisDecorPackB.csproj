@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<!-- General Package Properties -->
+	<PropertyGroup>
+		<PackageId>AkisDecorPackB</PackageId>
+		<Version>1.0.0</Version>
+		<Authors>Aki &amp; Sgt_Imalas</Authors>
+		<Copyright>$(AuthorWithAki)</Copyright>
+		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
+	</PropertyGroup>
+
+	<!-- Build Properties -->
+	<PropertyGroup>
+		<TargetFramework>net48</TargetFramework>
+		<Configurations>Debug;Release</Configurations>
+		<AssemblyName>AkisDecorPackB</AssemblyName>
+		<RootNamespace>AkisDecorPackB</RootNamespace>
+		<IsMod>true</IsMod>
+		<GenerateMetadata>true</GenerateMetadata>
+		<IsPacked>true</IsPacked>
+	</PropertyGroup>
+
+
+	<!-- Mod Info -->
+	<PropertyGroup>
+		<ModName>Decor Pack II - Old but good</ModName>
+		<ModDescription>Adds several new decorational buildings based on fossils or ancient architecture.</ModDescription>
+		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
+		<APIVersion>2</APIVersion>
+	</PropertyGroup>
+
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<OutDir>bin</OutDir>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="ModAssets\assets\customatlastiles\" />
+	</ItemGroup>
+</Project>
