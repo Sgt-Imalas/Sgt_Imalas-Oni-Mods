@@ -184,6 +184,15 @@ namespace SetStartDupes
 				{
 					MinionCrewPreset.ApplySingleMinion(MinionCrewPreset.OpenPresetAssignments.First(), __instance);
 					MinionCrewPreset.OpenPresetAssignments.RemoveAt(0);
+
+					if (__instance.transform.Find("ModifyDupeStats")?.gameObject.TryGetComponent<DupeTraitManager>(out DupeTraitManager mng) ?? false)
+					{
+						mng.SetReferenceStats(__instance.stats);
+					}
+					else
+					{
+						SgtLogger.warning("no dupe trait manager found on container after applying preset!");
+					}
 				}
 			}
 		}
@@ -193,11 +202,8 @@ namespace SetStartDupes
 			public static void Prefix(MinionStartingStats __instance)
 			{
 				if (ModAssets.ToShufflePersonality == null)
-				{
 					return;
-				}
 				__instance.personality = ModAssets.ToShufflePersonality;
-				ModAssets.ToShufflePersonality = null;
 			}
 
 			[HarmonyPriority(Priority.LowerThanNormal)]
@@ -206,8 +212,8 @@ namespace SetStartDupes
 			{
 				if (ModAssets.DupeTraitManagers.ContainsKey(__instance))
 					ModAssets.DupeTraitManagers[__instance].RecalculateAll();
-				else if (Config.Instance.ModifyDuringGame)
-					SgtLogger.warning("no mng for " + __instance + " found!");
+				//else if (Config.Instance.ModifyDuringGame)
+					//SgtLogger.warning("no mng for " + __instance + " found!");
 
 			}
 		}
@@ -660,6 +666,12 @@ namespace SetStartDupes
 					ModAssets.ToShufflePersonality = __instance.stats.personality;
 					SgtLogger.l("locked container rerolled, personality: " + ToShufflePersonality.Name);
 				}
+				else
+				{
+					ModAssets.ToShufflePersonality = null;
+				}
+
+
 				return true;
 			}
 			//public static void Postfix(CharacterContainer __instance)
@@ -2057,8 +2069,7 @@ namespace SetStartDupes
 						SgtLogger.log("StatManager not found, skipping assignment..");
 					return;
 				}
-				var mng = mngt.gameObject.GetComponent<DupeTraitManager>();
-				if (mng != null)
+				if(mngt.gameObject.TryGetComponent<DupeTraitManager>(out DupeTraitManager mng))
 				{
 					mng.SetReferenceStats(__instance.stats);
 				}

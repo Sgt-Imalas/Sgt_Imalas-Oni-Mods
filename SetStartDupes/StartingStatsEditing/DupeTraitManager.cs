@@ -792,7 +792,6 @@ namespace SetStartDupes
 
 				ModAssets.DupeTraitManagers.Add(referencedStats, this);
 				RecalculateAll();
-
 			}
 		}
 

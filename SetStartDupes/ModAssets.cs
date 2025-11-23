@@ -290,7 +290,6 @@ namespace SetStartDupes
 					Beached_API.RemoveLifeGoal(stats);
 					Beached_API.SetLifeGoal(stats, Beached_API.GetLifeGoalFromPersonality(personality), false);
 				}
-
 			}
 
 			//stats.congenitaltrait = Db.Get().traits.TryGet(personality.congenitaltrait);
@@ -740,10 +739,8 @@ namespace SetStartDupes
 			if(setAttributes)
 				container.SetAttributes();
 			container.SetAnimator();
-			container.RefreshOutfitSelector();
-			int outfitIndex = container.outfitSelectorIndex;
 			container.stats.ApplyOutfit(container.stats.personality, container.animController.gameObject, container.stats.GetSelectedOutfitOption());
-
+			container.RefreshOutfitSelector();
 		}
 
 		private static List<TUNING.DUPLICANTSTATS.TraitVal> _validBionicStressReactions = null;
@@ -989,7 +986,7 @@ namespace SetStartDupes
 
 		public static void SetContainerPersonalityLock(CharacterContainer container, bool lockPersonality)
 		{
-			if (lockPersonality && !LockedContainers.Contains(container))
+			if (lockPersonality)
 			{
 				LockedContainers.Add(container);
 			}

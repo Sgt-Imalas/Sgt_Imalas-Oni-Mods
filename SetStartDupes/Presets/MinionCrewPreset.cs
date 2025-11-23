@@ -46,9 +46,7 @@ namespace SetStartDupes
 				characterContainer.SetController(controller);
 				characterContainer.DisableSelectButton();
 				controller.containers.Add(characterContainer);
-
 				OpenPresetAssignments.Add(Crewmates[i]);
-
 			}
 			controller.selectedDeliverables = new List<ITelepadDeliverable>();
 			controller.EnableProceedButton();
@@ -62,12 +60,13 @@ namespace SetStartDupes
 			SgtLogger.Assert("stats were null", container.stats);
 			var pers = Db.Get().Personalities.GetPersonalityFromNameStringKey(Mate.first);
 			if (pers != null)
+			{
+				SgtLogger.l("CrewPreset applying personality: " + pers.Name);
 				ModAssets.ApplySkinFromPersonality(pers, container.Stats);
+			}
 			Mate.second.ApplyPreset(container.Stats, true, true);
-
-
 			container.characterNameTitle.OnEndEdit(Mate.second.ConfigName);
-			container.RefreshDuplicantPanel();
+			container.RefreshDuplicantPanel();			
 		}
 
 		public static MinionCrewPreset CreateCrewPresetFromLiveDuplicants()
