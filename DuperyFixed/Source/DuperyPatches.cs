@@ -30,7 +30,17 @@ namespace Dupery
 			AccessoryManager = new AccessoryManager();
 			PersonalityManager = new PersonalityManager();
 
+			SgtLogger.l("Loading old hair swap kanim accessories");
+
+			///these have broken batch files; load from older file without broken states
+			Db.Get().AccessorySlots.Hair.accessories.RemoveAll(a => a.Id == "hair_033");
+			Db.Get().AccessorySlots.HatHair.accessories.RemoveAll(a => a.Id == "hat_hair_033");
+			///load old hair file for now removed hairs
+			AccessoryManager.LoadAccessories("old_hair_swap_kanim", true);
+
 			Logger.Log("Searching for personalities and accessories provided by other mods.");
+
+
 
 			foreach (Mod mod in Mods)
 			{

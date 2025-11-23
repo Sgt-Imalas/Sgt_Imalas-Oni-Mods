@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UtilLibs;
 
 namespace Dupery
@@ -102,6 +103,12 @@ namespace Dupery
 
 
 				Accessory accessory = new Accessory(id, accessories, slot, anim.batchTag, build.symbols[index], anim);
+				if(slot.accessories.Any(existing => existing.Id == accessory.Id))
+				{
+					Debug.Log("[Dupery]: accessory " + id + " already exists in slot " + slot.Name + ", skipping.");
+					continue;
+				}
+
 				slot.accessories.Add(accessory);
 				resourceTable.Add(accessory);
 

@@ -120,7 +120,7 @@ namespace UtilLibs
 				}
 			}
 		}
-		private static List<string> AddOrGetSubCategory(string subCategory, string mainCategory = null, Sprite icon = null, int sortkey = 850)
+		public static List<string> AddOrGetSubCategory(string subCategory, string mainCategory = null, Sprite icon = null, int sortkey = 850)
 		{
 			if (!InventoryOrganization.subcategoryIdToPermitIdsMap.ContainsKey(subCategory))
 			{

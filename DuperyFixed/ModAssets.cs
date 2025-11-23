@@ -74,6 +74,13 @@ namespace DuperyFixed
 			{
 				frame2 = frameOverride;
 			}
+
+			if (symbol.frameLookup == null || symbol.frameLookup.Count() == 0)
+			{
+				SgtLogger.warning("Symbol frame lookup is null or empty for symbol: " + symbol);
+				return Assets.GetSprite("unknown");
+			}
+
 			KAnim.Build.SymbolFrameInstance symbolFrame = symbol.GetFrame(frame2);
 			if (symbolFrame.Equals(default))
 			{
@@ -133,6 +140,11 @@ namespace DuperyFixed
 
 			Vector2I GetPivotPoint(KAnim.Build.Symbol symbol, Texture2D texture)
 			{
+				if (symbol.frameLookup == null || symbol.frameLookup.Count() == 0)
+				{
+					SgtLogger.warning("Symbol frame lookup is null or empty for symbol: " + symbol);
+					return new(int.MinValue, int.MinValue);
+				}
 				SymbolFrameInstance frame = symbol.GetFrame(0);
 				var PivotX = frame.bboxMin.x + texture.width;
 				var PivotY = frame.bboxMin.y + texture.height;
@@ -151,7 +163,10 @@ namespace DuperyFixed
 
 				Texture2D toWrite = GetSingleSpriteFromTexture(GetSpriteFrom(symbolToWrite, symbolOverride));
 				var pivotPoint = GetPivotPoint(symbolToWrite, toWrite);
-
+				if(pivotPoint.x == int.MinValue && pivotPoint.y == int.MinValue)
+				{
+					return;
+				}
 				int xStart = 0;
 				int yStart = 0;
 				int xEnd = toWrite.width;
@@ -186,7 +201,6 @@ namespace DuperyFixed
 			}
 
 			{
-
 				for (int i = 0; i < output.width; i++)
 				{
 					for (int j = 0; j < output.height; j++)
