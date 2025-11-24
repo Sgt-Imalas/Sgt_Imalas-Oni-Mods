@@ -91,7 +91,7 @@ namespace AkisDecorPackB.Content.Defs.Buildings
 
 			Storage storage = go.AddOrGet<Storage>();
 
-			Tag oil = GameTags.LubricatingOil;
+			Tag oil = GameTags.UnrefinedOil;
 
 			storage.capacityKg = 10f;
 			storage.showInUI = true;

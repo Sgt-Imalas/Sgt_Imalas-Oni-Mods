@@ -75,7 +75,7 @@ namespace AkisDecorPackB.Content.ModDb
 			fountains.Add(AddArtableStage(stages, FountainConfig.ID, "fish", "decorpackb_fountain_fish_kanim",  ArtableStatusType.LookingGreat));
 			fountains.Add(AddArtableStage(stages, FountainConfig.ID, "bowls", "decorpackb_fountain_bowls_kanim", ArtableStatusType.LookingGreat));
 		}
-		static string AddArtableStage(ArtableStages stages, string artableID, string stageID, string anim, ArtableStatusType statusType, string variant = null)
+		static string AddArtableStage(ArtableStages stages, string artableID, string stageID, string anim, ArtableStatusType statusType, string variant = "idle")
 		{
 			return ArtHelper.AddStatueStage(stages, artableID, stageID, Strings.Get($"STRINGS.BUILDINGS.PREFABS.{artableID.ToUpperInvariant()}.VARIANT.{stageID.ToUpperInvariant()}.NAME"), Strings.Get($"STRINGS.BUILDINGS.PREFABS.{artableID.ToUpperInvariant()}.VARIANT.{stageID.ToUpperInvariant()}.DESCRIPTION"), anim, statusType, variant);
 		}

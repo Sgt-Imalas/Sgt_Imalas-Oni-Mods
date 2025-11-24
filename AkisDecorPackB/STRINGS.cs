@@ -373,7 +373,7 @@ namespace AkisDecorPackB
 				{
 					public static LocString NAME = FormatAsLink("Oil Lantern", OilLanternConfig.ID);
 					public static LocString DESC = "Light reduces Duplicant stress and is required to grow certain plants.";
-					public static LocString EFFECT = $"Provides {FormatAsLink("Light", "LIGHT")} when supplied with }}{FormatAsLink("Crude Oil", SimHashes.CrudeOil.ToString())}.\n" +
+					public static LocString EFFECT = $"Provides {FormatAsLink("Light", "LIGHT")} when supplied with {FormatAsLink("Oil", GameTags.UnrefinedOil.ToString())}.\n" +
 						$"\n" +
 						$"Duplicants can operate buildings more quickly when the building is lit.";
 				}
