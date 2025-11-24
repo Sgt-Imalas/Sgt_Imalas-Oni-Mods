@@ -44,14 +44,17 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 					OilWellCap cap = go.GetComponent<OilWellCap>();
 					cap.gasElement = ModElements.RawNaturalGas_Gas;
 					cap.gasTemperature = 393.15f;
-					cap.addGasRate = 0.12f;
+					cap.addGasRate = 0;
 					cap.maxGasPressure = 80f;
 					cap.releaseGasRate = 80f / OilWellCapConfig.PRESSURE_RELEASE_TIME;
 
 					///adjust the conversion output amount
 					ElementConverter converter = go.GetComponent<ElementConverter>();
 					converter.consumedElements = [new ElementConverter.ConsumedElement(GameTags.AnyWater, 1f)];
-					converter.outputElements = [new ElementConverter.OutputElement(3.4f, SimHashes.CrudeOil, 363.15f, false, true, outputElementOffsetx: 2f, outputElementOffsety: 1.5f, diseaseWeight: 1f)];
+					converter.outputElements = [
+						new ElementConverter.OutputElement(3.4f, SimHashes.CrudeOil, 363.15f, false, true, outputElementOffsetx: 2f, outputElementOffsety: 1.5f),
+						new ElementConverter.OutputElement(0.12f, ModElements.RawNaturalGas_Gas, 393.15f, false, true, outputElementOffsetx: 1f, outputElementOffsety: 2f)
+						];
 
 					///grab storage for oil and gas and seal it
 					Storage standardStorage = go.GetComponent<Storage>();
