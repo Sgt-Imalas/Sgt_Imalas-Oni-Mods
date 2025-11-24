@@ -225,6 +225,10 @@ namespace SGTIM_NotificationManager
 				{
 					skipAudio = Config.Instance.MUTE_FOODROT_SOUND;
 				}
+				else if (notification.titleText == global::STRINGS.MISC.NOTIFICATIONS.UNREFRIGERATEDFOOD.NAME)
+				{
+					skipAudio = Config.Instance.MUTE_UNREFRIGERATEDFOOD_SOUND;
+				}
 
 				notification.playSound = !skipAudio;
 			}
@@ -300,6 +304,11 @@ namespace SGTIM_NotificationManager
 				{
 					pause = Config.Instance.PAUSE_ON_FOODROT;
 					moveCam = Config.Instance.PAN_TO_FOODROT;
+				}
+				else if (notification.titleText == global::STRINGS.MISC.NOTIFICATIONS.UNREFRIGERATEDFOOD.NAME)
+				{
+					pause = Config.Instance.PAUSE_ON_UNREFRIGERATEDFOOD;
+					moveCam = Config.Instance.PAN_TO_UNREFRIGERATEDFOOD;
 				}
 
 				if (GameClock.Instance != null)
