@@ -16,28 +16,7 @@ namespace AkisDecorPackB.Patches
         {
 			public static void Postfix()
 			{
-				SetFossilTag();
 				SetFloorLampPaneTags();
-			}
-
-			private static void SetFossilTag()
-			{
-				var fossil = ElementLoader.FindElementByHash(SimHashes.Fossil);
-
-				if (fossil == null)
-					return;
-
-				if (fossil.oreTags == null)
-				{
-					fossil.oreTags =
-					[
-						ModAssets.Tags.FossilMaterial
-					];
-				}
-				else
-				{
-					fossil.oreTags = fossil.oreTags.AddToArray(ModAssets.Tags.FossilMaterial);
-				}
 			}
 
 			private static void SetFloorLampPaneTags()

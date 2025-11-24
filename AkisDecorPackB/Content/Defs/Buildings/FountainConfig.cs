@@ -79,7 +79,9 @@ namespace AkisDecorPackB.Content.Defs.Buildings
 
 		public override void DoPostConfigureComplete(GameObject go)
 		{
-			go.AddComponent<Sculpture>().defaultAnimName = "idle";
+			var sculpture = go.AddComponent<Sculpture>();
+			sculpture.defaultAnimName = "idle";
+			sculpture.requiredSkillPerk = Db.Get().SkillPerks.CanArtGreat.Id;
 		}
 	}
 }

@@ -30,7 +30,7 @@ namespace AkisDecorPackB.Content.Defs.Buildings
 					1f
 				],
 				[
-					ModAssets.Tags.FossilMaterial.ToString(),
+					TUNING.MATERIALS.FOSSILS_TAG,
 					SimHashes.Steel.ToString(),
 					ModAssets.Tags.BuildingFossilNodule.ToString(),
 				],
@@ -56,7 +56,8 @@ namespace AkisDecorPackB.Content.Defs.Buildings
 		{
 			go.AddTag(GameTags.Decoration);
 			go.AddTag(ModAssets.Tags.FossilBuilding);
-			go.AddOrGet<BuildingComplete>().isArtable = true;
+			//go.AddOrGet<BuildingComplete>().isArtable = true;
+			go.AddOrGet<RequiresResearcheReconstruction>();
 			BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof(RequiresFoundation), prefab_tag);
 		}
 

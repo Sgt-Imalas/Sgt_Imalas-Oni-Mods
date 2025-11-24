@@ -24,8 +24,6 @@ namespace AkisDecorPackB
 		public class Tags
 		{
 			public static readonly Tag
-				FossilMaterial = TagManager.Create("DecorPackB_FossilMaterial"),
-
 				// For rooms expanded, it uses this to recognize fossil buildings
 				FossilBuilding = TagManager.Create("FossilBuilding"),
 

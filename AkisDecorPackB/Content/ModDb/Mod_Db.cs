@@ -21,6 +21,7 @@ namespace AkisDecorPackB.Content.ModDb
 		{
 			FloorLampPanes = new FloorLampPanes();
 			BigFossils = new BigFossilVariants();
+			ModSkillPerks.Register(__instance);
 			ModStatusItems.Register(__instance.BuildingStatusItems);
 		}
 

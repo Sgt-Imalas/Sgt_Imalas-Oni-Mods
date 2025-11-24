@@ -23,7 +23,7 @@ namespace AkisDecorPackB.Content.Scripts
 			workerStatusItem = global::Db.Get().DuplicantStatusItems.Arting;
 			attributeConverter = global::Db.Get().AttributeConverters.ResearchSpeed;
 			skillExperienceSkillGroup = global::Db.Get().SkillGroups.Research.Id;
-			requiredSkillPerk = global::Db.Get().SkillPerks.IncreaseLearningSmall.Id;
+			requiredSkillPerk = ModSkillPerks.Can_ReconstructFossil.Id;
 
 			SetWorkTime(Mod.IsDev ? 8f : 80f);
 
@@ -41,19 +41,19 @@ namespace AkisDecorPackB.Content.Scripts
 
 		private ArtableStatusItem GetScientistSkill(WorkerBase worker)
 		{
+			var stati = Db.Get().ArtableStatuses;
 			if (worker.TryGetComponent(out MinionResume resume))
 			{
-				if (resume.HasPerk(global::Db.Get().SkillPerks.AllowNuclearResearch.Id))
+				if (resume.HasPerk(ModSkillPerks.Can_ReconstructFossil_Great))
 				{
-					return global::Db.Get().ArtableStatuses.LookingGreat;
+					return stati.LookingGreat;
 				}
-				else if (resume.HasPerk(global::Db.Get().SkillPerks.CanStudyWorldObjects.Id))
+				else if (resume.HasPerk(ModSkillPerks.Can_ReconstructFossil_Okay))
 				{
-					return global::Db.Get().ArtableStatuses.LookingOkay;
+					return stati.LookingOkay;
 				}
 			}
-
-			return global::Db.Get().ArtableStatuses.LookingUgly;
+			return stati.LookingUgly;
 		}
 
 		public override void OnCompleteWork(WorkerBase worker)
@@ -85,7 +85,7 @@ namespace AkisDecorPackB.Content.Scripts
 		private void SetReconstructionStatusItem()
 		{
 			if (CurrentStage != "Default" && !CreatorName.IsNullOrWhiteSpace())
-				selectable.AddStatusItem(ModStatusItems.fossilReconstruction);
+				selectable.AddStatusItem(ModStatusItems.fossilReconstruction, this);
 			else
 				selectable.RemoveStatusItem(ModStatusItems.fossilReconstruction);
 		}

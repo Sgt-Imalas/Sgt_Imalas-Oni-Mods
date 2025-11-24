@@ -80,7 +80,7 @@ namespace AkisDecorPackB
 				{
 					public static LocString NAME = FormatAsLink("Fossil Display", FossilDisplayConfig.ID);
 					public static LocString DESC = "Duplicants who have learned research skills can produce more accurate reconstructions.";
-					public static LocString EFFECT = "Majorly increases " + FormatAsLink("Decor", "DECOR") + ", contributing to " + FormatAsLink("Morale", "MORALE") + ".\n\nMust be sculpted by a Duplicant.";
+					public static LocString EFFECT = "Majorly increases " + FormatAsLink("Decor", "DECOR") + ", contributing to " + FormatAsLink("Morale", "MORALE") + ".\n\nMust be reconstructed by a Duplicant.";
 
 					public class VARIANT
 					{
@@ -212,7 +212,7 @@ namespace AkisDecorPackB
 				{
 					public static LocString NAME = FormatAsLink("Giant Fossil Display", GiantFossilDisplayConfig.ID);
 					public static LocString DESC = "Duplicants who have learned research skills can produce more accurate reconstructions.";
-					public static LocString EFFECT = "Majorly increases " + FormatAsLink("Decor", "DECOR") + ", contributing to " + FormatAsLink("Morale", "MORALE") + ".\n\nMust be sculpted by a Duplicant.";
+					public static LocString EFFECT = "Majorly increases " + FormatAsLink("Decor", "DECOR") + ", contributing to " + FormatAsLink("Morale", "MORALE") + ".\n\nMust be reconstructed by a Duplicant.";
 
 					public class VARIANT
 					{
@@ -418,8 +418,6 @@ namespace AkisDecorPackB
 				public static LocString FOSSIL = "Fossil";
 				public static LocString DECORPACKB_BUILDINGFOSSILNODULE = "Fossil Nodule";
 				public static LocString DECORPACKB_BUILDINGFOSSILNODULE_DESC = "An important hint for the construction of a larger structure.";
-				public static LocString DECORPACKB_FOSSILMATERIAL = "Fossil";
-				public static LocString DECORPACKB_FOSSILMATERIAL_DESC = "Fossilized imprints";
 				public static LocString DECORPACKB_FLOORLAMPFRAMEMATERIAL = "Frame";
 				public static LocString DECORPACKB_FLOORLAMPPANEMATERIAL = "Pane";
 			}
@@ -427,6 +425,41 @@ namespace AkisDecorPackB
 
 		public class UI
 		{
+			public class ROLES_SCREEN
+			{
+				public class PERKS
+				{
+					public class CAN_RECONSTRUCTFOSSIL
+					{
+						public static LocString DESCRIPTION = (LocString)$"Can reconstruct fossils at:\n<indent=30px>• {(string)BUILDINGS.PREFABS.DECORPACKB_FOSSILDISPLAY.NAME}\n• {(string)BUILDINGS.PREFABS.DECORPACKB_GIANTFOSSILDISPLAY.NAME}</indent>";
+					}
+					public class CAN_RECONSTRUCTFOSSIL_UGLY
+					{
+						public static LocString DESCRIPTION = (LocString)$"{PRE_KEYWORD}\"Abstract\"{PST_KEYWORD} fossil reconstruction quality";
+					}
+
+					public class CAN_RECONSTRUCTFOSSIL_OKAY
+					{
+						public static LocString DESCRIPTION = (LocString)$"{PRE_KEYWORD}Mediocre{PST_KEYWORD} fossil reconstruction quality";
+					}
+
+					public class CAN_RECONSTRUCTFOSSIL_GREAT
+					{
+						public static LocString DESCRIPTION = (LocString)$"{PRE_KEYWORD}Master{PST_KEYWORD} fossil reconstruction quality";
+					}
+				}
+			}
+
+			public class BUILDINGEFFECTS
+			{
+
+				public static LocString DECORPACKB_REQUIRESSCIENCE = "Duplicant " + FormatAsLink("Fossil Reconstruction Skill", "RESEARCHING1");
+				public class TOOLTIPS
+				{
+					public static LocString DECORPACKB_REQUIRESSCIENCE = "A knowledgeable Duplicant must work on this object to create a good " + PRE_KEYWORD + "Reconstruction" + PST_KEYWORD;
+				}
+			}
+
 			public class DECORPACKB
 			{
 				public class BUILD_LOCATION_RULE_COMPLAINTS

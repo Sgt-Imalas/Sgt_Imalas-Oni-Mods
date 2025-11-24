@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using static STRINGS.UI.ELEMENTAL;
 
 namespace AkisDecorPackB.Content.Scripts
 {
@@ -30,6 +31,11 @@ namespace AkisDecorPackB.Content.Scripts
 			consumer.storage = storageIn;
 			consumer.forceAlwaysSatisfied = true;
 			consumer.IsSatisfied = true;
+
+			if (storageIn.items.Any() && storageIn.items.First().TryGetComponent<PrimaryElement>(out var primaryElement))
+			{
+				kbac.SetSymbolTint("stream", primaryElement.Element.substance.colour);
+			}
 		}
 
 		public class States : GameStateMachine<States, SMInstance, Fountain>
@@ -163,7 +169,7 @@ namespace AkisDecorPackB.Content.Scripts
 				colorDirty = true;
 			}
 
-			private void RefreshColor(Fountain fountain, PrimaryElement primaryElement)
+			internal void RefreshColor(Fountain fountain, PrimaryElement primaryElement)
 			{
 				if ((lastElement != primaryElement.ElementID || colorDirty))
 				{

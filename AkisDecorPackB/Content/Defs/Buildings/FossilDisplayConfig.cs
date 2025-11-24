@@ -25,10 +25,7 @@ namespace AkisDecorPackB.Content.Defs.Buildings
 				BUILDINGS.HITPOINTS.TIER2,
 				BUILDINGS.CONSTRUCTION_TIME_SECONDS.TIER4,
 				functionalFossils ? BUILDINGS.CONSTRUCTION_MASS_KG.TIER4 : BUILDINGS.CONSTRUCTION_MASS_KG.TIER2,
-				new[]
-				{
-					ModAssets.Tags.FossilMaterial.ToString(),
-				},
+				TUNING.MATERIALS.FOSSILS,
 				BUILDINGS.MELTING_POINT_KELVIN.TIER1,
 				BuildLocationRule.OnFloor,
 				//new EffectorValues(Mod.Settings.FossilDisplay.BaseDecor.Amount, Mod.Settings.FossilDisplay.BaseDecor.Range),
@@ -43,6 +40,7 @@ namespace AkisDecorPackB.Content.Defs.Buildings
 			def.ViewMode = OverlayModes.Decor.ID;
 			def.DefaultAnimState = "base";
 			def.PermittedRotations = PermittedRotations.FlipH;
+			def.RequiredSkillPerkID = Db.Get().SkillPerks.IncreaseLearningSmall.Id;
 
 			return def;
 		}
@@ -51,7 +49,8 @@ namespace AkisDecorPackB.Content.Defs.Buildings
 		{
 			go.AddTag(GameTags.Decoration);
 			go.AddTag(ModAssets.Tags.FossilBuilding);
-			go.AddOrGet<BuildingComplete>().isArtable = true;
+			//go.AddOrGet<BuildingComplete>().isArtable = true;
+			go.AddOrGet<RequiresResearcheReconstruction>();
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)

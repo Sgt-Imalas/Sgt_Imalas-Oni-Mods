@@ -18,7 +18,7 @@ namespace AkisDecorPackB.Patches
             public static void Prefix()
 			{
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Furniture, FountainConfig.ID,  MarbleSculptureConfig.ID);
-				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Furniture, FossilDisplayConfig.ID,  FloorLampConfig.ID);
+				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Furniture, FossilDisplayConfig.ID,  CeilingFossilSculptureConfig.ID);
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Furniture, OilLanternConfig.ID,  FloorLampConfig.ID);
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Base, PotConfig.ID, StorageLockerConfig.ID);
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Furniture, GiantFossilDisplayConfig.ID, FossilDisplayConfig.ID);
