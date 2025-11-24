@@ -24,7 +24,7 @@ namespace RotatableRadboltStorage
 			Unsubscribe((int)GameHashes.LogicEvent, OnLogicValueChanged);
 			base.OnCleanUp();
 		}
-		void OnLogicValueChanged(object data)
+		void OnLogicValueChanged(object _)
 		{
 			if (logicPorts.inputPortInfo == null || !logicPorts.inputPortInfo.Any())
 				return;

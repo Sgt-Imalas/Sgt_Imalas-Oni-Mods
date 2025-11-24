@@ -25,7 +25,7 @@ namespace RotatableRadboltStorage
 		CopyBuildingSettings settings;
 
 		private static readonly EventSystem.IntraObjectHandler<HEPStorageThreshold> OnCopySettingsDelegate = new((component, data) => component.OnCopySettings(data));
-		private static readonly EventSystem.IntraObjectHandler<HEPStorageThreshold> UpdateLogicCircuitDelegate = new((component, data) => component.UpdateLogicCircuit(data));
+		private static readonly EventSystem.IntraObjectHandler<HEPStorageThreshold> UpdateLogicCircuitDelegate = new((component, data) => component.UpdateLogicCircuit(null));
 
 		public override void OnSpawn()
 		{
@@ -55,7 +55,7 @@ namespace RotatableRadboltStorage
 			this.ActivateValue = component.ActivateValue;
 			this.DeactivateValue = component.DeactivateValue;
 		}
-		private void UpdateLogicCircuit(object data)
+		private void UpdateLogicCircuit(object _)
 		{
 			float num = Mathf.RoundToInt(this.PercentFull * 100f);
 			if (this.activated)
