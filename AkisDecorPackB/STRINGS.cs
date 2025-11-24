@@ -45,8 +45,7 @@ namespace AkisDecorPackB
 				public static LocString DESC = "Well preerved fossils of an ancient aquatic predator whale.";
 			}
 		}
-
-		public class BUILDINGS
+		public class BUILDING
 		{
 			public class STATUSITEMS
 			{
@@ -55,7 +54,21 @@ namespace AkisDecorPackB
 					public static LocString NAME = "Awaiting Fuel";
 					public static LocString TOOLTIP = "This building requires {1} {0} to function. It can be delivered by hand or by pipe.";
 				}
+				public class DECORPACKB_FOUNTAINDRIEDOUT
+				{
+					public static LocString NAME = "Dried Out!";
+					public static LocString TOOLTIP = "This fountain is currently dried out and awaiting liquid flow.\n\nIt looks kinda sad in this state (decor is reduced)";
+				}
+				public class DECORPACKB_FOUNTAINFLOWING
+				{
+					public static LocString NAME = "Fountain flowing";
+					public static LocString TOOLTIP = "Splish splash!";
+				}
 			}
+		}
+
+		public class BUILDINGS
+		{
 			public class PREFABS
 			{
 				public class DECORPACKB_FOSSILDISPLAY

@@ -22,7 +22,17 @@ namespace AkisDecorPackB.Content.Scripts
 		{
 			base.OnSpawn();
 			UpdateStorage(CurrentStage);
+			Subscribe((int)GameHashes.ArtableStateChanged, OnArtableStateChanged);
 			// adding an empty list prevents the weird popup
+		}
+		public override void OnCleanUp()
+		{
+			base.OnCleanUp();
+			Unsubscribe((int)GameHashes.ArtableStateChanged, OnArtableStateChanged);
+		}
+		void OnArtableStateChanged(object data)
+		{
+			UpdateStorage(CurrentStage);
 		}
 
 		private void UpdateStorage(string stage)

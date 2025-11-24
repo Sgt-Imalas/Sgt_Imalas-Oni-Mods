@@ -1,4 +1,5 @@
-﻿using Klei.AI;
+﻿using AkisDecorPackB.Content.ModDb;
+using Klei.AI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,7 +57,7 @@ namespace AkisDecorPackB.Content.Scripts
 					.PlayAnim(smi => smi.GetAnimName(smi, false), KAnim.PlayMode.Paused)
 					.EventTransition(GameHashes.OnStorageChange, flowing, CanFlow)
 					.EventTransition(GameHashes.FunctionalChanged, flowing, CanFlow)
-					.ToggleStatusItem(global::Db.Get().BuildingStatusItems.UnderPressure);  // TODO: Custom status item
+					.ToggleStatusItem(ModStatusItems.fountainDriedOut); 
 
 				flowing
 					.EventTransition(ModAssets.Hashes.FossilStageUnset, unsculpted, IsUnSculpted)
@@ -67,7 +68,7 @@ namespace AkisDecorPackB.Content.Scripts
 					.Update((smi, dt) => smi.DripLiquid(smi, dt))
 					.OnSignal(dryUp, ready)
 					.EventTransition(GameHashes.FunctionalChanged, ready, smi => !smi.GetComponent<Operational>().IsFunctional)
-					.ToggleStatusItem(global::Db.Get().BuildingStatusItems.EmittingLight);
+					.ToggleStatusItem(ModStatusItems.fountainFlowing);
 			}
 
 			private bool CanFlow(SMInstance smi)

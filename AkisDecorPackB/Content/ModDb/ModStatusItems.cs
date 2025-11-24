@@ -11,18 +11,40 @@ namespace AkisDecorPackB.Content.ModDb
 	internal class ModStatusItems
 	{
 		public static StatusItem awaitingFuel;
+		public static StatusItem fountainDriedOut;
+		public static StatusItem fountainFlowing;
 
 		public static void Register(BuildingStatusItems statusItems)
 		{
-			awaitingFuel = new StatusItem(
-				"DecorPackB_AwaitingFuel",
+			fountainDriedOut = new StatusItem(
+				"DecorPackB_FountainDriedOut",
 				"BUILDING",
-				string.Empty,
-				StatusItem.IconType.Exclamation,
+				"status_item_no_liquid_to_pump",
+				StatusItem.IconType.Custom,
 				NotificationType.BadMinor,
 				false,
 				OverlayModes.None.ID,
+				true);
+
+			fountainFlowing = new StatusItem(
+				"DecorPackB_FountainFlowing",
+				"BUILDING",
+				string.Empty,
+				StatusItem.IconType.Info,
+				NotificationType.Neutral,
+				false,
+				OverlayModes.None.ID,
 				false);
+
+			awaitingFuel = new StatusItem(
+				"DecorPackB_AwaitingFuel",
+				"BUILDING",
+				"status_item_no_gas_to_pump",
+				StatusItem.IconType.Custom,
+				NotificationType.BadMinor,
+				false,
+				OverlayModes.None.ID,
+				true);
 
 			awaitingFuel.SetResolveStringCallback((str, obj) =>
 			{
