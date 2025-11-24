@@ -1,4 +1,6 @@
-﻿using Database;
+﻿using AkisDecorPackB.Content.ModDb;
+using Database;
+using KSerialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,11 @@ namespace AkisDecorPackB.Content.Scripts
 {
 	public class Exhibition : Artable
 	{
+		[MyCmpGet] KSelectable selectable;
+
+		[Serialize]
+		public string CreatorName;
+
 		public override void OnPrefabInit()
 		{
 			base.OnPrefabInit();
@@ -29,6 +36,7 @@ namespace AkisDecorPackB.Content.Scripts
 		{
 			base.OnSpawn();
 			shouldShowSkillPerkStatusItem = true;
+			SetReconstructionStatusItem();
 		}
 
 		private ArtableStatusItem GetScientistSkill(WorkerBase worker)
@@ -50,6 +58,11 @@ namespace AkisDecorPackB.Content.Scripts
 
 		public override void OnCompleteWork(WorkerBase worker)
 		{
+			if (worker.TryGetComponent(out MinionIdentity identity))
+			{
+				CreatorName = identity.name;
+			}
+
 			if (userChosenTargetStage == null || userChosenTargetStage.IsNullOrWhiteSpace())
 			{
 				SetRandomStage(worker);
@@ -68,6 +81,13 @@ namespace AkisDecorPackB.Content.Scripts
 		{
 			SetStage(userChosenTargetStage, false);
 			userChosenTargetStage = null;
+		}
+		private void SetReconstructionStatusItem()
+		{
+			if (CurrentStage != "Default" && !CreatorName.IsNullOrWhiteSpace())
+				selectable.AddStatusItem(ModStatusItems.fossilReconstruction);
+			else
+				selectable.RemoveStatusItem(ModStatusItems.fossilReconstruction);
 		}
 
 		private void SetRandomStage(WorkerBase worker)
@@ -91,6 +111,7 @@ namespace AkisDecorPackB.Content.Scripts
 			{
 				BoxingTrigger(ModAssets.Hashes.FossilStageSet, stage.statusItem.StatusType);
 			}
+			SetReconstructionStatusItem();
 		}
 
 		private static void EmoteOnCompletion(WorkerBase worker, ArtableStage stage)

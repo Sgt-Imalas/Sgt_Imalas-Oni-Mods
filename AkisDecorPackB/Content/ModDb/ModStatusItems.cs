@@ -13,6 +13,7 @@ namespace AkisDecorPackB.Content.ModDb
 		public static StatusItem awaitingFuel;
 		public static StatusItem fountainDriedOut;
 		public static StatusItem fountainFlowing;
+		public static StatusItem fossilReconstruction;
 
 		public static void Register(BuildingStatusItems statusItems)
 		{
@@ -35,6 +36,26 @@ namespace AkisDecorPackB.Content.ModDb
 				false,
 				OverlayModes.None.ID,
 				false);
+
+			fossilReconstruction = new StatusItem(
+				"DecorPackB_FossilReconstruction",
+				"BUILDING",
+				string.Empty,
+				StatusItem.IconType.Info,
+				NotificationType.Neutral,
+				false,
+				OverlayModes.None.ID,
+				false);
+
+
+			fossilReconstruction.SetResolveStringCallback((string str, object obj) =>
+			{
+				if (obj is Exhibition e)
+				{
+					str = str.Replace("{duplicantName}", e.CreatorName);
+				}
+				return str;
+			});
 
 			awaitingFuel = new StatusItem(
 				"DecorPackB_AwaitingFuel",

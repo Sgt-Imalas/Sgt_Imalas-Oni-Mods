@@ -45,13 +45,13 @@ namespace AkisDecorPackB.Content.ModDb
 			// smaller fossil
 			fossils.Add(AddArtableStage(stages, FossilDisplayConfig.ID, "human", "decorpackb_fossildisplay_human_kanim", ArtableStatusType.LookingUgly));
 			fossils.Add(AddArtableStage(stages, FossilDisplayConfig.ID, "doggy", "decorpackb_fossildisplay_doggy_kanim", ArtableStatusType.LookingUgly));
-			fossils.Add(AddArtableStage(stages, FossilDisplayConfig.ID, "pacu", "decorpackb_fossildisplay_pacu_kanim", ArtableStatusType.LookingOkay));
+			fossils.Add(AddArtableStage(stages, FossilDisplayConfig.ID, "pacu", "decorpackb_fossildisplay_pacu_kanim", ArtableStatusType.LookingOkay,"good_2"));
 			fossils.Add(AddArtableStage(stages, FossilDisplayConfig.ID, "ammonite", "decorpackb_fossildisplay_ammonite_kanim", ArtableStatusType.LookingOkay));
 			fossils.Add(AddArtableStage(stages, FossilDisplayConfig.ID, "pawprints", "decorpackb_fossildisplay_pawprints_kanim", ArtableStatusType.LookingOkay));
 			fossils.Add(AddArtableStage(stages, FossilDisplayConfig.ID, "ancientspecimenamber", "decorpackb_fossildisplay_ancientspecimentamber_kanim", ArtableStatusType.LookingOkay));
-			fossils.Add(AddArtableStage(stages, FossilDisplayConfig.ID, "dodo", "decorpackb_fossildisplay_dodo_kanim", ArtableStatusType.LookingGreat));
-			fossils.Add(AddArtableStage(stages, FossilDisplayConfig.ID, "beefalo", "decorpackb_fossildisplay_beefalo_kanim",  ArtableStatusType.LookingGreat));
-			fossils.Add(AddArtableStage(stages, FossilDisplayConfig.ID, "minipara", "decorpackb_fossildisplay_minipara_kanim", ArtableStatusType.LookingGreat));
+			fossils.Add(AddArtableStage(stages, FossilDisplayConfig.ID, "dodo", "decorpackb_fossildisplay_dodo_kanim", ArtableStatusType.LookingGreat, "good_5"));
+			fossils.Add(AddArtableStage(stages, FossilDisplayConfig.ID, "beefalo", "decorpackb_fossildisplay_beefalo_kanim",  ArtableStatusType.LookingGreat, "good_4"));
+			fossils.Add(AddArtableStage(stages, FossilDisplayConfig.ID, "minipara", "decorpackb_fossildisplay_minipara_kanim", ArtableStatusType.LookingGreat, "good_1"));
 			fossils.Add(AddArtableStage(stages, FossilDisplayConfig.ID, "trilobite", "decorpackb_fossildisplay_trilobite_kanim", ArtableStatusType.LookingGreat));
 			fossils.Add(AddArtableStage(stages, FossilDisplayConfig.ID, "microraptor", "decorpackb_fossildisplay_microraptor_kanim", ArtableStatusType.LookingGreat));
 			fossils.Add(AddArtableStage(stages, FossilDisplayConfig.ID, "ancientspeciment", "decorpackb_fossildisplay_ancientspecimen_kanim",  ArtableStatusType.LookingGreat));
@@ -74,6 +74,7 @@ namespace AkisDecorPackB.Content.ModDb
 			// fountains
 			fountains.Add(AddArtableStage(stages, FountainConfig.ID, "fish", "decorpackb_fountain_fish_kanim",  ArtableStatusType.LookingGreat));
 			fountains.Add(AddArtableStage(stages, FountainConfig.ID, "bowls", "decorpackb_fountain_bowls_kanim", ArtableStatusType.LookingGreat));
+			fountains.Add(AddArtableStage(stages, FountainConfig.ID, "roller_snake", "decorpackb_fountain_rollersnakes_kanim", ArtableStatusType.LookingGreat));
 		}
 		static string AddArtableStage(ArtableStages stages, string artableID, string stageID, string anim, ArtableStatusType statusType, string variant = "idle")
 		{

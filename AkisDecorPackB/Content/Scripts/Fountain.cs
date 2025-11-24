@@ -30,8 +30,6 @@ namespace AkisDecorPackB.Content.Scripts
 			consumer.storage = storageIn;
 			consumer.forceAlwaysSatisfied = true;
 			consumer.IsSatisfied = true;
-
-			GetComponent<ConduitDispenser>().storage = storageOut;
 		}
 
 		public class States : GameStateMachine<States, SMInstance, Fountain>

@@ -64,6 +64,11 @@ namespace AkisDecorPackB
 					public static LocString NAME = "Fountain flowing";
 					public static LocString TOOLTIP = "Splish splash!";
 				}
+				public class DECORPACKB_FOSSILRECONSTRUCTION
+				{
+					public static LocString NAME = "Reconstruction by {duplicantName}";
+					public static LocString TOOLTIP = "This fossil has been reconstructed by {duplicantName}.\n\nDuplicants with more advanced science skills will produce more accurate reconstructions.";
+				}
 			}
 		}
 
@@ -76,8 +81,6 @@ namespace AkisDecorPackB
 					public static LocString NAME = FormatAsLink("Fossil Display", FossilDisplayConfig.ID);
 					public static LocString DESC = "Duplicants who have learned research skills can produce more accurate reconstructions.";
 					public static LocString EFFECT = "Majorly increases " + FormatAsLink("Decor", "DECOR") + ", contributing to " + FormatAsLink("Morale", "MORALE") + ".\n\nMust be sculpted by a Duplicant.";
-
-					public static LocString ASSEMBLEDBY = "Reconstruction by {duplicantName}";
 
 					public class VARIANT
 					{
@@ -448,30 +451,33 @@ namespace AkisDecorPackB
 				public static LocString HELP_BUILDLOCATION_ON_ANY_WALL = "Must be placed on the ground, ceiling, or next to a wall.";
 			}
 		}
-		public static class EFFECTS
+		public static class DUPLICANTS
 		{
-			public static class DECORPACKB_INSPIRED_LOW
+			public static class MODIFIERS
 			{
-				public static LocString NAME = "Midly Curious";
-				public static LocString DESC = "This duplicant has seen a somewhat interesting thing.";
-			}
+				public static class DECORPACKB_INSPIRED_LOW
+				{
+					public static LocString NAME = "Midly Curious";
+					public static LocString TOOLTIP = "This duplicant has seen a somewhat interesting thing.";
+				}
 
-			public static class DECORPACKB_INSPIRED_OKAY
-			{
-				public static LocString NAME = "Inspired";
-				public static LocString DESC = "This duplicant has seen a decently interesting thing.";
-			}
+				public static class DECORPACKB_INSPIRED_OKAY
+				{
+					public static LocString NAME = "Inspired";
+					public static LocString TOOLTIP = "This duplicant has seen a decently interesting thing.";
+				}
 
-			public static class DECORPACKB_INSPIRED_GREAT
-			{
-				public static LocString NAME = "Awestruck";
-				public static LocString DESC = "This duplicant has seen amazing discoveries and cannot wait to learn more about their world.";
-			}
+				public static class DECORPACKB_INSPIRED_GREAT
+				{
+					public static LocString NAME = "Awestruck";
+					public static LocString TOOLTIP = "This duplicant has seen amazing discoveries and cannot wait to learn more about their world.";
+				}
 
-			public static class DECORPACKB_INSPIRED_GIANT
-			{
-				public static LocString NAME = "Expanded mind";
-				public static LocString DESC = "This duplicant is greatly inspired by the wonders of this world.";
+				public static class DECORPACKB_INSPIRED_GIANT
+				{
+					public static LocString NAME = "Expanded mind";
+					public static LocString TOOLTIP = "This duplicant is greatly inspired by the wonders of this world.";
+				}
 			}
 		}
 		public class DECORPACKB_CONFIG

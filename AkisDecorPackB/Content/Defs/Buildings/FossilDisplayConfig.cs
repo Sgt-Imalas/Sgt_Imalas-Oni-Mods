@@ -56,7 +56,7 @@ namespace AkisDecorPackB.Content.Defs.Buildings
 
 		public override void DoPostConfigureComplete(GameObject go)
 		{
-			go.AddComponent<Exhibition>();
+			go.AddComponent<Exhibition>().defaultAnimName = "base";
 			go.AddComponent<Inspiring>();
 		}
 	}

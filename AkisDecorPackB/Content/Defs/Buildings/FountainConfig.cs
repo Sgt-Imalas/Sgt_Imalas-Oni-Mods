@@ -23,7 +23,7 @@ namespace AkisDecorPackB.Content.Defs.Buildings
 				BUILDINGS.HITPOINTS.TIER2,
 				BUILDINGS.CONSTRUCTION_TIME_SECONDS.TIER4,
 				[800f],
-				MATERIALS.RAW_MINERALS,
+				MATERIALS.PRECIOUS_ROCKS,
 				BUILDINGS.MELTING_POINT_KELVIN.TIER1,
 				BuildLocationRule.OnFloor,
 				DECOR.BONUS.TIER5,
@@ -70,7 +70,7 @@ namespace AkisDecorPackB.Content.Defs.Buildings
 
 			var conduitDispenser = go.AddOrGet<ConduitDispenser>();
 			conduitDispenser.conduitType = ConduitType.Liquid;
-			conduitDispenser.storage = storageIn;
+			conduitDispenser.storage = storageOut;
 
 			var fountain = go.AddOrGet<Fountain>();
 			fountain.storageIn = storageIn;
