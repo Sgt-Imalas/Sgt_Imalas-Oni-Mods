@@ -10,6 +10,7 @@ namespace Dupery
 {
 	class PersonalityOutline
 	{
+
 		// Properties for toggling stuff
 		[JsonProperty]
 		public bool Printable { get; set; } = true;
@@ -84,6 +85,9 @@ namespace Dupery
 		// Extra not-serlialized properties
 		private string sourceModId;
 		private bool isModified;
+		[JsonIgnore]
+		///used by vanilla dupes
+		string RequiredDlcID { get; set; }
 
 		public PersonalityOutline() { }
 
@@ -313,7 +317,7 @@ namespace Dupery
 				{
 					SgtLogger.l("adding SpeechMonitorKanimOverride: " + genericMouthFlap + " to personality: " + nameStringKey);
 					PersonalityManager.RegisterCustomSpeechMonitorKanim(nameStringKey, genericMouthFlap);
-										
+
 					//InjectionMethods.RegisterCustomInteractAnim(KAnimGroupFile.GetGroupFile(), genericMouthFlap);
 				}
 				else
@@ -340,7 +344,7 @@ namespace Dupery
 			// Customisable accessories
 			int hair = ChooseAccessoryNumber(Db.Get().AccessorySlots.Hair, Hair);
 			int body = ChooseAccessoryNumber(Db.Get().AccessorySlots.Body, Body);
-						
+
 			if (body == 7)
 				body = 5;
 
@@ -357,7 +361,7 @@ namespace Dupery
 
 			//arms are split into arm_lower_[X] and arm_upper_[X] in the anims, so we need to interpolate
 			string armUpper = ArmSkin, armLower = ArmSkin;
-			if(ArmSkin != null && ArmSkin.Length > 1 && ArmSkin.Contains ("arm_"))
+			if (ArmSkin != null && ArmSkin.Length > 1 && ArmSkin.Contains("arm_"))
 			{
 				armLower = ArmSkin.Replace("arm_", "arm_lower_");
 				armUpper = ArmSkin.Replace("arm_", "arm_upper_");
@@ -369,7 +373,7 @@ namespace Dupery
 			DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Eyes.Id, Eyes);
 			DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Mouth.Id, Mouth);
 
-			if(Body != null && Body.Length > 1 && Body.Contains("torso"))
+			if (Body != null && Body.Length > 1 && Body.Contains("torso"))
 			{
 				DuperyPatches.PersonalityManager.TryAssignAccessory(nameStringKey, Db.Get().AccessorySlots.Body.Id, Body);
 				string armId = Body.Replace("torso", "arm_sleeve");
@@ -419,8 +423,11 @@ namespace Dupery
 				speechMouth
 			);
 
-			if (isBionic)
+			if (!RequiredDlcID.IsNullOrWhiteSpace())
+				personality.requiredDlcId = RequiredDlcID;
+			else if (isBionic) 
 				personality.requiredDlcId = DlcManager.DLC3_ID;
+
 			outPersonality = personality;
 			return true;
 		}
@@ -459,6 +466,7 @@ namespace Dupery
 				ArmSkin = personality.arm_skin.ToString(),
 				LegSkin = personality.leg_skin.ToString(),
 				CongenitalTrait = personality.congenitaltrait?.ToString(),
+				RequiredDlcID = personality.requiredDlcId
 			};
 
 			return jsonPersonality;

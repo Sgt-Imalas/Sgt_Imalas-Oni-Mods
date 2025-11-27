@@ -36,7 +36,8 @@ namespace Dupery
 			Db.Get().AccessorySlots.Hair.accessories.RemoveAll(a => a.Id == "hair_033");
 			Db.Get().AccessorySlots.HatHair.accessories.RemoveAll(a => a.Id == "hat_hair_033");
 			///load old hair file for now removed hairs
-			AccessoryManager.LoadAccessories("old_hair_swap_kanim", true);
+			AccessoryManager.LoadAccessories("old_hair_swap_kanim", true, false);
+			//AccessoryManager.LoadAccessories("old_head_swap_kanim", true, false);
 
 			Logger.Log("Searching for personalities and accessories provided by other mods.");
 

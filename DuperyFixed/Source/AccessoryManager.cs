@@ -49,7 +49,7 @@ namespace Dupery
 		//    }
 		//}
 
-		public int LoadAccessories(string animName, bool saveToCache = false)
+		public int LoadAccessories(string animName, bool saveToCache = false, bool logSymbolDuplicates = true)
 		{
 			//custom mouth flap
 			if (animName.Contains("anim_mouth_") && animName.Contains("flap_kanim"))
@@ -78,7 +78,8 @@ namespace Dupery
 				string id = HashCache.Get().Get(build.symbols[index].hash);
 				AccessorySlot slot = null;
 				string lowerinvid = id.ToLowerInvariant();
-				Debug.Log("[Dupery]: trying to load accessory " + id);
+				if(logSymbolDuplicates)
+					Debug.Log("[Dupery]: trying to load accessory " + id);
 				foreach (var _slot in accessorySlots.resources)
 				{
 					string slotID = _slot.Id.ToLowerInvariant();
@@ -105,7 +106,8 @@ namespace Dupery
 				Accessory accessory = new Accessory(id, accessories, slot, anim.batchTag, build.symbols[index], anim);
 				if(slot.accessories.Any(existing => existing.Id == accessory.Id))
 				{
-					Debug.Log("[Dupery]: accessory " + id + " already exists in slot " + slot.Name + ", skipping.");
+					if (logSymbolDuplicates)
+						Debug.Log("[Dupery]: accessory " + id + " already exists in slot " + slot.Name + ", skipping.");
 					continue;
 				}
 
@@ -118,7 +120,7 @@ namespace Dupery
 					numCached++;
 				}
 				numLoaded++;
-				Debug.Log("[Dupery]: accessory successfully loaded as " + slot.Name);
+				Debug.Log("[Dupery]: accessory "+id+" successfully loaded as " + slot.Name);
 			}
 
 			if (numCached > 0)
