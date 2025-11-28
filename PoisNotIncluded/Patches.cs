@@ -48,11 +48,12 @@ namespace PoisNotIncluded
 				GravitasCreatureManipulatorConfig.ID,// critter flux
 				MorbRoverMakerConfig.ID ,//morb rover maker
 				GravitasContainerConfig.ID,//braintank pajamas cubby
-				 MegaBrainTankConfig.ID, //braintank story trait		
-				 LonelyMinionHouseConfig.ID, //minion storytrait		
-				 LonelyMinionMailboxConfig.ID,//minion storytrait		
-				 FossilDigSiteConfig.ID ,//fossil storytrait			
+				MegaBrainTankConfig.ID, //braintank story trait		
+				LonelyMinionHouseConfig.ID, //minion storytrait		
+				LonelyMinionMailboxConfig.ID,//minion storytrait		
+				FossilDigSiteConfig.ID ,//fossil storytrait			
 				HijackedHeadquartersConfig.ID,//printerceptor
+				GravitasBathroomStallConfig.ID,//printerceptor toilet
 				];
 
 
@@ -234,15 +235,15 @@ namespace PoisNotIncluded
 				TryRegisterDynamicGravitasBuilding(WarpReceiverConfig.ID, GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, decorName: true, altAnims: ["off", "idle"]);
 				TryRegisterDynamicGravitasBuilding(PioneerLanderConfig.ID, GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, decorName: true);
 				TryRegisterDynamicGravitasBuilding(ScoutLanderConfig.ID, GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, decorName: true);
-				TryRegisterDynamicGravitasBuilding(SapTreeConfig.ID, GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, decorName: true, altAnims: ["off","idle", "eat_loop", "ooze_loop", "attacking_loop", "attack_cooldown", "withered"]);
+				TryRegisterDynamicGravitasBuilding(SapTreeConfig.ID, GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, decorName: true, altAnims: ["off", "idle", "eat_loop", "ooze_loop", "attacking_loop", "attack_cooldown", "withered"]);
 
 				TryRegisterDynamicGravitasBuilding(GravitasBathroomSinkConfig.ID, GameStrings.PlanMenuSubcategory.Medical, BuildLocationRule.OnFloor);
 				TryRegisterDynamicGravitasBuilding(GravitasBathroomMirrorConfig.ID, GameStrings.PlanMenuSubcategory.Medical);
 				TryRegisterDynamicGravitasBuilding(GravitasPaperTowelDispenserConfig.ID, GameStrings.PlanMenuSubcategory.Medical);
 				TryRegisterDynamicGravitasBuilding(GravitasToiletPaperHolderConfig.ID, GameStrings.PlanMenuSubcategory.Medical);
-				RegisterNewBuilding("GravitasToiletPOI", GameStrings.PlanMenuSubcategory.Medical, BuildLocationRule.OnFloor, "gravitas_toilet_kanim", "off", "STRINGS.BUILDINGS.PREFABS.GRAVITASBATHROOMSTALL.NAME", "STRINGS.BUILDINGS.PREFABS.GRAVITASBATHROOMSTALL.DESC", 2, 2, MATERIALS.RAW_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER0, decorName: true, altAnims: ["off","working_loop"]);
+				RegisterNewBuilding("GravitasToiletPOI", GameStrings.PlanMenuSubcategory.Medical, BuildLocationRule.OnFloor, "gravitas_toilet_kanim", "off", "STRINGS.BUILDINGS.PREFABS.GRAVITASBATHROOMSTALL.NAME", "STRINGS.BUILDINGS.PREFABS.GRAVITASBATHROOMSTALL.DESC", 2, 2, MATERIALS.RAW_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER0, decorName: true, altAnims: ["off", "working_loop"]);
 
-				RegisterNewBuilding("GravestonePet", GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor,"gravestone_pet_kanim","off","Pet Gravestone", "", 2, 3, TUNING.MATERIALS.RAW_MINERALS, [100]);
+				RegisterNewBuilding("GravestonePet", GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, "gravestone_pet_kanim", "off", "Pet Gravestone", "", 2, 3, TUNING.MATERIALS.RAW_MINERALS, [100]);
 
 			}
 		}
