@@ -1,4 +1,5 @@
 ﻿using Rockets_TinyYetBig.Behaviours;
+using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules;
 using System.Collections.Generic;
 using TUNING;
 using UnityEngine;
@@ -66,9 +67,6 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
 			energyParticleStorage.PORT_ID = ID;
 			energyParticleStorage.showCapacityStatusItem = true;
 			energyParticleStorage.showCapacityAsMainStatus = true;
-
-
-
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)
@@ -76,6 +74,7 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
 			BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, null, ROCKETRY.BURDEN.MINOR);
 			go.GetComponent<ReorderableBuilding>().buildConditions.Add(new TopOnly());
 			go.AddOrGet<ExtendedClusterModuleAnimator>();
+			//go.AddOrGet<ResourceHarvestModuleHEPInjector>();
 			go.AddOrGetDef<ResourceHarvestModuleHEP.Def>().harvestSpeed = Config.Instance.LaserDrillconeSpeed;
 		}
 	}

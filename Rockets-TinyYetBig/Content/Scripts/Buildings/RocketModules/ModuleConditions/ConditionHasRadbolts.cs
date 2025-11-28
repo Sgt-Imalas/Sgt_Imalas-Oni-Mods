@@ -37,13 +37,13 @@ namespace Rockets_TinyYetBig.Behaviours
 			switch (status)
 			{
 				case ProcessCondition.Status.Failure:
-					statusTooltip = string.Format((string)UI.STARMAP.LAUNCHCHECKLIST.HAS_RESOURCE.TOOLTIP.FAILURE, this.hepStorage.GetProperName(), GameUtil.GetFormattedMass(this.thresholdRadbolts), UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES);
+					statusTooltip = string.Format((string)UI.STARMAP.LAUNCHCHECKLIST.HAS_RESOURCE.TOOLTIP.FAILURE, this.hepStorage.GetProperName(), this.thresholdRadbolts, UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES.ToString().Trim());
 					break;
 				case ProcessCondition.Status.Ready:
-					statusTooltip = string.Format((string)UI.STARMAP.LAUNCHCHECKLIST.HAS_RESOURCE.TOOLTIP.READY, this.hepStorage.GetProperName(), UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES);
+					statusTooltip = string.Format((string)UI.STARMAP.LAUNCHCHECKLIST.HAS_RESOURCE.TOOLTIP.READY, this.hepStorage.GetProperName(), UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES.ToString().Trim());
 					break;
 				default:
-					statusTooltip = string.Format((string)UI.STARMAP.LAUNCHCHECKLIST.HAS_RESOURCE.TOOLTIP.WARNING, this.hepStorage.GetProperName(), GameUtil.GetFormattedMass(this.thresholdRadbolts), UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES);
+					statusTooltip = string.Format((string)UI.STARMAP.LAUNCHCHECKLIST.HAS_RESOURCE.TOOLTIP.WARNING, this.hepStorage.GetProperName(), this.thresholdRadbolts, UI.UNITSUFFIXES.HIGHENERGYPARTICLES.PARTRICLES.ToString().Trim());
 					break;
 			}
 			return statusTooltip;

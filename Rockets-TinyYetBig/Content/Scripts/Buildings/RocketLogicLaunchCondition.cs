@@ -88,21 +88,8 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 			if (lastConditionApplied == null) 
 				return;
 
-			RemoveModuleCondition(worldModule, conditionType, lastConditionApplied);
+			worldModule.RemoveModuleCondition(conditionType, lastConditionApplied);
 			lastConditionApplied = null;
-		}
-		public static void RemoveModuleCondition(RocketModuleCluster module, ProcessConditionType type, ConditionLogicInputActive condition)
-		{
-			if (module == null || condition == null)
-				return;
-			if (module.moduleConditions.TryGetValue(type, out var conditions))
-			{
-				if (conditions.Contains(condition))
-				{
-					conditions.Remove(condition);
-					//GameScheduler.Instance.ScheduleNextFrame("Remove Rocket Logic Launch Condition", (_)=>);					
-				}
-			}
 		}
 
 		public FewOptionSideScreen.IFewOptionSideScreen.Option[] GetOptions() => [

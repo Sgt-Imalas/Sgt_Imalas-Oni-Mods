@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using UtilLibs;
 
 namespace Rockets_TinyYetBig.Patches
@@ -22,19 +23,12 @@ namespace Rockets_TinyYetBig.Patches
 			{
 				__instance.ground.Enter(smi =>
 				{
-					var master = smi.master.gameObject;
-					SgtLogger.l("HexCellCollector.Ground OnEnter");
-
-					if (master.TryGetComponent<CargoBayCluster>(out var cargoBay) 
-					&& cargoBay.storageType != CargoBay.CargoType.Entities
-					&& master.TryGetComponent<KPrefabID>(out var prefabID)
-					&& CustomCargoBayDB.TryGetCargobayCollectionSpeed(prefabID.PrefabID().ToString(), out float adjustedSpeed))
-					{
-						SgtLogger.l("Adjusting Cargobay collection speed of " + prefabID.PrefabID() + ", old kg per cycle: " + smi.def.collectSpeed * 600 + ", new kg per cycle: " + adjustedSpeed * 600);
-						smi.def.collectSpeed = adjustedSpeed;
-					}
+					Clustercraft_Patches.Clustercraft_OnSpawn_Patch.RebalanceCollector(smi);
 				});
+				///force refresh that trigger to check for roundtrip return, this can otherwise bug out
+				__instance.space.collecting.Exit(smi => smi.master.Trigger((int)GameHashes.OnStorageChange));
 			}
 		}
+
 	}
 }

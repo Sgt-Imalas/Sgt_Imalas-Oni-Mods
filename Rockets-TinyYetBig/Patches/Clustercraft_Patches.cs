@@ -303,6 +303,7 @@ namespace Rockets_TinyYetBig.Patches
 			/// <param name="__instance"></param>
 			public static void Postfix(Clustercraft __instance)
 			{
+				RebalanceCollectors(__instance);
 				__instance.m_clusterTraveler.onTravelCB += () =>
 				{
 					if (__instance.TryGetComponent<DockingSpacecraftHandler>(out var manager))
@@ -329,6 +330,28 @@ namespace Rockets_TinyYetBig.Patches
 						}
 					}
 				};
+			}
+
+			private static void RebalanceCollectors(Clustercraft craft)
+			{
+				foreach(var smi in craft.GetAllHexCellCollectorModules())				
+				{
+					RebalanceCollector(smi);
+				}
+			}
+			internal static void RebalanceCollector(RocketModuleHexCellCollector.Instance smi)
+			{
+				var master = smi.master.gameObject;
+				SgtLogger.l(master.name + " OnSpawn");
+
+				if (master.TryGetComponent<CargoBayCluster>(out var cargoBay)
+				&& cargoBay.storageType != CargoBay.CargoType.Entities
+				&& master.TryGetComponent<KPrefabID>(out var prefabID)
+				&& CustomCargoBayDB.TryGetCargobayCollectionSpeed(prefabID.PrefabID().ToString(), out float adjustedSpeed))
+				{
+					SgtLogger.l("Adjusting Cargobay collection speed of " + prefabID.PrefabID() + ", old kg per cycle: " + smi.def.collectSpeed * 600 + ", new kg per cycle: " + adjustedSpeed * 600);
+					smi.def.collectSpeed = adjustedSpeed;
+				}
 			}
 		}
 		

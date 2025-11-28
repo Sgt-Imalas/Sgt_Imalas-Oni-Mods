@@ -50,10 +50,6 @@ namespace Rockets_TinyYetBig
 			CompatibilityNotifications.FlagLoggingPrevention(mods);
 			CompatibilityNotifications.FixBrokenTimeout(harmony);
 			bool FreeGridSpaceFixed = PRegistry.GetData<bool>("Bugs.FreeGridSpace");
-
-
-			BugfixPatches.AttemptOxidizerTaskBugfixPatch(harmony, FreeGridSpaceFixed);
-
 			if (!FreeGridSpaceFixed)
 			{
 				PRegistry.PutData("Bugs.FreeGridSpace", true);

@@ -251,8 +251,6 @@ namespace Rockets_TinyYetBig
 			/// has Oxidizer efficiency of 6, is locked behind a space station level science upgrade
 			/// </summary>
 			public static Tag OxidizerEfficiency_6 = TagManager.Create("RTB_OxidizerEfficiency_6");
-
-
 			/// <summary>
 			/// Drillcone, Cargobay, Artifact module, any module that harvests resources in space should have this tag
 			/// </summary>

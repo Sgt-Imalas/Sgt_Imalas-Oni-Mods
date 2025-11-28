@@ -75,10 +75,6 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
 		{
 			go = BuildingTemplates.ExtendBuildingToClusterCargoBay(go, CAPACITY, STORAGEFILTERS.GASES, CargoBay.CargoType.Gasses);
 
-			RocketModuleHexCellCollector.Def def = go.AddOrGetDef<RocketModuleHexCellCollector.Def>();
-			float num = 3600f;
-			def.collectSpeed = CAPACITY / num;
-
 			BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MEGA);
 
 			go.AddOrGet<CargoBayStatusMonitor>();

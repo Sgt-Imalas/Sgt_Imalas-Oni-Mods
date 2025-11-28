@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using TUNING;
+using static ProcessCondition;
 
 namespace UtilLibs
 {
@@ -367,6 +368,35 @@ namespace UtilLibs
 				}
 			}
 			return ROCKETRY.ROCKET_INTERIOR_SIZE;
+		}
+
+		public static void RemoveModuleCondition(this RocketModuleCluster module, ProcessConditionType type, ProcessCondition condition)
+		{
+			if (module == null || condition == null)
+				return;
+			if (module.moduleConditions.TryGetValue(type, out var conditions))
+			{
+				if (conditions.Contains(condition))
+				{
+					conditions.Remove(condition);
+					//GameScheduler.Instance.ScheduleNextFrame("Remove Rocket Logic Launch Condition", (_)=>);					
+				}
+			}
+		}
+		public static void RemoveModuleCondition(this RocketModuleCluster module, ProcessConditionType type, System.Func<ProcessCondition, bool> shouldRemove)
+		{
+			if (module == null || shouldRemove == null)
+				return;
+			if (module.moduleConditions.TryGetValue(type, out var conditions))
+			{
+				HashSet<ProcessCondition> toRemove = [];
+				foreach(var con in conditions)
+				{
+					if(shouldRemove(con))
+						toRemove.Add(con);
+				}
+				conditions.RemoveAll(toRemove.Contains);
+			}
 		}
 	}
 }
