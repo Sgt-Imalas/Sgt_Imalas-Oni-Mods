@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AkisDecorPackB.Patches;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -46,7 +47,7 @@ namespace AkisDecorPackB.Content.Scripts
 		{
 			for (int i = 0; i < 3; i++)
 			{
-				BuildTool.Instance.TryRotate();
+				KFMOD_Patches.DoMuted(BuildTool.Instance.TryRotate);
 
 				var below = rotatable.GetRotatedCellOffset(CellOffset.down);
 				var cell = Grid.OffsetCell(this.NaturalBuildingCell(), below);
