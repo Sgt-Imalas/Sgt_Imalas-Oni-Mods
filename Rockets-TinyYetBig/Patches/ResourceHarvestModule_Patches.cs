@@ -160,7 +160,7 @@ namespace Rockets_TinyYetBig.Patches
 					}
 					//SgtLogger.debuglog(__instance + ", BooserCount: " + SupportModuleCount);
 					// __instance.def.harvestSpeed;
-					actualMiningSpeed = (1f + SupportModuleCount * Config.Instance.DrillconeSupportSpeedBoost / 100f) * ModAssets.DefaultDrillconeHarvestSpeed * ModAssets.GetMiningPilotSkillMultiplier(Module.CraftInterface.m_clustercraft);
+					actualMiningSpeed =  (ModAssets.GetMiningPilotSkillMultiplier(Module.CraftInterface.m_clustercraft) + (SupportModuleCount * Config.Instance.DrillconeSupportSpeedBoost / 100f)) * ModAssets.DefaultDrillconeHarvestSpeed;
 				}
 			}
 			/// <summary>

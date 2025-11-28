@@ -94,13 +94,13 @@ namespace Rockets_TinyYetBig.Patches.RocketModulePatches
                 //SgtLogger.debuglog(__instance + ", BooserCount: " + SupportModuleCount);
 
                 float supportBoost = Config.Instance.DrillconeSupportSpeedBoost / 100f;
-                float totalSupportBoost = 1f + SupportModuleCount * supportBoost;
+                float totalSupportBoost = SupportModuleCount * supportBoost;
                 float pilotBoost = ModAssets.GetMiningPilotSkillMultiplier(CraftInterface.m_clustercraft);
-                float totalBoostPercentage = totalSupportBoost * pilotBoost;
+                float totalRate = totalSupportBoost + pilotBoost;
 
                 var baseHarvestSpeed = ModAssets.DefaultDrillconeHarvestSpeed;
 
-                float harvestRate = totalSupportBoost * baseHarvestSpeed * pilotBoost;
+                float harvestRate = baseHarvestSpeed * totalRate;
 
                 //SgtLogger.l($"supportBoost: {supportBoost}, totalSupportBoost {totalSupportBoost}, pilotBoost {pilotBoost}, totalBoostPercentage {totalBoostPercentage}");
 
@@ -108,11 +108,11 @@ namespace Rockets_TinyYetBig.Patches.RocketModulePatches
                 {
 
                     float boostPercentagePilot = pilotBoost < 1f ? (1f - pilotBoost) * -100f : (pilotBoost - 1) * 100f;
-                    float supportModuleBoostPercentage = totalSupportBoost < 1f ? (1f - totalSupportBoost) * -100f : (totalSupportBoost - 1) * 100f;
-                    float totalSupportBoostPercentage = totalBoostPercentage < 1f ? (1f - totalBoostPercentage) * -1 : totalBoostPercentage - 1;
+                    float supportModuleBoostPercentage = totalSupportBoost < 0 ? (1f - totalSupportBoost) * -100f : totalSupportBoost * 100f;
+                    float totalRatePercentage = totalRate < 1f ? (1f - totalRate) * -1 : totalRate-1;
 
                     string tooltipString = RTB_MININGINFORMATIONBOONS.TOOLTIPINFO
-                        .Replace("{RATEPERCENTAGE}", totalSupportBoostPercentage.ToString("0%"))
+                        .Replace("{RATEPERCENTAGE}", totalRatePercentage.ToString("0%"))
                         .Replace("{YIELDMASS}", harvestRate.ToString("0.00 Kg"))
                         .Replace("{DRILLMATERIALMASS}", (harvestRate * 0.05f).ToString("0.00 Kg"))
                         .Replace("{DRILLMATERIAL}", ElementLoader.GetElement(SimHashes.Diamond.CreateTag()).name);
@@ -139,7 +139,7 @@ namespace Rockets_TinyYetBig.Patches.RocketModulePatches
                     }
 
 
-                    selectable.AddStatusItem(ModStatusItems.RTB_MiningInformationBoons, new Tuple<float, string>(totalSupportBoostPercentage, tooltipString));
+                    selectable.AddStatusItem(ModStatusItems.RTB_MiningInformationBoons, new Tuple<float, string>(totalRatePercentage, tooltipString));
 
 					//selectable.SetStatusItem(Db.Get().StatusItemCategories.Suffocation, ModAssets.StatusItems.RTB_MiningInformationBoons, new Tuple<float, string>(harvestRate, tooltipString));
 
