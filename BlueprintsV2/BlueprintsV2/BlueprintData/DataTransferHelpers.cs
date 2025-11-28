@@ -950,27 +950,21 @@ namespace BlueprintsV2.BlueprintData
 						return;
 					try
 					{
-						var customPermissions = JsonConvert.DeserializeObject<Dictionary<int, AccessControl.Permission>>(t2.Value<string>());
+						var savedPermissionsById = JsonConvert.DeserializeObject<List<KeyValuePair<int, Permission>>>(t2.Value<string>());
 
-						foreach (var item in customPermissions)
-						{
-							SgtLogger.l("" + item.Key + " " + item.Value);
-						}
+						//foreach (var item in customPermissions)
+						//{
+						//	SgtLogger.l("" + item.Key + " " + item.Value);
+						//}
 						bool customPermissionSet = false;
 
-						foreach (var entry in customPermissions)
+						foreach (var item in savedPermissionsById)
 						{
-							var targetMinionProxy = Components.MinionAssignablesProxy.FirstOrDefault(x => x.GetComponent<KPrefabID>()?.InstanceID == entry.Key);
-							if (targetMinionProxy == null)
-								continue;
-
-							SgtLogger.l("minion found: " + targetMinionProxy.target.GetProperName());
-							targetComponent.SetPermission(targetMinionProxy, entry.Value);
-							customPermissionSet = true;
+							targetComponent.SetPermission(item.Key, item.Value);
 						}
 						if (customPermissionSet)
 						{
-
+							SgtLogger.l("custom door permissions applied");
 						}
 					}
 					catch (Exception e)
