@@ -24,7 +24,8 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
 				.Update((smi, dt) => smi.UpdateMeter());
 			not_grounded
 				.DefaultState(not_grounded.not_drilling)
-				.EventHandler(GameHashes.ClusterLocationChanged, smi => Game.Instance, smi => smi.CheckIfCanDrill()).EventHandler(GameHashes.OnParticleStorageChanged, smi => smi.CheckIfCanDrill()).TagTransition(GameTags.RocketNotOnGround, grounded, true);
+				.EventHandler(GameHashes.ClusterLocationChanged, smi => Game.Instance, smi => smi.CheckIfCanDrill())
+				.EventHandler(GameHashes.OnParticleStorageChanged, smi => smi.CheckIfCanDrill()).TagTransition(GameTags.RocketNotOnGround, grounded, true);
 			not_grounded.not_drilling
 				.PlayAnim("loaded")
 				.ParamTransition(canHarvest, not_grounded.drilling, IsTrue)

@@ -370,7 +370,7 @@ namespace UtilLibs
 			return ROCKETRY.ROCKET_INTERIOR_SIZE;
 		}
 
-		public static void RemoveModuleCondition(this RocketModuleCluster module, ProcessConditionType type, ProcessCondition condition)
+		public static void RemoveModuleCondition(this RocketModule module, ProcessConditionType type, ProcessCondition condition)
 		{
 			if (module == null || condition == null)
 				return;
@@ -383,7 +383,7 @@ namespace UtilLibs
 				}
 			}
 		}
-		public static void RemoveModuleCondition(this RocketModuleCluster module, ProcessConditionType type, System.Func<ProcessCondition, bool> shouldRemove)
+		public static void RemoveModuleCondition(this RocketModule module, ProcessConditionType type, System.Func<ProcessCondition, bool> shouldRemove)
 		{
 			if (module == null || shouldRemove == null)
 				return;
