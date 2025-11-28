@@ -79,7 +79,7 @@ namespace AkisDecorPackB
 				public class DECORPACKB_FOSSILDISPLAY
 				{
 					public static LocString NAME = FormatAsLink("Fossil Display", FossilDisplayConfig.ID);
-					public static LocString DESC = "Duplicants who have learned research skills can produce more accurate reconstructions.";
+					public static LocString DESC = "Duplicants who have learned research skills can produce more accurate reconstructions.\n\nReconstructed fossils may inspire passing duplicants.";
 					public static LocString EFFECT = "Majorly increases " + FormatAsLink("Decor", "DECOR") + ", contributing to " + FormatAsLink("Morale", "MORALE") + ".\n\nMust be reconstructed by a Duplicant.";
 
 					public class VARIANT
