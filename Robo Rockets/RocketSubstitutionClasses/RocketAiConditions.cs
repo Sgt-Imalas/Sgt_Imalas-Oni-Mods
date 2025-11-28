@@ -4,7 +4,6 @@
 	{
 		public ConditionDestinationReachable reachable;
 		public ConditionAllModulesComplete allModulesComplete;
-		public ConditionHasCargoBayForNoseconeHarvest HasCargoBayForNoseconeHarvest;
 		public ConditionHasEngine hasEngine;
 		public ConditionHasNosecone hasNosecone;
 		public ConditionOnLaunchPad onLaunchPad;
@@ -21,7 +20,6 @@
 			this.onLaunchPad = (ConditionOnLaunchPad)component.AddModuleCondition(ProcessCondition.ProcessConditionType.RocketPrep, (ProcessCondition)new ConditionOnLaunchPad(this.GetComponent<RocketModuleCluster>().CraftInterface));
 			this.flightPathIsClear = (ConditionFlightPathIsClear)component.AddModuleCondition(ProcessCondition.ProcessConditionType.RocketFlight, (ProcessCondition)new ConditionFlightPathIsClear(this.gameObject, 0));
 			this.conditionAiHasControl = (ConditionAiHasControl)component.AddModuleCondition(ProcessCondition.ProcessConditionType.RocketBoard, (ProcessCondition)new ConditionAiHasControl(this.GetComponent<RocketModuleCluster>()));
-			this.HasCargoBayForNoseconeHarvest = (ConditionHasCargoBayForNoseconeHarvest)component.AddModuleCondition(ProcessCondition.ProcessConditionType.RocketStorage, (ProcessCondition)new ConditionHasCargoBayForNoseconeHarvest(this.GetComponent<LaunchableRocketCluster>()));
 			this.reachable = (ConditionDestinationReachable)component.AddModuleCondition(ProcessCondition.ProcessConditionType.RocketPrep, (ProcessCondition)new ConditionDestinationReachable(this.GetComponent<RocketModule>()));
 		}
 	}
