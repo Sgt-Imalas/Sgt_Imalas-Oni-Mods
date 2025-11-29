@@ -60,6 +60,9 @@ namespace UndigYourself.Content.Scripts
 		{
 			newCell = -1;
 			int ownCell = Grid.PosToCell(this);
+			if (!Grid.IsWorldValidCell(ownCell))
+				return false;
+
 			var world = Grid.WorldIdx[ownCell];
 
 			if (!pickupable.IsEntombed || !InvalidCell(ownCell, world)) //stuck in the tile for all the items that go off the map, e.g. rocket contents or equippables
