@@ -495,12 +495,16 @@ namespace Rockets_TinyYetBig.Patches.SpaceStationPatches
         {
             public static bool Prefix(CraftModuleInterface __instance)
             {
-                if (!__instance.TryGetComponent<SpaceStation>(out _) && !__instance.TryGetComponent<DerelictStation>(out _))
+                if (!__instance.TryGetComponent<SpaceStation>(out var station))
                     return true;
-                //skip non existing module chain and blow up world
-                __instance.m_clustercraft.SetExploding();
-                SpaceStationManager.Instance.DestroySpaceStationInteriorWorld(__instance.GetInteriorWorld().id);
-                return false;
+				//skip non existing module chain and blow up world
+				station.SetExploding();
+                SpaceStationManager.Instance.DestroySpaceStationInteriorWorld(station.SpaceStationInteriorId);
+                __instance.Trigger((int)GameHashes.RocketSelfDestructRequested);
+                ClusterMapScreen.Instance.RemoveDeletedEntities(__instance.gameObject);
+				ClusterMapSelectTool.Instance.SelectNextFrame(null);
+
+				return false;
             }
         }
 
