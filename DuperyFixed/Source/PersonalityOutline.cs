@@ -398,6 +398,9 @@ namespace Dupery
 
 			SgtLogger.l("Speechmouth for " + nameStringKey + ": " + SpeechMouth + " parsed: " + speechMouth);
 
+			if(!CharacterContainer.defaultShirtIdxToDefaultOutfitID.ContainsKey(body))
+				CharacterContainer.defaultShirtIdxToDefaultOutfitID[body] = "";
+
 			Personality personality = new Personality(
 				nameStringKey,
 				name,
