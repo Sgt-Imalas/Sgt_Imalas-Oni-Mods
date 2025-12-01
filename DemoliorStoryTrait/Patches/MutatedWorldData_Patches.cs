@@ -27,6 +27,7 @@ namespace DemoliorStoryTrait.Patches
 		{
 			public static void Postfix(WorldGenSettings __instance, WorldTrait storyTrait)
 			{
+				SgtLogger.l("applying story trait: " + storyTrait.filePath);
 				if (storyTrait.filePath == Stories_Patches.CGM_Impactor_Path)
 				{
 					if (WorldTypeIsStartWorld(__instance.worldType))
