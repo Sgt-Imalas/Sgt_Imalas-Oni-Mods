@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>BuildableCryopod</PackageId>
-		<Version>1.2.1</Version>
+		<Version>1.2.2</Version>
 		<Authors>Sgt_Imalas</Authors>
 		     <Copyright>$(AssemblyCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
