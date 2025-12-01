@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UtilLibs;
 
 namespace LogicSatellites.Behaviours
 {
@@ -45,7 +46,7 @@ namespace LogicSatellites.Behaviours
 			}
 			base.SetTarget(target);
 
-			GetPrefabStrings();
+			Init();
 			targetCraft = target.GetComponent<Clustercraft>();
 			if (targetCraft == null && target.GetComponent<RocketControlStation>() != null)
 				targetCraft = target.GetMyWorld().GetComponent<Clustercraft>();
@@ -53,7 +54,7 @@ namespace LogicSatellites.Behaviours
 			refreshHandle.Add(this.targetCraft.gameObject.Subscribe((int)GameHashes.ClusterDestinationChanged, new System.Action<object>(this.RefreshAll)));
 			BuildModules();
 
-			RefreshStrings();
+			RefreshView();
 		}
 
 		private bool HasSatelliteCarriers(Clustercraft craft)
@@ -96,7 +97,7 @@ namespace LogicSatellites.Behaviours
 					}
 				}
 			}
-			RefreshStrings();
+			RefreshView();
 		}
 
 		public override void OnShow(bool show)
@@ -104,10 +105,13 @@ namespace LogicSatellites.Behaviours
 			base.OnShow(show);
 			this.ConsumeMouseScroll = true;
 			if (show)
-				RefreshStrings();
+				RefreshView();
 		}
-		private void GetPrefabStrings()
+		bool init = false;
+		private void Init()
 		{
+			if (init) return;
+			//UIUtils.ListAllChildren(this.transform);
 			Transform Content = transform.Find("ScrollSetup/ScrollRect/Content");
 			moduleContentContainer = Content.gameObject;
 			modulePanelPrefab = Content.Find("ModuleWidget").gameObject;
@@ -119,7 +123,7 @@ namespace LogicSatellites.Behaviours
 			base.OnPrefabInit();
 			this.titleKey = "STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLE";
 			Title = transform.Find("Title/Label").GetComponent<LocText>();
-			RefreshStrings();
+			RefreshView();
 
 			//titleText = transform.Find("TitleBox/Label").GetComponent<LocText>();
 			//button = transform.Find("ModuleWidget/Layout/Info/Buttons/Button")?.GetComponent<KButton>();
@@ -134,14 +138,15 @@ namespace LogicSatellites.Behaviours
 		{
 			var modulePanel = this.modulePanels[module].transform;
 			modulePanel.Find("Layout/Portrait/Sprite").GetComponent<Image>().sprite = Def.GetUISprite(module.master.gameObject).first;
-			var Button1 = modulePanel.Find("Layout/Info/Buttons/Button").GetComponent<KButton>();
+			var Button1 = modulePanel.Find("Layout/Info/DeployButtons/Button").GetComponent<KButton>();
 			//var Button2 = modulePanel.Find("Layout/Info/Buttons/RepeatButton").GetComponent<KButton>();
-			modulePanel.Find("Layout/Info/Buttons/RepeatButton").GetComponent<KButton>().gameObject.SetActive(false);
-			modulePanel.Find("Layout/Info/DropDown").GetComponent<DropDown>().gameObject.SetActive(false);
+			modulePanel.Find("Layout/Info/DeployButtons/RepeatButton").gameObject.SetActive(false);
+			modulePanel.Find("Layout/Info/DropDown").gameObject.SetActive(false);
 			modulePanel.Find("Layout/Info/Label").GetComponent<LocText>().SetText(module.master.gameObject.GetProperName());
+			modulePanel.Find("Layout/Info/TargetButtons").gameObject.SetActive(false);
 
 			titleLabels.Add(module, modulePanel.Find("Layout/Info/Label").GetComponent<LocText>());
-			buttonLabels.Add(module, modulePanel.Find("Layout/Info/Buttons/Button/Label").GetComponent<LocText>());
+			buttonLabels.Add(module, modulePanel.Find("Layout/Info/DeployButtons/Button/Label").GetComponent<LocText>());
 			buttonTooltips1.Add(module, Button1.GetComponentInChildren<ToolTip>());
 			//buttonTooltips2.Add(module, Button2.GetComponentInChildren<ToolTip>());
 			buttons.Add(module, Button1);
@@ -151,7 +156,7 @@ namespace LogicSatellites.Behaviours
 			module.ModeIsDeployment = module.HoldingSatellite();
 			//Button2.onClick += () => ChangeOperationMode(module);
 		}
-		private void RefreshStrings()
+		private void RefreshView()
 		{
 			foreach (var v in modulePanels.Keys)
 			{
@@ -174,15 +179,15 @@ namespace LogicSatellites.Behaviours
 		{
 			module.OnButtonClicked();
 			module.ModeIsDeployment = module.HoldingSatellite();
-			RefreshStrings();
-			GameScheduler.Instance.Schedule("refreshUI", 0.1f, (_) => RefreshStrings());
+			RefreshView();
+			GameScheduler.Instance.Schedule("refreshUI", 0.1f, (_) => RefreshView());
 		}
 
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
 			Title.SetText(STRINGS.UI.UISIDESCREENS.SATELLITECARRIER_SIDESCREEN.TITLE);
-			RefreshStrings();
+			RefreshView();
 		}
 	}
 }
