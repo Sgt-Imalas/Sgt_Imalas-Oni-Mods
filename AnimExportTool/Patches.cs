@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using Klei;
+using Klei.AI;
 using Klei.CustomSettings;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -9,15 +10,18 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
 using System.Text;
 using UnityEngine;
 using UtilLibs;
 using static AnimExportTool.Patches.MainMenu_OnPrefabInit.GameSettingExport;
+using static KleiMetrics;
 using static ProcGen.DlcMixingSettings;
+using static STRINGS.UI.SPACEARTIFACTS;
 
 namespace AnimExportTool
 {
-	internal class Patches
+	internal static class Patches
 	{
 		//static Texture2D BuildImageFromFrame(KAnimFile animFile, string animName = "ui", int frameIdx = 0)
 		//{
@@ -444,10 +448,6 @@ namespace AnimExportTool
 		//}
 
 
-
-
-
-
 		public static StringBuilder EntityIdBuilder
 		{
 			get
@@ -463,6 +463,7 @@ namespace AnimExportTool
 
 		}
 		private static StringBuilder _entityIdBuilder = null;
+		public static string Strip(this string toStrip) => StripFormatting(toStrip);
 		public static string StripFormatting(string toStrip)
 		{
 			toStrip = STRINGS.UI.StripLinkFormatting(toStrip);
@@ -878,52 +879,13 @@ namespace AnimExportTool
 				Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(export, new JsonSerializerSettings { ContractResolver = new DynamicContractResolver([typeof(Vector2I)]) }));
 				Console.WriteLine("LOC:");
 				Console.WriteLine(loc.ToString());
-				var starmapExport = new StarmapGeneratorData();
+				CreateMixingExport();
+				CreateStarmapExportBasegame();
+				ExportSpacedOutPOIs();
 
-				foreach (var location in Db.Get().SpaceDestinationTypes.resources)
-				{
-					var locationData = new VanillaStarmapLocation()
-					{
-						Id = location.Id,
-						Name = StripFormatting(location.Name),
-						Description = StripFormatting(location.description),
-						Image = location.spriteName,
-					};
-					if (location.elementTable != null)
-					{
-						locationData.Ressources_Elements = location.elementTable.ToDictionary(kvp => kvp.Key.ToString(), kvp => kvp.Value.min);
-						foreach (var elementK in location.elementTable)
-						{
-							var element = ElementLoader.GetElement(elementK.Key.CreateTag());
-							starmapExport.Elements[element.id.ToString()] = new(element.id.ToString(), StripFormatting(element.name));
-						}
-					}
-
-					if (location.recoverableEntities != null)
-					{
-						locationData.Ressources_Entities = new(location.recoverableEntities);
-
-						foreach (var entity in location.recoverableEntities)
-						{
-							var prefab = Assets.GetPrefab(entity.Key);
-							if (prefab != null)
-							{
-								GetAnimsFromRecoverable(prefab);
-								starmapExport.Elements[entity.Key] = new(entity.Key.ToString(), StripFormatting(prefab.GetProperName()));
-							}
-							else
-								SgtLogger.warning(entity.Key + " not found!");
-
-
-						}
-					}
-					starmapExport.Locations.Add(location.Id, locationData);
-					GetAnimsFromStarmapLocation(location.spriteName, location.Id);
-				}
-
-				Console.WriteLine("BBBBBBBBBBBBBBBBBB");
-				Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(starmapExport));
-
+			}
+			static void CreateMixingExport()
+			{
 				var mixingList = new List<GameSettingExport>();
 
 				foreach (var coordinatedMixingSetting in CustomGameSettings.Instance.CoordinatedMixingSettings)
@@ -971,7 +933,162 @@ namespace AnimExportTool
 				}
 				Console.WriteLine("CCCCCCCCCCCCCCCCCCC");
 				Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(mixingList));
+			}
+			static void CreateStarmapExportBasegame()
+			{
+				var starmapExport = new StarmapGeneratorData();
 
+				foreach (var location in Db.Get().SpaceDestinationTypes.resources)
+				{
+					var locationData = new VanillaStarmapLocation()
+					{
+						Id = location.Id,
+						Name = StripFormatting(location.Name),
+						Description = StripFormatting(location.description),
+						Image = location.spriteName,
+					};
+					if (location.elementTable != null)
+					{
+						locationData.Ressources_Elements = location.elementTable.ToDictionary(kvp => kvp.Key.ToString(), kvp => kvp.Value.min);
+						foreach (var elementK in location.elementTable)
+						{
+							var element = ElementLoader.GetElement(elementK.Key.CreateTag());
+							starmapExport.Elements[element.id.ToString()] = new(element.id.ToString(), StripFormatting(element.name));
+						}
+					}
+
+					if (location.recoverableEntities != null)
+					{
+						locationData.Ressources_Entities = new(location.recoverableEntities);
+
+						foreach (var entity in location.recoverableEntities)
+						{
+							var prefab = Assets.GetPrefab(entity.Key);
+							if (prefab != null)
+							{
+								GetAnimsFromRecoverable(prefab);
+								starmapExport.Elements[entity.Key] = new(entity.Key.ToString(), StripFormatting(prefab.GetProperName()));
+							}
+							else
+								SgtLogger.warning(entity.Key + " not found!");
+
+
+						}
+					}
+					starmapExport.Locations.Add(location.Id, locationData);
+					GetAnimsFromStarmapLocation(location.spriteName, location.Id);
+				}
+
+				Console.WriteLine("BBBBBBBBBBBBBBBBBB");
+				Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(starmapExport));
+			}
+			public class POI_Data
+			{
+				public string Id;
+				public string Name;
+				public string Description;
+				[JsonIgnore]
+				public Sprite Sprite;
+				public Dictionary<SimHashes, float> Mineables;
+				public bool HasArtifacts;
+
+				public float RechargeMin, RechargeMax;
+				public float CapacityMin, CapacityMax;
+
+			}
+			static POI_Data GetPoiData(GameObject item)
+			{
+				if (item.TryGetComponent<ClusterGridEntity>(out var component1))
+				{
+					POI_Data data = new POI_Data();
+
+					data.Id = component1.PrefabID().ToString();
+
+					var animName = component1.AnimConfigs.First().initialAnim;
+					var animFile = component1.AnimConfigs.First().animFile;
+
+					if (data.Id.Contains(HarvestablePOIConfig.CarbonAsteroidField)) ///carbon field fix
+						animName = "carbon_asteroid_field";
+
+					if (animName == "closed_loop")///Temporal tear
+						animName = "ui";
+
+					data.Sprite = Def.GetUISpriteFromMultiObjectAnim(animFile, animName, true);
+
+					if (item.TryGetComponent<HarvestablePOIConfigurator>(out var harvest))
+					{
+						var HarvestableConfig = HarvestablePOIConfigurator.FindType(harvest.presetType);
+						data.Mineables = new(HarvestableConfig.harvestableElements);
+						data.CapacityMin = HarvestableConfig.poiCapacityMin;
+						data.CapacityMax = HarvestableConfig.poiCapacityMax;
+						data.RechargeMin = HarvestableConfig.poiRechargeMin;
+						data.RechargeMax = HarvestableConfig.poiRechargeMax;
+					}
+					if (item.TryGetComponent<ArtifactPOIConfigurator>(out _))
+					{
+						data.HasArtifacts = true;
+					}
+
+					if (item.TryGetComponent<InfoDescription>(out var descHolder))
+					{
+						data.Description = descHolder.description;
+						data.Name = component1.Name;
+					}
+					if (component1 is ArtifactPOIClusterGridEntity && data.Name == null)
+					{
+						string artifact_ID = component1.PrefabID().ToString().Replace("ArtifactSpacePOI_", string.Empty);
+						data.Name = global::Strings.Get(new StringKey("STRINGS.UI.SPACEDESTINATIONS.ARTIFACT_POI." + artifact_ID.ToUpper() + ".NAME"));
+						data.Description = global::Strings.Get(new StringKey("STRINGS.UI.SPACEDESTINATIONS.ARTIFACT_POI." + artifact_ID.ToUpper() + ".DESC"));
+					}
+					if (component1 is TemporalTear && data.Name == null)
+					{
+						data.Name = global::Strings.Get(new StringKey("STRINGS.UI.SPACEDESTINATIONS.WORMHOLE.NAME"));
+						data.Description = global::Strings.Get(new StringKey("STRINGS.UI.SPACEDESTINATIONS.WORMHOLE.DESCRIPTION"));
+					}
+
+					return data;
+				}
+				return null;
+			}
+			private static void ExportSpacedOutPOIs()
+			{
+				Dictionary<string,POI_Data> _so_POIs = [];
+				foreach (var item in Assets.GetPrefabsWithComponent<HarvestablePOIClusterGridEntity>())
+				{
+					var data = GetPoiData(item);
+					if (data != null && !_so_POIs.ContainsKey(data.Id))
+					{
+						_so_POIs.Add(data.Id, data);
+					}
+
+				}
+				foreach (var item in Assets.GetPrefabsWithComponent<ArtifactPOIClusterGridEntity>())
+				{
+					var data = GetPoiData(item);
+					if (data != null && !_so_POIs.ContainsKey(data.Id))
+					{
+						_so_POIs.Add(data.Id, data);
+					}
+				}
+				foreach (var item in Assets.GetPrefabsWithComponent<TemporalTear>())
+				{
+					var data = GetPoiData(item);
+					if (data != null && !_so_POIs.ContainsKey(data.Id))
+					{
+						_so_POIs.Add(data.Id, data);
+					}
+				}
+				foreach(var poi in _so_POIs)
+				{
+
+					poi.Value.Name = poi.Value.Name.Strip();
+					poi.Value.Description = poi.Value.Description.Strip();
+					WriteUISpriteToFile(poi.Value.Sprite, Path.Combine(UtilMethods.ModPath, "Starmap_SO"), poi.Key);
+				}
+
+
+				Console.WriteLine("EEEEEEEEEEEEEE");
+				Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(_so_POIs));
 			}
 		}
 
