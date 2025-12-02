@@ -29,53 +29,60 @@ namespace Dupes_Machinery.Biological_Vats
 			local1.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			local1.showInUI = true;
 			local1.allowItemRemoval = false;
-			local1.capacityKg = 1000f;
+			//local1.capacityKg = 1000f;
 
-			ElementConverter converter = go.AddComponent<ElementConverter>();
-			converter.consumedElements =
+			ElementConverter mainRecipe = go.AddComponent<ElementConverter>();
+			mainRecipe.consumedElements =
 				[
 				new ElementConverter.ConsumedElement(EDIBLES_TAG, MushbarConsumption),
 				new ElementConverter.ConsumedElement(SimHashes.Water.CreateTag(), 0.05f)];
-			converter.outputElements = [
-				new ElementConverter.OutputElement(0.05f, SimHashes.SlimeMold, 0f, false, true, 0f, 0.5f, 0.75f, Db.Get().Diseases.GetIndex("SlimeLung"), 100)];
+			mainRecipe.outputElements = [
+				new ElementConverter.OutputElement(0.05f, SimHashes.SlimeMold, 0f, false, true, 0f, 0.5f, 1f, Db.Get().Diseases.GetIndex("SlimeLung"), 100)];
 
-			ElementConverter converter3 = go.AddComponent<ElementConverter>();
-			converter3.consumedElements = [
+			ElementConverter optionalRecipe = go.AddComponent<ElementConverter>();
+			optionalRecipe.consumedElements = [
 				new ElementConverter.ConsumedElement(SimHashes.ContaminatedOxygen.CreateTag(), 0.025f),
 				new ElementConverter.ConsumedElement(EDIBLES_TAG, MushbarConsumption),
 				new ElementConverter.ConsumedElement(SimHashes.Dirt.CreateTag(), 0.05f)];
-			converter3.outputElements = [
-				new ElementConverter.OutputElement(0.075f, SimHashes.SlimeMold, 0f, false, true, 0f, 0.5f, 0.75f, Db.Get().Diseases.GetIndex("SlimeLung"), 100)];
+			optionalRecipe.outputElements = [
+				new ElementConverter.OutputElement(0.075f, SimHashes.SlimeMold, 0f, false, true, 0f, 0.5f, 1f, Db.Get().Diseases.GetIndex("SlimeLung"), 150)];
 
 			ElementDropper local2 = go.AddComponent<ElementDropper>();
 			local2.emitMass = 5f;
 			local2.emitTag = SimHashes.SlimeMold.CreateTag();
 			local2.emitOffset = new Vector3(-1f, 1f, 0f);
 
-			ManualDeliveryKG ingredient1 = go.AddComponent<ManualDeliveryKG>();
-			ingredient1.SetStorage(local1);
-			ingredient1.RequestedItemTag = EDIBLES_TAG;
-			ingredient1.capacity = 4f;
-			ingredient1.refillMass = 1f;
-			ingredient1.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
+			ManualDeliveryKG mushBarDelivery = go.AddComponent<ManualDeliveryKG>();
+			mushBarDelivery.SetStorage(local1);
+			mushBarDelivery.RequestedItemTag = EDIBLES_TAG;
+			mushBarDelivery.capacity = 4f;
+			mushBarDelivery.refillMass = 1f;
+			mushBarDelivery.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
 
-			ConduitConsumer local4 = go.AddOrGet<ConduitConsumer>();
-			local4.conduitType = ConduitType.Liquid;
-			local4.consumptionRate = 10f;
-			local4.capacityKG = 20f;
-			local4.capacityTag = SimHashes.Water.CreateTag();
-			local4.forceAlwaysSatisfied = true;
-			local4.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
+			ManualDeliveryKG dirtDelivery = go.AddComponent<ManualDeliveryKG>();
+			dirtDelivery.SetStorage(local1);
+			dirtDelivery.RequestedItemTag = SimHashes.Dirt.CreateTag();
+			dirtDelivery.capacity = 120f;
+			dirtDelivery.refillMass = 30f;
+			dirtDelivery.choreTypeIDHash = Db.Get().ChoreTypes.FetchCritical.IdHash;
 
-			ElementConsumer local6 = go.AddOrGet<ElementConsumer>();
-			local6.elementToConsume = SimHashes.ContaminatedOxygen;
-			local6.consumptionRate = 0.05f;
-			local6.consumptionRadius = 6;
-			local6.storeOnConsume = true;
-			local6.capacityKG = 10f;
-			local6.showInStatusPanel = true;
-			local6.sampleCellOffset = new Vector3(0f, 1f, 0f);
-			local6.isRequired = false;
+			ConduitConsumer waterConsumer = go.AddOrGet<ConduitConsumer>();
+			waterConsumer.conduitType = ConduitType.Liquid;
+			waterConsumer.consumptionRate = 10f;
+			waterConsumer.capacityKG = 20f;
+			waterConsumer.capacityTag = SimHashes.Water.CreateTag();
+			waterConsumer.forceAlwaysSatisfied = true;
+			waterConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
+
+			ElementConsumer pOxConsumer = go.AddOrGet<ElementConsumer>();
+			pOxConsumer.elementToConsume = SimHashes.ContaminatedOxygen;
+			pOxConsumer.consumptionRate = 0.05f;
+			pOxConsumer.consumptionRadius = 6;
+			pOxConsumer.storeOnConsume = true;
+			pOxConsumer.capacityKG = 10f;
+			pOxConsumer.showInStatusPanel = true;
+			pOxConsumer.sampleCellOffset = new Vector3(0f, 1f, 0f);
+			pOxConsumer.isRequired = false;
 
 			go.AddOrGet<KBatchedAnimController>().randomiseLoopedOffset = true;
 			go.AddOrGet<AnimTileable>();
