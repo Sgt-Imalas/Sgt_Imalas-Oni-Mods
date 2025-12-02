@@ -3,8 +3,6 @@ using Klei;
 using Klei.CustomSettings;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using PeterHan.PLib.Core;
-using ProcGenGame;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,6 +13,7 @@ using System.Text;
 using UnityEngine;
 using UtilLibs;
 using static AnimExportTool.Patches.MainMenu_OnPrefabInit.GameSettingExport;
+using static ProcGen.DlcMixingSettings;
 
 namespace AnimExportTool
 {
@@ -568,6 +567,8 @@ namespace AnimExportTool
 				public string[] ForbiddenClusterTags;
 				public string WorldMixing;
 				public string SubworldMixing;
+				public List<ProcGen.SpaceMapPOIPlacement> spacePois;
+				public List<SpaceDestinationMix> spaceDesinations;
 
 
 				public MixingType SettingType = MixingType.None;
@@ -771,7 +772,7 @@ namespace AnimExportTool
 				{
 					IList<JsonProperty> properties = base.CreateProperties(type, memberSerialization);
 
-					properties = properties.Where(p => !_typesToIgnore.Contains( p.PropertyType)) .ToList();
+					properties = properties.Where(p => !_typesToIgnore.Contains(p.PropertyType)).ToList();
 
 					return properties;
 				}
@@ -872,9 +873,9 @@ namespace AnimExportTool
 				//}
 
 				//Console.WriteLine(EntityIdBuilder.ToString());
-				
+
 				Console.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-				Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(export,new JsonSerializerSettings { ContractResolver = new DynamicContractResolver([typeof(Vector2I)]) }));
+				Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(export, new JsonSerializerSettings { ContractResolver = new DynamicContractResolver([typeof(Vector2I)]) }));
 				Console.WriteLine("LOC:");
 				Console.WriteLine(loc.ToString());
 				var starmapExport = new StarmapGeneratorData();
@@ -956,6 +957,12 @@ namespace AnimExportTool
 						ProcGen.WorldMixingSettings worldgenData = ProcGen.SettingsCache.GetCachedWorldMixingSetting(worldMixing.worldgenPath);
 						mixingType = MixingType.World;
 						setting.WorldMixing = worldgenData?.world;
+					}
+					else if (mixingSetting is DlcMixingSettingConfig dlcMixingSetting)
+					{
+						var dlcSettings = ProcGen.SettingsCache.GetCachedDlcMixingSettings(dlcMixingSetting.id);
+						setting.spacePois = dlcSettings.spacePois;
+						setting.spaceDesinations = dlcSettings.spaceDesinations;
 					}
 					setting.SettingType = mixingType;
 
