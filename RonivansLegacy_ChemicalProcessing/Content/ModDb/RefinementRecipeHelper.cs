@@ -63,13 +63,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 		public static IEnumerable<Tag> GetSteelLikes()
 		{
-			return [
-				SimHashes.Steel.CreateTag(),
-				ModElements.StainlessSteel_Solid.Tag,
-				ModElements.Permendur_Solid.Tag,
-				ModElements.Invar_Solid.Tag,
-				ModElements.Brass_Solid.Tag
-				];
+			return ElementLoader.elements.FindAll(e => e.IsSolid
+			&& (e.HasTag(ModAssets.Tags.AIO_HardenedAlloy)||e.id == SimHashes.Steel)
+			&& e.id != SimHashes.TempConductorSolid
+			).Select(e => e.tag);
 		}
 	}
 }
