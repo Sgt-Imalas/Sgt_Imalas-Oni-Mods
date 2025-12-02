@@ -13,7 +13,6 @@ namespace UtilLibs
 	{
 		public class BATCH_TAGS
 		{
-			public const int CRITTER_BUILD_HATCH = -81145904;
 			public const int SWAPS = -77805842;
 			public const int INTERACTS = -1371425853;
 		}
@@ -36,9 +35,6 @@ namespace UtilLibs
 		//      }
 
 		public static void RegisterCustomSwapAnim(KAnimGroupFile kAnimGroupFile, HashedString swap) => RegisterCustomSwapAnims(kAnimGroupFile, new HashSet<HashedString>() { swap });
-		public static void RegisterCustomCritterBuildAnim(KAnimGroupFile kAnimGroupFile, HashedString swap) => RegisterCustomCritterBuildAnims(kAnimGroupFile, new HashSet<HashedString>() { swap });
-		public static void RegisterCustomCritterBuildAnims(KAnimGroupFile kAnimGroupFile, HashSet<HashedString> swaps) =>
-			MoveAnimGroups(kAnimGroupFile, BATCH_TAGS.CRITTER_BUILD_HATCH, swaps);
 		public static void RegisterCustomSwapAnims(KAnimGroupFile kAnimGroupFile, HashSet<HashedString> swaps) =>
 			MoveAnimGroups(kAnimGroupFile, BATCH_TAGS.SWAPS, swaps);
 		public static void RegisterCustomInteractAnim(KAnimGroupFile kAnimGroupFile,HashedString swap) => RegisterCustomInteractAnims(kAnimGroupFile, new HashSet<HashedString>() { swap });
