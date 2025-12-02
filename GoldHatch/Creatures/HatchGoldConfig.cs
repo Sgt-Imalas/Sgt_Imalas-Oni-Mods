@@ -15,7 +15,7 @@ namespace GoldHatch.Creatures
 		public GameObject CreatePrefab()
 		{
 			var entity = EntityTemplates.ExtendEntityToFertileCreature(
-				CreateHatch(ID, (string)STRINGS.CREATURES.SPECIES.HATCH.VARIANT_GOLD.NAME, (string)STRINGS.CREATURES.SPECIES.HATCH.VARIANT_GOLD.DESC, "hatch_gold_kanim", false),
+				CreateHatch(ID, (string)STRINGS.CREATURES.SPECIES.HATCH.VARIANT_GOLD.NAME, (string)STRINGS.CREATURES.SPECIES.HATCH.VARIANT_GOLD.DESC, "hatch_gold_build_kanim", false),
 				null, EGG_ID, STRINGS.CREATURES.SPECIES.HATCH.VARIANT_GOLD.EGG_NAME, STRINGS.CREATURES.SPECIES.HATCH.VARIANT_GOLD.DESC, "egg_hatch_gold_kanim", HatchTuning.EGG_MASS, ID_BABY, 60f, 20f, GoldHatchTuning.EGG_CHANCES_GOLD, HatchHardConfig.EGG_SORT_ORDER + 1);
 			return entity;
 		}
@@ -30,11 +30,11 @@ namespace GoldHatch.Creatures
 		{
 			GameObject wildCreature = EntityTemplates.ExtendEntityToWildCreature(BaseHatchConfig.BaseHatch(id, name, desc, anim_file, BASE_TRAIT_ID, is_baby), HatchTuning.PEN_SIZE_PER_CREATURE);
 			
-			if(wildCreature.TryGetComponent<KBatchedAnimController>(out var kbac))
+			if(!is_baby && wildCreature.TryGetComponent<KBatchedAnimController>(out var kbac))
 			{
 				kbac.AnimFiles = [
-					Assets.GetAnim(anim_file), //build file - custom gold hatch icons
-					Assets.GetAnim("hatch_kanim") //anim file - default hatch animations
+					Assets.GetAnim("hatch_kanim")//anim file - default hatch animations
+					 ,Assets.GetAnim(anim_file) //build file - custom gold hatch icons
 					];
 			}
 

@@ -2,12 +2,27 @@
 using HarmonyLib;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using UtilLibs;
 
 namespace GoldHatch
 {
 	internal class Patches
 	{
+		[HarmonyPatch(typeof(Def), nameof(Def.GetUISprite), [typeof(object), typeof(string), typeof(bool)])]
+		public class Def_GetUISprite_Patch
+		{
+			public static bool Prefix(ref Tuple<Sprite, Color> __result, object item, bool centered)
+			{
+				if(item is string t && t == HatchGoldConfig.ID)
+				{
+					__result = new Tuple<Sprite, Color>(Def.GetUISpriteFromMultiObjectAnim(Assets.GetAnim("hatch_gold_kanim"), "ui", centered), Color.white);
+					return false;
+				}
+				return true;
+			}
+		}
+
 		/// <summary>
 		/// add modifier increase for hatches when eating lead
 		/// </summary>
