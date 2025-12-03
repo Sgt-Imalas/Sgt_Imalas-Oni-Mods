@@ -1,0 +1,81 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.4.4\n"
+"Last-Translator: edubistkrank\n"
+"Language: es_ES\n"
+
+#. BathTub.STRINGS.BUILDING.STATUSITEMS.BT_BATHTUBFILLING.NAME
+msgctxt "BathTub.STRINGS.BUILDING.STATUSITEMS.BT_BATHTUBFILLING.NAME"
+msgid "Filling Up: ({fullness})"
+msgstr "Llenándose: ({fullness})"
+
+#. BathTub.STRINGS.BUILDING.STATUSITEMS.BT_BATHTUBFILLING.TOOLTIP
+msgctxt "BathTub.STRINGS.BUILDING.STATUSITEMS.BT_BATHTUBFILLING.TOOLTIP"
+msgid ""
+"This bathtub is currently filling with <style=\"KKeyword\">Water</style>\n"
+"\n"
+"It will be available to use when the <style=\"KKeyword\">Water</style> level "
+"reaches <b>100%</b>"
+msgstr ""
+"Esta bañera se esta llenando con <style=\"KKeyword\">Agua</style>.\n"
+"\n"
+"Estará disponible cuando el nivel de <style=\"KKeyword\">Agua</style> "
+"alcance el <b>100%</b>"
+
+#. BathTub.STRINGS.BUILDINGS.PREFABS.SGTIMALAS_BATHTUB.DESC
+msgctxt "BathTub.STRINGS.BUILDINGS.PREFABS.SGTIMALAS_BATHTUB.DESC"
+msgid "When showers aren't enough!"
+msgstr "¡Cuándo las duchas no son suficientes!"
+
+#. BathTub.STRINGS.BUILDINGS.PREFABS.SGTIMALAS_BATHTUB.EFFECT
+msgctxt "BathTub.STRINGS.BUILDINGS.PREFABS.SGTIMALAS_BATHTUB.EFFECT"
+msgid ""
+"Improves <link=\"MORALE\">Morale</link> and kills surface <link=\"DISEASE\">Germs</link>."
+msgstr ""
+"Mejora la <link=\"MORALE\">Moral</link> y elimina los <link=\"DISEASE\">Gérmenes</link> superficiales."
+
+#. BathTub.STRINGS.BUILDINGS.PREFABS.SGTIMALAS_BATHTUB.FACADES.HANDY_RETRO_TUB.DESC
+msgctxt ""
+"BathTub.STRINGS.BUILDINGS.PREFABS.SGTIMALAS_BATHTUB.FACADES.HANDY_RETRO_TUB."
+"DESC"
+msgid "No, there are no duplicants buried beneath that hold it..."
+msgstr "No, no hay Duplicantes enterrados debajo que la sostengan..."
+
+#. BathTub.STRINGS.BUILDINGS.PREFABS.SGTIMALAS_BATHTUB.FACADES.HANDY_RETRO_TUB.NAME
+msgctxt ""
+"BathTub.STRINGS.BUILDINGS.PREFABS.SGTIMALAS_BATHTUB.FACADES.HANDY_RETRO_TUB."
+"NAME"
+msgid "Handy Retro Tub"
+msgstr "Bañera Retro"
+
+#. BathTub.STRINGS.BUILDINGS.PREFABS.SGTIMALAS_BATHTUB.NAME
+msgctxt "BathTub.STRINGS.BUILDINGS.PREFABS.SGTIMALAS_BATHTUB.NAME"
+msgid "Bathtub"
+msgstr "Bañera"
+
+#. BathTub.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.BT_RUBBERDUCKIE.DESC
+msgctxt "BathTub.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.BT_RUBBERDUCKIE.DESC"
+msgid ""
+"All you need for a refreshing bath.\nFloats on liquids.\n\n"
+"Arthur likes to know its exact function.\n\nHelps you think."
+msgstr ""
+"Todo lo que necesitas para un baño refrescante.\nFlota en líquidos.\n\n"
+"A Arthur le gustaría conocer su función exacta.\n\nLe ayuda a pensar."
+
+#. BathTub.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.BT_RUBBERDUCKIE.NAME
+msgctxt "BathTub.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.BT_RUBBERDUCKIE.NAME"
+msgid "Rubber Duckie"
+msgstr "Pollita de Goma"
+
+#. BathTub.STRINGS.MOODLAMPSKINS.RUBBERDUCKIE
+msgctxt "BathTub.STRINGS.MOODLAMPSKINS.RUBBERDUCKIE"
+msgid "Rubber Duckie"
+msgstr "Pollita de Goma"

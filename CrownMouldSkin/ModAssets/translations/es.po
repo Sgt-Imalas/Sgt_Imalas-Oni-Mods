@@ -1,0 +1,113 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.2.2\n"
+"Last-Translator: edubistkrank\n"
+"Language: es_ES\n"
+
+#. CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES.CORNER_TILE_B.DESC
+msgctxt ""
+"CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES."
+"CORNER_TILE_B.DESC"
+msgid "A new look for the Corner Moulding"
+msgstr "Un nuevo estilo para las Molduras de Esquina"
+
+#. CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES.CORNER_TILE_B.NAME
+msgctxt ""
+"CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES."
+"CORNER_TILE_B.NAME"
+msgid "<link=\"CORNERMOULDING\">Bulky Crescent Corner Moulding</link>"
+msgstr "Media Luna Voluminosa"
+
+#. CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES.CORNER_TILE_C.DESC
+msgctxt ""
+"CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES."
+"CORNER_TILE_C.DESC"
+msgid "A new look for the Corner Moulding"
+msgstr "Un nuevo estilo para las Molduras de Esquina"
+
+#. CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES.CORNER_TILE_C.NAME
+msgctxt ""
+"CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES."
+"CORNER_TILE_C.NAME"
+msgid "<link=\"CORNERMOULDING\">Sprouting Blossom Corner Moulding</link>"
+msgstr "Brote en Flor"
+
+#. CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES.CORNER_TILE_D.DESC
+msgctxt ""
+"CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES."
+"CORNER_TILE_D.DESC"
+msgid "A new look for the Corner Moulding"
+msgstr "Un nuevo estilo para las Molduras de Esquina"
+
+#. CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES.CORNER_TILE_D.NAME
+msgctxt ""
+"CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES."
+"CORNER_TILE_D.NAME"
+msgid "<link=\"CORNERMOULDING\">Hand Fan Corner Moulding</link>"
+msgstr "Abanico de Mano"
+
+#. CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES.CORNER_TILE_E.DESC
+msgctxt ""
+"CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES."
+"CORNER_TILE_E.DESC"
+msgid "A new look for the Corner Moulding"
+msgstr "Un nuevo estilo para las Molduras de Esquina"
+
+#. CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES.CORNER_TILE_E.NAME
+msgctxt ""
+"CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES."
+"CORNER_TILE_E.NAME"
+msgid "<link=\"CORNERMOULDING\">Sleek Angled Corner Moulding</link>"
+msgstr "Ángulo Elegante"
+
+#. CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES.CORNER_TILE_F.DESC
+msgctxt ""
+"CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES."
+"CORNER_TILE_F.DESC"
+msgid "A new look for the Corner Moulding"
+msgstr "Un nuevo estilo para las Molduras de Esquina"
+
+#. CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES.CORNER_TILE_F.NAME
+msgctxt ""
+"CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES."
+"CORNER_TILE_F.NAME"
+msgid "<link=\"CORNERMOULDING\">Greek Ornament Corner Moulding</link>"
+msgstr "Ornamento Griego"
+
+#. CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES.CORNER_TILE_G.DESC
+msgctxt ""
+"CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES."
+"CORNER_TILE_G.DESC"
+msgid "A new look for the Corner Moulding"
+msgstr "Un nuevo estilo para las Molduras de Esquina"
+
+#. CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES.CORNER_TILE_G.NAME
+msgctxt ""
+"CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES."
+"CORNER_TILE_G.NAME"
+msgid "<link=\"CORNERMOULDING\">Elegant Arc Corner Moulding</link>"
+msgstr "Arco Elegante"
+
+#. CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES.DEFAULT_CORNERMOULDING.DESC
+msgctxt ""
+"CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES."
+"DEFAULT_CORNERMOULDING.DESC"
+msgid "Corner moulding is used as purely decorative trim for ceiling corners."
+msgstr "Las molduras de esquina se utilizan como elemento puramente decorativo para las esquineras del techo."
+
+#. CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES.DEFAULT_CORNERMOULDING.NAME
+msgctxt ""
+"CrownMouldSkin.STRINGS.BUILDINGS.PREFABS.CORNERMOULDING.FACADES."
+"DEFAULT_CORNERMOULDING.NAME"
+msgid "<link=\"CORNERMOULDING\">Corner Moulding</link>"
+msgstr "Moldura de Esquina"

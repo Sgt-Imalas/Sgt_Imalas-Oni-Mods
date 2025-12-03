@@ -1,0 +1,47 @@
+msgid ""
+msgstr ""
+"Application: Oxygen Not Included"
+"POT Version: 2.0"
+"Last-Translator: edubistkrank\n"
+"Language: es_ES\n"
+
+#. PaintYourPipes.STRINGS.HOTKEYACTIONS.TOGGLE_OVERLAY_COLOR
+msgctxt "PaintYourPipes.STRINGS.HOTKEYACTIONS.TOGGLE_OVERLAY_COLOR"
+msgid "Toggle Color in Overlays"
+msgstr "Alternar Color en las Capas"
+
+#. PaintYourPipes.STRINGS.MODCONFIG.OVERLAYONLYDESC
+msgctxt "PaintYourPipes.STRINGS.MODCONFIG.OVERLAYONLYDESC"
+msgid "Only show colors in overlays"
+msgstr "Sólo mostrar colores en capas"
+
+#. PaintYourPipes.STRINGS.MODCONFIG.OVERLAYONLYNAME
+msgctxt "PaintYourPipes.STRINGS.MODCONFIG.OVERLAYONLYNAME"
+msgid "Color Overlays Only"
+msgstr "Sólo Capas de Color"
+
+#. PaintYourPipes.STRINGS.PAINTABLEBUILDING.LABEL
+msgctxt "PaintYourPipes.STRINGS.PAINTABLEBUILDING.LABEL"
+msgid "Paint whole network"
+msgstr "Pintar la red entera"
+
+#. PaintYourPipes.STRINGS.PAINTABLEBUILDING.TITLE
+msgctxt "PaintYourPipes.STRINGS.PAINTABLEBUILDING.TITLE"
+msgid "Tint Colour"
+msgstr "Color de Tinte"
+
+#. PaintYourPipes.STRINGS.PAINTABLEBUILDING.TOGGLE_TEXT
+msgctxt "PaintYourPipes.STRINGS.PAINTABLEBUILDING.TOGGLE_TEXT"
+msgid "COLOR OVERLAYS"
+msgstr "CAPAS DE COLOR"
+
+#. PaintYourPipes.STRINGS.PAINTABLEBUILDING.TOGGLE_TOOLTIP
+msgctxt "PaintYourPipes.STRINGS.PAINTABLEBUILDING.TOGGLE_TOOLTIP"
+msgid "Toggle <b>Colors in Overlays</b>\n{Hotkey}"
+msgstr "Alternar <b>Colores en Capas</b>\n{Hotkey}"
+
+#. PaintYourPipes.STRINGS.PAINTABLEBUILDING.TOOLTIP
+msgctxt "PaintYourPipes.STRINGS.PAINTABLEBUILDING.TOOLTIP"
+msgid "Applies the colour of the currently selected item to its whole network."
+msgstr "Aplica el color del elemento actualmente seleccionado a toda su red."
+
