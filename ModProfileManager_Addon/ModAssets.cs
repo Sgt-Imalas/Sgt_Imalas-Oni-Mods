@@ -339,6 +339,9 @@ namespace ModProfileManager_Addon
 		{
 			var modProfile = modProfileTuple.ModList;
 			var modProfilePath = modProfileTuple.Path;
+			SgtLogger.l("renaming, old: " + modProfilePath + ", new " + newModProfilePath);
+			if (modProfilePath == newModProfilePath)
+				return;
 
 			if (modProfile != null)
 			{

@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>ModProfileManager_Addon</PackageId>
-		<Version>1.5.2</Version>
+		<Version>1.5.3</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>2022-2024 Sgt_Imalas</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
