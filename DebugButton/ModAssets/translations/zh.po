@@ -1,0 +1,56 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.8\n"
+
+#. DebugButton.STRINGS.UI.TOOLS.DEBUG_INSTABUILD_TOGGLE.NAME
+msgctxt "DebugButton.STRINGS.UI.TOOLS.DEBUG_INSTABUILD_TOGGLE.NAME"
+msgid "INSTA BUILD"
+msgstr "上帝之手"
+
+#. DebugButton.STRINGS.UI.TOOLS.DEBUG_INSTABUILD_TOGGLE.TOOLTIP_TOGGLE
+msgctxt "DebugButton.STRINGS.UI.TOOLS.DEBUG_INSTABUILD_TOGGLE.TOOLTIP_TOGGLE"
+msgid ""
+"Toggle <b>Debug Instant Build Mode</b>\n"
+"{Hotkey}"
+msgstr ""
+"切换<b>即时构建调试模式</b>\n"
+"{Hotkey}"
+
+#. DebugButton.STRINGS.UI.TOOLS.DEBUG_SUPERSPEED_TOGGLE.NAME
+msgctxt "DebugButton.STRINGS.UI.TOOLS.DEBUG_SUPERSPEED_TOGGLE.NAME"
+msgid "SUPERSPEED"
+msgstr "超级倍速"
+
+#. DebugButton.STRINGS.UI.TOOLS.DEBUG_SUPERSPEED_TOGGLE.TOOLTIP_TOGGLE
+msgctxt "DebugButton.STRINGS.UI.TOOLS.DEBUG_SUPERSPEED_TOGGLE.TOOLTIP_TOGGLE"
+msgid ""
+"Toggle <b>Debug Super Speed</b>\n"
+"{Hotkey}"
+msgstr ""
+"切换 <b>超级调试速度</b>\n"
+"{Hotkey}"
+
+#. DebugButton.STRINGS.UI.TOOLS.DEBUG_TOGGLE.NAME
+msgctxt "DebugButton.STRINGS.UI.TOOLS.DEBUG_TOGGLE.NAME"
+msgid "DEBUG MODE"
+msgstr "debug模式"
+
+#. DebugButton.STRINGS.UI.TOOLS.DEBUG_TOGGLE.TOOLTIP_TOGGLE
+msgctxt "DebugButton.STRINGS.UI.TOOLS.DEBUG_TOGGLE.TOOLTIP_TOGGLE"
+msgid "Toggle <b>Debug mode</b>"
+msgstr "切换<b>调试模式</b>"
+
+#. DebugButton.STRINGS.UI.TOOLS.TOOLTIP_DEBUG_LOCKED
+msgctxt "DebugButton.STRINGS.UI.TOOLS.TOOLTIP_DEBUG_LOCKED"
+msgid "Debug mode is not enabled!"
+msgstr "debug模式未启用!"
