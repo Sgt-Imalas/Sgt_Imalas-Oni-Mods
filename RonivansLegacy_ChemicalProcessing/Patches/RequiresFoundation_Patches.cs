@@ -60,8 +60,9 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 					return original;
 				}
 				var offset = handler.GetRotatedOffset();
-				//SgtLogger.l("Modifying RequiresFoundation root cell from " + original + "by " + offset.ToString() + " for " + go.name);
-				return Grid.OffsetCell(original, offset);
+				int offsetCell = Grid.OffsetCell(original, offset);
+				SgtLogger.l("Modifying RequiresFoundation root cell from " + original + " by " + offset.ToString() + " to " + offsetCell + " for " + go.name);
+				return offsetCell;
 			}
 
 			//public static CellOffset ModifyCellOffset(CellOffset original, GameObject go)
