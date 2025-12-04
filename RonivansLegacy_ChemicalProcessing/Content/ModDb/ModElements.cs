@@ -53,7 +53,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		public static readonly Color32 NITROGEN_COLOR = new Color32(205, 194, 255, 255);
 		///Permendur, alloy of cobalt and iron
 		public static readonly Color32 PERMENDUR_COLOR = UIUtils.rgb(140, 207, 255);
-		
+
 		//chromium color
 		public static readonly Color32 CHROMIUM_COLOR = UIUtils.rgb(223, 236, 247);
 		//chrome ore
@@ -257,7 +257,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				VegetableOil_Gas.CreateSubstance(),
 			};
 
-			list.AddRange(ChemicalProcessing_IO_Elements);			
+			list.AddRange(ChemicalProcessing_IO_Elements);
 			list.AddRange(ChemicalProcessing_BioChem_Elements);
 
 			SetElementRottables();
@@ -556,7 +556,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				brick.highTemp = 2000;
 				AddTagsToElementAndEnable(SimHashes.Brick, [GameTags.Crushable, GameTags.Insulator, GameTags.BuildableRaw]);
 			}
-			
+
 
 			// adding combustible solid tag to coal and peat
 			AddTagToElementAndEnable(SimHashes.Carbon, GameTags.CombustibleSolid);
@@ -635,7 +635,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			//=: Giving Plasteel Temperature modifications :============================================================
 			AddElementOverheatModifier(Plasteel_Solid, 400);
 			//AddElementOverheatModifier(Plasteel_Solid, 800);
-	
+
 
 			float silverDegreeBonus = 40;
 			///---own additions----
@@ -687,5 +687,33 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			AddElementDecorModifier(StainlessSteel_Solid, 0.75f);
 		}
 
+		internal static void RegisterTraitElementBandModifications()
+		{
+			foreach (var worldTrait in ProcGen.SettingsCache.GetCachedWorldTraits())
+			{
+				if (worldTrait.elementBandModifiers == null || !worldTrait.elementBandModifiers.Any())
+					continue;
+				var copperOreMods = worldTrait.elementBandModifiers.FirstOrDefault(modifier => modifier.element == SimHashes.Cuprite.ToString());
+
+				if (copperOreMods != null)
+				{
+					float massMult = copperOreMods.massMultiplier;
+					float bandMult = copperOreMods.bandMultiplier;
+
+					foreach(var element in RefinementRecipeHelper.GetAllOres())
+					{
+						if (worldTrait.elementBandModifiers.Any(band => band.element == element.id.ToString()))
+							continue;
+
+						///is an ore and not an alloy
+						if(element.HasTag(GameTags.Metal) && !element.HasTag(GameTags.RefinedMetal))
+						{
+							SgtLogger.l("adding "+ element.id +" ore band multiplier to " + worldTrait.filePath);
+							worldTrait.elementBandModifiers.Add(new() { element = element.id.ToString(), bandMultiplier = bandMult, massMultiplier = massMult });
+						}
+					}
+				}
+			}
+		}
 	}
 }

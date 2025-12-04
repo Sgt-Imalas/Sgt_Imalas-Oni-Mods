@@ -25,6 +25,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				SpaceMiningAdditions.AddExtraPOIElements();
 				StatusItemsDatabase.CreateStatusItems();
 				ModTechs.RegisterCustomEntries();
+				ModElements.RegisterTraitElementBandModifications();
 			}
 		}
 	}

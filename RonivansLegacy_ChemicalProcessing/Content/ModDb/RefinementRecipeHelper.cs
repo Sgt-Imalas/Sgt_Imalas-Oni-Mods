@@ -24,6 +24,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			return [SimHashes.Carbon, SimHashes.Peat, SimHashes.RefinedCarbon];
 		}
 
+		public static IEnumerable<Element> GetAllOres()
+		{
+			return GetNormalOres().Concat(GetSpecialOres().Select(e => ElementLoader.GetElement(e.CreateTag())));
+		}
+
 		public static HashSet<SimHashes> GetSpecialOres()
 		{
 			//those elements have special conversion rates, for all others its the same
