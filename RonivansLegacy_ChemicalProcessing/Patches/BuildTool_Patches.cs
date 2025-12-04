@@ -21,6 +21,8 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		{
 			public static void Prefix(BuildTool __instance, ref BuildingDef def, IList<Tag> selected_elements)
 			{
+				if (selected_elements == null || !selected_elements.Any())
+					return;
 				var selectedMaterial = selected_elements[0];
 
 				if (MultivariantBuildings.HasMaterialVariant(def.Tag, selectedMaterial, out var targetForMaterial))
