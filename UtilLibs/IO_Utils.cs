@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 
 namespace UtilLibs
@@ -27,6 +28,22 @@ namespace UtilLibs
 				tr.Method("Copy").GetValue();
 			}
 		}
+
+		public static bool TryGetStringFromClipboard(out string clipboardText)
+		{
+			clipboardText = string.Empty;
+			var TextEditorType = Type.GetType("UnityEngine.TextEditor, UnityEngine");
+			if (TextEditorType != null)
+			{
+				var editor = Activator.CreateInstance(TextEditorType);
+				var tr = Traverse.Create(editor);
+				tr.Property("text").SetValue(string.Empty);
+				tr.Method("Paste").GetValue();
+				clipboardText = (string)tr.Property("text").GetValue();
+			}
+			return !clipboardText.IsNullOrWhiteSpace();
+		}
+
 		public static bool ReadFromFile<T>(FileInfo filePath, out T output, string forceExtensionTo = "", JsonSerializerSettings converterSettings = null)
 		{
 			try

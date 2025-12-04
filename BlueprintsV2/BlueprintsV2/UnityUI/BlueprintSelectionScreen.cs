@@ -13,6 +13,7 @@ using static BlueprintsV2.STRINGS.UI;
 using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR;
 using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH;
 using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.BUTTONS;
+using static BlueprintsV2.STRINGS.UI.DIALOGUE;
 
 namespace BlueprintsV2.UnityUI
 {
@@ -36,6 +37,7 @@ namespace BlueprintsV2.UnityUI
 		public FInputField2 BlueprintSearchbar;
 		public FButton ClearBlueprintSearchbar;
 		public FButton OpenBlueprintFolder;
+		public FButton ImportBlueprintButton;
 		public FButton FolderUpBtn;
 		public GameObject HierarchyContainer;
 		public FileHierarchyEntry HierarchyEntryPrefab;
@@ -88,7 +90,11 @@ namespace BlueprintsV2.UnityUI
 			BlueprintSearchbar.OnValueChanged.AddListener(ApplyBlueprintFilter);
 			BlueprintSearchbar.Text = string.Empty;
 
-			OpenBlueprintFolder = transform.Find("FileHierarchy/SearchBar/FolderButton").FindOrAddComponent<FButton>();
+			ImportBlueprintButton = transform.Find("FileHierarchy/ImportButton").gameObject.AddOrGet<FButton>();
+			ImportBlueprintButton.OnClick += TryImportBlueprint;
+			UIUtils.AddSimpleTooltipToObject(ImportBlueprintButton.gameObject, BLUEPRINTSELECTOR.FILEHIERARCHY.IMPORTBUTTON.TOOLTIP);
+
+			OpenBlueprintFolder = transform.Find("FileHierarchy/SearchBar/FolderButton").gameObject.AddOrGet<FButton>();
 			OpenBlueprintFolder.OnClick += () => Process.Start(new ProcessStartInfo(ModAssets.BlueprintFileHandling.GetBlueprintDirectory()) { UseShellExecute = true });
 			UIUtils.AddSimpleTooltipToObject(OpenBlueprintFolder.gameObject, BLUEPRINTSELECTOR.FILEHIERARCHY.SEARCHBAR.OPENFOLDERTOOLTIP);
 
@@ -161,6 +167,22 @@ namespace BlueprintsV2.UnityUI
 			ReplacementElementsPrefab = ReplaceElementEntryGo.AddComponent<ReplaceElementEntry>();
 
 			init = true;
+		}
+
+		void CreateConfirmDialogue(string title, string text)
+		{
+			DialogueOpen(true);
+			DialogUtil.CreateConfirmDialog(title, text, on_confirm: ()=>DialogueOpen(false));
+		}
+
+		void TryImportBlueprint()
+		{
+			if (ModAssets.ImportFromClipboard(out Blueprint bp))
+			{
+				CreateConfirmDialogue(BASE64_IMPORT_SUCCESS.TITLE, string.Format(BASE64_IMPORT_SUCCESS.TEXT, bp.FriendlyName));	
+			}
+			else
+				CreateConfirmDialogue(BASE64_IMPORT_FAIL.TITLE, BASE64_IMPORT_FAIL.TEXT);
 		}
 
 		private void OnClearOverrides()
@@ -450,9 +472,9 @@ namespace BlueprintsV2.UnityUI
 			SetMaterialState();
 		}
 
-		private void DialogueOpen(bool obj)
+		private void DialogueOpen(bool isOpen)
 		{
-			DialogueCurrentlyOpen = obj;
+			DialogueCurrentlyOpen = isOpen;
 		}
 
 		void OnBlueprintMoved()

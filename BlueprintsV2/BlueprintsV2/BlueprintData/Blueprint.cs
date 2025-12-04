@@ -68,7 +68,7 @@ namespace BlueprintsV2.BlueprintData
 			if (parentFolder == BlueprintFileHandling.GetBlueprintDirectory())
 				Folder = string.Empty;
 			else
-				Folder = Path.GetFileName(Path.GetDirectoryName(fileLocation)).ToLowerInvariant();
+				Folder = Path.GetFileName(Path.GetDirectoryName(fileLocation));
 			InferFriendlyName();
 		}
 
@@ -76,7 +76,6 @@ namespace BlueprintsV2.BlueprintData
 		{
 			FilePath = Guid.NewGuid().ToString();
 		}
-
 		public Blueprint(StringBuilder sourceSerialized)
 		{
 			ReadJson(JObject.Parse(sourceSerialized.ToString()));
@@ -125,7 +124,7 @@ namespace BlueprintsV2.BlueprintData
 		public Blueprint(string friendlyName, string folder)
 		{
 			FriendlyName = friendlyName;
-			Folder = SanitizeFolder(folder).ToLowerInvariant();
+			Folder = SanitizeFolder(folder);
 			InferFileLocation();
 		}
 
@@ -157,7 +156,7 @@ namespace BlueprintsV2.BlueprintData
 				}
 			}
 
-			return returnString.TrimEnd(Path.DirectorySeparatorChar).ToLowerInvariant();
+			return returnString.TrimEnd(Path.DirectorySeparatorChar);
 		}
 
 		/// <summary>
@@ -185,7 +184,7 @@ namespace BlueprintsV2.BlueprintData
 			if(returnString.Trim().Length<=0)
 				return "unnamed";
 
-			return returnString.Trim().ToLowerInvariant();
+			return returnString.Trim();
 		}
 
 		/// <summary>
@@ -530,14 +529,15 @@ namespace BlueprintsV2.BlueprintData
 		{
 			string sanitizedFriendlyName = SanitizeFile(FriendlyName);
 
+			string dir = Folder != null ? Path.Combine(BlueprintFileHandling.GetBlueprintDirectory(), Folder) : BlueprintFileHandling.GetBlueprintDirectory();
 			//If the index is -1, there's no repetition.
 			if (index == -1)
 			{
-				return Path.Combine(Path.Combine(BlueprintFileHandling.GetBlueprintDirectory(), Folder), sanitizedFriendlyName + ".blueprint");
+				return Path.Combine(dir, sanitizedFriendlyName + ".blueprint");
 			}
 
 			//There is repetition. Append -x to the end of the name, where x is the index.
-			return Path.Combine(Path.Combine(BlueprintFileHandling.GetBlueprintDirectory(), Folder), sanitizedFriendlyName + '-' + index + ".blueprint");
+			return Path.Combine(dir, sanitizedFriendlyName + '-' + index + ".blueprint");
 		}
 
 		/// <summary>

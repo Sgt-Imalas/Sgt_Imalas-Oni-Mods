@@ -3,9 +3,13 @@ using BlueprintsV2.BlueprintsV2.UnityUI;
 using BlueprintsV2.Tools;
 using BlueprintsV2.UnityUI;
 using PeterHan.PLib.Actions;
+using STRINGS;
+using System;
 using System.Collections.Generic;
+using System.Drawing.Text;
 using System.IO;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 using UtilLibs;
 
@@ -72,7 +76,7 @@ namespace BlueprintsV2
 			TMPConverter.ReplaceAllText(BlueprintInfoStateGO);
 		}
 
-		public static BlueprintFolder GetCurrentFolder() => SelectedFolder == null? BlueprintFileHandling.RootFolder : SelectedFolder;
+		public static BlueprintFolder GetCurrentFolder() => SelectedFolder == null ? BlueprintFileHandling.RootFolder : SelectedFolder;
 		public static BlueprintFolder SelectedFolder;
 		public static Blueprint SelectedBlueprint;
 		public static Dictionary<BlueprintSelectedMaterial, Tag> DynamicReplacementTags = new();
@@ -112,6 +116,66 @@ namespace BlueprintsV2
 				return true;
 			}
 			return false;
+		}
+		public static StringBuilder sb = new StringBuilder();
+
+		private static bool TryImportBlueprintFromString(string bpString, out Blueprint bp)
+		{
+			bp = null;
+			try
+			{
+				if (bpString == string.Empty)
+					return false;
+				sb.Clear();
+				sb.Append(bpString);
+				bp = new Blueprint(sb);
+				if (bp == null)
+					return false;
+				bp.SetFolder(SelectedFolder?.Name ?? string.Empty);
+				BlueprintFileHandling.HandleBlueprintLoading(bp.FilePath);
+				return true;
+			}
+			catch (Exception e)
+			{
+				SgtLogger.logError(e.Message);
+				return false;
+			}
+		}
+
+		public static bool ImportFromClipboard(out Blueprint bp)
+		{
+			bp = null;
+			if (IO_Utils.TryGetStringFromClipboard(out string clipboard))
+			{
+				try
+				{
+					string uncompressed = StringCompression.DecompressString(clipboard);
+					///base64 import
+					if (TryImportBlueprintFromString(uncompressed, out bp))
+						return true;
+					///raw json import
+					else if (TryImportBlueprintFromString(clipboard, out bp))
+						return true;
+					return false;
+				}
+				catch (Exception e)
+				{
+					SgtLogger.logError(e.Message);
+					return false;
+				}
+			}
+			return false;
+		}
+		public static void ExportToClipboard(Blueprint bp)
+		{
+			if (bp != null)
+			{
+				sb.Clear();
+				StringWriter sw = new StringWriter(sb);
+				bp.WriteJsonString(sw);
+				string ToCopy = StringCompression.CompressString(sb.ToString());
+				IO_Utils.PutToClipboard(ToCopy);
+			}
 		}
 
 		public static GameObject ParentScreen => GameScreenManager.Instance.GetParent(GameScreenManager.UIRenderTarget.ScreenSpaceOverlay);
@@ -408,7 +472,7 @@ namespace BlueprintsV2
 
 
 			Actions.BlueprintsSelectPrevious = new PActionManager().CreateAction(ActionKeys.ACTION_SELECT_PREV_BLUEPRINT_KEY,
-				STRINGS.UI.ACTIONS.SELECT_PREV, new PKeyBinding(KKeyCode.MouseScrollDown,Modifier.Shift));
+				STRINGS.UI.ACTIONS.SELECT_PREV, new PKeyBinding(KKeyCode.MouseScrollDown, Modifier.Shift));
 			Actions.BlueprintsSelectNext = new PActionManager().CreateAction(ActionKeys.ACTION_SELECT_NEXT_BLUEPRINT_KEY,
 				STRINGS.UI.ACTIONS.SELECT_NEXT, new PKeyBinding(KKeyCode.MouseScrollUp, Modifier.Shift));
 
@@ -416,7 +480,7 @@ namespace BlueprintsV2
 				STRINGS.UI.ACTIONS.ROTATE_BLUEPRINT, new PKeyBinding(KKeyCode.R));
 			Actions.BlueprintsRotateInverse = new PActionManager().CreateAction(ActionKeys.ACTION_ROTATE_INV_BLUEPRINT_KEY,
 				STRINGS.UI.ACTIONS.ROTATE_INV_BLUEPRINT, new PKeyBinding(KKeyCode.R, Modifier.Shift));
-			
+
 			Actions.BlueprintsFlipHorizontal = new PActionManager().CreateAction(ActionKeys.ACTION_FLIP_HORIZONTAL_KEY,
 				STRINGS.UI.ACTIONS.FLIP_BLUEPRINT_H, new PKeyBinding(KKeyCode.H, Modifier.Shift));
 			Actions.BlueprintsFlipVertical = new PActionManager().CreateAction(ActionKeys.ACTION_FLIP_VERTICAL_KEY,
@@ -536,7 +600,7 @@ namespace BlueprintsV2
 			public static PAction BlueprintsSelectPrevious { get; set; }
 
 
-			public static PAction BlueprintsToggleHotkeyToolTips{ get; set; }
+			public static PAction BlueprintsToggleHotkeyToolTips { get; set; }
 
 		}
 	}

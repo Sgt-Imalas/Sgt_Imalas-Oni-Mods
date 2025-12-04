@@ -64,6 +64,22 @@ namespace BlueprintsV2
 				public static LocString FOLDERBLUEPRINT_TITLE = "ASSIGN FOLDER";
 				public static LocString MOVETOFOLDER_TITLE = "MOVE TO FOLDER";
 				public static LocString RENAMEBLUEPRINT_TITLE = "RENAME BLUEPRINT";
+
+				public class BASE64_EXPORTED
+				{
+					public static LocString TITLE = "Copied to Clipboard!";
+					public static LocString TEXT = "The blueprint has been added to your clipboard.";
+				}
+				public class BASE64_IMPORT_FAIL
+				{
+					public static LocString TITLE = "Import Failure!";
+					public static LocString TEXT = "Unable to import a blueprint from the current clipboard contents.";
+				}
+				public class BASE64_IMPORT_SUCCESS
+				{
+					public static LocString TITLE = "Import Successful!";
+					public static LocString TEXT = "The blueprint {0} has been imported successfully.";
+				}
 			}
 			public static LocString BLUEPRINTS_ROOTFOLDER = "Main Folder";
 
@@ -117,6 +133,11 @@ namespace BlueprintsV2
 			{
 				public class FILEHIERARCHY
 				{
+					public class IMPORTBUTTON
+					{
+						public static LocString TEXT = "Import new blueprint from clipboard";
+						public static LocString TOOLTIP = "Import a bluprint string you have stored in your clipboard";
+					}
 					public class SEARCHBAR
 					{
 						public static LocString CLEARTOOLTIP = "Clear search bar";
@@ -147,6 +168,8 @@ namespace BlueprintsV2
 								public static LocString TOOLTIP_DELETE = "Delete Blueprint.\nDeleting the last blueprint in a sub folder will also delete the folder.";
 								public static LocString TOOLTIP_MOVE = "Move Blueprint to other folder.\nWill create new folder if it does not exist.\nLeaving the new folder name empty will move the blueprint to the main folder.";
 								public static LocString TOOLTIP_RENAME = "Rename Blueprint";
+								public static LocString TOOLTIP_RETAKE = "Re-Take the blueprint, replacing its content with a new selection of buildings.";
+								public static LocString TOOLTIP_EXPORT = "Export the blueprint as a shareable string to your clipboard.";
 							}
 						}
 					}
