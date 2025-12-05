@@ -27,7 +27,7 @@ namespace Rockets_TinyYetBig.Patches
 				});
 				///force refresh that trigger to check for roundtrip return, this can otherwise bug out
 				__instance.space.collecting.Exit(smi => smi.master.Trigger((int)GameHashes.OnStorageChange));
-			}
+			}			
 		}
 
 	}
