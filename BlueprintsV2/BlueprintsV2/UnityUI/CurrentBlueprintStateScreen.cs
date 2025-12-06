@@ -29,9 +29,9 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 
 		GameObject ColorPreviewPrefab;
 
-		FToggle ApplyBPSettings, ForceRebuildMismatchedBuildings;
+		FToggle ApplyBPSettings, ForceRebuildMismatchedBuildings, EnableSnapshotMaterialOverrides;
 		//YesNoInfo CanRotate;
-		FButton RotateL, RotateR;
+		FButton RotateL, RotateR, ChangeMaterialOverrides;
 		//YesNoInfo CanFlipH, CanFlipV;
 		FButton FlipH, FlipV;
 
@@ -59,6 +59,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 				return;
 			}
 			CurrentBPName.SetText(bp.FriendlyName);
+			EnableSnapshotMaterialOverrides.gameObject.SetActive(BlueprintState.IsPlacingSnapshot);
 
 			if (BlueprintState.IsPlacingSnapshot)
 			{
@@ -150,6 +151,15 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			ForceRebuildMismatchedBuildings.OnChange += (on) => BlueprintState.ForceMaterialChange = on;
 			UIUtils.AddSimpleTooltipToObject(ForceRebuildMismatchedBuildings.gameObject, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsToggleForce.GetKAction()) + "]"));
 
+			EnableSnapshotMaterialOverrides = transform.Find("InfoItemsContainer/MaterialReplacement").gameObject.AddOrGet<FToggle>();
+			EnableSnapshotMaterialOverrides.SetCheckmark("Checkbox/Checkmark");
+			EnableSnapshotMaterialOverrides.SetOnFromCode(BlueprintState.MaterialReplacementInSnapshots);
+			EnableSnapshotMaterialOverrides.OnChange += (on) => BlueprintState.MaterialReplacementInSnapshots = on;
+			UIUtils.AddSimpleTooltipToObject(EnableSnapshotMaterialOverrides.gameObject, MATERIALREPLACEMENT.TOOLTIP);
+
+
+			ChangeMaterialOverrides = transform.Find("InfoItemsContainer/MaterialOverrides/Button").gameObject.AddOrGet<FButton>();
+			ChangeMaterialOverrides.OnClick += ShowMaterialReplacementList;
 
 			//CanRotate = transform.Find("InfoItemsContainer/CanRotateYesNo").gameObject.AddOrGet<YesNoInfo>();
 			RotateL = transform.Find("InfoItemsContainer/RotateActions/RotateL").gameObject.AddOrGet<FButton>();
@@ -218,6 +228,12 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			BlueprintState.TryRotateBlueprint(true);
 			BlueprintState.RefreshBlueprintVisualizers();
 		}
+
+		void ShowMaterialReplacementList()
+		{
+
+		}
+
 		void HandleNextBP()
 		{
 			if (BlueprintState.IsPlacingSnapshot)

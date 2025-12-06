@@ -1,4 +1,5 @@
 ﻿using BlueprintsV2.BlueprintData;
+using BlueprintsV2.Tools;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -40,7 +41,7 @@ namespace BlueprintsV2.UnityUI.Components
 			exportButton = transform.Find("ExportButton").gameObject.AddComponent<FButton>();
 			retakeButton = transform.Find("RetakeButton").gameObject.AddComponent<FButton>();
 
-			HoverShowButtons = [deleteButton.gameObject, renameButton?.gameObject, exportButton?.gameObject, moveButton?.gameObject,exportButton?.gameObject,retakeButton?.gameObject];
+			HoverShowButtons = [deleteButton.gameObject, renameButton?.gameObject, exportButton?.gameObject, moveButton?.gameObject, exportButton?.gameObject, retakeButton?.gameObject];
 
 			UIUtils.AddSimpleTooltipToObject(moveButton.transform, BLUEPRINTENTRY.TOOLTIP_MOVE);
 			UIUtils.AddSimpleTooltipToObject(renameButton.transform, BLUEPRINTENTRY.TOOLTIP_RENAME);
@@ -57,7 +58,7 @@ namespace BlueprintsV2.UnityUI.Components
 				moveButton.OnClick += OpenFolderChangeDialogue;
 				button.OnClick += SelectBlueprint;
 				exportButton.OnClick += ExportBlueprintToClipboard;
-				exportButton.OnClick += RetakeBlueprint;				
+				retakeButton.OnClick += RetakeBlueprint;
 			}
 			OnPointerExit(null);
 		}
@@ -73,7 +74,12 @@ namespace BlueprintsV2.UnityUI.Components
 		}
 		private void RetakeBlueprint()
 		{
-			//TODO
+			if (blueprint == null)
+				return;
+			SgtLogger.l("ReTake BP");
+			BlueprintSelectionScreen.Instance.Show(false);
+			UseBlueprintTool.Instance.DeactivateTool();
+			CreateBlueprintTool.ReTakeBlueprint(blueprint);
 		}
 		private void SelectBlueprint()
 		{

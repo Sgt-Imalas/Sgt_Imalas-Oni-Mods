@@ -36,7 +36,7 @@ namespace BlueprintsV2.BlueprintData
 		/// <summary>
 		/// The buildings contained inside the blueprint.
 		/// </summary>
-		public List<BuildingConfig> BuildingConfigurations { get; } = new List<BuildingConfig>();
+		public List<BuildingConfig> BuildingConfigurations { get; private set; } = new List<BuildingConfig>();
 
 		/// <summary>
 		/// The true cost of the blueprint given the current game's configuration and the contents of the blueprint.
@@ -54,7 +54,7 @@ namespace BlueprintsV2.BlueprintData
 		/// <summary>
 		/// The dig locations contained inside the blueprint.
 		/// </summary>
-		public List<Vector2I> DigLocations { get; } = new();
+		public List<Vector2I> DigLocations { get; private set; } = new();
 
 		/// <summary>
 		/// Create a new blueprint at the given location.
@@ -618,6 +618,14 @@ namespace BlueprintsV2.BlueprintData
 		public override int GetHashCode()
 		{
 			return FilePath.GetHashCode();
+		}
+
+		internal void UpdateFrom(Blueprint newBuildings)
+		{
+			BuildingConfigurations = [.. newBuildings.BuildingConfigurations];
+			DigLocations = [.. newBuildings.DigLocations];
+			CacheCost();
+			WriteJson();
 		}
 
 		//public bool CanAffordToPlace(out Dictionary<Tuple<Tag,Tag>, float> remaining)

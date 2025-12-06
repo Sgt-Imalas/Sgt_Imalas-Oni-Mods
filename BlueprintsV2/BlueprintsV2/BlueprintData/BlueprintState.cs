@@ -37,6 +37,7 @@ namespace BlueprintsV2.BlueprintData
 
 		public static bool AdvancedMaterialReplacement = false;
 		public static bool ForceMaterialChange = false;
+		public static bool MaterialReplacementInSnapshots = false;
 
 		public static bool ApplyBlueprintSettings = true;
 		public static bool IsPlacingSnapshot { get; set; }

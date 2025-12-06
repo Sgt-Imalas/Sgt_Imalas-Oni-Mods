@@ -1,7 +1,9 @@
 ﻿using BlueprintsV2.BlueprintData;
+using BlueprintsV2.UnityUI;
 using HarmonyLib;
 using PeterHan.PLib.Options;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
@@ -10,6 +12,13 @@ namespace BlueprintsV2.Tools
 {
 	public sealed class CreateBlueprintTool : MultiFilteredDragTool
 	{
+		public static void ReTakeBlueprint(Blueprint bp)
+		{
+			Instance.RetakeBp = bp;
+			PlayerController.Instance.ActivateTool(Instance);
+		}
+
+		private Blueprint RetakeBp = null;
 		public static CreateBlueprintTool Instance { get; private set; }
 
 		public CreateBlueprintTool()
@@ -24,6 +33,7 @@ namespace BlueprintsV2.Tools
 		bool toolActive = false;
 		public override void OnDeactivateTool(InterfaceTool newTool)
 		{
+			Instance.RetakeBp = null;
 			toolActive = false;
 			UnlockCam();
 			base.OnDeactivateTool(newTool);
@@ -114,34 +124,48 @@ namespace BlueprintsV2.Tools
 				{
 					PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE, STRINGS.UI.TOOLS.CREATE_TOOL.EMPTY, null, PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);
 				}
-
 				else
 				{
-					void OnConfirmDelegate(string blueprintName)
-					{
-						blueprint.Rename(blueprintName, true);
-						ModAssets.BlueprintFileHandling.HandleBlueprintLoading(blueprint.FilePath);
-
-						SpeedControlScreen.Instance.Unpause(false);
-
-						CameraController.Instance.DisableUserCameraControl = false;
-						PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE, STRINGS.UI.TOOLS.CREATE_TOOL.CREATED, null, PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);
-						UnlockCam();
-					}
-					void OnCancelDelegate()
-					{
-						SpeedControlScreen.Instance.Unpause(false);
-
-						PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE, STRINGS.UI.TOOLS.CREATE_TOOL.CANCELLED, null, PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);
-						UnlockCam();
-					}
-					;
-					SpeedControlScreen.Instance.Pause(false);
-					FileNameDialog blueprintNameDialog = DialogUtil.CreateTextInputDialog(STRINGS.UI.DIALOGUE.NAMEBLUEPRINT_TITLE, blueprint.Folder, null, true, OnConfirmDelegate, OnCancelDelegate);
-
-					blueprintNameDialog.Activate();
+					if(RetakeBp != null)
+						TransferNewBuildingsToRetakenBlueprint(blueprint);
+					else
+						FinalizeBlueprintCreation(blueprint);
 				}
 			}
+		}
+
+		void TransferNewBuildingsToRetakenBlueprint(Blueprint newBuildings)
+		{
+			RetakeBp.UpdateFrom(newBuildings);
+			this.DeactivateTool();
+			PlayerController.Instance.ActivateTool(UseBlueprintTool.Instance);
+		}
+
+		void FinalizeBlueprintCreation(Blueprint blueprint)
+		{
+			void OnConfirmDelegate(string blueprintName)
+			{
+				blueprint.Rename(blueprintName, true);
+				ModAssets.BlueprintFileHandling.HandleBlueprintLoading(blueprint.FilePath);
+
+				SpeedControlScreen.Instance.Unpause(false);
+
+				CameraController.Instance.DisableUserCameraControl = false;
+				PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE, STRINGS.UI.TOOLS.CREATE_TOOL.CREATED, null, PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);
+				UnlockCam();
+			}
+			void OnCancelDelegate()
+			{
+				SpeedControlScreen.Instance.Unpause(false);
+
+				PopFXManager.Instance.SpawnFX(ModAssets.BLUEPRINTS_CREATE_ICON_SPRITE, STRINGS.UI.TOOLS.CREATE_TOOL.CANCELLED, null, PlayerController.GetCursorPos(KInputManager.GetMousePos()), Config.Instance.FXTime);
+				UnlockCam();
+			}
+					
+			SpeedControlScreen.Instance.Pause(false);
+			FileNameDialog blueprintNameDialog = DialogUtil.CreateTextInputDialog(STRINGS.UI.DIALOGUE.NAMEBLUEPRINT_TITLE, blueprint.Folder, null, true, OnConfirmDelegate, OnCancelDelegate);
+
+			blueprintNameDialog.Activate();
 		}
 
 		public override void OnSyncChanged(bool synced)

@@ -91,6 +91,18 @@ namespace BlueprintsV2
 				}
 				public class INFOITEMSCONTAINER
 				{
+					public class MATERIALREPLACEMENT
+					{
+						public static LocString LABEL = "Material Overrides in Snapshots:";
+						public static LocString TOOLTIP = "Enable material overrides in snapshots.";
+					}
+					public class MATERIALOVERRIDES
+					{
+						public class BUTTON
+						{
+							public static LocString LABEL = "Change Material Replacements";
+						}
+					}
 					public class FOLDERINFO
 					{
 						public static LocString LABEL = "Folder: {0}, Position: {1}/{2}";
