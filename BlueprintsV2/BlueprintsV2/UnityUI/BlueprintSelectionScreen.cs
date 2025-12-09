@@ -65,11 +65,12 @@ namespace BlueprintsV2.UnityUI
 		public LocText ToReplaceName;
 		public GameObject NoItems;
 
-		System.Action onCloseAction;
+		System.Action<Blueprint> onCloseAction;
 
 		public bool CurrentlyActive;
 		public bool DialogueCurrentlyOpen;
 		public Blueprint TargetBlueprint;
+		public bool OpenedFromSnapshot;
 
 		private void Init()
 		{
@@ -79,8 +80,6 @@ namespace BlueprintsV2.UnityUI
 			BlueprintsList = transform.Find("FileHierarchy").gameObject;
 			BlueprintsElements = transform.Find("MaterialSwitch").gameObject;
 			ReplaceBlueprintElements = transform.Find("MaterialReplacer").gameObject;
-
-
 
 			CloseBtn = transform.Find("CloseButton").gameObject.AddOrGet<FButton>();
 			CloseBtn.OnClick += () => Show(false);
@@ -192,7 +191,7 @@ namespace BlueprintsV2.UnityUI
 			SetMaterialState();
 		}
 
-		public static void ShowWindow(System.Action OnClose)
+		public static void ShowWindow(System.Action<Blueprint> OnClose, Blueprint targetBlueprint, bool showBlueprintList)
 		{
 			if (Instance == null)
 			{
@@ -200,13 +199,15 @@ namespace BlueprintsV2.UnityUI
 				Instance = screen.AddOrGet<BlueprintSelectionScreen>();
 				Instance.Init();
 			}
-			Instance.TargetBlueprint = ModAssets.SelectedBlueprint;
+			Instance.TargetBlueprint = targetBlueprint;
 			Instance.onCloseAction = OnClose;
 			Instance.Show(true);
 			Instance.ConsumeMouseScroll = true;
 			Instance.transform.SetAsLastSibling();
 			Instance.ClearUIState();
-
+			Instance.OpenedFromSnapshot = !showBlueprintList;
+			Instance.CreateNewBlueprintFromOverrides.SetInteractable(showBlueprintList);
+			Instance.BlueprintsList.gameObject.SetActive(showBlueprintList);
 		}
 		private void ClearSearchbars()
 		{
@@ -449,7 +450,8 @@ namespace BlueprintsV2.UnityUI
 
 		void OnPlaceBlueprint()
 		{
-			ModAssets.SelectedBlueprint = TargetBlueprint;
+			if (onCloseAction != null)
+				onCloseAction(TargetBlueprint);
 			TargetBlueprint = null;
 			Show(false);
 		}
@@ -657,8 +659,6 @@ namespace BlueprintsV2.UnityUI
 			CurrentlyActive = show;
 			if (!show)
 			{
-				if (onCloseAction != null)
-					onCloseAction();
 				UnlockCam();
 			}
 		}

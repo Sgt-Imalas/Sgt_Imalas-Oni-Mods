@@ -4,6 +4,7 @@ using BlueprintsV2.Tools;
 using BlueprintsV2.UnityUI;
 using STRINGS;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -48,8 +49,18 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 				Instance.gameObject.SetActive(true);
 			}
 			Instance.gameObject.SetActive(show);
+			if (show)
+			{
+				///Reactivate with a frame delay to get the content size fitter resize to reach the outer container
+				Instance.StartCoroutine(Instance.RefreshSize());
+			}
 		}
-
+		IEnumerator RefreshSize()
+		{
+			yield return null;
+			gameObject.SetActive(false);
+			gameObject.SetActive(true);
+		}
 
 		public void SetSelectedBlueprint(Blueprint bp)
 		{
@@ -60,12 +71,14 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			}
 			CurrentBPName.SetText(bp.FriendlyName);
 			EnableSnapshotMaterialOverrides.gameObject.SetActive(BlueprintState.IsPlacingSnapshot);
+			ChangeMaterialOverrides.transform.parent.gameObject.SetActive(BlueprintState.IsPlacingSnapshot);
 
 			if (BlueprintState.IsPlacingSnapshot)
 			{
 				FolderInfoGO.SetActive(true);
 				string folderInfo = string.Format(FOLDERINFO.LABEL_SNAPSHOT, SnapshotTool.SnapshotIndex + 1, SnapshotTool.SnapshotCount);
 				FolderInfo.SetText(folderInfo);
+				ChangeMaterialOverrides.SetInteractable(BlueprintState.MaterialReplacementInSnapshots);
 			}
 			else
 			{
@@ -126,6 +139,8 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 		}
 		void Init()
 		{
+			UIUtils.ListAllChildrenPath(this.transform);
+
 			CurrentBPName = transform.Find("InfoItemsContainer/CurrentBP/Label").gameObject.GetComponent<LocText>();
 			FolderInfo = transform.Find("InfoItemsContainer/FolderInfo/Label").gameObject.GetComponent<LocText>();
 			FolderInfoGO = transform.Find("InfoItemsContainer/FolderInfo").gameObject;
@@ -154,7 +169,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			EnableSnapshotMaterialOverrides = transform.Find("InfoItemsContainer/MaterialReplacement").gameObject.AddOrGet<FToggle>();
 			EnableSnapshotMaterialOverrides.SetCheckmark("Checkbox/Checkmark");
 			EnableSnapshotMaterialOverrides.SetOnFromCode(BlueprintState.MaterialReplacementInSnapshots);
-			EnableSnapshotMaterialOverrides.OnChange += (on) => BlueprintState.MaterialReplacementInSnapshots = on;
+			EnableSnapshotMaterialOverrides.OnChange += OnSnapshotOverrideChanged; 
 			UIUtils.AddSimpleTooltipToObject(EnableSnapshotMaterialOverrides.gameObject, MATERIALREPLACEMENT.TOOLTIP);
 
 
@@ -184,6 +199,13 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			ColorPreviewPrefab.SetActive(false);
 
 			BuildColorLegend();
+		}
+
+		void OnSnapshotOverrideChanged(bool on)
+		{
+			BlueprintState.MaterialReplacementInSnapshots = on;
+			ChangeMaterialOverrides.SetInteractable(on);
+			SnapshotTool.CurrentSnapshot?.CacheCost();
 		}
 
 		void BuildColorLegend()
@@ -231,7 +253,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 
 		void ShowMaterialReplacementList()
 		{
-
+			BlueprintSelectionScreen.ShowWindow((_) => SnapshotTool.CurrentSnapshot?.CacheCost(), SnapshotTool.CurrentSnapshot,false);
 		}
 
 		void HandleNextBP()

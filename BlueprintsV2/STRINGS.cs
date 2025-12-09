@@ -100,7 +100,7 @@ namespace BlueprintsV2
 					{
 						public class BUTTON
 						{
-							public static LocString LABEL = "Change Material Replacements";
+							public static LocString LABEL = "Change Material Overrides";
 						}
 					}
 					public class FOLDERINFO
