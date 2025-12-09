@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Application: Oxygen Not IncludedPOT Version: 2.0\n"
-"X-Generator: Poedit 3.7\n"
+"X-Generator: Poedit 3.8\n"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.ADDEDBYSGT_IMALAS
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.ADDEDBYSGT_IMALAS"
@@ -293,6 +293,36 @@ msgstr ""
 "Am <style=\"KKeyword\">Logistik-Förderschienenausgang</style> dieses Gebäudes ist keine <link=\"LOGISTICRAIL\">Logistik-Förderschiene</"
 "link> angeschlossen"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.THERMALBATTERY_STORAGEFULL.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.THERMALBATTERY_STORAGEFULL.NAME"
+msgid "Thermal capacitor overloaded!"
+msgstr "Thermakbatterie überladen!"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.THERMALBATTERY_STORAGEFULL.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.THERMALBATTERY_STORAGEFULL.TOOLTIP"
+msgid ""
+"Insufficient cooling has overloaded the buildings internal heat capacitor.\n"
+"It needs to be fully cooled down before the building can be operational again."
+msgstr ""
+"Unzureichende Kühlung hat zur Überladung der internen Thermalbatterie geführt.\n"
+"Sie muss nun vollständig heruntergekühlt werden bevor das Gebäude wieder einsatzbereit ist."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.THERMALBATTERY_STORAGELEVEL.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.THERMALBATTERY_STORAGELEVEL.NAME"
+msgid "Thermal capacitor level: {0}"
+msgstr "Thermalbatterie Füllstand: {0}"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.THERMALBATTERY_STORAGELEVEL.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.THERMALBATTERY_STORAGELEVEL.TOOLTIP"
+msgid ""
+"This buildings internal heat capacitor stores heat energy to transfer it to the piped in coolant.\n"
+"Capillary structures will prevent coolant from boiling at the cost of reduced heat transfer.\n"
+"If the capacitor fills up completely, the building will be rendered inoperational until its fully cooled down again."
+msgstr ""
+"Die gebäudeinterne Thermalbatterie speichert in Rezepten anfallende Hitze, um sie in die hineingepumpte Kühlflüssigkeit zu übertragen.\n"
+"Kapillarstrukturen verhindern dabei, dass die Kühlflüssigkeit dabei verdampft.\n"
+"Wird die Batterie überladen, geht das Gebäude temporär außer Betrieb, bis alle Wärme abgetragen wurde."
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.FACADES_STANDALONE.EXTERIORWALL.BRICKWALL.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.FACADES_STANDALONE.EXTERIORWALL.BRICKWALL.DESC"
 msgid "A pretty dry wall made with fine bricks."
@@ -482,6 +512,26 @@ msgstr ""
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_MOSAICTILE.NAME"
 msgid "<link=\"AIOMOSAICTILE\">Mosaic Tile</link>"
 msgstr "<link=\"AIOMOSAICTILE\">Mosaik-Ziegel</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_WOODENDOOR.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_WOODENDOOR.DESC"
+msgid "Be careful with splinters!"
+msgstr "Achtung mit den Splittern!"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_WOODENDOOR.EFFECT
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_WOODENDOOR.EFFECT"
+msgid ""
+"A pretty wooden door that encloses areas without blocking Liquid or Gas flow. Sets Duplicant Access Permissions for area restriction."
+msgstr ""
+"Eine hübsche Tür aus Holz, welche ein Gebiet abgrenzt, ohne <link=\"ELEMENTSGAS\">Gas</link> oder <link=\"ELEMENTSLIQUID\">Flüssigkeiten</"
+"link> abzuhalten.\n"
+"\n"
+"Wilde <link=\"CREATURES\">Kreaturen</link> können die Tür nicht passieren."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_WOODENDOOR.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_WOODENDOOR.NAME"
+msgid "<link=\"AIOWOODENDOOR\">Wooden Door</link>"
+msgstr "<link=\"AIOWOODENDOOR\">Hölzerne Tür</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.ALGAEVAT.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.ALGAEVAT.DESC"
@@ -776,6 +826,21 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AD
 msgid "<link=\"CHEMICALADVANCEDMETALREFINERY\">Advanced Metal Refinery</link>"
 msgstr "<link=\"CHEMICALADVANCEDMETALREFINERY\">Verbesserte Metallraffinerie</link>"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AIO_CHLORINEPUMP.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AIO_CHLORINEPUMP.DESC"
+msgid "A fancy pump capable to detect Chlorine Gas and pump it."
+msgstr "Eine Pumpe, die Chlorgas erkennen und pumpen kann."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AIO_CHLORINEPUMP.EFFECT
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AIO_CHLORINEPUMP.EFFECT"
+msgid "Automatically detects trace of <link=\"CHLORINEGAS\">Chlorine Gas</link> and extract it out of the surroudings."
+msgstr "Erkennt automatisch Spuren von <link=\"CHLORINEGAS\">Chlorgas</link> und filtert diese aus der Umgebung heraus."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AIO_CHLORINEPUMP.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AIO_CHLORINEPUMP.NAME"
+msgid "<link=\"CHEMICALAIOCHLORINEPUMP\">Chlorine Gas Filter</link>"
+msgstr "<link=\"CHEMICALAIOCHLORINEPUMP\">Chlorgas Filter</link>"
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AMMONIABREAKER.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AMMONIABREAKER.DESC"
 msgid "An advanced catalytic cracking furnace which the ammonia synthesis reaction is reversed at elevated temperatures."
@@ -863,9 +928,6 @@ msgid "<link=\"CHEMICALCARBONDIOXIDECOMPRESSOR\">Carbon Dioxide Compressor</link
 msgstr "<link=\"CHEMICALCARBONDIOXIDECOMPRESSOR\">Kohlendioxid-Kompressor</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CO2PUMP.DESC
-#, fuzzy
-#| msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CO2PUMP.DESC"
-#| msgid "A fancy pump capable to detects Carbon Dioxide and pump it."
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_CO2PUMP.DESC"
 msgid "A fancy pump capable to detect Carbon Dioxide and pump it."
 msgstr "Eine Pumpe, die Kohlendioxid erkennen und pumpen kann."
@@ -1114,8 +1176,8 @@ msgstr "<link=\"CHEMICALGASBOILER\">Gasbefeuerter Dampfkessel</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GLASSFOUNDRY.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GLASSFOUNDRY.DESC"
-msgid "A plasma arc furnace uses low-temperature plasma flow created by an electric arc heater (plasmatron)."
-msgstr "Ein Plasma-Lichtbogenofen nutzt einen durch einen Lichtbogenheizkörper (Plasmatron) erzeugten Niedertemperatur-Plasmastrahl."
+msgid "Glass can be used to construct window tiles."
+msgstr ""
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GLASSFOUNDRY.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GLASSFOUNDRY.EFFECT"
@@ -1276,13 +1338,19 @@ msgstr ""
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.DESC"
 msgid ""
 "A specialized furnace that heats material by means of an electric arc. Its delicate heat control structure allows mixture of metal "
-"alloys, as well separating metals from an homogeneous mixture of scraps. Since the furnace is air-cooled, it releases a lot of heat into "
-"its surroundings."
+"alloys, as well separating metals from an homogeneous mixture of scraps. Since the furnace electronics are air-cooled, it releases a lot "
+"of heat into its surroundings."
 msgstr ""
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.EFFECT"
-msgid "Special works with <link=\"REFINEDMETAL\">Refined Metals</link> and in the manufacture of metal alloys."
+msgid ""
+"Specialy designed to work with <link=\"REFINEDMETAL\">Refined Metals</link> and conduct the manufacturing of metal alloys.\n"
+"\n"
+"The building has an insulated internal thermal capacitor that stores the heat produced in recipes.\n"
+"Heat from the capacitor is dispersed by heating the passing coolant until it is near its boiling point.\n"
+"\n"
+"If the maximum heat capacity is exceeded, it will be rendered nonfunctional until all heat is dispersed again."
 msgstr ""
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.NAME
@@ -1330,8 +1398,8 @@ msgstr ""
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SOURGASSWEETENER.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SOURGASSWEETENER.EFFECT"
 msgid ""
-"Uses <link=\"REFINEDCARBON\">Activated Carbon</link> for the adsorbtion the sulphuric compounds from <link=\"SOURGAS\">Sour Gas</link>, "
-"yielding <link=\"METHANE\">Natural Gas</link> and elemental <link=\"SULPHUR\">Sulphur</link>.\n"
+"Uses <link=\"REFINEDCARBON\">\"Activated Carbon\"</link> for the adsorbtion the sulphuric compounds from <link=\"SOURGAS\">Sour Gas</"
+"link>, yielding <link=\"METHANE\">Natural Gas</link> and elemental <link=\"SULPHUR\">Sulphur</link>.\n"
 "Activated carbon requires periodic replacing."
 msgstr ""
 
@@ -1385,8 +1453,8 @@ msgstr ""
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SYNTHESIZERNITRIC.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SYNTHESIZERNITRIC.EFFECT"
 msgid ""
-"Produces industrial grade <link=\"LIQUIDNITRIC\">Nitric Acid</link> using provided <link=\"LIQUIDSULFURIC\">Sulfuric Acid</link> and "
-"<link=\"AMMONIAGAS\">Ammonia</link>."
+"Produces industrial grade <link=\"LIQUIDNITRIC\">Nitric Acid</link> via the selected chemical reaction, using either "
+"<link=\"LIQUIDSULFURIC\">Sulfuric Acid</link> or <link=\"AMMONIAGAS\">Ammonia</link>."
 msgstr ""
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SYNTHESIZERNITRIC.NAME
@@ -3122,7 +3190,8 @@ msgstr ""
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STRUCTURETILE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STRUCTURETILE.EFFECT"
 msgid ""
-"This steel structure is commonly used as a simple, yet strong tile for buildings. The frame structure will not hold any gas or liquid."
+"This steel structure is commonly used as a simple, yet strong tile for buildings. The frame structure will not hold any gas or liquid.\n"
+"High wattage wires and heavy duty rails are not obstructed."
 msgstr ""
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STRUCTURETILE.NAME
@@ -3205,22 +3274,6 @@ msgstr ""
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENCORNERARCH.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENCORNERARCH.NAME"
 msgid "Wooden Corner Arch"
-msgstr ""
-
-#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_WOODENDOOR.DESC
-msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_WOODENDOOR.DESC"
-msgid "Be careful with splinters!"
-msgstr ""
-
-#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_WOODENDOOR.EFFECT
-msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_WOODENDOOR.EFFECT"
-msgid ""
-"A pretty wooden door that encloses areas without blocking Liquid or Gas flow. Sets Duplicant Access Permissions for area restriction."
-msgstr ""
-
-#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_WOODENDOOR.NAME
-msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_WOODENDOOR.NAME"
-msgid "<link=\"AIO_WOODENDOOR\">Wooden Door</link>"
 msgstr ""
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENGASTILE.DESC
@@ -3337,7 +3390,7 @@ msgstr ""
 #. RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.SOURWATERGEYSER.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.SOURWATERGEYSER.NAME"
 msgid "<link=\"GEYSERGENERICSOURWATERGEYSER\">Sour Water Geyser</link>"
-msgstr ""
+msgstr "<link=\"GEYSERGENERICSOURWATERGEYSER\">Saures Water Geysir</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.DUPLICANTS.STATUSITEMS.ACIDBURNS.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.DUPLICANTS.STATUSITEMS.ACIDBURNS.NAME"
@@ -3358,6 +3411,109 @@ msgstr "Duplikanten wurden Säuren ausgesetzt."
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.DUPLICANTS.STATUSITEMS.ACIDBURNS.TOOLTIP"
 msgid "This duplicant has been injured from their recent exposure to corrosive acids."
 msgstr "Dieser Duplikant wurde kürzlich durch Kontakt mit ätzenden Säuren verletzt."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_CHROMITEORE_SOLID.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_CHROMITEORE_SOLID.DESC"
+msgid ""
+"Chromite is a crystalline mineral composed primarily of <link=\"IRON\">Iron</link> and <link=\"AIOCHROMIUMSOLID\">Chromium</link> "
+"compounds."
+msgstr ""
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_CHROMITEORE_SOLID.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_CHROMITEORE_SOLID.NAME"
+msgid "<link=\"AIOCHROMITEORESOLID\">Chromite</link>"
+msgstr "<link=\"AIOCHROMITEORESOLID\">Chromit</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_CHROMIUM_GAS.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_CHROMIUM_GAS.DESC"
+msgid "(Cr) Chromium is a steely-grey, lustrous, hard and brittle transition metal in its gaseous state."
+msgstr "(Cr) Chromium is a steely-grey, lustrous, hard and brittle transition metal in its gaseous state."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_CHROMIUM_GAS.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_CHROMIUM_GAS.NAME"
+msgid "<link=\"AIOCHROMIUMGAS\">Chromium Gas</link>"
+msgstr "<link=\"AIOCHROMIUMGAS\">Chromgas</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_CHROMIUM_LIQUID.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_CHROMIUM_LIQUID.DESC"
+msgid "(Cr) Chromium is a steely-grey, lustrous, hard and brittle transition metal in its molten state."
+msgstr "(Cr) Chromium is a steely-grey, lustrous, hard and brittle transition metal in its molten state."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_CHROMIUM_LIQUID.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_CHROMIUM_LIQUID.NAME"
+msgid "<link=\"AIOCHROMIUMLIQUID\">Molten Chromium</link>"
+msgstr "<link=\"AIOCHROMIUMLIQUID\">Geschmolzenes Chrom</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_CHROMIUM_SOLID.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_CHROMIUM_SOLID.DESC"
+msgid "(Cr) Chromium is a steely-grey, lustrous, hard and brittle transition metal."
+msgstr ""
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_CHROMIUM_SOLID.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_CHROMIUM_SOLID.NAME"
+msgid "<link=\"AIOCHROMIUMSOLID\">Chromium</link>"
+msgstr "<link=\"AIOCHROMIUMSOLID\">Chrom</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_FERROCHROME_LIQUID.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_FERROCHROME_LIQUID.DESC"
+msgid ""
+"Ferrochrome is an alloy of <link=\"IRON\">Iron</link> and <link=\"AIOCHROMIUMSOLID\">Chromium</link>, used in the production of stainless "
+"steel and other alloys, currently in its molten state."
+msgstr ""
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_FERROCHROME_LIQUID.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_FERROCHROME_LIQUID.NAME"
+msgid "<link=\"AIOFERROCHROMELIQUID\">Molten Ferrochrome</link>"
+msgstr "<link=\"AIOFERROCHROMELIQUID\">Geschmolzenes Ferrochrom</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_FERROCHROME_SOLID.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_FERROCHROME_SOLID.DESC"
+msgid ""
+"Ferrochrome is an alloy of <link=\"IRON\">Iron</link> and <link=\"AIOCHROMIUMSOLID\">Chromium</link>, used in the production of stainless "
+"steel and other alloys."
+msgstr ""
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_FERROCHROME_SOLID.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_FERROCHROME_SOLID.NAME"
+msgid "<link=\"AIOFERROCHROMESOLID\">Ferrochrome</link>"
+msgstr "<link=\"AIOFERROCHROMESOLID\">Ferrochrom</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_INVAR_SOLID.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_INVAR_SOLID.DESC"
+msgid ""
+"Invar is a nickel-iron alloy, composed of 35% <link=\"NICKEL\">Nickel</link> and 65% <link=\"IRON\">Iron</link> which is notable for its "
+"uniquely low coefficient of thermal expansion."
+msgstr ""
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_INVAR_SOLID.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_INVAR_SOLID.NAME"
+msgid "<link=\"AIOINVARSOLID\">Invar</link>"
+msgstr "<link=\"AIOINVARSOLID\">Invar</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_PERMENDUR_SOLID.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_PERMENDUR_SOLID.DESC"
+msgid ""
+"Permendur is a cobalt-iron soft ferromagnetic alloy with equal parts of <link=\"COBALT\">Cobalt</link> and <link=\"IRON\">Iron</link> "
+"which is notable for its high magnetic saturation level.\n"
+"Heat treatment gives this material a high structural stability."
+msgstr ""
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_PERMENDUR_SOLID.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_PERMENDUR_SOLID.NAME"
+msgid "<link=\"AIOPERMENDURSOLID\">Permendur</link>"
+msgstr "<link=\"CEMENTMIXER\">Permendur</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_STAINLESSSTEEL_SOLID.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_STAINLESSSTEEL_SOLID.DESC"
+msgid ""
+"Stainless Steel is an <link=\"IRON\">Iron</link> based alloy that contains <link=\"AIOCHROMIUMSOLID\">Chromium</link>, making it highly "
+"resistant to rust and corrosion."
+msgstr ""
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_STAINLESSSTEEL_SOLID.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_STAINLESSSTEEL_SOLID.NAME"
+msgid "<link=\"AIOSTAINLESSSTEELSOLID\">Stainless Steel</link>"
+msgstr "<link=\"AIOSTAINLESSSTEELSOLID\">Edelstahl</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AMMONIAGAS.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AMMONIAGAS.DESC"
@@ -3383,8 +3539,7 @@ msgstr "<link=\"AMMONIUMSALT\">Nitratknollen</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AMMONIUMWATER.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AMMONIUMWATER.DESC"
-msgid ""
-"(NH<sub>4</sub>OH) Ammonium hydroxide is a solution of <link=\"AMMONIAGAS\">Ammonia</link> and <link=\"SALTWATER\">Salt Water</link>."
+msgid "(NH<sub>4</sub>OH) Ammonium hydroxide is a solution of <link=\"AMMONIAGAS\">Ammonia</link> and <link=\"WATER\">Water</link>."
 msgstr ""
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AMMONIUMWATER.NAME
@@ -3890,6 +4045,66 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.ZINCGAS.NAME"
 msgid "<link=\"ZINCGAS\">Zinc Gas</link>"
 msgstr "<link=\"ZINCGAS\">Zinkgas</link>"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_BASIC.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_BASIC.DESC"
+msgid "A set of drill bits made for simple mining operations."
+msgstr "Bohrköpfe für einfache Berbauarbeiten."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_BASIC.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_BASIC.NAME"
+msgid "<link=\"AIOSIMPLEDRILLBITBASIC\">Simple Basic Drillbits</link>"
+msgstr "<link=\"AIOSIMPLEDRILLBITBASIC\">Einfacher Standard-Bohrkopf</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_BASIC.RECIPE_DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_BASIC.RECIPE_DESC"
+msgid "Instruct the computer to produce Simple Basic Drillbits."
+msgstr "Weise den Computer an, einfache Standard-Bohrköpfe herzustellen."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_BASIC.RECIPE_DESC_CRAFTINGTABLE
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_BASIC.RECIPE_DESC_CRAFTINGTABLE"
+msgid "Instruct a duplicant to produce Simple Basic Drillbits."
+msgstr "Weise den Computer an, einfache Standard-Bohrköpfe herzustellen."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_HARDENED.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_HARDENED.DESC"
+msgid "A set of drill bits made for simple mining operations."
+msgstr "Bohrköpfe für einfache Berbauarbeiten."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_HARDENED.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_HARDENED.NAME"
+msgid "<link=\"AIOSIMPLEDRILLBITHARDENED\">Simple Hardened Drillbits</link>"
+msgstr "<link=\"AIOSIMPLEDRILLBITHARDENED\">Einfacher gehärteter Bohrkopf</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_HARDENED.RECIPE_DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_HARDENED.RECIPE_DESC"
+msgid "Instruct the computer to produce Simple Hardened Drillbits."
+msgstr "Weise den Computer an, einfache gehärtete Bohrköpfe herzustellen."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_HARDENED.RECIPE_DESC_CRAFTINGTABLE
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_HARDENED.RECIPE_DESC_CRAFTINGTABLE"
+msgid "Instruct a duplicant to produce Simple Hardened Drillbits."
+msgstr "Weise einen Duplikanten an, einfache gehärtete Bohrköpfe herzustellen."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_IRON.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_IRON.DESC"
+msgid "A set of drill bits made for simple mining operations."
+msgstr "Bohrköpfe für einfache Berbauarbeiten."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_IRON.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_IRON.NAME"
+msgid "<link=\"AIOSIMPLEDRILLBITIRON\">Simple Iron Drillbits</link>"
+msgstr "<link=\"AIOSIMPLEDRILLBITIRON\">Einfacher Eisen-Bohrkopf</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_IRON.RECIPE_DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_IRON.RECIPE_DESC"
+msgid "Instruct the computer to produce Simple Iron Drillbits."
+msgstr "Weise den Computer an, einfache Eisen-Bohrköpfe herzustellen."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_IRON.RECIPE_DESC_CRAFTINGTABLE
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_IRON.RECIPE_DESC_CRAFTINGTABLE"
+msgid "Instruct a duplicant to produce Simple Iron Drillbits."
+msgstr "Weise einen Duplikanten an, einfache Eisen-Bohrköpfe herzustellen."
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_BASIC_ITEM.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_BASIC_ITEM.DESC"
 msgid ""
@@ -3902,26 +4117,14 @@ msgstr ""
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_BASIC_ITEM.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_BASIC_ITEM.NAME"
 msgid "<link=\"MININGDRILLBITSBASICITEM\">Basic Drillbits</link>"
-msgstr "<link=\"MININGDRILLBITSBASICITEM\">Einfacher Bohrkopf</link>"
+msgstr "<link=\"MININGDRILLBITSBASICITEM\">Standard-Bohrkopf</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_BASIC_ITEM.RECIPE_DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_BASIC_ITEM.RECIPE_DESC"
-msgid ""
-"Instruct the computer to produce Basic Drillbits.\n"
-"This instruction is meant for Copper variation."
-msgstr ""
-"Weise den Computer an, einfache Bohrköpfe herzustellen.\n"
-"Dieses Rezept gilt für die Variante aus Kupfer."
+msgid "Instruct the computer to produce Basic Drillbits."
+msgstr "Weise den Computer an, Standard-Bohrköpfe herzustellen."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_GUIDANCEDEVICE_ITEM.DESC
-#, fuzzy
-#| msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_GUIDANCEDEVICE_ITEM.DESC"
-#| msgid ""
-#| "A sophisticated electronic module that aids the Mining Drillhead to navigate while operating.\n"
-#| "In general, the guidance system computes the instructions for the Drillhead control system, which comprises its actuators, increasing "
-#| "the performance and detecting element resources from its surroundings.\n"
-#| "\n"
-#| "It can be programmed by a skilled Duplicant or by the CNC machine."
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_GUIDANCEDEVICE_ITEM.DESC"
 msgid ""
 "A sophisticated electronic module that aids the Mining Drillhead to navigate while operating.\n"
@@ -3937,14 +4140,6 @@ msgstr ""
 "Es kann von einem qualifizierten Duplikanten oder von der CNC-Maschine programmiert werden."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_GUIDANCEDEVICE_ITEM.DESC_PROGRAMMED
-#, fuzzy
-#| msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_GUIDANCEDEVICE_ITEM.DESC_PROGRAMMED"
-#| msgid ""
-#| "A sophisticated electronic module that aids the Mining Drillhead to navigate while operating.\n"
-#| "In general, the guidance system computes the instructions for the Drillhead control system, which comprises its actuators, increasing "
-#| "the performance and detecting element resources from its surroundings.\n"
-#| "\n"
-#| "This guidance device is programmed to target the {0}."
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_GUIDANCEDEVICE_ITEM.DESC_PROGRAMMED"
 msgid ""
 "A sophisticated electronic module that aids the Mining Drillhead to navigate while operating.\n"
@@ -3977,7 +4172,7 @@ msgstr "Weisen Sie den Computer an, eine Leitvorrichtung zu produzieren."
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_GUIDANCEDEVICE_ITEM.RECIPE_DESC_PROGRAM
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_GUIDANCEDEVICE_ITEM.RECIPE_DESC_PROGRAM"
 msgid "Instruct the computer to load the target program for the {0} into the Guidance Device"
-msgstr "Weisen Sie den Computer an, das Zielprogramm für {0} in die Leitvorrichtung zu laden."
+msgstr "Weisen den Computer an, das Zielprogramm für {0} in die Leitvorrichtung zu laden."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_STEEL_ITEM.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_STEEL_ITEM.DESC"
@@ -3990,13 +4185,13 @@ msgstr ""
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_STEEL_ITEM.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_STEEL_ITEM.NAME"
-msgid "<link=\"MININGDRILLBITSSTEELITEM\">Steel Drillbits</link>"
-msgstr "<link=\"MININGDRILLBITSSTEELITEM\">Stahl-Bohrkopf</link>"
+msgid "<link=\"MININGDRILLBITSSTEELITEM\">Hardened Drillbits</link>"
+msgstr "<link=\"MININGDRILLBITSSTEELITEM\">Gehärteter Bohrkopf</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_STEEL_ITEM.RECIPE_DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_STEEL_ITEM.RECIPE_DESC"
-msgid "Instruct the computer to produce Steel Drillbits."
-msgstr "Weise den Computer an, Stahl-Bohrköpfe herzustellen."
+msgid "Instruct the computer to produce Hardened Drillbits."
+msgstr "Weise den Computer an, gehärtete Bohrköpfe herzustellen."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_TUNGSTEN_ITEM.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_TUNGSTEN_ITEM.DESC"
@@ -4018,9 +4213,6 @@ msgid "Instruct the computer to produce Tungsten Drillbits."
 msgstr "Weise den Computer an, Wolfram-Bohrköpfe herzustellen."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INGREDIENTS.RAYONFIBER.DESC
-#, fuzzy
-#| msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INGREDIENTS.RAYONFIBER.DESC"
-#| msgid "Rayon is a synthetic fiber, chemically made from regenerated cellulose extracted from Lumber."
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INGREDIENTS.RAYONFIBER.DESC"
 msgid "Rayon is a synthetic fiber, chemically made from plant based regenerated cellulose."
 msgstr "Viskose ist eine synthetische Faser, die chemisch aus regenerierter Zellulose auf Pflanzenbasis hergestellt wird."
@@ -4039,6 +4231,16 @@ msgstr "<link=\"RAYONFIBER\">Viscosefasern</link>"
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INGREDIENTS.RAYONFIBER.RECIPE_DESC"
 msgid "Produces <link=\"RAYONFIBER\">Rayon Fibers</link> from the pulp of {0}."
 msgstr "Produziere <link=\"RAYONFIBER\">Viskosefasern</link> aus {0}-Faserbrei."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.AIO_BIOFUEL
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.AIO_BIOFUEL"
+msgid "<link=\"AIOBIOFUEL\">Renewable Biofuel</link>"
+msgstr "<link=\"AIOBIOFUEL\">Erneuerbarer Bio-Kraftstoff</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.AIO_BIOFUEL_DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.AIO_BIOFUEL_DESC"
+msgid "Combustible liquid fuels made frome regenerative materials."
+msgstr "Kraftstoffe, gewonnen aus erneuerbaren Rohmaterialien."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.AIO_CARRIERGAS
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.AIO_CARRIERGAS"
@@ -4072,7 +4274,7 @@ msgstr "Radioaktives Material"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.AIO_RADEMITTERINPUTMATERIAL_DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.AIO_RADEMITTERINPUTMATERIAL_DESC"
 msgid "Radioactive Material that can be used to fuel the Rad Projector."
-msgstr ""
+msgstr "Radioaktives Material, welches zum Betreiben des Rad-Projektors verwendet werden kann."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.CHEMICALPROCESSING_RANDOMSAND
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.CHEMICALPROCESSING_RANDOMSAND"
@@ -4091,8 +4293,7 @@ msgstr "<link=\"MINERALPROCESSINGDRILLBIT\">Bohrkopf</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.MINERALPROCESSING_DRILLBIT_DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.MINERALPROCESSING_DRILLBIT_DESC"
-msgid ""
-"Self-Propelled Drillbits that are used by the Asteroid Drill Rig to extract resources from otherwise unreachable sectors of the asteroid."
+msgid "Drillbits that are used by the Asteroid Drills to extract resources from otherwise unreachable sectors of the asteroid."
 msgstr ""
 "Selbstangetriebene Bohrköpfe, die von der Asteroiden-Bohrplattform verwendet werden, um Ressourcen aus sonst unerreichbaren Bereichen des "
 "Asteroiden zu gewinnen."
@@ -4139,6 +4340,26 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.HPA_RAILS_RESE
 msgid "<link=\"HPARAILSRESEARCH\">High-Capacity Solid Transport</link>"
 msgstr "<link=\"HPARAILSRESEARCH\">Schwerlast-Feststofftransport</link>"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.MINING_MK2DRILLTECH.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.MINING_MK2DRILLTECH.DESC"
+msgid "Unlocks the ability to drill into previously unreachable layers of the asteroid for resource extraction."
+msgstr "Ermöglicht das Bohren in zuvor unerreichbare Schichten des Asteroiden zur Gewinnung von Ressourcen."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.MINING_MK2DRILLTECH.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.MINING_MK2DRILLTECH.NAME"
+msgid "<link=\"MININGMK2DRILLTECH\">Deep Core Mining</link>"
+msgstr "<link=\"MININGMK2DRILLTECH\">Tiefkernbohrungen</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.MINING_SIMPLEDRILLBIT_CRAFTING.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.MINING_SIMPLEDRILLBIT_CRAFTING.DESC"
+msgid "Enables fabrication of <style=\"KKeyword\">Simple Drillbits</style> at the <link=\"CRAFTINGTABLE\">Crafting Station</link>"
+msgstr "Erlaubt die Herstellung von <style=\"KKeyword\">Einfachen Bohrkopf</style> an der <link=\"CRAFTINGTABLE\">Handwerks­station</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.MINING_SIMPLEDRILLBIT_CRAFTING.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.MINING_SIMPLEDRILLBIT_CRAFTING.NAME"
+msgid "<style=\"KKeyword\">Simple Drillbit</style> Pattern"
+msgstr "Rezept für <style=\"KKeyword\">Einfache Bohrköpfe</style>"
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_ANAEROBICDIGESTERBUFF.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_ANAEROBICDIGESTERBUFF.NAME"
 msgid "Anaerobic Digester Natgas Multiplier"
@@ -4152,7 +4373,7 @@ msgstr "Multiplizieren Sie die Erdgasproduktmengen aus dem anaeroben Fermenter m
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_OILPRESSREBALANCE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_OILPRESSREBALANCE.NAME"
 msgid "Expeller Press Rebalance"
-msgstr ""
+msgstr "Pflanzenölpresse-Balanceänderung"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_OILPRESSREBALANCE.TOOLTIP
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_OILPRESSREBALANCE.TOOLTIP"
@@ -4162,6 +4383,10 @@ msgid ""
 "the game.\n"
 "Turn off to get the old yields back"
 msgstr ""
+"Balanciert den Ertrag der Expeller-Presse-Rezepte neu aus, um größere Mengen an Öl und Biomasse zu erzielen.\n"
+"Dadurch erhält das Gebäude einen besseren Zweck, da seine aktuellen Erträge im Vergleich zur Seekamm-Pflanze, dessen Balance vom Spiel "
+"definiert wird, recht gering sind.\n"
+"Deaktiviere diese Option, um die alten Erträge wiederherzustellen."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BUILDINGEDITOR.NAME"
@@ -4183,6 +4408,43 @@ msgstr ""
 "einiger Gebäude zu ändern.\n"
 "Alle hier vorgenommenen Änderungen erfordern einen Neustart!"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARCFUDGE.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARCFUDGE.NAME"
+msgid "Arc furnace  Thermal Fudge"
+msgstr ""
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARCFUDGE.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARCFUDGE.TOOLTIP"
+msgid ""
+"The selective arc furnace only puts a percentage of its recipes heat into its internal heat capacitor.\n"
+"The default value for the mod is 90%"
+msgstr ""
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_REFINERYFUDGE.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_REFINERYFUDGE.NAME"
+msgid "Metal Refinery Thermal Fudge"
+msgstr ""
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_REFINERYFUDGE.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_REFINERYFUDGE.TOOLTIP"
+msgid ""
+"The Metal refinery only puts a percentage of its recipes heat into the coolant.\n"
+"The vanilla value for this is 80%.\n"
+"The default value for the mod is 60%"
+msgstr ""
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_REFINERYFUDGEADV.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_REFINERYFUDGEADV.NAME"
+msgid "Advanced Refinery Thermal Fudge"
+msgstr ""
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_REFINERYFUDGEADV.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_REFINERYFUDGEADV.TOOLTIP"
+msgid ""
+"The Advanced Metal refinery only puts a percentage of its recipes heat into the coolant.\n"
+"The default value for the mod is 90%"
+msgstr ""
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CUSTOMRES_MOVETOCONDUITCATEGORY.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CUSTOMRES_MOVETOCONDUITCATEGORY.NAME"
 msgid "Move all Reservoirs to their piping category"
@@ -4195,6 +4457,9 @@ msgid ""
 "Liquid Reservoirs are found under \"Plumbing\"\n"
 "Gas Reservoirs are found under\"Ventilation\""
 msgstr ""
+"Verschiebt alle Gas- und Flüssigkeitstanks des Mods und des Basisspiels in die jeweilige Rohr-Kategorie des Baumenüs:\n"
+"Flüssigkeitstanks sind unter \"Sanitär\",\n"
+"Gastanks sind unter \"Lüftung\""
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME"
@@ -4224,7 +4489,7 @@ msgstr ""
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.GEYSERS.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.GEYSERS.NAME"
 msgid "Mod Geysers spawn from worldgen"
-msgstr ""
+msgstr "Mod-Geysire werde bei Weltgenerierung erzeugt"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.GEYSERS.TOOLTIP
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.GEYSERS.TOOLTIP"
@@ -4237,6 +4502,15 @@ msgid ""
 "Revealing a random geyser (those spawned on classic asteroids and by the geoactive trait) in an already existing world WILL be affected "
 "by this, turn off this option if you don't want existing saves to be affected."
 msgstr ""
+"Neue Geysire werden der Liste der zufällig generierten Geysire hinzugefügt.\n"
+"Dies wirkt sich auf die Weltgenerierung aus, wenn diese Option aktiviert ist (es werden andere zufällige Geysire als in der Vanilla-"
+"Version ausgewählt).\n"
+"Wenn diese Option deaktiviert ist, werden diese Geysire nicht mehr auf natürliche Weise bei der Weltgenerierung angezeigt, es sei denn, "
+"ein anderer Mod zur Geysirmanipulation wird verwendet (z.B. Customize Geyser oder CGM).\n"
+"\n"
+"Das Aufdecken eines zufälligen Geysirs (der auf klassischen Asteroiden und durch die geoaktive Eigenschaft erzeugt wurde) in einer "
+"bereits existierenden Welt wird davon ebenfalls beeinflusst. Deaktiviere diese Option, wenn bestehende Speicherstände dieser Art davon "
+"nicht betroffen werden sollen."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_GAS_CAPACITY.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_GAS_CAPACITY.NAME"
@@ -4244,11 +4518,6 @@ msgid "High Pressure Gas Capacity Multiplier"
 msgstr "Hochdruck-Gasleitungskapazität-Multiplikator"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_GAS_CAPACITY.TOOLTIP
-#, fuzzy
-#| msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_GAS_CAPACITY.TOOLTIP"
-#| msgid ""
-#| "High pressure gas pipes allow pumping gases at much higher pipe throughput than regular pipes, at the cost of more expensive building "
-#| "materials."
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_GAS_CAPACITY.TOOLTIP"
 msgid ""
 "High pressure gas pipes allow pumping gases at much higher pipe throughput than regular pipes, at the cost of more expensive building "
@@ -4256,7 +4525,8 @@ msgid ""
 "Total Capacity is calculated based on the base pipe capacity (includes compatibility with CustomizeBuildings)"
 msgstr ""
 "Hochdruckgasleitungen ermöglichen das Pumpen von Gasen mit einem viel höheren Durchsatz als herkömmliche Leitungen, allerdings auf Kosten "
-"teurerer Baumaterialien."
+"teurerer Baumaterialien.\n"
+"Gesamtkapazität wird errechnet basierend auf der Basisspiel-Rohrkapazität (inklusive Modifikationen durch den Mod \"CustomizeBuildings\")"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_GAS_PUMPCOST.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_GAS_PUMPCOST.NAME"
@@ -4278,11 +4548,6 @@ msgid "High Pressure Liquid Capacity Multiplier"
 msgstr "Hochdruck-Flüssigkeitsrohrkapazität-Multiplikator"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_LIQUID_CAPACITY.TOOLTIP
-#, fuzzy
-#| msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_LIQUID_CAPACITY.TOOLTIP"
-#| msgid ""
-#| "High pressure liquid pipes allow pumping liquids at much higher pipe throughput than regular pipes, at the cost of more expensive "
-#| "building materials."
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_LIQUID_CAPACITY.TOOLTIP"
 msgid ""
 "High pressure liquid pipes allow pumping liquids at much higher pipe throughput than regular pipes, at the cost of more expensive "
@@ -4290,7 +4555,8 @@ msgid ""
 "Total Capacity is calculated based on the base pipe capacity (includes compatibility with CustomizeBuildings)"
 msgstr ""
 "Hochdruckflüssigkeitsrohre ermöglichen das Pumpen von Flüssigkeiten mit einem viel höheren Durchsatz als herkömmliche Rohre, allerdings "
-"auf Kosten teurerer Baumaterialien."
+"auf Kosten teurerer Baumaterialien.\n"
+"Gesamtkapazität wird errechnet basierend auf der Basisspiel-Rohrkapazität (inklusive Modifikationen durch den Mod \"CustomizeBuildings\")"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_LIQUID_PUMPCOST.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_LIQUID_PUMPCOST.NAME"
@@ -4324,11 +4590,6 @@ msgid "Heavy-Duty Rail Capacity Multiplier"
 msgstr "Schwerlastschienenkapazität-Multiplikator"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_CAPACITY.TOOLTIP
-#, fuzzy
-#| msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_CAPACITY.TOOLTIP"
-#| msgid ""
-#| "Heavy-Duty Rails serve as an late game upgrade to conveyor rails, having a much higher throughput at the cost of more complex build "
-#| "requirements."
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_CAPACITY.TOOLTIP"
 msgid ""
 "Heavy-Duty Rails serve as an late game upgrade to conveyor rails, having a much higher throughput at the cost of more complex build "
@@ -4336,7 +4597,9 @@ msgid ""
 "Total Capacity is calculated based on the base rail capacity (includes compatibility with CustomizeBuildings)"
 msgstr ""
 "Schwerlastschienen dienen als Upgrade für Förderschienen im späteren Spielverlauf und bieten einen deutlich höheren Durchsatz, erfordern "
-"jedoch komplexere Bauvoraussetzungen."
+"jedoch komplexere Bauvoraussetzungen.\n"
+"Gesamtkapazität wird errechnet basierend auf der Basisspiel-Schienenkapazität (inklusive Modifikationen durch den Mod "
+"\"CustomizeBuildings\")"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_ENABLE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HP_SOLID_ENABLE.NAME"
@@ -4371,11 +4634,6 @@ msgid "Logistic Rail Capacity Multiplier"
 msgstr "Logistik-Schienen-Kapazität-Multiplikator"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_RAIL_CAPACITY.TOOLTIP
-#, fuzzy
-#| msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_RAIL_CAPACITY.TOOLTIP"
-#| msgid ""
-#| "Logistic Rails serve as an early game version to conveyor rails, lacking the mechatronic requirements and unlocking earlier at the "
-#| "cost of lower maximum throughput."
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_RAIL_CAPACITY.TOOLTIP"
 msgid ""
 "Logistic Rails serve as an early game version to conveyor rails, lacking the mechatronic requirements and unlocking earlier at the cost "
@@ -4383,7 +4641,9 @@ msgid ""
 "Total Capacity is calculated based on the base rail capacity (includes compatibility with CustomizeBuildings)"
 msgstr ""
 "Logistik-Schienen dienen als Vorstufe von normalen Förderschienen, hierbei wird eine reduzierte Transportkapazität gegen den Verzicht auf "
-"Mechatronik-Anforderungen eingetauscht."
+"Mechatronik-Anforderungen eingetauscht.\n"
+"Gesamtkapazität wird errechnet basierend auf der Basisspiel-Schienenkapazität (inklusive Modifikationen durch den Mod "
+"\"CustomizeBuildings\")"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_SWEEPER_RANGE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_SWEEPER_RANGE.NAME"
@@ -4443,6 +4703,36 @@ msgstr "Setze das Minimalgewicht für ausgehende Schienen-Pakete"
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.BUILDINGCONFIGURABLE"
 msgid "This building has settings that can be modified."
 msgstr "Dieses Gebäude hat modifizierbare Parameter."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.BUILDINGENABLEDREASONS.IS_DISABLED
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.BUILDINGENABLEDREASONS.IS_DISABLED"
+msgid "You disabled the building."
+msgstr "Du hast das Gebäude deaktiviert"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.BUILDINGENABLEDREASONS.IS_ENABLED
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.BUILDINGENABLEDREASONS.IS_ENABLED"
+msgid "The building is currently enabled"
+msgstr "Dieses Gebäude ist momentan aktiviert"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.BUILDINGENABLEDREASONS.IS_ENABLED_FORCE
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.BUILDINGENABLEDREASONS.IS_ENABLED_FORCE"
+msgid ""
+"You enabled the building by force,\n"
+"none of its source mods are marked as active."
+msgstr ""
+"Du hast die Aktivierung dieses Gebäudes erzwungen,\n"
+"Keiner der Ursprungsmods sind momentan aktiv."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.BUILDINGENABLEDREASONS.NO_MODS_ACTIVE
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.BUILDINGENABLEDREASONS.NO_MODS_ACTIVE"
+msgid ""
+"Building disabled by category.\n"
+"None of the mods this building is added by are currently active.\n"
+"You can force enable it, but there is a chance it won't work properly"
+msgstr ""
+"Gebäude ist deaktiviert durch Kategorie-Deaktivierung.\n"
+"Keiner der Ursprungsmods sind momentan aktiv.\n"
+"Du kannst die Aktivierung erzwingen, jedoch besteht die Wahrscheinlichkeit, dass es nicht ordnungsgemäß funktionieren wird."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.BUTTONS.CLOSEBUTTON.TEXT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.BUTTONS.CLOSEBUTTON.TEXT"
@@ -4529,15 +4819,6 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.MOD_ORIGIN_
 msgid "This building is part of:"
 msgstr "Dieses Gebäude ist Teil von:"
 
-#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.PARENT_MOD_DISABLED
-msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.PARENT_MOD_DISABLED"
-msgid ""
-"Building disabled by category.\n"
-"The parent mod this building is from is turned off in the config."
-msgstr ""
-"Gebäude durch Kategorie deaktiviert.\n"
-"Die übergeordnete Mod, aus dem dieses Gebäude stammt, ist in der Haupt-Konfiguration deaktiviert."
-
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.RESETALLCHANGES.TEXT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.RESETALLCHANGES.TEXT"
 msgid "Are you sure you want to reset all modifications you have done to the building configuration?"
@@ -4551,7 +4832,7 @@ msgstr "Änderungen zurücksetzen"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.TITLE
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.TITLE"
 msgid "Building Configuration Editor"
-msgstr ""
+msgstr "Gebäudekonfigurations-Editor"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.ADVANCED_REFINERY_TRACE_EXTRACTION_1_2
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.ADVANCED_REFINERY_TRACE_EXTRACTION_1_2"
@@ -4610,6 +4891,24 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR
 msgid "Refine {0} to {4} with a mixture of of {1}, {2} and {3}"
 msgstr ""
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.BAD_RECIPE_PRODUCT_DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.BAD_RECIPE_PRODUCT_DESC"
+msgid ""
+"This recipe comes with reduced yield,\n"
+"since the machine is unable to provide the proper environmental conditions.\n"
+"\n"
+"Other machines might be more suitable for this refinement process."
+msgstr ""
+"Dieses Rezept hat eine geringere Ausbeute,\n"
+"da die Maschine nicht in der Lage ist, die richtigen Umgebungsbedingungen zu schaffen.\n"
+"\n"
+"Andere Maschinen sind möglicherweise besser für diesen Verarbeitungsprozess geeignet."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.BAD_RECIPE_PRODUCT_NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.BAD_RECIPE_PRODUCT_NAME"
+msgid "Crude {0}"
+msgstr "Simples {0}"
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.BALLCRUSHER_MILLING_1INGREDIENT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.BALLCRUSHER_MILLING_1INGREDIENT"
 msgid ""
@@ -4641,12 +4940,12 @@ msgstr ""
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.CALCINATOR_1_1
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.CALCINATOR_1_1"
 msgid "Submit {0} to high temperature oxidation reduction to produce {1}."
-msgstr ""
+msgstr "Setze {0} einer Hochtemperatur-Oxidationsreduktion aus, um {1} herzustellen."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.CALCINATOR_2_1
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.CALCINATOR_2_1"
 msgid "Submit a mixture of {0} and {1} to high temperature oxidation degradation to produce {2}."
-msgstr ""
+msgstr "Setze eine Msichung aus {0} und {1} einer Hochtemperatur-Oxidationsreduktion aus, um {2} herzustellen."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.CEMENT_MIXER_CEMENT_3
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.CEMENT_MIXER_CEMENT_3"
@@ -4658,7 +4957,7 @@ msgstr ""
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.CHEMICAL_MIXINGUNIT_2_1
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.CHEMICAL_MIXINGUNIT_2_1"
 msgid "Mix {0} and {1} to produce {2}."
-msgstr ""
+msgstr "Vermische {0} und {1} um {2} zu produzieren."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.CHEMICAL_MIXINGUNIT_3_1
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.CHEMICAL_MIXINGUNIT_3_1"
@@ -4923,6 +5222,21 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.KLEI_INVENTORY_SCREEN.SUBC
 msgid "Ronivans Legacy - All In One"
 msgstr "Ronivans Legacy - All In One"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.COOLANT_BATTERY_THRESHOLD.LOGIC_PORT
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.COOLANT_BATTERY_THRESHOLD.LOGIC_PORT"
+msgid "Thermal Capacitor Threshold"
+msgstr "Thermalbatterie-Schwellenwert"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.COOLANT_BATTERY_THRESHOLD.LOGIC_PORT_ACTIVE
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.COOLANT_BATTERY_THRESHOLD.LOGIC_PORT_ACTIVE"
+msgid "Sends a <b><style=\"logic_on\">Green Signal</style></b> when the thermal capacitor is above the threshold."
+msgstr "Sendet ein <b><style=\"logic_on\">grünes Signal</style></b> wenn die Thermalbatterie über dem Schwellenwert liegt."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.COOLANT_BATTERY_THRESHOLD.LOGIC_PORT_INACTIVE
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.COOLANT_BATTERY_THRESHOLD.LOGIC_PORT_INACTIVE"
+msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b>"
+msgstr "Sendet ansonsten ein <b><style=\"logic_off\">Rotes Signal</style></b>"
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.FABRICATOR_ACTIVE.LOGIC_PORT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.FABRICATOR_ACTIVE.LOGIC_PORT"
 msgid "Machine Active"
@@ -5034,6 +5348,11 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.MININGGUIDANCEDEVICEPROGRA
 msgid "Reprogram guidance device"
 msgstr "Leitvorrichtung umprogrammieren"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.SPACEDESTINATIONS.COMETS.CHROMITE.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.SPACEDESTINATIONS.COMETS.CHROMITE.NAME"
+msgid "Chromite Meteor"
+msgstr "Chromit-Meteorit"
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.SPACEDESTINATIONS.COMETS.HEAVYCOMET.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.SPACEDESTINATIONS.COMETS.HEAVYCOMET.NAME"
 msgid "Heavy Meteor"
@@ -5053,6 +5372,26 @@ msgstr "Aurichalcit-Meteorit"
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_HPA_RAIL"
 msgid "Obstructed by Heavy-Duty Rail"
 msgstr "Durch Schwerlastschiene blockiert"
+
+#~ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GLASSFOUNDRY.DESC"
+#~ msgid "A plasma arc furnace uses low-temperature plasma flow created by an electric arc heater (plasmatron)."
+#~ msgstr "Ein Plasma-Lichtbogenofen nutzt einen durch einen Lichtbogenheizkörper (Plasmatron) erzeugten Niedertemperatur-Plasmastrahl."
+
+#~ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_BASIC_ITEM.RECIPE_DESC"
+#~ msgid ""
+#~ "Instruct the computer to produce Basic Drillbits.\n"
+#~ "This instruction is meant for Copper variation."
+#~ msgstr ""
+#~ "Weise den Computer an, einfache Bohrköpfe herzustellen.\n"
+#~ "Dieses Rezept gilt für die Variante aus Kupfer."
+
+#~ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.PARENT_MOD_DISABLED"
+#~ msgid ""
+#~ "Building disabled by category.\n"
+#~ "The parent mod this building is from is turned off in the config."
+#~ msgstr ""
+#~ "Gebäude durch Kategorie deaktiviert.\n"
+#~ "Die übergeordnete Mod, aus dem dieses Gebäude stammt, ist in der Haupt-Konfiguration deaktiviert."
 
 #~ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.GEYSERS.NAME"
 #~ msgid "Generic Mod Geysers"
