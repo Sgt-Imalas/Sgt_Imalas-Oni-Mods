@@ -37,6 +37,8 @@ namespace SetStartDupes.DuplicityEditing
 		internal static DuplicantEditableStats GenerateFromMinion(GameObject go)
 		{
 			var stats = new DuplicantEditableStats();
+			var db = Db.Get();
+
 			if (go.TryGetComponent<StoredMinionIdentity>(out var storedMinionIdentity))
 			{
 
@@ -82,6 +84,12 @@ namespace SetStartDupes.DuplicityEditing
 					stats.Traits = new HashSet<string>();
 					foreach (var traitId in traits.GetTraitIds())
 					{
+						if(db.traits.TryGet(traitId) == null)
+						{
+							SgtLogger.warning("Invalid trait id \"" + traitId + "\" found, skipping that");
+							continue;
+						}
+
 						if (ModAssets.TryGetTraitsOfCategory(DupeTraitManager.NextType.joy, stats.Model).Any(trait => trait.id == traitId))
 						{
 							stats.JoyTraitId = traitId;

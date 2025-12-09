@@ -680,22 +680,23 @@ namespace SetStartDupes.DuplicityEditing
 		DeletableListEntry AddOrGetTraitContainer(string traitID)
 		{
 			var trait = Db.Get().traits.TryGet(traitID);
-			if (trait == null)
+			bool traitFound = trait != null;
+			if (!traitFound)
 			{
-				SgtLogger.error("trait with the id " + traitID + " not found!");
-				return null;
+				SgtLogger.warning("trait with the id " + traitID + " was not registered properly and could not be found!");
 			}
 
 			if (!TraitEntries.ContainsKey(traitID))
 			{
-				var Type = ModAssets.GetTraitListOfTrait(traitID);
+
+				var Type = traitFound ? ModAssets.GetTraitListOfTrait(traitID) : NextType.undefined;
 
 				var go = Util.KInstantiateUI(TraitPrefab.gameObject, TraitContainer);
 				var entry = go.AddOrGet<DeletableListEntry>();
-				entry.Text = trait.Name;
-				entry.Tooltip = ModAssets.GetTraitTooltip(trait, trait.Id);
+				entry.Text = traitFound ? trait.Name : traitID;
+				entry.Tooltip = traitFound ? ModAssets.GetTraitTooltip(trait, trait.Id) : string.Empty;
 				entry.backgroundColor = ModAssets.GetColourFromType(Type);
-				if (Type == NextType.undefined || Type == NextType.special )
+				if (Type == NextType.undefined || Type == NextType.special)
 				{
 					entry.HideDelete = true;
 				}
