@@ -38,7 +38,7 @@ namespace SaveGameModLoader.ModsFilter
 					// This shouldn't ever be null, but good idea to check
 					if (modsScreen != null)
 					{
-						Traverse.Create(modsScreen).Method("RebuildDisplay", typeof(object)).GetValue();
+						modsScreen.RebuildDisplay(null);
 					}
 				}
 			);

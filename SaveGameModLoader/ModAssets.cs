@@ -149,12 +149,16 @@ namespace SaveGameModLoader
 		}
 		public static bool ModNameFilter(string filterText, KMod.Mod mod)
 		{
-			return CultureInfo.InvariantCulture.CompareInfo.IndexOf(
-										mod.label.title,
-										filterText,
-										CompareOptions.IgnoreCase
-									) >= 0;
+			bool AcceptedByFilter(string source) => CultureInfo.InvariantCulture.CompareInfo.IndexOf(
+									source,
+									filterText,
+									CompareOptions.IgnoreCase
+								) >= 0;
+
+			return AcceptedByFilter(mod.label.title) || AcceptedByFilter(mod.label.id) || AcceptedByFilter(mod.staticID);
 		}
+		
+
 		public static bool ModAuthorFilter(string filterText, KMod.Mod mod)
 		{
 			//original game filter code, dont allow uninstalled mods/language mods from showing
