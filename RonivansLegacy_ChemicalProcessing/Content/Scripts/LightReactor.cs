@@ -17,6 +17,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		[SerializeField]
 		public Vector3 dumpOffsetOverride = new Vector3(0.5f, -1f, 0.0f);
 
+		[MyCmpGet] ConduitConsumer consumer;
+		public float MaxCoolantCapacity => consumer.capacityKG;
 		public float GetEmissionRads(bool inMeltdown) => inMeltdown ? emissionRads * 2f : emissionRads; //mirrors game behavior
 		public double GetRadGermMultiplierRads(double baseAmount) => baseAmount * 10;
 

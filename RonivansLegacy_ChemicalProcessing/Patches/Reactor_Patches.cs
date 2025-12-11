@@ -31,7 +31,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		{
 			if (instance is LightReactor lightReactor)
 			{
-				SgtLogger.l("Replacing germcount for ligth reactor: " + germcount);
+				SgtLogger.l("Replacing germcount for light reactor: " + germcount);
 				return lightReactor.GetRadGermMultiplierRads(germcount);
 			}
 			return germcount;
@@ -139,15 +139,15 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			//these run after the vanilla states are set, so we can conditionally override them
 			public static void Postfix(Reactor.States __instance)
 			{
+				__instance.root.events.Clear();
 				__instance.root.EventHandler(GameHashes.OnStorageChange,(smi =>
 				{
-					if (smi.master is not LightReactor lightReactor)
-						return;
-						PrimaryElement storedCoolant = smi.master.GetStoredCoolant();
-					if (!storedCoolant)
-						smi.master.waterMeter.SetPositionPercent(0.0f);
-					else
-						smi.master.waterMeter.SetPositionPercent(storedCoolant.Mass / 30f);
+					float maxCapacity = 90f;
+					if (smi.master is LightReactor lightReactor)
+						maxCapacity = lightReactor.MaxCoolantCapacity;
+
+					CacheCoolantsInStorage(smi.master.supplyStorage, smi.master.coolantTag);
+					smi.master.waterMeter.SetPositionPercent(CoolantMass / maxCapacity);
 				}));
 
 				__instance.on
@@ -234,6 +234,67 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 						}
 					}
 				}
+			}
+		}
+
+		static List<PrimaryElement> Coolants = new(16);
+		static float CoolantMass=0;
+		static PrimaryElement GetHighestMassReactorContent(Storage reactorStorage, Tag reactorCoolantTag)
+		{
+			CacheCoolantsInStorage(reactorStorage, reactorCoolantTag);
+			if (!Coolants.Any())
+				return null;
+			Coolants.Sort(elementComparer);
+			return Coolants.First();
+		}
+		static void CacheCoolantsInStorage(Storage reactorStorage, Tag reactorCoolantTag)
+		{
+			Coolants.Clear();
+			CoolantMass = 0;
+			var items = reactorStorage.items;
+			for (int i = 0; i < items.Count; i++)
+			{
+				GameObject itemGO = items[i];
+				if (itemGO != null && itemGO.HasTag(reactorCoolantTag) && itemGO.TryGetComponent<PrimaryElement>(out var primaryElement))
+				{
+					CoolantMass += primaryElement.Mass;
+					Coolants.Add(primaryElement);
+				}
+			}
+		}
+		static ElementComparer elementComparer = new();
+
+		class ElementComparer : IComparer<PrimaryElement>
+		{
+			public int Compare(PrimaryElement x, PrimaryElement y)
+			{
+				if(Mathf.Approximately(x.Mass, y.Mass)) 
+					return 0;
+				//descending
+				return -x.Mass.CompareTo(y.Mass);
+			}
+		}
+
+		[HarmonyPatch(typeof(Reactor), nameof(Reactor.GetActiveCoolant))]
+		public class Reactor_GetActiveCoolant_Patch
+		{
+			public static void Postfix(Reactor __instance, ref PrimaryElement __result)
+			{
+				if (__result == null)
+					return;
+				__result = GetHighestMassReactorContent(__instance.reactionStorage, __instance.coolantTag);
+			}
+		}
+
+		[HarmonyPatch(typeof(Reactor), nameof(Reactor.GetStoredCoolant))]
+		public class Reactor_GetStoredCoolant_Patch
+		{
+
+			public static void Postfix(Reactor __instance, ref PrimaryElement __result)
+			{
+				if (__result == null)
+					return;
+				__result = GetHighestMassReactorContent(__instance.supplyStorage, __instance.coolantTag);
 			}
 		}
 	}
