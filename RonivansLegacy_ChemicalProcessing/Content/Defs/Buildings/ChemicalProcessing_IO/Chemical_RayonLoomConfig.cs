@@ -2,6 +2,8 @@
 using HarmonyLib;
 using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabricators;
+using RonivansLegacy_ChemicalProcessing.Patches;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +12,7 @@ using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
+using UtilLibs.BuildingPortUtils;
 
 
 namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
@@ -20,6 +23,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		public static string ID = "Chemical_RayonLoom";
 
 		private Tag FUEL_TAG = SimHashes.Syngas.CreateTag();
+		private static readonly PortDisplayOutput steamOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(1, 0), null, new Color32(167, 180, 201, 255));
 
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
@@ -28,10 +32,12 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			var fuelConsumer = go.AddOrGet<Chemical_FueledFabricatorAddon>();
 			fuelConsumer.fuelTag = this.FUEL_TAG;
 
-			ComplexFabricator fabricator = go.AddOrGet<ComplexFabricator>();
+			CustomComplexFabricatorBase fabricator = go.AddOrGet<CustomComplexFabricatorBase>();
 			fabricator.heatedTemperature = 368.15f;
 			fabricator.duplicantOperated = false;
 			fabricator.sideScreenStyle = ComplexFabricatorSideScreen.StyleSetting.ListQueueHybrid;
+			fabricator.KeepAdditionalTags = [SimHashes.Syngas.CreateTag(), SimHashes.Steam.CreateTag()];
+
 			go.AddOrGet<FabricatorIngredientStatusManager>();
 			go.AddOrGet<CopyBuildingSettings>();
 			go.AddOrGet<ComplexFabricatorWorkable>();
@@ -40,16 +46,31 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			fabricator.inStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			fabricator.buildStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			fabricator.outStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
-			ConduitConsumer local1 = go.AddOrGet<ConduitConsumer>();
-			local1.capacityTag = this.FUEL_TAG;
-			local1.capacityKG = 10f;
-			local1.alwaysConsume = true;
-			local1.storage = fabricator.inStorage;
-			local1.forceAlwaysSatisfied = true;
+
+			ConduitConsumer syngasConsumer = go.AddOrGet<ConduitConsumer>();
+			syngasConsumer.capacityTag = this.FUEL_TAG;
+			syngasConsumer.capacityKG = 10f;
+			syngasConsumer.alwaysConsume = true;
+			syngasConsumer.storage = fabricator.inStorage;
+			syngasConsumer.forceAlwaysSatisfied = true;
 			ElementConverter converter = go.AddOrGet<ElementConverter>();
 			converter.consumedElements = [new ElementConverter.ConsumedElement(this.FUEL_TAG, 0.1f)];
-			converter.outputElements = [new ElementConverter.OutputElement(0.025f, SimHashes.Steam, 373.15f, false, false, 0f, 3f, 1f, 0xff, 0)];
+			converter.outputElements = [new ElementConverter.OutputElement(0.025f, SimHashes.Steam, 373.15f, false, true, 1f, 0f)];
 			Prioritizable.AddRef(go);
+			converter.SetStorage(fabricator.inStorage);
+
+
+			PipedConduitDispenser steamDispenser = go.AddComponent<PipedConduitDispenser>();
+			steamDispenser.storage = fabricator.inStorage;
+			steamDispenser.elementFilter = [SimHashes.Steam];
+			steamDispenser.AssignPort(steamOutputPort);
+			steamDispenser.alwaysDispense = true;
+			steamDispenser.SkipSetOperational = true;
+			
+			PipedOptionalExhaust steamExhaust = go.AddComponent<PipedOptionalExhaust>();
+			steamExhaust.dispenser = steamDispenser;
+			steamExhaust.elementTag = SimHashes.Steam.CreateTag();
+			steamExhaust.capacity = 2f;
 		}
 
 
@@ -75,8 +96,27 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 		public override void DoPostConfigureComplete(GameObject go)
 		{
+			this.AttachPort(go);
 			go.AddOrGet<LogicOperationalController>();
 			go.AddOrGetDef<PoweredActiveController.Def>();
 		}
+		private void AttachPort(GameObject go)
+		{
+			PortDisplayController controller = go.AddComponent<PortDisplayController>();
+			controller.Init(go);
+
+			controller.AssignPort(go, steamOutputPort);
+		}
+
+		public override void DoPostConfigurePreview(BuildingDef def, GameObject go)
+		{
+			this.AttachPort(go);
+		}
+
+		public override void DoPostConfigureUnderConstruction(GameObject go)
+		{
+			this.AttachPort(go);
+		}
+
 	}
 }

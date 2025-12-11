@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
+using UtilLibs.BuildingPortUtils;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS;
 
 namespace Mineral_Processing_Mining.Buildings
@@ -19,7 +20,8 @@ namespace Mineral_Processing_Mining.Buildings
 	{
 		//--[ Base Information ]-----------------------------------------------
 		public static string ID = "Mining_CNCMachine";
-		private HashedString[] dupeInteractAnims;
+
+		private static readonly PortDisplayInput combustibleLiquidPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(-2, 1));
 
 		//--[ Building Definitions ]---------------------------------------------
 		public override BuildingDef CreateBuildingDef()
@@ -42,19 +44,36 @@ namespace Mineral_Processing_Mining.Buildings
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
 			go.AddOrGet<DropAllWorkable>();
-			go.AddOrGet<BuildingComplete>().isManuallyOperated = true;
+			go.AddOrGet<BuildingComplete>().isManuallyOperated = false;
 			ComplexFabricator complexFabricator = go.AddOrGet<ComplexFabricator>();
 			complexFabricator.heatedTemperature = 313.15f;
 			complexFabricator.sideScreenStyle = ComplexFabricatorSideScreen.StyleSetting.ListQueueHybrid;
 			complexFabricator.duplicantOperated = false;
+			complexFabricator.keepExcessLiquids = true;
 			go.AddOrGet<FabricatorIngredientStatusManager>();
 			go.AddOrGet<CopyBuildingSettings>();
 			go.AddOrGet<ComplexFabricatorWorkable>();
 			BuildingTemplates.CreateComplexFabricatorStorage(go, complexFabricator);
+
+			PortConduitConsumer combustibleLiquidPortConsumer = go.AddComponent<PortConduitConsumer>();
+			combustibleLiquidPortConsumer.conduitType = ConduitType.Liquid;
+			combustibleLiquidPortConsumer.consumptionRate = 10f;
+			combustibleLiquidPortConsumer.capacityKG = 40f; //2x recipe
+			combustibleLiquidPortConsumer.capacityTag = GameTags.CombustibleLiquid;
+			combustibleLiquidPortConsumer.forceAlwaysSatisfied = true;
+			combustibleLiquidPortConsumer.SkipSetOperational = true;
+			combustibleLiquidPortConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
+			combustibleLiquidPortConsumer.AssignPort(combustibleLiquidPort);
+
 			Prioritizable.AddRef(go);
 			this.ConfigureRecipes();
 		}
-
+		public static void AttachPorts(GameObject go)
+		{
+			PortDisplayController controller = go.AddComponent<PortDisplayController>();
+			controller.Init(go);
+			controller.AssignPort(go, combustibleLiquidPort);
+		}
 		private void ConfigureRecipes()
 		{
 			var combustibles = ElementLoader.elements.FindAll(e => e.HasTag(GameTags.CombustibleLiquid)).Select(element => element.id);
@@ -146,17 +165,20 @@ namespace Mineral_Processing_Mining.Buildings
 
 		public override void DoPostConfigureComplete(GameObject go)
 		{
+			AttachPorts(go);
 		}
 
 		public override void DoPostConfigurePreview(BuildingDef def, GameObject go)
 		{
 			base.DoPostConfigurePreview(def, go);
+			AttachPorts(go);
 		}
 
 		public override void DoPostConfigureUnderConstruction(GameObject go)
 		{
 			base.DoPostConfigureUnderConstruction(go);
 			go.GetComponent<Constructable>().requiredSkillPerk = Db.Get().SkillPerks.ConveyorBuild.Id;
+			AttachPorts(go);
 		}
 	}
 }
