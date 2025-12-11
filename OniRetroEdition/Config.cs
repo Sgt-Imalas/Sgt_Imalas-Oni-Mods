@@ -53,5 +53,9 @@ namespace OniRetroEdition
 		[Option("Old Pipe Icons", "pipe input and output icons are replaced with older versions that change based on the connection state")]
 		[JsonProperty]
 		public bool oldPipeIcons { get; set; } = true;
+
+		[Option("Old Dupe Outfits", "all outfits are red")]
+		[JsonProperty]
+		public bool oldDupeSuits { get; set; } = true;
 	}
 }

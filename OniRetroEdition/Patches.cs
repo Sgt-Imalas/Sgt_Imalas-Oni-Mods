@@ -25,21 +25,20 @@ namespace OniRetroEdition
 		public static class GeneratedBuildings_LoadGeneratedBuildings_Patch
 		{
 
-			public static void Prefix()
+			public static void Postfix()
 			{
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Furniture, WallLampConfig.ID, CeilingLightConfig.ID);
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Food, GammaRayOvenConfig.ID, MicrobeMusherConfig.ID);
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Power, BatteryLargeConfig.ID, BatteryMediumConfig.ID);
 
-
-
 				foreach (var config in BuildingModifications.Instance.LoadedBuildingOverrides)
 				{
-
-
 					if (config.Value.buildMenuCategory != null && config.Value.buildMenuCategory.Length > 0)
 					{
 						string buildingId = config.Key;
+						if (Assets.GetBuildingDef(buildingId) == null)
+							continue;
+
 						string category = config.Value.buildMenuCategory;
 
 						if (config.Value.placedBehindBuildingId != null && config.Value.placedBehindBuildingId.Length > 0)
