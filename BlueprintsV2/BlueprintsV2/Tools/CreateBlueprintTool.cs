@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using static STRINGS.UI.FRONTEND.CUSTOMGAMESETTINGSSCREEN.SETTINGS.BIONICPOWERUSE.LEVELS;
 
 namespace BlueprintsV2.Tools
 {
@@ -18,8 +19,11 @@ namespace BlueprintsV2.Tools
 			PlayerController.Instance.ActivateTool(Instance);
 		}
 
+		public bool IsRetakingBlueprint => RetakeBp != null;
+		public string RetakingBlueprintName => RetakeBp != null ? RetakeBp.FriendlyName : string.Empty;
 		private Blueprint RetakeBp = null;
 		public static CreateBlueprintTool Instance { get; private set; }
+		CreateBlueprintToolHoverCard card;
 
 		public CreateBlueprintTool()
 		{
@@ -40,6 +44,7 @@ namespace BlueprintsV2.Tools
 		}
 		public override void OnActivateTool()
 		{
+			card.RefreshTitle(IsRetakingBlueprint);
 			toolActive = true;
 			base.OnActivateTool();
 		}
@@ -78,7 +83,7 @@ namespace BlueprintsV2.Tools
 			this.areaVisualizer = areaVisualizer;
 			this.areaVisualizerTextPrefab = DigTool.Instance.areaVisualizerTextPrefab;
 
-			gameObject.AddComponent<CreateBlueprintToolHoverCard>();
+			card = gameObject.AddComponent<CreateBlueprintToolHoverCard>();
 		}
 		public void LockCam()
 		{

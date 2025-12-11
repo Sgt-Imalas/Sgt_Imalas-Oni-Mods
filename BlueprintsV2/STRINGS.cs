@@ -301,6 +301,8 @@ namespace BlueprintsV2
 					public static LocString CREATED = "Created blueprint!";
 					public static LocString CANCELLED = "Cancelled blueprint!";
 					public static LocString TOOLTIP_TITLE = "CREATE BLUEPRINT TOOL";
+					public static LocString TOOLTIP_TITLE_RETAKE = "RE-TAKE BLUEPRINT TOOL";
+					public static LocString RETAKING_TOOLTIP = "Replacing contents of blueprint: {0}";
 					public static LocString ACTION_DRAG = "DRAG";
 					public static LocString ACTION_BACK = "BACK";
 				}
