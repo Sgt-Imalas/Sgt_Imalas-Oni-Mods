@@ -9,6 +9,8 @@ namespace OniRetroEdition.SlurpTool
 	{
 		[MyCmpReq]
 		private KSelectable Selectable;
+		[MyCmpGet]
+		KSelectable kSelectable;
 		[MyCmpAdd]
 		private Prioritizable prioritizable;
 		public float amountMoppedPerTick = 20f;
@@ -22,8 +24,9 @@ namespace OniRetroEdition.SlurpTool
 			new CellOffset(1, 0),
 			new CellOffset(-1, 0)
 		};
-		private static readonly EventSystem.IntraObjectHandler<Slurpable> OnRefreshUserMenuDelegate = new EventSystem.IntraObjectHandler<Slurpable>((System.Action<Slurpable, object>)((component, data) => component.OnRefreshUserMenu(data)));
-		private static readonly EventSystem.IntraObjectHandler<Slurpable> OnReachableChangedDelegate = new EventSystem.IntraObjectHandler<Slurpable>((System.Action<Slurpable, object>)((component, data) => component.OnReachableChanged(data)));
+		private static readonly EventSystem.IntraObjectHandler<Slurpable> OnRefreshUserMenuDelegate = new EventSystem.IntraObjectHandler<Slurpable>(((component, data) => component.OnRefreshUserMenu(data)));
+		private static readonly EventSystem.IntraObjectHandler<Slurpable> OnReachableChangedDelegate = new EventSystem.IntraObjectHandler<Slurpable>(((component, data) => component.OnReachableChanged(data)));
+		int refreshHandle = -1, reachableHandle = -1; 
 
 		private Slurpable() => this.showProgressBar = false;
 
@@ -55,7 +58,6 @@ namespace OniRetroEdition.SlurpTool
 				WorkChore<Slurpable> workChore = new WorkChore<Slurpable>(Db.Get().ChoreTypes.Mop, (IStateMachineTarget)this);
 				this.SetWorkTime(float.PositiveInfinity);
 				this.GetComponent<KSelectable>().SetStatusItem(Db.Get().StatusItemCategories.Main, Db.Get().MiscStatusItems.WaitingForMop);
-				this.Subscribe<Slurpable>(493375141, Slurpable.OnRefreshUserMenuDelegate);
 				this.overrideAnims = null;
 				faceTargetWhenWorking = true;
 				multitoolContext = "fetchliquid";
@@ -65,14 +67,15 @@ namespace OniRetroEdition.SlurpTool
 					new CellOffset(0, 0)
 				}), GameScenePartitioner.Instance.liquidChangedLayer, new System.Action<object>(this.OnLiquidChanged));
 				this.Refresh();
-				this.Subscribe<Slurpable>(-1432940121, Slurpable.OnReachableChangedDelegate);
 				new ReachabilityMonitor.Instance((Workable)this).StartSM();
 				SimAndRenderScheduler.instance.Remove(this);
 				SetOffsetTable(OffsetGroups.InvertedStandardTable);
+				refreshHandle = this.Subscribe<Slurpable>((int)GameHashes.RefreshUserMenu, Slurpable.OnRefreshUserMenuDelegate);
+				reachableHandle = this.Subscribe<Slurpable>((int)GameHashes.ReachableChanged, Slurpable.OnReachableChangedDelegate);
 			}
 		}
 
-		private void OnRefreshUserMenu(object data) => Game.Instance.userMenu.AddButton(this.gameObject, new KIconButtonMenu.ButtonInfo("icon_cancel", global::STRINGS.UI.USERMENUACTIONS.CANCELMOP.NAME, new System.Action(this.OnCancel), tooltipText: ((string)global::STRINGS.UI.USERMENUACTIONS.CANCELMOP.TOOLTIP)));
+		private void OnRefreshUserMenu(object _) => Game.Instance.userMenu.AddButton(this.gameObject, new KIconButtonMenu.ButtonInfo("icon_cancel", global::STRINGS.UI.USERMENUACTIONS.CANCELMOP.NAME, new System.Action(this.OnCancel), tooltipText: ((string)global::STRINGS.UI.USERMENUACTIONS.CANCELMOP.TOOLTIP)));
 
 		private void OnCancel()
 		{
@@ -203,26 +206,27 @@ namespace OniRetroEdition.SlurpTool
 		{
 			base.OnCleanUp();
 			GameScenePartitioner.Instance.Free(ref this.partitionerEntry);
-			this.Unsubscribe<Slurpable>(493375141, Slurpable.OnRefreshUserMenuDelegate);
+			this.Unsubscribe(refreshHandle);
+			this.Unsubscribe(reachableHandle);
 		}
 
 		private void OnReachableChanged(object data)
 		{
-			if (!((UnityEngine.Object)this.childRenderer != (UnityEngine.Object)null))
+			if (childRenderer == null)
 				return;
 			Material material = this.childRenderer.material;
-			bool flag = (bool)data;
 			if (material.color == Game.Instance.uiColours.Dig.invalidLocation)
 				return;
-			KSelectable component = this.GetComponent<KSelectable>();
+
+			bool flag = ((Boxed<bool>)data).value;
 			if (flag)
 			{
 				material.color = Game.Instance.uiColours.Dig.validLocation;
-				component.RemoveStatusItem(Db.Get().BuildingStatusItems.MopUnreachable);
+				kSelectable.RemoveStatusItem(Db.Get().BuildingStatusItems.MopUnreachable);
 			}
 			else
 			{
-				component.AddStatusItem(Db.Get().BuildingStatusItems.MopUnreachable, this);
+				kSelectable.AddStatusItem(Db.Get().BuildingStatusItems.MopUnreachable, this);
 				GameScheduler.Instance.Schedule("Locomotion Tutorial", 2f, (System.Action<object>)(obj => Tutorial.Instance.TutorialMessage(Tutorial.TutorialMessages.TM_Locomotion)), null, (SchedulerGroup)null);
 				material.color = Game.Instance.uiColours.Dig.unreachable;
 			}
