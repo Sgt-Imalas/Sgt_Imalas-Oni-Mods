@@ -550,7 +550,7 @@ namespace BlueprintsV2.Visualizers
 
 		public virtual bool HasTech()
 		{
-			return (BlueprintState.InstantBuild || !Config.Instance.RequireConstructable || Db.Get().TechItems.IsTechItemComplete(buildingConfig.BuildingDef.PrefabID));
+			return BlueprintState.InstantBuild || !Config.Instance.RequireConstructable_Tech || Db.Get().TechItems.IsTechItemComplete(buildingConfig.BuildingDef.PrefabID);
 		}
 		public virtual bool ValidCell(int cellParam)
 		{
@@ -607,7 +607,7 @@ namespace BlueprintsV2.Visualizers
 			{
 				return ModAssets.BLUEPRINTS_COLOR_NOTECH;
 			}
-			else if (RequirementsState == PlanScreen.RequirementsState.Materials && Config.Instance.RequireConstructable)
+			else if (RequirementsState == PlanScreen.RequirementsState.Materials && Config.Instance.RequireConstructable_Material)
 				return ModAssets.BLUEPRINTS_COLOR_NOMATERIALS;
 			else if (!AllowedInWorld())
 				return ModAssets.BLUEPRINTS_COLOR_NOTALLOWEDINWORLD;

@@ -97,7 +97,7 @@ namespace BlueprintsV2.BlueprintData
 									gameObject.TryGetComponent(out building);
 								}
 								//SgtLogger.l($"{gameObject != null} && {building != null} && {API_Methods.IsBuildable(building.Def)} && {(filter == null || filter.BuildingDefAllowedWithCurrentFilters(building.Def))}");
-								if (gameObject != null && building != null && API_Methods.AllowedByRules(building.Def) && (filter == null || filter.BuildingDefAllowedWithCurrentFilters(building.Def)))
+								if (building != null && API_Methods.AllowedByRules(building.Def) && (filter == null || filter.BuildingDefAllowedWithCurrentFilters(building.Def)))
 								{
 									Vector2I centre = Grid.CellToXY(GameUtil.NaturalBuildingCell(building));
 

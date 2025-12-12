@@ -156,7 +156,11 @@ namespace BlueprintsV2.ModAPI
 		{
 			buildableState = PlanScreen.Instance.GetBuildableStateForDef(buildingDef);
 			//SgtLogger.l(buildableState.ToString(), "buildablestate");
-			return buildableState == PlanScreen.RequirementsState.Complete || (!Config.Instance.RequireConstructable && (buildableState == PlanScreen.RequirementsState.Materials || buildableState == PlanScreen.RequirementsState.Tech));
+			bool requirementsFulfilled = buildableState == PlanScreen.RequirementsState.Complete;
+			bool skipTechRequirement = buildableState == PlanScreen.RequirementsState.Tech && !Config.Instance.RequireConstructable_Tech;
+			bool skipMatRequirement = buildableState == PlanScreen.RequirementsState.Materials && !Config.Instance.RequireConstructable_Material;
+
+			return requirementsFulfilled || skipTechRequirement || skipMatRequirement;
 		}
 		public static bool IsBuildable(BuildingDef buildingDef)
 		{
@@ -236,7 +240,7 @@ namespace BlueprintsV2.ModAPI
 			{
 				buildingConfig.SetBuildingData(dataEntry.Key, dataEntry.Value);
 			}
-			if(gameObject.TryGetComponent<UnderConstructionDataTransfer>(out var dataCarrier))
+			if (gameObject.TryGetComponent<UnderConstructionDataTransfer>(out var dataCarrier))
 			{
 				dataCarrier.TransferStoredDataToBlueprintEntry(buildingConfig);
 			}
@@ -341,8 +345,8 @@ namespace BlueprintsV2.ModAPI
 
 			RegisterInternally(nameof(Prioritizable), DataTransfer_Prioritizable.TryGetData, DataTransfer_Prioritizable.TryApplyData);
 			RegisterInternally(nameof(BuildingEnabledButton), DataTransfer_BuildingEnabledButton.TryGetData, DataTransfer_BuildingEnabledButton.TryApplyData);
-			RegisterInternally(nameof(SingleEntityReceptacle), DataTransfer_SingleEntityReceptacle.TryGetData, DataTransfer_SingleEntityReceptacle.TryApplyData); 
-			RegisterInternally(nameof(StorageTile), DataTransfer_StorageTile.TryGetData, DataTransfer_StorageTile.TryApplyData); 
+			RegisterInternally(nameof(SingleEntityReceptacle), DataTransfer_SingleEntityReceptacle.TryGetData, DataTransfer_SingleEntityReceptacle.TryApplyData);
+			RegisterInternally(nameof(StorageTile), DataTransfer_StorageTile.TryGetData, DataTransfer_StorageTile.TryApplyData);
 			RegisterInternally(nameof(Filterable), DataTransfer_Filterable.TryGetData, DataTransfer_Filterable.TryApplyData);
 			RegisterInternally(nameof(FoodStorage), DataTransfer_FoodStorage.TryGetData, DataTransfer_FoodStorage.TryApplyData);
 			RegisterInternally(nameof(TreeFilterable), DataTransfer_TreeFilterable.TryGetData, DataTransfer_TreeFilterable.TryApplyData);

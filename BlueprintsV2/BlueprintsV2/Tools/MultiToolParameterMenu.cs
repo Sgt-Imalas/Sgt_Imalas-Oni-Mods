@@ -214,6 +214,8 @@ namespace BlueprintsV2.Tools
 				case ObjectLayer.Building:
 				case ObjectLayer.FoundationTile:
 				case ObjectLayer.AttachableBuilding:
+				case ObjectLayer.PlasticTile:
+				case ObjectLayer.LadderTile:
 					return currentParams.TryGetValue(ToolParameterMenu.FILTERLAYERS.BUILDINGS, out toggleState) && toggleState == ToolParameterMenu.ToggleState.On;
 
 				case ObjectLayer.Backwall:
@@ -241,10 +243,13 @@ namespace BlueprintsV2.Tools
 				case ObjectLayer.Wire:
 				case ObjectLayer.WireConnectors:
 				case ObjectLayer.WireTile:
+				case ObjectLayer.ReplacementWire:
 					return currentParams.TryGetValue(ToolParameterMenu.FILTERLAYERS.WIRES, out toggleState) && toggleState == ToolParameterMenu.ToggleState.On;
 
 				case ObjectLayer.LogicGate:
 				case ObjectLayer.LogicWire:
+				case ObjectLayer.LogicWireTile:
+				case ObjectLayer.ReplacementLogicWire:
 					return currentParams.TryGetValue(ToolParameterMenu.FILTERLAYERS.LOGIC, out toggleState) && toggleState == ToolParameterMenu.ToggleState.On;
 
 				case ObjectLayer.DigPlacer:

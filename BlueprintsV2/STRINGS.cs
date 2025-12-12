@@ -15,10 +15,15 @@ namespace BlueprintsV2
 				public static LocString DEFAULTMENUSELECTION_ALL = "All";
 				public static LocString DEFAULTMENUSELECTION_NONE = "None";
 			}
-			public class REQUIRECONSTRUCTABLE
+			public class REQUIRECONSTRUCTABLE_MATERIAL
 			{
-				public static LocString TITLE = "Require Constructable";
-				public static LocString TOOLTIP = "Whether buildings must be constructable by the player to be used in blueprints.";
+				public static LocString TITLE = "Require blueprint building materials";
+				public static LocString TOOLTIP = "If enabled, buildings in blueprints are only placed down if their materials are available.";
+			}
+			public class REQUIRECONSTRUCTABLE_TECH
+			{
+				public static LocString TITLE = "Require blueprint building tech";
+				public static LocString TOOLTIP = "If enabled, buildings in blueprints are only placed down if their required tech has been researched.";
 			}
 			public class FXTIME
 			{
