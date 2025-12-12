@@ -113,12 +113,12 @@ namespace OniRetroEdition.SlurpTool
 			if ((double)this.amountMopped <= 0.0)
 				return;
 			PopFXManager.Instance.SpawnFX(PopFXManager.Instance.sprite_Resource, GameUtil.GetFormattedMass(-this.amountMopped), this.transform);
-			this.amountMopped = 0.0f;
+			this.amountMopped = 0;
 		}
 
 		public void Sim200ms(float dt)
 		{
-			if (!((UnityEngine.Object)this.worker != (UnityEngine.Object)null))
+			if (worker == null)
 				return;
 			this.Refresh();
 			this.MopTick(this.amountMoppedPerTick);
@@ -126,15 +126,15 @@ namespace OniRetroEdition.SlurpTool
 
 		private void OnCellMopped(Sim.MassConsumedCallback mass_cb_info, object data)
 		{
+
 			if (this == null || mass_cb_info.mass <= 0.0f)
 				return;
 			this.amountMopped += mass_cb_info.mass;
 			int cell = Grid.PosToCell(this);
 			SubstanceChunk chunk = LiquidSourceManager.Instance.CreateChunk(ElementLoader.elements[(int)mass_cb_info.elemIdx], mass_cb_info.mass, mass_cb_info.temperature, mass_cb_info.diseaseIdx, mass_cb_info.diseaseCount, Grid.CellToPosCCC(cell, Grid.SceneLayer.Ore));
-
-			if (worker != null && worker.TryGetComponent<Storage>(out var storage))
+			if (worker != null && worker.TryGetComponent<Storage>(out var storage) && chunk.TryGetComponent<Pickupable>(out var pickupable) && pickupable.storage != storage)
 			{
-				storage.Store(chunk.gameObject);
+				storage.Store(chunk.gameObject, true);
 			}
 			else
 			{

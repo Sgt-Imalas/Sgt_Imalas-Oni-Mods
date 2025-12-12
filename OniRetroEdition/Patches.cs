@@ -238,7 +238,7 @@ namespace OniRetroEdition
 		{
 			public static void Prefix(string id, ref int width, ref int height)
 			{
-				if (id.Contains("steam") || id.Contains("hot_steam") || id.Contains("methane"))
+				//if (id.Contains("steam") || id.Contains("hot_steam") || id.Contains("methane"))
 				{
 					width = 3;
 					height = 3;
