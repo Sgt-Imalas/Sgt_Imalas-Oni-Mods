@@ -55,11 +55,11 @@ namespace ComplexFabricatorRibbonController.Content.UI.Components
 
 			if (isSelected)
 			{
-				ToolTip.SetSimpleTooltip(targetRecipeDesc + "\n\n" + RIBBONSELECTIONSECONDARYSIDESCREEN.USETOOLTIPS.CURRENTRECIPE);
+				ToolTip.SetSimpleTooltip(targetRecipeDesc + "\n\n" + LISTSELECTION_SECONDARYSIDESCREEN.USETOOLTIPS.CURRENTRECIPE);
 			}
 			else if (inUse)
 			{
-				ToolTip.SetSimpleTooltip(targetRecipeDesc + "\n\n" + string.Format(sameMachine ? RIBBONSELECTIONSECONDARYSIDESCREEN.USETOOLTIPS.ALREADYINUSE : RIBBONSELECTIONSECONDARYSIDESCREEN.USETOOLTIPS.ALREADYINUSEOTHER, ++inUseBit));
+				ToolTip.SetSimpleTooltip(targetRecipeDesc + "\n\n" + string.Format(sameMachine ? LISTSELECTION_SECONDARYSIDESCREEN.USETOOLTIPS.ALREADYINUSE : LISTSELECTION_SECONDARYSIDESCREEN.USETOOLTIPS.ALREADYINUSEOTHER, ++inUseBit));
 			}			
 			else
 			{

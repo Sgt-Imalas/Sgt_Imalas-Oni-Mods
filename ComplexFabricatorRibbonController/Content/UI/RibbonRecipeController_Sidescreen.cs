@@ -44,7 +44,7 @@ namespace ComplexFabricatorRibbonController.Content.UI
 		{
 			if (SecondarySideScreen == null || enable)
 			{
-				SecondarySideScreen = (RibbonRecipeController_SecondarySidescreen)DetailsScreen.Instance.SetSecondarySideScreen(ModAssets.RecipeSelectionSecondarySidescreen, string.Format(STRINGS.UI.RIBBONSELECTIONSECONDARYSIDESCREEN.TITLE,bit+1));
+				SecondarySideScreen = (RibbonRecipeController_SecondarySidescreen)DetailsScreen.Instance.SetSecondarySideScreen(ModAssets.RecipeSelectionSecondarySidescreen, string.Format(STRINGS.UI.LISTSELECTION_SECONDARYSIDESCREEN.TITLE,bit+1));
 				SecondarySideScreen.OnConfirm = recipe => OnRecipeSelected(recipe, bit);
 				SecondarySideScreen.SetOpenedFrom(TargetComponent,bit);
 			}

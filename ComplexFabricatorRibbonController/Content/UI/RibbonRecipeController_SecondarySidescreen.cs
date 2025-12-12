@@ -1,13 +1,15 @@
-﻿using System;
+﻿using ComplexFabricatorRibbonController.Content.Scripts.Buildings;
+using ComplexFabricatorRibbonController.Content.UI.Components;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using UtilLibs.UIcmp;
 using UtilLibs;
-using ComplexFabricatorRibbonController.Content.Scripts.Buildings;
-using ComplexFabricatorRibbonController.Content.UI.Components;
+using UtilLibs.UIcmp;
+using static ModInfo;
 
 namespace ComplexFabricatorRibbonController.Content.UI
 {
@@ -22,6 +24,11 @@ namespace ComplexFabricatorRibbonController.Content.UI
 		int OpenedFromBit;
 
 		RecipeEntry NoneUIEntry;
+		FInputField2 BlueprintSearchbar;
+		FButton ClearBlueprintSearchbar;
+
+		Dictionary<string, RecipeEntry> CurrentFabricatorRecipeIDs = [];
+
 
 		public override void OnPrefabInit()
 		{
@@ -36,6 +43,18 @@ namespace ComplexFabricatorRibbonController.Content.UI
 			groupsContainer = recipeEntryPrefabGO.transform.parent.gameObject;
 			recipeEntryPrefabGO.SetActive(false);
 			groupEntryPrefab = recipeEntryPrefabGO.AddOrGet<RecipeEntry>();
+
+
+			BlueprintSearchbar = transform.Find("SearchBar/Input").FindOrAddComponent<FInputField2>();
+			BlueprintSearchbar.OnValueChanged.AddListener(ApplyBlueprintFilter);
+			BlueprintSearchbar.Text = string.Empty;
+			ClearBlueprintSearchbar = transform.Find("SearchBar/DeleteButton").FindOrAddComponent<FButton>();
+			ClearBlueprintSearchbar.OnClick += () => BlueprintSearchbar.Text = string.Empty;
+			UIUtils.AddSimpleTooltipToObject(ClearBlueprintSearchbar.gameObject, STRINGS.UI.LISTSELECTION_SECONDARYSIDESCREEN.SEARCHBAR.CLEARTOOLTIP);
+		}
+		public void ApplyBlueprintFilter(string filterstring = "")
+		{
+			ApplyTextFilterVisibility();
 		}
 		void SetEmptyRow()
 		{
@@ -52,12 +71,63 @@ namespace ComplexFabricatorRibbonController.Content.UI
 			SetEmptyRow();
 			//CurrentTagEntries = Target.GetCurrentlyExistingGroups();
 			Refresh();
+			BlueprintSearchbar.SetTextFromData(string.Empty);
 		}
+		void ApplyTextFilterVisibility()
+		{
+			foreach (var currentRecipe in CurrentFabricatorRecipeIDs)
+			{
+				var recipe = currentRecipe.Value.targetRecipe;
+				if (recipe == null)
+					continue;
+				currentRecipe.Value.gameObject.SetActive(RecipeWithinFilters(recipe));
+			}
+		}
+
+		static StringBuilder sb = new StringBuilder();
+		static Dictionary<ComplexRecipe, string> CachedSearchableStrings = [];
+		bool RecipeWithinFilters(ComplexRecipe recipe)
+		{
+			if (recipe == null || !BlueprintSearchbar.Text.Any())
+				return true;
+			if (!CachedSearchableStrings.TryGetValue(recipe, out var searchableString))
+			{
+				sb.Clear();
+				sb.Append(recipe.id);
+				sb.Append(recipe.description);
+				foreach (var ingredient in recipe.ingredients)
+				{
+					if (ingredient.material == null)
+						continue;
+					var item = Assets.TryGetPrefab(ingredient.material);
+					sb.Append(ingredient.material);
+					if (item == null)
+						continue;
+					sb.Append((int)ingredient.amount);
+					sb.Append(global::STRINGS.UI.StripLinkFormatting(item.GetProperName()));
+				}
+				foreach (var result in recipe.results)
+				{
+					if (result.material == null)
+						continue;
+					var item = Assets.TryGetPrefab(result.material);
+					sb.Append(result.material);
+					sb.Append((int)result.amount);
+					if (item == null)
+						continue;
+					sb.Append(global::STRINGS.UI.StripLinkFormatting(item.GetProperName()));
+				}
+				CachedSearchableStrings[recipe] = sb.ToString();
+				searchableString = sb.ToString();
+			}
+			return CultureInfo.InvariantCulture.CompareInfo.IndexOf(searchableString, BlueprintSearchbar.Text, CompareOptions.IgnoreCase) >= 0;
+		}
+
 		void Refresh()
 		{
 			if (!Target)
 				return;
-
+			CurrentFabricatorRecipeIDs.Clear();
 			//Target.TryGetGroupName(out var groupName);
 
 			foreach (var entry in GroupEntries)
@@ -74,11 +144,15 @@ namespace ComplexFabricatorRibbonController.Content.UI
 					bool currentlySelectedOnOwnComponent = recipeInfo.third;
 
 					bool currentlySelectedRecipe = recipe == currentRecipe;
-					AddOrGetGroupEntry(recipe)
-						.UpdateInUseState(currentlySelectedOnBit,currentlySelectedOnOwnComponent,currentlySelectedRecipe);
+					var entry = AddOrGetGroupEntry(recipe);
+					entry.UpdateInUseState(currentlySelectedOnBit, currentlySelectedOnOwnComponent, currentlySelectedRecipe);
+
+					if (recipe != null)
+						CurrentFabricatorRecipeIDs[recipe.id] = entry;
 				}
 			}
 			NoneUIEntry.UpdateInUseState(-1, false, (currentRecipe == null));
+			ApplyTextFilterVisibility();
 		}
 		void SelectComplexRecipe(ComplexRecipe current)
 		{

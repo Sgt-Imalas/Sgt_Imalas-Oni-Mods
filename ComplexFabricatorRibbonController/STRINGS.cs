@@ -49,9 +49,22 @@ namespace ComplexFabricatorRibbonController
 					public static LocString TOOLTIP = "This recipe controller is not attached to a fabricator building!";
 				}
 			}
-			public class RIBBONSELECTIONSECONDARYSIDESCREEN
+
+
+			public class LISTSELECTION_SECONDARYSIDESCREEN
 			{
 				public static LocString TITLE = "Recipe Selection for Bit {0}:";
+				public class SEARCHBAR
+				{
+					public static LocString CLEARTOOLTIP = "Clear search bar";
+					public class INPUT
+					{
+						public class TEXTAREA
+						{
+							public static LocString PLACEHOLDER = "Enter text to filter recipes...";
+						}
+					}
+				}
 				public class USETOOLTIPS
 				{
 					public static LocString CURRENTRECIPE = "Currently selected for this Bit";
