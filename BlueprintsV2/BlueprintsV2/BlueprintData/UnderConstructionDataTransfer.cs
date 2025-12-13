@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using UtilLibs;
 
 namespace BlueprintsV2.BlueprintData
 {
@@ -32,8 +33,8 @@ namespace BlueprintsV2.BlueprintData
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
-			//Subscribe((int)GameHashes.SelectObject, OnSelectObject);
 		}
+
 
 		public override void OnCleanUp()
 		{
@@ -71,7 +72,10 @@ namespace BlueprintsV2.BlueprintData
 		public string SidescreenButtonTooltip => STRINGS.UI.PRECONFIGURE_UNDERCONSTRUCTION.TOOLTIP;
 		public void SetButtonTextOverride(ButtonMenuTextOverride textOverride)
 		{
+			SgtLogger.l("SetButtonTextOverride");
 		}
+
+		public static bool SelectButtonUnlocked = true;
 
 		public bool SidescreenEnabled() => UnderConstructionDataSettingHelper.HasDataTransferComponents(building);
 
@@ -79,6 +83,9 @@ namespace BlueprintsV2.BlueprintData
 
 		public void OnSidescreenButtonPressed()
 		{
+			if (!SelectButtonUnlocked)
+				return;
+			SelectButtonUnlocked = false;
 			UnderConstructionDataSettingHelper.StartEditingUnderConstructionData(this);
 		}
 
