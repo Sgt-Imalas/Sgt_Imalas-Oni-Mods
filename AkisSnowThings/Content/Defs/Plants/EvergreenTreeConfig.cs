@@ -16,7 +16,7 @@ namespace AkisSnowThings.Content.Defs.Plants
 	{
 		public const string ID = "SnowSculptures_EverGreenTree";
 		public const string SEED_ID = "SnowSculptures_PineCone";
-		public const float WATER_PER_SECOND = 30f / 600;
+		public const float WATER_PER_SECOND = 35f / 600;
 		public const float GROWTH_TIME = 24f * 600f;
 		public const int HARVEST_MASS = 4000;
 		public const float SAP_PER_SECOND = 10f / 600f;
@@ -109,7 +109,7 @@ namespace AkisSnowThings.Content.Defs.Plants
 			conduitDispenser.conduitType = ConduitType.Liquid;
 			conduitDispenser.alwaysDispense = true;
 			//conduitDispenser.SetOnState(true);
-			conduitDispenser.storage =	sapStorage;
+			conduitDispenser.storage = sapStorage;
 			return prefab;
 		}
 

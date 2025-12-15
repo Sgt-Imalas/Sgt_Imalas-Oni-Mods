@@ -21,7 +21,7 @@ namespace AkisSnowThings.Content.Scripts.Buildings
 		public static Dictionary<int, int> CachedGlobalTimers = [];
 
 		[Serialize]
-		private int GlobalCooldownLoc = 0;
+		int GlobalCooldownLoc = 0;
 
 		[MyCmpReq]
 		KSelectable selectable;
@@ -32,17 +32,36 @@ namespace AkisSnowThings.Content.Scripts.Buildings
 		{
 			var myWorld = this.GetMyParentWorldId();
 			base.OnSpawn();
-			if (!CachedGlobalTimers.ContainsKey(myWorld))
-				CachedGlobalTimers[myWorld] = this.GlobalCooldownLoc;
+			if (!CachedGlobalTimers.TryGetValue(myWorld, out int cachedCycle) || cachedCycle < GlobalCooldownLoc)
+				UpdateOtherTreesOnWorld(myWorld);
 			else
 				GlobalCooldownLoc = CachedGlobalTimers[myWorld];
-				
+
 			GlobalSpawners.Add(this);
 		}
+
+		private void UpdateOtherTreesOnWorld(int myWorld)
+		{
+			CachedGlobalTimers[myWorld] = this.GlobalCooldownLoc;
+			foreach(var item in GlobalSpawners)
+			{
+				if (item.IsNullOrDestroyed())continue;
+				item.SetCycleIfSameWorld(this.GlobalCooldownLoc, myWorld);
+			}
+		}
+
 		public override void OnCleanUp()
 		{
 			GlobalSpawners.Remove(this);
 			base.OnCleanUp();
+		}
+
+		public void SetCycleIfSameWorld(int targetCycle, int otherSpawnerWorld)
+		{
+			var myWorldId = this.GetMyWorldId();
+			if (myWorldId != otherSpawnerWorld)
+				return;
+			SetNextCycle(targetCycle);
 		}
 
 		internal void SetNextCycle(int target)
@@ -55,15 +74,7 @@ namespace AkisSnowThings.Content.Scripts.Buildings
 			int nextTargetCycle = GlobalCooldownLoc + CooldownTimeCycles;
 			SetNextCycle(nextTargetCycle);
 			var myWorld = this.GetMyParentWorldId();
-			foreach (var entry in GlobalSpawners)
-			{
-				if (entry.IsNullOrDestroyed())
-					continue;
-
-				if (entry.GetMyParentWorldId() != myWorld)
-					continue;
-				entry.SetNextCycle(nextTargetCycle);
-			}
+			UpdateOtherTreesOnWorld(myWorld);
 			SgtLogger.l("Spawning Christmas Presents");
 			StartCoroutine(SpawnPresentsDelayed());
 		}
@@ -94,8 +105,8 @@ namespace AkisSnowThings.Content.Scripts.Buildings
 		#region isidescreenbuttoncontrol
 
 
-		public string SidescreenButtonText => SidescreenButtonInteractable() 
-			? Strings.Get("STRINGS.UI.GIVEDUPEPRESENTS.LABEL") 
+		public string SidescreenButtonText => SidescreenButtonInteractable()
+			? Strings.Get("STRINGS.UI.GIVEDUPEPRESENTS.LABEL")
 			: string.Format(Strings.Get("STRINGS.UI.GIVEDUPEPRESENTS.LABEL_COOLDOWN"), GlobalCooldownLoc - GameClock.Instance.GetCycle());
 
 		public string SidescreenButtonTooltip => Strings.Get("STRINGS.UI.GIVEDUPEPRESENTS.TOOLTIP");
