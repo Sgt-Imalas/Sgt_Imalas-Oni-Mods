@@ -39,6 +39,14 @@ namespace ComplexFabricatorRibbonController
 		}
 		public class UI
 		{
+			public class RFRC_CONFIG
+			{
+				public class MICROCHIP_REQUIRED
+				{
+					public static LocString TEXT = "Building requires microchip";
+					public static LocString TOOLTIP = "Whether or not the building requires a microchip to construct. If disabled, the metal cost will be slightly higher.";
+				}
+			}
 			public static LocString RFRC_NO_RECIPE = "No Recipe";
 			public class RIBBONSELECTIONSIDESCREEN
 			{

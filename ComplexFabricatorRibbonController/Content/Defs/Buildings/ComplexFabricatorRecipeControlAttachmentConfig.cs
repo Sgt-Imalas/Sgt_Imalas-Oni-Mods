@@ -19,8 +19,8 @@ namespace ComplexFabricatorRibbonController.Content.Defs.Buildings
 		public const string ID = "CFRC_ComplexFabricatorRecipeControlAttachment";
 		public override BuildingDef CreateBuildingDef()
 		{
-			string[] Materials = [MATERIALS.REFINED_METAL, ModAssets.Microchip_Buildable.ToString()];
-			float[] MaterialCosts = [50,1];
+			string[] Materials = Config.Instance.MicrochipBuildingCost ? [MATERIALS.REFINED_METAL, ModAssets.Microchip_Buildable.ToString()] : [MATERIALS.REFINED_METAL];
+			float[] MaterialCosts = Config.Instance.MicrochipBuildingCost ? [50,1] : [60];
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(
 					ID,
 					1,
