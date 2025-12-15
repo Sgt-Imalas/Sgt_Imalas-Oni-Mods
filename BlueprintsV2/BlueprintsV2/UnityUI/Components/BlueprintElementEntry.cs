@@ -152,8 +152,6 @@ namespace BlueprintsV2.UnityUI.Components
 
 			Tag targetTag = SelectedAndCategory.SelectedTag;
 
-			
-
 			if (ModAssets.TryGetReplacementTag(SelectedAndCategory, out var replacement))
 			{
 				targetTag = replacement;

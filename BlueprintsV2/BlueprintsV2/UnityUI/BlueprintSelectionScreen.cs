@@ -70,7 +70,24 @@ namespace BlueprintsV2.UnityUI
 		public bool CurrentlyActive;
 		public bool DialogueCurrentlyOpen;
 		public Blueprint TargetBlueprint;
-		public bool OpenedFromSnapshot;
+
+		private bool _openedFromSnapshot;
+		public bool OpenedFromSnapshot 
+		{
+			get
+			{
+				return _openedFromSnapshot;
+			}
+			set
+			{
+				_openedFromSnapshot = value;
+				if(TargetBlueprint != null)
+				{
+					string materialLabel = value ? STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.MATERIALREPLACEMENT.LABEL : string.Format(MATERIALSWITCH.MATERIALSHEADER.LABEL, TargetBlueprint.FriendlyName);
+					MaterialHeaderTitle.SetText(materialLabel);
+				}
+			}		
+		}
 
 		private void Init()
 		{
@@ -249,6 +266,7 @@ namespace BlueprintsV2.UnityUI
 			}
 			else
 			{
+				MaterialHeaderTitle.SetText(string.Format(MATERIALSWITCH.MATERIALSHEADER.LABEL, TargetBlueprint.FriendlyName));
 
 				foreach (var prev in ElementEntries)
 				{
@@ -259,7 +277,6 @@ namespace BlueprintsV2.UnityUI
 
 				NoItems.SetActive(blueprintMaterials.Count() == 0);
 				BlueprintsElements.SetActive(true);
-				MaterialHeaderTitle.SetText(string.Format(MATERIALSWITCH.MATERIALSHEADER.LABEL, TargetBlueprint.FriendlyName));
 				foreach (var kvp in blueprintMaterials)
 				{
 					var selectedAndCategory = kvp.Key;

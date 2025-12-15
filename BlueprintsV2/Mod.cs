@@ -14,13 +14,13 @@ namespace BlueprintsV2
 	{
 		public override void OnLoad(Harmony harmony)
 		{
+			ModAssets.LoadAssets();
 			PUtil.InitLibrary();
 			new POptions().RegisterOptions(this, typeof(Config));
 			base.OnLoad(harmony);
 
 			ModAssets.RegisterActions();
 			SgtLogger.l("Loading Mod Assets...");
-			LoadAssets();
 
 			SgtLogger.LogVersion(this, harmony);
 			BlueprintFileHandling.AttachFileWatcher();

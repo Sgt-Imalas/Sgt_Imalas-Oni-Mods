@@ -79,7 +79,7 @@ namespace BlueprintsV2.BlueprintData
 
 		public bool SidescreenEnabled() => UnderConstructionDataSettingHelper.HasDataTransferComponents(building);
 
-		public bool SidescreenButtonInteractable() => true;
+		public bool SidescreenButtonInteractable() => SelectButtonUnlocked;
 
 		public void OnSidescreenButtonPressed()
 		{

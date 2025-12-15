@@ -103,6 +103,7 @@ namespace BlueprintsV2.UnityUI.Components
 			};
 			DialogUtil.CreateTextInputDialog(MOVETOFOLDER_TITLE, blueprint.Folder, null, true, ChangeFolderAction, () => SetDialogueState(false), ModAssets.ParentScreen, true, false);
 		}
+
 		void SetDialogueState(bool state)
 		{
 			if (OnDialogueToggled != null)

@@ -1,0 +1,757 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.8\n"
+
+#. BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.CREATEBLUEPRINTTOOLSYNC.TITLE
+msgctxt "BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.CREATEBLUEPRINTTOOLSYNC.TITLE"
+msgid "Blueprint Tool Overlay Sync"
+msgstr "Blaupausen-Tool Overlay Synchr."
+
+#. BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.CREATEBLUEPRINTTOOLSYNC.TOOLTIP
+msgctxt "BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.CREATEBLUEPRINTTOOLSYNC.TOOLTIP"
+msgid "Whether the Blueprint Tool syncs with the current overlay. (configurable in game too)"
+msgstr ""
+"Soll die Auswahl des Blaupausen-Tools mit dem aktiven Overlay synchronisiert werden. (Auch im Spiel konfigurierbar)"
+
+#. BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.DEFAULTMENUSELECTION.DEFAULTMENUSELECTION_ALL
+msgctxt "BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.DEFAULTMENUSELECTION.DEFAULTMENUSELECTION_ALL"
+msgid "All"
+msgstr "Alle"
+
+#. BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.DEFAULTMENUSELECTION.DEFAULTMENUSELECTION_NONE
+msgctxt "BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.DEFAULTMENUSELECTION.DEFAULTMENUSELECTION_NONE"
+msgid "None"
+msgstr "Keine"
+
+#. BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.DEFAULTMENUSELECTION.TITLE
+msgctxt "BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.DEFAULTMENUSELECTION.TITLE"
+msgid "Default Menu Selections"
+msgstr "Standard Menü-Selektion"
+
+#. BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.DEFAULTMENUSELECTION.TOOLTIP
+msgctxt "BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.DEFAULTMENUSELECTION.TOOLTIP"
+msgid "The default selections made when an advanced filter menu is opened."
+msgstr "Die Standardauswahl, wenn ein Blaupausen-Filtermenü geöffnet wird."
+
+#. BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.FXTIME.TITLE
+msgctxt "BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.FXTIME.TITLE"
+msgid "FX Time"
+msgstr "Effekt-Dauer"
+
+#. BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.FXTIME.TOOLTIP
+msgctxt "BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.FXTIME.TOOLTIP"
+msgid "How long FX created by Blueprints remain on the screen. Measured in seconds."
+msgstr "Wie lange Text-Popup-Effekte andauern; in Sekunden."
+
+#. BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.REQUIRECONSTRUCTABLE_MATERIAL.TITLE
+msgctxt "BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.REQUIRECONSTRUCTABLE_MATERIAL.TITLE"
+msgid "Require blueprint building materials"
+msgstr "Blaupausen benötigen Material zum platzieren"
+
+#. BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.REQUIRECONSTRUCTABLE_MATERIAL.TOOLTIP
+msgctxt "BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.REQUIRECONSTRUCTABLE_MATERIAL.TOOLTIP"
+msgid "If enabled, buildings in blueprints are only placed down if their materials are available."
+msgstr "Blaupausen-Gebäude werden nur platziert, wenn genug Baumaterialien vorhanden sind."
+
+#. BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.REQUIRECONSTRUCTABLE_TECH.TITLE
+msgctxt "BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.REQUIRECONSTRUCTABLE_TECH.TITLE"
+msgid "Require blueprint building tech"
+msgstr "Blaupausen benötigen Forschung zum platzieren"
+
+#. BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.REQUIRECONSTRUCTABLE_TECH.TOOLTIP
+msgctxt "BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.REQUIRECONSTRUCTABLE_TECH.TOOLTIP"
+msgid "If enabled, buildings in blueprints are only placed down if their required tech has been researched."
+msgstr "Blaupausen-Gebäude werden nur platziert, wenn die freischaltende Foschung abgeschlossen wurde."
+
+#. BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.SNAPSHOTTOOLSYNC.TITLE
+msgctxt "BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.SNAPSHOTTOOLSYNC.TITLE"
+msgid "Snapshot Tool Overlay Sync"
+msgstr "Schnappschuss-Tool Overlay Synchr."
+
+#. BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.SNAPSHOTTOOLSYNC.TOOLTIP
+msgctxt "BlueprintsV2.STRINGS.BLUEPRINTS_CONFIG.SNAPSHOTTOOLSYNC.TOOLTIP"
+msgid "Whether the Snapshot Tool syncs with the current overlay. (configurable in game too)"
+msgstr ""
+"Soll die Auswahl des Schnappschuss-Tools mit dem aktiven Overlay synchronisiert werden. (Auch im Spiel "
+"konfigurierbar)"
+
+#. BlueprintsV2.STRINGS.UI.ACTIONS.CHANGE_ANCHOR_TITLE
+msgctxt "BlueprintsV2.STRINGS.UI.ACTIONS.CHANGE_ANCHOR_TITLE"
+msgid "Change Blueprint Anchor"
+msgstr "Blaupausen-Anker ämderm"
+
+#. BlueprintsV2.STRINGS.UI.ACTIONS.CREATE_TITLE
+msgctxt "BlueprintsV2.STRINGS.UI.ACTIONS.CREATE_TITLE"
+msgid "Create Blueprint"
+msgstr "Blaupause erstellen"
+
+#. BlueprintsV2.STRINGS.UI.ACTIONS.FLIP_BLUEPRINT_H
+msgctxt "BlueprintsV2.STRINGS.UI.ACTIONS.FLIP_BLUEPRINT_H"
+msgid "Flip Blueprint Horizontal"
+msgstr "Blaupause horizontal spiegeln"
+
+#. BlueprintsV2.STRINGS.UI.ACTIONS.FLIP_BLUEPRINT_V
+msgctxt "BlueprintsV2.STRINGS.UI.ACTIONS.FLIP_BLUEPRINT_V"
+msgid "Flip Blueprint Vertical"
+msgstr "Blaupause vertikal spiegeln"
+
+#. BlueprintsV2.STRINGS.UI.ACTIONS.ROTATE_BLUEPRINT
+msgctxt "BlueprintsV2.STRINGS.UI.ACTIONS.ROTATE_BLUEPRINT"
+msgid "Rotate Blueprint"
+msgstr "Blaupause rotieren"
+
+#. BlueprintsV2.STRINGS.UI.ACTIONS.ROTATE_INV_BLUEPRINT
+msgctxt "BlueprintsV2.STRINGS.UI.ACTIONS.ROTATE_INV_BLUEPRINT"
+msgid "Reverse Rotate Blueprint"
+msgstr "Blaupause rückwärts rotieren"
+
+#. BlueprintsV2.STRINGS.UI.ACTIONS.SELECT_DIFFERENT_TITLE
+msgctxt "BlueprintsV2.STRINGS.UI.ACTIONS.SELECT_DIFFERENT_TITLE"
+msgid "Select different Blueprint"
+msgstr "andere Blaupause auswählen"
+
+#. BlueprintsV2.STRINGS.UI.ACTIONS.SELECT_NEXT
+msgctxt "BlueprintsV2.STRINGS.UI.ACTIONS.SELECT_NEXT"
+msgid "Next Blueprint"
+msgstr "Nächste Blaupause"
+
+#. BlueprintsV2.STRINGS.UI.ACTIONS.SELECT_PREV
+msgctxt "BlueprintsV2.STRINGS.UI.ACTIONS.SELECT_PREV"
+msgid "Previous Blueprint"
+msgstr "Vorherige Blaupause"
+
+#. BlueprintsV2.STRINGS.UI.ACTIONS.SNAPSHOT_REUSE_TITLE
+msgctxt "BlueprintsV2.STRINGS.UI.ACTIONS.SNAPSHOT_REUSE_TITLE"
+msgid "Use last Snapshot"
+msgstr "Letzten Schnappschuss laden"
+
+#. BlueprintsV2.STRINGS.UI.ACTIONS.SNAPSHOT_TITLE
+msgctxt "BlueprintsV2.STRINGS.UI.ACTIONS.SNAPSHOT_TITLE"
+msgid "Take Snapshot"
+msgstr "Schnappschuss erstellen"
+
+#. BlueprintsV2.STRINGS.UI.ACTIONS.TOGGLE_FORCE
+msgctxt "BlueprintsV2.STRINGS.UI.ACTIONS.TOGGLE_FORCE"
+msgid "Toggle force rebuild"
+msgstr "Erzwinge-Neubau umschalten"
+
+#. BlueprintsV2.STRINGS.UI.ACTIONS.TOGGLETOOLTIPS
+msgctxt "BlueprintsV2.STRINGS.UI.ACTIONS.TOGGLETOOLTIPS"
+msgid "Toggle keybind tooltips"
+msgstr "Tastaturbefehl-Tooltips umschalten"
+
+#. BlueprintsV2.STRINGS.UI.ACTIONS.USE_TITLE
+msgctxt "BlueprintsV2.STRINGS.UI.ACTIONS.USE_TITLE"
+msgid "Use Blueprint"
+msgstr "Blaupause verwenden"
+
+#. BlueprintsV2.STRINGS.UI.BLUEPRINTS_ROOTFOLDER
+msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTS_ROOTFOLDER"
+msgid "Main Folder"
+msgstr "Haupt-Ordner"
+
+#. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.CLOSEBUTTON.TEXT
+msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.CLOSEBUTTON.TEXT"
+msgid "Close"
+msgstr "Schließen"
+
+#. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.IMPORTBUTTON.TEXT
+msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.IMPORTBUTTON.TEXT"
+msgid "Import new blueprint from clipboard"
+msgstr "Neue Blaupause aus der Zwischenablage importieren"
+
+#. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.IMPORTBUTTON.TOOLTIP
+msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.IMPORTBUTTON.TOOLTIP"
+msgid "Import a bluprint string you have stored in your clipboard"
+msgstr "Importiere eine neue Blaupause von deiner Zwischenablage"
+
+#. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.SCROLLAREA.CONTENT.BLUEPRINTENTRY.TOOLTIP_DELETE
+msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.SCROLLAREA.CONTENT.BLUEPRINTENTRY.TOOLTIP_DELETE"
+msgid ""
+"Delete Blueprint.\n"
+"Deleting the last blueprint in a sub folder will also delete the folder."
+msgstr ""
+"Blaupause löschen.\n"
+"Das Löschen der letzten Blaupause in einem Unterordner wird auch den Ordner löschen."
+
+#. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.SCROLLAREA.CONTENT.BLUEPRINTENTRY.TOOLTIP_EXPORT
+msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.SCROLLAREA.CONTENT.BLUEPRINTENTRY.TOOLTIP_EXPORT"
+msgid "Export the blueprint as a shareable string to your clipboard."
+msgstr "Exportiere die Blaupause als teilbaren Base64-Text in deine Zwischenablage."
+
+#. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.SCROLLAREA.CONTENT.BLUEPRINTENTRY.TOOLTIP_MOVE
+msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.SCROLLAREA.CONTENT.BLUEPRINTENTRY.TOOLTIP_MOVE"
+msgid ""
+"Move Blueprint to other folder.\n"
+"Will create new folder if it does not exist.\n"
+"Leaving the new folder name empty will move the blueprint to the main folder."
+msgstr ""
+"Verschiebe die Blaupause in einen anderen Ordner.\n"
+"Wenn der gewählte Ordner nicht existiert, wird er neu erzeugt.\n"
+"Leerlassen des Namens verschiebt die Blaupause in den Hauptordner."
+
+#. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.SCROLLAREA.CONTENT.BLUEPRINTENTRY.TOOLTIP_RENAME
+msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.SCROLLAREA.CONTENT.BLUEPRINTENTRY.TOOLTIP_RENAME"
+msgid "Rename Blueprint"
+msgstr "Blaupause Umbenennen"
+
+#. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.SCROLLAREA.CONTENT.BLUEPRINTENTRY.TOOLTIP_RETAKE
+msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.SCROLLAREA.CONTENT.BLUEPRINTENTRY.TOOLTIP_RETAKE"
+msgid "Re-Take the blueprint, replacing its content with a new selection of buildings."
+msgstr "Ersetze den Inhalt der Blaupause mit einer neuen Auswahl von Gebäuden."
+
+#. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.SCROLLAREA.CONTENT.FOLDERUP.LABEL
+msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.SCROLLAREA.CONTENT.FOLDERUP.LABEL"
+msgid "Go to parent folder"
+msgstr "Zum übergeordneten Ordner wechseln"
+
+#. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.SCROLLAREA.CONTENT.NONEAVAILABLE.LABEL
+msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.SCROLLAREA.CONTENT.NONEAVAILABLE.LABEL"
+msgid "No Blueprints available"
+msgstr "Keine Blaupausen verfügbar"
+
+#. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.SEARCHBAR.CLEARTOOLTIP
+msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.SEARCHBAR.CLEARTOOLTIP"
+msgid "Clear search bar"
+msgstr "Suchleiste leeren"
+
+#. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.SEARCHBAR.INPUT.TEXTAREA.PLACEHOLDER
+msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.SEARCHBAR.INPUT.TEXTAREA.PLACEHOLDER"
+msgid "Enter text to filter Blueprints..."
+msgstr "Text eingeben um Blaupausen zu filtern..."
+
+#. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.SEARCHBAR.INPUT.TEXTAREA.TEXT
+msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.SEARCHBAR.INPUT.TEXTAREA.TEXT"
+msgid ""
+msgstr ""
+
+#. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.SEARCHBAR.OPENFOLDERTOOLTIP
+msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.FILEHIERARCHY.SEARCHBAR.OPENFOLDERTOOLTIP"
+msgid "Open the folder where the Blueprints are stored."
+msgstr "Öffne den Ordner in welchem Blaupausen gespeichert werden."
+
+#. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALREPLACER.SCROLLAREA.CONTENT.ELEMENTSTATE.NOTENOUGH
+msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALREPLACER.SCROLLAREA.CONTENT.ELEMENTSTATE.NOTENOUGH"
+msgid ""
+"You don't have enough of that material on the current asteroid!\n"
+"Currently available: {0}\n"
+"Required when selecting this: {1}"
+msgstr ""
+"Du hast nicht genug von diesem Material auf dem aktuellen Asteroiden!\n"
+"Derzeit verfügbar: {0}\n"
+"Erforderlich bei Auswahl dieser Option: {1}"
+
+#. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALREPLACER.SCROLLAREA.CONTENT.ELEMENTSTATE.NOTFOUND
+msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALREPLACER.SCROLLAREA.CONTENT.ELEMENTSTATE.NOTFOUND"
+msgid "This material has not been found in the current game!"
+msgstr "Dieses Material wurde im aktuellen Spiel noch nicht entdeckt!"
+
+#. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALREPLACER.SCROLLAREA.CONTENT.NOREPLACEELEMENTS.LABEL
+msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALREPLACER.SCROLLAREA.CONTENT.NOREPLACEELEMENTS.LABEL"
+msgid "No suitable elements found"
+msgstr "Keine kompatiblen Ersatzelemente gefunden"
+
+#. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALREPLACER.SEARCHBAR.CLEARTOOLTIP
+msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALREPLACER.SEARCHBAR.CLEARTOOLTIP"
+msgid "Clear search bar"
+msgstr "Suchleiste leeren"
+
+#. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALREPLACER.SEARCHBAR.INPUT.TEXTAREA.PLACEHOLDER
+msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALREPLACER.SEARCHBAR.INPUT.TEXTAREA.PLACEHOLDER"
+msgid "Enter text to filter elements..."
+msgstr "Text eingeben um Elemente zu filtern..."
+
+#. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALREPLACER.SEARCHBAR.INPUT.TEXTAREA.TEXT
+msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALREPLACER.SEARCHBAR.INPUT.TEXTAREA.TEXT"
+msgid ""
+msgstr ""
+
+#. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALREPLACER.TOREPLACE.LABEL
+msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALREPLACER.TOREPLACE.LABEL"
+msgid "Material Type:"
+msgstr "Materialtyp:"
+
+#. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.BUTTONS.CREATEMODIFIED.TOOLTIP
+msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.BUTTONS.CREATEMODIFIED.TOOLTIP"
+msgid "Create a copy of the current blueprint with all local material replacements applied to it."
+msgstr "Erstelle eine Kopie der aktuellen Blaupause, wo alle lokalen Material-Ersetzungen eingepflegt sind."
+
+#. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.BUTTONS.PLACEBPBTN.TEXT
+msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.BUTTONS.PLACEBPBTN.TEXT"
+msgid "Place Blueprint"
+msgstr "Blaupause platzieren"
+
+#. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.BUTTONS.RESETBUTTON.TEXT
+msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.BUTTONS.RESETBUTTON.TEXT"
+msgid "Reset Replacements"
+msgstr "Material-Ersetzungen zurücksetzen"
+
+#. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.MATERIALSHEADER.LABEL
+msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.MATERIALSHEADER.LABEL"
+msgid "Materials in \"{0}\":"
+msgstr "Materialien in \"{0}\":"
+
+#. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.PERBUILDINGOVERRIDES.LABEL
+msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.PERBUILDINGOVERRIDES.LABEL"
+msgid "Advanced Material Overrides:"
+msgstr "Fortgeschrittene Material-Ersetzungen:"
+
+#. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.PERBUILDINGOVERRIDES.TOOLTIP
+msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.PERBUILDINGOVERRIDES.TOOLTIP"
+msgid "Enabling this allows selecting replacement materials per building type."
+msgstr "Die Aktivierung dieses Modus erlaubt das Ersetzen von Materialien pro Gebäudetyp."
+
+#. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.SCROLLAREA.CONTENT.NOELEMENTSINBLUEPRINT.LABEL
+msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.SCROLLAREA.CONTENT.NOELEMENTSINBLUEPRINT.LABEL"
+msgid "No elements in blueprint"
+msgstr "Keine Elemente in der Blaupause gefunden"
+
+#. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.LABEL
+msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.LABEL"
+msgid "{0} ( as {1})"
+msgstr "{0} ( als {1})"
+
+#. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.LOCALLYREPLACE
+msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.LOCALLYREPLACE"
+msgid "Replace Locally: "
+msgstr "Lokal ersetzt:"
+
+#. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.MASSTEXT
+msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.MASSTEXT"
+msgid "Total Mass:"
+msgstr "Gesamtmasse:"
+
+#. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.NONE
+msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.SCROLLAREA.CONTENT.PRESETENTRYPREFAB.NONE"
+msgid "No"
+msgstr "Nein"
+
+#. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.WARNING
+msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.WARNING"
+msgid "Some materials in the blueprint require more mass than available on the current asteroid!"
+msgstr ""
+"Die Blaupause benötigt einige Materialien in größerer Menge als auf dem aktiven Asteroiden momentan verfügbar sind!"
+
+#. BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.WARNINGSEVERE
+msgctxt "BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.WARNINGSEVERE"
+msgid "Some materials in the blueprint are not unlocked yet!"
+msgstr "Einige Materialien in der Blaupause wurden noch nicht entdeckt!"
+
+#. BlueprintsV2.STRINGS.UI.COLOR_LEGEND.BLUEPRINTS_COLOR_CAN_APPLY_SETTINGS
+msgctxt "BlueprintsV2.STRINGS.UI.COLOR_LEGEND.BLUEPRINTS_COLOR_CAN_APPLY_SETTINGS"
+msgid "Can apply stored blueprint settings"
+msgstr "Gespeicherte Gebäude-Einstellungen können übertragen werden"
+
+#. BlueprintsV2.STRINGS.UI.COLOR_LEGEND.BLUEPRINTS_COLOR_INVALIDPLACEMENT
+msgctxt "BlueprintsV2.STRINGS.UI.COLOR_LEGEND.BLUEPRINTS_COLOR_INVALIDPLACEMENT"
+msgid "Invalid Building Placement"
+msgstr "Ungültige Gebäudeplatzierung"
+
+#. BlueprintsV2.STRINGS.UI.COLOR_LEGEND.BLUEPRINTS_COLOR_NOMATERIALS
+msgctxt "BlueprintsV2.STRINGS.UI.COLOR_LEGEND.BLUEPRINTS_COLOR_NOMATERIALS"
+msgid "Missing Construction Materials"
+msgstr "Fehlende Baumaterialien"
+
+#. BlueprintsV2.STRINGS.UI.COLOR_LEGEND.BLUEPRINTS_COLOR_NOTALLOWEDINWORLD
+msgctxt "BlueprintsV2.STRINGS.UI.COLOR_LEGEND.BLUEPRINTS_COLOR_NOTALLOWEDINWORLD"
+msgid "Not allowed in current asteroid"
+msgstr "Nicht erlaubt auf aktuellem Asteroid"
+
+#. BlueprintsV2.STRINGS.UI.COLOR_LEGEND.BLUEPRINTS_COLOR_NOTECH
+msgctxt "BlueprintsV2.STRINGS.UI.COLOR_LEGEND.BLUEPRINTS_COLOR_NOTECH"
+msgid "Building not researched"
+msgstr "Gebäude noch nicht erforscht"
+
+#. BlueprintsV2.STRINGS.UI.COLOR_LEGEND.BLUEPRINTS_COLOR_VALIDPLACEMENT
+msgctxt "BlueprintsV2.STRINGS.UI.COLOR_LEGEND.BLUEPRINTS_COLOR_VALIDPLACEMENT"
+msgid "Valid Building Placement"
+msgstr "Gültige Gebäudeplatzierung"
+
+#. BlueprintsV2.STRINGS.UI.DIALOGUE.BASE64_EXPORTED.TEXT
+msgctxt "BlueprintsV2.STRINGS.UI.DIALOGUE.BASE64_EXPORTED.TEXT"
+msgid "The blueprint has been added to your clipboard."
+msgstr "Die Blaupause wurde in die Zwischenablage eingefügt."
+
+#. BlueprintsV2.STRINGS.UI.DIALOGUE.BASE64_EXPORTED.TITLE
+msgctxt "BlueprintsV2.STRINGS.UI.DIALOGUE.BASE64_EXPORTED.TITLE"
+msgid "Copied to Clipboard!"
+msgstr "In Zwischenablage eingefügt!"
+
+#. BlueprintsV2.STRINGS.UI.DIALOGUE.BASE64_IMPORT_FAIL.TEXT
+msgctxt "BlueprintsV2.STRINGS.UI.DIALOGUE.BASE64_IMPORT_FAIL.TEXT"
+msgid "Unable to import a blueprint from the current clipboard contents."
+msgstr "Es war nicht möglich, eine Blaupause aus dem aktuellen Inhalt der Zwischenablage zu importieren."
+
+#. BlueprintsV2.STRINGS.UI.DIALOGUE.BASE64_IMPORT_FAIL.TITLE
+msgctxt "BlueprintsV2.STRINGS.UI.DIALOGUE.BASE64_IMPORT_FAIL.TITLE"
+msgid "Import Failure!"
+msgstr "Importierungsfehler!"
+
+#. BlueprintsV2.STRINGS.UI.DIALOGUE.BASE64_IMPORT_SUCCESS.TEXT
+msgctxt "BlueprintsV2.STRINGS.UI.DIALOGUE.BASE64_IMPORT_SUCCESS.TEXT"
+msgid "The blueprint {0} has been imported successfully."
+msgstr "Die Blaupause {0} wurde erfolgreich importiert."
+
+#. BlueprintsV2.STRINGS.UI.DIALOGUE.BASE64_IMPORT_SUCCESS.TITLE
+msgctxt "BlueprintsV2.STRINGS.UI.DIALOGUE.BASE64_IMPORT_SUCCESS.TITLE"
+msgid "Import Successful!"
+msgstr "Import erfolgreich!"
+
+#. BlueprintsV2.STRINGS.UI.DIALOGUE.CONFIRMDELETE.TEXT
+msgctxt "BlueprintsV2.STRINGS.UI.DIALOGUE.CONFIRMDELETE.TEXT"
+msgid "Do you really want to delete the blueprint {0}?"
+msgstr "Willst du wirklich die Blaupause {0} löschen?"
+
+#. BlueprintsV2.STRINGS.UI.DIALOGUE.CONFIRMDELETE.TITLE
+msgctxt "BlueprintsV2.STRINGS.UI.DIALOGUE.CONFIRMDELETE.TITLE"
+msgid "Confirm Delete"
+msgstr "Löschen bestätigen"
+
+#. BlueprintsV2.STRINGS.UI.DIALOGUE.FOLDERBLUEPRINT_TITLE
+msgctxt "BlueprintsV2.STRINGS.UI.DIALOGUE.FOLDERBLUEPRINT_TITLE"
+msgid "ASSIGN FOLDER"
+msgstr "ORDNER ZUWEISEN"
+
+#. BlueprintsV2.STRINGS.UI.DIALOGUE.MOVETOFOLDER_TITLE
+msgctxt "BlueprintsV2.STRINGS.UI.DIALOGUE.MOVETOFOLDER_TITLE"
+msgid "MOVE TO FOLDER"
+msgstr "IN ORDNER VERSCHIEBEN"
+
+#. BlueprintsV2.STRINGS.UI.DIALOGUE.NAMEBLUEPRINT_TITLE
+msgctxt "BlueprintsV2.STRINGS.UI.DIALOGUE.NAMEBLUEPRINT_TITLE"
+msgid "NAME BLUEPRINT"
+msgstr "BLAUPAUSE BENENNEN"
+
+#. BlueprintsV2.STRINGS.UI.DIALOGUE.RENAMEBLUEPRINT_TITLE
+msgctxt "BlueprintsV2.STRINGS.UI.DIALOGUE.RENAMEBLUEPRINT_TITLE"
+msgid "RENAME BLUEPRINT"
+msgstr "BLAUPAUSE UMBENENNEN"
+
+#. BlueprintsV2.STRINGS.UI.PRECONFIGURE_UNDERCONSTRUCTION.TITLE
+msgctxt "BlueprintsV2.STRINGS.UI.PRECONFIGURE_UNDERCONSTRUCTION.TITLE"
+msgid "Preconfigure building settings"
+msgstr "Gebäude-Einstellungen vorkonfigurieren"
+
+#. BlueprintsV2.STRINGS.UI.PRECONFIGURE_UNDERCONSTRUCTION.TOOLTIP
+msgctxt "BlueprintsV2.STRINGS.UI.PRECONFIGURE_UNDERCONSTRUCTION.TOOLTIP"
+msgid "Use blueprint data transfer to preconfigure this building"
+msgstr "Verwende den Blaupausen-Datentransfer um die (meisten) Einstellungen dieses Gebäudes zu vorkonfigurieren"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.CREATE_TOOL.ACTION_BACK
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.CREATE_TOOL.ACTION_BACK"
+msgid "BACK"
+msgstr "ZURÜCK"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.CREATE_TOOL.ACTION_DRAG
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.CREATE_TOOL.ACTION_DRAG"
+msgid "DRAG"
+msgstr "ZIEHEN"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.CREATE_TOOL.CANCELLED
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.CREATE_TOOL.CANCELLED"
+msgid "Cancelled blueprint!"
+msgstr "Blaupause abgebrochen!"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.CREATE_TOOL.CREATED
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.CREATE_TOOL.CREATED"
+msgid "Created blueprint!"
+msgstr "Blaupause erstellt!"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.CREATE_TOOL.EMPTY
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.CREATE_TOOL.EMPTY"
+msgid "Blueprint would have been empty!"
+msgstr "Blaupause wäre leer gewesen!"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.CREATE_TOOL.NAME
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.CREATE_TOOL.NAME"
+msgid "New Blueprint"
+msgstr "Neue Blaupause"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.CREATE_TOOL.RETAKING_TOOLTIP
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.CREATE_TOOL.RETAKING_TOOLTIP"
+msgid "Replacing contents of blueprint: {0}"
+msgstr "Ersetze Inhalt der Blaupause: {0}"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.CREATE_TOOL.TOOLTIP
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.CREATE_TOOL.TOOLTIP"
+msgid "Create blueprint {0}"
+msgstr "Erstelle Blaupause {0}"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.CREATE_TOOL.TOOLTIP_TITLE
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.CREATE_TOOL.TOOLTIP_TITLE"
+msgid "CREATE BLUEPRINT TOOL"
+msgstr "BLAUPAUSEN-ERSTELLUNGS-TOOL"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.CREATE_TOOL.TOOLTIP_TITLE_RETAKE
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.CREATE_TOOL.TOOLTIP_TITLE_RETAKE"
+msgid "RE-TAKE BLUEPRINT TOOL"
+msgstr "BLAUPAUSEN-ERSETZUNGS-TOOL"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.FILTERLAYERS.ALL
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.FILTERLAYERS.ALL"
+msgid "All"
+msgstr "Alle"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.FILTERLAYERS.AUTOSYNC
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.FILTERLAYERS.AUTOSYNC"
+msgid "Auto. Sync"
+msgstr "Auto. Sync."
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.FILTERLAYERS.BLUEPRINTV2_PRESERVEAIRTILES.NAME
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.FILTERLAYERS.BLUEPRINTV2_PRESERVEAIRTILES.NAME"
+msgid "Air Pockets"
+msgstr "Leere Räume"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.FILTERLAYERS.BLUEPRINTV2_PRESERVEAIRTILES.TOOLTIP
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.FILTERLAYERS.BLUEPRINTV2_PRESERVEAIRTILES.TOOLTIP"
+msgid "Dig commands on tiles that are not solid"
+msgstr "Speichert nicht-feste Räume als Grabe-Befehle"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.FILTERLAYERS.NONE
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.FILTERLAYERS.NONE"
+msgid "None"
+msgstr "Keine"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.SNAPSHOT_TOOL.EMPTY
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.SNAPSHOT_TOOL.EMPTY"
+msgid "Snapshot would have been empty!"
+msgstr "Schnappschuss wäre leer gewesen!"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.SNAPSHOT_TOOL.NAME
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.SNAPSHOT_TOOL.NAME"
+msgid "Take Snapshot"
+msgstr "Schnappschuss erstellen"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.SNAPSHOT_TOOL.NEWSNAPSHOT
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.SNAPSHOT_TOOL.NEWSNAPSHOT"
+msgid "Press {0} to take new snapshot."
+msgstr "Drücke {0} um einen neuen Schnappschuss zu erstellen."
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.SNAPSHOT_TOOL.REUSELASTSNAPSHOT
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.SNAPSHOT_TOOL.REUSELASTSNAPSHOT"
+msgid "Press {0} to reuse your last taken snapshot."
+msgstr "Drücke {0} um den letzten erstellen Schnappschuss zu verwenden."
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.SNAPSHOT_TOOL.SELECTNEXT_SNAPSHOT
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.SNAPSHOT_TOOL.SELECTNEXT_SNAPSHOT"
+msgid "Next snapshot: {0}"
+msgstr "Nächster Schnappschuss: {0}"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.SNAPSHOT_TOOL.SELECTPREV_SNAPSHOT
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.SNAPSHOT_TOOL.SELECTPREV_SNAPSHOT"
+msgid "Previous snapshot: {0}"
+msgstr "Vorheriger Schnappschuss: {0}"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.SNAPSHOT_TOOL.TAKEN
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.SNAPSHOT_TOOL.TAKEN"
+msgid "Snapshot taken!"
+msgstr "Schnappschuss erstellt!"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.SNAPSHOT_TOOL.TOOLTIP
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.SNAPSHOT_TOOL.TOOLTIP"
+msgid ""
+"Take snapshot {0} or reuse last snapshot {1} \n"
+"\n"
+"Create a blueprint and quickly place it elsewhere\n"
+"while not cluttering your blueprint collection!\n"
+"Snapshots do not persist between games or worlds."
+msgstr ""
+"Mache einen Schnappschuss {0} oder verwende den letzten erstellten Schnappschuss {1}. \n"
+"\n"
+"Erstellen eine temporäre Blaupause und platziere ihn schnell an anderer Stelle,\n"
+"ohne die Blaupausensammlung zuzumüllen.\n"
+"Schnappschüsse bleiben zwischen unterschiedlichen Spielen oder Welten nicht erhalten."
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.SNAPSHOT_TOOL.TOOLTIP_TITLE
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.SNAPSHOT_TOOL.TOOLTIP_TITLE"
+msgid "SNAPSHOT TOOL"
+msgstr "SCHNAPPSCHUSS-TOOL"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.ACTION_BACK
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.ACTION_BACK"
+msgid "CANCEL"
+msgstr "ABBRECHEN"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.ACTION_CHANGE_ANCHOR
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.ACTION_CHANGE_ANCHOR"
+msgid "Change blueprint anchor point: {0}"
+msgstr "Ändere Blaupausen-Ankerpunkt: {0}"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.ACTION_CLICK
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.ACTION_CLICK"
+msgid "PLACE"
+msgstr "PLATZIEREN"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.ACTION_DRAG
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.ACTION_DRAG"
+msgid "DRAG"
+msgstr "ZIEHEN"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.ACTION_SELECT
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.ACTION_SELECT"
+msgid "Adjust selected blueprint: {0}"
+msgstr "Ändere ausgewählte Blaupause: {0}"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.ERRORMESSAGE
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.ERRORMESSAGE"
+msgid "This blueprint contained {0} misconfigured or missing prefabs which have been omitted!"
+msgstr "Diese Blaupause enthielt {0} fehlkonfigurierte oder fehlende Gebäude, welche ausgelassen wurden!"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.FLIP
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.FLIP"
+msgid "Flip ({0}:{1}/{2}:{3})"
+msgstr "Spiegeln ({0}:{1}/{2}:{3})"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.FORCEREBUILD
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.FORCEREBUILD"
+msgid ""
+"Replace buildings with mismatched material:\n"
+"{0} (hold {1})"
+msgstr ""
+"Gebäude mit nicht passenden Materialien ersetzen:\n"
+"{0} (halte {1})"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.NAME
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.NAME"
+msgid "Use Blueprint"
+msgstr "Blaupause verwenden"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.NOBLUEPRINTS
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.NOBLUEPRINTS"
+msgid "No blueprints loaded!"
+msgstr "Keine Blaupausen geladen!"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.NONESELECTED
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.NONESELECTED"
+msgid "No blueprint selected!"
+msgstr "Keine Blaupause ausgewählt!"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.ORIENTATION_H
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.ORIENTATION_H"
+msgid "Horizontal"
+msgstr "Horizontal"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.ORIENTATION_V
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.ORIENTATION_V"
+msgid "Vertical"
+msgstr "Vertikal"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.REBUILD_ACTIVE
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.REBUILD_ACTIVE"
+msgid "Active"
+msgstr "Aktiv"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.REBUILD_INACTIVE
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.REBUILD_INACTIVE"
+msgid "Inactive"
+msgstr "Inaktiv"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.ROTATE
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.ROTATE"
+msgid "Rotate blueprint: {0}/{1}"
+msgstr "Blaupause rotieren: {0}/{1}"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.SELECTEDBLUEPRINT
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.SELECTEDBLUEPRINT"
+msgid "Selected blueprint: {0} ({1}/{2} in {3})"
+msgstr "Ausgewählte Blaupause: {0} ({1}/{2} in {3})"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.SELECTNEXT
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.SELECTNEXT"
+msgid "Next blueprint: {0}"
+msgstr "Nächste Blaupause: {0}"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.SELECTPREV
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.SELECTPREV"
+msgid "Previous blueprint: {0}"
+msgstr "Vorherige Blaupause: {0}"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.SETTINGS_APPLIED
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.SETTINGS_APPLIED"
+msgid "Settings applied!"
+msgstr "Einstellungen angewandt!"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.TOGGLE_SHOW_HOTKEYS
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.TOGGLE_SHOW_HOTKEYS"
+msgid "Toggle hotkey infos: {0}"
+msgstr "Hotkey-Informationen umschalten: {0}"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.TOOLTIP
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.TOOLTIP"
+msgid "Use blueprint {0}"
+msgstr "Blaupause verwenden {0}"
+
+#. BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.TOOLTIP_TITLE
+msgctxt "BlueprintsV2.STRINGS.UI.TOOLS.USE_TOOL.TOOLTIP_TITLE"
+msgid "USE BLUEPRINT TOOL"
+msgstr "BLAUPAUSEN-PLATZIER-TOOL"
+
+#. BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.APPLYSTOREDSETTINGS.LABEL
+msgctxt "BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.APPLYSTOREDSETTINGS.LABEL"
+msgid "Apply stored building settings on place:"
+msgstr "Gespeicherte Gebäudeeinstellungen beim Platzieren anwenden:"
+
+#. BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.FLIPACTIONS.FLIPH.LABEL
+msgctxt "BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.FLIPACTIONS.FLIPH.LABEL"
+msgid "Flip Horizontal"
+msgstr "Horizontal spiegeln"
+
+#. BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.FLIPACTIONS.FLIPV.LABEL
+msgctxt "BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.FLIPACTIONS.FLIPV.LABEL"
+msgid "Flip Vertical"
+msgstr "Vertikal spiegeln"
+
+#. BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.FOLDERINFO.LABEL
+msgctxt "BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.FOLDERINFO.LABEL"
+msgid "Folder: {0}, Position: {1}/{2}"
+msgstr "Ordner: {0}, Position: {1}/{2}"
+
+#. BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.FOLDERINFO.LABEL_SNAPSHOT
+msgctxt "BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.FOLDERINFO.LABEL_SNAPSHOT"
+msgid "Current Snapshot: {0}/{1}"
+msgstr "Aktueller Schnappschuss: {0}/{1}"
+
+#. BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.FORCEREBUILD.LABEL
+msgctxt "BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.FORCEREBUILD.LABEL"
+msgid "Rebuild existing with mismatched material:"
+msgstr "Gebäude mit nicht passenden Materialien ersetzen:"
+
+#. BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.MATERIALOVERRIDES.BUTTON.LABEL
+msgctxt "BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.MATERIALOVERRIDES.BUTTON.LABEL"
+msgid "Change Material Overrides"
+msgstr "Material-Ersetzungen ändern"
+
+#. BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.MATERIALREPLACEMENT.LABEL
+msgctxt "BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.MATERIALREPLACEMENT.LABEL"
+msgid "Material Overrides in Snapshots:"
+msgstr "Material-Ersetzungen in Schnappschüssen:"
+
+#. BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.MATERIALREPLACEMENT.TOOLTIP
+msgctxt "BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.MATERIALREPLACEMENT.TOOLTIP"
+msgid "Enable material overrides in snapshots."
+msgstr "Aktiviere Material-Ersetzungen in Schnappschüssen."
+
+#. BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.ROTATEACTIONS.ROTATEL.LABEL
+msgctxt "BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.ROTATEACTIONS.ROTATEL.LABEL"
+msgid "Rotate Left"
+msgstr "Nach links rotieren"
+
+#. BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.ROTATEACTIONS.ROTATER.LABEL
+msgctxt "BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.ROTATEACTIONS.ROTATER.LABEL"
+msgid "Rotate Right"
+msgstr "Nach rechts rotieren"
+
+#. BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.TITLE.TITLETEXT
+msgctxt "BlueprintsV2.STRINGS.UI.USEBLUEPRINTSTATECONTAINER.TITLE.TITLETEXT"
+msgid "Current Blueprint State"
+msgstr "Aktueller Blaupausenstatus"

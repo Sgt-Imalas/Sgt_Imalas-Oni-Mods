@@ -244,10 +244,10 @@ namespace BlueprintsV2
 					{
 						public static LocString LABEL = "Material Type:";
 					}
-					internal class SEARCHBAR
+					public class SEARCHBAR
 					{
 						public static LocString CLEARTOOLTIP = "Clear search bar";
-						internal class INPUT
+						public class INPUT
 						{
 							public class TEXTAREA
 							{

@@ -97,7 +97,6 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 				if (isPaused)
 					SpeedControlScreen.Instance.Pause(false);
 				Game.Instance.Subscribe((int)GameHashes.SelectObject, HandleDeselection);
-				UnderConstructionDataTransfer.SelectButtonUnlocked = true;
 			});
 		}
 		public static void HandleDeselection(object data)
@@ -112,6 +111,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 				lastSelected.SetDataToApply(entries.Key, entries.Value);
 
 			TemporarySelectable = null;
+			UnderConstructionDataTransfer.SelectButtonUnlocked = true;
 
 		}
 
