@@ -547,10 +547,10 @@ namespace RonivansLegacy_ChemicalProcessing
 							"Heat from the capacitor is dispersed by heating the passing coolant until it is near its boiling point.\n\n",
 							"If the maximum heat capacity is exceeded, it will be rendered nonfunctional until all heat is dispersed again."
 						]);
-					public static string REFINEMENT_HEAT_EXHAUST = "Refinement exhaust heat";
-					public static string REFINEMENT_SELF_HEAT = "Refinement heat";
-					public static string REFINEMENT_HEAT_TOOLTIP_CONTINUOUS = "During refinement of this recipe, the machine will produce a total of " + FormatAsPositiveRate("{0}") + " in additional refinement " + PRE_KEYWORD + "heat" + PST_KEYWORD + ".\nAt normal refinement speed, this amounts to {1} produced per second.";
-					public static string REFINEMENT_HEAT_TOOLTIP = FormatAsPositiveRate("{0}") + " of " + PRE_KEYWORD + "Heat" + PST_KEYWORD + " will be produced to cool off the fabricated item\n\nThis heat is then stored in the buildings thermal capacitor and transfered over to the coolant thats pumped through the building.\nCoolant near its boiling point will be prevented from boiling, but have reduced heat dispersion.";
+					public static LocString REFINEMENT_HEAT_EXHAUST = "Refinement exhaust heat";
+					public static LocString REFINEMENT_SELF_HEAT = "Refinement heat";
+					public static LocString REFINEMENT_HEAT_TOOLTIP_CONTINUOUS = "During refinement of this recipe, the machine will produce a total of " + FormatAsPositiveRate("{0}") + " in additional refinement " + PRE_KEYWORD + "heat" + PST_KEYWORD + ".\nAt normal refinement speed, this amounts to {1} produced per second.";
+					public static LocString REFINEMENT_HEAT_TOOLTIP = FormatAsPositiveRate("{0}") + " of " + PRE_KEYWORD + "Heat" + PST_KEYWORD + " will be produced to cool off the fabricated item\n\nThis heat is then stored in the buildings thermal capacitor and transfered over to the coolant thats pumped through the building.\nCoolant near its boiling point will be prevented from boiling, but have reduced heat dispersion.";
 				}
 				public class CHEMICAL_SOILMIXER
 				{
@@ -2475,6 +2475,11 @@ namespace RonivansLegacy_ChemicalProcessing
 			{
 				public static LocString NAME = "Reenable old multi-stage refineries";
 				public static LocString TOOLTIP = "Reenables the two old Multi-Stage refineries in chemical processing";
+			}
+			public class DRYWALL_HIDES_PIPES
+			{
+				public static LocString NAME = "All Walls hide pipes";
+				public static LocString TOOLTIP = "Like with the mod \"Drywall hides Pipes\", all backwall buildings are rendered in front of pipes and wires.";
 			}
 			public class GEYSERS
 			{

@@ -69,12 +69,8 @@ namespace RonivansLegacy_ChemicalProcessing
 		public static void LoadAssets()
 		{
 			AssetBundle bundle = AssetUtils.LoadAssetBundle("ronivan_aio", platformSpecific: true);
-
 			BuildingEditorWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/BuildingEditor.prefab");
-
 			SgtLogger.Assert(BuildingEditorWindowPrefab, "BuildingEditorWindowPrefab");
-
-
 			var TMPConverter = new TMPConverter();
 			TMPConverter.ReplaceAllText(BuildingEditorWindowPrefab);
 
@@ -82,6 +78,12 @@ namespace RonivansLegacy_ChemicalProcessing
 		public static List<Tag> GetNonLiquifiableSolids()
 		{
 			return STORAGEFILTERS.NOT_EDIBLE_SOLIDS.Where(item => item != GameTags.Liquifiable).ToList();
+		}
+
+		internal static void MakeWallHidePipesIfEnabled(BuildingDef result)
+		{
+			if(Config.Instance.Drywall_Hides_Pipes)
+				result.SceneLayer = Grid.SceneLayer.LogicGatesFront;
 		}
 	}
 }

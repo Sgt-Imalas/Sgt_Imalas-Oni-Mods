@@ -44,6 +44,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 				GameTags.FloorTiles,
 				GameTags.Backwall
 			};
+			ModAssets.MakeWallHidePipesIfEnabled(buildingDef);
 			return buildingDef;
 		}
 

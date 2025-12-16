@@ -1,4 +1,5 @@
-﻿using STRINGS;
+﻿using HarmonyLib;
+using STRINGS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,26 +15,27 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 		public static string ID = "SpacerWall";
 		public override BuildingDef CreateBuildingDef()
 		{
-			BuildingDef obj = BuildingTemplates.CreateBuildingDef(ID, 1, 1, "spacer_wall_small_kanim", 30, 3f, [10], [GameTags.Steel.ToString()], 1600f, BuildLocationRule.NotInTiles, noise: NOISE_POLLUTION.NONE, decor: new EffectorValues
+			BuildingDef def = BuildingTemplates.CreateBuildingDef(ID, 1, 1, "spacer_wall_small_kanim", 30, 3f, [10], [GameTags.Steel.ToString()], 1600f, BuildLocationRule.NotInTiles, noise: NOISE_POLLUTION.NONE, decor: new EffectorValues
 			{
 				amount = 15,
 				radius = 0
 			});
-			obj.Entombable = false;
-			obj.Floodable = false;
-			obj.Overheatable = false;
-			obj.AudioCategory = "Metal";
-			obj.AudioSize = "small";
-			obj.BaseTimeUntilRepair = -1f;
-			obj.DefaultAnimState = "off";
-			obj.ObjectLayer = ObjectLayer.Backwall;
-			obj.SceneLayer = Grid.SceneLayer.Backwall;
-			obj.PermittedRotations = PermittedRotations.R360;
-			obj.ReplacementLayer = ObjectLayer.ReplacementBackwall;
-			obj.ReplacementCandidateLayers = [ObjectLayer.FoundationTile,ObjectLayer.Backwall];
-			obj.ReplacementTags = [GameTags.FloorTiles,GameTags.Backwall];
-			obj.AddSearchTerms(SEARCH_TERMS.TILE);
-			return obj;
+			def.Entombable = false;
+			def.Floodable = false;
+			def.Overheatable = false;
+			def.AudioCategory = "Metal";
+			def.AudioSize = "small";
+			def.BaseTimeUntilRepair = -1f;
+			def.DefaultAnimState = "off";
+			def.ObjectLayer = ObjectLayer.Backwall;
+			def.SceneLayer = Grid.SceneLayer.Backwall;
+			def.PermittedRotations = PermittedRotations.R360;
+			def.ReplacementLayer = ObjectLayer.ReplacementBackwall;
+			def.ReplacementCandidateLayers = [ObjectLayer.FoundationTile,ObjectLayer.Backwall];
+			def.ReplacementTags = [GameTags.FloorTiles,GameTags.Backwall];
+			def.AddSearchTerms(SEARCH_TERMS.TILE);
+			ModAssets.MakeWallHidePipesIfEnabled(def);
+			return def;
 		}
 
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)

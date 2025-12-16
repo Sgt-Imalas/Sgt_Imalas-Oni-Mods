@@ -14,26 +14,27 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 		public static string ID = "StructureFrameLarge";
 		public override BuildingDef CreateBuildingDef()
 		{
-			BuildingDef obj = BuildingTemplates.CreateBuildingDef(ID, 2, 2, "structure_frame_large_kanim", 30, 3f, [40], [GameTags.RefinedMetal.ToString()], 1600f, BuildLocationRule.NotInTiles, noise: NOISE_POLLUTION.NONE, decor: new EffectorValues
+			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 2, 2, "structure_frame_large_kanim", 30, 3f, [40], [GameTags.RefinedMetal.ToString()], 1600f, BuildLocationRule.NotInTiles, noise: NOISE_POLLUTION.NONE, decor: new EffectorValues
 			{
 				amount = 5,
 				radius = 1
 			});
-			obj.Entombable = false;
-			obj.Floodable = false;
-			obj.Overheatable = false;
-			obj.AudioCategory = "Metal";
-			obj.AudioSize = "small";
-			obj.BaseTimeUntilRepair = -1f;
-			obj.DefaultAnimState = "off";
-			obj.ObjectLayer = ObjectLayer.Backwall;
-			obj.SceneLayer = Grid.SceneLayer.Backwall;
-			obj.PermittedRotations = PermittedRotations.R360;
-			obj.ReplacementLayer = ObjectLayer.ReplacementBackwall;
-			obj.ReplacementCandidateLayers = [ObjectLayer.FoundationTile, ObjectLayer.Backwall];
-			obj.ReplacementTags = [GameTags.FloorTiles, GameTags.Backwall];
-			obj.AddSearchTerms(SEARCH_TERMS.TILE);
-			return obj;
+			buildingDef.Entombable = false;
+			buildingDef.Floodable = false;
+			buildingDef.Overheatable = false;
+			buildingDef.AudioCategory = "Metal";
+			buildingDef.AudioSize = "small";
+			buildingDef.BaseTimeUntilRepair = -1f;
+			buildingDef.DefaultAnimState = "off";
+			buildingDef.ObjectLayer = ObjectLayer.Backwall;
+			buildingDef.SceneLayer = Grid.SceneLayer.Backwall;
+			buildingDef.PermittedRotations = PermittedRotations.R360;
+			buildingDef.ReplacementLayer = ObjectLayer.ReplacementBackwall;
+			buildingDef.ReplacementCandidateLayers = [ObjectLayer.FoundationTile, ObjectLayer.Backwall];
+			buildingDef.ReplacementTags = [GameTags.FloorTiles, GameTags.Backwall];
+			buildingDef.AddSearchTerms(SEARCH_TERMS.TILE);
+			ModAssets.MakeWallHidePipesIfEnabled(buildingDef);
+			return buildingDef;
 		}
 
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
