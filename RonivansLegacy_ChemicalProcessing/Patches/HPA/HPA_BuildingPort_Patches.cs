@@ -40,7 +40,9 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 						cmp.targetLevel = tweakedCapacity;
 					if (cmp.TryGetComponent<SolidConduitConsumer>(out var scc))
 						scc.capacityKG = tweakedCapacity;
-					break;
+					else if (cmp.TryGetComponent<SolidConduitDispenser>(out _))
+						cmp.gameObject.AddOrGet<HPA_DynamicSolidConduitDispenser>();
+						break;
 			}
 		}
 		public static void IncreaseConsumerInput(ConduitConsumer __instance, bool increaseStorage)
