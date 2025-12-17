@@ -506,7 +506,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			///Kelp,Seakomb Leaf, plant consumes 50kg of fertilizer(solid mass: 50, liquid mass: 0) over 5 cycles, making 50 items
 			///normal Seakomb has a 1-4 conversion with 3/4 of water; 25kg Seakomb + 75kg water become 100kg of phyto oil
 			///
-			AddPrefefinedExpellerPressRecipe(KelpConfig.ID, 6, 3.65f, 10);
+			AddPrefefinedExpellerPressRecipe(KelpConfig.ID, 6 * 2.5f, 3.65f * 2.5f, 10 * 2.5f);
 
 			///Dupes Cuisine Integration
 			string sunnyGrainId = "SunnyWheatSeed";
@@ -523,13 +523,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				SgtLogger.warning("Could not find Dupes Cuisine, not adding any of its plants to expeller press.");
 
 
-
+			int index = 0;
 
 			foreach (var recipe in PredefinedExpellerPressRecipes)
 			{
 				Tag ingredient = recipe.Key;
 				var data = recipe.Value;
-				float oil = data.first;
+				float oil = data.first * Config.Instance.Biochem_BioOilMultiplier;
 				float biomass = data.second;
 				float ingredientmass = data.third;
 
@@ -543,9 +543,41 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
 					.NameOverrideFormatIngredient(CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_FOODTOOIL, 0)
 					.IconPrefabIngredient(0)
+					.SortOrder(index++)
 					.Build();
 			}
 			ExpellerPress_Seeds(ID);
+
+			HashSet<ComplexRecipe> toConvertRecipes = [];
+			foreach(var existingRecipe in ComplexRecipeManager.Get().preProcessRecipes)
+			{
+				if(!existingRecipe.fabricators.Any() || existingRecipe.fabricators[0] != MilkPressConfig.ID)
+				{
+					continue;
+				}
+				toConvertRecipes.Add(existingRecipe);					
+			}
+
+			foreach(var existingRecipe in toConvertRecipes)
+			{
+				var pressRecipe = RecipeBuilder.Create(ID, existingRecipe.time);
+
+				foreach (var ingredient in existingRecipe.ingredients)
+				{
+					pressRecipe.Input(ingredient.material, ingredient.amount * 2f);
+				}
+				foreach (var product in existingRecipe.results)
+				{
+					pressRecipe.Output(product.material, product.amount * 2f);
+				}
+				pressRecipe.RequiresTech(existingRecipe.requiredTech);
+				pressRecipe.Description(existingRecipe.description);
+				pressRecipe.NameDisplay(existingRecipe.nameDisplay);
+				pressRecipe.NameOverride(existingRecipe.customName);
+				pressRecipe
+					.SortOrder(index++)
+					.Build();
+			}
 		}
 		public static void ExpellerPress_Seeds(string ID)
 		{
@@ -572,7 +604,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			RecipeBuilder.Create(ID, 10)
 				.Input(seeds.ToArray(), 10, GameTags.Seed)
-				.Output(ModElements.VegetableOil_Liquid, 9.5f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.Output(ModElements.VegetableOil_Liquid, 9.5f * Config.Instance.Biochem_BioOilMultiplier, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Output(ModElements.BioMass_Solid, 0.5f)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
 				.NameOverrideFormatIngredient(CHEMICAL_COMPLEXFABRICATOR_STRINGS.EXPELLER_PRESS_SEEDTOOIL, 0)

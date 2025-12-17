@@ -2552,6 +2552,11 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString NAME = "Anaerobic Digester Natgas Multiplier";
 				public static LocString TOOLTIP = "Multiply the natural gas output amounts of the anaerobic digester by this value.";
 			}
+			public class BIOCHEM_OILMULTIPLIER
+			{
+				public static LocString NAME = "Expeller Press Oil Multiplier";
+				public static LocString TOOLTIP = "Multiply the vegetable oil output amounts of the expeller press by this value.";
+			}
 			public class CUSTOMRES_MOVETOCONDUITCATEGORY
 			{
 				public static LocString NAME = "Move all Reservoirs to their piping category";
