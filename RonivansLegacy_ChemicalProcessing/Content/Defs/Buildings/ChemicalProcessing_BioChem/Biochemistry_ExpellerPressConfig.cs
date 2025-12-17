@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,24 +43,12 @@ namespace Biochemistry.Buildings
 			go.AddOrGet<DropAllWorkable>();
 			go.AddOrGet<BuildingComplete>().isManuallyOperated = false;
 
-			Storage liquidStorage = go.AddOrGet<Storage>();
-			liquidStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
-			liquidStorage.showCapacityStatusItem = false;
-			liquidStorage.showCapacityAsMainStatus = false;
-			liquidStorage.showDescriptor = false;
-
-			Storage vegStorage = go.AddOrGet<Storage>();
-			vegStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
-			vegStorage.showCapacityStatusItem = false;
-			vegStorage.showCapacityAsMainStatus = false;
-			vegStorage.showDescriptor = false;
 
 			//----------------------------- Fabricator Section
 			ComplexFabricator oilPress = go.AddOrGet<ComplexFabricator>();
 			oilPress.sideScreenStyle = ComplexFabricatorSideScreen.StyleSetting.ListQueueHybrid;
 			go.AddOrGet<FabricatorIngredientStatusManager>();
 			go.AddOrGet<CopyBuildingSettings>();
-			Workable workable = go.AddOrGet<ComplexFabricatorWorkable>();
 			oilPress.duplicantOperated = false;
 			oilPress.heatedTemperature = 298.15f;
 			BuildingTemplates.CreateComplexFabricatorStorage(go, oilPress);
@@ -68,15 +57,17 @@ namespace Biochemistry.Buildings
 			oilPress.inStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			oilPress.buildStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			oilPress.outStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
-			oilPress.inStorage = liquidStorage;
-			oilPress.outStorage = vegStorage;
 			oilPress.outputOffset = new Vector3(1f, 0.5f);
 			//-----------------------------
 
 			ConduitDispenser dispenser = go.AddOrGet<ConduitDispenser>();
 			dispenser.conduitType = ConduitType.Liquid;
-			dispenser.storage = vegStorage;
-			dispenser.elementFilter = [ModElements.VegetableOil_Liquid];
+			dispenser.storage = oilPress.outStorage;
+			dispenser.elementFilter = [ModElements.VegetableOil_Liquid, SimHashes.NaturalResin, SimHashes.PhytoOil, SimHashes.Milk];
+
+			var dropper = go.AddOrGet<WorldElementDropper>();
+			dropper.DropSolids = true;
+			dropper.TargetStorage = oilPress.outStorage;
 
 			this.ConfigureRecipes();
 			Prioritizable.AddRef(go);
@@ -101,5 +92,5 @@ namespace Biochemistry.Buildings
 		{
 			///Recipes are moved to ModDb.AdditionalRecipes to be generated dynamically			
 		}
-	}	
+	}
 }
