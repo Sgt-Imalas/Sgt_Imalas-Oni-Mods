@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabricators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,7 +38,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			EffectorValues noise = TUNING.NOISE_POLLUTION.NOISY.TIER6;
 			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 3, 5, "adv_metalrefinery_kanim", 30, 60f, quantity1, materials1, 2400f, BuildLocationRule.OnFloor, TUNING.BUILDINGS.DECOR.PENALTY.TIER2, noise, 0.2f);
 			def1.RequiresPowerInput = true;
-			def1.EnergyConsumptionWhenActive = 3000f;
+			def1.EnergyConsumptionWhenActive = 2400f;
 			def1.SelfHeatKilowattsWhenActive = 16f;
 			def1.InputConduitType = ConduitType.Liquid;
 			def1.UtilityInputOffset = new CellOffset(-1, 1);
@@ -62,7 +63,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			liquidCooledRefinery.keepExcessLiquids = true;
 			go.AddOrGet<FabricatorIngredientStatusManager>();
 			go.AddOrGet<CopyBuildingSettings>();
-			Workable workable = go.AddOrGet<ComplexFabricatorWorkable>();
+			var workable = go.AddOrGet<CustomComplexFabricatorWorkableBase>();
 			BuildingTemplates.CreateComplexFabricatorStorage(go, liquidCooledRefinery);
 			liquidCooledRefinery.coolantTag = COOLANT_TAG;
 			liquidCooledRefinery.minCoolantMass = 400f;
@@ -99,6 +100,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		//==== [ CHEMICAL: ADVANCED METAL REFINERY RECIPES | Ore to Metal Ratio: 92,5% ] =========================================================== 
 		private void ConfigureRecipes()
 		{
+			float recipeDuration = 40f;
 			bool chemicalProcessingEnabled = Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled;
 
 			int index = 0;
@@ -112,7 +114,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//-------------------------------------------------------------------------------------------------------------------------------------------
 
 			//METALLURGY
-			//===[eneric Ore Refining ]=======================================================================================================================
+			//===[ Generic Ore Refining ]=======================================================================================================================
 			// Ingredients: Ore - 500kg
 			// Result: Refined Metal - 500kg
 			//==================================================================================================================================================
@@ -121,7 +123,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				Element refinedElement = element.highTempTransition.lowTempTransition;
 				if (chemicalProcessingEnabled)
 				{
-					RecipeBuilder.Create(ID, 40)
+					RecipeBuilder.Create(ID, recipeDuration)
 						.Input(element.tag, 400f)
 						.Input(SimHashes.RefinedCarbon.CreateTag(), 50f)
 						.Input(SimHashes.Sand.CreateTag(), 50f)
@@ -134,7 +136,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				}
 				else
 				{
-					RecipeBuilder.Create(ID, 40)
+					RecipeBuilder.Create(ID, recipeDuration)
 						.Input(element.tag, 400f)
 						.Output(refinedElement.tag, 400f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 						.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
@@ -164,7 +166,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			if (chemicalProcessingEnabled)
 			{
-				RecipeBuilder.Create(ID, 40)
+				RecipeBuilder.Create(ID, recipeDuration)
 					.Input(SimHashes.Electrum.CreateTag(), 400f)
 					.Input(SimHashes.RefinedCarbon.CreateTag(), 50f)
 					.Input(SimHashes.Sand.CreateTag(), 50f)
@@ -178,7 +180,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			}
 			else
 			{
-				RecipeBuilder.Create(ID, 40)
+				RecipeBuilder.Create(ID, recipeDuration)
 					.Input(SimHashes.Electrum.CreateTag(), 400f)
 					.Output(SimHashes.Gold.CreateTag(), 250f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Output(SimHashes.Copper.CreateTag(), 150f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
@@ -199,7 +201,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			if (chemicalProcessingEnabled)
 			{
-				RecipeBuilder.Create(ID, 40)
+				RecipeBuilder.Create(ID, recipeDuration)
 					.Input(Galena_Solid.Tag, 400f)
 					.Input(SimHashes.RefinedCarbon.CreateTag(), 50f)
 					.Input(SimHashes.Sand.CreateTag(), 50f)
@@ -231,7 +233,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//==================================================================================================================================================
 			if (chemicalProcessingEnabled)
 			{
-				RecipeBuilder.Create(ID, 40)
+				RecipeBuilder.Create(ID, recipeDuration)
 					.Input(SimHashes.FoolsGold.CreateTag(), 400f)
 					.Input(SimHashes.RefinedCarbon.CreateTag(), 50f)
 					.Input(SimHashes.Sand.CreateTag(), 50f)
@@ -246,7 +248,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			}
 			else
 			{
-				RecipeBuilder.Create(ID, 40)
+				RecipeBuilder.Create(ID, recipeDuration)
 					.Input(SimHashes.FoolsGold.CreateTag(), 400f)
 
 					.Output(SimHashes.Iron.CreateTag(), 300f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
@@ -261,7 +263,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			///Chromium extraction from ferrochrome; 32% iron, 68% chromium
 			if (chemicalProcessingEnabled)
 			{
-				RecipeBuilder.Create(ID, 40)
+				RecipeBuilder.Create(ID, recipeDuration)
 					.Input(ModElements.FerroChrome_Solid, 300f)
 					.Input(SimHashes.OxyRock, 100f)
 
@@ -291,7 +293,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//==================================================================================================================================================
 
 
-			RecipeBuilder.Create(ID, 40)
+			RecipeBuilder.Create(ID, recipeDuration)
 				.Input(SimHashes.Katairite.CreateTag(), 400f)
 				.Input(SimHashes.RefinedCarbon.CreateTag(), 100f)
 				.Input(SimHashes.Lime.CreateTag(), 20f)
@@ -312,7 +314,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Result: Steel - 500kg
 			//==================================================================================================================================================
 
-			RecipeBuilder.Create(ID, 40)
+			RecipeBuilder.Create(ID, recipeDuration)
 				.Input(SimHashes.Iron, 280)
 				.Input(SimHashes.RefinedCarbon, 80)
 				.Input(SimHashes.Lime, 40)

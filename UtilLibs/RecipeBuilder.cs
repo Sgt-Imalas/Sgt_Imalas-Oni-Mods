@@ -203,7 +203,11 @@ namespace UtilLibs
 			this.sortOrder = sortOrder;
 			return this;
 		}
-
+		public RecipeBuilder Input(RecipeElement element)
+		{			
+			inputs.Add(element);
+			return this;
+		}
 		public RecipeBuilder Input(Tag tag, float amount, bool inheritElement = false, bool doNotConsume = false)
 		{
 			var element = new RecipeElement(tag, amount, inheritElement);
@@ -286,6 +290,11 @@ namespace UtilLibs
 		public RecipeBuilder Output(Tag tag, float amount, TemperatureOperation tempOp = TemperatureOperation.AverageTemperature, bool storeElement = false)
 		{
 			outputs.Add(new RecipeElement(tag, amount, tempOp, storeElement));
+			return this;
+		}
+		public RecipeBuilder Output(RecipeElement element)
+		{
+			outputs.Add(element);
 			return this;
 		}
 		public RecipeBuilder Output(SimHashes simhash, float amount, TemperatureOperation tempOp = TemperatureOperation.AverageTemperature, bool storeElement = false)
