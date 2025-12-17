@@ -157,6 +157,7 @@ namespace Metallurgy.Buildings
 		{
 			bool chemProcActive = Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled;
 			int index = 0;
+			float recipeTime = 20f;
 
 			//---- [ Glass Smelting ] ----------------------------------------------------------------------------------------------
 			// Ingredient: Sand - 150kg
@@ -166,7 +167,7 @@ namespace Metallurgy.Buildings
 			//----------------------------------------------------------------------------------------------------------------------
 			if (chemProcActive)
 			{
-				RecipeBuilder.Create(ID, 10f)
+				RecipeBuilder.Create(ID, recipeTime)
 					.Input(SimHashes.Sand, 150)
 					.Input(ModElements.Borax_Solid, 10)
 					.Output(SimHashes.MoltenGlass, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)
@@ -178,7 +179,7 @@ namespace Metallurgy.Buildings
 			}
 			else
 			{
-				RecipeBuilder.Create(ID, 10f)
+				RecipeBuilder.Create(ID, recipeTime)
 					.Input(SimHashes.Sand, 150)
 					.Input(SimHashes.Salt, 10)
 					.Output(SimHashes.MoltenGlass, 150, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)
@@ -204,7 +205,7 @@ namespace Metallurgy.Buildings
 
 				if (chemProcActive)
 				{
-					RecipeBuilder.Create(ID, 10)
+					RecipeBuilder.Create(ID, recipeTime)
 						.Input(element.tag, 500f)
 						.Input(SimHashes.Sand.CreateTag(), 40f)
 						.Output(refinedElementMolten.tag, 490, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)
@@ -216,7 +217,7 @@ namespace Metallurgy.Buildings
 				}
 				else
 				{
-					RecipeBuilder.Create(ID, 10)
+					RecipeBuilder.Create(ID, recipeTime)
 						.Input(element.tag, 500f)
 						.Output(refinedElementMolten.tag, 500, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)
 						.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
@@ -233,7 +234,7 @@ namespace Metallurgy.Buildings
 			//------------------------------------------------------------------------------------------------------------------------------------
 			if (chemProcActive)
 			{
-				RecipeBuilder.Create(ID, 10)
+				RecipeBuilder.Create(ID, recipeTime)
 					.Input(SimHashes.Electrum, 500f)
 					.Input(SimHashes.Sand.CreateTag(), 40f)
 					.Output(SimHashes.MoltenGold, 490f * 0.6f, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)
@@ -246,7 +247,7 @@ namespace Metallurgy.Buildings
 			}
 			else
 			{
-				RecipeBuilder.Create(ID, 10)
+				RecipeBuilder.Create(ID, recipeTime)
 					.Input(SimHashes.Electrum, 500f)
 					.Output(SimHashes.MoltenGold, 300, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)
 					.Output(SimHashes.MoltenCopper, 200, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)
@@ -263,7 +264,7 @@ namespace Metallurgy.Buildings
 			//         Sand - 50g
 			//------------------------------------------------------------------------------------------------------------------------------------
 			if (chemProcActive)
-				RecipeBuilder.Create(ID, 10)
+				RecipeBuilder.Create(ID, recipeTime)
 					.Input(ModElements.Galena_Solid, 500f)
 					.Input(SimHashes.Sand.CreateTag(), 40f)
 					.Output(ModElements.Silver_Liquid, 490f * 0.6f, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)
@@ -283,7 +284,7 @@ namespace Metallurgy.Buildings
 			//         Sand - 70g
 			//-------------------------------------------------------------------------------------------------------------------------------
 			if (chemProcActive)
-				RecipeBuilder.Create(ID, 10)
+				RecipeBuilder.Create(ID, recipeTime)
 					.Input(SimHashes.FoolsGold, 500f)
 					.Input(SimHashes.Sand.CreateTag(), 40f)
 					.Output(SimHashes.MoltenIron, 400f, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)
@@ -293,7 +294,7 @@ namespace Metallurgy.Buildings
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 					.Build();
 			else
-				RecipeBuilder.Create(ID, 10)
+				RecipeBuilder.Create(ID, recipeTime)
 					.Input(SimHashes.FoolsGold, 500f)
 					.Output(SimHashes.MoltenIron, 400f, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)
 					.Output(SimHashes.LiquidSulfur, 100f, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)
@@ -308,7 +309,7 @@ namespace Metallurgy.Buildings
 			//             Lime - 25kg
 			// Result:     Molten Steel - 500kg
 			//----------------------------------------------------------------------------------------------------------------------
-			RecipeBuilder.Create(ID, 10)
+			RecipeBuilder.Create(ID, recipeTime)
 				.Input(SimHashes.Iron, 425f)
 				.Input(SimHashes.RefinedCarbon, 50f)
 				.Input(SimHashes.Lime, 25f)
@@ -323,7 +324,7 @@ namespace Metallurgy.Buildings
 			// Result: Molten Tungsten - 120kg
 			//         Magma - 380kg
 			//----------------------------------------------------------------------------------------------------------------------
-			RecipeBuilder.Create(ID, 20)
+			RecipeBuilder.Create(ID, recipeTime*2)
 				.Input(SimHashes.Katairite, 500f)
 				.Input(SimHashes.Lime, 20)
 				.Output(SimHashes.MoltenTungsten, 120f, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)
@@ -350,7 +351,7 @@ namespace Metallurgy.Buildings
 			//------------------------------------------------------------------------------------------------------------------------------
 			float multiplier = 5;
 
-			RecipeBuilder.Create(ID, 20)
+			RecipeBuilder.Create(ID, recipeTime * 2)
 				.Input(ModElements.LowGradeSand_Solid, 100 * multiplier)
 				.Input(ModElements.Borax_Solid, 10 * multiplier)
 				.Output(ModElements.Slag_Liquid, 20 * multiplier, ComplexRecipe.RecipeElement.TemperatureOperation.Melted)
@@ -365,7 +366,7 @@ namespace Metallurgy.Buildings
 			// Random Results: Iron, Aluminum, Gold, Tungsten
 			// Assured Result: Slag - 20kg, 90kg randoms
 			//-------------------------------------------------------------------------------------------------------------------------------
-			RecipeBuilder.Create(ID, 20)
+			RecipeBuilder.Create(ID, recipeTime * 2)
 				.Input(ModElements.BaseGradeSand_Solid, 100 * multiplier)
 				.Input(ModElements.Borax_Solid, 10 * multiplier)
 				.Output(ModElements.Slag_Liquid, 20 * multiplier, ComplexRecipe.RecipeElement.TemperatureOperation.Melted)
