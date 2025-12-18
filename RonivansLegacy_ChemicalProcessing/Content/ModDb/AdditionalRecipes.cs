@@ -368,10 +368,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			//              Dirt -> 50kg
 			//-------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, 100)
-					.Input(SimHashes.Algae, 20)
-					.Input(SimHashes.Sand, 79)
+					.Input(SimHashes.Algae, 70)
+					.Input(SimHashes.Sand, 29)
 					.Input(SimHashes.Water, 1)
-					.Output(SimHashes.Methane, 3 * Config.Instance.Biochem_AnaerobicDigesterBuff)
+					.Output(SimHashes.Methane, 1 * Config.Instance.Biochem_AnaerobicDigesterBuff)
 					.Output(SimHashes.Dirt, 100)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.ANAEROBIC_DIGESTER_1_2, 1, 2)
