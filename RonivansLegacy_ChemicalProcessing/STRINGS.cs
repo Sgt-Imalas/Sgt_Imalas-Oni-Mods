@@ -84,6 +84,11 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString NAME = FormatAsLink("Renewable Combustion Fuels", nameof(BIOCHEMISTRY_RENEWABLEFUEL));
 					public static LocString DESC = "A new generation of renewable fuels that can be produced from organic matter.";
 				}
+				public class METALLURGY_PLASMABASEDREFINEMENTTECH
+				{
+					public static LocString NAME = FormatAsLink("High Energy Plasma Refinement", nameof(METALLURGY_PLASMABASEDREFINEMENTTECH));
+					public static LocString DESC = "Unlocks new high energy plasma based based refinement processes.";
+				}
 			}
 		}
 		public class BUILDINGS
@@ -510,9 +515,9 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString DESC = "An industrial process plant responsible for refining the impure raw natural gas extracted from wells.";
 					public static LocString EFFECT = "The refinery has three stages:\n\n" +
 						"First Stage: Raw Natural Gas is first refined to: " +
-						"\n- 50% " + FormatAsLink("Natural Gas", "PETROLEUM") +
-						"\n- 40% " + FormatAsLink("Propane", "PROPANE") +
-						"\n- 10% " + FormatAsLink("Sour Gas", "SOURGAS") +
+						"\n- 33% " + FormatAsLink("Natural Gas", "METHANE") +
+						"\n- 27% " + FormatAsLink("Propane", "PROPANE") +
+						"\n- 40% " + FormatAsLink("Sour Gas", "SOURGAS") +
 						"\nSecond Stage: " + FormatAsLink("Propane", "PROPANE") + " is mixed with " + FormatAsLink("Hydrogen", "Hydrogen") + " resulting in a complete conversion to " + FormatAsLink("Methane", "METHANE") +
 						"\nThird Stage reacts the remaining " + FormatAsLink("Sour Gas", "SOURGAS") + " with Nitric Acid, producing Ammonia Gas.";
 
@@ -732,7 +737,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = FormatAsLink("CNC Machining Station", nameof(MINING_CNCMACHINE));
 					public static LocString DESC = "An advanced CNC (Computer Numerical Control) Machining production station. Capable of managing different tools using specific directives by graphical computer-aided design software.";
-					public static LocString EFFECT = "Capable of producing specialty gadgets and other advanced tools. Requires the Mechatronics Engineering knowledge skill to be operated.";
+					public static LocString EFFECT = "Capable of producing specialty gadgets and other advanced tools. Requires the Mechatronics Engineering knowledge skill to be built.";
 				}
 				public class MINING_AUGERDRILL
 				{

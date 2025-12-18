@@ -167,7 +167,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			BuildingManager.CreateEntry<Chemical_Co2RecyclerConfig>()
 			.AddToCategory(PlanMenuCategory.Refinement, OxyliteRefineryConfig.ID)
-			.AddToTech(Technology.Gases.PortableGasses)
+			.AddToTech(Technology.Gases.Catalytics)
 			.AddModFrom(SourceModInfo.ChemicalProcessing_IO)
 			.MigrateFrom("Chemical_Co2RecyclerDLC1");
 
@@ -377,7 +377,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		{
 			BuildingManager.CreateEntry<Metallurgy_PlasmaFurnaceConfig>()
 				.AddToCategory(PlanMenuCategory.Refinement, GlassForgeConfig.ID)
-				.AddToTech(Technology.Gases.Catalytics)
+				.AddToTech(ModTechs.Metallurgy_PlasmaBasedRefinementTech_ID)
 				.AddModFrom(SourceModInfo.MineralProcessing_Metallurgy)
 				.AddModFrom(SourceModInfo.ChemicalProcessing_IO);
 

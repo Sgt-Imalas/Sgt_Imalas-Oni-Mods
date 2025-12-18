@@ -15,8 +15,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		public static readonly string HPA_Rails_Research_ID = "HPA_Rails_Research";
 		public static readonly string Biochemistry_RenewableFuel_ID = "Biochemistry_RenewableFuel";
 		public static readonly string Mining_Mk2DrillTech_ID = "Mining_Mk2DrillTech";
+		public static readonly string Metallurgy_PlasmaBasedRefinementTech_ID = "Metallurgy_PlasmaBasedRefinementTech";
 
-		public static Tech HPA_Rails_Research, Biochemistry_RenewableFuel, Mining_Mk2DrillTech;
+		public static Tech HPA_Rails_Research, Biochemistry_RenewableFuel, Mining_Mk2DrillTech, Metallurgy_PlasmaBasedRefinementTech;
 
 		public static void RegisterTechs(Database.Techs instance)
 		{
@@ -31,6 +32,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			if (Config.Instance.MineralProcessing_Mining_Enabled)
 			{
 				Mining_Mk2DrillTech = new Tech(Mining_Mk2DrillTech_ID, [], instance);
+			}
+			if(Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled ||Config.Instance.MineralProcessing_Metallurgy_Enabled)
+			{
+				Metallurgy_PlasmaBasedRefinementTech = new Tech(Metallurgy_PlasmaBasedRefinementTech_ID, [], instance);
 			}
 		}
 
@@ -50,27 +55,36 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 		public static void RegisterTechCards(ResourceTreeLoader<ResourceTreeNode> instance)
 		{
+			bool SO_Active = DlcManager.IsExpansion1Active();
 			if (Config.Instance.HPA_Rails_Mod_Enabled)
 			{
 				TechUtils.AddNode(instance,
 					HPA_Rails_Research_ID,
-					DlcManager.IsExpansion1Active() ? Technology.SolidMaterial.SolidTransport : Technology.SolidMaterial.SolidControl,
+					SO_Active ? Technology.SolidMaterial.SolidTransport : Technology.SolidMaterial.SolidControl,
 					xDiff: 1,
-					yDiff: 1);
+					yDiff: SO_Active ? 1 : 1.33f);
 			}
 			if (Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
 			{
 				TechUtils.AddNode(instance,
 					Biochemistry_RenewableFuel_ID,
-					DlcManager.IsExpansion1Active() ? GameStrings.Technology.Power.AdvancedCombustion : GameStrings.Technology.Power.FossilFuels,
+					SO_Active ? GameStrings.Technology.Power.AdvancedCombustion : GameStrings.Technology.Power.FossilFuels,
 					xDiff: 1,
-					yDiff: DlcManager.IsExpansion1Active() ? 0 : 1);
+					yDiff: SO_Active ? 0 : 1);
 			}
 			if (Config.Instance.MineralProcessing_Mining_Enabled)
 			{
 				TechUtils.AddNode(instance,
 					Mining_Mk2DrillTech_ID,
 					Technology.SolidMaterial.SolidManagement,
+					xDiff: 1,
+					yDiff: 0);
+			}
+			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled || Config.Instance.MineralProcessing_Metallurgy_Enabled)
+			{
+				TechUtils.AddNode(instance,
+					Metallurgy_PlasmaBasedRefinementTech_ID,
+					Technology.Gases.Catalytics,
 					xDiff: 1,
 					yDiff: 0);
 			}
