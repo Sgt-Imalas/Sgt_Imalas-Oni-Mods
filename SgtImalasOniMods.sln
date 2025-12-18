@@ -247,6 +247,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalModLoader", "LocalModL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkisDecorPackB", "AkisDecorPackB\AkisDecorPackB.csproj", "{3A48ACCE-4FC7-43FF-B0F0-69F5623FFBD8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreMolior", "CoreMolior\CoreMolior.csproj", "{98F4E82D-93FC-41BA-A6D8-8EE7BD486545}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -679,6 +681,10 @@ Global
 		{3A48ACCE-4FC7-43FF-B0F0-69F5623FFBD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A48ACCE-4FC7-43FF-B0F0-69F5623FFBD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A48ACCE-4FC7-43FF-B0F0-69F5623FFBD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98F4E82D-93FC-41BA-A6D8-8EE7BD486545}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98F4E82D-93FC-41BA-A6D8-8EE7BD486545}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98F4E82D-93FC-41BA-A6D8-8EE7BD486545}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98F4E82D-93FC-41BA-A6D8-8EE7BD486545}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
