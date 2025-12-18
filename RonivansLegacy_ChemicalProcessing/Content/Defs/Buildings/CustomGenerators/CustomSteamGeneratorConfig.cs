@@ -42,7 +42,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 				construction_mass, construction_materials,
 				1600f, BuildLocationRule.OnFloor, decor, noise);
 			buildingDef.OutputConduitType = ConduitType.Liquid;
-			buildingDef.UtilityOutputOffset = new CellOffset(0, 4);
+			buildingDef.UtilityOutputOffset = new CellOffset(0, 3);
 			float baseTurbineWattage = CustomizeBuildings.GetTurbineBaseValue();
 			buildingDef.GeneratorWattageRating = baseTurbineWattage * SizeMultiplier;
 			buildingDef.GeneratorBaseCapacity = baseTurbineWattage * SizeMultiplier;
