@@ -4,16 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static RonivansLegacy_ChemicalProcessing.STRINGS.UI;
-using UtilLibs;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
+using UtilLibs.BuildingPortUtils;
+using static RonivansLegacy_ChemicalProcessing.STRINGS.UI;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineering
 {
 	public class CementMixerConfig : IBuildingConfig
 	{
 		public static string ID = "CementMixer";
+		private static readonly PortDisplayInput waterInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(1, 1));
 		public override BuildingDef CreateBuildingDef()
 		{
 			EffectorValues tier = NOISE_POLLUTION.NOISY.TIER5;
@@ -41,6 +43,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 			complexFabricator.heatedTemperature = 298.15f;
 			complexFabricator.duplicantOperated = true;
 			complexFabricator.sideScreenStyle = ComplexFabricatorSideScreen.StyleSetting.ListQueueHybrid;
+			complexFabricator.keepExcessLiquids = true;
 			go.AddOrGet<FabricatorIngredientStatusManager>();
 			go.AddOrGet<CopyBuildingSettings>();
 			BuildingTemplates.CreateComplexFabricatorStorage(go, complexFabricator);
@@ -48,20 +51,41 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 			Prioritizable.AddRef(go);
 
 			SoundUtils.CopySoundsToAnim("cement_mixer_kanim", "orescrubber_kanim");
-			
+
+
+			PortConduitConsumer combustibleLiquidPortConsumer = go.AddComponent<PortConduitConsumer>();
+			combustibleLiquidPortConsumer.conduitType = ConduitType.Liquid;
+			combustibleLiquidPortConsumer.consumptionRate = 10f;
+			combustibleLiquidPortConsumer.capacityKG = 50f;
+			combustibleLiquidPortConsumer.capacityTag = SimHashes.Water.CreateTag();
+			combustibleLiquidPortConsumer.forceAlwaysSatisfied = true;
+			combustibleLiquidPortConsumer.SkipSetOperational = true;
+			combustibleLiquidPortConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
+			combustibleLiquidPortConsumer.AssignPort(waterInputPort);
+			combustibleLiquidPortConsumer.storage = complexFabricator.inStorage;
 		}
+		public static void AttachPorts(GameObject go)
+		{
+			PortDisplayController controller = go.AddComponent<PortDisplayController>();
+			controller.Init(go);
+			controller.AssignPort(go, waterInputPort);
+		}
+
 		public override void DoPostConfigureComplete(GameObject go)
 		{
+			AttachPorts(go);
 			go.AddOrGetDef<PoweredActiveController.Def>().showWorkingStatus = true;
 		}
 
 		public override void DoPostConfigurePreview(BuildingDef def, GameObject go)
 		{
+			AttachPorts(go);
 			base.DoPostConfigurePreview(def, go);
 		}
 
 		public override void DoPostConfigureUnderConstruction(GameObject go)
 		{
+			AttachPorts(go);
 			base.DoPostConfigureUnderConstruction(go);
 		}
 
@@ -69,15 +93,15 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 		{
 			//---- [ Cement from Crushables ] ----------------------------------------------------------------------------------------------------------
 
-			RecipeBuilder.Create(ID, 40)
-				.Input(RefinementRecipeHelper.GetCrushables().Select(e => e.id.CreateTag()), 25f)
-				.Input(SimHashes.Sand,60)
-				.Input(SimHashes.Lime,5)
-				.Output(SimHashes.Cement,100)
-				.Description(string.Format(CHEMICAL_COMPLEXFABRICATOR_STRINGS.CEMENT_MIXER_CEMENT_3, global::STRINGS.ELEMENTS.CRUSHEDROCK.NAME, global::STRINGS.ELEMENTS.SAND.NAME, global::STRINGS.ELEMENTS.LIME.NAME, global::STRINGS.ELEMENTS.CEMENT.NAME))
-				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
-				.NameOverride(CHEMICAL_COMPLEXFABRICATOR_STRINGS.CRUSHEDROCK_CEMENT)
-				.Build();
+			//RecipeBuilder.Create(ID, 40)
+			//	.Input(RefinementRecipeHelper.GetCrushables().Select(e => e.id.CreateTag()), 25f)
+			//	.Input(SimHashes.Sand,60)
+			//	.Input(SimHashes.Lime,5)
+			//	.Output(SimHashes.Cement,100)
+			//	.Description(string.Format(CHEMICAL_COMPLEXFABRICATOR_STRINGS.CEMENT_MIXER_CEMENT_3, global::STRINGS.ELEMENTS.CRUSHEDROCK.NAME, global::STRINGS.ELEMENTS.SAND.NAME, global::STRINGS.ELEMENTS.LIME.NAME, global::STRINGS.ELEMENTS.CEMENT.NAME))
+			//	.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
+			//	.NameOverride(CHEMICAL_COMPLEXFABRICATOR_STRINGS.CRUSHEDROCK_CEMENT)
+			//	.Build();
 
 			//---- [ Cement from Crushed Rock ] ----------------------------------------------------------------------------------------------------------
 			///Cement from "Limestone"

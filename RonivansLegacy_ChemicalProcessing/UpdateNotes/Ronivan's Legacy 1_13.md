@@ -8,6 +8,8 @@ New:
 - added oil well raw gas output information to the codex
 - expeller press now also holds all recipes of the plant pulverizer
 - added vegetable oil output multiplier in config
+- added optional water input port to anaerobic digester
+- added optional water input port to cement mixer
 
 Changes & Tweaks:
 
@@ -24,6 +26,7 @@ Changes & Tweaks:
 - changed the purpose of the algae digestion recipe towards algae->dirt production, reduced its NatGas output to no longer be a x6 multiplier on raw power production in the resource chain VegOil->Algae(AlgaeGrower)->NatGas(Digester)
 - moved Carbon Recycling Unit into a more appropriate later game tech tier
 - moved Plasma Furnace into a new later game tech tier that requires all 4 science types
+- removed uncrushed rock cement recipe from cement mixer
 
 Fixes:
 

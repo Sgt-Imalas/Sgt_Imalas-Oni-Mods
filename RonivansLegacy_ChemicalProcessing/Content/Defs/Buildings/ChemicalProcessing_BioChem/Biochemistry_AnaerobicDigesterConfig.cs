@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
+using UtilLibs.BuildingPortUtils;
 using YamlDotNet.Helpers;
 
 namespace Biochemistry.Buildings
@@ -18,7 +19,8 @@ namespace Biochemistry.Buildings
 	public class Biochemistry_AnaerobicDigesterConfig : IBuildingConfig
 	{
 		public static string ID = "Biochemistry_AnaerobicDigester";
-		
+		private static readonly PortDisplayInput waterInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(1,0));
+
 		public override BuildingDef CreateBuildingDef()
 		{
 			EffectorValues tier = NOISE_POLLUTION.NOISY.TIER5;
@@ -54,7 +56,7 @@ namespace Biochemistry.Buildings
 			outputStorage.showCapacityStatusItem = false;
 			outputStorage.showCapacityAsMainStatus = false;
 			outputStorage.showDescriptor = false;
-
+			 
 			//----------------------------- Fabricator Section
 			ComplexFabricator digester = go.AddOrGet<ComplexFabricator>();
 			digester.sideScreenStyle = ComplexFabricatorSideScreen.StyleSetting.ListQueueHybrid;
@@ -65,6 +67,7 @@ namespace Biochemistry.Buildings
 			digester.heatedTemperature = 298.15f;
 			BuildingTemplates.CreateComplexFabricatorStorage(go, digester);
 			digester.storeProduced = true;
+			digester.keepExcessLiquids = true;
 			digester.keepAdditionalTag = SimHashes.Methane.CreateTag();
 			digester.inStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 			digester.buildStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
@@ -81,20 +84,41 @@ namespace Biochemistry.Buildings
 
 			ConfigureRecipes();
 			Prioritizable.AddRef(go);
+
+
+			PortConduitConsumer combustibleLiquidPortConsumer = go.AddComponent<PortConduitConsumer>();
+			combustibleLiquidPortConsumer.conduitType = ConduitType.Liquid;
+			combustibleLiquidPortConsumer.consumptionRate = 10f;
+			combustibleLiquidPortConsumer.capacityKG = 10f;
+			combustibleLiquidPortConsumer.capacityTag = SimHashes.Water.CreateTag();
+			combustibleLiquidPortConsumer.forceAlwaysSatisfied = true;
+			combustibleLiquidPortConsumer.SkipSetOperational = true;
+			combustibleLiquidPortConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
+			combustibleLiquidPortConsumer.AssignPort(waterInputPort);
+			combustibleLiquidPortConsumer.storage = digester.inStorage;
+		}
+		public static void AttachPorts(GameObject go)
+		{
+			PortDisplayController controller = go.AddComponent<PortDisplayController>();
+			controller.Init(go);
+			controller.AssignPort(go, waterInputPort);
 		}
 
 		public override void DoPostConfigurePreview(BuildingDef def, GameObject go)
 		{
+			AttachPorts(go);
 		}
 
 		public override void DoPostConfigureUnderConstruction(GameObject go)
 		{
+			AttachPorts(go);
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)
 		{
 			go.AddOrGet<LogicOperationalController>();
 			go.AddOrGetDef<PoweredActiveController.Def>();
+			AttachPorts(go);
 		}
 
 		//===[ ANAEROBIC DIGESTER RECIPES ]===============================================================================
