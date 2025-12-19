@@ -71,6 +71,10 @@ namespace PoisNotIncluded
 			public static void Postfix()
 			{
 
+
+				if (DlcManager.IsExpansion1Active() && Config.Instance.EntitySpawners)
+					GravitasBuildingIds["TemporalTearOpener"] = StoryTraitsCategory;
+
 				var buildingIDs = GravitasBuildingIds.Keys.ToList();
 				if (Config.Instance.ConstructableStoryTraits)
 					buildingIDs.AddRange(StoryTraitBuildings);
@@ -127,6 +131,8 @@ namespace PoisNotIncluded
 		{
 			public static void Postfix(LegacyModMain __instance)
 			{
+				bool isSpacedOut = DlcManager.IsExpansion1Active();
+
 				Strings.Add($"STRINGS.UI.NEWBUILDCATEGORIES.{StoryTraitsCategory.ToUpperInvariant()}.NAME", STRINGS.UI.SANDBOXTOOLS.SETTINGS.SPAWN_STORY_TRAIT.NAME);
 				Strings.Add($"STRINGS.UI.NEWBUILDCATEGORIES.{StoryTraitsCategory.ToUpperInvariant()}.BUILDMENUTITLE", STRINGS.UI.SANDBOXTOOLS.SETTINGS.SPAWN_STORY_TRAIT.NAME);
 				Strings.Add($"STRINGS.UI.NEWBUILDCATEGORIES.{StoryTraitsCategory.ToUpperInvariant()}.TOOLTIP", STRINGS.UI.SANDBOXTOOLS.SETTINGS.SPAWN_STORY_TRAIT.TOOLTIP);
@@ -143,7 +149,13 @@ namespace PoisNotIncluded
 					TryRegisterDynamicGravitasBuilding(FossilSiteConfig_Resin.ID, StoryTraitsCategory, BuildLocationRule.OnFloor, isEntitySpawner: true, materialOverride: [SimHashes.Fossil.CreateTag().ToString()], costOverride: [4000]);
 					TryRegisterDynamicGravitasBuilding(FossilSiteConfig_Rock.ID, StoryTraitsCategory, BuildLocationRule.OnFloor, isEntitySpawner: true, materialOverride: [SimHashes.Fossil.CreateTag().ToString()], costOverride: [4000]);
 				}
-				RegisterNewBuilding("TemporalTearOpener", GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, "temporal_tear_opener_kanim", "off", "STRINGS.BUILDINGS.PREFABS.TEMPORALTEAROPENER.NAME", "STRINGS.BUILDINGS.PREFABS.TEMPORALTEAROPENER.DESC", 3, 4, MATERIALS.ALL_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER4, decorName: true, altAnims: ["off", "on", "inert", "working_loop"]);
+				if (Config.Instance.EntitySpawners)
+				{
+					TryRegisterDynamicGravitasBuilding(SapTreeConfig.ID, StoryTraitsCategory, BuildLocationRule.OnFloor, isEntitySpawner: true, materialOverride: [SimHashes.WoodLog.CreateTag().ToString(), SimHashes.Steel.ToString()], costOverride: [1000, 1000]);
+					TryRegisterDynamicGravitasBuilding("GeneShuffler", StoryTraitsCategory, BuildLocationRule.OnFloor, isEntitySpawner: true, materialOverride: [SimHashes.Steel.CreateTag().ToString()], costOverride: [2000]);
+				}
+				if (isSpacedOut)
+					RegisterNewBuilding("TemporalTearOpener", GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, "temporal_tear_opener_kanim", "off", "STRINGS.BUILDINGS.PREFABS.TEMPORALTEAROPENER.NAME", "STRINGS.BUILDINGS.PREFABS.TEMPORALTEAROPENER.DESC", 3, 4, MATERIALS.ALL_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER4, decorName: true, altAnims: ["off", "on", "inert", "working_loop"]);
 
 
 				TryRegisterDynamicGravitasBuilding("PropCeresPosterA", GameStrings.PlanMenuSubcategory.Decor);

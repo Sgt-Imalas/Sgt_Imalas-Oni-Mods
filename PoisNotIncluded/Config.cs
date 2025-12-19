@@ -13,5 +13,9 @@ namespace PoisNotIncluded
 		[Option("STRINGS.UI.SANDBOXTOOLS.SETTINGS.SPAWN_STORY_TRAIT.NAME", "STRINGS.UI.SANDBOXTOOLS.SETTINGS.SPAWN_STORY_TRAIT.TOOLTIP")]
 		[JsonProperty]
 		public bool ConstructableStoryTraits { get; set; } = true;
+
+		[Option("STRINGS.UI.SANDBOXTOOLS.SETTINGS.SPAWNER.NAME", "STRINGS.UI.SANDBOXTOOLS.SETTINGS.SPAWNER.TOOLTIP")]
+		[JsonProperty]
+		public bool EntitySpawners { get; set; } = true;
 	}
 }

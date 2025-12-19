@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>PoisNotIncluded</PackageId>
-		<Version>1.3.1</Version>
+		<Version>1.4.0</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>$(AssemblyCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
@@ -34,11 +34,18 @@
 		<OutDir>bin</OutDir>
 	</PropertyGroup>
 
+
+	<ItemGroup>
+	  <Compile Remove="Patches\**" />
+	  <EmbeddedResource Remove="Patches\**" />
+	  <None Remove="Patches\**" />
+	</ItemGroup>
+
 	<ItemGroup>
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Patches\" />
+	  <RefAssemblies Remove="Patches\**" />
 	</ItemGroup>
 </Project>
