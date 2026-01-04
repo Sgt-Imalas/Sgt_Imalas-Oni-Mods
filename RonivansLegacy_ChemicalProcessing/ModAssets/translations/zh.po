@@ -500,7 +500,7 @@ msgstr ""
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_WOODENDOOR.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.AIO_WOODENDOOR.NAME"
 msgid "<link=\"AIOWOODENDOOR\">Wooden Door</link>"
-msgstr "<link=\"WOODENDOOR\">木制门</link>"
+msgstr "<link=\"AIOWOODENDOOR\">木制门</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.ALGAEVAT.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.ALGAEVAT.DESC"
@@ -1225,20 +1225,20 @@ msgid ""
 "The refinery has three stages:\n"
 "\n"
 "First Stage: Raw Natural Gas is first refined to: \n"
-"- 50% <link=\"PETROLEUM\">Natural Gas</link>\n"
-"- 40% <link=\"PROPANE\">Propane</link>\n"
-"- 10% <link=\"SOURGAS\">Sour Gas</link>\n"
+"- 33% <link=\"METHANE\">Natural Gas</link>\n"
+"- 27% <link=\"PROPANE\">Propane</link>\n"
+"- 40% <link=\"SOURGAS\">Sour Gas</link>\n"
 "Second Stage: <link=\"PROPANE\">Propane</link> is mixed with <link=\"HYDROGEN\">Hydrogen</link> resulting in a complete conversion to <link=\"METHANE\">Methane</link>\n"
 "Third Stage reacts the remaining <link=\"SOURGAS\">Sour Gas</link> with Nitric Acid, producing Ammonia Gas."
 msgstr ""
 "该精炼厂分三阶段运作：\n"
-"第一阶段： 天然原油精炼产出：\n"
-" - 50% <link=\"PETROLEUM\">天然气</link>\n"
-" - 40% <link=\"PROPANE\">丙烷</link>\n"
-" - 10% <link=\"SOURGAS\">高硫天然气</link>\n"
+"\n"
+"第一阶段： 原料天然气首先精炼产出：\n"
+" - 33% <link=\"PETROLEUM\">天然气</link>\n"
+" - 27% <link=\"PROPANE\">丙烷</link>\n"
+" - 40% <link=\"SOURGAS\">高硫天然气</link>\n"
 "\n"
 "第二阶段： <link=\"PROPANE\">丙烷</link>与<link=\"HYDROGEN\">氢气</link>混合，完全转化为<link=\"METHANE\">天然气</link>\n"
-"\n"
 "第三阶段： 剩余<link=\"SOURGAS\">高硫天然气</link>与硝酸反应，生成氨气。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_RAWGASREFINERYSTAGED.NAME
@@ -1287,6 +1287,38 @@ msgstr ""
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.NAME"
 msgid "<link=\"CHEMICALSELECTIVEARCFURNACE\">Selective Arc-Furnace</link>"
 msgstr "<link=\"CHEMICALSELECTIVEARCFURNACE\">选择性电弧炉</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.REFINEMENT_HEAT_EXHAUST
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.REFINEMENT_HEAT_EXHAUST"
+msgid "Refinement exhaust heat"
+msgstr "精炼废热"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.REFINEMENT_HEAT_TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.REFINEMENT_HEAT_TOOLTIP"
+msgid ""
+"<style=\"produced\">{0}</style> of <style=\"KKeyword\">Heat</style> will be produced to cool off the fabricated item\n"
+"\n"
+"This heat is then stored in the buildings thermal capacitor and transfered over to the coolant thats pumped through the building.\n"
+"Coolant near its boiling point will be prevented from boiling, but have reduced heat dispersion."
+msgstr ""
+"为了冷却产出物将产生<style=\"produced\">{0}</style><style=\"KKeyword\">热量</style>。\n"
+"\n"
+"这些热量随后会存储在建筑物的储热容器内，并转移至泵入该建筑的冷却液。\n"
+"接近沸点的冷却液虽然不会沸腾，但其散热效率会大幅降低。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.REFINEMENT_HEAT_TOOLTIP_CONTINUOUS
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.REFINEMENT_HEAT_TOOLTIP_CONTINUOUS"
+msgid ""
+"During refinement of this recipe, the machine will produce a total of <style=\"produced\">{0}</style> in additional refinement <style=\"KKeyword\">heat</style>.\n"
+"At normal refinement speed, this amounts to {1} produced per second."
+msgstr ""
+"精炼该配方期间，机器将产生总计<style=\"produced\">{0}</style>的额外精炼<style=\"KKeyword\">热量</style>。\n"
+"在正常精炼速度下，这相当于每秒产生 {1}。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.REFINEMENT_SELF_HEAT
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.REFINEMENT_SELF_HEAT"
+msgid "Refinement heat"
+msgstr "精炼热量"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SMALLCRUSHERMILL.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SMALLCRUSHERMILL.DESC"
@@ -1552,12 +1584,12 @@ msgstr "一种完全由砖制成的优质砖块。"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOMBRICKTILE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOMBRICKTILE.EFFECT"
 msgid "A smooth tile made with several bricks carefully placed together."
-msgstr "由多块砖料精心拼接而成的光滑砖块。"
+msgstr "由多块红砖精心拼接而成的光滑砖块。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOMBRICKTILE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOMBRICKTILE.NAME"
 msgid "<link=\"CUSTOMBRICKTILE\">Compacted Brick Tile</link>"
-msgstr "<link=\"CUSTOMBRICKTILE\">砖料精制砖</link>"
+msgstr "<link=\"CUSTOMBRICKTILE\">红砖精制砖</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOMGRANITETILE.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOMGRANITETILE.DESC"
@@ -2284,7 +2316,7 @@ msgstr ""
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPAVENTLIQUID.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.HPAVENTLIQUID.NAME"
 msgid "<link=\"HPAVENTLIQUID\">Compressor Liquid Vent</link>"
-msgstr "<link=\"HPAVENTLUID\">压缩泵排液口</link>"
+msgstr "<link=\"HPAVENTLIQUID\">压缩泵排液口</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.INSULATIONCOMPOSITIONTILE.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.INSULATIONCOMPOSITIONTILE.DESC"
@@ -2699,8 +2731,8 @@ msgstr "一台先进的数控（计算机数字控制）加工生产线。能够
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.MINING_CNCMACHINE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.MINING_CNCMACHINE.EFFECT"
-msgid "Capable of producing specialty gadgets and other advanced tools. Requires the Mechatronics Engineering knowledge skill to be operated."
-msgstr "能够生产特殊设备和各类先进工具。需要具备机电一体化工程方面的知识技能才能操作。"
+msgid "Capable of producing specialty gadgets and other advanced tools. Requires the Mechatronics Engineering knowledge skill to be built."
+msgstr "能够生产特殊设备和各类先进工具。需要具备机电一体化工程方面的知识技能才能建造。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.MINING_CNCMACHINE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.MINING_CNCMACHINE.NAME"
@@ -3452,12 +3484,12 @@ msgstr "<link=\"AIOFERROCHROMESOLID\">铬铁合金</link>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_INVAR_SOLID.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_INVAR_SOLID.DESC"
 msgid "Invar is a nickel-iron alloy, composed of 35% <link=\"NICKEL\">Nickel</link> and 65% <link=\"IRON\">Iron</link> which is notable for its uniquely low coefficient of thermal expansion."
-msgstr "殷瓦钢是一种镍铁合金，由35%的<link=\"NICKEL\">镍</link>和65%的<link=\"IRON\">铁</link>组成，以其独特的低热膨胀系数而著称。"
+msgstr "殷钢是一种镍铁合金，由35%的<link=\"NICKEL\">镍</link>和65%的<link=\"IRON\">铁</link>组成，以其独特的低热膨胀系数而著称。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_INVAR_SOLID.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_INVAR_SOLID.NAME"
 msgid "<link=\"AIOINVARSOLID\">Invar</link>"
-msgstr "<link=\"AIOINVARSOLID\">殷瓦钢</link>"
+msgstr "<link=\"AIOINVARSOLID\">殷钢</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_PERMENDUR_SOLID.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_PERMENDUR_SOLID.DESC"
@@ -4250,6 +4282,16 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.HPA_RAILS_RESE
 msgid "<link=\"HPARAILSRESEARCH\">High-Capacity Solid Transport</link>"
 msgstr "<link=\"HPARAILSRESEARCH\">大容量固体运输</link>"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.METALLURGY_PLASMABASEDREFINEMENTTECH.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.METALLURGY_PLASMABASEDREFINEMENTTECH.DESC"
+msgid "Unlocks new high energy plasma based based refinement processes."
+msgstr "解锁新的基于高能等离子体的精炼工艺。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.METALLURGY_PLASMABASEDREFINEMENTTECH.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.METALLURGY_PLASMABASEDREFINEMENTTECH.NAME"
+msgid "<link=\"METALLURGYPLASMABASEDREFINEMENTTECH\">High Energy Plasma Refinement</link>"
+msgstr "<link=\"METALLURGYPLASMABASEDREFINEMENTTECH\">高能离子精炼</link>"
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.MINING_MK2DRILLTECH.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.MINING_MK2DRILLTECH.DESC"
 msgid "Unlocks the ability to drill into previously unreachable layers of the asteroid for resource extraction."
@@ -4279,6 +4321,16 @@ msgstr "厌氧分解机天然气产量倍率"
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_ANAEROBICDIGESTERBUFF.TOOLTIP"
 msgid "Multiply the natural gas output amounts of the anaerobic digester by this value."
 msgstr "将厌氧消化器的天然气产量乘以此值。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_OILMULTIPLIER.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_OILMULTIPLIER.NAME"
+msgid "Expeller Press Oil Multiplier"
+msgstr "榨油机榨油产出倍率"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_OILMULTIPLIER.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_OILMULTIPLIER.TOOLTIP"
+msgid "Multiply the vegetable oil output amounts of the expeller press by this value."
+msgstr "将榨油机的植物油产量乘以此值。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_OILPRESSREBALANCE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_OILPRESSREBALANCE.NAME"
@@ -4374,6 +4426,16 @@ msgstr ""
 "将所有原版和模组的储存罐移至相应的管道类别中：\n"
 "储液罐移动到“水管”类别下。\n"
 "储气罐移动到“通风”类别下。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.DRYWALL_HIDES_PIPES.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.DRYWALL_HIDES_PIPES.NAME"
+msgid "All Walls hide pipes"
+msgstr "所有背景墙隐藏管线"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.DRYWALL_HIDES_PIPES.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.DRYWALL_HIDES_PIPES.TOOLTIP"
+msgid "Like with the mod \"Drywall hides Pipes\", all backwall buildings are rendered in front of pipes and wires."
+msgstr "和“Drywall hides Pipes”模组一样，所有背景墙建筑都会在管道和电线的上一层渲染。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME"
@@ -5034,12 +5096,12 @@ msgstr "• {0}: {1} - {2}, {3} 几率"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.DESC"
 msgid "This recipe yields {0} of random amounts of the following elements:"
-msgstr "此配方产生{0}个随机数量的以下元素："
+msgstr "此配方产生{0}随机数量的以下元素："
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.DESC_MAX_COUNT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.DESC_MAX_COUNT"
 msgid "This recipe yields {0} of random amounts of {1} of the following elements:"
-msgstr "此配方产生{0}个随机数量的{1}个以下元素："
+msgstr "此配方产生{0}随机数量的{1}个以下元素："
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.DESC_OCCURENCE
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS.RANDOMRECIPERESULT.DESC_OCCURENCE"

@@ -23,7 +23,7 @@ Changes & Tweaks:
 - decreased the power consumption of the advanced metal refinery to make it more competitive with the plasma furnace; 3kw->2.4kw
 - slightly decreased the renewable diesel consumption of the biodiesel generator
 - increased the throughput of the seakomb expeller press recipe; 10->25 plants per recipe
-- changed the purpose of the algae digestion recipe towards algae->dirt production, reduced its NatGas output to no longer be a x6 multiplier on raw power production in the resource chain VegOil->Algae(AlgaeGrower)->NatGas(Digester)
+- changed the purpose of the algae digestion recipe towards algae->dirt production, reduced its NatGas output to no longer be an unintended x6 multiplier on raw power production in the unintended resource chain VegOil->Algae(AlgaeGrower)->NatGas(Digester)
 - moved Carbon Recycling Unit into a more appropriate later game tech tier
 - moved Plasma Furnace into a new later game tech tier that requires all 4 science types
 - removed uncrushed rock cement recipe from cement mixer

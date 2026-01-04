@@ -45,7 +45,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			buildingDef.RequiresPowerInput = true;
 			buildingDef.EnergyConsumptionWhenActive = Wattage;
 			buildingDef.ExhaustKilowattsWhenActive = 0f;
-			buildingDef.SelfHeatKilowattsWhenActive = 0f;
+			buildingDef.SelfHeatKilowattsWhenActive = 1f;
 			buildingDef.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(0, 0));
 			buildingDef.PermittedRotations = PermittedRotations.R360;
 			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.SolidConveyorIDs, ID);
