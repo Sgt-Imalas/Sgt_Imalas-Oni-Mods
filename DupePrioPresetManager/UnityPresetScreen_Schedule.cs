@@ -238,8 +238,9 @@ namespace DupePrioPresetManager
                     Destroy(Presets[config]);
                     Presets.Remove(config);
                     config.DeleteFile();
-                }
-            };
+				}
+				RebuildInformationPanel();
+			};
             System.Action nothing = () =>
             { };
 
@@ -363,19 +364,18 @@ namespace DupePrioPresetManager
 
             CloseButton.OnClick += () => this.Show(false);
             GeneratePresetButton.OnClick += () =>
-            {
-                bool added = AddUiElementForPreset(CurrentlySelected);
-                if (added)
-                {
-                    CurrentlySelected.WriteToFile();
-                    CurrentlySelected.OpenPopUpToChangeName(
+			{
+				if (!Presets.ContainsKey(CurrentlySelected))
+				{
+					CurrentlySelected.OpenPopUpToChangeName(
 							() =>
                                 {
-                                    if (this.CurrentlyActive && Presets[CurrentlySelected] != null)
+									AddUiElementForPreset(CurrentlySelected);
+									if (this.CurrentlyActive && Presets[CurrentlySelected] != null)
                                     {
                                         UIUtils.TryChangeText(Presets[CurrentlySelected].transform, "Label", CurrentlySelected.ConfigName);
                                         RebuildInformationPanel();
-                                    }
+									}
                                 }
                             );
                     RebuildInformationPanel();
