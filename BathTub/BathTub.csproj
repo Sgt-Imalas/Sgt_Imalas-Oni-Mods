@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>BathTub</PackageId>
-		<Version>2.3.1</Version>
+		<Version>2.3.2</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>$(AssemblyCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
@@ -37,5 +37,11 @@
 	
 	<ItemGroup>
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <Reference Include="ONI_MP_API">
+	    <HintPath>C:\Users\Admin\source\repos\Oxygen_Not_Included_Multiplayer\ONI_MP_API\bin\Debug\net472\ONI_MP_API.dll</HintPath>
+	  </Reference>
 	</ItemGroup>
 </Project>
