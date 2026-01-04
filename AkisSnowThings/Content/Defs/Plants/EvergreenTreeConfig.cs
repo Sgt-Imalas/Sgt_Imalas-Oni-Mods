@@ -1,14 +1,17 @@
-﻿using System;
+﻿using AkisSnowThings.Content.Defs.Entities;
+using AkisSnowThings.Content.Scripts.Entities;
+using HarmonyLib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using static AkisSnowThings.STRINGS.CREATURES.SPECIES;
 using UtilLibs;
 using static AkisSnowThings.STRINGS;
-using AkisSnowThings.Content.Defs.Entities;
-using AkisSnowThings.Content.Scripts.Entities;
+using static AkisSnowThings.STRINGS.CREATURES.SPECIES;
+using static CodexScreen;
+using static SetTextStyleSetting;
 
 namespace AkisSnowThings.Content.Defs.Plants
 {
@@ -46,7 +49,7 @@ namespace AkisSnowThings.Content.Defs.Plants
 				UtilMethods.GetKelvinFromC(90),
 				crop_id: TreeRemainsConfig.ID,
 				should_grow_old: false,
-				
+
 				max_radiation: TUNING.PLANTS.RADIATION_THRESHOLDS.TIER_2,
 				baseTraitId: ID + "Original",
 				baseTraitName: SNOWSCULPTURES_EVERGREEN_TREE.NAME);
@@ -71,13 +74,13 @@ namespace AkisSnowThings.Content.Defs.Plants
 			prefab.AddOrGet<StandardCropPlant>();
 
 			var seed = EntityTemplates.CreateAndRegisterSeedForPlant(
-				prefab,null,
+				prefab, null,
 				SeedProducer.ProductionType.Harvest,
 				SEED_ID,
 				SEEDS.SNOWSCULPTURES_EVERGREEN_TREE.NAME,
 				SEEDS.SNOWSCULPTURES_EVERGREEN_TREE.DESC,
 				Assets.GetAnim("pine_cone_kanim"),
-				additionalTags: new List<Tag> { GameTags.CropSeed },
+				additionalTags: new List<Tag> { GameTags.Seed, GameTags.CropSeed },
 				sortOrder: 2,
 				domesticatedDescription: SNOWSCULPTURES_EVERGREEN_TREE.DOMESTICATEDDESC,
 				width: 0.35f,
@@ -117,7 +120,7 @@ namespace AkisSnowThings.Content.Defs.Plants
 
 		public void OnPrefabInit(GameObject inst)
 		{
-			inst.GetComponent<KBatchedAnimController>().randomiseLoopedOffset = true;	
+			inst.GetComponent<KBatchedAnimController>().randomiseLoopedOffset = true;
 		}
 
 		public void OnSpawn(GameObject inst)
