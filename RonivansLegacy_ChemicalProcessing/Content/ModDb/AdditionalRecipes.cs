@@ -179,7 +179,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 		public static void RegisterRecipes_CraftingTable()
 		{
-			SimpleDrillbits_Config.CreateSimpleDrillRecipes(CraftingTableConfig.ID,true);
+			SimpleDrillbits_Config.CreateSimpleDrillRecipes(CraftingTableConfig.ID, true);
 		}
 
 		public static void RegisterRecipes_SuperMaterialRefinery()
@@ -224,10 +224,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				RegisterRecipes_AnaerobicDigester();
 				RegisterRecipes_ExpellerPress();
 			}
-			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
-			{
+			//if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+			//{
 				RegisterRecipes_RayonLoom();
-			}
+			//}
 			if (Config.Instance.MineralProcessing_Mining_Enabled)
 			{
 				RegisterRecipes_CraftingTable();
@@ -351,7 +351,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					.Input(PlantFiberConfig.ID, 100)
 					.Input(SimHashes.Sand, 99)
 					.Input(SimHashes.Water, 1)
-					.Output(SimHashes.Methane, 5.445f * Config.Instance.Biochem_AnaerobicDigesterBuff / 4) 
+					.Output(SimHashes.Methane, 5.445f * Config.Instance.Biochem_AnaerobicDigesterBuff / 4)
 					.Output(SimHashes.Dirt, 200)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.ANAEROBIC_DIGESTER_1_2, 1, 2)
@@ -549,16 +549,16 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			ExpellerPress_Seeds(ID);
 
 			HashSet<ComplexRecipe> toConvertRecipes = [];
-			foreach(var existingRecipe in ComplexRecipeManager.Get().preProcessRecipes)
+			foreach (var existingRecipe in ComplexRecipeManager.Get().preProcessRecipes)
 			{
-				if(!existingRecipe.fabricators.Any() || existingRecipe.fabricators[0] != MilkPressConfig.ID)
+				if (!existingRecipe.fabricators.Any() || existingRecipe.fabricators[0] != MilkPressConfig.ID)
 				{
 					continue;
 				}
-				toConvertRecipes.Add(existingRecipe);					
+				toConvertRecipes.Add(existingRecipe);
 			}
 
-			foreach(var existingRecipe in toConvertRecipes)
+			foreach (var existingRecipe in toConvertRecipes)
 			{
 				var pressRecipe = RecipeBuilder.Create(ID, existingRecipe.time);
 

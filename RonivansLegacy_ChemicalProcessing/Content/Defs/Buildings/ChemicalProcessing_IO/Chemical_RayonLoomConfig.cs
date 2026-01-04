@@ -22,21 +22,22 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 	{
 		public static string ID = "Chemical_RayonLoom";
 
-		private Tag FUEL_TAG = SimHashes.Syngas.CreateTag();
 		private static readonly PortDisplayOutput steamOutputPort = new PortDisplayOutput(ConduitType.Gas, new CellOffset(1, 0), null, new Color32(167, 180, 201, 255));
 
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
+			Tag FUEL_TAG = (!ElementLoader.GetElement(SimHashes.Syngas.CreateTag())?.disabled ?? false) ? SimHashes.Syngas.CreateTag() : SimHashes.Methane.CreateTag();
+			SgtLogger.l("RayonLoom configured to use element: " + FUEL_TAG.Name);
 			go.AddOrGet<DropAllWorkable>();
 			go.AddOrGet<BuildingComplete>().isManuallyOperated = false;
 			var fuelConsumer = go.AddOrGet<Chemical_FueledFabricatorAddon>();
-			fuelConsumer.fuelTag = this.FUEL_TAG;
+			fuelConsumer.fuelTag = FUEL_TAG;
 
 			CustomComplexFabricatorBase fabricator = go.AddOrGet<CustomComplexFabricatorBase>();
 			fabricator.heatedTemperature = 368.15f;
 			fabricator.duplicantOperated = false;
 			fabricator.sideScreenStyle = ComplexFabricatorSideScreen.StyleSetting.ListQueueHybrid;
-			fabricator.KeepAdditionalTags = [SimHashes.Syngas.CreateTag(), SimHashes.Steam.CreateTag()];
+			fabricator.KeepAdditionalTags = [FUEL_TAG, SimHashes.Steam.CreateTag()];
 
 			go.AddOrGet<FabricatorIngredientStatusManager>();
 			go.AddOrGet<CopyBuildingSettings>();
@@ -48,13 +49,14 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			fabricator.outStorage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);
 
 			ConduitConsumer syngasConsumer = go.AddOrGet<ConduitConsumer>();
-			syngasConsumer.capacityTag = this.FUEL_TAG;
+			syngasConsumer.capacityTag = FUEL_TAG;
 			syngasConsumer.capacityKG = 10f;
 			syngasConsumer.alwaysConsume = true;
 			syngasConsumer.storage = fabricator.inStorage;
 			syngasConsumer.forceAlwaysSatisfied = true;
+
 			ElementConverter converter = go.AddOrGet<ElementConverter>();
-			converter.consumedElements = [new ElementConverter.ConsumedElement(this.FUEL_TAG, 0.1f)];
+			converter.consumedElements = [new ElementConverter.ConsumedElement(FUEL_TAG, 0.1f)];
 			converter.outputElements = [new ElementConverter.OutputElement(0.025f, SimHashes.Steam, 373.15f, false, true, 1f, 0f)];
 			Prioritizable.AddRef(go);
 			converter.SetStorage(fabricator.inStorage);
@@ -66,7 +68,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			steamDispenser.AssignPort(steamOutputPort);
 			steamDispenser.alwaysDispense = true;
 			steamDispenser.SkipSetOperational = true;
-			
+
 			PipedOptionalExhaust steamExhaust = go.AddComponent<PipedOptionalExhaust>();
 			steamExhaust.dispenser = steamDispenser;
 			steamExhaust.elementTag = SimHashes.Steam.CreateTag();
