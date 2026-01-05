@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using static Grid;
 using UnityEngine;
 
-namespace Rockets_TinyYetBig.Content.Defs.StarmapEntities
+namespace Rockets_TinyYetBig.Content.Defs.Entities
 {
     class RocketExhaustIndicatorConfig : IEntityConfig
 	{

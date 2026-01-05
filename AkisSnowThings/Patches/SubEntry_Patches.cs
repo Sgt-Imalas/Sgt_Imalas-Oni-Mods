@@ -12,13 +12,13 @@ namespace AkisSnowThings.Patches
 	internal class SubEntry_Patches
 	{
 
-        [HarmonyPatch(typeof(SubEntry), MethodType.Constructor, [typeof(string ), typeof(string), typeof(List < ContentContainer >), typeof(string)])]
+        [HarmonyPatch(typeof(SubEntry), MethodType.Constructor, [typeof(string ), typeof(string), typeof(List<ContentContainer>), typeof(string)])]
         public class SubEntry_Constructor_Patch
 		{
             public static void Prefix(ref string parentEntryID)
             {
-                if(parentEntryID == EvergreenTreeConfig.ID)
-                    parentEntryID = EvergreenTreeConfig.ID.Replace("_",string.Empty);
+                if (parentEntryID == EvergreenTreeConfig.ID)
+                    parentEntryID = CodexCache.FormatLinkID(parentEntryID);
             }
         }
 	}
