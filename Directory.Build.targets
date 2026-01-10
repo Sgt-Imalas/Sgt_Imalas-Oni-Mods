@@ -87,7 +87,7 @@
 			$(TargetDir)$(TargetName).pdb;
 			$(TargetDir)mod.yaml;
 			$(TargetDir)mod_info.yaml;
-			$(TargetDir)LauncherMetadata.json;			
+			<!--$(TargetDir)LauncherMetadata.json;-->			
 		  "
 		  
 		  DestinationFolder="$(TargetFolder)"/>
