@@ -31,7 +31,7 @@
     </ItemGroup>
 	</Target>
 	<!--Write LauncherMetadata.json file for Romen ModLauncher and SgtsModUpdater-->
-	<!--<Target Name="GenerateLauncherMetadata" BeforeTargets="PrepareForRun" Condition="'$(DoNotBuildAsMod)' != 'true'">
+	<Target Name="GenerateLauncherMetadata" BeforeTargets="PrepareForRun" Condition="'$(DoNotBuildAsMod)' != 'true'">
 		<ItemGroup>
 			<LauncherMetadataLines Include='{'/>
 			<LauncherMetadataLines Include='"UpdateIndexName":"Mods by Sgt_Imalas",'/>
@@ -45,7 +45,7 @@
     <ItemGroup>
       <FileWrites Include="$(TargetDir)/LauncherMetadata.json" Condition="Exists('$(TargetDir)/LauncherMetadata.json')"/>
     </ItemGroup>
-	</Target>-->
+	</Target>
 
 	<!--Merges all dlls in the output folder into a single dll-->
 	<Target Name="ILRepack" AfterTargets="Build" Condition="'$(IsPacked)' == 'true'">
@@ -87,7 +87,7 @@
 			$(TargetDir)$(TargetName).pdb;
 			$(TargetDir)mod.yaml;
 			$(TargetDir)mod_info.yaml;
-			<!--$(TargetDir)LauncherMetadata.json;-->			
+			$(TargetDir)LauncherMetadata.json;			
 		  "
 		  
 		  DestinationFolder="$(TargetFolder)"/>
