@@ -164,4 +164,10 @@
 		</PackageReference>
 	</ItemGroup>
 
+	<!--<ItemGroup Condition="'$(IsMod)' == 'true'">
+		<PackageReference Include="ONIModLauncher.MSBuild.Task" Version="*" >
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>-->
 </Project>
