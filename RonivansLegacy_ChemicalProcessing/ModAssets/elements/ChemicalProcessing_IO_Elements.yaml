@@ -1123,6 +1123,7 @@ elements:
     localizationID: STRINGS.ELEMENTS.LIQUIDNITRIC.NAME
     dlcId: ""
 
+    # Zinc Ore
   - elementId: AurichalciteOre
     specificHeatCapacity: 0.411
     thermalConductivity: 3.6
@@ -1132,8 +1133,8 @@ elements:
     strength: 0.7
     highTemp: 1192.15
     highTempTransitionTarget: MoltenZinc
-    highTempTransitionOreId: Copper
-    highTempTransitionOreMassConversion: 0.4
+    # highTempTransitionOreId: Copper
+    # highTempTransitionOreMassConversion: 0.4
     defaultTemperature: 296
     defaultMass: 800
     maxMass: 1840
