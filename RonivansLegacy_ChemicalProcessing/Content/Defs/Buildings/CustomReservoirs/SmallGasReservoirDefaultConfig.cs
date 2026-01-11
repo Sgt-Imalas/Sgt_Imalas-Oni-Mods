@@ -88,6 +88,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservo
 			ConduitDispenser dispenser = go.AddOrGet<ConduitDispenser>();
 			dispenser.conduitType = ConduitType.Gas;
 			dispenser.elementFilter = null;
+			go.AddOrGet<BabyProofedStorageCapacity>();
 		}
 		public override void DoPostConfigureComplete(GameObject go)
 		{

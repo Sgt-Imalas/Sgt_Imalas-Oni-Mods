@@ -90,6 +90,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomReservo
 			pcd2.AssignPort(SecondaryOutputPort);
 			pcd2.SkipSetOperational = true;
 
+			go.AddOrGet<BabyProofedStorageCapacity>();
+
 			AttachPorts(go);
 		}
 		public override void DoPostConfigureComplete(GameObject go)

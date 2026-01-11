@@ -259,7 +259,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 
 			if (int.TryParse(text, out int mass))
 			{
-				mass = Mathf.Clamp(mass, 1, 100000);
+				mass = Mathf.Clamp(mass, 1, Mathf.RoundToInt(PrimaryElement.MAX_MASS));
 				StorageCapacityInput.SetTextFromData(mass.ToString());
 				SelectedOutline?.SetMassCapacity(mass);
 			}
