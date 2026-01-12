@@ -57,7 +57,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 			simCellOccupier.strengthMultiplier = 1.5f;
 
 			go.AddOrGet<TileTemperature>();
-			go.AddOrGet<KAnimGridTileVisualizer>().blockTileConnectorID = Hash.SDBMLower("tiles_spacer_tops");
+			go.AddOrGet<KAnimGridTileVisualizer>().blockTileConnectorID = Hash.SDBMLower("spacer_tile_connector_id");
 			go.AddOrGet<BuildingHP>().destroyOnDamaged = true;
 			go.AddOrGet<Insulator>();
 			go.AddOrGet<TileTemperature>();
