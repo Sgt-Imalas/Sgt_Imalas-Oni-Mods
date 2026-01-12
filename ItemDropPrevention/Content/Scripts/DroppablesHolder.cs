@@ -208,6 +208,7 @@ namespace ItemDropPrevention.Content.Scripts
 			MarkItemInvisible(gameObject, false);
 		}
 
+
 		internal bool IsItemMarkedForDrop(GameObject gameObject)
 		{
 			if(gameObject == null)
