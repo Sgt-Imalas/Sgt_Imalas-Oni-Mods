@@ -68,13 +68,13 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			];
 			elementConverter.outputElements =
 			[
-				new(0.75f, SimHashes.Hydrogen, 371.15f, storeOutput: true, diseaseWeight: 0.75f),
-				new(0.25f, ModElements.Nitrogen_Gas, 371.15f, storeOutput: true, diseaseWeight: 0.25f),
-				new(0.01f, SimHashes.Rust, 307.15f, storeOutput: true, diseaseWeight: 0.01f)
+				new(0.176f, SimHashes.Hydrogen, 371.15f, storeOutput: true),
+				new(0.824f, ModElements.Nitrogen_Gas, 371.15f, storeOutput: true),
+				new(0.01f, SimHashes.Rust, 307.15f, storeOutput: true)
 			];
 
 			ElementDropper elementDropper = go.AddComponent<ElementDropper>();
-			elementDropper.emitMass = 10f;
+			elementDropper.emitMass = 1f;
 			elementDropper.emitTag = SimHashes.Rust.CreateTag();
 			elementDropper.emitOffset = new Vector3(0.0f, 1f, 0.0f);
 
