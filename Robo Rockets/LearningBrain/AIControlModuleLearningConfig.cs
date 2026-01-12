@@ -1,4 +1,5 @@
-﻿using TUNING;
+﻿using RoboRockets.Scripts;
+using TUNING;
 using UnityEngine;
 namespace RoboRockets.LearningBrain
 {
@@ -92,7 +93,12 @@ namespace RoboRockets.LearningBrain
 			};
 			fakeFloorAdder.initiallyActive = false;
 			go.AddOrGet<BuildingCellVisualizer>();
-			go.GetComponent<ReorderableBuilding>().buildConditions.Add(new LimitOneCommandModule());
+			if (go.TryGetComponent<ReorderableBuilding>(out var rb))
+			{
+				rb.buildConditions.Add(new LimitOneCommandModule());
+				rb.buildConditions.Add(new LimitOneAiCommandModule());
+				rb.buildConditions.Add(new LimitOneRoboPilotModule());
+			}
 		}
 
 
