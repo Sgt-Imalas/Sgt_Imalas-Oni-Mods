@@ -24,6 +24,7 @@ namespace ItemDropPrevention.Content.Scripts
 
 		static Dictionary<GameObject, DroppablesHolder> droppablesHolders = [];
 		HashSet<int> MarkedForDrop = [];
+		int handle = -1;
 
 		public override void OnSpawn()
 		{
@@ -32,13 +33,13 @@ namespace ItemDropPrevention.Content.Scripts
 			narcolepsy = this.GetSMI<Narcolepsy>();
 			hasStamina = staminaMonitor != null;
 			hasNarcolepsy = narcolepsy != null;
-			Subscribe((int)GameHashes.PathAdvanced, OnPathAdvanced);
+			handle = Subscribe((int)GameHashes.PathAdvanced, OnPathAdvanced);
 			droppablesHolders.Add(this.gameObject, this);
 		}
 		public override void OnCleanUp()
 		{
 			droppablesHolders.Remove(this.gameObject);
-			Unsubscribe((int)GameHashes.PathAdvanced, OnPathAdvanced);
+			Unsubscribe(handle);
 			base.OnCleanUp();
 		}
 
