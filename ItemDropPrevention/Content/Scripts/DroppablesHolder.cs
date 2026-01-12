@@ -64,7 +64,6 @@ namespace ItemDropPrevention.Content.Scripts
 
 		void OnPathAdvanced(object _)
 		{
-			SgtLogger.l("Item Count 0 on " + gameObject.name + ": " + MarkedForDrop.Count);
 			if (!MarkedForDrop.Any())
 				return;
 
@@ -72,7 +71,6 @@ namespace ItemDropPrevention.Content.Scripts
 			if (!AboveSolidGround())
 				return;
 
-			SgtLogger.l("Item Count 1 on " + gameObject.name + ": " + MarkedForDrop.Count);
 
 			///dont drop in transit tube
 			if (kprefabID.HasTag(GameTags.InTransitTube))
@@ -80,12 +78,10 @@ namespace ItemDropPrevention.Content.Scripts
 
 			Chore currentChore = choreDriver.GetCurrentChore();
 
-			SgtLogger.l("Item Count 2 on " + gameObject.name + ": " + MarkedForDrop.Count);
 			///exhaustion, narcolepsy, breath recovery
 			if (InterruptedByCurrentChore(currentChore))
 				return;
 
-			SgtLogger.l("Item Count 3 on " + gameObject.name + ": " + MarkedForDrop.Count);
 			///if deliverable chunks of the current chore have merged into those marked for drop, prevent them from dropping
 			if (currentChore != null && currentChore is FetchAreaChore fac)
 			{
@@ -98,7 +94,6 @@ namespace ItemDropPrevention.Content.Scripts
 						MarkedForDrop.Remove(id.Value);
 				}
 			}
-			SgtLogger.l("Item Count 4 on " + gameObject.name + ": " + MarkedForDrop.Count);
 			///if the workable is something in the hands of the dupe, dont drop it
 			var task = worker.GetWorkable();
 			if (task != null)
@@ -107,7 +102,6 @@ namespace ItemDropPrevention.Content.Scripts
 				if (id.HasValue)
 					MarkedForDrop.Remove(id.Value);
 			}
-			SgtLogger.l("Item Count 5 on " + gameObject.name + ": " + MarkedForDrop.Count);
 
 
 			var items = internalStorage.items;
@@ -152,7 +146,7 @@ namespace ItemDropPrevention.Content.Scripts
 
 		void MarkItemInvisible(GameObject item, bool setInvis)
 		{
-			SgtLogger.l($"{(setInvis?"Marking":"Unmarking")} {item} as invisible");
+			//SgtLogger.l($"{(setInvis?"Marking":"Unmarking")} {item} as invisible");
 			if (item.TryGetComponent<Pickupable>(out var pickupable))
 			{
 				pickupable.prevent_absorb_until_stored = setInvis;
@@ -193,7 +187,7 @@ namespace ItemDropPrevention.Content.Scripts
 
 		void MarkForDrop(GameObject gameObject)
 		{
-			SgtLogger.l($"Marking {gameObject} as drop later");
+			//SgtLogger.l($"Marking {gameObject} as drop later");
 			if (gameObject.IsNullOrDestroyed())
 				return;
 			MarkedForDrop.Add(gameObject.GetInstanceID());
@@ -201,7 +195,7 @@ namespace ItemDropPrevention.Content.Scripts
 		}
 		void UnmarkForDrop(GameObject gameObject)
 		{
-			SgtLogger.l($"Unarking {gameObject} as drop later");
+			//SgtLogger.l($"Unarking {gameObject} as drop later");
 			if (gameObject.IsNullOrDestroyed())
 				return;
 			MarkedForDrop.Remove(gameObject.GetInstanceID());
