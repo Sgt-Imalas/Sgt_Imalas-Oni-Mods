@@ -1028,7 +1028,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = FormatAsLink("Insulation Composite Tile", nameof(INSULATIONCOMPOSITIONTILE));
 					public static LocString DESC = "Used to build the walls and floors of rooms. Reduces heat transfer between walls, retaining ambient heat in an area.";
-					public static LocString EFFECT = "A solid tile assembled in a range of materials and radiative pattern that reduce the heat transfer.";
+					public static LocString EFFECT = "A solid tile assembled in a range of materials and radiative pattern that reduce the heat transfer.\nIt has the same insulating properties as the regular insulated tile, but offers a small run speed bonus to duplicants.";
 				}
 				public class WOODENCEILING
 				{
@@ -2202,8 +2202,6 @@ namespace RonivansLegacy_ChemicalProcessing
 		}
 		public class UI
 		{
-
-
 			public class AIO_THRESHOLD_VALVE_SIDESCREEN
 			{
 				public static LocString TITLE = "Package Mass Threshold";
@@ -2294,6 +2292,7 @@ namespace RonivansLegacy_ChemicalProcessing
 							{
 								public static LocString ENABLEBUILDING = "Enable Building:";
 								public static LocString CAPACITYSETTINGS = "Storage Capacity:";
+								public static LocString CAPACITYSETTINGS_TOOLTIP = "The upper limit of the storage is capped at {0} due to the game's maximum mass of items.\nUse the mod config option \"Maximum liquid/gas element stack size\" to increase that limit if you want to have a larger storage.";
 								public static LocString WATTAGESETTINGS = "Power Consumption:";
 								public static LocString WATTAGESETTINGS_GENERATOR = "Power Generation:";
 								public static LocString RANGESETTINGS = "Building Range:";
@@ -2485,6 +2484,11 @@ namespace RonivansLegacy_ChemicalProcessing
 			{
 				public static LocString NAME = "All Walls hide pipes";
 				public static LocString TOOLTIP = "Like with the mod \"Drywall hides Pipes\", all backwall buildings are rendered in front of pipes and wires.";
+			}
+			public class OVERRIDE_PRIMARYELEMENT_MAXSTACK
+			{
+				public static LocString NAME = "Maximum liquid/gas element stack size";
+				public static LocString TOOLTIP = "Overrides the game's internal maximum stack size value of element chunks\nThis is required if you want to set reservoir capacity above 100T, as the game will otherwise cut off any mass above that limit.\nIf any other mod sets a higher value, that higher value will be used instead.\n\nRequires confirming the config with \"Ok\" to affect the building editor capacity limit in the same game session.";
 			}
 			public class GEYSERS
 			{

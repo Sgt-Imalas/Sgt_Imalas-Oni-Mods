@@ -58,6 +58,7 @@ namespace RonivansLegacy_ChemicalProcessing
 			DisableOldRonivanMods(harmony, mods);
 			CustomizeBuildings.FixOilWell(harmony);
 			HighPressureConduitRegistration.InitCache(true);
+			Config.Instance.SetElementMaxMassIfApplicable();
 		}
 
 		internal static void RegisterLocalizedDescription()

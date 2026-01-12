@@ -18,7 +18,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 		public static BuildingEditor_MainScreen Instance;
 		public BuildingConfigurationEntry SelectedOutline = null;
 
-
+		ToolTip MaxMassTT;
 		public FInputField2 FilterBar;
 		public FButton ClearFilterButton;
 
@@ -61,12 +61,22 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 				Instance.name = "AIO_BuildingEditor_MainScreen";
 			}
 			Instance.Show(true);
-			Instance.ConsumeMouseScroll = true;
-			Instance.transform.SetAsLastSibling();
 			Instance.OpenedFrom(source);
-			Instance.ClearFilter();
-			Instance.SelectOutline(null);
 		}
+
+		public override void Show(bool show = true)
+		{
+			base.Show(show);
+			Instance.ConsumeMouseScroll = show;
+			if (show)
+			{
+				transform.SetAsLastSibling();
+				RefreshMaxMassTooltip();
+				SelectOutline(null);
+				ClearFilter();
+			}
+		}
+
 		void OpenedFrom(SourceModInfo? source = null)
 		{
 			if (source == null || !source.HasValue)
@@ -164,6 +174,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			WattageContainer.SetActive(false);
 
 			StorageCapacityContainer = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/CapacitySettings").gameObject;
+			MaxMassTT = UIUtils.AddSimpleTooltipToObject(StorageCapacityContainer, "");
 			StorageCapacityInput = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/CapacitySettings/Input").FindOrAddComponent<FInputField2>();
 			StorageCapacityInput.Text = "0";
 			StorageCapacityInput.OnValueChanged.AddListener(UpdateItemCapacity);
@@ -200,6 +211,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			UpdateEntryList();
 			SelectOutline(null);
 		}
+		void RefreshMaxMassTooltip()
+		{
+			string tt = string.Format(STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.CAPACITYSETTINGS_TOOLTIP, PrimaryElement.MAX_MASS);
+			MaxMassTT.SetSimpleTooltip(tt);
+		}
+
 		FMultiSelectDropdown.FDropDownEntry CreateFilterEntry(SourceModInfo mod)
 		{
 			var ModName = Strings.Get($"STRINGS.AIO_MODSOURCE.{mod.ToString().ToUpperInvariant()}").ToString();

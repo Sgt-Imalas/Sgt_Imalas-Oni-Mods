@@ -21,7 +21,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			if (storageCapacity <= maxMass)
 				return;
 
-			SgtLogger.l($"Someone missused the building config and gave the reservoir [{this.GetProperName()} a broken capacity that will get clamped: {storageCapacity} capacity, while the max mass is {maxMass}");
+			SgtLogger.l($"Someone the reservoir [{this.GetProperName()} a broken capacity that will get clamped: {storageCapacity} capacity, while the max allowed mass by the game is {maxMass}. Applying clamping to the reservoir to prevent mass loss on the next save.");
 			storage.capacityKg = maxMass;			
 			if(TryGetComponent<ConduitConsumer>(out var input))
 				input.capacityKG = maxMass;
