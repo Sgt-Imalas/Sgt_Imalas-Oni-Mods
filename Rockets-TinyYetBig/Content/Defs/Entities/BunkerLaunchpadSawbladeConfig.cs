@@ -3,24 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Grid;
 using UnityEngine;
+using static Grid;
 
 namespace Rockets_TinyYetBig.Content.Defs.Entities
 {
-    class RocketExhaustIndicatorConfig : IEntityConfig
+	internal class BunkerLaunchpadSawbladeConfig : IEntityConfig
 	{
-		public static readonly string ID = "RTB_RocketExhaustIndicator";
+		public static readonly string ID = "RTB_BunkerLaunchpadSawbladeEntity";
 
 		public GameObject CreatePrefab()
 		{
 			GameObject entity = EntityTemplates.CreateEntity(ID, ID, false);
-			var kbac = entity.AddOrGet<KBatchedAnimController>();
 			entity.AddTag(ONITwitchLib.ExtraTags.OniTwitchSurpriseBoxForceDisabled);
 
-			kbac.AnimFiles = new KAnimFile[1] { Assets.GetAnim("rtb_rocketexhaustindicator_kanim") };
-			kbac.sceneLayer = SceneLayer.FXFront;
-			kbac.initialAnim = "place";
+			var kbac = entity.AddOrGet<KBatchedAnimController>();
+
+			kbac.AnimFiles = new KAnimFile[1] { Assets.GetAnim("rocket_launchpad_bunker_saw_kanim") };
+			kbac.sceneLayer = SceneLayer.GasFront; //one behind buildingback
+			kbac.initialAnim = "off";
 			return entity;
 		}
 

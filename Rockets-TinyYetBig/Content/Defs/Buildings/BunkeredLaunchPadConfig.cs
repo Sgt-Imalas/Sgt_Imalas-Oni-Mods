@@ -1,4 +1,5 @@
-﻿using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketPlatforms;
+﻿using Rockets_TinyYetBig.Content.Scripts.Buildings;
+using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketPlatforms;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -104,6 +105,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 		public override void DoPostConfigureComplete(GameObject go)
 		{
 			go.GetComponent<KPrefabID>().AddTag(GameTags.Bunker);
+			go.AddOrGet<BunkerLaunchpadDigger>();
 		}
 	}
 }
