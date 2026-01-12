@@ -16,7 +16,7 @@ namespace ItemDropPrevention.Patches
 		{
             public static void Prefix(Storage __instance, ref DroppablesHolder __state)
             {
-                if(__instance.dropOnLoad && __instance.TryGetComponent<DroppablesHolder>(out __state))
+                if(__instance.dropOnLoad && __instance.TryGetComponent(out __state))
                 {
                     __instance.dropOnLoad = false;
 				}

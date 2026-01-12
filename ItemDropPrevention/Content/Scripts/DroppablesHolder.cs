@@ -64,6 +64,7 @@ namespace ItemDropPrevention.Content.Scripts
 
 		void OnPathAdvanced(object _)
 		{
+			SgtLogger.l("Item Count 0 on " + gameObject.name + ": " + MarkedForDrop.Count);
 			if (!MarkedForDrop.Any())
 				return;
 
@@ -71,17 +72,21 @@ namespace ItemDropPrevention.Content.Scripts
 			if (!AboveSolidGround())
 				return;
 
+			SgtLogger.l("Item Count 1 on " + gameObject.name + ": " + MarkedForDrop.Count);
+
 			///dont drop in transit tube
 			if (kprefabID.HasTag(GameTags.InTransitTube))
 				return;
 
-			///if deliverable chunks of the current chore have merged into those marked for drop, prevent them from dropping
 			Chore currentChore = choreDriver.GetCurrentChore();
 
+			SgtLogger.l("Item Count 2 on " + gameObject.name + ": " + MarkedForDrop.Count);
 			///exhaustion, narcolepsy, breath recovery
 			if (InterruptedByCurrentChore(currentChore))
 				return;
 
+			SgtLogger.l("Item Count 3 on " + gameObject.name + ": " + MarkedForDrop.Count);
+			///if deliverable chunks of the current chore have merged into those marked for drop, prevent them from dropping
 			if (currentChore != null && currentChore is FetchAreaChore fac)
 			{
 				var fetchInstance = fac.smi;
@@ -93,6 +98,7 @@ namespace ItemDropPrevention.Content.Scripts
 						MarkedForDrop.Remove(id.Value);
 				}
 			}
+			SgtLogger.l("Item Count 4 on " + gameObject.name + ": " + MarkedForDrop.Count);
 			///if the workable is something in the hands of the dupe, dont drop it
 			var task = worker.GetWorkable();
 			if (task != null)
@@ -101,9 +107,13 @@ namespace ItemDropPrevention.Content.Scripts
 				if (id.HasValue)
 					MarkedForDrop.Remove(id.Value);
 			}
+			SgtLogger.l("Item Count 5 on " + gameObject.name + ": " + MarkedForDrop.Count);
 
 
 			var items = internalStorage.items;
+
+			bool reWrangleCritters = Config.Instance.WrangleDroppedCritters;
+			bool sweepDroppedItems = Config.Instance.SweepDroppedItems;
 
 			for (int i = items.Count - 1; i >= 0; --i)
 			{
@@ -115,26 +125,46 @@ namespace ItemDropPrevention.Content.Scripts
 				if (MarkedForDrop.Contains(instanceID))
 				{
 					MarkItemInvisible(item, false);
-					internalStorage.Drop(item);
-
-					//if (item.TryGetComponent<Clearable>(out var markForSweep) && markForSweep.isClearable)
-					//{
-					//	markForSweep.MarkForClear();
-					//	if (item.TryGetComponent<Prioritizable>(out var prioritizable))
-					//		prioritizable.SetMasterPriority(new(PriorityScreen.PriorityClass.basic, 5));
-					//}
+					PostProcessDroppedItem(internalStorage.Drop(item), reWrangleCritters, sweepDroppedItems);
 				}
 			}
 			MarkedForDrop.Clear();
 		}
 
+		static void PostProcessDroppedItem(GameObject item, bool reWrangleCritters, bool sweepDroppedItems)
+		{
+			if (!reWrangleCritters && !sweepDroppedItems)
+				return;
+
+			if(item.IsNullOrDestroyed()) return;
+
+			if(item.TryGetComponent<Capturable>(out var wrangleable) && wrangleable.IsCapturable())
+			{
+				if(reWrangleCritters)
+					wrangleable.MarkForCapture(true);
+			}
+			else if(item.TryGetComponent<Clearable>(out var markForSweep) && markForSweep.isClearable)
+			{
+				if(sweepDroppedItems)
+					markForSweep.MarkForClear(true);
+			}
+		}
+
 		void MarkItemInvisible(GameObject item, bool setInvis)
 		{
+			SgtLogger.l($"{(setInvis?"Marking":"Unmarking")} {item} as invisible");
 			if (item.TryGetComponent<Pickupable>(out var pickupable))
 			{
 				pickupable.prevent_absorb_until_stored = setInvis;
 				if (setInvis)
 					pickupable.ClearReservations();
+			}
+			if(item.TryGetComponent<KPrefabID>(out var prefabID))
+			{
+				if (setInvis)
+					prefabID.AddTag(GameTags.MarkedForMove);
+				else
+					prefabID.RemoveTag(GameTags.MarkedForMove);
 			}
 		}
 
@@ -163,14 +193,16 @@ namespace ItemDropPrevention.Content.Scripts
 
 		void MarkForDrop(GameObject gameObject)
 		{
-			if (gameObject == null)
+			SgtLogger.l($"Marking {gameObject} as drop later");
+			if (gameObject.IsNullOrDestroyed())
 				return;
 			MarkedForDrop.Add(gameObject.GetInstanceID());
 			MarkItemInvisible(gameObject, true);
 		}
 		void UnmarkForDrop(GameObject gameObject)
 		{
-			if (gameObject == null)
+			SgtLogger.l($"Unarking {gameObject} as drop later");
+			if (gameObject.IsNullOrDestroyed())
 				return;
 			MarkedForDrop.Remove(gameObject.GetInstanceID());
 			MarkItemInvisible(gameObject, false);
@@ -195,12 +227,17 @@ namespace ItemDropPrevention.Content.Scripts
 				{
 					continue;
 				}
-
+				if (!item.TryGetComponent<KPrefabID>(out var prefabID))
+				{
+					continue;
+				}
+				prefabID.RemoveTag(GameTags.MarkedForMove);
 				if (FetchManager.IsFetchablePickup(pickupable, chore, consumer_state.storage))
 				{
 					UnmarkForDrop(item);
-					return pickupable;					
+					return pickupable;
 				}
+				prefabID.AddTag(GameTags.MarkedForMove);
 			}
 			return null;
 		}

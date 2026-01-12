@@ -239,7 +239,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PoisNotIncluded", "PoisNotI
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeSkillsInfoScreen", "SkillsInfoScreen\AttributeSkillsInfoScreen.csproj", "{67275944-CDFA-47D8-A034-1C0EBD2B30C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItemDropPrevention", "ItemDropPrevention\ItemDropPrevention.csproj", "{E6DCDC22-660E-43FE-99FC-F34A60392ACE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GripNowIncluded", "ItemDropPrevention\GripNowIncluded.csproj", "{E6DCDC22-660E-43FE-99FC-F34A60392ACE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UndigYourself", "UndigYourself\UndigYourself.csproj", "{D4C98415-C25E-4935-9D7C-40317E42609A}"
 EndProject
