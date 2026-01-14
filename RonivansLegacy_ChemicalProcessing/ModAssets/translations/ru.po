@@ -1254,6 +1254,39 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SE
 msgid "<link=\"CHEMICALSELECTIVEARCFURNACE\">Selective Arc-Furnace</link>"
 msgstr "<link=\"CHEMICALSELECTIVEARCFURNACE\">Селективная дуговая печь</link>"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.REFINEMENT_HEAT_EXHAUST
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.REFINEMENT_HEAT_EXHAUST"
+msgid "Refinement exhaust heat"
+msgstr "Обработка отработанным теплом"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.REFINEMENT_HEAT_TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.REFINEMENT_HEAT_TOOLTIP"
+msgid ""
+"<style=\"produced\">{0}</style> of <style=\"KKeyword\">Heat</style> will be produced to cool off the fabricated item\n"
+"\n"
+"This heat is then stored in the buildings thermal capacitor and transfered over to the coolant thats pumped through the building.\n"
+"Coolant near its boiling point will be prevented from boiling, but have reduced heat dispersion."
+msgstr ""
+"Для охлаждения изготовленого предмета будет выделено <style=\"produced\">{0}</style> <style=\"KKeyword\">тепла</style>\n"
+"\n"
+"Затем это тепло аккумулируется в тепловом конденсаторе машины и передаётся охлаждающей жидкости, которая циркулирует через машину.\n"
+"Охлаждающая жидкость, находящаяся вблизи точки кипения, не закипит, но при этом будет иметь сниженное рассеивание тепла."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.REFINEMENT_HEAT_TOOLTIP_CONTINUOUS
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.REFINEMENT_HEAT_TOOLTIP_CONTINUOUS"
+msgid ""
+"During refinement of this recipe, the machine will produce a total of <style=\"produced\">{0}</style> in additional refinement "
+"<style=\"KKeyword\">heat</style>.\n"
+"At normal refinement speed, this amounts to {1} produced per second."
+msgstr ""
+"В процессе обработки этого рецепта, машина произведёт <style=\"produced\">{0}</style> дополнительного "
+"<style=\"KKeyword\">тепла</style> для очистки.\n"
+"При обычной скорости обработки это составляет {1} произведено в секунду."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.REFINEMENT_SELF_HEAT
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.REFINEMENT_SELF_HEAT"
+msgid "Refinement heat"
+msgstr "Обработка нагревом"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SMALLCRUSHERMILL.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SMALLCRUSHERMILL.DESC"
 msgid "A jaw crusher uses compressive force for breaking of stone and other raw minerals."
@@ -3372,6 +3405,83 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.DUPLICANTS.STATUSITEMS.ACIDBU
 msgid "This duplicant has been injured from their recent exposure to corrosive acids."
 msgstr "Этот дубликант пострадал в результате недавнего воздействия едких кислот."
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_CHROMITEORE_SOLID.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_CHROMITEORE_SOLID.DESC"
+msgid ""
+"Chromite is a crystalline mineral composed primarily of <link=\"IRON\">Iron</link> and <link=\"AIOCHROMIUMSOLID\">Chromium</link> "
+"compounds."
+msgstr "Хромит — это кристаллический минерал, состоящий преимущественно из соединений <link=\"IRON\">железа</link> и <link=\"AIOCHROMIUMSOLID\">хрома</link>."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_CHROMITEORE_SOLID.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_CHROMITEORE_SOLID.NAME"
+msgid "<link=\"AIOCHROMITEORESOLID\">Chromite</link>"
+msgstr "<link=\"AIOCHROMITEORESOLID\">Хромит</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_CHROMIUM_GAS.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_CHROMIUM_GAS.DESC"
+msgid "(Cr) Chromium is a steely-grey, lustrous, hard and brittle transition metal in its gaseous state."
+msgstr "(Cr) Хром — это стально-серый, блестящий, твёрдый и хрупкий переходный металл в газообразном состоянии."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_CHROMIUM_GAS.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_CHROMIUM_GAS.NAME"
+msgid "<link=\"AIOCHROMIUMGAS\">Chromium Gas</link>"
+msgstr "<link=\"AIOCHROMIUMGAS\">Хромовый газ</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_CHROMIUM_LIQUID.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_CHROMIUM_LIQUID.DESC"
+msgid "(Cr) Chromium is a steely-grey, lustrous, hard and brittle transition metal in its molten state."
+msgstr "(Cr) Хром — это стально-серый, блестящий, твёрдый и хрупкий переходный металл в расплавленном состоянии."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_CHROMIUM_LIQUID.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_CHROMIUM_LIQUID.NAME"
+msgid "<link=\"AIOCHROMIUMLIQUID\">Molten Chromium</link>"
+msgstr "<link=\"AIOCHROMIUMLIQUID\">Расплавленный хром</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_CHROMIUM_SOLID.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_CHROMIUM_SOLID.DESC"
+msgid "(Cr) Chromium is a steely-grey, lustrous, hard and brittle transition metal."
+msgstr "(Cr) Хром — это стально-серый, блестящий, твёрдый и хрупкий переходный металл."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_CHROMIUM_SOLID.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_CHROMIUM_SOLID.NAME"
+msgid "<link=\"AIOCHROMIUMSOLID\">Chromium</link>"
+msgstr "<link=\"AIOCHROMIUMSOLID\">Хром</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_FERROCHROME_LIQUID.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_FERROCHROME_LIQUID.DESC"
+msgid ""
+"Ferrochrome is an alloy of <link=\"IRON\">Iron</link> and <link=\"AIOCHROMIUMSOLID\">Chromium</link>, used in the production of stainless "
+"steel and other alloys, currently in its molten state."
+msgstr "Феррохром — это сплав <link=\"IRON\">железа</link> и <link=\"AIOCHROMIUMSOLID\">хрома</link>, используемый в производстве нержавеющей стали и других сплавов, в настоящее время в расплавленном состоянии."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_FERROCHROME_LIQUID.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_FERROCHROME_LIQUID.NAME"
+msgid "<link=\"AIOFERROCHROMELIQUID\">Molten Ferrochrome</link>"
+msgstr "<link=\"AIOFERROCHROMELIQUID\">Расплавленный феррохром</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_FERROCHROME_SOLID.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_FERROCHROME_SOLID.DESC"
+msgid ""
+"Ferrochrome is an alloy of <link=\"IRON\">Iron</link> and <link=\"AIOCHROMIUMSOLID\">Chromium</link>, used in the production of stainless "
+"steel and other alloys."
+msgstr "Феррохром — это сплав железа и хрома, используемый в производстве нержавеющей стали и других сплавов."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_FERROCHROME_SOLID.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_FERROCHROME_SOLID.NAME"
+msgid "<link=\"AIOFERROCHROMESOLID\">Ferrochrome</link>"
+msgstr "<link=\"AIOFERROCHROMESOLID\">Феррохром</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_INVAR_SOLID.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_INVAR_SOLID.DESC"
+msgid ""
+"Invar is a nickel-iron alloy, composed of 35% <link=\"NICKEL\">Nickel</link> and 65% <link=\"IRON\">Iron</link> which is notable for its "
+"uniquely low coefficient of thermal expansion."
+msgstr "Инвар — это никель-железный сплав, состоящий из 35% <link=\"NICKEL\">никеля</link> и 65% <link=\"IRON\">железа</link>, который отличается уникально низким коэффициентом теплового расширения."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_INVAR_SOLID.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_INVAR_SOLID.NAME"
+msgid "<link=\"AIOINVARSOLID\">Invar</link>"
+msgstr "<link=\"AIOINVARSOLID\">Инвар</link>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_PERMENDUR_SOLID.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_PERMENDUR_SOLID.DESC"
 msgid ""
@@ -3386,6 +3496,16 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_PERMENDUR_SOLID.
 msgid "<link=\"AIOPERMENDURSOLID\">Permendur</link>"
 msgstr "<link=\"AIOPERMENDURSOLID\">Пермендюр</link>"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_STAINLESSSTEEL_SOLID.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_STAINLESSSTEEL_SOLID.DESC"
+msgid ""
+"Stainless Steel is an <link=\"IRON\">Iron</link> based alloy that contains <link=\"AIOCHROMIUMSOLID\">Chromium</link>, making it highly resistant to rust and corrosion."
+msgstr "Нержавеющая сталь — это сплав <link=\"IRON\">железа</link> и <link=\"AIOCHROMIUMSOLID\">хрома</link> очень устойчивый к ржавчине и коррозии."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_STAINLESSSTEEL_SOLID.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_STAINLESSSTEEL_SOLID.NAME"
+msgid "<link=\"AIOSTAINLESSSTEELSOLID\">Stainless Steel</link>"
+msgstr "<link=\"AIOSTAINLESSSTEELSOLID\">Нержавеющая сталь</link>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AMMONIAGAS.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AMMONIAGAS.DESC"
 msgid "(NH<sub>3</sub>) Ammonia is an inorganic compound of nitrogen and hydrogen. A stable binary hydride, and the simplest pnictogen hydride, ammonia is a gas with a distinct pungent smell."
@@ -3873,6 +3993,65 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.ZINCGAS.NAME"
 msgid "<link=\"ZINCGAS\">Zinc Gas</link>"
 msgstr "<link=\"ZINCGAS\">Газообразный цинк</link>"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_BASIC.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_BASIC.DESC"
+msgid "A set of drill bits made for simple mining operations."
+msgstr "Набор буровых свёрел, предназначенных для простых горных работ."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_BASIC.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_BASIC.NAME"
+msgid "<link=\"AIOSIMPLEDRILLBITBASIC\">Simple Basic Drillbits</link>"
+msgstr "<link=\"AIOSIMPLEDRILLBITBASIC\">Простые базовые свёрла</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_BASIC.RECIPE_DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_BASIC.RECIPE_DESC"
+msgid "Instruct the computer to produce Simple Basic Drillbits."
+msgstr "Дайте компьютеру команду изготовить простые базовые свёрла."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_BASIC.RECIPE_DESC_CRAFTINGTABLE
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_BASIC.RECIPE_DESC_CRAFTINGTABLE"
+msgid "Instruct a duplicant to produce Simple Basic Drillbits."
+msgstr "Поручите дубликату изготовить простые базовые свёрла."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_HARDENED.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_HARDENED.DESC"
+msgid "A set of drill bits made for simple mining operations."
+msgstr "Набор буровых свёрел, предназначенных для простых горных работ."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_HARDENED.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_HARDENED.NAME"
+msgid "<link=\"AIOSIMPLEDRILLBITHARDENED\">Simple Hardened Drillbits</link>"
+msgstr "<link=\"AIOSIMPLEDRILLBITHARDENED\">Простые закалённые свёрла</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_HARDENED.RECIPE_DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_HARDENED.RECIPE_DESC"
+msgid "Instruct the computer to produce Simple Hardened Drillbits."
+msgstr "Дайте компьютеру команду изготовить простые закалённые свёрла."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_HARDENED.RECIPE_DESC_CRAFTINGTABLE
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_HARDENED.RECIPE_DESC_CRAFTINGTABLE"
+msgid "Instruct a duplicant to produce Simple Hardened Drillbits."
+msgstr "Поручите дубликату изготовить простые закалённые свёрла."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_IRON.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_IRON.DESC"
+msgid "A set of drill bits made for simple mining operations."
+msgstr "Набор буровых свёрел, предназначенных для простых горных работ."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_IRON.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_IRON.NAME"
+msgid "<link=\"AIOSIMPLEDRILLBITIRON\">Simple Iron Drillbits</link>"
+msgstr "<link=\"AIOSIMPLEDRILLBITIRON\">Простые железные свёрла</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_IRON.RECIPE_DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_IRON.RECIPE_DESC"
+msgid "Instruct the computer to produce Simple Iron Drillbits."
+msgstr "Дайте компьютеру команду изготовить простые железные свёрла."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_IRON.RECIPE_DESC_CRAFTINGTABLE
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_IRON.RECIPE_DESC_CRAFTINGTABLE"
+msgid "Instruct a duplicant to produce Simple Iron Drillbits."
+msgstr "Поручите дубликату изготовить простые железные свёрла."
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_BASIC_ITEM.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_BASIC_ITEM.DESC"
 msgid ""
@@ -4002,6 +4181,15 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INGREDIENTS.RAYONFIBER.
 msgid "Produces <link=\"RAYONFIBER\">Rayon Fibers</link> from the pulp of {0}."
 msgstr "Производит <link=\"RAYONFIBER\">вискозные волокна</link> из целлюлозы {0}."
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.AIO_BIOFUEL
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.AIO_BIOFUEL"
+msgid "<link=\"AIOBIOFUEL\">Renewable Biofuel</link>"
+msgstr "<link=\"AIOBIOFUEL\">Возобновляемое биотопливо</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.AIO_BIOFUEL_DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.AIO_BIOFUEL_DESC"
+msgid "Combustible liquid fuels made frome regenerative materials."
+msgstr "Жидкое топливо, пригодное для сжигания, изготовленное из регенерируемых материалов."
 #. RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.AIO_CARRIERGAS
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.AIO_CARRIERGAS"
 msgid "<link=\"AIOCARRIERGAS\">Carrier Gas</link>"
@@ -4096,6 +4284,35 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.HPA_RAILS_RESE
 msgid "<link=\"HPARAILSRESEARCH\">High-Capacity Solid Transport</link>"
 msgstr "<link=\"HPARAILSRESEARCH\">Сверхпрочная транспортировка твёрдых предметов</link>"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.METALLURGY_PLASMABASEDREFINEMENTTECH.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.METALLURGY_PLASMABASEDREFINEMENTTECH.DESC"
+msgid "Unlocks new high energy plasma based based refinement processes."
+msgstr "Открывает доступ к новым процессам очистки на основе высокоэнергетической плазмы."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.METALLURGY_PLASMABASEDREFINEMENTTECH.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.METALLURGY_PLASMABASEDREFINEMENTTECH.NAME"
+msgid "<link=\"METALLURGYPLASMABASEDREFINEMENTTECH\">High Energy Plasma Refinement</link>"
+msgstr "<link=\"METALLURGYPLASMABASEDREFINEMENTTECH\">Высокоэнергетическая плазменная очистка</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.MINING_MK2DRILLTECH.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.MINING_MK2DRILLTECH.DESC"
+msgid "Unlocks the ability to drill into previously unreachable layers of the asteroid for resource extraction."
+msgstr "Открывает возможность бурения в ранее недоступные слои астероида для добычи ресурсов."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.MINING_MK2DRILLTECH.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.MINING_MK2DRILLTECH.NAME"
+msgid "<link=\"MININGMK2DRILLTECH\">Deep Core Mining</link>"
+msgstr "<link=\"MININGMK2DRILLTECH\">Глубокая добыча полезных ископаемых</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.MINING_SIMPLEDRILLBIT_CRAFTING.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.MINING_SIMPLEDRILLBIT_CRAFTING.DESC"
+msgid "Enables fabrication of <style=\"KKeyword\">Simple Drillbits</style> at the <link=\"CRAFTINGTABLE\">Мастерская станция</link>"
+msgstr "Позволяет изготавливать <style=\"KKeyword\">простые свёрла</style> в <link=\"CRAFTINGTABLE\">мастерской станции</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.MINING_SIMPLEDRILLBIT_CRAFTING.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.MINING_SIMPLEDRILLBIT_CRAFTING.NAME"
+msgid "<style=\"KKeyword\">Simple Drillbit</style> Pattern"
+msgstr "Схема <style=\"KKeyword\">простого сверла</style>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_ANAEROBICDIGESTERBUFF.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_ANAEROBICDIGESTERBUFF.NAME"
 msgid "Anaerobic Digester Natgas Multiplier"
@@ -4106,6 +4323,15 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM
 msgid "Multiply the natural gas output amounts of the anaerobic digester by this value."
 msgstr "Умножает количество природного газа, выделяемого анаэробным реактором, на это значение."
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_OILMULTIPLIER.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_OILMULTIPLIER.NAME"
+msgid "Expeller Press Oil Multiplier"
+msgstr "Отжимной пресс - Множитель масла"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_OILMULTIPLIER.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_OILMULTIPLIER.TOOLTIP"
+msgid "Multiply the vegetable oil output amounts of the expeller press by this value."
+msgstr "Умножение объёма растительного масла, выходящего из пресса, на это значение."
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_OILPRESSREBALANCE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_OILPRESSREBALANCE.NAME"
 msgid "Expeller Press Rebalance"
@@ -4200,6 +4426,16 @@ msgstr ""
 "Перемещает все ванильные и модифицированные резервуары в соответствующую категорию трубопроводов:\n"
 "Резервуары для жидкости находятся в разделе \"Водопровод\"\n"
 "Газовые резервуары находятся в разделе \"Вентиляция\""
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.DRYWALL_HIDES_PIPES.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.DRYWALL_HIDES_PIPES.NAME"
+msgid "All Walls hide pipes"
+msgstr "Все стены прячут трубы"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.DRYWALL_HIDES_PIPES.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.DRYWALL_HIDES_PIPES.TOOLTIP"
+msgid "Like with the mod \"Drywall hides Pipes\", all backwall buildings are rendered in front of pipes and wires."
+msgstr "Как и в моде \"Drywall hides Pipes\", все здания на заднем плане отрисовываются поверх рельсов, труб и проводов."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.ENABLEMOD.NAME"
@@ -4414,6 +4650,33 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.BUILDINGCON
 msgid "This building has settings that can be modified."
 msgstr "В этом здании есть настройки, которые можно изменять."
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.BUILDINGENABLEDREASONS.IS_DISABLED
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.BUILDINGENABLEDREASONS.IS_DISABLED"
+msgid "You disabled the building."
+msgstr "Вы отключили здание."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.BUILDINGENABLEDREASONS.IS_ENABLED
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.BUILDINGENABLEDREASONS.IS_ENABLED"
+msgid "The building is currently enabled"
+msgstr "В данный момент здание включено."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.BUILDINGENABLEDREASONS.IS_ENABLED_FORCE
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.BUILDINGENABLEDREASONS.IS_ENABLED_FORCE"
+msgid ""
+"You enabled the building by force,\n"
+"none of its source mods are marked as active."
+msgstr "Вы принудительно включили здание,\n"
+"ни один из его исходных модов не помечен как активный."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.BUILDINGENABLEDREASONS.NO_MODS_ACTIVE
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.BUILDINGENABLEDREASONS.NO_MODS_ACTIVE"
+msgid ""
+"Building disabled by category.\n"
+"None of the mods this building is added by are currently active.\n"
+"You can force enable it, but there is a chance it won't work properly"
+msgstr "Здание отключено по категориям.\n"
+"В настоящее время ни один из модов, добавляющих это здание, не активен.\n"
+"Вы можете принудительно включить его, но есть вероятность, что он не будет работать должным образом."
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.BUTTONS.CLOSEBUTTON.TEXT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.BUTTONS.CLOSEBUTTON.TEXT"
 msgid "Return"
@@ -5059,6 +5322,11 @@ msgstr "Перепрограммировать"
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.MININGGUIDANCEDEVICEPROGRAMSELECTORSIDESCREEN.TITLE"
 msgid "Reprogram guidance device"
 msgstr "Перепрограммирование устройства наведения"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.SPACEDESTINATIONS.COMETS.CHROMITE.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.SPACEDESTINATIONS.COMETS.CHROMITE.NAME"
+msgid "Chromite Meteor"
+msgstr "Хромитовый метеор"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.SPACEDESTINATIONS.COMETS.HEAVYCOMET.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.SPACEDESTINATIONS.COMETS.HEAVYCOMET.NAME"
