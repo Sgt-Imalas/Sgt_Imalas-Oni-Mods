@@ -21,7 +21,7 @@ namespace Rockets_TinyYetBig.Patches
 
             public static void Postfix(ConditionRobotPilotReady __instance, ref ProcessCondition.Status __result)
             {
-                ///warning status is problematic, ignore everything else
+                ///warning status is the problematic one as its read as "Ready", ignore everything else for reevaluation
                 if (__result != ProcessCondition.Status.Warning)
                     return;
 

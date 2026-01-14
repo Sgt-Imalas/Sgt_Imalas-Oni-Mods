@@ -1,21 +1,42 @@
-﻿using HarmonyLib;
+﻿using Database;
+using HarmonyLib;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
-using System.Reflection.Emit;
+using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using UnityEngine;
-using Database;
 using static ModUtil;
+using static STRINGS.SUBWORLDS;
 
 namespace UtilLibs
 {
 	public static class InjectionMethods
 	{
+
+
+
 		public class BATCH_TAGS
 		{
 			public const int SWAPS = -77805842;
 			public const int INTERACTS = -1371425853;
 		}
+
+		public static void DumpBatchGroups(KAnimGroupFile __instance)
+		{
+			SgtLogger.l("Dumping all group ids of KanimGroupFile");
+			foreach (var group in __instance.groups)
+			{
+				SgtLogger.l("KanimGroup: " + group.id);
+				foreach (var anim in group.animFiles)
+				{
+					SgtLogger.l(anim.name);
+				}
+			}
+		}
+
 
 		///Use the following patch to add any custom interact anims;
 		//      [HarmonyPatch(typeof(KAnimGroupFile), "Load")]
@@ -23,7 +44,7 @@ namespace UtilLibs
 		//      {
 		//          public static void Prefix(KAnimGroupFile __instance)
 		//          {
-		//              InjectionMethods.RegisterBatchTag(
+		//              InjectionMethods.MoveAnimGroups(
 		//                  __instance,
 		//                  InjectionMethods.BATCH_TAGS.INTERACTS,
 		//                  new HashSet<HashedString>()
@@ -37,9 +58,36 @@ namespace UtilLibs
 		public static void RegisterCustomSwapAnim(KAnimGroupFile kAnimGroupFile, HashedString swap) => RegisterCustomSwapAnims(kAnimGroupFile, new HashSet<HashedString>() { swap });
 		public static void RegisterCustomSwapAnims(KAnimGroupFile kAnimGroupFile, HashSet<HashedString> swaps) =>
 			MoveAnimGroups(kAnimGroupFile, BATCH_TAGS.SWAPS, swaps);
-		public static void RegisterCustomInteractAnim(KAnimGroupFile kAnimGroupFile,HashedString swap) => RegisterCustomInteractAnims(kAnimGroupFile, new HashSet<HashedString>() { swap });
+		public static void RegisterCustomInteractAnim(KAnimGroupFile kAnimGroupFile, HashedString swap) => RegisterCustomInteractAnims(kAnimGroupFile, new HashSet<HashedString>() { swap });
 		public static void RegisterCustomInteractAnims(KAnimGroupFile kAnimGroupFile, HashSet<HashedString> swaps) =>
 			MoveAnimGroups(kAnimGroupFile, BATCH_TAGS.INTERACTS, swaps);
+
+
+		public static void MoveAnimGroupIntoThatOf(KAnimGroupFile kAnimGroupFile, HashSet<HashedString> swaps, string animInTargetGroupId)
+		{
+			var groups = kAnimGroupFile.GetData();
+			if (!global::Assets.TryGetAnim(animInTargetGroupId, out var animInTargetGroup))
+			{
+				Debug.LogWarning($"Could not find anim {animInTargetGroupId} in asset list!");
+				return;
+			}
+			KAnimGroupFile.Group targetGroup = null;
+			foreach (KAnimGroupFile.Group group in groups)
+			{
+				if (group.animFiles.Contains(animInTargetGroup))
+				{
+					targetGroup = group;
+					break;
+				}
+			}
+			if (targetGroup == null)
+			{
+				Debug.LogWarning($"Could not find animg group for {animInTargetGroupId}!");
+				return;
+			}
+			MoveAnimGroups(kAnimGroupFile, targetGroup.id.hash, swaps);
+		}
+
 
 		/// <summary>
 		/// Required to register the correct anim group for custom made interact anims
@@ -75,7 +123,10 @@ namespace UtilLibs
 
 				swapAnimsGroup.animFiles.Add(anim);
 				swapAnimsGroup.animNames.Add(anim.name);
-				SgtLogger.l(anim+"; "+anim.name+" added to group");
+
+				var data = swapAnimsGroup;
+
+				SgtLogger.l(anim + "; " + anim.name + " added to group");
 			}
 		}
 		public static Func<S, T> CreateGetter<S, T>(FieldInfo field)
@@ -230,7 +281,7 @@ namespace UtilLibs
 			else
 			{
 				TUNING.BUILDINGS.PLANSUBCATEGORYSORTING[building_id] = subcategoryID;
-				ModUtil.AddBuildingToPlanScreen(category, building_id, subcategoryID, relativeBuildingId,ordering);//replace with ModUtil again when they fix it
+				ModUtil.AddBuildingToPlanScreen(category, building_id, subcategoryID, relativeBuildingId, ordering);//replace with ModUtil again when they fix it
 			}
 		}
 
@@ -264,49 +315,49 @@ namespace UtilLibs
 			Strings.Add($"STRINGS.BUILDINGS.PREFABS.{buildingId.ToUpperInvariant()}.EFFECT", effect);
 		}
 
-        public static void AddLaserEffect(string ID, HashedString context, KBatchedAnimEventToggler kbatchedAnimEventToggler, KBatchedAnimController kbac, string animFile, string defaultAnimation = "loop")
-        {
-            var laserEffect = new BaseMinionConfig.LaserEffect
-            {
-                id = ID,
-                animFile = animFile,
-                anim = defaultAnimation,
-                context = context
-            };
+		public static void AddLaserEffect(string ID, HashedString context, KBatchedAnimEventToggler kbatchedAnimEventToggler, KBatchedAnimController kbac, string animFile, string defaultAnimation = "loop")
+		{
+			var laserEffect = new BaseMinionConfig.LaserEffect
+			{
+				id = ID,
+				animFile = animFile,
+				anim = defaultAnimation,
+				context = context
+			};
 
-            var laserGo = new GameObject(laserEffect.id);
-            laserGo.transform.parent = kbatchedAnimEventToggler.transform;
-            laserGo.AddOrGet<KPrefabID>().PrefabTag = new Tag(laserEffect.id);
+			var laserGo = new GameObject(laserEffect.id);
+			laserGo.transform.parent = kbatchedAnimEventToggler.transform;
+			laserGo.AddOrGet<KPrefabID>().PrefabTag = new Tag(laserEffect.id);
 
-            var tracker = laserGo.AddOrGet<KBatchedAnimTracker>();
-            tracker.controller = kbac;
-            tracker.symbol = new HashedString("snapTo_rgtHand");
-            tracker.offset = new Vector3(195f, -35f, 0f);
-            tracker.useTargetPoint = true;
+			var tracker = laserGo.AddOrGet<KBatchedAnimTracker>();
+			tracker.controller = kbac;
+			tracker.symbol = new HashedString("snapTo_rgtHand");
+			tracker.offset = new Vector3(195f, -35f, 0f);
+			tracker.useTargetPoint = true;
 
-            var kbatchedAnimController = laserGo.AddOrGet<KBatchedAnimController>();
-            kbatchedAnimController.AnimFiles =
-            [
-                Assets.GetAnim(laserEffect.animFile)
-            ];
+			var kbatchedAnimController = laserGo.AddOrGet<KBatchedAnimController>();
+			kbatchedAnimController.AnimFiles =
+			[
+				Assets.GetAnim(laserEffect.animFile)
+			];
 
-            var item = new KBatchedAnimEventToggler.Entry
-            {
-                anim = laserEffect.anim,
-                context = laserEffect.context,
-                controller = kbatchedAnimController
-            };
+			var item = new KBatchedAnimEventToggler.Entry
+			{
+				anim = laserEffect.anim,
+				context = laserEffect.context,
+				controller = kbatchedAnimController
+			};
 
-            kbatchedAnimEventToggler.entries.Add(item);
+			kbatchedAnimEventToggler.entries.Add(item);
 
-            laserGo.AddOrGet<LoopingSounds>();
-        }
-    
+			laserGo.AddOrGet<LoopingSounds>();
+		}
 
 
-    #region obsoleteStringInjections
 
-    public static void AddCreatureStrings(string creatureId, string name)
+		#region obsoleteStringInjections
+
+		public static void AddCreatureStrings(string creatureId, string name)
 		{
 			Strings.Add($"STRINGS.CREATURES.FAMILY.{creatureId.ToUpperInvariant()}", STRINGS.UI.FormatAsLink(name, creatureId));
 			Strings.Add($"STRINGS.CREATURES.FAMILY_PLURAL.{creatureId.ToUpperInvariant()}", STRINGS.UI.FormatAsLink(name + "s", creatureId));
@@ -340,9 +391,9 @@ namespace UtilLibs
 			//Strings.Add($"STRINGS.DUPLICANTS.DISEASES.{id.ToUpperInvariant()}.LEGEND_HOVERTEXT", hover);
 		}
 
-        #endregion
+		#endregion
 
-        public static void Action(Tag speciesTag, string name, Dictionary<string, CodexEntry> results)
+		public static void Action(Tag speciesTag, string name, Dictionary<string, CodexEntry> results)
 		{
 			List<GameObject> brains = Assets.GetPrefabsWithComponent<CreatureBrain>();
 			CodexEntry entry = new CodexEntry("CREATURES", new List<ContentContainer>()
@@ -395,6 +446,49 @@ namespace UtilLibs
 						});
 					}
 				}
+			}
+		}
+
+		public static void LogKanimFrameInfo(string kanim)
+		{
+			SgtLogger.l(kanim+" Symbols:");
+			var anim = Assets.GetAnim(kanim).GetData();
+			foreach (var symbol in anim.build.symbols)
+			{
+				SgtLogger.l($"Symbol: {symbol.path}, framecount: {symbol.numFrames}, lookupframes: {symbol.numLookupFrames}");
+			}
+		}
+
+		public class IncludePrivateContractResolver : DefaultContractResolver
+		{
+			protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
+			{
+				// include public & non-public fields
+				var fields = type
+					.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
+					.Select(f => base.CreateProperty(f, memberSerialization));
+
+				// include public & non-public properties
+				var properties = type
+					.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
+					.Select(p => base.CreateProperty(p, memberSerialization));
+
+				var all = fields.Concat(properties).ToList();
+
+				foreach (var prop in all)
+				{
+					prop.Readable = true;
+					prop.Writable = true;
+				}
+
+				return all;
+			}
+
+			protected override JsonContract CreateContract(Type objectType)
+			{
+				// allow creation of objects without public default constructor
+				var contract = base.CreateContract(objectType);
+				return contract;
 			}
 		}
 	}

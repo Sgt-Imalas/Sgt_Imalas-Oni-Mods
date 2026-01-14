@@ -56,6 +56,7 @@ namespace Rockets_TinyYetBig.Patches.ClustercraftDockingPatches
 			/// <summary>
 			/// Adds Laser Nosecone to harvestCheck
 			/// </summary>
+			
 			public static void Postfix(RocketClusterDestinationSelector __instance, ref bool __result)
 			{
 				if (!__result)
