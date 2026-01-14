@@ -11,7 +11,7 @@ using UtilLibs;
 namespace ItemDropPrevention.Content.Scripts
 {
 
-	internal class DroppablesHolder : KMonoBehaviour
+	internal class DroppablesHolder : KMonoBehaviour, ISim33ms
 	{
 		[MyCmpReq] Storage internalStorage;
 		[MyCmpReq] KPrefabID kprefabID;
@@ -61,14 +61,24 @@ namespace ItemDropPrevention.Content.Scripts
 
 			return false;
 		}
-			
 
 		void OnPathAdvanced(object _)
+		{
+			DropMarkedItemsIfValid();
+		}
+
+		public void Sim33ms(float dt)
+		{
+			DropMarkedItemsIfValid();
+		}
+
+		void DropMarkedItemsIfValid()
 		{
 			if (!MarkedForDrop.Any())
 				return;
 
 			///dont drop when not above solid tile
+			//SgtLogger.l(this.GetProperName() + " in cell: " + Grid.PosToCell(this)+", can drop?: "+AboveSolidGround());
 			if (!AboveSolidGround())
 				return;
 
@@ -120,10 +130,22 @@ namespace ItemDropPrevention.Content.Scripts
 				if (MarkedForDrop.Contains(instanceID))
 				{
 					MarkItemInvisible(item, false);
-					PostProcessDroppedItem(internalStorage.Drop(item), reWrangleCritters, sweepDroppedItems);
+					PostProcessDroppedItem(CenterInCell(internalStorage.Drop(item)), reWrangleCritters, sweepDroppedItems);
 				}
 			}
 			MarkedForDrop.Clear();
+		}
+
+		/// <summary>
+		/// Force the item position to be in the center of the cell
+		/// </summary>
+		/// <param name="item"></param>
+		/// <returns></returns>
+		GameObject CenterInCell(GameObject item)
+		{
+			var middleOfCell = Grid.CellToPosCCC(Grid.PosToCell(this), Grid.SceneLayer.Ore);
+			item.transform.SetPosition(middleOfCell);
+			return item;
 		}
 
 		static void PostProcessDroppedItem(GameObject item, bool reWrangleCritters, bool sweepDroppedItems)
@@ -169,13 +191,25 @@ namespace ItemDropPrevention.Content.Scripts
 			if (!Grid.IsValidCell(cell))  //should never happen, but check anyway
 				return false;
 
+			if (Grid.HasDoor[cell]) //dont drop inside of doors
+				return false;
+
 			var floorCell = Grid.CellBelow(cell);
 			if (!Grid.IsValidCell(floorCell))
 				return false;
 
-			bool isSolidGround = Grid.Solid[floorCell];
-			//SgtLogger.l("cell "+floorCell + " is solid? " + isSolidGround);
-			return isSolidGround;
+			bool isSolidGround = Grid.IsSolidCell(floorCell);
+
+			if (isSolidGround)
+				return true;
+
+			//check for 1 dropheight
+			int cellBelowFloorCell = Grid.CellBelow(floorCell);
+
+			if (!Grid.IsValidCell(cellBelowFloorCell))
+				return false;
+
+			return Grid.IsSolidCell(cellBelowFloorCell);
 		}
 
 		internal void MarkAllItemsForDrop()
