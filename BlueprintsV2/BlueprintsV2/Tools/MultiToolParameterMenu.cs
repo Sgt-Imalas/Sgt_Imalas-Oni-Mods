@@ -4,6 +4,7 @@ using PeterHan.PLib.UI;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace BlueprintsV2.Tools
 {
@@ -31,6 +32,9 @@ namespace BlueprintsV2.Tools
 			GameObject baseWidgetContainer = ToolMenu.Instance.toolParameterMenu.widgetContainer;
 
 			content = Util.KInstantiateUI(baseContent, baseContent.transform.parent.gameObject);
+			var pos = content.transform.position;
+			pos.y += 20f;
+			content.transform.SetPosition(pos);
 			content.transform.GetChild(1).gameObject.SetActive(false);
 
 			var buttonsPanel = new PRelativePanel
@@ -38,28 +42,42 @@ namespace BlueprintsV2.Tools
 				BackColor = PUITuning.Colors.ButtonPinkStyle.inactiveColor
 			};
 
+			//simulates black outline for sync panel
+			var syncPanelContainer = new PRelativePanel
+			{
+				BackColor = Color.black,
+				Margin = new RectOffset(1, 1, 1, 1)
+			};
+			var syncPanel = new PRelativePanel
+			{
+				BackColor = PUITuning.Colors.ButtonPinkStyle.inactiveColor,
+			};
 			var allButton = new PButton
 			{
 				Text = STRINGS.UI.TOOLS.FILTERLAYERS.ALL,
 				OnClick = (_) => SetAll(ToolParameterMenu.ToggleState.On)
 			}.SetKleiPinkStyle();
 
-			var noneButton = new PButton
+			var buildingsButton = new PButton
 			{
-				Text = STRINGS.UI.TOOLS.FILTERLAYERS.NONE
+				Text = global::STRINGS.UI.TOOLS.FILTERLAYERS.BUILDINGS.NAME,
+				OnClick = (_) =>
+				{
+					SetBuildings(ToolParameterMenu.ToggleState.On);
+				}
 			};
 
-			noneButton.OnClick += source =>
+			var noneButton = new PButton
 			{
-				Instance.SetAll(ToolParameterMenu.ToggleState.Off);
+				Text = STRINGS.UI.TOOLS.FILTERLAYERS.NONE,
+				OnClick = (_) => SetAll(ToolParameterMenu.ToggleState.Off)
 			};
 
 			PCheckBox syncCheckBox = new PCheckBox
 			{
-				Text = STRINGS.UI.TOOLS.FILTERLAYERS.AUTOSYNC
+				Text = STRINGS.UI.TOOLS.FILTERLAYERS.AUTOSYNC	
 			};
-
-			syncCheckBox.SetKleiPinkStyle();
+			syncCheckBox.ToolTip = STRINGS.UI.TOOLS.FILTERLAYERS.AUTOSYNC_TOOLTIP;
 			syncCheckBox.OnRealize += realized =>
 			{
 				syncMultiToggle = realized.GetComponent<MultiToggle>();
@@ -80,19 +98,29 @@ namespace BlueprintsV2.Tools
 			};
 
 			buttonsPanel.AddChild(allButton);
-			buttonsPanel.SetLeftEdge(allButton, 0)
-				.SetRightEdge(allButton, 0.25F);
+			buttonsPanel
+				.SetLeftEdge(allButton, 0)
+				.SetRightEdge(allButton, 0.30F);
+
+			buttonsPanel.AddChild(buildingsButton);
+			buttonsPanel
+				.SetLeftEdge(buildingsButton, 0.30F)
+				.SetRightEdge(buildingsButton, 0.70F);
 
 			buttonsPanel.AddChild(noneButton);
-			buttonsPanel.SetLeftEdge(noneButton, 0.25F)
-				.SetRightEdge(noneButton, 0.5F);
+			buttonsPanel.SetLeftEdge(noneButton, 0.70F)
+				.SetRightEdge(noneButton, 1F);
 
-			buttonsPanel.AddChild(syncCheckBox);
-			buttonsPanel.SetLeftEdge(syncCheckBox, 0.5F)
+			syncPanel.AddChild(syncCheckBox);
+			syncPanel.Margin = new RectOffset(1, 1, 2,2);
+			syncPanel
+				.SetLeftEdge(syncCheckBox, 0F)
 				.SetRightEdge(syncCheckBox, 1F);
 
 			widgetContainer = Util.KInstantiateUI(baseWidgetContainer, content, true);
 			buttonsPanel.AddTo(content, 3);
+			syncPanelContainer.AddChild(syncPanel);
+			syncPanelContainer.AddTo(content, 4);
 
 			content.SetActive(false);
 		}
@@ -156,7 +184,16 @@ namespace BlueprintsV2.Tools
 
 			content.SetActive(true);
 		}
+		public void SetBuildings(ToolParameterMenu.ToggleState toggleState)
+		{
+			foreach (string key in parameters.Keys.ToList())
+			{
+				var state = key == ToolParameterMenu.FILTERLAYERS.BUILDINGS ? toggleState : ToolParameterMenu.ToggleState.Off;
 
+				parameters[key] = state;
+			}
+			OnChange();
+		}
 		public void SetAll(ToolParameterMenu.ToggleState toggleState)
 		{
 			foreach (string key in parameters.Keys.ToList())

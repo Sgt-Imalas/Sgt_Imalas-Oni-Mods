@@ -364,7 +364,8 @@ namespace BlueprintsV2
 				{
 					public static LocString ALL = "All";
 					public static LocString NONE = "None";
-					public static LocString AUTOSYNC = "Auto. Sync";
+					public static LocString AUTOSYNC = "Auto. Sync to Overlays";
+					public static LocString AUTOSYNC_TOOLTIP = "Automatically synchronize the filters with the active overlay";
 					public class BLUEPRINTV2_PRESERVEAIRTILES
 					{
 						public static LocString NAME = "Air Pockets";

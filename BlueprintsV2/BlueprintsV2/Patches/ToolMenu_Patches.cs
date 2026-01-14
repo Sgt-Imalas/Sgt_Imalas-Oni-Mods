@@ -12,22 +12,22 @@ using static UtilLibs.UIUtils;
 
 namespace BlueprintsV2.BlueprintsV2.Patches
 {
-    class ToolMenu_Patches
-    {
+	class ToolMenu_Patches
+	{
 		static ToolMenu.ToolCollection SnapshotToolCollection, CreateBlueprintToolCollection, UseBlueprintToolCollection;
 
 		[HarmonyPatch(typeof(ToolMenu), nameof(ToolMenu.OnKeyUp))]
-        public class ToolMenu_OnKeyUp_Patch
-        {
-            public static void Postfix(ToolMenu __instance, KButtonEvent e)
-            {
-                if(e.Consumed)
+		public class ToolMenu_OnKeyUp_Patch
+		{
+			public static void Postfix(ToolMenu __instance, KButtonEvent e)
+			{
+				if (e.Consumed)
 					return;
 
 				if (DetailsScreen.Instance?.isEditing ?? false)
 					return;
 
-				if (e.IsAction(Actions.BlueprintsSnapshotReuseAction.GetKAction()) 
+				if (e.IsAction(Actions.BlueprintsSnapshotReuseAction.GetKAction())
 					&& SnapshotTool.HasSnapshotsStored
 					&& __instance.currentlySelectedCollection != SnapshotToolCollection
 					)
@@ -39,14 +39,30 @@ namespace BlueprintsV2.BlueprintsV2.Patches
 				}
 
 			}
-        }
+		}
 		[HarmonyPatch(typeof(ToolMenu), "OnPrefabInit")]
 		public static class ToolMenuOnPrefabInit
 		{
 			public static void Postfix()
 			{
 				MultiToolParameterMenu.CreateInstance();
-				ToolParameterMenu.ToggleState defaultSelection = Config.Instance.DefaultMenuSelections == DefaultSelections.All ? ToolParameterMenu.ToggleState.On : ToolParameterMenu.ToggleState.Off;
+				ToolParameterMenu.ToggleState defaultSelection, buildingSelection;
+				switch (Config.Instance.DefaultMenuSelections)
+				{
+					case DefaultSelections.All:
+						defaultSelection = ToolParameterMenu.ToggleState.On;
+						buildingSelection = ToolParameterMenu.ToggleState.On;
+						break;
+					case DefaultSelections.BuildingsOnly:
+						defaultSelection = ToolParameterMenu.ToggleState.Off;
+						buildingSelection = ToolParameterMenu.ToggleState.On;
+						break;
+					default:
+					case DefaultSelections.None:
+						defaultSelection = ToolParameterMenu.ToggleState.Off;
+						buildingSelection = ToolParameterMenu.ToggleState.Off;
+						break;
+				}
 
 				SnapshotTool.Instance.DefaultParameters =
 				CreateBlueprintTool.Instance.DefaultParameters = new Dictionary<string, ToolParameterMenu.ToggleState> {
@@ -54,7 +70,7 @@ namespace BlueprintsV2.BlueprintsV2.Patches
 					{ ToolParameterMenu.FILTERLAYERS.LIQUIDCONDUIT, defaultSelection },
 					{ ToolParameterMenu.FILTERLAYERS.GASCONDUIT, defaultSelection },
 					{ ToolParameterMenu.FILTERLAYERS.SOLIDCONDUIT, defaultSelection },
-					{ ToolParameterMenu.FILTERLAYERS.BUILDINGS, defaultSelection },
+					{ ToolParameterMenu.FILTERLAYERS.BUILDINGS, buildingSelection },
 					{ ToolParameterMenu.FILTERLAYERS.LOGIC, defaultSelection },
 					{ ToolParameterMenu.FILTERLAYERS.BACKWALL, defaultSelection },
 					{ ToolParameterMenu.FILTERLAYERS.DIGPLACER, defaultSelection},
