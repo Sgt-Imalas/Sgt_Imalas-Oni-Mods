@@ -63,7 +63,7 @@ namespace UtilLibs
 			MoveAnimGroups(kAnimGroupFile, BATCH_TAGS.INTERACTS, swaps);
 
 
-		public static void MoveAnimGroupIntoThatOf(KAnimGroupFile kAnimGroupFile, HashSet<HashedString> swaps, string animInTargetGroupId)
+		public static void MoveKanimsToBatchGroupOf(KAnimGroupFile kAnimGroupFile, HashSet<HashedString> swaps, string animInTargetGroupId)
 		{
 			var groups = kAnimGroupFile.GetData();
 			if (!global::Assets.TryGetAnim(animInTargetGroupId, out var animInTargetGroup))
@@ -455,7 +455,16 @@ namespace UtilLibs
 			var anim = Assets.GetAnim(kanim).GetData();
 			foreach (var symbol in anim.build.symbols)
 			{
+
 				SgtLogger.l($"Symbol: {symbol.path}, framecount: {symbol.numFrames}, lookupframes: {symbol.numLookupFrames}");
+				if (symbol.frameLookup == null)
+				{
+					SgtLogger.l("Framelookup was null!");
+				}
+				else
+				{
+					SgtLogger.l("FrameLookup values: " + symbol.frameLookup.Join());
+				}
 			}
 		}
 

@@ -28,14 +28,29 @@ namespace GoldHatch.Creatures
 			string anim_file,
 			bool is_baby)
 		{
-			GameObject wildCreature = EntityTemplates.ExtendEntityToWildCreature(BaseHatchConfig.BaseHatch(id, name, desc, anim_file, BASE_TRAIT_ID, is_baby), HatchTuning.PEN_SIZE_PER_CREATURE);
+			string animationKanim = is_baby ? anim_file : "hatch_kanim";
+			string symbol_override_prefix = is_baby ? null : "goldhatch_";
+
+			GameObject wildCreature = EntityTemplates.ExtendEntityToWildCreature(BaseHatchConfig.BaseHatch(id, name, desc, animationKanim, BASE_TRAIT_ID, is_baby, symbol_override_prefix), HatchTuning.PEN_SIZE_PER_CREATURE);
 			
-			if(!is_baby && wildCreature.TryGetComponent<KBatchedAnimController>(out var kbac))
+			///fix klei mistake in their methods
+			if(!is_baby)
 			{
-				kbac.AnimFiles = [
-					Assets.GetAnim("hatch_kanim")//anim file - default hatch animations
-					 ,Assets.GetAnim(anim_file) //build file - custom gold hatch icons
-					];
+				var buildKanim = Assets.GetAnim(anim_file);
+				var animKanim = Assets.GetAnim("hatch_kanim");
+				///place the proper build anim in the kbac because klei hardcoded "hatch_build" in BaseHatch...
+				if (wildCreature.TryGetComponent<KBatchedAnimController>(out var kbac))
+				{
+					kbac.AnimFiles = new KAnimFile[] {
+					buildKanim //build file - custom gold hatch icons
+					,animKanim //anim file - default hatch animations
+					};
+				}
+				///apply proper symbol overrides
+				if(wildCreature.TryGetComponent<SymbolOverrideController>(out var soc))
+				{
+					soc.ApplySymbolOverridesByAffix((buildKanim == null) ? animKanim : buildKanim, symbol_override_prefix);
+				}
 			}
 
 			Trait trait = Db.Get().CreateTrait(BASE_TRAIT_ID, name, name, (string)null, false, (ChoreGroup[])null, true, true);
