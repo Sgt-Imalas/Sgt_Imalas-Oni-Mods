@@ -1,7 +1,10 @@
-﻿namespace BlueprintsV2.ModAPI
+﻿using System;
+
+namespace BlueprintsV2.ModAPI
 {
 	internal class API_Consts
 	{
-		//public const string ConduitFlagID = "ConduitFlags";
+		//Obsolete!, lots of overhang for nothing, reverting back to regular conduit flags
+		public const string ConduitFlagID = "ConduitFlags";
 	}
 }

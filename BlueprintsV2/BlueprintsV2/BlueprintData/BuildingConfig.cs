@@ -27,6 +27,7 @@ namespace BlueprintsV2.BlueprintData
 		/// The <see cref="BuildingDef"/> of the blueprint this represents.
 		/// </summary>
 		public BuildingDef BuildingDef { get; set; }
+		public string BuildingDefId { get; set; }
 
 		/// <summary>
 		/// The elements the building is to be constructed from.
@@ -208,7 +209,8 @@ namespace BlueprintsV2.BlueprintData
 			try
 			{
 				Offset = new Vector2I(binaryReader.ReadInt32(), binaryReader.ReadInt32());
-				BuildingDef = Assets.GetBuildingDef(binaryReader.ReadString());
+				BuildingDefId = binaryReader.ReadString();
+				BuildingDef = Assets.GetBuildingDef(BuildingDefId);
 
 				int selectedElementCount = binaryReader.ReadInt32();
 				for (int i = 0; i < selectedElementCount; ++i)
@@ -264,7 +266,8 @@ namespace BlueprintsV2.BlueprintData
 
 			if (buildingDefToken != null && buildingDefToken.Type == JTokenType.String)
 			{
-				BuildingDef = Assets.GetBuildingDef(buildingDefToken.Value<string>());
+				BuildingDefId = buildingDefToken.Value<string>();
+				BuildingDef = Assets.GetBuildingDef(BuildingDefId);
 			}
 
 			if (selectedElementsToken != null && selectedElementsToken.Type == JTokenType.Array)
@@ -348,17 +351,20 @@ namespace BlueprintsV2.BlueprintData
 		internal bool GetConduitFlags(out int flags)
 		{
 			flags = ConduitFlags;
-			//if (AdditionalBuildingData != null && AdditionalBuildingData.TryGetValue(API_Consts.ConduitFlagID, out var value)
-			//	&& value.SelectToken(API_Consts.ConduitFlagID) != null)
-			//{
-			//	JToken token = value.SelectToken(API_Consts.ConduitFlagID);
 
-			//	if (token != null && token.Type == JTokenType.Integer)
-			//	{
-			//		flags = token.Value<int>();
-			//		return true;
-			//	}
-			//}
+			///Obsolete, kept for compatibility
+			if (ConduitFlags == -1 
+				&& AdditionalBuildingData != null
+				&& AdditionalBuildingData.TryGetValue(API_Consts.ConduitFlagID, out var value)
+				&& value.SelectToken(API_Consts.ConduitFlagID) != null)
+			{
+				JToken token = value.SelectToken(API_Consts.ConduitFlagID);
+				if (token != null && token.Type == JTokenType.Integer)
+				{
+					flags = token.Value<int>();
+					return true;
+				}
+			}
 			return flags != -1;
 		}
 	}
