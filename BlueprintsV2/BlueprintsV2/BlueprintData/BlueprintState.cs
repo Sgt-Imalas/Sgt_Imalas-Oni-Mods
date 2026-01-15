@@ -60,7 +60,7 @@ namespace BlueprintsV2.BlueprintData
 			int blueprintHeight = (topLeft.y - bottomRight.y);
 			bool collectingGasTiles = filter != null && filter.AllowedToFilter(SolidTileFiltering.StoreNonSolidsOptionID);
 			bool collectLiquidNotes = filter != null && filter.AllowedToFilter(SolidTileFiltering.StoreLiquidNotesOptionID);
-			bool collectSolidNotes = filter != null && filter.AllowedToFilter(SolidTileFiltering.StoreLiquidNotesOptionID);
+			bool collectSolidNotes = filter != null && filter.AllowedToFilter(SolidTileFiltering.StoreSolidNotesOptionID);
 
 			for (int x = topLeft.x; x <= bottomRight.x; ++x)
 			{
@@ -162,7 +162,7 @@ namespace BlueprintsV2.BlueprintData
 						}
 						else if (PotentialElementIndicator != null && PotentialElementIndicator.TryGetComponent<ElementPlanInfo>(out var info))
 						{
-							if ((info.IsSolid && collectLiquidNotes) || (info.IsLiquid && collectLiquidNotes))
+							if ((info.IsSolid && collectSolidNotes) || (info.IsLiquid && collectLiquidNotes))
 								blueprint.PlannedNaturalElementInfos[cellLocationInBlueprint] = new Tuple<SimHashes, float, float>(info.ElementId, info.ElementAmount, info.ElementTemperature);
 						}
 					}

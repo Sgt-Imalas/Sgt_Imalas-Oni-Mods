@@ -12,17 +12,17 @@ namespace BlueprintsV2
 			public static LocString ELEMENT_INFO_NAME_FILLABLE = "Planned {0} ({1}, {2})";
 			public static LocString ELEMENT_INFO_DESC_FILLABLE = "There should be {1} of {0} here, at a temperature of {2}.";
 
-			public static LocString INFO_TITLE = "Planned Element Info:";
+			public static LocString INFO_TITLE = "Planned Element Settings:";
 
 			public class CANCELINDICATOR
 			{
-				public static LocString NAME = "Remove Liquid Plan Info";
-				public static LocString TOOLTIP = "Remove this planned liquid info";
+				public static LocString NAME = "Cancel Planned Element Info";
+				public static LocString TOOLTIP = "Cancel and remove this planned element info";
 			}
 			public class SANDBOX_SPAWN
 			{
 				public static LocString NAME = "Spawn Element (Sandbox)";
-				public static LocString TOOLTIP = "Spawn the configured element and delete this.";
+				public static LocString TOOLTIP = "Spawn the configured element and remove this element info.";
 			}
 			public class TEMPERATURECONFIG
 			{
@@ -278,7 +278,7 @@ namespace BlueprintsV2
 						{
 							public class DESCRIPTOR
 							{
-								public static LocString LABEL = "Number of liquid indicators:";
+								public static LocString LABEL = "Number of planned element infos:";
 							}
 						}
 					}
