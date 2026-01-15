@@ -1,15 +1,29 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Build.Framework;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
+using UnityEngine;
 using UtilLibs;
 using static BlueprintsV2.ModAssets;
 
 namespace BlueprintsV2.BlueprintData
 {
+
+	public static class JsonKeys
+	{
+		public static readonly string Version = "blueprintVersion";
+		public static readonly string FriendlyName = "friendlyname";
+		public static readonly string UserDescription = "userdesc";
+		public static readonly string Buildings = "buildings";
+		public static readonly string DiggingSpots = "digcommands";
+		public static readonly string PlannedElementInfos = "plannedElementInfos";
+		public static readonly string ModIntegration_PlanningTool_Items = "planningtoolmod_shapecollection";
+	}
 
 	/// <summary>
 	/// A blueprint.
@@ -21,6 +35,12 @@ namespace BlueprintsV2.BlueprintData
 		/// The internal name of the blueprint.
 		/// </summary>
 		public string FriendlyName { get; set; } = "unnamed";
+
+
+		/// <summary>
+		/// Notes or descriptions added by the user
+		/// </summary>
+		public string UserDescription { get; set; } = string.Empty;
 
 		/// <summary>
 		/// The location of the blueprint on the file system.
@@ -56,6 +76,18 @@ namespace BlueprintsV2.BlueprintData
 		/// </summary>
 		public List<Vector2I> DigLocations { get; private set; } = new();
 
+
+		/// <summary>
+		/// The information about required liquids/natural tiles, contained inside the blueprint.
+		/// </summary>
+		public Dictionary<Vector2I, Tuple<SimHashes, float, float>> PlannedNaturalElementInfos { get; private set; } = new();
+
+		/// <summary>
+		/// Stores planning tool mod shape and color for cells
+		/// only relevant if that mod is enabled
+		/// </summary>
+		public Dictionary<Vector2I, Tuple<int, int>> PlanningToolMod_PlanDataValues { get; private set; } = new();
+
 		/// <summary>
 		/// Create a new blueprint at the given location.
 		/// This constructor assumes the name of the blueprint from the location.
@@ -83,8 +115,8 @@ namespace BlueprintsV2.BlueprintData
 
 		void CalculateDimensions()
 		{
-			int x = 0;
-			int y = 0;
+			int x = 0, totalX = 0;
+			int y = 0, totalY = 0;
 			foreach (var building in BuildingConfigurations)
 			{
 				var offset = building.Offset;
@@ -92,6 +124,14 @@ namespace BlueprintsV2.BlueprintData
 					y = offset.y;
 				if (offset.x > x)
 					x = offset.x;
+
+				offset.x += building.IsValid() ? Mathf.Max(building.BuildingDef.WidthInCells / 2, 1) : 1;
+				offset.y += building.IsValid() ? building.BuildingDef.HeightInCells : 1;
+
+				if (offset.y > totalY)
+					totalY = offset.y;
+				if (offset.x > totalX)
+					totalX = offset.x;
 			}
 			foreach (var digSpot in DigLocations)
 			{
@@ -99,8 +139,14 @@ namespace BlueprintsV2.BlueprintData
 					y = digSpot.y;
 				if (digSpot.x > x)
 					x = digSpot.x;
+
+				if (digSpot.y > totalY)
+					totalY = digSpot.y;
+				if (digSpot.x > totalX)
+					totalX = digSpot.x;
 			}
 			_dimensionX = x; _dimensionY = y;
+			VisibleDimensions = new Vector2I(totalX, totalY);
 		}
 
 		/// <summary>
@@ -114,6 +160,11 @@ namespace BlueprintsV2.BlueprintData
 				return new(_dimensionX, _dimensionY);
 			}
 		}
+		/// <summary>
+		/// actual dimensions of the blueprint, including extends of buildings
+		/// </summary>
+		[JsonIgnore]
+		public Vector2I VisibleDimensions = new();
 		private int _dimensionX, _dimensionY;
 
 		/// <summary>
@@ -177,11 +228,11 @@ namespace BlueprintsV2.BlueprintData
 				returnString += ModAssets.BLUEPRINTS_FILE_DISALLOWEDCHARACTERS.Contains(character) ? '_' : character;
 			}
 
-			if(returnString.StartsWith("._")) //Macs, IOS, apple, whatever create these ._[filename] files to store file information on exFat systems, dont let blueprints be confused with them
+			if (returnString.StartsWith("._")) //Macs, IOS, apple, whatever create these ._[filename] files to store file information on exFat systems, dont let blueprints be confused with them
 			{
 				returnString = returnString.Substring(2);
 			}
-			if(returnString.Trim().Length<=0)
+			if (returnString.Trim().Length <= 0)
 				return "unnamed";
 
 			return returnString.Trim();
@@ -241,15 +292,17 @@ namespace BlueprintsV2.BlueprintData
 
 		public void ReadJson(JObject rootObject)
 		{
-			JToken friendlyNameToken = rootObject.SelectToken("friendlyname");
-			JToken buildingsToken = rootObject.SelectToken("buildings");
-			JToken digCommandsToken = rootObject.SelectToken("digcommands");
-
+			JToken friendlyNameToken = rootObject.SelectToken(JsonKeys.FriendlyName);
 			if (friendlyNameToken != null && friendlyNameToken.Type == JTokenType.String)
 			{
 				FriendlyName = friendlyNameToken.Value<string>();
 			}
-
+			JToken userDescToken = rootObject.SelectToken(JsonKeys.UserDescription);
+			if (userDescToken != null && userDescToken.Type == JTokenType.String)
+			{
+				UserDescription = userDescToken.Value<string>();
+			}
+			JToken buildingsToken = rootObject.SelectToken(JsonKeys.Buildings);
 			if (buildingsToken != null)
 			{
 				JArray buildingTokens = buildingsToken.Value<JArray>();
@@ -265,7 +318,7 @@ namespace BlueprintsV2.BlueprintData
 					}
 				}
 			}
-
+			JToken digCommandsToken = rootObject.SelectToken(JsonKeys.DiggingSpots);
 			if (digCommandsToken != null)
 			{
 				JArray digCommandTokens = digCommandsToken.Value<JArray>();
@@ -285,6 +338,70 @@ namespace BlueprintsV2.BlueprintData
 						else if (xToken == null && yToken == null)
 						{
 							DigLocations.Add(new(0, 0));
+						}
+					}
+				}
+			}
+			JToken plannedElementsToken = rootObject.SelectToken(JsonKeys.PlannedElementInfos);
+			if (plannedElementsToken != null)
+			{
+				JArray plannedElementTokens = plannedElementsToken.Value<JArray>();
+
+				if (plannedElementTokens != null)
+				{
+					foreach (JToken plannedElementToken in plannedElementTokens)
+					{
+						JToken xToken = plannedElementToken.SelectToken("x");
+						JToken yToken = plannedElementToken.SelectToken("y");
+						Vector2I location = Vector2I.minusone;
+
+						if (xToken != null && xToken.Type == JTokenType.Integer || yToken != null && yToken.Type == JTokenType.Integer)
+						{
+							location = new(xToken == null ? 0 : xToken.Value<int>(), yToken == null ? 0 : yToken.Value<int>());
+						}
+						if (location == Vector2I.minusone)
+							continue;
+
+						JToken idToken = plannedElementToken.SelectToken("id");
+						JToken massToken = plannedElementToken.SelectToken("mass");
+						JToken tempToken = plannedElementToken.SelectToken("temp");
+
+						if (idToken != null && idToken.Type == JTokenType.Integer
+						&& massToken != null && massToken.Type == JTokenType.Float
+						&& tempToken != null && tempToken.Type == JTokenType.Float)
+						{
+							PlannedNaturalElementInfos[location] = new Tuple<SimHashes, float, float>((SimHashes)idToken.Value<int>(), massToken.Value<float>(), tempToken.Value<float>());
+						}
+					}
+				}
+			}
+			JToken planningtoolmod_shapelist = rootObject.SelectToken(JsonKeys.ModIntegration_PlanningTool_Items);
+			if (planningtoolmod_shapelist != null)
+			{
+				JArray plannedShapesArrayToken = planningtoolmod_shapelist.Value<JArray>();
+
+				if (plannedShapesArrayToken != null)
+				{
+					foreach (JToken plannedshapeToken in plannedShapesArrayToken)
+					{
+						JToken xToken = plannedshapeToken.SelectToken("x");
+						JToken yToken = plannedshapeToken.SelectToken("y");
+						Vector2I location = Vector2I.minusone;
+
+						if (xToken != null && xToken.Type == JTokenType.Integer || yToken != null && yToken.Type == JTokenType.Integer)
+						{
+							location = new(xToken == null ? 0 : xToken.Value<int>(), yToken == null ? 0 : yToken.Value<int>());
+						}
+						if (location == Vector2I.minusone)
+							continue;
+
+						JToken shapeToken = plannedshapeToken.SelectToken("shape");
+						JToken colorToken = plannedshapeToken.SelectToken("color");
+
+						if (shapeToken != null && shapeToken.Type == JTokenType.Integer
+						&& colorToken != null && colorToken.Type == JTokenType.Integer)
+						{
+							PlanningToolMod_PlanDataValues[location] = new Tuple<int,int>(shapeToken.Value<int>(), colorToken.Value<int>());
 						}
 					}
 				}
@@ -356,15 +473,21 @@ namespace BlueprintsV2.BlueprintData
 			};
 
 			jsonWriter.WriteStartObject();
-			jsonWriter.WritePropertyName("blueprintVersion");
-			jsonWriter.WriteValue(2);
+			jsonWriter.WritePropertyName(JsonKeys.Version);
+			jsonWriter.WriteValue(3);
 
-			jsonWriter.WritePropertyName("friendlyname");
+			jsonWriter.WritePropertyName(JsonKeys.FriendlyName);
 			jsonWriter.WriteValue(FriendlyName);
 
-			if (BuildingConfigurations.Count > 0)
+			if (UserDescription.Any())
 			{
-				jsonWriter.WritePropertyName("buildings");
+				jsonWriter.WritePropertyName(JsonKeys.UserDescription);
+				jsonWriter.WriteValue(UserDescription);
+			}
+
+			if (BuildingConfigurations.Any())
+			{
+				jsonWriter.WritePropertyName(JsonKeys.Buildings);
 				jsonWriter.WriteStartArray();
 
 				foreach (BuildingConfig buildingConfig in BuildingConfigurations)
@@ -374,24 +497,58 @@ namespace BlueprintsV2.BlueprintData
 				jsonWriter.WriteEndArray();
 			}
 
-			if (DigLocations.Count > 0)
+			if (DigLocations.Any())
 			{
-				jsonWriter.WritePropertyName("digcommands");
+				jsonWriter.WritePropertyName(JsonKeys.DiggingSpots);
 				jsonWriter.WriteStartArray();
 
 				foreach (var digLocation in DigLocations)
 				{
 					jsonWriter.WriteStartObject();
-
-					jsonWriter.WritePropertyName("x");
-					jsonWriter.WriteValue(digLocation.x);
-
-					jsonWriter.WritePropertyName("y");
-					jsonWriter.WriteValue(digLocation.y);
-
+					jsonWriter.WritePropertyName("x"); jsonWriter.WriteValue(digLocation.x);
+					jsonWriter.WritePropertyName("y"); jsonWriter.WriteValue(digLocation.y);
 					jsonWriter.WriteEndObject();
 				}
 
+				jsonWriter.WriteEndArray();
+			}
+			if (PlannedNaturalElementInfos.Any())
+			{
+				jsonWriter.WritePropertyName(JsonKeys.PlannedElementInfos);
+				jsonWriter.WriteStartArray();
+				foreach (var kvp in PlannedNaturalElementInfos)
+				{
+					jsonWriter.WriteStartObject();
+					var location = kvp.Key;
+					var elementInfo = kvp.Value;
+
+					jsonWriter.WritePropertyName("x"); jsonWriter.WriteValue(location.X);
+					jsonWriter.WritePropertyName("y"); jsonWriter.WriteValue(location.Y);
+					jsonWriter.WritePropertyName("id"); jsonWriter.WriteValue((int)elementInfo.first);
+					jsonWriter.WritePropertyName("mass"); jsonWriter.WriteValue(elementInfo.second);
+					jsonWriter.WritePropertyName("temp"); jsonWriter.WriteValue(elementInfo.third);
+
+					jsonWriter.WriteEndObject();
+				}
+				jsonWriter.WriteEndArray();
+			}
+			if (PlanningToolMod_PlanDataValues.Any())
+			{
+				jsonWriter.WritePropertyName(JsonKeys.ModIntegration_PlanningTool_Items);
+				jsonWriter.WriteStartArray();
+				foreach (var kvp in PlanningToolMod_PlanDataValues)
+				{
+					jsonWriter.WriteStartObject();
+					var location = kvp.Key;
+					var elementInfo = kvp.Value;
+
+					jsonWriter.WritePropertyName("x"); jsonWriter.WriteValue(location.X);
+					jsonWriter.WritePropertyName("y"); jsonWriter.WriteValue(location.Y);
+					jsonWriter.WritePropertyName("shape"); jsonWriter.WriteValue((int)elementInfo.first);
+					jsonWriter.WritePropertyName("color"); jsonWriter.WriteValue(elementInfo.second);
+
+					jsonWriter.WriteEndObject();
+				}
 				jsonWriter.WriteEndArray();
 			}
 
@@ -500,6 +657,21 @@ namespace BlueprintsV2.BlueprintData
 			copy.InferFileLocation();
 			return copy;
 		}
+		public Dictionary<string, int> GetBuildingCounts()
+		{
+			var dict = new Dictionary<string, int>();
+
+			foreach (var buildingConfig in BuildingConfigurations)
+			{
+				var id = buildingConfig.BuildingDefId;
+				if (!dict.ContainsKey(id))
+					dict[id] = 1;
+				else
+					dict[id]++;
+			}
+
+			return dict;
+		}
 
 
 		/// <summary>
@@ -555,7 +727,7 @@ namespace BlueprintsV2.BlueprintData
 		/// <returns>True if the blueprint is empty, false otherwise</returns>
 		public bool IsEmpty()
 		{
-			return BuildingConfigurations.Count == 0 && DigLocations.Count == 0;
+			return !BuildingConfigurations.Any() && !DigLocations.Any() && PlannedNaturalElementInfos.Count == 0 && PlanningToolMod_PlanDataValues.Count == 0;
 		}
 
 
@@ -624,6 +796,7 @@ namespace BlueprintsV2.BlueprintData
 		{
 			BuildingConfigurations = [.. newBuildings.BuildingConfigurations];
 			DigLocations = [.. newBuildings.DigLocations];
+			PlannedNaturalElementInfos = newBuildings.PlannedNaturalElementInfos.ToDictionary(entry => entry.Key, entry => entry.Value);
 			CacheCost();
 			WriteJson();
 		}

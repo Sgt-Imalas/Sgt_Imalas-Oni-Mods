@@ -1,5 +1,7 @@
 ﻿using BlueprintsV2.BlueprintData;
+using BlueprintsV2.BlueprintsV2.UnityUI.Components;
 using BlueprintsV2.UnityUI.Components;
+using rail;
 using STRINGS;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,6 +13,8 @@ using UtilLibs;
 using UtilLibs.UIcmp;
 using static BlueprintsV2.STRINGS.UI;
 using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR;
+using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.BLUEPRINTINFO.STATS;
+using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.BUILDINGLIST.SCROLLAREA.CONTENT;
 using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH;
 using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.BUTTONS;
 using static BlueprintsV2.STRINGS.UI.DIALOGUE;
@@ -31,6 +35,8 @@ namespace BlueprintsV2.UnityUI
 		public GameObject BlueprintsList;
 		public GameObject BlueprintsElements;
 		public GameObject ReplaceBlueprintElements;
+		public GameObject BlueprintInfo;
+		public GameObject BlueprintInfoBuildingList;
 		public FButton CloseBtn;
 
 		//BlueprintList
@@ -44,6 +50,19 @@ namespace BlueprintsV2.UnityUI
 		public FolderHierarchyEntry HierarchyFolderPrefab;
 		public Dictionary<BlueprintFolder, FolderHierarchyEntry> FolderEntries = new();
 		public Dictionary<Blueprint, FileHierarchyEntry> BlueprintEntries = new();
+
+		//Blueprint Info Screen
+		public LocText BlueprintName;
+		public FInputField2 DescriptionInput;
+		public FButton ResetText, ApplyText;
+		public LocText DimensionInfo, BuildingCount, DigCount, LiquidCount;
+		//Blueprint info building list
+		public FInputField2 BuildingListSearchbar;
+		public FButton ClearBuildingListSearchbar;
+		public GameObject BuildingInfoContainer;
+		public BuildingInfoEntry BuildingInfoEntryPrefab;
+		public Dictionary<string, BuildingInfoEntry> BuildingInfoEntries = new();
+
 
 		//MaterialList
 		public Dictionary<BlueprintSelectedMaterial, BlueprintElementEntry> ElementEntries = new();
@@ -69,10 +88,12 @@ namespace BlueprintsV2.UnityUI
 
 		public bool CurrentlyActive;
 		public bool DialogueCurrentlyOpen;
-		public Blueprint TargetBlueprint;
+
+		public bool ShowInfoScreen;
+		public Blueprint TargetBlueprint, InfoBlueprint;
 
 		private bool _openedFromSnapshot;
-		public bool OpenedFromSnapshot 
+		public bool OpenedFromSnapshot
 		{
 			get
 			{
@@ -81,12 +102,12 @@ namespace BlueprintsV2.UnityUI
 			set
 			{
 				_openedFromSnapshot = value;
-				if(TargetBlueprint != null)
+				if (TargetBlueprint != null)
 				{
 					string materialLabel = value ? STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.MATERIALREPLACEMENT.LABEL : string.Format(MATERIALSWITCH.MATERIALSHEADER.LABEL, TargetBlueprint.FriendlyName);
 					MaterialHeaderTitle.SetText(materialLabel);
 				}
-			}		
+			}
 		}
 
 		private void Init()
@@ -97,11 +118,13 @@ namespace BlueprintsV2.UnityUI
 			BlueprintsList = transform.Find("FileHierarchy").gameObject;
 			BlueprintsElements = transform.Find("MaterialSwitch").gameObject;
 			ReplaceBlueprintElements = transform.Find("MaterialReplacer").gameObject;
+			BlueprintInfo = transform.Find("BlueprintInfo").gameObject;
+			BlueprintInfoBuildingList = transform.Find("BuildingList").gameObject;
 
 			CloseBtn = transform.Find("CloseButton").gameObject.AddOrGet<FButton>();
 			CloseBtn.OnClick += () => Show(false);
-			//blueprint files
 
+			//blueprint files
 			BlueprintSearchbar = transform.Find("FileHierarchy/SearchBar/Input").FindOrAddComponent<FInputField2>();
 			BlueprintSearchbar.OnValueChanged.AddListener(ApplyBlueprintFilter);
 			BlueprintSearchbar.Text = string.Empty;
@@ -143,6 +166,7 @@ namespace BlueprintsV2.UnityUI
 			hierarchyFolderGO.SetActive(false);
 			HierarchyFolderPrefab = hierarchyFolderGO.AddOrGet<FolderHierarchyEntry>();
 
+			//material overrides
 			ElementEntryContainer = transform.Find("MaterialSwitch/ScrollArea/Content").gameObject;
 			MaterialHeaderTitle = transform.Find("MaterialSwitch/MaterialsHeader/Label").gameObject.AddOrGet<LocText>();
 
@@ -165,7 +189,7 @@ namespace BlueprintsV2.UnityUI
 			ElementEntryPrefabGo.SetActive(false);
 			ElementEntryPrefab = ElementEntryPrefabGo.AddOrGet<BlueprintElementEntry>();
 
-
+			///material override selection
 			ReplacementElementSearchbar = transform.Find("MaterialReplacer/SearchBar/Input").FindOrAddComponent<FInputField2>();
 			ReplacementElementSearchbar.OnValueChanged.AddListener(ApplyElementsFilter);
 			ReplacementElementSearchbar.Text = string.Empty;
@@ -182,20 +206,51 @@ namespace BlueprintsV2.UnityUI
 			ReplaceElementEntryGo.SetActive(false);
 			ReplacementElementsPrefab = ReplaceElementEntryGo.AddComponent<ReplaceElementEntry>();
 
+			//blueprintInfo
+
+			BlueprintName = transform.Find("BlueprintInfo/Header/Label").gameObject.GetComponent<LocText>();
+
+			DescriptionInput = transform.Find("BlueprintInfo/Description/Input").FindOrAddComponent<FInputField2>();
+			DescriptionInput.Text = string.Empty;
+
+			ResetText = transform.Find("BlueprintInfo/Buttons/ResetButton").gameObject.AddOrGet<FButton>();
+			ResetText.OnClick += LoadBlueprintDescription;
+			ApplyText = transform.Find("BlueprintInfo/Buttons/ApplyButton").gameObject.AddOrGet<FButton>();
+			ApplyText.OnClick += SaveBlueprintDescription;
+
+
+			DimensionInfo = transform.Find("BlueprintInfo/Stats/Dimension/Descriptor/Output").gameObject.GetComponent<LocText>();
+			BuildingCount = transform.Find("BlueprintInfo/Stats/BuildingCount/Descriptor/Output").gameObject.GetComponent<LocText>();
+			DigCount = transform.Find("BlueprintInfo/Stats/DigCount/Descriptor/Output").gameObject.GetComponent<LocText>();
+			LiquidCount = transform.Find("BlueprintInfo/Stats/LiquidCount/Descriptor/Output").gameObject.GetComponent<LocText>();
+
+			//blueprint info building list
+
+			BuildingListSearchbar = transform.Find("BuildingList/SearchBar/Input").FindOrAddComponent<FInputField2>();
+			BuildingListSearchbar.OnValueChanged.AddListener(ApplyBuildingsFilter);
+			BuildingListSearchbar.Text = string.Empty;
+
+			ClearBuildingListSearchbar = transform.Find("BuildingList/SearchBar/DeleteButton").FindOrAddComponent<FButton>();
+			ClearBuildingListSearchbar.OnClick += () => BuildingListSearchbar.Text = string.Empty;
+
+			BuildingInfoContainer = transform.Find("BuildingList/ScrollArea/Content").gameObject;
+			BuildingInfoEntryPrefab = BuildingInfoContainer.transform.Find("BuildingEntryPrefab").gameObject.AddOrGet<BuildingInfoEntry>();
+			BuildingInfoEntryPrefab.gameObject.SetActive(false);
+
 			init = true;
 		}
 
 		void CreateConfirmDialogue(string title, string text)
 		{
 			DialogueOpen(true);
-			DialogUtil.CreateConfirmDialog(title, text, on_confirm: ()=>DialogueOpen(false));
+			DialogUtil.CreateConfirmDialog(title, text, on_confirm: () => DialogueOpen(false));
 		}
 
 		void TryImportBlueprint()
 		{
 			if (ModAssets.ImportFromClipboard(out Blueprint bp))
 			{
-				CreateConfirmDialogue(BASE64_IMPORT_SUCCESS.TITLE, string.Format(BASE64_IMPORT_SUCCESS.TEXT, bp.FriendlyName));	
+				CreateConfirmDialogue(BASE64_IMPORT_SUCCESS.TITLE, string.Format(BASE64_IMPORT_SUCCESS.TEXT, bp.FriendlyName));
 			}
 			else
 				CreateConfirmDialogue(BASE64_IMPORT_FAIL.TITLE, BASE64_IMPORT_FAIL.TEXT);
@@ -256,15 +311,62 @@ namespace BlueprintsV2.UnityUI
 			ToReplaceTag = null;
 			SetMaterialState();
 		}
+
+		void ShowElements(bool show)
+		{
+			if (BlueprintInfo.activeInHierarchy && show)
+				ShowInfo(false);
+
+			BlueprintsElements.SetActive(show);
+		}
+		void ShowInfo(bool show)
+		{
+			if (BlueprintsElements.activeInHierarchy && show)
+				ShowElements(false);
+			
+
+			BlueprintInfo.SetActive(show);
+			BlueprintInfoBuildingList.SetActive(show);
+			if (show)
+			{
+				BuildingListSearchbar.Text = string.Empty;
+				UpdateBuildingButtons();
+			}
+		}
+
+		void LoadBlueprintDescription()
+		{
+			DescriptionInput.SetTextFromData(InfoBlueprint?.UserDescription);
+		}
+		void SaveBlueprintDescription()
+		{
+			if (InfoBlueprint == null)
+				return;
+
+			InfoBlueprint.UserDescription = DescriptionInput.Text;
+			InfoBlueprint.Write();
+			if (BlueprintEntries.TryGetValue(InfoBlueprint, out var uiCmp))
+				uiCmp.RefreshTooltip();
+		}
+
 		void SetMaterialState()
 		{
 			int allMaterialsState = 0;
 			ShowReplacementItems(false);
-			if (TargetBlueprint == null)
+			bool targetSet = TargetBlueprint != null && !ShowInfoScreen;
+			ShowInfo(InfoBlueprint != null && ShowInfoScreen);
+			ShowElements(targetSet);
+			if (ShowInfoScreen)
 			{
-				BlueprintsElements.SetActive(false);
+				BlueprintName.SetText(InfoBlueprint.FriendlyName);
+				var dimensions = InfoBlueprint.VisibleDimensions;
+				DimensionInfo.SetText($"{dimensions.X} x {dimensions.Y}");
+				BuildingCount.SetText(InfoBlueprint.BuildingConfigurations.Count.ToString());
+				DigCount.SetText(InfoBlueprint.DigLocations.Count.ToString());
+				LiquidCount.SetText(InfoBlueprint.PlannedNaturalElementInfos.Count.ToString());
+				LoadBlueprintDescription();
 			}
-			else
+			else if (targetSet)
 			{
 				MaterialHeaderTitle.SetText(string.Format(MATERIALSWITCH.MATERIALSHEADER.LABEL, TargetBlueprint.FriendlyName));
 
@@ -276,7 +378,6 @@ namespace BlueprintsV2.UnityUI
 				var blueprintMaterials = TargetBlueprint.BlueprintCost.OrderByDescending(kvp => kvp.Value).ToList();
 
 				NoItems.SetActive(blueprintMaterials.Count() == 0);
-				BlueprintsElements.SetActive(true);
 				foreach (var kvp in blueprintMaterials)
 				{
 					var selectedAndCategory = kvp.Key;
@@ -308,6 +409,29 @@ namespace BlueprintsV2.UnityUI
 					break;
 			}
 		}
+		void UpdateBuildingButtons()
+		{
+			foreach (var kvp in BuildingInfoEntries)
+			{
+				if (kvp.Value != null)
+				{
+					kvp.Value.gameObject.SetActive(false);
+				}
+			}
+
+			if (InfoBlueprint == null)
+				return;
+
+			var buildingIds = InfoBlueprint.GetBuildingCounts().OrderByDescending(b => b.Value);
+			foreach (var buildingWithCount in buildingIds)
+			{
+				var uiEntry = AddOrGetBuildingInfoEntry(buildingWithCount.Key);
+				uiEntry.transform.SetAsLastSibling();
+				uiEntry.gameObject.SetActive(true);
+				uiEntry.SetBuildingCount(buildingWithCount.Value);
+			}
+		}
+
 		void UpdateBlueprintButtons()
 		{
 			foreach (var kvp in BlueprintEntries)
@@ -422,6 +546,16 @@ namespace BlueprintsV2.UnityUI
 			return FolderEntries[folder];
 		}
 
+		private BuildingInfoEntry AddOrGetBuildingInfoEntry(string buildingId)
+		{
+			if (!BuildingInfoEntries.ContainsKey(buildingId))
+			{
+				BuildingInfoEntry bpEntry = Util.KInstantiateUI<BuildingInfoEntry>(BuildingInfoEntryPrefab.gameObject, BuildingInfoContainer);
+				bpEntry.SetBuilding(buildingId);
+				BuildingInfoEntries[buildingId] = bpEntry;
+			}
+			return BuildingInfoEntries[buildingId];
+		}
 		private FileHierarchyEntry AddOrGetBlueprintEntry(Blueprint blueprint)
 		{
 			if (!BlueprintEntries.ContainsKey(blueprint))
@@ -435,6 +569,7 @@ namespace BlueprintsV2.UnityUI
 				bpEntry.OnDeleted = OnBlueprintDeleted;
 				bpEntry.OnDialogueToggled = DialogueOpen;
 				bpEntry.OnSelectBlueprint = OnSelectBlueprint;
+				bpEntry.OnInfoClicked = OnShowBlueprintInfo;
 
 				BlueprintEntries[blueprint] = bpEntry;
 			}
@@ -473,8 +608,20 @@ namespace BlueprintsV2.UnityUI
 			Show(false);
 		}
 
+		void OnShowBlueprintInfo(Blueprint bp)
+		{
+			ShowInfoScreen = true;
+			if (bp != InfoBlueprint)
+			{
+				InfoBlueprint = bp;
+				InfoBlueprint.CacheCost();
+			}
+			SetMaterialState();
+		}
+
 		void OnSelectBlueprint(Blueprint bp)
 		{
+			ShowInfoScreen = false;
 			if (bp != TargetBlueprint)
 			{
 				TargetBlueprint = bp;
@@ -516,7 +663,11 @@ namespace BlueprintsV2.UnityUI
 				ModAssets.BlueprintFileHandling.DeleteBlueprint(bp);
 			}
 
-			TargetBlueprint = null;
+			if(bp == TargetBlueprint)
+				TargetBlueprint = null;
+			if (bp == InfoBlueprint)
+				InfoBlueprint = null;
+			
 			ClearUIState();
 		}
 
@@ -629,6 +780,19 @@ namespace BlueprintsV2.UnityUI
 			foreach (ReplaceElementEntry entry in PreviouslyActiveMaterialReplacementButtons)
 			{
 				entry.gameObject.SetActive(filterstring == string.Empty ? true : ShowInFilter(filterstring, entry.Name));
+			}
+		}
+		public void ApplyBuildingsFilter(string filterstring = "")
+		{
+			if (filterstring.Length == 0)
+			{
+				UpdateBuildingButtons();
+				return;
+			}
+
+			foreach (var go in BuildingInfoEntries)
+			{
+				go.Value.gameObject.SetActive(filterstring == string.Empty ? true : ShowInFilter(filterstring, go.Value.BuildingName));
 			}
 		}
 

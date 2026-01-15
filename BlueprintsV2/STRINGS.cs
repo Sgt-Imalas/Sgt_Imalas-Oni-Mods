@@ -1,4 +1,5 @@
-﻿using PeterHan.PLib.Options;
+﻿using BlueprintsV2.BlueprintData;
+using PeterHan.PLib.Options;
 using UnityEngine;
 using UtilLibs;
 
@@ -6,6 +7,34 @@ namespace BlueprintsV2
 {
 	public class STRINGS
 	{
+		public class BLUEPRINTS_PLANNED_ELEMENT_PLACER
+		{
+			public static LocString ELEMENT_INFO_NAME_FILLABLE = "Planned {0} ({1}, {2})";
+			public static LocString ELEMENT_INFO_DESC_FILLABLE = "There should be {1} of {0} here, at a temperature of {2}.";
+
+			public static LocString INFO_TITLE = "Planned Element Info:";
+
+			public class CANCELINDICATOR
+			{
+				public static LocString NAME = "Remove Liquid Plan Info";
+				public static LocString TOOLTIP = "Remove this planned liquid info";
+			}
+			public class SANDBOX_SPAWN
+			{
+				public static LocString NAME = "Spawn Element (Sandbox)";
+				public static LocString TOOLTIP = "Spawn the configured element and delete this.";
+			}
+			public class TEMPERATURECONFIG
+			{
+				public static LocString TITLE = "Element Target Temperature:";
+				public static LocString TOOLTIP = "Planned Temperature: {0}";
+			}
+			public class MASSCONFIG
+			{
+				public static LocString TITLE = "Element Target Mass:";
+				public static LocString TOOLTIP = "Planned Mass: {0}";
+			}
+		}
 		public class BLUEPRINTS_CONFIG
 		{
 			public class DEFAULTMENUSELECTION
@@ -13,6 +42,7 @@ namespace BlueprintsV2
 				public static LocString TITLE = "Default Menu Selections";
 				public static LocString TOOLTIP = "The default selections made when an advanced filter menu is opened.";
 				public static LocString DEFAULTMENUSELECTION_ALL = "All";
+				public static LocString DEFAULTMENUSELECTION_ALL_ELEMENTNOTES = "All (+Element Notes)";
 				public static LocString DEFAULTMENUSELECTION_NONE = "None";
 			}
 			public class REQUIRECONSTRUCTABLE_MATERIAL
@@ -90,6 +120,9 @@ namespace BlueprintsV2
 
 			public class USEBLUEPRINTSTATECONTAINER
 			{
+				public static LocString ROTATION_BLOCKED = "Cannot rotate the current blueprint.\nThis is prevented by the contained building: {0}";
+				public static LocString FLIP_BLOCKED = "Cannot flip the current blueprint.\nThis is prevented by the contained building: {0}";
+
 				public class TITLE
 				{
 					public static LocString TITLETEXT = "Current Blueprint State";
@@ -187,10 +220,104 @@ namespace BlueprintsV2
 								public static LocString TOOLTIP_RENAME = "Rename Blueprint";
 								public static LocString TOOLTIP_RETAKE = "Re-Take the blueprint, replacing its content with a new selection of buildings.";
 								public static LocString TOOLTIP_EXPORT = "Export the blueprint as a shareable string to your clipboard.";
+								public static LocString TOOLTIP_INFO = "Show more detailed info about the blueprint or add some notes to it";
 							}
 						}
 					}
 				}
+				public class BLUEPRINTINFO
+				{
+					public class DESCRIPTION
+					{
+						public static LocString LABEL = "Description:";
+						public class INPUT
+						{
+							public class TEXTAREA
+							{
+								public static LocString PLACEHOLDER = "Add description or notes to blueprint";
+								public static LocString TEXT = "​";
+							}
+						}
+					}
+					public class BUTTONS
+					{
+						public class RESETBUTTON
+						{
+							public static LocString TEXT = "Reset Changes";
+						}
+						public class APPLYBUTTON
+						{
+							public static LocString TEXT = "Save Changes";
+						}
+					}
+					public class STATS
+					{
+						public static LocString LABEL = "Parameters:";
+						public class DIMENSION
+						{
+							public class DESCRIPTOR
+							{
+								public static LocString LABEL = "Dimensions:";
+							}
+						}
+						public class BUILDINGCOUNT
+						{
+							public class DESCRIPTOR
+							{
+								public static LocString LABEL = "Number of Buildings:";
+							}
+						}
+						public class DIGCOUNT
+						{
+							public class DESCRIPTOR
+							{
+								public static LocString LABEL = "Number of non-solid tiles:";
+							}
+						}
+						public class LIQUIDCOUNT
+						{
+							public class DESCRIPTOR
+							{
+								public static LocString LABEL = "Number of liquid indicators:";
+							}
+						}
+					}
+				}
+				public class BUILDINGLIST
+				{
+					public class HEADER
+					{
+						public static LocString LABEL = "Building List:";
+					}
+					public class SEARCHBAR
+					{
+						public class INPUT
+						{
+							public class TEXTAREA
+							{
+								public static LocString PLACEHOLDER = "Enter text to filter buildings...";
+							}
+						}
+					}
+					public class SCROLLAREA
+					{
+						public class CONTENT
+						{
+							public class NOBUILDINGSINBLUEPRINT
+							{
+								public static LocString LABEL = "Blueprint does not contain any buildings";
+							}
+							public class BUILDINGENTRYPREFAB
+							{
+								public class DESCRIPTOR
+								{
+									public static LocString LABEL = "BuildingName";
+								}
+							}
+						}
+					}
+				}
+
 				public class MATERIALSWITCH
 				{
 					public static LocString WARNING = "Some materials in the blueprint require more mass than available on the current asteroid!";
@@ -368,8 +495,23 @@ namespace BlueprintsV2
 					public static LocString AUTOSYNC_TOOLTIP = "Automatically synchronize the filters with the active overlay";
 					public class BLUEPRINTV2_PRESERVEAIRTILES
 					{
-						public static LocString NAME = "Air Pockets";
-						public static LocString TOOLTIP = "Dig commands on tiles that are not solid";
+						public static LocString NAME = "Dig Empty Spaces";
+						public static LocString TOOLTIP = "Store Dig commands for tiles that are not solid";
+					}
+					public class BLUEPRINTV2_STORE_LIQUIDS
+					{
+						public static LocString NAME = "Store Liquid Tile Infos";
+						public static LocString TOOLTIP = "Store information about liquid tiles in the blueprint area";
+					}
+					public class BLUEPRINTV2_STORE_SOLIDS
+					{
+						public static LocString NAME = "Store Solid Tile Infos";
+						public static LocString TOOLTIP = "Store information about solid tiles in the blueprint area";
+					}
+					public class BPV2_ELEMENTPLANINFO_FILTER
+					{
+						public static LocString NAME = "Planned Element Infos";
+						public static LocString TOOLTIP = "Planned element tile infos only";
 					}
 				}
 			}

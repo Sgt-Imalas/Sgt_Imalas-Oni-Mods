@@ -35,6 +35,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 		FButton RotateL, RotateR, ChangeMaterialOverrides;
 		//YesNoInfo CanFlipH, CanFlipV;
 		FButton FlipH, FlipV;
+		ToolTip CanRotateL_TT, CanRotateR_TT, CanFlipH_TT, CanFlipV_TT;
 
 		public static void DestroyInstance() { Instance = null; }
 
@@ -69,12 +70,13 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 				CurrentBPName.SetText("-");
 				return;
 			}
+
 			CurrentBPName.SetText(bp.FriendlyName);
 			EnableSnapshotMaterialOverrides.gameObject.SetActive(BlueprintState.IsPlacingSnapshot);
 			ChangeMaterialOverrides.transform.parent.gameObject.SetActive(BlueprintState.IsPlacingSnapshot);
-
 			if (BlueprintState.IsPlacingSnapshot)
 			{
+				CurrentBPName.SetText("-");
 				FolderInfoGO.SetActive(true);
 				string folderInfo = string.Format(FOLDERINFO.LABEL_SNAPSHOT, SnapshotTool.SnapshotIndex + 1, SnapshotTool.SnapshotCount);
 				FolderInfo.SetText(folderInfo);
@@ -99,14 +101,18 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			//CanRotate.SetInfoState(canRotate);
 			RotateL.SetInteractable(canRotate);
 			RotateR.SetInteractable(canRotate);
+			CanRotateL_TT.SetSimpleTooltip(canRotate ? string.Empty : string.Format(USEBLUEPRINTSTATECONTAINER.ROTATION_BLOCKED, BlueprintState.TransformationBlockedByBuildingName));
+			CanRotateR_TT.SetSimpleTooltip(canRotate ? string.Empty : string.Format(USEBLUEPRINTSTATECONTAINER.ROTATION_BLOCKED, BlueprintState.TransformationBlockedByBuildingName));
 
 			bool canFlipH = BlueprintState.CanFlipH;
 			//CanFlipH.SetInfoState(canFlipH);
 			FlipH.SetInteractable(canFlipH);
+			CanFlipH_TT.SetSimpleTooltip(canFlipH ? string.Empty : string.Format(USEBLUEPRINTSTATECONTAINER.FLIP_BLOCKED, BlueprintState.TransformationBlockedByBuildingName));
 
 			bool canFlipV = BlueprintState.CanFlipV;
 			//CanFlipV.SetInfoState(canFlipV);
 			FlipV.SetInteractable(canFlipV);
+			CanFlipV_TT.SetSimpleTooltip(canFlipV ? string.Empty : string.Format(USEBLUEPRINTSTATECONTAINER.FLIP_BLOCKED, BlueprintState.TransformationBlockedByBuildingName));
 			RefreshStateChangeBPs();
 		}
 		void RefreshStateChangeBPs()
@@ -197,6 +203,11 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			ColorPreviewPrefab = transform.Find("InfoItemsContainer/PreviewColorPrefab").gameObject;
 			ColorPreviewPrefab.AddOrGet<ColorLegendEntry>();
 			ColorPreviewPrefab.SetActive(false);
+
+			CanRotateL_TT = UIUtils.AddSimpleTooltipToObject(RotateL.gameObject, string.Empty);
+			CanRotateR_TT = UIUtils.AddSimpleTooltipToObject(RotateR.gameObject, string.Empty);
+			CanFlipH_TT = UIUtils.AddSimpleTooltipToObject(FlipH.gameObject, string.Empty);
+			CanFlipV_TT = UIUtils.AddSimpleTooltipToObject(FlipV.gameObject, string.Empty);
 
 			BuildColorLegend();
 		}

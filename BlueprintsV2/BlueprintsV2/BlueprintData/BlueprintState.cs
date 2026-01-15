@@ -1,10 +1,14 @@
-﻿using BlueprintsV2.ModAPI;
+﻿using BlueprintsV2.BlueprintsV2.BlueprintData.LiquidInfo;
+using BlueprintsV2.BlueprintsV2.BlueprintData.PlannedElements;
+using BlueprintsV2.BlueprintsV2.Visualizers;
+using BlueprintsV2.ModAPI;
 using BlueprintsV2.Tools;
 using BlueprintsV2.Visualizers;
 using Epic.OnlineServices.Sessions;
 using STRINGS;
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
+using System.Linq;
 using UnityEngine;
 using UtilLibs;
 using static STRINGS.BUILDING.STATUSITEMS;
@@ -54,7 +58,9 @@ namespace BlueprintsV2.BlueprintData
 			Blueprint blueprint = new Blueprint("unnamed", "");
 
 			int blueprintHeight = (topLeft.y - bottomRight.y);
-			bool collectingGasTiles = filter != null && filter.AllowedLayer(SolidTileFiltering.ObjectLayerFilterKey);
+			bool collectingGasTiles = filter != null && filter.AllowedToFilter(SolidTileFiltering.StoreNonSolidsOptionID);
+			bool collectLiquidNotes = filter != null && filter.AllowedToFilter(SolidTileFiltering.StoreLiquidNotesOptionID);
+			bool collectSolidNotes = filter != null && filter.AllowedToFilter(SolidTileFiltering.StoreLiquidNotesOptionID);
 
 			for (int x = topLeft.x; x <= bottomRight.x; ++x)
 			{
@@ -65,6 +71,7 @@ namespace BlueprintsV2.BlueprintData
 					if (Grid.IsVisible(cell))
 					{
 						bool emptyCell = true;
+						bool solidTileDefInCell = false;
 
 						for (int layer = 0; layer < Grid.ObjectLayers.Length; ++layer)
 						{
@@ -107,6 +114,9 @@ namespace BlueprintsV2.BlueprintData
 										BuildingDef = building.Def,
 										Orientation = building.Orientation
 									};
+									if (building.Def.BuildingComplete.TryGetComponent<SimCellOccupier>(out var sco) && sco.doReplaceElement)
+										solidTileDefInCell = true;
+
 
 									if (deconstructable != null)
 									{
@@ -134,22 +144,36 @@ namespace BlueprintsV2.BlueprintData
 							}
 						}
 
+						var cellLocationInBlueprint = new Vector2I(x - topLeft.x, blueprintHeight - (topLeft.y - y));
 						if ((emptyCell && collectingGasTiles && !Grid.IsSolidCell(cell)) || (filter.AllowedLayer(ObjectLayer.DigPlacer) && Grid.Objects[cell, 7] != null && Grid.Objects[cell, 7].name == "DigPlacer"))
 						{
-							var digLocation = new Vector2I(x - topLeft.x, blueprintHeight - (topLeft.y - y));
 
-							if (!blueprint.DigLocations.Contains(digLocation))
+							if (!blueprint.DigLocations.Contains(cellLocationInBlueprint))
 							{
-								blueprint.DigLocations.Add(digLocation);
+								blueprint.DigLocations.Add(cellLocationInBlueprint);
 							}
+						}
+
+						var PotentialElementIndicator = Grid.Objects[cell, (int)ModAssets.PlannedElementLayer];
+						if (!solidTileDefInCell)
+						{
+							if ((collectLiquidNotes && Grid.IsLiquid(cell)) || (collectSolidNotes && Grid.IsSolidCell(cell)))
+								blueprint.PlannedNaturalElementInfos[cellLocationInBlueprint] = new Tuple<SimHashes, float, float>(Grid.Element[cell].id, Grid.Mass[cell], Grid.Temperature[cell]);
+						}
+						else if (PotentialElementIndicator != null && PotentialElementIndicator.TryGetComponent<ElementPlanInfo>(out var info))
+						{
+							if ((info.IsSolid && collectLiquidNotes) || (info.IsLiquid && collectLiquidNotes))
+								blueprint.PlannedNaturalElementInfos[cellLocationInBlueprint] = new Tuple<SimHashes, float, float>(info.ElementId, info.ElementAmount, info.ElementTemperature);
 						}
 					}
 				}
 			}
 			//empty blueprint that caught some gas/liquid pockets, clear to not spam quasi empty blueprints
-			if (blueprint.BuildingConfigurations.Count == 0 && blueprint.DigLocations.Count > 0 && !createsSnapshot)
+			if (blueprint.BuildingConfigurations.Count == 0 && (blueprint.DigLocations.Any() || blueprint.PlannedNaturalElementInfos.Count > 0 || blueprint.PlanningToolMod_PlanDataValues.Count > 0) && !createsSnapshot)
 			{
 				blueprint.DigLocations.Clear();
+				blueprint.PlannedNaturalElementInfos.Clear();
+				blueprint.PlanningToolMod_PlanDataValues.Clear();
 			}
 
 			blueprint.CacheCost();
@@ -198,7 +222,7 @@ namespace BlueprintsV2.BlueprintData
 				{
 					int cell = Grid.XYToCell(topLeft.x + buildingConfig.Offset.x, topLeft.y + buildingConfig.Offset.y);
 
-					if (buildingConfig.BuildingDef.IsTilePiece 
+					if (buildingConfig.BuildingDef.IsTilePiece
 						&& !buildingConfig.BuildingDef.BuildingComplete.TryGetComponent<Door>(out _)
 						&& buildingConfig.BuildingDef.TileLayer != ObjectLayer.LadderTile
 						)
@@ -222,6 +246,12 @@ namespace BlueprintsV2.BlueprintData
 			foreach (var digLocation in blueprint.DigLocations)
 			{
 				FoundationVisuals.Add(new DigVisual(Grid.XYToCell(topLeft.x + digLocation.x, topLeft.y + digLocation.y), digLocation));
+			}
+
+			foreach (var elementIndicator in blueprint.PlannedNaturalElementInfos)
+			{
+				var liquidLocation = elementIndicator.Key;
+				FoundationVisuals.Add(new ElementIndicatorVisual(Grid.XYToCell(topLeft.x + liquidLocation.x, topLeft.y + liquidLocation.y), liquidLocation, elementIndicator.Value.first, elementIndicator.Value.second, elementIndicator.Value.third));
 			}
 
 			if (UseBlueprintTool.Instance.HoverCard != null)
@@ -318,6 +348,7 @@ namespace BlueprintsV2.BlueprintData
 		static Orientation BlueprintOrientation = Orientation.Neutral;
 		static bool FlippedX, FlippedY;
 		static PermittedRotations Permitted = All;
+		public static string TransformationBlockedByBuildingName;
 
 		public static bool CanRotate => Permitted == All || Permitted == PermittedRotations.R360;
 		public static bool CanFlipH => Permitted == All || Permitted == PermittedRotations.FlipH;
@@ -326,6 +357,7 @@ namespace BlueprintsV2.BlueprintData
 		public static void CheckPermittedRotations()
 		{
 			Permitted = All;
+			TransformationBlockedByBuildingName = string.Empty;
 
 			foreach (var vis in FoundationVisuals)
 			{
@@ -336,9 +368,13 @@ namespace BlueprintsV2.BlueprintData
 						continue;
 					case PermittedRotations.Unrotatable:
 						Permitted = PermittedRotations.Unrotatable;
+						if (vis.BuildingID != null)
+							TransformationBlockedByBuildingName = Assets.GetBuildingDef(vis.BuildingID).Name;
 						return;
 					case PermittedRotations.FlipH:
 						Permitted = PermittedRotations.FlipH;
+						if (vis.BuildingID != null)
+							TransformationBlockedByBuildingName = Assets.GetBuildingDef(vis.BuildingID).Name;
 						break;
 				}
 			}
@@ -350,10 +386,14 @@ namespace BlueprintsV2.BlueprintData
 					case All:
 						continue;
 					case PermittedRotations.Unrotatable:
+						if (vis.BuildingID != null)
+							TransformationBlockedByBuildingName = Assets.GetBuildingDef(vis.BuildingID).Name;
 						Permitted = PermittedRotations.Unrotatable;
 						return;
 					case PermittedRotations.FlipH:
 						Permitted = PermittedRotations.FlipH;
+						if (vis.BuildingID != null)
+							TransformationBlockedByBuildingName = Assets.GetBuildingDef(vis.BuildingID).Name;
 						break;
 				}
 			}

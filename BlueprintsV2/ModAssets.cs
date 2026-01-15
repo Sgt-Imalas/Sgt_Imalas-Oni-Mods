@@ -18,6 +18,9 @@ namespace BlueprintsV2
 	internal class ModAssets
 	{
 
+		public static ObjectLayer PlannedElementLayer = ObjectLayer.FillPlacer;
+		public static Sprite Liquid_Placer_Sprite, Solid_Placer_Sprite;
+
 		public static Sprite BLUEPRINTS_CREATE_ICON_SPRITE;
 		public static Sprite BLUEPRINTS_CREATE_VISUALIZER_SPRITE;
 		public static Sprite BLUEPRINTS_APPLY_SETTINGS_SPRITE;

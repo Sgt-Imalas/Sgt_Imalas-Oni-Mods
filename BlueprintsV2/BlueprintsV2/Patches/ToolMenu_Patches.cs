@@ -46,21 +46,29 @@ namespace BlueprintsV2.BlueprintsV2.Patches
 			public static void Postfix()
 			{
 				MultiToolParameterMenu.CreateInstance();
-				ToolParameterMenu.ToggleState defaultSelection, buildingSelection;
+				ToolParameterMenu.ToggleState defaultSelection, buildingSelection, elementNotesSelection;
 				switch (Config.Instance.DefaultMenuSelections)
 				{
 					case DefaultSelections.All:
 						defaultSelection = ToolParameterMenu.ToggleState.On;
 						buildingSelection = ToolParameterMenu.ToggleState.On;
+						elementNotesSelection = ToolParameterMenu.ToggleState.Off;
 						break;
 					case DefaultSelections.BuildingsOnly:
 						defaultSelection = ToolParameterMenu.ToggleState.Off;
 						buildingSelection = ToolParameterMenu.ToggleState.On;
+						elementNotesSelection = ToolParameterMenu.ToggleState.Off;
 						break;
 					default:
 					case DefaultSelections.None:
 						defaultSelection = ToolParameterMenu.ToggleState.Off;
 						buildingSelection = ToolParameterMenu.ToggleState.Off;
+						elementNotesSelection = ToolParameterMenu.ToggleState.Off;
+						break;
+					case DefaultSelections.All_IncludingNotes:
+						defaultSelection = ToolParameterMenu.ToggleState.On;
+						buildingSelection = ToolParameterMenu.ToggleState.On;
+						elementNotesSelection = ToolParameterMenu.ToggleState.On;
 						break;
 				}
 
@@ -75,6 +83,8 @@ namespace BlueprintsV2.BlueprintsV2.Patches
 					{ ToolParameterMenu.FILTERLAYERS.BACKWALL, defaultSelection },
 					{ ToolParameterMenu.FILTERLAYERS.DIGPLACER, defaultSelection},
 					{ SolidTileFiltering.StoreNonSolidsOptionID, defaultSelection },
+					{ SolidTileFiltering.StoreSolidNotesOptionID, elementNotesSelection },
+					{ SolidTileFiltering.StoreLiquidNotesOptionID, elementNotesSelection },
 				};
 			}
 		}

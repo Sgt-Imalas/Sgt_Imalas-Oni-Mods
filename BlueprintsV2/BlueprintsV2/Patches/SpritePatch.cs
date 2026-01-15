@@ -13,6 +13,8 @@ namespace BlueprintsV2.Patches
 		public static string snapshot_visualizer = "snapshot_visualizer";
 		public static string useblueprint_button = "useblueprint_button";
 		public static string useblueprint_visualizer = "useblueprint_visualizer";
+		public static string liquid_placer_icon = "BPV2_LiquidPlacer";
+		public static string solid_placer_icon = "BPV2_SolidPlacer";
 
 
 		[HarmonyPatch(typeof(Assets), "OnPrefabInit")]
@@ -30,6 +32,9 @@ namespace BlueprintsV2.Patches
 
 				ModAssets.BLUEPRINTS_USE_ICON_SPRITE = InjectionMethods.AddSpriteToAssets(__instance, useblueprint_button);
 				ModAssets.BLUEPRINTS_USE_VISUALIZER_SPRITE = InjectionMethods.AddSpriteToAssets(__instance, useblueprint_visualizer);
+				ModAssets.Liquid_Placer_Sprite = InjectionMethods.AddSpriteToAssets(__instance, liquid_placer_icon);
+				ModAssets.Solid_Placer_Sprite = InjectionMethods.AddSpriteToAssets(__instance, solid_placer_icon);
+				
 			}
 		}
 	}

@@ -3,6 +3,8 @@
 	internal class SolidTileFiltering
 	{
 		public static string StoreNonSolidsOptionID = "BLUEPRINTV2_PRESERVEAIRTILES";
-		public const ObjectLayer ObjectLayerFilterKey = ObjectLayer.Minion;
+
+		public static string StoreLiquidNotesOptionID = "BLUEPRINTV2_STORE_LIQUIDS";
+		public static string StoreSolidNotesOptionID = "BLUEPRINTV2_STORE_SOLIDS";
 	}
 }

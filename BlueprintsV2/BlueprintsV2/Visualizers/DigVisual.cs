@@ -11,6 +11,8 @@ namespace BlueprintsV2.Visualizers
 
 		public PlanScreen.RequirementsState RequirementsState => PlanScreen.RequirementsState.Complete;
 
+		public string BuildingID => null;
+
 		public DigVisual(int cell, Vector2I offset)
 		{
 			Visualizer = GameUtil.KInstantiate(DigTool.Instance.visualizer, Grid.CellToPosCBC(cell, DigTool.Instance.visualizerLayer), DigTool.Instance.visualizerLayer, "BlueprintModDigVisualizer");

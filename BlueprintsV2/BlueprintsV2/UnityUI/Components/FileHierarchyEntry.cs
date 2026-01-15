@@ -1,5 +1,6 @@
 ﻿using BlueprintsV2.BlueprintData;
 using BlueprintsV2.Tools;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -18,10 +19,11 @@ namespace BlueprintsV2.UnityUI.Components
 		public System.Action<bool> OnDialogueToggled;
 		public System.Action OnEntryClicked;
 		public System.Action<string> OnRenamed, OnMoved;
-		FButton deleteButton, renameButton, moveButton, exportButton, retakeButton;
+		FButton deleteButton, renameButton, moveButton, exportButton, retakeButton, infoButton;
 		FToggleButton button;
 		LocText Label;
-		public System.Action<Blueprint> OnSelectBlueprint, OnDeleted;
+		public System.Action<Blueprint> OnSelectBlueprint, OnDeleted, OnInfoClicked;
+		public ToolTip Description;
 
 		List<GameObject> HoverShowButtons = [];
 
@@ -33,6 +35,8 @@ namespace BlueprintsV2.UnityUI.Components
 		public override void OnPrefabInit()
 		{
 			base.OnPrefabInit();
+			Description = UIUtils.AddSimpleTooltipToObject(this.gameObject, string.Empty, true, 250);
+
 			Label = transform.Find("Label").gameObject.GetComponent<LocText>();
 			button = gameObject.AddComponent<FToggleButton>();
 			renameButton = transform.Find("RenameButton").gameObject.AddComponent<FButton>();
@@ -40,14 +44,16 @@ namespace BlueprintsV2.UnityUI.Components
 			moveButton = transform.Find("MoveFolderButton").gameObject.AddComponent<FButton>();
 			exportButton = transform.Find("ExportButton").gameObject.AddComponent<FButton>();
 			retakeButton = transform.Find("RetakeButton").gameObject.AddComponent<FButton>();
+			infoButton = transform.Find("InfoButton").gameObject.AddComponent<FButton>();
 
-			HoverShowButtons = [deleteButton.gameObject, renameButton?.gameObject, exportButton?.gameObject, moveButton?.gameObject, exportButton?.gameObject, retakeButton?.gameObject];
+			HoverShowButtons = [deleteButton.gameObject, renameButton?.gameObject, exportButton?.gameObject, moveButton?.gameObject, exportButton?.gameObject, retakeButton?.gameObject, infoButton?.gameObject];
 
 			UIUtils.AddSimpleTooltipToObject(moveButton.transform, BLUEPRINTENTRY.TOOLTIP_MOVE);
 			UIUtils.AddSimpleTooltipToObject(renameButton.transform, BLUEPRINTENTRY.TOOLTIP_RENAME);
 			UIUtils.AddSimpleTooltipToObject(deleteButton.transform, BLUEPRINTENTRY.TOOLTIP_DELETE);
 			UIUtils.AddSimpleTooltipToObject(exportButton.transform, BLUEPRINTENTRY.TOOLTIP_EXPORT);
 			UIUtils.AddSimpleTooltipToObject(retakeButton.transform, BLUEPRINTENTRY.TOOLTIP_RETAKE);
+			UIUtils.AddSimpleTooltipToObject(infoButton.transform, BLUEPRINTENTRY.TOOLTIP_INFO);
 
 			if (blueprint != null)
 			{
@@ -59,6 +65,7 @@ namespace BlueprintsV2.UnityUI.Components
 				button.OnClick += SelectBlueprint;
 				exportButton.OnClick += ExportBlueprintToClipboard;
 				retakeButton.OnClick += RetakeBlueprint;
+				infoButton.OnClick += ShowBlueprintInfoScreen;
 			}
 			OnPointerExit(null);
 		}
@@ -72,6 +79,13 @@ namespace BlueprintsV2.UnityUI.Components
 				DialogUtil.CreateConfirmDialog(BASE64_EXPORTED.TITLE, BASE64_EXPORTED.TEXT, on_confirm: () => SetDialogueState(false));
 			}
 		}
+		void ShowBlueprintInfoScreen()
+		{
+			if (blueprint == null|| OnInfoClicked == null)
+				return;
+			OnInfoClicked(blueprint);
+		}
+
 		private void RetakeBlueprint()
 		{
 			if (blueprint == null)
@@ -156,6 +170,14 @@ namespace BlueprintsV2.UnityUI.Components
 			{
 				buttonGO.SetActive(true);
 			}
+		}
+
+		internal void RefreshTooltip()
+		{
+			if (blueprint == null)
+				return;
+
+			Description?.SetSimpleTooltip(blueprint.UserDescription);
 		}
 	}
 }

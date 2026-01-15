@@ -33,6 +33,8 @@ namespace BlueprintsV2.Visualizers
 		public bool FlippedV { get; protected set; }
 		public bool FlippedH { get; protected set; }
 
+		public string BuildingID => BuildingDef.PrefabID;
+
 		public BuildingVisual(BuildingConfig buildingConfig, int cell)
 		{
 			Offset = buildingConfig.Offset;

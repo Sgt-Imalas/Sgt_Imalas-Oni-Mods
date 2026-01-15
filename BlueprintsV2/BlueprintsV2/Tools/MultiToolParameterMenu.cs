@@ -33,7 +33,7 @@ namespace BlueprintsV2.Tools
 
 			content = Util.KInstantiateUI(baseContent, baseContent.transform.parent.gameObject);
 			var pos = content.transform.position;
-			pos.y += 20f;
+			pos.y += 60f;
 			content.transform.SetPosition(pos);
 			content.transform.GetChild(1).gameObject.SetActive(false);
 
@@ -75,7 +75,7 @@ namespace BlueprintsV2.Tools
 
 			PCheckBox syncCheckBox = new PCheckBox
 			{
-				Text = STRINGS.UI.TOOLS.FILTERLAYERS.AUTOSYNC	
+				Text = STRINGS.UI.TOOLS.FILTERLAYERS.AUTOSYNC
 			};
 			syncCheckBox.ToolTip = STRINGS.UI.TOOLS.FILTERLAYERS.AUTOSYNC_TOOLTIP;
 			syncCheckBox.OnRealize += realized =>
@@ -112,7 +112,7 @@ namespace BlueprintsV2.Tools
 				.SetRightEdge(noneButton, 1F);
 
 			syncPanel.AddChild(syncCheckBox);
-			syncPanel.Margin = new RectOffset(1, 1, 2,2);
+			syncPanel.Margin = new RectOffset(1, 1, 2, 2);
 			syncPanel
 				.SetLeftEdge(syncCheckBox, 0F)
 				.SetRightEdge(syncCheckBox, 1F);
@@ -291,11 +291,13 @@ namespace BlueprintsV2.Tools
 
 				case ObjectLayer.DigPlacer:
 					return currentParams.TryGetValue(ToolParameterMenu.FILTERLAYERS.DIGPLACER, out toggleState) && toggleState == ToolParameterMenu.ToggleState.On;
-
-				case SolidTileFiltering.ObjectLayerFilterKey: //for auto digging
-					return currentParams.TryGetValue(SolidTileFiltering.StoreNonSolidsOptionID, out toggleState) && toggleState == ToolParameterMenu.ToggleState.On;
 			}
 			return false;
+		}
+		public bool AllowedToFilter(string key)
+		{
+			var currentParams = GetParameters();
+			return currentParams.TryGetValue(key, out var toggleState) && toggleState == ToolParameterMenu.ToggleState.On;
 		}
 
 		public void SetOverlaySync(bool synced)
