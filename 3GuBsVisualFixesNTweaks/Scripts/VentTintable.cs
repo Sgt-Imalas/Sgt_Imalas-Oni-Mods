@@ -26,10 +26,12 @@ namespace _3GuBsVisualFixesNTweaks.Scripts
 
 		void UpdateTint(object data)
 		{
-			if (data == null || data is not Color32 tintColor)
+			if (data == null || data is not Boxed<Color32> boxedTintColor)
 				return;
 
-			kbac.SetSymbolTint("tint", tintColor);
+			
+
+			kbac.SetSymbolTint("tint", boxedTintColor.value);
 		}
 	}
 }

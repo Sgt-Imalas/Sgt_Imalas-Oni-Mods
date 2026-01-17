@@ -57,10 +57,10 @@ namespace UtilLibs
 
 		public static void RegisterCustomSwapAnim(KAnimGroupFile kAnimGroupFile, HashedString swap) => RegisterCustomSwapAnims(kAnimGroupFile, new HashSet<HashedString>() { swap });
 		public static void RegisterCustomSwapAnims(KAnimGroupFile kAnimGroupFile, HashSet<HashedString> swaps) =>
-			MoveAnimGroups(kAnimGroupFile, BATCH_TAGS.SWAPS, swaps);
+			MoveKanimsToNewGroup(kAnimGroupFile, BATCH_TAGS.SWAPS, swaps);
 		public static void RegisterCustomInteractAnim(KAnimGroupFile kAnimGroupFile, HashedString swap) => RegisterCustomInteractAnims(kAnimGroupFile, new HashSet<HashedString>() { swap });
 		public static void RegisterCustomInteractAnims(KAnimGroupFile kAnimGroupFile, HashSet<HashedString> swaps) =>
-			MoveAnimGroups(kAnimGroupFile, BATCH_TAGS.INTERACTS, swaps);
+			MoveKanimsToNewGroup(kAnimGroupFile, BATCH_TAGS.INTERACTS, swaps);
 
 
 		public static void MoveKanimsToBatchGroupOf(KAnimGroupFile kAnimGroupFile, HashSet<HashedString> swaps, string animInTargetGroupId)
@@ -82,10 +82,10 @@ namespace UtilLibs
 			}
 			if (targetGroup == null)
 			{
-				Debug.LogWarning($"Could not find animg group for {animInTargetGroupId}!");
+				Debug.LogWarning($"Could not find anim group for {animInTargetGroupId}!");
 				return;
 			}
-			MoveAnimGroups(kAnimGroupFile, targetGroup.id.hash, swaps);
+			MoveKanimsToNewGroup(kAnimGroupFile, targetGroup.id.hash, swaps);
 		}
 
 
@@ -93,12 +93,12 @@ namespace UtilLibs
 		/// Required to register the correct anim group for custom made interact anims
 		/// </summary>
 		/// <param name="kAnimGroupFile"></param>
-		/// <param name="taghash"></param>
+		/// <param name="groupIdHash"></param>
 		/// <param name="swaps"></param>
-		public static void MoveAnimGroups(KAnimGroupFile kAnimGroupFile, int taghash, HashSet<HashedString> swaps)
+		public static void MoveKanimsToNewGroup(KAnimGroupFile kAnimGroupFile, int groupIdHash, HashSet<HashedString> swaps)
 		{
 			var groups = kAnimGroupFile.GetData();
-			var swapAnimsGroup = KAnimGroupFile.GetGroup(new HashedString(taghash));
+			var swapAnimsGroup = KAnimGroupFile.GetGroup(new HashedString(groupIdHash));
 
 			// remove the wrong group
 			groups.RemoveAll(g => swaps.Contains(g.animNames[0]));
