@@ -26,15 +26,21 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
 		SimHashes ElementId;
 		float Amount, Temperature;
 
-		public ElementIndicatorVisual(int cell, Vector2I offset, SimHashes elementId, float amount, float temperature)
+		public static Tag GetInfoPrefabId(SimHashes elementId)
 		{
 			Tag prefabId;
 			var element = ElementLoader.GetElement(elementId.CreateTag());
-			if(element.IsSolid)
+			if (element.IsSolid)
 				prefabId = SolidInfoConfig.ID;
-			else
+			else if (element.IsLiquid)
 				prefabId = LiquidInfoConfig.ID;
-			Visualizer = GameUtil.KInstantiate(Assets.GetPrefab(prefabId), Grid.CellToPosCBC(cell, Grid.SceneLayer.FXFront), Grid.SceneLayer.FXFront, "BlueprintModLiquidIndicatorVisual");
+			else
+				prefabId = GasInfoConfig.ID;
+			return prefabId;
+		}
+		public ElementIndicatorVisual(int cell, Vector2I offset, SimHashes elementId, float amount, float temperature)
+		{
+			Visualizer = GameUtil.KInstantiate(Assets.GetPrefab(GetInfoPrefabId(elementId)), Grid.CellToPosCBC(cell, Grid.SceneLayer.FXFront), Grid.SceneLayer.FXFront, "BlueprintModLiquidIndicatorVisual");
 			Visualizer.SetActive(IsPlaceable(cell));
 			Offset = offset;
 			if (Visualizer.TryGetComponent<ElementPlanInfo>(out var info))
@@ -70,20 +76,13 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers
 				{
 					var existingItem = Grid.Objects[cellParam, (int)ModAssets.PlannedElementLayer];
 
-					if(existingItem != null)
+					if (existingItem != null)
 					{
 						existingItem.DeleteObject();
 						Grid.Objects[cellParam, (int)ModAssets.PlannedElementLayer] = null;
 					}
 
-					Tag prefabId;
-					var element = ElementLoader.GetElement(ElementId.CreateTag());
-					if (element.IsSolid)
-						prefabId = SolidInfoConfig.ID;
-					else
-						prefabId = LiquidInfoConfig.ID;
-
-					var infoIndicator = Util.KInstantiate(Assets.GetPrefab(prefabId));
+					var infoIndicator = Util.KInstantiate(Assets.GetPrefab(GetInfoPrefabId(ElementId)));
 					Grid.Objects[cellParam, (int)ModAssets.PlannedElementLayer] = infoIndicator;
 					Vector3 posCbc = Grid.CellToPosCBC(cellParam, MopTool.Instance.visualizerLayer);
 					posCbc.z -= 0.15f;

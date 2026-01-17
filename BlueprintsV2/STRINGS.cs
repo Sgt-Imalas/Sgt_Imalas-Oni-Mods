@@ -41,10 +41,10 @@ namespace BlueprintsV2
 			{
 				public static LocString TITLE = "Default Menu Selections";
 				public static LocString TOOLTIP = "The default selections made when an advanced filter menu is opened.";
-				public static LocString DEFAULTMENUSELECTION_ALL = "All";
-				public static LocString DEFAULTMENUSELECTION_ALL_ELEMENTNOTES = "All (+Element Notes)";
+				public static LocString DEFAULTMENUSELECTION_ALL = "All Defaults";
 				public static LocString DEFAULTMENUSELECTION_NONE = "None";
 			}
+			public static LocString EXTRA_DEFAULTS_CATEGORY = "Extra Filter Selections";
 			public class REQUIRECONSTRUCTABLE_MATERIAL
 			{
 				public static LocString TITLE = "Require blueprint building materials";
@@ -495,18 +495,28 @@ namespace BlueprintsV2
 					public static LocString AUTOSYNC_TOOLTIP = "Automatically synchronize the filters with the active overlay";
 					public class BLUEPRINTV2_PRESERVEAIRTILES
 					{
-						public static LocString NAME = "Dig Empty Spaces";
-						public static LocString TOOLTIP = "Store Dig commands for tiles that are not solid";
+						public static LocString NAME = "Dig in empty Spaces";
+						public static LocString TOOLTIP = "Store Dig commands for tiles that are not solid, but otherwise empty of buildings";
+					}
+					public class BLUEPRINTV2_STORE_GASSES
+					{
+						public static LocString NAME = "Store Gas Tile Infos";
+						public static LocString TOOLTIP = "Store information about gases in the blueprint area";
 					}
 					public class BLUEPRINTV2_STORE_LIQUIDS
 					{
-						public static LocString NAME = "Store Liquid Tile Infos";
-						public static LocString TOOLTIP = "Store information about liquid tiles in the blueprint area";
+						public static LocString NAME = "Liquid Tile Infos";
+						public static LocString TOOLTIP = "Store information about liquids in the blueprint area";
 					}
 					public class BLUEPRINTV2_STORE_SOLIDS
 					{
-						public static LocString NAME = "Store Solid Tile Infos";
+						public static LocString NAME = "Solid Tile Infos";
 						public static LocString TOOLTIP = "Store information about solid tiles in the blueprint area";
+					}
+					public class BLUEPRINTV2_PLANNINGTOOL_SHAPES
+					{
+						public static LocString NAME = "PlanningTool Shapes";
+						public static LocString TOOLTIP = "Store PlanningTool-Mod Shapes found in the blueprint area\nOnly works when the PlanningTool mod is enabled.";
 					}
 					public class BPV2_ELEMENTPLANINFO_FILTER
 					{

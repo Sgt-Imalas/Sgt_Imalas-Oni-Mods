@@ -1,4 +1,5 @@
-﻿using Microsoft.Build.Framework;
+﻿using BlueprintsV2.BlueprintsV2.BlueprintData.PlanningToolMod_Integration.EnumMirrors;
+using Microsoft.Build.Framework;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
 using Newtonsoft.Json.Linq;
@@ -86,7 +87,7 @@ namespace BlueprintsV2.BlueprintData
 		/// Stores planning tool mod shape and color for cells
 		/// only relevant if that mod is enabled
 		/// </summary>
-		public Dictionary<Vector2I, Tuple<int, int>> PlanningToolMod_PlanDataValues { get; private set; } = new();
+		public Dictionary<Vector2I, Tuple<PlanShape, PlanColor>> PlanningToolMod_PlanDataValues { get; private set; } = new();
 
 		/// <summary>
 		/// Create a new blueprint at the given location.
@@ -401,7 +402,7 @@ namespace BlueprintsV2.BlueprintData
 						if (shapeToken != null && shapeToken.Type == JTokenType.Integer
 						&& colorToken != null && colorToken.Type == JTokenType.Integer)
 						{
-							PlanningToolMod_PlanDataValues[location] = new Tuple<int,int>(shapeToken.Value<int>(), colorToken.Value<int>());
+							PlanningToolMod_PlanDataValues[location] = new Tuple<PlanShape,PlanColor>((PlanShape)shapeToken.Value<int>(), (PlanColor)colorToken.Value<int>());
 						}
 					}
 				}
@@ -540,12 +541,12 @@ namespace BlueprintsV2.BlueprintData
 				{
 					jsonWriter.WriteStartObject();
 					var location = kvp.Key;
-					var elementInfo = kvp.Value;
+					var planShapeInfo = kvp.Value;
 
 					jsonWriter.WritePropertyName("x"); jsonWriter.WriteValue(location.X);
 					jsonWriter.WritePropertyName("y"); jsonWriter.WriteValue(location.Y);
-					jsonWriter.WritePropertyName("shape"); jsonWriter.WriteValue((int)elementInfo.first);
-					jsonWriter.WritePropertyName("color"); jsonWriter.WriteValue(elementInfo.second);
+					jsonWriter.WritePropertyName("shape"); jsonWriter.WriteValue((int)planShapeInfo.first);
+					jsonWriter.WritePropertyName("color"); jsonWriter.WriteValue((int)planShapeInfo.second);
 
 					jsonWriter.WriteEndObject();
 				}

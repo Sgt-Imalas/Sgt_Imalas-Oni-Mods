@@ -1,4 +1,5 @@
 ﻿
+using BlueprintsV2.BlueprintsV2.BlueprintData.PlanningToolMod_Integration;
 using BlueprintsV2.ModAPI;
 using HarmonyLib;
 using KMod;
@@ -30,6 +31,7 @@ namespace BlueprintsV2
 		{
 			base.OnAllModsLoaded(harmony, mods);
 			API_Methods.RegisterExtraData();
+			PlanningTool_Integration.Initialize();
 		}
 	}
 }

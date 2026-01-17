@@ -33,6 +33,22 @@ namespace BlueprintsV2.BlueprintsV2.Patches
             }
         }
 
+
+        [HarmonyPatch(typeof(SingleItemSelectionSideScreenBase), nameof(SingleItemSelectionSideScreenBase.SetData))]
+        public class FilterSideScreen_SetData_Patch
+        {
+            public static void Prefix(SingleItemSelectionSideScreenBase __instance, Dictionary<Tag, HashSet<Tag>> data)
+            {
+                if (__instance is not FilterSideScreen fs)
+                    return;
+
+                if (fs.targetFilterable is not ElementOnlyFilterable)
+                    return;
+                data = DiscoveredResources.Instance.GetDiscoveredResourcesFromTagSet(ElementOnlyFilterable.elementFilterableCategories);
+				data.Add(GameTags.Void,[GameTags.Void]);
+			}
+        }
+
         [HarmonyPatch(typeof(FilterSideScreen), nameof(FilterSideScreen.SetTarget))]
         public class FilterSideScreen_SetTarget_Patch
         {

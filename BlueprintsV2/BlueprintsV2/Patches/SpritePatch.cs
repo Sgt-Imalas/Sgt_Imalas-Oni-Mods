@@ -13,6 +13,7 @@ namespace BlueprintsV2.Patches
 		public static string snapshot_visualizer = "snapshot_visualizer";
 		public static string useblueprint_button = "useblueprint_button";
 		public static string useblueprint_visualizer = "useblueprint_visualizer";
+		public static string gas_placer_icon = "BPV2_GasPlacer";
 		public static string liquid_placer_icon = "BPV2_LiquidPlacer";
 		public static string solid_placer_icon = "BPV2_SolidPlacer";
 
@@ -32,9 +33,17 @@ namespace BlueprintsV2.Patches
 
 				ModAssets.BLUEPRINTS_USE_ICON_SPRITE = InjectionMethods.AddSpriteToAssets(__instance, useblueprint_button);
 				ModAssets.BLUEPRINTS_USE_VISUALIZER_SPRITE = InjectionMethods.AddSpriteToAssets(__instance, useblueprint_visualizer);
+
+
+				ModAssets.Gas_Placer_Sprite = InjectionMethods.AddSpriteToAssets(__instance, gas_placer_icon);
 				ModAssets.Liquid_Placer_Sprite = InjectionMethods.AddSpriteToAssets(__instance, liquid_placer_icon);
 				ModAssets.Solid_Placer_Sprite = InjectionMethods.AddSpriteToAssets(__instance, solid_placer_icon);
-				
+
+
+				ModAssets.PlanningToolPreview_Square = InjectionMethods.AddSpriteToAssets(__instance, "BPV2_PlantoolPlacer_Square");
+				ModAssets.PlanningToolPreview_Circle = InjectionMethods.AddSpriteToAssets(__instance, "BPV2_PlantoolPlacer_Circle");
+				ModAssets.PlanningToolPreview_Diamond= InjectionMethods.AddSpriteToAssets(__instance, "BPV2_PlantoolPlacer_Diamond");
+
 			}
 		}
 	}

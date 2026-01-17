@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using BlueprintsV2.BlueprintsV2.BlueprintData.PlanningToolMod_Integration;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace BlueprintsV2.Tools
@@ -88,7 +89,6 @@ namespace BlueprintsV2.Tools
 					{
 						SetSynced(false);
 					}
-
 					else
 					{
 						Dictionary<string, ToolParameterMenu.ToggleState> parameters = new Dictionary<string, ToolParameterMenu.ToggleState>(DefaultParameters);

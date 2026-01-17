@@ -1,4 +1,5 @@
 ﻿using BlueprintsV2.BlueprintData;
+using BlueprintsV2.BlueprintsV2.BlueprintData.PlanningToolMod_Integration;
 using BlueprintsV2.Tools;
 using HarmonyLib;
 using System;
@@ -46,29 +47,21 @@ namespace BlueprintsV2.BlueprintsV2.Patches
 			public static void Postfix()
 			{
 				MultiToolParameterMenu.CreateInstance();
-				ToolParameterMenu.ToggleState defaultSelection, buildingSelection, elementNotesSelection;
+				ToolParameterMenu.ToggleState defaultSelection, buildingSelection;
 				switch (Config.Instance.DefaultMenuSelections)
 				{
 					case DefaultSelections.All:
 						defaultSelection = ToolParameterMenu.ToggleState.On;
 						buildingSelection = ToolParameterMenu.ToggleState.On;
-						elementNotesSelection = ToolParameterMenu.ToggleState.Off;
 						break;
 					case DefaultSelections.BuildingsOnly:
 						defaultSelection = ToolParameterMenu.ToggleState.Off;
 						buildingSelection = ToolParameterMenu.ToggleState.On;
-						elementNotesSelection = ToolParameterMenu.ToggleState.Off;
 						break;
 					default:
 					case DefaultSelections.None:
 						defaultSelection = ToolParameterMenu.ToggleState.Off;
 						buildingSelection = ToolParameterMenu.ToggleState.Off;
-						elementNotesSelection = ToolParameterMenu.ToggleState.Off;
-						break;
-					case DefaultSelections.All_IncludingNotes:
-						defaultSelection = ToolParameterMenu.ToggleState.On;
-						buildingSelection = ToolParameterMenu.ToggleState.On;
-						elementNotesSelection = ToolParameterMenu.ToggleState.On;
 						break;
 				}
 
@@ -82,10 +75,19 @@ namespace BlueprintsV2.BlueprintsV2.Patches
 					{ ToolParameterMenu.FILTERLAYERS.LOGIC, defaultSelection },
 					{ ToolParameterMenu.FILTERLAYERS.BACKWALL, defaultSelection },
 					{ ToolParameterMenu.FILTERLAYERS.DIGPLACER, defaultSelection},
-					{ SolidTileFiltering.StoreNonSolidsOptionID, defaultSelection },
-					{ SolidTileFiltering.StoreSolidNotesOptionID, elementNotesSelection },
-					{ SolidTileFiltering.StoreLiquidNotesOptionID, elementNotesSelection },
+					{ BlueprintCreationFilterKeys.NonSolidDigCommandssOptionID, defaultSelection },
+					{ BlueprintCreationFilterKeys.SolidNotesOptionID, Config.Instance. DefaultCollect_Element_Solid ? ToolParameterMenu.ToggleState.On : ToolParameterMenu.ToggleState.Off},
+					{ BlueprintCreationFilterKeys.LiquidNotesOptionID, Config.Instance. DefaultCollect_Element_Liquid ? ToolParameterMenu.ToggleState.On : ToolParameterMenu.ToggleState.Off},
+					{ BlueprintCreationFilterKeys.GasNotesOptionID, Config.Instance. DefaultCollect_Element_Gas ? ToolParameterMenu.ToggleState.On : ToolParameterMenu.ToggleState.Off},
+					{ BlueprintCreationFilterKeys.PlanningToolMod_ShapesID, Config.Instance. DefaultCollect_PlanningToolMod_Shapes ? ToolParameterMenu.ToggleState.On : ToolParameterMenu.ToggleState.Off},
 				};
+				if (!PlanningTool_Integration.ModActive)
+				{
+					SnapshotTool.Instance.DefaultParameters.Remove(BlueprintCreationFilterKeys.PlanningToolMod_ShapesID);
+					CreateBlueprintTool.Instance.DefaultParameters.Remove(BlueprintCreationFilterKeys.PlanningToolMod_ShapesID);
+				}
+
+
 			}
 		}
 

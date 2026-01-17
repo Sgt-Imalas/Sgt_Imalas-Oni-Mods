@@ -12,7 +12,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData.LiquidInfo
 {
 	internal class LiquidInfoConfig : CommonPlacerConfig, IEntityConfig
 	{
-		public static string ID = "BlueprintsV2_LIQUID_Placer";
+		public static string ID = "BlueprintsV2_Liquid_Placer";
 		static Material slurpPlacerMaterial;
 		public GameObject CreatePrefab()
 		{
@@ -24,7 +24,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData.LiquidInfo
 			UnityEngine.Object.Destroy(prefab.GetComponent<Prioritizable>());
 			prefab.AddOrGet<KSelectable>();
 			prefab.AddOrGet<InfoDescription>();
-			prefab.AddOrGet<Filterable>().filterElementState = Filterable.ElementState.Liquid;
+			prefab.AddOrGet<ElementOnlyFilterable>().filterElementState = Filterable.ElementState.Liquid;
 			prefab.AddOrGet<ElementPlanInfo>();
 			return prefab;
 		}

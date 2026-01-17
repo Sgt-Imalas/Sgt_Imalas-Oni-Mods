@@ -19,7 +19,8 @@ namespace BlueprintsV2
 	{
 
 		public static ObjectLayer PlannedElementLayer = ObjectLayer.FillPlacer;
-		public static Sprite Liquid_Placer_Sprite, Solid_Placer_Sprite;
+		public static Sprite Gas_Placer_Sprite, Liquid_Placer_Sprite, Solid_Placer_Sprite;
+		public static Sprite PlanningToolPreview_Square, PlanningToolPreview_Circle, PlanningToolPreview_Diamond;
 
 		public static Sprite BLUEPRINTS_CREATE_ICON_SPRITE;
 		public static Sprite BLUEPRINTS_CREATE_VISUALIZER_SPRITE;

@@ -33,7 +33,7 @@ namespace BlueprintsV2.Tools
 
 			content = Util.KInstantiateUI(baseContent, baseContent.transform.parent.gameObject);
 			var pos = content.transform.position;
-			pos.y += 60f;
+			pos.y += 100f;
 			content.transform.SetPosition(pos);
 			content.transform.GetChild(1).gameObject.SetActive(false);
 

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UtilLibs;
 using static BlueprintsV2.STRINGS.BLUEPRINTS_PLANNED_ELEMENT_PLACER;
 using static STRINGS.UI.TOOLS;
 
@@ -34,6 +35,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData.PlannedElements
 		public bool SeatIndicator = false;
 		public bool IsSolid => ElementLoader.GetElement(ElementId.CreateTag())?.IsSolid ?? false;
 		public bool IsLiquid => ElementLoader.GetElement(ElementId.CreateTag())?.IsLiquid ?? false;
+		public bool IsGas => ElementLoader.GetElement(ElementId.CreateTag())?.IsGas ?? false;
 
 		public override void OnSpawn()
 		{
@@ -96,7 +98,19 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData.PlannedElements
 		}
 		void OnFilterChanged(Tag elementTag)
 		{
+			if(elementTag == GameTags.Void)
+			{
+				OnCancel();
+				return;
+			}
+
 			var element = ElementLoader.GetElement(elementTag);
+			if(element == null)
+			{
+				filterable.SelectedTag = ElementId.CreateTag();
+				return;
+			}
+
 			ElementId = element.id;
 			OnChange();
 		}

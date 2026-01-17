@@ -1,5 +1,7 @@
 ﻿using BlueprintsV2.BlueprintsV2.BlueprintData.LiquidInfo;
 using BlueprintsV2.BlueprintsV2.BlueprintData.PlannedElements;
+using BlueprintsV2.BlueprintsV2.BlueprintData.PlanningToolMod_Integration;
+using BlueprintsV2.BlueprintsV2.BlueprintData.PlanningToolMod_Integration.EnumMirrors;
 using BlueprintsV2.BlueprintsV2.Visualizers;
 using BlueprintsV2.ModAPI;
 using BlueprintsV2.Tools;
@@ -58,9 +60,11 @@ namespace BlueprintsV2.BlueprintData
 			Blueprint blueprint = new Blueprint("unnamed", "");
 
 			int blueprintHeight = (topLeft.y - bottomRight.y);
-			bool collectingGasTiles = filter != null && filter.AllowedToFilter(SolidTileFiltering.StoreNonSolidsOptionID);
-			bool collectLiquidNotes = filter != null && filter.AllowedToFilter(SolidTileFiltering.StoreLiquidNotesOptionID);
-			bool collectSolidNotes = filter != null && filter.AllowedToFilter(SolidTileFiltering.StoreSolidNotesOptionID);
+			bool storeDigCommandForNonSolidCells = filter != null && filter.AllowedToFilter(BlueprintCreationFilterKeys.NonSolidDigCommandssOptionID);
+			bool collectGasNotes = filter != null && filter.AllowedToFilter(BlueprintCreationFilterKeys.GasNotesOptionID);
+			bool collectLiquidNotes = filter != null && filter.AllowedToFilter(BlueprintCreationFilterKeys.LiquidNotesOptionID);
+			bool collectSolidNotes = filter != null && filter.AllowedToFilter(BlueprintCreationFilterKeys.SolidNotesOptionID);
+			bool collectPlanShapes = filter != null && filter.AllowedToFilter(BlueprintCreationFilterKeys.PlanningToolMod_ShapesID);
 
 			for (int x = topLeft.x; x <= bottomRight.x; ++x)
 			{
@@ -144,26 +148,31 @@ namespace BlueprintsV2.BlueprintData
 							}
 						}
 
-						var cellLocationInBlueprint = new Vector2I(x - topLeft.x, blueprintHeight - (topLeft.y - y));
-						if ((emptyCell && collectingGasTiles && !Grid.IsSolidCell(cell)) || (filter.AllowedLayer(ObjectLayer.DigPlacer) && Grid.Objects[cell, 7] != null && Grid.Objects[cell, 7].name == "DigPlacer"))
+						var cellOffsetInBlueprint = new Vector2I(x - topLeft.x, blueprintHeight - (topLeft.y - y));
+						if ((emptyCell && storeDigCommandForNonSolidCells && !Grid.IsSolidCell(cell)) || (filter.AllowedLayer(ObjectLayer.DigPlacer) && Grid.Objects[cell, 7] != null && Grid.Objects[cell, 7].name == "DigPlacer"))
 						{
 
-							if (!blueprint.DigLocations.Contains(cellLocationInBlueprint))
+							if (!blueprint.DigLocations.Contains(cellOffsetInBlueprint))
 							{
-								blueprint.DigLocations.Add(cellLocationInBlueprint);
+								blueprint.DigLocations.Add(cellOffsetInBlueprint);
 							}
 						}
 
 						var PotentialElementIndicator = Grid.Objects[cell, (int)ModAssets.PlannedElementLayer];
 						if (!solidTileDefInCell)
 						{
-							if ((collectLiquidNotes && Grid.IsLiquid(cell)) || (collectSolidNotes && Grid.IsSolidCell(cell)))
-								blueprint.PlannedNaturalElementInfos[cellLocationInBlueprint] = new Tuple<SimHashes, float, float>(Grid.Element[cell].id, Grid.Mass[cell], Grid.Temperature[cell]);
+							if ((collectLiquidNotes && Grid.IsLiquid(cell)) || (collectSolidNotes && Grid.IsSolidCell(cell) || (collectGasNotes && Grid.IsGas(cell))))
+								blueprint.PlannedNaturalElementInfos[cellOffsetInBlueprint] = new Tuple<SimHashes, float, float>(Grid.Element[cell].id, Grid.Mass[cell], Grid.Temperature[cell]);
 						}
 						else if (PotentialElementIndicator != null && PotentialElementIndicator.TryGetComponent<ElementPlanInfo>(out var info))
 						{
-							if ((info.IsSolid && collectSolidNotes) || (info.IsLiquid && collectLiquidNotes))
-								blueprint.PlannedNaturalElementInfos[cellLocationInBlueprint] = new Tuple<SimHashes, float, float>(info.ElementId, info.ElementAmount, info.ElementTemperature);
+							if ((info.IsSolid && collectSolidNotes) || (info.IsLiquid && collectLiquidNotes) || (info.IsGas && collectGasNotes))
+								blueprint.PlannedNaturalElementInfos[cellOffsetInBlueprint] = new Tuple<SimHashes, float, float>(info.ElementId, info.ElementAmount, info.ElementTemperature);
+						}
+
+						if (collectPlanShapes && PlanningTool_Integration.HasPlan(cell, out var shape, out var color))
+						{
+							blueprint.PlanningToolMod_PlanDataValues[cellOffsetInBlueprint] = new Tuple<PlanShape, PlanColor>(shape, color);
 						}
 					}
 				}
@@ -252,6 +261,11 @@ namespace BlueprintsV2.BlueprintData
 			{
 				var liquidLocation = elementIndicator.Key;
 				FoundationVisuals.Add(new ElementIndicatorVisual(Grid.XYToCell(topLeft.x + liquidLocation.x, topLeft.y + liquidLocation.y), liquidLocation, elementIndicator.Value.first, elementIndicator.Value.second, elementIndicator.Value.third));
+			}
+			foreach (var shapePreview in blueprint.PlanningToolMod_PlanDataValues)
+			{
+				var shapeLocation = shapePreview.Key;
+				FoundationVisuals.Add(new PlanningToolMod_ShapeVisual(Grid.XYToCell(topLeft.x + shapeLocation.x, topLeft.y + shapeLocation.y), shapeLocation, shapePreview.Value.first, shapePreview.Value.second));
 			}
 
 			if (UseBlueprintTool.Instance.HoverCard != null)

@@ -145,7 +145,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 		}
 		void Init()
 		{
-			UIUtils.ListAllChildrenPath(this.transform);
+			//UIUtils.ListAllChildrenPath(this.transform);
 
 			CurrentBPName = transform.Find("InfoItemsContainer/CurrentBP/Label").gameObject.GetComponent<LocText>();
 			FolderInfo = transform.Find("InfoItemsContainer/FolderInfo/Label").gameObject.GetComponent<LocText>();
