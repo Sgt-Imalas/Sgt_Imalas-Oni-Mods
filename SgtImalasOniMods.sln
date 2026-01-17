@@ -49,7 +49,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DupePodRailgun", "DupePodRa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreDreamJournals", "StoreDreamJournals\StoreDreamJournals.csproj", "{C969069D-E336-4487-9B01-2BD856246C72}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RotatableRadboltStorage", "RotatableRadboltStorage\RotatableRadboltStorage.csproj", "{1BF5EEA9-D320-4D86-A1CC-CB08486EF2AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImprovedRadboltControl", "RotatableRadboltStorage\ImprovedRadboltControl.csproj", "{1BF5EEA9-D320-4D86-A1CC-CB08486EF2AD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeebPacu", "WeebPacu\WeebPacu.csproj", "{2379DE1F-1476-4832-AFC0-57D6AFD79DE1}"
 EndProject

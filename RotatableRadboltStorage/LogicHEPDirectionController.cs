@@ -32,7 +32,7 @@ namespace RotatableRadboltStorage
 			var firstInputPort = logicPorts.inputPortInfo.First();
 			HashedString portId = firstInputPort.id;
 
-			if (!logicPorts.IsPortConnected(portId) ||logicPorts.GetConnectedWireBitDepth(portId) != LogicWire.BitDepth.FourBit)
+			if (!logicPorts.IsPortConnected(portId) || logicPorts.GetConnectedWireBitDepth(portId) != LogicWire.BitDepth.FourBit)
 				return;
 
 			int portValue = logicPorts.GetInputValue(firstInputPort.id);
