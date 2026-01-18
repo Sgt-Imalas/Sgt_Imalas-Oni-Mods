@@ -29,7 +29,7 @@ namespace UtilLibs
 			SgtLogger.l("Dumping all group ids of KanimGroupFile");
 			foreach (var group in __instance.groups)
 			{
-				SgtLogger.l("KanimGroup: " + group.id);
+				SgtLogger.l("KanimGroup: " + group.id.ToString() + ", dir: " + group.commandDirectory);
 				foreach (var anim in group.animFiles)
 				{
 					SgtLogger.l(anim.name);
@@ -451,7 +451,7 @@ namespace UtilLibs
 
 		public static void LogKanimFrameInfo(string kanim)
 		{
-			SgtLogger.l(kanim+" Symbols:");
+			SgtLogger.l(kanim + " Symbols:");
 			var anim = Assets.GetAnim(kanim).GetData();
 			foreach (var symbol in anim.build.symbols)
 			{
