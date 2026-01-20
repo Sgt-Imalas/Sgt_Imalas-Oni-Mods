@@ -16,13 +16,13 @@ namespace BlueprintsV2
 
 			public class CANCELINDICATOR
 			{
-				public static LocString NAME = "Cancel Planned Element Info";
-				public static LocString TOOLTIP = "Cancel and remove this planned element info";
+				public static LocString NAME = "Cancel Element Note";
+				public static LocString TOOLTIP = "Cancel and remove this element note";
 			}
 			public class SANDBOX_SPAWN
 			{
 				public static LocString NAME = "Spawn Element (Sandbox)";
-				public static LocString TOOLTIP = "Spawn the configured element and remove this element info.";
+				public static LocString TOOLTIP = "Spawn the configured element and remove this element note.";
 			}
 			public class TEMPERATURECONFIG
 			{
@@ -500,17 +500,17 @@ namespace BlueprintsV2
 					}
 					public class BLUEPRINTV2_STORE_GASSES
 					{
-						public static LocString NAME = "Store Gas Tile Infos";
+						public static LocString NAME = "Gas Tile Notes";
 						public static LocString TOOLTIP = "Store information about gases in the blueprint area";
 					}
 					public class BLUEPRINTV2_STORE_LIQUIDS
 					{
-						public static LocString NAME = "Liquid Tile Infos";
+						public static LocString NAME = "Liquid Tile Notes";
 						public static LocString TOOLTIP = "Store information about liquids in the blueprint area";
 					}
 					public class BLUEPRINTV2_STORE_SOLIDS
 					{
-						public static LocString NAME = "Solid Tile Infos";
+						public static LocString NAME = "Solid Tile Notes";
 						public static LocString TOOLTIP = "Store information about solid tiles in the blueprint area";
 					}
 					public class BLUEPRINTV2_PLANNINGTOOL_SHAPES
@@ -520,8 +520,8 @@ namespace BlueprintsV2
 					}
 					public class BPV2_ELEMENTPLANINFO_FILTER
 					{
-						public static LocString NAME = "Planned Element Infos";
-						public static LocString TOOLTIP = "Planned element tile infos only";
+						public static LocString NAME = "Planned Element Notes";
+						public static LocString TOOLTIP = "Planned element notes only";
 					}
 				}
 			}
