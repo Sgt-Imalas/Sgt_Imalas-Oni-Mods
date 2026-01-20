@@ -102,7 +102,10 @@ namespace ItemDropPrevention.Content.Scripts
 				{
 					var id = item.gameObject?.GetInstanceID();
 					if (id.HasValue)
+					{
+						MarkItemInvisible(item.gameObject, false);
 						MarkedForDrop.Remove(id.Value);
+					}
 				}
 			}
 			///if the workable is something in the hands of the dupe, dont drop it
@@ -111,7 +114,10 @@ namespace ItemDropPrevention.Content.Scripts
 			{
 				var id = task.gameObject?.GetInstanceID();
 				if (id.HasValue)
+				{
+					MarkItemInvisible(task.gameObject, false);
 					MarkedForDrop.Remove(id.Value);
+				}
 			}
 
 
