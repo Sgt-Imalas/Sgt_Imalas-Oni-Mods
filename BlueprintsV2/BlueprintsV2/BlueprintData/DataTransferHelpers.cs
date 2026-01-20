@@ -242,15 +242,14 @@ namespace BlueprintsV2.BlueprintData
 		}
 		internal class DataTransfer_LogicClusterLocationSensor
 		{
-			//active locations are disabled since those vary for each game
 			internal static JObject TryGetData(GameObject arg)
 			{
 				if (arg.TryGetComponent<LogicClusterLocationSensor>(out var component))
 				{
 					return new JObject()
 					{
-                        //{ "activeLocations", JsonConvert.SerializeObject(component.activeLocations.Select(axial => new Tuple<int,int>(axial.Q,axial.R)))},
                         { "activeInSpace", component.activeInSpace},
+                        { "activeLocations", JsonConvert.SerializeObject(component.activeLocations.Select(axial => new Tuple<int,int>(axial.Q,axial.R)))},
 					};
 				}
 				return null;
@@ -268,17 +267,23 @@ namespace BlueprintsV2.BlueprintData
 					var activeInSpace = t1.Value<bool>();
 
 
-					//var t2 = jObject.GetValue("activeLocations");
-					//if (t2 == null)
-					//    return;
-					//var activeLocationsJson = t2.Value<string>();
-					//var activeLocations = JsonConvert.DeserializeObject<List<Tuple<int, int>>>(activeLocationsJson);
+					var t2 = jObject.GetValue("activeLocations");
+					if (t2 == null)
+						return;
+					var activeLocationsJson = t2.Value<string>();
+					var activeLocations = JsonConvert.DeserializeObject<List<Tuple<int, int>>>(activeLocationsJson);
 
 					//applying values
-					targetComponent.activeLocations.Clear();
 					targetComponent.activeInSpace = activeInSpace;
+					targetComponent.activeLocations.Clear();
+					foreach (var entry in activeLocations)
+					{
+						var location = new AxialI(entry.first, entry.second);
+						
+						if(ClusterManager.Instance?.m_grid?.GetAsteroidAtCell(location) != null) //only add valid asteroids
+							targetComponent.SetLocationEnabled(location,true);
+					}
 
-					//activeLocations.ForEach(entry => targetComponent.SetLocationEnabled(new(entry.first, entry.second), true));
 				}
 			}
 		}
@@ -917,6 +922,9 @@ namespace BlueprintsV2.BlueprintData
 				}
 			}
 		}
+		/// <summary>
+		/// Door access control
+		/// </summary>
 		internal class DataTransfer_AccessControl
 		{
 			internal static JObject TryGetData(GameObject arg)
