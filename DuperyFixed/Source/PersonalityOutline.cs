@@ -226,9 +226,10 @@ namespace Dupery
 
 			// Other values can't be null but can be randomized
 
-			string gender = Gender;
-			if (!PersonalityGenerator.GENDERS.Contains(gender))
+			string gender = Gender.ToUpperInvariant();
+			if (!PersonalityGenerator.GENDERS.Contains(gender) )
 			{
+				SgtLogger.l("Normalizing invalid Gender: " + gender);
 				gender = PersonalityGenerator.DEFAULT_GENDER;
 			}
 
