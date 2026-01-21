@@ -1,5 +1,4 @@
-﻿using BlueprintsV2.BlueprintsV2.BlueprintData.LiquidInfo;
-using BlueprintsV2.BlueprintsV2.BlueprintData.PlannedElements;
+﻿using BlueprintsV2.BlueprintsV2.BlueprintData.PlannedElements;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
@@ -20,7 +19,7 @@ namespace BlueprintsV2.BlueprintsV2.Patches
 		{
 			public static void Postfix(CancelTool __instance, Dictionary<string, ToolParameterMenu.ToggleState> filters)
 			{
-				filters.Add(ElementPlanInfo.FILTERLAYER, ToolParameterMenu.ToggleState.Off);
+				filters.Add(ElementNote.FILTERLAYER, ToolParameterMenu.ToggleState.Off);
 			}
 		}
 
@@ -40,9 +39,9 @@ namespace BlueprintsV2.BlueprintsV2.Patches
 		{
 			public static void Postfix(FilteredDragTool __instance, GameObject input, ref string __result)
 			{
-				if (input.TryGetComponent<ElementPlanInfo>(out _))
+				if (input.TryGetComponent<ElementNote>(out _))
 				{
-					__result = ElementPlanInfo.FILTERLAYER;
+					__result = ElementNote.FILTERLAYER;
 				}
 			}
 		}

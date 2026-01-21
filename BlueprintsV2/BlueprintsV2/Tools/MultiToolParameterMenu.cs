@@ -1,10 +1,12 @@
 ﻿
 using BlueprintsV2.BlueprintData;
+using BlueprintsV2.BlueprintsV2.Tools;
 using PeterHan.PLib.UI;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using UtilLibs;
 
 namespace BlueprintsV2.Tools
 {
@@ -33,7 +35,7 @@ namespace BlueprintsV2.Tools
 
 			content = Util.KInstantiateUI(baseContent, baseContent.transform.parent.gameObject);
 			var pos = content.transform.position;
-			pos.y += 100f;
+			pos.y += 85f;
 			content.transform.SetPosition(pos);
 			content.transform.GetChild(1).gameObject.SetActive(false);
 
@@ -134,7 +136,7 @@ namespace BlueprintsV2.Tools
 			{
 				GameObject widetPrefab = Util.KInstantiateUI(ToolMenu.Instance.toolParameterMenu.widgetPrefab, widgetContainer, true);
 				widetPrefab.GetComponentInChildren<LocText>().text = Strings.Get("STRINGS.UI.TOOLS.FILTERLAYERS." + parameter.Key + ".NAME");
-
+				UIUtils.AddSimpleTooltipToObject(widetPrefab, Strings.Get("STRINGS.UI.TOOLS.FILTERLAYERS." + parameter.Key + ".TOOLTIP"), false);
 
 				MultiToggle toggle = widetPrefab.GetComponentInChildren<MultiToggle>();
 				switch (parameter.Value)
@@ -239,7 +241,21 @@ namespace BlueprintsV2.Tools
 			{
 				return AllowedLayer(ObjectLayer.LogicGate);
 			}
+			else if (viewMode == OverlayModes.TileMode.ID)
+			{
+				return AllowedLayer(ModAssets.BlueprintNotesLayer);
+			}
 			return false;
+		}
+
+		public bool AllowedElementState(Element.State state)
+		{
+			if (!AllowedToFilter(BlueprintCreationFilterKeys.Collect_Natural_Elements_ID))
+			{
+				return false;
+			}
+
+			return ElementTypeSecondaryParameterMenu.Instance.AllowedByFilter(state & Element.State.Solid);
 		}
 
 		public bool AllowedLayer(ObjectLayer objectLayer)
@@ -327,6 +343,14 @@ namespace BlueprintsV2.Tools
 						continue;
 				}
 			}
+			RefreshSecondaryMenu();
+		}
+		void RefreshSecondaryMenu()
+		{
+			if (AllowedToFilter(BlueprintCreationFilterKeys.Collect_Natural_Elements_ID))
+				ElementTypeSecondaryParameterMenu.Instance.ShowMenu();
+			else
+				ElementTypeSecondaryParameterMenu.Instance.HideMenu();
 		}
 
 		public void ClearMenu()
@@ -343,12 +367,14 @@ namespace BlueprintsV2.Tools
 
 		public void ShowMenu()
 		{
-			content.SetActive(true);
+			content.SetActive(true); 
+			RefreshSecondaryMenu();
 		}
 
 		public void HideMenu()
 		{
 			content.SetActive(false);
+			ElementTypeSecondaryParameterMenu.Instance.HideMenu();
 		}
 
 		public static void CreateInstance()
@@ -359,11 +385,15 @@ namespace BlueprintsV2.Tools
 			parameterMenu.gameObject.SetActive(false);
 
 			Instance = parameterMenu.GetComponent<MultiToolParameterMenu>();
+			ElementTypeSecondaryParameterMenu.CreateInstance();
+			ElementTypeSecondaryParameterMenu.Instance.PopulateMenu();
+			ElementTypeSecondaryParameterMenu.Instance.HideMenu();
 		}
 
 		public static void DestroyInstance()
 		{
 			Instance = null;
+			ElementTypeSecondaryParameterMenu.DestroyInstance();
 		}
 
 	}

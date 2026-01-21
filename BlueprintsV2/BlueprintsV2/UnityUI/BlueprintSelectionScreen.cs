@@ -55,7 +55,7 @@ namespace BlueprintsV2.UnityUI
 		public LocText BlueprintName;
 		public FInputField2 DescriptionInput;
 		public FButton ResetText, ApplyText;
-		public LocText DimensionInfo, BuildingCount, DigCount, LiquidCount;
+		public LocText DimensionInfo, BuildingCount, DigCount, NoteCount;
 		//Blueprint info building list
 		public FInputField2 BuildingListSearchbar;
 		public FButton ClearBuildingListSearchbar;
@@ -222,7 +222,7 @@ namespace BlueprintsV2.UnityUI
 			DimensionInfo = transform.Find("BlueprintInfo/Stats/Dimension/Descriptor/Output").gameObject.GetComponent<LocText>();
 			BuildingCount = transform.Find("BlueprintInfo/Stats/BuildingCount/Descriptor/Output").gameObject.GetComponent<LocText>();
 			DigCount = transform.Find("BlueprintInfo/Stats/DigCount/Descriptor/Output").gameObject.GetComponent<LocText>();
-			LiquidCount = transform.Find("BlueprintInfo/Stats/LiquidCount/Descriptor/Output").gameObject.GetComponent<LocText>();
+			NoteCount = transform.Find("BlueprintInfo/Stats/LiquidCount/Descriptor/Output").gameObject.GetComponent<LocText>();
 
 			//blueprint info building list
 
@@ -363,7 +363,7 @@ namespace BlueprintsV2.UnityUI
 				DimensionInfo.SetText($"{dimensions.X} x {dimensions.Y}");
 				BuildingCount.SetText(InfoBlueprint.BuildingConfigurations.Count.ToString());
 				DigCount.SetText(InfoBlueprint.DigLocations.Count.ToString());
-				LiquidCount.SetText(InfoBlueprint.PlannedNaturalElementInfos.Count.ToString());
+				NoteCount.SetText(InfoBlueprint.WorldNotes.Count.ToString());
 				LoadBlueprintDescription();
 			}
 			else if (targetSet)

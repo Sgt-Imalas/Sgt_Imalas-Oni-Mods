@@ -1,4 +1,5 @@
-﻿using BlueprintsV2.BlueprintsV2.BlueprintData.PlanningToolMod_Integration.EnumMirrors;
+﻿using BlueprintsV2.BlueprintsV2.BlueprintData.NoteToolPlacedEntities;
+using BlueprintsV2.BlueprintsV2.BlueprintData.PlanningToolMod_Integration.EnumMirrors;
 using Microsoft.Build.Framework;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
@@ -22,7 +23,7 @@ namespace BlueprintsV2.BlueprintData
 		public static readonly string UserDescription = "userdesc";
 		public static readonly string Buildings = "buildings";
 		public static readonly string DiggingSpots = "digcommands";
-		public static readonly string PlannedElementInfos = "plannedElementInfos";
+		public static readonly string WorldNotes = "worldNotes";
 		public static readonly string ModIntegration_PlanningTool_Items = "planningtoolmod_shapecollection";
 	}
 
@@ -79,9 +80,9 @@ namespace BlueprintsV2.BlueprintData
 
 
 		/// <summary>
-		/// The information about required liquids/natural tiles, contained inside the blueprint.
+		/// User created notes about elements in specific tiles, or text annotations, contained inside the blueprint.
 		/// </summary>
-		public Dictionary<Vector2I, Tuple<SimHashes, float, float>> PlannedNaturalElementInfos { get; private set; } = new();
+		public Dictionary<Vector2I, BlueprintNoteData> WorldNotes { get; private set; } = new();
 
 		/// <summary>
 		/// Stores planning tool mod shape and color for cells
@@ -343,39 +344,24 @@ namespace BlueprintsV2.BlueprintData
 					}
 				}
 			}
-			JToken plannedElementsToken = rootObject.SelectToken(JsonKeys.PlannedElementInfos);
-			if (plannedElementsToken != null)
+			JToken notesToken = rootObject.SelectToken(JsonKeys.WorldNotes);
+			if (notesToken != null)
 			{
-				JArray plannedElementTokens = plannedElementsToken.Value<JArray>();
-
-				if (plannedElementTokens != null)
+				JArray textNotesArray = notesToken.Value<JArray>();
+				if (textNotesArray != null)
 				{
-					foreach (JToken plannedElementToken in plannedElementTokens)
+					foreach (JToken plannedElementToken in textNotesArray)
 					{
-						JToken xToken = plannedElementToken.SelectToken("x");
-						JToken yToken = plannedElementToken.SelectToken("y");
-						Vector2I location = Vector2I.minusone;
-
-						if (xToken != null && xToken.Type == JTokenType.Integer || yToken != null && yToken.Type == JTokenType.Integer)
+						var data = new BlueprintNoteData();
+						if(data.ReadDataJson(plannedElementToken))
 						{
-							location = new(xToken == null ? 0 : xToken.Value<int>(), yToken == null ? 0 : yToken.Value<int>());
-						}
-						if (location == Vector2I.minusone)
-							continue;
-
-						JToken idToken = plannedElementToken.SelectToken("id");
-						JToken massToken = plannedElementToken.SelectToken("mass");
-						JToken tempToken = plannedElementToken.SelectToken("temp");
-
-						if (idToken != null && idToken.Type == JTokenType.Integer
-						&& massToken != null && massToken.Type == JTokenType.Float
-						&& tempToken != null && tempToken.Type == JTokenType.Float)
-						{
-							PlannedNaturalElementInfos[location] = new Tuple<SimHashes, float, float>((SimHashes)idToken.Value<int>(), massToken.Value<float>(), tempToken.Value<float>());
+							WorldNotes[data.Location] = data;
 						}
 					}
 				}
 			}
+
+
 			JToken planningtoolmod_shapelist = rootObject.SelectToken(JsonKeys.ModIntegration_PlanningTool_Items);
 			if (planningtoolmod_shapelist != null)
 			{
@@ -402,7 +388,7 @@ namespace BlueprintsV2.BlueprintData
 						if (shapeToken != null && shapeToken.Type == JTokenType.Integer
 						&& colorToken != null && colorToken.Type == JTokenType.Integer)
 						{
-							PlanningToolMod_PlanDataValues[location] = new Tuple<PlanShape,PlanColor>((PlanShape)shapeToken.Value<int>(), (PlanColor)colorToken.Value<int>());
+							PlanningToolMod_PlanDataValues[location] = new Tuple<PlanShape, PlanColor>((PlanShape)shapeToken.Value<int>(), (PlanColor)colorToken.Value<int>());
 						}
 					}
 				}
@@ -513,26 +499,17 @@ namespace BlueprintsV2.BlueprintData
 
 				jsonWriter.WriteEndArray();
 			}
-			if (PlannedNaturalElementInfos.Any())
+			if (WorldNotes.Any())
 			{
-				jsonWriter.WritePropertyName(JsonKeys.PlannedElementInfos);
+				jsonWriter.WritePropertyName(JsonKeys.WorldNotes);
 				jsonWriter.WriteStartArray();
-				foreach (var kvp in PlannedNaturalElementInfos)
+				foreach (var kvp in WorldNotes)
 				{
-					jsonWriter.WriteStartObject();
-					var location = kvp.Key;
-					var elementInfo = kvp.Value;
-
-					jsonWriter.WritePropertyName("x"); jsonWriter.WriteValue(location.X);
-					jsonWriter.WritePropertyName("y"); jsonWriter.WriteValue(location.Y);
-					jsonWriter.WritePropertyName("id"); jsonWriter.WriteValue((int)elementInfo.first);
-					jsonWriter.WritePropertyName("mass"); jsonWriter.WriteValue(elementInfo.second);
-					jsonWriter.WritePropertyName("temp"); jsonWriter.WriteValue(elementInfo.third);
-
-					jsonWriter.WriteEndObject();
+					kvp.Value.WriteDataJson(jsonWriter);
 				}
 				jsonWriter.WriteEndArray();
 			}
+
 			if (PlanningToolMod_PlanDataValues.Any())
 			{
 				jsonWriter.WritePropertyName(JsonKeys.ModIntegration_PlanningTool_Items);
@@ -728,7 +705,7 @@ namespace BlueprintsV2.BlueprintData
 		/// <returns>True if the blueprint is empty, false otherwise</returns>
 		public bool IsEmpty()
 		{
-			return !BuildingConfigurations.Any() && !DigLocations.Any() && PlannedNaturalElementInfos.Count == 0 && PlanningToolMod_PlanDataValues.Count == 0;
+			return !BuildingConfigurations.Any() && !DigLocations.Any() && WorldNotes.Count == 0 && PlanningToolMod_PlanDataValues.Count == 0;
 		}
 
 
@@ -797,7 +774,7 @@ namespace BlueprintsV2.BlueprintData
 		{
 			BuildingConfigurations = [.. newBuildings.BuildingConfigurations];
 			DigLocations = [.. newBuildings.DigLocations];
-			PlannedNaturalElementInfos = newBuildings.PlannedNaturalElementInfos.ToDictionary(entry => entry.Key, entry => entry.Value);
+			WorldNotes = newBuildings.WorldNotes.ToDictionary(entry => entry.Key, entry => entry.Value.GetClone());
 			CacheCost();
 			WriteJson();
 		}

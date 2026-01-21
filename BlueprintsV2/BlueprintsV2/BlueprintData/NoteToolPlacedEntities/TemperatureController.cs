@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UtilLibs;
-using static BlueprintsV2.STRINGS.BLUEPRINTS_PLANNED_ELEMENT_PLACER;
+using static BlueprintsV2.STRINGS.BLUEPRINTS_BLUEPRINTNOTE;
 
 namespace BlueprintsV2.BlueprintsV2.BlueprintData.PlannedElements
 {
 	public class TemperatureController : ISingleSliderControl
 	{
-		ElementPlanInfo target;
-		public TemperatureController(ElementPlanInfo target) { this.target = target; }
-		public string SliderTitleKey => "STRINGS.BLUEPRINTS_PLANNED_ELEMENT_PLACER.TEMPERATURECONFIG.TITLE";
+		ElementNote target;
+		public TemperatureController(ElementNote target) { this.target = target; }
+		public string SliderTitleKey => "STRINGS.BLUEPRINTS_BLUEPRINTNOTE.TEMPERATURECONFIG.TITLE";
 		public string SliderUnits => global::STRINGS.UI.UNITSUFFIXES.TEMPERATURE.CELSIUS;
 		public int SliderDecimalPlaces(int index) => 1;
 
@@ -29,6 +29,8 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData.PlannedElements
 		}
 		public void SetSliderValue(float percent, int index)
 		{
+			if (target.IsVacuum)
+				return;
 			target.ElementTemperature = UtilMethods.GetKelvinFromC(percent);
 			target.OnChange();
 		}

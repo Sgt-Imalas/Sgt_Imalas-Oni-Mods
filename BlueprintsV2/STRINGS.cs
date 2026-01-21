@@ -7,17 +7,19 @@ namespace BlueprintsV2
 {
 	public class STRINGS
 	{
-		public class BLUEPRINTS_PLANNED_ELEMENT_PLACER
+		public class BLUEPRINTS_BLUEPRINTNOTE
 		{
-			public static LocString ELEMENT_INFO_NAME_FILLABLE = "Planned {0} ({1}, {2})";
-			public static LocString ELEMENT_INFO_DESC_FILLABLE = "There should be {1} of {0} here, at a temperature of {2}.";
+			public static LocString ELEMENT_NOTE_SPECIAL = "Planned {0}";
+			public static LocString ELEMENT_NOTE_SPECIAL_DESC = "There should be {0} here.";
+			public static LocString ELEMENT_NOTE = "Planned {0} ({1}, {2})";
+			public static LocString ELEMENT_NOTE_DESC = "There should be {1} of {0} here, at a temperature of {2}.";
 
 			public static LocString INFO_TITLE = "Planned Element Settings:";
 
-			public class CANCELINDICATOR
+			public class DELETE_NOTE
 			{
-				public static LocString NAME = "Cancel Element Note";
-				public static LocString TOOLTIP = "Cancel and remove this element note";
+				public static LocString NAME = "Delete Note";
+				public static LocString TOOLTIP = "Delete this note entity";
 			}
 			public class SANDBOX_SPAWN
 			{
@@ -278,7 +280,7 @@ namespace BlueprintsV2
 						{
 							public class DESCRIPTOR
 							{
-								public static LocString LABEL = "Number of planned element infos:";
+								public static LocString LABEL = "Number of Notes:";
 							}
 						}
 					}
@@ -495,33 +497,23 @@ namespace BlueprintsV2
 					public static LocString AUTOSYNC_TOOLTIP = "Automatically synchronize the filters with the active overlay";
 					public class BLUEPRINTV2_PRESERVEAIRTILES
 					{
-						public static LocString NAME = "Dig in empty Spaces";
-						public static LocString TOOLTIP = "Store Dig commands for tiles that are not solid, but otherwise empty of buildings";
+						public static LocString NAME = "Air/Liquid Bubbles";
+						public static LocString TOOLTIP = "Create Dig commands for tiles that are not solid, but otherwise empty of buildings";
 					}
-					public class BLUEPRINTV2_STORE_GASSES
+					public class BLUEPRINTV2_COLLECT_NATURAL_ELEMENTS
 					{
-						public static LocString NAME = "Gas Tile Notes";
-						public static LocString TOOLTIP = "Store information about gases in the blueprint area";
+						public static LocString NAME = "Create Tile Notes";
+						public static LocString TOOLTIP = "Store the world element tiles of the chosen element states as Element Notes in the blueprint.";
 					}
-					public class BLUEPRINTV2_STORE_LIQUIDS
+					public class BLUEPRINTV2_COLLECT_NOTES
 					{
-						public static LocString NAME = "Liquid Tile Notes";
-						public static LocString TOOLTIP = "Store information about liquids in the blueprint area";
-					}
-					public class BLUEPRINTV2_STORE_SOLIDS
-					{
-						public static LocString NAME = "Solid Tile Notes";
-						public static LocString TOOLTIP = "Store information about solid tiles in the blueprint area";
+						public static LocString NAME = "Blueprint Notes";
+						public static LocString TOOLTIP = "Store notes from the blueprint note tool in the blueprint.";
 					}
 					public class BLUEPRINTV2_PLANNINGTOOL_SHAPES
 					{
 						public static LocString NAME = "PlanningTool Shapes";
-						public static LocString TOOLTIP = "Store PlanningTool-Mod Shapes found in the blueprint area\nOnly works when the PlanningTool mod is enabled.";
-					}
-					public class BPV2_ELEMENTPLANINFO_FILTER
-					{
-						public static LocString NAME = "Planned Element Notes";
-						public static LocString TOOLTIP = "Planned element notes only";
+						public static LocString TOOLTIP = "Store PlanningTool-Mod Shapes in the blueprint\nOnly works when the PlanningTool mod is enabled.";
 					}
 				}
 			}

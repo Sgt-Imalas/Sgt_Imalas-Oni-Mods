@@ -1,4 +1,5 @@
 ﻿using BlueprintsV2.BlueprintData;
+using BlueprintsV2.BlueprintsV2.Tools;
 using BlueprintsV2.BlueprintsV2.UnityUI;
 using Database;
 using HarmonyLib;

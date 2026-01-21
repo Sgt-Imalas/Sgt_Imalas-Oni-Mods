@@ -1,5 +1,4 @@
-﻿using BlueprintsV2.BlueprintsV2.BlueprintData.LiquidInfo;
-using BlueprintsV2.BlueprintsV2.BlueprintData.PlannedElements;
+﻿using BlueprintsV2.BlueprintsV2.BlueprintData.PlannedElements;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
@@ -16,7 +15,6 @@ namespace BlueprintsV2.BlueprintsV2.Patches
 {
 	internal class FilterSideScreen_Patches
 	{
-
         [HarmonyPatch(typeof(FilterSideScreen), nameof(FilterSideScreen.IsValidForTarget))]
         public class FilterSideScreen_IsValidForTarget_Patch
         {
@@ -28,24 +26,20 @@ namespace BlueprintsV2.BlueprintsV2.Patches
                 if(target == null)
                     return;
 
-                if(target.TryGetComponent<ElementPlanInfo>(out _) && target.TryGetComponent<Filterable>(out _))
+                if(target.TryGetComponent<ElementNote>(out _) && target.TryGetComponent<Filterable>(out _))
                     __result = true;
             }
         }
 
-
-        [HarmonyPatch(typeof(SingleItemSelectionSideScreenBase), nameof(SingleItemSelectionSideScreenBase.SetData))]
-        public class FilterSideScreen_SetData_Patch
+        [HarmonyPatch(typeof(Filterable), nameof(Filterable.GetTagOptions))]
+        public class Filterable_GetTagOptions_Patch
         {
-            public static void Prefix(SingleItemSelectionSideScreenBase __instance, Dictionary<Tag, HashSet<Tag>> data)
+            public static bool Prefix(Filterable __instance, ref Dictionary<Tag, HashSet<Tag>> __result)
             {
-                if (__instance is not FilterSideScreen fs)
-                    return;
-
-                if (fs.targetFilterable is not ElementOnlyFilterable)
-                    return;
-                data = DiscoveredResources.Instance.GetDiscoveredResourcesFromTagSet(ElementOnlyFilterable.elementFilterableCategories);
-				data.Add(GameTags.Void,[GameTags.Void]);
+                if(__instance is not ElementOnlyFilterable)
+                    return true;
+                __result = ElementOnlyFilterable.GetElementFilters();
+                return false;
 			}
         }
 
@@ -53,15 +47,13 @@ namespace BlueprintsV2.BlueprintsV2.Patches
         public class FilterSideScreen_SetTarget_Patch
         {
             public static void Postfix(FilterSideScreen __instance, GameObject target)
-            {
-                bool targetingLiquidIndicator = (target.TryGetComponent<Filterable>(out _) && target.TryGetComponent<ElementPlanInfo>(out _));
-
-                if (__instance.isLogicFilter)
-                    return;
-
-                void SetActive(string name)
+			{
+				if (__instance.isLogicFilter)
+					return;
+				bool tragetingElementIndicator = (target.TryGetComponent<ElementNote>(out _));
+				void SetActive(string name)
                 {
-                    __instance.transform.Find(name)?.gameObject?.SetActive(!targetingLiquidIndicator);
+                    __instance.transform.Find(name)?.gameObject?.SetActive(!tragetingElementIndicator);
                 }
                 SetActive("OutputElementHeader");
                 SetActive("EverthingElse");

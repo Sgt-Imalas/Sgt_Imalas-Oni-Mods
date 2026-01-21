@@ -1,4 +1,4 @@
-﻿using BlueprintsV2.BlueprintsV2.BlueprintData.LiquidInfo;
+﻿using BlueprintsV2.BlueprintsV2.BlueprintData.NoteToolPlacedEntities;
 using BlueprintsV2.BlueprintsV2.BlueprintData.PlannedElements;
 using BlueprintsV2.BlueprintsV2.BlueprintData.PlanningToolMod_Integration;
 using BlueprintsV2.BlueprintsV2.BlueprintData.PlanningToolMod_Integration.EnumMirrors;
@@ -61,9 +61,8 @@ namespace BlueprintsV2.BlueprintData
 
 			int blueprintHeight = (topLeft.y - bottomRight.y);
 			bool storeDigCommandForNonSolidCells = filter != null && filter.AllowedToFilter(BlueprintCreationFilterKeys.NonSolidDigCommandssOptionID);
-			bool collectGasNotes = filter != null && filter.AllowedToFilter(BlueprintCreationFilterKeys.GasNotesOptionID);
-			bool collectLiquidNotes = filter != null && filter.AllowedToFilter(BlueprintCreationFilterKeys.LiquidNotesOptionID);
-			bool collectSolidNotes = filter != null && filter.AllowedToFilter(BlueprintCreationFilterKeys.SolidNotesOptionID);
+			bool collectNotes = filter != null && filter.AllowedToFilter(BlueprintCreationFilterKeys.Collect_Notes_ID);
+			bool collectRawElements = filter != null && filter.AllowedToFilter(BlueprintCreationFilterKeys.Collect_Natural_Elements_ID);
 			bool collectPlanShapes = filter != null && filter.AllowedToFilter(BlueprintCreationFilterKeys.PlanningToolMod_ShapesID);
 
 			for (int x = topLeft.x; x <= bottomRight.x; ++x)
@@ -157,31 +156,37 @@ namespace BlueprintsV2.BlueprintData
 								blueprint.DigLocations.Add(cellOffsetInBlueprint);
 							}
 						}
-
-						var PotentialElementIndicator = Grid.Objects[cell, (int)ModAssets.PlannedElementLayer];
-						if (!solidTileDefInCell)
-						{
-							if ((collectLiquidNotes && Grid.IsLiquid(cell)) || (collectSolidNotes && Grid.IsSolidCell(cell) || (collectGasNotes && Grid.IsGas(cell))))
-								blueprint.PlannedNaturalElementInfos[cellOffsetInBlueprint] = new Tuple<SimHashes, float, float>(Grid.Element[cell].id, Grid.Mass[cell], Grid.Temperature[cell]);
-						}
-						else if (PotentialElementIndicator != null && PotentialElementIndicator.TryGetComponent<ElementPlanInfo>(out var info))
-						{
-							if ((info.IsSolid && collectSolidNotes) || (info.IsLiquid && collectLiquidNotes) || (info.IsGas && collectGasNotes))
-								blueprint.PlannedNaturalElementInfos[cellOffsetInBlueprint] = new Tuple<SimHashes, float, float>(info.ElementId, info.ElementAmount, info.ElementTemperature);
-						}
-
 						if (collectPlanShapes && PlanningTool_Integration.HasPlan(cell, out var shape, out var color))
 						{
 							blueprint.PlanningToolMod_PlanDataValues[cellOffsetInBlueprint] = new Tuple<PlanShape, PlanColor>(shape, color);
 						}
+						var existingBpNote = Grid.Objects[cell, (int)ModAssets.BlueprintNotesLayer];
+						if(collectNotes && existingBpNote != null && existingBpNote.TryGetComponent<BlueprintNote>(out var note))
+						{
+							var data = note.GetNoteData();
+							if (data.IsValid())
+							{
+								blueprint.WorldNotes[cellOffsetInBlueprint] = (data);
+							}
+						} 
+						else if (!solidTileDefInCell && filter.AllowedElementState(Grid.Element[cell].state))
+						{
+							//todo: add filter here!
+							var data = BlueprintNoteData.CreateElementNote(cellOffsetInBlueprint, Grid.Element[cell].id, Grid.Mass[cell], Grid.Temperature[cell]);
+							if(data.IsValid())
+							{
+								blueprint.WorldNotes[cellOffsetInBlueprint] = data;
+							}
+						}
+
 					}
 				}
 			}
 			//empty blueprint that caught some gas/liquid pockets, clear to not spam quasi empty blueprints
-			if (blueprint.BuildingConfigurations.Count == 0 && (blueprint.DigLocations.Any() || blueprint.PlannedNaturalElementInfos.Count > 0 || blueprint.PlanningToolMod_PlanDataValues.Count > 0) && !createsSnapshot)
+			if (blueprint.BuildingConfigurations.Count == 0 && (blueprint.DigLocations.Any() || blueprint.WorldNotes.Count > 0 || blueprint.PlanningToolMod_PlanDataValues.Count > 0) && !createsSnapshot)
 			{
 				blueprint.DigLocations.Clear();
-				blueprint.PlannedNaturalElementInfos.Clear();
+				blueprint.WorldNotes.Clear();
 				blueprint.PlanningToolMod_PlanDataValues.Clear();
 			}
 
@@ -257,10 +262,22 @@ namespace BlueprintsV2.BlueprintData
 				FoundationVisuals.Add(new DigVisual(Grid.XYToCell(topLeft.x + digLocation.x, topLeft.y + digLocation.y), digLocation));
 			}
 
-			foreach (var elementIndicator in blueprint.PlannedNaturalElementInfos)
+			foreach (var elementIndicator in blueprint.WorldNotes)
 			{
 				var liquidLocation = elementIndicator.Key;
-				FoundationVisuals.Add(new ElementIndicatorVisual(Grid.XYToCell(topLeft.x + liquidLocation.x, topLeft.y + liquidLocation.y), liquidLocation, elementIndicator.Value.first, elementIndicator.Value.second, elementIndicator.Value.third));
+				var note = elementIndicator.Value;
+				if (note.IsValid())
+				{
+					switch (note.Type)
+					{
+						case BlueprintNoteData.NoteType.Text:
+							FoundationVisuals.Add(new TextNoteVisual(Grid.XYToCell(topLeft.x + liquidLocation.x, topLeft.y + liquidLocation.y), liquidLocation, note.Title, note.Text, note.SymbolTint));
+							break;
+						case BlueprintNoteData.NoteType.Element:
+							FoundationVisuals.Add(new ElementNoteVisual(Grid.XYToCell(topLeft.x + liquidLocation.x, topLeft.y + liquidLocation.y), liquidLocation, note.ElementId, note.ElementMass, note.ElementTemperature));
+							break;
+					}
+				}
 			}
 			foreach (var shapePreview in blueprint.PlanningToolMod_PlanDataValues)
 			{

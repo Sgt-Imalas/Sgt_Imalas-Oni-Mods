@@ -1,5 +1,6 @@
 ﻿using BlueprintsV2.BlueprintData;
 using BlueprintsV2.BlueprintsV2.BlueprintData.PlanningToolMod_Integration;
+using BlueprintsV2.BlueprintsV2.Tools;
 using BlueprintsV2.Tools;
 using HarmonyLib;
 using System;
@@ -76,9 +77,8 @@ namespace BlueprintsV2.BlueprintsV2.Patches
 					{ ToolParameterMenu.FILTERLAYERS.BACKWALL, defaultSelection },
 					{ ToolParameterMenu.FILTERLAYERS.DIGPLACER, defaultSelection},
 					{ BlueprintCreationFilterKeys.NonSolidDigCommandssOptionID, defaultSelection },
-					{ BlueprintCreationFilterKeys.SolidNotesOptionID, Config.Instance. DefaultCollect_Element_Solid ? ToolParameterMenu.ToggleState.On : ToolParameterMenu.ToggleState.Off},
-					{ BlueprintCreationFilterKeys.LiquidNotesOptionID, Config.Instance. DefaultCollect_Element_Liquid ? ToolParameterMenu.ToggleState.On : ToolParameterMenu.ToggleState.Off},
-					{ BlueprintCreationFilterKeys.GasNotesOptionID, Config.Instance. DefaultCollect_Element_Gas ? ToolParameterMenu.ToggleState.On : ToolParameterMenu.ToggleState.Off},
+					{ BlueprintCreationFilterKeys.Collect_Natural_Elements_ID, false ? ToolParameterMenu.ToggleState.On : ToolParameterMenu.ToggleState.Off},
+					{ BlueprintCreationFilterKeys.Collect_Notes_ID, defaultSelection},
 					{ BlueprintCreationFilterKeys.PlanningToolMod_ShapesID, Config.Instance. DefaultCollect_PlanningToolMod_Shapes ? ToolParameterMenu.ToggleState.On : ToolParameterMenu.ToggleState.Off},
 				};
 				if (!PlanningTool_Integration.ModActive)
