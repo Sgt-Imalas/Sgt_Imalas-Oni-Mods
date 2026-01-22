@@ -1,4 +1,7 @@
 ﻿
+using UnityEngine;
+using UtilLibs;
+
 namespace SaveGameModLoader
 {
 	public class STRINGS
@@ -35,6 +38,11 @@ namespace SaveGameModLoader
 		{
 			public class FRONTEND
 			{
+				public class EMPTY_MOD_FOLDER
+				{
+					public static LocString TITLE =" - "+UIUtils.ColorText("<b>Installation Failure!</b>", Color.red);
+					public static LocString TOOLTIP = "Something went wrong during the installation of this mod, its installation folder is completely empty right now!\n\nPlease ensure the game has writing access for the mods folder and is not blocked by OneDrive or similar software!";
+				}
 				public class MODORDER
 				{
 					public static LocString WINDOWTITLE = "Change Mod Index";

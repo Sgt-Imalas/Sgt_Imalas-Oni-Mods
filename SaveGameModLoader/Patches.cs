@@ -336,6 +336,20 @@ namespace SaveGameModLoader
 					int currentIndex = displayedMod.mod_index;
 					if (transf.TryGetComponent<HierarchyReferences>(out var hier))
 					{
+						SgtLogger.l(mod.title + ": " + mod.available_content + ", " + mod.contentCompatability);
+						if(mod.available_content == 0)
+						{
+							var title = hier.GetReference<LocText>("Title");
+							ToolTip desc = hier.GetReference<ToolTip>("Description");
+							desc.toolTip = STRINGS.UI.FRONTEND.EMPTY_MOD_FOLDER.TOOLTIP;
+							string titleText = mod.title;
+
+							if (Strings.TryGet(titleText, out var localized))
+								titleText = (string)localized;
+							titleText += STRINGS.UI.FRONTEND.EMPTY_MOD_FOLDER.TITLE;
+							title.text = titleText;
+						}
+
 						if (mod.IsLocal)
 						{
 							var modButtonBg = hier.GetReference<KImage>(ManageButtonImage);
@@ -684,6 +698,9 @@ namespace SaveGameModLoader
 				var btn = kbutton.GetComponentInChildren<KButton>(true);
 				syncText.key = "STRINGS.UI.FRONTEND.MODSYNCING.SYNCMODSBUTTONBG";
 				btn.bgImage.sprite = Assets.GetSprite("icon_thermal_conductivity");
+				var le = kbutton.GetComponent<LayoutElement>();
+				le.minWidth = 48;
+				le.preferredWidth = 48;
 				return true;
 			}
 		}

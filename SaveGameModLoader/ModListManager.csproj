@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>SaveGameModLoader</PackageId>
-		<Version>7.5.0</Version>
+		<Version>7.6.0</Version>
 		<Authors>Sgt_Imalas</Authors>
 		<Copyright>$(AssemblyCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
@@ -23,7 +23,7 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>Mod Profile Manager</ModName>
+		<ModName>Mod Profile Manager [MPM]</ModName>
 		<ModDescription>Manage your mods in profiles and synchronize your active mods with those used in your save games.</ModDescription>		
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
