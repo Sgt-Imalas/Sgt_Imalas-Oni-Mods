@@ -30,6 +30,13 @@ namespace _3GuBsVisualFixesNTweaks
 		static Dictionary<GameObject, KBatchedAnimController> CachedKBACs = new();
 		static Dictionary<GameObject, KBatchedAnimController> CachedFGKBACs = new();
 
+		public static HashSet<string> PossibleTintSymbols = [
+			//general
+			"tint", "tint_dark", "tint_fg", 
+			//neutronium decor pack water heater...
+			"tint_1", "tint_2", "tint_3", "tint_4", "tint_5", "tint_6",
+		];
+
 		public static Color GetElementColor(SimHashes simhash)
 		{
 			if (!CachedColors.TryGetValue(simhash, out var color))

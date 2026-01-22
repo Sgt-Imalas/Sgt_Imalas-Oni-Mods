@@ -23,6 +23,11 @@ namespace _3GuBsVisualFixesNTweaks.Scripts
 
 		private static readonly EventSystem.IntraObjectHandler<ContentTintable> OnStorageChangeDelegate = new EventSystem.IntraObjectHandler<ContentTintable>((tintable, data) => tintable.UpdateTint());
 		//private static readonly EventSystem.IntraObjectHandler<ContentTintable> OnActiveChangedDelegate = new EventSystem.IntraObjectHandler<ContentTintable>((tintable, data) => tintable.ClearTint());
+		HashSet<string> ExistingTintSymbols = [];
+		HashSet<string> ExistingFGTintSymbols = [];
+		HashSet<string> ExistingMeterTintSymbols = [];
+		bool hasMeter, hasFg;
+
 		public override void OnPrefabInit()
 		{
 			base.OnPrefabInit();
@@ -47,7 +52,38 @@ namespace _3GuBsVisualFixesNTweaks.Scripts
 			{
 				kbacMeter = polymerizer.oilMeter.meterController;
 			}
+			AssignTintables();
 			UpdateTint();
+		}
+		void AssignTintables()
+		{
+			ExistingTintSymbols.Clear();
+			ExistingFGTintSymbols.Clear();
+			ExistingMeterTintSymbols.Clear();
+
+			bool HasSymbol(KBatchedAnimController kbac, string symbol_name)
+			{
+				KAnim.Build.Symbol symbol = KAnimBatchManager.Instance().GetBatchGroupData(kbac.GetBatchGroupID()).GetSymbol(symbol_name);
+				return symbol != null;
+			}
+			hasFg = kbacFG != null;
+			hasMeter = kbacMeter != null;
+
+			foreach (var symbol in ModAssets.PossibleTintSymbols)
+			{
+				if (HasSymbol(kbac, symbol))
+				{
+					ExistingTintSymbols.Add(symbol);
+				}
+				if (hasFg && HasSymbol(kbacFG, symbol))
+				{
+					ExistingFGTintSymbols.Add(symbol);
+				}
+				if (hasMeter && HasSymbol(kbacMeter, symbol))
+				{
+					ExistingMeterTintSymbols.Add(symbol);
+				}
+			}
 		}
 
 		public override void OnCleanUp()
@@ -75,20 +111,35 @@ namespace _3GuBsVisualFixesNTweaks.Scripts
 				tintColor.a = 255;
 				//SgtLogger.l("Tinting " + UI.StripLinkFormatting(gameObject.GetProperName()) + " with color from element " + UI.StripLinkFormatting(element.GetProperName()) + " with color: " + tintColor.ToString());
 
-				kbac.SetSymbolTint("tint", tintColor);
-				kbac.SetSymbolTint("tint_dark", tintColor);
-				kbacMeter?.SetSymbolTint("tint", tintColor);
-				kbacFG?.SetSymbolTint("tint_fg", tintColor);
+
+
+				TintAll(tintColor);
 				break;
 			}
 		}
+		void TintAll(Color color)
+		{
+			SetSymbolTint(kbac, ExistingTintSymbols, color);
+			if (hasFg)
+				SetSymbolTint(kbacFG, ExistingFGTintSymbols, color);
+			if (hasMeter)
+				SetSymbolTint(kbacMeter, ExistingMeterTintSymbols, color);
+		}
+		static void SetSymbolTint(KBatchedAnimController kbac, HashSet<string> symbols, Color color)
+		{
+			if (kbac == null) return;
+			if (!symbols.Any()) return;
+			foreach (var symbol in symbols)
+			{
+				kbac.SetSymbolTint(symbol, color);
+			}
+		}
+
 		void ClearTint()
 		{
 			if (!operational.IsActive)
 			{
-				kbac.SetSymbolTint("tint", Color.clear);
-				kbac.SetSymbolTint("tint_dark", Color.clear);
-				kbacFG?.SetSymbolTint("tint_fg", Color.clear);
+				TintAll(Color.clear);
 			}
 		}
 	}
