@@ -251,6 +251,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreMolior", "CoreMolior\Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PipPlantNotify", "PipPlantNotify\PipPlantNotify.csproj", "{91E90ED1-229B-4084-8F77-3A86FB3922DE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BigSmallSculptures", "BigSmallSculptures\BigSmallSculptures.csproj", "{6A6079B7-816B-4C46-9DFF-7B5A4BFB6A2B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -691,6 +693,10 @@ Global
 		{91E90ED1-229B-4084-8F77-3A86FB3922DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91E90ED1-229B-4084-8F77-3A86FB3922DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91E90ED1-229B-4084-8F77-3A86FB3922DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A6079B7-816B-4C46-9DFF-7B5A4BFB6A2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A6079B7-816B-4C46-9DFF-7B5A4BFB6A2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A6079B7-816B-4C46-9DFF-7B5A4BFB6A2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A6079B7-816B-4C46-9DFF-7B5A4BFB6A2B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
