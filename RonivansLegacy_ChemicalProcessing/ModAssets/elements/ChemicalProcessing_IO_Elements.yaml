@@ -1295,6 +1295,7 @@ elements:
     - BuildableAny
     - BuildableRaw
     - Insulator
+    - Plumbable
     buildMenuSort: 58
     isDisabled: false
     state: Solid

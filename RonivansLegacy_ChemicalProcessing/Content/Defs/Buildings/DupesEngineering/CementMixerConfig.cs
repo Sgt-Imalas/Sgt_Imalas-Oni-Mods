@@ -117,15 +117,16 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 
 			//new recipes:
 
-			RecipeBuilder.Create(ID, 30)
-				.Input(SimHashes.Cement, 100)
-				.Input([SimHashes.Sand, SimHashes.Regolith], 200)
-				.Input(SimHashes.CrushedRock, 300)
-				.Input(SimHashes.Water, 25)
-				.Output(ModElements.ConcreteBlock_Solid, 600, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-				.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.ARCFURNACE_STEEL_2, 4, 1)
-				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
-				.Build();
+			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+				RecipeBuilder.Create(ID, 30)
+					.Input(SimHashes.Cement, 100)
+					.Input([SimHashes.Sand, SimHashes.Regolith], 200)
+					.Input(SimHashes.CrushedRock, 300)
+					.Input(SimHashes.Water, 25)
+					.Output(ModElements.ConcreteBlock_Solid, 600, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.ARCFURNACE_STEEL_2, 4, 1)
+					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+					.Build();
 		}
 	}
 }
