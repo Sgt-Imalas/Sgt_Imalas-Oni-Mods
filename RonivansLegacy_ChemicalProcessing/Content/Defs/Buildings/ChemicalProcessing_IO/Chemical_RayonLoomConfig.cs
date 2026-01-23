@@ -38,6 +38,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			fabricator.duplicantOperated = false;
 			fabricator.sideScreenStyle = ComplexFabricatorSideScreen.StyleSetting.ListQueueHybrid;
 			fabricator.KeepAdditionalTags = [FUEL_TAG, SimHashes.Steam.CreateTag()];
+			fabricator.keepExcessGasses = true;
 
 			go.AddOrGet<FabricatorIngredientStatusManager>();
 			go.AddOrGet<CopyBuildingSettings>();

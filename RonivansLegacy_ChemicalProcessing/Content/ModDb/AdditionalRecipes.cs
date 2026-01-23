@@ -134,9 +134,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		{
 			string ID = Chemical_RayonLoomConfig.ID;
 			RecipeBuilder.Create(ID, 50)
-				.Input(RefinementRecipeHelper.GetWoods(), 150)
+				.Input(RefinementRecipeHelper.GetWoods(), 150, GameTags.BuildingWood)
 				.Output(RayonFabricConfig.TAG, 1, ComplexRecipe.RecipeElement.TemperatureOperation.AverageTemperature, false)
-				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
+				.NameOverrideFormatFromTo()
 				.Description(RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INGREDIENTS.RAYONFIBER.RECIPE_DESC, 1, 0)
 				.Build();
 
@@ -226,7 +227,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			}
 			//if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
 			//{
-				RegisterRecipes_RayonLoom();
+			RegisterRecipes_RayonLoom();
 			//}
 			if (Config.Instance.MineralProcessing_Mining_Enabled)
 			{
