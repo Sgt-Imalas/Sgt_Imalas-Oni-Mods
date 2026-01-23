@@ -45,7 +45,6 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.UtilityOutputOffset = new CellOffset(-1, 2);
 			buildingDef.ViewMode = OverlayModes.GasConduits.ID;
 			SoundUtils.CopySoundsToAnim("ammonia_breaker_kanim", "desalinator_kanim");
-			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.GasVentIDs, ID);
 			return buildingDef;
 		}
 

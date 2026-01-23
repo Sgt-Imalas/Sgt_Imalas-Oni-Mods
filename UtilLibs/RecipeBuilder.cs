@@ -173,6 +173,23 @@ namespace UtilLibs
 			this.name = string.Format(name, entries[ingredientIndex]);
 			return this;
 		}
+		public RecipeBuilder NameOverrideFormatFromTo(int ingredientIndex = 0, int resultIndex = 0)
+		{
+			var entries = GetFormatArgs(inputs.Count(), outputs.Count());
+			if (ingredientIndex < 0 || ingredientIndex >= entries.Length)
+			{
+				throw new ArgumentOutOfRangeException(nameof(ingredientIndex), "Ingredient index is out of range.");
+			}
+			int ingredientOffset = inputs.Count();
+			resultIndex += ingredientOffset;
+			if (resultIndex < ingredientOffset || resultIndex >= entries.Length)
+			{
+				throw new ArgumentOutOfRangeException(nameof(ingredientIndex), "Result index is out of range.");
+			}
+
+			this.name = string.Format(global::STRINGS.UI.UISIDESCREENS.REFINERYSIDESCREEN.RECIPE_FROM_TO, entries[ingredientIndex],entries[resultIndex]);
+			return this;
+		}
 		public RecipeBuilder IconPrefabIngredient(int index)
 		{
 			if(index < 0 || index >= inputs.Count)
