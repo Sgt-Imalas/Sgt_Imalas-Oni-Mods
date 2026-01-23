@@ -145,6 +145,7 @@ namespace SaveGameModLoader
 
 			ModsScreen_BuildDisplay_Patch_Pin_Button.ExecutePatch(harmony);
 			CompatibilityNotifications.FlagLoggingPrevention(mods);
+			ModAssets.FlagBrokenMods(mods);
 		}
 	}
 

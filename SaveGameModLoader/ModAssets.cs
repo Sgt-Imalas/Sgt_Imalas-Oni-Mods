@@ -28,6 +28,11 @@ namespace SaveGameModLoader
 
 
 		public static bool UseSteamOverlay;
+		static HashSet<string> BrokenModInstallations = new HashSet<string>();
+		public static bool IsModInstallationBroken(string modStaticID)
+		{
+			return BrokenModInstallations.Contains(modStaticID);
+		}
 
 		public enum BrowserChoice
 		{
@@ -157,7 +162,7 @@ namespace SaveGameModLoader
 
 			return AcceptedByFilter(mod.label.title) || AcceptedByFilter(mod.label.id) || AcceptedByFilter(mod.staticID);
 		}
-		
+
 
 		public static bool ModAuthorFilter(string filterText, KMod.Mod mod)
 		{
@@ -249,7 +254,7 @@ namespace SaveGameModLoader
 			}
 			catch (Exception ex)
 			{
-				SgtLogger.error("Error while trying to fetch modlist for save "+filePath+":\n"+ex.Message);
+				SgtLogger.error("Error while trying to fetch modlist for save " + filePath + ":\n" + ex.Message);
 				return null;
 			}
 		}
@@ -274,6 +279,20 @@ namespace SaveGameModLoader
 				saveFileRoot.requiredMods.Clear();
 			}
 			return new(saveFileRoot.active_mods);
+		}
+
+		internal static void FlagBrokenMods(IReadOnlyList<KMod.Mod> mods)
+		{
+			foreach (var mod in mods)
+			{
+				var directory = mod.label.install_path;
+
+				//should never happen, but original code has sth with zip files so we want to ignore them;
+				if (directory.EndsWith(".zip"))
+					continue;
+				if (!Directory.EnumerateFileSystemEntries(directory).Any())
+					BrokenModInstallations.Add(mod.label.defaultStaticID);
+			}
 		}
 	}
 }

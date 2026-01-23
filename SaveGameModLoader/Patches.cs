@@ -336,9 +336,10 @@ namespace SaveGameModLoader
 					int currentIndex = displayedMod.mod_index;
 					if (transf.TryGetComponent<HierarchyReferences>(out var hier))
 					{
-						SgtLogger.l(mod.title + ": " + mod.available_content + ", " + mod.contentCompatability);
-						if(mod.available_content == 0)
+						//SgtLogger.l(mod.title + ": " + mod.available_content + ", " + mod.contentCompatability);
+						if(ModAssets.IsModInstallationBroken(mod.label.defaultStaticID))
 						{
+							SgtLogger.l("Marking broken mod installation: " + mod.title);
 							var title = hier.GetReference<LocText>("Title");
 							ToolTip desc = hier.GetReference<ToolTip>("Description");
 							desc.toolTip = STRINGS.UI.FRONTEND.EMPTY_MOD_FOLDER.TOOLTIP;
