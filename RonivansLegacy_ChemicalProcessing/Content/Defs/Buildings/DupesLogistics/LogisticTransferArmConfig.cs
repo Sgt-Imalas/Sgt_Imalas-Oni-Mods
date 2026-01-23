@@ -75,6 +75,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			var capacity = go.AddOrGet<VariableCapacityForTransferArm>();
 			capacity.TargetCarryCapacity = StorageCapacity;
 			capacity.TargetTurnRate = HighPressureConduitRegistration.GetLogisticConduitMultiplier() * 360f; // 180 degrees per second, half of the vanilla arm speed
+			capacity.WorkingSpeedMultiplier = Mathf.Max(0.75f, HighPressureConduitRegistration.GetLogisticConduitMultiplier()); // set a minimum speed multiplier of 0.75 to avoid too slow delivery
 			var arm = go.AddOrGet<SolidTransferArm>();
 			arm.pickupRange = SweeperArmRange;
 			AddVisualizer(go, false);

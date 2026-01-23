@@ -74,6 +74,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			var capacity = go.AddOrGet<VariableCapacityForTransferArm>();
 			capacity.TargetCarryCapacity = StorageCapacity;
 			capacity.TargetTurnRate = TurnRatePerSecond;
+			capacity.WorkingSpeedMultiplier = 2f;
 			var arm = go.AddOrGet<SolidTransferArm>();
 			arm.pickupRange = GetTileRange();
 			AddVisualizer(go, false);
