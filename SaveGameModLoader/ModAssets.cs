@@ -290,7 +290,8 @@ namespace SaveGameModLoader
 				//should never happen, but original code has sth with zip files so we want to ignore them;
 				if (directory.EndsWith(".zip"))
 					continue;
-				if (!Directory.EnumerateFileSystemEntries(directory).Any())
+
+				if (!Directory.Exists(directory) || !Directory.EnumerateFileSystemEntries(directory).Any())
 					BrokenModInstallations.Add(mod.label.defaultStaticID);
 			}
 		}
