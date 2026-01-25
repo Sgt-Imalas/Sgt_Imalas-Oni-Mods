@@ -825,8 +825,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 		internal static void RegisterTags()
 		{
-			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
-				GameTags.Fabrics = GameTags.Fabrics.Append(RayonFabricConfig.ID);
+			//if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+			GameTags.Fabrics = GameTags.Fabrics.Append(RayonFabricConfig.ID);
 		}
 	}
 }
