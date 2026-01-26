@@ -57,7 +57,7 @@ elements:
 
   - elementId: VegeOilGas
     specificHeatCapacity: 0.846
-    thermalConductivity: 0.0146
+    thermalConductivity: 0.146
     solidSurfaceAreaMultiplier: 25
     liquidSurfaceAreaMultiplier: 1
     gasSurfaceAreaMultiplier: 1
@@ -101,8 +101,8 @@ elements:
     dlcId: ""
 
   - elementId: LiquidBiodiesel
-    specificHeatCapacity: 0.234
-    thermalConductivity: 7
+    specificHeatCapacity: 2.19
+    thermalConductivity: 2
     liquidCompression: 1.01
     minHorizontalFlow: 0.1
     minVerticalFlow: 0.1
