@@ -118,6 +118,20 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					.Build();
 			}
 		}
+		public static void RegisterRecipes_AdvancedCraftingTable()
+		{
+			if (Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
+			{
+				RecipeBuilder.Create(AdvancedCraftingTableConfig.ID, TUNING.INDUSTRIAL.RECIPES.STANDARD_FABRICATION_TIME * 4f)
+					.Input(ModElements.BioPlastic_Solid, 200)
+					.Output(FetchDroneConfig.ID, 1, storeElement: true)
+					.NameDisplay(ComplexRecipe.RecipeNameDisplay.ResultWithIngredient)
+					.Description(string.Format(global::STRINGS.BUILDINGS.PREFABS.ADVANCEDCRAFTINGTABLE.GENERIC_RECIPE_DESCRIPTION, ModElements.BioPlastic_Solid.Tag.ProperName(), global::STRINGS.ROBOTS.MODELS.FLYDO.NAME))
+					.RequiresTech(Db.Get().TechItems.fetchDrone.parentTechId)
+					.SortOrder(2)
+					.Build();
+			}
+		}
 		public static void RegisterRecipes_FabricatedWoodMaker()
 		{
 			string ID = FabricatedWoodMakerConfig.ID;
