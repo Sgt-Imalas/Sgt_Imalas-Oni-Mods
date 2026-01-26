@@ -23,6 +23,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
 		{
 			if(File.Exists(OldConfigFileLocation) && !File.Exists(ConfigFileLocation))
 			{
+				var directory = Path.GetDirectoryName(ConfigFileLocation);
+				if(!Directory.Exists(directory))
+					Directory.CreateDirectory(directory);
+
 				File.Move(OldConfigFileLocation, ConfigFileLocation);
 			};
 		}
