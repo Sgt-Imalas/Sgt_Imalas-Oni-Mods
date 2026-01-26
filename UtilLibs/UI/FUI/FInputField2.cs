@@ -63,6 +63,18 @@ namespace UtilLibs.UIcmp //Source: Aki
 
 		public TMP_InputField.OnChangeEvent OnValueChanged => inputField.onValueChanged;
 
+		public void AddListener(System.Action<string> onValueChangedEvent)
+		{
+			inputField.onValueChanged.AddListener((e) =>
+			{
+				if (!DataTextUpdate)
+				{
+					onValueChangedEvent(e);
+				}
+			});
+		}
+
+
 		public override void OnPrefabInit()
 		{
 			base.OnPrefabInit();

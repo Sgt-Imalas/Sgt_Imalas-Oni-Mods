@@ -15,11 +15,20 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.BuildingConfigurations
     /// </summary>
     class BuildingConfigurationCollection
 	{
-		static string ConfigFileLocation = FileSystem.Normalize(Path.Combine(KMod.Manager.GetDirectory(), "config", "RonivansAIO_BuildingConfig.json"));
-        public Dictionary<string, BuildingConfigurationEntry> BuildingConfigurations = new ();
+		static readonly string ConfigFileLocation = FileSystem.Normalize(Path.Combine(KMod.Manager.GetDirectory(), "config", "RonivansLegacy_ChemicalProcessing", "RonivanAIO_BuildingConfig.json"));
+		static readonly string OldConfigFileLocation = FileSystem.Normalize(Path.Combine(KMod.Manager.GetDirectory(), "config", "RonivansAIO_BuildingConfig.json"));
+		public Dictionary<string, BuildingConfigurationEntry> BuildingConfigurations = new ();
 
+		static void MigrateOldFile()
+		{
+			if(File.Exists(OldConfigFileLocation) && !File.Exists(ConfigFileLocation))
+			{
+				File.Move(OldConfigFileLocation, ConfigFileLocation);
+			};
+		}
 		internal static BuildingConfigurationCollection LoadFromFile()
 		{
+			MigrateOldFile();
 			var file = new FileInfo(ConfigFileLocation);
 
 			SgtLogger.l("Loading Building Configuration from " + file.FullName);

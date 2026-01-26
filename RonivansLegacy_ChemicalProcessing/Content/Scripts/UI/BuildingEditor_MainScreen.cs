@@ -169,7 +169,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			WattageLabel = WattageContainer.GetComponent<LocText>();
 			WattageInput = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/WattageSettings/Input").FindOrAddComponent<FInputField2>();
 			WattageInput.Text = "0";
-			WattageInput.OnValueChanged.AddListener(UpdateItemWattage);
+			WattageInput.AddListener(UpdateItemWattage);
 			transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/WattageSettings/Unit").gameObject.GetComponent<LocText>().SetText(global::STRINGS.UI.UNITSUFFIXES.ELECTRICAL.WATT);
 			WattageContainer.SetActive(false);
 
@@ -177,13 +177,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			MaxMassTT = UIUtils.AddSimpleTooltipToObject(StorageCapacityContainer, "");
 			StorageCapacityInput = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/CapacitySettings/Input").FindOrAddComponent<FInputField2>();
 			StorageCapacityInput.Text = "0";
-			StorageCapacityInput.OnValueChanged.AddListener(UpdateItemCapacity);
+			StorageCapacityInput.AddListener(UpdateItemCapacity);
 			transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/CapacitySettings/Unit").gameObject.GetComponent<LocText>().SetText(global::STRINGS.UI.UNITSUFFIXES.MASS.KILOGRAM);
 
 			RangeContainer = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/RangeSettings").gameObject;
 			RangeInput = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/RangeSettings/Input").FindOrAddComponent<FInputField2>();
 			RangeInput.Text = "0";
-			RangeInput.OnValueChanged.AddListener(UpdateItemRange);
+			RangeInput.AddListener(UpdateItemRange);
 			RangeLabel = RangeContainer.GetComponent<LocText>();
 			transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/RangeSettings/Unit").gameObject.GetComponent<LocText>().SetText(global::STRINGS.UI.UNITSUFFIXES.TILES);
 
