@@ -20,6 +20,22 @@ namespace OniRetroEdition
 		{
 			public class PREFABS
 			{
+				public class RETROONI_SMELTER
+				{
+					public static LocString NAME = FormatAsLink("Smelter", "RETROONI_SMELTER");
+
+					public static LocString DESC = "";
+
+					public static LocString EFFECT = "";
+				}
+				public class RETROONI_METALRECLAIMER
+				{
+					public static LocString NAME = FormatAsLink("Metal Reclaimer", "RETROONI_METALRECLAIMER");
+
+					public static LocString DESC = "";
+
+					public static LocString EFFECT = "";
+				}
 				public class RETROONI_BATTERYLARGE
 				{
 					public static LocString NAME = FormatAsLink("Huge Battery", "RETROONI_BATTERYLARGE");

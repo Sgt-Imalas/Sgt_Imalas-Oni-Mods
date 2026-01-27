@@ -30,6 +30,8 @@ namespace OniRetroEdition
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Furniture, WallLampConfig.ID, CeilingLightConfig.ID);
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Food, GammaRayOvenConfig.ID, MicrobeMusherConfig.ID);
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Power, BatteryLargeConfig.ID, BatteryMediumConfig.ID);
+				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, SmelterConfig.ID, MetalRefineryConfig.ID,ordering:ModUtil.BuildingOrdering.Before);
+				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, MetalRefineryConfig.ID, RockCrusherConfig.ID,ordering:ModUtil.BuildingOrdering.Before);
 
 				foreach (var config in BuildingModifications.Instance.LoadedBuildingOverrides)
 				{

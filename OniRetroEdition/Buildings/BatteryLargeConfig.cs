@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace OniRetroEdition.Buildings
 {
-	internal class BatteryLargeConfig:BaseBatteryConfig
+	internal class BatteryLargeConfig : BaseBatteryConfig
 	{
 		public static string ID = "RetroOni_BatteryLarge";
 		public override BuildingDef CreateBuildingDef()
