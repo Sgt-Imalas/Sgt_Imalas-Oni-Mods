@@ -1237,7 +1237,6 @@ msgstr ""
 " - 33% <link=\"PETROLEUM\">天然气</link>\n"
 " - 27% <link=\"PROPANE\">丙烷</link>\n"
 " - 40% <link=\"SOURGAS\">高硫天然气</link>\n"
-"\n"
 "第二阶段： <link=\"PROPANE\">丙烷</link>与<link=\"HYDROGEN\">氢气</link>混合，完全转化为<link=\"METHANE\">天然气</link>\n"
 "第三阶段： 剩余<link=\"SOURGAS\">高硫天然气</link>与硝酸反应，生成氨气。"
 
@@ -2325,8 +2324,12 @@ msgstr "用于建造房间的墙壁和地板。能减少墙壁之间的热量传
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.INSULATIONCOMPOSITIONTILE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.INSULATIONCOMPOSITIONTILE.EFFECT"
-msgid "A solid tile assembled in a range of materials and radiative pattern that reduce the heat transfer."
-msgstr "一种由多种材料制成的坚固砖块，其表面具有独特的辐射图案，能够有效减少热量传递。"
+msgid ""
+"A solid tile assembled in a range of materials and radiative pattern that reduce the heat transfer.\n"
+"It has the same insulating properties as the regular insulated tile, but offers a small run speed bonus to duplicants."
+msgstr ""
+"一种由多种材料组装而成的实心砖块，其表面的辐射纹路设计能有效减少热量传递。\n"
+"拥有与常规隔热砖相同的隔热性能，但能为复制人提供少量的移动速度加成。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.INSULATIONCOMPOSITIONTILE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.INSULATIONCOMPOSITIONTILE.NAME"
@@ -4622,6 +4625,26 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.OLDREFI
 msgid "Reenables the two old Multi-Stage refineries in chemical processing"
 msgstr "重新启用化学工艺系统中的两座旧式多级精炼厂。"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.OVERRIDE_PRIMARYELEMENT_MAXSTACK.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.OVERRIDE_PRIMARYELEMENT_MAXSTACK.NAME"
+msgid "Maximum liquid/gas element stack size"
+msgstr "液体/气体元素最大堆叠量"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.OVERRIDE_PRIMARYELEMENT_MAXSTACK.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.OVERRIDE_PRIMARYELEMENT_MAXSTACK.TOOLTIP"
+msgid ""
+"Overrides the game's internal maximum stack size value of element chunks\n"
+"This is required if you want to set reservoir capacity above 100T, as the game will otherwise cut off any mass above that limit.\n"
+"If any other mod sets a higher value, that higher value will be used instead.\n"
+"\n"
+"Requires confirming the config with \"Ok\" to affect the building editor capacity limit in the same game session."
+msgstr ""
+"覆盖游戏内部元素块的最大堆叠上限。\n"
+"如果您希望将容器容量设置为100吨以上，则必须修改此项，否则游戏将自动舍弃超出该限制的质量。\n"
+"如果有其他模组设置了更高的数值，则会优先使用那个更高的数值。\n"
+"\n"
+"需要点击“确定”保存配置，才能在当前游戏进程中更新建筑编辑器的容量上限。"
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVANSLEGACY_AIO_DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVANSLEGACY_AIO_DESC"
 msgid "All the mods created by Ronivan, now collected and remastered into one configurable modpack."
@@ -4701,6 +4724,15 @@ msgstr "重置您所做的所有更改"
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.CAPACITYSETTINGS"
 msgid "Storage Capacity:"
 msgstr "存储容量："
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.CAPACITYSETTINGS_TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.CAPACITYSETTINGS_TOOLTIP"
+msgid ""
+"The upper limit of the storage is capped at {0} due to the game's maximum mass of items.\n"
+"Use the mod config option \"Maximum liquid/gas element stack size\" to increase that limit if you want to have a larger storage."
+msgstr ""
+"受限于游戏原本的物品最大质量限制，当前存储上限被锁定为 {0}。\n"
+"如果您希望获得更大的存储空间，请前往模组配置选项中调高“液体/气体元素最大堆叠量”的数值。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.ENABLEBUILDING
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.ENABLEBUILDING"

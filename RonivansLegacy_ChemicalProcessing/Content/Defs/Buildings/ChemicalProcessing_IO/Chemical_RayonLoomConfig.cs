@@ -26,7 +26,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
-			Tag FUEL_TAG = (!ElementLoader.GetElement(SimHashes.Syngas.CreateTag())?.disabled ?? false) ? SimHashes.Syngas.CreateTag() : SimHashes.Methane.CreateTag();
+			Tag FUEL_TAG = ((!ElementLoader.GetElement(SimHashes.Syngas.CreateTag())?.disabled) ?? false) ? SimHashes.Syngas.CreateTag() : SimHashes.Methane.CreateTag();
 			SgtLogger.l("RayonLoom configured to use element: " + FUEL_TAG.Name);
 			go.AddOrGet<DropAllWorkable>();
 			go.AddOrGet<BuildingComplete>().isManuallyOperated = false;
