@@ -8,16 +8,24 @@ using UtilLibs;
 
 namespace BigSmallSculptures.Content.Scripts
 {
-	internal abstract class SculptureAnimScaler : KMonoBehaviour
+	internal class SculptureAnimScaler : KMonoBehaviour
 	{
 		[MyCmpReq] internal Sculpture sculpture;
 		[MyCmpReq] internal KBatchedAnimController kbac;
-		[SerializeField] public float TargetAnimScaleMultiplier = 1f;
 
 		float defaultAnimScale = 0.005f;
 		int handle = -1;
+
+		static bool dumpd = false;
 		public override void OnSpawn()
 		{
+			if(!dumpd)
+			{
+				ModAssets.BogdanovIt();
+				dumpd = true;
+			}
+
+
 			base.OnSpawn();
 			ScaleKbac();
 			handle = Subscribe((int)GameHashes.ArtableStateChanged, OnArtableChanged);
@@ -35,20 +43,18 @@ namespace BigSmallSculptures.Content.Scripts
 		void ScaleKbac()
 		{
 			var stage = sculpture.CurrentStage;
-			if(GetScaleableAnims().Contains(stage))
+			if(ModAssets.TryGetCachedSkinScaleModifier(stage, out float TargetAnimScaleMultiplier))
 			{
 				SgtLogger.l($"Scaling sculpture anims for {gameObject.name} stage {stage} by {TargetAnimScaleMultiplier}x");
-				kbac.animScale *= TargetAnimScaleMultiplier;
+				kbac.animScale = defaultAnimScale * TargetAnimScaleMultiplier;
 				kbac.SetDirty();
 			}
 			else
 			{
-				SgtLogger.l($"Resetting sculpture anim scale for {gameObject.name} stage {stage} to default");
 				kbac.animScale = defaultAnimScale;
 				kbac.SetDirty();
 			}
 		}
 
-		public abstract HashSet<string> GetScaleableAnims();
 	}
 }

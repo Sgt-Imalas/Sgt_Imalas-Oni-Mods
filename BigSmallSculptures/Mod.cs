@@ -10,6 +10,7 @@ namespace BigSmallSculptures
 	{
 		public override void OnLoad(Harmony harmony)
 		{
+			ModAssets.Load();
 			base.OnLoad(harmony);
 			SgtLogger.LogVersion(this, harmony);
 		}
