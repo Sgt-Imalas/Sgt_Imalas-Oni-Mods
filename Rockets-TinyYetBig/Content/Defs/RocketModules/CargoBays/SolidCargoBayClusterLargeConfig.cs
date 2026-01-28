@@ -72,7 +72,7 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
 
 		public override void DoPostConfigureComplete(GameObject go)
 		{
-			go = BuildingTemplates.ExtendBuildingToClusterCargoBay(go, CAPACITY, STORAGEFILTERS.NOT_EDIBLE_SOLIDS, CargoBay.CargoType.Solids);
+			go = BuildingTemplates.ExtendBuildingToClusterCargoBay(go, CAPACITY, STORAGEFILTERS.STORAGE_SOLID_CARGO_BAY, CargoBay.CargoType.Solids);
 			BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MEGA);
 			go.AddOrGet<CargoBayStatusMonitor>();
 		}
