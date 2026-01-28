@@ -30,8 +30,9 @@ namespace OniRetroEdition
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Furniture, WallLampConfig.ID, CeilingLightConfig.ID);
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Food, GammaRayOvenConfig.ID, MicrobeMusherConfig.ID);
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Power, BatteryLargeConfig.ID, BatteryMediumConfig.ID);
-				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, SmelterConfig.ID, MetalRefineryConfig.ID,ordering:ModUtil.BuildingOrdering.Before);
-				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, MetalRefineryConfig.ID, RockCrusherConfig.ID,ordering:ModUtil.BuildingOrdering.Before);
+				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, SmelterConfig.ID, MetalRefineryConfig.ID, ordering: ModUtil.BuildingOrdering.Before);
+				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Refinement, MetalReclaimerConfig.ID, RockCrusherConfig.ID, ordering: ModUtil.BuildingOrdering.Before);
+				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Ventilation, RetroPumpConfig.ID, GasPumpConfig.ID, ordering: ModUtil.BuildingOrdering.Before);
 
 				foreach (var config in BuildingModifications.Instance.LoadedBuildingOverrides)
 				{
@@ -77,6 +78,10 @@ namespace OniRetroEdition
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.ColonyDevelopment.Employment, RoleStationConfig.ID);
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Decor.GlassBlowing, WallLampConfig.ID);
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Power.AdvancedPowerRegulation, BatteryLargeConfig.ID);
+				InjectionMethods.AddBuildingToTechnologyOfOther(RetroPumpConfig.ID, GasPumpConfig.ID);
+				InjectionMethods.AddBuildingToTechnologyOfOther(MetalReclaimerConfig.ID, RockCrusherConfig.ID);
+				InjectionMethods.AddBuildingToTechnologyOfOther(SmelterConfig.ID, MetalReclaimerConfig.ID);
+
 
 
 				foreach (var config in BuildingModifications.Instance.LoadedBuildingOverrides)
@@ -235,7 +240,7 @@ namespace OniRetroEdition
 			}
 		}
 		[HarmonyPatch(typeof(GeyserGenericConfig))]
-		[HarmonyPatch(nameof(GeyserGenericConfig.CreateGeyser), [typeof(string), typeof(string), typeof(int), typeof(int) , typeof(string ), typeof(string ), typeof(HashedString ), typeof(float ), typeof(string[] ), typeof(string[]) ])]
+		[HarmonyPatch(nameof(GeyserGenericConfig.CreateGeyser), [typeof(string), typeof(string), typeof(int), typeof(int), typeof(string), typeof(string), typeof(HashedString), typeof(float), typeof(string[]), typeof(string[])])]
 		public static class GeyserResize
 		{
 			public static void Prefix(string id, ref int width, ref int height)

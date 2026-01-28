@@ -20,7 +20,7 @@ namespace OniRetroEdition.Buildings
 			EffectorValues none1 = NOISE_POLLUTION.NONE;
 			EffectorValues none2 = BUILDINGS.DECOR.BONUS.TIER1;
 			EffectorValues noise = none1;
-			var anim = Assets.GetAnim("rockrefinery_retro4") != null ? "rockrefinery_retro4" : "rockrefinery_kanim";
+			var anim = Assets.GetAnim("metalreclaimer_kanim") != null ? "metalreclaimer_kanim" : "rockrefinery_kanim";
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 4, anim, 100, 30f, tieR2, farmable, 1600f, BuildLocationRule.OnFloor, none2, noise);
 
 			buildingDef.Overheatable = false;
@@ -46,15 +46,16 @@ namespace OniRetroEdition.Buildings
 			fabricator.duplicantOperated = false;
 			go.AddOrGet<FabricatorIngredientStatusManager>();
 			go.AddOrGet<CopyBuildingSettings>();
+			BuildingTemplates.CreateComplexFabricatorStorage(go, fabricator);
 			Prioritizable.AddRef(go);
 
-			var rockCrusherRecipe = ComplexRecipeManager.Get().preProcessRecipes.Where(r => r.fabricators.Contains(RockCrusherConfig.ID));
+			var rockCrusherRecipe = ComplexRecipeManager.Get().preProcessRecipes.Where(r => r.fabricators.Contains(RockCrusherConfig.ID)).ToList();
 			foreach (var recipe in rockCrusherRecipe)
 			{
 				string id = ComplexRecipeManager.MakeRecipeID(ID, recipe.ingredients, recipe.results);
 				new ComplexRecipe(id, recipe.ingredients, recipe.results)
 				{
-					time = recipe.time * 1.0f,
+					time = recipe.time * 1.2f,
 					description = recipe.description,
 					customName = recipe.customName,
 					nameDisplay = recipe.nameDisplay,

@@ -12,6 +12,7 @@ namespace OniRetroEdition
 		public enum EarlierVersion
 		{
 			Alpha,
+			[Option("Thermal Update")]
 			Beta
 		}
 

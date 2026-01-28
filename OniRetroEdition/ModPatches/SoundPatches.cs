@@ -77,6 +77,16 @@ namespace OniRetroEdition.ModPatches
 			}
 		}
 
+
+		[HarmonyPatch(typeof(OverlayModes.Sound), nameof(OverlayModes.Sound.GetSoundName))]
+		public class OverlayModes_Sound_GetSoundName_Patch
+		{
+			public static void Postfix(OverlayModes.Sound __instance, ref string __result)
+			{
+				__result = "HeatFlow";
+			}
+		}
+
 		/// <summary>
 		/// Exclude items from the overlay that dont have a noise component to prevent crashes
 		/// </summary>

@@ -105,7 +105,7 @@ namespace OniRetroEdition.ModPatches
 
 				var aluminium = ElementLoader.GetElement(SimHashes.Aluminum.CreateTag()).substance.material;
 				SgtElementUtil.SetTexture_Main(aluminium, "aluminium_retro");
-				SgtElementUtil.SetTexture_ShineMask(aluminium, "alumiminX_retro_ShineMask");
+				SgtElementUtil.SetTexture_ShineMask(aluminium, "aluminium_retro_ShineMask");
 
 				var co2Solid = ElementLoader.GetElement(SimHashes.SolidCarbonDioxide.CreateTag()).substance.material;
 				SgtElementUtil.SetTexture_Main(co2Solid, "solid_carbon_dioxide_retro");

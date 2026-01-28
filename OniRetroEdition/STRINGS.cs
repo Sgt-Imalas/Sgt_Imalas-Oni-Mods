@@ -20,21 +20,30 @@ namespace OniRetroEdition
 		{
 			public class PREFABS
 			{
+				
+				public class RETRO_GASPUMP
+				{
+					public static LocString NAME = FormatAsLink("Gas Ubtaje Pump", "RETRO_GASPUMP");
+
+					public static LocString DESC = "An earlier version of the gas pump";
+
+					public static LocString EFFECT = "Takes in gasses and puts them into gas pipes";
+				}
 				public class RETROONI_SMELTER
 				{
 					public static LocString NAME = FormatAsLink("Smelter", "RETROONI_SMELTER");
 
-					public static LocString DESC = "";
+					public static LocString DESC = "An earlier version of the metal refinery";
 
-					public static LocString EFFECT = "";
+					public static LocString EFFECT = "Smelts ores into refined metals";
 				}
 				public class RETROONI_METALRECLAIMER
 				{
 					public static LocString NAME = FormatAsLink("Metal Reclaimer", "RETROONI_METALRECLAIMER");
 
-					public static LocString DESC = "";
+					public static LocString DESC = "an earlier version of the rock crusher";
 
-					public static LocString EFFECT = "";
+					public static LocString EFFECT = "Crushes down minerals and ores";
 				}
 				public class RETROONI_BATTERYLARGE
 				{

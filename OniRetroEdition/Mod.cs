@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Klei;
 using KMod;
 using OniRetroEdition.BuildingDefModification;
 using OniRetroEdition.SlurpTool;
@@ -9,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using UnityEngine;
 using UtilLibs;
 using static StatusItem;
 using static STRINGS.BUILDINGS.PREFABS;
@@ -20,7 +22,9 @@ namespace OniRetroEdition
 		public static Harmony HarmonyInstance;
 		public override void OnLoad(Harmony harmony)
 		{
-			STEAMTURBINE.NAME = global::STRINGS.UI.FormatAsLink("Steam Turbine", nameof(STEAMTURBINE));			
+			UnpackAnimFiles(this.mod);
+
+			STEAMTURBINE.NAME = global::STRINGS.UI.FormatAsLink("Steam Turbine", nameof(STEAMTURBINE));
 			STEAMTURBINE.EFFECT = STEAMTURBINE.EFFECT.Replace("THIS BUILDING HAS BEEN DEPRECATED AND CANNOT BE BUILT.\n\n", string.Empty);
 
 			HarmonyInstance = harmony;
@@ -42,6 +46,22 @@ namespace OniRetroEdition
 					IDictionary<HashedString, StatusItemOverlays> overlayBits)
 				overlayBits.Add(OverlayModes.Sound.ID, StatusItemOverlays.None);
 		}
+
+
+		static readonly string KanimZip = "anim.zip";
+
+		private void UnpackAnimFiles(KMod.Mod mod)
+		{
+			var file = Path.Combine(this.mod.ContentPath, KanimZip);
+			if (File.Exists(file))
+			{
+				System.IO.Compression.ZipFile.ExtractToDirectory(file, this.mod.ContentPath);
+				File.Delete(file);
+				this.mod.available_content |= Content.Animation;
+			}
+		}
+
+
 		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
 		{
 			return;
@@ -79,5 +99,6 @@ namespace OniRetroEdition
 		}
 		public const string LUTNotIncluded_DayLUT = "LUTNotIncluded.DayLUT";
 		public const string LUTNotIncluded_NightLUT = "LUTNotIncluded.NightLUT";
+
 	}
 }

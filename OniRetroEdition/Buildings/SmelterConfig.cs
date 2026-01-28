@@ -79,13 +79,13 @@ namespace OniRetroEdition.Buildings
 			Prioritizable.AddRef(go);
 
 
-			var metalRefineryRecipes = ComplexRecipeManager.Get().preProcessRecipes.Where(r => r.fabricators.Contains(MetalRefineryConfig.ID));
+			var metalRefineryRecipes = ComplexRecipeManager.Get().preProcessRecipes.Where(r => r.fabricators.Contains(MetalRefineryConfig.ID)).ToList();
 			foreach(var recipe in metalRefineryRecipes)
 			{
 				string id = ComplexRecipeManager.MakeRecipeID(ID, recipe.ingredients, recipe.results);
 				new ComplexRecipe(id, recipe.ingredients, recipe.results)
 				{
-					time = recipe.time * 1.25f,
+					time = recipe.time * 1.0f,
 					description = recipe.description,
 					customName = recipe.customName,
 					nameDisplay = recipe.nameDisplay,
