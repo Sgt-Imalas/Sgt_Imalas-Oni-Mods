@@ -13,7 +13,7 @@ namespace UtilLibs
 	public static class SoundUtils
 	{
 		#region copySoundsFromExistingAnim
-		public static void GetSounds()
+		public static void DumpAllGetSounds()
 		{
 			var trav = Traverse.Create(GlobalAssets.Instance);
 			var dic = trav.Field("SoundTable").GetValue<Dictionary<string, string>>();

@@ -297,6 +297,21 @@ namespace UtilLibs
 			}
 		}
 
+		public static void AddBuildingToTechnologyOfOther(string buildingId, string otherBuildingId)
+		{
+			ResearchablesFromMod.Add(buildingId);
+			var techs = Db.Get().Techs;
+
+			foreach(var tech in techs.resources)
+			{
+				if (tech.unlockedItemIDs.Contains(otherBuildingId))
+				{
+					tech.unlockedItemIDs.Add(buildingId);
+					return;
+				}
+			}
+			SgtLogger.error("Could not add " + buildingId + " to tech as " + otherBuildingId + " was not found in any existing tech");
+		}
 		public static void AddBuildingToTechnology(string techId, string buildingId)
 		{
 			ResearchablesFromMod.Add(buildingId);
