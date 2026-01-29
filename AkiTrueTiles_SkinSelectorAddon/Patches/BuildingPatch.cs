@@ -20,7 +20,7 @@ namespace AkiTrueTiles_SkinSelectorAddon.Patches
                 int cell = Grid.PosToCell(__instance);
                 if (__result == SimHashes.Void)
                     return;
-                if(TrueTiles_OverrideStorage.TryGetElement(cell, out var overrideId))
+                if(TrueTiles_OverrideStorage.TryGetElement(cell, __instance.Def, out var overrideId))
                 {
 					__result = overrideId;
 				}

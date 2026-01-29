@@ -25,9 +25,9 @@ namespace AkiTrueTiles_SkinSelectorAddon
 		/// <param name="cell"></param>
 		/// <param name="element"></param>
 		/// <returns></returns>
-		public static bool TryGetElement(int cell, out SimHashes element)
+		public static bool TryGetElement(int cell, Def def, out SimHashes element)
 		{
-			if (Cmps.TryGetValue(cell, out var cmp))
+			if (Cmps.TryGetValue(cell, out var cmp) && cmp != null && cmp.SameDef(def))
 			{
 				element = cmp.HasOverride ? cmp.OverrideElement : cmp.OriginalElement;
 				return true;
@@ -36,6 +36,13 @@ namespace AkiTrueTiles_SkinSelectorAddon
 			return false;
 		}
 
+		private bool SameDef(Def def)
+		{
+			//internal checks of the connector patch
+			if (def == null)
+				return true;
+			return building.Def == def;
+		}
 
 		int cell;
 		public int Cell => cell;
@@ -69,12 +76,13 @@ namespace AkiTrueTiles_SkinSelectorAddon
 			{
 				SetOverride(OverrideElement, true);
 			}
+			ModAssets.ScheduleCellRefresh(cell);
 			this.Subscribe(-905833192, OnCopySettingsDelegate);
 		}
 		public override void OnCleanUp()
 		{
 			base.OnCleanUp();
-			Cmps.Remove(cell);
+			//Cmps.Remove(cell);
 			ModAssets.ScheduleCellRefresh(cell);
 			this.Unsubscribe(-905833192, OnCopySettingsDelegate);
 		}
@@ -112,13 +120,18 @@ namespace AkiTrueTiles_SkinSelectorAddon
 		}
 
 		public SimHashes CurrentDisplayElement => HasOverride ? OverrideElement : OriginalElement;
-		
+
 		public void ResetOverride()
 		{
 			if (HasOverride)
 			{
 				SetOverride(OriginalElement);
 			}
+		}
+		public void ClearAll()
+		{
+			World.Instance.blockTileRenderer.RemoveBlock(Def, IsReplacementTile, OriginalElement, Cell);
+			World.Instance.blockTileRenderer.RemoveBlock(Def, IsReplacementTile, OverrideElement, Cell);
 		}
 
 		internal void SetOverride(SimHashes newElement, bool init = false)
@@ -172,7 +185,7 @@ namespace AkiTrueTiles_SkinSelectorAddon
 					return;
 				var DefaultPermissionBionics = t1.Value<int>();
 				var elementSimhash = (SimHashes)DefaultPermissionBionics;
-				if(ElementLoader.GetElement(elementSimhash.CreateTag()) == null)
+				if (ElementLoader.GetElement(elementSimhash.CreateTag()) == null)
 				{
 					SgtLogger.l("Element " + elementSimhash.ToString() + " not found");
 					return;
