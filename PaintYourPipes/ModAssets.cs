@@ -8,14 +8,12 @@ namespace PaintYourPipes
 		{
 			public static PAction ToggleOverlayColors { get; private set; }
 
-			public const string TRIGGER_FAKE_TACORAIN_IDENTIFIER = "ICT_TRIGGERFAKETACORAIN";
-			public const string TRIGGER_UNLOCKTACORECIPE = "ICT_UNLOCKTACORECIPE";
-			public const string TRIGGER_RAINBOWLIQUIDTOGGLE = "ICT_RAINBOWLIQUIDTOGGLE";
+			public const string TOGGLE_OVERLAY = "PYP_TOGGLE_COLORING_OVERLAY";
 
 			public static void Register()
 			{
 				ToggleOverlayColors = new PActionManager().CreateAction(
-					TRIGGER_FAKE_TACORAIN_IDENTIFIER,
+					TOGGLE_OVERLAY,
 					STRINGS.HOTKEYACTIONS.TOGGLE_OVERLAY_COLOR,
 					new PKeyBinding());
 
