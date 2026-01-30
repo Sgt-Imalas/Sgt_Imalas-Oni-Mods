@@ -563,6 +563,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			AddTagToElementAndEnable(SimHashes.RefinedCarbon, GameTags.CombustibleSolid);
 			AddTagToElementAndEnable(SimHashes.Peat, GameTags.CombustibleSolid);
 			AddTagToElementAndEnable(SimHashes.RefinedLipid, ModAssets.Tags.AIO_BioFuel);
+
+			AddTagToElementAndEnable(SimHashes.CarbonDioxide, ModAssets.Tags.SodaFountainGas);
+			
 		}
 		static void AddTagToElementAndEnable(SimHashes element, Tag? tag = null, bool setMatCat = false) => AddTagsToElementAndEnable(element, tag.HasValue ? [tag.Value] : null, setMatCat);
 

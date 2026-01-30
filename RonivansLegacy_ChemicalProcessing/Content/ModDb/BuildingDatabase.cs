@@ -74,12 +74,20 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			global::STRINGS.BUILDINGS.PREFABS.BIODIESELENGINE.EFFECT = global::STRINGS.BUILDINGS.PREFABS.BIODIESELENGINE.EFFECT.Replace(global::STRINGS.ELEMENTS.REFINEDLIPID.NAME, STRINGS.MISC.TAGS.AIO_BIOFUEL);
 			global::STRINGS.BUILDINGS.PREFABS.BIODIESELENGINECLUSTER.EFFECT = global::STRINGS.BUILDINGS.PREFABS.BIODIESELENGINECLUSTER.EFFECT.Replace(global::STRINGS.ELEMENTS.REFINEDLIPID.NAME, STRINGS.MISC.TAGS.AIO_BIOFUEL);
+
+			global::STRINGS.BUILDINGS.PREFABS.SODAFOUNTAIN.EFFECT = global::STRINGS.BUILDINGS.PREFABS.SODAFOUNTAIN.EFFECT.Replace(global::STRINGS.UI.FormatAsLink("Carbon Dioxide", "CARBONDIOXIDE"), STRINGS.MISC.TAGS.SODAFOUNTAINGAS);
 		}
 
 		public static void RegisterOilWellCapCustomPiping()
 		{
 			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
 			{
+				var sodaFountain = Assets.GetBuildingDef(SodaFountainConfig.ID);
+				CustomSodaFountain.AttachPorts(sodaFountain.BuildingPreview);
+				CustomSodaFountain.AttachPorts(sodaFountain.BuildingUnderConstruction);
+				CustomSodaFountain.AttachPorts(sodaFountain.BuildingComplete);
+
+
 				var oilWell = Assets.GetBuildingDef(OilWellCapConfig.ID);
 				Custom_OilWellCapConfig.AttachPorts(oilWell.BuildingPreview);
 				Custom_OilWellCapConfig.AttachPorts(oilWell.BuildingUnderConstruction);
