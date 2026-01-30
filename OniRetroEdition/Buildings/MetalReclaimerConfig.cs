@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 namespace OniRetroEdition.Buildings
 {
@@ -22,7 +23,7 @@ namespace OniRetroEdition.Buildings
 			EffectorValues noise = none1;
 			var anim = Assets.GetAnim("metalreclaimer_kanim") != null ? "metalreclaimer_kanim" : "rockrefinery_kanim";
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 4, anim, 100, 30f, tieR2, farmable, 1600f, BuildLocationRule.OnFloor, none2, noise);
-
+			SoundUtils.CopySoundsToAnim("metalreclaimer_kanim", "rockrefinery_kanim");
 			buildingDef.Overheatable = false;
 			buildingDef.AudioCategory = "Metal";
 			buildingDef.AudioSize = "small";

@@ -23,7 +23,7 @@ namespace OniRetroEdition
 				
 				public class RETRO_GASPUMP
 				{
-					public static LocString NAME = FormatAsLink("Gas Ubtaje Pump", "RETRO_GASPUMP");
+					public static LocString NAME = FormatAsLink("Gas Intake Pump", "RETRO_GASPUMP");
 
 					public static LocString DESC = "An earlier version of the gas pump";
 
