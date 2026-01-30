@@ -1384,6 +1384,7 @@ elements:
     materialCategory: Unbreathable
     tags:
     - AIO_CarrierGas
+    - SodaFountainGas 
     isDisabled: false
     state: Gas
     localizationID: STRINGS.ELEMENTS.NITROGENGAS.NAME

@@ -1747,6 +1747,15 @@ namespace RonivansLegacy_ChemicalProcessing
 		}
 		public class CREATURES
 		{
+			public class MODIFIERS
+			{
+				public class AIO_NITROGENIZED
+				{
+					public static LocString NAME = "Atmospheric Fertilization";
+					public static LocString TOOLTIP = $"Consumption of atmospheric {FormatAsLink("Nitrogen", "NITROGENGAS")} boosts the growth of this {PRE_KEYWORD}Plant{PST_KEYWORD}.\n\nConsuming Nitrogen: {{0}}";
+				}
+			}
+				
 			public class SPECIES
 			{
 				public class GEYSER
@@ -2107,6 +2116,9 @@ namespace RonivansLegacy_ChemicalProcessing
 		{
 			public class TAGS
 			{
+				public static LocString SODAFOUNTAINGAS = FormatAsLink("Soda Gas", nameof(SODAFOUNTAINGAS));
+				public static LocString SODAFOUNTAINGAS_DESC = "Gasses that can be used by the "+ FormatAsLink("Soda Fountain", "SODAFOUNTAIN") +" to create a sparkling soda.";
+
 				public static LocString CHEMICALPROCESSING_RANDOMSAND = FormatAsLink("Metallic Sand", nameof(CHEMICALPROCESSING_RANDOMSAND));
 				public static LocString CHEMICALPROCESSING_RANDOMSAND_DESC = "Sandy materials composed of a various number of metallic grains";
 

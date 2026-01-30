@@ -34,7 +34,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				List<ICodexWidget> content = new List<ICodexWidget>();
 				content.Add((ICodexWidget)new CodexText(go1.GetComponent<InfoDescription>().description));
 				content.Add((ICodexWidget)new CodexSpacer());
-				
+
 
 				//content.Add(new CodexEntry_MadeAndUsed() { tag = prefabTag.ToString() });
 				contentContainerList.Add(new ContentContainer(content, ContentContainer.ContentLayout.Vertical));

@@ -63,6 +63,9 @@ namespace RonivansLegacy_ChemicalProcessing
 
 			///Biodiesel and Renewable Diesel
 			public static Tag AIO_BioFuel = TagManager.Create("AIO_BioFuel");
+
+			///Elements that go into the Soda Fountain, atm Nitrogen and CO2
+			public static Tag SodaFountainGas = TagManager.Create("SodaFountainGas");
 		}
 		public static GameObject BuildingEditorWindowPrefab;
 

@@ -35,5 +35,22 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		//		AdditionalRecipes.AddOrGetPlantConsumptionInfo(CropId, info.tag, info.massConsumptionRate);
 		//	}
 		//}
+
+
+		/// <summary>
+		/// allow all "atmosphere" plants to also grow in nitrogen
+		/// </summary>
+		[HarmonyPatch(typeof(EntityTemplates), nameof(EntityTemplates.ExtendEntityToBasicPlant))]
+		public class EntityTemplates_ExtendEntityToBasicPlant_Patch
+		{
+			public static void Prefix(EntityTemplates __instance, ref SimHashes[] safe_elements)
+			{
+				if (safe_elements == null)
+					return;
+
+				if (safe_elements.Contains(SimHashes.Oxygen) && safe_elements.Contains(SimHashes.CarbonDioxide))
+					safe_elements = safe_elements.Append(ModElements.Nitrogen_Gas);
+			}
+		}
 	}
 }

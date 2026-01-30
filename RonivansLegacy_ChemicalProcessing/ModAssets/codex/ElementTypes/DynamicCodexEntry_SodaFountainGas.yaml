@@ -1,0 +1,32 @@
+id: "SodaFountainGas"
+title: STRINGS.MISC.TAGS.SODAFOUNTAINGAS
+category: "ELEMENTTYPES"
+parentId: "ELEMENTTYPES"
+contentContainers:
+#-----------------------------
+  - contentLayout: Vertical
+    lockID:
+
+    content:
+      - !CodexText
+          stringKey: STRINGS.MISC.TAGS.SODAFOUNTAINGAS
+          style: Title
+      - !CodexDividerLine
+          preferredWidth: -1
+      - !CodexImage
+          spriteName: CARBONDIOXIDE
+          preferredWidth: 128
+          preferredHeight: 128
+#-----------------------------
+  - contentLayout: Vertical
+    lockID:
+
+    content:
+      - !CodexText
+          stringKey: STRINGS.MISC.TAGS.SODAFOUNTAINGAS_DESC
+          style: Body
+      - !CodexElementCategoryList
+          categoryTag: SODAFOUNTAINGAS
+
+contentMadeAndUsed:
+  - tag: SodaFountainGas

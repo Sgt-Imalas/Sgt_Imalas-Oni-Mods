@@ -20,7 +20,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			public static void Postfix(string folder, List<CodexEntry> __result)
 			{
 				SgtLogger.l("Collecting Codex Entries for " + folder);
-				CodexUtils.CollectModdedCodexEntries(folder,__result, true);				
+				CodexUtils.CollectModdedCodexEntries(folder,__result, true);
 			}
 		}
 
