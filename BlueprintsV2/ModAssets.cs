@@ -19,7 +19,7 @@ namespace BlueprintsV2
 	{
 
 		public static ObjectLayer BlueprintNotesLayer = ObjectLayer.FillPlacer;
-		public static Sprite Note_Placer_Sprite;
+		public static Sprite Note_Placer_Sprite, NoteToolIcon_Sprite, AddNoteToolIcon_Sprite;
 		public static Sprite Gas_Placer_Sprite, Liquid_Placer_Sprite, Solid_Placer_Sprite, Special_Placer_Sprite;
 		public static Sprite PlanningToolPreview_Square, PlanningToolPreview_Circle, PlanningToolPreview_Diamond;
 
@@ -475,6 +475,10 @@ namespace BlueprintsV2
 				STRINGS.UI.ACTIONS.TOGGLE_FORCE, new PKeyBinding(KKeyCode.F));
 
 
+			Actions.BlueprintsCreateNoteAction = new PActionManager().CreateAction(ActionKeys.ACTION_NOTETOOL_KEY,
+				STRINGS.UI.ACTIONS.NOTETOOL_TITLE);
+
+
 
 			Actions.BlueprintsSelectPrevious = new PActionManager().CreateAction(ActionKeys.ACTION_SELECT_PREV_BLUEPRINT_KEY,
 				STRINGS.UI.ACTIONS.SELECT_PREV, new PKeyBinding(KKeyCode.MouseScrollDown, Modifier.Shift));
@@ -578,6 +582,7 @@ namespace BlueprintsV2
 			public static readonly string ACTION_RESELECT_KEY = "BlueprintsV2.reselect";
 			public static readonly string ACTION_SWAP_ANCHOR_KEY = "BlueprintsV2.anchorswap";
 			public static readonly string ACTION_FORCE_TOGGLE_KEY = "BlueprintsV2.toggleforce";
+			public static readonly string ACTION_NOTETOOL_KEY = "BlueprintsV2.notetool.opentool";
 
 			public static readonly string ACTION_FLIP_HORIZONTAL_KEY = "BlueprintsV2.flipH";
 			public static readonly string ACTION_FLIP_VERTICAL_KEY = "BlueprintsV2.flipV";
@@ -591,6 +596,7 @@ namespace BlueprintsV2
 		{
 			public static PAction BlueprintsCreateAction { get; set; }
 			public static PAction BlueprintsUseAction { get; set; }
+			public static PAction BlueprintsCreateNoteAction { get; set; }
 			public static PAction BlueprintsSnapshotAction { get; set; }
 			public static PAction BlueprintsSnapshotReuseAction { get; set; }
 			public static PAction BlueprintsReopenSelectionAction { get; set; }

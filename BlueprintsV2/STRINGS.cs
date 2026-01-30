@@ -411,6 +411,7 @@ namespace BlueprintsV2
 				public static LocString CREATE_TITLE = "Create Blueprint";
 				public static LocString USE_TITLE = "Use Blueprint";
 				public static LocString SNAPSHOT_TITLE = "Take Snapshot";
+				public static LocString NOTETOOL_TITLE = "Create Notes";
 				public static LocString SNAPSHOT_REUSE_TITLE = "Use last Snapshot";
 				public static LocString SELECT_DIFFERENT_TITLE = "Select different Blueprint";
 				public static LocString CHANGE_ANCHOR_TITLE = "Change Blueprint Anchor";
@@ -476,6 +477,12 @@ namespace BlueprintsV2
 
 				}
 
+				public class NOTE_TOOL
+				{
+					public static LocString NAME = "Create Notes";
+					public static LocString TOOLTIP = "Create Text- and ElementNotes in the world that can be stored in Blueprints.";
+					public static LocString TOOLTIP_TITLE = "NOTE TOOL";
+				}
 				public class SNAPSHOT_TOOL
 				{
 					public static LocString NAME = "Take Snapshot";
@@ -504,6 +511,11 @@ namespace BlueprintsV2
 					{
 						public static LocString NAME = "Create Tile Notes";
 						public static LocString TOOLTIP = "Store the world element tiles of the chosen element states as Element Notes in the blueprint.";
+					}
+					public class BLUEPRINTV2_FILTER_NOTES
+					{
+						public static LocString NAME = "Blueprint Notes";
+						public static LocString TOOLTIP = "Blueprint Notes only";
 					}
 					public class BLUEPRINTV2_COLLECT_NOTES
 					{

@@ -1,4 +1,5 @@
-﻿using BlueprintsV2.BlueprintsV2.BlueprintData.PlannedElements;
+﻿using BlueprintsV2.BlueprintsV2.BlueprintData.NoteToolPlacedEntities;
+using BlueprintsV2.BlueprintsV2.BlueprintData.PlannedElements;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
@@ -39,9 +40,9 @@ namespace BlueprintsV2.BlueprintsV2.Patches
 		{
 			public static void Postfix(FilteredDragTool __instance, GameObject input, ref string __result)
 			{
-				if (input.TryGetComponent<ElementNote>(out _))
+				if (input.TryGetComponent<BlueprintNote>(out _))
 				{
-					__result = ElementNote.FILTERLAYER;
+					__result = BlueprintNote.FILTERLAYER;
 				}
 			}
 		}

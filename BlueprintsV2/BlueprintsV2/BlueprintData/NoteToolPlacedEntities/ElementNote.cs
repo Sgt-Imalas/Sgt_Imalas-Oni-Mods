@@ -41,8 +41,6 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData.PlannedElements
 			this.sliderControls = [new MassController(this), new TemperatureController(this)];
 		}
 
-		public static string FILTERLAYER = ("BPV2_ELEMENTPLANINFO_FILTER");
-		MeshRenderer renderer;
 
 		[Serialize]
 		public float ElementAmount, ElementTemperature;
@@ -55,7 +53,6 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData.PlannedElements
 
 		public override void OnSpawn()
 		{
-			renderer = GetComponentInChildren<MeshRenderer>();
 			UnityEngine.Object.Destroy(GetComponent<CopyBuildingSettings>());
 
 			filterable.SelectedTag = ElementId.CreateTag();

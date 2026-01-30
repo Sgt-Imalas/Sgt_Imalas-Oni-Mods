@@ -16,7 +16,7 @@ namespace BlueprintsV2.BlueprintsV2.Patches
 {
 	class ToolMenu_Patches
 	{
-		static ToolMenu.ToolCollection SnapshotToolCollection, CreateBlueprintToolCollection, UseBlueprintToolCollection;
+		static ToolMenu.ToolCollection SnapshotToolCollection, CreateBlueprintToolCollection, UseBlueprintToolCollection, NoteToolCollection;
 
 		[HarmonyPatch(typeof(ToolMenu), nameof(ToolMenu.OnKeyUp))]
 		public class ToolMenu_OnKeyUp_Patch
@@ -122,13 +122,22 @@ namespace BlueprintsV2.BlueprintsV2.Patches
 						string.Format(STRINGS.UI.TOOLS.SNAPSHOT_TOOL.TOOLTIP, "{Hotkey}", Actions.BlueprintsSnapshotReuseAction.GetFormattedPActionDescription()),
 						false
 					);
+
+				NoteToolCollection = ToolMenu.CreateToolCollection(
+						"Note Tool",
+						ModAssets.NoteToolIcon_Sprite.name,
+				Actions.BlueprintsCreateNoteAction.GetKAction(),
+						typeof(CreateNoteTool).Name,
+						STRINGS.UI.TOOLS.NOTE_TOOL.TOOLTIP,
+						false
+					);
 				__instance.basicTools.Add(CreateBlueprintToolCollection);
 				__instance.basicTools.Add(UseBlueprintToolCollection);
 				__instance.basicTools.Add(SnapshotToolCollection);
+				__instance.basicTools.Add(NoteToolCollection);
 
 				BlueprintFileHandling.ReloadBlueprints(false);
 			}
 		}
-
 	}
 }

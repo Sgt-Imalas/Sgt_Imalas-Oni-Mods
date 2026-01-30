@@ -16,7 +16,6 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData.PlanningToolMod_Integration
 	{
 		static Material SquareMat, CircleMat, DiamondMat;
 
-		public static string FILTERLAYER = ("BPV2_ELEMENTPLANINFO_FILTER");
 		MeshRenderer renderer;
 
 		public PlanShape Shape;

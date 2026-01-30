@@ -1,4 +1,5 @@
-﻿using BlueprintsV2.Tools;
+﻿using BlueprintsV2.BlueprintsV2.Tools;
+using BlueprintsV2.Tools;
 using HarmonyLib;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,11 +29,20 @@ namespace BlueprintsV2.Patches
 				useBlueprintTool.gameObject.SetActive(false);
 				interfaceTools.Add(useBlueprintTool.GetComponent<UseBlueprintTool>());
 
+
 				var snapshotTool = new GameObject(typeof(SnapshotTool).Name, typeof(SnapshotTool));
 				snapshotTool.transform.SetParent(__instance.gameObject.transform);
 				snapshotTool.gameObject.SetActive(true);
 				snapshotTool.gameObject.SetActive(false);
 				interfaceTools.Add(snapshotTool.GetComponent<SnapshotTool>());
+
+				var noteTool = new GameObject(typeof(CreateNoteTool).Name, typeof(CreateNoteTool));
+				noteTool.transform.SetParent(__instance.gameObject.transform);
+				noteTool.gameObject.SetActive(true);
+				noteTool.gameObject.SetActive(false);
+				interfaceTools.Add(noteTool.GetComponent<CreateNoteTool>());
+
+
 
 				__instance.tools = interfaceTools.ToArray();
 

@@ -560,11 +560,12 @@ namespace BlueprintsV2.Visualizers
 			if (Grid.IsValidCell(cellParam)
 				&& Grid.IsVisible(cellParam))
 			{
-				bool IsValidPlaceLocation = buildingConfig.BuildingDef.IsValidPlaceLocation(Visualizer, cellParam, RotatedOrientation, out string faiReason);
+				bool IsValidPlaceLocation = buildingConfig.BuildingDef.IsValidPlaceLocation(Visualizer, cellParam, RotatedOrientation, out string failReason);
 				bool IgnorableFailReason =
-					faiReason == global::STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_WALL
-					|| faiReason == global::STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_CORNER
-					|| faiReason == global::STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_CORNER_FLOOR;
+					failReason == global::STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_WALL
+					|| failReason == global::STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_CORNER
+					|| failReason == global::STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_CORNER_FLOOR
+					|| (failReason == global::STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_BACK_WALL_REQUIRED && BlueprintState.LayerOccupiedAt(ObjectLayer.Backwall, cellParam));
 
 				//SgtLogger.l("Fail reason of " + buildingConfig.BuildingDef.name + ": " + faiReason);
 

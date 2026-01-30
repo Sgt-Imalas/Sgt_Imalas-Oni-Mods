@@ -36,7 +36,11 @@ namespace BlueprintsV2.Patches
 				ModAssets.Solid_Placer_Sprite = InjectionMethods.AddSpriteToAssets(__instance, "BPV2_SolidPlacer");
 				ModAssets.Special_Placer_Sprite = InjectionMethods.AddSpriteToAssets(__instance, "BPV2_SpecialPlacer");
 				ModAssets.Note_Placer_Sprite = InjectionMethods.AddSpriteToAssets(__instance, "BPV2_NotePlacer");
+				ModAssets.NoteToolIcon_Sprite = InjectionMethods.AddSpriteToAssets(__instance, "BPV2_NoteTool");
+				ModAssets.AddNoteToolIcon_Sprite = InjectionMethods.AddSpriteToAssets(__instance, "BPV2_AddNote");
 				
+
+
 
 				ModAssets.PlanningToolPreview_Square = InjectionMethods.AddSpriteToAssets(__instance, "BPV2_PlantoolPlacer_Square");
 				ModAssets.PlanningToolPreview_Circle = InjectionMethods.AddSpriteToAssets(__instance, "BPV2_PlantoolPlacer_Circle");

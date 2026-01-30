@@ -321,19 +321,22 @@ namespace BlueprintsV2.BlueprintData
 			lastBlueprintDimensions = bp.Dimensions;
 		}
 
+		static Dictionary<int, Dictionary<int, GameObject>> VisualizerTargets = [];
+
 		public static void UpdateVisual(Vector2I origin, bool forcingRedraw = false, Blueprint snapshotBp = null)
 		{
 			lastBlueprintPos = origin;
 			CleanDirtyVisuals();
 			StoreDimensions(snapshotBp);
+			VisualizerTargets.Clear();
 
 			FoundationVisuals.ForEach(foundationVisual =>
 			{
-				ApplyRotatedCell(origin, foundationVisual, forcingRedraw);
+				ApplyRotatedCellAndMove(origin, foundationVisual, forcingRedraw);
 			});
 			DependentVisuals.ForEach(dependentVisual =>
 			{
-				ApplyRotatedCell(origin, dependentVisual, forcingRedraw);
+				ApplyRotatedCellAndMove(origin, dependentVisual, forcingRedraw);
 			});
 			DependentVisuals.ForEach(dependentVisual =>
 			{
@@ -436,7 +439,7 @@ namespace BlueprintsV2.BlueprintData
 			FlippedY = false;
 			BlueprintOrientation = Orientation.Neutral;
 		}
-		public static void ApplyRotatedCell(Vector2I origin, IVisual bpEntryVis, bool forcingRedraw)
+		public static void ApplyRotatedCellAndMove(Vector2I origin, IVisual bpEntryVis, bool forcingRedraw)
 		{
 			bpEntryVis.ApplyRotation(BlueprintOrientation, FlippedX, FlippedY);
 			bpEntryVis.MoveVisualizer(GetRotatedCell(origin, bpEntryVis), forcingRedraw);
@@ -564,8 +567,6 @@ namespace BlueprintsV2.BlueprintData
 
 			UpdateVisual(new((int)mousePos.x, (int)mousePos.y), true, snapshotBlueprint);
 		}
-
-
 		static Vector2I GetShiftedPositions(Vector2I startPos, Blueprint bp = null)
 		{
 			if (bp == null)
@@ -608,6 +609,11 @@ namespace BlueprintsV2.BlueprintData
 			var newVector = new Vector2I(newPosX, newPosY);
 
 			return newVector;
+		}
+
+		internal static bool LayerOccupiedAt(ObjectLayer backwall, int cellParam)
+		{
+			throw new System.NotImplementedException();
 		}
 		#endregion
 	}

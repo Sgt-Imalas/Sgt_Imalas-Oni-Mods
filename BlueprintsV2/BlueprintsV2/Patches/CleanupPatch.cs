@@ -13,6 +13,7 @@ namespace BlueprintsV2.Patches
 			public static void Postfix()
 			{
 				CreateBlueprintTool.DestroyInstance();
+				CreateNoteTool.DestroyInstance();
 				UseBlueprintTool.DestroyInstance();
 				SnapshotTool.DestroyInstance();
 				MultiToolParameterMenu.DestroyInstance();

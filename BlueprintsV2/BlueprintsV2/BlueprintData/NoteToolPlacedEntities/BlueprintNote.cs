@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.UI;
 using static BlueprintsV2.STRINGS.BLUEPRINTS_BLUEPRINTNOTE;
 using static STRINGS.MISC.STATUSITEMS;
@@ -16,11 +17,19 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData.NoteToolPlacedEntities
 {
 	public class BlueprintNote : KMonoBehaviour
 	{
+		public static string FILTERLAYER = ("BLUEPRINTV2_FILTER_NOTES");
 		[Serialize]
 		public bool SeatIndicator = false;
 		[MyCmpReq] protected InfoDescription description;
 		[MyCmpReq] protected KSelectable selectable;
 		[MyCmpReq] protected Filterable filterable;
+		protected MeshRenderer renderer;
+		public override void OnPrefabInit()
+		{
+			base.OnPrefabInit();
+			renderer = GetComponentInChildren<MeshRenderer>();
+		}
+
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
