@@ -97,7 +97,6 @@ namespace OniRetroEdition.Buildings
 		public override void DoPostConfigureComplete(GameObject go)
 		{
 			SymbolOverrideControllerUtil.AddToPrefab(go);
-			go.AddOrGetDef<PoweredActiveStoppableController.Def>();
 			go.GetComponent<KPrefabID>().prefabSpawnFn += (KPrefabID.PrefabFn)(game_object =>
 			{
 				ComplexFabricatorWorkable component = game_object.GetComponent<ComplexFabricatorWorkable>();

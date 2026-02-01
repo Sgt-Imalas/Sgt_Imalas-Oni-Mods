@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 namespace OniRetroEdition.Buildings
 {
@@ -31,6 +32,7 @@ namespace OniRetroEdition.Buildings
 			buildingDef.PowerInputOffset = new CellOffset(0, 0);
 			buildingDef.UtilityOutputOffset = new CellOffset(0, 0);
 			buildingDef.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(0, 0));
+			SoundUtils.CopySoundsToAnim("pumpgas_retro_kanim", "ventgas_kanim");
 			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.GasVentIDs, ID);
 			return buildingDef;
 		}
