@@ -114,6 +114,7 @@ namespace Dupes_Machinery.Biological_Vats
 
 			go.AddOrGet<ElementConversionBuilding>().UsePrimaryConverterOnly = true; //Handles element converter
 
+			go.AddComponent<TutorialOxygenGenerator>();
 			Prioritizable.AddRef(go);
 		}
 

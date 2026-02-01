@@ -46,7 +46,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 			public static bool Prepare() => Config.Instance.HighPressureApplications_Enabled;
 
 			static ConduitType CurrentConduitType;
-			public static void Prefix(RenderMeshContext shared_data)
+			public static void Prefix(ref RenderMeshContext shared_data)
 			{
 				CurrentConduitType = shared_data.outer.flowManager.conduitType;
 			}
