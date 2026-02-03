@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
+using UtilLibs.BuildingPortUtils;
 
 
 namespace Biochemistry.Buildings
@@ -18,6 +19,7 @@ namespace Biochemistry.Buildings
 	public class Biochemistry_ExpellerPressConfig : IBuildingConfig
 	{
 		public static string ID = "Biochemistry_ExpellerPress";
+		private static readonly PortDisplayInput waterInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(-1, 1), null, new Color32(3, 148, 252, 255));
 
 		public override BuildingDef CreateBuildingDef()
 		{
@@ -36,12 +38,20 @@ namespace Biochemistry.Buildings
 			SoundUtils.CopySoundsToAnim("oil_presser_kanim", "fertilizer_maker_kanim");
 			return buildingDef;
 		}
+		private void AttachPort(GameObject go)
+		{
+			PortDisplayController controller = go.AddComponent<PortDisplayController>();
+			controller.Init(go);
+			controller.AssignPort(go, waterInputPort);
+		}
 
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 			go.AddOrGet<DropAllWorkable>();
 			go.AddOrGet<BuildingComplete>().isManuallyOperated = false;
+
+
 
 
 			//----------------------------- Fabricator Section
@@ -60,6 +70,17 @@ namespace Biochemistry.Buildings
 			oilPress.outputOffset = new Vector3(1f, 0.5f);
 			//-----------------------------
 
+			PortConduitConsumer waterInput = go.AddComponent<PortConduitConsumer>();
+			waterInput.conduitType = ConduitType.Liquid;
+			waterInput.consumptionRate = 10f;
+			waterInput.capacityKG = 40f;
+			waterInput.storage = oilPress.inStorage;
+			waterInput.capacityTag = SimHashes.Water.CreateTag();
+			waterInput.forceAlwaysSatisfied = true;
+			waterInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
+			waterInput.SkipSetOperational = true;
+			waterInput.AssignPort(waterInputPort);
+
 			ConduitDispenser dispenser = go.AddOrGet<ConduitDispenser>();
 			dispenser.conduitType = ConduitType.Liquid;
 			dispenser.storage = oilPress.outStorage;
@@ -75,16 +96,19 @@ namespace Biochemistry.Buildings
 
 		public override void DoPostConfigurePreview(BuildingDef def, GameObject go)
 		{
-		}
-
-		public override void DoPostConfigureUnderConstruction(GameObject go)
-		{
+			this.AttachPort(go);
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)
 		{
+			this.AttachPort(go);
 			go.AddOrGet<LogicOperationalController>();
-			go.AddOrGetDef<PoweredActiveController.Def>();
+			go.AddOrGetDef<PoweredActiveController.Def>() ;
+		}
+		public override void DoPostConfigureUnderConstruction(GameObject go)
+		{
+			base.DoPostConfigureUnderConstruction(go);
+			this.AttachPort(go);
 		}
 
 		//===[ EXPELLER PRESS RECIPES ]===============================================================================

@@ -24,17 +24,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		public static string ID = "Chemical_SoilMixer";
 
 		//--[ Special Settings ]-----------------------------------------------------------------------------
-		private static readonly PortDisplayInput waterInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(1, 1));
-		private static readonly PortDisplayInput gasAmmoniaInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(1, 1));
-
-		static Chemical_SoilMixerConfig()
-		{
-			Color? waterPortColor = new Color32(3, 148, 252, 255);
-			waterInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(1, 1), null, waterPortColor);
-			Color? gasCo2PortColor = new Color32(215, 227, 252, 255);
-			gasAmmoniaInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(1, 1), null, gasCo2PortColor);
-
-		}
+		private static readonly PortDisplayInput waterInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(1, 1),null, new Color32(3, 148, 252, 255));
+		private static readonly PortDisplayInput gasAmmoniaInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(1, 1),null, new Color32(215, 227, 252, 255));
 
 		//--[ Building Definitions ]--------------------------------------------------------------------------
 		public override BuildingDef CreateBuildingDef()
@@ -69,7 +60,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			pollutedWaterInput.consumptionRate = 10f;
 			pollutedWaterInput.capacityKG = 100f;
 			pollutedWaterInput.storage = buildingStorage;
-			pollutedWaterInput.capacityTag = SimHashes.DirtyWater.CreateTag(); ;
+			pollutedWaterInput.capacityTag = SimHashes.DirtyWater.CreateTag();
 			pollutedWaterInput.forceAlwaysSatisfied = true;
 			pollutedWaterInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
 
@@ -81,6 +72,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			waterInput.capacityTag = SimHashes.Water.CreateTag();
 			waterInput.forceAlwaysSatisfied = true;
 			waterInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
+			waterInput.SkipSetOperational = true;
 			waterInput.AssignPort(waterInputPort);
 
 			PortConduitConsumer gasAmmoniaInput = go.AddComponent<PortConduitConsumer>();
@@ -91,6 +83,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			gasAmmoniaInput.capacityTag = ModElements.Ammonia_Gas.Tag;
 			gasAmmoniaInput.forceAlwaysSatisfied = true;
 			gasAmmoniaInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
+			gasAmmoniaInput.SkipSetOperational = true;
 			gasAmmoniaInput.AssignPort(gasAmmoniaInputPort);
 
 			//----------------------------- Fabricator Section
@@ -267,6 +260,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		public override void DoPostConfigureComplete(GameObject go)
 		{
 			go.AddOrGetDef<PoweredActiveController.Def>().showWorkingStatus = true;
+			this.AttachPort(go);
 		}
 
 		public override void DoPostConfigurePreview(BuildingDef def, GameObject go)
