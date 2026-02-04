@@ -519,11 +519,13 @@ namespace ClusterTraitGenerationManager.UI.Screens
 		Dictionary<string, GameObject> Traits = new Dictionary<string, GameObject>();
 
 
+		Dictionary<string, StoryTraitAsteroidBlacklistToggle> ActiveStoryTraitBlacklistToggles = [];
 
 		private GameObject Details_StoryTraitContainer;
 		private Image StoryTraitImage;
 		private LocText StoryTraitDesc;
 		public FToggle StoryTraitToggle;
+		public GameObject StoryTraitBlacklistContainer, StoryTraitBlacklistEntryPrefab;
 
 
 		private FSlider ClusterSize;
@@ -2543,9 +2545,9 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			StoryTraitEntryPrefab.SetActive(false);
 			Details_StoryTraitContainer = transform.Find("Details/Content/ScrollRectContainer/StoryTrait").gameObject;// .FindOrAddComponent<FToggle2>();
 			Details_StoryTraitContainer.SetActive(true);
-			StoryTraitImage = transform.Find("Details/Content/ScrollRectContainer/StoryTrait/HeaderImage").gameObject.AddOrGet<Image>();
-			StoryTraitDesc = transform.Find("Details/Content/ScrollRectContainer/StoryTrait/Description").gameObject.AddOrGet<LocText>();
-			StoryTraitToggle = transform.Find("Details/Content/ScrollRectContainer/StoryTrait/StoryTraitEnabled").gameObject.AddOrGet<FToggle>();
+			StoryTraitImage = Details_StoryTraitContainer.transform.Find("InfoContainer/HeaderImage").gameObject.AddOrGet<Image>();
+			StoryTraitDesc = Details_StoryTraitContainer.transform.Find("InfoContainer/Description").gameObject.AddOrGet<LocText>();
+			StoryTraitToggle = Details_StoryTraitContainer.transform.Find("StoryTraitEnabled").gameObject.AddOrGet<FToggle>();
 			StoryTraitToggle.SetCheckmark("Background/Checkmark");
 			Details_StoryTraitContainer.SetActive(false);
 			StoryTraitToggle.OnClick +=
@@ -2554,6 +2556,13 @@ namespace ClusterTraitGenerationManager.UI.Screens
 					if (CurrentlySelectedItemData is SelectedStoryTrait)
 						ToggleStoryTrait(CurrentlySelectedItemData.ID);
 				};
+
+			StoryTraitBlacklistContainer = Details_StoryTraitContainer.transform.Find("StoryTraitBlacklist/Content/TraitContainer/ScrollArea/Content").gameObject;
+
+			UIUtils.AddSimpleTooltipToObject(Details_StoryTraitContainer.transform.Find("StoryTraitBlacklist/Descriptor/InfoImage"), STORYTRAIT.STORYTRAITBLACKLIST.DESCRIPTOR.TOOLTIP);
+
+			StoryTraitBlacklistEntryPrefab = StoryTraitBlacklistContainer.transform.Find("Item").gameObject;
+			StoryTraitBlacklistEntryPrefab.SetActive(false);
 
 			foreach (Story Story in Db.Get().Stories.resources)
 			{
@@ -2592,10 +2601,8 @@ namespace ClusterTraitGenerationManager.UI.Screens
 		}
 		void RefreshStoryTraitsUI()
 		{
-			if (CurrentlySelectedItemData is not SelectedStoryTrait)
+			if (CurrentlySelectedItemData is not SelectedStoryTrait data)
 				return;
-			var data = CurrentlySelectedItemData as SelectedStoryTrait;
-
 			var currentPlacements = CustomCluster.GetAllPlanets().Select(planet => planet.placement).ToList();
 
 			bool SelectedToggleable = CGMWorldGenUtils.ShouldStoryBeInteractable(data.ID, currentPlacements);
@@ -2615,7 +2622,41 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			{
 				state.Value.SetIsSelected(state.Key == data.ID);
 			}
+
+			foreach (var existingPlanet in ActiveStoryTraitBlacklistToggles)
+				existingPlanet.Value.gameObject.SetActive(false);
+
+			foreach(var asteroid in CustomCluster.GetAllPlanets())
+			{
+				bool disallowedOnAsteroid = CustomCluster.StoryTraitBlacklisted(data.ID, asteroid.id);
+
+				if (CGMWorldGenUtils.IsImpactorTrait(data.ID))
+				{
+					SelectedToggleable = false;
+					disallowedOnAsteroid = CustomCluster.StarterPlanet != asteroid;
+				}
+
+				var toggle = AddOrGetStoryTraitBlacklistToggle(asteroid.id);
+				toggle.Refresh(
+					!disallowedOnAsteroid,
+					StoryTraitEnabled(data.ID) && SelectedToggleable, 
+					(world, on) => CustomCluster.SetStorytraitBlacklisted(data.ID, asteroid.id, !on));
+			}
+
 			RefreshDetails();
+		}
+		StoryTraitAsteroidBlacklistToggle AddOrGetStoryTraitBlacklistToggle(string asteroidId)
+		{
+			if(ActiveStoryTraitBlacklistToggles.TryGetValue(asteroidId, out var value))
+			{
+				value.gameObject.SetActive(true);
+				return value;
+			}
+			value = Util.KInstantiateUI(StoryTraitBlacklistEntryPrefab.gameObject, StoryTraitBlacklistContainer).AddOrGet<StoryTraitAsteroidBlacklistToggle>();
+			value.gameObject.SetActive(true);
+			value.Init(asteroidId);
+			ActiveStoryTraitBlacklistToggles[asteroidId] = value;
+			return value;
 		}
 
 		public void SelectStoryTrait(string id)

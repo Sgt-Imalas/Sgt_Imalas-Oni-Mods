@@ -46,13 +46,13 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 			string clusterID;
 
-			if(CGSMClusterManager.TryGetClusterForStarter(StarterPlanet, out clusterID)
+			if (CGSMClusterManager.TryGetClusterForStarter(StarterPlanet, out clusterID)
 				&& (StarterPlanet.IsDlcRequired(DlcManager.DLC2_ID) || StarterPlanet.IsDlcRequired(DlcManager.DLC4_ID)))
 			{
 				return clusterID;
 			}
 
-			if (StarterPlanet.IsDlcRequired(DlcManager.DLC2_ID) 
+			if (StarterPlanet.IsDlcRequired(DlcManager.DLC2_ID)
 				|| HasDlcRequiringContentActive(DlcManager.DLC2_ID, false) && !StarterPlanet.IsDlcRequired(DlcManager.DLC2_ID) && hasPump)
 			{
 				return spacedOutActive ? "dlc2::clusters/CeresClassicCluster" : "dlc2::clusters/CeresBaseGameCluster";
@@ -135,7 +135,27 @@ namespace ClusterTraitGenerationManager.ClusterData
 		public string DLC_Id = DlcManager.IsContentSubscribed(DlcManager.EXPANSION1_ID) ? DlcManager.EXPANSION1_ID : DlcManager.VANILLA_ID;
 
 		public Dictionary<int, List<string>> VanillaStarmapItems = new Dictionary<int, List<string>>();
+		public Dictionary<string, List<string>> BlacklistedStoryTraitLocations = new Dictionary<string, List<string>>();
 		public int MaxStarmapDistance;
+
+		public bool StoryTraitBlacklisted(string storyTraitId, string planetId)
+		{
+			if (!BlacklistedStoryTraitLocations.TryGetValue(storyTraitId, out var blacklisted))
+				return false;
+			return blacklisted.Contains(planetId);
+		}
+		public void SetStorytraitBlacklisted(string storyTraitId, string planetId, bool setblacklisted)
+		{
+			if (!BlacklistedStoryTraitLocations.TryGetValue(storyTraitId, out var blacklisted))
+				blacklisted = BlacklistedStoryTraitLocations[storyTraitId] = [];
+
+			if (setblacklisted)
+				blacklisted.Add(planetId);
+			else
+				blacklisted.Remove(planetId);
+			SgtLogger.l((setblacklisted ? "adding " : "removing ") + "story trait blacklist for " + storyTraitId + " on " + planetId);
+		}
+
 
 		public bool HasStarmapItem(string id, out StarmapItem starmapItem)
 		{

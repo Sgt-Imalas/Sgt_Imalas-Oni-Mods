@@ -50,6 +50,7 @@ namespace ClusterTraitGenerationManager
 		public List<string> BlacklistedTraits;
 		public List<string> SharedBlacklistedGeysers;
 		public bool SharedBlacklistAffectsNonGenerics;
+		public Dictionary<string, List<string>> StoryTraitAsteroidBlacklists;
 
 		void PopulatePresetData(CustomClusterData data)
 		{
@@ -79,6 +80,7 @@ namespace ClusterTraitGenerationManager
 				SO_POI_Overrides = new List<SO_POI_DataEntry>();
 				data.SO_Starmap.OverridePlacements.ToList().ForEach(entry => SO_POI_Overrides.Add(new SO_POI_DataEntry(entry.Key, entry.Value)));
 			}
+			StoryTraitAsteroidBlacklists = new(data.BlacklistedStoryTraitLocations);
 		}
 
 		public string ImmuneSystem, CalorieBurn, Morale, Durability, MeteorShowers, Radiation, Stress, Seed, SandboxMode, StressBreaks, CarePackages, FastWorkersMode, SaveToCloud, Teleporters;
@@ -614,6 +616,8 @@ namespace ClusterTraitGenerationManager
 				}
 			}
 
+			cluster.BlacklistedStoryTraitLocations = new(StoryTraitAsteroidBlacklists);
+
 			RerollMixingsWithSeedChange = mixingRerollActive;
 
 			RerollTraitsWithSeedChange = traitRerollActive;
@@ -622,7 +626,6 @@ namespace ClusterTraitGenerationManager
 			{
 				DialogUtil.CreateConfirmDialogFrontend(ERRORMESSAGES.MISSINGWORLDS_TITLE, string.Format(ERRORMESSAGES.MISSINGWORLDS_TEXT, missinCount));
 			}
-
 		}
 		StarmapItem ApplyDataToStarmapItem(SerializableStarmapItem item, StarmapItem reciverToLookup)
 		{

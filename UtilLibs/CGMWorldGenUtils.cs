@@ -41,6 +41,8 @@ namespace UtilLibs
 			return true;
 		}
 
+		public static bool IsImpactorTrait(string storyId) => storyId == CGM_Impactor_StoryTrait;
+
 		#region DLC4
 		public static bool HasImpactorShower(ProcGen.World world) => world != null && world.seasons != null && HasImpactorShower(world.seasons);
 		public static bool HasImpactorShower(List<string> seasons) =>  seasons.Contains("LargeImpactor");

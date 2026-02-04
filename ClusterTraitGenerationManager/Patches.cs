@@ -3,6 +3,7 @@ using HarmonyLib;
 using Klei.CustomSettings;
 using ProcGen;
 using ProcGenGame;
+using rail;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -1355,5 +1356,47 @@ namespace ClusterTraitGenerationManager
 			}
 		}
 		public static bool StillLoading = true;
+
+
+
+		[HarmonyPatch(typeof(WorldGenSettings), nameof(WorldGenSettings.SetStoryTraitCandidates))]
+		public class WorldGenSettings_SetStoryTraitCandidates_Patch
+		{
+			static Dictionary<WorldTrait, string> StoryTraitIdMap = [];
+			public static string GetStoryTraitId(WorldTrait storyTrait)
+			{
+				if(!StoryTraitIdMap.TryGetValue(storyTrait, out var id))
+				{
+					id = SettingsCache.storyTraits.First(x => x.Value == storyTrait).Key;
+					id = id.Replace("storytraits/", string.Empty);
+					StoryTraitIdMap[storyTrait] = id;
+				}
+				return id;
+			}
+
+			public static void Prefix(WorldGenSettings __instance, List<WorldTrait> storyTraits)
+			{
+				if (!CGSMClusterManager.LoadCustomCluster && ApplyCustomGen.IsGenerating)
+					return;
+
+				HashSet<WorldTrait> ToRemoveFromWorld = [];
+				foreach(var story in storyTraits)
+				{
+					string storyTraitId = GetStoryTraitId(story);
+					string asteroidId = __instance.world.filePath;
+					SgtLogger.l("checking story " + storyTraitId);
+					if(CustomCluster.StoryTraitBlacklisted(storyTraitId, asteroidId))
+					{
+						SgtLogger.l("story "+ storyTraitId + " not allowed on " + asteroidId + ", removing");
+						ToRemoveFromWorld.Add(story);
+					}
+					else
+						SgtLogger.l("story " + storyTraitId + " allowed on " + asteroidId);
+				}
+
+
+				storyTraits.RemoveAll(s => ToRemoveFromWorld.Contains(s));
+			}
+		}
 	}
 }

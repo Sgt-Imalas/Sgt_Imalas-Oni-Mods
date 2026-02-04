@@ -26,6 +26,10 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 		[JsonIgnore] public Sprite planetSprite;
 		[JsonIgnore] public Sprite planetMixingSprite => world_mixing?.planetSprite;
+		/// <summary>
+		/// automatically changes to mixing target ui sprite if it is remixed
+		/// </summary>
+		[JsonIgnore] public Sprite DisplaySprite => world_mixing != null ? world_mixing.planetSprite : planetSprite;
 
 		[JsonIgnore] public ProcGen.World world => world_mixing != null ? world_mixing.world : world_internal;
 		[JsonIgnore] public ProcGen.World World_Internal => world_internal;

@@ -224,6 +224,14 @@
 									public static LocString LABEL = "Generate Story Trait:";
 									public static LocString TOOLTIP = "Should this Story Trait be generated?";
 								}
+								public class STORYTRAITBLACKLIST
+								{
+									public class DESCRIPTOR
+									{
+										public static LocString LABEL = "Allow Story Traits on these Asteroids:";
+										public static LocString TOOLTIP = "Allows you to block the game from spawning this story trait on certain asteroids.\n\nBlocking too many asteroids can prevent the worldgen from succeeding!";
+									}
+								}
 							}
 							public class VANILLAPOI_RESOURCES
 							{
