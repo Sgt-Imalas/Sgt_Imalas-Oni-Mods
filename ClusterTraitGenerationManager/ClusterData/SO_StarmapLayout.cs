@@ -207,6 +207,8 @@ namespace ClusterTraitGenerationManager.UI.SO_StarmapEditor
 				//WorldGen worldGen = new(worlds[i]);
 				WorldPlacement worldPlacement = worlds[i];
 				//DebugUtil.Assert(worldPlacement != null, "Somehow we're trying to generate a cluster with a world that isn't the cluster .yaml's world list!", worldGen.Settings.world.filePath);
+				string worldId = worldPlacement.worldMixing.mixingWasApplied ? worldPlacement.worldMixing.previousWorld : worldPlacement.world;
+
 				HashSet<AxialI> antiBuffer = new HashSet<AxialI>();
 				foreach (AxialI item in assignedLocations)
 				{
@@ -219,7 +221,7 @@ namespace ClusterTraitGenerationManager.UI.SO_StarmapEditor
 				if (availableLocations.Count > 0)
 				{
 					AxialI axialI = availableLocations[myRandom.RandomRange(0, availableLocations.Count)];
-					OverridePlacements[axialI] = worldPlacement.world;
+					OverridePlacements[axialI] = worldId;
 					assignedLocations.Add(axialI);
 					worldForbiddenLocations.UnionWith(AxialUtil.GetRings(axialI, 1, worldPlacement.buffer));
 					poiWorldAvoidance.UnionWith(AxialUtil.GetRings(axialI, 1, maxRadius));
@@ -239,16 +241,16 @@ namespace ClusterTraitGenerationManager.UI.SO_StarmapEditor
 				if (availableLocations.Count > 0)
 				{
 					AxialI axialI2 = availableLocations[myRandom.RandomRange(0, availableLocations.Count)];
-					OverridePlacements[axialI2] = worldPlacement.world;
+					OverridePlacements[axialI2] = worldId;
 					assignedLocations.Add(axialI2);
 					worldForbiddenLocations.UnionWith(AxialUtil.GetRings(axialI2, 1, worldPlacement.buffer));
 					poiWorldAvoidance.UnionWith(AxialUtil.GetRings(axialI2, 1, maxRadius));
 					continue;
 				}
 
-				string text = "Could not find a spot in the cluster for " + worldPlacement.world + " EVEN AFTER REDUCING BUFFERS. Check the placement settings in the custom cluster to ensure there are no conflicts.";
+				string text = "Could not find a spot in the cluster for " + worldId + " EVEN AFTER REDUCING BUFFERS. Check the placement settings in the custom cluster to ensure there are no conflicts.";
 				SgtLogger.error(text);
-				_failedGenerationPlanetId = worldPlacement.world;
+				_failedGenerationPlanetId = worldId;
 				return false;
 			}
 

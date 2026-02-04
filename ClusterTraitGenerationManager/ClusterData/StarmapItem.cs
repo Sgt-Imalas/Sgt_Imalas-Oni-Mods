@@ -56,6 +56,45 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 		public int PredefinedPlacementOrder = -1;
 
+		public string OriginalDisplayName
+		{
+			get
+			{
+				if (id.Contains(RandomKey))
+				{
+					switch (category)
+					{
+						case StarmapItemCategory.Starter:
+							return STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_STARTER.NAME;
+						case StarmapItemCategory.Warp:
+							return STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_WARP.NAME;
+						case StarmapItemCategory.Outer:
+							return STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_OUTER.NAME;
+						case StarmapItemCategory.POI:
+							return STRINGS.UI.SPACEDESTINATIONS.CGM_RANDOM_POI.NAME;
+					}
+				}
+
+				if (world != null && world.name != null)
+				{
+					if (Strings.TryGet(world.name, out var nameEntry))
+					{
+						var name = nameEntry.ToString();
+						if (IsMixed && World_Internal != null && Strings.TryGet(World_Internal.name, out var namePreMixing))
+						{
+							return namePreMixing;
+						}
+						return name;
+					}
+				}
+				else if (category == StarmapItemCategory.POI)
+				{
+					return id.Substring(0, 8);
+				}
+				return id;
+			}
+		}
+
 		public string DisplayName
 		{
 			get
@@ -603,6 +642,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 			{
 				//clearing previous mixing
 				placement.UndoWorldMixing();
+				placement.worldMixing.previousWorld = null;
 
 				if (mix != null)//applying mixing
 				{

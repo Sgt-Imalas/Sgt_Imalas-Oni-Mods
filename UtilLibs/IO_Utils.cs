@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Linq;
@@ -48,7 +49,7 @@ namespace UtilLibs
 		{
 			try
 			{
-				if (!filePath.Exists || (forceExtensionTo != string.Empty && filePath.Extension != forceExtensionTo) 
+				if (!filePath.Exists || (forceExtensionTo != string.Empty && filePath.Extension != forceExtensionTo)
 					&& !filePath.Name.StartsWith("._")//macOS hidden files
 					)
 				{
@@ -75,7 +76,7 @@ namespace UtilLibs
 			}
 		}
 		public static bool ReadFromFile<T>(string FileOrigin, out T output, string forceExtensionTo = "", JsonSerializerSettings converterSettings = null) => ReadFromFile(new FileInfo(FileOrigin), out output, forceExtensionTo, converterSettings);
-		
+
 		public static bool WriteToFile<T>(T DataObject, string filePath, JsonSerializerSettings converterSettings = null)
 		{
 			try
@@ -110,5 +111,56 @@ namespace UtilLibs
 				return false;
 			}
 		}
+
+		public static void DumpToFile(object data, string path, bool useCustomConverter = true)
+		{
+			var converterSettings = new JsonSerializerSettings()
+			{
+				ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+				TypeNameHandling = TypeNameHandling.Objects,
+				Formatting = Formatting.Indented,
+				ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
+				ContractResolver = new InjectionMethods.IncludePrivateContractResolver(),
+				Converters = [new Vector2IConverter()]
+			};
+			WriteToFile(data, path, useCustomConverter ? converterSettings : null);
+		}
+		public sealed class Vector2IConverter : JsonConverter
+		{
+			public override bool CanConvert(Type objectType)
+			{
+				return objectType == typeof(Vector2I);
+			}
+
+			public override void WriteJson(
+				JsonWriter writer,
+				object value,
+				JsonSerializer serializer)
+			{
+				var v = (Vector2I)value;
+
+				writer.WriteStartObject();
+				writer.WritePropertyName("x");
+				writer.WriteValue(v.X);
+				writer.WritePropertyName("y");
+				writer.WriteValue(v.Y);
+				writer.WriteEndObject();
+			}
+
+			public override object ReadJson(
+				JsonReader reader,
+				Type objectType,
+				object existingValue,
+				JsonSerializer serializer)
+			{
+				var obj = JObject.Load(reader);
+
+				return new Vector2I(
+					obj["x"]!.Value<int>(),
+					obj["y"]!.Value<int>()
+				);
+			}
+		}
+
 	}
 }

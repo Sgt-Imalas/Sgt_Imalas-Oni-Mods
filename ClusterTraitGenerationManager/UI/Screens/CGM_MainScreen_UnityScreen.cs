@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using TemplateClasses;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
@@ -26,6 +27,8 @@ using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAI
 using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.FOOTER.BUTTONS;
 using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.ITEMSELECTION.VANILLASTARMAPCONTENT.VANILLASTARMAPCONTAINER;
 using static CustomGameSettings;
+using static Database.MonumentPartResource;
+using static ResearchTypes;
 
 namespace ClusterTraitGenerationManager.UI.Screens
 {
@@ -38,6 +41,8 @@ namespace ClusterTraitGenerationManager.UI.Screens
 		GameObject MixingSettingsButton;
 
 		Dictionary<string, FCycle> MixingCycleConfigs = new();
+		Dictionary<string, MixingTargetChangeButton> MixingTargetButtons = new();
+
 		private void SetMixingSetting(SettingConfig ConfigToSet, object valueId)
 		{
 			string valueToSet = valueId.ToString();
@@ -48,10 +53,28 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			}
 			//SgtLogger.l("changing " + ConfigToSet.id.ToString() + " from " + CustomGameSettings.Instance.GetCurrentMixingSettingLevel(ConfigToSet).id + " to " + valueToSet.ToString());			
 			CustomGameSettings.Instance.SetMixingSetting(ConfigToSet, valueToSet);
-			if(ConfigToSet is MixingSettingConfig msc)
+			if (ConfigToSet is MixingSettingConfig msc)
+			{
 				ToggleWorldgenAffectingDlc(true, msc.dlcIdFrom);
+				ResetSOStarmap(true);
+				RefreshMixingTargets();
+			}
 			RefreshCategories();
 		}
+		void RefreshMixingTargets()
+		{
+			foreach(var sc in CustomGameSettings.Instance.MixingSettings.Values)
+			{
+				if (sc is MixingSettingConfig msc)
+					RefreshMixingTarget(msc);
+			}
+			DisableMixingSelectionChange();
+		}
+		void RefreshMixingTarget(MixingSettingConfig msc)
+		{
+			if (MixingTargetButtons.TryGetValue(msc.worldgenPath, out var mtb))
+				mtb.Refresh();
+		} 
 
 		void SetMixingSettingsToggleActive(bool active)
 		{
@@ -90,6 +113,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				{
 					SgtLogger.warning("uninitialized setting found: " + id);
 				}
+				RefreshMixingTarget(setting);
 			}
 		}
 		public void InitializeMixingSettings()
@@ -108,7 +132,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			headerPrefab.SetActive(false);
 
 			var asteroidMixingHeader = Util.KInstantiateUI(headerPrefab, MixingSettingsContainer, true).transform;
-			UIUtils.TryChangeText( asteroidMixingHeader,"Label",global::STRINGS.UI.FRONTEND.COLONYDESTINATIONSCREEN.MIXING_WORLDMIXING_HEADER);
+			UIUtils.TryChangeText(asteroidMixingHeader, "Label", global::STRINGS.UI.FRONTEND.COLONYDESTINATIONSCREEN.MIXING_WORLDMIXING_HEADER);
 
 			var biomeMixingHeader = Util.KInstantiateUI(headerPrefab, MixingSettingsContainer, true).transform;
 			UIUtils.TryChangeText(biomeMixingHeader, "Label", global::STRINGS.UI.FRONTEND.COLONYDESTINATIONSCREEN.MIXING_SUBWORLDMIXING_HEADER);
@@ -122,15 +146,28 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				if (!DlcManager.IsAllContentSubscribed(mixingSetting.Value.required_content))
 					continue;
 
+
 				if (mixingSetting.Value is MixingSettingConfig listSetting)
 				{
 					var mixing = AddListMixingSettingsContainer(CyclePrefab, MixingSettingsContainer, listSetting);
-					mixing.SetDescriptionFormatter(desc=> desc.Replace("\n\n", "\n"));
+					mixing.SetDescriptionFormatter(desc => desc.Replace("\n\n", "\n"));
 					MixingCycleConfigs[settingID] = mixing;
-					if(listSetting is WorldMixingSettingConfig)
+					var mixingTargetGO = mixing.transform.Find("MixingTarget")?.gameObject;
+					if (listSetting is WorldMixingSettingConfig && SettingsCache.worldMixingSettings.TryGetValue(listSetting.worldgenPath, out var worldMixingSettings))
+					{
 						mixing.transform.SetSiblingIndex(asteroidMixingHeader.GetSiblingIndex() + 1);
+						mixingTargetGO.SetActive(true);
+						var mtb = mixingTargetGO.AddOrGet<MixingTargetChangeButton>();
+						mtb.TargetWorldMixing = worldMixingSettings;
+						mtb.MixingID = listSetting.id;
+						mtb.OnMixingSelected = StartMixingAsteroidChange;
+						MixingTargetButtons[listSetting.worldgenPath] = mtb;
+					}
 					else
+					{
 						mixing.transform.SetSiblingIndex(biomeMixingHeader.GetSiblingIndex() + 1);
+						mixingTargetGO?.SetActive(false);
+					}
 				}
 				else
 				{
@@ -138,6 +175,52 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				}
 			}
 		}
+		void StartMixingAsteroidChange(string mixingAsteroidId)
+		{
+			CurrentMixingSettingChangeTarget = mixingAsteroidId;
+			WorldMixingContainerSelectionNewGO.SetActive(true);
+			RefreshActiveMixingTargets();
+		}
+
+		void RefreshActiveMixingTargets()
+		{
+			foreach(var target in MixingTargetSelectables.Values)
+				target.gameObject.SetActive(false);
+
+			foreach (var TargetAllowSwitchTo in CGSMClusterManager.GetValidMixingAsteroids(CurrentMixingSettingChangeTarget))
+			{
+				var targetId = TargetAllowSwitchTo.first.id;
+
+				AddOrGetMixingTarget(targetId).AllowSwapping(TargetAllowSwitchTo.second);
+			}
+		}
+
+		MixingTargetSelectable AddOrGetMixingTarget(string id)
+		{
+			if (MixingTargetSelectables.TryGetValue(id, out var value))
+			{
+				value.gameObject.SetActive(true);
+				return value;
+			}
+
+			value = Util.KInstantiateUI(MixingTargetSelectionPrefab.gameObject, MixingTargetSelectionItemContainer).AddOrGet<MixingTargetSelectable>();
+			value.gameObject.SetActive(true);
+			value.Init(id, OnMixingTargetSelected);
+			MixingTargetSelectables[id] = value;
+			return value;
+		}
+		void OnMixingTargetSelected(string newId)
+		{
+			CGSMClusterManager.SetMixingWorld(newId, CurrentMixingSettingChangeTarget);
+			DisableMixingSelectionChange();
+			RefreshMixingTargets();
+		}
+		void DisableMixingSelectionChange()
+		{
+			WorldMixingContainerSelectionNewGO.SetActive(false);
+			CurrentMixingSettingChangeTarget = null;
+		}
+
 
 		public FCycle AddListMixingSettingsContainer(GameObject prefab, GameObject parent, MixingSettingConfig ConfigToSet)
 		{
@@ -153,7 +236,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				cycle.transform.Find("Left").gameObject.AddOrGet<FButton>(),
 				cycle.transform.Find("Right").gameObject.AddOrGet<FButton>(),
 				cycle.transform.Find("ChoiceLabel").gameObject.AddOrGet<LocText>()
-					,cycle.transform.Find("ChoiceLabel/Description").gameObject.AddOrGet<LocText>()
+					, cycle.transform.Find("ChoiceLabel/Description").gameObject.AddOrGet<LocText>()
 				);
 
 			cycle.Options = new List<FCycle.Option>();
@@ -162,7 +245,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				cycle.Options.Add(new FCycle.Option(config.id, config.label, config.tooltip));
 			}
 			cycle.OnChange += () =>
-			{				
+			{
 				SetMixingSetting(ConfigToSet, cycle.Value);
 			};
 			return cycle;
@@ -538,7 +621,15 @@ namespace ClusterTraitGenerationManager.UI.Screens
 		private GameObject BiomeMixingContainer;
 
 		//WorldMixings
+		// old:
 		private GameObject WorldMixingContainer;
+		// new:
+		private GameObject WorldMixingContainerSelectionNewGO;
+		private GameObject MixingTargetSelectionItemContainer;
+		private MixingTargetSelectable MixingTargetSelectionPrefab;
+		private string CurrentMixingSettingChangeTarget = null;
+		Dictionary<string, MixingTargetSelectable> MixingTargetSelectables = [];
+
 
 
 		static bool isDLC2Active => CustomGameSettings.Instance.GetCurrentMixingSettingLevel(CustomMixingSettingsConfigs.DLC2Mixing).id == (CustomMixingSettingsConfigs.DLC2Mixing as ToggleSettingConfig).on_level.id;
@@ -994,6 +1085,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			///TODO: reenable when mixing is fixed
 			//BiomeMixingContainer?.SetActive(planetCategorySelected);
 			//WorldMixingContainer?.SetActive(planetCategorySelected && !HexGridSelection);
+			WorldMixingContainerSelectionNewGO.SetActive(false);
 
 			///StoryTrait Details Container
 			Details_StoryTraitContainer.SetActive(SelectedCategory == StarmapItemCategory.StoryTraits);
@@ -1451,7 +1543,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 		public void RebuildSoStarmap()
 		{
-			SgtLogger.l("rebuilding poi groups");
+			SgtLogger.l("rebuilding SO Starmap groups");
 			bool currentlyActive = StarmapItemContent.activeSelf;
 			StarmapItemContent.SetActive(true);
 
@@ -1996,7 +2088,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 			ActiveBiomesContainer = transform.Find("Details/Content/ScrollRectContainer/AsteroidBiomes/Content/TraitContainer/ScrollArea/Content").gameObject;
 			BiomePrefab = transform.Find("Details/Content/ScrollRectContainer/AsteroidBiomes/Content/TraitContainer/ScrollArea/Content/Item").gameObject;
-			BiomePrefab.SetActive(false);	
+			BiomePrefab.SetActive(false);
 			AddSeasonButton = transform.Find("Details/Content/ScrollRectContainer/MeteorSeasonCycle/Content/Seasons/SeasonScrollArea/Content/AddSeasonButton").FindOrAddComponent<FButton>();
 			UIUtils.AddSimpleTooltipToObject(AddSeasonButton.transform, METEORSEASONCYCLE.DESCRIPTOR.TOOLTIP);
 			AddSeasonButton.OnClick += () =>
@@ -2147,6 +2239,12 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			WorldMixingContainer = transform.Find("Details/Content/ScrollRectContainer/WorldMixing").gameObject;
 			WorldMixingContainer?.SetActive(false);
 
+			WorldMixingContainerSelectionNewGO = transform.Find("Details/Content/ScrollRectContainer/AsteroidMixingTargetSelector").gameObject;
+			WorldMixingContainerSelectionNewGO.SetActive(false);
+
+			MixingTargetSelectionItemContainer = transform.Find("Details/Content/ScrollRectContainer/AsteroidMixingTargetSelector/Content/ItemContainer/ScrollArea/Content").gameObject;
+			MixingTargetSelectionPrefab = MixingTargetSelectionItemContainer.transform.Find("Item").gameObject.AddOrGet<MixingTargetSelectable>();
+			MixingTargetSelectionPrefab.gameObject.SetActive(false);
 		}
 
 		private void InitializeGeyserOverrideContainer()

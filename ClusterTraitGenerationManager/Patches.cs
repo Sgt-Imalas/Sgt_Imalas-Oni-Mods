@@ -1044,9 +1044,9 @@ namespace ClusterTraitGenerationManager
 
 				foreach (var placementData in CustomCluster.SO_Starmap.OverridePlacements)
 				{
-					SgtLogger.l(placementData.Value);
+					SgtLogger.l(placementData.Value,"CGM StarmapPlacement");
 
-					int pos = worldPlacements.FindIndex(placement => placement.world == placementData.Value);
+					int pos = worldPlacements.FindIndex(placement => placement.world == placementData.Value || placement.worldMixing.mixingWasApplied && placement.worldMixing.previousWorld == placementData.Value);
 					if (pos != -1)
 					{
 						__instance.worlds[pos].SetClusterLocation(placementData.Key);
@@ -1270,12 +1270,20 @@ namespace ClusterTraitGenerationManager
 
 
 				SgtLogger.l("checking if mixing world: " + placement.world);
-				if (!placement.worldMixing.mixingWasApplied && CGSMClusterManager.IsWorldMixingAsteroid(placement.world))
+				bool mixingAsteroid = CGSMClusterManager.IsWorldMixingAsteroid(placement.world);
+				bool targetRemixed = placement.worldMixing.mixingWasApplied;
+
+				if (!targetRemixed && mixingAsteroid)
 				{
 					SgtLogger.l("mixing asteroid found!: " + placement.world);
 					placement.worldMixing.mixingWasApplied = true;
 				}
-
+				else if(!mixingAsteroid && targetRemixed)
+				{
+					placement.UndoWorldMixing();
+					SgtLogger.l("unmixing target asteroid: " + placement.world);
+				}
+				
 				return placement;
 			}
 		}

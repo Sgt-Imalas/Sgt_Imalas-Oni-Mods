@@ -23,7 +23,7 @@ namespace ClusterTraitGenerationManager
 		public static GameObject TraitPopup;
 		public static GameObject PresetScreen;
 		public static GameObject CustomGameSettings;
-		public static GameObject SO_StarmapScreen;
+		//public static GameObject SO_StarmapScreen;
 		public static string CustomClusterTemplatesPath;
 		public static readonly string TemporalTearId = "TemporalTear", TeapotId = "ArtifactSpacePOI_RussellsTeapot";
 
@@ -32,7 +32,7 @@ namespace ClusterTraitGenerationManager
 		public static Dictionary<string, string> ModPlanetOriginPaths = new Dictionary<string, string>();
 		public static void AddModPlanetOrigin(string modifiedWorld, string original)
 		{
-			if(!ModPlanetOriginPaths.ContainsKey(modifiedWorld))
+			if (!ModPlanetOriginPaths.ContainsKey(modifiedWorld))
 			{
 				ModPlanetOriginPaths.Add(modifiedWorld, original);
 			}
@@ -388,14 +388,14 @@ namespace ClusterTraitGenerationManager
 			var bundle = AssetUtils.LoadAssetBundle("clustergenerationsettingsmanager_menuassets", platformSpecific: true);
 			var Assets = bundle.LoadAsset<GameObject>("Assets/UIs/CGMExport_SideMenus.prefab");
 			CGM_MainMenu = bundle.LoadAsset<GameObject>("Assets/UIs/CGM_MainScreenExport.prefab");
-			SO_StarmapScreen = bundle.LoadAsset<GameObject>("Assets/UIs/CGM_SOStarmap.prefab");
+			//SO_StarmapScreen = bundle.LoadAsset<GameObject>("Assets/UIs/CGM_SOStarmap.prefab");
 
 			//UIUtils.ListAllChildren(Assets.transform);
 
 			var TMPConverter = new TMPConverter();
 			TMPConverter.ReplaceAllText(Assets);
 			TMPConverter.ReplaceAllText(CGM_MainMenu);
-			TMPConverter.ReplaceAllText(SO_StarmapScreen);
+			//TMPConverter.ReplaceAllText(SO_StarmapScreen);
 
 			CustomPlanetSideScreen = Assets.transform.Find("IndividualSettings").gameObject;
 			TraitPopup = Assets.transform.Find("TraitPopup").gameObject;
@@ -442,9 +442,9 @@ namespace ClusterTraitGenerationManager
 					{
 						if (trait.additionalWorldTemplateRules.Any())
 						{
-							foreach(var templateRule in trait.additionalWorldTemplateRules)
+							foreach (var templateRule in trait.additionalWorldTemplateRules)
 							{
-								_traitTemplateRules.Add(templateRule,templateRule.times);
+								_traitTemplateRules.Add(templateRule, templateRule.times);
 							}
 						}
 					}
@@ -478,7 +478,7 @@ namespace ClusterTraitGenerationManager
 					geyserID = AllGenericGeysers[new KRandom(Seed).Next(0, AllGenericGeysers.Count)].id;
 				}
 			}
-			if(geyserBlacklist == null)
+			if (geyserBlacklist == null)
 				SgtLogger.l("getting generic geyser at " + position.ToString() + ", seed :" + seed + " --> " + geyserID);
 			else
 				SgtLogger.l("grabbing replacement geyser at " + position.ToString() + ", seed :" + seed + " --> " + geyserID);
@@ -502,6 +502,13 @@ namespace ClusterTraitGenerationManager
 
 		}
 
+		internal static void DumpToFile(object data, string name)
+		{
+			var path = System.IO.Path.Combine(IO_Utils.ModPath, name + ".json");
+			IO_Utils.DumpToFile(data, path);
+
+		}
+
 		public static List<KeyValuePair<string, WorldTrait>> AllTraitsWithRandom
 		{
 			get
@@ -510,7 +517,7 @@ namespace ClusterTraitGenerationManager
 				{
 					new KeyValuePair<string, WorldTrait>(ModAssets.CGM_RandomTrait, ModAssets.RandomizedTraitsTrait)
 				};
-				traits.AddRange(SettingsCache.worldTraits.ToList());				
+				traits.AddRange(SettingsCache.worldTraits.ToList());
 				return traits.OrderBy(kvp => global::Strings.Get(kvp.Value.name).ToString()).ToList();
 			}
 		}

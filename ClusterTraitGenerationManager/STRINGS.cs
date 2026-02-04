@@ -363,6 +363,15 @@
 								}
 							}
 
+							public class ASTEROIDMIXINGTARGETSELECTOR
+							{
+								public class DESCRIPTOR
+								{
+									public static LocString LABEL = "Asteroid Remix Target:";
+									public static LocString TOOLTIP = "The target asteroid that is getting remixed.";
+								}
+							}
+
 							public class ASTEROIDSKY
 							{
 								public class DESCRIPTOR

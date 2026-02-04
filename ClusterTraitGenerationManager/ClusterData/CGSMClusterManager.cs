@@ -1,10 +1,12 @@
 ﻿using ClusterTraitGenerationManager.UI.Screens;
+using ClusterTraitGenerationManager.UI.SecondaryDisplayTypes;
 using Klei.CustomSettings;
 using ObjectCloner;
 using ProcGen;
 using ProcGenGame;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -533,7 +535,8 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 						if (placement.worldMixing.mixingWasApplied)
 						{
-							SgtLogger.l("mixing placement: " + placement.world);
+							if (log)
+								SgtLogger.l("mixing placement: " + placement.world);
 						}
 
 						//ApplySizeMultiplier(placement, multiplier);
@@ -877,7 +880,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 			{
 				WorldPlacement planetPlacement = mutated.layout.worldPlacements[i];
 				string planetpath = planetPlacement.world;
-				//SgtLogger.l(planetpath, "planet in cluster");
+				SgtLogger.l(planetpath, "planet in cluster");
 				string mixingAsteroid = string.Empty;
 				bool isWorldMixed = false;
 
@@ -947,15 +950,44 @@ namespace ClusterTraitGenerationManager.ClusterData
 			LastPresetGenerated = clusterID;
 			RegeneratePOIDataFrom(clusterID, singleItemId);
 		}
+		public static bool TryGetCurrentMixingTarget(string world, out StarmapItem starmapItem)
+		{
+			starmapItem = null;
+			if (world.IsNullOrWhiteSpace() || CustomCluster == null || !CustomCluster.MixingWorldsWithTarget.Any()) return false;
+			if (!IsWorldMixingAsteroid(world)) return false;
+
+			if (PlanetoidDict.TryGetValue(world, out var mixingAsteroid)
+				&& CustomCluster.MixingWorldsWithTarget.TryGetValue(mixingAsteroid, out var mixingTarget))
+			{
+				starmapItem = mixingTarget;
+				return true;
+			}
+			return false;
+		}
+		public static void SetMixingWorld(string targetId, string mixingSourceId)
+		{
+			if (!PlanetoidDict.TryGetValue(targetId, out StarmapItem target))
+			{
+				SgtLogger.error("could not find mixing target " + targetId);
+				return;
+			}
+			if (!PlanetoidDict.TryGetValue(mixingSourceId, out StarmapItem mixingSource))
+			{
+				SgtLogger.error("could not find mixing source " + mixingSourceId);
+				return;
+			}
+			SetMixingWorld(target, mixingSource);
+		}
+
 		public static void SetMixingWorld(StarmapItem target, StarmapItem mixingSource)
 		{
-			SgtLogger.l(target.id + " is getting remixed with " + (mixingSource?.id ?? "nothing"));
 			if (mixingSource != null)
 			{
+				SgtLogger.l(target.id + " is getting remixed with " + (mixingSource?.id ?? "nothing"));
 				if (CustomCluster.MixingWorldsWithTarget.TryGetValue(mixingSource, out var OldTarget)
-					&& OldTarget != target
-					&& OldTarget.MixingAsteroidSource == mixingSource
-					)
+				&& OldTarget != target
+				&& OldTarget.MixingAsteroidSource == mixingSource
+				)
 				{
 					OldTarget.SetWorldMixing(null);
 				}
@@ -1052,7 +1084,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 			if (CustomCluster == null || !RerollMixingsWithSeedChange && CGM_Screen.IsCurrentlyActive)
 				return;
 
-			///!!ALWAYS clear mixings before applying them en masse
+			///!!!ALWAYS clear mixings before applying them en masse
 			RemoveActiveMixingAsteroids();
 
 			int seed = int.Parse(CustomGameSettings.Instance.GetCurrentQualitySetting(CustomGameSettingConfigs.WorldgenSeed).id);
@@ -1078,7 +1110,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 					mixingAsteroid = planetpath;
 					planetpath = planetPlacement.worldMixing.previousWorld;
 					isWorldMixed = true;
-					SgtLogger.l(planetpath, "Mixed original");
+					SgtLogger.l(planetPlacement.worldMixing.previousWorld + " got remixed with " + planetPlacement.world);
 					mixingTargets[planetpath] = mixingAsteroid;
 				}
 				//apply mixing relations for UI
@@ -1094,13 +1126,12 @@ namespace ClusterTraitGenerationManager.ClusterData
 				if (CustomCluster.HasStarmapItem(target.Key, out var mixTarget)
 					&& PlanetoidDict.TryGetValue(target.Value, out var mixing))
 				{
-					SgtLogger.l("Mixing " + mixing.DisplayName + " into " + mixTarget.DisplayName);
+					SgtLogger.l("Mixing " + mixing.id + " into " + mixTarget.id);
 					SetMixingWorld(mixTarget, mixing);
 				}
 				else
 					SgtLogger.error("could not mix " + target.Value + " into " + target.Key);
 			}
-
 		}
 		public static void RerollTraits()
 		{
@@ -1239,7 +1270,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 				return;
 			}
 
-			var dlcSetting = CustomGameSettings.Instance.MixingSettings[dlcId] as ToggleSettingConfig;
+			var dlcSetting = CustomGameSettings.Instance.MixingSettings[dlcId] as ToggleSettingConfig;			
 			var currentLevel = CustomGameSettings.Instance.GetCurrentMixingSettingLevel(dlcId);
 			if ((currentLevel == dlcSetting.on_level && enabled) || (currentLevel == dlcSetting.off_level && !enabled))
 				return;
@@ -1903,6 +1934,51 @@ namespace ClusterTraitGenerationManager.ClusterData
 			}
 			SgtLogger.l("trying to fetch cluster for starter " + starterPlanet.id);
 			return StarterPlanetsByCluster.TryGetValue(starterPlanet.id, out clusterID);
+		}
+
+		internal static List<Tuple<StarmapItem, bool>> GetValidMixingAsteroids(string mixingAsteroidId)
+		{
+			if (!PlanetoidDict.TryGetValue(mixingAsteroidId, out var mixingWorld))
+				return [];
+
+			var mixingWorldTags = mixingWorld.world.worldTags;
+
+			var result = new List<Tuple<StarmapItem, bool>>();
+
+			foreach (var possibleTarget in CustomCluster.GetAllPlanets())
+			{
+				if (CGSMClusterManager.IsWorldMixingAsteroid(possibleTarget.id))
+					continue;
+
+				var targetPlacement = possibleTarget.placement;
+				if (targetPlacement == null || !targetPlacement.IsMixingPlacement())
+					continue;
+
+				bool validTarget = true;
+
+				foreach (var required in targetPlacement.worldMixing?.requiredTags)
+				{
+					if (!mixingWorldTags.Contains(required))
+					{
+						validTarget = false;
+						break;
+					}
+				}
+				foreach (var forbidden in targetPlacement.worldMixing?.forbiddenTags)
+				{
+					if (mixingWorldTags.Contains(forbidden))
+					{
+						validTarget = false;
+						break;
+					}
+				}
+
+				if (!validTarget)
+					continue;
+
+				result.Add(new(possibleTarget, !possibleTarget.IsMixed));
+			}
+			return result;
 		}
 	}
 }
