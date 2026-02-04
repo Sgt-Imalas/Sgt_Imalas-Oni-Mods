@@ -682,8 +682,8 @@
 							public class RESETCLUSTERBUTTON
 							{
 								public static LocString TEXT = "Reset Everything";
-								public static LocString TOOLTIP = "Undo all changes you have made by reloading the cluster preset.";
-								public static LocString TOOLTIP_VANILLA = "Undo all changes you have made by reloading the world preset.";
+								public static LocString TOOLTIP = "Undo all changes you have made by reloading the vanilla cluster template.";
+								public static LocString TOOLTIP_VANILLA = "Undo all changes you have made by reloading the world from the vanilla template.";
 							}
 							public class RESETSELECTIONBUTTON
 							{

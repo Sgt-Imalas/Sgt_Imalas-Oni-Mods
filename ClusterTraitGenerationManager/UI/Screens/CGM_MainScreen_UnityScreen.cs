@@ -1353,6 +1353,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			else if (SelectedCategory == StarmapItemCategory.StoryTraits)
 			{
 				galleryHeaderLabel.SetText(global::STRINGS.UI.FRONTEND.COLONYDESTINATIONSCREEN.STORY_TRAITS_HEADER);
+				RefreshStoryTraitsUI();
 			}
 			else if (SelectedCategory == StarmapItemCategory.VanillaStarmap || SelectedCategory == StarmapItemCategory.SpacedOutStarmap)
 			{

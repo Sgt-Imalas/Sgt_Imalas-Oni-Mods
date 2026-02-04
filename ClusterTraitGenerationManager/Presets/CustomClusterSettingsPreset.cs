@@ -80,6 +80,8 @@ namespace ClusterTraitGenerationManager
 				SO_POI_Overrides = new List<SO_POI_DataEntry>();
 				data.SO_Starmap.OverridePlacements.ToList().ForEach(entry => SO_POI_Overrides.Add(new SO_POI_DataEntry(entry.Key, entry.Value)));
 			}
+			if (data.BlacklistedStoryTraitLocations == null)
+				data.BlacklistedStoryTraitLocations = [];
 			StoryTraitAsteroidBlacklists = new(data.BlacklistedStoryTraitLocations);
 		}
 
@@ -615,7 +617,8 @@ namespace ClusterTraitGenerationManager
 					cluster.SO_Starmap = null;
 				}
 			}
-
+			if (StoryTraitAsteroidBlacklists == null)
+				StoryTraitAsteroidBlacklists = [];
 			cluster.BlacklistedStoryTraitLocations = new(StoryTraitAsteroidBlacklists);
 
 			RerollMixingsWithSeedChange = mixingRerollActive;

@@ -824,6 +824,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 				SgtLogger.l("Rebuilding Cluster Data");
 				CustomCluster = new CustomClusterData();
 				CustomCluster.SetRings(mutated.layout.numRings - 1, true);
+				CustomCluster.BlacklistedStoryTraitLocations.Clear();
 
 				foreach (var planet in PlanetoidDict.Values)
 				{
