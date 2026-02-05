@@ -67,18 +67,21 @@ namespace BlueprintsV2
 
 		public static GameObject BlueprintSelectionScreenGO;
 		public static GameObject BlueprintInfoStateGO;
+		public static GameObject NoteToolStateScreenGO;
 		public static void LoadAssets()
 		{
 			var bundle = AssetUtils.LoadAssetBundle("blueprints_ui", platformSpecific: true);
 			BlueprintSelectionScreenGO = bundle.LoadAsset<GameObject>("Assets/UIs/blueprintSelector.prefab");
 			BlueprintInfoStateGO = bundle.LoadAsset<GameObject>("Assets/UIs/UseBlueprintStateContainer.prefab");
+			NoteToolStateScreenGO = bundle.LoadAsset<GameObject>("Assets/UIs/NoteToolStateContainer.prefab");
 			//UIUtils.ListAllChildren(Assets.transform);
 			BlueprintInfoStateGO.AddOrGet<CurrentBlueprintStateScreen>();
-
+			NoteToolStateScreenGO.AddOrGet<NoteToolScreen>();
 
 			var TMPConverter = new TMPConverter();
 			TMPConverter.ReplaceAllText(BlueprintSelectionScreenGO);
 			TMPConverter.ReplaceAllText(BlueprintInfoStateGO);
+			TMPConverter.ReplaceAllText(NoteToolStateScreenGO);
 		}
 
 		public static BlueprintFolder GetCurrentFolder() => SelectedFolder == null ? BlueprintFileHandling.RootFolder : SelectedFolder;

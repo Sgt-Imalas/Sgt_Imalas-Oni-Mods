@@ -9,6 +9,13 @@ namespace BlueprintsV2
 	{
 		public class BLUEPRINTS_BLUEPRINTNOTE
 		{
+			public class TEXTNOTE_EMPTY
+			{
+				public static LocString TITLE = "Unnamed Note";
+				public static LocString TEXT = "No Description...";
+			}
+
+
 			public static LocString ELEMENT_NOTE_SPECIAL = "Planned {0}";
 			public static LocString ELEMENT_NOTE_SPECIAL_DESC = "There should be {0} here.";
 			public static LocString ELEMENT_NOTE = "Planned {0} ({1}, {2})";
@@ -406,6 +413,51 @@ namespace BlueprintsV2
 					public static LocString TEXT = "Close";
 				}
 			}
+			public class NOTETOOLSTATECONTAINER
+			{
+				public class TITLE
+				{
+					public static LocString TITLETEXT = "Note Creation Tool";
+					public static LocString SIDESCREENTEXT = "Textnote Edit Screen";
+				}
+
+				public class NOTETITLEINPUT
+				{
+					public static LocString LABEL = "Note Name:";
+					public class INPUT
+					{
+						public class TEXTAREA
+						{
+							public static LocString PLACEHOLDER = "Add note name...";
+						}
+					}
+				}
+				public class NOTETEXTINPUT
+				{
+					public static LocString LABEL = "Note Text:";
+					public class INPUT
+					{
+						public class TEXTAREA
+						{
+							public static LocString PLACEHOLDER = "Add note text...";
+						}
+					}
+				}
+				public static LocString COLORPICKERLABEL = "Note Icon Color:";
+				public class BUTTONS
+				{
+					public class TEXTTOGGLE
+					{
+						public static LocString TEXT = "Text Notes";
+					}
+					public class ELEMENTTOGGLE
+					{
+						public static LocString TEXT = "Element Notes";
+					}
+				}
+			}
+
+
 			public class ACTIONS
 			{
 				public static LocString CREATE_TITLE = "Create Blueprint";

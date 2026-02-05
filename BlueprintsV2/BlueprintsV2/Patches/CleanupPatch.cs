@@ -21,6 +21,7 @@ namespace BlueprintsV2.Patches
 				ModAssets.SelectedFolder = null;
 				ModAssets.BLUEPRINTS_AUTOFILE_WATCHER.Dispose();
 				CurrentBlueprintStateScreen.DestroyInstance();
+				NoteToolScreen.DestroyInstance();
 			}
 		}
 	}

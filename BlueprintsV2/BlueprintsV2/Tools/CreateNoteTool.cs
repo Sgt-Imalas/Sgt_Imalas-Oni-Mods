@@ -1,5 +1,7 @@
 ﻿using BlueprintsV2.BlueprintData;
+using BlueprintsV2.BlueprintsV2.BlueprintData.NoteToolPlacedEntities;
 using BlueprintsV2.BlueprintsV2.BlueprintData.PlannedElements;
+using BlueprintsV2.BlueprintsV2.UnityUI;
 using BlueprintsV2.Tools;
 using FMOD.Studio;
 using FMODUnity;
@@ -76,16 +78,29 @@ namespace BlueprintsV2.BlueprintsV2.Tools
 		public override void OnActivateTool()
 		{
 			base.OnActivateTool();
-			SandboxToolParameterMenu.instance.gameObject.SetActive(true);
-			SandboxToolParameterMenu.instance.DisableParameters();
-			SandboxToolParameterMenu.instance.brushRadiusSlider.row.SetActive(false);
-			SandboxToolParameterMenu.instance.massSlider.row.SetActive(true);
-			SandboxToolParameterMenu.instance.temperatureSlider.row.SetActive(true);
-			SandboxToolParameterMenu.instance.elementSelector.row.SetActive(true);
-			SandboxToolParameterMenu.instance.diseaseSelector.row.SetActive(false);
-			SandboxToolParameterMenu.instance.diseaseCountSlider.row.SetActive(false);
-			SandboxToolParameterMenu.instance.elementSelector.onValueChanged += new Action<object>(this.OnElementChanged);
+			NoteToolScreen.ShowScreen(true);
 			OnElementChanged(null);
+		}
+		public static void SetElementSelectorVisibility(bool visible)
+		{
+			if (visible)
+			{
+				SandboxToolParameterMenu.instance.gameObject.SetActive(true);
+				SandboxToolParameterMenu.instance.DisableParameters();
+				SandboxToolParameterMenu.instance.brushRadiusSlider.row.SetActive(false);
+				SandboxToolParameterMenu.instance.massSlider.row.SetActive(true);
+				SandboxToolParameterMenu.instance.temperatureSlider.row.SetActive(true);
+				SandboxToolParameterMenu.instance.elementSelector.row.SetActive(true);
+				SandboxToolParameterMenu.instance.diseaseSelector.row.SetActive(false);
+				SandboxToolParameterMenu.instance.diseaseCountSlider.row.SetActive(false);
+				SandboxToolParameterMenu.instance.elementSelector.onValueChanged += Instance.OnElementChanged;
+			}
+			else
+			{
+				SandboxToolParameterMenu.instance.elementSelector.onValueChanged -= Instance.OnElementChanged;
+				SandboxToolParameterMenu.instance.gameObject.SetActive(false);
+			}
+
 		}
 		private void OnElementChanged(object _)
 		{
@@ -109,22 +124,16 @@ namespace BlueprintsV2.BlueprintsV2.Tools
 			}
 
 		}
-
-		public override void OnDragTool(int cell, int distFromOrigin)
+		void CreateElementNote(int cell)
 		{
-			SgtLogger.l("CreateNoteTool OnDrag " + cell);
 			if (!Grid.IsValidCell(cell))
 				return;
+
+			ClearExistingNote(cell);
+
 			var settings = SandboxToolParameterMenu.instance.settings;
 			Element element = ElementLoader.elements[settings.GetIntSetting("SandboxTools.SelectedElement")];
 			var ElementId = element.id;
-			var existingItem = Grid.Objects[cell, (int)ModAssets.BlueprintNotesLayer];
-
-			if (existingItem != null)
-			{
-				existingItem.DeleteObject();
-				Grid.Objects[cell, (int)ModAssets.BlueprintNotesLayer] = null;
-			}
 			var infoIndicator = Util.KInstantiate(Assets.GetPrefab(ElementNoteConfig.ID));
 			Grid.Objects[cell, (int)ModAssets.BlueprintNotesLayer] = infoIndicator;
 			Vector3 posCbc = Grid.CellToPosCBC(cell, MopTool.Instance.visualizerLayer);
@@ -137,13 +146,50 @@ namespace BlueprintsV2.BlueprintsV2.Tools
 				info.SetInfo(ElementId, Amount, Temperature, true);
 			}
 			infoIndicator.SetActive(true);
+		}
+		void ClearExistingNote(int cell)
+		{
+			var existingItem = Grid.Objects[cell, (int)ModAssets.BlueprintNotesLayer];
 
+			if (existingItem != null)
+			{
+				existingItem.DeleteObject();
+				Grid.Objects[cell, (int)ModAssets.BlueprintNotesLayer] = null;
+			}
+		}
+		void CreateTextNote(int cell)
+		{
+			if (!Grid.IsValidCell(cell))
+				return;
+			ClearExistingNote(cell);
+
+			var infoIndicator = Util.KInstantiate(Assets.GetPrefab(TextNoteConfig.ID));
+			Grid.Objects[cell, (int)ModAssets.BlueprintNotesLayer] = infoIndicator;
+			Vector3 posCbc = Grid.CellToPosCBC(cell, MopTool.Instance.visualizerLayer);
+			posCbc.z -= 0.15f;
+			infoIndicator.transform.SetPosition(posCbc);			
+			if (infoIndicator.TryGetComponent<TextNote>(out var info))
+			{
+				NoteToolScreen.Instance.ApplyTextNoteInfo(info);
+			}
+			infoIndicator.SetActive(true);
+		}
+		public override void OnDragTool(int cell, int distFromOrigin)
+		{
+			if (!Grid.IsValidCell(cell))
+				return;
+
+			if (NoteToolScreen.Instance.IsTextMode)
+				CreateTextNote(cell);
+			else
+				CreateElementNote(cell);
 		}
 		public override void OnDeactivateTool(InterfaceTool new_tool)
 		{
 			base.OnDeactivateTool(new_tool);
-			SandboxToolParameterMenu.instance.gameObject.SetActive(false);
+			SetElementSelectorVisibility(false);
 			audioEvent.release();
+			NoteToolScreen.ShowScreen(false);
 		}
 	}
 }

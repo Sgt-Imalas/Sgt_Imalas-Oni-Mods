@@ -18,6 +18,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData.PlannedElements
 {
 	public class ElementNote : BlueprintNote, IMultiSliderControl
 	{
+		[MyCmpReq] protected Filterable filterable;
 		static Material SolidMat, LiquidMat, GasMat, VacuumMat;
 
 		static bool init = false;

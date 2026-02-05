@@ -22,7 +22,6 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData.NoteToolPlacedEntities
 		public bool SeatIndicator = false;
 		[MyCmpReq] protected InfoDescription description;
 		[MyCmpReq] protected KSelectable selectable;
-		[MyCmpReq] protected Filterable filterable;
 		protected MeshRenderer renderer;
 		public override void OnPrefabInit()
 		{

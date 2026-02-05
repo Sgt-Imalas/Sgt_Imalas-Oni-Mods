@@ -15,6 +15,7 @@ using UnityEngine;
 using UtilLibs;
 using static STRINGS.BUILDING.STATUSITEMS;
 using static STRINGS.DUPLICANTS.CHORES;
+using static UnityEngine.UI.Image;
 
 namespace BlueprintsV2.BlueprintData
 {
@@ -613,7 +614,11 @@ namespace BlueprintsV2.BlueprintData
 
 		internal static bool LayerOccupiedAt(ObjectLayer backwall, int cellParam)
 		{
-			throw new System.NotImplementedException();
+			///add visualizer layer pre-registration eventually so that checks for layers can look at if the blueprint adds it if not existing
+			return true;
+
+			//foreach(var vis in FoundationVisuals)
+			//	if(vis.cell)
 		}
 		#endregion
 	}

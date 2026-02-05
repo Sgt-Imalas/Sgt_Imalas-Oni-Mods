@@ -21,7 +21,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData.NoteToolPlacedEntities
 			UnityEngine.Object.Destroy(prefab.GetComponent<Prioritizable>());
 			prefab.AddOrGet<KSelectable>();
 			prefab.AddOrGet<InfoDescription>();
-			prefab.AddOrGet<ElementNote>();
+			prefab.AddOrGet<TextNote>();
 			return prefab;
 		}
 		public string[] GetDlcIds() => null;
