@@ -77,6 +77,7 @@ namespace BlueprintsV2.UnityUI.Components
 					{
 
 						var icoSprite = Def.GetUISprite(prefab);
+
 						if (icoSprite != null)
 						{
 							ElementIcon.sprite = icoSprite.first;

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using UtilLibs;
 using UtilLibs.UI.FUI;
 using UtilLibs.UIcmp;
@@ -24,6 +25,7 @@ namespace BlueprintsV2.UnityUI.Components
 		LocText Label;
 		public System.Action<Blueprint> OnSelectBlueprint, OnDeleted, OnInfoClicked;
 		public ToolTip Description;
+		Image BlueprintIcon;
 
 		List<GameObject> HoverShowButtons = [];
 
@@ -45,6 +47,7 @@ namespace BlueprintsV2.UnityUI.Components
 			exportButton = transform.Find("ExportButton").gameObject.AddComponent<FButton>();
 			retakeButton = transform.Find("RetakeButton").gameObject.AddComponent<FButton>();
 			infoButton = transform.Find("InfoButton").gameObject.AddComponent<FButton>();
+			BlueprintIcon = transform.Find("IconContainer/Icon").gameObject.GetComponent<Image>();
 
 			HoverShowButtons = [deleteButton.gameObject, renameButton?.gameObject, exportButton?.gameObject, moveButton?.gameObject, exportButton?.gameObject, retakeButton?.gameObject, infoButton?.gameObject];
 
@@ -67,6 +70,7 @@ namespace BlueprintsV2.UnityUI.Components
 				retakeButton.OnClick += RetakeBlueprint;
 				infoButton.OnClick += ShowBlueprintInfoScreen;
 			}
+			RefreshIcon();
 			OnPointerExit(null);
 		}
 
@@ -81,7 +85,7 @@ namespace BlueprintsV2.UnityUI.Components
 		}
 		void ShowBlueprintInfoScreen()
 		{
-			if (blueprint == null|| OnInfoClicked == null)
+			if (blueprint == null || OnInfoClicked == null)
 				return;
 			OnInfoClicked(blueprint);
 		}
@@ -178,6 +182,28 @@ namespace BlueprintsV2.UnityUI.Components
 				return;
 
 			Description?.SetSimpleTooltip(blueprint.UserDescription);
+		}
+		internal void RefreshIcon()
+		{
+			if (blueprint == null) return;
+
+			if (!blueprint.IconId.IsNullOrWhiteSpace())
+			{
+				BlueprintIcon.gameObject.SetActive(true);
+				BlueprintIcon.sprite = ModAssets.GetBlueprintIconSprite(blueprint.IconId);
+				if (blueprint.IconTintHex.IsNullOrWhiteSpace())
+				{
+					BlueprintIcon.color = Color.white;
+				}
+				else
+				{
+					BlueprintIcon.color = Util.ColorFromHex(blueprint.IconTintHex);
+				}
+			}
+			else
+			{
+				BlueprintIcon.gameObject.SetActive(false);
+			}
 		}
 	}
 }

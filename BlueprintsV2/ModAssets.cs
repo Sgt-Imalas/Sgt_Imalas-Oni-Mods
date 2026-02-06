@@ -68,20 +68,24 @@ namespace BlueprintsV2
 		public static GameObject BlueprintSelectionScreenGO;
 		public static GameObject BlueprintInfoStateGO;
 		public static GameObject NoteToolStateScreenGO;
+		public static GameObject IconSelectorGO;
 		public static void LoadAssets()
 		{
 			var bundle = AssetUtils.LoadAssetBundle("blueprints_ui", platformSpecific: true);
 			BlueprintSelectionScreenGO = bundle.LoadAsset<GameObject>("Assets/UIs/blueprintSelector.prefab");
 			BlueprintInfoStateGO = bundle.LoadAsset<GameObject>("Assets/UIs/UseBlueprintStateContainer.prefab");
 			NoteToolStateScreenGO = bundle.LoadAsset<GameObject>("Assets/UIs/NoteToolStateContainer.prefab");
+			IconSelectorGO = bundle.LoadAsset<GameObject>("Assets/UIs/IconSelector.prefab");
 			//UIUtils.ListAllChildren(Assets.transform);
 			BlueprintInfoStateGO.AddOrGet<CurrentBlueprintStateScreen>();
 			NoteToolStateScreenGO.AddOrGet<NoteToolScreen>();
+			IconSelectorGO.AddOrGet<SpriteSelectorScreen>();
 
 			var TMPConverter = new TMPConverter();
 			TMPConverter.ReplaceAllText(BlueprintSelectionScreenGO);
 			TMPConverter.ReplaceAllText(BlueprintInfoStateGO);
 			TMPConverter.ReplaceAllText(NoteToolStateScreenGO);
+			TMPConverter.ReplaceAllText(IconSelectorGO);
 		}
 
 		public static BlueprintFolder GetCurrentFolder() => SelectedFolder == null ? BlueprintFileHandling.RootFolder : SelectedFolder;
@@ -502,6 +506,16 @@ namespace BlueprintsV2
 
 			Actions.BlueprintsToggleHotkeyToolTips = new PActionManager().CreateAction(ActionKeys.ACTION_TOGGLETOOLTIPS_KEY,
 				STRINGS.UI.ACTIONS.TOGGLETOOLTIPS, new PKeyBinding(KKeyCode.Z));
+		}
+
+		public static Sprite GetBlueprintIconSprite(string id)
+		{
+			var sprite = Assets.GetSprite(id);
+			if (sprite == null)
+				sprite = Def.GetUISprite(id).first;
+			if (sprite == null)
+				sprite = Assets.GetSprite("unknown");
+			return sprite;
 		}
 
 		internal static bool IsStaticTag(BlueprintSelectedMaterial tagMaterial, out string name, out string desc, out Sprite icon)

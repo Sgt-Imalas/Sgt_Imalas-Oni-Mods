@@ -117,18 +117,6 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			string title = TitleInput.Text.Any() ? TitleInput.Text : STRINGS.BLUEPRINTS_BLUEPRINTNOTE.TEXTNOTE_EMPTY.TITLE;
 			string text = TextInput.Text.Any() ? TextInput.Text : STRINGS.BLUEPRINTS_BLUEPRINTNOTE.TEXTNOTE_EMPTY.TEXT;
 			info.SetInfo(title, text, ColorPicker.SelectedColor, true);
-		}
-		public override void OnKeyDown(KButtonEvent e)
-		{
-			base.OnKeyDown(e);
-			if (e.TryConsume(Action.CameraHome))
-				e.Consumed = true;
-		}
-		public override void OnKeyUp(KButtonEvent e)
-		{
-			base.OnKeyUp(e);
-			if (e.TryConsume(Action.CameraHome))
-				e.Consumed = true;
-		}
+		}		
 	}
 }

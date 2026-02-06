@@ -25,6 +25,9 @@ namespace BlueprintsV2.BlueprintData
 		public static readonly string DiggingSpots = "digcommands";
 		public static readonly string WorldNotes = "worldNotes";
 		public static readonly string ModIntegration_PlanningTool_Items = "planningtoolmod_shapecollection";
+
+		public static readonly string IconId = "icon";
+		public static readonly string IconTint = "icontint";
 	}
 
 	/// <summary>
@@ -37,6 +40,19 @@ namespace BlueprintsV2.BlueprintData
 		/// The internal name of the blueprint.
 		/// </summary>
 		public string FriendlyName { get; set; } = "unnamed";
+
+
+		/// <summary>
+		/// display icon of the blueprint in the file list
+		/// null equals no icon
+		/// </summary>
+		public string IconId { get; set; } = null;
+
+		/// <summary>
+		/// display icon color tint
+		/// null equals white
+		/// </summary>
+		public string IconTintHex { get; set; } = null;
 
 
 		/// <summary>
@@ -304,6 +320,16 @@ namespace BlueprintsV2.BlueprintData
 			{
 				UserDescription = userDescToken.Value<string>();
 			}
+			JToken iconIdToken = rootObject.SelectToken(JsonKeys.IconId);
+			if (iconIdToken != null && iconIdToken.Type == JTokenType.String)
+			{
+				IconId = iconIdToken.Value<string>();
+			}
+			JToken iconTintToken = rootObject.SelectToken(JsonKeys.IconTint);
+			if (iconTintToken != null && iconTintToken.Type == JTokenType.String)
+			{
+				IconTintHex = iconTintToken.Value<string>();
+			}
 			JToken buildingsToken = rootObject.SelectToken(JsonKeys.Buildings);
 			if (buildingsToken != null)
 			{
@@ -471,7 +497,16 @@ namespace BlueprintsV2.BlueprintData
 				jsonWriter.WritePropertyName(JsonKeys.UserDescription);
 				jsonWriter.WriteValue(UserDescription);
 			}
-
+			if(IconId!=null && IconId.Any())
+			{
+				jsonWriter.WritePropertyName(JsonKeys.IconId);
+				jsonWriter.WriteValue(IconId);
+			}
+			if (IconTintHex != null && IconTintHex.Any())
+			{
+				jsonWriter.WritePropertyName(JsonKeys.IconTint);
+				jsonWriter.WriteValue(IconTintHex);
+			}
 			if (BuildingConfigurations.Any())
 			{
 				jsonWriter.WritePropertyName(JsonKeys.Buildings);

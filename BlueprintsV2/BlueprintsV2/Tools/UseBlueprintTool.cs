@@ -18,6 +18,7 @@ namespace BlueprintsV2.Tools
 		}
 
 		public UseBlueprintToolHoverCard HoverCard;
+		public bool ToolActive { get; private set; }
 
 
 		public static void DestroyInstance()
@@ -68,6 +69,7 @@ namespace BlueprintsV2.Tools
 
 			ToolMenu.Instance.PriorityScreen.Show();
 			ShowBlueprintsWindow();
+			ToolActive = true;
 		}
 
 
@@ -96,11 +98,11 @@ namespace BlueprintsV2.Tools
 				}
 				//deactivate tool if no bp selected:
 
-				this.DeactivateTool();
 				ToolMenu.Instance.ClearSelection();
 				string sound = GlobalAssets.GetSound(PlayerController.Instance.ActiveTool.GetDeactivateSound());
 				if (sound != null)
 					KMonoBehaviour.PlaySound(sound);
+				this.DeactivateTool();
 			}
 		}
 
@@ -118,6 +120,8 @@ namespace BlueprintsV2.Tools
 			ToolMenu.Instance.PriorityScreen.Show(false);
 			GridCompositor.Instance.ToggleMajor(false);
 			CurrentBlueprintStateScreen.ShowScreen(false);
+			ToolActive = false;
+
 		}
 
 		public override void OnLeftClickDown(Vector3 cursorPos)

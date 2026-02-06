@@ -22,6 +22,7 @@ namespace BlueprintsV2.Patches
 				ModAssets.BLUEPRINTS_AUTOFILE_WATCHER.Dispose();
 				CurrentBlueprintStateScreen.DestroyInstance();
 				NoteToolScreen.DestroyInstance();
+				SpriteSelectorScreen.DestroyInstance();
 			}
 		}
 	}

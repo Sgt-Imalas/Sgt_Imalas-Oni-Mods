@@ -261,6 +261,10 @@ namespace BlueprintsV2
 					}
 					public class STATS
 					{
+						public class ICONCONTAINER
+						{
+							public static LocString LABEL = "Blueprint Icon:";
+						}
 						public static LocString LABEL = "Parameters:";
 						public class DIMENSION
 						{
@@ -287,7 +291,7 @@ namespace BlueprintsV2
 						{
 							public class DESCRIPTOR
 							{
-								public static LocString LABEL = "Number of Notes:";
+								public static LocString LABEL = "Number of notes:";
 							}
 						}
 					}
@@ -456,7 +460,64 @@ namespace BlueprintsV2
 					}
 				}
 			}
-
+			public class ICONSELECTOR
+			{
+				public class ICONLIST
+				{
+					public class HEADER
+					{
+						public static LocString LABEL = "Icon List";
+					}
+					public class SEARCHBAR
+					{
+						public class INPUT
+						{
+							public class TEXTAREA
+							{
+								public static LocString PLACEHOLDER = "Enter text to filter icons...";
+							}
+						}
+					}
+					public class BUTTONS
+					{
+						public class LOADALL
+						{
+							public static LocString TEXT = "Load All Icons";
+						}
+						public class LOADELEMENTS
+						{
+							public static LocString TEXT = "Load Element Icons";
+						}
+						public class LOADENTITIES
+						{
+							public static LocString TEXT = "Load Entity Icons";
+						}
+						public class LOADICONS
+						{
+							public static LocString TEXT = "Load Game Icons";
+						}
+						public class LOADBUILDINGS
+						{
+							public static LocString TEXT = "Load Building Icons";
+						}
+						public static LocString INFOTOOLTIP = "Building the icon list takes a few seconds to build so its not done by default.\n\nUse the respective buttons to add the buttons for their respective icons,\nOr build t";
+					}
+					public class SCROLLAREA
+					{
+						public class CONTENT
+						{
+							public class ITEM
+							{
+								public static LocString LABEL = "ico_spr";
+							}
+						}
+					}
+				}
+				public class CLOSEBUTTON
+				{
+					public static LocString TEXT = "Close";
+				}
+			}
 
 			public class ACTIONS
 			{

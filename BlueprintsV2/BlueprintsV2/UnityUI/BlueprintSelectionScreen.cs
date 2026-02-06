@@ -1,5 +1,7 @@
 ﻿using BlueprintsV2.BlueprintData;
+using BlueprintsV2.BlueprintsV2.UnityUI;
 using BlueprintsV2.BlueprintsV2.UnityUI.Components;
+using BlueprintsV2.Tools;
 using BlueprintsV2.UnityUI.Components;
 using rail;
 using STRINGS;
@@ -10,6 +12,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
+using UtilLibs.UI.FUI;
 using UtilLibs.UIcmp;
 using static BlueprintsV2.STRINGS.UI;
 using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR;
@@ -56,12 +59,16 @@ namespace BlueprintsV2.UnityUI
 		public FInputField2 DescriptionInput;
 		public FButton ResetText, ApplyText;
 		public LocText DimensionInfo, BuildingCount, DigCount, NoteCount;
+
 		//Blueprint info building list
 		public FInputField2 BuildingListSearchbar;
 		public FButton ClearBuildingListSearchbar;
 		public GameObject BuildingInfoContainer;
 		public BuildingInfoEntry BuildingInfoEntryPrefab;
 		public Dictionary<string, BuildingInfoEntry> BuildingInfoEntries = new();
+		public Image BlueprintIconDisplay;
+		public FButton EditBlueprintIconBtn, ClearBlueprintIconBtn;
+		public FColorPickerArray ColorPicker;
 
 
 		//MaterialList
@@ -122,7 +129,7 @@ namespace BlueprintsV2.UnityUI
 			BlueprintInfoBuildingList = transform.Find("BuildingList").gameObject;
 
 			CloseBtn = transform.Find("CloseButton").gameObject.AddOrGet<FButton>();
-			CloseBtn.OnClick += () => Show(false);
+			CloseBtn.OnClick += OnCloseClicked;
 
 			//blueprint files
 			BlueprintSearchbar = transform.Find("FileHierarchy/SearchBar/Input").FindOrAddComponent<FInputField2>();
@@ -226,18 +233,65 @@ namespace BlueprintsV2.UnityUI
 
 			//blueprint info building list
 
-			BuildingListSearchbar = transform.Find("BuildingList/SearchBar/Input").FindOrAddComponent<FInputField2>();
+			BuildingListSearchbar = transform.Find("BuildingList/SearchBar/Input").gameObject.AddOrGet<FInputField2>();
 			BuildingListSearchbar.OnValueChanged.AddListener(ApplyBuildingsFilter);
 			BuildingListSearchbar.Text = string.Empty;
 
-			ClearBuildingListSearchbar = transform.Find("BuildingList/SearchBar/DeleteButton").FindOrAddComponent<FButton>();
+			ClearBuildingListSearchbar = transform.Find("BuildingList/SearchBar/DeleteButton").gameObject.AddOrGet<FButton>();
 			ClearBuildingListSearchbar.OnClick += () => BuildingListSearchbar.Text = string.Empty;
 
 			BuildingInfoContainer = transform.Find("BuildingList/ScrollArea/Content").gameObject;
 			BuildingInfoEntryPrefab = BuildingInfoContainer.transform.Find("BuildingEntryPrefab").gameObject.AddOrGet<BuildingInfoEntry>();
 			BuildingInfoEntryPrefab.gameObject.SetActive(false);
 
+			EditBlueprintIconBtn = transform.Find("BlueprintInfo/Stats/IconContainer/EditButton").gameObject.AddOrGet<FButton>();
+			EditBlueprintIconBtn.OnClick += ShowSpriteSelectionScreen;
+			ClearBlueprintIconBtn = transform.Find("BlueprintInfo/Stats/IconContainer/DeleteButton").gameObject.AddOrGet<FButton>();
+			ClearBlueprintIconBtn.OnClick += ClearCurrentInfoBlueprintIcon;
+			BlueprintIconDisplay = transform.Find("BlueprintInfo/Stats/IconContainer/IconBG/Icon").gameObject.GetComponent<Image>();
+
+			ColorPicker = transform.Find("BlueprintInfo/Stats/IconContainer/ColorPicker").gameObject.AddOrGet<FColorPickerArray>();
+			ColorPicker.OnColorChange += SetCurrentInfoBlueprintTint;
+
 			init = true;
+		}
+		void ShowSpriteSelectionScreen()
+		{
+			DialogueCurrentlyOpen = true;
+			SpriteSelectorScreen.ShowScreen(true, UpdateBlueprintIcon);
+		}
+
+		void UpdateBlueprintIcon(string iconId, Color tint)
+		{
+			SetCurrentInfoBlueprintIcon(iconId);
+			tint.a = 1;
+			if(tint != Color.white)
+			{
+				SetCurrentInfoBlueprintTint(tint);
+				ColorPicker.SetSelected(tint);
+			}
+			DialogueCurrentlyOpen = false;
+		}
+		void SetCurrentInfoBlueprintTint(Color tint)
+		{
+			if (tint == Color.white)
+				InfoBlueprint.IconTintHex = null;
+			else
+				InfoBlueprint.IconTintHex = tint.ToHexString();
+			InfoBlueprint.Write();
+			RefreshInfoIcon();
+		}
+		void SetCurrentInfoBlueprintIcon(string spriteId)
+		{
+			InfoBlueprint.IconId = spriteId;
+			InfoBlueprint.Write();
+			RefreshInfoIcon();
+		}
+		void ClearCurrentInfoBlueprintIcon()
+		{
+			InfoBlueprint.IconId = null;
+			InfoBlueprint.Write();
+			RefreshInfoIcon();
 		}
 
 		void CreateConfirmDialogue(string title, string text)
@@ -323,7 +377,7 @@ namespace BlueprintsV2.UnityUI
 		{
 			if (BlueprintsElements.activeInHierarchy && show)
 				ShowElements(false);
-			
+
 
 			BlueprintInfo.SetActive(show);
 			BlueprintInfoBuildingList.SetActive(show);
@@ -332,6 +386,34 @@ namespace BlueprintsV2.UnityUI
 				BuildingListSearchbar.Text = string.Empty;
 				UpdateBuildingButtons();
 			}
+		}
+
+		void RefreshInfoIcon()
+		{
+			if (InfoBlueprint == null || BlueprintIconDisplay == null)
+				return;
+
+			if (!InfoBlueprint.IconId.IsNullOrWhiteSpace())
+			{
+				BlueprintIconDisplay.sprite = ModAssets.GetBlueprintIconSprite(InfoBlueprint.IconId);
+
+				if (InfoBlueprint.IconTintHex.IsNullOrWhiteSpace())
+				{
+					BlueprintIconDisplay.color = Color.white;
+				}
+				else
+				{
+					BlueprintIconDisplay.color = Util.ColorFromHex(InfoBlueprint.IconTintHex);
+				}
+			}
+			else
+			{
+				BlueprintIconDisplay.sprite = null;
+				BlueprintIconDisplay.color = Color.white;
+			}
+
+			if (BlueprintEntries.TryGetValue(InfoBlueprint, out var uiCmp))
+				uiCmp.RefreshIcon();
 		}
 
 		void LoadBlueprintDescription()
@@ -364,6 +446,8 @@ namespace BlueprintsV2.UnityUI
 				BuildingCount.SetText(InfoBlueprint.BuildingConfigurations.Count.ToString());
 				DigCount.SetText(InfoBlueprint.DigLocations.Count.ToString());
 				NoteCount.SetText(InfoBlueprint.WorldNotes.Count.ToString());
+
+				RefreshInfoIcon();
 				LoadBlueprintDescription();
 			}
 			else if (targetSet)
@@ -607,6 +691,13 @@ namespace BlueprintsV2.UnityUI
 			TargetBlueprint = null;
 			Show(false);
 		}
+		void OnCloseClicked()
+		{
+			if (onCloseAction != null)
+				onCloseAction(ModAssets.SelectedBlueprint);
+			TargetBlueprint = null;
+			Show(false);
+		}
 
 		void OnShowBlueprintInfo(Blueprint bp)
 		{
@@ -615,6 +706,7 @@ namespace BlueprintsV2.UnityUI
 			{
 				InfoBlueprint = bp;
 				InfoBlueprint.CacheCost();
+				RefreshEntryHighlight();
 			}
 			SetMaterialState();
 		}
@@ -626,10 +718,7 @@ namespace BlueprintsV2.UnityUI
 			{
 				TargetBlueprint = bp;
 				TargetBlueprint.CacheCost();
-				foreach (var prev in BlueprintEntries)
-				{
-					prev.Value.SetSelected(prev.Key == TargetBlueprint);
-				}
+				RefreshEntryHighlight();
 				foreach (var prev in ElementEntries)
 				{
 					prev.Value.SetSelected(false);
@@ -637,6 +726,15 @@ namespace BlueprintsV2.UnityUI
 			}
 			SetMaterialState();
 		}
+
+		void RefreshEntryHighlight()
+		{
+			foreach (var prev in BlueprintEntries)
+			{
+				prev.Value.SetSelected(prev.Key == TargetBlueprint ||prev.Key == InfoBlueprint);
+			}
+		}
+
 
 		private void DialogueOpen(bool isOpen)
 		{
@@ -663,11 +761,11 @@ namespace BlueprintsV2.UnityUI
 				ModAssets.BlueprintFileHandling.DeleteBlueprint(bp);
 			}
 
-			if(bp == TargetBlueprint)
+			if (bp == TargetBlueprint)
 				TargetBlueprint = null;
 			if (bp == InfoBlueprint)
 				InfoBlueprint = null;
-			
+
 			ClearUIState();
 		}
 
