@@ -302,7 +302,7 @@ namespace ModProfileManager_Addon.UnityUI
 				if (!DialogueCurrentlyOpen)
 					this.Show(false);
 			}
-			if (e.TryConsume(Action.DebugToggleClusterFX))
+			if (e.TryConsume(Action.Find))
 			{
 				ModProfileSearchbar.ExternalStartEditing();
 			}

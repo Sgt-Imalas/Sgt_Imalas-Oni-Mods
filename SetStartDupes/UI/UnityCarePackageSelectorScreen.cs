@@ -68,7 +68,7 @@ namespace SetStartDupes
 			{
 				this.Show(false);
 			}
-			if (e.TryConsume(Action.DebugToggleClusterFX))
+			if (e.TryConsume(Action.Find))
 			{
 				Searchbar.ExternalStartEditing();
 			}

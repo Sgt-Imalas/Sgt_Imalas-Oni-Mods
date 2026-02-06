@@ -28,7 +28,7 @@ namespace Rockets_TinyYetBig
 				if (__instance is SelectModuleSideScreen)
 				{
 					__instance.isEditing = SelectModuleSidescreen_AddButtons_Patch.EditingSearch;
-					if (e.TryConsume(Action.DebugToggleClusterFX))
+					if (e.TryConsume(Action.Find))
 					{
 						SelectModuleSidescreen_AddButtons_Patch.SearchBar.Select();
 						SelectModuleSidescreen_AddButtons_Patch.SearchBar.ActivateInputField();
