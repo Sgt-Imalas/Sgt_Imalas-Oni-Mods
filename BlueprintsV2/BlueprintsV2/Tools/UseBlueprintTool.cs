@@ -81,7 +81,7 @@ namespace BlueprintsV2.Tools
 		public void OnBlueprintSelected(Blueprint selected)
 		{
 			ModAssets.SelectedBlueprint = selected;
-			//SgtLogger.l("blueprint selected ? " + (ModAssets.SelectedBlueprint != null));
+			//SgtLogger.l("OnBlueprintSelected, selected ? " + (ModAssets.SelectedBlueprint != null));
 			if (ModAssets.SelectedBlueprint != null)
 			{
 				GridCompositor.Instance.ToggleMajor(true);
@@ -97,7 +97,7 @@ namespace BlueprintsV2.Tools
 					Destroy(visualizer);
 				}
 				//deactivate tool if no bp selected:
-
+				//SgtLogger.l("Deactivating UseBPTool");
 				ToolMenu.Instance.ClearSelection();
 				string sound = GlobalAssets.GetSound(PlayerController.Instance.ActiveTool.GetDeactivateSound());
 				if (sound != null)

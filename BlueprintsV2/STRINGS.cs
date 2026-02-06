@@ -192,6 +192,18 @@ namespace BlueprintsV2
 			{
 				public class FILEHIERARCHY
 				{
+					public class FILTERS
+					{
+						public class NAMESORT
+						{
+							public static LocString TEXT = "Sort by name";
+						}
+						public class DATESORT
+						{
+							public static LocString TEXT = "Sort by date modified";
+						}
+					}
+
 					public class IMPORTBUTTON
 					{
 						public static LocString TEXT = "Import new blueprint from clipboard";
@@ -243,8 +255,7 @@ namespace BlueprintsV2
 						{
 							public class TEXTAREA
 							{
-								public static LocString PLACEHOLDER = "Add description or notes to blueprint";
-								public static LocString TEXT = "​";
+								public static LocString PLACEHOLDER = "Add description to blueprint";
 							}
 						}
 					}
@@ -252,11 +263,11 @@ namespace BlueprintsV2
 					{
 						public class RESETBUTTON
 						{
-							public static LocString TEXT = "Reset Changes";
+							public static LocString TEXT = "Reset Desc. Changes";
 						}
 						public class APPLYBUTTON
 						{
-							public static LocString TEXT = "Save Changes";
+							public static LocString TEXT = "Save Desc. Changes";
 						}
 					}
 					public class STATS
@@ -478,30 +489,30 @@ namespace BlueprintsV2
 							}
 						}
 					}
-					public class BUTTONS
-					{
-						public class LOADALL
-						{
-							public static LocString TEXT = "Load All Icons";
-						}
-						public class LOADELEMENTS
-						{
-							public static LocString TEXT = "Load Element Icons";
-						}
-						public class LOADENTITIES
-						{
-							public static LocString TEXT = "Load Entity Icons";
-						}
-						public class LOADICONS
-						{
-							public static LocString TEXT = "Load Game Icons";
-						}
-						public class LOADBUILDINGS
-						{
-							public static LocString TEXT = "Load Building Icons";
-						}
-						public static LocString INFOTOOLTIP = "Building the icon list takes a few seconds to build so its not done by default.\n\nUse the respective buttons to add the buttons for their respective icons,\nOr build t";
-					}
+					//public class BUTTONS
+					//{
+					//	public class LOADALL
+					//	{
+					//		public static LocString TEXT = "Load All Icons";
+					//	}
+					//	public class LOADELEMENTS
+					//	{
+					//		public static LocString TEXT = "Load Element Icons";
+					//	}
+					//	public class LOADENTITIES
+					//	{
+					//		public static LocString TEXT = "Load Critter Icons";
+					//	}
+					//	public class LOADICONS
+					//	{
+					//		public static LocString TEXT = "Load Game Icons";
+					//	}
+					//	public class LOADBUILDINGS
+					//	{
+					//		public static LocString TEXT = "Load Building Icons";
+					//	}
+					//	public static LocString INFOTOOLTIP = "Building the icon list may a few seconds so its not done by default.\n\nUse the respective buttons to add the buttons for their respective icons.\nOnce built, they will persist for your current game session.";
+					//}
 					public class SCROLLAREA
 					{
 						public class CONTENT

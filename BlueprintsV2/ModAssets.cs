@@ -335,7 +335,9 @@ namespace BlueprintsV2
 
 				string parentName = Path.GetFileName(Path.GetDirectoryName(folder));
 
-				string[] files = Directory.GetFiles(folder);
+				var fileInfos = new DirectoryInfo(folder).GetFiles();
+
+				var files = fileInfos.OrderBy(info => info.LastWriteTimeUtc).Select(info => info.FullName).ToList();
 				string[] subfolders = Directory.GetDirectories(folder);
 
 				foreach (string file in files)

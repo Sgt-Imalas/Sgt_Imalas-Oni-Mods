@@ -5,6 +5,7 @@ using BlueprintsV2.Tools;
 using BlueprintsV2.UnityUI.Components;
 using rail;
 using STRINGS;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -33,6 +34,29 @@ namespace BlueprintsV2.UnityUI
 #pragma warning restore IDE0051 // Remove unused private members
 		public static BlueprintSelectionScreen Instance = null;
 
+		enum OrderBy
+		{
+			Invalid = 0,
+			CreationDateAscending = 1,
+			CreationDateDescending = 2,
+			NameAscending = 3, 
+			NameDescending = 4,
+		}
+		const string SortStateKey = "BlueprintsV2_BlueprintSortState";
+		OrderBy SortBlueprintsBy
+		{
+			get
+			{
+				var val = (OrderBy)KPlayerPrefs.GetInt(SortStateKey);
+				if (val == OrderBy.Invalid)
+					val = OrderBy.CreationDateDescending;
+				return val;
+			}
+			set
+			{
+				KPlayerPrefs.SetInt(SortStateKey,(int)value);
+			}
+		}
 
 		//Main Areas
 		public GameObject BlueprintsList;
@@ -53,6 +77,8 @@ namespace BlueprintsV2.UnityUI
 		public FolderHierarchyEntry HierarchyFolderPrefab;
 		public Dictionary<BlueprintFolder, FolderHierarchyEntry> FolderEntries = new();
 		public Dictionary<Blueprint, FileHierarchyEntry> BlueprintEntries = new();
+
+		public FOrdeByParamToggle OrderByName, OrderByDate;
 
 		//Blueprint Info Screen
 		public LocText BlueprintName;
@@ -116,6 +142,10 @@ namespace BlueprintsV2.UnityUI
 				}
 			}
 		}
+		public override float GetSortKey()
+		{
+			return base.GetSortKey() + 1;
+		}
 
 		private void Init()
 		{
@@ -132,7 +162,7 @@ namespace BlueprintsV2.UnityUI
 			CloseBtn.OnClick += OnCloseClicked;
 
 			//blueprint files
-			BlueprintSearchbar = transform.Find("FileHierarchy/SearchBar/Input").FindOrAddComponent<FInputField2>();
+			BlueprintSearchbar = transform.Find("FileHierarchy/SearchBar/Input").gameObject.AddOrGet<FInputField2>();
 			BlueprintSearchbar.OnValueChanged.AddListener(ApplyBlueprintFilter);
 			BlueprintSearchbar.Text = string.Empty;
 
@@ -144,25 +174,45 @@ namespace BlueprintsV2.UnityUI
 			OpenBlueprintFolder.OnClick += () => Process.Start(new ProcessStartInfo(ModAssets.BlueprintFileHandling.GetBlueprintDirectory()) { UseShellExecute = true });
 			UIUtils.AddSimpleTooltipToObject(OpenBlueprintFolder.gameObject, BLUEPRINTSELECTOR.FILEHIERARCHY.SEARCHBAR.OPENFOLDERTOOLTIP);
 
-			ClearBlueprintSearchbar = transform.Find("FileHierarchy/SearchBar/DeleteButton").FindOrAddComponent<FButton>();
+			ClearBlueprintSearchbar = transform.Find("FileHierarchy/SearchBar/DeleteButton").gameObject.AddOrGet<FButton>();
 			ClearBlueprintSearchbar.OnClick += () => BlueprintSearchbar.Text = string.Empty;
 			UIUtils.AddSimpleTooltipToObject(ClearBlueprintSearchbar.gameObject, BLUEPRINTSELECTOR.FILEHIERARCHY.SEARCHBAR.CLEARTOOLTIP);
 
-			FolderUpBtn = transform.Find("FileHierarchy/ScrollArea/Content/FolderUp").FindOrAddComponent<FButton>();
+			FolderUpBtn = transform.Find("FileHierarchy/ScrollArea/Content/FolderUp").gameObject.AddOrGet<FButton>();
 			FolderUpBtn.gameObject.SetActive(true);
 			FolderUpBtn.OnClick += () => SelectFolder(null);
 
 			HierarchyContainer = transform.Find("FileHierarchy/ScrollArea/Content").gameObject;
 
-			ClearOverrides = transform.Find("MaterialSwitch/Buttons/ResetButton").FindOrAddComponent<FButton>();
+			ClearOverrides = transform.Find("MaterialSwitch/Buttons/ResetButton").gameObject.AddOrGet<FButton>();
 			ClearOverrides.OnClick += OnClearOverrides;
 
-			PlaceBlueprint = transform.Find("MaterialSwitch/Buttons/PlaceBPbtn").FindOrAddComponent<FButton>();
+			PlaceBlueprint = transform.Find("MaterialSwitch/Buttons/PlaceBPbtn").gameObject.AddOrGet<FButton>();
 			PlaceBlueprint.OnClick += OnPlaceBlueprint;
 
-			CreateNewBlueprintFromOverrides = transform.Find("MaterialSwitch/Buttons/CreateModifiedBtn").FindOrAddComponent<FButton>();
+			CreateNewBlueprintFromOverrides = transform.Find("MaterialSwitch/Buttons/CreateModifiedBtn").gameObject.AddOrGet<FButton>();
 			CreateNewBlueprintFromOverrides.OnClick += OnCreateFromOverrides;
 			UIUtils.AddSimpleTooltipToObject(CreateNewBlueprintFromOverrides.gameObject, CREATEMODIFIED.TOOLTIP);
+
+			OrderByName = transform.Find("FileHierarchy/Filters/NameSort").gameObject.AddOrGet<FOrdeByParamToggle>();
+			OrderByName.SetActions(() => ChangeSortBy(OrderBy.NameAscending), () => ChangeSortBy(OrderBy.NameDescending));
+			OrderByDate = transform.Find("FileHierarchy/Filters/DateSort").gameObject.AddOrGet<FOrdeByParamToggle>();
+			OrderByDate.SetActions(() => ChangeSortBy(OrderBy.CreationDateAscending), () => ChangeSortBy(OrderBy.CreationDateDescending));
+			OrderByDate.StartDescending = true;
+
+			switch (SortBlueprintsBy)
+			{
+				case OrderBy.CreationDateAscending:
+					OrderByDate.ActivateToggle(1);break;
+				case OrderBy.CreationDateDescending:
+					OrderByDate.ActivateToggle(2); break;
+				case OrderBy.NameAscending:
+					OrderByName.ActivateToggle(1); break;
+				case OrderBy.NameDescending:
+					OrderByName.ActivateToggle(2); break;
+			}
+
+
 
 			var hierarchyEntryGO = transform.Find("FileHierarchy/ScrollArea/Content/BlueprintEntryPrefab").gameObject;
 			hierarchyEntryGO.SetActive(false);
@@ -197,11 +247,11 @@ namespace BlueprintsV2.UnityUI
 			ElementEntryPrefab = ElementEntryPrefabGo.AddOrGet<BlueprintElementEntry>();
 
 			///material override selection
-			ReplacementElementSearchbar = transform.Find("MaterialReplacer/SearchBar/Input").FindOrAddComponent<FInputField2>();
+			ReplacementElementSearchbar = transform.Find("MaterialReplacer/SearchBar/Input").gameObject.AddOrGet<FInputField2>();
 			ReplacementElementSearchbar.OnValueChanged.AddListener(ApplyElementsFilter);
 			ReplacementElementSearchbar.Text = string.Empty;
 
-			ClearReplacementElementSearchbar = transform.Find("MaterialReplacer/SearchBar/DeleteButton").FindOrAddComponent<FButton>();
+			ClearReplacementElementSearchbar = transform.Find("MaterialReplacer/SearchBar/DeleteButton").gameObject.AddOrGet<FButton>();
 			ClearReplacementElementSearchbar.OnClick += () => ReplacementElementSearchbar.Text = string.Empty;
 			UIUtils.AddSimpleTooltipToObject(ClearReplacementElementSearchbar.gameObject, BLUEPRINTSELECTOR.FILEHIERARCHY.SEARCHBAR.CLEARTOOLTIP);
 
@@ -217,7 +267,7 @@ namespace BlueprintsV2.UnityUI
 
 			BlueprintName = transform.Find("BlueprintInfo/Header/Label").gameObject.GetComponent<LocText>();
 
-			DescriptionInput = transform.Find("BlueprintInfo/Description/Input").FindOrAddComponent<FInputField2>();
+			DescriptionInput = transform.Find("BlueprintInfo/Description/Input").gameObject.AddOrGet<FInputField2>();
 			DescriptionInput.Text = string.Empty;
 
 			ResetText = transform.Find("BlueprintInfo/Buttons/ResetButton").gameObject.AddOrGet<FButton>();
@@ -255,21 +305,35 @@ namespace BlueprintsV2.UnityUI
 
 			init = true;
 		}
+		void ChangeSortBy(OrderBy orderBy)
+		{
+			SortBlueprintsBy = orderBy;
+			switch (orderBy)
+			{
+				case OrderBy.NameDescending:
+				case OrderBy.NameAscending:
+					OrderByDate.DeactivateToggle();
+					break;
+				case OrderBy.CreationDateDescending: 
+				case OrderBy.CreationDateAscending:
+					OrderByName.DeactivateToggle(); 
+					break;
+			}
+			UpdateBlueprintButtons();
+		}
+
 		void ShowSpriteSelectionScreen()
 		{
 			DialogueCurrentlyOpen = true;
-			SpriteSelectorScreen.ShowScreen(true, UpdateBlueprintIcon);
+			SpriteSelectorScreen.ShowScreen(true, UpdateBlueprintIcon, ()=>DialogueOpen(false));
 		}
-
 		void UpdateBlueprintIcon(string iconId, Color tint)
 		{
 			SetCurrentInfoBlueprintIcon(iconId);
 			tint.a = 1;
-			if(tint != Color.white)
-			{
-				SetCurrentInfoBlueprintTint(tint);
-				ColorPicker.SetSelected(tint);
-			}
+			SetCurrentInfoBlueprintTint(tint);
+			ColorPicker.SetSelected(tint);
+
 			DialogueCurrentlyOpen = false;
 		}
 		void SetCurrentInfoBlueprintTint(Color tint)
@@ -347,14 +411,16 @@ namespace BlueprintsV2.UnityUI
 		{
 			if (e.TryConsume(Action.Escape) || e.TryConsume(Action.MouseRight))
 			{
+				SgtLogger.l("BlueprintSelectionScreen consume esc.");
 				if (!DialogueCurrentlyOpen)
+				{
 					this.Show(false);
+				}
 			}
-			if (e.TryConsume(Action.DebugToggleClusterFX))
+			if (e.TryConsume(Action.Find))
 			{
 				BlueprintSearchbar.ExternalStartEditing();
 			}
-
 			base.OnKeyDown(e);
 		}
 
@@ -554,7 +620,16 @@ namespace BlueprintsV2.UnityUI
 				SgtLogger.l("not root");
 
 			//SgtLogger.l(targetFolder.BlueprintCount + "", "count");
-			var bps = targetFolder.Blueprints.OrderBy(bp => bp.FriendlyName);
+			var bps = SortBlueprintsBy switch
+			{
+				OrderBy.NameAscending => targetFolder.Blueprints.OrderBy(bp => bp.FriendlyName),
+				OrderBy.NameDescending => targetFolder.Blueprints.OrderByDescending(bp => bp.FriendlyName),
+				OrderBy.CreationDateAscending => targetFolder.Blueprints.OrderBy(bp => targetFolder.GetBlueprintIndex(bp)),
+				OrderBy.CreationDateDescending => targetFolder.Blueprints.OrderByDescending(bp => targetFolder.GetBlueprintIndex(bp)),
+				_ => targetFolder.Blueprints.OrderBy(bp => bp.FriendlyName),
+			};
+
+				
 			foreach (var bp in bps)
 			{
 				var uiEntry = AddOrGetBlueprintEntry(bp);
@@ -563,7 +638,7 @@ namespace BlueprintsV2.UnityUI
 				uiEntry.SetSelected(bp == TargetBlueprint);
 			}
 			this.ConsumeMouseScroll = true;
-			LockCam();
+			StartCoroutine(ToggleCamLock(true));
 		}
 
 		public void LockCam()
@@ -576,6 +651,11 @@ namespace BlueprintsV2.UnityUI
 					CameraController.Instance.DisableUserCameraControl = true;
 				}
 			});
+		}
+		IEnumerator ToggleCamLock(bool lockCam)
+		{
+			yield return null;
+			CameraController.Instance.DisableUserCameraControl = lockCam;
 		}
 		public void UnlockCam()
 		{
@@ -731,10 +811,9 @@ namespace BlueprintsV2.UnityUI
 		{
 			foreach (var prev in BlueprintEntries)
 			{
-				prev.Value.SetSelected(prev.Key == TargetBlueprint ||prev.Key == InfoBlueprint);
+				prev.Value.SetSelected(prev.Key == TargetBlueprint || prev.Key == InfoBlueprint);
 			}
 		}
-
 
 		private void DialogueOpen(bool isOpen)
 		{
@@ -850,7 +929,7 @@ namespace BlueprintsV2.UnityUI
 			}
 			if (placeImage != null)
 			{
-				var image = PresetHolder.transform.Find("Image").FindOrAddComponent<Image>();
+				var image = PresetHolder.transform.Find("Image").gameObject.AddOrGet<Image>();
 				image.sprite = placeImage;
 				UnityEngine.Rect rect = image.sprite.rect;
 				if (rect.width > rect.height)
@@ -865,9 +944,9 @@ namespace BlueprintsV2.UnityUI
 				}
 			}
 
-			PresetHolder.transform.FindOrAddComponent<FButton>().OnClick += onClickAction;
+			PresetHolder.transform.gameObject.AddOrGet<FButton>().OnClick += onClickAction;
 			if (overrideColor != default)
-				PresetHolder.transform.Find("Background").FindOrAddComponent<Image>().color = overrideColor;
+				PresetHolder.transform.Find("Background").gameObject.AddOrGet<Image>().color = overrideColor;
 
 			return PresetHolder;
 		}

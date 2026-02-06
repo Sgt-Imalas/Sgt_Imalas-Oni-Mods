@@ -118,7 +118,7 @@ namespace UtilLibs.UIcmp //Source: Aki
 					scroll_rect.OnKeyUp(e);
 				}
 			}
-			//e.Consumed = true;
+			e.Consumed = true;
 		}
 		#endregion
 

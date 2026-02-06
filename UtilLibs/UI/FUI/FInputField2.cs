@@ -9,7 +9,6 @@ namespace UtilLibs.UIcmp //Source: Aki
 {
 	public class FInputField2 : KScreen, IInputHandler
 	{
-
 		public static void Postfix(CameraController __instance, ref bool __result)
 		{
 			if (__result)
