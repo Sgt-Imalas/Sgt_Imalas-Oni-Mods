@@ -80,13 +80,21 @@ namespace Dupery
 				string lowerinvid = id.ToLowerInvariant();
 				if(logSymbolDuplicates)
 					Debug.Log("[Dupery]: trying to load accessory " + id);
+
+				bool isSleeveSymbol = lowerinvid.Contains("sleeve");
+				bool isSkinSymbol = lowerinvid.Contains("skin");
+				bool isHatHairSymbol = lowerinvid.Contains("hat_hair");
+
 				foreach (var _slot in accessorySlots.resources)
 				{
 					string slotID = _slot.Id.ToLowerInvariant();
-					if (slotID.Contains("sleeve") != lowerinvid.Contains("sleeve"))
+					if (isSleeveSymbol != slotID.Contains("sleeve"))
 						continue;
 
-					if (slotID.Contains("skin") != lowerinvid.Contains("skin"))
+					if (isSkinSymbol != slotID.Contains("skin"))
+						continue;
+
+					if (isHatHairSymbol != slotID.Contains("hat_hair"))
 						continue;
 
 					if (lowerinvid.Contains(slotID))
