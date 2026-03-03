@@ -205,8 +205,20 @@ namespace ClusterTraitGenerationManager.UI.SO_StarmapEditor
 				else if (item.ID == ModAssets.TemporalTearId)
 					_tearOnMap = true;
 			}
-			ToolboxItems[ModAssets.TeapotId].gameObject.SetActive(!hasTeaPot);
-			ToolboxItems[ModAssets.TemporalTearId].gameObject.SetActive(!_tearOnMap);
+			if (ToolboxItems.TryGetValue(ModAssets.TeapotId, out var teapotUIItem))
+			{
+				teapotUIItem.gameObject.SetActive(!hasTeaPot);
+			}
+			else
+				SgtLogger.warning("Teapot was not present in Toolbox?!");
+
+			if (ToolboxItems.TryGetValue(ModAssets.TemporalTearId, out var tearUIItem))
+			{
+				tearUIItem.gameObject.SetActive(!_tearOnMap);
+			}
+			else
+				SgtLogger.warning("Tear was not present in Toolbox?!");
+
 			if (OnGridChanged != null)
 				OnGridChanged();
 		}
@@ -258,6 +270,7 @@ namespace ClusterTraitGenerationManager.UI.SO_StarmapEditor
 				toolkitItem.Init(poi.Key, Grid);
 
 				ToolboxItems.Add(poi.Key, toolkitItem);
+				SgtLogger.l("Adding SpacedOut POI toolkit entry for "+poi.Key);
 				toolkitItem.SetMissing(true);
 			}
 
