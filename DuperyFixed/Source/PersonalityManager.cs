@@ -125,6 +125,8 @@ namespace Dupery
 
 				accessoryOwnershipMap[duplicantId][slotId] = accessoryId.ToString();
 			}
+			//else
+			//	SgtLogger.warning("Could not find accessory: " + accessoryKey + " for " + duplicantId + " in slot " + slotId);
 		}
 
 		public string FindOwnedAccessory(string duplicantId, string slotId)

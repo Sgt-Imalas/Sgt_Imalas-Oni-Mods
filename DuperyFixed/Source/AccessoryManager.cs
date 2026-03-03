@@ -83,8 +83,17 @@ namespace Dupery
 				foreach (var _slot in accessorySlots.resources)
 				{
 					string slotID = _slot.Id.ToLowerInvariant();
+					if (slotID.Contains("sleeve") != lowerinvid.Contains("sleeve"))
+						continue;
+
+					if (slotID.Contains("skin") != lowerinvid.Contains("skin"))
+						continue;
+
 					if (lowerinvid.Contains(slotID))
+					{ 
 						slot = _slot;
+						break;
+					}
 				}
 
 				if (slot == null)
