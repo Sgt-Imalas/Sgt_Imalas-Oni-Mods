@@ -70,7 +70,6 @@ namespace DuperyFixed.Source.Patch
 						}
 
 						string cheek_symbol_name = HashCache.Get().Get(accessorizer.GetAccessory(Db.Get().AccessorySlots.Mouth).symbol.hash).Replace("mouth", "cheek");
-
 						var symbol = customAnim.GetData().build.GetSymbol(cheek_symbol_name);
 
 						SgtLogger.l("custom head_swap anim on "+ identity.name+" for cheeks: "+ cheek_symbol_name+ " in anim: " + anim);

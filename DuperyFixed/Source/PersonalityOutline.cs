@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using DuperyFixed;
+using HarmonyLib;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
@@ -399,8 +400,10 @@ namespace Dupery
 
 			SgtLogger.l("Speechmouth for " + nameStringKey + ": " + SpeechMouth + " parsed: " + speechMouth);
 
-			if(!CharacterContainer.defaultShirtIdxToDefaultOutfitID.ContainsKey(body))
-				CharacterContainer.defaultShirtIdxToDefaultOutfitID[body] = "";
+			if (!CharacterContainer.defaultShirtIdxToDefaultOutfitID.ContainsKey(body))
+			{
+				CharacterContainer.defaultShirtIdxToDefaultOutfitID[body] = body.ToString();
+			}
 
 			Personality personality = new Personality(
 				nameStringKey,
