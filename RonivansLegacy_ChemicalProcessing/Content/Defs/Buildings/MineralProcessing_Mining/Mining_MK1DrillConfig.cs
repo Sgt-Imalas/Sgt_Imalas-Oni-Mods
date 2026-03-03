@@ -45,11 +45,11 @@ namespace Mineral_Processing
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
 			Prioritizable.AddRef(go);
-			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
 
 
 			KPrefabID component = go.GetComponent<KPrefabID>();
 			component.AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
+			component.AddTag(GameTags.NotRocketInteriorBuilding);
 			//component.AddTag(GameTags.UniquePerWorld);
 
 			go.AddOrGet<DropAllWorkable>();

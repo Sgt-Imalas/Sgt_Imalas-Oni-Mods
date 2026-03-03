@@ -63,8 +63,9 @@ namespace Mineral_Processing_Mining.Buildings
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
 
-			//KPrefabID component = go.GetComponent<KPrefabID>();
+			KPrefabID component = go.GetComponent<KPrefabID>();
 			//component.AddTag(GameTags.UniquePerWorld);
+			component.AddTag(GameTags.NotRocketInteriorBuilding);
 
 			go.AddOrGet<DropAllWorkable>();
 			go.AddOrGet<BuildingComplete>().isManuallyOperated = false;
