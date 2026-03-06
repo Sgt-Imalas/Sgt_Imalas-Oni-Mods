@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
@@ -39,7 +40,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 					var amount = component.GetReference<LocText>("Amount");
 					amount.text = occurence.GetOccurenceCompositionName(true);
 					amount.color = Color.black;
-					amount.enableWordWrapping = false;
+					amount.textWrappingMode = TextWrappingModes.NoWrap;
 
 					component.GetReference<ToolTip>("Tooltip").toolTip = occurence.GetOccurenceCompositionDescription();
 					component.GetReference<KButton>("Button").interactable = false;
@@ -56,7 +57,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 					var amount = component.GetReference<LocText>("Amount");
 					amount.text = result.GetProductCompositionName(true);
 					amount.color = Color.black;
-					amount.enableWordWrapping = false;
+					amount.textWrappingMode = TextWrappingModes.NoWrap;
 
 					var containerLE = __instance.resultsContainer.GetComponent<LayoutElement>();
 					containerLE.preferredWidth = containerLE.preferredWidth + 40f;

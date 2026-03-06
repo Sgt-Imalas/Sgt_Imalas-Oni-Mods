@@ -184,129 +184,129 @@ namespace YamlTemplateExportFix
 			}
 		}
 
-		[HarmonyPatch(typeof(SelectToolHoverTextCard), "UpdateHoverElements")]
-		public static class SelectToolHoverTextCard_UpdateHoverElements_Patch
-		{
-			private static readonly FieldInfo InfoId = AccessTools.Field(typeof(InfoOverlay), nameof(InfoOverlay.ID));
+		//[HarmonyPatch(typeof(SelectToolHoverTextCard), "UpdateHoverElements")]
+		//public static class SelectToolHoverTextCard_UpdateHoverElements_Patch
+		//{
+		//	private static readonly FieldInfo InfoId = AccessTools.Field(typeof(InfoOverlay), nameof(InfoOverlay.ID));
 
-			private static readonly FieldInfo LogicId = AccessTools.Field(
-				typeof(OverlayModes.Logic),
-				nameof(OverlayModes.Logic.ID)
-			);
+		//	private static readonly FieldInfo LogicId = AccessTools.Field(
+		//		typeof(OverlayModes.Logic),
+		//		nameof(OverlayModes.Logic.ID)
+		//	);
 
-			private static readonly MethodInfo HashEq = AccessTools.Method(
-				typeof(HashedString),
-				"op_Equality",
-				new[] { typeof(HashedString), typeof(HashedString) }
-			);
+		//	private static readonly MethodInfo HashEq = AccessTools.Method(
+		//		typeof(HashedString),
+		//		"op_Equality",
+		//		new[] { typeof(HashedString), typeof(HashedString) }
+		//	);
 
-			private static readonly MethodInfo Helper = AccessTools.Method(
-				typeof(SelectToolHoverTextCard_UpdateHoverElements_Patch),
-				nameof(DrawerHelper)
-			);
+		//	private static readonly MethodInfo Helper = AccessTools.Method(
+		//		typeof(SelectToolHoverTextCard_UpdateHoverElements_Patch),
+		//		nameof(DrawerHelper)
+		//	);
 
-			public static IEnumerable<CodeInstruction> Transpiler(
-				IEnumerable<CodeInstruction> orig,
-				ILGenerator generator
-			)
-			{
-				return orig; ///Dev Build crash
-				var codes = orig.ToList();
-				var logicId = codes.FindIndex(ci => ci.operand is FieldInfo info && info == LogicId);
-				var thisLabel = generator.DefineLabel();
-				codes[logicId + 2].operand = thisLabel;
-				var idx = codes.FindIndex(logicId, ci => ci.opcode == OpCodes.Endfinally) + 1;
-				var elseLabel = generator.DefineLabel();
-				codes[idx].labels.Add(elseLabel);
-				var i = idx;
-				codes.Insert(i++, new CodeInstruction(OpCodes.Ldloc_2) { labels = { thisLabel } });
-				codes.Insert(i++, new CodeInstruction(OpCodes.Ldsfld, InfoId));
-				codes.Insert(i++, new CodeInstruction(OpCodes.Call, HashEq));
-				codes.Insert(i++, new CodeInstruction(OpCodes.Brfalse, elseLabel));
-				codes.Insert(i++, new CodeInstruction(OpCodes.Ldarg_0));
-				codes.Insert(i++, new CodeInstruction(OpCodes.Ldloc_0));
-				codes.Insert(i++, new CodeInstruction(OpCodes.Ldloc_1));
-				codes.Insert(i++, new CodeInstruction(OpCodes.Call, Helper));
-				codes.Insert(i++, new CodeInstruction(OpCodes.Br, elseLabel));
-				return codes;
-			}
+		//	public static IEnumerable<CodeInstruction> Transpiler(
+		//		IEnumerable<CodeInstruction> orig,
+		//		ILGenerator generator
+		//	)
+		//	{
+		//		return orig; ///Dev Build crash
+		//		var codes = orig.ToList();
+		//		var logicId = codes.FindIndex(ci => ci.operand is FieldInfo info && info == LogicId);
+		//		var thisLabel = generator.DefineLabel();
+		//		codes[logicId + 2].operand = thisLabel;
+		//		var idx = codes.FindIndex(logicId, ci => ci.opcode == OpCodes.Endfinally) + 1;
+		//		var elseLabel = generator.DefineLabel();
+		//		codes[idx].labels.Add(elseLabel);
+		//		var i = idx;
+		//		codes.Insert(i++, new CodeInstruction(OpCodes.Ldloc_2) { labels = { thisLabel } });
+		//		codes.Insert(i++, new CodeInstruction(OpCodes.Ldsfld, InfoId));
+		//		codes.Insert(i++, new CodeInstruction(OpCodes.Call, HashEq));
+		//		codes.Insert(i++, new CodeInstruction(OpCodes.Brfalse, elseLabel));
+		//		codes.Insert(i++, new CodeInstruction(OpCodes.Ldarg_0));
+		//		codes.Insert(i++, new CodeInstruction(OpCodes.Ldloc_0));
+		//		codes.Insert(i++, new CodeInstruction(OpCodes.Ldloc_1));
+		//		codes.Insert(i++, new CodeInstruction(OpCodes.Call, Helper));
+		//		codes.Insert(i++, new CodeInstruction(OpCodes.Br, elseLabel));
+		//		return codes;
+		//	}
 
-			private static void DrawerHelper(SelectToolHoverTextCard inst, int cell, HoverTextDrawer drawer)
-			{
-				// Cell position info
-				drawer.BeginShadowBar();
-				var pos = Grid.CellToPos(cell);
-				drawer.DrawText("POSITION", inst.Styles_Title.Standard);
-				drawer.NewLine();
-				drawer.DrawText($"({pos.x}, {pos.y})", inst.Styles_BodyText.Standard);
-				drawer.NewLine();
-				drawer.DrawText($"Cell {cell}", inst.Styles_BodyText.Standard);
-				drawer.EndShadowBar();
+		//	private static void DrawerHelper(SelectToolHoverTextCard inst, int cell, HoverTextDrawer drawer)
+		//	{
+		//		// Cell position info
+		//		drawer.BeginShadowBar();
+		//		var pos = Grid.CellToPos(cell);
+		//		drawer.DrawText("POSITION", inst.Styles_Title.Standard);
+		//		drawer.NewLine();
+		//		drawer.DrawText($"({pos.x}, {pos.y})", inst.Styles_BodyText.Standard);
+		//		drawer.NewLine();
+		//		drawer.DrawText($"Cell {cell}", inst.Styles_BodyText.Standard);
+		//		drawer.EndShadowBar();
 
-				// Counts
-				drawer.BeginShadowBar();
-				drawer.DrawText("COUNT", inst.Styles_Title.Standard);
-				drawer.NewLine();
-				var p = Grid.Objects[cell, (int)ObjectLayer.Pickupables];
-				var count = 0;
-				while (p != null && p.GetComponent<Pickupable>() is Pickupable p2)
-				{
-					++count;
-					p = p2.objectLayerListItem?.nextItem?.gameObject;
-				}
+		//		// Counts
+		//		drawer.BeginShadowBar();
+		//		drawer.DrawText("COUNT", inst.Styles_Title.Standard);
+		//		drawer.NewLine();
+		//		var p = Grid.Objects[cell, (int)ObjectLayer.Pickupables];
+		//		var count = 0;
+		//		while (p != null && p.GetComponent<Pickupable>() is Pickupable p2)
+		//		{
+		//			++count;
+		//			p = p2.objectLayerListItem?.nextItem?.gameObject;
+		//		}
 
-				drawer.DrawText($"Pickupables: {count}", inst.Styles_BodyText.Standard);
-				drawer.EndShadowBar();
+		//		drawer.DrawText($"Pickupables: {count}", inst.Styles_BodyText.Standard);
+		//		drawer.EndShadowBar();
 
-				// Element info
-				drawer.BeginShadowBar();
-				var element = Grid.Element[cell];
-				drawer.DrawText("ELEMENT", inst.Styles_Title.Standard);
-				drawer.NewLine();
-				drawer.DrawText($"Name: {element.name}", inst.Styles_BodyText.Standard);
-				drawer.NewLine();
-				var hardnessStr = GameUtil.GetHardnessString(element);
-				if (hardnessStr == ELEMENTS.HARDNESS.NA)
-				{
-					hardnessStr = "Not Solid";
-				}
+		//		// Element info
+		//		drawer.BeginShadowBar();
+		//		var element = Grid.Element[cell];
+		//		drawer.DrawText("ELEMENT", inst.Styles_Title.Standard);
+		//		drawer.NewLine();
+		//		drawer.DrawText($"Name: {element.name}", inst.Styles_BodyText.Standard);
+		//		drawer.NewLine();
+		//		var hardnessStr = GameUtil.GetHardnessString(element);
+		//		if (hardnessStr == ELEMENTS.HARDNESS.NA)
+		//		{
+		//			hardnessStr = "Not Solid";
+		//		}
 
-				drawer.DrawText($"Hardness: {hardnessStr}", inst.Styles_BodyText.Standard);
+		//		drawer.DrawText($"Hardness: {hardnessStr}", inst.Styles_BodyText.Standard);
 
-				// element.HasTransitionDown doesn't exist :c
-				if (element.lowTempTransitionTarget != 0 && element.lowTempTransitionTarget != SimHashes.Unobtanium &&
-					element.lowTempTransition != null && element.lowTempTransition != element)
-				{
-					drawer.NewLine();
-					drawer.DrawText(
-						$"Transition down to {element.lowTempTransition.name} at {Math.Round(GameUtil.GetTemperatureConvertedFromKelvin(element.lowTemp, GameUtil.temperatureUnit), 2)}{GameUtil.GetTemperatureUnitSuffix()}",
-						inst.Styles_BodyText.Standard
-					);
-				}
+		//		// element.HasTransitionDown doesn't exist :c
+		//		if (element.lowTempTransitionTarget != 0 && element.lowTempTransitionTarget != SimHashes.Unobtanium &&
+		//			element.lowTempTransition != null && element.lowTempTransition != element)
+		//		{
+		//			drawer.NewLine();
+		//			drawer.DrawText(
+		//				$"Transition down to {element.lowTempTransition.name} at {Math.Round(GameUtil.GetTemperatureConvertedFromKelvin(element.lowTemp, GameUtil.temperatureUnit), 2)}{GameUtil.GetTemperatureUnitSuffix()}",
+		//				inst.Styles_BodyText.Standard
+		//			);
+		//		}
 
-				if (element.HasTransitionUp)
-				{
-					drawer.NewLine();
-					drawer.DrawText(
-						$"Transition up to {element.highTempTransition.name} at {Math.Round(GameUtil.GetTemperatureConvertedFromKelvin(element.highTemp, GameUtil.temperatureUnit), 2)}{GameUtil.GetTemperatureUnitSuffix()}",
-						inst.Styles_BodyText.Standard
-					);
-				}
+		//		if (element.HasTransitionUp)
+		//		{
+		//			drawer.NewLine();
+		//			drawer.DrawText(
+		//				$"Transition up to {element.highTempTransition.name} at {Math.Round(GameUtil.GetTemperatureConvertedFromKelvin(element.highTemp, GameUtil.temperatureUnit), 2)}{GameUtil.GetTemperatureUnitSuffix()}",
+		//				inst.Styles_BodyText.Standard
+		//			);
+		//		}
 
-				drawer.NewLine();
-				drawer.DrawText(
-					$"Specific Heat Capacity: {GameUtil.GetFormattedSHC(element.specificHeatCapacity)}",
-					inst.Styles_BodyText.Standard
-				);
+		//		drawer.NewLine();
+		//		drawer.DrawText(
+		//			$"Specific Heat Capacity: {GameUtil.GetFormattedSHC(element.specificHeatCapacity)}",
+		//			inst.Styles_BodyText.Standard
+		//		);
 
-				drawer.NewLine();
-				drawer.DrawText(
-					$"Thermal Conductivity: {GameUtil.GetThermalConductivityString(element)}",
-					inst.Styles_BodyText.Standard
-				);
+		//		drawer.NewLine();
+		//		drawer.DrawText(
+		//			$"Thermal Conductivity: {GameUtil.GetThermalConductivityString(element)}",
+		//			inst.Styles_BodyText.Standard
+		//		);
 
-				drawer.EndShadowBar();
-			}
-		}
+		//		drawer.EndShadowBar();
+		//	}
+		//}
 	}
 }

@@ -11,7 +11,7 @@
 
 	<!-- Build Properties -->
 	<PropertyGroup>
-		<TargetFramework>net48</TargetFramework>
+
 		<Configurations>Debug;Release</Configurations>
 		<AssemblyName>VisualFixesNTweaks</AssemblyName>
 		<RootNamespace>_3GuBsVisualFixesNTweaks</RootNamespace>

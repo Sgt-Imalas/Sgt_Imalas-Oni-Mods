@@ -295,7 +295,7 @@ namespace Rockets_TinyYetBig
 								LocText componentInChildren = ModuleButton.GetComponentInChildren<LocText>();
 								componentInChildren.text = part.GetProperName();
 								componentInChildren.alignment = TextAlignmentOptions.Bottom;
-								componentInChildren.enableWordWrapping = true;
+								componentInChildren.textWrappingMode = TextWrappingModes.Normal;
 								ModuleButton.GetComponent<MultiToggle>().onClick += (() => __instance.SelectModule(def));
 
 								var tuple = new Tuple<BuildingDef, int>(def, category.Key);

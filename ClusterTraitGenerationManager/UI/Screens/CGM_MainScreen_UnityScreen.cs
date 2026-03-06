@@ -731,7 +731,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			await Task.Delay(ms);
 			task.Invoke();
 		}
-		public void OnResize()
+		public new void OnResize()
 		{
 			var rectMain = this.rectTransform();
 			rectMain.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, UnityEngine.Screen.width * (1f / rectMain.lossyScale.x));

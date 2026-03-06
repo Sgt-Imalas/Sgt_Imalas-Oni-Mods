@@ -60,8 +60,8 @@ namespace Imalas_TwitchChaosEvents.OmegaSawblade
 			rigidBody.simulated = true;
 			rigidBody.useAutoMass = false;
 			rigidBody.mass = 1.0f;
-			rigidBody.angularDrag = 0.05f;
-			rigidBody.drag = 0;
+			rigidBody.angularDamping = 0.05f;
+			rigidBody.linearDamping = 0;
 			rigidBody.gravityScale = 0;
 			rigidBody.collisionDetectionMode = CollisionDetectionMode2D.Discrete;
 			rigidBody.interpolation = RigidbodyInterpolation2D.Interpolate;
@@ -286,13 +286,13 @@ namespace Imalas_TwitchChaosEvents.OmegaSawblade
 				force.Normalize();
 				force *= speed;
 				rigidBody.AddForce(force);
-				rigidBody.velocity = Vector2.ClampMagnitude(rigidBody.velocity, maxSpeed);
+				rigidBody.linearVelocity = Vector2.ClampMagnitude(rigidBody.linearVelocity, maxSpeed);
 				transform.SetPosition(transform.position += (Vector3)force * sliding * dt);
 			}
 			if (lifeTime <= 0)
 			{
 				attracted = false;
-				rigidBody.velocity = Vector2.zero;
+				rigidBody.linearVelocity = Vector2.zero;
 				rigidBody.freezeRotation = true;
 				kbac.Stop();
 				kbac.Play("idle");

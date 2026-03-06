@@ -411,7 +411,7 @@ namespace SkillsInfoScreen
 			else
 			{
 				LocText.text = widgetRow.isDefault ? "" : skill.Name;
-				//LocText.enableWordWrapping = false;
+				//LocText.textWrappingMode = TMPro.TextWrappingModes.NoWrap;;
 			}
 			return;
 			//TableRow widgetRow = this.GetWidgetRow(widget_go);
@@ -499,7 +499,7 @@ namespace SkillsInfoScreen
 			//	//else
 			//	//{
 			//	//	LocText.text = widgetRow.isDefault ? "" : skill.Name;
-			//	//	LocText.enableWordWrapping = false;
+			//	//	LocText.textWrappingMode = TMPro.TextWrappingModes.NoWrap;;
 			//	//}
 			//}
 		}

@@ -159,12 +159,12 @@ namespace SkillsInfoScreen
 				LocText.fontSize = 32f;
 				LocText.alignment = TMPro.TextAlignmentOptions.Center;
 				LocText.text = (this.GetWidgetColumn(widget_go) as LabelTableColumn).get_value_action(minion, widget_go);
-				LocText.enableWordWrapping = false;
+				LocText.textWrappingMode = TMPro.TextWrappingModes.NoWrap;;
 			}
 			else
 			{
 				LocText.text = widgetRow.isDefault ? "" : attribute.Name;
-				LocText.enableWordWrapping = false;
+				LocText.textWrappingMode = TMPro.TextWrappingModes.NoWrap;;
 				OptionsButton.transform.SetAsLastSibling();
 			}
 		}

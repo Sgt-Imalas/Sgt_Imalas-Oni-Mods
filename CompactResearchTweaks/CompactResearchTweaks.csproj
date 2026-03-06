@@ -11,7 +11,7 @@
 
 	<!-- Build Properties -->
 	<PropertyGroup>
-		<TargetFramework>net48</TargetFramework>
+		
 		<Configurations>Debug;Release</Configurations>
 		<AssemblyName>CompactResearchTweaks</AssemblyName>
 		<RootNamespace>CompactResearchTweaks</RootNamespace>
