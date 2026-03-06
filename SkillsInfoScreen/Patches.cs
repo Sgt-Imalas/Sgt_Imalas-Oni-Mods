@@ -64,7 +64,7 @@ namespace SkillsInfoScreen
 				AttributesInfo.prefabOverride =  Util.KInstantiateUI<KToggle>((useSmallButtons ? __instance.smallPrefab : __instance.prefab).gameObject);
 
 				//prevent word wrapping due to shrunken buttons
-				__instance.prefab.transform.Find("TextContainer/Text").GetComponent<LocText>().textWrappingMode = TMPro.TextWrappingModes.NoWrap;
+				__instance.prefab.transform.Find("TextContainer/Text").GetComponent<LocText>().enableWordWrapping = false;
 
 				__instance.ScreenInfoMatch.Add(AttributesInfo, new()
 				{

@@ -33,7 +33,7 @@ namespace ClaimNotification
 						)
 					{
 						//SgtLogger.l("item found!");
-						System.Action ShowScreen = () => UnityEngine.Object.FindFirstObjectByType<KleiItemDropScreen>().Show(true);
+						System.Action ShowScreen = () => UnityEngine.Object.FindObjectOfType<KleiItemDropScreen>(true).Show(true);
 						System.Action close = () => { };
 
 						DialogUtil.CreateConfirmDialog(

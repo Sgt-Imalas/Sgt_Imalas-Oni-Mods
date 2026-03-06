@@ -34,7 +34,7 @@ namespace UtilLibs.UI.FUI.Unity_UI_Extensions.Scripts.Controls.ReorderableList
 
 		private void Awake()
 		{
-			foreach (var list in FindObjectsByType<ReorderableList>(FindObjectsSortMode.None))
+			foreach (var list in FindObjectsOfType<ReorderableList>())
 			{
 				list.OnElementDropped.AddListener(ElementDropped);
 			}

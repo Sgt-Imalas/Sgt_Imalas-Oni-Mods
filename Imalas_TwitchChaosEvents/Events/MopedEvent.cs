@@ -36,7 +36,7 @@ namespace Imalas_TwitchChaosEvents.Events
 		public void Mopedication(bool enabling)
 		{
 			MopedActive = enabling;
-			var foundOriginalStrings = GameObject.FindObjectsByType<LocText>(FindObjectsSortMode.None);
+			var foundOriginalStrings = GameObject.FindObjectsOfType<LocText>(true);
 
 			if (enabling)
 			{

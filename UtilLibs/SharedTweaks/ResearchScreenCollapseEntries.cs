@@ -170,7 +170,7 @@ namespace UtilLibs.SharedTweaks
 			infoText.enableAutoSizing = false;
 			infoText.fontSize = 32;
 			infoText.alignment = TextAlignmentOptions.Center;
-			infoText.textWrappingMode = TextWrappingModes.NoWrap;
+			infoText.enableWordWrapping = false;
 			infoText.overflowMode = TextOverflowModes.Overflow;
 
 			CollapsedIndicators[entry] = freeIcon;
