@@ -205,31 +205,30 @@ namespace SetStartDupes.DuplicityEditing
 			CleanSlateBtn.OnClick += ClearAll;
 
 			InitPrefabs();
-
 			InitTabs();
 			init = true;
 		}
 		private void InitPrefabs()
 		{
-			NumberInputPrefabWide = transform.Find("Details/Content/ScrollRectContainer/NumberInputPrefabWide").FindOrAddComponent<NumberInput>();
+			NumberInputPrefabWide = transform.Find("Details/Content/ScrollRectContainer/NumberInputPrefabWide").gameObject.AddOrGet<NumberInput>();
 			NumberInputPrefabWide.gameObject.SetActive(false);
 
-			NumberInputPrefab = transform.Find("Details/Content/ScrollRectContainer/NumberInputPrefab").FindOrAddComponent<NumberInput>();
+			NumberInputPrefab = transform.Find("Details/Content/ScrollRectContainer/NumberInputPrefab").gameObject.AddOrGet<NumberInput>();
 			NumberInputPrefab.gameObject.SetActive(false);
 
-			HeaderMainPrefab = transform.Find("Details/Content/ScrollRectContainer/HeaderMain").FindOrAddComponent<HeaderMain>();
+			HeaderMainPrefab = transform.Find("Details/Content/ScrollRectContainer/HeaderMain").gameObject.AddOrGet<HeaderMain>();
 			HeaderMainPrefab.gameObject.SetActive(false);
 
-			HeaderDescriptorPrefab = transform.Find("Details/Content/ScrollRectContainer/HeaderDescriptor").FindOrAddComponent<HeaderDescriptor>();
+			HeaderDescriptorPrefab = transform.Find("Details/Content/ScrollRectContainer/HeaderDescriptor").gameObject.AddOrGet<HeaderDescriptor>();
 			HeaderDescriptorPrefab.gameObject.SetActive(false);
 
-			CheckboxInputPrefab = transform.Find("Details/Content/ScrollRectContainer/CheckboxPrefab").FindOrAddComponent<CheckboxInput>();
+			CheckboxInputPrefab = transform.Find("Details/Content/ScrollRectContainer/CheckboxPrefab").gameObject.AddOrGet<CheckboxInput>();
 			CheckboxInputPrefab.gameObject.SetActive(false);
 
-			SliderInputPrefab = transform.Find("Details/Content/ScrollRectContainer/SliderPrefab").FindOrAddComponent<SliderInput>();
+			SliderInputPrefab = transform.Find("Details/Content/ScrollRectContainer/SliderPrefab").gameObject.AddOrGet<SliderInput>();
 			SliderInputPrefab.gameObject.SetActive(false);
 
-			DeletableNumberInputListEntryPrefab = transform.Find("Details/Content/ScrollRectContainer/DeletableNumberInputPrefab").FindOrAddComponent<DeletableNumberInputListEntry>();
+			DeletableNumberInputListEntryPrefab = transform.Find("Details/Content/ScrollRectContainer/DeletableNumberInputPrefab").gameObject.AddOrGet<DeletableNumberInputListEntry>();
 			DeletableNumberInputListEntryPrefab.gameObject.SetActive(false);
 
 			AppearanceEntryPrefab = transform.Find("Details/Content/ScrollRectContainer/Appearence/Item").gameObject.AddOrGet<AppearanceEntry>();
@@ -264,11 +263,11 @@ namespace SetStartDupes.DuplicityEditing
 
 		private void InitTabs()
 		{
-			Tabs.Add(Tab.Attributes, transform.Find("Details/Header/Buttons/AttributeButton").FindOrAddComponent<FToggleButton>());
-			Tabs.Add(Tab.Appearance, transform.Find("Details/Header/Buttons/AppearanceButton").FindOrAddComponent<FToggleButton>());
-			Tabs.Add(Tab.Health, transform.Find("Details/Header/Buttons/HealthButton").FindOrAddComponent<FToggleButton>());
-			Tabs.Add(Tab.Skills, transform.Find("Details/Header/Buttons/SkillsButton").FindOrAddComponent<FToggleButton>());
-			Tabs.Add(Tab.Effects, transform.Find("Details/Header/Buttons/EffectsButton").FindOrAddComponent<FToggleButton>());
+			Tabs.Add(Tab.Attributes, transform.Find("Details/Header/Buttons/AttributeButton").gameObject.AddOrGet<FToggleButton>());
+			Tabs.Add(Tab.Appearance, transform.Find("Details/Header/Buttons/AppearanceButton").gameObject.AddOrGet<FToggleButton>());
+			Tabs.Add(Tab.Health, transform.Find("Details/Header/Buttons/HealthButton").gameObject.AddOrGet<FToggleButton>());
+			Tabs.Add(Tab.Skills, transform.Find("Details/Header/Buttons/SkillsButton").gameObject.AddOrGet<FToggleButton>());
+			Tabs.Add(Tab.Effects, transform.Find("Details/Header/Buttons/EffectsButton").gameObject.AddOrGet<FToggleButton>());
 
 			foreach (var tab in Tabs)
 			{
@@ -435,7 +434,6 @@ namespace SetStartDupes.DuplicityEditing
 				attributeInput.Text = attribute.Name;
 				attributeInput.OnInputChanged += (text) => TryChangeAttribute(text, attribute);
 				attributeEditors[attribute] = attributeInput;
-
 				CategoryGameObjects[Tab.Attributes].Add(attributeInput.gameObject);
 			}
 		}

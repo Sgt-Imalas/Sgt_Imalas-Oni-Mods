@@ -13,11 +13,16 @@ namespace SetStartDupes.DuplicityEditing.ScreenComponents
 		{
 			base.OnSpawn();
 			label = transform.Find("Label").GetComponent<LocText>();
-			label.SetText(Text);
 
 			checkboxToggle = transform.Find("Background").gameObject.AddOrGet<FToggle>();
 			checkboxToggle.SetCheckmark("Checkmark");
 			checkboxToggle.OnClick += OnCheckboxToggled;
+		}
+
+		public override void OnSpawn()
+		{
+			base.OnSpawn();
+			label.SetText(Text);
 		}
 		public void SetCheckboxValue(bool value)
 		{

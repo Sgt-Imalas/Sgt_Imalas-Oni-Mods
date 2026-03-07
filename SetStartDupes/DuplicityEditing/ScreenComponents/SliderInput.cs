@@ -16,7 +16,6 @@ namespace SetStartDupes.DuplicityEditing.ScreenComponents
 		{
 			base.OnPrefabInit();
 			label = transform.Find("Descriptor/Label").GetComponent<LocText>();
-			label.SetText(Text);
 
 			slider = transform.Find("Slider").FindOrAddComponent<FSlider>();
 			slider.TrailingOutputNumbers = TrailingNumbersCount;
@@ -27,6 +26,13 @@ namespace SetStartDupes.DuplicityEditing.ScreenComponents
 
 			slider.SetMinMaxCurrent(min, max, current);
 		}
+
+		public override void OnSpawn()
+		{
+			base.OnSpawn();
+			label.SetText(Text);
+		}
+
 		public void SetMinMaxCurrent(float min, float max, float current)
 		{
 			this.min = min;
