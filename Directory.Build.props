@@ -7,12 +7,16 @@
 		<Optimize>true</Optimize>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<LangVersion>preview</LangVersion>
+		<TargetFramework>netstandard2.1</TargetFramework>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 	</PropertyGroup>
 	<!--<UsingTask TaskName="RecursiveFolderHashing" AssemblyFile="HashService.dll"/>-->
 
 	<PropertyGroup>
 		<!--Marks Deprecated warnings as errors-->
 		<WarningsAsErrors>CS0618,CS0612</WarningsAsErrors>
+		<!--Ignore this warning for System.Compression -->
+		<NoWarn>MSB3277</NoWarn>
 	</PropertyGroup>
 
 
@@ -78,14 +82,14 @@
 			<HintPath Condition="'$(GameLibsFolder)' == '../Lib'">$(GameLibsFolder)/Assembly-CSharp-firstpass_public.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
-		<Reference Include="netstandard">
+		<!--<Reference Include="netstandard">
 			<HintPath>$(GameLibsFolder)/netstandard.dll</HintPath>
 			<Private>False</Private>
-		</Reference>
-		<Reference Include="mscorlib">
+		</Reference>-->
+		<!--<Reference Include="mscorlib">
 			<HintPath>$(GameLibsFolder)/mscorlib.dll</HintPath>
 			<Private>False</Private>
-		</Reference>
+		</Reference>-->
 		<Reference Include="0Harmony">
 			<HintPath>$(GameLibsFolder)/0Harmony.dll</HintPath>
 			<Private>False</Private>

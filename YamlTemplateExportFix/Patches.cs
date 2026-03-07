@@ -211,24 +211,24 @@ namespace YamlTemplateExportFix
 			)
 			{
 				return orig; ///Dev Build crash
-				var codes = orig.ToList();
-				var logicId = codes.FindIndex(ci => ci.operand is FieldInfo info && info == LogicId);
-				var thisLabel = generator.DefineLabel();
-				codes[logicId + 2].operand = thisLabel;
-				var idx = codes.FindIndex(logicId, ci => ci.opcode == OpCodes.Endfinally) + 1;
-				var elseLabel = generator.DefineLabel();
-				codes[idx].labels.Add(elseLabel);
-				var i = idx;
-				codes.Insert(i++, new CodeInstruction(OpCodes.Ldloc_2) { labels = { thisLabel } });
-				codes.Insert(i++, new CodeInstruction(OpCodes.Ldsfld, InfoId));
-				codes.Insert(i++, new CodeInstruction(OpCodes.Call, HashEq));
-				codes.Insert(i++, new CodeInstruction(OpCodes.Brfalse, elseLabel));
-				codes.Insert(i++, new CodeInstruction(OpCodes.Ldarg_0));
-				codes.Insert(i++, new CodeInstruction(OpCodes.Ldloc_0));
-				codes.Insert(i++, new CodeInstruction(OpCodes.Ldloc_1));
-				codes.Insert(i++, new CodeInstruction(OpCodes.Call, Helper));
-				codes.Insert(i++, new CodeInstruction(OpCodes.Br, elseLabel));
-				return codes;
+				//var codes = orig.ToList();
+				//var logicId = codes.FindIndex(ci => ci.operand is FieldInfo info && info == LogicId);
+				//var thisLabel = generator.DefineLabel();
+				//codes[logicId + 2].operand = thisLabel;
+				//var idx = codes.FindIndex(logicId, ci => ci.opcode == OpCodes.Endfinally) + 1;
+				//var elseLabel = generator.DefineLabel();
+				//codes[idx].labels.Add(elseLabel);
+				//var i = idx;
+				//codes.Insert(i++, new CodeInstruction(OpCodes.Ldloc_2) { labels = { thisLabel } });
+				//codes.Insert(i++, new CodeInstruction(OpCodes.Ldsfld, InfoId));
+				//codes.Insert(i++, new CodeInstruction(OpCodes.Call, HashEq));
+				//codes.Insert(i++, new CodeInstruction(OpCodes.Brfalse, elseLabel));
+				//codes.Insert(i++, new CodeInstruction(OpCodes.Ldarg_0));
+				//codes.Insert(i++, new CodeInstruction(OpCodes.Ldloc_0));
+				//codes.Insert(i++, new CodeInstruction(OpCodes.Ldloc_1));
+				//codes.Insert(i++, new CodeInstruction(OpCodes.Call, Helper));
+				//codes.Insert(i++, new CodeInstruction(OpCodes.Br, elseLabel));
+				//return codes;
 			}
 
 			private static void DrawerHelper(SelectToolHoverTextCard inst, int cell, HoverTextDrawer drawer)

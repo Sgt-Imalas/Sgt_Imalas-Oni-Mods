@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>net48</TargetFramework>
+		
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 		<Configurations>Debug;Release;Release2</Configurations>
 		<DoNotBuildAsMod>true</DoNotBuildAsMod>
@@ -19,9 +19,7 @@
 	  <None Include="Updating\LoadExtraAnimations.cs" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="PLib" Version="4.19.0">
-			<Private>false</Private>
-		</PackageReference>
+	  <PackageReference Include="PLib" Version="4.19.0" />
 	</ItemGroup>
 	<!--<ItemGroup>
 		<Reference Include="$(GameLibsFolder)/netstandard.dll" Private ="false"/>
