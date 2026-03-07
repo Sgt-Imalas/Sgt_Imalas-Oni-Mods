@@ -82,6 +82,10 @@
 			<HintPath>$(GameLibsFolder)/netstandard.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
+		<Reference Include="mscorlib">
+			<HintPath>$(GameLibsFolder)/mscorlib.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
 		<Reference Include="0Harmony">
 			<HintPath>$(GameLibsFolder)/0Harmony.dll</HintPath>
 			<Private>False</Private>

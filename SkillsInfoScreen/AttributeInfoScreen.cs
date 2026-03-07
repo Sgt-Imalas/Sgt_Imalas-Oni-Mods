@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TMPro;
 using TUNING;
 using UnityEngine;
 using UnityEngine.UI;
@@ -159,12 +160,12 @@ namespace SkillsInfoScreen
 				LocText.fontSize = 32f;
 				LocText.alignment = TMPro.TextAlignmentOptions.Center;
 				LocText.text = (this.GetWidgetColumn(widget_go) as LabelTableColumn).get_value_action(minion, widget_go);
-				LocText.enableWordWrapping = false;
+				LocText.textWrappingMode = TextWrappingModes.NoWrap;
 			}
 			else
 			{
 				LocText.text = widgetRow.isDefault ? "" : attribute.Name;
-				LocText.enableWordWrapping = false;
+				LocText.textWrappingMode = TextWrappingModes.NoWrap;
 				OptionsButton.transform.SetAsLastSibling();
 			}
 		}

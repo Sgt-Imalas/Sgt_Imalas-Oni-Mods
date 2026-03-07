@@ -4,6 +4,7 @@
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 		<Configurations>Debug;Release;Release2</Configurations>
 		<DoNotBuildAsMod>true</DoNotBuildAsMod>
+		<!--<DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>-->
 	</PropertyGroup>
 	<PropertyGroup>
 		<LangVersion>preview</LangVersion>
@@ -22,7 +23,9 @@
 			<Private>false</Private>
 		</PackageReference>
 	</ItemGroup>
-	<ItemGroup>
-	  <Reference Include="System.Net.Http" />
-	</ItemGroup>
+	<!--<ItemGroup>
+		<Reference Include="$(GameLibsFolder)/netstandard.dll" Private ="false"/>
+		<Reference Include="$(GameLibsFolder)/mscorlib.dll" Private ="false"/>
+		<Reference Include="$(GameLibsFolder)/System.Data.dll" Private ="false"/>
+	</ItemGroup>-->
 </Project>
