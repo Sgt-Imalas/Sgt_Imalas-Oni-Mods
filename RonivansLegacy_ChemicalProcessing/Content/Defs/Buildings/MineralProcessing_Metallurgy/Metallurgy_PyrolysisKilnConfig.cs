@@ -1,4 +1,6 @@
 ﻿using HarmonyLib;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +20,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
 			Prioritizable.AddRef(go);
+			Tag woodTag = SimHashes.WoodLog.CreateTag();
 
 			///handles element converter changes I guess..
 			Electrolyzer electrolyzer = go.AddOrGet<Electrolyzer>();
@@ -29,17 +32,23 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			storage.showInUI = true;
 
 			ElementConverter converter = go.AddOrGet<ElementConverter>();
-			converter.consumedElements = [new ElementConverter.ConsumedElement(SimHashes.WoodLog.CreateTag(), 1f)];
+			converter.inputIsCategory = true;
+			converter.consumedElements = [new ElementConverter.ConsumedElement(GameTags.BuildingWood, 1f)];
 			converter.outputElements = [new ElementConverter.OutputElement(0.5f, SimHashes.Carbon, 312.15f, false, true, 0f, 1f, 1f, 0xff, 0), 
 				new ElementConverter.OutputElement(0.1f, SimHashes.CarbonDioxide, 370.15f, false, false, 0f, 1f, 1f, 0xff, 0)];
 
 			///requests new wood for conversion
 			ManualDeliveryKG ykg = go.AddOrGet<ManualDeliveryKG>();
 			ykg.SetStorage(storage);
-			ykg.RequestedItemTag = SimHashes.WoodLog.CreateTag();
+			ykg.RequestedItemTag = woodTag;
 			ykg.capacity = 500f;
 			ykg.refillMass = 150f;
 			ykg.choreTypeIDHash = Db.Get().ChoreTypes.PowerFetch.IdHash;
+
+			var o = go.AddOrGet<SolidDeliverySelection>();
+			o.Options = [.. RefinementRecipeHelper.GetWoods().Select(sh => sh.CreateTag())];
+			o.AnyTag = GameTags.BuildingWood;
+			o.SelectedOption = woodTag;
 
 			///drops coal in 20kg chunks
 			var dropper = go.AddOrGet<ElementDropper>();
