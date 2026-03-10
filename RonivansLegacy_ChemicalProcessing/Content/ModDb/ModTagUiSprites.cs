@@ -39,6 +39,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					__result.first = Assets.GetSprite("AIO_AnyWater");
 					__result.second = Color.white;
 				}
+
+				var ui_name = "ui_" + t;
+				if(__result.first.name == "unknown")
+				{
+					__result.first = Assets.GetSprite(ui_name);
+				}
 			}
 		}
 	}

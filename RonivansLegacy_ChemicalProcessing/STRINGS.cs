@@ -774,7 +774,7 @@ namespace RonivansLegacy_ChemicalProcessing
 						"Treat ",
 						FormatAsLink("Polluted Water", "DIRTYWATER"), " or " +FormatAsLink("Toxic Slurry", "TOXICSLURRY"),
 						" using special filter and chemicals. " +
-						"Sieve process also completely removes", FormatAsLink("Germs", "DISEASE"),"."
+						"Sieve process also completely removes ", FormatAsLink("Germs", "DISEASE"),"."
 					]);
 				}
 				public class SLIMEVAT

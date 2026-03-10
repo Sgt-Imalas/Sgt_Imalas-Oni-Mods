@@ -43,7 +43,10 @@ namespace RonivansLegacy_ChemicalProcessing
 
 			ResearchNotificationMessageFix.Register();
 			ResearchScreenCollapseEntries.Register();
+
 			ElementConverterDescriptionImprovement.Register();
+			ElementConverterRecipePanelSplit.Register();
+
 			ResearchScreenBetterConnectionLines.Register();
 			DynamicMaterialSelectorHeaderHeight.Register();
 			SelectedRecipeQueueScreenSizeFix.Register();

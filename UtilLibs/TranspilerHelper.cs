@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
@@ -208,6 +209,26 @@ namespace UtilLibs
 			if (body == null)
 				return false;
 			var locVars = body.LocalVariables;
+			foreach (var var in locVars)
+			{
+				if (var == null) continue;
+				if (var.LocalType == typeof(T))
+				{
+					index = var.LocalIndex;
+					return true;
+				}
+			}
+
+			return false;
+		}
+		public static bool GetLocIndexOfLast<T>(MethodBase original, out int index)
+		{
+			index = -1;
+			var body = original.GetMethodBody();
+			if (body == null)
+				return false;
+			var locVars = body.LocalVariables;
+			locVars = locVars.Reverse().ToList();
 			foreach (var var in locVars)
 			{
 				if (var == null) continue;
