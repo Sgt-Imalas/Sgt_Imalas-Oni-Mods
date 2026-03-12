@@ -282,6 +282,10 @@ namespace PoisNotIncluded
 		}
 		public static bool TryRegisterDynamicGravitasBuilding_Locker(string entityId, string subcategory, BuildLocationRule rule = BuildLocationRule.OnFloor, Tuple<int, int> dimensionOverride = null, string animOverride = null, bool brokenName = false, string[] materialOverride = null, float[] costOverride = null, bool decorName = false, float storageCapacity = 20000f)
 		{
+			if (materialOverride == null) materialOverride = TUNING.MATERIALS.RAW_MINERALS_OR_METALS;
+			if (costOverride == null) costOverride = TUNING.BUILDINGS.CONSTRUCTION_MASS_KG.TIER4;
+
+
 			if (!TryMakeDefFromGravitasEntity(entityId, rule, dimensionOverride, out BuildingDef buildingDef, out string prefabId, animOverride, brokenName, decorName, false,"_Locker"))
 			{
 				return false;

@@ -232,7 +232,7 @@ namespace PoisNotIncluded
 
 				TryRegisterDynamicGravitasBuilding("PropLight", GameStrings.PlanMenuSubcategory.Lights, BuildLocationRule.OnCeiling, brokenName: true, altAnims: ["off", "misc"]);
 				TryRegisterDynamicGravitasBuilding("PropFacilityHangingLight", GameStrings.PlanMenuSubcategory.Lights, BuildLocationRule.OnCeiling, brokenName: true);
-				TryRegisterDynamicGravitasBuilding("PropFacilityChandelier", GameStrings.PlanMenuSubcategory.Lights, BuildLocationRule.OnCeiling, brokenName: true);
+				TryRegisterDynamicGravitasBuilding("PropFacilityChandelier", GameStrings.PlanMenuSubcategory.Lights, BuildLocationRule.OnCeiling, brokenName: true, costOverride: TUNING.BUILDINGS.CONSTRUCTION_MASS_KG.TIER4);
 
 				TryRegisterDynamicGravitasBuilding_Lamp("PropLight", "setpiece_light_kanim", new Tuple<string, string>("misc", "on"), "STRINGS.BUILDINGS.PREFABS.PROPLIGHT.NAME", "STRINGS.BUILDINGS.PREFABS.PROPLIGHT.DESC", 1, 1, MATERIALS.ALL_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER1, 10, 1800, 8, LIGHT2D.CEILINGLIGHT_OFFSET, new(0, 0), LightShape.Cone);
 				TryRegisterDynamicGravitasBuilding_Lamp("CeilingLight_Pretty", "ceilinglight_pretty_kanim", new Tuple<string, string>("off", "on"), "STRINGS.BUILDINGS.PREFABS.PROPLIGHT.NAME", "STRINGS.BUILDINGS.PREFABS.PROPLIGHT.DESC", 1, 1, MATERIALS.ALL_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER1, 10, 1800, 8, LIGHT2D.CEILINGLIGHT_OFFSET, new(0, 0), LightShape.Cone);
