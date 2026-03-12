@@ -180,7 +180,6 @@ namespace PoisNotIncluded
 				TryRegisterDynamicGravitasBuilding("PropFacilityDisplay3", GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.NotInTiles);
 				TryRegisterDynamicGravitasBuilding_Floor("PropGravitasDisplay4", GameStrings.PlanMenuSubcategory.Exploration);
 				TryRegisterDynamicGravitasBuilding_Floor("PropDlc2Display1", GameStrings.PlanMenuSubcategory.Exploration);
-				TryRegisterDynamicGravitasBuilding_Floor("PropFacilityGlobeDroors", GameStrings.PlanMenuSubcategory.Decor);
 				TryRegisterDynamicGravitasBuilding("PropFacilityPainting", GameStrings.PlanMenuSubcategory.Decor);
 				TryRegisterDynamicGravitasBuilding_Floor("PropFacilityStatue", GameStrings.PlanMenuSubcategory.Decor);
 				TryRegisterDynamicGravitasBuilding_Floor("PropFacilityTable", GameStrings.PlanMenuSubcategory.Wellness, new(2, 0));
@@ -217,9 +216,13 @@ namespace PoisNotIncluded
 
 				TryRegisterDynamicGravitasBuilding_Backwall("PropGravitasDecorativeWindow", GameStrings.PlanMenuSubcategory.Tiles);
 
+				TryRegisterDynamicGravitasBuilding_Floor("PropFacilityGlobeDroors", GameStrings.PlanMenuSubcategory.Storage, decorrName: true, decorNameAffectsId: false);
+				TryRegisterDynamicGravitasBuilding_Locker("PropFacilityGlobeDroors", GameStrings.PlanMenuSubcategory.Storage);
 				TryRegisterDynamicGravitasBuilding("MissileSetLocker", GameStrings.PlanMenuSubcategory.Storage, BuildLocationRule.OnFloor, altAnims: ["off", "on"]);
-				TryRegisterDynamicGravitasBuilding("PropExoSetLocker", GameStrings.PlanMenuSubcategory.Storage, BuildLocationRule.OnFloor, altAnims: ["off", "on"]);
-				TryRegisterDynamicGravitasBuilding("SetLocker", GameStrings.PlanMenuSubcategory.Storage, BuildLocationRule.OnFloor);
+				TryRegisterDynamicGravitasBuilding("PropExoSetLocker", GameStrings.PlanMenuSubcategory.Storage, BuildLocationRule.OnFloor, altAnims: ["off", "on"], decorName: true, decorNameAffectsId: false);
+				TryRegisterDynamicGravitasBuilding_Locker("PropExoSetLocker", GameStrings.PlanMenuSubcategory.Storage);
+				TryRegisterDynamicGravitasBuilding("SetLocker", GameStrings.PlanMenuSubcategory.Storage, BuildLocationRule.OnFloor, decorName: true, decorNameAffectsId: false);
+				TryRegisterDynamicGravitasBuilding_Locker("SetLocker", GameStrings.PlanMenuSubcategory.Storage);
 				TryRegisterDynamicGravitasBuilding("VendingMachine", GameStrings.PlanMenuSubcategory.Storage, BuildLocationRule.OnFloor, altAnims: ["off", "on"]);
 				TryRegisterDynamicGravitasBuilding("PropGravitasSmallSeedLocker", GameStrings.PlanMenuSubcategory.Storage, altAnims: ["empty", "on"]);
 
