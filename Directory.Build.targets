@@ -218,7 +218,6 @@
 		<ItemGroup>
 			<RefAsmerArguments Include="@(RefAssemblies -> '&quot;%(FullPath)&quot;', ' ')" />
 		</ItemGroup>
-
 		<Exec Command="dotnet tool run refasmer -v -O ../Lib --all -c @(RefAsmerArguments)" />
 	</Target>
 </Project>
