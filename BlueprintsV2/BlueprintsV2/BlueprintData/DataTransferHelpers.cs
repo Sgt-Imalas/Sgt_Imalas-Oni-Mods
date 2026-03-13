@@ -448,6 +448,9 @@ namespace BlueprintsV2.BlueprintData
 				}
 			}
 		}
+		/// <summary>
+		/// AllowManualDelivery
+		/// </summary>
 		internal class DataTransfer_Automatable
 		{
 			internal static JObject TryGetData(GameObject arg)
@@ -470,7 +473,7 @@ namespace BlueprintsV2.BlueprintData
 					var t1 = jObject.GetValue("automationOnly");
 					if (t1 == null)
 						return;
-					targetComponent.automationOnly = t1.Value<bool>();
+					targetComponent.SetAutomationOnly(t1.Value<bool>());
 				}
 			}
 		}
