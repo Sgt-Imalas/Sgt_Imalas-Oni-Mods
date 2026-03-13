@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-
 	<!--Write mod.yaml file-->
 	<Target Name="GenerateModYaml" BeforeTargets="PrepareForRun" Condition="'$(DoNotBuildAsMod)' != 'true'">
 		<ItemGroup>
@@ -92,7 +91,7 @@
 		  
 		  DestinationFolder="$(TargetFolder)"/>
 
-		<Message Text="Copy ModAssets to $(TargetFolder)" Importance="High"></Message>
+		<Message Text="Copy ModAssets to $(TargetFolder)" Importance="High"/>
 
 		<Copy SourceFiles="@(ModAssets)" DestinationFolder="$(TargetFolder)\%(RecursiveDir)" SkipUnchangedFiles="false" Condition="'$(GameLibsFolder)' == '../Lib' Or '$(SkipAssetClone)' != 'true'"/>
 
@@ -139,7 +138,7 @@
 
 	</Target>-->
 
-	<!--Create folder for publicized dlls if not existing-->
+<!--	Create folder for publicized dlls if not existing-->
 	<Target Name="PubliciseMKDIR"
 		BeforeTargets="Publicise"
 		Condition="'$(GameLibsFolder)' != '../Lib' and '$(IsMod)' == 'true'"
@@ -218,7 +217,6 @@
 		<ItemGroup>
 			<RefAsmerArguments Include="@(RefAssemblies -> '&quot;%(FullPath)&quot;', ' ')" />
 		</ItemGroup>
-
-		<Exec Command="Refasmer -v -O ../Lib --all -c @(RefAsmerArguments)" />
+		<Exec Command="dotnet tool run refasmer -v -O ../Lib --all -c @(RefAsmerArguments)" />
 	</Target>
 </Project>
