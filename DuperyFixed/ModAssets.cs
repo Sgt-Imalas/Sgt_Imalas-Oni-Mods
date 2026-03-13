@@ -126,9 +126,18 @@ namespace DuperyFixed
 			accessories.Add(slots.Mouth.Id, slots.Mouth.Lookup(bodyData.mouth).Id);
 			return accessories.ToList();
 		}
-		//        publ
-		//static GameObject crewPortraitPrefab;
 
+		///"definitly not inspired" by DuplicantStatusBar; https://github.com/shikyo13/ONIMods/blob/master/DuplicantStatusBar/UI/PortraitCompositor.cs under MIT license
+		public static Color AlphaBlend(Color dst, Color src)
+		{
+			float outA = src.a + dst.a * (1f - src.a);
+			if (outA <= 0f) return Color.clear;
+			return new Color(
+				(src.r * src.a + dst.r * dst.a * (1f - src.a)) / outA,
+				(src.g * src.a + dst.g * dst.a * (1f - src.a)) / outA,
+				(src.b * src.a + dst.b * dst.a * (1f - src.a)) / outA,
+				outA);
+		}
 		static Dictionary<Personality, Sprite> DreamImages = new();
 		internal static Sprite GetDynamicDreamImage(Personality personality)
 		{
@@ -156,6 +165,9 @@ namespace DuperyFixed
 				symbolHair = slots.Hair.Lookup(bodyData.hair).symbol,
 				symbolHead = slots.HeadShape.Lookup(bodyData.headShape).symbol,
 				symbolMouth = slots.Mouth.Lookup(bodyData.mouth).symbol;
+
+
+
 
 			var output = new Texture2D(125, 125);
 			void WriteToOutput(Symbol symbolToWrite, int xOffsetWrite = 0, int yOffsetWrite = 0, bool pivot = false, bool flipX = false, int symbolOverride = -1)
@@ -191,10 +203,11 @@ namespace DuperyFixed
 
 						if (px.a > 0.1f
 							&& outputX >= 0 && outputX < output.width
-							&& outputY >= 0 && outputY < output.height
+							&& outputX >= 0 && outputY < output.height
 							)
 						{
-							output.SetPixel(outputX, outputY, px);
+							var existing = output.GetPixel(outputX, outputY);
+							output.SetPixel(outputX, outputY, AlphaBlend(existing, px));
 						}
 					}
 				}
