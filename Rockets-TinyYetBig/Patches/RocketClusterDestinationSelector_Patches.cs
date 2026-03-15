@@ -68,7 +68,7 @@ namespace Rockets_TinyYetBig.Patches.ClustercraftDockingPatches
 						{
 							if (statesInstance.CheckIfCanDrill())
 							{
-								SgtLogger.l(__instance.name + " can harvest with laser drillcone");
+								//SgtLogger.l(__instance.name + " can harvest with laser drillcone");
 								__result = true;
 								return;
 							}
