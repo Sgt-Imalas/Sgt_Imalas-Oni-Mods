@@ -83,6 +83,8 @@ namespace SettingsSyncGroups.UI
 		}
 		public void Refresh()
 		{
+			if(TargetComponent == null) 
+				return;
 			Label?.SetText(TargetComponent.GetDescriptionText());
 			SetEditButtonInteractable(true);
 		}
