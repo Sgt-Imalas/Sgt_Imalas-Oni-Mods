@@ -31,7 +31,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			EffectorValues noise = NOISE_POLLUTION.NOISY.TIER2;
 			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 2, 3, "pressure_gas_pump_kanim", 30, 30f, quantity1, materials1, 1600f, BuildLocationRule.Anywhere, BUILDINGS.DECOR.PENALTY.TIER1, noise, 0.2f);
 			def1.RequiresPowerInput = true;
-			def1.Overheatable = false;
+			def1.Overheatable = !Config.Instance.HPA_OverheatImmunePumps;
 			def1.EnergyConsumptionWhenActive = Config.Instance.HPA_Pump_Base_Mult_Gas * HighPressureConduitRegistration.GetConduitMultiplier(ConduitType.Gas);
 			def1.ExhaustKilowattsWhenActive = 0f;
 			def1.SelfHeatKilowattsWhenActive = 0f;

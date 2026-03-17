@@ -2602,8 +2602,19 @@ namespace RonivansLegacy_ChemicalProcessing
 			}
 			public class CHEMPROC_ARCFUDGE
 			{
-				public static LocString NAME = "Arc furnace  Thermal Fudge";
+				public static LocString NAME = "Arc Furnace Thermal Fudge";
 				public static LocString TOOLTIP = "The selective arc furnace only puts a percentage of its recipes heat into its internal heat capacitor.\nThe default value for the mod is 90%";
+			}
+			public class CHEMPROC_ARC_CAPACITOR
+			{
+				public static LocString NAME = "Arc Furnace Thermal Capacitor Size";
+				public static LocString TOOLTIP = "The total heat capacity of the arc-furnace's internal thermal capacitor";
+				public static LocString FORMAT = "0"+global::STRINGS.UI.UNITSUFFIXES.ELECTRICAL.MEGAJOULE;
+			}
+			public class HPA_TEMPIMMUNE_PUMPS
+			{
+				public static LocString NAME = "Overheat Immune High-Pressure-Pumps";
+				public static LocString TOOLTIP = "Makes high pressure pumps immune to overheating.\n(Restores old behavior for existing save compatibility)";
 			}
 		}
 	}
