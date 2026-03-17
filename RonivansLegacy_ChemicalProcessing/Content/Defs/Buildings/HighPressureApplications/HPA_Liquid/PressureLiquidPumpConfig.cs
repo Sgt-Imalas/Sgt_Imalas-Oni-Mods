@@ -54,6 +54,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			go.AddOrGet<LoopingSounds>();
 			go.AddOrGet<EnergyConsumer>();
 			go.AddOrGet<Storage>().capacityKg = HighPressureConduitRegistration.LiquidCap_HP * 2;
+			go.AddTag(GameTags.CorrosionProof);
 
 
 			var pumpOffset = new CellOffset(1, 0);
