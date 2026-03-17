@@ -784,6 +784,7 @@ namespace BlueprintsV2.UnityUI
 			ShowInfoScreen = true;
 			if (bp != InfoBlueprint)
 			{
+				TargetBlueprint = null;
 				InfoBlueprint = bp;
 				InfoBlueprint.CacheCost();
 				RefreshEntryHighlight();
@@ -796,6 +797,7 @@ namespace BlueprintsV2.UnityUI
 			ShowInfoScreen = false;
 			if (bp != TargetBlueprint)
 			{
+				InfoBlueprint = null;
 				TargetBlueprint = bp;
 				TargetBlueprint.CacheCost();
 				RefreshEntryHighlight();

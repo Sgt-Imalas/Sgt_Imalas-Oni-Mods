@@ -16,7 +16,10 @@ namespace BlueprintsV2.UnityUI.Components
 			base.OnPrefabInit();
 			Label = transform.Find("Label").gameObject.GetComponent<LocText>();
 			button = gameObject.AddComponent<FButton>();
-
+		}
+		public override void OnSpawn()
+		{
+			base.OnSpawn();
 			if (folder != null)
 			{
 				Label.SetText(folder.Name);

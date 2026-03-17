@@ -58,10 +58,17 @@ namespace BlueprintsV2.UnityUI.Components
 			UIUtils.AddSimpleTooltipToObject(retakeButton.transform, BLUEPRINTENTRY.TOOLTIP_RETAKE);
 			UIUtils.AddSimpleTooltipToObject(infoButton.transform, BLUEPRINTENTRY.TOOLTIP_INFO);
 
+			
+			RefreshIcon();
+			OnPointerExit(null);
+		}
+
+		public override void OnSpawn()
+		{
+			base.OnSpawn();
 			if (blueprint != null)
 			{
 				Label.SetText(blueprint.FriendlyName);
-
 				deleteButton.OnClick += ConfirmDelete;
 				renameButton.OnClick += OpenRenameDialogue;
 				moveButton.OnClick += OpenFolderChangeDialogue;
@@ -70,8 +77,6 @@ namespace BlueprintsV2.UnityUI.Components
 				retakeButton.OnClick += RetakeBlueprint;
 				infoButton.OnClick += ShowBlueprintInfoScreen;
 			}
-			RefreshIcon();
-			OnPointerExit(null);
 		}
 
 		private void ExportBlueprintToClipboard()

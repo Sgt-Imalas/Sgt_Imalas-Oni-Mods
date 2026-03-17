@@ -25,6 +25,15 @@ namespace BlueprintsV2.UnityUI.Components
 			ElementIcon = transform.Find("CarePackageSprite").gameObject.GetComponent<Image>();
 			buttonBg = transform.Find("Background").gameObject.GetComponent<Image>();
 			button = gameObject.AddComponent<FButton>();
+			toolTip = UIUtils.AddSimpleTooltipToObject(this.gameObject, GameUtil.GetMaterialTooltips(targetTag));
+		}
+		public override void OnSpawn()
+		{
+			base.OnSpawn();
+			InitTexts();
+		}
+		void InitTexts()
+		{
 			if (targetTag != null)
 			{
 				this.gameObject.name = targetTag.name;
@@ -54,9 +63,9 @@ namespace BlueprintsV2.UnityUI.Components
 				ElementName?.SetText(prefab.GetProperName());
 				Name = prefab.GetProperName();
 				button.OnClick += OnClick;
-				toolTip = UIUtils.AddSimpleTooltipToObject(this.gameObject, GameUtil.GetMaterialTooltips(targetTag));
 			}
 		}
+
 		void OnClick()
 		{
 			OnSelectElement?.Invoke(targetTag);
@@ -102,10 +111,6 @@ namespace BlueprintsV2.UnityUI.Components
 				sb.AppendLine(STRINGS.UI.BLUEPRINTSELECTOR.MATERIALREPLACER.SCROLLAREA.CONTENT.ELEMENTSTATE.NOTFOUND);
 			}
 			toolTip.SetSimpleTooltip(sb.ToString());
-		}
-		public override void OnSpawn()
-		{
-			base.OnSpawn();
 		}
 	}
 }
