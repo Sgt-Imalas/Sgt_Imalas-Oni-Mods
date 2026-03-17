@@ -1037,8 +1037,8 @@ msgstr "一座小型电热蒸汽锅炉。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ELECTRICBOILER.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ELECTRICBOILER.EFFECT"
-msgid "Boils <link=\"WATER\">Water</link> to <link=\"STEAM\">Steam</link> at 106 °C. This particular boiler uses electricity."
-msgstr "将<link=\"WATER\">水</link>煮沸为 106 ℃ 的<link=\"STEAM\">蒸汽</link>。这座特定的锅炉使用电力作为热源。"
+msgid "Boils <link=\"WATER\">Water</link> to <link=\"STEAM\">Steam</link> at 120 °C. This particular boiler uses electricity."
+msgstr "将<link=\"WATER\">水</link>煮沸为 120 ℃ 的<link=\"STEAM\">蒸汽</link>。这座特定的锅炉使用电力作为热源。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ELECTRICBOILER.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ELECTRICBOILER.NAME"

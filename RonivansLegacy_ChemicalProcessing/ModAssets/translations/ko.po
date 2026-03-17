@@ -995,8 +995,8 @@ msgstr "소형 전기 보일러."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ELECTRICBOILER.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ELECTRICBOILER.EFFECT"
-msgid "Boils <link=\"WATER\">Water</link> to <link=\"STEAM\">Steam</link> at 106 °C. This particular boiler uses electricity."
-msgstr "<link=\"WATER\">물</link>을 106°C에서 <link=\"STEAM\">증기</link>로 끓입니다. 이 특정 보일러는 전기를 사용합니다."
+msgid "Boils <link=\"WATER\">Water</link> to <link=\"STEAM\">Steam</link> at 120 °C. This particular boiler uses electricity."
+msgstr "<link=\"WATER\">물</link>을 120°C에서 <link=\"STEAM\">증기</link>로 끓입니다. 이 특정 보일러는 전기를 사용합니다."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ELECTRICBOILER.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ELECTRICBOILER.NAME"

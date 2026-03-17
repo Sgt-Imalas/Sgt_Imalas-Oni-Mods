@@ -1020,8 +1020,8 @@ msgstr "Малогабаритный электрический котёл."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ELECTRICBOILER.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ELECTRICBOILER.EFFECT"
-msgid "Boils <link=\"WATER\">Water</link> to <link=\"STEAM\">Steam</link> at 106 °C. This particular boiler uses electricity."
-msgstr "Кипятит <link=\"WATER\">воду</link> до <link=\"STEAM\">пара</link> при температуре 106 °C. Этот котёл работает на электричестве."
+msgid "Boils <link=\"WATER\">Water</link> to <link=\"STEAM\">Steam</link> at 120 °C. This particular boiler uses electricity."
+msgstr "Кипятит <link=\"WATER\">воду</link> до <link=\"STEAM\">пара</link> при температуре 120 °C. Этот котёл работает на электричестве."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ELECTRICBOILER.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ELECTRICBOILER.NAME"
