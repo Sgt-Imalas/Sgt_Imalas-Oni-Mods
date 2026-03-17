@@ -258,8 +258,15 @@ namespace Rockets_TinyYetBig
 					public static LocString LOGIC_PORT_ARTIFACT = "POI has Artifact";
 					public static LocString LOGIC_PORT_ARTIFACT_ACTIVE = ("Sends a " + FormatAsAutomationState("Green Signal", AutomationState.Active) + " when the targeted POI has an artifact");
 					public static LocString LOGIC_PORT_ARTIFACT_INACTIVE = ("Otherwise, sends a " + FormatAsAutomationState("Red Signal", AutomationState.Standby));
-
-
+					public class MODESWITCH
+					{
+						public static LocString HARVESTABLE_ONLY = "Mode: Drillable Resources only";
+						public static LocString HARVESTABLE_ONLY_TOOLTIP = "Only include resources of the POI that require drilling";
+						public static LocString FLOATING_ONLY = "Mode: Collectable Resources only";
+						public static LocString FLOATING_ONLY_TOOLTIP = "Only include collectable resources that do not require a drillcone.";
+						public static LocString ALL = "Mode: All Resources";
+						public static LocString ALL_TOOLTIP = "Include both freely collectable resources and those that require drilling.";
+					}
 				}
 
 				public class RTB_FRIDGEMODULEACCESSHATCH
