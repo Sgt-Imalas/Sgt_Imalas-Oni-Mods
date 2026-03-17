@@ -35,6 +35,17 @@ namespace AnimExportTool
 		//}
 
 
+		[HarmonyPatch(typeof(BuildingComplete), nameof(BuildingComplete.OnPrefabInit))]
+		public class BuildingComplete_OnPrefabInit_Patch
+		{
+			public static void Postfix(BuildingComplete __instance)
+			{
+				if(__instance.TryGetComponent<KBatchedAnimController>(out _))
+				__instance.gameObject.AddOrGet<AETE_KbacSnapShotter>();
+			}
+		}
+
+
 		[HarmonyPatch(typeof(SubworldZoneRenderData), nameof(SubworldZoneRenderData.OnSpawn))]
 		public class SubworldZoneRenderData_TargetMethod_Patch
 		{
