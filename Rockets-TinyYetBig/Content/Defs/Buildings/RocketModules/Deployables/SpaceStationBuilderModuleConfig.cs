@@ -55,9 +55,10 @@ namespace Rockets_TinyYetBig.SpaceStations
 		public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
 		{
 			BuildingConfigManager.Instance.IgnoreDefaultKComponent(typeof(RequiresFoundation), prefab_tag);
-			go.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[1]
+			go.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[]
 			{
-				new BuildingAttachPoint.HardPoint(new CellOffset(0, 6), GameTags.Rocket, (AttachableBuilding) null)
+				new BuildingAttachPoint.HardPoint(new CellOffset(0, 6), GameTags.Rocket,  null),
+				new BuildingAttachPoint.HardPoint(new CellOffset(0, 2), ModAssets.Tags.AttachmentSlotStationParts,  null)
 			};
 			go.AddOrGet<LoopingSounds>();
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
@@ -69,7 +70,7 @@ namespace Rockets_TinyYetBig.SpaceStations
 			BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MONUMENTAL);
 			go.AddOrGet<SpaceStationBuilder>();
 			go.AddOrGet<ExtendedClusterModuleAnimator>();
-			go.GetComponent<ReorderableBuilding>().buildConditions.Add((SelectModuleCondition)new OneModulePerRocket(ID));
+			go.GetComponent<ReorderableBuilding>().buildConditions.Add(new OneModulePerRocket(ID));
 		}
 
 		public override void DoPostConfigurePreview(BuildingDef def, GameObject go)
