@@ -58,9 +58,9 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 		}
 
 		bool ArtifactOnly = false;
-		ArtifactPOIStates.Instance artifactpoistatus = null;
-		HarvestablePOIStates.Instance harvestpoistatus = null;
-		StarmapHexCellInventory hexInventory = null;
+		public ArtifactPOIStates.Instance artifactpoistatus = null;
+		public HarvestablePOIStates.Instance harvestpoistatus = null;
+		public StarmapHexCellInventory hexInventory = null;
 
 		//bool LastArtifactState = false;
 		//bool LastThresholdState = false;
