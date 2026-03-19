@@ -1,4 +1,5 @@
 ﻿using KSerialization;
+using Rockets_TinyYetBig.Content.Scripts.UI;
 using Rockets_TinyYetBig.Derelicts;
 using Rockets_TinyYetBig.SpaceStations;
 using System;
@@ -18,7 +19,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.StarmapEntities
 				return;
 			if (!derelictSpawned)
 			{
-				OnStarmapHexRevealed(null);
+				TrySpawnDerelict(true);
 				handle = Game.Instance.Subscribe((int)GameHashes.ClusterFogOfWarRevealed, OnStarmapHexRevealed);
 			}
 		}
@@ -30,8 +31,8 @@ namespace Rockets_TinyYetBig.Content.Scripts.StarmapEntities
 
 			base.OnCleanUp();
 		}
-
-		void OnStarmapHexRevealed(object _)
+		void OnStarmapHexRevealed(object _) => TrySpawnDerelict();
+		void TrySpawnDerelict(bool skipNotification = false)
 		{
 			if (derelictSpawned)
 				return;
@@ -43,6 +44,11 @@ namespace Rockets_TinyYetBig.Content.Scripts.StarmapEntities
 					ClusterMapSelectTool.Instance.SelectNextFrame(entity.GetComponent<KSelectable>());
 					ClusterManager.Instance.Trigger((int)GameHashes.WorldRenamed, "derelict created revealed");
 					derelictSpawned = true;
+					if (!skipNotification)
+					{
+						Messenger.Instance.QueueMessage(new DerelictDiscoveredMessage(entity));
+						MusicManager.instance.PlaySong("Stinger_WorldDetected");
+					}
 				}
 			}
 		}

@@ -736,12 +736,17 @@ namespace Rockets_TinyYetBig
 
 		public class UI
 		{
+			public static class DERELICTDISCOVERED
+			{
+				public static LocString NAME = "Derelict Station Discovered!";
+				public static LocString TOOLTIP = "Amazing!\n\nMy Duplicants have discovered an abandoned derelict floating in space.\n\nI should send a space mission to investigate it.";
+
+			}
 			public static LocString PRODUCTINFO_SPACE_STATION_INTERIOR = "Space station interior only";
 			public static LocString PRODUCTINFO_SPACE_STATION_NOT_INTERIOR = "Cannot build inside space station";
 			public class RTB_RESEACH_UNLOCK
 			{
 				public static LocString TEXT = "Eureka! We've decrypted the abandoned station computer's salvageable data.\n\nWe now have the ability to construct habitat stations in the vast emptyness of space!\n\nNew Research has become available.";
-				
 			}
 
 			public static LocString TOOLTIP_ADDON_RTB = UIUtils.ColorText(UIUtils.EmboldenText("Rocketry Expanded"), "a0a0a0") + " Content"; //light grey
