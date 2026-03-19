@@ -1,5 +1,7 @@
 ﻿using KSerialization;
 using Rockets_TinyYetBig.Behaviours;
+using Rockets_TinyYetBig.Content.Scripts.StarmapEntities;
+using Rockets_TinyYetBig.Elements;
 using Rockets_TinyYetBig.SpaceStations;
 using Rockets_TinyYetBig.SpaceStations.Construction;
 using System.Collections.Generic;
@@ -50,7 +52,7 @@ namespace Rockets_TinyYetBig.Derelicts
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
-			if (TryGetComponent<KSelectable>(out var overlay))
+			if (TryGetComponent<KSelectable>(out var overlay) && overlay.IsSelected)
 			{
 				NameDisplayScreen.Instance.UpdateName(overlay.gameObject);
 			}
@@ -76,16 +78,16 @@ namespace Rockets_TinyYetBig.Derelicts
 			sat.SetActive(true);
 			spaceStation = sat.GetComponent<DerelictStation>();
 			spaceStation.Location = source.Location;
-			var site = sat.AddOrGet<SpaceConstructable>();
-			site.buildPartStorage = sat.AddComponent<Storage>();
+			var site = sat.GetComponent<SpaceConstructable>();
 			site.SetDerelict(true);
 			site.ForceFinishProject(ConstructionProjects.DerelictStation);
+
+			sat.AddOrGet<StationDeconstructable>().Resources = [new (ModElements.UnobtaniumAlloy.Tag, 125),new ("Steel", 500)];
 			return true;
 		}
 		public override void OnCleanUp()
 		{
 			base.OnCleanUp();
-
 			if (RTB_SavegameStoredSettings.Instance.DerelictInteriorWorlds.Contains(SpaceStationInteriorId))
 				RTB_SavegameStoredSettings.Instance.DerelictInteriorWorlds.Remove(SpaceStationInteriorId);
 		}

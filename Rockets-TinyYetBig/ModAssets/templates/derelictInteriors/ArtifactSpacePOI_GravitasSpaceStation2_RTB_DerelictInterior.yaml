@@ -1926,13 +1926,6 @@ buildings:
   element: SandStone
   temperature: 293.149994
   facadeid: ExteriorWall_basic_grey_charcoal
-elementalOres:
-- id: SandStone
-  location_y: -7
-  element: SandStone
-  temperature: 293.149139
-  units: 100
-  type: Ore
 otherEntities:
 - id: PropGravitasDeskPodium
   location_x: -2

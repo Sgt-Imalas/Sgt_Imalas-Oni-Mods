@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Rockets_TinyYetBig.Content.Scripts.StarmapEntities;
+using Rockets_TinyYetBig.SpaceStations.Construction;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UtilLibs;
@@ -16,10 +18,10 @@ namespace Rockets_TinyYetBig.Derelicts
 			new Tuple<string, Vector2I, string>("ArtifactSpacePOI_GravitasSpaceStation2",new Vector2I (15,24),"station_2" ),
 			new Tuple<string, Vector2I, string>("ArtifactSpacePOI_GravitasSpaceStation3",new Vector2I (16,22),"station_3" ),
 			new Tuple<string, Vector2I, string>("ArtifactSpacePOI_GravitasSpaceStation4",new Vector2I (20,18),"station_4" ),
-			new Tuple<string, Vector2I, string>("ArtifactSpacePOI_GravitasSpaceStation5",new Vector2I (32,32),"station_5" ),
-			new Tuple<string, Vector2I, string>("ArtifactSpacePOI_GravitasSpaceStation6",new Vector2I (32,32),"station_6" ),
-			new Tuple<string, Vector2I, string>("ArtifactSpacePOI_GravitasSpaceStation7",new Vector2I (32,32),"station_7" ),
-			new Tuple<string, Vector2I, string>("ArtifactSpacePOI_GravitasSpaceStation8",new Vector2I (32,32),"station_8" ),
+			new Tuple<string, Vector2I, string>("ArtifactSpacePOI_GravitasSpaceStation5",new Vector2I (23,23),"station_5" ),
+			new Tuple<string, Vector2I, string>("ArtifactSpacePOI_GravitasSpaceStation6",new Vector2I (21,18),"station_6" ),
+			new Tuple<string, Vector2I, string>("ArtifactSpacePOI_GravitasSpaceStation7",new Vector2I (18,16),"station_7" ),
+			new Tuple<string, Vector2I, string>("ArtifactSpacePOI_GravitasSpaceStation8",new Vector2I (11,19),"station_8" ),
 
 		};
 		public List<GameObject> CreatePrefabs()
@@ -67,7 +69,10 @@ namespace Rockets_TinyYetBig.Derelicts
 			spst.bottomLeftCorner = new Vector2I(0, 0);
 			spst.topRightCorner = new Vector2I(size.x - 1, size.y - 1);
 			spst.poiID = ID.Replace(DerelictTemplateName, string.Empty).Replace("ArtifactSpacePOI_", string.Empty);
-			spst.l_name = Strings.Get("STRINGS.UI.SPACEDESTINATIONS.ARTIFACT_POI." + spst.poiID.ToUpperInvariant() + ".NAME");
+			spst.l_name = STRINGS.ENTITIES.DERELICTSTATION.NAMEPRREFIX + Strings.Get("STRINGS.UI.SPACEDESTINATIONS.ARTIFACT_POI." + spst.poiID.ToUpperInvariant() + ".NAME");
+			var constructable = entity.AddOrGet<SpaceConstructable>();
+			constructable.buildPartStorage = entity.AddOrGet<Storage>();
+			entity.AddOrGet<StationDeconstructable>();
 
 			entity.AddOrGet<CharacterOverlay>().shouldShowName = true;
 			entity.AddOrGetDef<AlertStateManager.Def>();
@@ -83,6 +88,7 @@ namespace Rockets_TinyYetBig.Derelicts
 			{
 				desc = desc.Substring(0, firstLineBreak);
 			}
+			desc = STRINGS.ENTITIES.DERELICTSTATION.DESCPREFIX + desc;
 			entity.AddOrGet<InfoDescription>().description = desc;
 
 			return entity;

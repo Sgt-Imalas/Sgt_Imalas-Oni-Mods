@@ -1911,14 +1911,36 @@ buildings:
   location_y: 3
   element: SandStone
   temperature: 298.292755
-  facadeid: ExteriorWall_basic_grey_charcoal
-elementalOres:
-- id: Cuprite
-  location_y: 4
-  element: Cuprite
-  temperature: 169.493423
-  units: 100
-  type: Ore
+  facadeid: ExteriorWall_basic_grey_charcoal  
+- id: RTB_PropLadder
+  location_x: -2
+  location_y: 3
+  element: Unobtanium
+  temperature: 294.149994
+- id: RTB_PropLadder
+  location_x: -2
+  location_y: 2
+  element: Unobtanium
+  temperature: 294.149994
+- id: RTB_PropLadder
+  location_x: -2
+  location_y: 1
+  element: Unobtanium
+  temperature: 294.149994
+- id: RTB_PropLadder
+  location_x: -2
+  element: Unobtanium
+  temperature: 294.149994
+- id: RTB_PropLadder
+  location_x: -2
+  location_y: -1
+  element: Unobtanium
+  temperature: 294.149994
+- id: RTB_PropLadder
+  location_x: -2
+  location_y: -2
+  element: Unobtanium
+  temperature: 295.288971
 otherEntities:
 - id: RTB_DerelictSuitLocker
   location_x: 2
@@ -1941,47 +1963,6 @@ otherEntities:
   temperature: 294.149994
   units: 1
   type: Other
-- id: RTB_PropLadder
-  location_x: -2
-  location_y: 3
-  element: Unobtanium
-  temperature: 294.149994
-  units: 1
-  type: Other
-- id: RTB_PropLadder
-  location_x: -2
-  location_y: 2
-  element: Unobtanium
-  temperature: 294.149994
-  units: 1
-  type: Other
-- id: RTB_PropLadder
-  location_x: -2
-  location_y: 1
-  element: Unobtanium
-  temperature: 294.149994
-  units: 1
-  type: Other
-- id: RTB_PropLadder
-  location_x: -2
-  element: Unobtanium
-  temperature: 294.149994
-  units: 1
-  type: Other
-- id: RTB_PropLadder
-  location_x: -2
-  location_y: -1
-  element: Unobtanium
-  temperature: 294.149994
-  units: 1
-  type: Other
-- id: RTB_PropLadder
-  location_x: -2
-  location_y: -2
-  element: Unobtanium
-  temperature: 295.288971
-  units: 1
-  type: Other  
 - id: RTB_TechUnlock
   location_x: 2
   location_y: -2
