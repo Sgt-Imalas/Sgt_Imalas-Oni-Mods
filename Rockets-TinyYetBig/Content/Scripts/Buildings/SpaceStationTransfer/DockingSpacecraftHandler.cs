@@ -14,7 +14,7 @@ namespace Rockets_TinyYetBig.Docking
 		[MyCmpGet] public Clustercraft clustercraft;
 		[MyCmpGet] public RocketClusterDestinationSelector destinationSelector;
 		public Dictionary<string, IDockable> WorldDockables = new Dictionary<string, IDockable>();
-		public PassengerRocketModule PassengerModule;
+		//public PassengerRocketModule PassengerModule;
 
 		public bool IsSpaceStation => Type == DockableType.SpaceStation;
 
@@ -71,7 +71,6 @@ namespace Rockets_TinyYetBig.Docking
 				UndockAll();
 				if (destinationSelector is ExtendedRocketClusterDestinationSelector Extended)
 				{
-
 					Extended.ProceedToNextTarget();
 				}
 				else
@@ -114,6 +113,7 @@ namespace Rockets_TinyYetBig.Docking
 					DockingManagerSingleton.Instance.AddPendingUndock(dockable, dockedTo);
 				}
 			}
+			DockingManagerSingleton.Instance.RemoveToStationDock(WorldId);
 		}
 		public Sprite GetDockingIcon()
 		{

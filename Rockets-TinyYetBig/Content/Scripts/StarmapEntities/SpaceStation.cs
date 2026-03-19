@@ -134,6 +134,7 @@ namespace Rockets_TinyYetBig.SpaceStations
 				SgtLogger.error("space station onspawn failed to initialize world");
 				return;
 			}
+			world.isModuleInterior = false;
 
 			world.AddTag(Tags.IsSpaceStation);
 			if (IsDerelict && !world.HasTag(Tags.IsDerelict))

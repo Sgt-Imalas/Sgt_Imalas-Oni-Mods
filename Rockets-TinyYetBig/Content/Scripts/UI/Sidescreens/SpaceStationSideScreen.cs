@@ -19,7 +19,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 
         public override float GetSortKey() => 21f;
 
-        public override bool IsValidForTarget(GameObject target) => target.GetComponent<SpaceStation>() != null;
+        public override bool IsValidForTarget(GameObject target) => target.TryGetComponent<SpaceStation>(out _);
         public override void OnPrefabInit()
         {
             base.OnPrefabInit();
@@ -31,7 +31,6 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 
             viewButton = UIUtils.TryFindComponent<KButton>(transform, "Contents/TopPanel/Buttons/ViewInteriorButton");
             icon = UIUtils.TryFindComponent<Image>(transform, "Contents/TopPanel/Image");
-            UIUtils.TryChangeText(viewButton.transform, "Label", STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONSIDESCREEN.VIEW_WORLD_DESC);
 
             base.SetTarget(target);
             targetEntity = target.GetComponent<SpaceStation>();
@@ -39,11 +38,12 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
             if (targetEntity == null)
                 return;
             WorldContainer component = ClusterManager.Instance.GetWorld(targetEntity.SpaceStationInteriorId);
-            bool flag = component != null;
             viewButton.isInteractable = true;
+			UIUtils.TryChangeText(viewButton.transform, "Label", targetEntity.IsDerelict ? STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONSIDESCREEN.VIEW_WORLD_DERELICT_DESC : STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONSIDESCREEN.VIEW_WORLD_DESC);
+			viewButton.GetComponent<ToolTip>().SetSimpleTooltip(targetEntity.IsDerelict ? STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONSIDESCREEN.VIEW_DERELICT_TOOLTIP : STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONSIDESCREEN.VIEW_WORLD_TOOLTIP);
+            titleKey = targetEntity.IsDerelict ? "STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONSIDESCREEN.TITLE_DERELICT" : "STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONSIDESCREEN.TITLE";
 
-            viewButton.GetComponent<ToolTip>().SetSimpleTooltip((string)STRINGS.UI_MOD.UISIDESCREENS.SPACESTATIONSIDESCREEN.VIEW_WORLD_TOOLTIP);
-        }
+		}
 
         private void OnClickView()
         {

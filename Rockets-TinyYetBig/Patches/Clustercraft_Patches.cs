@@ -67,7 +67,7 @@ namespace Rockets_TinyYetBig.Patches
 			/// </summary>
 			public static void Postfix(Clustercraft __instance)
 			{
-				if (__instance is SpaceStation || __instance is DerelictStation)
+				if (__instance is SpaceStation)
 					return;
 
 				var clusterDestinationSelector = __instance.m_moduleInterface.GetClusterDestinationSelector();
@@ -162,6 +162,7 @@ namespace Rockets_TinyYetBig.Patches
 					&& __instance.TryGetComponent<DockingSpacecraftHandler>(out var manager)
 					&& !craft_status.Equals(CraftStatus.InFlight))
 				{
+					SgtLogger.l(__instance.name + " craft status setter not in flight anymore, undocking");
 					manager.UndockAll();
 				}
 			}

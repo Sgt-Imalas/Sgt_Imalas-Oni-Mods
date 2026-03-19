@@ -205,6 +205,14 @@ namespace Rockets_TinyYetBig
 			}
 		}
 
+		public class ENTITIES
+		{
+			public class DERELICTSTATION
+			{
+				public static LocString NAMEPRREFIX = "Derelict: ";
+				public static LocString DESCPREFIX = "The derelict remains of an old station, bearing some long lost secrets.\n\n";
+			}
+		}
 
 		public class BUILDINGS
 		{
@@ -946,9 +954,11 @@ namespace Rockets_TinyYetBig
 				public class SPACESTATIONSIDESCREEN
 				{
 					public static LocString VIEW_WORLD_TOOLTIP = "View Space Station Interior";
+					public static LocString VIEW_DERELICT_TOOLTIP = "View Oversee Derelict Interior";
 					public static LocString TITLE = "Space Station";
-
+					public static LocString TITLE_DERELICT = "Derelict Station";
 					public static LocString VIEW_WORLD_DESC = "Oversee Station Interior";
+					public static LocString VIEW_WORLD_DERELICT_DESC = "Oversee Derelict Interior";
 				}
 				public class SPACECONSTRUCTIONSITE
 				{

@@ -1,4 +1,5 @@
-﻿using Rockets_TinyYetBig.SpaceStations.Construction;
+﻿using Rockets_TinyYetBig.Content.Scripts.StarmapEntities;
+using Rockets_TinyYetBig.SpaceStations.Construction;
 using UnityEngine;
 
 namespace Rockets_TinyYetBig.SpaceStations

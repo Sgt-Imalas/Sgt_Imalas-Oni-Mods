@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Rockets_TinyYetBig.Content.Scripts.StarmapEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using UnityEngine;
 using static Klei.ClusterLayoutSave;
 using static ResearchTypes;
 
-namespace Rockets_TinyYetBig.Patches.StationDerelictPatches
+namespace Rockets_TinyYetBig.Patches
 {
 	internal class ArtifactPOIConfig_Patches
 	{
@@ -20,6 +21,8 @@ namespace Rockets_TinyYetBig.Patches.StationDerelictPatches
 			[typeof(string), typeof(string), typeof(string), typeof(string), typeof(HashedString), typeof(int)])]
 		public static class AddDerelictInteriorToArtifactPOIs
 		{
+			[HarmonyPrepare]
+			static bool Prepare() => Config.Derelicts;
 			public static void Postfix(string id,
 				string anim,
 				string name,
@@ -35,6 +38,7 @@ namespace Rockets_TinyYetBig.Patches.StationDerelictPatches
 				}
 
 				__result.AddOrGet<InfoDescription>().description = desc;// Strings.Get("STRINGS.UI.SPACEDESTINATIONS.ARTIFACT_POI." + spst.poiID.ToUpperInvariant() + ".DESC");
+				__result.AddOrGet<DerelictSpawner>();
 			}
 		}
 	}

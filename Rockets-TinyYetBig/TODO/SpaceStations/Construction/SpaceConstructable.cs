@@ -70,7 +70,7 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
 
 				if (element != null)
 				{
-					buildPartStorage.AddElement(element.id, part.ResourceAmountMass, element.defaultValues.temperature, 255, 0);
+					buildPartStorage.AddElement(element.id, part.ResourceAmountMass, element.defaultValues.temperature, byte.MaxValue, 0);
 				}
 				else if (PrefabItem != null)
 				{

@@ -179,6 +179,7 @@ namespace Rockets_TinyYetBig
 		}
 		public class Tags
 		{
+			public static Tag AttachmentSlotStationParts = TagManager.Create("RTB_AttachmentSlotStationParts");
 			public static Tag VerticalPortAttachementPoint = TagManager.Create("RTB_verticalPortAttachmentPoint");
 
 			public static Tag AttachmentSlotDockingDoor = TagManager.Create("RTB_DockingTubeAttachmentSlot");
