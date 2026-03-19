@@ -707,8 +707,9 @@ namespace BlueprintsV2.BlueprintData
 			{
 				if (arg.TryGetComponent<Door>(out var component))
 				{
-					if (!component.hasComplexUserControls)
+					if (component.doorType == Door.DoorType.Sealed && !component.hasBeenUnsealed)
 						return null;
+
 					return new JObject()
 					{
 						{ "requestedState", (int)component.RequestedState},
@@ -722,15 +723,15 @@ namespace BlueprintsV2.BlueprintData
 					return;
 				if (building.TryGetComponent<Door>(out var targetComponent))
 				{
-					if (!targetComponent.hasComplexUserControls)
-						return;
-
 					var t1 = jObject.GetValue("requestedState");
 					if (t1 != null)
 					{
 						var requestedState = (Door.ControlState)t1.Value<int>();
+						SgtLogger.l("Setting " + building.name + " to state: " + requestedState);
+						//targetComponent.requestedState = requestedState;
 						targetComponent.requestedState = requestedState;
-						targetComponent.ApplyRequestedControlState();
+						if (!DebugHandler.InstantBuildMode)
+							targetComponent.ApplyRequestedControlState();
 					}
 				}
 			}

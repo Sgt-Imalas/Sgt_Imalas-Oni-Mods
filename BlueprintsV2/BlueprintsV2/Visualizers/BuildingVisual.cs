@@ -792,7 +792,7 @@ namespace BlueprintsV2.Visualizers
 			{
 				yOffset = flippedY ? -1 : 1;
 			}
-			SgtLogger.l(buildingConfig.BuildingDef.Tag + $": flippedX: {flippedX} flippedY: {flippedY}, offsets: ({xOffset},{yOffset})");
+			//SgtLogger.l(buildingConfig.BuildingDef.Tag + $": flippedX: {flippedX} flippedY: {flippedY}, offsets: ({xOffset},{yOffset})");
 			Offset = new(Offset.X + xOffset, Offset.Y + yOffset);
 		}
 
