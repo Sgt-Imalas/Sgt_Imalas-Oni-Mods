@@ -38,74 +38,22 @@ namespace Rockets_TinyYetBig.Patches
 			/// </summary>
 			public static void Postfix(PlanScreen __instance,BuildingDef def, ref PlanScreen.RequirementsState __result)
 			{
-				if (def.BuildingComplete.HasTag(ModAssets.Tags.SpaceStationOnlyInteriorBuilding) 
-					&& SpaceStationManager.ActiveWorldIsSpaceStationInterior()
-					&& def.BuildingComplete.HasTag(GameTags.NotRocketInteriorBuilding))
-				{
-					{
-						__result = ReevaluateMaterialState(def);
-					}
-				}
-				else if(def.BuildingComplete.HasTag(ModAssets.Tags.SpaceStationOnlyInteriorBuilding)
-					&& !SpaceStationManager.ActiveWorldIsSpaceStationInterior()
-					&& __result == PlanScreen.RequirementsState.RocketInteriorOnly)
-				{
-					__result = SpaceStationInteriorRequired;
-				}
+				bool worldIsRocket = ClusterUtil.ActiveWorldIsRocketInterior();
+				bool worldIsSpaceStation = SpaceStationManager.ActiveWorldIsSpaceStationInterior();
 
-				else if (def.BuildingComplete.HasTag(ModAssets.Tags.RocketInteriorOnlyBuilding)
-					&& SpaceStationManager.ActiveWorldIsSpaceStationInterior())
-				{
+				var building = def.BuildingComplete;
+
+				bool requiresInRocket = building.HasTag(GameTags.RocketInteriorBuilding);
+
+				bool requiresInSpaceStation = building.HasTag(ModAssets.Tags.SpaceStationOnlyInteriorBuilding);
+				bool probibitsInSpaceStation = building.HasTag(ModAssets.Tags.RocketInteriorOnlyBuilding);
+
+				if (requiresInRocket && worldIsSpaceStation && !probibitsInSpaceStation)
+					__result = ReevaluateMaterialState(def);
+				else if (worldIsSpaceStation && probibitsInSpaceStation)
 					__result = SpaceStationInteriorForbidden;
-				}
-				else if (def.BuildingComplete.HasTag(ModAssets.Tags.SpaceStationOnlyInteriorBuilding)
-					&& SpaceStationManager.ActiveWorldIsRocketInterior())
-				{
-					__result = PlanScreen.RequirementsState.RocketInteriorForbidden;
-				}
-				return;
-
-
-
-				//bool isSpaceStationInterior = SpaceStationManager.ActiveWorldIsSpaceStationInterior();
-				//bool isRocketInterior = SpaceStationManager.ActiveWorldIsRocketInterior();
-
-				//bool hasRocketRequirement = def.BuildingComplete.HasTag(GameTags.RocketInteriorBuilding);
-				//bool hasRocketForbiddenRequirement = def.BuildingComplete.HasTag(GameTags.NotRocketInteriorBuilding);
-
-				//bool hasRocketOnlyRequirement = def.BuildingComplete.HasTag(ModAssets.Tags.RocketInteriorOnlyBuilding);
-				//bool hasStationInteriorOnlyRequirement = def.BuildingComplete.HasTag(ModAssets.Tags.RocketInteriorOnlyBuilding);
-
-				//if (hasStationInteriorOnlyRequirement && isRocketInterior)
-				//	__result = SpaceStationInteriorRequired;
-				//else if(!hasStationInteriorOnlyRequirement && isRocketInterior)
-				//	__result = SpaceStationInteriorForbidden;
-				//else if(hasStationInteriorOnlyRequirement && isSpaceStationInterior)
-				//	__result = ReevaluateMaterialState(def);
-
-
-				//return;
-
-
-
-				if (def.BuildingComplete.HasTag(ModAssets.Tags.SpaceStationOnlyInteriorBuilding) && SpaceStationManager.ActiveWorldIsSpaceStationInterior())
-				{
-					if (def.BuildingComplete.HasTag(GameTags.NotRocketInteriorBuilding) && def.BuildingComplete.HasTag(ModAssets.Tags.SpaceStationOnlyInteriorBuilding))
-					{
-						if (!DebugHandler.InstantBuildMode && !Game.Instance.SandboxModeActive && !ProductInfoScreen.MaterialsMet(def.CraftRecipe))
-							__result = PlanScreen.RequirementsState.Materials;
-						else
-							__result = PlanScreen.RequirementsState.Complete;
-					}
-				}
-				if (def.BuildingComplete.HasTag(ModAssets.Tags.RocketInteriorOnlyBuilding) && !SpaceStationManager.ActiveWorldIsRocketInterior())
-				{
-					__result = SpaceStationInteriorForbidden;
-				}
-				else if (def.BuildingComplete.HasTag(ModAssets.Tags.SpaceStationOnlyInteriorBuilding) && !SpaceStationManager.ActiveWorldIsRocketInterior())
-				{
+				else if(requiresInSpaceStation && !worldIsSpaceStation)
 					__result = SpaceStationInteriorRequired;
-				}
 			}
 
 			static PlanScreen.RequirementsState ReevaluateMaterialState(BuildingDef def)
