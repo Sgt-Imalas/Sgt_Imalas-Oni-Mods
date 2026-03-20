@@ -672,10 +672,12 @@ namespace BlueprintsV2.BlueprintData
 		public Dictionary<string, int> GetBuildingCounts()
 		{
 			var dict = new Dictionary<string, int>();
-
 			foreach (var buildingConfig in BuildingConfigurations)
 			{
-				var id = buildingConfig.BuildingDefId;
+				var id = buildingConfig.BuildingDef?.PrefabID;
+				if (id == null)
+					continue;
+
 				if (!dict.ContainsKey(id))
 					dict[id] = 1;
 				else

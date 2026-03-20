@@ -163,7 +163,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData.PlannedElements
 		ISliderControl[] IMultiSliderControl.sliderControls => this.sliderControls;
 
 		#endregion
-		public override BlueprintNoteData GetNoteData()
+		public override BlueprintNoteData GetNoteData(Vector2I? newPosition = null)
 		{
 			return new BlueprintNoteData()
 			{
@@ -171,6 +171,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData.PlannedElements
 				ElementId = this.ElementId,
 				ElementMass = this.ElementAmount,
 				ElementTemperature = this.ElementTemperature,
+				Location = newPosition ?? default
 			};
 		}
 	}
