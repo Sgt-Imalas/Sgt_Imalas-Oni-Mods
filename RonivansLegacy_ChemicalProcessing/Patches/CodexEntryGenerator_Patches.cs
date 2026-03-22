@@ -182,5 +182,67 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				}
 			}
 		}
+
+
+
+		[HarmonyPatch(typeof(CodexEntryGenerator), nameof(CodexEntryGenerator.GenerateFabricatorContainers))]
+		public class CodexEntryGenerator_GenerateFabricatorContainers_Patch
+		{
+			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
+			{
+				var m_GetRecipes = AccessTools.Method(typeof(ComplexFabricator), nameof(ComplexFabricator.GetRecipes));
+				var m_FilterOutHiddenElements = AccessTools.Method(typeof(CodexEntryGenerator_GenerateFabricatorContainers_Patch), nameof(FilterOutHiddenElements));
+
+				foreach (var instruction in orig)
+				{
+					yield return instruction;
+					if (instruction.Calls(m_GetRecipes))
+					{
+						yield return new CodeInstruction(OpCodes.Call, m_FilterOutHiddenElements);
+					}
+				}
+			}
+			static ComplexRecipe[] FilterOutHiddenElements(ComplexRecipe[] input)
+			{
+				List<Tag> hideTags = [GameTags.HideFromCodex, GameTags.DeprecatedContent, GameTags.HideFromSpawnTool];
+
+				var list = new List<ComplexRecipe>();
+				foreach (var recipe in input)
+				{
+					bool recipeAllowed = true;
+					foreach (var ingredient in recipe.ingredients)
+					{
+						var item = ElementLoader.GetElement(ingredient.material);
+						if (item != null && item.oreTags.Contains(GameTags.HideFromCodex))
+						{
+							recipeAllowed = false;
+							break;
+						}
+					}
+					if (recipeAllowed)
+					{
+						foreach (var result in recipe.results)
+						{
+							var item = ElementLoader.GetElement(result.material);
+							if (item != null && item.oreTags.Contains(GameTags.HideFromCodex))
+							{
+								recipeAllowed = false;
+								break;
+							}
+							var prefab = Assets.GetPrefab(result.material);
+							if (prefab != null && prefab.HasAnyTags(hideTags))
+							{
+								recipeAllowed = false;
+								break;
+							}
+						}
+					}
+
+					if(recipeAllowed)
+						list.Add(recipe);
+				}
+				return list.ToArray();
+			}
+		}
 	}
 }
