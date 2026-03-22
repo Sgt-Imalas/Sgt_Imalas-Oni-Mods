@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,15 @@ namespace UtilLibs
 		{
 			var known = new HashSet<TKey>();
 			return source.Where(element => known.Add(keySelector(element)));
+		}
+
+
+		public static void AddRange(this IDictionary dict, IDictionary other)
+		{
+			foreach (DictionaryEntry item in other)
+			{
+				dict.Add(item.Key, item.Value);
+			}
 		}
 	}
 }
