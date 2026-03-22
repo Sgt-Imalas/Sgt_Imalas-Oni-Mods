@@ -42,10 +42,10 @@ namespace SaveGameModLoader
 		{
 			public static void Postfix(LoadScreen __instance, List<LoadScreen.SaveGameFileDetails> saves, int selectIndex = -1)
 			{
-                __instance.colonyViewRoot.TryGetComponent<HierarchyReferences>(out var hierarchyReferences);
-                var container = hierarchyReferences.GetReference<RectTransform>("Content").transform; //save entry container
+				__instance.colonyViewRoot.TryGetComponent<HierarchyReferences>(out var hierarchyReferences);
+				var container = hierarchyReferences.GetReference<RectTransform>("Content").transform; //save entry container
 
-                int saveCount = saves.Count;
+				int saveCount = saves.Count;
 				int rectTransformCount = container.childCount;
 
 				int childrenOffset = rectTransformCount - saveCount;
@@ -53,14 +53,14 @@ namespace SaveGameModLoader
 				//SgtLogger.l("rectTransformCount " + rectTransformCount);
 				//SgtLogger.l("saveCount " + saveCount);
 
-                for (int i = rectTransformCount - 1; i >= childrenOffset; i--)
+				for (int i = rectTransformCount - 1; i >= childrenOffset; i--)
 				{
 					var saveEntryTransform = container.GetChild(i);
 					var saveEntry = saves[i - childrenOffset];
 
 					InsertModButtonCode(saveEntryTransform.rectTransform(), saveEntry);
-                }
-            }
+				}
+			}
 
 
 
@@ -70,7 +70,7 @@ namespace SaveGameModLoader
 				)
 			{
 
-				string baseName = FileDetails.BaseName; 
+				string baseName = FileDetails.BaseName;
 				string fileName = FileDetails.FileName;
 
 				var btn = entry.Find("SyncButton").GetComponent<KButton>();
@@ -282,7 +282,7 @@ namespace SaveGameModLoader
 					folderBtn.ClearOnClick();
 					folderBtn.isInteractable = true;
 					folderBtn.transform.SetSiblingIndex(folderBtn.transform.GetSiblingIndex() - 1);
-					
+
 					ElementReference[] refs = new ElementReference[]
 					{
 						er_rightclickBt,
@@ -337,7 +337,7 @@ namespace SaveGameModLoader
 					if (transf.TryGetComponent<HierarchyReferences>(out var hier))
 					{
 						//SgtLogger.l(mod.title + ": " + mod.available_content + ", " + mod.contentCompatability);
-						if(ModAssets.IsModInstallationBroken(mod.label.defaultStaticID))
+						if (ModAssets.IsModInstallationBroken(mod.label.defaultStaticID))
 						{
 							SgtLogger.l("Marking broken mod installation: " + mod.title);
 							var title = hier.GetReference<LocText>("Title");
@@ -359,11 +359,11 @@ namespace SaveGameModLoader
 							var folderButton = hier.GetReference<KButton>(FolderButton);
 							folderButton.gameObject.SetActive(false);
 							var le = hier.GetReference<LayoutElement>(ManageButtonLayoutElement);
-							le.minWidth = 137.5f;							
-						} 
+							le.minWidth = 137.5f;
+						}
 						else
 						{
-							hier.GetReference<KButton>(FolderButton).onClick += ()=> { SgtLogger.l("opening steam mod folder:" + mod.staticID); App.OpenWebURL("file://" + mod.ContentPath); };
+							hier.GetReference<KButton>(FolderButton).onClick += () => { SgtLogger.l("opening steam mod folder:" + mod.staticID); App.OpenWebURL("file://" + mod.ContentPath); };
 						}
 						var contextButton = hier.GetReference<FButton>(rightClickBtn);
 						contextButton.OnClick += () =>
@@ -640,7 +640,7 @@ namespace SaveGameModLoader
 				modlistButton.ClearOnClick();
 
 #if DEBUG
-                // UIUtils.ListAllChildren(__instance.transform);
+				// UIUtils.ListAllChildren(__instance.transform);
 #endif
 
 				modlistButton.onClick += () =>
@@ -714,6 +714,19 @@ namespace SaveGameModLoader
 		{
 			public static void Prefix(MainMenu __instance)
 			{
+				///SteamAuthorInfoFetching:
+
+				if (SteamManager.Initialized)
+				{
+					var steamMods = Global.Instance.modManager.mods
+						.Where(mod => mod.label.distribution_platform == KMod.Label.DistributionPlatform.Steam)
+						.Select(mod => mod.label.id)
+						.ToList();
+					if (steamMods.Count > 0)
+						SteamInfoQuery.InitModAuthorQuery(steamMods);
+				}
+
+
 				string path;
 				if (KPlayerPrefs.HasKey("AutoResumeSaveFile"))
 				{
@@ -722,7 +735,7 @@ namespace SaveGameModLoader
 				else
 					path = string.IsNullOrEmpty(GenericGameSettings.instance.scriptedProfile.saveGame) ? SaveLoader.GetLatestSaveForCurrentDLC() : GenericGameSettings.instance.scriptedProfile.saveGame;
 #if DEBUG
-                //UIUtils.ListAllChildren(__instance.transform);
+				//UIUtils.ListAllChildren(__instance.transform);
 #endif
 				if (path == null || path == string.Empty)
 				{
@@ -765,25 +778,13 @@ namespace SaveGameModLoader
 					if (hasStoredModlist)
 						ModlistManager.Instance.InstantiateModViewForPathOnly(path, autoResumeOnSync);
 					else
-						ModlistManager.Instance.InstantiateModViewForListOnly(path,ModAssets.GetModsFromSaveHeader(path),autoResumeOnSync);
+						ModlistManager.Instance.InstantiateModViewForListOnly(path, ModAssets.GetModsFromSaveHeader(path), autoResumeOnSync);
 				};
 				ModlistManager.Instance.ParentObjectRef = __instance.gameObject;
 				var SaveGameName = button.transform.Find("SaveNameText").gameObject;
 				UnityEngine.Object.Destroy(SaveGameName);
+				bt.SetActive(__instance.Button_ResumeGame.isActiveAndEnabled);
 
-
-				///SteamAuthorInfoFetching:
-				///
-
-				if (SteamManager.Initialized)
-				{
-					var steamMods = Global.Instance.modManager.mods
-						.Where(mod => mod.label.distribution_platform == KMod.Label.DistributionPlatform.Steam)
-						.Select(mod => mod.label.id)
-						.ToList();
-					if (steamMods.Count > 0)
-						SteamInfoQuery.InitModAuthorQuery(steamMods);
-				}
 			}
 		}
 
@@ -828,14 +829,13 @@ namespace SaveGameModLoader
 			}
 			public static void WriteModlistPatch(SaveFileRoot saveFileRoot)
 			{
-				var savedButNotEnabledMods = saveFileRoot.active_mods;
-				savedButNotEnabledMods.Remove(savedButNotEnabledMods.Find(mod => mod.title == "SaveGameModLoader"));
-
-
 				bool init = ModlistManager.Instance.CreateOrAddToModLists(
 					SaveLoader.GetActiveSaveFilePath(),
 					saveFileRoot.active_mods
 					);
+
+				Global.Instance.modManager.mod_load_in_progress = false;
+				Global.Instance.modManager.Save();
 
 				KPlayerPrefs.DeleteKey("AutoResumeSaveFile");
 			}
