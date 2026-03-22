@@ -25,6 +25,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 		//--[ Special Settings ]-----------------------------------------------------------------------------
 		private static readonly PortDisplayInput waterInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(1, 1),null, new Color32(3, 148, 252, 255));
+		private static readonly PortDisplayInput pWaterInputPort = new PortDisplayInput(ConduitType.Liquid, new CellOffset(1, 0),null, new Color32(143, 140, 73, 255));
 		private static readonly PortDisplayInput gasAmmoniaInputPort = new PortDisplayInput(ConduitType.Gas, new CellOffset(1, 1),null, new Color32(215, 227, 252, 255));
 
 		//--[ Building Definitions ]--------------------------------------------------------------------------
@@ -39,8 +40,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.SelfHeatKilowattsWhenActive = 2f;
 			buildingDef.PowerInputOffset = new CellOffset(1, 0);
 			buildingDef.AudioCategory = "Metal";
-			buildingDef.InputConduitType = ConduitType.Liquid;
-			buildingDef.UtilityInputOffset = new CellOffset(1, 0);
+			//buildingDef.InputConduitType = ConduitType.Liquid;
+			//buildingDef.UtilityInputOffset = new CellOffset(1, 0);
 			SoundUtils.CopySoundsToAnim("soil_mixer_kanim", "fertilizer_maker_kanim");
 			return buildingDef;
 		}
@@ -55,7 +56,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//liquidStorage.showCapacityAsMainStatus = true;
 			//liquidStorage.showDescriptor = true;
 
-			ConduitConsumer pollutedWaterInput = go.AddOrGet<ConduitConsumer>();
+			PortConduitConsumer pollutedWaterInput = go.AddOrGet<PortConduitConsumer>();
 			pollutedWaterInput.conduitType = ConduitType.Liquid;
 			pollutedWaterInput.consumptionRate = 10f;
 			pollutedWaterInput.capacityKG = 100f;
@@ -63,6 +64,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			pollutedWaterInput.capacityTag = SimHashes.DirtyWater.CreateTag();
 			pollutedWaterInput.forceAlwaysSatisfied = true;
 			pollutedWaterInput.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
+			pollutedWaterInput.SkipSetOperational = true;
+			pollutedWaterInput.AssignPort(pWaterInputPort);
 
 			PortConduitConsumer waterInput = go.AddComponent<PortConduitConsumer>();
 			waterInput.conduitType = ConduitType.Liquid;
@@ -254,6 +257,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			PortDisplayController controller = go.AddComponent<PortDisplayController>();
 			controller.Init(go);
 			controller.AssignPort(go, waterInputPort);
+			controller.AssignPort(go, pWaterInputPort);
 			controller.AssignPort(go, gasAmmoniaInputPort);
 		}
 
