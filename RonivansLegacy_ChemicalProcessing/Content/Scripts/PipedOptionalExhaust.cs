@@ -90,6 +90,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			}
 
 			int outputCell = dispenser.UtilityCell;
+			if (outputCell < 0)
+				return;
 			bool allowedToSpill = (dispenser == null || !dispenser.IsConnected);
 			bool outputCellBlocked = Grid.Mass[outputCell] > OverpressureThreshold || Grid.Solid[outputCell];
 			bool maxAmountSpilled = false;
