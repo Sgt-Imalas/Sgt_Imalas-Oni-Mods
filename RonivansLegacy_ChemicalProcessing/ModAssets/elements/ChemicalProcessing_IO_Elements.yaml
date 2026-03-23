@@ -173,6 +173,7 @@ elements:
     localizationID: STRINGS.ELEMENTS.SILVERGAS.NAME
     dlcId: ""
 
+    #https://www.engineeringtoolbox.com/ammonia-d_1413.html
   - elementId: AmmoniaGas
     specificHeatCapacity: 2.175
     thermalConductivity: 0.507
