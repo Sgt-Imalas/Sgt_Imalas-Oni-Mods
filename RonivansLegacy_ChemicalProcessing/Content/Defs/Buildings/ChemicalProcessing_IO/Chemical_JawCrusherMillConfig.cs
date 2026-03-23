@@ -298,7 +298,15 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 					.SortOrder(index++)
 					.Build();
 
-			
+			//Scrap Eco Battery
+			RecipeBuilder.Create(ID, recipeDuration)
+					.Input(GarbageElectrobankConfig.ID, 1f)
+					.Output(SimHashes.Katairite, 100f)
+					.Description(string.Format(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1, STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.ELECTROBANK_GARBAGE.NAME, SimHashes.Katairite.CreateTag().ProperName()))
+					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
+					.SortOrder(index++)
+					.Build();
+
 			//bammoth patty:
 			float phosphoriteRate = 4f / 15f;
 			float poopMass = 120f;
