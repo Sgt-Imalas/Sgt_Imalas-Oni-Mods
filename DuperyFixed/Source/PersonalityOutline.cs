@@ -6,6 +6,7 @@ using System.Linq;
 using TUNING;
 using UtilLibs;
 using static STRINGS.DUPLICANTS;
+using static UnityEngine.GraphicsBuffer;
 
 namespace Dupery
 {
@@ -429,6 +430,13 @@ namespace Dupery
 				model,
 				speechMouth
 			);
+
+			string nameKey = string.Format("STRINGS.DUPLICANTS.PERSONALITIES.{0}.NAME", nameStringKey.ToUpperInvariant());
+			string descriptionKey = string.Format("STRINGS.DUPLICANTS.PERSONALITIES.{0}.DESC", nameStringKey.ToUpperInvariant());
+			if (!Strings.TryGet(nameKey, out _))
+				Strings.Add(nameKey, name);
+			if(!Strings.TryGet(descriptionKey, out _))
+				Strings.Add(descriptionKey, description);
 
 			if (!RequiredDlcID.IsNullOrWhiteSpace())
 				personality.requiredDlcId = RequiredDlcID;
