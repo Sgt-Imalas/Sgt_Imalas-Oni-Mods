@@ -33,7 +33,7 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 		{
 			public static bool Prefix(ElectrobankDischarger __instance)
 			{
-				return __instance.storage.items.Count > 0;
+				return __instance.storage.items.Any() && __instance.TryGetComponent<KBatchedAnimController>(out _) && __instance.TryGetComponent<SymbolOverrideController>(out _);
 			}
 		}
 
