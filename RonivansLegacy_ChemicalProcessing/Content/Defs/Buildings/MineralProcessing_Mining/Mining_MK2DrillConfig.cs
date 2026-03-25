@@ -125,7 +125,9 @@ namespace Mineral_Processing_Mining.Buildings
 			guidanceDeviceHandler.SourceStorage = drillRig.outStorage;
 			guidanceDeviceHandler.TargetStorage = drillRig.inStorage;
 
-			go.AddOrGet<HPA_SolidConduitRequirement>().RequiresHighPressureOutput = true;
+			///only add hpa rail requirement if hpa is enabled!
+			if(Config.Instance.HighPressureApplications_Enabled)
+				go.AddOrGet<HPA_SolidConduitRequirement>().RequiresHighPressureOutput = true;
 			Prioritizable.AddRef(go);
 			this.ConfigureRecipes();
 
