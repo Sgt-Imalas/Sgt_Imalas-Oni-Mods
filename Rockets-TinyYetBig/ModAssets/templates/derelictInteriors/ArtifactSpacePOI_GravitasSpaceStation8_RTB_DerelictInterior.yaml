@@ -1099,29 +1099,29 @@ buildings:
   location_y: 4
   element: SandStone
   temperature: 287.858276
-  facadeid: ExteriorWall_basic_grey_charcoal
+  facadeId: ExteriorWall_basic_grey_charcoal
 - id: RTB_DerelictExteriorWall
   location_x: -2
   location_y: 5
   element: SandStone
   temperature: 286.643524
-  facadeid: ExteriorWall_basic_grey_charcoal
+  facadeId: ExteriorWall_basic_grey_charcoal
 - id: RTB_DerelictExteriorWall
   location_x: -1
   location_y: 6
   element: SandStone
   temperature: 286.688354
-  facadeid: ExteriorWall_basic_grey_charcoal
+  facadeId: ExteriorWall_basic_grey_charcoal
 - id: RTB_DerelictExteriorWall
   location_y: 6
   element: SandStone
   temperature: 293.149994
-  facadeid: ExteriorWall_basic_grey_charcoal
+  facadeId: ExteriorWall_basic_grey_charcoal
 - id: RTB_DerelictExteriorWall
   location_x: 4
   element: SandStone
   temperature: 289.041718
-  facadeid: ExteriorWall_basic_grey_charcoal
+  facadeId: ExteriorWall_basic_grey_charcoal
 - id: MetalTile
   location_x: 2
   location_y: -6

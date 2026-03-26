@@ -1039,42 +1039,42 @@ buildings:
   location_y: -10
   element: SandStone
   temperature: 293.149994
-  facadeid: RTB_DerelictExteriorWall_basic_red_deep
+  facadeId: RTB_DerelictExteriorWall_basic_red_deep
 - id: RTB_DerelictExteriorWall
   location_y: -10
   element: SandStone
   temperature: 293.149994
-  facadeid: RTB_DerelictExteriorWall_basic_red_deep
+  facadeId: RTB_DerelictExteriorWall_basic_red_deep
 - id: RTB_DerelictExteriorWall
   location_x: -3
   location_y: -10
   element: SandStone
   temperature: 293.149994
-  facadeid: RTB_DerelictExteriorWall_basic_red_deep
+  facadeId: RTB_DerelictExteriorWall_basic_red_deep
 - id: RTB_DerelictExteriorWall
   location_x: -2
   location_y: -10
   element: SandStone
   temperature: 293.149994
-  facadeid: RTB_DerelictExteriorWall_basic_red_deep
+  facadeId: RTB_DerelictExteriorWall_basic_red_deep
 - id: RTB_DerelictExteriorWall
   location_x: 1
   location_y: -10
   element: SandStone
   temperature: 293.149994
-  facadeid: RTB_DerelictExteriorWall_basic_red_deep
+  facadeId: RTB_DerelictExteriorWall_basic_red_deep
 - id: RTB_DerelictExteriorWall
   location_x: 2
   location_y: -10
   element: SandStone
   temperature: 293.149994
-  facadeid: RTB_DerelictExteriorWall_basic_red_deep
+  facadeId: RTB_DerelictExteriorWall_basic_red_deep
 - id: RTB_DerelictExteriorWall
   location_x: 3
   location_y: -10
   element: SandStone
   temperature: 293.149994
-  facadeid: RTB_DerelictExteriorWall_basic_red_deep
+  facadeId: RTB_DerelictExteriorWall_basic_red_deep
 - id: RTB_DerelictWallTile
   location_x: -2
   location_y: 8
@@ -1164,7 +1164,7 @@ buildings:
   location_y: -3
   element: SandStone
   temperature: 296.080139
-  facadeid: RTB_DerelictExteriorWall_basic_red_deep
+  facadeId: RTB_DerelictExteriorWall_basic_red_deep
 - id: RTB_DerelictExteriorWall
   location_x: -1
   location_y: -5
@@ -1404,7 +1404,7 @@ buildings:
   location_y: -3
   element: SandStone
   temperature: 293.149994
-  facadeid: RTB_DerelictExteriorWall_basic_red_deep
+  facadeId: RTB_DerelictExteriorWall_basic_red_deep
 - id: RTB_DerelictWallTile
   location_y: -3
   element: Steel
@@ -1438,7 +1438,7 @@ buildings:
   location_y: -3
   element: SandStone
   temperature: 293.149994
-  facadeid: RTB_DerelictExteriorWall_basic_red_deep
+  facadeId: RTB_DerelictExteriorWall_basic_red_deep
 - id: RTB_DerelictExteriorWall
   location_x: -1
   location_y: -6
@@ -1785,7 +1785,7 @@ buildings:
   location_y: -3
   element: SandStone
   temperature: 296.079468
-  facadeid: RTB_DerelictExteriorWall_basic_red_deep
+  facadeId: RTB_DerelictExteriorWall_basic_red_deep
 - id: RTB_DerelictExteriorWall
   location_x: 1
   location_y: -4
@@ -1919,13 +1919,13 @@ buildings:
   location_y: 1
   element: SandStone
   temperature: 293.149994
-  facadeid: ExteriorWall_basic_grey_charcoal
+  facadeId: ExteriorWall_basic_grey_charcoal
 - id: RTB_DerelictExteriorWall
   location_x: 2
   location_y: 9
   element: SandStone
   temperature: 293.149994
-  facadeid: ExteriorWall_basic_grey_charcoal
+  facadeId: ExteriorWall_basic_grey_charcoal
 otherEntities:
 - id: PropGravitasDeskPodium
   location_x: -2

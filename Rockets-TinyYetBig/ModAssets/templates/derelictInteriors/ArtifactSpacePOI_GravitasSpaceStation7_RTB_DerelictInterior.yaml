@@ -1021,7 +1021,7 @@ buildings:
   location_y: 6
   element: SandStone
   temperature: 287.508911
-  facadeid: ExteriorWall_basic_grey_charcoal
+  facadeId: ExteriorWall_basic_grey_charcoal
 - id: RTB_DerelictWallTile
   location_y: 7
   element: Steel
@@ -1031,7 +1031,7 @@ buildings:
   location_y: 5
   element: SandStone
   temperature: 287.909271
-  facadeid: ExteriorWall_basic_grey_charcoal
+  facadeId: ExteriorWall_basic_grey_charcoal
 - id: MetalTile
   location_x: -5
   element: Aluminum
@@ -1214,13 +1214,13 @@ buildings:
   location_y: -2
   element: SandStone
   temperature: 287.37326
-  facadeid: ExteriorWall_basic_grey_charcoal
+  facadeId: ExteriorWall_basic_grey_charcoal
 - id: RTB_DerelictExteriorWall
   location_x: 4
   location_y: 1
   element: SandStone
   temperature: 289.269226
-  facadeid: ExteriorWall_basic_grey_charcoal
+  facadeId: ExteriorWall_basic_grey_charcoal
 - id: RTB_DerelictWallTile
   location_y: -6
   element: Steel
@@ -1230,19 +1230,19 @@ buildings:
   location_y: -3
   element: SandStone
   temperature: 286.548798
-  facadeid: ExteriorWall_basic_grey_charcoal
+  facadeId: ExteriorWall_basic_grey_charcoal
 - id: RTB_DerelictExteriorWall
   location_x: 6
   location_y: -4
   element: SandStone
   temperature: 287.250122
-  facadeid: ExteriorWall_basic_grey_charcoal
+  facadeId: ExteriorWall_basic_grey_charcoal
 - id: RTB_DerelictExteriorWall
   location_x: 7
   location_y: -4
   element: SandStone
   temperature: 287.149933
-  facadeid: ExteriorWall_basic_grey_charcoal
+  facadeId: ExteriorWall_basic_grey_charcoal
 - id: RTB_DerelictWallTile
   location_x: 1
   location_y: -6
@@ -1253,37 +1253,37 @@ buildings:
   location_y: -5
   element: SandStone
   temperature: 287.67157
-  facadeid: ExteriorWall_basic_grey_charcoal
+  facadeId: ExteriorWall_basic_grey_charcoal
 - id: RTB_DerelictExteriorWall
   location_x: 3
   location_y: -5
   element: SandStone
   temperature: 286.848175
-  facadeid: ExteriorWall_basic_grey_charcoal
+  facadeId: ExteriorWall_basic_grey_charcoal
 - id: RTB_DerelictExteriorWall
   location_x: 4
   location_y: -5
   element: SandStone
   temperature: 286.500397
-  facadeid: ExteriorWall_basic_grey_charcoal
+  facadeId: ExteriorWall_basic_grey_charcoal
 - id: RTB_DerelictExteriorWall
   location_x: 4
   location_y: -6
   element: SandStone
   temperature: 286.168274
-  facadeid: ExteriorWall_basic_grey_charcoal
+  facadeId: ExteriorWall_basic_grey_charcoal
 - id: RTB_DerelictExteriorWall
   location_x: 3
   location_y: -6
   element: SandStone
   temperature: 285.916626
-  facadeid: ExteriorWall_basic_grey_charcoal
+  facadeId: ExteriorWall_basic_grey_charcoal
 - id: RTB_DerelictExteriorWall
   location_x: 2
   location_y: -6
   element: SandStone
   temperature: 286.840698
-  facadeid: ExteriorWall_basic_grey_charcoal
+  facadeId: ExteriorWall_basic_grey_charcoal
 - id: RTB_DerelictExteriorWall
   location_y: 1
   element: SandStone

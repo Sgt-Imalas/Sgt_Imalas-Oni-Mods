@@ -2210,13 +2210,13 @@ buildings:
   location_y: 1
   element: SandStone
   temperature: 288.075378
-  facadeid: ExteriorWall_basic_grey_charcoal
+  facadeId: ExteriorWall_basic_grey_charcoal
 - id: RTB_DerelictExteriorWall
   location_x: 7
   location_y: 2
   element: SandStone
   temperature: 288.581665
-  facadeid: ExteriorWall_basic_grey_charcoal
+  facadeId: ExteriorWall_basic_grey_charcoal
 - id: RTB_DerelictExteriorWall
   location_x: 2
   location_y: -1
