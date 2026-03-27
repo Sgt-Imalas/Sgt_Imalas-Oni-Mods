@@ -1,5 +1,4 @@
 ﻿using Rockets_TinyYetBig.Content.Scripts.StarmapEntities;
-using Rockets_TinyYetBig.SpaceStations.Construction;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -70,8 +69,8 @@ namespace Rockets_TinyYetBig.Derelicts
 			spst.topRightCorner = new Vector2I(size.x - 1, size.y - 1);
 			spst.poiID = ID.Replace(DerelictTemplateName, string.Empty).Replace("ArtifactSpacePOI_", string.Empty);
 			spst.l_name = STRINGS.ENTITIES.DERELICTSTATION.NAMEPRREFIX + Strings.Get("STRINGS.UI.SPACEDESTINATIONS.ARTIFACT_POI." + spst.poiID.ToUpperInvariant() + ".NAME");
-			var constructable = entity.AddOrGet<SpaceConstructable>();
-			constructable.buildPartStorage = entity.AddOrGet<Storage>();
+		//	var constructable = entity.AddOrGet<SpaceConstructable>();
+		//	constructable.buildPartStorage = entity.AddOrGet<Storage>();
 			entity.AddOrGet<StationDeconstructable>();
 
 			entity.AddOrGet<CharacterOverlay>().shouldShowName = true;

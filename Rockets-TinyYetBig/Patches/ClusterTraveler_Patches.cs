@@ -9,7 +9,9 @@ namespace Rockets_TinyYetBig.Patches
 {
 	internal class ClusterTraveler_Patches
 	{
-
+		/// <summary>
+		/// Correct travel time estimates for Spacestation world targets
+		/// </summary>
         [HarmonyPatch(typeof(ClusterTraveler), nameof(ClusterTraveler.RemainingTravelDistance))]
         public class ClusterTraveler_RemainingTravelDistance_Patch
         {

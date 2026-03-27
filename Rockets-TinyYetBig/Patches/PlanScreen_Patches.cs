@@ -52,7 +52,7 @@ namespace Rockets_TinyYetBig.Patches
 					__result = ReevaluateMaterialState(def);
 				else if (worldIsSpaceStation && probibitsInSpaceStation)
 					__result = SpaceStationInteriorForbidden;
-				else if(requiresInSpaceStation && !worldIsSpaceStation)
+				else if(requiresInSpaceStation && worldIsRocket)
 					__result = SpaceStationInteriorRequired;
 			}
 

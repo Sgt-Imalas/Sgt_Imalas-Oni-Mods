@@ -31,22 +31,26 @@ namespace Rockets_TinyYetBig.Docking
 		public bool IsRocket => Type == DockableType.Rocket;
 		public DockableType CraftType => Type;
 
-		public int WorldId => world.id;
+		public int WorldId => world?.id ?? -1;
 
 		public override void OnPrefabInit()
 		{
 			base.OnPrefabInit();
-			DockingManagerSingleton.Instance.RegisterSpacecraftHandler(this);
 
 		}
 		public override void OnCleanUp()
 		{
 			DockingManagerSingleton.Instance.UnregisterSpacecraftHander(this);
+
+			foreach (var handler in _handlers)
+				Unsubscribe(handler);
 			base.OnCleanUp();
 		}
+		List<int> _handlers = [];
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
+			DockingManagerSingleton.Instance.RegisterSpacecraftHandler(this);
 			if (clustercraft is SpaceStation)
 				Type = DockableType.SpaceStation;
 			if (clustercraft is DerelictStation)
@@ -55,7 +59,38 @@ namespace Rockets_TinyYetBig.Docking
 			//{
 			//    GameScheduler.Instance.ScheduleNextFrame("CheckIfWaiting", (_) => UpdateWaitingStatus());
 			//}
+			SgtLogger.l("DockingHandler " + gameObject.name + " OnSpawn. Type: " + Type);
+			if(Type == DockableType.Rocket)
+				_handlers.Add(Subscribe((int)GameHashes.ClusterDestinationChanged, OnClusterDestinationChanged));
+			_handlers.Add(Subscribe((int)GameHashes.RocketModuleChanged, OnRocketModulesChanged));
+		}
+		void OnRocketModulesChanged(object _)
+		{
+			world = GetComponent<WorldContainer>();
+		}
 
+		void OnClusterDestinationChanged(object boxed)
+		{
+			SgtLogger.l("DockingSpaceCraftHandler.OnClusterDestinationChanged");
+			var myDestination = destinationSelector.GetDestination();
+			foreach (var docked in WorldDockables)
+			{
+				if (!DockingManagerSingleton.Instance.TryGetDockableIfDocked(docked.Value.GUID, out var dockedDockable))
+					continue;
+
+				if (SpaceStationManager.WorldIsSpaceStationInterior(dockedDockable.WorldId))
+				{
+					DockingManagerSingleton.Instance.AddPendingUndock(docked.Value.GUID, dockedDockable.GUID);
+				}
+				else
+				{
+					var selector = dockedDockable.spacecraftHandler.clustercraft.ModuleInterface.GetClusterDestinationSelector();
+					if (selector.GetDestination() != myDestination)
+					{
+						selector.SetDestination(myDestination);
+					}
+				}
+			}
 
 		}
 
@@ -80,7 +115,7 @@ namespace Rockets_TinyYetBig.Docking
 			}
 		}
 
-		public bool InSpace => world.ParentWorldId == world.id;
+		public bool InSpace => world != null ? world.ParentWorldId == world.id : clustercraft.status == Clustercraft.CraftStatus.InFlight;
 		internal bool CanDock()
 		{
 			bool cando =

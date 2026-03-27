@@ -9,7 +9,9 @@ namespace Rockets_TinyYetBig.Patches
 {
 	internal class LaunchedCraft_Patches
 	{
-
+		/// <summary>
+		/// skip (derelict) space stations for achievment check
+		/// </summary>
         [HarmonyPatch(typeof(LaunchedCraft), nameof(LaunchedCraft.Success))]
         public class TargetType_TargetMethod_Patch
         {
