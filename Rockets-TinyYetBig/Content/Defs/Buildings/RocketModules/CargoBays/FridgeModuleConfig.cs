@@ -1,5 +1,6 @@
 ﻿using Rockets_TinyYetBig.Behaviours;
 using Rockets_TinyYetBig.Content.ModDb;
+using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules;
 using System.Collections.Generic;
 using TUNING;
 using UnityEngine;
@@ -56,7 +57,7 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
 		{
 			go.AddOrGet<BuildingCellVisualizer>();
 			go.AddOrGet<Operational>();
-			go.AddOrGet<RTB_PowerConsumerModule>();
+			//go.AddOrGet<ModuleEnergyConsumer>();
 
 			Storage storage = go.AddOrGet<Storage>();
 			storage.capacityKg = CAPACITY;

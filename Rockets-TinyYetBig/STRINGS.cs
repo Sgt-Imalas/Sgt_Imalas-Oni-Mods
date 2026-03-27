@@ -85,6 +85,7 @@ namespace Rockets_TinyYetBig
 				public static LocString RTB_OXIDIZEREFFICIENCY_6 = "Oxidizer Efficiency 6";
 
 				public static LocString KATAIRITE = global::STRINGS.ELEMENTS.KATAIRITE.NAME;
+				public static LocString RTB_ATTACHMENTSLOTSTATIONPARTS = "Orbital Construction Module mounting point";
 			}
 
 		}
@@ -731,16 +732,26 @@ namespace Rockets_TinyYetBig
 					public static LocString DOCKEDINFO = "\n • {0}";
 					public static LocString MULTIPLES = "multiple crafts";
 				}
+				public class RTB_PENDINGSTATIONPARTDECONSTRUCTION
+				{
+					public static LocString NAME = "Part Deconstruction Errand";
+					public static LocString TOOLTIP = "Stored station part will be deconstructed once a Duplicant is available";
+				}
 			}
 		}
 
 		public class UI
 		{
-			public static class DERELICTDISCOVERED
+			public static class RTB_DISMANTLESTATIONPART
+			{
+				public static LocString LABEL = "Deconstruct stored part";
+				public static LocString TOOLTIP = "Dismantle the currently stored space station part back into its construction materials.";
+
+			}
+			public static class RTB_DERELICTDISCOVERED
 			{
 				public static LocString NAME = "Derelict Station Discovered!";
 				public static LocString TOOLTIP = "Amazing!\n\nMy Duplicants have discovered an abandoned derelict floating in space.\n\nI should send a space mission to investigate it.";
-
 			}
 			public static LocString PRODUCTINFO_SPACE_STATION_INTERIOR = "Space station interior only";
 			public static LocString PRODUCTINFO_SPACE_STATION_NOT_INTERIOR = "Cannot build inside space station";

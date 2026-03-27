@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
-namespace Rockets_TinyYetBig.SpaceStations.Construction
+namespace Rockets_TinyYetBig.Content.Scripts.Buildings.SpaceStationConstruction
 {
 	public struct ConstructionProjectAssembly
 	{
-		public ConstructionProjectAssembly(List<PartProject> parts)
+		public ConstructionProjectAssembly(List<string> parts)
 		{
 			Parts = [.. parts];
 		}
@@ -19,9 +20,8 @@ namespace Rockets_TinyYetBig.SpaceStations.Construction
 
 
 		public Tag RequiredPrebuilt = null;
-		public List<PartProject> Parts = new List<PartProject>();
+		public List<string> Parts = new List<string>();
 
 		public Sprite PreviewSprite = null;
-		public Action<SpaceConstructable> OnConstructionFinishedAction = null;
 	}
 }

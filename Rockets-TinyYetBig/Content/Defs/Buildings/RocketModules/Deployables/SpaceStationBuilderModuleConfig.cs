@@ -1,4 +1,5 @@
 ﻿using Rockets_TinyYetBig.Behaviours;
+using Rockets_TinyYetBig.Content.Scripts.Buildings.SpaceStationConstruction;
 using TUNING;
 using UnityEngine;
 
@@ -58,7 +59,7 @@ namespace Rockets_TinyYetBig.SpaceStations
 			go.AddOrGet<BuildingAttachPoint>().points = new BuildingAttachPoint.HardPoint[]
 			{
 				new BuildingAttachPoint.HardPoint(new CellOffset(0, 6), GameTags.Rocket,  null),
-				new BuildingAttachPoint.HardPoint(new CellOffset(0, 2), ModAssets.Tags.AttachmentSlotStationParts,  null)
+				new BuildingAttachPoint.HardPoint(new CellOffset(0, 1), ModAssets.Tags.AttachmentSlotStationParts,  null)
 			};
 			go.AddOrGet<LoopingSounds>();
 			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
@@ -68,6 +69,7 @@ namespace Rockets_TinyYetBig.SpaceStations
 		public override void DoPostConfigureComplete(GameObject go)
 		{
 			BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MONUMENTAL);
+			go.AddOrGet<SpaceStationAttachablePartStorage>();
 			go.AddOrGet<SpaceStationBuilder>();
 			go.AddOrGet<ExtendedClusterModuleAnimator>();
 			go.GetComponent<ReorderableBuilding>().buildConditions.Add(new OneModulePerRocket(ID));

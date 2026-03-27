@@ -41,7 +41,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.StarmapEntities
 			{
 				if (!SpaceStationManager.IsSpaceStationAt(artifactEntity.Location) && DerelictStation.SpawnNewDerelictStation(artifactEntity, out var entity))
 				{
-					ClusterMapSelectTool.Instance.SelectNextFrame(entity.GetComponent<KSelectable>());
+					//ClusterMapSelectTool.Instance.SelectNextFrame(entity.GetComponent<KSelectable>());
 					ClusterManager.Instance.Trigger((int)GameHashes.WorldRenamed, "derelict created revealed");
 					derelictSpawned = true;
 					if (!skipNotification)

@@ -31,9 +31,6 @@
 		<APIVersion>2</APIVersion>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>
-	<ItemGroup>
-	  <None Remove="TODO\SpaceStations\SpaceStation.cs~RF14458d6.TMP" />
-	</ItemGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<OutDir>bin</OutDir>
