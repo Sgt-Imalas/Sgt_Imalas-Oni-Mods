@@ -1,4 +1,5 @@
-﻿using Rockets_TinyYetBig.SpaceStations.Construction;
+﻿using Rockets_TinyYetBig.Content.Defs.StarmapEntities;
+using Rockets_TinyYetBig.Content.Scripts.Buildings.SpaceStationConstruction;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -46,15 +47,15 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
                 SgtLogger.l("AAAA");
 
                 Dictionary<string, int> partCount = new Dictionary<string, int>();
-                foreach (PartProject part in referencedProject.Parts)
-                {
-                    if (partCount.ContainsKey(part.ResourceTag.ToString()))
-                        partCount[part.ResourceTag.ToString()]++;
-                    else
-                    {
-                        partCount[part.ResourceTag.ToString()] = 1;
-                    }
-                }
+                //foreach (StoredStationPart part in referencedProject.Parts)
+                //{
+                //    if (partCount.ContainsKey(part.ResourceTag.ToString()))
+                //        partCount[part.ResourceTag.ToString()]++;
+                //    else
+                //    {
+                //        partCount[part.ResourceTag.ToString()] = 1;
+                //    }
+                //}
 
                 foreach (var item in partCount)
                 {
@@ -79,12 +80,12 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
             Vector3 position = new Vector3(-1f, -1f, 0.0f);
             GameObject sat = Util.KInstantiate(Assets.GetPrefab(SpaceConstructionSiteConfig.ID), position);
             sat.name = project.ProjectName;
-            var site = sat.GetComponent<SpaceConstructionSite>();
+			var site = sat.GetComponent<SpaceConstructionSite>();
             site.Location = TargetLocation;
             site.SetItemName(project.ProjectName);
 
 
-            sat.GetComponent<SpaceConstructable>().AssignProject(project);
+           // sat.GetComponent<SpaceConstructable>().AssignProject(project);
             sat.SetActive(true);
             return sat;
         }
@@ -111,13 +112,13 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
             ProjectsContainer = transform.Find("ProjectsContainer/ScrollRectContainer").gameObject;
             ProjectPrefab = transform.Find("ProjectsContainer/ScrollRectContainer/PartContainerPrefab").gameObject;
             ProjectPrefab.SetActive(false);
-            foreach (var project in ConstructionProjects.AllProjects)
-            {
-                var entry = Util.KInstantiateUI(ProjectPrefab, ProjectsContainer, true);
-                var logic = entry.AddComponent<ProjectListUIEntry>();
-                logic.Init(project);
-                Projects[project] = logic;
-            }
+            //foreach (var project in ConstructionProjects.AllProjects)
+            //{
+            //    var entry = Util.KInstantiateUI(ProjectPrefab, ProjectsContainer, true);
+            //    var logic = entry.AddComponent<ProjectListUIEntry>();
+            //    logic.Init(project);
+            //    Projects[project] = logic;
+            //}
         }
 
         internal void UpdatePositions(AxialI location)

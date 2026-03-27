@@ -1,5 +1,5 @@
-﻿using Rockets_TinyYetBig.SpaceStations;
-using Rockets_TinyYetBig.SpaceStations.Construction;
+﻿using Rockets_TinyYetBig.Content.Scripts.Buildings.SpaceStationConstruction;
+using Rockets_TinyYetBig.SpaceStations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,10 +35,10 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 
             public Slider ConstructionProgress;
             public LocText ConstructionProgressLabel;
-            public PartProject Reference;
+            public StoredStationPart Reference;
 
 
-            public void Init(PartProject referencedProject)
+            public void Init(StoredStationPart referencedProject)
             {
                 Reference = referencedProject;
                 ToggleConstruction = transform.Find("Row1/ConstructBtn").gameObject.AddOrGet<FButton>();
