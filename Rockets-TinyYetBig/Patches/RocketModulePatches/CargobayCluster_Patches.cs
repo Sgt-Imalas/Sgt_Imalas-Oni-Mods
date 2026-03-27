@@ -43,7 +43,7 @@ namespace Rockets_TinyYetBig.Patches.RocketModulePatches
 					storage.ApplyStoredItemModifiers(item, is_stored: true, is_initializing: true);
 					if (storage.sendOnStoreOnSpawn)
 					{
-						item.Trigger(856640610, storage);
+						item.Trigger((int)GameHashes.OnStore, storage);
 					}
 				}
 			}
