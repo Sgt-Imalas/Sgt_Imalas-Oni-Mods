@@ -18,11 +18,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 	static class BuildingManager
 	{
 		public static Dictionary<string, BuildingInjectionEntry> BuildingInjections = new Dictionary<string, BuildingInjectionEntry>();
-		public static HashSet<string> DisabledBuildingIDs = new HashSet<string>();
+		public static HashSet<string> DisabledBuildingIDs = [];
 
 		public static BuildingConfigurationCollection ConfigCollection = new BuildingConfigurationCollection();
 		public static BuildingConfigurationEntry AddOrGetEntry(string buildingID)
 		{
+
+
 			if (ConfigCollection.BuildingConfigurations.TryGetValue(buildingID, out var entry))
 			{
 				return entry;
@@ -125,6 +127,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			{
 				if (entry.Value.Source.IsBuildingEnabled() && TechExists(entry.Value.TechID))
 					entry.Value.RegisterPlanscreen();
+				else
+					DisabledBuildingIDs.Add(entry.Value.Source.BuildingID);
+
 			}
 		}
 		public static void AddBuildingsToTechs()

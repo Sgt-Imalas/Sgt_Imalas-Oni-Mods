@@ -20,6 +20,8 @@ namespace Mineral_Processing_Mining.Buildings
 			GameObject go = EntityTemplates.CreateLooseEntity(ID, MINING_DRILLBITS_BASIC_ITEM.NAME, MINING_DRILLBITS_BASIC_ITEM.DESC, 1f, true, Assets.GetAnim("drillbits_basic_kanim"), "object", Grid.SceneLayer.Front, EntityTemplates.CollisionShape.RECTANGLE, 0.35f, 0.35f, true, 0, SimHashes.Creature, [GameTags.IndustrialProduct, ModAssets.Tags.RandomRecipeIngredient_DestroyOnCancel, ModAssets.Tags.MineralProcessing_Drillbit]);
 			go.AddOrGet<EntitySplitter>();
 			go.AddOrGet<SimpleMassStatusItem>();
+			if (!Config.Instance.MineralProcessing_Mining_Enabled)
+				ModAssets.HideFromCodex(go);
 			return go;
 		}
 
