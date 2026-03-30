@@ -123,7 +123,7 @@ namespace BlueprintsV2.BlueprintsV2.Patches
 					);
 
 				NoteToolCollection = ToolMenu.CreateToolCollection(
-						"Note Tool",
+						STRINGS.UI.TOOLS.NOTE_TOOL.NAME,
 						ModAssets.NoteToolIcon_Sprite.name,
 				Actions.BlueprintsCreateNoteAction.GetKAction(),
 						typeof(CreateNoteTool).Name,
