@@ -1,0 +1,52 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: DarkEviL <darkevilx17@gmail.com>\n"
+"Language-Team: \n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.8\n"
+
+#. BioluminescentDupes.STRINGS.DUPLICANTS.TRAITS.BD_BIOLUMINESCENCE.DESC
+msgctxt "BioluminescentDupes.STRINGS.DUPLICANTS.TRAITS.BD_BIOLUMINESCENCE.DESC"
+msgid "This Duplicant is has a faintly glow to it"
+msgstr "Этот дубликант обладает слабым свечением"
+
+#. BioluminescentDupes.STRINGS.DUPLICANTS.TRAITS.BD_BIOLUMINESCENCE.NAME
+msgctxt "BioluminescentDupes.STRINGS.DUPLICANTS.TRAITS.BD_BIOLUMINESCENCE.NAME"
+msgid "Bioluminescent"
+msgstr "Биолюминесцентный"
+
+#. BioluminescentDupes.STRINGS.DUPLICANTS.TRAITS.BD_BIOLUMINESCENCE.SHORT_DESC
+msgctxt "BioluminescentDupes.STRINGS.DUPLICANTS.TRAITS.BD_BIOLUMINESCENCE.SHORT_DESC"
+msgid "Emits low amounts light"
+msgstr "Излучает небольшое количество света"
+
+#. BioluminescentDupes.STRINGS.DUPLICANTS.TRAITS.BD_BIOLUMINESCENCE.SHORT_DESC_TOOLTIP
+msgctxt "BioluminescentDupes.STRINGS.DUPLICANTS.TRAITS.BD_BIOLUMINESCENCE.SHORT_DESC_TOOLTIP"
+msgid "Emits low amounts of light"
+msgstr "Излучает небольшое количество света"
+
+#. BioluminescentDupes.STRINGS.ITEMS.PILLS.BD_TRAITESSENCE.DESC
+msgctxt "BioluminescentDupes.STRINGS.ITEMS.PILLS.BD_TRAITESSENCE.DESC"
+msgid "Permanently gives the consumer the Bioluminescent trait"
+msgstr "Навсегда придаёт потребителю биолюминесцентную черту"
+
+#. BioluminescentDupes.STRINGS.ITEMS.PILLS.BD_TRAITESSENCE.NAME
+msgctxt "BioluminescentDupes.STRINGS.ITEMS.PILLS.BD_TRAITESSENCE.NAME"
+msgid "Biolumin Essence"
+msgstr "Биолюминовая эссенция"
+
+#. BioluminescentDupes.STRINGS.ITEMS.PILLS.BD_TRAITESSENCE.RECIPEDESC
+msgctxt "BioluminescentDupes.STRINGS.ITEMS.PILLS.BD_TRAITESSENCE.RECIPEDESC"
+msgid ""
+"A highly experimental medicine that gives the duplicant a permanent faint "
+"glow. No side effects were recorded so far!"
+msgstr ""
+"Высокоэффективный экспериментальный препарат, который придаёт дубликанту "
+"постоянное слабое свечение. Побочных эффектов пока зафиксировано не было!"

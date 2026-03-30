@@ -1275,18 +1275,17 @@ msgstr ""
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.REFINEMENT_HEAT_TOOLTIP_CONTINUOUS
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.REFINEMENT_HEAT_TOOLTIP_CONTINUOUS"
 msgid ""
-"During refinement of this recipe, the machine will produce a total of <style=\"produced\">{0}</style> in additional refinement "
-"<style=\"KKeyword\">heat</style>.\n"
+"During refinement of this recipe, the machine will produce a total of <style=\"produced\">{0}</style> in additional refinement <style=\"KKeyword\">heat</style>.\n"
 "At normal refinement speed, this amounts to {1} produced per second."
 msgstr ""
-"В процессе обработки этого рецепта, машина произведёт <style=\"produced\">{0}</style> дополнительного "
-"<style=\"KKeyword\">тепла</style> для очистки.\n"
+"В процессе обработки этого рецепта, машина произведёт <style=\"produced\">{0}</style> дополнительного <style=\"KKeyword\">тепла</style> для очистки.\n"
 "При обычной скорости обработки это составляет {1} произведено в секунду."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.REFINEMENT_SELF_HEAT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SELECTIVEARCFURNACE.REFINEMENT_SELF_HEAT"
 msgid "Refinement heat"
 msgstr "Обработка нагревом"
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SMALLCRUSHERMILL.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_SMALLCRUSHERMILL.DESC"
 msgid "A jaw crusher uses compressive force for breaking of stone and other raw minerals."
@@ -3407,9 +3406,7 @@ msgstr "Этот дубликант пострадал в результате �
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_CHROMITEORE_SOLID.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_CHROMITEORE_SOLID.DESC"
-msgid ""
-"Chromite is a crystalline mineral composed primarily of <link=\"IRON\">Iron</link> and <link=\"AIOCHROMIUMSOLID\">Chromium</link> "
-"compounds."
+msgid "Chromite is a crystalline mineral composed primarily of <link=\"IRON\">Iron</link> and <link=\"AIOCHROMIUMSOLID\">Chromium</link> compounds."
 msgstr "Хромит — это кристаллический минерал, состоящий преимущественно из соединений <link=\"IRON\">железа</link> и <link=\"AIOCHROMIUMSOLID\">хрома</link>."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_CHROMITEORE_SOLID.NAME
@@ -3449,9 +3446,7 @@ msgstr "<link=\"AIOCHROMIUMSOLID\">Хром</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_FERROCHROME_LIQUID.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_FERROCHROME_LIQUID.DESC"
-msgid ""
-"Ferrochrome is an alloy of <link=\"IRON\">Iron</link> and <link=\"AIOCHROMIUMSOLID\">Chromium</link>, used in the production of stainless "
-"steel and other alloys, currently in its molten state."
+msgid "Ferrochrome is an alloy of <link=\"IRON\">Iron</link> and <link=\"AIOCHROMIUMSOLID\">Chromium</link>, used in the production of stainless steel and other alloys, currently in its molten state."
 msgstr "Феррохром — это сплав <link=\"IRON\">железа</link> и <link=\"AIOCHROMIUMSOLID\">хрома</link>, используемый в производстве нержавеющей стали и других сплавов, в настоящее время в расплавленном состоянии."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_FERROCHROME_LIQUID.NAME
@@ -3461,9 +3456,7 @@ msgstr "<link=\"AIOFERROCHROMELIQUID\">Расплавленный феррохр
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_FERROCHROME_SOLID.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_FERROCHROME_SOLID.DESC"
-msgid ""
-"Ferrochrome is an alloy of <link=\"IRON\">Iron</link> and <link=\"AIOCHROMIUMSOLID\">Chromium</link>, used in the production of stainless "
-"steel and other alloys."
+msgid "Ferrochrome is an alloy of <link=\"IRON\">Iron</link> and <link=\"AIOCHROMIUMSOLID\">Chromium</link>, used in the production of stainless steel and other alloys."
 msgstr "Феррохром — это сплав железа и хрома, используемый в производстве нержавеющей стали и других сплавов."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_FERROCHROME_SOLID.NAME
@@ -3473,15 +3466,14 @@ msgstr "<link=\"AIOFERROCHROMESOLID\">Феррохром</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_INVAR_SOLID.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_INVAR_SOLID.DESC"
-msgid ""
-"Invar is a nickel-iron alloy, composed of 35% <link=\"NICKEL\">Nickel</link> and 65% <link=\"IRON\">Iron</link> which is notable for its "
-"uniquely low coefficient of thermal expansion."
+msgid "Invar is a nickel-iron alloy, composed of 35% <link=\"NICKEL\">Nickel</link> and 65% <link=\"IRON\">Iron</link> which is notable for its uniquely low coefficient of thermal expansion."
 msgstr "Инвар — это никель-железный сплав, состоящий из 35% <link=\"NICKEL\">никеля</link> и 65% <link=\"IRON\">железа</link>, который отличается уникально низким коэффициентом теплового расширения."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_INVAR_SOLID.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_INVAR_SOLID.NAME"
 msgid "<link=\"AIOINVARSOLID\">Invar</link>"
 msgstr "<link=\"AIOINVARSOLID\">Инвар</link>"
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_PERMENDUR_SOLID.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_PERMENDUR_SOLID.DESC"
 msgid ""
@@ -3498,14 +3490,14 @@ msgstr "<link=\"AIOPERMENDURSOLID\">Пермендюр</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_STAINLESSSTEEL_SOLID.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_STAINLESSSTEEL_SOLID.DESC"
-msgid ""
-"Stainless Steel is an <link=\"IRON\">Iron</link> based alloy that contains <link=\"AIOCHROMIUMSOLID\">Chromium</link>, making it highly resistant to rust and corrosion."
+msgid "Stainless Steel is an <link=\"IRON\">Iron</link> based alloy that contains <link=\"AIOCHROMIUMSOLID\">Chromium</link>, making it highly resistant to rust and corrosion."
 msgstr "Нержавеющая сталь — это сплав <link=\"IRON\">железа</link> и <link=\"AIOCHROMIUMSOLID\">хрома</link> очень устойчивый к ржавчине и коррозии."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_STAINLESSSTEEL_SOLID.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AIO_STAINLESSSTEEL_SOLID.NAME"
 msgid "<link=\"AIOSTAINLESSSTEELSOLID\">Stainless Steel</link>"
 msgstr "<link=\"AIOSTAINLESSSTEELSOLID\">Нержавеющая сталь</link>"
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AMMONIAGAS.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AMMONIAGAS.DESC"
 msgid "(NH<sub>3</sub>) Ammonia is an inorganic compound of nitrogen and hydrogen. A stable binary hydride, and the simplest pnictogen hydride, ammonia is a gas with a distinct pungent smell."
@@ -4052,6 +4044,7 @@ msgstr "Дайте компьютеру команду изготовить пр
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_IRON.RECIPE_DESC_CRAFTINGTABLE"
 msgid "Instruct a duplicant to produce Simple Iron Drillbits."
 msgstr "Поручите дубликату изготовить простые железные свёрла."
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_BASIC_ITEM.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.MINING_DRILLBITS_BASIC_ITEM.DESC"
 msgid ""
@@ -4190,6 +4183,7 @@ msgstr "<link=\"AIOBIOFUEL\">Возобновляемое биотопливо</
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.AIO_BIOFUEL_DESC"
 msgid "Combustible liquid fuels made frome regenerative materials."
 msgstr "Жидкое топливо, пригодное для сжигания, изготовленное из регенерируемых материалов."
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.AIO_CARRIERGAS
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.AIO_CARRIERGAS"
 msgid "<link=\"AIOCARRIERGAS\">Carrier Gas</link>"
@@ -4313,6 +4307,7 @@ msgstr "Позволяет изготавливать <style=\"KKeyword\">про
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.MINING_SIMPLEDRILLBIT_CRAFTING.NAME"
 msgid "<style=\"KKeyword\">Simple Drillbit</style> Pattern"
 msgstr "Схема <style=\"KKeyword\">простого сверла</style>"
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_ANAEROBICDIGESTERBUFF.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_ANAEROBICDIGESTERBUFF.NAME"
 msgid "Anaerobic Digester Natgas Multiplier"
@@ -4332,6 +4327,7 @@ msgstr "Отжимной пресс - Множитель масла"
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_OILMULTIPLIER.TOOLTIP"
 msgid "Multiply the vegetable oil output amounts of the expeller press by this value."
 msgstr "Умножение объёма растительного масла, выходящего из пресса, на это значение."
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_OILPRESSREBALANCE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.BIOCHEM_OILPRESSREBALANCE.NAME"
 msgid "Expeller Press Rebalance"
@@ -4625,6 +4621,26 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.OLDREFI
 msgid "Reenables the two old Multi-Stage refineries in chemical processing"
 msgstr "Восстанавливает работу двух старых многоступенчатых нефтеперерабатывающих заводов в химической промышленности."
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.OVERRIDE_PRIMARYELEMENT_MAXSTACK.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.OVERRIDE_PRIMARYELEMENT_MAXSTACK.NAME"
+msgid "Maximum liquid/gas element stack size"
+msgstr "Максимальный объём жидкостей/газов, элементов"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.OVERRIDE_PRIMARYELEMENT_MAXSTACK.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.OVERRIDE_PRIMARYELEMENT_MAXSTACK.TOOLTIP"
+msgid ""
+"Overrides the game's internal maximum stack size value of element chunks\n"
+"This is required if you want to set reservoir capacity above 100T, as the game will otherwise cut off any mass above that limit.\n"
+"If any other mod sets a higher value, that higher value will be used instead.\n"
+"\n"
+"Requires confirming the config with \"Ok\" to affect the building editor capacity limit in the same game session."
+msgstr ""
+"Изменяет внутриигровой максимальный объём элементов\n"
+"Это необходимо, если вы хотите установить вместимость резервуара выше 100 тонн, поскольку в противном случае игра удалить объём, превышающий этот предел.\n"
+"Если какой-либо другой мод устанавливает более высокое значение, будет использовано именно это более высокое значение.\n"
+"\n"
+"Для изменения ограничения на количество объёма в редакторе зданий в рамках одной игровой сессии необходимо подтвердить конфигурацию нажатием кнопки \"ОК\"."
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVANSLEGACY_AIO_DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVANSLEGACY_AIO_DESC"
 msgid "All the mods created by Ronivan, now collected and remastered into one configurable modpack."
@@ -4665,7 +4681,8 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.BUILDINGENA
 msgid ""
 "You enabled the building by force,\n"
 "none of its source mods are marked as active."
-msgstr "Вы принудительно включили здание,\n"
+msgstr ""
+"Вы принудительно включили здание,\n"
 "ни один из его исходных модов не помечен как активный."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.BUILDINGENABLEDREASONS.NO_MODS_ACTIVE
@@ -4674,9 +4691,11 @@ msgid ""
 "Building disabled by category.\n"
 "None of the mods this building is added by are currently active.\n"
 "You can force enable it, but there is a chance it won't work properly"
-msgstr "Здание отключено по категориям.\n"
+msgstr ""
+"Здание отключено по категориям.\n"
 "В настоящее время ни один из модов, добавляющих это здание, не активен.\n"
 "Вы можете принудительно включить его, но есть вероятность, что он не будет работать должным образом."
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.BUTTONS.CLOSEBUTTON.TEXT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.BUTTONS.CLOSEBUTTON.TEXT"
 msgid "Return"
@@ -4701,6 +4720,15 @@ msgstr "Сбросить все внесенные вами изменения."
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.CAPACITYSETTINGS"
 msgid "Storage Capacity:"
 msgstr "Ёмкость хранилища:"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.CAPACITYSETTINGS_TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.CAPACITYSETTINGS_TOOLTIP"
+msgid ""
+"The upper limit of the storage is capped at {0} due to the game's maximum mass of items.\n"
+"Use the mod config option \"Maximum liquid/gas element stack size\" to increase that limit if you want to have a larger storage."
+msgstr ""
+"Верхний предел объёма хранилища ограничен значением {0} из-за максимального количества предметов, разрешённого игрой.\n"
+"Используйте параметр конфигурации мода \"Максимальный объём жидкостей/газов, элементов\", чтобы увеличить этот лимит, если вам нужен больший объём хранилища."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.ENABLEBUILDING
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.ENABLEBUILDING"
