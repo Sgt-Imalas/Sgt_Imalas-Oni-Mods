@@ -475,7 +475,8 @@ namespace RonivansLegacy_ChemicalProcessing
 							"- 45% ",FormatAsLink("Bitumen", "BITUMEN"),".\n\n" +
 
 							"The process requires ", FormatAsLink("Hydrogen", "HYDROGEN")," to buffer the reaction." +
-							"IMPORTANT: The building require all pipes ports to be connected with their respective pipes in order for it to operate."
+							"IMPORTANT: The building require all pipes ports to be connected with their respective pipes in order for it to operate."+
+							"\nCan be constructed above refinery buildings with vertical structure beams"
 						]);
 				}
 				public class CHEMICAL_PROPANEREFORMER
@@ -490,7 +491,8 @@ namespace RonivansLegacy_ChemicalProcessing
 							"- 10% ",FormatAsLink("Carbon Dioxide", "CARBONDIOXIDE")," waste\n" +
 
 							"The process require ",FormatAsLink("Steam", "STEAM")," for the operation.\n\n" +
-							"IMPORTANT: The building require all pipes ports to be connected with their respective pipes in order for it to operate."
+							"IMPORTANT: The building require all pipes ports to be connected with their respective pipes in order for it to operate."+
+							"\nCan be constructed above refinery buildings with vertical structure beams"
 						]);
 				}
 				public class CHEMICAL_RAWGASREFINERY
