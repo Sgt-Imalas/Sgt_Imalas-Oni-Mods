@@ -13,10 +13,6 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
-using static STRINGS.BUILDING.STATUSITEMS;
-using static STRINGS.ELEMENTS;
-using static STRINGS.INPUT_BINDINGS;
-using static STRINGS.UI.UNITSUFFIXES;
 
 namespace ForceFieldWallTile.Content.Scripts
 {
@@ -51,7 +47,7 @@ namespace ForceFieldWallTile.Content.Scripts
 
 		public float ShieldStrengthPercentage => ShieldStrength > 0f ? ShieldStrength / MaxStrenght : 0f;
 		public float ShieldStrength => _shieldStrength;
-		public bool ShieldActive => _shieldStrength > 0.001;
+		public bool ShieldActive => _shieldStrength > 0;
 		public float OverloadCooldown => _overloadCooldown;
 
 		public static void ClearAll()
@@ -64,11 +60,13 @@ namespace ForceFieldWallTile.Content.Scripts
 		List<string> Tintables = ["tintable_bloom", "tintable_fx", "tintable_off"];
 
 		public bool IsAltVariant = false;
+		float loadTime;
 
 		public static bool ForceFieldAt(int cell, out ForceFieldTile tile) => ShieldProjectors.TryGetValue(cell, out tile);
 
 		public override void OnSpawn()
 		{
+			loadTime = Time.time + 1f;
 			NormalWattage = Mathf.Max(NormalWattage, EnergySaverWattage);
 
 			cell = Grid.PosToCell(this);
@@ -90,14 +88,31 @@ namespace ForceFieldWallTile.Content.Scripts
 			GridNode.Strenght = _shieldStrength;
 			GridNode.MaxStrenght = MaxStrenght;
 
+			GameScheduler.Instance.Schedule("forcefieldtile refresh operational", 1.1f, (_) => ForceRefresh());
 			SetTints();
 			base.OnSpawn();
 			smi.StartSM();
 		}
 
+		void ForceRefresh()
+		{
+			if (IsOperational()) 
+			{
+				if(smi.IsInsideState(smi.sm.off))
+					smi.GoTo(smi.sm.on);
+			}
+			else
+			{
+				if(smi.IsInsideState(smi.sm.on))
+					smi.GoTo(smi.sm.off);
+			}
+		}
+
 		public static void HandleCometAt(Comet comet, int cell)
 		{
 			if (!ShieldProjectors.TryGetValue(cell, out ForceFieldTile tile))
+				return;
+			if (comet is GassyMooComet)
 				return;
 			tile.OnCometImpact(comet);
 		}
@@ -525,7 +540,7 @@ namespace ForceFieldWallTile.Content.Scripts
 		private bool IsOperational()
 		{
 			//Prevent the on load power outage from disabling the shield
-			if (Time.timeSinceLevelLoad < 0.3f)
+			if (Time.time < loadTime)
 				return ShieldActive;
 
 			return operational.IsOperational;
