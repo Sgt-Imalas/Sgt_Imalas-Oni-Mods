@@ -5,8 +5,10 @@ using rail;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
+using Unity.Jobs;
 using UnityEngine;
 using UnityEngine.Device;
 using UtilLibs;
@@ -96,15 +98,19 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 				Game.Instance.Trigger((int)GameHashes.SelectObject, temporaryTargetBuilding);
 				if (isPaused)
 					SpeedControlScreen.Instance.Pause(false);
-				Game.Instance.Subscribe((int)GameHashes.SelectObject, HandleDeselection);
+				subHandle = Game.Instance.Subscribe((int)GameHashes.SelectObject, HandleDeselection);
 			});
 		}
+		static int subHandle = -1;
 		public static void HandleDeselection(object data)
 		{
 			if (data != null && (data is GameObject target) && target == temporaryTargetBuilding)
 				return;
 
-			Game.Instance.Unsubscribe((int)GameHashes.SelectObject, HandleDeselection);
+			if(subHandle != -1)
+				Game.Instance.Unsubscribe(subHandle);
+			subHandle = -1;
+
 			var buildingSettingData = API_Methods.GetAdditionalBuildingData(temporaryTargetBuilding);
 			UnityEngine.Object.Destroy(temporaryTargetBuilding);
 			foreach (var entries in buildingSettingData)
@@ -112,7 +118,6 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 
 			TemporarySelectable = null;
 			UnderConstructionDataTransfer.SelectButtonUnlocked = true;
-
 		}
 
 
@@ -199,6 +204,41 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 						hasVisualizersInitialized = false;
 				}
 				return hasVisualizersInitialized;
+			}
+		}
+
+
+
+		[HarmonyPatch(typeof(ReceptacleSideScreen), nameof(ReceptacleSideScreen.Initialize))]
+		public class ReceptacleSideScreen_Initialize_Patch
+		{
+			/// <summary>
+			/// prevents that stupid assert in ReceptacleSideScreen.Initialize that crashes the game for no reason on preconfiguring sometimes for some people due to race conditions
+			/// </summary>
+			/// <param name="_"></param>
+			/// <param name="orig"></param>
+			/// <returns></returns>
+			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
+			{
+				var m_Assert = AccessTools.Method(typeof(Debug), nameof(Debug.Assert), [typeof(bool), typeof(object)]);
+
+				foreach (var ci in orig)
+				{
+					if(ci.Calls(m_Assert))
+					{
+						yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(ReceptacleSideScreen_Initialize_Patch), nameof(DoNotCrashThisScreenWithThatStoopidAssert)));
+					}
+					else
+						yield return ci;
+
+				}
+			}
+
+			private static void DoNotCrashThisScreenWithThatStoopidAssert(bool entityCountCorrect, object crashMsg)
+			{
+				if (entityCountCorrect)
+					return;
+				SgtLogger.warning((string)crashMsg);
 			}
 		}
 	}
