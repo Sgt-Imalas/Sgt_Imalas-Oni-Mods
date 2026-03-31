@@ -80,9 +80,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 			def.powerSaverEnergyUsage = GetWattage() / 6f;
 			def.coolingHeatKW = 0.375f * BaseFridgeMultiplier;
 			def.steadyHeatKW = 0f;
-			def.simulatedInternalHeatCapacity = 1000f;
+			//def.simulatedInternalHeatCapacity = 1000f;
 			def.simulatedInternalTemperature = 252.15f;
-			def.simulatedThermalConductivity = 10000f;
+			//def.simulatedThermalConductivity = 10000f;
 			go.AddOrGet<UserNameable>();
 			go.AddOrGet<DropAllWorkable>();
 			go.AddOrGetDef<RocketUsageRestriction.Def>().restrictOperational = false;
