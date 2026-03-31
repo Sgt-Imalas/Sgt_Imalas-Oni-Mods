@@ -1,7 +1,6 @@
 ﻿using HarmonyLib;
 using Klei.AI;
 using Rockets_TinyYetBig.Content.Scripts.StarmapEntities;
-using Rockets_TinyYetBig.SpaceStations.Construction;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,7 +17,7 @@ namespace Rockets_TinyYetBig.Patches
 			SimpleInfoScreen_OnSelectTarget_Patch.LastParent = null;
 		}
 
-		[HarmonyPatch(typeof(SimpleInfoScreen), nameof(SimpleInfoScreen.OnSelectTarget))]
+		//[HarmonyPatch(typeof(SimpleInfoScreen), nameof(SimpleInfoScreen.OnSelectTarget))]
 		public class SimpleInfoScreen_OnSelectTarget_Patch
 		{
 			public static CollapsibleDetailContentPanel StationPartPanel = null;

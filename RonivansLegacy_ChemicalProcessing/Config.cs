@@ -17,6 +17,7 @@ namespace RonivansLegacy_ChemicalProcessing
 	[ConfigFile(SharedConfigLocation: true)]
 	public class Config : SingletonOptions<Config>
 	{
+		public static bool Toxicity = false;
 		public static bool SubModEnabled(SourceModInfo mod) => ModBuildingEnabled([mod]);
 		public static bool ModBuildingEnabled(IEnumerable<SourceModInfo> buildingMods)
 		{

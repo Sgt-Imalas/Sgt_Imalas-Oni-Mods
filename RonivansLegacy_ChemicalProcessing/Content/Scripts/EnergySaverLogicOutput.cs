@@ -40,7 +40,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		void RefreshLogicPort()
 		{
 			bool currentlyEnergySaver = smi.IsInsideState(smi.sm.operational.steady);
-			SgtLogger.l("Energy Saver Logic Output: currentlyEnergySaver = " + currentlyEnergySaver);
+			//SgtLogger.l("Energy Saver Logic Output: currentlyEnergySaver = " + currentlyEnergySaver);
 			if (currentlyEnergySaver != isEnergySaverMode)
 			{
 				isEnergySaverMode = currentlyEnergySaver;
