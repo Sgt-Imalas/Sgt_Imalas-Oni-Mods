@@ -1155,8 +1155,11 @@ msgid "A small sized eletric boiler."
 msgstr "Ein kleiner elektrischer Dampfkessel."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ELECTRICBOILER.EFFECT
+#, fuzzy
+#| msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ELECTRICBOILER.EFFECT"
+#| msgid "Boils <link=\"WATER\">Water</link> to <link=\"STEAM\">Steam</link> at 106 °C. This particular boiler uses electricity."
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ELECTRICBOILER.EFFECT"
-msgid "Boils <link=\"WATER\">Water</link> to <link=\"STEAM\">Steam</link> at 106 °C. This particular boiler uses electricity."
+msgid "Boils <link=\"WATER\">Water</link> to <link=\"STEAM\">Steam</link> at 120°C. This particular boiler uses electricity."
 msgstr "Siedet <link=\"WATER\">Wasser</link> bei 120°C zu <link=\"STEAM\">Dampf</link> . Dieser Heizkessel wird mit Strom betrieben."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ELECTRICBOILER.NAME
@@ -1265,15 +1268,26 @@ msgid "An industrial petrochemical plant responsible for rearranging hydrocarbon
 msgstr "Eine petrochemische Anlage, die mittels Restrukturierung von Kohlenwasserstoffmolekülen aus Naphtha Petroleum herstellt."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_NAPHTHAREFORMER.EFFECT
+#, fuzzy
+#| msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_NAPHTHAREFORMER.EFFECT"
+#| msgid ""
+#| "This second stage refinement plant is capable of further refining <link=\"NAPHTHA\">Naphtha</link>:\n"
+#| " - 45% <link=\"PETROLEUM\">Petroleum</link>\n"
+#| "- 10% <link=\"METHANE\">Natural Gas</link>\n"
+#| "- 45% <link=\"BITUMEN\">Bitumen</link>.\n"
+#| "\n"
+#| "The process requires <link=\"HYDROGEN\">Hydrogen</link> to buffer the reaction.IMPORTANT: The building require all pipes ports to be "
+#| "connected with their respective pipes in order for it to operate."
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_NAPHTHAREFORMER.EFFECT"
 msgid ""
 "This second stage refinement plant is capable of further refining <link=\"NAPHTHA\">Naphtha</link>:\n"
-" - 45% <link=\"PETROLEUM\">Petroleum</link>\n"
+"- 45% <link=\"PETROLEUM\">Petroleum</link>\n"
 "- 10% <link=\"METHANE\">Natural Gas</link>\n"
 "- 45% <link=\"BITUMEN\">Bitumen</link>.\n"
 "\n"
 "The process requires <link=\"HYDROGEN\">Hydrogen</link> to buffer the reaction.IMPORTANT: The building require all pipes ports to be "
-"connected with their respective pipes in order for it to operate."
+"connected with their respective pipes in order for it to operate.\n"
+"Can be constructed above refinery buildings with vertical structure beams"
 msgstr ""
 "Diese Sekundäre Raffinerie kann <link=\"NAPHTHA\">Naphtha</link> weiter veredeln zu:\n"
 "- 45% <link=\"PETROLEUM\">Petroleum</link>\n"
@@ -1294,15 +1308,26 @@ msgid "An industrial petrochemical plant responsible for oxidative steam reformi
 msgstr "Eine petrochemische Anlage, die Propan durch oxidative Dämpfe in Wasserstoff umwandelt."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_PROPANEREFORMER.EFFECT
+#, fuzzy
+#| msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_PROPANEREFORMER.EFFECT"
+#| msgid ""
+#| "Reforming process of <link=\"PROPANE\">Propane</link> in to:\n"
+#| " - 60% <link=\"HYDROGEN\">Hydrogen</link>\n"
+#| "- 30% <link=\"DIRTYWATER\">Polluted Water</link> waste\n"
+#| "- 10% <link=\"CARBONDIOXIDE\">Carbon Dioxide</link> waste\n"
+#| "The process require <link=\"STEAM\">Steam</link> for the operation.\n"
+#| "\n"
+#| "IMPORTANT: The building require all pipes ports to be connected with their respective pipes in order for it to operate."
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_PROPANEREFORMER.EFFECT"
 msgid ""
 "Reforming process of <link=\"PROPANE\">Propane</link> in to:\n"
-" - 60% <link=\"HYDROGEN\">Hydrogen</link>\n"
+"- 60% <link=\"HYDROGEN\">Hydrogen</link>\n"
 "- 30% <link=\"DIRTYWATER\">Polluted Water</link> waste\n"
 "- 10% <link=\"CARBONDIOXIDE\">Carbon Dioxide</link> waste\n"
 "The process require <link=\"STEAM\">Steam</link> for the operation.\n"
 "\n"
-"IMPORTANT: The building require all pipes ports to be connected with their respective pipes in order for it to operate."
+"IMPORTANT: The building require all pipes ports to be connected with their respective pipes in order for it to operate.\n"
+"Can be constructed above refinery buildings with vertical structure beams"
 msgstr ""
 "Umwandlungsprozess von <link=\"PROPANE\">Propan</link> zu:\n"
 "- 60% <link=\"HYDROGEN\">Wasserstoff</link>\n"
@@ -2672,7 +2697,7 @@ msgstr "Eine weiße Warnleuchte."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LOGICALERTLIGHT.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LOGICALERTLIGHT.EFFECT"
-msgid "A led light that servers as alert. Produces no significant luminosity."
+msgid "A led light that serves as alert. Produces no significant luminosity."
 msgstr "Eine LED-Leuchte, die als Warnsignal dient. Sie besitzt keine nennenswerte Leuchtkraft."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LOGICALERTLIGHT.FACADES.LOGICALERTLIGHTGREEN.DESC
@@ -2718,7 +2743,7 @@ msgstr "Die Trennung von Schienensystemen hilft dabei, dass Material an die rich
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LOGISTICBRIDGE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LOGISTICBRIDGE.EFFECT"
 msgid ""
-"Runs one <link=\"SOLIDCONDUIT\">Conveyor Rail</link> section over another without joining them.\n"
+"Runs one <link=\"LOGISTICRAIL\">Logistic Rail</link> section over another without joining them.\n"
 "\n"
 "Can be run through wall and floor tile."
 msgstr ""
@@ -3112,7 +3137,7 @@ msgstr "<link=\"MONOELEMENTTILE\">Verdichteter Ziegel</link>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.PRESSUREGASPUMP.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.PRESSUREGASPUMP.DESC"
 msgid ""
-"An advanced pump that perform mechanical work to compress and move gases. More powerful than the standard pump, this one is capable of "
+"An advanced pump that performs mechanical work to compress and move gases. More powerful than the standard pump, this one is capable of "
 "moving large amounts of gases, although this is only archived through the <link=\"HIGHPRESSUREGASCONDUIT\">High Pressure Gas Pipe</link>."
 msgstr ""
 "Eine fortschrittliche Pumpe, welche mechanische Arbeit verrichtet, um Gase zu komprimieren und zu bewegen. Diese Pumpe ist "
@@ -3138,7 +3163,7 @@ msgstr "<link=\"PRESSUREGASPUMP\">Hochdruck-Gaspumpe</link>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.PRESSURELIQUIDPUMP.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.PRESSURELIQUIDPUMP.DESC"
 msgid ""
-"An advanced pump that perform mechanical work to compress and move fluids. More powerful than the standard pump, this one is capable of "
+"An advanced pump that performs mechanical work to compress and move fluids. More powerful than the standard pump, this one is capable of "
 "moving large amounts of liquids, although this is only archived through the <link=\"HIGHPRESSURELIQUIDCONDUIT\">High Pressure Liquid "
 "Pipe</link>."
 msgstr ""
@@ -3573,7 +3598,7 @@ msgstr ""
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STRUCTURETILE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STRUCTURETILE.NAME"
-msgid "<link=\"REINFORCEDCONCRETETILE\">Structure Tile</link>"
+msgid "<link=\"STRUCTURETILE\">Structure Tile</link>"
 msgstr "<link=\"STRUCTURETILE\">Strukturziegel</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WALLGASTANK.DESC
@@ -5850,6 +5875,25 @@ msgstr "Sendet ein <b><style=\"logic_on\">grünes Signal</style></b> wenn der Th
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.COOLANT_BATTERY_THRESHOLD.LOGIC_PORT_INACTIVE
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.COOLANT_BATTERY_THRESHOLD.LOGIC_PORT_INACTIVE"
+msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b>"
+msgstr "Sendet ansonsten ein <b><style=\"logic_off\">Rotes Signal</style></b>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.ENERGYSAVER_ACTIVE.LOGIC_PORT
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.ENERGYSAVER_ACTIVE.LOGIC_PORT"
+msgid "Energy Saver"
+msgstr "Energiesparmodus"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.ENERGYSAVER_ACTIVE.LOGIC_PORT_ACTIVE
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.ENERGYSAVER_ACTIVE.LOGIC_PORT_ACTIVE"
+msgid ""
+"Sends a <b><style=\"logic_on\">Green Signal</style></b> when all contents have been cooled down to the target temperature and the "
+"building has gone into energy saver mode."
+msgstr ""
+"Sendet ein <b><style=\"logic_on\">grünes Signal</style></b> wenn der gesamte Inhalt heruntergekühlt wurde und das Gebäude in den "
+"Energiesparmodus gewechselt hat."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.ENERGYSAVER_ACTIVE.LOGIC_PORT_INACTIVE
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.ENERGYSAVER_ACTIVE.LOGIC_PORT_INACTIVE"
 msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b>"
 msgstr "Sendet ansonsten ein <b><style=\"logic_off\">Rotes Signal</style></b>"
 

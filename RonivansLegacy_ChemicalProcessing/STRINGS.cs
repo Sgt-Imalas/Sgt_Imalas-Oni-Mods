@@ -475,7 +475,7 @@ namespace RonivansLegacy_ChemicalProcessing
 							"- 45% ",FormatAsLink("Bitumen", "BITUMEN"),".\n\n" +
 
 							"The process requires ", FormatAsLink("Hydrogen", "HYDROGEN")," to buffer the reaction." +
-							"IMPORTANT: The building require all pipes ports to be connected with their respective pipes in order for it to operate."+
+							"\nIMPORTANT: The building require all pipes ports to be connected with their respective pipes in order for it to operate."+
 							"\nCan be constructed above refinery buildings with vertical structure beams"
 						]);
 				}
@@ -892,7 +892,7 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = FormatAsLink("Alert LED", nameof(LOGICALERTLIGHT));
 					public static LocString DESC = "A white colored alert light.";
-					public static LocString EFFECT = "A led light that serves as alert. Produces no significant luminosity.";
+					public static LocString EFFECT = "A led light that serves as an alert. Produces no significant luminosity.";
 					public class FACADES
 					{
 						public class LOGICALERTLIGHTRED
@@ -2233,6 +2233,12 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString LOGIC_PORT = "Machine Active";
 					public static LocString LOGIC_PORT_ACTIVE = ("Sends a " + FormatAsAutomationState("Green Signal", AutomationState.Active) + " when the machine is actively producing something.");
+					public static LocString LOGIC_PORT_INACTIVE = ("Otherwise, sends a " + FormatAsAutomationState("Red Signal", AutomationState.Standby));
+				}
+				public class ENERGYSAVER_ACTIVE
+				{
+					public static LocString LOGIC_PORT = "Energy Saver";
+					public static LocString LOGIC_PORT_ACTIVE = ("Sends a " + FormatAsAutomationState("Green Signal", AutomationState.Active) + " when all contents have been cooled down to the target temperature and the building has gone into energy saver mode.");
 					public static LocString LOGIC_PORT_INACTIVE = ("Otherwise, sends a " + FormatAsAutomationState("Red Signal", AutomationState.Standby));
 				}
 			}

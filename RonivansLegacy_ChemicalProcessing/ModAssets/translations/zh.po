@@ -1037,7 +1037,7 @@ msgstr "一座小型电热蒸汽锅炉。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ELECTRICBOILER.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ELECTRICBOILER.EFFECT"
-msgid "Boils <link=\"WATER\">Water</link> to <link=\"STEAM\">Steam</link> at 120 °C. This particular boiler uses electricity."
+msgid "Boils <link=\"WATER\">Water</link> to <link=\"STEAM\">Steam</link> at 120°C. This particular boiler uses electricity."
 msgstr "将<link=\"WATER\">水</link>煮沸为 120 ℃ 的<link=\"STEAM\">蒸汽</link>。这座特定的锅炉使用电力作为热源。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ELECTRICBOILER.NAME
@@ -1137,11 +1137,12 @@ msgstr "一座工业性石油化工厂，其功能是将石脑油中的碳氢化
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_NAPHTHAREFORMER.EFFECT"
 msgid ""
 "This second stage refinement plant is capable of further refining <link=\"NAPHTHA\">Naphtha</link>:\n"
-" - 45% <link=\"PETROLEUM\">Petroleum</link>\n"
+"- 45% <link=\"PETROLEUM\">Petroleum</link>\n"
 "- 10% <link=\"METHANE\">Natural Gas</link>\n"
 "- 45% <link=\"BITUMEN\">Bitumen</link>.\n"
 "\n"
-"The process requires <link=\"HYDROGEN\">Hydrogen</link> to buffer the reaction.IMPORTANT: The building require all pipes ports to be connected with their respective pipes in order for it to operate."
+"The process requires <link=\"HYDROGEN\">Hydrogen</link> to buffer the reaction.IMPORTANT: The building require all pipes ports to be connected with their respective pipes in order for it to operate.\n"
+"Can be constructed above refinery buildings with vertical structure beams"
 msgstr ""
 "这座二级精炼厂能够进一步精炼<link=\"NAPHTHA\">石脑油</link>为：\n"
 "- 45% <link=\"PETROLEUM\">石油</link>\n"
@@ -1149,7 +1150,8 @@ msgstr ""
 "- 45% <link=\"BITUMEN\">沥青</link>。\n"
 "\n"
 "该过程需要使用<link=\"HYDROGEN\">氢气</link>来缓冲反应。\n"
-"重要提示：该建筑物要求所有管道接口都要与相应的管道相连接，这样它才能正常运行。"
+"重要提示：该建筑要求所有管道接口都与各自的管道连接，才能正常运行。\n"
+"可建于具有垂直结构梁的炼油厂建筑上方。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_NAPHTHAREFORMER.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_NAPHTHAREFORMER.NAME"
@@ -1165,12 +1167,13 @@ msgstr "一座将丙烷通过氧化蒸汽重整工艺转化为氢气的工业石
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_PROPANEREFORMER.EFFECT"
 msgid ""
 "Reforming process of <link=\"PROPANE\">Propane</link> in to:\n"
-" - 60% <link=\"HYDROGEN\">Hydrogen</link>\n"
+"- 60% <link=\"HYDROGEN\">Hydrogen</link>\n"
 "- 30% <link=\"DIRTYWATER\">Polluted Water</link> waste\n"
 "- 10% <link=\"CARBONDIOXIDE\">Carbon Dioxide</link> waste\n"
 "The process require <link=\"STEAM\">Steam</link> for the operation.\n"
 "\n"
-"IMPORTANT: The building require all pipes ports to be connected with their respective pipes in order for it to operate."
+"IMPORTANT: The building require all pipes ports to be connected with their respective pipes in order for it to operate.\n"
+"Can be constructed above refinery buildings with vertical structure beams"
 msgstr ""
 "将<link=\"PROPANE\">丙烷</link>重整转化为：\n"
 " - 60% <link=\"HYDROGEN\">氢气</link>\n"
@@ -1178,7 +1181,8 @@ msgstr ""
 " - 10% <link=\"CARBONDIOXIDE\">二氧化碳</link>（废料）\n"
 "操作需消耗<link=\"STEAM\">蒸汽</link>。\n"
 "\n"
-"重要提示： 必须连接所有管道接口才能运行。"
+"重要提示：该建筑要求所有管道接口都与各自的管道连接，才能正常运行。\n"
+"可建于具有垂直结构梁的炼油厂建筑上方。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_PROPANEREFORMER.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_PROPANEREFORMER.NAME"
@@ -1800,7 +1804,7 @@ msgstr "一种专用工业筛，通过絮凝作用使胶体颗粒脱离悬浮液
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.FLOCCULATIONSIEVE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.FLOCCULATIONSIEVE.EFFECT"
-msgid "Treat <link=\"DIRTYWATER\">Polluted Water</link> or <link=\"TOXICSLURRY\">Toxic Slurry</link> using special filter and chemicals. Sieve process also completely removes<link=\"DISEASE\">Germs</link>."
+msgid "Treat <link=\"DIRTYWATER\">Polluted Water</link> or <link=\"TOXICSLURRY\">Toxic Slurry</link> using special filter and chemicals. Sieve process also completely removes <link=\"DISEASE\">Germs</link>."
 msgstr "使用特殊滤芯与化学药剂处理<link=\"DIRTYWATER\">污染水</link>或<link=\"TOXICSLURRY\">有毒泥浆</link>。筛分过程还可以完全去除<link=\"DISEASE\">细菌</link>。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.FLOCCULATIONSIEVE.NAME
@@ -2388,7 +2392,7 @@ msgstr "白色警示灯。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LOGICALERTLIGHT.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LOGICALERTLIGHT.EFFECT"
-msgid "A led light that servers as alert. Produces no significant luminosity."
+msgid "A led light that serves as alert. Produces no significant luminosity."
 msgstr "作为警报的led灯。不产生明显的光亮。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LOGICALERTLIGHT.FACADES.LOGICALERTLIGHTGREEN.DESC
@@ -2434,11 +2438,12 @@ msgstr "将轨道系统进行分区有助于确保物资能够准确运达指定
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LOGISTICBRIDGE.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LOGISTICBRIDGE.EFFECT"
 msgid ""
-"Runs one <link=\"SOLIDCONDUIT\">Conveyor Rail</link> section over another without joining them.\n"
+"Runs one <link=\"LOGISTICRAIL\">Logistic Rail</link> section over another without joining them.\n"
 "\n"
 "Can be run through wall and floor tile."
 msgstr ""
-"让一段<link=\"SOLIDCONDUIT\">物流轨道</link>可以穿过另一端物流轨道，而不会连在一起。\n"
+"让一段<link=\"LOGISTICRAIL\">物流轨道</link>可以穿过另一端物流轨道，而不会连在一起。\n"
+"\n"
 "可穿过墙体和地面。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LOGISTICBRIDGE.NAME
@@ -2786,8 +2791,8 @@ msgstr "<link=\"MONOELEMENTTILE\">精制砖</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.PRESSUREGASPUMP.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.PRESSUREGASPUMP.DESC"
-msgid "An advanced pump that perform mechanical work to compress and move gases. More powerful than the standard pump, this one is capable of moving large amounts of gases, although this is only archived through the <link=\"HIGHPRESSUREGASCONDUIT\">High Pressure Gas Pipe</link>."
-msgstr "一种先进的泵，够通过机械作用来压缩和输送气体。比标准泵更强大，能够输送大量气体，但这一功能仅通过<link=\"HIGHPRESSUREGASCONDUIT\">高压气体管道</link>实现。"
+msgid "An advanced pump that performs mechanical work to compress and move gases. More powerful than the standard pump, this one is capable of moving large amounts of gases, although this is only archived through the <link=\"HIGHPRESSUREGASCONDUIT\">High Pressure Gas Pipe</link>."
+msgstr "一种先进的泵，能够通过机械作用来压缩和输送气体。比标准泵更强大，能够输送大量气体，但这一功能仅通过<link=\"HIGHPRESSUREGASCONDUIT\">高压气体管道</link>实现。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.PRESSUREGASPUMP.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.PRESSUREGASPUMP.EFFECT"
@@ -2807,8 +2812,8 @@ msgstr "<link=\"PRESSUREGASPUMP\">高压气泵</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.PRESSURELIQUIDPUMP.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.PRESSURELIQUIDPUMP.DESC"
-msgid "An advanced pump that perform mechanical work to compress and move fluids. More powerful than the standard pump, this one is capable of moving large amounts of liquids, although this is only archived through the <link=\"HIGHPRESSURELIQUIDCONDUIT\">High Pressure Liquid Pipe</link>."
-msgstr "一种先进的泵，够通过机械作用来压缩和输送液体。比标准泵更强大，能够输送大量液体，但这一功能仅通过<link=\"HIGHPRESSURELIQUIDCONDUIT\">高压液体管道</link>实现。"
+msgid "An advanced pump that performs mechanical work to compress and move fluids. More powerful than the standard pump, this one is capable of moving large amounts of liquids, although this is only archived through the <link=\"HIGHPRESSURELIQUIDCONDUIT\">High Pressure Liquid Pipe</link>."
+msgstr "一种先进的泵，能够通过机械作用来压缩和输送液体。比标准泵更强大，能够输送大量液体，但这一功能仅通过<link=\"HIGHPRESSURELIQUIDCONDUIT\">高压液体管道</link>实现。"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.PRESSURELIQUIDPUMP.EFFECT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.PRESSURELIQUIDPUMP.EFFECT"
@@ -3201,8 +3206,8 @@ msgstr ""
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STRUCTURETILE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.STRUCTURETILE.NAME"
-msgid "<link=\"REINFORCEDCONCRETETILE\">Structure Tile</link>"
-msgstr "<link=\"REINFORCEDCONCRETETILE\">框架砖</link>"
+msgid "<link=\"STRUCTURETILE\">Structure Tile</link>"
+msgstr "<link=\"STRUCTURETILE\">框架砖</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WALLGASTANK.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WALLGASTANK.DESC"
@@ -3323,6 +3328,22 @@ msgstr ""
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENMESHTILE.NAME"
 msgid "<link=\"WOODENMESHTILE\">Wooden Mesh Tile</link>"
 msgstr "<link=\"WOODENMESHTILE\">木制网格砖</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.MODIFIERS.AIO_NITROGENIZED.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.MODIFIERS.AIO_NITROGENIZED.NAME"
+msgid "Atmospheric Fertilization"
+msgstr "大气增肥"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.MODIFIERS.AIO_NITROGENIZED.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.MODIFIERS.AIO_NITROGENIZED.TOOLTIP"
+msgid ""
+"Consumption of atmospheric <link=\"NITROGENGAS\">Nitrogen</link> boosts the growth of this <style=\"KKeyword\">Plant</style>.\n"
+"\n"
+"Consuming Nitrogen: {0}"
+msgstr ""
+"消耗环境中的<link=\"NITROGENGAS\">氮气</link>来促进该<style=\"KKeyword\">植物</style>的生长。\n"
+"\n"
+"消耗氮气：{0}"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.AMMONIAGEYSER.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.AMMONIAGEYSER.DESC"
@@ -4265,6 +4286,16 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.RANDOMRECIPEINGREDI
 msgid "This ingredient gets used up during its use, if a recipe with it gets canceled, it is lost."
 msgstr "该成分在使用过程中会逐渐耗尽，如果包含该成分的配方被取消，那么该成分就会丢失。"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.SODAFOUNTAINGAS
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.SODAFOUNTAINGAS"
+msgid "<link=\"SODAFOUNTAINGAS\">Soda Gas</link>"
+msgstr "<link=\"SODAFOUNTAINGAS\">气态汽水</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.SODAFOUNTAINGAS_DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.SODAFOUNTAINGAS_DESC"
+msgid "Gasses that can be used by the <link=\"SODAFOUNTAIN\">Soda Fountain</link> to create a sparkling soda."
+msgstr "可用于在<link=\"SODAFOUNTAIN\">汽水机</link>制作冒泡的水的气体。"
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.BIOCHEMISTRY_RENEWABLEFUEL.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.BIOCHEMISTRY_RENEWABLEFUEL.DESC"
 msgid "A new generation of renewable fuels that can be produced from organic matter."
@@ -4370,9 +4401,24 @@ msgstr ""
 "打开建筑编辑器，可以单独切换由该模组添加的所有建筑，并更改某些设置。\n"
 "在此所做的所有更改都需要重新启动！"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARC_CAPACITOR.FORMAT
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARC_CAPACITOR.FORMAT"
+msgid "0 MJ"
+msgstr "0 兆焦"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARC_CAPACITOR.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARC_CAPACITOR.NAME"
+msgid "Arc Furnace Thermal Capacitor Size"
+msgstr "选择性电弧炉储热容量"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARC_CAPACITOR.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARC_CAPACITOR.TOOLTIP"
+msgid "The total heat capacity of the arc-furnace's internal thermal capacitor"
+msgstr "选择性电弧炉内部储热容器的总热容量。"
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARCFUDGE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARCFUDGE.NAME"
-msgid "Arc furnace  Thermal Fudge"
+msgid "Arc Furnace Thermal Fudge"
 msgstr "选择性电弧炉产热系数"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARCFUDGE.TOOLTIP
@@ -4580,6 +4626,20 @@ msgid ""
 msgstr ""
 "启用重型运输轨道的隔热版本\n"
 "开启或关闭此选项还会同时切换所有与改变轨道物品隔热状态相关的补丁，因此不建议在已有隔热轨道的游戏中将其关闭。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HPA_TEMPIMMUNE_PUMPS.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HPA_TEMPIMMUNE_PUMPS.NAME"
+msgid "Overheat Immune High-Pressure-Pumps"
+msgstr "高压泵免疫过热"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HPA_TEMPIMMUNE_PUMPS.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HPA_TEMPIMMUNE_PUMPS.TOOLTIP"
+msgid ""
+"Makes high pressure pumps immune to overheating.\n"
+"(Restores old behavior for existing save compatibility)"
+msgstr ""
+"使高压泵免疫过热。\n"
+"（恢复旧版机制以兼容现有存档）"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_RAIL_CAPACITY.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_RAIL_CAPACITY.NAME"
@@ -5233,6 +5293,21 @@ msgstr "当储热等级大于阈值时输出<b><style=\"logic_on\">绿色信号<
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.COOLANT_BATTERY_THRESHOLD.LOGIC_PORT_INACTIVE"
 msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b>"
 msgstr "否则，将会输出红色信号<b><style=\"logic_off\">红色信号</style></b>。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.ENERGYSAVER_ACTIVE.LOGIC_PORT
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.ENERGYSAVER_ACTIVE.LOGIC_PORT"
+msgid "Energy Saver"
+msgstr "节能模式"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.ENERGYSAVER_ACTIVE.LOGIC_PORT_ACTIVE
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.ENERGYSAVER_ACTIVE.LOGIC_PORT_ACTIVE"
+msgid "Sends a <b><style=\"logic_on\">Green Signal</style></b> when all contents have been cooled down to the target temperature and the building has gone into energy saver mode."
+msgstr "当所有内容都已冷却至目标温度且建筑物已进入节能模式时，发送 <b><style=\"logic_on\">绿色信号</style></b> 。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.ENERGYSAVER_ACTIVE.LOGIC_PORT_INACTIVE
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.ENERGYSAVER_ACTIVE.LOGIC_PORT_INACTIVE"
+msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b>"
+msgstr "否则，将会输出红色信号<b><style=\"logic_off\">红色信号</style></b>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.FABRICATOR_ACTIVE.LOGIC_PORT
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.FABRICATOR_ACTIVE.LOGIC_PORT"
