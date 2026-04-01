@@ -20,7 +20,7 @@ namespace ItemDropPrevention.Content.Scripts
 
 		StaminaMonitor.Instance staminaMonitor;
 		Narcolepsy narcolepsy;
-		bool hasStamina,hasNarcolepsy;
+		bool hasStamina, hasNarcolepsy;
 
 		static Dictionary<GameObject, DroppablesHolder> droppablesHolders = [];
 		HashSet<int> MarkedForDrop = [];
@@ -47,16 +47,16 @@ namespace ItemDropPrevention.Content.Scripts
 
 		bool InterruptedByCurrentChore(Chore chore)
 		{
-			if(hasStamina && staminaMonitor.IsSleeping())			
+			if (hasStamina && staminaMonitor.IsSleeping())
 				return true;
-			
-			if(hasNarcolepsy && narcolepsy.IsNarcolepsing())
+
+			if (hasNarcolepsy && narcolepsy.IsNarcolepsing())
 				return true;
 
 			if (chore == null)
 				return false;
 
-			if(chore is RecoverBreathChore)
+			if (chore is RecoverBreathChore)
 				return true;
 
 			return false;
@@ -94,18 +94,25 @@ namespace ItemDropPrevention.Content.Scripts
 				return;
 
 			///if deliverable chunks of the current chore have merged into those marked for drop, prevent them from dropping
-			if (currentChore != null && currentChore is FetchAreaChore fac)
+			if (currentChore != null)
 			{
-				var fetchInstance = fac.smi;
-				var deliverables = fetchInstance.deliverables;
-				foreach (var item in deliverables)
+				if (currentChore is FetchAreaChore fac)
 				{
-					var id = item.gameObject?.GetInstanceID();
-					if (id.HasValue)
+					var fetchInstance = fac.smi;
+					var deliverables = fetchInstance.deliverables;
+					foreach (var item in deliverables)
 					{
-						MarkItemInvisible(item.gameObject, false);
-						MarkedForDrop.Remove(id.Value);
+						var id = item.gameObject?.GetInstanceID();
+						if (id.HasValue)
+						{
+							MarkItemInvisible(item.gameObject, false);
+							MarkedForDrop.Remove(id.Value);
+						}
 					}
+				}
+				if(currentChore.choreType == Db.Get().ChoreTypes.Relocate)
+				{
+					
 				}
 			}
 			///if the workable is something in the hands of the dupe, dont drop it
@@ -159,16 +166,16 @@ namespace ItemDropPrevention.Content.Scripts
 			if (!reWrangleCritters && !sweepDroppedItems)
 				return;
 
-			if(item.IsNullOrDestroyed()) return;
+			if (item.IsNullOrDestroyed()) return;
 
-			if(item.TryGetComponent<Capturable>(out var wrangleable) && wrangleable.IsCapturable())
+			if (item.TryGetComponent<Capturable>(out var wrangleable) && wrangleable.IsCapturable())
 			{
-				if(reWrangleCritters)
+				if (reWrangleCritters)
 					wrangleable.MarkForCapture(true);
 			}
-			else if(item.TryGetComponent<Clearable>(out var markForSweep) && markForSweep.isClearable)
+			else if (item.TryGetComponent<Clearable>(out var markForSweep) && markForSweep.isClearable)
 			{
-				if(sweepDroppedItems)
+				if (sweepDroppedItems)
 					markForSweep.MarkForClear(true);
 			}
 		}
@@ -182,12 +189,12 @@ namespace ItemDropPrevention.Content.Scripts
 				if (setInvis)
 					pickupable.ClearReservations();
 			}
-			if(item.TryGetComponent<KPrefabID>(out var prefabID))
+			if (item.TryGetComponent<KPrefabID>(out var prefabID))
 			{
 				if (setInvis)
-					prefabID.AddTag(GameTags.MarkedForMove);
+					prefabID.AddTag(ModAssets.BlockedFromDoingStuff);
 				else
-					prefabID.RemoveTag(GameTags.MarkedForMove);
+					prefabID.RemoveTag(ModAssets.BlockedFromDoingStuff);
 			}
 		}
 
@@ -246,7 +253,7 @@ namespace ItemDropPrevention.Content.Scripts
 
 		internal bool IsItemMarkedForDrop(GameObject gameObject)
 		{
-			if(gameObject == null)
+			if (gameObject == null)
 				return false;
 			return MarkedForDrop.Contains(gameObject.GetInstanceID());
 		}
