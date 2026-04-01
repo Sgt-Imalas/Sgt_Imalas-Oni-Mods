@@ -201,7 +201,6 @@
 					    Ionic.Zip.dll;
 					    Newtonsoft.Json.dll;
 					    com.rlabrecque.steamworks.net.dll;
-					    netstandard.dll
 					    " />
 		<RefAssemblies Include="../PublicisedAssembly/*.dll; @(GameRefAssemblies->'$(GameLibsFolder)\%(Identity)')" />
 	</ItemGroup>
