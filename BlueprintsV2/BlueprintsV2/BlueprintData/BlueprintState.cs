@@ -63,6 +63,10 @@ namespace BlueprintsV2.BlueprintData
 			bool storeDigCommandForNonSolidCells = filter != null && filter.AllowedToFilter(BlueprintCreationFilterKeys.NonSolidDigCommandssOptionID);
 			bool collectNotes = filter != null && filter.AllowedToFilter(BlueprintCreationFilterKeys.Collect_Notes_ID);
 			bool collectPlanShapes = filter != null && filter.AllowedToFilter(BlueprintCreationFilterKeys.PlanningToolMod_ShapesID);
+			if (createsSnapshot)
+				SgtLogger.l("Capturing Snapshot with settings: " + $"storeDigCommandForNonSolidCells: {storeDigCommandForNonSolidCells}, collectNotes: {collectNotes}, collectPlanShapes: {collectPlanShapes}");
+			else
+				SgtLogger.l("Capturing Blueprint with settings: " + $"storeDigCommandForNonSolidCells: {storeDigCommandForNonSolidCells}, collectNotes: {collectNotes}, collectPlanShapes: {collectPlanShapes}");
 
 			for (int x = topLeft.x; x <= bottomRight.x; ++x)
 			{
@@ -160,18 +164,22 @@ namespace BlueprintsV2.BlueprintData
 							blueprint.PlanningToolMod_PlanDataValues[cellOffsetInBlueprint] = new Tuple<PlanShape, PlanColor>(shape, color);
 						}
 						var existingBpNote = Grid.Objects[cell, (int)ModAssets.BlueprintNotesLayer];
-						if(collectNotes && existingBpNote != null && existingBpNote.TryGetComponent<BlueprintNote>(out var note))
+						if (collectNotes && existingBpNote != null && existingBpNote.TryGetComponent<BlueprintNote>(out var note))
 						{
+							SgtLogger.l("found note at cell " + cell + " with title: " + note.name);
 							var data = note.GetNoteData(cellOffsetInBlueprint);
 							if (data.IsValid())
 							{
 								blueprint.WorldNotes[cellOffsetInBlueprint] = (data);
 							}
-						} 
+							else
+								SgtLogger.l("data was invalid for note at cell " + cell + " with title: " + note.name);
+
+						}
 						else if (!solidTileDefInCell && filter.AllowedElementState(Grid.Element[cell].state))
 						{
 							var data = BlueprintNoteData.CreateElementNote(cellOffsetInBlueprint, Grid.Element[cell].id, Grid.Mass[cell], Grid.Temperature[cell]);
-							if(data.IsValid())
+							if (data.IsValid())
 							{
 								blueprint.WorldNotes[cellOffsetInBlueprint] = data;
 							}
@@ -180,11 +188,10 @@ namespace BlueprintsV2.BlueprintData
 				}
 			}
 			//empty blueprint that caught some gas/liquid pockets, clear to not spam quasi empty blueprints
-			if (!createsSnapshot && blueprint.BuildingConfigurations.Count == 0 && blueprint.WorldNotes.Count == 0 || blueprint.PlanningToolMod_PlanDataValues.Count == 0 && blueprint.DigLocations.Any())
+			if (!createsSnapshot && blueprint.BuildingConfigurations.Count == 0 && 
+				blueprint.WorldNotes.Count == 0 && blueprint.PlanningToolMod_PlanDataValues.Count == 0  && blueprint.DigLocations.Any())
 			{
 				blueprint.DigLocations.Clear();
-				blueprint.WorldNotes.Clear();
-				blueprint.PlanningToolMod_PlanDataValues.Clear();
 			}
 
 			blueprint.CacheCost();
