@@ -385,7 +385,6 @@ namespace Rockets_TinyYetBig.Patches
 						}
 					}
 				}
-				__result *= 100f;
 				//SgtLogger.l("EnginePower " + __result);
 			}
 		}
