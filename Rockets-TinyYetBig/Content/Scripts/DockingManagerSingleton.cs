@@ -109,9 +109,9 @@ namespace Rockets_TinyYetBig.Docking
 
 		public void RegisterSpacecraftHandler(DockingSpacecraftHandler handler)
 		{
-			if (!DockingSpacecraftHandlers.Contains(handler))
+			if (!DockingSpacecraftHandlers.Contains(handler) && handler.WorldId != -1)
 			{
-				SgtLogger.l("registering spacecraft docking handler for " + handler.GetProperName());
+				SgtLogger.l("registering spacecraft docking handler for " + handler.GetProperName() + ", world id: " + handler.WorldId);
 				DockingSpacecraftHandlers.Add(handler);
 				WorldToDockingSpacecraftHandlers.Add(handler.WorldId, handler);
 
@@ -134,10 +134,14 @@ namespace Rockets_TinyYetBig.Docking
 		{
 			if (DockingSpacecraftHandlers.Contains(handler))
 			{
-				SgtLogger.l("unregistering spacecraft docking handler for " + handler.GetProperName());
+				SgtLogger.l("unregistering spacecraft docking handler for " + handler.GetProperName() + ", world id: " + handler.WorldId);
 				DockingSpacecraftHandlers.Remove(handler);
-				WorldToDockingSpacecraftHandlers.Remove(handler.WorldId);
-				RemoveToStationDock(handler.WorldId);
+				int worldId = handler.WorldId;
+				if (worldId != -1)
+				{
+					WorldToDockingSpacecraftHandlers.Remove(worldId);
+					RemoveToStationDock(worldId);
+				}
 
 				if (handler.CraftType == DockingSpacecraftHandler.DockableType.Rocket)
 				{

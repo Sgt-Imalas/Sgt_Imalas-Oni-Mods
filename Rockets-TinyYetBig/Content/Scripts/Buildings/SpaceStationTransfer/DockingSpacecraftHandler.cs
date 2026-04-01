@@ -50,7 +50,8 @@ namespace Rockets_TinyYetBig.Docking
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
-			DockingManagerSingleton.Instance.RegisterSpacecraftHandler(this);
+			if(WorldId != -1)
+				DockingManagerSingleton.Instance.RegisterSpacecraftHandler(this);
 			if (clustercraft is SpaceStation)
 				Type = DockableType.SpaceStation;
 			if (clustercraft is DerelictStation)
@@ -67,6 +68,10 @@ namespace Rockets_TinyYetBig.Docking
 		void OnRocketModulesChanged(object _)
 		{
 			world = GetComponent<WorldContainer>();
+			if(world == null)
+				DockingManagerSingleton.Instance.UnregisterSpacecraftHander(this);
+			else
+				DockingManagerSingleton.Instance.RegisterSpacecraftHandler(this);
 		}
 
 		void OnClusterDestinationChanged(object boxed)

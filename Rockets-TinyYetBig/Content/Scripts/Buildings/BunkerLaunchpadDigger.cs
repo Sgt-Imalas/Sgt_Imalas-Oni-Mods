@@ -30,7 +30,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings
 
 		public override void OnSpawn()
 		{
-			SoundUtils.DumpAllGetSounds();
+			//SoundUtils.DumpAllGetSounds();
 			InitializeDetectionCells();
 			InitializeSawbladeVis();
 			smi.StartSM();
