@@ -205,8 +205,14 @@ namespace PaintYourPipes
 		[HarmonyPatch(typeof(CopyBuildingSettings), nameof(CopyBuildingSettings.ApplyCopy))]
 		public static class ApplyCopy_Color
 		{
-			public static void Postfix(ref bool __result, int targetCell, GameObject sourceGameObject)
+			public static void Postfix(ref bool __result, KPrefabID other_id, GameObject sourceGameObject)
 			{
+				if (other_id == null)
+					return;
+				int targetCell = other_id.NaturalBuildingCell();
+				if (!Grid.IsValidBuildingCell(targetCell))
+					return;
+
 				if (sourceGameObject.TryGetComponent<ColorableConduit>(out var sourcebuilding))
 				{
 					if (ColorableConduit.TryGetColorable(targetCell, sourcebuilding, out ColorableConduit targetConduit))
