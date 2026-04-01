@@ -16,7 +16,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		// Credit: Heinermann (Blood mod)
 		public static class EnumPatch
 		{
-			[HarmonyPatch(typeof(Enum), "ToString", [])]
+			[HarmonyPatch(typeof(Enum), "ToString", new Type[] {  })]
 			public class SimHashes_ToString_Patch
 			{
 				public static bool Prefix(ref Enum __instance, ref string __result) => SgtElementUtil.SimHashToString_EnumPatch(__instance, ref __result);

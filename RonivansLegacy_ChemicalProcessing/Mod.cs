@@ -30,10 +30,8 @@ namespace RonivansLegacy_ChemicalProcessing
 			new POptions().RegisterOptions(this, typeof(Config));
 			HarmonyInstance = harmony;
 
-			base.OnLoad(harmony);
-
 			SgtLogger.LogVersion(this, harmony);
-
+			base.OnLoad(harmony);
 			SgtLogger.log("Current Config Settings:");
 			UtilMethods.ListAllPropertyValues(Config.Instance,(s)=>s.Contains("System.Action"));
 
