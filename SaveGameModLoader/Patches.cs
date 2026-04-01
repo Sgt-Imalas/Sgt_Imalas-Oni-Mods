@@ -9,6 +9,7 @@ using SaveGameModLoader.Patches;
 using SaveGameModLoader.UIComponents;
 using Steamworks;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -783,7 +784,15 @@ namespace SaveGameModLoader
 				ModlistManager.Instance.ParentObjectRef = __instance.gameObject;
 				var SaveGameName = button.transform.Find("SaveNameText").gameObject;
 				UnityEngine.Object.Destroy(SaveGameName);
-				bt.SetActive(__instance.Button_ResumeGame.isActiveAndEnabled);
+
+
+				IEnumerator DelayedActivationCheck()
+				{
+					yield return null;
+					bt.SetActive(__instance.Button_ResumeGame.isActiveAndEnabled);
+				};
+
+				__instance.StartCoroutine(DelayedActivationCheck());			
 
 			}
 		}
