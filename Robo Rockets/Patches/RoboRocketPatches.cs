@@ -102,7 +102,7 @@ namespace RoboRockets
 		{			
 			public static bool Prefix(GameObject target, ref bool __result)
 			{
-				if (target.TryGetComponent<PassengerRocketModule>(out var passengerRocketModule) && passengerRocketModule is AIPassengerModule)
+				if (target.TryGetComponent<AIPassengerModule>(out _))
 				{
 					__result = false;
 					return false;
@@ -118,7 +118,7 @@ namespace RoboRockets
 		{
 			public static bool Prefix(GameObject target, ref bool __result)
 			{
-				if (target.TryGetComponent<PassengerRocketModule>(out var passengerRocketModule) && passengerRocketModule is AIPassengerModule)
+				if (target.TryGetComponent<AIPassengerModule>(out _))
 				{
 					__result = false;
 					return false;

@@ -26,10 +26,15 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		{
 			base.OnSpawn();
 			Options = RadEmissions.Keys.ToList();
+			RefreshSelectedRads();
 		}
 		protected override void OverrideDeliveryRequest()
 		{
 			base.OverrideDeliveryRequest();
+			RefreshSelectedRads();
+		}
+		void RefreshSelectedRads()
+		{
 			if (RadEmissions.TryGetValue(manualDelivery.RequestedItemTag, out float rads))
 			{
 				SgtLogger.l("Setting Emission to " + rads + " for " + manualDelivery.RequestedItemTag);

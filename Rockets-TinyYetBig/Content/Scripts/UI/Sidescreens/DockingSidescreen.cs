@@ -1,4 +1,5 @@
 ﻿using Rockets_TinyYetBig.Behaviours;
+using Rockets_TinyYetBig.Content.Scripts.UI.UIComponents;
 using Rockets_TinyYetBig.Docking;
 using System;
 using System.Collections.Generic;
@@ -266,47 +267,43 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
         private void AddRowEntry(DockingSpacecraftHandler referencedManager, bool startActive = true)
         {
             GameObject RowEntry = Util.KInstantiateUI(rowPrefab, listContainer);
-            ///ListAllChildren(RowEntry.transform);
-            RowEntry.name = referencedManager.GetProperName();
-            RowEntry.transform.Find("Row1/TitleText").gameObject.GetComponent<LocText>().SetText(referencedManager.GetProperName());
-            RowEntry.transform.Find("Row1/SpaceCraftIcon/Image").GetComponent<Image>().sprite = referencedManager.GetDockingIcon();
+            var cmp = RowEntry.AddOrGet<DockingHandlerEntry>();
+            cmp.Target = referencedManager;
+			///ListAllChildren(RowEntry.transform);
+			RowEntry.SetActive(true);
 
 
+			RowEntry.name = referencedManager.GetProperName();
             Debug.Assert(!DockingTargets.ContainsKey(referencedManager), "Adding two of the same DockingManager to DockingSideScreen UI: " + referencedManager.gameObject.GetProperName());
-
-            var DockButton = RowEntry.transform.Find("Row1/Dock").gameObject.AddComponent<FButton>();
-            var UndockButton = RowEntry.transform.Find("Row1/Undock").gameObject.AddComponent<FButton>();
-            var TransferButton = RowEntry.transform.Find("Row2/TransferButton").gameObject.AddComponent<FButton>();
-            var ViewDockedButton = RowEntry.transform.Find("Row2/ViewDockedButton").gameObject.AddComponent<FButton>();
 
             var SpaceShipIconRotatabe = RowEntry.transform.Find("Row1/WaitContainer/loading").rectTransform();
             SpaceShipIconRotatabe.gameObject.SetActive(false);
 
             Rotatings[referencedManager] = SpaceShipIconRotatabe;
 
-            DockButton.OnClick += () =>
+			cmp.DockClicked = () =>
             {
                 ClearSecondarySideScreen();
                 ToggleDockingProcess(referencedManager);
                 Refresh();
             };
 
-            UndockButton.OnClick += () =>
+			cmp.UndockClicked += () =>
             {
                 ClearSecondarySideScreen();
                 ToggleUndockingProcess(referencedManager);
                 Refresh();
             };
-            TransferButton.OnClick += () =>
+			cmp.TransferClicked += () =>
             {
                 ToggleCrewScreen(referencedManager);
             };
 
-            ViewDockedButton.OnClick += () =>
+			cmp.ViewOtherClicked += () =>
             {
                 if (referencedManager != null && DockingManagerSingleton.Instance.HandlersConnected(referencedManager, targetSpacecraftHandler, out var firstDock, out var secondDock))
                 {
-                    ViewDockedButton.SetInteractable(secondDock.HasDupeTeleporter);
+					cmp.ViewOther.SetInteractable(secondDock.HasDupeTeleporter);
                     ClusterManager.Instance.SetActiveWorld(firstDock.WorldId);
                     SelectTool.Instance.Activate();
                 }
@@ -337,7 +334,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 
                 if (manager == targetSpacecraftHandler)
                 {
-                    SgtLogger.l(kvp.Key.GetProperName() + " was target, skipping");
+                   // SgtLogger.l(kvp.Key.GetProperName() + " was target, skipping");
                     kvp.Value.SetActive(false);
                     // SgtLogger.l("1");
                     continue;

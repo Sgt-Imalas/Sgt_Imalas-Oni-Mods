@@ -31,6 +31,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
 			BuildingNameLocText.SetText(def.Name);
 			BuildingName = def.Name;
 		}
+	
 
 		public override void OnPrefabInit()
 		{
@@ -38,6 +39,12 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
 			BuildingNameLocText = transform.Find("Descriptor/Label").gameObject.GetComponent<LocText>();
 			BuildingCount = transform.Find("Descriptor/Output").gameObject.GetComponent<LocText>();
 			BuildingIcon = transform.Find("BuildingIcon").gameObject.GetComponent<Image>();
+		}
+		public override void OnSpawn()
+		{
+			base.OnSpawn();
+			if(!BuildingName.IsNullOrWhiteSpace())
+				BuildingNameLocText.SetText(BuildingName);
 		}
 	}
 }

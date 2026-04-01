@@ -7,13 +7,11 @@ using RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabricators
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Configuration;
 using System.Text;
 using System.Threading.Tasks;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
-using static LogicGateBase;
 using static RonivansLegacy_ChemicalProcessing.STRINGS;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS;
 

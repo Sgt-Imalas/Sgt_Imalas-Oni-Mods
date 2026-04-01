@@ -69,6 +69,8 @@ namespace SettingsSyncGroups.UI
 		}
 		internal void SetOpenedFrom(SyncGroupCarrier targetComponent)
 		{
+			if (targetComponent == null)
+				return;
 			Target = targetComponent; 
 			SetEmptyRow();
 			CurrentTagEntries = Target.GetCurrentlyExistingGroups();

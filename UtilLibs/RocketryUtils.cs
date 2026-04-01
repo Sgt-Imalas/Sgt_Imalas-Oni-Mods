@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using TUNING;
 using static ProcessCondition;
+using static ResearchTypes;
 
 namespace UtilLibs
 {
@@ -397,6 +398,14 @@ namespace UtilLibs
 				}
 				conditions.RemoveAll(toRemove.Contains);
 			}
+		}
+
+		public static void SelectStarmapEntity(ClusterGridEntity target)
+		{
+			if (ClusterMapScreen.Instance != null && !ClusterMapScreen.Instance.gameObject.activeSelf && ManagementMenu.Instance != null)
+				ManagementMenu.Instance.ToggleClusterMap();
+
+			ClusterMapScreen.Instance.SetTargetFocusPosition(target.Location, 0);
 		}
 	}
 }

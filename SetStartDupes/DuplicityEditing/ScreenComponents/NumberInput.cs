@@ -29,16 +29,22 @@ namespace SetStartDupes.DuplicityEditing.ScreenComponents
 			}
 
 			label = transform.Find("Label").GetComponent<LocText>();
-			label.SetText(Text);
 
 			placeholder = transform.Find("Input/TextArea/Placeholder").GetComponent<LocText>();
-			placeholder.SetText(PlaceholderText);
 
 			increase = transform.Find("Plus").FindOrAddComponent<FButton>();
 			increase.OnClick += IncreaseClicked;
 			decrease = transform.Find("Minus").FindOrAddComponent<FButton>();
 			decrease.OnClick += DecreaseClicked;
 		}
+
+		public override void OnSpawn()
+		{
+			base.OnSpawn();
+			label.SetText(Text);
+			placeholder.SetText(PlaceholderText);
+		}
+
 		void InputListener(string text)
 		{
 			if (OnInputChanged != null)

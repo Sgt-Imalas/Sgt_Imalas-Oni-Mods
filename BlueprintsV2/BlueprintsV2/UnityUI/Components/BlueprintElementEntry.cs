@@ -34,7 +34,8 @@ namespace BlueprintsV2.UnityUI.Components
 			SetSelected(true);
 		}
 		static bool init = false;
-		public override void OnPrefabInit()
+
+		void Init()
 		{
 			if (!init)
 			{
@@ -54,6 +55,9 @@ namespace BlueprintsV2.UnityUI.Components
 
 			button = gameObject.AddOrGet<FToggleButton>();
 
+		}
+		void SetCategoryData()
+		{
 			if (SelectedAndCategory != null)
 			{
 				button.OnClick += OnClick;
@@ -112,11 +116,17 @@ namespace BlueprintsV2.UnityUI.Components
 				SetWarningIndicatorLevel(0);
 				Refresh(null);
 			}
+		}
 
+		public override void OnPrefabInit()
+		{
+			base.OnPrefabInit();
+			Init();
 		}
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
+			SetCategoryData();
 		}
 
 		void SetElementNameText(string elementName)

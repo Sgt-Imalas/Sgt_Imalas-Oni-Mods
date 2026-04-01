@@ -30,7 +30,7 @@ namespace PoisNotIncluded
 		///next time use a builder pattern from the start
 		///like the one in BuildingCreator.. thats not even finished yet...
 		///
-		public static bool TryMakeDefFromGravitasEntity(string entityID, BuildLocationRule rule, Tuple<int, int> dimensionOverride, out BuildingDef def, out string prefabID, string animOverride, bool brokenNameAdd, bool decorNameAdd)
+		public static bool TryMakeDefFromGravitasEntity(string entityID, BuildLocationRule rule, Tuple<int, int> dimensionOverride, out BuildingDef def, out string prefabID, string animOverride, bool brokenNameAdd, bool decorNameAdd, bool decorNameAffectsId = true, string customIdAdd = "")
 		{
 			prefabID = GeneratedIdPrefix + entityID;
 			if (animOverride != null)
@@ -76,8 +76,12 @@ namespace PoisNotIncluded
 			else if (decorNameAdd)
 			{
 				name += " (" + STRINGS.DUPLICANTS.ATTRIBUTES.DECOR.NAME + ")";
-				prefabID += DECONAME_Suffix;
+				if(decorNameAffectsId)
+					prefabID += DECONAME_Suffix;
 			}
+
+			if (customIdAdd.Any())
+				prefabID += customIdAdd;
 
 			string upperPrefabID = prefabID.ToUpperInvariant();
 			Strings.Add($"STRINGS.BUILDINGS.PREFABS.{upperPrefabID}.NAME", name);
@@ -136,7 +140,7 @@ namespace PoisNotIncluded
 			return true;
 		}
 
-		public static BuildingDef MakeBuildingDef(string id, int width, int height, float[] cost, string[] mats, string kanim, string init, BuildLocationRule rule )
+		public static BuildingDef MakeBuildingDef(string id, int width, int height, float[] cost, string[] mats, string kanim, string init, BuildLocationRule rule)
 		{
 			BuildingDef def;
 			int decor = Math.Max(width, height) * 5;
@@ -155,12 +159,12 @@ namespace PoisNotIncluded
 
 
 		public static bool TryRegisterDynamicGravitasBuilding_Ceiling(string entityId, string subcat, Tuple<int, int> dimensionOverride = null, string animName = null) => TryRegisterDynamicGravitasBuilding(entityId, subcat, BuildLocationRule.OnCeiling, dimensionOverride, animOverride: animName);
-		public static bool TryRegisterDynamicGravitasBuilding_Floor(string entityId, string subcat, Tuple<int, int> dimensionOverride = null, string animName = null) => TryRegisterDynamicGravitasBuilding(entityId, subcat, BuildLocationRule.OnFloor, dimensionOverride, animOverride: animName);
+		public static bool TryRegisterDynamicGravitasBuilding_Floor(string entityId, string subcat, Tuple<int, int> dimensionOverride = null, string animName = null, bool decorrName = false, bool decorNameAffectsId = true) => TryRegisterDynamicGravitasBuilding(entityId, subcat, BuildLocationRule.OnFloor, dimensionOverride, animOverride: animName, decorName: decorrName, decorNameAffectsId: decorNameAffectsId);
 		public static bool TryRegisterDynamicGravitasBuilding_Backwall(string entityId, string subcat, Tuple<int, int> dimensionOverride = null) => TryRegisterDynamicGravitasBuilding(entityId, subcat, BuildLocationRule.NotInTiles, dimensionOverride, true);
 
 		public static bool TryRegisterDynamicGravitasBuilding_Lamp(string startId, string anim, Tuple<string, string> off_on_Anims, string name, string desc, int width, int height, string[] mats, float[] costs, int wattage, int lux, int luxRange, Vector2 lightOffset, CellOffset PowerOffset, LightShape shape)
 		{
-			string prefabID = GeneratedIdPrefix + LAEMP_Prefix+ startId;
+			string prefabID = GeneratedIdPrefix + LAEMP_Prefix + startId;
 			string upperPrefabID = prefabID.ToUpperInvariant();
 			var buildingDef = MakeBuildingDef(prefabID, width, height, costs, mats, anim, off_on_Anims.first, BuildLocationRule.OnCeiling);
 
@@ -170,7 +174,7 @@ namespace PoisNotIncluded
 			buildingDef.RequiresPowerInput = true;
 			buildingDef.AddLogicPowerPort = true;
 			buildingDef.EnergyConsumptionWhenActive = wattage;
-			buildingDef.SelfHeatKilowattsWhenActive = Mathf.Clamp(((float)wattage) / 60f, 0.5f,6f);
+			buildingDef.SelfHeatKilowattsWhenActive = Mathf.Clamp(((float)wattage) / 60f, 0.5f, 6f);
 			buildingDef.ViewMode = OverlayModes.Light.ID;
 			buildingDef.AudioCategory = "Metal";
 
@@ -213,7 +217,7 @@ namespace PoisNotIncluded
 			//config.DoPostConfigureUnderConstruction(buildingDef.BuildingUnderConstruction);
 
 
-			AddToGame(buildingDef, prefabID,GameStrings.PlanMenuSubcategory.Lights);
+			AddToGame(buildingDef, prefabID, GameStrings.PlanMenuSubcategory.Lights);
 
 			return true;
 		}
@@ -276,11 +280,47 @@ namespace PoisNotIncluded
 				buildingDef.BuildingComplete.AddOrGet<AnimSelector>().AvailableAnimNames = altAnims;
 
 		}
+		public static bool TryRegisterDynamicGravitasBuilding_Locker(string entityId, string subcategory, BuildLocationRule rule = BuildLocationRule.OnFloor, Tuple<int, int> dimensionOverride = null, string animOverride = null, bool brokenName = false, string[] materialOverride = null, float[] costOverride = null, bool decorName = false, float storageCapacity = 20000f)
+		{
+			if (materialOverride == null) materialOverride = TUNING.MATERIALS.RAW_MINERALS_OR_METALS;
+			if (costOverride == null) costOverride = TUNING.BUILDINGS.CONSTRUCTION_MASS_KG.TIER4;
 
-		public static bool TryRegisterDynamicGravitasBuilding(string entityId, string subcategory, BuildLocationRule rule = BuildLocationRule.NotInTiles, Tuple<int, int> dimensionOverride = null, bool backwall = false, string animOverride = null, bool brokenName = false, bool isEntitySpawner = false, string[] materialOverride = null, float[] costOverride = null, bool decorName = false, string[] altAnims = null)
+
+			if (!TryMakeDefFromGravitasEntity(entityId, rule, dimensionOverride, out BuildingDef buildingDef, out string prefabId, animOverride, brokenName, decorName, false,"_Locker"))
+			{
+				return false;
+			}
+
+			if (materialOverride != null)
+				buildingDef.MaterialCategory = materialOverride;
+			if (costOverride != null)
+				buildingDef.Mass = costOverride;
+
+			RegisterDef(buildingDef, subcategory, rule);
+
+			var go = buildingDef.BuildingComplete;
+			Prioritizable.AddRef(go);
+			go.AddOrGet<Automatable>();
+			Storage storage = go.AddOrGet<Storage>();
+			storage.SetDefaultStoredItemModifiers(Storage.StandardInsulatedStorage);
+			storage.showInUI = true;
+			storage.allowItemRemoval = true;
+			storage.showDescriptor = true;
+			storage.storageFilters = STORAGEFILTERS.NOT_EDIBLE_SOLIDS;
+			storage.storageFullMargin = STORAGE.STORAGE_LOCKER_FILLED_MARGIN;
+			storage.fetchCategory = Storage.FetchCategory.GeneralStorage;
+			storage.showCapacityStatusItem = true;
+			storage.showCapacityAsMainStatus = true;
+			storage.capacityKg = storageCapacity;
+			go.AddOrGet<CopyBuildingSettings>().copyGroupTag = GameTags.StorageLocker;
+			go.AddOrGet<StorageLocker>();
+
+			return true;
+		}
+		public static bool TryRegisterDynamicGravitasBuilding(string entityId, string subcategory, BuildLocationRule rule = BuildLocationRule.NotInTiles, Tuple<int, int> dimensionOverride = null, bool backwall = false, string animOverride = null, bool brokenName = false, bool isEntitySpawner = false, string[] materialOverride = null, float[] costOverride = null, bool decorName = false, string[] altAnims = null, bool decorNameAffectsId = true)
 		{
 
-			if (!TryMakeDefFromGravitasEntity(entityId, rule, dimensionOverride, out BuildingDef buildingDef, out string prefabId, animOverride, brokenName, decorName))
+			if (!TryMakeDefFromGravitasEntity(entityId, rule, dimensionOverride, out BuildingDef buildingDef, out string prefabId, animOverride, brokenName, decorName, decorNameAffectsId))
 			{
 				return false;
 			}
@@ -299,7 +339,7 @@ namespace PoisNotIncluded
 
 			if (isEntitySpawner)
 				buildingDef.BuildingComplete.AddOrGet<EntitySpawner>().EntityToSpawn = entityId;
-			if(altAnims != null)
+			if (altAnims != null)
 				buildingDef.BuildingComplete.AddOrGet<AnimSelector>().AvailableAnimNames = altAnims;
 			return true;
 		}

@@ -573,7 +573,6 @@ namespace SaveGameModLoader
 
 		void AutoLoadOnRestart()
 		{
-
 			if (ActiveSave != string.Empty)
 				KPlayerPrefs.SetString("AutoResumeSaveFile", ActiveSave);
 			ActiveSave = string.Empty;

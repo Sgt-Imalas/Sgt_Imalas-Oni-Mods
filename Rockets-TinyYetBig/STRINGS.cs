@@ -85,6 +85,7 @@ namespace Rockets_TinyYetBig
 				public static LocString RTB_OXIDIZEREFFICIENCY_6 = "Oxidizer Efficiency 6";
 
 				public static LocString KATAIRITE = global::STRINGS.ELEMENTS.KATAIRITE.NAME;
+				public static LocString RTB_ATTACHMENTSLOTSTATIONPARTS = "Orbital Construction Module mounting point";
 			}
 
 		}
@@ -205,6 +206,14 @@ namespace Rockets_TinyYetBig
 			}
 		}
 
+		public class ENTITIES
+		{
+			public class DERELICTSTATION
+			{
+				public static LocString NAMEPRREFIX = "Derelict: ";
+				public static LocString DESCPREFIX = "The derelict remains of an old station, bearing some long lost secrets.\n\n";
+			}
+		}
 
 		public class BUILDINGS
 		{
@@ -258,8 +267,15 @@ namespace Rockets_TinyYetBig
 					public static LocString LOGIC_PORT_ARTIFACT = "POI has Artifact";
 					public static LocString LOGIC_PORT_ARTIFACT_ACTIVE = ("Sends a " + FormatAsAutomationState("Green Signal", AutomationState.Active) + " when the targeted POI has an artifact");
 					public static LocString LOGIC_PORT_ARTIFACT_INACTIVE = ("Otherwise, sends a " + FormatAsAutomationState("Red Signal", AutomationState.Standby));
-
-
+					public class MODESWITCH
+					{
+						public static LocString HARVESTABLE_ONLY = "Mode: Drillable Resources only";
+						public static LocString HARVESTABLE_ONLY_TOOLTIP = "Only include resources of the POI that require drilling";
+						public static LocString FLOATING_ONLY = "Mode: Collectable Resources only";
+						public static LocString FLOATING_ONLY_TOOLTIP = "Only include collectable resources that do not require a drillcone.";
+						public static LocString ALL = "Mode: All Resources";
+						public static LocString ALL_TOOLTIP = "Include both freely collectable resources and those that require drilling.";
+					}
 				}
 
 				public class RTB_FRIDGEMODULEACCESSHATCH
@@ -716,17 +732,32 @@ namespace Rockets_TinyYetBig
 					public static LocString DOCKEDINFO = "\n • {0}";
 					public static LocString MULTIPLES = "multiple crafts";
 				}
+				public class RTB_PENDINGSTATIONPARTDECONSTRUCTION
+				{
+					public static LocString NAME = "Part Deconstruction Errand";
+					public static LocString TOOLTIP = "Stored station part will be deconstructed once a Duplicant is available";
+				}
 			}
 		}
 
 		public class UI
 		{
+			public static class RTB_DISMANTLESTATIONPART
+			{
+				public static LocString LABEL = "Deconstruct stored part";
+				public static LocString TOOLTIP = "Dismantle the currently stored space station part back into its construction materials.";
+
+			}
+			public static class RTB_DERELICTDISCOVERED
+			{
+				public static LocString NAME = "Derelict Station Discovered!";
+				public static LocString TOOLTIP = "Amazing!\n\nMy Duplicants have discovered an abandoned derelict floating in space.\n\nI should send a space mission to investigate it.";
+			}
 			public static LocString PRODUCTINFO_SPACE_STATION_INTERIOR = "Space station interior only";
 			public static LocString PRODUCTINFO_SPACE_STATION_NOT_INTERIOR = "Cannot build inside space station";
 			public class RTB_RESEACH_UNLOCK
 			{
 				public static LocString TEXT = "Eureka! We've decrypted the abandoned station computer's salvageable data.\n\nWe now have the ability to construct habitat stations in the vast emptyness of space!\n\nNew Research has become available.";
-				
 			}
 
 			public static LocString TOOLTIP_ADDON_RTB = UIUtils.ColorText(UIUtils.EmboldenText("Rocketry Expanded"), "a0a0a0") + " Content"; //light grey
@@ -939,9 +970,11 @@ namespace Rockets_TinyYetBig
 				public class SPACESTATIONSIDESCREEN
 				{
 					public static LocString VIEW_WORLD_TOOLTIP = "View Space Station Interior";
+					public static LocString VIEW_DERELICT_TOOLTIP = "View Oversee Derelict Interior";
 					public static LocString TITLE = "Space Station";
-
+					public static LocString TITLE_DERELICT = "Derelict Station";
 					public static LocString VIEW_WORLD_DESC = "Oversee Station Interior";
+					public static LocString VIEW_WORLD_DERELICT_DESC = "Oversee Derelict Interior";
 				}
 				public class SPACECONSTRUCTIONSITE
 				{

@@ -9,7 +9,6 @@ using BlueprintsV2.Visualizers;
 using Epic.OnlineServices.Sessions;
 using STRINGS;
 using System.Collections.Generic;
-using System.Drawing.Drawing2D;
 using System.Linq;
 using UnityEngine;
 using UtilLibs;
@@ -63,7 +62,6 @@ namespace BlueprintsV2.BlueprintData
 			int blueprintHeight = (topLeft.y - bottomRight.y);
 			bool storeDigCommandForNonSolidCells = filter != null && filter.AllowedToFilter(BlueprintCreationFilterKeys.NonSolidDigCommandssOptionID);
 			bool collectNotes = filter != null && filter.AllowedToFilter(BlueprintCreationFilterKeys.Collect_Notes_ID);
-			bool collectRawElements = filter != null && filter.AllowedToFilter(BlueprintCreationFilterKeys.Collect_Natural_Elements_ID);
 			bool collectPlanShapes = filter != null && filter.AllowedToFilter(BlueprintCreationFilterKeys.PlanningToolMod_ShapesID);
 
 			for (int x = topLeft.x; x <= bottomRight.x; ++x)
@@ -164,7 +162,7 @@ namespace BlueprintsV2.BlueprintData
 						var existingBpNote = Grid.Objects[cell, (int)ModAssets.BlueprintNotesLayer];
 						if(collectNotes && existingBpNote != null && existingBpNote.TryGetComponent<BlueprintNote>(out var note))
 						{
-							var data = note.GetNoteData();
+							var data = note.GetNoteData(cellOffsetInBlueprint);
 							if (data.IsValid())
 							{
 								blueprint.WorldNotes[cellOffsetInBlueprint] = (data);
@@ -172,19 +170,17 @@ namespace BlueprintsV2.BlueprintData
 						} 
 						else if (!solidTileDefInCell && filter.AllowedElementState(Grid.Element[cell].state))
 						{
-							//todo: add filter here!
 							var data = BlueprintNoteData.CreateElementNote(cellOffsetInBlueprint, Grid.Element[cell].id, Grid.Mass[cell], Grid.Temperature[cell]);
 							if(data.IsValid())
 							{
 								blueprint.WorldNotes[cellOffsetInBlueprint] = data;
 							}
 						}
-
 					}
 				}
 			}
 			//empty blueprint that caught some gas/liquid pockets, clear to not spam quasi empty blueprints
-			if (blueprint.BuildingConfigurations.Count == 0 && (blueprint.DigLocations.Any() || blueprint.WorldNotes.Count > 0 || blueprint.PlanningToolMod_PlanDataValues.Count > 0) && !createsSnapshot)
+			if (!createsSnapshot && blueprint.BuildingConfigurations.Count == 0 && blueprint.WorldNotes.Count == 0 || blueprint.PlanningToolMod_PlanDataValues.Count == 0 && blueprint.DigLocations.Any())
 			{
 				blueprint.DigLocations.Clear();
 				blueprint.WorldNotes.Clear();

@@ -8,7 +8,11 @@
 		{
 			base.OnSpawn();
 			label = transform.Find("Label").GetComponent<LocText>();
+		}
+		public override void OnSpawn()
+		{
 			label.SetText(Text);
+			base.OnSpawn();
 		}
 	}
 }

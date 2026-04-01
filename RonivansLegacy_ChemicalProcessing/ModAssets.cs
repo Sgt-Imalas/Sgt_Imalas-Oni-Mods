@@ -88,5 +88,12 @@ namespace RonivansLegacy_ChemicalProcessing
 			if(Config.Instance.Drywall_Hides_Pipes)
 				result.SceneLayer = Grid.SceneLayer.LogicGatesFront;
 		}
+
+		internal static void HideFromCodex(GameObject go)
+		{
+			go.AddTag(GameTags.HideFromCodex);
+			go.AddTag(GameTags.DeprecatedContent);
+			go.AddTag(GameTags.HideFromSpawnTool);
+		}
 	}
 }

@@ -59,6 +59,9 @@ namespace Mineral_Processing_Mining.Buildings
 			go.AddComponent<ProgrammableGuidanceModule>();
 			go.AddOrGet<Prioritizable>();
 			Prioritizable.AddRef(go);
+
+			if (!Config.Instance.MineralProcessing_Mining_Enabled)
+				ModAssets.HideFromCodex(go);
 			return go;
 		}
 

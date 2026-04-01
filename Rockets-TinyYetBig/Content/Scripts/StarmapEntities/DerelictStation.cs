@@ -1,7 +1,8 @@
 ﻿using KSerialization;
 using Rockets_TinyYetBig.Behaviours;
+using Rockets_TinyYetBig.Content.Scripts.StarmapEntities;
+using Rockets_TinyYetBig.Elements;
 using Rockets_TinyYetBig.SpaceStations;
-using Rockets_TinyYetBig.SpaceStations.Construction;
 using System.Collections.Generic;
 using UnityEngine;
 using UtilLibs;
@@ -50,7 +51,7 @@ namespace Rockets_TinyYetBig.Derelicts
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
-			if (TryGetComponent<KSelectable>(out var overlay))
+			if (TryGetComponent<KSelectable>(out var overlay) && overlay.IsSelected)
 			{
 				NameDisplayScreen.Instance.UpdateName(overlay.gameObject);
 			}
@@ -65,27 +66,30 @@ namespace Rockets_TinyYetBig.Derelicts
 			source.TryGetComponent<KPrefabID>(out var id);
 			var targetStationId = id.PrefabID() + DerelictStationConfigs.DerelictTemplateName;
 			SgtLogger.l(targetStationId, "targetStation");
-			if (Assets.GetPrefab(targetStationId) == null)
+			if (Assets.TryGetPrefab(targetStationId) == null)
 				return false;
-			var originalDef = source.gameObject.GetSMI<ArtifactPOIStates.Instance>();
-			if (originalDef == null || originalDef.configuration.DestroyOnHarvest())
+
+			if(source.TryGetComponent<ArtifactPOIConfigurator>(out var cfg) && cfg.MakeConfiguration().DestroyOnHarvest())
+			{
+				SgtLogger.l("artifactPOIstates destroys itself on harvest on: "+source);
 				return false;
+			}
 
 			Vector3 position = new Vector3(-1f, -1f, 0.0f);
 			GameObject sat = Util.KInstantiate(Assets.GetPrefab(targetStationId), position);
 			sat.SetActive(true);
 			spaceStation = sat.GetComponent<DerelictStation>();
 			spaceStation.Location = source.Location;
-			var site = sat.AddOrGet<SpaceConstructable>();
-			site.buildPartStorage = sat.AddComponent<Storage>();
-			site.SetDerelict(true);
-			site.ForceFinishProject(ConstructionProjects.DerelictStation);
+			//var site = sat.GetComponent<SpaceConstructable>();
+			//site.SetDerelict(true);
+			//site.ForceFinishProject(ConstructionProjects.DerelictStation);
+
+			sat.AddOrGet<StationDeconstructable>().Resources = [new (ModElements.UnobtaniumAlloy.Tag, 125),new ("Steel", 500)];
 			return true;
 		}
 		public override void OnCleanUp()
 		{
 			base.OnCleanUp();
-
 			if (RTB_SavegameStoredSettings.Instance.DerelictInteriorWorlds.Contains(SpaceStationInteriorId))
 				RTB_SavegameStoredSettings.Instance.DerelictInteriorWorlds.Remove(SpaceStationInteriorId);
 		}

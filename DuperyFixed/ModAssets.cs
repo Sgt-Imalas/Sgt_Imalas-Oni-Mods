@@ -11,8 +11,8 @@ namespace DuperyFixed
 		static Dictionary<Texture2D, Texture2D> Copies = new Dictionary<Texture2D, Texture2D>();
 		public static Texture2D GetReadableCopy(Texture2D source)
 		{
-			if (Copies.ContainsKey(source))
-				return Copies[source];
+			if (Copies.TryGetValue(source, out var cached))
+				return cached;
 
 			if (source == null || source.width == 0 || source.height == 0) return null;
 
@@ -126,9 +126,26 @@ namespace DuperyFixed
 			accessories.Add(slots.Mouth.Id, slots.Mouth.Lookup(bodyData.mouth).Id);
 			return accessories.ToList();
 		}
-		//        publ
-		//static GameObject crewPortraitPrefab;
 
+		/// <summary>
+		/// Alpha blending including gamma correction, see https://en.wikipedia.org/wiki/Alpha_compositing#Gamma_correction
+		/// </summary>
+		/// <param name="dst"></param>
+		/// <param name="src"></param>
+		/// <returns></returns>
+		public static Color BlendColors(Color dst, Color src)
+		{
+			float combinedAlpha = src.a + dst.a * (1f - src.a);
+			float src_a = src.a;
+			float dst_a = dst.a;
+
+			if (combinedAlpha <= 0f) return Color.clear;
+			return new Color(
+				Mathf.Sqrt((src.r * src.r * src_a + dst.r * dst.r * dst_a * (1f - src_a)) / combinedAlpha),
+				Mathf.Sqrt((src.g * src.g * src_a + dst.g * dst.g * dst_a * (1f - src_a)) / combinedAlpha),
+				Mathf.Sqrt((src.b * src.b * src_a + dst.b * dst.b * dst_a * (1f - src_a)) / combinedAlpha),
+				combinedAlpha);
+		}
 		static Dictionary<Personality, Sprite> DreamImages = new();
 		internal static Sprite GetDynamicDreamImage(Personality personality)
 		{
@@ -157,13 +174,16 @@ namespace DuperyFixed
 				symbolHead = slots.HeadShape.Lookup(bodyData.headShape).symbol,
 				symbolMouth = slots.Mouth.Lookup(bodyData.mouth).symbol;
 
+
+
+
 			var output = new Texture2D(125, 125);
 			void WriteToOutput(Symbol symbolToWrite, int xOffsetWrite = 0, int yOffsetWrite = 0, bool pivot = false, bool flipX = false, int symbolOverride = -1)
 			{
 
 				Texture2D toWrite = GetSingleSpriteFromTexture(GetSpriteFrom(symbolToWrite, symbolOverride));
 				var pivotPoint = GetPivotPoint(symbolToWrite, toWrite);
-				if(pivotPoint.x == int.MinValue && pivotPoint.y == int.MinValue)
+				if (pivotPoint.x == int.MinValue && pivotPoint.y == int.MinValue)
 				{
 					return;
 				}
@@ -191,10 +211,11 @@ namespace DuperyFixed
 
 						if (px.a > 0.1f
 							&& outputX >= 0 && outputX < output.width
-							&& outputY >= 0 && outputY < output.height
+							&& outputX >= 0 && outputY < output.height
 							)
 						{
-							output.SetPixel(outputX, outputY, px);
+							var existing = output.GetPixel(outputX, outputY);
+							output.SetPixel(outputX, outputY, BlendColors(existing, px));
 						}
 					}
 				}

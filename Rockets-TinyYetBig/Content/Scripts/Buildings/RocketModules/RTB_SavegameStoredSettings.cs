@@ -5,6 +5,11 @@ namespace Rockets_TinyYetBig.Behaviours
 {
 	internal class RTB_SavegameStoredSettings : KMonoBehaviour
 	{
+		public static void ClearAll()
+		{
+			Instance = null;
+		}
+
 		public static RTB_SavegameStoredSettings Instance;
 
 

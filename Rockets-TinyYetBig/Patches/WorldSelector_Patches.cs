@@ -13,7 +13,14 @@ namespace Rockets_TinyYetBig.Patches
 	/// </summary>
 	class WorldSelector_Patches
 	{
-		static List<GameObject> worldEntries = new List<GameObject>();
+		public static void ClearAll()
+		{
+			collapseButtons.Clear();
+			ShouldCollapseDic.Clear();
+			RocketHeader = null;
+
+			edgeCases.Clear();
+		}
 		public static Dictionary<int, GameObject> collapseButtons = new Dictionary<int, GameObject>();
 		public static Dictionary<int, bool> ShouldCollapseDic = new Dictionary<int, bool>();
 		//public const int SpaceStationHeaderId = -101;
@@ -55,8 +62,6 @@ namespace Rockets_TinyYetBig.Patches
 						break;
 				}
 
-
-
 				var icon = AddCollapsible(HeaderId, Header.gameObject);
 				ShouldCollapseDic[HeaderId] = false;
 
@@ -81,7 +86,7 @@ namespace Rockets_TinyYetBig.Patches
 					// var spaceStations = ListPool<KeyValuePair<int, MultiToggle>, WorldSelector>.Allocate();
 					var rockets = ListPool<KeyValuePair<int, MultiToggle>, WorldSelector>.Allocate();
 
-					var OutputList = ListPool<KeyValuePair<int, MultiToggle>, WorldSelector>.Allocate();
+					var buttonEntries = ListPool<KeyValuePair<int, MultiToggle>, WorldSelector>.Allocate();
 
 					foreach (var worldKV in __instance.worldRows)
 					{
@@ -96,8 +101,8 @@ namespace Rockets_TinyYetBig.Patches
 						//}
 						else
 						{
-							if (collapseButtons.ContainsKey(worldKV.Key))
-								collapseButtons[worldKV.Key].SetActive(false);
+							if (collapseButtons.TryGetValue(worldKV.Key, out var buttonGO))
+								buttonGO.SetActive(false);
 							asteroids.Add(worldKV);
 						}
 					}
@@ -113,7 +118,7 @@ namespace Rockets_TinyYetBig.Patches
 						//}
 					}
 
-					OutputList.AddRange(asteroids);
+					buttonEntries.AddRange(asteroids);
 
 					//if (spaceStations.Count > 0)
 					//{
@@ -139,18 +144,14 @@ namespace Rockets_TinyYetBig.Patches
 
 					if (rockets.Count > 0)
 					{
-
 						if (RocketHeader == null)
 						{
 							RocketHeader = Util.KInstantiateUI(__instance.worldRowPrefab, __instance.worldRowContainer).GetComponent<MultiToggle>();
 							InitHeader(RocketHeaderId, RocketHeader);
 						}
-						OutputList.Add(new KeyValuePair<int, MultiToggle>(RocketHeaderId, RocketHeader));
+						buttonEntries.Add(new KeyValuePair<int, MultiToggle>(RocketHeaderId, RocketHeader));
 					}
-					if (RocketHeader != null)
-					{
-						RocketHeader.gameObject.SetActive(false);
-					}
+					RocketHeader?.gameObject.SetActive(false);
 
 					//foreach (var keyValuePair1 in spaceStations)
 					//{
@@ -158,7 +159,7 @@ namespace Rockets_TinyYetBig.Patches
 					//        keyValuePair1.Value.gameObject.SetActive(value: !ShouldCollapseDic[SpaceStationHeaderId]);
 					//}
 
-					foreach (var keyValuePair1 in OutputList)
+					foreach (var keyValuePair1 in buttonEntries)
 					{
 						SetAnchors(keyValuePair1.Value, false);
 					}
@@ -179,14 +180,14 @@ namespace Rockets_TinyYetBig.Patches
 							if (collapseButtons.ContainsKey(rocketWorld.ParentWorldId))
 								collapseButtons[rocketWorld.ParentWorldId].SetActive(true);
 
-							int insertionIndex = OutputList.FindIndex(kvp => kvp.Key == rocketWorld.ParentWorldId);
+							int insertionIndex = buttonEntries.FindIndex(kvp => kvp.Key == rocketWorld.ParentWorldId);
 							if (insertionIndex >= 0)
 							{
-								OutputList.Insert(insertionIndex + 1, rocket);
+								buttonEntries.Insert(insertionIndex + 1, rocket);
 							}
 							else
 							{
-								OutputList.Add(rocket);
+								buttonEntries.Add(rocket);
 							}
 							SetAnchors(rocket.Value, !SpaceStationManager.WorldIsRocketInterior(rocketWorld.ParentWorldId));
 
@@ -195,7 +196,7 @@ namespace Rockets_TinyYetBig.Patches
 						}
 						else
 						{
-							OutputList.Add(rocket);
+							buttonEntries.Add(rocket);
 							Collapse = ShouldCollapseDic[RocketHeaderId];
 							SetAnchors(rocket.Value, false);
 							RocketHeader.gameObject.SetActive(true);
@@ -206,16 +207,16 @@ namespace Rockets_TinyYetBig.Patches
 						}
 					}
 
-					for (int index22 = 0; index22 < OutputList.Count; ++index22)
+					for (int index22 = 0; index22 < buttonEntries.Count; ++index22)
 					{
-						if (OutputList[index22].Value != null)
-							OutputList[index22].Value.gameObject.transform.SetSiblingIndex(index22);
+						if (buttonEntries[index22].Value != null)
+							buttonEntries[index22].Value.gameObject.transform.SetSiblingIndex(index22);
 					}
 
 					rockets.Recycle();
 					asteroids.Recycle();
 					//spaceStations.Recycle();
-					OutputList.Recycle();
+					buttonEntries.Recycle();
 					return false;
 				}
 				return true;

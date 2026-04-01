@@ -1,6 +1,6 @@
 ﻿using Rockets_TinyYetBig.Behaviours;
+using Rockets_TinyYetBig.Content.Scripts.Buildings.SpaceStationConstruction;
 using Rockets_TinyYetBig.NonRocketBuildings;
-using Rockets_TinyYetBig.SpaceStations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,9 +31,20 @@ namespace Rockets_TinyYetBig.Content.ModDb
 		public static StatusItem RTB_SpaceStation_FreshlyDeployed;
 		public static StatusItem RTB_SpaceStation_OrbitHealth;
 		public static StatusItem RTB_DockingActive;
+		public static StatusItem RTB_PendingStationPartDeconstruction;
 
 		public static void Register()
 		{
+			RTB_PendingStationPartDeconstruction = new StatusItem(
+				  "RTB_PENDINGSTATIONPARTDECONSTRUCTION",
+				  "BUILDING",
+				  "status_item_pending_deconstruction",
+				  StatusItem.IconType.Custom,
+				  NotificationType.Neutral,
+				  false,
+				  OverlayModes.None.ID
+				  );
+
 			RTB_RocketBatteryStatus = new StatusItem(
 				  "RTB_ROCKETBATTERYSTATUS",
 				  "BUILDING",
@@ -148,27 +159,27 @@ namespace Rockets_TinyYetBig.Content.ModDb
 
 			RTB_SpaceStationConstruction_Status.resolveStringCallback = ((str, data) =>
 			{
-				var StationConstructior = (SpaceStationBuilder)data;
+				//var StationConstructior = (SpaceStationBuilder)data;
 
-				if (StationConstructior.ConstructionTimes(out bool isConstructing, out var remainingTime))
-				{
-					if (isConstructing)
-					{
-						str = str.Replace("{STATUS}", RTB_STATIONCONSTRUCTORSTATUS.CONSTRUCTING);
-						str = str.Replace("{TIME}", GameUtil.GetFormattedTime(remainingTime));
-					}
-					else
-					{
-						str = str.Replace("{STATUS}", RTB_STATIONCONSTRUCTORSTATUS.DECONSTRUCTING);
-						str = str.Replace("{TIME}", GameUtil.GetFormattedTime(remainingTime));
-					}
-					str = str.Replace("{TOOLTIP}", RTB_STATIONCONSTRUCTORSTATUS.TIMEREMAINING);
-				}
-				else
-				{
-					str = str.Replace("{TOOLTIP}", RTB_STATIONCONSTRUCTORSTATUS.NONEQUEUED);
-					str = str.Replace("{STATUS}", RTB_STATIONCONSTRUCTORSTATUS.IDLE);
-				}
+				//if (StationConstructior.ConstructionTimes(out bool isConstructing, out var remainingTime))
+				//{
+				//	if (isConstructing)
+				//	{
+				//		str = str.Replace("{STATUS}", RTB_STATIONCONSTRUCTORSTATUS.CONSTRUCTING);
+				//		str = str.Replace("{TIME}", GameUtil.GetFormattedTime(remainingTime));
+				//	}
+				//	else
+				//	{
+				//		str = str.Replace("{STATUS}", RTB_STATIONCONSTRUCTORSTATUS.DECONSTRUCTING);
+				//		str = str.Replace("{TIME}", GameUtil.GetFormattedTime(remainingTime));
+				//	}
+				//	str = str.Replace("{TOOLTIP}", RTB_STATIONCONSTRUCTORSTATUS.TIMEREMAINING);
+				//}
+				//else
+				//{
+				//	str = str.Replace("{TOOLTIP}", RTB_STATIONCONSTRUCTORSTATUS.NONEQUEUED);
+				//	str = str.Replace("{STATUS}", RTB_STATIONCONSTRUCTORSTATUS.IDLE);
+				//}
 				return str;
 			});
 

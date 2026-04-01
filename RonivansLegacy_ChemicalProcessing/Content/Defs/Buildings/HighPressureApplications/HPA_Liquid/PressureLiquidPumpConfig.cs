@@ -30,7 +30,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			EffectorValues nONE = NOISE_POLLUTION.NONE;
 			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 2, 3, "pressure_liquid_pump_kanim", 240, 120f, quantity1, materials1, 1600f, BuildLocationRule.Anywhere, BUILDINGS.DECOR.PENALTY.TIER1, nONE, 0.2f);
 			def1.RequiresPowerInput = true;
-			def1.Overheatable = false;
+			def1.Overheatable = !Config.Instance.HPA_OverheatImmunePumps;
 			def1.EnergyConsumptionWhenActive = Config.Instance.HPA_Pump_Base_Mult_Liquid * HighPressureConduitRegistration.GetConduitMultiplier(ConduitType.Liquid);
 			def1.ExhaustKilowattsWhenActive = 0f;
 			def1.SelfHeatKilowattsWhenActive = 2f;
@@ -54,6 +54,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 			go.AddOrGet<LoopingSounds>();
 			go.AddOrGet<EnergyConsumer>();
 			go.AddOrGet<Storage>().capacityKg = HighPressureConduitRegistration.LiquidCap_HP * 2;
+			go.AddTag(GameTags.CorrosionProof);
 
 
 			var pumpOffset = new CellOffset(1, 0);

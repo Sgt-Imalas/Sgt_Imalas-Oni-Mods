@@ -363,7 +363,7 @@ namespace Rockets_TinyYetBig.Docking
 				return false;
 			}
 
-			if (!handler.IsSpaceStation && RocketryUtils.IsRocketTraveling(handler.clustercraft))
+			if (!handler.IsSpaceStation && (RocketryUtils.IsRocketTraveling(handler.clustercraft) || handler.clustercraft.status != Clustercraft.CraftStatus.InFlight))
 				return false;
 
 
@@ -383,6 +383,7 @@ namespace Rockets_TinyYetBig.Docking
 		}
 		public bool TryInitializingDockingBetweenHandlers(DockingSpacecraftHandler first, DockingSpacecraftHandler second, DockingDoor overrideDoor = null)
 		{
+
 			SgtLogger.l("trying to dock " + first.GetProperName() + " and " + second.GetProperName());
 
 

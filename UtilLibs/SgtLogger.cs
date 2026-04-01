@@ -10,7 +10,6 @@ namespace UtilLibs
 {
 	public class SgtLogger
 	{
-
 		public SgtLogger(string log)
 		{
 			l(log);

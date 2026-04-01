@@ -39,8 +39,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabrica
 		//[SerializeField]
 		//public float selfHeatPercentage = 0;
 
-		[SerializeField]
-		public float HeatCapacitorMaxCapKJ = 220000; //220 MJ of capacitor
+		float heatCapacitorMaxCapKJ = Config.Instance.ArcFurnace_CapacitorSizeMJ * 1000; //default: 220 MJ of capacitor
 		[SerializeField]
 		public bool CreateMeter = true;
 
@@ -365,7 +364,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabrica
 			ProduceContinuousExhaustHeat(dt);
 		}
 
-		float HeatCapacitorPercentage() => (accumulatedHeatExhaust / HeatCapacitorMaxCapKJ);
+		float HeatCapacitorPercentage() => (accumulatedHeatExhaust / heatCapacitorMaxCapKJ);
 
 		internal string GetHeatPercentage()
 		{

@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
@@ -9,15 +10,47 @@ namespace UtilLibs
 {
 	public static class TranspilerHelper
 	{
+		#region LocalBuilderBypass for CodeInstructionExtensions
+
+		private static readonly HashSet<OpCode> loadVarCodes = new HashSet<OpCode>
+	{
+		OpCodes.Ldloc_0,
+		OpCodes.Ldloc_1,
+		OpCodes.Ldloc_2,
+		OpCodes.Ldloc_3,
+		OpCodes.Ldloc,
+		OpCodes.Ldloca,
+		OpCodes.Ldloc_S,
+		OpCodes.Ldloca_S
+	};
+		public static bool IsLdloc(this CodeInstruction code, LocalBuilder variable = null)
+		{
+			if (!loadVarCodes.Contains(code.opcode))
+			{
+				return false;
+			}
+
+			if (variable != null)
+			{
+				return object.Equals(variable, code.operand);
+			}
+
+			return true;
+		}
+
+		#endregion
+
+
+
 		public static bool CallsConstructor(this CodeInstruction code, ConstructorInfo constructor)
 		{
-			if(constructor == null)
+			if (constructor == null)
 			{
 				throw new ArgumentNullException("constructor");
 			}
-			if(code.opcode != OpCodes.Newobj)
+			if (code.opcode != OpCodes.Newobj)
 			{
-				return false;	
+				return false;
 			}
 			return object.Equals(code.operand, constructor);
 		}
@@ -33,13 +66,14 @@ namespace UtilLibs
 				int direction = goingDescending ? -1 : 1;
 				for (int i = insertionIndex + direction; i >= 0 && i < codeInstructions.Count && indices.Count < numberOfVarsToFind; i += direction)
 				{
-					if (CodeInstructionExtensions.IsLdloc(codeInstructions[i]))
+					if (IsLdloc(codeInstructions[i]))
 					{
 						int locIndex = GiveOpCodeIndexFromLocalBuilder(codeInstructions[i]);
 						if (!indices.Contains(locIndex))
 							indices.Insert(0, locIndex);
 						break;
-					};
+					}
+					;
 				}
 
 
@@ -69,7 +103,7 @@ namespace UtilLibs
 				int direction = goingBackwards ? -1 : 1;
 				for (int i = insertionIndex - 1; i >= 0 && i < codeInstructions.Count && indices.Count < numberOfVarsToFind; i += direction)
 				{
-					if (CodeInstructionExtensions.IsLdloc(codeInstructions[i]))
+					if (IsLdloc(codeInstructions[i]))
 					{
 						int locIndex = GiveOpCodeIndexFromLocalBuilder(codeInstructions[i]);
 						if (!indices.Contains(locIndex))
@@ -78,7 +112,8 @@ namespace UtilLibs
 							positions.Insert(0, i); break;
 						}
 						break;
-					};
+					}
+					;
 				}
 
 
@@ -177,7 +212,27 @@ namespace UtilLibs
 			foreach (var var in locVars)
 			{
 				if (var == null) continue;
-				if(var.LocalType == typeof(T))
+				if (var.LocalType == typeof(T))
+				{
+					index = var.LocalIndex;
+					return true;
+				}
+			}
+
+			return false;
+		}
+		public static bool GetLocIndexOfLast<T>(MethodBase original, out int index)
+		{
+			index = -1;
+			var body = original.GetMethodBody();
+			if (body == null)
+				return false;
+			var locVars = body.LocalVariables;
+			locVars = locVars.Reverse().ToList();
+			foreach (var var in locVars)
+			{
+				if (var == null) continue;
+				if (var.LocalType == typeof(T))
 				{
 					index = var.LocalIndex;
 					return true;

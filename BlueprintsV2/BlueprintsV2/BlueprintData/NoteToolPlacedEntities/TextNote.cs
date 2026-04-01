@@ -16,7 +16,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData.NoteToolPlacedEntities
 		[Serialize] string Title = "Note Title";
 		[Serialize] string Text = "";
 
-		public override BlueprintNoteData GetNoteData()
+		public override BlueprintNoteData GetNoteData(Vector2I? newPosition = null)
 		{
 			return new BlueprintNoteData()
 			{
@@ -24,6 +24,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData.NoteToolPlacedEntities
 				Title = this.Title,
 				Text = this.Text,
 				SymbolTint = this.SymbolTint,
+				Location = newPosition ?? default
 			};
 		}
 		public override void OnSpawn()

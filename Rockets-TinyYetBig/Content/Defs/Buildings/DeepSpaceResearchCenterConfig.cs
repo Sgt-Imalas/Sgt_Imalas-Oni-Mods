@@ -70,7 +70,7 @@ namespace Rockets_TinyYetBig.Content.Defs.Buildings.Research
 			researchCenter.research_point_type_id = ModAssets.DeepSpaceScienceID;
 			researchCenter.inputMaterial = INPUT_MATERIAL;
 			researchCenter.mass_per_point = 1f; 
-			researchCenter.requiredSkillPerk = Db.Get().SkillPerks.AllowInterstellarResearch.Id;
+			researchCenter.requiredSkillPerk = Db.Get().SkillPerks.AllowNuclearResearch.Id;
 			researchCenter.workLayer = Grid.SceneLayer.BuildingFront;
 			ElementConverter elementConverter = go.AddOrGet<ElementConverter>();
 			elementConverter.consumedElements =

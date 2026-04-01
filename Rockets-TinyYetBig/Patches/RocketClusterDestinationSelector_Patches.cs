@@ -29,6 +29,7 @@ namespace Rockets_TinyYetBig.Patches.ClustercraftDockingPatches
 				{
 					if (mng.clustercraft.status != Clustercraft.CraftStatus.InFlight)
 					{
+						SgtLogger.l(__instance.name + " not in flight anymore, undocking");
 						mng.UndockAll();
 						return true;
 					}
@@ -68,7 +69,7 @@ namespace Rockets_TinyYetBig.Patches.ClustercraftDockingPatches
 						{
 							if (statesInstance.CheckIfCanDrill())
 							{
-								SgtLogger.l(__instance.name + " can harvest with laser drillcone");
+								//SgtLogger.l(__instance.name + " can harvest with laser drillcone");
 								__result = true;
 								return;
 							}

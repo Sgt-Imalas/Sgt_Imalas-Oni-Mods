@@ -20,6 +20,7 @@ using Rockets_TinyYetBig.Content.Defs.Buildings.RocketPortAdapters;
 using Rockets_TinyYetBig.Content.Defs.Buildings.Research;
 using Rockets_TinyYetBig.Content.Defs.Buildings;
 using Rockets_TinyYetBig.Content.Defs.Buildings.DerelictPropBuildings;
+using Rockets_TinyYetBig.Content.Defs.Buildings.StationParts;
 
 namespace Rockets_TinyYetBig.Content.ModDb
 {
@@ -31,7 +32,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 			//Assign categories to each vanilla module
 			CategorizeVanillaModules();
 
-			if(Mod.Instance.mod.IsDev)
+			if (Mod.Instance.mod.IsDev)
 				InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, StationPOISolarPanelConfig.ID, "power");
 
 
@@ -119,6 +120,12 @@ namespace Rockets_TinyYetBig.Content.ModDb
 
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, SpaceStationDockingDoorConfig.ID, DockingTubeDoorConfig.ID);
 				AddRocketModuleToBuildList(SpaceStationBuilderModuleConfig.ID, new RocketCategory[] { RocketCategory.deployables, RocketCategory.utility }, OrbitalCargoModuleConfig.ID);
+
+				if (Config.Derelicts)
+				{
+					string stationPartsCategory = "RTB_StationParts";
+					InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, GravitonCoreConfig.ID, subcategoryID: stationPartsCategory);
+				}
 			}
 
 			if (Config.Instance.EnableWallAdapter)
@@ -129,7 +136,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Base, ReinforcedLadderConfig.ID, LadderConfig.ID);
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, ConnectorWallAdapterConfig.ID, ModularLaunchpadPortBridgeConfig.ID);
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, ConnectorWallAdapterBunkerConfig.ID, ModularLaunchpadPortBridgeConfig.ID);
-				
+
 				//InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Rocketry, ConnectorBypassAdapterConfig.ID, ModularLaunchpadPortBridgeConfig.ID);
 				//InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, LoaderTravelTubeAdapterConfig.ID, "rocketfueling"); ///Too buggy atm
 

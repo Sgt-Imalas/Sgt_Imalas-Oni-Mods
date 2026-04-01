@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -76,11 +77,12 @@ namespace Biochemistry.Buildings
 			ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
 			conduitConsumer.conduitType = def.InputConduitType;
 			conduitConsumer.consumptionRate = 10f;
-			conduitConsumer.capacityTag = ModElements.BioDiesel_Liquid.Tag;
+			conduitConsumer.capacityTag = ModAssets.Tags.AIO_BioFuel;// ModElements.BioDiesel_Liquid.Tag;
 			conduitConsumer.capacityKG = 32f;
 			conduitConsumer.forceAlwaysSatisfied = true;
 			conduitConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
-			EnergyGenerator energyGenerator = go.AddOrGet<EnergyGenerator>();
+
+			BiodieselEnergyGenerator energyGenerator = go.AddOrGet<BiodieselEnergyGenerator>();
 			energyGenerator.powerDistributionOrder = 8;
 			energyGenerator.ignoreBatteryRefillPercent = true;
 			energyGenerator.hasMeter = true;
@@ -97,6 +99,19 @@ namespace Biochemistry.Buildings
 				//new EnergyGenerator.OutputItem(SimHashes.DirtyWater, 1.215f, true, new CellOffset(1, 1), 313.15f)
 				]
 			};
+			energyGenerator.modDieselFormula = energyGenerator.formula;
+			energyGenerator.vanillaDieselFormula = new EnergyGenerator.Formula
+			{
+				inputs =
+				[
+				new EnergyGenerator.InputItem(SimHashes.RefinedLipid.CreateTag(), 3.200f, 32f)
+				],
+				outputs =
+				[
+				new EnergyGenerator.OutputItem(SimHashes.DirtyWater, 0.4f*3.2f, true, new CellOffset(1, 1), 313.15f)
+				]
+			};
+
 			Tinkerable.MakePowerTinkerable(go);
 			go.AddOrGetDef<PoweredActiveController.Def>();
 

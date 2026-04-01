@@ -5,7 +5,6 @@ using BlueprintsV2.Tools;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
-using System.Drawing.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -124,7 +123,7 @@ namespace BlueprintsV2.BlueprintsV2.Patches
 					);
 
 				NoteToolCollection = ToolMenu.CreateToolCollection(
-						"Note Tool",
+						STRINGS.UI.TOOLS.NOTE_TOOL.NAME,
 						ModAssets.NoteToolIcon_Sprite.name,
 				Actions.BlueprintsCreateNoteAction.GetKAction(),
 						typeof(CreateNoteTool).Name,

@@ -66,7 +66,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData.NoteToolPlacedEntities
 				DetailsScreen.Instance.Refresh(gameObject);///should refresh screen, make sure to not have infinite loop by having selection changed event trigger this again with no changes
 			}
 		}
-		public virtual BlueprintNoteData GetNoteData()
+		public virtual BlueprintNoteData GetNoteData(Vector2I? newPosition = null)
 		{
 			return new BlueprintNoteData();
 		}

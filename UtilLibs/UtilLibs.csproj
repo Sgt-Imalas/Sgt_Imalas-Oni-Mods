@@ -1,9 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>net48</TargetFramework>
+		
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 		<Configurations>Debug;Release;Release2</Configurations>
 		<DoNotBuildAsMod>true</DoNotBuildAsMod>
+		<!--<DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>-->
 	</PropertyGroup>
 	<PropertyGroup>
 		<LangVersion>preview</LangVersion>
@@ -18,11 +19,11 @@
 	  <None Include="Updating\LoadExtraAnimations.cs" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="PLib" Version="4.19.0">
-			<Private>false</Private>
-		</PackageReference>
+	  <PackageReference Include="PLib" Version="4.21.0" />
 	</ItemGroup>
-	<ItemGroup>
-	  <Reference Include="System.Net.Http" />
-	</ItemGroup>
+	<!--<ItemGroup>
+		<Reference Include="$(GameLibsFolder)/netstandard.dll" Private ="false"/>
+		<Reference Include="$(GameLibsFolder)/mscorlib.dll" Private ="false"/>
+		<Reference Include="$(GameLibsFolder)/System.Data.dll" Private ="false"/>
+	</ItemGroup>-->
 </Project>

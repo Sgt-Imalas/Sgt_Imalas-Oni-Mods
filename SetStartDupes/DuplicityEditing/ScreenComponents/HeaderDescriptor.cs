@@ -8,9 +8,13 @@
 		{
 			base.OnPrefabInit();
 			label = transform.Find("Label").GetComponent<LocText>();
-			label.SetText(TextLeft);
 			labelRight = transform.Find("Output").GetComponent<LocText>();
+		}
+		public override void OnSpawn()
+		{
+			base.OnSpawn();
 			labelRight.SetText(TextRight);
+			label.SetText(TextLeft);
 		}
 	}
 }

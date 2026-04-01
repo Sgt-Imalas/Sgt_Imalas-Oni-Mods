@@ -1,6 +1,5 @@
 ﻿using BlueprintsV2.BlueprintsV2.BlueprintData.NoteToolPlacedEntities;
 using BlueprintsV2.BlueprintsV2.BlueprintData.PlanningToolMod_Integration.EnumMirrors;
-using Microsoft.Build.Framework;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
 using Newtonsoft.Json.Linq;
@@ -673,10 +672,12 @@ namespace BlueprintsV2.BlueprintData
 		public Dictionary<string, int> GetBuildingCounts()
 		{
 			var dict = new Dictionary<string, int>();
-
 			foreach (var buildingConfig in BuildingConfigurations)
 			{
-				var id = buildingConfig.BuildingDefId;
+				var id = buildingConfig.BuildingDef?.PrefabID;
+				if (id == null)
+					continue;
+
 				if (!dict.ContainsKey(id))
 					dict[id] = 1;
 				else

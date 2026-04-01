@@ -14,6 +14,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
 		[SerializeField] public LocText IconName;
 		[SerializeField] public Image Icon;
 		[SerializeField] public FButton Button;
+		string _name;
 
 		public void CollectReferences()
 		{
@@ -26,8 +27,15 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
 		{
 			Button.OnClick += OnSelect;
 			IconName.SetText(name);
+			_name = name;
 			Icon.sprite = icon;
 			Icon.color = tint;
+		}
+		public override void OnSpawn()
+		{
+			base.OnSpawn();
+			if(!_name.IsNullOrWhiteSpace())
+				IconName.SetText(name);
 		}
 	}
 }

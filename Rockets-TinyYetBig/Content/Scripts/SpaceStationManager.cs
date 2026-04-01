@@ -10,10 +10,14 @@ namespace Rockets_TinyYetBig.SpaceStations
 	class SpaceStationManager : KMonoBehaviour
 	{
 
-		private static readonly Lazy<SpaceStationManager> lazy =
+		private static Lazy<SpaceStationManager> lazy =
 		new Lazy<SpaceStationManager>(() => new SpaceStationManager());
 
 		public static SpaceStationManager Instance { get { return lazy.Value; } }
+		public static void ClearAll()
+		{
+			lazy = new();
+		}
 
 
 		public static bool ActiveWorldIsSpaceStationInterior() => RTB_SavegameStoredSettings.Instance.StationInteriorWorlds.Contains(ClusterManager.Instance.activeWorldId);
@@ -77,6 +81,7 @@ namespace Rockets_TinyYetBig.SpaceStations
 				craft_go.AddComponent<WorldInventory>();
 				WorldContainer spaceStationInteriorWorld = craft_go.AddComponent<WorldContainer>();
 				spaceStationInteriorWorld.SetRocketInteriorWorldDetails(nextWorldId, spaceStationInteriorSize, offset);
+				spaceStationInteriorWorld.isModuleInterior = false;
 				Vector2I vector2I = offset + spaceStationInteriorSize;
 				for (int y = offset.y; y < vector2I.y; ++y)
 				{
@@ -149,7 +154,7 @@ namespace Rockets_TinyYetBig.SpaceStations
 		public void DestroySpaceStationInteriorWorld(int world_id, bool refund = true)
 		{
 			WorldContainer world = ClusterManager.Instance.GetWorld(world_id);
-			if ((UnityEngine.Object)world == (UnityEngine.Object)null || !world.IsModuleInterior)
+			if ((UnityEngine.Object)world == (UnityEngine.Object)null)
 			{
 				Debug.LogError(string.Format("Attempting to destroy world id {0}. The world is not a valid rocket interior", world_id));
 			}

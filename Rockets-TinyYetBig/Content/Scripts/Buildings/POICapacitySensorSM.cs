@@ -1,4 +1,5 @@
 ﻿using KSerialization;
+using System;
 using System.Linq;
 using UnityEngine;
 using UtilLibs;
@@ -6,9 +7,17 @@ using static KAnim.Build;
 
 namespace Rockets_TinyYetBig.NonRocketBuildings
 {
-	internal class POICapacitySensorSM : StateMachineComponent<POICapacitySensorSM.StatesInstance>, ISaveLoadable, ISim200ms, IThresholdSwitch
+	internal class POICapacitySensorSM : StateMachineComponent<POICapacitySensorSM.StatesInstance>, ISaveLoadable, ISim200ms, IThresholdSwitch, ISidescreenButtonControl
 	//, IGameObjectEffectDescriptor
 	{
+		enum DetectionMode
+		{
+			DrillingOnly = 0,
+			FloatingOnly = 1,
+			All = 2,
+		}
+
+
 		[MyCmpGet]
 		Building building;
 		[MyCmpGet]
@@ -21,7 +30,8 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 		KBatchedAnimController animController;
 		[MyCmpGet]
 		LogicPorts logicPorts;
-
+		[Serialize]
+		DetectionMode detectionMode = DetectionMode.DrillingOnly;
 
 		public override void OnSpawn()
 		{
@@ -48,12 +58,29 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 		}
 
 		bool ArtifactOnly = false;
-		ArtifactPOIStates.Instance artifactpoistatus = null;
-		HarvestablePOIStates.Instance harvestpoistatus = null;
+		public ArtifactPOIStates.Instance artifactpoistatus = null;
+		public HarvestablePOIStates.Instance harvestpoistatus = null;
+		public StarmapHexCellInventory hexInventory = null;
 
 		//bool LastArtifactState = false;
 		//bool LastThresholdState = false;
 		//bool lastWasNonOperational = false;
+
+		float GetCurrentCapacity()
+		{
+			float harvestCapacity = harvestpoistatus != null ? harvestpoistatus.poiCapacity : 0;
+			float collectCapacity = hexInventory != null?hexInventory.TotalMass : 0;
+			switch (detectionMode)
+			{
+				case DetectionMode.DrillingOnly:
+					return harvestCapacity;
+				case DetectionMode.FloatingOnly:
+					return collectCapacity;
+				case DetectionMode.All:
+				default:
+					return harvestCapacity + collectCapacity;
+			}
+		}
 
 		void UpdateLogicState(bool force = false)
 		{
@@ -65,22 +92,21 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 				return;
 			}
 
+			float currentCapacity = GetCurrentCapacity();
 			bool artifactIsAvailable = artifactpoistatus != null ? artifactpoistatus.HasArtifactAvailableInHexCell() : false;
-			bool aboveMassThreshold = harvestpoistatus != null ?
-				activateAboveThreshold
-					? harvestpoistatus.poiCapacity >= threshold
-					: harvestpoistatus.poiCapacity < threshold
-				: false;
+			bool aboveMassThreshold = harvestpoistatus != null && (activateAboveThreshold
+					? currentCapacity >= threshold
+					: currentCapacity < threshold);
 
 			//if (LastArtifactState != artifactIsAvailable || force)
 			//{
 			//	LastArtifactState = artifactIsAvailable;
-				logicPorts.SendSignal(POICapacitySensorConfig.PORT_ID_ARTIFACT, artifactIsAvailable ? 1 : 0);
+			logicPorts.SendSignal(POICapacitySensorConfig.PORT_ID_ARTIFACT, artifactIsAvailable ? 1 : 0);
 			//}
 			//if (LastThresholdState != aboveMassThreshold || force)
 			//{
-				//LastThresholdState = aboveMassThreshold;
-				logicPorts.SendSignal(POICapacitySensorConfig.PORT_ID_MASS_THRESHOLD, aboveMassThreshold ? 1 : 0);
+			//LastThresholdState = aboveMassThreshold;
+			logicPorts.SendSignal(POICapacitySensorConfig.PORT_ID_MASS_THRESHOLD, aboveMassThreshold ? 1 : 0);
 			//}
 
 			bool ShouldBeGreen = (artifactIsAvailable && ArtifactOnly || aboveMassThreshold);
@@ -103,7 +129,8 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 
 		void UpdateEntity(object data)
 		{
-			var entity = ClusterGrid.Instance.GetVisibleEntityOfLayerAtCell(locationSelector.GetDestination(), EntityLayer.POI);
+			var location = locationSelector.GetDestination();
+			var entity = ClusterGrid.Instance.GetVisibleEntityOfLayerAtCell(location, EntityLayer.POI);
 			Symbol symbol = null;
 			if (entity != null)
 			{
@@ -125,6 +152,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 
 				artifactpoistatus = artifactcmp;
 				harvestpoistatus = harvestablecmp;
+				hexInventory = ClusterGrid.Instance.AddOrGetHexCellInventory(location);
 				symbol = UIUtils.GetSymbolFromMultiObjectAnim(entity.AnimConfigs.First().animFile, entity.AnimConfigs.First().initialAnim);
 
 			}
@@ -132,6 +160,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 			{
 				artifactpoistatus = null;
 				harvestpoistatus = null;
+				hexInventory = null;
 				rangeMax = 1;
 			}
 
@@ -171,7 +200,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 			set => this.activateAboveThreshold = value;
 		}
 
-		public float CurrentValue => harvestpoistatus != null ? harvestpoistatus.poiCapacity : 0;
+		public float CurrentValue => GetCurrentCapacity();
 
 		private float rangeMin = 0f;
 		private float rangeMax = 1f;
@@ -198,6 +227,22 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 
 		public NonLinearSlider.Range[] GetRanges => NonLinearSlider.GetDefaultRange(this.RangeMax);
 
+		public string SidescreenButtonText => detectionMode switch
+		{
+			DetectionMode.DrillingOnly => STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.MODESWITCH.HARVESTABLE_ONLY,
+			DetectionMode.FloatingOnly => STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.MODESWITCH.FLOATING_ONLY,
+			DetectionMode.All => STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.MODESWITCH.ALL,
+			_ => STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.MODESWITCH.ALL,
+		};
+
+		public string SidescreenButtonTooltip => detectionMode switch
+		{
+			DetectionMode.DrillingOnly => STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.MODESWITCH.HARVESTABLE_ONLY_TOOLTIP,
+			DetectionMode.FloatingOnly => STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.MODESWITCH.FLOATING_ONLY_TOOLTIP,
+			DetectionMode.All => STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.MODESWITCH.ALL_TOOLTIP,
+			_ => STRINGS.BUILDINGS.PREFABS.RTB_POICAPACITYSENSOR.MODESWITCH.ALL_TOOLTIP,
+		};
+
 		public float GetRangeMinInputField() => RangeMin;
 
 		public float GetRangeMaxInputField() => RangeMax;
@@ -206,6 +251,24 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 		public string Format(float value, bool units) => GameUtil.GetFormattedMass(value, massFormat: GameUtil.MetricMassFormat.Kilogram, includeSuffix: units);
 		public float ProcessedSliderValue(float input) => input;
 		public float ProcessedInputValue(float input) => input;
+
+		public void SetButtonTextOverride(ButtonMenuTextOverride textOverride)
+		{
+		}
+
+		public bool SidescreenEnabled() => true;
+
+		public bool SidescreenButtonInteractable() => true;
+		public void OnSidescreenButtonPressed()
+		{
+			int current = (int)detectionMode;
+			current = ++current % Enum.GetNames(typeof(DetectionMode)).Length;
+			detectionMode  = (DetectionMode)current;
+		}
+
+		public int HorizontalGroupID() => -1;
+
+		public int ButtonSideScreenSortOrder() => 25;
 
 		#endregion
 		#region StateMachine
@@ -265,10 +328,11 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 					.TagTransition(GameTags.Operational, this.offStates.from_on, true);
 
 				onStates.noPoiSelected
-					.UpdateTransition(onStates.poiSelected, (smi, dt) => { return smi.master.artifactpoistatus != null; })
-					;
+					.UpdateTransition(onStates.poiSelected, (smi, dt) => { return smi.master.artifactpoistatus != null; });
 
 				onStates.poiSelected
+					.Enter(smi => smi.master.operational.SetActive(true))
+					.Exit(smi => smi.master.operational.SetActive(false))
 					.UpdateTransition(onStates.noPoiSelected, (smi, dt) => { return smi.master.artifactpoistatus == null; })
 					.Update((smi, dt) =>
 					{

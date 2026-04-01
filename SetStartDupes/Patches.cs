@@ -1887,7 +1887,7 @@ namespace SetStartDupes
 
 #endif
 
-					GridLayoutGroup[] objectsOfType2 = UnityEngine.Object.FindObjectsOfType<GridLayoutGroup>();
+					GridLayoutGroup[] objectsOfType2 = UnityEngine.Object.FindObjectsByType<GridLayoutGroup>(FindObjectsSortMode.None);
 					foreach (var layout in objectsOfType2)
 					{
 						if (layout.name == "CharacterContainers")
@@ -1944,7 +1944,7 @@ namespace SetStartDupes
 					return;
 				}
 
-				LocText[] objectsOfType1 = UnityEngine.Object.FindObjectsOfType<LocText>();
+				LocText[] objectsOfType1 = UnityEngine.Object.FindObjectsByType<LocText>(FindObjectsSortMode.None);
 				if (objectsOfType1 != null)
 				{
 					foreach (LocText locText in objectsOfType1)
