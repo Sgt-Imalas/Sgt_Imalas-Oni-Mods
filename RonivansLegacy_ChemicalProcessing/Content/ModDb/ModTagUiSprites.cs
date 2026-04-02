@@ -41,9 +41,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				}
 
 				var ui_name = "ui_" + t;
-				if(__result.first.name == "unknown")
+				if(__result.first.name == "unknown" && Assets.Sprites.TryGetValue(ui_name, out var sprite))
 				{
-					__result.first = Assets.GetSprite(ui_name);
+					__result.first = sprite;
 				}
 			}
 		}
