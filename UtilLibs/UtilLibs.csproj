@@ -19,7 +19,7 @@
 	  <None Include="Updating\LoadExtraAnimations.cs" />
 	</ItemGroup>
 	<ItemGroup>
-	  <PackageReference Include="PLib" Version="4.21.0" />
+	  <PackageReference Include="PLib" Version="4.22.0" />
 	</ItemGroup>
 	<!--<ItemGroup>
 		<Reference Include="$(GameLibsFolder)/netstandard.dll" Private ="false"/>
