@@ -255,6 +255,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BigSmallSculptures", "BigSm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GunkedRefinery", "GunkedRefinery\GunkedRefinery.csproj", "{C92DD57D-187E-4F7E-B76B-B464A1ACCF14}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HoverPipetteTool", "HoverPipetteTool\HoverPipetteTool.csproj", "{BF6FB53C-5F54-43D4-B045-A16642FE7BDF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -703,6 +705,10 @@ Global
 		{C92DD57D-187E-4F7E-B76B-B464A1ACCF14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C92DD57D-187E-4F7E-B76B-B464A1ACCF14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C92DD57D-187E-4F7E-B76B-B464A1ACCF14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF6FB53C-5F54-43D4-B045-A16642FE7BDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF6FB53C-5F54-43D4-B045-A16642FE7BDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF6FB53C-5F54-43D4-B045-A16642FE7BDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF6FB53C-5F54-43D4-B045-A16642FE7BDF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
