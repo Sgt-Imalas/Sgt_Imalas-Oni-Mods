@@ -202,26 +202,27 @@ namespace SetStartDupes
 			InterestBonusHeader = InterestBonusHeaderGO.GetComponent<LocText>();
 			interestBonusTooltipCMP = UIUtils.AddSimpleTooltipToObject(InterestBonusHeaderGO.gameObject, "tt");
 
-			AddNewInterest = Util.KInstantiateUI(ModAssets.AddNewToTraitsButtonPrefab, InterestContainer, Config.Instance.AddAndRemoveTraitsAndInterests);
+			AddNewInterest = Util.KInstantiateUI(ModAssets.AddNewToTraitsButtonPrefab, InterestContainer, true);
 			AddNewInterest.TryGetComponent<LayoutElement>(out var addbtnLE);
 			addbtnLE.preferredWidth = 262;
 			var imgAddinterest = AddNewInterest.transform.Find("Image").rectTransform();
 			imgAddinterest.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, (addbtnLE.preferredWidth / 2f) - (25f / 2f), 25);
 			UIUtils.AddActionToButton(AddNewInterest.transform, "", () => UnityTraitScreen.ShowWindow(ToEditMinionStats, () => UpdateUI(), DupeTraitManager: this, openedFrom: UnityTraitScreen.OpenedFrom.Interest));
 			AddNewInterest.TryGetComponent<ToolTip>(out var tt1);
+			AddNewInterest.SetActive(Config.Instance.AddAndRemoveTraitsAndInterests);
 			tt1.enabled = true;
 			tt1.SetSimpleTooltip(STRINGS.UI.BUTTONS.ADDTOSTATS);
 
 
 
-			AddNewTrait = Util.KInstantiateUI(ModAssets.AddNewToTraitsButtonPrefab, TraitContainer, Config.Instance.AddAndRemoveTraitsAndInterests);
+			AddNewTrait = Util.KInstantiateUI(ModAssets.AddNewToTraitsButtonPrefab, TraitContainer, true);
 			AddNewTrait.TryGetComponent<LayoutElement>(out var addtraitbtnLE);
 			addtraitbtnLE.preferredWidth = 262;
 			var imgAdd = AddNewTrait.transform.Find("Image").rectTransform();
 			imgAdd.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, (addbtnLE.preferredWidth / 2f) - (25f / 2f), 25);
 			UIUtils.AddActionToButton(AddNewTrait.transform, "", () => UnityTraitScreen.ShowWindow(ToEditMinionStats, () => UpdateUI(), DupeTraitManager: this, openedFrom: UnityTraitScreen.OpenedFrom.Trait));
 			AddNewTrait.TryGetComponent<ToolTip>(out var tt2);
-			AddNewTrait.SetActive(true);
+			AddNewTrait.SetActive(Config.Instance.AddAndRemoveTraitsAndInterests);
 			tt2.enabled = true;
 			tt2.SetSimpleTooltip(STRINGS.UI.BUTTONS.ADDTOSTATS);
 
@@ -643,7 +644,8 @@ namespace SetStartDupes
 				UI_TraitEntries[t].transform.SetAsLastSibling();
 			}
 
-			AddNewTrait.transform.SetAsLastSibling();
+			if (AddNewTrait.gameObject.activeSelf)
+				AddNewTrait.transform.SetAsLastSibling();
 			UpdateTraitInfoHeader();
 		}
 		void UpdateTraitInfoHeader()
@@ -697,7 +699,8 @@ namespace SetStartDupes
 				UI_InterestEntries[t].transform.SetAsLastSibling();
 			}
 
-			AddNewInterest.transform.SetAsLastSibling();
+			if (AddNewInterest.gameObject.activeSelf)
+				AddNewInterest.transform.SetAsLastSibling();
 			UpdateInterestLabels();
 		}
 
