@@ -22,8 +22,8 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>Hover Picker Tool</ModName>
-		<ModDescription>click Q to pick the building under the cursor for construction</ModDescription>
+		<ModName>Building Picker Tool</ModName>
+		<ModDescription>click Q to the building under the cursor for construction. Click it multiple times to iterate through all buildings in the tile</ModDescription>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

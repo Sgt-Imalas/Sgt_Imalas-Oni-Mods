@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UtilLibs;
 
 namespace HoverPipetteTool
 {
@@ -21,38 +22,47 @@ namespace HoverPipetteTool
 
 		static int LastCell = -1, SelectedIndex = 0;
 
-		//static IEnumerable<Building> GetHoveredBuildings()
-		//{
-		//	ListPool<ScenePartitionerEntry, SelectTool>.PooledList pooledList = ListPool<ScenePartitionerEntry, SelectTool>.Allocate();
-		//	GameScenePartitioner.Instance.GatherEntries((int)pos2.x, (int)pos2.y, 1, 1, GameScenePartitioner.Instance.collisionLayer, pooledList);
-		//	pooledList.Sort((ScenePartitionerEntry x, ScenePartitionerEntry y) => SortHoverCards(x, y));
-		//	foreach (ScenePartitionerEntry item in pooledList)
-		//	{
-		//		KCollider2D kCollider2D = item.obj as KCollider2D;
-		//		if (!(kCollider2D == null) && kCollider2D.Intersects(new Vector2(pos2.x, pos2.y)))
-		//		{
-		//			KSelectable kSelectable = kCollider2D.GetComponent<KSelectable>();
-		//			if (kSelectable == null)
-		//			{
-		//				kSelectable = kCollider2D.GetComponentInParent<KSelectable>();
-		//			}
+		static List<Building> LastHoveredBuildings = [];
 
-		//			if (!(kSelectable == null) && kSelectable.isActiveAndEnabled && !hits.Contains(kSelectable) && kSelectable.IsSelectable)
-		//			{
-		//				hits.Add(kSelectable);
-		//			}
-		//		}
-		//	}
+		static void GatherHoveredBuildings(int cell)
+		{
+			if (!Grid.IsValidCell(cell) || !Grid.IsVisible(cell))
+				return;
+			LastHoveredBuildings.Clear();
 
-		//	pooledList.Recycle();
-		//}
+
+			for (int i = 0; i < (int)ObjectLayer.NumLayers; ++i)
+			{
+				var obj = Grid.Objects[cell, i];
+				if(obj != null && obj.TryGetComponent<Building>(out var building) && !LastHoveredBuildings.Contains(building))
+				{
+					LastHoveredBuildings.Add(building);
+				}
+			}
+		}
+		private static int SortHoverCards(ScenePartitionerEntry x, ScenePartitionerEntry y)
+		{
+			return SortSelectables(x.obj as KMonoBehaviour, y.obj as KMonoBehaviour);
+		}
+		private static int SortSelectables(KMonoBehaviour x, KMonoBehaviour y)
+		{
+			if (x == null && y == null)
+				return 0;
+			if (x == null)
+				return -1;
+			if (y == null)
+				return 1;
+			int num = x.transform.GetPosition().z.CompareTo(y.transform.GetPosition().z);
+			return num != 0 ? num : x.GetInstanceID().CompareTo(y.GetInstanceID());
+		}
+
+		static void RefreshHoveredBuildings(int cell)
+		{
+			GatherHoveredBuildings(cell);
+		}
 
 		internal static void SelectNextBuilding()
 		{
-			InterfaceTool activeTool = PlayerController.Instance.ActiveTool;
-			if (activeTool == null)
-				return;
-
 			var mousePos = PlayerController.GetCursorPos(KInputManager.GetMousePos());
 			int cell = Grid.PosToCell(mousePos);
 			if (!Grid.IsValidBuildingCell(cell))
@@ -60,24 +70,27 @@ namespace HoverPipetteTool
 				return;
 			}
 
-			if(cell != LastCell)
+			if (cell != LastCell || !LastHoveredBuildings.Any())
 			{
+				SgtLogger.l("old cell: " + LastCell + " new cell: " + cell);
 				LastCell = cell;
 				SelectedIndex = 0;
+				RefreshHoveredBuildings(cell);
 			}
 
-			var targets = activeTool.hits.Where(hit => hit.TryGetComponent<Building>(out _)).Select(t => t.GetComponent<Building>());
-			if(!targets.Any())
+			if (!LastHoveredBuildings.Any())
 			{
 				SelectedIndex = 0;
 				return;
 			}
 
-			if (SelectedIndex >= targets.Count())
+			if (SelectedIndex >= LastHoveredBuildings.Count())
 			{
 				SelectedIndex = 0;
 			}
-			var targetBuilding = targets.ElementAt(SelectedIndex);
+			var targetBuilding = LastHoveredBuildings.ElementAt(SelectedIndex);
+			SgtLogger.l("Selected building: " + targetBuilding.GetProperName() + " at index " + SelectedIndex);
+			SelectedIndex++;
 
 			PlanScreen.Instance.CopyBuildingOrder(targetBuilding);
 		}
