@@ -110,10 +110,10 @@ namespace ItemDropPrevention.Content.Scripts
 						}
 					}
 				}
-				if(currentChore.choreType == Db.Get().ChoreTypes.Relocate)
-				{
+				//if(currentChore.choreType == Db.Get().ChoreTypes.Relocate)
+				//{
 					
-				}
+				//}
 			}
 			///if the workable is something in the hands of the dupe, dont drop it
 			var task = worker.GetWorkable();
@@ -167,6 +167,8 @@ namespace ItemDropPrevention.Content.Scripts
 				return;
 
 			if (item.IsNullOrDestroyed()) return;
+
+			if (item.HasTag(GameTags.MarkedForMove)) return;
 
 			if (item.TryGetComponent<Capturable>(out var wrangleable) && wrangleable.IsCapturable())
 			{
