@@ -1,4 +1,5 @@
-﻿using PeterHan.PLib.Actions;
+﻿using MassMoveTo.Content.Defs.Entities;
+using PeterHan.PLib.Actions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,7 +53,7 @@ namespace MassMoveTo
 			else
 			{
 				Vector3 position = Grid.CellToPosCBC(cell, MoveToLocationTool.Instance.visualizerLayer);
-				GameObject obj = Util.KInstantiate(Assets.GetPrefab(MovePickupablePlacerConfig.ID), position);
+				GameObject obj = Util.KInstantiate(Assets.GetPrefab(MMT_MultiMovePickupablePlacerConfig.ID), position);
 				targetStorage = obj.GetComponent<Storage>();
 				obj.SetActive(value: true);
 			}
