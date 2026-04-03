@@ -276,13 +276,13 @@ namespace ItemDropPrevention.Content.Scripts
 				{
 					continue;
 				}
-				prefabID.RemoveTag(GameTags.MarkedForMove);
+				prefabID.RemoveTag(ModAssets.BlockedFromDoingStuff);
 				if (FetchManager.IsFetchablePickup(pickupable, chore, consumer_state.storage))
 				{
 					UnmarkForDrop(item);
 					return pickupable;
 				}
-				prefabID.AddTag(GameTags.MarkedForMove);
+				prefabID.AddTag(ModAssets.BlockedFromDoingStuff);
 			}
 			return null;
 		}
