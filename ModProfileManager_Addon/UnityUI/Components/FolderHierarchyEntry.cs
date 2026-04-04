@@ -18,8 +18,15 @@ namespace ModProfileManager_Addon.UnityUI.Components
 
 			if (folder != null)
 			{
-				Label.SetText(folder.ModlistPath);
 				button.OnClick += OnEntryClicked;
+			}
+		}
+		public override void OnSpawn()
+		{
+			base.OnSpawn();
+			if (folder != null)
+			{
+				Label.SetText(folder.ModlistPath);
 			}
 		}
 	}

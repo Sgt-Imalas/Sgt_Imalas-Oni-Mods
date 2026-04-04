@@ -11,6 +11,7 @@ namespace ModProfileManager_Addon.IO
 	internal class CloneImport
 	{
 		static string[] clonePresetFolders = new string[]{
+			Path.Combine(KMod.Manager.GetDirectory(),"config","3284635963","saved_presets"),
 			Path.Combine(KMod.Manager.GetDirectory(),"Steam","3284635963","saved_presets")
 		};
 
