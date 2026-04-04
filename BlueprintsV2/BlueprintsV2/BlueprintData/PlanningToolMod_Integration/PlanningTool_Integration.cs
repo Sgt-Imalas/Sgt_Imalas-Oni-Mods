@@ -32,7 +32,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData.PlanningToolMod_Integration
 			var traverse = Traverse.Create(planData);
 			traverse.Field("Cell").SetValue(cell);
 			traverse.Field("Shape").SetValue((int)shape);
-		//	traverse.Field("Shape").SetValue(Enum.ToObject(t_PlanShape, (int)shape));
+			//	traverse.Field("Shape").SetValue(Enum.ToObject(t_PlanShape, (int)shape));
 			traverse.Field("Color").SetValue((int)color);
 			//traverse.Field("Color").SetValue(Enum.ToObject(t_PlanColor, (int)color));
 			SgtLogger.l("Shape: " + shape + ", Color: " + color);
@@ -69,8 +69,10 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData.PlanningToolMod_Integration
 		{
 			ModActive = InitializeTypes();
 			if (ModActive)
+			{
 				VerifyTypes();
-			ModActive = InitializeMethods();
+				ModActive = InitializeMethods();
+			}
 			SgtLogger.l("PlanningTool ModIntegration: " + (ModActive ? "Active" : "Sleeping"));
 		}
 
