@@ -229,6 +229,14 @@ namespace SGTIM_NotificationManager
 				{
 					skipAudio = Config.Instance.MUTE_UNREFRIGERATEDFOOD_SOUND;
 				}
+				else if (notification.titleText == global::STRINGS.MISC.NOTIFICATIONS.BROKENMACHINE.NAME)
+				{
+					skipAudio = Config.Instance.MUTE_BROKENMACHINE_SOUND;
+				}
+				else if (notification.titleText == global::STRINGS.MISC.NOTIFICATIONS.DUPLICANTDIED.NAME)
+				{
+					skipAudio = Config.Instance.MUTE_DUPLICANTDIED_SOUND;
+				}
 
 				notification.playSound = !skipAudio;
 			}
@@ -309,6 +317,16 @@ namespace SGTIM_NotificationManager
 				{
 					pause = Config.Instance.PAUSE_ON_UNREFRIGERATEDFOOD;
 					moveCam = Config.Instance.PAN_TO_UNREFRIGERATEDFOOD;
+				}
+				else if (notification.titleText == global::STRINGS.MISC.NOTIFICATIONS.BROKENMACHINE.NAME)
+				{
+					pause = Config.Instance.PAUSE_ON_BROKENMACHINE;
+					moveCam = Config.Instance.PAN_TO_BROKENMACHINE;
+				}
+				else if (notification.titleText == global::STRINGS.MISC.NOTIFICATIONS.DUPLICANTDIED.NAME)
+				{
+					pause = Config.Instance.PAUSE_ON_DUPLICANTDIED;
+					moveCam = Config.Instance.PAN_TO_DUPLICANTDIED;
 				}
 
 				if (GameClock.Instance != null)
