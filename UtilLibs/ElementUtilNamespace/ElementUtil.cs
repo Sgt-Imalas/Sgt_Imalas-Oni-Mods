@@ -126,7 +126,6 @@ namespace ElementUtilNamespace
             return substance;
         }
 
-        // TODO: load from an assetbundle later
         private static void SetTexture(Material material, string texture, string property)
         {
             var path = Path.Combine(UtilMethods.ModPath, "assets", "textures", texture + ".png");
