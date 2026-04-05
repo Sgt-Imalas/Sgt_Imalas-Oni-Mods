@@ -5,6 +5,7 @@ using PeterHan.PLib.Options;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
+using RonivansLegacy_ChemicalProcessing.Patches;
 using System;
 using System.Collections.Generic;
 using UtilLibs;
@@ -31,6 +32,9 @@ namespace RonivansLegacy_ChemicalProcessing
 			HarmonyInstance = harmony;
 
 			SgtLogger.LogVersion(this, harmony);
+
+			Enum_Patches.EnumPatch.ManualTestPatch(harmony);
+
 			base.OnLoad(harmony);
 			SgtLogger.log("Current Config Settings:");
 			UtilMethods.ListAllPropertyValues(Config.Instance,(s)=>s.Contains("System.Action"));

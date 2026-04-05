@@ -14,6 +14,12 @@ namespace ElementUtilNamespace
 		public static readonly List<ElementInfo> elements = new List<ElementInfo>();
 
 
+		public static bool SimHashInternalFormat_EnumPatch(object eT, object value, ref string __result)
+		{
+			if (((Type)eT) != typeof(SimHashes))
+				return true;
+			return !SimHashNameLookup.TryGetValue((SimHashes)value, out __result);
+		}
 		public static bool SimHashToString_EnumPatch(Enum __instance, ref string __result)
 		{
 			if (__instance is SimHashes hashes)
@@ -80,7 +86,7 @@ namespace ElementUtilNamespace
 			}
 
 			Substance substance = ModUtil.CreateSubstance(id.ToString(), state, animFile, newMaterial, color, uiColor, conduitColor);
-			substance.anims = [animFile]; 
+			substance.anims = [animFile];
 			return substance;
 		}
 

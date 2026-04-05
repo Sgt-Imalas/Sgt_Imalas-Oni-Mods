@@ -160,10 +160,10 @@
 
 	
 	<ItemGroup Condition="'$(IsMod)' == 'true'">
-		<PackageReference Include="Aze.Publicise.MSBuild.Task" Version="*">
+		<!--<PackageReference Include="Aze.Publicise.MSBuild.Task" Version="*">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
+		</PackageReference>-->
 		<PackageReference Include="Lib.Harmony.Ref" Version="2.4.2"/>
 	</ItemGroup>
 

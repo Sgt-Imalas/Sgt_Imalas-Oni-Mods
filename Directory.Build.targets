@@ -138,14 +138,6 @@
 
 	</Target>-->
 
-<!--	Create folder for publicized dlls if not existing-->
-	<Target Name="PubliciseMKDIR"
-		BeforeTargets="Publicise"
-		Condition="'$(GameLibsFolder)' != '../Lib' and '$(IsMod)' == 'true'"
-		>
-		<MakeDir Directories="$(SolutionDir)\PublicisedAssembly"/>
-	</Target>
-
 	<!--Creates publicized dlls from the game dlls-->
 	<ItemGroup>
 		<PubliciseAssemblies       Include="Assembly-CSharp.dll;Assembly-CSharp-firstpass.dll;"/>
@@ -158,11 +150,15 @@
 		Condition="'$(GameLibsFolder)' != '../Lib' and '$(IsMod)' == 'true'"
 		>
 
-		<Publicise
+		<Message Text="Publicizing $(Inputs)" Importance="High"/>
+		<MakeDir Directories="$(SolutionDir)/PublicisedAssembly"/>
+		<Exec Command='dotnet tool run assembly-publicizer -o "$(SolutionDir)PublicisedAssembly/%(PubliciseAssembliesInputs.Filename)_public%(PubliciseAssembliesInputs.Extension)" "%(PubliciseAssembliesInputs.Identity)"' />
+
+	<!--<Publicise
 			InputAssemblies="@(PubliciseAssembliesInputs)"
 			OutputPath="$(SolutionDir)\PublicisedAssembly"
 			PubliciseCompilerGenerated="false"
-			/>
+			/>-->
 		<!--
 		    Publicise also does internal incremental "compilation", and
 		    doesn't change the timestamp on the target file when it does
