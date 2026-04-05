@@ -6,7 +6,7 @@ Mods for Oxygen Not Included and ONI - Spaced Out.
 1. clone/download repository and open it in visual studio
 2. make a copy of the `Directory.Build.props.default` file and name it `Directory.Build.props.user`, then adjust the variables "ModFolder" and "GameLibsFolder" inside of the copy to reference your local dev folder and your game folder. This will relink all references to the game assemblies.
 3. if you don't know what "refasmer" is, next to RefasmerInstalled, change the 1 to a 0
-4. run `dotnet tool restore` to install the required dotnet tools (publiciser and refasmer) for building the mods.
+4. run `dotnet tool restore` to install the required dotnet tools (publiciser and refasmer) for building the mods. (if you are on linux, you need dotnet 6 for the publicizer, using the install script by ms thats: `./dotnet-install.sh --channel 6.0`)
 5. Done. All mods should now be able to compile properly and be copied to the dev-folder on completion. If you want to make a new mod and use this repository as a base, make sure to allow "Unsafe Code" in the new mods project settings as this is required for using publiciser (Update; this should now happen automatically via solution setting). A project template file is included with "UpdatedOniTemplate.zip".
 
 

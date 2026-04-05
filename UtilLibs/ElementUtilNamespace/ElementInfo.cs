@@ -27,8 +27,8 @@ namespace ElementUtilNamespace
 			this.color = color;
 
 			SimHash = SgtElementUtil.RegisterSimHash(id);
-			SgtElementUtil.elements.Add(this);
-
+			SgtElementUtil.Elements.Add(this);
+SolarPanelConfig
 			Tag = id;
 			//SgtLogger.l("The elementinfo should have this simhash: "+(SimHashes)SimHash + ", ToString returns: "+SimHash.ToString());
 		}

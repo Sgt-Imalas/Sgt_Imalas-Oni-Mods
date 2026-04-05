@@ -8,6 +8,7 @@ using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using RonivansLegacy_ChemicalProcessing.Patches;
 using System;
 using System.Collections.Generic;
+using ElementUtilNamespace;
 using UtilLibs;
 using UtilLibs.BuildingPortUtils;
 using UtilLibs.SharedTweaks;
@@ -33,7 +34,7 @@ namespace RonivansLegacy_ChemicalProcessing
 
 			SgtLogger.LogVersion(this, harmony);
 
-			Enum_Patches.EnumPatch.ManualTestPatch(harmony);
+			SgtElementUtil.ExecuteElementEnumPatches(harmony);
 
 			base.OnLoad(harmony);
 			SgtLogger.log("Current Config Settings:");
