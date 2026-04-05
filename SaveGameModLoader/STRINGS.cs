@@ -33,6 +33,11 @@ namespace SaveGameModLoader
 				public static LocString NAME = "Keep mod enabled on crash";
 				public static LocString TOOLTIP = "any crash during load will wrongfully blame this mod and disable it.\nEnable this option to prevent the mod from getting disabled.";
 			}
+			public class USESTEAMOVERLAY
+			{
+				public static LocString NAME = "Open links in Steam Overlay";
+				public static LocString TOOLTIP = "When active, uses the steam overlay instead of the browser to open workshop links";
+			}
 		}
 		public class UI
 		{

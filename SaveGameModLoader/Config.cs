@@ -11,19 +11,18 @@ namespace SaveGameModLoader
 	[ConfigFile(SharedConfigLocation: true)]
 	public class Config : SingletonOptions<Config>
 	{
-
-
 		// [Option("STRINGS.MPM_CONFIG.FILTERBUTTONS.NAME", "STRINGS.MPM_CONFIG.FILTERBUTTONS.TOOLTIP")]
 		//[JsonProperty]
 		//public FilterbuttonStyle ButtonStyle { get; set; }
 
-		[Option("STRINGS.MPM_CONFIG.FOLDERPATH.NAME", "STRINGS.MPM_CONFIG.FOLDERPATH.TOOLTIP")]
+		[Option("STRINGS.MPM_CONFIG.USECUSTOMFOLDERPATH.NAME", "STRINGS.MPM_CONFIG.USECUSTOMFOLDERPATH.TOOLTIP", "STRINGS.MPM_CONFIG.FOLDERPATH.NAME")]
+		[JsonProperty]
+		public bool UseCustomFolderPath { get; set; }
+
+		[Option("STRINGS.MPM_CONFIG.FOLDERPATH.NAME", "STRINGS.MPM_CONFIG.FOLDERPATH.TOOLTIP", "STRINGS.MPM_CONFIG.FOLDERPATH.NAME")]
 		[JsonProperty]
 		public string ModProfileFolder { get; set; }
 
-		[Option("STRINGS.MPM_CONFIG.USECUSTOMFOLDERPATH.NAME", "STRINGS.MPM_CONFIG.USECUSTOMFOLDERPATH.TOOLTIP")]
-		[JsonProperty]
-		public bool UseCustomFolderPath { get; set; }
 
 		[Option("STRINGS.MPM_CONFIG.NEVERDISABLE.NAME", "STRINGS.MPM_CONFIG.NEVERDISABLE.TOOLTIP")]
 		[JsonProperty]
@@ -32,6 +31,11 @@ namespace SaveGameModLoader
 		[Option("STRINGS.MPM_CONFIG.APPLYPLIBCONFIG.NAME", "STRINGS.MPM_CONFIG.APPLYPLIBCONFIG.TOOLTIP")]
 		[JsonProperty]
 		public bool SavePlibOptions { get; set; } = true;
+
+
+		[Option("STRINGS.MPM_CONFIG.USESTEAMOVERLAY.NAME", "STRINGS.MPM_CONFIG.USESTEAMOVERLAY.TOOLTIP")]
+		[JsonProperty]
+		public bool UseSteamOverlay { get; set; } = true;
 
 		public Config()
 		{

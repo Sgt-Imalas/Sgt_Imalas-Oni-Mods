@@ -404,6 +404,32 @@ namespace SaveGameModLoader
 						hier.GetReference<Transform>(PinTransform).SetSiblingIndex(2);
 						hier.GetReference<Transform>(tagBgnTransform).SetSiblingIndex(3);
 					}
+					//cleanup ui spam:
+					if (mod.label.title.Contains(Spam))
+					{
+						var junk1 = transf.Find("patreon-logo");
+						var junk1_ = transf.Find("PatreonLogo");
+						if (junk1)
+						{
+							UnityEngine.Object.Destroy(junk1?.gameObject);
+							var junk2 = transf.Find("github-logo");
+							if (junk2)
+								UnityEngine.Object.Destroy(junk2?.gameObject);
+							var junk3 = transf.Find("discord-logo");
+							if (junk3)
+								UnityEngine.Object.Destroy(junk3?.gameObject);
+						}
+						else if (junk1_)
+						{
+							UnityEngine.Object.Destroy(junk1_?.gameObject);
+							var junk2_ = transf.Find("GithubLogo");
+							if (junk2_)
+								UnityEngine.Object.Destroy(junk2_?.gameObject);
+							var junk3_ = transf.Find("DiscordLogo");
+							if (junk3_)
+								UnityEngine.Object.Destroy(junk3_?.gameObject);
+						}
+					}
 				}
 				if (FilterButtons.Instance != null)
 				{
@@ -413,9 +439,8 @@ namespace SaveGameModLoader
 				{
 					FilterToggleButtons.Instance.RefreshUIState(false);
 				}
-				//ModAssets.ReorderVisualModState(___displayedMods, allMods);
-
 			}
+			private static readonly string Spam = Encoding.UTF8.GetString(Convert.FromBase64String("YnkgQE9ueQ=="));
 			static Color
 				normal = UIUtils.rgb(62, 67, 87),
 				pinnedBg = UIUtils.Darken(normal, 15),
@@ -790,9 +815,10 @@ namespace SaveGameModLoader
 				{
 					yield return null;
 					bt.SetActive(__instance.Button_ResumeGame.isActiveAndEnabled);
-				};
+				}
+				;
 
-				__instance.StartCoroutine(DelayedActivationCheck());			
+				__instance.StartCoroutine(DelayedActivationCheck());
 
 			}
 		}
@@ -821,16 +847,16 @@ namespace SaveGameModLoader
 
 
 
-			internal class SaveFileRoot
-			{
-				public int WidthInCells;
-				public int HeightInCells;
-				public Dictionary<string, byte[]> streamed;
-				public string clusterID;
-				public List<ModInfo> requiredMods;
-				public List<KMod.Label> active_mods;
-				public SaveFileRoot() => this.streamed = new Dictionary<string, byte[]>();
-			}
+			//internal class SaveFileRoot
+			//{
+			//	public int WidthInCells;
+			//	public int HeightInCells;
+			//	public Dictionary<string, byte[]> streamed;
+			//	public string clusterID;
+			//	public List<ModInfo> requiredMods;
+			//	public List<KMod.Label> active_mods;
+			//	public SaveFileRoot() => this.streamed = new Dictionary<string, byte[]>();
+			//}
 			public static SaveLoader instance;
 			public static void Prefix(SaveLoader __instance)
 			{

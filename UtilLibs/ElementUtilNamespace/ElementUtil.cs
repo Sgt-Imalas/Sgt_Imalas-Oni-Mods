@@ -32,8 +32,6 @@ namespace ElementUtilNamespace
 			return true;
 		}
 
-
-
 		public static SimHashes RegisterSimHash(string name)
 		{
 			var simHash = (SimHashes)Hash.SDBMLower(name);

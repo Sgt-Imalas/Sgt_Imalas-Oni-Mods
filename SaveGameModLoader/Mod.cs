@@ -110,7 +110,6 @@ namespace SaveGameModLoader
 			ModlistManager.Instance.GetAllModPacks();
 
 			ModSyncUtils.RegisterModAsSyncMod(this.mod);
-			ModAssets.ReadOrRegisterBrowserSetting();
 			base.OnLoad(harmony);
 			Steam_MakeMod.TryPatchingSteam(harmony);
 

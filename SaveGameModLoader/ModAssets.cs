@@ -27,29 +27,13 @@ namespace SaveGameModLoader
 		public static bool ModsFilterActive = false;
 
 
-		public static bool UseSteamOverlay;
+		public static bool UseSteamOverlay => Config.Instance.UseSteamOverlay;
 		static HashSet<string> BrokenModInstallations = new HashSet<string>();
 		public static bool IsModInstallationBroken(string modStaticID)
 		{
 			return BrokenModInstallations.Contains(modStaticID);
 		}
 
-		public enum BrowserChoice
-		{
-			undefined = 0,
-			web = 1,
-			steamOverlay = 2,
-		}
-
-		public static string RegistryKey = "Workshop_Browser_Choice";
-		public static void ReadOrRegisterBrowserSetting()
-		{
-			if (KPlayerPrefs.GetInt(RegistryKey) == (int)BrowserChoice.undefined) //nothing valid set;
-			{
-				KPlayerPrefs.SetInt(RegistryKey, (int)BrowserChoice.steamOverlay);
-			}
-			UseSteamOverlay = KPlayerPrefs.GetInt(RegistryKey) == (int)BrowserChoice.steamOverlay;
-		}
 
 		static List<string> forbiddenNames = new List<string>()
 		{
