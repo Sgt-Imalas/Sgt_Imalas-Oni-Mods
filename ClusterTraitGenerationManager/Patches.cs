@@ -824,7 +824,7 @@ namespace ClusterTraitGenerationManager
 						)
 					{
 						int seed = myRandom.seed;
-						SgtLogger.l(seed.ToString(), "geyserSeed");
+						SgtLogger.l(seed.ToString(), "geyserSizeManipulationSeed");
 
 						bool customDimensions = (!item.DefaultDimensions && !Mathf.Approximately(item.CurrentSizeMultiplier, 1));
 						float SizeModifier = item.CurrentSizeMultiplier;
@@ -1358,7 +1358,6 @@ namespace ClusterTraitGenerationManager
 		public static bool StillLoading = true;
 
 
-
 		[HarmonyPatch(typeof(WorldGenSettings), nameof(WorldGenSettings.SetStoryTraitCandidates))]
 		public class WorldGenSettings_SetStoryTraitCandidates_Patch
 		{
@@ -1367,8 +1366,10 @@ namespace ClusterTraitGenerationManager
 			{
 				if(!StoryTraitIdMap.TryGetValue(storyTrait, out var id))
 				{
-					id = SettingsCache.storyTraits.First(x => x.Value == storyTrait).Key;
-					id = id.Replace("storytraits/", string.Empty);
+					string worldgenKey = SettingsCache.storyTraits.First(x => x.Value == storyTrait).Key; ;
+					var story = Db.Get().Stories.resources.First(x => x.worldgenStoryTraitKey == worldgenKey);
+					SgtLogger.l("Mapping story trait "+story.Id+" to worldgen trait: "+ worldgenKey);
+					id = story.Id;
 					StoryTraitIdMap[storyTrait] = id;
 				}
 				return id;
@@ -1387,11 +1388,11 @@ namespace ClusterTraitGenerationManager
 					SgtLogger.l("checking story " + storyTraitId);
 					if(CustomCluster.StoryTraitBlacklisted(storyTraitId, asteroidId))
 					{
-						SgtLogger.l("story "+ storyTraitId + " not allowed on " + asteroidId + ", removing");
+						SgtLogger.l("story "+ storyTraitId + " not allowed to spawn on " + asteroidId + ", removing");
 						ToRemoveFromWorld.Add(story);
 					}
 					else
-						SgtLogger.l("story " + storyTraitId + " allowed on " + asteroidId);
+						SgtLogger.l("story " + storyTraitId + " is allowed to spawn on " + asteroidId);
 				}
 
 

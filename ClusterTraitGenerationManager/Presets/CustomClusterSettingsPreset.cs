@@ -183,6 +183,17 @@ namespace ClusterTraitGenerationManager
 				CGSMClusterManager.BlacklistedGeysers = [.. this.SharedBlacklistedGeysers];
 			CGSMClusterManager.BlacklistAffectsNonGenerics = this.SharedBlacklistAffectsNonGenerics;
 
+			var geysers = ModAssets.AllGeysers.Keys.ToHashSet();
+			var allGeysers = CGSMClusterManager.BlacklistedGeysers.ToArray();
+			foreach (var geyser in allGeysers)
+			{
+				if(!geysers.Contains(geyser))
+				{
+					CGSMClusterManager.BlacklistedGeysers.Remove(geyser);
+				}
+
+			}
+
 			#region legacySettings
 			///ImmuneSystem
 			if (ImmuneSystem != null && ImmuneSystem.Length > 0)

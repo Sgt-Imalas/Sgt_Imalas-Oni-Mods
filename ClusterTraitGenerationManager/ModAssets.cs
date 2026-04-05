@@ -455,6 +455,24 @@ namespace ClusterTraitGenerationManager
 
 		public static Dictionary<string, GeyserDataEntry> AllGeysers = new();
 		public static List<GeyserGenericConfig.GeyserPrefabParams> AllGenericGeysers = new();
+		public static List<GeyserGenericConfig.GeyserPrefabParams> AllNonGenericGeysers = new();
+
+		public static string PickItemFromListExcludingBlacklist(string currentGeyser, int seed, List<GeyserGenericConfig.GeyserPrefabParams> geyserList, HashSet<string> blacklist)
+		{
+			List<GeyserGenericConfig.GeyserPrefabParams> localList = new();
+
+			foreach (var entry in geyserList)
+			{
+				if(!blacklist.Contains(entry.id))
+					localList.Add(entry);
+			}
+			if(!localList.Any())
+			{
+				SgtLogger.warning("All geysers of type " + (geyserList.FirstOrDefault().isGenericGeyser == true ? "generic" : "non generic") + " are blacklisted, cannot replace geyser " + currentGeyser);
+				return currentGeyser;
+			}
+			return localList[new KRandom(seed).Next(0, localList.Count)].id;
+		}
 
 		public static string GetGenericGeyserAt(int seed, Vector2I position, HashSet<string> geyserBlacklist = null)
 		{
@@ -466,18 +484,22 @@ namespace ClusterTraitGenerationManager
 			int Seed = num + position.x + position.y;
 
 			string geyserID = AllGenericGeysers[new KRandom(Seed).Next(0, AllGenericGeysers.Count)].id;
+			string original = geyserID;
 
-			if (geyserBlacklist != null && geyserBlacklist.Count > 0 && geyserBlacklist.Contains(geyserID))
+			if (geyserBlacklist != null && geyserBlacklist.Any() && geyserBlacklist.Contains(geyserID))
 			{
-				int failure = AllGenericGeysers.Count;
-				while (geyserBlacklist.Contains(geyserID) && failure > 0)
+				geyserID = PickItemFromListExcludingBlacklist(geyserID, Seed, AllGenericGeysers, geyserBlacklist);
+				if (geyserID == original)
 				{
-					failure--;
-					num++;
-					Seed = num + position.x + position.y;
-					geyserID = AllGenericGeysers[new KRandom(Seed).Next(0, AllGenericGeysers.Count)].id;
+					SgtLogger.warning("All generic geysers are blacklisted, falling back to checking non generic geysers");
+					geyserID = PickItemFromListExcludingBlacklist(geyserID, Seed, AllNonGenericGeysers, geyserBlacklist);
+				}
+				if (geyserID == original)
+				{
+					SgtLogger.warning("Congratulations, you blacklisted every single geyser, we cannot replace this one. Falling back to spawning the original geyser id : " + geyserID);
 				}
 			}
+
 			if (geyserBlacklist == null)
 				SgtLogger.l("getting generic geyser at " + position.ToString() + ", seed :" + seed + " --> " + geyserID);
 			else

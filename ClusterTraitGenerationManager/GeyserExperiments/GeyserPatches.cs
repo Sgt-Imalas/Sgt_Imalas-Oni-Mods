@@ -18,6 +18,7 @@ namespace ClusterTraitGenerationManager.GeyserExperiments
 		public static void Postfix(List<GeyserPrefabParams> __result)
 		{
 			ModAssets.AllGenericGeysers = __result.Where(g => g.isGenericGeyser).ToList();
+			ModAssets.AllNonGenericGeysers = __result.Where(g => !g.isGenericGeyser).ToList();
 
 			var sortedGeysers = __result.OrderBy(g => global::STRINGS.UI.StripLinkFormatting(Strings.Get(g.nameStringKey).ToString()));
 
@@ -38,6 +39,8 @@ namespace ClusterTraitGenerationManager.GeyserExperiments
 		public static HashSet<string> BlacklistedGeysers = new();
 		public static bool ReplaceNonGenerics = false;
 		public static int seed = 0;
+		public static Vector2I WorldOffset;
+
 		public static void Prefix(WorldGen __instance)
 		{
 			if (!CGSMClusterManager.LoadCustomCluster)
@@ -48,15 +51,17 @@ namespace ClusterTraitGenerationManager.GeyserExperiments
 			GeysersToOverride = new();
 			BlacklistedGeysers = new();
 			ReplaceNonGenerics = false;
+			WorldOffset = new(0,0);
 
 			string planetID = __instance.Settings.world.filePath;
 			SgtLogger.l("generating " + planetID + ", geyser override initializing");
 			if (CGSMClusterManager.LoadCustomCluster && CGSMClusterManager.CustomCluster.HasStarmapItem(planetID, out var planet))
 			{
+				WorldOffset = __instance.WorldOffset;
 				GeysersToOverride = new(planet.GeyserOverrideIDs);
 				BlacklistedGeysers = CGSMClusterManager.GetBlacklistedGeyserIdsFor(planet);
 				ReplaceNonGenerics = planet.GeyserBlacklistAffectsNonGenerics;
-				SgtLogger.l("override geyser count: " + GeysersToOverride.Count + ", blacklisted count: " + BlacklistedGeysers.Count + ", affect nongenerics: " + ReplaceNonGenerics);
+				SgtLogger.l("override geyser count: " + GeysersToOverride.Count + ", blacklisted count: " + BlacklistedGeysers.Count + ", affect nongenerics: " + ReplaceNonGenerics+", using shared blacklist: "+ planet.GeyserBlacklistShared+", world offset: "+WorldOffset);
 			}
 		}
 	}
@@ -66,7 +71,7 @@ namespace ClusterTraitGenerationManager.GeyserExperiments
 		static Vector2I targetPos;
 		public static void Prefix(GameSpawnData __instance, Vector2I position)
 		{
-			targetPos = position;
+			targetPos = WorldGen_GrabPlanet.WorldOffset + position;
 		}
 
 		static Prefab GetGeyserPrefab(Prefab original, string ID)
@@ -82,21 +87,22 @@ namespace ClusterTraitGenerationManager.GeyserExperiments
 			{
 				return existing;
 			}
+			bool isGenericGeyser = existing.id == "GeyserGeneric";
+
 			if (existing.id.Contains("GeyserGeneric"))
-				SgtLogger.l("Geyser detected: " + existing.id);
-			if (existing.id == "GeyserGeneric")
+				SgtLogger.l("Geyser detected: " + existing.id+" at postition: "+ targetPos + ", is generic?: "+ isGenericGeyser);
+			if (isGenericGeyser)
 			{
-				if (WorldGen_GrabPlanet.GeysersToOverride.Count > 0) //apply guaranteed geyser from override
+				var geyser = ModAssets.GetGenericGeyserAt(CGSMClusterManager.GlobalWorldSeed, targetPos); //get geyser that would spawn
+				string blacklistCheck = geyser;
+				if (WorldGen_GrabPlanet.GeysersToOverride.Any()) //apply guaranteed geyser from override
 				{
 					string geyserID = WorldGen_GrabPlanet.GeysersToOverride[0];
 					var clone = GetGeyserPrefab(existing, geyserID);
-					SgtLogger.l("applying Geyser Override for generic geyser: " + geyserID);
+					SgtLogger.l("applying Geyser Override for generic geyser, putting " + geyserID+", replacing "+ blacklistCheck);
 					WorldGen_GrabPlanet.GeysersToOverride.RemoveAt(0);
 					return clone;
 				}
-
-				var geyser = ModAssets.GetGenericGeyserAt(CGSMClusterManager.GlobalWorldSeed, targetPos); //get geyser that would spawn
-				string blacklistCheck = geyser;
 				if (WorldGen_GrabPlanet.BlacklistedGeysers.Contains(blacklistCheck)) // if on blacklist, replace with random generic geyser
 				{
 					geyser = ModAssets.GetGenericGeyserAt(CGSMClusterManager.GlobalWorldSeed, targetPos, WorldGen_GrabPlanet.BlacklistedGeysers);

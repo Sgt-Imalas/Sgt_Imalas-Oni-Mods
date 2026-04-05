@@ -8,6 +8,7 @@ using Klei.AI;
 using Klei.CustomSettings;
 using ProcGen;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -2290,7 +2291,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 			foreach (var entry in ModAssets.AllGeysers)
 			{
-				AddGeyserBlacklistContainer(entry.Key).SetActive(false);
+				AddGeyserBlacklistContainer(entry.Key)?.SetActive(false);
 			}
 		}
 		void SetCurrentGeyserBlacklistShared(bool useSharedList)
@@ -2315,7 +2316,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			var tr = container.transform;
 			if (!ModAssets.AllGeysers.TryGetValue(geyserID, out var geyserData))
 			{
-				Debug.LogError("geyser " + geyserID + " not found!");
+				Debug.LogWarning("geyser " + geyserID + " not found!");
 			}
 
 			tr.Find("DeleteButton").gameObject.AddOrGet<FButton>().OnClick += () =>
@@ -2326,7 +2327,14 @@ namespace ClusterTraitGenerationManager.UI.Screens
 					RefreshGeyserOverrides();
 				}
 			};
-			tr.Find("Label").gameObject.GetComponent<LocText>().SetText(geyserData.Name);
+			var label = tr.Find("Label").gameObject.GetComponent<LocText>();
+			IEnumerator RenameNextFrame()
+			{
+				yield return null;
+				label?.SetText(geyserData.Name);
+			}
+			StartCoroutine(RenameNextFrame());
+			//tr.Find("Label").gameObject.GetComponent<LocText>().SetText(geyserData.Name);
 			UIUtils.AddSimpleTooltipToObject(container, geyserData.Description);
 			tr.Find("ImageContainer/Image").GetComponent<Image>().sprite = geyserData.Sprite;
 			container.SetActive(true);
@@ -2339,7 +2347,8 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			var tr = container.transform;
 			if (!ModAssets.AllGeysers.TryGetValue(geyserID, out var geyserData))
 			{
-				Debug.LogError("geyser " + geyserID + " not found!");
+				Debug.LogWarning("geyser " + geyserID + " not found!");
+				return;
 			}
 
 			tr.Find("DeleteButton").gameObject.AddOrGet<FButton>().OnClick += () =>
@@ -2350,7 +2359,14 @@ namespace ClusterTraitGenerationManager.UI.Screens
 					RefreshGeyserOverrides();
 				}
 			};
-			tr.Find("Label").gameObject.GetComponent<LocText>().SetText(geyserData.Name);
+			var label = tr.Find("Label").gameObject.GetComponent<LocText>();
+			IEnumerator RenameNextFrame()
+			{
+				yield return null;
+				label?.SetText(geyserData.Name);
+			}
+			StartCoroutine(RenameNextFrame());
+			//tr.Find("Label").gameObject.GetComponent<LocText>().SetText(geyserData.Name);
 			UIUtils.AddSimpleTooltipToObject(container, geyserData.Description);
 			tr.Find("ImageContainer/Image").GetComponent<Image>().sprite = geyserData.Sprite;
 			container.SetActive(true);

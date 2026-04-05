@@ -670,7 +670,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 		private bool _geyserBlacklistAffectsNonGenerics = true;
 		public bool GeyserBlacklistAffectsNonGenerics => 
 			IsMixed 
-			? MixingAsteroidSource._geyserBlacklistAffectsNonGenerics 
+			? MixingAsteroidSource.GeyserBlacklistAffectsNonGenerics
 			: GeyserBlacklistShared ? CGSMClusterManager.BlacklistAffectsNonGenerics : _geyserBlacklistAffectsNonGenerics;
 		public bool GeyserBlacklistShared => IsMixed ? MixingAsteroidSource._geyserBlacklistShared : _geyserBlacklistShared;
 
@@ -749,14 +749,16 @@ namespace ClusterTraitGenerationManager.ClusterData
 			}
 
 
-			_geyserOverrideIDs = NEWs;
-			for (int i = _geyserOverrideCount - 1; i >= 0; i--)
+			_geyserOverrideIDs = [];
+			foreach (var geyser in NEWs)
 			{
-				var currentGeyser = _geyserOverrideIDs[i];
-				if (!ModAssets.AllGeysers.TryGetValue(currentGeyser, out _))
+				if (ModAssets.AllGeysers.ContainsKey(geyser))
 				{
-					SgtLogger.l("invalid geyser found: " + currentGeyser);
-					_geyserOverrideIDs.RemoveAt(i);
+					_geyserOverrideIDs.Add(geyser);
+				}
+				else
+				{
+					SgtLogger.l("invalid geyser found: " + geyser);
 				}
 			}
 		}
