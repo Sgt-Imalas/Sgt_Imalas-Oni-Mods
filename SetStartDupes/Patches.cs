@@ -1900,7 +1900,7 @@ namespace SetStartDupes
 							scroll.movementType = ScrollRect.MovementType.Clamped;
 							scroll.inertia = false;
 							///setting start pos
-							layout.transform.parent.rectTransform().pivot = new Vector2(0.5f, 0.99f);
+							layout.transform.parent.rectTransform().pivot = new Vector2(0.5f, 0.5f);
 
 							var currentPadding = layout.padding;
 							layout.padding = new(currentPadding.left, currentPadding.right, 100, currentPadding.bottom);
