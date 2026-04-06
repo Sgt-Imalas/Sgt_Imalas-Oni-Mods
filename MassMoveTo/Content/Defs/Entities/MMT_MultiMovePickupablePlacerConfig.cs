@@ -13,7 +13,13 @@ namespace MassMoveTo.Content.Defs.Entities
 		public GameObject CreatePrefab()
 		{
 			GameObject prefab = this.CreatePrefab(ID, global::STRINGS.MISC.PLACERS.MOVEPICKUPABLEPLACER.NAME, Assets.instance.movePickupToPlacerAssets.material);
-			prefab.AddOrGet<MultiFetch_CancellableMove>();
+
+			///reset existing move chores on change so if it crashes, the setting can be disabled and the crash causers are removed
+			if (Config.Instance.MultiDeliveryTargets)
+				prefab.AddOrGet<MultiFetch_CancellableMove>();
+			else
+				prefab.AddOrGet<CancellableMove>();
+
 			Storage storage = prefab.AddOrGet<Storage>();
 			storage.showInUI = false;
 			storage.showUnreachableStatus = true;

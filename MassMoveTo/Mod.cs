@@ -2,6 +2,7 @@
 using KMod;
 using PeterHan.PLib.Core;
 using PeterHan.PLib.Options;
+using System.Collections.Generic;
 using UtilLibs;
 
 namespace MassMoveTo
@@ -15,6 +16,12 @@ namespace MassMoveTo
 			base.OnLoad(harmony);
 			SgtLogger.LogVersion(this, harmony);
 			ModAssets.RegisterActions();
+		}
+
+		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
+		{
+			base.OnAllModsLoaded(harmony, mods);
+			ModIntegration_ChainTool.TryInit(harmony);
 		}
 	}
 }

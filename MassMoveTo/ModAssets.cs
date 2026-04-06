@@ -34,7 +34,7 @@ namespace MassMoveTo
 		internal static void MarkForMove(Movable movable, PrioritySetting priority)
 		{
 			cachedPriority = priority;
-			if (!cachedMovables.Contains(movable) && !movable.IsMarkedForMove)
+			if (!cachedMovables.Contains(movable) && !movable.IsMarkedForMove && !movable.HasTag(GameTags.MarkedForMove))
 			{
 				cachedMovables.Add(movable);
 				movable.gameObject.AddTag(GameTags.MarkedForMove);
