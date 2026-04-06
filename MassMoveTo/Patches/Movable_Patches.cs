@@ -14,6 +14,9 @@ namespace MassMoveTo.Patches
 		[HarmonyPatch(typeof(Movable), nameof(Movable.CreateStorageProxy))]
 		public class Movable_CreateStorageProxy_Patch
 		{
+			[HarmonyPrepare]
+			static bool Prepare() => Config.Instance.MultiDeliveryTargets;
+
 			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
 			{
 				var vanillaIdField = AccessTools.Field(typeof(MovePickupablePlacerConfig), nameof(MovePickupablePlacerConfig.ID));

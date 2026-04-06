@@ -4,6 +4,8 @@
 	{
 		public class UI
 		{
+			public static LocString MASSMOVETOOL_MULTITARGET = "Experimental: use Multi-Delivery Targets";
+			public static LocString MASSMOVETOOL_MULTITARGET_TOOLTIP = "Replaces the Relocate targets with a custom modded variant that allows multiple deliveries in parallel.\nTurn off if you experience crashes";
 			public class TOOLS
 			{
 				public class MOVETOSELECTTOOL
