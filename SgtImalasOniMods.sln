@@ -258,6 +258,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GunkedRefinery", "GunkedRef
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HoverPipetteTool", "HoverPipetteTool\HoverPipetteTool.csproj", "{BF6FB53C-5F54-43D4-B045-A16642FE7BDF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartAreaFill", "SmartAreaFill\SmartAreaFill.csproj", "{A3B263E0-A01C-4AF5-B1B7-C4D940EF6939}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -710,6 +712,10 @@ Global
 		{BF6FB53C-5F54-43D4-B045-A16642FE7BDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF6FB53C-5F54-43D4-B045-A16642FE7BDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF6FB53C-5F54-43D4-B045-A16642FE7BDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3B263E0-A01C-4AF5-B1B7-C4D940EF6939}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3B263E0-A01C-4AF5-B1B7-C4D940EF6939}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3B263E0-A01C-4AF5-B1B7-C4D940EF6939}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3B263E0-A01C-4AF5-B1B7-C4D940EF6939}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
