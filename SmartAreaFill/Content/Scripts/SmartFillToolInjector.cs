@@ -23,7 +23,7 @@ namespace SmartAreaFill.Content.Scripts
 			NonSolidTile,
 			SolidTile,
 			TileExpansion,
-			FollowSourceTile,
+			FollowSourceTileState,
 			FilterTool,
 		}
 		enum ExpansionElementTypeRequirement
@@ -173,7 +173,7 @@ namespace SmartAreaFill.Content.Scripts
 			}
 
 			var toolType = dragTool.GetType().Name;
-
+			SgtLogger.l("ToolType: " + toolType);
 			switch (toolType)
 			{
 				case nameof(BuildTool):
@@ -190,6 +190,7 @@ namespace SmartAreaFill.Content.Scripts
 					break;
 				case nameof(HarvestTool):
 				case nameof(DisinfectTool):
+				case "FilteredMoveSelectTool": //Mass move tool
 					Rule = ExpansionRules.NonSolidTile;
 					break;
 				case nameof(MopTool):
@@ -197,7 +198,7 @@ namespace SmartAreaFill.Content.Scripts
 					ElementRequirement = ExpansionElementTypeRequirement.Liquid;
 					break;
 				case nameof(PrioritizeTool):
-					Rule = ExpansionRules.FollowSourceTile;
+					Rule = ExpansionRules.FollowSourceTileState;
 					break;
 				case nameof(DeconstructTool):
 				case nameof(CancelTool):
@@ -228,7 +229,7 @@ namespace SmartAreaFill.Content.Scripts
 
 				SgtLogger.l(cachedDef == null ? "invalid def for spread" : "valid def for spread");
 			}
-			bool followSource = (Rule == ExpansionRules.FollowSourceTile);
+			bool followSource = (Rule == ExpansionRules.FollowSourceTileState);
 			if (followSource)
 				Rule = Grid.IsSolidCell(startCell) ? ExpansionRules.SolidTile : ExpansionRules.NonSolidTile;
 
@@ -242,7 +243,7 @@ namespace SmartAreaFill.Content.Scripts
 			}
 
 			if (followSource)
-				Rule = ExpansionRules.FollowSourceTile;
+				Rule = ExpansionRules.FollowSourceTileState;
 		}
 		//int CellSort(int cell1, int cell2)
 		//{
@@ -352,7 +353,7 @@ namespace SmartAreaFill.Content.Scripts
 					if (!Grid.IsSolidCell(targetCell))
 						return false;
 					break;
-				case ExpansionRules.FollowSourceTile:
+				case ExpansionRules.FollowSourceTileState:
 					break;
 			}
 			switch (ElementRequirement)
