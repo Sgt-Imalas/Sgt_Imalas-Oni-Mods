@@ -34,6 +34,10 @@ namespace MassMoveTo
 				var m_prefix3 = new HarmonyMethod(AccessTools.Method(typeof(ModIntegration_ChainTool), (nameof(PrefixSkip3))));
 				harmony.Patch(targetMethod3, m_prefix3);
 
+				var targetMethod4 = AccessTools.Method(targetType, "OnCancelPostfix");
+				var m_prefix4 = new HarmonyMethod(AccessTools.Method(typeof(ModIntegration_ChainTool), (nameof(PrefixSkip4))));
+				harmony.Patch(targetMethod3, m_prefix3);
+
 			}
 			catch (Exception ex)
 			{
@@ -70,6 +74,14 @@ namespace MassMoveTo
 			if (gameObject.TryGetComponent(out MultiFetch_CancellableMove _))
 			{
 				__result = false;
+				return false;
+			}
+			return true;
+		}
+		static bool PrefixSkip4(Movable cancel_movable, CancellableMove __instance)
+		{
+			if (__instance is MultiFetch_CancellableMove _)
+			{
 				return false;
 			}
 			return true;
