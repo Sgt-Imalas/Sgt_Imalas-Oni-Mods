@@ -2010,7 +2010,7 @@ namespace RonivansLegacy_ChemicalProcessing
 			public class SOURWATER
 			{
 				public static LocString NAME = FormatAsLink("Sour Water", nameof(SOURWATER));
-				public static LocString DESC = "An aqueous solution of Hydrogen Sulfide (H<sub>2</sub>S>) and Ammonia (NH<sub>3</sub>). May occur naturally from aquifers exposed to hydrogen sulfide sources, but it is more common as a wastewater from industrial processes.";
+				public static LocString DESC = "An aqueous solution of Hydrogen Sulfide (H<sub>2</sub>S) and Ammonia (NH<sub>3</sub>). May occur naturally from aquifers exposed to hydrogen sulfide sources, but it is more common as a wastewater from industrial processes.";
 			}
 			//===== [ Metallic Sands ] =======================
 			public class LOWGRADESAND
