@@ -1,6 +1,7 @@
 ﻿using Rockets_TinyYetBig.ClustercraftRouting;
 using Rockets_TinyYetBig.Derelicts;
 using Rockets_TinyYetBig.SpaceStations;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -62,13 +63,24 @@ namespace Rockets_TinyYetBig.Docking
 			//}
 			SgtLogger.l("DockingHandler " + gameObject.name + " OnSpawn. Type: " + Type);
 			if(Type == DockableType.Rocket)
+			{
 				_handlers.Add(Subscribe((int)GameHashes.ClusterDestinationChanged, OnClusterDestinationChanged));
-			_handlers.Add(Subscribe((int)GameHashes.RocketModuleChanged, OnRocketModulesChanged));
+				_handlers.Add(Subscribe((int)GameHashes.RocketModuleChanged, OnRocketModulesChanged));
+			}
 		}
 		void OnRocketModulesChanged(object _)
 		{
+			StartCoroutine(RefreshWorldStateDelayed());
+		}
+
+		IEnumerator RefreshWorldStateDelayed()
+		{
+			///wait 2 frames for world creation one frame after module addition
+			yield return null;
+			yield return null;
+
 			world = GetComponent<WorldContainer>();
-			if(world == null)
+			if (world == null)
 				DockingManagerSingleton.Instance.UnregisterSpacecraftHander(this);
 			else
 				DockingManagerSingleton.Instance.RegisterSpacecraftHandler(this);

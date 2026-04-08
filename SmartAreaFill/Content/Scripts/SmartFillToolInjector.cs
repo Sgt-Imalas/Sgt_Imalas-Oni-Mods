@@ -358,6 +358,7 @@ namespace SmartAreaFill.Content.Scripts
 			}
 			switch (ElementRequirement)
 			{
+				default:
 				case ExpansionElementTypeRequirement.None:
 					return true;
 				case ExpansionElementTypeRequirement.Solid:
@@ -366,10 +367,7 @@ namespace SmartAreaFill.Content.Scripts
 					return Grid.IsLiquid(targetCell);
 				case ExpansionElementTypeRequirement.Gas:
 					return Grid.IsGas(targetCell);
-				default:
-					break;
 			}
-			return true;
 		}
 
 	}
