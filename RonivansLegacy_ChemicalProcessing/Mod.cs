@@ -36,9 +36,9 @@ namespace RonivansLegacy_ChemicalProcessing
 
 			SgtElementUtil.ExecuteElementEnumPatches(harmony);
 
-			base.OnLoad(harmony);
 			SgtLogger.log("Current Config Settings:");
-			UtilMethods.ListAllPropertyValues(Config.Instance,(s)=>s.Contains("System.Action"));
+			UtilMethods.ListAllPropertyValues(Config.Instance, (s) => s.Contains("System.Action"));
+			base.OnLoad(harmony);
 
 			ConduitDisplayPortPatching.PatchAll(harmony);
 			BuildingDatabase.RegisterAdditionalBuildingElements();

@@ -28,6 +28,9 @@ namespace Rockets_TinyYetBig
 			new POptions().RegisterOptions(this, typeof(Config));
 			//ModuleConfigManager.Init();
 
+			SgtLogger.log("Current Config Settings:");
+			UtilMethods.ListAllPropertyValues(Config.Instance, (s) => s.Contains("System.Action"));
+
 			base.OnLoad(harmony);
 			GameTags.MaterialBuildingElements.Add(ModAssets.Tags.RadiationShieldingRocketConstructionMaterial);
 			GameTags.MaterialBuildingElements.Add(ModAssets.Tags.NeutroniumAlloy);
