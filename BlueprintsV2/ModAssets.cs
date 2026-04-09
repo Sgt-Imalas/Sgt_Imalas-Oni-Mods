@@ -94,7 +94,8 @@ namespace BlueprintsV2
 		}
 		public static bool HasNextFolder()
 		{
-
+			if (!BlueprintFileHandling.BlueprintFolders.Any())
+				return false;
 			if (SelectedFolder != null && BlueprintFileHandling.BlueprintFolders.IndexOf(SelectedFolder) >= BlueprintFileHandling.BlueprintFolders.Count-1)
 				return false;
 			return true;
