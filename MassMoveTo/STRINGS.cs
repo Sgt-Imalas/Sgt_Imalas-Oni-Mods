@@ -2,10 +2,26 @@
 {
 	internal class STRINGS
 	{
+		public class MISC
+		{
+			public class PLACERS
+			{
+				public class MMT_MULTIMOVEPICKUPABLEPLACER
+				{
+					public static LocString NAME = "Mass Relocate Here";
+					public static LocString TITLE = "Experimental: use Multi-Delivery Targets";
+					public static LocString TOOLTIP = "Replaces the Relocate targets with a custom modded variant that allows multiple deliveries in parallel.\nTurn off if you experience crashes";
+				}
+			}
+		}
 		public class UI
 		{
-			public static LocString MASSMOVETOOL_MULTITARGET = "Experimental: use Multi-Delivery Targets";
-			public static LocString MASSMOVETOOL_MULTITARGET_TOOLTIP = "Replaces the Relocate targets with a custom modded variant that allows multiple deliveries in parallel.\nTurn off if you experience crashes";
+			public class MASSMOVETOOL_MULTITARGET
+			{
+				public static LocString TITLE = "Experimental: use Multi-Delivery Targets";
+				public static LocString TOOLTIP = "Replaces the Relocate targets with a custom modded variant that allows multiple deliveries in parallel.\nTurn off if you experience crashes";
+
+			}
 			public class TOOLS
 			{
 				public class MOVETOSELECTTOOL

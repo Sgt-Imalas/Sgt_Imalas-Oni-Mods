@@ -36,7 +36,22 @@ namespace MassMoveTo
 
 				var targetMethod4 = AccessTools.Method(targetType, "OnCancelPostfix");
 				var m_prefix4 = new HarmonyMethod(AccessTools.Method(typeof(ModIntegration_ChainTool), (nameof(PrefixSkip4))));
-				harmony.Patch(targetMethod3, m_prefix3);
+				harmony.Patch(targetMethod4, m_prefix4);
+
+
+				var targetType2 = Type.GetType("ChainErrand.AutoChainUtils, ChainErrand");
+				if(targetType2 != null)
+				{
+					var targetMethod5 = AccessTools.Method(targetType2, "TryAddToAutomaticChain");
+					if (targetMethod5 != null)
+					{
+						var m_prefix5 = new HarmonyMethod(AccessTools.Method(typeof(ModIntegration_ChainTool), (nameof(PrefixSkip5))));
+						harmony.Patch(targetMethod5, m_prefix5);
+					}
+					else
+						SgtLogger.l("ChainErrand.AutoChainUtils not found");
+
+				}
 
 			}
 			catch (Exception ex)
@@ -81,6 +96,14 @@ namespace MassMoveTo
 		static bool PrefixSkip4(Movable cancel_movable, CancellableMove __instance)
 		{
 			if (__instance is MultiFetch_CancellableMove _)
+			{
+				return false;
+			}
+			return true;
+		}
+		static bool PrefixSkip5(GameObject chainNumberBearer)
+		{
+			if (chainNumberBearer.TryGetComponent(out MultiFetch_CancellableMove _))
 			{
 				return false;
 			}

@@ -12,7 +12,7 @@ namespace MassMoveTo.Content.Defs.Entities
 
 		public GameObject CreatePrefab()
 		{
-			GameObject prefab = this.CreatePrefab(ID, global::STRINGS.MISC.PLACERS.MOVEPICKUPABLEPLACER.NAME, Assets.instance.movePickupToPlacerAssets.material);
+			GameObject prefab = this.CreatePrefab(ID, STRINGS.MISC.PLACERS.MMT_MULTIMOVEPICKUPABLEPLACER.NAME, Assets.instance.movePickupToPlacerAssets.material);
 
 			///reset existing move chores on change so if it crashes, the setting can be disabled and the crash causers are removed
 			if (Config.Instance.MultiDeliveryTargets)

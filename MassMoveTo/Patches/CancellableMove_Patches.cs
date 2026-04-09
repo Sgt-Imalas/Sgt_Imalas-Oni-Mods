@@ -52,5 +52,18 @@ namespace MassMoveTo.Patches
 				return true;
 			}
 		}
+		//[HarmonyPatch(typeof(CancellableMove), nameof(CancellableMove.RemoveMovable))]
+		//public class CancellableMove_RemoveMovable_Patch
+		//{
+		//	public static bool Post(CancellableMove __instance, Movable moved)
+		//	{
+		//		if (__instance is MultiFetch_CancellableMove multiFetchMove)
+		//		{
+		//			multiFetchMove.MultiChore_RemoveMovable(moved);
+		//			return false;
+		//		}
+		//		return true;
+		//	}
+		//}
 	}
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KSerialization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,7 @@ namespace MassMoveTo.Content.Scripts
 		[MyCmpGet] Prioritizable prioritizable;
 		[MyCmpGet] KPrefabID kPrefabId;
 
-		Dictionary<Ref<Movable>, MovePickupableChore> MultiFetch_Chores = [];
+		Dictionary<Ref<Movable>, MultiFetch_MovePickupableChore> MultiFetch_Chores = [];
 		Dictionary<Chore, Ref<Movable>> MultiFetch_Chores_ReverseLookup = [];
 
 
@@ -59,8 +60,7 @@ namespace MassMoveTo.Content.Scripts
 		{
 			ValidateMovables();
 			return movables.Any();
-		}
-
+		}		
 		void InitMoveChore(Ref<Movable> movable)
 		{
 			if (MultiFetch_Chores.ContainsKey(movable))
@@ -69,18 +69,20 @@ namespace MassMoveTo.Content.Scripts
 				return;
 			}
 
-			var chore = new MovePickupableChore(this, movable.Get().gameObject, new Action<Chore>(this.MultiChore_OnChoreEnd));
+			var chore = new MultiFetch_MovePickupableChore(this, movable.Get().gameObject, new Action<Chore>(this.MultiChore_OnChoreEnd));
 			MultiFetch_Chores[movable] = chore;
 			MultiFetch_Chores_ReverseLookup[chore] = movable;
 		}
 
 		internal void MultiChore_OnChoreEnd(Chore chore)
 		{
+			SgtLogger.l("onChoreEnd " + chore);
 			if (!MultiFetch_Chores_ReverseLookup.TryGetValue(chore, out var movable))
 			{
 				SgtLogger.error("Couldn't find chore in reverse lookup. This shouldn't happen.");
 				return;
 			}
+			SgtLogger.l(chore + " onChoreEnd, completed?: "+ chore.isComplete);
 
 			MultiFetch_Chores.Remove(movable);
 			MultiFetch_Chores_ReverseLookup.Remove(chore);
@@ -103,6 +105,7 @@ namespace MassMoveTo.Content.Scripts
 
 		internal void MultiChore_OnCancel(Movable cancel_movable = null)
 		{
+			SgtLogger.l("OnCancel " + cancel_movable);
 			for (int num = movables.Count - 1; num >= 0; num--)
 			{
 				Ref<Movable> @ref = movables[num];
@@ -132,7 +135,7 @@ namespace MassMoveTo.Content.Scripts
 				}
 			}
 
-			if (!hasActiveChore && movables.Count <= 0)
+			if (!hasActiveChore && !movables.Any())
 			{
 				Util.KDestroyGameObject(base.gameObject);
 			}
@@ -146,6 +149,10 @@ namespace MassMoveTo.Content.Scripts
 			var newMovableRef = new Ref<Movable>(movable);
 			movables.Add(newMovableRef);
 			InitMoveChore(newMovableRef);
+		}
+		public void MultiChore_RemoveMovable(Movable moved)
+		{
+			MultiChore_OnCancel(moved);
 		}
 
 		internal void CheckIfShouldSelfDestruct()

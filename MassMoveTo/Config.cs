@@ -12,7 +12,7 @@ namespace MassMoveTo
 	public class Config : SingletonOptions<Config>
 	{
 
-		[Option("STRINGS.UI.MASSMOVETOOL_MULTITARGET", "STRINGS.UI.MASSMOVETOOL_MULTITARGET_TOOLTIP")]
+		[Option("STRINGS.UI.MASSMOVETOOL_MULTITARGET.TITLE", "STRINGS.UI.MASSMOVETOOL_MULTITARGET.TOOLTIP")]
 		[JsonProperty]
 		public bool MultiDeliveryTargets { get; set; } = true;
 	}

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
+using UtilLibs;
 
 namespace MassMoveTo.Patches
 {
@@ -30,10 +31,15 @@ namespace MassMoveTo.Patches
 						yield return ci;
 				}
 			}
-
-			private static void InjectedMethod(Movable instance)
-			{
-			}
 		}
+
+		//[HarmonyPatch(typeof(Movable), nameof(Movable.CleanupMove))]
+		//public class Movable_CleanupMove_Patch
+		//{	
+		//	public static void Prefix(Movable __instance)
+		//	{
+		//		SgtLogger.l(__instance + " OnCleanupMove"+", has Proxy: "+__instance.StorageProxy);
+		//	}
+		//}
 	}
 }

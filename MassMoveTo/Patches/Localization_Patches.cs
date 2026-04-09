@@ -10,7 +10,8 @@ namespace MassMoveTo.Patches
 	{
 		/// <summary>
 		/// Init. auto translation
-		/// </summary>yPatch(typeof(Localization), nameof(Localization.Initialize))]
+		/// </summary>
+		[HarmonyPatch(typeof(Localization), nameof(Localization.Initialize))]
         public class Localization_Initialize_Patch
 		{
 			public static void Postfix()

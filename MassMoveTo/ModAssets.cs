@@ -1,9 +1,12 @@
 ﻿using MassMoveTo.Content.Defs.Entities;
+using MassMoveTo.Content.Scripts;
 using PeterHan.PLib.Actions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using static STRINGS.MISC.STATUSITEMS;
 
 namespace MassMoveTo
 {
@@ -119,10 +122,30 @@ namespace MassMoveTo
 					&& movable.gameObject != null
 					&& !movable.IsMarkedForMove)
 				{
-					movable.storageProxy = proxy;
-					movable.MoveToLocation(targetCell);
+					//movable.MoveToLocation(targetCell);
+					MoveToLocation(movable, proxy);
 				}
 			}
+		}
+		public static void MoveToLocation(Movable movable, Ref<Storage> proxy)
+		{
+			movable.storageProxy = proxy;
+			MultiFetch_MarkForMove(movable);
+			movable.gameObject.Trigger((int)GameHashes.MarkForMove, movable.gameObject);
+		}
+
+		public static void MultiFetch_MarkForMove(Movable movable)
+		{
+			movable.Trigger((int)GameHashes.Cancel);
+			movable.isMarkedForMove = true;
+			movable.OnReachableChanged(null);
+			movable.storageReachableChangedHandle = movable.StorageProxy.Subscribe((int)GameHashes.ReachableChanged, Movable.OnReachableChangedDispatcher, movable);
+			movable.reachableChangedHandle = movable.Subscribe((int)GameHashes.ReachableChanged, Movable.OnReachableChangedDispatcher, movable);
+			movable.StorageProxy.GetComponent<MultiFetch_CancellableMove>().SetMovable(movable);
+			movable.gameObject.AddTag(GameTags.MarkedForMove);
+			movable.cancelHandle = movable.Subscribe((int)GameHashes.Cancel, Movable.CleanupMoveDispatcher, movable);
+			movable.tagsChangedHandle = movable.Subscribe((int)GameHashes.TagsChanged, Movable.OnTagsChangedDispatcher, movable);
+			movable.UpdateStatusItem();
 		}
 
 
