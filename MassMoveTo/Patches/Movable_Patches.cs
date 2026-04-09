@@ -16,7 +16,7 @@ namespace MassMoveTo.Patches
 		public class Movable_CreateStorageProxy_Patch
 		{
 			[HarmonyPrepare]
-			static bool Prepare() => Config.Instance.MultiDeliveryTargets;
+			static bool Prepare() => Config.UseMultiDelivery;
 
 			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
 			{

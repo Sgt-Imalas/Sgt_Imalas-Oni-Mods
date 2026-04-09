@@ -10,6 +10,7 @@ namespace MassMoveTo
 {
 	public static class ModIntegration_ChainTool
 	{
+		public static bool ChainToolActive = false;
 		internal static void TryInit(Harmony harmony)
 		{
 			var targetType = Type.GetType("ChainErrand.ChainedErrandPacks.MoveToPack, ChainErrand");
@@ -18,7 +19,8 @@ namespace MassMoveTo
 				SgtLogger.l("ChainTool not found, integration is sleeping now. zzz......");
 				return;
 			}
-
+			ChainToolActive = true;
+			return;
 			try
 			{
 				var targetMethod = AccessTools.Method(targetType, "GetChoreFromErrand", [typeof(Movable)]);

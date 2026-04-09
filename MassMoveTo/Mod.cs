@@ -13,7 +13,7 @@ namespace MassMoveTo
 		{
 			PUtil.InitLibrary(false);
 			new POptions().RegisterOptions(this, typeof(Config));
-			base.OnLoad(harmony);
+			//base.OnLoad(harmony);
 			SgtLogger.LogVersion(this, harmony);
 			ModAssets.RegisterActions();
 		}
@@ -22,6 +22,9 @@ namespace MassMoveTo
 		{
 			base.OnAllModsLoaded(harmony, mods);
 			ModIntegration_ChainTool.TryInit(harmony);
+			if (ModIntegration_ChainTool.ChainToolActive)
+				SgtLogger.warning("Chain Tool detected, disabling multi delivery for mass move tool as that mod breaks it");
+			base.OnLoad(harmony);
 		}
 	}
 }

@@ -56,7 +56,7 @@ namespace MassMoveTo
 			else
 			{
 				Vector3 position = Grid.CellToPosCBC(cell, MoveToLocationTool.Instance.visualizerLayer);
-				GameObject obj = Util.KInstantiate(Assets.GetPrefab(Config.Instance.MultiDeliveryTargets ? MMT_MultiMovePickupablePlacerConfig.ID : MovePickupablePlacerConfig.ID), position);
+				GameObject obj = Util.KInstantiate(Assets.GetPrefab(Config.UseMultiDelivery ? MMT_MultiMovePickupablePlacerConfig.ID : MovePickupablePlacerConfig.ID), position);
 				targetStorage = obj.GetComponent<Storage>();
 				obj.SetActive(value: true);
 			}
@@ -122,8 +122,15 @@ namespace MassMoveTo
 					&& movable.gameObject != null
 					&& !movable.IsMarkedForMove)
 				{
-					//movable.MoveToLocation(targetCell);
-					MoveToLocation(movable, proxy);
+					if (Config.UseMultiDelivery)
+					{
+						MoveToLocation(movable, proxy);
+					}
+					else
+					{
+						movable.storageProxy = proxy;
+						movable.MoveToLocation(targetCell);
+					}
 				}
 			}
 		}

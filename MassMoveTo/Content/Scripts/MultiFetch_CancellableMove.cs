@@ -88,7 +88,7 @@ namespace MassMoveTo.Content.Scripts
 			MultiFetch_Chores_ReverseLookup.Remove(chore);
 
 			if (!HasAnyMoveChoresToInit())
-				OnCancel();
+				MultiChore_OnCancel();
 			else
 				InitNewChores();
 
