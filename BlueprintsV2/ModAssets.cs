@@ -86,6 +86,70 @@ namespace BlueprintsV2
 			TMPConverter.ReplaceAllText(NoteToolStateScreenGO);
 			TMPConverter.ReplaceAllText(IconSelectorGO);
 		}
+		public static bool HasPrevFolder()
+		{
+			if (SelectedFolder == null)
+				return false;
+			return true;
+		}
+		public static bool HasNextFolder()
+		{
+
+			if (SelectedFolder != null && BlueprintFileHandling.BlueprintFolders.IndexOf(SelectedFolder) >= BlueprintFileHandling.BlueprintFolders.Count-1)
+				return false;
+			return true;
+		}
+
+		public static void SelectPreviousFolder()
+		{
+			if (SelectedFolder == null)
+				return;
+
+			var folderIndex = BlueprintFileHandling.BlueprintFolders.IndexOf(SelectedFolder);
+			folderIndex--;
+			SgtLogger.l("SelectPreviousFolder: " + folderIndex);
+
+			if (folderIndex < 0)
+				SelectedFolder = null;
+			else
+			{
+				int max = BlueprintFileHandling.BlueprintFolders.Count;
+
+				if (folderIndex >= max)
+					folderIndex = max - 1;
+				SelectedFolder = BlueprintFileHandling.BlueprintFolders[folderIndex];
+			}
+			SelectFirstBlueprintInSelected();
+		}
+
+		public static void SelectNextFolder()
+		{
+			if (!BlueprintFileHandling.BlueprintFolders.Any())
+				return;
+
+			if (SelectedFolder == null)
+				SelectedFolder = BlueprintFileHandling.BlueprintFolders[0];
+
+			else
+			{
+				var folderIndex = BlueprintFileHandling.BlueprintFolders.IndexOf(SelectedFolder);
+				int max = BlueprintFileHandling.BlueprintFolders.Count;
+				folderIndex++;
+
+				if (folderIndex >= max)
+					folderIndex = max - 1;
+				SgtLogger.l("SelectNextFolder: " + folderIndex);
+				SelectedFolder = BlueprintFileHandling.BlueprintFolders[folderIndex];
+			}
+			SelectFirstBlueprintInSelected();
+		}
+		static void SelectFirstBlueprintInSelected()
+		{
+			var folder = GetCurrentFolder();
+			if (folder == null || !folder.HasBlueprints)
+				return;
+			SelectedBlueprint = folder.Blueprints.First();
+		}
 
 		public static BlueprintFolder GetCurrentFolder() => SelectedFolder == null ? BlueprintFileHandling.RootFolder : SelectedFolder;
 		public static BlueprintFolder SelectedFolder;
@@ -194,7 +258,8 @@ namespace BlueprintsV2
 		public static class BlueprintFileHandling
 		{
 			public static BlueprintFolder RootFolder;
-			public static HashSet<BlueprintFolder> BlueprintFolders = new();
+			public static List<BlueprintFolder> BlueprintFolders = new();
+
 			//public static HashSet<Blueprint> Blueprints = new();
 
 
@@ -486,12 +551,15 @@ namespace BlueprintsV2
 			Actions.BlueprintsCreateNoteAction = new PActionManager().CreateAction(ActionKeys.ACTION_NOTETOOL_KEY,
 				STRINGS.UI.ACTIONS.NOTETOOL_TITLE);
 
-
-
 			Actions.BlueprintsSelectPrevious = new PActionManager().CreateAction(ActionKeys.ACTION_SELECT_PREV_BLUEPRINT_KEY,
 				STRINGS.UI.ACTIONS.SELECT_PREV, new PKeyBinding(KKeyCode.MouseScrollDown, Modifier.Shift));
 			Actions.BlueprintsSelectNext = new PActionManager().CreateAction(ActionKeys.ACTION_SELECT_NEXT_BLUEPRINT_KEY,
 				STRINGS.UI.ACTIONS.SELECT_NEXT, new PKeyBinding(KKeyCode.MouseScrollUp, Modifier.Shift));
+
+			Actions.BlueprintsSelectPreviousFolder = new PActionManager().CreateAction(ActionKeys.ACTION_SELECT_PREV_BLUEPRINT_KEY,
+				STRINGS.UI.ACTIONS.SELECT_PREV_FOLDER, new PKeyBinding(KKeyCode.MouseScrollDown, Modifier.Shift | Modifier.Ctrl));
+			Actions.BlueprintsSelectNextFolder = new PActionManager().CreateAction(ActionKeys.ACTION_SELECT_NEXT_BLUEPRINT_KEY,
+				STRINGS.UI.ACTIONS.SELECT_NEXT_FOLDER, new PKeyBinding(KKeyCode.MouseScrollUp, Modifier.Shift | Modifier.Ctrl));
 
 			Actions.BlueprintsRotate = new PActionManager().CreateAction(ActionKeys.ACTION_ROTATE_BLUEPRINT_KEY,
 				STRINGS.UI.ACTIONS.ROTATE_BLUEPRINT, new PKeyBinding(KKeyCode.R));
@@ -608,6 +676,8 @@ namespace BlueprintsV2
 			public static readonly string ACTION_ROTATE_INV_BLUEPRINT_KEY = "BlueprintsV2.rotateinverted";
 			public static readonly string ACTION_SELECT_NEXT_BLUEPRINT_KEY = "BlueprintsV2.selectnext";
 			public static readonly string ACTION_SELECT_PREV_BLUEPRINT_KEY = "BlueprintsV2.selectprev";
+			public static readonly string ACTION_SELECT_NEXT_FOLDER_KEY = "BlueprintsV2.selectnextfolder";
+			public static readonly string ACTION_SELECT_PREV_FOLDER_KEY = "BlueprintsV2.selectprevfolder";
 			public static readonly string ACTION_TOGGLETOOLTIPS_KEY = "BlueprintsV2.toggletoooltips";
 		}
 		public static class Actions
@@ -627,6 +697,8 @@ namespace BlueprintsV2
 			public static PAction BlueprintsRotateInverse { get; set; }
 			public static PAction BlueprintsSelectNext { get; set; }
 			public static PAction BlueprintsSelectPrevious { get; set; }
+			public static PAction BlueprintsSelectNextFolder { get; set; }
+			public static PAction BlueprintsSelectPreviousFolder { get; set; }
 
 
 			public static PAction BlueprintsToggleHotkeyToolTips { get; set; }

@@ -459,24 +459,21 @@ namespace BlueprintsV2.UnityUI
 			if (InfoBlueprint == null || BlueprintIconDisplay == null)
 				return;
 
+			var color = Color.white;
 			if (!InfoBlueprint.IconId.IsNullOrWhiteSpace())
 			{
-				BlueprintIconDisplay.sprite = ModAssets.GetBlueprintIconSprite(InfoBlueprint.IconId);
-
-				if (InfoBlueprint.IconTintHex.IsNullOrWhiteSpace())
-				{
-					BlueprintIconDisplay.color = Color.white;
-				}
-				else
-				{
-					BlueprintIconDisplay.color = Util.ColorFromHex(InfoBlueprint.IconTintHex);
-				}
+				BlueprintIconDisplay.sprite = ModAssets.GetBlueprintIconSprite(InfoBlueprint.IconId);				
 			}
 			else
 			{
 				BlueprintIconDisplay.sprite = null;
-				BlueprintIconDisplay.color = Color.white;
 			}
+			if (!InfoBlueprint.IconTintHex.IsNullOrWhiteSpace())
+			{
+				color = Util.ColorFromHex(InfoBlueprint.IconTintHex);
+			}
+			BlueprintIconDisplay.color = color;
+			ColorPicker.SetSelected(color);
 
 			if (BlueprintEntries.TryGetValue(InfoBlueprint, out var uiCmp))
 				uiCmp.RefreshIcon();

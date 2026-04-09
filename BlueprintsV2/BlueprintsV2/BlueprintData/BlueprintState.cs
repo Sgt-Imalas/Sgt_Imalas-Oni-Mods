@@ -299,7 +299,7 @@ namespace BlueprintsV2.BlueprintData
 
 		private static void AddVisual(IVisual visual, BuildingDef buildingDef)
 		{
-			SgtLogger.l(buildingDef.PrefabID + " -> adding visual of type: " + visual.GetType());
+			//SgtLogger.l(buildingDef.PrefabID + " -> adding visual of type: " + visual.GetType());
 			if (buildingDef.IsFoundation)
 			{
 				FoundationVisuals.Add(visual);

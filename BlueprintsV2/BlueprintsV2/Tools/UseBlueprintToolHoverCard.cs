@@ -72,20 +72,28 @@ namespace BlueprintsV2.Tools
 						drawer.DrawIcon(screenInstance.GetSprite("iconWarning"));
 						drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.ERRORMESSAGE, prefabErrorCount), Styles_Instruction.Selected);
 					}
-					drawer.NewLine(BlueprintState.ExtendedCardTooltips ? 45 : 22); 
-					
+					drawer.NewLine(BlueprintState.ExtendedCardTooltips ? 45 : 22);
+
+					drawer.DrawText(UIUtils.ColorText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.SELECTPREVFOLDER, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsSelectNextFolder.GetKAction()) + "]")), ModAssets.HasPrevFolder() ? Color.white : Color.grey), Styles_Instruction.Standard);
+					drawer.NewLine(20);
+
+					drawer.DrawText(UIUtils.ColorText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.SELECTNEXTFOLDER, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsSelectNextFolder.GetKAction()) + "]")), ModAssets.HasNextFolder() ? Color.white : Color.grey), Styles_Instruction.Standard);
+					drawer.NewLine(26);
+
 					drawer.DrawText(UIUtils.ColorText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.SELECTPREV, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsSelectPrevious.GetKAction()) + "]")), folder.HasPrevBlueprint(ModAssets.SelectedBlueprint) ? Color.white : Color.grey), Styles_Instruction.Standard);
 					drawer.NewLine(20);
 
 					drawer.DrawText(UIUtils.ColorText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.SELECTNEXT, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsSelectNext.GetKAction()) + "]")), folder.HasNextBlueprint(ModAssets.SelectedBlueprint) ? Color.white : Color.grey), Styles_Instruction.Standard);
-					drawer.NewLine();
+					drawer.NewLine(26);
+
 					drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.SELECTEDBLUEPRINT, selectedBp.FriendlyName, folder.GetBlueprintIndex(selectedBp) + 1, folder.BlueprintCount, folder.Name), Styles_Instruction.Standard);
+					drawer.NewLine(26);
 				}
 				else
 				{
 					drawer.DrawText(STRINGS.UI.TOOLS.USE_TOOL.NONESELECTED, Styles_Instruction.Standard);
+					drawer.NewLine(26);
 				}
-				drawer.NewLine(32);
 				drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.TOGGLE_SHOW_HOTKEYS, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsToggleHotkeyToolTips.GetKAction()) + "]")), Styles_Instruction.Standard);
 
 			}

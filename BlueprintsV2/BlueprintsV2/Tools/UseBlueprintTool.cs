@@ -199,27 +199,47 @@ namespace BlueprintsV2.Tools
 				else if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsSelectPrevious.GetKAction()))
 				{
 					SelectPrevBlueprint();
-					CurrentBlueprintStateScreen.Instance.SetSelectedBlueprint(ModAssets.SelectedBlueprint);
 				}
 				else if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsSelectNext.GetKAction()))
 				{
 					SelectNextBlueprint();
-					CurrentBlueprintStateScreen.Instance.SetSelectedBlueprint(ModAssets.SelectedBlueprint);
+				}
+				else if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsSelectPreviousFolder.GetKAction()))
+				{
+					SelectPrevFolder();
+				}
+				else if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsSelectNextFolder.GetKAction()))
+				{
+					SelectNextFolder();
 				}
 			}
 
 			base.OnKeyDown(buttonEvent);
 		}
 
+		public void SelectNextFolder()
+		{
+			ModAssets.SelectNextFolder();
+			VisualizeSelectedBlueprint();
+			CurrentBlueprintStateScreen.Instance.SetSelectedBlueprint(ModAssets.SelectedBlueprint);
+		}
+		public void SelectPrevFolder()
+		{
+			ModAssets.SelectPreviousFolder();
+			VisualizeSelectedBlueprint();
+			CurrentBlueprintStateScreen.Instance.SetSelectedBlueprint(ModAssets.SelectedBlueprint);
+		}
 		public void SelectNextBlueprint()
 		{
 			ModAssets.GetCurrentFolder().SelectNext();
 			VisualizeSelectedBlueprint();
+			CurrentBlueprintStateScreen.Instance.SetSelectedBlueprint(ModAssets.SelectedBlueprint);
 		}
 		public void SelectPrevBlueprint()
 		{
 			ModAssets.GetCurrentFolder().SelectPrev();
 			VisualizeSelectedBlueprint();
+			CurrentBlueprintStateScreen.Instance.SetSelectedBlueprint(ModAssets.SelectedBlueprint);
 		}
 
 		public override void OnKeyUp(KButtonEvent buttonEvent)

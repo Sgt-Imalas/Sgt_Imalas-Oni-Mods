@@ -543,6 +543,8 @@ namespace BlueprintsV2
 				public static LocString TOGGLETOOLTIPS = "Toggle keybind tooltips";
 
 
+				public static LocString SELECT_NEXT_FOLDER = "Next Folder";
+				public static LocString SELECT_PREV_FOLDER = "Previous Folder";
 				public static LocString SELECT_NEXT = "Next Blueprint";
 				public static LocString SELECT_PREV = "Previous Blueprint";
 				public static LocString ROTATE_BLUEPRINT = "Rotate Blueprint";
@@ -588,6 +590,9 @@ namespace BlueprintsV2
 
 					public static LocString SELECTPREV = "Previous blueprint: {0}";
 					public static LocString SELECTNEXT = "Next blueprint: {0}";
+
+					public static LocString SELECTPREVFOLDER = "Previous folder: {0}";
+					public static LocString SELECTNEXTFOLDER = "Next folder: {0}";
 
 					public static LocString SETTINGS_APPLIED = "Settings applied!";
 
