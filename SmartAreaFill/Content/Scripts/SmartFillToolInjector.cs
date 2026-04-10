@@ -15,7 +15,7 @@ namespace SmartAreaFill.Content.Scripts
 		List<GameObject> VisPool = new List<GameObject>();
 		List<GameObject> ActiveVis = new List<GameObject>();
 		HashSet<int> CachedClaimedCells = new();
-		List<int> CachedUnclaimedCells = new();
+		Queue<int> CachedUnclaimedCells = new();
 
 		Queue<int> WalkableCells = new();
 		HashSet<int> VisitedCells = new();
@@ -128,8 +128,7 @@ namespace SmartAreaFill.Content.Scripts
 			if (!CachedUnclaimedCells.Any())
 				return;
 
-			var cell = CachedUnclaimedCells.First();
-			CachedUnclaimedCells.RemoveAt(0);
+			var cell = CachedUnclaimedCells.Dequeue();
 
 			CachedClaimedCells.Add(cell);
 			AddVisualizer(cell);
@@ -244,6 +243,7 @@ namespace SmartAreaFill.Content.Scripts
 					break;
 				case nameof(HarvestTool):
 				case nameof(DisinfectTool):
+				case nameof(ClearTool):
 				case "FilteredMoveSelectTool": //Mass move tool
 					Rule = ExpansionRules.NonSolidTile;
 					break;
@@ -375,7 +375,7 @@ namespace SmartAreaFill.Content.Scripts
 				if (!IsValidCell(toCheck))
 					continue;
 
-				CachedUnclaimedCells.Add(toCheck);
+				CachedUnclaimedCells.Enqueue(toCheck);
 
 				int above = Grid.CellAbove(toCheck);
 				int below = Grid.CellBelow(toCheck);
@@ -413,7 +413,7 @@ namespace SmartAreaFill.Content.Scripts
 			if (!IsValidCell(toCheck))
 				return;
 
-			CachedUnclaimedCells.Add(toCheck);
+			CachedUnclaimedCells.Enqueue(toCheck);
 
 			int above = Grid.CellAbove(toCheck);
 			int below = Grid.CellBelow(toCheck);
@@ -471,7 +471,7 @@ namespace SmartAreaFill.Content.Scripts
 						return false;
 					break;
 				case ExpansionRules.NonSolidTile:
-					if (Grid.IsSolidCell(targetCell))
+					if (Grid.IsSolidCell(targetCell) || Grid.HasDoor[targetCell])
 						return false;
 					break;
 				case ExpansionRules.SolidTile:
