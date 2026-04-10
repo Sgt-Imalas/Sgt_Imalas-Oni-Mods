@@ -258,7 +258,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GunkedRefinery", "GunkedRef
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HoverPipetteTool", "HoverPipetteTool\HoverPipetteTool.csproj", "{BF6FB53C-5F54-43D4-B045-A16642FE7BDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartAreaFill", "SmartAreaFill\SmartAreaFill.csproj", "{A3B263E0-A01C-4AF5-B1B7-C4D940EF6939}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FloodFillTools", "SmartAreaFill\FloodFillTools.csproj", "{A3B263E0-A01C-4AF5-B1B7-C4D940EF6939}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

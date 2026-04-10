@@ -86,7 +86,7 @@ namespace SmartAreaFill.Content.Scripts
 		{
 			if (useDragComplete)
 			{
-				dragTool.OnDragComplete(Grid.CellToPos(startCell), Grid.CellToPos(cell));
+				dragTool.OnDragComplete(Grid.CellToPos(cell), Grid.CellToPos(cell));
 			}
 			else
 			{
@@ -156,7 +156,6 @@ namespace SmartAreaFill.Content.Scripts
 		{
 			int mouseCell = Grid.PosToCell(PlayerController.Instance.GetCursorPos());
 			return mouseCell != startCell || !Grid.IsValidCell(mouseCell);
-
 		}
 
 		public override void OnSpawn()
@@ -173,7 +172,7 @@ namespace SmartAreaFill.Content.Scripts
 			}
 
 			var toolType = dragTool.GetType().Name;
-			SgtLogger.l("ToolType: " + toolType);
+			SgtLogger.l("FloodFillTool OnSpawn, ToolType: " + toolType);
 			switch (toolType)
 			{
 				case nameof(BuildTool):

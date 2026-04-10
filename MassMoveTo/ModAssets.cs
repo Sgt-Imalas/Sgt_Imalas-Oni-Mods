@@ -99,7 +99,7 @@ namespace MassMoveTo
 
 		internal static void MoveAllItems()
 		{
-			if (cachedMovables.Count > 0 && TargetCellCount > 0)
+			if (cachedMovables.Any() && TargetCellCount > 0)
 			{
 				var targetCells = cachedTargetCells.ToList();
 				var movableChunks = Partition<Movable>(cachedMovables.ToList(), TargetCellCount);
@@ -122,15 +122,15 @@ namespace MassMoveTo
 					&& movable.gameObject != null
 					&& !movable.IsMarkedForMove)
 				{
-					if (Config.UseMultiDelivery)
-					{
-						MoveToLocation(movable, proxy);
-					}
-					else
-					{
+					//if (Config.UseMultiDelivery)
+					//{
+					//	MoveToLocation(movable, proxy);
+					//}
+					//else
+					//{
 						movable.storageProxy = proxy;
 						movable.MoveToLocation(targetCell);
-					}
+					//}
 				}
 			}
 		}
