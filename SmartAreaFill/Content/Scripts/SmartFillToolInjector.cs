@@ -20,6 +20,7 @@ namespace SmartAreaFill.Content.Scripts
 		Queue<int> WalkableCells = new();
 		HashSet<int> VisitedCells = new();
 		byte StartCellWorldIdx;
+		bool includeDoorsAsSolids = true;
 
 		enum ExpansionRules
 		{
@@ -214,6 +215,8 @@ namespace SmartAreaFill.Content.Scripts
 
 		public override void OnSpawn()
 		{
+			ExpansionDelay = Config.Instance.ActivationDelay;
+			includeDoorsAsSolids = Config.Instance.SolidDoors;
 			base.OnSpawn();
 			if (VisPool.Any())
 			{
@@ -471,7 +474,7 @@ namespace SmartAreaFill.Content.Scripts
 						return false;
 					break;
 				case ExpansionRules.NonSolidTile:
-					if (Grid.IsSolidCell(targetCell) || Grid.HasDoor[targetCell])
+					if (Grid.IsSolidCell(targetCell) || includeDoorsAsSolids && Grid.HasDoor[targetCell])
 						return false;
 					break;
 				case ExpansionRules.SolidTile:
