@@ -527,54 +527,56 @@ namespace BlueprintsV2
 
 		internal static void RegisterActions()
 		{
-			Actions.BlueprintsCreateAction = new PActionManager().CreateAction(ActionKeys.ACTION_CREATE_KEY,
+			var actionManager = new PActionManager();
+
+			Actions.BlueprintsCreateAction = actionManager.CreateAction(ActionKeys.ACTION_CREATE_KEY,
 				STRINGS.UI.ACTIONS.CREATE_TITLE, new PKeyBinding(KKeyCode.C, Modifier.Shift | Modifier.Ctrl));
 
-			Actions.BlueprintsUseAction = new PActionManager().CreateAction(ActionKeys.ACTION_USE_KEY,
+			Actions.BlueprintsUseAction = actionManager.CreateAction(ActionKeys.ACTION_USE_KEY,
 				STRINGS.UI.ACTIONS.USE_TITLE, new PKeyBinding(KKeyCode.V, Modifier.Shift | Modifier.Ctrl));
 
-			Actions.BlueprintsSnapshotAction = new PActionManager().CreateAction(ActionKeys.ACTION_SNAPSHOT_KEY,
+			Actions.BlueprintsSnapshotAction = actionManager.CreateAction(ActionKeys.ACTION_SNAPSHOT_KEY,
 				STRINGS.UI.ACTIONS.SNAPSHOT_TITLE, new PKeyBinding(KKeyCode.C, Modifier.Ctrl));
 
-			Actions.BlueprintsSnapshotReuseAction = new PActionManager().CreateAction(ActionKeys.ACTION_SNAPSHOT_KEY,
+			Actions.BlueprintsSnapshotReuseAction = actionManager.CreateAction(ActionKeys.ACTION_SNAPSHOT_KEY,
 				STRINGS.UI.ACTIONS.SNAPSHOT_REUSE_TITLE, new PKeyBinding(KKeyCode.V, Modifier.Ctrl));
 
-			Actions.BlueprintsReopenSelectionAction = new PActionManager().CreateAction(ActionKeys.ACTION_RESELECT_KEY,
+			Actions.BlueprintsReopenSelectionAction = actionManager.CreateAction(ActionKeys.ACTION_RESELECT_KEY,
 				STRINGS.UI.ACTIONS.SELECT_DIFFERENT_TITLE, new PKeyBinding(KKeyCode.E, Modifier.Ctrl));
 
-			Actions.BlueprintsSwapAnchorAction = new PActionManager().CreateAction(ActionKeys.ACTION_SWAP_ANCHOR_KEY,
+			Actions.BlueprintsSwapAnchorAction = actionManager.CreateAction(ActionKeys.ACTION_SWAP_ANCHOR_KEY,
 				STRINGS.UI.ACTIONS.CHANGE_ANCHOR_TITLE, new PKeyBinding(KKeyCode.R, Modifier.Ctrl));
 
-			Actions.BlueprintsToggleForce = new PActionManager().CreateAction(ActionKeys.ACTION_FORCE_TOGGLE_KEY,
+			Actions.BlueprintsToggleForce = actionManager.CreateAction(ActionKeys.ACTION_FORCE_TOGGLE_KEY,
 				STRINGS.UI.ACTIONS.TOGGLE_FORCE, new PKeyBinding(KKeyCode.F));
 
 
-			Actions.BlueprintsCreateNoteAction = new PActionManager().CreateAction(ActionKeys.ACTION_NOTETOOL_KEY,
+			Actions.BlueprintsCreateNoteAction = actionManager.CreateAction(ActionKeys.ACTION_NOTETOOL_KEY,
 				STRINGS.UI.ACTIONS.NOTETOOL_TITLE);
 
-			Actions.BlueprintsSelectPrevious = new PActionManager().CreateAction(ActionKeys.ACTION_SELECT_PREV_BLUEPRINT_KEY,
+			Actions.BlueprintsSelectPrevious = actionManager.CreateAction(ActionKeys.ACTION_SELECT_PREV_BLUEPRINT_KEY,
 				STRINGS.UI.ACTIONS.SELECT_PREV, new PKeyBinding(KKeyCode.MouseScrollDown, Modifier.Shift));
-			Actions.BlueprintsSelectNext = new PActionManager().CreateAction(ActionKeys.ACTION_SELECT_NEXT_BLUEPRINT_KEY,
+			Actions.BlueprintsSelectNext = actionManager.CreateAction(ActionKeys.ACTION_SELECT_NEXT_BLUEPRINT_KEY,
 				STRINGS.UI.ACTIONS.SELECT_NEXT, new PKeyBinding(KKeyCode.MouseScrollUp, Modifier.Shift));
 
-			Actions.BlueprintsSelectPreviousFolder = new PActionManager().CreateAction(ActionKeys.ACTION_SELECT_PREV_BLUEPRINT_KEY,
+			Actions.BlueprintsSelectPreviousFolder = actionManager.CreateAction(ActionKeys.ACTION_SELECT_PREV_BLUEPRINT_KEY,
 				STRINGS.UI.ACTIONS.SELECT_PREV_FOLDER, new PKeyBinding(KKeyCode.MouseScrollDown, Modifier.Shift | Modifier.Ctrl));
-			Actions.BlueprintsSelectNextFolder = new PActionManager().CreateAction(ActionKeys.ACTION_SELECT_NEXT_BLUEPRINT_KEY,
+			Actions.BlueprintsSelectNextFolder = actionManager.CreateAction(ActionKeys.ACTION_SELECT_NEXT_BLUEPRINT_KEY,
 				STRINGS.UI.ACTIONS.SELECT_NEXT_FOLDER, new PKeyBinding(KKeyCode.MouseScrollUp, Modifier.Shift | Modifier.Ctrl));
 
-			Actions.BlueprintsRotate = new PActionManager().CreateAction(ActionKeys.ACTION_ROTATE_BLUEPRINT_KEY,
+			Actions.BlueprintsRotate = actionManager.CreateAction(ActionKeys.ACTION_ROTATE_BLUEPRINT_KEY,
 				STRINGS.UI.ACTIONS.ROTATE_BLUEPRINT, new PKeyBinding(KKeyCode.R));
-			Actions.BlueprintsRotateInverse = new PActionManager().CreateAction(ActionKeys.ACTION_ROTATE_INV_BLUEPRINT_KEY,
+			Actions.BlueprintsRotateInverse = actionManager.CreateAction(ActionKeys.ACTION_ROTATE_INV_BLUEPRINT_KEY,
 				STRINGS.UI.ACTIONS.ROTATE_INV_BLUEPRINT, new PKeyBinding(KKeyCode.R, Modifier.Shift));
 
-			Actions.BlueprintsFlipHorizontal = new PActionManager().CreateAction(ActionKeys.ACTION_FLIP_HORIZONTAL_KEY,
+			Actions.BlueprintsFlipHorizontal = actionManager.CreateAction(ActionKeys.ACTION_FLIP_HORIZONTAL_KEY,
 				STRINGS.UI.ACTIONS.FLIP_BLUEPRINT_H, new PKeyBinding(KKeyCode.H, Modifier.Shift));
-			Actions.BlueprintsFlipVertical = new PActionManager().CreateAction(ActionKeys.ACTION_FLIP_VERTICAL_KEY,
+			Actions.BlueprintsFlipVertical = actionManager.CreateAction(ActionKeys.ACTION_FLIP_VERTICAL_KEY,
 				STRINGS.UI.ACTIONS.FLIP_BLUEPRINT_V, new PKeyBinding(KKeyCode.V, Modifier.Shift));
 
 
 
-			Actions.BlueprintsToggleHotkeyToolTips = new PActionManager().CreateAction(ActionKeys.ACTION_TOGGLETOOLTIPS_KEY,
+			Actions.BlueprintsToggleHotkeyToolTips = actionManager.CreateAction(ActionKeys.ACTION_TOGGLETOOLTIPS_KEY,
 				STRINGS.UI.ACTIONS.TOGGLETOOLTIPS, new PKeyBinding(KKeyCode.Z));
 		}
 
