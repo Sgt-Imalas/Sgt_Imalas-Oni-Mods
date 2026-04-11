@@ -510,6 +510,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 					continue;
 				}
 				string newWorldPath_Outer = $"CGM_Dynamic_{asteroidId}_Outer";
+				ModAssets.OldStandaloneFragmentRedirects[asteroidId] = newWorldPath_Outer;
 
 				var OuterMixingWorld = new ProcGen.World();
 

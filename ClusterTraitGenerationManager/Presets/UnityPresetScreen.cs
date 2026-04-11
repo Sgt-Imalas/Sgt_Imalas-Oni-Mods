@@ -124,7 +124,7 @@ namespace ClusterTraitGenerationManager
 
 		public static List<CustomClusterSettingsPreset> LoadPresets()
 		{
-			List<CustomClusterSettingsPreset> minionStatConfigs = new List<CustomClusterSettingsPreset>();
+			List<CustomClusterSettingsPreset> clusterPresets = new List<CustomClusterSettingsPreset>();
 			var files = new DirectoryInfo(ModAssets.CustomClusterTemplatesPath).GetFiles();
 
 			for (int i = 0; i < files.Count(); i++)
@@ -135,7 +135,7 @@ namespace ClusterTraitGenerationManager
 					var preset = CustomClusterSettingsPreset.ReadFromFile(File);
 					if (preset != null)
 					{
-						minionStatConfigs.Add(preset);
+						clusterPresets.Add(preset);
 					}
 				}
 				catch (Exception e)
@@ -145,8 +145,8 @@ namespace ClusterTraitGenerationManager
 					//SgtLogger.logError("Couln't load cgm preset from: " + File.Name + ",\nError: " + e.ToString());
 				}
 			}
-			minionStatConfigs = minionStatConfigs.OrderBy(entry => entry.ConfigName).ToList();
-			return minionStatConfigs;
+			clusterPresets = clusterPresets.OrderBy(entry => entry.ConfigName).ToList();
+			return clusterPresets;
 		}
 
 		private bool AddUiElementForPreset(CustomClusterSettingsPreset config)

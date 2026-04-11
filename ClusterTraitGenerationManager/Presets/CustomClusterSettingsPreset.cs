@@ -563,7 +563,6 @@ namespace ClusterTraitGenerationManager
 			cluster.OuterPlanets.Clear();
 			foreach (var outerplanet in this.OuterPlanets)
 			{
-
 				string itemId = outerplanet.Value.itemID;
 
 				var outerItem = dict.ContainsKey(itemId) ? (dict[itemId]) : null;
@@ -758,24 +757,40 @@ namespace ClusterTraitGenerationManager
 			{
 				if (ModAssets.FindSwapAsteroid(StarterPlanet.itemID, out var newId))
 					StarterPlanet.itemID = newId;
+
+				if(StarterPlanet.mixedBy.IsNullOrWhiteSpace() && ModAssets.FindOldStandaloneFragment(StarterPlanet.itemID, out newId))
+					StarterPlanet.itemID = newId;
+
 			}
 			if (WarpPlanet != null)
 			{
 				if (ModAssets.FindSwapAsteroid(WarpPlanet.itemID, out var newId))
+					WarpPlanet.itemID = newId;
+				if (WarpPlanet.mixedBy.IsNullOrWhiteSpace() && ModAssets.FindOldStandaloneFragment(WarpPlanet.itemID, out newId))
 					WarpPlanet.itemID = newId;
 			}
 
 			if (OuterPlanets != null)
 			{
 				List<string> Keys = OuterPlanets.Keys.ToList();
-				foreach (var asteroid in Keys)
+				foreach (var aster in Keys)
 				{
-					if (ModAssets.FindSwapAsteroid(asteroid, out var newId))
+					string asteroidId = aster;
+					if (ModAssets.FindSwapAsteroid(asteroidId, out var newId))
 					{
-						var ast = OuterPlanets[asteroid];
+						var ast = OuterPlanets[asteroidId];
+						ast.itemID = newId;
+						OuterPlanets.Remove(asteroidId);
+						asteroidId = newId;
+						OuterPlanets.Add(newId, ast);
+					}
+					if (WarpPlanet.mixedBy.IsNullOrWhiteSpace() && ModAssets.FindOldStandaloneFragment(asteroidId, out newId))
+					{
+						var ast = OuterPlanets[asteroidId];
 						ast.itemID = newId;
 
-						OuterPlanets.Remove(asteroid);
+						OuterPlanets.Remove(asteroidId);
+						asteroidId = newId;
 						OuterPlanets.Add(newId, ast);
 					}
 				}

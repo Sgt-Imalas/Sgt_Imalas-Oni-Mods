@@ -70,6 +70,12 @@ namespace ClusterTraitGenerationManager
             { "expansion1::worlds/SmallRadioactiveLandingSiteStart", "expansion1::worlds/IdealLandingSiteStart"}, //start
             { "expansion1::worlds/SmallRadioactiveLandingSiteWarp", "expansion1::worlds/IdealLandingSiteWarp"}, //warp
         };
+
+		public static Dictionary<string, string> OldStandaloneFragmentRedirects = new()
+		{
+
+		};
+
 		public static bool FindSwapAsteroid(string item, out string replacement)
 		{
 			replacement = null;
@@ -81,6 +87,17 @@ namespace ClusterTraitGenerationManager
 			}
 			return false;
 		}
+		public static bool FindOldStandaloneFragment(string item, out string replacement)
+		{
+			replacement = null;
+			if (OldStandaloneFragmentRedirects.TryGetValue(item, out replacement))
+			{
+				SgtLogger.l("found old standalone mixing fragment: " + item + "in preset, redirecting to " + replacement);
+				return true;
+			}
+			return false;
+		}
+
 
 		private static Dictionary<string, int> _sunlightFixedTraits = null;
 		public static Dictionary<string, int> SunlightFixedTraits

@@ -12,6 +12,7 @@ using UnityEngine;
 using UtilLibs;
 using static ClusterTraitGenerationManager.ClusterData.CGSMClusterManager;
 using static ClusterTraitGenerationManager.STRINGS.UI.CGM_MAINSCREENEXPORT.DETAILS.CONTENT.SCROLLRECTCONTAINER.ASTEROIDGEYSERS.CONTENT;
+using static ProcGen.WorldPlacement;
 
 namespace ClusterTraitGenerationManager.ClusterData
 {
@@ -606,7 +607,12 @@ namespace ClusterTraitGenerationManager.ClusterData
 			placement.width = placement2.width;
 			placement.allowedRings = new(placement2.allowedRings.min, placement2.allowedRings.max);
 			placement.buffer = placement2.buffer;
-			placement.locationType = placement2.locationType;
+			placement.locationType = (this.category) switch
+			{
+				StarmapItemCategory.Starter => LocationType.Startworld,
+				StarmapItemCategory.Warp => LocationType.InnerCluster,
+				_ => LocationType.Cluster
+			};
 			placement.worldMixing = SerializingCloner.Copy(placement2.worldMixing);
 			placement.worldMixing = new()
 			{
@@ -668,8 +674,8 @@ namespace ClusterTraitGenerationManager.ClusterData
 		private bool _geyserBlacklistShared = true;
 
 		private bool _geyserBlacklistAffectsNonGenerics = true;
-		public bool GeyserBlacklistAffectsNonGenerics => 
-			IsMixed 
+		public bool GeyserBlacklistAffectsNonGenerics =>
+			IsMixed
 			? MixingAsteroidSource.GeyserBlacklistAffectsNonGenerics
 			: GeyserBlacklistShared ? CGSMClusterManager.BlacklistAffectsNonGenerics : _geyserBlacklistAffectsNonGenerics;
 		public bool GeyserBlacklistShared => IsMixed ? MixingAsteroidSource._geyserBlacklistShared : _geyserBlacklistShared;
@@ -691,7 +697,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 		{
 			if (IsMixed)
 				MixingAsteroidSource.SetGeyserBlacklistAffectsNonGenerics(affectsNongenerics);
-			else if(GeyserBlacklistShared)
+			else if (GeyserBlacklistShared)
 				CGSMClusterManager.BlacklistAffectsNonGenerics = affectsNongenerics;
 			else
 				_geyserBlacklistAffectsNonGenerics = affectsNongenerics;
