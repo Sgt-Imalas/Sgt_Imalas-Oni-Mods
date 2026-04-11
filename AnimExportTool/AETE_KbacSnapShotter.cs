@@ -13,7 +13,7 @@ namespace AnimExportTool
 	/// courtesy of Aki, https://github.com/aki-art/ONI-Mods/blob/master/AkisExtraTwitchEvents/Content/Scripts/AETE_KbacSnapShotter.cs
 	/// </summary>
 	public class AETE_KbacSnapShotter : KMonoBehaviour
-		//, ISidescreenButtonControl
+		, ISidescreenButtonControl
 	{
 		private Camera camera;
 		private Vector3 voidPosition = new(-100, 0);
@@ -45,32 +45,31 @@ namespace AnimExportTool
 			if (camera == null)
 				InitCamera();
 
-
+			CameraController.Instance.baseCamera.enabled =false;
 			camera.enabled = true;
 
 
 			var pos = transform.position;
 
-			var target = CopyAnim(kbac.gameObject);
-			target.transform.position = pos;
-			target.gameObject.SetActive(true);
+			var kanimControllerGOClone = CopyAnim(kbac.gameObject);
+			kanimControllerGOClone.transform.position = pos;
+			kanimControllerGOClone.gameObject.SetActive(true);
 
-
-			camera = CameraController.Instance.baseCamera;
 
 			RenderTexture previous = RenderTexture.active;
 			RenderTexture.active = targetTexture;
 
 			var prev = camera.targetTexture;
-			var mask = camera.cullingMask;
+			//var mask = camera.cullingMask;
+			//SgtLogger.l("Camera Culling Mask: " + mask + " - " + LayerMask.LayerToName(mask));
 
-			camera.targetTexture = targetTexture;
+			//camera.targetTexture = targetTexture;
 			//camera.cullingMask = LayerMask.NameToLayer(layer);
 
 			camera.Render();
 
-			camera.cullingMask = mask;
-			camera.targetTexture = prev;
+			//camera.cullingMask = mask;
+			//camera.targetTexture = prev;
 
 			Texture2D tex = new Texture2D(targetTexture.width, targetTexture.height);
 			tex.ReadPixels(new Rect(0, 0, targetTexture.width, targetTexture.height), 0, 0);
@@ -82,12 +81,14 @@ namespace AnimExportTool
 			//camera.enabled = false;
 			RenderTexture.active = previous;
 
-			//Destroy(target.gameObject);
+			Destroy(kanimControllerGOClone.gameObject);
+			camera.enabled = false;
+			CameraController.Instance.baseCamera.enabled = true;
 		}
 
 		private void InitCamera()
 		{
-			targetTexture = new RenderTexture(900, 900, 24);
+			targetTexture = new RenderTexture(200, 200, 24);
 			targetTexture.Create();
 
 			SgtLogger.l("TargetTextureDimensions: " + targetTexture.width + "x" + targetTexture.height);
