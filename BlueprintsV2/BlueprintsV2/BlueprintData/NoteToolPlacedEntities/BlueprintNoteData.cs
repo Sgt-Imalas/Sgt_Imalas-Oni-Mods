@@ -39,7 +39,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData.NoteToolPlacedEntities
 		{
 			jsonWriter.WriteStartObject();
 			jsonWriter.WritePropertyName("x"); jsonWriter.WriteValue(Location.x);
-			jsonWriter.WritePropertyName("y"); jsonWriter.WriteValue(Location.x);
+			jsonWriter.WritePropertyName("y"); jsonWriter.WriteValue(Location.y);
 			jsonWriter.WritePropertyName("type"); jsonWriter.WriteValue((int)Type);
 			if(Type == NoteType.Text)
 			{

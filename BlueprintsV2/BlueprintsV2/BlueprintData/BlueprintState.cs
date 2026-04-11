@@ -170,6 +170,7 @@ namespace BlueprintsV2.BlueprintData
 							var data = note.GetNoteData(cellOffsetInBlueprint);
 							if (data.IsValid())
 							{
+								SgtLogger.l("Writing note to blueprint at: " + cellOffsetInBlueprint);
 								blueprint.WorldNotes[cellOffsetInBlueprint] = (data);
 							}
 							else

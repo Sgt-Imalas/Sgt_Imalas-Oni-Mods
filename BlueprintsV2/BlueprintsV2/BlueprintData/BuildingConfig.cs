@@ -42,13 +42,15 @@ namespace BlueprintsV2.BlueprintData
 
 
 		/// <summary>
-		/// Replaces Flags in V2 BPss for better versatility,
 		/// any custom data stored for that building, inluding conduit directions
 		/// </summary>
 		public Dictionary<string, JObject> AdditionalBuildingData = null;
 
+		/// <summary>
+		/// ConduitFlag stores the bitflagged UtilityConnections value of conduit buildings (wires,rails,pipes,logicwires)
+		/// </summary>
 		private int ConduitFlags = -1;
-
+		
 
 		public bool HasAnyBuildingData => AdditionalBuildingData != null && AdditionalBuildingData.Any();
 
