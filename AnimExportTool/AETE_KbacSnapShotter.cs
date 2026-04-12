@@ -9,6 +9,7 @@ using System.Text;
 using UnityEngine;
 using UtilLibs;
 using static STRINGS.DUPLICANTS.CHORES;
+using static STRINGS.UI.SPACEDESTINATIONS.CLUSTERMAPMETEORSHOWERS;
 
 namespace AnimExportTool
 {
@@ -16,7 +17,7 @@ namespace AnimExportTool
 	/// courtesy of Aki, https://github.com/aki-art/ONI-Mods/blob/master/AkisExtraTwitchEvents/Content/Scripts/AETE_KbacSnapShotter.cs
 	/// </summary>
 	public class AETE_KbacSnapShotter : KMonoBehaviour
-		//, ISidescreenButtonControl
+	//, ISidescreenButtonControl
 	{
 		public static Dictionary<string, Vector2I> DimensionAddition = new() {
 			{LiquidPumpingStationConfig.ID, new(0,4)},
@@ -25,7 +26,8 @@ namespace AnimExportTool
 
 		private void OnRefreshUserMenu(object data)
 		{
-			Game.Instance.userMenu.AddButton(this.gameObject, new KIconButtonMenu.ButtonInfo("action_control", "Export Image", ()=>SnapShot(), tooltipText: "store current looks of this entity as a png"));
+			Game.Instance.userMenu.AddButton(this.gameObject, new KIconButtonMenu.ButtonInfo("action_control", "Export Image", () => SnapShot(), tooltipText: "store current looks of this entity as a png"));
+			Game.Instance.userMenu.AddButton(this.gameObject, new KIconButtonMenu.ButtonInfo("action_control", "Export Anim Sequence", () => SnapShotSequence(), tooltipText: "store current anim of this entity as a png sequence"));
 		}
 
 
@@ -45,6 +47,8 @@ namespace AnimExportTool
 		public string SidescreenButtonText => "Snapshot";
 
 		public string SidescreenButtonTooltip => "";
+		string subDirectory = string.Empty;
+		string suffix = string.Empty;
 
 		public override void OnPrefabInit()
 		{
@@ -120,6 +124,41 @@ namespace AnimExportTool
 			}
 		}
 
+		public void SnapShotSequence()
+		{
+			StartCoroutine(SnapShotSequenceCor());
+		}
+		public string GetID()
+		{
+			string id = kPrefabID.PrefabTag.ToString();
+			if (gameObject.TryGetComponent<MinionIdentity>(out var identity))
+				id += "_" + identity.nameStringKey;
+			return id;
+		}
+
+		IEnumerator SnapShotSequenceCor()
+		{
+			var currentAnim = kbac.currentAnim;
+			subDirectory = GetID() + "_" + currentAnim.ToString();
+			int frameCount = kbac.curAnim.numFrames;
+			bool waspaused = SpeedControlScreen.Instance.IsPaused;
+			if (waspaused)
+				SpeedControlScreen.Instance.Unpause(false);
+
+			for (int i = 0; i < frameCount; i++)
+			{
+				float percentage = (float)i / (float)frameCount;
+				kbac.SetPositionPercent(percentage);
+				suffix = $"_{i:D4}";
+				yield return null;
+				SnapShot();
+			}
+			subDirectory = string.Empty;
+			suffix = string.Empty;
+			if(waspaused)
+				SpeedControlScreen.Instance.Pause(false);
+		}
+
 		public void SnapShot()
 		{
 			SelectTool.Instance.Select(null);
@@ -185,11 +224,9 @@ namespace AnimExportTool
 			tex.Apply();
 
 			var imageBytes = tex.EncodeToPNG();
-			string id = kPrefabID.PrefabTag.ToString();
-			if (gameObject.TryGetComponent<MinionIdentity>(out var identity))
-				id += "_" + identity.nameStringKey;
+			
 
-			var path = System.IO.Path.Combine(IO_Utils.ModPath, "_FullsizeImagesById", $"{id}.png");
+			var path = System.IO.Path.Combine(IO_Utils.ModPath, "_FullsizeImagesById", subDirectory, $"{GetID() + suffix}.png");
 			var dir = System.IO.Directory.GetParent(path);
 			System.IO.Directory.CreateDirectory(dir.FullName);
 			File.WriteAllBytes(path, imageBytes);
