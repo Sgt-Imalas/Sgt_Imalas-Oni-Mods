@@ -1,11 +1,14 @@
-﻿using PeterHan.PLib.Core;
+﻿using KMod;
+using PeterHan.PLib.Core;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 using UtilLibs;
+using static STRINGS.DUPLICANTS.CHORES;
 
 namespace AnimExportTool
 {
@@ -16,13 +19,15 @@ namespace AnimExportTool
 		, ISidescreenButtonControl
 	{
 		private Camera camera;
-		private Vector3 voidPosition = new(-100, 0);
 		private RenderTexture targetTexture;
 		private Texture2D debugWaterTex;
-		private static readonly string layer = "Default";//"Pickupable");
+		private static readonly int DrawLayer = 30;
 
-		[MyCmpReq] KBatchedAnimController kbac;
+		[SerializeField] public bool AutoSnapshot = false;
+
+		[MyCmpReq] public KBatchedAnimController kbac;
 		[MyCmpReq] KPrefabID kPrefabID;
+		[MyCmpReq] KBoxCollider2D Collider2D;
 
 		public static AETE_KbacSnapShotter Instance { get; set; }
 
@@ -33,74 +38,203 @@ namespace AnimExportTool
 		public override void OnPrefabInit()
 		{
 			Instance = this;
+			if (TryGetComponent<TreeFilterable>(out var filter))
+				filter.tintOnNoFiltersSet = false;
+		}
+
+		public override void OnSpawn()
+		{
+			if (AutoSnapshot)
+			{
+				SnapShot();
+				Util.KDestroyGameObject(gameObject);
+			}
 		}
 
 		public override void OnCleanUp()
 		{
 			Instance = null;
 		}
+		//static void RenderKanims()
+		//{
+		//	foreach (BatchSet activeBatchSet in KAnimBatchManager.Instance().activeBatchSets)
+		//	{
+		//		DebugUtil.Assert(activeBatchSet != null);
+		//		DebugUtil.Assert(activeBatchSet.group != null);
+		//		SgtLogger.l("Batch Set: " + activeBatchSet.key);
+
+		//		Mesh mesh = activeBatchSet.group.mesh;
+		//		for (int i = 0; i < activeBatchSet.batchCount; i++)
+		//		{
+		//			KAnimBatch batch = activeBatchSet.GetBatch(i);
+
+		//			SgtLogger.l("	layer: " + batch.layer);
+
+		//			float num = 0.01f / (float)(1 + batch.id % 256);
+		//			if (batch.size != 0 && batch.active && batch.materialType != KAnimBatchGroup.MaterialType.UI)
+		//			{
+		//				Vector3 zero = Vector3.zero;
+		//				zero.z = batch.position.z + num;
+		//				int layer = batch.layer;
+		//				Graphics.DrawMesh(mesh, zero, Quaternion.identity, activeBatchSet.group.GetMaterial(batch.materialType), layer, null, 0, batch.matProperties);
+		//			}
+		//		}
+		//	}
+		//}
+		static void RenderBatch(KAnimBatch batch, Camera camera = null, int layerOverride = -1)
+		{
+			if (batch == null) return;
+
+			float num = 0.01f / (float)(1 + batch.id % 256);
+			if (batch.size != 0 && batch.active && batch.materialType != KAnimBatchGroup.MaterialType.UI)
+			{
+				Vector3 zero = Vector3.zero;
+				zero.z = batch.position.z + num;
+				int layer = batch.layer;
+				if (layerOverride >= 0)
+					layer = layerOverride;
+				var activeBatchSet = KAnimBatchManager.Instance().activeBatchSets.Find(set => set.batches.Contains(batch));
+				if(activeBatchSet == null)
+				{
+					SgtLogger.warning("could not find batch for " + batch.id);
+					return;
+				}
+				var mesh = activeBatchSet.group.mesh;
+				//SgtLogger.l("Rendering mesh for batch " + batch + " in " + activeBatchSet + " on layer " + layer);
+				Graphics.DrawMesh(mesh, zero, Quaternion.identity, activeBatchSet.group.GetMaterial(batch.materialType), layer, camera, 0, batch.matProperties);
+			}
+		}
 
 		public void SnapShot()
 		{
+			SelectTool.Instance.Select(null);
+			camera = null;
 			if (camera == null)
 				InitCamera();
 
-			CameraController.Instance.baseCamera.enabled =false;
+			KAnimBatchManager.Instance().UpdateActiveArea(new Vector2I(-9999, -9999), new Vector2I(9999, 9999));
+			KAnimBatchManager.Instance().UpdateDirty(Time.frameCount);
+			CameraController.Instance.baseCamera.enabled = false;
 			camera.enabled = true;
 
 
 			var pos = transform.position;
 
-			var kanimControllerGOClone = CopyAnim(kbac.gameObject);
-			kanimControllerGOClone.transform.position = pos;
-			kanimControllerGOClone.gameObject.SetActive(true);
+			//KBatchedAnimController kbacClone = CopyAnim(kbac.gameObject);
+			//kbacClone.transform.position = pos;
+			//kbacClone.gameObject.SetActive(true);
 
 
 			RenderTexture previous = RenderTexture.active;
 			RenderTexture.active = targetTexture;
 
-			var prev = camera.targetTexture;
 			//var mask = camera.cullingMask;
-			//SgtLogger.l("Camera Culling Mask: " + mask + " - " + LayerMask.LayerToName(mask));
+			//SgtLogger.l("Camera Culling Mask: " + camera.cullingMask+", batch layer: "+ kbacClone.batch.layer);
 
 			//camera.targetTexture = targetTexture;
 			//camera.cullingMask = LayerMask.NameToLayer(layer);
 
+			//bool renderFGfirst = (building.Def.ForegroundLayer < building.Def.SceneLayer);
+
+			//if (!renderFGfirst)
+			//	RenderBatch(kbac.batch, camera, DrawLayer);
+			/////render fg kbac
+			//if (kbac.layering != null && kbac.layering.foregroundController != null)
+			//{
+			//	KBatchedAnimController fbKbac = ((KBatchedAnimController)kbac.layering.foregroundController);
+			//	KAnimBatch fgBatch = fbKbac.batch;
+			//	RenderBatch(fgBatch, camera, DrawLayer);
+			//}
+			//if (renderFGfirst)
+			//	RenderBatch(kbac.batch, camera, DrawLayer);
+
+			var kbacs = gameObject.GetComponentsInChildren<KBatchedAnimController>()
+				.OrderBy(kbac => kbac.transform.position.z);
+
+			foreach(var kbac in kbacs)
+			{
+				RenderBatch(kbac.batch, camera, DrawLayer);
+			}
+
+
+			//KAnimBatchManager.Instance().Render();
+			//for (int i = 0; i<32; i++)
+			//{
+			//	var name = LayerMask.LayerToName(i);
+			//	SgtLogger.l("Layer "+i+": "+ name);
+			//}
+			//camera.cullingMask = LayerMask.NameToLayer("ForceDraw");
 			camera.Render();
-
-			//camera.cullingMask = mask;
-			//camera.targetTexture = prev;
-
 			Texture2D tex = new Texture2D(targetTexture.width, targetTexture.height);
 			tex.ReadPixels(new Rect(0, 0, targetTexture.width, targetTexture.height), 0, 0);
 			tex.Apply();
 
 			var imageBytes = tex.EncodeToPNG();
-			File.WriteAllBytes(System.IO.Path.Combine(IO_Utils.ModPath, $"TestImageCamExperiment_{kPrefabID.PrefabTag}.png"), imageBytes);
+			var path = System.IO.Path.Combine(IO_Utils.ModPath, "BuildingFullsizeImagesById", $"{kPrefabID.PrefabTag}.png");
+			var dir = System.IO.Directory.GetParent(path);
+			System.IO.Directory.CreateDirectory(dir.FullName);
+			File.WriteAllBytes(path, imageBytes);
 
 			//camera.enabled = false;
 			RenderTexture.active = previous;
 
-			Destroy(kanimControllerGOClone.gameObject);
+			//Destroy(kbacClone.gameObject);
 			camera.enabled = false;
 			CameraController.Instance.baseCamera.enabled = true;
 		}
-
 		private void InitCamera()
 		{
-			targetTexture = new RenderTexture(200, 200, 24);
-			targetTexture.Create();
+			int widthInt = Mathf.RoundToInt(Collider2D.size.x);
+			int heightInt = Mathf.RoundToInt(Collider2D.size.y);
 
-			SgtLogger.l("TargetTextureDimensions: " + targetTexture.width + "x" + targetTexture.height);
+			float pixelsPerUnit = 100f;
+			float paddingPx = 100f;
+
+
+			float worldWidth = widthInt;
+			float worldHeight = heightInt;
+
+
+
+			int textureWidth = Mathf.CeilToInt(worldWidth * pixelsPerUnit + 2 * paddingPx);
+			int textureHeight = Mathf.CeilToInt(worldHeight * pixelsPerUnit + 2 * paddingPx);
+
+			var yOffset = (heightInt / 2f);
+			float xOffset = 0;
+
+			//if (building.Def.HeightInCells % 2 == 0)
+			//	yOffset -= 0.5f;
+			if (widthInt % 2 == 0)
+				xOffset += 0.5f;
+
+
+			//SgtLogger.l("Building Dims: " + textureWidth + "x" + textureHeight + "; offsets: " + xOffset+","+ yOffset);
+			//targetTexture = new RenderTexture((int)width, (int)height, 24);
+			targetTexture = new RenderTexture(textureWidth, textureHeight, 24);
+			targetTexture.Create();
+			//Screen.currentResolution.width
+
+			//SgtLogger.l("TargetTextureDimensions: " + targetTexture.width + "x" + targetTexture.height);
 			var reference = CameraController.Instance.baseCamera;
 
 			camera = CameraController.CloneCamera(reference, "AETE_SnapshotCamera");
 			camera.transform.parent = reference.transform.parent;
-			//camera.cullingMask = LayerMask.NameToLayer(layer);
 			camera.targetTexture = targetTexture;
-
 			camera.enabled = false;
-			//camera.transform.position = voidPosition;
+			camera.backgroundColor = Color.clear;
+			camera.cullingMask = (1 << DrawLayer);
+
+			var pos = transform.GetPosition();
+			//SgtLogger.l("Current Camera Position: " + camera.transform.position);
+			//SgtLogger.l("Object Position: " + pos);
+			pos.z = -100;
+			pos.y += yOffset;
+			pos.x += xOffset;
+
+			camera.transform.position = pos;
+			camera.orthographicSize = textureHeight / (2f * pixelsPerUnit);
+			camera.aspect = (float)textureWidth / textureHeight;
+			//SgtLogger.l("Camera is orthographic? " + camera.orthographic + ", size: " + camera.orthographicSize + ", aspect: " + camera.aspect);
 		}
 
 		private KBatchedAnimController CopyAnim(GameObject original)
@@ -164,8 +298,8 @@ namespace AnimExportTool
 			kbac.FlipY = mKbac.flipY;
 			kbac.Rotation = mKbac.Rotation;
 			kbac.sceneLayer = mKbac.sceneLayer;
-
-			go.SetLayerRecursively(LayerMask.NameToLayer(layer));
+			//kbac.SetLayer(layer);
+			//go.SetLayerRecursively(layer);
 
 			go.SetActive(true);
 
