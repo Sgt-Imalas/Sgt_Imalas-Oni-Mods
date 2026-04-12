@@ -35,13 +35,13 @@ namespace AnimExportTool
 		//}
 
 
-		[HarmonyPatch(typeof(BuildingComplete), nameof(BuildingComplete.OnPrefabInit))]
-		public class BuildingComplete_OnPrefabInit_Patch
+		[HarmonyPatch(typeof(KBatchedAnimController), nameof(KBatchedAnimController.OnStart))]
+		public class KCollider2D_OnSpawn_Patch
 		{
-			public static void Postfix(BuildingComplete __instance)
+			public static void Postfix(KBatchedAnimController __instance)
 			{
-				if(__instance.TryGetComponent<KBatchedAnimController>(out _))
-				__instance.gameObject.AddOrGet<AETE_KbacSnapShotter>();
+				if(__instance.gameObject.TryGetComponent<KPrefabID>(out _) && __instance.gameObject.TryGetComponent<KBoxCollider2D>(out _))
+					__instance.gameObject.AddOrGet<AETE_KbacSnapShotter>();
 			}
 		}
 

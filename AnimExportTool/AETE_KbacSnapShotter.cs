@@ -16,8 +16,19 @@ namespace AnimExportTool
 	/// courtesy of Aki, https://github.com/aki-art/ONI-Mods/blob/master/AkisExtraTwitchEvents/Content/Scripts/AETE_KbacSnapShotter.cs
 	/// </summary>
 	public class AETE_KbacSnapShotter : KMonoBehaviour
-		, ISidescreenButtonControl
+		//, ISidescreenButtonControl
 	{
+		public static Dictionary<string, Vector2I> DimensionAddition = new() {
+			{LiquidPumpingStationConfig.ID, new(0,4)},
+		};
+
+
+		private void OnRefreshUserMenu(object data)
+		{
+			Game.Instance.userMenu.AddButton(this.gameObject, new KIconButtonMenu.ButtonInfo("action_control", "Export Image", ()=>SnapShot(), tooltipText: "store current looks of this entity as a png"));
+		}
+
+
 		private Camera camera;
 		private RenderTexture targetTexture;
 		private Texture2D debugWaterTex;
@@ -49,10 +60,14 @@ namespace AnimExportTool
 				SnapShot();
 				Util.KDestroyGameObject(gameObject);
 			}
+			else
+				handle = Subscribe((int)GameHashes.RefreshUserMenu, OnRefreshUserMenu);
 		}
-
+		int handle = -1;
 		public override void OnCleanUp()
 		{
+			if (handle != -1)
+				Unsubscribe(handle);
 			Instance = null;
 		}
 		//static void RenderKanims()
@@ -94,7 +109,7 @@ namespace AnimExportTool
 				if (layerOverride >= 0)
 					layer = layerOverride;
 				var activeBatchSet = KAnimBatchManager.Instance().activeBatchSets.Find(set => set.batches.Contains(batch));
-				if(activeBatchSet == null)
+				if (activeBatchSet == null)
 				{
 					SgtLogger.warning("could not find batch for " + batch.id);
 					return;
@@ -151,7 +166,7 @@ namespace AnimExportTool
 			var kbacs = gameObject.GetComponentsInChildren<KBatchedAnimController>()
 				.OrderBy(kbac => kbac.transform.position.z);
 
-			foreach(var kbac in kbacs)
+			foreach (var kbac in kbacs)
 			{
 				RenderBatch(kbac.batch, camera, DrawLayer);
 			}
@@ -170,7 +185,11 @@ namespace AnimExportTool
 			tex.Apply();
 
 			var imageBytes = tex.EncodeToPNG();
-			var path = System.IO.Path.Combine(IO_Utils.ModPath, "BuildingFullsizeImagesById", $"{kPrefabID.PrefabTag}.png");
+			string id = kPrefabID.PrefabTag.ToString();
+			if (gameObject.TryGetComponent<MinionIdentity>(out var identity))
+				id += "_" + identity.nameStringKey;
+
+			var path = System.IO.Path.Combine(IO_Utils.ModPath, "_FullsizeImagesById", $"{id}.png");
 			var dir = System.IO.Directory.GetParent(path);
 			System.IO.Directory.CreateDirectory(dir.FullName);
 			File.WriteAllBytes(path, imageBytes);
@@ -186,6 +205,12 @@ namespace AnimExportTool
 		{
 			int widthInt = Mathf.RoundToInt(Collider2D.size.x);
 			int heightInt = Mathf.RoundToInt(Collider2D.size.y);
+			Vector2I addition = new(0, 0);
+			if (DimensionAddition.TryGetValue(kPrefabID.PrefabTag.ToString(), out addition))
+			{
+				widthInt += addition.X;
+				heightInt += addition.Y;
+			}
 
 			float pixelsPerUnit = 100f;
 			float paddingPx = 100f;
@@ -199,7 +224,7 @@ namespace AnimExportTool
 			int textureWidth = Mathf.CeilToInt(worldWidth * pixelsPerUnit + 2 * paddingPx);
 			int textureHeight = Mathf.CeilToInt(worldHeight * pixelsPerUnit + 2 * paddingPx);
 
-			var yOffset = (heightInt / 2f);
+			var yOffset = ((heightInt / 2f) - addition.Y);
 			float xOffset = 0;
 
 			//if (building.Def.HeightInCells % 2 == 0)
