@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Application: Oxygen Not IncludedPOT Version: 2.0\n"
-"X-Generator: Poedit 3.8\n"
+"X-Generator: Poedit 3.9\n"
 
 #. SetStartDupes.STRINGS.BIONIC_STRESS_HARDWIRED
 msgctxt "SetStartDupes.STRINGS.BIONIC_STRESS_HARDWIRED"
@@ -692,6 +692,16 @@ msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.PAUSEONREADYTOPRING.TOOLTIP"
 msgid "Приостановить игру, когда печатный станок перезарядится для новой печати"
 msgstr "Приостановить игру, когда печатный станок перезарядится для новой печати"
 
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.PODDUPESKINCHANGE.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.PODDUPESKINCHANGE.NAME"
+msgid "Skin selection for Printing Pod Duplicants"
+msgstr "Выбор скина для напечатанных дубликантов"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.PODDUPESKINCHANGE.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.PODDUPESKINCHANGE.TOOLTIP"
+msgid "Change the Skin of printing pod duplicants"
+msgstr "Изменить скин напечатанных дубликантов"
+
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.PRINTINGPODRECHARGETIME.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.PRINTINGPODRECHARGETIME.NAME"
 msgid "Время перезарядки печатного станка"
@@ -743,6 +753,30 @@ msgstr "Повторная переделка или выбор посылок"
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_CAREPACKAGES.TOOLTIP"
 msgid "Enable this option to add the reroll button to printing pod care packages."
 msgstr "Включите эту опцию, чтобы добавить кнопку повторной переделки к предложенным посылкам в печатном станке."
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_LIMITCOUNTER.NAME
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_LIMITCOUNTER.NAME"
+msgid "Limit Reroll Count"
+msgstr "Ограничить количество переделок"
+
+#. SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_LIMITCOUNTER.TOOLTIP
+msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_LIMITCOUNTER.TOOLTIP"
+msgid ""
+"Limit how many times you can reroll in tge printing pod each time the it becomes ready.\n"
+"\n"
+"Only has an effect if any of the printing pod reroll options are enabled\n"
+"\n"
+"A value of 0 disables any limiting.\n"
+"\n"
+"Does not affect direct editing options, play with those disabled if you want to avoid temptation."
+msgstr ""
+"Ограничивает количество повторных переделок в печатном станке каждый раз, когда он становится готовым.\n"
+"\n"
+"Эффект проявляется только в том случае, если включены какие-либо параметры повторной попытки в печатной капсуле.\n"
+"\n"
+"Значение 0 отключает любые ограничения.\n"
+"\n"
+"Не влияет на параметры прямого редактирования, играйте с отключенными параметрами, если хотите избежать соблазна."
 
 #. SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_MINIONS.NAME
 msgctxt "SetStartDupes.STRINGS.UI.DSS_OPTIONS.REROLLDURINGGAME_MINIONS.NAME"
@@ -1328,7 +1362,7 @@ msgstr "Пресет переопределяет ХР"
 #. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.CHECKBOXES.XPOVERRIDE.TOOLTIP
 msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.CHECKBOXES.XPOVERRIDE.TOOLTIP"
 msgid "If enabled, applying presets to duplicants also sets their experience points and skill points available"
-msgstr "Если эта функция включена, применение пресета к дубликатам также устанавливает количество доступных им очков опыта и очков навыков."
+msgstr "Если эта функция включена, применение пресета к дубликатам также устанавливает количество доступных им очков опыта и очков навыков"
 
 #. SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.NOPRESETSAVAILABLE.LABEL
 msgctxt "SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.OBJECTLIST.SCROLLAREA.CONTENT.NOPRESETSAVAILABLE.LABEL"

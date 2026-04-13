@@ -67,6 +67,16 @@ msgctxt "SaveGameModLoader.STRINGS.MPM_CONFIG.USECUSTOMFOLDERPATH.TOOLTIP"
 msgid "Use a custom folder path for mod profiles"
 msgstr "Использовать собственный путь к папке для профилей модов"
 
+#. SaveGameModLoader.STRINGS.MPM_CONFIG.USESTEAMOVERLAY.NAME
+msgctxt "SaveGameModLoader.STRINGS.MPM_CONFIG.USESTEAMOVERLAY.NAME"
+msgid "Open links in Steam Overlay"
+msgstr "Открывать ссылки в оверлее Steam"
+
+#. SaveGameModLoader.STRINGS.MPM_CONFIG.USESTEAMOVERLAY.TOOLTIP
+msgctxt "SaveGameModLoader.STRINGS.MPM_CONFIG.USESTEAMOVERLAY.TOOLTIP"
+msgid "When active, uses the steam overlay instead of the browser to open workshop links"
+msgstr "При активации используется оверлей Steam вместо браузера для открытия ссылок в Мастерскую."
+
 #. SaveGameModLoader.STRINGS.UI.FRONTEND.EMPTY_MOD_FOLDER.TITLE
 msgctxt "SaveGameModLoader.STRINGS.UI.FRONTEND.EMPTY_MOD_FOLDER.TITLE"
 msgid " - <color=#FF0000FF><b>Installation Failure!</b></color>"
