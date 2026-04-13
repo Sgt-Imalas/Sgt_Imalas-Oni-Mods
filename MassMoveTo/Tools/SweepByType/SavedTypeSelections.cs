@@ -18,6 +18,7 @@
 
 using KSerialization;
 using System.Collections.Generic;
+using UtilLibs;
 
 namespace MassMoveTo.Tools.SweepByType
 {
@@ -50,6 +51,7 @@ namespace MassMoveTo.Tools.SweepByType
 		public ICollection<Tag> GetSavedTypes()
 		{
 			InitTypes();
+			SgtLogger.l("Loading SavedTypes; count: " + types.Count);
 			return types;
 		}
 

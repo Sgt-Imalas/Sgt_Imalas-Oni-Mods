@@ -176,7 +176,7 @@ namespace MassMoveTo.Tools.SweepByType
 		{
 			DisableIcons = disableIcons;
 			// Select/deselect all types
-			var cp = new PPanel("Categories")
+			var categoryPanel = new PPanel("Categories")
 			{
 				Direction = PanelDirection.Vertical,
 				Alignment = TextAnchor.UpperLeft,
@@ -188,9 +188,10 @@ namespace MassMoveTo.Tools.SweepByType
 			}.AddChild(new PTextField("TextFilter")
 			{
 				Text = FilterText,
-				MinWidth = 180,
+				MinWidth = 170,
 				FlexSize = new Vector2(1,0),
 				TextAlignment = TMPro.TextAlignmentOptions.MidlineLeft,
+				
 			}.AddOnRealize((go)=>
 			{
 				go.GetComponent<TMP_InputField>().onValueChanged.AddListener(text => OnFilterTextChanged(text));
@@ -204,14 +205,14 @@ namespace MassMoveTo.Tools.SweepByType
 				TextStyle = PUITuning.Fonts.TextDarkStyle
 			}.AddOnRealize((obj) => allItems = obj)).AddOnRealize((obj) => childPanel = obj);
 			// Scroll to select elements
-			var sp = new PScrollPane("Scroll")
+			var scrollPane = new PScrollPane("Scroll")
 			{
-				Child = cp,
+				Child = categoryPanel,
 				ScrollHorizontal = false,
 				ScrollVertical = true,
 				AlwaysShowVertical = true,
 				TrackSize = 8.0f,
-				FlexSize = Vector2.one
+				FlexSize = Vector2.one,
 			};
 			// Title bar
 			var title = new PLabel("Title")
@@ -230,11 +231,11 @@ namespace MassMoveTo.Tools.SweepByType
 				ImageMode = Image.Type.Sliced,
 				DynamicSize = false,
 				BackColor = PUITuning.Colors.BackgroundLight
-			}.AddChild(sp).AddChild(title).SetMargin(sp, OUTER_MARGIN).
+			}.AddChild(scrollPane).AddChild(title).SetMargin(scrollPane, OUTER_MARGIN).
 				SetLeftEdge(title, fraction: 0.0f).SetRightEdge(title, fraction: 1.0f).
-				SetLeftEdge(sp, fraction: 0.0f).SetRightEdge(sp, fraction: 1.0f).
-				SetTopEdge(title, fraction: 1.0f).SetBottomEdge(sp, fraction: 0.0f).
-				SetTopEdge(sp, below: title).Build();
+				SetLeftEdge(scrollPane, fraction: 0.0f).SetRightEdge(scrollPane, fraction: 1.0f).
+				SetTopEdge(title, fraction: 1.0f).SetBottomEdge(scrollPane, fraction: 0.0f).
+				SetTopEdge(scrollPane, below: title).Build();
 			RootPanel.SetMinUISize(PANEL_SIZE);
 			children = new SortedList<Tag, TypeSelectCategory>(16, TagAlphabetComparer.
 				INSTANCE);
@@ -366,7 +367,7 @@ namespace MassMoveTo.Tools.SweepByType
 				{
 					current = new TypeSelectCategory(this, category, overrideName);
 					children.Add(category, current);
-					int index = 1 + (children.IndexOfKey(category) << 1);
+					int index = 2 + (children.IndexOfKey(category) << 1);
 					GameObject header = current.Header, panel = current.ChildPanel;
 					// Header goes in even indexes, panel goes in odds
 					header.SetParent(childPanel);

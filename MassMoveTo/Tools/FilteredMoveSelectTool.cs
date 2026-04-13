@@ -18,6 +18,7 @@
 
 using PeterHan.PLib.Core;
 using PeterHan.PLib.Detours;
+using System.Linq;
 using UnityEngine;
 
 namespace MassMoveTo.Tools.SweepByType
@@ -126,7 +127,7 @@ namespace MassMoveTo.Tools.SweepByType
 						GetSavedTypes();
 					// First time, load the user's old settings if available
 					// If nothing at all is selected, then this is probably the first ever load
-					if (savedTypes != null && savedTypes.Count > 0)
+					if (savedTypes != null && savedTypes.Any())
 						TypeSelect.SetSelections(savedTypes);
 				}
 				root.SetParent(menu.gameObject);
