@@ -23,7 +23,7 @@ namespace GunkedRefinery
 				gunk.oreTags ??= [];
 				gunk.oreTags = gunk.oreTags.AddToArray(RefinableOil);
 				oil.oreTags ??= [];
-				oil.oreTags = gunk.oreTags.AddToArray(RefinableOil);				
+				oil.oreTags = oil.oreTags.AddToArray(RefinableOil);				
 			}
 		}
 
