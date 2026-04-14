@@ -42,7 +42,7 @@ namespace AnimExportTool
 		[MyCmpReq] KPrefabID kPrefabID;
 		[MyCmpReq] KBoxCollider2D Collider2D;
 
-		public static AETE_KbacSnapShotter Instance { get; set; }
+		//public static AETE_KbacSnapShotter Instance { get; set; }
 
 		public string SidescreenButtonText => "Snapshot";
 
@@ -52,7 +52,7 @@ namespace AnimExportTool
 
 		public override void OnPrefabInit()
 		{
-			Instance = this;
+			//Instance = this;
 			if (TryGetComponent<TreeFilterable>(out var filter))
 				filter.tintOnNoFiltersSet = false;
 		}
@@ -61,18 +61,28 @@ namespace AnimExportTool
 		{
 			if (AutoSnapshot)
 			{
-				SnapShot();
-				Util.KDestroyGameObject(gameObject);
+				StartCoroutine(DoAutoSnapshot());
 			}
 			else
 				handle = Subscribe((int)GameHashes.RefreshUserMenu, OnRefreshUserMenu);
 		}
+
+		IEnumerator DoAutoSnapshot()
+		{
+			yield return new WaitForSecondsRealtime(0.1f);
+			yield return null;
+
+
+			SnapShot();
+			Util.KDestroyGameObject(gameObject);
+		}
+
 		int handle = -1;
 		public override void OnCleanUp()
 		{
 			if (handle != -1)
 				Unsubscribe(handle);
-			Instance = null;
+			//Instance = null;
 		}
 		//static void RenderKanims()
 		//{
@@ -162,9 +172,12 @@ namespace AnimExportTool
 		public void SnapShot()
 		{
 			SelectTool.Instance.Select(null);
-			camera = null;
-			if (camera == null)
-				InitCamera();
+			if (camera != null)
+			{
+				Destroy(camera.gameObject);
+				camera = null;
+			}
+			InitCamera();
 
 			KAnimBatchManager.Instance().UpdateActiveArea(new Vector2I(-9999, -9999), new Vector2I(9999, 9999));
 			KAnimBatchManager.Instance().UpdateDirty(Time.frameCount);
@@ -226,7 +239,7 @@ namespace AnimExportTool
 			var imageBytes = tex.EncodeToPNG();
 			
 
-			var path = System.IO.Path.Combine(IO_Utils.ModPath, "_FullsizeImagesById", subDirectory, $"{GetID() + suffix}.png");
+			string path = subDirectory.IsNullOrWhiteSpace() ? Path.Combine(IO_Utils.ModPath, "_FullsizeImagesById", $"{GetID() + suffix}.png") : Path.Combine(IO_Utils.ModPath, "_Anims", subDirectory, $"{GetID() + suffix}.png");
 			var dir = System.IO.Directory.GetParent(path);
 			System.IO.Directory.CreateDirectory(dir.FullName);
 			File.WriteAllBytes(path, imageBytes);

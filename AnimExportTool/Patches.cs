@@ -5,7 +5,9 @@ using Klei.CustomSettings;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -13,6 +15,7 @@ using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Events;
 using UtilLibs;
 using static AnimExportTool.Patches.MainMenu_OnPrefabInit.GameSettingExport;
 using static KleiMetrics;
@@ -40,7 +43,7 @@ namespace AnimExportTool
 		{
 			public static void Postfix(KBatchedAnimController __instance)
 			{
-				if(__instance.gameObject.TryGetComponent<KPrefabID>(out _) && __instance.gameObject.TryGetComponent<KBoxCollider2D>(out _))
+				if (__instance.gameObject.TryGetComponent<KPrefabID>(out _) && __instance.gameObject.TryGetComponent<KBoxCollider2D>(out _))
 					__instance.gameObject.AddOrGet<AETE_KbacSnapShotter>();
 			}
 		}
@@ -290,6 +293,51 @@ namespace AnimExportTool
 
 				}
 
+			}
+		}
+		private static readonly KButtonMenu.ButtonInfo StartBuildingExportButton = new KButtonMenu.ButtonInfo("StartBuildingExport", Action.NumActions, new UnityAction(StartExport));
+		private static void StartExport()
+		{
+			PauseScreen.Instance.Show(false);
+			Game.Instance.StartCoroutine(BuildingSnapper());
+		}
+
+		static IEnumerator BuildingSnapper()
+		{
+			var cell = Grid.PosToCell(Camera.main.transform.position);
+
+			for(int i = 0; i<10; ++i)
+				cell = Grid.CellDownLeft(cell);
+
+
+			ClusterManager.Instance.activeWorld.gameObject.AddOrGet<ClusterDestinationSelector>();
+			ClusterManager.Instance.activeWorld.gameObject.AddOrGet<ClusterTraveler>();
+			ClusterManager.Instance.activeWorld.gameObject.AddOrGet<Clustercraft>();
+			ClusterManager.Instance.activeWorld.gameObject.AddOrGet<CraftModuleInterface>();
+			foreach (var def in Assets.BuildingDefs)
+			{
+				if (!def.ShowInBuildMenu || def.Deprecated || def.isKAnimTile || def.IsTilePiece)
+					continue;
+
+
+
+				var temporaryTargetBuilding = def.Create(Grid.CellToPos(cell), null, [SimHashes.Unobtanium.CreateTag()], null, 100, def.BuildingComplete);
+				temporaryTargetBuilding.AddOrGet<AETE_KbacSnapShotter>().AutoSnapshot = true;
+				while (!temporaryTargetBuilding.IsNullOrDestroyed())
+					yield return null;
+			}
+		}
+
+		[HarmonyPatch(typeof(PauseScreen), "ConfigureButtonInfos")]
+		private static class PauseScreen_OnPrefabInit_Patch
+		{
+			public static void Postfix(ref IList<KButtonMenu.ButtonInfo> ___buttons)
+			{
+				SgtLogger.l("adding exporter button");
+				List<KButtonMenu.ButtonInfo> list = ___buttons.ToList<KButtonMenu.ButtonInfo>();
+				StartBuildingExportButton.isEnabled = true;
+				list.Insert(5, StartBuildingExportButton);
+				___buttons = (IList<KButtonMenu.ButtonInfo>)list;
 			}
 		}
 
@@ -1063,7 +1111,7 @@ namespace AnimExportTool
 			}
 			private static void ExportSpacedOutPOIs()
 			{
-				Dictionary<string,POI_Data> _so_POIs = [];
+				Dictionary<string, POI_Data> _so_POIs = [];
 				foreach (var item in Assets.GetPrefabsWithComponent<HarvestablePOIClusterGridEntity>())
 				{
 					var data = GetPoiData(item);
@@ -1089,7 +1137,7 @@ namespace AnimExportTool
 						_so_POIs.Add(data.Id, data);
 					}
 				}
-				foreach(var poi in _so_POIs)
+				foreach (var poi in _so_POIs)
 				{
 
 					poi.Value.Name = poi.Value.Name.Strip();
