@@ -23,6 +23,7 @@ namespace Rockets_TinyYetBig
 			Instance = this;
 
 			SgtLogger.l("RE.OnLoad");
+			SgtLogger.LogVersion(this, harmony);
 			harmonyInstance = harmony;
 			PUtil.InitLibrary(false);
 			new POptions().RegisterOptions(this, typeof(Config));
@@ -38,12 +39,11 @@ namespace Rockets_TinyYetBig
 			ModAssets.LoadAssets();
 
 			SgtLogger.debuglog("Initialized");
-			SgtLogger.LogVersion(this, harmony);
-
 			///mod applies fix to rocketConduitports leaking
 			PRegistry.PutData("Bugs.RocketConduitPorts", true);
 			ResearchScreenBetterConnectionLines.Register();
 			AttachmentPointTagNameFix.Register();
+			ElementUtilNamespace.SgtElementUtil.ExecuteElementEnumPatches(harmony);
 
 		}
 		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
