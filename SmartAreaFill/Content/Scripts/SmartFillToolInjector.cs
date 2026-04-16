@@ -349,14 +349,23 @@ namespace SmartAreaFill.Content.Scripts
 			for (int i = 0; i < (int)ObjectLayer.NumLayers; i++)
 			{
 				var layer = (ObjectLayer)i;
+				SgtLogger.l(i + ": " + layer);
+
 				if (layer == ObjectLayer.Building)
 					continue;
 
-				bool inFilters = filteredDragTool.IsActiveLayer(layer);
-				if (!inFilters && layer == ObjectLayer.FoundationTile)
-					inFilters = filteredDragTool.IsActiveLayer(ObjectLayer.Building);
+				var objectAtCell = Grid.Objects[startCell, i];
+				if(objectAtCell == null) 
+					continue;
 
-				if (inFilters && Grid.Objects[startCell, i] != null)
+				string filterLayer = filteredDragTool.GetFilterLayerFromGameObject(objectAtCell);
+
+
+				bool inFilters = filteredDragTool.IsActiveLayer(filterLayer);
+				if (!inFilters && layer == ObjectLayer.FoundationTile)
+					inFilters = filteredDragTool.IsActiveLayer(ToolParameterMenu.FILTERLAYERS.BUILDINGS);
+
+				if (inFilters)
 				{
 					cachedLayers.Add(layer);
 					SgtLogger.l("Caching object layer " + layer);
