@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using ElementUtilNamespace;
+using HarmonyLib;
 using KMod;
 using PeterHan.PLib.Core;
 using PeterHan.PLib.Options;
@@ -15,11 +16,13 @@ namespace AkisSnowThings
 		public override void OnLoad(Harmony harmony)
 		{
 			HarmonyInstance = harmony;
+			SgtLogger.LogVersion(this, harmony);
 			base.OnLoad(harmony);
 			//PUtil.InitLibrary(false);
 			//new POptions().RegisterOptions(this, typeof(Config));
-			SgtLogger.LogVersion(this, harmony);
 			AttachmentPointTagNameFix.Register();
+			SgtElementUtil.ExecuteElementEnumPatches(harmony);
+
 		}
 		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
 		{

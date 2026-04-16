@@ -73,7 +73,7 @@ namespace Biochemistry.Buildings
 			PortConduitConsumer waterInput = go.AddComponent<PortConduitConsumer>();
 			waterInput.conduitType = ConduitType.Liquid;
 			waterInput.consumptionRate = 10f;
-			waterInput.capacityKG = 40f;
+			waterInput.capacityKG = 200f;
 			waterInput.storage = oilPress.inStorage;
 			waterInput.capacityTag = SimHashes.Water.CreateTag();
 			waterInput.forceAlwaysSatisfied = true;
