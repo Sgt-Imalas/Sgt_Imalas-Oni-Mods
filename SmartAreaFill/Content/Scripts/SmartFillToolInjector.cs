@@ -255,8 +255,8 @@ namespace SmartAreaFill.Content.Scripts
 					ElementRequirement = ExpansionElementTypeRequirement.Liquid;
 					break;
 				case nameof(PrioritizeTool):
-					Rule = ExpansionRules.FollowSourceTileState;
-					break;
+				//	Rule = ExpansionRules.FollowSourceTileState;
+				//	break;
 				case nameof(DeconstructTool):
 				case nameof(CancelTool):
 				case nameof(EmptyPipeTool):
@@ -349,7 +349,7 @@ namespace SmartAreaFill.Content.Scripts
 			for (int i = 0; i < (int)ObjectLayer.NumLayers; i++)
 			{
 				var layer = (ObjectLayer)i;
-				SgtLogger.l(i + ": " + layer);
+				//SgtLogger.l(i + ": " + layer);
 
 				if (layer == ObjectLayer.Building)
 					continue;
@@ -456,6 +456,9 @@ namespace SmartAreaFill.Content.Scripts
 			switch (Rule)
 			{
 				case ExpansionRules.FilterTool:
+					if (!cachedLayers.Any())
+						return false;
+
 					bool objectFound = false;
 					foreach (var layer in cachedLayers)
 					{
