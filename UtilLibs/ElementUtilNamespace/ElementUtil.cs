@@ -1,5 +1,7 @@
-﻿using HarmonyLib;
+﻿using FMOD;
+using HarmonyLib;
 using Klei.AI;
+using ProcGenGame;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,6 +10,7 @@ using System.Reflection.Emit;
 using UnityEngine;
 using UtilLibs;
 using static ElementLoader;
+using static ResearchTypes;
 
 namespace ElementUtilNamespace
 {
@@ -19,19 +22,34 @@ namespace ElementUtilNamespace
 
 		public static void ExecuteElementEnumPatches(Harmony harmony)
 		{
-			ElementEnumPatches(harmony);
-			//ElementLoaderPatches(harmony);
+			Harmony.DEBUG = true;
+			System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(SgtElementUtil).TypeHandle);
+			//ElementEnumPatches(harmony);
+			ElementLoaderPatches(harmony);
 		}
 		#region noEnumToStringPatch
 
+		/// <summary>
+		/// this is the patch here::
+		/// </summary>
+		/// <param name="harmony"></param>
 		static void ElementLoaderPatches(Harmony harmony)
 		{
-			SgtLogger.l("Attempting to patch Enum.Parse...");
+			SgtLogger.l("Attempting to patch Enum.Parse locations...");
 			try
 			{
-				var original = AccessTools.Method(typeof(Enum), nameof(Enum.Parse), [typeof(Type), typeof(string), typeof(bool)]);
-				var m_prefix = new HarmonyMethod(typeof(SgtElementUtil), nameof(SimhashParse_EnumPatch));
-				harmony.Patch(original, prefix: m_prefix);
+				var m_transpiler = new HarmonyMethod(typeof(SgtElementUtil), nameof(CodexEntryGenerator_Elements_Transpiler));
+				var original = AccessTools.Method(typeof(WorldGen), nameof(WorldGen.EnsureEnoughElementsInStartingBiome));
+				harmony.Patch(original, transpiler: m_transpiler);
+				SgtLogger.l("worldgen patched");
+
+				var original2 = AccessTools.Method(typeof(ElementLoader), nameof(ElementLoader.GetID));
+				harmony.Patch(original2, transpiler: m_transpiler);
+				SgtLogger.l("ElementLoader patched");
+
+				var original3 = AccessTools.Method(typeof(DebugPaintElementScreen), nameof(DebugPaintElementScreen.OnSelectElement), [typeof(string),typeof(int)]);
+				harmony.Patch(original3, transpiler: m_transpiler);
+				SgtLogger.l("DebugPaintElementScreen patched");
 			}
 			catch (Exception e)
 			{
@@ -39,30 +57,43 @@ namespace ElementUtilNamespace
 				return;
 			}
 
-			SgtLogger.l("Attempting to patch GameTagExtensions.CreateTag...");
+			SgtLogger.l("Attempting to transpile GameTagExtensions.CreateTag...");
 			try
 			{
 				var original = AccessTools.Method(typeof(GameTagExtensions), nameof(GameTagExtensions.CreateTag));
-				var m_prefix = new HarmonyMethod(typeof(SgtElementUtil), nameof(GameTagExtensions_CreateTag_Patch));
-				harmony.Patch(original, prefix: m_prefix);
+				var m_transpiler = new HarmonyMethod(typeof(SgtElementUtil), nameof(GameTagExtensions_Creation_Transpiler));
+				harmony.Patch(original, transpiler: m_transpiler);
 			}
 			catch (Exception e)
 			{
 				SgtLogger.error("Error:\n" + e);
 				return;
 			}
-			SgtLogger.l("Attempting to patch GameTagExtensions.Create...");
+			SgtLogger.l("Attempting to transpile GameTagExtensions.Create...");
 			try
 			{
 				var original = AccessTools.Method(typeof(GameTagExtensions), nameof(GameTagExtensions.Create));
-				var m_prefix = new HarmonyMethod(typeof(SgtElementUtil), nameof(GameTagExtensions_CreateTag_Patch));
-				harmony.Patch(original, prefix: m_prefix);
+				var m_transpiler = new HarmonyMethod(typeof(SgtElementUtil), nameof(GameTagExtensions_Creation_Transpiler));
+				harmony.Patch(original, transpiler: m_transpiler);
 			}
 			catch (Exception e)
 			{
 				SgtLogger.error("Error:\n" + e);
 				return;
 			}
+			//SgtLogger.l("Attempting to patch TagManager.Create");
+			//try
+			//{
+			//	var original = AccessTools.Method(typeof(TagManager), nameof(TagManager.Create), [typeof(string)]);
+			//	var m_prefix = new HarmonyMethod(typeof(SgtElementUtil), nameof(TagManager_Create_Patch));
+			//	harmony.Patch(original, prefix: m_prefix);
+			//}
+			//catch (Exception e)
+			//{
+			//	SgtLogger.error("Error:\n" + e);
+			//	return;
+			//}
+
 			SgtLogger.l("Attempting to patch CodexEntryGenerator_Elements.GenerateEntries...");
 			try
 			{
@@ -78,6 +109,64 @@ namespace ElementUtilNamespace
 			///Todo here: add a patch to ClosestOxygenCanisterSensor.GetForbbidenTags if any of the elements are breathable!
 			SgtLogger.l("Element patches successful!");
 		}
+
+		public static IEnumerable<CodeInstruction> EnumParseWrapper_Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
+		{
+			var enum_parse = AccessTools.Method(typeof(System.Enum), "Parse");
+			
+
+			foreach (var ci in orig)
+			{
+
+				if (ci.Calls(enum_parse))
+				{
+					yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(SgtElementUtil), nameof(EnumParseWrapper)));
+				}
+				else
+
+					yield return ci;
+			}
+		}
+
+		static object EnumParseWrapper(Type enumType, string value)
+		{
+			if (ReverseSimHashNameLookup.TryGetValue(value, out var simhash))
+			{
+				return simhash;
+			}
+			return Enum.Parse(enumType, value);
+		}
+
+		public static IEnumerable<CodeInstruction> GameTagExtensions_Creation_Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
+		{
+			var object_tostring = AccessTools.Method(typeof(System.Object), "ToString");
+
+			foreach (var ci in orig)
+			{
+				yield return ci;
+				if (ci.Calls(object_tostring))
+				{
+					yield return new CodeInstruction(OpCodes.Ldarga_S, 0);
+					yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(SgtElementUtil), nameof(InjectModElement)));
+				}
+			}
+		}
+		static string InjectModElement(string elementId, ref SimHashes hash)
+		{
+			if (SimHashNameLookup.TryGetValue(hash, out var modElementId))
+				return modElementId;
+			return elementId;
+		}
+
+		static void TagManager_Create_Patch(ref string __0)
+		{
+			if(int.TryParse(__0, out int hash) && SimHashNameLookup.TryGetValue((SimHashes)hash, out string tag_string))
+			{
+				__0 = tag_string;
+			}
+		}
+
+
 
 		public static IEnumerable<CodeInstruction> CodexEntryGenerator_Elements_Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
 		{
@@ -100,24 +189,21 @@ namespace ElementUtilNamespace
 			return elementId;
 		}
 
-		public static bool GameTagExtensions_CreateTag_Patch(SimHashes id, ref Tag __result)
-		{
-			if (SimHashNameLookup.TryGetValue(id, out string tag_string))
-			{
-				__result = TagManager.Create(tag_string);
-				return false;
-			}
-			return true;
-		}
-		public static bool GameTagExtensions_Create(SimHashes id, ref Tag __result)
-		{
-			if (SimHashNameLookup.TryGetValue(id, out string tag_string))
-			{
-				__result = TagManager.Create(tag_string);
-				return false;
-			}
-			return true;
-		}
+
+		//public static bool GameTagExtensions_CreateTag_Patch(SimHashes __0, ref Tag __result)
+		//{
+		//	__result = GameTagExtensions.Create(__0);
+		//	return false;
+		//}
+		//public static bool GameTagExtensions_Create_Patch(SimHashes __0, ref Tag __result)
+		//{
+		//	if (SimHashNameLookup.TryGetValue(__0, out string tag_string))
+		//	{
+		//		__result = TagManager.Create(tag_string);
+		//		return false;
+		//	}
+		//	return true;
+		//}
 
 		#endregion
 		#region EnumToStringPatch
@@ -160,23 +246,16 @@ namespace ElementUtilNamespace
 			}
 			SgtLogger.l("Element enum patches successful!");
 		}
-		public static bool SimHashInternalFormat_EnumPatch(object eT, object value, ref string __result)
+		public static bool SimHashInternalFormat_EnumPatchPrefix(System.Type eT, object value, ref string __result)
 		{
-			if (eT == null)
-			{
-				SgtLogger.warning("EnumPatch: enumType was null!");
-				return true;
-			}
-
-			if (value == null)
-			{
-				SgtLogger.warning("EnumPatch: value was null!");
-				return true;
-			}
-
 			if (eT == null || eT != typeof(SimHashes) || value == null)
 				return true;
-			return !SimHashNameLookup.TryGetValue((SimHashes)value, out __result);
+			if(SimHashNameLookup.TryGetValue((SimHashes)value, out string elementId))
+			{
+				__result = elementId;
+				return false;
+			}
+			return true;
 		}
 
 		//public static bool SimHashToString_EnumPatch(Enum __instance, ref string __result)
@@ -199,11 +278,11 @@ namespace ElementUtilNamespace
 		}
 		public static bool SimhashParse_EnumPatch(Type enumType, string value, ref object __result)
 		{
-			if (enumType == typeof(SimHashes))
+			if (enumType == typeof(SimHashes) && SgtElementUtil.ReverseSimHashNameLookup.TryGetValue(value, out object simhash))
 			{
-				return !SgtElementUtil.ReverseSimHashNameLookup.TryGetValue(value, out __result);
+				__result = simhash;
+				return false;
 			}
-
 			return true;
 		}
 		#endregion

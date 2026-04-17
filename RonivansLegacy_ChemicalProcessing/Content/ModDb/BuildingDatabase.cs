@@ -39,12 +39,34 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		/// </summary>
 		internal static void RegisterAdditionalBuildingElements()
 		{
-			GameTags.MaterialBuildingElements.Add(SimHashes.Ceramic.CreateTag());
-			GameTags.MaterialBuildingElements.Add(SimHashes.Brick.CreateTag());
-			GameTags.MaterialBuildingElements.Add(SimHashes.Tungsten.CreateTag());
-			GameTags.MaterialBuildingElements.Add(ModElements.Chromium_Solid.Tag);
-			GameTags.MaterialBuildingElements.Add(ModElements.StainlessSteel_Solid.Tag);
-			GameTags.MaterialBuildingElements.Add(ModAssets.Tags.AIO_SulphuricAcidBuildable);
+
+			SgtLogger.l("Testing if GameTagExtensions.Create crashes");
+			///this one works
+			var tag1 = GameTagExtensions.Create(SimHashes.Ceramic);
+			SgtLogger.l("" + tag1);
+			SgtLogger.l("Testing if GameTagExtensions.CreateTag crashes");
+			///this one crashes
+			var tag2 = SimHashes.Ceramic.CreateTag();
+			SgtLogger.l("" + tag2);
+
+
+
+
+			RegisterElementAsBuildingMaterial(SimHashes.Ceramic.CreateTag());
+			RegisterElementAsBuildingMaterial(SimHashes.Brick.CreateTag());
+			RegisterElementAsBuildingMaterial(SimHashes.Tungsten.CreateTag());
+			RegisterElementAsBuildingMaterial(ModElements.Chromium_Solid.Tag);
+			RegisterElementAsBuildingMaterial(ModElements.StainlessSteel_Solid.Tag);
+			RegisterElementAsBuildingMaterial(ModAssets.Tags.AIO_SulphuricAcidBuildable);
+		}
+		static void RegisterElementAsBuildingMaterial(Tag ElementTag)
+		{
+			if(!GameTags.MaterialBuildingElements.Contains(ElementTag))
+			{
+				SgtLogger.l("Adding " + ElementTag + " as building material");
+				GameTags.MaterialBuildingElements.Add(ElementTag);
+			}
+
 		}
 		internal static void RegisterExtraStrings()
 		{
