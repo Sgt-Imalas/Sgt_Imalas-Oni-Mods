@@ -16,8 +16,8 @@ namespace DemoliorStoryTrait.Patches
         {
             public static void Postfix(GameObject __result)
             {
-                if (Config.Instance.PipReplaceDemoliorSprite)
-                    __result.AddOrGet<LargeImpactorCrashStamp>().largeStampTemplate = "poi/asteroid_impacts/potato_pip_impactor";
+                if (Config.Instance.PipReplaceDemoliorSprite && __result.TryGetComponent<LargeImpactorCrashStamp>(out var stamp))
+                    stamp?.largeStampTemplate = "poi/asteroid_impacts/potato_pip_impactor";
 
 			}
         }
