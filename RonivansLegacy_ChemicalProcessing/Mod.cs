@@ -40,6 +40,8 @@ namespace RonivansLegacy_ChemicalProcessing
 
 
 			SgtElementUtil.ExecuteElementEnumPatches(harmony);
+			ChemProc_BiomeInjection.InitBiomeInjection();
+
 			ConduitDisplayPortPatching.PatchAll(harmony);
 			BuildingDatabase.RegisterAdditionalBuildingElements();
 			AdditionalRecipes.RegisterTags();

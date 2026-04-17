@@ -712,7 +712,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 						if(element.HasTag(GameTags.Metal) && !element.HasTag(GameTags.RefinedMetal))
 						{
 							SgtLogger.l("adding "+ element.id +" ore band multiplier to " + worldTrait.filePath);
-							worldTrait.elementBandModifiers.Add(new() { element = element.id.ToString(), bandMultiplier = bandMult, massMultiplier = massMult });
+							worldTrait.elementBandModifiers.Add(new() { element = element.id.CreateTag().ToString(), bandMultiplier = bandMult, massMultiplier = massMult });
 						}
 					}
 				}

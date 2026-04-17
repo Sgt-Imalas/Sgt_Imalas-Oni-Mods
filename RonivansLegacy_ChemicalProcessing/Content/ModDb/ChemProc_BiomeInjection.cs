@@ -45,7 +45,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				if (!FeatureToSubworldInjections.ContainsKey(subworldPath))
 					FeatureToSubworldInjections[subworldPath] = [];
 
-				foreach(var customFeatureName in  customFeatureNames)
+				foreach (var customFeatureName in customFeatureNames)
 					FeatureToSubworldInjections[subworldPath].Add(CustomFeaturePrefix + customFeatureName);
 			}
 		}
@@ -354,7 +354,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			///---[OIL BIOME]---
 			FeatureElementInjections.Create("features/oilpockets/Cavity")
-				.TargetGroup("RoomBorderChoices0").Element(ModElements.OilShale_Solid, 1f).MassOverride(320).Element(ModElements.Galena_Solid,1)
+				.TargetGroup("RoomBorderChoices0").Element(ModElements.OilShale_Solid, 1f).MassOverride(320).Element(ModElements.Galena_Solid, 1)
 				.TargetGroup("RoomBorderChoices1").Element(ModElements.OilShale_Solid, 1f).MassOverride(356);
 
 			FeatureElementInjections.Create("features/oilpockets/CavityOilFloatersTall")
@@ -539,7 +539,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			SubWorldFeatureInjections.Inject_SO("subworlds/barren/BarrenCore", "ShaleBall");
 			SubWorldFeatureInjections.Inject_SO("subworlds/barren/CoalyGranite", "SilverOreBall");
-			
+
 			//Forest
 			SubWorldFeatureInjections.Inject("subworlds/forest/Forest", ["SilverLump", "SilverOreVein"]);
 			SubWorldFeatureInjections.Inject("subworlds/forest/ForestHot", ["SilverLump", "SilverOreVein"]);
@@ -550,8 +550,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			SubWorldFeatureInjections.Inject("subworlds/forest/ForestMiniWater", "PhosphateGeode");
 			SubWorldFeatureInjections.Inject("subworlds/forest/ForestMiniWater", "PhosphateGeode");
 			SubWorldFeatureInjections.Inject("subworlds/forest/ForestMiniWaterHot", "PhosphateGeode");
-			SubWorldFeatureInjections.Inject("subworlds/forest/ForestStart", ["PhosphateGeode","SilverLump", "SilverOreVein"]);
-			SubWorldFeatureInjections.Inject("subworlds/forest/ForestStartHot", ["PhosphateGeode","SilverLump", "SilverOreVein"]);
+			SubWorldFeatureInjections.Inject("subworlds/forest/ForestStart", ["PhosphateGeode", "SilverLump", "SilverOreVein"]);
+			SubWorldFeatureInjections.Inject("subworlds/forest/ForestStartHot", ["PhosphateGeode", "SilverLump", "SilverOreVein"]);
 			SubWorldFeatureInjections.Inject("subworlds/forest/ForestFrozen", ["SilverFrozenLake", "SilverLump", "SilverOreVein"]);
 
 			SubWorldFeatureInjections.Inject_SO("subworlds/forest/ForestCore", ["SilverLump", "SilverOreVein"]);
@@ -560,7 +560,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			SubWorldFeatureInjections.Inject_SO("subworlds/forest/med_Forest", ["SilverLump", "SilverOreVein"]);
 			SubWorldFeatureInjections.Inject_SO("subworlds/forest/med_ForestHot", ["SilverLump", "SilverOreVein"]);
 			SubWorldFeatureInjections.Inject_SO("subworlds/forest/med_ForestSurface", ["SilverLump", "SilverOreVein"]);
-			
+
 			//Frozen
 			SubWorldFeatureInjections.Inject("subworlds/frozen/CO2Lakes", "AmmoniaBubble");
 			SubWorldFeatureInjections.Inject("subworlds/frozen/Frozen", "AmmoniaBubble");
@@ -568,7 +568,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			//SubWorldFeatureInjections.Inject_SO("subworlds/frozen/FrozenCore", "FrozenOilBall");
 			//SubWorldFeatureInjections.Inject_SO("subworlds/frozen/FrozenMedium", "FrozenOilBall");
-			
+
 			//Jungle
 			SubWorldFeatureInjections.Inject("subworlds/jungle/Jungle", ["PhosphateGeode", "PhosphateLump", "ElectrumVein"]);
 			SubWorldFeatureInjections.Inject("subworlds/jungle/JungleFrozen", ["PhosphateGeode", "PhosphateLump", "ElectrumVein"]);
@@ -581,7 +581,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			SubWorldFeatureInjections.Inject_SO("subworlds/jungle/JungleSteamy", ["PhosphateGeode", "PhosphateLump", "ElectrumVein"]);
 			SubWorldFeatureInjections.Inject_SO("subworlds/jungle/med_JungleFrozen", ["PhosphateGeode", "PhosphateLump", "ElectrumVein"]);
 			SubWorldFeatureInjections.Inject_SO("subworlds/jungle/med_JungleInactive", ["PhosphateGeode", "PhosphateLump", "ElectrumVein"]);
-			
+
 			//Marsh
 			SubWorldFeatureInjections.Inject("subworlds/marsh/HotMarsh", "NitrateGeode");
 			SubWorldFeatureInjections.Inject("subworlds/marsh/HotMarshSlush", "NitrateGeode");
@@ -595,13 +595,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			SubWorldFeatureInjections.Inject_SO("subworlds/marsh/med_HotMarshLandingSite", "NitrateGeode");
 			SubWorldFeatureInjections.Inject_SO("subworlds/marsh/med_HotMarshMushrooms", "NitrateGeode");
 			SubWorldFeatureInjections.Inject_SO("subworlds/marsh/med_HotMarshStart", "NitrateGeode");
-			
+
 			//Metallic
 			SubWorldFeatureInjections.Inject_SO("subworlds/metallic/Metallic", ["SilverOreMetallicDeposit", "PyriteMetallicDeposit"]);
 			SubWorldFeatureInjections.Inject_SO("subworlds/metallic/SwampyRenewableMetallicCold", ["SilverOreMetallicDeposit", "ZincOreMetallicDeposit"]);
 			SubWorldFeatureInjections.Inject_SO("subworlds/metallic/SwampyRenewableMetallic", ["SilverOreMetallicDeposit", "ZincOreMetallicDeposit"]);
 			SubWorldFeatureInjections.Inject_SO("subworlds/metallic/RenewableMetallic", ["SilverOreMetallicDeposit", "ZincOreMetallicDeposit"]);
-			
+
 			//Ocean
 			SubWorldFeatureInjections.Inject("subworlds/ocean/Ocean", ["BoraxLump", "DeepRichMetallicPool"]);
 			SubWorldFeatureInjections.Inject("subworlds/ocean/OceanDeep", ["BoraxLump", "DeepRichMetallicPool"]);
@@ -677,7 +677,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			SubWorldFeatureInjections.Inject_SO("subworlds/wasteland/WastelandWorm", "ZincOreMetallicDeposit");
 		}
 
-		static ChemProc_BiomeInjection()
+		public static void InitBiomeInjection()
 		{
 			//ElementToBiomeInjection();
 			ElementToFeatureInjection();
@@ -736,7 +736,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 							SgtLogger.warning("[Feature Element Injection]: could not remove " + elementToRemove.second + " from " + elementToRemove.first + ": group does not exist on " + featurePath);
 							continue;
 						}
-						group.choices.RemoveAll(wsh => wsh.element == elementToRemove.second.ToString());
+						group.choices.RemoveAll(wsh => wsh.element == elementToRemove.second.CreateTag().ToString());
 
 						if (Mod.Instance.mod.IsDev)
 							SgtLogger.l("[Feature Element Injection]: removed " + elementToRemove.second + " from group " + elementToRemove.first + " in " + featurePath);
@@ -751,9 +751,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 						continue;
 					}
 					var group = featureSettings.ElementChoiceGroups[injection.ChoiceGroupName];
-					group.choices.Add(new ProcGen.WeightedSimHash(injection.Element.ToString(), injection.weight, injection.Override));
-					if(Mod.Instance.mod.IsDev)
-						SgtLogger.l($"[Feature Element Injection]: Added {injection.Element} to {injection.ChoiceGroupName} in {featurePath}");
+					group.choices.Add(new ProcGen.WeightedSimHash(injection.Element.CreateTag().ToString(), injection.weight, injection.Override));
+					if (Mod.Instance.mod.IsDev)
+						SgtLogger.l($"[Feature Element Injection]: Added {injection.Element.CreateTag()} to {injection.ChoiceGroupName} in {featurePath}");
 				}
 			}
 			remainingFeatures.Remove(featurePath);
