@@ -57,6 +57,8 @@ namespace SmartAreaFill.Content.Scripts
 
 		public void OnLeftClickDown()
 		{
+			if (!gameObject.activeInHierarchy)
+				return;
 			startCell = Grid.PosToCell(PlayerController.Instance.GetCursorPos());
 			if (!Grid.IsValidCell(startCell))
 			{
@@ -66,7 +68,9 @@ namespace SmartAreaFill.Content.Scripts
 			mouseHeldDown = true;
 			timeSinceMouseDown = 0;
 			//CacheCells();
-			PreCacheWalk();
+			bool valid = PreCacheWalk();
+			if (!valid)
+				return;
 			HoldDownCoroutine = StartCoroutine(FloodFillCoroutine());
 		}
 		public void OnLeftClickUp()
@@ -190,7 +194,6 @@ namespace SmartAreaFill.Content.Scripts
 				timeSinceMouseDown += Time.unscaledDeltaTime;
 				yield return null;
 			}
-
 			do
 			{
 				if (CellChanged())
@@ -302,7 +305,7 @@ namespace SmartAreaFill.Content.Scripts
 			if (followSource)
 				Rule = ExpansionRules.FollowSourceTileState;
 		}
-		void PreCacheWalk()
+		bool PreCacheWalk()
 		{
 			WalkableCells.Clear();
 			VisitedCells.Clear();
@@ -321,7 +324,7 @@ namespace SmartAreaFill.Content.Scripts
 				else
 					cachedDef = null;
 
-				SgtLogger.l(cachedDef == null ? "invalid def for spread" : "valid def for spread");
+				SgtLogger.l(cachedDef == null ? "invalid def for spread" : "valid def for spread");				
 			}
 			bool followSource = (Rule == ExpansionRules.FollowSourceTileState);
 			if (followSource)
@@ -333,6 +336,9 @@ namespace SmartAreaFill.Content.Scripts
 
 			if (followSource)
 				Rule = ExpansionRules.FollowSourceTileState;
+
+			return buildTool == null || cachedDef != null;
+
 		}
 		//int CellSort(int cell1, int cell2)
 		//{
