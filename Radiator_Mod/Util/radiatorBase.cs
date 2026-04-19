@@ -88,40 +88,9 @@ namespace Radiator_Mod
 				CurrentCoolingRadiation = (float)cooling;
 				GameComps.StructureTemperatures.ProduceEnergy(structureTemperature, -(cooling * dt) / 1000f,
 					BUILDING.STATUSITEMS.OPERATINGENERGY.PIPECONTENTS_TRANSFER, -(cooling * dt) / 1000f);
-				UpdateRadiation();
 			}
 		}
 
-		/// <summary>
-		/// Sets the Bunker state to make the building immune to meteors, also updates the status message to show up in that state
-		/// </summary>
-		/// <param name="on"></param>
-		public void SetBunkerState(bool on)
-		{
-
-			if (on)
-			{
-				prefab.AddTag(GameTags.Bunker);
-			}
-			else
-			{
-				prefab.RemoveTag(GameTags.Bunker);
-			}
-
-			if (selectable != null)
-				selectable.ToggleStatusItem(_protected_from_impacts_status, on);
-
-		}
-
-		/// <summary>
-		/// Shows/hides the dtu/sec status msg
-		/// </summary>
-		/// <param name="isOn"></param>
-		public void UpdateRadiation(bool isOn = true)
-		{
-			if (selectable != null)
-				selectable.ToggleStatusItem(_radiating_status, isOn, this);
-		}
 
 		/// <summary>
 		/// formatting for dtu/s status msg
@@ -337,7 +306,6 @@ namespace Radiator_Mod
 			}
 			bool canRadiateAtAll = radiatorCellCount > 0;
 
-			selectable.ToggleStatusItem(_no_space_status, !canRadiateAtAll);
 			smi.sm.IsInTrueSpace.Set(canRadiateAtAll, smi);
 
 			return radiatorCellCount;
@@ -360,7 +328,6 @@ namespace Radiator_Mod
 					break;
 				}
 			}
-			selectable.ToggleStatusItem(_no_space_status, !currentlyInSpace);
 			smi.sm.IsInTrueSpace.Set(currentlyInSpace, smi);
 			return currentlyInSpace;
 		}
@@ -399,6 +366,7 @@ namespace Radiator_Mod
 					//.Update((smi, dt) => smi.master.AmIInSpace())
 					.Update((smi, dt) => smi.master.CalculateActualSpaceRadiatorArea())
 					.EventTransition(GameHashes.OperationalChanged, Retracting, smi => !smi.IsOperational)
+					.ToggleStatusItem(smi => smi.master._no_space_status)
 					.ParamTransition(this.IsInTrueSpace, Radiating, IsTrue);
 
 
@@ -410,7 +378,7 @@ namespace Radiator_Mod
 
 				}, UpdateRate.SIM_200ms)
 					.QueueAnim("on_rad", true)
-					.Exit(smi => smi.master.UpdateRadiation(false))
+					.ToggleStatusItem(smi => smi.master._radiating_status, smi => smi.master)
 					.EventTransition(GameHashes.OperationalChanged, Retracting, smi => !smi.IsOperational)
 					.ParamTransition(this.IsInTrueSpace, NotRadiating, IsFalse);
 
@@ -419,8 +387,8 @@ namespace Radiator_Mod
 					.OnAnimQueueComplete(Protecting);
 
 				Protecting
-					.Enter(smi => smi.master.SetBunkerState(true))
-					.Exit(smi => smi.master.SetBunkerState(false))
+					.ToggleTag(GameTags.Bunker)
+					.ToggleStatusItem(smi => smi.master._protected_from_impacts_status)
 					.QueueAnim("off", true)
 					.EventTransition(GameHashes.OperationalChanged, Extending, smi => smi.IsOperational);
 
