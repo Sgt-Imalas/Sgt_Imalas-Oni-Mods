@@ -1955,7 +1955,7 @@ buildings:
   location_y: 6
   element: Steel
   temperature: 293.149994
-- id: POIDoorInternal
+- id: RTB_DerelictDockingDoor
   location_y: 7
   element: Cuprite
   temperature: 293.149994
@@ -2405,16 +2405,6 @@ buildings:
   element: Unobtanium
   temperature: 298.149994
 - id: RTB_DerelictExteriorWall
-  location_x: -1
-  location_y: 7
-  element: Unobtanium
-  temperature: 298.149994
-- id: RTB_DerelictExteriorWall
-  location_x: -1
-  location_y: 8
-  element: Unobtanium
-  temperature: 298.149994
-- id: RTB_DerelictExteriorWall
   location_x: -2
   location_y: 8
   element: Unobtanium
@@ -2435,11 +2425,6 @@ buildings:
   element: Unobtanium
   temperature: 298.149994
 - id: RTB_DerelictExteriorWall
-  location_x: 1
-  location_y: 8
-  element: Unobtanium
-  temperature: 298.149994
-- id: RTB_DerelictExteriorWall
   location_x: 2
   location_y: 8
   element: Unobtanium
@@ -2449,11 +2434,7 @@ buildings:
   location_y: 7
   element: Unobtanium
   temperature: 298.149994
-- id: RTB_DerelictExteriorWall
-  location_x: 1
-  location_y: 7
-  element: Unobtanium
-  temperature: 298.149994
+
 - id: RTB_DerelictExteriorWall
   location_y: 6
   element: Unobtanium

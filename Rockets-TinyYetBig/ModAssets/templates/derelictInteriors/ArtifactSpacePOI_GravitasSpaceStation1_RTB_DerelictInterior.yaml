@@ -837,7 +837,7 @@ buildings:
   location_y: -4
   element: Steel
   temperature: 293.149994
-- id: POIDoorInternal
+- id: RTB_DerelictDockingDoor
   location_y: -3
   element: Cuprite
   temperature: 293.149994
@@ -1002,26 +1002,6 @@ buildings:
   temperature: 293.149994
 - id: RTB_DerelictExteriorWall
   location_y: -1
-  element: SandStone
-  temperature: 293.149994
-- id: RTB_DerelictExteriorWall
-  location_x: -1
-  location_y: -2
-  element: SandStone
-  temperature: 293.149994
-- id: RTB_DerelictExteriorWall
-  location_x: -1
-  location_y: -3
-  element: SandStone
-  temperature: 293.149994
-- id: RTB_DerelictExteriorWall
-  location_x: 1
-  location_y: -3
-  element: SandStone
-  temperature: 293.149994
-- id: RTB_DerelictExteriorWall
-  location_x: 1
-  location_y: -2
   element: SandStone
   temperature: 293.149994
 - id: RTB_DerelictExteriorWall
