@@ -14,6 +14,11 @@ namespace AkiTrueTiles_SkinSelectorAddon
 {
 	class TrueTiles_OverrideStorage : KMonoBehaviour
 	{
+		public static readonly SimHashes
+			VanillaTexture = SimHashes.COMPOSITION,
+			NoOverride = SimHashes.Void;
+
+
 		/// <summary>
 		/// Cached dictionary of all override storage components
 		/// </summary>
@@ -47,9 +52,9 @@ namespace AkiTrueTiles_SkinSelectorAddon
 		int cell;
 		public int Cell => cell;
 		[Serialize]
-		public SimHashes OverrideElement = SimHashes.Void;
+		public SimHashes OverrideElement = NoOverride;
 
-		public bool HasOverride => OverrideElement != SimHashes.Void;
+		public bool HasOverride => OverrideElement != NoOverride;
 
 		[MyCmpGet]
 		private Building building;
@@ -66,6 +71,7 @@ namespace AkiTrueTiles_SkinSelectorAddon
 		[MyCmpAdd] CopyBuildingSettings copyBuildingSettings;
 		private static readonly EventSystem.IntraObjectHandler<TrueTiles_OverrideStorage> OnCopySettingsDelegate = new EventSystem.IntraObjectHandler<TrueTiles_OverrideStorage>((System.Action<TrueTiles_OverrideStorage, object>)((component, data) => component.OnCopySettings(data)));
 
+		int handle = -1;
 		public override void OnSpawn()
 		{
 			cell = Grid.PosToCell(this);
@@ -77,14 +83,14 @@ namespace AkiTrueTiles_SkinSelectorAddon
 				SetOverride(OverrideElement, true);
 			}
 			ModAssets.ScheduleCellRefresh(cell);
-			this.Subscribe(-905833192, OnCopySettingsDelegate);
+			handle = this.Subscribe(-905833192, OnCopySettingsDelegate);
 		}
 		public override void OnCleanUp()
 		{
 			base.OnCleanUp();
 			//Cmps.Remove(cell);
 			ModAssets.ScheduleCellRefresh(cell);
-			this.Unsubscribe(-905833192, OnCopySettingsDelegate);
+			this.Unsubscribe(handle);
 		}
 		private void OnCopySettings(object data)
 		{
@@ -97,7 +103,7 @@ namespace AkiTrueTiles_SkinSelectorAddon
 
 		public List<SimHashes> GetAvailableElementOverrides()
 		{
-			List<SimHashes> validMaterials = new List<SimHashes>();
+			List<SimHashes> validMaterials = [VanillaTexture];
 			var actualTags = building.Def.MaterialCategory.First()?.ToString().Split('&');
 			foreach (var actualTag in actualTags)
 			{
@@ -154,7 +160,7 @@ namespace AkiTrueTiles_SkinSelectorAddon
 
 			if (newElement == OriginalElement)
 			{
-				OverrideElement = SimHashes.Void;
+				OverrideElement = NoOverride;
 			}
 			else
 				OverrideElement = newElement;

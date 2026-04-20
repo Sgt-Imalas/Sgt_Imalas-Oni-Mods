@@ -118,7 +118,7 @@ namespace AkiTrueTiles_SkinSelectorAddon
 				def.BuildingComplete.AddOrGet<TrueTiles_OverrideStorage>();
 				AtlasSprites[def] = new Dictionary<SimHashes, Sprite>();
 				//fallback default texture for non-initialized elements
-				AtlasSprites[def][SimHashes.Void] = GetSpriteForAtlas(def.BlockTileAtlas);
+				AtlasSprites[def][TrueTiles_OverrideStorage.VanillaTexture] = GetSpriteForAtlas(def.BlockTileAtlas);
 			}
 			AtlasSprites[def][element] = GetSpriteForAtlas(atlas);
 

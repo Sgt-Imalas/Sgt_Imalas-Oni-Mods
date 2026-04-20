@@ -127,7 +127,13 @@ namespace AkiTrueTiles_SkinSelectorAddon.UI
 				button.onClick += onClick;
 				button.ChangeState(enabled ? 1 : 0);
 				UIUtils.TryFindComponent<Image>(gameObject.transform, "FG").sprite = sprite;
-				UIUtils.AddSimpleTooltipToObject(gameObject, Assets.TryGetPrefab(element.CreateTag()).GetProperName(), true);
+				string name = Assets.TryGetPrefab(element.CreateTag()).GetProperName();
+				if(element == TrueTiles_OverrideStorage.VanillaTexture)
+				{
+					name = STRINGS.UI.VANILLA.NAME;
+				}
+
+				UIUtils.AddSimpleTooltipToObject(gameObject, name, true);
 				buttons.Add(element, button);
 			}
 		}
@@ -142,3 +148,4 @@ namespace AkiTrueTiles_SkinSelectorAddon.UI
 		}
 	}
 }
+
