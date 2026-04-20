@@ -399,7 +399,7 @@ namespace Rockets_TinyYetBig.Patches
 			var worldContainer = ClusterManager.Instance.GetWorld(worldKV.Key);
 			if (!SpaceStationManager.WorldIsRocketInterior(worldKV.Key))
 			{
-				if (worldContainer.gameObject.TryGetComponent<AsteroidGridEntity>(out _) || SpaceStationManager.WorldIsSpaceStationInterior(worldKV.Key))
+				if (worldContainer.gameObject.TryGetComponent<AsteroidGridEntity>(out _) || worldContainer.TryGetComponent<SpaceStation>(out _) || SpaceStationManager.WorldIsSpaceStationInterior(worldKV.Key))
 				{
 					ShouldCollapseDic[worldKV.Key] = false;
 					AddCollapsible(worldKV.Key, worldKV.Value.gameObject);

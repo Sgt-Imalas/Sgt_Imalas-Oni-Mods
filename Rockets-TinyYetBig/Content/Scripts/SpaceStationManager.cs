@@ -106,7 +106,6 @@ namespace Rockets_TinyYetBig.SpaceStations
 				if (!allowBuilding)
 					spaceStationInteriorWorld.AddTag(ModAssets.Tags.NoBuildingAllowed);
 
-
 				if (isDerelict)
 					spaceStationInteriorWorld.AddTag(ModAssets.Tags.IsDerelict);
 				else

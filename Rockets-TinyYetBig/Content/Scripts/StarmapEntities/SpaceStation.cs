@@ -118,18 +118,17 @@ namespace Rockets_TinyYetBig.SpaceStations
 			{
 				var interiorWorld = SpaceStationManager.Instance.CreateSpaceStationInteriorWorld(gameObject, InteriorTemplate, InteriorSize, BuildableInterior, null, Location);
 				SpaceStationInteriorId = interiorWorld.id;
-				SgtLogger.debuglog("new WorldID:" + SpaceStationInteriorId);
+				SgtLogger.debuglog("new WorldID :" + SpaceStationInteriorId);
 				SgtLogger.debuglog("ADDED NEW SPACE STATION INTERIOR");
 
 				if (ShouldDrawBarriers)
 					DrawBarriers();
 			}
-			if (!RTB_SavegameStoredSettings.Instance.StationInteriorWorlds.Contains(SpaceStationInteriorId))
-				RTB_SavegameStoredSettings.Instance.StationInteriorWorlds.Add(SpaceStationInteriorId);
+			RTB_SavegameStoredSettings.Instance.StationInteriorWorlds.Add(SpaceStationInteriorId);
 			base.OnSpawn();
 
 			var world = ClusterManager.Instance.GetWorld(SpaceStationInteriorId);
-			if(world == null||world.gameObject.IsNullOrDestroyed())
+			if (world == null || world.gameObject.IsNullOrDestroyed())
 			{
 				SgtLogger.error("space station onspawn failed to initialize world");
 				return;
@@ -237,7 +236,7 @@ namespace Rockets_TinyYetBig.SpaceStations
 		const int lvl2Width = 70;
 		const int lvl3Width = 100;
 
-		bool CanUpgrade => this._currentSpaceStationType == 0 && (ModAssets.Techs.SpaceStationTechMedium?.IsComplete()??false) || this._currentSpaceStationType == 1 && (ModAssets.Techs.SpaceStationTechLarge?.IsComplete()??false);
+		bool CanUpgrade => this._currentSpaceStationType == 0 && (ModAssets.Techs.SpaceStationTechMedium?.IsComplete() ?? false) || this._currentSpaceStationType == 1 && (ModAssets.Techs.SpaceStationTechLarge?.IsComplete() ?? false);
 
 		void UpgradeStation()
 		{
@@ -320,8 +319,7 @@ namespace Rockets_TinyYetBig.SpaceStations
 
 		public override void OnCleanUp()
 		{
-			if (RTB_SavegameStoredSettings.Instance.StationInteriorWorlds.Contains(SpaceStationInteriorId))
-				RTB_SavegameStoredSettings.Instance.StationInteriorWorlds.Remove(SpaceStationInteriorId);
+			RTB_SavegameStoredSettings.Instance.StationInteriorWorlds.Remove(SpaceStationInteriorId);
 			base.OnCleanUp();
 		}
 

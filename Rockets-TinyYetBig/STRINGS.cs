@@ -623,6 +623,12 @@ namespace Rockets_TinyYetBig
 					public static LocString DESC = "Wall panelling that creaks with age";
 					public static LocString EFFECT = $"Prevents {FormatAsLink("Gas", "ELEMENTS_GAS")} and {FormatAsLink("Liquid", "ELEMENTS_LIQUID")} loss in space.";
 				}
+				public class RTB_DERELICTDOCKINGDOOR
+				{
+					public static LocString NAME = FormatAsLink("Derelict Docking Port", nameof(RTB_DERELICTDOCKINGDOOR));
+					public static LocString DESC = "Back in the day, this was used for astronaut transfers..";
+					public static LocString EFFECT = "Enables Rockets with a docking bridge to connect to the derelict station.\nRockets requirWe a docking component to dock.\n\nAssigning a duplicant forces it to use the docking bridge.";
+				}
 				public class RTB_TECHUNLOCK
 				{
 					public static LocString NAME = FormatAsLink("Abandoned Station Computer", "RTB_TECHUNLOCK");
