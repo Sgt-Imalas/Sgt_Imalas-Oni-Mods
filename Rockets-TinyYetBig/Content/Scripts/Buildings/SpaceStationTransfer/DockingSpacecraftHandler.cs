@@ -32,7 +32,8 @@ namespace Rockets_TinyYetBig.Docking
 		public bool IsRocket => Type == DockableType.Rocket;
 		public DockableType CraftType => Type;
 
-		public int WorldId => world?.id ?? -1;
+		public int WorldId => _worldIdCached;
+		private int _worldIdCached = -1;
 
 		public override void OnPrefabInit()
 		{
@@ -51,7 +52,8 @@ namespace Rockets_TinyYetBig.Docking
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
-			if(WorldId != -1)
+			RefreshCachedWorldId();
+			if (WorldId != -1)
 				DockingManagerSingleton.Instance.RegisterSpacecraftHandler(this);
 			if (clustercraft is SpaceStation)
 				Type = DockableType.SpaceStation;
@@ -72,7 +74,15 @@ namespace Rockets_TinyYetBig.Docking
 		{
 			StartCoroutine(RefreshWorldStateDelayed());
 		}
+		private void RefreshCachedWorldId()
+		{
+			world = GetComponent<WorldContainer>();
+			if(world != null)
+				_worldIdCached = world.id;
+			else
+				_worldIdCached = -1;
 
+		}
 		IEnumerator RefreshWorldStateDelayed()
 		{
 			///wait 2 frames for world creation one frame after module addition
@@ -81,9 +91,15 @@ namespace Rockets_TinyYetBig.Docking
 
 			world = GetComponent<WorldContainer>();
 			if (world == null)
+			{
 				DockingManagerSingleton.Instance.UnregisterSpacecraftHander(this);
+				RefreshCachedWorldId();
+			}
 			else
+			{
+				RefreshCachedWorldId();
 				DockingManagerSingleton.Instance.RegisterSpacecraftHandler(this);
+			}
 		}
 
 		void OnClusterDestinationChanged(object boxed)

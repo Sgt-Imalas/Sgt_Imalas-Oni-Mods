@@ -21,8 +21,8 @@ namespace ElementUtilNamespace
             try
             {
                 var original = AccessTools.Method(typeof(Enum), "InternalFormat");
-                var prefix = new HarmonyMethod(typeof(SgtElementUtil), nameof(SimHashInternalFormat_EnumPatch));
-                harmony.Patch(original, prefix: prefix);
+                var m_postfix = new HarmonyMethod(typeof(SgtElementUtil), nameof(SimHashInternalFormat_EnumPatch));
+                harmony.Patch(original, postfix: m_postfix);
             }
             catch (Exception e)
             {
@@ -33,8 +33,8 @@ namespace ElementUtilNamespace
             try
             {
                 var original = AccessTools.Method(typeof(Enum), nameof(Enum.Parse), [typeof(Type), typeof(string), typeof(bool)]);
-                var prefix = new HarmonyMethod(typeof(SgtElementUtil), nameof(SimhashParse_EnumPatch));
-                harmony.Patch(original, prefix: prefix);
+                var m_postfix = new HarmonyMethod(typeof(SgtElementUtil), nameof(SimhashParse_EnumPatch));
+                harmony.Patch(original, postfix: m_postfix);
             }
             catch (Exception e)
             {
@@ -43,11 +43,10 @@ namespace ElementUtilNamespace
             }
             SgtLogger.l("Element enum patches successful!");
         }
-        public static bool SimHashInternalFormat_EnumPatch(Type eT, object value, ref string __result)
+        public static void SimHashInternalFormat_EnumPatch(Type eT, object value, ref string __result)
         {
-            if (eT != typeof(SimHashes))
-                return true;
-            return !SimHashNameLookup.TryGetValue((SimHashes)value, out __result);
+            if (eT == typeof(SimHashes) && SimHashNameLookup.TryGetValue((SimHashes)value, out string id))
+                __result = id;
         }
 
         public static bool SimHashToString_EnumPatch(Enum __instance, ref string __result)
@@ -59,14 +58,12 @@ namespace ElementUtilNamespace
 
             return true;
         }
-        public static bool SimhashParse_EnumPatch(Type enumType, string value, ref object __result)
+        public static void SimhashParse_EnumPatch(Type enumType, string value, ref object __result)
         {
-            if (enumType == typeof(SimHashes))
+            if (enumType == typeof(SimHashes) && SgtElementUtil.ReverseSimHashNameLookup.TryGetValue(value, out object id))
             {
-                return !SgtElementUtil.ReverseSimHashNameLookup.TryGetValue(value, out __result);
+                __result = id;
             }
-
-            return true;
         }
 
         public static SimHashes RegisterSimHash(string name)
