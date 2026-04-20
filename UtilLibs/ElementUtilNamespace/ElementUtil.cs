@@ -25,8 +25,8 @@ namespace ElementUtilNamespace
 			Harmony.DEBUG = true;
 			System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(SgtElementUtil).TypeHandle);
 			//MixPatch(harmony);
-			//ElementEnumPatches(harmony);
-			ElementLoaderPatches(harmony);
+			ElementEnumPatches(harmony);
+			//ElementLoaderPatches(harmony);
 		}
 		#region noEnumToStringPatch
 
@@ -61,8 +61,8 @@ namespace ElementUtilNamespace
 			try
 			{
 				var original = AccessTools.Method(typeof(Enum), "InternalFormat");
-				var m_prefix = new HarmonyMethod(typeof(SgtElementUtil), nameof(SimHashInternalFormat_EnumPatch));
-				harmony.Patch(original, m_prefix);
+				var m_postfix = new HarmonyMethod(typeof(SgtElementUtil), nameof(SimHashInternalFormat_EnumPatch));
+				harmony.Patch(original, postfix: m_postfix);
 			}
 			catch (Exception e)
 			{
@@ -93,7 +93,6 @@ namespace ElementUtilNamespace
 				SgtLogger.error("Error:\n" + e);
 				return;
 			}
-
 			//SgtLogger.l("Attempting to transpile GameTagExtensions.CreateTag...");
 			//try
 			//{
@@ -118,18 +117,18 @@ namespace ElementUtilNamespace
 			//	SgtLogger.error("Error:\n" + e);
 			//	return;
 			//}
-			SgtLogger.l("Attempting to patch TagManager.Create");
-			try
-			{
-				var original = AccessTools.Method(typeof(TagManager), nameof(TagManager.Create), [typeof(string)]);
-				var m_prefix = new HarmonyMethod(typeof(SgtElementUtil), nameof(TagManager_Create_Patch));
-				harmony.Patch(original, prefix: m_prefix);
-			}
-			catch (Exception e)
-			{
-				SgtLogger.error("Error:\n" + e);
-				return;
-			}
+			//SgtLogger.l("Attempting to patch TagManager.Create");
+			//try
+			//{
+			//	var original = AccessTools.Method(typeof(TagManager), nameof(TagManager.Create), [typeof(string)]);
+			//	var m_prefix = new HarmonyMethod(typeof(SgtElementUtil), nameof(TagManager_Create_Patch));
+			//	harmony.Patch(original, prefix: m_prefix);
+			//}
+			//catch (Exception e)
+			//{
+			//	SgtLogger.error("Error:\n" + e);
+			//	return;
+			//}
 
 			SgtLogger.l("Attempting to patch CodexEntryGenerator_Elements.GenerateEntries...");
 			try
@@ -246,28 +245,28 @@ namespace ElementUtilNamespace
 		#region EnumToStringPatch
 		static void ElementEnumPatches(Harmony harmony)
 		{
-			//SgtLogger.l("Attempting to patch Enum.ToString's internal InternalFormat method...");
-			//try
-			//{
-			//	var original = AccessTools.Method(typeof(Enum), "InternalFormat");
-			//	var m_prefix = new HarmonyMethod(typeof(SgtElementUtil), nameof(SimHashInternalFormat_EnumPatch));
-			//	harmony.Patch(original, m_prefix);
-			//}
-			//catch (Exception e)
-			//{
-			//	SgtLogger.error("Error while patching Enum.InternalFormat:\n" + e);
-			//}
-			SgtLogger.l("Attempting to patch Enum.ToString...");
+			SgtLogger.l("Attempting to patch Enum.ToString's internal InternalFormat method...");
 			try
 			{
-				var original = AccessTools.Method(typeof(Enum), "ToString", new Type[] { });
-				var m_patch = new HarmonyMethod(typeof(SgtElementUtil), nameof(SimHashToString_EnumPatch));
-				harmony.Patch(original, postfix: m_patch);
+				var original = AccessTools.Method(typeof(Enum), "InternalFormat");
+				var m_postfix = new HarmonyMethod(typeof(SgtElementUtil), nameof(SimHashInternalFormat_EnumPatch));
+				harmony.Patch(original, postfix: m_postfix);
 			}
 			catch (Exception e)
 			{
-				SgtLogger.error("Error while patching Enum.ToString:\n" + e);
+				SgtLogger.error("Error while patching Enum.InternalFormat:\n" + e);
 			}
+			//SgtLogger.l("Attempting to patch Enum.ToString...");
+			//try
+			//{
+			//	var original = AccessTools.Method(typeof(Enum), "ToString", new Type[] { });
+			//	var m_patch = new HarmonyMethod(typeof(SgtElementUtil), nameof(SimHashToString_EnumPatch));
+			//	harmony.Patch(original, postfix: m_patch);
+			//}
+			//catch (Exception e)
+			//{
+			//	SgtLogger.error("Error while patching Enum.ToString:\n" + e);
+			//}
 
 			SgtLogger.l("Attempting to patch Enum.Parse...");
 			try
@@ -283,26 +282,30 @@ namespace ElementUtilNamespace
 			}
 			SgtLogger.l("Element enum patches successful!");
 		}
-		public static bool SimHashInternalFormat_EnumPatch(System.Type eT, object value, ref string __result)
+		public static void Type_GetEnumName(System.Type __instance,object value, ref string __result)
+		{
+			if (__instance == null || __instance != typeof(SimHashes))
+				return;
+			if (SimHashNameLookup.TryGetValue((SimHashes)value, out string elementId))
+			{
+				__result = elementId;
+			}
+		}
+		public static void SimHashInternalFormat_EnumPatch(System.Type eT, object value, ref string __result)
 		{
 			if (eT == null || eT != typeof(SimHashes) || value == null)
-				return true;
+				return;
 			if(SimHashNameLookup.TryGetValue((SimHashes)value, out string elementId))
 			{
 				__result = elementId;
-				return false;
 			}
-			return true;
 		}
 
-		public static bool SimHashToString_EnumPatch(Enum __instance, ref string __result)
+		public static void SimHashToString_EnumPatch(Enum __instance, ref string __result)
 		{
-			if (__instance is SimHashes hashes)
-			{
-				return !SimHashNameLookup.TryGetValue(hashes, out __result);
-			}
+			if (__instance is SimHashes hashes && SimHashNameLookup.TryGetValue(hashes, out string id))			
+				__result = id;
 
-			return true;
 		}
 		//public static void SimHashToString_EnumPatch(Enum __instance, ref string __result)
 		//{
