@@ -101,7 +101,10 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 
             bool flying = spaceship != null ? spaceship.Status == Clustercraft.CraftStatus.InFlight : false;
 
-            return manager != null && manager.HasDoors() && manager.CraftType != DockableType.Derelict && flying && !RocketryUtils.IsRocketTraveling(spaceship);
+            return manager != null && manager.HasDoors() 
+                //&& manager.CraftType != DockableType.Derelict 
+                && flying 
+                && !RocketryUtils.IsRocketTraveling(spaceship);
         }
         public override void ClearTarget()
         {

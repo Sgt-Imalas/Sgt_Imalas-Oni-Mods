@@ -21,7 +21,7 @@ namespace Rockets_TinyYetBig.Patches
 				if (destinationWorldId >= 0 && SpaceStationManager.WorldIsSpaceStationInterior(destinationWorldId))
 				{
 					__result = __instance.RemainingTravelNodes() * 600f - __instance.m_movePotential;
-				}
+				}				
 			}
         }
 	}

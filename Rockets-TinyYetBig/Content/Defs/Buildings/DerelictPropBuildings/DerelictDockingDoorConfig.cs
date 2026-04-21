@@ -44,8 +44,7 @@ namespace Rockets_TinyYetBig.Content.Defs.Buildings.DerelictPropBuildings
 				noise: noiseLevel);
 
 			buildingDef.OverheatTemperature = 2273.15f;
-			buildingDef.Floodable = true;
-			buildingDef.Entombable = true;
+			buildingDef.Invincible = true;
 
 			buildingDef.ObjectLayer = ObjectLayer.Building;
 			buildingDef.SceneLayer = Grid.SceneLayer.Background;
@@ -71,17 +70,6 @@ namespace Rockets_TinyYetBig.Content.Defs.Buildings.DerelictPropBuildings
 			go.AddComponent<ZoneTile>();
 			//component.AddTag(GameTags.UniquePerWorld);
 			//IntitializeStorageConnections();
-			go.AddOrGetDef<DockedRocketMaterialDistributor.Def>();
-
-			ChainedBuilding.Def def = go.AddOrGetDef<ChainedBuilding.Def>();
-			def.headBuildingTag = ModAssets.Tags.RocketPlatformTag;
-			def.linkBuildingTag = BaseModularLaunchpadPortConfig.LinkTag;
-			def.objectLayer = ObjectLayer.Building;
-
-			ModularConduitPortTiler conduitPortTiler = go.AddOrGet<ModularConduitPortTiler>();
-			conduitPortTiler.manageRightCap = true;
-			conduitPortTiler.manageLeftCap = false;
-			conduitPortTiler.leftCapDefaultSceneLayerAdjust = 1;
 
 			go.AddOrGet<OccupyArea>().objectLayers = new ObjectLayer[]
 			{

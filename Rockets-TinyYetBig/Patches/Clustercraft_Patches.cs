@@ -47,6 +47,10 @@ namespace Rockets_TinyYetBig.Patches
 		//	}
 		//}
 
+		/// <summary>
+		/// Prevents automatic redocking bc OnClusterDestinationReached runs in iSim4000
+		/// </summary>
+		static Dictionary<Clustercraft, AxialI> LastLocations = [];
 		[HarmonyPatch(typeof(Clustercraft), nameof(Clustercraft.OnClusterDestinationReached))]
 		public static class Clustercraft_OnClusterDestinationReached_Patch
 		{
@@ -59,6 +63,16 @@ namespace Rockets_TinyYetBig.Patches
 					return;
 
 				var clusterDestinationSelector = __instance.m_moduleInterface.GetClusterDestinationSelector();
+
+				if(LastLocations.TryGetValue(__instance, out var lastLocation) && lastLocation == __instance.Location)
+				{
+					return;
+				}
+				else
+				{
+					LastLocations[__instance] = __instance.Location;
+				};
+
 
 				if (__instance.status == CraftStatus.InFlight //In space on a station hex
 					&& __instance.Location == clusterDestinationSelector.GetDestination() //at destination
