@@ -467,13 +467,13 @@ namespace Rockets_TinyYetBig
 				}
 				public class RTB_STEAMGENERATORMODULE
 				{
-					public static LocString NAME = FormatAsLink("Steam Generator Module", nameof(SteamGeneratorModuleConfig));
+					public static LocString NAME = FormatAsLink("Steam Generator Module", nameof(RTB_STEAMGENERATORMODULE));
 					public static LocString DESC = "Useful for converting hot steam into usable power.";
 					public static LocString EFFECT = "Draws in " + FormatAsLink("Steam", "STEAM") + " from gas storage modules and uses it to generate electrical " + FormatAsLink("Power", "POWER") + ".\n\n If there are liquid storage modules with appropriate filters set, outputs hot " + FormatAsLink("Water", "WATER") + " to them." + GENERATORLIMIT;
 				}
 				public class RTB_GENERATORCOALMODULE
 				{
-					public static LocString NAME = FormatAsLink("Coal Generator Module", nameof(CoalGeneratorModuleConfig));
+					public static LocString NAME = FormatAsLink("Coal Generator Module", nameof(RTB_GENERATORCOALMODULE));
 					public static LocString DESC = ("Converts " + FormatAsLink("Coal", "CARBON") + " into electrical " + FormatAsLink("Power", "POWER") + ".");
 					public static LocString EFFECT = "Burning coal produces more energy than manual power, who could have thought this also works in space." + GENERATORLIMIT;
 					public static LocString SIDESCREEN_TOOLTIP = "Duplicants will be requested to deliver " + PRE_KEYWORD + "{0}" + PST_KEYWORD + " when the amount stored falls below <b>{1}</b>";
@@ -482,7 +482,7 @@ namespace Rockets_TinyYetBig
 
 				public class RTB_HABITATMODULESTARGAZER
 				{
-					public static LocString NAME = FormatAsLink("Stargazer Nosecone", nameof(HabitatModuleStargazerConfig));
+					public static LocString NAME = FormatAsLink("Stargazer Nosecone", nameof(RTB_HABITATMODULESTARGAZER));
 					public static LocString DESC = "The stars have never felt this close before like in this Command Module.";
 					public static LocString EFFECT = ("Closes during starts and landings to protect the glass\n\n" +
 														"Functions as a Command Module and a Nosecone.\n\n" +
@@ -492,13 +492,13 @@ namespace Rockets_TinyYetBig
 				}
 				public class RTB_CRITTERCONTAINMENTMODULE
 				{
-					public static LocString NAME = FormatAsLink("[DEPRECATED] Critter Containment Module", nameof(CritterContainmentModuleConfigOLD));
+					public static LocString NAME = FormatAsLink("[DEPRECATED] Critter Containment Module", nameof(RTB_CRITTERCONTAINMENTMODULE));
 					public static LocString EFFECT = "This module allows the safe transport of critters to their new home. ";
 					public static LocString DESC = "These critters will go where no critter has gone before.";
 				}
 				public class RTB_CRITTERSTASISMODULE
 				{
-					public static LocString NAME = FormatAsLink("Critter Stasis Module", nameof(CritterStasisModuleConfig));
+					public static LocString NAME = FormatAsLink("Critter Stasis Module", nameof(RTB_CRITTERSTASISMODULE));
 					public static LocString EFFECT = "This module allows the safe transport of critters to their new home.\n\nStored Critters wont age.";
 					public static LocString DESC = "These critters will go where no critter has gone before.";
 				}
@@ -550,7 +550,7 @@ namespace Rockets_TinyYetBig
 
 				public class RTB_NOSECONESOLAR
 				{
-					public static LocString NAME = FormatAsLink("Solar Nosecone", nameof(NoseConeSolarConfig));
+					public static LocString NAME = FormatAsLink("Solar Nosecone", nameof(RTB_NOSECONESOLAR));
 					public static LocString DESC = global::STRINGS.BUILDINGS.PREFABS.NOSECONEBASIC.DESC;
 					public static LocString EFFECT = global::STRINGS.BUILDINGS.PREFABS.NOSECONEBASIC.EFFECT + "\n\n" +
 						"Converts " + FormatAsLink("Sunlight", "LIGHT") + " into electrical " + FormatAsLink("Power", "POWER") + " for use on rockets.\n\nMust be exposed to space.";
@@ -559,7 +559,7 @@ namespace Rockets_TinyYetBig
 
 				public class RTB_HEPBATTERYMODULE
 				{
-					public static LocString NAME = FormatAsLink("Radbolt Chamber Module", nameof(HEPBatteryModuleConfig));
+					public static LocString NAME = FormatAsLink("Radbolt Chamber Module", nameof(RTB_HEPBATTERYMODULE));
 					public static LocString DESC = "Particles packed up and ready to visit the stars.";
 					public static LocString EFFECT = ("Stores Radbolts in a high-energy state, ready for transport.\n\n" +
 						"Requires a " + FormatAsAutomationState("Green Signal", AutomationState.Active) + " to release radbolts from storage when the Radbolt threshold is reached.\n\n" +
@@ -569,23 +569,33 @@ namespace Rockets_TinyYetBig
 
 				public class RTB_HABITATMODULEPLATEDLARGE
 				{
-					public static LocString NAME = FormatAsLink("Plated Spacefarer Nosecone", nameof(HabitatModuleSmallExpandedConfig));
+					public static LocString NAME = FormatAsLink("Plated Spacefarer Nosecone", nameof(RTB_HABITATMODULEPLATEDLARGE));
 					public static LocString DESC = global::STRINGS.BUILDINGS.PREFABS.HABITATMODULESMALL.DESC;
 					public static LocString EFFECT = global::STRINGS.BUILDINGS.PREFABS.HABITATMODULESMALL.EFFECT + "\n\nInterior is fully shielded from radiation.";
 				}
 
 				public class RTB_HABITATMODULESMALLEXPANDED
 				{
-					public static LocString NAME = FormatAsLink("Extended Solo Spacefarer Nosecone", nameof(HabitatModuleSmallExpandedConfig));
+					public static LocString NAME = FormatAsLink("Extended Solo Spacefarer Nosecone", nameof(RTB_HABITATMODULESMALLEXPANDED));
 					public static LocString DESC = global::STRINGS.BUILDINGS.PREFABS.HABITATMODULESMALL.DESC;
 					public static LocString EFFECT = global::STRINGS.BUILDINGS.PREFABS.HABITATMODULESMALL.EFFECT;
 				}
 				public class RTB_HABITATMODULEMEDIUMEXPANDED
 				{
-					public static LocString NAME = FormatAsLink("Extended Spacefarer Module", nameof(HabitatModuleMediumExpandedConfig));
+					public static LocString NAME = FormatAsLink("Extended Spacefarer Module", nameof(RTB_HABITATMODULEMEDIUMEXPANDED));
 					public static LocString DESC = global::STRINGS.BUILDINGS.PREFABS.HABITATMODULEMEDIUM.DESC;
 					public static LocString EFFECT = global::STRINGS.BUILDINGS.PREFABS.HABITATMODULEMEDIUM.EFFECT;
 				}
+				public class RTB_AIOCARGOBAYCLUSTER
+				{
+					public static LocString NAME = FormatAsLink("Multi-Functional Storage Module", nameof(RTB_AIOCARGOBAYCLUSTER));
+					public static LocString DESC = "A bit of this, a bit of that.."; 
+					public static LocString EFFECT = ("Allows Duplicants to store most of the " + FormatAsLink("Solid Materials", "ELEMENTS_SOLID") + " found during space missions.\n\nStored resources become available to the colony upon the rocket's return. \n\nMust be built via " + (string)global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + ".");
+
+				}
+
+
+
 				public class RTB_ROCKETPLATFORMTAG
 				{
 					public static LocString NAME = "Rocket Platform";

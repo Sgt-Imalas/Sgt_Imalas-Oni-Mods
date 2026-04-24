@@ -25,5 +25,22 @@ namespace Rockets_TinyYetBig.Patches.RocketLoadingPatches
                 return false;
             }
         }
+
+
+        [HarmonyPatch(typeof(LaunchPadMaterialDistributor.Instance), nameof(LaunchPadMaterialDistributor.Instance.EmptyRocket))]
+        public class LaunchPadMaterialDistributor_Instance_EmptyRocket_Patch
+		{
+            public static bool Prefix(LaunchPadMaterialDistributor.Instance __instance)
+			{
+				var craftInterface = __instance.sm.attachedRocket.Get<RocketModuleCluster>(__instance).CraftInterface;
+				HashSetPool<ChainedBuilding.StatesInstance, ChainedBuilding.StatesInstance>.PooledHashSet chain = HashSetPool<ChainedBuilding.StatesInstance, ChainedBuilding.StatesInstance>.Allocate();
+				__instance.smi.GetSMI<ChainedBuilding.StatesInstance>().GetLinkedBuildings(ref chain);
+
+				System.Action<bool> emptyCompleteACtion = new Action<bool>((isLoading) => __instance.sm.emptyComplete.Set(isLoading, __instance));
+
+				RocketPortCargoLoading.ReplacedCargoUnloadingMethod(craftInterface, chain, emptyCompleteACtion);
+                return false;
+			}
+        }
     }
 }

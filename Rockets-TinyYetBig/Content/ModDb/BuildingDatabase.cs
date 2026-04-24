@@ -21,6 +21,7 @@ using Rockets_TinyYetBig.Content.Defs.Buildings.Research;
 using Rockets_TinyYetBig.Content.Defs.Buildings;
 using Rockets_TinyYetBig.Content.Defs.Buildings.DerelictPropBuildings;
 using Rockets_TinyYetBig.Content.Defs.Buildings.StationParts;
+using Rockets_TinyYetBig.Content.Defs.Buildings.RocketModules.CargoBays;
 
 namespace Rockets_TinyYetBig.Content.ModDb
 {
@@ -67,6 +68,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 			{
 				AddRocketModuleToBuildList(FridgeModuleConfig.ID, new RocketCategory[] { RocketCategory.cargo, RocketCategory.utility }, ArtifactCargoBayConfig.ID, true);
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Food, FridgeModuleAccessHatchConfig.ID, RefrigeratorConfig.ID);
+				AddRocketModuleToBuildList(AIOCargoBayModuleConfig.ID, new RocketCategory[] { RocketCategory.cargo,}, ArtifactCargoBayConfig.ID, true);
 			}
 
 

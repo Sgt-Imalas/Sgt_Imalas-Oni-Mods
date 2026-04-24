@@ -1,8 +1,10 @@
 ﻿using HarmonyLib;
 using Rockets_TinyYetBig.Buildings.Utility;
+using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules;
 using System.Collections.Generic;
 using TUNING;
 using UnityEngine;
+using static STRINGS.BUILDINGS.PREFABS;
 
 namespace Rockets_TinyYetBig.Patches.RocketLoadingPatches
 {
@@ -44,8 +46,12 @@ namespace Rockets_TinyYetBig.Patches.RocketLoadingPatches
                     ___operational.SetActive(true);
                 float amount = __instance.targetLevel - currentMassStored;
 
-                ///Refilling drillcone support module with diamond
-                if (Config.Instance.RefillDrillSupport && __instance.cargoType == CargoBay.CargoType.Solids)
+				var storages = ListPool<Storage, RocketConduitStorageAccess>.Allocate();
+				var remainingStorageCapacities = ListPool<float, RocketConduitStorageAccess>.Allocate();
+				var storedMass = ListPool<float, RocketConduitStorageAccess>.Allocate();
+
+				///Refilling drillcone support module with diamond
+				if (Config.Instance.RefillDrillSupport && __instance.cargoType == CargoBay.CargoType.Solids)
                 {
                     foreach (Ref<RocketModuleCluster> clusterModule in (IEnumerable<Ref<RocketModuleCluster>>)___craftModuleInterface.ClusterModules)
                     {
@@ -82,65 +88,82 @@ namespace Rockets_TinyYetBig.Patches.RocketLoadingPatches
                 }
 
 
-                foreach (Ref<RocketModuleCluster> clusterModule in (IEnumerable<Ref<RocketModuleCluster>>)___craftModuleInterface.ClusterModules)
+                foreach (Ref<RocketModuleCluster> clusterModule in ___craftModuleInterface.ClusterModules)
                 {
                     var module = clusterModule.Get();
 
-
                     if (module.TryGetComponent<CargoBayCluster>(out var cargoBay) && cargoBay.storageType == __instance.cargoType)
                     {
-                        if ((double)amount > 0.0 && (double)cargoBay.storage.MassStored() > 0.0)
-                        {
-                            for (int index = cargoBay.storage.items.Count - 1; index >= 0; --index)
-                            {
-                                GameObject go = cargoBay.storage.items[index];
-                                if (!(___filterable != null) || !(___filterable.SelectedTag != GameTags.Void) || !(go.PrefabID() != ___filterable.SelectedTag)
-                                    )
-                                {
-                                    Pickupable pickupable = go.GetComponent<Pickupable>().Take(amount);
-                                    if (pickupable != null)
-                                    {
-                                        amount -= pickupable.PrimaryElement.Mass;
-                                        __instance.storage.Store(pickupable.gameObject, true);
-                                    }
-                                    if ((double)amount <= 0.0)
-                                        break;
-                                }
-                            }
-                            if ((double)amount <= 0.0)
-                                break;
-                        }
-
-
-                        if ((double)amount < 0.0 && (double)cargoBay.storage.RemainingCapacity() > 0.0)
-                        {
-                            double num2 = (double)Mathf.Min(-amount, cargoBay.storage.RemainingCapacity());
-                            for (int index = __instance.storage.items.Count - 1; index >= 0; --index)
-                            {
-                                if (__instance.storage.items[index] != null &&
-                                    __instance.cargoType == CargoBay.CargoType.Solids &&
-                                    !CouldStorageAllowThisTag(__instance.storage.items[index].PrefabID(), cargoBay.storage))
-                                {
-                                    continue;
-                                }
-                                Pickupable pickupable = __instance.storage.items[index].GetComponent<Pickupable>().Take(-amount);
-
-                                if (pickupable != null)
-                                {
-                                    amount += pickupable.PrimaryElement.Mass;
-                                    cargoBay.storage.Store(pickupable.gameObject, true);
-                                }
-                                if ((double)amount >= 0.0)
-                                    break;
-                            }
-                            if ((double)amount >= 0.0)
-                                break;
-                        }
-                    }
-
-
+                        storages.Add(cargoBay.storage);
+						remainingStorageCapacities.Add(cargoBay.storage.RemainingCapacity());
+						storedMass.Add(cargoBay.storage.MassStored());
+					}
+                    else if(module.TryGetComponent<MultiMaterialCargoBay> (out var multiMaterialCargoBay))
+					{
+						storages.Insert(0,multiMaterialCargoBay.Storage);
+						remainingStorageCapacities.Insert(0, multiMaterialCargoBay.RemainingCapacityFor(__instance.cargoType));
+                        storedMass.Insert(0, multiMaterialCargoBay.GetMassFor(__instance.cargoType));
+					}
                 }
-                return false;
+
+
+                for(int i = 0; i < storages.Count; i++)
+                {
+                    var storage = storages[i];
+                    var remainingCapacity = remainingStorageCapacities[i];
+                    var massStored = storedMass[i];
+
+					if (amount > 0.0f && massStored > 0.0f)
+					{
+						for (int index = storage.items.Count - 1; index >= 0; --index)
+						{
+							GameObject go = storage.items[index];
+							if (!(___filterable != null) || !(___filterable.SelectedTag != GameTags.Void) || !(go.PrefabID() != ___filterable.SelectedTag)
+								)
+							{
+								Pickupable pickupable = go.GetComponent<Pickupable>().Take(amount);
+								if (pickupable != null)
+								{
+									amount -= pickupable.PrimaryElement.Mass;
+									__instance.storage.Store(pickupable.gameObject, true);
+								}
+								if (amount <= 0.0)
+									break;
+							}
+						}
+						if (amount <= 0.0)
+							break;
+					}
+
+
+					if (amount < 0.0f && remainingCapacity > 0.0f)
+					{
+						for (int index = __instance.storage.items.Count - 1; index >= 0; --index)
+						{
+							if (__instance.storage.items[index] != null &&
+								__instance.cargoType == CargoBay.CargoType.Solids &&
+								!CouldStorageAllowThisTag(__instance.storage.items[index].PrefabID(), storage))
+							{
+								continue;
+							}
+							Pickupable pickupable = __instance.storage.items[index].GetComponent<Pickupable>().Take(-amount);
+
+							if (pickupable != null)
+							{
+								amount += pickupable.PrimaryElement.Mass;
+								storage.Store(pickupable.gameObject, true);
+							}
+							if (amount >= 0.0)
+								break;
+						}
+						if (amount >= 0.0)
+							break;
+					}
+				}
+				storages.Recycle();
+				remainingStorageCapacities.Recycle();
+                storedMass.Recycle();
+				return false;
             }
 
         }
