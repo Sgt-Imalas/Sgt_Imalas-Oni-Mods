@@ -55,6 +55,7 @@ namespace AkisSnowThings.Content.Scripts.Buildings
 					fn(sealable);
 				}
 			}
+			pooledList.Recycle();
 		}
 
 		public void UpdateAnimation(bool rotated)

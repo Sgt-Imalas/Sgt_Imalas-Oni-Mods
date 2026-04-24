@@ -37,6 +37,7 @@ namespace AkisSnowThings.Content.Scripts.Buildings
 						harvestable.ForceCancelHarvest();
 				}
 			}
+			pooledList.Recycle();
 		}
 
 		public override void OnCleanUp()

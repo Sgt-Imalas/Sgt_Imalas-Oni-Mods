@@ -43,6 +43,7 @@ namespace AkisSnowThings.Content.Scripts.Entities
 					deconstructable.ForceDestroyAndGetMaterials();
 				}
 			}
+			pooledList.Recycle();
 		}
 	}
 }

@@ -53,6 +53,7 @@ namespace AkisSnowThings.Content.Scripts.Buildings
 					break;
 				}
 			}
+			pooledList.Recycle();
 		}
 
 		public void Seal(GlassCase glassCase)
