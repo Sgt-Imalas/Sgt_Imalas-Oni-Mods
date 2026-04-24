@@ -22,21 +22,20 @@ namespace Radiator_Mod
 		[Serialize]
 		bool RocketInteriorModule = false;
 
-		public static string Category = "BUILDING", InSpaceRadiating = "RadiatorInSpaceRadiating", NotInSpace = "RadiatorNotInSpace", BunkerDown = "RadiatorBunkeredDown";
-
-		public StatusItem _radiating_status;
-		public StatusItem _no_space_status;
-		public StatusItem _protected_from_impacts_status;
 
 		private int inputCell;
 		private int outputCell;
 		public float CurrentCoolingRadiation { get; private set; }
+
+		private int currentRadiatorArea = 0;
+
 		private static readonly double stefanBoltzmanConstant = 5.67e-8;
 		public float emissivity = .9f;
 		public List<CellOffset> RadiatorArea;
 		private HandleVector<int>.Handle accumulator = HandleVector<int>.InvalidHandle;
 		private HandleVector<int>.Handle structureTemperature;
 		public float buildingDefSHC_Modifier = 1f;
+
 
 
 		#region NetworkStuff
@@ -89,23 +88,10 @@ namespace Radiator_Mod
 				GameComps.StructureTemperatures.ProduceEnergy(structureTemperature, -(cooling * dt) / 1000f,
 					BUILDING.STATUSITEMS.OPERATINGENERGY.PIPECONTENTS_TRANSFER, -(cooling * dt) / 1000f);
 			}
+			RefreshIfAnyCellCanRadiate();
 		}
 
 
-		/// <summary>
-		/// formatting for dtu/s status msg
-		/// </summary>
-		/// <param name="formatstr"></param>
-		/// <param name="data"></param>
-		/// <returns></returns>
-		private static string _FormatStatusCallback(string formatstr, object data)
-		{
-			var radiator = (RadiatorBase)data;
-			var radiation_rate = GameUtil.GetFormattedHeatEnergyRate(radiator.CurrentCoolingRadiation);
-			formatstr = formatstr.Replace("{0}", radiation_rate);
-			formatstr = formatstr.Replace("{AREAPERCENTAGE}", Mathf.RoundToInt(100f * radiator.AreaPercentage()).ToString());
-			return formatstr;
-		}
 
 		#region Spawn&Cleanup
 		public override void OnSpawn()
@@ -115,17 +101,13 @@ namespace Radiator_Mod
 			outputCell = building.GetUtilityOutputCell();
 			RocketInteriorModule = this.GetMyWorld().IsModuleInterior;
 			SetRadiatorArea();
+			RefreshIfAnyCellCanRadiate();
 
 			Conduit.GetFlowManager(type).AddConduitUpdater(ConduitUpdate);
 			structureTemperature = GameComps.StructureTemperatures.GetHandle(gameObject);
 
-			_radiating_status = new StatusItem(InSpaceRadiating, Category, string.Empty, StatusItem.IconType.Info, NotificationType.Neutral, false, OverlayModes.HeatFlow.ID);
-			_radiating_status.resolveTooltipCallback = _FormatStatusCallback;
-			_radiating_status.resolveStringCallback = _FormatStatusCallback;
-			_no_space_status = new StatusItem(NotInSpace, Category, string.Empty, StatusItem.IconType.Exclamation, NotificationType.Neutral, false, OverlayModes.TileMode.ID);
-			_protected_from_impacts_status = new StatusItem(BunkerDown, Category, string.Empty, StatusItem.IconType.Info, NotificationType.Good, false, OverlayModes.TileMode.ID);
 
-			AmIInSpace();
+			//AmIInSpace();
 			smi.StartSM();
 		}
 
@@ -274,7 +256,7 @@ namespace Radiator_Mod
 		/// <returns></returns>
 		private double heatRadiationAmount(float temp)
 		{
-			return Math.Pow(temp, 4) * stefanBoltzmanConstant * emissivity * CalculateActualSpaceRadiatorArea() * Config.Instance.RadiationMultiplicator;
+			return Math.Pow(temp, 4) * stefanBoltzmanConstant * emissivity * currentRadiatorArea * Config.Instance.RadiationMultiplicator;
 		}
 
 		/// <summary>
@@ -284,7 +266,7 @@ namespace Radiator_Mod
 		public float AreaPercentage()
 		{
 			float total = RadiatorArea.Count();
-			float current = CalculateActualSpaceRadiatorArea();
+			float current = currentRadiatorArea;
 			return (current / total);
 		}
 
@@ -294,43 +276,51 @@ namespace Radiator_Mod
 		/// <returns></returns>
 		private int CalculateActualSpaceRadiatorArea()
 		{
-			int radiatorCellCount = 0;
+			currentRadiatorArea = 0;
 			var root_cell = Grid.PosToCell(this);
 			foreach (var _cell in RadiatorArea)
 			{
 				var _cellRotated = Rotatable.GetRotatedCellOffset(_cell, rotatable.Orientation);
 				if (UtilMethods.IsCellInSpaceAndVacuum(Grid.OffsetCell(root_cell, _cellRotated), root_cell))
 				{
-					radiatorCellCount++;
+					currentRadiatorArea++;
 				}
 			}
-			bool canRadiateAtAll = radiatorCellCount > 0;
-
-			smi.sm.IsInTrueSpace.Set(canRadiateAtAll, smi);
-
-			return radiatorCellCount;
+			return currentRadiatorArea;
 		}
+
+		private void RefreshIfAnyCellCanRadiate()
+		{
+			int area = CalculateActualSpaceRadiatorArea();
+			bool isCurrentlyRadiating = smi.sm.IsInTrueSpace.Get(smi);
+			bool canRadiate = area > 0;
+			if(canRadiate != isCurrentlyRadiating)
+			{
+				smi.sm.IsInTrueSpace.Set(canRadiate, smi);
+			}
+		}
+
 
 		/// <summary>
-		/// Checks if all panel tiles are space exposed & in vacuum, updates the status msg and the state bool of the state machine
-		/// </summary>
-		/// <returns></returns>
-		public bool AmIInSpace()
-		{
-			bool currentlyInSpace = true;
-			var root_cell = Grid.PosToCell(this);
-			foreach (var _cell in RadiatorArea)
-			{
-				var _cellRotated = Rotatable.GetRotatedCellOffset(_cell, rotatable.Orientation);
-				if (!UtilMethods.IsCellInSpaceAndVacuum(Grid.OffsetCell(root_cell, _cellRotated), root_cell))
-				{
-					currentlyInSpace = false;
-					break;
-				}
-			}
-			smi.sm.IsInTrueSpace.Set(currentlyInSpace, smi);
-			return currentlyInSpace;
-		}
+		///// Checks if all panel tiles are space exposed & in vacuum, updates the status msg and the state bool of the state machine
+		///// </summary>
+		///// <returns></returns>
+		//public bool AmIInSpace()
+		//{
+		//	bool currentlyInSpace = true;
+		//	var root_cell = Grid.PosToCell(this);
+		//	foreach (var _cell in RadiatorArea)
+		//	{
+		//		var _cellRotated = Rotatable.GetRotatedCellOffset(_cell, rotatable.Orientation);
+		//		if (!UtilMethods.IsCellInSpaceAndVacuum(Grid.OffsetCell(root_cell, _cellRotated), root_cell))
+		//		{
+		//			currentlyInSpace = false;
+		//			break;
+		//		}
+		//	}
+		//	smi.sm.IsInTrueSpace.Set(currentlyInSpace, smi);
+		//	return currentlyInSpace;
+		//}
 
 		#region StateMachine
 		public class SMInstance : GameStateMachine<States, SMInstance, RadiatorBase, object>.GameInstance
@@ -363,10 +353,9 @@ namespace Radiator_Mod
 
 				NotRadiating
 					.QueueAnim("on")
-					//.Update((smi, dt) => smi.master.AmIInSpace())
-					.Update((smi, dt) => smi.master.CalculateActualSpaceRadiatorArea())
+					.Update((smi, dt) => smi.master.RefreshIfAnyCellCanRadiate())
 					.EventTransition(GameHashes.OperationalChanged, Retracting, smi => !smi.IsOperational)
-					.ToggleStatusItem(smi => smi.master._no_space_status)
+					.ToggleStatusItem(smi => ModStatusItems._no_space_status)
 					.ParamTransition(this.IsInTrueSpace, Radiating, IsTrue);
 
 
@@ -374,11 +363,10 @@ namespace Radiator_Mod
 					.Update("Radiating", (smi, dt) =>
 				{
 					smi.master.RadiateIntoSpace(dt);
-					//smi.master.AmIInSpace();
 
 				}, UpdateRate.SIM_200ms)
 					.QueueAnim("on_rad", true)
-					.ToggleStatusItem(smi => smi.master._radiating_status, smi => smi.master)
+					.ToggleStatusItem(smi => ModStatusItems._radiating_status, smi => smi.master)
 					.EventTransition(GameHashes.OperationalChanged, Retracting, smi => !smi.IsOperational)
 					.ParamTransition(this.IsInTrueSpace, NotRadiating, IsFalse);
 
@@ -388,7 +376,7 @@ namespace Radiator_Mod
 
 				Protecting
 					.ToggleTag(GameTags.Bunker)
-					.ToggleStatusItem(smi => smi.master._protected_from_impacts_status)
+					.ToggleStatusItem(ModStatusItems._protected_from_impacts_status)
 					.QueueAnim("off", true)
 					.EventTransition(GameHashes.OperationalChanged, Extending, smi => smi.IsOperational);
 
