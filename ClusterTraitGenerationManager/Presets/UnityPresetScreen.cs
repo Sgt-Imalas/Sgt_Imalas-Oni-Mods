@@ -140,7 +140,7 @@ namespace ClusterTraitGenerationManager
 				}
 				catch (Exception e)
 				{
-					Debug.LogWarning(File.Name);
+					Debug.LogWarning("Error while reading preset from file: "+File.Name);
 					Debug.LogWarning(e.ToString());
 					//SgtLogger.logError("Couln't load cgm preset from: " + File.Name + ",\nError: " + e.ToString());
 				}
