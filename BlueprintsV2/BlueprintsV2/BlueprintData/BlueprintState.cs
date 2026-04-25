@@ -93,6 +93,16 @@ namespace BlueprintsV2.BlueprintData
 							bool hasConstructable = gameObject.TryGetComponent<Constructable>(out var constructable);
 							bool hasDeconstructable = gameObject.TryGetComponent<Deconstructable>(out var deconstructable);
 
+							// allow MoveThisHere hauling points
+							//note: until the hauling point mod fixes its return null go in the create prefix skip, this cannot be handled.
+							//https://github.com/DoctorFeelGoodMD/OxygenNotIncluded-Mods/blob/2822baf00bdf76f10c73a270a5dfb2528c356a83/source/MoveThisHere/MoveThisHere_Patch.cs#L89 <- this patch needs to set __result, until then the hauling point cannot be saved as it loses its settings
+							//var haulingPoint = gameObject.GetComponent("DeconstructableHaulingPoint");
+							//if (!hasDeconstructable && haulingPoint != null)
+							//{
+							//	hasDeconstructable = true;
+							//}
+							//end
+
 							if (hasConstructable || hasDeconstructable)
 							{
 								Building building = null;
@@ -123,14 +133,22 @@ namespace BlueprintsV2.BlueprintData
 									if (building.Def.BuildingComplete.TryGetComponent<SimCellOccupier>(out var sco) && sco.doReplaceElement)
 										solidTileDefInCell = true;
 
-
 									if (deconstructable != null)
 									{
 										buildingConfig.SelectedElements.AddRange(deconstructable.constructionElements);
 									}
-									else
+									else if (constructable != null)
 									{
 										buildingConfig.SelectedElements.AddRange(constructable.selectedElementsTags);
+									}
+									else
+									{
+										SgtLogger.warning("building " + building.Def.Name + " at cell " + cell + " had neither constructable nor deconstructable component");
+										foreach (var tagCombine in building.Def.MaterialCategory)
+										{
+											var available = MaterialSelectionPanel.Filter(tagCombine);
+											buildingConfig.SelectedElements.Add(available.element);
+										}
 									}
 
 									IHaveUtilityNetworkMgr networkMngCmp = building.Def.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>();

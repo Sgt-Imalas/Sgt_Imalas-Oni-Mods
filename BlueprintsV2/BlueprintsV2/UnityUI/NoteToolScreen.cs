@@ -85,6 +85,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			base.OnPrefabInit();
 			Init();
 		}
+
 		void Init()
 		{
 			ColorPicker = transform.Find("ColorPicker").gameObject.AddOrGet<FColorPickerArray>();

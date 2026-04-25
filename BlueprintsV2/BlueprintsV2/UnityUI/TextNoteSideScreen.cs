@@ -1,11 +1,14 @@
 ﻿using BlueprintsV2.BlueprintsV2.BlueprintData.NoteToolPlacedEntities;
 using BlueprintsV2.BlueprintsV2.BlueprintData.PlannedElements;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using UtilLibs.UI.FUI;
 using UtilLibs.UIcmp;
 using static BlueprintsV2.STRINGS.UI;
@@ -25,6 +28,33 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			base.OnPrefabInit();
 			Init();
 		}
+		bool spawned = false;
+		string title, text;
+
+		public override void OnSpawn()
+		{
+			base.OnSpawn();
+			spawned = true;
+			StartCoroutine(SetTextDelayed());
+
+		}
+
+		IEnumerator SetTextDelayed()
+		{
+			yield return null;
+			if (!text.IsNullOrWhiteSpace())
+			{
+				TextInput.SetTextFromData(text, true);
+				text = null;
+			}
+			if (!title.IsNullOrWhiteSpace())
+			{
+				TitleInput.SetTextFromData(title, true);
+				title = null;
+			}
+
+		}
+
 		public override string GetTitle() => NOTETOOLSTATECONTAINER.TITLE.SIDESCREENTEXT;
 		void Init()
 		{
@@ -56,8 +86,16 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 
 			Target = note;
 			var data = note.GetNoteData();
-			TextInput.SetTextFromData(data.Text != STRINGS.BLUEPRINTS_BLUEPRINTNOTE.TEXTNOTE_EMPTY.TEXT ? data.Text : string.Empty);
-			TitleInput.SetTextFromData(data.Title != STRINGS.BLUEPRINTS_BLUEPRINTNOTE.TEXTNOTE_EMPTY.TITLE ? data.Title : string.Empty);
+			if (spawned)
+			{
+				TextInput.SetTextFromData(data.Text != STRINGS.BLUEPRINTS_BLUEPRINTNOTE.TEXTNOTE_EMPTY.TEXT ? data.Text : string.Empty, true);
+				TitleInput.SetTextFromData(data.Title != STRINGS.BLUEPRINTS_BLUEPRINTNOTE.TEXTNOTE_EMPTY.TITLE ? data.Title : string.Empty, true);
+			}
+			else
+			{
+				text = (data.Text != STRINGS.BLUEPRINTS_BLUEPRINTNOTE.TEXTNOTE_EMPTY.TEXT ? data.Text : string.Empty);
+				title = (data.Title != STRINGS.BLUEPRINTS_BLUEPRINTNOTE.TEXTNOTE_EMPTY.TITLE ? data.Title : string.Empty);
+			}
 			ColorPicker.SetSelected(data.SymbolTint);
 		}
 		void SetTitle(string val)

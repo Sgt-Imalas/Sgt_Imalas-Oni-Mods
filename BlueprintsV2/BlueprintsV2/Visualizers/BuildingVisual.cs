@@ -283,15 +283,17 @@ namespace BlueprintsV2.Visualizers
 		public virtual bool PlaceFinishedBuilding(int cellParam)
 		{
 			Vector3 positionCbc = Grid.CellToPosCBC(cellParam, buildingConfig.BuildingDef.SceneLayer);
-			GameObject building = buildingConfig.BuildingDef.Create(positionCbc, null, selected_elements: GetConstructionElements(), buildingConfig.BuildingDef.CraftRecipe, 293.15f, buildingConfig.BuildingDef.BuildingComplete);
+			var def = buildingConfig.BuildingDef;
+			GameObject building = def.Create(positionCbc, null, selected_elements: GetConstructionElements(), def.CraftRecipe, 293.15f, def.BuildingComplete);
 			if (building == null)
 			{
+				SgtLogger.warning("failed to place finished building " + def.PrefabID);
 				return false;
 			}
 
-			buildingConfig.BuildingDef.MarkArea(cellParam, RotatedOrientation, buildingConfig.BuildingDef.ObjectLayer, building);
-			if (buildingConfig.BuildingDef.IsFoundation)
-				buildingConfig.BuildingDef.RunOnArea(cellParam, RotatedOrientation, cell0 => TileVisualizer.RefreshCell(cell0, buildingConfig.BuildingDef.TileLayer, buildingConfig.BuildingDef.ReplacementLayer));
+			def.MarkArea(cellParam, RotatedOrientation, def.ObjectLayer, building);
+			if (def.IsFoundation)
+				def.RunOnArea(cellParam, RotatedOrientation, cell0 => TileVisualizer.RefreshCell(cell0, def.TileLayer, def.ReplacementLayer));
 
 			if (building.GetComponent<Deconstructable>() != null)
 			{
@@ -311,6 +313,7 @@ namespace BlueprintsV2.Visualizers
 			GameObject building = def.Instantiate(positionCbc, orientation, this.GetConstructionElements());
 			if (building == null)
 			{
+				SgtLogger.warning("failed to place planned building "+def.PrefabID);
 				return false;
 			}
 			ApplyBuildingData(building);
