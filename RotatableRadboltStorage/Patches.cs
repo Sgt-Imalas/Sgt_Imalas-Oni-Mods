@@ -4,6 +4,8 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using UtilLibs;
+using static LogicGateBase;
+using static STRINGS.LORE.BUILDINGS;
 
 
 namespace RotatableRadboltStorage
@@ -29,12 +31,25 @@ namespace RotatableRadboltStorage
 			}
 		}
 
-		static void MakeFirstInputPortDirectionRibbon(BuildingDef def, HashedString portID, CellOffset offset, string desc, string desc_on, string desc_off)
+		static void MakeFirstInputPortDirectionRibbon(BuildingDef def)//, HashedString portID, CellOffset offset, string desc, string desc_on, string desc_off)
 		{
-			desc_on += "\n";
-			desc_on += MOD_STRINGS.STATUSITEMS.DIRECTION_ADDON;
+			LogicPorts.Port port;
+			if (def.LogicInputPorts == null)
+				def.LogicInputPorts = [];
+			if (!def.LogicInputPorts.Any())
+			{
+				port = LogicPorts.Port.RibbonInputPort(LogicOperationalController.PORT_ID, new(0, 0), STRINGS.UI.LOGIC_PORTS.CONTROL_OPERATIONAL, STRINGS.UI.LOGIC_PORTS.CONTROL_OPERATIONAL_ACTIVE, STRINGS.UI.LOGIC_PORTS.CONTROL_OPERATIONAL_INACTIVE);
+			}
+			else
+				port = def.LogicInputPorts.FirstOrDefault();
+			port.spriteType = LogicPortSpriteType.RibbonInput;
+			port.description += "\n";
+			port.description += MOD_STRINGS.STATUSITEMS.DIRECTION_ADDON;
+			if(def.LogicInputPorts.Any())
+				def.LogicInputPorts.RemoveAt(0);
+			def.LogicInputPorts.Insert(0, port);
 
-			def.LogicInputPorts = [LogicPorts.Port.RibbonInputPort(portID, offset, desc, desc_on, desc_off)];
+			//def.LogicInputPorts = [LogicPorts.Port.RibbonInputPort(portID, offset, desc, desc_on, desc_off)];
 
 		}
 
@@ -159,7 +174,6 @@ namespace RotatableRadboltStorage
 				AddThresholdLogic(go);
 			}
 		}
-
 		[HarmonyPatch(typeof(HEPBatteryConfig))]
 		[HarmonyPatch(nameof(HEPBatteryConfig.CreateBuildingDef))]
 		public static class AdjustNormalHEPBattery
@@ -172,7 +186,7 @@ namespace RotatableRadboltStorage
 					Assets.GetAnim((HashedString) "radbolt_battery_rotatable_kanim")
 				};
 
-				MakeFirstInputPortDirectionRibbon(__result, HEPBattery.FIRE_PORT_ID, new CellOffset(0, 2), STRINGS.BUILDINGS.PREFABS.HEPBATTERY.LOGIC_PORT, STRINGS.BUILDINGS.PREFABS.HEPBATTERY.LOGIC_PORT_ACTIVE, STRINGS.BUILDINGS.PREFABS.HEPBATTERY.LOGIC_PORT_INACTIVE);
+				MakeFirstInputPortDirectionRibbon(__result);
 				AddThresholdLogicPortDesc(__result);
 			}
 		}
@@ -183,10 +197,24 @@ namespace RotatableRadboltStorage
 		{
 			public static void Postfix(ref BuildingDef __result)
 			{
-				MakeFirstInputPortDirectionRibbon(__result, HighEnergyParticleRedirector.PORT_ID, new CellOffset(0, 1), STRINGS.BUILDINGS.PREFABS.HIGHENERGYPARTICLEREDIRECTOR.LOGIC_PORT, STRINGS.BUILDINGS.PREFABS.HIGHENERGYPARTICLEREDIRECTOR.LOGIC_PORT_ACTIVE, STRINGS.BUILDINGS.PREFABS.HIGHENERGYPARTICLEREDIRECTOR.LOGIC_PORT_INACTIVE);
-
+				MakeFirstInputPortDirectionRibbon(__result);
 			}
 		}
+
+		[HarmonyPatch(typeof(HighEnergyParticleRedirector), nameof(HighEnergyParticleRedirector.OnLogicValueChanged))]
+		public class HighEnergyParticleRedirector_OnLogicValueChanged_Patch
+		{
+			public static void Postfix(HighEnergyParticleRedirector __instance, object data)
+			{
+				LogicValueChanged logicValueChanged = (LogicValueChanged)data;
+				SgtLogger.l("HEPPORT: " + (logicValueChanged.portID == HighEnergyParticleRedirector.PORT_ID)+": " + __instance.isLogicActive + " <- " + logicValueChanged.newValue);
+				if (logicValueChanged.portID == HighEnergyParticleRedirector.PORT_ID)
+				{
+					__instance.isLogicActive = LogicCircuitNetwork.IsBitActive(0, logicValueChanged.newValue);
+				}
+			}
+		}
+
 
 		/// <summary>
 		/// Init. auto translation
@@ -205,7 +233,7 @@ namespace RotatableRadboltStorage
 		{
 			public static void Postfix(ref BuildingDef __result)
 			{
-				MakeFirstInputPortDirectionRibbon(__result, LogicOperationalController.PORT_ID, new(0, 0), STRINGS.UI.LOGIC_PORTS.CONTROL_OPERATIONAL, STRINGS.UI.LOGIC_PORTS.CONTROL_OPERATIONAL_ACTIVE, STRINGS.UI.LOGIC_PORTS.CONTROL_OPERATIONAL_INACTIVE);
+				MakeFirstInputPortDirectionRibbon(__result);
 
 			}
 		}
