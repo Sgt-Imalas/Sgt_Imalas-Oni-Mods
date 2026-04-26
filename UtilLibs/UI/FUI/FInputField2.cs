@@ -54,11 +54,12 @@ namespace UtilLibs.UIcmp //Source: Aki
 		private bool initialized;
 
 		private bool DataTextUpdate = false;
-		public void SetTextFromData(string newText)
+		public void SetTextFromData(string newText, bool forceRefresh = false)
 		{
 			DataTextUpdate = true;
 			Text = newText;
-			//inputField.ForceLabelUpdate();
+			if(forceRefresh)
+				inputField.ForceLabelUpdate();
 
 			DataTextUpdate = false;
 		}
@@ -176,7 +177,7 @@ namespace UtilLibs.UIcmp //Source: Aki
 				isEditing = false;
 			}
 
-			if (e.TryConsume(Action.DialogSubmit))
+			if (e.TryConsume(Action.DialogSubmit) && inputField.lineType == TMP_InputField.LineType.SingleLine)
 			{
 				e.Consumed = true;
 				inputField.OnSubmit(null);
