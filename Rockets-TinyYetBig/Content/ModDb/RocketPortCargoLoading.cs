@@ -40,11 +40,11 @@ namespace Rockets_TinyYetBig.Content.ModDb
 			var HEPStorages = ListPool<HighEnergyParticleStorage, CraftModuleInterface>.Allocate();
 			var multiMaterialCargoBays = ListPool<MultiMaterialCargoBay, CraftModuleInterface>.Allocate();
 
-			SgtLogger.l("Unloading on " + craftInterface);
+			//SgtLogger.l("Unloading on " + craftInterface);
 
 			foreach (Ref<RocketModuleCluster> clusterModuleRef in craftInterface.ClusterModules)
 			{
-				SgtLogger.l("checking module " + clusterModuleRef.Get());	
+				//SgtLogger.l("checking module " + clusterModuleRef.Get());	
 				var clusterModule = clusterModuleRef.Get();
 
 
@@ -55,12 +55,12 @@ namespace Rockets_TinyYetBig.Content.ModDb
 				if (clusterModule.TryGetComponent<CargoBayCluster>(out var cargoBay) && cargoBay.storageType != CargoBay.CargoType.Entities && cargoBay.storage.Count > 0f)
 				{
 					CargoBaysPool[cargoBay.storageType].Add(cargoBay);
-					SgtLogger.l(" has cargo bay with " + cargoBay.storage.Count + " items", clusterModule.gameObject.GetProperName());
+					//SgtLogger.l(" has cargo bay with " + cargoBay.storage.Count + " items", clusterModule.gameObject.GetProperName());
 				}
 				if (clusterModule.TryGetComponent<MultiMaterialCargoBay>(out var advCargoBay) && advCargoBay.Storage.items.Any())
 				{
 					multiMaterialCargoBays.Add(advCargoBay);
-					SgtLogger.l(" has multi material cargo bay with " + advCargoBay.Storage.Count + " items", clusterModule.gameObject.GetProperName());
+					//SgtLogger.l(" has multi material cargo bay with " + advCargoBay.Storage.Count + " items", clusterModule.gameObject.GetProperName());
 				}
 			}
 			bool hasUnloadingProcess = false;
@@ -75,7 +75,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 					smi2.SetRocket(true);
 					TreeFilterable treeFilterable = receiver.GetComponent<TreeFilterable>();
 					float amount = conduitDispenser.Storage.RemainingCapacity();
-					SgtLogger.l("remaining capacity: " + amount, receiver.gameObject.GetProperName());
+					//SgtLogger.l("remaining capacity: " + amount, receiver.gameObject.GetProperName());
 					foreach (var multiMaterialCargoBay in multiMaterialCargoBays)
 					{
 						if (multiMaterialCargoBay.Storage.Count > 0)
