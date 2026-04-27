@@ -1,4 +1,5 @@
 ﻿using Klei.AI;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -68,14 +69,18 @@ namespace RonivansLegacy_ChemicalProcessing
 			public static Tag SodaFountainGas = TagManager.Create("SodaFountainGas");
 		}
 		public static GameObject BuildingEditorWindowPrefab;
+		public static GameObject MultiIngredientCodexVisualizer;
 
 		public static void LoadAssets()
 		{
 			AssetBundle bundle = AssetUtils.LoadAssetBundle("ronivan_aio", platformSpecific: true);
 			BuildingEditorWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/BuildingEditor.prefab");
+			MultiIngredientCodexVisualizer = bundle.LoadAsset<GameObject>("Assets/UIs/HoverableMultiEntry.prefab");
+			MultiIngredientCodexVisualizer.AddComponent<MultiIngredientCodexVisualizer>();
 			SgtLogger.Assert(BuildingEditorWindowPrefab, "BuildingEditorWindowPrefab");
 			var TMPConverter = new TMPConverter();
 			TMPConverter.ReplaceAllText(BuildingEditorWindowPrefab);
+			TMPConverter.ReplaceAllText(MultiIngredientCodexVisualizer);
 
 		}
 		public static List<Tag> GetNonLiquifiableSolids()

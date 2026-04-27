@@ -42,8 +42,8 @@ namespace UtilLibs.UIcmp //Source: Aki
 			{
 				image = button.image;
 			}
-
-			material = image.material;
+			if (image != null)
+				material = image.material;
 			interactable = true;
 		}
 		public override void OnSpawn()

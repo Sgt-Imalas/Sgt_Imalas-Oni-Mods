@@ -142,6 +142,54 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		[HarmonyPatch(typeof(CodexEntryGenerator_Elements), nameof(CodexEntryGenerator_Elements.GenerateMadeAndUsedContainers))]
 		public class CodexEntryGenerator_Elements_GenerateMadeAndUsedContainers_Patch
 		{
+
+			static Tag _cached;
+			public static void Prefix(Tag tag)
+			{
+				_cached = tag;
+			}	
+
+			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
+			{
+				var m_ComplexRecipeManager_recipes = AccessTools.Field(typeof(ComplexRecipeManager), nameof(ComplexRecipeManager.recipes));
+				var m_filterOutDuplicateDerivedRecipes = AccessTools.Method(typeof(CodexEntryGenerator_Elements_GenerateMadeAndUsedContainers_Patch), nameof(RemoveDerivedRecipeEntries));
+
+				foreach (var instruction in orig)
+				{
+					yield return instruction;
+					if (instruction.LoadsField(m_ComplexRecipeManager_recipes))
+					{
+						yield return new CodeInstruction(OpCodes.Call, m_filterOutDuplicateDerivedRecipes);
+					}
+				}
+			}
+
+			static List<ComplexRecipe> RemoveDerivedRecipeEntries(List<ComplexRecipe> recipes)
+			{
+				List<ComplexRecipe> filteredRecipes = new List<ComplexRecipe>();
+				HashSet<ComplexRecipe> addedSourceRecipes = new HashSet<ComplexRecipe>();
+				foreach (var recipe in recipes)
+				{
+					if(!recipe.ingredients.Any(i => i.material == _cached) && !recipe.results.Any(r => r.material == _cached))
+					{
+						continue;
+					}
+					if (RecipeCondenser.IsDerivedRecipe(recipe, out var sourceRecipe))
+					{
+						if(!addedSourceRecipes.Contains(sourceRecipe))
+						{
+							filteredRecipes.Add(recipe);
+							addedSourceRecipes.Add(sourceRecipe);
+						}
+					}
+					else
+					{
+						filteredRecipes.Add(recipe);
+					}
+				}
+				return filteredRecipes;
+			}
+
 			public static void Postfix(Tag tag, List<ContentContainer> containers)
 			{
 				List<ICodexWidget> randomProductEntries = new List<ICodexWidget>();
@@ -207,16 +255,24 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				List<Tag> hideTags = [GameTags.HideFromCodex, GameTags.DeprecatedContent, GameTags.HideFromSpawnTool];
 
 				var list = new List<ComplexRecipe>();
+
+				HashSet<ComplexRecipe> condensedEntries = [];
+
 				foreach (var recipe in input)
 				{
 					bool recipeAllowed = true;
-					foreach (var ingredient in recipe.ingredients)
+
+					if (recipeAllowed)
 					{
-						var item = ElementLoader.GetElement(ingredient.material);
-						if (item != null && item.oreTags.Contains(GameTags.HideFromCodex))
+						
+						foreach (var ingredient in recipe.ingredients)
 						{
-							recipeAllowed = false;
-							break;
+							var item = ElementLoader.GetElement(ingredient.material);
+							if (item != null && item.oreTags.Contains(GameTags.HideFromCodex))
+							{
+								recipeAllowed = false;
+								break;
+							}
 						}
 					}
 					if (recipeAllowed)
@@ -237,8 +293,20 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 							}
 						}
 					}
+					if (recipeAllowed)
+					{
+						if (RecipeCondenser.IsDerivedRecipe(recipe, out var sourceRecipe))
+						{
+							if (!condensedEntries.Contains(sourceRecipe))
+							{
+								list.Add(recipe);
+								condensedEntries.Add(sourceRecipe);
+							}
+							recipeAllowed = false;
+						}
+					}
 
-					if(recipeAllowed)
+					if (recipeAllowed)
 						list.Add(recipe);
 				}
 				return list.ToArray();

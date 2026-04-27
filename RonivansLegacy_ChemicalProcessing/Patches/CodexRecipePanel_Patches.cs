@@ -1,8 +1,10 @@
 ﻿using HarmonyLib;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using TMPro;
@@ -21,6 +23,21 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			{
 				if (__instance == null || __instance.complexRecipe == null)
 					return;
+
+				TMP_FontAsset text = __instance.materialPrefab.GetComponent<HierarchyReferences>().GetReference<LocText>("Amount").font;
+
+
+
+				if (RecipeCondenser.IsDerivedRecipe(__instance.complexRecipe, out ComplexRecipe sourceRecipe))
+				{
+					SgtLogger.l("derived recipe detected: " + __instance.complexRecipe.id + " is derived from " + sourceRecipe.id);
+					foreach (var uiEntiry in __instance.ingredientsContainer.transform)
+					{
+						(uiEntiry as Transform).gameObject.SetActive(false);
+					}
+					AddMultiIngredientVisualizers(__instance, __instance.complexRecipe);
+				}
+
 
 				if (RandomRecipeProducts.GetRandomOccurencesforRecipe(__instance.complexRecipe, out var occurence))
 				{
@@ -66,6 +83,44 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 					component.GetReference<KButton>("Button").interactable = false;
 
 					__instance.title.text = __instance.complexRecipe.ingredients[0].material.ProperName();
+				}
+			}
+			static GameObject MultiEntryPrefab = null;
+			//static void InstantiatePrefab(CodexRecipePanel instance)
+			//{
+			//	if (MultiEntryPrefab == null)
+			//	{
+			//		//MultiEntryPrefab = ModAssets.MultiIngredientCodexVisualizer;
+			//		MultiEntryPrefab = Util.KInstantiateUI(instance.materialPrefab);
+			//		var le = MultiEntryPrefab.GetComponent<LayoutElement>();
+			//		le.minWidth = 90f;
+			//		le.minHeight = 90f;
+
+			//		var container = new GameObject("RotatableContainer");
+			//		container.transform.SetParent(MultiEntryPrefab.transform);
+			//		var iconRef = MultiEntryPrefab.GetComponent<HierarchyReferences>().GetReference<Image>("Icon");
+			//		var icon = Util.KInstantiateUI(iconRef.gameObject, container, true);
+			//		icon.name = "RotatablePrefab";
+			//		var imgLE = icon.GetComponent<LayoutElement>();
+			//		imgLE.minWidth = 20f;
+			//		imgLE.minHeight = 20f;
+			//	}
+
+			//}
+
+			private static void AddMultiIngredientVisualizers(CodexRecipePanel instance, ComplexRecipe originalRecipe)
+			{
+				//InstantiatePrefab(instance);
+
+				var ingredientsMap = RecipeCondenser.GetAllIngredientVariants(originalRecipe);
+				for (int i = 0; i < ingredientsMap.Length; i++)
+				{
+					var ingredientVariants = ingredientsMap[i];
+
+					var originalIngredient = originalRecipe.ingredients[i];
+
+					MultiIngredientCodexVisualizer visualizer = Util.KInstantiateUI<MultiIngredientCodexVisualizer>(ModAssets.MultiIngredientCodexVisualizer, instance.ingredientsContainer, true);
+					visualizer.SetDisplayedIngredients(ingredientVariants, originalIngredient.material);
 				}
 			}
 		}
