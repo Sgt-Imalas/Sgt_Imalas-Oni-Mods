@@ -24,9 +24,13 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				if (__instance == null || __instance.complexRecipe == null)
 					return;
 
-				TMP_FontAsset text = __instance.materialPrefab.GetComponent<HierarchyReferences>().GetReference<LocText>("Amount").font;
-
-
+				foreach(Transform child in __instance.ingredientsContainer.transform.parent)
+				{
+					if(child.name == "Arrow" && child.TryGetComponent<LayoutElement>(out var arrowLayoutElement))
+					{
+						arrowLayoutElement.minWidth = 20f;
+					}
+				}
 
 				if (RecipeCondenser.IsDerivedRecipe(__instance.complexRecipe, out ComplexRecipe sourceRecipe))
 				{
