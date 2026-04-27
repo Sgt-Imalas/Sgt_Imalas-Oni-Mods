@@ -1757,7 +1757,7 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString TOOLTIP = $"Consumption of atmospheric {FormatAsLink("Nitrogen", "NITROGENGAS")} boosts the growth of this {PRE_KEYWORD}Plant{PST_KEYWORD}.\n\nConsuming Nitrogen: {{0}}";
 				}
 			}
-				
+
 			public class SPECIES
 			{
 				public class GEYSER
@@ -2116,10 +2116,14 @@ namespace RonivansLegacy_ChemicalProcessing
 		}
 		public class MISC
 		{
+			public class CODEXINFO
+			{
+				public static LocString COMBINED_RECIPE_TOOLTIP = "This recipe ingredient requirement can be satisfied by any of the following items:";
+			}
 			public class TAGS
 			{
 				public static LocString SODAFOUNTAINGAS = FormatAsLink("Soda Gas", nameof(SODAFOUNTAINGAS));
-				public static LocString SODAFOUNTAINGAS_DESC = "Gasses that can be used by the "+ FormatAsLink("Soda Fountain", "SODAFOUNTAIN") +" to create a sparkling soda.";
+				public static LocString SODAFOUNTAINGAS_DESC = "Gasses that can be used by the " + FormatAsLink("Soda Fountain", "SODAFOUNTAIN") + " to create a sparkling soda.";
 
 				public static LocString CHEMICALPROCESSING_RANDOMSAND = FormatAsLink("Metallic Sand", nameof(CHEMICALPROCESSING_RANDOMSAND));
 				public static LocString CHEMICALPROCESSING_RANDOMSAND_DESC = "Sandy materials composed of a various number of metallic grains";
@@ -2617,7 +2621,7 @@ namespace RonivansLegacy_ChemicalProcessing
 			{
 				public static LocString NAME = "Arc Furnace Thermal Capacitor Size";
 				public static LocString TOOLTIP = "The total heat capacity of the arc-furnace's internal thermal capacitor";
-				public static LocString FORMAT = "0"+global::STRINGS.UI.UNITSUFFIXES.ELECTRICAL.MEGAJOULE;
+				public static LocString FORMAT = "0" + global::STRINGS.UI.UNITSUFFIXES.ELECTRICAL.MEGAJOULE;
 			}
 			public class HPA_TEMPIMMUNE_PUMPS
 			{

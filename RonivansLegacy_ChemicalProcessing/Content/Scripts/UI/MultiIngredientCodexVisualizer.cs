@@ -51,8 +51,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 
 		[MyCmpGet]
 		LayoutElement le;
- 		
-		GameObject centerItem;
+
+		GameObject centerItem, info;
 		Image centerItemImage;
 		GameObject rotatableContainer, rotatableItemPrefab;
 		Dictionary<Tag, GameObject> rotatingItems = new Dictionary<Tag, GameObject>();
@@ -65,7 +65,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 
 		string centerItemLink;
 
-		bool HasMultipleVariants => ingredientVariants != null && ingredientVariants.Length > 1;	
+		bool HasMultipleVariants => ingredientVariants != null && ingredientVariants.Length > 1;
 
 
 
@@ -80,13 +80,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 		//}
 		void RefreshRotatablePosition()
 		{
-			if(!rotatingItems.Any())
+			if (!rotatingItems.Any())
 				return;
 
-			if(rotatingItems.Count == 1)
+			if (rotatingItems.Count == 1)
 			{
 				le.minWidth = 60;
 				rotatingItems.Values.First().gameObject.SetActive(false);
+				info.SetActive(false);
 				return;
 			}
 
@@ -119,12 +120,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 		//	currentlyDisplayed++;
 		//	currentlyDisplayed = currentlyDisplayed % ingredientVariants.Length;
 		//	var currentDisplayIngredient = ingredientVariants[currentlyDisplayed];
-			
+
 		//}
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
-			if(rotatingItems.TryGetValue(_start, out var go))
+			if (rotatingItems.TryGetValue(_start, out var go))
 			{
 				SelectVariant(_start);
 			}
@@ -147,6 +148,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 			amountLabel.font = TextFont;
 			amountLabel.fontSize = 16;
 			rotatableItemPrefab.gameObject.AddComponent<CodexRecipeMultiElementEntry>();
+			info = transform.Find("Info").gameObject;
 		}
 
 
@@ -160,9 +162,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 		internal void SetDisplayedIngredients(List<Tuple<Tag, float>> ingredientVariants, Tag start)
 		{
 			Init();
-			_start = start;	
+			_start = start;
 			this.ingredientVariants = ingredientVariants.Select(item => item.first).Distinct().ToArray();
-			float min = 0,max=0;
+			//float min = 0, max = 0;
+
+			StringBuilder infoTooltipBuilder = GlobalStringBuilderPool.Alloc();
+			infoTooltipBuilder.AppendLine(STRINGS.MISC.CODEXINFO.COMBINED_RECIPE_TOOLTIP);
 
 			foreach (var ingredientVariant in ingredientVariants)
 			{
@@ -172,13 +177,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 					continue;
 				}
 				float amount = ingredientVariant.second;
-				if(min == 0)
-					min = amount;
+				//if (min == 0)
+				//	min = amount;
 
-				if(amount > max)
-					max = amount;
-				if(amount < min)
-					min = amount;
+				//if (amount > max)
+				//	max = amount;
+				//if (amount < min)
+				//	min = amount;
 				GameObject prefab = Assets.GetPrefab(tag);
 				string amountLabelText = GameUtil.GetFormattedByTag(tag, amount);
 				string tooltip = tag.ProperName();
@@ -192,16 +197,20 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 
 				var rotatableItem = Util.KInstantiateUI<CodexRecipeMultiElementEntry>(rotatableItemPrefab, rotatableContainer, true);
 				var rotGo = rotatableItem.gameObject;
-				rotatableItem.OnHover += ()=> SelectVariant(tag);
+				rotatableItem.OnHover += () => SelectVariant(tag);
 				var rotatingImage = rotatableItem.GetComponent<Image>();
 				rotatingImage.sprite = uiSprite.first;
 				rotatingImage.color = uiSprite.second;
-				tooltip = amountLabelText +" "+ tooltip;
+				tooltip = tooltip+" ("+amountLabelText+")";
+
+				infoTooltipBuilder.Append(" • ");
+				infoTooltipBuilder.AppendLine(tooltip);
 				UIUtils.AddSimpleTooltipToObject(rotGo, tooltip);
 				rotGo.AddComponent<FButton>().OnClick += () => ManagementMenu.Instance.codexScreen.ChangeArticle(link);
 				rotatingItems[tag] = rotGo;
 			}
 			RefreshRotatablePosition();
+			UIUtils.AddSimpleTooltipToObject(info, GlobalStringBuilderPool.ReturnAndFree(infoTooltipBuilder));
 		}
 
 		void SelectVariant(Tag tag)

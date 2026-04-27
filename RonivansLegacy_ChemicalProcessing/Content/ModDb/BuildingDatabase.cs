@@ -72,10 +72,27 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			var liquidPipeString = Strings.Get("STRINGS.BUILDINGS.PREFABS.HIGHPRESSURELIQUIDCONDUIT.EFFECT");
 			liquidPipeString.String = liquidPipeString.String.Replace("{CAPACITY}", GameUtil.GetFormattedMass(HighPressureConduitRegistration.LiquidCap_HP));
 
-			global::STRINGS.BUILDINGS.PREFABS.BIODIESELENGINE.EFFECT = global::STRINGS.BUILDINGS.PREFABS.BIODIESELENGINE.EFFECT.Replace(global::STRINGS.ELEMENTS.REFINEDLIPID.NAME, STRINGS.MISC.TAGS.AIO_BIOFUEL);
-			global::STRINGS.BUILDINGS.PREFABS.BIODIESELENGINECLUSTER.EFFECT = global::STRINGS.BUILDINGS.PREFABS.BIODIESELENGINECLUSTER.EFFECT.Replace(global::STRINGS.ELEMENTS.REFINEDLIPID.NAME, STRINGS.MISC.TAGS.AIO_BIOFUEL);
-
-			global::STRINGS.BUILDINGS.PREFABS.SODAFOUNTAIN.EFFECT = global::STRINGS.BUILDINGS.PREFABS.SODAFOUNTAIN.EFFECT.Replace(global::STRINGS.UI.FormatAsLink("Carbon Dioxide", "CARBONDIOXIDE"), STRINGS.MISC.TAGS.SODAFOUNTAINGAS);
+			string refinedLipidName = global::STRINGS.ELEMENTS.REFINEDLIPID.NAME;
+			{
+				string engineEffect = global::STRINGS.BUILDINGS.PREFABS.BIODIESELENGINE.EFFECT;				
+				string engineEffectText = engineEffect.Replace(refinedLipidName, STRINGS.MISC.TAGS.AIO_BIOFUEL);
+				global::STRINGS.BUILDINGS.PREFABS.BIODIESELENGINE.EFFECT = engineEffectText;
+				//SgtLogger.l("EngineEffect:\n" + engineEffect);
+			}
+			{
+				string engineEffectCluster = global::STRINGS.BUILDINGS.PREFABS.BIODIESELENGINECLUSTER.EFFECT;
+				//SgtLogger.l("engineEffectCluster:\n" + engineEffectCluster);
+				string engineEffectClusterText = engineEffectCluster.Replace(refinedLipidName, STRINGS.MISC.TAGS.AIO_BIOFUEL);
+				global::STRINGS.BUILDINGS.PREFABS.BIODIESELENGINECLUSTER.EFFECT = engineEffectClusterText;
+				//SgtLogger.l("EngineEffectCluster:\n" + engineEffectClusterText);
+			}
+			{
+				string sodaFountainEffect = global::STRINGS.BUILDINGS.PREFABS.SODAFOUNTAIN.EFFECT;
+				//SgtLogger.l("sodaFountainEffect:\n" + sodaFountainEffect);
+				string sodaFountainEffectText = sodaFountainEffect.Replace(global::STRINGS.ELEMENTS.CARBONDIOXIDE.NAME, STRINGS.MISC.TAGS.SODAFOUNTAINGAS);
+				global::STRINGS.BUILDINGS.PREFABS.SODAFOUNTAIN.EFFECT = sodaFountainEffectText;
+				//SgtLogger.l("SodaFountainEffect:\n" + sodaFountainEffectText);
+			}
 		}
 
 		public static void RegisterOilWellCapCustomPiping()

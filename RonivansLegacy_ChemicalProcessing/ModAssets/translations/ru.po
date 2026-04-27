@@ -3304,6 +3304,18 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENMESHT
 msgid "<link=\"WOODENMESHTILE\">Wooden Mesh Tile</link>"
 msgstr "<link=\"WOODENMESHTILE\">Деревянная проницаемая клетка</link>"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.MODIFIERS.AIO_NITROGENIZED.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.MODIFIERS.AIO_NITROGENIZED.NAME"
+msgid "Atmospheric Fertilization"
+msgstr "Удобрение атмосферным азотом"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.MODIFIERS.AIO_NITROGENIZED.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.MODIFIERS.AIO_NITROGENIZED.TOOLTIP"
+msgid ""
+"Consumption of atmospheric <link=\"NITROGENGAS\">Nitrogen</link> boosts the growth of this <style=\"KKeyword\">Plant</style>.\n"
+"\n"
+"Consuming Nitrogen: {0}"
+msgstr "Потребление атмосферного азота стимулирует рост этого растения.\n\nПотребление азота: {0}"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.AMMONIAGEYSER.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.SPECIES.GEYSER.AMMONIAGEYSER.DESC"
 msgid "A highly pressurized cryogeyser that periodically erupts with cold liquid <link=\"LIQUIDAMMONIA\">Ammonia</link>."
@@ -4258,6 +4270,16 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.RANDOMRECIPEINGREDI
 msgid "This ingredient gets used up during its use, if a recipe with it gets canceled, it is lost."
 msgstr "Этот ингредиент расходуется в процессе его использования, если рецепт с ним отменяется, он теряется."
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.SODAFOUNTAINGAS
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.SODAFOUNTAINGAS"
+msgid "<link=\"SODAFOUNTAINGAS\">Soda Gas</link>"
+msgstr "<link=\"SODAFOUNTAINGAS\">Газ для газирования</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.SODAFOUNTAINGAS_DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.SODAFOUNTAINGAS_DESC"
+msgid "Gasses that can be used by the <link=\"SODAFOUNTAIN\">Soda Fountain</link> to create a sparkling soda."
+msgstr "Газы, которые могут использоваться в <link=\"SODAFOUNTAIN\">фонтане газировки</link> для приготовления газированных напитков."
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.BIOCHEMISTRY_RENEWABLEFUEL.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RESEARCH.TECHS.BIOCHEMISTRY_RENEWABLEFUEL.DESC"
 msgid "A new generation of renewable fuels that can be produced from organic matter."
@@ -4363,6 +4385,20 @@ msgstr ""
 "Откройте редактор зданий, чтобы по отдельности включить все здания, добавленные модом, и изменить настройки некоторых из них.\n"
 "Все изменения, внесённые здесь, требуют перезапуска!"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARC_CAPACITOR.FORMAT
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARC_CAPACITOR.FORMAT"
+msgid "0 Мдж"
+msgstr "0 Мдж"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARC_CAPACITOR.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARC_CAPACITOR.NAME"
+msgid "Arc Furnace Thermal Capacitor Size"
+msgstr "Размер теплового конденсатора дуговой печи"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARC_CAPACITOR.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARC_CAPACITOR.TOOLTIP"
+msgid "The total heat capacity of the arc-furnace's internal thermal capacitor"
+msgstr "Общая теплоёмкость внутреннего теплового конденсатора дуговой печи"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARCFUDGE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.CHEMPROC_ARCFUDGE.NAME"
 msgid "Arc furnace  Thermal Fudge"
@@ -4576,6 +4612,18 @@ msgstr ""
 "Включить изолированный вариант сверхпрочных конвейерных рельсов.\n"
 "Переключение этой опции также переключает все исправления, связанные с изменением состояния изоляции предметов на рельсах,\n"
 "поэтому не рекомендуется отключать её для игр с существующими изолированными рельсами."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HPA_TEMPIMMUNE_PUMPS.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HPA_TEMPIMMUNE_PUMPS.NAME"
+msgid "Overheat Immune High-Pressure-Pumps"
+msgstr "Устойчивость насосов высокого давления к перегреву"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HPA_TEMPIMMUNE_PUMPS.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.HPA_TEMPIMMUNE_PUMPS.TOOLTIP"
+msgid ""
+"Makes high pressure pumps immune to overheating.\n"
+"(Restores old behavior for existing save compatibility)"
+msgstr "Делает насосы высокого давления невосприимчивыми к перегреву.\n(Восстанавливает старое поведение для совместимости с существующими сохранениями.)"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_RAIL_CAPACITY.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTIC_RAIL_CAPACITY.NAME"
@@ -5238,6 +5286,23 @@ msgstr "Отправляет <b><style=\"logic_on\">зелёный сигнал<
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.COOLANT_BATTERY_THRESHOLD.LOGIC_PORT_INACTIVE
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.COOLANT_BATTERY_THRESHOLD.LOGIC_PORT_INACTIVE"
+msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b>"
+msgstr "В противном случае отправляет <b><style=\"logic_off\">красный сигнал</style></b>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.ENERGYSAVER_ACTIVE.LOGIC_PORT
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.ENERGYSAVER_ACTIVE.LOGIC_PORT"
+msgid "Energy Saver"
+msgstr "Энергосбережение"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.ENERGYSAVER_ACTIVE.LOGIC_PORT_ACTIVE
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.ENERGYSAVER_ACTIVE.LOGIC_PORT_ACTIVE"
+msgid ""
+"Sends a <b><style=\"logic_on\">Green Signal</style></b> when all contents have been cooled down to the target temperature and the "
+"building has gone into energy saver mode."
+msgstr "Отправляет <b><style=\"logic_on\">зелёный сигнал</style></b>, когда всё содержимое охлаждено до заданной температуры и здание перешло в режим энергосбережения."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.ENERGYSAVER_ACTIVE.LOGIC_PORT_INACTIVE
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.LOGIC_PORTS.ENERGYSAVER_ACTIVE.LOGIC_PORT_INACTIVE"
 msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b>"
 msgstr "В противном случае отправляет <b><style=\"logic_off\">красный сигнал</style></b>"
 

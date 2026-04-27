@@ -357,7 +357,7 @@ msgstr "<link=\"WOODENDRYWALLB\">Parkett Trockenwand</link>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.FACADES_STANDALONE.PETROLEUMDISTILLERY.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.FACADES_STANDALONE.PETROLEUMDISTILLERY.DESC"
 msgid "A distillation plant that uses induction to produce Petroleum from Crude Oil"
-msgstr "Eine Destillationsanlage, die Induktion nutzt, um aus Rohöl Petroleum herzustellen.."
+msgstr "Eine Destillationsanlage, die Induktion nutzt, um aus Rohöl Petroleum herzustellen"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.FACADES_STANDALONE.PETROLEUMDISTILLERY.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.FACADES_STANDALONE.PETROLEUMDISTILLERY.NAME"
@@ -1285,8 +1285,8 @@ msgid ""
 "- 10% <link=\"METHANE\">Natural Gas</link>\n"
 "- 45% <link=\"BITUMEN\">Bitumen</link>.\n"
 "\n"
-"The process requires <link=\"HYDROGEN\">Hydrogen</link> to buffer the reaction.IMPORTANT: The building require all pipes ports to be "
-"connected with their respective pipes in order for it to operate.\n"
+"The process requires <link=\"HYDROGEN\">Hydrogen</link> to buffer the reaction.\n"
+"IMPORTANT: The building require all pipes ports to be connected with their respective pipes in order for it to operate.\n"
 "Can be constructed above refinery buildings with vertical structure beams"
 msgstr ""
 "Diese Sekundäre Raffinerie kann <link=\"NAPHTHA\">Naphtha</link> weiter veredeln zu:\n"
@@ -2696,8 +2696,11 @@ msgid "A white colored alert light."
 msgstr "Eine weiße Warnleuchte."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LOGICALERTLIGHT.EFFECT
+#, fuzzy
+#| msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LOGICALERTLIGHT.EFFECT"
+#| msgid "A led light that serves as alert. Produces no significant luminosity."
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LOGICALERTLIGHT.EFFECT"
-msgid "A led light that serves as alert. Produces no significant luminosity."
+msgid "A led light that serves as an alert. Produces no significant luminosity."
 msgstr "Eine LED-Leuchte, die als Warnsignal dient. Sie besitzt keine nennenswerte Leuchtkraft."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LOGICALERTLIGHT.FACADES.LOGICALERTLIGHTGREEN.DESC
@@ -4469,7 +4472,7 @@ msgstr "<link=\"SOLIDZINC\">Zink</link>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SOURWATER.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SOURWATER.DESC"
 msgid ""
-"An aqueous solution of Hydrogen Sulfide (H<sub>2</sub>S>) and Ammonia (NH<sub>3</sub>). May occur naturally from aquifers exposed to "
+"An aqueous solution of Hydrogen Sulfide (H<sub>2</sub>S) and Ammonia (NH<sub>3</sub>). May occur naturally from aquifers exposed to "
 "hydrogen sulfide sources, but it is more common as a wastewater from industrial processes."
 msgstr ""
 "Eine wässrige Lösung aus Schwefelwasserstoff (H<sub>2</sub>S>) und Ammoniak (NH<sub>3</sub>). Kann natürlich in Gewässern vorkommen, die "
@@ -4736,6 +4739,11 @@ msgstr "<link=\"RAYONFIBER\">Viscosefasern</link>"
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INGREDIENTS.RAYONFIBER.RECIPE_DESC"
 msgid "Produces <link=\"RAYONFIBER\">Rayon Fibers</link> from the pulp of {0}."
 msgstr "Produziere <link=\"RAYONFIBER\">Viskosefasern</link> aus {0}-Faserbrei."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.MISC.CODEXINFO.COMBINED_RECIPE_TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.MISC.CODEXINFO.COMBINED_RECIPE_TOOLTIP"
+msgid "This recipe ingredient requirement can be satisfied by any of the following items:"
+msgstr "Diese Rezeptzutat kann auswählbar durch die folgenden Gegenstände erfüllt werden:"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.AIO_BIOFUEL
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.MISC.TAGS.AIO_BIOFUEL"

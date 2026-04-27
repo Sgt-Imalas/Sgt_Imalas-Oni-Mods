@@ -90,6 +90,8 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				}
 			}
 			static GameObject MultiEntryPrefab = null;
+
+			///no this is not valid code, the prefab is imported from unity; I half considered making some ui necromancy, but ended up not going through with it, this code here is not functional
 			//static void InstantiatePrefab(CodexRecipePanel instance)
 			//{
 			//	if (MultiEntryPrefab == null)

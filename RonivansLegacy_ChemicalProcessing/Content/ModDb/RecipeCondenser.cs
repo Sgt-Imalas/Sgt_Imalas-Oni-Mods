@@ -37,6 +37,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				List<Tuple<Tag, float>>[] ingredientsMap = new List<Tuple<Tag, float>>[ingredientCount];
 				foreach(var derivedRecipe in recipeList)
 				{
+					if(derivedRecipe.IsAnyProductDeprecated())
+						continue;
+
 					for (int i = 0; i < derivedRecipe.ingredients.Count(); i++)
 					{
 						if(ingredientsMap[i] == null)
