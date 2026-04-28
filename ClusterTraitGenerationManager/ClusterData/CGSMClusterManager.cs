@@ -291,6 +291,8 @@ namespace ClusterTraitGenerationManager.ClusterData
 			LoadCustomCluster = true;
 			var GeneratedCustomCluster = GenerateClusterLayoutFromCustomData(true);
 			SettingsCache.clusterLayouts.clusterCache[CustomClusterID] = GeneratedCustomCluster;
+			if (CustomCluster.WarpPlanet == null)
+				TurnOffTeleporters();
 
 			CustomGameSettings.Instance.SetQualitySetting(CustomGameSettingConfigs.ClusterLayout, GeneratedCustomCluster.filePath);
 			//SgtLogger.l(CustomGameSettings.Instance.GetCurrentQualitySetting(CustomGameSettingConfigs.ClusterLayout).id.ToString());
@@ -469,15 +471,6 @@ namespace ClusterTraitGenerationManager.ClusterData
 						SgtLogger.l(CustomCluster.WarpPlanet.id, "Warp Planet");
 				}
 				seed++;
-			}
-			else
-			{
-				if (DlcManager.IsExpansion1Active())
-				{
-					if (log)
-						SgtLogger.log("No warp planetData selected");
-					CustomGameSettings.Instance.SetQualitySetting(CustomGameSettingConfigs.Teleporters, (CustomGameSettingConfigs.Teleporters as ToggleSettingConfig).off_level.id);
-				}
 			}
 			///STRINGS.NAMEGEN.WORLD.ROOTS
 
@@ -1980,6 +1973,15 @@ namespace ClusterTraitGenerationManager.ClusterData
 				result.Add(new(possibleTarget, !possibleTarget.IsMixed));
 			}
 			return result;
+		}
+
+		public static void TurnOffTeleporters()
+		{
+			if (DlcManager.IsExpansion1Active())
+			{
+				SgtLogger.l("Turning off teleporters for current cluster due to no warp planet");
+				CustomGameSettings.Instance.SetQualitySetting(CustomGameSettingConfigs.Teleporters, (CustomGameSettingConfigs.Teleporters as ToggleSettingConfig).off_level.id);
+			}
 		}
 	}
 }
