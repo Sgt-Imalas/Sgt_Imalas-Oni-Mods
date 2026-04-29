@@ -43,8 +43,8 @@ namespace RotatableRadboltStorage
 			else
 				port = def.LogicInputPorts.FirstOrDefault();
 			port.spriteType = LogicPortSpriteType.RibbonInput;
-			port.description += "\n";
-			port.description += MOD_STRINGS.STATUSITEMS.DIRECTION_ADDON;
+			port.activeDescription += "\n";
+			port.activeDescription += MOD_STRINGS.STATUSITEMS.DIRECTION_ADDON;
 			if(def.LogicInputPorts.Any())
 				def.LogicInputPorts.RemoveAt(0);
 			def.LogicInputPorts.Insert(0, port);
