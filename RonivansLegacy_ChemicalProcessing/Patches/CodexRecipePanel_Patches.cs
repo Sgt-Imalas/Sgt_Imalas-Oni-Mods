@@ -11,11 +11,34 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
+using UtilLibs.UIcmp;
 
 namespace RonivansLegacy_ChemicalProcessing.Patches
 {
 	class CodexRecipePanel_Patches
 	{
+		static void OnRecipeCraftButtonPressed(ComplexRecipe recipe)
+		{
+			//SgtLogger.l("craft button pressed for recipe: " + recipe.id);
+			if (recipe.fabricators == null || recipe.fabricators.Count() != 1)
+			{
+				return;
+			}
+			var targetFab = recipe.fabricators.First();
+			foreach(ComplexFabricator fab in Components.ComplexFabricators)
+			{
+				if (!fab.IsPrefabID(targetFab))
+				{
+					continue;
+				}
+				if(fab.mostRecentRecipeSelectionByCategory.ContainsKey(recipe.recipeCategoryID))
+					fab.mostRecentRecipeSelectionByCategory[recipe.recipeCategoryID] = recipe.id;
+
+				SelectTool.Instance.Select(fab.gameObject.GetComponent<KSelectable>()	);
+				break;
+			}
+		}
+
 		[HarmonyPatch(typeof(CodexRecipePanel), nameof(CodexRecipePanel.ConfigureComplexRecipe))]
 		public class CodexRecipePanel_ConfigureComplexRecipe_Patch
 		{
@@ -24,9 +47,17 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				if (__instance == null || __instance.complexRecipe == null)
 					return;
 
-				foreach(Transform child in __instance.ingredientsContainer.transform.parent)
+
+				//var titleBar = __instance.title.transform.parent;
+				//var buttonGo = Util.KInstantiateUI(ModAssets.CraftButton, titleBar.gameObject, true);
+				//buttonGo.transform.localPosition = new(-2, 0);
+				//var button = buttonGo.AddOrGet<FButton>();
+				//button.OnClick += () => OnRecipeCraftButtonPressed(__instance.complexRecipe);
+
+				//prevent arrows from squishing into nothingness
+				foreach (Transform child in __instance.ingredientsContainer.transform.parent)
 				{
-					if(child.name == "Arrow" && child.TryGetComponent<LayoutElement>(out var arrowLayoutElement))
+					if (child.name == "Arrow" && child.TryGetComponent<LayoutElement>(out var arrowLayoutElement))
 					{
 						arrowLayoutElement.minWidth = 20f;
 					}
@@ -34,7 +65,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 
 				if (RecipeCondenser.IsDerivedRecipe(__instance.complexRecipe, out ComplexRecipe sourceRecipe))
 				{
-					SgtLogger.l("derived recipe detected: " + __instance.complexRecipe.id + " is derived from " + sourceRecipe.id);
+					//SgtLogger.l("derived recipe detected: " + __instance.complexRecipe.id + " is derived from " + sourceRecipe.id);
 					foreach (var uiEntiry in __instance.ingredientsContainer.transform)
 					{
 						(uiEntiry as Transform).gameObject.SetActive(false);

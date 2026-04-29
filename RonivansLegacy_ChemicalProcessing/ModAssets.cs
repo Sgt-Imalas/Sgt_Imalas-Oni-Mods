@@ -70,17 +70,21 @@ namespace RonivansLegacy_ChemicalProcessing
 		}
 		public static GameObject BuildingEditorWindowPrefab;
 		public static GameObject MultiIngredientCodexVisualizer;
+		public static GameObject CraftButton;
 
 		public static void LoadAssets()
 		{
 			AssetBundle bundle = AssetUtils.LoadAssetBundle("ronivan_aio", platformSpecific: true);
 			BuildingEditorWindowPrefab = bundle.LoadAsset<GameObject>("Assets/UIs/BuildingEditor.prefab");
 			MultiIngredientCodexVisualizer = bundle.LoadAsset<GameObject>("Assets/UIs/HoverableMultiEntry.prefab");
+			CraftButton = bundle.LoadAsset<GameObject>("Assets/UIs/CraftButton.prefab");
+
 			MultiIngredientCodexVisualizer.AddComponent<MultiIngredientCodexVisualizer>();
 			SgtLogger.Assert(BuildingEditorWindowPrefab, "BuildingEditorWindowPrefab");
 			var TMPConverter = new TMPConverter();
 			TMPConverter.ReplaceAllText(BuildingEditorWindowPrefab);
 			TMPConverter.ReplaceAllText(MultiIngredientCodexVisualizer);
+			TMPConverter.ReplaceAllText(CraftButton);
 
 		}
 		public static List<Tag> GetNonLiquifiableSolids()
