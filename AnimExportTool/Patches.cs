@@ -316,7 +316,7 @@ namespace AnimExportTool
 			ClusterManager.Instance.activeWorld.gameObject.AddOrGet<CraftModuleInterface>();
 			foreach (var def in Assets.BuildingDefs)
 			{
-				if (!def.ShowInBuildMenu || def.Deprecated || def.isKAnimTile || def.IsTilePiece)
+				if (!def.ShowInBuildMenu || def.Deprecated||!def.BuildingComplete.TryGetComponent<KBatchedAnimController>(out _))
 					continue;
 
 
@@ -326,6 +326,25 @@ namespace AnimExportTool
 				while (!temporaryTargetBuilding.IsNullOrDestroyed())
 					yield return null;
 			}
+		}
+
+
+		[HarmonyPatch(typeof(SubworldZoneRenderData), nameof(SubworldZoneRenderData.GenerateTexture))]
+		public class SubworldZoneRenderData_GenerateTexture_Patch
+		{
+			public static void Prefix(SubworldZoneRenderData __instance)
+			{
+				for (int i = 0; i < __instance.zoneColours.Length; ++i)
+				{
+					if (i == 7) //space biome
+						continue;
+					var color = __instance.zoneColours[i];
+					SgtLogger.l($"Biome {((ProcGen.SubWorld.ZoneType)i).ToString()} has color {color} and hex {Util.ToHexString(color)}");
+					__instance.zoneColours[i].r = byte.MaxValue;
+					__instance.zoneColours[i].g = byte.MaxValue;
+					__instance.zoneColours[i].b = byte.MaxValue;
+				}
+			}	
 		}
 
 		[HarmonyPatch(typeof(PauseScreen), "ConfigureButtonInfos")]

@@ -21,6 +21,7 @@ namespace AnimExportTool
 	{
 		public static Dictionary<string, Vector2I> DimensionAddition = new() {
 			{LiquidPumpingStationConfig.ID, new(0,4)},
+			{VerticalWindTunnelConfig.ID,  new(0,2)},
 		};
 
 
@@ -28,6 +29,8 @@ namespace AnimExportTool
 		{
 			Game.Instance.userMenu.AddButton(this.gameObject, new KIconButtonMenu.ButtonInfo("action_control", "Export Image", () => SnapShot(), tooltipText: "store current looks of this entity as a png"));
 			Game.Instance.userMenu.AddButton(this.gameObject, new KIconButtonMenu.ButtonInfo("action_control", "Export Anim Sequence", () => SnapShotSequence(), tooltipText: "store current anim of this entity as a png sequence"));
+			if(GetComponent<KAnimGraphTileVisualizer>() != null)
+				Game.Instance.userMenu.AddButton(this.gameObject, new KIconButtonMenu.ButtonInfo("action_control", "Export Conduit States", () => StartCoroutine(ConduitSnapshot()), tooltipText: "store current conduit states of this entity as a png sequence"));
 		}
 
 
@@ -70,12 +73,18 @@ namespace AnimExportTool
 		IEnumerator DoAutoSnapshot()
 		{
 			yield return new WaitForSecondsRealtime(0.1f);
-			yield return null;
-
-
-			SnapShot();
+			if (this.GetComponent<KAnimGraphTileVisualizer>() != null)
+			{
+				SgtLogger.l(this.GetProperName() + " has a KAnimGraphTileVisualizer");
+				yield return ConduitSnapshot();
+			}
+			else
+				SnapShot();
 			Util.KDestroyGameObject(gameObject);
 		}
+
+
+
 
 		int handle = -1;
 		public override void OnCleanUp()
@@ -146,10 +155,29 @@ namespace AnimExportTool
 			return id;
 		}
 
+		IEnumerator ConduitSnapshot()
+		{
+			var networkMgr = GetComponent<KAnimGraphTileVisualizer>().connectionManager;
+			subDirectory = GetID() + "_Conduit";
+			int max = (int)UtilityConnections.Left + (int)UtilityConnections.Right + (int)UtilityConnections.Up + (int)UtilityConnections.Down;
+			for (int i = 0; i <= max; i++)
+			{
+				string animation = networkMgr.GetVisualizerString((UtilityConnections)i);
+				if (kbac.HasAnimation(animation))
+					kbac.Play(animation);
+				suffix = $"_{i}";
+				yield return null;
+				SnapShot();
+			}
+			subDirectory = string.Empty;
+			suffix = string.Empty;
+			yield return null;
+		}
+
 		IEnumerator SnapShotSequenceCor()
 		{
 			var currentAnim = kbac.currentAnim;
-			subDirectory = GetID() + "_" + currentAnim.ToString();
+			subDirectory = "_Anims/" + GetID() + "_" + currentAnim.ToString();
 			int frameCount = kbac.curAnim.numFrames;
 			bool waspaused = SpeedControlScreen.Instance.IsPaused;
 			if (waspaused)
@@ -239,7 +267,7 @@ namespace AnimExportTool
 			var imageBytes = tex.EncodeToPNG();
 			
 
-			string path = subDirectory.IsNullOrWhiteSpace() ? Path.Combine(IO_Utils.ModPath, "_FullsizeImagesById", $"{GetID() + suffix}.png") : Path.Combine(IO_Utils.ModPath, "_Anims", subDirectory, $"{GetID() + suffix}.png");
+			string path = subDirectory.IsNullOrWhiteSpace() ? Path.Combine(IO_Utils.ModPath, "_FullsizeImagesById", $"{GetID() + suffix}.png") : Path.Combine(IO_Utils.ModPath, "_FullsizeImagesById", subDirectory, $"{GetID() + suffix}.png");
 			var dir = System.IO.Directory.GetParent(path);
 			System.IO.Directory.CreateDirectory(dir.FullName);
 			File.WriteAllBytes(path, imageBytes);
