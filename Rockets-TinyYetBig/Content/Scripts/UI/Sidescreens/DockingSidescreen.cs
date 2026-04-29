@@ -77,11 +77,11 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
         protected LocText headerLabel;
         //[SerializeField]
         //private GameObject noChannelRow;
-        private Dictionary<DockingSpacecraftHandler, GameObject> DockingTargets = new Dictionary<DockingSpacecraftHandler, GameObject>();
+        private Dictionary<DockingSpacecraftHandler, DockingHandlerEntry> DockingTargets = new();
         private Dictionary<DockingSpacecraftHandler, RectTransform> Rotatings = new Dictionary<DockingSpacecraftHandler, RectTransform>();
 
 
-        private List<int> refreshHandle = new List<int>();
+        private List<int> refreshHandles = new List<int>();
 
 
         public override float GetSortKey() => 21f;
@@ -109,9 +109,9 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
         public override void ClearTarget()
         {
             //SgtLogger.l("clearing Target");
-            foreach (int id in refreshHandle)
+            foreach (int id in refreshHandles)
                 targetCraft.Unsubscribe(id);
-            refreshHandle.Clear();
+            refreshHandles.Clear();
             targetSpacecraftHandler = null;
             targetDoor = null;
             targetCraft = null;
@@ -123,9 +123,9 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
 
             if (target != null)
             {
-                foreach (int id in refreshHandle)
+                foreach (int id in refreshHandles)
                     target.Unsubscribe(id);
-                refreshHandle.Clear();
+                refreshHandles.Clear();
             }
 
             SgtLogger.l("setting Target");
@@ -142,9 +142,9 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
             targetCraft = targetSpacecraftHandler.clustercraft;
 
             Build();
-            refreshHandle.Add(targetCraft.gameObject.Subscribe((int)GameHashes.ClusterDestinationChanged, new Action<object>(RefreshAll)));
-            refreshHandle.Add(targetCraft.gameObject.Subscribe((int)GameHashes.ClusterLocationChanged, new Action<object>(RefreshAll)));
-            refreshHandle.Add(targetSpacecraftHandler.gameObject.Subscribe((int)ModAssets.Hashes.DockingConnectionChanged, new Action<object>(RefreshAll)));
+            refreshHandles.Add(targetCraft.gameObject.Subscribe((int)GameHashes.ClusterDestinationChanged, new Action<object>(RefreshAll)));
+            refreshHandles.Add(targetCraft.gameObject.Subscribe((int)GameHashes.ClusterLocationChanged, new Action<object>(RefreshAll)));
+            refreshHandles.Add(targetSpacecraftHandler.gameObject.Subscribe((int)ModAssets.Hashes.DockingConnectionChanged, new Action<object>(RefreshAll)));
 
             Refresh();
         }
@@ -186,7 +186,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
             SgtLogger.l("build docking ui");
             foreach (var uirow in DockingTargets)
             {
-                uirow.Value.SetActive(false);
+                uirow.Value.gameObject.SetActive(false);
             }
 
             if (targetSpacecraftHandler == null || headerLabel == null)
@@ -206,8 +206,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
                 {
                     AddRowEntry(targetSpacecraftHandler);
                 }
-
-                DockingTargets[targetSpacecraftHandler].SetActive(true);
+                DockingTargets[targetSpacecraftHandler].gameObject.SetActive(true);
             }
 
 
@@ -312,7 +311,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
                 }
             };
 
-            DockingTargets.Add(referencedManager, RowEntry);
+            DockingTargets.Add(referencedManager, cmp);
             RowEntry.SetActive(startActive);
         }
 
@@ -338,52 +337,46 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.Sidescreens
                 if (manager == targetSpacecraftHandler)
                 {
                    // SgtLogger.l(kvp.Key.GetProperName() + " was target, skipping");
-                    kvp.Value.SetActive(false);
+                    kvp.Value.gameObject.SetActive(false);
                     // SgtLogger.l("1");
                     continue;
                 }
                 if (manager.CraftType == DockableType.Rocket && RocketryUtils.IsRocketTraveling(manager.clustercraft))
                 {
-                    kvp.Value.SetActive(false);
+                    kvp.Value.gameObject.SetActive(false);
                     // SgtLogger.l("2");
 
                     continue;
                 }
                 if (manager.clustercraft.Location != targetSpacecraftHandler.clustercraft.Location)
                 {
-                    kvp.Value.SetActive(false);
+                    kvp.Value.gameObject.SetActive(false);
                     //SgtLogger.l("3");
                     continue;
                 }
 
-                kvp.Value.SetActive(true);
+                kvp.Value.gameObject.SetActive(true);
                 // SgtLogger.l("refreshing " + kvp.Key.GetProperName());
-
-
-                var DockButton = kvp.Value.transform.Find("Row1/Dock").gameObject.GetComponent<FButton>();
-                var UndockButton = kvp.Value.transform.Find("Row1/Undock").gameObject.GetComponent<FButton>();
-                var TransferButton = kvp.Value.transform.Find("Row2/TransferButton").gameObject.GetComponent<FButton>();
-                var ViewDockedButton = kvp.Value.transform.Find("Row2/ViewDockedButton").gameObject.GetComponent<FButton>();
-
+                DockingHandlerEntry logic = kvp.Value;
 
                 bool currentlyConnected = DockingManagerSingleton.Instance.HandlersConnected(targetSpacecraftHandler, manager, out var firstDock, out var secondDock);
 
                 bool CanDock = targetSpacecraftHandler.AvailableConnections() > 0 && manager.AvailableConnections() > 0 && !currentlyConnected;
-                DockButton.SetInteractable(CanDock);
+				logic.Dock.SetInteractable(CanDock);
 
                 bool CanUnDock = currentlyConnected && !DockingManagerSingleton.Instance.HasPendingUndocks(firstDock.GUID) && !DockingManagerSingleton.Instance.HasPendingUndocks(secondDock.GUID);
 
-                UndockButton.SetInteractable(CanUnDock);
+				logic.Undock.SetInteractable(CanUnDock);
 
                 bool canViewInterior =
                      CanUnDock
                     && secondDock.HasDupeTeleporter
                     ;
 
-                ViewDockedButton.SetInteractable(canViewInterior);
+				logic.ViewOther.SetInteractable(canViewInterior);
                 if (Rotatings.ContainsKey(manager))
                     Rotatings[manager].gameObject.SetActive(currentlyConnected && (DockingManagerSingleton.Instance.HasPendingUndocks(firstDock.GUID) || DockingManagerSingleton.Instance.HasPendingUndocks(secondDock.GUID)));
-                TransferButton.SetInteractable(canViewInterior);
+				logic.Transfer.SetInteractable(canViewInterior);
             }
         }
 
