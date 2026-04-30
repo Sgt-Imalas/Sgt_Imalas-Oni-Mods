@@ -21,7 +21,7 @@ namespace Rockets_TinyYetBig
 			&& Instance.NeutroniumMaterial
 			;
 		public static bool Derelicts =>
-			   SpaceStationsPossible && true;
+			   SpaceStationsPossible && false;
 			
 
 		//[Option("Vanilla+ Preset", "Load a settings preset: All the bugfixes and qol improvements, everything else disabled")]

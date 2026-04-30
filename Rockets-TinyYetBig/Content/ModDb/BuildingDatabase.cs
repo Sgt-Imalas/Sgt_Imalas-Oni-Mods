@@ -68,7 +68,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 			{
 				AddRocketModuleToBuildList(FridgeModuleConfig.ID, new RocketCategory[] { RocketCategory.cargo, RocketCategory.utility }, ArtifactCargoBayConfig.ID, true);
 				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Food, FridgeModuleAccessHatchConfig.ID, RefrigeratorConfig.ID);
-				AddRocketModuleToBuildList(AIOCargoBayModuleConfig.ID, new RocketCategory[] { RocketCategory.cargo,}, ArtifactCargoBayConfig.ID, true);
+				//AddRocketModuleToBuildList(AIOCargoBayModuleConfig.ID, new RocketCategory[] { RocketCategory.cargo,}, ArtifactCargoBayConfig.ID, true);
 			}
 
 
