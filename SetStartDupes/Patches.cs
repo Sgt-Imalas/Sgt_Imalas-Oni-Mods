@@ -1458,7 +1458,7 @@ namespace SetStartDupes
 				if (!is_starter && __instance.controller is ImmigrantScreen i && i.Telepad != null)
 				{
 					var overrideModels = Config.Instance.GetViablePrinterModels();
-					if (overrideModels != null)
+					if (overrideModels != null && Config.Instance.OverridePrintingPodModels != Config.MinionModelOverride.none)
 					{
 						var personalitiesWithViableModels = Db.Get().Personalities.GetAll(true, false).FindAll((Personality personality) => overrideModels.Contains(personality.model));
 						if (personalitiesWithViableModels.Any())
