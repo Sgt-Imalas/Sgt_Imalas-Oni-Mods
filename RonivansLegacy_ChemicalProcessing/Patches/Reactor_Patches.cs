@@ -31,7 +31,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		{
 			if (instance is LightReactor lightReactor)
 			{
-				SgtLogger.l("Replacing germcount for light reactor: " + germcount);
+				//SgtLogger.l("Replacing germcount for light reactor: " + germcount);
 				return lightReactor.GetRadGermMultiplierRads(germcount);
 			}
 			return germcount;
