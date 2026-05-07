@@ -42,15 +42,16 @@ namespace PoisNotIncluded
 				,{PropGravitasLabWindowConfig.ID   , GameStrings.PlanMenuSubcategory.Tiles  }
 				,{PropGravitasLabWindowHorizontalConfig.ID  ,GameStrings.PlanMenuSubcategory.Tiles }
 				,{FacilityBackWallWindowConfig.ID  ,GameStrings.PlanMenuSubcategory.Tiles }
-				//,{TemporalTearOpenerConfig.ID  ,GameStrings.PlanMenuSubcategory.Exploration }
+				//,{TemporalTearOpenerConfig.ID  ,GameStrings.PlanMenuSubcategory.Exploration } ///is added manually by dlc check below
+				,{MassiveHeatSinkConfig.ID  , StoryTraitsCategory }
 			};
 			static HashSet<string> StoryTraitBuildings = [
 				GravitasCreatureManipulatorConfig.ID,// critter flux
-				MorbRoverMakerConfig.ID ,//morb rover maker
+				MorbRoverMakerConfig.ID ,//biobot maker
 				GravitasContainerConfig.ID,//braintank pajamas cubby
 				MegaBrainTankConfig.ID, //braintank story trait		
-				LonelyMinionHouseConfig.ID, //minion storytrait		
-				LonelyMinionMailboxConfig.ID,//minion storytrait		
+				LonelyMinionHouseConfig.ID, //hermit/jorge storytrait		
+				LonelyMinionMailboxConfig.ID,//hermit/jorge storytrait food intake
 				FossilDigSiteConfig.ID ,//fossil storytrait			
 				HijackedHeadquartersConfig.ID,//printerceptor
 				GravitasBathroomStallConfig.ID,//printerceptor toilet
@@ -257,8 +258,8 @@ namespace PoisNotIncluded
 				TryRegisterDynamicGravitasBuilding(GravitasPaperTowelDispenserConfig.ID, GameStrings.PlanMenuSubcategory.Medical);
 				TryRegisterDynamicGravitasBuilding(GravitasToiletPaperHolderConfig.ID, GameStrings.PlanMenuSubcategory.Medical);
 				RegisterNewBuilding("GravitasToiletPOI", GameStrings.PlanMenuSubcategory.Medical, BuildLocationRule.OnFloor, "gravitas_toilet_kanim", "off", "STRINGS.BUILDINGS.PREFABS.GRAVITASBATHROOMSTALL.NAME", "STRINGS.BUILDINGS.PREFABS.GRAVITASBATHROOMSTALL.DESC", 2, 2, MATERIALS.RAW_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER0, decorName: true, altAnims: ["off", "working_loop"]);
-
-				RegisterNewBuilding("GravestonePet", GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, "gravestone_pet_kanim", "off", "Pet Gravestone", "", 2, 3, TUNING.MATERIALS.RAW_MINERALS, [100]);
+				RegisterNewBuilding("MassiveHeatSinkPOI", GameStrings.PlanMenuSubcategory.Exploration, BuildLocationRule.OnFloor, "massiveheatsink_kanim", "off", "STRINGS.BUILDINGS.PREFABS.MASSIVEHEATSINK.NAME", "STRINGS.BUILDINGS.PREFABS.MASSIVEHEATSINK.DESC", 4, 4, MATERIALS.RAW_METALS, BUILDINGS.CONSTRUCTION_MASS_KG.TIER4, decorName: true, altAnims: ["off", "on", "working_loop"]);
+				RegisterNewBuilding("GravestonePet", GameStrings.PlanMenuSubcategory.Medical, BuildLocationRule.OnFloor, "gravestone_pet_kanim", "open", "Pet Gravestone", "", 2, 3, TUNING.MATERIALS.RAW_MINERALS, [100], altAnims: ["open", "closed"]);
 
 			}
 		}
