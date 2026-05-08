@@ -1,4 +1,5 @@
 ﻿using Rockets_TinyYetBig.Content.ModDb;
+using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules;
 using TUNING;
 using UnityEngine;
 
@@ -75,6 +76,7 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
 			go = BuildingTemplates.ExtendBuildingToClusterCargoBay(go, CAPACITY, STORAGEFILTERS.STORAGE_SOLID_CARGO_BAY, [GameTags.Liquid,GameTags.Gas], CargoBay.CargoType.Solids);
 			BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MEGA);
 			go.AddOrGet<CargoBayStatusMonitor>();
+			go.AddOrGet<CargoBayCollectionFilter>();
 		}
 	}
 }

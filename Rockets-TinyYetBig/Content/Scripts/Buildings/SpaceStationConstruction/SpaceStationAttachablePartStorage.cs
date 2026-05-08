@@ -53,11 +53,6 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.SpaceStationConstruction
 			if (isMarkedForPartDeconstruction)
 				QueuePartDeconstruct();
 		}
-		public override void OnCleanUp()
-		{
-			DismantleStoredPart();
-			base.OnCleanUp();
-		}
 
 		public StoredStationPart? TakeStoredPart()
 		{
@@ -109,26 +104,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.SpaceStationConstruction
 			{
 				Tag mat = part.SerializedMaterials[i];
 				float amount = part.SerializedAmounts[i];
-				GameObject item;
-				Element element = ElementLoader.GetElement(mat);
-				if (element != null)
-				{
-					if (element.IsGas)
-						item = GasSourceManager.Instance.CreateChunk(element, amount, element.defaultValues.temperature, byte.MaxValue, 0, pos).gameObject;
-					else if (element.IsLiquid)
-						item = LiquidSourceManager.Instance.CreateChunk(element, amount, element.defaultValues.temperature, byte.MaxValue, 0, pos).gameObject;
-					else if (element.IsSolid)
-					{
-						item = element.substance.SpawnResource(pos, amount, element.defaultValues.temperature, byte.MaxValue, 0, true, manual_activation: true);
-						element.substance.ActivateSubstanceGameObject(item, byte.MaxValue, 0);
-					}
-				}
-				else if (Assets.TryGetPrefab(mat))
-				{
-					item = Util.KInstantiate(Assets.TryGetPrefab(mat), pos);
-					item.GetComponent<PrimaryElement>().Units = amount;
-					item.SetActive(true);
-				}
+				ModAssets.SpawnItem(mat, amount, pos);
 			}
 		}
 

@@ -77,6 +77,7 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
 			BuildingTemplates.ExtendBuildingToRocketModuleCluster(go, (string)null, ROCKETRY.BURDEN.MEGA);
 
 			go.AddOrGet<CargoBayStatusMonitor>();
+			go.AddOrGet<CargoBayCollectionFilter>();
 		}
 	}
 }

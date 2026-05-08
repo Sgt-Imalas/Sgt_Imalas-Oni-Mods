@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using Rockets_TinyYetBig.Buildings.CargoBays;
 using Rockets_TinyYetBig.Content.ModDb;
+using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,6 +62,8 @@ namespace Rockets_TinyYetBig.Patches.RocketModulePatches
             {
                 if (Config.Instance.CargoBayLogicPorts)
                     go.AddOrGet<CargoBayStatusMonitor>();
+
+                go.AddOrGet<CargoBayCollectionFilter>();
             }
         }
         /// <summary>
