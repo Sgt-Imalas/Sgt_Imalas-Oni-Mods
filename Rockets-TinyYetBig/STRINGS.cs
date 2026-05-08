@@ -662,8 +662,8 @@ namespace Rockets_TinyYetBig
 					public static LocString NAME = FormatAsLink("Cargo Bay Filter Upgrade", "RTB_CARGOBAYFILTER");
 					public static LocString DESC = "Turns out not collecting it in the first place beats having to dump the unwanted resources later.";
 					public static LocString EFFECT = UIUtils.EmboldenText(PRE_KEYWORD+"Rocket Module Upgrade"+ PST_KEYWORD) +
-						"\nMust be constructed attached to compatible rocket modules" +
-						"\nCompatible with regular cargo bay modules." +
+						", must be constructed attached to compatible rocket modules" +
+						"\n\nCompatible with regular cargo bay modules." +
 						$"\nEnables filtering of items collected by {PRE_KEYWORD}Cargo Bays{PST_KEYWORD} via their storage filters.";
 				}
 
