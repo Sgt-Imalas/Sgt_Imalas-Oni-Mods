@@ -10,13 +10,8 @@ namespace AmogusMorb
 	public class Config : SingletonOptions<Config>
 	{
 
-		[Option("Extra Sus", "crewmate")]
+		[Option(title: "Extra Sus", tooltip: "crewmate")]
 		[JsonProperty]
-		public bool SussyPlus { get; set; }
-
-		public Config()
-		{
-			SussyPlus = true;
-		}
+		public bool SussyPlus { get; set; } = true;
 	}
 }
