@@ -188,7 +188,7 @@ namespace UtilLibs
 		public static TechItem AddItemToTechnologySprite(string techItemId, string targetTechId, string name, string description, string spriteName, string[] requiredDLcs = null, string[] forbiddenDlc = null, bool isPoiUnlock = false)
 		{
 			AddBuildingToTechnology(targetTechId, techItemId);
-			return Db.Get().TechItems.AddTechItem(techItemId, name, description, GetSpriteFnBuilder(spriteName), requiredDLcs, forbiddenDlc, isPoiUnlock);
+			return Db.Get().TechItems.AddTechItem(techItemId, name, description,GetSpriteFnBuilder(spriteName), requiredDLcs, forbiddenDlc, isPoiUnlock);
 		}
 
 		public static TechItem AddItemToTechnologyKanim(string techItemId, string targetTechId, string name, string description, string kanimName, string uiAnim = "ui", string[] requiredDLcs = null, string[] forbiddenDlc = null, bool isPoiUnlock = false)
@@ -481,6 +481,11 @@ namespace UtilLibs
 					SgtLogger.l("FrameLookup values: " + symbol.frameLookup.Join());
 				}
 			}
+		}
+
+		public static void AddItemToTechnologyKanim(object tECH_ID, string spaceStationTechID, string name, string description, string kanim, string[] requiredDLcs)
+		{
+			throw new NotImplementedException();
 		}
 
 		public class IncludePrivateContractResolver : DefaultContractResolver
