@@ -22,12 +22,16 @@ using Rockets_TinyYetBig.Content.Defs.Buildings;
 using Rockets_TinyYetBig.Content.Defs.Buildings.DerelictPropBuildings;
 using Rockets_TinyYetBig.Content.Defs.Buildings.StationParts;
 using Rockets_TinyYetBig.Content.Defs.Buildings.RocketModules.CargoBays;
+using Rockets_TinyYetBig.Content.Defs.Buildings.RocketModuleUpgrades;
 
 namespace Rockets_TinyYetBig.Content.ModDb
 {
 	internal class BuildingDatabase
 	{
-
+		const string
+			Category_FuelLoaders = "rocketfueling",
+			Category_ModuleUpgrades = "rtb_moduleupgrades"
+			;
 		public static void AddBuildingsToPlanscreen()
 		{
 			//Assign categories to each vanilla module
@@ -146,9 +150,13 @@ namespace Rockets_TinyYetBig.Content.ModDb
 
 			if (Config.Instance.EnableFuelLoaders)
 			{
-				InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, UniversalFuelLoaderConfig.ID, "rocketfueling");
-				InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, UniversalOxidizerLoaderConfig.ID, "rocketfueling");
-				InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, HEPFuelLoaderConfig.ID, "rocketfueling");
+				InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, UniversalFuelLoaderConfig.ID, Category_FuelLoaders);
+				InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, UniversalOxidizerLoaderConfig.ID, Category_FuelLoaders);
+				InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, HEPFuelLoaderConfig.ID, Category_FuelLoaders);
+			}
+			if (Config.Instance.RocketModuleUpgrades)
+			{
+				InjectionMethods.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Rocketry, ModuleUpgradeDatabase.CargoBayFilter.ID, Category_ModuleUpgrades);
 			}
 			if (Config.Instance.EnableEarlyGameFuelTanks)
 			{

@@ -659,12 +659,12 @@ namespace Rockets_TinyYetBig
 				}
 				public class RTB_CARGOBAYFILTER
 				{
-					public static LocString NAME = FormatAsLink("Cargo Bay Filter", "RTB_CARGOBAYFILTER")+" Upgrade";
+					public static LocString NAME = FormatAsLink("Cargo Bay Filter Upgrade", "RTB_CARGOBAYFILTER");
 					public static LocString DESC = "Turns out not collecting it in the first place beats having to dump the unwanted resources later.";
-					public static LocString EFFECT = "Rocket Module Upgrade\n\n" +
-						"Must be constructed attached to compatible rocket modules\n\n" +
-						"Compatible with cargo bay modules.\n\n" +
-						"Allows to configure cargo bays to only collect resources specified in the cargo bay filters.";
+					public static LocString EFFECT = UIUtils.EmboldenText(PRE_KEYWORD+"Rocket Module Upgrade"+ PST_KEYWORD) +
+						"\nMust be constructed attached to compatible rocket modules" +
+						"\nCompatible with regular cargo bay modules." +
+						$"\nEnables filtering of items collected by {PRE_KEYWORD}Cargo Bays{PST_KEYWORD} via their storage filters.";
 				}
 
 			}
@@ -1219,10 +1219,10 @@ namespace Rockets_TinyYetBig
 				public static LocString TITLE = "Infinite POI Mining Capacity";
 				public static LocString TOOLTIP = "Capacity of mineable POIs becomes infinite. Does not affect artifacts.";
 			}
-			public class ENABLECARGOBAYFILTERTECH
+			public class ROCKETMODULEUPGRADES
 			{
-				public static LocString TITLE = "Cargo Bay Collection Filter Tech";
-				public static LocString TOOLTIP = "Adds a tech that unlocks cargo bays collection only collecting filtered elements.";
+				public static LocString TITLE = "Rocket Module Upgrades";
+				public static LocString TOOLTIP = "Adds a number of upgrades that can be applied to various rocket modules to improve them.";
 			}
 			public class PILOTSKILLAFFECTSDRILLSPEED
 			{
@@ -1360,11 +1360,6 @@ namespace Rockets_TinyYetBig
 				{
 					public static LocString NAME = FormatAsLink("Cargo Bay Collection Filters", nameof(RTB_CARGOBAYFILTERTECH));
 					public static LocString DESC = "Lets bring home ONLY THOSE minerals.";
-				}
-				public class RTB_CARGOBAY_FILTERS
-				{
-					public static LocString NAME = $"{PRE_KEYWORD}Cargo Bay Filter{PST_KEYWORD} Upgrade";
-					public static LocString DESC = $"Enables filtering of items collected by {PRE_KEYWORD}Cargo Bays{PST_KEYWORD}.";
 				}
 			}
 		}

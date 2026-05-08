@@ -3,8 +3,10 @@ using Klei.AI;
 using Rockets_TinyYetBig.Content.Scripts.StarmapEntities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using UnityEngine;
+using static STRINGS.UI.UISIDESCREENS;
 
 namespace Rockets_TinyYetBig.Patches
 {
@@ -12,17 +14,19 @@ namespace Rockets_TinyYetBig.Patches
 	{
 		public static void ClearAll()
 		{
-			SimpleInfoScreen_OnSelectTarget_Patch.StationPartPanel = null;
-			SimpleInfoScreen_OnSelectTarget_Patch.StationPartDrawer = null;
-			SimpleInfoScreen_OnSelectTarget_Patch.LastParent = null;
+			StationPartPanel = null;
+			//	StationPartDrawer = null;
+			LastParent = null;
+			RocketModulesPanel = null;
 		}
+		public static CollapsibleDetailContentPanel StationPartPanel = null;
+		public static CollapsibleDetailContentPanel RocketModulesPanel = null;
+		//public static DetailsPanelDrawer StationPartDrawer = null;
+		public static GameObject LastParent = null;
 
-		//[HarmonyPatch(typeof(SimpleInfoScreen), nameof(SimpleInfoScreen.OnSelectTarget))]
+		///[HarmonyPatch(typeof(SimpleInfoScreen), nameof(SimpleInfoScreen.OnSelectTarget))]
 		public class SimpleInfoScreen_OnSelectTarget_Patch
 		{
-			public static CollapsibleDetailContentPanel StationPartPanel = null;
-			public static DetailsPanelDrawer StationPartDrawer = null;
-			public static GameObject LastParent = null;
 
 			private static void InitStationPartPanel(SimpleInfoScreen instance)
 			{
@@ -36,6 +40,20 @@ namespace Rockets_TinyYetBig.Patches
 					//StationPartDrawer = new DetailsPanelDrawer(instance.attributesLabelTemplate, StationPartPanel.Content.gameObject);
 					LastParent = instance.gameObject;
 					StationPartPanel.HeaderLabel.text = "Station Parts";
+				}
+			}
+			private static void InitRocketModulesPanel(SimpleInfoScreen instance)
+			{
+				if (RocketModulesPanel == null || LastParent != instance.gameObject)
+				{
+					if (RocketModulesPanel != null)
+					{
+						UnityEngine.Object.Destroy(RocketModulesPanel.gameObject);
+					}
+					RocketModulesPanel = Util.KInstantiateUI<CollapsibleDetailContentPanel>(ScreenPrefabs.Instance.CollapsableContentPanel, instance.gameObject);
+					//StationPartDrawer = new DetailsPanelDrawer(instance.attributesLabelTemplate, StationPartPanel.Content.gameObject);
+					LastParent = instance.gameObject;
+					RocketModulesPanel.HeaderLabel.text = STRINGS.UI.KLEI_INVENTORY_SCREEN.SUBCATEGORIES.RTB_MODULE_SKINS.ToString().ToUpperInvariant();
 				}
 			}
 			public static void Prefix(SimpleInfoScreen __instance, GameObject target)
@@ -55,7 +73,7 @@ namespace Rockets_TinyYetBig.Patches
 
 					foreach (var res in decon.Resources)
 					{
-						StationPartPanel.SetLabel("traitLabel_" + count, res.Item + " x"+res.Amount , "");
+						StationPartPanel.SetLabel("traitLabel_" + count++, res.Item + " x" + res.Amount, "");
 						++count;
 						shouldShow = true;
 					}
@@ -70,6 +88,30 @@ namespace Rockets_TinyYetBig.Patches
 				{
 					StationPartPanel?.gameObject.SetActive(false);
 				}
+
+				//if (target != null && target.TryGetComponent<Clustercraft>(out var rocket) && rocket.ModuleInterface.ClusterModules.Any())
+				//{
+				//	InitRocketModulesPanel(__instance);
+				//	RocketModulesPanel.gameObject.SetActive(true);
+				//	// TraitsDrawer.BeginDrawing();
+				//	int count = 0;
+
+				//	foreach (var entry in RocketModulesPanel.labels)
+				//	{
+				//		entry.Value.used = false;
+				//	}
+				//	var modules = rocket.ModuleInterface.ClusterModules;
+				//	for (int i = modules.Count() - 1; i >= 0; --i)
+				//	{
+				//		var module = modules[i].Get();
+				//		RocketModulesPanel.SetLabelWithButton("moduleLabel_" + count++, module.GetProperName(), SELECTMODULESIDESCREEN.TITLE, () => __instance.SetTarget(module.gameObject));
+				//	}
+				//	RocketModulesPanel.Commit();
+				//}
+				//else
+				//{
+				//	RocketModulesPanel?.gameObject.SetActive(false);
+				//}
 			}
 		}
 	}
