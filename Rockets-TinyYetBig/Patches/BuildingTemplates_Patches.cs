@@ -1,4 +1,6 @@
 ﻿using HarmonyLib;
+using Rockets_TinyYetBig.Content.ModDb;
+using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,6 +46,16 @@ namespace Rockets_TinyYetBig.Patches
 						break;
 
 				}
+			}
+		}
+
+
+		[HarmonyPatch(typeof(BuildingTemplates), nameof(BuildingTemplates.ExtendBuildingToRocketModuleCluster))]
+		public class BuildingTemplates_ExtendBuildingToRocketModuleCluster_Patch
+		{
+			public static void Postfix(GameObject template)
+			{
+				template.AddOrGet<RocketModuleUpgradeStorage>();
 			}
 		}
 	}

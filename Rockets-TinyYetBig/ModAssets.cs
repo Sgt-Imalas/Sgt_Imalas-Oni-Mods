@@ -156,6 +156,29 @@ namespace Rockets_TinyYetBig
 			}
 		}
 
+		internal static void SpawnItem(Tag mat, float amount, Vector3 pos)
+		{
+			GameObject item;
+			Element element = ElementLoader.GetElement(mat);
+			if (element != null)
+			{
+				if (element.IsGas)
+					item = GasSourceManager.Instance.CreateChunk(element, amount, element.defaultValues.temperature, byte.MaxValue, 0, pos).gameObject;
+				else if (element.IsLiquid)
+					item = LiquidSourceManager.Instance.CreateChunk(element, amount, element.defaultValues.temperature, byte.MaxValue, 0, pos).gameObject;
+				else if (element.IsSolid)
+				{
+					item = element.substance.SpawnResource(pos, amount, element.defaultValues.temperature, byte.MaxValue, 0, true, manual_activation: true);
+					element.substance.ActivateSubstanceGameObject(item, byte.MaxValue, 0);
+				}
+			}
+			else if (Assets.TryGetPrefab(mat))
+			{
+				item = Util.KInstantiate(Assets.TryGetPrefab(mat), pos);
+				item.GetComponent<PrimaryElement>().Units = amount;
+				item.SetActive(true);
+			}
+		}
 
 		public static string DeepSpaceScienceID = "rtb_deepspace";
 		public class Techs
@@ -176,10 +199,13 @@ namespace Rockets_TinyYetBig
 			public static Tech SpaceStationTechLarge;
 			public static string HugeCargoBayTechID = "RTB_HugeCargoBayTech";
 			public static Tech HugeCargoBayTech;
+			public static string CargoBayFilterTechID = "RTB_CargoBayFilterTech";
+			public static Tech CargoBayFilterTech;
 		}
 		public class Tags
 		{
 			public static Tag AttachmentSlotStationParts = TagManager.Create("RTB_AttachmentSlotStationParts");
+			public static Tag AttachmentSlotRocketModuleUpgrades = TagManager.Create("RTB_AttachmentSlotRocketModuleUpgrades");
 			public static Tag VerticalPortAttachementPoint = TagManager.Create("RTB_verticalPortAttachmentPoint");
 
 			public static Tag AttachmentSlotDockingDoor = TagManager.Create("RTB_DockingTubeAttachmentSlot");

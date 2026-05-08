@@ -86,6 +86,8 @@ namespace Rockets_TinyYetBig
 
 				public static LocString KATAIRITE = global::STRINGS.ELEMENTS.KATAIRITE.NAME;
 				public static LocString RTB_ATTACHMENTSLOTSTATIONPARTS = "Orbital Construction Module mounting point";
+				public static LocString RTB_ATTACHMENTSLOTROCKETMODULEUPGRADES = "Module Upgrade Installation Slot";
+				
 			}
 
 		}
@@ -590,8 +592,7 @@ namespace Rockets_TinyYetBig
 				{
 					public static LocString NAME = FormatAsLink("Multi-Functional Storage Module", nameof(RTB_AIOCARGOBAYCLUSTER));
 					public static LocString DESC = "A bit of this, a bit of that.."; 
-					public static LocString EFFECT = ("Allows Duplicants to store most of the " + FormatAsLink("Solid Materials", "ELEMENTS_SOLID") + " found during space missions.\n\nStored resources become available to the colony upon the rocket's return. \n\nMust be built via " + (string)global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + ".");
-
+					public static LocString EFFECT = ("Allows Duplicants to keep a supply of all types of materials in the rocket.\n\nDoes not collect floating space resources.\n\nMust be built via " + (string)global::STRINGS.BUILDINGS.PREFABS.LAUNCHPAD.NAME + ".");
 				}
 
 
@@ -656,7 +657,16 @@ namespace Rockets_TinyYetBig
 					public static LocString DESC = "The transmission speed on this thing must have been great.";
 					public static LocString EFFECT = "A broken down antenna that was once used to transmit data";
 				}
-				
+				public class RTB_CARGOBAYFILTER
+				{
+					public static LocString NAME = FormatAsLink("Cargo Bay Filter", "RTB_CARGOBAYFILTER")+" Upgrade";
+					public static LocString DESC = "Turns out not collecting it in the first place beats having to dump the unwanted resources later.";
+					public static LocString EFFECT = "Rocket Module Upgrade\n\n" +
+						"Must be constructed attached to compatible rocket modules\n\n" +
+						"Compatible with cargo bay modules.\n\n" +
+						"Allows to configure cargo bays to only collect resources specified in the cargo bay filters.";
+				}
+
 			}
 		}
 
@@ -758,11 +768,25 @@ namespace Rockets_TinyYetBig
 
 		public class UI
 		{
+			public static class RTB_ROCKET_UPGRADES
+			{
+				public static class FAILURE_REASONS
+				{
+					public static LocString INVALID = "Unknown Upgrade - how did this happen?";
+					public static LocString DUPLICATE = "Upgrade is already installed!";
+					public static LocString INCOMPATIBLE = "Upgrade not compatible with this module!";
+				}
+			}
 			public static class RTB_DISMANTLESTATIONPART
 			{
 				public static LocString LABEL = "Deconstruct stored part";
 				public static LocString TOOLTIP = "Dismantle the currently stored space station part back into its construction materials.";
-
+			}
+			public static class RTB_CARGOBAYFILTER
+			{
+				public static LocString LABEL = "Only collect filtered items";
+				public static LocString TOOLTIP = "When enabled, the cargo bay will only collect floating resources selected in its item filter.";
+				public static LocString TOOLTIP_NOTCONSTRUCTED = "Cargo bay filter upgrade not installed.";
 			}
 			public static class RTB_DERELICTDISCOVERED
 			{
@@ -946,6 +970,12 @@ namespace Rockets_TinyYetBig
 				{
 					public static LocString NAME = "Rocket Fueling";
 					public static LocString BUILDMENUTITLE = "Rocket Fueling";
+					public static LocString TOOLTIP = "";
+				}
+				public static class RTB_MODULEUPGRADES
+				{
+					public static LocString NAME = "Rocket Module Upgrades";
+					public static LocString BUILDMENUTITLE = "Rocket Module Upgrades";
 					public static LocString TOOLTIP = "";
 				}
 
@@ -1189,6 +1219,11 @@ namespace Rockets_TinyYetBig
 				public static LocString TITLE = "Infinite POI Mining Capacity";
 				public static LocString TOOLTIP = "Capacity of mineable POIs becomes infinite. Does not affect artifacts.";
 			}
+			public class ENABLECARGOBAYFILTERTECH
+			{
+				public static LocString TITLE = "Cargo Bay Collection Filter Tech";
+				public static LocString TOOLTIP = "Adds a tech that unlocks cargo bays collection only collecting filtered elements.";
+			}
 			public class PILOTSKILLAFFECTSDRILLSPEED
 			{
 				public static LocString TITLE = "Pilot Skill affects Mining Speed";
@@ -1318,8 +1353,18 @@ namespace Rockets_TinyYetBig
 				}
 				public class RTB_HUGECARGOBAYTECH
 				{
-					public static LocString NAME = FormatAsLink("Thinking larger", nameof(RTB_LARGESPACESTATIONTECH));
+					public static LocString NAME = FormatAsLink("Thinking Larger", nameof(RTB_LARGESPACESTATIONTECH));
 					public static LocString DESC = "Lets bring home ALL those minerals.";
+				}
+				public class RTB_CARGOBAYFILTERTECH
+				{
+					public static LocString NAME = FormatAsLink("Cargo Bay Collection Filters", nameof(RTB_CARGOBAYFILTERTECH));
+					public static LocString DESC = "Lets bring home ONLY THOSE minerals.";
+				}
+				public class RTB_CARGOBAY_FILTERS
+				{
+					public static LocString NAME = $"{PRE_KEYWORD}Cargo Bay Filter{PST_KEYWORD} Upgrade";
+					public static LocString DESC = $"Enables filtering of items collected by {PRE_KEYWORD}Cargo Bays{PST_KEYWORD}.";
 				}
 			}
 		}
