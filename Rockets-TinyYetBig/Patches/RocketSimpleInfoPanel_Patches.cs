@@ -590,7 +590,9 @@ namespace Rockets_TinyYetBig.Patches
 						}
 					}
 
-					if (redrawPanel)
+					bool redrawForCargoBays = (!Mathf.Approximately(cargoStorage, CargoStoragePREV)) || (!Mathf.Approximately(cargoStorageMax, CargoStorageMaxPREV));
+
+					if (redrawPanel || redrawForCargoBays)
 					{
 						rocketStatusContainer.SetLabel("RangeRemaining", RangeRemainingTextSTRING, RangeRemainingToolTipSTRING);
 						rocketStatusContainer.SetLabel("Speed", SpeedTextSTRING, SpeedToolTipSTRING);
@@ -613,7 +615,7 @@ namespace Rockets_TinyYetBig.Patches
 						}
 					}
 
-					if (redrawPanel || (!Mathf.Approximately(cargoStorage, CargoStoragePREV)) || (!Mathf.Approximately(cargoStorageMax, CargoStorageMaxPREV)))
+					if (redrawPanel || redrawForCargoBays)
 					{
 						CargoStoragePREV = cargoStorage;
 						CargoStorageMaxPREV = cargoStorageMax;
