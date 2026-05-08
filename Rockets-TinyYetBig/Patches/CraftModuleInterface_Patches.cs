@@ -1,6 +1,8 @@
 ﻿using HarmonyLib;
 using Rockets_TinyYetBig.Behaviours;
 using Rockets_TinyYetBig.Buildings.Engines;
+using Rockets_TinyYetBig.Content.Defs.Buildings.RocketModules.CargoBays;
+using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules;
 using Rockets_TinyYetBig.Content.Scripts.StarmapEntities;
 using Rockets_TinyYetBig.NonRocketBuildings;
 using Rockets_TinyYetBig.SpaceStations;
@@ -18,6 +20,27 @@ namespace Rockets_TinyYetBig.Patches
 {
 	internal class CraftModuleInterface_Patches
 	{
+
+		[HarmonyPatch(typeof(CraftModuleInterface), nameof(CraftModuleInterface.HasCargoModule), MethodType.Getter)]
+		public class CraftModuleInterface_HasCargoModule_Patch
+		{
+			public static void Postfix(CraftModuleInterface __instance, ref bool __result)
+			{
+				if (__result)
+					return;
+
+				foreach (Ref<RocketModuleCluster> clusterModule in __instance.ClusterModules)
+				{
+					if (clusterModule.Get().TryGetComponent<MultiMaterialCargoBay>(out _))
+					{
+						__result = true;
+						break;
+					}
+				}
+
+			}
+		}
+
 
 		//[HarmonyPatch(typeof(CraftModuleInterface), nameof(CraftModuleInterface.FuelRemaining), MethodType.Getter)]
 		//public static class FuelRemaining_Patch

@@ -506,6 +506,11 @@ namespace Rockets_TinyYetBig.Patches
 				}
 				return true;
 			}
+			//public static void Postfix(Clustercraft __instance, ref float __result)
+			//{
+			////uncomment if fast rockets are needed for debug
+			//	__result *= 100f;
+			//}
 		}
 		#endregion
 	}
