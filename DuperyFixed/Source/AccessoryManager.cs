@@ -1,4 +1,5 @@
-﻿using PeterHan.PLib.Core;
+﻿using HarmonyLib;
+using PeterHan.PLib.Core;
 using System.Collections.Generic;
 using System.Linq;
 using UtilLibs;
@@ -49,6 +50,17 @@ namespace Dupery
 		//    {
 		//            SgtLogger.l(gf.groupID  , "GroupDumping");
 		//    }
+		//}
+
+
+		//[HarmonyPatch(typeof(KAnimGroupFile), nameof(KAnimGroupFile.Load))]
+		//public class KAnimGroupFile_Load_Patch
+		//{
+		//	public static void Prefix(KAnimGroupFile __instance)
+		//	{
+		//		SgtLogger.l("KanimgGroupFile.Load");
+				
+		//	}
 		//}
 
 		public int LoadAccessories(string animName, bool saveToCache = false, bool logSymbolDuplicates = true)
@@ -120,7 +132,7 @@ namespace Dupery
 					MouthOverrideAnims.Add(id, animName);
 					Debug.Log("[Dupery]: setting custom cheek override anim for mouth: " + id);
 				}
-
+				//InjectionMethods.MoveKanimsToBatchGroupOf(KAnimGroupFile.groupfile, [animName], "head_swap");
 
 				Accessory accessory = new Accessory(id, accessories, slot, anim.batchTag, build.symbols[index], anim);
 				if(slot.accessories.Any(existing => existing.Id == accessory.Id))

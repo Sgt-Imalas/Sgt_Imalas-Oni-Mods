@@ -99,6 +99,9 @@ namespace Dupery
                     PersonalityManager.TryImportPersonalities(personalitiesFilePath, mod);
 				}
 			}
+
+			//foreach(var accessory in Db.Get().Accessories.resources)
+			//	SgtLogger.l(accessory.Id+" - "+accessory.batchSource.ToString());
 		}
 
 		private static List<string> GetAnimNames(Mod mod)
