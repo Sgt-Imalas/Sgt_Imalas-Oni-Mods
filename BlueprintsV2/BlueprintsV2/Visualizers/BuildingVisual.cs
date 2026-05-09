@@ -265,8 +265,8 @@ namespace BlueprintsV2.Visualizers
 
 		void UpdateConduitConnectionBits(GameObject go)
 		{
-			if (buildingConfig.BuildingDef.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>() != null && go
-				.TryGetComponent<KAnimGraphTileVisualizer>(out var vis)
+			if (buildingConfig.BuildingDef.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>() != null 
+				&& go.TryGetComponent<KAnimGraphTileVisualizer>(out var vis)
 				&& buildingConfig.GetConduitFlags(out var flags))
 			{
 				var newConnections = (UtilityConnections)GetRotatedUtilityConnectionFlags(flags);
