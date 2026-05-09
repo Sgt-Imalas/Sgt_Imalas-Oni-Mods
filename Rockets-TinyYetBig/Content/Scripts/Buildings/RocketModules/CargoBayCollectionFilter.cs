@@ -39,7 +39,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 				return false;
 			if (!map.TryGetValue(storage, out var filter))
 				return false;
-			return filter.GetCheckboxValue();
+			return filter.OnlyCollectFilteredItems;
 		}
 		public static bool BlockedByFilters(Storage storage, Tag ID)
 		{

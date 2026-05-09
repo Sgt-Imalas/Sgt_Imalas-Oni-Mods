@@ -44,8 +44,8 @@ namespace Rockets_TinyYetBig.Patches
 				if(!__result)
 					return;
 
-				//if (!CargoBayCollectionFilter.FilterOnlyActive(smi.storage))
-				//	return;
+				if (!CargoBayCollectionFilter.FilterOnlyActive(smi.storage))
+					return;
 
 				__result = CargoBayCollectionFilter.BlockedByFilters(smi.storage, item.ID);
 			}
