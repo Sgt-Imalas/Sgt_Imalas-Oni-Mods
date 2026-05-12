@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
 using System;
 using System.Collections.Generic;
@@ -230,7 +231,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				Element refinedElement = element.highTempTransition.lowTempTransition;
 				RecipeBuilder.Create(ID, recipeDuration)
 					.Input(element.id, 100f)
-					.Output(refinedElement.id, 50f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+					.RephysicalizedOutput(refinedElement.id, 50f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Output(SimHashes.Sand, 50f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Description1I1O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1_BREAK)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)

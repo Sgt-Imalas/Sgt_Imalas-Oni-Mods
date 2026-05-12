@@ -28,6 +28,7 @@ namespace RonivansLegacy_ChemicalProcessing
 
 
 		public static ModHashes OnBuildingFacadeChanged = new ModHashes("RonivanAIO_OnBuildingFacadeChanged");
+		public static ModHashes FabricatorOrderCanceled = new ModHashes("RonivanAIO_OnFabricatorRecipeCanceled");
 
 		public static void AddMachineAttachmentPort(GameObject go)
 		{

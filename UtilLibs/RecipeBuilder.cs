@@ -26,6 +26,13 @@ namespace UtilLibs
 		private List<RecipeElement> outputs;
 		private Dictionary<RecipeElement, Tag> GroupDescriptors = [];
 
+		public RecipeElement FirstIngredient()
+		{
+			if (inputs == null || !inputs.Any())
+				return null;
+			return inputs.First();
+		}
+
 		public static RecipeBuilder Create(string fabricatorID, string description, float time)
 		{
 			var builder = new RecipeBuilder

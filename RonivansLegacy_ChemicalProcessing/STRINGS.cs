@@ -244,9 +244,9 @@ namespace RonivansLegacy_ChemicalProcessing
 					FormatAsLink("Metal Ore", "RAWMETAL"),
 					".\n\nSignificantly ",
 					FormatAsLink("Heats", "HEAT"),
-					" and exclusively uses ",
+					" and strongly prefers ",
 					FormatAsLink("Super Coolant", "SUPERCOOLANT"),
-					" piped into it.\n\nDuplicants will not fabricate items unless recipes are queued."
+					" piped into it.\n\nUsing other coolants will cause the refinery to operate at reduced speeds.\n\nDuplicants will not fabricate items unless recipes are queued."
 					);
 				}
 				public class CHEMICAL_AMMONIABREAKER
@@ -1654,6 +1654,11 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString NAME = "Maximum Item Weight: {0}";
 					public static LocString TOOLTIP = "This conveyor rail can transport items up to {0}.";
 				}
+				public class PREFERRED_COOLANT
+				{
+					public static LocString NAME = "High Performance Coolant Requirement";
+					public static LocString TOOLTIP = "This refinery requires a high performance coolant like {0} to function properly.\nUsing lesser coolants will result in suboptimal cooling performances, resulting in a reduction in refinement speed.";
+				}
 			}
 			public class STATUSITEMS
 			{
@@ -1744,6 +1749,11 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = "Thermal capacitor level: {0}";
 					public static LocString TOOLTIP = "This buildings internal heat capacitor stores heat energy to transfer it to the piped in coolant.\nCapillary structures will prevent coolant from boiling at the cost of reduced heat transfer.\nIf the capacitor fills up completely, the building will be rendered inoperational until its fully cooled down again.";
+				}
+				public class AIO_ADVREFINERY_NOSUPERCOOLANT
+				{
+					public static LocString NAME = "Thermal Throttling active!";
+					public static LocString TOOLTIP = "The use of a lower-grade coolant has caused this refinery to throttle its refinement speed.\nChanging to Supercoolant will resolve this issue.";
 				}
 			}
 		}

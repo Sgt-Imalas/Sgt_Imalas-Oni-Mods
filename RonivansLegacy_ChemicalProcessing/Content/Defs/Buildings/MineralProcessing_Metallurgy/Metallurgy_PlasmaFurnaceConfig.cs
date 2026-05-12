@@ -199,7 +199,7 @@ namespace Metallurgy.Buildings
 			{
 
 				Element refinedElementMolten = element.highTempTransition;
-				if (refinedElementMolten.IsGas)
+				if (refinedElementMolten == null || refinedElementMolten.IsGas)
 					continue;
 
 

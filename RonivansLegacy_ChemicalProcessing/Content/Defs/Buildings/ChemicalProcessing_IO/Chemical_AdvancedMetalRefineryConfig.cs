@@ -1,6 +1,8 @@
 ﻿using HarmonyLib;
 using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabricators;
 using System;
 using System.Collections.Generic;
@@ -25,7 +27,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 		private const float INPUT_KG = 500f;
 		private const float LIQUID_COOLED_HEAT_PORTION = 0.8f;
-		private static readonly Tag COOLANT_TAG = SimHashes.SuperCoolant.CreateTag();
+		private static readonly Tag COOLANT_TAG = GameTags.Liquid;
+		//private static readonly Tag COOLANT_TAG = SimHashes.SuperCoolant.CreateTag();
 		private const float COOLANT_MASS = 1000f;
 
 
@@ -63,6 +66,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			liquidCooledRefinery.keepExcessLiquids = true;
 			go.AddOrGet<FabricatorIngredientStatusManager>();
 			go.AddOrGet<CopyBuildingSettings>();
+			go.AddOrGet<AdvRefinerySuperCoolantRequirement>();
+
 			var workable = go.AddOrGet<CustomComplexFabricatorWorkableBase>();
 			BuildingTemplates.CreateComplexFabricatorStorage(go, liquidCooledRefinery);
 			liquidCooledRefinery.coolantTag = COOLANT_TAG;
@@ -127,7 +132,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 						.Input(element.tag, 400f)
 						.Input(SimHashes.RefinedCarbon.CreateTag(), 50f)
 						.Input(SimHashes.Sand.CreateTag(), 50f)
-						.Output(refinedElement.tag, 370f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+						.RephysicalizedOutput(refinedElement.tag, 370f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 						.Output(Slag_Solid.Tag, 130f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 						.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 						.Description3I2O(THREE_MIXTURE_SMELT_WASTE)
@@ -138,7 +143,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				{
 					RecipeBuilder.Create(ID, recipeDuration)
 						.Input(element.tag, 400f)
-						.Output(refinedElement.tag, 400f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+						.RephysicalizedOutput(refinedElement.id, 400f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 						.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 						.Description1I1O(ARCFURNACE_SMELT)
 						.SortOrder(index++)

@@ -22,6 +22,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				{
                     fabricatorRandomOutput.DestroyFragileIngredientsOnCancel();
 				}
+                __instance.gameObject.Trigger(ModAssets.FabricatorOrderCanceled);
 			}
         }
 
