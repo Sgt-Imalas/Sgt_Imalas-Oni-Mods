@@ -1755,6 +1755,8 @@ namespace RonivansLegacy_ChemicalProcessing
 				{
 					public static LocString NAME = "Atmospheric Fertilization";
 					public static LocString TOOLTIP = $"Consumption of atmospheric {FormatAsLink("Nitrogen", "NITROGENGAS")} boosts the growth of this {PRE_KEYWORD}Plant{PST_KEYWORD}.\n\nConsuming Nitrogen: {{0}}";
+
+					public static LocString CODEX_FORMAT = "{0}% Growth Speed Boost";
 				}
 			}
 
