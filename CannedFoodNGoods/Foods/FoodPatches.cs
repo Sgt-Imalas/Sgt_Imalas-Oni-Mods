@@ -271,10 +271,13 @@ namespace CannedFoods.Foods
 				var temperature = element.Temperature;
 
 				var scrapObject = GameUtil.KInstantiate(Assets.GetPrefab(EmptyCanConfig.ID), gameObject.transform.position, Grid.SceneLayer.Ore);
+				if (scrapObject.TryGetComponent<PrimaryElement>(out var scrapObjectElement))
+				{
+					scrapObjectElement.Mass = mass;
+					scrapObjectElement.Temperature = temperature;
+					//scrapObjectElement.AddDisease(foodpoisoning?)
+				}
 				scrapObject.SetActive(true);
-				var scrapObjectElement = scrapObject.GetComponent<PrimaryElement>();
-				scrapObjectElement.Mass = mass;
-				scrapObjectElement.Temperature = temperature;
 				//Debug.Log(scrapObjectElement.ElementID);
 				// var pos = Grid.CellToPosCCC(Grid.PosToCell(gameObject.transform.GetPosition()), Grid.SceneLayer.Ore);
 				//element.substance.SpawnResource(pos, mass, temperature, 0, 0);
