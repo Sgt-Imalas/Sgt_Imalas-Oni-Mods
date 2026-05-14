@@ -29,7 +29,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 		public const float MaxAmountRandomPlanet = 6f;
 		public const string RandomKey = "CGM_RANDOM_";
-		static Dictionary<string, StarmapItem> PlanetsAndPOIs = null;
+		static Dictionary<string, StarmapItem> _planetsAndPOIs = null;
 		static List<string> RandomOuterPlanets = new List<string>();
 
 		public const int ringMax = 25, ringMin = 6;
@@ -1370,10 +1370,14 @@ namespace ClusterTraitGenerationManager.ClusterData
 			_predefinedPlacementData = new Dictionary<string, WorldPlacement>();
 			//PredefinedPlacementDataPOI = new Dictionary<string, SpaceMapPOIPlacement>();
 			_dlcAudioSettings = new();
-
+			SgtLogger.Assert(SettingsCache.clusterLayouts, "SettingsCache.clusterLayouts");
+			SgtLogger.Assert(SettingsCache.clusterLayouts.clusterCache, "SettingsCache.clusterLayouts.clusterCache");
 			foreach (var ClusterLayout in SettingsCache.clusterLayouts.clusterCache.ToList())
 			{
 				var clusterId = ClusterLayout.Key;
+				if (clusterId == CustomClusterID)
+					continue;
+
 				var clusterData = ClusterLayout.Value;
 				if (DlcManager.IsExpansion1Active())
 				{
@@ -1389,7 +1393,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 				foreach (var planet in clusterData.worldPlacements)
 				{
-					if (PlanetsAndPOIs.TryGetValue(planet.world, out StarmapItem starmapItem))
+					if (PlanetoidDict.TryGetValue(planet.world, out StarmapItem starmapItem))
 					{
 						if (disablesStoryTraits)
 						{
@@ -1407,14 +1411,15 @@ namespace ClusterTraitGenerationManager.ClusterData
 					PredefinedPlacementData[planetPlacement.world] = planetPlacement;
 				}
 
+				string dlcIdFrom = clusterData.dlcIdFrom;
 				if (clusterData.clusterAudio != null
-					&& !clusterData.dlcIdFrom.IsNullOrWhiteSpace()
-					&& !clusterData.dlcIdFrom.Contains("DLC") //no basegame/spacedout 
-					&& _dlcAudioSettings.ContainsKey(clusterData.dlcIdFrom))
+					&& !dlcIdFrom.IsNullOrWhiteSpace()
+					&& dlcIdFrom.Contains("DLC") //no basegame/spacedout 
+					&& !_dlcAudioSettings.ContainsKey(dlcIdFrom))
 				{
 					SgtLogger.l("Caching audio data for dlc: " + clusterData.dlcIdFrom);
 					var sourceAudio = clusterData.clusterAudio;
-					_dlcAudioSettings[clusterData.dlcIdFrom] = new()
+					_dlcAudioSettings[dlcIdFrom] = new()
 					{
 						musicWelcome = sourceAudio.musicWelcome,
 						musicFirst = sourceAudio.musicFirst,
@@ -1598,16 +1603,18 @@ namespace ClusterTraitGenerationManager.ClusterData
 		{
 			get
 			{
-				if (PlanetsAndPOIs == null)
+				if (_planetsAndPOIs == null)
 				{
-					PlanetsAndPOIs = new Dictionary<string, StarmapItem>();
+					_planetsAndPOIs = new Dictionary<string, StarmapItem>();
+					SgtLogger.l("initializing random planets");
 					foreach (StarmapItemCategory category in AvailableStarmapItemCategoriesWithoutMixing)
 					{
 						if (category < 0)
 							continue;
 
-
 						var key = RandomKey + category.ToString();
+
+						SgtLogger.l(key);
 						var randomItem = new StarmapItem
 							(
 							key,
@@ -1618,7 +1625,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 						randomItem.SetSpawnNumber(1);
 
 						var placement = new WorldPlacement();
-						MinMaxI startCoords = new MinMaxI(0, CustomCluster.Rings);
+						MinMaxI startCoords = new MinMaxI(0, CustomCluster != null ? CustomCluster.Rings : 11);
 
 						if (category == StarmapItemCategory.Starter)
 							startCoords = new MinMaxI(0, 0);
@@ -1632,13 +1639,14 @@ namespace ClusterTraitGenerationManager.ClusterData
 						placement.locationType = category == StarmapItemCategory.Starter ? LocationType.Startworld : LocationType.Cluster;
 
 						randomItem = randomItem.AddItemWorldPlacement(placement, category == StarmapItemCategory.Outer);
-						PlanetsAndPOIs[key] = randomItem;
+						_planetsAndPOIs[key] = randomItem;
 
 						if (category == StarmapItemCategory.Outer)
 							RandomOuterPlanetsStarmapItem = randomItem;
 						//}
 					}
 
+					SgtLogger.l("initializing cached planets");
 					foreach (var WorldFromCache in SettingsCache.worlds.worldCache)
 					{
 						StarmapItemCategory category = StarmapItemCategory.Outer;
@@ -1664,7 +1672,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 							if (isMixingWorld)
 							{
 								category = StarmapItemCategory.None;
-								PlanetsAndPOIs[WorldFromCache.Key] = new StarmapItem(
+								_planetsAndPOIs[WorldFromCache.Key] = new StarmapItem(
 									WorldFromCache.Key,
 									category,
 									sprite).MakeItemPlanet(world);
@@ -1673,7 +1681,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 							category = DeterminePlanetType(world);
 
-							PlanetsAndPOIs[WorldFromCache.Key] = new StarmapItem
+							_planetsAndPOIs[WorldFromCache.Key] = new StarmapItem
 							(
 							WorldFromCache.Key,
 							category,
@@ -1682,11 +1690,11 @@ namespace ClusterTraitGenerationManager.ClusterData
 							.MakeItemPlanet(world)
 							;
 
-							if (PlanetIsMiniBase(PlanetsAndPOIs[WorldFromCache.Key]))
+							if (PlanetIsMiniBase(_planetsAndPOIs[WorldFromCache.Key]))
 							{
-								SgtLogger.l("making " + KeyUpper);
+								SgtLogger.l("caching minibase asteroid: " + KeyUpper);
 								SgtLogger.l(WorldFromCache.Key + " will disable story traits due to Baby size");
-								PlanetsAndPOIs[WorldFromCache.Key].DisablesStoryTraits = true;
+								_planetsAndPOIs[WorldFromCache.Key].DisablesStoryTraits = true;
 							}
 							//SgtLogger.l("isClassic: " + PlanetIsClassic(PlanetsAndPOIs[WorldFromCache.Key]), WorldFromCache.Key);
 						}
@@ -1694,7 +1702,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 							SgtLogger.l("skipping worlditemCreation: " + KeyUpper);
 					}
 				}
-				return PlanetsAndPOIs;
+				return _planetsAndPOIs;
 			}
 		}
 
