@@ -162,9 +162,9 @@ namespace CustomGameSettingsModifier
             {
                 cycle.Options.Add(new FCycle.Option(config.id, config.label, config.tooltip));
             }
-            cycle.OnChange += () =>
+            cycle.OnChange += (val) =>
             {
-                SetCustomGameSettings(ConfigToSet, cycle.Value);
+                SetCustomGameSettings(ConfigToSet, val.id);
             };
             return cycle;
         }

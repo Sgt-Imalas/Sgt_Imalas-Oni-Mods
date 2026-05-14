@@ -6,7 +6,7 @@ namespace UtilLibs.UIcmp //Source: Aki
 {
 	public class FCycle : KMonoBehaviour
 	{
-		public event System.Action OnChange;
+		public event System.Action<Option> OnChange;
 
 		[SerializeField]
 		public FButton leftArrow;
@@ -82,13 +82,32 @@ namespace UtilLibs.UIcmp //Source: Aki
 		}
 		private bool HasOptions => Options.Count > 0;
 
-		public string Value
+		public void SetValueById(string id)
 		{
-			get => Options.Count >= currentIndex ? Options[currentIndex].id : default;
+			var index = Options.FindIndex(x => x.id == id);
+			if (currentIndex == index)
+			{
+				return;
+			}
+			if (index != -1)
+			{
+				currentIndex = index;
+			}
+			else
+			{
+				SgtLogger.warning($"Invalid option ID given \"{id}\"");
+				currentIndex = 0;
+			}
+			UpdateLabel();
+		}
+
+		public Option Value
+		{
+			get => Options.Count >= currentIndex ? Options[currentIndex] : default;
 
 			set
 			{
-				var index = Options.FindIndex(x => x.id == value);
+				var index = Options.FindIndex(x => x == value);
 
 				if (currentIndex == index)
 				{
@@ -115,7 +134,7 @@ namespace UtilLibs.UIcmp //Source: Aki
 			{
 				currentIndex = (currentIndex + Options.Count - 1) % Options.Count;
 				UpdateLabel();
-				OnChange?.Invoke();
+				OnChange?.Invoke(Value);
 			}
 		}
 
@@ -125,7 +144,7 @@ namespace UtilLibs.UIcmp //Source: Aki
 			{
 				currentIndex = (currentIndex + 1) % Options.Count;
 				UpdateLabel();
-				OnChange?.Invoke();
+				OnChange?.Invoke(Value);
 			}
 		}
 
@@ -133,7 +152,7 @@ namespace UtilLibs.UIcmp //Source: Aki
 		{
 			if (Options.Count >= currentIndex)
 			{
-				Value = Options[currentIndex].id;
+				Value = Options[currentIndex];
 
 				string title = Options[currentIndex].title;
 				if(NameFormatter != null)

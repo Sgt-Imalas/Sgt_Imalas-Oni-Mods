@@ -108,7 +108,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				string settingValue = instance.GetCurrentMixingSettingLevel(setting).id;
 				if (MixingCycleConfigs.TryGetValue(id, out var settingsCycle))
 				{
-					settingsCycle.Value = settingValue;
+					settingsCycle.SetValueById(settingValue);
 				}
 				else
 				{
@@ -245,9 +245,9 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			{
 				cycle.Options.Add(new FCycle.Option(config.id, config.label, config.tooltip));
 			}
-			cycle.OnChange += () =>
+			cycle.OnChange += (val) =>
 			{
-				SetMixingSetting(ConfigToSet, cycle.Value);
+				SetMixingSetting(ConfigToSet, val.id);
 			};
 			return cycle;
 		}
@@ -291,7 +291,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 				if (CustomGameSettingsCycleConfigs.TryGetValue(id, out var settingsCycle))
 				{
-					settingsCycle.Value = settingValue;
+					settingsCycle.SetValueById(settingValue);
 				}
 				else if (CustomGameSettingsToggleConfigs.TryGetValue(id, out var settingsToggle))
 				{
@@ -379,9 +379,9 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			{
 				cycle.Options.Add(new FCycle.Option(config.id, config.label, config.tooltip));
 			}
-			cycle.OnChange += () =>
+			cycle.OnChange += (val) =>
 			{
-				SetCustomGameSettings(ConfigToSet, cycle.Value);
+				SetCustomGameSettings(ConfigToSet, val.id);
 			};
 			return cycle;
 		}
@@ -1182,17 +1182,17 @@ namespace ClusterTraitGenerationManager.UI.Screens
 					if (!current.IsRandom)
 					{
 						UpdateSizeLabels(current);
-						PlanetSizeCycle.Value = current.CurrentSizePreset.ToString();
-						PlanetRazioCycle.Value = current.CurrentRatioPreset.ToString();
+						PlanetSizeCycle.SetValueById(current.CurrentSizePreset.ToString());
+						PlanetRazioCycle.SetValueById(current.CurrentRatioPreset.ToString());
 
 						if (current.GetSunlightValue() != null)
-							AsteroidSky_Light.Value = current.GetSunlightValue();
+							AsteroidSky_Light.SetValueById(current.GetSunlightValue());
 
 						if (DlcActive && current.GetRadiationValue() != null)
-							AsteroidSky_Radiation.Value = current.GetRadiationValue();
+							AsteroidSky_Radiation.SetValueById(current.GetRadiationValue());
 
 						if (current.GetNorthernLightsValue() != null)
-							AsteroidSky_NorthernLights.Value = current.GetNorthernLightsValue();
+							AsteroidSky_NorthernLights.SetValueById(current.GetNorthernLightsValue());
 					}
 
 					RefreshMeteorLists();
@@ -1945,13 +1945,13 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				lightOptions.Add(new(lightSetting.Key, lightSetting.Value.ToString()));
 			}
 			AsteroidSky_Light.Options = lightOptions;
-			AsteroidSky_Light.OnChange += () =>
+			AsteroidSky_Light.OnChange += (optionVal) =>
 			{
 				if (CurrentStarmapItem != null)
 				{
 					if (CustomCluster.HasStarmapItem(CurrentStarmapItem.id, out var current))
 					{
-						current.SetSunlightValue(AsteroidSky_Light.Value);
+						current.SetSunlightValue(optionVal.id);
 					}
 				}
 			};
@@ -1968,13 +1968,13 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				radOptions.Add(new(radSetting.Key, radSetting.Value.ToString()));
 			}
 			AsteroidSky_Radiation.Options = radOptions;
-			AsteroidSky_Radiation.OnChange += () =>
+			AsteroidSky_Radiation.OnChange += (optionVal) =>
 			{
 				if (CurrentStarmapItem != null && DlcManager.IsExpansion1Active())
 				{
 					if (CustomCluster.HasStarmapItem(CurrentStarmapItem.id, out var current))
 					{
-						current.SetRadiationValue(AsteroidSky_Radiation.Value);
+						current.SetRadiationValue(optionVal.id);
 					}
 				}
 			};
@@ -1992,13 +1992,13 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				northernLightOptions.Add(new(setting.Key, setting.Value.ToString()));
 			}
 			AsteroidSky_NorthernLights.Options = northernLightOptions;
-			AsteroidSky_NorthernLights.OnChange += () =>
+			AsteroidSky_NorthernLights.OnChange += (optionVal) =>
 			{
 				if (CurrentStarmapItem != null)
 				{
 					if (CustomCluster.HasStarmapItem(CurrentStarmapItem.id, out var current))
 					{
-						current.SetNorthernLightsValue(AsteroidSky_NorthernLights.Value);
+						current.SetNorthernLightsValue(optionVal.id);
 					}
 				}
 			};
@@ -2037,13 +2037,13 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				new FCycle.Option(WorldSizePresets.Enormous.ToString(), ASTEROIDSIZE.SIZESELECTOR.SIZE5, ASTEROIDSIZE.SIZESELECTOR.SIZE5TOOLTIP),
 			};
 
-			PlanetSizeCycle.OnChange += () =>
+			PlanetSizeCycle.OnChange += (optionVal) =>
 			{
 				if (CurrentStarmapItem != null)
 				{
 					if (CustomCluster.HasStarmapItem(CurrentStarmapItem.id, out var current))
 					{
-						WorldSizePresets setTo = Enum.TryParse<WorldSizePresets>(PlanetSizeCycle.Value, out var result) ? result : WorldSizePresets.Normal;
+						WorldSizePresets setTo = Enum.TryParse<WorldSizePresets>(optionVal.id, out var result) ? result : WorldSizePresets.Normal;
 						current.SetPlanetSizeToPreset(setTo);
 						UpdateSizeLabels(current);
 					}
@@ -2067,15 +2067,15 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				new FCycle.Option(WorldRatioPresets.Taller.ToString(), ASTEROIDSIZE.RATIOSELECTOR.HEIGHT2, ASTEROIDSIZE.RATIOSELECTOR.HEIGHT2TOOLTIP),
 				new FCycle.Option(WorldRatioPresets.LotTaller.ToString(), ASTEROIDSIZE.RATIOSELECTOR.HEIGHT3, ASTEROIDSIZE.RATIOSELECTOR.HEIGHT3TOOLTIP),
 			};
-			PlanetRazioCycle.Value = WorldRatioPresets.Normal.ToString();
+			PlanetRazioCycle.SetValueById(WorldRatioPresets.Normal.ToString());
 
-			PlanetRazioCycle.OnChange += () =>
+			PlanetRazioCycle.OnChange += (optionVal) =>
 			{
 				if (CurrentStarmapItem != null)
 				{
 					if (CustomCluster.HasStarmapItem(CurrentStarmapItem.id, out var current))
 					{
-						WorldRatioPresets setTo = Enum.TryParse<WorldRatioPresets>(PlanetRazioCycle.Value, out var result) ? result : WorldRatioPresets.Normal;
+						WorldRatioPresets setTo = Enum.TryParse<WorldRatioPresets>(optionVal.id, out var result) ? result : WorldRatioPresets.Normal;
 						current.SetPlanetRatioToPreset(setTo);
 						UpdateSizeLabels(current);
 						//AsteroidSizeLabel.text = string.Format(ASTEROIDSIZEINFO.INFO, current.CustomPlanetDimensions.x, current.CustomPlanetDimensions.y);
