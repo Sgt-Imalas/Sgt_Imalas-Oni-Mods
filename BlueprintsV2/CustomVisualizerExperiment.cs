@@ -14,6 +14,38 @@ namespace BlueprintsV2
 	/// </summary>
 	internal class TileVisualizer
 	{
+		public enum VisualizerType
+		{
+			BUILDING,
+			UTILITY,
+			TILE,
+
+			INVALID = -1
+		}
+		VisualizerType DermineBuildingType(string prefabId)
+		{
+			var def = Assets.GetBuildingDef(prefabId);
+			if (def == null || def.BuildingPreview == null)
+				return VisualizerType.INVALID;
+
+			if (def.IsTilePiece
+				&& def.isKAnimTile
+				&& !def.BuildingComplete.TryGetComponent<Door>(out _)
+				&& def.TileLayer != ObjectLayer.LadderTile)
+			{
+				if (def.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>() != null)
+				{
+					return VisualizerType.UTILITY;
+				}
+				else if (!def.BuildingComplete.TryGetComponent<KBatchedAnimController>(out _))
+				{
+					return VisualizerType.TILE;
+				}
+			}
+			return VisualizerType.BUILDING;
+		}
+
+
 		SpriteRenderer TileSpriteRenderer;
 		static Dictionary<BuildingDef, BlockTileRenderer.RenderInfo> _tileInfos = [];
 		static Dictionary<BuildingDef, Sprite> _placeSprites = [];
@@ -40,7 +72,7 @@ namespace BlueprintsV2
 					renderInfo = _tileInfos[def] = new BlockTileRenderer.RenderInfo(World.Instance.blockTileRenderer, (int)def.TileLayer, LayerMask.NameToLayer("Place"), def, SimHashes.Void);
 				}
 				var tex = renderInfo.material.mainTexture as Texture2D;
-				var uv = renderInfo.atlasInfo.First().uvBox;
+				var uv = renderInfo.atlasInfo.First().uvBox; //do AddVertexInfo trimming for other tile variants
 				float uMin = uv.x;
 				float vMin = uv.y;
 				float uMax = uv.z;
