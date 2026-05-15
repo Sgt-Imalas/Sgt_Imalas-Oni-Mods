@@ -260,6 +260,7 @@ namespace BlueprintsV2.BlueprintData
 					int cell = Grid.XYToCell(topLeft.x + buildingConfig.Offset.x, topLeft.y + buildingConfig.Offset.y);
 
 					if (buildingConfig.BuildingDef.IsTilePiece
+						&& buildingConfig.BuildingDef.isKAnimTile
 						&& !buildingConfig.BuildingDef.BuildingComplete.TryGetComponent<Door>(out _)
 						&& buildingConfig.BuildingDef.TileLayer != ObjectLayer.LadderTile
 						)

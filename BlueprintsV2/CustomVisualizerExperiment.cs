@@ -12,7 +12,7 @@ namespace BlueprintsV2
 	/// these visualizers run fully independent from the games' building system
 	/// I wrote this for the OniTogether mod, keeping it here for if I want 
 	/// </summary>
-	internal class TileVisualizer
+	internal class CustomTileVisualizer
 	{
 		public enum VisualizerType
 		{
