@@ -11,7 +11,7 @@ namespace Planticants.Content.ModDb
     class PLANT_TUNING
     {
         public static float CO2_TANK_CAPACITY = 100;
-        public static float WATER_TANK_CAPACITY = 100;
+        public static float WATER_TANK_CAPACITY = 180;
 
         public static DUPLICANTSTATS PLANTMINIONSTATS = new DUPLICANTSTATS
 		{
