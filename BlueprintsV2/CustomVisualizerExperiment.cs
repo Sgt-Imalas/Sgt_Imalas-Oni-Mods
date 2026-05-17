@@ -142,7 +142,7 @@ namespace BlueprintsV2
 				kbac.Offset = Vector3.zero;
 				//kbac.TintColour = visualColor;
 				kbac.SetLayer(LayerMask.NameToLayer("Place"));
-				if (CurrentDef.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>() != null)
+				if (CurrentDef.isKAnimTile && CurrentDef.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>() != null && kbac.HasAnimation("None_place"))
 					kbac.Play("None_place"); //default non-connected pipe, change "place" to connection bit
 				else
 					kbac.Play("place");
