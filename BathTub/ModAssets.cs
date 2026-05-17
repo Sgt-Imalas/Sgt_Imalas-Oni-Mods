@@ -1,7 +1,7 @@
 ﻿using BathTub.Duck;
 using BathTub.MP;
-using ONI_MP_API;
-using ONI_MP_API.Networking;
+using ONI_Together_API;
+using ONI_Together_API.Networking;
 using System.Collections.Generic;
 using UnityEngine;
 using UtilLibs;
@@ -54,7 +54,7 @@ namespace BathTub
 			SoundUtils.PlaySound(sound, SoundUtils.GetSFXVolume() * 0.65f, true);
 			if (MP_Mod_Info.MultiplayerModPresent && SessionInfoAPI.InSession)
 			{
-				var packet = new SoundPacket(sound, SessionInfoAPI.LocalSteamID,0.65f);
+				var packet = new SoundPacket(sound, SessionInfoAPI.LocalUserID,0.65f);
 				PacketSenderAPI.SendToAllOtherPeers(packet);
 			}
 		}

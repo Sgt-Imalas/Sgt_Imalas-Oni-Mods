@@ -1,8 +1,8 @@
 ﻿using BathTub.MP;
 using HarmonyLib;
 using KMod;
-using ONI_MP_API;
-using ONI_MP_API.Networking;
+using ONI_Together_API;
+using ONI_Together_API.Networking;
 using System.Collections.Generic;
 using System.Reflection;
 using UtilLibs;
@@ -28,7 +28,7 @@ namespace BathTub
 			PacketRegistryAPI.TryRegister(typeof(MemePacket));
 
 			SgtLogger.l("session test:");
-			SgtLogger.l( SessionInfoAPI.LocalSteamID.ToString() );
+			SgtLogger.l( SessionInfoAPI.LocalUserID.ToString() );
 		}
 	}
 }

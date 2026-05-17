@@ -1,5 +1,5 @@
-﻿using ONI_MP.Networking.Packets.Architecture;
-using ONI_MP_API.Networking;
+﻿using ONI_Together.Networking.Packets.Architecture;
+using ONI_Together_API.Networking;
 using Steamworks;
 using System;
 using System.Collections.Generic;
@@ -14,7 +14,7 @@ namespace BathTub.MP
 	internal class SoundPacket : IPacket
 	{
 		public SoundPacket() { }
-		public SoundPacket(string file, CSteamID senderId, float volume)
+		public SoundPacket(string file, ulong senderId, float volume)
 		{
 			SoundFile = file;
 			SenderId = senderId;
@@ -22,21 +22,21 @@ namespace BathTub.MP
 		}
 
 		string SoundFile = string.Empty;
-		CSteamID SenderId;
+		ulong SenderId;
 		float volumePercentage = 1f;
 
 		public void Deserialize(BinaryReader reader)
 		{
 			Console.WriteLine($"sound packet deserialized");
 			SoundFile = reader.ReadString();
-			SenderId = new CSteamID(reader.ReadUInt64());
+			SenderId = reader.ReadUInt64();
 			volumePercentage = reader.ReadSingle();
 		}
 		public void Serialize(BinaryWriter writer)
 		{
 			Console.WriteLine($"sound packet serialized");
 			writer.Write(SoundFile);
-			writer.Write(SenderId.m_SteamID);
+			writer.Write(SenderId);
 			writer.Write(volumePercentage);
 		}
 
@@ -45,10 +45,10 @@ namespace BathTub.MP
 			Console.WriteLine($"sound packet received with ID: {SoundFile}");
 			ModAssets.PlaySoundFromMP(SoundFile, volumePercentage);
 
-			if (ONI_MP_API.SessionInfoAPI.IsHost)
+			if (ONI_Together_API.SessionInfoAPI.IsHost)
 			{
 				//re-broadcast to other clients
-				HashSet<CSteamID> exclude = [SenderId, ONI_MP_API.SessionInfoAPI.LocalSteamID];
+				HashSet<ulong> exclude = [SenderId, ONI_Together_API.SessionInfoAPI.LocalUserID];
 				PacketSenderAPI.SendToAllExcluding(this, exclude);
 			}
 		}
