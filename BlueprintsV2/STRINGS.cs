@@ -306,42 +306,26 @@ namespace BlueprintsV2
 							}
 						}
 					}
-				}
-				public class BUILDINGLIST
-				{
-					public class HEADER
+
+					public class BUILDINGLIST
 					{
-						public static LocString LABEL = "Building List:";
-					}
-					public class SEARCHBAR
-					{
-						public class INPUT
+						public class HEADER
 						{
-							public class TEXTAREA
-							{
-								public static LocString PLACEHOLDER = "Enter text to filter buildings...";
-							}
+							public static LocString LABEL = "Building List:";
 						}
-					}
-					public class SCROLLAREA
-					{
-						public class CONTENT
+						public class SCROLLAREA
 						{
-							public class NOBUILDINGSINBLUEPRINT
+							public class CONTENT
 							{
-								public static LocString LABEL = "Blueprint does not contain any buildings";
-							}
-							public class BUILDINGENTRYPREFAB
-							{
-								public class DESCRIPTOR
+								public class NOBUILDINGSINBLUEPRINT
 								{
-									public static LocString LABEL = "BuildingName";
+									public static LocString LABEL = "Blueprint does not contain any buildings";
 								}
 							}
 						}
 					}
-				}
 
+				}
 				public class MATERIALSWITCH
 				{
 					public static LocString WARNING = "Some materials in the blueprint require more mass than available on the current asteroid!";

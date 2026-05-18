@@ -17,8 +17,6 @@ using UtilLibs.UI.FUI;
 using UtilLibs.UIcmp;
 using static BlueprintsV2.STRINGS.UI;
 using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR;
-using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.BLUEPRINTINFO.STATS;
-using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.BUILDINGLIST.SCROLLAREA.CONTENT;
 using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH;
 using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.MATERIALSWITCH.BUTTONS;
 using static BlueprintsV2.STRINGS.UI.DIALOGUE;
@@ -63,7 +61,8 @@ namespace BlueprintsV2.UnityUI
 		public GameObject BlueprintsElements;
 		public GameObject ReplaceBlueprintElements;
 		public GameObject BlueprintInfo;
-		public GameObject BlueprintInfoBuildingList;
+		//public GameObject BlueprintInfoBuildingList;
+		public GameObject BlueprintPreview;
 		public FButton CloseBtn;
 
 		//BlueprintList
@@ -85,16 +84,19 @@ namespace BlueprintsV2.UnityUI
 		public FInputField2 DescriptionInput;
 		public FButton ResetText, ApplyText;
 		public LocText DimensionInfo, BuildingCount, DigCount, NoteCount;
+		public FButton EditBlueprintIconBtn, ClearBlueprintIconBtn;
+		public FColorPickerArray ColorPicker;
 
 		//Blueprint info building list
-		public FInputField2 BuildingListSearchbar;
-		public FButton ClearBuildingListSearchbar;
+		//public FInputField2 BuildingListSearchbar;
+		//public FButton ClearBuildingListSearchbar;
 		public GameObject BuildingInfoContainer;
+		public GameObject NoBuildingsInfo;
 		public BuildingInfoEntry BuildingInfoEntryPrefab;
 		public Dictionary<string, BuildingInfoEntry> BuildingInfoEntries = new();
 		public Image BlueprintIconDisplay;
-		public FButton EditBlueprintIconBtn, ClearBlueprintIconBtn;
-		public FColorPickerArray ColorPicker;
+		//Preview
+
 
 
 		//MaterialList
@@ -156,7 +158,8 @@ namespace BlueprintsV2.UnityUI
 			BlueprintsElements = transform.Find("MaterialSwitch").gameObject;
 			ReplaceBlueprintElements = transform.Find("MaterialReplacer").gameObject;
 			BlueprintInfo = transform.Find("BlueprintInfo").gameObject;
-			BlueprintInfoBuildingList = transform.Find("BuildingList").gameObject;
+			//BlueprintInfoBuildingList = transform.Find("BuildingList").gameObject;
+			BlueprintPreview = transform.Find("Preview").gameObject;
 
 			CloseBtn = transform.Find("CloseButton").gameObject.AddOrGet<FButton>();
 			CloseBtn.OnClick += OnCloseClicked;
@@ -283,16 +286,17 @@ namespace BlueprintsV2.UnityUI
 
 			//blueprint info building list
 
-			BuildingListSearchbar = transform.Find("BuildingList/SearchBar/Input").gameObject.AddOrGet<FInputField2>();
-			BuildingListSearchbar.OnValueChanged.AddListener(ApplyBuildingsFilter);
-			BuildingListSearchbar.Text = string.Empty;
+			//BuildingListSearchbar = transform.Find("BuildingList/SearchBar/Input").gameObject.AddOrGet<FInputField2>();
+			//BuildingListSearchbar.OnValueChanged.AddListener(ApplyBuildingsFilter);
+			//BuildingListSearchbar.Text = string.Empty;
 
-			ClearBuildingListSearchbar = transform.Find("BuildingList/SearchBar/DeleteButton").gameObject.AddOrGet<FButton>();
-			ClearBuildingListSearchbar.OnClick += () => BuildingListSearchbar.Text = string.Empty;
+			//ClearBuildingListSearchbar = transform.Find("BuildingList/SearchBar/DeleteButton").gameObject.AddOrGet<FButton>();
+			//ClearBuildingListSearchbar.OnClick += () => BuildingListSearchbar.Text = string.Empty;
 
-			BuildingInfoContainer = transform.Find("BuildingList/ScrollArea/Content").gameObject;
+			BuildingInfoContainer = transform.Find("BlueprintInfo/BuildingList/ScrollArea/Content").gameObject;
 			BuildingInfoEntryPrefab = BuildingInfoContainer.transform.Find("BuildingEntryPrefab").gameObject.AddOrGet<BuildingInfoEntry>();
 			BuildingInfoEntryPrefab.gameObject.SetActive(false);
+			NoBuildingsInfo = BuildingInfoContainer.transform.Find("NoBuildingsInBlueprint").gameObject;
 
 			EditBlueprintIconBtn = transform.Find("BlueprintInfo/Stats/IconContainer/EditButton").gameObject.AddOrGet<FButton>();
 			EditBlueprintIconBtn.OnClick += ShowSpriteSelectionScreen;
@@ -446,10 +450,11 @@ namespace BlueprintsV2.UnityUI
 
 
 			BlueprintInfo.SetActive(show);
-			BlueprintInfoBuildingList.SetActive(show);
+			BlueprintPreview.SetActive(false);
+			//BlueprintInfoBuildingList.SetActive(show);
 			if (show)
 			{
-				BuildingListSearchbar.Text = string.Empty;
+				//BuildingListSearchbar.Text = string.Empty;
 				UpdateBuildingButtons();
 			}
 		}
@@ -577,6 +582,7 @@ namespace BlueprintsV2.UnityUI
 				uiEntry.gameObject.SetActive(true);
 				uiEntry.SetBuildingCount(buildingWithCount.Value);
 			}
+			NoBuildingsInfo.SetActive(!buildingIds.Any());
 		}
 
 		void UpdateBlueprintButtons()

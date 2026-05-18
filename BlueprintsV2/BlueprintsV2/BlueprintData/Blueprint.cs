@@ -132,8 +132,8 @@ namespace BlueprintsV2.BlueprintData
 
 		void CalculateDimensions()
 		{
-			int x = 0, totalX = 0;
-			int y = 0, totalY = 0;
+			int x = 0, totalX = -1;
+			int y = 0, totalY = -1;
 			foreach (var building in BuildingConfigurations)
 			{
 				var offset = building.Offset;
@@ -158,9 +158,33 @@ namespace BlueprintsV2.BlueprintData
 					x = digSpot.x;
 
 				if (digSpot.y > totalY)
-					totalY = digSpot.y;
+					totalY = digSpot.y+1;
 				if (digSpot.x > totalX)
-					totalX = digSpot.x;
+					totalX = digSpot.x + 1;
+			}
+			foreach (var worldnote in WorldNotes.Keys)
+			{
+				if (worldnote.y > y)
+					y = worldnote.y;
+				if (worldnote.x > x)
+					x = worldnote.x;
+
+				if (worldnote.y > totalY)
+					totalY = worldnote.y + 1;
+				if (worldnote.x > totalX)
+					totalX = worldnote.x + 1;
+			}
+			foreach (var plan in PlanningToolMod_PlanDataValues.Keys)
+			{
+				if (plan.y > y)
+					y = plan.y;
+				if (plan.x > x)
+					x = plan.x;
+
+				if (plan.y > totalY)
+					totalY = plan.y + 1;
+				if (plan.x > totalX)
+					totalX = plan.x + 1;
 			}
 			_dimensionX = x; _dimensionY = y;
 			VisibleDimensions = new Vector2I(totalX, totalY);

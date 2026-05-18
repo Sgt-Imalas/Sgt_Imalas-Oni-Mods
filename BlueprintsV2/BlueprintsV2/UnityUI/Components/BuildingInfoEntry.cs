@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine.UI;
+using UtilLibs;
 
 namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
 {
 	internal class BuildingInfoEntry : KMonoBehaviour
 	{
 		public string BuildingName;
-		public LocText BuildingNameLocText;
+		public ToolTip BuildingNameText;
 		public Image BuildingIcon;
 		public LocText BuildingCount;
 
@@ -23,12 +24,12 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
 			if(def == null)
 			{
 				BuildingIcon.sprite = Assets.GetSprite("unknown");
-				BuildingNameLocText.SetText(id.ToString());
+				BuildingNameText.SetSimpleTooltip(id.ToString());
 				return;
 			}
 
 			BuildingIcon.sprite = def.GetUISprite();
-			BuildingNameLocText.SetText(def.Name);
+			BuildingNameText.SetSimpleTooltip(def.Name);
 			BuildingName = def.Name;
 		}
 	
@@ -36,15 +37,15 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
 		public override void OnPrefabInit()
 		{
 			base.OnPrefabInit();
-			BuildingNameLocText = transform.Find("Descriptor/Label").gameObject.GetComponent<LocText>();
-			BuildingCount = transform.Find("Descriptor/Output").gameObject.GetComponent<LocText>();
+			BuildingNameText = UIUtils.AddSimpleTooltipToObject(gameObject.transform,string.Empty);
+			BuildingCount = transform.Find("Amount").gameObject.GetComponent<LocText>();
 			BuildingIcon = transform.Find("BuildingIcon").gameObject.GetComponent<Image>();
 		}
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
 			if(!BuildingName.IsNullOrWhiteSpace())
-				BuildingNameLocText.SetText(BuildingName);
+				BuildingNameText.SetSimpleTooltip(BuildingName);
 		}
 	}
 }
