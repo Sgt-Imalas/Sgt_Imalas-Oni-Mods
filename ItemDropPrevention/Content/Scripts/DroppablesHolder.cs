@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using static ResearchTypes;
 
 namespace ItemDropPrevention.Content.Scripts
 {
@@ -71,7 +72,15 @@ namespace ItemDropPrevention.Content.Scripts
 		{
 			DropMarkedItemsIfValid();
 		}
-
+		public void ForceDropCheck()
+		{
+			DropMarkedItemsIfValid();
+		}
+		void RemoveItemFromDropList(int? id, GameObject item)
+		{
+			MarkItemInvisible(item.gameObject, false);
+			MarkedForDrop.Remove(id.Value);
+		}
 		void DropMarkedItemsIfValid()
 		{
 			if (!MarkedForDrop.Any())
@@ -105,8 +114,7 @@ namespace ItemDropPrevention.Content.Scripts
 						var id = item.gameObject?.GetInstanceID();
 						if (id.HasValue)
 						{
-							MarkItemInvisible(item.gameObject, false);
-							MarkedForDrop.Remove(id.Value);
+							RemoveItemFromDropList(id, item.gameObject);
 						}
 					}
 				}
@@ -122,8 +130,7 @@ namespace ItemDropPrevention.Content.Scripts
 				var id = task.gameObject?.GetInstanceID();
 				if (id.HasValue)
 				{
-					MarkItemInvisible(task.gameObject, false);
-					MarkedForDrop.Remove(id.Value);
+					RemoveItemFromDropList(id, task.gameObject);
 				}
 			}
 
