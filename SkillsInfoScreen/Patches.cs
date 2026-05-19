@@ -87,8 +87,8 @@ namespace SkillsInfoScreen
 				screenGO.SetActive(true);
 
 				SgtLogger.l("SkillsOverviewInfoScreen gameobject:");
-				UIUtils.ListAllChildrenWithComponents(screenGO.transform);
-				UIUtils.ListAllChildrenPath(screenGO.transform);
+				//UIUtils.ListAllChildrenWithComponents(screenGO.transform);
+				//UIUtils.ListAllChildrenPath(screenGO.transform);
 
 				///make menu info entry
 				SkillsOverviewInfo = new ManagementMenu.ManagementMenuToggleInfo(

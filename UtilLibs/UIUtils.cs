@@ -236,9 +236,10 @@ namespace UtilLibs
 		{
 			if (level >= maxDepth) return;
 
-			if (level == 0 && PreAmblel.Length > 0)
+			if (level == 0)
 			{
-				SgtLogger.l(PreAmblel);
+				SgtLogger.l("Dumping UI structure of "+parent+":");
+				//SgtLogger.l(PreAmblel);
 			}
 
 			foreach (Transform child in parent)
@@ -250,6 +251,11 @@ namespace UtilLibs
 		public static void ListAllChildrenPath(Transform parent, string path = "/", int level = 0, int maxDepth = 10)
 		{
 			if (level >= maxDepth) return;
+			if (level == 0)
+			{
+				SgtLogger.l("Dumping UI structure with paths of " + parent + ":");
+				//SgtLogger.l(PreAmblel);
+			}
 
 			foreach (Transform child in parent)
 			{
