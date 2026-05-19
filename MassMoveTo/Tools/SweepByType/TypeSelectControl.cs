@@ -189,10 +189,10 @@ namespace MassMoveTo.Tools.SweepByType
 			{
 				Text = FilterText,
 				MinWidth = 170,
-				FlexSize = new Vector2(1,0),
+				FlexSize = new Vector2(1, 0),
 				TextAlignment = TMPro.TextAlignmentOptions.MidlineLeft,
-				
-			}.AddOnRealize((go)=>
+
+			}.AddOnRealize((go) =>
 			{
 				go.GetComponent<TMP_InputField>().onValueChanged.AddListener(text => OnFilterTextChanged(text));
 			}))
@@ -385,10 +385,23 @@ namespace MassMoveTo.Tools.SweepByType
 		/// <summary>
 		/// Updates the parent check box state from the children.
 		/// </summary>
-		internal void UpdateFromChildren()
+		internal void UpdateFromChildren(Tag? changedTag = null, bool selected = true)
 		{
+			UpdateCategoryEntriesForTag(changedTag, selected);
 			UpdateAllItems(allItems, children.Values);
 			SaveTypes();
+		}
+
+		void UpdateCategoryEntriesForTag(Tag? elementTag, bool selected)
+		{
+			if (!elementTag.HasValue)
+				return;
+
+			foreach (var item in children)
+				if (item.Value.children.TryGetValue(elementTag.Value, out var selectElement))
+				{
+					selectElement.SetSelected(selected, false	);
+				}
 		}
 
 		void UpdateVisibility()
@@ -407,7 +420,7 @@ namespace MassMoveTo.Tools.SweepByType
 						shouldBeVisible = true;
 				}
 				item.Value.Header.SetActive(shouldBeVisible);
-				if(shouldBeVisible)
+				if (shouldBeVisible)
 					item.Value.SetToggleState(shouldBeVisible && hasFilter);
 
 			}
@@ -458,7 +471,7 @@ namespace MassMoveTo.Tools.SweepByType
 			public void SetToggleState(bool open)
 			{
 				PToggle.SetToggleState(Toggle, open);
-				OnToggle(Toggle,open);
+				OnToggle(Toggle, open);
 			}
 			internal TypeSelectCategory(TypeSelectControl parent, Tag categoryTag,
 					string overrideName = null)
@@ -484,7 +497,7 @@ namespace MassMoveTo.Tools.SweepByType
 					ROW_SIZE.y * 0.5f),
 					Color = PUITuning.Colors.ComponentLightStyle
 				};
-				showHide.OnRealize += (obj)=> { Toggle = obj; };
+				showHide.OnRealize += (obj) => { Toggle = obj; };
 				Header = new PRelativePanel("TypeSelectCategory") { DynamicSize = false }.
 					AddChild(showHide).AddChild(selectBox)
 					.SetLeftEdge(showHide, fraction: 0.0f)
@@ -588,10 +601,10 @@ namespace MassMoveTo.Tools.SweepByType
 			/// <summary>
 			/// Updates the parent check box state from the children.
 			/// </summary>
-			internal void UpdateFromChildren()
+			internal void UpdateFromChildren(Tag? changedTag = null, bool selected = true)
 			{
 				UpdateAllItems(CheckBox, children.Values);
-				Control.UpdateFromChildren();
+				Control.UpdateFromChildren(changedTag, selected);
 			}
 		}
 
@@ -645,7 +658,7 @@ namespace MassMoveTo.Tools.SweepByType
 			/// Sets the selected state of this type.
 			/// </summary>
 			/// <param name="selected">true to select this type, or false otherwise.</param>
-			public void SetSelected(bool selected)
+			public void SetSelected(bool selected, bool updateParent = true)
 			{
 				if (selected)
 					// Clicked when unchecked, check and possibly check all
@@ -653,7 +666,8 @@ namespace MassMoveTo.Tools.SweepByType
 				else
 					// Clicked when checked, clear and possibly uncheck
 					PCheckBox.SetCheckState(CheckBox, PCheckBox.STATE_UNCHECKED);
-				parent.UpdateFromChildren();
+				if(updateParent)
+					parent.UpdateFromChildren(ElementTag, selected);
 			}
 
 			public override string ToString()
