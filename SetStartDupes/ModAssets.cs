@@ -64,6 +64,12 @@ namespace SetStartDupes
 		public static bool RainbowFartsActive = false;
 		public static List<DUPLICANTSTATS.TraitVal> RAINBOWFARTS_FARTTRAITS = new List<DUPLICANTSTATS.TraitVal>();
 
+		public static Dictionary<string, string> ExtraTraitTooltipKeys = new Dictionary<string, string>();
+
+		public static void AddExtraTraitTooltipKey(string traitId, string tooltipKey)
+		{			
+			ExtraTraitTooltipKeys[traitId] = tooltipKey;
+		}
 
 		public static GameObject ParentScreen
 		{
@@ -463,7 +469,7 @@ namespace SetStartDupes
 
 			ModAssets.GetTraitListOfTrait(trait.Id, out var list);
 			if (list == null)
-				return tooltip;
+				return AppendExtraTooltipInfo(trait.Id, tooltip);
 
 			var traitBonusHolder = list.Find(traitTo => traitTo.id == trait.Id);
 			if (traitBonusHolder.statBonus != 0 || traitBonusHolder.rarity != 0)
@@ -480,8 +486,17 @@ namespace SetStartDupes
 				tooltip += "\n" + string.Format(DUPESETTINGSSCREEN.TRAIT_RARITYLEVEL, rarityLevelName);
 			}
 
-			return tooltip;
+			return AppendExtraTooltipInfo(trait.Id, tooltip);
 		}
+		static string AppendExtraTooltipInfo(string traitId, string current)
+		{
+			if (ExtraTraitTooltipKeys.TryGetValue(traitId, out var tooltipKey))
+			{
+				current += "\n\n" + Strings.Get(tooltipKey);
+			}
+			return current;
+		}
+
 		public static string GetTraitStatBonusTooltip(Trait trait, bool withDescriptor = true)
 		{
 			string tooltip = string.Empty;

@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using TUNING;
 using UtilLibs;
 using UtilLibs.ModVersionCheck;
 using static Database.Personalities;
@@ -23,6 +24,8 @@ namespace SetStartDupes
 
 		public override void OnLoad(Harmony harmony)
 		{
+			ModAssets.AddExtraTraitTooltipKey("PrefersWarmer", "STRINGS.DSS_PREFERSWARMER_WARNING");
+
 			SgtLogger.debuglog("Initializing file paths..");
 			ModAssets.ExtraCarePackageFileInfo = FileSystem.Normalize(Path.Combine(Manager.GetDirectory(), "config", "DSS_ExtraCarePackages.json"));
 			ModAssets.DisabledVanillaCarePackages = FileSystem.Normalize(Path.Combine(Manager.GetDirectory(), "config", "DSS_DisabledVanillaPackages.json"));

@@ -1,10 +1,13 @@
-﻿using static SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS;
+﻿using UnityEngine;
+using UtilLibs;
+using static SetStartDupes.STRINGS.UI.PRESETWINDOW.HORIZONTALLAYOUT.ITEMINFO.BUTTONS;
 
 namespace SetStartDupes
 {
 	public class STRINGS
 	{
 		public static LocString BIONIC_STRESS_HARDWIRED = "Bionic duplicants have a hardwired stress reaction since they are mostly incompatible with normal stress reactions";
+		public static LocString DSS_PREFERSWARMER_WARNING = UIUtils.ColorText(UIUtils.EmboldenText("WARNING!\n"), Color.red)+"This trait can lead to a negative duplicant insulation value, which will lead to a bug with dupes constantly heating up, as well as potential crashes.\nThis can be counteracted with a warm coat or snazzy suit.\n"+UIUtils.EmboldenText("Use at your own risk!");
 
 		public static LocString UNNAMEDPRESET = "(Unnamed Preset)";
 		public static LocString MISSINGTRAIT = "Missing Trait!";
