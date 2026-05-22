@@ -24,7 +24,7 @@ namespace Rockets_TinyYetBig.Content.Defs.Buildings.DerelictPropBuildings
 				hitpoints: BUILDINGS.HITPOINTS.TIER2,
 				construction_time: BUILDINGS.CONSTRUCTION_TIME_SECONDS.TIER1,
 				construction_mass: [100, 25],
-				construction_materials: [MATERIALS.TRANSPARENT, SimHashes.Steel.ToString()],
+				construction_materials: [MATERIALS.ALL_GLASSES, SimHashes.Steel.ToString()],
 				melting_point: BUILDINGS.MELTING_POINT_KELVIN.TIER2,
 				build_location_rule: BuildLocationRule.Anywhere,
 				decor: DECOR.BONUS.TIER0,

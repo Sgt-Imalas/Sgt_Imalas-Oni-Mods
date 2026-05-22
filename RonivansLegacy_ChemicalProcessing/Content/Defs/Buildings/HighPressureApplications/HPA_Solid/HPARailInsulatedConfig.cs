@@ -18,7 +18,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 		public override BuildingDef CreateBuildingDef()
 		{
 			EffectorValues nONE = NOISE_POLLUTION.NONE;
-			string[] mats = [ModElements.SteelAndTungstenMaterial, MATERIALS.TRANSPARENT];
+			string[] mats = [ModElements.SteelAndTungstenMaterial, MATERIALS.ALL_GLASSES];
 			float[] costs = [125, 25];
 			BuildingDef def1 = BuildingTemplates.CreateBuildingDef(ID, 1, 1, "hpa_rail_insulated_kanim", 10, 3f, costs, mats, 1600f, BuildLocationRule.NotInTiles, BUILDINGS.DECOR.NONE, nONE, 0.2f);
 			def1.Overheatable = false;

@@ -17,7 +17,7 @@ namespace LightBridge.Buildings
             string[] Materials = new string[]
             {
                 MATERIALS.REFINED_METAL,
-                MATERIALS.TRANSPARENT
+                MATERIALS.ALL_GLASSES
             };
             float[] MaterialCosts = new float[] { 400, 200 };
 

@@ -11,7 +11,7 @@ namespace UtilityGlass
 		public override BuildingDef CreateBuildingDef()
 		{
 			float[] tieR2 = BUILDINGS.CONSTRUCTION_MASS_KG.TIER2;
-			string[] buildingMaterials = MATERIALS.TRANSPARENTS;
+			string[] buildingMaterials = MATERIALS.ALL_GLASSESS;
 			EffectorValues noise = NOISE_POLLUTION.NONE;
 			EffectorValues decor = new EffectorValues()
 			{

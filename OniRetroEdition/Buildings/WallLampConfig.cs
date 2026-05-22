@@ -13,7 +13,7 @@ namespace OniRetroEdition.Buildings
 			string[] buildingResources =
 				{
 				MATERIALS.REFINED_METAL,
-				MATERIALS.TRANSPARENT
+				MATERIALS.ALL_GLASSES
 			};
 			EffectorValues none = NOISE_POLLUTION.NONE;
 			EffectorValues tieR1_2 = BUILDINGS.DECOR.BONUS.TIER0;
