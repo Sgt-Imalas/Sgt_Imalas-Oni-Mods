@@ -66,6 +66,8 @@ namespace SetStartDupes
 			}
 			Mate.second.ApplyPreset(container.Stats, true, true);
 			container.characterNameTitle.OnEndEdit(Mate.second.ConfigName);
+
+			ModAssets.CharacterContainer_OnReshuffled(container)?.Invoke(container);
 			container.RefreshDuplicantPanel();			
 		}
 

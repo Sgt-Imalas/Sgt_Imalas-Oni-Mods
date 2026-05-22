@@ -1,5 +1,6 @@
 ﻿using Beached_ModAPI;
 using Database;
+using HarmonyLib;
 using Klei.AI;
 using SetStartDupes.API_IO;
 using SetStartDupes.CarePackageEditor;
@@ -66,6 +67,7 @@ namespace SetStartDupes
 		public static List<DUPLICANTSTATS.TraitVal> RAINBOWFARTS_FARTTRAITS = new List<DUPLICANTSTATS.TraitVal>();
 
 		public static Dictionary<string, string> ExtraTraitTooltipKeys = new Dictionary<string, string>();
+		public static readonly AccessTools.FieldRef<CharacterContainer, Action<CharacterContainer>> CharacterContainer_OnReshuffled = AccessTools.FieldRefAccess<CharacterContainer, Action<CharacterContainer>>("OnReshuffled");
 
 		public static void AddExtraTraitTooltipKey(string traitId, string tooltipKey)
 		{
