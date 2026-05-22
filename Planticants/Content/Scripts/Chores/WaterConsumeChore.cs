@@ -172,7 +172,7 @@ namespace Planticants.Content.Scripts.Chores
 				if (messStation == null)
 					return false;
 				IDiningSeat diningSeat = WaterConsumeChore.ResolveDiningSeat(messStation);
-				return diningSeat != null && diningSeat.HasSalt;
+				return diningSeat != null && diningSeat.HasGarnish;
 			}
 
 			public bool UseSalt()

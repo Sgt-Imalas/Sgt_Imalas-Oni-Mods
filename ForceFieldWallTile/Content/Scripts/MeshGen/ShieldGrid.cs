@@ -183,7 +183,7 @@ namespace ForceFieldWallTile.Content.Scripts.MeshGen
 			{
 				return;
 			}
-			if (Grid.WorldIdx[cell] != ClusterManager.Instance?.activeWorldIdx)
+			if (!Grid.IsValidCell(cell) || Grid.WorldIdx[cell] != ClusterManager.Instance?.activeWorldIdx)
 				return;
 
 			//var nodeColor = node.GetCurrentColor();

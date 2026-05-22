@@ -19,7 +19,7 @@ namespace Planticants.Patches
                 if(!__instance.allMinionModels.Contains(ModTags.PlantMinion))
                     __instance.allMinionModels.Add(ModTags.PlantMinion);
 
-				CharacterContainer.portraitBGAnims[ModTags.PlantMinion] = "updated_crewSelect_bionic_backdrop_kanim";
+				CharacterContainer.portraitBGAnimsByModel[ModTags.PlantMinion] = CharacterContainer.portraitBGAnimsByModel[GameTags.Minions.Models.Bionic];
 			}
 
         }
