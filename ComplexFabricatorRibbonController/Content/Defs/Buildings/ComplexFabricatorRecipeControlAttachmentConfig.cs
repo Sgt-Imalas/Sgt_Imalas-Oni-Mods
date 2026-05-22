@@ -43,7 +43,7 @@ namespace ComplexFabricatorRibbonController.Content.Defs.Buildings
 			buildingDef.AudioCategory = "Metal";
 			buildingDef.AudioSize = "small";
 			buildingDef.BaseTimeUntilRepair = -1f;
-			buildingDef.ObjectLayer = ObjectLayer.AttachableBuilding;
+			buildingDef.ObjectLayer = ObjectLayer.LogicGate;
 			buildingDef.CanMove = false;
 			buildingDef.AddSearchTerms((string)SEARCH_TERMS.AUTOMATION);
 			buildingDef.ViewMode = OverlayModes.Logic.ID;
