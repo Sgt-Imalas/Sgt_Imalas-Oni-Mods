@@ -1435,8 +1435,7 @@ namespace SetStartDupes
 				//}
 			}
 		}
-		static readonly AccessTools.FieldRef<CharacterContainer,Action<CharacterContainer>> CharacterContainer_OnReshuffled = AccessTools.FieldRefAccess<CharacterContainer, Action<CharacterContainer>>("OnReshuffled");
-
+		
 		[HarmonyPatch(typeof(CharacterContainer), nameof(CharacterContainer.OnSpawn))]
 		public class AddDeletionButtonForStartScreen_TraitRerolling
 		{
@@ -1503,7 +1502,7 @@ namespace SetStartDupes
 				System.Action RebuildDupePanel = () =>
 				{
 					__instance.RefreshDuplicantPanel();
-					CharacterContainer_OnReshuffled(__instance)?.Invoke(__instance);
+					ModAssets.CharacterContainer_OnReshuffled(__instance)?.Invoke(__instance);
 				};
 
 				if (is_starter || allowReskin)
