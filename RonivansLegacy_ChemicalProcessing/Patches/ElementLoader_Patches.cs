@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using ElementData;
+using HarmonyLib;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using System;
 using System.Collections.Generic;

@@ -372,7 +372,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			}
 		}
 
-		public static void ClearReenabledVanillaElementCodexTags(ref List<ElementLoader.ElementEntry> elementList)
+		public static void ClearReenabledVanillaElementCodexTags(ref List<ElementData.ElementEntry> elementList)
 		{
 			HashSet<string> ToUnhide = [];
 

@@ -18,7 +18,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 		{
 			string kanim = "floor_spacer_glass_kanim";
 			float[] mass = [95, 5];
-			string[] cost = [GameTags.Transparent.ToString(),GameTags.RefinedMetal.ToString()];
+			string[] cost = [MATERIALS.ALL_GLASSES,GameTags.RefinedMetal.ToString()];
 
 			BuildingDef def = BuildingTemplates.CreateBuildingDef(ID, 1, 1, kanim, 100, 5f, mass, cost, 1600f, BuildLocationRule.Tile, BUILDINGS.DECOR.BONUS.TIER1, NOISE_POLLUTION.NONE);
 			BuildingTemplates.CreateFoundationTileDef(def);

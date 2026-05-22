@@ -42,8 +42,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 			BuildingDef buildingDef =
 				BuildingTemplates.CreateBuildingDef(ID, 2, 4,
 				"custom_solid_generator_kanim",
-				(int)(100 ),
-				(int)120,
+				100,
+				120,
 				construction_mass, construction_materials,
 				2400f, BuildLocationRule.OnFloor, decor, noise);
 

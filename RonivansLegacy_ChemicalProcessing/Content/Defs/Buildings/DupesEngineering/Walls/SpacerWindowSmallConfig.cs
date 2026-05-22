@@ -14,8 +14,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 
 		public override BuildingDef CreateBuildingDef()
 		{
-			float[] tieR2 = [15,5];
-			string[] buildingMaterials = [GameTags.Transparent.ToString(), GameTags.Steel.ToString()];
+			float[] tieR2 = [15,5];			
+			string[] buildingMaterials = [MATERIALS.ALL_GLASSES, GameTags.Steel.ToString()];
 			EffectorValues noise = NOISE_POLLUTION.NONE;
 			EffectorValues decor = new EffectorValues()
 			{
