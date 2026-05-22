@@ -304,8 +304,9 @@ namespace SetStartDupes
         private void InitAllContainers()
         {
             var traitsDb = Db.Get().traits;
-            var interests = new List<SkillGroup>(Db.Get().SkillGroups.resources);
-            interests.RemoveAll(interest => interest.choreGroupID == null);
+            var choregroupsDb = Db.Get().ChoreGroups;
+			var interests = new List<SkillGroup>(Db.Get().SkillGroups.resources);
+            interests.RemoveAll(interest => interest.choreGroupID == null || choregroupsDb.TryGet(interest.choreGroupID) == null);
             var sortedInterests = interests.OrderBy(interest =>  interest.Name);
 
 

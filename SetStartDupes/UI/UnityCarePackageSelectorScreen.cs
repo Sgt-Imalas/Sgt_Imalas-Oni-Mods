@@ -124,7 +124,7 @@ namespace SetStartDupes
 			ReferencedContainer.SetAnimator();
 			ReferencedContainer.SetInfoText();
 			ReferencedContainer.selectButton.ClearOnClick();
-			ReferencedContainer.selectButton.onClick += (System.Action)(() => ReferencedContainer.SelectDeliverable());
+			ReferencedContainer.selectButton.onClick += () => ReferencedContainer.SelectDeliverable();
 
 			this.Show(false);
 		}

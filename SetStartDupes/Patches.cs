@@ -1974,31 +1974,60 @@ namespace SetStartDupes
 			}
 		}
 
+		[HarmonyPatch]
+		public static class LockPersonalityOnStart
+		{
+			[HarmonyPrepare]
+			public static bool Prepare() => FindMethod() != null;
+			[HarmonyTargetMethod]
+			public static MethodBase FindMethod()
+			{
+				var targetType = typeof(MinionSelectScreen);
+				foreach (var method in targetType.GetMethods(AccessTools.all))
+				{
+					if (method.Name.Contains("SetupMinion"))
+					{
+						SgtLogger.l("MinionSelectScreen.SetupMinion found as:" + method.Name);
+						return method;
+					}
+				}
+				SgtLogger.warning("MinionSelectScreen.SetupMinion!");
+				return null;
+			}
+
+			[HarmonyPostfix]
+			public static void Postfix(CharacterContainer __0, string __1)
+			{
+				if(!__1.IsNullOrWhiteSpace())
+					ModAssets.SetContainerPersonalityLock(__0, true);
+			}
+		}
+		static void LockCharacterContainerPersonality(CharacterContainer container)
+		{
+			ModAssets.SetContainerPersonalityLock(container, true);
+			ModAssets.UpdateTraitLockButton(container);
+		}
 
 		[HarmonyPatch(typeof(CharacterContainer), nameof(CharacterContainer.SetMinion))]
 		public static class RefreshStatsForFreyja
 		{
 			[HarmonyPriority(Priority.Low - 1)]
-			public static void Postfix(CharacterContainer __instance, MinionStartingStats ___stats)
+			public static void Postfix(CharacterContainer __instance)
 			{
 				var mngt = __instance.transform.Find("ModifyDupeStats");
 				if (mngt == null)
 				{
-					SgtLogger.log("StatManager not found, skipping assignment..")
-					  ; return;
+					SgtLogger.log("StatManager not found, skipping assignment.."); return;
 				}
-				var mng = mngt.gameObject.GetComponent<DupeTraitManager>();
-				if (mng != null)
+				if (mngt.gameObject.TryGetComponent<DupeTraitManager>(out var mng))
 				{
-					mng.SetReferenceStats(___stats);
+					mng.SetReferenceStats(__instance.Stats);
 				}
 				else
 				{
 					SgtLogger.warning("dupe mng was null!");
 					return;
 				}
-
-				ModAssets.SetContainerPersonalityLock(__instance, true);
 				///no longer required because the congenital trait is now included with the personality lock
 
 				//string congenitalTrait = ___stats.personality.congenitaltrait;

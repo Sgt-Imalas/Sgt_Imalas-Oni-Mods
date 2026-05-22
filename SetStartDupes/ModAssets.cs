@@ -6,6 +6,7 @@ using SetStartDupes.CarePackageEditor;
 using SetStartDupes.DuplicityEditing.ScreenComponents;
 using STRINGS;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -67,7 +68,7 @@ namespace SetStartDupes
 		public static Dictionary<string, string> ExtraTraitTooltipKeys = new Dictionary<string, string>();
 
 		public static void AddExtraTraitTooltipKey(string traitId, string tooltipKey)
-		{			
+		{
 			ExtraTraitTooltipKeys[traitId] = tooltipKey;
 		}
 
@@ -114,7 +115,7 @@ namespace SetStartDupes
 			}
 		}
 
-		private static GameObject parentScreen = null;	
+		private static GameObject parentScreen = null;
 		public static void LoadAssets()
 		{
 			AssetBundle bundle = AssetUtils.LoadAssetBundle("dss_uiassets", platformSpecific: true);
@@ -314,7 +315,7 @@ namespace SetStartDupes
 		{
 			var attributes = DUPLICANTSTATS.ALL_ATTRIBUTES.ToList();
 
-			if(!DlcManager.IsExpansion1Active())
+			if (!DlcManager.IsExpansion1Active())
 				attributes.Remove("SpaceNavigation");
 
 			if (BeachedEnabled && !attributes.Contains("Beached_Precision"))
@@ -528,12 +529,12 @@ namespace SetStartDupes
 		{
 			if (group == null)
 				return string.Format(STRINGS.MISSINGSKILLGROUPDESC, id);
-
+			var db = Db.Get();
 
 			string description;
-			if (!group.choreGroupID.IsNullOrWhiteSpace())
+			if (!group.choreGroupID.IsNullOrWhiteSpace() && db.ChoreGroups.TryGet(group.choreGroupID) != null)
 			{
-				ChoreGroup choreGroup = Db.Get().ChoreGroups.Get(group.choreGroupID);
+				ChoreGroup choreGroup = db.ChoreGroups.Get(group.choreGroupID);
 				description = string.Format(DUPLICANTS.ROLES.GROUPS.APTITUDE_DESCRIPTION_CHOREGROUP, group.Name, DUPLICANTSTATS.APTITUDE_BONUS, choreGroup.description);
 			}
 			else
@@ -734,7 +735,7 @@ namespace SetStartDupes
 		{
 			get
 			{
-				if(_stressWithShocker == null)
+				if (_stressWithShocker == null)
 				{
 					_stressWithShocker = new(DUPLICANTSTATS.STRESSTRAITS);
 					_stressWithShocker.Add(new TraitVal
@@ -751,8 +752,12 @@ namespace SetStartDupes
 		public static void RefreshDuplicantPanel(this CharacterContainer container, bool setAttributes = true)
 		{
 			container.SetInfoText();
-			if(setAttributes)
+			if (setAttributes)
 				container.SetAttributes();
+			if(container.animController != null)
+			{
+				container.animController.RemoveAllAnimOverrides();
+			}
 			container.SetAnimator();
 			container.stats.ApplyOutfit(container.stats.personality, container.animController.gameObject, container.stats.GetSelectedOutfitOption());
 			container.RefreshOutfitSelector();
@@ -767,7 +772,7 @@ namespace SetStartDupes
 				{
 					_validBionicStressReactions = [.. StressWithShocker];
 					///these traits crash bionics
-					_validBionicStressReactions.RemoveAll(t => t.id == "StressVomiter" || t.id == "BingeEater"); 
+					_validBionicStressReactions.RemoveAll(t => t.id == "StressVomiter" || t.id == "BingeEater");
 				}
 
 				return _validBionicStressReactions;
@@ -775,7 +780,7 @@ namespace SetStartDupes
 		}
 
 		public static List<DUPLICANTSTATS.TraitVal> TryGetTraitsOfCategory(NextType type, Tag minionModel, bool overrideShowAll = false)
-		{			
+		{
 			bool initializingUI = minionModel == null;
 			bool bionicMinion = minionModel == GameTags.Minions.Models.Bionic;
 
