@@ -1501,8 +1501,8 @@ namespace SetStartDupes
 				//TextInput.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 3, 60);
 				System.Action RebuildDupePanel = () =>
 				{
-					__instance.RefreshDuplicantPanel();
 					ModAssets.CharacterContainer_OnReshuffled(__instance)?.Invoke(__instance);
+					__instance.RefreshDuplicantPanel();
 				};
 
 				if (is_starter || allowReskin)

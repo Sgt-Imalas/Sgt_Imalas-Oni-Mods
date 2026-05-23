@@ -13,12 +13,13 @@ using TUNING;
 using UtilLibs;
 using UtilLibs.ModVersionCheck;
 using static Database.Personalities;
+using static TUNING.DUPLICANTSTATS;
 
 namespace SetStartDupes
 {
-    public class Mod : UserMod2
-    {
-        public static Harmony harmonyInstance;
+	public class Mod : UserMod2
+	{
+		public static Harmony harmonyInstance;
 
 		public static bool SharingIsCaringInstalled { get; internal set; }
 
@@ -48,28 +49,38 @@ namespace SetStartDupes
 			SgtLogger.log("Folders succesfully initialized");
 
 			harmonyInstance = harmony;
-            ModApi.RegisteringJorge();
+			ModApi.RegisteringJorge();
 
-            ModAssets.LoadAssets();
-            PUtil.InitLibrary(false);
-            new POptions().RegisterOptions(this, typeof(Config));
+			ModAssets.LoadAssets();
+			PUtil.InitLibrary(false);
+			new POptions().RegisterOptions(this, typeof(Config));
 
-            SgtLogger.log("Current Config Settings:");
-            UtilMethods.ListAllPropertyValues(Config.Instance);
-            SgtLogger.LogVersion(this, harmony);
-            base.OnLoad(harmony);
-        }
-   
-        public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
-        {
+			SgtLogger.log("Current Config Settings:");
+			UtilMethods.ListAllPropertyValues(Config.Instance);
+			SgtLogger.LogVersion(this, harmony);
+			base.OnLoad(harmony);
+
+			string workaholic_ID = "Workaholic";
+			if (!DUPLICANTSTATS.NEEDTRAITS.Any(traitval => traitval.id == workaholic_ID))
+				DUPLICANTSTATS.NEEDTRAITS.Add(new TraitVal
+				{
+					id = workaholic_ID,
+					rarity = RARITY_COMMON
+				});
+		}
+
+
+
+		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
+		{
 			SharingIsCaringInstalled = mods.Any(mod => mod.staticID == "SharingIsCaring" && mod.IsEnabledForActiveDlc());
 
 
 			base.OnAllModsLoaded(harmony, mods);
 			CompatibilityNotifications.FixBrokenTimeout(harmony);
 			CompatibilityNotifications.FlagLoggingPrevention(mods);
-            CompatibilityNotifications.CheckAndAddIncompatibles("RePrint", "Duplicant Stat Selector", "Reprint");
-            ModAssets.RemoveCrashingIncompatibility(mods);
-        }
-    }
+			CompatibilityNotifications.CheckAndAddIncompatibles("RePrint", "Duplicant Stat Selector", "Reprint");
+			ModAssets.RemoveCrashingIncompatibility(mods);
+		}
+	}
 }
