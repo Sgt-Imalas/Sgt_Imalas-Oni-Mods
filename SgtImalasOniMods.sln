@@ -262,6 +262,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FloodFillTools", "SmartArea
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigUpFossils", "DigUpFossils\DigUpFossils.csproj", "{B9E6B3E9-2023-4CDE-8C76-E5D39D5F6E33}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotUpdateDate", "NotUpdateDate\NotUpdateDate.csproj", "{DE9E6F43-2FC1-428B-870F-775CC21E49BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -722,6 +724,10 @@ Global
 		{B9E6B3E9-2023-4CDE-8C76-E5D39D5F6E33}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9E6B3E9-2023-4CDE-8C76-E5D39D5F6E33}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9E6B3E9-2023-4CDE-8C76-E5D39D5F6E33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE9E6F43-2FC1-428B-870F-775CC21E49BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE9E6F43-2FC1-428B-870F-775CC21E49BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE9E6F43-2FC1-428B-870F-775CC21E49BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE9E6F43-2FC1-428B-870F-775CC21E49BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
