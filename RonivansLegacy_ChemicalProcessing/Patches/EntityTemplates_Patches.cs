@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using PeterHan.PLib.Core;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Entities;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Entities.CodexInfoDummies;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
@@ -6,6 +7,7 @@ using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -42,9 +44,15 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		/// <summary>
 		/// allow all "atmosphere" plants to also grow in nitrogen
 		/// </summary>
-		[HarmonyPatch(typeof(EntityTemplates), nameof(EntityTemplates.ExtendEntityToBasicPlant))]
+		[HarmonyPatch]
 		public class EntityTemplates_ExtendEntityToBasicPlant_Patch
 		{
+			[HarmonyTargetMethod]
+			static MethodBase GetTarget()
+			{
+				return typeof(EntityTemplates).GetOverloadWithMostArguments(nameof(EntityTemplates.ExtendEntityToBasicPlant), true);
+			}
+
 			public static void Prefix(GameObject template, ref SimHashes[] safe_elements, bool can_tinker)
 			{
 				if (safe_elements == null)
