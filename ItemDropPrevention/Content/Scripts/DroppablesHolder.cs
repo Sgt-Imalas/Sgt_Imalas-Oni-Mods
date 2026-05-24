@@ -36,6 +36,22 @@ namespace ItemDropPrevention.Content.Scripts
 			hasNarcolepsy = narcolepsy != null;
 			handle = Subscribe((int)GameHashes.PathAdvanced, OnPathAdvanced);
 			droppablesHolders.Add(this.gameObject, this);
+			ExpellNonBatteries();
+		}
+		void ExpellNonBatteries()
+		{
+			var batteryMonitor = gameObject.GetSMI<BionicBatteryMonitor.Instance>();
+			if (batteryMonitor == null)
+				return;
+			var batteryStorage = batteryMonitor.storage;
+			List<Tag> batteryTags = [GameTags.ChargedPortableBattery, GameTags.DisposablePortableBattery, GameTags.EmptyPortableBattery];
+
+			for (int i = batteryStorage.Count - 1; i >= 0; i--)
+			{
+				var batteryItem = batteryStorage[i];
+				if (!batteryItem.HasAnyTags(batteryTags))
+					batteryStorage.Drop(batteryItem);
+			}
 		}
 		public override void OnCleanUp()
 		{
