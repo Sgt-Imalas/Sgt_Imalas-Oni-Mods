@@ -116,6 +116,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 					float conduitMax = HighPressureConduitRegistration.GetMaxConduitCapacity(__instance.conduitType, true);
 					if (__instance.maxFlow < conduitMax)
 						__instance.maxFlow *= HighPressureConduitRegistration.GetConduitMultiplier(__instance.conduitType);
+					ModAssets.AdjustValveAnimFlowAnim(__instance, __instance.maxFlow);
 				}
 			}
 		}

@@ -1,4 +1,5 @@
-﻿using Klei.AI;
+﻿using HarmonyLib;
+using Klei.AI;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.UI;
 using System;
 using System.Collections;
@@ -95,7 +96,7 @@ namespace RonivansLegacy_ChemicalProcessing
 
 		internal static void MakeWallHidePipesIfEnabled(BuildingDef result)
 		{
-			if(Config.Instance.Drywall_Hides_Pipes)
+			if (Config.Instance.Drywall_Hides_Pipes)
 				result.SceneLayer = Grid.SceneLayer.LogicGatesFront;
 		}
 
@@ -104,6 +105,18 @@ namespace RonivansLegacy_ChemicalProcessing
 			go.AddTag(GameTags.HideFromCodex);
 			go.AddTag(GameTags.DeprecatedContent);
 			go.AddTag(GameTags.HideFromSpawnTool);
+		}
+
+		internal static void AdjustValveAnimFlowAnim(ValveBase instance, float maxFlow)
+		{
+			if (!instance.animFlowRanges.Any())
+				return;
+			var lastAnimIndex = instance.animFlowRanges.Last();
+			if (lastAnimIndex.minFlow < maxFlow)
+			{
+				var hpaMaxFlow = new ValveBase.AnimRangeInfo(maxFlow, lastAnimIndex.animName);
+				instance.animFlowRanges = instance.animFlowRanges.Append(hpaMaxFlow);
+			}
 		}
 	}
 }

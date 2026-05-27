@@ -9,7 +9,6 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using static RonivansLegacy_ChemicalProcessing.Patches.HPA.ValveBase_Patches;
 
 namespace RonivansLegacy_ChemicalProcessing.Patches.HPA
 {

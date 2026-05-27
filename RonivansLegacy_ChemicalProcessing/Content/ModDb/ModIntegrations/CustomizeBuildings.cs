@@ -1,7 +1,9 @@
 ﻿using HarmonyLib;
+using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -189,6 +191,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations
 			SgtLogger.l("CustomizeBuildings integration: " + (ConfigInstance != null ? "Success" : "Failed"));
 		}
 
+		internal static void IntegrationPatches(Harmony harmony)
+		{
+			FixOilWell(harmony);
+			FixValveBaseTemperature(harmony);
+		}
 		/// <summary>
 		/// The oil well of Chemical Processing - Industrial Overhaul has altered outputs and is set to work autonomously
 		/// CustomizeBuilding breaks the oil well if the NoDupeOilWell config is enabled, so its patch needs to be turned off to not break that
@@ -202,6 +209,42 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations
 			var m_OilWellCapConfig_ConfigureBuildingTemplate = AccessTools.Method(typeof(OilWellCapConfig), nameof(OilWellCapConfig.ConfigureBuildingTemplate));
 
 			harmony.Unpatch(m_OilWellCapConfig_ConfigureBuildingTemplate, HarmonyPatchType.Postfix, "CustomizeBuildings");
+		}
+		/// <summary>
+		/// CustomizeBuildings temperature valve does not respect proper inheritance, skipping base.OnSpawn()
+		/// </summary>	
+		internal static void FixValveBaseTemperature(Harmony harmony)
+		{
+			if (!Config.Instance.HighPressureApplications_Enabled)
+				return;
+
+			Type valveBaseTempType = Type.GetType("CustomizeBuildings.ValveBaseTemperature, CustomizeBuildings");
+			if(valveBaseTempType == null)
+			{
+				SgtLogger.warning("CustomizeBuildings.ValveBaseTemperature not found, skipping patch.");
+				return;
+			}
+			var targetMethod = AccessTools.Method(valveBaseTempType, "OnSpawn");
+			if (targetMethod == null)
+			{
+				SgtLogger.warning("CustomizeBuildings.ValveBaseTemperature.OnSpawn method not found, skipping patch.");
+				return;
+			}
+			harmony.Patch(targetMethod, postfix: new HarmonyMethod(typeof(CustomizeBuildings), nameof(ValveBaseTemperature_OnSpawn_Postfix)));
+
+		}
+		public static void ValveBaseTemperature_OnSpawn_Postfix(ValveBase __instance)
+		{
+			SgtLogger.l("ValveBaseTemperature OnSpawn postfix running for " + __instance.name+", conduitType: "+__instance.conduitType);
+			if (__instance.conduitType == ConduitType.Gas || __instance.conduitType == ConduitType.Liquid)
+			{
+				float conduitMax = HighPressureConduitRegistration.GetMaxConduitCapacity(__instance.conduitType, true);
+				if (__instance.maxFlow < conduitMax)
+					__instance.maxFlow *= HighPressureConduitRegistration.GetConduitMultiplier(__instance.conduitType);
+
+				ModAssets.AdjustValveAnimFlowAnim(__instance, __instance.maxFlow);
+
+			}
 		}
 	}
 }
