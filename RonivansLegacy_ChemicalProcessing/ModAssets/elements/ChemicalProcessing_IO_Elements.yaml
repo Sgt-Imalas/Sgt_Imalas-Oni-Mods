@@ -29,62 +29,6 @@ elements:
     localizationID: STRINGS.ELEMENTS.SOLIDZINC.NAME
     dlcId: ""
 
-  - elementId: MoltenZinc
-    specificHeatCapacity: 0.1291
-    thermalConductivity: 7
-    liquidCompression: 1.01
-    speed: 100
-    minHorizontalFlow: 30
-    minVerticalFlow: 3
-    solidSurfaceAreaMultiplier: 1
-    liquidSurfaceAreaMultiplier: 25
-    gasSurfaceAreaMultiplier: 1
-    strength: 0.7
-    highTemp: 1180.15
-    lowTemp: 690.15
-    highTempTransitionTarget: ZincGas
-    lowTempTransitionTarget: SolidZinc
-    defaultTemperature: 780.15
-    defaultMass: 870
-    maxMass: 9970
-    molarMass: 107.86
-    lightAbsorptionFactor: 1
-    radiationAbsorptionFactor: 0.3
-    radiationPer1000Mass: 0
-    tags:
-    - Metal
-    - RefinedMetal
-    - EmitsLight
-    isDisabled: false
-    state: Liquid
-    localizationID: STRINGS.ELEMENTS.MOLTENZINC.NAME
-    dlcId: ""
-
-  - elementId: ZincGas
-    specificHeatCapacity: 0.223
-    thermalConductivity: 1
-    solidSurfaceAreaMultiplier: 25
-    liquidSurfaceAreaMultiplier: 1
-    gasSurfaceAreaMultiplier: 1
-    flow: 0.1
-    lowTemp: 1178.15
-    toxicity: 0
-    lowTempTransitionTarget: MoltenZinc
-    defaultTemperature: 1320.15
-    molarMass: 107.86
-    lightAbsorptionFactor: 0.5
-    radiationAbsorptionFactor: 0.3
-    radiationPer1000Mass: 0
-    materialCategory: Unbreathable
-    tags:
-    - Metal
-    - RefinedMetal
-    - EmitsLight
-    isDisabled: false
-    state: Gas
-    localizationID: STRINGS.ELEMENTS.ZINCGAS.NAME
-    dlcId: ""
-
   - elementId: SolidSilver
     specificHeatCapacity: 0.223
     thermalConductivity: 220
@@ -1166,7 +1110,7 @@ elements:
     highTemp: 1236.15
     highTempTransitionTarget: MoltenSilver
     highTempTransitionOreId: LiquidSulfur
-    highTempTransitionOreMassConversion: 0.2
+    highTempTransitionOreMassConversion: 0.13
     defaultTemperature: 296
     defaultMass: 800
     maxMass: 1840
@@ -1187,36 +1131,7 @@ elements:
     state: Solid
     localizationID: STRINGS.ELEMENTS.ARGENTITEORE.NAME
     dlcId: ""
-
-  - elementId: Galena
-    specificHeatCapacity: 0.311
-    thermalConductivity: 3.6
-    solidSurfaceAreaMultiplier: 1
-    liquidSurfaceAreaMultiplier: 1
-    gasSurfaceAreaMultiplier: 1
-    strength: 0.7
-    highTemp: 1387.15
-    highTempTransitionTarget: MoltenLead
-    highTempTransitionOreId: SolidSilver
-    highTempTransitionOreMassConversion: 0.6
-    defaultTemperature: 296
-    defaultMass: 800
-    maxMass: 1840
-    hardness: 25
-    molarMass: 142
-    lightAbsorptionFactor: 3
-    radiationAbsorptionFactor: 0.46
-    radiationPer1000Mass: 0
-    materialCategory: Metal
-    tags:
-    - BuildableAny
-    - Ore
-    buildMenuSort: 14
-    isDisabled: false
-    state: Solid
-    localizationID: STRINGS.ELEMENTS.GALENA.NAME
-    dlcId: ""
-
+      
   - elementId: Chloroschist
     specificHeatCapacity: 1
     thermalConductivity: 2
