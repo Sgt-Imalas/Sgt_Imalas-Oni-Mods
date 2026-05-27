@@ -26,6 +26,13 @@ namespace UtilLibs
 		private List<RecipeElement> outputs;
 		private Dictionary<RecipeElement, Tag> GroupDescriptors = [];
 
+		private System.Action<RecipeBuilder, Tag, float, TemperatureOperation, bool> OverrideMainProduct = null;
+		public RecipeBuilder OverrideMainProductOutputGeneration(System.Action<RecipeBuilder, Tag, float, TemperatureOperation, bool> overrideAction)
+		{
+			this.OverrideMainProduct = overrideAction;
+			return this;
+		}
+
 		public RecipeElement FirstIngredient()
 		{
 			if (inputs == null || !inputs.Any())
@@ -165,7 +172,7 @@ namespace UtilLibs
 		}
 		public RecipeBuilder NameOverrideFormat(string name, object f1)
 		{
-			this.name = string.Format(name,f1);
+			this.name = string.Format(name, f1);
 			return this;
 		}
 		public RecipeBuilder NameOverrideFormatIngredient(string name, int ingredientIndex = 0)
@@ -194,12 +201,12 @@ namespace UtilLibs
 				throw new ArgumentOutOfRangeException(nameof(ingredientIndex), "Result index is out of range.");
 			}
 
-			this.name = string.Format(global::STRINGS.UI.UISIDESCREENS.REFINERYSIDESCREEN.RECIPE_FROM_TO, entries[ingredientIndex],entries[resultIndex]);
+			this.name = string.Format(global::STRINGS.UI.UISIDESCREENS.REFINERYSIDESCREEN.RECIPE_FROM_TO, entries[ingredientIndex], entries[resultIndex]);
 			return this;
 		}
 		public RecipeBuilder IconPrefabIngredient(int index)
 		{
-			if(index < 0 || index >= inputs.Count)
+			if (index < 0 || index >= inputs.Count)
 			{
 				throw new ArgumentOutOfRangeException(nameof(index), "Index is out of range for inputs.");
 			}
@@ -228,7 +235,7 @@ namespace UtilLibs
 			return this;
 		}
 		public RecipeBuilder Input(RecipeElement element)
-		{			
+		{
 			inputs.Add(element);
 			return this;
 		}
@@ -244,8 +251,8 @@ namespace UtilLibs
 			tags = tags.Where(tag => Assets.GetPrefab(tag) != null);
 			RecipeElement recipeElement = new RecipeElement(tags.ToArray(), amount);
 			inputs.Add(recipeElement);
-			if(descriptor != default)
-				GroupDescriptors.Add(recipeElement,descriptor);
+			if (descriptor != default)
+				GroupDescriptors.Add(recipeElement, descriptor);
 			return this;
 		}
 		public RecipeBuilder Input(IEnumerable<SimHashes> tags, float amount, Tag descriptor = default)
@@ -290,7 +297,7 @@ namespace UtilLibs
 		public RecipeBuilder AltInput(Tag tag, float amount)
 		{
 			var lastInput = inputs.Last();
-			if(lastInput == null)
+			if (lastInput == null)
 			{
 				throw new InvalidOperationException("Cannot add alt input when there is no previous ingredient!");
 			}
@@ -313,8 +320,7 @@ namespace UtilLibs
 
 		public RecipeBuilder Output(Tag tag, float amount, TemperatureOperation tempOp = TemperatureOperation.AverageTemperature, bool storeElement = false)
 		{
-			outputs.Add(new RecipeElement(tag, amount, tempOp, storeElement));
-			return this;
+			return Output(new RecipeElement(tag, amount, tempOp, storeElement));
 		}
 		public RecipeBuilder Output(RecipeElement element)
 		{
@@ -323,10 +329,55 @@ namespace UtilLibs
 		}
 		public RecipeBuilder Output(SimHashes simhash, float amount, TemperatureOperation tempOp = TemperatureOperation.AverageTemperature, bool storeElement = false)
 		{
-			outputs.Add(new RecipeElement(simhash.CreateTag(), amount, tempOp, storeElement));
+			return Output(new RecipeElement(simhash.CreateTag(), amount, tempOp, storeElement));
+		}
+		public RecipeBuilder OutputOverridable(SimHashes simhash, float amount, TemperatureOperation tempOp = TemperatureOperation.AverageTemperature, bool storeElement = false)
+		{
+			if(OverrideMainProduct != null)
+			{
+				OverrideMainProduct(this, simhash.CreateTag(), amount, tempOp, storeElement);
+				return this;
+			}
+			else
+				Output(simhash, amount, tempOp, storeElement);
 			return this;
 		}
-		public RecipeBuilder OutputConditional(SimHashes hashes, float amount, Func<bool> condition, TemperatureOperation tempOp = TemperatureOperation.AverageTemperature, bool storeElement = false) => OutputConditional(hashes, amount, condition(), tempOp,storeElement);
+		public RecipeBuilder OutputOreTransition(SimHashes input, float outputAmount, TemperatureOperation tempOp = TemperatureOperation.AverageTemperature, SimHashes? wasteProduct = null, float wasteAmount = 0f, bool useWasteCapacityForSecondaryProducts = false, bool storeElement = false)
+			=> OutputOreTransition(input.CreateTag(), outputAmount, tempOp, wasteProduct, wasteAmount, useWasteCapacityForSecondaryProducts, storeElement);
+
+		public RecipeBuilder OutputOreTransition(Tag input, float outputAmount, TemperatureOperation tempOp = TemperatureOperation.AverageTemperature, SimHashes? wasteProduct = null, float wasteAmount = 0f, bool useWasteCapacityForSecondaryProducts = false, bool storeElement = false)
+			=> OutputOreTransition(ElementLoader.GetElement(input), outputAmount, tempOp, wasteProduct, wasteAmount, useWasteCapacityForSecondaryProducts, storeElement);
+
+		public RecipeBuilder OutputOreTransition(Element input, float outputAmount, TemperatureOperation tempOp = TemperatureOperation.AverageTemperature, SimHashes? wasteProduct = null, float wasteAmount = 0f, bool useWasteCapacityForSecondaryProducts = false, bool storeElement = false)
+		{
+			SimHashes mainTarget = input.highTempTransition.lowTempTransition.id;
+			SimHashes secondaryTarget = input.highTempTransitionOreID;
+			SimHashes wasteTarget = wasteProduct ?? SimHashes.Vacuum;
+			float secondaryAmount = outputAmount * input.highTempTransitionOreMassConversion;
+			float primaryAmount = useWasteCapacityForSecondaryProducts ? outputAmount : outputAmount - secondaryAmount;
+			wasteAmount = useWasteCapacityForSecondaryProducts ? wasteAmount - secondaryAmount : wasteAmount;
+
+			OutputOverridable(mainTarget, primaryAmount, tempOp, storeElement);
+			if (secondaryTarget != SimHashes.Vacuum && secondaryAmount > 0f)
+				Output(secondaryTarget, secondaryAmount, tempOp, storeElement);
+			if (wasteTarget != SimHashes.Vacuum && wasteAmount > 0f)
+				Output(wasteTarget, wasteAmount, tempOp, storeElement);
+			return this;
+		}
+		public RecipeBuilder OutputMetalRefineryTransition(Element input, float outputAmount, TemperatureOperation tempOp = TemperatureOperation.AverageTemperature, bool storeElement = false)
+		{
+			var mainTarget = input.highTempTransition.lowTempTransition;
+			if (input.highTempTransitionOreID != SimHashes.Vacuum && input.highTempTransitionOreMassConversion > 0f)
+			{
+				float secondaryAmount = outputAmount * input.highTempTransitionOreMassConversion;
+				Output(mainTarget.tag, outputAmount - secondaryAmount, tempOp, storeElement);
+				Output(input.highTempTransitionOreID, secondaryAmount, tempOp, storeElement);
+			}
+			else
+				Output(mainTarget.tag, outputAmount, tempOp, storeElement);
+			return this;
+		}
+		public RecipeBuilder OutputConditional(SimHashes hashes, float amount, Func<bool> condition, TemperatureOperation tempOp = TemperatureOperation.AverageTemperature, bool storeElement = false) => OutputConditional(hashes, amount, condition(), tempOp, storeElement);
 		public RecipeBuilder OutputConditional(SimHashes hashes, float amount, bool condition, TemperatureOperation tempOp = TemperatureOperation.AverageTemperature, bool storeElement = false)
 		{
 			if (condition)
@@ -348,7 +399,7 @@ namespace UtilLibs
 
 			string recipeID = facadeID.IsNullOrWhiteSpace() ? ComplexRecipeManager.MakeRecipeID(fabricator, i, o) : ComplexRecipeManager.MakeRecipeID(fabricator, i, o, facadeID);
 
-			var recipe = new ComplexRecipe(recipeID, i, o,hepConsumed,hepProduced)
+			var recipe = new ComplexRecipe(recipeID, i, o, hepConsumed, hepProduced)
 			{
 				time = time,
 				description = description,
@@ -360,9 +411,9 @@ namespace UtilLibs
 			{
 				recipe.sortOrder = this.sortOrder;
 			}
-			if(!spritePrefabId.IsNullOrWhiteSpace())
+			if (!spritePrefabId.IsNullOrWhiteSpace())
 				recipe.customSpritePrefabID = spritePrefabId;
-			if(!techRequirement.IsNullOrWhiteSpace())
+			if (!techRequirement.IsNullOrWhiteSpace())
 				recipe.requiredTech = techRequirement;
 
 			return recipe;
