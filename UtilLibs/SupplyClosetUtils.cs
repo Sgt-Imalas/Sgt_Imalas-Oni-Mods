@@ -19,18 +19,20 @@ namespace UtilLibs
 		public class SkinCollection
 		{
 			public static List<SkinCollection> SkinSets = new();
-			public static Dictionary<string,List<string>> SkinIds = new();
+			public static Dictionary<string, List<string>> SkinIds = new();
 			public class SkinEntry
 			{
 				public string ID, Name, Description, KanimFile;
 				public Dictionary<string, string> Workables;
-				public SkinEntry(string id, string name, string desc, string kanim, Dictionary<string, string> workables = null)
+				public Dictionary<string, string> Data;
+				public SkinEntry(string id, string name, string desc, string kanim, Dictionary<string, string> workables = null, Dictionary<string, string> data = null)
 				{
 					ID = id;
 					Name = name;
 					Description = desc;
 					KanimFile = kanim;
 					Workables = workables;
+					Data = data;
 				}
 			}
 
@@ -39,7 +41,7 @@ namespace UtilLibs
 			Sprite newCategoryIcon = null;
 			int sortkey = -1;
 			private List<SkinEntry> skins;
-			public List<SkinEntry> Skins=>skins;
+			public List<SkinEntry> Skins => skins;
 
 			public static SkinCollection Create(string buildingID, string _subcategoryId) => new SkinCollection(buildingID, _subcategoryId);
 			public static SkinCollection CategoryInit(string _mainCategory, string _subcategoryID, Sprite icon, int _sortkey) => new SkinCollection("", _subcategoryID).NewCategory(_mainCategory, icon, _sortkey);
@@ -49,7 +51,7 @@ namespace UtilLibs
 				subcategoryID = _subcategoryID;
 				skins = [];
 				SkinSets.Add(this);
-				if(buildingId.Any())
+				if (buildingId.Any())
 					SkinIds.Add(buildingId, []);
 			}
 			public SkinCollection NewCategory(string _mainCategory, Sprite icon, int _sortkey)
@@ -60,9 +62,9 @@ namespace UtilLibs
 				isMainCategory = true;
 				return this;
 			}
-			public SkinCollection Skin(string Id, string name, string description, string kanimFile, Dictionary<string, string> workables = null)
+			public SkinCollection Skin(string Id, string name, string description, string kanimFile, Dictionary<string, string> workables = null, Dictionary<string, string> data = null)
 			{
-				skins.Add(new SkinEntry(Id, name, description, kanimFile, workables));
+				skins.Add(new SkinEntry(Id, name, description, kanimFile, workables, data));
 				SkinIds[buildingId].Add(Id);
 				return this;
 			}
@@ -82,7 +84,7 @@ namespace UtilLibs
 			{
 				foreach (var skin in skins)
 				{
-					set.resources.Add(new BuildingFacadeResource(skin.ID, skin.Name, skin.Description, PermitRarity.Universal, buildingId, skin.KanimFile, skin.Workables, null, null));
+					set.resources.Add(new BuildingFacadeResource(skin.ID, skin.Name, skin.Description, PermitRarity.Universal, buildingId, skin.KanimFile, skin.Workables, null, null, skin.Data));
 				}
 			}
 			public static void RegisterAllSkins()
@@ -151,7 +153,7 @@ namespace UtilLibs
 
 		public static void AddSubcategory(string mainCategory, string subcategoryID, Sprite icon, int sortkey, string[] permitIDs)
 		{
-			var categoryItems = AddOrGetSubCategory(subcategoryID, mainCategory, icon,sortkey);
+			var categoryItems = AddOrGetSubCategory(subcategoryID, mainCategory, icon, sortkey);
 			for (int i = 0; i < permitIDs.Length; i++)
 			{
 				categoryItems.Add(permitIDs[i]);
