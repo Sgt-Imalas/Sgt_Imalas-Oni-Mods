@@ -27,8 +27,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations
 				_metalOresAdditionalOutputs = [];
 			_initialized = true;
 		}
-		public static RecipeBuilder RephysicalizedOutput(this RecipeBuilder builder, SimHashes hash, float amount, TemperatureOperation tempOp = TemperatureOperation.AverageTemperature, bool storeElement = false) => RephysicalizedOutput(builder, hash.CreateTag(), amount, tempOp, storeElement);
-		public static RecipeBuilder RephysicalizedOutput(this RecipeBuilder builder, Tag tag, float amount, TemperatureOperation tempOp = TemperatureOperation.AverageTemperature, bool storeElement = false)
+		public static void RephysicalizedOutput(this RecipeBuilder builder, SimHashes hash, float amount, TemperatureOperation tempOp = TemperatureOperation.AverageTemperature, bool storeElement = false) => RephysicalizedOutput(builder, hash.CreateTag(), amount, tempOp, storeElement);
+		public static void RephysicalizedOutput(this RecipeBuilder builder, Tag tag, float amount, TemperatureOperation tempOp = TemperatureOperation.AverageTemperature, bool storeElement = false)
 		{
 			if (!TryGetRephysicalizedProducts(builder.FirstIngredient().material, out var products))
 				builder.Output(tag, amount, tempOp, storeElement);
@@ -40,7 +40,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations
 					builder.Output(output.first, amount * output.second, tempOp, storeElement);
 				}
 			}
-			return builder;
 		}
 
 	}
