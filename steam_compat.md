@@ -17,3 +17,5 @@ Compatible with all versions, requires dlc3:
 [img]https://raw.githubusercontent.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/refs/heads/master/Compat_All_DLC3_Required.png[/img]
 Compatible with all versions, requires dlc4:
 [img]https://raw.githubusercontent.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/refs/heads/master/Compat_All_DLC4_Required.png[/img]
+Compatible with all versions, requires dlc5:
+[img]https://raw.githubusercontent.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/refs/heads/master/Compat_All_DLC5_Required.png[/img]
