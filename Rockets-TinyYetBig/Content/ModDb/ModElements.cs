@@ -1,4 +1,5 @@
-﻿using ElementUtilNamespace;
+﻿using ElementData;
+using ElementUtilNamespace;
 using Klei.AI;
 using System;
 using System.Collections.Generic;
@@ -93,7 +94,7 @@ namespace Rockets_TinyYetBig.Elements
 			UnobtaniumAlloy.attributeModifiers.Add(new AttributeModifier(Db.Get().BuildingAttributes.OverheatTemperature.Id, 2000f, UnobtaniumAlloy.name));
 		}
 
-		internal static void ModifyExistingElements(List<ElementLoader.ElementEntry> result)
+		internal static void ModifyExistingElements(List<ElementEntry> result)
 		{
 			foreach (var elem in result)
 			{

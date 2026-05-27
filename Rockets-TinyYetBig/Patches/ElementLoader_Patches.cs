@@ -1,4 +1,5 @@
-﻿using ElementUtilNamespace;
+﻿using ElementData;
+using ElementUtilNamespace;
 using HarmonyLib;
 using Rockets_TinyYetBig.Elements;
 using System;
@@ -33,7 +34,7 @@ namespace Rockets_TinyYetBig.Patches.ElementPatches
 		[HarmonyPatch(typeof(ElementLoader), nameof(ElementLoader.CollectElementsFromYAML))]
 		public class MakeNeutroniumFullyRadBlocking_Patch
 		{
-			public static void Postfix(ref List<ElementLoader.ElementEntry> __result)
+			public static void Postfix(ref List<ElementEntry> __result)
 			{
 				ModElements.ModifyExistingElements(__result);
 			}
