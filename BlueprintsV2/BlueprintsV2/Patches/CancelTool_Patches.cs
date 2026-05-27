@@ -18,9 +18,9 @@ namespace BlueprintsV2.BlueprintsV2.Patches
 		[HarmonyPatch(typeof(CancelTool), nameof(CancelTool.GetDefaultFilters))]
 		public class CancelTool_GetDefaultFilters_Patch
 		{
-			public static void Postfix(CancelTool __instance, Dictionary<string, ToolParameterMenu.ToggleState> filters)
+			public static void Postfix(CancelTool __instance, ref ToolParameterMenu.ToggleData[] filters)
 			{
-				filters.Add(ElementNote.FILTERLAYER, ToolParameterMenu.ToggleState.Off);
+				filters = filters.Append(new ToolParameterMenu.ToggleData(ElementNote.FILTERLAYER, ToolParameterMenu.ToggleState.Off));
 			}
 		}
 

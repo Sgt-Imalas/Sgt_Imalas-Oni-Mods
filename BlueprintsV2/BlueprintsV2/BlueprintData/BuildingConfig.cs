@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
+using UtilLibs;
 
 namespace BlueprintsV2.BlueprintData
 {
@@ -20,7 +22,7 @@ namespace BlueprintsV2.BlueprintData
 		/// <summary>
 		/// The offset from the bottom left of a blueprint.
 		/// </summary>
-		
+
 		[JsonConverter(typeof(Vector2IConverter))]
 		public Vector2I Offset { get; set; } = new Vector2I(0, 0);
 
@@ -50,7 +52,7 @@ namespace BlueprintsV2.BlueprintData
 		/// ConduitFlag stores the bitflagged UtilityConnections value of conduit buildings (wires,rails,pipes,logicwires)
 		/// </summary>
 		private int ConduitFlags = -1;
-		
+
 
 		public bool HasAnyBuildingData => AdditionalBuildingData != null && AdditionalBuildingData.Any();
 
@@ -117,6 +119,21 @@ namespace BlueprintsV2.BlueprintData
 			}
 			SelectedElements.Clear();
 			SelectedElements.AddRange(elements);
+		}
+
+		public BuildingConfig() { }
+		public BuildingConfig(StringBuilder sourceSerialized)
+		{
+			ReadJson(JObject.Parse(sourceSerialized.ToString()));
+		}
+		public BuildingConfig GetClone()
+		{
+			var sb = new StringBuilder();
+			StringWriter sw = new StringWriter(sb);
+			var jsonWriter = new JsonTextWriter(sw);
+			WriteJson(jsonWriter);
+			var copy = new BuildingConfig(sb);
+			return copy;
 		}
 
 		public bool IsValid()
@@ -218,14 +235,9 @@ namespace BlueprintsV2.BlueprintData
 				int selectedElementCount = binaryReader.ReadInt32();
 				for (int i = 0; i < selectedElementCount; ++i)
 				{
-					Tag elementTag;
-
-					//Only add the tag to the list if it describes a valid element in game.
-					if (ElementLoader.GetElement(elementTag = new Tag(binaryReader.ReadInt32())) != null)
-					{
-						SelectedElements.Add(elementTag);
-					}
+					SelectedElements.Add(new Tag(binaryReader.ReadInt32()));
 				}
+				SanitizeSelectedTags();
 
 				Orientation = (Orientation)binaryReader.ReadInt32();
 				int oldFlagSystemValue = binaryReader.ReadInt32();
@@ -284,10 +296,11 @@ namespace BlueprintsV2.BlueprintData
 						if (selectedElement.Type == JTokenType.Integer)
 						{
 							Tag selectedTag = new Tag(selectedElement.Value<int>());
-							if(ElementLoader.GetElement(selectedTag) != null || Assets.TryGetPrefab(selectedTag) != null)
-								SelectedElements.Add(selectedTag);
+							//if (ElementLoader.GetElement(selectedTag) != null || Assets.TryGetPrefab(selectedTag) != null)
+							SelectedElements.Add(selectedTag);
 						}
 					}
+					SanitizeSelectedTags();
 				}
 			}
 
@@ -323,6 +336,59 @@ namespace BlueprintsV2.BlueprintData
 			}
 		}
 
+		void SanitizeSelectedTags()
+		{
+			bool logd = false;
+			if (BuildingDef == null)
+				return;
+
+			if (SelectedElements.Count > BuildingDef.MaterialCategory.Length)
+			{
+				SgtLogger.l(BuildingDefId + " has more selected materials than ingredients. Trimming...");
+				while (SelectedElements.Count > BuildingDef.MaterialCategory.Length)
+				{
+					SelectedElements.RemoveAt(SelectedElements.Count - 1);
+				}
+			}
+
+			for (int i = 0; i < BuildingDef.MaterialCategory.Length; i++)
+			{
+				var ingredientStep = BuildingDef.MaterialCategory[i];
+				Tag selectedTag = SelectedElements.Count > i ? SelectedElements[i] : Tag.Invalid;
+				var validMaterials = ModAssets.GetValidMaterials(ingredientStep);
+
+				if (!validMaterials.Contains(selectedTag))
+				{
+					if (!logd)
+					{
+						logd = true;
+					}
+
+					var element = ElementLoader.FindElementByHash((SimHashes)selectedTag.hash);
+					if (element != null)
+						selectedTag = element.tag;
+					var mat = validMaterials.FirstOrDefault();
+
+					SgtLogger.l(BuildingDefId + " has invalid material " + selectedTag + " for ingredient " + ingredientStep + ". replacing with default: " + mat);
+
+					if (SelectedElements.Count > i)
+						SelectedElements[i] = mat;
+					else
+						SelectedElements.Add(mat);
+					
+				}
+			}
+			SgtLogger.l(BuildingDefId + ":");
+			foreach (var selected in SelectedElements)
+			{
+				if (selected != Tag.Invalid)
+				{
+					SgtLogger.l(Assets.GetPrefab(selected).GetProperName());
+
+				}
+			}
+		}
+
 		/// <summary>
 		/// Tests two <see cref="BuildingConfig"/> for equality.
 		/// </summary>
@@ -344,7 +410,7 @@ namespace BlueprintsV2.BlueprintData
 		}
 		internal void SetConduitFlags(int flag)
 		{
-			ConduitFlags = flag; 
+			ConduitFlags = flag;
 			//SetBuildingData(API_Consts.ConduitFlagID,
 			//	new JObject()
 			//	{
@@ -356,7 +422,7 @@ namespace BlueprintsV2.BlueprintData
 			flags = ConduitFlags;
 
 			///Obsolete, kept for compatibility
-			if (ConduitFlags == -1 
+			if (ConduitFlags == -1
 				&& AdditionalBuildingData != null
 				&& AdditionalBuildingData.TryGetValue(API_Consts.ConduitFlagID, out var value)
 				&& value.SelectToken(API_Consts.ConduitFlagID) != null)
