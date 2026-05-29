@@ -70,11 +70,16 @@ namespace UL_UniversalLyzer
 			}
 		}
 
+		private bool RoomForPressure
+		{
+			get
+			{
+				return !FloodFill.Any<FloodFill.MaxDepth>(OverPressure, Grid.OffsetCell(Grid.PosToCell(this.transform.GetPosition()), this.emissionOffset), new FloodFill.MaxDepth(3), true, true);
+			}
+		}
 
-		private bool RoomForPressure => !GameUtil.FloodFillCheck(new Func<int, MultiConverterElectrolyzer, bool>(MultiConverterElectrolyzer.OverPressure), this, Grid.OffsetCell(Grid.PosToCell(this.transform.GetPosition()), this.emissionOffset), 3, true, true);
-
-		private static bool OverPressure(int cell, MultiConverterElectrolyzer MultiConverterElectrolyzer) => (double)Grid.Mass[cell] >
-			(Config.Instance.PerLiquidSettings ? MultiConverterElectrolyzer.LastActiveConfig.OverpressurisationThreshold : ModAssets.ElectrolyzerConfigurations[SimHashes.Water].OverpressurisationThreshold);
+		private bool OverPressure(int cell) => (double)Grid.Mass[cell] >
+			(Config.Instance.PerLiquidSettings ? this.LastActiveConfig.OverpressurisationThreshold : ModAssets.ElectrolyzerConfigurations[SimHashes.Water].OverpressurisationThreshold);
 
 		public class StatesInstance :
 		  GameStateMachine<States, StatesInstance, MultiConverterElectrolyzer, object>.GameInstance
