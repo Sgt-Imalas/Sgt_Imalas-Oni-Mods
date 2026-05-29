@@ -18,23 +18,28 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		[SerializeField] public bool TintGeneratorMeter = false;
 		[SerializeField] public bool TintPolymerizer = false;
 		[SerializeField] public string[] TintableSymbols = new string[] { "tint", "tint_column" };
-
+		int handle = -1;
 		private static readonly EventSystem.IntraObjectHandler<ContentTintable> OnStorageChangeDelegate = new EventSystem.IntraObjectHandler<ContentTintable>((tintable, data) => tintable.UpdateTint());
 		//private static readonly EventSystem.IntraObjectHandler<ContentTintable> OnActiveChangedDelegate = new EventSystem.IntraObjectHandler<ContentTintable>((tintable, data) => tintable.ClearTint());
 		public override void OnPrefabInit()
 		{
 			base.OnPrefabInit();
-			Subscribe((int)GameHashes.OnStorageChange, OnStorageChangeDelegate);
 			//Subscribe((int)GameHashes.ActiveChanged, OnActiveChangedDelegate);
 		}
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
+			handle = Subscribe((int)GameHashes.OnStorageChange, OnStorageChangeDelegate);
 			if (kbacFG == null)
 			{
-				if (kbac.layering?.foregroundController is KBatchedAnimController kbac2)
+				///shinemask layering used this:
+				//if (kbac.layering.animControllers.TryGetValue(KAnimLayering.InstanceType.Foreground, out var kba))
+				//{
+				//	kbacFG = (KBatchedAnimController)kba;
+				//}
+				if(kbac.layering.foregroundController is KBatchedAnimController kbacFG)
 				{
-					kbacFG = kbac2;
+					this.kbacFG = kbacFG;
 				}
 			}
 			if (TintGeneratorMeter && TryGetComponent<EnergyGenerator>(out var generator) && generator.hasMeter)
@@ -52,7 +57,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		public override void OnCleanUp()
 		{
 			base.OnCleanUp();
-			Unsubscribe((int)GameHashes.OnStorageChange, OnStorageChangeDelegate);
+			Unsubscribe(handle);
 			//Unsubscribe((int)GameHashes.ActiveChanged, OnActiveChangedDelegate);
 		}
 
