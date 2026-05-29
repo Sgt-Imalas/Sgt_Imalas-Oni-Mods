@@ -1,4 +1,5 @@
 ﻿using Database;
+using ElementData;
 using HarmonyLib;
 using Klei.AI;
 using System;

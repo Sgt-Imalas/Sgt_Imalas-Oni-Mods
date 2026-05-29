@@ -74,7 +74,7 @@ namespace DrywallPatternColours
 					string animFile,
 					Dictionary<string, string> workables = null)
 				{
-					set.resources.Add(new BuildingFacadeResource(id, name, description, rarity, prefabId, animFile, workables, null, null));
+					set.resources.Add(new BuildingFacadeResource(id, name, description, rarity, prefabId, animFile, workables, null, null, null));
 				}
 			}
 		}

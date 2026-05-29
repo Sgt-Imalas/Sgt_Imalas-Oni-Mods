@@ -58,7 +58,7 @@ namespace Cryopod
 			GameObject gameObject1 = worker.gameObject;
 			this.CompleteWork(worker);
 			var cryopod = GetComponent<CryopodReusable>();
-			foreach (SicknessInstance sickness in worker.GetComponent<MinionModifiers>().sicknesses)
+			foreach (SicknessInstance sickness in worker.GetComponent<MinionModifiers>().sicknesses.ModifierList)
 			{
 				cryopod.
 				StoredSicknessIDs.Add(sickness.ExposureInfo.sicknessID);

@@ -35,7 +35,7 @@ namespace AkisSnowThings.Content.Scripts.Entities
 			growth = this.GetComponent<Growing>();
 			GameScheduler.Instance.ScheduleNextFrame("logging tree", (_) =>
 			{
-				foreach (var modifier in plantModifiers.GetAmounts())
+				foreach (var modifier in plantModifiers.GetAmounts().ModifierList)
 					SgtLogger.l("Modifier: " + modifier.amount.Name + ": " + modifier.value);
 				foreach (var attribute in plantModifiers.GetAttributes())
 				{

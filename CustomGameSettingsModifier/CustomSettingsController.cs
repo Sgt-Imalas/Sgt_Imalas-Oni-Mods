@@ -89,7 +89,7 @@ namespace CustomGameSettingsModifier
 
                 if (CustomGameSettingsCycleConfigs.TryGetValue(id, out var settingsCycle))
                 {
-                    settingsCycle.Value = settingValue;
+                    settingsCycle.SetValueById(settingValue);
                 }
                 else if (CustomGameSettingsToggleConfigs.TryGetValue(id, out var settingsToggle))
                 {
