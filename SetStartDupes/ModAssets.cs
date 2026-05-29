@@ -756,12 +756,15 @@ namespace SetStartDupes
 			container.SetInfoText();
 			if (setAttributes)
 				container.SetAttributes();
-			if(container.animController != null)
+			if (container.animController != null)
 			{
-				container.animController.RemoveAllAnimOverrides();
+				for (int i = container.animController.overrideAnimFiles.Count - 1; i >= 0; i--)
+					container.animController.RemoveAnimOverrides(container.animController.overrideAnimFiles[i].file);
+
 			}
+			container.outfitSelectorIndex = -1;
+			container.UpdateDefaultOutfitSelector(container.stats.personality);
 			container.SetAnimator();
-			container.stats.ApplyOutfit(container.stats.personality, container.animController.gameObject, container.stats.GetSelectedOutfitOption());
 			container.RefreshOutfitSelector();
 		}
 

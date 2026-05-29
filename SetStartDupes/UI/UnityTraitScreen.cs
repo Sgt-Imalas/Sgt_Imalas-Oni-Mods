@@ -306,7 +306,7 @@ namespace SetStartDupes
             var traitsDb = Db.Get().traits;
             var choregroupsDb = Db.Get().ChoreGroups;
 			var interests = new List<SkillGroup>(Db.Get().SkillGroups.resources);
-            interests.RemoveAll(interest => interest.choreGroupID == null || choregroupsDb.TryGet(interest.choreGroupID) == null);
+            interests.RemoveAll(interest => !interest.allowAsAptitude);
             var sortedInterests = interests.OrderBy(interest =>  interest.Name);
 
 
