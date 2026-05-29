@@ -1418,14 +1418,8 @@ namespace ClusterTraitGenerationManager.ClusterData
 					&& !_dlcAudioSettings.ContainsKey(dlcIdFrom))
 				{
 					SgtLogger.l("Caching audio data for dlc: " + clusterData.dlcIdFrom);
-					var sourceAudio = clusterData.clusterAudio;
-					_dlcAudioSettings[dlcIdFrom] = new()
-					{
-						musicWelcome = sourceAudio.musicWelcome,
-						musicFirst = sourceAudio.musicFirst,
-						stingerDay = sourceAudio.stingerDay,
-						stingerNight = sourceAudio.stingerNight
-					};
+					ClusterAudioSettings sourceAudio = clusterData.clusterAudio;
+					_dlcAudioSettings[dlcIdFrom] = new CustomClusterAudio(sourceAudio.musicWelcome, sourceAudio.musicFirst, sourceAudio.musicFirstPlaylist, sourceAudio.stingerDay, sourceAudio.stingerNight);
 				}
 			}
 		}

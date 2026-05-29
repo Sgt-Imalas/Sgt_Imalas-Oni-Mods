@@ -14,7 +14,8 @@ namespace ClusterTraitGenerationManager.ClusterData
 	{
 		public string musicWelcome { get; set; }
 
-		public string musicFirst { get; set; }
+		public string musicFirst { get; set; }		
+		public List<string> musicFirstPlaylist { get; set; }
 
 		public string stingerDay { get; set; }
 
@@ -24,13 +25,15 @@ namespace ClusterTraitGenerationManager.ClusterData
 		{
 			musicWelcome = "Music_WattsonMessage";
 			musicFirst = null;
+			musicFirstPlaylist = null;
 			stingerDay = "Stinger_Day";
 			stingerNight = "Stinger_Loop_Night";
 		}
-		public CustomClusterAudio(string musicWelcome, string musicFirst, string stingerDay, string stingerNight)
+		public CustomClusterAudio(string musicWelcome, string musicFirst, List<string> musicFirstPlaylist, string stingerDay, string stingerNight)
 		{
 			this.musicWelcome = musicWelcome;
 			this.musicFirst = musicFirst;
+			this.musicFirstPlaylist = musicFirstPlaylist;
 			this.stingerDay = stingerDay;
 			this.stingerNight = stingerNight;
 		}
@@ -40,6 +43,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 			{
 				musicWelcome = this.musicWelcome,
 				musicFirst = this.musicFirst,
+				musicFirstPlaylist = this.musicFirstPlaylist,
 				stingerDay = this.stingerDay,
 				stingerNight = this.stingerNight
 			};

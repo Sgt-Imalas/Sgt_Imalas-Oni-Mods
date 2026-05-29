@@ -62,7 +62,7 @@ namespace RonivansLegacy_ChemicalProcessing
 			CompatibilityNotifications.FlagLoggingPrevention(mods);
 			CompatibilityNotifications.FixBrokenTimeout(harmony);
 			DisableOldRonivanMods(harmony, mods);
-			CustomizeBuildings.FixOilWell(harmony);
+			CustomizeBuildings.IntegrationPatches(harmony);
 			HighPressureConduitRegistration.InitCache(true);
 			Config.Instance.SetElementMaxMassIfApplicable();
 		}
