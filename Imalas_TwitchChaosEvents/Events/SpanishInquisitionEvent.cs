@@ -44,12 +44,10 @@ namespace Imalas_TwitchChaosEvents.Events
 		public Action<object> EventAction => (object data) =>
 		{
 			int centerCell = PosUtil.ClampedMouseCell();
-
-			var validPos = GameUtil.FloodFillFind<object>(
-							static (cell, _) => CanSpawnInquisition(cell),
-							null,
+			int validPos = FloodFill.Find<FloodFill.MaxDepth>(
+							CanSpawnInquisition,
 							centerCell,
-							40,
+							new FloodFill.MaxDepth(40),
 							false,
 							false
 							);
