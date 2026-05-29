@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using static STRINGS.DUPLICANTS.STATUSITEMS;
@@ -24,5 +25,6 @@ namespace UtilLibs
 				dict.Add(item.Key, item.Value);
 			}
 		}
+		public static T CreateDelegate<T>(this MethodInfo method) where T : MulticastDelegate => (T)Delegate.CreateDelegate(typeof(T), method);
 	}
 }
