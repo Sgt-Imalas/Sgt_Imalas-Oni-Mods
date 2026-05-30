@@ -114,7 +114,7 @@ namespace Rockets_TinyYetBig.Content.ModDb
 				else
 				{
 					TechUtils.AddNode(instance,
-						ModAssets.Techs.HugeCargoBayTechID,
+						ModAssets.Techs.CargoBayFilterTechID,
 						bigCargoBays ? ModAssets.Techs.HugeCargoBayTechID  : GameStrings.Technology.SolidMaterial.HighVelocityTransport,
 						xDiff: 1,
 						yDiff: bigCargoBays  ? 0 : - 1.15f);
@@ -247,10 +247,10 @@ namespace Rockets_TinyYetBig.Content.ModDb
 				instance
 				, new Dictionary<string, float>()
 				{
-						{ResearchTypes.ID.BASIC, 100f },
-						{ResearchTypes.ID.ADVANCED, 150f},
-						{ResearchTypes.ID.ORBITAL, 250f},
-						{ResearchTypes.ID.NUCLEAR, 150f},
+						{TechUtils.ID.BASIC, 100f },
+						{TechUtils.ID.ADVANCED, 150f},
+						{TechUtils.ID.ORBITAL, 250f},
+						{TechUtils.ID.NUCLEAR, 150f},
 				}
 				);
 			}

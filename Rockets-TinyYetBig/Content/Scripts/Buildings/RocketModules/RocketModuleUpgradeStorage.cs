@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using KSerialization;
+﻿using KSerialization;
 using Rockets_TinyYetBig.Content.ModDb;
 using Rockets_TinyYetBig.Content.Scripts.Buildings.SpaceStationConstruction;
 using System;

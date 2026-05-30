@@ -5,6 +5,21 @@ namespace UtilLibs
 {
 	public static class TechUtils
 	{
+		/// <summary>
+		/// Mirrored from researchtypes, as referencing that class too early  breaks translations
+		/// </summary>
+		public class ID
+		{
+			public const string BASIC = "basic";
+			public const string ADVANCED = "advanced";
+			public const string NUCLEAR = "nuclear";
+			///basegame space science
+			public const string SPACE = "space"; 
+			///SpacedOut space science
+			public const string ORBITAL = "orbital";
+		}
+
+
 		public static void AddNode(
 			ResourceTreeLoader<ResourceTreeNode> tech_tree_nodes_instance,
 			string newTechId,

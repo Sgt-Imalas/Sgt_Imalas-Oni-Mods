@@ -86,16 +86,16 @@ namespace Rockets_TinyYetBig.Science
 			{
 				switch (researchType)
 				{
-					case ResearchTypes.ID.BASIC:
+					case TechUtils.ID.BASIC:
 						CurrentScienceValue += 0.1f;
 						break;
-					case ResearchTypes.ID.ADVANCED:
+					case TechUtils.ID.ADVANCED:
 						CurrentScienceValue += 0.2f;
 						break;
-					case ResearchTypes.ID.NUCLEAR:
+					case TechUtils.ID.NUCLEAR:
 						CurrentScienceValue += 0.4f;
 						break;
-					case ResearchTypes.ID.ORBITAL:
+					case TechUtils.ID.ORBITAL:
 						CurrentScienceValue += 0.4f;
 						break;
 				}
