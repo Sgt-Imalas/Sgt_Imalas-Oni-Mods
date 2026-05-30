@@ -451,6 +451,7 @@ namespace SmartAreaFill.Content.Scripts
 				Rule = ExpansionRules.FollowSourceTileState;
 		}
 
+		bool SolidCellOrDoor(int targetCell) => (Grid.IsSolidCell(targetCell) || includeDoorsAsSolids && Grid.HasDoor[targetCell]);
 		bool IsValidCell(int targetCell)
 		{
 			if (startCell == targetCell)
@@ -484,7 +485,7 @@ namespace SmartAreaFill.Content.Scripts
 						return false;
 					break;
 				case ExpansionRules.TileExpansion:
-					if (Grid.IsSolidCell(targetCell))
+					if (SolidCellOrDoor(targetCell))
 						return false;
 					if (cachedDef == null)
 						return false;
@@ -492,7 +493,7 @@ namespace SmartAreaFill.Content.Scripts
 						return false;
 					break;
 				case ExpansionRules.NonSolidTile:
-					if (Grid.IsSolidCell(targetCell) || includeDoorsAsSolids && Grid.HasDoor[targetCell])
+					if (SolidCellOrDoor(targetCell))
 						return false;
 					break;
 				case ExpansionRules.SolidTile:

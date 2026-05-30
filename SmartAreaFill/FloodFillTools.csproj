@@ -38,6 +38,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="ModAssets\" />
+	  <Folder Include="ModAssets\translations\" />
 	</ItemGroup>
 </Project>
