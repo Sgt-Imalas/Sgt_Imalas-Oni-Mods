@@ -680,6 +680,7 @@ namespace SetStartDupes
 			public class BUTTONS
 			{
 				public static LocString REROLLCAREPACKAGE = "Reroll for a different Care Package";
+				public static LocString SELECTCAREPACKAGE = "Select a Care Package from a list of currently available ones.";
 				public static LocString CYCLENEXT = "Cycle to next";
 				public static LocString CYCLEPREV = "Cycle to previous";
 				public static LocString REMOVEFROMSTATS = "Remove";
