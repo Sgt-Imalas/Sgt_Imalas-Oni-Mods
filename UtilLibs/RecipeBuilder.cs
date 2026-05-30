@@ -342,28 +342,48 @@ namespace UtilLibs
 				Output(simhash, amount, tempOp, storeElement);
 			return this;
 		}
-		public RecipeBuilder OutputOreTransition(SimHashes input, float outputAmount, TemperatureOperation tempOp = TemperatureOperation.AverageTemperature, SimHashes? wasteProduct = null, float wasteAmount = 0f, bool useWasteCapacityForSecondaryProducts = false, bool storeElement = false)
-			=> OutputOreTransition(input.CreateTag(), outputAmount, tempOp, wasteProduct, wasteAmount, useWasteCapacityForSecondaryProducts, storeElement);
+		public RecipeBuilder OutputOreTransition(SimHashes input, float outputAmount, TemperatureOperation tempOp = TemperatureOperation.AverageTemperature, bool storeElement = false)
+			=> OutputOreTransition(input.CreateTag(), outputAmount, tempOp, storeElement);
 
-		public RecipeBuilder OutputOreTransition(Tag input, float outputAmount, TemperatureOperation tempOp = TemperatureOperation.AverageTemperature, SimHashes? wasteProduct = null, float wasteAmount = 0f, bool useWasteCapacityForSecondaryProducts = false, bool storeElement = false)
-			=> OutputOreTransition(ElementLoader.GetElement(input), outputAmount, tempOp, wasteProduct, wasteAmount, useWasteCapacityForSecondaryProducts, storeElement);
+		public RecipeBuilder OutputOreTransition(Tag input, float outputAmount, TemperatureOperation tempOp = TemperatureOperation.AverageTemperature, bool storeElement = false)
+			=> OutputOreTransition(ElementLoader.GetElement(input), outputAmount, tempOp, storeElement);
 
-		public RecipeBuilder OutputOreTransition(Element input, float outputAmount, TemperatureOperation tempOp = TemperatureOperation.AverageTemperature, SimHashes? wasteProduct = null, float wasteAmount = 0f, bool useWasteCapacityForSecondaryProducts = false, bool storeElement = false)
+		public RecipeBuilder OutputOreTransition(Element input, float outputAmount, TemperatureOperation tempOp = TemperatureOperation.AverageTemperature, bool storeElement = false)
 		{
 			SimHashes mainTarget = input.highTempTransition.lowTempTransition.id;
 			SimHashes secondaryTarget = input.highTempTransitionOreID;
-			SimHashes wasteTarget = wasteProduct ?? SimHashes.Vacuum;
 			float secondaryAmount = outputAmount * input.highTempTransitionOreMassConversion;
-			float primaryAmount = useWasteCapacityForSecondaryProducts ? outputAmount : outputAmount - secondaryAmount;
-			wasteAmount = useWasteCapacityForSecondaryProducts ? wasteAmount - secondaryAmount : wasteAmount;
+			float primaryAmount = outputAmount - secondaryAmount;
 
 			OutputOverridable(mainTarget, primaryAmount, tempOp, storeElement);
 			if (secondaryTarget != SimHashes.Vacuum && secondaryAmount > 0f)
 				Output(secondaryTarget, secondaryAmount, tempOp, storeElement);
-			if (wasteTarget != SimHashes.Vacuum && wasteAmount > 0f)
-				Output(wasteTarget, wasteAmount, tempOp, storeElement);
 			return this;
 		}
+
+		//weird system that replaces the sand...
+		//public RecipeBuilder OutputOreTransition(SimHashes input, float outputAmount, TemperatureOperation tempOp = TemperatureOperation.AverageTemperature, SimHashes? wasteProduct = null, float wasteAmount = 0f, bool useWasteCapacityForSecondaryProducts = false, bool storeElement = false)
+		//=> OutputOreTransition(input.CreateTag(), outputAmount, tempOp, wasteProduct, wasteAmount, useWasteCapacityForSecondaryProducts, storeElement);
+
+		//public RecipeBuilder OutputOreTransition(Tag input, float outputAmount, TemperatureOperation tempOp = TemperatureOperation.AverageTemperature, SimHashes? wasteProduct = null, float wasteAmount = 0f, bool useWasteCapacityForSecondaryProducts = false, bool storeElement = false)
+		//	=> OutputOreTransition(ElementLoader.GetElement(input), outputAmount, tempOp, wasteProduct, wasteAmount, useWasteCapacityForSecondaryProducts, storeElement);
+
+		//public RecipeBuilder OutputOreTransition(Element input, float outputAmount, TemperatureOperation tempOp = TemperatureOperation.AverageTemperature, SimHashes? wasteProduct = null, float wasteAmount = 0f, bool useWasteCapacityForSecondaryProducts = false, bool storeElement = false)
+		//{
+		//	SimHashes mainTarget = input.highTempTransition.lowTempTransition.id;
+		//	SimHashes secondaryTarget = input.highTempTransitionOreID;
+		//	SimHashes wasteTarget = wasteProduct ?? SimHashes.Vacuum;
+		//	float secondaryAmount = outputAmount * input.highTempTransitionOreMassConversion;
+		//	float primaryAmount = useWasteCapacityForSecondaryProducts ? outputAmount : outputAmount - secondaryAmount;
+		//	wasteAmount = useWasteCapacityForSecondaryProducts ? wasteAmount - secondaryAmount : wasteAmount;
+
+		//	OutputOverridable(mainTarget, primaryAmount, tempOp, storeElement);
+		//	if (secondaryTarget != SimHashes.Vacuum && secondaryAmount > 0f)
+		//		Output(secondaryTarget, secondaryAmount, tempOp, storeElement);
+		//	if (wasteTarget != SimHashes.Vacuum && wasteAmount > 0f)
+		//		Output(wasteTarget, wasteAmount, tempOp, storeElement);
+		//	return this;
+		//}
 		public RecipeBuilder OutputMetalRefineryTransition(Element input, float outputAmount, TemperatureOperation tempOp = TemperatureOperation.AverageTemperature, bool storeElement = false)
 		{
 			var mainTarget = input.highTempTransition.lowTempTransition;

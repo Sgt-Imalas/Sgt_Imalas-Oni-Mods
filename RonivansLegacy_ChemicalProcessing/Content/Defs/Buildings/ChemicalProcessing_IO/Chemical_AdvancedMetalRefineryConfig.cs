@@ -123,16 +123,16 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Ingredients: Ore - 500kg
 			// Result: Refined Metal - 500kg
 			//==================================================================================================================================================
-			foreach (var element in RefinementRecipeHelper.GetNormalOres())
+			foreach (var oreInput in RefinementRecipeHelper.GetNormalOres())
 			{
-				Element refinedElement = element.highTempTransition.lowTempTransition;
 				if (chemicalProcessingEnabled)
 				{
 					RecipeBuilder.Create(ID, recipeDuration)
-						.Input(element.tag, 400f)
+						.Input(oreInput.tag, 400f)
 						.Input(SimHashes.RefinedCarbon.CreateTag(), 50f)
 						.Input(SimHashes.Sand.CreateTag(), 50f)
-						.RephysicalizedOutput(refinedElement.tag, 370f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+						.OverrideMainProductOutputGeneration(Rephysicalized.RephysicalizedOutput)
+						.OutputOreTransition(oreInput, 370f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 						.Output(Slag_Solid.Tag, 130f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 						.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 						.Description3I2O(THREE_MIXTURE_SMELT_WASTE)
@@ -142,8 +142,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				else
 				{
 					RecipeBuilder.Create(ID, recipeDuration)
-						.Input(element.tag, 400f)
-						.RephysicalizedOutput(refinedElement.id, 400f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+						.Input(oreInput.tag, 400f)
+						.OverrideMainProductOutputGeneration(Rephysicalized.RephysicalizedOutput)
+						.OutputOreTransition(oreInput, 400f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 						.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 						.Description1I1O(ARCFURNACE_SMELT)
 						.SortOrder(index++)
@@ -204,22 +205,23 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//         Slag            - 150kg
 			//---------------------------------------------------------------------------------------------------------------------------------------------
 
-			if (chemicalProcessingEnabled)
-			{
-				RecipeBuilder.Create(ID, recipeDuration)
-					.Input(Galena_Solid.Tag, 400f)
-					.Input(SimHashes.RefinedCarbon.CreateTag(), 50f)
-					.Input(SimHashes.Sand.CreateTag(), 50f)
+			///Vanilla galena takes priority
+			//if (chemicalProcessingEnabled)
+			//{
+			//	RecipeBuilder.Create(ID, recipeDuration)
+			//		.Input(Galena_Solid.Tag, 400f)
+			//		.Input(SimHashes.RefinedCarbon.CreateTag(), 50f)
+			//		.Input(SimHashes.Sand.CreateTag(), 50f)
 					
-					.Output(SimHashes.Lead.CreateTag(), 150f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-					.Output(Silver_Solid.Tag, 200f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-					.Output(Slag_Solid.Tag, 150f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+			//		.Output(SimHashes.Lead.CreateTag(), 150f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+			//		.Output(Silver_Solid.Tag, 200f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+			//		.Output(Slag_Solid.Tag, 150f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					
-					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
-					.Description(THREE_MIXTURE_TWO_PRODUCTS_SMELT_WASTE,3,3)
-					.SortOrder(index++)
-					.Build();
-			}
+			//		.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+			//		.Description(THREE_MIXTURE_TWO_PRODUCTS_SMELT_WASTE,3,3)
+			//		.SortOrder(index++)
+			//		.Build();
+			//}
 
 			//CHEMPROC
 			//---- [ Advanced Iron Refining with Pyrite ] --------------------------------------------------------------------------------------------------

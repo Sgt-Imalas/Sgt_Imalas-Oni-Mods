@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using NodeEditorFramework;
 using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
@@ -71,7 +72,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//-----------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, recipeDuration)
 				.Input(EggShellConfig.ID, 5f)
-				.Output(SimHashes.Lime, 5f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.Output(SimHashes.Lime, 5f)
 				.Description(string.Format(global::STRINGS.BUILDINGS.PREFABS.ROCKCRUSHER.LIME_RECIPE_DESCRIPTION,
 				global::STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.EGG_SHELL.NAME,
 				global::STRINGS.ELEMENTS.LIME.NAME))
@@ -86,7 +87,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			RecipeBuilder.Create(ID, recipeDuration)
 				.Input(CrabShellConfig.ID, 10f)
-				.Output(SimHashes.Lime, 10f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.Output(SimHashes.Lime, 10f)
 				.Description(string.Format(global::STRINGS.BUILDINGS.PREFABS.ROCKCRUSHER.LIME_RECIPE_DESCRIPTION,
 				global::STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.CRAB_SHELL.NAME,
 				global::STRINGS.ELEMENTS.LIME.NAME))
@@ -100,13 +101,44 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//-------------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, recipeDuration)
 				.Input(CrabWoodShellConfig.ID, 500f)
-				.Output(SimHashes.WoodLog, 500f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.Output(SimHashes.WoodLog, 500f)
 				.Description(string.Format(global::STRINGS.BUILDINGS.PREFABS.ROCKCRUSHER.LIME_RECIPE_DESCRIPTION,
 				global::STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.CRAB_SHELL.VARIANT_WOOD.NAME,
 				global::STRINGS.ELEMENTS.LIME.NAME))
 				.SortOrder(index++)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 				.Build();
+
+			//---- [ Snailshell Molt Milling ] -----------------------------------------------------------------------------
+			// Ingredient: Snailshell Molt   - 1 full grown snail (10kg)
+			// Result: Lime                  - 10kg
+			//-------------------------------------------------------------------------------------------------------------
+
+			RecipeBuilder.Create(ID, recipeDuration)
+				.Input(SnailShellConfig.ID, 10f)
+				.Output(SimHashes.Lime, 10f)
+				.Description(string.Format(global::STRINGS.BUILDINGS.PREFABS.ROCKCRUSHER.LIME_RECIPE_DESCRIPTION,
+				global::STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.SNAIL_SHELL.NAME,
+				global::STRINGS.ELEMENTS.LIME.NAME))
+				.SortOrder(index++)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+				.Build();
+
+			//---- [Ironshell Molt Milling ] -----------------------------------------------------------------------------
+			// Ingredient: Ironshell Molt   - 1 full grown iron snail (10kg)
+			// Result: Gold Amalgam(???)    - 10kg
+			//-------------------------------------------------------------------------------------------------------------
+
+			RecipeBuilder.Create(ID, recipeDuration)
+				.Input(SnailIronShellConfig.ID, 10f)
+				.Output(SimHashes.GoldAmalgam, 10f)
+				.Description(string.Format(global::STRINGS.BUILDINGS.PREFABS.ROCKCRUSHER.LIME_RECIPE_DESCRIPTION,
+				global::STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.SNAIL_SHELL.NAME,
+				global::STRINGS.ELEMENTS.LIME.NAME))
+				.SortOrder(index++)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+				.Build();
+
 
 			//---- [ Fossil Milling ] ----------------------------------------------------------------------------------------
 			// Ingredient: Fossil     - 100kg
@@ -116,10 +148,23 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//-----------------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, recipeDuration)
 			.Input(SimHashes.Fossil, 100)
-			.Output(SimHashes.Lime, 5f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-			.Output(SimHashes.CrushedRock, 70f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-			.Output(chemproc ? SimHashes.Bitumen : SimHashes.Sand, 25f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+			.Output(SimHashes.Lime, 5f)
+			.Output(SimHashes.CrushedRock, 70f)
+			.Output(chemproc ? SimHashes.Bitumen : SimHashes.Sand, 25f)
 			.Description1I3O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1_2)
+			.SortOrder(index++)
+			.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+			.Build();
+			//---- [ Corallium Milling ] ----------------------------------------------------------------------------------------
+			// Ingredient: Corallium  - 100kg
+			// Result: Lime           - 10kg
+			//         Sand			  - 90g
+			//-----------------------------------------------------------------------------------------------------------------
+			RecipeBuilder.Create(ID, recipeDuration)
+			.Input(SimHashes.Corallium, 100)
+			.Output(SimHashes.Lime, 10f)
+			.Output(SimHashes.Sand, 90f)
+			.Description1I2O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_2)
 			.SortOrder(index++)
 			.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 			.Build();
@@ -132,9 +177,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//------------------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, recipeDuration)
 			.Input(SimHashes.Salt, 100)
-			.Output(ModElements.Borax_Solid, 10f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-			.Output(SimHashes.Sand, 89.95f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-			.Output(TableSaltConfig.ID.ToTag(), 0.05f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+			.Output(ModElements.Borax_Solid, 10f)
+			.Output(SimHashes.Sand, 89.95f)
+			.Output(TableSaltConfig.ID.ToTag(), 0.05f)
 			.Description(
 				string.Format(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1_2,
 				SimHashes.Salt.CreateTag().ProperName(),
@@ -145,6 +190,19 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 			.SortOrder(index++)
 			.Build();
+			//---- [ Graphite Milling ] ----------------------------------------------------------------------------------------
+			// Ingredient: Fullerene  - 100kg
+			// Result: Graphite       - 90kg
+			//         Sand			  - 10kg
+			//-----------------------------------------------------------------------------------------------------------------
+			RecipeBuilder.Create(ID, recipeDuration)
+			.Input(SimHashes.Fullerene, 100)
+			.Output(SimHashes.Graphite, 90f)
+			.Output(SimHashes.Sand, 90f)
+			.Description1I2O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_2)
+			.SortOrder(index++)
+			.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+			.Build();
 
 			//---- [ Phosphate Nodules Milling ] ----------------------------------------------------------------------------------
 			// Ingredient: Phosphate Nodules    - 100kg
@@ -153,8 +211,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//---------------------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, recipeDuration)
 				.Input(SimHashes.PhosphateNodules, 100f)
-				.Output(SimHashes.Phosphorus, 70f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-				.Output(SimHashes.CrushedRock, 30f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.Output(SimHashes.Phosphorus, 70f)
+				.Output(SimHashes.CrushedRock, 30f)
 				.Description1I1O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 				.SortOrder(index++)
@@ -166,7 +224,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//------------------------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, recipeDuration)
 				.Input(SimHashes.CrushedRock, 100f)
-				.Output(SimHashes.Sand, 100f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.Output(SimHashes.Sand, 100f)
 				.Description1I1O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 				.SortOrder(index++)
@@ -178,7 +236,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//--------------------------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, recipeDuration)
 				.Input(SimHashes.Obsidian, 100f)
-				.Output(SimHashes.Sand, 100f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.Output(SimHashes.Sand, 100f)
 				.Description1I1O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 				.SortOrder(index++)
@@ -195,17 +253,15 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			{
 				RecipeBuilder.Create(ID, recipeDuration)
 					.Input(ModElements.Chloroschist_Solid, 100f)
-					.Output(SimHashes.CrushedRock, 55f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-					.Output(SimHashes.Sand, 10f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-					.Output(SimHashes.BleachStone, 15f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-					.Output(SimHashes.Salt, 20f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+					.Output(SimHashes.CrushedRock, 55f)
+					.Output(SimHashes.Sand, 10f)
+					.Output(SimHashes.BleachStone, 15f)
+					.Output(SimHashes.Salt, 20f)
 					.Description1I4O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_4)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 					.SortOrder(index++)
 					.Build();
 			}
-
-
 
 			//---- [ Crushable to Crushed Rock ] --------------------------------------------------------------------------------------------
 			// Ingredient: Crushable - 100kg
@@ -213,7 +269,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//-------------------------------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, CHEMICAL_COMPLEXFABRICATOR_STRINGS.CRUSHEDROCK_FROM_RAW_MINERAL_DESCRIPTION, recipeDuration)
 				.Input(RefinementRecipeHelper.GetCrushables([SimHashes.Obsidian]).Select(e => e.id.CreateTag()), 100f)
-				.Output(SimHashes.CrushedRock, 100f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.Output(SimHashes.CrushedRock, 100f)
 				.NameOverride(CHEMICAL_COMPLEXFABRICATOR_STRINGS.CRUSHEDROCK_FROM_RAW_MINERAL_NAME)
 				.SortOrder(0)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Custom)
@@ -225,14 +281,15 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Result: RefinedMetal - 50kg
 			//         Sand - 50g
 			//----------------------------------------------------------------------------------------------------------------------------------
-			foreach (var element in RefinementRecipeHelper.GetNormalOres())
+			foreach (var oreInput in RefinementRecipeHelper.GetNormalOres())
 			{
 
-				Element refinedElement = element.highTempTransition.lowTempTransition;
+				Element refinedElement = oreInput.highTempTransition.lowTempTransition;
 				RecipeBuilder.Create(ID, recipeDuration)
-					.Input(element.id, 100f)
-					.RephysicalizedOutput(refinedElement.id, 50f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-					.Output(SimHashes.Sand, 50f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+					.Input(oreInput.id, 100f)
+					.OverrideMainProductOutputGeneration(Rephysicalized.RephysicalizedOutput)
+					.OutputOreTransition(oreInput, 50f, ComplexRecipe.RecipeElement.TemperatureOperation.AverageTemperature)
+					.Output(SimHashes.Sand, 50f)
 					.Description1I1O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1_BREAK)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 					.SortOrder(index++)
@@ -258,32 +315,33 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			RecipeBuilder.Create(ID, recipeDuration)
 					.Input(SimHashes.Electrum, 100f)
-					.Output(SimHashes.Gold, 25f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-					.Output(chemproc ? ModElements.Silver_Solid : SimHashes.Copper, 15f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-					.Output(SimHashes.Sand, 50f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+					.Output(SimHashes.Gold, 25f)
+					.Output(chemproc ? ModElements.Silver_Solid : SimHashes.Copper, 15f)
+					.Output(SimHashes.Sand, 50f)
 					.Description1I2O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_2)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 					.SortOrder(index++)
 					.Build();
 
-			//---- [ Galena Crushing ] ---------------------------------------------------------------------------------------------------------
-			// Ingredient: Galena - 100kg
-			// Result: Silver - 25kg
-			//         Lead - 15kg
-			//         Sand - 50g
-			//------------------------------------------------------------------------------------------------------------------------------------
-			if (chemproc)
-			{
-				RecipeBuilder.Create(ID, recipeDuration)
-						.Input(ModElements.Galena_Solid, 100f)
-						.Output(ModElements.Silver_Solid, 25f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-						.Output(SimHashes.Lead, 15f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-						.Output(SimHashes.Sand, 50f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-						.Description1I2O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_2)
-						.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
-						.SortOrder(index++)
-						.Build();
-			}
+			///vanilla galena takes priority
+			////---- [ Galena Crushing ] ---------------------------------------------------------------------------------------------------------
+			//// Ingredient: Galena - 100kg
+			//// Result: Silver - 25kg
+			////         Lead - 15kg
+			////         Sand - 50g
+			////------------------------------------------------------------------------------------------------------------------------------------
+			//if (chemproc)
+			//{
+			//	RecipeBuilder.Create(ID, recipeDuration)
+			//			.Input(ModElements.Galena_Solid, 100f)
+			//			.Output(ModElements.Silver_Solid, 25f)
+			//			.Output(SimHashes.Lead, 15f)
+			//			.Output(SimHashes.Sand, 50f)
+			//			.Description1I2O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_2)
+			//			.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
+			//			.SortOrder(index++)
+			//			.Build();
+			//}
 
 			//---- [ Pyrite Crushing ] -----------------------------------------------------------------------------------------------------
 			// Ingredient: Pyrite - 100kg
@@ -292,8 +350,8 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//-------------------------------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, recipeDuration)
 					.Input(SimHashes.FoolsGold, 100f)
-					.Output(SimHashes.Iron, 30f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-					.Output(SimHashes.Sand, 70f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+					.Output(SimHashes.Iron, 30f)
+					.Output(SimHashes.Sand, 70f)
 					.Description1I1O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 					.SortOrder(index++)
@@ -326,6 +384,15 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 					.Input("GoldBellyCrown", 1)
 					.Output(SimHashes.GoldAmalgam, 250)
 					.Description(string.Format(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1, STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.GOLD_BELLY_CROWN.NAME, SimHashes.GoldAmalgam.CreateTag().ProperName()))
+					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
+					.SortOrder(index++)
+					.Build();
+
+			//urchin/Pinpoki to diamond
+			RecipeBuilder.Create(ID, recipeDuration)
+					.Input("Urchin", 1)
+					.Output(SimHashes.Diamond, 100)
+					.Description(string.Format(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1, STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.URCHIN.NAME, SimHashes.Diamond.CreateTag().ProperName()))
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 					.SortOrder(index++)
 					.Build();
