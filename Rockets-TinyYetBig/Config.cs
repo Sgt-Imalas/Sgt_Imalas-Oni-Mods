@@ -13,10 +13,7 @@ namespace Rockets_TinyYetBig
 	{
 		public static bool SpaceStationsPossible =>
 			   Instance.SpaceStationsAndTech
-			&& SpaceStationRequirements
-			;
-		public static bool SpaceStationRequirements =>
-			   Instance.CompressInteriors
+			&& Instance.CompressInteriors
 			&& Instance.EnableAdvWorldSelector
 			&& Instance.NeutroniumMaterial
 			;
