@@ -14,10 +14,12 @@ namespace SaveGameModLoader
 		{
 			public bool FilterEnabled;
 			public bool FilterInverted;
+			public bool FilterPinned;
 			public TagFilterState()
 			{
 				FilterEnabled = false;
 				FilterInverted = false;
+				FilterPinned = false;
 			}
 		}
 
@@ -125,6 +127,18 @@ namespace SaveGameModLoader
 				return;
 
 			filter.FilterInverted = !filter.FilterInverted;
+			SaveToFile();
+		}
+		public bool IsFilterPinned(string id)
+		{
+			return FilterTags.TryGetValue(id, out var filter) && filter.FilterPinned;
+		}
+		public void SetFilterPinned(string id)
+		{
+			if (!FilterTags.TryGetValue(id, out var filter))
+				return;
+
+			filter.FilterPinned = !filter.FilterPinned;
 			SaveToFile();
 		}
 

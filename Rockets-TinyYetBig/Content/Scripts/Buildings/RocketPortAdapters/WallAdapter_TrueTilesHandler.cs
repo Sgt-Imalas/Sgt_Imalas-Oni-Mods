@@ -1,6 +1,5 @@
 ﻿using ElementUtilNamespace;
 using HarmonyLib;
-using ONITwitchLib.Logger;
 using PeterHan.PLib.Core;
 using Rendering.World;
 using System;

@@ -29,7 +29,6 @@
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<SteamId>2837919908</SteamId>
 		<APIVersion>2</APIVersion>
-		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -44,8 +43,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Reference Include="ONITwitchLib">
-	    <HintPath>..\TwitchLib\ONITwitchLib.dll</HintPath>
+	  <Reference Include="ONITwitchLib"><HintPath>..\TwitchLib\ONITwitchLib.dll</HintPath>
 	  </Reference>
 	</ItemGroup>
 
