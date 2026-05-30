@@ -31,8 +31,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 		public static HashSet<SimHashes> GetSpecialOres()
 		{
+			//TODO: revise:
 			//those elements have special conversion rates, for all others its the same
-			return [SimHashes.Electrum, SimHashes.FoolsGold, ModElements.Galena_Solid];
+			return [SimHashes.Electrum, SimHashes.FoolsGold];
 		}
 		public static IEnumerable<Element> GetCrushables(HashSet<SimHashes> exclude = null) =>
 			ElementLoader.elements.Where(e => e.IsSolid && e.HasTag(GameTags.Crushable) && e.id != SimHashes.SuperInsulator && (exclude == null || !exclude.Contains(e.id)));

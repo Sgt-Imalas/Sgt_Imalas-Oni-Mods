@@ -1,7 +1,10 @@
-﻿using ElementUtilNamespace;
+﻿using ElementData;
+using ElementUtilNamespace;
+using Klei;
 using Klei.AI;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -96,7 +99,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			Chloroschist_Solid = ElementInfo.Solid("Chloroschist", "raw_chloroschist_kanim", CHLOROSCHIST_COLOR),
 			ConcreteBlock_Solid = ElementInfo.Solid("ConcreteBlock", "slabs_new_kanim", CONCRETEBLOCK_COLOR),
 			FiberGlass_Solid = ElementInfo.Solid("SolidFiberglass", "solid_fiberglass_kanim", FIBERGLASS_COLOR),
-			Galena_Solid = ElementInfo.Solid("Galena", "raw_galena_kanim", GALENA_COLOR),
+			///Vanilla now
+			//Galena_Solid = ElementInfo.Solid("Galena", "raw_galena_kanim", GALENA_COLOR),
 			Isopropane_Gas = ElementInfo.Gas("IsopropaneGas", ISOPROPANE_COLOR),
 			MeteorOre_Solid = ElementInfo.Solid("MeteorOre", "raw_meteor_ore_kanim", METEOR_COLOR),
 			//Nitric Acid
@@ -121,10 +125,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			ToxicMix_Solid = ElementInfo.Solid("ToxicClay", "solid_toxic_mud_kanim", TOXIC_COLOR),
 			ToxicMix_Liquid = ElementInfo.Liquid("ToxicSlurry", TOXIC_COLOR),
 			ToxicMix_Gas = ElementInfo.Gas("ToxicGas", TOXIC_COLOR),
-
+			//tempDisableToAdjust//
 			Zinc_Solid = ElementInfo.Solid("SolidZinc", "solid_zinc_kanim", ZINC_COLOR),
-			Zinc_Liquid = ElementInfo.Liquid("MoltenZinc", ZINC_COLOR),
-			Zinc_Gas = ElementInfo.Gas("ZincGas", ZINC_COLOR),
+			///Vanilla now
+			//Zinc_Liquid = ElementInfo.Liquid("MoltenZinc", ZINC_COLOR),
+			//Zinc_Gas = ElementInfo.Gas("ZincGas", ZINC_COLOR),
 
 			//unburied from older version:
 			Nitrogen_Solid = ElementInfo.Solid("SolidNitrogen", "solid_nitrogen_kanim", NITROGEN_COLOR),
@@ -186,7 +191,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				AmmoniumSalt_Solid.CreateSubstanceFromElementTinted(SimHashes.SolidOxygen),
 				AmmoniumWater_Liquid.CreateSubstance(),
 
-				Argentite_Solid.CreateSubstanceFromElementTinted(SimHashes.Electrum, SILVER_COLOR),
+				//Argentite_Solid.CreateSubstanceFromElementTinted(SimHashes.Electrum, SILVER_COLOR),
+				Argentite_Solid.CreateSubstance(true,oreMaterial),
 				//Aurichalcite_Solid.CreateSubstanceFromElementTinted(SimHashes.Lead),
 				Aurichalcite_Solid.CreateSubstance(true,oreMaterial),
 				Borax_Solid.CreateSubstanceFromElementTinted(SimHashes.SolidCarbonDioxide),
@@ -196,7 +202,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				ConcreteBlock_Solid.CreateSubstanceFromElementTinted(SimHashes.Aerogel),
 				FiberGlass_Solid.CreateSubstanceFromElementTinted(SimHashes.Fullerene),
 				Isopropane_Gas.CreateSubstance(),
-				Galena_Solid.CreateSubstanceFromElementTinted(SimHashes.Rust),
+				//Galena_Solid.CreateSubstanceFromElementTinted(SimHashes.Rust),
 				MeteorOre_Solid.CreateSubstanceFromElementTinted(SimHashes.CrushedRock),
 				NitricAcid_Liquid.CreateSubstance(),
 				OilShale_Solid.CreateSubstanceFromElementTinted(SimHashes.SolidCrudeOil),
@@ -234,8 +240,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				ToxicMix_Gas.CreateSubstance(),
 
 				Zinc_Solid.CreateSubstanceFromElementTinted(SimHashes.Gold),
-				Zinc_Liquid.CreateSubstance(),
-				Zinc_Gas.CreateSubstance(),
+				//Zinc_Liquid.CreateSubstance(),
+				//Zinc_Gas.CreateSubstance(),
 
 				//unburied from older version:
 				Nitrogen_Solid.CreateSubstanceFromElementTinted(SimHashes.SolidHydrogen),
@@ -565,7 +571,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			AddTagToElementAndEnable(SimHashes.RefinedLipid, ModAssets.Tags.AIO_BioFuel);
 
 			AddTagToElementAndEnable(SimHashes.CarbonDioxide, ModAssets.Tags.SodaFountainGas);
-			
+
 		}
 		static void AddTagToElementAndEnable(SimHashes element, Tag? tag = null, bool setMatCat = false) => AddTagsToElementAndEnable(element, tag.HasValue ? [tag.Value] : null, setMatCat);
 
@@ -629,8 +635,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			AddElementOverheatModifier(Brass_Solid, 80);
 
 			//=: Giving Galena Temperature modifications :==============================================================
-			AddElementDecorModifier(Galena_Solid, 0.1f);
-			AddElementOverheatModifier(Galena_Solid, -30);
+			AddElementDecorModifier(SimHashes.Galena, 0.1f);
+			AddElementOverheatModifier(SimHashes.Galena, -30);
 
 			//=: Giving Carbon Fibre Temperature modifications :========================================================
 			AddElementOverheatModifier(CarbonFiber_Solid, 5000);
@@ -703,19 +709,46 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					float massMult = copperOreMods.massMultiplier;
 					float bandMult = copperOreMods.bandMultiplier;
 
-					foreach(var element in RefinementRecipeHelper.GetAllOres())
+					foreach (var element in RefinementRecipeHelper.GetAllOres())
 					{
 						if (worldTrait.elementBandModifiers.Any(band => band.element == element.id.ToString()))
 							continue;
 
 						///is an ore and not an alloy
-						if(element.HasTag(GameTags.Metal) && !element.HasTag(GameTags.RefinedMetal))
+						if (element.HasTag(GameTags.Metal) && !element.HasTag(GameTags.RefinedMetal))
 						{
-							SgtLogger.l("adding "+ element.id +" ore band multiplier to " + worldTrait.filePath);
+							SgtLogger.l("adding " + element.id + " ore band multiplier to " + worldTrait.filePath);
 							worldTrait.elementBandModifiers.Add(new() { element = element.id.ToString(), bandMultiplier = bandMult, massMultiplier = massMult });
 						}
 					}
 				}
+			}
+		}
+
+		internal static void LoadYaml(ref List<ElementEntry> result)
+		{
+			try
+			{
+				foreach (var file in new DirectoryInfo(Path.Combine(IO_Utils.ModPath, "mod_elements")).GetFiles("*.yaml"))
+				{
+					var fileName = file.Name;
+					if (fileName.StartsWith("~") || fileName.StartsWith("."))
+					{
+						continue;
+					}
+					if (KYaml.LoadFile<ElementEntryCollection>(file.FullName, out ElementEntryCollection elementCollection, (KYaml.ErrorHandler)((path, exception) => { })))
+					{
+						result.AddRange(elementCollection.elements);
+					}
+					else
+					{
+						SgtLogger.error("Failed to load custom elements from yaml: " + file.FullName);
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				SgtLogger.error("Failed to load custom elements from yaml: " + e);
 			}
 		}
 	}

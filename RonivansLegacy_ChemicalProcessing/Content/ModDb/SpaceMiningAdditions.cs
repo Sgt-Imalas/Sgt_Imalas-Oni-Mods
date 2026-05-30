@@ -45,7 +45,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			sdt.OilyAsteroid.elementTable.Add(ModElements.OilShale_Solid, new MathUtil.MinMax(100f, 200f));
 			sdt.Satellite.elementTable.Add(ModElements.Aurichalcite_Solid, new MathUtil.MinMax(100f, 200f));
 			sdt.TerraPlanet.elementTable.Add(ModElements.Argentite_Solid, new MathUtil.MinMax(100f, 200f));
-			sdt.RedDwarf.elementTable.Add(ModElements.Galena_Solid, new MathUtil.MinMax(100f, 200f));
+			sdt.RedDwarf.elementTable.Add(SimHashes.Galena, new MathUtil.MinMax(100f, 200f));
 		}
 
 		public static void AddPOIs_IndustrialOverhaul(List<HarvestablePOIConfig.HarvestablePOIParams> __result)
@@ -55,7 +55,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				//=: METALLIC ASTEROID FIELD :===================================================================
 				if (param.poiType.id == HarvestablePOIConfig.MetallicAsteroidField)
 				{
-					param.poiType.harvestableElements.Add(ModElements.Galena_Solid, 1.5f);
+					param.poiType.harvestableElements.Add(SimHashes.Galena, 1.5f);
 					param.poiType.harvestableElements.Add(ModElements.Silver_Liquid, 1f);
 					param.poiType.harvestableElements.Add(ModElements.LowGradeSand_Solid, 1f);
 					param.poiType.harvestableElements.Add(ModElements.BaseGradeSand_Solid, 0.2f);
