@@ -445,7 +445,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				new RecipeRandomResult(90, 40, 60)
 				.AddProduct(SimHashes.Copper, 15, 60)
 				.AddProductConditional(dlc4Owned, SimHashes.Nickel, 15, 60)
-				.AddProduct(Zinc_Solid, 15, 60)
+				.AddProduct(SimHashes.Zinc, 15, 60)
 				.AddProduct(SimHashes.Lead, 15, 60)
 				.AddProduct(Silver_Solid, 15, 60)
 				.ProductCountRange(2, 4)

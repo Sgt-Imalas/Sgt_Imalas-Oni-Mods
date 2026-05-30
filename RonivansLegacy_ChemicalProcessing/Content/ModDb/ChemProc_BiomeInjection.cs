@@ -218,7 +218,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			///Geodes Trait feature:
 			FeatureElementInjections.Create("features/traits/Geode")
 				.TargetGroup("RoomCenterElements")
-					.Element(ModElements.Zinc_Solid, 50)
+					//.Element(ModElements.Zinc_Solid, 50)
 					.Element(ModElements.Silver_Solid, 50)
 					.Element(ModElements.Ammonia_Solid, 20)
 					.Element(ModElements.Borax_Solid, 20)

@@ -39,7 +39,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 				AddPackage(ModElements.MeteorOre_Solid.Tag.ToString(), 400, () => DiscoveredCondition(ModElements.MeteorOre_Solid.CreateTag()) && CycleCondition(48));
 
-				AddPackage(ModElements.Zinc_Solid.Tag.ToString(), 400, () => DiscoveredCondition(ModElements.Zinc_Solid.CreateTag()) && CycleCondition(48));
+				//AddPackage(ModElements.Zinc_Solid.Tag.ToString(), 400, () => DiscoveredCondition(ModElements.Zinc_Solid.CreateTag()) && CycleCondition(48));
 				AddPackage(ModElements.Silver_Solid.Tag.ToString(), 400, () => DiscoveredCondition(ModElements.Silver_Solid.CreateTag()) && CycleCondition(48));
 
 				AddPackage(ModElements.Brass_Solid.Tag.ToString(), 100, () => DiscoveredCondition(ModElements.Brass_Solid.CreateTag()) && CycleCondition(48));

@@ -1,6 +1,4 @@
-﻿using FMOD;
-using JetBrains.Annotations;
-using Klei.AI;
+﻿using Klei.AI;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,8 +7,6 @@ using TUNING;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
-using static KSerialization.DebugLog;
-using static STRINGS.UI.UISIDESCREENS.AUTOPLUMBERSIDESCREEN.BUTTONS;
 
 namespace SkillsInfoScreen.UI.UIComponents
 {

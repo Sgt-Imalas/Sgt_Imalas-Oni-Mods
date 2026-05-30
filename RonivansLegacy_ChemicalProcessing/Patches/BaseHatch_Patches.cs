@@ -66,12 +66,6 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 						CritterDietsInfo.AddToList([hatchTarget], SourceModInfo.ChemicalProcessing_IO, new Diet.Info( new HashSet<Tag>([ModElements.Argentite_Solid.Tag]), (poopTag == GameTags.Metal) ? ModElements.Silver_Solid.Tag : poopTag, caloriesPerKg, producedConversionRate, diseaseId, diseasePerKgProduced))
 					//	)
 						;
-					
-					///added via starting metal tag now
-					//__result.Add(
-						CritterDietsInfo.AddToList([hatchTarget], SourceModInfo.ChemicalProcessing_IO, new Diet.Info( new HashSet<Tag>([ModElements.Aurichalcite_Solid.Tag]), (poopTag == GameTags.Metal) ? ModElements.Zinc_Solid.Tag : poopTag, caloriesPerKg, producedConversionRate, diseaseId, diseasePerKgProduced))
-						//)
-						;
 				}
 			}
 		}

@@ -100,7 +100,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//-------------------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, 40)
 				.Input(SimHashes.Copper, 70)
-				.Input([ModElements.Zinc_Solid.Tag, "Beached_Zinc"], 30)
+				.Input([SimHashes.Zinc.CreateTag(), ModElements.Zinc_Solid.Tag], 30)
 				.Output(ModElements.Brass_Solid, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
 				.Description(ARCFURNACE_SMELT_2_1, 2, 1)

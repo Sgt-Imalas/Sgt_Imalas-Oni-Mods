@@ -22,7 +22,8 @@ elements:
     - RefinedMetal
     - BuildableAny
     - Conductor #gigawatt wire
-    - StartingRefinedMetal 
+    - StartingRefinedMetal
+    - HideFromSpawnTool
     buildMenuSort: 2
     isDisabled: false
     state: Solid
@@ -1068,7 +1069,7 @@ elements:
     localizationID: STRINGS.ELEMENTS.LIQUIDNITRIC.NAME
     dlcId: ""
 
-    # Zinc Ore
+    # Zinc+Copper Ore
   - elementId: AurichalciteOre
     specificHeatCapacity: 0.411
     thermalConductivity: 3.6
@@ -1078,8 +1079,8 @@ elements:
     strength: 0.7
     highTemp: 1192.15
     highTempTransitionTarget: MoltenZinc
-    # highTempTransitionOreId: Copper
-    # highTempTransitionOreMassConversion: 0.4
+    highTempTransitionOreId: Copper
+    highTempTransitionOreMassConversion: 0.245
     defaultTemperature: 296
     defaultMass: 800
     maxMass: 1840
@@ -1089,7 +1090,7 @@ elements:
     radiationAbsorptionFactor: 0.46
     radiationPer1000Mass: 0
     materialCategory: Metal
-    refinedMetalTarget: SolidZinc
+    refinedMetalTarget: Zinc
     tags:
     - BuildableAny
     - Ore
@@ -1109,7 +1110,7 @@ elements:
     strength: 0.7
     highTemp: 1236.15
     highTempTransitionTarget: MoltenSilver
-    highTempTransitionOreId: LiquidSulfur
+    highTempTransitionOreId: Sulfur
     highTempTransitionOreMassConversion: 0.13
     defaultTemperature: 296
     defaultMass: 800

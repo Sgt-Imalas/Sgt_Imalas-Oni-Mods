@@ -1820,21 +1820,23 @@ namespace RonivansLegacy_ChemicalProcessing
 		public class ELEMENTS
 		{
 			//===== [ Zinc ] ================================
+			//gone vanilla now
+			//kept for compatibility due to different id
 			public class SOLIDZINC
 			{
-				public static LocString NAME = FormatAsLink("Zinc", nameof(SOLIDZINC));
-				public static LocString DESC = "(Zn) Zinc is a bluish-white, lustrous, diamagnetic metal, slightly brittle metal.";
+				public static LocString NAME = FormatAsLink("Zinc (Legacy)", nameof(SOLIDZINC));
+				public static LocString DESC = "(Zn) Zinc is a bluish-white, lustrous, diamagnetic metal, slightly brittle metal.\nThis modded version of the element has now been superceded by the vanilla version";
 			}
-			public class MOLTENZINC
-			{
-				public static LocString NAME = FormatAsLink("Molten Zinc", nameof(MOLTENZINC));
-				public static LocString DESC = "(Zn) Zinc is a bluish-white, lustrous, diamagnetic metal in its molten state.";
-			}
-			public class ZINCGAS
-			{
-				public static LocString NAME = FormatAsLink("Zinc Gas", nameof(ZINCGAS));
-				public static LocString DESC = "(Zn) Zinc is a bluish-white, lustrous, diamagnetic metal in its gaseous state.";
-			}
+			//public class MOLTENZINC
+			//{
+			//	public static LocString NAME = FormatAsLink("Molten Zinc", nameof(MOLTENZINC));
+			//	public static LocString DESC = "(Zn) Zinc is a bluish-white, lustrous, diamagnetic metal in its molten state.";
+			//}
+			//public class ZINCGAS
+			//{
+			//	public static LocString NAME = FormatAsLink("Zinc Gas", nameof(ZINCGAS));
+			//	public static LocString DESC = "(Zn) Zinc is a bluish-white, lustrous, diamagnetic metal in its gaseous state.";
+			//}
 			//===== [ Silver ] ==============================
 			public class SOLIDSILVER
 			{
@@ -2064,13 +2066,8 @@ namespace RonivansLegacy_ChemicalProcessing
 			}
 			public class AURICHALCITEORE
 			{
-				public static LocString NAME = FormatAsLink("Zinc Ore", nameof(AURICHALCITEORE));
-				public static LocString DESC = "((Zn,Cu)<sub>5</sub>(CO<sub>3</sub>)<sub>2</sub>(OH)<sub>6</sub>) Aurichalcite is a carbonate mineral, and the main source of refined " + FormatAsLink("Zinc", "SOLIDZINC") + " metal.";
-			}
-			public class GALENA
-			{
-				public static LocString NAME = FormatAsLink("Galena", nameof(GALENA));
-				public static LocString DESC = "Galena is the natural mineral form of lead(II) sulfide (PbS).It is the most important ore of " + FormatAsLink("Lead", "LEAD") + " and an important source of " + FormatAsLink("Silver", "SOLIDSILVER") + ".";
+				public static LocString NAME = FormatAsLink("Aurichalcite", nameof(AURICHALCITEORE));
+				public static LocString DESC = "((Zn,Cu)<sub>5</sub>(CO<sub>3</sub>)<sub>2</sub>(OH)<sub>6</sub>) Aurichalcite is a carbonate mineral, mainly composed of " + FormatAsLink("Zinc", "ZINC") + " and " + FormatAsLink("Copper", "COPPER")+".";
 			}
 			public class CHLOROSCHIST
 			{
