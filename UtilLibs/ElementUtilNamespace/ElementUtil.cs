@@ -5,10 +5,11 @@ using System.IO;
 using HarmonyLib;
 using UnityEngine;
 using UtilLibs;
+using System.Runtime.CompilerServices;
 
 namespace ElementUtilNamespace
 {
-    public class SgtElementUtil
+    public static class SgtElementUtil
     {
         public static readonly Dictionary<SimHashes, string> SimHashNameLookup = new Dictionary<SimHashes, string>();
         public static readonly Dictionary<string, object> ReverseSimHashNameLookup = new Dictionary<string, object>();
@@ -89,7 +90,48 @@ namespace ElementUtilNamespace
         public static void SetTexture_NormalNoise(Material material, string normal) =>
             SetTexture(material, normal, "_NormalNoise");
 
-        public static Substance CreateSubstance(SimHashes id, bool specular, string anim, Element.State state,
+        public static Substance MakeMoltenMetal(this Substance substance)
+        {
+            substance.glows = true;
+            substance.isOpaqueLiquid = true;
+            substance.metalic = true;
+            substance.texture = Substance.SubstanceTexture.MoltenMetal;
+			return substance;
+		}
+		public static Substance MakeLiquidifedAtmosphericGas(this Substance substance)
+		{
+            ///currently; liquidifed gases only seem to have these swirls + some gradient but im not adding that gradient here for now
+            substance.CausticSwirls();
+			return substance;
+		}
+		public static Substance Glows(this Substance substance, bool val = true)
+        {
+            substance.glows = val;
+			return substance;
+		}
+		public static Substance CausticSwirls(this Substance substance, bool val = true)
+		{
+			substance.usesCaustics = val;
+			return substance;
+		}
+		public static Substance Opaque(this Substance substance, bool val = true)
+		{
+			substance.isOpaqueLiquid = val;
+			return substance;
+		}
+		public static Substance Metallic(this Substance substance, bool val = true)
+		{
+			substance.metalic = val;
+			return substance;
+		}
+		public static Substance Texture(this Substance substance, Substance.SubstanceTexture texture)
+		{
+			substance.texture = texture;
+			return substance;
+		}
+
+
+		public static Substance CreateSubstance(SimHashes id, bool specular, string anim, Element.State state,
             Color color, Material material, Color uiColor, Color conduitColor, Color? specularColor, string normal,
             bool isCloned = false)
         {

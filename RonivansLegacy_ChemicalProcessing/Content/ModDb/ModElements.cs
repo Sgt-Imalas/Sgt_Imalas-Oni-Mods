@@ -185,11 +185,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				LowGradeSand_Solid.CreateSubstanceFromElementTinted(SimHashes.Cuprite),
 
 				Ammonia_Solid.CreateSubstanceFromElementTinted(SimHashes.SolidOxygen),
-				Ammonia_Liquid.CreateSubstance(),
+				Ammonia_Liquid.CreateSubstance().MakeLiquidifedAtmosphericGas(),
 				Ammonia_Gas.CreateSubstance(),
 
 				AmmoniumSalt_Solid.CreateSubstanceFromElementTinted(SimHashes.SolidOxygen),
-				AmmoniumWater_Liquid.CreateSubstance(),
+				AmmoniumWater_Liquid.CreateSubstance().CausticSwirls(),
 
 				//Argentite_Solid.CreateSubstanceFromElementTinted(SimHashes.Electrum, SILVER_COLOR),
 				Argentite_Solid.CreateSubstance(true,oreMaterial),
@@ -204,7 +204,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				Isopropane_Gas.CreateSubstance(),
 				//Galena_Solid.CreateSubstanceFromElementTinted(SimHashes.Rust),
 				MeteorOre_Solid.CreateSubstanceFromElementTinted(SimHashes.CrushedRock),
-				NitricAcid_Liquid.CreateSubstance(),
 				OilShale_Solid.CreateSubstanceFromElementTinted(SimHashes.SolidCrudeOil),
 				PhosphorBronze.CreateSubstanceFromElementTinted(SimHashes.FoolsGold),
 				Plasteel_Solid.CreateSubstanceFromElementTinted(SimHashes.Aluminum),
@@ -215,28 +214,30 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 				ChromiteOre_Solid.CreateSubstanceFromElementTinted(SimHashes.IronOre),
 				FerroChrome_Solid.CreateSubstanceFromElementTinted(SimHashes.Iron),
-				FerroChrome_Liquid.CreateSubstance(),
+				FerroChrome_Liquid.CreateSubstance().MakeMoltenMetal(),
+
 				Chromium_Solid.CreateSubstanceFromElementTinted(SimHashes.Steel),
-				Chromium_Liquid.CreateSubstance(),
+				Chromium_Liquid.CreateSubstance().MakeMoltenMetal(),
 				Chromium_Gas.CreateSubstance(),
 
 
 				RawNaturalGas_Gas.CreateSubstance(),
 
 				Silver_Solid.CreateSubstanceFromElementTinted(SimHashes.Gold),
-				Silver_Liquid.CreateSubstance(),
+				Silver_Liquid.CreateSubstance().MakeMoltenMetal(),
 				Silver_Gas.CreateSubstance(),
 
 				Slag_Solid.CreateSubstanceFromElementTinted(SimHashes.Regolith),
-				Slag_Liquid.CreateSubstance(),
+				Slag_Liquid.CreateSubstance().Glows().Opaque().Texture(Substance.SubstanceTexture.Magma),
 
-				SourWater_Liquid.CreateSubstance(),
+				SourWater_Liquid.CreateSubstance().CausticSwirls().Texture(Substance.SubstanceTexture.Polluted),
 
-				SulphuricAcid_Liquid.CreateSubstance(),
+				NitricAcid_Liquid.CreateSubstance().CausticSwirls().Texture(Substance.SubstanceTexture.Thick),
+				SulphuricAcid_Liquid.CreateSubstance().CausticSwirls().Texture(Substance.SubstanceTexture.Thick),
 				SulphuricAcid_Gas.CreateSubstance(),
 
 				ToxicMix_Solid.CreateSubstanceFromElementTinted(SimHashes.Clay),
-				ToxicMix_Liquid.CreateSubstance(),
+				ToxicMix_Liquid.CreateSubstance().CausticSwirls().Texture(Substance.SubstanceTexture.PollutedBrine),
 				ToxicMix_Gas.CreateSubstance(),
 
 				Zinc_Solid.CreateSubstanceFromElementTinted(SimHashes.Gold),
@@ -245,21 +246,21 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 				//unburied from older version:
 				Nitrogen_Solid.CreateSubstanceFromElementTinted(SimHashes.SolidHydrogen),
-				Nitrogen_Liquid.CreateSubstance(),
+				Nitrogen_Liquid.CreateSubstance().MakeLiquidifedAtmosphericGas(),
 				Nitrogen_Gas.CreateSubstance(),
 			};
 
 			ChemicalProcessing_BioChem_Elements = new HashSet<Substance>()
 			{
 				BioDiesel_Solid.CreateSubstanceFromElementTinted(SimHashes.SuperInsulator),
-				BioDiesel_Liquid.CreateSubstance(),
+				BioDiesel_Liquid.CreateSubstance().CausticSwirls().Texture(Substance.SubstanceTexture.Oil),
 
 				BioMass_Solid.CreateSubstanceFromElementTinted(SimHashes.Algae),
 
 				BioPlastic_Solid.CreateSubstanceFromElementTinted(SimHashes.Polypropylene),
 
 				VegetableOil_Solid.CreateSubstanceFromElementTinted(SimHashes.Isoresin),
-				VegetableOil_Liquid.CreateSubstance(),
+				VegetableOil_Liquid.CreateSubstance().CausticSwirls().Texture(Substance.SubstanceTexture.Oil),
 				VegetableOil_Gas.CreateSubstance(),
 			};
 
