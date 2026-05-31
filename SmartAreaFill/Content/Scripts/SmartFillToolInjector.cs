@@ -34,7 +34,8 @@ namespace SmartAreaFill.Content.Scripts
 		}
 		enum ExpansionElementTypeRequirement
 		{
-			None, Solid, Liquid, Gas
+			None, Solid, Liquid, Gas,
+			NaturalSolidOrBackwall
 		}
 
 
@@ -49,7 +50,8 @@ namespace SmartAreaFill.Content.Scripts
 		bool mouseHeldDown = false;
 		float timeSinceMouseDown = 0f;
 		int startCell = Grid.InvalidCell;
-		int elementIdx = -1;
+		int elementIdx = -1, elementIdxBackwall = -1;
+		bool digToolTile, digToolBackwall;
 		HashSet<ObjectLayer> cachedLayers = [];
 		BuildingDef cachedDef;
 
@@ -202,7 +204,7 @@ namespace SmartAreaFill.Content.Scripts
 					OnDeactivateTool();
 					yield break;
 				}
-				while(WalkableCells.Any() && !CachedUnclaimedCells.Any())
+				while (WalkableCells.Any() && !CachedUnclaimedCells.Any())
 					CacheNextCells();
 				PickNextCellForVisualization();
 				yield return null;
@@ -240,7 +242,7 @@ namespace SmartAreaFill.Content.Scripts
 					break;
 				case nameof(DigTool):
 					Rule = ExpansionRules.SameElement;
-					ElementRequirement = ExpansionElementTypeRequirement.Solid;
+					ElementRequirement = ExpansionElementTypeRequirement.NaturalSolidOrBackwall;
 					break;
 				case nameof(AttackTool):
 				case nameof(CaptureTool):
@@ -293,7 +295,6 @@ namespace SmartAreaFill.Content.Scripts
 			if (followSource)
 				Rule = Grid.IsSolidCell(startCell) ? ExpansionRules.SolidTile : ExpansionRules.NonSolidTile;
 
-			elementIdx = Grid.ElementIdx[startCell];
 			Queue<int> toVisit = [];
 			toVisit.Enqueue(startCell);
 			if (IsValidCell(startCell))
@@ -312,6 +313,7 @@ namespace SmartAreaFill.Content.Scripts
 			StartCellWorldIdx = Grid.WorldIdx[startCell];
 			if (filteredDragTool != null)
 			{
+				SgtLogger.l("Filter tool caching");
 				CacheFilterableLayers();
 			}
 			else if (buildTool != null)
@@ -324,13 +326,22 @@ namespace SmartAreaFill.Content.Scripts
 				else
 					cachedDef = null;
 
-				SgtLogger.l(cachedDef == null ? "invalid def for spread" : "valid def for spread");				
+				SgtLogger.l(cachedDef == null ? "invalid def for spread" : "valid def for spread");
 			}
 			bool followSource = (Rule == ExpansionRules.FollowSourceTileState);
 			if (followSource)
 				Rule = Grid.IsSolidCell(startCell) ? ExpansionRules.SolidTile : ExpansionRules.NonSolidTile;
 
-			elementIdx = Grid.ElementIdx[startCell];
+			if (digToolTile && Grid.IsSolidCell(startCell) && !Grid.Foundation[startCell])
+				elementIdx = Grid.ElementIdx[startCell];
+			else
+				elementIdx = -1;
+
+			if (digToolBackwall && BackwallManager.HasBackwall(startCell))
+				elementIdxBackwall = BackwallManager.At(startCell).Element.idx;
+			else
+				elementIdxBackwall = -1;
+
 			if (IsValidCell(startCell))
 				WalkableCells.Enqueue(startCell);
 
@@ -349,8 +360,15 @@ namespace SmartAreaFill.Content.Scripts
 		void CacheFilterableLayers()
 		{
 			cachedLayers.Clear();
+
 			if (filteredDragTool == null)
 				return;
+			if (ElementRequirement == ExpansionElementTypeRequirement.NaturalSolidOrBackwall)
+			{
+				digToolBackwall = filteredDragTool.IsFilterOn(ToolParameterMenu.FILTERLAYERS.NATURALBACKWALL);
+				digToolTile = filteredDragTool.IsFilterOn(ToolParameterMenu.FILTERLAYERS.TILES);
+			}
+
 
 			for (int i = 0; i < (int)ObjectLayer.NumLayers; i++)
 			{
@@ -361,7 +379,7 @@ namespace SmartAreaFill.Content.Scripts
 					continue;
 
 				var objectAtCell = Grid.Objects[startCell, i];
-				if(objectAtCell == null) 
+				if (objectAtCell == null)
 					continue;
 
 				string filterLayer = filteredDragTool.GetFilterLayerFromGameObject(objectAtCell);
@@ -377,7 +395,8 @@ namespace SmartAreaFill.Content.Scripts
 					SgtLogger.l("Caching object layer " + layer);
 				}
 			}
-			SgtLogger.l("total cached layers: " + cachedLayers.Count);
+			if (cachedLayers.Any())
+				SgtLogger.l("total cached layers: " + cachedLayers.Count);
 		}
 		void CacheCells(Queue<int> toWalk, ref byte worldId, ref HashSet<int> visitedCells)
 		{
@@ -452,6 +471,27 @@ namespace SmartAreaFill.Content.Scripts
 		}
 
 		bool SolidCellOrDoor(int targetCell) => (Grid.IsSolidCell(targetCell) || includeDoorsAsSolids && Grid.HasDoor[targetCell]);
+
+		bool ValidDigToolCell(int targetCell)
+		{
+			if (!digToolTile && !digToolBackwall)
+				return true;
+
+			bool valid = false;
+
+			if (digToolTile && elementIdx != -1)
+			{
+				if (Grid.ElementIdx[targetCell] == elementIdx && !Grid.Foundation[targetCell])
+					valid = true;
+			}
+			if (digToolBackwall && elementIdxBackwall != -1)
+			{
+				if (BackwallManager.HasBackwall(targetCell) && BackwallManager.At(targetCell).Element.idx == elementIdxBackwall)
+					valid = true;
+			}
+			return valid;
+		}
+
 		bool IsValidCell(int targetCell)
 		{
 			if (startCell == targetCell)
@@ -481,7 +521,7 @@ namespace SmartAreaFill.Content.Scripts
 				case ExpansionRules.None:
 					return false;
 				case ExpansionRules.SameElement:
-					if (elementIdx != Grid.ElementIdx[targetCell] || Grid.Objects[targetCell, (int)ObjectLayer.FoundationTile] != null)
+					if (!ValidDigToolCell(targetCell))
 						return false;
 					break;
 				case ExpansionRules.TileExpansion:
@@ -514,6 +554,8 @@ namespace SmartAreaFill.Content.Scripts
 					return Grid.IsLiquid(targetCell);
 				case ExpansionElementTypeRequirement.Gas:
 					return Grid.IsGas(targetCell);
+				case ExpansionElementTypeRequirement.NaturalSolidOrBackwall:
+					return Grid.IsSolidCell(targetCell) || BackwallManager.HasBackwall(targetCell);
 			}
 		}
 
