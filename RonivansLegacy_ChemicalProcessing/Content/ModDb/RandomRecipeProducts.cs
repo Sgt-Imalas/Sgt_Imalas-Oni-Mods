@@ -266,7 +266,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.Fertilizer, 10, 20, 2f / 9f)
 				);
 
-			///Siltstone mirrored from sandstone, with copper switched out for zinc
+			///Siltstone mirrored from sandstone, with copper switched out for zinc, sulfur replaces fertilizer
 			results.Add(SimHashes.SiltStone.CreateTag(),
 				new RecipeRandomResult(490, 20, 50)
 				.AddProduct(SimHashes.CrushedRock, 150, 310)
@@ -274,7 +274,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.ZincOre, 20, 40, 3f / 9f)
 				.AddProduct(SimHashes.Electrum, 15, 30, 3f / 9f)
 				.AddProductConditional(chemproc, ModElements.Aurichalcite_Solid, 10, 30, 3f / 9f)
-				.AddProduct(SimHashes.Fertilizer, 10, 20, 2f / 9f)
+				.AddProduct(SimHashes.Sulfur, 10, 20, 2f / 9f)
 				);
 			//===: SEDIMENTARY ROCK RANDOM RESULTS :======================================================== < 500 kg >
 			//---[ Possible Results Elements: ]
@@ -403,6 +403,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(LowGradeSand_Solid, 50, 100)
 				.AddProduct(SimHashes.Fertilizer, 5, 15, 2f / 5f)
 				);
+			results.Add(SimHashes.SiltStone.CreateTag(),
+				new RecipeRandomResult(440, 20, 40)
+				.AddProduct(ToxicMix_Liquid, 340, 380)
+				.AddProduct(LowGradeSand_Solid, 50, 100)
+				.AddProduct(SimHashes.Sulfur, 5, 15, 2f / 5f)
+				);
 			results.Add(SimHashes.SedimentaryRock.CreateTag(),
 				new RecipeRandomResult(440, 20, 40)
 				.AddProduct(ToxicMix_Liquid, 340, 390)
@@ -419,6 +425,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(ToxicMix_Liquid, 360, 420)
 				.AddProduct(BaseGradeSand_Solid, 30, 80)
 				.AddProduct(SimHashes.Sulfur, 25, 45)
+				);
+			results.Add(SimHashes.Basalt.CreateTag(),
+				new RecipeRandomResult(440, 20, 40)
+				.AddProduct(ToxicMix_Liquid, 360, 420)
+				.AddProduct(BaseGradeSand_Solid, 30, 80)
+				.AddProduct(SimHashes.Carbon, 25, 45)
 				);
 			results.Add(SimHashes.MaficRock.CreateTag(),
 				new RecipeRandomResult(440, 20, 40)

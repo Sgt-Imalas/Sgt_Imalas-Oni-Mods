@@ -205,6 +205,15 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.DescriptionFunc(RandomRecipeProducts.GetChemicalBallCrusherRandomResultsString)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 				.Build();
+			///siltstone is similar to sandstone
+			RecipeBuilder.Create(ID, 50)
+				.Input(SimHashes.SiltStone, 300f)
+				.Input(SimHashes.Water, 100f)
+				.Input(ModElements.SulphuricAcid_Liquid, 50f)
+				.Output(ModElements.ToxicMix_Liquid, 10f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.DescriptionFunc(RandomRecipeProducts.GetChemicalBallCrusherRandomResultsString)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
+				.Build();
 
 			//---- [ Sedimentary Rock Milling ] -----------------------------------------------------------------------------
 			// Ingredient: Sedimentary Rock - 300kg
@@ -258,6 +267,15 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			RecipeBuilder.Create(ID, 50)
 				.Input(SimHashes.IgneousRock, 300f)
+				.Input(SimHashes.Water, 100f)
+				.Input(ModElements.NitricAcid_Liquid, 50f)
+				.Output(ModElements.ToxicMix_Liquid, 10f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.DescriptionFunc(RandomRecipeProducts.GetChemicalBallCrusherRandomResultsString)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
+				.Build();
+			///basalt is a type of igneous rock
+			RecipeBuilder.Create(ID, 50)
+				.Input(SimHashes.Basalt, 300f)
 				.Input(SimHashes.Water, 100f)
 				.Input(ModElements.NitricAcid_Liquid, 50f)
 				.Output(ModElements.ToxicMix_Liquid, 10f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
