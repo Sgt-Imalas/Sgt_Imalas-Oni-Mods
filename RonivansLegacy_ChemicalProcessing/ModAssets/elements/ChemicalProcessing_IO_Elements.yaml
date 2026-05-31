@@ -252,7 +252,6 @@ elements:
     radiationPer1000Mass: 0
     tags:
     - Mixture
-    - AnyWater
     isDisabled: false
     state: Liquid
     localizationID: STRINGS.ELEMENTS.TOXICSLURRY.NAME
