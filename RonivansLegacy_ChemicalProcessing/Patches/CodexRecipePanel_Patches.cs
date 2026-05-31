@@ -86,8 +86,8 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 					icon.sprite = uiSprite.first;
 					icon.color = uiSprite.second;
 
-					var containerLE = __instance.fabricatorContainer.GetComponent<LayoutElement>();
-					containerLE.preferredWidth = containerLE.preferredWidth + 40f;
+					//var containerLE = __instance.fabricatorContainer.GetComponent<LayoutElement>();
+					//containerLE.preferredWidth = containerLE.preferredWidth + 40f;
 
 					var amount = component.GetReference<LocText>("Amount");
 					amount.text = occurence.GetOccurenceCompositionName(true);
