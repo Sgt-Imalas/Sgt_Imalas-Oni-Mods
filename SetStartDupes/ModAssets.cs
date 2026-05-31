@@ -692,10 +692,10 @@ namespace SetStartDupes
 				NextType.special,
 				DUPLICANTSTATS.SPECIALTRAITS
 			},
-			{
-				NextType.cogenital,
-				DUPLICANTSTATS.CONGENITALTRAITS
-			},
+			//{
+			//	NextType.congenital,
+			//	DUPLICANTSTATS.CONGENITALTRAITS
+			//},
 			{
 				NextType.bionic_boost,
 				DUPLICANTSTATS.BIONICUPGRADETRAITS

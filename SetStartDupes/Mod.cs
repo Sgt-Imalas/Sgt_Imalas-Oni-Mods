@@ -49,7 +49,7 @@ namespace SetStartDupes
 			SgtLogger.log("Folders succesfully initialized");
 
 			harmonyInstance = harmony;
-			ModApi.RegisteringJorge();
+			ModApi.RegisterHiddenDupes();
 
 			ModAssets.LoadAssets();
 			PUtil.InitLibrary(false);

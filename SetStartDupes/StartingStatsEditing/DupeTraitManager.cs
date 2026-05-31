@@ -774,7 +774,7 @@ namespace SetStartDupes
 
 
 			undefined, //catch
-			cogenital,  //unused
+			congenital,  //unused
 
 			//fill type for all
 			allTraits,
