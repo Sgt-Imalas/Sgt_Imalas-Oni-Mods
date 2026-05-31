@@ -72,7 +72,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			PipedOptionalExhaust steamExhaust = go.AddComponent<PipedOptionalExhaust>();
 			steamExhaust.dispenser = steamDispenser;
-			steamExhaust.elementTag = SimHashes.Steam.CreateTag();
+			steamExhaust.elementTags = [SimHashes.Steam.CreateTag()];
 			steamExhaust.capacity = 2f;
 		}
 

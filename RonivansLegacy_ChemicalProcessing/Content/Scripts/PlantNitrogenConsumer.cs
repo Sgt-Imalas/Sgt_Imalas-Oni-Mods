@@ -15,7 +15,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 	{
 		public static readonly float NitrogenConsumedPerSecond = 0.020f;//20 g/s
 		public static readonly float GrowthBoost = 0.20f;//20%
-		public static readonly string CodexMapKey = "PlantNitrogenConsumer_CodexId";
 		ElementConsumer nitrogenConsumer;
 		[Serialize] public bool ConsumptionSatisfied = false;
 		[MyCmpGet] Growing growing;

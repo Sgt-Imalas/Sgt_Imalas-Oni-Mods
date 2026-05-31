@@ -85,13 +85,13 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			PipedOptionalExhaust exhaustGlass = go.AddComponent<PipedOptionalExhaust>();
 			exhaustGlass.dispenser = dispenser;
-			exhaustGlass.elementTag = SimHashes.MoltenGlass.CreateTag();
+			exhaustGlass.elementTags = [SimHashes.MoltenGlass.CreateTag()];
 			exhaustGlass.capacity = 100f;
 			exhaustGlass.emissionRate = 50f;
 
 			PipedOptionalExhaust exhaustWater = go.AddComponent<PipedOptionalExhaust>();
 			exhaustWater.dispenser = dispenser;
-			exhaustWater.elementTag = GameTags.AnyWater;
+			exhaustWater.elementTags = [GameTags.AnyWater];
 			exhaustWater.capacity = 500f;
 			exhaustWater.emissionRate = 100f;
 

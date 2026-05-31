@@ -136,7 +136,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 
 			PipedOptionalExhaust co2Exhaust = go.AddComponent<PipedOptionalExhaust>();
 			co2Exhaust.dispenser = co2Dispenser;
-			co2Exhaust.elementTag = SimHashes.CarbonDioxide.CreateTag();
+			co2Exhaust.elementTags = [SimHashes.CarbonDioxide.CreateTag()];
 			co2Exhaust.capacity = 2f;
 
 			this.AttachPort(go);

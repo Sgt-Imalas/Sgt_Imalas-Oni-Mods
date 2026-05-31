@@ -108,7 +108,7 @@ namespace Dupes_Machinery.Biological_Vats
 
 			PipedOptionalExhaust exhaust = go.AddComponent<PipedOptionalExhaust>();
 			exhaust.dispenser = oxygenDispenser;
-			exhaust.elementTag = SimHashes.Oxygen.CreateTag();
+			exhaust.elementTags = [SimHashes.Oxygen.CreateTag()];
 			exhaust.capacity = 0.40f;
 			this.AttachPort(go);
 

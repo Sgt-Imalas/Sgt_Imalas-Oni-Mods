@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using UtilLibs;
 using static ModInfo;
 using static RonivansLegacy_ChemicalProcessing.Patches.HPA.ConduitBridge_Patches;
@@ -142,9 +143,8 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		[HarmonyPatch(typeof(CodexEntryGenerator_Elements), nameof(CodexEntryGenerator_Elements.GenerateMadeAndUsedContainers))]
 		public class CodexEntryGenerator_Elements_GenerateMadeAndUsedContainers_Patch
 		{
-
 			static Tag _cached;
-			public static void Prefix(Tag tag)
+			public static void Prefix(Tag tag, List<ContentContainer> containers)
 			{
 				_cached = tag;
 			}	
@@ -232,6 +232,17 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		}
 
 
+		[HarmonyPatch(typeof(CodexEntryGenerator_Creatures), nameof(CodexEntryGenerator_Creatures.GenerateCreatureDescriptionContainers))]
+		public class CodexEntryGenerator_Creatures_GenerateCreatureDescriptionContainers_Patch
+		{
+			public static void Prefix(GameObject creature, List<ContentContainer> containers)
+			{
+				Diet prefabDiet = DietManager.Instance.GetPrefabDiet(creature);
+				if (prefabDiet == null)
+					return;
+
+			}
+		}
 
 		[HarmonyPatch(typeof(CodexEntryGenerator), nameof(CodexEntryGenerator.GenerateFabricatorContainers))]
 		public class CodexEntryGenerator_GenerateFabricatorContainers_Patch

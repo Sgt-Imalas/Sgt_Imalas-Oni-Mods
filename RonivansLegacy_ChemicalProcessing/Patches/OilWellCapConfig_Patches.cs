@@ -69,7 +69,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 
 					PipedOptionalExhaust GasExhaust = go.AddComponent<PipedOptionalExhaust>();
 					GasExhaust.dispenser = GasDispenser;
-					GasExhaust.elementTag = ModElements.RawNaturalGas_Gas.Tag;
+					GasExhaust.elementTags = [ModElements.RawNaturalGas_Gas.Tag];
 					GasExhaust.capacity = 80f;
 
 					var storageLimiter = go.AddOrGet<ElementThresholdOperational>();
@@ -86,7 +86,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 
 					PipedOptionalExhaust LiquidExhaust = go.AddComponent<PipedOptionalExhaust>();
 					LiquidExhaust.dispenser = LiquidDispenser;
-					LiquidExhaust.elementTag = SimHashes.CrudeOil.CreateTag();
+					LiquidExhaust.elementTags = [SimHashes.CrudeOil.CreateTag()];
 					LiquidExhaust.capacity = 20f;
 
 					var storageLimiter2 = go.AddOrGet<ElementThresholdOperational>();

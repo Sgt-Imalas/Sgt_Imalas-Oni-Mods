@@ -1883,7 +1883,7 @@ namespace RonivansLegacy_ChemicalProcessing
 			public class NITROGENGAS
 			{
 				public static LocString NAME = FormatAsLink("Nitrogen", nameof(NITROGENGAS));
-				public static LocString DESC = "(N<sub>2</sub>) Nitrogen is a nonmetal and the lightest member of group 15 of the periodic table.";
+				public static LocString DESC = "(N<sub>2</sub>) Nitrogen is a nonmetal and the lightest member of group 15 of the periodic table.\nSome plants benefit from growing in a nitrogenized atmosphere.";
 			}
 			//===== [ Toxic Waste ] ==========================
 			public class TOXICCLAY

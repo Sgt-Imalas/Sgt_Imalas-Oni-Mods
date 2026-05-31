@@ -129,6 +129,11 @@ namespace ElementUtilNamespace
 			substance.texture = texture;
 			return substance;
 		}
+        public static Substance MaterialFloatProperty(this Substance substance, string propertyName, float value)
+        {
+            substance.material.SetFloat(propertyName, value);
+            return substance;
+		}
 
 
 		public static Substance CreateSubstance(SimHashes id, bool specular, string anim, Element.State state,

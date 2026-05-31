@@ -178,6 +178,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		public static void RegisterSubstances(List<Substance> list)
 		{
 			var oreMaterial = list.Find(e => e.elementID == SimHashes.AluminumOre).material;
+
 			ChemicalProcessing_IO_Elements = new HashSet<Substance>()
 			{
 				BaseGradeSand_Solid.CreateSubstanceFromElementTinted(SimHashes.FoolsGold),

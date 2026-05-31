@@ -352,6 +352,19 @@ namespace UtilLibs
 		{
 			SimHashes mainTarget = input.highTempTransition.lowTempTransition.id;
 			SimHashes secondaryTarget = input.highTempTransitionOreID;
+
+			if(secondaryTarget != SimHashes.Vacuum && tempOp == TemperatureOperation.Melted)
+			{
+				var secondaryMeltingElement = ElementLoader.FindElementByHash(secondaryTarget);
+				mainTarget = input.highTempTransition.id;
+				float meltingTemp = input.highTempTransition.defaultValues.temperature;
+				while (secondaryMeltingElement != null && secondaryMeltingElement.highTemp < meltingTemp && secondaryMeltingElement.highTempTransition != null)
+					secondaryMeltingElement = secondaryMeltingElement.highTempTransition;
+				if(secondaryMeltingElement != null)
+					secondaryTarget = secondaryMeltingElement.id;
+
+			}
+
 			float secondaryAmount = outputAmount * input.highTempTransitionOreMassConversion;
 			float primaryAmount = outputAmount - secondaryAmount;
 

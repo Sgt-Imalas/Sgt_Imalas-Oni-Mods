@@ -74,10 +74,20 @@ namespace RonivansLegacy_ChemicalProcessing
 			float atmosphericOverpressureThreshold = float.MaxValue, 
 			int dispenserIndex = 0)
 		{
+			return AddComponent_PipedOptionalExhaust(go, new List<Tag>() { outputTag }, false, emissionRatePerSecond, internalMaxCapacity, atmosphericOverpressureThreshold, dispenserIndex);
+		}
+		public static object AddComponent_PipedOptionalExhaust(GameObject go,
+			List<Tag> outputTags,
+			bool invertedFilter = false,
+			float emissionRatePerSecond = 25f,
+			float internalMaxCapacity = float.MaxValue,
+			float atmosphericOverpressureThreshold = float.MaxValue,
+			int dispenserIndex = 0)
+		{
 			var dispensers = go.GetComponents<PipedConduitDispenser>();
 			if (!dispensers.Any())
 			{
-				SgtLogger.warning("No PipedConduitDispenser components on " + go+ " for PipedOptionalExhaust addition");
+				SgtLogger.warning("No PipedConduitDispenser components on " + go + " for PipedOptionalExhaust addition");
 				return null;
 			}
 			if (dispenserIndex >= dispensers.Count())
@@ -89,7 +99,8 @@ namespace RonivansLegacy_ChemicalProcessing
 
 			PipedOptionalExhaust optionalExhaust = go.AddComponent<PipedOptionalExhaust>();
 			optionalExhaust.dispenser = dispenser;
-			optionalExhaust.elementTag = outputTag;
+			optionalExhaust.elementTags = outputTags;
+			optionalExhaust.invertedFilter = invertedFilter;
 			optionalExhaust.capacity = internalMaxCapacity;
 			optionalExhaust.emissionRate = emissionRatePerSecond;
 			optionalExhaust.OverpressureThreshold = atmosphericOverpressureThreshold;

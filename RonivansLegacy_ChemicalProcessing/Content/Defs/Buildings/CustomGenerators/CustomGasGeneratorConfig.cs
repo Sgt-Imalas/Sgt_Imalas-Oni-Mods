@@ -125,12 +125,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 
 			PipedOptionalExhaust pWaterExhaust = go.AddComponent<PipedOptionalExhaust>();
 			pWaterExhaust.dispenser = pWaterDispenser;
-			pWaterExhaust.elementTag = SimHashes.DirtyWater.CreateTag();
+			pWaterExhaust.elementTags = [SimHashes.DirtyWater.CreateTag()];
 			pWaterExhaust.capacity = 10f;
 
 			PipedOptionalExhaust co2Exhaust = go.AddComponent<PipedOptionalExhaust>();
 			co2Exhaust.dispenser = co2Dispenser;
-			co2Exhaust.elementTag = SimHashes.CarbonDioxide.CreateTag();
+			co2Exhaust.elementTags = [SimHashes.CarbonDioxide.CreateTag()];
 			co2Exhaust.capacity = 1f;
 			go.AddOrGet<KBatchedAnimController>().randomiseLoopedOffset = true;
 
