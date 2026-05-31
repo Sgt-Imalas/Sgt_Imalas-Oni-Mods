@@ -214,7 +214,7 @@ namespace SetStartDupes
 				if (ModAssets.DupeTraitManagers.ContainsKey(__instance))
 					ModAssets.DupeTraitManagers[__instance].RecalculateAll();
 				//else if (Config.Instance.ModifyDuringGame)
-					//SgtLogger.warning("no mng for " + __instance + " found!");
+				//SgtLogger.warning("no mng for " + __instance + " found!");
 
 			}
 		}
@@ -1448,6 +1448,8 @@ namespace SetStartDupes
 			[HarmonyPostfix]
 			public static void Postfix(CharacterContainer __instance)
 			{
+				ModAssets.ToShufflePersonality = null;
+
 				bool is_starter = __instance.controller is MinionSelectScreen;
 
 				bool AllowModification = Config.Instance.ModifyDuringGame || (EditingSingleDupe && Config.Instance.JorgeAndCryopodDupes);

@@ -594,6 +594,7 @@ namespace SetStartDupes
 			public static Color green = Util.ColorFromHex("367d48");
 			public static Color red = Util.ColorFromHex("802024");
 			public static Color grey = Util.ColorFromHex("404040");
+			public static Color cyan = Util.ColorFromHex("19a294");
 
 
 
@@ -692,10 +693,10 @@ namespace SetStartDupes
 				NextType.special,
 				DUPLICANTSTATS.SPECIALTRAITS
 			},
-			//{
-			//	NextType.congenital,
-			//	DUPLICANTSTATS.CONGENITALTRAITS
-			//},
+			{
+				NextType.congenital,
+				DUPLICANTSTATS.CONGENITALTRAITS
+			},
 			{
 				NextType.bionic_boost,
 				DUPLICANTSTATS.BIONICUPGRADETRAITS
@@ -843,6 +844,20 @@ namespace SetStartDupes
 			{"StressShocker",NextType.stress }
 		};
 
+		public static bool RerollingDisabled(NextType type)
+		{
+			switch(type)
+			{
+				case NextType.special:
+				case NextType.congenital:
+				case NextType.undefined:
+					return true;
+
+				default : return false;
+			}
+		}
+
+
 		public static NextType GetTraitListOfTrait(Trait trait) => GetTraitListOfTrait(trait.Id);
 		public static NextType GetTraitListOfTrait(string traitId)
 		{
@@ -881,7 +896,7 @@ namespace SetStartDupes
 			}
 
 
-			if (nextType == NextType.special) //chatty, ancient knowledge shouldnt be editable 
+			if (nextType == NextType.special || nextType == NextType.congenital) //chatty, ancient knowledge shouldnt be editable 
 			{
 				TraitList = null;
 				nextType = NextType.undefined;
@@ -914,6 +929,9 @@ namespace SetStartDupes
 					break;
 				case DupeTraitManager.NextType.geneShufflerTrait:
 					colorToPaint = Colors.purple;
+					break;
+				case DupeTraitManager.NextType.congenital:
+					colorToPaint = Colors.cyan;
 					break;
 				default:
 					colorToPaint = Colors.grey;

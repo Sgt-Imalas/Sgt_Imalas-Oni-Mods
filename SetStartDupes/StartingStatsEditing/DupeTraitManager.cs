@@ -482,11 +482,13 @@ namespace SetStartDupes
 				UI_TraitEntries[trait] = traitEntry;
 
 				var textLabel = traitEntry.transform.Find("Label").GetComponent<LocText>();
-				if (type != NextType.undefined && type != NextType.special)
+				if (!ModAssets.RerollingDisabled(type))
 					textLabel.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 26, LE.preferredWidth - 25);
 			}
 			UpdateTraitSorting();
 		}
+
+
 		GameObject AddTraitContainerUI(Trait trait, GameObject parent, NextType type, bool enableDeleteButton = true)
 		{
 			var traitEntry = Util.KInstantiateUI(ListEntryButtonPrefab, parent, true);
@@ -498,7 +500,7 @@ namespace SetStartDupes
 
 			ModAssets.ApplyTraitStyleByKey(traitEntry.GetComponent<KImage>(), type);
 
-			bool notEditable = (type == NextType.undefined || type == NextType.special);
+			bool notEditable = ModAssets.RerollingDisabled(type);
 
 
 			traitEntry.GetComponent<KButton>().enabled = !notEditable;

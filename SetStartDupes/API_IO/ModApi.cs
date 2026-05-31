@@ -85,6 +85,7 @@ namespace SetStartDupes
 
 		public static bool MinnowInitiativeTraitCompletedOnce() => (
 			false &&
+			Db.Get().Personalities.TryGet("MINNOW") != null &&
 			//TODO: wait for minnow unlock, then add here:
 			//Game.Instance != null && Game.Instance.unlocks != null && Game.Instance.unlocks.IsUnlocked("LonelyMinion_STORY_COMPLETE") && 
 			Config.Instance.HermitSkin);
