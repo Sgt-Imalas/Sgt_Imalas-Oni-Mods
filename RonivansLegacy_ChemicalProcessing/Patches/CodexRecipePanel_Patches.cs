@@ -77,7 +77,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				if (RandomRecipeProducts.GetRandomOccurencesforRecipe(__instance.complexRecipe, out var occurence))
 				{
 					//expand the width of the container to fit the occurence entry
-					__instance.fabricatorContainer.gameObject.GetComponent<LayoutElement>().preferredWidth = 160f;
+					__instance.resultsContainer.gameObject.GetComponent<LayoutElement>().preferredWidth = 160f;
 
 					HierarchyReferences component = Util.KInstantiateUI(__instance.materialPrefab, __instance.fabricatorContainer, true)
 						.GetComponent<HierarchyReferences>();
