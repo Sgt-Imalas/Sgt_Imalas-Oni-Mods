@@ -125,7 +125,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			ToxicMix_Solid = ElementInfo.Solid("ToxicClay", "solid_toxic_mud_kanim", TOXIC_COLOR),
 			ToxicMix_Liquid = ElementInfo.Liquid("ToxicSlurry", TOXIC_COLOR),
 			ToxicMix_Gas = ElementInfo.Gas("ToxicGas", TOXIC_COLOR),
-			//tempDisableToAdjust//
+			
 			Zinc_Solid = ElementInfo.Solid("SolidZinc", "solid_zinc_kanim", ZINC_COLOR),
 			///Vanilla now
 			//Zinc_Liquid = ElementInfo.Liquid("MoltenZinc", ZINC_COLOR),
@@ -519,6 +519,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				electrum_material.highTempTransitionOreID = SimHashes.Gold;
 				electrum_material.highTempTransitionOreMassConversion = 0.6f;
 				electrum_material.disabled = false;
+
+				//PYRITE: add sulphur physically accurate percentage
+				var pyriteElement = ElementLoader.FindElementByHash(SimHashes.FoolsGold);
+				pyriteElement.highTempTransitionOreID = SimHashes.Sulfur;
+				pyriteElement.highTempTransitionOreMassConversion = 0.53f;
+
+
 
 				//=[ BITUMEN PATCH ]=======================================================
 				AddTagsToElementAndEnable(SimHashes.Bitumen, [GameTags.ManufacturedMaterial, GameTags.BuildableAny], true);

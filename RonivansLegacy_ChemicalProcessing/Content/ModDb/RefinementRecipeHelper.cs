@@ -24,25 +24,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			return [SimHashes.Carbon, SimHashes.Peat, SimHashes.RefinedCarbon];
 		}
 
-		public static IEnumerable<Element> GetAllOres()
-		{
-			return GetNormalOres().Concat(GetSpecialOres().Select(e => ElementLoader.GetElement(e.CreateTag())));
-		}
-
-		public static HashSet<SimHashes> GetSpecialOres()
-		{
-			//TODO: revise:
-			//those elements have special conversion rates, for all others its the same
-			return [SimHashes.Electrum, SimHashes.FoolsGold];
-		}
 		public static IEnumerable<Element> GetCrushables(HashSet<SimHashes> exclude = null) =>
 			ElementLoader.elements.Where(e => e.IsSolid && e.HasTag(GameTags.Crushable) && e.id != SimHashes.SuperInsulator && (exclude == null || !exclude.Contains(e.id)));
 
-		public static IEnumerable<Element> GetNormalOres()
+		public static IEnumerable<Element> GetAllOres()
 		{
 			var normalOres = ElementLoader.elements.FindAll(e => e.IsSolid && e.HasTag(GameTags.Metal));
-			var specials = GetSpecialOres();
-			normalOres.RemoveAll(e => specials.Contains(e.id) || e.HasTag(GameTags.Noncrushable) || e.HasTag(ModAssets.Tags.RandomSand));
+			normalOres.RemoveAll(e => e.HasTag(GameTags.Noncrushable) || e.HasTag(ModAssets.Tags.RandomSand));
 			normalOres.RemoveAll(e => e.highTempTransition?.lowTempTransition == e);
 			return normalOres;
 		}

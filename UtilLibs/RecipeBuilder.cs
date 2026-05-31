@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using static ComplexRecipe.RecipeElement;
 using static ComplexRecipe;
 using UtilLibs.MarkdownExport;
+using UnityEngine;
 
 namespace UtilLibs
 {
@@ -357,8 +358,9 @@ namespace UtilLibs
 			{
 				var secondaryMeltingElement = ElementLoader.FindElementByHash(secondaryTarget);
 				mainTarget = input.highTempTransition.id;
-				float meltingTemp = input.highTempTransition.defaultValues.temperature;
-				while (secondaryMeltingElement != null && secondaryMeltingElement.highTemp < meltingTemp && secondaryMeltingElement.highTempTransition != null)
+
+				float meltingTemp = Mathf.Max(input.highTemp, input.highTempTransition.defaultValues.temperature, secondaryMeltingElement?.highTemp ?? 0);
+				while (secondaryMeltingElement != null && (secondaryMeltingElement.IsSolid || secondaryMeltingElement.highTemp < meltingTemp) && secondaryMeltingElement.highTempTransition != null)
 					secondaryMeltingElement = secondaryMeltingElement.highTempTransition;
 				if(secondaryMeltingElement != null)
 					secondaryTarget = secondaryMeltingElement.id;

@@ -228,7 +228,7 @@ namespace Metallurgy.Buildings
 			// Result: Molten Refined Metal - 490kg
 			//         Molten Slag - 50kg
 			//----------------------------------------------------------------------------------------------------------------------
-			foreach (var element in RefinementRecipeHelper.GetNormalOres())
+			foreach (var element in RefinementRecipeHelper.GetAllOres())
 			{
 
 				Element refinedElementMolten = element.highTempTransition;
@@ -265,30 +265,30 @@ namespace Metallurgy.Buildings
 			//         Silver - 15kg
 			//         Sand - 50g
 			//------------------------------------------------------------------------------------------------------------------------------------
-			if (chemProcActive)
-			{
-				RecipeBuilder.Create(ID, recipeTime)
-					.Input(SimHashes.Electrum, 500f)
-					.Input(SimHashes.Sand.CreateTag(), 40f)
-					.Output(SimHashes.MoltenGold, 490f * 0.6f, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)
-					.Output(ModElements.Silver_Liquid, 490f * 0.4f, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)
-					.Output(ModElements.Slag_Liquid, 50, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)
-					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.PLASMAFURNACE_2_2_1, 2, 3)
-					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
-					.SortOrder(index++)
-					.Build();
-			}
-			else
-			{
-				RecipeBuilder.Create(ID, recipeTime)
-					.Input(SimHashes.Electrum, 500f)
-					.Output(SimHashes.MoltenGold, 300, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)
-					.Output(SimHashes.MoltenCopper, 200, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)
-					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.PLASMAFURNACE_1_2, 1, 2)
-					.SortOrder(index++)
-					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
-					.Build();
-			}
+			//if (chemProcActive)
+			//{
+			//	RecipeBuilder.Create(ID, recipeTime)
+			//		.Input(SimHashes.Electrum, 500f)
+			//		.Input(SimHashes.Sand.CreateTag(), 40f)
+			//		.Output(SimHashes.MoltenGold, 490f * 0.6f, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)
+			//		.Output(ModElements.Silver_Liquid, 490f * 0.4f, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)
+			//		.Output(ModElements.Slag_Liquid, 50, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)
+			//		.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.PLASMAFURNACE_2_2_1, 2, 3)
+			//		.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+			//		.SortOrder(index++)
+			//		.Build();
+			//}
+			//else
+			//{
+			//	RecipeBuilder.Create(ID, recipeTime)
+			//		.Input(SimHashes.Electrum, 500f)
+			//		.Output(SimHashes.MoltenGold, 300, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)
+			//		.Output(SimHashes.MoltenCopper, 200, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)
+			//		.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.PLASMAFURNACE_1_2, 1, 2)
+			//		.SortOrder(index++)
+			//		.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+			//		.Build();
+			//}
 
 
 			///vanilla galena takes priority
@@ -318,25 +318,25 @@ namespace Metallurgy.Buildings
 			// Result: Iron - 30kg
 			//         Sand - 70g
 			//-------------------------------------------------------------------------------------------------------------------------------
-			if (chemProcActive)
-				RecipeBuilder.Create(ID, recipeTime)
-					.Input(SimHashes.FoolsGold, 500f)
-					.Input(SimHashes.Sand.CreateTag(), 40f)
-					.Output(SimHashes.MoltenIron, 400f, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)
-					.Output(ModElements.Slag_Liquid, 140, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)
-					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.PLASMAFURNACE_2_1_1, 2, 2)
-					.SortOrder(index++)
-					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
-					.Build();
-			else
-				RecipeBuilder.Create(ID, recipeTime)
-					.Input(SimHashes.FoolsGold, 500f)
-					.Output(SimHashes.MoltenIron, 400f, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)
-					.Output(SimHashes.LiquidSulfur, 100f, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)
-					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.PLASMAFURNACE_1_2, 1, 2)
-					.SortOrder(index++)
-					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
-					.Build();
+			//if (chemProcActive)
+			//	RecipeBuilder.Create(ID, recipeTime)
+			//		.Input(SimHashes.FoolsGold, 500f)
+			//		.Input(SimHashes.Sand.CreateTag(), 40f)
+			//		.Output(SimHashes.MoltenIron, 400f, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)
+			//		.Output(ModElements.Slag_Liquid, 140, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)
+			//		.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.PLASMAFURNACE_2_1_1, 2, 2)
+			//		.SortOrder(index++)
+			//		.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+			//		.Build();
+			//else
+			//	RecipeBuilder.Create(ID, recipeTime)
+			//		.Input(SimHashes.FoolsGold, 500f)
+			//		.Output(SimHashes.MoltenIron, 400f, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)
+			//		.Output(SimHashes.LiquidSulfur, 100f, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)
+			//		.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.PLASMAFURNACE_1_2, 1, 2)
+			//		.SortOrder(index++)
+			//		.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+			//		.Build();
 
 			//---- [ Steel Smelting ] -------------------------------------------------------------------------------------------
 			// Ingredient: Iron - 425kg

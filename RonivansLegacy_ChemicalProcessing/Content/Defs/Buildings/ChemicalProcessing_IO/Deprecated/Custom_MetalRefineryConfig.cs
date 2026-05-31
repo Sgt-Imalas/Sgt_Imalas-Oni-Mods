@@ -112,7 +112,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Result: Refined Metal   - 80kg
 			//         Slag            - 40kg
 			//-------------------------------------------------------------------------------------------------------------------------------------
-			foreach (var oreInput in RefinementRecipeHelper.GetNormalOres())
+			foreach (var oreInput in RefinementRecipeHelper.GetAllOres())
 			{
 				///wolframite to tungsten is removed from metal refinery in chemproc; instead add a "worse" recipe below
 				if (oreInput.id == SimHashes.Wolframite)
@@ -143,15 +143,15 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//         Silver            - 30kg
 			//         Slag              - 30kg
 			//--------------------------------------------------------------------------------------------------------------------------------------------
-			RecipeBuilder.Create(ID, 40)
-					.Input(SimHashes.Electrum, 100f)
-					.Input(RefinementRecipeHelper.GetCombustibleSolids(), 20f, GameTags.CombustibleSolid)
-					.Output(SimHashes.Gold, 50, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-					.Output(ModElements.Silver_Solid, 30, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-					.Output(ModElements.Slag_Solid, 40f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.METALREFINERY_2_2_1, 2, 3)
-					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
-					.Build();
+			//RecipeBuilder.Create(ID, 40)
+			//		.Input(SimHashes.Electrum, 100f)
+			//		.Input(RefinementRecipeHelper.GetCombustibleSolids(), 20f, GameTags.CombustibleSolid)
+			//		.Output(SimHashes.Gold, 50, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+			//		.Output(ModElements.Silver_Solid, 30, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+			//		.Output(ModElements.Slag_Solid, 40f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+			//		.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.METALREFINERY_2_2_1, 2, 3)
+			//		.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
+			//		.Build();
 
 			//---- [ Galena Refining ] -----------------------------------------------------------------------------------------------------------
 			// Ingredient: Galena      - 100kg
@@ -177,14 +177,14 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Result: Iron              - 60kg
 			//         Slag              - 60kg
 			//-------------------------------------------------------------------------------------------------------------------------------------------
-			RecipeBuilder.Create(ID, 40)
-					.Input(SimHashes.FoolsGold, 100f)
-					.Input(RefinementRecipeHelper.GetCombustibleSolids(), 20f, GameTags.CombustibleSolid)
-					.Output(SimHashes.Iron, 60f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-					.Output(ModElements.Slag_Solid, 60f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
-					.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.METALREFINERY_2_1_1, 2, 2)
-					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
-					.Build();
+			//RecipeBuilder.Create(ID, 40)
+			//		.Input(SimHashes.FoolsGold, 100f)
+			//		.Input(RefinementRecipeHelper.GetCombustibleSolids(), 20f, GameTags.CombustibleSolid)
+			//		.Output(SimHashes.Iron, 60f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+			//		.Output(ModElements.Slag_Solid, 60f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+			//		.Description(CHEMICAL_COMPLEXFABRICATOR_STRINGS.METALREFINERY_2_1_1, 2, 2)
+			//		.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+			//		.Build();
 
 
 			///Worse tungsten recipe, encourages use of advanced refinery

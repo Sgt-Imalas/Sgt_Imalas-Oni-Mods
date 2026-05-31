@@ -281,7 +281,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Result: RefinedMetal - 50kg
 			//         Sand - 50g
 			//----------------------------------------------------------------------------------------------------------------------------------
-			foreach (var oreInput in RefinementRecipeHelper.GetNormalOres())
+			foreach (var oreInput in RefinementRecipeHelper.GetAllOres())
 			{
 
 				Element refinedElement = oreInput.highTempTransition.lowTempTransition;
@@ -313,15 +313,15 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			//------------------------------------------------------------------------------------------------------------------------------------
 
 
-			RecipeBuilder.Create(ID, recipeDuration)
-					.Input(SimHashes.Electrum, 100f)
-					.Output(SimHashes.Gold, 25f)
-					.Output(chemproc ? ModElements.Silver_Solid : SimHashes.Copper, 15f)
-					.Output(SimHashes.Sand, 50f)
-					.Description1I2O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_2)
-					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
-					.SortOrder(index++)
-					.Build();
+			//RecipeBuilder.Create(ID, recipeDuration)
+			//		.Input(SimHashes.Electrum, 100f)
+			//		.Output(SimHashes.Gold, 25f)
+			//		.Output(chemproc ? ModElements.Silver_Solid : SimHashes.Copper, 15f)
+			//		.Output(SimHashes.Sand, 50f)
+			//		.Description1I2O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_2)
+			//		.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
+			//		.SortOrder(index++)
+			//		.Build();
 
 			///vanilla galena takes priority
 			////---- [ Galena Crushing ] ---------------------------------------------------------------------------------------------------------
@@ -348,14 +348,14 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Result: Iron - 30kg
 			//         Sand - 70g
 			//-------------------------------------------------------------------------------------------------------------------------------
-			RecipeBuilder.Create(ID, recipeDuration)
-					.Input(SimHashes.FoolsGold, 100f)
-					.Output(SimHashes.Iron, 30f)
-					.Output(SimHashes.Sand, 70f)
-					.Description1I1O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1)
-					.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
-					.SortOrder(index++)
-					.Build();
+			//RecipeBuilder.Create(ID, recipeDuration)
+			//		.Input(SimHashes.FoolsGold, 100f)
+			//		.Output(SimHashes.Iron, 30f)
+			//		.Output(SimHashes.Sand, 70f)
+			//		.Description1I1O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_1)
+			//		.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
+			//		.SortOrder(index++)
+			//		.Build();
 
 			//Scrap Eco Battery
 			RecipeBuilder.Create(ID, recipeDuration)
