@@ -265,6 +265,17 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProductConditional(chemproc, ModElements.Argentite_Solid, 10, 30, 3f / 9f)
 				.AddProduct(SimHashes.Fertilizer, 10, 20, 2f / 9f)
 				);
+
+			///Siltstone mirrored from sandstone, with copper switched out for zinc
+			results.Add(SimHashes.SiltStone.CreateTag(),
+				new RecipeRandomResult(490, 20, 50)
+				.AddProduct(SimHashes.CrushedRock, 150, 310)
+				.AddProduct(SimHashes.Sand, 175, 310)
+				.AddProduct(SimHashes.ZincOre, 20, 40, 3f / 9f)
+				.AddProduct(SimHashes.Electrum, 15, 30, 3f / 9f)
+				.AddProductConditional(chemproc, ModElements.Aurichalcite_Solid, 10, 30, 3f / 9f)
+				.AddProduct(SimHashes.Fertilizer, 10, 20, 2f / 9f)
+				);
 			//===: SEDIMENTARY ROCK RANDOM RESULTS :======================================================== < 500 kg >
 			//---[ Possible Results Elements: ]
 			// - Gold Amalgam
@@ -314,6 +325,18 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.AddProduct(SimHashes.IronOre, 15, 20, 2f / 9f)
 				.AddProduct(SimHashes.Obsidian, 65, 95, 3f / 9f)
 				.AddProduct(SimHashes.Galena, 15, 25, 2f / 8f)
+				.AddProductConditional(chemproc, ModElements.OilShale_Solid, 25, 75, 2f / 8f)
+				);
+			///basalt is a type of igneous rock
+			results.Add(SimHashes.Basalt.CreateTag(),
+				new RecipeRandomResult(490, 20, 50)
+				.AddProduct(SimHashes.CrushedRock, 250, 350)
+				.AddProduct(SimHashes.Sand, 50, 150)
+				.AddProduct(SimHashes.Galena, 15, 25, 4f / 8f)
+				.AddProduct(SimHashes.FoolsGold, 15, 25, 4f / 9f)
+				.AddProduct(SimHashes.Sulfur, 25, 75, 1f / 9f)
+				.AddProduct(SimHashes.Carbon, 25, 75, 3 / 9f)
+				.AddProduct(SimHashes.Obsidian, 65, 95, 1f / 9f)
 				.AddProductConditional(chemproc, ModElements.OilShale_Solid, 25, 75, 2f / 8f)
 				);
 			//===: GRANITE RANDOM RESULTS :============================================================= < 500 kg >

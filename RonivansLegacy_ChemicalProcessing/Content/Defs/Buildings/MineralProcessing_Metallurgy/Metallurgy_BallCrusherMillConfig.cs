@@ -88,6 +88,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.MineralProces
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
 				.SortOrder(sortOrder++)
 				.Build();
+			///similar to sandstone, but gets zinc instead of copper
+			RecipeBuilder.Create(ID, 50)
+				.Input(SimHashes.SiltStone, 500f)
+				.Output(SimHashes.Sand, 10f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.DescriptionFunc(RandomRecipeProducts.GetMetallurgyBallCrusherRandomResultsString)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
+				.SortOrder(sortOrder++)
+				.Build();
 
 			//---- [ Sedimentary Rock Milling ~ Spaced Out DLC ] -----------------------------------------------------------------
 			// Ingredient: Sandstone - 500kg
@@ -135,6 +143,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.MineralProces
 			//-------------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, 50)
 				.Input(SimHashes.IgneousRock, 500f)
+				.Output(SimHashes.Sand, 10f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
+				.DescriptionFunc(RandomRecipeProducts.GetMetallurgyBallCrusherRandomResultsString)
+				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
+				.SortOrder(sortOrder++)
+				.Build();
+			///basalt is a type of igneous rock
+			RecipeBuilder.Create(ID, 50)
+				.Input(SimHashes.Basalt, 500f)
 				.Output(SimHashes.Sand, 10f, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.DescriptionFunc(RandomRecipeProducts.GetMetallurgyBallCrusherRandomResultsString)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Ingredient)
