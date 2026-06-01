@@ -29,8 +29,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 			//hide coal gen slider
 			GeneratorList.AddGeneratorToIgnore(ID);
 
-			float[] construction_mass = [250, 50];
-			string[] construction_materials = [GameTags.RefinedMetal.ToString(), GameTags.Plastic.ToString()];
+			float[] construction_mass = [250, 1];
+			string[] construction_materials = [GameTags.RefinedMetal.ToString(), GameTags.BuildingGasket.ToString()];
 
 			EffectorValues decor = TUNING.BUILDINGS.DECOR.NONE;
 			EffectorValues noise = NOISE_POLLUTION.NOISY.TIER5;

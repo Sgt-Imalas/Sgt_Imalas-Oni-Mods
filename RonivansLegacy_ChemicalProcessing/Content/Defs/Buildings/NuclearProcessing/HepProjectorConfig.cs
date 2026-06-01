@@ -27,8 +27,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.NuclearProces
 
 		public override BuildingDef CreateBuildingDef()
 		{
-			float[] construction_mass = [100f, 50f];
-			string[] construction_materials = ["RefinedMetal", "Plastic"];
+			float[] construction_mass = [100f, 1];
+			string[] construction_materials = ["RefinedMetal", MATERIALS.GASKET];
 			EffectorValues none = NOISE_POLLUTION.NONE;
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 1, "hep_projector_kanim", 60, 60f, construction_mass, construction_materials, 800f, BuildLocationRule.Anywhere, BUILDINGS.DECOR.NONE, none);
 			buildingDef.RequiresPowerInput = false;
