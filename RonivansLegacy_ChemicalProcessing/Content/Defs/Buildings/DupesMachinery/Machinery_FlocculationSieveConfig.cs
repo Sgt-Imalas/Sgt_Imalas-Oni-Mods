@@ -55,7 +55,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			buildingDef.OutputConduitType = ConduitType.Liquid;
 			buildingDef.UtilityOutputOffset = new CellOffset(-1, 0);
 			buildingDef.PermittedRotations = PermittedRotations.FlipH;
-			def1.ViewMode = OverlayModes.LiquidConduits.ID;
+			buildingDef.ViewMode = OverlayModes.LiquidConduits.ID;
 			SoundUtils.CopySoundsToAnim("flocculation_tank_kanim", "waterpurifier_kanim");
 			return buildingDef;
 		}
