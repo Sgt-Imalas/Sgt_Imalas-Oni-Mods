@@ -26,8 +26,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 		}
 		public override BuildingDef CreateBuildingDef()
 		{
-			float[] material_required = [100f, 50f];
-			string[] material_type = ["RefinedMetal", "Plastic"];
+			float[] material_required = [100f, 1];
+			string[] material_type = ["RefinedMetal", MATERIALS.GASKET];
 
 			EffectorValues noise = TUNING.NOISE_POLLUTION.NOISY.TIER0;
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 1, 1, "space_box_kanim", 30, 10f, material_required, material_type, 800f, BuildLocationRule.OnRocketEnvelope, TUNING.BUILDINGS.DECOR.BONUS.TIER1, noise);
