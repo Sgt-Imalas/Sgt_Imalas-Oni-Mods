@@ -20,8 +20,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 		private static readonly PortDisplayInput rightPortInfo = new PortDisplayInput(ConduitType.Solid, new CellOffset(1, 0));
 		public override BuildingDef CreateBuildingDef()
 		{
-			float[] quantity1 = [250f, 150f];
-			string[] materials1 = [ModElements.SteelAndTungstenMaterial, GameTags.Plastic.ToString()];
+			float[] quantity1 = [250f, 3f];
+			string[] materials1 = [ModElements.SteelAndTungstenMaterial, GameTags.BuildingGasket.ToString()];
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 2, "hpa_rail_merger_kanim", 100, 60f, quantity1, materials1, 800f, BuildLocationRule.Anywhere, TUNING.BUILDINGS.DECOR.PENALTY.TIER1, NOISE_POLLUTION.NOISY.TIER0, 0.2f);
 			buildingDef.Floodable = false;
 			buildingDef.Overheatable = false;

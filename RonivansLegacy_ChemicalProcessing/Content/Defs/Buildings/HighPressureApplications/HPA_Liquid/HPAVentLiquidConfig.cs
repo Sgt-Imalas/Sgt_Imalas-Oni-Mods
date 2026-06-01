@@ -15,8 +15,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.HighPressureA
 		public static string ID = "HPAVentLiquid";
 		public override BuildingDef CreateBuildingDef()
 		{
-			float[] construction_mass = [200f, 100f];
-			string[] construction_materials = [GameTags.Steel.ToString(), GameTags.Plastic.ToString()];
+			float[] construction_mass = [200f, 2f];
+			string[] construction_materials = [GameTags.Steel.ToString(), GameTags.BuildingGasket.ToString()];
 			EffectorValues none = NOISE_POLLUTION.NONE;
 			EffectorValues tieR1 = BUILDINGS.DECOR.PENALTY.TIER1;
 			EffectorValues noise = none;
