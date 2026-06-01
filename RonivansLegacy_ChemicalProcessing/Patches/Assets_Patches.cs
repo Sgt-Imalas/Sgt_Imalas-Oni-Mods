@@ -20,6 +20,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				InjectionMethods.AddSpriteToAssets(__instance, "aio_conduit_input_preview");
 				InjectionMethods.AddSpriteToAssets(__instance, "aio_conduit_output_preview");
 				InjectionMethods.AddSpriteToAssets(__instance, "AIO_AnyWater");
+				InjectionMethods.AddSpriteToAssets(__instance, "ronivanaio_dlc_banner");				
 			}
         }
     }
