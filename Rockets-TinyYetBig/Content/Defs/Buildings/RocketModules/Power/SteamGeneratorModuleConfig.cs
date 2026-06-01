@@ -14,12 +14,12 @@ namespace Rockets_TinyYetBig
 		{
 			float[] MatCosts = {
 				600f,
-				100f
+				2
 			};
 			string[] Materials =
 			{
 				"RefinedMetal",
-				"Plastic"
+				MATERIALS.GASKET
 			};
 			EffectorValues tieR2 = NOISE_POLLUTION.NONE;
 			EffectorValues none = BUILDINGS.DECOR.NONE;

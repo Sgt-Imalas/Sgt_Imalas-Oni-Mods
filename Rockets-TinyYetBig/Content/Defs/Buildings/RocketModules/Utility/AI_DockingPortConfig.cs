@@ -24,12 +24,12 @@ namespace Rockets_TinyYetBig.Buildings.Utility
 
 			float[] MatCosts = {
 				300f,
-				100f
+				2
 			};
 			string[] Materials =
 			{
 				"RefinedMetal",
-				"Plastic"
+				MATERIALS.GASKET
 			};
 			EffectorValues tieR2 = NOISE_POLLUTION.NONE;
 			EffectorValues none = BUILDINGS.DECOR.NONE;

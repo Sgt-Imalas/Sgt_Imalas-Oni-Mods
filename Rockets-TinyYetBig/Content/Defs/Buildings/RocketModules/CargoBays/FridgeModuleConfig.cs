@@ -18,10 +18,10 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
 
 		public override BuildingDef CreateBuildingDef()
 		{
-			float[] hollowTieR1 = new[] { 400f, 200f };
+			float[] hollowTieR1 = new[] { 400f, 4 };
 			string[] refinedMetals = {
 				MATERIALS.REFINED_METAL,
-				MATERIALS.PLASTIC
+				MATERIALS.GASKET
 			};
 			EffectorValues tieR2 = NOISE_POLLUTION.NOISY.TIER2;
 			EffectorValues none = BUILDINGS.DECOR.NONE;

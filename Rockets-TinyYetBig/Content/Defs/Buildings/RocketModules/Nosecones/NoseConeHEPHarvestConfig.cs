@@ -13,11 +13,11 @@ namespace Rockets_TinyYetBig.Buildings.Nosecones
 
 		public override BuildingDef CreateBuildingDef()
 		{
-			float[] hollowTieR2 = new[] { 800f, 400f };
+			float[] hollowTieR2 = new[] { 800f, 8f };
 			string[] construction_materials = new string[2]
 			{
 				"Steel",
-				"Plastic"
+				MATERIALS.GASKET
 			};
 			EffectorValues tieR2 = NOISE_POLLUTION.NOISY.TIER2;
 			EffectorValues none = BUILDINGS.DECOR.NONE;

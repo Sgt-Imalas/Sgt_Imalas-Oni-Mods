@@ -14,13 +14,13 @@ namespace Rockets_TinyYetBig.Buildings.CargoBays
 		public override BuildingDef CreateBuildingDef()
 		{
 			float[] MatCosts = {
-				600f,
-				300f
+				500f,
+				5
 			};
 			string[] Materials =
 			{
 				"RefinedMetal",
-				"Plastic"
+				MATERIALS.GASKET
 			};
 			EffectorValues tieR2 = NOISE_POLLUTION.NOISY.TIER1;
 			EffectorValues none = BUILDINGS.DECOR.NONE;
