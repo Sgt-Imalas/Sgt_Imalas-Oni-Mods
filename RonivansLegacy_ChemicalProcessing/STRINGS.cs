@@ -2235,7 +2235,7 @@ namespace RonivansLegacy_ChemicalProcessing
 		}
 		public class UI
 		{
-			public static LocString TOOLTIP_ADDON_RONIVANAIO = UIUtils.ColorText(UIUtils.EmboldenText("Ronivan's Legacy"), "ff9d8d") + " Content"; //rusty red color
+			public static LocString TOOLTIP_ADDON_RONIVANAIO = UIUtils.ColorText(UIUtils.EmboldenText("Industrial Revolution"), "ff9d8d") + " Content"; //rusty red color
 			public class AIO_THRESHOLD_VALVE_SIDESCREEN
 			{
 				public static LocString TITLE = "Package Mass Threshold";
