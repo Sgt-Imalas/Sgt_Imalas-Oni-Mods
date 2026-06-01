@@ -24,8 +24,8 @@ namespace Rockets_TinyYetBig
 			};
 			string[] materialType = new string[2]
 			{
-				"Metal",
-				"Transparent"
+				MATERIALS.METAL,
+				MATERIALS.ALL_GLASSES
 			};
 			EffectorValues noiseLevel = NOISE_POLLUTION.NOISY.TIER2;
 			EffectorValues none = BUILDINGS.DECOR.NONE;
