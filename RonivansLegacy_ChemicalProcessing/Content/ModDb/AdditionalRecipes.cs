@@ -2,6 +2,7 @@
 using Dupes_Industrial_Overhaul.Chemical_Processing.Buildings;
 using Dupes_Industrial_Overhaul.Chemical_Processing.Chemicals;
 using HarmonyLib;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Entities;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Entities.Mining_DrillMk2_Consumables;
 using System;
 using System.Collections.Generic;
@@ -194,7 +195,22 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 		public static void RegisterRecipes_CraftingTable()
 		{
-			SimpleDrillbits_Config.CreateSimpleDrillRecipes(CraftingTableConfig.ID, true);
+			if (Config.Instance.MineralProcessing_Mining_Enabled)
+			{
+				SimpleDrillbits_Config.CreateSimpleDrillRecipes(CraftingTableConfig.ID, true);
+			}
+			if (Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
+			{				
+				float gasketCount = 1;
+				RecipeBuilder.Create(CraftingTableConfig.ID, TUNING.INDUSTRIAL.RECIPES.STANDARD_FABRICATION_TIME)
+					.Input(ModElements.BioPlastic_Solid, gasketCount*50, true)
+					.Output(BioPlasticGasketConfig.ID, gasketCount)
+					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+					.Description(string.Format(global::STRINGS.BUILDINGS.PREFABS.CRAFTINGTABLE.RECIPE_DESCRIPTION, ModElements.BioPlastic_Solid.Tag.ProperName(), STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_BIOPLASTICGASKET.NAME))
+					.RequiresTech(Db.Get().TechItems.gasket.parentTechId)
+					.SortOrder(4)
+					.Build();
+			}
 		}
 
 		public static void RegisterRecipes_SuperMaterialRefinery()
@@ -243,10 +259,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			//{
 			RegisterRecipes_RayonLoom();
 			//}
-			if (Config.Instance.MineralProcessing_Mining_Enabled)
-			{
-				RegisterRecipes_CraftingTable();
-			}
+
+			RegisterRecipes_CraftingTable();
 		}
 		public static void RegisterRecipes_AnaerobicDigester()
 		{

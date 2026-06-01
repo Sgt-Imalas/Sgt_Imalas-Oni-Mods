@@ -1,0 +1,26 @@
+id: "AIO_BioplasticGasket"
+title: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_BIOPLASTICGASKET.NAME
+requiredDlcIds:
+  - "DLC5_ID"
+
+contentContainers:
+#-----------------------------BIOPLASTIC
+  - contentLayout: Vertical
+    lockID:
+
+    content:
+      - !CodexText
+          stringKey: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_BIOPLASTICGASKET.NAME
+          style: Title
+      - !CodexText
+          stringKey: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_BIOPLASTICGASKET.DESC
+          style: Body
+      - !CodexDividerLine
+          preferredWidth: -1
+      - !CodexImage
+          batchedAnimPrefabSourceID: AIO_BioplasticGasket
+          preferredWidth: 128
+          preferredHeight: 128
+
+contentMadeAndUsed:
+  - tag: AIO_BioplasticGasket

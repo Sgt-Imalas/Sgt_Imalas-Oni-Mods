@@ -2225,6 +2225,11 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString RECIPE_DESC = "Instruct the computer to produce a Guidance Device.";
 					public static LocString RECIPE_DESC_PROGRAM = "Instruct the computer to load the target program for the {0} into the Guidance Device";
 				}
+				public class AIO_BIOPLASTICGASKET
+				{
+					public static LocString NAME = FormatAsLink("Bioplastic Gasket", "AIO_BIOPLASTICGASKET");
+					public static LocString DESC = "A flexible " + FormatAsLink("Bioplastic", "BIOPLASTIC") + " seal, made at the " + FormatAsLink("Crafting Station", "CRAFTINGTABLE") + ".\n\nPrevents unwanted " + FormatAsLink("Liquid", "ELEMENTS_LIQUID") + " leakage.";
+				}
 			}
 		}
 		public class UI
