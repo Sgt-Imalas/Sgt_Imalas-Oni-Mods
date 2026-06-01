@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TUNING;
+using UtilLibs;
 
 namespace SetStartDupes.Patches
 {
@@ -22,8 +23,24 @@ namespace SetStartDupes.Patches
 				RainbowFarts_API.InitRainbowFartsAPI();
                 Beached_API.InitBeachedAPI();
 				FixGeneShufflerTraits();
+				FixMissingPersonalityBodies();
 			}
-            static void FixGeneShufflerTraits()
+
+			static void FixMissingPersonalityBodies()
+			{
+				foreach(var personality in Db.Get().Personalities.resources)
+				{
+					int bodyId = personality.body;
+					if (!CharacterContainer.defaultShirtIdxToDefaultOutfitID.ContainsKey(bodyId))
+					{
+						SgtLogger.l("Adding missing personality body to CharacterContainer Outfit selection: " + bodyId);
+						CharacterContainer.defaultShirtIdxToDefaultOutfitID.Add(bodyId, "");
+					}
+				}
+			}
+
+
+			static void FixGeneShufflerTraits()
             {
 				// gene shuffler traits were marked as negative for some reason. Possibly an oversight.
 				var traits = Db.Get().traits;

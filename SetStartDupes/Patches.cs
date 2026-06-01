@@ -1727,7 +1727,7 @@ namespace SetStartDupes
 		[HarmonyPatch(typeof(CharacterContainer), nameof(CharacterContainer.OnNameChanged))]
 		public class FixPersonalityRenaming
 		{
-			static string Backup = "MISSING";
+			static readonly string Backup = "MISSING";
 
 			public static void Prefix(CharacterContainer __instance, ref string __state)
 			{
