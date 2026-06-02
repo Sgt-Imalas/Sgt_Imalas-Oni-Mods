@@ -33,6 +33,8 @@
 			public class INFOTOOLTIPS
 			{
 				public static LocString INFO_ONLY = "These are for info only and are not configurable.";
+				public static LocString NONGENERICGEYSER = "This geyser is "+ global::STRINGS.UI.FormatAsKeyWord("<b>non-generic</b>")+" and can only generate naturally when declared in the worldgen file of the asteroid.\nBy default, it cannot get spawned in from the \"Geoactive\" trait or similar modded variants.";
+				public static LocString GENERICGEYSER = "This geyser is "+ global::STRINGS.UI.FormatAsKeyWord("<b>generic</b>")+" and can generate randomly.";
 			}
 			public class GENERATIONWARNING
 			{

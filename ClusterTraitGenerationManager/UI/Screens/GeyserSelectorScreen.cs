@@ -145,17 +145,18 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				icon.preserveAspect = true;
 				icon.sprite = geyserEntry.Sprite;
 				icon.color = Color.white;
-				UIUtils.TryChangeText(TraitHolder.transform, "Label", kvp.Value.Name);
-				UIUtils.AddSimpleTooltipToObject(TraitHolder.transform, kvp.Value.Description);
+				string desc = geyserEntry.Description;
+				UIUtils.TryChangeText(TraitHolder.transform, "Label", geyserEntry.Name);
+				UIUtils.AddSimpleTooltipToObject(TraitHolder.transform, desc);
 
 				AddTraitButton.OnClick += () =>
 				{
 					if (CustomCluster.HasStarmapItem(SelectedPlanet.id, out var item))
 					{
 						if (IsInBlacklistMode())
-							item.AddGeyserBlacklist(kvp.Value.ID);
+							item.AddGeyserBlacklist(geyserEntry.ID);
 						else
-							item.AddGeyserOverride(kvp.Value.ID);
+							item.AddGeyserOverride(geyserEntry.ID);
 					}
 					CloseThis();
 				};
