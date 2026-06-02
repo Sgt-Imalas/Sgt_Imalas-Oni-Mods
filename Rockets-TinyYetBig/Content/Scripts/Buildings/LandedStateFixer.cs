@@ -26,6 +26,8 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketPlatforms
 		{
 			yield return new WaitForSeconds(0.5f); //wait for half a second
 			var lmd = gameObject.GetSMI<LaunchPadMaterialDistributor.Instance>();
+			if(lmd == null)
+				SgtLogger.error("LaunchPadMaterialDistributor.Instance is null on " + this.GetProperName() + ". This should never happen!");
 			var rocketOnPad = launchPad.LandedRocket;
 			if (rocketOnPad != null && lmd != null)
 			{
