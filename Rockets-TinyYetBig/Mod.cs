@@ -46,6 +46,9 @@ namespace Rockets_TinyYetBig
 			ElementUtilNamespace.SgtElementUtil.ExecuteElementEnumPatches(harmony);
 
 		}
+		static HashSet<string> HydroCarbonRockets = [
+			"Noobs:Rocketry_Companion","TC-1000's:Hydrocarbon_Rocket_Engines"
+			];
 		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
 		{
 			SgtLogger.l("On all mods loaded");
@@ -59,7 +62,7 @@ namespace Rockets_TinyYetBig
 				harmony.Patch(AccessTools.Method(typeof(Grid), nameof(Grid.FreeGridSpace)), new HarmonyMethod(AccessTools.Method(typeof(Grid_FreeGridSpace_BugfixPatch), "Prefix")));
 			}
 
-			if (mods.Any(mod => mod.staticID == "TC-1000's:Hydrocarbon_Rocket_Engines" && mod.IsEnabledForActiveDlc()))
+			if (mods.Any(mod => HydroCarbonRockets.Contains(mod.staticID) && mod.IsEnabledForActiveDlc()))
 			{
 				ModIntegration_Patches.Hydrocarbon_Rocket_Engines.ExecutePatch(harmony);
 			}

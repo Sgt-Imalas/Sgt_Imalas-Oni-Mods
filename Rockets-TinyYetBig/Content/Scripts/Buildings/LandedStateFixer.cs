@@ -27,7 +27,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketPlatforms
 			yield return new WaitForSeconds(0.5f); //wait for half a second
 			var lmd = gameObject.GetSMI<LaunchPadMaterialDistributor.Instance>();
 			var rocketOnPad = launchPad.LandedRocket;
-			if (rocketOnPad != null)
+			if (rocketOnPad != null && lmd != null)
 			{
 				if (lmd.IsInsideState(lmd.sm.operational.noRocket)) //rocket is there, but registration failed
 				{

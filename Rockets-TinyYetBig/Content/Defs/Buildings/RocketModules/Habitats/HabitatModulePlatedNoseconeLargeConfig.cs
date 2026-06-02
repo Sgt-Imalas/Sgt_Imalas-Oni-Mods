@@ -94,7 +94,7 @@ namespace Rockets_TinyYetBig.Buildings.Habitats
 
 			if (RocketInteriorWeightLimitApi.Initialized)
 			{
-				RocketInteriorWeightLimitApi.AddMassLimitConditionToHabitatModule(go, 14000);
+				RocketInteriorWeightLimitApi.AddMassLimitToHabitatModule(go, 14000);
 			}
 		}
 

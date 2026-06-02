@@ -15,7 +15,7 @@ namespace Rockets_TinyYetBig.Patches
 			public static class RocketInteriorWeightLimitApi
 			{
 				public delegate void AddMassLimitConditionToHabitatModuleDelegate(GameObject prefabGO, float desiredMassLimit);
-
+				static Dictionary<string, float> MassLimitEntryDictRef = null;
 
 				public static bool Initialized = false;
 				/// <summary>
@@ -23,10 +23,61 @@ namespace Rockets_TinyYetBig.Patches
 				/// </summary>
 				/// <param name="prefabGO">prefab go </param>
 				/// <param name="desiredMassLimit">max allowed interior mass in kg</param>
-				/// <returns></returns>
-				public static AddMassLimitConditionToHabitatModuleDelegate AddMassLimitConditionToHabitatModule;
+				/// <returns></returns>TryInitialize_RocketryCompanion
+				private static AddMassLimitConditionToHabitatModuleDelegate AddMassLimitConditionToHabitatModule = null;
 
-				public static bool TryInitialize(bool logWarnings = true)
+				public static void AddMassLimitToHabitatModule(GameObject prefabGO, float desiredMassLimit)
+				{
+					if (Initialized && AddMassLimitConditionToHabitatModule != null)
+						AddMassLimitConditionToHabitatModule(prefabGO, desiredMassLimit);
+					else if (MassLimitEntryDictRef != null)
+					{
+						MassLimitEntryDictRef[prefabGO.PrefabID().ToString()] = desiredMassLimit;
+						SgtLogger.l("added mass limit entry for " + prefabGO.name + " with mass limit of " + desiredMassLimit);
+					}
+				}
+
+				public static bool TryInitialize(bool logwarnings = true)
+				{
+					bool init = false;
+					init = TryInitialize_RocketryRework(logwarnings);
+					if (!init)
+						init = TryInitialize_RocketryCompanion(logwarnings);
+					return init;
+				}
+				public static bool TryInitialize_RocketryCompanion(bool logWarnings = true)
+				{
+					var type = Type.GetType("RocketryCompanion.ModAPI, RocketryCompanion");
+
+					if (type == null)
+					{
+						if (logWarnings)
+							SgtLogger.l("RocketryCompanion.ModAPI does not exist.");
+
+						return false;
+					}
+					var massEntryDict = AccessTools.Field(type, "habitatModuleMassLimitEntries");
+					if (massEntryDict == null)
+					{
+						if (logWarnings) Debug.LogWarning("habitatModuleMassLimitEntries is not a valid field.");
+						return false;
+					}
+					try
+					{
+						SgtLogger.l("Found static field habitatModuleMassLimitEntries, trying to get reference to it.");
+						MassLimitEntryDictRef = massEntryDict.GetValue(null) as Dictionary<string, float>;
+						Initialized = true;
+						return true;
+					}
+					catch (Exception e)
+					{
+						SgtLogger.error("Exception while initializing Rocketry Companion API: " + e);
+						return false;
+					}
+				}
+
+
+				public static bool TryInitialize_RocketryRework(bool logWarnings = true)
 				{
 					var type = Type.GetType("RocketryRework.ModMisc.ModAPI, RocketryRework");
 
@@ -68,6 +119,9 @@ namespace Rockets_TinyYetBig.Patches
 
 				//disable that stupid prefix skip patch
 				var parentType = AccessTools.TypeByName("HydrocarbonRocketEngines.HydrocarbonRocketEnginesPatches");
+				if(parentType == null)
+					parentType = AccessTools.TypeByName("RocketryCompanion.Patches.HydrocarbonRocketEnginePatches");
+
 				if (parentType == null)
 					return;
 
@@ -85,6 +139,7 @@ namespace Rockets_TinyYetBig.Patches
 					var methodToUnpatch = AccessTools.Method(typeof(Clustercraft), nameof(Clustercraft.BurnFuelForTravel));
 					//removing the prefix skip patch
 					harmony.Unpatch(methodToUnpatch, HarmonyPatchType.Prefix, "TC-1000's:Hydrocarbon_Rocket_Engines");
+					harmony.Unpatch(methodToUnpatch, HarmonyPatchType.Prefix, "Noobs:Rocketry_Companion");
 
 					//Using transpiler for logic instead
 					harmony.Patch(AccessTools.Method(typeof(Clustercraft), nameof(Clustercraft.BurnFromTank)),
@@ -109,6 +164,7 @@ namespace Rockets_TinyYetBig.Patches
 					var methodToUnpatch = AccessTools.Method(typeof(CraftModuleInterface), "get_FuelRemaining");
 					//removing the prefix skip patch
 					harmony.Unpatch(methodToUnpatch, HarmonyPatchType.Prefix, "TC-1000's:Hydrocarbon_Rocket_Engines");
+					harmony.Unpatch(methodToUnpatch, HarmonyPatchType.Prefix, "Noobs:Rocketry_Companion");
 					//injecting transpiler instead that does the same without skipping
 					harmony.Patch(AccessTools.Method(typeof(CraftModuleInterface), "get_FuelRemaining"), transpiler: new HarmonyMethod(AccessTools.Method(typeof(Hydrocarbon_Rocket_Engines), nameof(FuelRemainingTranspiler))));
 				}
@@ -273,9 +329,11 @@ namespace Rockets_TinyYetBig.Patches
 				CombustibleElements = new List<Tuple<SimHashes, float>>
 				{
 					new Tuple<SimHashes, float> ( SimHashes.CrudeOil, 0.6f ),
+					new Tuple<SimHashes, float> ( SimHashes.PhytoOil, 0.6f ),
 					new Tuple<SimHashes, float>( SimHashes.Ethanol, 0.8f ),
 					new Tuple<SimHashes, float> ( SimHashes.Petroleum, 1f),
 					new Tuple<SimHashes, float> ( SimHashes.Naphtha, 0.9f ),
+					new Tuple<SimHashes, float> ( BiodieselEngineClusterConfig.FUEL, 0.9f ),
 					new Tuple<SimHashes, float>( SimHashes.LiquidMethane, 1.4f)
 				};
 				CombustibleElements = CombustibleElements.OrderByDescending(itm => itm.second).ToList(); //consume higher value mats first
