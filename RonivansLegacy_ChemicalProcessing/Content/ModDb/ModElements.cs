@@ -519,12 +519,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				electrum_material.highTempTransitionOreID = SimHashes.Gold;
 				electrum_material.highTempTransitionOreMassConversion = 0.6f;
 				electrum_material.disabled = false;
+				electrum_material.oreTags = electrum_material.oreTags.Append(GameTags.UseSmeltingByproducts).ToArray();
 
 				//PYRITE: add sulphur physically accurate percentage
 				var pyriteElement = ElementLoader.FindElementByHash(SimHashes.FoolsGold);
 				pyriteElement.highTempTransitionOreID = SimHashes.Sulfur;
 				pyriteElement.highTempTransitionOreMassConversion = 0.53f;
-
+				pyriteElement.oreTags = pyriteElement.oreTags.Append(GameTags.UseSmeltingByproducts).ToArray();
 
 
 				//=[ BITUMEN PATCH ]=======================================================

@@ -27,6 +27,8 @@ namespace UtilLibs
 		private List<RecipeElement> outputs;
 		private Dictionary<RecipeElement, Tag> GroupDescriptors = [];
 
+		public RecipeElement[] GetOutputs() => outputs.ToArray();
+
 		private System.Action<RecipeBuilder, Tag, float, TemperatureOperation, bool> OverrideMainProduct = null;
 		public RecipeBuilder OverrideMainProductOutputGeneration(System.Action<RecipeBuilder, Tag, float, TemperatureOperation, bool> overrideAction)
 		{
@@ -334,7 +336,7 @@ namespace UtilLibs
 		}
 		public RecipeBuilder OutputOverridable(SimHashes simhash, float amount, TemperatureOperation tempOp = TemperatureOperation.AverageTemperature, bool storeElement = false)
 		{
-			if(OverrideMainProduct != null)
+			if (OverrideMainProduct != null)
 			{
 				OverrideMainProduct(this, simhash.CreateTag(), amount, tempOp, storeElement);
 				return this;
@@ -353,8 +355,9 @@ namespace UtilLibs
 		{
 			SimHashes mainTarget = input.highTempTransition.lowTempTransition.id;
 			SimHashes secondaryTarget = input.highTempTransitionOreID;
+			bool useSecondaryOutput = input.HasTag(GameTags.UseSmeltingByproducts);
 
-			if(secondaryTarget != SimHashes.Vacuum && tempOp == TemperatureOperation.Melted)
+			if (useSecondaryOutput && secondaryTarget != SimHashes.Vacuum && tempOp == TemperatureOperation.Melted)
 			{
 				var secondaryMeltingElement = ElementLoader.FindElementByHash(secondaryTarget);
 				mainTarget = input.highTempTransition.id;
@@ -362,16 +365,15 @@ namespace UtilLibs
 				float meltingTemp = Mathf.Max(input.highTemp, input.highTempTransition.defaultValues.temperature, secondaryMeltingElement?.highTemp ?? 0);
 				while (secondaryMeltingElement != null && (secondaryMeltingElement.IsSolid || secondaryMeltingElement.highTemp < meltingTemp) && secondaryMeltingElement.highTempTransition != null)
 					secondaryMeltingElement = secondaryMeltingElement.highTempTransition;
-				if(secondaryMeltingElement != null)
+				if (secondaryMeltingElement != null)
 					secondaryTarget = secondaryMeltingElement.id;
-
 			}
 
 			float secondaryAmount = outputAmount * input.highTempTransitionOreMassConversion;
 			float primaryAmount = outputAmount - secondaryAmount;
 
 			OutputOverridable(mainTarget, primaryAmount, tempOp, storeElement);
-			if (secondaryTarget != SimHashes.Vacuum && secondaryAmount > 0f)
+			if (useSecondaryOutput && secondaryTarget != SimHashes.Vacuum && secondaryAmount > 0f)
 				Output(secondaryTarget, secondaryAmount, tempOp, storeElement);
 			return this;
 		}

@@ -1094,6 +1094,7 @@ elements:
     - BuildableAny
     - Ore
     - StartingMetalOre
+    - UseSmeltingByproducts
     buildMenuSort: 3
     isDisabled: false
     state: Solid
@@ -1126,6 +1127,7 @@ elements:
     - Ore
     - Antiseptic
     - StartingMetalOre
+    - UseSmeltingByproducts
     buildMenuSort: 2
     isDisabled: false
     state: Solid

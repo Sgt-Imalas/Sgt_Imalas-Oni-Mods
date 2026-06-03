@@ -32,7 +32,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			handle = Subscribe((int)GameHashes.OnStorageChange, OnStorageChangeDelegate);
 			if (kbacFG == null)
 			{
-				if (kbac.layering.layerControllers.TryGetValue(KAnim.SymbolFlags.FG, out var kba))
+				if (kbac.layering.layerControllers?.TryGetValue(KAnim.SymbolFlags.FG, out var kba) ?? false)
 				{
 					this.kbacFG = (KBatchedAnimController)kba;
 				}
@@ -58,7 +58,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 
 		public void UpdateTint()
 		{
-			bool tinted =false;
+			bool tinted = false;
 			foreach (var element in ContentStorage.GetItems())
 			{
 				if (!element.TryGetComponent<PrimaryElement>(out var liquidPrimaryElement) || liquidPrimaryElement.Mass <= 0)

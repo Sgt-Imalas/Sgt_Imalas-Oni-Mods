@@ -198,7 +198,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			RecipeBuilder.Create(ID, recipeDuration)
 			.Input(SimHashes.Fullerene, 100)
 			.Output(SimHashes.Graphite, 90f)
-			.Output(SimHashes.Sand, 90f)
+			.Output(SimHashes.Sand, 10f)
 			.Description1I2O(CHEMICAL_COMPLEXFABRICATOR_STRINGS.JAWCRUSHERMILL_MILLING_1_2)
 			.SortOrder(index++)
 			.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
