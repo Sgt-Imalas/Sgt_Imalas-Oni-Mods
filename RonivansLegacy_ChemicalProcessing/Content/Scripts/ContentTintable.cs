@@ -32,14 +32,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			handle = Subscribe((int)GameHashes.OnStorageChange, OnStorageChangeDelegate);
 			if (kbacFG == null)
 			{
-				///shinemask layering used this:
-				//if (kbac.layering.animControllers.TryGetValue(KAnimLayering.InstanceType.Foreground, out var kba))
-				//{
-				//	kbacFG = (KBatchedAnimController)kba;
-				//}
-				if(kbac.layering.foregroundController is KBatchedAnimController kbacFG)
+				if (kbac.layering.layerControllers.TryGetValue(KAnim.SymbolFlags.FG, out var kba))
 				{
-					this.kbacFG = kbacFG;
+					this.kbacFG = (KBatchedAnimController)kba;
 				}
 			}
 			if (TintGeneratorMeter && TryGetComponent<EnergyGenerator>(out var generator) && generator.hasMeter)

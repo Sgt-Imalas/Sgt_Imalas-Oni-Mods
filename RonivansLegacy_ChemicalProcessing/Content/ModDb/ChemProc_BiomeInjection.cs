@@ -680,6 +680,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		static ChemProc_BiomeInjection()
 		{
 			//ElementToBiomeInjection();
+			if (!Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled || !Config.Instance.WorldgenElementInjection)
+				return;
 			ElementToFeatureInjection();
 			FeatureToSubworldInjection();
 		}
