@@ -46,13 +46,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			SoundUtils.CopySoundsToAnim("petroleum_distillery_kanim", "algae_distillery_kanim");
 
 			SkinCollection.Create(LogicAlertLightConfig.ID, SubCategoryID)
-				.Skin("AlertLightGreen", LOGICALERTLIGHTGREEN.NAME, LOGICALERTLIGHTGREEN.DESC, "alert_light_green_kanim")
-				.Skin("AlertLightYellow", LOGICALERTLIGHTYELLOW.NAME, LOGICALERTLIGHTYELLOW.DESC, "alert_light_yellow_kanim")
-				.Skin("AlertLightRed", LOGICALERTLIGHTRED.NAME, LOGICALERTLIGHTRED.DESC, "alert_light_red_kanim");
+				.Skin("AlertLightGreen", LOGICALERTLIGHTGREEN.NAME, LOGICALERTLIGHTGREEN.DESC, "alert_light_green_kanim").AddColoredLightInfo(Color.green.ToHexString())
+				.Skin("AlertLightYellow", LOGICALERTLIGHTYELLOW.NAME, LOGICALERTLIGHTYELLOW.DESC, "alert_light_yellow_kanim").AddColoredLightInfo(Color.yellow.ToHexString())
+				.Skin("AlertLightRed", LOGICALERTLIGHTRED.NAME, LOGICALERTLIGHTRED.DESC, "alert_light_red_kanim").AddColoredLightInfo(Color.red.ToHexString());
 
-			LEDTint.AddSkinLightTint("AlertLightGreen", Color.green);
-			LEDTint.AddSkinLightTint("AlertLightYellow", Color.yellow);
-			LEDTint.AddSkinLightTint("AlertLightRed", Color.red);
+			//LEDTint.AddSkinLightTint("AlertLightGreen", Color.green);
+			//LEDTint.AddSkinLightTint("AlertLightYellow", Color.yellow);
+			//LEDTint.AddSkinLightTint("AlertLightRed", Color.red);
 
 
 			SkinCollection.Create(SpacerWallConfig.ID, SubCategoryID)

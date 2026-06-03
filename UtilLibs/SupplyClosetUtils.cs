@@ -68,6 +68,15 @@ namespace UtilLibs
 				SkinIds[buildingId].Add(Id);
 				return this;
 			}
+
+			public SkinCollection AddColoredLightInfo(string colorHex) => AddData(BuildingFacadeCustomData.DATA_KEY_LIGHT_COLOR, colorHex).AddData(BuildingFacadeCustomData.DATA_KEY_LIGHT_OVERLAY_COLOR, colorHex);
+
+			public SkinCollection AddData(string key, string value)
+			{
+				skins.Last()?.Data ??= new Dictionary<string, string>();
+				skins.Last()?.Data.Add(key, value);
+				return this;
+			}
 			public void RegisterCategory()
 			{
 				string[] skinIDs = [.. skins.Select(entry => entry.ID)];

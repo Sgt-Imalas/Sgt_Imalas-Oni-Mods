@@ -45,7 +45,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesEngineer
 			light2D.Offset = LIGHT2D.WALLLIGHT_OFFSET;
 			light2D.shape = LightShape.Circle;
 			light2D.drawOverlay = true;
-			go.AddOrGet<LEDTint>();
+			//go.AddOrGet<LEDTint>();
 			go.AddOrGetDef<LightController.Def>();
 		}
 

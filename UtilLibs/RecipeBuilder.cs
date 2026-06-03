@@ -357,7 +357,7 @@ namespace UtilLibs
 			SimHashes secondaryTarget = input.highTempTransitionOreID;
 			bool useSecondaryOutput = input.HasTag(GameTags.UseSmeltingByproducts);
 
-			if (useSecondaryOutput && secondaryTarget != SimHashes.Vacuum && tempOp == TemperatureOperation.Melted)
+			if (secondaryTarget != SimHashes.Vacuum && tempOp == TemperatureOperation.Melted)
 			{
 				var secondaryMeltingElement = ElementLoader.FindElementByHash(secondaryTarget);
 				mainTarget = input.highTempTransition.id;
@@ -370,7 +370,7 @@ namespace UtilLibs
 			}
 
 			float secondaryAmount = outputAmount * input.highTempTransitionOreMassConversion;
-			float primaryAmount = outputAmount - secondaryAmount;
+			float primaryAmount = useSecondaryOutput ? outputAmount - secondaryAmount : outputAmount;
 
 			OutputOverridable(mainTarget, primaryAmount, tempOp, storeElement);
 			if (useSecondaryOutput && secondaryTarget != SimHashes.Vacuum && secondaryAmount > 0f)
