@@ -7,7 +7,7 @@ using UnityEngine;
 namespace PaintYourPipes
 {
 	[SerializationConfig(MemberSerialization.OptIn)]
-	internal class ColorableConduit : KMonoBehaviour, ISidescreenButtonControl
+	internal class ColorableConduit : KMonoBehaviour, ISidescreenButtonControl, ICheckboxControl
 	{
 
 		/// <summary>
@@ -29,6 +29,10 @@ namespace PaintYourPipes
 					return;
 				var secondaryColorHex = t1.Value<string>(); //"Value2"
 				behavior.SetColorHexValues(colorHex, secondaryColorHex);
+
+				var t3 = data.GetValue("useGreyscaleAnim");
+				if (t3 != null)
+					behavior.SetCheckboxValue(t3.Value<bool>());
 			}
 		}
 		/// <summary>
@@ -44,6 +48,7 @@ namespace PaintYourPipes
 				{
 					{ "colorHex", behavior.colorHex},
 					{ "secondaryColorHex", behavior.secondaryColorHex},
+					{ "useGreyscaleAnim", behavior.useGreyscaleAnim},
 				};
 			}
 			return null;
@@ -158,7 +163,8 @@ namespace PaintYourPipes
 
 		[MyCmpAdd]
 		CopyBuildingSettings buildingSettings;
-
+		[MyCmpGet]
+		BuildingFacade facade;
 		[MyCmpGet]
 		KPrefabID prefab;
 		[MyCmpGet]
@@ -169,9 +175,12 @@ namespace PaintYourPipes
 		[Serialize]
 		private string secondaryColorHex = string.Empty;
 
+		[Serialize]
+		private bool useGreyscaleAnim = false;
+		public bool GreyScaleActive => useGreyscaleAnim;
 		[MyCmpGet]
-		KBatchedAnimController _animController;
-		public KBatchedAnimController AnimController => _animController;
+		KBatchedAnimController kbac;
+		public KBatchedAnimController AnimController => kbac;
 		private static readonly EventSystem.IntraObjectHandler<ColorableConduit> OnCopySettingsDelegate = new EventSystem.IntraObjectHandler<ColorableConduit>((component, data) => component.OnCopySettings(data));
 
 		public bool IsTinted => ColorHex != null && ColorHex != "FFFFFF";
@@ -221,11 +230,26 @@ namespace PaintYourPipes
 		{
 			if (obj != null && obj is GameObject go && go.TryGetComponent<ColorableConduit>(out var SourceBuilding) && SameConduitType(SourceBuilding, this))
 			{
+				SetCheckboxValue(SourceBuilding.useGreyscaleAnim);
 				SetColor(SourceBuilding.TintColor);
 				if (SourceBuilding.SecondaryTintColor.HasValue)
 					SetSecondaryColor(SourceBuilding.SecondaryTintColor.Value);
 				RefreshColor();
 			}
+		}
+		void RefreshAnim()
+		{
+			string currentAnim = kbac.animFiles[0].name;
+			if (currentAnim.Contains("PYP_"))
+				return;
+
+			if (useGreyscaleAnim && ModAssets.TryGetGreyScaleAnim(currentAnim, out var greyscale))
+			{
+				facade.ClearFacade();
+				facade.ChangeBuilding([greyscale], string.Format(STRINGS.SKININFO.NAME, buildingComplete.Def.Name), buildingComplete.Def.Desc);
+			}
+			else
+				facade.ClearFacade();
 		}
 
 		public void RefreshColor(Color Override = default)
@@ -238,15 +262,15 @@ namespace PaintYourPipes
 
 			if (Override != default)
 			{
-				_animController.TintColour = Override;
+				kbac.TintColour = Override;
 			}
 			else
-				_animController.TintColour = TintColor;
+				kbac.TintColour = TintColor;
 
-			if (_animController.enabled)
+			if (kbac.enabled)
 			{
-				_animController.enabled = false;
-				_animController.enabled = true;
+				kbac.enabled = false;
+				kbac.enabled = true;
 			}
 		}
 		private void OnNewConstruction(object data)
@@ -282,6 +306,8 @@ namespace PaintYourPipes
 			//GameScheduler.Instance.ScheduleNextFrame("deayed initial refresh", (_) => RefreshColor());
 			NetworkItem = this.GetComponent<IBridgedNetworkItem>();
 			RefreshColor();
+			if (useGreyscaleAnim)
+				RefreshAnim();
 		}
 		public override void OnPrefabInit()
 		{
@@ -517,6 +543,7 @@ namespace PaintYourPipes
 							target.SetSecondaryColor(SecondaryTargetPaint);
 						else
 							target.ClearSecondaryColor();
+						target.SetCheckboxValue(useGreyscaleAnim);
 					}
 					else if (solidConduit != null && target.solidConduit != null && allNetworks.Contains(target.solidConduit.GetNetwork()))
 					{
@@ -525,6 +552,7 @@ namespace PaintYourPipes
 							target.SetSecondaryColor(SecondaryTargetPaint);
 						else
 							target.ClearSecondaryColor();
+						target.SetCheckboxValue(useGreyscaleAnim);
 					}
 
 				}
@@ -571,5 +599,27 @@ namespace PaintYourPipes
 		}
 
 		#endregion
+
+
+		#region greyscaleCheckbox
+
+		public string CheckboxTitleKey => "STRINGS.PYP_GREYSCALESKIN.TITLE";
+
+		public string CheckboxLabel => STRINGS.PYP_GREYSCALESKIN.LABEL;
+
+		public string CheckboxTooltip => STRINGS.PYP_GREYSCALESKIN.TOOLTIP;
+
+		public bool GetCheckboxValue() => useGreyscaleAnim;
+
+		public void SetCheckboxValue(bool value)
+		{
+			if(useGreyscaleAnim != value)
+			{
+				useGreyscaleAnim = value;
+				RefreshAnim();
+			}	
+		}
+		#endregion
+
 	}
 }

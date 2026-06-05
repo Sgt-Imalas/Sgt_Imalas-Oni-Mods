@@ -8,8 +8,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
+using static InventoryOrganization;
 using static OverlayModes;
 using static OverlayModes.Logic;
+using static UtilLibs.SupplyClosetUtils;
 
 namespace PaintYourPipes
 {
@@ -50,9 +52,14 @@ namespace PaintYourPipes
 			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
 			{
 				var m_LoadGroupFile = AccessTools.Method(typeof(KAnimGroupFile), nameof(KAnimGroupFile.LoadGroupResourceFile));
+				var m_LoadAll = AccessTools.Method(typeof(KAnimGroupFile), nameof(KAnimGroupFile.LoadAll));
 
 				foreach (var ci in orig)
 				{
+					if (ci.Calls(m_LoadAll))
+					{
+						yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Assets_LoadAnims_Patch), nameof(InjectedAfterGroupFileLoad)));
+					}
 					yield return ci;
 					if (ci.Calls(m_LoadGroupFile))
 					{
@@ -130,8 +137,6 @@ namespace PaintYourPipes
 			}
 			public static void CreateBuildingDef_Postfix(BuildingDef __result)
 			{
-				//TODO: turn into a skin + option
-				return;
 				ModAssets.AssignGreyScaleSkin(__result);
 			}
 			public static void DoPostConfigureComplete_Postfix(GameObject go)
@@ -334,7 +339,7 @@ namespace PaintYourPipes
 					if (ActiveOverlay != ObjectLayer.LiquidConduit)
 					{
 						if (!Config.Instance.OverlayOnly)
-							__result = __result.Multiply(colorOverrider.TintColor);
+							__result = colorOverrider.GreyScaleActive ? colorOverrider.TintColor :  __result.Multiply(colorOverrider.TintColor);
 					}
 					else if (ColorableConduit.ShowOverlayTint)
 						__result = colorOverrider.TintColor;

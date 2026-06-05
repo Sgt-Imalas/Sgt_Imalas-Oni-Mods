@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UtilLibs;
+using static InventoryOrganization;
+using static PaintYourPipes.STRINGS;
+using static UtilLibs.SupplyClosetUtils;
 
 namespace PaintYourPipes
 {
@@ -46,53 +49,112 @@ namespace PaintYourPipes
 			"logic_memory_kanim",
 			"logic_ribbon_reader_kanim",
 			"logic_ribbon_writer_kanim",
+
+			///GigawattWire:
+			"gigawatt_wire_kanim",
+			"gigawatt_wire_bridge_kanim",
+			"jacketed_wire_kanim",
+			"jacketed_wire_bridge_kanim",
+			"megawatt_wire_kanim",
+			"megawatt_wire_bridge_kanim",
+			
+			///HPA:
+			///gas
+			"pressure_gas_pipe_kanim",
+			"pressure_gas_bridge_kanim",
+			///liquid
+			"pressure_liquid_pipe_kanim",
+			"pressure_liquid_bridge_kanim",
+			///solid
+			"hpa_rail_insulated_kanim",
+			"hpa_rail_kanim",
+			"hpa_rail_bridge_kanim",
+			///DupesLogistics:
+			"logistic_rail_kanim",
+			"logistic_bridge_kanim",
+
+			///PlasticUtilities:
+			"plastic_utilities_gas_kanim",
+			"plastic_utilities_liquid_kanim"
 				];
+
+		public static bool TryGetGreyScaleAnim(string animName, out KAnimFile anim) => greyscaleAnims.TryGetValue(animName, out anim);
+		//{
+		//	SgtLogger.l($"Trying to get greyscale anim for {animName}");
+		//	if (!greyscaleAnims.TryGetValue(animName, out anim))
+		//	{
+		//		var originalAnim = Assets.GetAnim(animName);
+		//		if(originalAnim == null)
+		//		{
+		//			SgtLogger.error($"Couldn't find original anim for {animName}");
+		//			return false;
+		//		}
+		//		anim = MakeGreyscaleSkin(originalAnim);
+		//	}
+		//	return anim != null;
+		//}
+
 		static Dictionary<string, KAnimFile> greyscaleAnims = new();
+
+		public const string SubCategoryID = "PYP_GREYSCALE_SKINS";
+		static SkinCollection category = null;
+
 		internal static void AssignGreyScaleSkin(BuildingDef result)
 		{
+			return;
 			var anim = result.AnimFiles[0];
-			if(anim == null)
+			if (anim == null)
 			{
 				return;
 			}
-			var animName = anim.name.Replace("_kanim", "_greyscale_kanim");
-			if(greyscaleAnims.TryGetValue(anim.name, out var greyAnim))
+			if (greyscaleAnims.TryGetValue(anim.name, out var greyAnim))
 			{
-				result.AnimFiles[0] = greyAnim;
-				SgtLogger.l($"Assigned greyscale skin to {result.Name}");
-			}
-			else
-			{
-				SgtLogger.error($"Greyscale anim not found for {result.Name}, anim name: {animName}");
+				if (category == null)
+				{
+					SkinCollection.CategoryInit(InventoryPermitCategories.BUILDINGS, SubCategoryID, Assets.GetSprite("brush"), 1);
+					SkinCollection.RegisterSkinInjectionPatch();
+				}
+				string buildingId = result.PrefabID.ToString();
+				string buildingName = result.Name;
+				string skinId = "PYP_" + buildingId + "_greyscaled";
+
+				if (!InventoryOrganization.subcategoryIdToPermitIdsMap.ContainsKey(SubCategoryID))
+					InventoryOrganization.subcategoryIdToPermitIdsMap[SubCategoryID] = new List<string>();
+
+				SupplyClosetUtils.AddItemsToSubcategory(SubCategoryID, [skinId]);
+				//InventoryOrganization.subcategoryIdToPermitIdsMap[SubCategoryID].Add(skinId);
+				SgtLogger.l($"Added greyscale skin to {result.Name}");
+				//Db.GetBuildingFacades().Add(skinId, string.Format(STRISKININFO.NAME, buildingName), string.Format(SKININFO.DESC, buildingName), Database.PermitRarity.Universal, buildingId, greyAnim,null,null,null,null);
 			}
 		}
 		internal static void MakeGreyscaleVariantsForValidAnims(IEnumerable<KAnimFile> animList)
 		{
-			foreach(var existingAnim in animList)
+			foreach (var existingAnim in animList)
 			{
 				if (existingAnim == null || !AnimsToGreyScale.Contains(existingAnim.name))
 					continue;
 				MakeGreyscaleSkin(existingAnim);
 			}
 		}
-		internal static void MakeGreyscaleSkin(KAnimFile existingAnim)
+		internal static KAnimFile MakeGreyscaleSkin(KAnimFile existingAnim)
 		{
+			if (greyscaleAnims.ContainsKey(existingAnim.name))
+				return greyscaleAnims[existingAnim.name];
+
 			List<Texture2D> greyScaledTextures = [];
-			foreach (var texture in existingAnim.textures)
+			foreach (var texture in existingAnim.textureList)
 			{
 				greyScaledTextures.Add(GetGreyScaleTexture(texture, texture.name + "_greyscale"));
 			}
-			KAnimFileData data = existingAnim.GetData();
-
 			KAnimFile.Mod desatModFile = new()
 			{
 				anim = existingAnim.animBytes,
 				build = existingAnim.buildBytes,
 				textures = greyScaledTextures,
 			};
-			var animName = existingAnim.name.Replace("_kanim", "_greyscale_kanim");
-			var modified = ModUtil.AddKAnimMod(animName, desatModFile);
-			SgtLogger.l("Adding greyscale anim with anim name " + animName );
+			var modifiedAnimName = existingAnim.name.Replace("_kanim", "_greyscale_kanim");
+			var modified = ModUtil.AddKAnimMod(modifiedAnimName, desatModFile);
+			SgtLogger.l("Adding greyscale anim with anim name " + modifiedAnimName);
 			if (modified != null)
 			{
 				SgtLogger.l("Anim was created successfully");
@@ -102,6 +164,9 @@ namespace PaintYourPipes
 			{
 				SgtLogger.error("Failed to add greyscale anim");
 			}
+			if(Assets.Anims != null && !Assets.Anims.Contains(modified))
+				Assets.Anims.Add(modified);
+			return modified;
 		}
 
 		static Texture2D GetGreyScaleTexture(Texture sourceTexture, string name)
