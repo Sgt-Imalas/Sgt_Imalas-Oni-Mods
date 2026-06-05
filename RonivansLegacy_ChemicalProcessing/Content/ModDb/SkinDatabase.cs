@@ -99,7 +99,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				.Skin("FridgeSmall_Sticker", SIMPLEFRIDGE_STICKERS.NAME, SIMPLEFRIDGE_STICKERS.DESC, "simple_fridge_stickers_kanim")
 				;
 
-			SkinCollection.RegisterAllSkins();
+			SkinCollection.RegisterSkinInjectionPatch();
 		}
 	}
 }

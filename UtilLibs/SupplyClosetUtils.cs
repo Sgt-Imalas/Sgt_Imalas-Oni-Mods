@@ -96,7 +96,7 @@ namespace UtilLibs
 					set.resources.Add(new BuildingFacadeResource(skin.ID, skin.Name, skin.Description, PermitRarity.Universal, buildingId, skin.KanimFile, skin.Workables, null, null, skin.Data));
 				}
 			}
-			public static void RegisterAllSkins()
+			public static void RegisterSkinInjectionPatch()
 			{
 				SgtLogger.l("Patching Skin Injection..");
 				var harmony = new Harmony("SgtImalas_SupplyClosetUtils");

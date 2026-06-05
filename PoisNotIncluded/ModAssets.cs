@@ -400,7 +400,7 @@ namespace PoisNotIncluded
 					.Skin(GeneratedIdPrefix + "PoiPedestal", GRAVITASPEDESTAL.NAME, GRAVITASPEDESTAL.DESC, "gravitas_pedestal_nice_kanim");
 			}
 			SgtLogger.l("Number of skinsss: " + SkinCollection.SkinSets.Count);
-			SkinCollection.RegisterAllSkins();
+			SkinCollection.RegisterSkinInjectionPatch();
 		}
 	}
 }
