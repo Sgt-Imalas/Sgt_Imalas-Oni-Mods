@@ -42,5 +42,6 @@
 	
   <ItemGroup>
     <Folder Include="BlueprintsV2\BlueprintData\DataTransfer\" />
+    <Folder Include="BlueprintsV2\BlueprintData\OniTogether_Integration\" />
   </ItemGroup>
 </Project>

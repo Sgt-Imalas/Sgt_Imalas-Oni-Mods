@@ -37,7 +37,7 @@ namespace BlueprintsV2.UnityUI
 			Invalid = 0,
 			CreationDateAscending = 1,
 			CreationDateDescending = 2,
-			NameAscending = 3, 
+			NameAscending = 3,
 			NameDescending = 4,
 		}
 		const string SortStateKey = "BlueprintsV2_BlueprintSortState";
@@ -52,7 +52,7 @@ namespace BlueprintsV2.UnityUI
 			}
 			set
 			{
-				KPlayerPrefs.SetInt(SortStateKey,(int)value);
+				KPlayerPrefs.SetInt(SortStateKey, (int)value);
 			}
 		}
 
@@ -96,6 +96,8 @@ namespace BlueprintsV2.UnityUI
 		public Dictionary<string, BuildingInfoEntry> BuildingInfoEntries = new();
 		public Image BlueprintIconDisplay;
 		//Preview
+		BlueprintPreviewScreen Preview;
+		public FButton StartOverriding, PlaceBlueprintPreview;
 
 
 
@@ -103,7 +105,7 @@ namespace BlueprintsV2.UnityUI
 		public Dictionary<BlueprintSelectedMaterial, BlueprintElementEntry> ElementEntries = new();
 		public GameObject ElementEntryContainer;
 		public GameObject WarningGO, ErrorGO;
-		public ToolTip SevereErrorTooltip, ErrorTooltip;
+		public GameObject WarningGO2, ErrorGO2;
 		public BlueprintElementEntry ElementEntryPrefab;
 		public FButton ClearOverrides, PlaceBlueprint, CreateNewBlueprintFromOverrides;
 		public LocText MaterialHeaderTitle;
@@ -124,8 +126,8 @@ namespace BlueprintsV2.UnityUI
 		public bool CurrentlyActive;
 		public bool DialogueCurrentlyOpen;
 
-		public bool ShowInfoScreen;
-		public Blueprint TargetBlueprint, InfoBlueprint;
+		public bool ShowingInfoPreview;
+		public Blueprint TargetBlueprint;
 
 		private bool _openedFromSnapshot;
 		public bool OpenedFromSnapshot
@@ -193,6 +195,7 @@ namespace BlueprintsV2.UnityUI
 			PlaceBlueprint = transform.Find("MaterialSwitch/Buttons/PlaceBPbtn").gameObject.AddOrGet<FButton>();
 			PlaceBlueprint.OnClick += OnPlaceBlueprint;
 
+
 			CreateNewBlueprintFromOverrides = transform.Find("MaterialSwitch/Buttons/CreateModifiedBtn").gameObject.AddOrGet<FButton>();
 			CreateNewBlueprintFromOverrides.OnClick += OnCreateFromOverrides;
 			UIUtils.AddSimpleTooltipToObject(CreateNewBlueprintFromOverrides.gameObject, CREATEMODIFIED.TOOLTIP);
@@ -206,7 +209,7 @@ namespace BlueprintsV2.UnityUI
 			switch (SortBlueprintsBy)
 			{
 				case OrderBy.CreationDateAscending:
-					OrderByDate.ActivateToggle(1);break;
+					OrderByDate.ActivateToggle(1); break;
 				case OrderBy.CreationDateDescending:
 					OrderByDate.ActivateToggle(2); break;
 				case OrderBy.NameAscending:
@@ -236,14 +239,20 @@ namespace BlueprintsV2.UnityUI
 			UIUtils.AddSimpleTooltipToObject(transform.Find("MaterialSwitch/PerBuildingOverrides/Label").gameObject, PERBUILDINGOVERRIDES.TOOLTIP);
 			AdvancedReplacementToggle.OnChange += OnAdvancedReplacementToggleChanged;
 
-			WarningGO = transform.Find("MaterialSwitch/MaterialsHeader/WarningSevere").gameObject;
-			SevereErrorTooltip = UIUtils.AddSimpleTooltipToObject(WarningGO.transform, MATERIALSWITCH.WARNINGSEVERE);
-			WarningGO.SetActive(false);
-
-
-			ErrorGO = transform.Find("MaterialSwitch/MaterialsHeader/Warning").gameObject;
-			ErrorTooltip = UIUtils.AddSimpleTooltipToObject(ErrorGO.transform, MATERIALSWITCH.WARNING);
+			ErrorGO = transform.Find("MaterialSwitch/MaterialsHeader/WarningSevere").gameObject;
+			UIUtils.AddSimpleTooltipToObject(ErrorGO.transform, MATERIALSWITCH.WARNINGSEVERE);
 			ErrorGO.SetActive(false);
+
+			ErrorGO2 = transform.Find("Preview/Buttons/AddOverrides/WarningSevere").gameObject;
+			UIUtils.AddSimpleTooltipToObject(ErrorGO2.transform, MATERIALSWITCH.WARNINGSEVERE);
+			ErrorGO2.SetActive(false);
+
+			WarningGO = transform.Find("MaterialSwitch/MaterialsHeader/Warning").gameObject;
+			UIUtils.AddSimpleTooltipToObject(WarningGO.transform, MATERIALSWITCH.WARNING);
+			WarningGO.SetActive(false);
+			WarningGO2 = transform.Find("Preview/Buttons/AddOverrides/Warning").gameObject;
+			UIUtils.AddSimpleTooltipToObject(WarningGO2.transform, MATERIALSWITCH.WARNING);
+			WarningGO2.SetActive(false);
 
 			var ElementEntryPrefabGo = transform.Find("MaterialSwitch/ScrollArea/Content/PresetEntryPrefab").gameObject;
 			ElementEntryPrefabGo.SetActive(false);
@@ -306,6 +315,14 @@ namespace BlueprintsV2.UnityUI
 
 			ColorPicker = transform.Find("BlueprintInfo/Stats/IconContainer/ColorPicker").gameObject.AddOrGet<FColorPickerArray>();
 			ColorPicker.OnColorChange += SetCurrentInfoBlueprintTint;
+			Preview = transform.Find("Preview/ScrollArea/Content").gameObject.AddOrGet<BlueprintPreviewScreen>();
+
+			PlaceBlueprintPreview = transform.Find("Preview/Buttons/PlaceBPbtn").gameObject.AddOrGet<FButton>();
+			PlaceBlueprintPreview.OnClick += OnPlaceBlueprint;
+
+
+			StartOverriding = transform.Find("Preview/Buttons/AddOverrides").gameObject.AddOrGet<FButton>();
+			StartOverriding.OnClick += OnStartOverriding;
 
 			init = true;
 		}
@@ -318,9 +335,9 @@ namespace BlueprintsV2.UnityUI
 				case OrderBy.NameAscending:
 					OrderByDate.DeactivateToggle();
 					break;
-				case OrderBy.CreationDateDescending: 
+				case OrderBy.CreationDateDescending:
 				case OrderBy.CreationDateAscending:
-					OrderByName.DeactivateToggle(); 
+					OrderByName.DeactivateToggle();
 					break;
 			}
 			UpdateBlueprintButtons();
@@ -329,7 +346,7 @@ namespace BlueprintsV2.UnityUI
 		void ShowSpriteSelectionScreen()
 		{
 			DialogueCurrentlyOpen = true;
-			SpriteSelectorScreen.ShowScreen(true, UpdateBlueprintIcon, ()=>DialogueOpen(false));
+			SpriteSelectorScreen.ShowScreen(true, UpdateBlueprintIcon, () => DialogueOpen(false));
 		}
 		void UpdateBlueprintIcon(string iconId, Color tint)
 		{
@@ -342,23 +359,30 @@ namespace BlueprintsV2.UnityUI
 		}
 		void SetCurrentInfoBlueprintTint(Color tint)
 		{
+			string tintHex = tint.ToHexString();
+			if (tintHex == TargetBlueprint.IconTintHex)
+				return;
+
 			if (tint == Color.white)
-				InfoBlueprint.IconTintHex = null;
+				TargetBlueprint.IconTintHex = null;
 			else
-				InfoBlueprint.IconTintHex = tint.ToHexString();
-			InfoBlueprint.Write();
+				TargetBlueprint.IconTintHex = tintHex;
+			TargetBlueprint.Write();
 			RefreshInfoIcon();
 		}
 		void SetCurrentInfoBlueprintIcon(string spriteId)
 		{
-			InfoBlueprint.IconId = spriteId;
-			InfoBlueprint.Write();
+			if (TargetBlueprint.IconId == spriteId)
+				return;
+
+			TargetBlueprint.IconId = spriteId;
+			TargetBlueprint.Write();
 			RefreshInfoIcon();
 		}
 		void ClearCurrentInfoBlueprintIcon()
 		{
-			InfoBlueprint.IconId = null;
-			InfoBlueprint.Write();
+			TargetBlueprint.IconId = null;
+			TargetBlueprint.Write();
 			RefreshInfoIcon();
 		}
 
@@ -448,12 +472,12 @@ namespace BlueprintsV2.UnityUI
 			if (BlueprintsElements.activeInHierarchy && show)
 				ShowElements(false);
 
-
 			BlueprintInfo.SetActive(show);
-			BlueprintPreview.SetActive(false);
+			BlueprintPreview.SetActive(show);
 			//BlueprintInfoBuildingList.SetActive(show);
 			if (show)
 			{
+				Preview.LoadBlueprintPreview(TargetBlueprint);
 				//BuildingListSearchbar.Text = string.Empty;
 				UpdateBuildingButtons();
 			}
@@ -461,41 +485,41 @@ namespace BlueprintsV2.UnityUI
 
 		void RefreshInfoIcon()
 		{
-			if (InfoBlueprint == null || BlueprintIconDisplay == null)
+			if (TargetBlueprint == null || BlueprintIconDisplay == null)
 				return;
 
 			var color = Color.white;
-			if (!InfoBlueprint.IconId.IsNullOrWhiteSpace())
+			if (!TargetBlueprint.IconId.IsNullOrWhiteSpace())
 			{
-				BlueprintIconDisplay.sprite = ModAssets.GetBlueprintIconSprite(InfoBlueprint.IconId);				
+				BlueprintIconDisplay.sprite = ModAssets.GetBlueprintIconSprite(TargetBlueprint.IconId);
 			}
 			else
 			{
 				BlueprintIconDisplay.sprite = null;
 			}
-			if (!InfoBlueprint.IconTintHex.IsNullOrWhiteSpace())
+			if (!TargetBlueprint.IconTintHex.IsNullOrWhiteSpace())
 			{
-				color = Util.ColorFromHex(InfoBlueprint.IconTintHex);
+				color = Util.ColorFromHex(TargetBlueprint.IconTintHex);
 			}
 			BlueprintIconDisplay.color = color;
 			ColorPicker.SetSelected(color);
 
-			if (BlueprintEntries.TryGetValue(InfoBlueprint, out var uiCmp))
+			if (BlueprintEntries.TryGetValue(TargetBlueprint, out var uiCmp))
 				uiCmp.RefreshIcon();
 		}
 
 		void LoadBlueprintDescription()
 		{
-			DescriptionInput.SetTextFromData(InfoBlueprint?.UserDescription);
+			DescriptionInput.SetTextFromData(TargetBlueprint?.UserDescription);
 		}
 		void SaveBlueprintDescription()
 		{
-			if (InfoBlueprint == null)
+			if (TargetBlueprint == null)
 				return;
 
-			InfoBlueprint.UserDescription = DescriptionInput.Text;
-			InfoBlueprint.Write();
-			if (BlueprintEntries.TryGetValue(InfoBlueprint, out var uiCmp))
+			TargetBlueprint.UserDescription = DescriptionInput.Text;
+			TargetBlueprint.Write();
+			if (BlueprintEntries.TryGetValue(TargetBlueprint, out var uiCmp))
 				uiCmp.RefreshTooltip();
 		}
 
@@ -503,64 +527,80 @@ namespace BlueprintsV2.UnityUI
 		{
 			int allMaterialsState = 0;
 			ShowReplacementItems(false);
-			bool targetSet = TargetBlueprint != null && !ShowInfoScreen;
-			ShowInfo(InfoBlueprint != null && ShowInfoScreen);
-			ShowElements(targetSet);
-			if (ShowInfoScreen)
+			bool hasBp = TargetBlueprint != null;
+			ShowInfo(hasBp && ShowingInfoPreview);
+			ShowElements(hasBp && !ShowingInfoPreview);
+			if (!hasBp)
+				return;
+
+			var blueprintMaterials = TargetBlueprint.BlueprintCost.OrderByDescending(kvp => kvp.Value).ToList();
+
+			if (ShowingInfoPreview)
 			{
-				BlueprintName.SetText(InfoBlueprint.FriendlyName);
-				var dimensions = InfoBlueprint.VisibleDimensions;
+				BlueprintName.SetText(TargetBlueprint.FriendlyName);
+				var dimensions = TargetBlueprint.VisibleDimensions;
 				DimensionInfo.SetText($"{dimensions.X} x {dimensions.Y}");
-				BuildingCount.SetText(InfoBlueprint.BuildingConfigurations.Count.ToString());
-				DigCount.SetText(InfoBlueprint.DigLocations.Count.ToString());
-				NoteCount.SetText(InfoBlueprint.WorldNotes.Count.ToString());
+				BuildingCount.SetText(TargetBlueprint.BuildingConfigurations.Count.ToString());
+				DigCount.SetText(TargetBlueprint.DigLocations.Count.ToString());
+				NoteCount.SetText(TargetBlueprint.WorldNotes.Count.ToString());
 
 				RefreshInfoIcon();
 				LoadBlueprintDescription();
 			}
-			else if (targetSet)
+			else
 			{
 				MaterialHeaderTitle.SetText(string.Format(MATERIALSWITCH.MATERIALSHEADER.LABEL, TargetBlueprint.FriendlyName));
-
-				foreach (var prev in ElementEntries)
-				{
-					prev.Value.gameObject.SetActive(false);
-				}
-
-				var blueprintMaterials = TargetBlueprint.BlueprintCost.OrderByDescending(kvp => kvp.Value).ToList();
-
 				NoItems.SetActive(blueprintMaterials.Count() == 0);
-				foreach (var kvp in blueprintMaterials)
-				{
-					var selectedAndCategory = kvp.Key;
-
-					Tag replacementTag = null;
-					var uiEntry = AddOrGetBlueprintElementEntry(kvp.Key);
-					uiEntry.gameObject.SetActive(true);
-					int materialState = uiEntry.Refresh(TargetBlueprint);
-					if (materialState > allMaterialsState)
-						allMaterialsState = materialState;
-					uiEntry.SetTotalAmount(kvp.Value);
-					uiEntry.transform.SetAsLastSibling();
-
-				}
 			}
+			foreach (var prev in ElementEntries)
+			{
+				prev.Value.gameObject.SetActive(false);
+			}
+			foreach (var kvp in blueprintMaterials)
+			{
+				var selectedAndCategory = kvp.Key;
+
+				Tag replacementTag = null;
+				var uiEntry = AddOrGetBlueprintElementEntry(kvp.Key);
+
+				uiEntry.gameObject.SetActive(true);
+				int materialState = uiEntry.Refresh(TargetBlueprint);
+				if (materialState > allMaterialsState)
+					allMaterialsState = materialState;
+				uiEntry.SetTotalAmount(kvp.Value);
+				uiEntry.transform.SetAsLastSibling();
+
+			}
+			RefreshWarnings(allMaterialsState);
+
+
+		}
+
+		void RefreshWarnings(int allMaterialsState)
+		{
 			switch (allMaterialsState)
 			{
 				case 0:
 					WarningGO.SetActive(false);
+					WarningGO2.SetActive(false);
 					ErrorGO.SetActive(false);
+					ErrorGO2.SetActive(false);
 					break;
 				case 1:
-					WarningGO.SetActive(false);
-					ErrorGO.SetActive(true);
+					WarningGO.SetActive(true);
+					WarningGO2.SetActive(true);
+					ErrorGO.SetActive(false);
+					ErrorGO2.SetActive(false);
 					break;
 				case 2:
-					WarningGO.SetActive(true);
-					ErrorGO.SetActive(false);
+					WarningGO.SetActive(false);
+					WarningGO2.SetActive(false);
+					ErrorGO.SetActive(true);
+					ErrorGO2.SetActive(true);
 					break;
 			}
 		}
+
 		void UpdateBuildingButtons()
 		{
 			foreach (var kvp in BuildingInfoEntries)
@@ -571,10 +611,10 @@ namespace BlueprintsV2.UnityUI
 				}
 			}
 
-			if (InfoBlueprint == null)
+			if (TargetBlueprint == null)
 				return;
 
-			var buildingIds = InfoBlueprint.GetBuildingCounts().OrderByDescending(b => b.Value);
+			var buildingIds = TargetBlueprint.GetBuildingCounts().OrderByDescending(b => b.Value);
 			foreach (var buildingWithCount in buildingIds)
 			{
 				var uiEntry = AddOrGetBuildingInfoEntry(buildingWithCount.Key);
@@ -632,7 +672,7 @@ namespace BlueprintsV2.UnityUI
 				_ => targetFolder.Blueprints.OrderBy(bp => bp.FriendlyName),
 			};
 
-				
+
 			foreach (var bp in bps)
 			{
 				var uiEntry = AddOrGetBlueprintEntry(bp);
@@ -735,8 +775,8 @@ namespace BlueprintsV2.UnityUI
 				bpEntry.OnMoved = (_) => OnBlueprintMoved();
 				bpEntry.OnDeleted = OnBlueprintDeleted;
 				bpEntry.OnDialogueToggled = DialogueOpen;
-				bpEntry.OnSelectBlueprint = OnSelectBlueprint;
-				bpEntry.OnInfoClicked = OnShowBlueprintInfo;
+				bpEntry.OnSelectBlueprint = OnSelectBlueprintForDetails; //OnSelectBlueprint;
+																		 //bpEntry.OnInfoClicked = OnShowBlueprintInfo;
 
 				BlueprintEntries[blueprint] = bpEntry;
 			}
@@ -771,43 +811,39 @@ namespace BlueprintsV2.UnityUI
 		{
 			if (onCloseAction != null)
 				onCloseAction(TargetBlueprint);
-			TargetBlueprint = null;
+			ShowingInfoPreview = true;
 			Show(false);
 		}
 		void OnCloseClicked()
 		{
 			if (onCloseAction != null)
 				onCloseAction(ModAssets.SelectedBlueprint);
-			TargetBlueprint = null;
+			ShowingInfoPreview = true;
 			Show(false);
 		}
 
-		void OnShowBlueprintInfo(Blueprint bp)
+		void OnSelectBlueprintForDetails(Blueprint bp)
 		{
-			ShowInfoScreen = true;
-			if (bp != InfoBlueprint)
+			ShowingInfoPreview = true;
+			if (bp != TargetBlueprint)
 			{
-				TargetBlueprint = null;
-				InfoBlueprint = bp;
-				InfoBlueprint.CacheCost();
-				RefreshEntryHighlight();
+				ShowingInfoPreview = true;
+				TargetBlueprint = bp;
+				TargetBlueprint.CacheCost();
 			}
+			RefreshEntryHighlight();
 			SetMaterialState();
 		}
 
-		void OnSelectBlueprint(Blueprint bp)
+		void OnStartOverriding()
 		{
-			ShowInfoScreen = false;
-			if (bp != TargetBlueprint)
+			ShowingInfoPreview = false;
+			
+			TargetBlueprint.CacheCost();
+			RefreshEntryHighlight();
+			foreach (var prev in ElementEntries)
 			{
-				InfoBlueprint = null;
-				TargetBlueprint = bp;
-				TargetBlueprint.CacheCost();
-				RefreshEntryHighlight();
-				foreach (var prev in ElementEntries)
-				{
-					prev.Value.SetSelected(false);
-				}
+				prev.Value.SetSelected(false);
 			}
 			SetMaterialState();
 		}
@@ -816,7 +852,7 @@ namespace BlueprintsV2.UnityUI
 		{
 			foreach (var prev in BlueprintEntries)
 			{
-				prev.Value.SetSelected(prev.Key == TargetBlueprint || prev.Key == InfoBlueprint);
+				prev.Value.SetSelected(prev.Key == TargetBlueprint);
 			}
 		}
 
@@ -847,9 +883,6 @@ namespace BlueprintsV2.UnityUI
 
 			if (bp == TargetBlueprint)
 				TargetBlueprint = null;
-			if (bp == InfoBlueprint)
-				InfoBlueprint = null;
-
 			ClearUIState();
 		}
 

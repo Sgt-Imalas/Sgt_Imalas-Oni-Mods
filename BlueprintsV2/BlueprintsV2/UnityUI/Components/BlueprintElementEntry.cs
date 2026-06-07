@@ -23,6 +23,7 @@ namespace BlueprintsV2.UnityUI.Components
 		ToolTip tooltip;
 		bool staticTag = false;
 		string staticTooltip;
+		Blueprint currentBp = null;
 
 		public void SetSelected(bool isSelected)
 		{
@@ -76,6 +77,8 @@ namespace BlueprintsV2.UnityUI.Components
 				else
 				{
 					var prefab = Assets.TryGetPrefab(selectedTag);
+					//SgtLogger.l("Prefab for "+ SelectedAndCategory.CategoryTag + " is "+prefab?.PrefabID());
+
 
 					if (prefab != null)
 					{
@@ -114,18 +117,15 @@ namespace BlueprintsV2.UnityUI.Components
 				}
 
 				SetWarningIndicatorLevel(0);
-				Refresh(null);
+				Refresh(currentBp);
 			}
 		}
 
-		public override void OnPrefabInit()
-		{
-			base.OnPrefabInit();
-			Init();
-		}
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
+			Init();
+
 			SetCategoryData();
 		}
 
@@ -158,6 +158,8 @@ namespace BlueprintsV2.UnityUI.Components
 
 		public int Refresh(Blueprint current)
 		{
+			Init();
+			currentBp = current;
 			if (current == null)
 				return 0;
 

@@ -259,25 +259,19 @@ namespace BlueprintsV2.BlueprintData
 				{
 					int cell = Grid.XYToCell(topLeft.x + buildingConfig.Offset.x, topLeft.y + buildingConfig.Offset.y);
 
-					if (buildingConfig.BuildingDef.IsTilePiece
-						&& buildingConfig.BuildingDef.isKAnimTile
-						&& !buildingConfig.BuildingDef.BuildingComplete.TryGetComponent<Door>(out _)
-						&& buildingConfig.BuildingDef.TileLayer != ObjectLayer.LadderTile
-						)
+					switch (ModAssets.GetVisualizerType(buildingConfig.BuildingDef))
 					{
-						if (buildingConfig.BuildingDef.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>() != null)
-						{
-							AddVisual(new UtilityVisual(buildingConfig, cell), buildingConfig.BuildingDef);
-						}
-						else
-						{
+						case VisualizerType.TILE:
 							AddVisual(new TileVisual(buildingConfig, cell), buildingConfig.BuildingDef);
-						}
-					}
-					else
-					{
-						AddVisual(new BuildingVisual(buildingConfig, cell), buildingConfig.BuildingDef);
-					}
+							break;
+						case VisualizerType.UTILITY:
+							AddVisual(new UtilityVisual(buildingConfig, cell), buildingConfig.BuildingDef);
+							break;
+						case VisualizerType.BUILDING:
+						default:
+							AddVisual(new BuildingVisual(buildingConfig, cell), buildingConfig.BuildingDef);
+							break;
+					}					
 				}
 			}
 

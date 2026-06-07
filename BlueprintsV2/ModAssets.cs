@@ -2,6 +2,7 @@
 using BlueprintsV2.BlueprintsV2.UnityUI;
 using BlueprintsV2.Tools;
 using BlueprintsV2.UnityUI;
+using BlueprintsV2.Visualizers;
 using PeterHan.PLib.Actions;
 using STRINGS;
 using System;
@@ -96,7 +97,7 @@ namespace BlueprintsV2
 		{
 			if (!BlueprintFileHandling.BlueprintFolders.Any())
 				return false;
-			if (SelectedFolder != null && BlueprintFileHandling.BlueprintFolders.IndexOf(SelectedFolder) >= BlueprintFileHandling.BlueprintFolders.Count-1)
+			if (SelectedFolder != null && BlueprintFileHandling.BlueprintFolders.IndexOf(SelectedFolder) >= BlueprintFileHandling.BlueprintFolders.Count - 1)
 				return false;
 			return true;
 		}
@@ -590,6 +591,14 @@ namespace BlueprintsV2
 			return sprite;
 		}
 
+		/// <summary>
+		/// Static Tag == only 1 possible material, not re-selectable
+		/// </summary>
+		/// <param name="tagMaterial"></param>
+		/// <param name="name"></param>
+		/// <param name="desc"></param>
+		/// <param name="icon"></param>
+		/// <returns></returns>
 		internal static bool IsStaticTag(BlueprintSelectedMaterial tagMaterial, out string name, out string desc, out Sprite icon)
 		{
 			name = tagMaterial.CategoryTag.Name;
@@ -597,7 +606,7 @@ namespace BlueprintsV2
 			icon = Assets.GetSprite("unknown");
 			var possibleItems = GetValidMaterials(tagMaterial.CategoryTag, false);
 
-			if (possibleItems.Count < 2)
+			if (possibleItems.Count() <= 1)
 			{
 				//SgtLogger.l(possibleItems.Count + "", "possibruh");
 				if (possibleItems.Count == 0)
@@ -642,7 +651,6 @@ namespace BlueprintsV2
 						validMaterials.Add(element.tag);
 					}
 				}
-
 				foreach (Tag materialBuildingElement in GameTags.MaterialBuildingElements)
 				{
 					if (materialBuildingElement != actualTag)
@@ -660,7 +668,31 @@ namespace BlueprintsV2
 					}
 				}
 			}
+			validMaterials = validMaterials.OrderBy(x => x.Name).ToList();
 			return validMaterials;
+		}
+
+		public static VisualizerType GetVisualizerType(BuildingDef def)
+		{
+			if (def.IsTilePiece
+				&& def.isKAnimTile
+				&& !def.BuildingComplete.TryGetComponent<Door>(out _)
+				&& def.TileLayer != ObjectLayer.LadderTile
+				)
+			{
+				if (def.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>() != null)
+				{
+					return VisualizerType.UTILITY;
+				}
+				else
+				{
+					return VisualizerType.TILE;
+				}
+			}
+			else
+			{
+				return VisualizerType.BUILDING;
+			}
 		}
 
 		public static class ActionKeys

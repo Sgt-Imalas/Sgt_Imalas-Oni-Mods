@@ -56,6 +56,12 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData.PlannedElements
 		{
 			UnityEngine.Object.Destroy(GetComponent<CopyBuildingSettings>());
 
+			if (ElementLoader.FindElementByHash(ElementId) == null)
+			{
+				Destroy(this.gameObject);
+				return;
+			}
+
 			filterable.SelectedTag = ElementId.CreateTag();
 			filterable.onFilterChanged += OnFilterChanged;
 			SetElementTint();

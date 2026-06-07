@@ -14,14 +14,7 @@ namespace BlueprintsV2
 	/// </summary>
 	internal class CustomTileVisualizer
 	{
-		public enum VisualizerType
-		{
-			BUILDING,
-			UTILITY,
-			TILE,
-
-			INVALID = -1
-		}
+		
 		VisualizerType DermineBuildingType(string prefabId)
 		{
 			var def = Assets.GetBuildingDef(prefabId);

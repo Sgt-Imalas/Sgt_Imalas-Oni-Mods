@@ -411,6 +411,25 @@ namespace BlueprintsV2
 				{
 					public static LocString TEXT = "Close";
 				}
+				public class PREVIEW
+				{
+					public class HEADER
+					{
+						public static LocString LABEL = "Preview";
+					}
+					public class BUTTONS
+					{
+						public class ADDOVERRIDES
+						{
+							public static LocString TEXT = "Material Overrides";
+						}
+						public class PLACEBPBTN
+						{
+							public static LocString TEXT = "Place Blueprint";
+						}
+					}
+				}
+
 			}
 			public class NOTETOOLSTATECONTAINER
 			{

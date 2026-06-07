@@ -106,7 +106,13 @@ namespace BlueprintsV2.BlueprintData
 		public Dictionary<Vector2I, Tuple<PlanShape, PlanColor>> PlanningToolMod_PlanDataValues { get; private set; } = new();
 
 		/// <summary>
-		/// Create a new blueprint at the given location.
+		/// Map the id hashes of all tiles per coordinate of the blueprint, 
+		/// used for tile previews picking the correct variant from the tilesheet
+		/// </summary>
+		public int[,] TileMap = null;
+
+		/// <summary>
+		/// Create a new blueprint at the given file location.
 		/// This constructor assumes the name of the blueprint from the location.
 		/// </summary>
 		/// <param name="fileLocation">The location for the blueprint on the file system</param>
@@ -132,62 +138,95 @@ namespace BlueprintsV2.BlueprintData
 
 		void CalculateDimensions()
 		{
-			int x = 0, totalX = -1;
-			int y = 0, totalY = -1;
+			int x_min = 0, x_max = 0, visibleX_min = 0, visibleX_max = 0;
+			int y_min = 0, y_max = 0, visibleY_min = 0, visibleY_max = 0;
 			foreach (var building in BuildingConfigurations)
 			{
 				var offset = building.Offset;
-				if (offset.y > y)
-					y = offset.y;
-				if (offset.x > x)
-					x = offset.x;
+				if (offset.y > y_max)
+					y_max = offset.y;
+				if (offset.x > x_max)
+					x_max = offset.x;
+				if (offset.y < y_min)
+					y_min = offset.y;
+				if (offset.x < x_min)
+					x_min = offset.x;
 
-				offset.x += building.IsValid() ? Mathf.Max(building.BuildingDef.WidthInCells / 2, 1) : 1;
-				offset.y += building.IsValid() ? building.BuildingDef.HeightInCells : 1;
-
-				if (offset.y > totalY)
-					totalY = offset.y;
-				if (offset.x > totalX)
-					totalX = offset.x;
+				if (offset.y < 0)
+				{
+					offset.y -= building.IsValid() ? building.BuildingDef.HeightInCells : 1;
+					if (offset.y < visibleY_min)
+						visibleY_min = offset.y;
+				}
+				else
+				{
+					offset.y += building.IsValid() ? building.BuildingDef.HeightInCells : 1;
+					if (offset.y > visibleY_max)
+						visibleY_max = offset.y;
+				}
+				if (offset.x < 0)
+				{
+					offset.x -= building.IsValid() ? Mathf.Max(building.BuildingDef.WidthInCells / 2, 1) : 1;
+					if (offset.x < visibleX_min)
+						visibleX_min = offset.x;
+				}
+				else
+				{
+					offset.x += building.IsValid() ? Mathf.Max(building.BuildingDef.WidthInCells / 2, 1) : 1;
+					if (offset.x > visibleX_min)
+						visibleX_max = offset.x;
+				}
 			}
 			foreach (var digSpot in DigLocations)
 			{
-				if (digSpot.y > y)
-					y = digSpot.y;
-				if (digSpot.x > x)
-					x = digSpot.x;
+				if (digSpot.y > y_max)
+					y_max = digSpot.y;
+				if (digSpot.x > x_max)
+					x_max = digSpot.x;
 
-				if (digSpot.y > totalY)
-					totalY = digSpot.y+1;
-				if (digSpot.x > totalX)
-					totalX = digSpot.x + 1;
+				if (digSpot.y + 1 > visibleY_max)
+					visibleY_max = digSpot.y + 1;
+				if (digSpot.x + 1 > visibleX_max)
+					visibleX_max = digSpot.x + 1;
 			}
 			foreach (var worldnote in WorldNotes.Keys)
 			{
-				if (worldnote.y > y)
-					y = worldnote.y;
-				if (worldnote.x > x)
-					x = worldnote.x;
+				if (worldnote.y + 1 > y_max)
+					y_max = worldnote.y + 1;
+				if (worldnote.x + 1 > x_max)
+					x_max = worldnote.x + 1;
 
-				if (worldnote.y > totalY)
-					totalY = worldnote.y + 1;
-				if (worldnote.x > totalX)
-					totalX = worldnote.x + 1;
+				if (worldnote.y + 1 > visibleY_max)
+					visibleY_max = worldnote.y + 1;
+				if (worldnote.x + 1 > visibleX_max)
+					visibleX_max = worldnote.x + 1;
 			}
 			foreach (var plan in PlanningToolMod_PlanDataValues.Keys)
 			{
-				if (plan.y > y)
-					y = plan.y;
-				if (plan.x > x)
-					x = plan.x;
+				if (plan.y + 1 > y_max)
+					y_max = plan.y + 1;
+				if (plan.x + 1 > x_max)
+					x_max = plan.x + 1;
 
-				if (plan.y > totalY)
-					totalY = plan.y + 1;
-				if (plan.x > totalX)
-					totalX = plan.x + 1;
+				if (plan.y + 1 > visibleY_max)
+					visibleY_max = plan.y + 1;
+				if (plan.x + 1 > visibleX_max)
+					visibleX_max = plan.x + 1;
 			}
-			_dimensionX = x; _dimensionY = y;
-			VisibleDimensions = new Vector2I(totalX, totalY);
+			if (x_max == -1)
+				x_max = 0;
+			if (y_max == -1)
+				y_max = 0;
+			_dimensionX = x_max - x_min; _dimensionY = y_max - y_min;
+			VisibleDimensions = new Vector2I(visibleX_max - visibleX_min, visibleY_max - visibleY_min);
+
+			TileMap = new int[_dimensionX,_dimensionY];
+			foreach(var building in BuildingConfigurations)
+			{
+				if(!building.IsValid())
+					continue;
+
+			}
 		}
 
 		/// <summary>
@@ -402,7 +441,7 @@ namespace BlueprintsV2.BlueprintData
 					foreach (JToken plannedElementToken in textNotesArray)
 					{
 						var data = new BlueprintNoteData();
-						if(data.ReadDataJson(plannedElementToken))
+						if (data.ReadDataJson(plannedElementToken))
 						{
 							WorldNotes[data.Location] = data;
 						}
@@ -520,7 +559,7 @@ namespace BlueprintsV2.BlueprintData
 				jsonWriter.WritePropertyName(JsonKeys.UserDescription);
 				jsonWriter.WriteValue(UserDescription);
 			}
-			if(IconId!=null && IconId.Any())
+			if (IconId != null && IconId.Any())
 			{
 				jsonWriter.WritePropertyName(JsonKeys.IconId);
 				jsonWriter.WriteValue(IconId);
@@ -812,6 +851,7 @@ namespace BlueprintsV2.BlueprintData
 							CachedAbsTagCost[selectedElement] += ingredient.amount;
 						else
 							CachedAbsTagCost.Add(selectedElement, ingredient.amount);
+						//SgtLogger.l("Added cost: " + ingredient.amount + " of " + selectedElement.hash + " for building " + buildingConfig.BuildingDefId);
 					}
 				}
 			}
