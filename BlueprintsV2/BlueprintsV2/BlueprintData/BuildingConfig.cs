@@ -378,15 +378,6 @@ namespace BlueprintsV2.BlueprintData
 					
 				}
 			}
-			SgtLogger.l(BuildingDefId + ":");
-			foreach (var selected in SelectedElements)
-			{
-				if (selected != Tag.Invalid)
-				{
-					SgtLogger.l(Assets.GetPrefab(selected).GetProperName());
-
-				}
-			}
 		}
 
 		/// <summary>

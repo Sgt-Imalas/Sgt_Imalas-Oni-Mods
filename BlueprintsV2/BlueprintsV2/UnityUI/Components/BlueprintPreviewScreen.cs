@@ -85,7 +85,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
 				entry.transform.localPosition -= centerOffset;
 
 				entry.SetActive(true);
-				var image = entry.transform.Find("TileVis").gameObject.GetComponent<Image>();
+				var image = entry.transform.Find("TileMask/TileVis").gameObject.GetComponent<Image>();
 				image.gameObject.SetActive(true);
 				image.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100);
 				image.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 100);

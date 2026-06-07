@@ -25,10 +25,12 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components.PreviewVisualizers
 		static string[,] Tiles = null;
 		static List<Vis_TilePreview> previews = new List<Vis_TilePreview>();
 		BuildingConfig _config;
+		RectMask2D _mask;
 
 		internal void Init(BuildingConfig building)
 		{
-			TilespriteRenderer = transform.Find("TileVis").gameObject.GetComponent<Image>();
+			TilespriteRenderer = transform.Find("TileMask/TileVis").gameObject.GetComponent<Image>();
+			_mask = transform.Find("TileMask").GetComponent<RectMask2D>();
 			TilespriteRenderer.gameObject.SetActive(true);
 
 			_config = building;
@@ -43,6 +45,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components.PreviewVisualizers
 			previews.Clear();
 		}
 
+		//runs after all tiles have been initialized via .Init()
 		internal static void ConnectAll()
 		{
 			foreach (var preview in previews)
@@ -52,11 +55,11 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components.PreviewVisualizers
 				preview.UpdateTileTexture(def, offset);
 			}
 		}
-		
+
 		void UpdateTileTexture(BuildingDef def, Vector2I position)
 		{
 			BlockTileRenderer.Bits connection_bits = GetConnectionBits(position.X, position.Y);
-			int variantInt = (int)connection_bits;	
+			int variantInt = (int)connection_bits;
 
 			if (!_Tilesprites.TryGetValue(def, out var spriteDict) || !spriteDict.ContainsKey(variantInt))
 			{
@@ -76,16 +79,16 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components.PreviewVisualizers
 					bool forbidddenConnectionsTriggered = (connection_bits & info.forbiddenConnections) != 0;
 					if (requiredConnectionsFulfilled && !forbidddenConnectionsTriggered)
 					{
-
 						uv = info.uvBox;
-						SgtLogger.l("Uv box for " + info.name + ": " + info.uvBox.ToString() + ", required: " + info.requiredConnections+"; forbidden: "+info.forbiddenConnections);
+						//SgtLogger.l("Uv box for " + info.name + ": " + info.uvBox.ToString() + ", required: " + info.requiredConnections+"; forbidden: "+info.forbiddenConnections);
 						break;
 					}
 				}
 				float uMin = uv.x;
 				float vMin = uv.y;
 				float uMax = uv.z;
-				float vMax = uv.w;				
+				float vMax = uv.w;
+
 				UnityEngine.Rect rect = new UnityEngine.Rect(
 					uMin * tex.width,
 					vMin * tex.height,
@@ -95,8 +98,24 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components.PreviewVisualizers
 
 				if (spriteDict == null)
 					spriteDict = new();
-				spriteDict[variantInt] = Sprite.Create(tex, rect, new(0.5f, 0.5f), 128); // 128 ppu 
+				spriteDict[variantInt] = Sprite.Create(tex, rect, new(0.5f, 0.5f), 128); // 128 ppu ;
+
+				bool connectedLeft = (connection_bits & BlockTileRenderer.Bits.Left) != 0;
+				bool connectedRight = (connection_bits & BlockTileRenderer.Bits.Right) != 0;
+				bool connectedTop = (connection_bits & BlockTileRenderer.Bits.Up) != 0;
+				bool connectedBottom = (connection_bits & BlockTileRenderer.Bits.Down) != 0;
+
+				var padding = _mask.padding;
+				padding.x = connectedLeft ? -1 : -50;
+				padding.y = connectedTop ? -1 : -50;
+				padding.z = connectedRight  ? -1 : -50;
+				padding.w = connectedBottom ? -1 : -50;
+
+				_mask.padding = padding;
 			}
+
+
+
 			TilespriteRenderer.sprite = spriteDict[variantInt];
 		}
 		public virtual BlockTileRenderer.Bits GetConnectionBits(int x, int y)

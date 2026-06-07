@@ -43,6 +43,12 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components.PreviewVisualizers
 			}
 		}
 		bool rotate = false;
+
+		/// <summary>
+		/// this mirrors Rotatable since kbac offset/pivot does not seem to work for ui kbacs
+		/// do not try understanding the numbers, they work properly this way.
+		/// </summary>
+		/// <param name="building"></param>
 		void UpdatePosition(BuildingConfig building)
 		{
 			Orientation orientation = building.Orientation;
