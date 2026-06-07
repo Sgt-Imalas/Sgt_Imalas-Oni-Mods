@@ -18,5 +18,11 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components.PreviewVisualizers
 				kbac.defaultAnim = defaultAnim = netWorkManagerGetter.GetNetworkManager().GetVisualizerString((UtilityConnections)flags);
 			}
 		}
+		public override void OnSpawn()
+		{
+			base.OnSpawn();
+			//idk why some wires have this symbol, vanilla code only turns it off so i'll do that as well.
+			kbac.SetSymbolVisiblity(Wire.OutlineSymbol, false);
+		}
 	}
 }

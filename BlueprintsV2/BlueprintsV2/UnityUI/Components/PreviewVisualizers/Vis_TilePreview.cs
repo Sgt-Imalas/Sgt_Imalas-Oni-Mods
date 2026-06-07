@@ -65,7 +65,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components.PreviewVisualizers
 			{
 				if (!_tileInfos.TryGetValue(def, out var renderInfo))
 				{
-					renderInfo = _tileInfos[def] = new BlockTileRenderer.RenderInfo(World.Instance.blockTileRenderer, (int)def.TileLayer, LayerMask.NameToLayer("Place"), def, SimHashes.COMPOSITION);
+					renderInfo = _tileInfos[def] = new BlockTileRenderer.RenderInfo(World.Instance.blockTileRenderer, (int)def.TileLayer, LayerMask.NameToLayer("Place"), def, SimHashes.COMPOSITION); //using composition here to always get the default look, even with true tiles
 				}
 				//SgtLogger.l("Trying to get tile variant for " + def.Name + " with variant " + GetConnectionBits(position.X, position.Y));
 				var tex = renderInfo.material.mainTexture as Texture2D;
