@@ -267,6 +267,11 @@ namespace RonivansLegacy_ChemicalProcessing
 		[JsonProperty]
 
 		private int _primaryElement_MaxMassOverride = 100000;
+
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTICS_NOSELFHEATING.LOGISTIC_SWEEPER", "STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTICS_NOSELFHEATING.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESLOGISTICS")]
+		public bool DupesLogistics_NoSelfHeat_Sweeper { get; set; } = false;
+		[Option("STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTICS_NOSELFHEATING.LOGISTIC_LOADER", "STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTICS_NOSELFHEATING.TOOLTIP", "STRINGS.AIO_MODSOURCE.DUPESLOGISTICS")]
+		public bool DupesLogistics_NoSelfHeat_Loader { get; set; } = false;
 		public void SetElementMaxMassIfApplicable()
 		{
 			int currentMaxMass = Mathf.RoundToInt(PrimaryElement.MAX_MASS);

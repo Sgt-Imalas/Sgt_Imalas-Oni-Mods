@@ -2644,6 +2644,12 @@ namespace RonivansLegacy_ChemicalProcessing
 				public static LocString NAME = "Overheat Immune High-Pressure-Pumps";
 				public static LocString TOOLTIP = "Makes high pressure pumps immune to overheating.\n(Restores old behavior for existing save compatibility)";
 			}
+			public class LOGISTICS_NOSELFHEATING
+			{
+				public static LocString LOGISTIC_SWEEPER = "No Self Heating: Logistic Sweeper";
+				public static LocString LOGISTIC_LOADER = "No Self Heating: Logistic Loader";
+				public static LocString TOOLTIP = "Makes this building no longer produce any heat.";
+			}
 		}
 	}
 }

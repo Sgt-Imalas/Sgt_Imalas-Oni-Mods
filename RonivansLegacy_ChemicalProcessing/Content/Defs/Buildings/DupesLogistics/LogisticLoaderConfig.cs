@@ -32,7 +32,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesLogistic
 			def1.RequiresPowerInput = true;
 			def1.EnergyConsumptionWhenActive = Wattage;
 			def1.ExhaustKilowattsWhenActive = 0f;
-			def1.SelfHeatKilowattsWhenActive = HighPressureConduitRegistration.GetLogisticConduitMultiplier()*2f;
+			def1.SelfHeatKilowattsWhenActive = Config.Instance.DupesLogistics_NoSelfHeat_Loader ? 0 : HighPressureConduitRegistration.GetLogisticConduitMultiplier()*2f;
 			def1.Floodable = false;
 			def1.ViewMode = OverlayModes.SolidConveyor.ID;
 			def1.AudioCategory = "Metal";
