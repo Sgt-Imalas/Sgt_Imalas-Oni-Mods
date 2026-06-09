@@ -1,5 +1,6 @@
 ﻿using BlueprintsV2.BlueprintsV2.BlueprintData.NoteToolPlacedEntities;
 using BlueprintsV2.BlueprintsV2.BlueprintData.PlannedElements;
+using BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,15 @@ namespace BlueprintsV2.BlueprintsV2.Patches
 			public static void Postfix(CancelTool __instance, ref ToolParameterMenu.ToggleData[] filters)
 			{
 				filters = filters.Append(new ToolParameterMenu.ToggleData(ElementNote.FILTERLAYER, ToolParameterMenu.ToggleState.Off));
+			}
+		}
+
+		[HarmonyPatch(typeof(CancelTool), nameof(CancelTool.OnDragTool))]
+		public class CancelTool_OnDragTool_Patch
+		{
+			public static void Postfix(int cell, int distFromOrigin)
+			{
+				ReplacementVis.CancelToolTriggered(cell);
 			}
 		}
 

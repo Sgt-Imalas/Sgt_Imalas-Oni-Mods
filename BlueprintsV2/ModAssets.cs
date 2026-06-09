@@ -69,6 +69,7 @@ namespace BlueprintsV2
 		public static GameObject BlueprintInfoStateGO;
 		public static GameObject NoteToolStateScreenGO;
 		public static GameObject IconSelectorGO;
+		public static GameObject TileReplaceVisGO;
 		public static void LoadAssets()
 		{
 			var bundle = AssetUtils.LoadAssetBundle("blueprints_ui", platformSpecific: true);
@@ -80,7 +81,7 @@ namespace BlueprintsV2
 			BlueprintInfoStateGO.AddOrGet<CurrentBlueprintStateScreen>();
 			NoteToolStateScreenGO.AddOrGet<NoteToolScreen>();
 			IconSelectorGO.AddOrGet<SpriteSelectorScreen>();
-
+			
 			var TMPConverter = new TMPConverter();
 			TMPConverter.ReplaceAllText(BlueprintSelectionScreenGO);
 			TMPConverter.ReplaceAllText(BlueprintInfoStateGO);
@@ -693,6 +694,12 @@ namespace BlueprintsV2
 			{
 				return VisualizerType.BUILDING;
 			}
+		}
+
+		internal static float GetSpawnTemperature(BuildingDef def, Tag[] selectedElements)
+		{
+			float minMeltTemp = ElementLoader.GetMinMeltingPointAmongElements(selectedElements) - 10f;
+			return Mathf.Min(def.Temperature , minMeltTemp);
 		}
 
 		public static class ActionKeys

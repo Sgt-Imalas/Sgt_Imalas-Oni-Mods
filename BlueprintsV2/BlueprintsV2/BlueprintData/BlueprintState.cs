@@ -42,7 +42,7 @@ namespace BlueprintsV2.BlueprintData
 		public static bool InstantBuild => DebugHandler.InstantBuildMode || Game.Instance.SandboxModeActive && SandboxToolParameterMenu.instance.settings.InstantBuild;
 
 		public static bool AdvancedMaterialReplacement = false;
-		public static bool ForceMaterialChange = false;
+		public static bool ForceBuild = false;
 		public static bool MaterialReplacementInSnapshots = false;
 
 		public static bool ApplyBlueprintSettings = true;
@@ -130,6 +130,8 @@ namespace BlueprintsV2.BlueprintData
 										BuildingDef = building.Def,
 										Orientation = building.Orientation
 									};
+									buildingConfig.BuildingDefId = building.Def.PrefabID;
+
 									if (building.Def.BuildingComplete.TryGetComponent<SimCellOccupier>(out var sco) && sco.doReplaceElement)
 										solidTileDefInCell = true;
 

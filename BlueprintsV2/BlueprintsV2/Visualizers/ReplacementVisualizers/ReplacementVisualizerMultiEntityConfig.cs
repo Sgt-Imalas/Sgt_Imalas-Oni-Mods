@@ -1,0 +1,55 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using TemplateClasses;
+using UnityEngine;
+
+namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
+{
+	internal class ReplacementVisualizerMultiEntityConfig : IMultiEntityConfig
+	{
+		public const string
+			TILE_ID = "BPV2_TileReplacer",
+			UTILITY_ID = "BPV2_UtilityReplacer",
+			BUILDING_ID = "BPV2_BuildingReplacer";
+
+
+		public List<GameObject> CreatePrefabs()
+		{
+			return [
+				CreateVisPrefab(BUILDING_ID,typeof(ReplacementVis)),
+				CreateVisPrefab(UTILITY_ID,typeof(UtilityReplacementVis)),
+				CreateVisPrefab(TILE_ID,typeof(TileReplacementVis))
+				];
+		}
+
+		static GameObject CreateVisPrefab(string id, Type visType)
+		{
+			GameObject prefab = EntityTemplates.CreateEntity(id, id);
+			prefab.layer = LayerMask.NameToLayer("PlaceWithDepth");
+			prefab.AddOrGet<SaveLoadRoot>();
+			KBoxCollider2D kBoxCollider2D = prefab.AddOrGet<KBoxCollider2D>();
+			kBoxCollider2D.offset = new Vector2(0f, 0.5f);
+			kBoxCollider2D.size = new Vector2(1f, 1f);
+			if (visType != typeof(TileReplacementVis))
+			{
+				prefab.AddComponent<KBatchedAnimController>().AnimFiles = [Assets.GetAnim("balloon_anim_kanim")];
+				prefab.AddOrGet<VisualizerRotatable>();
+			}
+			prefab.AddTag(GameTags.NotConversationTopic);
+			UnityEngine.Object.Destroy(prefab.GetComponent<Prioritizable>());
+			prefab.AddOrGet<KSelectable>();
+			prefab.AddOrGet<InfoDescription>();
+			prefab.AddComponent(visType);
+			return prefab;
+		}
+
+		public void OnPrefabInit(GameObject inst)
+		{
+		}
+
+		public void OnSpawn(GameObject inst)
+		{
+		}
+	}
+}

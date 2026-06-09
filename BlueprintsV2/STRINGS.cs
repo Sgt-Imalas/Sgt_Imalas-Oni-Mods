@@ -161,7 +161,8 @@ namespace BlueprintsV2
 					}
 					public class FORCEREBUILD
 					{
-						public static LocString LABEL = "Rebuild existing with mismatched material:";
+						//public static LocString LABEL = "Rebuild existing with mismatched material:";
+						public static LocString LABEL = "Force build over existing buildings:";
 					}
 					public class ROTATEACTIONS
 					{
@@ -587,7 +588,8 @@ namespace BlueprintsV2
 					public static LocString NONESELECTED = "No blueprint selected!";
 					public static LocString SELECTEDBLUEPRINT = "Selected blueprint: {0} ({1}/{2} in {3})";
 
-					public static LocString FORCEREBUILD = "Replace buildings with mismatched material:\n{0} (hold {1})";
+					public static LocString FORCEREBUILD = "Force build over existing buildings:\n{0} (hold {1})";
+					//public static LocString FORCEREBUILD = "Replace buildings with mismatched material:\n{0} (hold {1})";
 					public static LocString REBUILD_ACTIVE = "Active";
 					public static LocString REBUILD_INACTIVE = "Inactive";
 

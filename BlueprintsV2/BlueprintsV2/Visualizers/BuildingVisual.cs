@@ -1,13 +1,16 @@
 ﻿
 using BlueprintsV2.BlueprintData;
+using BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers;
 using BlueprintsV2.ModAPI;
 using BlueprintsV2.Tools;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using UtilLibs;
+using static STRINGS.BUILDINGS.PREFABS;
 using static STRINGS.DUPLICANTS.MODIFIERS;
 using static STRINGS.UI.SANDBOXTOOLS.SETTINGS;
 
@@ -161,7 +164,7 @@ namespace BlueprintsV2.Visualizers
 
 			if (isPlanned && buildingUnderConstruction.Def != def)
 				return;
-			if(isCOmplete && buildingComplete.Def != def)
+			if (isCOmplete && buildingComplete.Def != def)
 				return;
 
 			if (building.TryGetComponent<Rotatable>(out var rotatable))
@@ -265,7 +268,7 @@ namespace BlueprintsV2.Visualizers
 
 		void UpdateConduitConnectionBits(GameObject go)
 		{
-			if (buildingConfig.BuildingDef.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>() != null 
+			if (buildingConfig.BuildingDef.BuildingComplete.GetComponent<IHaveUtilityNetworkMgr>() != null
 				&& go.TryGetComponent<KAnimGraphTileVisualizer>(out var vis)
 				&& buildingConfig.GetConduitFlags(out var flags))
 			{
@@ -313,7 +316,7 @@ namespace BlueprintsV2.Visualizers
 			GameObject building = def.Instantiate(positionCbc, orientation, this.GetConstructionElements());
 			if (building == null)
 			{
-				SgtLogger.warning("failed to place planned building "+def.PrefabID);
+				SgtLogger.warning("failed to place planned building " + def.PrefabID);
 				return false;
 			}
 			ApplyBuildingData(building);
@@ -321,6 +324,26 @@ namespace BlueprintsV2.Visualizers
 			building.SetActive(true);
 			return true;
 		}
+
+		public virtual bool TryForceRebuild(int cellParam)
+		{
+			var visType = ModAssets.GetVisualizerType(BuildingDef);
+			var prefab = visType switch
+			{
+				VisualizerType.TILE => Assets.GetPrefab(ReplacementVisualizerMultiEntityConfig.TILE_ID),
+				VisualizerType.UTILITY => Assets.GetPrefab(ReplacementVisualizerMultiEntityConfig.UTILITY_ID),
+				_ => Assets.GetPrefab(ReplacementVisualizerMultiEntityConfig.BUILDING_ID),
+			};
+			var def = buildingConfig.BuildingDef;
+			var orientation = RotatedOrientation;
+			Vector3 positionCbc = Grid.CellToPosCBC(cellParam, def.SceneLayer);
+			var overrider = Util.KInstantiate(prefab, positionCbc);
+			var vis = overrider.GetComponent<ReplacementVis>();
+			vis.Configure(cellParam, buildingConfig, RotatedOrientation, this.GetConstructionElements());
+			vis.gameObject.SetActive(true);
+			return true;
+		}
+
 		public virtual bool TryReconstructExistingBuilding(int cellParam)
 		{
 			if (CanRebuildWithMaterial(cellParam, out var reconstructable))
@@ -358,13 +381,27 @@ namespace BlueprintsV2.Visualizers
 		{
 			if (!SameBuildingAlreadyInPlace(cellParam, out var otherConduit, false))
 				return false;
-			if(otherConduit.TryGetComponent<IHaveUtilityNetworkMgr>(out var mng) && buildingConfig.GetConduitFlags(out var ownFlags))
+			if (otherConduit.TryGetComponent<IHaveUtilityNetworkMgr>(out var mng) && buildingConfig.GetConduitFlags(out var ownFlags))
 			{
 				var manager = mng.GetNetworkManager();
 				var current = (int)manager.GetDisplayConnections(cellParam);
 				return current != ownFlags;
 			}
 			return false;
+		}
+
+		public virtual bool CanForceRebuild(int cellParam)
+		{
+			bool allowed = BlueprintState.ForceBuild && AllowedInWorld() && HasTech();
+			if (!allowed)
+				return false;
+
+			if (SameBuildingAlreadyInPlace(cellParam, out var bc, false))
+			{
+				if (bc.TryGetComponent<PrimaryElement>(out var e) && e.Element.tag == GetConstructionElements()[0])
+					return false;
+			}
+			return allowed;
 		}
 
 		public virtual bool CanRebuildWithMaterial(int cellParam, out Reconstructable reconstructable)
@@ -389,26 +426,42 @@ namespace BlueprintsV2.Visualizers
 		{
 			if (!Grid.IsValidCell(cellParam))
 				return false;
-
 			if (BlueprintState.InstantBuild && ValidCell(cellParam) && AllowedInWorld()) //sandbox insta build
 			{
-				for (int index = 0; index < buildingConfig.BuildingDef.PlacementOffsets.Length; ++index)
+				BuildingDef.RunOnArea(cell, RotatedOrientation, offset_cell =>
 				{
-					CellOffset rotatedCellOffset = Rotatable.GetRotatedCellOffset(buildingConfig.BuildingDef.PlacementOffsets[index], RotatedOrientation);
-					int offsetCell = Grid.OffsetCell(cellParam, rotatedCellOffset);
-					if (!Grid.Objects[offsetCell, (int)ObjectLayer.FoundationTile])
-						WorldDamage.Instance.DestroyCell(offsetCell);
-				}
+					if (Grid.IsSolidCell(offset_cell) && !Grid.Foundation[offset_cell])
+						SimMessages.Dig(offset_cell, skipEvent: true, backwall: false);
+				});
+
+				if (BuildingDef.ObjectLayer == ObjectLayer.Building)
+					BuildingDef.RunOnArea(cell, RotatedOrientation, offset_cell =>
+					{
+						if (!Uprootable.CanUproot(Grid.Objects[offset_cell, (int)this.BuildingDef.ObjectLayer], out Uprootable uprootable))
+							return;
+						uprootable.CompleteWork((WorkerBase)null);
+					});
+				else if (BuildingDef.ObjectLayer == ObjectLayer.Backwall)
+					BuildingDef.RunOnArea(cell, RotatedOrientation, offset_cell =>
+					{
+						if (!BackwallManager.HasBackwall(offset_cell))
+							return;
+						SimMessages.Dig(offset_cell, skipEvent: true, backwall: true);
+					});
 				return PlaceFinishedBuilding(cellParam);
 			}
 			else if (IsPlaceable(cellParam)) //regular placing
 			{
 				return PlacePlannedBuilding(cellParam);
 			}
-			else if (BlueprintState.ForceMaterialChange && CanRebuildWithMaterial(cellParam, out _)) //force rebuild with new materials
+			else if (CanForceRebuild(cellParam)) //force rebuild over existing
 			{
-				return TryReconstructExistingBuilding(cellParam);
+				return TryForceRebuild(cellParam);
 			}
+			//else if (BlueprintState.ForceBuild && CanRebuildWithMaterial(cellParam, out _)) //force rebuild with new materials
+			//{
+			//	return TryReconstructExistingBuilding(cellParam);
+			//}
 			else if (SameBuildingAlreadyInPlace(cellParam, out var bc, true) || CanApplyConduitSettings(cellParam)) //apply building settings to existing, does not apply to conduits
 			{
 				ApplyBuildingData(bc.gameObject);
@@ -479,7 +532,7 @@ namespace BlueprintsV2.Visualizers
 			}
 			else if (def.IsValidBuildLocation(visualizer, posCbc, buildingOrientation) && def.IsValidPlaceLocation(visualizer, posCbc, buildingOrientation, out string _))
 			{
-				builtItem = def.Build(cell, buildingOrientation, null, selectedElements, 293.15f, null, false, GameClock.Instance.GetTime());
+				builtItem = def.Build(cell, buildingOrientation, null, selectedElements, ModAssets.GetSpawnTemperature(def, selectedElements), null, false, GameClock.Instance.GetTime());
 			}
 
 			if (builtItem == null && def.ReplacementLayer != ObjectLayer.NumLayers)
@@ -515,12 +568,12 @@ namespace BlueprintsV2.Visualizers
 			if (!tile.TryGetComponent<SimCellOccupier>(out var SCO))
 			{
 				UnityEngine.Object.Destroy(tile);
-				return def.Build(cell, buildingOrientation, null, selectedElements, 293.15f, null, false, GameClock.Instance.GetTime());
+				return def.Build(cell, buildingOrientation, null, selectedElements, ModAssets.GetSpawnTemperature(def, selectedElements), null, false, GameClock.Instance.GetTime());
 			}
 			SCO.DestroySelf(() =>
 			{
 				UnityEngine.Object.Destroy(tile);
-				PostProcessBuild(true, pos, def.Build(cell, buildingOrientation, null, selectedElements, 293.15f, null, false, GameClock.Instance.GetTime()));
+				PostProcessBuild(true, pos, def.Build(cell, buildingOrientation, null, selectedElements, ModAssets.GetSpawnTemperature(def, selectedElements), null, false, GameClock.Instance.GetTime()));
 			});
 			return null;
 		}
@@ -592,7 +645,7 @@ namespace BlueprintsV2.Visualizers
 		public virtual Color GetVisualizerColor(int cellParam)
 		{
 			UpdateRequirementsState();
-			if (!BlueprintState.InstantBuild && BlueprintState.ForceMaterialChange && CanRebuildWithMaterial(cellParam, out _))
+			if (CanForceRebuild(cellParam))// && CanRebuildWithMaterial(cellParam, out _))
 			{
 				return ModAssets.BLUEPRINTS_COLOR_VALIDPLACEMENT;
 			}

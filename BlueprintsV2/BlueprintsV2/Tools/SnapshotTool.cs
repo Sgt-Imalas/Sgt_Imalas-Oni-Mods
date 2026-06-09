@@ -33,7 +33,7 @@ namespace BlueprintsV2.Tools
 		public SnapshotTool()
 		{
 			Instance = this;
-			BlueprintState.ForceMaterialChange = false;
+			BlueprintState.ForceBuild = false;
 		}
 
 		public static void DestroyInstance()
@@ -141,7 +141,7 @@ namespace BlueprintsV2.Tools
 		{
 			DeleteBlueprint();
 			base.OnDeactivateTool(newTool);
-			BlueprintState.ForceMaterialChange = false;
+			BlueprintState.ForceBuild = false;
 			BlueprintState.IsPlacingSnapshot = false;
 			BlueprintState.ClearVisuals();
 			snapshotBlueprint = null;
@@ -297,7 +297,7 @@ namespace BlueprintsV2.Tools
 
 		void SetForceMaterialChange(bool enabled)
 		{
-			BlueprintState.ForceMaterialChange = enabled;
+			BlueprintState.ForceBuild = enabled;
 			BlueprintState.RefreshBlueprintVisualizers(snapshotBlueprint);
 			CurrentBlueprintStateScreen.Instance.SetForceMaterialChange(enabled);
 		}

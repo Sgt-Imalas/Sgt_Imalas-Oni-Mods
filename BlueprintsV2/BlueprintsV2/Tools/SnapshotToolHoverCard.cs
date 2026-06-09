@@ -64,7 +64,7 @@ namespace BlueprintsV2.Tools
 						), Styles_Instruction.Standard);
 
 					drawer.NewLine();
-					bool forceRebuild = BlueprintState.ForceMaterialChange;
+					bool forceRebuild = BlueprintState.ForceBuild;
 					drawer.DrawText(string.Format(STRINGS.UI.TOOLS.USE_TOOL.FORCEREBUILD, (forceRebuild ? STRINGS.UI.TOOLS.USE_TOOL.REBUILD_ACTIVE : STRINGS.UI.TOOLS.USE_TOOL.REBUILD_INACTIVE), UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsToggleForce.GetKAction()) + "]")), forceRebuild ? Styles_Instruction.Selected : Styles_Instruction.Standard);
 					drawer.NewLine(44);
 				}

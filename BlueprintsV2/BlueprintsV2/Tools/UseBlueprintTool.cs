@@ -14,7 +14,7 @@ namespace BlueprintsV2.Tools
 		public UseBlueprintTool()
 		{
 			Instance = this;
-			BlueprintState.ForceMaterialChange = false;
+			BlueprintState.ForceBuild = false;
 		}
 
 		public UseBlueprintToolHoverCard HoverCard;
@@ -114,7 +114,7 @@ namespace BlueprintsV2.Tools
 		public override void OnDeactivateTool(InterfaceTool newTool)
 		{
 			base.OnDeactivateTool(newTool);
-			BlueprintState.ForceMaterialChange = false;
+			BlueprintState.ForceBuild = false;
 
 			BlueprintState.ClearVisuals();
 			ToolMenu.Instance.PriorityScreen.Show(false);
@@ -145,7 +145,7 @@ namespace BlueprintsV2.Tools
 		}
 		void SetForceMaterialChange(bool enabled)
 		{
-			BlueprintState.ForceMaterialChange = enabled;
+			BlueprintState.ForceBuild = enabled;
 			BlueprintState.RefreshBlueprintVisualizers();
 			CurrentBlueprintStateScreen.Instance.SetForceMaterialChange(enabled);
 		}
