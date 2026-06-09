@@ -38,6 +38,11 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			StartCoroutine(SetTextDelayed());
 
 		}
+		void RefreshClearButtons()
+		{
+			ClearTitle.SetInteractable(TitleInput.Text.Any());
+			ClearText.SetInteractable(TextInput.Text.Any());
+		}
 
 		IEnumerator SetTextDelayed()
 		{
@@ -52,7 +57,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 				TitleInput.SetTextFromData(title, true);
 				title = null;
 			}
-
+			RefreshClearButtons();
 		}
 
 		public override string GetTitle() => NOTETOOLSTATECONTAINER.TITLE.SIDESCREENTEXT;
@@ -102,12 +107,13 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 		{
 			val = val.Any() ? val : STRINGS.BLUEPRINTS_BLUEPRINTNOTE.TEXTNOTE_EMPTY.TITLE;
 			Target?.UpdateInfo(val);
+			RefreshClearButtons();
 		}
 		void SetText(string val)
 		{
 			val = val.Any() ? val : STRINGS.BLUEPRINTS_BLUEPRINTNOTE.TEXTNOTE_EMPTY.TEXT;
-
 			Target?.UpdateInfo(text: val);
+			RefreshClearButtons();
 		}
 		void SetColor(Color color)  => Target?.UpdateInfo(tint: color);
 		public override void ClearTarget()

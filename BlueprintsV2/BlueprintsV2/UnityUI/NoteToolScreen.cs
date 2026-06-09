@@ -72,6 +72,8 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 				go.SetActive(IsTextMode);
 			TextMode.SetIsSelected(IsTextMode);
 			ElementMode.SetIsSelected(!IsTextMode);
+			if (IsTextMode)
+				RefreshClearButtons(null);
 
 			CreateNoteTool.SetElementSelectorVisibility(!IsTextMode);
 			this.SetHasFocus(true);
@@ -96,10 +98,12 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			TitleInput = transform.Find("NoteTitleInput/Input").gameObject.AddOrGet<FInputField2>();
 			//TitleInput.OnValueChanged.AddListener(ApplyBlueprintFilter);
 			TitleInput.Text = string.Empty;
+			TitleInput.OnValueChanged.AddListener( RefreshClearButtons);
 
 			TextInput = transform.Find("NoteTextInput/Input").gameObject.AddOrGet<FInputField2>();
 			//TitleInput.OnValueChanged.AddListener(ApplyBlueprintFilter);
 			TextInput.Text = string.Empty;
+			TextInput.OnValueChanged.AddListener(RefreshClearButtons);
 
 			ClearTitle = transform.Find("NoteTitleInput/DeleteButton").gameObject.AddOrGet<FButton>();
 			ClearTitle.OnClick += () => TitleInput.Text = string.Empty;
@@ -111,6 +115,12 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			NoteModeGOs.Add(transform.Find("NoteTextInput").gameObject);
 			NoteModeGOs.Add(transform.Find("ColorPickerLabel").gameObject);
 			NoteModeGOs.Add(transform.Find("ColorPicker").gameObject);
+		}
+
+		void RefreshClearButtons(string _)
+		{
+			ClearTitle.SetInteractable(TitleInput.Text.Any());
+			ClearText.SetInteractable(TextInput.Text.Any());
 		}
 
 		internal void ApplyTextNoteInfo(TextNote info)

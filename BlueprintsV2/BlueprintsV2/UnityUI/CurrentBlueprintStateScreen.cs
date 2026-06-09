@@ -168,8 +168,8 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 
 			ForceRebuildMismatchedBuildings = transform.Find("InfoItemsContainer/ForceRebuild").gameObject.AddOrGet<FToggle>();
 			ForceRebuildMismatchedBuildings.SetCheckmark("Checkbox/Checkmark");
-			ForceRebuildMismatchedBuildings.SetOnFromCode(BlueprintState.ForceMaterialChange);
-			ForceRebuildMismatchedBuildings.OnChange += (on) => BlueprintState.ForceMaterialChange = on;
+			ForceRebuildMismatchedBuildings.SetOnFromCode(BlueprintState.ForceBuild);
+			ForceRebuildMismatchedBuildings.OnChange += (on) => BlueprintState.ForceBuild = on;
 			UIUtils.AddSimpleTooltipToObject(ForceRebuildMismatchedBuildings.gameObject, UI.FormatAsHotkey("[" + GameUtil.GetActionString(ModAssets.Actions.BlueprintsToggleForce.GetKAction()) + "]"));
 
 			EnableSnapshotMaterialOverrides = transform.Find("InfoItemsContainer/MaterialReplacement").gameObject.AddOrGet<FToggle>();
