@@ -5,6 +5,7 @@ using PeterHan.PLib.Options;
 using System;
 using System.Collections.Generic;
 using UtilLibs;
+using UtilLibs.SharedTweaks;
 
 namespace _3GuBsVisualFixesNTweaks
 {
@@ -16,6 +17,8 @@ namespace _3GuBsVisualFixesNTweaks
 			new POptions().RegisterOptions(this, typeof(Config));
 			base.OnLoad(harmony);
             SgtLogger.LogVersion(this, harmony);
+
+			TranslationFix.Register();
 		}
 		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
 		{

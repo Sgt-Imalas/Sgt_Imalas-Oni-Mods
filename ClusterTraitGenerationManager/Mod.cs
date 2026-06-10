@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using UtilLibs;
+using UtilLibs.SharedTweaks;
 
 namespace ClusterTraitGenerationManager
 {
@@ -40,6 +41,8 @@ namespace ClusterTraitGenerationManager
 			}
 			SgtLogger.log("Folders succesfully initialized");
 			SgtLogger.LogVersion(this, harmony);
+
+			TranslationFix.Register();
 		}
 		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
 		{

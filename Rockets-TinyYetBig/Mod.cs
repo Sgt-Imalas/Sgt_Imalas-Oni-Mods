@@ -41,10 +41,12 @@ namespace Rockets_TinyYetBig
 			SgtLogger.debuglog("Initialized");
 			///mod applies fix to rocketConduitports leaking
 			PRegistry.PutData("Bugs.RocketConduitPorts", true);
-			ResearchScreenBetterConnectionLines.Register();
-			AttachmentPointTagNameFix.Register();
 			ElementUtilNamespace.SgtElementUtil.ExecuteElementEnumPatches(harmony);
 
+
+			ResearchScreenBetterConnectionLines.Register();
+			AttachmentPointTagNameFix.Register();
+			TranslationFix.Register();
 		}
 		static HashSet<string> HydroCarbonRockets = [
 			"Noobs:Rocketry_Companion","TC-1000's:Hydrocarbon_Rocket_Engines"

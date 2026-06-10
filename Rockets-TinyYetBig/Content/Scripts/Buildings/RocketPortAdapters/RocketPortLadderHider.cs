@@ -21,7 +21,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 		}
 		public void UpdateLeftConnectorSymbol()
 		{
-			var fgcontroller = kbac.layering?.foregroundController;
+			
 			bool setLeftConnectorVisible = true;
 
 			var tileLeft = Grid.CellLeft(this.buildingComplete.GetCell());
@@ -37,7 +37,8 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 			{
 				ladder.UpdateLeftConnectorSymbol();
 			}
-			fgcontroller?.SetSymbolVisiblity("connector_left", setLeftConnectorVisible);
+			if (kbac.layering.layerControllers.TryGetValue(KAnim.SymbolFlags.FG, out var fgControllerBase))
+				(fgControllerBase as KBatchedAnimController)?.SetSymbolVisiblity("connector_left", setLeftConnectorVisible);
 
 		}
 		public override void OnCleanUp()

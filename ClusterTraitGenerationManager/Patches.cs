@@ -84,7 +84,6 @@ namespace ClusterTraitGenerationManager
 			public static void Postfix()
 			{
 				LocalisationUtil.Translate(typeof(STRINGS), true);
-				LocalisationUtil.FixTranslationStrings();
 			}
 		}
 

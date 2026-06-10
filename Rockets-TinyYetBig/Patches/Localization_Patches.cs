@@ -14,7 +14,6 @@ namespace Rockets_TinyYetBig
 			public static void Postfix()
 			{
 				LocalisationUtil.Translate(typeof(STRINGS), true);
-				LocalisationUtil.FixTranslationStrings();
 
 				if (Config.Instance.EthanolEngines)
 				{
