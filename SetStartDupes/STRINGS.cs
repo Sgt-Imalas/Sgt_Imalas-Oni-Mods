@@ -499,7 +499,26 @@ namespace SetStartDupes
 					public static LocString NAME = "Hermit Skin";
 					public static LocString TOOLTIP = "Adds the Hermit to the pool of selectable skins\nonce the story trait has been completed atleast once on any savegame.";
 				}
-
+				public class MINNOWSKIN
+				{
+					public static LocString NAME = "Minnow Skin";
+					public static LocString TOOLTIP = "Adds Minnow to the pool of selectable skins\nonce the aquatic initiative has been completed atleast once on any savegame.\nRequires Aquatic Planet Pack DLC.";
+				}
+				public class XP_LEVEL_CAP_MOD
+				{
+					public static LocString NAME = "Attribute Leveling Cap";
+					public static LocString TOOLTIP = "Changes the maximum level up to which duplicants can gain levels in attributes.\nIf other mods add a higher target, it will be used instead of the configured value.\nDefault Vanilla Cap: 20";
+				}
+				public class XP_LEVELING_MULTIPLIER_SKILLS
+				{
+					public static LocString NAME = "XP Multiplier Skills";
+					public static LocString TOOLTIP = "Multiply the XP gains of duplicants skill leveling (skill points level)";
+				}
+				public class XP_LEVELING_MULTIPLIER_ATTRIBUTES
+				{
+					public static LocString NAME = "XP Multiplier Attributes";
+					public static LocString TOOLTIP = "Multiply the XP gains that duplicants individual attributes.";
+				}
 			}
 			public class DUPESKILLSPOPUP
 			{

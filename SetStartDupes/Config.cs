@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using PeterHan.PLib.Options;
 using SetStartDupes.CarePackageEditor.UI;
 using System;
@@ -208,19 +209,22 @@ namespace SetStartDupes
 
 		[Option("STRINGS.UI.DSS_OPTIONS.HERMITSKIN.NAME", "STRINGS.UI.DSS_OPTIONS.HERMITSKIN.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.D_SKINSETTINGS")]
 		[JsonProperty]
-		public bool HermitSkin { get; set; }
+		public bool HermitSkin { get; set; } = true;
+		[Option("STRINGS.UI.DSS_OPTIONS.MINNOWSKIN.NAME", "STRINGS.UI.DSS_OPTIONS.MINNOWSKIN.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.D_SKINSETTINGS")]
+		[JsonProperty]
+		public bool MinnowSkin { get; set; } = true;
 
 
 		[Option("STRINGS.UI.DSS_OPTIONS.ADDANDREMOVE.NAME", "STRINGS.UI.DSS_OPTIONS.ADDANDREMOVE.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS")]
 		[JsonProperty]
-		public bool AddAndRemoveTraitsAndInterests { get; set; }
+		public bool AddAndRemoveTraitsAndInterests { get; set; } = true;
 		[Option("STRINGS.UI.DSS_OPTIONS.DIRECTATTRIBUTEEDITING.NAME", "STRINGS.UI.DSS_OPTIONS.DIRECTATTRIBUTEEDITING.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS")]
 		[JsonProperty]
 		public bool DirectAttributeEditing { get; set; } = false;
 
 		[Option("STRINGS.UI.DSS_OPTIONS.ADDVACCILATORTRAITS.NAME", "STRINGS.UI.DSS_OPTIONS.ADDVACCILATORTRAITS.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS")]
 		[JsonProperty]
-		public bool AddVaccilatorTraits { get; set; }
+		public bool AddVaccilatorTraits { get; set; } = false;
 
 		[Option("STRINGS.UI.DSS_OPTIONS.NORMALTRAITSONBIONICS.NAME", "STRINGS.UI.DSS_OPTIONS.NORMALTRAITSONBIONICS.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS")]
 		[JsonProperty]
@@ -228,15 +232,31 @@ namespace SetStartDupes
 
 		[Option("STRINGS.UI.DSS_OPTIONS.INTERESTPOINTSBALANCING.NAME", "STRINGS.UI.DSS_OPTIONS.INTERESTPOINTSBALANCING.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS")]
 		[JsonProperty]
-		public bool BalanceAddRemove { get; set; }
+		public bool BalanceAddRemove { get; set; } = true;
 
 		[Option("STRINGS.UI.DSS_OPTIONS.NOJOYREACTION.NAME", "STRINGS.UI.DSS_OPTIONS.NOJOYREACTION.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS")]
 		[JsonProperty]
-		public bool NoJoyReactions { get; set; }
+		public bool NoJoyReactions { get; set; } = false;
 
 		[Option("STRINGS.UI.DSS_OPTIONS.NOSTRESSREACTION.NAME", "STRINGS.UI.DSS_OPTIONS.NOSTRESSREACTION.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS")]
 		[JsonProperty]
-		public bool NoStressReactions { get; set; }
+		public bool NoStressReactions { get; set; } = false;
+
+
+		[Option("STRINGS.UI.DSS_OPTIONS.XP_LEVEL_CAP_MOD.NAME", "STRINGS.UI.DSS_OPTIONS.XP_LEVEL_CAP_MOD.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.E_UTIL")]
+		[JsonProperty]
+		[Limit(1, 500)]
+		public int LevelingCapIncrease { get; set; } = 20;
+
+		[Option("STRINGS.UI.DSS_OPTIONS.XP_LEVELING_MULTIPLIER_ATTRIBUTES.NAME", "STRINGS.UI.DSS_OPTIONS.XP_LEVELING_MULTIPLIER_ATTRIBUTES.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.E_UTIL")]
+		[JsonProperty]
+		[Limit(0.01f, 20f)]
+		public float LevelingXPMultiplier_Attributes { get; set; } = 1f;
+
+		[Option("STRINGS.UI.DSS_OPTIONS.XP_LEVELING_MULTIPLIER_SKILLS.NAME", "STRINGS.UI.DSS_OPTIONS.XP_LEVELING_MULTIPLIER_SKILLS.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.E_UTIL")]
+		[JsonProperty]
+		[Limit(0.01f, 20f)]
+		public float LevelingXPMultiplier_Skills { get; set; } = 1f;
 
 
 		public Config()
