@@ -12,6 +12,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 {
 	internal class BuildingWoodConsumables_Patches
 	{
+		[HarmonyPatch]
 		public class BuildingConfig_ConfigureBuildingTemplate_Patch
 		{
 			[HarmonyTargetMethods]

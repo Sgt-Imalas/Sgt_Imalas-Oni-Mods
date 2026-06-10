@@ -44,6 +44,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				if(__result.first.name == "unknown" && Assets.Sprites.TryGetValue(ui_name, out var sprite))
 				{
 					__result.first = sprite;
+					__result.second = Color.white;
 				}
 			}
 		}
