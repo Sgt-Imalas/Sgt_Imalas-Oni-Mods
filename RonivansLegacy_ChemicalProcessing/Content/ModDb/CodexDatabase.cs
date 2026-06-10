@@ -57,6 +57,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			if (template == null)
 				return;
 
+			//no duplicate entries for thee
+			if (template.HasTag(GameTags.PlantBranch))
+				return;
+
 			bool hasCrop = crop_id != null || template.PrefabID() == "SpaceTree"; //spacetree gets a non-default implementation..
 
 			if (!hasCrop)

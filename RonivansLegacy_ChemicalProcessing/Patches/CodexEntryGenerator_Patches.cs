@@ -235,12 +235,19 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		[HarmonyPatch(typeof(CodexEntryGenerator_Creatures), nameof(CodexEntryGenerator_Creatures.GenerateCreatureDescriptionContainers))]
 		public class CodexEntryGenerator_Creatures_GenerateCreatureDescriptionContainers_Patch
 		{
-			public static void Prefix(GameObject creature, List<ContentContainer> containers)
-			{
-				Diet prefabDiet = DietManager.Instance.GetPrefabDiet(creature);
-				if (prefabDiet == null)
-					return;
+			//public static void Prefix(GameObject creature, List<ContentContainer> containers)
+			//{
+			//	Diet prefabDiet = DietManager.Instance.GetPrefabDiet(creature);
+			//	if (prefabDiet == null)
+			//		return;
 
+			//}
+
+			public static void Postfix(GameObject creature, List<ContentContainer> containers)
+			{
+				var creatureID = creature.PrefabID();
+				if (creatureID == ButterflyConfig.ID)
+					CodexEntryGenerator_Elements.GenerateMadeAndUsedContainers(creatureID, containers);
 			}
 		}
 
