@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using TemplateClasses;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 {
@@ -28,6 +29,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 			GameObject prefab = EntityTemplates.CreateEntity(id, id);
 			prefab.layer = LayerMask.NameToLayer("PlaceWithDepth");
 			prefab.AddOrGet<SaveLoadRoot>();
+			//prefab.AddOrGet<RectMask2D>();
 			KBoxCollider2D kBoxCollider2D = prefab.AddOrGet<KBoxCollider2D>();
 			kBoxCollider2D.offset = new Vector2(0f, 0.5f);
 			kBoxCollider2D.size = new Vector2(1f, 1f);

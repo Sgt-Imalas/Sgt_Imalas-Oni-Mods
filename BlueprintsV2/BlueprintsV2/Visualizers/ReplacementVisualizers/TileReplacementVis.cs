@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.UI;
 using UtilLibs;
 
 namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
@@ -11,8 +12,10 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 	internal class TileReplacementVis : ReplacementVis
 	{
 		[MyCmpGet] KBoxCollider2D collider;
+		//[MyCmpGet] RectMask2D _mask;
 		static Dictionary<BuildingDef, BlockTileRenderer.RenderInfo> _tileInfos = [];
 		static Dictionary<BuildingDef, Dictionary<int, Sprite>> _Tilesprites = [];
+		static Dictionary<BuildingDef, Dictionary<int, Vector4>> _tileMasks = [];
 		protected override void UpdateVisualState()
 		{
 			base.UpdateVisualState();
@@ -28,6 +31,10 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 
 			if (!_Tilesprites.TryGetValue(def, out var spriteDict))
 				_Tilesprites[def] = spriteDict = new Dictionary<int, Sprite>();
+
+			if (!_tileMasks.TryGetValue(def, out var maskDict))			
+				_tileMasks[def] = maskDict = new Dictionary<int, Vector4>();
+			
 
 			if (!spriteDict.ContainsKey(variantInt))
 			{
@@ -69,14 +76,15 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 				bool connectedTop = (connection_bits & BlockTileRenderer.Bits.Up) != 0;
 				bool connectedBottom = (connection_bits & BlockTileRenderer.Bits.Down) != 0;
 
-				//var padding = _mask.padding;
-				//padding.x = connectedLeft ? -1 : -50;
-				//padding.y = connectedTop ? -1 : -50;
-				//padding.z = connectedRight ? -1 : -50;
-				//padding.w = connectedBottom ? -1 : -50;
+				var padding = Vector4.zero;
+				padding.x = connectedLeft ? 49 : 0;
+				padding.y = connectedTop ? 49 : 0;
+				padding.z = connectedRight ? 49 : 0;
+				padding.w = connectedBottom ? 49 : 0;
 
-				//_mask.padding = padding;
+				maskDict[variantInt] = padding;
 			}
+			//_mask.padding = maskDict[variantInt];
 			tileSpriteRenderer.sprite = spriteDict[variantInt];
 			transform.SetPosition(Grid.CellToPosCCC(cell, Grid.SceneLayer.FXFront));
 			collider.offset = Vector2.zero;
