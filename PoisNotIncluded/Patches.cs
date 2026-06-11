@@ -167,6 +167,7 @@ namespace PoisNotIncluded
 				TryRegisterDynamicGravitasBuilding("PropClock", GameStrings.PlanMenuSubcategory.Decor);
 				TryRegisterDynamicGravitasBuilding("GravitasClockSquare", GameStrings.PlanMenuSubcategory.Decor);
 				TryRegisterDynamicGravitasBuilding("PropClothesHanger", GameStrings.PlanMenuSubcategory.Storage, materialOverride: [GameTags.Metal.ToString()], altAnims: ["on", "off"]);
+				TryRegisterDynamicGravitasBuilding("PropDrySuitHanger", GameStrings.PlanMenuSubcategory.Storage, materialOverride: [GameTags.Metal.ToString()], altAnims: ["on", "off"]);
 				TryRegisterDynamicGravitasBuilding_Floor("PropDesk", GameStrings.PlanMenuSubcategory.Wellness);
 				TryRegisterDynamicGravitasBuilding_Floor("PropDlc2GeothermalCart", GameStrings.PlanMenuSubcategory.Decor);
 				TryRegisterDynamicGravitasBuilding_Floor("PropElevator", GameStrings.PlanMenuSubcategory.Decor);
@@ -219,6 +220,7 @@ namespace PoisNotIncluded
 
 				TryRegisterDynamicGravitasBuilding_Floor("PropFacilityGlobeDroors", GameStrings.PlanMenuSubcategory.Storage, decorrName: true, decorNameAffectsId: false);
 				TryRegisterDynamicGravitasBuilding_Locker("PropFacilityGlobeDroors", GameStrings.PlanMenuSubcategory.Storage);
+				TryRegisterDynamicGravitasBuilding("GravitasFridge", GameStrings.PlanMenuSubcategory.Storage, BuildLocationRule.OnFloor);
 				TryRegisterDynamicGravitasBuilding("MissileSetLocker", GameStrings.PlanMenuSubcategory.Storage, BuildLocationRule.OnFloor, altAnims: ["off", "on"]);
 				TryRegisterDynamicGravitasBuilding("PropExoSetLocker", GameStrings.PlanMenuSubcategory.Storage, BuildLocationRule.OnFloor, altAnims: ["off", "on"], decorName: true, decorNameAffectsId: false);
 				TryRegisterDynamicGravitasBuilding_Locker("PropExoSetLocker", GameStrings.PlanMenuSubcategory.Storage);
@@ -232,6 +234,7 @@ namespace PoisNotIncluded
 
 
 				TryRegisterDynamicGravitasBuilding("PropLight", GameStrings.PlanMenuSubcategory.Lights, BuildLocationRule.OnCeiling, brokenName: true, altAnims: ["off", "misc"]);
+				TryRegisterDynamicGravitasBuilding("GravitasCeilingLight", GameStrings.PlanMenuSubcategory.Lights, BuildLocationRule.OnCeiling, brokenName: true, materialOverride: TUNING.MATERIALS.REFINED_METALS);
 				TryRegisterDynamicGravitasBuilding("PropFacilityHangingLight", GameStrings.PlanMenuSubcategory.Lights, BuildLocationRule.OnCeiling, brokenName: true);
 				TryRegisterDynamicGravitasBuilding("PropFacilityChandelier", GameStrings.PlanMenuSubcategory.Lights, BuildLocationRule.OnCeiling, brokenName: true, costOverride: TUNING.BUILDINGS.CONSTRUCTION_MASS_KG.TIER4);
 
