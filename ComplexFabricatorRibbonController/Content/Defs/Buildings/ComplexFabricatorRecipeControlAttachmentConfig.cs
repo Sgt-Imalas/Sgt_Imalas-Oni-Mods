@@ -64,6 +64,7 @@ namespace ComplexFabricatorRibbonController.Content.Defs.Buildings
 		}
 		public override void DoPostConfigureComplete(GameObject go)
 		{
+			go.AddTag("Blueprints_SkipPreconfiguration");
 		}
 	}
 }
