@@ -39,9 +39,9 @@ namespace _3GuBsVisualFixesNTweaks.Scripts
 			base.OnSpawn();
 			if (kbacFG == null)
 			{
-				if (kbac.layering?.foregroundController is KBatchedAnimController kbac2)
+				if (kbac.layering?.layerControllers.TryGetValue(KAnim.SymbolFlags.FG, out var fgBase) ?? false && fgBase is KBatchedAnimController kbac2)
 				{
-					kbacFG = kbac2;
+					kbacFG = fgBase as KBatchedAnimController;
 				}
 			}
 			if (TintGeneratorMeter && TryGetComponent<EnergyGenerator>(out var generator) && generator.hasMeter)
