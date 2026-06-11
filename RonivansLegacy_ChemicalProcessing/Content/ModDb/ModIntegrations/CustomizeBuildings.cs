@@ -207,7 +207,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations
 				return;
 
 			var m_OilWellCapConfig_ConfigureBuildingTemplate = AccessTools.Method(typeof(OilWellCapConfig), nameof(OilWellCapConfig.ConfigureBuildingTemplate));
-
 			harmony.Unpatch(m_OilWellCapConfig_ConfigureBuildingTemplate, HarmonyPatchType.Postfix, "CustomizeBuildings");
 		}
 		/// <summary>

@@ -140,7 +140,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			public static void Postfix(Reactor.States __instance)
 			{
 				__instance.root.events.Clear();
-				__instance.root.EventHandler(GameHashes.OnStorageChange,(smi =>
+				__instance.root.EventHandler(GameHashes.OnStorageChange, (smi =>
 				{
 					float maxCapacity = 90f;
 					if (smi.master is LightReactor lightReactor)
@@ -191,7 +191,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			{
 
 				double radGermsBaseMultiplier = 50f;
-				if(smi.master is LightReactor lightReactor)
+				if (smi.master is LightReactor lightReactor)
 				{
 					radGermsBaseMultiplier = lightReactor.GetRadGermMultiplierRads(radGermsBaseMultiplier);
 				}
@@ -238,7 +238,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		}
 
 		static List<PrimaryElement> Coolants = new(16);
-		static float CoolantMass=0;
+		static float CoolantMass = 0;
 		static PrimaryElement GetHighestMassReactorContent(Storage reactorStorage, Tag reactorCoolantTag)
 		{
 			CacheCoolantsInStorage(reactorStorage, reactorCoolantTag);
@@ -268,7 +268,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		{
 			public int Compare(PrimaryElement x, PrimaryElement y)
 			{
-				if(Mathf.Approximately(x.Mass, y.Mass)) 
+				if (Mathf.Approximately(x.Mass, y.Mass))
 					return 0;
 				//descending
 				return -x.Mass.CompareTo(y.Mass);

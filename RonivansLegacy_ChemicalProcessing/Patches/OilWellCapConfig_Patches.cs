@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static STRINGS.BUILDINGS.PREFABS;
 
 namespace RonivansLegacy_ChemicalProcessing.Patches
 {
@@ -32,16 +33,23 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		[HarmonyPatch(typeof(OilWellCapConfig), nameof(OilWellCapConfig.ConfigureBuildingTemplate))]
 		public class OilWellCapConfig_ConfigureBuildingTemplate_Patch
 		{
+			//make sure to undo those weird customizebuildings shenanigans to have it working properly with piping
+			[HarmonyPriority(Priority.Low)]
 			public static void Postfix(GameObject go)
 			{
 				if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
 				{
+					if (go.TryGetComponent<BuildingElementEmitter>(out var customizeBuildingsShenanigans2))
+						UnityEngine.Object.DestroyImmediate(customizeBuildingsShenanigans2);
+					if (go.TryGetComponent<WaterPurifier>(out var customizeBuildingsShenanigans))
+						UnityEngine.Object.DestroyImmediate(customizeBuildingsShenanigans);
+
 					///any sort of water allowed
 					ConduitConsumer waterConsumer = go.GetComponent<ConduitConsumer>();
 					waterConsumer.capacityTag = GameTags.AnyWater;
 
 					///Produce raw natural gas instead of regular natural gas
-					OilWellCap cap = go.GetComponent<OilWellCap>();
+					OilWellCap cap = go.AddOrGet<OilWellCap>();
 					cap.gasElement = ModElements.RawNaturalGas_Gas;
 					cap.gasTemperature = 393.15f;
 					cap.addGasRate = 0;
