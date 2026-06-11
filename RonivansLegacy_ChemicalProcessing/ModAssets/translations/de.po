@@ -77,6 +77,21 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.NUCLEARPROCESSI
 msgid "Nuclear Processing"
 msgstr "Nukleare Prozessierung"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.EFFECTS.PREFERRED_COOLANT.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.EFFECTS.PREFERRED_COOLANT.NAME"
+msgid "High Performance Coolant Requirement"
+msgstr "Hochleistungskühlmittel-Anforderung"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.EFFECTS.PREFERRED_COOLANT.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.EFFECTS.PREFERRED_COOLANT.TOOLTIP"
+msgid ""
+"This refinery requires a high performance coolant like {0} to function properly.\n"
+"Using lesser coolants will result in suboptimal cooling performances, resulting in a reduction in refinement speed."
+msgstr ""
+"Diese Raffinerie benötigt ein Hochleistungskühlmittel wie {0}, um ordnungsgemäß zu funktionieren.\n"
+"Die Verwendung minderwertigerer Kühlmittel führt zu einer suboptimalen Kühlleistung, was eine Verringerung der "
+"Verarbeitungsgeschwindigkeit zur Folge hat."
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.EFFECTS.SOLID_TRANSFER_CAPACITY_LIMIT.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.EFFECTS.SOLID_TRANSFER_CAPACITY_LIMIT.NAME"
 msgid "Maximum Item Weight: {0}"
@@ -96,6 +111,21 @@ msgstr "Maximale Rohrkapazität: {0}"
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.EFFECTS.TRANSFER_CAPACITY_LIMIT.TOOLTIP"
 msgid "This pipe can transport up to {0} per second."
 msgstr "Dieses Rohr kann bis zu {0} pro Sekunde transportieren."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.AIO_ADVREFINERY_NOSUPERCOOLANT.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.AIO_ADVREFINERY_NOSUPERCOOLANT.NAME"
+msgid "Thermal Throttling active!"
+msgstr "Thermische Drosselung aktiv!"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.AIO_ADVREFINERY_NOSUPERCOOLANT.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.AIO_ADVREFINERY_NOSUPERCOOLANT.TOOLTIP"
+msgid ""
+"The use of a lower-grade coolant has caused this refinery to throttle its refinement speed.\n"
+"Changing to Supercoolant will resolve this issue."
+msgstr ""
+"Die Verwendung eines minderwertigen Kühlmittels hat dazu geführt, dass diese Raffinerie ihre Verarbeitungsgeschwindigkeit drosseln "
+"musste.\n"
+"Ein Wechsel zu Superkühlmittel wird dieses Problem beheben."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.ALGAEGROWER_LIGHTEFFICIENCY.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDING.STATUSITEMS.ALGAEGROWER_LIGHTEFFICIENCY.NAME"
@@ -812,13 +842,17 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_AD
 msgid ""
 "An advanced method for production of <link=\"REFINEDMETAL\">Refined Metals</link> from raw <link=\"RAWMETAL\">Metal Ore</link>.\n"
 "\n"
-"Significantly <link=\"HEAT\">Heats</link> and exclusively uses <link=\"SUPERCOOLANT\">Super Coolant</link> piped into it.\n"
+"Significantly <link=\"HEAT\">Heats</link> and strongly prefers <link=\"SUPERCOOLANT\">Super Coolant</link> piped into it.\n"
+"\n"
+"Using other coolants will cause the refinery to operate at reduced speeds.\n"
 "\n"
 "Duplicants will not fabricate items unless recipes are queued."
 msgstr ""
 "Produziert <link=\"REFINEDMETAL\">veredelte Metalle</link> aus rohem <link=\"RAWMETAL\">Metallerz</link>.\n"
 "\n"
-"Erzeugt außerdem stark <link=\"HEAT\">erhitztes</link><link=\"SUPERCOOLANT\">Superkühlmittel</link> .\n"
+"Nutzt präferierend <link=\"SUPERCOOLANT\">Superkühlmittel</link> und <link=\"HEAT\">erhitzt</link> dieses bei der Produktion .\n"
+"\n"
+"Bei Verwendung niederwertigerer Kühlmittel wird die Produktionsgeschwindigkeit gedrosselt.\n"
 "\n"
 "Duplikanten werden nichts herstellen, wenn kein Rezept in der Warteliste ist."
 
@@ -1155,9 +1189,6 @@ msgid "A small sized eletric boiler."
 msgstr "Ein kleiner elektrischer Dampfkessel."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ELECTRICBOILER.EFFECT
-#, fuzzy
-#| msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ELECTRICBOILER.EFFECT"
-#| msgid "Boils <link=\"WATER\">Water</link> to <link=\"STEAM\">Steam</link> at 106 °C. This particular boiler uses electricity."
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_ELECTRICBOILER.EFFECT"
 msgid "Boils <link=\"WATER\">Water</link> to <link=\"STEAM\">Steam</link> at 120°C. This particular boiler uses electricity."
 msgstr "Siedet <link=\"WATER\">Wasser</link> bei 120°C zu <link=\"STEAM\">Dampf</link> . Dieser Heizkessel wird mit Strom betrieben."
@@ -1268,16 +1299,6 @@ msgid "An industrial petrochemical plant responsible for rearranging hydrocarbon
 msgstr "Eine petrochemische Anlage, die mittels Restrukturierung von Kohlenwasserstoffmolekülen aus Naphtha Petroleum herstellt."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_NAPHTHAREFORMER.EFFECT
-#, fuzzy
-#| msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_NAPHTHAREFORMER.EFFECT"
-#| msgid ""
-#| "This second stage refinement plant is capable of further refining <link=\"NAPHTHA\">Naphtha</link>:\n"
-#| " - 45% <link=\"PETROLEUM\">Petroleum</link>\n"
-#| "- 10% <link=\"METHANE\">Natural Gas</link>\n"
-#| "- 45% <link=\"BITUMEN\">Bitumen</link>.\n"
-#| "\n"
-#| "The process requires <link=\"HYDROGEN\">Hydrogen</link> to buffer the reaction.IMPORTANT: The building require all pipes ports to be "
-#| "connected with their respective pipes in order for it to operate."
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_NAPHTHAREFORMER.EFFECT"
 msgid ""
 "This second stage refinement plant is capable of further refining <link=\"NAPHTHA\">Naphtha</link>:\n"
@@ -1294,8 +1315,9 @@ msgstr ""
 "- 10% <link=\"METHANE\">Erdas</link>\n"
 "- 45% <link=\"BITUMEN\">Bitumen</link>.\n"
 "\n"
-"Der Prozess verwendet <link=\"HYDROGEN\">Wasserstoff</link>, um die Reaktion zu puffern. ACHTUNG: Für den Betrieb des Gebäudes müssen "
-"alle Rohranschlüsse mit den entsprechenden Rohren verbunden sein."
+"Der Prozess verwendet <link=\"HYDROGEN\">Wasserstoff</link>, um die Reaktion zu puffern. \n"
+"ACHTUNG: Für den Betrieb des Gebäudes müssen alle Rohranschlüsse mit den entsprechenden Rohren verbunden sein.\n"
+"Kann oberhalb von anderen Raffinerien mit vertikalen Stützträgern gebaut werden"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_NAPHTHAREFORMER.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_NAPHTHAREFORMER.NAME"
@@ -1308,16 +1330,6 @@ msgid "An industrial petrochemical plant responsible for oxidative steam reformi
 msgstr "Eine petrochemische Anlage, die Propan durch oxidative Dämpfe in Wasserstoff umwandelt."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_PROPANEREFORMER.EFFECT
-#, fuzzy
-#| msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_PROPANEREFORMER.EFFECT"
-#| msgid ""
-#| "Reforming process of <link=\"PROPANE\">Propane</link> in to:\n"
-#| " - 60% <link=\"HYDROGEN\">Hydrogen</link>\n"
-#| "- 30% <link=\"DIRTYWATER\">Polluted Water</link> waste\n"
-#| "- 10% <link=\"CARBONDIOXIDE\">Carbon Dioxide</link> waste\n"
-#| "The process require <link=\"STEAM\">Steam</link> for the operation.\n"
-#| "\n"
-#| "IMPORTANT: The building require all pipes ports to be connected with their respective pipes in order for it to operate."
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_PROPANEREFORMER.EFFECT"
 msgid ""
 "Reforming process of <link=\"PROPANE\">Propane</link> in to:\n"
@@ -1335,7 +1347,8 @@ msgstr ""
 "- 10% <link=\"CARBONDIOXIDE\">Kohlendioxid</link> Nebenprodukt\n"
 "Dieses Verfahren erfordert <link=\"STEAM\">Dampf</link> für den Betrieb.\n"
 "\n"
-"ACHTUNG: Für den Betrieb des Gebäudes müssen alle Rohranschlüsse mit den entsprechenden Rohren verbunden sein."
+"ACHTUNG: Für den Betrieb des Gebäudes müssen alle Rohranschlüsse mit den entsprechenden Rohren verbunden sein.\n"
+"Kann oberhalb von anderen Raffinerien mit vertikalen Stützträgern gebaut werden"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_PROPANEREFORMER.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_PROPANEREFORMER.NAME"
@@ -1721,12 +1734,17 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOM_META
 msgid ""
 "THIS BUILDING HAS BEEN DEPRECATED AND CANNOT BE BUILT. INSTEAD, USE THE REGULAR <link=\"METALREFINERY\">METAL REFINERY</link>\n"
 "\n"
-"Produces <link=\"REFINEDMETAL\">Refined Metals</link> from raw <link=\"RAWMETAL\">Metal Ore</link>.\n"
+"Produces <link=\"REFINEDMETAL\">Refined Metals</link> from raw <link=\"METAL\">Metal Ore</link>.\n"
 "\n"
 "Significantly <link=\"HEAT\">Heats</link> and outputs the <link=\"ELEMENTSLIQUID\">Liquid</link> piped into it.\n"
 "\n"
 "Duplicants will not fabricate items unless recipes are queued."
 msgstr ""
+"Produziert <link=\"REFINEDMETAL\">veredelte Metalle</link> aus rohem <link=\"RAWMETAL\">Metallerz</link>.\n"
+"\n"
+"Erzeugt außerdem stark <link=\"HEAT\">erhitztes</link><link=\"SUPERCOOLANT\">Superkühlmittel</link> .\n"
+"\n"
+"Duplikanten werden nichts herstellen, wenn kein Rezept in der Warteliste ist."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOM_METALREFINERY.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CUSTOM_METALREFINERY.NAME"
@@ -2696,12 +2714,9 @@ msgid "A white colored alert light."
 msgstr "Eine weiße Warnleuchte."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LOGICALERTLIGHT.EFFECT
-#, fuzzy
-#| msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LOGICALERTLIGHT.EFFECT"
-#| msgid "A led light that serves as alert. Produces no significant luminosity."
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LOGICALERTLIGHT.EFFECT"
 msgid "A led light that serves as an alert. Produces no significant luminosity."
-msgstr "Eine LED-Leuchte, die als Warnsignal dient. Sie besitzt keine nennenswerte Leuchtkraft."
+msgstr "Eine LED-Leuchte, die als Warnsignal dienen kann. Sie besitzt keine nennenswerte Leuchtkraft."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LOGICALERTLIGHT.FACADES.LOGICALERTLIGHTGREEN.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.LOGICALERTLIGHT.FACADES.LOGICALERTLIGHTGREEN.DESC"
@@ -3725,6 +3740,11 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.WOODENMESHT
 msgid "<link=\"WOODENMESHTILE\">Wooden Mesh Tile</link>"
 msgstr "<link=\"WOODENMESHTILE\">Hölzerner Gitterziegel</link>"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.MODIFIERS.AIO_NITROGENIZED.CODEX_FORMAT
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.MODIFIERS.AIO_NITROGENIZED.CODEX_FORMAT"
+msgid "{0}% Growth Speed Boost"
+msgstr "{0}% Wachstumsbeschleunigung"
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.MODIFIERS.AIO_NITROGENIZED.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.CREATURES.MODIFIERS.AIO_NITROGENIZED.NAME"
 msgid "Atmospheric Fertilization"
@@ -4010,16 +4030,16 @@ msgstr "<link=\"ARGENTITEORE\">Silbererz</link>"
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AURICHALCITEORE.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AURICHALCITEORE.DESC"
 msgid ""
-"((Zn,Cu)<sub>5</sub>(CO<sub>3</sub>)<sub>2</sub>(OH)<sub>6</sub>) Aurichalcite is a carbonate mineral, and the main source of refined "
-"<link=\"SOLIDZINC\">Zinc</link> metal."
+"((Zn,Cu)<sub>5</sub>(CO<sub>3</sub>)<sub>2</sub>(OH)<sub>6</sub>) Aurichalcite is a carbonate mineral, mainly composed of "
+"<link=\"ZINC\">Zinc</link> and <link=\"COPPER\">Copper</link>."
 msgstr ""
 "((Zn,Cu)<sub>5</sub>(CO<sub>3</sub>)<sub>2</sub>(OH)<sub>6</sub>) Aurichalcit ist ein Karbonatmineral und die Hauptquelle für "
-"raffiniertes Metall aus <link=\"SOLIDZINC\">Zink</link>."
+"raffiniertes Metall aus <link=\"SOLIDZINC\">Zink</link> und link=\"COPPER\">Kupfer</link>."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AURICHALCITEORE.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.AURICHALCITEORE.NAME"
-msgid "<link=\"AURICHALCITEORE\">Zinc Ore</link>"
-msgstr "<link=\"AURICHALCITEORE\">Zinkerz</link>"
+msgid "<link=\"AURICHALCITEORE\">Aurichalcite</link>"
+msgstr "<link=\"AURICHALCITEORE\">Aurichalcit</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.BASEGRADESAND.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.BASEGRADESAND.DESC"
@@ -4089,20 +4109,6 @@ msgstr ""
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.CONCRETEBLOCK.NAME"
 msgid "<link=\"CONCRETEBLOCK\">Concrete Block</link>"
 msgstr "<link=\"CONCRETEBLOCK\">Betonblock</link>"
-
-#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.GALENA.DESC
-msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.GALENA.DESC"
-msgid ""
-"Galena is the natural mineral form of lead(II) sulfide (PbS).It is the most important ore of <link=\"LEAD\">Lead</link> and an important "
-"source of <link=\"SOLIDSILVER\">Silver</link>."
-msgstr ""
-"Galenit, auch Bleiglanz genannt, ist die natürliche Mineralform von Bleisulfid (PbS).Es ist ein wichtiges Erz für <link=\"LEAD\">Blei</"
-"link> und eine wichtige Quelle für <link=\"SOLIDSILVER\">Silber</link>."
-
-#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.GALENA.NAME
-msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.GALENA.NAME"
-msgid "<link=\"GALENA\">Galena</link>"
-msgstr "<link=\"GALENA\">Bleiglanz</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.HIGHGRADESAND.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.HIGHGRADESAND.DESC"
@@ -4251,20 +4257,14 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.MOLTENSLAG.NAME"
 msgid "<link=\"MOLTENSLAG\">Molten Slag</link>"
 msgstr "<link=\"MOLTENSLAG\">Geschmolzene Schlacke</link>"
 
-#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.MOLTENZINC.DESC
-msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.MOLTENZINC.DESC"
-msgid "(Zn) Zinc is a bluish-white, lustrous, diamagnetic metal in its molten state."
-msgstr "(Zn) Flüssiges Zink ist ein bläulich-weißes, glänzendes, diamagnetisches Metall, hier im geschmolzenem Zustand."
-
-#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.MOLTENZINC.NAME
-msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.MOLTENZINC.NAME"
-msgid "<link=\"MOLTENZINC\">Molten Zinc</link>"
-msgstr "<link=\"MOLTENZINC\">Geschmolzenes Zink</link>"
-
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.NITROGENGAS.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.NITROGENGAS.DESC"
-msgid "(N<sub>2</sub>) Nitrogen is a nonmetal and the lightest member of group 15 of the periodic table."
-msgstr "(N<sub>2</sub>) Stickstoff ist ein Nichtmetall und das leichteste Element der Gruppe 15 des Periodensystems."
+msgid ""
+"(N<sub>2</sub>) Nitrogen is a nonmetal and the lightest member of group 15 of the periodic table.\n"
+"Some plants benefit from growing in a nitrogenized atmosphere."
+msgstr ""
+"(N<sub>2</sub>) Stickstoff ist ein Nichtmetall und das leichteste Element der Gruppe 15 des Periodensystems.\n"
+"Einige Pflanzen gedeien besser in einer stickstoffreichen Atmosphäre."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.NITROGENGAS.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.NITROGENGAS.NAME"
@@ -4461,13 +4461,17 @@ msgstr "<link=\"SOLIDVEGEOIL\">Gefrorenes Pflanzenöl</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SOLIDZINC.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SOLIDZINC.DESC"
-msgid "(Zn) Zinc is a bluish-white, lustrous, diamagnetic metal, slightly brittle metal."
-msgstr "(Zn) Zink ist ein bläulich-weißes, glänzendes, diamagnetisches Metall, das leicht spröde ist."
+msgid ""
+"(Zn) Zinc is a bluish-white, lustrous, diamagnetic metal, slightly brittle metal.\n"
+"This modded version of the element has now been superceded by the vanilla version"
+msgstr ""
+"(Zn) Zink ist ein bläulich-weißes, glänzendes, diamagnetisches Metall, das leicht spröde ist.\n"
+"Diese Mod-Variante ist nun abgelöst vom Basisspiel-Element"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SOLIDZINC.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SOLIDZINC.NAME"
-msgid "<link=\"SOLIDZINC\">Zinc</link>"
-msgstr "<link=\"SOLIDZINC\">Zink</link>"
+msgid "<link=\"SOLIDZINC\">Zinc (Legacy)</link>"
+msgstr "<link=\"SOLIDZINC\">Zink (Alte Version)</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SOURWATER.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.SOURWATER.DESC"
@@ -4543,15 +4547,21 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.VEGEOILGAS.NAME"
 msgid "<link=\"VEGEOILGAS\">Oily Gas</link>"
 msgstr "<link=\"VEGEOILGAS\">Öliges Gas</link>"
 
-#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.ZINCGAS.DESC
-msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.ZINCGAS.DESC"
-msgid "(Zn) Zinc is a bluish-white, lustrous, diamagnetic metal in its gaseous state."
-msgstr "(Zn) Zink ist ein bläulich-weißes, glänzendes, diamagnetisches Metall in gasförmigem Zustand."
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_BIOPLASTICGASKET.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_BIOPLASTICGASKET.DESC"
+msgid ""
+"A flexible <link=\"BIOPLASTIC\">Bioplastic</link> seal, made at the <link=\"CRAFTINGTABLE\">Crafting Station</link>.\n"
+"\n"
+"Prevents unwanted <link=\"ELEMENTSLIQUID\">Liquid</link> leakage."
+msgstr ""
+"Eine flexible <link=\"BIOPLASTIC\">Bioplastik</link>dichtung, hergestellt an der <link=\"CRAFTINGTABLE\">Bastelstation</link>.\n"
+"\n"
+"Verhindert unerwünschten <link=\"ELEMENTSLIQUID\">Flüssigkeits</link>verlust."
 
-#. RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.ZINCGAS.NAME
-msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.ZINCGAS.NAME"
-msgid "<link=\"ZINCGAS\">Zinc Gas</link>"
-msgstr "<link=\"ZINCGAS\">Zinkgas</link>"
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_BIOPLASTICGASKET.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_BIOPLASTICGASKET.NAME"
+msgid "<link=\"AIOBIOPLASTICGASKET\">Bioplastic Gasket</link>"
+msgstr "<link=\"AIOBIOPLASTICGASKET\">Bioplastik-Dichtung</link>"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_BASIC.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_BASIC.DESC"
@@ -5254,6 +5264,21 @@ msgid ""
 msgstr ""
 "Der Logistik-Räumer dient als Vorstufe des normalen Räumers, hierbei wird eine reduzierte Tragfähigkeit gegen den Verzicht auf "
 "Mechatronik-Anforderungen eingetauscht."
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTICS_NOSELFHEATING.LOGISTIC_LOADER
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTICS_NOSELFHEATING.LOGISTIC_LOADER"
+msgid "No Self Heating: Logistic Loader"
+msgstr "Keine Hitzeerzeugung: Logistiklader"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTICS_NOSELFHEATING.LOGISTIC_SWEEPER
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTICS_NOSELFHEATING.LOGISTIC_SWEEPER"
+msgid "No Self Heating: Logistic Sweeper"
+msgstr "Keine Hitzeerzeugung: Logistiräumer"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTICS_NOSELFHEATING.TOOLTIP
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.LOGISTICS_NOSELFHEATING.TOOLTIP"
+msgid "Makes this building no longer produce any heat."
+msgstr "Setzt die Hitzeproduktion dieses Gebäudes auf 0."
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.MODELEMENTSWORLDGEN.NAME
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.RONIVAN_AIO_MODCONFIG.MODELEMENTSWORLDGEN.NAME"
@@ -6036,10 +6061,47 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.SPACEDESTINATIONS.COMETS.Z
 msgid "Aurichalcite Meteor"
 msgstr "Aurichalcit-Meteorit"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.TOOLTIP_ADDON_RONIVANAIO
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.TOOLTIP_ADDON_RONIVANAIO"
+msgid "<color=#ff9d8d><b>Industrial Revolution</b></color> Content"
+msgstr "<color=#ff9d8d><b>Industrielle Revolution</b></color>-Content"
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_HPA_RAIL
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.TOOLTIPS.HELP_BUILDLOCATION_HPA_RAIL"
 msgid "Obstructed by Heavy-Duty Rail"
 msgstr "Durch Schwerlastschiene blockiert"
+
+#~ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.GALENA.DESC"
+#~ msgid ""
+#~ "Galena is the natural mineral form of lead(II) sulfide (PbS).It is the most important ore of <link=\"LEAD\">Lead</link> and an "
+#~ "important source of <link=\"SOLIDSILVER\">Silver</link>."
+#~ msgstr ""
+#~ "Galenit, auch Bleiglanz genannt, ist die natürliche Mineralform von Bleisulfid (PbS).Es ist ein wichtiges Erz für <link=\"LEAD\">Blei</"
+#~ "link> und eine wichtige Quelle für <link=\"SOLIDSILVER\">Silber</link>."
+
+#~ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.GALENA.NAME"
+#~ msgid "<link=\"GALENA\">Galena</link>"
+#~ msgstr "<link=\"GALENA\">Bleiglanz</link>"
+
+#~ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.MOLTENZINC.DESC"
+#~ msgid "(Zn) Zinc is a bluish-white, lustrous, diamagnetic metal in its molten state."
+#~ msgstr "(Zn) Flüssiges Zink ist ein bläulich-weißes, glänzendes, diamagnetisches Metall, hier im geschmolzenem Zustand."
+
+#~ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.MOLTENZINC.NAME"
+#~ msgid "<link=\"MOLTENZINC\">Molten Zinc</link>"
+#~ msgstr "<link=\"MOLTENZINC\">Geschmolzenes Zink</link>"
+
+#~ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.NITROGENGAS.DESC"
+#~ msgid "(N<sub>2</sub>) Nitrogen is a nonmetal and the lightest member of group 15 of the periodic table."
+#~ msgstr "(N<sub>2</sub>) Stickstoff ist ein Nichtmetall und das leichteste Element der Gruppe 15 des Periodensystems."
+
+#~ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.ZINCGAS.DESC"
+#~ msgid "(Zn) Zinc is a bluish-white, lustrous, diamagnetic metal in its gaseous state."
+#~ msgstr "(Zn) Zink ist ein bläulich-weißes, glänzendes, diamagnetisches Metall in gasförmigem Zustand."
+
+#~ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ELEMENTS.ZINCGAS.NAME"
+#~ msgid "<link=\"ZINCGAS\">Zinc Gas</link>"
+#~ msgstr "<link=\"ZINCGAS\">Zinkgas</link>"
 
 #~ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.BUILDINGS.PREFABS.CHEMICAL_GLASSFOUNDRY.DESC"
 #~ msgid "A plasma arc furnace uses low-temperature plasma flow created by an electric arc heater (plasmatron)."
