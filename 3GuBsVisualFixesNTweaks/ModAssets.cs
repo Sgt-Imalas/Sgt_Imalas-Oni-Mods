@@ -122,8 +122,9 @@ namespace _3GuBsVisualFixesNTweaks
 				if (key.TryGetComponent<KBatchedAnimController>(out kbac))
 				{
 					CachedKBACs.Add(key, kbac);
-					if (kbac.layering?.foregroundController is KBatchedAnimController kbac2)
+					if (kbac.layering?.layerControllers.TryGetValue(KAnim.SymbolFlags.FG, out var fgBase) ?? false)
 					{
+						var kbac2 = fgBase as KBatchedAnimController;
 						CachedFGKBACs.Add(key, kbac2);
 						fg = kbac2;
 					}
