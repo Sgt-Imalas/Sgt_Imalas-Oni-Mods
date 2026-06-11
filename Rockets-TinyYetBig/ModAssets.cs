@@ -20,6 +20,8 @@ namespace Rockets_TinyYetBig
 {
     public class ModAssets
 	{
+
+		public static readonly Tag Blueprints_SkipPreconfigure = new Tag("Blueprints_SkipPreconfiguration");
 		public static readonly HashedString LOGICPORT_ROCKETPORTLOADER_ACTIVE = "ROCKETPORTLOADER_ACTIVE";
 		public class Hashes
 		{

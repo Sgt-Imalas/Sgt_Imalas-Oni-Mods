@@ -38,6 +38,9 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 			if (!API_Methods.AllowedByRules(building.Def))
 				return false;
 			var completeVersion = building.Def.BuildingComplete;
+			if (completeVersion.HasTag(API_Consts.SkipPreconfiguration))
+				return false;
+
 			try
 			{
 				var data = API_Methods.GetAdditionalBuildingData(completeVersion);

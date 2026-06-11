@@ -68,6 +68,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 			go.TryGetComponent<KPrefabID>(out var kPrefabID);
 			kPrefabID.AddTag(GameTags.NotRocketInteriorBuilding);
 			kPrefabID.AddTag(GameTags.OverlayBehindConduits);
+			kPrefabID.AddTag(ModAssets.Blueprints_SkipPreconfigure);
 			var selector = go.AddComponent<ClusterDestinationSelector>();
 			selector.assignable = true;
 			selector.requireAsteroidDestination = false;

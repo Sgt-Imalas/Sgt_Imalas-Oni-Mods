@@ -4,6 +4,7 @@ using PeterHan.PLib.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using UnityEngine;
 using static global::STRINGS.ROOMS;
@@ -25,7 +26,7 @@ namespace UtilLibs.SharedTweaks
 				var targetMethod = AccessTools.Method(typeof(Db), nameof(Db.Initialize));
 				var postfix = AccessTools.Method(typeof(TranslationFix), nameof(TranslationFix.Postfix));
 				plibInstance.Patch(targetMethod, postfix: new(postfix));
-				Debug.Log(this.GetType().ToString() + " successfully patched");
+				Debug.Log(Assembly.GetExecutingAssembly().GetName().Name + ": "+this.GetType().ToString() + " successfully patched");
 			}
 			catch (Exception e)
 			{
