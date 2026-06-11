@@ -59,7 +59,7 @@ namespace BlueprintsV2.Visualizers
 						World.Instance.blockTileRenderer.RemoveBlock(buildingConfig.BuildingDef, false, SimHashes.Void, DirtyCell);
 					}
 
-					GameObject replacementLayerObject = hasReplacementLayer ? null : Grid.Objects[DirtyCell, (int)buildingConfig.BuildingDef.ReplacementLayer];
+					GameObject replacementLayerObject = hasReplacementLayer ? Grid.Objects[DirtyCell, (int)buildingConfig.BuildingDef.ReplacementLayer] : null;
 					if (replacementLayerObject == null || replacementLayerObject == Visualizer)
 					{
 						World.Instance.blockTileRenderer.RemoveBlock(buildingConfig.BuildingDef, true, SimHashes.Void, DirtyCell);
