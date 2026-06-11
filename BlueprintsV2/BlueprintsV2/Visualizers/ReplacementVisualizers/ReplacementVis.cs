@@ -59,7 +59,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 		Coroutine check = null;
 		bool replacementInProgress = false;
 		bool markedForDeletion = false;
-		List<ObjectLayer> layersToReplace = null;
+		HashSet<ObjectLayer> layersToReplace = null;
 
 		public void Configure(int cell, BuildingConfig building, Orientation orientation, IEnumerable<Tag> elements)
 		{
@@ -94,7 +94,8 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 			if (def.ReplacementLayer != ObjectLayer.NumLayers)
 				layersToReplace.Add(def.ReplacementLayer);
 			if (def.ReplacementCandidateLayers != null && def.ReplacementCandidateLayers.Any())
-				layersToReplace.AddRange(def.ReplacementCandidateLayers);
+				foreach (var layer in def.ReplacementCandidateLayers)
+					layersToReplace.Add(layer);
 		}
 		private void OnRefreshUserMenu(object data)
 		{
@@ -177,19 +178,44 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 		}
 		void RefreshPendingDeconstructs(bool deconstruct)
 		{
-
-
 			foreach (var cell in occupiedCells)
 			{
 				foreach (var layer in layersToReplace)
 					DoDeconstrucThingsAt(cell, layer, deconstruct);
+
+				if (deconstruct)
+					CancelPlannedOccupyingBuildings(cell);
+			}
+		}
+
+		void CancelPlannedOccupyingBuildings(int cell)
+		{
+			for (int i = 0; i < (int)ObjectLayer.NumLayers; i++)
+			{
+				var existingItem = Grid.Objects[cell, i];
+				if (existingItem == null
+					|| !existingItem.TryGetComponent<Building>(out var building)
+					|| !existingItem.TryGetComponent<Constructable>(out var constructable))
+					continue;
+
+				var existingDef = building.Def;
+
+				if (layersToReplace.Contains(existingDef.ObjectLayer)
+				|| layersToReplace.Contains(existingDef.TileLayer) //defaults to numlayers which is never in the hashset
+				|| layersToReplace.Contains(existingDef.ReplacementLayer)
+				|| (existingDef.ReplacementCandidateLayers != null && existingDef.ReplacementCandidateLayers.Any(layer => layersToReplace.Contains(layer)))
+					)
+					existingItem.Trigger((int)GameHashes.Cancel);
 			}
 		}
 
 		void DoDeconstrucThingsAt(int cell, ObjectLayer layer, bool deconstruct)
 		{
 			var existingBuilding = Grid.Objects[cell, (int)layer];
-			if (existingBuilding != null && existingBuilding.TryGetComponent<Deconstructable>(out var decon))
+			if (existingBuilding == null)
+				return;
+
+			if (existingBuilding.TryGetComponent<Deconstructable>(out var decon))
 			{
 				if (!decon.allowDeconstruction && deconstruct)
 				{
@@ -199,7 +225,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 				if (deconstruct && decon.allowDeconstruction)
 				{
 					queuedDeconstructablesGlobal[decon] = this;
-						decon.QueueDeconstruction();
+					decon.QueueDeconstruction();
 				}
 				else if (!deconstruct)
 				{
