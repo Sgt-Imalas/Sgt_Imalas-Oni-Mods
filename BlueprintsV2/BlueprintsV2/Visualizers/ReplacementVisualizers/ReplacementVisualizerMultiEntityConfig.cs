@@ -36,6 +36,16 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 				prefab.AddComponent<KBatchedAnimController>().AnimFiles = [Assets.GetAnim("balloon_anim_kanim")];
 				prefab.AddOrGet<VisualizerRotatable>();
 			}
+			else
+			{
+				var renderer = prefab.AddOrGet<SpriteRenderer>();
+				var mat = new Material(Shader.Find("TextMeshPro/Sprite"))
+				{
+					renderQueue = 4501
+				};
+				mat.SetInt("_ZWrite", 1);
+				renderer.material = mat;
+			}
 			prefab.AddTag(GameTags.NotConversationTopic);
 			UnityEngine.Object.Destroy(prefab.GetComponent<Prioritizable>());
 			prefab.AddOrGet<KSelectable>();

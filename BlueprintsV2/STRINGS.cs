@@ -7,6 +7,10 @@ namespace BlueprintsV2
 {
 	public class STRINGS
 	{
+		public class BLUEPRINTS_FORCE_REPLACER
+		{
+			public static LocString PENDING_INFO = "This building plan is currently pending to be placed, as soon as the area is cleared of occupying buildings.";
+		}
 		public class BLUEPRINTS_BLUEPRINTNOTE
 		{
 			public class TEXTNOTE_EMPTY
@@ -174,7 +178,7 @@ namespace BlueprintsV2
 						{
 							public static LocString LABEL = "Rotate Right";
 						}
-					}					
+					}
 					public class FLIPACTIONS
 					{
 						public class FLIPH

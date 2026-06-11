@@ -20,7 +20,8 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components.PreviewVisualizers
 		Image TilespriteRenderer;
 
 		static Dictionary<BuildingDef, BlockTileRenderer.RenderInfo> _tileInfos = [];
-		static Dictionary<BuildingDef, Dictionary<int, Sprite>> _Tilesprites = [];
+		static Dictionary<BuildingDef, Dictionary<int, Sprite>> _tileSprites = [];
+		static Dictionary<BuildingDef, Dictionary<int, Vector4>> _tileMasks = [];
 
 		static string[,] Tiles = null;
 		static List<Vis_TilePreview> previews = new List<Vis_TilePreview>();
@@ -61,14 +62,27 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components.PreviewVisualizers
 			BlockTileRenderer.Bits connection_bits = GetConnectionBits(position.X, position.Y);
 			int variantInt = (int)connection_bits;
 
-			if (!_Tilesprites.TryGetValue(def, out var spriteDict) || !spriteDict.ContainsKey(variantInt))
+			if (!_tileSprites.TryGetValue(def, out var spriteDict))
 			{
+				_tileSprites[def] = spriteDict = new Dictionary<int, Sprite>();
+			}
+			if(!_tileMasks.TryGetValue(def, out var maskDict))
+			{
+				_tileMasks[def] = maskDict = new Dictionary<int, Vector4>();
+			}
+			if (!spriteDict.ContainsKey(variantInt))
+			{
+
 				if (!_tileInfos.TryGetValue(def, out var renderInfo))
 				{
-					renderInfo = _tileInfos[def] = new BlockTileRenderer.RenderInfo(World.Instance.blockTileRenderer, (int)def.TileLayer, LayerMask.NameToLayer("Place"), def, SimHashes.COMPOSITION); //using composition here to always get the default look, even with true tiles
+					_tileInfos[def] = renderInfo = new BlockTileRenderer.RenderInfo(World.Instance.blockTileRenderer, (int)def.TileLayer, LayerMask.NameToLayer("Place"), def, SimHashes.COMPOSITION, false); //using composition here to always get the default look, even with true tiles
 				}
+
+				SgtLogger.Assert(renderInfo, "renderInfo");
+				SgtLogger.Assert(renderInfo?.material, "renderInfo.material");
+				SgtLogger.Assert(renderInfo?.material?.mainTexture, "renderInfo.material.mainTexture");
 				//SgtLogger.l("Trying to get tile variant for " + def.Name + " with variant " + GetConnectionBits(position.X, position.Y));
-				var tex = renderInfo.material.mainTexture as Texture2D;
+				var tex = def.BlockTileAtlas.texture;
 
 				Vector4 uv = renderInfo.atlasInfo.First().uvBox; //do AddVertexInfo trimming for other tile variants
 
@@ -96,8 +110,6 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components.PreviewVisualizers
 					(vMax - vMin) * tex.height
 				);
 
-				if (spriteDict == null)
-					spriteDict = new();
 				spriteDict[variantInt] = Sprite.Create(tex, rect, new(0.5f, 0.5f), 128); // 128 ppu ;
 
 				bool connectedLeft = (connection_bits & BlockTileRenderer.Bits.Left) != 0;
@@ -111,11 +123,9 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components.PreviewVisualizers
 				padding.z = connectedRight  ? -1 : -50;
 				padding.w = connectedBottom ? -1 : -50;
 
-				_mask.padding = padding;
+				maskDict[variantInt] = padding;
 			}
-
-
-
+			_mask.padding = maskDict[variantInt];
 			TilespriteRenderer.sprite = spriteDict[variantInt];
 		}
 		public virtual BlockTileRenderer.Bits GetConnectionBits(int x, int y)

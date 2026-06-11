@@ -42,8 +42,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 
 		protected HashSet<int> occupiedCells = new();
 		protected Extents extents;
-
-		protected HashSet<Deconstructable> queuedDeconstructables = new();
+		protected static Dictionary<Deconstructable, ReplacementVis> queuedDeconstructablesGlobal = new();
 
 
 		public static VisLayerIndexer Visualizers = new();
@@ -54,11 +53,13 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 		[MyCmpReq] KSelectable selectable;
 		[MyCmpReq] InfoDescription description;
 		[MyCmpGet] protected VisualizerRotatable visRot;
+		[MyCmpGet] protected SpriteRenderer tileSpriteRenderer;
 
 		List<int> subs = [];
 		Coroutine check = null;
 		bool replacementInProgress = false;
 		bool markedForDeletion = false;
+		List<ObjectLayer> layersToReplace = null;
 
 		public void Configure(int cell, BuildingConfig building, Orientation orientation, IEnumerable<Tag> elements)
 		{
@@ -87,10 +88,17 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 					visRot.UpdateRotation();
 				}
 			}
+			layersToReplace = [def.ObjectLayer];
+			if (def.TileLayer != ObjectLayer.NumLayers)
+				layersToReplace.Add(def.TileLayer);
+			if (def.ReplacementLayer != ObjectLayer.NumLayers)
+				layersToReplace.Add(def.ReplacementLayer);
+			if (def.ReplacementCandidateLayers != null && def.ReplacementCandidateLayers.Any())
+				layersToReplace.AddRange(def.ReplacementCandidateLayers);
 		}
 		private void OnRefreshUserMenu(object data)
 		{
-			Game.Instance.userMenu.AddButton(this.gameObject, new KIconButtonMenu.ButtonInfo("action_cancel", DELETE_NOTE.NAME, DestroySelf, tooltipText: DELETE_NOTE.TOOLTIP));
+			Game.Instance.userMenu.AddButton(this.gameObject, new KIconButtonMenu.ButtonInfo("action_cancel", global::STRINGS.UI.USERMENUACTIONS.CANCELCONSTRUCTION.NAME, DestroySelf, tooltipText: global::STRINGS.UI.USERMENUACTIONS.CANCELCONSTRUCTION.TOOLTIP));
 		}
 
 		public override void OnSpawn()
@@ -98,8 +106,15 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 			base.OnSpawn();
 			InitDefAndAnim();
 			SgtLogger.l("Spawning ID: " + buildingDefId);
-			selectable.SetName("Forcebuilt " + def.Name);
-			description.description = def.Desc + "\n\n" + def.Effect;
+			var elementTag = selectedElements.Any() ? selectedElements[0] : SimHashes.COMPOSITION.CreateTag();
+			var element = ElementLoader.GetElement(elementTag);
+			string elementName = element != null ? element.nameUpperCase : global::STRINGS.UI.ELEMENTAL.AGE.UNKNOWN;
+
+			string nameWithMaterial = StringFormatter.Replace(StringFormatter.Replace(global::STRINGS.UI.TOOLS.GENERIC.BUILDING_HOVER_NAME_FMT, "{Name}", def.Name), "{Element}", elementName);
+			selectable.SetName(global::STRINGS.UI.ROLES_SCREEN.SLOTS.ASSIGNMENT_PENDING + " " + nameWithMaterial);
+
+
+			description.description = STRINGS.BLUEPRINTS_FORCE_REPLACER.PENDING_INFO + "\n\n" + def.Desc + "\n\n" + def.Effect;
 
 			if (def == null)
 			{
@@ -162,25 +177,38 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 		}
 		void RefreshPendingDeconstructs(bool deconstruct)
 		{
+
+
 			foreach (var cell in occupiedCells)
 			{
-				var existingBuilding = Grid.Objects[cell, (int)def.ObjectLayer];
-				if (existingBuilding != null && existingBuilding.TryGetComponent<Deconstructable>(out var decon))
+				foreach (var layer in layersToReplace)
+					DoDeconstrucThingsAt(cell, layer, deconstruct);
+			}
+		}
+
+		void DoDeconstrucThingsAt(int cell, ObjectLayer layer, bool deconstruct)
+		{
+			var existingBuilding = Grid.Objects[cell, (int)layer];
+			if (existingBuilding != null && existingBuilding.TryGetComponent<Deconstructable>(out var decon))
+			{
+				if (!decon.allowDeconstruction && deconstruct)
 				{
-					if (deconstruct && decon.allowDeconstruction && !decon.IsMarkedForDeconstruction())
-					{
-						SgtLogger.l("cell " + cell + " is occupied by " + Grid.Objects[cell, (int)def.ObjectLayer].name);
-						queuedDeconstructables.Add(decon);
+					this.DestroySelf();
+					return;
+				}
+				if (deconstruct && decon.allowDeconstruction)
+				{
+					queuedDeconstructablesGlobal[decon] = this;
 						decon.QueueDeconstruction();
-					}
-					else if (!deconstruct && decon.IsMarkedForDeconstruction())
-					{
-						queuedDeconstructables.Remove(decon);
+				}
+				else if (!deconstruct)
+				{
+					if (queuedDeconstructablesGlobal.TryGetValue(decon, out var registered) && registered == this)
 						decon.CancelDeconstruction();
-					}
 				}
 			}
 		}
+
 		IEnumerator DelayedPlacementCheck()
 		{
 			yield return null;
@@ -201,7 +229,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 		}
 		void OnPreoccupiedCellChanged(object data)
 		{
-			if (check != null || replacementInProgress|| markedForDeletion)
+			if (check != null || replacementInProgress || markedForDeletion)
 				return;
 			check = StartCoroutine(DelayedPlacementCheck());
 		}
@@ -372,7 +400,7 @@ namespace BlueprintsV2.BlueprintsV2.Visualizers.ReplacementVisualizers
 		}
 		public static bool MatchesDef(ReplacementVis other, Tag target)
 		{
-			return other.buildingDefId == target;
+			return other != null && other.buildingDefId == target;
 		}
 
 		internal static void CancelToolTriggered(int cell)
