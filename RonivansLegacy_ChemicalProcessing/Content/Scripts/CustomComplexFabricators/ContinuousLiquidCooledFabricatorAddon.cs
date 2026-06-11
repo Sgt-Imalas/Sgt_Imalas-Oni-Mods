@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UtilLibs;
+using UtilLibs.BuildingPortUtils;
 using static STRINGS.UI.NEWBUILDCATEGORIES;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabricators
@@ -61,7 +62,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabrica
 		public float cachedRecipeExhaust = -1f;
 		float lastOverheatDamageTime = 0;
 		StatusItem NoInput, NoOutput;
-		private Guid hasPipeOutputGuid;
+		private Guid hasPipeOutputGuid, hasPipeInputGuid;
 		Tuple<ConduitType, Tag> StatusItemData;
 		public static readonly Operational.Flag overheatedFlag = new Operational.Flag("aio_capacitorOverheated", Operational.Flag.Type.Requirement);
 		private static readonly EventSystem.IntraObjectHandler<ContinuousLiquidCooledFabricatorAddon> OnCopySettingsDelegate = new EventSystem.IntraObjectHandler<ContinuousLiquidCooledFabricatorAddon>(((component, data) => component.OnCopySettings(data)));
@@ -85,18 +86,19 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabrica
 			StatusItemData = new Tuple<ConduitType, Tag>(type, GameTags.Any);
 			NoInput = type switch
 			{
-				ConduitType.Gas => Db.Get().BuildingStatusItems.NeedGasIn,
-				ConduitType.Liquid => Db.Get().BuildingStatusItems.NeedLiquidIn,
-				ConduitType.Solid => Db.Get().BuildingStatusItems.NeedSolidIn,
+				ConduitType.Gas => ConduitDisplayPortPatching.M_NeedGasIn,
+				ConduitType.Liquid => ConduitDisplayPortPatching.M_NeedLiquidIn,
+				ConduitType.Solid => ConduitDisplayPortPatching.M_NeedSolidIn,
 				_ => throw new NotImplementedException(),
 			};
 			NoOutput = type switch
 			{
-				ConduitType.Gas => Db.Get().BuildingStatusItems.NeedGasOut,
-				ConduitType.Liquid => Db.Get().BuildingStatusItems.NeedLiquidOut,
-				ConduitType.Solid => Db.Get().BuildingStatusItems.NeedSolidOut,
+				ConduitType.Gas => ConduitDisplayPortPatching.M_NeedGasOut,
+				ConduitType.Liquid => ConduitDisplayPortPatching.M_NeedLiquidOut,
+				ConduitType.Solid => ConduitDisplayPortPatching.M_NeedSolidOut,
 				_ => throw new NotImplementedException(),
 			};
+
 
 			extents = building.GetExtents();
 			this.inputCell = this.building.GetUtilityInputCell();
@@ -185,8 +187,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.CustomComplexFabrica
 			operational.SetFlag(RequireInputs.inputConnectedFlag, inputConnected);
 			operational.SetFlag(RequireOutputs.outputConnectedFlag, inputConnected);
 
-			selectable.ToggleStatusItem(NoInput, !inputConnected, StatusItemData);
-			hasPipeOutputGuid = selectable.ToggleStatusItem(NoOutput, hasPipeOutputGuid, !outputConnected, this);
+			hasPipeInputGuid = selectable.ToggleStatusItem(NoInput, hasPipeInputGuid, !inputConnected, StatusItemData);
+			hasPipeOutputGuid = selectable.ToggleStatusItem(NoOutput, hasPipeOutputGuid, !outputConnected, StatusItemData);
 		}
 		public static float GetAmountAllowedForMerging(float maxMass , ConduitFlow.ConduitContents from, ConduitFlow.ConduitContents to, float massDesiredtoBeMoved)
 		{

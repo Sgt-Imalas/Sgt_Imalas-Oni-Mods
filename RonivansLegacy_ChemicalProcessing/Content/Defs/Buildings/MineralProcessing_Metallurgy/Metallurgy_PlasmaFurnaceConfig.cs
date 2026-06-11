@@ -2,6 +2,7 @@
 using KSerialization;
 using RonivansLegacy_ChemicalProcessing;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRandom;
 using System;
@@ -241,6 +242,7 @@ namespace Metallurgy.Buildings
 					RecipeBuilder.Create(ID, recipeTime)
 						.Input(element.tag, 500f)
 						.Input(SimHashes.Sand.CreateTag(), 40f)
+						.OverrideMainProductOutputGeneration(Rephysicalized.RephysicalizedOutput)
 						.OutputOreTransition(element.tag, 490, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)
 						.Output(ModElements.Slag_Liquid, 50, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)
 						.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
@@ -252,6 +254,7 @@ namespace Metallurgy.Buildings
 				{
 					RecipeBuilder.Create(ID, recipeTime)
 						.Input(element.tag, 500f)
+						.OverrideMainProductOutputGeneration(Rephysicalized.RephysicalizedOutput)
 						.OutputOreTransition(element.tag, 500, ComplexRecipe.RecipeElement.TemperatureOperation.Melted, true)
 						.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)
 						.SortOrder(index++)
