@@ -102,7 +102,30 @@ namespace RonivansLegacy_ChemicalProcessing
 					mod.SetEnabledForActiveDlc(false);
 					harmony.UnpatchAll(mod.staticID);
 				}
-
+			}
+			ListOilWellPatches(harmony);
+		}
+		static void ListOilWellPatches(Harmony harmony)
+		{
+			try
+			{
+				var m_OilWellCapConfig_ConfigureBuildingTemplate = AccessTools.Method(typeof(OilWellCapConfig), nameof(OilWellCapConfig.ConfigureBuildingTemplate));
+				var patches = Harmony.GetPatchInfo(m_OilWellCapConfig_ConfigureBuildingTemplate);
+				if(patches != null)
+				{
+					foreach (var patch in patches.Prefixes)
+						SgtLogger.l($"OilWell prefix patched by {patch.owner}:{patch.PatchMethod.Name}");
+					foreach (var patch in patches.Postfixes)
+						SgtLogger.l($"OilWell postfix patched by {patch.owner}:{patch.PatchMethod.Name}");
+					foreach (var patch in patches.Transpilers)
+						SgtLogger.l($"OilWell transpiler patched by {patch.owner}:{patch.PatchMethod.Name}");
+					foreach (var patch in patches.Finalizers)
+						SgtLogger.l($"OilWell finalizer patched by {patch.owner}:{patch.PatchMethod.Name}");
+				}
+			}
+			catch (Exception ex)
+			{
+				SgtLogger.l("Error while listing oil well patches:\n" + ex.Message);
 			}
 		}
 	}
