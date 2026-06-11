@@ -88,7 +88,8 @@ namespace SetStartDupes
 			Db.Get().Personalities.TryGet("MINNOW") != null &&
 			//TODO: wait for minnow unlock, then add here:
 			//Game.Instance != null && Game.Instance.unlocks != null && Game.Instance.unlocks.IsUnlocked("LonelyMinion_STORY_COMPLETE") && 
-			Config.Instance.HermitSkin);
+			//ok there is still none, whatever, set the setting default to false.
+			Config.Instance.MinnowSkin);
 		public static bool HermitTraitCompletedOnce() => (Game.Instance != null && Game.Instance.unlocks != null && Game.Instance.unlocks.IsUnlocked("LonelyMinion_STORY_COMPLETE") && Config.Instance.HermitSkin);
 
 		public static Dictionary<string, System.Func<bool>> HiddenPersonalitiesWithUnlockCondition = new Dictionary<string, Func<bool>>();

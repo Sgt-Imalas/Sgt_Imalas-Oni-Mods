@@ -75,8 +75,6 @@ namespace SetStartDupes
 		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
 		{
 			SharingIsCaringInstalled = mods.Any(mod => mod.staticID == "SharingIsCaring" && mod.IsEnabledForActiveDlc());
-
-
 			base.OnAllModsLoaded(harmony, mods);
 			CompatibilityNotifications.FixBrokenTimeout(harmony);
 			CompatibilityNotifications.FlagLoggingPrevention(mods);

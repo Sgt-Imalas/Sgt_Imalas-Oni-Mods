@@ -212,7 +212,7 @@ namespace SetStartDupes
 		public bool HermitSkin { get; set; } = true;
 		[Option("STRINGS.UI.DSS_OPTIONS.MINNOWSKIN.NAME", "STRINGS.UI.DSS_OPTIONS.MINNOWSKIN.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.D_SKINSETTINGS")]
 		[JsonProperty]
-		public bool MinnowSkin { get; set; } = true;
+		public bool MinnowSkin { get; set; } = false;
 
 
 		[Option("STRINGS.UI.DSS_OPTIONS.ADDANDREMOVE.NAME", "STRINGS.UI.DSS_OPTIONS.ADDANDREMOVE.TOOLTIP", "STRINGS.UI.DSS_OPTIONS.CATEGORIES.C_EXTRAS")]
