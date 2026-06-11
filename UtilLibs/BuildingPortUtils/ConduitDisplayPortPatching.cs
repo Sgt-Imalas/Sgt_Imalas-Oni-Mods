@@ -246,8 +246,18 @@ namespace UtilLibs.BuildingPortUtils
 			M_NeedGasOut = __instance.CreateStatusItem(M_NeedGasOut_Key, "BUILDING", "status_item_need_supply_out", StatusItem.IconType.Custom, NotificationType.BadMinor, allow_multiples: true, OverlayModes.GasConduits.ID);
 			M_NeedGasOut.resolveStringCallback = delegate (string str, object data)
 			{
-				Tuple<ConduitType, List<Tag>> tuple = (Tuple<ConduitType, List<Tag>>)data;
-				foreach (var tag in tuple.second)
+				List<Tag> tags = null;
+				if(data is Tuple<ConduitType, Tag> singularTagInfo)
+				{
+					tags = [singularTagInfo.second];
+				}
+				else if(data is Tuple<ConduitType, List<Tag>> multipleTagsInfo)
+				{
+					tags = multipleTagsInfo.second;
+				}
+				if (tags == null)
+					return str;
+				foreach (var tag in tags)
 				{
 					str += "\n";
 					str += string.Format(NEEDGASIN.LINE_ITEM, tag.ProperName());
@@ -257,8 +267,18 @@ namespace UtilLibs.BuildingPortUtils
 			M_NeedLiquidOut = __instance.CreateStatusItem(M_NeedLiquidOut_Key, "BUILDING", "status_item_need_supply_out", StatusItem.IconType.Custom, NotificationType.BadMinor, allow_multiples: true, OverlayModes.LiquidConduits.ID);
 			M_NeedLiquidOut.resolveStringCallback = delegate (string str, object data)
 			{
-				Tuple<ConduitType, List<Tag>> tuple = (Tuple<ConduitType, List<Tag>>)data;
-				foreach (var tag in tuple.second)
+				List<Tag> tags = null;
+				if (data is Tuple<ConduitType, Tag> singularTagInfo)
+				{
+					tags = [singularTagInfo.second];
+				}
+				else if (data is Tuple<ConduitType, List<Tag>> multipleTagsInfo)
+				{
+					tags = multipleTagsInfo.second;
+				}
+				if (tags == null)
+					return str;
+				foreach (var tag in tags)
 				{
 					str += "\n";
 					str += string.Format(NEEDLIQUIDIN.LINE_ITEM, tag.ProperName());
@@ -268,8 +288,18 @@ namespace UtilLibs.BuildingPortUtils
 			M_NeedSolidOut = __instance.CreateStatusItem(M_NeedSolidOut_Key, "BUILDING", "status_item_need_supply_out", StatusItem.IconType.Custom, NotificationType.BadMinor, allow_multiples: true, OverlayModes.SolidConveyor.ID);
 			M_NeedSolidOut.resolveStringCallback = delegate (string str, object data)
 			{
-				Tuple<ConduitType, List<Tag>> tuple = (Tuple<ConduitType, List<Tag>>)data;
-				foreach (var tag in tuple.second)
+				List<Tag> tags = null;
+				if (data is Tuple<ConduitType, Tag> singularTagInfo)
+				{
+					tags = [singularTagInfo.second];
+				}
+				else if (data is Tuple<ConduitType, List<Tag>> multipleTagsInfo)
+				{
+					tags = multipleTagsInfo.second;
+				}
+				if (tags == null)
+					return str;
+				foreach (var tag in tags)
 				{
 					str += "\n";
 					str += string.Format(NEEDLIQUIDIN.LINE_ITEM, tag.ProperName());
