@@ -64,7 +64,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 		}
 		void RefreshMixingTargets()
 		{
-			foreach(var sc in CustomGameSettings.Instance.MixingSettings.Values)
+			foreach (var sc in CustomGameSettings.Instance.MixingSettings.Values)
 			{
 				if (sc is MixingSettingConfig msc)
 					RefreshMixingTarget(msc);
@@ -75,7 +75,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 		{
 			if (MixingTargetButtons.TryGetValue(msc.worldgenPath, out var mtb))
 				mtb.Refresh();
-		} 
+		}
 
 		void SetMixingSettingsToggleActive(bool active)
 		{
@@ -185,7 +185,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 
 		void RefreshActiveMixingTargets()
 		{
-			foreach(var target in MixingTargetSelectables.Values)
+			foreach (var target in MixingTargetSelectables.Values)
 				target.gameObject.SetActive(false);
 
 			foreach (var TargetAllowSwitchTo in CGSMClusterManager.GetValidMixingAsteroids(CurrentMixingSettingChangeTarget))
@@ -2581,6 +2581,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			StoryTraitBlacklistEntryPrefab = StoryTraitBlacklistContainer.transform.Find("Item").gameObject;
 			StoryTraitBlacklistEntryPrefab.SetActive(false);
 
+			HashSet<string> storyTraitIds = new HashSet<string>();
 			foreach (Story Story in Db.Get().Stories.resources)
 			{
 				var entry = Util.KInstantiateUI(StoryTraitEntryPrefab, StoryTraitGridContainer);
@@ -2602,11 +2603,36 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				{
 					SelectStoryTrait(Story.Id);
 				};
-
+				storyTraitIds.Add(Story.Id);
 				entry.SetActive(true);
+			}
+			{
+				var allEntry = Util.KInstantiateUI(StoryTraitEntryPrefab, StoryTraitGridContainer);
+				UIUtils.TryChangeText(allEntry.transform, "Label", global::STRINGS.UI.TOOLS.FILTERLAYERS.ALL.NAME);
+				allEntry.transform.Find("ImageContainer/Image").gameObject.SetActive(false);
+				//var btn = allEntry.gameObject.AddOrGet<FToggleButton>();
+				FToggle toggle = allEntry.transform.Find("Background").gameObject.AddOrGet<FToggle>();
+				toggle.SetCheckmark("Checkmark");
+				toggle.OnClick +=
+				(v) =>
+				{
+					SgtLogger.l("Toggling all story traits to " + (v ? "enabled" : "disabled"));
+					var currentPlacements = CustomCluster.GetAllPlanets().Select(planet => planet.placement).ToList();
+					foreach (var storyId in storyTraitIds)
+					{
+						if (CGMWorldGenUtils.ShouldStoryBeInteractable(storyId, currentPlacements))
+							CustomGameSettings.Instance.SetStorySetting(CustomGameSettings.Instance.StorySettings[storyId], v);
+					}
+					RefreshStoryTraitsUI();
+				};
+				allEntry.transform.SetAsFirstSibling();
+				allEntry.SetActive(true);
+				StoryTraitToggleCheckmarks[ALLSTORIES] = toggle;
+				toggle.SetOnFromCode(false);
 			}
 		}
 
+		const string ALLSTORIES = "CGM_ALL";
 		Dictionary<string, FToggle> StoryTraitToggleCheckmarks = new Dictionary<string, FToggle>();
 		Dictionary<string, FToggleButton> StoryTraitToggleButtons = new Dictionary<string, FToggleButton>();
 
@@ -2626,14 +2652,20 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			StoryTraitToggle.SetInteractable(SelectedToggleable);
 			StoryTraitToggle.SetOnFromCode(StoryTraitEnabled(data.ID) || !SelectedToggleable);
 
+			bool allOn = false;
 			foreach (var state in StoryTraitToggleCheckmarks)
 			{
 				string storyId = state.Key;
+				if (storyId == ALLSTORIES)
+					continue;
 				bool Interactable = CGMWorldGenUtils.ShouldStoryBeInteractable(storyId, currentPlacements);
 
 				state.Value.SetInteractable(Interactable);
 				state.Value.SetOnFromCode(StoryTraitEnabled(storyId) || !Interactable);
+				if (!allOn && Interactable && StoryTraitEnabled(storyId))
+					allOn = true;
 			}
+			StoryTraitToggleCheckmarks[ALLSTORIES].SetOnFromCode(allOn);
 
 			foreach (var state in StoryTraitToggleButtons)
 			{
@@ -2643,7 +2675,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 			foreach (var existingPlanet in ActiveStoryTraitBlacklistToggles)
 				existingPlanet.Value.gameObject.SetActive(false);
 
-			foreach(var asteroid in CustomCluster.GetAllPlanets())
+			foreach (var asteroid in CustomCluster.GetAllPlanets())
 			{
 				bool disallowedOnAsteroid = CustomCluster.StoryTraitBlacklisted(data.ID, asteroid.id);
 
@@ -2656,7 +2688,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 				var toggle = AddOrGetStoryTraitBlacklistToggle(asteroid.id);
 				toggle.Refresh(
 					!disallowedOnAsteroid,
-					StoryTraitEnabled(data.ID) && SelectedToggleable, 
+					StoryTraitEnabled(data.ID) && SelectedToggleable,
 					(world, on) => CustomCluster.SetStorytraitBlacklisted(data.ID, asteroid.id, !on));
 			}
 
@@ -2664,7 +2696,7 @@ namespace ClusterTraitGenerationManager.UI.Screens
 		}
 		StoryTraitAsteroidBlacklistToggle AddOrGetStoryTraitBlacklistToggle(string asteroidId)
 		{
-			if(ActiveStoryTraitBlacklistToggles.TryGetValue(asteroidId, out var value))
+			if (ActiveStoryTraitBlacklistToggles.TryGetValue(asteroidId, out var value))
 			{
 				value.gameObject.SetActive(true);
 				return value;
