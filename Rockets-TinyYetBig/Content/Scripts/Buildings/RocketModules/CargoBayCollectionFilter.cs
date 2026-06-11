@@ -26,6 +26,11 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
+			if(!Config.Instance.RocketModuleUpgrades)
+			{
+				Destroy(this);
+				return;
+			}
 			map[storage] = this;
 		}
 		public override void OnCleanUp()

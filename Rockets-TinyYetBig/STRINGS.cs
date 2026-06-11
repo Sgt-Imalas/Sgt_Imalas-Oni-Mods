@@ -117,7 +117,7 @@ namespace Rockets_TinyYetBig
 			public static LocString NAME = FormatAsLink("Deep Space Research",nameof(DEEPSPACERESEARCH));
 			public static LocString UNLOCKNAME = (PRE_KEYWORD + NAME + PST_KEYWORD + " Capability");
 			public static LocString UNLOCKDESC = ("Allows " + PRE_KEYWORD + NAME + PST_KEYWORD + " points to be accumulated, unlocking higher technology tiers.\nCan be accumulated before research completion via artifact analysis.");
-			public static LocString DESC = FormatAsLink("Deep Space Research", nameof(DEEPSPACERESEARCH)) + " is conducted by analyzing the deeper meanings behind mysterious artefacts found in the vastness of deep space and by conducting deep space analysis research in the low artifical gravity of a space station.";
+			public static LocString DESC = FormatAsLink("Deep Space Research", nameof(DEEPSPACERESEARCH)) + " is conducted by analyzing the deeper meanings behind mysterious artefacts found in the vastness of deep space and by conducting deep space analysis research in the low artifical gravity of a space station.\n\nALPHA INFO: Un-dust artifacts at the artifact analysis station to unlock the initial science, THIS WILL BE CHANGED IN THE FUTURE!)";
 			public static LocString RECIPEDESC = "Unlocks new breakthroughs in space construction";
 
 		}

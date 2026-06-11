@@ -24,9 +24,9 @@ namespace Rockets_TinyYetBig.Patches
 			/// </summary>
 			/// <param name="forbiddenTags"></param>
 			/// <param name="cargoType"></param>
-			public static void Prefix(ref  List<Tag> forbiddenTags, CargoBay.CargoType cargoType)
+			public static void Prefix(ref List<Tag> forbiddenTags, CargoBay.CargoType cargoType)
 			{
-				if(forbiddenTags == null && cargoType != CargoBay.CargoType.Entities)
+				if (forbiddenTags == null && cargoType != CargoBay.CargoType.Entities)
 					forbiddenTags = new List<Tag>();
 
 				switch (cargoType)
