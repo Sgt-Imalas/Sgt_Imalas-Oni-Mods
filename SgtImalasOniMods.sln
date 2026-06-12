@@ -264,6 +264,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigUpFossils", "DigUpFossil
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotUpdateDate", "NotUpdateDate\NotUpdateDate.csproj", "{DE9E6F43-2FC1-428B-870F-775CC21E49BE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BubbleChest", "BubbleChest\BubbleChest.csproj", "{311D57C1-ACE5-41EC-ADCE-D1FB7A6C27C2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -727,6 +729,10 @@ Global
 		{DE9E6F43-2FC1-428B-870F-775CC21E49BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE9E6F43-2FC1-428B-870F-775CC21E49BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE9E6F43-2FC1-428B-870F-775CC21E49BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{311D57C1-ACE5-41EC-ADCE-D1FB7A6C27C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{311D57C1-ACE5-41EC-ADCE-D1FB7A6C27C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{311D57C1-ACE5-41EC-ADCE-D1FB7A6C27C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{311D57C1-ACE5-41EC-ADCE-D1FB7A6C27C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
