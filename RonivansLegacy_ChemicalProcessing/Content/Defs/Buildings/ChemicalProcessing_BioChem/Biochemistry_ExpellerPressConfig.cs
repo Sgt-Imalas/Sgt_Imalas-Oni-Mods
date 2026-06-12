@@ -52,8 +52,6 @@ namespace Biochemistry.Buildings
 			go.AddOrGet<BuildingComplete>().isManuallyOperated = false;
 
 
-
-
 			//----------------------------- Fabricator Section
 			ComplexFabricator oilPress = go.AddOrGet<ComplexFabricator>();
 			oilPress.sideScreenStyle = ComplexFabricatorSideScreen.StyleSetting.ListQueueHybrid;
@@ -84,7 +82,7 @@ namespace Biochemistry.Buildings
 			ConduitDispenser dispenser = go.AddOrGet<ConduitDispenser>();
 			dispenser.conduitType = ConduitType.Liquid;
 			dispenser.storage = oilPress.outStorage;
-			dispenser.elementFilter = [ModElements.VegetableOil_Liquid, SimHashes.NaturalResin, SimHashes.PhytoOil, SimHashes.Milk];
+			//dispenser.elementFilter = [ModElements.VegetableOil_Liquid, SimHashes.NaturalResin, SimHashes.PhytoOil, SimHashes.Milk, SimHashes.Latex];
 
 			var dropper = go.AddOrGet<WorldElementDropper>();
 			dropper.DropSolids = true;

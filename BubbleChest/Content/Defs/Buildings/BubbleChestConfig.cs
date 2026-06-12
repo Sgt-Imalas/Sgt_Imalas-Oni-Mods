@@ -39,6 +39,7 @@ namespace BubbleChest.Content.Defs.Buildings
 			storage.capacityKg = Capacity;
 			ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
 			conduitConsumer.conduitType = ConduitType.Gas;
+			conduitConsumer.alwaysConsume = true;
 			conduitConsumer.ignoreMinMassCheck = true;
 			conduitConsumer.keepZeroMassObject = false;
 			conduitConsumer.capacityKG = Capacity;
