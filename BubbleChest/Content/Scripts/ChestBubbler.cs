@@ -30,7 +30,7 @@ namespace BubbleChest.Content.Scripts
 
 		public void Sim200ms(float dt)
 		{
-			if (!storage.items.Any() || !Grid.IsLiquid(cell) || !operational.IsOperational)
+			if (!storage.items.Any() || !Grid.IsLiquid(cell) || !Grid.IsLiquid(cellAbove) || !operational.IsOperational)
 			{
 				kbac.Play("off");
 				return;
