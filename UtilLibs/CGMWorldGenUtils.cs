@@ -43,6 +43,14 @@ namespace UtilLibs
 
 		public static bool IsImpactorTrait(string storyId) => storyId == CGM_Impactor_StoryTrait;
 
+		#region DLC5
+
+		public static bool HasMinnowOnWorld(ProcGen.World world) => world != null && world.worldTags != null && world.worldTags.Contains("Aquatic");
+		public static bool HasMinnowOnWorld(List<string> worldTags) => worldTags != null && worldTags.Contains("Aquatic");
+		public static bool HasMinnowOnWorld(Tag[] worldTags) => worldTags != null && worldTags.Contains("Aquatic");
+
+		#endregion
+
 		#region DLC4
 		public static bool HasImpactorShower(ProcGen.World world) => world != null && world.seasons != null && HasImpactorShower(world.seasons);
 		public static bool HasImpactorShower(List<string> seasons) =>  seasons.Contains("LargeImpactor");

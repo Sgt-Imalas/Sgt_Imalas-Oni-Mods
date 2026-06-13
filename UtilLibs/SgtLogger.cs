@@ -29,7 +29,7 @@ namespace UtilLibs
 			//usermod.mod.packagedModInfo.version = usermod.assembly.GetFileVersion();
 			if (VersionChecking)
 			{
-				ModVersionCheck.VersionChecker.HandleVersionChecking(usermod, harmony);
+				//ModVersionCheck.VersionChecker.HandleVersionChecking(usermod, harmony);
 				var VersionChecker = new PVersionCheck();
 				//VersionChecker.Register(usermod, new JsonURLVersionChecker("https://raw.githubusercontent.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods/master/ModVersionData.json")); //Currently partially broken
 				VersionChecker.Register(usermod, new SteamVersionChecker());

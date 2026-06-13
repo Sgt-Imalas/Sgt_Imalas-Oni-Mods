@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using UnityEngine;
+using YamlDotNet.Serialization;
 using static ModUtil;
 using static STRINGS.SUBWORLDS;
 
@@ -488,6 +489,22 @@ namespace UtilLibs
 			throw new NotImplementedException();
 		}
 
+		public class RespectYamlIgnoreContractResolver : DefaultContractResolver
+		{
+			protected override JsonProperty CreateProperty(
+				MemberInfo member,
+				MemberSerialization memberSerialization)
+			{
+				var property = base.CreateProperty(member, memberSerialization);
+
+				if (Attribute.IsDefined(member, typeof(JsonIgnoreAttribute), true) || Attribute.IsDefined(member, typeof(YamlIgnoreAttribute), true))
+				{
+					property.Ignored = true;
+				}
+
+				return property;
+			}
+		}
 		public class IncludePrivateContractResolver : DefaultContractResolver
 		{
 			protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
@@ -495,11 +512,15 @@ namespace UtilLibs
 				// include public & non-public fields
 				var fields = type
 					.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
+					.Where(field => !Attribute.IsDefined(field, typeof(JsonIgnoreAttribute), true))
+					.Where(field => !Attribute.IsDefined(field, typeof(YamlIgnoreAttribute), true))
 					.Select(f => base.CreateProperty(f, memberSerialization));
 
 				// include public & non-public properties
 				var properties = type
 					.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
+					.Where(prop => !Attribute.IsDefined(prop, typeof(JsonIgnoreAttribute), true))
+					.Where(prop => !Attribute.IsDefined(prop, typeof(YamlIgnoreAttribute), true))
 					.Select(p => base.CreateProperty(p, memberSerialization));
 
 				var all = fields.Concat(properties).ToList();
