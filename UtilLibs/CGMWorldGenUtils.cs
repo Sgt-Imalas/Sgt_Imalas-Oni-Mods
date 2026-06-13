@@ -49,6 +49,25 @@ namespace UtilLibs
 		public static bool HasMinnowOnWorld(List<string> worldTags) => worldTags != null && worldTags.Contains("Aquatic");
 		public static bool HasMinnowOnWorld(Tag[] worldTags) => worldTags != null && worldTags.Contains("Aquatic");
 
+		public static bool HasMinnowInCluster(List<WorldPlacement> worldPlacements)
+		{
+			foreach (WorldPlacement placement in worldPlacements)
+			{
+				var world = placement.world;
+				var worldData = SettingsCache.worlds.GetWorldData(world);
+				if (worldData == null)
+				{
+					SgtLogger.warning("world " + world + " not found in world layouts");
+					continue;
+				}
+				if (HasMinnowOnWorld(worldData))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
 		#endregion
 
 		#region DLC4
