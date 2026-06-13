@@ -49,9 +49,10 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 			string clusterID;
 
-			if (CGSMClusterManager.TryGetClusterForStarter(StarterPlanet, out clusterID) && StarterPlanet.HasDlcRequirement)
+			if (CGSMClusterManager.TryGetClusterForStarter(StarterPlanet, out clusterID) && StarterPlanet.HasContentDlcRequirement)
 			{
 				SgtLogger.l("start planet is has dlc requirement, using its cluster");
+				SgtLogger.l("main dlc requirement: "+StarterPlanet.GetMainDlcID() + ", optional secondaries: " + string.Join(',', StarterPlanet.World_Internal?.requiredDlcIds ?? []));
 				return clusterID;
 			}
 			if (HasDlcRequiringContentActive(DlcManager.DLC2_ID, false) && !StarterPlanet.IsDlcRequired(DlcManager.DLC2_ID) && hasPump)

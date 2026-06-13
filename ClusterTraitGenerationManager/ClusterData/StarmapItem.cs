@@ -48,8 +48,10 @@ namespace ClusterTraitGenerationManager.ClusterData
 		[JsonIgnore] public string ModName = string.Empty;
 		[JsonIgnore] private string DlcID = "";
 
-
-		public bool HasDlcRequirement => DlcID != string.Empty || (world_internal?.GetRequiredDlcIds()?.Any(dlc => dlc != "" && dlc != DlcManager.EXPANSION1_ID) ?? false) || (world_mixing?.HasDlcRequirement ?? false);
+		/// <summary>
+		/// checking for any planet packs
+		/// </summary>
+		public bool HasContentDlcRequirement => DlcID != string.Empty && DlcID != DlcManager.EXPANSION1_ID || (world_internal?.GetRequiredDlcIds()?.Any(dlc => dlc != "" && dlc != DlcManager.EXPANSION1_ID) ?? false) || (world_mixing?.HasContentDlcRequirement ?? false);
 		public string GetMainDlcID() => DlcID;
 
 		public bool IsDlcRequired(string dlcId) => DlcID == dlcId || (world_internal?.GetRequiredDlcIds()?.Contains(dlcId) ?? false) || (world_mixing?.IsDlcRequired(dlcId) ?? false);
