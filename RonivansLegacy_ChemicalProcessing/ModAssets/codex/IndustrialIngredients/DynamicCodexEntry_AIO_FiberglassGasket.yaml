@@ -1,5 +1,5 @@
-id: "AIO_BioplasticGasket"
-title: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_BIOPLASTICGASKET.NAME
+id: "AIO_FiberglassGasket"
+title: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_FIBERGLASSGASKET.NAME
 
 contentContainers:
 #-----------------------------BIOPLASTIC
@@ -8,17 +8,17 @@ contentContainers:
 
     content:
       - !CodexText
-          stringKey: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_BIOPLASTICGASKET.NAME
+          stringKey: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_FIBERGLASSGASKET.NAME
           style: Title
       - !CodexText
-          stringKey: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_BIOPLASTICGASKET.DESC
+          stringKey: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_FIBERGLASSGASKET.DESC
           style: Body
       - !CodexDividerLine
           preferredWidth: -1
       - !CodexImage
-          batchedAnimPrefabSourceID: AIO_BioplasticGasket
+          batchedAnimPrefabSourceID: AIO_FiberglassGasket
           preferredWidth: 128
           preferredHeight: 128
 
 contentMadeAndUsed:
-  - tag: AIO_BioplasticGasket
+  - tag: AIO_FiberglassGasket

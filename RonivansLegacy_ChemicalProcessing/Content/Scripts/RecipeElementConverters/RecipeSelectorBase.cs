@@ -11,9 +11,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.RecipeElementConvert
 {
 	public abstract class RecipeSelectorBase : KMonoBehaviour, FewOptionSideScreen.IFewOptionSideScreen
 	{
-		const string AmmoniaRecipeID = "NitricAcid_from_Ammonia";
-		const string AcidRecipeID = "NitricAcid_from_SulphuricAcid";
-
 		[Serialize] protected Tag SelectedRecipe;
 		protected static StringBuilder sb = new();
 

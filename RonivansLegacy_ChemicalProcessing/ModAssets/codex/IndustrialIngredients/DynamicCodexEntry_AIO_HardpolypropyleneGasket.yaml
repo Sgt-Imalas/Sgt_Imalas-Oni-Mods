@@ -1,0 +1,24 @@
+id: "AIO_HardPolypropyleneGasket"
+title: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_HARDPOLYPROPYLENEGASKET.NAME
+
+contentContainers:
+#-----------------------------BIOPLASTIC
+  - contentLayout: Vertical
+    lockID:
+
+    content:
+      - !CodexText
+          stringKey: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_HARDPOLYPROPYLENEGASKET.NAME
+          style: Title
+      - !CodexText
+          stringKey: STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_HARDPOLYPROPYLENEGASKET.DESC
+          style: Body
+      - !CodexDividerLine
+          preferredWidth: -1
+      - !CodexImage
+          batchedAnimPrefabSourceID: AIO_HardPolypropyleneGasket
+          preferredWidth: 128
+          preferredHeight: 128
+
+contentMadeAndUsed:
+  - tag: AIO_HardPolypropyleneGasket

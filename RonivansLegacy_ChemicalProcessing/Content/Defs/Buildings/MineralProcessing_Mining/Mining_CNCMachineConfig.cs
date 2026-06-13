@@ -1,5 +1,8 @@
 ﻿using HarmonyLib;
+using PeterHan.PLib.Options;
 using RonivansLegacy_ChemicalProcessing;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Entities;
+using RonivansLegacy_ChemicalProcessing.Content.Defs.Entities.Gaskets;
 using RonivansLegacy_ChemicalProcessing.Content.Defs.Entities.Mining_DrillMk2_Consumables;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using System;
@@ -12,6 +15,7 @@ using UnityEngine;
 using UtilLibs;
 using UtilLibs.BuildingPortUtils;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS;
+using static STRINGS.BUILDING.STATUSITEMS;
 
 namespace Mineral_Processing_Mining.Buildings
 {
@@ -79,14 +83,24 @@ namespace Mineral_Processing_Mining.Buildings
 			var combustibles = ElementLoader.elements.FindAll(e => e.HasTag(GameTags.CombustibleLiquid)).Select(element => element.id);
 			var plastics = RefinementRecipeHelper.GetPlasticIds();
 
-			int pos = SimpleDrillbits_Config.CreateSimpleDrillRecipes(ID,false);
+			int pos = 0;
+			AdditionalRecipes.MakeGasketRecipe(ID, SimHashes.Polypropylene, GasketConfig.ID, global::STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.PLASTIC_GASKET.NAME, false, pos++);
+			if (DlcManager.IsContentSubscribed(DlcManager.DLC5_ID))
+				AdditionalRecipes.MakeGasketRecipe(ID, SimHashes.Rubber, RubberGasketConfig.ID, global::STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.RUBBER_GASKET.NAME, false, pos++);
+			if (Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
+				AdditionalRecipes.MakeGasketRecipe(ID, ModElements.BioPlastic_Solid, BioPlasticGasketConfig.ID, AIO_BIOPLASTICGASKET.NAME, false, pos++);
+			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+				AdditionalRecipes.MakeGasketRecipe(ID, ModElements.FiberGlass_Solid, FiberglassGasketConfig.ID, AIO_FIBERGLASSGASKET.NAME, false, pos++);
+			AdditionalRecipes.MakeGasketRecipe(ID, SimHashes.HardPolypropylene, HardPolyPropyleneGasketConfig.ID, AIO_HARDPOLYPROPYLENEGASKET.NAME, false, pos++);
+
+			pos = SimpleDrillbits_Config.CreateSimpleDrillRecipes(ID, false);
 			//===[ Basic Drill Bits ]===========================================================================================================================
 			// Ingredients: Iron - 250kg
 			//              Copper - 50kg
 			//              Petroleum - 20kg
 			// Result: Basic Drill Bits 2x
 			//==================================================================================================================================================
-			RecipeBuilder.Create(ID,50)
+			RecipeBuilder.Create(ID, 50)
 				.Input(SimHashes.Iron, 250)
 				.Input(RefinementRecipeHelper.GetStarterMetals(), 50)
 				.Input(combustibles, 20)
@@ -135,7 +149,7 @@ namespace Mineral_Processing_Mining.Buildings
 			///code did not match with description, using code version here since its a balancing change.
 			// Result: Guidance Device
 			//==================================================================================================================================================
-			
+
 			bool isBioChemistryEnabled = Config.Instance.ChemicalProcessing_BioChemistry_Enabled;
 
 			RecipeBuilder.Create(ID, 50)
@@ -149,14 +163,14 @@ namespace Mineral_Processing_Mining.Buildings
 				.SortOrder(pos++)
 				.Build();
 
-			foreach(var programmable in Mining_Drillbits_GuidanceDevice_ItemConfig.ProgrammedGuidanceModules)
+			foreach (var programmable in Mining_Drillbits_GuidanceDevice_ItemConfig.ProgrammedGuidanceModules)
 			{
 				///Make an automatic recipe for each programmed guidance module from the base one,
 				///they can be changed manually in the game, but this allows full automation
-				RecipeBuilder.Create(ID,10)
+				RecipeBuilder.Create(ID, 10)
 					.Input(Mining_Drillbits_GuidanceDevice_ItemConfig.TAG, 1)
-					.Output(programmable,1)
-					.Description(string.Format(MINING_DRILLBITS_GUIDANCEDEVICE_ITEM.RECIPE_DESC_PROGRAM,Mining_Drillbits_GuidanceDevice_ItemConfig.GetTargetName(programmable)))
+					.Output(programmable, 1)
+					.Description(string.Format(MINING_DRILLBITS_GUIDANCEDEVICE_ITEM.RECIPE_DESC_PROGRAM, Mining_Drillbits_GuidanceDevice_ItemConfig.GetTargetName(programmable)))
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
 					.SortOrder(pos++)
 					.Build();

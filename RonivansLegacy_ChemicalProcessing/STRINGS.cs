@@ -2231,6 +2231,16 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString NAME = FormatAsLink("Bioplastic Gasket", "AIO_BIOPLASTICGASKET");
 					public static LocString DESC = "A flexible " + FormatAsLink("Bioplastic", "BIOPLASTIC") + " seal, made at the " + FormatAsLink("Crafting Station", "CRAFTINGTABLE") + ".\n\nPrevents unwanted " + FormatAsLink("Liquid", "ELEMENTS_LIQUID") + " leakage.";
 				}
+				public class AIO_FIBERGLASSGASKET
+				{
+					public static LocString NAME = FormatAsLink("Fiberglass Gasket", "AIO_FIBERGLASSGASKET");
+					public static LocString DESC = "A robust " + FormatAsLink("Fiberglass", "SOLIDFIBERGLASS") + " seal, made at the " + FormatAsLink("Crafting Station", "CRAFTINGTABLE") + ".\n\nPrevents unwanted " + FormatAsLink("Liquid", "ELEMENTS_LIQUID") + " leakage.";
+				}
+				public class AIO_HARDPOLYPROPYLENEGASKET
+				{
+					public static LocString NAME = FormatAsLink("Plastium Gasket", "AIO_HARDPOLYPROPYLENEGASKET");
+					public static LocString DESC = "A robust " + FormatAsLink("Plastium", "HARDPOLYPROPYLENE") + " seal, made at the " + FormatAsLink("Crafting Station", "CRAFTINGTABLE") + ".\n\nPrevents unwanted " + FormatAsLink("Liquid", "ELEMENTS_LIQUID") + " leakage.";
+				}
 			}
 		}
 		public class UI
