@@ -46,6 +46,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
 
 			BPVisualizers.Clear();
 			Vector2I dimensions = blueprint.VisibleDimensions;
+			SgtLogger.l("Visualizing " + blueprint.FriendlyName + " with dimensions: " + dimensions);
 			//dimensions = new(dimensions.X+ 4, dimensions.Y+ 4);
 			Vis_TilePreview.ClearTileArray(dimensions);
 			float xOffset = (dimensions.X / 2f);

@@ -108,6 +108,7 @@ namespace BlueprintsV2.BlueprintData
 		/// <summary>
 		/// Map the id hashes of all tiles per coordinate of the blueprint, 
 		/// used for tile previews picking the correct variant from the tilesheet
+		/// ... at least that was the plan, its unused currently
 		/// </summary>
 		public int[,] TileMap = null;
 
@@ -173,7 +174,7 @@ namespace BlueprintsV2.BlueprintData
 				else
 				{
 					offset.x += building.IsValid() ? Mathf.Max(building.BuildingDef.WidthInCells / 2, 1) : 1;
-					if (offset.x > visibleX_min)
+					if (offset.x > visibleX_max)
 						visibleX_max = offset.x;
 				}
 			}
@@ -218,15 +219,18 @@ namespace BlueprintsV2.BlueprintData
 			if (y_max == -1)
 				y_max = 0;
 			_dimensionX = x_max - x_min; _dimensionY = y_max - y_min;
+
+			//SgtLogger.l(FriendlyName + ": x_min: " + x_min + ", x_max: " + x_max + ", y_min: " + y_min + ", y_max: " + y_max);
+			//SgtLogger.l("VISIBILITY : x_min: " + visibleX_min + ", x_max: " + visibleX_max + ", y_min: " + visibleY_min + ", y_max: " + visibleY_max);
 			VisibleDimensions = new Vector2I(visibleX_max - visibleX_min, visibleY_max - visibleY_min);
 
-			TileMap = new int[_dimensionX,_dimensionY];
-			foreach(var building in BuildingConfigurations)
-			{
-				if(!building.IsValid())
-					continue;
+			TileMap = new int[_dimensionX, _dimensionY];
+			//foreach (var building in BuildingConfigurations)
+			//{
+			//	if (!building.IsValid())
+			//		continue;
 
-			}
+			//}
 		}
 
 		/// <summary>
@@ -319,6 +323,71 @@ namespace BlueprintsV2.BlueprintData
 		}
 
 		/// <summary>
+		/// removes negative coordinates by shifting everything towards topright
+		/// </summary>
+		void SanitizePositions()
+		{
+			int minX = 0; int minY = 0;
+			void GetMin(Vector2I offset)
+			{
+				if (offset.x < minX) minX = offset.x;
+				if (offset.y < minY) minY = offset.y;
+			}
+
+			foreach (var building in BuildingConfigurations)
+			{
+				GetMin(building.Offset);
+			}
+			foreach (var digspot in DigLocations)
+			{
+				GetMin(digspot);
+			}
+			foreach (var noteSpot in WorldNotes.Keys)
+			{
+				GetMin(noteSpot);
+			}
+			foreach (var plan in PlanningToolMod_PlanDataValues.Keys)
+			{
+				GetMin(plan);
+			}
+			if (minX == 0 && minY == 0)
+				return;
+
+			var offsetAdjustment = new Vector2I(-minX, -minY);
+
+			foreach (var building in BuildingConfigurations)
+			{
+				building.Offset += offsetAdjustment;
+			}
+			List<Vector2I> newDigSpots = new List<Vector2I>();
+			foreach (var digspot in DigLocations)
+			{
+				newDigSpots.Add(digspot + offsetAdjustment);
+			}
+			DigLocations = newDigSpots;
+			Dictionary<Vector2I, BlueprintNoteData> newData = new();
+			foreach (var noteSpot in WorldNotes.Keys)
+			{
+				var data = WorldNotes[noteSpot];
+				data.Location += offsetAdjustment;
+				var pos = noteSpot + offsetAdjustment;
+				newData.Add(pos, data);
+			}
+			WorldNotes = newData;
+
+			Dictionary<Vector2I, Tuple<PlanShape, PlanColor>> newPlans = new();
+			foreach (var plan in PlanningToolMod_PlanDataValues.Keys)
+			{
+				var data = PlanningToolMod_PlanDataValues[plan];
+				var pos = plan + offsetAdjustment;
+				newPlans.Add(pos, data);
+			}
+			PlanningToolMod_PlanDataValues = newPlans;
+			SgtLogger.l("Corrected Blueprint positions of " + FriendlyName + " by " + (offsetAdjustment));
+		}
+
+
+		/// <summary>
 		/// Reads the contents of a binary-formatted file and adds its contents to the blueprint.
 		/// Kept in for compatibility with older blueprints.
 		/// </summary>
@@ -351,7 +420,6 @@ namespace BlueprintsV2.BlueprintData
 							DigLocations.Add(new Vector2I(reader.ReadInt32(), reader.ReadInt32()));
 						}
 					}
-
 					CacheCost();
 					return true;
 				}
@@ -481,6 +549,7 @@ namespace BlueprintsV2.BlueprintData
 					}
 				}
 			}
+			SanitizePositions();
 		}
 
 		public virtual void ReadJson()
@@ -810,6 +879,7 @@ namespace BlueprintsV2.BlueprintData
 
 		public void CacheCost()
 		{
+			SanitizePositions();
 			CalculateDimensions();
 			BlueprintCost.Clear();
 			CachedAbsTagCost.Clear();

@@ -107,6 +107,9 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components.PreviewVisualizers
 		{
 			base.OnSpawn();
 			kbac.Play(defaultAnim);
+
+			kbac.SetSymbolVisiblity("booster", false);
+			kbac.SetSymbolVisiblity("blue_light_bloom", false);
 		}
 	}
 }
