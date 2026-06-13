@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HarmonyLib;
+using System;
 using System.Linq;
 using UnityEngine;
 
@@ -28,6 +29,30 @@ namespace UtilLibs
 				Console.WriteLine(p + ": " + p.GetValue(s, null));
 			}
 		}
+		public static void ListAllFieldsNProps(object s)
+		{
+			Type t = s.GetType();
+			if(s is Type type)
+				t = type;
+
+			SgtLogger.l("Listing all fields of: " + s.ToString());
+			SgtLogger.l("FIELDS:");
+			foreach (var p in t.GetFields(AccessTools.all))
+			{
+				Console.WriteLine((p.IsStatic ? "STATIC: " : "LOCAL: ")+p );
+			}
+			SgtLogger.l("PROPS:");
+			foreach (var p in t.GetProperties(AccessTools.all))
+			{
+				Console.WriteLine(p);
+			}
+			SgtLogger.l("METHODS:");
+			foreach (var p in t.GetMethods(AccessTools.all))
+			{
+				Console.WriteLine((p.IsStatic ? "STATIC: " : "LOCAL: ") + p);
+			}
+		}
+
 		public static void ListAllFieldValues(object s)
 		{
 			SgtLogger.l("Listing all fields of: " + s.ToString());
