@@ -8,7 +8,7 @@ using UtilLibs;
 
 namespace ClusterTraitGenerationManager.ClusterData
 {
-	internal class SaveGameData : KMonoBehaviour
+	public class SaveGameData : KMonoBehaviour
 	{
 		[SerializeField][Serialize] public List<string> CGM_ClusterTags = new();
 
@@ -111,6 +111,20 @@ namespace ClusterTraitGenerationManager.ClusterData
 						SgtLogger.l("prehistoric asteroid found");
 						CGM_ClusterTags.Add("PrehistoricCluster");
 						CGM_ClusterTags.Add("DemoliorImperative");
+						return true;
+					}
+				}
+			}
+			if (clusterTag == "AquaticCluster" || clusterTag == "MinnowRecruitedAchievement")
+			{
+				foreach (WorldContainer planet in ClusterManager.Instance.WorldContainers)
+				{
+					if (CGMWorldGenUtils.HasMinnowOnWorld(planet.worldTags))
+					{
+						//Retroactively adding those to cgm clusters
+						SgtLogger.l("aquatic asteroid found");
+						CGM_ClusterTags.Add("AquaticCluster");
+						CGM_ClusterTags.Add("MinnowRecruitedAchievement");
 						return true;
 					}
 				}

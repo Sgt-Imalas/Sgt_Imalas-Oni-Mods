@@ -104,6 +104,20 @@ namespace ClusterTraitGenerationManager
 			return false;
 		}
 
+		public static bool IsResearchPortalTemplate(TemplateSpawnRules rules)
+		{
+			if (!rules.names.Any())
+				return false;
+			foreach(var name in rules.names)
+			{
+				if (name.Contains("research_unlock"))
+					return true;
+
+			}
+			return false;
+		}
+
+
 		private static Dictionary<string, int> _predefinedWorldCompositionOverrides;
 		public static Dictionary<string, int> PredefinedWorldCompositionOverrides
 		{

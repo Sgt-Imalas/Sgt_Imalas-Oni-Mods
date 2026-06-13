@@ -337,7 +337,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 		///Random Asteroids stay random in preview
 
-		public static ClusterLayout GenerateDummyCluster(bool spacedOut, bool ceres, bool prehistoric)
+		public static ClusterLayout GenerateDummyCluster()
 		{
 			ClusterLayout clusterLayout = new ClusterLayout();
 			clusterLayout.filePath = CustomClusterID;
@@ -346,17 +346,27 @@ namespace ClusterTraitGenerationManager.ClusterData
 			clusterLayout.worldPlacements = new List<WorldPlacement>();
 			clusterLayout.coordinatePrefix = CustomClusterIDCoordinate;
 			clusterLayout.clusterTags.Add(CustomClusterClusterTag);
-			if (ceres)
+
+			if(SaveGameData.Instance != null)
 			{
-				clusterLayout.clusterTags.Add("CeresCluster");
-				clusterLayout.clusterTags.Add("GeothermalImperative");
-				clusterLayout.clusterAudio = DlcAudioSettings[DlcManager.DLC2_ID].ToAudioSetting();
-			}
-			if (prehistoric)
-			{
-				clusterLayout.clusterTags.Add("PrehistoricCluster");
-				clusterLayout.clusterTags.Add("DemoliorImperative");
-				clusterLayout.clusterAudio = DlcAudioSettings[DlcManager.DLC4_ID].ToAudioSetting();
+				if (SaveGameData.Instance.IsClusterTagAsteroidInCluster("CeresCluster"))
+				{
+					clusterLayout.clusterTags.Add("CeresCluster");
+					clusterLayout.clusterTags.Add("GeothermalImperative");
+					clusterLayout.clusterAudio = DlcAudioSettings[DlcManager.DLC2_ID].ToAudioSetting();
+				}
+				if (SaveGameData.Instance.IsClusterTagAsteroidInCluster("PrehistoricCluster"))
+				{
+					clusterLayout.clusterTags.Add("PrehistoricCluster");
+					clusterLayout.clusterTags.Add("DemoliorImperative");
+					clusterLayout.clusterAudio = DlcAudioSettings[DlcManager.DLC4_ID].ToAudioSetting();
+				}
+				if (SaveGameData.Instance.IsClusterTagAsteroidInCluster("AquaticCluster"))
+				{
+					clusterLayout.clusterTags.Add("AquaticCluster");
+					clusterLayout.clusterTags.Add("MinnowRecruitedAchievement");
+					clusterLayout.clusterAudio = DlcAudioSettings[DlcManager.DLC5_ID].ToAudioSetting();
+				}
 			}
 			return clusterLayout;
 		}
@@ -665,6 +675,7 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 		private static void PostProcessCluster(ClusterLayout layout, List<StarmapItem> planets, StarmapItem starterPlanet)
 		{
+			///note to self that this is mostly redundant due to the fact that I swap out the target cluster in the Cluster.Save patch to swap it out with a vanilla cluster
 			SgtLogger.l("PostProcessing custom cluster");
 			if (starterPlanet != null && starterPlanet.world?.requiredDlcIds != null)
 			{
@@ -672,10 +683,25 @@ namespace ClusterTraitGenerationManager.ClusterData
 				{
 					if (DlcAudioSettings.TryGetValue(reqDlc, out var audioSettings))
 					{
-						SgtLogger.l("found custom audio setting");
+						SgtLogger.l("found custom audio setting: "+reqDlc);
 						layout.clusterAudio = audioSettings.ToAudioSetting();
 						break;
 					}
+				}
+				if(CGMWorldGenUtils.HasMinnowOnWorld(starterPlanet.world))
+				{
+					layout.startingMinions = ["KAI"];
+					SgtLogger.l("Start world is aquatic");
+				}
+				else if (CGMWorldGenUtils.HasGeothermalPump(starterPlanet.world))
+				{
+					layout.startingMinions = ["FREYJA"];
+					SgtLogger.l("Start world is frosty");
+				}
+				else if (CGMWorldGenUtils.HasImpactorShower(starterPlanet.world))
+				{
+					layout.startingMinions = ["MAYA", "HIGBY"];
+					SgtLogger.l("Start world is prehistoric");
 				}
 			}
 			foreach (var item in planets)
@@ -685,6 +711,11 @@ namespace ClusterTraitGenerationManager.ClusterData
 				{
 					SgtLogger.warning("World for item " + item.id + " is null, skipping post processing");
 					continue;
+				}
+				if (CGMWorldGenUtils.HasMinnowOnWorld(world.worldTags) && !layout.clusterTags.Contains("AquaticCluster"))
+				{
+					layout.clusterTags.Add("AquaticCluster");
+					layout.clusterTags.Add("MinnowRecruitedAchievement");
 				}
 				if (CGMWorldGenUtils.HasGeothermalPump(world) && !layout.clusterTags.Contains("CeresCluster"))
 				{

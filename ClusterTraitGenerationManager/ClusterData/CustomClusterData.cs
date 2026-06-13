@@ -40,34 +40,41 @@ namespace ClusterTraitGenerationManager.ClusterData
 			//so that it wont throw errors in these saves if the mod is removed.
 			//goes in effect if warp or outer ceres is used since those contain a heatpump
 
-			bool hasPump = CGMWorldGenUtils.HasGeothermalPumpInCluster(GetAllPlanets().Where(planet => planet.placement != null).Select(planet => planet.placement).ToList());
-			bool hasImpactor = CGMWorldGenUtils.HasImpactorShowerInCluster(GetAllPlanets().Where(planet => planet.placement != null).Select(planet => planet.placement).ToList());
+			var placements = GetAllPlanets().Where(planet => planet.placement != null).Select(planet => planet.placement).ToList();
+
+			bool hasPump = CGMWorldGenUtils.HasGeothermalPumpInCluster(placements);
+			bool hasImpactor = CGMWorldGenUtils.HasImpactorShowerInCluster(placements);
+			bool hasMinnow = CGMWorldGenUtils.HasMinnowInCluster(placements);
 			SgtLogger.l($"HasCeresAsteroid: {HasCeresAsteroid}, HasCeresStarter: {HasCeresStarter}, has pump in cluster: {hasPump}");
 
 			string clusterID;
 
-			if (CGSMClusterManager.TryGetClusterForStarter(StarterPlanet, out clusterID)
-				&& (StarterPlanet.IsDlcRequired(DlcManager.DLC2_ID) || StarterPlanet.IsDlcRequired(DlcManager.DLC4_ID)))
+			if (CGSMClusterManager.TryGetClusterForStarter(StarterPlanet, out clusterID) && StarterPlanet.HasDlcRequirement)
 			{
+				SgtLogger.l("start planet is has dlc requirement, using its cluster");
 				return clusterID;
 			}
-
-			if (StarterPlanet.IsDlcRequired(DlcManager.DLC2_ID)
-				|| HasDlcRequiringContentActive(DlcManager.DLC2_ID, false) && !StarterPlanet.IsDlcRequired(DlcManager.DLC2_ID) && hasPump)
+			if (HasDlcRequiringContentActive(DlcManager.DLC2_ID, false) && !StarterPlanet.IsDlcRequired(DlcManager.DLC2_ID) && hasPump)
 			{
-				return spacedOutActive ? "dlc2::clusters/CeresClassicCluster" : "dlc2::clusters/CeresBaseGameCluster";
+				SgtLogger.l("start planet had no dlc requirement, but geothermal pump was found, using ceres cluster");
+				return spacedOutActive ? "dlc2::clusters/CeresSpacedOutCluster" : "dlc2::clusters/CeresBaseGameCluster";
 			}
-			if (StarterPlanet.IsDlcRequired(DlcManager.DLC4_ID)
-				|| HasDlcRequiringContentActive(DlcManager.DLC4_ID, false) && !StarterPlanet.IsDlcRequired(DlcManager.DLC4_ID) && hasImpactor)
+			if (HasDlcRequiringContentActive(DlcManager.DLC4_ID, false) && !StarterPlanet.IsDlcRequired(DlcManager.DLC4_ID) && hasImpactor)
 			{
+				SgtLogger.l("start planet had no dlc requirement, but impactor asteroid was found, using prehistoric cluster");
 				return spacedOutActive ? "dlc4::clusters/PrehistoricSpacedOutCluster" : "dlc4::clusters/PrehistoricBaseGameCluster";
+			}
+			if (HasDlcRequiringContentActive(DlcManager.DLC5_ID, false) && !StarterPlanet.IsDlcRequired(DlcManager.DLC5_ID) && hasMinnow)
+			{
+				SgtLogger.l("start planet had no dlc requirement, but minnow was found, using aquatic cluster");
+				return spacedOutActive ? "dlc4::clusters/AquaticSpacedOutCluster" : "dlc4::clusters/AquaticBaseGameCluster";
 			}
 			if (CGSMClusterManager.TryGetClusterForStarter(StarterPlanet, out clusterID))
 			{
+				SgtLogger.l("no dlc requirement detected, using start asteroid cluster");
 				return clusterID;
 			}
-
-
+			SgtLogger.l("non-default starter detected, using fallback sandstone clusters");
 			return spacedOutActive ? "expansion1::clusters/SandstoneStartCluster" : "clusters/SandstoneDefault"; //final fallback
 		}
 

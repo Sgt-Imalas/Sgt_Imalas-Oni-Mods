@@ -768,7 +768,7 @@ namespace ClusterTraitGenerationManager
 			}
 			if (WarpPlanet != null && WarpPlanet.IsValid())
 			{
-				SgtLogger.l("setting warp planet from preset " + FileName);
+				//SgtLogger.l("setting warp planet from preset " + FileName);
 				if (ModAssets.FindSwapAsteroid(WarpPlanet.itemID, out var newId))
 					WarpPlanet.itemID = newId;
 				if (WarpPlanet.mixedBy.IsNullOrWhiteSpace() && ModAssets.FindOldStandaloneFragment(WarpPlanet.itemID, out newId))

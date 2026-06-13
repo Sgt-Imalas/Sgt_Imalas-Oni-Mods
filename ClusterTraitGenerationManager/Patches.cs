@@ -5,6 +5,7 @@ using ProcGen;
 using ProcGenGame;
 using rail;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -132,11 +133,32 @@ namespace ClusterTraitGenerationManager
 		[HarmonyPatch(nameof(ColonyDestinationSelectScreen.OnSpawn))]
 		public static class InsertCustomClusterOption
 		{
+			static Coroutine ActiveInitialization;
+			static KButton GearButton;
+
+			//static IEnumerator PrefixInitializer()
+			//{
+				//InitExtraWorlds.InitWorlds();
+				
+				//OverrideWorldSizeOnDataGetting.ResetCustomSizes();
+				//ActiveInitialization = null;
+				//if (GearButton != null)
+				//	GearButton.interactable = true;
+			//}
+
 			public static void Prefix(ColonyDestinationSelectScreen __instance)
 			{
-				InitExtraWorlds.InitWorlds();
-				OverrideWorldSizeOnDataGetting.ResetCustomSizes();
+				//if(ActiveInitialization == null)
+				//{
+				//	Global.Instance.StartCoroutine(PrefixInitializer());
+				//}
 
+				InitExtraWorlds.InitWorlds();
+
+				OverrideWorldSizeOnDataGetting.ResetCustomSizes();
+				ActiveInitialization = null;
+				if (GearButton != null)
+					GearButton.interactable = true;
 				CGSMClusterManager.selectScreen = __instance;
 			}
 			public static void Postfix(ColonyDestinationSelectScreen __instance)
@@ -147,7 +169,9 @@ namespace ClusterTraitGenerationManager
 
 				UIUtils.TryFindComponent<Image>(copyButton.transform, "FG").sprite = Assets.GetSprite("icon_gear");
 				UIUtils.TryFindComponent<ToolTip>(copyButton.transform, "").toolTip = STRINGS.UI.CGMBUTTON.DESC;
-				UIUtils.TryFindComponent<KButton>(copyButton.transform, "").onClick += () => CGSMClusterManager.InstantiateClusterSelectionView(__instance);
+				GearButton = UIUtils.TryFindComponent<KButton>(copyButton.transform, "");
+				GearButton.onClick += () => CGSMClusterManager.InstantiateClusterSelectionView(__instance);
+				GearButton.interactable = ActiveInitialization == null;	
 
 				LoadCustomCluster = false;
 
@@ -355,8 +379,6 @@ namespace ClusterTraitGenerationManager
 				return true;
 			}
 		}
-
-
 		/// <summary>
 		/// </summary>
 		[HarmonyPatch(typeof(MinionSelectScreen))]

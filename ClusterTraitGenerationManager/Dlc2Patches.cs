@@ -54,19 +54,7 @@ namespace ClusterTraitGenerationManager
 				SettingLevel currentQualitySetting = CustomGameSettings.Instance.GetCurrentQualitySetting((SettingConfig)CustomGameSettingConfigs.ClusterLayout);
 				if (currentQualitySetting.id == CGSMClusterManager.CustomClusterID)
 				{
-					
-					bool ceres = false, prehistoric = false;
-					if (SaveGameData.Instance != null)
-					{
-						ceres = SaveGameData.Instance.IsClusterTagAsteroidInCluster("CeresCluster");
-						prehistoric = SaveGameData.Instance.IsClusterTagAsteroidInCluster("PrehistoricCluster");
-					}
-					else
-					{
-						SgtLogger.warning("savegamedata was null!");
-					}
-
-					__result = CGSMClusterManager.GenerateDummyCluster(DlcManager.IsExpansion1Active(), ceres, prehistoric);
+					__result = CGSMClusterManager.GenerateDummyCluster();
 				}
 			}
 		}
@@ -81,18 +69,7 @@ namespace ClusterTraitGenerationManager
 				//SgtLogger.l(name, "currentQualitySetting");
 				if (name == CGSMClusterManager.CustomClusterID)
 				{
-					bool ceres = false, prehistoric = false;
-					if (SaveGameData.Instance != null)
-					{
-						ceres = SaveGameData.Instance.IsClusterTagAsteroidInCluster("CeresCluster");
-						prehistoric = SaveGameData.Instance.IsClusterTagAsteroidInCluster("PrehistoricCluster");
-					}
-					else 
-					{
-						SgtLogger.warning("savegamedata was null!");
-					}
-
-					__result = CGSMClusterManager.GenerateDummyCluster(DlcManager.IsExpansion1Active(), ceres, prehistoric);
+					__result = CGSMClusterManager.GenerateDummyCluster();
 				}
 			}
 		}
@@ -107,19 +84,7 @@ namespace ClusterTraitGenerationManager
 					SgtLogger.l(clusterDefaultName);
 					if (clusterDefaultName != CGSMClusterManager.CustomClusterID)
 						return;
-
-					bool ceres = false, prehistoric = false;
-					if (SaveGameData.Instance != null)
-					{
-						ceres = SaveGameData.Instance.IsClusterTagAsteroidInCluster("CeresCluster");
-						prehistoric = SaveGameData.Instance.IsClusterTagAsteroidInCluster("PrehistoricCluster");
-					}
-					else
-					{
-						SgtLogger.warning("savegamedata was null!");
-					}
-					SgtLogger.l("creating dummy cluster for savegame, ceres active: " + ceres);
-					SettingsCache.clusterLayouts.clusterCache[CGSMClusterManager.CustomClusterID] = CGSMClusterManager.GenerateDummyCluster(DlcManager.IsExpansion1Active(), ceres, prehistoric);
+					SettingsCache.clusterLayouts.clusterCache[CGSMClusterManager.CustomClusterID] = CGSMClusterManager.GenerateDummyCluster();
 				}
 			}
 		}
