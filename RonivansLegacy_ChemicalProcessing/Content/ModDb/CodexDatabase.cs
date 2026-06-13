@@ -85,12 +85,15 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 			if (hasCrop && !requiresLiquidAtmosphere) //these two target plants with crop component
 			{
-				var butterflyId = ButterflyConfig.ID;
-				if (prefabId != ButterflyPlantConfig.ID && DlcManager.IsContentSubscribed(DlcManager.DLC4_ID))
+				if (DlcManager.IsContentSubscribed(DlcManager.DLC4_ID))
 				{
-					ManualCodexConversionRegistry.AddConversion(butterflyId, 0, PollinationInfo.ID, 0, prefabId, 0, global::STRINGS.CODEX.POLLINATORS.TITLE
-						, inputCustomFormating: (tag, amount, continuous) => global::STRINGS.CODEX.POLLINATORS.TITLE
-						, outputCustomFormating: (tag, amount, continuous) => string.Format(STRINGS.CREATURES.MODIFIERS.AIO_NITROGENIZED.CODEX_FORMAT, ButterflyTuning.CROP_TENDED_MULTIPLIER_EFFECT * 100.0f));
+					var butterflyId = ButterflyConfig.ID;
+					if (prefabId != ButterflyPlantConfig.ID)
+					{
+						ManualCodexConversionRegistry.AddConversion(butterflyId, 0, PollinationInfo.ID, 0, prefabId, 0, global::STRINGS.CODEX.POLLINATORS.TITLE
+							, inputCustomFormating: (tag, amount, continuous) => global::STRINGS.CODEX.POLLINATORS.TITLE
+							, outputCustomFormating: (tag, amount, continuous) => string.Format(STRINGS.CREATURES.MODIFIERS.AIO_NITROGENIZED.CODEX_FORMAT, ButterflyTuning.CROP_TENDED_MULTIPLIER_EFFECT * 100.0f));
+					}
 				}
 				if (DlcManager.IsExpansion1Active() && !template.HasTag(GameTags.Hanging))
 				{

@@ -24,7 +24,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				{
 					if (element.HasTag("Antiseptic"))
 					{
-						SgtLogger.l(__instance.Name + " dies on " + element.name);
+						//SgtLogger.l(__instance.Name + " dies on " + element.name);
 						__instance.AddGrowthRule(GermUtils.DieInElement(element.id));
 					}
 				}

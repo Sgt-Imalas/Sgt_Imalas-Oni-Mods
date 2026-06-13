@@ -38,8 +38,7 @@ namespace RonivansLegacy_ChemicalProcessing
 			UtilMethods.ListAllPropertyValues(Config.Instance, (s) => s.Contains("System.Action"));
 			base.OnLoad(harmony);
 
-
-			SgtElementUtil.ExecuteElementEnumPatches(harmony);
+			TryCatchElements(harmony);
 			ConduitDisplayPortPatching.PatchAll(harmony);
 			BuildingDatabase.RegisterAdditionalBuildingElements();
 			AdditionalRecipes.RegisterTags();
@@ -58,6 +57,22 @@ namespace RonivansLegacy_ChemicalProcessing
 
 			TranslationFix.Register();
 		}
+
+		void TryCatchElements(Harmony harmony)
+		{
+			try
+			{
+				SgtElementUtil.ExecuteElementEnumPatches(harmony);
+				SgtLogger.l("Testing enum.tostring...");
+				SgtLogger.l(SimHashes.Aerogel.ToString());
+			}
+			catch (Exception ex) 
+			{
+				SgtLogger.l("This system is incompatible with elemental patches in its current state.\nIf this is a Proton app under Linux, turn off Proton.\nIf you are on windows, enable BottomUp-ASLR in your exploit protection settings to get running again.\n\nException below:");
+				Debug.LogException(ex);
+			}
+		}
+
 		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
 		{
 			base.OnAllModsLoaded(harmony, mods);
