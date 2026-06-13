@@ -17,7 +17,7 @@ namespace LogicSatellites.Buildings
 			string[] materialType = new string[2]
 			{
 				"Metal",
-				"Transparent"
+				MATERIALS.GLASS
 			};
 			EffectorValues noiseLevel = NOISE_POLLUTION.NONE;
 			EffectorValues decorValue = BUILDINGS.DECOR.BONUS.TIER0;
