@@ -25,8 +25,8 @@ namespace Rockets_TinyYetBig.Content.Defs.Buildings.DerelictPropBuildings
 			string[] materialType = new string[]
 			{
 				"RefinedMetal"
-                //,"Transparent"
-            };
+                //,MATERIALS.GLASS
+			};
 			EffectorValues noiseLevel = NOISE_POLLUTION.NONE;
 			EffectorValues _decor = BUILDINGS.DECOR.PENALTY.TIER2;
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(

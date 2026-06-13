@@ -19,7 +19,7 @@ namespace Rockets_TinyYetBig.Buildings.Utility
 			string[] materialType = new string[2]
 			{
 				"RefinedMetal",
-				"Transparent"
+				MATERIALS.GLASS
 			};
 
 			float[] MatCosts = {

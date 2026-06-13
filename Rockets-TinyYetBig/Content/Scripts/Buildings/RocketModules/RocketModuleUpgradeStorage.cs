@@ -15,7 +15,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 	{
 		[MyCmpAdd] BuildingAttachPoint attachPoint;
 		[MyCmpReq] Building building;
-		
+
 		[Serialize]
 		public List<RocketModuleUpgradeInstance> StoredModuleUpgrades = [];
 		HashSet<RocketModuleUpgrade> srcUpgrades = [];
@@ -25,16 +25,38 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 		public override void OnPrefabInit()
 		{
 			base.OnPrefabInit();
+		}
+
+		void DetachOtherModulesFromUpgradeSlot()
+		{
+			for (int i = 0; i < attachPoint.points.Length; i++)
+			{
+				var hardPoint = attachPoint.points[i];
+
+				if (hardPoint.attachableType != ModAssets.Tags.AttachmentSlotRocketModuleUpgrades)
+					continue;
+				if (hardPoint.attachedBuilding != null && hardPoint.attachedBuilding.gameObject.TryGetComponent<RocketModuleCluster>(out var rocket))
+				{
+					SgtLogger.warning("Module upgrade slot on " + gameObject.name + " tried to connect to other rocket module: " + rocket.name);
+					attachPoint.points[i].attachedBuilding = null;
+				}
+			}
+		}
+		void AddAttachmentSlot()
+		{
 			if (!attachPoint.points.Any(point => point.attachableType == ModAssets.Tags.AttachmentSlotRocketModuleUpgrades))
 			{
-				int middle = Mathf.FloorToInt(Mathf.Max(building.Def.HeightInCells-1,1) / 2f);
+				int middle = Mathf.FloorToInt(Mathf.Max(building.Def.HeightInCells - 1, 1) / 2f);
 				attachPoint.points = attachPoint.points.Append(new BuildingAttachPoint.HardPoint(new CellOffset(0, middle), ModAssets.Tags.AttachmentSlotRocketModuleUpgrades, null));
 			}
-			this.attachPoint.TryAttachEmptyHardpoints();
+			attachPoint.TryAttachEmptyHardpoints();
+			DetachOtherModulesFromUpgradeSlot();
 		}
 
 		public override void OnSpawn()
 		{
+			if(Config.Instance.RocketModuleUpgrades)
+				AddAttachmentSlot();
 			storages[attachPoint] = this;
 			base.OnSpawn();
 			DetermineAllowedUpgrades();
@@ -57,7 +79,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 		public bool UpgradeAllowed(string upgradeId, out string failure)
 		{
 			failure = string.Empty;
-			if(!ModuleUpgradeDatabase.TryGetUpgrade(upgradeId, out var upgrade))
+			if (!ModuleUpgradeDatabase.TryGetUpgrade(upgradeId, out var upgrade))
 			{
 				failure = STRINGS.UI.RTB_ROCKET_UPGRADES.FAILURE_REASONS.INVALID;
 				return false;
@@ -71,7 +93,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 				failure = STRINGS.UI.RTB_ROCKET_UPGRADES.FAILURE_REASONS.DUPLICATE;
 				return false;
 			}
-			if(!allowedUpgrades.Contains(upgrade))
+			if (!allowedUpgrades.Contains(upgrade))
 			{
 				failure = STRINGS.UI.RTB_ROCKET_UPGRADES.FAILURE_REASONS.INCOMPATIBLE;
 				return false;
@@ -83,10 +105,12 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 		void LoadUpgrades()
 		{
 			SgtLogger.l("Upgrade Count: " + StoredModuleUpgrades.Count);
+			if (!Config.Instance.RocketModuleUpgrades)
+				return;
 			foreach (RocketModuleUpgradeInstance upgrade in StoredModuleUpgrades)
 			{
-				
-				SgtLogger.l("Stored: " + upgrade.UpgradeId+" cost: "+string.Join(',', upgrade.SerializedMaterials) +" -> "+ string.Join(',', upgrade.SerializedAmounts));
+
+				SgtLogger.l("Stored: " + upgrade.UpgradeId + " cost: " + string.Join(',', upgrade.SerializedMaterials) + " -> " + string.Join(',', upgrade.SerializedAmounts));
 				var src = upgrade.GetSource();
 				srcUpgrades.Add(upgrade);
 				src.OnUpgradeAdded(gameObject);
