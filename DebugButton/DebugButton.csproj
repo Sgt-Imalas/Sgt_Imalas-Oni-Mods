@@ -3,7 +3,7 @@
 	<!-- General Package Properties -->
 	<PropertyGroup>
 		<PackageId>DebugButton</PackageId>
-		<Version>1.0.5</Version>
+		<Version>1.1.0</Version>
 		<Authors>Sgt_Imalas</Authors>
     <Copyright>$(AssemblyCopyright)</Copyright>
 		<RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
@@ -37,7 +37,13 @@
 	
 	<ItemGroup>
 		<ProjectReference Include="..\UtilLibs\UtilLibs.csproj" />
+
+		<Reference Include="ImGui">
+			<HintPath>$(GameLibsFolder)/ImGui.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
 	</ItemGroup>
+	
 	
 	<ItemGroup>
 	  <Folder Include="ModAssets\translations\" />

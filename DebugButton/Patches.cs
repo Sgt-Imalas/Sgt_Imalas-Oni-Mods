@@ -1,8 +1,13 @@
 ﻿using HarmonyLib;
+using JetBrains.Annotations;
 using System;
+using System.Collections.Generic;
+using System.Reflection.Emit;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
+using static DebugButton.STRINGS.UI.TOOLS;
 
 namespace DebugButton
 {
@@ -15,14 +20,20 @@ namespace DebugButton
 		public static class Add_Debug_Button
 		{
 			static SpeedButtonRefresher SpeedRefresherLogic;
+			static DevToolsButtonRefresher DevToolsButtonRefresher;
 			static MultiToggle DebugInstaBuildButton = null;
 			static MultiToggle DebugSuperSpeeButton = null;
 			static MultiToggle DebugToggleButton = null;
 			static ToolTip DebugInstaBuildButtonTooltip = null;
 			static ToolTip DebugSuperSpeedButtonTooltip = null;
+			static MultiToggle DevToolsButton = null;
+			static ToolTip DevToolsButtonTooltip = null;
 
 			public static void UpdateDebugToggleState()
 			{
+				if (DevToolsButtonRefresher != null)
+					DevToolsButtonRefresher.RefreshToggleState();
+
 				if (SpeedRefresherLogic != null)
 				{
 					SpeedRefresherLogic.RefreshToggleState();
@@ -48,7 +59,6 @@ namespace DebugButton
 						}
 					}
 				}
-
 				if (DebugToggleButton != null)
 				{
 					if (DebugHandler.enabled)
@@ -60,6 +70,20 @@ namespace DebugButton
 						DebugToggleButton.ChangeState(1);
 					}
 				}
+			}
+
+			public static void OnClickDevToolsToggle()
+			{
+				if (!DebugHandler.enabled)
+				{
+					KMonoBehaviour.PlaySound(GlobalAssets.GetSound("Negative"));
+				}
+				else
+				{
+					SgtLogger.l("Dev toggle clicked");
+					DevToolManager.Instance.showImGui = !DevToolManager.Instance.showImGui;
+				}
+				UpdateDebugToggleState();
 			}
 			public static void OnClickSuperSpeedToggle()
 			{
@@ -82,7 +106,7 @@ namespace DebugButton
 					{
 						Time.timeScale = 30f;
 					}
-					else if(!isOn && SpeedControlScreen.Instance != null)
+					else if (!isOn && SpeedControlScreen.Instance != null)
 					{
 						SpeedControlScreen.Instance.OnChanged();
 					}
@@ -133,7 +157,23 @@ namespace DebugButton
 
 			public static void Postfix(TopLeftControlScreen __instance)
 			{
+				var isArm = System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture == Architecture.Arm64;
+				var isOSX = System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+				var isAppleSilicon = isArm && isOSX;
 
+				if (!isAppleSilicon)
+				{
+					var devToolsButton = Util.KInstantiateUI(__instance.sandboxToggle.gameObject, __instance.sandboxToggle.transform.parent.gameObject, true).transform;
+					//UIUtils.ListAllChildrenWithComponents(debugButton);
+					devToolsButton.SetSiblingIndex(__instance.sandboxToggle.transform.GetSiblingIndex() + 1);
+					devToolsButton.Find("FG").GetComponent<Image>().sprite = Assets.GetSprite("action_repair");
+					devToolsButton.Find("Label").GetComponent<LocText>().text = STRINGS.UI.TOOLS.DEV_TOOLS.NAME;
+					devToolsButton.rectTransform().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 120f);
+					devToolsButton.TryGetComponent<MultiToggle>(out DevToolsButton); 
+					devToolsButton.TryGetComponent<ToolTip>(out DevToolsButtonTooltip);
+					DevToolsButtonRefresher = devToolsButton.gameObject.AddOrGet<DevToolsButtonRefresher>();
+					DevToolsButton.onClick = (System.Action)Delegate.Combine(DevToolsButton.onClick, new System.Action(OnClickDevToolsToggle));
+				}
 				var debugTimeButton = Util.KInstantiateUI(__instance.sandboxToggle.gameObject, __instance.sandboxToggle.transform.parent.gameObject, true).transform;
 				//UIUtils.ListAllChildrenWithComponents(debugButton);
 				debugTimeButton.SetSiblingIndex(__instance.sandboxToggle.transform.GetSiblingIndex() + 1);
@@ -225,5 +265,14 @@ namespace DebugButton
 
 		//public static string bugIconName = "no_bugs_instabuild_icon";
 
+		[HarmonyPatch(typeof(KImGuiUtil), nameof(KImGuiUtil.SetKAssertCB))]
+		public static class ImGui_Patch
+		{
+			[UsedImplicitly]
+			public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> orig)
+			{
+				return new[] { new CodeInstruction(OpCodes.Ret) };
+			}
+		}
 	}
 }
