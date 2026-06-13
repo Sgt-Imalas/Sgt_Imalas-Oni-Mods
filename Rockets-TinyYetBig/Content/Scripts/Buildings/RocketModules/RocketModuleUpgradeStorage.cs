@@ -42,8 +42,18 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 				}
 			}
 		}
+
+		/// <summary>
+		/// TODO: dont do attachment slots, that loops the rocket when it gets rearranged.
+		/// just do a custom rule and patch the buildingdef check like im already doing.
+		/// </summary>
 		void AddAttachmentSlot()
 		{
+			return;
+
+			if (building.Def.HeightInCells <= 2)
+				return;
+
 			if (!attachPoint.points.Any(point => point.attachableType == ModAssets.Tags.AttachmentSlotRocketModuleUpgrades))
 			{
 				int middle = Mathf.FloorToInt(Mathf.Max(building.Def.HeightInCells - 1, 1) / 2f);
@@ -55,7 +65,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 
 		public override void OnSpawn()
 		{
-			if(Config.Instance.RocketModuleUpgrades)
+			if (Config.Instance.RocketModuleUpgrades)
 				AddAttachmentSlot();
 			storages[attachPoint] = this;
 			base.OnSpawn();

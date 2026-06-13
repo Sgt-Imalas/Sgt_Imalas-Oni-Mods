@@ -19,9 +19,9 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 			base.OnSpawn();
 			UpdateLeftConnectorSymbol();
 		}
-		public void UpdateLeftConnectorSymbol()
+		public void UpdateLeftConnectorSymbol(bool cleanUp = false)
 		{
-			
+
 			bool setLeftConnectorVisible = true;
 
 			var tileLeft = Grid.CellLeft(this.buildingComplete.GetCell());
@@ -37,14 +37,16 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 			{
 				ladder.UpdateLeftConnectorSymbol();
 			}
-			if (kbac.layering.layerControllers.TryGetValue(KAnim.SymbolFlags.FG, out var fgControllerBase))
+			if (cleanUp)
+				return;
+			if (kbac?.layering?.layerControllers?.TryGetValue(KAnim.SymbolFlags.FG, out var fgControllerBase) ?? false)
 				(fgControllerBase as KBatchedAnimController)?.SetSymbolVisiblity("connector_left", setLeftConnectorVisible);
 
 		}
 		public override void OnCleanUp()
 		{
+			UpdateLeftConnectorSymbol(true);
 			base.OnCleanUp();
-			UpdateLeftConnectorSymbol();
 		}
 	}
 }
