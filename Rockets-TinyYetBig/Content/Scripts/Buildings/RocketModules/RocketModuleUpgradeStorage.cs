@@ -13,7 +13,8 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 {
 	internal class RocketModuleUpgradeStorage : KMonoBehaviour
 	{
-		[MyCmpAdd] BuildingAttachPoint attachPoint;
+		///TODO: breaks nosecones.
+		//[MyCmpAdd] BuildingAttachPoint attachPoint;
 		[MyCmpReq] Building building;
 
 		[Serialize]
@@ -29,18 +30,18 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 
 		void DetachOtherModulesFromUpgradeSlot()
 		{
-			for (int i = 0; i < attachPoint.points.Length; i++)
-			{
-				var hardPoint = attachPoint.points[i];
+			//for (int i = 0; i < attachPoint.points.Length; i++)
+			//{
+			//	var hardPoint = attachPoint.points[i];
 
-				if (hardPoint.attachableType != ModAssets.Tags.AttachmentSlotRocketModuleUpgrades)
-					continue;
-				if (hardPoint.attachedBuilding != null && hardPoint.attachedBuilding.gameObject.TryGetComponent<RocketModuleCluster>(out var rocket))
-				{
-					SgtLogger.warning("Module upgrade slot on " + gameObject.name + " tried to connect to other rocket module: " + rocket.name);
-					attachPoint.points[i].attachedBuilding = null;
-				}
-			}
+			//	if (hardPoint.attachableType != ModAssets.Tags.AttachmentSlotRocketModuleUpgrades)
+			//		continue;
+			//	if (hardPoint.attachedBuilding != null && hardPoint.attachedBuilding.gameObject.TryGetComponent<RocketModuleCluster>(out var rocket))
+			//	{
+			//		SgtLogger.warning("Module upgrade slot on " + gameObject.name + " tried to connect to other rocket module: " + rocket.name);
+			//		attachPoint.points[i].attachedBuilding = null;
+			//	}
+			//}
 		}
 
 		/// <summary>
@@ -54,12 +55,12 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 			if (building.Def.HeightInCells <= 2)
 				return;
 
-			if (!attachPoint.points.Any(point => point.attachableType == ModAssets.Tags.AttachmentSlotRocketModuleUpgrades))
-			{
-				int middle = Mathf.FloorToInt(Mathf.Max(building.Def.HeightInCells - 1, 1) / 2f);
-				attachPoint.points = attachPoint.points.Append(new BuildingAttachPoint.HardPoint(new CellOffset(0, middle), ModAssets.Tags.AttachmentSlotRocketModuleUpgrades, null));
-			}
-			attachPoint.TryAttachEmptyHardpoints();
+			//if (!attachPoint.points.Any(point => point.attachableType == ModAssets.Tags.AttachmentSlotRocketModuleUpgrades))
+			//{
+			//	int middle = Mathf.FloorToInt(Mathf.Max(building.Def.HeightInCells - 1, 1) / 2f);
+			//	attachPoint.points = attachPoint.points.Append(new BuildingAttachPoint.HardPoint(new CellOffset(0, middle), ModAssets.Tags.AttachmentSlotRocketModuleUpgrades, null));
+			//}
+			//attachPoint.TryAttachEmptyHardpoints();
 			DetachOtherModulesFromUpgradeSlot();
 		}
 
@@ -67,14 +68,14 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 		{
 			if (Config.Instance.RocketModuleUpgrades)
 				AddAttachmentSlot();
-			storages[attachPoint] = this;
+			//storages[attachPoint] = this;
 			base.OnSpawn();
 			DetermineAllowedUpgrades();
 			LoadUpgrades();
 		}
 		public override void OnCleanUp()
 		{
-			storages.Remove(attachPoint);
+			//storages.Remove(attachPoint);
 			base.OnCleanUp();
 		}
 
