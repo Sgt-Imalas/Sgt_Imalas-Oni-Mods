@@ -266,6 +266,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotUpdateDate", "NotUpdateD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BubbleChest", "BubbleChest\BubbleChest.csproj", "{311D57C1-ACE5-41EC-ADCE-D1FB7A6C27C2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaturalConstruction", "NaturalConstruction\NaturalConstruction.csproj", "{E2AA67F1-1F77-4533-BB07-CAF145C14676}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -733,6 +735,10 @@ Global
 		{311D57C1-ACE5-41EC-ADCE-D1FB7A6C27C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{311D57C1-ACE5-41EC-ADCE-D1FB7A6C27C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{311D57C1-ACE5-41EC-ADCE-D1FB7A6C27C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2AA67F1-1F77-4533-BB07-CAF145C14676}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2AA67F1-1F77-4533-BB07-CAF145C14676}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2AA67F1-1F77-4533-BB07-CAF145C14676}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2AA67F1-1F77-4533-BB07-CAF145C14676}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
