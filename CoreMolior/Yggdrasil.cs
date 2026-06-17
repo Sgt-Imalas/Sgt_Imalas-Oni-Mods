@@ -87,10 +87,7 @@ namespace Starmap_Shenanigans
             gameObject.SetActive(true);
             ClusterManager.Instance.BoxingTrigger((int)GameHashes.WorldAdded, worldId);
 
-            AllDiagnosticsScreen.Instance.Populate();
-            TrackerTool.Instance.AddNewWorldTrackers(worldId);
-            ColonyDiagnosticUtility.Instance.AddWorld(worldId);
-            WorldSelector.Instance.AddWorld(Boxed<int>.Get(worldId));
+            
 
             if (world.filePath == "expansion1::worlds/StrangeAsteroidKleiFest2023Cluster")
                 seed = 7;
@@ -98,11 +95,12 @@ namespace Starmap_Shenanigans
             worldGen.SetWorldSize(worldSize.x, worldSize.y);
             worldGen.GenerateOffline();
 
-            Sim.Cell[] cells = null;
-            Sim.DiseaseCell[] dc = null;
-            List<WorldTrait> placedStoryTraits = new List<WorldTrait>();
 
-            RenderOnline(worldGen, ref cells, ref dc, ref placedStoryTraits);//in lieu of worldGen.RenderOffline
+            List<WorldTrait> placedStoryTraits = new List<WorldTrait>();
+            
+            WorldgenSimData simData = new WorldgenSimData();
+            
+            RenderOnline(worldGen, ref simData, ref placedStoryTraits, worldId);//in lieu of worldGen.RenderOffline
 
 
 
@@ -172,27 +170,25 @@ namespace Starmap_Shenanigans
         }
 
         // WorldGen.RenderOffline assumes the grid size is equal to the world size, so we have to temporarily resize the grid
-        internal static void RenderOnline(WorldGen worldGen, ref Sim.Cell[] cells, ref Sim.DiseaseCell[] dc,ref List<WorldTrait> placedStoryTraits)
+        internal static void RenderOnline(WorldGen worldGen, ref WorldgenSimData worldgenSimData, ref List<WorldTrait> placedStoryTraits, int worldId)
         {
             var gridBackup = new Vector2I(Grid.WidthInCells, Grid.HeightInCells);
             var worldSize = worldGen.GetSize();
             Grid.WidthInCells = worldSize.x;
             Grid.HeightInCells = worldSize.y;
             Grid.CellCount = worldSize.x * worldSize.y;
-
-            float[] bgTemp = null;
-            dc = null;
+        
             HashSet<int> borderCells = new HashSet<int>();
             worldGen.POIBounds = new List<RectInt>();
             worldGen.WriteOverWorldNoise(worldGen.successCallbackFn);
-            worldGen.RenderToMap(worldGen.successCallbackFn, ref cells, ref bgTemp, ref dc, ref borderCells, ref worldGen.POIBounds);
+            worldGen.RenderToMap(worldGen.successCallbackFn, ref worldgenSimData, ref borderCells, ref worldGen.POIBounds);
             foreach (int key in borderCells)
             {
                 cells[key].SetValues(WorldGen.unobtaniumElement, ElementLoader.elements);
                 worldGen.claimedPOICells[key] = 1;
             }
             worldGen.POISpawners = TemplateSpawning.DetermineTemplatesForWorld(worldGen.Settings, worldGen.data.terrainCells, worldGen.myRandom, ref worldGen.POIBounds, worldGen.isRunningDebugGen, ref placedStoryTraits, worldGen.successCallbackFn);
-            worldGen.SpawnMobsAndTemplates(cells, bgTemp, dc, new HashSet<int>(worldGen.claimedPOICells.Keys));
+            worldGen.SpawnMobsAndTemplates(worldId, ref worldgenSimData, new HashSet<int>(worldGen.claimedPOICells.Keys));
 
 
             Grid.WidthInCells = gridBackup.x;
