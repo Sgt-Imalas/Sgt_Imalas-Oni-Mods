@@ -3,6 +3,7 @@ using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.Descriptors;
+using STRINGS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,6 +50,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 			buildingDef.Floodable = false;
 			buildingDef.ViewMode = OverlayModes.Power.ID;
 			buildingDef.AudioCategory = "Metal";
+			buildingDef.AddSearchTerms((string)SEARCH_TERMS.FRIDGE);
 			SoundEventVolumeCache.instance.AddVolume("advanced_refrigerator_kanim", "Refrigerator_open", NOISE_POLLUTION.NOISY.TIER1);
 			SoundEventVolumeCache.instance.AddVolume("advanced_refrigerator_kanim", "Refrigerator_close", NOISE_POLLUTION.NOISY.TIER1);
 			SoundUtils.CopySoundsToAnim("advanced_refrigerator_kanim", "fridge_kanim");
@@ -60,7 +62,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 
 		public override void DoPostConfigureComplete(GameObject go)
 		{
-			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.Refrigerator, false);
+			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.KitchenRefrigerator, false);
 			Storage storage = go.AddOrGet<Storage>();
 			storage.showInUI = true;
 			storage.showDescriptor = true;

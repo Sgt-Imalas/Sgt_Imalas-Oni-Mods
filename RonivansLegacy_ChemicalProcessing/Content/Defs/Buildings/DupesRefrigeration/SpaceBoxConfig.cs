@@ -1,6 +1,7 @@
 ﻿using PeterHan.PLib.Options;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb.ModIntegrations;
 using RonivansLegacy_ChemicalProcessing.Content.Scripts.Buildings.ConfigInterfaces;
+using STRINGS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,12 +47,13 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefriger
 			buildingDef.ViewMode = OverlayModes.Power.ID;
 			buildingDef.AudioCategory = "Metal";
 			SoundUtils.CopySoundsToAnim("simple_techfridge_kanim", "rationbox_kanim");
+			buildingDef.AddSearchTerms((string)SEARCH_TERMS.FRIDGE);
 			return buildingDef;
 		}
 
 		public override void DoPostConfigureComplete(GameObject go)
 		{
-			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.Refrigerator, false);
+			go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.KitchenRefrigerator, false);
 			Prioritizable.AddRef(go);
 			Storage storage = go.AddOrGet<Storage>();
 			storage.SetDefaultStoredItemModifiers(ModAssets.AllStorageMods);

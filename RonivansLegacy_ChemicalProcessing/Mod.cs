@@ -47,7 +47,6 @@ namespace RonivansLegacy_ChemicalProcessing
 			ResearchScreenCollapseEntries.Register();
 
 			ElementConverterDescriptionImprovement.Register();
-			ElementConverterRecipePanelSplit.Register();
 
 			ResearchScreenBetterConnectionLines.Register();
 			DynamicMaterialSelectorHeaderHeight.Register();

@@ -82,7 +82,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 					CurrentlyFlaggedCells.Add(solarCell);
 				else
 					OverriddenCells.Add(solarCell);
-
 				SimMessages.SetCellProperties(solarCell, PartialLightBlockingProperties);
 			}
 			else
