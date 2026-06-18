@@ -61,7 +61,7 @@ namespace UtilLibs
 		/// <returns></returns>
 		public static bool TryGetTranslatedString(string languageCodeKlei, Localization.SelectedLanguageType languageType, string key, out string translatedString)
 		{
-			string languageCode = languageCodeKlei.Replace("_klei",string.Empty);
+			string languageCode = languageCodeKlei.Replace("_klei", string.Empty);
 
 			translatedString = null;
 			if (LocalizedStrings == null)
@@ -121,17 +121,17 @@ namespace UtilLibs
 				}
 
 				var currentModLocFile = Path.Combine(IO_Utils.ModPath, "translations", languageCode + ".po");
-				if(File.Exists(currentModLocFile))
+				if (File.Exists(currentModLocFile))
 				{
 					try
 					{
 						SgtLogger.l("Loading local mod translations from: " + currentModLocFile);
-						var data = File.ReadAllLines(currentModLocFile, Encoding.UTF8); 
+						var data = File.ReadAllLines(currentModLocFile, Encoding.UTF8);
 						if (!LocalizedStrings.ContainsKey(languageCode))
 							LocalizedStrings[languageCode] = [];
 						var modLoc = Localization.ExtractTranslatedStrings(data, false);
 						SgtLogger.l("Extracted " + modLoc.Count + " localizationStrings");
-						foreach(var loc in modLoc)
+						foreach (var loc in modLoc)
 						{
 							string locKey = loc.Key;
 							int start = locKey.IndexOf("STRINGS");
@@ -178,18 +178,20 @@ namespace UtilLibs
 		public static void Translate(Type root, bool generateTemplate = false)
 		{
 			Localization.RegisterForTranslation(root);
+			if (generateTemplate)
+				GenerateStringTemplates(root);
 			OverLoadStrings();
 			LocString.CreateLocStringKeys(root, null);
+		}
+		public static void GenerateStringTemplates(Type root)
+		{
+			var translationFolder = Path.Combine(IO_Utils.ModPath, "translations");
+			System.IO.Directory.CreateDirectory(translationFolder);
 
-			if (generateTemplate)
-			{
-				var translationFolder = Path.Combine(IO_Utils.ModPath, "translations");
-				System.IO.Directory.CreateDirectory(translationFolder);
+			Localization.GenerateStringsTemplate(root, Path.Combine(Manager.GetDirectory(), "strings_templates"));
+			Localization.GenerateStringsTemplate(root.Namespace, Assembly.GetExecutingAssembly(), Path.Combine(IO_Utils.ModPath, "translation_template.pot"), null);
+			Localization.GenerateStringsTemplate(root.Namespace, Assembly.GetExecutingAssembly(), Path.Combine(translationFolder, "translation_template.pot"), null);
 
-				Localization.GenerateStringsTemplate(root, Path.Combine(Manager.GetDirectory(), "strings_templates"));
-				Localization.GenerateStringsTemplate(root.Namespace, Assembly.GetExecutingAssembly(), Path.Combine(IO_Utils.ModPath, "translation_template.pot"), null);
-				Localization.GenerateStringsTemplate(root.Namespace, Assembly.GetExecutingAssembly(), Path.Combine(translationFolder, "translation_template.pot"), null);
-			}
 		}
 
 		// Loads user created translations
