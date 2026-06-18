@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
@@ -44,7 +45,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					{
 						if(ingredientsMap[i] == null)
 							ingredientsMap[i] = new List<Tuple<Tag,float>>();
-						var ingredient = new Tuple<Tag, float>(derivedRecipe.ingredients[i].material, derivedRecipe.ingredients[i].amount);
+
+						var mat = derivedRecipe.ingredients[i].material;
+
+						GameObject prefab = Assets.TryGetPrefab(mat);
+						if (prefab != null && prefab.HasTag(GameTags.DeprecatedContent))
+							continue;
+
+							var ingredient = new Tuple<Tag, float>(mat, derivedRecipe.ingredients[i].amount);
 						if (!ingredientsMap[i].Contains(ingredient))
 							ingredientsMap[i].Add(ingredient);
 					}

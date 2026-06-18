@@ -20,6 +20,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Entities.Gaskets
 			  GameTags.PedestalDisplayable,
 			  GameTags.BuildingGasket
 			]);
+			if (!Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+				ModAssets.HideFromCodex(looseEntity);
 			looseEntity.AddOrGet<EntitySplitter>();
 			return looseEntity;
 		}

@@ -2,6 +2,7 @@
 using HarmonyLib;
 using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,6 +40,7 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 		{
 			public static void Postfix()
 			{
+				ModElements.HideDisabledModElements();
 				ModElements.ModifyExistingElements();
 			}
 		}

@@ -16,7 +16,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		static bool entriesGenerated = false;
 		internal static void GenerateGuidanceDeviceEntries()
 		{
-			if (entriesGenerated)
+			if (entriesGenerated || !Config.Instance.MineralProcessing_Mining_Enabled)
 				return;
 			entriesGenerated = true;
 

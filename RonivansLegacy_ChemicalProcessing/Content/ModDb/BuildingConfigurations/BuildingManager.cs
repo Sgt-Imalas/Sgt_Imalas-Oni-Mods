@@ -128,8 +128,12 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				if (entry.Value.Source.IsBuildingEnabled() && TechExists(entry.Value.TechID))
 					entry.Value.RegisterPlanscreen();
 				else
-					DisabledBuildingIDs.Add(entry.Value.Source.BuildingID);
-
+				{
+					string id = entry.Value.Source.BuildingID;
+					DisabledBuildingIDs.Add(id);
+					var def = Assets.GetBuildingDef(id);
+					def.DebugOnly = true;
+				}
 			}
 		}
 		public static void AddBuildingsToTechs()

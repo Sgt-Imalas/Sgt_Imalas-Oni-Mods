@@ -174,7 +174,19 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		}
 
 		public static HashSet<Substance> ChemicalProcessing_IO_Elements = [], ChemicalProcessing_BioChem_Elements = [];
+		public static HashSet<SimHashes> ChemicalProcessing_IO_ElementIds = [], ChemicalProcessing_BioChem_ElementIds = [];
+		public static HashSet<SimHashes> DisabledModElements = [];
+		public static HashSet<Tag> DisabledModElementTags = [];
 
+		static void HideElement(Element element )
+		{
+			element.oreTags = element.oreTags.Append(GameTags.HideFromCodex);
+			element.oreTags = element.oreTags.Append(GameTags.DeprecatedContent);
+			element.oreTags = element.oreTags.Append(GameTags.HideFromSpawnTool);
+			DisabledModElements.Add(element.id);
+			DisabledModElementTags.Add(element.id.CreateTag());
+			//SgtLogger.l("hiding " + element.name);
+		}
 		public static void RegisterSubstances(List<Substance> list)
 		{
 			var oreMaterial = list.Find(e => e.elementID == SimHashes.AluminumOre).material;
@@ -250,6 +262,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				Nitrogen_Liquid.CreateSubstance().MakeLiquidifedAtmosphericGas(),
 				Nitrogen_Gas.CreateSubstance(),
 			};
+			ChemicalProcessing_IO_ElementIds = ChemicalProcessing_IO_Elements.Select(e => e.elementID).ToHashSet();
 
 			ChemicalProcessing_BioChem_Elements = new HashSet<Substance>()
 			{
@@ -264,7 +277,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				VegetableOil_Liquid.CreateSubstance().CausticSwirls().Texture(Substance.SubstanceTexture.Oil),
 				VegetableOil_Gas.CreateSubstance(),
 			};
-
+			ChemicalProcessing_BioChem_ElementIds = ChemicalProcessing_BioChem_Elements.Select(e => e.elementID).ToHashSet();
 			list.AddRange(ChemicalProcessing_IO_Elements);
 			list.AddRange(ChemicalProcessing_BioChem_Elements);
 
@@ -380,6 +393,25 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			}
 		}
 
+		public static void HideDisabledModElements()
+		{
+			bool noChemprocIO = !Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled;
+			bool noChemprocBiochem = !Config.Instance.ChemicalProcessing_BioChemistry_Enabled;
+			if(noChemprocIO)
+				SgtLogger.l(ChemicalProcessing_IO_Elements.Count + " elements in disabled Chemproc IO, hiding them");
+			if(noChemprocBiochem)
+				SgtLogger.l(ChemicalProcessing_BioChem_Elements.Count + " elements in disabled Chemproc biochem, hiding them");
+
+			foreach (var element in ElementLoader.elements)
+			{
+				if(noChemprocIO && ChemicalProcessing_IO_ElementIds.Contains(element.id))
+					HideElement(element);
+				if (noChemprocBiochem && ChemicalProcessing_BioChem_ElementIds.Contains(element.id))
+					HideElement(element);
+			}
+		}
+
+
 		public static void ClearReenabledVanillaElementCodexTags(ref List<ElementData.ElementEntry> elementList)
 		{
 			HashSet<string> ToUnhide = [];
@@ -413,22 +445,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				UnhideElement(SimHashes.Brick);
 				UnhideElement(SimHashes.Cement);
 			}
-			HashSet<string> toHide = [];
 
-			if (!Config.Instance.ChemicalProcessing_BioChemistry_Enabled)
-			{
-				foreach (var element in ChemicalProcessing_BioChem_Elements)
-				{
-					toHide.Add(element.elementID.ToString());
-				}
-			}
-			if (!Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
-			{
-				foreach (var element in ChemicalProcessing_IO_Elements)
-				{
-					toHide.Add(element.elementID.ToString());
-				}
-			}
 			foreach (var element in elementList)
 			{
 				if (ToUnhide.Contains(element.elementId) && element.tags != null)
@@ -436,13 +453,6 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					var oreTags = element.tags.ToList();
 					oreTags.Remove(GameTags.HideFromCodex.ToString());
 					oreTags.Remove(GameTags.HideFromSpawnTool.ToString());
-					element.tags = oreTags.ToArray();
-				}
-				if (toHide.Contains(element.elementId))
-				{
-					var oreTags = element.tags?.ToList() ?? [];
-					oreTags.Add(GameTags.HideFromCodex.ToString());
-					oreTags.Add(GameTags.HideFromSpawnTool.ToString());
 					element.tags = oreTags.ToArray();
 				}
 			}

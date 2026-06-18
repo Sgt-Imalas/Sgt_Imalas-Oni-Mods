@@ -14,6 +14,7 @@ using UnityEngine;
 using UtilLibs;
 using static RonivansLegacy_ChemicalProcessing.Content.ModDb.ModElements;
 using static RonivansLegacy_ChemicalProcessing.Content.Scripts.ComplexFabricatorsRandom.RecipeRandomResult;
+using static STRINGS.DUPLICANTS.CHORES;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
@@ -92,6 +93,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			if (_randomRecipeResultsCollection == null)
 				InitRandomResults();
 
+			var fab = Assets.GetBuildingDef(buildingID.ToString());
+			if (fab != null && fab.DebugOnly)
+				return false;
+
 			return _randomRecipeResultsCollection.TryGetValue(buildingID, out results);
 		}
 
@@ -100,6 +105,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			randomResult = null;
 			foreach (var fabricator in recipe.fabricators)
 			{
+				var fab = Assets.GetBuildingDef(fabricator.ToString());
+				if (fab != null && fab.DebugOnly)
+					continue;
+
 				if (GetRandomOccurenceList(fabricator, out var results)
 					&& results.TryGetValue(recipe.ingredients[0].material, out randomResult))
 					return true;
@@ -111,6 +120,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			results = null;
 			if (_randomFabricationByproductsCollection == null)
 				InitRandomResults();
+
+			var fab = Assets.GetBuildingDef(buildingID.ToString());
+			if (fab != null && fab.DebugOnly)
+				return false;
 
 			return _randomFabricationByproductsCollection.TryGetValue(buildingID, out results);
 		}
@@ -219,7 +232,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			if (dangerousliquid)
 				sb.AppendLine(STRINGS.UI.MINING_AUGUR_DRILL.RECIPE_LIQUID_DANGER);
 			string products = string.Empty;
-			if (GetRandomResultList(drillID, out var recipes) && recipes.TryGetValue(inputElement, out RecipeRandomResult result))
+			if (drillID != null && GetRandomResultList(drillID, out var recipes) && recipes.TryGetValue(inputElement, out RecipeRandomResult result))
 			{
 				sb.Append(STRINGS.UI.MINING_AUGUR_DRILL.RECIPE_RESULTS);
 				products = result.GetCompositionDescription(sb.ToString(), null, true);
