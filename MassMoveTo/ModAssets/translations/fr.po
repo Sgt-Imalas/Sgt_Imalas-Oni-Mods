@@ -10,7 +10,44 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Application: Oxygen Not IncludedPOT Version: 2.0\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Poedit 3.9\n"
+
+#. MassMoveTo.STRINGS.MISC.PLACERS.MMT_MULTIMOVEPICKUPABLEPLACER.NAME
+msgctxt "MassMoveTo.STRINGS.MISC.PLACERS.MMT_MULTIMOVEPICKUPABLEPLACER.NAME"
+msgid "Mass Relocate Here"
+msgstr "Déplacement en masse ici"
+
+#. MassMoveTo.STRINGS.MISC.PLACERS.MMT_MULTIMOVEPICKUPABLEPLACER.TITLE
+msgctxt "MassMoveTo.STRINGS.MISC.PLACERS.MMT_MULTIMOVEPICKUPABLEPLACER.TITLE"
+msgid "Experimental: use Multi-Delivery Targets"
+msgstr "Experimental: use Multi-Delivery Targets"
+
+#. MassMoveTo.STRINGS.MISC.PLACERS.MMT_MULTIMOVEPICKUPABLEPLACER.TOOLTIP
+msgctxt "MassMoveTo.STRINGS.MISC.PLACERS.MMT_MULTIMOVEPICKUPABLEPLACER.TOOLTIP"
+msgid ""
+"Replaces the Relocate targets with a custom modded variant that allows "
+"multiple deliveries in parallel.\n"
+"Turn off if you experience crashes"
+msgstr ""
+"Remplace les cibles de déplacement en masse par une variante personnalisée "
+"modifiée qui permet d'effectuer plusieurs livraisons en parallèle.\n"
+"Désactivez cette option si vous rencontrez des crashes"
+
+#. MassMoveTo.STRINGS.UI.MASSMOVETOOL_MULTITARGET.TITLE
+msgctxt "MassMoveTo.STRINGS.UI.MASSMOVETOOL_MULTITARGET.TITLE"
+msgid "Experimental: use Multi-Delivery Targets"
+msgstr "Expérimental : utilisation des emplacements à livraisons multiples"
+
+#. MassMoveTo.STRINGS.UI.MASSMOVETOOL_MULTITARGET.TOOLTIP
+msgctxt "MassMoveTo.STRINGS.UI.MASSMOVETOOL_MULTITARGET.TOOLTIP"
+msgid ""
+"Replaces the Relocate targets with a custom modded variant that allows "
+"multiple deliveries in parallel.\n"
+"Turn off if you experience crashes"
+msgstr ""
+"Remplace les cibles de déplacement en masse par une variante personnalisée "
+"modifiée qui permet d'effectuer plusieurs livraisons en parallèle.\n"
+"Désactivez cette option si vous rencontrez des crashes"
 
 #. MassMoveTo.STRINGS.UI.TOOLS.MOVETOSELECTTOOL.CATEGORY_MISCPICKUPABLE
 msgctxt "MassMoveTo.STRINGS.UI.TOOLS.MOVETOSELECTTOOL.CATEGORY_MISCPICKUPABLE"
@@ -30,7 +67,7 @@ msgstr "Déplacement de Masse"
 #. MassMoveTo.STRINGS.UI.TOOLS.MOVETOSELECTTOOL.TOOL_NAME_FILTERED
 msgctxt "MassMoveTo.STRINGS.UI.TOOLS.MOVETOSELECTTOOL.TOOL_NAME_FILTERED"
 msgid "FILTERED MASS MOVE TOOL"
-msgstr "DEPLACEMENT DE MASSE FILTRÉ"
+msgstr "DEPLACEMENT EN MASSE FILTRÉ"
 
 #. MassMoveTo.STRINGS.UI.TOOLS.MOVETOSELECTTOOL.TOOLACTION
 msgctxt "MassMoveTo.STRINGS.UI.TOOLS.MOVETOSELECTTOOL.TOOLACTION"
@@ -45,7 +82,7 @@ msgstr "DÉPLACER UNIQUEMENT LES ÉLÉMENTS SÉLECTIONNÉS"
 #. MassMoveTo.STRINGS.UI.TOOLS.MOVETOSELECTTOOL.TOOLNAME
 msgctxt "MassMoveTo.STRINGS.UI.TOOLS.MOVETOSELECTTOOL.TOOLNAME"
 msgid "MASS MOVE TOOL"
-msgstr "OUTIL DE DÉPLACEMENT DE MASSE"
+msgstr "OUTIL DE DÉPLACEMENT EN MASSE"
 
 #. MassMoveTo.STRINGS.UI.TOOLS.MOVETOSELECTTOOL.TOOLTIP
 msgctxt "MassMoveTo.STRINGS.UI.TOOLS.MOVETOSELECTTOOL.TOOLTIP"
