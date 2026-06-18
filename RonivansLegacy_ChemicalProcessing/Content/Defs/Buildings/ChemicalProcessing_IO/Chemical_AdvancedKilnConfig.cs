@@ -13,6 +13,7 @@ using UtilLibs;
 using static RonivansLegacy_ChemicalProcessing.Content.ModDb.ModElements;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INGREDIENTS;
 using static RonivansLegacy_ChemicalProcessing.STRINGS.UI.CHEMICAL_COMPLEXFABRICATOR_STRINGS;
+using static STRINGS.ITEMS.INDUSTRIAL_PRODUCTS;
 
 
 namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
@@ -70,8 +71,18 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Ingredient: Coal - 500kg        
 			// Result: Refined Coal - 500kg
 			//-----------------------------------------------------------------------------------------------------------
+			List<SimHashes> convertableElements = [SimHashes.Carbon];
+			List<float> conversionAmounts = [500];
+			foreach (var wood in RefinementRecipeHelper.GetWoods())
+			{
+				convertableElements.Add(wood);
+				conversionAmounts.Add(800);
+			}
+			convertableElements.Add(SimHashes.Peat);
+			conversionAmounts.Add(1200);
+
 			RecipeBuilder.Create(ID, 30)
-				.Input([SimHashes.Carbon, SimHashes.WoodLog, SimHashes.FabricatedWood, SimHashes.Peat], [500, 800, 800, 1200], GameTags.CombustibleSolid)
+				.Input(convertableElements.ToArray(), conversionAmounts.ToArray(), GameTags.CombustibleSolid)
 				.Output(SimHashes.RefinedCarbon, 500, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description1I1O(HEAT_REFINE)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
