@@ -14,7 +14,7 @@ namespace NaturalConstruction.Content.Defs
 
 		public override BuildingDef CreateBuildingDef()
 		{
-			float[] tieR2 = [100];
+			float[] tieR2 = [Config.Instance.DefaultMass_Tile];
 			string[] materials = [GameTags.Solid.ToString()];
 			EffectorValues none1 = NOISE_POLLUTION.NONE;
 			EffectorValues none2 = TUNING.BUILDINGS.DECOR.NONE;

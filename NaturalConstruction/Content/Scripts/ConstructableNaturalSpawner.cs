@@ -5,17 +5,21 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UtilLibs;
+using static STRINGS.MISC.STATUSITEMS.HEALTHSTATUS;
 using static STRINGS.UI;
 
 namespace NaturalConstruction.Content.Scripts
 {
 	internal class ConstructableNaturalSpawner : Constructable, ISingleSliderControl
 	{
+		///does not work for backwall..
+		//[MyCmpAdd] CopyBuildingSettings copySettings;
 		[MyCmpGet] KSelectable selectable;
-		[Serialize] float naturalMass = 100;
+		[Serialize] float naturalMass = -1;
 		[Serialize] float lastNaturalMass = 0;
 		bool backwallBuilding;
-
+		private static readonly EventSystem.IntraObjectHandler<ConstructableNaturalSpawner> OnCopySettingsDelegate = new EventSystem.IntraObjectHandler<ConstructableNaturalSpawner>((System.Action<ConstructableNaturalSpawner, object>)((component, data) => component.OnCopySettings(data)));
+		int handle = -1;
 		public override void OnPrefabInit()
 		{
 			base.OnPrefabInit();
@@ -23,10 +27,35 @@ namespace NaturalConstruction.Content.Scripts
 		}
 		public override void OnSpawn()
 		{
+			if (naturalMass == -1)
+				naturalMass = building.Def.Mass[0];
 			base.OnSpawn();
 			waitForFetchesBeforeDigging = true;
 			backwallBuilding = building.Def.ObjectLayer == ObjectLayer.Backwall;
 			RefreshFetchIfNeeded();
+
+			//handle = this.Subscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate);
+		}
+		public override void OnCleanUp()
+		{
+			//Unsubscribe(handle);
+			base.OnCleanUp();
+		}
+		private void OnCopySettings(object data)
+		{
+			ConstructableNaturalSpawner component = ((GameObject)data).GetComponent<ConstructableNaturalSpawner>();
+			if (component == null || component.naturalMass == naturalMass)
+				return;
+
+			naturalMass = component.naturalMass;
+			RefreshFetchIfNeeded();
+		}
+
+		void RefreshConstructionTime()
+		{
+			if (!Config.Instance.ScalingConstructionTime)
+				return;
+			SetWorkTime(Mathf.Clamp(naturalMass / 20f, 5, 100));
 		}
 		void RefreshFetchIfNeeded()
 		{
@@ -51,6 +80,8 @@ namespace NaturalConstruction.Content.Scripts
 			}
 			lastNaturalMass = naturalMass;
 			fetchList.Submit(OnFetchListComplete, check_storage_contents: true);
+
+			RefreshConstructionTime();
 		}
 
 		public override void OnCompleteWork(WorkerBase worker)

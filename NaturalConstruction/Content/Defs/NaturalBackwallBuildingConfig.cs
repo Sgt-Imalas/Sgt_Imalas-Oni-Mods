@@ -13,7 +13,7 @@ namespace NaturalConstruction.Content.Defs
 		public static string ID = "NC_NaturalBackwall";
 		public override BuildingDef CreateBuildingDef()
 		{
-			float[] mass = [100];
+			float[] mass = [Config.Instance.DefaultMass_Backwall];
 			string[] mats = [GameTags.Solid.ToString()];
 			EffectorValues none = NOISE_POLLUTION.NONE;
 			EffectorValues decor = DECOR.NONE;
