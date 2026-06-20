@@ -28,12 +28,14 @@ namespace NaturalConstruction.Content.Scripts
 		public override void OnSpawn()
 		{
 			if (naturalMass == -1)
+			{
 				naturalMass = building.Def.Mass[0];
+				lastNaturalMass = naturalMass;
+			}
 			base.OnSpawn();
 			waitForFetchesBeforeDigging = true;
 			backwallBuilding = building.Def.ObjectLayer == ObjectLayer.Backwall;
 			RefreshFetchIfNeeded();
-
 			//handle = this.Subscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate);
 		}
 		public override void OnCleanUp()
@@ -59,19 +61,25 @@ namespace NaturalConstruction.Content.Scripts
 		}
 		void RefreshFetchIfNeeded()
 		{
-			var defaultCost = building.Def.Mass.First();
-			if (Mathf.Approximately(defaultCost, naturalMass))
-				return;
 			if (Mathf.Approximately(lastNaturalMass, naturalMass))
 				return;
 			materialNeedsCleared = false;
 			storage.DropAll();
 			buildChore?.Cancel("Re-fetch mats");
 			buildChore = null;
-			fetchList.Cancel("custom amount");
-			fetchList.MinimumAmount?.Clear();
-			fetchList.FetchOrders?.Clear();
-			fetchList.Remaining?.Clear();
+			SgtLogger.l("build chore canceled");
+
+			if (fetchList != null)
+			{
+				fetchList.Cancel("custom amount");
+				fetchList.MinimumAmount?.Clear();
+				fetchList.FetchOrders?.Clear();
+				fetchList.Remaining?.Clear();
+			}
+			else
+			{
+				fetchList = new FetchList2(storage, Db.Get().ChoreTypes.BuildFetch);
+			}
 			Recipe.Ingredient[] allIngredients = Recipe.GetAllIngredients(selectedElementsTags);
 			foreach (Recipe.Ingredient ingredient in allIngredients)
 			{
