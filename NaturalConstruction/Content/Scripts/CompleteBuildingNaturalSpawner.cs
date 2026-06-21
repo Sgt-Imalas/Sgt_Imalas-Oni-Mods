@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Rendering.World;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine.UI;
@@ -17,6 +19,14 @@ namespace NaturalConstruction.Content.Scripts
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
+			//GameScheduler.Instance.ScheduleNextFrame("spawn nat tile" ,(_)=>			SpawnNaturalTile());
+			//StartCoroutine(DelayedReplacement());
+			SpawnNaturalTile();
+		}
+
+		IEnumerator DelayedReplacement()
+		{
+			yield return null;
 			SpawnNaturalTile();
 		}
 
@@ -49,10 +59,9 @@ namespace NaturalConstruction.Content.Scripts
 			}
 			else
 			{
-				SimMessages.ReplaceElement(cell, elementId, CellEventLogger.Instance.SandBoxTool, naturalMass, temperature, diseaseIdx, diseaseAmount);
-
+				SimMessages.ReplaceAndDisplaceElement(cell, elementId, CellEventLogger.Instance.TemplateLoader, naturalMass, temperature, diseaseIdx, diseaseAmount);
 			}
-			gameObject.Trigger((int)GameHashes.NewConstruction, (object)this);
+			//gameObject.Trigger((int)GameHashes.NewConstruction, (object)this);
 			this.DeleteObject();
 
 		}

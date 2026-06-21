@@ -141,10 +141,9 @@ namespace NaturalConstruction.Content.Scripts
 			}
 			else
 			{
-				SimMessages.ReplaceElement(cell, elementId, CellEventLogger.Instance.SandBoxTool, naturalMass, temperature, diseaseIdx, diseaseAmount);
+				SimMessages.ReplaceAndDisplaceElement(cell, elementId, CellEventLogger.Instance.SandBoxTool, naturalMass, temperature, diseaseIdx, diseaseAmount);
 
 			}
-
 			storage.ConsumeAllIgnoringDisease();
 			gameObject.Trigger((int)GameHashes.NewConstruction, (object)this);
 			this.DeleteObject();

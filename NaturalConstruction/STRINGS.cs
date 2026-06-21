@@ -25,7 +25,7 @@ namespace NaturalConstruction
 				{
 					public static LocString NAME = FormatAsLink("Natural Backwall", nameof(NC_NATURALBACKWALL));
 					public static LocString DESC = "Very natural, much wow.";
-					public static LocString EFFECT = $"Creates a natural backwal on finishing construction.\nMass can be configured during construction.";
+					public static LocString EFFECT = $"Creates a natural backwall on finishing construction.\nMass can be configured during construction.";
 				}
 			}
 		}
