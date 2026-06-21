@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using TUNING;
 using UnityEngine;
 using UtilLibs;
 using static StatusItem;
@@ -45,8 +46,15 @@ namespace OniRetroEdition
 			if (overlayBitsField != null && overlayBitsField.GetValue(null) is
 					IDictionary<HashedString, StatusItemOverlays> overlayBits)
 				overlayBits.Add(OverlayModes.Sound.ID, StatusItemOverlays.None);
+
+			FixSkinny();
 		}
 
+		public static void FixSkinny()
+		{
+			///prevents default insulation of 0.002 to dip below 0, causing sim crashes;
+			DUPLICANTSTATS.STANDARD.Temperature.Conductivity_Barrier_Modification.SKINNY = -0.001f;
+		}
 
 		static readonly string KanimZip = "anim.zip";
 

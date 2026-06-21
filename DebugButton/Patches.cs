@@ -2,6 +2,7 @@
 using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.InteropServices;
 using UnityEngine;
@@ -265,10 +266,20 @@ namespace DebugButton
 
 		//public static string bugIconName = "no_bugs_instabuild_icon";
 
-		[HarmonyPatch(typeof(KImGuiUtil), nameof(KImGuiUtil.SetKAssertCB))]
+		[HarmonyPatch]
 		public static class ImGui_Patch
 		{
+			[HarmonyPrepare]
+			public static bool Prepare() => FindMethod() != null;
+			[HarmonyTargetMethod]
+			public static MethodBase FindMethod()
+			{
+				var targetType = AccessTools.TypeByName("KImGuiUtil");
+				return AccessTools.Method(targetType, "SetKAssertCB");
+			}
+
 			[UsedImplicitly]
+			[HarmonyTranspiler]
 			public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> orig)
 			{
 				return new[] { new CodeInstruction(OpCodes.Ret) };
