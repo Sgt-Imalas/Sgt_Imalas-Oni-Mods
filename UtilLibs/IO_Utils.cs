@@ -125,6 +125,12 @@ namespace UtilLibs
 			};
 			WriteToFile(data, path, useCustomConverter ? converterSettings : null);
 		}
+
+		public static bool NotAMacFile(FileInfo fileInfo)
+		{
+			return !fileInfo.Name.StartsWith("._");
+		}
+
 		public sealed class Vector2IConverter : JsonConverter
 		{
 			public override bool CanConvert(Type objectType)

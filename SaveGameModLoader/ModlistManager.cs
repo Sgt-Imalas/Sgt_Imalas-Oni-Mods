@@ -373,28 +373,43 @@ namespace SaveGameModLoader
 			//    SgtLogger.l(mod.enabledForDlc.FirstOrDefault());
 
 
-			string dlcId = DlcManager.IsExpansion1Active() ? DlcManager.EXPANSION1_ID : DlcManager.VANILLA_ID;
+			string currentMainDlcId = DlcManager.IsExpansion1Active() ? DlcManager.EXPANSION1_ID : DlcManager.VANILLA_ID;
+			SgtLogger.l("Synchronizing mods with restart");
+			bool shouldEnableAll = enableAll.HasValue && enableAll.Value;
+
+			if (shouldEnableAll)
+				SgtLogger.l("Enabling all mods..");
 
 			for (int i = 0; i < ModFileDeserialized.mods.Count; i++)
 			{
 				var mod_entry = ModFileDeserialized.mods[i];
 
-				bool enabled = enableAll.HasValue ? enableAll.Value : ActiveModlistModIds.Contains(mod_entry.label.defaultStaticID);
+				if (!DlcManager.IsCorrectDlcSubscribed(mod_entry))
+				{
+					continue;
+				}
+
+				bool shouldBeEnabled = shouldEnableAll || ActiveModlistModIds.Contains(mod_entry.label.defaultStaticID);
 
 				if (ModFileDeserialized.mods[i].enabledForDlc == null)
 				{
-					ModFileDeserialized.mods[i].enabledForDlc = new List<string>();
+					ModFileDeserialized.mods[i].enabledForDlc = [];
 				}
 
-				if (enabled)
+				bool isCurrentlyEnabled = mod_entry.enabledForDlc.Contains(currentMainDlcId);
+
+				if (isCurrentlyEnabled == shouldBeEnabled)
+					continue;
+
+				if (shouldBeEnabled)
 				{
-					SgtLogger.l("ENABLE: " + ModFileDeserialized.mods[i].label);
-					ModFileDeserialized.mods[i].enabledForDlc.Add(dlcId);
+					SgtLogger.l("Enabling mod: " + ModFileDeserialized.mods[i].label);
+					ModFileDeserialized.mods[i].enabledForDlc.Add(currentMainDlcId);
 				}  //new List<string> { DlcManager.EXPANSION1_ID }; VANILLA_ID
 				else
 				{
-					SgtLogger.l("DISABLE: " + ModFileDeserialized.mods[i].label);
-					ModFileDeserialized.mods[i].enabledForDlc.Remove(dlcId);
+					SgtLogger.l("Disabling mod: " + ModFileDeserialized.mods[i].label);
+					ModFileDeserialized.mods[i].enabledForDlc.Remove(currentMainDlcId);
 				}
 			}
 
@@ -436,6 +451,12 @@ namespace SaveGameModLoader
 				var modID = modToEdit.label.defaultStaticID;
 				bool shouldBeEnabled = enableAll.HasValue ? enableAll.Value : ActiveModlistModIds.Contains(modID);
 				bool isEnabled = modToEdit.IsEnabledForActiveDlc();
+
+
+				if (!DlcManager.IsCorrectDlcSubscribed(modToEdit))
+				{
+					continue;
+				}
 
 				if (ModSyncUtils.IsModSyncMod(modToEdit))
 					shouldBeEnabled = true;

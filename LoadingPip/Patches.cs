@@ -62,7 +62,7 @@ namespace LoadingPip
 					foreach (var file in System.IO.Directory.GetFiles(dreamIconDicrectory))
 					{
 						var fileInfo = new FileInfo(file);
-						if (fileInfo.Exists && fileInfo.Extension == ".png")
+						if (fileInfo.Exists && fileInfo.Extension == ".png" && IO_Utils.NotAMacFile(fileInfo))
 						{
 							SgtLogger.l("loading custom load screen icon: " + fileInfo.Name);
 							AssetUtils.AddSpriteToAssets(fileInfo, __instance);
