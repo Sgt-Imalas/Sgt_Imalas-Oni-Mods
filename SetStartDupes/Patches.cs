@@ -265,7 +265,7 @@ namespace SetStartDupes
 
 			static void ToggleSpacer(ImmigrantScreen __instance, bool on)
 			{
-				bool tall = !EditingSingleDupe;
+				bool tall = !EditingSingleDupe && Config.Instance.RerollDuringGame;
 				if (Spacer == null)
 				{
 					var container = __instance.transform.Find("Layout");
@@ -342,7 +342,7 @@ namespace SetStartDupes
 			{
 				EditingSingleDupe = telepad == null;
 
-				if ((EditingSingleDupe && Config.Instance.JorgeAndCryopodDupes) || Config.Instance.RerollDuringGame || Config.Instance.RerollDuringGame_CarePackage)
+				if ((EditingSingleDupe && Config.Instance.JorgeAndCryopodDupes) || Config.Instance.RerollDuringGame || Config.Instance.RerollDuringGame_CarePackage || Config.Instance.ModifyDuringGame_CarePackage)
 				{
 					ToggleSpacer(__instance, true);
 				}
