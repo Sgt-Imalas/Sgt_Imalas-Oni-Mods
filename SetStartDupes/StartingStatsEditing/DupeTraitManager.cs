@@ -1,6 +1,7 @@
 ﻿using Beached_ModAPI;
 using Database;
 using Klei.AI;
+using SetStartDupes.API_IO;
 using SetStartDupes.DuplicityEditing.ScreenComponents;
 using System;
 using System.Collections.Generic;
@@ -75,6 +76,7 @@ namespace SetStartDupes
 		GameObject OverjoyedContainer;
 		GameObject StressContainer;
 		GameObject LifeGoalContainer;
+		GameObject FavFoodContainer;
 
 		GameObject AddNewTrait;
 		GameObject AddNewInterest;
@@ -88,6 +90,8 @@ namespace SetStartDupes
 		ToolTip StressTT;
 		LocText GoalLabel;
 		ToolTip GoalTT;
+		LocText FavFoodLabel;
+		ToolTip FavFoodTT;
 
 		private bool _currentlyEditing = false;
 
@@ -128,6 +132,9 @@ namespace SetStartDupes
 
 			LifeGoalContainer = InitContainer("LifeGoalContainer", string.Format(Strings.Get("STRINGS.UI.CHARACTERCONTAINER_LIFEGOAL_TRAIT"), string.Empty));
 			LifeGoalContainer.SetActive(ModAssets.Beached_LifegoalsActive);
+
+			FavFoodContainer = InitContainer("LifeGoalContainer", "Favourite Food:");
+			FavFoodContainer.SetActive(ModAssets.FoodOverhaulActive && !IsBionicMinion());
 
 			if (InterestContainer.transform.gameObject.TryGetComponent<LayoutElement>(out LayoutElement layoutElement))
 			{
@@ -311,7 +318,29 @@ namespace SetStartDupes
 				}
 				GoalTT.SetSimpleTooltip(ModAssets.GetTraitTooltip(LifeGoalTrait, LifeGoalTrait.Id));
 			}
+			if (ModAssets.FoodOverhaulActive && !IsBionicMinion())
+			{
+				Trait currentFavFoodTrait = FoodOverhaul_API.GetFavouriteFoodTrait(ToEditMinionStats);
+				if (currentFavFoodTrait != null)
+				{
+					if (FavFoodLabel == null)
+					{
+						FavFoodLabel = AddTraitContainerUI(currentFavFoodTrait, FavFoodContainer, NextType.FoodOverhaul_Favourite, false).transform.Find("Label").GetComponent<LocText>();
+					}
+					else
+					{
+						FavFoodLabel.text = currentFavFoodTrait.Name;
+					}
+					if (FavFoodTT == null)
+					{
+						FavFoodTT = FavFoodLabel.transform.parent.gameObject.GetComponent<ToolTip>();
+					}
+					FavFoodTT.SetSimpleTooltip(ModAssets.GetTraitTooltip(currentFavFoodTrait, currentFavFoodTrait.Id));
+				}
+			}
 		}
+
+		public bool IsBionicMinion() => ToEditMinionStats != null && ToEditMinionStats.personality.model == GameTags.Minions.Models.Bionic;
 
 
 		void RebuildTraits()
@@ -783,7 +812,8 @@ namespace SetStartDupes
 
 			//mod integration types
 			Beached_LifeGoal, //lifegoal from akis beached mod
-			RainbowFart //rainbow fart from rainbow farts mod
+			RainbowFart, //rainbow fart from rainbow farts mod
+			FoodOverhaul_Favourite, //favourite food from FoodOverhaul mod
 		}
 		internal void SetReferenceStats(MinionStartingStats referencedStats)
 		{
@@ -796,6 +826,8 @@ namespace SetStartDupes
 				ToEditMinionStats = referencedStats;
 
 				ModAssets.DupeTraitManagers.Add(referencedStats, this);
+
+				FavFoodContainer.SetActive(ModAssets.FoodOverhaulActive && !IsBionicMinion());
 				RecalculateAll();
 			}
 		}
@@ -891,6 +923,13 @@ namespace SetStartDupes
 		public void ResetPool()
 		{
 			skillPointPool = 0;
+		}
+		public void SetFavouriteFood(Trait trait)
+		{
+			if (ToEditMinionStats != null && ModAssets.FoodOverhaulActive)
+			{
+				FoodOverhaul_API.SetFavouriteFoodTrait(ToEditMinionStats, trait);
+			}
 		}
 		public void RemoveLifeGoal()
 		{

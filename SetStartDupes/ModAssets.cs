@@ -66,6 +66,9 @@ namespace SetStartDupes
 		public static bool RainbowFartsActive = false;
 		public static List<DUPLICANTSTATS.TraitVal> RAINBOWFARTS_FARTTRAITS = new List<DUPLICANTSTATS.TraitVal>();
 
+		public static bool FoodOverhaulActive = false;
+		public static List<DUPLICANTSTATS.TraitVal> FOODOVERHAUL_FAVTRAITS = new List<DUPLICANTSTATS.TraitVal>();
+
 		public static Dictionary<string, string> ExtraTraitTooltipKeys = new Dictionary<string, string>();
 		public static readonly AccessTools.FieldRef<CharacterContainer, Action<CharacterContainer>> CharacterContainer_OnReshuffled = AccessTools.FieldRefAccess<CharacterContainer, Action<CharacterContainer>>("OnReshuffled");
 
@@ -596,12 +599,46 @@ namespace SetStartDupes
 			public static Color grey = Util.ColorFromHex("404040");
 			public static Color cyan = Util.ColorFromHex("19a294");
 
-
-
 			///Color.Lerp(originalColor, Color.black, .5f); To darken by 50%
 			///Color.Lerp(originalColor, Color.white, .5f); To lighten by 50% 
 		}
 
+		public static void InitFoodOverhaul()
+		{
+			SgtLogger.l("Food Overhaul Found, initializing...");
+			FoodOverhaulActive = true;
+
+			var rawTraitVals = FoodOverhaul_API.GetRawTraitVals();
+			var db = Db.Get().traits;
+
+			foreach (var foodTraitVal in rawTraitVals)
+			{
+
+				string traitID = "FF_" + foodTraitVal.id;
+				var foodTrait = db.TryGet(traitID);
+				var food = Assets.GetPrefab(foodTraitVal.id);
+				if(food == null)
+				{
+					SgtLogger.warning(traitID + " was not a valid food for the current installation!");
+					continue;
+				}
+				var iHasDlc = food.GetComponent<IHasDlcRestrictions>();
+
+				if (foodTrait != null)
+				{
+					var val = new DUPLICANTSTATS.TraitVal()
+					{
+						id = traitID,
+						requiredDlcIds = iHasDlc?.GetRequiredDlcIds(),
+						forbiddenDlcIds = iHasDlc?.GetForbiddenDlcIds(),
+					};
+					FOODOVERHAUL_FAVTRAITS.Add(val);
+					SgtLogger.l("added fav. food trait for " + traitID);
+				}
+				else
+					SgtLogger.warning(traitID, "Trait was null");
+			}
+		}
 		public static void InitRainbowFarts()
 		{
 			SgtLogger.l("Rainbow Farts Found, initializing...");
@@ -624,7 +661,6 @@ namespace SetStartDupes
 				else
 					SgtLogger.warning(traitID, "Trait was null");
 			}
-
 		}
 		public static void InitBeached()
 		{
@@ -657,6 +693,10 @@ namespace SetStartDupes
 
 		private static Dictionary<NextType, List<DUPLICANTSTATS.TraitVal>> TraitsByType = new Dictionary<NextType, List<DUPLICANTSTATS.TraitVal>>()
 		{
+			{
+				NextType.FoodOverhaul_Favourite,
+				FOODOVERHAUL_FAVTRAITS
+			},
 			{
 				NextType.RainbowFart,
 				RAINBOWFARTS_FARTTRAITS
@@ -921,6 +961,7 @@ namespace SetStartDupes
 					break;
 				case DupeTraitManager.NextType.needTrait:
 				case DupeTraitManager.NextType.Beached_LifeGoal:
+				case DupeTraitManager.NextType.FoodOverhaul_Favourite:
 					colorToPaint = Colors.gold;
 					break;
 

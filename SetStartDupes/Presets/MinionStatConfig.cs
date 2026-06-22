@@ -2,6 +2,7 @@
 using Database;
 using Klei.AI;
 using Newtonsoft.Json;
+using SetStartDupes.API_IO;
 using SetStartDupes.DuplicityEditing;
 using System;
 using System.Collections.Generic;

@@ -14,6 +14,16 @@ namespace SetStartDupes.Patches
 	internal class DbInitPatch
 	{
 
+		[HarmonyPatch(typeof(Db), nameof(Db.PostProcess))]
+		public class Db_PostProcess_Patch
+		{
+			public static void Postfix()
+			{
+				FoodOverhaul_API.InitFoodOverhaulAPI();
+			}
+		}
+
+
         [HarmonyPatch(typeof(Db), nameof(Db.Initialize))]
         public class Db_Initialize_Patch
         {

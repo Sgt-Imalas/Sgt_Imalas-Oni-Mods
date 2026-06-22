@@ -12,7 +12,6 @@ using System.Linq;
 using TUNING;
 using UnityEngine;
 using UtilLibs;
-using UtilLibs.ModVersionCheck;
 using static Database.Personalities;
 using static TUNING.DUPLICANTSTATS;
 
@@ -68,9 +67,14 @@ namespace SetStartDupes
 					id = workaholic_ID,
 					rarity = RARITY_COMMON
 				});
+			FixSkinny();
 		}
 
-
+		public static void FixSkinny()
+		{
+			///prevents default insulation of 0.002 to dip below 0, causing sim crashes;
+			DUPLICANTSTATS.STANDARD.Temperature.Conductivity_Barrier_Modification.SKINNY = -0.001f;
+		}
 
 		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
 		{

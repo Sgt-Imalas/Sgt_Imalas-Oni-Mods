@@ -224,7 +224,10 @@ namespace SetStartDupes
                 case NextType.joy:
                     ReferencedStats.joyTrait = trait;
                     break;
-                case NextType.Beached_LifeGoal:
+				case NextType.FoodOverhaul_Favourite:
+					currentStatManager.SetFavouriteFood(trait);
+                    break;
+				case NextType.Beached_LifeGoal:
                     currentStatManager.RemoveLifeGoal();
                     currentStatManager.AddLifeGoal(trait);
 
@@ -317,7 +320,6 @@ namespace SetStartDupes
                 var TraitsOfCategory = ModAssets.TryGetTraitsOfCategory(type, null);
 
                 var sortedTraits = TraitsOfCategory.OrderBy(traitval => traitsDb.TryGet(traitval.id)?.GetName());
-
                 foreach (var item in sortedTraits)
                 {
                     if (ModAssets.TraitAllowedInCurrentDLC(item))
