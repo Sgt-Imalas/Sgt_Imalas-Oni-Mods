@@ -1264,6 +1264,10 @@ namespace ClusterTraitGenerationManager.ClusterData
 			{
 				DisableModdedImpactorShowerStoryTrait();
 			}
+			if (CGMWorldGenUtils.HasMinnowOnWorld(adding.world)) //impactor shower from potential mod in the future
+			{
+				DisableModdedMinnowStoryTrait();
+			}
 		}
 		public static void DisableModdedImpactorShowerStoryTrait()
 		{
@@ -1278,6 +1282,16 @@ namespace ClusterTraitGenerationManager.ClusterData
 		public static void DisableModdedGeopumpStoryTrait()
 		{
 			if (!CustomGameSettings.Instance.StorySettings.TryGetValue(CGMWorldGenUtils.CGM_Heatpump_StoryTrait, out var storyTrait))
+				return;
+			bool isCurrentlyEnabled = CustomGameSettings.Instance.GetCurrentStoryTraitSetting(storyTrait).id == StoryContentPanel.StoryState.Guaranteed.ToString();
+
+			if (!isCurrentlyEnabled)
+				return;
+			CustomGameSettings.Instance.SetStorySetting(storyTrait, false);
+		}
+		public static void DisableModdedMinnowStoryTrait()
+		{
+			if (!CustomGameSettings.Instance.StorySettings.TryGetValue(CGMWorldGenUtils.CGM_Minnow_StoryTrait, out var storyTrait))
 				return;
 			bool isCurrentlyEnabled = CustomGameSettings.Instance.GetCurrentStoryTraitSetting(storyTrait).id == StoryContentPanel.StoryState.Guaranteed.ToString();
 
