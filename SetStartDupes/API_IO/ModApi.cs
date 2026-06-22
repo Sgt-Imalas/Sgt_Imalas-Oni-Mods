@@ -84,8 +84,9 @@ namespace SetStartDupes
 		}
 
 		public static bool MinnowInitiativeTraitCompletedOnce() => (
-			false &&
+			//false &&
 			Db.Get().Personalities.TryGet("MINNOW") != null &&
+			DlcManager.IsContentSubscribed(DlcManager.DLC5_ID) &&
 			//TODO: wait for minnow unlock, then add here:
 			//Game.Instance != null && Game.Instance.unlocks != null && Game.Instance.unlocks.IsUnlocked("LonelyMinion_STORY_COMPLETE") && 
 			//ok there is still none, whatever, set the setting default to false.

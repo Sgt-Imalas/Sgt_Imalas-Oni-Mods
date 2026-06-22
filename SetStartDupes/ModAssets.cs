@@ -2,6 +2,7 @@
 using Database;
 using HarmonyLib;
 using Klei.AI;
+using Newtonsoft.Json;
 using SetStartDupes.API_IO;
 using SetStartDupes.CarePackageEditor;
 using SetStartDupes.DuplicityEditing.ScreenComponents;
@@ -35,10 +36,12 @@ namespace SetStartDupes
 
 		public static GameObject StartPrefab;
 
-		public static Personality ToShufflePersonality;
+		public static Personality ToShufflePersonality { get; private set; }
+		private static Personality NonFreedivingMinnow = null;
+
 
 		public static CharacterContainer SingleCharacterContainer;
-		public static GameObject CryoDupeToApplyStatsOn = null;
+		public static GameObject SingleMinionGOforStatEditing = null;
 
 
 		public static GameObject NextButtonPrefab;
@@ -152,6 +155,27 @@ namespace SetStartDupes
 			TMPConverter.ReplaceAllText(CarePackageEditorWindowPrefab);
 			TMPConverter.ReplaceAllText(EditNumberRowPrefab.gameObject);
 
+		}
+		public static void SetToShufflePersonality(Personality personality)
+		{
+			//if (personality != null && personality.Id == "MINNOW")
+			//{
+			//	if (NonFreedivingMinnow == null)
+			//	{
+			//		try
+			//		{
+			//			NonFreedivingMinnow = JsonConvert.DeserializeObject<Personality>(JsonConvert.SerializeObject(personality));
+			//			NonFreedivingMinnow.congenitaltrait = null;
+			//		}
+			//		catch (Exception ex)
+			//		{
+			//			SgtLogger.warning("Could not create freediverless minnow:\n" + ex.Message);
+			//		}
+			//	}
+			//	if (NonFreedivingMinnow != null)
+			//		personality = NonFreedivingMinnow;
+			//}
+			ToShufflePersonality = personality;
 		}
 
 		///Assuming the component added by the Trait has the same class name as the trait, which is the case for all klei traits.
@@ -617,7 +641,7 @@ namespace SetStartDupes
 				string traitID = "FF_" + foodTraitVal.id;
 				var foodTrait = db.TryGet(traitID);
 				var food = Assets.GetPrefab(foodTraitVal.id);
-				if(food == null)
+				if (food == null)
 				{
 					SgtLogger.warning(traitID + " was not a valid food for the current installation!");
 					continue;
@@ -886,14 +910,14 @@ namespace SetStartDupes
 
 		public static bool RerollingDisabled(NextType type)
 		{
-			switch(type)
+			switch (type)
 			{
 				case NextType.special:
 				case NextType.congenital:
 				case NextType.undefined:
 					return true;
 
-				default : return false;
+				default: return false;
 			}
 		}
 

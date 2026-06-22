@@ -105,24 +105,54 @@ namespace SetStartDupes
 			}
 		}
 
+		[HarmonyPatch(typeof(MinnowImperativePOIStates.Instance), nameof(MinnowImperativePOIStates.Instance.SpawnMinnow))]
+		public class MakeMinnowEditable
+		{
+			[HarmonyPrepare] public static bool Prepare() => Config.Instance.JorgeAndCryopodDupes;
+			public static void Postfix()
+			{
+				ModAssets.EditingSingleDupe = SingleMinionGOforStatEditing != null;
+				if (ModAssets.EditingSingleDupe)
+				{
+					SgtLogger.l("Getting Minnow GameObject");
+					ImmigrantScreen.InitializeImmigrantScreen(null);
+				}
+				else
+					SgtLogger.warning("Could not fetch Minnow GameObject");
+
+			}
+			public static IEnumerable<CodeInstruction> Transpiler(ILGenerator _, IEnumerable<CodeInstruction> orig)
+			{
+				var m_immigration_applydefaults = AccessTools.Method(typeof(Immigration), nameof(Immigration.ApplyDefaultPersonalPriorities));
+				var m_cacheMinnow = AccessTools.Method(typeof(MakeMinnowEditable), nameof(CacheMinnowGo));
+
+				foreach (var instruction in orig)
+				{
+					if (instruction.Calls(m_immigration_applydefaults))
+					{
+						yield return new CodeInstruction(OpCodes.Call, m_cacheMinnow);
+					}
+					yield return instruction;
+				}
+			}
+			static GameObject CacheMinnowGo(GameObject minnowGO)
+			{
+				SingleMinionGOforStatEditing = minnowGO;
+				return minnowGO;
+			}
+
+		}
+
 		[HarmonyPatch(typeof(CryoTank), nameof(CryoTank.DropContents))]
 		public class AddToCryoTank
 		{
-			public static void Prefix()
-			{
-				if (Config.Instance.JorgeAndCryopodDupes)
-				{
-					ModAssets.EditingSingleDupe = true;
-					ImmigrantScreen.InitializeImmigrantScreen(null);
-				}
-			}
+			[HarmonyPrepare] public static bool Prepare() => Config.Instance.JorgeAndCryopodDupes;
 			public static void Postfix(CryoTank __instance)
 			{
-				if (Config.Instance.JorgeAndCryopodDupes)
-				{
-					SgtLogger.l("Getting CryoDupe gameobject");
-					CryoDupeToApplyStatsOn = __instance.smi.sm.defrostedDuplicant.Get(__instance.smi);
-				}
+				SgtLogger.l("Getting CryoDupe gameobject");
+				SingleMinionGOforStatEditing = __instance.smi.sm.defrostedDuplicant.Get(__instance.smi);
+				ModAssets.EditingSingleDupe = true;
+				ImmigrantScreen.InitializeImmigrantScreen(null);
 			}
 		}
 
@@ -135,12 +165,14 @@ namespace SetStartDupes
 				{
 					SgtLogger.l("editingSingleDupe");
 
-					if (CryoDupeToApplyStatsOn != null
-						&& CryoDupeToApplyStatsOn.TryGetComponent<MinionIdentity>(out var minionIdentity)
+					if (SingleMinionGOforStatEditing != null
+						&& SingleMinionGOforStatEditing.TryGetComponent<MinionIdentity>(out var minionIdentity)
 						&& Db.Get().Personalities.Get(minionIdentity.personalityResourceId) != null)
 					{
+						string guaranteedTrait = (minionIdentity.GetComponent<Traits>()?.HasTrait("AncientKnowledge") ?? false) ? "AncientKnowledge" : null;
+
 						var originPersonality = Db.Get().Personalities.Get(minionIdentity.personalityResourceId);
-						__instance.stats = new MinionStartingStats(originPersonality, guaranteedAptitudeID, guaranteedTraitID: "AncientKnowledge");
+						__instance.stats = new MinionStartingStats(originPersonality, guaranteedAptitudeID, guaranteedTraitID: guaranteedTrait);
 						//ModAssets.ApplySkinFromPersonality(originPersonality, __instance.stats);
 						//__instance.characterNameTitle.OnEndEdit(originPersonality.Name);
 					}
@@ -501,18 +533,18 @@ namespace SetStartDupes
 					foreach (var trait in DupeToDeliver.Traits)
 						SgtLogger.l(trait.Name, "Trait ToApply");
 
-					if (CryoDupeToApplyStatsOn != null && CryoDupeToApplyStatsOn.TryGetComponent<Traits>(out var traits))
+					if (SingleMinionGOforStatEditing != null && SingleMinionGOforStatEditing.TryGetComponent<Traits>(out var traits))
 					{
 						foreach (var trait in traits.GetTraitIds())
 						{
 							SgtLogger.l("purging existing trait: " + trait);
-							PurgingTraitComponentIfExists(trait, CryoDupeToApplyStatsOn);
+							PurgingTraitComponentIfExists(trait, SingleMinionGOforStatEditing);
 						}
 
 						traits.Clear();
 
 
-						if (CryoDupeToApplyStatsOn.TryGetComponent<MinionResume>(out var minionRes))
+						if (SingleMinionGOforStatEditing.TryGetComponent<MinionResume>(out var minionRes))
 						{
 							minionRes.AptitudeBySkillGroup.Clear();
 						}
@@ -525,9 +557,9 @@ namespace SetStartDupes
 						}
 
 
-						DupeToDeliver.Apply(CryoDupeToApplyStatsOn);
+						DupeToDeliver.Apply(SingleMinionGOforStatEditing);
 						///These symbols get overidden at dupe creation, as we are editing already spawned dupes, we have to remove the old overrides and add the new overrides
-						if (CryoDupeToApplyStatsOn.TryGetComponent<SymbolOverrideController>(out var symbolOverride) && CryoDupeToApplyStatsOn.TryGetComponent<Accessorizer>(out var accessorizer))
+						if (SingleMinionGOforStatEditing.TryGetComponent<SymbolOverrideController>(out var symbolOverride) && SingleMinionGOforStatEditing.TryGetComponent<Accessorizer>(out var accessorizer))
 						{
 							var headshape_symbolName = (KAnimHashedString)HashCache.Get().Get(accessorizer.GetAccessory(Db.Get().AccessorySlots.Mouth).symbol.hash).Replace("mouth", "cheek");
 							var cheek_symbol_snapTo = (HashedString)"snapto_cheek";
@@ -550,7 +582,7 @@ namespace SetStartDupes
 							UnityEngine.Object.Destroy(SingleCharacterContainer.gameObject);
 							SingleCharacterContainer = null;
 						}
-						CryoDupeToApplyStatsOn = null;
+						SingleMinionGOforStatEditing = null;
 						EditingJorge = false;
 					}
 
@@ -586,7 +618,7 @@ namespace SetStartDupes
 			}
 			public static void Prefix(ImmigrantScreen __instance)
 			{
-				if(__instance.containers == null || !__instance.containers.Any())
+				if (__instance.containers == null || !__instance.containers.Any())
 				{
 					RerollDisabler.RefreshCounter();
 				}
@@ -674,15 +706,13 @@ namespace SetStartDupes
 				}
 				if (__instance.stats != null && ModAssets.IsLockedContainer(__instance))
 				{
-					ModAssets.ToShufflePersonality = __instance.stats.personality;
+					ModAssets.SetToShufflePersonality(__instance.stats.personality);
 					SgtLogger.l("locked container rerolled, personality: " + ToShufflePersonality.Name);
 				}
 				else
 				{
-					ModAssets.ToShufflePersonality = null;
+					ModAssets.SetToShufflePersonality(null);
 				}
-
-
 				return true;
 			}
 			//public static void Postfix(CharacterContainer __instance)
@@ -969,24 +999,22 @@ namespace SetStartDupes
 		[HarmonyPatch(typeof(LonelyMinionHouse.Instance), nameof(LonelyMinionHouse.Instance.SpawnMinion))]
 		public class MakeJorgeRerollable
 		{
+			[HarmonyPrepare] public static bool Prepare() => Config.Instance.JorgeAndCryopodDupes;
+
 			public static void GrabJorgeGameObject(MinionIdentity minionIdentity)
 			{
-				if (Config.Instance.JorgeAndCryopodDupes)
-				{
-					SgtLogger.l("Getting Jorge Gameobject");
-					CryoDupeToApplyStatsOn = minionIdentity.gameObject;
-				}
+				SgtLogger.l("Getting Jorge Gameobject");
+				SingleMinionGOforStatEditing = minionIdentity.gameObject;
 			}
 			public static void Postfix()
 			{
 				SgtLogger.l("Start Editing Jorge");
-				if (CryoDupeToApplyStatsOn && Config.Instance.JorgeAndCryopodDupes)
+				if (SingleMinionGOforStatEditing)
 				{
 
 					ModAssets.EditingSingleDupe = true;
 					ModAssets.EditingJorge = true;
 					ImmigrantScreen.InitializeImmigrantScreen(null);
-
 				}
 			}
 
@@ -1435,7 +1463,7 @@ namespace SetStartDupes
 				//}
 			}
 		}
-		
+
 		[HarmonyPatch(typeof(CharacterContainer), nameof(CharacterContainer.OnSpawn))]
 		public class AddDeletionButtonForStartScreen_TraitRerolling
 		{
@@ -1448,7 +1476,7 @@ namespace SetStartDupes
 			[HarmonyPostfix]
 			public static void Postfix(CharacterContainer __instance)
 			{
-				ModAssets.ToShufflePersonality = null;
+				ModAssets.SetToShufflePersonality(null);
 
 				bool is_starter = __instance.controller is MinionSelectScreen;
 
@@ -1523,7 +1551,7 @@ namespace SetStartDupes
 
 					//var currentlySelectedIdentity = __instance.GetComponent<MinionIdentity>();
 
-					
+
 
 					UIUtils.AddActionToButton(skinBtn.transform, "", () => DupeSkinScreenAddon.ShowSkinScreen(__instance));
 				}
@@ -1888,7 +1916,7 @@ namespace SetStartDupes
 				if (__instance.GetType() == typeof(MinionSelectScreen))
 				{
 #if DEBUG
-                    Debug.Log("Manipulating Instance: " + __instance.GetType());
+					Debug.Log("Manipulating Instance: " + __instance.GetType());
 
 
 #endif
@@ -1934,7 +1962,7 @@ namespace SetStartDupes
 				}
 				//SgtLogger.l(UnityPresetScreen.parentScreen.ToString(), "PRESET");
 #if DEBUG
-                //Debug.Log("PREFAB: " + size);
+				//Debug.Log("PREFAB: " + size);
 #endif
 			}
 
@@ -2004,7 +2032,7 @@ namespace SetStartDupes
 			[HarmonyPostfix]
 			public static void Postfix(CharacterContainer __0, string __1)
 			{
-				if(!__1.IsNullOrWhiteSpace())
+				if (!__1.IsNullOrWhiteSpace())
 					ModAssets.SetContainerPersonalityLock(__0, true);
 			}
 		}
@@ -2050,7 +2078,6 @@ namespace SetStartDupes
 			}
 		}
 
-
 		[HarmonyPatch(typeof(CharacterContainer), nameof(CharacterContainer.GenerateCharacter))]
 		public static class RollMinionWithForcedTrait
 		{
@@ -2086,7 +2113,7 @@ namespace SetStartDupes
 				var startingStatsConstructor = AccessTools.Constructor(typeof(MinionStartingStats), [typeof(List<Tag>), typeof(bool), typeof(string), typeof(string), typeof(bool)]);
 
 				var insertionIndex = code.FindIndex(ci => ci.CallsConstructor(startingStatsConstructor));
-				
+
 
 				if (insertionIndex != -1)
 				{
@@ -2119,7 +2146,7 @@ namespace SetStartDupes
 						SgtLogger.log("StatManager not found, skipping assignment..");
 					return;
 				}
-				if(mngt.gameObject.TryGetComponent<DupeTraitManager>(out DupeTraitManager mng))
+				if (mngt.gameObject.TryGetComponent<DupeTraitManager>(out DupeTraitManager mng))
 				{
 					mng.SetReferenceStats(__instance.stats);
 				}
