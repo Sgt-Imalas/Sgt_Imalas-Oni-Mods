@@ -72,8 +72,13 @@ namespace _3GuBsVisualFixesNTweaks.Scripts
 			if (!Grid.IsValidCell(cell) || !Grid.IsVisible(cell))
 				return;
 
+			if (ClusterManager.Instance.activeWorldIdx != Grid.WorldIdx[cell])
+				return;
+
 			if (Grid.ElementIdx[cell] != magmaIdx)
 				return;
+
+
 			int above = Grid.CellAbove(cell);
 			if (!Grid.IsValidCell(above) || !Grid.IsVisible(above) || Grid.IsSolidCell(above) || Grid.IsLiquid(above))
 				return;
