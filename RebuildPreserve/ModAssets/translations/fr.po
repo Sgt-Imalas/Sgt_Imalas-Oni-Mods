@@ -1,0 +1,28 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2026-06-18 22:34+0200\n"
+"Last-Translator: Pholith\n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.9\n"
+"X-Poedit-Basepath: .\n"
+
+#. RebuildPreserve.STRINGS.PRESERVESETTINGSSIDESCREEN.HEADER
+msgctxt "RebuildPreserve.STRINGS.PRESERVESETTINGSSIDESCREEN.HEADER"
+msgid "Automatic Rebuild Screen"
+msgstr "Paramètres de reconstruction automatique"
+
+#. RebuildPreserve.STRINGS.PRESERVESETTINGSSIDESCREEN.LABEL
+msgctxt "RebuildPreserve.STRINGS.PRESERVESETTINGSSIDESCREEN.LABEL"
+msgid "Rebuild when broken"
+msgstr "Reconstruire en cas de destruction"
+
+#. RebuildPreserve.STRINGS.PRESERVESETTINGSSIDESCREEN.TOOLTIP
+msgctxt "RebuildPreserve.STRINGS.PRESERVESETTINGSSIDESCREEN.TOOLTIP"
+msgid "Automatically issue a full rebuild command if the building gets broken"
+msgstr "Lance automatiquement un ordre de reconstruction si le bâtiment est détruit"

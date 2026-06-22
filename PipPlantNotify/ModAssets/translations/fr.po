@@ -1,0 +1,42 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Pholith\n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.9\n"
+
+#. PipPlantNotify.STRINGS.UI.PIPPLANTNOTIFICATION.LABEL
+msgctxt "PipPlantNotify.STRINGS.UI.PIPPLANTNOTIFICATION.LABEL"
+msgid "Notify on Planting"
+msgstr "Notifier lors de la plantation"
+
+#. PipPlantNotify.STRINGS.UI.PIPPLANTNOTIFICATION.NOTIFICATION.TITLE
+msgctxt "PipPlantNotify.STRINGS.UI.PIPPLANTNOTIFICATION.NOTIFICATION.TITLE"
+msgid "{0} has planted a seed!"
+msgstr "{0} a planté une graine !"
+
+#. PipPlantNotify.STRINGS.UI.PIPPLANTNOTIFICATION.NOTIFICATION.TOOLTIP
+msgctxt "PipPlantNotify.STRINGS.UI.PIPPLANTNOTIFICATION.NOTIFICATION.TOOLTIP"
+msgid ""
+"{0} has planted a seed!\n"
+"Click here to visit the location."
+msgstr ""
+"{0} a planté une graine !\n"
+"Cliquez ici pour accéder à l'emplacement."
+
+#. PipPlantNotify.STRINGS.UI.PIPPLANTNOTIFICATION.TITLE
+msgctxt "PipPlantNotify.STRINGS.UI.PIPPLANTNOTIFICATION.TITLE"
+msgid "Pip Planting Notification"
+msgstr "Notification de plantation des Pips"
+
+#. PipPlantNotify.STRINGS.UI.PIPPLANTNOTIFICATION.TOOLTIP
+msgctxt "PipPlantNotify.STRINGS.UI.PIPPLANTNOTIFICATION.TOOLTIP"
+msgid "Toggle if this Pip should trigger a notification on planting a seed."
+msgstr "Détermine si ce Pip doit déclencher une notification lorsqu'il plante une graine."
