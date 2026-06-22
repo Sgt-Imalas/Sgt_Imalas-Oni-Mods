@@ -27,7 +27,7 @@ namespace SetStartDupes.API_IO
 		{
 			if (!initialized)
 				return null;
-			var traitId = "FF_"+GetFavouriteFood(minionStartingStats);
+			var traitId = "FF_" + GetFavouriteFood(minionStartingStats);
 			SgtLogger.l(minionStartingStats.Name + " has fav food trait: " + traitId);
 			var trait = Db.Get().traits.TryGet(traitId);
 			return trait;
@@ -78,7 +78,15 @@ namespace SetStartDupes.API_IO
 				if (logWarnings) Debug.LogWarning("m_GetCurrentFavFood is not a method.");
 				return false;
 			}
-			GetFavouriteFood = (GetFavouriteFoodDelegate)Delegate.CreateDelegate(typeof(GetFavouriteFoodDelegate), m_GetCurrentFavFood);
+			try
+			{
+				GetFavouriteFood = (GetFavouriteFoodDelegate)Delegate.CreateDelegate(typeof(GetFavouriteFoodDelegate), m_GetCurrentFavFood);
+			}
+			catch (Exception e)
+			{
+				SgtLogger.error("failed to create delegate for GetFavouriteFood:\n" + e.Message);
+				return false;
+			}
 			var m_SetCurrentFavFood = AccessTools.Method(type, "Set", [typeof(MinionStartingStats), typeof(string)]);
 
 			if (m_SetCurrentFavFood == null)
@@ -86,8 +94,15 @@ namespace SetStartDupes.API_IO
 				if (logWarnings) Debug.LogWarning("m_SetCurrentFavFood is not a method.");
 				return false;
 			}
-			SetFavouriteFood = (SetFavouriteFoodDelegate)Delegate.CreateDelegate(typeof(SetFavouriteFoodDelegate), m_SetCurrentFavFood);
-
+			try
+			{
+				SetFavouriteFood = (SetFavouriteFoodDelegate)Delegate.CreateDelegate(typeof(SetFavouriteFoodDelegate), m_SetCurrentFavFood);
+			}
+			catch (Exception e)
+			{
+				SgtLogger.error("failed to create delegate for GetFavouriteFood:\n" + e.Message);
+				return false;
+			}
 			initialized = true;
 			return true;
 		}

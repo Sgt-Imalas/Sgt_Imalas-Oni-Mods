@@ -1,0 +1,195 @@
+name: STRINGS.CODEX.STORY_TRAITS.CGM_MINNOWTRAIT.NAME
+description: STRINGS.CODEX.STORY_TRAITS.CGM_MINNOWTRAIT.DESCRIPTION
+icon: CGM_MinnowTrait_icon
+colorHex: FFFFFF
+
+
+additionalWorldTemplateRules:
+        
+# Minnow Reef spawn
+
+  # Try finding a reef biome first (can exist from mixing)
+  - names:
+      - poi/imperative/CGM_minnowPOI_A
+    listRule: TryOne
+    priority: 500
+    useRelaxedFiltering: true   
+    allowedCellsFilter:
+      - command: Replace
+        zoneTypes: [Reef]
+  # try ocean biome
+  - names:
+      - poi/imperative/CGM_minnowPOI_A
+    listRule: TryOne
+    priority: 200
+    useRelaxedFiltering: true   
+    allowedCellsFilter:
+      - command: Replace
+        zoneTypes: [Ocean]
+  # Fallback
+  - names:
+      - poi/imperative/CGM_minnowPOI_A
+    listRule: GuaranteeOne
+    priority: 150
+    useRelaxedFiltering: true
+    allowedCellsFilter:
+      - command: All
+      - command: ExceptWith
+        tagcommand: AtTag
+        tag: NoGlobalFeatureSpawning # this also excludes Space
+      - command: ExceptWith  # too close to start
+        tagcommand: DistanceFromTag
+        tag: AtStart
+        minDistance: 0
+        maxDistance: 2
+        ignoreIfMissingTag: true
+      - command: ExceptWith  # too far from start
+        tagcommand: DistanceFromTag
+        tag: AtStart
+        minDistance: 5
+        maxDistance: 99
+        ignoreIfMissingTag: true 
+      - command: ExceptWith # too close to surface
+        tagcommand: DistanceFromTag
+        tag: AtSurface
+        minDistance: 0
+        maxDistance: 1
+      - command: ExceptWith
+        temperatureRanges:
+          - VeryHot
+          - ExtremelyHot
+          - ExtremelyCold
+          - VeryVeryCold
+      - command: ExceptWith
+        zoneTypes: [OilField]
+
+
+# Minnow kelp forest spawn
+
+  # try kelp forest
+  - names:
+    - dlc5::poi/imperative/minnowPOI_B
+    listRule: TryOne
+    priority: 500
+    allowedCellsFilter:
+      - command: Replace
+        zoneTypes: [KelpForest]
+  # try marsh  
+  - names:
+    - dlc5::poi/imperative/minnowPOI_B
+    listRule: TryOne
+    priority: 200
+    allowedCellsFilter:
+      - command: Replace
+        zoneTypes: [BoggyMarsh]
+  # try SO swampy  
+  - names:
+    - dlc5::poi/imperative/minnowPOI_B
+    listRule: TryOne
+    priority: 180
+    allowedCellsFilter:
+      - command: Replace
+        zoneTypes: [Swamp]
+  # try DLC4 wetlands  
+  - names:
+    - dlc5::poi/imperative/minnowPOI_B
+    listRule: TryOne
+    priority: 170
+    allowedCellsFilter:
+      - command: Replace
+        zoneTypes: [PrehistoricWetlands]
+  # try forest
+  - names:
+    - dlc5::poi/imperative/minnowPOI_B
+    listRule: TryOne
+    priority: 160
+    allowedCellsFilter:
+      - command: Replace
+        zoneTypes: [Forest]
+  # fallback
+  - names:
+    - dlc5::poi/imperative/minnowPOI_B
+    listRule: GuaranteeOne
+    priority: 150
+    useRelaxedFiltering: true
+    allowedCellsFilter:
+      - command: All
+      - command: ExceptWith
+        tagcommand: AtTag
+        tag: NoGlobalFeatureSpawning # this also excludes Space
+      - command: ExceptWith  # too close to start
+        tagcommand: DistanceFromTag
+        tag: AtStart
+        minDistance: 0
+        maxDistance: 3
+        ignoreIfMissingTag: true
+      - command: ExceptWith  # too far from start
+        tagcommand: DistanceFromTag
+        tag: AtStart
+        minDistance: 6
+        maxDistance: 99
+        ignoreIfMissingTag: true 
+      - command: ExceptWith # too close to surface
+        tagcommand: DistanceFromTag
+        tag: AtSurface
+        minDistance: 0
+        maxDistance: 1
+      - command: ExceptWith
+        temperatureRanges:
+          - VeryHot
+          - ExtremelyHot
+          - ExtremelyCold
+          - VeryVeryCold
+      - command: ExceptWith
+        zoneTypes: [OilField]
+
+# minnow abyss spawn
+
+    # try abyss 
+  - names:
+    - dlc5::poi/imperative/minnowPOI_C_small
+    listRule: TryOne
+    priority: 500
+    allowNearStart: true
+    allowedCellsFilter:
+      - command: Replace
+        zoneTypes: [Abyss]
+    # try oil biome
+  - names:
+    - dlc5::poi/imperative/minnowPOI_C_small
+    listRule: TryOne
+    priority: 200
+    allowNearStart: true
+    allowedCellsFilter:
+      - command: Replace
+        zoneTypes: [OilField]
+    
+  # fallback
+  - names:
+    - dlc5::poi/imperative/minnowPOI_C_small
+    listRule: GuaranteeOne
+    priority: 150
+    useRelaxedFiltering: true
+    allowedCellsFilter:
+      - command: All
+      - command: Replace
+        tagcommand: DistanceFromTag
+        tag: AtDepths
+        minDistance: 0
+        maxDistance: 3
+        ignoreIfMissingTag: true     
+      - command: ExceptWith
+        tagcommand: AtTag
+        tag: NoGlobalFeatureSpawning # this also excludes Space
+      - command: ExceptWith # too close to surface
+        tagcommand: DistanceFromTag
+        tag: AtSurface
+        minDistance: 0
+        maxDistance: 2
+      - command: ExceptWith
+        temperatureRanges:
+          - ExtremelyHot
+          - ExtremelyCold
+          - VeryVeryCold
+          - VeryCold
+

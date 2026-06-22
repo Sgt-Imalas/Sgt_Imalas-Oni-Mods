@@ -120,6 +120,7 @@ namespace UtilLibs
 		{
 			var hr = new Harmony(new Guid().ToString());
 			hr.UnpatchAll("OxygenNotIncluded_v0.1");
+			Debug.s_loggingDisabled = false;
 			RemoveCrashingIncompatibility(hr, _mods, "DEBUGCONSOLE");
 		}
 
