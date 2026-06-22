@@ -109,6 +109,11 @@ namespace ElementUtilNamespace
             substance.glows = val;
 			return substance;
 		}
+		public static Substance Gradient(this Substance substance, Gradient val)
+		{
+			substance.gradient = val;
+			return substance;
+		}
 		public static Substance CausticSwirls(this Substance substance, bool val = true)
 		{
 			substance.usesCaustics = val;
