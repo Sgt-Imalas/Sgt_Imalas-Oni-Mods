@@ -19,7 +19,7 @@ namespace NaturalConstruction.Content.Defs
 			EffectorValues none1 = NOISE_POLLUTION.NONE;
 			EffectorValues none2 = TUNING.BUILDINGS.DECOR.NONE;
 			EffectorValues noise = none1;
-			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 1, 1, "nc_natural_tile_kanim", 100, 30f, tieR2, materials, 1600f, BuildLocationRule.Tile, none2, noise);
+			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 1, 1, "nc_natural_tile_kanim", 100, 30f, tieR2, materials, 1600f, BuildLocationRule.Anywhere, none2, noise);
 			BuildingTemplates.CreateFoundationTileDef(buildingDef);
 			buildingDef.Floodable = false;
 			buildingDef.Entombable = false;

@@ -34,6 +34,7 @@ namespace NaturalConstruction.Content.Scripts
 		{
 			if (selectable.IsSelected)
 				selectable.Unselect();
+
 			PopFXManager.Instance.SpawnFX(PopFXManager.Instance.sprite_Building, selectable.GetName(), base.transform);
 			int cell = Grid.PosToCell(this);
 			ushort elementIdx;
@@ -59,7 +60,9 @@ namespace NaturalConstruction.Content.Scripts
 			}
 			else
 			{
+				ModAssets.MovePickupables(cell);
 				SimMessages.ReplaceAndDisplaceElement(cell, elementId, CellEventLogger.Instance.TemplateLoader, naturalMass, temperature, diseaseIdx, diseaseAmount);
+				GameScenePartitioner.Instance.TriggerEvent(cell, GameScenePartitioner.Instance.solidChangedLayer, null);
 			}
 			//gameObject.Trigger((int)GameHashes.NewConstruction, (object)this);
 			this.DeleteObject();

@@ -92,13 +92,13 @@ namespace NaturalConstruction.Content.Scripts
 			RefreshConstructionTime();
 		}
 
-		public override void OnCompleteWork(WorkerBase worker)
-		{
-			//base.OnCompleteWork(worker);
-			SpawnNaturalTile();
-		}
+		//public override void OnCompleteWork(WorkerBase worker)
+		//{
+		//	//base.OnCompleteWork(worker);
+		//	SpawnNaturalTile();
+		//}
 
-		void SpawnNaturalTile()
+		public 	void SpawnNaturalTile()
 		{
 			if (selectable.IsSelected)
 				selectable.Unselect();
@@ -141,14 +141,18 @@ namespace NaturalConstruction.Content.Scripts
 			}
 			else
 			{
-				SimMessages.ReplaceAndDisplaceElement(cell, elementId, CellEventLogger.Instance.SandBoxTool, naturalMass, temperature, diseaseIdx, diseaseAmount);
 
+				//SgtLogger.l("ISREPLACEMENTTILE: " + IsReplacementTile);
+				ModAssets.MovePickupables(cell);
+				SimMessages.ReplaceAndDisplaceElement(cell, elementId, CellEventLogger.Instance.SandBoxTool, naturalMass, temperature, diseaseIdx, diseaseAmount);
+				GameScenePartitioner.Instance.TriggerEvent(cell, GameScenePartitioner.Instance.solidChangedLayer, null);
 			}
 			storage.ConsumeAllIgnoringDisease();
 			gameObject.Trigger((int)GameHashes.NewConstruction, (object)this);
 			this.DeleteObject();
-
 		}
+
+
 
 		#region massslider
 		public string SliderTitleKey => "STRINGS.UI.SANDBOXTOOLS.SETTINGS.MASS.NAME";
