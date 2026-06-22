@@ -15,6 +15,7 @@ namespace _3GuBsVisualFixesNTweaks
 {
     internal class ModAssets
 	{
+		public static string DeconstructToolContext = "deconstruct";
 		public static class ModTags
 		{
 			//completely disable wall visualizers for the building (use if those are fully included in the building anim)

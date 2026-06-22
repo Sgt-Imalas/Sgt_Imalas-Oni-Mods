@@ -11,6 +11,8 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 		[HarmonyPatch(typeof(SaveGame), nameof(SaveGame.OnPrefabInit))]
 		public class SaveGame_OnPrefabInit_Patch
 		{
+			[HarmonyPrepare]
+			public static bool Prepare() => Config.Instance.BubblyMagma;
 			public static void Postfix(SaveGame __instance)
 			{
 				__instance.gameObject.AddOrGet<RandomTickManager>();

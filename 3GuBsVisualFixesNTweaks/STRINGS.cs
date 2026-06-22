@@ -36,6 +36,30 @@ namespace _3GuBsVisualFixesNTweaks
 					public static LocString EVERYTHING = "All Bits and Tops";
 				}
 			}
+			public class CATEGORIES
+			{
+				public static LocString LIQUID = "Liquid Tweaks";
+			}
+			public class MAGMA_BUBBLES
+			{
+				public static LocString NAME = "Bubbling Magma";
+				public static LocString TOOLTIP = "Magma open to air/vacuum is now bubbling (visual fx only).";
+			}
+			public class OLD_MAGMA
+			{
+				public static LocString NAME = "Old Magma Visuals";
+				public static LocString TOOLTIP = "Reverts Magma back to the Red Soup it was before the liquid shader update (U59/Aquatic Dlc Release)";
+			}
+			public class OLD_METALS
+			{
+				public static LocString NAME = "Old Molten Metal Visuals";
+				public static LocString TOOLTIP = "Reverts molten metals back to the colorful Soup they were before the liquid shader update (U59/Aquatic Dlc Release)";
+			}
+			public class MORETOOLFX
+			{
+				public static LocString NAME = "More Tool FX";
+				public static LocString TOOLTIP = "Makes the Dig tool display different tool FX based on the material dug out.\nAlso reintroduces an unused deconstruct tool fx beam.";
+			}
 		}
 	}
 }

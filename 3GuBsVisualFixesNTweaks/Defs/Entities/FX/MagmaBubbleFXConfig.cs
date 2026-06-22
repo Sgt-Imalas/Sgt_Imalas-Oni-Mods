@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
-namespace _3GuBsVisualFixesNTweaks.Defs.Entities
+namespace _3GuBsVisualFixesNTweaks.Defs.Entities.FX
 {
 	internal class MagmaBubbleFXConfig : IEntityConfig
 	{

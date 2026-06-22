@@ -1,4 +1,4 @@
-﻿using _3GuBsVisualFixesNTweaks.Defs.Entities;
+﻿using _3GuBsVisualFixesNTweaks.Defs.Entities.FX;
 using Epic.OnlineServices.Sessions;
 using System;
 using System.Collections.Generic;

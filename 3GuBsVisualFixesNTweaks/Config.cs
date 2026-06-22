@@ -32,5 +32,21 @@ namespace _3GuBsVisualFixesNTweaks
 		[Option("STRINGS.VFNT_MODCONFIG.HIDDENTILEBITS.NAME", "STRINGS.VFNT_MODCONFIG.HIDDENTILEBITS.TOOLTIP")]
 		[JsonProperty]
 		public TileBitChange HiddenTileBits { get; set; } = TileBitChange.None;
+
+
+		[Option("STRINGS.VFNT_MODCONFIG.MAGMA_BUBBLES.NAME", "STRINGS.VFNT_MODCONFIG.MAGMA_BUBBLES.TOOLTIP","STRINGS.VFNT_MODCONFIG.CATEGORIES.LIQUID")]
+		[JsonProperty]
+		public bool BubblyMagma { get; set; } = true;
+
+		[Option("STRINGS.VFNT_MODCONFIG.OLD_MAGMA.NAME", "STRINGS.VFNT_MODCONFIG.OLD_MAGMA.TOOLTIP", "STRINGS.VFNT_MODCONFIG.CATEGORIES.LIQUID")]
+		[JsonProperty]
+		public bool OldMagma { get; set; } = false;
+		[Option("STRINGS.VFNT_MODCONFIG.OLD_METALS.NAME", "STRINGS.VFNT_MODCONFIG.OLD_METALS.TOOLTIP", "STRINGS.VFNT_MODCONFIG.CATEGORIES.LIQUID")]
+		[JsonProperty]
+		public bool OldLiquidMetals { get; set; } = false;
+
+		[Option("STRINGS.VFNT_MODCONFIG.MORETOOLFX.NAME", "STRINGS.VFNT_MODCONFIG.MORETOOLFX.TOOLTIP")]
+		[JsonProperty]
+		public bool MoreToolFX { get; set; } = true;
 	}
 }
