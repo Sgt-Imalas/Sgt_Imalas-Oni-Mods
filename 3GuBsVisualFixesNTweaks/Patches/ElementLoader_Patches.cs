@@ -12,6 +12,7 @@ namespace _3GuBsVisualFixesNTweaks.Patches
         [HarmonyPatch(typeof(ElementLoader), nameof(ElementLoader.Load))]
         public class ElementLoader_Load_Patch
         {
+            [HarmonyPriority(Priority.Low)]
             public static void Postfix(ElementLoader __instance)
             {
                 foreach(Element element in ElementLoader.elements)
@@ -25,6 +26,7 @@ namespace _3GuBsVisualFixesNTweaks.Patches
                         substance.CausticSwirls();
                         substance.Texture(Substance.SubstanceTexture.None);
 						substance.Gradient(null);
+						substance.Glows(false);
 					}
 
                     else if(substance.Texture == Substance.SubstanceTexture.MoltenMetal && Config.Instance.OldLiquidMetals)
@@ -33,6 +35,7 @@ namespace _3GuBsVisualFixesNTweaks.Patches
 						substance.Metallic(false);
                         substance.Texture(Substance.SubstanceTexture.None);
                         substance.Gradient(null);
+                        substance.Glows(false);
                     }
                 }
 
