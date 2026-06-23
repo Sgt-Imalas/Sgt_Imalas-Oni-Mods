@@ -16,7 +16,7 @@ namespace AquaticMinnowMinion.Patches
         {
             public static void Postfix(GridRestrictionSerializer __instance)
             {
-                if (__instance.tagToId.Any(e => e.Key == ModTags.AquaticMinion))
+                if (__instance.tagToId.Any(e => e.Key == Tags.AquaticMinion))
                     return;
 
                 int lowest = 0;
@@ -26,7 +26,7 @@ namespace AquaticMinnowMinion.Patches
 
                 lowest--;
 
-                __instance.tagToId.Add(new KeyValuePair<Tag, int>(ModTags.AquaticMinion, lowest));
+                __instance.tagToId.Add(new KeyValuePair<Tag, int>(Tags.AquaticMinion, lowest));
             }
         }
 	}

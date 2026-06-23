@@ -51,7 +51,7 @@ namespace AquaticMinnowMinion.Content.ModDb
 				global::STRINGS.DUPLICANTS.PERSONALITIES.MINNOW.DESC,
 				true,
 				minnowReference.graveStone,
-				ModTags.AquaticMinion,
+				Tags.AquaticMinion,
 				0
 				);
 			personalities.Add(a_minnow);

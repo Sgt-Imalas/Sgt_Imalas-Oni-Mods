@@ -20,7 +20,7 @@ namespace AquaticMinnowMinion.Patches
                 if (!contentKeys.Any(key => key is CharacterContainer.MinionModelOption))
                     return;
 
-                contentKeys = contentKeys.AddItem(new CharacterContainer.MinionModelOption(STRINGS.DUPLICANTS.MODEL.AQUATIC.NAME, [ModTags.AquaticMinion], Assets.GetSprite((HashedString)"dreamIcon_Minnow")));
+                contentKeys = contentKeys.AddItem(new CharacterContainer.MinionModelOption(STRINGS.DUPLICANTS.MODEL.AQUATIC.NAME, [Tags.AquaticMinion], Assets.GetSprite((HashedString)"dreamIcon_Minnow")));
 			}
         }
     }

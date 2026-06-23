@@ -23,7 +23,7 @@ namespace AquaticMinnowMinion.Patches
 				if (!IsItchyLiquid.TryGetValue(elementConsumed, out var itchyLiquid))
 				{
 					var element = ElementLoader.FindElementByHash(elementConsumed);
-					itchyLiquid = IsItchyLiquid[elementConsumed] = element.HasTag(ModTags.PollutedLiquid);
+					itchyLiquid = IsItchyLiquid[elementConsumed] = element.HasTag(Tags.PollutedLiquid);
 				}
 				if (itchyLiquid && !__instance.prefabID.HasTag(GameTags.Dead) && __instance.O2Accumulator != HandleVector<int>.Handle.InvalidHandle)
 				{
@@ -39,7 +39,7 @@ namespace AquaticMinnowMinion.Patches
 		{
 			public static void Postfix(OxygenBreather __instance)
 			{
-				if (__instance.gameObject.PrefabID() != ModTags.AquaticMinion)
+				if (__instance.gameObject.PrefabID() != Tags.AquaticMinion)
 					return;
 				__instance.selectable.RemoveStatusItem(Db.Get().DuplicantStatusItems.BreathingO2, true);
 				__instance.selectable.RemoveStatusItem(Db.Get().DuplicantStatusItems.EmittingCO2, true);

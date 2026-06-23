@@ -1,9 +1,11 @@
-﻿using Klei.AI;
+﻿using AquaticMinnowMinion.Content.Defs;
+using Klei.AI;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UtilLibs;
+using static TUNING.DUPLICANTSTATS;
 
 namespace AquaticMinnowMinion.Content.ModDb
 {
@@ -15,7 +17,7 @@ namespace AquaticMinnowMinion.Content.ModDb
 		{
 			SgtLogger.l("Registering AquaticAmounts...");
 
-			Aquatic_GillMoisture = instance.CreateAmount(nameof(Aquatic_GillMoisture), 0f, 100f, true, Units.Flat, 0.5f, true, "STRINGS.DUPLICANTS", "ui_icon_wet");
+			Aquatic_GillMoisture = instance.CreateAmount(nameof(Aquatic_GillMoisture), 0f, 100f, false, Units.Flat, 0.5f, true, "STRINGS.DUPLICANTS", "ui_icon_wet");
 			Aquatic_GillMoisture.SetDisplayer(new StandardAmountDisplayer(GameUtil.UnitClass.Percent, GameUtil.TimeSlice.PerCycle));
 
 			instance.Add(Aquatic_GillMoisture);
@@ -38,6 +40,14 @@ namespace AquaticMinnowMinion.Content.ModDb
 		{
 			AmountInstance moisture = Aquatic_GillMoisture.Lookup(go);
 			moisture.value = 100;
+		}
+
+		internal static List<AttributeModifier> GetBaseModifiers()
+		{
+
+			return [
+				new AttributeModifier(Aquatic_GillMoisture.deltaAttribute.Id, AQ_TUNING.MOISTURE_BASE_DELTA, MinionAquaticConfig.NAME),
+			];
 		}
 	}
 }

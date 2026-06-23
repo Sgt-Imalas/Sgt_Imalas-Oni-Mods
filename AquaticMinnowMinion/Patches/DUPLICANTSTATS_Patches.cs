@@ -18,7 +18,7 @@ namespace AquaticMinnowMinion.Patches
         {
             public static bool Prefix(Tag type, ref DUPLICANTSTATS __result)
             {
-				bool isPlant = type == ModTags.AquaticMinion;
+				bool isPlant = type == Tags.AquaticMinion;
                 if (isPlant)
                 {
 					__result = AQ_TUNING.AQUATICMINIONSTATS;
@@ -32,7 +32,7 @@ namespace AquaticMinnowMinion.Patches
 		{
 			public static bool Prefix(KPrefabID prefabID, ref DUPLICANTSTATS __result)
 			{
-				bool isPlant = prefabID.HasTag(ModTags.AquaticMinion);
+				bool isPlant = prefabID.HasTag(Tags.AquaticMinion);
 				if (isPlant)
 				{
 					__result = AQ_TUNING.AQUATICMINIONSTATS;

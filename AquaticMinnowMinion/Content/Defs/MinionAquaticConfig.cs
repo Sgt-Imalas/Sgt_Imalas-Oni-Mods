@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 using static AquaticMinnowMinion.ModAssets;
 using static AquaticMinnowMinion.STRINGS;
 
@@ -17,21 +18,22 @@ namespace AquaticMinnowMinion.Content.Defs
 		public string[] GetForbiddenDlcIds() => null;
 		public string[] GetRequiredDlcIds() => [DlcManager.DLC5_ID];
 
-		public static Tag MODEL = ModTags.AquaticMinion;
+		public static Tag MODEL = Tags.AquaticMinion;
 		public static string NAME = DUPLICANTS.MODEL.AQUATIC.NAME;
 		public static string ID = MODEL.ToString();
 		public Func<RationalAi.Instance, StateMachine.Instance>[] RATIONAL_AI_STATE_MACHINES = BaseMinionConfig.BaseRationalAiStateMachines().Append<Func<RationalAi.Instance, StateMachine.Instance>>(new Func<RationalAi.Instance, StateMachine.Instance>[]
 		{
-			(smi => (StateMachine.Instance) new BreathMonitor.Instance(smi.master)),
-			(smi => (StateMachine.Instance) new SteppedInMonitor.Instance(smi.master)),
-			(smi => (StateMachine.Instance) new Dreamer.Instance(smi.master)),
-			(smi => (StateMachine.Instance) new StaminaMonitor.Instance(smi.master)),
-			(smi => (StateMachine.Instance) new RationMonitor.Instance(smi.master)),
-			(smi => (StateMachine.Instance) new CalorieMonitor.Instance(smi.master)),
-			(smi => (StateMachine.Instance) new BladderMonitor.Instance(smi.master)),
-			(smi => (StateMachine.Instance) new HygieneMonitor.Instance(smi.master)),
-			(smi => (StateMachine.Instance) new TiredMonitor.Instance(smi.master)),
-			(smi => (StateMachine.Instance) new GillIrritationMonitor.Instance(smi.master, new GillIrritationMonitor.Def()))
+			(smi => new BreathMonitor.Instance(smi.master)),
+			(smi => new SteppedInMonitor.Instance(smi.master)),
+			(smi => new Dreamer.Instance(smi.master)),
+			(smi => new StaminaMonitor.Instance(smi.master)),
+			(smi => new RationMonitor.Instance(smi.master)),
+			(smi => new CalorieMonitor.Instance(smi.master)),
+			(smi => new BladderMonitor.Instance(smi.master)),
+			(smi => new HygieneMonitor.Instance(smi.master)),
+			(smi => new TiredMonitor.Instance(smi.master)),
+			(smi => new GillIrritationMonitor.Instance(smi.master, new GillIrritationMonitor.Def())),
+			(smi => new WaterBreathingEfficiencyMonitor.Instance(smi.master))
 		});
 		public static string[] GetAttributes()
 		{
@@ -63,7 +65,7 @@ namespace AquaticMinnowMinion.Content.Defs
 				new AttributeModifier(Db.Get().Amounts.Bladder.deltaAttribute.Id, baseStats.BLADDER_INCREASE_PER_SECOND, NAME),
 				new AttributeModifier(Db.Get().Attributes.ToiletEfficiency.Id, baseStats.TOILET_EFFICIENCY, NAME),
 				new AttributeModifier(Db.Get().Attributes.ThermalConductivityBarrier.Id, 0.008f, NAME)
-			});
+			}).Append(Aq_Amounts.GetBaseModifiers());
 		}
 
 
@@ -108,7 +110,7 @@ namespace AquaticMinnowMinion.Content.Defs
 					db.IncreaseSwimmerStaminaInLiquid,
 					db.IncreaseSwimmerAthleticsInLiquid,
 					];
-
+				//SgtLogger.l("Aquatic effect addition");
 				resume.ApplyAdditionalSkillPerks(swimPerks);
 			}
 			if(go.TryGetComponent<Effects>(out var effects))
@@ -120,6 +122,8 @@ namespace AquaticMinnowMinion.Content.Defs
 			}
 
 			go.Trigger((int)GameHashes.MinionSpawned, (object)go);
+			///ensure that the eye irritation immunity goes into effect!
+			go.Trigger((int)GameHashes.AssignedRoleChanged);
 		}
 	}
 }

@@ -19,7 +19,7 @@ namespace AquaticMinnowMinion.Patches
 		{
 			public static bool Prefix(GasBreatherFromWorldProvider __instance, int theSpecificCell, CellOffset[] breathRange, OxygenBreather breather, ref float totalBreathableMassAroundCell, ref BreathableCellData __result)
 			{
-				if(breather != null &&  breather.PrefabID() == ModTags.AquaticMinion)
+				if(breather != null &&  breather.PrefabID() == Tags.AquaticMinion)
 				{
 					__result = GasOrWaterBreatherFromWorldProvider.GetBestBreathableCellAroundSpecificCell(theSpecificCell, breathRange, breather, out totalBreathableMassAroundCell);
 					return false;

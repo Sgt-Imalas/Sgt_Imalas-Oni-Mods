@@ -18,10 +18,10 @@ namespace AquaticMinnowMinion.Patches
         {
             public static void Prefix(CharacterContainer __instance)
             {
-				if (!__instance.allMinionModels.Contains(ModTags.AquaticMinion))
-                    __instance.allMinionModels.Add(ModTags.AquaticMinion);
+				if (!__instance.allMinionModels.Contains(Tags.AquaticMinion))
+                    __instance.allMinionModels.Add(Tags.AquaticMinion);
 
-                CharacterContainer.portraitBGAnimsByModel[ModTags.AquaticMinion] = new()
+                CharacterContainer.portraitBGAnimsByModel[Tags.AquaticMinion] = new()
                 {
                     animFileName = "crewselect_backdrop_swim_kanim",
                     hasPreAnim = true,

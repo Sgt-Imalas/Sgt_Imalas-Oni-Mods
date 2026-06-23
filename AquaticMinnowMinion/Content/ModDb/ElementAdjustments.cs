@@ -17,12 +17,12 @@ namespace AquaticMinnowMinion.Content.ModDb
 			MakeLiquidBreathable(SimHashes.SaltWater);
 			MakeLiquidBreathable(SimHashes.MurkyBrine);
 			//yucky lungs:
-			AddElementTag(SimHashes.DirtyWater, ModTags.PollutedLiquid);
-			AddElementTag(SimHashes.MurkyBrine, ModTags.PollutedLiquid);
+			AddElementTag(SimHashes.DirtyWater, Tags.PollutedLiquid);
+			AddElementTag(SimHashes.MurkyBrine, Tags.PollutedLiquid);
 		}
 		static void MakeLiquidBreathable(SimHashes hashes)
 		{
-			AddElementTag(hashes, ModTags.BreathableLiquid);
+			AddElementTag(hashes, Tags.BreathableLiquid);
 
 		}
 		static void AddElementTag(SimHashes hashes, Tag tag)

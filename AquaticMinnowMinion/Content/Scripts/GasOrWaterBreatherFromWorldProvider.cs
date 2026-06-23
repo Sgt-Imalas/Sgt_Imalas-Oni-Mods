@@ -1,4 +1,5 @@
 ﻿using AquaticMinnowMinion.Content.ModDb;
+using Klei.AI;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,6 +12,7 @@ namespace AquaticMinnowMinion.Content.Scripts
 	{
 		private OxygenBreather oxygenBreather;
 		private Navigator nav;
+
 		public SimHashes LastConsumedElement { get; private set; } = SimHashes.Oxygen;
 
 		private static Action<Sim.MassConsumedCallback, object> OnSimConsumeCallbackAction = new Action<Sim.MassConsumedCallback, object>(OnSimConsumeCallback);
@@ -29,7 +31,7 @@ namespace AquaticMinnowMinion.Content.Scripts
 
 			Element element = Grid.Element[cell];
 			///Breathable Gases
-			if (!element.HasTag(GameTags.Breathable) && !element.HasTag(ModTags.BreathableLiquid))
+			if (!element.HasTag(GameTags.Breathable) && !element.HasTag(Tags.BreathableLiquid))
 				return 0f;
 
 			elementID = element.id;
@@ -90,10 +92,22 @@ namespace AquaticMinnowMinion.Content.Scripts
 					return false;
 				SimHashes elementId = atCurrentLocation.ElementID;
 				LastConsumedElement = elementId;
+				ToggleBreathingLiquid(ElementLoader.FindElementByHash(elementId).IsLiquid);
 				var handle = Game.Instance.massConsumedCallbackManager.Add(OnSimConsumeCallbackAction, (object)oxygen_breather, nameof(GasOrWaterBreatherFromWorldProvider));
 				SimMessages.ConsumeMass(atCurrentLocation.Cell, elementId, mass_to_consume, 3, handle.index);
 			}
 			return true;
+		}
+		bool lastWasLiquid = false;
+		void ToggleBreathingLiquid(bool breathingLiquid)
+		{
+			if(lastWasLiquid == breathingLiquid) return;
+			lastWasLiquid = breathingLiquid;
+
+			if (breathingLiquid)
+				oxygenBreather.gameObject.Trigger(ModAssets.StartedBreathingLiquid);
+			else
+				oxygenBreather.gameObject.Trigger(ModAssets.StoppedBreathingLiquid);
 		}
 
 		public bool HasOxygen()
@@ -110,6 +124,7 @@ namespace AquaticMinnowMinion.Content.Scripts
 		}
 		public void OnClearOxygenBreather(OxygenBreather oxygen_breather)
 		{
+			ToggleBreathingLiquid(false);
 		}
 
 		public void OnSetOxygenBreather(OxygenBreather oxygen_breather)
@@ -118,7 +133,17 @@ namespace AquaticMinnowMinion.Content.Scripts
 			this.nav = this.oxygenBreather.GetComponent<Navigator>();
 		}
 
-		public bool ShouldEmitCO2() => this.nav.CurrentNavType != NavType.Tube && this.nav.CurrentNavType != NavType.Swim;
+		public bool ShouldEmitCO2()
+		{
+			if(this.nav.CurrentNavType == NavType.Tube || this.nav.CurrentNavType == NavType.Swim)
+				return false;
+			var bodyCell = nav.AnchorCell;
+			var headCell = Grid.CellAbove(bodyCell);
+
+			if (Grid.IsLiquid(headCell) && Grid.IsLiquid(bodyCell))
+				return false;
+			return true;
+		}
 
 		public bool ShouldStoreCO2() => false;
 	}
