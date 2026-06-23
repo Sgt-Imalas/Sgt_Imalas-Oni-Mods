@@ -66,7 +66,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 		private void ConfigureRecipes()
 		{
 			bool cemprocessingEnabled = Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled;
-
+			int index = 0;
 			//---- [ Refined Coal ] -------------------------------------------------------------------------------------
 			// Ingredient: Coal - 500kg        
 			// Result: Refined Coal - 500kg
@@ -86,6 +86,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Output(SimHashes.RefinedCarbon, 500, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description1I1O(HEAT_REFINE)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+				.SortOrder(index++)
 				.Build();
 
 
@@ -100,6 +101,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 				.Output(SimHashes.Ceramic, 500, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description1I1O(HEAT_REFINE)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+				.SortOrder(index++)
 				.Build();
 
 			//---- [ Concrete Block ] --------------------------------------------------------------------------------------
@@ -120,6 +122,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 					.Output(ConcreteBlock_Solid, 500, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Description(THREE_MIXTURE_COMPRESS_COOKING, 3, 1)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+					.SortOrder(index++)
 					.Build();
 			}
 
@@ -137,6 +140,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 					.Output(FiberGlass_Solid, 400, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Description(THREE_MIXTURE_FUSE, 3, 1)
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+					.SortOrder(index++)
 					.Build();
 
 			//---- [ Carbon Fibre ] --------------------------------------------------------------------------------------------
@@ -155,6 +159,7 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 					.Output(CarbonFiber_Solid, 150, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 					.Description(string.Format(THREE_MIXTURE_COMPRESS_COOKING, SimHashes.Polypropylene.CreateTag().ProperName(), SimHashes.Fullerene.CreateTag().ProperName(), RAYONFIBER.NAME_PLURAL, CarbonFiber_Solid.Tag.ProperName()))
 					.NameDisplay(ComplexRecipe.RecipeNameDisplay.Result)
+					.SortOrder(index++)
 					.Build();
 
 

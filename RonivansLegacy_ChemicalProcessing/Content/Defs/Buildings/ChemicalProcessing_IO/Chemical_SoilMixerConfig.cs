@@ -166,9 +166,9 @@ namespace Dupes_Industrial_Overhaul.Chemical_Processing.Buildings
 			// Result: Phosphate Nodules - 100kg
 			//---------------------------------------------------------------------------------------------------------
 			RecipeBuilder.Create(ID, 60)
-				.Input(SimHashes.Phosphorus, 50)
-				.Input(SimHashes.CrushedRock, 40)
-				.Input(SimHashes.Water, 10)
+				.Input(SimHashes.Phosphorus, 70)
+				.Input(SimHashes.CrushedRock, 25)
+				.Input(SimHashes.Water, 5)
 				.Output(SimHashes.PhosphateNodules, 100, ComplexRecipe.RecipeElement.TemperatureOperation.Heated)
 				.Description(SOILMIXER_3_1, 3, 1)
 				.NameDisplay(ComplexRecipe.RecipeNameDisplay.IngredientToResult)

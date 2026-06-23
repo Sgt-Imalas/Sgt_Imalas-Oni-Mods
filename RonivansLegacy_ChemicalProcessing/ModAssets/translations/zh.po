@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Application: Oxygen Not IncludedPOT Version: 2.0\n"
-"X-Generator: Poedit 3.9\n"
+"X-Generator: Poedit 3.6\n"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.ADDEDBYSGT_IMALAS
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.AIO_MODSOURCE.ADDEDBYSGT_IMALAS"
@@ -4381,6 +4381,38 @@ msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO
 msgid "<link=\"AIOBIOPLASTICGASKET\">Bioplastic Gasket</link>"
 msgstr "<link=\"AIOBIOPLASTICGASKET\">生物塑料密封圈</link>"
 
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_FIBERGLASSGASKET.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_FIBERGLASSGASKET.DESC"
+msgid ""
+"A robust <link=\"SOLIDFIBERGLASS\">Fiberglass</link> seal, made at the <link=\"CRAFTINGTABLE\">Crafting Station</link>.\n"
+"\n"
+"Prevents unwanted <link=\"ELEMENTSLIQUID\">Liquid</link> leakage."
+msgstr ""
+"一种灵活的<link=\"SOLIDFIBERGLASS\">玻璃纤维</link>密封件，在<link=\"CRAFTINGTABLE\">工作台</link>中制造。\n"
+"\n"
+"防止<link=\"ELEMENTSLIQUID\">液体</link>意外泄漏。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_FIBERGLASSGASKET.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_FIBERGLASSGASKET.NAME"
+msgid "<link=\"AIOFIBERGLASSGASKET\">Fiberglass Gasket</link>"
+msgstr "<link=\"AIOFIBERGLASSGASKET\">玻璃纤维密封圈</link>"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_HARDPOLYPROPYLENEGASKET.DESC
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_HARDPOLYPROPYLENEGASKET.DESC"
+msgid ""
+"A robust <link=\"HARDPOLYPROPYLENE\">Plastium</link> seal, made at the <link=\"CRAFTINGTABLE\">Crafting Station</link>.\n"
+"\n"
+"Prevents unwanted <link=\"ELEMENTSLIQUID\">Liquid</link> leakage."
+msgstr ""
+"一种灵活的<link=\"HARDPOLYPROPYLENE\">塑料</link>密封件，在<link=\"CRAFTINGTABLE\">工作台</link>中制造。\n"
+"\n"
+"防止<link=\"ELEMENTSLIQUID\">液体</link>意外泄漏。"
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_HARDPOLYPROPYLENEGASKET.NAME
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_HARDPOLYPROPYLENEGASKET.NAME"
+msgid "<link=\"AIOHARDPOLYPROPYLENEGASKET\">Plastium Gasket</link>"
+msgstr "<link=\"AIOHARDPOLYPROPYLENEGASKET\">塑料密封圈</link>"
+
 #. RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_BASIC.DESC
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.ITEMS.INDUSTRIAL_PRODUCTS.AIO_SIMPLEDRILLBIT_BASIC.DESC"
 msgid "A set of drill bits made for simple mining operations."
@@ -5216,6 +5248,11 @@ msgstr "泵范围："
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.RANGESETTINGS_SWEEPER"
 msgid "Sweeper Range:"
 msgstr "自动清扫器范围："
+
+#. RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.RESETBUTTON.TEXT
+msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.RESETBUTTON.TEXT"
+msgid "Reset To Default"
+msgstr "重置为默认"
 
 #. RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.WATTAGESETTINGS
 msgctxt "RonivansLegacy_ChemicalProcessing.STRINGS.UI.BUILDINGEDITOR.HORIZONTALLAYOUT.ITEMINFO.SCROLLAREA.CONTENT.WATTAGESETTINGS"
