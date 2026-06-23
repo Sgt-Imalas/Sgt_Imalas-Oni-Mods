@@ -153,6 +153,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			}
 			ConfigCollection.WriteToFile();
 		}
+		internal static void ResetSingleConfig(BuildingConfigurationEntry target)
+		{
+			if(ConfigCollection.BuildingConfigurations.TryGetValue(target.BuildingID, out var cfg))
+			{
+				cfg.ResetChanges();
+				ConfigCollection.WriteToFile();
+			}
+		}
 
 		internal static void RegisterLegacyMigrations()
 		{

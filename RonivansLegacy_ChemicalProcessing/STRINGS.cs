@@ -2348,6 +2348,10 @@ namespace RonivansLegacy_ChemicalProcessing
 								public static LocString RANGESETTINGS = "Building Range:";
 								public static LocString RANGESETTINGS_SWEEPER = "Sweeper Range:";
 								public static LocString RANGESETTINGS_PUMP = "Pump Range:";
+								public class RESETBUTTON
+								{
+									public static LocString TEXT = "Reset To Default";
+								}
 							}
 						}
 

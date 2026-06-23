@@ -38,6 +38,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 		FInputField2 WattageInput, StorageCapacityInput, RangeInput;
 		FToggle BuildingEnabledToggle;
 
+		FButton ResetSingleBuilding;
+
 		GameObject Details;
 
 		Dictionary<BuildingConfigurationEntry, BuildingConfigUIEntryUI> ConfigEntries = new();
@@ -113,6 +115,16 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 		{
 			DialogUtil.CreateConfirmDialogFrontend(STRINGS.UI.BUILDINGEDITOR.RESETALLCHANGES.TITLE, STRINGS.UI.BUILDINGEDITOR.RESETALLCHANGES.TEXT, on_confirm: ResetEntries, on_cancel: () => { });
 		}
+		void ResetCurrentBuilding()
+		{
+			if (SelectedOutline == null)
+				return;
+
+			BuildingManager.ResetSingleConfig(SelectedOutline);
+			OnOutlineEntryUpdated(SelectedOutline);
+			RefreshDetails();
+		}
+
 		public void ResetEntries()
 		{
 			SelectedOutline = null;
@@ -199,6 +211,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts.UI
 					SetOutlineEnabled(SelectedOutline, on);
 				}
 			};
+
+			ResetSingleBuilding = transform.Find("HorizontalLayout/ItemInfo/ScrollArea/Content/ResetButton").gameObject.AddOrGet<FButton>();
+			ResetSingleBuilding.OnClick += ResetCurrentBuilding;
 
 			FilterDropDown = transform.Find("HorizontalLayout/ObjectList/Filters/FilterButton").FindOrAddComponent<FMultiSelectDropdown>();
 			var entries = Enum.GetValues(typeof(SourceModInfo)).Cast<SourceModInfo>().Select(CreateFilterEntry).ToList();
