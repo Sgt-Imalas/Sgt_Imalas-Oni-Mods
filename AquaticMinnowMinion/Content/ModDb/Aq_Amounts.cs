@@ -17,7 +17,7 @@ namespace AquaticMinnowMinion.Content.ModDb
 		{
 			SgtLogger.l("Registering AquaticAmounts...");
 
-			Aquatic_GillMoisture = instance.CreateAmount(nameof(Aquatic_GillMoisture), 0f, 100f, false, Units.Flat, 0.5f, true, "STRINGS.DUPLICANTS", "ui_icon_wet");
+			Aquatic_GillMoisture = instance.CreateAmount(nameof(Aquatic_GillMoisture), 0f, AQ_TUNING.GILL_MOISTURE.MAX, false, Units.Flat, 0.5f, true, "STRINGS.DUPLICANTS", "ui_icon_wet");
 			Aquatic_GillMoisture.SetDisplayer(new StandardAmountDisplayer(GameUtil.UnitClass.Percent, GameUtil.TimeSlice.PerCycle));
 
 			instance.Add(Aquatic_GillMoisture);
@@ -46,7 +46,7 @@ namespace AquaticMinnowMinion.Content.ModDb
 		{
 
 			return [
-				new AttributeModifier(Aquatic_GillMoisture.deltaAttribute.Id, AQ_TUNING.MOISTURE_BASE_DELTA, MinionAquaticConfig.NAME),
+				new AttributeModifier(Aquatic_GillMoisture.deltaAttribute.Id, AQ_TUNING.GILL_MOISTURE.MOISTURE_BASE_DELTA, MinionAquaticConfig.NAME),
 			];
 		}
 	}

@@ -31,7 +31,7 @@ namespace AquaticMinnowMinion.Content.Scripts
 
 			Element element = Grid.Element[cell];
 			///Breathable Gases
-			if (!element.HasTag(GameTags.Breathable) && !element.HasTag(Tags.BreathableLiquid))
+			if (!element.HasTag(GameTags.Breathable) && !element.HasTag(Tags.BreathableWater))
 				return 0f;
 
 			elementID = element.id;
@@ -82,7 +82,6 @@ namespace AquaticMinnowMinion.Content.Scripts
 			};
 		}
 
-
 		public bool ConsumeGas(OxygenBreather oxygen_breather, float mass_to_consume)
 		{
 			if (this.nav.CurrentNavType != NavType.Tube)
@@ -105,14 +104,16 @@ namespace AquaticMinnowMinion.Content.Scripts
 			lastWasLiquid = breathingLiquid;
 
 			if (breathingLiquid)
-				oxygenBreather.gameObject.Trigger(ModAssets.StartedBreathingLiquid);
+				oxygenBreather.gameObject.Trigger(AqHashes.StartedBreathingLiquid);
 			else
-				oxygenBreather.gameObject.Trigger(ModAssets.StoppedBreathingLiquid);
+				oxygenBreather.gameObject.Trigger(AqHashes.StoppedBreathingLiquid);
 		}
 
 		public bool HasOxygen()
 		{
-			return this.oxygenBreather.prefabID.HasTag(GameTags.RecoveringBreath) || this.oxygenBreather.prefabID.HasTag(GameTags.InTransitTube) || this.GetBestBreathableCellAtCurrentLocation().IsBreathable;
+			return this.oxygenBreather.prefabID.HasTag(GameTags.RecoveringBreath)
+				|| this.oxygenBreather.prefabID.HasTag(GameTags.InTransitTube) 
+				|| this.GetBestBreathableCellAtCurrentLocation().IsBreathable;
 		}
 
 		public bool IsBlocked() => this.oxygenBreather.HasTag(GameTags.HasSuitTank);
@@ -137,7 +138,7 @@ namespace AquaticMinnowMinion.Content.Scripts
 		{
 			if(this.nav.CurrentNavType == NavType.Tube || this.nav.CurrentNavType == NavType.Swim)
 				return false;
-			var bodyCell = nav.AnchorCell;
+			var bodyCell = Grid.PosToCell(nav);
 			var headCell = Grid.CellAbove(bodyCell);
 
 			if (Grid.IsLiquid(headCell) && Grid.IsLiquid(bodyCell))

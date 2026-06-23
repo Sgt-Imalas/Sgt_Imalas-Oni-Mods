@@ -74,6 +74,26 @@ namespace AquaticMinnowMinion
 					public static LocString TOOLTIP = "This Duplicant is currently filtering oxygen from the surrounding water.\nThis is not as efficient as breathing directly.";
 					public static LocString TOOLTIP_SKILLED = "This Duplicant is currently filtering oxygen from the surrounding water with increased efficiency.";
 				}
+				public class AQ_DRYGILLS_MINOR
+				{
+					public static LocString NAME = "Slightly Dry Gills";
+					public static LocString TOOLTIP = "This Duplicant's gills have become slightly dry.";
+				}
+				public class AQ_DRYGILLS_MAJOR
+				{
+					public static LocString NAME = "Very Dry Gills";
+					public static LocString TOOLTIP = "This Duplicant's gills have become very dry!";
+				}
+				public class AQ_DRYGILLS_EXTREME
+				{
+					public static LocString NAME = "Completely Dry Gills";
+					public static LocString TOOLTIP = "This Duplicant's gills are completely dry!!";
+				}
+				public class AQ_DRYSUITAIR
+				{
+					public static LocString NAME = "Dry Suit Air";
+					public static LocString TOOLTIP = "The bottled air in this suit is so dry!";
+				}
 			}
 			public class ROLES
 			{

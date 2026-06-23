@@ -33,7 +33,9 @@ namespace AquaticMinnowMinion.Content.Defs
 			(smi => new HygieneMonitor.Instance(smi.master)),
 			(smi => new TiredMonitor.Instance(smi.master)),
 			(smi => new GillIrritationMonitor.Instance(smi.master, new GillIrritationMonitor.Def())),
-			(smi => new WaterBreathingEfficiencyMonitor.Instance(smi.master))
+			(smi => new WaterBreathingEfficiencyMonitor.Instance(smi.master)),
+			(smi => new DryGillsMonitor.Instance(smi.master)),
+			(smi => new GillsMoistureMonitor.Instance(smi.master)),
 		});
 		public static string[] GetAttributes()
 		{

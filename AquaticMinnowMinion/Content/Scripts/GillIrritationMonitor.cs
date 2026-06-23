@@ -23,7 +23,7 @@ namespace AquaticMinnowMinion.Content.Scripts
 			this.serializable = StateMachine.SerializeType.ParamsOnly;
 			default_state = (StateMachine.BaseState)this.idle;
 			this.idle
-				.EventHandler(ModAssets.PoorBreathableLiquidQuality, this.OnBreatheDirtyWater);
+				.EventHandler(ModAssets.AqHashes.PoorBreathableLiquidQuality, this.OnBreatheDirtyWater);
 			//	.ParamTransition(this.shouldCough, this.coughing, (smi, bShouldCough) => bShouldCough);
 			//this.coughing
 			//	.ToggleStatusItem(Db.Get().DuplicantStatusItems.Coughing)
@@ -37,10 +37,10 @@ namespace AquaticMinnowMinion.Content.Scripts
 			if (timeInCycles > coughInterval && (double)timeInCycles -smi.lastIrritationTriggeredTime <= coughInterval)
 				return;
 			float consumedMass = ((Boxed<float>)data).value;
-			float lastConsumeTimeDelta = (double)smi.lastConsumeTime <= 0.0 ? 0.0f : timeInCycles - smi.lastConsumeTime;
+			float lastConsumeTimeDelta = smi.lastConsumeTime <= 0 ? 0 : timeInCycles - smi.lastConsumeTime;
 			smi.lastConsumeTime = timeInCycles;
 			smi.amountConsumed -= decayRate * lastConsumeTimeDelta;
-			smi.amountConsumed = Mathf.Max(smi.amountConsumed, 0.0f);
+			smi.amountConsumed = Mathf.Max(smi.amountConsumed, 0);
 			smi.amountConsumed += consumedMass;
 			if (smi.amountConsumed < 1f)
 				return;

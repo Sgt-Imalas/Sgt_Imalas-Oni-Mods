@@ -56,7 +56,7 @@ namespace AquaticMinnowMinion.Content.ModDb
 				ADAPTATION_GILLPROTECTION.TOOLTIP,
 				0, "", "",
 				Aq_SkillGroups.ADAPTATION_ID,
-				[Aq_SkillPerks.Adapt_GillProtection, Aq_SkillPerks.Adapt_GillMoisturizing],
+				[Aq_SkillPerks.Adapt_SuitAirImmunity, Aq_SkillPerks.Adapt_ItchyGillsImmunity, Aq_SkillPerks.Adapt_GillMoisturizing],
 				null));
 
 

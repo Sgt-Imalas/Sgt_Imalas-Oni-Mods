@@ -19,16 +19,16 @@ namespace AquaticMinnowMinion.Content.Scripts
 			default_state = idle;
 
 			idle
-				.EventTransition(ModAssets.StartedBreathingLiquid, filteringDecision);
+				.EventTransition(ModAssets.AqHashes.StartedBreathingLiquid, filteringDecision);
 			filteringDecision
 				.EnterTransition(filteringWater, HasBasicGills)
 				.EnterTransition(filteringWaterSkilled, HasAdvancedGills);				
 			filteringWater
 				.ToggleEffect(Aq_Effects.GillsFilteringLiquid.Id)
-				.EventTransition(ModAssets.StoppedBreathingLiquid, idle);
+				.EventTransition(ModAssets.AqHashes.StoppedBreathingLiquid, idle);
 			filteringWaterSkilled
 				.ToggleEffect(Aq_Effects.GillsFilteringLiquid_Skilled.Id)
-				.EventTransition(ModAssets.StoppedBreathingLiquid, idle);
+				.EventTransition(ModAssets.AqHashes.StoppedBreathingLiquid, idle);
 
 
 		}

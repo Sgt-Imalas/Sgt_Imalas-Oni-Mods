@@ -22,7 +22,7 @@ namespace AquaticMinnowMinion.Content.ModDb
 		}
 		static void MakeLiquidBreathable(SimHashes hashes)
 		{
-			AddElementTag(hashes, Tags.BreathableLiquid);
+			AddElementTag(hashes, Tags.BreathableWater);
 
 		}
 		static void AddElementTag(SimHashes hashes, Tag tag)

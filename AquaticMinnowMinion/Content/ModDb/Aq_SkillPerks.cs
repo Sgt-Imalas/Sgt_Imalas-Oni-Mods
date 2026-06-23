@@ -15,7 +15,8 @@ namespace AquaticMinnowMinion.Content.ModDb
 		public static SkillPerk
 			Adapt_WaterbreathingEfficiency
 
-			, Adapt_GillProtection
+			, Adapt_ItchyGillsImmunity
+			, Adapt_SuitAirImmunity
 			, Adapt_GillMoisturizing
 
 			, Adapt_EyeProtectionMinor
@@ -28,7 +29,8 @@ namespace AquaticMinnowMinion.Content.ModDb
 		{
 			Adapt_WaterbreathingEfficiency = __instance.Add(new SimpleSkillPerk(nameof(Adapt_WaterbreathingEfficiency), STRINGS.UI.ROLES_SCREEN.PERKS.ADAPT_WATERBREATHINGEFFICIENCY.DESCRIPTION));
 
-			Adapt_GillProtection = __instance.Add(new ImmunitySkillPerk(nameof(Adapt_GillProtection), Aq_Effects.ItchyGills.Id));
+			Adapt_ItchyGillsImmunity = __instance.Add(new ImmunitySkillPerk(nameof(Adapt_ItchyGillsImmunity), Aq_Effects.ItchyGills.Id));
+			Adapt_SuitAirImmunity = __instance.Add(new ImmunitySkillPerk(nameof(Adapt_SuitAirImmunity), Aq_Effects.DrySuitAir.Id));
 			Adapt_GillMoisturizing = __instance.Add(new SkillAttributePerk(nameof(Adapt_GillMoisturizing), Aq_Amounts.Aquatic_GillMoisture.deltaAttribute.Id, AQ_TUNING.ADAPTATION_PERKS.ADAPTATION_MOIST_GILLS, STRINGS.DUPLICANTS.ROLES.ADAPTATION_GILLPROTECTION.NAME));
 
 			Adapt_EyeProtectionMinor = __instance.Add(new ImmunitySkillPerk(nameof(Adapt_EyeProtectionMinor), "MinorIrritation"));

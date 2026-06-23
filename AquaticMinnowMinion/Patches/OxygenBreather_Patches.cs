@@ -28,7 +28,7 @@ namespace AquaticMinnowMinion.Patches
 				if (itchyLiquid && !__instance.prefabID.HasTag(GameTags.Dead) && __instance.O2Accumulator != HandleVector<int>.Handle.InvalidHandle)
 				{
 					//__instance.BoxingTrigger((int)GameHashes.PoorAirQuality, massConsumed);
-					__instance.BoxingTrigger((int)ModAssets.PoorBreathableLiquidQuality, massConsumed);
+					__instance.BoxingTrigger((int)ModAssets.AqHashes.PoorBreathableLiquidQuality, massConsumed);
 				}
 			}
 		}
