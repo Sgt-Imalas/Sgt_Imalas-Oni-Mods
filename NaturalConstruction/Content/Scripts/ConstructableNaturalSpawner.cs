@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UtilLibs;
+using static Grid.Restriction;
 using static STRINGS.MISC.STATUSITEMS.HEALTHSTATUS;
 using static STRINGS.UI;
 
@@ -98,7 +99,7 @@ namespace NaturalConstruction.Content.Scripts
 		//	SpawnNaturalTile();
 		//}
 
-		public 	void SpawnNaturalTile()
+		public 	void SpawnNaturalTile(WorkerBase workerForGameplayEvent)
 		{
 			if (selectable.IsSelected)
 				selectable.Unselect();
@@ -146,6 +147,13 @@ namespace NaturalConstruction.Content.Scripts
 				ModAssets.MovePickupables(cell);
 				SimMessages.ReplaceAndDisplaceElement(cell, elementId, CellEventLogger.Instance.SandBoxTool, naturalMass, temperature, diseaseIdx, diseaseAmount);
 				GameScenePartitioner.Instance.TriggerEvent(cell, GameScenePartitioner.Instance.solidChangedLayer, null);
+				//SgtLogger.l("Solid: " + Grid.Solid[cell] + ", foundation: " + Grid.Foundation[cell]);
+				//for (int layer = 0; layer < 45; ++layer)
+				//{
+				//	if (Grid.Objects[cell, layer] != null && Grid.Objects[cell, layer].GetComponent<Constructable>() != null)
+				//		SgtLogger.l("Object at layer " + layer + ": " + Grid.Objects[cell, layer]);
+				//}
+				Grid.Foundation[cell] = false;
 			}
 			storage.ConsumeAllIgnoringDisease();
 			gameObject.Trigger((int)GameHashes.NewConstruction, (object)this);
