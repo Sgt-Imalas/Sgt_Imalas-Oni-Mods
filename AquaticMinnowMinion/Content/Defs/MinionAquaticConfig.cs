@@ -20,7 +20,7 @@ namespace AquaticMinnowMinion.Content.Defs
 		public static Tag MODEL = ModTags.AquaticMinion;
 		public static string NAME = DUPLICANTS.MODEL.AQUATIC.NAME;
 		public static string ID = MODEL.ToString();
-		public Func<RationalAi.Instance, StateMachine.Instance>[] RATIONAL_AI_STATE_MACHINES = BaseMinionConfig.BaseRationalAiStateMachines().Append<Func<RationalAi.Instance, StateMachine.Instance>>(new Func<RationalAi.Instance, StateMachine.Instance>[9]
+		public Func<RationalAi.Instance, StateMachine.Instance>[] RATIONAL_AI_STATE_MACHINES = BaseMinionConfig.BaseRationalAiStateMachines().Append<Func<RationalAi.Instance, StateMachine.Instance>>(new Func<RationalAi.Instance, StateMachine.Instance>[]
 		{
 			(smi => (StateMachine.Instance) new BreathMonitor.Instance(smi.master)),
 			(smi => (StateMachine.Instance) new SteppedInMonitor.Instance(smi.master)),
@@ -30,7 +30,8 @@ namespace AquaticMinnowMinion.Content.Defs
 			(smi => (StateMachine.Instance) new CalorieMonitor.Instance(smi.master)),
 			(smi => (StateMachine.Instance) new BladderMonitor.Instance(smi.master)),
 			(smi => (StateMachine.Instance) new HygieneMonitor.Instance(smi.master)),
-			(smi => (StateMachine.Instance) new TiredMonitor.Instance(smi.master))
+			(smi => (StateMachine.Instance) new TiredMonitor.Instance(smi.master)),
+			(smi => (StateMachine.Instance) new GillIrritationMonitor.Instance(smi.master, new GillIrritationMonitor.Def()))
 		});
 		public static string[] GetAttributes()
 		{

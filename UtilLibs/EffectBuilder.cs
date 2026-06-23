@@ -63,10 +63,10 @@ namespace UtilLibs
 			return this;
 		}
 
-		public EffectBuilder Modifier(string id, float value)
+		public EffectBuilder Modifier(string id, float valuePerSecond)
 		{
 			modifiers = modifiers ?? new List<AttributeModifier>();
-			modifiers.Add(new AttributeModifier(id, value, name));
+			modifiers.Add(new AttributeModifier(id, valuePerSecond, name));
 
 			return this;
 		}
@@ -100,9 +100,9 @@ namespace UtilLibs
 			return this;
 		}
 
-		public void Add(ModifierSet db)
+		public void Add(ModifierSet db, out Effect effect)
 		{
-			var effect = new Effect(ID, name, description, duration, showInUI, triggerFloatingText, isBad, emoteAnim, emoteCooldown, stompGroup, customIcon);
+			effect = new Effect(ID, name, description, duration, showInUI, triggerFloatingText, isBad, emoteAnim, emoteCooldown, stompGroup, customIcon);
 
 			if (modifiers != null)
 			{

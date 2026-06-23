@@ -12,11 +12,20 @@ namespace AquaticMinnowMinion.Content.ModDb
 		const string GillIrritation = "Aq_GillIrritationGroup";
 		internal static void Register(Db db)
 		{
-			new EffectBuilder("AQ_ItchyGills", 0.2f, true)
+			var stressDelta = db.Amounts.Stress.deltaAttribute.Id;
+			var peeDelta = db.Amounts.Bladder.deltaAttribute.Id;
+			var carryCapacity = db.Attributes.CarryAmount.Id;
+			var strength = db.Attributes.Strength.Id;
+			var athletics = db.Attributes.Athletics.Id;
+			var airConsumptionRate = db.Attributes.AirConsumptionRate.Id;
+			var morale = db.Attributes.QualityOfLife.Id;
+
+			new EffectBuilder("AQ_ItchyGills", 0.2f * CONSTS.CYCLE_LENGTH, true)
 				.Name(STRINGS.DUPLICANTS.MODIFIERS.AQ_ITCHYGILLS.NAME)
 				.Description(STRINGS.DUPLICANTS.MODIFIERS.AQ_ITCHYGILLS.TOOLTIP)
-				.Modifier(Db.Get().Amounts.Breath.Id, 18f)
-				.Add(db);
+				.Modifier(airConsumptionRate, 0.030f)
+				.Modifier(stressDelta, 15f / CONSTS.CYCLE_LENGTH) //todo: check vals; 
+				.Add(db, out ItchyGills);
 		}
 	}
 }

@@ -20,14 +20,14 @@ namespace AquaticMinnowMinion.Patches
 			static Dictionary<SimHashes, bool> IsItchyLiquid = [];
 			public static void Postfix(OxygenBreather __instance, SimHashes elementConsumed, float massConsumed)
 			{
-				if (!IsItchyLiquid.TryGetValue(elementConsumed, out var itchy))
+				if (!IsItchyLiquid.TryGetValue(elementConsumed, out var itchyLiquid))
 				{
 					var element = ElementLoader.FindElementByHash(elementConsumed);
-					itchy = IsItchyLiquid[elementConsumed] = element.HasTag(ModTags.PollutedLiquid);
+					itchyLiquid = IsItchyLiquid[elementConsumed] = element.HasTag(ModTags.PollutedLiquid);
 				}
-				if (itchy && !__instance.prefabID.HasTag(GameTags.Dead) && __instance.O2Accumulator != HandleVector<int>.Handle.InvalidHandle)
+				if (itchyLiquid && !__instance.prefabID.HasTag(GameTags.Dead) && __instance.O2Accumulator != HandleVector<int>.Handle.InvalidHandle)
 				{
-					__instance.BoxingTrigger((int)GameHashes.PoorAirQuality, massConsumed);
+					//__instance.BoxingTrigger((int)GameHashes.PoorAirQuality, massConsumed);
 					__instance.BoxingTrigger((int)ModAssets.PoorBreathableLiquidQuality, massConsumed);
 				}
 			}
