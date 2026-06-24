@@ -10,6 +10,7 @@ namespace BathTub
 {
 	internal class ModAssets
 	{
+		public static ModHashes StartedMoisturizingTask = new("Aq_" + nameof(StartedMoisturizingTask));
 		public static bool RoomsExpandedActive = false;
 
 		public static GameObject FoamFX;

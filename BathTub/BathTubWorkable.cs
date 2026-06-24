@@ -67,6 +67,8 @@ namespace BathTub
 				}
 			}
 			this.accumulatedDisease = SimUtil.DiseaseInfo.Invalid;
+			///Aquatic dupe mod
+			worker.Trigger(ModAssets.StartedMoisturizingTask);
 		}
 
 		public override void OnStopWork(WorkerBase worker) => worker.GetComponent<Effects>().Remove("HotTubRelaxing");
