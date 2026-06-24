@@ -28,9 +28,13 @@ namespace AquaticMinnowMinion.Content.Scripts
 			very_dry
 				.ToggleEffect(Aq_Effects.DryGills_Major.Id)
 				.UpdateTransition(slightly_dry, (smi, dt) => AboveMoisture(smi, AQ_TUNING.GILL_MOISTURE.MOISTURE_VERY_DRY_THRESHOLD))
+				.ToggleUrge(Aq_Urges.MoisturizeMe) //not sure if this will lead to somewhere with custom moisturization workables
+				.ToggleUrge(Db.Get().Urges.Shower)
 				.UpdateTransition(completely_dry, (smi, dt) => BelowMoisture(smi, 0));
 			completely_dry
 				.ToggleEffect(Aq_Effects.DryGills_Extreme.Id)
+				.ToggleUrge(Aq_Urges.MoisturizeMe) 
+				.ToggleUrge(Db.Get().Urges.Shower)
 				.UpdateTransition(very_dry, (smi, dt) => AboveMoisture(smi, 0));
 
 		}

@@ -61,6 +61,15 @@ namespace AquaticMinnowMinion
 					public static LocString TOOLTIP = $"Duplicants require {FormatAsLink("Oxygen", "OXYGEN")} to live, amphibious duplicants can filter it from water.";
 				}
 			}
+			public class CHORES
+			{				
+				public class MOISTURIZEME
+				{
+					public static LocString NAME = (LocString)"Moistuize Me!";
+					public static LocString STATUS = (LocString)"Looking for moisturization";
+					public static LocString TOOLTIP = (LocString)$"Amphibious Duplicants need {PRE_KEYWORD}Moisturization{PST_KEYWORD} of their gills.";
+				}
+			}
 			public class MODIFIERS
 			{
 				public class AQ_ITCHYGILLS

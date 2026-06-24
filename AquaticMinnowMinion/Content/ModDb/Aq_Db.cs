@@ -8,6 +8,7 @@ namespace AquaticMinnowMinion.Content.ModDb
 	{
 		public static void Init(Db db)
 		{
+			Aq_Urges.Register(db.Urges);
 			Aq_Amounts.RegisterAmounts(db.Amounts);
 			Aq_Effects.Register(db);
 			Aq_Accessories.Register(db.Accessories, db.AccessorySlots);
@@ -17,6 +18,7 @@ namespace AquaticMinnowMinion.Content.ModDb
 			Aq_SkillGroups.Register(db.SkillGroups);
 			Aq_SkillPerks.Register(db.SkillPerks);
 			Aq_Skills.Register(db.Skills);
+			Aq_ChoreTypes.Register(db.ChoreTypes);
 		}
 	}
 }
