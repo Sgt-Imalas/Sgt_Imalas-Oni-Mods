@@ -143,6 +143,11 @@ namespace AquaticMinnowMinion.Content.Scripts
 
 			if (Grid.IsLiquid(headCell) && Grid.IsLiquid(bodyCell))
 				return false;
+
+			///Todo: breathing out in vacuum yes/no?
+			if (Grid.Element[headCell].IsVacuum && Grid.Element[bodyCell].IsVacuum)
+				return false;
+
 			return true;
 		}
 

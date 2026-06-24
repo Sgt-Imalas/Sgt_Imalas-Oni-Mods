@@ -105,7 +105,7 @@ namespace AquaticMinnowMinion
 				public class ADAPTATION_GILLPROTECTION
 				{
 					public static LocString NAME = FormatAsLink("Mucus Glands", nameof(ADAPTATION_GILLPROTECTION));
-					public static LocString TOOLTIP = "Develops a gland that produces a thin mucus layer covering the gills of the duplicant, protecting it from irritants.";
+					public static LocString TOOLTIP = "Develops glands that produce a thin mucus layer covering the skin and gills of the duplicant, protecting them from irritants and providing some heat protection.";
 				}
 				public class ADAPTATION_INSULATION
 				{
@@ -114,7 +114,7 @@ namespace AquaticMinnowMinion
 				}
 				public class ADAPTATION_WATERBREATHINGRATEREDUCTION
 				{
-					public static LocString NAME = FormatAsLink("Gills Enhancement", nameof(ADAPTATION_WATERBREATHINGRATEREDUCTION));
+					public static LocString NAME = FormatAsLink("Enlarged Gills", nameof(ADAPTATION_WATERBREATHINGRATEREDUCTION));
 					public static LocString TOOLTIP = "Develops gills that are more effective at filtering oxygen from water.";
 				}
 			}

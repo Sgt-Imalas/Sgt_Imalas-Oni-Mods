@@ -12,6 +12,7 @@ namespace AquaticMinnowMinion
 		{
 			base.OnLoad(harmony);
 			SgtLogger.LogVersion(this, harmony);
+			UtilLibs.SharedTweaks.SkillsWidgetBetterConnectionLines.Register();
 		}
 
 		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)

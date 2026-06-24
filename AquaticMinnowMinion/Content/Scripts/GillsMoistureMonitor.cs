@@ -26,7 +26,7 @@ namespace AquaticMinnowMinion.Content.Scripts
 			openAir
 				.UpdateTransition(inWater, (smi, dt) => InWater(smi))
 				.EventTransition(ModAssets.AqHashes.StartedMoisturizingTask, doingGillMoisturizingTask)
-				.TagTransition(GameTags.AirtightSuit, suitAir)
+				.TagTransition(GameTags.HasAirtightSuit, suitAir)
 				;
 			doingGillMoisturizingTask
 				.ToggleAttributeModifier("moisturizing task", (Instance smi) => smi.inWaterMoistureModifier)
@@ -41,7 +41,6 @@ namespace AquaticMinnowMinion.Content.Scripts
 				.TagTransition(GameTags.HasAirtightSuit, openAir, true)
 				.ToggleEffect(Aq_Effects.DrySuitAir.Id)
 				;
-
 		}
 		
 		static bool InWater(Instance smi)

@@ -82,7 +82,6 @@ namespace AquaticMinnowMinion.Content.ModDb
 				.Modifier(stressDelta, 10f / CONSTS.CYCLE_LENGTH)
 				.Modifier(gillsMoistureDelta, AQ_TUNING.GILL_MOISTURE.SUITAIR_DELTA)
 				.Add(db, out DrySuitAir);
-			
 
 		}
 	}

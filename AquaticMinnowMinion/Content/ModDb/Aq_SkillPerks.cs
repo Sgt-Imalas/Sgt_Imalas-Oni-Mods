@@ -24,6 +24,7 @@ namespace AquaticMinnowMinion.Content.ModDb
 
 			, Adapt_FatLayer
 			, Adapt_ColdImmunity
+			, Adapt_HeatImmunity
 			;
 		public static void Register(SkillPerks __instance)
 		{
@@ -38,7 +39,7 @@ namespace AquaticMinnowMinion.Content.ModDb
 
 			Adapt_FatLayer = __instance.Add(new SkillAttributePerk(nameof(Adapt_FatLayer), "ThermalConductivityBarrier", AQ_TUNING.ADAPTATION_PERKS.ADAPTATION_FAT_INSULATION, global::STRINGS.DUPLICANTS.ATTRIBUTES.THERMALCONDUCTIVITYBARRIER.DESC));
 			Adapt_ColdImmunity = __instance.Add(new ImmunitySkillPerk(nameof(Adapt_ColdImmunity), "ColdAir"));
-
+			Adapt_HeatImmunity = __instance.Add(new ImmunitySkillPerk(nameof(Adapt_HeatImmunity), "WarmAir"));
 		}
 
 	}

@@ -13,14 +13,30 @@ namespace AquaticMinnowMinion.Content.ModDb
 	{
 		public static Skill
 			 Adaptation_EyeProtection //Double Eyelids
-			,Adaptation_GillProtection //Mucus Glands
-			,Adaptation_Insulation //Blubber/Fat Layer
-			,Adaptation_WaterBreathingRateReduction //idk, sth about rebreathing/slowing down heartrate when diving
-
+			, Adaptation_GillProtection //Mucus Glands
+			, Adaptation_Insulation //Blubber/Fat Layer
+			, Adaptation_WaterBreathingRateReduction //idk, sth about rebreathing/slowing down heartrate when diving
+			, Adaptation_SlimySkin
 			;
 
 		public static void Register(Skills __instance)
 		{
+
+			///In case the main menu tries spawning an aquatic dupe with a skill hat, it needs at least one skill in that group.
+			///as we are hackingly reusing the default minion skills, that crashes when theres no skill
+			var dummy = new Skill("Adaptation_DummySkill",
+				"DummySkill",
+				"does nothing except preventing a main menu crash",
+				0, "hat_role_suits1", "skillbadge_role_suits2",
+				Aq_SkillGroups.ADAPTATION_ID,
+				null,
+				null,
+				ModAssets.Tags.AquaticMinion.ToString()
+				);
+			dummy.deprecated = true;
+			__instance.AddSkill(dummy);
+
+
 			List<Skill> aq_skills = new List<Skill>();
 			foreach (var original in __instance.resources)
 			{
@@ -41,24 +57,24 @@ namespace AquaticMinnowMinion.Content.ModDb
 
 			//todo: adaptation skills
 			//Adaptation_EyeProtection = __instance.AddSkill(new("Adaptation_EyeProtection", "Adaptation: Double Eyelids", "todo", 0, "", "", Aq_SkillGroups.ADAPTATION_ID, null, null, ModAssets.ModTags.AquaticMinion.ToString()));
-			Adaptation_EyeProtection = 
-				__instance.AddSkill(new("Adaptation_EyeProtection",
-				ADAPTATION_EYEPROTECTION.NAME,
-				ADAPTATION_EYEPROTECTION.TOOLTIP, 
-				0, "", "", 
-				Aq_SkillGroups.ADAPTATION_ID, 
-				[Aq_SkillPerks.Adapt_EyeProtectionMinor, Aq_SkillPerks.Adapt_EyeProtectionMajor],
-				null));
-
-			Adaptation_GillProtection =
-				__instance.AddSkill(new("Adaptation_GillProtection",
-				ADAPTATION_GILLPROTECTION.NAME,
-				ADAPTATION_GILLPROTECTION.TOOLTIP,
+			
+			Adaptation_WaterBreathingRateReduction =
+				__instance.AddSkill(new("Adaptation_WaterBreathingRateReduction",
+				ADAPTATION_WATERBREATHINGRATEREDUCTION.NAME,
+				ADAPTATION_WATERBREATHINGRATEREDUCTION.TOOLTIP,
 				0, "", "",
 				Aq_SkillGroups.ADAPTATION_ID,
-				[Aq_SkillPerks.Adapt_SuitAirImmunity, Aq_SkillPerks.Adapt_ItchyGillsImmunity, Aq_SkillPerks.Adapt_GillMoisturizing],
+				[Aq_SkillPerks.Adapt_WaterbreathingEfficiency],
 				null));
 
+			Adaptation_EyeProtection =
+				__instance.AddSkill(new("Adaptation_EyeProtection",
+				ADAPTATION_EYEPROTECTION.NAME,
+				ADAPTATION_EYEPROTECTION.TOOLTIP,
+				0, "", "",
+				Aq_SkillGroups.ADAPTATION_ID,
+				[Aq_SkillPerks.Adapt_EyeProtectionMinor, Aq_SkillPerks.Adapt_EyeProtectionMajor],
+				null));
 
 			Adaptation_Insulation =
 				__instance.AddSkill(new("Adaptation_Insulation",
@@ -69,14 +85,14 @@ namespace AquaticMinnowMinion.Content.ModDb
 				[Aq_SkillPerks.Adapt_ColdImmunity, Aq_SkillPerks.Adapt_FatLayer],
 				null));
 
-			Adaptation_WaterBreathingRateReduction = 
-				__instance.AddSkill(new("Adaptation_WaterBreathingRateReduction", 
-				ADAPTATION_WATERBREATHINGRATEREDUCTION.NAME,
-				ADAPTATION_WATERBREATHINGRATEREDUCTION.TOOLTIP,
-				0, "", "",
-				Aq_SkillGroups.ADAPTATION_ID, 
-				[Aq_SkillPerks.Adapt_WaterbreathingEfficiency], 
-				null));
+			Adaptation_GillProtection =
+				__instance.AddSkill(new("Adaptation_GillProtection",
+				ADAPTATION_GILLPROTECTION.NAME,
+				ADAPTATION_GILLPROTECTION.TOOLTIP,
+				1, "", "",
+				Aq_SkillGroups.ADAPTATION_ID,
+				[Aq_SkillPerks.Adapt_SuitAirImmunity, Aq_SkillPerks.Adapt_ItchyGillsImmunity, Aq_SkillPerks.Adapt_GillMoisturizing, Aq_SkillPerks.Adapt_HeatImmunity],
+				[Adaptation_WaterBreathingRateReduction.Id, Adaptation_EyeProtection.Id, Adaptation_Insulation.Id]));
 		}
 	}
 }
