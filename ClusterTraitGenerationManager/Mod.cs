@@ -52,7 +52,7 @@ namespace ClusterTraitGenerationManager
 
 			CompatibilityNotifications.FixBrokenTimeout(harmony);
 			CompatibilityNotifications.FlagLoggingPrevention(mods);
-			CompatibilityNotifications.RemoveCrashingIncompatibility(harmony, mods, "CGSMMerged");
+			CompatibilityNotifications.RemoveCrashingIncompatibility(harmony, mods, "MikeB26.CGSM");
 			CompatibilityNotifications.RemoveCrashingIncompatibility(harmony, mods, "WGSM");
 		}
 	}

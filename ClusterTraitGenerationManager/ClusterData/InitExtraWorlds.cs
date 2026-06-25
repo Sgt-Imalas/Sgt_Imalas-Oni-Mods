@@ -76,11 +76,19 @@ namespace ClusterTraitGenerationManager.ClusterData
 
 			SgtLogger.l("Initializing generation of additional planetoids, current count: " + __instance.worldCache.Count());
 			Dictionary<string, ProcGen.World> toAdd = new();
+			HashSet<string> toRemove = [];
 			foreach (var sourceWorld in __instance.worldCache)
 			{
 
 				if ((int)sourceWorld.Value.skip >= 99 || sourceWorld.Value.moduleInterior)
 					continue;
+
+				//if someone did not read desc. and had the bughouse clone enabled
+				if (sourceWorld.Key.Contains("CGSM."))
+				{
+					toRemove.Add(sourceWorld.Key);
+					continue;
+				}
 
 
 				if (CGSMClusterManager.SkipWorldForDlcReasons(sourceWorld.Key, sourceWorld.Value)
