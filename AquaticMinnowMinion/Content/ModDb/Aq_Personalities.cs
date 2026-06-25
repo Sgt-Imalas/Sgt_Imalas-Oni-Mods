@@ -10,7 +10,7 @@ namespace AquaticMinnowMinion.Content.ModDb
 	internal class Aq_Personalities
 	{
 
-		public static string A_MINNOW = "AQUATIC_MINNOW";
+		public static string AQUATIC_MINNOW = "AQUATIC_MINNOW";
 
 		/// <summary>
 		/// replace cheek symbols with custom ones later;
@@ -26,7 +26,7 @@ namespace AquaticMinnowMinion.Content.ModDb
 				return;
 			}
 			var a_minnow = new Personality(
-				A_MINNOW,
+				AQUATIC_MINNOW,
 				global::STRINGS.DUPLICANTS.PERSONALITIES.MINNOW.NAME,
 				minnowReference.genderStringKey,
 				minnowReference.personalityType,

@@ -15,12 +15,30 @@ namespace AquaticMinnowMinion.Content.ModDb
 
 		public static void Register(SkillGroups __instance)
 		{
+
+			//List<SkillGroup> aquaticSpacerVariants = [];
+			//foreach(var group in __instance.resources)
+			//{
+			//	aquaticSpacerVariants.Add(
+			//		new SkillGroup("Aq_" + group.Id, group.choreGroupID, group.Name, group.choreGroupIcon, group.archetypeIcon) 
+			//		{
+			//			requiredChoreGroups = group.requiredChoreGroups,
+			//			relevantAttributes = group.relevantAttributes,
+			//			allowAsAptitude = false 
+			//		}
+			//	);
+			//}
+
+			//var index = __instance.resources.FindIndex(s => s.Id == __instance.SwimmingSkills.Id);
+			//foreach (var spacer in aquaticSpacerVariants)
+			//	__instance.resources.Insert(++index, spacer);
+
 			AdaptationSkills = new SkillGroup(ADAPTATION_ID, STRINGS.DUPLICANTS.CHOREGROUPS.AQ_ADAPTATIONSKILLS.NAME, STRINGS.DUPLICANTS.CHOREGROUPS.AQ_ADAPTATIONSKILLS.NAME, "", "");
 			AdaptationSkills.relevantAttributes = [];
 			AdaptationSkills.requiredChoreGroups =[];
 			AdaptationSkills.allowAsAptitude = false;
+			//__instance.resources.Insert(++index, AdaptationSkills);
 
-			//AdaptationSkills = __instance.Add(AdaptationSkills);
 			var index = __instance.resources.FindIndex(s => s.Id == __instance.SwimmingSkills.Id);
 
 			if (index == -1)
@@ -30,7 +48,7 @@ namespace AquaticMinnowMinion.Content.ModDb
 			}
 			else
 			{
-				__instance.resources.Insert(index+1, AdaptationSkills);
+				__instance.resources.Insert(index + 1, AdaptationSkills);
 			}
 		}
 	}

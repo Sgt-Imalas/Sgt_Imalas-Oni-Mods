@@ -36,6 +36,8 @@ namespace AquaticMinnowMinion.Content.ModDb
 			dummy.deprecated = true;
 			__instance.AddSkill(dummy);
 
+			string requiredDuplicantModel = Tags.AquaticMinion.ToString();
+			string[] dlc = [DlcManager.DLC5_ID];
 
 			List<Skill> aq_skills = new List<Skill>();
 			foreach (var original in __instance.resources)
@@ -54,45 +56,50 @@ namespace AquaticMinnowMinion.Content.ModDb
 			}
 			//foreach (var skill in aq_skills)
 			//	__instance.AddSkill(skill);
-
-			//todo: adaptation skills
-			//Adaptation_EyeProtection = __instance.AddSkill(new("Adaptation_EyeProtection", "Adaptation: Double Eyelids", "todo", 0, "", "", Aq_SkillGroups.ADAPTATION_ID, null, null, ModAssets.ModTags.AquaticMinion.ToString()));
-			
+						
 			Adaptation_WaterBreathingRateReduction =
 				__instance.AddSkill(new("Adaptation_WaterBreathingRateReduction",
 				ADAPTATION_WATERBREATHINGRATEREDUCTION.NAME,
 				ADAPTATION_WATERBREATHINGRATEREDUCTION.TOOLTIP,
-				0, "", "",
+				0, "", "skillbadge_role_adaptation_gills",
 				Aq_SkillGroups.ADAPTATION_ID,
-				[Aq_SkillPerks.Adapt_WaterbreathingEfficiency],
-				null));
+				[Aq_SkillPerks.Adapt_WaterbreathingEfficiency, Db.Get().SkillPerks.IncreasedLungCapacity],
+				null
+				//, requiredDuplicantModel, dlc
+				));
 
 			Adaptation_EyeProtection =
 				__instance.AddSkill(new("Adaptation_EyeProtection",
 				ADAPTATION_EYEPROTECTION.NAME,
 				ADAPTATION_EYEPROTECTION.TOOLTIP,
-				0, "", "",
+				0, "", "skillbadge_role_adaptation_eye_protection",
 				Aq_SkillGroups.ADAPTATION_ID,
 				[Aq_SkillPerks.Adapt_EyeProtectionMinor, Aq_SkillPerks.Adapt_EyeProtectionMajor],
-				null));
+				null
+				//, requiredDuplicantModel, dlc
+				));
 
 			Adaptation_Insulation =
 				__instance.AddSkill(new("Adaptation_Insulation",
 				ADAPTATION_INSULATION.NAME,
 				ADAPTATION_INSULATION.TOOLTIP,
-				0, "", "",
+				0, "", "skillbadge_role_adaptation_insulation",
 				Aq_SkillGroups.ADAPTATION_ID,
 				[Aq_SkillPerks.Adapt_ColdImmunity, Aq_SkillPerks.Adapt_FatLayer],
-				null));
+				null
+				//, requiredDuplicantModel, dlc
+				));
 
 			Adaptation_GillProtection =
 				__instance.AddSkill(new("Adaptation_GillProtection",
 				ADAPTATION_GILLPROTECTION.NAME,
 				ADAPTATION_GILLPROTECTION.TOOLTIP,
-				1, "", "",
+				1, "", "skillbadge_role_adaptation_mucus",
 				Aq_SkillGroups.ADAPTATION_ID,
 				[Aq_SkillPerks.Adapt_SuitAirImmunity, Aq_SkillPerks.Adapt_ItchyGillsImmunity, Aq_SkillPerks.Adapt_GillMoisturizing, Aq_SkillPerks.Adapt_HeatImmunity],
-				[Adaptation_WaterBreathingRateReduction.Id, Adaptation_EyeProtection.Id, Adaptation_Insulation.Id]));
+				[Adaptation_WaterBreathingRateReduction.Id, Adaptation_EyeProtection.Id, Adaptation_Insulation.Id]
+				//, requiredDuplicantModel, dlc
+				));
 		}
 	}
 }

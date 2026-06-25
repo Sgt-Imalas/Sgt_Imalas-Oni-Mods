@@ -22,8 +22,8 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>AquaticMinnowMinion</ModName>
-		<ModDescription></ModDescription>
+		<ModName>Amphibious Minnow (Duplicant Model)</ModName>
+		<ModDescription>Adds a new duplicant model, amphibious duplicants, to the game and converts Minnow into one</ModDescription>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>
