@@ -20,10 +20,9 @@ namespace UtilLibs.SharedTweaks
 		{
 			new SkillsWidgetBetterConnectionLines().RegisterForForwarding();
 		}
-		public override Version Version => new Version(1, 0, 0, 1);
+		public override Version Version => new Version(1, 0, 0, 2);
 		public override void Initialize(Harmony plibInstance)
 		{
-			return;
 			try
 			{
 				var targetMethodOnSpawn = AccessTools.Method(typeof(SkillWidget), nameof(SkillWidget.RefreshLines));
