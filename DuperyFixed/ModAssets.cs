@@ -8,6 +8,7 @@ namespace DuperyFixed
 {
 	internal class ModAssets
 	{
+		public static bool AllowAquaticDupes = false;
 		static Dictionary<Texture2D, Texture2D> Copies = new Dictionary<Texture2D, Texture2D>();
 		public static Texture2D GetReadableCopy(Texture2D source)
 		{

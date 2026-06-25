@@ -192,17 +192,22 @@ namespace Dupery
 			}
 		}
 
+		const string AquaticModModel = "AquaticMinion"; 
+
 		static HashSet<string> ValidModels = new() { "Minion", "BionicMinion" }; //tags arent initialized yet so they are null, update from GameTags.Minions.Models.AllModels when new minion type releases
 		public bool ToPersonality(string nameStringKey, out Personality outPersonality, out string failReason)
 		{
 			failReason = null;
+
+			if(ModAssets.AllowAquaticDupes && !ValidModels.Contains(AquaticModModel))
+				ValidModels.Add(AquaticModModel);
 
 			if (Model == null || !ValidModels.Contains(Model))
 				Model = "Minion";
 			Tag model = Model;
 
 			bool isBionic = Model == "BionicMinion";
-
+			bool isAquatic = model == AquaticModModel;
 
 			if (!DlcManager.IsContentSubscribed(DlcManager.DLC3_ID) && isBionic)
 			{
@@ -210,6 +215,13 @@ namespace Dupery
 				outPersonality = null;
 				return false;
 			}
+			if(!DlcManager.IsContentSubscribed(DlcManager.DLC5_ID) && isAquatic)
+			{
+				failReason = "AquaticMinion model is not available without the Aquatic DLC";
+				outPersonality = null;
+				return false;
+			}
+
 
 
 			nameStringKey = nameStringKey.ToUpper();
