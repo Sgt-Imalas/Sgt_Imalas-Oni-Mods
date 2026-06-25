@@ -20,9 +20,10 @@ namespace UtilLibs.SharedTweaks
 		{
 			new SkillsWidgetBetterConnectionLines().RegisterForForwarding();
 		}
-		public override Version Version => new Version(1, 0, 0, 0);
+		public override Version Version => new Version(1, 0, 0, 1);
 		public override void Initialize(Harmony plibInstance)
 		{
+			return;
 			try
 			{
 				var targetMethodOnSpawn = AccessTools.Method(typeof(SkillWidget), nameof(SkillWidget.RefreshLines));
@@ -195,7 +196,7 @@ namespace UtilLibs.SharedTweaks
 
 				int rowX = skill.tier;
 
-				//SgtLogger.l(skill.Id + ", " + rowX + "," + columnY + "(" + x + "," + y + ")");
+				SgtLogger.l(skill.Id + ", " + rowX + "," + columnY + "(" + x + "," + y + ")");
 				var data = new Vector2I(rowX, columnY);
 				lookupTable.Add(skill.Id, data);
 				reverseLookupTable.Add(data, skill.Id);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -42,19 +43,49 @@ namespace UtilLibs
 
 		//use in prefix
 		public static Sprite AddSpriteToAssets(Assets instance, string spriteid, bool overrideExisting = false, TextureWrapMode mode = TextureWrapMode.Repeat)
+		=> AddSpriteToAssets(instance, Path.Combine(UtilMethods.ModPath, "assets"), spriteid, overrideExisting, mode);
+
+		public static List<Sprite> AddAllSpritesInAssetsSubDir(Assets instance, string directory, bool overrideExisting = false)
+			=> AddAllSpritesInFolderToAssets(instance, Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "assets", directory), overrideExisting);
+
+		public static List<Sprite> AddAllSpritesInFolderToAssets(Assets instance, string directory, bool overrideExisting = false)
 		{
-			var path = Path.Combine(UtilMethods.ModPath, "assets");
-			var texture = LoadTexture(spriteid, path);
+			if (!Directory.Exists(directory))
+			{
+				SgtLogger.l(directory + " does not exist!");
+				return [];
+			}
+			var items = new List<Sprite>();
+			foreach (var file in System.IO.Directory.GetFiles(directory))
+			{
+				var fileInfo = new FileInfo(file);
+				if (fileInfo.Exists && fileInfo.Extension == ".png" && IO_Utils.NotAMacFile(fileInfo))
+				{
+					try
+					{
+						items.Add(AddSpriteToAssets(fileInfo,instance,overrideExisting));
+					}
+					catch { }
+				}
+			}
+			SgtLogger.l("Loaded " + items.Count + " sprites from folder " + directory);
+			return items;
+		}
+
+
+		public static Sprite AddSpriteToAssets(Assets instance, string directoryPath, string spriteId, bool overrideExisting = false, TextureWrapMode mode = TextureWrapMode.Repeat)
+		{
+			var texture = LoadTexture(spriteId, directoryPath);
 			texture.wrapMode = mode;
 			var sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector3.zero);
-			sprite.name = spriteid;
-			if (!overrideExisting && instance.SpriteAssets.Any(spritef => spritef != null && spritef.name == spriteid))
+			sprite.name = spriteId;
+			if (!overrideExisting && instance.SpriteAssets.Any(spritef => spritef != null && spritef.name == spriteId))
 			{
-				SgtLogger.l("Sprite " + spriteid + " was already existent in the sprite assets");
+				SgtLogger.l("Sprite " + spriteId + " was already existent in the sprite assets");
 				return null;
 			}
 			if (overrideExisting)
-				instance.SpriteAssets.RemoveAll(foundsprite2 => foundsprite2 != null && foundsprite2.name == spriteid);
+				instance.SpriteAssets.RemoveAll(foundsprite2 => foundsprite2 != null && foundsprite2.name == spriteId);
 
 			instance.SpriteAssets.Add(sprite);
 			return sprite;
@@ -131,7 +162,7 @@ namespace UtilLibs
 				directory = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "assets");
 			}
 
-			string path = Path.Combine(directory, name + ".png");
+			string path = Path.Combine(directory, name.Contains(".png") ? name : name + ".png");
 
 			return LoadTexture(path);
 		}
