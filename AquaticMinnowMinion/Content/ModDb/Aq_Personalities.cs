@@ -56,6 +56,12 @@ namespace AquaticMinnowMinion.Content.ModDb
 				);
 			personalities.Add(a_minnow);
 
+
+			if (!CharacterContainer.defaultShirtIdxToDefaultOutfitID.ContainsKey(a_minnow.body))
+			{
+				CharacterContainer.defaultShirtIdxToDefaultOutfitID.Add(a_minnow.body, "");
+			}
+
 			SgtLogger.l("aquatic personalities registered successfully.");
 		}
 	}
