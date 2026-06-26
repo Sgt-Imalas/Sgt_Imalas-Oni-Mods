@@ -44,6 +44,7 @@ namespace AquaticMinnowMinion.Content.ModDb
 			new EffectBuilder("AQ_GillsFilteringLiquid", CONSTS.EFFECTDURATION.PERSISTENT, false)
 				.Name(STRINGS.DUPLICANTS.MODIFIERS.AQ_BREATHINGGILLS.NAME)
 				.Description(STRINGS.DUPLICANTS.MODIFIERS.AQ_BREATHINGGILLS.TOOLTIP)
+				.HideFloatingText()
 				.Modifier(airConsumptionRate, 0.020f)
 				.StompGroup(GillsFilteringGroup)
 				.Add(db, out GillsFilteringLiquid);
@@ -51,6 +52,7 @@ namespace AquaticMinnowMinion.Content.ModDb
 			new EffectBuilder("AQ_GillsFilteringLiquid_Skilled", CONSTS.EFFECTDURATION.PERSISTENT, false)
 				.Name(STRINGS.DUPLICANTS.MODIFIERS.AQ_BREATHINGGILLS.NAME)
 				.Description(STRINGS.DUPLICANTS.MODIFIERS.AQ_BREATHINGGILLS.TOOLTIP_SKILLED)
+				.HideFloatingText()
 				.Modifier(airConsumptionRate, -0.005f)
 				.StompGroup(GillsFilteringGroup)
 				.Add(db, out GillsFilteringLiquid_Skilled);
