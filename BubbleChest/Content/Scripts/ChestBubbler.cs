@@ -21,6 +21,7 @@ namespace BubbleChest.Content.Scripts
 		Vector2 emissionPos;
 
 		SimHashes lastGas = SimHashes.Oxygen;
+		bool bubbling = false;
 
 		public override void OnSpawn()
 		{
@@ -34,6 +35,7 @@ namespace BubbleChest.Content.Scripts
 
 		public void Sim200ms(float dt)
 		{
+			bubbling = false; 
 			if (!storage.items.Any() || !Grid.IsLiquid(cell) || !Grid.IsLiquid(cellAbove) || !operational.IsOperational)
 			{
 				kbac.Play("off");
@@ -56,10 +58,13 @@ namespace BubbleChest.Content.Scripts
 				disease = new() { Idx = element.DiseaseIdx, Count = element.diseaseCount };
 			BubbleManager.instance.SpawnBubble(element.ElementID, emissionPos, element.Mass, element.Temperature, disease);
 			Util.KDestroyGameObject(bubble);
+			bubbling = true;
 		}
 
 		public void Sim1000ms(float dt)
 		{
+			if (!bubbling)
+				return;
 			RefreshBubbleCells();
 			MakeFishiesHappy();
 		}
