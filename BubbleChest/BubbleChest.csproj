@@ -22,8 +22,8 @@
 
 	<!-- Mod Info -->
 	<PropertyGroup>
-		<ModName>BubbleChest</ModName>
-		<ModDescription></ModDescription>
+		<ModName>Bubbling Chest</ModName>
+		<ModDescription>Adds an underwater decor chest that can be attached to a gas pipe to create bubbles underwater.</ModDescription>
 		<MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
 		<APIVersion>2</APIVersion>
 	</PropertyGroup>

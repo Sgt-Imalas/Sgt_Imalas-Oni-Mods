@@ -16,7 +16,7 @@ namespace BubbleChest.Content.Defs.Buildings
 			float[] tieR1_1 = BUILDINGS.CONSTRUCTION_MASS_KG.TIER1;
 			string[] allMetals = MATERIALS.ALL_METALS;
 			EffectorValues none = NOISE_POLLUTION.NONE;
-			EffectorValues tieR1_2 = BUILDINGS.DECOR.PENALTY.TIER1;
+			EffectorValues tieR1_2 = BUILDINGS.DECOR.BONUS.TIER2;
 			EffectorValues noise = none;
 			BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 1, 1, "bc_bubblechest_kanim", 30, 30f, tieR1_1, allMetals, 1600f, BuildLocationRule.OnFloor, tieR1_2, noise);
 			buildingDef.InputConduitType = ConduitType.Gas;

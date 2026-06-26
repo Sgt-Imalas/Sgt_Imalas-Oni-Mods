@@ -25,7 +25,8 @@ namespace BubbleChest
 
 			public static void Prefix()
 			{
-				ModUtil.AddBuildingToPlanScreen(GameStrings.PlanMenuCategory.Furniture, BubbleChestConfig.ID);
+				InjectionMethods.AddBuildingToPlanScreenBehindNext(GameStrings.PlanMenuCategory.Furniture, BubbleChestConfig.ID, ParkSignConfig.ID);
+				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Decor.InteriorDecor, BubbleChestConfig.ID);
 			}
 		}
 		/// <summary>
