@@ -276,6 +276,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvisibleClothings", "Invis
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinnowStoryTrait", "MinnowStoryTrait\MinnowStoryTrait.csproj", "{533EDE66-2749-4F43-A659-FE7376800CA1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WallAttachmentPumps", "WallAttachmentPumps\WallAttachmentPumps.csproj", "{48661B85-FC74-4A12-88CD-8D55BB830BEB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -763,6 +765,10 @@ Global
 		{533EDE66-2749-4F43-A659-FE7376800CA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{533EDE66-2749-4F43-A659-FE7376800CA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{533EDE66-2749-4F43-A659-FE7376800CA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48661B85-FC74-4A12-88CD-8D55BB830BEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48661B85-FC74-4A12-88CD-8D55BB830BEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48661B85-FC74-4A12-88CD-8D55BB830BEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48661B85-FC74-4A12-88CD-8D55BB830BEB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
