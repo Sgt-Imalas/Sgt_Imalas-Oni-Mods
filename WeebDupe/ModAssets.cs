@@ -79,7 +79,7 @@ namespace WeebDupe
 						0,
 						"hat_role_weeb1",
 						"skillbadge_role_research1",
-						Db.Get().SkillGroups.Research.Id,
+						Db.Get().SkillGroups.BionicSkills.Id,
 						new List<SkillPerk>
 						{
 							WSkillPerks.Weeb1,
@@ -89,23 +89,23 @@ namespace WeebDupe
 						{
 						},
 		GameTags.Minions.Models.Bionic.ToString()));
-				weeb_plant = __instance.AddSkill(new Skill(
-						WEEB_PLANT_ID,
-						STRINGS.DUPLICANTS.ROLES.WEEB.NAME,
-						STRINGS.DUPLICANTS.ROLES.WEEB.DESCRIPTION,
-						0,
-						"hat_role_weeb1",
-						"skillbadge_role_research1",
-						Db.Get().SkillGroups.Research.Id,
-						new List<SkillPerk>
-						{
-							WSkillPerks.Weeb1,
-							WSkillPerks.Weeb2
+		//		weeb_plant = __instance.AddSkill(new Skill(
+		//				WEEB_PLANT_ID,
+		//				STRINGS.DUPLICANTS.ROLES.WEEB.NAME,
+		//				STRINGS.DUPLICANTS.ROLES.WEEB.DESCRIPTION,
+		//				0,
+		//				"hat_role_weeb1",
+		//				"skillbadge_role_research1",
+		//				Db.Get().SkillGroups.Research.Id,
+		//				new List<SkillPerk>
+		//				{
+		//					WSkillPerks.Weeb1,
+		//					WSkillPerks.Weeb2
 
-						}, new List<string>()
-						{
-						},
-		"PlantMinion"));
+		//				}, new List<string>()
+		//				{
+		//				},
+		//"PlantMinion"));
 
 			}
 		}
