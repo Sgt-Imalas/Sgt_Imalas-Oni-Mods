@@ -1,0 +1,95 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Pholith\n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.9\n"
+
+#. NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALBACKWALL.DESC
+msgctxt "NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALBACKWALL.DESC"
+msgid "Very natural, much wow."
+msgstr "Très naturel. Impressionnant."
+
+#. NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALBACKWALL.EFFECT
+msgctxt "NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALBACKWALL.EFFECT"
+msgid ""
+"Creates a natural backwall on finishing construction.\n"
+"Mass can be configured during construction."
+msgstr ""
+"Crée un mur de fond naturel une fois la construction terminée.\n"
+"La masse peut être configurée pendant la construction."
+
+#. NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALBACKWALL.NAME
+msgctxt "NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALBACKWALL.NAME"
+msgid "<link=\"NCNATURALBACKWALL\">Natural Backwall</link>"
+msgstr "<link=\"NCNATURALBACKWALL\">Mur naturel</link>"
+
+#. NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALTILE.DESC
+msgctxt "NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALTILE.DESC"
+msgid "Very natural, much wow."
+msgstr "Très naturel. Impressionnant."
+
+#. NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALTILE.EFFECT
+msgctxt "NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALTILE.EFFECT"
+msgid ""
+"Creates a natural tile on finishing construction.\n"
+"Mass can be configured during construction."
+msgstr ""
+"Crée une tuile naturelle une fois la construction terminée.\n"
+"La masse peut être configurée pendant la construction."
+
+#. NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALTILE.NAME
+msgctxt "NaturalConstruction.STRINGS.BUILDINGS.PREFABS.NC_NATURALTILE.NAME"
+msgid "<link=\"NCNATURALTILE\">Natural Tile</link>"
+msgstr "<link=\"NCNATURALTILE\">Dalle naturelle</link>"
+
+#. NaturalConstruction.STRINGS.UI.NC_MODCONFIG.CONSTRUCTIONTIME_MASS_SCALING.TITLE
+msgctxt "NaturalConstruction.STRINGS.UI.NC_MODCONFIG.CONSTRUCTIONTIME_MASS_SCALING.TITLE"
+msgid "Construction time mass scaling."
+msgstr "Temps de construction proportionnel à la masse."
+
+#. NaturalConstruction.STRINGS.UI.NC_MODCONFIG.CONSTRUCTIONTIME_MASS_SCALING.TOOLTIP
+msgctxt "NaturalConstruction.STRINGS.UI.NC_MODCONFIG.CONSTRUCTIONTIME_MASS_SCALING.TOOLTIP"
+msgid ""
+"When active, lets the construction time scale with the mass picked for the individual "
+"natural building.\n"
+"Otherwise defaults to 30 s."
+msgstr ""
+"Lorsque cette option est activée, le temps de construction varie en fonction de la masse "
+"choisie pour chaque construction naturelle.\n"
+"Sinon, le temps de construction est fixé à 30 s."
+
+#. NaturalConstruction.STRINGS.UI.NC_MODCONFIG.DEFAULT_MASS_BACKWALL.TITLE
+msgctxt "NaturalConstruction.STRINGS.UI.NC_MODCONFIG.DEFAULT_MASS_BACKWALL.TITLE"
+msgid "Natural Backwall default mass"
+msgstr "Masse par défaut du mur naturel"
+
+#. NaturalConstruction.STRINGS.UI.NC_MODCONFIG.DEFAULT_MASS_BACKWALL.TOOLTIP
+msgctxt "NaturalConstruction.STRINGS.UI.NC_MODCONFIG.DEFAULT_MASS_BACKWALL.TOOLTIP"
+msgid ""
+"Configure the default value for natural backwall mass.\n"
+"This value can be changed on the building plan."
+msgstr ""
+"Définit la valeur par défaut de la masse du mur naturel.\n"
+"Cette valeur peut être modifiée sur le plan de construction."
+
+#. NaturalConstruction.STRINGS.UI.NC_MODCONFIG.DEFAULT_MASS_TILE.TITLE
+msgctxt "NaturalConstruction.STRINGS.UI.NC_MODCONFIG.DEFAULT_MASS_TILE.TITLE"
+msgid "Natural Tile default mass"
+msgstr "Masse par défaut de la dalle naturelle"
+
+#. NaturalConstruction.STRINGS.UI.NC_MODCONFIG.DEFAULT_MASS_TILE.TOOLTIP
+msgctxt "NaturalConstruction.STRINGS.UI.NC_MODCONFIG.DEFAULT_MASS_TILE.TOOLTIP"
+msgid ""
+"Configure the default value for natural tile mass.\n"
+"This value can be changed on the building plan."
+msgstr ""
+"Définit la valeur par défaut de la masse de la dalle naturelle.\n"
+"Cette valeur peut être modifiée sur le plan de construction."
