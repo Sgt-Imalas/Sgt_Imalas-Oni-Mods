@@ -1483,7 +1483,7 @@ namespace SetStartDupes
 				bool AllowModification = Config.Instance.ModifyDuringGame || (EditingSingleDupe && Config.Instance.JorgeAndCryopodDupes);
 				bool allowReskin = Config.Instance.SkinDuringGame || (EditingSingleDupe && Config.Instance.JorgeAndCryopodDupes);
 
-				bool modelDropdownEnabled = __instance.modelDropDown.transform.parent.gameObject.activeInHierarchy && Game.IsDlcActiveForCurrentSave(DlcManager.DLC3_ID);
+				//bool modelDropdownEnabled = __instance.modelDropDown.transform.parent.gameObject.activeInHierarchy;
 
 				if (!is_starter && __instance.controller is ImmigrantScreen i && i.Telepad != null)
 				{
@@ -1645,7 +1645,7 @@ namespace SetStartDupes
 				{
 					GameObject removeSlotButton = Util.KInstantiateUI(__instance.reshuffleButton.gameObject, __instance.reshuffleButton.transform.parent.gameObject, true);
 					removeSlotButton.GetComponent<RerollDisabler>()?.SelfDestruct();
-					removeSlotButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, modelDropdownEnabled ? -84 : -40, 40f);
+					removeSlotButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top,  -84, 40f);
 					removeSlotButton.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 0, 80f);
 					var text = removeSlotButton.transform.Find("Text");
 					text.rectTransform().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 2, 76f);
