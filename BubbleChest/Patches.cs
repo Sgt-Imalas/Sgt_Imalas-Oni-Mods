@@ -13,7 +13,7 @@ using static BubbleChest.ModAssets;
 
 namespace BubbleChest
 {
-	internal class Patches
+	internal class Patches_
 	{
 		/// <summary>
 		/// add buildings to plan screen

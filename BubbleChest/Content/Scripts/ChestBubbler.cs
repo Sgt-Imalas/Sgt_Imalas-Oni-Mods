@@ -1,22 +1,26 @@
-﻿using KSerialization;
+﻿using BubbleChest.Content.Defs.Buildings;
+using Klei.AI;
+using KSerialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using static STRINGS.ELEMENTS;
 
 namespace BubbleChest.Content.Scripts
 {
-	internal class ChestBubbler : KMonoBehaviour, ISim200ms, ISingleSliderControl
+	internal class ChestBubbler : KMonoBehaviour, ISim200ms, ISingleSliderControl, ISim1000ms
 	{
 		[MyCmpReq] Storage storage;
 		[MyCmpReq] Operational operational;
 		[MyCmpReq] KBatchedAnimController kbac;
-		[Serialize]public float bubbleRate = 200f;
+		[Serialize] public float bubbleRate = 200f;
 
-		int cell = -1, cellAbove = -1;
+		int cell = -1, cellAbove = -1, cellColumnHeight = 0;
 		Vector2 emissionPos;
-		
+
+		SimHashes lastGas = SimHashes.Oxygen;
 
 		public override void OnSpawn()
 		{
@@ -38,7 +42,7 @@ namespace BubbleChest.Content.Scripts
 			kbac.Play("on");
 
 			var mat = storage.items[0];
-			if (mat == null ||! mat.TryGetComponent<Pickupable>(out var picker))
+			if (mat == null || !mat.TryGetComponent<Pickupable>(out var picker))
 				return;
 
 			var bubble = picker.Take(dt * bubbleRate / 1000f);
@@ -46,6 +50,7 @@ namespace BubbleChest.Content.Scripts
 				return;
 
 			var element = bubble.GetComponent<PrimaryElement>();
+			lastGas = element.ElementID;
 			BubbleManager.Disease disease = BubbleManager.Disease.None;
 			if (element.DiseaseIdx != byte.MaxValue)
 				disease = new() { Idx = element.DiseaseIdx, Count = element.diseaseCount };
@@ -53,7 +58,54 @@ namespace BubbleChest.Content.Scripts
 			Util.KDestroyGameObject(bubble);
 		}
 
-		public string SliderTitleKey => "";
+		public void Sim1000ms(float dt)
+		{
+			RefreshBubbleCells();
+			MakeFishiesHappy();
+		}
+
+		void RefreshBubbleCells()
+		{
+			cellColumnHeight = 0;
+			int cell = cellAbove;
+
+
+			while (!BubbleManager.ShouldPop(Grid.CellToPos(cell), lastGas, out _))
+			{
+				if (Grid.IsValidCell(cell))
+				{
+					cellColumnHeight++;
+					cell = Grid.CellAbove(cell);
+				}
+				else
+					break;
+			}
+		}
+		void MakeFishiesHappy()
+		{
+			ListPool<ScenePartitionerEntry, ChestBubbler>.PooledList gathered_entries = ListPool<ScenePartitionerEntry, ChestBubbler>.Allocate();
+			GameScenePartitioner.Instance.GatherEntries(Grid.CellToXY(cellAbove).x - 1, Grid.CellToXY(cellAbove).y, 3, cellColumnHeight, GameScenePartitioner.Instance.pickupablesLayer, gathered_entries);
+			for (int index = 0; index < gathered_entries.Count; ++index)
+			{
+				if (gathered_entries[index].obj is Pickupable pickupable && !pickupable.wasAbsorbed)
+				{
+					if (pickupable.TryGetComponent<KPrefabID>(out var component))
+					{
+						if (!component.HasAllTags([GameTags.SwimmingCreature, GameTags.Creatures.Swimmer, GameTags.CreatureBrain]) || component.gameObject.GetDef<BabyMonitor.Def>() != null || !component.TryGetComponent<Effects>(out var effects))
+							continue;
+
+						//if (!effects.HasEffect(BubbleChestConfig.EFFECT_ID) && component.TryGetComponent<KBatchedAnimController>(out var critter_kbac))
+						//	critter_kbac.Play("grooming_pst");
+
+						effects.Add(BubbleChestConfig.EFFECT_ID, true);
+					}
+
+				}
+			}
+			gathered_entries.Recycle();
+		}
+		#region slider
+		public string SliderTitleKey => "STRINGS.BUILDINGS.PREFABS.BC_BUBBLECHEST.SLIDER_TITLE";
 		public string SliderUnits => global::STRINGS.UI.UNITSUFFIXES.MASS.GRAM;
 		public int SliderDecimalPlaces(int index) => 0;
 
@@ -72,7 +124,9 @@ namespace BubbleChest.Content.Scripts
 
 		public string GetSliderTooltip(int index)
 		{
-			return "bubble rate in g";
+			return STRINGS.BUILDINGS.PREFABS.BC_BUBBLECHEST.SLIDER_LABEL;
 		}
+
+		#endregion
 	}
 }

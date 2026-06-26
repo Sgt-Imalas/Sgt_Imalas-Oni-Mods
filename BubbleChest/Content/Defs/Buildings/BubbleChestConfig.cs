@@ -1,15 +1,19 @@
 ﻿using BubbleChest.Content.Scripts;
+using Klei.AI;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using TUNING;
 using UnityEngine;
+using UtilLibs;
 
 namespace BubbleChest.Content.Defs.Buildings
 {
 	internal class BubbleChestConfig : IBuildingConfig
 	{
 		public static readonly string ID = "BC_BubbleChest";
+
+		public static readonly string EFFECT_ID = "BC_InteractedWithBubbleChest";
 		const float Capacity = 5f;
 		public override BuildingDef CreateBuildingDef()
 		{
@@ -49,6 +53,12 @@ namespace BubbleChest.Content.Defs.Buildings
 		public override void DoPostConfigureComplete(GameObject go)
 		{
 			go.GetComponent<KPrefabID>().AddTag(GameTags.OverlayInFrontOfConduits);
+
+			new EffectBuilder(BubbleChestConfig.EFFECT_ID, 300, false)
+				.Name(STRINGS.CREATURES.MODIFIERS.BC_INTERACTEDWITHBUBBLECHEST.NAME)
+				.Description(STRINGS.CREATURES.MODIFIERS.BC_INTERACTEDWITHBUBBLECHEST.TOOLTIP)
+				.Modifier(Db.Get().CritterAttributes.Happiness.Id, 1)
+				.Add(Db.Get(), out _);
 		}
 	}
 }
