@@ -1,5 +1,6 @@
 ﻿using KSerialization;
 using System;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UtilLibs;
@@ -39,10 +40,26 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 			this.smi.StartSM();
 			this.operational.SetFlag(LogicBroadcaster.spaceVisible, this.HasLineOfSight());
 			this.Subscribe((int)GameHashes.ClusterDestinationChanged, (data) => UpdateEntity(data));
+			InitPOI();
 
+			///If starmap shenanigans or sth similar has spawned in new harvestable pois, the GOs of those load in after this building,
+			///this causes the onspawn check for them to not find them as they have not registered yet.
+			///in this case, do a 1 frame delayed re-checking
+			if(!HasPOITarget())
+				StartCoroutine(DelayedUpdateEntity());
+
+		}
+		void InitPOI()
+		{
 			UpdateEntity(null);
 			UpdateLogicState(true);
 		}
+		IEnumerator DelayedUpdateEntity()
+		{
+			yield return null;
+			InitPOI();
+		}
+
 		public bool HasLineOfSight()
 		{
 			Extents extents = building.GetExtents();
@@ -69,7 +86,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 		float GetCurrentCapacity()
 		{
 			float harvestCapacity = harvestpoistatus != null ? harvestpoistatus.poiCapacity : 0;
-			float collectCapacity = hexInventory != null?hexInventory.TotalMass : 0;
+			float collectCapacity = hexInventory != null ? hexInventory.TotalMass : 0;
 			switch (detectionMode)
 			{
 				case DetectionMode.DrillingOnly:
@@ -93,7 +110,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 			}
 
 			float currentCapacity = GetCurrentCapacity();
-			bool artifactIsAvailable = artifactpoistatus != null ? artifactpoistatus.HasArtifactAvailableInHexCell() : false;
+			bool artifactIsAvailable = artifactpoistatus != null && artifactpoistatus.HasArtifactAvailableInHexCell();
 			bool aboveMassThreshold = harvestpoistatus != null && (activateAboveThreshold
 					? currentCapacity >= threshold
 					: currentCapacity < threshold);
@@ -127,7 +144,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 			animController.SetSymbolTint("body_active", color);
 		}
 
-		void UpdateEntity(object data)
+		void UpdateEntity(object __)
 		{
 			var location = locationSelector.GetDestination();
 			var entity = ClusterGrid.Instance.GetVisibleEntityOfLayerAtCell(location, EntityLayer.POI);
@@ -187,6 +204,8 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 		{
 			operational.SetFlag(LogicBroadcaster.spaceVisible, HasLineOfSight());
 		}
+
+		public bool HasPOITarget() => artifactpoistatus != null || harvestpoistatus != null;
 
 		#region sidescreen
 		public float Threshold
@@ -263,7 +282,7 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 		{
 			int current = (int)detectionMode;
 			current = ++current % Enum.GetNames(typeof(DetectionMode)).Length;
-			detectionMode  = (DetectionMode)current;
+			detectionMode = (DetectionMode)current;
 		}
 
 		public int HorizontalGroupID() => -1;
@@ -328,12 +347,12 @@ namespace Rockets_TinyYetBig.NonRocketBuildings
 					.TagTransition(GameTags.Operational, this.offStates.from_on, true);
 
 				onStates.noPoiSelected
-					.UpdateTransition(onStates.poiSelected, (smi, dt) => { return smi.master.artifactpoistatus != null; });
+					.UpdateTransition(onStates.poiSelected, (smi, dt) => smi.master.HasPOITarget());
 
 				onStates.poiSelected
 					.Enter(smi => smi.master.operational.SetActive(true))
 					.Exit(smi => smi.master.operational.SetActive(false))
-					.UpdateTransition(onStates.noPoiSelected, (smi, dt) => { return smi.master.artifactpoistatus == null; })
+					.UpdateTransition(onStates.noPoiSelected, (smi, dt) => !smi.master.HasPOITarget())
 					.Update((smi, dt) =>
 					{
 						smi.master.UpdateLogicState();
