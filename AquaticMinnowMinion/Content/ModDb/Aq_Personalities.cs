@@ -52,7 +52,7 @@ namespace AquaticMinnowMinion.Content.ModDb
 				true,
 				minnowReference.graveStone,
 				Tags.AquaticMinion,
-				0
+				minnowReference.speech_mouth
 				);
 			personalities.Add(a_minnow);
 

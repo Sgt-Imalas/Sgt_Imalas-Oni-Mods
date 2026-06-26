@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UtilLibs;
 using static STRINGS.DUPLICANTS;
 
 namespace AquaticMinnowMinion.Patches
@@ -38,14 +39,33 @@ namespace AquaticMinnowMinion.Patches
 					{
 						bool shouldBeActive = skill.requiredDuplicantModel == percievedModel;
 
-						if(skill.skillGroup == Aq_SkillGroups.ADAPTATION_ID)
+						if (skill.skillGroup == Aq_SkillGroups.ADAPTATION_ID)
 							shouldBeActive = ActualMinionTag == ModAssets.Tags.AquaticMinion;
-						else if(skill.skillGroup == swimmingId)
+						else if (skill.skillGroup == swimmingId)
 							shouldBeActive = ActualMinionTag == standardModel;
 
 						skillWidget.Value.SetActive(shouldBeActive);
 					}
 				}
+				//foreach(var row in __instance.skillGroupRow)
+				//{
+				//	SgtLogger.l("ROW "+row.Value+": "+row.Key);
+				//}
+			}
+		}
+
+		[HarmonyPatch(typeof(SkillsScreen), nameof(SkillsScreen.GetRowPosition))]
+		public class SkillsScreen_GetRowPosition_Patch
+		{
+
+			public static void Postfix(SkillsScreen __instance, string skillID, ref float __result)
+			{
+				///bionics get a weird offset due to the adaptation skills somehow affecting the bionics screen
+
+				Skill skill = Db.Get().Skills.Get(skillID);
+				int baseSkillGroupRow = __instance.skillGroupRow[skill.skillGroup];
+				if (skill.skillGroup == Db.Get().SkillGroups.BionicSkills.Id)
+					__result -= 3 * __instance.layoutRowHeight; // 3 skill rows for adaptation
 			}
 		}
 

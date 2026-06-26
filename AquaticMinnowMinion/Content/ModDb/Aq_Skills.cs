@@ -27,7 +27,7 @@ namespace AquaticMinnowMinion.Content.ModDb
 			var dummy = new Skill("Adaptation_DummySkill",
 				"DummySkill",
 				"does nothing except preventing a main menu crash",
-				0, "hat_role_suits1", "skillbadge_role_suits2",
+				1, "hat_role_suits1", "skillbadge_role_suits2",
 				Aq_SkillGroups.ADAPTATION_ID,
 				null,
 				null,
@@ -58,7 +58,7 @@ namespace AquaticMinnowMinion.Content.ModDb
 			//	__instance.AddSkill(skill);
 						
 			Adaptation_WaterBreathingRateReduction =
-				__instance.AddSkill(new("Adaptation_WaterBreathingRateReduction",
+				__instance.AddSkill(new Skill("Adaptation_WaterBreathingRateReduction",
 				ADAPTATION_WATERBREATHINGRATEREDUCTION.NAME,
 				ADAPTATION_WATERBREATHINGRATEREDUCTION.TOOLTIP,
 				0, "", "skillbadge_role_adaptation_gills",
@@ -69,7 +69,7 @@ namespace AquaticMinnowMinion.Content.ModDb
 				));
 
 			Adaptation_EyeProtection =
-				__instance.AddSkill(new("Adaptation_EyeProtection",
+				__instance.AddSkill(new Skill("Adaptation_EyeProtection",
 				ADAPTATION_EYEPROTECTION.NAME,
 				ADAPTATION_EYEPROTECTION.TOOLTIP,
 				0, "", "skillbadge_role_adaptation_eye_protection",
@@ -80,7 +80,7 @@ namespace AquaticMinnowMinion.Content.ModDb
 				));
 
 			Adaptation_Insulation =
-				__instance.AddSkill(new("Adaptation_Insulation",
+				__instance.AddSkill(new Skill("Adaptation_Insulation",
 				ADAPTATION_INSULATION.NAME,
 				ADAPTATION_INSULATION.TOOLTIP,
 				0, "", "skillbadge_role_adaptation_insulation",
@@ -91,7 +91,7 @@ namespace AquaticMinnowMinion.Content.ModDb
 				));
 
 			Adaptation_GillProtection =
-				__instance.AddSkill(new("Adaptation_GillProtection",
+				__instance.AddSkill(new Skill("Adaptation_GillProtection",
 				ADAPTATION_GILLPROTECTION.NAME,
 				ADAPTATION_GILLPROTECTION.TOOLTIP,
 				1, "", "skillbadge_role_adaptation_mucus",
