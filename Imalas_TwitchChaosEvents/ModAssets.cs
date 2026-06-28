@@ -47,12 +47,12 @@ namespace Imalas_TwitchChaosEvents
 
 		public static class Chaos_Effects
 		{
-			[HarmonyPatch(typeof(ModifierSet), "Initialize")]
-			public class ModifierSet_Initialize_Patch
+			[HarmonyPatch(typeof(Db), "Initialize")]
+			public class Db_Initialize_Patch
 			{
 				public static void Postfix(ModifierSet __instance)
 				{
-					RegisterEffects(__instance);
+					RegisterEffects();
 				}
 			}
 
@@ -61,7 +61,7 @@ namespace Imalas_TwitchChaosEvents
 		   ;
 
 
-			public static void RegisterEffects(ModifierSet set)
+			public static void RegisterEffects()
 			{
 				var db = Db.Get();
 
@@ -71,7 +71,7 @@ namespace Imalas_TwitchChaosEvents
 					.Modifier(db.Attributes.Machinery.Id, 1)
 					.Modifier(db.Attributes.Cooking.Id, 1)
 					.Modifier(db.Attributes.Caring.Id, 1)
-					.Add(set);
+					.Add(db, out _);
 			}
 		}
 

@@ -25,6 +25,7 @@ namespace ForceFieldWallTile
 			{
 				ModStatusItems.CreateStatusItems();
 				InjectionMethods.AddBuildingToTechnology(GameStrings.Technology.Liquids.Projectiles, ForceFieldTileConfig.ID);
+				ModEffects.Register();
 			}
 		}
 
@@ -34,15 +35,6 @@ namespace ForceFieldWallTile
 			public static void Postfix(Navigator __instance)
 			{
 				__instance.gameObject.AddOrGet<NavigatorForceFieldInteractions>();
-			}
-		}
-
-		[HarmonyPatch(typeof(ModifierSet), nameof(ModifierSet.Initialize))]
-		public class ModifierSet_Initialize_Patch
-		{
-			public static void Postfix(ModifierSet __instance)
-			{
-				ModEffects.Register(__instance);
 			}
 		}
 
