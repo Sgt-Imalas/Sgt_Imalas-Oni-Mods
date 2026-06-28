@@ -154,7 +154,6 @@ namespace ItemDropPrevention.Content.Scripts
 			var items = internalStorage.items;
 
 			bool reWrangleCritters = Config.Instance.WrangleDroppedCritters;
-			bool sweepDroppedItems = Config.Instance.SweepDroppedItems;
 
 			for (int i = items.Count - 1; i >= 0; --i)
 			{
@@ -166,7 +165,7 @@ namespace ItemDropPrevention.Content.Scripts
 				if (MarkedForDrop.Contains(instanceID))
 				{
 					MarkItemInvisible(item, false);
-					PostProcessDroppedItem(CenterInCell(internalStorage.Drop(item)), reWrangleCritters, sweepDroppedItems);
+					PostProcessDroppedItem(CenterInCell(internalStorage.Drop(item)), reWrangleCritters);
 				}
 			}
 			MarkedForDrop.Clear();
@@ -184,9 +183,13 @@ namespace ItemDropPrevention.Content.Scripts
 			return item;
 		}
 
-		static void PostProcessDroppedItem(GameObject item, bool reWrangleCritters, bool sweepDroppedItems)
+		static void PostProcessDroppedItem(GameObject item, bool reWrangleCritters)
 		{
-			if (!reWrangleCritters && !sweepDroppedItems)
+			bool sweepDroppedItems_solid = Config.Instance.SweepDroppedItems_Solid;
+			bool sweepDroppedItems_liquid = Config.Instance.SweepDroppedItems_Liquid;
+			bool sweepDroppedItems_gas = Config.Instance.SweepDroppedItems_Gas;
+
+			if (!reWrangleCritters && !sweepDroppedItems_solid && !sweepDroppedItems_liquid && !sweepDroppedItems_gas)
 				return;
 
 			if (item.IsNullOrDestroyed()) return;
@@ -198,9 +201,14 @@ namespace ItemDropPrevention.Content.Scripts
 				if (reWrangleCritters)
 					wrangleable.MarkForCapture(true);
 			}
-			else if (item.TryGetComponent<Clearable>(out var markForSweep) && markForSweep.isClearable)
+			else if (item.TryGetComponent<Clearable>(out var markForSweep) && markForSweep.isClearable && markForSweep.TryGetComponent<PrimaryElement>(out var primaryElement))
 			{
-				if (sweepDroppedItems)
+
+
+				if (primaryElement.Element.IsGas && sweepDroppedItems_gas ||
+					primaryElement.Element.IsLiquid && sweepDroppedItems_liquid ||
+					primaryElement.Element.IsSolid && sweepDroppedItems_solid
+					)
 					markForSweep.MarkForClear(true);
 			}
 		}
@@ -260,7 +268,7 @@ namespace ItemDropPrevention.Content.Scripts
 
 		void MarkForDrop(GameObject gameObject)
 		{
-			//SgtLogger.l($"Marking {gameObject} as drop later");
+			SgtLogger.l($"Marking {gameObject} as drop later");
 			if (gameObject.IsNullOrDestroyed())
 				return;
 			MarkedForDrop.Add(gameObject.GetInstanceID());
@@ -268,7 +276,7 @@ namespace ItemDropPrevention.Content.Scripts
 		}
 		void UnmarkForDrop(GameObject gameObject)
 		{
-			//SgtLogger.l($"Unarking {gameObject} as drop later");
+			SgtLogger.l($"Unarking {gameObject} as drop later");
 			if (gameObject.IsNullOrDestroyed())
 				return;
 			MarkedForDrop.Remove(gameObject.GetInstanceID());
@@ -283,8 +291,10 @@ namespace ItemDropPrevention.Content.Scripts
 			return MarkedForDrop.Contains(gameObject.GetInstanceID());
 		}
 
+		//too buggy with loops
 		internal Pickupable FindFetchTargetFromDroppables(FetchChore chore, ChoreConsumerState consumer_state)
 		{
+			return null;
 			foreach (var item in internalStorage.items)
 			{
 				if (!IsItemMarkedForDrop(item.gameObject))

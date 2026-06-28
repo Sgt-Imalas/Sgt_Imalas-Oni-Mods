@@ -13,9 +13,15 @@ namespace ItemDropPrevention
 	public class Config : SingletonOptions<Config>, IOptions
 	{
 
-		[Option("STRINGS.IDP_MOD_CONFIG.SWEEP_DROPPED_ITEMS", "STRINGS.IDP_MOD_CONFIG.SWEEP_DROPPED_ITEMS_TOOLTIP")]
+		[Option("STRINGS.UI.CODEX.CATEGORYNAMES.ELEMENTSGAS", "STRINGS.IDP_MOD_CONFIG.SWEEP_DROPPED_ITEMS_TOOLTIP", "STRINGS.IDP_MOD_CONFIG.SWEEP_DROPPED_ITEMS")]
 		[JsonProperty]
-		public bool SweepDroppedItems { get; set; } = true;
+		public bool SweepDroppedItems_Gas { get; set; } = true;
+		[Option("STRINGS.UI.CODEX.CATEGORYNAMES.ELEMENTSLIQUID", "STRINGS.IDP_MOD_CONFIG.SWEEP_DROPPED_ITEMS_TOOLTIP", "STRINGS.IDP_MOD_CONFIG.SWEEP_DROPPED_ITEMS")]
+		[JsonProperty]
+		public bool SweepDroppedItems_Liquid { get; set; } = true;
+		[Option("STRINGS.UI.CODEX.CATEGORYNAMES.ELEMENTSSOLID", "STRINGS.IDP_MOD_CONFIG.SWEEP_DROPPED_ITEMS_TOOLTIP", "STRINGS.IDP_MOD_CONFIG.SWEEP_DROPPED_ITEMS")]
+		[JsonProperty]
+		public bool SweepDroppedItems_Solid { get; set; } = true;
 
 		[Option("STRINGS.IDP_MOD_CONFIG.WRANGLE_DROPPED_CRITTERS", "STRINGS.IDP_MOD_CONFIG.WRANGLE_DROPPED_CRITTERS_TOOLTIP")]
 		[JsonProperty]

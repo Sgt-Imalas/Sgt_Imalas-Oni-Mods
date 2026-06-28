@@ -5,6 +5,7 @@ using PeterHan.PLib.Options;
 using System;
 using System.Collections.Generic;
 using UtilLibs;
+using UtilLibs.SharedTweaks;
 
 namespace ItemDropPrevention
 {
@@ -19,6 +20,7 @@ namespace ItemDropPrevention
 			PUtil.InitLibrary(false);
 			new POptions().RegisterOptions(this, typeof(Config));
 		}
+
 
 		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<KMod.Mod> mods)
 		{
