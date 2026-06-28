@@ -16,7 +16,7 @@ namespace AkisDecorPackB.Patches
 		{
 			public static void Postfix(ModifierSet __instance)
 			{
-				ModEffects.Register(__instance);
+				ModEffects.Register();
 			}
 		}
 	}

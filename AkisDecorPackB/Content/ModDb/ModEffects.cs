@@ -15,25 +15,23 @@ namespace AkisDecorPackB.Content.ModDb
 		public const string INSPIRED_GIANT = "DecorpackB_Inspired_Giant";
 		public const float INSPIRED_DURATION = 60f;
 
-		public static void Register(ModifierSet instance)
+		public static void Register()
 		{
-			var learning = global::Db.Get().Attributes.Learning.Id;
+			var db = Db.Get();
+			var learning = db.Attributes.Learning.Id;
 
 			new EffectBuilder(INSPIRED_LOW, INSPIRED_DURATION, false)
 				.Modifier(learning, 1)
-				.Add(instance);
+				.Add(db, out _);
 
 			new EffectBuilder(INSPIRED_OKAY, INSPIRED_DURATION, false)
-				.Modifier(learning, 2)
-				.Add(instance);
+				.Modifier(learning, 2).Add(db, out _);
 
 			new EffectBuilder(INSPIRED_GREAT, INSPIRED_DURATION, false)
-				.Modifier(learning, 4)
-				.Add(instance);
+				.Modifier(learning, 4).Add(db, out _);
 
 			new EffectBuilder(INSPIRED_GIANT, 600f, false)
-				.Modifier(learning, 6)
-				.Add(instance);
+				.Modifier(learning, 6).Add(db, out _);
 		}
 	}
 }
