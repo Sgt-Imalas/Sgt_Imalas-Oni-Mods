@@ -25,6 +25,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 		[SerializeField]
 		public HashedString DisableInOverlay = HashedString.Invalid;
 
+		int _lastCell = -1;
+
 		void OnOverlaySwitched(HashedString overlay)
 		{
 			TogglePorts(overlay != DisableInOverlay);
@@ -36,6 +38,17 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 			SpawnPortPreviews();
 			OnOverlaySwitched(OverlayScreen.Instance.mode);
 		}
+
+		void Update()
+		{
+			var cell = Grid.PosToCell(this);
+			if(!Grid.IsValidCell(cell) || cell == _lastCell)
+				return;
+
+			_lastCell = cell;
+			MovePortPreviews();
+		}
+
 		public override void OnCleanUp()
 		{
 			CleanupPorts();
@@ -96,6 +109,8 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 				if (port.Value != null)
 				{
 					Vector3 position = Grid.CellToPosCCC(building.GetCellWithOffset(port.Key), Grid.SceneLayer.Building);
+					if (!Grid.IsValidCell(Grid.PosToCell(position)))
+						continue;
 					port.Value.transform.SetPosition(position);
 				}
 			}

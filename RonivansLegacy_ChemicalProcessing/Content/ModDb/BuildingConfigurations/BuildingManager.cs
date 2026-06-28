@@ -103,6 +103,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 
 		internal static void LoadConfigFile()
 		{
+			SgtLogger.l("Loading Building Config file");
 			ConfigCollection = BuildingConfigurationCollection.LoadFromFile();
 		}
 
@@ -120,8 +121,11 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			return Db.Get().Techs.Exists(techID);
 		}
 
+		public static bool BuildingEnabled(string buildingId) => BuildingInjections != null && BuildingInjections.TryGetValue(buildingId, out var entry) && entry.Source.IsBuildingEnabled() && TechExists(entry.TechID);
+
 		public static void AddBuildingsToPlanScreen()
 		{
+			SgtLogger.l("AddingBuildingsToPlanScreen Register");
 			InitRegistration();
 			foreach (var entry in BuildingInjections)
 			{
@@ -133,11 +137,14 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 					DisabledBuildingIDs.Add(id);
 					var def = Assets.GetBuildingDef(id);
 					def.DebugOnly = true;
+
+					ModAssets.HideFromCodex(def.BuildingComplete);
 				}
 			}
 		}
 		public static void AddBuildingsToTechs()
 		{
+			SgtLogger.l("AddingBuildingsToTech Register");
 			InitRegistration();
 			foreach (var entry in BuildingInjections)
 			{

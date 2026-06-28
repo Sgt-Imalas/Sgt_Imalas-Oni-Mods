@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 {
@@ -203,6 +204,18 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				0.8f,
 				320.15f).Log(),
 				false)); //nitrogen is too limited in use, keep it in the mod, but disable it from generic geyser list
+		}
+
+		internal static void MarkInvis(List<GameObject> geyserList)
+		{
+			if (Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled)
+				return;
+
+			foreach (var go in geyserList)
+			{
+				if(GeyserIDs.Contains(go.PrefabID().ToString()))
+					ModAssets.HideFromCodex(go);
+			}
 		}
 	}
 }

@@ -51,24 +51,12 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 			}
 		}
 
-		[HarmonyPatch(typeof(BuildTool), nameof(BuildTool.UpdateVis))]
-		public class BuildTool_UpdateVis_Patch
-		{
-			public static void Postfix(BuildTool __instance)
-			{
-				if(__instance != null && __instance.visualizer != null && __instance.visualizer.TryGetComponent<PortPreviewVisualizer>(out var portVis))
-				{
-					portVis.MovePortPreviews();
-				}
-			}
-		}
-
 		[HarmonyPatch(typeof(BuildTool), nameof(BuildTool.SetColor))]
 		public class BuildTool_SetColor_Patch
 		{
-			public static void Postfix(BuildTool __instance,Color c)
+			public static void Postfix(GameObject root, Color c)
 			{
-				if (__instance != null && __instance.visualizer != null && __instance.visualizer.TryGetComponent<PortPreviewVisualizer>(out var portVis))
+				if (root.TryGetComponent<PortPreviewVisualizer>(out var portVis))
 				{
 					portVis.TintPortPreviews(c);
 				}
