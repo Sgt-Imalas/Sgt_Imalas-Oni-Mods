@@ -5,6 +5,7 @@ using PeterHan.PLib.Core;
 using System;
 using System.Reflection;
 using System.Threading;
+using UtilLibs.SharedTweaks;
 
 namespace UtilLibs
 {
@@ -36,6 +37,7 @@ namespace UtilLibs
 			}
 			//ModVersionCheck.VersionChecker.FixVersionPatch(usermod, harmony);
 			CompatibilityNotifications.FixLogging(harmony);
+			ModsScreenMarkIncompatbileMods.Register();
 			debuglog($"{usermod.mod.staticID} - Mod Version: {usermod.mod.packagedModInfo.version} ");
 		}
 		public static void l(string message, string assemblyOverride = "")
