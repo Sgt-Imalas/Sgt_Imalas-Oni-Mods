@@ -18,7 +18,7 @@ namespace AquaticMinnowMinion.Content.ModDb
 			DryGills_Extreme,
 
 			DrySuitAir,
-			MoisturizedGills_OneTime
+			RefreshingDrink
 			;
 
 		const string GillsFilteringGroup = "Aq_GillsFilteringGroup";
@@ -85,6 +85,12 @@ namespace AquaticMinnowMinion.Content.ModDb
 				.Modifier(gillsMoistureDelta, AQ_TUNING.GILL_MOISTURE.SUITAIR_DELTA)
 				.Add(db, out DrySuitAir);
 
+			///25 moisture restoration from water drink
+			new EffectBuilder("AQ_RefreshingDrink", 5, false)
+				.Name(STRINGS.DUPLICANTS.MODIFIERS.AQ_REFRESHINGDRINK.NAME)
+				.Description(STRINGS.DUPLICANTS.MODIFIERS.AQ_REFRESHINGDRINK.TOOLTIP)
+				.Modifier(gillsMoistureDelta, 5)
+				.Add(db, out RefreshingDrink);
 		}
 	}
 }

@@ -63,10 +63,10 @@ namespace UtilLibs
 			return this;
 		}
 
-		public EffectBuilder Modifier(string id, float valuePerSecond)
+		public EffectBuilder Modifier(string id, float value)
 		{
 			modifiers = modifiers ?? new List<AttributeModifier>();
-			modifiers.Add(new AttributeModifier(id, valuePerSecond, name));
+			modifiers.Add(new AttributeModifier(id, value, name));
 
 			return this;
 		}
@@ -100,7 +100,7 @@ namespace UtilLibs
 			return this;
 		}
 
-		public void Add(ModifierSet db, out Effect effect)
+		public void Add(Db db, out Effect effect)
 		{
 			effect = new Effect(ID, name, description, duration, showInUI, triggerFloatingText, isBad, emoteAnim, emoteCooldown, stompGroup, customIcon);
 

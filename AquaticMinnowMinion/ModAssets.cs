@@ -1,4 +1,5 @@
-﻿using Klei.AI;
+﻿using AquaticMinnowMinion.Content.ModDb;
+using Klei.AI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,6 +13,15 @@ namespace AquaticMinnowMinion
 {
 	internal class ModAssets
 	{
+		public static void TriggerDrinkMoisturization(GameObject minion)
+		{
+			if (minion == null || !minion.HasTag(ModAssets.Tags.AquaticMinion))
+				return;
+
+			if (minion.TryGetComponent<Effects>(out var effects))
+				effects.Add(Aq_Effects.RefreshingDrink, true);
+		}
+
 		internal static void StartMoisturizing(WorkerBase worker)
 		{
 			if (worker != null)
@@ -30,7 +40,6 @@ namespace AquaticMinnowMinion
 			  PoorBreathableLiquidQuality = new("Aq_" + nameof(PoorBreathableLiquidQuality))
 			, StartedBreathingLiquid = new("Aq_" + nameof(StartedBreathingLiquid))
 			, StoppedBreathingLiquid = new("Aq_" + nameof(StoppedBreathingLiquid))
-
 			, StartedMoisturizingTask = new("Aq_" + nameof(StartedMoisturizingTask))
 			;
 		}

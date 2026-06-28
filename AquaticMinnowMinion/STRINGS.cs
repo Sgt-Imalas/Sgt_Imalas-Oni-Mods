@@ -103,13 +103,19 @@ namespace AquaticMinnowMinion
 					public static LocString NAME = "Dry Suit Air";
 					public static LocString TOOLTIP = "The bottled air in this suit is so dry!";
 				}
+				public class AQ_REFRESHINGDRINK
+				{
+					public static LocString NAME = "Refreshing Drink";
+					public static LocString TOOLTIP = "This amphibious duplicant just had a really moisturizing drink.";
+				}
+				
 			}
 			public class ROLES
 			{
 				public class ADAPTATION_EYEPROTECTION
 				{
-					public static LocString NAME = FormatAsLink("Nictitating membrane", nameof(ADAPTATION_EYEPROTECTION));
-					public static LocString TOOLTIP = "Develops a retractable membrane, protecting the eyes against irritants.";
+					public static LocString NAME = FormatAsLink("Nictitating Membrane", nameof(ADAPTATION_EYEPROTECTION));
+					public static LocString TOOLTIP = "Develops a retractable secondary eye membrane, protecting them against irritants.";
 				}
 				public class ADAPTATION_GILLPROTECTION
 				{
