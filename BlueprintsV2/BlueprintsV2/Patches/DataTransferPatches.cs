@@ -1,4 +1,5 @@
 ﻿using BlueprintsV2.BlueprintData;
+using BlueprintsV2.BlueprintsV2.BlueprintData;
 using HarmonyLib;
 using Klei.AI;
 using UnityEngine;
@@ -14,6 +15,14 @@ namespace BlueprintsV2.Patches
 			public static void Postfix(GameObject __result)
 			{
 				__result.AddOrGet<UnderConstructionDataTransfer>();
+			}
+		}
+		[HarmonyPatch(typeof(BuildingLoader), nameof(BuildingLoader.CreateBuildingComplete))]
+		public class BuildingLoader_CreateBuildingComplete_Patch
+		{
+			public static void Postfix(GameObject __result)
+			{
+				__result.AddOrGet<DataTransferCleanup>();
 			}
 		}
 		public static class ApplySettingsToNewBuilding

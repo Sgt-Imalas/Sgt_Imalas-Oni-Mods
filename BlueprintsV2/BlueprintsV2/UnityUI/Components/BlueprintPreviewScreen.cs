@@ -10,6 +10,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UtilLibs;
 using UtilLibs.UIcmp;
+using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.BLUEPRINTINFO.STATS;
 
 namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
 {
@@ -19,11 +20,16 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
 		bool _init = false;
 		GameObject BuildingEntry;
 		List<GameObject> BPVisualizers = new List<GameObject>();
-		float lowerZoomBound = 2.5f, upperZoomBound = 0.2f;
+		float lowerZoomBound = 2.5f, upperZoomBound = 0.1f;
 		float currentZoomStep = 1f;
 		float zoomStepMin = -2, zoomStepMax = 15;
 		float m_targetZoomScale = 0.25f, m_currentZoomScale = 0.25f;
 		bool _cursorInside = false;
+
+		GameObject BuildingCountWarning;
+		FButton ConfirmShowOverride;
+		LocText WarningText;
+		Blueprint ScheduledToShow = null;
 
 		void Init()
 		{
@@ -32,19 +38,44 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
 			_init = true;
 			BuildingEntry = transform.Find("BuildingPrefab").gameObject;
 			BuildingEntry.SetActive(false);
+
+			BuildingCountWarning = transform.parent.parent.Find("AmountWarning").gameObject;
+			WarningText = BuildingCountWarning.transform.Find("Label").gameObject.GetComponent<LocText>();
+			ConfirmShowOverride = BuildingCountWarning.transform.Find("Override").gameObject.AddOrGet<FButton>();
+			ConfirmShowOverride.OnClick += ForceShowScheduledBp;
 		}
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
 		}
-		public void LoadBlueprintPreview(Blueprint blueprint)
+
+		void ClearExisting()
 		{
-			Init();
+			_rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 100f);
+			_rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100f);
 			foreach (var entry in BPVisualizers)
 				Destroy(entry);
-
-
 			BPVisualizers.Clear();
+		}
+		void ForceShowScheduledBp()
+		{
+
+			BuildingCountWarning.SetActive(false);
+			if (ScheduledToShow == null)
+				return;
+			GeneratePreview(ScheduledToShow);
+			ScheduledToShow = null;
+		}
+
+		void ShowWarningAndCache(Blueprint bp, int count)
+		{
+			ScheduledToShow = bp;
+			WarningText.SetText(string.Format(STRINGS.UI.BLUEPRINTSELECTOR.PREVIEW.AMOUNTWARNING.LABEL, count));
+			BuildingCountWarning.SetActive(true);
+		}
+
+		void GeneratePreview(Blueprint blueprint)
+		{
 			Vector2I dimensions = blueprint.VisibleDimensions;
 			SgtLogger.l("Visualizing " + blueprint.FriendlyName + " with dimensions: " + dimensions);
 			//dimensions = new(dimensions.X+ 4, dimensions.Y+ 4);
@@ -56,7 +87,12 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
 			_rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, dimensions.Y * 100f);
 
 			Vector3 centerOffset = new(xOffset * 100, yOffset * 100);
+			GeneratePreview_Buildings(blueprint, centerOffset);
+			GeneratePreview_Notes(blueprint, centerOffset);
 
+		}
+		void GeneratePreview_Buildings(Blueprint blueprint, Vector3 centerOffset)
+		{
 			var buildings = blueprint.BuildingConfigurations.OrderBy(b => b.BuildingDef?.SceneLayer ?? 0);
 			foreach (var building in buildings)
 			{
@@ -79,6 +115,9 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
 				BPVisualizers.Add(entry);
 			}
 			Vis_TilePreview.ConnectAll();
+		}
+		void GeneratePreview_Notes(Blueprint blueprint, Vector3 centerOffset)
+		{
 			foreach (var note in blueprint.WorldNotes)
 			{
 				var entry = GameObject.Instantiate(BuildingEntry, transform);
@@ -117,7 +156,19 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
 
 				BPVisualizers.Add(entry);
 			}
+		}
 
+		public void LoadBlueprintPreview(Blueprint blueprint)
+		{
+			Init();
+			BuildingCountWarning.SetActive(false);
+			ClearExisting();
+			int buildingCount = blueprint.BuildingConfigurations.Count;
+			SgtLogger.l(blueprint.FriendlyName + " has " + buildingCount + " buildings");
+			if (buildingCount > Config.Instance.AutoPreviewCuttoff)
+				ShowWarningAndCache(blueprint, buildingCount);
+			else
+				GeneratePreview(blueprint);
 		}
 		void SetElementInfo(Image image, BlueprintNoteData noteData)
 		{
@@ -144,7 +195,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components
 			if (!vaccuum)
 				image.color = element.substance.colour;
 			string mass = GameUtil.GetFormattedMass(noteData.ElementMass);
-			if(vaccuum)
+			if (vaccuum)
 				UIUtils.AddSimpleTooltipToObject(image.gameObject, element.name);
 			else
 				UIUtils.AddSimpleTooltipToObject(image.gameObject, element.name + ": " + mass);

@@ -17,7 +17,6 @@ namespace BlueprintsV2
 {
 	internal class ModAssets
 	{
-
 		public static ObjectLayer BlueprintNotesLayer = ObjectLayer.FillPlacer;
 		public static Sprite Note_Placer_Sprite, NoteToolIcon_Sprite, AddNoteToolIcon_Sprite;
 		public static Sprite Gas_Placer_Sprite, Liquid_Placer_Sprite, Solid_Placer_Sprite, Special_Placer_Sprite;

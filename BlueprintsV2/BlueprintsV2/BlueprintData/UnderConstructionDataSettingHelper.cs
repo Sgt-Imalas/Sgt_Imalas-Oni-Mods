@@ -77,8 +77,9 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 
 			cell += Mathf.CeilToInt((def.WidthInCells / 2f)); //spawn it close to the origin, but dont let it clip into negative cell indicies
 
-			temporaryTargetBuilding = def.Create(Grid.CellToPos(cell), null, [SimHashes.Unobtanium.CreateTag()], null, 100, def.BuildingComplete);
 
+			temporaryTargetBuilding = def.Create(Grid.CellToPos(cell), null, [SimHashes.Unobtanium.CreateTag()], null, 100, def.BuildingComplete);
+			temporaryTargetBuilding.GetComponent<DataTransferCleanup>().SetInUse();
 			TemporarySelectable = temporaryTargetBuilding.GetComponent<KSelectable>();
 			//prevent "build outside start biome" achievment from triggering
 			temporaryTargetBuilding.GetComponent<KPrefabID>().AddTag(GameTags.TemplateBuilding);
@@ -101,24 +102,23 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 				Game.Instance.Trigger((int)GameHashes.SelectObject, temporaryTargetBuilding);
 				if (isPaused)
 					SpeedControlScreen.Instance.Pause(false);
-				subHandle = Game.Instance.Subscribe((int)GameHashes.SelectObject, HandleDeselection);
 			});
 		}
-		static int subHandle = -1;
-		public static void HandleDeselection(object data)
+		public static void HandleDeselection(DataTransferCleanup data)
 		{
-			if (data != null && (data is GameObject target) && target == temporaryTargetBuilding)
-				return;
+			if (lastSelected != null)
+			{
+				var buildingSettingData = API_Methods.GetAdditionalBuildingData(data.gameObject);
+				foreach (var entries in buildingSettingData)
+					lastSelected.SetDataToApply(entries.Key, entries.Value);
+			}
+			CleanUp();
+		}
 
-			if(subHandle != -1)
-				Game.Instance.Unsubscribe(subHandle);
-			subHandle = -1;
-
-			var buildingSettingData = API_Methods.GetAdditionalBuildingData(temporaryTargetBuilding);
-			UnityEngine.Object.Destroy(temporaryTargetBuilding);
-			foreach (var entries in buildingSettingData)
-				lastSelected.SetDataToApply(entries.Key, entries.Value);
-
+		internal static void CleanUp()
+		{
+			if (temporaryTargetBuilding != null)
+				UnityEngine.Object.Destroy(temporaryTargetBuilding);
 			TemporarySelectable = null;
 			UnderConstructionDataTransfer.SelectButtonUnlocked = true;
 		}
@@ -227,7 +227,7 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData
 
 				foreach (var ci in orig)
 				{
-					if(ci.Calls(m_Assert))
+					if (ci.Calls(m_Assert))
 					{
 						yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(ReceptacleSideScreen_Initialize_Patch), nameof(DoNotCrashThisScreenWithThatStoopidAssert)));
 					}

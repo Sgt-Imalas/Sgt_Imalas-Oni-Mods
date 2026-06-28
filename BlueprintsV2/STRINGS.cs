@@ -83,6 +83,11 @@ namespace BlueprintsV2
 				public static LocString TITLE = "Snapshot Tool Overlay Sync";
 				public static LocString TOOLTIP = "Whether the Snapshot Tool syncs with the current overlay. (configurable in game too)";
 			}
+			public class AUTOPREVIEWCUTTOFF
+			{
+				public static LocString TITLE = "Automatic Preview Confirmation Threshold";
+				public static LocString TOOLTIP = "Blueprints with more than this number of buildings won't automatically show a ui preview and instead ask for confirmation.";
+			}
 		}
 
 		public class UI
@@ -433,6 +438,19 @@ namespace BlueprintsV2
 							public static LocString TEXT = "Place Blueprint";
 						}
 					}
+					public class AMOUNTWARNING
+					{
+						public class HEADER
+						{
+							public static LocString LABEL = "Large Number of Buildings!";
+						}
+						public static LocString LABEL = "Automatic preview has been stopped due to {0} total buildings in the blueprint.";
+						public class OVERRIDE
+						{
+							public static LocString TEXT = "Show anyway!";
+						}
+					}
+
 				}
 
 			}
