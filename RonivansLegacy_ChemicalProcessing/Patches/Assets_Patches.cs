@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,16 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 				InjectionMethods.AddSpriteToAssets(__instance, "aio_conduit_output_preview");
 				InjectionMethods.AddSpriteToAssets(__instance, "AIO_AnyWater");
 				InjectionMethods.AddSpriteToAssets(__instance, "ronivanaio_dlc_banner");				
+			}
+        }
+
+        [HarmonyPatch(typeof(Assets), nameof(Assets.SubstanceListHookup))]
+        public class Assets_SubstanceListHookup_Patch
+        {
+            public static void Postfix(Assets __instance)
+            {
+                ModElements.HideDisabledWaters();
+
 			}
         }
     }

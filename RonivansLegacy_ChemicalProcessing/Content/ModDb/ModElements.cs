@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TUNING;
 using UnityEngine;
 using UtilLibs;
 using UtilLibs.ElementUtilNamespace;
@@ -125,7 +126,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			ToxicMix_Solid = ElementInfo.Solid("ToxicClay", "solid_toxic_mud_kanim", TOXIC_COLOR),
 			ToxicMix_Liquid = ElementInfo.Liquid("ToxicSlurry", TOXIC_COLOR),
 			ToxicMix_Gas = ElementInfo.Gas("ToxicGas", TOXIC_COLOR),
-			
+
 			Zinc_Solid = ElementInfo.Solid("SolidZinc", "solid_zinc_kanim", ZINC_COLOR),
 			///Vanilla now
 			//Zinc_Liquid = ElementInfo.Liquid("MoltenZinc", ZINC_COLOR),
@@ -178,8 +179,9 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		public static HashSet<SimHashes> DisabledModElements = [];
 		public static HashSet<Tag> DisabledModElementTags = [];
 
-		static void HideElement(Element element )
+		static void HideElement(Element element)
 		{
+			element.disabled = true;
 			element.oreTags = element.oreTags.Append(GameTags.HideFromCodex);
 			element.oreTags = element.oreTags.Append(GameTags.DeprecatedContent);
 			element.oreTags = element.oreTags.Append(GameTags.HideFromSpawnTool);
@@ -393,18 +395,31 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 			}
 		}
 
+		public static void HideDisabledWaters()
+		{
+			bool noChemprocIO = !Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled;
+
+			var waters = PLANTS.SAFE_ELEMENTS.AllWaters.ToList();
+			waters.RemoveAll(e => noChemprocIO && ChemicalProcessing_IO_ElementIds.Contains(e));
+			PLANTS.SAFE_ELEMENTS.AllWaters = waters.ToArray();
+
+			var murkyWaters = PLANTS.SAFE_ELEMENTS.MurkyWaters.ToList();
+			murkyWaters.RemoveAll(e => noChemprocIO && ChemicalProcessing_IO_ElementIds.Contains(e));
+			PLANTS.SAFE_ELEMENTS.MurkyWaters = murkyWaters.ToArray();
+		}
+
 		public static void HideDisabledModElements()
 		{
 			bool noChemprocIO = !Config.Instance.ChemicalProcessing_IndustrialOverhaul_Enabled;
 			bool noChemprocBiochem = !Config.Instance.ChemicalProcessing_BioChemistry_Enabled;
-			if(noChemprocIO)
+			if (noChemprocIO)
 				SgtLogger.l(ChemicalProcessing_IO_Elements.Count + " elements in disabled Chemproc IO, hiding them");
-			if(noChemprocBiochem)
+			if (noChemprocBiochem)
 				SgtLogger.l(ChemicalProcessing_BioChem_Elements.Count + " elements in disabled Chemproc biochem, hiding them");
 
 			foreach (var element in ElementLoader.elements)
 			{
-				if(noChemprocIO && ChemicalProcessing_IO_ElementIds.Contains(element.id))
+				if (noChemprocIO && ChemicalProcessing_IO_ElementIds.Contains(element.id))
 					HideElement(element);
 				if (noChemprocBiochem && ChemicalProcessing_BioChem_ElementIds.Contains(element.id))
 					HideElement(element);
