@@ -33,6 +33,7 @@ namespace ComplexFabricatorRibbonController.Content.Scripts.Buildings
 		private int _cell = -1;
 		private int handle = -1;
 		private HandleVector<int>.Handle partitionerEntry;
+		Coroutine PendingReattachmentCheck = null;
 
 		public override void OnSpawn()
 		{
@@ -48,6 +49,8 @@ namespace ComplexFabricatorRibbonController.Content.Scripts.Buildings
 		}
 		public override void OnCleanUp()
 		{
+			if (PendingReattachmentCheck != null)
+				StopCoroutine(PendingReattachmentCheck);
 			GameScenePartitioner.Instance.Free(ref this.partitionerEntry);
 			AllAttachments.Remove(this);
 			base.OnCleanUp();
@@ -85,8 +88,17 @@ namespace ComplexFabricatorRibbonController.Content.Scripts.Buildings
 
 		void OnAttachableBuildingChanged(object _)
 		{
+			if (PendingReattachmentCheck != null)
+				return;
+			PendingReattachmentCheck = StartCoroutine(DelayedReattach());
+		}
+
+		IEnumerator DelayedReattach()
+		{
+			yield return null;
 			TryReattach();
 			RefreshStatusItem();
+			PendingReattachmentCheck = null;
 		}
 
 		public void TryReattach()
