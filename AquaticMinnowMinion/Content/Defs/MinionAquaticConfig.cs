@@ -45,7 +45,6 @@ namespace AquaticMinnowMinion.Content.Defs
 				Db.Get().Attributes.ToiletEfficiency.Id
 			});
 		}
-
 		public static string[] GetAmounts()
 		{
 			return BaseMinionConfig.BaseMinionAmounts().Append<string>(new string[3]
