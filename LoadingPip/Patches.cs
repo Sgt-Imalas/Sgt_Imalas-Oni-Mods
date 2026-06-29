@@ -65,7 +65,8 @@ namespace LoadingPip
 						if (fileInfo.Exists && fileInfo.Extension == ".png" && IO_Utils.NotAMacFile(fileInfo))
 						{
 							SgtLogger.l("loading custom load screen icon: " + fileInfo.Name);
-							AssetUtils.AddSpriteToAssets(fileInfo, __instance);
+							var sprite = AssetUtils.AddSpriteToAssets(fileInfo, __instance);
+							ModAssets.CustomLoadedIcons.Add(sprite.name	);
 						}
 					}
 				}
