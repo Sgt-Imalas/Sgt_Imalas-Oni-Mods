@@ -938,6 +938,11 @@ namespace SetStartDupes
 			NextType nextType = NextType.undefined;
 			TraitList = null;
 
+			///Hardcode for grey color bc its part of the congenital list for some reason and I do not want "none" to be cyan
+			///this has gotten relevant with APP since that adds the "Minnow" trait as an actually used congenital trait
+			if (traitId == "None")
+				return nextType;
+
 			if (!NextTypesPerTrait.ContainsKey(traitId))
 			{
 				foreach (var possibility in TraitsByType)
