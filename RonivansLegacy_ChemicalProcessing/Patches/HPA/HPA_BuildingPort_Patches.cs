@@ -178,5 +178,21 @@ namespace RonivansLegacy_ChemicalProcessing.Patches
 					go.AddOrGet<HPA_DynamicSolidConduitDispenser>();
 			}
 		}
+
+		///breathing station (APP)
+
+
+		[HarmonyPatch(typeof(UnderwaterBreathingStationConfig), nameof(UnderwaterBreathingStationConfig.ConfigureBuildingTemplate))]
+		public class UnderwaterBreathingStationConfig_ConfigureBuildingTemplate_Patch
+		{
+			public static void Postfix(GameObject go)
+			{
+				if (go.TryGetComponent<ConduitConsumer>(out var consumer))
+					consumer.consumptionRate *= HighPressureConduitRegistration.GetConduitMultiplier(consumer.conduitType);
+				else
+					SgtLogger.warning("Could not find ConduitConsumer on UnderwaterBreathingStationConfig!");
+			}
+		}
+
 	}
 }
