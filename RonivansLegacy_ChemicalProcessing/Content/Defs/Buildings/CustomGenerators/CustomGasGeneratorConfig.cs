@@ -29,7 +29,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.CustomGenerat
 		private static readonly PortDisplayOutput pWaterPort = new PortDisplayOutput(ConduitType.Liquid, new CellOffset(0, 1));
 		private static readonly PortDisplayOutput co2Port = new PortDisplayOutput(ConduitType.Gas, new CellOffset(0, 3));
 
-		const float conduitInputRate = 1 * SizeMultiplier;
+		const float conduitInputRate = 2 * SizeMultiplier;
 		static CustomGasGeneratorConfig()
 		{
 			//hide coal gen slider
