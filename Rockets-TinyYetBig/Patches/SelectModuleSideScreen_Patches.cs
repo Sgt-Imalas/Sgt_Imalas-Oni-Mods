@@ -12,15 +12,12 @@ using static UtilLibs.RocketryUtils;
 
 namespace Rockets_TinyYetBig
 {
-
-
-	class CategorizedRocketBuildMenuPatches
+	class SelectModuleSideScreen_Patches
 	{
 		/// <summary>
 		/// Enables the rocket module menu searchbar input on ctrl+f input 
 		/// </summary>
-		[HarmonyPatch(typeof(KScreen))]
-		[HarmonyPatch(nameof(KScreen.OnKeyDown))]
+		[HarmonyPatch(typeof(KScreen), nameof(KScreen.OnKeyDown))]
 		public static class ConsumeInputs
 		{
 			public static void Prefix(KScreen __instance, KButtonEvent e)
@@ -42,15 +39,10 @@ namespace Rockets_TinyYetBig
 		/// <summary>
 		/// Add consumeMouseScroll so scrolling inside the screen no longer scolls the world outside of it
 		/// </summary>
-		[HarmonyPatch(typeof(SelectModuleSideScreen))]
-		[HarmonyPatch(nameof(SelectModuleSideScreen.OrderBuildSelectedModule))]
+		[HarmonyPatch(typeof(SelectModuleSideScreen), nameof(SelectModuleSideScreen.OnSpawn))]
 		public static class FixScrollingAfterModuleIsBuilt
 		{
-			public static void Postfix(SelectModuleSideScreen __instance)
-			{
-				if (__instance != null)
-					__instance.ConsumeMouseScroll = true;
-			}
+			public static void Postfix(SelectModuleSideScreen __instance) => __instance?.ConsumeMouseScroll = true;
 		}
 
 		/// <summary>
@@ -59,10 +51,7 @@ namespace Rockets_TinyYetBig
 		[HarmonyPatch(typeof(DetailsScreen), nameof(DetailsScreen.ClearSecondarySideScreen))]
 		public static class ClearSearchBarAfterOnShow
 		{
-			public static void Prefix()
-			{
-				SelectModuleSidescreen_AddButtons_Patch.ClearSearchBar();
-			}
+			public static void Prefix() => SelectModuleSidescreen_AddButtons_Patch.ClearSearchBar();
 		}
 		/// <summary>
 		/// add building categories and searchbar to Rocket module screen
@@ -503,8 +492,7 @@ namespace Rockets_TinyYetBig
 		/// <summary>
 		/// Add button color setter to categorized buttons
 		/// </summary>
-		[HarmonyPatch(typeof(SelectModuleSideScreen))]
-		[HarmonyPatch(nameof(SelectModuleSideScreen.SetButtonColors))]
+		[HarmonyPatch(typeof(SelectModuleSideScreen), nameof(SelectModuleSideScreen.SetButtonColors))]
 		public static class ButtonColorPatch
 		{
 			public static bool Prefix(SelectModuleSideScreen __instance, ref Dictionary<BuildingDef, bool> ___moduleBuildableState, BuildingDef ___selectedModuleDef)
@@ -569,10 +557,33 @@ namespace Rockets_TinyYetBig
 
 
 		/// <summary>
+		/// Disable replacing spacefarers with other spacefarers in sandbox as that crashes
+		/// </summary>
+		[HarmonyPatch(typeof(SelectModuleSideScreen), nameof(SelectModuleSideScreen.TestBuildable))]
+		public class SelectModuleSideScreen_TestBuildable_Patch
+		{
+			public static void Postfix(SelectModuleSideScreen __instance, BuildingDef def, ref bool __result)
+			{
+				if (__result == false || __instance.module == null || !(__instance.module.GetComponent<Building>()?.Def.BuildingComplete.TryGetComponent<PassengerRocketModule>(out _) ?? false))
+					return;
+				//Only go in effect when sandbox or debug insta build are active
+				if (!DebugHandler.InstantBuildMode && !Game.Instance.SandboxModeActive)
+					return;
+
+				SelectModuleCondition.SelectionContext selectionContext = __instance.GetSelectionContext(def);
+				if (selectionContext != SelectModuleCondition.SelectionContext.ReplaceModule)
+					return;
+
+				if (def.BuildingComplete.TryGetComponent<PassengerRocketModule>(out _))
+					__result = false;
+			}
+		}
+
+
+		/// <summary>
 		/// Update buildable states for categorized buttons
 		/// </summary>
-		[HarmonyPatch(typeof(SelectModuleSideScreen))]
-		[HarmonyPatch(nameof(SelectModuleSideScreen.UpdateBuildableStates))]
+		[HarmonyPatch(typeof(SelectModuleSideScreen), nameof(SelectModuleSideScreen.UpdateBuildableStates))]
 		public static class BuildableStatesCategoryPatch
 		{
 			public static bool Prefix(SelectModuleSideScreen __instance, ref Dictionary<BuildingDef, bool> ___moduleBuildableState, BuildingDef ___selectedModuleDef)

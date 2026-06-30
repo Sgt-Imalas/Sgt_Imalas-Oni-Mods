@@ -30,6 +30,8 @@ namespace UtilLibs
 
 		public static bool IsRocketTraveling(Clustercraft craft)
 		{
+			if(craft == null) return false;
+
 			var LocationCurrent = craft.Location;
 			var LocationTarget = craft.ModuleInterface.GetClusterDestinationSelector().GetDestination();
 			return LocationCurrent != LocationTarget;
