@@ -41,7 +41,7 @@ namespace UtilLibs.SharedTweaks
 				Debug.LogWarning(e.Message);
 			}
 		}
-		public override Version Version => new Version(1, 0, 0, 1);
+		public override Version Version => new Version(1, 0, 0, 2);
 		static string GetNormalizedLanguageCode() => Localization.GetCurrentLanguageCode().Replace("_klei", string.Empty);
 		static string GetFormattedTitle()
 		{
@@ -124,14 +124,16 @@ namespace UtilLibs.SharedTweaks
 					if (IsModInstallationBroken(mod.label.defaultStaticID))
 					{
 						var title = hier.GetReference<LocText>("Title");
-						ToolTip desc = hier.GetReference<ToolTip>("Description");
-						desc.toolTip = errorMsg;
+						ToolTip tt = hier.GetReference<ToolTip>("Description");
+						if(tt != null)
+							tt.toolTip = errorMsg;
 						string titleText = mod.title;
 
 						if (Strings.TryGet(titleText, out var localized))
-							titleText = (string)localized;
+							titleText = (string)localized;						
 						titleText += errorTitle;
-						title.text = titleText;
+						if(title != null)
+							title.text = titleText;
 					}
 				}
 				//cleanup ui spam:
