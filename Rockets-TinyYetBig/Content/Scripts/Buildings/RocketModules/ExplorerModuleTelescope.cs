@@ -83,9 +83,9 @@ namespace Rockets_TinyYetBig.Behaviours
 					this.telescopeTargetMarker.SetActive(true);
 					this.telescopeTargetMarker.GetComponent<TelescopeTarget>().Init(m_analyzeTarget);
 				}
-				if (smi.m_fowManager.EarnRevealPointsForLocation(m_analyzeTarget, detectionIncrease))
+				if (!smi.m_fowManager.IsLocationRevealed(m_analyzeTarget) && smi.m_fowManager.EarnRevealPointsForLocation(m_analyzeTarget, detectionIncrease))
 				{
-					Game.Instance.BoxingTrigger((int)GameHashes.ClusterFogOfWarRevealed, m_analyzeTarget);
+					//Game.Instance.BoxingTrigger((int)GameHashes.ClusterFogOfWarRevealed, m_analyzeTarget);
 					DestroyTelescope();
 					SpawnDatabanks(3);
 				}
