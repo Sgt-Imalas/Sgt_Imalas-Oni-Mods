@@ -1,5 +1,6 @@
 ﻿using KSerialization;
 using Rockets_TinyYetBig.Behaviours;
+using Rockets_TinyYetBig.Content.Scripts.UI.UIComponents;
 using Rockets_TinyYetBig.SpaceStations;
 using System.Collections.Generic;
 using System.Linq;
@@ -163,6 +164,8 @@ namespace Rockets_TinyYetBig.Docking
 			IDockables[dockable.GUID] = dockable;
 			if (!DockingConnections.ContainsKey(dockable.GUID))
 				DockingConnections.Add(dockable.GUID, null);
+
+			ClusterManager.Instance.Trigger(ModAssets.Hashes.DockableAdded, dockable);
 		}
 		public void UnregisterDockable(IDockable dockable)
 		{
@@ -180,6 +183,7 @@ namespace Rockets_TinyYetBig.Docking
 				SgtLogger.l("not docked");
 
 			IDockables.Remove(dockable.GUID);
+			ClusterManager.Instance.Trigger(ModAssets.Hashes.DockableRemoved, dockable);
 		}
 
 		public bool AddPendingDock(string first, string second)
@@ -669,7 +673,9 @@ namespace Rockets_TinyYetBig.Docking
 			var values = new List<DockingSpacecraftHandler>();
 			foreach (var handler in DockingSpacecraftHandlers)
 			{
-				if (handler.clustercraft.Location.Equals(location) && handler.HasDoors() && handler.InSpace)
+				if (handler.clustercraft.Location.Equals(location) && handler.HasDoors() 
+					//&& handler.InSpace //Docked to space station == not in space
+					)
 					values.Add(handler);
 			}
 			return values;
@@ -679,5 +685,18 @@ namespace Rockets_TinyYetBig.Docking
 		{
 			return PendingUndockBlockers.Contains(dockerId);
 		}
+		internal bool HasPendingDocks(string dockerId)
+		{
+			return PendingDockBlockers.Contains(dockerId);
+		}
+		internal bool HasPendingDocks(DockingSpacecraftHandler dockableHandler)
+		{
+			foreach(var door in dockableHandler.GetAllDockables())
+				if(PendingDockBlockers.Contains(door.GUID))
+					return true; 
+			return false;
+		}
+		public bool HasPendingUndocks(string first, string second) => HasPendingUndocks(first) || HasPendingUndocks(second);
+		public bool HasPendingDocks(string first, string second) => HasPendingDocks(first) || HasPendingDocks(second);
 	}
 }

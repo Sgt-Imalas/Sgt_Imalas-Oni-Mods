@@ -17,9 +17,17 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.UIComponents
 		public FButton Dock, Undock, Transfer, ViewOther;
 		public System.Action DockClicked, UndockClicked, TransferClicked, ViewOtherClicked;
 
+		bool init = false;
 		public override void OnPrefabInit()
 		{
 			base.OnPrefabInit();
+			Init();
+		}
+		public void Init()
+		{
+			if (init)
+				return;
+			init = true;
 
 
 			Name = transform.Find("Row1/TitleText").gameObject.GetComponent<LocText>();
@@ -33,10 +41,12 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.UIComponents
 			Transfer = transform.Find("Row2/TransferButton").gameObject.AddComponent<FButton>();
 			ViewOther = transform.Find("Row2/ViewDockedButton").gameObject.AddComponent<FButton>();
 		}
+
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
-			if(Target != null)
+			Init();
+			if (Target != null)
 			{
 				Name.SetText(Target.GetProperName());
 				Icon.sprite = Target.GetDockingIcon();
@@ -45,6 +55,18 @@ namespace Rockets_TinyYetBig.Content.Scripts.UI.UIComponents
 				Transfer.OnClick += TransferClicked;
 				ViewOther.OnClick += ViewOtherClicked;
 			}
+		}
+		public void SetIsDockable(bool canDock,bool canUndock)
+		{
+			Init();
+			Dock.SetInteractable(canDock);
+			Undock.SetInteractable(canUndock);
+		}
+		public void SetHasInterior(bool hasInterior)
+		{
+			Init();
+			ViewOther.SetInteractable(hasInterior);
+			Transfer.SetInteractable(hasInterior);
 		}
 	}
 }

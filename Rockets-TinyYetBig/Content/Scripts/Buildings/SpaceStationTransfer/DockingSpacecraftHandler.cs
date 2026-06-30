@@ -228,6 +228,10 @@ namespace Rockets_TinyYetBig.Docking
 			return list;
 		}
 
+		internal List<IDockable> GetAllDockables()
+		{
+			return WorldDockables.Values.ToList();
+		}
 		internal List<IDockable> GetCurrentDocks()
 		{
 			var list = new List<IDockable>();
