@@ -13,15 +13,14 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 {
 	internal class RocketModuleUpgradeStorage : KMonoBehaviour
 	{
-		///TODO: breaks nosecones.
-		//[MyCmpAdd] BuildingAttachPoint attachPoint;
+		[MyCmpReq] RocketAttachableSocket attachPoint;
 		[MyCmpReq] Building building;
 
 		[Serialize]
 		public List<RocketModuleUpgradeInstance> StoredModuleUpgrades = [];
 		HashSet<RocketModuleUpgrade> srcUpgrades = [];
 		HashSet<RocketModuleUpgrade> allowedUpgrades = [];
-		static Dictionary<BuildingAttachPoint, RocketModuleUpgradeStorage> storages = [];
+		static Dictionary<RocketAttachableSocket, RocketModuleUpgradeStorage> storages = [];
 
 		public override void OnPrefabInit()
 		{
@@ -150,6 +149,6 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules
 			srcUpgrades.Add(upgradeInstance.GetSource());
 		}
 
-		internal static bool GetFromAttachable(BuildingAttachPoint attachable, out RocketModuleUpgradeStorage storage) => storages.TryGetValue(attachable, out storage);
+		//internal static bool GetFromAttachable(BuildingAttachPoint attachable, out RocketModuleUpgradeStorage storage) => storages.TryGetValue(attachable, out storage);
 	}
 }

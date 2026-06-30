@@ -18,33 +18,32 @@ namespace Rockets_TinyYetBig.Patches
 			[HarmonyPostfix]
 			public static void Postfix(BuildingDef __instance, int cell, ref string fail_reason, ref bool __result)
 			{
-				if (!__result || __instance.BuildLocationRule != BuildLocationRule.BuildingAttachPoint || __instance.AttachmentSlotTag != ModAssets.Tags.AttachmentSlotRocketModuleUpgrades)
+				if (__instance.BuildLocationRule != BuildLocationRule.BuildingAttachPoint)
 					return;
 
 				var slotTag = __instance.AttachmentSlotTag;
 				var slotPos = __instance.attachablePosition;
 
-				bool tagValid = false;
+				bool attachmentPosValid = false, upgradeProhibited = false;
 				string upgradeFail = string.Empty;
-				for (int idx = 0; idx < Components.BuildingAttachPoints.Count && !tagValid; ++idx)
+				foreach (var attachable in RocketAttachableSocket.Components)
 				{
-					var attachable = Components.BuildingAttachPoints[idx];
 					if (attachable.AcceptsAttachment(slotTag, Grid.OffsetCell(cell, slotPos)))
 					{
-						//SgtLogger.l("attachable: " + attachable);
-						if (!RocketModuleUpgradeStorage.GetFromAttachable(attachable, out var storage)
-							|| storage.UpgradeAllowed(__instance.PrefabID, out upgradeFail))
-						{
-							tagValid = true;
-							break;
-						}
+						//SgtLogger.l("attachable accepts tag " + slotTag);
 
+						if (!attachable.UpgradeProhibited(__instance.PrefabID, out upgradeFail))
+							attachmentPosValid = true;
+						else
+							upgradeProhibited = true;
+						break;
 					}
 				}
-				if (!tagValid)
+
+				if (attachmentPosValid)
 				{
 					fail_reason = upgradeFail;
-					__result = false;
+					__result = !upgradeProhibited;
 				}
 			}
 			[HarmonyTargetMethods]

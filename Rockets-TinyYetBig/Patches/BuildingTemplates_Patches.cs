@@ -55,6 +55,7 @@ namespace Rockets_TinyYetBig.Patches
 		{
 			public static void Postfix(GameObject template)
 			{
+				template.AddComponent<RocketAttachableSocket>().ConfigureAsUpgradeSlot();
 				template.AddOrGet<RocketModuleUpgradeStorage>();
 			}
 		}

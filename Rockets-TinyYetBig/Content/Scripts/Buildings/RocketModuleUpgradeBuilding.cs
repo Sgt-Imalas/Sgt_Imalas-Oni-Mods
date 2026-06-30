@@ -15,7 +15,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings
 		{
 			if (attachableBuilding == null)
 				return;
-			var rocketModule = attachableBuilding.GetAttachedTo();
+			var rocketModule = RocketAttachableSocket.Get(attachableBuilding);
 			if (rocketModule == null || rocketModule.gameObject == null || !rocketModule.TryGetComponent<RocketModuleUpgradeStorage>(out var moduleUpgradeStorage))
 			{
 				SgtLogger.error("no SpaceStationAttachablePartStorage on attached " + rocketModule.name);

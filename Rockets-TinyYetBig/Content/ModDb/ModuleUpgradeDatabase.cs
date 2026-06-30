@@ -11,13 +11,63 @@ namespace Rockets_TinyYetBig.Content.ModDb
 {
 	public static class ModuleUpgradeDatabase
 	{
-		static Dictionary<string, RocketModuleUpgrade> _upgrades = []; 
+		static Dictionary<string, RocketModuleUpgrade> _upgrades = [];
 		internal static void Add(RocketModuleUpgrade rocketModuleUpgrade) => _upgrades[rocketModuleUpgrade.ID] = rocketModuleUpgrade;
 
 		//no add/remove action, is handled by the logic component in the cargo bay
 		public static RocketModuleUpgrade CargoBayFilter =
 			new RocketModuleUpgrade("RTB_CargoBayFilter")
 			.Costs([GameTags.Steel, GameTags.RefinedMetal], [50, 50]);
+
+		public static RocketModuleUpgrade CargoBayInsulation =
+			new RocketModuleUpgrade("RTB_CargoBayInsulation")
+			.Costs([GameTags.Insulator], [800])
+			.OnAdd(module => ToggleCargoBayInsulation(module,true))
+			.OnRemove(module => ToggleCargoBayInsulation(module, false));
+
+		//Potential ideas:
+		public static RocketModuleUpgrade 
+			CargoBayCapacityLvl1,
+			CargoBayCapacityLvl2,
+			CargoBayCapacityLvl3,
+			
+			CargoBayCollectionSpeed
+			;
+
+		static void ToggleCargoBayInsulation(GameObject cargobayGO, bool enableInsulation)
+		{
+			if (!cargobayGO.TryGetComponent<CargoBayCluster>(out var cargoBay))
+			{
+				SgtLogger.warning("No cargo bay found on " + cargobayGO);
+				return;
+			}
+			if (cargoBay.storageType == CargoBay.CargoType.Entities)
+				return;
+			var storage = cargoBay.storage;
+			var targetModifiers = enableInsulation ? Storage.StandardInsulatedStorage : Storage.StandardSealedStorage;
+
+			if (!storage.defaultStoredItemModifers.SequenceEqual(targetModifiers))
+			{
+				storage.SetDefaultStoredItemModifiers(targetModifiers);
+				ApplyModifiedModifiers(storage);
+				if(enableInsulation)
+					SgtLogger.l("Adding Insulation to cargobay contents of "+cargobayGO);
+				else
+					SgtLogger.l("Removing Insulation from cargobay contents of " + cargobayGO);
+
+			}
+		}
+		static void ApplyModifiedModifiers(Storage storage)
+		{
+			foreach (GameObject item in storage.items)
+			{
+				storage.ApplyStoredItemModifiers(item, is_stored: true, is_initializing: true);
+				if (storage.sendOnStoreOnSpawn)
+				{
+					item.Trigger((int)GameHashes.OnStore, storage);
+				}
+			}
+		}
 
 
 		public static bool TryGetUpgrade(string item, out RocketModuleUpgrade upgrade) => _upgrades.TryGetValue(item, out upgrade);

@@ -1,5 +1,6 @@
 ﻿using KSerialization;
 using Rockets_TinyYetBig.Content.ModDb;
+using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,7 +16,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.SpaceStationConstruction
 	{
 		[Serialize] StoredStationPart? StoredPart = null;
 		 CellOffset dropOffset = new(0, 1);
-		[MyCmpReq] BuildingAttachPoint buildingAttachPoint;
+		[MyCmpReq] RocketAttachableSocket buildingAttachPoint;
 		[MyCmpGet] KSelectable selectable;
 		[MyCmpGet] KBatchedAnimController kbac;
 		[Serialize] private bool isMarkedForPartDeconstruction;
@@ -47,7 +48,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.SpaceStationConstruction
 			this.SetOffsetTable(OffsetGroups.InvertedWideTable);
 
 			base.OnSpawn();
-			dropOffset = buildingAttachPoint.points[1].position;
+			dropOffset = buildingAttachPoint.AttachmentOffset;
 			RefreshAttachmentSlot();
 
 			if (isMarkedForPartDeconstruction)
@@ -68,8 +69,7 @@ namespace Rockets_TinyYetBig.Content.Scripts.Buildings.SpaceStationConstruction
 		{
 			bool hasPart = StoredPart != null;
 			///prevent other parts from being constructed while the part storage is not empty;
-			buildingAttachPoint.points[1].attachableType = hasPart ? GameTags.Empty : ModAssets.Tags.AttachmentSlotStationParts;
-
+			buildingAttachPoint.SetAllowsAttachment(!hasPart);
 			if (hasPart)
 			{
 				SetWorkTime(StoredPart.Value.DeconstructionTime);

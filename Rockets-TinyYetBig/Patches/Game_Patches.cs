@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using Rockets_TinyYetBig.Behaviours;
+using Rockets_TinyYetBig.Content.Scripts.Buildings.RocketModules;
 using Rockets_TinyYetBig.SpaceStations;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace Rockets_TinyYetBig.Patches
                 RTB_SavegameStoredSettings.ClearAll();
 				SimpleInfoScreen_Patches.ClearAll();
                 WorldSelector_Patches.ClearAll();
+                RocketAttachableSocket.ClearAll();
 			}
         }
 	}
