@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static GameUtil;
+using static GeoTunerConfig;
 using static PathFinder;
 using static STRINGS.DUPLICANTS.ATTRIBUTES;
 using static UtilLibs.MarkdownExport.MarkdownUtil;
@@ -48,7 +49,7 @@ namespace UtilLibs.MarkdownExport
 			sb.AppendLine();
 			sb.AppendLine("| | | |");
 			sb.AppendLine("|-|-|-|");
-			sb.Append($"| ![{ID}](/assets/images/geysers/{ID}.png) {{rowspan=\"3\"}} ");
+			sb.Append($"| ![{ID}](/assets/images/geysers/{ID}.png) {{rowspan=\"4\"}} ");
 
 			if (entity.TryGetComponent<OccupyArea>(out var area))
 			{
@@ -57,7 +58,7 @@ namespace UtilLibs.MarkdownExport
 			bool isGeyser =false;
 			if (entity.TryGetComponent<GeyserConfigurator>(out var configurator))
 			{
-				var type = GeyserConfigurator.FindType(configurator.presetType);
+				GeyserConfigurator.GeyserType type = GeyserConfigurator.FindType(configurator.presetType);
 
 				float maxRate = type.maxRatePerCycle/1000;
 				float minRate = type.minRatePerCycle / 1000;
@@ -71,6 +72,11 @@ namespace UtilLibs.MarkdownExport
 
 				sb.AppendLine($"|{L("STRINGS.MISC.STATUSITEMS.SPOUTEMITTING.NAME").Replace("{StudiedDetails}",string.Empty)} | {MarkdownUtil.GetTagStringWithIcon(type.element.CreateTag()) +" "+ temp}|{EmptyTableCell} |");
 				sb.AppendLine($"|{L("STRINGS.UI.BUILDINGEFFECTS.GEYSER_YEAR_AVR_OUTPUT")} | {avg} ({min} - {max})|{EmptyTableCell} |");
+
+				var tunerSettings = GeoTunerConfig.geotunerGeyserSettings.TryGetValue(type.id, out GeotunedGeyserSettings setting) ? setting : GeoTunerConfig.CategorySettings[GeoTunerConfig.Category.DEFAULT_CATEGORY];
+
+				Tag geotuneElement = tunerSettings.material;
+				sb.AppendLine($"|{L("STRINGS.UI.UISIDESCREENS.GEOTUNERSIDESCREEN.STUDIED_TOOLTIP_GEOTUNER_MODIFIER_ROW_TITLE")} | {L("STRINGS.UI.UISIDESCREENS.GEOTUNERSIDESCREEN.STUDIED_TOOLTIP_MATERIAL").Replace("{MATERIAL}", MarkdownUtil.GetTagStringWithIcon(geotuneElement))} ||{EmptyTableCell} |");
 
 				isGeyser = true;
 			}
