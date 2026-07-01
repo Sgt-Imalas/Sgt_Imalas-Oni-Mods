@@ -41,8 +41,10 @@ namespace AquaticMinnowMinion
 			{
 				public class AQUATIC
 				{
-					public static LocString NAME = "Amphibious Duplicant";
+					public static LocString NAME = FormatAsLink("Amphibious Duplicant", nameof(DUPLICANTS));
 					public static LocString NAME_TOOLTIP = "This Duplicant is the result of genetic experiments that spliced the dna of aquatic critters with that of regular duplicants.";
+					public static LocString DESC = (LocString)$"Amphibious Duplicants are adapted to a life underwater, giving them an edge in flooded, oxygen-poor environments.\n\nThey will complete errands in order of {FormatAsLink("Priority", "PRIORITY")}.";
+					public static LocString NAME_ADJECTIVE = (LocString) FormatAsLink("Amphibious", nameof (DUPLICANTS));
 				}
 			}
 			public class STATS
