@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using UnityEngine;
 using UnityEngine.UI;
 using UtilLibs;
 
@@ -53,6 +54,7 @@ namespace NaturalConstruction.Content.Scripts
 
 			bool backwallBuilding = building.Def.ObjectLayer == ObjectLayer.Backwall;
 
+			naturalMass *= Mathf.Clamp(Config.Instance.SpawningMassMultiplier, 1f, 2f);
 
 			if (backwallBuilding)
 			{

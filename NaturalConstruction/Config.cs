@@ -23,5 +23,10 @@ namespace NaturalConstruction
 		[JsonProperty]
 		[Limit(1, 2000f)]
 		public int DefaultMass_Backwall { get; set; } = 100;
+
+		[Option(title: "STRINGS.UI.NC_MODCONFIG.CONSTRUCTION_MASS_MULTIPLIER.TITLE", tooltip: "STRINGS.UI.NC_MODCONFIG.CONSTRUCTION_MASS_MULTIPLIER.TOOLTIP")]
+		[JsonProperty]
+		[Limit(1f, 2f)]
+		public float SpawningMassMultiplier { get; set; } = 1f;
 	}
 }

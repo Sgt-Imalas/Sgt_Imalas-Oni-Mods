@@ -135,17 +135,18 @@ namespace NaturalConstruction.Content.Scripts
 				elementIdx = fallback.idx;
 				temperature = UtilMethods.GetKelvinFromC(20);
 			}
+			float multiplier = Mathf.Clamp(Config.Instance.SpawningMassMultiplier, 1f, 2f);
 
 			if (backwallBuilding)
 			{
-				SimMessages.SetBackwallData(cell, elementIdx, naturalMass, temperature);
+				SimMessages.SetBackwallData(cell, elementIdx, naturalMass * multiplier, temperature);
 			}
 			else
 			{
 
 				//SgtLogger.l("ISREPLACEMENTTILE: " + IsReplacementTile);
 				ModAssets.MovePickupables(cell);
-				SimMessages.ReplaceAndDisplaceElement(cell, elementId, CellEventLogger.Instance.SandBoxTool, naturalMass, temperature, diseaseIdx, diseaseAmount);
+				SimMessages.ReplaceAndDisplaceElement(cell, elementId, CellEventLogger.Instance.SandBoxTool, naturalMass * multiplier, temperature, diseaseIdx, diseaseAmount);
 				GameScenePartitioner.Instance.TriggerEvent(cell, GameScenePartitioner.Instance.solidChangedLayer, null);
 				//SgtLogger.l("Solid: " + Grid.Solid[cell] + ", foundation: " + Grid.Foundation[cell]);
 				//for (int layer = 0; layer < 45; ++layer)

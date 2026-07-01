@@ -45,8 +45,13 @@ namespace NaturalConstruction
 				}
 				public class CONSTRUCTIONTIME_MASS_SCALING
 				{
-					public static LocString TITLE = "Construction time mass scaling.";
+					public static LocString TITLE = "Construction time mass scaling";
 					public static LocString TOOLTIP = "When active, lets the construction time scale with the mass picked for the individual natural building.\nOtherwise defaults to 30 s.";
+				}
+				public class CONSTRUCTION_MASS_MULTIPLIER
+				{
+					public static LocString TITLE = "Spawn Mass multiplier";
+					public static LocString TOOLTIP = "Multiplies the building material mass when converting into a spawned natural tile/backwall.\nThis allows compensating for the 50% mass loss on digging the natural tile.\nExample with x1.5: 100kg construction mass -> 150kg natural tile/backwall -> digging result 75kg";
 				}
 			}
 		}
