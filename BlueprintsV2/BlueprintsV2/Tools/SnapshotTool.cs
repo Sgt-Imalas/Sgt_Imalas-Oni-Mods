@@ -315,7 +315,9 @@ namespace BlueprintsV2.Tools
 			{
 				TryVisualizeLastSnapshot();
 			}
-			else if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsReopenSelectionAction.GetKAction()))
+			else if (buttonEvent.TryConsume(ModAssets.Actions.BlueprintsReopenSelectionAction.GetKAction())
+				||  buttonEvent.TryConsume(ModAssets.Actions.BlueprintsSnapshotAction.GetKAction()) 
+				)
 			{
 				DeleteBlueprint();
 				GridCompositor.Instance.ToggleMajor(false);

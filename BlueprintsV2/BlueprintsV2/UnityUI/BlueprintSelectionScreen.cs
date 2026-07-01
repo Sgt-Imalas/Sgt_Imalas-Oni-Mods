@@ -144,6 +144,8 @@ namespace BlueprintsV2.UnityUI
 					string materialLabel = value ? STRINGS.UI.USEBLUEPRINTSTATECONTAINER.INFOITEMSCONTAINER.MATERIALREPLACEMENT.LABEL : string.Format(MATERIALSWITCH.MATERIALSHEADER.LABEL, TargetBlueprint.FriendlyName);
 					MaterialHeaderTitle.SetText(materialLabel);
 				}
+				if (value)
+					ShowingInfoPreview = false;
 			}
 		}
 		public override float GetSortKey()
