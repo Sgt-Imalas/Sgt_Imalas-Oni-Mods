@@ -189,11 +189,11 @@ namespace RonivansLegacy_ChemicalProcessing
 					public static LocString DESC = "A mechanical device built to extract oil from raw materials. The raw materials are squeezed under high pressure through a caged barrel-like cavity.";
 					public static LocString EFFECT = string.Concat(
 						[
-							"Extract ",
+							"Extracts ",
 							FormatAsLink("Vegetable Oil", "LIQUIDVEGEOIL"),
 							" from raw food ingredients. The amount of oil, and the solid waste in the form of ",
 							FormatAsLink("Compressed Biomass", "SOLIDBIOMASS"),
-							" depend of the ingredient choosen.\nCan be diluted with water to produce ",global::STRINGS.ELEMENTS.PHYTOOIL.NAME
+							" depend of the ingredient choosen.\nIt can also be configured to do ",FormatAsLink("Plant Pulverizer", "MILKPRESS"),"Recipes.\n",FormatAsLink("Vegetable Oil", "LIQUIDVEGEOIL"),"Can be diluted with water to produce ",global::STRINGS.ELEMENTS.PHYTOOIL.NAME
 						]);
 				}
 				public class BIOCHEMISTRY_BIODIESELREFINERY
@@ -1719,7 +1719,17 @@ namespace RonivansLegacy_ChemicalProcessing
 				public class ALGAEGROWER_LIGHTEFFICIENCY
 				{
 					public static LocString NAME = "Growth Efficiency: {0}";
-					public static LocString TOOLTIP = "The algae growth in this building is currently at {0} efficiency.\nThis is dependent on the light the building receives.\nRequires at minimum {1}.";
+					public static LocString TOOLTIP = "The algae growth in this building is currently at {0} efficiency.\nThis is dependent on the light the building receives.\nRequires at minimum {1} averaged over all light receiving tiles to operate at full speed.";
+				}
+				public class ALGAEGROWER_BONUSLIGHT
+				{
+					public static LocString NAME = "Thriving Growth (+{0})";
+					public static LocString TOOLTIP = "With this much light, the algae in this building are truly thriving.\nThe building currently produces an additional {0} more algae.";
+				}
+				public class CONVERTER_IDLE
+				{
+					public static LocString NAME = "Idle";
+					public static LocString TOOLTIP = "This building is not producing anything right now.";
 				}
 				public class CONVERTER_STORAGEFULL
 				{

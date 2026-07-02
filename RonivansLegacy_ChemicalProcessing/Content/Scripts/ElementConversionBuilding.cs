@@ -1,4 +1,5 @@
 ﻿using KSerialization;
+using RonivansLegacy_ChemicalProcessing.Content.ModDb;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,6 +51,7 @@ namespace RonivansLegacy_ChemicalProcessing.Content.Scripts
 					.DefaultState(on.waiting);
 				on.waiting
 					.PlayAnim("on")
+					.ToggleStatusItem(StatusItemsDatabase.Converter_Idle)
 					.EventTransition(GameHashes.OnStorageChange, on.working_pre, (StatesInstance smi) => smi.master.HasEnoughMassToStartConverting());
 				on.working_pre.PlayAnim("working_pre").OnAnimQueueComplete(on.working);
 				on.working.Enter(delegate (StatesInstance smi)

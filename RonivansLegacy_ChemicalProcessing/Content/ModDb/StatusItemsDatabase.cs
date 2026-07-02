@@ -29,8 +29,10 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 		
 		public static StatusItem CG_RotatableSolarPanelWattage;
 		public static StatusItem AlgaeGrower_LightEfficiency;
+		public static StatusItem AlgaeGrower_BonusLight;
 
 		public static StatusItem Converter_StorageFull;
+		public static StatusItem Converter_Idle;
 
 		public static StatusItem ThermalBattery_StorageLevel;
 		public static StatusItem ThermalBattery_Overheated;
@@ -71,13 +73,21 @@ namespace RonivansLegacy_ChemicalProcessing.Content.ModDb
 				 LightEfficiencyConverter converter = obj as LightEfficiencyConverter;
 				 return string.Format(str, GameUtil.GetFormattedPercent(converter.LightEfficiency * 100f), GameUtil.GetFormattedLux((int)converter.MiniumLightRequirement));
 			 };
+			AlgaeGrower_BonusLight = bsi.CreateStatusItem("AlgaeGrower_BonusLight", STRINGS.BUILDING.STATUSITEMS.ALGAEGROWER_BONUSLIGHT.NAME, STRINGS.BUILDING.STATUSITEMS.ALGAEGROWER_BONUSLIGHT.TOOLTIP, "", StatusItem.IconType.Info, NotificationType.Neutral, allow_multiples: false, OverlayModes.None.ID);
+			AlgaeGrower_BonusLight.resolveStringCallback = delegate (string str, object obj)
+			{
+				LightEfficiencyConverter converter = obj as LightEfficiencyConverter;
+				return string.Format(str, GameUtil.GetFormattedPercent(converter.BonusAmount * 100f));
+			};
 
 			Converter_StorageFull = bsi.CreateStatusItem("Converter_StorageFull", STRINGS.BUILDING.STATUSITEMS.CONVERTER_STORAGEFULL.NAME, STRINGS.BUILDING.STATUSITEMS.CONVERTER_STORAGEFULL.TOOLTIP, "", StatusItem.IconType.Info, NotificationType.BadMinor, allow_multiples: true, OverlayModes.None.ID);
 			Converter_StorageFull.resolveStringCallback = delegate (string str, object obj)
 			{
 				ElementThresholdOperational converter = obj as ElementThresholdOperational;	
 				return string.Format(str, GetTagName(converter.ThresholdTag));
-			}; 
+			};
+			Converter_Idle = bsi.CreateStatusItem("Converter_Idle", STRINGS.BUILDING.STATUSITEMS.CONVERTER_IDLE.NAME, STRINGS.BUILDING.STATUSITEMS.CONVERTER_IDLE.TOOLTIP, "", StatusItem.IconType.Info, NotificationType.Neutral, allow_multiples: true, OverlayModes.None.ID);
+
 			Converter_StorageFull.resolveTooltipCallback = delegate (string str, object obj)
 			{
 				ElementThresholdOperational converter = obj as ElementThresholdOperational;
