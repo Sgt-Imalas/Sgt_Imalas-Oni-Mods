@@ -1028,6 +1028,11 @@ namespace Rockets_TinyYetBig
 					public static LocString DESC = "This construction site will produce a {0} once all these parts are assembled:";
 
 				}
+				public class SCANNERMODULE_GATHERINGSTRINGS
+				{
+					public static LocString GATHERING_IN_PROGRESS = "Scanning...";
+					public static LocString GATHERING_STOPPED = "Not scanning";
+				}
 			}
 			public class FLUSHURANIUM
 			{
