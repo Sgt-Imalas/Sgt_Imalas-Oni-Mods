@@ -157,6 +157,13 @@ namespace BlueprintsV2.BlueprintData
 			foreach (var building in BuildingConfigurations)
 			{
 				var offset = building.Offset;
+				if (-100000 > offset.x || offset.x > 100000
+				|| -100000 > offset.y || offset.y > 100000)
+				{
+					SgtLogger.warning("Corrupted Building dimensions found: " + offset);
+					return;
+				}
+
 				if (offset.y > y_max)
 					y_max = offset.y;
 				if (offset.x > x_max)
@@ -193,6 +200,12 @@ namespace BlueprintsV2.BlueprintData
 			}
 			foreach (var digSpot in DigLocations)
 			{
+				if (-100000 > digSpot.x || digSpot.x > 100000
+				|| -100000 > digSpot.y || digSpot.y > 100000)
+				{
+					SgtLogger.warning("Corrupted dig spot dimensions found: " + digSpot);
+					return;
+				}
 				if (digSpot.y > y_max)
 					y_max = digSpot.y;
 				if (digSpot.x > x_max)
@@ -205,6 +218,12 @@ namespace BlueprintsV2.BlueprintData
 			}
 			foreach (var worldnote in WorldNotes.Keys)
 			{
+				if (-100000 > worldnote.x || worldnote.x > 100000
+				|| -100000 > worldnote.y || worldnote.y > 100000)
+				{
+					SgtLogger.warning("Corrupted worldnote dimensions found: " + worldnote);
+					return;
+				}
 				if (worldnote.y + 1 > y_max)
 					y_max = worldnote.y + 1;
 				if (worldnote.x + 1 > x_max)
@@ -217,6 +236,12 @@ namespace BlueprintsV2.BlueprintData
 			}
 			foreach (var plan in PlanningToolMod_PlanDataValues.Keys)
 			{
+				if (-100000 > plan.x || plan.x > 100000
+				|| -100000 > plan.y || plan.y > 100000)
+				{
+					SgtLogger.warning("Corrupted plan dimensions found: " + plan);
+					return;
+				}
 				if (plan.y + 1 > y_max)
 					y_max = plan.y + 1;
 				if (plan.x + 1 > x_max)
@@ -340,31 +365,49 @@ namespace BlueprintsV2.BlueprintData
 		/// </summary>
 		void SanitizePositions()
 		{
+			//SgtLogger.l("SANITIZING: " + FriendlyName);
 			int minX = 0; int minY = 0;
-			void GetMin(Vector2I offset)
+			void GetMin(Vector2I offset, string buildingId = null)
 			{
-				if (offset.x < minX) minX = offset.x;
-				if (offset.y < minY) minY = offset.y;
+				if (offset.x < minX)
+				{
+					minX = offset.x;
+					//SgtLogger.l("Smaller x offset detected: " + minX);
+					//if (buildingId != null)
+					//	SgtLogger.l("^-> " + buildingId);
+				}
+				if (offset.y < minY)
+				{
+					minY = offset.y;
+					//SgtLogger.l("Smaller y offset detected: " + minY);
+					//if (buildingId != null)
+					//	SgtLogger.l("^-> " + buildingId);
+				}
 			}
 
+			//SgtLogger.l("Buildings: " + BuildingConfigurations.Count);
 			foreach (var building in BuildingConfigurations)
 			{
-				GetMin(building.Offset);
+				GetMin(building.Offset, building.BuildingDefId);
 			}
+			//SgtLogger.l("DigLocations: " + DigLocations.Count);
 			foreach (var digspot in DigLocations)
 			{
 				GetMin(digspot);
 			}
+			//SgtLogger.l("WorldNotes: " + WorldNotes.Count);
 			foreach (var noteSpot in WorldNotes.Keys)
 			{
 				GetMin(noteSpot);
 			}
+			//SgtLogger.l("PlanningToolMod_PlanDataValues: " + PlanningToolMod_PlanDataValues.Count);
 			foreach (var plan in PlanningToolMod_PlanDataValues.Keys)
 			{
 				GetMin(plan);
 			}
 			if (minX == 0 && minY == 0)
 				return;
+			//SgtLogger.l(this.FriendlyName + ": dimensions are off: " + minX + "," + minY);
 
 			var offsetAdjustment = new Vector2I(-minX, -minY);
 
@@ -413,14 +456,21 @@ namespace BlueprintsV2.BlueprintData
 				{
 					using (BinaryReader reader = new BinaryReader(File.Open(FilePath, FileMode.Open)))
 					{
+						//checking if its a json blueprint
+						char c = reader.ReadChar();
+						if(c == '{')
+							return false;
+						reader.BaseStream.Position = 0;
 						FriendlyName = reader.ReadString();
 
 						int buildingCount = reader.ReadInt32();
+						SgtLogger.l("Loading legacy binary blueprint: "+(new FileInfo(FilePath).Name) + ", buildingCount: " + buildingCount);
 						for (int i = 0; i < buildingCount; ++i)
 						{
 							BuildingConfig buildingConfig = new BuildingConfig();
 							if (!buildingConfig.ReadBinary(reader))
 							{
+								CleanupBinaryDeserializationFailure();
 								return false;
 							}
 
@@ -436,14 +486,22 @@ namespace BlueprintsV2.BlueprintData
 					CacheCost();
 					return true;
 				}
-
-				catch
+				catch (Exception ex)
 				{
-					//Debug.Log("Error when loading blueprint: " + FilePath + ",\n" + nameof(exception) + ": " + exception.Message);
+					CleanupBinaryDeserializationFailure();
+					//SgtLogger.l("BinaryReader Failed, digLocationCount: " + DigLocations.Count);
+					Debug.Log("Error when loading blueprint: " + FilePath + ",\n" + nameof(ex) + ": " + ex.Message);
 				}
+				
 			}
-
 			return false;
+		}
+
+		void CleanupBinaryDeserializationFailure()
+		{
+			FriendlyName = string.Empty;
+			BuildingConfigurations.Clear();
+			DigLocations.Clear();
 		}
 
 		/// <summary>
@@ -474,6 +532,7 @@ namespace BlueprintsV2.BlueprintData
 				IconTintHex = iconTintToken.Value<string>();
 			}
 			JToken buildingsToken = rootObject.SelectToken(JsonKeys.Buildings);
+			BuildingConfigurations.Clear();
 			if (buildingsToken != null)
 			{
 				JArray buildingTokens = buildingsToken.Value<JArray>();
@@ -490,6 +549,8 @@ namespace BlueprintsV2.BlueprintData
 				}
 			}
 			JToken digCommandsToken = rootObject.SelectToken(JsonKeys.DiggingSpots);
+			DigLocations.Clear();
+			int counter = 0;
 			if (digCommandsToken != null)
 			{
 				JArray digCommandTokens = digCommandsToken.Value<JArray>();
@@ -498,21 +559,22 @@ namespace BlueprintsV2.BlueprintData
 				{
 					foreach (JToken digCommandToken in digCommandTokens)
 					{
+						++counter;
 						JToken xToken = digCommandToken.SelectToken("x");
 						JToken yToken = digCommandToken.SelectToken("y");
+						int x = 0, y = 0;
+						if (xToken != null && xToken.Type == JTokenType.Integer)
+							x = xToken.Value<int>();
+						if (yToken != null && yToken.Type == JTokenType.Integer)
+							y = yToken.Value<int>();
 
-						if (xToken != null && xToken.Type == JTokenType.Integer || yToken != null && yToken.Type == JTokenType.Integer)
-						{
-							DigLocations.Add(new(xToken == null ? 0 : xToken.Value<int>(), yToken == null ? 0 : yToken.Value<int>()));
-						}
-
-						else if (xToken == null && yToken == null)
-						{
-							DigLocations.Add(new(0, 0));
-						}
+						var pos = new Vector2I(x, y);
+						if(!DigLocations.Contains(pos))
+							DigLocations.Add(pos);
 					}
 				}
 			}
+
 			JToken notesToken = rootObject.SelectToken(JsonKeys.WorldNotes);
 			if (notesToken != null)
 			{
@@ -652,94 +714,96 @@ namespace BlueprintsV2.BlueprintData
 			};
 
 			jsonWriter.WriteStartObject();
-			jsonWriter.WritePropertyName(JsonKeys.Version);
-			jsonWriter.WriteValue(3);
+			{
+				jsonWriter.WritePropertyName(JsonKeys.Version);
+				jsonWriter.WriteValue(3);
 
-			jsonWriter.WritePropertyName(JsonKeys.FriendlyName);
-			jsonWriter.WriteValue(FriendlyName);
+				jsonWriter.WritePropertyName(JsonKeys.FriendlyName);
+				jsonWriter.WriteValue(FriendlyName);
 
-			if (UserDescription.Any())
-			{
-				jsonWriter.WritePropertyName(JsonKeys.UserDescription);
-				jsonWriter.WriteValue(UserDescription);
-			}
-			if (IconId != null && IconId.Any())
-			{
-				jsonWriter.WritePropertyName(JsonKeys.IconId);
-				jsonWriter.WriteValue(IconId);
-			}
-			if (IconTintHex != null && IconTintHex.Any())
-			{
-				jsonWriter.WritePropertyName(JsonKeys.IconTint);
-				jsonWriter.WriteValue(IconTintHex);
-			}
-			if (BuildingConfigurations.Any())
-			{
-				jsonWriter.WritePropertyName(JsonKeys.Buildings);
-				jsonWriter.WriteStartArray();
-
-				foreach (BuildingConfig buildingConfig in BuildingConfigurations)
+				if (UserDescription.Any())
 				{
-					buildingConfig.WriteJson(jsonWriter);
+					jsonWriter.WritePropertyName(JsonKeys.UserDescription);
+					jsonWriter.WriteValue(UserDescription);
 				}
-				jsonWriter.WriteEndArray();
-			}
-
-			if (DigLocations.Any())
-			{
-				jsonWriter.WritePropertyName(JsonKeys.DiggingSpots);
-				jsonWriter.WriteStartArray();
-
-				foreach (var digLocation in DigLocations)
+				if (IconId != null && IconId.Any())
 				{
+					jsonWriter.WritePropertyName(JsonKeys.IconId);
+					jsonWriter.WriteValue(IconId);
+				}
+				if (IconTintHex != null && IconTintHex.Any())
+				{
+					jsonWriter.WritePropertyName(JsonKeys.IconTint);
+					jsonWriter.WriteValue(IconTintHex);
+				}
+				if (BuildingConfigurations.Any())
+				{
+					jsonWriter.WritePropertyName(JsonKeys.Buildings);
+					jsonWriter.WriteStartArray();
+
+					foreach (BuildingConfig buildingConfig in BuildingConfigurations)
+					{
+						buildingConfig.WriteJson(jsonWriter);
+					}
+					jsonWriter.WriteEndArray();
+				}
+
+				if (DigLocations.Any())
+				{
+					jsonWriter.WritePropertyName(JsonKeys.DiggingSpots);
+					jsonWriter.WriteStartArray();
+
+					foreach (var digLocation in DigLocations)
+					{
+						jsonWriter.WriteStartObject();
+						jsonWriter.WritePropertyName("x"); jsonWriter.WriteValue(digLocation.x);
+						jsonWriter.WritePropertyName("y"); jsonWriter.WriteValue(digLocation.y);
+						jsonWriter.WriteEndObject();
+					}
+
+					jsonWriter.WriteEndArray();
+				}
+				if (WorldNotes.Any())
+				{
+					jsonWriter.WritePropertyName(JsonKeys.WorldNotes);
+					jsonWriter.WriteStartArray();
+					foreach (var kvp in WorldNotes)
+					{
+						kvp.Value.WriteDataJson(jsonWriter);
+					}
+					jsonWriter.WriteEndArray();
+				}
+
+				if (PlanningToolMod_PlanDataValues.Any())
+				{
+					jsonWriter.WritePropertyName(JsonKeys.ModIntegration_PlanningTool_Items);
+					jsonWriter.WriteStartArray();
+					foreach (var kvp in PlanningToolMod_PlanDataValues)
+					{
+						jsonWriter.WriteStartObject();
+						var location = kvp.Key;
+						var planShapeInfo = kvp.Value;
+
+						jsonWriter.WritePropertyName("x"); jsonWriter.WriteValue(location.X);
+						jsonWriter.WritePropertyName("y"); jsonWriter.WriteValue(location.Y);
+						jsonWriter.WritePropertyName("shape"); jsonWriter.WriteValue((int)planShapeInfo.first);
+						jsonWriter.WritePropertyName("color"); jsonWriter.WriteValue((int)planShapeInfo.second);
+
+						jsonWriter.WriteEndObject();
+					}
+					jsonWriter.WriteEndArray();
+				}
+				if (Metadata.Any())
+				{
+					jsonWriter.WritePropertyName(JsonKeys.Metadata);
 					jsonWriter.WriteStartObject();
-					jsonWriter.WritePropertyName("x"); jsonWriter.WriteValue(digLocation.x);
-					jsonWriter.WritePropertyName("y"); jsonWriter.WriteValue(digLocation.y);
+					foreach (var kvp in Metadata)
+					{
+						jsonWriter.WritePropertyName(kvp.Key);
+						jsonWriter.WriteValue(kvp.Value);
+					}
 					jsonWriter.WriteEndObject();
 				}
-
-				jsonWriter.WriteEndArray();
-			}
-			if (WorldNotes.Any())
-			{
-				jsonWriter.WritePropertyName(JsonKeys.WorldNotes);
-				jsonWriter.WriteStartArray();
-				foreach (var kvp in WorldNotes)
-				{
-					kvp.Value.WriteDataJson(jsonWriter);
-				}
-				jsonWriter.WriteEndArray();
-			}
-
-			if (PlanningToolMod_PlanDataValues.Any())
-			{
-				jsonWriter.WritePropertyName(JsonKeys.ModIntegration_PlanningTool_Items);
-				jsonWriter.WriteStartArray();
-				foreach (var kvp in PlanningToolMod_PlanDataValues)
-				{
-					jsonWriter.WriteStartObject();
-					var location = kvp.Key;
-					var planShapeInfo = kvp.Value;
-
-					jsonWriter.WritePropertyName("x"); jsonWriter.WriteValue(location.X);
-					jsonWriter.WritePropertyName("y"); jsonWriter.WriteValue(location.Y);
-					jsonWriter.WritePropertyName("shape"); jsonWriter.WriteValue((int)planShapeInfo.first);
-					jsonWriter.WritePropertyName("color"); jsonWriter.WriteValue((int)planShapeInfo.second);
-
-					jsonWriter.WriteEndObject();
-				}
-				jsonWriter.WriteEndArray();
-			}
-			if (Metadata.Any())
-			{
-				jsonWriter.WritePropertyName(JsonKeys.Metadata);
-				jsonWriter.WriteStartObject();
-				foreach (var kvp in Metadata)
-				{
-					jsonWriter.WritePropertyName(kvp.Key);
-					jsonWriter.WriteValue(kvp.Value);
-				}
-				jsonWriter.WriteEndObject();
 			}
 
 			jsonWriter.WriteEndObject();
