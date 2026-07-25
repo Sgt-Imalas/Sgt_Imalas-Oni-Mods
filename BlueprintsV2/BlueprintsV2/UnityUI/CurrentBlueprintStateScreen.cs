@@ -30,7 +30,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 
 		GameObject ColorPreviewPrefab;
 
-		FToggle ApplyBPSettings, ForceRebuildMismatchedBuildings, EnableSnapshotMaterialOverrides;
+		FToggle ApplyBPSettings, ForceRebuildMismatchedBuildings, EnableSnapshotMaterialOverrides, UseToolPriority;
 		//YesNoInfo CanRotate;
 		FButton RotateL, RotateR, ChangeMaterialOverrides;
 		//YesNoInfo CanFlipH, CanFlipV;
@@ -179,6 +179,12 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			EnableSnapshotMaterialOverrides.OnChange += OnSnapshotOverrideChanged; 
 			UIUtils.AddSimpleTooltipToObject(EnableSnapshotMaterialOverrides.gameObject, MATERIALREPLACEMENT.TOOLTIP);
 
+			UseToolPriority = transform.Find("InfoItemsContainer/PriorityOverride").gameObject.AddOrGet<FToggle>();
+			UseToolPriority.SetCheckmark("Checkbox/Checkmark");
+			UseToolPriority.SetOnFromCode(BlueprintState.CurrentStateInfo().UseToolPriority);
+			UseToolPriority.OnChange += OnToolPriorityChanged;
+			UIUtils.AddSimpleTooltipToObject(UseToolPriority.gameObject, PRIORITYOVERRIDE.TOOLTIP);
+
 
 			ChangeMaterialOverrides = transform.Find("InfoItemsContainer/MaterialOverrides/Button").gameObject.AddOrGet<FButton>();
 			ChangeMaterialOverrides.OnClick += ShowMaterialReplacementList;
@@ -213,6 +219,10 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			BuildColorLegend();
 		}
 
+		void OnToolPriorityChanged(bool on)
+		{
+			BlueprintState.CurrentStateInfo().UseToolPriority = on;
+		}
 		void OnSnapshotOverrideChanged(bool on)
 		{
 			BlueprintState.CurrentStateInfo().MaterialReplacementInSnapshots = on;

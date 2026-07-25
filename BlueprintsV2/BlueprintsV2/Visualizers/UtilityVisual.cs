@@ -37,10 +37,6 @@ namespace BlueprintsV2.Visualizers
 			ApplyColorIfChanged(cell);
 		}
 
-		public override void ApplyBuildingData(GameObject building)
-		{
-			base.ApplyBuildingData(building);
-		}
 		public override void ApplyRotation(Orientation rotation, bool flippedX, bool flippedY)
 		{
 			BlueprintRotationStateHolder = rotation;

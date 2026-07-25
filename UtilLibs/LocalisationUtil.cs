@@ -18,7 +18,7 @@ namespace UtilLibs
 		static Type _stringsRootType;
 		static bool _registerTemplate;
 
-		public static void RegisterForLocalization(this Harmony harmony, Type root, bool generateTemplate = false)
+		public static void RegisterForLocalization(this Harmony harmony, Type root, bool generateTemplate = true)
 		{
 			_stringsRootType = root;
 			_registerTemplate = generateTemplate;

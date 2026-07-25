@@ -193,7 +193,7 @@ namespace BlueprintsV2.Visualizers
 					kbac.Play("place");
 			}
 
-			if (isPlanned && ToolMenu.Instance != null)
+			if (isPlanned && ToolMenu.Instance != null && BlueprintState.CurrentStateInfo(_playerId).UseToolPriority)
 			{
 				building.FindOrAddComponent<Prioritizable>().SetMasterPriority(ToolMenu.Instance.PriorityScreen.GetLastSelectedPriority());
 			}
@@ -573,47 +573,47 @@ namespace BlueprintsV2.Visualizers
 		//	PostProcessBuild(instantBuild, posCbc, builtItem);
 		//	return builtItem != null;
 		//}
-		private GameObject InstantBuildReplace(int cell, Vector3 pos, GameObject tile)
-		{
-			var def = buildingConfig.BuildingDef;
-			var buildingOrientation = RotatedOrientation;
-			var selectedElements = GetConstructionElements();
+		//private GameObject InstantBuildReplace(int cell, Vector3 pos, GameObject tile)
+		//{
+		//	var def = buildingConfig.BuildingDef;
+		//	var buildingOrientation = RotatedOrientation;
+		//	var selectedElements = GetConstructionElements();
 
-			if (!tile.TryGetComponent<SimCellOccupier>(out var SCO))
-			{
-				UnityEngine.Object.Destroy(tile);
-				return def.Build(cell, buildingOrientation, null, selectedElements, ModAssets.GetSpawnTemperature(def, selectedElements), null, false, GameClock.Instance.GetTime());
-			}
-			SCO.DestroySelf(() =>
-			{
-				UnityEngine.Object.Destroy(tile);
-				PostProcessBuild(true, pos, def.Build(cell, buildingOrientation, null, selectedElements, ModAssets.GetSpawnTemperature(def, selectedElements), null, false, GameClock.Instance.GetTime()));
-			});
-			return null;
-		}
+		//	if (!tile.TryGetComponent<SimCellOccupier>(out var SCO))
+		//	{
+		//		UnityEngine.Object.Destroy(tile);
+		//		return def.Build(cell, buildingOrientation, null, selectedElements, ModAssets.GetSpawnTemperature(def, selectedElements), null, false, GameClock.Instance.GetTime());
+		//	}
+		//	SCO.DestroySelf(() =>
+		//	{
+		//		UnityEngine.Object.Destroy(tile);
+		//		PostProcessBuild(true, pos, def.Build(cell, buildingOrientation, null, selectedElements, ModAssets.GetSpawnTemperature(def, selectedElements), null, false, GameClock.Instance.GetTime()));
+		//	});
+		//	return null;
+		//}
 
-		private void PostProcessBuild(bool instantBuild, Vector3 pos, GameObject builtItem)
-		{
-			if (builtItem == null)
-				return;
-			if (!instantBuild)
-			{
-				Prioritizable component = builtItem.GetComponent<Prioritizable>();
-				if (component != null)
-				{
-					if (ToolMenu.Instance != null)
-						component.SetMasterPriority(ToolMenu.Instance.PriorityScreen.GetLastSelectedPriority());
-				}
-			}
-			ModAPI.API_Methods.ApplyAdditionalBuildingData(builtItem, buildingConfig);
+		//private void PostProcessBuild(bool instantBuild, Vector3 pos, GameObject builtItem)
+		//{
+		//	if (builtItem == null)
+		//		return;
+		//	if (!instantBuild)
+		//	{
+		//		Prioritizable component = builtItem.GetComponent<Prioritizable>();
+		//		if (component != null)
+		//		{
+		//			if (ToolMenu.Instance != null)
+		//				component.SetMasterPriority(ToolMenu.Instance.PriorityScreen.GetLastSelectedPriority());
+		//		}
+		//	}
+		//	ModAPI.API_Methods.ApplyAdditionalBuildingData(builtItem, buildingConfig);
 
-			if (Visualizer.TryGetComponent<KBatchedAnimController>(out var kbac))
-			{
-				kbac.TintColour = ModAssets.BLUEPRINTS_COLOR_INVALIDPLACEMENT;
-				kbac.Play("place");
-			}
-			UpdateConduitConnectionBits(builtItem);
-		}
+		//	if (Visualizer.TryGetComponent<KBatchedAnimController>(out var kbac))
+		//	{
+		//		kbac.TintColour = ModAssets.BLUEPRINTS_COLOR_INVALIDPLACEMENT;
+		//		kbac.Play("place");
+		//	}
+		//	UpdateConduitConnectionBits(builtItem);
+		//}
 
 		public virtual bool AllowedInWorld()
 		{
