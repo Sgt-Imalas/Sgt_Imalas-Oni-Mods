@@ -328,15 +328,11 @@ namespace BlueprintsV2.BlueprintData
 							bool hasConstructable = gameObject.TryGetComponent<Constructable>(out var constructable);
 							bool hasDeconstructable = gameObject.TryGetComponent<Deconstructable>(out var deconstructable);
 
-							// allow MoveThisHere hauling points
-							//note: until the hauling point mod fixes its return null go in the create prefix skip, this cannot be handled.
-							//https://github.com/DoctorFeelGoodMD/OxygenNotIncluded-Mods/blob/2822baf00bdf76f10c73a270a5dfb2528c356a83/source/MoveThisHere/MoveThisHere_Patch.cs#L89 <- this patch needs to set __result, until then the hauling point cannot be saved as it loses its settings
 							var haulingPoint = gameObject.GetComponent("DeconstructableHaulingPoint");
 							if (!hasDeconstructable && haulingPoint != null)
 							{
 								hasDeconstructable = true;
 							}
-							//end
 
 							if (hasConstructable || hasDeconstructable)
 							{
@@ -408,7 +404,6 @@ namespace BlueprintsV2.BlueprintData
 						var cellOffsetInBlueprint = new Vector2I(x - topLeft.x, blueprintHeight - (topLeft.y - y));
 						if ((emptyCell && storeDigCommandForNonSolidCells && !Grid.IsSolidCell(cell)) || (filter.AllowedLayer(ObjectLayer.DigPlacer) && Grid.Objects[cell, 7] != null && Grid.Objects[cell, 7].name == "DigPlacer"))
 						{
-
 							if (!blueprint.DigLocations.Contains(cellOffsetInBlueprint))
 							{
 								blueprint.DigLocations.Add(cellOffsetInBlueprint);
@@ -468,7 +463,7 @@ namespace BlueprintsV2.BlueprintData
 				dependentVisual.TryUse(transformData.GetRotatedCell(origin, dependentVisual));
 			});
 
-			if(snapshotBp == null && !LocalPlayerId(playerId) && CurrentVisualizers.TryGetValue(playerId, out var current))
+			if (snapshotBp == null && !LocalPlayerId(playerId) && CurrentVisualizers.TryGetValue(playerId, out var current))
 				snapshotBp = current;
 			OnBlueprintUsed(playerId, snapshotBp == null ? ModAssets.SelectedBlueprint : snapshotBp, origin);
 		}
@@ -492,6 +487,9 @@ namespace BlueprintsV2.BlueprintData
 			var transformData = CurrentStateInfo(playerId);
 			transformData.lastBlueprintPos = topLeft;
 
+			bool notSnapshot = !transformData.IsPlacingSnapshot;
+			var blockedLayers = transformData.BlockedPlacementFilterLayers;
+
 			foreach (BuildingConfig buildingConfig in blueprint.BuildingConfigurations)
 			{
 				if (buildingConfig.BuildingDef == null || buildingConfig.SelectedElements.Count == 0)
@@ -499,6 +497,8 @@ namespace BlueprintsV2.BlueprintData
 					++errors;
 					continue;
 				}
+				if (notSnapshot && ModAssets.TryGetFilterLayerId(buildingConfig.BuildingDef.ObjectLayer, out var filterLayerId) && blockedLayers.Contains(filterLayerId))
+					continue;
 
 				if (buildingConfig.BuildingDef.BuildingPreview != null)
 				{
@@ -628,7 +628,7 @@ namespace BlueprintsV2.BlueprintData
 			dependents.Clear();
 			ClearOccupiedCells(playerId);
 
-			if(LocalPlayerId(playerId))
+			if (LocalPlayerId(playerId))
 				CurrentStateInfo(playerId).ResetRotations();
 
 			OnBlueprintCleared(playerId);
@@ -694,6 +694,8 @@ namespace BlueprintsV2.BlueprintData
 				this._state = (BlueprintAnchorState)data._state;
 				this.originShiftX = data.originShiftX;
 				this.originShiftY = data.originShiftY;
+				this.UseToolPriority = data.UseToolPriority;
+				this.BlockedPlacementFilterLayers = data.BlockedPlacementFilterLayers.ToHashSet();
 			}
 			public ModeChangePacket GetFilledModePacket()
 			{
@@ -709,6 +711,8 @@ namespace BlueprintsV2.BlueprintData
 				packet._state = (int)_state;
 				packet.originShiftX = originShiftX;
 				packet.originShiftY = originShiftY;
+				packet.UseToolPriority = UseToolPriority;
+				packet.BlockedPlacementFilterLayers = BlockedPlacementFilterLayers.ToList();
 				return packet;
 			}
 
@@ -720,8 +724,10 @@ namespace BlueprintsV2.BlueprintData
 			public bool AdvancedMaterialReplacement = false;
 			public bool ForceBuild = false;
 			public bool MaterialReplacementInSnapshots = false;
+			public bool UseToolPriority = true;
 			public bool IsPlacingSnapshot { get; set; }
 			public bool ApplyBlueprintSettings = true;
+			public HashSet<string> BlockedPlacementFilterLayers = [];
 
 			public void StoreDimensions(Blueprint bp)
 			{
@@ -920,7 +926,7 @@ namespace BlueprintsV2.BlueprintData
 			{
 				_state = Config.Instance.DefaultAnchorState;
 				originShiftX = ShiftStates[_state].diffX;
-				originShiftY = ShiftStates[_state].diffY; 
+				originShiftY = ShiftStates[_state].diffY;
 			}
 
 			public void SetAnchorState(float newDiffX = -1, float newDiffY = -1, Blueprint snapshotBlueprint = null)
@@ -945,7 +951,7 @@ namespace BlueprintsV2.BlueprintData
 				state = (state + 1) % ShiftStates.Count;
 				_state = (BlueprintAnchorState)state;
 				RefreshAnchorState(snapshotBlueprint);
-				
+
 			}
 			//public Vector2I GetMousePos()
 			//{

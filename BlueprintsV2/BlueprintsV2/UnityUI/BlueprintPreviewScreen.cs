@@ -3,7 +3,9 @@ using BlueprintsV2.BlueprintsV2.BlueprintData.NoteToolPlacedEntities;
 using BlueprintsV2.BlueprintsV2.BlueprintData.PlannedElements;
 using BlueprintsV2.BlueprintsV2.BlueprintData.PlanningToolMod_Integration;
 using BlueprintsV2.BlueprintsV2.BlueprintData.PlanningToolMod_Integration.EnumMirrors;
+using BlueprintsV2.BlueprintsV2.UnityUI.Components;
 using BlueprintsV2.BlueprintsV2.UnityUI.Components.PreviewVisualizers;
+using BlueprintsV2.Tools;
 using NodeEditorFramework;
 using System;
 using System.Collections.Generic;
@@ -14,11 +16,14 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UtilLibs;
 using UtilLibs.UIcmp;
+using static BlueprintsV2.BlueprintsV2.UnityUI.Components.BuildingFilterDropdown;
 using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.BLUEPRINTINFO.STATS;
+using static BlueprintsV2.STRINGS.UI.BLUEPRINTSELECTOR.PREVIEW;
 using static Database.MonumentPartResource;
 using static STRINGS.LORE.BUILDINGS;
 using static STRINGS.MISC.STATUSITEMS;
 using static STRINGS.UI.CLUSTERMAP.ASTEROIDS;
+using static UtilLibs.UIcmp.FMultiSelectDropdown;
 
 namespace BlueprintsV2.BlueprintsV2.UnityUI
 {
@@ -28,23 +33,51 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 		bool _init = false;
 		GameObject BuildingEntry;
 		List<GameObject> BPVisualizers = new List<GameObject>();
+
+		Dictionary<string, List<Vis_BuildingPreview>> FilterLayerKbacs = [];
+		Dictionary<string, List<Vis_SpritePreview>> FilterLayerImages = [];
+
 		float lowerZoomBound = 2.5f, upperZoomBound = 0.1f;
-		float currentZoomStep = 1f;
+		float currentZoomStep = 3;
 		float zoomStepMin = -2, zoomStepMax = 15;
 		float m_targetZoomScale = 0.25f, m_currentZoomScale = 0.25f;
-		bool _cursorInside = false;
+		BuildingFilterDropdown FilterDropDown;
 
 		GameObject BuildingCountWarning;
 		FButton ConfirmShowOverride;
 		LocText WarningText;
 		Blueprint ScheduledToShow = null;
 
-		//take prioirity consuming the scroll
+		//take priority consuming the scroll
 		public override float GetSortKey()
 		{
 			return base.GetSortKey() + 10;
 		}
+		readonly List<string> filterKeys = new List<string>();
+		readonly Dictionary<string, bool> PreviewFilters = [];
+		string _hoveredFilter = null;
 
+		void ResetPreviewFilters()
+		{
+			foreach (var key in filterKeys)
+				PreviewFilters[key] = true;
+
+
+			BlueprintState.CurrentStateInfo().BlockedPlacementFilterLayers.Clear();
+			FilterDropDown.ResetAllToggles(true);
+			RefreshVisualizerVisibility();
+		}
+		void OnPreviewFilterChanged(string id, bool enabled)
+		{
+			var currentFilters = BlueprintState.CurrentStateInfo().BlockedPlacementFilterLayers;
+			if (!enabled)
+				currentFilters.Add(id);
+			else
+				currentFilters.Remove(id);
+
+			PreviewFilters[id] = enabled;
+			RefreshVisualizerVisibility();
+		}
 
 		void Init()
 		{
@@ -58,7 +91,75 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			WarningText = BuildingCountWarning.transform.Find("Label").gameObject.GetComponent<LocText>();
 			ConfirmShowOverride = BuildingCountWarning.transform.Find("Override").gameObject.AddOrGet<FButton>();
 			ConfirmShowOverride.OnClick += ForceShowScheduledBp;
+
+			FilterDropDown = transform.parent.parent.Find("FilterButton").FindOrAddComponent<BuildingFilterDropdown>();
+
+			List<FDropDownEntry> entries = [];
+			HashSet<string> ignoreFilters = [
+				ToolParameterMenu.FILTERLAYERS.DIGPLACER,
+				BlueprintCreationFilterKeys.NonSolidDigCommandssOptionID,
+				BlueprintCreationFilterKeys.Collect_Natural_Elements_ID
+				];
+
+			foreach (var data in SnapshotTool.Instance.DefaultParameters)
+			{
+				string filterId = data.Key;
+
+				if (ignoreFilters.Contains(filterId))
+					continue;
+
+				filterKeys.Add(filterId);
+				FilterLayerKbacs[filterId] = new();
+				FilterLayerImages[filterId] = new();
+
+				entries.Add(new FHoverableDropDownEntry(
+					Strings.Get("STRINGS.UI.TOOLS.FILTERLAYERS." + filterId + ".NAME"),
+					(on) => OnPreviewFilterChanged(filterId, on),
+					true,
+					Strings.Get("STRINGS.UI.TOOLS.FILTERLAYERS." + filterId + ".TOOLTIP"),
+				() => OnCategoryHovered(filterId),
+				() => OnCategoryUnhovered(filterId)
+				));
+			}
+			entries.Add(new FDropDownButtonEntry(FILTERBUTTON.RESETALL, (_) => ResetPreviewFilters()));
+
+			FilterDropDown.DropDownEntries = entries;
+			FilterDropDown.InitializeDropDown();
 		}
+
+		void RefreshVisualizerVisibility()
+		{
+			bool lowOpacity = _hoveredFilter != null;
+
+			foreach (var layer in filterKeys)
+			{
+				bool highlighted = layer == _hoveredFilter;
+				bool useLowOpacity = lowOpacity && layer != _hoveredFilter;
+				bool layerActive = PreviewFilters[layer];
+
+				foreach (var sprite in FilterLayerImages[layer])
+				{
+					sprite.RefreshOpacity(layerActive, useLowOpacity, highlighted);
+				}
+				foreach (var anim in FilterLayerKbacs[layer])
+				{
+					anim.RefreshOpacity(layerActive, useLowOpacity, highlighted);
+				}
+			}
+		}
+
+		void OnCategoryHovered(string category)
+		{
+			_hoveredFilter = category;
+			RefreshVisualizerVisibility();
+		}
+		void OnCategoryUnhovered(string category)
+		{
+			if (_hoveredFilter == category)
+				_hoveredFilter = null;
+			RefreshVisualizerVisibility();
+		}
+
 		public override void OnSpawn()
 		{
 			base.OnSpawn();
@@ -71,6 +172,12 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			foreach (var entry in BPVisualizers)
 				Destroy(entry);
 			BPVisualizers.Clear();
+			ResetPreviewFilters();
+			foreach (var key in filterKeys)
+			{
+				FilterLayerImages[key].Clear();
+				FilterLayerKbacs[key].Clear();
+			}
 		}
 		void ForceShowScheduledBp()
 		{
@@ -121,17 +228,61 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 				switch (visType)
 				{
 					case VisualizerType.TILE:
-						entry.AddOrGet<Vis_TilePreview>().Init(building); break;
+						RegisterImageToLayer(building, entry.AddOrGet<Vis_TilePreview>().Init(building));
+						break;
 					case VisualizerType.UTILITY:
-						entry.AddOrGet<Vis_ConduitPreview>().Init(building); break;
+						RegisterBuildingToLayer(building, entry.AddOrGet<Vis_ConduitPreview>().Init(building));
+						break;
 					default:
-						entry.AddOrGet<Vis_BuildingPreview>().Init(building); break;
+						RegisterBuildingToLayer(building, entry.AddOrGet<Vis_BuildingPreview>().Init(building));
+						break;
 				}
 				entry.SetActive(true);
 				BPVisualizers.Add(entry);
 			}
 			Vis_TilePreview.ConnectAll();
 		}
+
+		void RegisterBuildingToLayer(BuildingConfig building, Vis_BuildingPreview buildVis) => RegisterBuildingToLayer(building.BuildingDef.ObjectLayer, buildVis);
+		void RegisterBuildingToLayer(ObjectLayer layer, Vis_BuildingPreview buildVis)
+		{
+			if (ModAssets.TryGetFilterLayerId(layer, out var layerId))
+			{
+				FilterLayerKbacs[layerId].Add(buildVis);
+			}
+			else
+			{
+				SgtLogger.warning("Could not find valid filter layer for building: " + layer);
+				FilterLayerKbacs[ToolParameterMenu.FILTERLAYERS.BUILDINGS].Add(buildVis);
+			}
+		}
+		void RegisterImageToLayer(BuildingConfig building, Vis_SpritePreview spriteVis) => RegisterImageToLayer(building.BuildingDef.ObjectLayer, spriteVis);
+		void RegisterImageToLayer(ObjectLayer layer, Vis_SpritePreview spriteVis)
+		{
+			if (spriteVis is Vis_TilePreview tilePreview)
+				SgtLogger.l("registering tile preview to " + layer);
+			if (ModAssets.TryGetFilterLayerId(layer, out var layerId))
+			{
+				FilterLayerImages[layerId].Add(spriteVis);
+			}
+			else
+			{
+				SgtLogger.warning("Could not find valid filter layer for building: " + layer);
+				FilterLayerImages[ToolParameterMenu.FILTERLAYERS.BUILDINGS].Add(spriteVis);
+			}
+		}
+		void RegisterImageToLayer(string filterLayer, Vis_SpritePreview spriteVis)
+		{
+			if (FilterLayerImages.TryGetValue(filterLayer, out var layerItems))
+			{
+				layerItems.Add(spriteVis);
+			}
+			else
+			{
+				SgtLogger.warning("Could not find valid filterLayer: " + filterLayer);
+			}
+		}
+
 		void GeneratePreview_Notes(Blueprint blueprint, Vector3 centerOffset)
 		{
 			foreach (var note in blueprint.WorldNotes)
@@ -145,8 +296,6 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 				switch (noteData.Type)
 				{
 					case BlueprintNoteData.NoteType.Text:
-
-
 						preview.SetDisplayed(new(noteData.GetNoteSprite(), noteData.SymbolTint));
 						entry.AddOrGet<Vis_Tooltip>().SetText(noteData.Title, noteData.Text);
 						break;
@@ -167,7 +316,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 						continue;
 
 				}
-
+				RegisterImageToLayer(BlueprintCreationFilterKeys.Collect_Notes_ID, preview);
 				BPVisualizers.Add(entry);
 			}
 		}
@@ -183,7 +332,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			{
 				string mass = GameUtil.GetFormattedMass(noteData.ElementMass);
 				string temperature = GameUtil.GetFormattedTemperature(noteData.ElementTemperature);
-				return string.Format("{0}, {1}",mass, temperature);
+				return string.Format("{0}, {1}", mass, temperature);
 			}
 		}
 
@@ -207,6 +356,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 				preview.SetDisplayed(new(sprite, PlanningTool_EnumMapping.AsColor(noteData.second)));
 
 				BPVisualizers.Add(entry);
+				RegisterImageToLayer(BlueprintCreationFilterKeys.PlanningToolMod_ShapesID, preview);
 			}
 		}
 		public Vector3 DragStartPosition;
@@ -242,7 +392,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			else
 				GeneratePreview(blueprint);
 		}
-		Tuple<Sprite,Color> GetElementInfoDisplay(BlueprintNoteData noteData)
+		Tuple<Sprite, Color> GetElementInfoDisplay(BlueprintNoteData noteData)
 		{
 			var element = ElementLoader.FindElementByHash(noteData.ElementId);
 			var color = Color.white;
@@ -268,7 +418,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI
 			if (!vaccuum)
 				color = element.substance.colour;
 
-			return new Tuple<Sprite,Color>(sprite, color);
+			return new Tuple<Sprite, Color>(sprite, color);
 		}
 
 		Vector3 GetCellCenterPos(Vector2 offset, Grid.SceneLayer layer)

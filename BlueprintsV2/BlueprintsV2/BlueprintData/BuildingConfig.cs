@@ -272,12 +272,16 @@ namespace BlueprintsV2.BlueprintData
 			{
 				JToken xToken = offsetToken.SelectToken("x");
 				JToken yToken = offsetToken.SelectToken("y");
+				int x = 0, y = 0;
+				if(xToken != null && xToken.Type == JTokenType.Integer)
+					x = xToken.Value<int>();
+				if(yToken != null && yToken.Type == JTokenType.Integer)
+					y = yToken.Value<int>();
 
-				if (xToken != null && xToken.Type == JTokenType.Integer || yToken != null && yToken.Type == JTokenType.Integer)
-				{
-					Offset = new Vector2I(xToken == null ? 0 : xToken.Value<int>(), yToken == null ? 0 : yToken.Value<int>());
-				}
+				Offset = new(x, y);
 			}
+			else
+				Offset = new Vector2I(0, 0);
 
 			if (buildingDefToken != null && buildingDefToken.Type == JTokenType.String)
 			{

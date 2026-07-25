@@ -785,5 +785,64 @@ namespace BlueprintsV2
 			public static PAction BlueprintsToggleHotkeyToolTips { get; set; }
 
 		}
+		public static bool TryGetFilterLayerId(ObjectLayer objectLayer, out string filterLayerId)
+		{
+			filterLayerId = null;	
+			switch (objectLayer)
+			{
+				case ObjectLayer.Building:
+				case ObjectLayer.FoundationTile:
+				case ObjectLayer.AttachableBuilding:
+				case ObjectLayer.PlasticTile:
+				case ObjectLayer.LadderTile:
+					filterLayerId = ToolParameterMenu.FILTERLAYERS.BUILDINGS;
+					return true;
+
+				case ObjectLayer.Backwall:
+				case ObjectLayer.Canvases:
+				case ObjectLayer.ReplacementBackwall:
+					filterLayerId = ToolParameterMenu.FILTERLAYERS.BACKWALL;
+					return true;
+
+				case ObjectLayer.GasConduit:
+				case ObjectLayer.GasConduitConnection:
+				case ObjectLayer.GasConduitTile:
+				case ObjectLayer.ReplacementGasConduit:
+					filterLayerId = ToolParameterMenu.FILTERLAYERS.GASCONDUIT;
+					return true;
+
+				case ObjectLayer.LiquidConduit:
+				case ObjectLayer.LiquidConduitConnection:
+				case ObjectLayer.LiquidConduitTile:
+				case ObjectLayer.ReplacementLiquidConduit:
+					filterLayerId = ToolParameterMenu.FILTERLAYERS.LIQUIDCONDUIT;
+					return true;
+
+				case ObjectLayer.SolidConduit:
+				case ObjectLayer.SolidConduitConnection:
+				case ObjectLayer.SolidConduitTile:
+					filterLayerId = ToolParameterMenu.FILTERLAYERS.SOLIDCONDUIT;
+					return true;
+
+				case ObjectLayer.Wire:
+				case ObjectLayer.WireConnectors:
+				case ObjectLayer.WireTile:
+				case ObjectLayer.ReplacementWire:
+					filterLayerId = ToolParameterMenu.FILTERLAYERS.WIRES;
+					return true;
+
+				case ObjectLayer.LogicGate:
+				case ObjectLayer.LogicWire:
+				case ObjectLayer.LogicWireTile:
+				case ObjectLayer.ReplacementLogicWire:
+					filterLayerId = ToolParameterMenu.FILTERLAYERS.LOGIC;
+					return true;
+
+				case ObjectLayer.DigPlacer:
+					filterLayerId = ToolParameterMenu.FILTERLAYERS.DIGPLACER;
+					return true;
+			}
+			return false;
+		}
 	}
 }

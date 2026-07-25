@@ -16,7 +16,11 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components.PreviewVisualizers
 		protected RectTransform _rectTransform;
 		protected KBatchedAnimController kbac;
 		protected string defaultAnim;
-		internal virtual void Init(BuildingConfig building)
+
+		private Color _color = Color.white;
+		private Color _desaturated = new(1, 1, 1, 0.25f);
+		private Color _disabledHighlighted = new(1, 1, 1, 0.50f);
+		internal virtual Vis_BuildingPreview Init(BuildingConfig building)
 		{
 			_rectTransform = GetComponent<RectTransform>();
 			var def = building.BuildingDef;
@@ -32,6 +36,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components.PreviewVisualizers
 			kbac.defaultAnim = defaultAnim = building.BuildingDef.DefaultAnimState;
 			//SgtLogger.l("StartAnim " + def.name + ": " + defaultAnim);
 			UpdatePosition(building);
+			return this;
 		}
 		//void Update()
 		//{
@@ -120,6 +125,19 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components.PreviewVisualizers
 
 			kbac.SetSymbolVisiblity("booster", false);
 			kbac.SetSymbolVisiblity("blue_light_bloom", false);
+		}
+
+		internal void RefreshOpacity(bool layerActive, bool useLowOpacity, bool highLighted)
+		{
+			bool disabledButHighlighted = !layerActive && highLighted;
+			if (disabledButHighlighted)
+				kbac.TintColour = _disabledHighlighted;
+			else if (useLowOpacity)
+				kbac.TintColour = _desaturated;
+			else
+				kbac.TintColour = Color.white;
+
+			kbac.SetVisiblity(layerActive || highLighted);
 		}
 	}
 }

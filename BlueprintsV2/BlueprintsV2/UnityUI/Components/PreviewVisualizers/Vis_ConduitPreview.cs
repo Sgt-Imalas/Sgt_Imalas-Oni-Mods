@@ -8,7 +8,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components.PreviewVisualizers
 {
 	internal class Vis_ConduitPreview : Vis_BuildingPreview
 	{
-		internal override void Init(BuildingConfig building)
+		internal override Vis_BuildingPreview Init(BuildingConfig building)
 		{
 			base.Init(building);
 
@@ -17,6 +17,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components.PreviewVisualizers
 			{
 				kbac.defaultAnim = defaultAnim = netWorkManagerGetter.GetNetworkManager().GetVisualizerString((UtilityConnections)flags);
 			}
+			return this;
 		}
 		public override void OnSpawn()
 		{

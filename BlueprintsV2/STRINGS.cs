@@ -183,6 +183,11 @@ namespace BlueprintsV2
 					{
 						public static LocString LABEL = "Apply stored building settings on place:";
 					}
+					public class PRIORITYOVERRIDE
+					{
+						public static LocString LABEL = "Use tool menu priority:";
+						public static LocString TOOLTIP = "Causes all buildings of the blueprint to be placed with the currently configured tool priority\n.Otherwise uses the priorities stored in the blueprint building data";
+					}
 					public class FORCEREBUILD
 					{
 						//public static LocString LABEL = "Rebuild existing with mismatched material:";
@@ -441,6 +446,11 @@ namespace BlueprintsV2
 					public class HEADER
 					{
 						public static LocString LABEL = "Preview";
+					}
+					public class FILTERBUTTON
+					{
+						public static LocString TEXT = "FILTERS";
+						public static LocString RESETALL = "Reset Filters";
 					}
 					public class BUTTONS
 					{

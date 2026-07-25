@@ -12,10 +12,8 @@ using static STRINGS.DUPLICANTS.ATTRIBUTES;
 
 namespace BlueprintsV2.BlueprintsV2.UnityUI.Components.PreviewVisualizers
 {
-	internal class Vis_TilePreview : KMonoBehaviour
+	internal class Vis_TilePreview : Vis_SpritePreview
 	{
-		Image TilespriteRenderer;
-
 		static Dictionary<BuildingDef, BlockTileRenderer.RenderInfo> _tileInfos = [];
 		static Dictionary<BuildingDef, Dictionary<int, Sprite>> _tileSprites = [];
 		static Dictionary<BuildingDef, Dictionary<int, Vector4>> _tileMasks = [];
@@ -25,16 +23,17 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components.PreviewVisualizers
 		BuildingConfig _config;
 		RectMask2D _mask;
 
-		internal void Init(BuildingConfig building)
+		internal Vis_TilePreview Init(BuildingConfig building)
 		{
-			TilespriteRenderer = transform.Find("TileMask/TileVis").gameObject.GetComponent<Image>();
+			SpriteRenderer = transform.Find("TileMask/TileVis").gameObject.GetComponent<Image>();
 			_mask = transform.Find("TileMask").GetComponent<RectMask2D>();
-			TilespriteRenderer.gameObject.SetActive(true);
+			SpriteRenderer.gameObject.SetActive(true);
 
 			_config = building;
 			var offset = building.Offset;
 			Tiles[offset.X, offset.Y] = building.BuildingDefId;
 			previews.Add(this);
+			return this;
 		}
 
 		internal static void ClearTileArray(Vector2I newDimensions)
@@ -123,7 +122,7 @@ namespace BlueprintsV2.BlueprintsV2.UnityUI.Components.PreviewVisualizers
 				maskDict[variantInt] = padding;
 			}
 			_mask.padding = maskDict[variantInt];
-			TilespriteRenderer.sprite = spriteDict[variantInt];
+			SpriteRenderer.sprite = spriteDict[variantInt];
 		}
 		public virtual BlockTileRenderer.Bits GetConnectionBits(int x, int y)
 		{

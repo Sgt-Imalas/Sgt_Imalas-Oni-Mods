@@ -10,15 +10,14 @@ namespace UtilLibs.UIcmp
 	{
 		public System.Action RefreshUI;
 
-		GameObject DropDownContent;
+		protected GameObject DropDownContent;
 
-		FToggle entryPrefab;
-		FButton buttonEntryPrefab;
-		Image backgroundImage;
+		protected FToggle entryPrefab;
+		protected FButton buttonEntryPrefab;
+		protected Image backgroundImage;
 
 		public Color Inactive = UIUtils.rgb(62, 67, 87);
 		public Color OnHover = UIUtils.rgb(88, 95, 122);
-
 
 		public List<FDropDownEntry> DropDownEntries = null;
 
@@ -81,19 +80,25 @@ namespace UtilLibs.UIcmp
 				DropDownContent.SetActive(false);
 			}
 		}
-		void InitializeButton(FDropDownButtonEntry entry)
+		protected virtual GameObject InitializeButton(FDropDownButtonEntry entry)
 		{
 			var button = Util.KInstantiateUI<FButton>(buttonEntryPrefab.gameObject, DropDownContent, true);
 
 			button.OnClick += () => entry.OnToggled(true);
 			if (RefreshUI != null)
 				button.OnClick += () => RefreshUI();
+			button.OnClick += OnButtonClickedAddition;
 			button.GetComponentInChildren<LocText>().text = entry.Title;
 			if (entry.Description != null && entry.Description.Length > 0)
 				UIUtils.AddSimpleTooltipToObject(button.transform, entry.Description);
 			entry.Button = button;
+			return button.gameObject;
 		}
-		void InitializeToggle(FDropDownEntry entry)
+
+		public virtual void OnButtonClickedAddition()
+		{
+		}
+		protected virtual GameObject InitializeToggle(FDropDownEntry entry)
 		{
 			var toggle = Util.KInstantiateUI<FToggle>(entryPrefab.gameObject, DropDownContent, true);
 			toggle.SetCheckmark("Background/Checkmark");
@@ -102,23 +107,33 @@ namespace UtilLibs.UIcmp
 			toggle.OnClick += entry.OnToggled;
 			if (RefreshUI != null)
 				toggle.OnClick += (_) => RefreshUI();
+			toggle.OnClick += OnToggleClickedAddition;
+
 			toggle.GetComponentInChildren<LocText>().text = entry.Title;
 			if (entry.Description != null && entry.Description.Length > 0)
 				UIUtils.AddSimpleTooltipToObject(toggle.transform, entry.Description);
 			entry.Toggle = toggle;
+			return toggle.gameObject;
+		}
+		public virtual void OnToggleClickedAddition(bool toggled)
+		{
 		}
 
 
-		public void OnPointerEnter(PointerEventData eventData)
+		public virtual void OnPointerEnter(PointerEventData eventData)
 		{
-			backgroundImage.color = OnHover;
-			DropDownContent?.SetActive(true);
+			ToggleDropdownVisibility(true);
 		}
 
-		public void OnPointerExit(PointerEventData eventData)
+		public virtual void OnPointerExit(PointerEventData eventData)
 		{
-			backgroundImage.color = Inactive;
-			DropDownContent?.SetActive(false);
+			ToggleDropdownVisibility(false);
+		}
+
+		public virtual void ToggleDropdownVisibility(bool on)
+		{
+			backgroundImage.color = on ? OnHover : Inactive;
+			DropDownContent?.SetActive(on);
 		}
 	}
 }

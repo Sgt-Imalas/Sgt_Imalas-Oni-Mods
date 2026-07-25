@@ -1,4 +1,5 @@
 ﻿using BlueprintsV2.BlueprintData;
+using HarmonyLib;
 using ONI_Together.Networking.Packets.Architecture;
 using ONI_Together_API;
 using System;
@@ -24,6 +25,8 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData.OniTogether_Integration.Packet
 		public int _state = 0;
 		public float originShiftX = 0, originShiftY = 0;
 		public bool applySettings = true;
+		public bool UseToolPriority;
+		public List<string> BlockedPlacementFilterLayers;
 		public ModeChangePacket()
 		{
 			SenderId = SessionInfoAPI.LocalUserID;
@@ -43,6 +46,12 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData.OniTogether_Integration.Packet
 			originShiftX = reader.ReadSingle();
 			originShiftY = reader.ReadSingle();
 			applySettings = reader.ReadBoolean();
+			UseToolPriority = reader.ReadBoolean();
+			int count = reader.ReadInt32();
+			BlockedPlacementFilterLayers = [];
+			for (int i = 0; i < count; i++)
+				BlockedPlacementFilterLayers[i] = reader.ReadString();
+
 		}
 		public void Serialize(BinaryWriter writer)
 		{
@@ -59,6 +68,10 @@ namespace BlueprintsV2.BlueprintsV2.BlueprintData.OniTogether_Integration.Packet
 			writer.Write(originShiftX);
 			writer.Write(originShiftY);
 			writer.Write(applySettings);
+			writer.Write(UseToolPriority);
+			writer.Write(BlockedPlacementFilterLayers.Count);
+			for (int i = 0; i < BlockedPlacementFilterLayers.Count; i++)
+				writer.Write(BlockedPlacementFilterLayers[i]);
 		}
 		public void OnDispatched()
 		{

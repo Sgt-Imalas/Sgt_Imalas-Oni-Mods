@@ -274,52 +274,8 @@ namespace BlueprintsV2.Tools
 		{
 			var currentParams = GetParameters();
 			ToolParameterMenu.ToggleState toggleState = default;
-			switch (objectLayer)
-			{
-				case ObjectLayer.Building:
-				case ObjectLayer.FoundationTile:
-				case ObjectLayer.AttachableBuilding:
-				case ObjectLayer.PlasticTile:
-				case ObjectLayer.LadderTile:
-					return currentParams.TryGetValue(ToolParameterMenu.FILTERLAYERS.BUILDINGS, out toggleState) && toggleState == ToolParameterMenu.ToggleState.On;
-
-				case ObjectLayer.Backwall:
-				case ObjectLayer.Canvases:
-				case ObjectLayer.ReplacementBackwall:
-					return currentParams.TryGetValue(ToolParameterMenu.FILTERLAYERS.BACKWALL, out toggleState) && toggleState == ToolParameterMenu.ToggleState.On;
-
-				case ObjectLayer.GasConduit:
-				case ObjectLayer.GasConduitConnection:
-				case ObjectLayer.GasConduitTile:
-				case ObjectLayer.ReplacementGasConduit:
-					return currentParams.TryGetValue(ToolParameterMenu.FILTERLAYERS.GASCONDUIT, out toggleState) && toggleState == ToolParameterMenu.ToggleState.On;
-
-				case ObjectLayer.LiquidConduit:
-				case ObjectLayer.LiquidConduitConnection:
-				case ObjectLayer.LiquidConduitTile:
-				case ObjectLayer.ReplacementLiquidConduit:
-					return currentParams.TryGetValue(ToolParameterMenu.FILTERLAYERS.LIQUIDCONDUIT, out toggleState) && toggleState == ToolParameterMenu.ToggleState.On;
-
-				case ObjectLayer.SolidConduit:
-				case ObjectLayer.SolidConduitConnection:
-				case ObjectLayer.SolidConduitTile:
-					return currentParams.TryGetValue(ToolParameterMenu.FILTERLAYERS.SOLIDCONDUIT, out toggleState) && toggleState == ToolParameterMenu.ToggleState.On;
-
-				case ObjectLayer.Wire:
-				case ObjectLayer.WireConnectors:
-				case ObjectLayer.WireTile:
-				case ObjectLayer.ReplacementWire:
-					return currentParams.TryGetValue(ToolParameterMenu.FILTERLAYERS.WIRES, out toggleState) && toggleState == ToolParameterMenu.ToggleState.On;
-
-				case ObjectLayer.LogicGate:
-				case ObjectLayer.LogicWire:
-				case ObjectLayer.LogicWireTile:
-				case ObjectLayer.ReplacementLogicWire:
-					return currentParams.TryGetValue(ToolParameterMenu.FILTERLAYERS.LOGIC, out toggleState) && toggleState == ToolParameterMenu.ToggleState.On;
-
-				case ObjectLayer.DigPlacer:
-					return currentParams.TryGetValue(ToolParameterMenu.FILTERLAYERS.DIGPLACER, out toggleState) && toggleState == ToolParameterMenu.ToggleState.On;
-			}
+			if(ModAssets.TryGetFilterLayerId(objectLayer, out string filterId))
+				return currentParams.TryGetValue(filterId, out toggleState) && toggleState == ToolParameterMenu.ToggleState.On;
 			return false;
 		}
 		public bool AllowedToFilter(string key)
