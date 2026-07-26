@@ -20,14 +20,7 @@ namespace DuperyFixed.Source.Patch
 			{				
 				public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> orig)
 				{
-					var m_RemapSymbolName = AccessTools.Method(
-						typeof(MinionIdentity_OnSpawn_Patch),
-						"RemapAnimFileName",
-						new[]
-						{
-						typeof(string),
-						typeof(MinionIdentity)
-						});
+					var m_RemapSymbolName = AccessTools.Method(typeof(MinionIdentity_OnSpawn_Patch),nameof(RemapAnimFileName));
 
 					var codes = orig.ToList();
 					var index = codes.FindIndex(c => c.opcode == OpCodes.Ldstr && c.operand is string str && str == "head_swap_kanim");
@@ -43,7 +36,7 @@ namespace DuperyFixed.Source.Patch
 					// string on stack
 					new CodeInstruction(OpCodes.Ldarg_0),
 					new CodeInstruction(OpCodes.Call, m_RemapSymbolName)
-				});
+					});
 
 					return codes;
 				}

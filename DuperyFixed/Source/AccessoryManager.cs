@@ -25,7 +25,20 @@ namespace Dupery
 		}
 		public bool TryGetCheekGetterAnimOverride(MinionIdentity identity, out string headAnimOverride)
 		{
-			SgtLogger.l("trying to get custom cheek anim for "+identity.personalityResourceId);
+
+			var personalities = Db.Get().Personalities;
+			var personality = personalities.GetPersonalityFromNameStringKey(identity.nameStringKey);
+			if (personality == null)
+			{
+				SgtLogger.error($"The duplicant with the name \"{identity.name}\" does not have a valid personality registered. Missing personality id: {identity.nameStringKey}");
+				headAnimOverride = null;
+				return false;
+			}
+			else
+			{
+				SgtLogger.l($"checking if the dupe \"{identity.name}\" with the personality \"{personality.Name}\" requires a custom cheek override");
+			}
+
 			return PersonalityCheekSourceMouthOverrides.TryGetValue(identity.personalityResourceId, out headAnimOverride);
 		}
 		public bool RegisterPersonalityForCustomCheeks(HashedString personalityID, string mouth)
