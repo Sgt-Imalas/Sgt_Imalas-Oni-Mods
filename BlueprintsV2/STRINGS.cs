@@ -186,7 +186,7 @@ namespace BlueprintsV2
 					public class PRIORITYOVERRIDE
 					{
 						public static LocString LABEL = "Use tool menu priority:";
-						public static LocString TOOLTIP = "Causes all buildings of the blueprint to be placed with the currently configured tool priority\n.Otherwise uses the priorities stored in the blueprint building data";
+						public static LocString TOOLTIP = "All buildings of the blueprint are placed with the currently configured tool priority.\nOtherwise uses the individual priorities stored in the blueprint building data";
 					}
 					public class FORCEREBUILD
 					{
